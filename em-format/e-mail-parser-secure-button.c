@@ -29,24 +29,13 @@
 
 #include <camel/camel.h>
 
-typedef struct _EMailParserSecureButton {
-	GObject parent;
-} EMailParserSecureButton;
+typedef EMailParserExtension EMailParserSecureButton;
+typedef EMailParserExtensionClass EMailParserSecureButtonClass;
 
-typedef struct _EMailParserSecureButtonClass {
-	GObjectClass parent_class;
-} EMailParserSecureButtonClass;
-
-static void e_mail_parser_parser_extension_interface_init (EMailParserExtensionInterface *iface);
-
-G_DEFINE_TYPE_EXTENDED (
+G_DEFINE_TYPE (
 	EMailParserSecureButton,
 	e_mail_parser_secure_button,
-	G_TYPE_OBJECT,
-	0,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_MAIL_PARSER_EXTENSION,
-		e_mail_parser_parser_extension_interface_init))
+	E_TYPE_MAIL_PARSER_EXTENSION)
 
 static const gchar *parser_mime_types[] = {
 	"application/vnd.evolution.widget.secure-button",
@@ -76,19 +65,13 @@ empe_secure_button_parse (EMailParserExtension *extension,
 }
 
 static void
-e_mail_parser_secure_button_class_init (EMailParserSecureButtonClass *class)
+e_mail_parser_secure_button_class_init (EMailParserExtensionClass *class)
 {
+	class->mime_types = parser_mime_types;
+	class->parse = empe_secure_button_parse;
 }
 
 static void
-e_mail_parser_parser_extension_interface_init (EMailParserExtensionInterface *iface)
+e_mail_parser_secure_button_init (EMailParserExtension *extension)
 {
-	iface->mime_types = parser_mime_types;
-	iface->parse = empe_secure_button_parse;
-}
-
-static void
-e_mail_parser_secure_button_init (EMailParserSecureButton *parser)
-{
-
 }

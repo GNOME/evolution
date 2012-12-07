@@ -32,24 +32,13 @@
 
 #include <string.h>
 
-typedef struct _EMailParserTextHTML {
-	GObject parent;
-} EMailParserTextHTML;
+typedef EMailParserExtension EMailParserTextHTML;
+typedef EMailParserExtensionClass EMailParserTextHTMLClass;
 
-typedef struct _EMailParserTextHTMLClass {
-	GObjectClass parent_class;
-} EMailParserTextHTMLClass;
-
-static void e_mail_parser_parser_extension_interface_init (EMailParserExtensionInterface *iface);
-
-G_DEFINE_TYPE_EXTENDED (
+G_DEFINE_TYPE (
 	EMailParserTextHTML,
 	e_mail_parser_text_html,
-	G_TYPE_OBJECT,
-	0,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_MAIL_PARSER_EXTENSION,
-		e_mail_parser_parser_extension_interface_init));
+	E_TYPE_MAIL_PARSER_EXTENSION)
 
 static const gchar *parser_mime_types[] = {
 	"text/html",
@@ -108,19 +97,13 @@ empe_text_html_parse (EMailParserExtension *extension,
 }
 
 static void
-e_mail_parser_text_html_class_init (EMailParserTextHTMLClass *class)
+e_mail_parser_text_html_class_init (EMailParserExtensionClass *class)
 {
+	class->mime_types = parser_mime_types;
+	class->parse = empe_text_html_parse;
 }
 
 static void
-e_mail_parser_parser_extension_interface_init (EMailParserExtensionInterface *iface)
+e_mail_parser_text_html_init (EMailParserExtension *extension)
 {
-	iface->mime_types = parser_mime_types;
-	iface->parse = empe_text_html_parse;
-}
-
-static void
-e_mail_parser_text_html_init (EMailParserTextHTML *parser)
-{
-
 }

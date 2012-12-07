@@ -38,24 +38,19 @@
 
 #define d(x)
 
-typedef GObject EMailParserAudioInline;
-typedef GObjectClass EMailParserAudioInlineClass;
+typedef EMailParserExtension EMailParserAudioInline;
+typedef EMailParserExtensionClass EMailParserAudioInlineClass;
 
 typedef EExtension EMailParserAudioInlineLoader;
 typedef EExtensionClass EMailParserAudioInlineLoaderClass;
 
 GType e_mail_parser_audio_inline_get_type (void);
 GType e_mail_parser_audio_inline_loader_get_type (void);
-static void e_mail_parser_parser_extension_interface_init (EMailParserExtensionInterface *iface);
 
-G_DEFINE_DYNAMIC_TYPE_EXTENDED (
+G_DEFINE_DYNAMIC_TYPE (
 	EMailParserAudioInline,
 	e_mail_parser_audio_inline,
-	G_TYPE_OBJECT,
-	0,
-	G_IMPLEMENT_INTERFACE_DYNAMIC (
-		E_TYPE_MAIL_PARSER_EXTENSION,
-		e_mail_parser_parser_extension_interface_init));
+	E_TYPE_MAIL_PARSER_EXTENSION)
 
 G_DEFINE_DYNAMIC_TYPE (
 	EMailParserAudioInlineLoader,
@@ -157,26 +152,21 @@ empe_audio_inline_get_flags (EMailParserExtension *extension)
 }
 
 static void
-e_mail_parser_parser_extension_interface_init (EMailParserExtensionInterface *iface)
+e_mail_parser_audio_inline_class_init (EMailParserExtensionClass *class)
 {
-	iface->mime_types = parser_mime_types;
-	iface->parse = empe_audio_inline_parse;
-	iface->get_flags = empe_audio_inline_get_flags;
+	class->mime_types = parser_mime_types;
+	class->parse = empe_audio_inline_parse;
+	class->get_flags = empe_audio_inline_get_flags;
 }
 
 static void
-e_mail_parser_audio_inline_class_init (EMailParserAudioInlineClass *class)
-{
-}
-
-static void
-e_mail_parser_audio_inline_class_finalize (EMailParserAudioInlineClass *class)
+e_mail_parser_audio_inline_class_finalize (EMailParserExtensionClass *class)
 {
 
 }
 
 static void
-e_mail_parser_audio_inline_init (EMailParserAudioInline *self)
+e_mail_parser_audio_inline_init (EMailParserExtension *extension)
 {
 }
 

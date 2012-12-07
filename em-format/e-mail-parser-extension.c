@@ -20,7 +20,7 @@
 
 #include "e-mail-parser-extension.h"
 
-G_DEFINE_INTERFACE (
+G_DEFINE_ABSTRACT_TYPE (
 	EMailParserExtension,
 	e_mail_parser_extension,
 	G_TYPE_OBJECT)
@@ -31,17 +31,15 @@ mail_parser_extension_get_flags (EMailParserExtension *extension)
 	return 0;
 }
 
-/**
- * EMailParserExtension:
- *
- * The #EMailParserExtension is an abstract interface for all extensions for
- * #EMailParser.
- */
+static void
+e_mail_parser_extension_class_init (EMailParserExtensionClass *class)
+{
+	class->get_flags = mail_parser_extension_get_flags;
+}
 
 static void
-e_mail_parser_extension_default_init (EMailParserExtensionInterface *interface)
+e_mail_parser_extension_init (EMailParserExtension *extension)
 {
-	interface->get_flags = mail_parser_extension_get_flags;
 }
 
 /**
@@ -85,19 +83,19 @@ e_mail_parser_extension_parse (EMailParserExtension *extension,
                                GCancellable *cancellable,
                                GQueue *out_mail_parts)
 {
-	EMailParserExtensionInterface *interface;
+	EMailParserExtensionClass *class;
 
 	g_return_val_if_fail (E_IS_MAIL_PARSER_EXTENSION (extension), FALSE);
 	g_return_val_if_fail (E_IS_MAIL_PARSER (parser), FALSE);
 
-	interface = E_MAIL_PARSER_EXTENSION_GET_INTERFACE (extension);
-	g_return_val_if_fail (interface->parse != NULL, FALSE);
+	class = E_MAIL_PARSER_EXTENSION_GET_CLASS (extension);
+	g_return_val_if_fail (class->parse != NULL, FALSE);
 
 	/* Check for cancellation before calling the method. */
 	if (g_cancellable_is_cancelled (cancellable))
 		return FALSE;
 
-	return interface->parse (
+	return class->parse (
 		extension, parser, mime_part, part_id,
 		cancellable, out_mail_parts);
 }
@@ -105,12 +103,12 @@ e_mail_parser_extension_parse (EMailParserExtension *extension,
 guint32
 e_mail_parser_extension_get_flags (EMailParserExtension *extension)
 {
-	EMailParserExtensionInterface *interface;
+	EMailParserExtensionClass *class;
 
 	g_return_val_if_fail (E_IS_MAIL_PARSER_EXTENSION (extension), 0);
 
-	interface = E_MAIL_PARSER_EXTENSION_GET_INTERFACE (extension);
-	g_return_val_if_fail (interface->get_flags != NULL, 0);
+	class = E_MAIL_PARSER_EXTENSION_GET_CLASS (extension);
+	g_return_val_if_fail (class->get_flags != NULL, 0);
 
-	return interface->get_flags (extension);
+	return class->get_flags (extension);
 }

@@ -31,24 +31,13 @@
 
 #include <string.h>
 
-typedef struct _EMailParserMultipartAlternative {
-	GObject parent;
-} EMailParserMultipartAlternative;
+typedef EMailParserExtension EMailParserMultipartAlternative;
+typedef EMailParserExtensionClass EMailParserMultipartAlternativeClass;
 
-typedef struct _EMailParserMultipartAlternativeClass {
-	GObjectClass parent_class;
-} EMailParserMultipartAlternativeClass;
-
-static void e_mail_parser_parser_extension_interface_init (EMailParserExtensionInterface *iface);
-
-G_DEFINE_TYPE_EXTENDED (
+G_DEFINE_TYPE (
 	EMailParserMultipartAlternative,
 	e_mail_parser_multipart_alternative,
-	G_TYPE_OBJECT,
-	0,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_MAIL_PARSER_EXTENSION,
-		e_mail_parser_parser_extension_interface_init));
+	E_TYPE_MAIL_PARSER_EXTENSION)
 
 static const gchar *parser_mime_types[] = {
 	"multipart/alternative",
@@ -158,19 +147,13 @@ empe_mp_alternative_parse (EMailParserExtension *extension,
 }
 
 static void
-e_mail_parser_multipart_alternative_class_init (EMailParserMultipartAlternativeClass *class)
+e_mail_parser_multipart_alternative_class_init (EMailParserExtensionClass *class)
 {
+	class->mime_types = parser_mime_types;
+	class->parse = empe_mp_alternative_parse;
 }
 
 static void
-e_mail_parser_parser_extension_interface_init (EMailParserExtensionInterface *iface)
+e_mail_parser_multipart_alternative_init (EMailParserExtension *extension)
 {
-	iface->mime_types = parser_mime_types;
-	iface->parse = empe_mp_alternative_parse;
-}
-
-static void
-e_mail_parser_multipart_alternative_init (EMailParserMultipartAlternative *parser)
-{
-
 }

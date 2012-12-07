@@ -39,7 +39,7 @@ typedef EExtension EMailParserPreferPlainLoader;
 typedef EExtensionClass EMailParserPreferPlainLoaderClass;
 
 struct _EMailParserPreferPlain {
-	GObject parent;
+	EMailParserExtension parent;
 
 	GSettings *settings;
 	gint mode;
@@ -47,12 +47,11 @@ struct _EMailParserPreferPlain {
 };
 
 struct _EMailParserPreferPlainClass {
-	GObjectClass parent_class;
+	EMailParserExtensionClass parent_class;
 };
 
 GType e_mail_parser_prefer_plain_get_type (void);
 GType e_mail_parser_prefer_plain_loader_get_type (void);
-static void e_mail_parser_parser_extension_interface_init (EMailParserExtensionInterface *iface);
 
 enum {
 	PREFER_HTML,
@@ -60,14 +59,10 @@ enum {
 	ONLY_PLAIN
 };
 
-G_DEFINE_DYNAMIC_TYPE_EXTENDED (
+G_DEFINE_DYNAMIC_TYPE (
 	EMailParserPreferPlain,
 	e_mail_parser_prefer_plain,
-	G_TYPE_OBJECT,
-	0,
-	G_IMPLEMENT_INTERFACE_DYNAMIC (
-		E_TYPE_MAIL_PARSER_EXTENSION,
-		e_mail_parser_parser_extension_interface_init));
+	E_TYPE_MAIL_PARSER_EXTENSION)
 
 G_DEFINE_DYNAMIC_TYPE (
 	EMailParserPreferPlainLoader,
@@ -332,13 +327,6 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 }
 
 static void
-e_mail_parser_parser_extension_interface_init (EMailParserExtensionInterface *iface)
-{
-	iface->mime_types = parser_mime_types;
-	iface->parse = empe_prefer_plain_parse;
-}
-
-static void
 e_mail_parser_prefer_plain_get_property (GObject *object,
                                          guint property_id,
                                          GValue *value,
@@ -400,11 +388,16 @@ static void
 e_mail_parser_prefer_plain_class_init (EMailParserPreferPlainClass *class)
 {
 	GObjectClass *object_class;
+	EMailParserExtensionClass *extension_class;
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->get_property = e_mail_parser_prefer_plain_get_property;
 	object_class->set_property = e_mail_parser_prefer_plain_set_property;
 	object_class->dispose = e_mail_parser_prefer_plain_dispose;
+
+	extension_class = E_MAIL_PARSER_EXTENSION_CLASS (class);
+	extension_class->mime_types = parser_mime_types;
+	extension_class->parse = empe_prefer_plain_parse;
 
 	g_object_class_install_property (
 		object_class,

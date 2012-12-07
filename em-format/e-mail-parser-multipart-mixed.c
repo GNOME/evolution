@@ -31,24 +31,13 @@
 
 #include <string.h>
 
-typedef struct _EMailParserMultipartMixed {
-	GObject parent;
-} EMailParserMultipartMixed;
+typedef EMailParserExtension EMailParserMultipartMixed;
+typedef EMailParserExtensionClass EMailParserMultipartMixedClass;
 
-typedef struct _EMailParserMultipartMixedClass {
-	GObjectClass parent_class;
-} EMailParserMultipartMixedClass;
-
-static void e_mail_parser_parser_extension_interface_init (EMailParserExtensionInterface *iface);
-
-G_DEFINE_TYPE_EXTENDED (
+G_DEFINE_TYPE (
 	EMailParserMultipartMixed,
 	e_mail_parser_multipart_mixed,
-	G_TYPE_OBJECT,
-	0,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_MAIL_PARSER_EXTENSION,
-		e_mail_parser_parser_extension_interface_init));
+	E_TYPE_MAIL_PARSER_EXTENSION)
 
 static const gchar *parser_mime_types[] = {
 	"multipart/mixed",
@@ -133,19 +122,14 @@ empe_mp_mixed_get_flags (EMailParserExtension *extension)
 }
 
 static void
-e_mail_parser_multipart_mixed_class_init (EMailParserMultipartMixedClass *class)
+e_mail_parser_multipart_mixed_class_init (EMailParserExtensionClass *class)
 {
+	class->mime_types = parser_mime_types;
+	class->parse = empe_mp_mixed_parse;
+	class->get_flags = empe_mp_mixed_get_flags;
 }
 
 static void
-e_mail_parser_parser_extension_interface_init (EMailParserExtensionInterface *iface)
-{
-	iface->mime_types = parser_mime_types;
-	iface->parse = empe_mp_mixed_parse;
-	iface->get_flags = empe_mp_mixed_get_flags;
-}
-
-static void
-e_mail_parser_multipart_mixed_init (EMailParserMultipartMixed *parser)
+e_mail_parser_multipart_mixed_init (EMailParserExtension *extension)
 {
 }

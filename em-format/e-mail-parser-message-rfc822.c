@@ -35,24 +35,13 @@
 
 #include <string.h>
 
-typedef struct _EMailParserMessageRFC822 {
-	GObject parent;
-} EMailParserMessageRFC822;
+typedef EMailParserExtension EMailParserMessageRFC822;
+typedef EMailParserExtensionClass EMailParserMessageRFC822Class;
 
-typedef struct _EMailParserMessageRFC822Class {
-	GObjectClass parent_class;
-} EMailParserMessageRFC822Class;
-
-static void e_mail_parser_parser_extension_interface_init (EMailParserExtensionInterface *iface);
-
-G_DEFINE_TYPE_EXTENDED (
+G_DEFINE_TYPE (
 	EMailParserMessageRFC822,
 	e_mail_parser_message_rfc822,
-	G_TYPE_OBJECT,
-	0,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_MAIL_PARSER_EXTENSION,
-		e_mail_parser_parser_extension_interface_init));
+	E_TYPE_MAIL_PARSER_EXTENSION)
 
 static const gchar *parser_mime_types[] = {
 	"message/rfc822",
@@ -142,20 +131,14 @@ empe_msg_rfc822_get_flags (EMailParserExtension *extension)
 }
 
 static void
-e_mail_parser_message_rfc822_class_init (EMailParserMessageRFC822Class *class)
+e_mail_parser_message_rfc822_class_init (EMailParserExtensionClass *class)
 {
+	class->mime_types = parser_mime_types;
+	class->parse = empe_msg_rfc822_parse;
+	class->get_flags = empe_msg_rfc822_get_flags;
 }
 
 static void
-e_mail_parser_parser_extension_interface_init (EMailParserExtensionInterface *iface)
+e_mail_parser_message_rfc822_init (EMailParserExtension *extension)
 {
-	iface->mime_types = parser_mime_types;
-	iface->parse = empe_msg_rfc822_parse;
-	iface->get_flags = empe_msg_rfc822_get_flags;
-}
-
-static void
-e_mail_parser_message_rfc822_init (EMailParserMessageRFC822 *parser)
-{
-
 }

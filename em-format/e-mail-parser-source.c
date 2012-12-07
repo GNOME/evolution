@@ -29,24 +29,13 @@
 #include <glib/gi18n-lib.h>
 #include <camel/camel.h>
 
-typedef struct _EMailParserSource {
-	GObject parent;
-} EMailParserSource;
+typedef EMailParserExtension EMailParserSource;
+typedef EMailParserExtensionClass EMailParserSourceClass;
 
-typedef struct _EMailParserSourceClass {
-	GObjectClass parent_class;
-} EMailParserSourceClass;
-
-static void e_mail_parser_parser_extension_interface_init (EMailParserExtensionInterface *iface);
-
-G_DEFINE_TYPE_EXTENDED (
+G_DEFINE_TYPE (
 	EMailParserSource,
 	e_mail_parser_source,
-	G_TYPE_OBJECT,
-	0,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_MAIL_PARSER_EXTENSION,
-		e_mail_parser_parser_extension_interface_init));
+	E_TYPE_MAIL_PARSER_EXTENSION)
 
 static const gchar *parser_mime_types[] = {
 	"application/vnd.evolution.source",
@@ -77,19 +66,13 @@ empe_source_parse (EMailParserExtension *extension,
 }
 
 static void
-e_mail_parser_source_class_init (EMailParserSourceClass *class)
+e_mail_parser_source_class_init (EMailParserExtensionClass *class)
 {
+	class->mime_types = parser_mime_types;
+	class->parse = empe_source_parse;
 }
 
 static void
-e_mail_parser_parser_extension_interface_init (EMailParserExtensionInterface *iface)
+e_mail_parser_source_init (EMailParserExtension *extension)
 {
-	iface->mime_types = parser_mime_types;
-	iface->parse = empe_source_parse;
-}
-
-static void
-e_mail_parser_source_init (EMailParserSource *parser)
-{
-
 }

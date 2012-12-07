@@ -32,24 +32,13 @@
 #include <string.h>
 #include <ctype.h>
 
-typedef struct _EMailParserMessageExternal {
-	GObject parent;
-} EMailParserMessageExternal;
+typedef EMailParserExtension EMailParserMessageExternal;
+typedef EMailParserExtensionClass EMailParserMessageExternalClass;
 
-typedef struct _EMailParserMessageExternalClass {
-	GObjectClass parent_class;
-} EMailParserMessageExternalClass;
-
-static void e_mail_parser_parser_extension_interface_init (EMailParserExtensionInterface *iface);
-
-G_DEFINE_TYPE_EXTENDED (
+G_DEFINE_TYPE (
 	EMailParserMessageExternal,
 	e_mail_parser_message_external,
-	G_TYPE_OBJECT,
-	0,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_MAIL_PARSER_EXTENSION,
-		e_mail_parser_parser_extension_interface_init));
+	E_TYPE_MAIL_PARSER_EXTENSION)
 
 static const gchar *parser_mime_types[] = {
 	"message/external-body",
@@ -179,19 +168,13 @@ addPart:
 }
 
 static void
-e_mail_parser_message_external_class_init (EMailParserMessageExternalClass *class)
+e_mail_parser_message_external_class_init (EMailParserExtensionClass *class)
 {
+	class->mime_types = parser_mime_types;
+	class->parse = empe_msg_external_parse;
 }
 
 static void
-e_mail_parser_parser_extension_interface_init (EMailParserExtensionInterface *iface)
+e_mail_parser_message_external_init (EMailParserExtension *extension)
 {
-	iface->mime_types = parser_mime_types;
-	iface->parse = empe_msg_external_parse;
-}
-
-static void
-e_mail_parser_message_external_init (EMailParserMessageExternal *parser)
-{
-
 }

@@ -34,24 +34,19 @@
 
 #define d(x)
 
-typedef GObject EMailParserTextHighlight;
-typedef GObjectClass EMailParserTextHighlightClass;
+typedef EMailParserExtension EMailParserTextHighlight;
+typedef EMailParserExtensionClass EMailParserTextHighlightClass;
 
 typedef EExtension EMailParserTextHighlightLoader;
 typedef EExtensionClass EMailParserTextHighlightLoaderClass;
 
 GType e_mail_parser_text_highlight_get_type (void);
 GType e_mail_parser_text_highlight_loader_get_type (void);
-static void e_mail_parser_parser_extension_interface_init (EMailParserExtensionInterface *iface);
 
-G_DEFINE_DYNAMIC_TYPE_EXTENDED (
+G_DEFINE_DYNAMIC_TYPE (
 	EMailParserTextHighlight,
 	e_mail_parser_text_highlight,
-	G_TYPE_OBJECT,
-	0,
-	G_IMPLEMENT_INTERFACE_DYNAMIC (
-		E_TYPE_MAIL_PARSER_EXTENSION,
-		e_mail_parser_parser_extension_interface_init));
+	E_TYPE_MAIL_PARSER_EXTENSION)
 
 G_DEFINE_DYNAMIC_TYPE (
 	EMailParserTextHighlightLoader,
@@ -99,24 +94,19 @@ empe_text_highlight_parse (EMailParserExtension *extension,
 }
 
 static void
-e_mail_parser_parser_extension_interface_init (EMailParserExtensionInterface *iface)
+e_mail_parser_text_highlight_class_init (EMailParserExtensionClass *class)
 {
-	iface->mime_types = get_mime_types ();
-	iface->parse = empe_text_highlight_parse;
-}
-
-static void
-e_mail_parser_text_highlight_class_init (EMailParserTextHighlightClass *class)
-{
+	class->mime_types = get_mime_types ();
+	class->parse = empe_text_highlight_parse;
 }
 
 void
-e_mail_parser_text_highlight_class_finalize (EMailParserTextHighlightClass *class)
+e_mail_parser_text_highlight_class_finalize (EMailParserExtensionClass *class)
 {
 }
 
 static void
-e_mail_parser_text_highlight_init (EMailParserTextHighlight *parser)
+e_mail_parser_text_highlight_init (EMailParserExtension *extension)
 {
 }
 

@@ -30,24 +30,13 @@
 #include <camel/camel.h>
 #include <libedataserver/libedataserver.h>
 
-typedef struct _EMailParserMultipartEncrypted {
-	GObject parent;
-} EMailParserMultipartEncrypted;
+typedef EMailParserExtension EMailParserMultipartEncrypted;
+typedef EMailParserExtensionClass EMailParserMultipartEncryptedClass;
 
-typedef struct _EMailParserMultipartEncryptedClass {
-	GObjectClass parent_class;
-} EMailParserMultipartEncryptedClass;
-
-static void e_mail_parser_parser_extension_interface_init (EMailParserExtensionInterface *iface);
-
-G_DEFINE_TYPE_EXTENDED (
+G_DEFINE_TYPE (
 	EMailParserMultipartEncrypted,
 	e_mail_parser_multipart_encrypted,
-	G_TYPE_OBJECT,
-	0,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_MAIL_PARSER_EXTENSION,
-		e_mail_parser_parser_extension_interface_init))
+	E_TYPE_MAIL_PARSER_EXTENSION)
 
 static const gchar *parser_mime_types[] = {
 	"multipart/encrypted",
@@ -182,19 +171,13 @@ empe_mp_encrypted_parse (EMailParserExtension *extension,
 }
 
 static void
-e_mail_parser_multipart_encrypted_class_init (EMailParserMultipartEncryptedClass *class)
+e_mail_parser_multipart_encrypted_class_init (EMailParserExtensionClass *class)
 {
+	class->mime_types = parser_mime_types;
+	class->parse = empe_mp_encrypted_parse;
 }
 
 static void
-e_mail_parser_parser_extension_interface_init (EMailParserExtensionInterface *iface)
+e_mail_parser_multipart_encrypted_init (EMailParserExtension *extension)
 {
-	iface->mime_types = parser_mime_types;
-	iface->parse = empe_mp_encrypted_parse;
-}
-
-static void
-e_mail_parser_multipart_encrypted_init (EMailParserMultipartEncrypted *parser)
-{
-
 }

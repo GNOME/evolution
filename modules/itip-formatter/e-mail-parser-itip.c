@@ -44,24 +44,19 @@
 
 #define d(x)
 
-typedef GObject EMailParserItip;
-typedef GObjectClass EMailParserItipClass;
+typedef EMailParserExtension EMailParserItip;
+typedef EMailParserExtensionClass EMailParserItipClass;
 
 typedef EExtension EMailParserItipLoader;
 typedef EExtensionClass EMailParserItipLoaderClass;
 
 GType e_mail_parser_itip_get_type (void);
 GType e_mail_parser_itip_loader_get_type (void);
-static void e_mail_parser_parser_extension_interface_init (EMailParserExtensionInterface *iface);
 
-G_DEFINE_DYNAMIC_TYPE_EXTENDED (
+G_DEFINE_DYNAMIC_TYPE (
 	EMailParserItip,
 	e_mail_parser_itip,
-	G_TYPE_OBJECT,
-	0,
-	G_IMPLEMENT_INTERFACE_DYNAMIC (
-		E_TYPE_MAIL_PARSER_EXTENSION,
-		e_mail_parser_parser_extension_interface_init));
+	E_TYPE_MAIL_PARSER_EXTENSION)
 
 G_DEFINE_DYNAMIC_TYPE (
 	EMailParserItipLoader,
@@ -260,26 +255,20 @@ empe_itip_get_flags (EMailParserExtension *extension)
 }
 
 static void
-e_mail_parser_itip_class_init (EMailParserItipClass *class)
+e_mail_parser_itip_class_init (EMailParserExtensionClass *class)
+{
+	class->mime_types = parser_mime_types;
+	class->parse = empe_itip_parse;
+	class->get_flags = empe_itip_get_flags;
+}
+
+static void
+e_mail_parser_itip_class_finalize (EMailParserExtensionClass *class)
 {
 }
 
 static void
-e_mail_parser_itip_class_finalize (EMailParserItipClass *class)
-{
-
-}
-
-static void
-e_mail_parser_parser_extension_interface_init (EMailParserExtensionInterface *iface)
-{
-	iface->mime_types = parser_mime_types;
-	iface->parse = empe_itip_parse;
-	iface->get_flags = empe_itip_get_flags;
-}
-
-static void
-e_mail_parser_itip_init (EMailParserItip *self)
+e_mail_parser_itip_init (EMailParserExtension *class)
 {
 }
 

@@ -32,24 +32,13 @@
 
 #include <string.h>
 
-typedef struct _EMailParserInlinePGPSigned {
-	GObject parent;
-} EMailParserInlinePGPSigned;
+typedef EMailParserExtension EMailParserInlinePGPSigned;
+typedef EMailParserExtensionClass EMailParserInlinePGPSignedClass;
 
-typedef struct _EMailParserInlinePGPSignedClass {
-	GObjectClass parent_class;
-} EMailParserInlinePGPSignedClass;
-
-static void e_mail_parser_parser_extension_interface_init (EMailParserExtensionInterface *iface);
-
-G_DEFINE_TYPE_EXTENDED (
+G_DEFINE_TYPE (
 	EMailParserInlinePGPSigned,
 	e_mail_parser_inline_pgp_signed,
-	G_TYPE_OBJECT,
-	0,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_MAIL_PARSER_EXTENSION,
-		e_mail_parser_parser_extension_interface_init));
+	E_TYPE_MAIL_PARSER_EXTENSION)
 
 static const gchar *parser_mime_types[] = {
 	"application/x-inlinepgp-signed",
@@ -196,19 +185,13 @@ empe_inlinepgp_signed_parse (EMailParserExtension *extension,
 }
 
 static void
-e_mail_parser_inline_pgp_signed_class_init (EMailParserInlinePGPSignedClass *class)
+e_mail_parser_inline_pgp_signed_class_init (EMailParserExtensionClass *class)
 {
+	class->mime_types = parser_mime_types;
+	class->parse = empe_inlinepgp_signed_parse;
 }
 
 static void
-e_mail_parser_parser_extension_interface_init (EMailParserExtensionInterface *iface)
+e_mail_parser_inline_pgp_signed_init (EMailParserExtension *extension)
 {
-	iface->mime_types = parser_mime_types;
-	iface->parse = empe_inlinepgp_signed_parse;
-}
-
-static void
-e_mail_parser_inline_pgp_signed_init (EMailParserInlinePGPSigned *parser)
-{
-
 }

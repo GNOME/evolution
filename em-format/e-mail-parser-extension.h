@@ -28,18 +28,18 @@
 #define E_MAIL_PARSER_EXTENSION(obj) \
 	(G_TYPE_CHECK_INSTANCE_CAST \
 	((obj), E_TYPE_MAIL_PARSER_EXTENSION, EMailParserExtension))
-#define E_MAIL_PARSER_EXTENSION_INTERFACE(cls) \
+#define E_MAIL_PARSER_EXTENSION_CLASS(cls) \
 	(G_TYPE_CHECK_CLASS_CAST \
-	((cls), E_TYPE_MAIL_PARSER_EXTENSION, EMailParserExtensionInterface))
+	((cls), E_TYPE_MAIL_PARSER_EXTENSION, EMailParserExtensionClass))
 #define E_IS_MAIL_PARSER_EXTENSION(obj) \
 	(G_TYPE_CHECK_INSTANCE_TYPE \
 	((obj), E_TYPE_MAIL_PARSER_EXTENSION))
-#define E_IS_MAIL_PARSER_EXTENSION_INTERFACE(cls) \
+#define E_IS_MAIL_PARSER_EXTENSION_CLASS(cls) \
 	(G_TYPE_CHECK_CLASS_TYPE \
 	((cls), E_TYPE_MAIL_PARSER_EXTENSION))
-#define E_MAIL_PARSER_EXTENSION_GET_INTERFACE(obj) \
-	(G_TYPE_INSTANCE_GET_INTERFACE \
-	((obj), E_TYPE_MAIL_PARSER_EXTENSION, EMailParserExtensionInterface))
+#define E_MAIL_PARSER_EXTENSION_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_MAIL_PARSER_EXTENSION, EMailParserExtensionClass))
 
 #define EMP_EXTENSION_GET_PARSER(e) \
 	E_MAIL_PARSER (e_extension_get_extensible (E_EXTENSION (e)))
@@ -47,7 +47,8 @@
 G_BEGIN_DECLS
 
 typedef struct _EMailParserExtension EMailParserExtension;
-typedef struct _EMailParserExtensionInterface EMailParserExtensionInterface;
+typedef struct _EMailParserExtensionClass EMailParserExtensionClass;
+typedef struct _EMailParserExtensionPrivate EMailParserExtensionPrivate;
 
 /**
  * EMailParserExtensionFlags:
@@ -64,23 +65,32 @@ typedef enum {
 	E_MAIL_PARSER_EXTENSION_COMPOUND_TYPE		= 1 << 2
 } EMailParserExtensionFlags;
 
-struct _EMailParserExtensionInterface {
-	GTypeInterface parent_interface;
+/**
+ * EMailParserExtension:
+ *
+ * The #EMailParserExtension is an abstract interface for all extensions for
+ * #EMailParser.
+ */
+struct _EMailParserExtension {
+	GObject parent;
+	EMailParserExtensionPrivate *priv;
+};
+
+struct _EMailParserExtensionClass {
+	GObjectClass parent_class;
 
 	/* This is a NULL-terminated array of supported MIME types.
 	 * The MIME types can be exact (e.g. "text/plain") or use a
 	 * wildcard (e.g. "text/ *"). */
 	const gchar **mime_types;
 
-	gboolean	(*parse)	(EMailParserExtension *extension,
-					 EMailParser *parser,
-					 CamelMimePart *mime_part,
-					 GString *part_id,
-					 GCancellable *cancellable,
-					 GQueue *out_mail_parts);
-
-	guint32		(*get_flags)	(EMailParserExtension *extension);
-
+	gboolean	(*parse)		(EMailParserExtension *extension,
+						 EMailParser *parser,
+						 CamelMimePart *mime_part,
+						 GString *part_id,
+						 GCancellable *cancellable,
+						 GQueue *out_mail_parts);
+	guint32		(*get_flags)		(EMailParserExtension *extension);
 };
 
 GType		e_mail_parser_extension_get_type

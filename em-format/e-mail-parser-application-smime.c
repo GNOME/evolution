@@ -34,24 +34,13 @@
 
 #include <string.h>
 
-typedef struct _EMailParserApplicationSMIME {
-	GObject parent;
-} EMailParserApplicationSMIME;
+typedef EMailParserExtension EMailParserApplicationSMIME;
+typedef EMailParserExtensionClass EMailParserApplicationSMIMEClass;
 
-typedef struct _EMailParserAppplicationSMIMEClass {
-	GObjectClass parent_class;
-} EMailParserApplicationSMIMEClass;
-
-static void e_mail_parser_parser_extension_interface_init (EMailParserExtensionInterface *iface);
-
-G_DEFINE_TYPE_EXTENDED (
+G_DEFINE_TYPE (
 	EMailParserApplicationSMIME,
 	e_mail_parser_application_smime,
-	G_TYPE_OBJECT,
-	0,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_MAIL_PARSER_EXTENSION,
-		e_mail_parser_parser_extension_interface_init));
+	E_TYPE_MAIL_PARSER_EXTENSION)
 
 static const gchar *parser_mime_types[] = {
 	"application/xpkcs7mime",
@@ -65,11 +54,11 @@ static const gchar *parser_mime_types[] = {
 
 static gboolean
 empe_app_smime_parse (EMailParserExtension *extension,
-                       EMailParser *parser,
-                       CamelMimePart *part,
-                       GString *part_id,
-                       GCancellable *cancellable,
-                       GQueue *out_mail_parts)
+                      EMailParser *parser,
+                      CamelMimePart *part,
+                      GString *part_id,
+                      GCancellable *cancellable,
+                      GQueue *out_mail_parts)
 {
 	CamelCipherContext *context;
 	CamelMimePart *opart;
@@ -168,20 +157,14 @@ empe_app_smime_get_flags (EMailParserExtension *extension)
 }
 
 static void
-e_mail_parser_application_smime_class_init (EMailParserApplicationSMIMEClass *class)
+e_mail_parser_application_smime_class_init (EMailParserExtensionClass *class)
 {
+	class->mime_types = parser_mime_types;
+	class->parse = empe_app_smime_parse;
+	class->get_flags = empe_app_smime_get_flags;
 }
 
 static void
-e_mail_parser_parser_extension_interface_init (EMailParserExtensionInterface *interface)
+e_mail_parser_application_smime_init (EMailParserExtension *extension)
 {
-	interface->mime_types = parser_mime_types;
-	interface->parse = empe_app_smime_parse;
-	interface->get_flags = empe_app_smime_get_flags;
-}
-
-static void
-e_mail_parser_application_smime_init (EMailParserApplicationSMIME *parser)
-{
-
 }

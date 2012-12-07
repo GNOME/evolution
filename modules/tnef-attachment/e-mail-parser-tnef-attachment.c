@@ -50,7 +50,7 @@
 #define d(x)
 
 typedef struct _EMailParserTnefAttachment {
-	GObject parent;
+	EMailParserExtension parent;
 
 	GSettings *settings;
 	gint mode;
@@ -58,7 +58,7 @@ typedef struct _EMailParserTnefAttachment {
 } EMailParserTnefAttachment;
 
 typedef struct _EMailParserTnefAttachmentClass {
-	GObjectClass parent_class;
+	EMailParserExtensionClass parent_class;
 } EMailParserTnefAttachmentClass;
 
 typedef EExtension EMailParserTnefAttachmentLoader;
@@ -66,16 +66,11 @@ typedef EExtensionClass EMailParserTnefAttachmentLoaderClass;
 
 GType e_mail_parser_tnef_attachment_get_type (void);
 GType e_mail_parser_tnef_attachment_loader_get_type (void);
-static void e_mail_parser_parser_extension_interface_init (EMailParserExtensionInterface *iface);
 
-G_DEFINE_DYNAMIC_TYPE_EXTENDED (
+G_DEFINE_DYNAMIC_TYPE (
 	EMailParserTnefAttachment,
 	e_mail_parser_tnef_attachment,
-	G_TYPE_OBJECT,
-	0,
-	G_IMPLEMENT_INTERFACE_DYNAMIC (
-		E_TYPE_MAIL_PARSER_EXTENSION,
-		e_mail_parser_parser_extension_interface_init));
+	E_TYPE_MAIL_PARSER_EXTENSION)
 
 G_DEFINE_DYNAMIC_TYPE (
 	EMailParserTnefAttachmentLoader,
@@ -267,15 +262,13 @@ empe_tnef_attachment_parse (EMailParserExtension *extension,
 }
 
 static void
-e_mail_parser_parser_extension_interface_init (EMailParserExtensionInterface *iface)
-{
-	iface->mime_types = parser_mime_types;
-	iface->parse = empe_tnef_attachment_parse;
-}
-
-static void
 e_mail_parser_tnef_attachment_class_init (EMailParserTnefAttachmentClass *class)
 {
+	EMailParserExtensionClass *extension_class;
+
+	extension_class = E_MAIL_PARSER_EXTENSION_CLASS (class);
+	extension_class->mime_types = parser_mime_types;
+	extension_class->parse = empe_tnef_attachment_parse;
 }
 
 void
@@ -284,7 +277,7 @@ e_mail_parser_tnef_attachment_class_finalize (EMailParserTnefAttachmentClass *cl
 }
 
 static void
-e_mail_parser_tnef_attachment_init (EMailParserTnefAttachment *parser)
+e_mail_parser_tnef_attachment_init (EMailParserTnefAttachment *extension)
 {
 }
 
