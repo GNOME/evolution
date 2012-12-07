@@ -43,9 +43,6 @@
 	(G_TYPE_INSTANCE_GET_CLASS \
 	((obj), E_TYPE_MAIL_FORMATTER_EXTENSION, EMailFormatterExtensionClass))
 
-#define EMF_EXTENSION_GET_FORMATTER(e) \
-	E_MAIL_FORMATTER (e_extension_get_extensible (E_EXTENSION (e)))
-
 G_BEGIN_DECLS
 
 /**
