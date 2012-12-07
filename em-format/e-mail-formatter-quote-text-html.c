@@ -20,8 +20,6 @@
 #include <config.h>
 #endif
 
-#include "e-mail-format-extensions.h"
-
 #include <em-format/e-mail-formatter-quote.h>
 #include <em-format/e-mail-stripsig-filter.h>
 #include <em-format/e-mail-part-utils.h>
@@ -34,6 +32,8 @@
 
 typedef EMailFormatterExtension EMailFormatterQuoteTextHTML;
 typedef EMailFormatterExtensionClass EMailFormatterQuoteTextHTMLClass;
+
+GType e_mail_formatter_quote_text_html_get_type (void);
 
 G_DEFINE_TYPE (
 	EMailFormatterQuoteTextHTML,

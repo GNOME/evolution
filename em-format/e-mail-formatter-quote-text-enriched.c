@@ -20,8 +20,6 @@
 #include <config.h>
 #endif
 
-#include "e-mail-format-extensions.h"
-
 #include <em-format/e-mail-formatter-quote.h>
 #include <em-format/e-mail-inline-filter.h>
 #include <e-util/e-util.h>
@@ -31,6 +29,8 @@
 
 typedef EMailFormatterExtension EMailFormatterQuoteTextEnriched;
 typedef EMailFormatterExtensionClass EMailFormatterQuoteTextEnrichedClass;
+
+GType e_mail_formatter_quote_text_enriched_get_type (void);
 
 G_DEFINE_TYPE (
 	EMailFormatterQuoteTextEnriched,

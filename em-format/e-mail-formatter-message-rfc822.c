@@ -20,8 +20,6 @@
 #include <config.h>
 #endif
 
-#include "e-mail-format-extensions.h"
-
 #include <glib/gi18n-lib.h>
 #include <glib-object.h>
 
@@ -37,6 +35,8 @@
 
 typedef EMailFormatterExtension EMailFormatterMessageRFC822;
 typedef EMailFormatterExtensionClass EMailFormatterMessageRFC822Class;
+
+GType e_mail_formatter_message_rfc822_get_type (void);
 
 G_DEFINE_TYPE (
 	EMailFormatterMessageRFC822,

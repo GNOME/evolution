@@ -20,8 +20,6 @@
 #include <config.h>
 #endif
 
-#include "e-mail-format-extensions.h"
-
 #include <em-format/e-mail-parser-extension.h>
 #include <em-format/e-mail-parser.h>
 
@@ -29,6 +27,8 @@
 
 typedef EMailParserExtension EMailParserMultipartAppleDouble;
 typedef EMailParserExtensionClass EMailParserMultipartAppleDoubleClass;
+
+GType e_mail_parser_multipart_apple_double_get_type (void);
 
 G_DEFINE_TYPE (
 	EMailParserMultipartAppleDouble,

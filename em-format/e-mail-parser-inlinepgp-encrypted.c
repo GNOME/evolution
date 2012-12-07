@@ -20,8 +20,6 @@
 #include <config.h>
 #endif
 
-#include "e-mail-format-extensions.h"
-
 #include <em-format/e-mail-parser-extension.h>
 #include <em-format/e-mail-parser.h>
 #include <em-format/e-mail-part-utils.h>
@@ -34,6 +32,8 @@
 
 typedef EMailParserExtension EMailParserInlinePGPEncrypted;
 typedef EMailParserExtensionClass EMailParserInlinePGPEncryptedClass;
+
+GType e_mail_parser_inline_pgp_encrypted_get_type (void);
 
 G_DEFINE_TYPE (
 	EMailParserInlinePGPEncrypted,

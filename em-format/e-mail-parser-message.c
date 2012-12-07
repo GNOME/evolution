@@ -20,8 +20,6 @@
 #include <config.h>
 #endif
 
-#include "e-mail-format-extensions.h"
-
 #include <glib/gi18n-lib.h>
 
 #include <em-format/e-mail-parser-extension.h>
@@ -36,6 +34,8 @@
 
 typedef EMailParserExtension EMailParserMessage;
 typedef EMailParserExtensionClass EMailParserMessageClass;
+
+GType e_mail_parser_message_get_type (void);
 
 G_DEFINE_TYPE (
 	EMailParserMessage,

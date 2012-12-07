@@ -20,8 +20,6 @@
 #include <config.h>
 #endif
 
-#include "e-mail-format-extensions.h"
-
 #include <em-format/e-mail-parser-extension.h>
 #include <em-format/e-mail-parser.h>
 #include <e-util/e-util.h>
@@ -33,6 +31,8 @@
 
 typedef EMailParserExtension EMailParserMultipartMixed;
 typedef EMailParserExtensionClass EMailParserMultipartMixedClass;
+
+GType e_mail_parser_multipart_mixed_get_type (void);
 
 G_DEFINE_TYPE (
 	EMailParserMultipartMixed,

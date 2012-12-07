@@ -37,9 +37,6 @@
 typedef EMailFormatterExtension EMailFormatterItip;
 typedef EMailFormatterExtensionClass EMailFormatterItipClass;
 
-typedef EExtension EMailFormatterItipLoader;
-typedef EExtensionClass EMailFormatterItipLoaderClass;
-
 GType e_mail_formatter_itip_get_type (void);
 GType e_mail_formatter_itip_loader_get_type (void);
 
@@ -47,11 +44,6 @@ G_DEFINE_DYNAMIC_TYPE (
 	EMailFormatterItip,
 	e_mail_formatter_itip,
 	E_TYPE_MAIL_FORMATTER_EXTENSION)
-
-G_DEFINE_DYNAMIC_TYPE (
-	EMailFormatterItipLoader,
-	e_mail_formatter_itip_loader,
-	E_TYPE_EXTENSION)
 
 static const gchar *formatter_mime_types[] = {
 	"text/calendar",
@@ -155,43 +147,8 @@ e_mail_formatter_itip_init (EMailFormatterExtension *extension)
 {
 }
 
-static void
-mail_formatter_itip_loader_constructed (GObject *object)
-{
-	EExtensible *extensible;
-
-	extensible = e_extension_get_extensible (E_EXTENSION (object));
-
-	e_mail_extension_registry_add_extension (
-		E_MAIL_EXTENSION_REGISTRY (extensible),
-		formatter_mime_types,
-		e_mail_formatter_itip_get_type ());
-}
-
-static void
-e_mail_formatter_itip_loader_class_init (EExtensionClass *class)
-{
-	GObjectClass *object_class;
-
-	object_class = G_OBJECT_CLASS (class);
-	object_class->constructed = mail_formatter_itip_loader_constructed;
-
-	class->extensible_type = E_TYPE_MAIL_FORMATTER_EXTENSION_REGISTRY;
-}
-
-static void
-e_mail_formatter_itip_loader_class_finalize (EExtensionClass *class)
-{
-}
-
-static void
-e_mail_formatter_itip_loader_init (EExtension *extension)
-{
-}
-
 void
 e_mail_formatter_itip_type_register (GTypeModule *type_module)
 {
 	e_mail_formatter_itip_register_type (type_module);
-	e_mail_formatter_itip_loader_register_type (type_module);
 }

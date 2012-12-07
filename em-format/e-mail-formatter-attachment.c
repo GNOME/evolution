@@ -20,7 +20,6 @@
 #include <config.h>
 #endif
 
-#include "e-mail-format-extensions.h"
 #include "e-mail-part-attachment.h"
 #include "e-mail-part-attachment-bar.h"
 
@@ -42,6 +41,8 @@
 
 typedef EMailFormatterExtension EMailFormatterAttachment;
 typedef EMailFormatterExtensionClass EMailFormatterAttachmentClass;
+
+GType e_mail_formatter_attachment_get_type (void);
 
 G_DEFINE_TYPE (
 	EMailFormatterAttachment,

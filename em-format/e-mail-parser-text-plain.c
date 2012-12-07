@@ -20,8 +20,6 @@
 #include <config.h>
 #endif
 
-#include "e-mail-format-extensions.h"
-
 #include <em-format/e-mail-parser-extension.h>
 #include <em-format/e-mail-parser.h>
 #include <em-format/e-mail-inline-filter.h>
@@ -34,6 +32,8 @@
 
 typedef EMailParserExtension EMailParserTextPlain;
 typedef EMailParserExtensionClass EMailParserTextPlainClass;
+
+GType e_mail_parser_text_plain_get_type (void);
 
 G_DEFINE_TYPE (
 	EMailParserTextPlain,

@@ -20,8 +20,6 @@
 #include <config.h>
 #endif
 
-#include "e-mail-format-extensions.h"
-
 #include <glib/gi18n-lib.h>
 
 #include <em-format/e-mail-formatter-extension.h>
@@ -39,6 +37,8 @@
 
 typedef EMailFormatterExtension EMailFormatterHeaders;
 typedef EMailFormatterExtensionClass EMailFormatterHeadersClass;
+
+GType e_mail_formatter_headers_get_type (void);
 
 G_DEFINE_TYPE (
 	EMailFormatterHeaders,

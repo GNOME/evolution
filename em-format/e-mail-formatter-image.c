@@ -20,8 +20,6 @@
 #include <config.h>
 #endif
 
-#include "e-mail-format-extensions.h"
-
 #include <em-format/e-mail-parser-extension.h>
 #include <em-format/e-mail-formatter-extension.h>
 #include <em-format/e-mail-part-utils.h>
@@ -35,6 +33,8 @@
 
 typedef EMailFormatterExtension EMailFormatterImage;
 typedef EMailFormatterExtensionClass EMailFormatterImageClass;
+
+GType e_mail_formatter_image_get_type (void);
 
 G_DEFINE_TYPE (
 	EMailFormatterImage,
