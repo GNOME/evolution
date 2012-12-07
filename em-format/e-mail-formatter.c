@@ -24,14 +24,27 @@
 #include "e-mail-formatter-utils.h"
 #include "e-mail-part.h"
 
-#include "e-mail-format-extensions.h"
-
 #include <e-util/e-util.h>
 #include <libebackend/libebackend.h>
 #include <gdk/gdk.h>
 #include <glib/gi18n.h>
 
 #define d(x)
+
+/* internal formatter extensions */
+GType e_mail_formatter_attachment_get_type (void);
+GType e_mail_formatter_attachment_bar_get_type (void);
+GType e_mail_formatter_error_get_type (void);
+GType e_mail_formatter_headers_get_type (void);
+GType e_mail_formatter_image_get_type (void);
+GType e_mail_formatter_message_rfc822_get_type (void);
+GType e_mail_formatter_secure_button_get_type (void);
+GType e_mail_formatter_source_get_type (void);
+GType e_mail_formatter_text_enriched_get_type (void);
+GType e_mail_formatter_text_html_get_type (void);
+GType e_mail_formatter_text_plain_get_type (void);
+
+void e_mail_formatter_internal_extensions_load (EMailExtensionRegistry *ereg);
 
 struct _EMailFormatterPrivate {
 	EMailImageLoadingPolicy image_loading_policy;
@@ -499,11 +512,24 @@ mail_formatter_set_style (EMailFormatter *formatter,
 static void
 e_mail_formatter_base_init (EMailFormatterClass *class)
 {
+	/* Register internal extensions. */
+	g_type_ensure (e_mail_formatter_attachment_get_type ());
+	g_type_ensure (e_mail_formatter_attachment_bar_get_type ());
+	g_type_ensure (e_mail_formatter_error_get_type ());
+	g_type_ensure (e_mail_formatter_headers_get_type ());
+	g_type_ensure (e_mail_formatter_image_get_type ());
+	g_type_ensure (e_mail_formatter_message_rfc822_get_type ());
+	g_type_ensure (e_mail_formatter_secure_button_get_type ());
+	g_type_ensure (e_mail_formatter_source_get_type ());
+	g_type_ensure (e_mail_formatter_text_enriched_get_type ());
+	g_type_ensure (e_mail_formatter_text_html_get_type ());
+	g_type_ensure (e_mail_formatter_text_plain_get_type ());
+
 	class->extension_registry = g_object_new (
 		E_TYPE_MAIL_FORMATTER_EXTENSION_REGISTRY, NULL);
 
 	e_mail_formatter_internal_extensions_load (
-			E_MAIL_EXTENSION_REGISTRY (class->extension_registry));
+		E_MAIL_EXTENSION_REGISTRY (class->extension_registry));
 
 	e_extensible_load_extensions (
 		E_EXTENSIBLE (class->extension_registry));
