@@ -41,9 +41,6 @@
 	(G_TYPE_INSTANCE_GET_CLASS \
 	((obj), E_TYPE_MAIL_PARSER_EXTENSION, EMailParserExtensionClass))
 
-#define EMP_EXTENSION_GET_PARSER(e) \
-	E_MAIL_PARSER (e_extension_get_extensible (E_EXTENSION (e)))
-
 G_BEGIN_DECLS
 
 typedef struct _EMailParserExtension EMailParserExtension;
