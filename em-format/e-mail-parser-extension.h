@@ -84,13 +84,15 @@ struct _EMailParserExtensionClass {
 	 * wildcard (e.g. "text/ *"). */
 	const gchar **mime_types;
 
+	/* See the flag descriptions above. */
+	EMailParserExtensionFlags flags;
+
 	gboolean	(*parse)		(EMailParserExtension *extension,
 						 EMailParser *parser,
 						 CamelMimePart *mime_part,
 						 GString *part_id,
 						 GCancellable *cancellable,
 						 GQueue *out_mail_parts);
-	guint32		(*get_flags)		(EMailParserExtension *extension);
 };
 
 GType		e_mail_parser_extension_get_type
@@ -101,8 +103,6 @@ gboolean	e_mail_parser_extension_parse	(EMailParserExtension *extension,
 						 GString *part_id,
 						 GCancellable *cancellable,
 						 GQueue *out_mail_parts);
-guint32		e_mail_parser_extension_get_flags
-						(EMailParserExtension *extension);
 
 G_END_DECLS
 

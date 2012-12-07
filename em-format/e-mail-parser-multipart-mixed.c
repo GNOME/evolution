@@ -115,18 +115,12 @@ empe_mp_mixed_parse (EMailParserExtension *extension,
 	return TRUE;
 }
 
-static guint32
-empe_mp_mixed_get_flags (EMailParserExtension *extension)
-{
-	return E_MAIL_PARSER_EXTENSION_COMPOUND_TYPE;
-}
-
 static void
 e_mail_parser_multipart_mixed_class_init (EMailParserExtensionClass *class)
 {
 	class->mime_types = parser_mime_types;
+	class->flags = E_MAIL_PARSER_EXTENSION_COMPOUND_TYPE;
 	class->parse = empe_mp_mixed_parse;
-	class->get_flags = empe_mp_mixed_get_flags;
 }
 
 static void

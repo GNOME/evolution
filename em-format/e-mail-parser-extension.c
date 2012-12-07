@@ -25,16 +25,9 @@ G_DEFINE_ABSTRACT_TYPE (
 	e_mail_parser_extension,
 	G_TYPE_OBJECT)
 
-static guint32
-mail_parser_extension_get_flags (EMailParserExtension *extension)
-{
-	return 0;
-}
-
 static void
 e_mail_parser_extension_class_init (EMailParserExtensionClass *class)
 {
-	class->get_flags = mail_parser_extension_get_flags;
 }
 
 static void
@@ -100,15 +93,3 @@ e_mail_parser_extension_parse (EMailParserExtension *extension,
 		cancellable, out_mail_parts);
 }
 
-guint32
-e_mail_parser_extension_get_flags (EMailParserExtension *extension)
-{
-	EMailParserExtensionClass *class;
-
-	g_return_val_if_fail (E_IS_MAIL_PARSER_EXTENSION (extension), 0);
-
-	class = E_MAIL_PARSER_EXTENSION_GET_CLASS (extension);
-	g_return_val_if_fail (class->get_flags != NULL, 0);
-
-	return class->get_flags (extension);
-}

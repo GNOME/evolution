@@ -150,18 +150,12 @@ empe_app_smime_parse (EMailParserExtension *extension,
 	return TRUE;
 }
 
-static guint32
-empe_app_smime_get_flags (EMailParserExtension *extension)
-{
-	return E_MAIL_PARSER_EXTENSION_INLINE;
-}
-
 static void
 e_mail_parser_application_smime_class_init (EMailParserExtensionClass *class)
 {
 	class->mime_types = parser_mime_types;
+	class->flags = E_MAIL_PARSER_EXTENSION_INLINE;
 	class->parse = empe_app_smime_parse;
-	class->get_flags = empe_app_smime_get_flags;
 }
 
 static void

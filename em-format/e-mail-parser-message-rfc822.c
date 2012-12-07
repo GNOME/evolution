@@ -123,19 +123,14 @@ empe_msg_rfc822_parse (EMailParserExtension *extension,
 	return TRUE;
 }
 
-static guint32
-empe_msg_rfc822_get_flags (EMailParserExtension *extension)
-{
-	return E_MAIL_PARSER_EXTENSION_INLINE |
-		E_MAIL_PARSER_EXTENSION_COMPOUND_TYPE;
-}
-
 static void
 e_mail_parser_message_rfc822_class_init (EMailParserExtensionClass *class)
 {
 	class->mime_types = parser_mime_types;
+	class->flags =
+		E_MAIL_PARSER_EXTENSION_INLINE |
+		E_MAIL_PARSER_EXTENSION_COMPOUND_TYPE;
 	class->parse = empe_msg_rfc822_parse;
-	class->get_flags = empe_msg_rfc822_get_flags;
 }
 
 static void

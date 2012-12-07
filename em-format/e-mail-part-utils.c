@@ -533,15 +533,17 @@ e_mail_part_is_inline (CamelMimePart *mime_part,
 {
 	const gchar *disposition;
 	EMailParserExtension *extension;
+	EMailParserExtensionClass *class;
 
 	if ((extensions == NULL) || g_queue_is_empty (extensions))
 		return FALSE;
 
 	extension = g_queue_peek_head (extensions);
+	class = E_MAIL_PARSER_EXTENSION_GET_CLASS (extension);
+
 	/* Some types need to override the disposition.
 	 * e.g. application/x-pkcs7-mime */
-	if (e_mail_parser_extension_get_flags (extension) &
-		E_MAIL_PARSER_EXTENSION_INLINE_DISPOSITION)
+	if (class->flags & E_MAIL_PARSER_EXTENSION_INLINE_DISPOSITION)
 		return TRUE;
 
 	disposition = camel_mime_part_get_disposition (mime_part);
@@ -549,6 +551,5 @@ e_mail_part_is_inline (CamelMimePart *mime_part,
 		return g_ascii_strcasecmp (disposition, "inline") == 0;
 
 	/* Otherwise, use the default for this handler type. */
-	return (e_mail_parser_extension_get_flags (extension) &
-			E_MAIL_PARSER_EXTENSION_INLINE) != 0;
+	return (class->flags & E_MAIL_PARSER_EXTENSION_INLINE) != 0;
 }

@@ -145,18 +145,12 @@ empe_audio_inline_parse (EMailParserExtension *extension,
 	return TRUE;
 }
 
-static guint32
-empe_audio_inline_get_flags (EMailParserExtension *extension)
-{
-	return E_MAIL_PARSER_EXTENSION_INLINE_DISPOSITION;
-}
-
 static void
 e_mail_parser_audio_inline_class_init (EMailParserExtensionClass *class)
 {
 	class->mime_types = parser_mime_types;
+	class->flags = E_MAIL_PARSER_EXTENSION_INLINE_DISPOSITION;
 	class->parse = empe_audio_inline_parse;
-	class->get_flags = empe_audio_inline_get_flags;
 }
 
 static void

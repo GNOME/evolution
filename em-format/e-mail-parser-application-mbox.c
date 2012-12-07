@@ -160,19 +160,14 @@ empe_app_mbox_parse (EMailParserExtension *extension,
 	return TRUE;
 }
 
-static guint32
-empe_app_mbox_get_flags (EMailParserExtension *extension)
-{
-	return E_MAIL_PARSER_EXTENSION_INLINE |
-		E_MAIL_PARSER_EXTENSION_COMPOUND_TYPE;
-}
-
 static void
 e_mail_parser_application_mbox_class_init (EMailParserExtensionClass *class)
 {
 	class->mime_types = parser_mime_types;
+	class->flags =
+		E_MAIL_PARSER_EXTENSION_INLINE |
+		E_MAIL_PARSER_EXTENSION_COMPOUND_TYPE;
 	class->parse = empe_app_mbox_parse;
-	class->get_flags = empe_app_mbox_get_flags;
 }
 
 static void
