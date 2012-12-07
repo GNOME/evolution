@@ -18,7 +18,6 @@
 
 #include "e-mail-parser.h"
 #include "e-mail-parser-extension.h"
-#include "e-mail-format-extensions.h"
 #include "e-mail-part-attachment.h"
 #include "e-mail-part-utils.h"
 
@@ -52,6 +51,35 @@ enum {
 	PROP_0,
 	PROP_SESSION
 };
+
+/* internal parser extensions */
+GType e_mail_parser_application_mbox_get_type (void);
+GType e_mail_parser_attachment_bar_get_type (void);
+GType e_mail_parser_headers_get_type (void);
+GType e_mail_parser_message_get_type (void);
+GType e_mail_parser_secure_button_get_type (void);
+GType e_mail_parser_source_get_type (void);
+GType e_mail_parser_image_get_type (void);
+GType e_mail_parser_inline_pgp_encrypted_get_type (void);
+GType e_mail_parser_inline_pgp_signed_get_type (void);
+GType e_mail_parser_message_delivery_status_get_type (void);
+GType e_mail_parser_message_external_get_type (void);
+GType e_mail_parser_message_rfc822_get_type (void);
+GType e_mail_parser_multipart_alternative_get_type (void);
+GType e_mail_parser_multipart_apple_double_get_type (void);
+GType e_mail_parser_multipart_digest_get_type (void);
+GType e_mail_parser_multipart_encrypted_get_type (void);
+GType e_mail_parser_multipart_mixed_get_type (void);
+GType e_mail_parser_multipart_related_get_type (void);
+GType e_mail_parser_multipart_signed_get_type (void);
+GType e_mail_parser_text_enriched_get_type (void);
+GType e_mail_parser_text_html_get_type (void);
+GType e_mail_parser_text_plain_get_type (void);
+#ifdef ENABLE_SMIME
+GType e_mail_parser_application_smime_get_type (void);
+#endif
+
+void e_mail_parser_internal_extensions_load (EMailExtensionRegistry *ereg);
 
 static gpointer parent_class;
 
@@ -179,6 +207,33 @@ e_mail_parser_finalize (GObject *object)
 static void
 e_mail_parser_base_init (EMailParserClass *class)
 {
+	/* Register internal extensions. */
+	g_type_ensure (e_mail_parser_application_mbox_get_type ());
+	g_type_ensure (e_mail_parser_attachment_bar_get_type ());
+	g_type_ensure (e_mail_parser_headers_get_type ());
+	g_type_ensure (e_mail_parser_message_get_type ());
+	g_type_ensure (e_mail_parser_secure_button_get_type ());
+	g_type_ensure (e_mail_parser_source_get_type ());
+	g_type_ensure (e_mail_parser_image_get_type ());
+	g_type_ensure (e_mail_parser_inline_pgp_encrypted_get_type ());
+	g_type_ensure (e_mail_parser_inline_pgp_signed_get_type ());
+	g_type_ensure (e_mail_parser_message_delivery_status_get_type ());
+	g_type_ensure (e_mail_parser_message_external_get_type ());
+	g_type_ensure (e_mail_parser_message_rfc822_get_type ());
+	g_type_ensure (e_mail_parser_multipart_alternative_get_type ());
+	g_type_ensure (e_mail_parser_multipart_apple_double_get_type ());
+	g_type_ensure (e_mail_parser_multipart_digest_get_type ());
+	g_type_ensure (e_mail_parser_multipart_encrypted_get_type ());
+	g_type_ensure (e_mail_parser_multipart_mixed_get_type ());
+	g_type_ensure (e_mail_parser_multipart_related_get_type ());
+	g_type_ensure (e_mail_parser_multipart_signed_get_type ());
+	g_type_ensure (e_mail_parser_text_enriched_get_type ());
+	g_type_ensure (e_mail_parser_text_html_get_type ());
+	g_type_ensure (e_mail_parser_text_plain_get_type ());
+#ifdef ENABLE_SMIME
+	g_type_ensure (e_mail_parser_application_smime_get_type ());
+#endif
+
 	class->extension_registry = g_object_new (
 		E_TYPE_MAIL_PARSER_EXTENSION_REGISTRY, NULL);
 
