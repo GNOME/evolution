@@ -91,7 +91,7 @@ struct _EMailFormatterHeader {
 struct _EMailFormatterContext {
 	EMailPartList *part_list;
 	EMailFormatterMode mode;
-	guint32 flags;
+	EMailFormatterHeaderFlags flags;
 
 	gchar *uri;
 };
@@ -134,14 +134,14 @@ EMailFormatter *
 void		e_mail_formatter_format_sync	(EMailFormatter *formatter,
 						 EMailPartList *parts_list,
 						 CamelStream *stream,
-						 guint32 flags,
+						 EMailFormatterHeaderFlags flags,
 						 EMailFormatterMode mode,
 						 GCancellable *cancellable);
 
 void		e_mail_formatter_format		(EMailFormatter *formatter,
 						 EMailPartList *parts_list,
 						 CamelStream *stream,
-						 guint32 flags,
+						 EMailFormatterHeaderFlags flags,
 						 EMailFormatterMode mode,
 						 GAsyncReadyCallback callback,
 						 GCancellable *cancellable,

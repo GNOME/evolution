@@ -83,7 +83,7 @@ static EMailFormatterContext *
 mail_formatter_create_context (EMailFormatter *formatter,
                                EMailPartList *part_list,
                                EMailFormatterMode mode,
-                               guint32 flags)
+                               EMailFormatterHeaderFlags flags)
 {
 	EMailFormatterClass *class;
 	EMailFormatterContext *context;
@@ -772,7 +772,7 @@ void
 e_mail_formatter_format_sync (EMailFormatter *formatter,
                               EMailPartList *parts,
                               CamelStream *stream,
-                              guint32 flags,
+                              EMailFormatterHeaderFlags flags,
                               EMailFormatterMode mode,
                               GCancellable *cancellable)
 {
@@ -815,7 +815,7 @@ void
 e_mail_formatter_format (EMailFormatter *formatter,
                          EMailPartList *parts,
                          CamelStream *stream,
-                         guint32 flags,
+                         EMailFormatterHeaderFlags flags,
                          EMailFormatterMode mode,
                          GAsyncReadyCallback callback,
                          GCancellable *cancellable,
