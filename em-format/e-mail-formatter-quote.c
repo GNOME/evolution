@@ -21,7 +21,6 @@
 #include <camel/camel.h>
 
 #include "e-mail-formatter-extension.h"
-#include "e-mail-format-extensions.h"
 #include "e-mail-part.h"
 #include "e-mail-part-attachment.h"
 #include "e-mail-part-utils.h"
@@ -30,14 +29,24 @@
 #include <gdk/gdk.h>
 #include <glib/gi18n.h>
 
+#define E_MAIL_FORMATTER_QUOTE_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_MAIL_FORMATTER_QUOTE, EMailFormatterQuotePrivate))
+
 struct _EMailFormatterQuotePrivate {
 	gchar *credits;
 	EMailFormatterQuoteFlags flags;
 };
 
-#define E_MAIL_FORMATTER_QUOTE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_FORMATTER_QUOTE, EMailFormatterQuotePrivate))
+/* internal formatter extensions */
+GType e_mail_formatter_quote_attachment_get_type (void);
+GType e_mail_formatter_quote_headers_get_type (void);
+GType e_mail_formatter_quote_message_rfc822_get_type (void);
+GType e_mail_formatter_quote_text_enriched_get_type (void);
+GType e_mail_formatter_quote_text_html_get_type (void);
+GType e_mail_formatter_quote_text_plain_get_type (void);
+
+void e_mail_formatter_quote_internal_extensions_load (EMailExtensionRegistry *ereg);
 
 static gpointer e_mail_formatter_quote_parent_class = 0;
 
@@ -153,6 +162,14 @@ e_mail_formatter_quote_finalize (GObject *object)
 static void
 e_mail_formatter_quote_base_init (EMailFormatterQuoteClass *class)
 {
+	/* Register internal extensions. */
+	g_type_ensure (e_mail_formatter_quote_attachment_get_type ());
+	g_type_ensure (e_mail_formatter_quote_headers_get_type ());
+	g_type_ensure (e_mail_formatter_quote_message_rfc822_get_type ());
+	g_type_ensure (e_mail_formatter_quote_text_enriched_get_type ());
+	g_type_ensure (e_mail_formatter_quote_text_html_get_type ());
+	g_type_ensure (e_mail_formatter_quote_text_plain_get_type ());
+
 	e_mail_formatter_quote_internal_extensions_load (
 		E_MAIL_EXTENSION_REGISTRY (
 			E_MAIL_FORMATTER_CLASS (class)->extension_registry));
