@@ -136,18 +136,11 @@ emfqe_message_rfc822_format (EMailFormatterExtension *extension,
 	return TRUE;
 }
 
-static const gchar *
-emfqe_message_rfc822_get_description (EMailFormatterExtension *extension)
-{
-	return NULL;
-}
-
 static void
 e_mail_formatter_quote_message_rfc822_class_init (EMailFormatterExtensionClass *class)
 {
 	class->mime_types = formatter_mime_types;
 	class->format = emfqe_message_rfc822_format;
-	class->get_description = emfqe_message_rfc822_get_description;
 }
 
 static void

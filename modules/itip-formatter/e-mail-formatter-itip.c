@@ -136,19 +136,13 @@ emfe_itip_format (EMailFormatterExtension *extension,
 	return TRUE;
 }
 
-static const gchar *
-emfe_itip_get_description (EMailFormatterExtension *extension)
-{
-	return _("Display part as an invitation");
-}
-
 static void
 e_mail_formatter_itip_class_init (EMailFormatterExtensionClass *class)
 {
 	class->display_name = _("ITIP");
+	class->description = _("Display part as an invitation");
 	class->mime_types = formatter_mime_types;
 	class->format = emfe_itip_format;
-	class->get_description = emfe_itip_get_description;
 }
 
 static void

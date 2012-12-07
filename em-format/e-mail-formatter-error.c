@@ -104,18 +104,11 @@ emfe_error_format (EMailFormatterExtension *extension,
 	return TRUE;
 }
 
-static const gchar *
-emfe_error_get_description (EMailFormatterExtension *extension)
-{
-	return NULL;
-}
-
 static void
 e_mail_formatter_error_class_init (EMailFormatterExtensionClass *class)
 {
 	class->mime_types = formatter_mime_types;
 	class->format = emfe_error_format;
-	class->get_description = emfe_error_get_description;
 }
 
 static void

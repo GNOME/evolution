@@ -194,19 +194,13 @@ emfe_vcard_inline_format (EMailFormatterExtension *extension,
 	return TRUE;
 }
 
-static const gchar *
-emfe_vcard_inline_get_description (EMailFormatterExtension *extension)
-{
-	return _("Display the part as an addressbook contact");
-}
-
 static void
 e_mail_formatter_vcard_inline_class_init (EMailFormatterExtensionClass *class)
 {
 	class->display_name = _("Addressbook Contact");
+	class->description = _("Display the part as an addressbook contact");
 	class->mime_types = formatter_mime_types;
 	class->format = emfe_vcard_inline_format;
-	class->get_description = emfe_vcard_inline_get_description;
 }
 
 static void

@@ -103,19 +103,13 @@ emqfe_text_plain_format (EMailFormatterExtension *extension,
 	return TRUE;
 }
 
-static const gchar *
-emqfe_text_plain_get_description (EMailFormatterExtension *extension)
-{
-	return _("Format part as plain text");
-}
-
 static void
 e_mail_formatter_quote_text_plain_class_init (EMailFormatterExtensionClass *class)
 {
 	class->display_name = _("Plain Text");
+	class->description = _("Format part as plain text");
 	class->mime_types = formatter_mime_types;
 	class->format = emqfe_text_plain_format;
-	class->get_description = emqfe_text_plain_get_description;
 }
 
 static void

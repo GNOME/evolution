@@ -138,24 +138,3 @@ e_mail_formatter_extension_get_widget (EMailFormatterExtension *extension,
 	return widget;
 }
 
-/**
- * e_mail_formatter_extension_get_description:
- * @extension: an #EMailFormatterExtension
- *
- * A virtual function reimplemented in all formatter extensions. It returns a
- * longer description of capabilities of the extension.
- *
- * Returns: A (localized) string with description of the extension.
- */
-const gchar *
-e_mail_formatter_extension_get_description (EMailFormatterExtension *extension)
-{
-	EMailFormatterExtensionClass *class;
-
-	g_return_val_if_fail (E_IS_MAIL_FORMATTER_EXTENSION (extension), NULL);
-
-	class = E_MAIL_FORMATTER_EXTENSION_GET_CLASS (extension);
-	g_return_val_if_fail (class->get_description != NULL, NULL);
-
-	return class->get_description (extension);
-}

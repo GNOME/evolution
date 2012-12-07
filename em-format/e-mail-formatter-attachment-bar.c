@@ -98,19 +98,12 @@ emfe_attachment_bar_get_widget (EMailFormatterExtension *extension,
 	return widget;
 }
 
-static const gchar *
-emfe_attachment_bar_get_description (EMailFormatterExtension *extension)
-{
-	return NULL;
-}
-
 static void
 e_mail_formatter_attachment_bar_class_init (EMailFormatterExtensionClass *class)
 {
 	class->mime_types = formatter_mime_types;
 	class->format = emfe_attachment_bar_format;
 	class->get_widget = emfe_attachment_bar_get_widget;
-	class->get_description = emfe_attachment_bar_get_description;
 }
 
 static void

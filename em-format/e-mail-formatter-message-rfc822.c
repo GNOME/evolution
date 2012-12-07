@@ -230,19 +230,13 @@ emfe_message_rfc822_format (EMailFormatterExtension *extension,
 	return TRUE;
 }
 
-static const gchar *
-emfe_message_rfc822_get_description (EMailFormatterExtension *extension)
-{
-	return _("Format part as an RFC822 message");
-}
-
 static void
 e_mail_formatter_message_rfc822_class_init (EMailFormatterExtensionClass *class)
 {
 	class->display_name = _("RFC822 message");
+	class->description = _("Format part as an RFC822 message");
 	class->mime_types = formatter_mime_types;
 	class->format = emfe_message_rfc822_format;
-	class->get_description = emfe_message_rfc822_get_description;
 }
 
 static void

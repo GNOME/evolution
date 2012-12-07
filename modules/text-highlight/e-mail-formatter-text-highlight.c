@@ -356,19 +356,13 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 	return TRUE;
 }
 
-static const gchar *
-emfe_text_highlight_get_description (EMailFormatterExtension *extension)
-{
-	return _("Syntax highlighting of mail parts");
-}
-
 static void
 e_mail_formatter_text_highlight_class_init (EMailFormatterExtensionClass *class)
 {
 	class->display_name = _("Text Highlight");
+	class->description = _("Syntax highlighting of mail parts");
 	class->mime_types = get_mime_types ();
 	class->format = emfe_text_highlight_format;
-	class->get_description = emfe_text_highlight_get_description;
 }
 
 static void

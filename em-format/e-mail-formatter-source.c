@@ -121,19 +121,13 @@ emfe_source_format (EMailFormatterExtension *extension,
 	return TRUE;
 }
 
-static const gchar *
-emfe_source_get_description (EMailFormatterExtension *extension)
-{
-	return _("Display source of a MIME part");
-}
-
 static void
 e_mail_formatter_source_class_init (EMailFormatterExtensionClass *class)
 {
 	class->display_name = _("Source");
+	class->description = _("Display source of a MIME part");
 	class->mime_types = formatter_mime_types;
 	class->format = emfe_source_format;
-	class->get_description = emfe_source_get_description;
 }
 
 static void

@@ -139,19 +139,13 @@ emfe_image_format (EMailFormatterExtension *extension,
 	return TRUE;
 }
 
-static const gchar *
-emfe_image_get_description (EMailFormatterExtension *extension)
-{
-	return _("Display part as an image");
-}
-
 static void
 e_mail_formatter_image_class_init (EMailFormatterExtensionClass *class)
 {
 	class->display_name = _("Regular Image");
+	class->description = _("Display part as an image");
 	class->mime_types = formatter_mime_types;
 	class->format = emfe_image_format;
-	class->get_description = emfe_image_get_description;
 }
 
 static void

@@ -362,20 +362,14 @@ emfe_attachment_get_widget (EMailFormatterExtension *extension,
 	return widget;
 }
 
-static const gchar *
-emfe_attachment_get_description (EMailFormatterExtension *extension)
-{
-	return _("Display as attachment");
-}
-
 static void
 e_mail_formatter_attachment_class_init (EMailFormatterExtensionClass *class)
 {
 	class->display_name = _("Attachment");
+	class->description =  _("Display as attachment");
 	class->mime_types = formatter_mime_types;
 	class->format = emfe_attachment_format;
 	class->get_widget = emfe_attachment_get_widget;
-	class->get_description = emfe_attachment_get_description;
 }
 
 static void

@@ -232,18 +232,11 @@ emqfe_headers_format (EMailFormatterExtension *extension,
 	return TRUE;
 }
 
-static const gchar *
-emqfe_headers_get_description (EMailFormatterExtension *extension)
-{
-	return NULL;
-}
-
 static void
 e_mail_formatter_quote_headers_class_init (EMailFormatterExtensionClass *class)
 {
 	class->mime_types = formatter_mime_types;
 	class->format = emqfe_headers_format;
-	class->get_description = emqfe_headers_get_description;
 }
 
 static void

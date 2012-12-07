@@ -311,20 +311,14 @@ emfe_audio_inline_get_widget (EMailFormatterExtension *extension,
 	return box;
 }
 
-static const gchar *
-emfe_audio_inline_get_description (EMailFormatterExtension *extension)
-{
-	return _("Play the attachment in embedded audio player");
-}
-
 static void
 e_mail_formatter_audio_inline_class_init (EMailFormatterExtensionClass *class)
 {
 	class->display_name = _("Audio Player");
+	class->description = _("Play the attachment in embedded audio player");
 	class->mime_types = formatter_mime_types;
 	class->format = emfe_audio_inline_format;
 	class->get_widget = emfe_audio_inline_get_widget;
-	class->get_description = emfe_audio_inline_get_description;
 }
 
 static void

@@ -107,18 +107,11 @@ emfqe_attachment_format (EMailFormatterExtension *extension,
 	return TRUE;
 }
 
-static const gchar *
-emfqe_attachment_get_description (EMailFormatterExtension *extension)
-{
-	return NULL;
-}
-
 static void
 e_mail_formatter_quote_attachment_class_init (EMailFormatterExtensionClass *class)
 {
 	class->mime_types = formatter_mime_types;
 	class->format = emfqe_attachment_format;
-	class->get_description = emfqe_attachment_get_description;
 }
 
 static void

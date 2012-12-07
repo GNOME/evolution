@@ -84,19 +84,13 @@ emqfe_text_html_format (EMailFormatterExtension *extension,
 	return TRUE;
 }
 
-static const gchar *
-emqfe_text_html_get_description (EMailFormatterExtension *extension)
-{
-	return _("Format part as HTML");
-}
-
 static void
 e_mail_formatter_quote_text_html_class_init (EMailFormatterExtensionClass *class)
 {
 	class->display_name = _("HTML");
+	class->description = _("Format part as HTML");
 	class->mime_types = formatter_mime_types;
 	class->format = emqfe_text_html_format;
-	class->get_description = emqfe_text_html_get_description;
 }
 
 static void
