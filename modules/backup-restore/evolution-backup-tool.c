@@ -348,7 +348,7 @@ backup (const gchar *filename,
 	/* FIXME backup location?" */
 	command = g_strdup_printf (
 		"cd $HOME && tar chf - $STRIPDATADIR "
-		"$STRIPCONFIGDIR .camel_certs " EVOLUTION_DIR_FILE " | "
+		"$STRIPCONFIGDIR " EVOLUTION_DIR_FILE " | "
 		"gzip > %s", quotedfname);
 	run_cmd (command);
 	g_free (command);
@@ -517,7 +517,6 @@ restore (const gchar *filename,
 	txt = _("Back up current Evolution data");
 	run_cmd ("mv $DATADIR $DATADIR_old");
 	run_cmd ("mv $CONFIGDIR $CONFIGDIR_old");
-	run_cmd ("mv $HOME/.camel_certs $HOME/.camel_certs_old");
 
 	if (g_cancellable_is_cancelled (cancellable))
 		return;
@@ -573,11 +572,6 @@ restore (const gchar *filename,
 		command = g_strdup_printf (
 			"cd $CONFIGDIR && tar xzf %s %s --strip-components=%d",
 			quotedfname, config_dir, get_dir_level (config_dir));
-		run_cmd (command);
-		g_free (command);
-
-		command = g_strdup_printf (
-			"cd $HOME && tar xzf %s .camel_certs", quotedfname);
 		run_cmd (command);
 		g_free (command);
 
@@ -678,7 +672,6 @@ restore (const gchar *filename,
 	txt = _("Removing temporary back up files");
 	run_cmd ("rm -rf $DATADIR_old");
 	run_cmd ("rm -rf $CONFIGDIR_old");
-	run_cmd ("rm -rf $HOME/.camel_certs_old");
 	run_cmd ("rm $DATADIR/.running");
 
 	if (!is_new_format)
