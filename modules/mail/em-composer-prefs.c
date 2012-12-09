@@ -1138,9 +1138,6 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	view = GTK_TREE_VIEW (widget);
 	store = gtk_list_store_new (
 		3, G_TYPE_BOOLEAN, G_TYPE_STRING, G_TYPE_POINTER);
-	g_signal_connect_swapped (
-		store, "row-changed",
-		G_CALLBACK (spell_language_save), prefs);
 	prefs->language_model = GTK_TREE_MODEL (store);
 	gtk_tree_view_set_model (view, prefs->language_model);
 	renderer = gtk_cell_renderer_toggle_new ();
@@ -1163,6 +1160,11 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 		"dialog-information", GTK_ICON_SIZE_BUTTON);
 
 	spell_setup (prefs);
+
+	g_signal_connect_swapped (
+		store, "row-changed",
+		G_CALLBACK (spell_language_save), prefs);
+
 
 	/* Forwards and Replies */
 	widget = e_builder_get_widget (prefs->builder, "comboboxForwardStyle");
