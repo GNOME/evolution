@@ -840,8 +840,6 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 	g_string_append (html_buffer, "</SPAN>");
 	g_free (contents);
 
-	g_message ("Inserting signature: %s", html_buffer->str);
-
 insert:
 	/* Remove the old signature and insert the new one. */
 	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
