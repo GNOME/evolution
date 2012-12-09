@@ -1254,6 +1254,9 @@ e_editor_widget_set_html_mode (EEditorWidget *widget,
 
 	widget->priv->html_mode = html_mode;
 
+	/* Update fonts - in plain text we only want monospace */
+	e_editor_widget_update_fonts (widget);
+
 	if (widget->priv->html_mode) {
 		gchar *plain_text, *html;
 
@@ -1282,7 +1285,7 @@ e_editor_widget_set_html_mode (EEditorWidget *widget,
 
 		g_free (plain);
 	}
-
+	
 	g_object_notify (G_OBJECT (widget), "html-mode");
 }
 
@@ -1674,35 +1677,25 @@ e_editor_widget_update_fonts (EEditorWidget *widget)
 	GtkStyleContext *context;
 	GdkColor *link = NULL;
 	GdkColor *visited = NULL;
+	gchar *font;
 
-	ms = NULL;
-	vw = NULL;
+	font = g_settings_get_string (
+		widget->priv->font_settings,
+		"monospace-font-name");
+	ms = pango_font_description_from_string (
+		font ? font : "monospace 10");
+	g_free (font);
 
-
-	if (ms == NULL) {
-		gchar *font;
-
-		font = g_settings_get_string (
-				widget->priv->font_settings,
-				"monospace-font-name");
-
-		ms = pango_font_description_from_string (
-				font ? font : "monospace 10");
-
-		g_free (font);
-	}
-
-	if (vw == NULL) {
-		gchar *font;
-
+	if (widget->priv->html_mode) {
 		font = g_settings_get_string (
 				widget->priv->font_settings,
 				"font-name");
-
 		vw = pango_font_description_from_string (
 				font ? font : "serif 10");
-
 		g_free (font);
+	} else {
+		/* When in plain text mode, force monospace font */
+		vw = pango_font_description_copy (ms);
 	}
 
 	if (pango_font_description_get_size (ms) < pango_font_description_get_size (vw)) {
