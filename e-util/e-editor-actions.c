@@ -1699,8 +1699,6 @@ editor_actions_setup_languages_menu (EEditor *editor)
 			e_spell_dictionary_get_code (dictionary),
 			e_spell_dictionary_get_code (dictionary),
 			GTK_UI_MANAGER_AUTO, FALSE);
-
-		g_object_unref (dictionary);
 	}
 
 	g_list_free (available_dicts);
@@ -1776,7 +1774,6 @@ editor_actions_setup_spell_check_menu (EEditor *editor)
 			action_name, action_name,
 			GTK_UI_MANAGER_AUTO, FALSE);
 
-		g_object_unref (dictionary);
 		g_free (action_label);
 		g_free (action_name);
 	}
@@ -1821,7 +1818,7 @@ editor_actions_init (EEditor *editor)
 		G_N_ELEMENTS (core_style_entries),
 		E_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH,
 		NULL, NULL);
-	gtk_ui_manager_insert_action_group (manager, action_group, 0);\
+	gtk_ui_manager_insert_action_group (manager, action_group, 0);
 
 	action = gtk_action_group_get_action (action_group, "mode-html");
 	g_object_bind_property (

@@ -38,9 +38,12 @@ G_DEFINE_TYPE_EXTENDED (
 		WEBKIT_TYPE_SPELL_CHECKER,
 		e_spell_checker_init_webkit_checker))
 
+
+static ESpellChecker *s_instance = NULL;
+
 struct _ESpellCheckerPrivate {
 	GList *active;
-
+	GHashTable *dictionaries_cache;
 	EnchantBroker *broker;
 };
 
@@ -248,7 +251,7 @@ wksc_update_languages (WebKitSpellChecker *webkit_checker,
 	}
 
 	e_spell_checker_set_active_dictionaries (checker, dictionaries);
-	g_list_free_full (dictionaries, g_object_unref);
+	g_list_free (dictionaries);
 }
 
 
@@ -344,19 +347,18 @@ e_spell_checker_init (ESpellChecker *checker)
 		checker, E_TYPE_SPELL_CHECKER, ESpellCheckerPrivate);
 
 	checker->priv->broker = enchant_broker_init ();
+	checker->priv->dictionaries_cache = NULL;
 }
 
 ESpellChecker *
-e_spell_checker_new (void)
+e_spell_checker_instance (void)
 {
-	return g_object_new (E_TYPE_SPELL_CHECKER, NULL);
+	if (s_instance == NULL) {
+		s_instance = g_object_new (E_TYPE_SPELL_CHECKER, NULL);
+	}
+
+	return s_instance;
 }
-
-
-typedef struct  {
-	ESpellChecker *checker;
-	GList *dicts;
-} ListAvailDictsData;
 
 static void
 list_enchant_dicts (const char * const lang_tag,
@@ -365,16 +367,18 @@ list_enchant_dicts (const char * const lang_tag,
 		    const char * const provider_file,
 		    void * user_data)
 {
-	ListAvailDictsData *data = user_data;
+	ESpellChecker *checker = user_data;
 	EnchantDict *dict;
 
-	dict = enchant_broker_request_dict (data->checker->priv->broker, lang_tag);
+	dict = enchant_broker_request_dict (checker->priv->broker, lang_tag);
 	if (dict) {
 		ESpellDictionary *e_dict;
 
-		e_dict = e_spell_dictionary_new (data->checker, dict);
+		e_dict = e_spell_dictionary_new (checker, dict);
 
-		data->dicts = g_list_prepend (data->dicts, e_dict);
+		g_hash_table_insert (
+			checker->priv->dictionaries_cache,
+			(gpointer) e_spell_dictionary_get_code (e_dict), e_dict);
 	}
 }
 
@@ -386,24 +390,24 @@ list_enchant_dicts (const char * const lang_tag,
  * Returns list of all dictionaries available to the actual
  * spell-checking backend.
  *
- * Return value: a #GList of #ESpellDictionary. Free the list using g_list_free()
- * 		when not needed anymore.
+ * Return value: new copy of #GList of #ESpellDictionary. The dictionaries are
+ * owned by the @checker and should not be free'd. The list should be free'd
+ * using g_list_free() when not neede anymore. [transfer-list]
  */
 GList *
 e_spell_checker_list_available_dicts (ESpellChecker *checker)
 {
-	ESpellChecker *e_checker;
-	ListAvailDictsData data = { 0 };
-
 	g_return_val_if_fail (E_IS_SPELL_CHECKER (checker), NULL);
 
-	e_checker = E_SPELL_CHECKER (checker);
+	if (checker->priv->dictionaries_cache == NULL) {
 
-	data.checker = e_checker;
-	enchant_broker_list_dicts (
-		e_checker->priv->broker, list_enchant_dicts, &data);
+		checker->priv->dictionaries_cache = g_hash_table_new_full (
+			g_str_hash, g_str_equal, NULL, g_object_unref);
+		enchant_broker_list_dicts (
+			checker->priv->broker, list_enchant_dicts, checker);
+	}
 
-	return g_list_reverse (data.dicts);
+	return g_hash_table_get_values (checker->priv->dictionaries_cache);
 }
 
 /**
@@ -420,32 +424,29 @@ ESpellDictionary *
 e_spell_checker_lookup_dictionary (ESpellChecker *checker,
 				   const gchar *language_code)
 {
-	ESpellChecker *e_checker;
-	ESpellDictionary *e_dict;
+	ESpellDictionary *e_dict = NULL;
+	GList *dicts;
 
 	g_return_val_if_fail (E_IS_SPELL_CHECKER (checker), NULL);
 
-	e_checker = E_SPELL_CHECKER (checker);
-
-	e_dict = NULL;
+	/* If the cache has not yet been initialized, do so - we will need
+	 * it anyway, Otherwise is this call very cheap */
+	dicts = e_spell_checker_list_available_dicts (checker);
 
 	if (!language_code) {
-		GList *dicts = e_spell_checker_list_available_dicts (checker);
-
 		if (dicts) {
 			e_dict = g_object_ref (dicts->data);
-			g_list_free_full (dicts, g_object_unref);
 		}
 	} else {
-		EnchantDict *dict;
-		dict = enchant_broker_request_dict (
-			e_checker->priv->broker, language_code);
-		if (dict) {
-			e_dict = e_spell_dictionary_new (checker, dict);
+		e_dict = g_hash_table_lookup (
+			checker->priv->dictionaries_cache, language_code);
+		if (e_dict) {
+			g_object_ref (e_dict);
 		}
 	}
 
-	return e_dict;
+	g_list_free (dicts);
+	return NULL;
 }
 
 /**

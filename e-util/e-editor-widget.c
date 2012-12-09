@@ -1671,7 +1671,7 @@ e_editor_widget_update_fonts (EEditorWidget *widget)
 	gchar *base64;
 	gchar *aa = NULL;
 	WebKitWebSettings *settings;
-	PangoFontDescription *min_size, *ms, *vw;
+	PangoFontDescription *ms, *vw;
 	const gchar *styles[] = { "normal", "oblique", "italic" };
 	const gchar *smoothing = NULL;
 	GtkStyleContext *context;
@@ -1696,12 +1696,6 @@ e_editor_widget_update_fonts (EEditorWidget *widget)
 	} else {
 		/* When in plain text mode, force monospace font */
 		vw = pango_font_description_copy (ms);
-	}
-
-	if (pango_font_description_get_size (ms) < pango_font_description_get_size (vw)) {
-		min_size = ms;
-	} else {
-		min_size = vw;
 	}
 
 	stylesheet = g_string_new ("");
@@ -1791,7 +1785,6 @@ e_editor_widget_update_fonts (EEditorWidget *widget)
 		"default-font-family", pango_font_description_get_family (vw),
 		"monospace-font-family", pango_font_description_get_family (ms),
 		"default-monospace-font-size", (pango_font_description_get_size (ms) / PANGO_SCALE),
-		"minimum-font-size", (pango_font_description_get_size (min_size) / PANGO_SCALE),
 		"user-stylesheet-uri", stylesheet->str,
 		NULL);
 
