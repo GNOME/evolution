@@ -1769,6 +1769,16 @@ e_editor_widget_update_fonts (EEditorWidget *widget)
 		e_color_to_value (link),
 		e_color_to_value (visited));
 
+	/* See bug #689777 for details */
+	g_string_append_printf (stylesheet,
+		"p,pre,code,address {\n"
+		"  margin: 0;\n"
+		"}\n"
+		"h1,h2,h3,h4,h5,h6 {\n"
+		"  margin-top: 0.2em;\n"
+		"  margin-bottom: 0.2em;\n"
+		"}\n");
+
 	gdk_color_free (link);
 	gdk_color_free (visited);
 
