@@ -446,7 +446,7 @@ e_spell_checker_lookup_dictionary (ESpellChecker *checker,
 	}
 
 	g_list_free (dicts);
-	return NULL;
+	return e_dict;
 }
 
 /**
