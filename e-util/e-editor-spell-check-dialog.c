@@ -57,7 +57,7 @@ struct _EEditorSpellCheckDialogPrivate {
 	WebKitDOMDOMSelection *selection;
 
 	gchar *word;
-	EnchantDict *current_dict;
+	ESpellDictionary *current_dict;
 };
 
 static void
@@ -68,8 +68,7 @@ editor_spell_check_dialog_set_word (EEditorSpellCheckDialog *dialog,
 	EEditorWidget *editor_widget;
 	GtkListStore *store;
 	gchar *markup;
-	gchar **suggestions;
-	gint ii;
+	GList *suggestions, *iter;
 
 	if (word == NULL) {
 		return;
@@ -90,17 +89,17 @@ editor_spell_check_dialog_set_word (EEditorSpellCheckDialog *dialog,
 				GTK_TREE_VIEW (dialog->priv->tree_view)));
 	gtk_list_store_clear (store);
 
-	suggestions = enchant_dict_suggest (
-			dialog->priv->current_dict, word, -1, NULL);
-	for (ii = 0; suggestions && suggestions[ii]; ii++) {
-		GtkTreeIter iter;
-		gchar *suggestion = suggestions[ii];
+	suggestions = e_spell_dictionary_get_suggestions (
+			dialog->priv->current_dict, word, -1);
+	for (iter = suggestions; iter; iter = g_list_next (iter)) {
+		GtkTreeIter tree_iter;
+		gchar *suggestion = iter->data;
 
-		gtk_list_store_append (store, &iter);
-		gtk_list_store_set (store, &iter, 0, suggestion, -1);
+		gtk_list_store_append (store, &tree_iter);
+		gtk_list_store_set (store, &tree_iter, 0, suggestion, -1);
 	}
 
-	g_strfreev (suggestions);
+	e_spell_dictionary_free_suggestions (suggestions);
 
 	/* We give focus to WebKit so that the currently selected word
 	 * is highlited. Without focus selection is not visible (at
@@ -360,7 +359,7 @@ editor_spell_check_dialog_ignore (EEditorSpellCheckDialog *dialog)
 		return;
 	}
 
-	enchant_dict_add_to_session (
+	e_spell_dictionary_ignore_word (
 		dialog->priv->current_dict, dialog->priv->word, -1);
 
 	editor_spell_check_dialog_next (dialog);
@@ -373,7 +372,7 @@ editor_spell_check_dialog_learn (EEditorSpellCheckDialog *dialog)
 		return;
 	}
 
-	enchant_dict_add_to_personal (
+	e_spell_dictionary_learn_word (
 		dialog->priv->current_dict, dialog->priv->word, -1);
 
 	editor_spell_check_dialog_next (dialog);
@@ -384,7 +383,7 @@ editor_spell_check_dialog_set_dictionary (EEditorSpellCheckDialog *dialog)
 {
 	GtkTreeModel *model;
 	GtkTreeIter iter;
-	EnchantDict *dictionary;
+	ESpellDictionary *dictionary;
 
 	gtk_combo_box_get_active_iter (
 			GTK_COMBO_BOX (dialog->priv->dictionary_combo), &iter);

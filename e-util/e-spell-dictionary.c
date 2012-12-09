@@ -579,7 +579,7 @@ e_spell_dictionary_get_suggestions (ESpellDictionary *dictionary,
 
 	s = enchant_dict_suggest (dictionary->priv->dict, word, len, &cnt);
 	list = NULL;
-	for (ii = 0; ii < len; ii++) {
+	for (ii = 0; ii < cnt; ii++) {
 		list = g_list_prepend (list, g_strdup (s[ii]));
 	}
 	enchant_dict_free_suggestions (dictionary->priv->dict, s);
