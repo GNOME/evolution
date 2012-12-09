@@ -1169,6 +1169,7 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 		store, "row-changed",
 		G_CALLBACK (spell_language_save), prefs);
 
+
 	/* Forwards and Replies */
 	widget = e_builder_get_widget (prefs->builder, "comboboxForwardStyle");
 	g_settings_bind (
