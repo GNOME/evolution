@@ -60,7 +60,7 @@ struct _ESpellCheckerClass {
 
 GType			e_spell_checker_get_type	(void);
 
-ESpellChecker *		e_spell_checker_new		(void);
+ESpellChecker *		e_spell_checker_instance	(void);
 
 GList *			e_spell_checker_list_available_dicts
 							(ESpellChecker *checker);
