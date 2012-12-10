@@ -747,9 +747,18 @@ mail_send_message (struct _send_queue_msg *m,
 				goto exit;
 
 			/* sending mail, filtering failed */
-			g_string_append_printf (
-				err, _("Failed to apply outgoing filters: %s"),
-				local_error->message);
+			if (g_error_matches (local_error, CAMEL_SERVICE_ERROR, CAMEL_SERVICE_ERROR_URL_INVALID) ||
+			    g_error_matches (local_error, CAMEL_FOLDER_ERROR, CAMEL_FOLDER_ERROR_INVALID)) {
+				g_string_append_printf (err,
+					_("Failed to apply outgoing filters. One reason can be that folder "
+					"location set in one or more filters is invalid. Please check your "
+					"filters in Edit->Message Filters.\n"
+					"Original error was: %s"), local_error->message);
+			} else {
+				g_string_append_printf (
+					err, _("Failed to apply outgoing filters: %s"),
+					local_error->message);
+			}
 
 			g_clear_error (&local_error);
 		}
