@@ -514,8 +514,15 @@ mdn_message_loaded_cb (EMailReader *reader,
 	if (notify_to == NULL)
 		goto exit;
 
+	/* do not show the notice in special folders */
+	if (em_utils_folder_is_drafts (registry, folder) ||
+	    em_utils_folder_is_templates (registry, folder) ||
+	    em_utils_folder_is_sent (registry, folder) ||
+	    em_utils_folder_is_outbox (registry, folder))
+		goto exit;
+
 	/* This returns a new ESource reference. */
-	source = em_utils_guess_mail_account_with_recipients (
+	source = em_utils_guess_mail_identity_with_recipients (
 		registry, message, folder, message_uid);
 	if (source == NULL)
 		goto exit;
@@ -605,7 +612,7 @@ mdn_message_seen_cb (EMailReader *reader,
 		goto exit;
 
 	/* This returns a new ESource reference. */
-	source = em_utils_guess_mail_account_with_recipients (
+	source = em_utils_guess_mail_identity_with_recipients (
 		registry, message, folder, message_uid);
 	if (source == NULL)
 		goto exit;
