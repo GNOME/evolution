@@ -22,9 +22,7 @@
 
 #include <libebackend/libebackend.h>
 
-#include <libevolution-utils/e-alert-dialog.h>
-#include <misc/e-book-source-config.h>
-#include <misc/e-source-config-backend.h>
+#include <e-util/e-util.h>
 
 #include "e-source-ldap.h"
 

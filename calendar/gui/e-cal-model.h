@@ -28,8 +28,8 @@
 
 #include <libecal/libecal.h>
 
-#include <e-util/e-util-enums.h>
-#include <table/e-table-model.h>
+#include <e-util/e-util.h>
+
 #include "e-cell-date-edit-text.h"
 
 /* Standard GObject macros */

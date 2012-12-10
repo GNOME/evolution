@@ -36,17 +36,12 @@
 #include <gtk/gtk.h>
 
 #include <libecal/libecal.h>
-#include <libedataserverui/libedataserverui.h>
 #include <libical/icalvcal.h>
 
-#include "evolution-calendar-importer.h"
 #include "shell/e-shell.h"
-#include "gui/calendar-config-keys.h"
 
-#include "e-util/e-import.h"
-#include "e-util/e-util-private.h"
-#include "e-util/e-datetime-format.h"
-#include "misc/e-web-view-preview.h"
+#include "evolution-calendar-importer.h"
+#include "gui/calendar-config-keys.h"
 
 /* We timeout after 2 minutes, when opening the folders. */
 #define IMPORTER_TIMEOUT_SECONDS 120

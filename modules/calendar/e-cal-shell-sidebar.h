@@ -23,11 +23,9 @@
 #define E_CAL_SHELL_SIDEBAR_H
 
 #include <libecal/libecal.h>
-#include <libedataserverui/libedataserverui.h>
 
 #include <shell/e-shell-sidebar.h>
 #include <shell/e-shell-view.h>
-#include <misc/e-calendar.h>
 
 /* Standard GObject macros */
 #define E_TYPE_CAL_SHELL_SIDEBAR \

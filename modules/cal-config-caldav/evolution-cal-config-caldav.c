@@ -21,9 +21,7 @@
 
 #include <libebackend/libebackend.h>
 
-#include <misc/e-cal-source-config.h>
-#include <misc/e-interval-chooser.h>
-#include <misc/e-source-config-backend.h>
+#include <e-util/e-util.h>
 
 #include "e-caldav-chooser.h"
 #include "e-caldav-chooser-dialog.h"

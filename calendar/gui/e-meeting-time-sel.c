@@ -36,13 +36,6 @@
 #include <libebackend/libebackend.h>
 #include <libgnomecanvas/libgnomecanvas.h>
 
-#include "misc/e-canvas.h"
-#include "misc/e-canvas-utils.h"
-#include "misc/e-dateedit.h"
-
-#include "e-util/e-util.h"
-#include "e-util/e-datetime-format.h"
-
 #include "e-meeting-utils.h"
 #include "e-meeting-list-view.h"
 #include "e-meeting-time-sel-item.h"

@@ -25,9 +25,6 @@
 
 #include "e-mail-shell-view-private.h"
 
-#include "widgets/menus/gal-view-factory-etable.h"
-#include "widgets/misc/e-menu-tool-button.h"
-
 #include "e-util/e-util-private.h"
 
 typedef struct _AsyncContext AsyncContext;

@@ -25,10 +25,7 @@
 
 #include <libebook/libebook.h>
 
-#include <menus/gal-view-instance.h>
-#include <misc/e-selection-model.h>
 #include <shell/e-shell-view.h>
-#include <filter/e-filter-rule.h>
 
 #include "e-addressbook-model.h"
 #include "eab-contact-display.h"

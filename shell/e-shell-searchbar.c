@@ -34,9 +34,6 @@
 #include <glib/gi18n-lib.h>
 #include <libebackend/libebackend.h>
 
-#include "e-util/e-util.h"
-#include "widgets/misc/e-action-combo-box.h"
-
 #include "e-shell-window-actions.h"
 
 #define E_SHELL_SEARCHBAR_GET_PRIVATE(obj) \

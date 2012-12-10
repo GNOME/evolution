@@ -29,7 +29,6 @@
 #include <gdk/gdkkeysyms.h>
 
 #include "e-text-event-processor-emacs-like.h"
-#include "e-util.h"
 
 static gint	e_text_event_processor_emacs_like_event
 					(ETextEventProcessor *tep,

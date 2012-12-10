@@ -3,10 +3,11 @@ module_LTLIBRARIES = module-cal-config-contacts.la
 module_cal_config_contacts_la_CPPFLAGS = \
 	$(AM_CPPFLAGS)						\
 	-I$(top_srcdir)						\
-	-I$(top_srcdir)/widgets					\
 	-DG_LOG_DOMAIN=\"evolution-cal-config-contacts\"	\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
-	$(GNOME_PLATFORM_CFLAGS)
+	$(GNOME_PLATFORM_CFLAGS)				\
+	$(CHAMPLAIN_CFLAGS)					\
+	$(GTKHTML_CFLAGS)
 
 module_cal_config_contacts_la_SOURCES = \
 	evolution-cal-config-contacts.c				\
@@ -17,9 +18,10 @@ module_cal_config_contacts_la_SOURCES = \
 
 module_cal_config_contacts_la_LIBADD = \
 	$(top_builddir)/e-util/libeutil.la			\
-	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
-	$(GNOME_PLATFORM_LIBS)
+	$(GNOME_PLATFORM_LIBS)					\
+	$(CHAMPLAIN_LIBS)					\
+	$(GTKHTML_LIBS)
 
 module_cal_config_contacts_la_LDFLAGS = \
 	-module -avoid-version $(NO_UNDEFINED)

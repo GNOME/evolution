@@ -22,7 +22,7 @@
 
 #include "e-book-config-name-selector-entry.h"
 
-#include <libedataserverui/libedataserverui.h>
+#include <e-util/e-util.h>
 
 #define E_BOOK_CONFIG_NAME_SELECTOR_ENTRY_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

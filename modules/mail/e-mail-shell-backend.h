@@ -22,9 +22,8 @@
 #ifndef E_MAIL_SHELL_BACKEND_H
 #define E_MAIL_SHELL_BACKEND_H
 
+#include <e-util/e-util.h>
 #include <mail/e-mail-backend.h>
-#include <filter/e-filter-element.h>
-#include <filter/e-filter-rule.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_SHELL_BACKEND \

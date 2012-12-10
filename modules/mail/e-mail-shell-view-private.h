@@ -28,11 +28,6 @@
 #include <gtkhtml/gtkhtml.h>
 #include <camel/camel-search-private.h>  /* for camel_search_word */
 
-#include <e-util/e-util.h>
-#include <e-util/e-ui-manager.h>
-
-#include <filter/e-filter-part.h>
-
 #include <libemail-engine/e-mail-folder-utils.h>
 #include <libemail-engine/e-mail-session.h>
 #include <libemail-engine/e-mail-session-utils.h>
@@ -40,10 +35,6 @@
 #include <libemail-engine/mail-folder-cache.h>
 #include <libemail-engine/mail-ops.h>
 #include <libemail-engine/mail-tools.h>
-
-#include <misc/e-web-view.h>
-#include <misc/e-popup-action.h>
-#include <menus/gal-view-instance.h>
 
 #include <mail/e-mail-label-action.h>
 #include <mail/e-mail-label-dialog.h>

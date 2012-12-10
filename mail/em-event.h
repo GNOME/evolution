@@ -24,8 +24,7 @@
 #ifndef EM_EVENT_H
 #define EM_EVENT_H
 
-#include "e-util/e-event.h"
-#include "composer/e-msg-composer.h"
+#include <composer/e-msg-composer.h>
 
 /* Standard GObject macros */
 #define EM_TYPE_EVENT \

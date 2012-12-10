@@ -21,6 +21,10 @@
  *
  */
 
+#if !defined (__E_UTIL_H_INSIDE__) && !defined (LIBEUTIL_COMPILATION)
+#error "Only <e-util/e-util.h> should be included directly."
+#endif
+
 #ifndef E_IMPORT_H
 #define E_IMPORT_H
 
@@ -244,7 +248,7 @@ EImportTargetHome *
 /* To implement a basic import plugin, you just need to subclass
  * this and initialise the class target type tables */
 
-#include "e-util/e-plugin.h"
+#include <e-util/e-plugin.h>
 
 /* Standard GObject macros */
 #define E_TYPE_IMPORT_HOOK \

@@ -25,13 +25,11 @@
 #include <string.h>
 #include <glib/gi18n-lib.h>
 
-#include <libemail-utils/mail-mt.h>
-#include <libemail-engine/mail-tools.h>
-#include <libemail-engine/mail-ops.h>
+#include "libemail-engine/mail-mt.h"
+#include "libemail-engine/mail-tools.h"
+#include "libemail-engine/mail-ops.h"
 
-#include <e-util/e-dialog-utils.h>
-#include <e-util/e-util.h>
-#include <e-util/e-util-private.h>
+#include "e-util/e-util.h"
 
 #include "em-folder-utils.h"
 

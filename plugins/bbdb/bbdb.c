@@ -28,9 +28,6 @@
 #include <glib/gi18n.h>
 #include <string.h>
 
-#include <libedataserverui/libedataserverui.h>
-
-#include <e-util/e-config.h>
 #include <addressbook/gui/widgets/eab-config.h>
 #include <mail/em-event.h>
 #include <composer/e-msg-composer.h>

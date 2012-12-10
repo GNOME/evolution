@@ -28,7 +28,6 @@
 #include <string.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <e-util/e-plugin-ui.h>
 
 #include <libemail-engine/e-mail-folder-utils.h>
 

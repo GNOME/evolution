@@ -30,12 +30,12 @@
 
 #include <libebackend/libebackend.h>
 
-#include <mail/e-mail-config-assistant.h>
-#include <libevolution-utils/e-alert-dialog.h>
 #include <e-util/e-util.h>
-#include <e-util/e-dialog-utils.h>
+
 #include <shell/e-shell-utils.h>
 #include <shell/e-shell-window.h>
+
+#include <mail/e-mail-config-assistant.h>
 
 #include "e-mail-config-restore-page.h"
 #include "e-mail-config-restore-ready-page.h"

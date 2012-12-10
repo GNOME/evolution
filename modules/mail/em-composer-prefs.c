@@ -38,15 +38,9 @@
 #include <gtkhtml/gtkhtml.h>
 #include <editor/gtkhtml-spell-language.h>
 
-#include <e-util/e-util.h>
-#include <e-util/e-util-private.h>
-
 #include <composer/e-msg-composer.h>
 
 #include <shell/e-shell-utils.h>
-
-#include <misc/e-charset-combo-box.h>
-#include <misc/e-mail-signature-manager.h>
 
 #include <mail/em-config.h>
 #include <mail/em-folder-selection-button.h>

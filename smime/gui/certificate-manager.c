@@ -46,10 +46,6 @@
 #include <pk11func.h>
 
 #include "shell/e-shell.h"
-#include "e-util/e-dialog-utils.h"
-#include "e-util/e-util.h"
-#include "e-util/e-util-private.h"
-#include "widgets/misc/e-preferences-window.h"
 
 #define E_CERT_MANAGER_CONFIG_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

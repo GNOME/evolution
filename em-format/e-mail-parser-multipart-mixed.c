@@ -20,14 +20,12 @@
 #include <config.h>
 #endif
 
-#include <em-format/e-mail-parser-extension.h>
-#include <em-format/e-mail-parser.h>
-#include <e-util/e-util.h>
-#include <em-format/e-mail-part-utils.h>
-
-#include <camel/camel.h>
-
 #include <string.h>
+
+#include <e-util/e-util.h>
+
+#include "e-mail-parser-extension.h"
+#include "e-mail-part-utils.h"
 
 typedef EMailParserExtension EMailParserMultipartMixed;
 typedef EMailParserExtensionClass EMailParserMultipartMixedClass;

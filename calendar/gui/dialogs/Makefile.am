@@ -4,18 +4,18 @@ libcal_dialogs_la_CPPFLAGS = 						\
 	$(AM_CPPFLAGS)							\
 	-DG_LOG_DOMAIN=\"calendar-gui\"					\
 	-I$(top_srcdir)							\
-	-I$(top_srcdir)/widgets						\
 	-I$(top_builddir)						\
 	-I$(top_srcdir)/calendar					\
 	-I$(top_builddir)/shell						\
 	-I$(top_srcdir)/shell						\
-	-I$(top_srcdir)/widgets/misc					\
 	-DEVOLUTION_UIDIR=\""$(uidir)"\"				\
 	-DEVOLUTION_ICONDIR=\""$(icondir)"\"				\
 	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"			\
 	-DPREFIX=\""$(prefix)"\"					\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)					\
-	$(GNOME_PLATFORM_CFLAGS)
+	$(GNOME_PLATFORM_CFLAGS)					\
+	$(CHAMPLAIN_CFLAGS)						\
+	$(GTKHTML_CFLAGS)
 
 ecalendarincludedir = $(privincludedir)/calendar/gui/dialogs
 
@@ -50,10 +50,11 @@ ecalendarinclude_HEADERS =		\
 libcal_dialogs_la_LIBADD =					\
 	$(top_builddir)/addressbook/util/libeabutil.la		\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
-	$(GNOME_PLATFORM_LIBS)
+	$(GNOME_PLATFORM_LIBS)					\
+	$(CHAMPLAIN_LIBS)					\
+	$(GTKHTML_LIBS)
 
 libcal_dialogs_la_SOURCES =		\
-	$(IDL_GENERATED)		\
 	alarm-dialog.c			\
 	alarm-dialog.h			\
 	alarm-list-dialog.c		\

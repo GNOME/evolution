@@ -29,8 +29,6 @@
 #include <libical/ical.h>
 #include <libsoup/soup.h>
 
-#include <e-util/e-dialog-utils.h>
-
 #include <composer/e-msg-composer.h>
 
 #include "itip-utils.h"

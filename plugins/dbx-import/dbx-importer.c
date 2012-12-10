@@ -49,17 +49,12 @@
 #include <gtk/gtk.h>
 #include <libecal/libecal.h>
 #include <libebook/libebook.h>
-#include <libedataserverui/libedataserverui.h>
-
-#include <e-util/e-import.h>
-#include <e-util/e-plugin.h>
-#include <e-util/e-mktemp.h>
 
 #include <shell/e-shell.h>
 #include <shell/e-shell-window.h>
 #include <shell/e-shell-view.h>
 
-#include <libemail-utils/mail-mt.h>
+#include <libemail-engine/mail-mt.h>
 #include <libemail-engine/mail-tools.h>
 
 #include <mail/e-mail-backend.h>

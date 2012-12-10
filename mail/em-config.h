@@ -24,8 +24,7 @@
 #define EM_CONFIG_H
 
 #include <camel/camel.h>
-
-#include "e-util/e-config.h"
+#include <e-util/e-util.h>
 
 /* Standard GObject macros */
 #define EM_TYPE_CONFIG \

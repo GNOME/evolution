@@ -25,7 +25,6 @@
 #define _E_MEETING_LIST_VIEW_H_
 
 #include <gtk/gtk.h>
-#include <libedataserverui/libedataserverui.h>
 
 #include "e-meeting-store.h"
 

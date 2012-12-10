@@ -6,6 +6,7 @@ module_mailto_handler_la_CPPFLAGS = \
 	-DG_LOG_DOMAIN=\"evolution-mailto-handler\"		\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)				\
+	$(CHAMPLAIN_CFLAGS)					\
 	$(GTKHTML_CFLAGS)
 
 module_mailto_handler_la_SOURCES = \
@@ -16,6 +17,7 @@ module_mailto_handler_la_LIBADD = \
 	$(top_builddir)/shell/libeshell.la			\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
+	$(CHAMPLAIN_LIBS)					\
 	$(GTKHTML_LIBS)
 
 module_mailto_handler_la_LDFLAGS = \

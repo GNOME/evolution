@@ -19,7 +19,6 @@
 #define E_COMPOSER_NAME_HEADER_H
 
 #include <libebook/libebook.h>
-#include <libedataserverui/libedataserverui.h>
 
 #include <composer/e-composer-header.h>
 

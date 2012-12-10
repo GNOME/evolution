@@ -31,15 +31,10 @@
 
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <misc/e-dateedit.h>
-#include <misc/e-url-entry.h>
+
 #include "../e-timezone-entry.h"
 #include "comp-editor-util.h"
 #include "task-details-page.h"
-
-#include "e-util/e-util.h"
-#include "e-util/e-dialog-widgets.h"
-#include "e-util/e-util-private.h"
 
 #define TASK_DETAILS_PAGE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

@@ -24,12 +24,11 @@
 
 #include <camel/camel.h>
 
-#include <filter/e-filter-part.h>
-#include <filter/e-filter-rule.h>
-#include <mail/e-mail-backend.h>
-#include <libemail-utils/em-vfolder-rule.h>
-#include <shell/e-shell-view.h>
+#include <libemail-engine/em-vfolder-rule.h>
 #include <libemail-engine/mail-vfolder.h>
+
+#include <mail/e-mail-backend.h>
+#include <shell/e-shell-view.h>
 
 void		vfolder_edit			(EMailBackend *backend,
 						 GtkWindow *parent_window);

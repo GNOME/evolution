@@ -58,8 +58,6 @@ libevolution_calendar_la_CPPFLAGS =			\
 	-I$(top_srcdir)/shell				\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/calendar			\
-	-I$(top_srcdir)/widgets				\
-	-I$(top_srcdir)/widgets/misc			\
 	-DEVOLUTION_RULEDIR=\"$(ruledir)\"		\
 	-DEVOLUTION_UIDIR=\""$(uidir)"\"		\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
@@ -70,6 +68,7 @@ libevolution_calendar_la_CPPFLAGS =			\
 	-DPREFIX=\""$(prefix)"\"			\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
+	$(CHAMPLAIN_CFLAGS)				\
 	$(GTKHTML_CFLAGS)				\
 	$(LIBSOUP_CFLAGS)
 
@@ -205,18 +204,13 @@ libevolution_calendar_la_LIBADD =					\
 	$(top_builddir)/composer/libcomposer.la				\
 	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la \
 	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la \
-	$(top_builddir)/widgets/menus/libmenus.la			\
 	$(top_builddir)/shell/libeshell.la				\
 	$(top_builddir)/calendar/gui/dialogs/libcal-dialogs.la		\
 	$(top_builddir)/calendar/importers/libevolution-calendar-importers.la \
-	$(top_builddir)/libemail-utils/libemail-utils.la		\
-	$(top_builddir)/widgets/e-timezone-dialog/libetimezonedialog.la	\
-	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
-	$(top_builddir)/widgets/table/libetable.la			\
-	$(top_builddir)/filter/libfilter.la				\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(EVOLUTION_DATA_SERVER_LIBS)					\
 	$(GNOME_PLATFORM_LIBS)						\
+	$(CHAMPLAIN_LIBS)						\
 	$(GTKHTML_LIBS)							\
 	$(LIBSOUP_LIBS)
 

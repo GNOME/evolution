@@ -29,9 +29,6 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
 #include <mail/em-event.h>
-#include <libevolution-utils/e-alert-dialog.h>
-#include <e-util/e-util.h>
-#include <e-util/e-icon-factory.h>
 
 #define d(x)
 

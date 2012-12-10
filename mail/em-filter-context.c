@@ -29,8 +29,6 @@
 
 #include "em-filter-context.h"
 #include "em-filter-rule.h"
-#include "filter/e-filter-option.h"
-#include "filter/e-filter-int.h"
 #include "em-filter-source-element.h"
 
 /* For poking into filter-folder guts */

@@ -39,7 +39,7 @@
 #include <glib/gi18n.h>
 #include <libebook/libebook.h>
 
-#include <libemail-utils/mail-mt.h>
+#include <libemail-engine/mail-mt.h>
 
 #include "e-mail-folder-utils.h"
 #include "e-mail-session.h"

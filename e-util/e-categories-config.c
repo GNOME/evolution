@@ -30,9 +30,8 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
-#include <libedataserverui/libedataserverui.h>
-
-#include "e-util/e-util.h"
+#include "e-categories-dialog.h"
+#include "e-misc-utils.h"
 
 static GHashTable *pixbufs_cache = NULL;
 

@@ -27,9 +27,7 @@
 
 #include <string.h>
 #include <glib/gi18n.h>
-#include <libedataserverui/libedataserverui.h>
 
-#include "libevolution-utils/e-alert-dialog.h"
 #include "e-util/e-util.h"
 #include "calendar/gui/e-memo-list-selector.h"
 #include "calendar/gui/misc.h"

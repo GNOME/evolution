@@ -3,10 +3,11 @@ module_LTLIBRARIES = module-offline-alert.la
 module_offline_alert_la_CPPFLAGS = \
 	$(AM_CPPFLAGS)						\
 	-I$(top_srcdir)						\
-	-I$(top_srcdir)/widgets					\
 	-DG_LOG_DOMAIN=\"evolution-offline-alert\"		\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
-	$(GNOME_PLATFORM_CFLAGS)
+	$(GNOME_PLATFORM_CFLAGS)				\
+	$(CHAMPLAIN_CFLAGS)					\
+	$(GTKHTML_CFLAGS)
 
 module_offline_alert_la_SOURCES = \
 	evolution-offline-alert.c
@@ -14,9 +15,10 @@ module_offline_alert_la_SOURCES = \
 module_offline_alert_la_LIBADD = \
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/shell/libeshell.la			\
-	$(top_builddir)/libevolution-utils/libevolution-utils.la \
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
-	$(GNOME_PLATFORM_LIBS)
+	$(GNOME_PLATFORM_LIBS)					\
+	$(CHAMPLAIN_LIBS)					\
+	$(GTKHTML_LIBS)
 
 module_offline_alert_la_LDFLAGS = \
 	-module -avoid-version $(NO_UNDEFINED)

@@ -5,7 +5,6 @@ module_LTLIBRARIES = module-backup-restore.la
 module_backup_restore_la_CPPFLAGS = \
 	$(AM_CPPFLAGS)						\
 	-I$(top_srcdir)						\
-	-I$(top_srcdir)/widgets					\
 	-DG_LOG_DOMAIN=\"evolution-backup-restore\"		\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"		\
 	-DEVOLUTION_TOOLSDIR=\""$(privlibexecdir)"\"		\
@@ -15,6 +14,7 @@ module_backup_restore_la_CPPFLAGS = \
 	-DLIBDIR=\""$(libdir)"\"				\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)				\
+	$(CHAMPLAIN_CFLAGS)					\
 	$(GTKHTML_CFLAGS)					\
 	$(NULL)
 
@@ -30,11 +30,10 @@ module_backup_restore_la_LIBADD = \
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/shell/libeshell.la			\
 	$(top_builddir)/mail/libevolution-mail.la		\
-	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
 	$(top_builddir)/libemail-engine/libemail-engine.la	\
-	$(top_builddir)/libevolution-utils/libevolution-utils.la \
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
+	$(CHAMPLAIN_LIBS)					\
 	$(GTKHTML_LIBS)						\
 	$(NULL)
 
@@ -46,7 +45,6 @@ privlibexec_PROGRAMS = evolution-backup
 evolution_backup_CPPFLAGS =					\
 	$(AM_CPPFLAGS)						\
 	-I$(top_srcdir)						\
-	-I$(top_srcdir)/widgets					\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"		\
 	-DEVOLUTION_TOOLSDIR=\""$(privlibexecdir)"\"		\
 	-DPREFIX=\""$(prefix)"\"				\
@@ -56,6 +54,8 @@ evolution_backup_CPPFLAGS =					\
 	-DDBUS_SERVICES_DIR=\"'${datadir}'/dbus-1/services\"	\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)				\
+	$(CHAMPLAIN_CFLAGS)					\
+	$(GTKHTML_CFLAGS)					\
 	$(NULL)
 
 evolution_backup_SOURCES =					\
@@ -66,6 +66,8 @@ evolution_backup_LDADD =					\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
+	$(CHAMPLAIN_LIBS)					\
+	$(GTKHTML_LIBS)						\
 	$(NULL)
 
 if OS_WIN32

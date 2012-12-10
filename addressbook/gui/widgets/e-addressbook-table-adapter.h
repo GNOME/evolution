@@ -21,7 +21,7 @@
 #ifndef _EAB_TABLE_ADAPTER_H_
 #define _EAB_TABLE_ADAPTER_H_
 
-#include <table/e-table-model.h>
+#include <e-util/e-util.h>
 
 /* Standard GObject macros */
 #define E_TYPE_ADDRESSBOOK_TABLE_ADAPTER \

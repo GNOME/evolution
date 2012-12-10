@@ -35,19 +35,6 @@
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
 
-#include <libedataserverui/libedataserverui.h>
-
-#include <e-util/e-util.h>
-#include <e-util/e-categories-config.h>
-#include <e-util/e-dialog-utils.h>
-#include <e-util/e-dialog-widgets.h>
-#include <e-util/e-util-private.h>
-
-#include <misc/e-dateedit.h>
-#include <misc/e-send-options.h>
-#include <misc/e-spell-entry.h>
-#include <misc/e-buffer-tagger.h>
-
 #include "../e-alarm-list.h"
 #include "../e-meeting-attendee.h"
 #include "../e-meeting-list-view.h"

@@ -23,9 +23,7 @@
 
 #include <libebackend/libebackend.h>
 
-#include <e-util/e-marshal.h>
-#include <misc/e-mail-signature-combo-box.h>
-#include <misc/e-mail-signature-editor.h>
+#include "e-util/e-util.h"
 
 #define E_MAIL_CONFIG_IDENTITY_PAGE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

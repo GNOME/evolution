@@ -28,16 +28,17 @@
 #include <config.h>
 #endif
 
+#include "print.h"
+
 #include <sys/stat.h>
 #include <sys/time.h>
 #include <math.h>
 #include <string.h>
 #include <time.h>
+
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
-#include <e-util/e-util.h>
-#include <e-util/e-print.h>
 #include "e-cal-model.h"
 #include "e-day-view.h"
 #include "e-day-view-layout.h"
@@ -45,7 +46,6 @@
 #include "e-week-view-layout.h"
 #include "e-task-table.h"
 #include "gnome-cal.h"
-#include "print.h"
 
 #include "art/jump.xpm"
 

@@ -28,7 +28,7 @@
 #define TAG_CALENDAR_H
 
 #include <libecal/libecal.h>
-#include <misc/e-calendar.h>
+#include <e-util/e-util.h>
 
 void tag_calendar_by_client (ECalendar *ecal, ECalClient *client, GCancellable *cancellable);
 void tag_calendar_by_comp (ECalendar *ecal, ECalComponent *comp,

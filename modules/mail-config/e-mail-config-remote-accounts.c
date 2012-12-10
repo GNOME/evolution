@@ -22,8 +22,6 @@
 #include <camel/camel.h>
 #include <libebackend/libebackend.h>
 
-#include <misc/e-port-entry.h>
-
 #include <mail/e-mail-config-auth-check.h>
 #include <mail/e-mail-config-service-page.h>
 

@@ -9,11 +9,12 @@ module_LTLIBRARIES = module-tnef-attachment.la
 module_tnef_attachment_la_CPPFLAGS =			\
 	$(AM_CPPFLAGS)							\
 	-I$(top_srcdir)							\
-	-I$(top_srcdir)/widgets						\
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"			\
 	-DG_LOG_DOMAIN=\"evolution-module-tnef-attachment\"		\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)					\
 	$(GNOME_PLATFORM_CFLAGS)					\
+	$(CHAMPLAIN_CFLAGS)						\
+	$(GTKHTML_CFLAGS)						\
 	$(TNEF_CFLAGS)
 
 module_tnef_attachment_la_SOURCES =			\
@@ -26,6 +27,8 @@ module_tnef_attachment_la_LIBADD =				\
 	$(top_builddir)/em-format/libemformat.la			\
 	$(EVOLUTION_DATA_SERVER_LIBS)					\
 	$(GNOME_PLATFORM_LIBS)						\
+	$(CHAMPLAIN_LIBS)						\
+	$(GTKHTML_LIBS)							\
 	-lytnef
 
 module_tnef_attachment_la_LDFLAGS =			\

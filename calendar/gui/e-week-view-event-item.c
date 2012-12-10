@@ -30,14 +30,12 @@
 #include <config.h>
 #endif
 
-#include "e-util/e-categories-config.h"
 #include "e-week-view-event-item.h"
 
 #include <gtk/gtk.h>
+
 #include "e-calendar-view.h"
 #include "comp-util.h"
-
-#include <text/e-text.h>
 
 #define E_WEEK_VIEW_EVENT_ITEM_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

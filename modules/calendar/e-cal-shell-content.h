@@ -29,7 +29,6 @@
 #include <calendar/gui/e-memo-table.h>
 #include <calendar/gui/e-task-table.h>
 #include <calendar/gui/gnome-cal.h>
-#include <menus/gal-view-instance.h>
 
 /* Standard GObject macros */
 #define E_TYPE_CAL_SHELL_CONTENT \

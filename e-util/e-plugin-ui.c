@@ -21,7 +21,6 @@
 
 #include "e-plugin-ui.h"
 
-#include "e-util.h"
 #include "e-ui-manager.h"
 
 #include <string.h>

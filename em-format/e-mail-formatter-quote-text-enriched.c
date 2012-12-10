@@ -20,12 +20,14 @@
 #include <config.h>
 #endif
 
-#include <em-format/e-mail-formatter-quote.h>
-#include <em-format/e-mail-inline-filter.h>
+#include <glib/gi18n-lib.h>
+
+#include <camel/camel.h>
+
 #include <e-util/e-util.h>
 
-#include <glib/gi18n-lib.h>
-#include <camel/camel.h>
+#include "e-mail-formatter-quote.h"
+#include "e-mail-inline-filter.h"
 
 typedef EMailFormatterExtension EMailFormatterQuoteTextEnriched;
 typedef EMailFormatterExtensionClass EMailFormatterQuoteTextEnrichedClass;

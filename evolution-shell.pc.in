@@ -17,7 +17,7 @@ execversion=@BASE_VERSION@
 Name: evolution-shell
 Description: libraries needed for Evolution shell components
 Version: @VERSION@
-Requires: gtk+-3.0 libebackend-1.2 libedataserverui-3.0 webkitgtk-3.0
+Requires: gtk+-3.0 libebackend-1.2 libedataserverui-3.0 webkitgtk-3.0 libgtkhtml-4.0 gtkhtml-editor-4.0
 Requires.private: gnome-desktop-3.0
-Libs: -L${privlibdir} -leshell -lemiscwidgets -leutil -Wl,-R${privlibdir}
+Libs: -L${privlibdir} -leshell -leutil -Wl,-R${privlibdir}
 Cflags: -I${privincludedir}

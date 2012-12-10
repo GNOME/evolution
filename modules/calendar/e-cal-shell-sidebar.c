@@ -27,10 +27,6 @@
 
 #include <string.h>
 #include <glib/gi18n.h>
-#include <libedataserverui/libedataserverui.h>
-
-#include "libevolution-utils/e-alert-dialog.h"
-#include "widgets/misc/e-paned.h"
 
 #include "calendar/gui/e-calendar-selector.h"
 #include "calendar/gui/misc.h"

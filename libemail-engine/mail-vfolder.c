@@ -24,23 +24,20 @@
 #include <config.h>
 #endif
 
-#include <string.h>
+#include "mail-vfolder.h"
 
+#include <string.h>
 #include <glib/gi18n.h>
 
-#include "libevolution-utils/e-alert-dialog.h"
-
-#include "libemail-utils/mail-mt.h"
-#include "libemail-engine/mail-folder-cache.h"
 #include "libemail-engine/e-mail-folder-utils.h"
 #include "libemail-engine/e-mail-session.h"
 #include "libemail-engine/e-mail-utils.h"
+#include "libemail-engine/em-vfolder-context.h"
+#include "libemail-engine/em-vfolder-rule.h"
+#include "libemail-engine/mail-folder-cache.h"
+#include "libemail-engine/mail-mt.h"
 #include "libemail-engine/mail-ops.h"
 #include "libemail-engine/mail-tools.h"
-
-#include <libemail-utils/em-vfolder-context.h>
-#include <libemail-utils/em-vfolder-rule.h>
-#include "mail-vfolder.h"
 
 #define d(x)  /* (printf("%s:%s: ",  G_STRLOC, G_STRFUNC), (x))*/
 

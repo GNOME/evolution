@@ -28,7 +28,6 @@
 #include "ea-day-view-cell.h"
 #include "ea-day-view-main-item.h"
 #include "ea-day-view.h"
-#include "a11y/ea-factory.h"
 
 /* EDayViewCell */
 

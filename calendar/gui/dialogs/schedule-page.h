@@ -28,7 +28,6 @@
 #include "../e-meeting-store.h"
 #include "comp-editor.h"
 #include "comp-editor-page.h"
-#include <libedataserverui/libedataserverui.h>
 
 /* Standard GObject macros */
 #define TYPE_SCHEDULE_PAGE \

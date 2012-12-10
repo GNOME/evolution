@@ -36,7 +36,7 @@
 
 #include <libedataserver/libedataserver.h>
 
-#include <libemail-utils/mail-mt.h>
+#include <libemail-engine/mail-mt.h>
 
 #include "e-mail-utils.h"
 #include "mail-ops.h"

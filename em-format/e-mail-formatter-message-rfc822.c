@@ -20,18 +20,14 @@
 #include <config.h>
 #endif
 
+#include <string.h>
 #include <glib/gi18n-lib.h>
-#include <glib-object.h>
 
-#include <em-format/e-mail-formatter-extension.h>
-#include <em-format/e-mail-formatter.h>
-#include <em-format/e-mail-part-list.h>
-#include <em-format/e-mail-part-utils.h>
 #include <e-util/e-util.h>
 
-#include <camel/camel.h>
-
-#include <string.h>
+#include "e-mail-formatter-extension.h"
+#include "e-mail-part-list.h"
+#include "e-mail-part-utils.h"
 
 typedef EMailFormatterExtension EMailFormatterMessageRFC822;
 typedef EMailFormatterExtensionClass EMailFormatterMessageRFC822Class;

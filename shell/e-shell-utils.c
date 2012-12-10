@@ -35,8 +35,6 @@
 
 #include <libedataserver/libedataserver.h>
 
-#include "widgets/misc/e-import-assistant.h"
-
 /**
  * e_shell_configure_ui_manager:
  * @shell: an #EShell

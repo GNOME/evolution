@@ -25,7 +25,6 @@
 #include "e-mail-part-utils.h"
 #include "e-mail-parser-extension.h"
 
-#include <camel/camel.h>
 #include <e-util/e-util.h>
 #include <gdk/gdk.h>
 

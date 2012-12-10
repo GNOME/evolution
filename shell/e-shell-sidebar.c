@@ -33,8 +33,6 @@
 
 #include <libebackend/libebackend.h>
 
-#include <libevolution-utils/e-alert-sink.h>
-#include <e-util/e-unicode.h>
 #include <shell/e-shell-view.h>
 
 #define E_SHELL_SIDEBAR_GET_PRIVATE(obj) \

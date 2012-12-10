@@ -24,8 +24,8 @@
 #ifndef __MAIL_IMPORTER_H__
 #define __MAIL_IMPORTER_H__
 
-#include <e-util/e-import.h>
 #include <camel/camel.h>
+#include <e-util/e-util.h>
 #include <libemail-engine/e-mail-session.h>
 
 EImportImporter *mbox_importer_peek (void);

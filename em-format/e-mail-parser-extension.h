@@ -19,8 +19,8 @@
 #ifndef E_MAIL_PARSER_EXTENSION_H
 #define E_MAIL_PARSER_EXTENSION_H
 
-#include <em-format/e-mail-parser.h>
 #include <camel/camel.h>
+#include <em-format/e-mail-parser.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_PARSER_EXTENSION \

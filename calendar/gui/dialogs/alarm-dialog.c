@@ -32,12 +32,11 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <libebook/libebook.h>
-#include <libedataserverui/libedataserverui.h>
+
+#include <libical/icalattach.h>
 
 #include "e-util/e-util.h"
-#include "e-util/e-dialog-widgets.h"
-#include "e-util/e-util-private.h"
-#include <libical/icalattach.h>
+
 #include "../calendar-config.h"
 #include "comp-editor-util.h"
 #include "alarm-dialog.h"

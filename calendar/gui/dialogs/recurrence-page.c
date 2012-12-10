@@ -33,16 +33,11 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
-#include <misc/e-dateedit.h>
 #include "../tag-calendar.h"
 #include "../weekday-picker.h"
 #include "comp-editor-util.h"
 #include "../e-date-time-list.h"
 #include "recurrence-page.h"
-
-#include "e-util/e-util.h"
-#include "e-util/e-dialog-widgets.h"
-#include "e-util/e-util-private.h"
 
 #define RECURRENCE_PAGE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

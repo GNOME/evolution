@@ -22,7 +22,7 @@
 /**
  * SECTION: e-selection
  * @short_description: selection and clipboard utilities
- * @include: e-util/e-selection.h
+ * @include: e-util/e-util.h
  **/
 
 #ifdef HAVE_CONFIG_H

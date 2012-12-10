@@ -35,7 +35,8 @@
 #include <stdio.h>
 #include <time.h>
 
-#include "e-util.h"
+#include <libedataserver/libedataserver.h>
+
 #include "e-mktemp.h"
 
 #define d(x)

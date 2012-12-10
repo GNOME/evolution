@@ -22,8 +22,6 @@
 
 #include <libsoup/soup.h>
 
-#include <e-util/e-util.h>
-
 #include <string.h>
 
 #define d(x)

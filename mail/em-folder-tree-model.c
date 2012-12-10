@@ -39,12 +39,11 @@
 #include <e-util/e-util.h>
 #include <shell/e-shell.h>
 
-#include <libemail-utils/mail-mt.h>
-
 #include <libemail-engine/e-mail-folder-utils.h>
 #include <libemail-engine/mail-folder-cache.h>
-#include <libemail-engine/mail-tools.h>
+#include <libemail-engine/mail-mt.h>
 #include <libemail-engine/mail-ops.h>
+#include <libemail-engine/mail-tools.h>
 
 #include <e-mail-account-store.h>
 #include <e-mail-ui-session.h>

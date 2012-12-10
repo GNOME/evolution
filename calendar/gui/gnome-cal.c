@@ -29,38 +29,36 @@
 #include <config.h>
 #endif
 
+#include "gnome-cal.h"
+
 #include <unistd.h>
 #include <math.h>
 #include <signal.h>
 #include <fcntl.h>
-#include <gdk/gdkkeysyms.h>
-#include <glib/gi18n.h>
 
-#include <widgets/menus/gal-view-factory-etable.h>
-#include <widgets/menus/gal-view-etable.h>
-#include <widgets/menus/gal-define-views-dialog.h>
-#include "e-util/e-util.h"
-#include "libevolution-utils/e-alert-dialog.h"
-#include "e-util/e-util-private.h"
+#include <glib/gi18n.h>
+#include <gdk/gdkkeysyms.h>
+
 #include "shell/e-shell.h"
+
 #include "dialogs/delete-error.h"
 #include "dialogs/event-editor.h"
-#include "comp-util.h"
-#include "e-cal-model-calendar.h"
-#include "e-day-view.h"
-#include "e-day-view-time-item.h"
-#include "e-month-view.h"
-#include "e-week-view.h"
-#include "e-cal-list-view.h"
-#include "gnome-cal.h"
+
 #include "calendar-config.h"
-#include "calendar-view.h"
 #include "calendar-view-factory.h"
-#include "tag-calendar.h"
-#include "misc.h"
-#include "ea-calendar.h"
+#include "calendar-view.h"
+#include "comp-util.h"
+#include "e-cal-list-view.h"
+#include "e-cal-model-calendar.h"
+#include "e-day-view-time-item.h"
+#include "e-day-view.h"
 #include "e-memo-table.h"
+#include "e-month-view.h"
 #include "e-task-table.h"
+#include "e-week-view.h"
+#include "ea-calendar.h"
+#include "misc.h"
+#include "tag-calendar.h"
 
 #define d(x)
 

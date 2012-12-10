@@ -36,9 +36,6 @@ eshellinclude_HEADERS = 			\
 libeshell_la_CPPFLAGS =						\
 	$(AM_CPPFLAGS)						\
 	$(NM_CPPFLAGS)						\
-	-I$(top_srcdir)/widgets					\
-	-I$(top_srcdir)/widgets/menus				\
-	-I$(top_srcdir)/widgets/misc				\
 	-I$(top_srcdir)						\
 	-I$(top_srcdir)/shell					\
 	-I$(top_builddir)					\
@@ -60,8 +57,8 @@ libeshell_la_CPPFLAGS =						\
 	-DG_LOG_DOMAIN=\"evolution-shell\"			\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)				\
-	$(EGG_SMCLIENT_CFLAGS)					\
 	$(GTKHTML_CFLAGS)					\
+	$(CHAMPLAIN_CFLAGS)					\
 	$(CLUTTER_GTK_CFLAGS)
 
 libeshell_la_SOURCES =				\
@@ -92,14 +89,9 @@ libeshell_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 
 libeshell_la_LIBADD =					\
 	$(top_builddir)/e-util/libeutil.la		\
-	$(top_builddir)/filter/libfilter.la		\
-	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
-	$(top_builddir)/widgets/menus/libmenus.la	\
-	$(top_builddir)/libemail-utils/libemail-utils.la \
-	$(top_builddir)/libevolution-utils/libevolution-utils.la \
 	$(EVOLUTION_DATA_SERVER_LIBS)			\
 	$(GNOME_PLATFORM_LIBS)				\
-	$(EGG_SMCLIENT_LIBS)				\
+	$(CHAMPLAIN_LIBS)				\
 	$(CLUTTER_GTK_LIBS)
 
 # Evolution executable
@@ -111,9 +103,6 @@ endif
 evolution_CPPFLAGS =						\
 	$(AM_CPPFLAGS)						\
 	$(NM_CPPFLAGS)						\
-	-I$(top_srcdir)/widgets					\
-	-I$(top_srcdir)/widgets/menus				\
-	-I$(top_srcdir)/widgets/misc				\
 	-I$(top_srcdir)						\
 	-I$(top_srcdir)/shell					\
 	-DEVOLUTION_BINDIR=\""$(bindir)"\"			\
@@ -134,7 +123,7 @@ evolution_CPPFLAGS =						\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)				\
 	$(GTKHTML_CFLAGS)					\
-	$(DBUS_GLIB_CFLAGS)					\
+	$(CHAMPLAIN_CFLAGS)					\
 	$(CLUTTER_GTK_CFLAGS)
 
 evolution_SOURCES =				\
@@ -143,16 +132,10 @@ evolution_SOURCES =				\
 
 evolution_LDADD =							\
 	libeshell.la							\
-	$(top_builddir)/widgets/e-timezone-dialog/libetimezonedialog.la	\
-	$(top_builddir)/widgets/menus/libmenus.la			\
-	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
-	$(top_builddir)/libemail-utils/libemail-utils.la		\
 	$(top_builddir)/e-util/libeutil.la				\
-	$(top_builddir)/filter/libfilter.la				\
-	$(top_builddir)/libevolution-utils/libevolution-utils.la \
 	$(EVOLUTION_DATA_SERVER_LIBS)					\
 	$(GNOME_PLATFORM_LIBS)						\
-	$(DBUS_GLIB_LIBS)						\
+	$(CHAMPLAIN_LIBS)						\
 	$(CLUTTER_GTK_LIBS)						\
 	$(EVOLUTIONICON)
 

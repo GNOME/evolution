@@ -26,9 +26,9 @@ liborg_gnome_external_editor_la_CPPFLAGS =		\
 	-DLIBDIR=\""$(libdir)"\"			\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/composer			\
-	-I$(top_srcdir)/widgets				\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
+	$(CHAMPLAIN_CFLAGS)				\
 	$(GTKHTML_CFLAGS)
 
 liborg_gnome_external_editor_la_SOURCES = 		\
@@ -43,9 +43,9 @@ liborg_gnome_external_editor_la_LIBADD = 			\
 	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la 		\
 	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la	\
 	$(top_builddir)/mail/libevolution-mail.la		\
-	$(top_builddir)/libevolution-utils/libevolution-utils.la \
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
+	$(CHAMPLAIN_LIBS)					\
 	$(GTKHTML_LIBS)
 
 EXTRA_DIST = 					\

@@ -8,12 +8,11 @@ liborg_gnome_email_custom_header_la_CPPFLAGS = \
 	$(AM_CPPFLAGS)					\
 	-I.	 					\
 	-I$(top_srcdir)					\
-	-I$(top_srcdir)/widgets				\
-	-I$(top_srcdir)/widgets/misc			\
 	-I$(top_builddir)/mail				\
 	-I$(top_builddir)/composer			\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
+	$(CHAMPLAIN_CFLAGS)				\
 	$(GTKHTML_CFLAGS)
 
 liborg_gnome_email_custom_header_la_SOURCES = 		\
@@ -23,11 +22,10 @@ liborg_gnome_email_custom_header_la_SOURCES = 		\
 liborg_gnome_email_custom_header_la_LIBADD = 			\
 	$(top_builddir)/e-util/libeutil.la 			\
 	$(top_builddir)/composer/libcomposer.la 		\
-	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
 	$(top_builddir)/mail/libevolution-mail.la 		\
-	$(top_builddir)/libevolution-utils/libevolution-utils.la \
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
+	$(CHAMPLAIN_LIBS)					\
 	$(GTKHTML_LIBS)
 
 liborg_gnome_email_custom_header_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)

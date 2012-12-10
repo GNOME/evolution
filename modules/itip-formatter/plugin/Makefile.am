@@ -6,11 +6,12 @@ plugin_LTLIBRARIES = liborg-gnome-itip-formatter.la
 liborg_gnome_itip_formatter_la_CPPFLAGS =		\
 	$(AM_CPPFLAGS)					\
 	-I$(top_srcdir)					\
-	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)/modules/itip-formatter		\
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"	\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
-	$(GNOME_PLATFORM_CFLAGS)
+	$(GNOME_PLATFORM_CFLAGS)			\
+	$(CHAMPLAIN_CFLAGS)				\
+	$(GTKHTML_CFLAGS)
 
 liborg_gnome_itip_formatter_la_SOURCES =		\
 	config-ui.c					\
@@ -27,9 +28,10 @@ liborg_gnome_itip_formatter_la_LIBADD =				\
 	$(top_builddir)/mail/libevolution-mail.la		\
 	$(top_builddir)/shell/libeshell.la			\
 	$(top_builddir)/em-format/libemformat.la		\
-	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
-	$(GNOME_PLATFORM_LIBS)
+	$(GNOME_PLATFORM_LIBS)					\
+	$(CHAMPLAIN_LIBS)					\
+	$(GTKHTML_LIBS)
 
 BUILT_SOURCES = $(plugin_DATA)
 

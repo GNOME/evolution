@@ -20,11 +20,6 @@
 
 #include <camel/camel.h>
 
-#include <libevolution-utils/e-alert-sink.h>
-#include <libevolution-utils/e-alert-dialog.h>
-#include <misc/e-activity-bar.h>
-#include <misc/e-alert-bar.h>
-
 #define E_MAIL_CONFIG_ACTIVITY_PAGE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MAIL_CONFIG_ACTIVITY_PAGE, EMailConfigActivityPagePrivate))

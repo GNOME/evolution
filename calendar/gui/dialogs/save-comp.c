@@ -25,7 +25,6 @@
 #include <config.h>
 #endif
 
-#include "libevolution-utils/e-alert-dialog.h"
 #include "save-comp.h"
 #include "comp-editor.h"
 

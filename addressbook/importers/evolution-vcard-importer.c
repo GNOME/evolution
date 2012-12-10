@@ -36,14 +36,10 @@
 #include <glib/gstdio.h>
 
 #include <libebook/libebook.h>
-#include <libedataserverui/libedataserverui.h>
 
 #include <util/eab-book-util.h>
 
 #include <shell/e-shell.h>
-#include <e-util/e-import.h>
-#include <e-util/e-datetime-format.h>
-#include <misc/e-web-view-preview.h>
 
 #include "evolution-addressbook-importers.h"
 

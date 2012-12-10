@@ -26,7 +26,6 @@
 #include <camel/camel.h>
 
 #include <shell/e-shell.h>
-#include <e-util/e-mktemp.h>
 #include <libemail-engine/e-mail-junk-filter.h>
 
 /* Standard GObject macros */

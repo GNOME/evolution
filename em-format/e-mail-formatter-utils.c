@@ -22,17 +22,15 @@
 
 #include "e-mail-formatter-utils.h"
 
-#include <camel/camel.h>
-
-#include <libemail-engine/e-mail-utils.h>
-#include <libemail-engine/mail-config.h>
-#include <e-util/e-util.h>
-#include <e-util/e-datetime-format.h>
-#include <libedataserver/libedataserver.h>
-
+#include <string.h>
 #include <glib/gi18n.h>
 
-#include <string.h>
+#include <camel/camel.h>
+#include <libedataserver/libedataserver.h>
+
+#include <e-util/e-util.h>
+#include <libemail-engine/e-mail-utils.h>
+#include <libemail-engine/mail-config.h>
 
 static const gchar *addrspec_hdrs[] = {
 	"Sender", "From", "Reply-To", "To", "Cc", "Bcc",

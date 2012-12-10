@@ -19,13 +19,12 @@
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
+
 #include "e-mail-part-attachment-bar.h"
-#include <misc/e-attachment-bar.h>
 
 #include <glib/gi18n-lib.h>
 
-#include <em-format/e-mail-formatter-extension.h>
-#include <em-format/e-mail-formatter.h>
+#include "e-mail-formatter-extension.h"
 
 typedef EMailFormatterExtension EMailFormatterAttachmentBar;
 typedef EMailFormatterExtensionClass EMailFormatterAttachmentBarClass;

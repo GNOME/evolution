@@ -33,10 +33,6 @@
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 
-#include "libevolution-utils/e-alert-dialog.h"
-#include "e-util/e-file-utils.h"
-#include "e-util/e-util.h"
-
 #include "es-event.h"
 #include "evo-version.h"
 

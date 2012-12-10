@@ -25,11 +25,10 @@
 #endif
 
 #include <gtk/gtk.h>
-#include <misc/e-canvas-background.h>
-#include <misc/e-canvas.h>
 #include <glib/gi18n.h>
 
-#include "e-util/e-util.h"
+#include <e-util/e-util.h>
+
 #include "e-minicard-view-widget.h"
 
 static void	e_minicard_view_widget_set_property

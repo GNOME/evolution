@@ -31,7 +31,6 @@
 #endif
 
 #include "e-day-view-layout.h"
-#include "e-util/e-bit-array.h"
 
 static void e_day_view_layout_long_event (EDayViewEvent	  *event,
 					  guint8	  *grid,

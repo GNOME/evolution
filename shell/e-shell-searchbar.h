@@ -24,7 +24,6 @@
 
 #include <shell/e-shell-common.h>
 #include <shell/e-shell-view.h>
-#include <misc/e-action-combo-box.h>
 
 /* Standard GObject macros */
 #define E_TYPE_SHELL_SEARCHBAR \

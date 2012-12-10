@@ -32,36 +32,30 @@
 #include <X11/XF86keysym.h>
 #endif
 
-#include "e-util/e-charset.h"
-#include "e-util/e-util.h"
-#include "libevolution-utils/e-alert-dialog.h"
 #include "shell/e-shell-utils.h"
-#include "widgets/misc/e-popup-action.h"
-#include "widgets/misc/e-menu-tool-action.h"
 
-#include "libemail-utils/mail-mt.h"
-
-#include "libemail-engine/mail-ops.h"
-#include "libemail-engine/e-mail-utils.h"
 #include "libemail-engine/e-mail-enumtypes.h"
+#include "libemail-engine/e-mail-utils.h"
+#include "libemail-engine/mail-mt.h"
+#include "libemail-engine/mail-ops.h"
 
-#include "mail/e-mail-backend.h"
-#include "mail/e-mail-browser.h"
-#include "mail/e-mail-reader-utils.h"
-#include "mail/e-mail-ui-session.h"
-#include "mail/e-mail-view.h"
-#include "mail/em-composer-utils.h"
-#include "mail/em-event.h"
-#include "mail/em-folder-selector.h"
-#include "mail/em-folder-tree.h"
-#include "mail/em-utils.h"
-#include "mail/mail-autofilter.h"
-#include "mail/mail-vfolder-ui.h"
-#include "mail/message-list.h"
+#include "em-format/e-mail-formatter.h"
+#include "em-format/e-mail-parser.h"
+#include "em-format/e-mail-part-utils.h"
 
-#include <em-format/e-mail-formatter.h>
-#include <em-format/e-mail-parser.h>
-#include <em-format/e-mail-part-utils.h>
+#include "e-mail-backend.h"
+#include "e-mail-browser.h"
+#include "e-mail-reader-utils.h"
+#include "e-mail-ui-session.h"
+#include "e-mail-view.h"
+#include "em-composer-utils.h"
+#include "em-event.h"
+#include "em-folder-selector.h"
+#include "em-folder-tree.h"
+#include "em-utils.h"
+#include "mail-autofilter.h"
+#include "mail-vfolder-ui.h"
+#include "message-list.h"
 
 #define E_MAIL_READER_GET_PRIVATE(obj) \
 	((EMailReaderPrivate *) g_object_get_qdata \

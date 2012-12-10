@@ -3,13 +3,13 @@ module_LTLIBRARIES = module-mail.la
 module_mail_la_CPPFLAGS = \
 	$(AM_CPPFLAGS)							\
 	-I$(top_srcdir)							\
-	-I$(top_srcdir)/widgets						\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"			\
 	-DEVOLUTION_UIDIR=\""$(uidir)"\"				\
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"			\
 	-DG_LOG_DOMAIN=\"evolution-module-mail\"			\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)					\
 	$(GNOME_PLATFORM_CFLAGS)					\
+	$(CHAMPLAIN_CFLAGS)						\
 	$(GTKHTML_CFLAGS)
 
 module_mail_la_SOURCES = \
@@ -52,26 +52,18 @@ module_mail_la_SOURCES = \
 	em-network-prefs.h
 
 module_mail_la_LIBADD = \
-	$(top_builddir)/libemail-utils/libemail-utils.la		\
 	$(top_builddir)/libemail-engine/libemail-engine.la		\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/em-format/libemformat.la			\
-	$(top_builddir)/filter/libfilter.la				\
 	$(top_builddir)/shell/libeshell.la				\
 	$(top_builddir)/composer/libcomposer.la				\
-	$(top_builddir)/widgets/table/libetable.la			\
-	$(top_builddir)/widgets/text/libetext.la			\
-	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
-	$(top_builddir)/widgets/menus/libmenus.la			\
 	$(top_builddir)/mail/libevolution-mail.la			\
 	$(top_builddir)/mail/importers/libevolution-mail-importers.la	\
 	$(top_builddir)/em-format/libemformat.la			\
-	$(top_builddir)/widgets/menus/libmenus.la			\
-	$(top_builddir)/filter/libfilter.la				\
-	$(top_builddir)/libevolution-utils/libevolution-utils.la	\
 	$(libevolution_mail_settings_la)				\
 	$(EVOLUTION_DATA_SERVER_LIBS)					\
 	$(GNOME_PLATFORM_LIBS)						\
+	$(CHAMPLAIN_LIBS)						\
 	$(GTKHTML_LIBS)
 
 module_mail_la_LDFLAGS = \

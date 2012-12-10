@@ -37,10 +37,6 @@
 #include <ctype.h>
 #include <fcntl.h>
 
-#include <libevolution-utils/e-alert-dialog.h>
-#include <e-util/e-dialog-utils.h>
-#include <e-util/e-util-private.h>
-
 #include "e-composer-private.h"
 
 #include <em-format/e-mail-part.h>

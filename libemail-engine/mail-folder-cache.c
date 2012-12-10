@@ -40,7 +40,7 @@
 
 #include <libedataserver/libedataserver.h>
 
-#include <libemail-utils/mail-mt.h>
+#include <libemail-engine/mail-mt.h>
 
 #include "mail-folder-cache.h"
 #include "e-mail-utils.h"

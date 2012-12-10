@@ -3,10 +3,11 @@ module_LTLIBRARIES = module-cal-config-caldav.la
 module_cal_config_caldav_la_CPPFLAGS = \
 	$(AM_CPPFLAGS)						\
 	-I$(top_srcdir)						\
-	-I$(top_srcdir)/widgets					\
 	-DG_LOG_DOMAIN=\"evolution-cal-config-caldav\"		\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)				\
+	$(CHAMPLAIN_CFLAGS)					\
+	$(GTKHTML_CFLAGS)					\
 	$(LIBSOUP_CFLAGS)
 
 module_cal_config_caldav_la_SOURCES = \
@@ -18,9 +19,10 @@ module_cal_config_caldav_la_SOURCES = \
 
 module_cal_config_caldav_la_LIBADD = \
 	$(top_builddir)/e-util/libeutil.la			\
-	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
+	$(CHAMPLAIN_LIBS)					\
+	$(GTKHTML_LIBS)						\
 	$(LIBSOUP_LIBS)
 
 module_cal_config_caldav_la_LDFLAGS = \

@@ -20,15 +20,11 @@
 #include <config.h>
 #endif
 
-#include <glib-object.h>
+#include <string.h>
 
-#include <em-format/e-mail-parser-extension.h>
-#include <em-format/e-mail-parser.h>
 #include <e-util/e-util.h>
 
-#include <camel/camel.h>
-
-#include <string.h>
+#include "e-mail-parser-extension.h"
 
 typedef EMailParserExtension EMailParserMessageDeliveryStatus;
 typedef EMailParserExtensionClass EMailParserMessageDeliveryStatusClass;

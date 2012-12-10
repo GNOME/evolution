@@ -20,19 +20,12 @@
 
 #include "eab-contact-formatter.h"
 
-#include "eab-gui-util.h"
-#include "e-util/e-util.h"
-#include "e-util/e-util-private.h"
-#include "e-util/e-html-utils.h"
-#include "e-util/e-icon-factory.h"
-#include "e-util/e-plugin-ui.h"
-
-#ifdef WITH_CONTACT_MAPS
-#include "widgets/misc/e-contact-map.h"
-#endif
-
 #include <string.h>
 #include <glib/gi18n.h>
+
+#include "e-util/e-util.h"
+
+#include "eab-gui-util.h"
 
 G_DEFINE_TYPE (
         EABContactFormatter,

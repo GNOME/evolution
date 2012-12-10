@@ -46,17 +46,10 @@
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
 
-#include <shell/e-shell.h>
-#include <shell/e-shell-migrate.h>
+#include "shell/e-shell.h"
+#include "shell/e-shell-migrate.h"
 
-#include <e-util/e-util.h>
-#include <libevolution-utils/e-xml-utils.h>
-
-#include <libevolution-utils/e-alert-dialog.h>
-#include <e-util/e-util-private.h>
-#include <e-util/e-plugin.h>
-
-#include <libemail-engine/e-mail-folder-utils.h>
+#include "libemail-engine/e-mail-folder-utils.h"
 
 #include "e-mail-backend.h"
 #include "em-utils.h"

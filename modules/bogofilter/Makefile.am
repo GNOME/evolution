@@ -15,7 +15,6 @@ module_bogofilter_la_LIBADD = \
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/mail/libevolution-mail.la		\
 	$(top_builddir)/libemail-engine/libemail-engine.la \
-	$(top_builddir)/libemail-utils/libemail-utils.la  \
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)
 

@@ -26,23 +26,16 @@
 
 #include <string.h>
 #include <glib/gi18n.h>
-#include <libedataserverui/libedataserverui.h>
-#include <libedataserver/libedataserver.h>
-
-#include <e-util/e-util.h>
-#include <e-util/e-unicode.h>
-#include <calendar/gui/itip-utils.h>
 #include <webkit/webkitdom.h>
-
-#include <libevolution-utils/e-alert-dialog.h>
-#include <e-util/e-mktemp.h>
+#include <libedataserver/libedataserver.h>
 
 #include <shell/e-shell.h>
 #include <shell/e-shell-utils.h>
 
-#include <libemail-utils/mail-mt.h>
+#include <calendar/gui/itip-utils.h>
 
 #include <libemail-engine/mail-folder-cache.h>
+#include <libemail-engine/mail-mt.h>
 #include <libemail-engine/mail-tools.h>
 
 #include <mail/em-config.h>

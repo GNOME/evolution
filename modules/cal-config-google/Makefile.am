@@ -3,10 +3,11 @@ module_LTLIBRARIES = module-cal-config-google.la
 module_cal_config_google_la_CPPFLAGS = \
 	$(AM_CPPFLAGS)						\
 	-I$(top_srcdir)						\
-	-I$(top_srcdir)/widgets					\
 	-DG_LOG_DOMAIN=\"evolution-cal-config-google\"		\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)				\
+	$(CHAMPLAIN_CFLAGS)					\
+	$(GTKHTML_CFLAGS)					\
 	$(GDATA_CFLAGS)
 
 module_cal_config_google_la_SOURCES = \
@@ -20,9 +21,10 @@ module_cal_config_google_la_SOURCES = \
 
 module_cal_config_google_la_LIBADD = \
 	$(top_builddir)/e-util/libeutil.la			\
-	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
+	$(CHAMPLAIN_LIBS)					\
+	$(GTKHTML_LIBS)						\
 	$(GDATA_LIBS)
 
 module_cal_config_google_la_LDFLAGS = \

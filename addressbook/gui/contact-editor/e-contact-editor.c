@@ -30,23 +30,16 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
-#include <libedataserverui/libedataserverui.h>
+#include "shell/e-shell.h"
 
 #include "addressbook/printing/e-contact-print.h"
 #include "addressbook/gui/widgets/eab-gui-util.h"
-#include "e-util/e-util.h"
-#include "libevolution-utils/e-alert-dialog.h"
-#include "misc/e-dateedit.h"
-#include "misc/e-image-chooser.h"
-#include "misc/e-url-entry.h"
-#include "e-util/e-icon-factory.h"
-#include "e-util/e-util-private.h"
-#include "shell/e-shell.h"
 
 #include "eab-contact-merging.h"
 

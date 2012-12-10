@@ -39,9 +39,9 @@
 #include "e-util/e-util-private.h"
 #include "shell/e-shell-backend.h"
 
-#include "libemail-utils/mail-mt.h"
-#include "libemail-engine/mail-tools.h"
 #include "libemail-engine/e-mail-session.h"
+#include "libemail-engine/mail-mt.h"
+#include "libemail-engine/mail-tools.h"
 
 #include "mail-importer.h"
 

@@ -22,7 +22,7 @@
 #ifndef E_CAL_ATTACHMENT_HANDLER_H
 #define E_CAL_ATTACHMENT_HANDLER_H
 
-#include <misc/e-attachment-handler.h>
+#include <e-util/e-util.h>
 
 /* Standard GObject macros */
 #define E_TYPE_CAL_ATTACHMENT_HANDLER \

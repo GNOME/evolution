@@ -28,7 +28,6 @@
 
 #include <gtk/gtk.h>
 #include <libecal/libecal.h>
-#include <libedataserverui/libedataserverui.h>
 
 /* Standard GObject macros */
 #define TYPE_ALARM_NOTIFY \

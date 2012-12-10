@@ -24,9 +24,9 @@
 #ifndef EM_VFOLDER_EDITOR_RULE_H
 #define EM_VFOLDER_EDITOR_RULE_H
 
-#include <filter/e-filter-rule.h>
-#include <libemail-utils/em-vfolder-rule.h>
+#include <e-util/e-util.h>
 #include <libemail-engine/e-mail-session.h>
+#include <libemail-engine/em-vfolder-rule.h>
 
 /* Standard GObject macros */
 #define EM_TYPE_VFOLDER_EDITOR_RULE \

@@ -38,10 +38,6 @@
 #include <gdk/gdkkeysyms.h>
 #include <libebackend/libebackend.h>
 
-#include <e-util/e-util.h>
-#include <libevolution-utils/e-alert-sink.h>
-#include <e-util/e-dialog-utils.h>
-#include <e-util/e-util-private.h>
 #include <shell/e-shell.h>
 
 #include "../print.h"
@@ -55,11 +51,6 @@
 #include "comp-editor.h"
 #include "comp-editor-util.h"
 #include "../calendar-config-keys.h"
-#include "widgets/misc/e-attachment-view.h"
-#include "widgets/misc/e-attachment-paned.h"
-
-#include "libevolution-utils/e-alert-dialog.h"
-#include "e-util/e-ui-manager.h"
 
 #define COMP_EDITOR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

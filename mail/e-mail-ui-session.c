@@ -43,12 +43,10 @@
 #endif
 
 #include <libebackend/libebackend.h>
-#include <libedataserverui/libedataserverui.h>
 
 #include "e-mail-account-store.h"
 
 #include "e-util/e-util.h"
-#include "libevolution-utils/e-alert-dialog.h"
 #include "e-util/e-util-private.h"
 
 #include "shell/e-shell.h"
@@ -66,7 +64,7 @@
 #include "em-filter-rule.h"
 #include "em-utils.h"
 #include "libemail-engine/mail-config.h"
-#include "libemail-utils/mail-mt.h"
+#include "libemail-engine/mail-mt.h"
 #include "libemail-engine/mail-ops.h"
 #include "mail-send-recv.h"
 #include "libemail-engine/mail-tools.h"

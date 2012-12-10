@@ -24,8 +24,6 @@
 
 #include <libecal/libecal.h>
 
-#include "e-util/e-selection.h"
-
 #define E_CALENDAR_SELECTOR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_CALENDAR_SELECTOR, ECalendarSelectorPrivate))

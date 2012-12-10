@@ -30,32 +30,20 @@
 #include <config.h>
 #endif
 
+#include "e-memo-table.h"
+
 #include <sys/stat.h>
 #include <unistd.h>
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
-#include <misc/e-selectable.h>
-#include <table/e-cell-checkbox.h>
-#include <table/e-cell-toggle.h>
-#include <table/e-cell-text.h>
-#include <table/e-cell-combo.h>
-#include <table/e-cell-date.h>
-#include <e-util/e-selection.h>
-#include <e-util/e-dialog-utils.h>
-#include <e-util/e-util-private.h>
-#include <table/e-cell-date-edit.h>
-#include <table/e-cell-percent.h>
 
 #include "dialogs/delete-comp.h"
 #include "dialogs/delete-error.h"
 #include "dialogs/memo-editor.h"
 #include "e-cal-model-memos.h"
-#include "e-memo-table.h"
 #include "e-calendar-view.h"
 #include "e-cell-date-edit-text.h"
 #include "print.h"
-#include <e-util/e-util-private.h>
-#include <e-util/e-icon-factory.h>
 #include "misc.h"
 
 #define E_MEMO_TABLE_GET_PRIVATE(obj) \

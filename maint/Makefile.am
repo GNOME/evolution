@@ -12,9 +12,9 @@ libgladeevolution_la_LDFLAGS = \
 	-module -avoid-version
 
 libgladeevolution_la_LIBADD = \
+	$(top_srcdir)/e-util/libeutil.la \
 	$(top_srcdir)/mail/libevolution-mail.la \
 	$(top_srcdir)/calendar/gui/libevolution-calendar.la \
-	$(top_builddir)/widgets/misc/libemiscwidgets.la \
 	$(EVOLUTION_DATA_SERVER_LIBS) \
 	$(GNOME_PLATFORM_LIBS)
 

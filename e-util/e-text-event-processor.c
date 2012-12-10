@@ -27,7 +27,6 @@
 #include <glib/gi18n.h>
 
 #include "e-text-event-processor.h"
-#include "e-util.h"
 
 static void e_text_event_processor_set_property (GObject *object,
 						 guint property_id,

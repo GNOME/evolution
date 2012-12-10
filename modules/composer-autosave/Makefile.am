@@ -3,10 +3,10 @@ module_LTLIBRARIES = module-composer-autosave.la
 module_composer_autosave_la_CPPFLAGS = \
 	$(AM_CPPFLAGS)						\
 	-I$(top_srcdir)						\
-	-I$(top_srcdir)/widgets					\
 	-DG_LOG_DOMAIN=\"evolution-composer-autosave\"		\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)				\
+	$(CHAMPLAIN_CFLAGS)					\
 	$(GTKHTML_CFLAGS)
 
 module_composer_autosave_la_SOURCES = \
@@ -19,11 +19,10 @@ module_composer_autosave_la_SOURCES = \
 module_composer_autosave_la_LIBADD = \
 	$(top_builddir)/shell/libeshell.la			\
 	$(top_builddir)/composer/libcomposer.la			\
-	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
 	$(top_builddir)/e-util/libeutil.la			\
-	$(top_builddir)/libevolution-utils/libevolution-utils.la \
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
+	$(CHAMPLAIN_LIBS)					\
 	$(GTKHTML_LIBS)
 
 module_composer_autosave_la_LDFLAGS = \

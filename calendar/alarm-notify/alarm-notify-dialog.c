@@ -30,13 +30,11 @@
 #include <string.h>
 #include <glib/gi18n.h>
 
+#include "e-util/e-util.h"
+
 #include "alarm-notify-dialog.h"
 #include "config-data.h"
 #include "util.h"
-
-#include "e-util/e-util.h"
-#include "e-util/e-util-private.h"
-#include "misc/e-buffer-tagger.h"
 
 enum {
 	ALARM_DISPLAY_COLUMN,

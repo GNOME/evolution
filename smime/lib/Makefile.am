@@ -14,6 +14,8 @@ libessmime_la_CPPFLAGS =				\
 	-DPREFIX=\""$(prefix)"\"			\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
+	$(CHAMPLAIN_CFLAGS)				\
+	$(GTKHTML_CFLAGS)				\
 	$(CERT_UI_CFLAGS)
 
 libessmime_la_SOURCES = 	\
@@ -29,10 +31,11 @@ libessmime_la_SOURCES = 	\
 	e-pkcs12.h
 
 libessmime_la_LIBADD =				\
-	$(top_builddir)/libemail-utils/libemail-utils.la	\
 	$(top_builddir)/e-util/libeutil.la	\
 	$(EVOLUTION_DATA_SERVER_LIBS)		\
 	$(GNOME_PLATFORM_LIBS)			\
+	$(CHAMPLAIN_LIBS)			\
+	$(GTKHTML_LIBS)				\
 	$(CERT_UI_LIBS)
 
 libessmime_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)

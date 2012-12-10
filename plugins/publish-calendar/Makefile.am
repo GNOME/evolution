@@ -11,13 +11,14 @@ plugin_LTLIBRARIES = liborg-gnome-publish-calendar.la
 liborg_gnome_publish_calendar_la_CPPFLAGS =		\
 	$(AM_CPPFLAGS)					\
 	-I$(top_srcdir)					\
-	-I$(top_srcdir)/widgets				\
 	-I$(top_builddir)/shell				\
+	-DEVOLUTION_PLUGINDIR="\"$(plugindir)\""	\
+	-DEVOLUTION_UIDIR=\""$(uidir)"\"		\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(LIBNOTIFY_CFLAGS)				\
-	-DEVOLUTION_PLUGINDIR="\"$(plugindir)\""	\
-	-DEVOLUTION_UIDIR=\""$(uidir)"\"
+	$(CHAMPLAIN_CFLAGS)				\
+	$(GTKHTML_CFLAGS)				\
+	$(LIBNOTIFY_CFLAGS)
 
 liborg_gnome_publish_calendar_la_SOURCES =	\
 	publish-calendar.c			\
@@ -36,9 +37,10 @@ liborg_gnome_publish_calendar_la_LIBADD =			\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/shell/libeshell.la			\
 	$(top_builddir)/calendar/gui/libevolution-calendar.la	\
-	$(top_builddir)/libevolution-utils/libevolution-utils.la \
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
+	$(CHAMPLAIN_LIBS)					\
+	$(GTKHTML_LIBS)						\
 	$(LIBNOTIFY_LIBS)
 
 EXTRA_DIST =					\

@@ -4,11 +4,8 @@ module_addressbook_la_CPPFLAGS = \
 	$(AM_CPPFLAGS)						\
 	-DG_LOG_DOMAIN=\"evolution-addressbook\"		\
 	-I$(top_srcdir)						\
-	-I$(top_srcdir)/widgets					\
 	-I$(top_srcdir)/shell					\
 	-I$(top_builddir)/shell					\
-	-I$(top_srcdir)/widgets/menus				\
-	-I$(top_srcdir)/widgets/misc				\
 	-I$(top_srcdir)/addressbook/util			\
 	-I$(top_srcdir)/addressbook/gui/contact-editor		\
 	-I$(top_srcdir)/addressbook/gui/contact-list-editor	\
@@ -64,14 +61,9 @@ module_addressbook_la_LIBADD = \
 	$(top_builddir)/shell/libeshell.la			\
 	$(top_builddir)/addressbook/gui/merging/libeabbookmerging.la \
 	$(top_builddir)/addressbook/gui/widgets/libeabwidgets.la \
-	$(top_builddir)/filter/libfilter.la			\
 	$(top_builddir)/addressbook/util/libeabutil.la		\
 	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la \
 	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la \
-	$(top_builddir)/widgets/table/libetable.la		\
-	$(top_builddir)/widgets/text/libetext.la		\
-	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
-	$(top_builddir)/widgets/menus/libmenus.la		\
 	$(top_builddir)/addressbook/importers/libevolution-addressbook-importers.la \
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\

@@ -23,10 +23,8 @@
 #define EM_ACCOUNT_PREFS_H
 
 #include <gtk/gtk.h>
-#include <table/e-table.h>
 #include <mail/e-mail-backend.h>
 #include <mail/e-mail-account-manager.h>
-#include <widgets/misc/e-preferences-window.h>
 
 /* Standard GObject macros */
 #define EM_TYPE_ACCOUNT_PREFS \

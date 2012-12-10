@@ -21,6 +21,10 @@
  *
  */
 
+#if !defined (__E_UTIL_H_INSIDE__) && !defined (LIBEUTIL_COMPILATION)
+#error "Only <e-util/e-util.h> should be included directly."
+#endif
+
 /* This a bit 'whipped together', so is likely to change mid-term */
 
 #ifndef E_EVENT_H
@@ -197,7 +201,7 @@ void		e_event_target_free		(EEvent *event,
 /* For events, the plugin item talks to a specific instance, rather than
  * a set of instances of the hook handler */
 
-#include "e-util/e-plugin.h"
+#include <e-util/e-plugin.h>
 
 /* Standard GObject macros */
 #define E_TYPE_EVENT_HOOK \

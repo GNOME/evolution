@@ -24,8 +24,8 @@
 #include <config.h>
 #endif
 
-#include <text/e-text.h>
-#include "a11y/ea-factory.h"
+#include "e-util/e-util.h"
+
 #include "ea-addressbook.h"
 #include "ea-minicard.h"
 #include "ea-minicard-view.h"

@@ -20,14 +20,15 @@
 #include <config.h>
 #endif
 
-#include "e-mail-part-attachment.h"
+#include <glib/gi18n-lib.h>
 
-#include <em-format/e-mail-formatter-quote.h>
-#include <em-format/e-mail-part-utils.h>
+#include <camel/camel.h>
+
 #include <e-util/e-util.h>
 
-#include <glib/gi18n-lib.h>
-#include <camel/camel.h>
+#include "e-mail-formatter-quote.h"
+#include "e-mail-part-attachment.h"
+#include "e-mail-part-utils.h"
 
 #define d(x)
 

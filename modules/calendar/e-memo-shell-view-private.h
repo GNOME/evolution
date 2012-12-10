@@ -27,14 +27,7 @@
 #include <string.h>
 #include <glib/gi18n.h>
 
-#include "e-util/e-dialog-utils.h"
-#include "e-util/e-file-utils.h"
-#include "e-util/e-util.h"
 #include "shell/e-shell-utils.h"
-#include "misc/e-cal-source-config.h"
-#include "misc/e-popup-action.h"
-#include "misc/e-selectable.h"
-#include "misc/e-source-config-dialog.h"
 
 #include "calendar/gui/comp-util.h"
 #include "calendar/gui/e-cal-component-preview.h"

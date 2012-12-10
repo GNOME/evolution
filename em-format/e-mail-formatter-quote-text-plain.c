@@ -20,13 +20,15 @@
 #include <config.h>
 #endif
 
-#include <em-format/e-mail-formatter-quote.h>
-#include <em-format/e-mail-part-utils.h>
-#include <em-format/e-mail-stripsig-filter.h>
+#include <glib/gi18n-lib.h>
+
+#include <camel/camel.h>
+
 #include <e-util/e-util.h>
 
-#include <glib/gi18n-lib.h>
-#include <camel/camel.h>
+#include "e-mail-formatter-quote.h"
+#include "e-mail-part-utils.h"
+#include "e-mail-stripsig-filter.h"
 
 typedef EMailFormatterExtension EMailFormatterQuoteTextPlain;
 typedef EMailFormatterExtensionClass EMailFormatterQuoteTextPlainClass;

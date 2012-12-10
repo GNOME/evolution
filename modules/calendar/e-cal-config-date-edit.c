@@ -23,7 +23,6 @@
 #include "e-cal-config-date-edit.h"
 
 #include <shell/e-shell.h>
-#include <misc/e-dateedit.h>
 
 #define E_CAL_CONFIG_DATE_EDIT_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

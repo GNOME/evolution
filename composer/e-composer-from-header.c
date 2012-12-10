@@ -24,8 +24,6 @@
 
 #include "e-composer-from-header.h"
 
-#include <misc/e-mail-identity-combo-box.h>
-
 G_DEFINE_TYPE (
 	EComposerFromHeader,
 	e_composer_from_header,

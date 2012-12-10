@@ -22,10 +22,8 @@
 #include "e-composer-header-table.h"
 
 #include <glib/gi18n-lib.h>
-#include <libedataserverui/libedataserverui.h>
 
 #include <shell/e-shell.h>
-#include <misc/e-mail-signature-combo-box.h>
 
 #include "e-msg-composer.h"
 #include "e-composer-private.h"

@@ -6,10 +6,10 @@ plugin_LTLIBRARIES = liborg-gnome-mailing-list-actions.la
 liborg_gnome_mailing_list_actions_la_CPPFLAGS =		\
 	$(AM_CPPFLAGS)					\
 	-I$(top_srcdir)					\
-	-I$(top_srcdir)/widgets				\
 	-I$(top_builddir)/composer 			\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
+	$(CHAMPLAIN_CFLAGS)				\
 	$(GTKHTML_CFLAGS)
 
 liborg_gnome_mailing_list_actions_la_SOURCES = mailing-list-actions.c
@@ -22,10 +22,9 @@ liborg_gnome_mailing_list_actions_la_LIBADD =		\
 	$(top_builddir)/mail/libevolution-mail.la	\
 	$(top_builddir)/shell/libeshell.la		\
 	$(top_builddir)/libemail-engine/libemail-engine.la \
-	$(top_builddir)/libemail-utils/libemail-utils.la \
-	$(top_builddir)/libevolution-utils/libevolution-utils.la \
 	$(EVOLUTION_DATA_SERVER_LIBS)			\
 	$(GNOME_PLATFORM_LIBS)				\
+	$(CHAMPLAIN_LIBS)				\
 	$(GTKHTML_LIBS)
 
 error_DATA = org-gnome-mailing-list-actions.error

@@ -24,9 +24,6 @@
 
 #include <libebackend/libebackend.h>
 
-#include <e-util/e-marshal.h>
-#include <libevolution-utils/e-alert-dialog.h>
-
 #include <libemail-engine/mail-ops.h>
 
 #include <mail/mail-vfolder-ui.h>

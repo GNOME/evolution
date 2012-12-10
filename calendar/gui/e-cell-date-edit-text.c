@@ -32,9 +32,6 @@
 #include <glib/gi18n.h>
 #include <libecal/libecal.h>
 
-#include <e-util/e-util.h>
-#include <e-util/e-datetime-format.h>
-
 #include "e-cell-date-edit-text.h"
 
 #define E_CELL_DATE_EDIT_TEXT_GET_PRIVATE(obj) \

@@ -25,9 +25,8 @@
 #ifndef E_MEMO_TABLE_H
 #define E_MEMO_TABLE_H
 
-#include <table/e-table.h>
-#include <table/e-cell-date-edit.h>
 #include <shell/e-shell-view.h>
+
 #include "e-cal-model.h"
 
 /*

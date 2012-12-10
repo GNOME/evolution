@@ -20,15 +20,14 @@
 #include <config.h>
 #endif
 
-#include <em-format/e-mail-parser-extension.h>
-#include <em-format/e-mail-parser.h>
-#include <em-format/e-mail-inline-filter.h>
-#include <em-format/e-mail-part-utils.h>
+#include <ctype.h>
+#include <glib/gi18n-lib.h>
+
 #include <e-util/e-util.h>
 
-#include <glib/gi18n-lib.h>
-#include <camel/camel.h>
-#include <ctype.h>
+#include "e-mail-inline-filter.h"
+#include "e-mail-parser-extension.h"
+#include "e-mail-part-utils.h"
 
 typedef EMailParserExtension EMailParserTextPlain;
 typedef EMailParserExtensionClass EMailParserTextPlainClass;

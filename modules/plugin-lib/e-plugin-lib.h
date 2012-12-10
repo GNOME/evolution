@@ -23,7 +23,7 @@
 #define E_PLUGIN_LIB_H
 
 #include <gmodule.h>
-#include <e-util/e-plugin.h>
+#include <e-util/e-util.h>
 
 /* Standard GObject macros */
 #define E_TYPE_PLUGIN_LIB \

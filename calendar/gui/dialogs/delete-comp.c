@@ -26,9 +26,11 @@
 #include <config.h>
 #endif
 
-#include <glib/gi18n.h>
-#include "libevolution-utils/e-alert-dialog.h"
 #include "delete-comp.h"
+
+#include <glib/gi18n.h>
+
+#include "e-util/e-util.h"
 
 /**
  * delete_component_dialog:

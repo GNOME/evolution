@@ -31,7 +31,6 @@
 
 #include <libecal/libecal.h>
 #include <libebackend/libebackend.h>
-#include <libedataserverui/libedataserverui.h>
 
 #include <shell/e-shell.h>
 #include <e-util/e-util-enumtypes.h>

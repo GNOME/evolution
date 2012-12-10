@@ -25,17 +25,17 @@
 #include <config.h>
 #endif
 
-#include <string.h>
-
 #include "em-filter-source-element.h"
-#include "e-mail-account-store.h"
-#include "e-mail-ui-session.h"
+
+#include <string.h>
 
 #include <gtk/gtk.h>
 #include <camel/camel.h>
 
-#include <shell/e-shell.h>
-#include <filter/e-filter-part.h>
+#include "shell/e-shell.h"
+
+#include "e-mail-account-store.h"
+#include "e-mail-ui-session.h"
 
 #define EM_FILTER_SOURCE_ELEMENT_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

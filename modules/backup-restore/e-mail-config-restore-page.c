@@ -27,9 +27,7 @@
 #endif
 #include <glib/gi18n-lib.h>
 
-#include <libevolution-utils/e-alert-sink.h>
-#include <libevolution-utils/e-alert-dialog.h>
-#include <misc/e-alert-bar.h>
+#include <e-util/e-util.h>
 
 #define E_MAIL_CONFIG_RESTORE_PAGE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

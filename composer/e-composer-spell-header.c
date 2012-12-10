@@ -19,8 +19,6 @@
 #include <config.h>
 #endif
 
-#include <misc/e-spell-entry.h>
-
 #include "e-composer-spell-header.h"
 
 G_DEFINE_TYPE (

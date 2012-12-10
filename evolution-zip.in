@@ -15,14 +15,9 @@ bin/libeabutil-0.dll
 bin/libecontacteditor-0.dll
 bin/libecontactlisteditor-0.dll
 bin/libefilterbar-0.dll
-bin/libemiscwidgets-0.dll
 bin/libeshell-0.dll
 bin/libessmime-0.dll
-bin/libetable-0.dll
-bin/libetext-0.dll
-bin/libetimezonedialog-0.dll
 bin/libeutil-0.dll
-bin/libevolution-a11y-0.dll
 bin/libevolution-addressbook-a11y-0.dll
 bin/libevolution-addressbook-importers-0.dll
 bin/libevolution-calendar-a11y-0.dll
@@ -30,8 +25,6 @@ bin/libevolution-calendar-importers-0.dll
 bin/libevolution-mail-importers-0.dll
 bin/libevolution-smime-0.dll
 bin/libevolution-widgets-a11y-0.dll
-bin/libfilter-0.dll
-bin/libmenus-0.dll
 bin/evolution.exe
 lib/bonobo/servers/GNOME_Evolution_Addressbook.server
 lib/bonobo/servers/GNOME_Evolution_Calendar.server

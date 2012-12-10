@@ -23,8 +23,6 @@
 
 #include <libebackend/libebackend.h>
 
-#include <libevolution-utils/e-alert-sink.h>
-
 #include <mail/e-mail-config-confirm-page.h>
 #include <mail/e-mail-config-identity-page.h>
 #include <mail/e-mail-config-lookup-page.h>

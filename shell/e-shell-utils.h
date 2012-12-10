@@ -23,8 +23,6 @@
 #define E_SHELL_UTILS_H
 
 #include <shell/e-shell.h>
-#include <misc/e-web-view.h>
-#include <e-util/e-ui-manager.h>
 
 G_BEGIN_DECLS
 

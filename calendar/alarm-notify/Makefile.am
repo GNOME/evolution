@@ -12,7 +12,6 @@ evolution_alarm_notify_CPPFLAGS = 			\
 	$(AM_CPPFLAGS)					\
 	-DG_LOG_DOMAIN=\"evolution-alarm-notify\"	\
 	-I$(top_srcdir)					\
-	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)/calendar			\
 	-DEVOLUTION_UIDIR=\""$(uidir)"\"		\
 	-DEVOLUTION_ICONDIR=\""$(icondir)"\"		\
@@ -21,7 +20,9 @@ evolution_alarm_notify_CPPFLAGS = 			\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
 	$(LIBNOTIFY_CFLAGS)				\
-	$(CANBERRA_CFLAGS)
+	$(CANBERRA_CFLAGS)				\
+	$(CHAMPLAIN_CFLAGS)				\
+	$(GTKHTML_CFLAGS)
 
 ui_DATA =		\
 	alarm-notify.ui
@@ -44,17 +45,17 @@ evolution_alarm_notify_SOURCES =	\
 evolution_alarm_notify_LDADD =						\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/composer/libcomposer.la				\
-	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
 	$(top_builddir)/calendar/gui/libevolution-calendar.la		\
 	$(top_builddir)/calendar/importers/libevolution-calendar-importers.la \
 	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la \
 	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la \
 	$(top_builddir)/addressbook/util/libeabutil.la			\
-	$(top_builddir)/libevolution-utils/libevolution-utils.la	\
 	$(EVOLUTION_DATA_SERVER_LIBS)					\
 	$(GNOME_PLATFORM_LIBS)						\
 	$(LIBNOTIFY_LIBS)						\
 	$(CANBERRA_LIBS)						\
+	$(CHAMPLAIN_LIBS)						\
+	$(GTKHTML_LIBS)
 	$(EVOLUTIONALARMNOTIFYICON)
 
 if OS_WIN32

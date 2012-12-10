@@ -25,7 +25,7 @@
 #ifndef EM_SEARCH_CONTEXT_H
 #define EM_SEARCH_CONTEXT_H
 
-#include <filter/e-rule-context.h>
+#include <e-util/e-util.h>
 
 /* Standard GObject macros */
 #define EM_SEARCH_TYPE_CONTEXT \

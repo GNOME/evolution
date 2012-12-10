@@ -12,12 +12,9 @@ libeabwidgets_la_CPPFLAGS =				\
 	-DEVOLUTION_IMAGESDIR=\"${imagesdir}\"		\
 	-DEVOLUTION_PRIVDATADIR=\"${privdatadir}\"	\
 	-I$(top_srcdir)					\
-	-I$(top_srcdir)/filter				\
-	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)/addressbook			\
 	-I$(top_srcdir)/addressbook/gui/merging		\
 	-I$(top_srcdir)/addressbook/util		\
-	-I$(top_srcdir)/widgets/misc			\
 	-I$(top_builddir)/shell				\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
@@ -69,11 +66,7 @@ libeabwidgets_la_SOURCES =			\
 	ea-addressbook.h
 
 libeabwidgets_la_LIBADD =					\
-	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
 	$(top_builddir)/shell/libeshell.la			\
-	$(top_builddir)/widgets/table/libetable.la		\
-	$(top_builddir)/widgets/menus/libmenus.la		\
-	$(top_builddir)/a11y/libevolution-a11y.la		\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\

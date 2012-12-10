@@ -28,9 +28,6 @@
 
 #include <calendar/gui/e-memo-table.h>
 
-#include <menus/gal-view-instance.h>
-#include <misc/e-preview-pane.h>
-
 /* Standard GObject macros */
 #define E_TYPE_MEMO_SHELL_CONTENT \
 	(e_memo_shell_content_get_type ())

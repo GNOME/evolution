@@ -26,17 +26,16 @@
 #include <config.h>
 #endif
 
+#include "em-filter-editor-folder-element.h"
+
 #include <string.h>
 
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
-#include "em-filter-editor-folder-element.h"
 #include "mail/em-folder-selection-button.h"
 #include "mail/em-utils.h"
 #include "shell/e-shell.h"
-#include "filter/e-filter-part.h"
-#include "libevolution-utils/e-alert.h"
 
 #define EM_FILTER_EDITOR_FOLDER_ELEMENT_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

@@ -48,9 +48,7 @@
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 
-#include <camel/camel.h>        /* FIXME: this is where camel_init is defined; it shouldn't include everything else */
-
-#include <libedataserverui/libedataserverui.h>
+#include <camel/camel.h>
 
 /* private NSS defines used by PSM */
 /* (must be declated before cert.h) */

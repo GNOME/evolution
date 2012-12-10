@@ -19,7 +19,7 @@
 #ifndef E_CONFLICT_SEARCH_SELECTOR_H
 #define E_CONFLICT_SEARCH_SELECTOR_H
 
-#include <libedataserverui/libedataserverui.h>
+#include <e-util/e-util.h>
 
 /* Standard GObject macros */
 #define E_TYPE_CONFLICT_SEARCH_SELECTOR \

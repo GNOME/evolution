@@ -21,12 +21,10 @@
 #include <config.h>
 #include <glib/gi18n-lib.h>
 
-#include <libevolution-utils/e-alert-dialog.h>
-#include <libevolution-utils/e-alert-sink.h>
-#include <misc/e-alert-bar.h>
+#include "e-util/e-util.h"
 
-#include <mail/e-mail-config-notebook.h>
-#include <mail/e-mail-config-sidebar.h>
+#include "mail/e-mail-config-notebook.h"
+#include "mail/e-mail-config-sidebar.h"
 
 #define E_MAIL_CONFIG_WINDOW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

@@ -22,8 +22,6 @@
 
 #include <libebackend/libebackend.h>
 
-#include <libevolution-utils/e-alert-dialog.h>
-
 #include <libemail-engine/e-mail-session-utils.h>
 
 #include <mail/em-utils.h>

@@ -25,9 +25,9 @@
 #ifndef EM_VFOLDER_EDITOR_CONTEXT_H
 #define EM_VFOLDER_EDITOR_CONTEXT_H
 
-#include <filter/e-rule-context.h>
-#include <libemail-utils/em-vfolder-context.h>
+#include <e-util/e-util.h>
 #include <libemail-engine/e-mail-session.h>
+#include <libemail-engine/em-vfolder-context.h>
 
 /* Standard GObject macros */
 #define EM_TYPE_VFOLDER_EDITOR_CONTEXT \

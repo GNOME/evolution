@@ -30,11 +30,6 @@
 #include <glib/gi18n.h>
 #include <string.h>
 
-#include <libevolution-utils/e-alert-dialog.h>
-#include <e-util/e-config.h>
-#include <e-util/e-plugin.h>
-#include <e-util/e-util.h>
-
 #include <shell/e-shell-view.h>
 
 #include <libemail-engine/e-mail-session-utils.h>

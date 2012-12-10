@@ -25,8 +25,6 @@
 
 #include "e-task-shell-view-private.h"
 
-#include "widgets/menus/gal-view-factory-etable.h"
-
 #include "e-util/e-util-private.h"
 
 static void

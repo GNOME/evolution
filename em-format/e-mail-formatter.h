@@ -19,10 +19,11 @@
 #ifndef E_MAIL_FORMATTER_H_
 #define E_MAIL_FORMATTER_H_
 
-#include <em-format/e-mail-part-list.h>
-#include <em-format/e-mail-extension-registry.h>
 #include <gdk/gdk.h>
 #include <libemail-engine/e-mail-enums.h>
+
+#include <em-format/e-mail-extension-registry.h>
+#include <em-format/e-mail-part-list.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_FORMATTER \

@@ -31,7 +31,7 @@
 #include <gtk/gtk.h>
 #include <libecal/libecal.h>
 
-#include <misc/e-calendar.h>
+#include <e-util/e-util.h>
 
 #include "e-cal-model.h"
 

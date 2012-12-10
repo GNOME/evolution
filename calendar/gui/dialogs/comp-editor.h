@@ -28,10 +28,10 @@
 #include <gtk/gtk.h>
 #include <libecal/libecal.h>
 
+#include <shell/e-shell.h>
+
 #include "../itip-utils.h"
 #include "comp-editor-page.h"
-#include <shell/e-shell.h>
-#include <misc/e-focus-tracker.h>
 
 /* Standard GObject macros */
 #define TYPE_COMP_EDITOR \

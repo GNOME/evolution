@@ -51,13 +51,8 @@ SUBDIRS = 			\
 	m4			\
 	data			\
 	libgnomecanvas		\
-	libevolution-utils	\
-	filter			\
-	libemail-utils		\
-	libemail-engine		\
 	e-util			\
-	a11y			\
-	widgets			\
+	libemail-engine		\
 	shell			\
 	$(SMIME_SUBDIR)		\
 	em-format		\

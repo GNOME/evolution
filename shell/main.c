@@ -55,8 +55,6 @@
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 
-#include <libedataserverui/libedataserverui.h>
-
 #include <webkit/webkit.h>
 
 #include "e-shell.h"
@@ -64,12 +62,6 @@
 #include "e-shell-meego.h"
 #include "es-event.h"
 
-#include "e-util/e-dialog-utils.h"
-#include "e-util/e-import.h"
-#include "e-util/e-plugin.h"
-#include "e-util/e-plugin-ui.h"
-#include "e-util/e-util-private.h"
-#include "e-util/e-util.h"
 #ifdef G_OS_WIN32
 #include "e-util/e-win32-defaults.h"
 #endif

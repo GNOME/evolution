@@ -24,8 +24,6 @@
 #ifndef __E_SELECT_NAMES_EDITABLE_H__
 #define __E_SELECT_NAMES_EDITABLE_H__
 
-#include <libedataserverui/libedataserverui.h>
-
 G_BEGIN_DECLS
 
 #define E_TYPE_SELECT_NAMES_EDITABLE	     (e_select_names_editable_get_type ())

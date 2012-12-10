@@ -22,5 +22,6 @@
 #define E_COMPOSER_COMMON
 
 #include <gtk/gtk.h>
+#include <e-util/e-util.h>
 
 #endif /* E_COMPOSER_COMMON */

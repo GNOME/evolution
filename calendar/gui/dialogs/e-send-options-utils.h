@@ -27,7 +27,7 @@
 
 #include <libecal/libecal.h>
 
-#include "misc/e-send-options.h"
+#include <e-util/e-util.h>
 
 void		e_send_options_utils_set_default_data
 						(ESendOptionsDialog *sod,

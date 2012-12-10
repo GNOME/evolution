@@ -22,7 +22,6 @@
 
 #include <shell/e-shell.h>
 #include <composer/e-composer-header.h>
-#include <misc/e-mail-signature-combo-box.h>
 
 /* Standard GObject macros */
 #define E_TYPE_COMPOSER_HEADER_TABLE \

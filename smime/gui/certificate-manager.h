@@ -25,7 +25,6 @@
 
 #include <gtk/gtk.h>
 #include <shell/e-shell.h>
-#include <widgets/misc/e-preferences-window.h>
 
 /* Standard GObject macros */
 #define E_TYPE_CERT_MANAGER_CONFIG \

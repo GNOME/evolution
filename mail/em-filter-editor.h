@@ -25,7 +25,8 @@
 #ifndef EM_FILTER_EDITOR_H
 #define EM_FILTER_EDITOR_H
 
-#include "filter/e-rule-editor.h"
+#include <e-util/e-util.h>
+
 #include "em-filter-context.h"
 
 /* Standard GObject macros */

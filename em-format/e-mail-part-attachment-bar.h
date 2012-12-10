@@ -23,8 +23,6 @@
 
 #include <em-format/e-mail-part.h>
 
-#include <widgets/misc/e-attachment-store.h>
-
 typedef struct _EMailPartAttachmentBar {
 	EMailPart parent;
 

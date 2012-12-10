@@ -28,12 +28,10 @@
 
 #include <string.h>
 #include <time.h>
-#include <libedataserverui/libedataserverui.h>
 
 #include "calendar-config.h"
 #include "comp-util.h"
 #include "dialogs/delete-comp.h"
-#include "e-util/e-categories-config.h"
 
 #include "gnome-cal.h"
 #include "shell/e-shell-window.h"

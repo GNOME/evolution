@@ -6,10 +6,10 @@ libevolution_calendar_importers_la_CPPFLAGS = 		\
 	-DG_LOG_DOMAIN=\"Evolution-Importer\"		\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/calendar			\
-	-I$(top_srcdir)/widgets				\
 	-I$(top_builddir)/calendar			\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
+	$(CHAMPLAIN_CFLAGS)				\
 	$(GTKHTML_CFLAGS)
 
 libevolution_calendar_importers_la_SOURCES = \
@@ -21,9 +21,9 @@ libevolution_calendar_importers_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 libevolution_calendar_importers_la_LIBADD =			\
 	$(top_builddir)/e-util/libeutil.la 			\
 	$(top_builddir)/shell/libeshell.la			\
-	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
+	$(CHAMPLAIN_LIBS)					\
 	$(GTKHTML_LIBS)
 
 -include $(top_srcdir)/git.mk

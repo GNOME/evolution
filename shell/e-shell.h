@@ -24,8 +24,7 @@
 
 #include <libedataserver/libedataserver.h>
 
-#include <e-util/e-activity.h>
-#include <libevolution-utils/e-alert.h>
+#include <e-util/e-util.h>
 
 #include <shell/e-shell-common.h>
 #include <shell/e-shell-backend.h>

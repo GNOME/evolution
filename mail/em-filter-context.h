@@ -25,7 +25,7 @@
 #ifndef EM_FILTER_CONTEXT_H
 #define EM_FILTER_CONTEXT_H
 
-#include <filter/e-rule-context.h>
+#include <e-util/e-util.h>
 #include <libemail-engine/e-mail-session.h>
 
 /* Standard GObject macros */

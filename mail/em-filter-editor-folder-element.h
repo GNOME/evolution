@@ -25,9 +25,9 @@
 #ifndef EM_FILTER_EDITOR_FOLDER_ELEMENT_H
 #define EM_FILTER_EDITOR_FOLDER_ELEMENT_H
 
-#include <filter/e-filter-element.h>
-#include <libemail-utils/em-filter-folder-element.h>
+#include <e-util/e-util.h>
 #include <libemail-engine/e-mail-session.h>
+#include <libemail-engine/em-filter-folder-element.h>
 
 /* Standard GObject macros */
 #define EM_TYPE_FILTER_EDITOR_FOLDER_ELEMENT \

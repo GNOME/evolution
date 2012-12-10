@@ -25,9 +25,9 @@
 
 #include <gtk/gtk.h>
 #include <libgnomecanvas/libgnomecanvas.h>
-#include <text/e-text.h>
-#include <table/e-table-model.h>
-#include <table/e-table.h>
+
+#include <e-util/e-util.h>
+
 #include "e-meeting-store.h"
 #include "e-meeting-list-view.h"
 

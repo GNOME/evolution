@@ -20,16 +20,13 @@
 #include <config.h>
 #endif
 
+#include <string.h>
 #include <glib/gi18n-lib.h>
 
-#include <em-format/e-mail-parser-extension.h>
-#include <em-format/e-mail-parser.h>
-#include <libemail-engine/e-mail-utils.h>
 #include <e-util/e-util.h>
+#include <libemail-engine/e-mail-utils.h>
 
-#include <camel/camel.h>
-
-#include <string.h>
+#include "e-mail-parser-extension.h"
 
 typedef EMailParserExtension EMailParserHeaders;
 typedef EMailParserExtensionClass EMailParserHeadersClass;

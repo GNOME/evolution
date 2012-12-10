@@ -28,7 +28,6 @@
 
 #include <mail/em-config.h>
 #include <mail/em-composer-utils.h>
-#include <libevolution-utils/e-alert-dialog.h>
 #include <e-msg-composer.h>
 
 #include <glib/gi18n-lib.h>

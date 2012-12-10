@@ -26,7 +26,7 @@
 #ifndef E_TASK_LIST_SELECTOR_H
 #define E_TASK_LIST_SELECTOR_H
 
-#include <libedataserverui/libedataserverui.h>
+#include <e-util/e-util.h>
 
 /* Standard GObject macros */
 #define E_TYPE_TASK_LIST_SELECTOR \

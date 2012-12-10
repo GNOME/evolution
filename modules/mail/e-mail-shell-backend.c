@@ -27,16 +27,10 @@
 
 #include <glib/gi18n.h>
 
-#include <e-util/e-import.h>
-#include <e-util/e-util.h>
-
 #include <shell/e-shell.h>
 #include <shell/e-shell-window.h>
 
 #include <composer/e-msg-composer.h>
-
-#include <widgets/misc/e-preferences-window.h>
-#include <widgets/misc/e-web-view.h>
 
 #include <libemail-engine/e-mail-folder-utils.h>
 #include <libemail-engine/e-mail-session.h>
@@ -858,7 +852,6 @@ e_mail_shell_backend_edit_account (EMailShellBackend *mail_shell_backend,
 
 /******************* Code below here belongs elsewhere. *******************/
 
-#include "filter/e-filter-option.h"
 #include "shell/e-shell-settings.h"
 
 static GSList *

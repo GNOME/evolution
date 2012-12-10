@@ -34,13 +34,6 @@
 #include <glib/gi18n.h>
 #include <libebackend/libebackend.h>
 
-#include "e-util/e-util.h"
-#include "libevolution-utils/e-alert-dialog.h"
-#include "libevolution-utils/e-alert-sink.h"
-#include "filter/e-rule-editor.h"
-#include "widgets/misc/e-action-combo-box.h"
-#include "widgets/misc/e-alert-bar.h"
-
 #include "e-shell-backend.h"
 #include "e-shell-searchbar.h"
 #include "e-shell-view.h"

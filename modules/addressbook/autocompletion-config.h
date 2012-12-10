@@ -26,7 +26,6 @@
 #define _AUTOCOMPLETION_CONFIG_H
 
 #include <shell/e-shell.h>
-#include <widgets/misc/e-preferences-window.h>
 
 G_BEGIN_DECLS
 

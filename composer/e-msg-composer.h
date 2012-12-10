@@ -28,9 +28,6 @@
 #include <gtkhtml-editor.h>
 #include <libebook/libebook.h>
 
-#include <misc/e-attachment-view.h>
-#include <misc/e-focus-tracker.h>
-#include <misc/e-web-view-gtkhtml.h>
 #include <shell/e-shell.h>
 
 #include <composer/e-composer-header-table.h>

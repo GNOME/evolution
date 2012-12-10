@@ -44,16 +44,14 @@
 #include "shell/e-shell-view.h"
 #include "shell/e-shell-sidebar.h"
 
+#include "libemail-engine/mail-mt.h"
+
 #include "mail/e-mail-backend.h"
 #include "mail/em-folder-selection-button.h"
 #include "mail/em-folder-tree-model.h"
 #include "mail/em-folder-tree.h"
-#include "libemail-utils/mail-mt.h"
 
 #include "mail-importer.h"
-
-#include "e-util/e-import.h"
-#include "misc/e-web-view-preview.h"
 
 typedef struct {
 	EImport *import;

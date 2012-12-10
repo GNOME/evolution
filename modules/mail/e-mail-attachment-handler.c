@@ -27,7 +27,6 @@
 
 #include <glib/gi18n.h>
 
-#include "libevolution-utils/e-alert-dialog.h"
 #include "mail/e-mail-backend.h"
 #include "mail/em-composer-utils.h"
 

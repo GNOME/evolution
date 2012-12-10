@@ -30,7 +30,6 @@
 #include <glib/gi18n-lib.h>
 
 #include <e-util/e-util.h>
-#include <libevolution-utils/e-alert-dialog.h>
 
 #include <shell/e-shell-view.h>
 #include <shell/e-shell-window.h>
@@ -38,7 +37,7 @@
 
 #include <composer/e-msg-composer.h>
 
-#include <libemail-utils/mail-mt.h>
+#include <libemail-engine/mail-mt.h>
 #include <libemail-engine/mail-ops.h>
 
 #include <mail/e-mail-browser.h>

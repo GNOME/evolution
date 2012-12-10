@@ -25,7 +25,7 @@
 #define _E_CELL_DATE_EDIT_TEXT_H_
 
 #include <libical/ical.h>
-#include <table/e-cell-text.h>
+#include <e-util/e-util.h>
 
 /* Standard GObject macros */
 #define E_TYPE_CELL_DATE_EDIT_TEXT \

@@ -22,7 +22,6 @@
 #endif
 
 #include <libecal/libecal.h>
-#include <libedataserverui/libedataserverui.h>
 #include <libebackend/libebackend.h>
 
 #include <em-format/e-mail-part.h>

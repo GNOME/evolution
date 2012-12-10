@@ -30,7 +30,6 @@
 #include <glib/gi18n.h>
 #include <libecal/libecal.h>
 #include <libebook/libebook.h>
-#include <libedataserverui/libedataserverui.h>
 
 #include "calendar-config.h"
 #include "e-meeting-list-view.h"

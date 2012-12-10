@@ -3,16 +3,16 @@ privsolib_LTLIBRARIES =	libecontacteditor.la
 libecontacteditor_la_CPPFLAGS =				\
 	$(AM_CPPFLAGS)					\
 	-I$(top_srcdir)					\
-	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)/addressbook/			\
 	-I$(top_srcdir)/addressbook/gui/merging		\
-	-I$(top_srcdir)/widgets/table			\
 	-I$(top_builddir)/shell				\
 	-DEVOLUTION_UIDIR=\""$(uidir)"\"		\
 	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"	\
 	-DG_LOG_DOMAIN=\"contact-editor\"		\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
-	$(GNOME_PLATFORM_CFLAGS)
+	$(GNOME_PLATFORM_CFLAGS)			\
+	$(CHAMPLAIN_CFLAGS)				\
+	$(GTKHTML_CFLAGS)
 
 libecontacteditor_la_SOURCES = 			\
 	eab-editor.c				\
@@ -28,15 +28,15 @@ libecontacteditor_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 
 libecontacteditor_la_LIBADD =						\
 	$(top_builddir)/e-util/libeutil.la				\
-	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
 	$(top_builddir)/addressbook/util/libeabutil.la			\
 	$(top_builddir)/addressbook/gui/widgets/libeabwidgets.la	\
 	$(top_builddir)/addressbook/gui/merging/libeabbookmerging.la	\
 	$(top_builddir)/addressbook/printing/libecontactprint.la	\
-	$(top_builddir)/widgets/menus/libmenus.la			\
 	$(EVOLUTION_ADDRESSBOOK_LIBS)					\
 	$(EVOLUTION_DATA_SERVER_LIBS)					\
-	$(GNOME_PLATFORM_LIBS)
+	$(GNOME_PLATFORM_LIBS)						\
+	$(CHAMPLAIN_LIBS)						\
+	$(GTKHTML_LIBS)
 
 ui_DATA = 				\
 	contact-editor.ui		\

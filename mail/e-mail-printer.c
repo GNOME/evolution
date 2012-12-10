@@ -24,13 +24,12 @@
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 
-#include <em-format/e-mail-formatter-print.h>
-#include <em-format/e-mail-part-utils.h>
-
-#include <e-util/e-print.h>
-#include <e-util/e-marshal.h>
-
 #include <webkit/webkitdom.h>
+
+#include "e-util/e-util.h"
+
+#include "em-format/e-mail-formatter-print.h"
+#include "em-format/e-mail-part-utils.h"
 
 #include "e-mail-printer.h"
 #include "e-mail-display.h"

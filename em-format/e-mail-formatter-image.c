@@ -20,16 +20,14 @@
 #include <config.h>
 #endif
 
-#include <em-format/e-mail-parser-extension.h>
-#include <em-format/e-mail-formatter-extension.h>
-#include <em-format/e-mail-part-utils.h>
-#include <em-format/e-mail-parser.h>
-#include <em-format/e-mail-formatter.h>
-#include <em-format/e-mail-inline-filter.h>
+#include <glib/gi18n-lib.h>
+
 #include <e-util/e-util.h>
 
-#include <glib/gi18n-lib.h>
-#include <camel/camel.h>
+#include "e-mail-formatter-extension.h"
+#include "e-mail-inline-filter.h"
+#include "e-mail-parser-extension.h"
+#include "e-mail-part-utils.h"
 
 typedef EMailFormatterExtension EMailFormatterImage;
 typedef EMailFormatterExtensionClass EMailFormatterImageClass;

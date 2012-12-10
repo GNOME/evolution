@@ -31,7 +31,6 @@
 #include <glib/gi18n-lib.h>
 
 #include "e-util/e-util.h"
-#include "widgets/misc/e-dateedit.h"
 
 #define E_MAIL_TAG_EDITOR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

@@ -20,8 +20,9 @@
 #define E_MAIL_PART_H_
 
 #include <camel/camel.h>
-#include <misc/e-attachment.h>
 #include <webkit/webkitdom.h>
+
+#include <e-util/e-util.h>
 
 #define E_MAIL_PART_IS(p,s_t) \
 		((p != NULL) && (e_mail_part_get_instance_size (p) == sizeof (s_t)))

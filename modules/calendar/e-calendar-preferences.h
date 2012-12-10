@@ -24,10 +24,7 @@
 #ifndef CAL_PREFERENCES_H
 #define CAL_PREFERENCES_H
 
-#include <libedataserverui/libedataserverui.h>
-
 #include <shell/e-shell.h>
-#include <widgets/misc/e-preferences-window.h>
 
 /* Standard GObject macros */
 #define E_TYPE_CALENDAR_PREFERENCES \

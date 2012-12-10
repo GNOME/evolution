@@ -25,12 +25,13 @@ libemformat_la_CPPFLAGS =				\
 	-I$(top_srcdir)/em-format			\
 	-I$(top_srcdir)/smime/lib			\
 	-I$(top_srcdir)/smime/gui			\
-	-I$(top_srcdir)/widgets				\
+	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"	\
+	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"	\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(LIBSOUP_CFLAGS)				\
-	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"	\
-	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"
+	$(CHAMPLAIN_CFLAGS)				\
+	$(GTKHTML_CFLAGS)				\
+	$(LIBSOUP_CFLAGS)
 
 if ENABLE_SMIME
 SMIME_EXTENSIONS = e-mail-parser-application-smime.c
@@ -104,14 +105,13 @@ SMIME_LIBS =						\
 endif
 
 libemformat_la_LIBADD =					\
-	$(top_builddir)/libevolution-utils/libevolution-utils.la \
 	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/shell/libeshell.la		\
-	$(top_builddir)/libemail-utils/libemail-utils.la \
 	$(top_builddir)/libemail-engine/libemail-engine.la \
-	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
 	$(EVOLUTION_DATA_SERVER_LIBS)			\
 	$(GNOME_PLATFORM_LIBS)				\
+	$(CHAMPLAIN_LIBS)				\
+	$(GTKHTML_LIBS)					\
 	$(LIBSOUP_LIBS)					\
 	$(SMIME_LIBS)
 

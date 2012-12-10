@@ -17,21 +17,17 @@
  */
 
 #include "e-mail-parser.h"
-#include "e-mail-parser-extension.h"
-#include "e-mail-part-attachment.h"
-#include "e-mail-part-utils.h"
 
-#include <camel/camel.h>
+#include <string.h>
+
 #include <libebackend/libebackend.h>
-
-#include <e-util/e-util.h>
 
 #include <shell/e-shell.h>
 #include <shell/e-shell-window.h>
 
-#include <widgets/misc/e-attachment.h>
-
-#include <string.h>
+#include "e-mail-parser-extension.h"
+#include "e-mail-part-attachment.h"
+#include "e-mail-part-utils.h"
 
 #define E_MAIL_PARSER_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

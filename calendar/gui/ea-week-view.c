@@ -25,11 +25,12 @@
 #endif
 
 #include "ea-week-view.h"
+
+#include <glib/gi18n.h>
+
 #include "ea-cal-view-event.h"
 #include "ea-calendar-helpers.h"
 #include "ea-gnome-calendar.h"
-#include <text/e-text.h>
-#include <glib/gi18n.h>
 
 static void ea_week_view_class_init (EaWeekViewClass *klass);
 

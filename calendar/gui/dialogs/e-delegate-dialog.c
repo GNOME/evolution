@@ -29,7 +29,6 @@
 #include <gtk/gtk.h>
 #include <libical/ical.h>
 #include <libebook/libebook.h>
-#include <libedataserverui/libedataserverui.h>
 
 #include "e-util/e-util.h"
 #include "e-util/e-util-private.h"

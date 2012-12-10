@@ -31,7 +31,6 @@
 
 #include "e-day-view-time-item.h"
 #include "calendar-config.h"
-#include <widgets/e-timezone-dialog/e-timezone-dialog.h>
 
 /* The spacing between items in the time column. GRID_X_PAD is the space down
  * either side of the column, i.e. outside the main horizontal grid lines.

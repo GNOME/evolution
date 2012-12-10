@@ -25,9 +25,6 @@
 
 #include <shell/e-shell.h>
 
-#include <libevolution-utils/e-alert-dialog.h>
-#include <e-util/e-import.h>
-
 #include <mail/e-mail-backend.h>
 #include <mail/e-mail-config-assistant.h>
 #include <mail/e-mail-config-welcome-page.h>

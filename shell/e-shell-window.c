@@ -1576,6 +1576,33 @@ e_shell_window_set_toolbar_visible (EShellWindow *shell_window,
 }
 
 /**
+ * e_shell_window_get_toolbar_new_prefer_item:
+ * @shell_window: an #EShellWindow
+ *
+ * Returns: name of preferred item on the New button for current view.
+ *
+ * Since: 3.4
+ **/
+const gchar *
+e_shell_window_get_toolbar_new_prefer_item (EShellWindow *shell_window)
+{
+	GtkWidget *toolbar;
+	GtkToolItem *item;
+
+	g_return_val_if_fail (shell_window != NULL, NULL);
+	g_return_val_if_fail (E_IS_SHELL_WINDOW (shell_window), NULL);
+
+	toolbar = e_shell_window_get_managed_widget (shell_window, "/main-toolbar");
+	g_return_val_if_fail (toolbar != NULL, NULL);
+
+	item = gtk_toolbar_get_nth_item (GTK_TOOLBAR (toolbar), 0);
+	g_return_val_if_fail (item != NULL, NULL);
+	g_return_val_if_fail (E_IS_MENU_TOOL_BUTTON (item), NULL);
+
+	return e_menu_tool_button_get_prefer_item (E_MENU_TOOL_BUTTON (item));
+}
+
+/**
  * e_shell_window_set_toolbar_new_prefer_item:
  * @shell_window: an #EShellWindow
  * @prefer_item: prefer-item name to be set
@@ -1602,33 +1629,6 @@ e_shell_window_set_toolbar_new_prefer_item (EShellWindow *shell_window,
 	g_return_if_fail (E_IS_MENU_TOOL_BUTTON (item));
 
 	e_menu_tool_button_set_prefer_item (E_MENU_TOOL_BUTTON (item), prefer_item);
-}
-
-/**
- * e_shell_window_get_toolbar_new_prefer_item:
- * @shell_window: an #EShellWindow
- *
- * Returns: name of preferred item on the New button for current view.
- *
- * Since: 3.4
- **/
-const gchar *
-e_shell_window_get_toolbar_new_prefer_item (EShellWindow *shell_window)
-{
-	GtkWidget *toolbar;
-	GtkToolItem *item;
-
-	g_return_val_if_fail (shell_window != NULL, NULL);
-	g_return_val_if_fail (E_IS_SHELL_WINDOW (shell_window), NULL);
-
-	toolbar = e_shell_window_get_managed_widget (shell_window, "/main-toolbar");
-	g_return_val_if_fail (toolbar != NULL, NULL);
-
-	item = gtk_toolbar_get_nth_item (GTK_TOOLBAR (toolbar), 0);
-	g_return_val_if_fail (item != NULL, NULL);
-	g_return_val_if_fail (E_IS_MENU_TOOL_BUTTON (item), NULL);
-
-	return e_menu_tool_button_get_prefer_item (E_MENU_TOOL_BUTTON (item));
 }
 
 /**

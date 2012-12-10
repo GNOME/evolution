@@ -27,7 +27,7 @@
 #include <gtk/gtk.h>
 #include <libebook/libebook.h>
 
-#include "libevolution-utils/e-alert-sink.h"
+#include <e-util/e-util.h>
 
 G_BEGIN_DECLS
 

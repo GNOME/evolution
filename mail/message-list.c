@@ -26,6 +26,8 @@
 #include <config.h>
 #endif
 
+#include "message-list.h"
+
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
@@ -36,38 +38,18 @@
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 
-#include "e-util/e-icon-factory.h"
-#include "e-util/e-poolv.h"
-#include "e-util/e-util-private.h"
-#include "e-util/e-util.h"
-
-#include "misc/e-selectable.h"
-
 #include "shell/e-shell.h"
 #include "shell/e-shell-settings.h"
 
-#include "table/e-cell-checkbox.h"
-#include "table/e-cell-hbox.h"
-#include "table/e-cell-date.h"
-#include "table/e-cell-size.h"
-#include "table/e-cell-text.h"
-#include "table/e-cell-toggle.h"
-#include "table/e-cell-tree.h"
-#include "table/e-cell-vbox.h"
-#include "table/e-table-sorting-utils.h"
-#include "table/e-tree-memory-callbacks.h"
-#include "table/e-tree-memory.h"
-
-#include "libemail-utils/mail-mt.h"
 #include "libemail-engine/e-mail-utils.h"
 #include "libemail-engine/mail-config.h"
+#include "libemail-engine/mail-mt.h"
 #include "libemail-engine/mail-ops.h"
 #include "libemail-engine/mail-tools.h"
 
-#include "mail/e-mail-label-list-store.h"
-#include "mail/e-mail-ui-session.h"
-#include "mail/em-utils.h"
-#include "mail/message-list.h"
+#include "e-mail-label-list-store.h"
+#include "e-mail-ui-session.h"
+#include "em-utils.h"
 
 /*#define TIMEIT */
 

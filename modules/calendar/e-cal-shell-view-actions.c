@@ -23,7 +23,6 @@
 #include <config.h>
 #endif
 
-#include "libevolution-utils/e-alert-dialog.h"
 #include "e-cal-shell-view-private.h"
 
 /* This is for radio action groups whose value is persistent.  We

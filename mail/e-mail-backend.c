@@ -34,9 +34,6 @@
 
 #include <shell/e-shell.h>
 
-#include <libevolution-utils/e-alert-dialog.h>
-#include <libevolution-utils/e-alert-sink.h>
-
 #include <libemail-engine/e-mail-folder-utils.h>
 #include <libemail-engine/e-mail-session.h>
 #include <libemail-engine/e-mail-store-utils.h>

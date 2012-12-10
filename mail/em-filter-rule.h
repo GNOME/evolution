@@ -25,7 +25,7 @@
 #ifndef EM_FILTER_RULE_H
 #define EM_FILTER_RULE_H
 
-#include "filter/e-filter-rule.h"
+#include <e-util/e-util.h>
 
 #define EM_TYPE_FILTER_RULE \
 	(em_filter_rule_get_type ())

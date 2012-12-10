@@ -29,9 +29,6 @@
 #include <calendar/gui/e-cal-model.h>
 #include <calendar/gui/e-task-table.h>
 
-#include <menus/gal-view-instance.h>
-#include <misc/e-preview-pane.h>
-
 /* Standard GObject macros */
 #define E_TYPE_TASK_SHELL_CONTENT \
 	(e_task_shell_content_get_type ())

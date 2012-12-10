@@ -29,7 +29,6 @@
 #include <libical/ical.h>
 #include <camel/camel.h>
 #include <libecal/libecal.h>
-#include <libedataserverui/libedataserverui.h>
 
 #include <shell/e-shell.h>
 

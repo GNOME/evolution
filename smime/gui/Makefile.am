@@ -9,8 +9,6 @@ libevolution_smime_la_CPPFLAGS =			\
 	-I$(top_builddir)/smime/lib			\
 	-I$(top_srcdir)/shell				\
 	-I$(top_builddir)/shell				\
-	-I$(top_srcdir)/widgets				\
-	-I$(top_builddir)/widgets			\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
 	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"	\
@@ -19,6 +17,8 @@ libevolution_smime_la_CPPFLAGS =			\
 	-DPREFIX=\""$(prefix)"\"			\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
+	$(CHAMPLAIN_CFLAGS)				\
+	$(GTKHTML_CFLAGS)				\
 	$(CERT_UI_CFLAGS)
 
 libevolution_smime_la_SOURCES = 	\
@@ -40,10 +40,10 @@ libevolution_smime_la_LIBADD =				\
 	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/shell/libeshell.la		\
 	$(top_builddir)/smime/lib/libessmime.la		\
-	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
-	$(top_builddir)/libevolution-utils/libevolution-utils.la \
 	$(EVOLUTION_DATA_SERVER_LIBS)			\
 	$(GNOME_PLATFORM_LIBS)				\
+	$(CHAMPLAIN_LIBS)				\
+	$(GTKHTML_LIBS)					\
 	$(CERT_UI_LIBS)
 
 libevolution_smime_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)

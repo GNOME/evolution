@@ -25,7 +25,6 @@
 
 #include "e-book-config-hook.h"
 
-#include "e-util/e-config.h"
 #include "addressbook/gui/widgets/eab-config.h"
 
 static const EConfigHookTargetMask no_masks[] = {

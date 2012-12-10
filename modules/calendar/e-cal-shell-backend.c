@@ -28,15 +28,10 @@
 #include <string.h>
 #include <glib/gi18n.h>
 #include <libecal/libecal.h>
-#include <libedataserverui/libedataserverui.h>
 
-#include "e-util/e-import.h"
 #include "shell/e-shell.h"
 #include "shell/e-shell-backend.h"
 #include "shell/e-shell-window.h"
-#include "widgets/misc/e-cal-source-config.h"
-#include "widgets/misc/e-preferences-window.h"
-#include "widgets/misc/e-source-config-dialog.h"
 
 #include "calendar/gui/comp-util.h"
 #include "calendar/gui/dialogs/event-editor.h"

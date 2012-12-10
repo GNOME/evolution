@@ -26,10 +26,11 @@
 #endif
 
 #include "ea-week-view-main-item.h"
+
+#include <glib/gi18n.h>
+
 #include "ea-week-view.h"
 #include "ea-week-view-cell.h"
-#include "ea-cell-table.h"
-#include <glib/gi18n.h>
 
 /* EaWeekViewMainItem */
 static void	ea_week_view_main_item_class_init

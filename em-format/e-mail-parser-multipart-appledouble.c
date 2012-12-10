@@ -20,10 +20,7 @@
 #include <config.h>
 #endif
 
-#include <em-format/e-mail-parser-extension.h>
-#include <em-format/e-mail-parser.h>
-
-#include <camel/camel.h>
+#include "e-mail-parser-extension.h"
 
 typedef EMailParserExtension EMailParserMultipartAppleDouble;
 typedef EMailParserExtensionClass EMailParserMultipartAppleDoubleClass;

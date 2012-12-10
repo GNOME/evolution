@@ -29,7 +29,6 @@
 #endif
 
 #include <glib/gi18n.h>
-#include "e-util/e-categories-config.h"
 
 #include "e-calendar-view.h"
 #include "e-day-view-top-item.h"

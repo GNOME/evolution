@@ -303,7 +303,6 @@ PKG_CHECK_MODULES([EVOLUTION_DATA_SERVER],
 	 libebook-1.2 >= eds_minimum_version
 	 libecal-1.2 >= eds_minimum_version
 	 libedataserver-1.2 >= eds_minimum_version
-	 libedataserverui-3.0 >= eds_minimum_version
 	 libebackend-1.2 >= eds_minimum_version])
 AC_SUBST(EVOLUTION_DATA_SERVER_CFLAGS)
 AC_SUBST(EVOLUTION_DATA_SERVER_LIBS)
@@ -1565,7 +1564,6 @@ AC_SUBST(EVOLUTION_DIR)
 
 AC_CONFIG_FILES([ po/Makefile.in
 Makefile
-a11y/Makefile
 addressbook/Makefile
 addressbook/gui/Makefile
 addressbook/gui/contact-editor/Makefile
@@ -1585,10 +1583,10 @@ data/evolution-settings.desktop.in
 data/icons/Makefile
 doc/Makefile
 doc/reference/Makefile
-doc/reference/shell/Makefile
+doc/reference/libeshell/Makefile
+doc/reference/libeutil/Makefile
 e-util/Makefile
 em-format/Makefile
-filter/Makefile
 help/Makefile
 help/quickref/Makefile
 help/quickref/C/Makefile
@@ -1604,10 +1602,6 @@ help/quickref/pl/Makefile
 help/quickref/pt/Makefile
 help/quickref/sv/Makefile
 help/quickref/sq/Makefile
-libevolution-utils/Makefile
-libevolution-utils/libevolution-utils.pc
-libemail-utils/Makefile
-libemail-utils/libemail-utils.pc
 libemail-engine/Makefile
 libemail-engine/libemail-engine.pc
 libgnomecanvas/Makefile
@@ -1620,12 +1614,6 @@ views/calendar/Makefile
 views/mail/Makefile
 views/tasks/Makefile
 views/memos/Makefile
-widgets/Makefile
-widgets/e-timezone-dialog/Makefile
-widgets/menus/Makefile
-widgets/misc/Makefile
-widgets/text/Makefile
-widgets/table/Makefile
 calendar/Makefile
 calendar/alarm-notify/Makefile
 calendar/importers/Makefile

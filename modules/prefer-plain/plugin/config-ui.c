@@ -23,8 +23,6 @@
 
 #include <mail/em-config.h>
 
-#include <libedataserverui/libedataserverui.h>
-
 GtkWidget *prefer_plain_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data);
 
 enum {

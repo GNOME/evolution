@@ -19,7 +19,6 @@
 #ifndef E_COMPOSER_ACTIVITY_H
 #define E_COMPOSER_ACTIVITY_H
 
-#include <e-util/e-activity.h>
 #include <composer/e-msg-composer.h>
 
 /* Standard GObject macros */

@@ -22,8 +22,8 @@
 #ifndef E_MAIL_BROWSER_H
 #define E_MAIL_BROWSER_H
 
+#include <e-util/e-util.h>
 #include <mail/e-mail-backend.h>
-#include <misc/e-focus-tracker.h>
 #include <mail/e-mail-display.h>
 
 /* Standard GObject macros */

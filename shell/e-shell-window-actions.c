@@ -24,13 +24,6 @@
 #endif
 
 #include "e-shell-window-private.h"
-#include "e-preferences-window.h"
-
-#include <e-util/e-dialog-utils.h>
-#include <e-util/e-print.h>
-#include <gal-define-views-dialog.h>
-
-#include <libedataserverui/libedataserverui.h>
 
 #define EVOLUTION_COPYRIGHT \
 	"Copyright \xC2\xA9 1999 - 2008 Novell, Inc. and Others\n" \

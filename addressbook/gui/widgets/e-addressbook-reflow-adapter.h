@@ -22,7 +22,8 @@
 #define _E_ADDRESSBOOK_REFLOW_ADAPTER_H_
 
 #include <libebook/libebook.h>
-#include <text/e-reflow-model.h>
+
+#include <e-util/e-util.h>
 
 #include "e-addressbook-model.h"
 

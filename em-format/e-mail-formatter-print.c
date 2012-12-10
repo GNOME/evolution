@@ -18,8 +18,6 @@
 
 #include "e-mail-formatter-print.h"
 
-#include <camel/camel.h>
-
 #include "e-mail-part-attachment.h"
 #include "e-mail-formatter-extension.h"
 #include "e-mail-formatter-utils.h"

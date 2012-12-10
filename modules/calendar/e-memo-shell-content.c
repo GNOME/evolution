@@ -27,11 +27,7 @@
 
 #include <glib/gi18n.h>
 
-#include "e-util/e-selection.h"
 #include "shell/e-shell-utils.h"
-#include "widgets/menus/gal-view-etable.h"
-#include "widgets/misc/e-paned.h"
-#include "widgets/misc/e-preview-pane.h"
 
 #include "calendar/gui/comp-util.h"
 #include "calendar/gui/e-cal-component-preview.h"

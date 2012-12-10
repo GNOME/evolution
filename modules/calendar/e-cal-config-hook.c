@@ -25,7 +25,6 @@
 
 #include "e-cal-config-hook.h"
 
-#include "e-util/e-config.h"
 #include "calendar/gui/e-cal-config.h"
 
 static const EConfigHookTargetMask no_masks[] = {

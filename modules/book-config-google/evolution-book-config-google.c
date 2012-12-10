@@ -21,9 +21,7 @@
 
 #include <libebackend/libebackend.h>
 
-#include <misc/e-book-source-config.h>
-#include <misc/e-interval-chooser.h>
-#include <misc/e-source-config-backend.h>
+#include <e-util/e-util.h>
 
 typedef ESourceConfigBackend EBookConfigGoogle;
 typedef ESourceConfigBackendClass EBookConfigGoogleClass;

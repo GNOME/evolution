@@ -30,14 +30,11 @@
 #include <glib/gi18n.h>
 #include <camel/camel.h>
 
-#include <em-format/e-mail-formatter.h>
-#include <em-format/e-mail-formatter-utils.h>
-#include <em-format/e-mail-formatter-print.h>
+#include "shell/e-shell.h"
 
-#include <e-util/e-icon-factory.h>
-#include <e-util/e-util.h>
-
-#include <shell/e-shell.h>
+#include "em-format/e-mail-formatter.h"
+#include "em-format/e-mail-formatter-utils.h"
+#include "em-format/e-mail-formatter-print.h"
 
 #define d(x)
 #define dd(x)

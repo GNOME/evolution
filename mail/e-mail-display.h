@@ -22,8 +22,7 @@
 #ifndef E_MAIL_DISPLAY_H
 #define E_MAIL_DISPLAY_H
 
-#include <misc/e-web-view.h>
-#include <misc/e-search-bar.h>
+#include <e-util/e-util.h>
 
 #include <em-format/e-mail-formatter.h>
 

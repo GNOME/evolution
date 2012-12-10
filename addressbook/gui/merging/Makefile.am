@@ -5,10 +5,10 @@ libeabbookmerging_la_CPPFLAGS =				\
 	-DG_LOG_DOMAIN=\"eab-contact-merging\"		\
 	-DEVOLUTION_UIDIR=\""$(uidir)"\"		\
 	-I$(top_srcdir)					\
-	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)/addressbook			\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
+	$(CHAMPLAIN_CFLAGS)				\
 	$(GTKHTML_CFLAGS)
 
 libeabbookmerging_la_SOURCES =			\

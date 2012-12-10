@@ -10,7 +10,6 @@ libeabutil_la_CPPFLAGS =				\
 	-I$(top_srcdir) 				\
 	-I$(top_builddir)/shell				\
 	-I$(top_srcdir)/shell				\
-	-I$(top_srcdir)/widgets				\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)
 
@@ -21,7 +20,6 @@ libeabutil_la_SOURCES =					\
 libeabutil_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 
 libeabutil_la_LIBADD =					\
-	$(top_builddir)/widgets/misc/libemiscwidgets.la \
 	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/shell/libeshell.la		\
 	$(EVOLUTION_DATA_SERVER_LIBS)			\

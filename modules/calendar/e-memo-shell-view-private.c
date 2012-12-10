@@ -27,8 +27,6 @@
 
 #include "e-memo-shell-view-private.h"
 
-#include "widgets/menus/gal-view-factory-etable.h"
-
 static void
 memo_shell_view_model_row_appended_cb (EMemoShellView *memo_shell_view,
                                        ECalModel *model)

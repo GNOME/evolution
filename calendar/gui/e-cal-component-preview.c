@@ -33,9 +33,6 @@
 #include <glib/gi18n.h>
 #include <camel/camel.h>
 
-#include <e-util/e-util.h>
-#include <e-util/e-categories-config.h>
-
 #define E_CAL_COMPONENT_PREVIEW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_CAL_COMPONENT_PREVIEW, ECalComponentPreviewPrivate))

@@ -23,8 +23,6 @@
 #ifndef __E_CONTACT_LIST_EDITOR_H__
 #define __E_CONTACT_LIST_EDITOR_H__
 
-#include <libedataserverui/libedataserverui.h>
-
 #include "addressbook/gui/contact-editor/eab-editor.h"
 
 #define E_TYPE_CONTACT_LIST_EDITOR \

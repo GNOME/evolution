@@ -24,17 +24,14 @@
 
 #include <libedataserver/libedataserver.h>
 
+#include <e-util/e-util.h>
+
 #include <shell/e-shell-common.h>
 #include <shell/e-shell-backend.h>
 #include <shell/e-shell-content.h>
 #include <shell/e-shell-sidebar.h>
 #include <shell/e-shell-taskbar.h>
 #include <shell/e-shell-window.h>
-
-#include <filter/e-filter-rule.h>
-#include <filter/e-rule-context.h>
-#include <menus/gal-view-collection.h>
-#include <menus/gal-view-instance.h>
 
 /* Standard GObject macros */
 #define E_TYPE_SHELL_VIEW \

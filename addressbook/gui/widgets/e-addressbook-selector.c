@@ -24,7 +24,7 @@
 
 #include "e-addressbook-selector.h"
 
-#include <e-util/e-selection.h>
+#include <e-util/e-util.h>
 
 #include <eab-book-util.h>
 #include <eab-contact-merging.h>

@@ -28,24 +28,18 @@
 #include <string.h>
 #include <glib/gi18n.h>
 
-#include "e-util/e-util.h"
-#include "e-util/e-plugin-ui.h"
-
 #include "shell/e-shell.h"
 #include "shell/e-shell-utils.h"
-
-#include "widgets/misc/e-popup-action.h"
-#include "widgets/misc/e-preview-pane.h"
 
 #include "libemail-engine/e-mail-utils.h"
 #include "libemail-engine/mail-tools.h"
 
-#include "mail/e-mail-reader.h"
-#include "mail/e-mail-reader-utils.h"
-#include "mail/em-folder-tree-model.h"
-#include "mail/em-composer-utils.h"
-#include "mail/em-utils.h"
-#include "mail/message-list.h"
+#include "e-mail-reader.h"
+#include "e-mail-reader-utils.h"
+#include "em-folder-tree-model.h"
+#include "em-composer-utils.h"
+#include "em-utils.h"
+#include "message-list.h"
 
 #define E_MAIL_FOLDER_PANE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

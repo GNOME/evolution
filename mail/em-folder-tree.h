@@ -25,8 +25,7 @@
 #define EM_FOLDER_TREE_H
 
 #include <gtk/gtk.h>
-#include <e-util/e-activity.h>
-#include <libevolution-utils/e-alert-sink.h>
+#include <e-util/e-util.h>
 #include <mail/em-folder-tree-model.h>
 #include <libemail-engine/e-mail-session.h>
 

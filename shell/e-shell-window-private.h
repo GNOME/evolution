@@ -29,17 +29,6 @@
 
 #include <libebackend/libebackend.h>
 
-#include <e-util/e-util.h>
-#include <e-util/e-util-private.h>
-#include <libevolution-utils/e-alert-dialog.h>
-#include <libevolution-utils/e-alert-sink.h>
-#include <e-util/e-plugin-ui.h>
-#include <widgets/misc/e-alert-bar.h>
-#include <widgets/misc/e-import-assistant.h>
-#include <widgets/misc/e-menu-tool-button.h>
-#include <widgets/misc/e-online-button.h>
-#include <widgets/misc/e-popup-action.h>
-
 #include <e-shell.h>
 #include <e-shell-content.h>
 #include <e-shell-view.h>

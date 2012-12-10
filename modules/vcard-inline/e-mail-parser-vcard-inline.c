@@ -38,7 +38,6 @@
 
 #include <libebook/libebook.h>
 #include <libedataserver/libedataserver.h>
-#include <libedataserverui/libedataserverui.h>
 
 #include <shell/e-shell.h>
 #include <addressbook/gui/merging/eab-contact-merging.h>

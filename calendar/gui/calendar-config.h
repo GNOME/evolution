@@ -32,7 +32,7 @@
 #include <gdk/gdk.h>
 #include <libecal/libecal.h>
 
-#include <e-util/e-util-enums.h>
+#include <e-util/e-util.h>
 
 /* These are used to get/set the working days in the week. The bit-flags are
  * combined together. The bits must be from 0 (Sun) to 6 (Sat) to match the

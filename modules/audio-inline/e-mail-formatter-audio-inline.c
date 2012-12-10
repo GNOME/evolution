@@ -24,15 +24,13 @@
 
 #include <glib/gi18n-lib.h>
 
+#include <camel/camel.h>
+#include <gst/gst.h>
+
 #include <libebackend/libebackend.h>
 
 #include <em-format/e-mail-formatter-extension.h>
 #include <em-format/e-mail-formatter.h>
-
-#include "e-util/e-mktemp.h"
-
-#include <camel/camel.h>
-#include <gst/gst.h>
 
 #include "e-mail-part-audio-inline.h"
 

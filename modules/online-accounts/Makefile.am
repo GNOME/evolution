@@ -8,6 +8,8 @@ module_online_accounts_la_CPPFLAGS = \
 	-DG_LOG_DOMAIN=\"evolution-online-accounts\"		\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)				\
+	$(CHAMPLAIN_CFLAGS)					\
+	$(GTKHTML_CFLAGS)					\
 	$(GOA_CFLAGS)						\
 	$(NULL)
 
@@ -23,9 +25,10 @@ module_online_accounts_la_LIBADD = \
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/shell/libeshell.la			\
 	$(top_builddir)/libemail-engine/libemail-engine.la	\
-	$(top_builddir)/libemail-utils/libemail-utils.la	\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
+	$(CHAMPLAIN_LIBS)					\
+	$(GTKHTML_LIBS)						\
 	$(GOA_LIBS)						\
 	$(NULL)
 

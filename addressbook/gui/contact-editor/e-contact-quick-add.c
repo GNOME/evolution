@@ -29,13 +29,10 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
-#include <libedataserverui/libedataserverui.h>
-
 #include <addressbook/util/eab-book-util.h>
 #include "e-contact-editor.h"
 #include "e-contact-quick-add.h"
 #include "eab-contact-merging.h"
-#include "libevolution-utils/e-alert-dialog.h"
 
 typedef struct _QuickAdd QuickAdd;
 struct _QuickAdd {

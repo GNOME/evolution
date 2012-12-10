@@ -32,14 +32,13 @@
 #include <shell/e-shell.h>
 #include <e-util/e-util.h>
 
-#include <libemail-utils/mail-mt.h>
-
 /* This is our hack, not part of libcamel. */
 #include <libemail-engine/camel-null-store.h>
 
 #include <libemail-engine/e-mail-folder-utils.h>
 #include <libemail-engine/e-mail-session.h>
 #include <libemail-engine/mail-folder-cache.h>
+#include <libemail-engine/mail-mt.h>
 #include <libemail-engine/mail-ops.h>
 #include <libemail-engine/mail-tools.h>
 

@@ -28,18 +28,11 @@
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
 #include <libebook/libebook.h>
-#include <libedataserverui/libedataserverui.h>
 
-#include "e-util/e-util.h"
-#include "e-util/e-file-utils.h"
 #include "shell/e-shell-content.h"
 #include "shell/e-shell-searchbar.h"
 #include "shell/e-shell-sidebar.h"
 #include "shell/e-shell-utils.h"
-#include "misc/e-book-source-config.h"
-#include "misc/e-popup-action.h"
-#include "misc/e-selectable.h"
-#include "misc/e-source-config-dialog.h"
 
 #include "addressbook/util/eab-book-util.h"
 #include "addressbook/gui/contact-editor/e-contact-editor.h"

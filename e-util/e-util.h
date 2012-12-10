@@ -1,4 +1,6 @@
 /*
+ * e-util.h
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -12,145 +14,229 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
- *
- * Authors:
- *		Chris Lahey <clahey@ximian.com>
- *
- * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
- *
  */
 
 #ifndef E_UTIL_H
 #define E_UTIL_H
 
-#include <sys/types.h>
-#include <gtk/gtk.h>
-#include <limits.h>
+#define __E_UTIL_H_INSIDE__
 
 #include <libedataserver/libedataserver.h>
 
-#include <libevolution-utils/evolution-util.h>
-
-#include <e-util/e-marshal.h>
+#include <e-util/e-action-combo-box.h>
+#include <e-util/e-activity-bar.h>
+#include <e-util/e-activity-proxy.h>
+#include <e-util/e-activity.h>
+#include <e-util/e-alarm-selector.h>
+#include <e-util/e-alert-bar.h>
+#include <e-util/e-alert-dialog.h>
+#include <e-util/e-alert-sink.h>
+#include <e-util/e-alert.h>
+#include <e-util/e-attachment-bar.h>
+#include <e-util/e-attachment-button.h>
+#include <e-util/e-attachment-dialog.h>
+#include <e-util/e-attachment-handler-image.h>
+#include <e-util/e-attachment-handler-sendto.h>
+#include <e-util/e-attachment-handler.h>
+#include <e-util/e-attachment-icon-view.h>
+#include <e-util/e-attachment-paned.h>
+#include <e-util/e-attachment-store.h>
+#include <e-util/e-attachment-tree-view.h>
+#include <e-util/e-attachment-view.h>
+#include <e-util/e-attachment.h>
+#include <e-util/e-auth-combo-box.h>
+#include <e-util/e-autocomplete-selector.h>
+#include <e-util/e-bit-array.h>
+#include <e-util/e-book-source-config.h>
+#include <e-util/e-buffer-tagger.h>
+#include <e-util/e-cal-source-config.h>
+#include <e-util/e-calendar-item.h>
+#include <e-util/e-calendar.h>
+#include <e-util/e-canvas-background.h>
+#include <e-util/e-canvas-utils.h>
+#include <e-util/e-canvas-vbox.h>
+#include <e-util/e-canvas.h>
+#include <e-util/e-categories-config.h>
+#include <e-util/e-categories-dialog.h>
+#include <e-util/e-categories-editor.h>
+#include <e-util/e-categories-selector.h>
+#include <e-util/e-category-completion.h>
+#include <e-util/e-category-editor.h>
+#include <e-util/e-cell-checkbox.h>
+#include <e-util/e-cell-combo.h>
+#include <e-util/e-cell-date-edit.h>
+#include <e-util/e-cell-date.h>
+#include <e-util/e-cell-hbox.h>
+#include <e-util/e-cell-number.h>
+#include <e-util/e-cell-percent.h>
+#include <e-util/e-cell-pixbuf.h>
+#include <e-util/e-cell-popup.h>
+#include <e-util/e-cell-renderer-color.h>
+#include <e-util/e-cell-size.h>
+#include <e-util/e-cell-text.h>
+#include <e-util/e-cell-toggle.h>
+#include <e-util/e-cell-tree.h>
+#include <e-util/e-cell-vbox.h>
+#include <e-util/e-cell.h>
+#include <e-util/e-charset-combo-box.h>
+#include <e-util/e-charset.h>
+#include <e-util/e-client-utils.h>
+#include <e-util/e-config.h>
+#include <e-util/e-contact-map-window.h>
+#include <e-util/e-contact-map.h>
+#include <e-util/e-contact-marker.h>
+#include <e-util/e-contact-store.h>
+#include <e-util/e-dateedit.h>
+#include <e-util/e-datetime-format.h>
+#include <e-util/e-destination-store.h>
+#include <e-util/e-dialog-utils.h>
+#include <e-util/e-dialog-widgets.h>
+#include <e-util/e-event.h>
+#include <e-util/e-file-request.h>
+#include <e-util/e-file-utils.h>
+#include <e-util/e-filter-code.h>
+#include <e-util/e-filter-color.h>
+#include <e-util/e-filter-datespec.h>
+#include <e-util/e-filter-element.h>
+#include <e-util/e-filter-file.h>
+#include <e-util/e-filter-input.h>
+#include <e-util/e-filter-int.h>
+#include <e-util/e-filter-option.h>
+#include <e-util/e-filter-part.h>
+#include <e-util/e-filter-rule.h>
+#include <e-util/e-focus-tracker.h>
+#include <e-util/e-html-utils.h>
+#include <e-util/e-icon-factory.h>
+#include <e-util/e-image-chooser.h>
+#include <e-util/e-import-assistant.h>
+#include <e-util/e-import.h>
+#include <e-util/e-interval-chooser.h>
+#include <e-util/e-mail-identity-combo-box.h>
+#include <e-util/e-mail-signature-combo-box.h>
+#include <e-util/e-mail-signature-editor.h>
+#include <e-util/e-mail-signature-manager.h>
+#include <e-util/e-mail-signature-preview.h>
+#include <e-util/e-mail-signature-script-dialog.h>
+#include <e-util/e-mail-signature-tree-view.h>
+#include <e-util/e-map.h>
+#include <e-util/e-menu-tool-action.h>
+#include <e-util/e-menu-tool-button.h>
+#include <e-util/e-misc-utils.h>
+#include <e-util/e-mktemp.h>
+#include <e-util/e-name-selector-dialog.h>
+#include <e-util/e-name-selector-entry.h>
+#include <e-util/e-name-selector-list.h>
+#include <e-util/e-name-selector-model.h>
+#include <e-util/e-name-selector.h>
+#include <e-util/e-online-button.h>
+#include <e-util/e-paned.h>
+#include <e-util/e-passwords.h>
+#include <e-util/e-picture-gallery.h>
+#include <e-util/e-plugin-ui.h>
+#include <e-util/e-plugin.h>
+#include <e-util/e-poolv.h>
+#include <e-util/e-popup-action.h>
+#include <e-util/e-popup-menu.h>
+#include <e-util/e-port-entry.h>
+#include <e-util/e-preferences-window.h>
+#include <e-util/e-preview-pane.h>
+#include <e-util/e-print.h>
+#include <e-util/e-printable.h>
+#include <e-util/e-reflow-model.h>
+#include <e-util/e-reflow.h>
+#include <e-util/e-rule-context.h>
+#include <e-util/e-rule-editor.h>
+#include <e-util/e-search-bar.h>
+#include <e-util/e-selectable.h>
+#include <e-util/e-selection-model-array.h>
+#include <e-util/e-selection-model-simple.h>
+#include <e-util/e-selection-model.h>
+#include <e-util/e-selection.h>
+#include <e-util/e-send-options.h>
+#include <e-util/e-sorter-array.h>
+#include <e-util/e-sorter.h>
+#include <e-util/e-source-combo-box.h>
+#include <e-util/e-source-config-backend.h>
+#include <e-util/e-source-config-dialog.h>
+#include <e-util/e-source-config.h>
+#include <e-util/e-source-selector-dialog.h>
+#include <e-util/e-source-selector.h>
+#include <e-util/e-source-util.h>
+#include <e-util/e-spell-entry.h>
+#include <e-util/e-stock-request.h>
+#include <e-util/e-table-click-to-add.h>
+#include <e-util/e-table-col-dnd.h>
+#include <e-util/e-table-col.h>
+#include <e-util/e-table-column-specification.h>
+#include <e-util/e-table-config.h>
+#include <e-util/e-table-defines.h>
+#include <e-util/e-table-extras.h>
+#include <e-util/e-table-field-chooser-dialog.h>
+#include <e-util/e-table-field-chooser-item.h>
+#include <e-util/e-table-field-chooser.h>
+#include <e-util/e-table-group-container.h>
+#include <e-util/e-table-group-leaf.h>
+#include <e-util/e-table-group.h>
+#include <e-util/e-table-header-item.h>
+#include <e-util/e-table-header-utils.h>
+#include <e-util/e-table-header.h>
+#include <e-util/e-table-item.h>
+#include <e-util/e-table-memory-callbacks.h>
+#include <e-util/e-table-memory-store.h>
+#include <e-util/e-table-memory.h>
+#include <e-util/e-table-model.h>
+#include <e-util/e-table-one.h>
+#include <e-util/e-table-search.h>
+#include <e-util/e-table-selection-model.h>
+#include <e-util/e-table-sort-info.h>
+#include <e-util/e-table-sorted-variable.h>
+#include <e-util/e-table-sorted.h>
+#include <e-util/e-table-sorter.h>
+#include <e-util/e-table-sorting-utils.h>
+#include <e-util/e-table-specification.h>
+#include <e-util/e-table-state.h>
+#include <e-util/e-table-subset-variable.h>
+#include <e-util/e-table-subset.h>
+#include <e-util/e-table-utils.h>
+#include <e-util/e-table-without.h>
+#include <e-util/e-table.h>
+#include <e-util/e-text-event-processor-emacs-like.h>
+#include <e-util/e-text-event-processor-types.h>
+#include <e-util/e-text-event-processor.h>
+#include <e-util/e-text-model-repos.h>
+#include <e-util/e-text-model.h>
+#include <e-util/e-text.h>
+#include <e-util/e-timezone-dialog.h>
+#include <e-util/e-tree-memory-callbacks.h>
+#include <e-util/e-tree-memory.h>
+#include <e-util/e-tree-model-generator.h>
+#include <e-util/e-tree-model.h>
+#include <e-util/e-tree-selection-model.h>
+#include <e-util/e-tree-sorted.h>
+#include <e-util/e-tree-table-adapter.h>
+#include <e-util/e-tree.h>
+#include <e-util/e-ui-manager.h>
+#include <e-util/e-unicode.h>
+#include <e-util/e-url-entry.h>
 #include <e-util/e-util-enums.h>
+#include <e-util/e-web-view-gtkhtml.h>
+#include <e-util/e-web-view-preview.h>
+#include <e-util/e-web-view.h>
+#include <e-util/e-xml-utils.h>
+#include <e-util/ea-cell-table.h>
+#include <e-util/ea-factory.h>
+#include <e-util/gal-define-views-dialog.h>
+#include <e-util/gal-define-views-model.h>
+#include <e-util/gal-view-collection.h>
+#include <e-util/gal-view-etable.h>
+#include <e-util/gal-view-factory-etable.h>
+#include <e-util/gal-view-factory.h>
+#include <e-util/gal-view-instance-save-as-dialog.h>
+#include <e-util/gal-view-instance.h>
+#include <e-util/gal-view-new-dialog.h>
+#include <e-util/gal-view.h>
 
-G_BEGIN_DECLS
-
-typedef enum {
-	E_FOCUS_NONE,
-	E_FOCUS_CURRENT,
-	E_FOCUS_START,
-	E_FOCUS_END
-} EFocus;
-
-typedef enum {
-	E_RESTORE_WINDOW_SIZE     = 1 << 0,
-	E_RESTORE_WINDOW_POSITION = 1 << 1
-} ERestoreWindowFlags;
-
-const gchar *	e_get_accels_filename		(void);
-void		e_show_uri			(GtkWindow *parent,
-						 const gchar *uri);
-void		e_display_help			(GtkWindow *parent,
-						 const gchar *link_id);
-void		e_restore_window		(GtkWindow *window,
-						 const gchar *settings_path,
-						 ERestoreWindowFlags flags);
-GtkAction *	e_lookup_action			(GtkUIManager *ui_manager,
-						 const gchar *action_name);
-GtkActionGroup *e_lookup_action_group		(GtkUIManager *ui_manager,
-						 const gchar *group_name);
-gint		e_action_compare_by_label	(GtkAction *action1,
-						 GtkAction *action2);
-void		e_action_group_remove_all_actions
-						(GtkActionGroup *action_group);
-GtkRadioAction *e_radio_action_get_current_action
-						(GtkRadioAction *radio_action);
-void		e_action_group_add_actions_localized
-						(GtkActionGroup *action_group,
-						 const gchar *translation_domain,
-						 const GtkActionEntry *entries,
-						 guint n_entries,
-						 gpointer user_data);
-void		e_categories_add_change_hook	(GHookFunc func,
-						 gpointer object);
-
-gchar *		e_str_without_underscores	(const gchar *string);
-gint		e_str_compare			(gconstpointer x,
-						 gconstpointer y);
-gint		e_str_case_compare		(gconstpointer x,
-						 gconstpointer y);
-gint		e_collate_compare		(gconstpointer x,
-						 gconstpointer y);
-gint		e_int_compare                   (gconstpointer x,
-						 gconstpointer y);
-guint32		e_color_to_value		(GdkColor *color);
-
-guint32		e_rgba_to_value			(GdkRGBA *rgba);
-
-/* This only makes a filename safe for usage as a filename.
- * It still may have shell meta-characters in it. */
-gchar *		e_format_number			(gint number);
-
-typedef gint	(*ESortCompareFunc)		(gconstpointer first,
-						 gconstpointer second,
-						 gpointer closure);
-
-void		e_bsearch			(gconstpointer key,
-						 gconstpointer base,
-						 gsize nmemb,
-						 gsize size,
-						 ESortCompareFunc compare,
-						 gpointer closure,
-						 gsize *start,
-						 gsize *end);
-
-gsize		e_strftime_fix_am_pm		(gchar *str,
-						 gsize max,
-						 const gchar *fmt,
-						 const struct tm *tm);
-gsize		e_utf8_strftime_fix_am_pm	(gchar *str,
-						 gsize max,
-						 const gchar *fmt,
-						 const struct tm *tm);
-const gchar *	e_get_month_name		(GDateMonth month,
-						 gboolean abbreviated);
-const gchar *	e_get_weekday_name		(GDateWeekday weekday,
-						 gboolean abbreviated);
-
-gboolean	e_file_lock_create		(void);
-void		e_file_lock_destroy		(void);
-gboolean	e_file_lock_exists		(void);
-
-gchar *		e_util_guess_mime_type		(const gchar *filename,
-                                                 gboolean localfile);
-
-GSList *	e_util_get_category_filter_options
-						(void);
-GList *		e_util_get_searchable_categories (void);
-
-/* Useful GBinding transform functions */
-gboolean	e_binding_transform_color_to_string
-						(GBinding *binding,
-						 const GValue *source_value,
-						 GValue *target_value,
-						 gpointer not_used);
-gboolean	e_binding_transform_string_to_color
-						(GBinding *binding,
-						 const GValue *source_value,
-						 GValue *target_value,
-						 gpointer not_used);
-gboolean	e_binding_transform_source_to_uid
-						(GBinding *binding,
-						 const GValue *source_value,
-						 GValue *target_value,
-						 ESourceRegistry *registry);
-gboolean	e_binding_transform_uid_to_source
-						(GBinding *binding,
-						 const GValue *source_value,
-						 GValue *target_value,
-						 ESourceRegistry *registry);
-
-G_END_DECLS
+#undef __E_UTIL_H_INSIDE__
 
 #endif /* E_UTIL_H */
+

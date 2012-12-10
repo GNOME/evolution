@@ -5,7 +5,10 @@ module_plugin_lib_la_CPPFLAGS = \
 	-DG_LOG_DOMAIN=\"evolution-plugin-lib\"			\
 	-I$(top_srcdir)						\
 	-DEVOLUTION_PREFIX=\""$(prefix)"\"			\
-	$(EVOLUTION_DATA_SERVER_CFLAGS)
+	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
+	$(GNOME_PLATFORM_CFLAGS)				\
+	$(CHAMPLAIN_CFLAGS)					\
+	$(GTKHTML_CFLAGS)
 
 module_plugin_lib_la_SOURCES = \
 	evolution-module-plugin-lib.c				\
@@ -14,7 +17,10 @@ module_plugin_lib_la_SOURCES = \
 
 module_plugin_lib_la_LIBADD = \
 	$(top_builddir)/e-util/libeutil.la			\
-	$(EVOLUTION_DATA_SERVER_LIBS)
+	$(EVOLUTION_DATA_SERVER_LIBS)				\
+	$(GNOME_PLATFORM_LIBS)					\
+	$(CHAMPLAIN_LIBS)					\
+	$(GTKHTML_LIBS)
 
 module_plugin_lib_la_LDFLAGS = \
 	-module -avoid-version $(NO_UNDEFINED)

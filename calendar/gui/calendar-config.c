@@ -32,8 +32,7 @@
 #include <time.h>
 #include <string.h>
 #include <gio/gio.h>
-#include <e-util/e-util.h>
-#include <widgets/e-timezone-dialog/e-timezone-dialog.h>
+
 #include <shell/e-shell.h>
 
 #include "calendar-config-keys.h"

@@ -16,17 +16,14 @@
  *
  */
 
-#include <glib-object.h>
-
 #include "e-mail-extension-registry.h"
-#include "e-mail-formatter-extension.h"
-#include "e-mail-parser-extension.h"
-#include <libebackend/libebackend.h>
-#include <camel/camel.h>
-
-#include <glib-object.h>
 
 #include <string.h>
+
+#include <libebackend/libebackend.h>
+
+#include "e-mail-formatter-extension.h"
+#include "e-mail-parser-extension.h"
 
 #define E_MAIL_EXTENSION_REGISTRY_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

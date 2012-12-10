@@ -26,7 +26,6 @@
 #include "e-mail-config-web-view.h"
 
 #include <shell/e-shell.h>
-#include <misc/e-web-view.h>
 
 #define E_MAIL_CONFIG_WEB_VIEW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

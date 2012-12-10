@@ -28,7 +28,7 @@
 #include <gtk/gtk.h>
 #include <libecal/libecal.h>
 
-#include <e-util/e-util-enums.h>
+#include <e-util/e-util.h>
 
 struct _EShell;
 

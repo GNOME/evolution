@@ -28,7 +28,6 @@
 #include <gtk/gtk.h>
 
 #include "e-bit-array.h"
-#include "e-util.h"
 
 #define ONES ((guint32) 0xffffffff)
 

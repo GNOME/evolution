@@ -25,7 +25,6 @@
 
 #include "e-cal-event-hook.h"
 
-#include "e-util/e-event.h"
 #include "calendar/gui/e-cal-event.h"
 
 static const EEventHookTargetMask masks[] = {

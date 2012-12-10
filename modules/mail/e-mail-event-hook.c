@@ -25,7 +25,6 @@
 
 #include "e-mail-event-hook.h"
 
-#include "e-util/e-event.h"
 #include "mail/em-event.h"
 
 static const EEventHookTargetMask folder_masks[] = {

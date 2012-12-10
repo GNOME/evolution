@@ -29,12 +29,6 @@
 
 #include <e-util/e-util-private.h>
 
-#include <widgets/menus/gal-view-etable.h>
-#include <widgets/menus/gal-view-instance.h>
-#include <widgets/misc/e-paned.h>
-#include <widgets/misc/e-preview-pane.h>
-#include <widgets/misc/e-search-bar.h>
-
 #include <libemail-engine/mail-ops.h>
 
 #include <mail/e-mail-paned-view.h>

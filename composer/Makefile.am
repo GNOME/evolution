@@ -27,10 +27,6 @@ libcomposer_la_CPPFLAGS =						\
 	-I$(top_srcdir)							\
 	-I$(top_builddir)						\
 	-I$(top_builddir)/composer					\
-	-I$(top_srcdir)/widgets						\
-	-I$(top_builddir)/widgets					\
-	-I$(top_srcdir)/widgets/misc					\
-	-I$(top_builddir)/widgets/misc					\
 	-I$(top_builddir)/shell						\
 	-I$(top_srcdir)/shell						\
 	-DEVOLUTION_DATADIR=\"$(datadir)\"				\
@@ -40,6 +36,7 @@ libcomposer_la_CPPFLAGS =						\
 	-DG_LOG_DOMAIN=\"composer\"					\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)					\
 	$(GNOME_PLATFORM_CFLAGS)					\
+	$(CHAMPLAIN_CFLAGS)						\
 	$(GTKHTML_CFLAGS)
 
 libcomposer_la_SOURCES = 			\
@@ -60,15 +57,13 @@ libcomposer_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 
 libcomposer_la_LIBADD =					\
 	$(top_builddir)/e-util/libeutil.la		\
-	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
 	$(top_builddir)/shell/libeshell.la		\
 	$(top_builddir)/em-format/libemformat.la	\
 	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la		\
 	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la	\
-	$(top_builddir)/libemail-utils/libemail-utils.la \
-	$(top_builddir)/libevolution-utils/libevolution-utils.la \
 	$(EVOLUTION_DATA_SERVER_LIBS)			\
 	$(GNOME_PLATFORM_LIBS)				\
+	$(CHAMPLAIN_CFLAGS)				\
 	$(GTKHTML_LIBS)
 
 ui_DATA = evolution-composer.ui

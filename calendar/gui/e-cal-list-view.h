@@ -27,8 +27,7 @@
 #include <time.h>
 #include <gtk/gtk.h>
 
-#include <table/e-table.h>
-#include <table/e-cell-date-edit.h>
+#include <e-util/e-util.h>
 
 #include "e-calendar-view.h"
 #include "gnome-cal.h"

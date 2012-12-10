@@ -32,7 +32,7 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
-#include "e-util.h"
+#include <libedataserver/libedataserver.h>
 
 /* XXX Would be better if GtkPrint exposed these. */
 #define PAGE_SETUP_GROUP_NAME		"Page Setup"

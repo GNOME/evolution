@@ -27,19 +27,14 @@
 #endif
 
 #include "e-day-view.h"
-#include "ea-calendar.h"
 
 #include <math.h>
 #include <time.h>
-#include <gdk/gdkkeysyms.h>
-#include <text/e-text.h>
-#include <misc/e-canvas-utils.h>
-#include <e-util/e-unicode.h>
-#include <libgnomecanvas/libgnomecanvas.h>
+
 #include <glib/gi18n.h>
-#include <e-util/e-categories-config.h>
-#include <e-util/e-dialog-utils.h>
-#include <e-util/e-selection.h>
+#include <gdk/gdkkeysyms.h>
+
+#include "libgnomecanvas/libgnomecanvas.h"
 
 #include "dialogs/delete-comp.h"
 #include "dialogs/delete-error.h"
@@ -47,17 +42,18 @@
 #include "dialogs/cancel-comp.h"
 #include "dialogs/recur-comp.h"
 #include "dialogs/goto-dialog.h"
-#include "print.h"
+
 #include "calendar-config.h"
 #include "comp-util.h"
-#include "itip-utils.h"
 #include "e-cal-model-calendar.h"
-#include "e-day-view-time-item.h"
-#include "e-day-view-top-item.h"
 #include "e-day-view-layout.h"
 #include "e-day-view-main-item.h"
+#include "e-day-view-time-item.h"
+#include "e-day-view-top-item.h"
+#include "ea-calendar.h"
+#include "itip-utils.h"
 #include "misc.h"
-#include <e-util/e-icon-factory.h>
+#include "print.h"
 
 /* The minimum amount of space wanted on each side of the date string. */
 #define E_DAY_VIEW_DATE_X_PAD	4

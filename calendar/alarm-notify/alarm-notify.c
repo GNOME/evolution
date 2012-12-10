@@ -27,6 +27,8 @@
 #include <string.h>
 #include <camel/camel.h>
 
+#include "e-util/e-util.h"
+
 #include "alarm.h"
 #include "alarm-notify.h"
 #include "alarm-queue.h"

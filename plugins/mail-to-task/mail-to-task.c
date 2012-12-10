@@ -33,14 +33,8 @@
 #include <glib/gi18n-lib.h>
 
 #include <libecal/libecal.h>
-#include <libedataserverui/libedataserverui.h>
 
 #include <libemail-engine/e-mail-utils.h>
-
-#include <e-util/e-dialog-utils.h>
-
-#include <misc/e-popup-action.h>
-#include <misc/e-attachment-store.h>
 
 #include <shell/e-shell-view.h>
 #include <shell/e-shell-window-actions.h>

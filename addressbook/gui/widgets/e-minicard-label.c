@@ -27,13 +27,12 @@
 #include "e-minicard-label.h"
 
 #include <gtk/gtk.h>
-#include <libgnomecanvas/libgnomecanvas.h>
 #include <glib/gi18n.h>
-#include <e-util/e-util.h>
-#include <text/e-text.h>
-#include <misc/e-canvas.h>
-#include <misc/e-canvas-utils.h>
 #include <gdk/gdkkeysyms.h>
+
+#include <libgnomecanvas/libgnomecanvas.h>
+
+#include "e-util/e-util.h"
 
 static void e_minicard_label_set_property  (GObject *object, guint property_id, const GValue *value, GParamSpec *pspec);
 static void e_minicard_label_get_property  (GObject *object, guint property_id, GValue *value, GParamSpec *pspec);

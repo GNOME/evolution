@@ -28,7 +28,6 @@
 #include <string.h>
 
 #include "e-sorter.h"
-#include "e-util.h"
 
 #define d(x)
 

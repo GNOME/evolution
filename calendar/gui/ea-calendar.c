@@ -24,10 +24,9 @@
 #include <config.h>
 #endif
 
-#include <text/e-text.h>
 #include <libgnomecanvas/libgnomecanvas.h>
+
 #include "ea-calendar-helpers.h"
-#include "a11y/ea-factory.h"
 #include "ea-calendar.h"
 
 #include "calendar/gui/ea-cal-view.h"

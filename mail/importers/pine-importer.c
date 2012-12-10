@@ -40,9 +40,8 @@
 
 #include "mail-importer.h"
 
-#include "libemail-utils/mail-mt.h"
+#include "libemail-engine/mail-mt.h"
 #include "mail/e-mail-backend.h"
-#include "e-util/e-import.h"
 #include "shell/e-shell.h"
 
 #define d(x)

@@ -24,30 +24,23 @@
 #endif
 
 #include "e-mail-display.h"
-#include "e-mail-display-popup-extension.h"
 
 #include <glib/gi18n.h>
 #include <gdk/gdk.h>
 
-#include <em-format/e-mail-part-utils.h>
-#include <em-format/e-mail-formatter-extension.h>
-#include <em-format/e-mail-extension-registry.h>
-#include <em-format/e-mail-part-attachment.h>
-#include <em-format/e-mail-formatter-print.h>
-
-#include "e-util/e-marshal.h"
-#include "e-util/e-util.h"
-#include "e-util/e-plugin-ui.h"
-#include "e-util/e-file-request.h"
-#include "e-util/e-stock-request.h"
-#include "mail/em-composer-utils.h"
-#include "mail/em-utils.h"
-#include "mail/e-mail-request.h"
-#include "mail/e-http-request.h"
-#include "widgets/misc/e-attachment-bar.h"
-#include "widgets/misc/e-attachment-button.h"
-
 #include <camel/camel.h>
+
+#include "em-format/e-mail-part-utils.h"
+#include "em-format/e-mail-formatter-extension.h"
+#include "em-format/e-mail-extension-registry.h"
+#include "em-format/e-mail-part-attachment.h"
+#include "em-format/e-mail-formatter-print.h"
+
+#include "e-http-request.h"
+#include "e-mail-display-popup-extension.h"
+#include "e-mail-request.h"
+#include "em-composer-utils.h"
+#include "em-utils.h"
 
 #define d(x)
 

@@ -34,17 +34,6 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
-#include <libedataserverui/libedataserverui.h>
-
-#include <e-util/e-util.h>
-#include <e-util/e-categories-config.h>
-#include <e-util/e-dialog-utils.h>
-#include <e-util/e-util-private.h>
-
-#include <misc/e-dateedit.h>
-#include <misc/e-spell-entry.h>
-#include <misc/e-buffer-tagger.h>
-
 #include "../calendar-config.h"
 #include "comp-editor.h"
 #include "comp-editor-util.h"

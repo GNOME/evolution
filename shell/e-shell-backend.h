@@ -25,7 +25,7 @@
 #include <libebackend/libebackend.h>
 
 #include <shell/e-shell-common.h>
-#include <e-util/e-activity.h>
+#include <e-util/e-util.h>
 
 /* Standard GObject macros */
 #define E_TYPE_SHELL_BACKEND \

@@ -34,7 +34,6 @@
 #include <libebackend/libebackend.h>
 
 #include <e-shell-view.h>
-#include <misc/e-activity-proxy.h>
 
 #define E_SHELL_TASKBAR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

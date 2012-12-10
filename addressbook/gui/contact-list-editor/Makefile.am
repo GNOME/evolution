@@ -3,7 +3,6 @@ privsolib_LTLIBRARIES =	libecontactlisteditor.la
 libecontactlisteditor_la_CPPFLAGS =			\
 	$(AM_CPPFLAGS)					\
 	-I$(top_srcdir)					\
-	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)/addressbook/			\
 	-I$(top_srcdir)/addressbook/gui/merging		\
 	-I$(top_srcdir)/addressbook/gui/contact-editor	\
@@ -11,7 +10,9 @@ libecontactlisteditor_la_CPPFLAGS =			\
 	-DEVOLUTION_UIDIR=\""$(uidir)"\"		\
 	-DG_LOG_DOMAIN=\"contact-list-editor\"		\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
-	$(GNOME_PLATFORM_CFLAGS)
+	$(GNOME_PLATFORM_CFLAGS)			\
+	$(CHAMPLAIN_CFLAGS)				\
+	$(GTKHTML_CFLAGS)
 
 libecontactlisteditor_la_SOURCES = 		\
 	e-contact-list-editor.c			\
@@ -24,13 +25,12 @@ libecontactlisteditor_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 libecontactlisteditor_la_LIBADD =				\
 	$(top_builddir)/addressbook/util/libeabutil.la		\
 	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la \
-	$(top_builddir)/widgets/table/libetable.la		\
-	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/shell/libeshell.la			\
-	$(top_builddir)/libevolution-utils/libevolution-utils.la \
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
-	$(GNOME_PLATFORM_LIBS)
+	$(GNOME_PLATFORM_LIBS)					\
+	$(CHAMPLAIN_LIBS)					\
+	$(GTKHTML_LIBS)
 
 ui_DATA  = contact-list-editor.ui
 

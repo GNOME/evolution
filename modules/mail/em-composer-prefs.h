@@ -27,7 +27,6 @@
 #include <gtkhtml/gtkhtml.h>
 
 #include <shell/e-shell.h>
-#include <widgets/misc/e-preferences-window.h>
 
 /* Standard GObject macros */
 #define EM_TYPE_COMPOSER_PREFS \

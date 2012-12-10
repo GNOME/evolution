@@ -23,8 +23,9 @@
 #ifndef __E_MINICARD_VIEW_WIDGET_H__
 #define __E_MINICARD_VIEW_WIDGET_H__
 
-#include <misc/e-canvas.h>
 #include <libebook/libebook.h>
+
+#include <e-util/e-util.h>
 
 #include "e-minicard-view.h"
 

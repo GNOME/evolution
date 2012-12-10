@@ -35,16 +35,10 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
-#include <libedataserverui/libedataserverui.h>
+#include "shell/e-shell.h"
 
-#include <e-util/e-util.h>
 #include "eab-gui-util.h"
 #include "util/eab-book-util.h"
-#include "libevolution-utils/e-alert-dialog.h"
-#include "e-util/e-html-utils.h"
-#include "shell/e-shell.h"
-#include "misc/e-image-chooser.h"
-#include <e-util/e-icon-factory.h>
 #include "eab-contact-merging.h"
 
 /* we link to camel for decoding quoted printable email addresses */

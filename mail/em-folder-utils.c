@@ -39,21 +39,18 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <glib/gi18n.h>
 
-#include "e-util/e-mktemp.h"
-
-#include "libevolution-utils/e-alert-dialog.h"
-#include "e-util/e-dialog-utils.h"
+#include "e-util/e-util.h"
 
 #include "em-vfolder-editor-rule.h"
 
-#include "libemail-utils/mail-mt.h"
 #include "libemail-engine/e-mail-folder-utils.h"
 #include "libemail-engine/e-mail-session.h"
 #include "libemail-engine/e-mail-store-utils.h"
 #include "libemail-engine/e-mail-utils.h"
+#include "libemail-engine/mail-folder-cache.h"
+#include "libemail-engine/mail-mt.h"
 #include "libemail-engine/mail-ops.h"
 #include "libemail-engine/mail-tools.h"
-#include "libemail-engine/mail-folder-cache.h"
 
 #include "e-mail-ui-session.h"
 #include "em-utils.h"

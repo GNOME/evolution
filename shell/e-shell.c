@@ -33,11 +33,8 @@
 
 #include <glib/gi18n.h>
 #include <libebackend/libebackend.h>
-#include <libedataserverui/libedataserverui.h>
 
-#include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
-#include "widgets/misc/e-preferences-window.h"
 
 #include "e-shell-backend.h"
 #include "e-shell-enumtypes.h"

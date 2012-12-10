@@ -16,8 +16,6 @@
  *
  */
 
-#include <camel/camel.h>
-
 #include "e-mail-parser-extension.h"
 
 G_DEFINE_ABSTRACT_TYPE (

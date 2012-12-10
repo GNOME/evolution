@@ -39,18 +39,11 @@
 #include <gdk/gdkkeysyms.h>
 #include <glib/gi18n.h>
 
-#include "e-util/e-mktemp.h"
-#include "e-util/e-icon-factory.h"
-#include "libevolution-utils/e-alert-dialog.h"
-#include "e-util/e-util.h"
-
-#include "misc/e-selectable.h"
-
 #include "em-vfolder-editor-rule.h"
 
-#include "libemail-utils/mail-mt.h"
 #include "libemail-engine/e-mail-folder-utils.h"
 #include "libemail-engine/e-mail-session.h"
+#include "libemail-engine/mail-mt.h"
 #include "libemail-engine/mail-ops.h"
 #include "libemail-engine/mail-tools.h"
 

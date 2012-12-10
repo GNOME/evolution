@@ -5,10 +5,11 @@ module_LTLIBRARIES = module-mail-config.la
 module_mail_config_la_CPPFLAGS = \
 	$(AM_CPPFLAGS)						\
 	-I$(top_srcdir)						\
-	-I$(top_srcdir)/widgets					\
 	-DG_LOG_DOMAIN=\"evolution-mail-config\"		\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)				\
+	$(CHAMPLAIN_CFLAGS)					\
+	$(GTKHTML_CFLAGS)					\
 	$(NULL)
 
 module_mail_config_la_SOURCES = \
@@ -26,11 +27,13 @@ module_mail_config_la_SOURCES = \
 	$(NULL)
 
 module_mail_config_la_LIBADD = \
+	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/mail/libevolution-mail.la		\
-	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
 	$(top_builddir)/libemail-engine/libemail-engine.la	\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
+	$(CHAMPLAIN_LIBS)					\
+	$(GTKHTML_LIBS)						\
 	$(NULL)
 
 module_mail_config_la_LDFLAGS = \

@@ -22,7 +22,6 @@
 
 #include <libebackend/libebackend.h>
 
-#include <libevolution-utils/e-alert-dialog.h>
 #include <composer/e-msg-composer.h>
 
 #include "e-autosave-utils.h"

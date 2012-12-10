@@ -27,7 +27,6 @@
 
 #include "e-book-shell-view-private.h"
 
-#include "widgets/menus/gal-view-factory-etable.h"
 #include "addressbook/gui/widgets/gal-view-factory-minicard.h"
 
 static void

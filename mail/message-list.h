@@ -26,7 +26,7 @@
 #include <gtk/gtk.h>
 #include <camel/camel.h>
 
-#include <table/e-tree.h>
+#include <e-util/e-util.h>
 #include <libemail-engine/e-mail-session.h>
 
 /* Standard GObject macros */

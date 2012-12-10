@@ -28,7 +28,6 @@
 #include <gtk/gtk.h>
 #include "comp-editor.h"
 #include "../e-meeting-attendee.h"
-#include <misc/e-dateedit.h>
 
 void comp_editor_dates (CompEditorPageDates *date, ECalComponent *comp);
 void comp_editor_free_dates (CompEditorPageDates *dates);

@@ -25,7 +25,7 @@
 #define E_MAIL_CONFIG_ACTIVITY_PAGE_H
 
 #include <gtk/gtk.h>
-#include <e-util/e-activity.h>
+#include <e-util/e-util.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_CONFIG_ACTIVITY_PAGE \

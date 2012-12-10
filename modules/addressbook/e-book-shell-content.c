@@ -27,10 +27,7 @@
 
 #include <glib/gi18n.h>
 
-#include "e-util/e-selection.h"
 #include "shell/e-shell-utils.h"
-#include "widgets/misc/e-paned.h"
-#include "widgets/misc/e-preview-pane.h"
 #include "e-book-shell-view.h"
 
 #define E_BOOK_SHELL_CONTENT_GET_PRIVATE(obj) \

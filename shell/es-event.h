@@ -24,7 +24,7 @@
 #ifndef __ES_EVENT_H__
 #define __ES_EVENT_H__
 
-#include "e-util/e-event.h"
+#include <e-util/e-util.h>
 
 G_BEGIN_DECLS
 

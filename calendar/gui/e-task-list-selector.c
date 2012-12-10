@@ -25,7 +25,6 @@
 #include <string.h>
 #include <libecal/libecal.h>
 
-#include "e-util/e-selection.h"
 #include "calendar/gui/comp-util.h"
 
 #define E_TASK_LIST_SELECTOR_GET_PRIVATE(obj) \

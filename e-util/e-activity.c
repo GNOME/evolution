@@ -29,8 +29,7 @@
 #include <glib/gi18n.h>
 #include <camel/camel.h>
 
-#include "e-util/e-util.h"
-#include "e-util/e-util-enumtypes.h"
+#include "e-util-enumtypes.h"
 
 #define E_ACTIVITY_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

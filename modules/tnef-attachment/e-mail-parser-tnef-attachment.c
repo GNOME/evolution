@@ -17,18 +17,13 @@
 #include <config.h>
 #endif
 
+#include "e-mail-parser-tnef-attachment.h"
+
 #include <string.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <glib/gprintf.h>
 #include <stdio.h>
-
-#include "e-mail-parser-tnef-attachment.h"
-
-#include <em-format/e-mail-extension-registry.h>
-#include <em-format/e-mail-parser-extension.h>
-#include <em-format/e-mail-part.h>
-#include <em-format/e-mail-part-utils.h>
 
 #include <sys/types.h>
 #include <dirent.h>
@@ -42,10 +37,14 @@
 #include <libytnef/ytnef.h>
 #endif
 
-#include <mail/em-utils.h>
-#include <e-util/e-mktemp.h>
-
 #include <libebackend/libebackend.h>
+
+#include <em-format/e-mail-extension-registry.h>
+#include <em-format/e-mail-parser-extension.h>
+#include <em-format/e-mail-part.h>
+#include <em-format/e-mail-part-utils.h>
+
+#include <mail/em-utils.h>
 
 #define d(x)
 

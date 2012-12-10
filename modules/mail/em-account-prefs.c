@@ -34,8 +34,6 @@
 
 #include <glib/gi18n.h>
 
-#include <libevolution-utils/e-alert-dialog.h>
-
 #include <shell/e-shell.h>
 
 #include <mail/e-mail-backend.h>

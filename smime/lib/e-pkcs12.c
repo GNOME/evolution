@@ -51,7 +51,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-#include <libedataserverui/libedataserverui.h>
+#include "e-util/e-util.h"
 
 #include "e-cert-db.h"
 #include "e-pkcs12.h"

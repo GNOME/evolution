@@ -29,15 +29,13 @@
 #include <config.h>
 #endif
 
-#include <e-calendar-view.h>
-
-#include "e-util/e-categories-config.h"
-#include "e-util/e-util.h"
-#include "e-day-view-layout.h"
 #include "e-day-view-main-item.h"
-#include "ea-calendar.h"
-#include "e-calendar-view.h"
+
 #include "comp-util.h"
+#include "e-calendar-view.h"
+#include "e-calendar-view.h"
+#include "e-day-view-layout.h"
+#include "ea-calendar.h"
 
 #define E_DAY_VIEW_MAIN_ITEM_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

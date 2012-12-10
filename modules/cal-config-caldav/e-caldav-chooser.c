@@ -28,7 +28,7 @@
 #include <libxml/xpath.h>
 #include <libxml/xpathInternals.h>
 
-#include <libedataserverui/libedataserverui.h>
+#include <e-util/e-util.h>
 
 #define E_CALDAV_CHOOSER_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

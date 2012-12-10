@@ -20,6 +20,10 @@
  *
  */
 
+#if !defined (__E_UTIL_H_INSIDE__) && !defined (LIBEUTIL_COMPILATION)
+#error "Only <e-util/e-util.h> should be included directly."
+#endif
+
 #ifndef __E_TEXT_EVENT_PROCESSOR_H__
 #define __E_TEXT_EVENT_PROCESSOR_H__
 

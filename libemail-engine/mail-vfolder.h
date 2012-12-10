@@ -24,10 +24,9 @@
 
 #include <camel/camel.h>
 
-#include <filter/e-filter-part.h>
-#include <filter/e-filter-rule.h>
+#include <e-util/e-util.h>
 #include <libemail-engine/e-mail-session.h>
-#include <libemail-utils/em-vfolder-rule.h>
+#include <libemail-engine/em-vfolder-rule.h>
 
 void		vfolder_load_storage		(EMailSession *session);
 

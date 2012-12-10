@@ -21,6 +21,8 @@
 #include <config.h>
 #include <glib/gi18n-lib.h>
 
+#include <e-util/e-util.h>
+
 #include <mail/e-mail-config-welcome-page.h>
 
 #include "e-mail-config-import-page.h"

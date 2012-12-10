@@ -26,10 +26,9 @@
 
 #include <camel/camel.h>
 
-#include <filter/e-filter-rule.h>
 #include <mail/em-filter-context.h>
-#include <libemail-utils/em-vfolder-context.h>
 #include <libemail-engine/e-mail-session.h>
+#include <libemail-engine/em-vfolder-context.h>
 
 enum {
 	AUTO_SUBJECT = 1,

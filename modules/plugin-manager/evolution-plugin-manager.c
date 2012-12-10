@@ -25,7 +25,6 @@
 #include <glib/gi18n-lib.h>
 #include <libebackend/libebackend.h>
 
-#include <e-util/e-plugin.h>
 #include <shell/e-shell-window.h>
 #include <shell/e-shell-window-actions.h>
 

@@ -31,8 +31,7 @@
 
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <e-util/e-util-private.h>
-#include <misc/e-dateedit.h>
+
 #include "../e-meeting-time-sel.h"
 #include "../itip-utils.h"
 #include "comp-editor-util.h"

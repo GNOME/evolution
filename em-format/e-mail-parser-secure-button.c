@@ -22,11 +22,9 @@
 
 #include <glib/gi18n-lib.h>
 
-#include <em-format/e-mail-parser-extension.h>
-#include <em-format/e-mail-parser.h>
 #include <e-util/e-util.h>
 
-#include <camel/camel.h>
+#include "e-mail-parser-extension.h"
 
 typedef EMailParserExtension EMailParserSecureButton;
 typedef EMailParserExtensionClass EMailParserSecureButtonClass;

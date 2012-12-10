@@ -26,10 +26,12 @@
 #include <config.h>
 #endif
 
+#include "cancel-comp.h"
+
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include "libevolution-utils/e-alert-dialog.h"
-#include "cancel-comp.h"
+
+#include "e-util/e-util.h"
 
 /* is_past_event:
  *

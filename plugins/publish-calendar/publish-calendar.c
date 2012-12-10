@@ -31,9 +31,6 @@
 
 #include <calendar/gui/e-cal-config.h>
 #include <shell/es-event.h>
-#include <e-util/e-util.h>
-#include <e-util/e-util-private.h>
-#include <e-util/e-dialog-utils.h>
 
 #include <shell/e-shell.h>
 #include <shell/e-shell-view.h>

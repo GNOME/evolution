@@ -31,7 +31,6 @@
 #include "e-day-view.h"
 #include "e-week-view.h"
 
-#include <text/e-text.h>
 #include <libgnomecanvas/libgnomecanvas.h>
 
 /**

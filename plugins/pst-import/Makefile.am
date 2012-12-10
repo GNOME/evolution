@@ -14,10 +14,11 @@ plugin_LTLIBRARIES = liborg-gnome-pst-import.la
 liborg_gnome_pst_import_la_CPPFLAGS =			\
 	$(AM_CPPFLAGS)					\
 	-I$(top_srcdir)					\
-	-I$(top_srcdir)/widgets				\
 	-I$(top_builddir)				\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
+	$(CHAMPLAIN_CFLAGS)				\
+	$(GTKHTML_CFLAGS)				\
 	$(LIBPST_CFLAGS)
 
 liborg_gnome_pst_import_la_SOURCES = pst-importer.c
@@ -29,10 +30,10 @@ liborg_gnome_pst_import_la_LIBADD =				\
 	$(top_builddir)/mail/libevolution-mail.la		\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/libemail-engine/libemail-engine.la	\
-	$(top_builddir)/libemail-utils/libemail-utils.la	\
-	$(top_builddir)/libevolution-utils/libevolution-utils.la \
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
+	$(CHAMPLAIN_LIBS)					\
+	$(GTKHTML_LIBS)						\
 	$(LIBPST_LIBS)
 
 EXTRA_DIST = org-gnome-pst-import.eplug.xml

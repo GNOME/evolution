@@ -19,10 +19,10 @@
 #ifndef E_MAIL_FORMATTER_EXTENSION_H
 #define E_MAIL_FORMATTER_EXTENSION_H
 
+#include <gtk/gtk.h>
+#include <camel/camel.h>
 #include <em-format/e-mail-part.h>
 #include <em-format/e-mail-formatter.h>
-#include <camel/camel.h>
-#include <gtk/gtk.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_FORMATTER_EXTENSION \

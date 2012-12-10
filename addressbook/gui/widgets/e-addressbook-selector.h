@@ -21,8 +21,6 @@
 #ifndef E_ADDRESSBOOK_SELECTOR_H
 #define E_ADDRESSBOOK_SELECTOR_H
 
-#include <libedataserverui/libedataserverui.h>
-
 #include "e-addressbook-view.h"
 
 /* Standard GObject macros */

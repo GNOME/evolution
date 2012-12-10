@@ -22,8 +22,6 @@
 #ifndef E_BOOK_SHELL_SIDEBAR_H
 #define E_BOOK_SHELL_SIDEBAR_H
 
-#include <libedataserverui/libedataserverui.h>
-
 #include <shell/e-shell-sidebar.h>
 #include <shell/e-shell-view.h>
 

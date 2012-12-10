@@ -35,7 +35,6 @@
 #include "mail-vfolder-ui.h"
 #include "mail-autofilter.h"
 #include "em-utils.h"
-#include "libevolution-utils/e-alert-dialog.h"
 #include "e-util/e-util-private.h"
 
 #include "em-vfolder-editor-context.h"
@@ -45,8 +44,6 @@
 #include "em-filter-context.h"
 #include "em-filter-rule.h"
 #include "em-filter-editor.h"
-#include "filter/e-filter-option.h"
-#include "filter/e-filter-input.h"
 
 #define d(x)
 

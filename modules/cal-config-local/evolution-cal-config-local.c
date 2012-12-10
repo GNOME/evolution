@@ -21,8 +21,7 @@
 
 #include <libebackend/libebackend.h>
 
-#include <misc/e-cal-source-config.h>
-#include <misc/e-source-config-backend.h>
+#include <e-util/e-util.h>
 
 #include "e-source-local.h"
 

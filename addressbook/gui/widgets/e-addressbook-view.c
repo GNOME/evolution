@@ -25,39 +25,28 @@
 #include <config.h>
 #endif
 
+#include <ctype.h>
+#include <string.h>
+
 #include <glib/gi18n.h>
-#include <table/e-table.h>
-#include <table/e-table-model.h>
-#include <table/e-cell-date.h>
-#include <misc/e-selectable.h>
-#include <widgets/menus/gal-view-factory-etable.h>
-#include <filter/e-rule-editor.h>
-#include <widgets/menus/gal-view-etable.h>
-#include <shell/e-shell-sidebar.h>
+#include <gdk/gdkkeysyms.h>
+
+#include "e-addressbook-view.h"
+
+#include "e-util/e-util.h"
+#include "shell/e-shell-sidebar.h"
 
 #include "addressbook/printing/e-contact-print.h"
 #include "ea-addressbook.h"
 
-#include "e-util/e-print.h"
-#include "e-util/e-selection.h"
-#include "e-util/e-util.h"
-
 #include "gal-view-minicard.h"
 #include "gal-view-factory-minicard.h"
 
-#include "e-addressbook-view.h"
 #include "e-addressbook-model.h"
 #include "eab-gui-util.h"
 #include "util/eab-book-util.h"
 #include "e-addressbook-table-adapter.h"
 #include "eab-contact-merging.h"
-
-#include "libevolution-utils/e-alert-dialog.h"
-#include "e-util/e-util-private.h"
-
-#include <gdk/gdkkeysyms.h>
-#include <ctype.h>
-#include <string.h>
 
 #define E_ADDRESSBOOK_VIEW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

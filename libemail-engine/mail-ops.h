@@ -27,8 +27,8 @@
 G_BEGIN_DECLS
 
 #include <camel/camel.h>
-#include <libemail-utils/mail-mt.h>
 #include <libemail-engine/e-mail-session.h>
+#include <libemail-engine/mail-mt.h>
 
 void		mail_transfer_messages		(EMailSession *session,
 						 CamelFolder *source,

@@ -12,7 +12,9 @@ libecontactprint_la_CPPFLAGS =			\
 	-DEVOLUTION_UIDIR=\""$(uidir)"\"	\
 	-DEVOLUTION_ECPSDIR=\""$(ecpsdir)"\"	\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)		\
-	$(GNOME_PLATFORM_CFLAGS)
+	$(GNOME_PLATFORM_CFLAGS)		\
+	$(CHAMPLAIN_CFLAGS)			\
+	$(GTKHTML_CFLAGS)
 
 noinst_LTLIBRARIES = libecontactprint.la
 
@@ -22,10 +24,11 @@ libecontactprint_la_SOURCES = 			\
 	e-contact-print.h
 
 libecontactprint_la_LIBADD =					\
-	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
-	$(GNOME_PLATFORM_LIBS)
+	$(GNOME_PLATFORM_LIBS)					\
+	$(CHAMPLAIN_LIBS)					\
+	$(GTKHTML_LIBS)
 
 noinst_PROGRAMS = contact-print-test
 

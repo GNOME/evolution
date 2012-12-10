@@ -28,10 +28,6 @@
 #include <string.h>
 #include <glib/gi18n.h>
 
-#include "widgets/menus/gal-view-etable.h"
-#include "widgets/misc/e-paned.h"
-#include "widgets/misc/e-selectable.h"
-
 #include "calendar/gui/calendar-config.h"
 #include "calendar/gui/calendar-view.h"
 #include "calendar/gui/e-cal-list-view.h"

@@ -20,16 +20,13 @@
 #include <config.h>
 #endif
 
-#include <glib/gi18n-lib.h>
 #include "e-mail-part-attachment-bar.h"
 
-#include <em-format/e-mail-parser-extension.h>
-#include <em-format/e-mail-parser.h>
+#include <glib/gi18n-lib.h>
+
 #include <e-util/e-util.h>
 
-#include <widgets/misc/e-attachment-bar.h>
-
-#include <camel/camel.h>
+#include "e-mail-parser-extension.h"
 
 static void
 mail_part_attachment_bar_free (EMailPart *part)

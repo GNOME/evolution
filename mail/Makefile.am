@@ -6,8 +6,6 @@ mailincludedir = $(privincludedir)/mail
 
 libevolution_mail_la_CPPFLAGS =				\
 	$(AM_CPPFLAGS)					\
-	-I$(top_srcdir)/widgets				\
-	-I$(top_srcdir)/widgets/misc			\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/em-format			\
 	-I$(top_srcdir)/mail				\
@@ -17,13 +15,6 @@ libevolution_mail_la_CPPFLAGS =				\
 	-I$(top_srcdir)/shell				\
 	-I$(top_srcdir)/smime/lib			\
 	-I$(top_srcdir)/smime/gui			\
-	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
-	$(GNOME_PLATFORM_CFLAGS)			\
-	$(CERT_UI_CFLAGS)				\
-	$(CANBERRA_CFLAGS)				\
-	$(CLUTTER_CFLAGS)				\
-	$(GTKHTML_CFLAGS)                               \
-	$(LIBSOUP_CFLAGS)				\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"	\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
@@ -35,7 +26,14 @@ libevolution_mail_la_CPPFLAGS =				\
 	-DEVOLUTION_UIDIR=\""$(uidir)"\"		\
 	-DCAMEL_PROVIDERDIR=\""$(camel_providerdir)"\"	\
 	-DPREFIX=\""$(prefix)"\"			\
-	-DG_LOG_DOMAIN=\"evolution-mail\"
+	-DG_LOG_DOMAIN=\"evolution-mail\"		\
+	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
+	$(GNOME_PLATFORM_CFLAGS)			\
+	$(CERT_UI_CFLAGS)				\
+	$(CANBERRA_CFLAGS)				\
+	$(CHAMPLAIN_CFLAGS)				\
+	$(GTKHTML_CFLAGS)				\
+	$(LIBSOUP_CFLAGS)
 
 mailinclude_HEADERS =					\
 	e-http-request.h				\
@@ -193,28 +191,19 @@ SMIME_LIBS =						\
 endif
 
 libevolution_mail_la_LIBADD =				\
-	$(top_builddir)/libemail-utils/libemail-utils.la		\
 	$(top_builddir)/libemail-engine/libemail-engine.la		\
 	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/shell/libeshell.la		\
 	$(top_builddir)/composer/libcomposer.la		\
-	$(top_builddir)/widgets/table/libetable.la	\
-	$(top_builddir)/widgets/text/libetext.la	\
-	$(top_builddir)/widgets/menus/libmenus.la	\
-	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
-	$(top_builddir)/widgets/menus/libmenus.la	\
 	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la \
 	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la \
 	$(top_builddir)/em-format/libemformat.la	\
-	$(top_builddir)/filter/libfilter.la		\
-	$(top_builddir)/libevolution-utils/libevolution-utils.la \
 	$(EVOLUTION_DATA_SERVER_LIBS)			\
 	$(GNOME_PLATFORM_LIBS)				\
 	$(CERT_UI_LIBS)					\
 	$(CANBERRA_LIBS)				\
-	$(CLUTTER_LIBS)					\
+	$(CHAMPLAIN_LIBS)				\
 	$(GTKHTML_LIBS)					\
-	$(E_WIDGETS_LIBS)				\
 	$(SMIME_LIBS)					\
 	$(LIBSOUP_LIBS)					\
 	-lresolv

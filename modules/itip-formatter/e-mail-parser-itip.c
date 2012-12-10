@@ -30,15 +30,14 @@
 
 #include "e-mail-parser-itip.h"
 
+#include <shell/e-shell.h>
+
 #include <em-format/e-mail-extension-registry.h>
 #include <em-format/e-mail-parser-extension.h>
 #include <em-format/e-mail-part.h>
 
-#include <misc/e-attachment.h>
-
 #include "e-mail-part-itip.h"
 #include "itip-view.h"
-#include <shell/e-shell.h>
 
 #define CONF_KEY_DELETE "delete-processed"
 

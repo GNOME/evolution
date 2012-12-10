@@ -7,11 +7,12 @@ module_LTLIBRARIES = module-itip-formatter.la
 module_itip_formatter_la_CPPFLAGS =					\
 	$(AM_CPPFLAGS)							\
 	-I$(top_srcdir)							\
-	-I$(top_srcdir)/widgets						\
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"			\
 	-DG_LOG_DOMAIN=\"evolution-module-itip-formatter\"		\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)					\
-	$(GNOME_PLATFORM_CFLAGS)
+	$(GNOME_PLATFORM_CFLAGS)					\
+	$(CHAMPLAIN_CFLAGS)						\
+	$(GTKHTML_CFLAGS)
 
 module_itip_formatter_la_SOURCES =					\
 	e-conflict-search-selector.c					\
@@ -33,12 +34,11 @@ module_itip_formatter_la_LIBADD =					\
 	$(top_builddir)/mail/libevolution-mail.la			\
 	$(top_builddir)/shell/libeshell.la				\
 	$(top_builddir)/em-format/libemformat.la			\
-	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
-	$(top_builddir)/libemail-utils/libemail-utils.la		\
 	$(top_builddir)/libemail-engine/libemail-engine.la		\
-	$(top_builddir)/libevolution-utils/libevolution-utils.la	\
 	$(EVOLUTION_DATA_SERVER_LIBS)					\
-	$(GNOME_PLATFORM_LIBS)
+	$(GNOME_PLATFORM_LIBS)						\
+	$(CHAMPLAIN_LIBS)						\
+	$(GTKHTML_LIBS)
 
 module_itip_formatter_la_LDFLAGS =					\
 	-avoid-version -module $(NO_UNDEFINED)

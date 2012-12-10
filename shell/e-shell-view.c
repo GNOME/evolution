@@ -35,14 +35,6 @@
 #include <glib/gi18n.h>
 #include <libebackend/libebackend.h>
 
-#include "e-util/e-file-utils.h"
-#include "e-util/e-plugin-ui.h"
-#include "e-util/e-source-util.h"
-#include "e-util/e-ui-manager.h"
-#include "e-util/e-util-private.h"
-#include "e-util/e-util.h"
-#include "filter/e-rule-context.h"
-
 #include "e-shell-searchbar.h"
 #include "e-shell-window-actions.h"
 

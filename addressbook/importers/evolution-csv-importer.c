@@ -35,10 +35,8 @@
 #include <glib/gstdio.h>
 
 #include <libebook/libebook.h>
-#include <libedataserverui/libedataserverui.h>
 
 #include <shell/e-shell.h>
-#include <e-util/e-import.h>
 
 #include "evolution-addressbook-importers.h"
 

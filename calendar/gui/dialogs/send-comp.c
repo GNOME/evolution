@@ -26,9 +26,11 @@
 #include <config.h>
 #endif
 
-#include <glib/gi18n-lib.h>
-#include "libevolution-utils/e-alert-dialog.h"
 #include "send-comp.h"
+
+#include <glib/gi18n-lib.h>
+
+#include "e-util/e-util.h"
 
 static gboolean
 component_has_new_attendees (ECalComponent *comp)

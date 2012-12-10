@@ -26,15 +26,15 @@
 #include <config.h>
 #endif
 
-#include <string.h>
-#include <shell/e-shell.h>
-#include "mail/em-utils.h"
 #include "em-vfolder-editor-context.h"
-#include "em-vfolder-editor-rule.h"
-#include "filter/e-filter-option.h"
-#include "filter/e-filter-int.h"
+
+#include <string.h>
+
+#include "shell/e-shell.h"
 
 #include "em-filter-editor-folder-element.h"
+#include "em-utils.h"
+#include "em-vfolder-editor-rule.h"
 
 #define EM_VFOLDER_EDITOR_CONTEXT_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

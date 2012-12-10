@@ -36,18 +36,15 @@
 #include <libxml/tree.h>
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
-#include <libevolution-utils/e-xml-utils.h>
 
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <string.h>
 
-#include <libedataserverui/libedataserverui.h>
-
 #include <sys/time.h>
 #include <sys/stat.h>
 
-#include <e-util/e-config.h>
+#include <e-util/e-util.h>
 
 #include "bbdb.h"
 

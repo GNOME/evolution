@@ -29,7 +29,8 @@
 
 #include <string.h>
 #include <libxml/tree.h>
-#include <libedataserverui/libedataserverui.h>
+
+#include "e-util/e-util.h"
 
 static EPublishUri *
 migrateURI (const gchar *xml,

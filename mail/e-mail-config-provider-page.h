@@ -25,7 +25,7 @@
 #include <gtk/gtk.h>
 #include <camel/camel.h>
 
-#include <e-util/e-activity.h>
+#include <e-util/e-util.h>
 #include <mail/e-mail-config-page.h>
 #include <mail/e-mail-config-activity-page.h>
 #include <mail/e-mail-config-service-backend.h>

@@ -28,20 +28,13 @@
 #include <glib/gi18n.h>
 #include <string.h>
 
-#include <e-util/e-util.h>
-#include <e-util/e-config.h>
 #include <mail/em-config.h>
 #include <mail/em-event.h>
-
-#include <libevolution-utils/e-alert-dialog.h>
-#include <e-util/e-plugin.h>
 
 #include <mail/em-utils.h>
 
 #include "composer/e-msg-composer.h"
 #include "composer/e-composer-actions.h"
-#include "widgets/misc/e-attachment-view.h"
-#include "widgets/misc/e-attachment-store.h"
 
 #define CONF_KEY_ATTACH_REMINDER_CLUES "attachment-reminder-clues"
 

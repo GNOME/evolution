@@ -25,25 +25,17 @@
 #endif
 
 #include "eab-contact-display.h"
-#include "eab-contact-formatter.h"
-
-#include "eab-gui-util.h"
-#include "e-util/e-util.h"
-#include "e-util/e-util-private.h"
-#include "e-util/e-html-utils.h"
-#include "e-util/e-icon-factory.h"
-#include "e-util/e-plugin-ui.h"
-#include "e-util/e-file-request.h"
-#include "e-util/e-stock-request.h"
-
-#include <webkit/webkit.h>
-
-#ifdef WITH_CONTACT_MAPS
-#include "widgets/misc/e-contact-map.h"
-#endif
 
 #include <string.h>
 #include <glib/gi18n.h>
+
+#include <webkit/webkit.h>
+
+#include "e-util/e-util.h"
+
+#include "eab-contact-formatter.h"
+
+#include "eab-gui-util.h"
 
 #define EAB_CONTACT_DISPLAY_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

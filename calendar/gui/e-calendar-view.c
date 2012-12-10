@@ -31,15 +31,7 @@
 #include <glib/gstdio.h>
 #include <gdk/gdkkeysyms.h>
 #include <libebackend/libebackend.h>
-#include <libedataserverui/libedataserverui.h>
 
-#include <e-util/e-util.h>
-#include <libevolution-utils/e-alert-dialog.h>
-#include <e-util/e-selection.h>
-#include <e-util/e-datetime-format.h>
-#include <e-util/e-dialog-utils.h>
-#include <e-util/e-icon-factory.h>
-#include <misc/e-selectable.h>
 #include <shell/e-shell.h>
 
 #include "comp-util.h"

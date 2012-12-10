@@ -25,7 +25,6 @@
 
 #include "e-mail-config-hook.h"
 
-#include "e-util/e-config.h"
 #include "mail/em-config.h"
 
 static const EConfigHookTargetMask no_masks[] = {

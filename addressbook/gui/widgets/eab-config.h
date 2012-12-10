@@ -26,7 +26,7 @@
 
 #include <libedataserver/libedataserver.h>
 
-#include "e-util/e-config.h"
+#include <e-util/e-util.h>
 
 #define EAB_TYPE_CONFIG (eab_config_get_type ())
 #define EAB_CONFIG(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), EAB_TYPE_CONFIG, EABConfig))

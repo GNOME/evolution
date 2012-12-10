@@ -32,12 +32,6 @@
 #include <gtkhtml/gtkhtml-properties.h>
 #include <libxml/tree.h>
 
-#include <e-util/e-util.h>
-#include <e-util/e-datetime-format.h>
-#include <e-util/e-util-private.h>
-
-#include <misc/e-charset-combo-box.h>
-#include <misc/e-port-entry.h>
 #include <shell/e-shell-utils.h>
 
 #include <mail/e-mail-backend.h>

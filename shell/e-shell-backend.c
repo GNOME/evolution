@@ -502,6 +502,24 @@ e_shell_backend_is_busy (EShellBackend *shell_backend)
 }
 
 /**
+ * e_shell_backend_get_prefer_new_item:
+ * @shell_backend: an #EShellBackend
+ *
+ * Returns: Name of a preferred item in New toolbar button, %NULL or
+ * an empty string for no preference.
+ *
+ * Since: 3.4
+ **/
+const gchar *
+e_shell_backend_get_prefer_new_item (EShellBackend *shell_backend)
+{
+	g_return_val_if_fail (shell_backend != NULL, NULL);
+	g_return_val_if_fail (E_IS_SHELL_BACKEND (shell_backend), NULL);
+
+	return shell_backend->priv->prefer_new_item;
+}
+
+/**
  * e_shell_backend_set_prefer_new_item:
  * @shell_backend: an #EShellBackend
  * @prefer_new_item: name of an item
@@ -525,24 +543,6 @@ e_shell_backend_set_prefer_new_item (EShellBackend *shell_backend,
 	shell_backend->priv->prefer_new_item = g_strdup (prefer_new_item);
 
 	g_object_notify (G_OBJECT (shell_backend), "prefer-new-item");
-}
-
-/**
- * e_shell_backend_get_prefer_new_item:
- * @shell_backend: an #EShellBackend
- *
- * Returns: Name of a preferred item in New toolbar button, %NULL or
- * an empty string for no preference.
- *
- * Since: 3.4
- **/
-const gchar *
-e_shell_backend_get_prefer_new_item (EShellBackend *shell_backend)
-{
-	g_return_val_if_fail (shell_backend != NULL, NULL);
-	g_return_val_if_fail (E_IS_SHELL_BACKEND (shell_backend), NULL);
-
-	return shell_backend->priv->prefer_new_item;
 }
 
 /**

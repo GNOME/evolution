@@ -25,12 +25,12 @@
 #include <config.h>
 #endif
 
+#include <glib/gi18n.h>
+
 #include "ea-day-view-main-item.h"
 #include "e-day-view-top-item.h"
 #include "ea-day-view.h"
 #include "ea-day-view-cell.h"
-#include "ea-cell-table.h"
-#include <glib/gi18n.h>
 
 /* EaDayViewMainItem */
 static void	ea_day_view_main_item_class_init (EaDayViewMainItemClass *klass);

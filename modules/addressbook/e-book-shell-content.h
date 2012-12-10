@@ -28,8 +28,6 @@
 #include <shell/e-shell-searchbar.h>
 #include <shell/e-shell-view.h>
 
-#include <misc/e-preview-pane.h>
-
 #include "addressbook/gui/widgets/e-addressbook-view.h"
 #include "eab-composer-util.h"
 

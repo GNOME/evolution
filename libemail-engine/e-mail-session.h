@@ -28,8 +28,8 @@
 #include <camel/camel.h>
 #include <libedataserver/libedataserver.h>
 #include <libemail-engine/e-mail-enums.h>
+#include <libemail-engine/em-vfolder-context.h>
 #include <libemail-engine/mail-folder-cache.h>
-#include <libemail-utils/em-vfolder-context.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_SESSION \

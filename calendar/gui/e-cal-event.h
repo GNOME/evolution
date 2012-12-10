@@ -24,8 +24,7 @@
 #ifndef __E_CAL_EVENT_H__
 #define __E_CAL_EVENT_H__
 
-#include "e-util/e-event.h"
-#include "shell/e-shell-backend.h"
+#include <shell/e-shell-backend.h>
 
 G_BEGIN_DECLS
 

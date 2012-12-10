@@ -29,10 +29,10 @@
 
 #include <gtk/gtk.h>
 #include <camel/camel.h>
-#include <libevolution-utils/e-alert-sink.h>
+#include <e-util/e-util.h>
+
 #include <mail/e-mail-backend.h>
 #include <mail/e-mail-display.h>
-#include <misc/e-preview-pane.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_READER \

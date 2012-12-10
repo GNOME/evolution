@@ -23,7 +23,6 @@
 #include "e-cal-config-calendar-item.h"
 
 #include <shell/e-shell.h>
-#include <misc/e-calendar-item.h>
 
 #define E_CAL_CONFIG_CALENDAR_ITEM_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

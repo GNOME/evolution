@@ -26,12 +26,9 @@
 #include <config.h>
 #endif
 
-#include <string.h>
-
 #include "em-search-context.h"
-#include "filter/e-filter-rule.h"
-#include "filter/e-filter-option.h"
-#include "filter/e-filter-int.h"
+
+#include <string.h>
 
 G_DEFINE_TYPE (EMSearchContext, em_search_context, E_TYPE_RULE_CONTEXT)
 

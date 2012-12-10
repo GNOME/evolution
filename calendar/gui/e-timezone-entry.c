@@ -32,9 +32,11 @@
 #include <config.h>
 #endif
 
-#include <widgets/e-timezone-dialog/e-timezone-dialog.h>
-#include <glib/gi18n.h>
 #include "e-timezone-entry.h"
+
+#include <glib/gi18n.h>
+
+#include "e-util/e-util.h"
 
 #define E_TIMEZONE_ENTRY_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

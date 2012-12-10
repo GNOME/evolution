@@ -30,36 +30,31 @@
 #endif
 
 #include "e-week-view.h"
-#include "ea-calendar.h"
 
 #include <math.h>
 #include <gdk/gdkkeysyms.h>
 #include <glib/gi18n.h>
 #include <libgnomecanvas/libgnomecanvas.h>
-#include <text/e-text.h>
-#include <misc/e-canvas-utils.h>
-#include <e-util/e-unicode.h>
-#include <e-util/e-categories-config.h>
-#include <e-util/e-dialog-utils.h>
-#include <e-util/e-util.h>
+
 #include "dialogs/delete-comp.h"
 #include "dialogs/delete-error.h"
 #include "dialogs/send-comp.h"
 #include "dialogs/cancel-comp.h"
 #include "dialogs/recur-comp.h"
 #include "dialogs/goto-dialog.h"
+
+#include "calendar-config.h"
 #include "calendar-config.h"
 #include "comp-util.h"
-#include "itip-utils.h"
-#include "calendar-config.h"
-#include "print.h"
 #include "e-cal-model-calendar.h"
 #include "e-week-view-event-item.h"
 #include "e-week-view-layout.h"
 #include "e-week-view-main-item.h"
 #include "e-week-view-titles-item.h"
+#include "ea-calendar.h"
+#include "itip-utils.h"
 #include "misc.h"
-#include <e-util/e-icon-factory.h>
+#include "print.h"
 
 /* Images */
 #include "art/jump.xpm"

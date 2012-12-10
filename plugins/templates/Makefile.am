@@ -7,11 +7,11 @@ plugin_LTLIBRARIES = liborg-gnome-templates.la
 liborg_gnome_templates_la_CPPFLAGS =			\
 	$(AM_CPPFLAGS)					\
 	-I$(top_srcdir)					\
-	-I$(top_srcdir)/widgets				\
 	-I$(top_builddir)				\
 	-I$(top_builddir)/composer			\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
+	$(CHAMPLAIN_CFLAGS)				\
 	$(GTKHTML_CFLAGS)
 
 liborg_gnome_templates_la_SOURCES = templates.c
@@ -24,9 +24,9 @@ liborg_gnome_templates_la_LIBADD =	\
 	$(top_builddir)/shell/libeshell.la		\
 	$(top_builddir)/mail/libevolution-mail.la	\
 	$(top_builddir)/libemail-engine/libemail-engine.la \
-	$(top_builddir)/libevolution-utils/libevolution-utils.la \
 	$(EVOLUTION_DATA_SERVER_LIBS)			\
 	$(GNOME_PLATFORM_LIBS)				\
+	$(CHAMPLAIN_LIBS)				\
 	$(GTKHTML_LIBS)
 
 EXTRA_DIST = 	org-gnome-templates.eplug.xml

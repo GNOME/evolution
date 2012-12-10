@@ -32,30 +32,27 @@
 #include <gtkhtml/gtkhtml.h>
 #include <camel/camel.h>
 
-#include "libevolution-utils/e-alert-dialog.h"
-#include "filter/e-filter-rule.h"
-#include "misc/e-web-view.h"
 #include "shell/e-shell-utils.h"
 
-#include <libemail-engine/e-mail-folder-utils.h>
-#include <libemail-engine/e-mail-utils.h>
-#include <libemail-engine/mail-ops.h>
-#include <libemail-engine/mail-tools.h>
+#include "libemail-engine/e-mail-folder-utils.h"
+#include "libemail-engine/e-mail-utils.h"
+#include "libemail-engine/mail-ops.h"
+#include "libemail-engine/mail-tools.h"
+
+#include "em-format/e-mail-parser.h"
+#include "em-format/e-mail-part-utils.h"
 
 #include "composer/e-composer-actions.h"
 
-#include "mail/e-mail-backend.h"
-#include "mail/e-mail-browser.h"
-#include "mail/e-mail-printer.h"
-#include "mail/e-mail-display.h"
-#include "mail/em-composer-utils.h"
-#include "mail/em-utils.h"
-#include "mail/mail-autofilter.h"
-#include "mail/mail-vfolder-ui.h"
-#include "mail/message-list.h"
-
-#include <em-format/e-mail-parser.h>
-#include <em-format/e-mail-part-utils.h>
+#include "e-mail-backend.h"
+#include "e-mail-browser.h"
+#include "e-mail-printer.h"
+#include "e-mail-display.h"
+#include "em-composer-utils.h"
+#include "em-utils.h"
+#include "mail-autofilter.h"
+#include "mail-vfolder-ui.h"
+#include "message-list.h"
 
 #define d(x)
 

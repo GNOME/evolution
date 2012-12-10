@@ -25,7 +25,7 @@
 
 #include <libebook/libebook.h>
 
-#include <misc/e-web-view.h>
+#include <e-util/e-util.h>
 
 /* Standard GObject macros */
 #define EAB_TYPE_CONTACT_DISPLAY \

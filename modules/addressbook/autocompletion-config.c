@@ -25,10 +25,6 @@
 #include "autocompletion-config.h"
 
 #include <glib/gi18n.h>
-#include <libedataserverui/libedataserverui.h>
-
-#include "e-util/e-datetime-format.h"
-#include "misc/e-autocomplete-selector.h"
 
 static GtkWidget *
 add_section (GtkWidget *container,

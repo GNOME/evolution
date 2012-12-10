@@ -21,7 +21,7 @@
 
 #include <gtk/gtk.h>
 
-#include <e-util/e-activity.h>
+#include <e-util/e-util.h>
 
 #include <mail/e-mail-config-page.h>
 #include <mail/e-mail-config-summary-page.h>

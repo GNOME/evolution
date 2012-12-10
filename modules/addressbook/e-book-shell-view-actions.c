@@ -25,13 +25,7 @@
 
 #include "e-book-shell-view-private.h"
 
-#include <libevolution-utils/e-alert-dialog.h>
 #include <e-util/e-util.h>
-#include <filter/e-filter-rule.h>
-
-#ifdef WITH_CONTACT_MAPS
-#include <widgets/misc/e-contact-map-window.h>
-#endif
 
 static void
 action_address_book_copy_cb (GtkAction *action,

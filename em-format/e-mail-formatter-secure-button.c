@@ -22,8 +22,6 @@
 
 #include <glib/gi18n-lib.h>
 
-#include <em-format/e-mail-formatter-extension.h>
-#include <em-format/e-mail-formatter.h>
 #include <e-util/e-util.h>
 
 #if defined (HAVE_NSS) && defined (ENABLE_SMIME)
@@ -31,7 +29,7 @@
 #include "e-cert-db.h"
 #endif
 
-#include <camel/camel.h>
+#include "e-mail-formatter-extension.h"
 
 typedef EMailFormatterExtension EMailFormatterSecureButton;
 typedef EMailFormatterExtensionClass EMailFormatterSecureButtonClass;

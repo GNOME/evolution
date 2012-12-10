@@ -29,7 +29,8 @@
 #include <gtk/gtk.h>
 
 #include <glib/gi18n.h>
-#include <libedataserverui/libedataserverui.h>
+
+#include "e-util/e-util.h"
 
 #include "ca-trust-dialog.h"
 #include "e-cert-db.h"

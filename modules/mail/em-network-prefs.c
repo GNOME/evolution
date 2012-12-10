@@ -35,7 +35,6 @@
 #include <glib/gstdio.h>
 #include <gdk/gdkkeysyms.h>
 
-#include <e-util/e-util.h>
 #include <e-util/e-util-private.h>
 
 #include <mail/em-config.h>

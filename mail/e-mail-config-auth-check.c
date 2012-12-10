@@ -19,10 +19,9 @@
 #include <config.h>
 #include <glib/gi18n-lib.h>
 
-#include <libevolution-utils/e-alert.h>
-#include <e-util/e-mktemp.h>
-#include <misc/e-auth-combo-box.h>
-#include <mail/e-mail-config-service-page.h>
+#include "e-util/e-util.h"
+#include "mail/e-mail-config-service-page.h"
+
 #include "e-mail-ui-session.h"
 
 #include "e-mail-config-auth-check.h"

@@ -31,9 +31,9 @@
 #include <libical/ical.h>
 #include <glib/gi18n.h>
 
-#include "widgets/misc/e-dateedit.h"
+#include "shell/e-shell.h"
+
 #include "../itip-utils.h"
-#include <shell/e-shell.h>
 #include "comp-editor-util.h"
 
 /**

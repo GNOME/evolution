@@ -31,8 +31,8 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
-#include <libemail-utils/mail-mt.h>
 #include <libemail-engine/e-mail-folder-utils.h>
+#include <libemail-engine/mail-mt.h>
 #include <libemail-engine/mail-ops.h>
 
 #include "e-mail-backend.h"

@@ -26,16 +26,17 @@
 
 #include "e-minicard-view.h"
 
-#include "eab-gui-util.h"
-#include "util/eab-book-util.h"
-#include "e-util/e-util.h"
+#include <string.h>
 
 #include <gtk/gtk.h>
-#include <gdk/gdkkeysyms.h>
-#include <misc/e-canvas.h>
 #include <glib/gi18n.h>
-#include <string.h>
+#include <gdk/gdkkeysyms.h>
+
 #include "e-util/e-util.h"
+
+#include "eab-gui-util.h"
+#include "util/eab-book-util.h"
+
 #include "ea-addressbook.h"
 
 static void e_minicard_view_drag_data_get (GtkWidget *widget,

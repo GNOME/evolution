@@ -24,22 +24,16 @@
 #include <config.h>
 #endif
 
-#include <glib/gi18n.h>
 #include "e-mail-paned-view.h"
 
-#include "e-util/e-util-private.h"
-#include "widgets/menus/gal-view-etable.h"
-#include "widgets/menus/gal-view-instance.h"
-#include "widgets/misc/e-paned.h"
-#include "widgets/misc/e-preview-pane.h"
-#include "widgets/misc/e-search-bar.h"
+#include <glib/gi18n.h>
 
-#include <shell/e-shell-window-actions.h>
+#include "shell/e-shell-window-actions.h"
 
-#include <libemail-engine/e-mail-folder-utils.h>
-#include <libemail-engine/e-mail-utils.h>
-#include <libemail-engine/mail-config.h>
-#include <libemail-engine/mail-ops.h>
+#include "libemail-engine/e-mail-folder-utils.h"
+#include "libemail-engine/e-mail-utils.h"
+#include "libemail-engine/mail-config.h"
+#include "libemail-engine/mail-ops.h"
 
 #include "em-utils.h"
 #include "message-list.h"

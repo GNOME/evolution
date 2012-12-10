@@ -20,17 +20,17 @@
 #include <config.h>
 #endif
 
+#include <string.h>
 #include <glib/gi18n-lib.h>
-
-#include <em-format/e-mail-formatter-print.h>
-#include <em-format/e-mail-formatter-utils.h>
-#include <em-format/e-mail-inline-filter.h>
-#include <libemail-engine/e-mail-utils.h>
-#include <e-util/e-util.h>
 
 #include <camel/camel.h>
 
-#include <string.h>
+#include <e-util/e-util.h>
+#include <libemail-engine/e-mail-utils.h>
+
+#include "e-mail-formatter-print.h"
+#include "e-mail-formatter-utils.h"
+#include "e-mail-inline-filter.h"
 
 typedef EMailFormatterExtension EMailFormatterPrintHeaders;
 typedef EMailFormatterExtensionClass EMailFormatterPrintHeadersClass;

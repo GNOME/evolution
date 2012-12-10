@@ -26,8 +26,8 @@
 
 #include "e-minicard.h"
 
-#include <text/e-reflow.h>
-#include <misc/e-selection-model-simple.h>
+#include <e-util/e-util.h>
+
 #include "e-addressbook-reflow-adapter.h"
 
 G_BEGIN_DECLS

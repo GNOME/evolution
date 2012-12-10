@@ -23,7 +23,7 @@
 #include <gdata/gdata.h>
 #include <glib/gi18n-lib.h>
 
-#include <libedataserverui/libedataserverui.h>
+#include <e-util/e-util.h>
 
 #define E_GOOGLE_CHOOSER_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

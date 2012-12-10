@@ -30,8 +30,6 @@
 #include <time.h>
 #include <glib/gi18n.h>
 
-#include "e-util/e-datetime-format.h"
-
 #include "calendar-config.h"
 #include "e-meeting-time-sel-item.h"
 #include "e-meeting-time-sel.h"

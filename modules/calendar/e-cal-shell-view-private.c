@@ -28,7 +28,6 @@
 #include "e-cal-shell-view-private.h"
 
 #include "calendar/gui/calendar-view-factory.h"
-#include "widgets/menus/gal-view-factory-etable.h"
 
 #define CHECK_NB	5
 

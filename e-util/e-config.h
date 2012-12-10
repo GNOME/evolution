@@ -21,6 +21,10 @@
  *
  */
 
+#if !defined (__E_UTIL_H_INSIDE__) && !defined (LIBEUTIL_COMPILATION)
+#error "Only <e-util/e-util.h> should be included directly."
+#endif
+
 #ifndef E_CONFIG_H
 #define E_CONFIG_H
 
@@ -324,7 +328,7 @@ void		e_config_target_free		(EConfig *config,
 /* To implement a basic config plugin, you just need to subclass
  * this and initialise the class target type tables */
 
-#include "e-util/e-plugin.h"
+#include <e-util/e-plugin.h>
 
 typedef struct _EConfigHookGroup EConfigHookGroup;
 typedef struct _EConfigHook EConfigHook;

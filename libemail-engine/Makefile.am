@@ -18,7 +18,9 @@ libemail_engine_la_CPPFLAGS = \
 	-I$(top_builddir) \
 	$(EVOLUTION_DATA_SERVER_CFLAGS) \
 	$(GNOME_PLATFORM_CFLAGS) \
-	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"	\
+	$(CHAMPLAIN_CFLAGS) \
+	$(GTKHTML_CFLAGS) \
+	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\" \
 	$(NULL)
 
 libmailengineincludedir = $(privincludedir)/libemail-engine
@@ -33,11 +35,15 @@ libmailengineinclude_HEADERS =  \
 	e-mail-session.h \
 	e-mail-store-utils.h \
 	e-mail-utils.h \
+	em-filter-folder-element.h \
+	em-vfolder-context.h \
+	em-vfolder-rule.h \
 	mail-config.h \
 	mail-folder-cache.h \
+	mail-mt.h \
 	mail-ops.h \
 	mail-tools.h \
-	mail-vfolder.h	\
+	mail-vfolder.h \
 	$(NULL)
 
 libemail_engine_la_SOURCES =  \
@@ -51,19 +57,23 @@ libemail_engine_la_SOURCES =  \
 	e-mail-session.c \
 	e-mail-store-utils.c \
 	e-mail-utils.c \
+	em-filter-folder-element.c \
+	em-vfolder-context.c \
+	em-vfolder-rule.c \
 	mail-config.c \
 	mail-folder-cache.c \
+	mail-mt.c \
 	mail-ops.c \
 	mail-tools.c \
-	mail-vfolder.c	\
+	mail-vfolder.c \
 	$(NULL)
 
 libemail_engine_la_LIBADD = \
-	$(top_builddir)/libemail-utils/libemail-utils.la \
-	$(top_builddir)/filter/libfilter.la \
-	$(top_builddir)/libevolution-utils/libevolution-utils.la \
+	$(top_builddir)/e-util/libeutil.la \
 	$(EVOLUTION_DATA_SERVER_LIBS) \
 	$(GNOME_PLATFORM_LIBS) \
+	$(CHAMPLAIN_LIBS) \
+	$(GTKHTML_LIBS) \
 	$(NULL)
 
 libemail_engine_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)

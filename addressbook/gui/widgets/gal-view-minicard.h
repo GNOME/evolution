@@ -25,7 +25,7 @@
 #ifndef GAL_VIEW_MINICARD_H
 #define GAL_VIEW_MINICARD_H
 
-#include <widgets/menus/gal-view.h>
+#include <e-util/e-util.h>
 #include <e-minicard-view-widget.h>
 #include "e-addressbook-view.h"
 

@@ -34,12 +34,6 @@
 #include "calendar/gui/e-cal-config.h"
 #include "calendar/gui/e-timezone-entry.h"
 #include "calendar/gui/calendar-config.h"
-#include "widgets/misc/e-alarm-selector.h"
-#include "widgets/misc/e-dateedit.h"
-#include "e-util/e-util.h"
-#include "e-util/e-datetime-format.h"
-#include "e-util/e-dialog-widgets.h"
-#include "e-util/e-util-private.h"
 #include "shell/e-shell-utils.h"
 
 /* same is used for Birthdays & Anniversaries calendar */

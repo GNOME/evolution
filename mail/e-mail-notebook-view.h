@@ -25,7 +25,6 @@
 
 #include <mail/e-mail-view.h>
 #include <shell/e-shell-searchbar.h>
-#include <menus/gal-view-instance.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_NOTEBOOK_VIEW \

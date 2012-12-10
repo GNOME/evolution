@@ -22,7 +22,6 @@
 #include <camel/camel.h>
 
 #include <shell/e-shell.h>
-#include <libevolution-utils/e-alert-dialog.h>
 
 /* Forward Declarations */
 void e_convert_local_mail (EShell *shell);

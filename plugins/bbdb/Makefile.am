@@ -15,9 +15,9 @@ liborg_gnome_evolution_bbdb_la_CPPFLAGS =		\
 	$(AM_CPPFLAGS)					\
 	-I$(top_builddir)/composer			\
 	-I$(top_srcdir)					\
-	-I$(top_srcdir)/widgets				\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
+	$(CHAMPLAIN_CFLAGS)				\
 	$(GTKHTML_CFLAGS)
 
 liborg_gnome_evolution_bbdb_la_SOURCES = bbdb.c bbdb.h gaimbuddies.c
@@ -30,9 +30,9 @@ liborg_gnome_evolution_bbdb_la_LIBADD =		\
 	$(top_builddir)/composer/libcomposer.la	\
 	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la \
 	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la \
-	$(top_builddir)/libevolution-utils/libevolution-utils.la \
 	$(EVOLUTION_DATA_SERVER_LIBS)		\
 	$(GNOME_PLATFORM_LIBS)			\
+	$(CHAMPLAIN_LIBS)			\
 	$(GTKHTML_LIBS)
 
 EXTRA_DIST = org-gnome-evolution-bbdb.eplug.xml

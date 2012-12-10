@@ -31,6 +31,7 @@
 #include <errno.h>
 #include <time.h>
 
+#include <glib/gi18n.h>
 #include <glib/gstdio.h>
 
 #ifdef G_OS_WIN32
@@ -43,28 +44,18 @@
 
 #include "em-filter-editor.h"
 
-#include <glib/gi18n.h>
-
 #include <libebook/libebook.h>
 
-#include <e-util/e-util.h>
-#include <e-util/e-util-private.h>
-#include <e-util/e-mktemp.h>
-#include <e-util/e-dialog-utils.h>
-#include <libevolution-utils/e-alert-dialog.h>
+#include "shell/e-shell.h"
 
-#include <shell/e-shell.h>
-#include <widgets/misc/e-attachment.h>
+#include "em-format/e-mail-parser.h"
+#include "em-format/e-mail-formatter-quote.h"
 
-#include <em-format/e-mail-parser.h>
-#include <em-format/e-mail-formatter-quote.h>
-
-#include <libemail-utils/mail-mt.h>
-
-#include <libemail-engine/e-mail-folder-utils.h>
-#include <libemail-engine/e-mail-session.h>
-#include <libemail-engine/mail-ops.h>
-#include <libemail-engine/mail-tools.h>
+#include "libemail-engine/e-mail-folder-utils.h"
+#include "libemail-engine/e-mail-session.h"
+#include "libemail-engine/mail-mt.h"
+#include "libemail-engine/mail-ops.h"
+#include "libemail-engine/mail-tools.h"
 
 #include "e-mail-tag-editor.h"
 #include "em-composer-utils.h"

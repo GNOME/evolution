@@ -25,10 +25,6 @@
 #endif
 
 #include "e-contact-list-editor.h"
-#include <e-util/e-util-private.h>
-#include <libevolution-utils/e-alert-dialog.h>
-#include <e-util/e-selection.h>
-#include "shell/e-shell.h"
 
 #include <string.h>
 
@@ -38,7 +34,8 @@
 
 #include <camel/camel.h>
 
-#include "e-util/e-util.h"
+#include "shell/e-shell.h"
+
 #include "addressbook/gui/widgets/eab-gui-util.h"
 #include "addressbook/util/eab-book-util.h"
 

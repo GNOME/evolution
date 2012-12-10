@@ -3,11 +3,12 @@ module_LTLIBRARIES = module-text-highlight.la
 module_text_highlight_la_CPPFLAGS =					\
 	$(AM_CPPFLAGS)							\
 	-I$(top_srcdir)							\
-	-I$(top_srcdir)/widgets						\
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"			\
 	-DG_LOG_DOMAIN=\"evolution-module-text-highlight\"		\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)					\
-	$(GNOME_PLATFORM_CFLAGS)
+	$(GNOME_PLATFORM_CFLAGS)					\
+	$(CHAMPLAIN_CFLAGS)						\
+	$(GTKHTML_CFLAGS)
 
 module_text_highlight_la_SOURCES =					\
 	e-mail-display-popup-text-highlight.c				\
@@ -25,9 +26,10 @@ module_text_highlight_la_LIBADD =					\
 	$(top_builddir)/mail/libevolution-mail.la			\
 	$(top_builddir)/em-format/libemformat.la			\
 	$(top_builddir)/shell/libeshell.la				\
-	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
 	$(EVOLUTION_DATA_SERVER_LIBS)					\
-	$(GNOME_PLATFORM_LIBS)
+	$(GNOME_PLATFORM_LIBS)						\
+	$(CHAMPLAIN_LIBS)						\
+	$(GTKHTML_LIBS)
 
 module_text_highlight_la_LDFLAGS =					\
 	-avoid-version -module $(NO_UNDEFINED)

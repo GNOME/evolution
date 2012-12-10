@@ -24,7 +24,7 @@
 #define EM_NETWORK_PREFS_H
 
 #include <gtk/gtk.h>
-#include <widgets/misc/e-preferences-window.h>
+#include <e-util/e-util.h>
 
 /* Standard GObject macros */
 #define EM_TYPE_NETWORK_PREFS \

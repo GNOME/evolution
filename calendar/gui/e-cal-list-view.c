@@ -34,16 +34,6 @@
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 #include <gdk/gdkkeysyms.h>
-#include <table/e-table-memory-store.h>
-#include <table/e-cell-checkbox.h>
-#include <table/e-cell-toggle.h>
-#include <table/e-cell-text.h>
-#include <table/e-cell-combo.h>
-#include <table/e-cell-date.h>
-#include <table/e-cell-date-edit.h>
-#include <e-util/e-categories-config.h>
-#include <e-util/e-dialog-utils.h>
-#include <e-util/e-util-private.h>
 
 #include "e-cal-model-calendar.h"
 #include "e-cell-date-edit-text.h"

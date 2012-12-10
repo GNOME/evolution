@@ -26,7 +26,6 @@
 #ifndef CALENDAR_VIEW_H
 #define CALENDAR_VIEW_H
 
-#include <menus/gal-view.h>
 #include "gnome-cal.h"
 
 G_BEGIN_DECLS

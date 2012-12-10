@@ -26,7 +26,10 @@
 #include <gtk/gtk.h>
 
 #include "e-datetime-format.h"
-#include "e-util.h"
+
+#include <libedataserver/libedataserver.h>
+
+#include "e-misc-utils.h"
 
 #define KEYS_FILENAME "datetime-formats.ini"
 #define KEYS_GROUPNAME "formats"

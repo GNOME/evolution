@@ -30,9 +30,6 @@
 #include <string.h>
 #include <glib/gi18n.h>
 
-#include <libevolution-utils/e-alert-dialog.h>
-#include <e-util/e-plugin.h>
-
 #include <shell/e-shell-sidebar.h>
 #include <shell/e-shell-view.h>
 #include <shell/e-shell-window.h>
