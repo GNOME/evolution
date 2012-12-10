@@ -205,7 +205,7 @@ mdn_receipt_done (EMailSession *session,
 }
 
 static void
-mdn_notify_sender (ESource *source,
+mdn_notify_sender (ESource *identity_source,
                    EMailReader *reader,
                    CamelFolder *folder,
                    CamelMimeMessage *message,
@@ -227,14 +227,11 @@ mdn_notify_sender (ESource *source,
 	CamelMessageInfo *receipt_info;
 	EMailBackend *backend;
 	EMailSession *session;
-	ESourceRegistry *registry;
 	ESourceExtension *extension;
-	ESource *identity_source;
 	const gchar *message_id;
 	const gchar *message_date;
 	const gchar *message_subject;
 	const gchar *extension_name;
-	const gchar *identity_uid;
 	const gchar *transport_uid;
 	const gchar *self_address;
 	const gchar *sent_folder_uri;
@@ -248,7 +245,6 @@ mdn_notify_sender (ESource *source,
 
 	backend = e_mail_reader_get_backend (reader);
 	session = e_mail_backend_get_session (backend);
-	registry = e_mail_session_get_registry (session);
 
 	/* Tag the message immediately even though we haven't actually sent
 	 * the read receipt yet.  Not a big deal if we fail to send it, and
@@ -268,14 +264,6 @@ mdn_notify_sender (ESource *source,
 
 	/* Collect information for the receipt. */
 
-	extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
-	extension = e_source_get_extension (source, extension_name);
-
-	identity_uid = e_source_mail_account_get_identity_uid (
-		E_SOURCE_MAIL_ACCOUNT (extension));
-	g_return_if_fail (identity_uid != NULL);
-	identity_source = e_source_registry_ref_source (
-		registry, identity_uid);
 	g_return_if_fail (identity_source != NULL);
 
 	extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
@@ -408,7 +396,7 @@ mdn_notify_sender (ESource *source,
 	camel_medium_set_header (
 		CAMEL_MEDIUM (receipt),
 		"X-Evolution-Identity",
-		identity_uid);
+		e_source_get_uid (identity_source));
 	camel_medium_set_header (
 		CAMEL_MEDIUM (receipt),
 		"X-Evolution-Transport",
@@ -436,8 +424,6 @@ mdn_notify_sender (ESource *source,
 		g_object_ref (session));
 
 	camel_message_info_free (receipt_info);
-
-	g_object_unref (identity_source);
 }
 
 static void
