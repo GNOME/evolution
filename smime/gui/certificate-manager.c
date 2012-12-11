@@ -254,13 +254,19 @@ load_treeview_state (GtkTreeView *treeview)
 	list = g_key_file_get_integer_list (keyfile, tree_name,	"columns", &length, NULL);
 
 	if (list) {
+		gboolean all_hidden = TRUE;
+
 		if (length != (gtk_tree_model_get_n_columns (model) - 1)) {
 			g_debug ("%s: Unexpected number of columns in config file", G_STRFUNC);
 			g_free (list);
 			goto exit;
 		}
 
-		for (i = 0; i < length; i++) {
+		for (i = 0; all_hidden && i < length; i++) {
+			all_hidden = list[i] == 0;
+		}
+
+		for (i = 0; !all_hidden && i < length; i++) {
 			GtkTreeViewColumn *column = gtk_tree_view_get_column (treeview, i);
 			if (list[i]) {
 				gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_FIXED);
