@@ -17,15 +17,16 @@
  *		Chris Toshok <toshok@ximian.com>
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
- *
  */
 
-#ifndef _CERTIFICATE_VIEWER_H_
-#define _CERTIFICATE_VIEWER_H
+#ifndef CERTIFICATE_VIEWER_H
+#define CERTIFICATE_VIEWER_H
 
 #include <gtk/gtk.h>
-#include "e-cert.h"
+#include <cert.h>
 
-GtkWidget * certificate_viewer_show (ECert *cert);
+GtkWidget *	certificate_viewer_new	(GtkWindow *parent,
+					 const CERTCertificate *cert,
+					 const GSList *issuers_chain_certs);
 
-#endif /* _CERTIFICATE_VIEWER_H_ */
+#endif /* CERTIFICATE_VIEWER_H */

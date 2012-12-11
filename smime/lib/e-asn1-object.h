@@ -1,5 +1,4 @@
 /*
- *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -18,15 +17,14 @@
  *		Chris Toshok <toshok@ximian.com>
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
- *
  */
 
-#ifndef _E_ASN1_OBJECT_H_
-#define _E_ASN1_OBJECT_H_
+#ifndef E_ASN1_OBJECT_H
+#define E_ASN1_OBJECT_H
 
 #include <glib-object.h>
 
-#include <nspr.h>
+#include <cert.h>
 
 #define E_TYPE_ASN1_OBJECT            (e_asn1_object_get_type ())
 #define E_ASN1_OBJECT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_ASN1_OBJECT, EASN1Object))
@@ -85,22 +83,27 @@ struct _EASN1ObjectClass {
 	void (*_ecert_reserved4) (void);
 };
 
-EASN1Object     *e_asn1_object_new_from_der       (gchar *data, guint32 len);
-EASN1Object     *e_asn1_object_new                (void);
+GType		e_asn1_object_get_type			(void);
+EASN1Object *	e_asn1_object_new			(void);
+EASN1Object *	e_asn1_object_new_from_cert		(CERTCertificate *cert);
 
-void             e_asn1_object_set_valid_container (EASN1Object *obj, gboolean flag);
-gboolean         e_asn1_object_is_valid_container  (EASN1Object *obj);
-PRUint32         e_asn1_object_get_asn1_type       (EASN1Object *obj);
-PRUint32         e_asn1_object_get_asn1_tag        (EASN1Object *obj);
-GList           *e_asn1_object_get_children        (EASN1Object *obj);
-void             e_asn1_object_append_child        (EASN1Object *parent, EASN1Object *child);
-void             e_asn1_object_set_display_name    (EASN1Object *obj, const gchar *name);
-const gchar      *e_asn1_object_get_display_name    (EASN1Object *obj);
-void             e_asn1_object_set_display_value   (EASN1Object *obj, const gchar *value);
-const gchar      *e_asn1_object_get_display_value   (EASN1Object *obj);
+void		e_asn1_object_set_valid_container	(EASN1Object *obj,
+							 gboolean flag);
+gboolean	e_asn1_object_is_valid_container	(EASN1Object *obj);
+PRUint32	e_asn1_object_get_asn1_type		(EASN1Object *obj);
+PRUint32	e_asn1_object_get_asn1_tag		(EASN1Object *obj);
+GList *		e_asn1_object_get_children		(EASN1Object *obj);
+void		e_asn1_object_append_child		(EASN1Object *parent,
+							 EASN1Object *child);
+void		e_asn1_object_set_display_name		(EASN1Object *obj,
+							 const gchar *name);
+const gchar *	e_asn1_object_get_display_name		(EASN1Object *obj);
+void		e_asn1_object_set_display_value		(EASN1Object *obj,
+							 const gchar *value);
+const gchar *	e_asn1_object_get_display_value		(EASN1Object *obj);
 
-void             e_asn1_object_get_data            (EASN1Object *obj, gchar **data, guint32 *len);
+void		e_asn1_object_get_data			(EASN1Object *obj,
+							 gchar **data,
+							 guint32 *len);
 
-GType            e_asn1_object_get_type (void);
-
-#endif /* _E_ASN1_OBJECT_H_ */
+#endif /* E_ASN1_OBJECT_H */

@@ -95,7 +95,7 @@ const gchar *          e_cert_get_serial_number    (ECert *cert);
 const gchar *          e_cert_get_sha1_fingerprint (ECert *cert);
 const gchar *          e_cert_get_md5_fingerprint  (ECert *cert);
 
-GList *               e_cert_get_chain       (ECert *cert);
+GList *               e_cert_get_issuers_chain     (ECert *cert);
 ECert *              e_cert_get_ca_cert     (ECert *ecert);
 EASN1Object *         e_cert_get_asn1_struct (ECert *cert);
 

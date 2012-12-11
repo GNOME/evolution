@@ -427,6 +427,7 @@ smime/gui/cert-trust-dialog.c
 smime/gui/component.c
 smime/gui/e-cert-selector.c
 [type: gettext/glade]smime/gui/smime-ui.ui
+smime/lib/e-asn1-object.c
 smime/lib/e-cert.c
 smime/lib/e-cert-db.c
 smime/lib/e-pkcs12.c

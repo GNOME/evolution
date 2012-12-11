@@ -26,7 +26,7 @@
 #endif
 
 #include "ca-trust-dialog.h"
-#include "certificate-viewer.h"
+#include "certificate-manager.h"
 
 #include <glib/gi18n.h>
 
@@ -60,12 +60,14 @@ catd_response (GtkWidget *w,
 {
 	switch (id) {
 	case GTK_RESPONSE_ACCEPT: {
-		GtkWidget *dialog = certificate_viewer_show (data->cert);
+		GtkWidget *dialog;
+
+		dialog = e_cert_manager_new_certificate_viewer (GTK_WINDOW (data->dialog), data->cert);
 
 		g_signal_stop_emission_by_name (w, "response");
-		gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (data->dialog));
 		gtk_dialog_run (GTK_DIALOG (dialog));
 		gtk_widget_destroy (dialog);
+
 		break; }
 	}
 }

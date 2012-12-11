@@ -531,7 +531,13 @@ view_cert (GtkWidget *button,
 			-1);
 
 		if (cert) {
-			GtkWidget *dialog = certificate_viewer_show (cert);
+			GtkWidget *dialog, *parent;
+
+			parent = gtk_widget_get_toplevel (button);
+			if (!parent || !GTK_IS_WINDOW (parent))
+				parent = NULL;
+
+			dialog = e_cert_manager_new_certificate_viewer ((GtkWindow *) parent, cert);
 			g_signal_connect (
 				dialog, "response",
 				G_CALLBACK (gtk_widget_destroy), NULL);
@@ -1106,4 +1112,29 @@ e_cert_manager_config_new (EPreferencesWindow *window)
 	ecmc = g_object_new (E_TYPE_CERT_MANAGER_CONFIG, "preferences-window", window, NULL);
 
 	return GTK_WIDGET (ecmc);
+}
+
+GtkWidget *
+e_cert_manager_new_certificate_viewer (GtkWindow *parent,
+				       ECert *cert)
+{
+	GtkWidget *dialog;
+	GList *chain, *citer;
+	GSList *issuers = NULL;
+
+	g_return_val_if_fail (cert != NULL, NULL);
+
+	chain = e_cert_get_issuers_chain (cert);
+	for (citer = chain; citer; citer = g_list_next (citer)) {
+		issuers = g_slist_append (issuers, e_cert_get_internal_cert (citer->data));
+	}
+
+	dialog = certificate_viewer_new ((GtkWindow *) parent,
+		e_cert_get_internal_cert (cert),
+		issuers);
+
+	g_list_free_full (chain, g_object_unref);
+	g_slist_free (issuers);
+
+	return dialog;
 }

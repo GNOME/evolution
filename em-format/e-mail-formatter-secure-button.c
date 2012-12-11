@@ -27,7 +27,7 @@
 #include <e-util/e-util.h>
 
 #if defined (HAVE_NSS) && defined (ENABLE_SMIME)
-#include "certificate-viewer.h"
+#include "certificate-manager.h"
 #include "e-cert-db.h"
 #endif
 
@@ -101,7 +101,7 @@ emfe_secure_button_format (EMailFormatterExtension *extension,
 #if defined (HAVE_NSS) && defined (ENABLE_SMIME)
 static void
 viewcert_clicked (GtkWidget *button,
-                  GtkWidget *parent)
+                  GtkWidget *grid)
 {
 	CamelCipherCertInfo *info = g_object_get_data ((GObject *) button, "e-cert-info");
 	ECert *ec = NULL;
@@ -110,17 +110,18 @@ viewcert_clicked (GtkWidget *button,
 		ec = e_cert_new (CERT_DupCertificate (info->cert_data));
 
 	if (ec != NULL) {
-		GtkWidget *w = certificate_viewer_show (ec);
+		GtkWidget *dialog, *parent;
 
-		/* oddly enough certificate_viewer_show doesn't ... */
-		gtk_widget_show (w);
+		parent = gtk_widget_get_toplevel (grid);
+		if (!parent || !GTK_IS_WINDOW (parent))
+			parent = NULL;
+
+		dialog = e_cert_manager_new_certificate_viewer ((GtkWindow *) parent, ec);
+
+		gtk_widget_show (dialog);
 		g_signal_connect (
-			w, "response",
+			dialog, "response",
 			G_CALLBACK (gtk_widget_destroy), NULL);
-
-		if (w && parent)
-			gtk_window_set_transient_for (
-				(GtkWindow *) w, (GtkWindow *) parent);
 
 		g_object_unref (ec);
 	} else {
