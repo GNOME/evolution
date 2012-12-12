@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: as\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2012-12-09 08:13+0000\n"
-"PO-Revision-Date: 2012-12-10 17:14+0530\n"
+"POT-Creation-Date: 2012-12-11 18:51+0000\n"
+"PO-Revision-Date: 2012-12-12 13:26+0530\n"
 "Last-Translator: Nilamdyuti Goswami <ngoswami@redhat.com>\n"
 "Language-Team: Assamese <kde-i18n-doc@kde.org>\n"
 "Language: as_IN\n"
@@ -324,7 +324,7 @@ msgstr "HTML মেইল প্ৰাপ্ত কৰিবলৈ ইচ্ছ�
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:612
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:977
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:6
-#: ../smime/lib/e-cert.c:812
+#: ../smime/lib/e-asn1-object.c:395
 msgid "Email"
 msgstr "ই-মেইল"
 
@@ -2682,7 +2682,7 @@ msgid "_Options"
 msgstr "বিকল্প (_O)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1279 ../mail/e-mail-browser.c:176
-#: ../shell/e-shell-window-actions.c:1633 ../smime/gui/smime-ui.ui.h:28
+#: ../shell/e-shell-window-actions.c:1633 ../smime/gui/smime-ui.ui.h:5
 msgid "_View"
 msgstr "প্ৰদৰ্শণ (_V)"
 
@@ -9593,7 +9593,7 @@ msgstr "অপ্ৰকাশিত কপি প্ৰাপক"
 #: ../em-format/e-mail-formatter-quote-headers.c:150
 #: ../mail/e-mail-tag-editor.c:332 ../mail/em-filter-i18n.h:77
 #: ../mail/message-list.etspec.h:6 ../modules/mail/em-mailer-prefs.c:72
-#: ../smime/lib/e-cert.c:1127
+#: ../smime/lib/e-asn1-object.c:712
 msgid "Subject"
 msgstr "বিষয়"
 
@@ -9838,12 +9838,12 @@ msgstr ""
 "বহিৰাগত ব্যক্তিৰ দ্বাৰা স্বাভাবিক সময়েৰ এই বাৰ্তাৰ বিষয়বস্তু পাঠ কৰা সম্ভৱ "
 "হ'ব না।"
 
-#: ../em-format/e-mail-formatter-secure-button.c:181
-#: ../smime/gui/smime-ui.ui.h:43
+#: ../em-format/e-mail-formatter-secure-button.c:182
+#: ../smime/gui/smime-ui.ui.h:20
 msgid "_View Certificate"
 msgstr "সাৰ্টিফিকেট প্ৰত্যক্ষ কৰক (_V)"
 
-#: ../em-format/e-mail-formatter-secure-button.c:196
+#: ../em-format/e-mail-formatter-secure-button.c:197
 msgid "This certificate is not viewable"
 msgstr "সাৰ্টিফিকেট প্ৰদৰ্শনযোগ্য নহয়"
 
@@ -10656,14 +10656,14 @@ msgid "UID '%s' is not a mail transport"
 msgstr "UID '%s' এটা মেইল পৰিবহন নহয়"
 
 #: ../libemail-engine/e-mail-session-utils.c:647
-#: ../libemail-engine/mail-ops.c:751
+#: ../libemail-engine/mail-ops.c:759
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
 msgstr "বহিৰ্গমন সম্বন্ধীয় ফিল্টাৰ প্ৰয়োগ কৰা সম্ভৱ হোৱা নাই: %s"
 
 #: ../libemail-engine/e-mail-session-utils.c:676
 #: ../libemail-engine/e-mail-session-utils.c:710
-#: ../libemail-engine/mail-ops.c:769 ../libemail-engine/mail-ops.c:802
+#: ../libemail-engine/mail-ops.c:778 ../libemail-engine/mail-ops.c:811
 #, c-format
 msgid ""
 "Failed to append to %s: %s\n"
@@ -10673,13 +10673,13 @@ msgstr ""
 "স্থানীয় 'পঠোৱা' ফোল্ডাৰলে সংযোজন কৰা হৈছে।"
 
 #: ../libemail-engine/e-mail-session-utils.c:730
-#: ../libemail-engine/mail-ops.c:824
+#: ../libemail-engine/mail-ops.c:833
 #, c-format
 msgid "Failed to append to local 'Sent' folder: %s"
 msgstr "স্থানীয় 'পঠোৱা' ফোল্ডাৰ: %s লে সংযোজন কৰিবলে ব্যৰ্থ"
 
 #: ../libemail-engine/e-mail-session-utils.c:974
-#: ../libemail-engine/mail-ops.c:956 ../libemail-engine/mail-ops.c:1058
+#: ../libemail-engine/mail-ops.c:965 ../libemail-engine/mail-ops.c:1067
 msgid "Sending message"
 msgstr "বাৰ্তা"
 
@@ -10726,52 +10726,71 @@ msgstr ""
 msgid "Fetching mail from '%s'"
 msgstr "'%s' ৰ পৰা মেইল প্ৰাপ্ত কৰা হৈছে"
 
-#: ../libemail-engine/mail-ops.c:967
+#: ../libemail-engine/mail-ops.c:753
+#, c-format
+#| msgid ""
+#| "Failed to filter selected messages. One reason can be that folder "
+#| "location set in one or more filters is invalid. Please check your filters "
+#| "in Edit->Message Filters.\n"
+#| "Original error was: %s"
+msgid ""
+"Failed to apply outgoing filters. One reason can be that folder location set "
+"in one or more filters is invalid. Please check your filters in Edit-"
+">Message Filters.\n"
+"Original error was: %s"
+msgstr ""
+"বহিৰ্গামী ফিল্টাৰসমূহ প্ৰয়োগ কৰিবলে ব্যৰ্থ। এটা কাৰণ হব পাৰে যে এটা বা অধিক "
+"ফিল্টাৰত সংহতি কৰা ফোল্ডাৰৰ অৱস্থান অবৈধ। অনুগ্ৰহ কৰি আপোনাৰ ফিল্টাৰসমূহ "
+"সম্পাদনা-"
+">বাৰ্তা ফিল্টাৰসমূহত নীৰিক্ষণ কৰক।\n"
+"প্ৰকৃত ত্ৰুটি আছিল: %s"
+
+#: ../libemail-engine/mail-ops.c:976
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "বাৰ্তা %d , %dৰ, কে প্ৰেৰণ কৰা হচ্ছে"
 
-#: ../libemail-engine/mail-ops.c:1019
+#: ../libemail-engine/mail-ops.c:1028
 #, c-format
 msgid "Failed to send a message"
 msgid_plural "Failed to send %d of %d messages"
 msgstr[0] "এটা বাৰ্তা পঠাবলে ব্যৰ্থ"
 msgstr[1] "%d বাৰ্তাসমূহৰ %d পঠাবলে ব্যৰ্থ"
 
-#: ../libemail-engine/mail-ops.c:1025
+#: ../libemail-engine/mail-ops.c:1034
 msgid "Canceled."
 msgstr "বাতিল কৰা হয়েছে।"
 
-#: ../libemail-engine/mail-ops.c:1027
+#: ../libemail-engine/mail-ops.c:1036
 msgid "Complete."
 msgstr "সমপন্ন।"
 
-#: ../libemail-engine/mail-ops.c:1139
+#: ../libemail-engine/mail-ops.c:1148
 #, c-format
 msgid "Moving messages to '%s'"
 msgstr "বাৰ্তাসমূহক '%s' লে স্থানান্তৰ কৰা হৈ আছে"
 
-#: ../libemail-engine/mail-ops.c:1140
+#: ../libemail-engine/mail-ops.c:1149
 #, c-format
 msgid "Copying messages to '%s'"
 msgstr "বাৰ্তাসমূহক '%s' লে কপি কৰা হৈ আছে"
 
-#: ../libemail-engine/mail-ops.c:1259
+#: ../libemail-engine/mail-ops.c:1268
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "'%s' ফোল্ডাৰটি সংৰক্ষণ কৰা হচ্ছে"
 
-#: ../libemail-engine/mail-ops.c:1387
+#: ../libemail-engine/mail-ops.c:1396
 #, c-format
 msgid "Expunging and storing account '%s'"
 msgstr "'%s' অ্যাকাউন্ট এক্সপাঞ্জ কৰে সংৰক্ষণ কৰা হচ্ছে"
 
-#: ../libemail-engine/mail-ops.c:1388
+#: ../libemail-engine/mail-ops.c:1397
 #, c-format
 msgid "Storing account '%s'"
 msgstr "'%s' অ্যাকাউন্টিট সংৰক্ষণ কৰা হচ্ছে"
 
-#: ../libemail-engine/mail-ops.c:1462
+#: ../libemail-engine/mail-ops.c:1471
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "'%s' এ অবস্থিত অবৰ্জনা ফেলে দেওয়া হচ্ছে"
@@ -11079,7 +11098,7 @@ msgstr "ই-মেইল আহৰণ কৰা হচ্ছে"
 #: ../modules/calendar/e-calendar-preferences.ui.h:47
 #: ../modules/itip-formatter/plugin/config-ui.c:91
 #: ../plugins/publish-calendar/publish-calendar.ui.h:16
-#: ../smime/gui/smime-ui.ui.h:21
+#: ../smime/gui/certificate-viewer.c:644
 msgid "General"
 msgstr "সাধাৰণ"
 
@@ -13046,7 +13065,6 @@ msgid "Delete Mail"
 msgstr "মেইল মচি পেলাওক"
 
 #: ../mail/mail-config.ui.h:85
-#| msgid "Empty trash folders on e_xit"
 msgid "Empty _trash folders"
 msgstr "আবৰ্জনাৰ ফোল্ডাৰসমূহ খালি কৰক (_t)"
 
@@ -13123,7 +13141,6 @@ msgid "Check incoming _messages for junk"
 msgstr "উল্লেখিত সময় অবধি"
 
 #: ../mail/mail-config.ui.h:104
-#| msgid "Delete junk messages on e_xit"
 msgid "_Delete junk messages"
 msgstr "আবৰ্জনা বাৰ্তাসমূহ মচি পেলাওক (_D)"
 
@@ -15076,7 +15093,7 @@ msgid "Allow Evolution to update the file"
 msgstr "Evolution ক ফাইল আপডেইট কৰাৰ অনুমতি দিয়ক"
 
 #: ../modules/calendar/e-cal-attachment-handler.c:323
-#: ../smime/gui/smime-ui.ui.h:32
+#: ../smime/gui/smime-ui.ui.h:9
 msgid "I_mport"
 msgstr "ইমপোৰ্ট কৰক (_m)"
 
@@ -17498,27 +17515,22 @@ msgid "Language(s)"
 msgstr "ভাষা"
 
 #: ../modules/mail/em-mailer-prefs.c:86
-#| msgid "Every time"
 msgid "On exit, every time"
 msgstr "প্ৰস্থানত, প্ৰতি বাৰ"
 
 #: ../modules/mail/em-mailer-prefs.c:87
-#| msgid "Once per day"
 msgid "On exit, once per day"
 msgstr "প্ৰস্থানত, প্ৰতিদিন এবাৰ"
 
 #: ../modules/mail/em-mailer-prefs.c:88
-#| msgid "Once per week"
 msgid "On exit, once per week"
 msgstr "প্ৰস্থানত, প্ৰতি সপ্তাহত এবাৰ"
 
 #: ../modules/mail/em-mailer-prefs.c:89
-#| msgid "Once per month"
 msgid "On exit, once per month"
 msgstr "প্ৰস্থানত, প্ৰতি মাহে এবাৰ"
 
 #: ../modules/mail/em-mailer-prefs.c:90
-#| msgid "Immediately follow each other"
 msgid "Immediately, on folder leave"
 msgstr "তৎক্ষনাত, ফোল্ডাৰ প্ৰস্থানত"
 
@@ -17546,24 +17558,24 @@ msgstr "আপুনি Evolution ক আপোনাৰ অবিকল্প�
 
 #. Translators: First %s is an email address, second %s
 #. * is the subject of the email, third %s is the date.
-#: ../modules/mdn/evolution-mdn.c:325
+#: ../modules/mdn/evolution-mdn.c:313
 #, c-format
 msgid "Your message to %s about \"%s\" on %s has been read."
 msgstr "%s ত \"%s\" ৰ বিষয়ে আপোনাৰ বাৰ্তা %s পঢ়া হল।"
 
 #. Translators: %s is the subject of the email message.
-#: ../modules/mdn/evolution-mdn.c:392
+#: ../modules/mdn/evolution-mdn.c:380
 #, c-format
 msgid "Delivery Notification for \"%s\""
 msgstr "\"%s\"  ৰ বাবে প্ৰেৰণ অধিসূচনা"
 
-#: ../modules/mdn/evolution-mdn.c:545
+#: ../modules/mdn/evolution-mdn.c:538
 #, c-format
 msgid "Send a read receipt to '%s'"
 msgstr "Send a read receipt to '%s'"
 
 #. name doesn't matter
-#: ../modules/mdn/evolution-mdn.c:550
+#: ../modules/mdn/evolution-mdn.c:543
 msgid "_Notify Sender"
 msgstr "_Notify Sender"
 
@@ -18333,7 +18345,7 @@ msgstr ""
 "বন্ধ "
 "কৰিব নোৱাৰি।"
 
-#: ../plugins/face/face.c:174 ../smime/gui/certificate-manager.c:320
+#: ../plugins/face/face.c:174 ../smime/gui/certificate-manager.c:326
 msgid "Unknown error"
 msgstr "অজানা সমস্যা"
 
@@ -19662,7 +19674,7 @@ msgstr ""
 "a workaround you might try first upgrading to Evolution 2, and then "
 "upgrading to Evolution 3."
 
-#: ../smime/gui/ca-trust-dialog.c:107
+#: ../smime/gui/ca-trust-dialog.c:109
 #, c-format
 msgid ""
 "Certificate '%s' is a CA certificate.\n"
@@ -19688,8 +19700,8 @@ msgstr "Issued To Organizational Unit"
 
 #: ../smime/gui/certificate-manager.c:80
 #: ../smime/gui/certificate-manager.c:100
-#: ../smime/gui/certificate-manager.c:118 ../smime/gui/smime-ui.ui.h:12
-#: ../smime/lib/e-cert.c:544
+#: ../smime/gui/certificate-manager.c:118
+#: ../smime/gui/certificate-viewer.c:629 ../smime/lib/e-asn1-object.c:134
 msgid "Serial Number"
 msgstr "ক্ৰমিক সংখ্যা"
 
@@ -19701,7 +19713,8 @@ msgstr "উদ্দেশ্য"
 
 #: ../smime/gui/certificate-manager.c:82
 #: ../smime/gui/certificate-manager.c:102
-#: ../smime/gui/certificate-manager.c:120 ../smime/gui/smime-ui.ui.h:15
+#: ../smime/gui/certificate-manager.c:120
+#: ../smime/gui/certificate-viewer.c:631
 msgid "Issued By"
 msgstr "প্ৰেৰণ কৰা হৈছে"
 
@@ -19731,13 +19744,15 @@ msgstr "মেয়াদ পূৰ্ণ হ'ব"
 
 #: ../smime/gui/certificate-manager.c:87
 #: ../smime/gui/certificate-manager.c:107
-#: ../smime/gui/certificate-manager.c:125 ../smime/gui/smime-ui.ui.h:17
+#: ../smime/gui/certificate-manager.c:125
+#: ../smime/gui/certificate-viewer.c:641
 msgid "SHA1 Fingerprint"
 msgstr "SHA1 ফিঙ্গাৰপ্ৰিন্ট"
 
 #: ../smime/gui/certificate-manager.c:88
 #: ../smime/gui/certificate-manager.c:108
-#: ../smime/gui/certificate-manager.c:126 ../smime/gui/smime-ui.ui.h:18
+#: ../smime/gui/certificate-manager.c:126
+#: ../smime/gui/certificate-viewer.c:642
 msgid "MD5 Fingerprint"
 msgstr "MD5 ফিঙ্গাৰপ্ৰিন্ট"
 
@@ -19746,34 +19761,102 @@ msgstr "MD5 ফিঙ্গাৰপ্ৰিন্ট"
 msgid "Email Address"
 msgstr "ই-মেইল ঠিকনা"
 
-#: ../smime/gui/certificate-manager.c:606
+#: ../smime/gui/certificate-manager.c:618
 msgid "Select a certificate to import..."
 msgstr "ইম্পোৰ্ট কৰাৰ উদ্দেশ্যে একটি সাৰ্টিফিকেট নিৰ্বাচন কৰক..."
 
-#: ../smime/gui/certificate-manager.c:620
+#: ../smime/gui/certificate-manager.c:632
 msgid "All files"
 msgstr "সৰ্বধৰনেৰ ফাইল"
 
-#: ../smime/gui/certificate-manager.c:656
+#: ../smime/gui/certificate-manager.c:668
 msgid "Failed to import certificate"
 msgstr "Failed to import certificate"
 
-#: ../smime/gui/certificate-manager.c:1038
+#: ../smime/gui/certificate-manager.c:1050
 msgid "All PKCS12 files"
 msgstr "সব PKCS12 ফাইল"
 
-#: ../smime/gui/certificate-manager.c:1055
+#: ../smime/gui/certificate-manager.c:1067
 msgid "All email certificate files"
 msgstr "সব ই-মেইল সাৰ্টিফিকেট ফাইল"
 
-#: ../smime/gui/certificate-manager.c:1072
+#: ../smime/gui/certificate-manager.c:1084
 msgid "All CA certificate files"
 msgstr "সব CA সাৰ্টিফিকেট ফাইল"
 
-#: ../smime/gui/certificate-viewer.c:364
-#, c-format
-msgid "Certificate Viewer: %s"
-msgstr "সাৰ্টিফিকেট প্ৰদৰ্শনকাৰী: %s"
+#: ../smime/gui/certificate-viewer.c:287
+#| msgid "<Not Part of Certificate>"
+msgid "Not part of certificate"
+msgstr "প্ৰমাণপত্ৰৰ অংশ নহয়"
+
+#: ../smime/gui/certificate-viewer.c:592
+msgid "This certificate has been verified for the following uses:"
+msgstr "This certificate has been verified for the following uses:"
+
+#: ../smime/gui/certificate-viewer.c:596 ../smime/lib/e-asn1-object.c:387
+msgid "SSL Client Certificate"
+msgstr "SSL ক্লায়েন্ট সাৰ্টিফিকেট"
+
+#: ../smime/gui/certificate-viewer.c:601 ../smime/lib/e-asn1-object.c:391
+msgid "SSL Server Certificate"
+msgstr "SSL সাৰ্ভাৰ সাৰ্টিফিকেট"
+
+#: ../smime/gui/certificate-viewer.c:606
+msgid "Email Signer Certificate"
+msgstr "ই-মেইল স্বাক্ষৰকাৰী সাৰ্টিফিকেট"
+
+#: ../smime/gui/certificate-viewer.c:611
+msgid "Email Recipient Certificate"
+msgstr "ই-মেইল প্ৰাপকেৰ সাৰ্টিফিকেট"
+
+#: ../smime/gui/certificate-viewer.c:625
+msgid "Issued To"
+msgstr "লে প্ৰেৰণ কৰা হৈছে"
+
+#: ../smime/gui/certificate-viewer.c:626 ../smime/gui/certificate-viewer.c:632
+msgid "Common Name (CN)"
+msgstr "Common Name (CN)"
+
+#: ../smime/gui/certificate-viewer.c:627 ../smime/gui/certificate-viewer.c:633
+msgid "Organization (O)"
+msgstr "প্ৰতিষ্ঠান (O)"
+
+#: ../smime/gui/certificate-viewer.c:628 ../smime/gui/certificate-viewer.c:634
+msgid "Organizational Unit (OU)"
+msgstr "প্ৰাতিষ্ঠানিক একক (OU)"
+
+#: ../smime/gui/certificate-viewer.c:636
+msgid "Validity"
+msgstr "বৈধতা"
+
+#: ../smime/gui/certificate-viewer.c:637
+msgid "Issued On"
+msgstr "প্ৰকাশনাৰ তাৰিখ"
+
+#: ../smime/gui/certificate-viewer.c:638
+msgid "Expires On"
+msgstr "মেয়াদপূৰ্তী"
+
+#: ../smime/gui/certificate-viewer.c:640
+msgid "Fingerprints"
+msgstr "ফিংগাৰপ্ৰিন্টসমূহ"
+
+#: ../smime/gui/certificate-viewer.c:661
+msgid "Certificate Hierarchy"
+msgstr "Certificate Hierarchy"
+
+#: ../smime/gui/certificate-viewer.c:664
+msgid "Certificate Fields"
+msgstr "Certificate Fields"
+
+#: ../smime/gui/certificate-viewer.c:667
+msgid "Field Value"
+msgstr "ক্ষেত্ৰৰ মান"
+
+#: ../smime/gui/certificate-viewer.c:669
+msgid "Details"
+msgstr "বিৱৰণ"
 
 #: ../smime/gui/cert-trust-dialog.c:153
 msgid ""
@@ -19834,136 +19917,64 @@ msgstr ""
 msgid "Select certificate"
 msgstr "সাৰ্টিফিকেট নিৰ্বাচন কৰক"
 
-#: ../smime/gui/smime-ui.ui.h:3 ../smime/lib/e-cert.c:804
-msgid "SSL Client Certificate"
-msgstr "SSL ক্লায়েন্ট সাৰ্টিফিকেট"
-
-#: ../smime/gui/smime-ui.ui.h:4 ../smime/lib/e-cert.c:808
-msgid "SSL Server Certificate"
-msgstr "SSL সাৰ্ভাৰ সাৰ্টিফিকেট"
-
-#: ../smime/gui/smime-ui.ui.h:5
-msgid "Email Signer Certificate"
-msgstr "ই-মেইল স্বাক্ষৰকাৰী সাৰ্টিফিকেট"
-
-#: ../smime/gui/smime-ui.ui.h:6
-msgid "Email Recipient Certificate"
-msgstr "ই-মেইল প্ৰাপকেৰ সাৰ্টিফিকেট"
-
-#: ../smime/gui/smime-ui.ui.h:7
-msgid "This certificate has been verified for the following uses:"
-msgstr "This certificate has been verified for the following uses:"
-
-#: ../smime/gui/smime-ui.ui.h:8
-msgid "Issued To"
-msgstr "লে প্ৰেৰণ কৰা হৈছে"
-
-#: ../smime/gui/smime-ui.ui.h:9
-msgid "Common Name (CN)"
-msgstr "Common Name (CN)"
-
-#: ../smime/gui/smime-ui.ui.h:10
-msgid "Organization (O)"
-msgstr "প্ৰতিষ্ঠান (O)"
-
-#: ../smime/gui/smime-ui.ui.h:11
-msgid "Organizational Unit (OU)"
-msgstr "প্ৰাতিষ্ঠানিক একক (OU)"
-
-#: ../smime/gui/smime-ui.ui.h:13
-msgid "Issued On"
-msgstr "প্ৰকাশনাৰ তাৰিখ"
-
-#: ../smime/gui/smime-ui.ui.h:14
-msgid "Expires On"
-msgstr "মেয়াদপূৰ্তী"
-
-#: ../smime/gui/smime-ui.ui.h:16
-msgid "Fingerprints"
-msgstr "ফিংগাৰপ্ৰিন্টসমূহ"
-
-#: ../smime/gui/smime-ui.ui.h:19
-msgid "<Not Part of Certificate>"
-msgstr "<সাৰ্টিফিকেটেৰ অংশ নহয়>"
-
-#: ../smime/gui/smime-ui.ui.h:20
-msgid "Validity"
-msgstr "বৈধতা"
-
-#: ../smime/gui/smime-ui.ui.h:22
-msgid "Certificate Hierarchy"
-msgstr "Certificate Hierarchy"
-
-#: ../smime/gui/smime-ui.ui.h:23
-msgid "Certificate Fields"
-msgstr "Certificate Fields"
-
-#: ../smime/gui/smime-ui.ui.h:24
-msgid "Field Value"
-msgstr "ক্ষেত্ৰৰ মান"
-
-#: ../smime/gui/smime-ui.ui.h:25
-msgid "Details"
-msgstr "বিৱৰণ"
-
-#: ../smime/gui/smime-ui.ui.h:26
+#: ../smime/gui/smime-ui.ui.h:3
 msgid "You have certificates from these organizations that identify you:"
 msgstr "এই প্ৰতিষ্ঠানসমূহ আপোনাৰ পৰিচয় প্ৰমানকাৰী সাৰ্টিফিকেট প্ৰেৰণ কৰিছে:"
 
-#: ../smime/gui/smime-ui.ui.h:27
+#: ../smime/gui/smime-ui.ui.h:4
 msgid "Certificates Table"
 msgstr "সাৰ্টিফিকেটেৰ টেবিল"
 
 #. This is a verb, as in "make a backup".
-#: ../smime/gui/smime-ui.ui.h:30
+#: ../smime/gui/smime-ui.ui.h:7
 msgid "_Backup"
 msgstr "_Backup"
 
-#: ../smime/gui/smime-ui.ui.h:31
+#: ../smime/gui/smime-ui.ui.h:8
 msgid "Backup _All"
 msgstr "Backup _All"
 
-#: ../smime/gui/smime-ui.ui.h:33
+#: ../smime/gui/smime-ui.ui.h:10
 msgid "Your Certificates"
 msgstr "আপোনাৰ সাৰ্টিফিকেট"
 
-#: ../smime/gui/smime-ui.ui.h:34
+#: ../smime/gui/smime-ui.ui.h:11
 msgid "You have certificates on file that identify these people:"
 msgstr ""
 "আপোনাৰ কাছে এই ব্যাক্তিৰ পৰিচয়-প্ৰমানকাৰী সাৰ্টিফিকেট ফাইলে উপস্থিত ৰয়েছে:"
 
-#: ../smime/gui/smime-ui.ui.h:35
+#: ../smime/gui/smime-ui.ui.h:12
 msgid "Contact Certificates"
 msgstr "পৰিচয়ৰ সাৰ্টিফিকেট"
 
-#: ../smime/gui/smime-ui.ui.h:36
+#: ../smime/gui/smime-ui.ui.h:13
 msgid ""
 "You have certificates on file that identify these certificate authorities:"
 msgstr ""
 "আপোনাৰ কাছে এই সাৰ্টিফিকেট-অথেৰিটিসমূহৰ পৰিচয়-প্ৰমানকাৰী সাৰ্টিফিকেট ফাইলে "
 "উপস্থিত ৰয়েছে:"
 
-#: ../smime/gui/smime-ui.ui.h:37
+#: ../smime/gui/smime-ui.ui.h:14
 msgid "Authorities"
 msgstr "অথোৰিটি"
 
-#: ../smime/gui/smime-ui.ui.h:38
+#: ../smime/gui/smime-ui.ui.h:15
 msgid "Certificate Authority Trust"
 msgstr "সাৰ্টিফিকেট অথোৰিটি ট্ৰাস্ট"
 
-#: ../smime/gui/smime-ui.ui.h:39
+#: ../smime/gui/smime-ui.ui.h:16
 msgid "Trust this CA to identify _websites."
 msgstr "Trust this CA to identify _websites."
 
-#: ../smime/gui/smime-ui.ui.h:40
+#: ../smime/gui/smime-ui.ui.h:17
 msgid "Trust this CA to identify _email users."
 msgstr "Trust this CA to identify _email users."
 
-#: ../smime/gui/smime-ui.ui.h:41
+#: ../smime/gui/smime-ui.ui.h:18
 msgid "Trust this CA to identify _software developers."
 msgstr "Trust this CA to identify _software developers."
 
-#: ../smime/gui/smime-ui.ui.h:42
+#: ../smime/gui/smime-ui.ui.h:19
 msgid ""
 "Before trusting this CA for any purpose, you should examine its certificate "
 "and its policy and procedures (if available)."
@@ -19972,29 +19983,199 @@ msgstr ""
 "সাৰ্টিফিকেট আৰু "
 "প্ৰযোজ্য নিয়মনীতি (উপলব্ধ হলে) পৰীক্ষা কৰক।"
 
-#: ../smime/gui/smime-ui.ui.h:44 ../smime/lib/e-cert.c:1073
+#: ../smime/gui/smime-ui.ui.h:21 ../smime/lib/e-asn1-object.c:658
 msgid "Certificate"
 msgstr "সাৰ্টিফিকেট"
 
-#: ../smime/gui/smime-ui.ui.h:45
+#: ../smime/gui/smime-ui.ui.h:22
 msgid "Certificate details"
 msgstr "সাৰ্টিফিকেট সংক্ৰান্ত বিবৰণ"
 
-#: ../smime/gui/smime-ui.ui.h:46
+#: ../smime/gui/smime-ui.ui.h:23
 msgid "Email Certificate Trust Settings"
 msgstr "ই-মেইল সাৰ্টিফিকেটেৰ বিশ্বস্ততা সংক্ৰান্ত বৈশিষ্ট্যাবলী"
 
-#: ../smime/gui/smime-ui.ui.h:47
+#: ../smime/gui/smime-ui.ui.h:24
 msgid "Trust the authenticity of this certificate"
 msgstr "এই সাৰ্টিফিকেটটিৰ বৈধতা বিশ্বাস কৰা হ'ব"
 
-#: ../smime/gui/smime-ui.ui.h:48
+#: ../smime/gui/smime-ui.ui.h:25
 msgid "Do not trust the authenticity of this certificate"
 msgstr "এই সাৰ্টিফিকেটেৰ বৈধতা বিশ্বাস কৰা ন'হ'ব"
 
-#: ../smime/gui/smime-ui.ui.h:49
+#: ../smime/gui/smime-ui.ui.h:26
 msgid "_Edit CA Trust"
 msgstr "CA ট্ৰাস্ট সম্পাদন কৰক (_E)"
+
+#: ../smime/lib/e-asn1-object.c:95
+msgid "Version"
+msgstr "ভাৰ্সান"
+
+#: ../smime/lib/e-asn1-object.c:110
+msgid "Version 1"
+msgstr "ভাৰ্সান ১"
+
+#: ../smime/lib/e-asn1-object.c:113
+msgid "Version 2"
+msgstr "ভাৰ্সান ২"
+
+#: ../smime/lib/e-asn1-object.c:116
+msgid "Version 3"
+msgstr "ভাৰ্সান ৩"
+
+#: ../smime/lib/e-asn1-object.c:192
+msgid "PKCS #1 MD2 With RSA Encryption"
+msgstr "PKCS #1 MD2 RSA এনক্ৰিপশনসহ"
+
+#: ../smime/lib/e-asn1-object.c:195
+msgid "PKCS #1 MD5 With RSA Encryption"
+msgstr "PKCS #1 MD5 RSA এনক্ৰিপশনসহ"
+
+#: ../smime/lib/e-asn1-object.c:198
+msgid "PKCS #1 SHA-1 With RSA Encryption"
+msgstr "PKCS #1 SHA-1 RSA এনক্ৰিপশন"
+
+#: ../smime/lib/e-asn1-object.c:201
+msgid "PKCS #1 SHA-256 With RSA Encryption"
+msgstr "PKCS #1 SHA-256 With RSA Encryption"
+
+#: ../smime/lib/e-asn1-object.c:204
+msgid "PKCS #1 SHA-384 With RSA Encryption"
+msgstr "PKCS #1 SHA-384 With RSA Encryption"
+
+#: ../smime/lib/e-asn1-object.c:207
+msgid "PKCS #1 SHA-512 With RSA Encryption"
+msgstr "PKCS #1 SHA-512 With RSA Encryption"
+
+#: ../smime/lib/e-asn1-object.c:234
+msgid "PKCS #1 RSA Encryption"
+msgstr "PKCS #1 RSA এনক্ৰিপশন"
+
+#: ../smime/lib/e-asn1-object.c:237
+msgid "Certificate Key Usage"
+msgstr "সাৰ্টিফিকেট কী (key)ৰ ব্যৱহাৰ"
+
+#: ../smime/lib/e-asn1-object.c:240
+msgid "Netscape Certificate Type"
+msgstr "নেটস্কেপ সাৰ্টিফিকেটেৰ ধৰন"
+
+#: ../smime/lib/e-asn1-object.c:243
+msgid "Certificate Authority Key Identifier"
+msgstr "সাৰ্টিফিকেট অথোৰিটি কী পৰিচয়কাৰী"
+
+#: ../smime/lib/e-asn1-object.c:255
+#, c-format
+msgid "Object Identifier (%s)"
+msgstr "অবজেক্ট পৰিচয়কাৰী (%s)"
+
+#: ../smime/lib/e-asn1-object.c:306
+msgid "Algorithm Identifier"
+msgstr "অ্যালগোৰিদম পৰিচয়কাৰী"
+
+#: ../smime/lib/e-asn1-object.c:314
+msgid "Algorithm Parameters"
+msgstr "অ্যাগোৰিদমেৰ পৰামিতি"
+
+#: ../smime/lib/e-asn1-object.c:336
+msgid "Subject Public Key Info"
+msgstr "চিহ্নিত পৰিচয়ৰ সাৰ্বজনীন কী সংক্ৰান্ত তথ্য"
+
+#: ../smime/lib/e-asn1-object.c:341
+msgid "Subject Public Key Algorithm"
+msgstr "চিহ্নিত পৰিচয়ৰ সাৰ্বজনীন কী অ্যালগোৰিদম"
+
+#: ../smime/lib/e-asn1-object.c:356
+msgid "Subject's Public Key"
+msgstr "চিহ্নিত পৰিচয়ৰ সাৰ্বজনীন কী"
+
+#: ../smime/lib/e-asn1-object.c:378 ../smime/lib/e-asn1-object.c:428
+msgid "Error: Unable to process extension"
+msgstr "সমস্যা: এক্সটেনশন প্ৰসেস কৰিবলৈ ব্যৰ্থ"
+
+#: ../smime/lib/e-asn1-object.c:399 ../smime/lib/e-asn1-object.c:411
+msgid "Object Signer"
+msgstr "অবজেক্ট স্বাক্ষৰকাৰী"
+
+#: ../smime/lib/e-asn1-object.c:403
+msgid "SSL Certificate Authority"
+msgstr "SSL সাৰ্টিফিকেট অথোৰিটি"
+
+#: ../smime/lib/e-asn1-object.c:407
+msgid "Email Certificate Authority"
+msgstr "ই-মেইল সাৰ্টিফিকেট অথোৰিটি"
+
+#: ../smime/lib/e-asn1-object.c:436
+msgid "Signing"
+msgstr "স্বাক্ষৰ কৰা হচ্ছে"
+
+#: ../smime/lib/e-asn1-object.c:440
+msgid "Non-repudiation"
+msgstr "Non-repudiation"
+
+#: ../smime/lib/e-asn1-object.c:444
+msgid "Key Encipherment"
+msgstr "Key Encipherment"
+
+#: ../smime/lib/e-asn1-object.c:448
+msgid "Data Encipherment"
+msgstr "Data Encipherment"
+
+#: ../smime/lib/e-asn1-object.c:452
+msgid "Key Agreement"
+msgstr "কী (Key) সংক্ৰান্ত চুক্তি"
+
+#: ../smime/lib/e-asn1-object.c:456
+msgid "Certificate Signer"
+msgstr "সাৰ্টিফিকেট স্বাক্ষৰকাৰী"
+
+#: ../smime/lib/e-asn1-object.c:460
+msgid "CRL Signer"
+msgstr "CRL স্বাক্ষৰকাৰী"
+
+#: ../smime/lib/e-asn1-object.c:509
+msgid "Critical"
+msgstr "সংকটপূৰ্ণ"
+
+#: ../smime/lib/e-asn1-object.c:511 ../smime/lib/e-asn1-object.c:514
+msgid "Not Critical"
+msgstr "সংকটপূৰ্ণ নহয়"
+
+#: ../smime/lib/e-asn1-object.c:535
+msgid "Extensions"
+msgstr "এক্সটেনশন"
+
+#. Translators: This string is used in Certificate
+#. * details for fields like Issuer or Subject, which
+#. * shows the field name on the left and its respective
+#. * value on the right, both as stored in the
+#. * certificate itself.  You probably do not need to
+#. * change this string, unless changing the order of
+#. * name and value.  As a result example:
+#. * "OU = VeriSign Trust Network"
+#: ../smime/lib/e-asn1-object.c:615
+#, c-format
+msgid "%s = %s"
+msgstr "%s = %s"
+
+#: ../smime/lib/e-asn1-object.c:672 ../smime/lib/e-asn1-object.c:807
+msgid "Certificate Signature Algorithm"
+msgstr "সাৰ্টিফিকেট স্বাক্ষৰেৰ অ্যালগোৰিদম"
+
+#: ../smime/lib/e-asn1-object.c:681
+msgid "Issuer"
+msgstr "ইসুকাৰী"
+
+#: ../smime/lib/e-asn1-object.c:735
+msgid "Issuer Unique ID"
+msgstr "প্ৰকাশকেৰ নিজস্ব ID"
+
+#: ../smime/lib/e-asn1-object.c:754
+msgid "Subject Unique ID"
+msgstr "পৰিচয়ৰ নিজস্ব ID"
+
+#: ../smime/lib/e-asn1-object.c:813
+msgid "Certificate Signature Value"
+msgstr "সাৰ্টিফিকেট স্বাক্ষৰেৰ মান"
 
 #: ../smime/lib/e-cert.c:201 ../smime/lib/e-cert.c:213
 msgid "%d/%m/%Y"
@@ -20008,176 +20189,6 @@ msgstr "স্বাক্ষৰ কৰক"
 #: ../smime/lib/e-cert.c:393
 msgid "Encrypt"
 msgstr "এনক্ৰিপ্ট কৰক"
-
-#: ../smime/lib/e-cert.c:505
-msgid "Version"
-msgstr "ভাৰ্সান"
-
-#: ../smime/lib/e-cert.c:520
-msgid "Version 1"
-msgstr "ভাৰ্সান ১"
-
-#: ../smime/lib/e-cert.c:523
-msgid "Version 2"
-msgstr "ভাৰ্সান ২"
-
-#: ../smime/lib/e-cert.c:526
-msgid "Version 3"
-msgstr "ভাৰ্সান ৩"
-
-#: ../smime/lib/e-cert.c:609
-msgid "PKCS #1 MD2 With RSA Encryption"
-msgstr "PKCS #1 MD2 RSA এনক্ৰিপশনসহ"
-
-#: ../smime/lib/e-cert.c:612
-msgid "PKCS #1 MD5 With RSA Encryption"
-msgstr "PKCS #1 MD5 RSA এনক্ৰিপশনসহ"
-
-#: ../smime/lib/e-cert.c:615
-msgid "PKCS #1 SHA-1 With RSA Encryption"
-msgstr "PKCS #1 SHA-1 RSA এনক্ৰিপশন"
-
-#: ../smime/lib/e-cert.c:618
-msgid "PKCS #1 SHA-256 With RSA Encryption"
-msgstr "PKCS #1 SHA-256 With RSA Encryption"
-
-#: ../smime/lib/e-cert.c:621
-msgid "PKCS #1 SHA-384 With RSA Encryption"
-msgstr "PKCS #1 SHA-384 With RSA Encryption"
-
-#: ../smime/lib/e-cert.c:624
-msgid "PKCS #1 SHA-512 With RSA Encryption"
-msgstr "PKCS #1 SHA-512 With RSA Encryption"
-
-#: ../smime/lib/e-cert.c:651
-msgid "PKCS #1 RSA Encryption"
-msgstr "PKCS #1 RSA এনক্ৰিপশন"
-
-#: ../smime/lib/e-cert.c:654
-msgid "Certificate Key Usage"
-msgstr "সাৰ্টিফিকেট কী (key)ৰ ব্যৱহাৰ"
-
-#: ../smime/lib/e-cert.c:657
-msgid "Netscape Certificate Type"
-msgstr "নেটস্কেপ সাৰ্টিফিকেটেৰ ধৰন"
-
-#: ../smime/lib/e-cert.c:660
-msgid "Certificate Authority Key Identifier"
-msgstr "সাৰ্টিফিকেট অথোৰিটি কী পৰিচয়কাৰী"
-
-#: ../smime/lib/e-cert.c:672
-#, c-format
-msgid "Object Identifier (%s)"
-msgstr "অবজেক্ট পৰিচয়কাৰী (%s)"
-
-#: ../smime/lib/e-cert.c:724
-msgid "Algorithm Identifier"
-msgstr "অ্যালগোৰিদম পৰিচয়কাৰী"
-
-#: ../smime/lib/e-cert.c:732
-msgid "Algorithm Parameters"
-msgstr "অ্যাগোৰিদমেৰ পৰামিতি"
-
-#: ../smime/lib/e-cert.c:754
-msgid "Subject Public Key Info"
-msgstr "চিহ্নিত পৰিচয়ৰ সাৰ্বজনীন কী সংক্ৰান্ত তথ্য"
-
-#: ../smime/lib/e-cert.c:759
-msgid "Subject Public Key Algorithm"
-msgstr "চিহ্নিত পৰিচয়ৰ সাৰ্বজনীন কী অ্যালগোৰিদম"
-
-#: ../smime/lib/e-cert.c:774
-msgid "Subject's Public Key"
-msgstr "চিহ্নিত পৰিচয়ৰ সাৰ্বজনীন কী"
-
-#: ../smime/lib/e-cert.c:795 ../smime/lib/e-cert.c:845
-msgid "Error: Unable to process extension"
-msgstr "সমস্যা: এক্সটেনশন প্ৰসেস কৰিবলৈ ব্যৰ্থ"
-
-#: ../smime/lib/e-cert.c:816 ../smime/lib/e-cert.c:828
-msgid "Object Signer"
-msgstr "অবজেক্ট স্বাক্ষৰকাৰী"
-
-#: ../smime/lib/e-cert.c:820
-msgid "SSL Certificate Authority"
-msgstr "SSL সাৰ্টিফিকেট অথোৰিটি"
-
-#: ../smime/lib/e-cert.c:824
-msgid "Email Certificate Authority"
-msgstr "ই-মেইল সাৰ্টিফিকেট অথোৰিটি"
-
-#: ../smime/lib/e-cert.c:853
-msgid "Signing"
-msgstr "স্বাক্ষৰ কৰা হচ্ছে"
-
-#: ../smime/lib/e-cert.c:857
-msgid "Non-repudiation"
-msgstr "Non-repudiation"
-
-#: ../smime/lib/e-cert.c:861
-msgid "Key Encipherment"
-msgstr "Key Encipherment"
-
-#: ../smime/lib/e-cert.c:865
-msgid "Data Encipherment"
-msgstr "Data Encipherment"
-
-#: ../smime/lib/e-cert.c:869
-msgid "Key Agreement"
-msgstr "কী (Key) সংক্ৰান্ত চুক্তি"
-
-#: ../smime/lib/e-cert.c:873
-msgid "Certificate Signer"
-msgstr "সাৰ্টিফিকেট স্বাক্ষৰকাৰী"
-
-#: ../smime/lib/e-cert.c:877
-msgid "CRL Signer"
-msgstr "CRL স্বাক্ষৰকাৰী"
-
-#: ../smime/lib/e-cert.c:926
-msgid "Critical"
-msgstr "সংকটপূৰ্ণ"
-
-#: ../smime/lib/e-cert.c:928 ../smime/lib/e-cert.c:931
-msgid "Not Critical"
-msgstr "সংকটপূৰ্ণ নহয়"
-
-#: ../smime/lib/e-cert.c:952
-msgid "Extensions"
-msgstr "এক্সটেনশন"
-
-#. Translators: This string is used in Certificate
-#. * details for fields like Issuer or Subject, which
-#. * shows the field name on the left and its respective
-#. * value on the right, both as stored in the
-#. * certificate itself.  You probably do not need to
-#. * change this string, unless changing the order of
-#. * name and value.  As a result example:
-#. * "OU = VeriSign Trust Network"
-#: ../smime/lib/e-cert.c:1031
-#, c-format
-msgid "%s = %s"
-msgstr "%s = %s"
-
-#: ../smime/lib/e-cert.c:1087 ../smime/lib/e-cert.c:1210
-msgid "Certificate Signature Algorithm"
-msgstr "সাৰ্টিফিকেট স্বাক্ষৰেৰ অ্যালগোৰিদম"
-
-#: ../smime/lib/e-cert.c:1096
-msgid "Issuer"
-msgstr "ইসুকাৰী"
-
-#: ../smime/lib/e-cert.c:1151
-msgid "Issuer Unique ID"
-msgstr "প্ৰকাশকেৰ নিজস্ব ID"
-
-#: ../smime/lib/e-cert.c:1170
-msgid "Subject Unique ID"
-msgstr "পৰিচয়ৰ নিজস্ব ID"
-
-#: ../smime/lib/e-cert.c:1216
-msgid "Certificate Signature Value"
-msgstr "সাৰ্টিফিকেট স্বাক্ষৰেৰ মান"
 
 #: ../smime/lib/e-cert-db.c:866
 msgid "Certificate already exists"
@@ -21461,6 +21472,9 @@ msgstr "সমস্ত নিৰ্বাচন কৰক"
 #: ../widgets/text/e-text.c:2111
 msgid "Input Methods"
 msgstr "ইনপুটেৰ পদ্ধতি"
+
+#~ msgid "Certificate Viewer: %s"
+#~ msgstr "সাৰ্টিফিকেট প্ৰদৰ্শনকাৰী: %s"
 
 #~ msgid "Cannot create a new event"
 #~ msgstr "নতুন অনুষ্ঠান নিৰ্মাণ কৰিবলৈ ব্যৰ্থ"
