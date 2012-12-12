@@ -2944,14 +2944,9 @@ msgstr "Traducteurs du manuel d'utilisation d'<app>Evolution</app>"
 #: C/credits.page:43(section/p)
 msgid "(Not applicable to the English version)"
 msgstr ""
-"Novell, 2004\n"
-"Marc Lorber <Linux-Lorber@club-internet.fr>, 2006\n"
-"Jonathan Ernst <jonathan@ernstfamily.ch>, 2007\n"
-"Claude Paroz <claude@2xlibre.net>, 2007-2009\n"
-"Alexandre Franke <alexandre.franke@gmail.com>, 2009\n"
-"Bruno Brouard <annoa.b@gmail.com>, 2010-2012\n"
-"Alexandre Daubois <alex.daubois@gmail.com>, 2011\n"
-"Julien Hardelin <jhardlin@orange.fr>, 2012"
+"Novell Inc. (2004), Marc Lorber (2006), Jonathan Ernst (2007), Claude "
+"Paroz (2007-2009), Alexandre Franke (2009), Bruno Brouard "
+"(2010-2012), Alexandre Daubois (2011), Julien Hardelin (2012)"
 
 #: C/credits.page:47(section/title)
 msgid "Authors of the previous version"
@@ -4973,7 +4968,7 @@ msgid ""
 msgstr ""
 "Pour accéder à Gmail via IMAP vous devez activer IMAP sur votre compte "
 "Google. Consultez <link href=\"https://mail.google.com/support/bin/answer.py?"
-"answer=77695&hl=fr\">l'aide Gmail</link> pour plus d'informations."
+"answer=77695&amp;hl=fr\">l'aide Gmail</link> pour plus d'informations."
 
 #: C/mail-access-gmail-pop-account.page:5(info/desc)
 msgid "How to set up a Gmail POP Account."
@@ -11076,7 +11071,7 @@ msgstr ""
 "Dans le cas peu probable où il n'y a pas de nœud de niveau supérieur de "
 "<gui>Dossiers de recherche</gui> affiché en bas de la <link xref=\"intro-"
 "main-window#e-mail\">liste de dossiers de courriels</link>, vous devez  "
-"activer gui>Édition</gui><gui>Préférences</gui><gui>Comptes de messagerie</"
+"activer <guiseq><gui>Édition</gui><gui>Préférences</gui><gui>Comptes de messagerie</"
 "gui><gui>Dossiers de recherche</gui></guiseq>."
 
 #: C/mail-search-folders.page:5(info/desc)
