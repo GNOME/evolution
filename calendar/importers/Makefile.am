@@ -9,7 +9,6 @@ libevolution_calendar_importers_la_CPPFLAGS = 		\
 	-I$(top_builddir)/calendar			\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(CHAMPLAIN_CFLAGS)				\
 	$(GTKHTML_CFLAGS)
 
 libevolution_calendar_importers_la_SOURCES = \
@@ -23,7 +22,6 @@ libevolution_calendar_importers_la_LIBADD =			\
 	$(top_builddir)/shell/libeshell.la			\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
-	$(CHAMPLAIN_LIBS)					\
 	$(GTKHTML_LIBS)
 
 -include $(top_srcdir)/git.mk

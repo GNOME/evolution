@@ -7,7 +7,6 @@ module_text_highlight_la_CPPFLAGS =					\
 	-DG_LOG_DOMAIN=\"evolution-module-text-highlight\"		\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)					\
 	$(GNOME_PLATFORM_CFLAGS)					\
-	$(CHAMPLAIN_CFLAGS)						\
 	$(GTKHTML_CFLAGS)
 
 module_text_highlight_la_SOURCES =					\
@@ -28,7 +27,6 @@ module_text_highlight_la_LIBADD =					\
 	$(top_builddir)/shell/libeshell.la				\
 	$(EVOLUTION_DATA_SERVER_LIBS)					\
 	$(GNOME_PLATFORM_LIBS)						\
-	$(CHAMPLAIN_LIBS)						\
 	$(GTKHTML_LIBS)
 
 module_text_highlight_la_LDFLAGS =					\

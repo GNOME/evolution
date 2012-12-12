@@ -18,10 +18,6 @@
  *
  */
 
-#if !defined (__E_UTIL_H_INSIDE__) && !defined (LIBEUTIL_COMPILATION)
-#error "Only <e-util/e-util.h> should be included directly."
-#endif
-
 #ifndef E_CONTACT_MAP_WINDOW_H
 #define E_CONTACT_MAP_WINDOW_H
 
@@ -31,7 +27,7 @@
 
 #include <libebook/libebook.h>
 
-#include <e-util/e-contact-map.h>
+#include "e-contact-map.h"
 
 /* Standard GObject macros */
 #define E_TYPE_CONTACT_MAP_WINDOW \

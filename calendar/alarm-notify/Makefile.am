@@ -21,7 +21,6 @@ evolution_alarm_notify_CPPFLAGS = 			\
 	$(GNOME_PLATFORM_CFLAGS)			\
 	$(LIBNOTIFY_CFLAGS)				\
 	$(CANBERRA_CFLAGS)				\
-	$(CHAMPLAIN_CFLAGS)				\
 	$(GTKHTML_CFLAGS)
 
 ui_DATA =		\
@@ -54,7 +53,6 @@ evolution_alarm_notify_LDADD =						\
 	$(GNOME_PLATFORM_LIBS)						\
 	$(LIBNOTIFY_LIBS)						\
 	$(CANBERRA_LIBS)						\
-	$(CHAMPLAIN_LIBS)						\
 	$(GTKHTML_LIBS)
 	$(EVOLUTIONALARMNOTIFYICON)
 

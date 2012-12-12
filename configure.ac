@@ -1418,6 +1418,8 @@ if test "x$enable_contact_maps" = "xyes"; then
 		[geoclue >= geoclue_minimum_version
 		 geocode-glib = 0.99.0],
 		[have_geo=yes], [have_geo=no])
+	AC_SUBST(GEO_CFLAGS)
+	AC_SUBST(GEO_LIBS)
 
 	if test "x$have_geo" = "xno"; then
 		AC_MSG_ERROR([

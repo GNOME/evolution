@@ -82,9 +82,6 @@
 #include <e-util/e-charset.h>
 #include <e-util/e-client-utils.h>
 #include <e-util/e-config.h>
-#include <e-util/e-contact-map-window.h>
-#include <e-util/e-contact-map.h>
-#include <e-util/e-contact-marker.h>
 #include <e-util/e-contact-store.h>
 #include <e-util/e-dateedit.h>
 #include <e-util/e-datetime-format.h>

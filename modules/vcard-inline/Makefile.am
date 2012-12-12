@@ -7,7 +7,6 @@ module_vcard_inline_la_CPPFLAGS =				\
 	-DG_LOG_DOMAIN=\"evolution-module-vcard-inline\"		\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)					\
 	$(GNOME_PLATFORM_CFLAGS)					\
-	$(CHAMPLAIN_CFLAGS)						\
 	$(GTKHTML_CFLAGS)
 
 module_vcard_inline_la_SOURCES =				\
@@ -27,7 +26,6 @@ module_vcard_inline_la_LIBADD =				\
 	$(top_builddir)/addressbook/printing/libecontactprint.la	\
 	$(EVOLUTION_DATA_SERVER_LIBS)					\
 	$(GNOME_PLATFORM_LIBS)						\
-	$(CHAMPLAIN_LIBS)						\
 	$(GTKHTML_LIBS)
 
 module_vcard_inline_la_LDFLAGS =				\

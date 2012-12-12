@@ -95,7 +95,6 @@ libeutil_la_CPPFLAGS = \
 	-DG_LOG_DOMAIN=\"libeutil\" \
 	$(EVOLUTION_DATA_SERVER_CFLAGS) \
 	$(GNOME_PLATFORM_CFLAGS) \
-	$(CHAMPLAIN_CFLAGS) \
 	$(GEO_CFLAGS) \
 	$(GTKHTML_CFLAGS) \
 	$(NULL)
@@ -161,9 +160,6 @@ eutilinclude_HEADERS =  \
 	e-charset.h \
 	e-client-utils.h \
 	e-config.h \
-	e-contact-map-window.h \
-	e-contact-map.h \
-	e-contact-marker.h \
 	e-contact-store.h \
 	e-dateedit.h \
 	e-datetime-format.h \
@@ -409,9 +405,6 @@ libeutil_la_SOURCES = \
 	e-charset.c \
 	e-client-utils.c \
 	e-config.c \
-	e-contact-map-window.c \
-	e-contact-map.c \
-	e-contact-marker.c \
 	e-contact-store.c \
 	e-dateedit.c \
 	e-datetime-format.c \
@@ -591,7 +584,6 @@ libeutil_la_LIBADD =  \
 	$(ICONV_LIBS) \
 	$(EVOLUTION_DATA_SERVER_LIBS) \
 	$(GNOME_PLATFORM_LIBS) \
-	$(CHAMPLAIN_LIBS) \
 	$(GEO_LIBS) \
 	$(GTKHTML_LIBS) \
 	$(INTLLIBS) \

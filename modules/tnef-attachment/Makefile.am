@@ -13,7 +13,6 @@ module_tnef_attachment_la_CPPFLAGS =			\
 	-DG_LOG_DOMAIN=\"evolution-module-tnef-attachment\"		\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)					\
 	$(GNOME_PLATFORM_CFLAGS)					\
-	$(CHAMPLAIN_CFLAGS)						\
 	$(GTKHTML_CFLAGS)						\
 	$(TNEF_CFLAGS)
 
@@ -27,7 +26,6 @@ module_tnef_attachment_la_LIBADD =				\
 	$(top_builddir)/em-format/libemformat.la			\
 	$(EVOLUTION_DATA_SERVER_LIBS)					\
 	$(GNOME_PLATFORM_LIBS)						\
-	$(CHAMPLAIN_LIBS)						\
 	$(GTKHTML_LIBS)							\
 	-lytnef
 

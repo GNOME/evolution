@@ -17,7 +17,6 @@ libevolution_smime_la_CPPFLAGS =			\
 	-DPREFIX=\""$(prefix)"\"			\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(CHAMPLAIN_CFLAGS)				\
 	$(GTKHTML_CFLAGS)				\
 	$(CERT_UI_CFLAGS)
 
@@ -42,7 +41,6 @@ libevolution_smime_la_LIBADD =				\
 	$(top_builddir)/smime/lib/libessmime.la		\
 	$(EVOLUTION_DATA_SERVER_LIBS)			\
 	$(GNOME_PLATFORM_LIBS)				\
-	$(CHAMPLAIN_LIBS)				\
 	$(GTKHTML_LIBS)					\
 	$(CERT_UI_LIBS)
 

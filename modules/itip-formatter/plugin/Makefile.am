@@ -10,7 +10,6 @@ liborg_gnome_itip_formatter_la_CPPFLAGS =		\
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"	\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(CHAMPLAIN_CFLAGS)				\
 	$(GTKHTML_CFLAGS)
 
 liborg_gnome_itip_formatter_la_SOURCES =		\
@@ -30,7 +29,6 @@ liborg_gnome_itip_formatter_la_LIBADD =				\
 	$(top_builddir)/em-format/libemformat.la		\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
-	$(CHAMPLAIN_LIBS)					\
 	$(GTKHTML_LIBS)
 
 BUILT_SOURCES = $(plugin_DATA)

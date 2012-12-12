@@ -11,7 +11,6 @@ libecontacteditor_la_CPPFLAGS =				\
 	-DG_LOG_DOMAIN=\"contact-editor\"		\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(CHAMPLAIN_CFLAGS)				\
 	$(GTKHTML_CFLAGS)
 
 libecontacteditor_la_SOURCES = 			\
@@ -35,7 +34,6 @@ libecontacteditor_la_LIBADD =						\
 	$(EVOLUTION_ADDRESSBOOK_LIBS)					\
 	$(EVOLUTION_DATA_SERVER_LIBS)					\
 	$(GNOME_PLATFORM_LIBS)						\
-	$(CHAMPLAIN_LIBS)						\
 	$(GTKHTML_LIBS)
 
 ui_DATA = 				\

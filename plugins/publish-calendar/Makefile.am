@@ -16,7 +16,6 @@ liborg_gnome_publish_calendar_la_CPPFLAGS =		\
 	-DEVOLUTION_UIDIR=\""$(uidir)"\"		\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(CHAMPLAIN_CFLAGS)				\
 	$(GTKHTML_CFLAGS)				\
 	$(LIBNOTIFY_CFLAGS)
 
@@ -39,7 +38,6 @@ liborg_gnome_publish_calendar_la_LIBADD =			\
 	$(top_builddir)/calendar/gui/libevolution-calendar.la	\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
-	$(CHAMPLAIN_LIBS)					\
 	$(GTKHTML_LIBS)						\
 	$(LIBNOTIFY_LIBS)
 

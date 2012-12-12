@@ -29,7 +29,6 @@ libemformat_la_CPPFLAGS =				\
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"	\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(CHAMPLAIN_CFLAGS)				\
 	$(GTKHTML_CFLAGS)				\
 	$(LIBSOUP_CFLAGS)
 
@@ -110,7 +109,6 @@ libemformat_la_LIBADD =					\
 	$(top_builddir)/libemail-engine/libemail-engine.la \
 	$(EVOLUTION_DATA_SERVER_LIBS)			\
 	$(GNOME_PLATFORM_LIBS)				\
-	$(CHAMPLAIN_LIBS)				\
 	$(GTKHTML_LIBS)					\
 	$(LIBSOUP_LIBS)					\
 	$(SMIME_LIBS)

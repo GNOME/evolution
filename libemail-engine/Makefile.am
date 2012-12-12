@@ -18,7 +18,6 @@ libemail_engine_la_CPPFLAGS = \
 	-I$(top_builddir) \
 	$(EVOLUTION_DATA_SERVER_CFLAGS) \
 	$(GNOME_PLATFORM_CFLAGS) \
-	$(CHAMPLAIN_CFLAGS) \
 	$(GTKHTML_CFLAGS) \
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\" \
 	$(NULL)
@@ -72,7 +71,6 @@ libemail_engine_la_LIBADD = \
 	$(top_builddir)/e-util/libeutil.la \
 	$(EVOLUTION_DATA_SERVER_LIBS) \
 	$(GNOME_PLATFORM_LIBS) \
-	$(CHAMPLAIN_LIBS) \
 	$(GTKHTML_LIBS) \
 	$(NULL)
 

@@ -8,7 +8,6 @@ libeabbookmerging_la_CPPFLAGS =				\
 	-I$(top_srcdir)/addressbook			\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(CHAMPLAIN_CFLAGS)				\
 	$(GTKHTML_CFLAGS)
 
 libeabbookmerging_la_SOURCES =			\

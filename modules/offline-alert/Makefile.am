@@ -6,7 +6,6 @@ module_offline_alert_la_CPPFLAGS = \
 	-DG_LOG_DOMAIN=\"evolution-offline-alert\"		\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)				\
-	$(CHAMPLAIN_CFLAGS)					\
 	$(GTKHTML_CFLAGS)
 
 module_offline_alert_la_SOURCES = \
@@ -17,7 +16,6 @@ module_offline_alert_la_LIBADD = \
 	$(top_builddir)/shell/libeshell.la			\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
-	$(CHAMPLAIN_LIBS)					\
 	$(GTKHTML_LIBS)
 
 module_offline_alert_la_LDFLAGS = \

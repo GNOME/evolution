@@ -31,7 +31,6 @@ libevolution_mail_la_CPPFLAGS =				\
 	$(GNOME_PLATFORM_CFLAGS)			\
 	$(CERT_UI_CFLAGS)				\
 	$(CANBERRA_CFLAGS)				\
-	$(CHAMPLAIN_CFLAGS)				\
 	$(GTKHTML_CFLAGS)				\
 	$(LIBSOUP_CFLAGS)
 
@@ -202,7 +201,6 @@ libevolution_mail_la_LIBADD =				\
 	$(GNOME_PLATFORM_LIBS)				\
 	$(CERT_UI_LIBS)					\
 	$(CANBERRA_LIBS)				\
-	$(CHAMPLAIN_LIBS)				\
 	$(GTKHTML_LIBS)					\
 	$(SMIME_LIBS)					\
 	$(LIBSOUP_LIBS)					\

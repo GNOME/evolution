@@ -18,9 +18,9 @@ module_addressbook_la_CPPFLAGS = \
 	-DPREFIX=\""$(prefix)"\"				\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)				\
+	$(CHAMPLAIN_CFLAGS)					\
 	$(GTKHTML_CFLAGS)					\
-	$(LDAP_CFLAGS)						\
-	$(CHAMPLAIN_CFLAGS)
+	$(LDAP_CFLAGS)
 
 module_addressbook_la_SOURCES = \
 	evolution-module-addressbook.c				\
@@ -67,6 +67,7 @@ module_addressbook_la_LIBADD = \
 	$(top_builddir)/addressbook/importers/libevolution-addressbook-importers.la \
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
+	$(CHAMPLAIN_LIBS)					\
 	$(GTKHTML_LIBS)						\
 	$(LDAP_LIBS)
 

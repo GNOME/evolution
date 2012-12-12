@@ -9,7 +9,6 @@ module_prefer_plain_la_CPPFLAGS =				\
 	-DG_LOG_DOMAIN=\"evolution-module-prefer-plain\"		\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)					\
 	$(GNOME_PLATFORM_CFLAGS)					\
-	$(CHAMPLAIN_CFLAGS)						\
 	$(GTKHTML_CFLAGS)
 
 module_prefer_plain_la_SOURCES =				\
@@ -26,7 +25,6 @@ module_prefer_plain_la_LIBADD =				\
 	$(top_builddir)/shell/libeshell.la				\
 	$(EVOLUTION_DATA_SERVER_LIBS)					\
 	$(GNOME_PLATFORM_LIBS)						\
-	$(CHAMPLAIN_LIBS)						\
 	$(GTKHTML_LIBS)
 
 module_prefer_plain_la_LDFLAGS =				\

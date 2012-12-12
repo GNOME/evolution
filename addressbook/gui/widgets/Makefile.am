@@ -18,8 +18,9 @@ libeabwidgets_la_CPPFLAGS =				\
 	-I$(top_builddir)/shell				\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
+	$(GTKHTML_CFLAGS)				\
 	$(CHAMPLAIN_CFLAGS)				\
-	$(GTKHTML_CFLAGS)
+	$(GEO_CFLAGS)
 
 eabincludedir = $(privincludedir)/addressbook/gui/widgets
 
@@ -34,6 +35,12 @@ libeabwidgets_la_SOURCES =			\
 	eab-contact-formatter.h			\
 	eab-gui-util.c				\
 	eab-gui-util.h				\
+	e-contact-map.c				\
+	e-contact-map.h				\
+	e-contact-map-window.c			\
+	e-contact-map-window.h			\
+	e-contact-marker.c			\
+	e-contact-marker.h			\
 	e-minicard.c				\
 	e-minicard.h				\
 	e-minicard-label.c			\
@@ -70,8 +77,9 @@ libeabwidgets_la_LIBADD =					\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
+	$(GTKHTML_LIBS)						\
 	$(CHAMPLAIN_LIBS)					\
-	$(GTKHTML_LIBS)
+	$(GEO_LIBS)
 
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)

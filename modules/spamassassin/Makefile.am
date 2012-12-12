@@ -6,7 +6,6 @@ module_spamassassin_la_CPPFLAGS = \
 	-DG_LOG_DOMAIN=\"evolution-spamassassin\"		\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)				\
-	$(CHAMPLAIN_CFLAGS)					\
 	$(GTKHTML_CFLAGS)
 
 module_spamassassin_la_SOURCES = \
@@ -19,7 +18,6 @@ module_spamassassin_la_LIBADD = \
 	$(top_builddir)/libemail-engine/libemail-engine.la \
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
-	$(CHAMPLAIN_LIBS)					\
 	$(GTKHTML_LIBS)
 
 module_spamassassin_la_LDFLAGS = \

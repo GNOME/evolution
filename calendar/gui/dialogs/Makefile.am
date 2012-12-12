@@ -14,7 +14,6 @@ libcal_dialogs_la_CPPFLAGS = 						\
 	-DPREFIX=\""$(prefix)"\"					\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)					\
 	$(GNOME_PLATFORM_CFLAGS)					\
-	$(CHAMPLAIN_CFLAGS)						\
 	$(GTKHTML_CFLAGS)
 
 ecalendarincludedir = $(privincludedir)/calendar/gui/dialogs
@@ -51,7 +50,6 @@ libcal_dialogs_la_LIBADD =					\
 	$(top_builddir)/addressbook/util/libeabutil.la		\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
-	$(CHAMPLAIN_LIBS)					\
 	$(GTKHTML_LIBS)
 
 libcal_dialogs_la_SOURCES =		\

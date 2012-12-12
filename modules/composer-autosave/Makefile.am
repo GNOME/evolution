@@ -6,7 +6,6 @@ module_composer_autosave_la_CPPFLAGS = \
 	-DG_LOG_DOMAIN=\"evolution-composer-autosave\"		\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)				\
-	$(CHAMPLAIN_CFLAGS)					\
 	$(GTKHTML_CFLAGS)
 
 module_composer_autosave_la_SOURCES = \
@@ -22,7 +21,6 @@ module_composer_autosave_la_LIBADD = \
 	$(top_builddir)/e-util/libeutil.la			\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
-	$(CHAMPLAIN_LIBS)					\
 	$(GTKHTML_LIBS)
 
 module_composer_autosave_la_LDFLAGS = \

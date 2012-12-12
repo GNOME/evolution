@@ -6,7 +6,6 @@ module_cal_config_local_la_CPPFLAGS = \
 	-DG_LOG_DOMAIN=\"evolution-cal-config-local\"		\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)				\
-	$(CHAMPLAIN_CFLAGS)					\
 	$(GTKHTML_CFLAGS)
 
 module_cal_config_local_la_SOURCES = \
@@ -18,7 +17,6 @@ module_cal_config_local_la_LIBADD = \
 	$(top_builddir)/e-util/libeutil.la			\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
-	$(CHAMPLAIN_LIBS)					\
 	$(GTKHTML_LIBS)
 
 module_cal_config_local_la_LDFLAGS = \

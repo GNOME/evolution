@@ -8,7 +8,6 @@ module_imap_features_la_CPPFLAGS = \
 	-DG_LOG_DOMAIN=\"evolution-imap-features\"		\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)				\
-	$(CHAMPLAIN_CFLAGS)					\
 	$(GTKHTML_CFLAGS)					\
 	$(NULL)
 
@@ -25,7 +24,6 @@ module_imap_features_la_LIBADD = \
 	$(top_builddir)/libemail-engine/libemail-engine.la	\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
-	$(CHAMPLAIN_LIBS)					\
 	$(GTKHTML_LIBS)						\
 	$(NULL)
 

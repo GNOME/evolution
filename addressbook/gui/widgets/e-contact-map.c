@@ -37,8 +37,9 @@
 #include <glib/gi18n.h>
 #include <math.h>
 
+#include "e-util/e-util.h"
+
 #include "e-contact-marker.h"
-#include "e-marshal.h"
 
 #define E_CONTACT_MAP_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

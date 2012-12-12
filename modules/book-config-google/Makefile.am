@@ -6,7 +6,6 @@ module_book_config_google_la_CPPFLAGS = \
 	-DG_LOG_DOMAIN=\"evolution-book-config-google\"		\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)				\
-	$(CHAMPLAIN_CFLAGS)					\
 	$(GTKHTML_CFLAGS)
 
 module_book_config_google_la_SOURCES = \
@@ -16,7 +15,6 @@ module_book_config_google_la_LIBADD = \
 	$(top_builddir)/e-util/libeutil.la			\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
-	$(CHAMPLAIN_LIBS)					\
 	$(GTKHTML_LIBS)
 
 module_book_config_google_la_LDFLAGS = \

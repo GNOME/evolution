@@ -11,7 +11,6 @@ module_itip_formatter_la_CPPFLAGS =					\
 	-DG_LOG_DOMAIN=\"evolution-module-itip-formatter\"		\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)					\
 	$(GNOME_PLATFORM_CFLAGS)					\
-	$(CHAMPLAIN_CFLAGS)						\
 	$(GTKHTML_CFLAGS)
 
 module_itip_formatter_la_SOURCES =					\
@@ -37,7 +36,6 @@ module_itip_formatter_la_LIBADD =					\
 	$(top_builddir)/libemail-engine/libemail-engine.la		\
 	$(EVOLUTION_DATA_SERVER_LIBS)					\
 	$(GNOME_PLATFORM_LIBS)						\
-	$(CHAMPLAIN_LIBS)						\
 	$(GTKHTML_LIBS)
 
 module_itip_formatter_la_LDFLAGS =					\

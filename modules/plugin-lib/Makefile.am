@@ -7,7 +7,6 @@ module_plugin_lib_la_CPPFLAGS = \
 	-DEVOLUTION_PREFIX=\""$(prefix)"\"			\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)				\
-	$(CHAMPLAIN_CFLAGS)					\
 	$(GTKHTML_CFLAGS)
 
 module_plugin_lib_la_SOURCES = \
@@ -19,7 +18,6 @@ module_plugin_lib_la_LIBADD = \
 	$(top_builddir)/e-util/libeutil.la			\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
-	$(CHAMPLAIN_LIBS)					\
 	$(GTKHTML_LIBS)
 
 module_plugin_lib_la_LDFLAGS = \

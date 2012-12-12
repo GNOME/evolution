@@ -31,10 +31,8 @@
 
 #include <webkit/webkit.h>
 
-#include "e-util/e-util.h"
-
+#include "e-contact-map.h"
 #include "eab-contact-formatter.h"
-
 #include "eab-gui-util.h"
 
 #define EAB_CONTACT_DISPLAY_GET_PRIVATE(obj) \

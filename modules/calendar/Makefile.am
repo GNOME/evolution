@@ -9,7 +9,6 @@ module_calendar_la_CPPFLAGS = \
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(CHAMPLAIN_CFLAGS)				\
 	$(GTKHTML_CFLAGS)
 
 module_calendar_la_SOURCES = \
@@ -93,7 +92,6 @@ module_calendar_la_LIBADD = \
 	$(top_builddir)/e-util/libeutil.la				\
 	$(EVOLUTION_DATA_SERVER_LIBS)					\
 	$(GNOME_PLATFORM_LIBS)						\
-	$(CHAMPLAIN_LIBS)						\
 	$(GTKHTML_LIBS)
 
 module_calendar_la_LDFLAGS = \

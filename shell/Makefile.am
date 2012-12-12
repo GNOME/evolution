@@ -58,7 +58,6 @@ libeshell_la_CPPFLAGS =						\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)				\
 	$(GTKHTML_CFLAGS)					\
-	$(CHAMPLAIN_CFLAGS)					\
 	$(CLUTTER_GTK_CFLAGS)
 
 libeshell_la_SOURCES =				\
@@ -91,7 +90,6 @@ libeshell_la_LIBADD =					\
 	$(top_builddir)/e-util/libeutil.la		\
 	$(EVOLUTION_DATA_SERVER_LIBS)			\
 	$(GNOME_PLATFORM_LIBS)				\
-	$(CHAMPLAIN_LIBS)				\
 	$(CLUTTER_GTK_LIBS)
 
 # Evolution executable
@@ -123,7 +121,6 @@ evolution_CPPFLAGS =						\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)				\
 	$(GTKHTML_CFLAGS)					\
-	$(CHAMPLAIN_CFLAGS)					\
 	$(CLUTTER_GTK_CFLAGS)
 
 evolution_SOURCES =				\
@@ -135,7 +132,6 @@ evolution_LDADD =							\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(EVOLUTION_DATA_SERVER_LIBS)					\
 	$(GNOME_PLATFORM_LIBS)						\
-	$(CHAMPLAIN_LIBS)						\
 	$(CLUTTER_GTK_LIBS)						\
 	$(EVOLUTIONICON)
 
