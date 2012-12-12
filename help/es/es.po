@@ -2,8 +2,8 @@
 # translation of evolution manual to spanish
 # 
 # 
-# Jorge González <jorgegonz@svn.gnome.org>, 2011., 2011.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011.Jorge González <jorgegonz@svn.gnome.org>, 2007, 2009, 2010, 2012.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012.
+# Jorge González <jorgegonz@svn.gnome.org>, 2007, 2009, 2010, 2011, 2012.
 #
 msgid ""
 msgstr ""
@@ -2885,9 +2885,7 @@ msgstr "Traductores de la documentación del usuario de <app>Evolution</app>"
 #. here as this will not work. Thanks for all your hard work! andre
 #: C/credits.page:43(section/p)
 msgid "(Not applicable to the English version)"
-msgstr ""
-"Daniel Mustieles <daniel.mustieles@gmail.com>, 2011-2012\n"
-"Jorge González <jorgegonz@svn.gnome.org>, 2007-2011"
+msgstr "Daniel Mustieles (2011-2012), Jorge González (2007-2011)"
 
 #: C/credits.page:47(section/title)
 msgid "Authors of the previous version"
