@@ -5809,7 +5809,7 @@ msgstr ""
 
 #: C/mail-composer-change-quotation-string.page:24(page/title)
 msgid "Changing the \"On date, person wrote:\" string when replying"
-msgstr "Ändern der Meldung »Am <Datum> schrieb <Name>:« beim Antworten"
+msgstr "Ändern der Meldung »Am &lt;Datum&gt; schrieb &lt;Name&gt;:« beim Antworten"
 
 #: C/mail-composer-change-quotation-string.page:26(page/p)
 msgid "Advanced users can change this string."
