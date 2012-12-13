@@ -243,7 +243,6 @@ e-util/e-name-selector-entry.c
 e-util/e-name-selector-list.c
 e-util/e-online-button.c
 e-util/e-paned.c
-e-util/e-passwords-win32.c
 e-util/e-passwords.c
 e-util/e-plugin.c
 e-util/e-popup-action.c
