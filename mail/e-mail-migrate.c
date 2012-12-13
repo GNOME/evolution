@@ -315,18 +315,7 @@ e_mail_migrate (EShellBackend *shell_backend,
 	struct stat st;
 	const gchar *data_dir;
 
-	/* make sure ~/.evolution/mail exists */
 	data_dir = e_shell_backend_get_data_dir (shell_backend);
-	if (g_stat (data_dir, &st) == -1) {
-		if (errno != ENOENT || g_mkdir_with_parents (data_dir, 0700) == -1) {
-			g_set_error (
-				error, E_SHELL_MIGRATE_ERROR,
-				E_SHELL_MIGRATE_ERROR_FAILED,
-				_("Unable to create local mail folders at "
-				"'%s': %s"), data_dir, g_strerror (errno));
-			return FALSE;
-		}
-	}
 
 	if (major == 0)
 		return emm_setup_initial (data_dir);
