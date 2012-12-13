@@ -5815,7 +5815,7 @@ msgstr ""
 #: C/mail-composer-change-quotation-string.page:24(page/title)
 msgid "Changing the \"On date, person wrote:\" string when replying"
 msgstr ""
-"Modification de la chaîne « Le <date>, <personne> a écrit » lors d'une "
+"Modification de la chaîne « Le &lt;date&gt;, &lt;personne&gt; a écrit » lors d'une "
 "réponse"
 
 #: C/mail-composer-change-quotation-string.page:26(page/p)
