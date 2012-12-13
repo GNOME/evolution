@@ -27,22 +27,7 @@
 #include <shell/e-shell-common.h>
 #include <shell/e-shell.h>
 
-/**
- * E_SHELL_MIGRATE_ERROR:
- *
- * Error domain for migration operations.  Errors in this domain will be
- * from the #EShellMigrateError enumeration.  See #GError for information
- * on error domains.
- **/
-#define E_SHELL_MIGRATE_ERROR \
-	(e_shell_migrate_error_quark ())
-
 G_BEGIN_DECLS
-
-/* XXX Need more specific error codes? */
-typedef enum {
-	E_SHELL_MIGRATE_ERROR_FAILED
-} EShellMigrateError;
 
 gboolean	e_shell_migrate_attempt			(EShell *shell);
 GQuark		e_shell_migrate_error_quark		(void);

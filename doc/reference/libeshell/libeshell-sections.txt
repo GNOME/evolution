@@ -31,8 +31,6 @@ e_shell_cancel_quit
 e_shell_adapt_window_size
 e_shell_set_startup_view
 e_shell_get_startup_view
-E_SHELL_MIGRATE_ERROR
-EShellMigrateError
 e_shell_migrate_attempt
 e_shell_detect_meego
 <SUBSECTION Standard>
