@@ -22,7 +22,7 @@
 #ifndef E_SHELL_SWITCHER_H
 #define E_SHELL_SWITCHER_H
 
-#include <e-shell-common.h>
+#include <shell/e-shell-common.h>
 
 /* Standard GObject macros */
 #define E_TYPE_SHELL_SWITCHER \

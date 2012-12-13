@@ -882,13 +882,13 @@ e_shell_migrate_attempt (EShell *shell)
 		shell, "event::ready-to-start",
 		G_CALLBACK (shell_migrate_ready_to_start_event_cb), NULL);
 
-	/** @Event: Shell attempted upgrade
+	/* @Event: Shell attempted upgrade
 	 * @Id: upgrade.done
 	 * @Target: ESMenuTargetState
 	 *
 	 * This event is emitted whenever the shell successfully attempts
 	 * an upgrade.
-	 **/
+	 */
 	ese = es_event_peek ();
 	e_event_emit (
 		(EEvent *) ese, "upgrade.done",

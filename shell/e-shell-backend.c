@@ -609,8 +609,9 @@ e_shell_backend_start (EShellBackend *shell_backend)
  * e_shell_backend_is_started:
  * @shell_backend: an #EShellBackend
  *
- * Returns whether was shelll_backend already started, by
- * calling e_shell_backend_start().
+ * Returns whether e_shell_backend_start() was called for @shell_backend.
+ *
+ * Returns: whether @shell_backend is started
  **/
 gboolean
 e_shell_backend_is_started (EShellBackend *shell_backend)

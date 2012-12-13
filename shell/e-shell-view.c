@@ -1401,6 +1401,8 @@ e_shell_view_get_search_rule (EShellView *shell_view)
  * @shell_view: an #EShellView
  *
  * Returns the searchbar widget for @shell_view.
+ *
+ * Returns: the searchbar widget for @shell_view
  **/
 GtkWidget *
 e_shell_view_get_searchbar (EShellView *shell_view)
@@ -1688,7 +1690,10 @@ e_shell_view_unblock_execute_search (EShellView *shell_view)
  * e_shell_view_is_execute_search_blocked:
  * @shell_view: an #EShellView
  *
- * Returns whether e_shell_view_execute_search() is blocked.
+ * Returns whether e_shell_view_execute_search() is blocked as a result
+ * of previous e_shell_view_block_execute_search() calls.
+ *
+ * Returns: %TRUE if e_shell_view_execute_search() is blocked
  **/
 gboolean
 e_shell_view_is_execute_search_blocked (EShellView *shell_view)

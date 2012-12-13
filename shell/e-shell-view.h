@@ -108,6 +108,16 @@ struct _EShellView {
  *			See e_shell_view_get_shell_sidebar().
  * @new_shell_taskbar:	Factory method for the shell view's #EShellTaskbar.
  *			See e_shell_view_get_shell_taskbar().
+ * @new_shell_searchbar:
+ *			Factory method for the shell view's #EShellSearchbar.
+ *			See e_shell_view_get_searchbar().
+ * @construct_searchbar:
+ *			Class method to create, configure and pack a search
+ *			bar widget.  The search bar differs in normal shell
+ *			mode versus "express" mode.
+ * @get_search_name:	Class method to obtain a suitable name for the
+ *			current search criteria.  Subclasses should rarely
+ *			need to override the default behavior.
  * @toggled:		Class method for the #EShellView::toggled signal.
  *			Subclasses should rarely need to override the
  *			default behavior.

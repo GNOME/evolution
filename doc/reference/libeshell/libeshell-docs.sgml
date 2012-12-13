@@ -3,7 +3,7 @@
                "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
 <book id="index" xmlns:xi="http://www.w3.org/2003/XInclude">
   <bookinfo>
-    <title>Evolution Shell (libeshell)</title>
+    <title>Evolution Shell Reference Manual</title>
     <releaseinfo>
       The latest version of this documentation can be found on-line at
       <ulink role="online-location" url="http://library.gnome.org/devel/libeshell/">http://library.gnome.org/devel/libeshell/</ulink>.

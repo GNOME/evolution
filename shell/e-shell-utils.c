@@ -285,11 +285,12 @@ e_shell_utils_import_uris (EShell *shell,
  * e_shell_hide_widgets_for_express_mode:
  * @shell: an #EShell
  * @builder: a #GtkBuilder
- * @widget_name: NULL-terminated list of strings
+ * @widget_name: first widget name to hide
+ * @...: %NULL-terminated list of additional widget names to hide
  *
  * If Evolution is running in Express mode (i.e. if the specified @shell is
  * in Express mode), then this function will hide a list of widgets, based
- * on their specified names.  The list of names must be NULL-terminated,
+ * on their specified names.  The list of names must be %NULL-terminated,
  * and each element of that list must be the name of a widget present in
  * @builder.  Those widgets will then get hidden.
  *

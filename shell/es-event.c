@@ -56,7 +56,7 @@ es_event_peek (void)
 {
 	if (es_event == NULL) {
 		es_event = g_object_new (es_event_get_type (), NULL);
-		/** @HookPoint: Shell Events Hookpoint
+		/* @HookPoint: Shell Events Hookpoint
 		 * Id: org.gnome.evolution.shell.events
 		 *
 		 * This is the hook point which emits shell events.
@@ -100,12 +100,12 @@ es_event_hook_class_init (ESEventHookClass *class)
 	EEventHookClass *event_hook_class;
 	gint i;
 
-	/** @HookClass: Shell Main Menu
+	/* @HookClass: Shell Main Menu
 	 * @Id: org.gnome.evolution.shell.events:1.0
 	 * @Target: ESEventTargetState
 	 *
 	 * A hook for events coming from the shell.
-	 **/
+	 */
 
 	plugin_hook_class = E_PLUGIN_HOOK_CLASS (class);
 	plugin_hook_class->id = "org.gnome.evolution.shell.events:1.0";

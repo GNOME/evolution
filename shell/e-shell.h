@@ -57,7 +57,6 @@ typedef struct _EShellPrivate EShellPrivate;
 
 /**
  * EShellQuitReason:
- *
  * @E_SHELL_QUIT_ACTION:
  *   @E_SHELL_WINDOW_ACTION_QUIT was activated.
  * @E_SHELL_QUIT_LAST_WINDOW:
