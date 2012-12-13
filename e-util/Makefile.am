@@ -650,7 +650,8 @@ EXTRA_DIST = \
 	filter.error.xml \
 	widgets.error.xml \
 	e-marshal.list \
-	$(ui_DATA)
+	$(ui_DATA) \
+	$(xpm_icons) \
 	$(NULL)
 
 BUILT_SOURCES = \
