@@ -33,8 +33,8 @@
 
 #include <libedataserver/libedataserver.h>
 
-#include "e-marshal.h"
-#include "e-util-enums.h"
+#include <e-util/e-marshal.h>
+#include <e-util/e-util-enums.h>
 
 G_BEGIN_DECLS
 
