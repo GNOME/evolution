@@ -106,6 +106,210 @@ struct _SourceContext {
 	CamelService *service;
 };
 
+/* Support for CamelSession.alert_user() *************************************/
+
+static gpointer user_message_dialog;
+static GQueue user_message_queue = { NULL, NULL, 0 };
+
+struct _user_message_msg {
+	MailMsg base;
+
+	CamelSessionAlertType type;
+	gchar *prompt;
+	GSList *button_captions;
+	EFlag *done;
+
+	gint result;
+	guint ismain : 1;
+};
+
+static void user_message_exec (struct _user_message_msg *m,
+                               GCancellable *cancellable,
+                               GError **error);
+
+static void
+user_message_response_free (GtkDialog *dialog,
+                            gint button)
+{
+	struct _user_message_msg *m = NULL;
+
+	gtk_widget_destroy ((GtkWidget *) dialog);
+
+	user_message_dialog = NULL;
+
+	/* check for pendings */
+	if (!g_queue_is_empty (&user_message_queue)) {
+		GCancellable *cancellable;
+
+		m = g_queue_pop_head (&user_message_queue);
+		cancellable = m->base.cancellable;
+		user_message_exec (m, cancellable, &m->base.error);
+		mail_msg_unref (m);
+	}
+}
+
+/* clicked, send back the reply */
+static void
+user_message_response (GtkDialog *dialog,
+                       gint button,
+                       struct _user_message_msg *m)
+{
+	/* if !m or !button_captions, then we've already replied */
+	if (m && m->button_captions) {
+		m->result = button;
+		e_flag_set (m->done);
+	}
+
+	user_message_response_free (dialog, button);
+}
+
+static void
+user_message_exec (struct _user_message_msg *m,
+                   GCancellable *cancellable,
+                   GError **error)
+{
+	gboolean info_only;
+	GtkWindow *parent;
+	EShell *shell;
+	const gchar *error_type;
+	gint index;
+	GSList *iter;
+
+	info_only = g_slist_length (m->button_captions) <= 1;
+
+	if (!m->ismain && user_message_dialog != NULL && !info_only) {
+		g_queue_push_tail (&user_message_queue, mail_msg_ref (m));
+		return;
+	}
+
+	switch (m->type) {
+		case CAMEL_SESSION_ALERT_INFO:
+			error_type = "system:simple-info";
+			break;
+		case CAMEL_SESSION_ALERT_WARNING:
+			error_type = "system:simple-warning";
+			break;
+		case CAMEL_SESSION_ALERT_ERROR:
+			error_type = "system:simple-error";
+			break;
+		default:
+			error_type = NULL;
+			g_return_if_reached ();
+	}
+
+	shell = e_shell_get_default ();
+
+	/* try to find "mail" view to place the informational alert to */
+	if (info_only) {
+		GtkWindow *active_window;
+		EShellWindow *shell_window;
+		EShellView *shell_view;
+		EShellContent *shell_content = NULL;
+
+		/* check currently active window first, ... */
+		active_window = e_shell_get_active_window (shell);
+		if (active_window && E_IS_SHELL_WINDOW (active_window)) {
+			if (E_IS_SHELL_WINDOW (active_window)) {
+				shell_window = E_SHELL_WINDOW (active_window);
+				shell_view = e_shell_window_peek_shell_view (shell_window, "mail");
+				if (shell_view)
+					shell_content = e_shell_view_get_shell_content (shell_view);
+			}
+		}
+
+		if (!shell_content) {
+			GList *list, *iter;
+
+			list = gtk_application_get_windows (GTK_APPLICATION (shell));
+
+			/* ...then iterate through all opened
+			 * windows and pick one which has it */
+			for (iter = list; iter != NULL && !shell_content; iter = g_list_next (iter)) {
+				if (E_IS_SHELL_WINDOW (iter->data)) {
+					shell_window = iter->data;
+					shell_view = e_shell_window_peek_shell_view (shell_window, "mail");
+					if (shell_view)
+						shell_content = e_shell_view_get_shell_content (shell_view);
+				}
+			}
+		}
+
+		/* When no shell-content found, which might not happen,
+		 * but just in case, process the information alert like
+		 * usual, through an EAlertDialog machinery. */
+		if (shell_content) {
+			e_alert_submit (
+				E_ALERT_SINK (shell_content),
+				error_type, m->prompt, NULL);
+			return;
+		} else if (!m->ismain && user_message_dialog != NULL) {
+			g_queue_push_tail (&user_message_queue, mail_msg_ref (m));
+			return;
+		}
+	}
+
+	/* Pull in the active window from the shell to get a parent window */
+	parent = e_shell_get_active_window (shell);
+	user_message_dialog = e_alert_dialog_new_for_args (
+		parent, error_type, m->prompt, NULL);
+	g_object_set (user_message_dialog, "resizable", TRUE, NULL);
+
+	if (m->button_captions) {
+		GtkWidget *action_area;
+		GList *children, *child;
+
+		/* remove all default buttons and keep only those requested */
+		action_area = gtk_dialog_get_action_area (GTK_DIALOG (user_message_dialog));
+
+		children = gtk_container_get_children (GTK_CONTAINER (action_area));
+		for (child = children; child != NULL; child = child->next) {
+			gtk_container_remove (GTK_CONTAINER (action_area), child->data);
+		}
+
+		g_list_free (children);
+	}
+
+	for (index = 0, iter = m->button_captions; iter; index++, iter = iter->next) {
+		gtk_dialog_add_button (GTK_DIALOG (user_message_dialog), iter->data, index);
+	}
+
+	/* XXX This is a case where we need to be able to construct
+	 *     custom EAlerts without a predefined XML definition. */
+	if (m->ismain) {
+		gint response;
+
+		response = gtk_dialog_run (user_message_dialog);
+		user_message_response (
+			user_message_dialog, response, m);
+	} else {
+		gpointer user_data = m;
+
+		if (g_slist_length (m->button_captions) <= 1)
+			user_data = NULL;
+
+		g_signal_connect (
+			user_message_dialog, "response",
+			G_CALLBACK (user_message_response), user_data);
+		gtk_widget_show (user_message_dialog);
+	}
+}
+
+static void
+user_message_free (struct _user_message_msg *m)
+{
+	g_free (m->prompt);
+	g_slist_free_full (m->button_captions, g_free);
+	e_flag_free (m->done);
+}
+
+static MailMsgInfo user_message_info = {
+	sizeof (struct _user_message_msg),
+	(MailMsgDescFunc) NULL,
+	(MailMsgExecFunc) user_message_exec,
+	(MailMsgDoneFunc) NULL,
+	(MailMsgFreeFunc) user_message_free
+};
+
 /* Support for CamelSession.get_filter_driver () *****************************/
 
 static CamelFolder *
@@ -421,10 +625,39 @@ e_mail_ui_session_alert_user (CamelSession *session,
                               GSList *button_captions,
 			      GCancellable *cancellable)
 {
-	g_type_ensure (E_TYPE_MAIL_UI_SESSION);
+	struct _user_message_msg *m;
+	gint result = -1;
+	GSList *iter;
 
-	return CAMEL_SESSION_CLASS (e_mail_ui_session_parent_class)->alert_user (
-		session, type, prompt, button_captions, cancellable);
+	m = mail_msg_new (&user_message_info);
+	m->ismain = mail_in_main_thread ();
+	m->type = type;
+	m->prompt = g_strdup (prompt);
+	m->done = e_flag_new ();
+	m->button_captions = g_slist_copy (button_captions);
+
+	for (iter = m->button_captions; iter; iter = iter->next)
+		iter->data = g_strdup (iter->data);
+
+	if (g_slist_length (button_captions) > 1)
+		mail_msg_ref (m);
+
+	if (!cancellable)
+		cancellable = m->base.cancellable;
+
+	if (m->ismain)
+		user_message_exec (m, cancellable, &m->base.error);
+	else
+		mail_msg_main_loop_push (m);
+
+	if (g_slist_length (button_captions) > 1) {
+		e_flag_wait (m->done);
+		result = m->result;
+		mail_msg_unref (m);
+	} else if (m->ismain)
+		mail_msg_unref (m);
+
+	return result;
 }
 
 CamelCertTrust
@@ -482,6 +715,7 @@ e_mail_ui_session_class_init (EMailUISessionClass *class)
 	session_class = CAMEL_SESSION_CLASS (class);
 	session_class->add_service = mail_ui_session_add_service;
 	session_class->remove_service = mail_ui_session_remove_service;
+	session_class->alert_user = e_mail_ui_session_alert_user;
 	session_class->get_filter_driver = mail_ui_session_get_filter_driver;
 
 	mail_session_class = E_MAIL_SESSION_CLASS (class);
