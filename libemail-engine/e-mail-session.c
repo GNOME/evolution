@@ -149,6 +149,7 @@ static GQueue user_message_queue = { NULL, NULL, 0 };
 struct _user_message_msg {
 	MailMsg base;
 
+	EUserPrompter *prompter;
 	CamelSessionAlertType type;
 	gchar *prompt;
 	GSList *button_captions;
@@ -158,13 +159,29 @@ struct _user_message_msg {
 	guint ismain : 1;
 };
 
-static void user_message_exec (struct _user_message_msg *m,
-                               GCancellable *cancellable,
-                               GError **error);
+static void
+user_message_exec (struct _user_message_msg *m,
+                   GCancellable *cancellable,
+                   GError **error);
 
 static void
-user_message_response_free (struct _user_message_msg *m)
+user_message_response_cb (GObject *source,
+			  GAsyncResult *result,
+			  gpointer user_data)
 {
+	struct _user_message_msg *m = user_data;
+	GError *local_error = NULL;
+
+	m->result = e_user_prompter_prompt_finish (E_USER_PROMPTER (source), result, &local_error);
+
+	if (local_error) {
+		g_print ("%s: Failed to prompt user: %s\n", G_STRFUNC, local_error->message);
+		g_clear_error (&local_error);
+	}
+
+	/* waiting for a response? */
+	if (m && m->button_captions)
+		e_flag_set (m->done);
 
 	/* check for pendings */
 	if (!g_queue_is_empty (&user_message_queue)) {
@@ -177,30 +194,32 @@ user_message_response_free (struct _user_message_msg *m)
 	}
 }
 
-/* clicked, send back the reply */
-static void
-user_message_response (struct _user_message_msg *m)
-{
-	/* if !allow_cancel, then we've already replied */
-	if (m->button_captions) {
-		m->result = TRUE; //If Accepted
-		e_flag_set (m->done);
-	}
-
-	user_message_response_free (m);
-}
-
 static void
 user_message_exec (struct _user_message_msg *m,
                    GCancellable *cancellable,
                    GError **error)
 {
-	/* XXX This is a case where we need to be able to construct
-	 *     custom EAlerts without a predefined XML definition. */
 	if (m->ismain) {
-		/* Use DBUS to raise dialogs in clients and reply back.
-		 * For now say accept all. */
-		user_message_response (m);
+		const gchar *type = "";
+
+		switch (m->type) {
+		case CAMEL_SESSION_ALERT_INFO:
+			type = "info";
+			break;
+		case CAMEL_SESSION_ALERT_WARNING:
+			type = "warning";
+			break;
+		case CAMEL_SESSION_ALERT_ERROR:
+			type = "error";
+			break;
+		}
+
+		if (!m->prompter)
+			m->prompter = e_user_prompter_new ();
+
+		e_user_prompter_prompt (m->prompter, type, "",
+			m->prompt, NULL, FALSE, m->button_captions, cancellable,
+			user_message_response_cb, m);
 	} else
 		g_queue_push_tail (&user_message_queue, mail_msg_ref (m));
 }
@@ -211,6 +230,10 @@ user_message_free (struct _user_message_msg *m)
 	g_free (m->prompt);
 	g_slist_free_full (m->button_captions, g_free);
 	e_flag_free (m->done);
+
+	if (m->prompter)
+		g_object_unref (m->prompter);
+	m->prompter = NULL;
 }
 
 static MailMsgInfo user_message_info = {
@@ -1347,10 +1370,10 @@ static gint
 mail_session_alert_user (CamelSession *session,
                          CamelSessionAlertType type,
                          const gchar *prompt,
-                         GSList *button_captions)
+                         GSList *button_captions,
+			 GCancellable *cancellable)
 {
 	struct _user_message_msg *m;
-	GCancellable *cancellable;
 	gint result = -1;
 	GSList *iter;
 
@@ -1367,8 +1390,6 @@ mail_session_alert_user (CamelSession *session,
 	if (g_slist_length (button_captions) > 1)
 		mail_msg_ref (m);
 
-	cancellable = m->base.cancellable;
-
 	if (m->ismain)
 		user_message_exec (m, cancellable, &m->base.error);
 	else
@@ -1382,6 +1403,62 @@ mail_session_alert_user (CamelSession *session,
 		mail_msg_unref (m);
 
 	return result;
+}
+
+static CamelCertTrust
+mail_session_trust_prompt (CamelSession *session,
+			   const gchar *host,
+			   const gchar *certificate,
+			   guint32 certificate_errors,
+			   const GSList *issuers,
+			   GCancellable *cancellable)
+{
+	EUserPrompter *prompter;
+	ENamedParameters *parameters;
+	CamelCertTrust response;
+	gchar *errors_code;
+	const GSList *iter;
+	gint ii;
+
+	prompter = e_user_prompter_new ();
+	parameters = e_named_parameters_new ();
+	errors_code = g_strdup_printf ("%x", certificate_errors);
+
+	e_named_parameters_set (parameters, "host", host);
+	e_named_parameters_set (parameters, "certificate", certificate);
+	e_named_parameters_set (parameters, "certificate-errors", errors_code);
+
+	for (ii = 1, iter = issuers; iter; ii++, iter = iter->next) {
+		gchar *name;
+
+		if (!iter->data)
+			break;
+
+		name = g_strdup_printf ("issuer-%d", ii);
+		e_named_parameters_set (parameters, name, iter->data);
+		g_free (name);
+	}
+
+	switch (e_user_prompter_extension_prompt_sync (prompter, "ETrustPrompt::trust-prompt", parameters, NULL, cancellable, NULL)) {
+	case 0:
+		response = CAMEL_CERT_TRUST_NEVER;
+		break;
+	case 1:
+		response = CAMEL_CERT_TRUST_FULLY;
+		break;
+	case 2:
+		response = CAMEL_CERT_TRUST_TEMPORARY;
+		break;
+	default:
+		response = CAMEL_CERT_TRUST_UNKNOWN;
+		break;
+	}
+
+	g_free (errors_code);
+	e_named_parameters_free (parameters);
+	g_object_unref (prompter);
+
+	return response;
 }
 
 static CamelFilterDriver *
@@ -1748,6 +1825,7 @@ e_mail_session_class_init (EMailSessionClass *class)
 	session_class->get_password = mail_session_get_password;
 	session_class->forget_password = mail_session_forget_password;
 	session_class->alert_user = mail_session_alert_user;
+	session_class->trust_prompt = mail_session_trust_prompt;
 	session_class->get_filter_driver = mail_session_get_filter_driver;
 	session_class->lookup_addressbook = mail_session_lookup_addressbook;
 	session_class->get_socks_proxy = mail_session_get_socks_proxy;
