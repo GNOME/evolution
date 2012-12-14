@@ -38,6 +38,7 @@
 
 #include <glib/gi18n.h>
 #include <libebook/libebook.h>
+#include <libedataserver/libedataserver.h>
 
 #include <libemail-engine/mail-mt.h>
 
@@ -367,7 +368,7 @@ extern gint camel_application_is_exiting;
 G_LOCK_DEFINE_STATIC (search_addressbook_cancellables);
 static GSList *search_addressbook_cancellables = NULL;
 
-G_LOCK_DEFINE_STATIC (contact_cache);
+ECancellableMutex contact_cache_lock;
 
 /* key is lowercased contact email; value is EBook pointer
  * (just for comparison) where it comes from */
@@ -409,10 +410,17 @@ search_address_in_addressbooks (ESourceRegistry *registry,
 	search_addressbook_cancellables = g_slist_prepend (search_addressbook_cancellables, cancellable);
 	G_UNLOCK (search_addressbook_cancellables);
 
-	G_LOCK (contact_cache);
+	if (!e_cancellable_mutex_lock (&contact_cache_lock, cancellable)) {
+		G_LOCK (search_addressbook_cancellables);
+		search_addressbook_cancellables = g_slist_remove (search_addressbook_cancellables, cancellable);
+		g_object_unref (cancellable);
+		G_UNLOCK (search_addressbook_cancellables);
+
+		return FALSE;
+	}
 
 	if (camel_application_is_exiting || g_cancellable_is_cancelled (cancellable)) {
-		G_UNLOCK (contact_cache);
+		e_cancellable_mutex_unlock (&contact_cache_lock);
 
 		G_LOCK (search_addressbook_cancellables);
 		search_addressbook_cancellables = g_slist_remove (search_addressbook_cancellables, cancellable);
@@ -435,7 +443,7 @@ search_address_in_addressbooks (ESourceRegistry *registry,
 	ptr = g_hash_table_lookup (contact_cache, lowercase_addr);
 	if (ptr != NULL && (check_contact == NULL || ptr == NOT_FOUND_BOOK)) {
 		g_free (lowercase_addr);
-		G_UNLOCK (contact_cache);
+		e_cancellable_mutex_unlock (&contact_cache_lock);
 
 		G_LOCK (search_addressbook_cancellables);
 		search_addressbook_cancellables = g_slist_remove (search_addressbook_cancellables, cancellable);
@@ -623,7 +631,7 @@ search_address_in_addressbooks (ESourceRegistry *registry,
 		lowercase_addr = NULL;
 	}
 
-	G_UNLOCK (contact_cache);
+	e_cancellable_mutex_unlock (&contact_cache_lock);
 
 	g_free (lowercase_addr);
 
@@ -687,7 +695,7 @@ emu_free_photo_info (PhotoInfo *pi)
 	g_free (pi);
 }
 
-G_LOCK_DEFINE_STATIC (photos_cache);
+static ECancellableMutex photos_cache_lock;
 static GSList *photos_cache = NULL; /* list of PhotoInfo-s */
 
 CamelMimePart *
@@ -708,7 +716,8 @@ em_utils_contact_photo (ESourceRegistry *registry,
 		return NULL;
 	}
 
-	G_LOCK (photos_cache);
+	if (!e_cancellable_mutex_lock (&photos_cache_lock, cancellable))
+		return NULL;
 
 	/* search a cache first */
 	cache_len = 0;
@@ -767,7 +776,7 @@ em_utils_contact_photo (ESourceRegistry *registry,
 		}
 	}
 
-	G_UNLOCK (photos_cache);
+	e_cancellable_mutex_unlock (&photos_cache_lock);
 
 	return part;
 }
@@ -793,24 +802,26 @@ emu_remove_from_mail_cache (const GSList *addresses)
 		    camel_internet_address_get (cia, 0, NULL, &addr) && addr) {
 			gchar *lowercase_addr = g_utf8_strdown (addr, -1);
 
-			G_LOCK (contact_cache);
-			if (g_hash_table_lookup (contact_cache, lowercase_addr) == NOT_FOUND_BOOK)
-				g_hash_table_remove (contact_cache, lowercase_addr);
-			G_UNLOCK (contact_cache);
+			if (e_cancellable_mutex_lock (&contact_cache_lock, NULL)) {
+				if (g_hash_table_lookup (contact_cache, lowercase_addr) == NOT_FOUND_BOOK)
+					g_hash_table_remove (contact_cache, lowercase_addr);
+				e_cancellable_mutex_unlock (&contact_cache_lock);
+			}
 
 			g_free (lowercase_addr);
 
-			G_LOCK (photos_cache);
-			for (p = photos_cache; p; p = p->next) {
-				PhotoInfo *pi = p->data;
+			if (e_cancellable_mutex_lock (&photos_cache_lock, NULL)) {
+				for (p = photos_cache; p; p = p->next) {
+					PhotoInfo *pi = p->data;
 
-				if (pi && !pi->photo && g_ascii_strcasecmp (pi->address, addr) == 0) {
-					photos_cache = g_slist_remove (photos_cache, pi);
-					emu_free_photo_info (pi);
-					break;
+					if (pi && !pi->photo && g_ascii_strcasecmp (pi->address, addr) == 0) {
+						photos_cache = g_slist_remove (photos_cache, pi);
+						emu_free_photo_info (pi);
+						break;
+					}
 				}
+				e_cancellable_mutex_unlock (&photos_cache_lock);
 			}
-			G_UNLOCK (photos_cache);
 		}
 	}
 
@@ -856,32 +867,32 @@ free_mail_cache_thread (gpointer user_data)
 {
 	g_return_val_if_fail (user_data != NULL, NULL);
 
-	G_LOCK (contact_cache);
+	if (e_cancellable_mutex_lock (&contact_cache_lock, NULL)) {
+		if (emu_books_hash) {
+			g_hash_table_destroy (emu_books_hash);
+			emu_books_hash = NULL;
+		}
 
-	if (emu_books_hash) {
-		g_hash_table_destroy (emu_books_hash);
-		emu_books_hash = NULL;
+		if (emu_broken_books_hash) {
+			g_hash_table_destroy (emu_broken_books_hash);
+			emu_broken_books_hash = NULL;
+		}
+
+		if (contact_cache) {
+			g_hash_table_destroy (contact_cache);
+			contact_cache = NULL;
+		}
+
+		e_cancellable_mutex_unlock (&contact_cache_lock);
 	}
 
-	if (emu_broken_books_hash) {
-		g_hash_table_destroy (emu_broken_books_hash);
-		emu_broken_books_hash = NULL;
+	if (e_cancellable_mutex_lock (&photos_cache_lock, NULL)) {
+		g_slist_foreach (photos_cache, (GFunc) emu_free_photo_info, NULL);
+		g_slist_free (photos_cache);
+		photos_cache = NULL;
+
+		e_cancellable_mutex_unlock (&photos_cache_lock);
 	}
-
-	if (contact_cache) {
-		g_hash_table_destroy (contact_cache);
-		contact_cache = NULL;
-	}
-
-	G_UNLOCK (contact_cache);
-
-	G_LOCK (photos_cache);
-
-	g_slist_foreach (photos_cache, (GFunc) emu_free_photo_info, NULL);
-	g_slist_free (photos_cache);
-	photos_cache = NULL;
-
-	G_UNLOCK (photos_cache);
 
 	g_idle_add (free_mail_cache_idle, user_data);
 
