@@ -62,7 +62,7 @@ struct _EFocusTrackerClass {
 	GObjectClass parent_class;
 };
 
-GType		e_focus_tracker_get_type	(void);
+GType		e_focus_tracker_get_type	(void) G_GNUC_CONST;
 EFocusTracker *	e_focus_tracker_new		(GtkWindow *window);
 GtkWidget *	e_focus_tracker_get_focus	(EFocusTracker *focus_tracker);
 GtkWindow *	e_focus_tracker_get_window	(EFocusTracker *focus_tracker);

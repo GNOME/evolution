@@ -62,7 +62,7 @@ struct _EAttachmentTreeViewClass {
 	GtkTreeViewClass parent_class;
 };
 
-GType		e_attachment_tree_view_get_type		(void);
+GType		e_attachment_tree_view_get_type		(void) G_GNUC_CONST;
 GtkWidget *	e_attachment_tree_view_new		(void);
 
 G_END_DECLS

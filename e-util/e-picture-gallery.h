@@ -62,7 +62,7 @@ struct _EPictureGalleryClass {
 	GtkIconViewClass parent_class;
 };
 
-GType		e_picture_gallery_get_type	(void);
+GType		e_picture_gallery_get_type	(void) G_GNUC_CONST;
 GtkWidget *	e_picture_gallery_new		(const gchar *path);
 const gchar *	e_picture_gallery_get_path	(EPictureGallery *gallery);
 

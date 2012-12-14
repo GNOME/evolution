@@ -61,7 +61,7 @@ struct _EAlertBarClass {
 	GtkInfoBarClass parent_class;
 };
 
-GType		e_alert_bar_get_type		(void);
+GType		e_alert_bar_get_type		(void) G_GNUC_CONST;
 GtkWidget *	e_alert_bar_new			(void);
 void		e_alert_bar_clear		(EAlertBar *alert_bar);
 void		e_alert_bar_add_alert		(EAlertBar *alert_bar,

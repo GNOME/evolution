@@ -25,8 +25,8 @@
 #error "Only <e-util/e-util.h> should be included directly."
 #endif
 
-#ifndef _E_REFLOW_MODEL_H_
-#define _E_REFLOW_MODEL_H_
+#ifndef E_REFLOW_MODEL_H
+#define E_REFLOW_MODEL_H
 
 #include <libgnomecanvas/libgnomecanvas.h>
 
@@ -61,69 +61,75 @@ struct _EReflowModel {
 struct _EReflowModelClass {
 	GObjectClass parent_class;
 
-	/*
-	 * Virtual methods
-	 */
-	void             (*set_width)      (EReflowModel *etm, gint width);
+	/* Method */
+	void		(*set_width)		(EReflowModel *reflow_model,
+						 gint width);
+	gint		(*count)		(EReflowModel *reflow_model);
+	gint		(*height)		(EReflowModel *reflow_model,
+						 gint n,
+						 GnomeCanvasGroup *parent);
+	GnomeCanvasItem *
+			(*incarnate)		(EReflowModel *reflow_model,
+						 gint n,
+						 GnomeCanvasGroup *parent);
+	GHashTable *	(*create_cmp_cache)	(EReflowModel *reflow_model);
+	gint		(*compare)		(EReflowModel *reflow_model,
+						 gint n1,
+						 gint n2,
+						 GHashTable *cmp_cache);
+	void		(*reincarnate)		(EReflowModel *reflow_model,
+						 gint n,
+						 GnomeCanvasItem *item);
 
-	gint              (*count)          (EReflowModel *etm);
-	gint              (*height)         (EReflowModel *etm, gint n, GnomeCanvasGroup *parent);
-	GnomeCanvasItem *(*incarnate)      (EReflowModel *etm, gint n, GnomeCanvasGroup *parent);
-	GHashTable *     (*create_cmp_cache) (EReflowModel *etm);
-	gint              (*compare)         (EReflowModel *etm, gint n1, gint n2, GHashTable *cmp_cache);
-	void             (*reincarnate)    (EReflowModel *etm, gint n, GnomeCanvasItem *item);
-
-	/*
-	 * Signals
-	 */
-
-	/*
+	/* Signals
+	 *
 	 * These all come after the change has been made.
 	 * Major structural changes: model_changed
 	 * Changes to the sorting of elements: comparison_changed
 	 * Changes only in an item: item_changed
 	 */
-	void        (*model_changed)       (EReflowModel *etm);
-	void        (*comparison_changed)  (EReflowModel *etm);
-	void        (*model_items_inserted) (EReflowModel *etm, gint position, gint count);
-	void        (*model_item_removed)  (EReflowModel *etm, gint position);
-	void        (*model_item_changed)  (EReflowModel *etm, gint n);
+	void		(*model_changed)	(EReflowModel *reflow_model);
+	void		(*comparison_changed)	(EReflowModel *reflow_model);
+	void		(*model_items_inserted)	(EReflowModel *reflow_model,
+						 gint position,
+						 gint count);
+	void		(*model_item_removed)	(EReflowModel *reflow_model,
+						 gint position);
+	void		(*model_item_changed)	(EReflowModel *reflow_model,
+						 gint n);
 };
 
-GType            e_reflow_model_get_type        (void);
-
-/**/
-void             e_reflow_model_set_width       (EReflowModel     *e_reflow_model,
-						 gint               width);
-gint              e_reflow_model_count           (EReflowModel     *e_reflow_model);
-gint              e_reflow_model_height          (EReflowModel     *e_reflow_model,
-						 gint               n,
+GType		e_reflow_model_get_type		(void) G_GNUC_CONST;
+void		e_reflow_model_set_width	(EReflowModel *reflow_model,
+						 gint width);
+gint		e_reflow_model_count		(EReflowModel *reflow_model);
+gint		e_reflow_model_height		(EReflowModel *reflow_model,
+						 gint n,
 						 GnomeCanvasGroup *parent);
-GnomeCanvasItem *e_reflow_model_incarnate       (EReflowModel     *e_reflow_model,
-						 gint               n,
+GnomeCanvasItem *
+		e_reflow_model_incarnate	(EReflowModel *reflow_model,
+						 gint n,
 						 GnomeCanvasGroup *parent);
-GHashTable *     e_reflow_model_create_cmp_cache (EReflowModel *e_reflow_model);
-gint              e_reflow_model_compare         (EReflowModel     *e_reflow_model,
-						 gint               n1,
-						 gint               n2,
-						 GHashTable        *cmp_cache);
-void             e_reflow_model_reincarnate     (EReflowModel     *e_reflow_model,
-						 gint               n,
-						 GnomeCanvasItem  *item);
-
-/*
- * Routines for emitting signals on the e_reflow
- */
-void             e_reflow_model_changed            (EReflowModel     *e_reflow_model);
-void             e_reflow_model_comparison_changed (EReflowModel     *e_reflow_model);
-void             e_reflow_model_items_inserted     (EReflowModel     *e_reflow_model,
-						    gint               position,
-						    gint               count);
-void             e_reflow_model_item_removed       (EReflowModel     *e_reflow_model,
-						    gint               n);
-void             e_reflow_model_item_changed       (EReflowModel     *e_reflow_model,
-						    gint               n);
+GHashTable *	e_reflow_model_create_cmp_cache	(EReflowModel *reflow_model);
+gint		e_reflow_model_compare		(EReflowModel *reflow_model,
+						 gint n1,
+						 gint n2,
+						 GHashTable *cmp_cache);
+void		e_reflow_model_reincarnate	(EReflowModel *reflow_model,
+						 gint n,
+						 GnomeCanvasItem *item);
+void		e_reflow_model_changed		(EReflowModel *reflow_model);
+void		e_reflow_model_comparison_changed
+						(EReflowModel *reflow_model);
+void		e_reflow_model_items_inserted	(EReflowModel *reflow_model,
+						 gint position,
+						 gint count);
+void		e_reflow_model_item_removed	(EReflowModel *reflow_model,
+						 gint n);
+void		e_reflow_model_item_changed	(EReflowModel *reflow_model,
+						 gint n);
 
 G_END_DECLS
 
-#endif /* _E_REFLOW_MODEL_H_ */
+#endif /* E_REFLOW_MODEL_H */
+

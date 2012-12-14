@@ -25,8 +25,8 @@
 #error "Only <e-util/e-util.h> should be included directly."
 #endif
 
-#ifndef __E_TEXT_EVENT_PROCESSOR_TYPES_H__
-#define __E_TEXT_EVENT_PROCESSOR_TYPES_H__
+#ifndef E_TEXT_EVENT_PROCESSOR_TYPES_H
+#define E_TEXT_EVENT_PROCESSOR_TYPES_H
 
 #include <gtk/gtk.h>
 
@@ -133,4 +133,4 @@ typedef enum _ETextEventProcessorCaps {
 
 G_END_DECLS
 
-#endif /* __E_TEXT_EVENT_PROCESSOR_TYPES_H__ */
+#endif /* E_TEXT_EVENT_PROCESSOR_TYPES_H */

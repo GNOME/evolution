@@ -24,33 +24,37 @@
 #error "Only <e-util/e-util.h> should be included directly."
 #endif
 
-#ifndef __GAL_VIEW_NEW_DIALOG_H__
-#define __GAL_VIEW_NEW_DIALOG_H__
+#ifndef GAL_VIEW_NEW_DIALOG_H
+#define GAL_VIEW_NEW_DIALOG_H
 
 #include <gtk/gtk.h>
 #include <e-util/gal-view-collection.h>
 
+/* Standard GObject macros */
+#define GAL_TYPE_VIEW_NEW_DIALOG \
+	(gal_view_new_dialog_get_type ())
+#define GAL_VIEW_NEW_DIALOG(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), GAL_TYPE_VIEW_NEW_DIALOG, GalViewNewDialog))
+#define GAL_VIEW_NEW_DIALOG_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), GAL_TYPE_VIEW_NEW_DIALOG, GalViewNewDialogClass))
+#define GAL_IS_VIEW_NEW_DIALOG(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), GAL_TYPE_VIEW_NEW_DIALOG))
+#define GAL_IS_VIEW_NEW_DIALOG_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), GAL_TYPE_VIEW_NEW_DIALOG))
+#define GAL_VIEW_NEW_DIALOG_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), GAL_TYPE_VIEW_NEW_DIALOG, GalViewNewDialogClass))
+
 G_BEGIN_DECLS
 
-/* GalViewNewDialog - A dialog displaying information about a contact.
- *
- * The following arguments are available:
- *
- * name		type		read/write	description
- * --------------------------------------------------------------------------------
- */
-
-#define GAL_VIEW_NEW_DIALOG_TYPE		(gal_view_new_dialog_get_type ())
-#define GAL_VIEW_NEW_DIALOG(obj)		(G_TYPE_CHECK_INSTANCE_CAST ((obj), GAL_VIEW_NEW_DIALOG_TYPE, GalViewNewDialog))
-#define GAL_VIEW_NEW_DIALOG_CLASS(klass)	(G_TYPE_CHECK_CLASS_CAST ((klass), GAL_VIEW_NEW_DIALOG_TYPE, GalViewNewDialogClass))
-#define GAL_IS_VIEW_NEW_DIALOG(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), GAL_VIEW_NEW_DIALOG_TYPE))
-#define GAL_IS_VIEW_NEW_DIALOG_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), GAL_VIEW_NEW_DIALOG_TYPE))
-
-typedef struct _GalViewNewDialog       GalViewNewDialog;
+typedef struct _GalViewNewDialog GalViewNewDialog;
 typedef struct _GalViewNewDialogClass  GalViewNewDialogClass;
 
-struct _GalViewNewDialog
-{
+struct _GalViewNewDialog {
 	GtkDialog parent;
 
 	/* item specific fields */
@@ -65,17 +69,15 @@ struct _GalViewNewDialog
 	GtkWidget *list;
 };
 
-struct _GalViewNewDialogClass
-{
+struct _GalViewNewDialogClass {
 	GtkDialogClass parent_class;
 };
 
-GtkWidget *gal_view_new_dialog_new        (GalViewCollection *collection);
-GType      gal_view_new_dialog_get_type   (void);
-
-GtkWidget *gal_view_new_dialog_construct  (GalViewNewDialog  *dialog,
-					   GalViewCollection *collection);
+GType		gal_view_new_dialog_get_type	(void) G_GNUC_CONST;
+GtkWidget *	gal_view_new_dialog_new		(GalViewCollection *collection);
+GtkWidget *	gal_view_new_dialog_construct	(GalViewNewDialog *dialog,
+						 GalViewCollection *collection);
 
 G_END_DECLS
 
-#endif /* __GAL_VIEW_NEW_DIALOG_H__ */
+#endif /* GAL_VIEW_NEW_DIALOG_H */

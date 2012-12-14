@@ -71,7 +71,7 @@ typedef enum {
 	E_DESTINATION_STORE_NUM_COLUMNS
 } EDestinationStoreColumnType;
 
-GType		e_destination_store_get_type	(void);
+GType		e_destination_store_get_type	(void) G_GNUC_CONST;
 EDestinationStore *
 		e_destination_store_new		(void);
 EDestination *	e_destination_store_get_destination

@@ -22,6 +22,7 @@ e_attachment_store_get_type
 e_attachment_tree_view_get_type
 e_attachment_view_get_type
 e_auth_combo_box_get_type
+e_autocomplete_selector_get_type
 e_bit_array_get_type
 e_book_source_config_get_type
 e_cal_source_config_get_type

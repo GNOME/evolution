@@ -63,7 +63,7 @@ struct _EAttachmentClass {
 	GObjectClass parent_class;
 };
 
-GType		e_attachment_get_type		(void);
+GType		e_attachment_get_type		(void) G_GNUC_CONST;
 EAttachment *	e_attachment_new		(void);
 EAttachment *	e_attachment_new_for_path	(const gchar *path);
 EAttachment *	e_attachment_new_for_uri	(const gchar *uri);

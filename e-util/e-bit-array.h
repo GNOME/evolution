@@ -25,73 +25,83 @@
 #error "Only <e-util/e-util.h> should be included directly."
 #endif
 
-#ifndef _E_BIT_ARRAY_H_
-#define _E_BIT_ARRAY_H_
+#ifndef E_BIT_ARRAY_H
+#define E_BIT_ARRAY_H
 
-#include <glib-object.h>
+#include <e-util/e-misc-utils.h>
+
+/* Standard GObject macros */
+#define E_TYPE_BIT_ARRAY \
+	(e_bit_array_get_type ())
+#define E_BIT_ARRAY(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_BIT_ARRAY, EBitArray))
+#define E_BIT_ARRAY_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_BIT_ARRAY, EBitArrayClass))
+#define E_IS_BIT_ARRAY(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_BIT_ARRAY))
+#define E_IS_BIT_ARRAY_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_BIT_ARRAY))
+#define E_BIT_ARRAY_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_BIT_ARRAY, EBitArrayClass))
 
 G_BEGIN_DECLS
 
-#define E_BIT_ARRAY_TYPE        (e_bit_array_get_type ())
-#define E_BIT_ARRAY(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_BIT_ARRAY_TYPE, EBitArray))
-#define E_BIT_ARRAY_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_BIT_ARRAY_TYPE, EBitArrayClass))
-#define E_IS_BIT_ARRAY(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_BIT_ARRAY_TYPE))
-#define E_IS_BIT_ARRAY_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_BIT_ARRAY_TYPE))
+typedef struct _EBitArray EBitArray;
+typedef struct _EBitArrayClass EBitArrayClass;
 
-#ifndef _E_FOREACH_FUNC_H_
-#define _E_FOREACH_FUNC_H_
-typedef void (*EForeachFunc) (gint model_row,
-			      gpointer closure);
-#endif
-
-typedef struct {
-	GObject base;
+struct _EBitArray {
+	GObject parent;
 
 	gint bit_count;
-        guint32 *data;
-} EBitArray;
+	guint32 *data;
+};
 
-typedef struct {
+struct _EBitArrayClass {
 	GObjectClass parent_class;
-} EBitArrayClass;
+};
 
-GType      e_bit_array_get_type            (void);
-EBitArray *e_bit_array_new                 (gint           count);
+GType		e_bit_array_get_type		(void) G_GNUC_CONST;
+EBitArray *	e_bit_array_new			(gint count);
 
-gboolean   e_bit_array_value_at            (EBitArray    *selection,
-					    gint          n);
-void       e_bit_array_foreach             (EBitArray    *selection,
-					    EForeachFunc  callback,
-					    gpointer      closure);
-gint       e_bit_array_selected_count      (EBitArray    *selection);
-void       e_bit_array_select_all          (EBitArray    *selection);
-void       e_bit_array_invert_selection    (EBitArray    *selection);
-gint       e_bit_array_bit_count           (EBitArray    *selection);
-void       e_bit_array_change_one_row      (EBitArray    *selection,
-					    gint           row,
-					    gboolean      grow);
-void       e_bit_array_change_range        (EBitArray    *selection,
-					    gint           start,
-					    gint           end,
-					    gboolean      grow);
-void       e_bit_array_select_single_row   (EBitArray    *eba,
-					    gint           row);
-void       e_bit_array_toggle_single_row   (EBitArray    *eba,
-					    gint           row);
+gboolean	e_bit_array_value_at		(EBitArray *selection,
+						 gint n);
+void		e_bit_array_foreach		(EBitArray *selection,
+						 EForeachFunc callback,
+						 gpointer closure);
+gint		e_bit_array_selected_count	(EBitArray *selection);
+void		e_bit_array_select_all		(EBitArray *selection);
+void		e_bit_array_invert_selection	(EBitArray *selection);
+gint		e_bit_array_bit_count		(EBitArray *selection);
+void		e_bit_array_change_one_row	(EBitArray *selection,
+						 gint row,
+						 gboolean grow);
+void		e_bit_array_change_range	(EBitArray *selection,
+						 gint start,
+						 gint end,
+						 gboolean grow);
+void		e_bit_array_select_single_row	(EBitArray *eba,
+						 gint row);
+void		e_bit_array_toggle_single_row	(EBitArray *eba,
+						 gint row);
 
-void       e_bit_array_insert              (EBitArray    *esm,
-					    gint           row,
-					    gint           count);
-void       e_bit_array_delete              (EBitArray    *esm,
-					    gint           row,
-					    gint           count);
-void       e_bit_array_delete_single_mode  (EBitArray    *esm,
-					    gint           row,
-					    gint           count);
-void       e_bit_array_move_row            (EBitArray    *esm,
-					    gint           old_row,
-					    gint           new_row);
+void		e_bit_array_insert		(EBitArray *esm,
+						 gint row,
+						 gint count);
+void		e_bit_array_delete		(EBitArray *esm,
+						 gint row,
+						 gint count);
+void		e_bit_array_delete_single_mode	(EBitArray *esm,
+						 gint row,
+						 gint count);
+void		e_bit_array_move_row		(EBitArray *esm,
+						 gint old_row,
+						 gint new_row);
 
 G_END_DECLS
 
-#endif /* _E_BIT_ARRAY_H_ */
+#endif /* E_BIT_ARRAY_H */

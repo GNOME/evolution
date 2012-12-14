@@ -31,6 +31,8 @@
 #include "e-filter-element.h"
 #include "e-filter-part.h"
 
+typedef EFilterElement * (*EFilterElementFunc) (gpointer data);
+
 struct _element_type {
 	gchar *name;
 

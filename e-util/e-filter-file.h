@@ -67,7 +67,7 @@ struct _EFilterFileClass {
 	EFilterElementClass parent_class;
 };
 
-GType		e_filter_file_get_type		(void);
+GType		e_filter_file_get_type		(void) G_GNUC_CONST;
 EFilterFile *	e_filter_file_new		(void);
 EFilterFile *	e_filter_file_new_type_name	(const gchar *type);
 void		e_filter_file_set_path		(EFilterFile *file,

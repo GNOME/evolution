@@ -205,7 +205,7 @@ e_selection_model_class_init (ESelectionModelClass *class)
 			"sorter",
 			"Sorter",
 			NULL,
-			E_SORTER_TYPE,
+			E_TYPE_SORTER,
 			G_PARAM_READWRITE));
 
 	g_object_class_install_property (

@@ -107,18 +107,18 @@ typedef gchar *		(*ETableMemoryCallbacksValueToStringFn)
 struct _ETableMemoryCallbacks {
 	ETableMemory parent;
 
-	ETableMemoryCallbacksColumnCountFn     col_count;
-	ETableMemoryCallbacksAppendRowFn       append_row;
+	ETableMemoryCallbacksColumnCountFn col_count;
+	ETableMemoryCallbacksAppendRowFn append_row;
 
-	ETableMemoryCallbacksValueAtFn         value_at;
-	ETableMemoryCallbacksSetValueAtFn      set_value_at;
-	ETableMemoryCallbacksIsCellEditableFn  is_cell_editable;
+	ETableMemoryCallbacksValueAtFn value_at;
+	ETableMemoryCallbacksSetValueAtFn set_value_at;
+	ETableMemoryCallbacksIsCellEditableFn is_cell_editable;
 
-	ETableMemoryCallbacksDuplicateValueFn  duplicate_value;
-	ETableMemoryCallbacksFreeValueFn       free_value;
+	ETableMemoryCallbacksDuplicateValueFn duplicate_value;
+	ETableMemoryCallbacksFreeValueFn free_value;
 	ETableMemoryCallbacksInitializeValueFn initialize_value;
-	ETableMemoryCallbacksValueIsEmptyFn    value_is_empty;
-	ETableMemoryCallbacksValueToStringFn   value_to_string;
+	ETableMemoryCallbacksValueIsEmptyFn value_is_empty;
+	ETableMemoryCallbacksValueToStringFn value_to_string;
 	gpointer data;
 };
 

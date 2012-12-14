@@ -62,7 +62,7 @@ struct _EAttachmentPanedClass {
 	GtkVPanedClass parent_class;
 };
 
-GType		e_attachment_paned_get_type	(void);
+GType		e_attachment_paned_get_type	(void) G_GNUC_CONST;
 GtkWidget *	e_attachment_paned_new		(void);
 GtkWidget *	e_attachment_paned_get_content_area
 						(EAttachmentPaned *paned);

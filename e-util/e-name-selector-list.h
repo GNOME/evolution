@@ -71,7 +71,7 @@ struct _ENameSelectorListClass {
 	ENameSelectorEntryClass parent_class;
 };
 
-GType		e_name_selector_list_get_type	(void);
+GType		e_name_selector_list_get_type	(void) G_GNUC_CONST;
 ENameSelectorList *
 		e_name_selector_list_new	(ESourceRegistry *registry);
 void		e_name_selector_list_expand_clicked

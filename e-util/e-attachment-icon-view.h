@@ -62,7 +62,7 @@ struct _EAttachmentIconViewClass {
 	GtkIconViewClass parent_class;
 };
 
-GType		e_attachment_icon_view_get_type		(void);
+GType		e_attachment_icon_view_get_type		(void) G_GNUC_CONST;
 GtkWidget *	e_attachment_icon_view_new		(void);
 void		e_attachment_icon_view_set_default_icon_size
 							(gint size);

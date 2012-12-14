@@ -37,7 +37,7 @@ static gint	e_text_event_processor_emacs_like_event
 G_DEFINE_TYPE (
 	ETextEventProcessorEmacsLike,
 	e_text_event_processor_emacs_like,
-	E_TEXT_EVENT_PROCESSOR_TYPE)
+	E_TYPE_TEXT_EVENT_PROCESSOR)
 
 static const ETextEventProcessorCommand control_keys[26] = {
 	{ E_TEP_START_OF_LINE,      E_TEP_MOVE, 0, "" }, /* a */
@@ -560,6 +560,6 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep,
 ETextEventProcessor *
 e_text_event_processor_emacs_like_new (void)
 {
-	return g_object_new (E_TEXT_EVENT_PROCESSOR_EMACS_LIKE_TYPE, NULL);
+	return g_object_new (E_TYPE_TEXT_EVENT_PROCESSOR_EMACS_LIKE, NULL);
 }
 

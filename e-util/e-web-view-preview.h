@@ -77,7 +77,7 @@ struct _EWebViewPreviewClass {
 	GtkVPanedClass parent_class;
 };
 
-GType		e_web_view_preview_get_type	(void);
+GType		e_web_view_preview_get_type	(void) G_GNUC_CONST;
 GtkWidget *	e_web_view_preview_new		(void);
 GtkTreeView *	e_web_view_preview_get_tree_view
 						(EWebViewPreview *preview);
@@ -88,11 +88,11 @@ void		e_web_view_preview_show_tree_view
 						(EWebViewPreview *preview);
 void		e_web_view_preview_hide_tree_view
 						(EWebViewPreview *preview);
+gboolean	e_web_view_preview_get_escape_values
+						(EWebViewPreview *preview);
 void		e_web_view_preview_set_escape_values
 						(EWebViewPreview *preview,
 						 gboolean escape);
-gboolean	e_web_view_preview_get_escape_values
-						(EWebViewPreview *preview);
 void		e_web_view_preview_begin_update	(EWebViewPreview *preview);
 void		e_web_view_preview_end_update	(EWebViewPreview *preview);
 void		e_web_view_preview_add_header	(EWebViewPreview *preview,

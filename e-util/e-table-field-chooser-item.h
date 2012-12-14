@@ -58,32 +58,34 @@ typedef struct _ETableFieldChooserItem ETableFieldChooserItem;
 typedef struct _ETableFieldChooserItemClass ETableFieldChooserItemClass;
 
 struct _ETableFieldChooserItem {
-	GnomeCanvasItem  parent;
+	GnomeCanvasItem parent;
 
-	ETableHeader    *full_header;
-	ETableHeader    *header;
-	ETableHeader    *combined_header;
+	ETableHeader *full_header;
+	ETableHeader *header;
+	ETableHeader *combined_header;
 
-	gdouble           height, width;
+	gdouble height, width;
 
 	PangoFontDescription *font_desc;
 
 	/*
 	 * Ids
 	 */
-	gint full_header_structure_change_id, full_header_dimension_change_id;
-	gint table_header_structure_change_id, table_header_dimension_change_id;
+	gint full_header_structure_change_id;
+	gint full_header_dimension_change_id;
+	gint table_header_structure_change_id;
+	gint table_header_dimension_change_id;
 
-	gchar           *dnd_code;
+	gchar *dnd_code;
 
 	/*
 	 * For dragging columns
 	 */
-	guint            maybe_drag : 1;
-	gint              click_x, click_y;
-	gint              drag_col;
-	guint            drag_data_get_id;
-        guint            drag_end_id;
+	guint maybe_drag : 1;
+	gint click_x, click_y;
+	gint drag_col;
+	guint drag_data_get_id;
+	guint drag_end_id;
 };
 
 struct _ETableFieldChooserItemClass {

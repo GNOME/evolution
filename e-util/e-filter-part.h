@@ -76,7 +76,7 @@ struct _EFilterPartClass {
 	GObjectClass parent_class;
 };
 
-GType		e_filter_part_get_type		(void);
+GType		e_filter_part_get_type		(void) G_GNUC_CONST;
 EFilterPart *	e_filter_part_new		(void);
 gboolean	e_filter_part_validate		(EFilterPart *part,
 						 EAlert **alert);

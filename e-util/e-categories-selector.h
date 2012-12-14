@@ -75,7 +75,7 @@ struct _ECategoriesSelectorClass {
 						 GtkTreeSelection *selection);
 };
 
-GType		e_categories_selector_get_type	(void);
+GType		e_categories_selector_get_type	(void) G_GNUC_CONST;
 GtkWidget *	e_categories_selector_new	(void);
 gchar *		e_categories_selector_get_checked
 						(ECategoriesSelector *selector);

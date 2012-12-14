@@ -64,7 +64,7 @@ struct _ETimezoneDialogClass {
 	GObjectClass parent_class;
 };
 
-GType		e_timezone_dialog_get_type	(void);
+GType		e_timezone_dialog_get_type	(void) G_GNUC_CONST;
 ETimezoneDialog *
 		e_timezone_dialog_construct	(ETimezoneDialog  *etd);
 ETimezoneDialog *

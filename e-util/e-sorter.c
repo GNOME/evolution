@@ -62,7 +62,7 @@ e_sorter_init (ESorter *es)
 ESorter *
 e_sorter_new (void)
 {
-	ESorter *es = g_object_new (E_SORTER_TYPE, NULL);
+	ESorter *es = g_object_new (E_TYPE_SORTER, NULL);
 
 	return es;
 }

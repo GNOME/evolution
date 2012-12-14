@@ -114,7 +114,7 @@ struct _EAttachmentViewPrivate {
 	guint editable : 1;
 };
 
-GType		e_attachment_view_get_type	(void);
+GType		e_attachment_view_get_type	(void) G_GNUC_CONST;
 
 void		e_attachment_view_init		(EAttachmentView *view);
 void		e_attachment_view_dispose	(EAttachmentView *view);

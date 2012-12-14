@@ -76,7 +76,7 @@ struct _EAlertClass {
 						 gint response_id);
 };
 
-GType		e_alert_get_type		(void);
+GType		e_alert_get_type		(void) G_GNUC_CONST;
 EAlert *	e_alert_new			(const gchar *tag,
 						 ...) G_GNUC_NULL_TERMINATED;
 EAlert *	e_alert_new_valist		(const gchar *tag,

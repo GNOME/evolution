@@ -66,7 +66,7 @@ struct _EFilterColorClass {
 	EFilterElementClass parent_class;
 };
 
-GType		e_filter_color_get_type		(void);
+GType		e_filter_color_get_type		(void) G_GNUC_CONST;
 EFilterColor *	e_filter_color_new		(void);
 
 G_END_DECLS

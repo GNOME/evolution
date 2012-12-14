@@ -69,7 +69,7 @@ struct _EAttachmentHandlerClass {
 						 guint *n_targets);
 };
 
-GType		e_attachment_handler_get_type	(void);
+GType		e_attachment_handler_get_type	(void) G_GNUC_CONST;
 EAttachmentView *
 		e_attachment_handler_get_view	(EAttachmentHandler *handler);
 GdkDragAction	e_attachment_handler_get_drag_actions

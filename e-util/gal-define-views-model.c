@@ -32,7 +32,10 @@
 
 #include "gal-define-views-model.h"
 
-G_DEFINE_TYPE (GalDefineViewsModel, gal_define_views_model, E_TYPE_TABLE_MODEL)
+G_DEFINE_TYPE (
+	GalDefineViewsModel,
+	gal_define_views_model,
+	E_TYPE_TABLE_MODEL)
 
 enum {
 	PROP_0,
@@ -261,7 +264,7 @@ gal_define_views_model_class_init (GalDefineViewsModelClass *class)
 			"collection",
 			"Collection",
 			NULL,
-			GAL_VIEW_COLLECTION_TYPE,
+			GAL_TYPE_VIEW_COLLECTION,
 			G_PARAM_READWRITE));
 
 	model_class->column_count     = gdvm_col_count;
@@ -294,11 +297,7 @@ gal_define_views_model_init (GalDefineViewsModel *model)
 ETableModel *
 gal_define_views_model_new (void)
 {
-	GalDefineViewsModel *et;
-
-	et = g_object_new (GAL_DEFINE_VIEWS_MODEL_TYPE, NULL);
-
-	return E_TABLE_MODEL (et);
+	return g_object_new (GAL_TYPE_DEFINE_VIEWS_MODEL, NULL);
 }
 
 /**

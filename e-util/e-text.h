@@ -48,8 +48,6 @@
 #include <e-util/e-text-event-processor.h>
 #include <e-util/e-text-model.h>
 
-G_BEGIN_DECLS
-
 /* Text item for the canvas.  Text items are positioned by an anchor point and an anchor direction.
  *
  * A clipping rectangle may be specified for the text.  The rectangle is anchored at the text's anchor
@@ -89,11 +87,26 @@ G_BEGIN_DECLS
  * max_lines            gint                     RW              Number of lines possible when doing line wrap.
  */
 
-#define E_TYPE_TEXT            (e_text_get_type ())
-#define E_TEXT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_TEXT, EText))
-#define E_TEXT_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_TEXT, ETextClass))
-#define E_IS_TEXT(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_TEXT))
-#define E_IS_TEXT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), E_TYPE_TEXT))
+/* Standard GObject macros */
+#define E_TYPE_TEXT \
+	(e_text_get_type ())
+#define E_TEXT(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_TEXT, EText))
+#define E_TEXT_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_TEXT, ETextClass))
+#define E_IS_TEXT(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_TEXT))
+#define E_IS_TEXT_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_TEXT))
+#define E_TEXT_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_TEXT, ETextClass))
+
+G_BEGIN_DECLS
 
 typedef struct _EText EText;
 typedef struct _ETextClass ETextClass;
@@ -196,16 +209,16 @@ struct _EText {
 	gint dbl_timeout;               /* Double click timeout */
 	gint tpl_timeout;               /* Triple click timeout */
 
-	gint     last_type_request;       /* Last selection type requested. */
-	guint32  last_time_request;       /* The time of the last selection request. */
-	GdkAtom  last_selection_request;  /* The time of the last selection request. */
-	GList   *queued_requests;         /* Queued selection requests. */
+	gint last_type_request;         /* Last selection type requested. */
+	guint32 last_time_request;      /* The time of the last selection request. */
+	GdkAtom last_selection_request; /* The time of the last selection request. */
+	GList *queued_requests;         /* Queued selection requests. */
 
 	GtkIMContext *im_context;
-	gboolean      need_im_reset;
-	gboolean      im_context_signals_registered;
+	gboolean need_im_reset;
+	gboolean im_context_signals_registered;
 
-	gboolean      handle_popup;
+	gboolean handle_popup;
 
 	PangoFontDescription *font_desc;
 };
@@ -213,24 +226,29 @@ struct _EText {
 struct _ETextClass {
 	GnomeCanvasItemClass parent_class;
 
-	void (* changed)         (EText *text);
-	void (* activate)        (EText *text);
-	void (* keypress)        (EText *text, guint keyval, guint state);
-	void (* populate_popup)  (EText *text, GdkEvent *button_event, gint pos, GtkMenu *menu);
-	void (* style_set)       (EText *text, GtkStyle *previous_style);
+	void		(*changed)		(EText *text);
+	void		(*activate)		(EText *text);
+	void		(*keypress)		(EText *text,
+						 guint keyval,
+						 guint state);
+	void		(*populate_popup)	(EText *text,
+						 GdkEvent *button_event,
+						 gint pos,
+						 GtkMenu *menu);
+	void		(*style_set)		(EText *text,
+						 GtkStyle *previous_style);
 };
 
-/* Standard Gtk function */
-GType    e_text_get_type        (void);
-void     e_text_cancel_editing  (EText *text);
-void     e_text_stop_editing    (EText *text);
-
-void     e_text_delete_selection (EText *text);
-void     e_text_cut_clipboard    (EText *text);
-void     e_text_copy_clipboard   (EText *text);
-void     e_text_paste_clipboard  (EText *text);
-void     e_text_select_all       (EText *text);
+GType		e_text_get_type			(void) G_GNUC_CONST;
+void		e_text_cancel_editing		(EText *text);
+void		e_text_stop_editing		(EText *text);
+void		e_text_delete_selection		(EText *text);
+void		e_text_cut_clipboard		(EText *text);
+void		e_text_copy_clipboard		(EText *text);
+void		e_text_paste_clipboard		(EText *text);
+void		e_text_select_all		(EText *text);
 
 G_END_DECLS
 
-#endif
+#endif /* E_TEXT_H */
+

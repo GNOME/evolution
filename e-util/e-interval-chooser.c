@@ -162,7 +162,7 @@ e_interval_chooser_get_interval_minutes (EIntervalChooser *chooser)
 	EDurationType units;
 	gdouble interval_minutes;
 
-	g_return_val_if_fail (E_IS_SOURCE_CONFIG_REFRESH (chooser), 0);
+	g_return_val_if_fail (E_IS_INTERVAL_CHOOSER (chooser), 0);
 
 	units = gtk_combo_box_get_active (chooser->priv->combo_box);
 
@@ -189,7 +189,7 @@ e_interval_chooser_set_interval_minutes (EIntervalChooser *chooser,
 {
 	EDurationType units;
 
-	g_return_if_fail (E_IS_SOURCE_CONFIG_REFRESH (chooser));
+	g_return_if_fail (E_IS_INTERVAL_CHOOSER (chooser));
 
 	if (interval_minutes == 0) {
 		units = E_DURATION_MINUTES;

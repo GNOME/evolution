@@ -33,7 +33,7 @@ static gint esms_get_row_count (ESelectionModelArray *esma);
 G_DEFINE_TYPE (
 	ESelectionModelSimple,
 	e_selection_model_simple,
-	E_SELECTION_MODEL_ARRAY_TYPE)
+	E_TYPE_SELECTION_MODEL_ARRAY)
 
 static void
 e_selection_model_simple_init (ESelectionModelSimple *selection)
@@ -60,7 +60,7 @@ e_selection_model_simple_class_init (ESelectionModelSimpleClass *class)
 ESelectionModelSimple *
 e_selection_model_simple_new (void)
 {
-	return g_object_new (E_SELECTION_MODEL_SIMPLE_TYPE, NULL);
+	return g_object_new (E_TYPE_SELECTION_MODEL_SIMPLE, NULL);
 }
 
 void

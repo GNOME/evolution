@@ -120,7 +120,7 @@ struct _EFilterRuleClass {
 	void		(*changed)		(EFilterRule *rule);
 };
 
-GType		e_filter_rule_get_type		(void);
+GType		e_filter_rule_get_type		(void) G_GNUC_CONST;
 EFilterRule *	e_filter_rule_new		(void);
 EFilterRule *	e_filter_rule_clone		(EFilterRule *rule);
 void		e_filter_rule_set_name		(EFilterRule *rule,

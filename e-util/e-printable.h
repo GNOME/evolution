@@ -25,34 +25,55 @@
 #error "Only <e-util/e-util.h> should be included directly."
 #endif
 
-#ifndef _E_PRINTABLE_H_
-#define _E_PRINTABLE_H_
+#ifndef E_PRINTABLE_H
+#define E_PRINTABLE_H
 
 #include <gtk/gtk.h>
 
+/* Standard GObject macros */
+#define E_TYPE_PRINTABLE \
+	(e_printable_get_type ())
+#define E_PRINTABLE(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_PRINTABLE, EPrintable))
+#define E_PRINTABLE_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_PRINTABLE, EPrintableClass))
+#define E_IS_PRINTABLE(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_PRINTABLE))
+#define E_IS_PRINTABLE_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_PRINTABLE))
+#define E_PRINTABLE_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_PRINTABLE, EPrintableClass))
+
 G_BEGIN_DECLS
 
-#define E_PRINTABLE_TYPE        (e_printable_get_type ())
-#define E_PRINTABLE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_PRINTABLE_TYPE, EPrintable))
-#define E_PRINTABLE_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_PRINTABLE_TYPE, EPrintableClass))
-#define E_IS_PRINTABLE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_PRINTABLE_TYPE))
-#define E_IS_PRINTABLE_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_PRINTABLE_TYPE))
+typedef struct _EPrintable EPrintable;
+typedef struct _EPrintableClass EPrintableClass;
 
-typedef struct {
-	GObject   base;
-} EPrintable;
+struct _EPrintable {
+	GObject parent;
+};
 
-typedef struct {
+struct _EPrintableClass {
 	GObjectClass parent_class;
 
-	/*
-	 * Signals
-	 */
-
-	void        (*print_page)  (EPrintable *etm, GtkPrintContext *context, gdouble width, gdouble height, gboolean quantized);
-	gboolean    (*data_left)   (EPrintable *etm);
-	void        (*reset)       (EPrintable *etm);
-	gdouble     (*height)      (EPrintable *etm, GtkPrintContext *context, gdouble width, gdouble max_height, gboolean quantized);
+	/* Signals */
+	void		(*print_page)		(EPrintable *printable,
+						 GtkPrintContext *context,
+						 gdouble width,
+						 gdouble height,
+						 gboolean quantized);
+	gboolean	(*data_left)		(EPrintable *printable);
+	void		(*reset)		(EPrintable *printable);
+	gdouble		(*height)		(EPrintable *printable,
+						 GtkPrintContext *context,
+						 gdouble width,
+						 gdouble max_height,
+						 gboolean quantized);
 
 	/* e_printable_will_fit (ep, ...) should be equal in value to
 	 * (e_printable_print_page (ep, ...),
@@ -60,34 +81,33 @@ typedef struct {
 	 * side effect of doing the printing and advancing the
 	 * position of the printable.
 	 */
+	gboolean	(*will_fit)		(EPrintable *printable,
+						 GtkPrintContext *context,
+						 gdouble width,
+						 gdouble max_height,
+						 gboolean quantized);
+};
 
-	gboolean    (*will_fit)    (EPrintable *etm, GtkPrintContext *context, gdouble width, gdouble max_height, gboolean quantized);
-} EPrintableClass;
-
-GType       e_printable_get_type (void);
-
-EPrintable *e_printable_new                 (void);
-
-/*
- * Routines for emitting signals on the e_table */
-void        e_printable_print_page          (EPrintable        *e_printable,
-					     GtkPrintContext *context,
-					     gdouble            width,
-					     gdouble            height,
-					     gboolean           quantized);
-gboolean    e_printable_data_left           (EPrintable        *e_printable);
-void        e_printable_reset               (EPrintable        *e_printable);
-gdouble     e_printable_height              (EPrintable        *e_printable,
-					     GtkPrintContext *context,
-					     gdouble            width,
-					     gdouble            max_height,
-					     gboolean           quantized);
-gboolean    e_printable_will_fit            (EPrintable        *e_printable,
-					     GtkPrintContext *context,
-					     gdouble            width,
-					     gdouble            max_height,
-					     gboolean           quantized);
+GType		e_printable_get_type		(void) G_GNUC_CONST;
+EPrintable *	e_printable_new			(void);
+void		e_printable_print_page		(EPrintable *e_printable,
+						 GtkPrintContext *context,
+						 gdouble width,
+						 gdouble height,
+						 gboolean quantized);
+gboolean	e_printable_data_left		(EPrintable *printable);
+void		e_printable_reset		(EPrintable *printable);
+gdouble		e_printable_height		(EPrintable *printable,
+						 GtkPrintContext *context,
+						 gdouble width,
+						 gdouble max_height,
+						 gboolean quantized);
+gboolean	e_printable_will_fit		(EPrintable *printable,
+						 GtkPrintContext *context,
+						 gdouble width,
+						 gdouble max_height,
+						 gboolean quantized);
 
 G_END_DECLS
 
-#endif /* _E_PRINTABLE_H_ */
+#endif /* E_PRINTABLE_H */

@@ -68,17 +68,14 @@ struct _ESearchBarClass {
 	void		(*clear)		(ESearchBar *search_bar);
 };
 
-GType		e_search_bar_get_type		(void);
+GType		e_search_bar_get_type		(void) G_GNUC_CONST;
 GtkWidget *	e_search_bar_new		(EWebView *web_view);
 void		e_search_bar_clear		(ESearchBar *search_bar);
 void		e_search_bar_changed		(ESearchBar *search_bar);
 EWebView *	e_search_bar_get_web_view	(ESearchBar *search_bar);
-gboolean	e_search_bar_get_active_search
-						(ESearchBar *search_bar);
-gboolean	e_search_bar_get_case_sensitive
-						(ESearchBar *search_bar);
-void		e_search_bar_set_case_sensitive
-						(ESearchBar *search_bar,
+gboolean	e_search_bar_get_active_search	(ESearchBar *search_bar);
+gboolean	e_search_bar_get_case_sensitive	(ESearchBar *search_bar);
+void		e_search_bar_set_case_sensitive	(ESearchBar *search_bar,
 						 gboolean case_sensitive);
 gchar *		e_search_bar_get_text		(ESearchBar *search_bar);
 void		e_search_bar_set_text		(ESearchBar *search_bar,

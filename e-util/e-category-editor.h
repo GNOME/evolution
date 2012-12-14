@@ -68,7 +68,7 @@ struct _ECategoryEditorClass {
 	GtkDialogClass parent_class;
 };
 
-GType		e_category_editor_get_type	(void);
+GType		e_category_editor_get_type	(void) G_GNUC_CONST;
 ECategoryEditor *
 		e_category_editor_new		(void);
 const gchar *	e_category_editor_create_category

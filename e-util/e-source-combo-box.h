@@ -64,7 +64,7 @@ struct _ESourceComboBoxClass {
 	GtkComboBoxClass parent_class;
 };
 
-GType		e_source_combo_box_get_type	(void);
+GType		e_source_combo_box_get_type	(void) G_GNUC_CONST;
 GtkWidget *	e_source_combo_box_new		(ESourceRegistry *registry,
 						 const gchar *extension_name);
 ESourceRegistry *

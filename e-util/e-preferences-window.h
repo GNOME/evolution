@@ -66,7 +66,7 @@ typedef GtkWidget *
 		(*EPreferencesWindowCreatePageFn)
 						(EPreferencesWindow *window);
 
-GType		e_preferences_window_get_type	(void);
+GType		e_preferences_window_get_type	(void) G_GNUC_CONST;
 GtkWidget *	e_preferences_window_new	(gpointer shell);
 gpointer	e_preferences_window_get_shell	(EPreferencesWindow *window);
 void		e_preferences_window_setup	(EPreferencesWindow *window);

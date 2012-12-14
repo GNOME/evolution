@@ -62,7 +62,7 @@ struct _EStockRequestClass {
 	SoupRequestClass parent;
 };
 
-GType		e_stock_request_get_type		(void) G_GNUC_CONST;
+GType		e_stock_request_get_type	(void) G_GNUC_CONST;
 
 G_END_DECLS
 

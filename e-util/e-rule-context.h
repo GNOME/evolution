@@ -142,7 +142,7 @@ struct _rule_set_map {
 	ERuleContextNextRuleFunc next;
 };
 
-GType		e_rule_context_get_type		(void);
+GType		e_rule_context_get_type		(void) G_GNUC_CONST;
 ERuleContext *	e_rule_context_new		(void);
 
 gint		e_rule_context_load		(ERuleContext *context,

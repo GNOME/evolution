@@ -74,7 +74,7 @@ struct _ENameSelectorEntryClass {
 	gpointer reserved2;
 };
 
-GType		e_name_selector_entry_get_type	(void);
+GType		e_name_selector_entry_get_type	(void) G_GNUC_CONST;
 ENameSelectorEntry *
 		e_name_selector_entry_new	(ESourceRegistry *registry);
 ESourceRegistry *

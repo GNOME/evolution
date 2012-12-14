@@ -41,7 +41,7 @@ enum {
 
 /* workaround for avoiding API breakage */
 #define ets_get_type e_table_sorter_get_type
-G_DEFINE_TYPE (ETableSorter, ets, E_SORTER_TYPE)
+G_DEFINE_TYPE (ETableSorter, ets, E_TYPE_SORTER)
 
 #define INCREMENT_AMOUNT 100
 

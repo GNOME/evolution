@@ -29,6 +29,7 @@
 #define E_SELECTION_MODEL_H
 
 #include <gtk/gtk.h>
+#include <e-util/e-misc-utils.h>
 #include <e-util/e-sorter.h>
 
 /* Standard GObject macros */
@@ -51,12 +52,6 @@
 	((obj), E_TYPE_SELECTION_MODEL, ESelectionModelClass))
 
 G_BEGIN_DECLS
-
-#ifndef _E_FOREACH_FUNC_H_
-#define _E_FOREACH_FUNC_H_
-typedef void (*EForeachFunc) (gint model_row,
-			      gpointer closure);
-#endif
 
 typedef struct _ESelectionModel ESelectionModel;
 typedef struct _ESelectionModelClass ESelectionModelClass;
@@ -125,7 +120,7 @@ struct _ESelectionModelClass {
 	void		(*selection_changed)	(ESelectionModel *esm);
 };
 
-GType		e_selection_model_get_type	(void);
+GType		e_selection_model_get_type	(void) G_GNUC_CONST;
 void		e_selection_model_do_something	(ESelectionModel *esm,
 						 guint row,
 						 guint col,
@@ -153,10 +148,10 @@ void		e_selection_model_select_as_key_press
 /* Virtual functions */
 gboolean	e_selection_model_is_row_selected
 						(ESelectionModel *esm,
-						 gint             n);
+						 gint n);
 void		e_selection_model_foreach	(ESelectionModel *esm,
-						 EForeachFunc     callback,
-						 gpointer         closure);
+						 EForeachFunc callback,
+						 gpointer closure);
 void		e_selection_model_clear		(ESelectionModel *esm);
 gint		e_selection_model_selected_count
 						(ESelectionModel *esm);

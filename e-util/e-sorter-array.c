@@ -38,7 +38,7 @@
 G_DEFINE_TYPE (
 	ESorterArray,
 	e_sorter_array,
-	E_SORTER_TYPE)
+	E_TYPE_SORTER)
 
 static void	esa_sort			(ESorterArray *esa);
 static void	esa_backsort			(ESorterArray *esa);
@@ -278,7 +278,7 @@ e_sorter_array_new (ECreateCmpCacheFunc create_cmp_cache,
                     ECompareRowsFunc compare,
                     gpointer closure)
 {
-	ESorterArray *esa = g_object_new (E_SORTER_ARRAY_TYPE, NULL);
+	ESorterArray *esa = g_object_new (E_TYPE_SORTER_ARRAY, NULL);
 
 	return e_sorter_array_construct (esa, create_cmp_cache, compare, closure);
 }

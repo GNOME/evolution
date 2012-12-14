@@ -250,7 +250,7 @@ gal_view_collection_init (GalViewCollection *collection)
 GalViewCollection *
 gal_view_collection_new (void)
 {
-	return g_object_new (GAL_VIEW_COLLECTION_TYPE, NULL);
+	return g_object_new (GAL_TYPE_VIEW_COLLECTION, NULL);
 }
 
 void

@@ -329,7 +329,7 @@ GalViewInstance *
 gal_view_instance_new (GalViewCollection *collection,
                        const gchar *instance_id)
 {
-	GalViewInstance *instance = g_object_new (GAL_VIEW_INSTANCE_TYPE, NULL);
+	GalViewInstance *instance = g_object_new (GAL_TYPE_VIEW_INSTANCE, NULL);
 	if (gal_view_instance_construct (instance, collection, instance_id))
 		return instance;
 	else {

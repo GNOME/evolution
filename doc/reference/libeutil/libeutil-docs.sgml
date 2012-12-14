@@ -5,7 +5,7 @@
 ]>
 <book id="index" xmlns:xi="http://www.w3.org/2003/XInclude">
   <bookinfo>
-    <title>Evolution Utilities (libeutil)</title>
+    <title>Evolution Utilities Reference Manual</title>
     <releaseinfo>
       The latest version of this documentation can be found on-line at
       <ulink role="online-location" url="http://library.gnome.org/devel/libeutil/">http://library.gnome.org/devel/libeutil/</ulink>.
@@ -14,22 +14,35 @@
 
   <chapter>
     <title>Basic Utility Functions</title>
-    <xi:include href="xml/e-alert.xml"/>
     <xi:include href="xml/e-datetime-format.xml"/>
     <xi:include href="xml/e-html-utils.xml"/>
     <xi:include href="xml/e-misc-utils.xml"/>
-    <xi:include href="xml/e-poolv.xml"/>
     <xi:include href="xml/e-print.xml"/>
     <xi:include href="xml/e-selection.xml"/>
+    <xi:include href="xml/e-unicode.xml"/>
     <xi:include href="xml/e-xml-utils.xml"/>
-    <xi:include href="xml/e-bit-array.xml"/>
     <xi:include href="xml/e-dialog-utils.xml"/>
     <xi:include href="xml/e-icon-factory.xml"/>
     <xi:include href="xml/e-passwords.xml"/>
   </chapter>
 
   <chapter>
-    <title>Attachment Management</title>
+    <title>Activities</title>
+    <xi:include href="xml/e-activity.xml"/>
+    <xi:include href="xml/e-activity-bar.xml"/>
+    <xi:include href="xml/e-activity-proxy.xml"/>
+  </chapter>
+
+  <chapter>
+    <title>Alerts</title>
+    <xi:include href="xml/e-alert.xml"/>
+    <xi:include href="xml/e-alert-bar.xml"/>
+    <xi:include href="xml/e-alert-dialog.xml"/>
+    <xi:include href="xml/e-alert-sink.xml"/>
+  </chapter>
+
+  <chapter>
+    <title>Attachments</title>
     <xi:include href="xml/e-attachment.xml"/>
     <xi:include href="xml/e-attachment-bar.xml"/>
     <xi:include href="xml/e-attachment-button.xml"/>
@@ -43,13 +56,21 @@
   </chapter>
 
   <chapter>
-    <title>Category Management</title>
-    <xi:include href="xml/e-categories-config.xml"/>
+    <title>Canvas Drawing</title>
+    <xi:include href="xml/e-canvas.xml"/>
+    <xi:include href="xml/e-canvas-background.xml"/>
+    <xi:include href="xml/e-canvas-vbox.xml"/>
+    <xi:include href="xml/e-canvas-utils.xml"/>
+  </chapter>
+
+  <chapter>
+    <title>Categories</title>
     <xi:include href="xml/e-categories-dialog.xml"/>
     <xi:include href="xml/e-categories-editor.xml"/>
     <xi:include href="xml/e-categories-selector.xml"/>
     <xi:include href="xml/e-category-completion.xml"/>
     <xi:include href="xml/e-category-editor.xml"/>
+    <xi:include href="xml/e-categories-config.xml"/>
   </chapter>
 
   <chapter>
@@ -69,14 +90,31 @@
   </chapter>
 
   <chapter>
+    <title>HTML Rendering</title>
+    <xi:include href="xml/e-web-view.xml"/>
+    <xi:include href="xml/e-web-view-preview.xml"/>
+    <xi:include href="xml/e-web-view-gtkhtml.xml"/>
+    <xi:include href="xml/e-file-request.xml"/>
+    <xi:include href="xml/e-stock-request.xml"/>
+  </chapter>
+
+  <chapter>
+    <title>Mail Signatures</title>
+    <xi:include href="xml/e-mail-signature-combo-box.xml"/>
+    <xi:include href="xml/e-mail-signature-editor.xml"/>
+    <xi:include href="xml/e-mail-signature-manager.xml"/>
+    <xi:include href="xml/e-mail-signature-preview.xml"/>
+    <xi:include href="xml/e-mail-signature-script-dialog.xml"/>
+    <xi:include href="xml/e-mail-signature-tree-view.xml"/>
+  </chapter>
+
+  <chapter>
     <title>Tables and Trees</title>
     <xi:include href="xml/e-table.xml"/>
     <xi:include href="xml/e-table-click-to-add.xml"/>
-    <xi:include href="xml/e-table-col-dnd.xml"/>
     <xi:include href="xml/e-table-col.xml"/>
     <xi:include href="xml/e-table-column-specification.xml"/>
     <xi:include href="xml/e-table-config.xml"/>
-    <xi:include href="xml/e-table-defines.xml"/>
     <xi:include href="xml/e-table-extras.xml"/>
     <xi:include href="xml/e-table-field-chooser-dialog.xml"/>
     <xi:include href="xml/e-table-field-chooser-item.xml"/>
@@ -85,7 +123,6 @@
     <xi:include href="xml/e-table-group-leaf.xml"/>
     <xi:include href="xml/e-table-group.xml"/>
     <xi:include href="xml/e-table-header-item.xml"/>
-    <xi:include href="xml/e-table-header-utils.xml"/>
     <xi:include href="xml/e-table-header.xml"/>
     <xi:include href="xml/e-table-item.xml"/>
     <xi:include href="xml/e-table-memory-callbacks.xml"/>
@@ -132,13 +169,26 @@
   </chapter>
 
   <chapter>
+    <title>ESource Support</title>
+    <xi:include href="xml/e-source-config.xml"/>
+    <xi:include href="xml/e-book-source-config.xml"/>
+    <xi:include href="xml/e-cal-source-config.xml"/>
+    <xi:include href="xml/e-source-config-backend.xml"/>
+    <xi:include href="xml/e-source-config-dialog.xml"/>
+    <xi:include href="xml/e-source-selector.xml"/>
+    <xi:include href="xml/e-alarm-selector.xml"/>
+    <xi:include href="xml/e-autocomplete-selector.xml"/>
+    <xi:include href="xml/e-source-selector-dialog.xml"/>
+    <xi:include href="xml/e-source-combo-box.xml"/>
+    <xi:include href="xml/e-source-util.xml"/>
+  </chapter>
+
+  <chapter>
     <title>Text Processing</title>
     <xi:include href="xml/e-text.xml"/>
     <xi:include href="xml/e-text-model.xml"/>
-    <xi:include href="xml/e-text-model-repos.xml"/>
     <xi:include href="xml/e-text-event-processor.xml"/>
     <xi:include href="xml/e-text-event-processor-emacs-like.xml"/>
-    <xi:include href="xml/e-text-event-processor-types.xml"/>
     <xi:include href="xml/e-reflow.xml"/>
     <xi:include href="xml/e-reflow-model.xml"/>
   </chapter>
@@ -158,54 +208,36 @@
   </chapter>
 
   <chapter>
+    <title>Plugins (Legacy)</title>
+    <xi:include href="xml/e-plugin.xml"/>
+    <xi:include href="xml/e-plugin-ui.xml"/>
+    <xi:include href="xml/e-config.xml"/>
+    <xi:include href="xml/e-event.xml"/>
+    <xi:include href="xml/e-import.xml"/>
+  </chapter>
+
+  <chapter>
     <title>(Unsorted Sections)</title>
     <xi:include href="xml/e-action-combo-box.xml"/>
-    <xi:include href="xml/e-activity-bar.xml"/>
-    <xi:include href="xml/e-activity-proxy.xml"/>
-    <xi:include href="xml/e-activity.xml"/>
-    <xi:include href="xml/e-alarm-selector.xml"/>
-    <xi:include href="xml/e-alert-bar.xml"/>
-    <xi:include href="xml/e-alert-dialog.xml"/>
-    <xi:include href="xml/e-alert-sink.xml"/>
     <xi:include href="xml/e-auth-combo-box.xml"/>
-    <xi:include href="xml/e-autocomplete-selector.xml"/>
-    <xi:include href="xml/e-book-source-config.xml"/>
+    <xi:include href="xml/e-bit-array.xml"/>
     <xi:include href="xml/e-buffer-tagger.xml"/>
-    <xi:include href="xml/e-cal-source-config.xml"/>
     <xi:include href="xml/e-calendar-item.xml"/>
     <xi:include href="xml/e-calendar.xml"/>
-    <xi:include href="xml/e-canvas-background.xml"/>
-    <xi:include href="xml/e-canvas-utils.xml"/>
-    <xi:include href="xml/e-canvas-vbox.xml"/>
-    <xi:include href="xml/e-canvas.xml"/>
     <xi:include href="xml/e-cell-renderer-color.xml"/>
     <xi:include href="xml/e-charset-combo-box.xml"/>
-    <xi:include href="xml/e-charset.xml"/>
     <xi:include href="xml/e-client-utils.xml"/>
-    <xi:include href="xml/e-config.xml"/>
     <xi:include href="xml/e-contact-store.xml"/>
     <xi:include href="xml/e-dateedit.xml"/>
     <xi:include href="xml/e-destination-store.xml"/>
-    <xi:include href="xml/e-dialog-widgets.xml"/>
-    <xi:include href="xml/e-event.xml"/>
-    <xi:include href="xml/e-file-request.xml"/>
-    <xi:include href="xml/e-file-utils.xml"/>
     <xi:include href="xml/e-focus-tracker.xml"/>
     <xi:include href="xml/e-image-chooser.xml"/>
     <xi:include href="xml/e-import-assistant.xml"/>
-    <xi:include href="xml/e-import.xml"/>
     <xi:include href="xml/e-interval-chooser.xml"/>
     <xi:include href="xml/e-mail-identity-combo-box.xml"/>
-    <xi:include href="xml/e-mail-signature-combo-box.xml"/>
-    <xi:include href="xml/e-mail-signature-editor.xml"/>
-    <xi:include href="xml/e-mail-signature-manager.xml"/>
-    <xi:include href="xml/e-mail-signature-preview.xml"/>
-    <xi:include href="xml/e-mail-signature-script-dialog.xml"/>
-    <xi:include href="xml/e-mail-signature-tree-view.xml"/>
     <xi:include href="xml/e-map.xml"/>
     <xi:include href="xml/e-menu-tool-action.xml"/>
     <xi:include href="xml/e-menu-tool-button.xml"/>
-    <xi:include href="xml/e-mktemp.xml"/>
     <xi:include href="xml/e-name-selector-dialog.xml"/>
     <xi:include href="xml/e-name-selector-entry.xml"/>
     <xi:include href="xml/e-name-selector-list.xml"/>
@@ -214,8 +246,7 @@
     <xi:include href="xml/e-online-button.xml"/>
     <xi:include href="xml/e-paned.xml"/>
     <xi:include href="xml/e-picture-gallery.xml"/>
-    <xi:include href="xml/e-plugin-ui.xml"/>
-    <xi:include href="xml/e-plugin.xml"/>
+    <xi:include href="xml/e-poolv.xml"/>
     <xi:include href="xml/e-popup-action.xml"/>
     <xi:include href="xml/e-port-entry.xml"/>
     <xi:include href="xml/e-preferences-window.xml"/>
@@ -229,23 +260,11 @@
     <xi:include href="xml/e-send-options.xml"/>
     <xi:include href="xml/e-sorter-array.xml"/>
     <xi:include href="xml/e-sorter.xml"/>
-    <xi:include href="xml/e-source-combo-box.xml"/>
-    <xi:include href="xml/e-source-config-backend.xml"/>
-    <xi:include href="xml/e-source-config-dialog.xml"/>
-    <xi:include href="xml/e-source-config.xml"/>
-    <xi:include href="xml/e-source-selector-dialog.xml"/>
-    <xi:include href="xml/e-source-selector.xml"/>
-    <xi:include href="xml/e-source-util.xml"/>
     <xi:include href="xml/e-spell-entry.xml"/>
-    <xi:include href="xml/e-stock-request.xml"/>
     <xi:include href="xml/e-timezone-dialog.xml"/>
     <xi:include href="xml/e-tree-model-generator.xml"/>
     <xi:include href="xml/e-ui-manager.xml"/>
-    <xi:include href="xml/e-unicode.xml"/>
     <xi:include href="xml/e-url-entry.xml"/>
-    <xi:include href="xml/e-web-view-gtkhtml.xml"/>
-    <xi:include href="xml/e-web-view-preview.xml"/>
-    <xi:include href="xml/e-web-view.xml"/>
   </chapter>
 
   <chapter>

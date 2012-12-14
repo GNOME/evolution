@@ -25,21 +25,36 @@
 #error "Only <e-util/e-util.h> should be included directly."
 #endif
 
-#ifndef __E_SEND_OPTIONS_DIALOG_H__
-#define __E_SEND_OPTIONS_DIALOG_H__
+#ifndef E_SEND_OPTIONS_DIALOG_H
+#define E_SEND_OPTIONS_DIALOG_H
 
 #include <gtk/gtk.h>
 #include <time.h>
 
-#define E_TYPE_SEND_OPTIONS_DIALOG       (e_send_options_dialog_get_type ())
-#define E_SEND_OPTIONS_DIALOG(obj)       (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_SEND_OPTIONS_DIALOG, ESendOptionsDialog))
-#define E_SEND_OPTIONS_DIALOG_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_SEND_OPTIONS_DIALOG, ESendOptionsDialogClass))
-#define E_IS_SEND_OPTIONS_DIALOG(obj)    (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_SEND_OPTIONS_DIALOG))
-#define E_IS_SEND_OPTIONS_DIALOG_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), E_TYPE_SEND_OPTIONS_DIALOG))
+/* Standard GObject macros */
+#define E_TYPE_SEND_OPTIONS_DIALOG \
+	(e_send_options_dialog_get_type ())
+#define E_SEND_OPTIONS_DIALOG(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_SEND_OPTIONS_DIALOG, ESendOptionsDialog))
+#define E_SEND_OPTIONS_DIALOG_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_SEND_OPTIONS_DIALOG, ESendOptionsDialogClass))
+#define E_IS_SEND_OPTIONS_DIALOG(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_SEND_OPTIONS_DIALOG))
+#define E_IS_SEND_OPTIONS_DIALOG_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_SEND_OPTIONS_DIALOG))
+#define E_SEND_OPTIONS_DIALOG_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_SEND_OPTIONS_DIALOG, ESendOptionsDialogClass))
 
-typedef struct _ESendOptionsDialog		ESendOptionsDialog;
-typedef struct _ESendOptionsDialogClass		ESendOptionsDialogClass;
-typedef struct _ESendOptionsDialogPrivate	ESendOptionsDialogPrivate;
+G_BEGIN_DECLS
+
+typedef struct _ESendOptionsDialog ESendOptionsDialog;
+typedef struct _ESendOptionsDialogClass ESendOptionsDialogClass;
+typedef struct _ESendOptionsDialogPrivate ESendOptionsDialogPrivate;
 
 typedef enum {
 	E_ITEM_NONE,
@@ -106,26 +121,34 @@ typedef struct {
 	ESendOptionsStatusTracking *mopts;
 	ESendOptionsStatusTracking *copts;
 	ESendOptionsStatusTracking *topts;
-
 } ESendOptionsData;
 
 struct _ESendOptionsDialog {
-	GObject object;
+	GObject parent;
 
 	ESendOptionsData *data;
-	/* Private data */
 	ESendOptionsDialogPrivate *priv;
 };
 
 struct _ESendOptionsDialogClass {
 	GObjectClass parent_class;
-	void (* sod_response) (ESendOptionsDialog *sd, gint status);
+
+	void		(*sod_response)		(ESendOptionsDialog *sod,
+						 gint status);
 };
 
-GType  e_send_options_dialog_get_type     (void);
-ESendOptionsDialog *e_send_options_dialog_new (void);
-void e_send_options_set_need_general_options (ESendOptionsDialog *sod, gboolean needed);
-gboolean e_send_options_get_need_general_options (ESendOptionsDialog *sod);
-gboolean e_send_options_dialog_run (ESendOptionsDialog *sod, GtkWidget *parent, Item_type type);
-gboolean e_send_options_set_global (ESendOptionsDialog *sod, gboolean set);
-#endif
+GType		e_send_options_dialog_get_type	(void) G_GNUC_CONST;
+ESendOptionsDialog *
+		e_send_options_dialog_new	(void);
+void		e_send_options_set_need_general_options
+						(ESendOptionsDialog *sod,
+						 gboolean needed);
+gboolean	e_send_options_get_need_general_options
+						(ESendOptionsDialog *sod);
+gboolean	e_send_options_dialog_run	(ESendOptionsDialog *sod,
+						 GtkWidget *parent,
+						 Item_type type);
+gboolean	e_send_options_set_global	(ESendOptionsDialog *sod,
+						 gboolean set);
+
+#endif /* E_SEND_OPTIONS_DIALOG_H */

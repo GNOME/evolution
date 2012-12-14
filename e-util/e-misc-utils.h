@@ -50,6 +50,9 @@ typedef enum {
 	E_RESTORE_WINDOW_POSITION = 1 << 1
 } ERestoreWindowFlags;
 
+typedef void	(*EForeachFunc)			(gint model_row,
+						 gpointer closure);
+
 const gchar *	e_get_accels_filename		(void);
 void		e_show_uri			(GtkWindow *parent,
 						 const gchar *uri);

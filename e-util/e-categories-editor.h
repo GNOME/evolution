@@ -70,7 +70,7 @@ struct _ECategoriesEditorClass {
 	void		(*entry_changed)	(GtkEntry *entry);
 };
 
-GType		e_categories_editor_get_type	(void);
+GType		e_categories_editor_get_type	(void) G_GNUC_CONST;
 GtkWidget *	e_categories_editor_new		(void);
 gchar *		e_categories_editor_get_categories
 						(ECategoriesEditor *editor);

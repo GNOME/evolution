@@ -89,7 +89,7 @@ struct _ESourceSelectorClass {
 	gpointer padding3;
 };
 
-GType		e_source_selector_get_type	(void);
+GType		e_source_selector_get_type	(void) G_GNUC_CONST;
 GtkWidget *	e_source_selector_new		(ESourceRegistry *registry,
 						 const gchar *extension_name);
 ESourceRegistry *

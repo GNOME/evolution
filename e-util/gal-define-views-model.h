@@ -25,46 +25,63 @@
 #error "Only <e-util/e-util.h> should be included directly."
 #endif
 
-#ifndef _GAL_DEFINE_VIEWS_MODEL_H_
-#define _GAL_DEFINE_VIEWS_MODEL_H_
+#ifndef GAL_DEFINE_VIEWS_MODEL_H
+#define GAL_DEFINE_VIEWS_MODEL_H
 
 #include <e-util/e-table-model.h>
 #include <e-util/gal-view.h>
 #include <e-util/gal-view-collection.h>
 
+/* Standard GObject macros */
+#define GAL_TYPE_DEFINE_VIEWS_MODEL \
+	(gal_define_views_model_get_type ())
+#define GAL_DEFINE_VIEWS_MODEL(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), GAL_TYPE_DEFINE_VIEWS_MODEL, GalDefineViewsModel))
+#define GAL_DEFINE_VIEWS_MODEL_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), GAL_TYPE_DEFINE_VIEWS_MODEL, GalDefineViewsModelClass))
+#define GAL_IS_DEFINE_VIEWS_MODEL(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), GAL_TYPE_DEFINE_VIEWS_MODEL))
+#define GAL_IS_DEFINE_VIEWS_MODEL_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), GAL_TYPE_DEFINE_VIEWS_MODEL))
+#define GAL_DEFINE_VIEWS_MODEL_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), GAL_TYPE_DEFINE_VIEWS_MODEL, GalDefineViewsModelClass))
+
 G_BEGIN_DECLS
 
-#define GAL_DEFINE_VIEWS_MODEL_TYPE        (gal_define_views_model_get_type ())
-#define GAL_DEFINE_VIEWS_MODEL(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GAL_DEFINE_VIEWS_MODEL_TYPE, GalDefineViewsModel))
-#define GAL_DEFINE_VIEWS_MODEL_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), GAL_DEFINE_VIEWS_MODEL_TYPE, GalDefineViewsModelClass))
-#define GAL_IS_DEFINE_VIEWS_MODEL(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GAL_DEFINE_VIEWS_MODEL_TYPE))
-#define GAL_IS_DEFINE_VIEWS_MODEL_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), GAL_DEFINE_VIEWS_MODEL_TYPE))
+typedef struct _GalDefineViewsModel GalDefineViewsModel;
+typedef struct _GalDefineViewsModelClass GalDefineViewsModelClass;
 
-typedef struct {
+struct _GalDefineViewsModel {
 	ETableModel parent;
 
 	/* item specific fields */
 	GalViewCollection *collection;
 
 	guint editable : 1;
-} GalDefineViewsModel;
+};
 
-typedef struct {
+struct _GalDefineViewsModelClass {
 	ETableModelClass parent_class;
-} GalDefineViewsModelClass;
+};
 
-GType        gal_define_views_model_get_type     (void);
-ETableModel *gal_define_views_model_new          (void);
-
-void         gal_define_views_model_append       (GalDefineViewsModel *model,
-						  GalView             *view);
-GalView     *gal_define_views_model_get_view     (GalDefineViewsModel *model,
-						  gint                  i);
-void         gal_define_views_model_delete_view  (GalDefineViewsModel *model,
-						  gint                  i);
-void         gal_define_views_model_copy_view    (GalDefineViewsModel *model,
-						  gint                  i);
+GType		gal_define_views_model_get_type	(void) G_GNUC_CONST;
+ETableModel *	gal_define_views_model_new	(void);
+void		gal_define_views_model_append	(GalDefineViewsModel *model,
+						 GalView *view);
+GalView *	gal_define_views_model_get_view	(GalDefineViewsModel *model,
+						 gint i);
+void		gal_define_views_model_delete_view
+						(GalDefineViewsModel *model,
+						 gint i);
+void		gal_define_views_model_copy_view
+						(GalDefineViewsModel *model,
+						 gint i);
 
 G_END_DECLS
 
-#endif /* _GAL_DEFINE_VIEWS_MODEL_H_ */
+#endif /* GAL_DEFINE_VIEWS_MODEL_H */

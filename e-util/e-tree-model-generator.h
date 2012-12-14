@@ -69,7 +69,7 @@ struct _ETreeModelGeneratorClass {
 	GObjectClass parent_class;
 };
 
-GType		e_tree_model_generator_get_type	(void);
+GType		e_tree_model_generator_get_type	(void) G_GNUC_CONST;
 ETreeModelGenerator *
 		e_tree_model_generator_new	(GtkTreeModel *child_model);
 GtkTreeModel *	e_tree_model_generator_get_model (ETreeModelGenerator *tree_model_generator);

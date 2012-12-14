@@ -458,7 +458,7 @@ e_action_combo_box_new_with_action (GtkRadioAction *action)
 GtkRadioAction *
 e_action_combo_box_get_action (EActionComboBox *combo_box)
 {
-	g_return_val_if_fail (E_ACTION_IS_COMBO_BOX (combo_box), NULL);
+	g_return_val_if_fail (E_IS_ACTION_COMBO_BOX (combo_box), NULL);
 
 	return combo_box->priv->action;
 }
@@ -467,7 +467,7 @@ void
 e_action_combo_box_set_action (EActionComboBox *combo_box,
                                GtkRadioAction *action)
 {
-	g_return_if_fail (E_ACTION_IS_COMBO_BOX (combo_box));
+	g_return_if_fail (E_IS_ACTION_COMBO_BOX (combo_box));
 
 	if (action != NULL)
 		g_return_if_fail (GTK_IS_RADIO_ACTION (action));
@@ -526,7 +526,7 @@ e_action_combo_box_set_action (EActionComboBox *combo_box,
 gint
 e_action_combo_box_get_current_value (EActionComboBox *combo_box)
 {
-	g_return_val_if_fail (E_ACTION_IS_COMBO_BOX (combo_box), 0);
+	g_return_val_if_fail (E_IS_ACTION_COMBO_BOX (combo_box), 0);
 	g_return_val_if_fail (combo_box->priv->action != NULL, 0);
 
 	return gtk_radio_action_get_current_value (combo_box->priv->action);
@@ -536,7 +536,7 @@ void
 e_action_combo_box_set_current_value (EActionComboBox *combo_box,
                                       gint current_value)
 {
-	g_return_if_fail (E_ACTION_IS_COMBO_BOX (combo_box));
+	g_return_if_fail (E_IS_ACTION_COMBO_BOX (combo_box));
 	g_return_if_fail (combo_box->priv->action != NULL);
 
 	gtk_radio_action_set_current_value (
@@ -550,7 +550,7 @@ e_action_combo_box_add_separator_before (EActionComboBox *combo_box,
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 
-	g_return_if_fail (E_ACTION_IS_COMBO_BOX (combo_box));
+	g_return_if_fail (E_IS_ACTION_COMBO_BOX (combo_box));
 
 	/* NULL actions are rendered as separators. */
 	model = gtk_combo_box_get_model (GTK_COMBO_BOX (combo_box));
@@ -567,7 +567,7 @@ e_action_combo_box_add_separator_after (EActionComboBox *combo_box,
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 
-	g_return_if_fail (E_ACTION_IS_COMBO_BOX (combo_box));
+	g_return_if_fail (E_IS_ACTION_COMBO_BOX (combo_box));
 
 	/* NULL actions are rendered as separators. */
 	model = gtk_combo_box_get_model (GTK_COMBO_BOX (combo_box));

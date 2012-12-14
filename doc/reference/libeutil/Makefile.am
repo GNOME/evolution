@@ -16,17 +16,22 @@ CFILE_GLOB = $(top_srcdir)/e-util/*.c
 
 # Ignore all accessiblity headers.
 IGNORE_HFILES = \
+	e-marshal.h \
+	e-table-col-dnd.h \
+	e-table-defines.h \
+	e-util-enumtypes.h \
+	e-util-private.h \
 	ea-calendar-cell.h \
 	ea-calendar-item.h \
 	ea-cell-table.h \
 	ea-factory.h \
 	ea-widgets.h \
+	gal-a11y-e-cell.h \
+	gal-a11y-e-cell-popup.h \
 	gal-a11y-e-cell-registry.h \
 	gal-a11y-e-cell-toggle.h \
 	gal-a11y-e-cell-tree.h \
 	gal-a11y-e-cell-vbox.h \
-	gal-a11y-e-cell.h \
-	gal-a11y-e-popup.h \
 	gal-a11y-e-table-click-to-add-factory.h \
 	gal-a11y-e-table-click-to-add.h \
 	gal-a11y-e-table-column-header.h \

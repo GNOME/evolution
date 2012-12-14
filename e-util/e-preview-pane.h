@@ -68,7 +68,7 @@ struct _EPreviewPaneClass {
 	void		(*show_search_bar)	(EPreviewPane *preview_pane);
 };
 
-GType		e_preview_pane_get_type		(void);
+GType		e_preview_pane_get_type		(void) G_GNUC_CONST;
 GtkWidget *	e_preview_pane_new		(EWebView *web_view);
 EWebView *	e_preview_pane_get_web_view	(EPreviewPane *preview_pane);
 ESearchBar *	e_preview_pane_get_search_bar	(EPreviewPane *preview_pane);

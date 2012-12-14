@@ -111,7 +111,7 @@ struct _ECanvasClass {
 	void		(*reflow)		(ECanvas *canvas);
 };
 
-GType		e_canvas_get_type		(void);
+GType		e_canvas_get_type		(void) G_GNUC_CONST;
 GtkWidget *	e_canvas_new			(void);
 
 /* Used to send all of the keystroke events to a specific item as well as

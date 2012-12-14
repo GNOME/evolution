@@ -67,7 +67,7 @@ struct _EFilterInputClass {
 	EFilterElementClass parent_class;
 };
 
-GType		e_filter_input_get_type		(void);
+GType		e_filter_input_get_type		(void) G_GNUC_CONST;
 EFilterInput *	e_filter_input_new		(void);
 EFilterInput *	e_filter_input_new_type_name	(const gchar *type);
 void		e_filter_input_set_value	(EFilterInput *input,

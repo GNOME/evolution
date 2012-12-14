@@ -76,7 +76,7 @@ enum {
 	E_ATTACHMENT_STORE_NUM_COLUMNS
 };
 
-GType		e_attachment_store_get_type	(void);
+GType		e_attachment_store_get_type	(void) G_GNUC_CONST;
 GtkTreeModel *	e_attachment_store_new		(void);
 void		e_attachment_store_add_attachment
 						(EAttachmentStore *store,

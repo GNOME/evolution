@@ -24,62 +24,78 @@
 #error "Only <e-util/e-util.h> should be included directly."
 #endif
 
-#ifndef _E_SORTER_ARRAY_H_
-#define _E_SORTER_ARRAY_H_
+#ifndef E_SORTER_ARRAY_H
+#define E_SORTER_ARRAY_H
 
 #include <e-util/e-sorter.h>
 
+/* Standard GObject macros */
+#define E_TYPE_SORTER_ARRAY \
+	(e_sorter_array_get_type ())
+#define E_SORTER_ARRAY(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_SORTER_ARRAY, ESorterArray))
+#define E_SORTER_ARRAY_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_SORTER_ARRAY, ESorterArrayClass))
+#define E_IS_SORTER_ARRAY(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_SORTER_ARRAY))
+#define E_IS_SORTER_ARRAY_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_SORTER_ARRAY))
+#define E_SORTER_ARRAY_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_SORTER_ARRAY, ESorterArrayClass))
+
 G_BEGIN_DECLS
 
-#define E_SORTER_ARRAY_TYPE        (e_sorter_array_get_type ())
-#define E_SORTER_ARRAY(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_SORTER_ARRAY_TYPE, ESorterArray))
-#define E_SORTER_ARRAY_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_SORTER_ARRAY_TYPE, ESorterArrayClass))
-#define E_IS_SORTER_ARRAY(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_SORTER_ARRAY_TYPE))
-#define E_IS_SORTER_ARRAY_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_SORTER_ARRAY_TYPE))
+typedef struct _ESorterArray ESorterArray;
+typedef struct _ESorterArrayClass ESorterArrayClass;
 
-#ifndef _E_COMPARE_ROWS_FUNC_H_
-#define _E_COMPARE_ROWS_FUNC_H_
 typedef gint (*ECompareRowsFunc) (gint row1,
 				 gint row2,
 				 GHashTable *cmp_cache,
 				 gpointer closure);
-#endif
 
 typedef GHashTable * (*ECreateCmpCacheFunc) (gpointer closure);
 
-typedef struct {
-	ESorter      base;
+struct _ESorterArray {
+	ESorter parent;
 
 	GHashTable *cmp_cache;
 	ECreateCmpCacheFunc create_cmp_cache;
 	ECompareRowsFunc compare;
-	gpointer     closure;
+	gpointer closure;
 
-	/* If needs_sorting is 0, then model_to_sorted and sorted_to_model are no-ops. */
-	gint         *sorted;
-	gint         *backsorted;
+	/* If needs_sorting is 0, then
+	 * model_to_sorted and sorted_to_model are no-ops. */
+	gint *sorted;
+	gint *backsorted;
 
 	gint rows;
-} ESorterArray;
+};
 
-typedef struct {
+struct _ESorterArrayClass {
 	ESorterClass parent_class;
-} ESorterArrayClass;
+};
 
-GType         e_sorter_array_get_type   (void);
-ESorterArray *e_sorter_array_construct  (ESorterArray     *sorter,
+GType		e_sorter_array_get_type	(void) G_GNUC_CONST;
+ESorterArray *	e_sorter_array_construct
+					(ESorterArray *sorter,
 					 ECreateCmpCacheFunc create_cmp_cache,
-					 ECompareRowsFunc  compare,
-					 gpointer          closure);
-ESorterArray *e_sorter_array_new        (ECreateCmpCacheFunc create_cmp_cache,
-					 ECompareRowsFunc  compare,
-					 gpointer          closure);
-void          e_sorter_array_clean      (ESorterArray     *esa);
-void          e_sorter_array_set_count  (ESorterArray     *esa,
-					 gint               count);
-void          e_sorter_array_append     (ESorterArray     *esa,
-					 gint               count);
+					 ECompareRowsFunc compare,
+					 gpointer closure);
+ESorterArray *	e_sorter_array_new	(ECreateCmpCacheFunc create_cmp_cache,
+					 ECompareRowsFunc compare,
+					 gpointer closure);
+void		e_sorter_array_clean	(ESorterArray *sorter);
+void		e_sorter_array_set_count
+					(ESorterArray *sorter,
+					 gint count);
+void		e_sorter_array_append	(ESorterArray *sorter,
+					 gint count);
 
 G_END_DECLS
 
-#endif /* _E_SORTER_ARRAY_H_ */
+#endif /* E_SORTER_ARRAY_H */

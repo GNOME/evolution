@@ -84,7 +84,7 @@ struct _EMapPoint {
 
 /* --- Widget --- */
 
-GType e_map_get_type (void);
+GType e_map_get_type (void) G_GNUC_CONST;
 
 EMap *e_map_new (void);
 

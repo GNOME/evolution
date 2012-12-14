@@ -60,7 +60,7 @@ struct _ECategoriesDialogClass {
 	GtkDialogClass parent_class;
 };
 
-GType		e_categories_dialog_get_type	(void);
+GType		e_categories_dialog_get_type	(void) G_GNUC_CONST;
 GtkWidget *	e_categories_dialog_new		(const gchar *categories);
 gchar *		e_categories_dialog_get_categories
 						(ECategoriesDialog *dialog);

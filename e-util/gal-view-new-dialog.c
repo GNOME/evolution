@@ -181,7 +181,7 @@ gal_view_new_dialog_new (GalViewCollection *collection)
 {
 	GtkWidget *widget =
 		gal_view_new_dialog_construct (
-			g_object_new (GAL_VIEW_NEW_DIALOG_TYPE, NULL),
+			g_object_new (GAL_TYPE_VIEW_NEW_DIALOG, NULL),
 			collection);
 	return widget;
 }

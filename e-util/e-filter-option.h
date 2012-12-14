@@ -82,7 +82,7 @@ struct _EFilterOptionClass {
 	EFilterElementClass parent_class;
 };
 
-GType		e_filter_option_get_type	(void);
+GType		e_filter_option_get_type	(void) G_GNUC_CONST;
 EFilterElement *e_filter_option_new		(void);
 void		e_filter_option_set_current	(EFilterOption *option,
 						 const gchar *name);

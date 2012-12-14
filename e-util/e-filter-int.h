@@ -68,7 +68,7 @@ struct _EFilterIntClass {
 	EFilterElementClass parent_class;
 };
 
-GType		e_filter_int_get_type		(void);
+GType		e_filter_int_get_type		(void) G_GNUC_CONST;
 EFilterElement *e_filter_int_new		(void);
 EFilterElement *e_filter_int_new_type		(const gchar *type,
 						 gint min,

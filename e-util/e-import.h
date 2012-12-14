@@ -198,7 +198,7 @@ struct _EImportClass {
 						 EImportTarget *target);
 };
 
-GType		e_import_get_type		(void);
+GType		e_import_get_type		(void) G_GNUC_CONST;
 EImport *	e_import_new			(const gchar *id);
 void		e_import_class_add_importer	(EImportClass *klass,
 						 EImportImporter *importer,

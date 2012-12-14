@@ -412,7 +412,7 @@ e_bit_array_class_init (EBitArrayClass *class)
 EBitArray *
 e_bit_array_new (gint count)
 {
-	EBitArray *eba = g_object_new (E_BIT_ARRAY_TYPE, NULL);
+	EBitArray *eba = g_object_new (E_TYPE_BIT_ARRAY, NULL);
 	eba->bit_count = count;
 	eba->data = g_new0 (guint32, (eba->bit_count + 31) / 32);
 	return eba;

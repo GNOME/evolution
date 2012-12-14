@@ -21,46 +21,58 @@
  *
  */
 
+/* ETextEventProcessorEmacsLike - Turns events on a text widget into commands.
+ * Uses an emacs-ish interface. */
+
 #if !defined (__E_UTIL_H_INSIDE__) && !defined (LIBEUTIL_COMPILATION)
 #error "Only <e-util/e-util.h> should be included directly."
 #endif
 
-#ifndef __E_TEXT_EVENT_PROCESSOR_EMACS_LIKE_H__
-#define __E_TEXT_EVENT_PROCESSOR_EMACS_LIKE_H__
+#ifndef E_TEXT_EVENT_PROCESSOR_EMACS_LIKE_H
+#define E_TEXT_EVENT_PROCESSOR_EMACS_LIKE_H
 
 #include <e-util/e-text-event-processor.h>
 
+/* Standard GObject macros */
+#define E_TYPE_TEXT_EVENT_PROCESSOR_EMACS_LIKE \
+	(e_text_event_processor_emacs_like_get_type ())
+#define E_TEXT_EVENT_PROCESSOR_EMACS_LIKE(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_TEXT_EVENT_PROCESSOR_EMACS_LIKE, ETextEventProcessorEmacsLike))
+#define E_TEXT_EVENT_PROCESSOR_EMACS_LIKE_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_TEXT_EVENT_PROCESSOR_EMACS_LIKE, ETextEventProcessorEmacsLikeClass))
+#define E_IS_TEXT_EVENT_PROCESSOR_EMACS_LIKE(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_TEXT_EVENT_PROCESSOR_EMACS_LIKE))
+#define E_IS_TEXT_EVENT_PROCESSOR_EMACS_LIKE_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_TEXT_EVENT_PROCESSOR_EMACS_LIKE))
+#define E_TEXT_EVENT_PROCESSOR_EMACS_LIKE_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_TEXT_EVENT_PROCESSOR_EMACS_LIKE, ETextEventProcessorEmacsLikeClass))
+
 G_BEGIN_DECLS
-
-/* ETextEventProcessorEmacsLike - Turns events on a text widget into commands.  Uses an emacs-ish interface.
- *
- */
-
-#define E_TEXT_EVENT_PROCESSOR_EMACS_LIKE_TYPE			(e_text_event_processor_emacs_like_get_type ())
-#define E_TEXT_EVENT_PROCESSOR_EMACS_LIKE(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TEXT_EVENT_PROCESSOR_EMACS_LIKE_TYPE, ETextEventProcessorEmacsLike))
-#define E_TEXT_EVENT_PROCESSOR_EMACS_LIKE_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), E_TEXT_EVENT_PROCESSOR_EMACS_LIKE_TYPE, ETextEventProcessorEmacsLikeClass))
-#define E_IS_TEXT_EVENT_PROCESSOR_EMACS_LIKE(obj)			(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TEXT_EVENT_PROCESSOR_EMACS_LIKE_TYPE))
-#define E_IS_TEXT_EVENT_PROCESSOR_EMACS_LIKE_CLASS(klass)		(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TEXT_EVENT_PROCESSOR_EMACS_LIKE_TYPE))
 
 typedef struct _ETextEventProcessorEmacsLike       ETextEventProcessorEmacsLike;
 typedef struct _ETextEventProcessorEmacsLikeClass  ETextEventProcessorEmacsLikeClass;
 
-struct _ETextEventProcessorEmacsLike
-{
+struct _ETextEventProcessorEmacsLike {
 	ETextEventProcessor parent;
 
 	/* object specific fields */
 	guint mouse_down : 1;
 };
 
-struct _ETextEventProcessorEmacsLikeClass
-{
+struct _ETextEventProcessorEmacsLikeClass {
 	ETextEventProcessorClass parent_class;
 };
 
-GType      e_text_event_processor_emacs_like_get_type (void);
-ETextEventProcessor *e_text_event_processor_emacs_like_new (void);
+GType		e_text_event_processor_emacs_like_get_type
+							(void) G_GNUC_CONST;
+ETextEventProcessor *
+		e_text_event_processor_emacs_like_new	(void);
 
 G_END_DECLS
 
-#endif /* __E_TEXT_EVENT_PROCESSOR_EMACS_LIKE_H__ */
+#endif /* E_TEXT_EVENT_PROCESSOR_EMACS_LIKE_H */

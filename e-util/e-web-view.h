@@ -57,17 +57,11 @@ G_BEGIN_DECLS
 typedef struct _EWebView EWebView;
 typedef struct _EWebViewClass EWebViewClass;
 typedef struct _EWebViewPrivate EWebViewPrivate;
-struct PangoFontDescription;
 
 struct _EWebView {
 	WebKitWebView parent;
 	EWebViewPrivate *priv;
 };
-
-typedef void (*EWebViewJSFunctionCallback)	(EWebView *web_view,
-						 size_t arg_count,
-						 const JSValueRef args[],
-						 gpointer user_data);
 
 struct _EWebViewClass {
 	WebKitWebViewClass parent_class;
@@ -109,7 +103,7 @@ struct _EWebViewClass {
 						 const gchar *mailto_uri);
 };
 
-GType		e_web_view_get_type		(void);
+GType		e_web_view_get_type		(void) G_GNUC_CONST;
 GtkWidget *	e_web_view_new			(void);
 void		e_web_view_clear		(EWebView *web_view);
 void		e_web_view_load_string		(EWebView *web_view,
@@ -139,11 +133,11 @@ gboolean	e_web_view_get_disable_save_to_disk
 void		e_web_view_set_disable_save_to_disk
 						(EWebView *web_view,
 						 gboolean disable_save_to_disk);
-gboolean        e_web_view_get_enable_frame_flattening
-                                                (EWebView *web_view);
-void            e_web_view_set_enable_frame_flattening
-                                                (EWebView *web_view,
-                                                 gboolean enable_frame_flattening);
+gboolean	e_web_view_get_enable_frame_flattening
+						(EWebView *web_view);
+void		e_web_view_set_enable_frame_flattening
+						(EWebView *web_view,
+						 gboolean enable_frame_flattening);
 gboolean	e_web_view_get_editable		(EWebView *web_view);
 void		e_web_view_set_editable		(EWebView *web_view,
 						 gboolean editable);
@@ -177,10 +171,10 @@ void		e_web_view_set_print_proxy	(EWebView *web_view,
 GtkAction *	e_web_view_get_save_as_proxy	(EWebView *web_view);
 void		e_web_view_set_save_as_proxy	(EWebView *web_view,
 						 GtkAction *save_as_proxy);
-GSList *         e_web_view_get_highlights       (EWebView *web_view);
-void            e_web_view_add_highlight        (EWebView *web_view,
-                                                 const gchar *highlight);
-void            e_web_view_clear_highlights     (EWebView *web_view);
+GSList *	e_web_view_get_highlights	(EWebView *web_view);
+void		e_web_view_add_highlight	(EWebView *web_view,
+						 const gchar *highlight);
+void		e_web_view_clear_highlights	(EWebView *web_view);
 GtkAction *	e_web_view_get_action		(EWebView *web_view,
 						 const gchar *action_name);
 GtkActionGroup *e_web_view_get_action_group	(EWebView *web_view,
@@ -205,7 +199,7 @@ void		e_web_view_status_message	(EWebView *web_view,
 						 const gchar *status_message);
 void		e_web_view_stop_loading		(EWebView *web_view);
 void		e_web_view_update_actions	(EWebView *web_view);
-gchar *         e_web_view_get_selection_html   (EWebView *web_view);
+gchar *		e_web_view_get_selection_html	(EWebView *web_view);
 
 void		e_web_view_set_settings		(EWebView *web_view,
 						 WebKitWebSettings *settings);

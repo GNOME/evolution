@@ -101,8 +101,6 @@ struct _ECellView {
 	GList *kill_view_cb_data;
 };
 
-#define E_CELL_IS_FOCUSED(ecell_view) (ecell_view->focus_x1 != -1)
-
 struct _ECell {
 	GObject parent;
 };

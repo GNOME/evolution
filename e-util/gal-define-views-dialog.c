@@ -78,7 +78,7 @@ gal_define_views_dialog_class_init (GalDefineViewsDialogClass *class)
 			"collection",
 			"Collection",
 			NULL,
-			GAL_VIEW_COLLECTION_TYPE,
+			GAL_TYPE_VIEW_COLLECTION,
 			G_PARAM_READWRITE));
 }
 

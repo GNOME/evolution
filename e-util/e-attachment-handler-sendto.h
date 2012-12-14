@@ -59,7 +59,7 @@ struct _EAttachmentHandlerSendtoClass {
 	EAttachmentHandlerClass parent_class;
 };
 
-GType		e_attachment_handler_sendto_get_type	(void);
+GType		e_attachment_handler_sendto_get_type	(void) G_GNUC_CONST;
 
 G_END_DECLS
 

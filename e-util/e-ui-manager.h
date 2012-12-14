@@ -62,7 +62,7 @@ struct _EUIManagerClass {
 						 const gchar *ui_definition);
 };
 
-GType		e_ui_manager_get_type		(void);
+GType		e_ui_manager_get_type		(void) G_GNUC_CONST;
 GtkUIManager *	e_ui_manager_new		(void);
 gboolean	e_ui_manager_get_express_mode	(EUIManager *ui_manager);
 void		e_ui_manager_set_express_mode	(EUIManager *ui_manager,

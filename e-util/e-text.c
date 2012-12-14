@@ -2985,7 +2985,7 @@ e_text_class_init (ETextClass *class)
 			"event_processor",
 			"Event Processor",
 			"Event Processor",
-			E_TEXT_EVENT_PROCESSOR_TYPE,
+			E_TYPE_TEXT_EVENT_PROCESSOR,
 			G_PARAM_READWRITE));
 
 	g_object_class_install_property (

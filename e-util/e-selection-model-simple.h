@@ -25,46 +25,67 @@
 #error "Only <e-util/e-util.h> should be included directly."
 #endif
 
-#ifndef _E_SELECTION_MODEL_SIMPLE_H_
-#define _E_SELECTION_MODEL_SIMPLE_H_
+#ifndef E_SELECTION_MODEL_SIMPLE_H
+#define E_SELECTION_MODEL_SIMPLE_H
 
 #include <e-util/e-selection-model-array.h>
 
+/* Standard GObject macros */
+#define E_TYPE_SELECTION_MODEL_SIMPLE \
+	(e_selection_model_simple_get_type ())
+#define E_SELECTION_MODEL_SIMPLE(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_SELECTION_MODEL_SIMPLE, ESelectionModelSimple))
+#define E_SELECTION_MODEL_SIMPLE_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_SELECTION_MODEL_SIMPLE, ESelectionModelSimpleClass))
+#define E_IS_SELECTION_MODEL_SIMPLE(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_SELECTION_MODEL_SIMPLE))
+#define E_IS_SELECTION_MODEL_SIMPLE_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_SELECTION_MODEL_SIMPLE))
+#define E_SELECTION_MODEL_SIMPLE_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_SELECTION_MODEL_SIMPLE, ESelectionModelSimpleClass))
+
 G_BEGIN_DECLS
 
-#define E_SELECTION_MODEL_SIMPLE_TYPE        (e_selection_model_simple_get_type ())
-#define E_SELECTION_MODEL_SIMPLE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_SELECTION_MODEL_SIMPLE_TYPE, ESelectionModelSimple))
-#define E_SELECTION_MODEL_SIMPLE_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_SELECTION_MODEL_SIMPLE_TYPE, ESelectionModelSimpleClass))
-#define E_IS_SELECTION_MODEL_SIMPLE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_SELECTION_MODEL_SIMPLE_TYPE))
-#define E_IS_SELECTION_MODEL_SIMPLE_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_SELECTION_MODEL_SIMPLE_TYPE))
+typedef struct _ESelectionModelSimple ESelectionModelSimple;
+typedef struct _ESelectionModelSimpleClass ESelectionModelSimpleClass;
 
-typedef struct {
+struct _ESelectionModelSimple {
 	ESelectionModelArray parent;
 
 	gint row_count;
-} ESelectionModelSimple;
+};
 
-typedef struct {
+struct _ESelectionModelSimpleClass {
 	ESelectionModelArrayClass parent_class;
-} ESelectionModelSimpleClass;
+};
 
-GType                  e_selection_model_simple_get_type       (void);
-ESelectionModelSimple *e_selection_model_simple_new            (void);
-
-void                   e_selection_model_simple_insert_rows     (ESelectionModelSimple *esms,
-								 gint                    row,
-								 gint count);
-void                   e_selection_model_simple_delete_rows     (ESelectionModelSimple *esms,
-								 gint                    row,
-								 gint count);
-void                   e_selection_model_simple_move_row       (ESelectionModelSimple *esms,
-								gint                    old_row,
-								gint                    new_row);
-
-void                   e_selection_model_simple_set_row_count  (ESelectionModelSimple *selection,
-								gint                    row_count);
+GType		e_selection_model_simple_get_type
+					(void) G_GNUC_CONST;
+ESelectionModelSimple *
+		e_selection_model_simple_new
+					(void);
+void		e_selection_model_simple_insert_rows
+					(ESelectionModelSimple *selection,
+					 gint row,
+					 gint count);
+void		e_selection_model_simple_delete_rows
+					(ESelectionModelSimple *selection,
+					 gint row,
+					 gint count);
+void		e_selection_model_simple_move_row
+					(ESelectionModelSimple *selection,
+					 gint old_row,
+					 gint new_row);
+void		e_selection_model_simple_set_row_count
+					(ESelectionModelSimple *selection,
+					 gint row_count);
 
 G_END_DECLS
 
-#endif /* _E_SELECTION_MODEL_SIMPLE_H_ */
+#endif /* E_SELECTION_MODEL_SIMPLE_H */
 

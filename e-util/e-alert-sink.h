@@ -54,7 +54,7 @@ struct _EAlertSinkInterface {
 						 EAlert *alert);
 };
 
-GType		e_alert_sink_get_type		(void);
+GType		e_alert_sink_get_type		(void) G_GNUC_CONST;
 void		e_alert_sink_submit_alert	(EAlertSink *alert_sink,
 						 EAlert *alert);
 

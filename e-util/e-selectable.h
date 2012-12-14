@@ -65,7 +65,7 @@ struct _ESelectableInterface {
 	void		(*select_all)		(ESelectable *selectable);
 };
 
-GType		e_selectable_get_type		(void);
+GType		e_selectable_get_type		(void) G_GNUC_CONST;
 void		e_selectable_update_actions	(ESelectable *selectable,
 						 EFocusTracker *focus_tracker,
 						 GdkAtom *clipboard_targets,

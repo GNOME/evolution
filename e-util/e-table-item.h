@@ -62,113 +62,113 @@ typedef struct _ETableItem ETableItem;
 typedef struct _ETableItemClass ETableItemClass;
 
 struct _ETableItem {
-	GnomeCanvasItem  parent;
-	ETableModel     *table_model;
-	ETableHeader    *header;
+	GnomeCanvasItem parent;
+	ETableModel *table_model;
+	ETableHeader *header;
 
-	ETableModel     *source_model;
+	ETableModel *source_model;
 	ESelectionModel *selection;
 
-	gint              minimum_width, width, height;
+	gint minimum_width, width, height;
 
-	gint              cols, rows;
+	gint cols, rows;
 
-	gint              click_count;
+	gint click_count;
 
 	/*
 	 * Ids for the signals we connect to
 	 */
-	gint              header_dim_change_id;
-	gint              header_structure_change_id;
-	gint              header_request_width_id;
-	gint              table_model_pre_change_id;
-	gint              table_model_no_change_id;
-	gint              table_model_change_id;
-	gint              table_model_row_change_id;
-	gint              table_model_cell_change_id;
-	gint              table_model_rows_inserted_id;
-	gint              table_model_rows_deleted_id;
+	gint header_dim_change_id;
+	gint header_structure_change_id;
+	gint header_request_width_id;
+	gint table_model_pre_change_id;
+	gint table_model_no_change_id;
+	gint table_model_change_id;
+	gint table_model_row_change_id;
+	gint table_model_cell_change_id;
+	gint table_model_rows_inserted_id;
+	gint table_model_rows_deleted_id;
 
-	gint              selection_change_id;
-	gint              selection_row_change_id;
-	gint              cursor_change_id;
-	gint              cursor_activated_id;
+	gint selection_change_id;
+	gint selection_row_change_id;
+	gint cursor_change_id;
+	gint cursor_activated_id;
 
-	guint            cursor_idle_id;
+	guint cursor_idle_id;
 
 	/* View row, -1 means unknown */
-	gint              old_cursor_row;
+	gint old_cursor_row;
 
-	guint		 alternating_row_colors : 1;
-	guint		 horizontal_draw_grid : 1;
-	guint		 vertical_draw_grid : 1;
-	guint		 draw_focus : 1;
-	guint		 uniform_row_height : 1;
-	guint		 cell_views_realized : 1;
+	guint alternating_row_colors : 1;
+	guint horizontal_draw_grid : 1;
+	guint vertical_draw_grid : 1;
+	guint draw_focus : 1;
+	guint uniform_row_height : 1;
+	guint cell_views_realized : 1;
 
-	guint		 needs_redraw : 1;
-	guint		 needs_compute_height : 1;
-	guint		 needs_compute_width : 1;
+	guint needs_redraw : 1;
+	guint needs_compute_height : 1;
+	guint needs_compute_width : 1;
 
-	guint            uses_source_model : 1;
+	guint uses_source_model : 1;
 
-	guint            in_key_press : 1;
+	guint in_key_press : 1;
 
-	guint            maybe_in_drag : 1;
-	guint            in_drag : 1;
-	guint            grabbed : 1;
+	guint maybe_in_drag : 1;
+	guint in_drag : 1;
+	guint grabbed : 1;
 
-	guint            maybe_did_something : 1;
+	guint maybe_did_something : 1;
 
-	guint            cursor_on_screen : 1;
-	guint            gtk_grabbed : 1;
+	guint cursor_on_screen : 1;
+	guint gtk_grabbed : 1;
 
-	guint            queue_show_cursor : 1;
-	guint            grab_cancelled : 1;
+	guint queue_show_cursor : 1;
+	guint grab_cancelled : 1;
 
-	gint              frozen_count;
+	gint frozen_count;
 
-	gint              cursor_x1;
-	gint              cursor_y1;
-	gint              cursor_x2;
-	gint              cursor_y2;
+	gint cursor_x1;
+	gint cursor_y1;
+	gint cursor_x2;
+	gint cursor_y2;
 
-	gint		 drag_col;
-	gint		 drag_row;
-	gint		 drag_x;
-	gint		 drag_y;
-	guint            drag_state;
+	gint drag_col;
+	gint drag_row;
+	gint drag_x;
+	gint drag_y;
+	guint drag_state;
 
 	/*
 	 * Realized views, per column
 	 */
-	ECellView      **cell_views;
-	gint              n_cells;
+	ECellView **cell_views;
+	gint n_cells;
 
-	gint             *height_cache;
-	gint              uniform_row_height_cache;
-	gint              height_cache_idle_id;
-	gint              height_cache_idle_count;
+	gint *height_cache;
+	gint uniform_row_height_cache;
+	gint height_cache_idle_id;
+	gint height_cache_idle_count;
 
 	/*
 	 * Lengh Threshold: above this, we stop computing correctly
 	 * the size
 	 */
-	gint              length_threshold;
+	gint length_threshold;
 
-	gint             row_guess;
-	ECursorMode      cursor_mode;
+	gint row_guess;
+	ECursorMode cursor_mode;
 
-	gint              motion_col, motion_row;
+	gint motion_col, motion_row;
 
 	/*
 	 * During editing
 	 */
-	gint              editing_col, editing_row;
-	void            *edit_ctx;
+	gint editing_col, editing_row;
+	void *edit_ctx;
 
-	gint              save_col, save_row;
-	void            *save_state;
+	gint save_col, save_row;
+	void *save_state;
 
 	gint grabbed_col, grabbed_row;
 	gint grabbed_count;

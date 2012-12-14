@@ -63,7 +63,7 @@ struct _EActivityProxyClass {
 	GtkFrameClass parent_class;
 };
 
-GType		e_activity_proxy_get_type	(void);
+GType		e_activity_proxy_get_type	(void) G_GNUC_CONST;
 GtkWidget *	e_activity_proxy_new		(EActivity *activity);
 EActivity *	e_activity_proxy_get_activity	(EActivityProxy *proxy);
 void		e_activity_proxy_set_activity	(EActivityProxy *proxy,

@@ -65,7 +65,7 @@ struct _EPluginUIHookClass {
 typedef gboolean	(*EPluginUIInitFunc)	(GtkUIManager *ui_manager,
 						 gpointer user_data);
 
-GType		e_plugin_ui_hook_get_type	(void);
+GType		e_plugin_ui_hook_get_type	(void) G_GNUC_CONST;
 
 void		e_plugin_ui_register_manager	(GtkUIManager *ui_manager,
 						 const gchar *id,

@@ -64,7 +64,7 @@ struct _EFilterCodeClass {
 	EFilterInputClass parent_class;
 };
 
-GType		e_filter_code_get_type		(void);
+GType		e_filter_code_get_type		(void) G_GNUC_CONST;
 EFilterCode *	e_filter_code_new		(gboolean raw_code);
 
 G_END_DECLS

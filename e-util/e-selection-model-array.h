@@ -25,23 +25,38 @@
 #error "Only <e-util/e-util.h> should be included directly."
 #endif
 
-#ifndef _E_SELECTION_MODEL_ARRAY_H_
-#define _E_SELECTION_MODEL_ARRAY_H_
+#ifndef E_SELECTION_MODEL_ARRAY_H
+#define E_SELECTION_MODEL_ARRAY_H
 
 #include <e-util/e-bit-array.h>
 #include <e-util/e-selection-model.h>
 
+/* Standard GObject macros */
+#define E_TYPE_SELECTION_MODEL_ARRAY \
+	(e_selection_model_array_get_type ())
+#define E_SELECTION_MODEL_ARRAY(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_SELECTION_MODEL_ARRAY, ESelectionModelArray))
+#define E_SELECTION_MODEL_ARRAY_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_SELECTION_MODEL_ARRAY, ESelectionModelArrayClass))
+#define E_IS_SELECTION_MODEL_ARRAY(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_SELECTION_MODEL_ARRAY))
+#define E_IS_SELECTION_MODEL_ARRAY_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_SELECTION_MODEL_ARRAY))
+#define E_SELECTION_MODEL_ARRAY_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_SELECTION_MODEL_ARRAY, ESelectionModelArrayClass))
+
 G_BEGIN_DECLS
 
-#define E_SELECTION_MODEL_ARRAY_TYPE        (e_selection_model_array_get_type ())
-#define E_SELECTION_MODEL_ARRAY(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_SELECTION_MODEL_ARRAY_TYPE, ESelectionModelArray))
-#define E_SELECTION_MODEL_ARRAY_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_SELECTION_MODEL_ARRAY_TYPE, ESelectionModelArrayClass))
-#define E_IS_SELECTION_MODEL_ARRAY(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_SELECTION_MODEL_ARRAY_TYPE))
-#define E_IS_SELECTION_MODEL_ARRAY_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_SELECTION_MODEL_ARRAY_TYPE))
-#define E_SELECTION_MODEL_ARRAY_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS ((o), E_SELECTION_MODEL_ARRAY_TYPE, ESelectionModelArrayClass))
+typedef struct _ESelectionModelArray ESelectionModelArray;
+typedef struct _ESelectionModelArrayClass ESelectionModelArrayClass;
 
-typedef struct {
-	ESelectionModel base;
+struct _ESelectionModelArray {
+	ESelectionModel parent;
 
 	EBitArray *eba;
 
@@ -55,41 +70,45 @@ typedef struct {
 
 	/* Anything other than -1 means that the selection is a single
 	 * row.  This being -1 does not impart any information. */
-	gint        selected_row;
+	gint selected_row;
+
 	/* Anything other than -1 means that the selection is a all
 	 * rows between selection_start_path and cursor_path where
 	 * selected_range_end is the rwo number of cursor_path.  This
 	 * being -1 does not impart any information. */
-	gint        selected_range_end;
+	gint selected_range_end;
 
 	guint frozen : 1;
 	guint selection_model_changed : 1;
 	guint group_info_changed : 1;
-} ESelectionModelArray;
+};
 
-typedef struct {
+struct _ESelectionModelArrayClass {
 	ESelectionModelClass parent_class;
 
-	gint (*get_row_count)     (ESelectionModelArray *selection);
-} ESelectionModelArrayClass;
+	gint		(*get_row_count)
+					(ESelectionModelArray *selection);
+};
 
-GType    e_selection_model_array_get_type           (void);
-
-/* Protected Functions */
-void     e_selection_model_array_insert_rows        (ESelectionModelArray *esm,
-						     gint                   row,
-						     gint                   count);
-void     e_selection_model_array_delete_rows        (ESelectionModelArray *esm,
-						     gint                   row,
-						     gint                   count);
-void     e_selection_model_array_move_row           (ESelectionModelArray *esm,
-						     gint                   old_row,
-						     gint                   new_row);
-void     e_selection_model_array_confirm_row_count  (ESelectionModelArray *esm);
-
-/* Protected Virtual Function */
-gint     e_selection_model_array_get_row_count      (ESelectionModelArray *esm);
+GType		e_selection_model_array_get_type
+					(void) G_GNUC_CONST;
+void		e_selection_model_array_insert_rows
+					(ESelectionModelArray *selection,
+					 gint row,
+					 gint count);
+void		e_selection_model_array_delete_rows
+					(ESelectionModelArray *selection,
+					 gint row,
+					 gint count);
+void		e_selection_model_array_move_row
+					(ESelectionModelArray *selection,
+					 gint old_row,
+					 gint new_row);
+void		e_selection_model_array_confirm_row_count
+					(ESelectionModelArray *selection);
+gint		e_selection_model_array_get_row_count
+					(ESelectionModelArray *selection);
 
 G_END_DECLS
 
-#endif /* _E_SELECTION_MODEL_ARRAY_H_ */
+#endif /* E_SELECTION_MODEL_ARRAY_H */

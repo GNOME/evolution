@@ -58,7 +58,7 @@ struct _EOnlineButtonClass {
 	GtkButtonClass parent_class;
 };
 
-GType		e_online_button_get_type	(void);
+GType		e_online_button_get_type	(void) G_GNUC_CONST;
 GtkWidget *	e_online_button_new		(void);
 gboolean	e_online_button_get_online	(EOnlineButton *button);
 void		e_online_button_set_online	(EOnlineButton *button,

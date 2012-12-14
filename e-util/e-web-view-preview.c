@@ -202,7 +202,6 @@ e_web_view_preview_new (void)
 GtkTreeView *
 e_web_view_preview_get_tree_view (EWebViewPreview *preview)
 {
-	g_return_val_if_fail (preview != NULL, NULL);
 	g_return_val_if_fail (E_IS_WEB_VIEW_PREVIEW (preview), NULL);
 
 	return GTK_TREE_VIEW (gtk_bin_get_child (GTK_BIN (gtk_paned_get_child1 (GTK_PANED (preview)))));
@@ -211,7 +210,6 @@ e_web_view_preview_get_tree_view (EWebViewPreview *preview)
 GtkWidget *
 e_web_view_preview_get_preview (EWebViewPreview *preview)
 {
-	g_return_val_if_fail (preview != NULL, NULL);
 	g_return_val_if_fail (E_IS_WEB_VIEW_PREVIEW (preview), NULL);
 
 	return gtk_bin_get_child (GTK_BIN (gtk_paned_get_child2 (GTK_PANED (preview))));
@@ -251,6 +249,14 @@ e_web_view_preview_hide_tree_view (EWebViewPreview *preview)
 	gtk_widget_hide (gtk_paned_get_child1 (GTK_PANED (preview)));
 }
 
+gboolean
+e_web_view_preview_get_escape_values (EWebViewPreview *preview)
+{
+	g_return_val_if_fail (E_IS_WEB_VIEW_PREVIEW (preview), FALSE);
+
+	return preview->priv->escape_values;
+}
+
 void
 e_web_view_preview_set_escape_values (EWebViewPreview *preview,
                                       gboolean escape)
@@ -258,16 +264,6 @@ e_web_view_preview_set_escape_values (EWebViewPreview *preview,
 	g_return_if_fail (E_IS_WEB_VIEW_PREVIEW (preview));
 
 	preview->priv->escape_values = escape;
-}
-
-gboolean
-e_web_view_preview_get_escape_values (EWebViewPreview *preview)
-{
-	g_return_val_if_fail (preview != NULL, FALSE);
-	g_return_val_if_fail (E_IS_WEB_VIEW_PREVIEW (preview), FALSE);
-	g_return_val_if_fail (preview->priv != NULL, FALSE);
-
-	return preview->priv->escape_values;
 }
 
 void

@@ -65,7 +65,7 @@ struct _EImageChooserClass {
 	void (*changed) (EImageChooser *chooser);
 };
 
-GType		e_image_chooser_get_type	(void);
+GType		e_image_chooser_get_type	(void) G_GNUC_CONST;
 GtkWidget *	e_image_chooser_new		(const gchar *icon_name);
 const gchar *	e_image_chooser_get_icon_name	(EImageChooser *chooser);
 gboolean	e_image_chooser_set_from_file	(EImageChooser *chooser,

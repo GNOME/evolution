@@ -69,7 +69,7 @@ struct _ENameSelectorModelClass {
 	void		(*section_removed)	(gchar *name);
 };
 
-GType		e_name_selector_model_get_type	(void);
+GType		e_name_selector_model_get_type	(void) G_GNUC_CONST;
 ENameSelectorModel *
 		e_name_selector_model_new	(void);
 EContactStore *	e_name_selector_model_peek_contact_store

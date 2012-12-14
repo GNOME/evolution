@@ -93,84 +93,117 @@ struct _EWebViewGtkHTMLClass {
 						 const gchar *mailto_uri);
 };
 
-GType		e_web_view_gtkhtml_get_type		(void);
-GtkWidget *	e_web_view_gtkhtml_new			(void);
-void		e_web_view_gtkhtml_clear		(EWebViewGtkHTML *web_view);
-void		e_web_view_gtkhtml_load_string		(EWebViewGtkHTML *web_view,
-							 const gchar *string);
-gboolean	e_web_view_gtkhtml_get_animate		(EWebViewGtkHTML *web_view);
-void		e_web_view_gtkhtml_set_animate		(EWebViewGtkHTML *web_view,
-							 gboolean animate);
-gboolean	e_web_view_gtkhtml_get_caret_mode	(EWebViewGtkHTML *web_view);
-void		e_web_view_gtkhtml_set_caret_mode	(EWebViewGtkHTML *web_view,
-							 gboolean caret_mode);
-GtkTargetList *	e_web_view_gtkhtml_get_copy_target_list	(EWebViewGtkHTML *web_view);
-gboolean	e_web_view_gtkhtml_get_disable_printing	(EWebViewGtkHTML *web_view);
-void		e_web_view_gtkhtml_set_disable_printing	(EWebViewGtkHTML *web_view,
-							 gboolean disable_printing);
+GType		e_web_view_gtkhtml_get_type	(void) G_GNUC_CONST;
+GtkWidget *	e_web_view_gtkhtml_new		(void);
+void		e_web_view_gtkhtml_clear	(EWebViewGtkHTML *web_view);
+void		e_web_view_gtkhtml_load_string	(EWebViewGtkHTML *web_view,
+						 const gchar *string);
+gboolean	e_web_view_gtkhtml_get_animate	(EWebViewGtkHTML *web_view);
+void		e_web_view_gtkhtml_set_animate	(EWebViewGtkHTML *web_view,
+						 gboolean animate);
+gboolean	e_web_view_gtkhtml_get_caret_mode
+						(EWebViewGtkHTML *web_view);
+void		e_web_view_gtkhtml_set_caret_mode
+						(EWebViewGtkHTML *web_view,
+						 gboolean caret_mode);
+GtkTargetList *	e_web_view_gtkhtml_get_copy_target_list
+						(EWebViewGtkHTML *web_view);
+gboolean	e_web_view_gtkhtml_get_disable_printing
+						(EWebViewGtkHTML *web_view);
+void		e_web_view_gtkhtml_set_disable_printing
+						(EWebViewGtkHTML *web_view,
+						 gboolean disable_printing);
 gboolean	e_web_view_gtkhtml_get_disable_save_to_disk
-							(EWebViewGtkHTML *web_view);
+						(EWebViewGtkHTML *web_view);
 void		e_web_view_gtkhtml_set_disable_save_to_disk
-							(EWebViewGtkHTML *web_view,
-							 gboolean disable_save_to_disk);
-gboolean	e_web_view_gtkhtml_get_editable		(EWebViewGtkHTML *web_view);
-void		e_web_view_gtkhtml_set_editable		(EWebViewGtkHTML *web_view,
-							 gboolean editable);
-gboolean	e_web_view_gtkhtml_get_inline_spelling	(EWebViewGtkHTML *web_view);
-void		e_web_view_gtkhtml_set_inline_spelling	(EWebViewGtkHTML *web_view,
-							 gboolean inline_spelling);
-gboolean	e_web_view_gtkhtml_get_magic_links	(EWebViewGtkHTML *web_view);
-void		e_web_view_gtkhtml_set_magic_links	(EWebViewGtkHTML *web_view,
-							 gboolean magic_links);
-gboolean	e_web_view_gtkhtml_get_magic_smileys	(EWebViewGtkHTML *web_view);
-void		e_web_view_gtkhtml_set_magic_smileys	(EWebViewGtkHTML *web_view,
-							 gboolean magic_smileys);
-const gchar *	e_web_view_gtkhtml_get_selected_uri	(EWebViewGtkHTML *web_view);
-void		e_web_view_gtkhtml_set_selected_uri	(EWebViewGtkHTML *web_view,
-							 const gchar *selected_uri);
+						(EWebViewGtkHTML *web_view,
+						 gboolean disable_save_to_disk);
+gboolean	e_web_view_gtkhtml_get_editable	(EWebViewGtkHTML *web_view);
+void		e_web_view_gtkhtml_set_editable	(EWebViewGtkHTML *web_view,
+						 gboolean editable);
+gboolean	e_web_view_gtkhtml_get_inline_spelling
+						(EWebViewGtkHTML *web_view);
+void		e_web_view_gtkhtml_set_inline_spelling
+						(EWebViewGtkHTML *web_view,
+						 gboolean inline_spelling);
+gboolean	e_web_view_gtkhtml_get_magic_links
+						(EWebViewGtkHTML *web_view);
+void		e_web_view_gtkhtml_set_magic_links
+						(EWebViewGtkHTML *web_view,
+						 gboolean magic_links);
+gboolean	e_web_view_gtkhtml_get_magic_smileys
+						(EWebViewGtkHTML *web_view);
+void		e_web_view_gtkhtml_set_magic_smileys
+						(EWebViewGtkHTML *web_view,
+						 gboolean magic_smileys);
+const gchar *	e_web_view_gtkhtml_get_selected_uri
+						(EWebViewGtkHTML *web_view);
+void		e_web_view_gtkhtml_set_selected_uri
+						(EWebViewGtkHTML *web_view,
+						 const gchar *selected_uri);
 GdkPixbufAnimation *
-		e_web_view_gtkhtml_get_cursor_image	(EWebViewGtkHTML *web_view);
-void		e_web_view_gtkhtml_set_cursor_image	(EWebViewGtkHTML *web_view,
-							 GdkPixbufAnimation *animation);
-GtkAction *	e_web_view_gtkhtml_get_open_proxy	(EWebViewGtkHTML *web_view);
-void		e_web_view_gtkhtml_set_open_proxy	(EWebViewGtkHTML *web_view,
-							 GtkAction *open_proxy);
+		e_web_view_gtkhtml_get_cursor_image
+						(EWebViewGtkHTML *web_view);
+void		e_web_view_gtkhtml_set_cursor_image
+						(EWebViewGtkHTML *web_view,
+						 GdkPixbufAnimation *animation);
+GtkAction *	e_web_view_gtkhtml_get_open_proxy
+						(EWebViewGtkHTML *web_view);
+void		e_web_view_gtkhtml_set_open_proxy
+						(EWebViewGtkHTML *web_view,
+						 GtkAction *open_proxy);
 GtkTargetList *	e_web_view_gtkhtml_get_paste_target_list
-							(EWebViewGtkHTML *web_view);
-GtkAction *	e_web_view_gtkhtml_get_print_proxy	(EWebViewGtkHTML *web_view);
-void		e_web_view_gtkhtml_set_print_proxy	(EWebViewGtkHTML *web_view,
-							 GtkAction *print_proxy);
-GtkAction *	e_web_view_gtkhtml_get_save_as_proxy	(EWebViewGtkHTML *web_view);
-void		e_web_view_gtkhtml_set_save_as_proxy	(EWebViewGtkHTML *web_view,
-							 GtkAction *save_as_proxy);
-GtkAction *	e_web_view_gtkhtml_get_action		(EWebViewGtkHTML *web_view,
-							 const gchar *action_name);
-GtkActionGroup *e_web_view_gtkhtml_get_action_group	(EWebViewGtkHTML *web_view,
-							 const gchar *group_name);
-gchar *		e_web_view_gtkhtml_extract_uri		(EWebViewGtkHTML *web_view,
-							 GdkEventButton *event,
-							 GtkHTML *frame);
-void		e_web_view_gtkhtml_copy_clipboard	(EWebViewGtkHTML *web_view);
-void		e_web_view_gtkhtml_cut_clipboard	(EWebViewGtkHTML *web_view);
-gboolean	e_web_view_gtkhtml_is_selection_active	(EWebViewGtkHTML *web_view);
-void		e_web_view_gtkhtml_paste_clipboard	(EWebViewGtkHTML *web_view);
-gboolean	e_web_view_gtkhtml_scroll_forward	(EWebViewGtkHTML *web_view);
-gboolean	e_web_view_gtkhtml_scroll_backward	(EWebViewGtkHTML *web_view);
-void		e_web_view_gtkhtml_select_all		(EWebViewGtkHTML *web_view);
-void		e_web_view_gtkhtml_unselect_all		(EWebViewGtkHTML *web_view);
-void		e_web_view_gtkhtml_zoom_100		(EWebViewGtkHTML *web_view);
-void		e_web_view_gtkhtml_zoom_in		(EWebViewGtkHTML *web_view);
-void		e_web_view_gtkhtml_zoom_out		(EWebViewGtkHTML *web_view);
-GtkUIManager *	e_web_view_gtkhtml_get_ui_manager	(EWebViewGtkHTML *web_view);
-GtkWidget *	e_web_view_gtkhtml_get_popup_menu	(EWebViewGtkHTML *web_view);
-void		e_web_view_gtkhtml_show_popup_menu	(EWebViewGtkHTML *web_view,
-							 GdkEventButton *event,
-							 GtkMenuPositionFunc func,
-							 gpointer user_data);
-void		e_web_view_gtkhtml_status_message	(EWebViewGtkHTML *web_view,
-							const gchar *status_message);
-void		e_web_view_gtkhtml_stop_loading		(EWebViewGtkHTML *web_view);
-void		e_web_view_gtkhtml_update_actions	(EWebViewGtkHTML *web_view);
+						(EWebViewGtkHTML *web_view);
+GtkAction *	e_web_view_gtkhtml_get_print_proxy
+						(EWebViewGtkHTML *web_view);
+void		e_web_view_gtkhtml_set_print_proxy
+						(EWebViewGtkHTML *web_view,
+						 GtkAction *print_proxy);
+GtkAction *	e_web_view_gtkhtml_get_save_as_proxy
+						(EWebViewGtkHTML *web_view);
+void		e_web_view_gtkhtml_set_save_as_proxy
+						(EWebViewGtkHTML *web_view,
+						 GtkAction *save_as_proxy);
+GtkAction *	e_web_view_gtkhtml_get_action	(EWebViewGtkHTML *web_view,
+						 const gchar *action_name);
+GtkActionGroup *e_web_view_gtkhtml_get_action_group
+						(EWebViewGtkHTML *web_view,
+						 const gchar *group_name);
+gchar *		e_web_view_gtkhtml_extract_uri	(EWebViewGtkHTML *web_view,
+						 GdkEventButton *event,
+						 GtkHTML *frame);
+void		e_web_view_gtkhtml_copy_clipboard
+						(EWebViewGtkHTML *web_view);
+void		e_web_view_gtkhtml_cut_clipboard
+						(EWebViewGtkHTML *web_view);
+gboolean	e_web_view_gtkhtml_is_selection_active
+						(EWebViewGtkHTML *web_view);
+void		e_web_view_gtkhtml_paste_clipboard
+						(EWebViewGtkHTML *web_view);
+gboolean	e_web_view_gtkhtml_scroll_forward
+						(EWebViewGtkHTML *web_view);
+gboolean	e_web_view_gtkhtml_scroll_backward
+						(EWebViewGtkHTML *web_view);
+void		e_web_view_gtkhtml_select_all	(EWebViewGtkHTML *web_view);
+void		e_web_view_gtkhtml_unselect_all	(EWebViewGtkHTML *web_view);
+void		e_web_view_gtkhtml_zoom_100	(EWebViewGtkHTML *web_view);
+void		e_web_view_gtkhtml_zoom_in	(EWebViewGtkHTML *web_view);
+void		e_web_view_gtkhtml_zoom_out	(EWebViewGtkHTML *web_view);
+GtkUIManager *	e_web_view_gtkhtml_get_ui_manager
+						(EWebViewGtkHTML *web_view);
+GtkWidget *	e_web_view_gtkhtml_get_popup_menu
+						(EWebViewGtkHTML *web_view);
+void		e_web_view_gtkhtml_show_popup_menu
+						(EWebViewGtkHTML *web_view,
+						 GdkEventButton *event,
+						 GtkMenuPositionFunc func,
+						 gpointer user_data);
+void		e_web_view_gtkhtml_status_message
+						(EWebViewGtkHTML *web_view,
+						const gchar *status_message);
+void		e_web_view_gtkhtml_stop_loading	(EWebViewGtkHTML *web_view);
+void		e_web_view_gtkhtml_update_actions
+						(EWebViewGtkHTML *web_view);
 
 G_END_DECLS
 

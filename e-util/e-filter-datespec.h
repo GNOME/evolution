@@ -82,7 +82,7 @@ struct _EFilterDatespecClass {
 	EFilterElementClass parent_class;
 };
 
-GType		e_filter_datespec_get_type	(void);
+GType		e_filter_datespec_get_type	(void) G_GNUC_CONST;
 EFilterDatespec *
 		e_filter_datespec_new		(void);
 

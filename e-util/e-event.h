@@ -173,7 +173,7 @@ struct _EEventClass {
 						 EEventTarget *target);
 };
 
-GType		e_event_get_type		(void);
+GType		e_event_get_type		(void) G_GNUC_CONST;
 EEvent *	e_event_construct		(EEvent *event,
 						 const gchar *id);
 gpointer	e_event_add_items		(EEvent *event,
@@ -270,7 +270,7 @@ struct _EEventHookClass {
 	EEvent *event;
 };
 
-GType		e_event_hook_get_type	(void);
+GType		e_event_hook_get_type	(void) G_GNUC_CONST;
 void		e_event_hook_class_add_target_map
 					(EEventHookClass *klass,
 					 const EEventHookTargetMap *map);

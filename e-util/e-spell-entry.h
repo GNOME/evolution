@@ -25,38 +25,49 @@
 
 #include <gtk/gtk.h>
 
-#define E_TYPE_SPELL_ENTRY            (e_spell_entry_get_type())
-#define E_SPELL_ENTRY(obj)            (G_TYPE_CHECK_INSTANCE_CAST((obj), E_TYPE_SPELL_ENTRY, ESpellEntry))
-#define E_SPELL_ENTRY_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST((klass), E_TYPE_SPELL_ENTRY, ESpellEntryClass))
-#define E_IS_SPELL_ENTRY(obj)         (G_TYPE_CHECK_INSTANCE_TYPE((obj), E_TYPE_SPELL_ENTRY))
-#define E_IS_SPELL_ENTRY_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE((klass), E_TYPE_SPELL_ENTRY))
-#define E_SPELL_ENTRY_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS((obj), E_TYPE_SPELL_ENTRY, ESpellEntryClass))
+/* Standard GObject macros */
+#define E_TYPE_SPELL_ENTRY \
+	(e_spell_entry_get_type())
+#define E_SPELL_ENTRY(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_SPELL_ENTRY, ESpellEntry))
+#define E_SPELL_ENTRY_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_SPELL_ENTRY, ESpellEntryClass))
+#define E_IS_SPELL_ENTRY(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_SPELL_ENTRY))
+#define E_IS_SPELL_ENTRY_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_SPELL_ENTRY))
+#define E_SPELL_ENTRY_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_SPELL_ENTRY, ESpellEntryClass))
 
 G_BEGIN_DECLS
 
-typedef struct _ESpellEntry		ESpellEntry;
-typedef struct _ESpellEntryClass	ESpellEntryClass;
-typedef struct _ESpellEntryPrivate	ESpellEntryPrivate;
+typedef struct _ESpellEntry ESpellEntry;
+typedef struct _ESpellEntryClass ESpellEntryClass;
+typedef struct _ESpellEntryPrivate ESpellEntryPrivate;
 
-struct _ESpellEntry
-{
-	GtkEntry parent_object;
-
+struct _ESpellEntry {
+	GtkEntry parent;
 	ESpellEntryPrivate *priv;
 };
 
-struct _ESpellEntryClass
-{
+struct _ESpellEntryClass {
 	GtkEntryClass parent_class;
 };
 
-GType		e_spell_entry_get_type			(void);
-GtkWidget *	e_spell_entry_new			(void);
-void		e_spell_entry_set_languages		(ESpellEntry *spell_entry,
-							 GList *languages);
-gboolean	e_spell_entry_get_checking_enabled	(ESpellEntry *spell_entry);
-void		e_spell_entry_set_checking_enabled	(ESpellEntry *spell_entry,
-							 gboolean enable_checking);
+GType		e_spell_entry_get_type		(void) G_GNUC_CONST;
+GtkWidget *	e_spell_entry_new		(void);
+void		e_spell_entry_set_languages	(ESpellEntry *spell_entry,
+						 GList *languages);
+gboolean	e_spell_entry_get_checking_enabled
+						(ESpellEntry *spell_entry);
+void		e_spell_entry_set_checking_enabled
+						(ESpellEntry *spell_entry,
+						 gboolean enable_checking);
 
 G_END_DECLS
 

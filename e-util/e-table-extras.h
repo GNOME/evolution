@@ -75,7 +75,8 @@ ECell *		e_table_extras_get_cell		(ETableExtras *extras,
 void		e_table_extras_add_compare	(ETableExtras *extras,
 						 const gchar *id,
 						 GCompareDataFunc compare);
-GCompareDataFunc e_table_extras_get_compare	(ETableExtras *extras,
+GCompareDataFunc
+		e_table_extras_get_compare	(ETableExtras *extras,
 						 const gchar *id);
 void		e_table_extras_add_search	(ETableExtras *extras,
 						 const gchar *id,

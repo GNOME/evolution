@@ -62,7 +62,7 @@ struct _EAlertDialogClass {
 	GtkDialogClass parent_class;
 };
 
-GType		e_alert_dialog_get_type		(void);
+GType		e_alert_dialog_get_type		(void) G_GNUC_CONST;
 GtkWidget *	e_alert_dialog_new		(GtkWindow *parent,
 						 EAlert *alert);
 GtkWidget *	e_alert_dialog_new_for_args	(GtkWindow *parent,

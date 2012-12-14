@@ -63,7 +63,7 @@ struct _EMenuToolActionClass {
 	GtkActionClass parent_class;
 };
 
-GType		e_menu_tool_action_get_type	(void);
+GType		e_menu_tool_action_get_type	(void) G_GNUC_CONST;
 EMenuToolAction *
 		e_menu_tool_action_new		(const gchar *name,
 						 const gchar *label,

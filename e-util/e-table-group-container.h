@@ -67,8 +67,8 @@ struct _ETableGroupContainer {
 	/*
 	 * The ETableCol used to group this set
 	 */
-	ETableCol    *ecol;
-	gint          ascending;
+	ETableCol *ecol;
+	gint ascending;
 
 	/*
 	 * List of ETableGroups we stack

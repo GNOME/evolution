@@ -63,7 +63,7 @@ struct _EAttachmentDialogClass {
 	GtkDialogClass parent_class;
 };
 
-GType		e_attachment_dialog_get_type	(void);
+GType		e_attachment_dialog_get_type	(void) G_GNUC_CONST;
 GtkWidget *	e_attachment_dialog_new		(GtkWindow *parent,
 						 EAttachment *attachment);
 EAttachment *	e_attachment_dialog_get_attachment

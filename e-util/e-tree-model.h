@@ -57,9 +57,6 @@ typedef gpointer ETreePath;
 typedef struct _ETreeModel ETreeModel;
 typedef struct _ETreeModelClass ETreeModelClass;
 
-typedef gint		(*ETreePathCompareFunc)	(ETreeModel *model,
-						 ETreePath path1,
-						 ETreePath path2);
 typedef gboolean	(*ETreePathFunc)	(ETreeModel *model,
 						 ETreePath path,
 						 gpointer data);
@@ -222,10 +219,10 @@ gboolean	e_tree_model_has_get_node_by_id	(ETreeModel *model);
 ETreePath	e_tree_model_get_node_by_id	(ETreeModel *model,
 						 const gchar *save_id);
 gboolean	e_tree_model_has_change_pending	(ETreeModel *model);
-void		*e_tree_model_sort_value_at	(ETreeModel *etree,
+gpointer	e_tree_model_sort_value_at	(ETreeModel *etree,
 						 ETreePath node,
 						 gint col);
-void		*e_tree_model_value_at		(ETreeModel *etree,
+gpointer	e_tree_model_value_at		(ETreeModel *etree,
 						 ETreePath node,
 						 gint col);
 void		e_tree_model_set_value_at	(ETreeModel *etree,
@@ -235,13 +232,13 @@ void		e_tree_model_set_value_at	(ETreeModel *etree,
 gboolean	e_tree_model_node_is_editable	(ETreeModel *etree,
 						 ETreePath node,
 						 gint col);
-void		*e_tree_model_duplicate_value	(ETreeModel *etree,
+gpointer	e_tree_model_duplicate_value	(ETreeModel *etree,
 						 gint col,
 						 gconstpointer value);
 void		e_tree_model_free_value		(ETreeModel *etree,
 						 gint col,
 						 gpointer value);
-void		*e_tree_model_initialize_value	(ETreeModel *etree,
+gpointer	e_tree_model_initialize_value	(ETreeModel *etree,
 						 gint col);
 gboolean	e_tree_model_value_is_empty	(ETreeModel *etree,
 						 gint col,

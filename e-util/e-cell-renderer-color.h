@@ -71,7 +71,7 @@ struct _ECellRendererColorClass {
 	void (*_gtk_reserved4) (void);
 };
 
-GType            e_cell_renderer_color_get_type	(void);
+GType            e_cell_renderer_color_get_type	(void) G_GNUC_CONST;
 GtkCellRenderer *e_cell_renderer_color_new	(void);
 
 G_END_DECLS

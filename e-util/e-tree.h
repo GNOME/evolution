@@ -38,12 +38,7 @@
 #include <e-util/e-table-state.h>
 #include <e-util/e-tree-model.h>
 #include <e-util/e-tree-table-adapter.h>
-
-#define E_TREE_USE_TREE_SELECTION
-
-#ifdef E_TREE_USE_TREE_SELECTION
 #include <e-util/e-tree-selection-model.h>
-#endif
 
 /* Standard GObject macros */
 #define E_TYPE_TREE \
@@ -65,8 +60,6 @@
 	((obj), E_TYPE_TREE))
 
 G_BEGIN_DECLS
-
-typedef struct _ETreeDragSourceSite ETreeDragSourceSite;
 
 typedef struct _ETree ETree;
 typedef struct _ETreeClass ETreeClass;
@@ -227,15 +220,13 @@ ETreePath	e_tree_get_cursor		(ETree *e_tree);
 void		e_tree_selected_row_foreach	(ETree *e_tree,
 						 EForeachFunc callback,
 						 gpointer closure);
-#ifdef E_TREE_USE_TREE_SELECTION
 void		e_tree_selected_path_foreach	(ETree *e_tree,
 						 ETreeForeachFunc callback,
 						 gpointer closure);
 void		e_tree_path_foreach		(ETree *e_tree,
 						 ETreeForeachFunc callback,
 						 gpointer closure);
-#endif
-EPrintable *e_tree_get_printable		(ETree *e_tree);
+EPrintable *	e_tree_get_printable		(ETree *e_tree);
 gint		e_tree_get_next_row		(ETree *e_tree,
 						 gint model_row);
 gint		e_tree_get_prev_row		(ETree *e_tree,

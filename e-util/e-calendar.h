@@ -91,7 +91,7 @@ struct _ECalendarClass {
 	ECanvasClass parent_class;
 };
 
-GType		e_calendar_get_type		(void);
+GType		e_calendar_get_type		(void) G_GNUC_CONST;
 GtkWidget *	e_calendar_new			(void);
 void		e_calendar_set_minimum_size	(ECalendar *cal,
 						 gint rows,

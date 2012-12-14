@@ -63,7 +63,7 @@ struct _ECategoryCompletionClass {
 	GtkEntryCompletionClass parent_class;
 };
 
-GType		e_category_completion_get_type	(void);
+GType		e_category_completion_get_type	(void) G_GNUC_CONST;
 GtkEntryCompletion *
 		e_category_completion_new	(void);
 

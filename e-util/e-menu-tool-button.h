@@ -66,7 +66,7 @@ struct _EMenuToolButtonClass {
 	GtkMenuToolButtonClass parent_class;
 };
 
-GType		e_menu_tool_button_get_type		(void);
+GType		e_menu_tool_button_get_type		(void) G_GNUC_CONST;
 GtkToolItem *	e_menu_tool_button_new			(const gchar *label);
 void		e_menu_tool_button_set_prefer_item	(EMenuToolButton *button,
 							 const gchar *prefer_item);

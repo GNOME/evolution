@@ -122,7 +122,7 @@ ETableConfig *	e_table_config_new		(const gchar *header,
 						 ETableSpecification *spec,
 						 ETableState *state,
 						 GtkWindow *parent_window);
-ETableConfig *e_table_config_construct		(ETableConfig *etco,
+ETableConfig *	e_table_config_construct	(ETableConfig *etco,
 						 const gchar *header,
 						 ETableSpecification *spec,
 						 ETableState *state,

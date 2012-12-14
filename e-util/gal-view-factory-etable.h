@@ -67,10 +67,10 @@ struct _GalViewFactoryEtableClass {
 };
 
 GType		gal_view_factory_etable_get_type (void);
+GalViewFactory *gal_view_factory_etable_new	(ETableSpecification *specification);
 ETableSpecification *
 		gal_view_factory_etable_get_specification
 						(GalViewFactoryEtable *factory);
-GalViewFactory *gal_view_factory_etable_new	(ETableSpecification *specification);
 
 G_END_DECLS
 

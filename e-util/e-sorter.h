@@ -25,58 +25,75 @@
 #error "Only <e-util/e-util.h> should be included directly."
 #endif
 
-#ifndef _E_SORTER_H_
-#define _E_SORTER_H_
+#ifndef E_SORTER_H
+#define E_SORTER_H
 
 #include <glib-object.h>
 
+/* Standard GObject macros */
+#define E_TYPE_SORTER \
+	(e_sorter_get_type ())
+#define E_SORTER(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_SORTER, ESorter))
+#define E_SORTER_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_SORTER, ESorterClass))
+#define E_IS_SORTER(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_SORTER))
+#define E_IS_SORTER_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_SORTER))
+#define E_SORTER_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_SORTER, ESorterClass))
+
 G_BEGIN_DECLS
 
-#define E_SORTER_TYPE        (e_sorter_get_type ())
-#define E_SORTER(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_SORTER_TYPE, ESorter))
-#define E_SORTER_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_SORTER_TYPE, ESorterClass))
-#define E_IS_SORTER(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_SORTER_TYPE))
-#define E_IS_SORTER_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_SORTER_TYPE))
-#define E_SORTER_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS ((o), E_SORTER_TYPE, ESorterClass))
+typedef struct _ESorter ESorter;
+typedef struct _ESorterClass ESorterClass;
 
-typedef struct {
-	GObject base;
-} ESorter;
+struct _ESorter {
+	GObject parent;
+};
 
-typedef struct {
+struct _ESorterClass {
 	GObjectClass parent_class;
-	gint      (*model_to_sorted)            (ESorter    *sorter,
-						 gint         row);
-	gint      (*sorted_to_model)            (ESorter    *sorter,
-						 gint         row);
 
-	void      (*get_model_to_sorted_array)  (ESorter    *sorter,
-						 gint       **array,
-						 gint        *count);
-	void      (*get_sorted_to_model_array)  (ESorter    *sorter,
-						 gint       **array,
-						 gint        *count);
+	gint		(*model_to_sorted)	(ESorter *sorter,
+						 gint row);
+	gint		(*sorted_to_model)	(ESorter *sorter,
+						 gint row);
 
-	gboolean  (*needs_sorting)              (ESorter    *sorter);
-} ESorterClass;
+	void		(*get_model_to_sorted_array)
+						(ESorter *sorter,
+						 gint **array,
+						 gint *count);
+	void		(*get_sorted_to_model_array)
+						(ESorter *sorter,
+						 gint **array,
+						 gint *count);
 
-GType     e_sorter_get_type                   (void);
-ESorter  *e_sorter_new                        (void);
+	gboolean	(*needs_sorting)	(ESorter    *sorter);
+};
 
-gint      e_sorter_model_to_sorted            (ESorter  *sorter,
-					       gint       row);
-gint      e_sorter_sorted_to_model            (ESorter  *sorter,
-					       gint       row);
-
-void      e_sorter_get_model_to_sorted_array  (ESorter  *sorter,
-					       gint     **array,
-					       gint      *count);
-void      e_sorter_get_sorted_to_model_array  (ESorter  *sorter,
-					       gint     **array,
-					       gint      *count);
-
-gboolean  e_sorter_needs_sorting              (ESorter  *sorter);
+GType		e_sorter_get_type		(void) G_GNUC_CONST;
+ESorter *	e_sorter_new			(void);
+gint		e_sorter_model_to_sorted	(ESorter *sorter,
+						 gint row);
+gint		e_sorter_sorted_to_model	(ESorter *sorter,
+						 gint row);
+void		e_sorter_get_model_to_sorted_array
+						(ESorter *sorter,
+						 gint **array,
+						 gint *count);
+void		e_sorter_get_sorted_to_model_array
+						(ESorter *sorter,
+						 gint **array,
+						 gint *count);
+gboolean	e_sorter_needs_sorting		(ESorter *sorter);
 
 G_END_DECLS
 
-#endif /* _E_SORTER_H_ */
+#endif /* E_SORTER_H */

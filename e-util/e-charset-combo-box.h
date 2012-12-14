@@ -62,7 +62,7 @@ struct _ECharsetComboBoxClass {
 	EActionComboBoxClass parent_class;
 };
 
-GType		e_charset_combo_box_get_type	(void);
+GType		e_charset_combo_box_get_type	(void) G_GNUC_CONST;
 GtkWidget *	e_charset_combo_box_new		(void);
 const gchar *	e_charset_combo_box_get_charset	(ECharsetComboBox *combo_box);
 void		e_charset_combo_box_set_charset	(ECharsetComboBox *combo_box,

@@ -64,11 +64,13 @@ struct _EContactStoreClass {
 	GObjectClass parent_class;
 
 	/* signals */
-	void (*start_client_view) (EContactStore *contact_store, EBookClientView *client_view);
-	void (*stop_client_view)  (EContactStore *contact_store, EBookClientView *client_view);
+	void		(*start_client_view)	(EContactStore *contact_store,
+						 EBookClientView *client_view);
+	void		(*stop_client_view)	(EContactStore *contact_store,
+						 EBookClientView *client_view);
 };
 
-GType		e_contact_store_get_type	(void);
+GType		e_contact_store_get_type	(void) G_GNUC_CONST;
 EContactStore *	e_contact_store_new		(void);
 
 EBookClient *	e_contact_store_get_client	(EContactStore *contact_store,

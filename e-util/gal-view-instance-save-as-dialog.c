@@ -239,7 +239,7 @@ gal_view_instance_save_as_dialog_class_init (GalViewInstanceSaveAsDialogClass *c
 			"instance",
 			"Instance",
 			NULL,
-			GAL_VIEW_INSTANCE_TYPE,
+			GAL_TYPE_VIEW_INSTANCE,
 			G_PARAM_READWRITE));
 }
 

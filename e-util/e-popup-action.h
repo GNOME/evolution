@@ -83,7 +83,7 @@ struct _EPopupActionEntry {
 	const gchar *related;	/* name of the related action */
 };
 
-GType		e_popup_action_get_type		(void);
+GType		e_popup_action_get_type		(void) G_GNUC_CONST;
 EPopupAction *	e_popup_action_new		(const gchar *name);
 
 void		e_action_group_add_popup_actions

@@ -63,7 +63,7 @@ struct _EAttachmentBarClass {
 	GtkBoxClass parent_class;
 };
 
-GType		e_attachment_bar_get_type	(void);
+GType		e_attachment_bar_get_type	(void) G_GNUC_CONST;
 GtkWidget *	e_attachment_bar_new		(EAttachmentStore *store);
 gint		e_attachment_bar_get_active_view
 						(EAttachmentBar *bar);

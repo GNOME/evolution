@@ -65,7 +65,7 @@ struct _ESourceSelectorDialogClass {
 	GtkDialogClass parent_class;
 };
 
-GType		e_source_selector_dialog_get_type (void);
+GType		e_source_selector_dialog_get_type (void) G_GNUC_CONST;
 GtkWidget *	e_source_selector_dialog_new	(GtkWindow *parent,
 						 ESourceRegistry *registry,
 						 const gchar *extension_name);

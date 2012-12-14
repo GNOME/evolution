@@ -61,8 +61,6 @@ typedef struct _EFilterElement EFilterElement;
 typedef struct _EFilterElementClass EFilterElementClass;
 typedef struct _EFilterElementPrivate EFilterElementPrivate;
 
-typedef EFilterElement * (*EFilterElementFunc) (gpointer data);
-
 struct _EFilterElement {
 	GObject parent;
 	EFilterElementPrivate *priv;
@@ -97,7 +95,7 @@ struct _EFilterElementClass {
 						 GString *out);
 };
 
-GType		e_filter_element_get_type	(void);
+GType		e_filter_element_get_type	(void) G_GNUC_CONST;
 EFilterElement *e_filter_element_new		(void);
 void		e_filter_element_set_data	(EFilterElement *element,
 						 gpointer data);

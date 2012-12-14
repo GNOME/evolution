@@ -281,7 +281,7 @@ struct _ECalendarItemClass {
 	void (* selection_preview_changed)	(ECalendarItem *calitem);
 };
 
-GType	e_calendar_item_get_type		(void);
+GType	e_calendar_item_get_type		(void) G_GNUC_CONST;
 
 /* FIXME: months are 0-11 throughout, but 1-12 may be better. */
 

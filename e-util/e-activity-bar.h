@@ -60,7 +60,7 @@ struct _EActivityBarClass {
 	GtkInfoBarClass parent_class;
 };
 
-GType		e_activity_bar_get_type		(void);
+GType		e_activity_bar_get_type		(void) G_GNUC_CONST;
 GtkWidget *	e_activity_bar_new		(void);
 EActivity *	e_activity_bar_get_activity	(EActivityBar *bar);
 void		e_activity_bar_set_activity	(EActivityBar *bar,

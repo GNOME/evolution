@@ -44,15 +44,10 @@
 #include "e-table-sort-info.h"
 #include "e-table-utils.h"
 #include "e-text.h"
+#include "e-tree-selection-model.h"
 #include "e-tree-table-adapter.h"
 #include "e-tree.h"
 #include "gal-a11y-e-tree.h"
-
-#ifdef E_TREE_USE_TREE_SELECTION
-#include "e-tree-selection-model.h"
-#else
-#include "e-table-selection-model.h"
-#endif
 
 #define COLUMN_HEADER_HEIGHT 16
 
@@ -61,6 +56,8 @@
 #define E_TREE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_TREE, ETreePrivate))
+
+typedef struct _ETreeDragSourceSite ETreeDragSourceSite;
 
 enum {
 	CURSOR_CHANGE,
@@ -628,13 +625,8 @@ e_tree_init (ETree *e_tree)
 	e_tree->priv->drag_row = -1;
 	e_tree->priv->drag_col = -1;
 
-#ifdef E_TREE_USE_TREE_SELECTION
 	e_tree->priv->selection =
 		E_SELECTION_MODEL (e_tree_selection_model_new ());
-#else
-	e_tree->priv->selection =
-		E_SELECTION_MODEL (e_table_selection_model_new ());
-#endif
 
 	e_tree->priv->search = e_table_search_new ();
 
@@ -1625,12 +1617,8 @@ et_real_construct (ETree *e_tree,
 	g_object_set (
 		e_tree->priv->selection,
 		"sorter", e_tree->priv->sorter,
-#ifdef E_TREE_USE_TREE_SELECTION
 		"model", e_tree->priv->model,
 		"etta", e_tree->priv->etta,
-#else
-		"model", e_tree->priv->etta,
-#endif
 		"selection_mode", specification->selection_mode,
 		"cursor_mode", specification->cursor_mode,
 		NULL);
@@ -1910,53 +1898,21 @@ void
 e_tree_set_cursor (ETree *e_tree,
                    ETreePath path)
 {
-#ifndef E_TREE_USE_TREE_SELECTION
-	gint row;
-#endif
 	g_return_if_fail (e_tree != NULL);
 	g_return_if_fail (E_IS_TREE (e_tree));
 	g_return_if_fail (path != NULL);
 
-#ifdef E_TREE_USE_TREE_SELECTION
 	e_tree_selection_model_select_single_path (
 		E_TREE_SELECTION_MODEL (e_tree->priv->selection), path);
 	e_tree_selection_model_change_cursor (
 		E_TREE_SELECTION_MODEL (e_tree->priv->selection), path);
-#else
-	row = e_tree_table_adapter_row_of_node (
-		E_TREE_TABLE_ADAPTER (e_tree->priv->etta), path);
-
-	if (row == -1)
-		return;
-
-	g_object_set (
-		e_tree->priv->selection,
-		"cursor_row", row,
-		NULL);
-#endif
 }
 
 ETreePath
 e_tree_get_cursor (ETree *e_tree)
 {
-#ifdef E_TREE_USE_TREE_SELECTION
 	return e_tree_selection_model_get_cursor (
 		E_TREE_SELECTION_MODEL (e_tree->priv->selection));
-#else
-	gint row;
-	g_return_val_if_fail (e_tree != NULL, NULL);
-	g_return_val_if_fail (E_IS_TREE (e_tree), NULL);
-
-	g_object_get (
-		e_tree->priv->selection,
-		"cursor_row", &row,
-		NULL);
-	if (row == -1)
-		return NULL;
-
-	return e_tree_table_adapter_node_at_row (
-		E_TREE_TABLE_ADAPTER (e_tree->priv->etta), row);
-#endif
 }
 
 void
@@ -1972,7 +1928,6 @@ e_tree_selected_row_foreach (ETree *e_tree,
 				  closure);
 }
 
-#ifdef E_TREE_USE_TREE_SELECTION
 void
 e_tree_selected_path_foreach (ETree *e_tree,
                               ETreeForeachFunc callback,
@@ -2021,7 +1976,6 @@ e_tree_path_foreach (ETree *e_tree,
 				    callback,
 				    closure);
 }
-#endif
 
 EPrintable *
 e_tree_get_printable (ETree *e_tree)

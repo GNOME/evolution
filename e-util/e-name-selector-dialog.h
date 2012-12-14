@@ -68,7 +68,7 @@ struct _ENameSelectorDialogClass {
 	GtkDialogClass parent_class;
 };
 
-GType		e_name_selector_dialog_get_type	(void);
+GType		e_name_selector_dialog_get_type	(void) G_GNUC_CONST;
 ENameSelectorDialog *
 		e_name_selector_dialog_new	(ESourceRegistry *registry);
 ESourceRegistry *

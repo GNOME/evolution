@@ -57,8 +57,8 @@ static gint
 es_row_model_to_sorted (ESelectionModelArray *esma,
                         gint model_row)
 {
-	if (model_row >= 0 && esma && esma->base.sorter && e_sorter_needs_sorting (esma->base.sorter))
-		return e_sorter_model_to_sorted (esma->base.sorter, model_row);
+	if (model_row >= 0 && esma && esma->parent.sorter && e_sorter_needs_sorting (esma->parent.sorter))
+		return e_sorter_model_to_sorted (esma->parent.sorter, model_row);
 
 	return model_row;
 }
@@ -67,8 +67,8 @@ static gint
 es_row_sorted_to_model (ESelectionModelArray *esma,
                         gint sorted_row)
 {
-	if (sorted_row >= 0 && esma && esma->base.sorter && e_sorter_needs_sorting (esma->base.sorter))
-		return e_sorter_sorted_to_model (esma->base.sorter, sorted_row);
+	if (sorted_row >= 0 && esma && esma->parent.sorter && e_sorter_needs_sorting (esma->parent.sorter))
+		return e_sorter_sorted_to_model (esma->parent.sorter, sorted_row);
 
 	return sorted_row;
 }

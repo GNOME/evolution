@@ -24,27 +24,41 @@
 #error "Only <e-util/e-util.h> should be included directly."
 #endif
 
-#ifndef __E_DATETIME_FORMAT__
-#define __E_DATETIME_FORMAT__
+#ifndef E_DATETIME_FORMAT_H
+#define E_DATETIME_FORMAT_H
 
 #include <time.h>
 #include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 
-typedef enum _DTFormatKind {
+typedef enum {
 	DTFormatKindDate,
 	DTFormatKindTime,
 	DTFormatKindDateTime,
 	DTFormatKindShortDate
 } DTFormatKind;
 
-void e_datetime_format_add_setup_widget (GtkWidget *table, gint row, const gchar *component, const gchar *part, DTFormatKind kind, const gchar *caption);
-
-gchar *e_datetime_format_format (const gchar *component, const gchar *part, DTFormatKind kind, time_t value);
-gchar *e_datetime_format_format_tm (const gchar *component, const gchar *part, DTFormatKind kind, struct tm *tm_time);
-gboolean e_datetime_format_includes_day_name (const gchar *component, const gchar *part, DTFormatKind kind);
+void		e_datetime_format_add_setup_widget
+						(GtkWidget *table,
+						 gint row,
+						 const gchar *component,
+						 const gchar *part,
+						 DTFormatKind kind,
+						 const gchar *caption);
+gchar *		e_datetime_format_format	(const gchar *component,
+						 const gchar *part,
+						 DTFormatKind kind,
+						 time_t value);
+gchar *		e_datetime_format_format_tm	(const gchar *component,
+						 const gchar *part,
+						 DTFormatKind kind,
+						 struct tm *tm_time);
+gboolean	e_datetime_format_includes_day_name
+						(const gchar *component,
+						 const gchar *part,
+						 DTFormatKind kind);
 
 G_END_DECLS
 
-#endif
+#endif /* E_DATETIME_FORMAT_H */

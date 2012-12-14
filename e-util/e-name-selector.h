@@ -68,7 +68,7 @@ struct _ENameSelectorClass {
 	GObjectClass parent_class;
 };
 
-GType		e_name_selector_get_type	(void);
+GType		e_name_selector_get_type	(void) G_GNUC_CONST;
 ENameSelector *	e_name_selector_new		(ESourceRegistry *registry);
 ESourceRegistry *
 		e_name_selector_get_registry	(ENameSelector *name_selector);

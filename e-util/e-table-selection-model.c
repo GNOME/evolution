@@ -32,7 +32,10 @@
 
 #include "e-table-selection-model.h"
 
-G_DEFINE_TYPE (ETableSelectionModel, e_table_selection_model, E_SELECTION_MODEL_ARRAY_TYPE)
+G_DEFINE_TYPE (
+	ETableSelectionModel,
+	e_table_selection_model,
+	E_TYPE_SELECTION_MODEL_ARRAY)
 
 static gint etsm_get_row_count (ESelectionModelArray *esm);
 

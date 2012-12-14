@@ -262,7 +262,7 @@ struct _EConfigClass {
 	void		(*commit)		(EConfig *config);
 };
 
-GType		e_config_get_type		(void);
+GType		e_config_get_type		(void) G_GNUC_CONST;
 
 /* Static class methods */
 EConfigFactory *e_config_class_add_factory	(EConfigClass *klass,

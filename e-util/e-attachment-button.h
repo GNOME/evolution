@@ -64,7 +64,7 @@ struct _EAttachmentButtonClass {
 	GtkBoxClass parent_class;
 };
 
-GType		e_attachment_button_get_type	(void);
+GType		e_attachment_button_get_type	(void) G_GNUC_CONST;
 GtkWidget *	e_attachment_button_new	(void);
 EAttachmentView *
 		e_attachment_button_get_view	(EAttachmentButton *button);

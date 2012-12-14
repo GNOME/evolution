@@ -20,53 +20,67 @@
  *
  */
 
+/* ETextEventProcessor - Turns events on a text widget into commands. */
+
 #if !defined (__E_UTIL_H_INSIDE__) && !defined (LIBEUTIL_COMPILATION)
 #error "Only <e-util/e-util.h> should be included directly."
 #endif
 
-#ifndef __E_TEXT_EVENT_PROCESSOR_H__
-#define __E_TEXT_EVENT_PROCESSOR_H__
+#ifndef E_TEXT_EVENT_PROCESSOR_H
+#define E_TEXT_EVENT_PROCESSOR_H
 
 #include <gtk/gtk.h>
 #include <e-util/e-text-event-processor-types.h>
 
+/* Standard GObject macros */
+#define E_TYPE_TEXT_EVENT_PROCESSOR \
+	(e_text_event_processor_get_type ())
+#define E_TEXT_EVENT_PROCESSOR(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_TEXT_EVENT_PROCESSOR, ETextEventProcessor))
+#define E_TEXT_EVENT_PROCESSOR_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_TEXT_EVENT_PROCESSOR, ETextEventProcessorClass))
+#define E_IS_TEXT_EVENT_PROCESSOR(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_TEXT_EVENT_PROCESSOR))
+#define E_IS_TEXT_EVENT_PROCESSOR_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((obj), E_TYPE_TEXT_EVENT_PROCESSOR))
+#define E_TEXT_EVENT_PROCESSOR_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_TEXT_EVENT_PROCESSOR, ETextEventProcessorClass))
+
 G_BEGIN_DECLS
 
-/* ETextEventProcessor - Turns events on a text widget into commands.
- *
- */
-
-#define E_TEXT_EVENT_PROCESSOR_TYPE		(e_text_event_processor_get_type ())
-#define E_TEXT_EVENT_PROCESSOR(obj)		(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TEXT_EVENT_PROCESSOR_TYPE, ETextEventProcessor))
-#define E_TEXT_EVENT_PROCESSOR_CLASS(klass)	(G_TYPE_CHECK_CLASS_CAST ((klass), E_TEXT_EVENT_PROCESSOR_TYPE, ETextEventProcessorClass))
-#define E_IS_TEXT_EVENT_PROCESSOR(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TEXT_EVENT_PROCESSOR_TYPE))
-#define E_IS_TEXT_EVENT_PROCESSOR_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TEXT_EVENT_PROCESSOR_TYPE))
-#define E_TEXT_EVENT_PROCESSOR_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), E_TEXT_EVENT_PROCESSOR_TYPE, ETextEventProcessorClass))
-typedef struct _ETextEventProcessor       ETextEventProcessor;
+typedef struct _ETextEventProcessor ETextEventProcessor;
 typedef struct _ETextEventProcessorClass  ETextEventProcessorClass;
 
-struct _ETextEventProcessor
-{
+struct _ETextEventProcessor {
 	GObject parent;
 
 	/* object specific fields */
 	guint allow_newlines : 1;
 };
 
-struct _ETextEventProcessorClass
-{
+struct _ETextEventProcessorClass {
 	GObjectClass parent_class;
 
 	/* signals */
-	void (* command) (ETextEventProcessor *tep, ETextEventProcessorCommand *command);
+	void		(*command)	(ETextEventProcessor *tep,
+					 ETextEventProcessorCommand *command);
 
 	/* virtual functions */
-	gint (* event) (ETextEventProcessor *tep, ETextEventProcessorEvent *event);
+	gint		(*event)	(ETextEventProcessor *tep,
+					 ETextEventProcessorEvent *event);
 };
 
-GType      e_text_event_processor_get_type (void);
-gint       e_text_event_processor_handle_event (ETextEventProcessor *tep, ETextEventProcessorEvent *event);
+GType		e_text_event_processor_get_type
+					(void) G_GNUC_CONST;
+gint		e_text_event_processor_handle_event
+					(ETextEventProcessor *tep,
+					 ETextEventProcessorEvent *event);
 
 G_END_DECLS
 
-#endif /* __E_TEXT_EVENT_PROCESSOR_H__ */
+#endif /* E_TEXT_EVENT_PROCESSOR_H */

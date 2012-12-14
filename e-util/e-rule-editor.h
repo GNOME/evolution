@@ -106,7 +106,7 @@ struct _ERuleEditorUndo {
 	gint newrank;
 };
 
-GType		e_rule_editor_get_type		(void);
+GType		e_rule_editor_get_type		(void) G_GNUC_CONST;
 ERuleEditor *	e_rule_editor_new		(ERuleContext *context,
 						 const gchar *source,
 						 const gchar *label);

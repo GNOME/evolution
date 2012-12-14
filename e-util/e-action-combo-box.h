@@ -40,10 +40,10 @@
 #define E_ACTION_COMBO_BOX_CLASS(cls) \
 	(G_TYPE_CHECK_CLASS_CAST \
 	((cls), E_TYPE_ACTION_COMBO_BOX, EActionComboBoxClass))
-#define E_ACTION_IS_COMBO_BOX(obj) \
+#define E_IS_ACTION_COMBO_BOX(obj) \
 	(G_TYPE_CHECK_INSTANCE_TYPE \
 	((obj), E_TYPE_ACTION_COMBO_BOX))
-#define E_ACTION_IS_COMBO_BOX_CLASS(cls) \
+#define E_IS_ACTION_COMBO_BOX_CLASS(cls) \
 	(G_TYPE_CHECK_CLASS_TYPE \
 	((cls), E_TYPE_ACTION_COMBO_BOX))
 #define E_ACTION_COMBO_BOX_GET_CLASS(obj) \
@@ -65,7 +65,7 @@ struct _EActionComboBoxClass {
 	GtkComboBoxClass parent_class;
 };
 
-GType		e_action_combo_box_get_type	(void);
+GType		e_action_combo_box_get_type	(void) G_GNUC_CONST;
 GtkWidget *	e_action_combo_box_new		(void);
 GtkWidget *	e_action_combo_box_new_with_action
 						(GtkRadioAction *action);

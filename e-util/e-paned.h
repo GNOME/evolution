@@ -62,7 +62,7 @@ struct _EPanedClass {
 	GtkPanedClass parent_class;
 };
 
-GType		e_paned_get_type		(void);
+GType		e_paned_get_type		(void) G_GNUC_CONST;
 GtkWidget *	e_paned_new			(GtkOrientation orientation);
 gint		e_paned_get_hposition		(EPaned *paned);
 void		e_paned_set_hposition		(EPaned *paned,

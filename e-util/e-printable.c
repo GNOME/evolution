@@ -128,7 +128,7 @@ e_printable_init (EPrintable *e_printable)
 EPrintable *
 e_printable_new (void)
 {
-	return E_PRINTABLE (g_object_new (E_PRINTABLE_TYPE, NULL));
+	return g_object_new (E_TYPE_PRINTABLE, NULL);
 }
 
 void
@@ -138,7 +138,6 @@ e_printable_print_page (EPrintable *e_printable,
                         gdouble height,
                         gboolean quantized)
 {
-	g_return_if_fail (e_printable != NULL);
 	g_return_if_fail (E_IS_PRINTABLE (e_printable));
 
 	g_signal_emit (
@@ -155,7 +154,6 @@ e_printable_data_left (EPrintable *e_printable)
 {
 	gboolean ret_val;
 
-	g_return_val_if_fail (e_printable != NULL, FALSE);
 	g_return_val_if_fail (E_IS_PRINTABLE (e_printable), FALSE);
 
 	g_signal_emit (
@@ -169,7 +167,6 @@ e_printable_data_left (EPrintable *e_printable)
 void
 e_printable_reset (EPrintable *e_printable)
 {
-	g_return_if_fail (e_printable != NULL);
 	g_return_if_fail (E_IS_PRINTABLE (e_printable));
 
 	g_signal_emit (
@@ -186,7 +183,6 @@ e_printable_height (EPrintable *e_printable,
 {
 	gdouble ret_val;
 
-	g_return_val_if_fail (e_printable != NULL, -1);
 	g_return_val_if_fail (E_IS_PRINTABLE (e_printable), -1);
 
 	g_signal_emit (
@@ -210,7 +206,6 @@ e_printable_will_fit (EPrintable *e_printable,
 {
 	gboolean ret_val;
 
-	g_return_val_if_fail (e_printable != NULL, FALSE);
 	g_return_val_if_fail (E_IS_PRINTABLE (e_printable), FALSE);
 
 	g_signal_emit (
