@@ -868,8 +868,8 @@ e_attachment_view_default_init (EAttachmentViewInterface *interface)
 		G_TYPE_NONE, 0);
 
 	/* Register known handler types. */
-	e_attachment_handler_image_get_type ();
-	e_attachment_handler_sendto_get_type ();
+	g_type_ensure (E_TYPE_ATTACHMENT_HANDLER_IMAGE);
+	g_type_ensure (E_TYPE_ATTACHMENT_HANDLER_SENDTO);
 }
 
 void

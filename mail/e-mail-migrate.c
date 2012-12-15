@@ -312,7 +312,6 @@ e_mail_migrate (EShellBackend *shell_backend,
                 gint micro,
                 GError **error)
 {
-	struct stat st;
 	const gchar *data_dir;
 
 	data_dir = e_shell_backend_get_data_dir (shell_backend);

@@ -665,7 +665,7 @@ e_send_options_dialog_run (ESendOptionsDialog *sod,
 
 	/* Make sure our custom widget classes are registered with
 	 * GType before we load the GtkBuilder definition file. */
-	E_TYPE_DATE_EDIT;
+	g_type_ensure (E_TYPE_DATE_EDIT);
 
 	priv->builder = gtk_builder_new ();
 	e_load_ui_builder_definition (priv->builder, "e-send-options.ui");

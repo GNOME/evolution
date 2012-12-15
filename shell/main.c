@@ -506,6 +506,10 @@ main (gint argc,
 
 	/* The contact maps feature uses clutter-gtk. */
 #ifdef WITH_CONTACT_MAPS
+	/* XXX This function is declared in gtk-clutter-util.h with an
+	 *     unnecessary G_GNUC_WARN_UNUSED_RESULT attribute.  But we
+	 *     don't need the returned error code because we're checking
+	 *     the GError directly.  Just ignore this warning. */
 	gtk_clutter_init_with_args (
 		&argc, &argv,
 		_("- The Evolution PIM and Email Client"),
