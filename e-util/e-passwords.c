@@ -211,23 +211,6 @@ ep_msg_send (EPassMsg *msg)
 /* the functions that actually do the work */
 
 static void
-ep_clear_passwords (EPassMsg *msg)
-{
-	GError *error = NULL;
-
-	/* Find all Evolution passwords and delete them. */
-	secret_password_clear_sync (
-		&e_passwords_schema, NULL, &error,
-		"application", "Evolution", NULL);
-
-	if (error != NULL)
-		g_propagate_error (&msg->error, error);
-
-	if (!msg->noreply)
-		e_flag_set (msg->done);
-}
-
-static void
 ep_remember_password (EPassMsg *msg)
 {
 	gchar *password;
@@ -652,52 +635,6 @@ e_passwords_init (void)
 }
 
 /**
- * e_passwords_cancel:
- *
- * Cancel any outstanding password operations and close any dialogues
- * currently being shown.
- **/
-void
-e_passwords_cancel (void)
-{
-	EPassMsg *msg;
-
-	G_LOCK (passwords);
-	while ((msg = g_queue_pop_head (&message_queue)) != NULL)
-		e_flag_set (msg->done);
-	G_UNLOCK (passwords);
-
-	if (password_dialog)
-		gtk_dialog_response (password_dialog, GTK_RESPONSE_CANCEL);
-}
-
-/**
- * e_passwords_shutdown:
- *
- * Cleanup routine to call before exiting.
- **/
-void
-e_passwords_shutdown (void)
-{
-	EPassMsg *msg;
-
-	G_LOCK (passwords);
-
-	while ((msg = g_queue_pop_head (&message_queue)) != NULL)
-		e_flag_set (msg->done);
-
-	if (password_cache != NULL) {
-		g_hash_table_destroy (password_cache);
-		password_cache = NULL;
-	}
-
-	G_UNLOCK (passwords);
-
-	if (password_dialog != NULL)
-		gtk_dialog_response (password_dialog, GTK_RESPONSE_CANCEL);
-}
-
-/**
  * e_passwords_set_online:
  * @state:
  *
@@ -712,34 +649,6 @@ e_passwords_set_online (gint state)
 {
 	ep_online_state = state;
 	/* TODO: we could check that a request is open and close it, or maybe who cares */
-}
-
-/**
- * e_passwords_forget_passwords:
- *
- * Forgets all cached passwords, in memory and on disk.
- **/
-void
-e_passwords_forget_passwords (void)
-{
-	EPassMsg *msg = ep_msg_new (ep_clear_passwords);
-
-	ep_msg_send (msg);
-	ep_msg_free (msg);
-}
-
-/**
- * e_passwords_clear_passwords:
- *
- * Forgets all disk cached passwords for the component.
- **/
-void
-e_passwords_clear_passwords (const gchar *unused)
-{
-	EPassMsg *msg = ep_msg_new (ep_clear_passwords);
-
-	ep_msg_send (msg);
-	ep_msg_free (msg);
 }
 
 /**

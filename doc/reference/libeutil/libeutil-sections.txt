@@ -2375,15 +2375,11 @@ EPanedPrivate
 <FILE>e-passwords</FILE>
 <TITLE>Password Utilities (Legacy)</TITLE>
 e_passwords_init
-e_passwords_shutdown
-e_passwords_cancel
 e_passwords_set_online
 e_passwords_remember_password
 e_passwords_add_password
 e_passwords_get_password
 e_passwords_forget_password
-e_passwords_forget_passwords
-e_passwords_clear_passwords
 EPasswordsRememberType
 e_passwords_ask_password
 </SECTION>

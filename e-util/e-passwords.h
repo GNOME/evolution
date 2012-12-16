@@ -37,20 +37,14 @@ G_BEGIN_DECLS
  * initialization is now implicit when you call any of the functions
  * below, although this is only correct if the functions are called
  * from the main thread.
- *
- * e_passwords_shutdown should be called at exit time to synch the
- * password on-disk storage, and to free up in-memory storage. */
+ */
 void e_passwords_init (void);
 
-void        e_passwords_shutdown          (void);
-void	    e_passwords_cancel (void);
 void        e_passwords_set_online (gint state);
 void        e_passwords_remember_password (const gchar *unused, const gchar *key);
 void        e_passwords_add_password      (const gchar *key, const gchar *passwd);
 gchar       *e_passwords_get_password      (const gchar *unused, const gchar *key);
 void        e_passwords_forget_password   (const gchar *unused, const gchar *key);
-void        e_passwords_forget_passwords  (void);
-void        e_passwords_clear_passwords (const gchar *unused);
 
 typedef enum {
 	E_PASSWORDS_REMEMBER_NEVER,
