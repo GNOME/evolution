@@ -1,3 +1,72 @@
+Evolution 3.7.3 2012-12-16
+--------------------------
+
+Bug Fixes:
+	Bug 202576 - A way to refresh IMAP folder list (Milan Crha)
+	Bug 315317 - Add option to expunge messages on folder leave
+	             (Milan Crha)
+	Bug 449081 - Drop read-only calendar error message (Milan Crha)
+	Bug 502516 - Avoid "source" string in user visible dialogs
+	             (Milan Crha)
+	Bug 525932 - Unhelpful "Error while Filtering Selected Messages."
+	             (Milan Crha)
+	Bug 529743 - Add "Any header" filter and search folder condition
+	             (Milan Crha)
+	Bug 579315 - Identify filter names in filtering errors (Milan Crha)
+	Bug 671200 - Inherit source message crypto options when reply on
+	             selection (Milan Crha)
+	Bug 671628 - Size of backup window is big (Milan Crha)
+	Bug 672200 - Skip Reply-To-List check for list administrative messages
+	             (Milan Crha)
+	Bug 674678 - Event notification uses wrong app name (Milan Crha)
+	Bug 677378 - Alert about self-signed certificates when checking auth
+	             types (Milan Crha)
+	Bug 678606 - Crash under mail_backend_folder_deleted_cb() (Milan Crha)
+	Bug 680201 - Backup restore doesn't migrate accounts from GConf
+	             (Milan Crha)
+	Bug 680244 - CalDAV URL should be configured in once, not separated
+	             (Milan Crha)
+	Bug 685808 - Search bar entry background does not change on search
+	             (Milan Crha)
+	Bug 686212 - Cannot print html mails with defined <style> (Milan Crha)
+	Bug 687360 - Crash on quit in gtk_style_context_get_valist()
+	             (Milan Crha)
+	Bug 687503 - Improve error message »Failed to refresh folders«
+	             (Milan Crha)
+	Bug 687670 - Signing with both pgp and S/MIME shows only one signature
+	             (Milan Crha)
+	Bug 687974 - No displaying of extended free/busy (XFB) information
+	             (Christian Hilberg)
+	Bug 688819 - It's possible to make Evolution stop sending emails
+	             (Milan Crha)
+	Bug 689639 - File -> Print Preview in composer brings up Print dialog
+	             (Matthew Barnes)
+	Bug 689966 - MDN bar shown in Sent folder (Milan Crha)
+
+Other Changes:
+	* Identify calendar/memo/task sources in error messages (Milan Crha)
+	* Use version-based GLib/GDK/GTK+ warnings. (Matthew Barnes)
+	* Avoid GTK+ APIs deprecated in 3.0. (Matthew Barnes)
+	* Coverity scan cleanups. (Milan Crha)
+	* Do not empty trash/delete junk in disabled accounts on exit
+	  (Milan Crha)
+	* Do not generate a ChangeLog file from 'git log' (Milan Crha)
+	* Simplify class design of mail formatter. (Matthew Barnes)
+	* backup-restore: Remove references to ~/.camel_certs.
+	  (Matthew Barnes)
+	* Use the same certificate-viewer as the trust-prompt from eds
+	  (Milan Crha)
+	* Consolidate base utility libraries into libeutil and generate
+	  API documantation. (Matthew Barnes)
+
+Translations:
+	Nilamdyuti Goswami (as)
+	Mario Blättermann (de)
+	Christian Kirbach (de)
+	Shankar Prasad (kn)
+	Dr.T.Vasudevan (ta)
+
+
 Evolution 3.7.2 2012-11-17
 --------------------------
 
