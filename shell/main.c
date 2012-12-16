@@ -673,8 +673,8 @@ main (gint argc,
 	if (!disable_eplugin) {
 		/* Register built-in plugin hook types. */
 		es_event_hook_get_type ();
-		e_import_hook_get_type ();
-		e_plugin_ui_hook_get_type ();
+		g_type_ensure (E_TYPE_IMPORT_HOOK);
+		g_type_ensure (E_TYPE_PLUGIN_UI_HOOK);
 
 		/* All EPlugin and EPluginHook subclasses should be
 		 * registered in GType now, so load plugins now. */
