@@ -1926,7 +1926,7 @@ soup_authenticate (SoupSession *session,
 		} else {
 			gchar *password;
 
-			password = e_passwords_get_password (NULL, orig_uri);
+			password = e_passwords_get_password (orig_uri);
 			if (password) {
 				soup_auth_authenticate (auth, suri->user, password);
 				tried = TRUE;
@@ -1963,7 +1963,7 @@ soup_authenticate (SoupSession *session,
 		}
 
 		password = e_passwords_ask_password (
-			_("Enter password"), NULL, orig_uri,
+			_("Enter password"), orig_uri,
 			description->str, E_PASSWORDS_REMEMBER_FOREVER |
 			E_PASSWORDS_SECRET | E_PASSWORDS_ONLINE |
 			(retrying ? E_PASSWORDS_REPROMPT : 0),

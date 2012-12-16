@@ -52,7 +52,7 @@ smime_pk11_passwd (ECertDB *db,
 	g_free (slot_name);
 
 	*passwd = e_passwords_ask_password (
-		_("Enter password"), NULL, "", prompt,
+		_("Enter password"), "", prompt,
 		E_PASSWORDS_REMEMBER_NEVER | E_PASSWORDS_SECRET,
 		NULL, NULL);
 
@@ -77,7 +77,7 @@ smime_pk11_change_passwd (ECertDB *db,
 		prompt = _("Enter new password for certificate database");
 
 		*passwd = e_passwords_ask_password (
-			_("Enter new password"), NULL, "", prompt,
+			_("Enter new password"), "", prompt,
 			E_PASSWORDS_REMEMBER_NEVER | E_PASSWORDS_SECRET,
 			NULL, NULL);
 	}

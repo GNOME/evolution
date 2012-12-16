@@ -1313,7 +1313,7 @@ mail_session_get_password (CamelSession *session,
 	/* Otherwise this had better be the CamelGpgContext case. */
 	g_return_val_if_fail (service == NULL, NULL);
 
-	password = e_passwords_get_password (NULL, item);
+	password = e_passwords_get_password (item);
 
 	if (password == NULL || (flags & CAMEL_SESSION_PASSWORD_REPROMPT)) {
 		gboolean remember;
@@ -1334,10 +1334,10 @@ mail_session_get_password (CamelSession *session,
 			eflags |= E_PASSWORDS_PASSPHRASE;
 
 		password = e_passwords_ask_password (
-			"", NULL, item, prompt, eflags, &remember, NULL);
+			"", item, prompt, eflags, &remember, NULL);
 
 		if (password == NULL)
-			e_passwords_forget_password (NULL, item);
+			e_passwords_forget_password (item);
 	}
 
 	if (password == NULL)
@@ -1361,7 +1361,7 @@ mail_session_forget_password (CamelSession *session,
 
 	g_return_val_if_fail (service == NULL, FALSE);
 
-	e_passwords_forget_password (NULL, item);
+	e_passwords_forget_password (item);
 
 	return TRUE;
 }

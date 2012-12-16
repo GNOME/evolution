@@ -507,11 +507,11 @@ e_google_chooser_populate (EGoogleChooser *chooser,
 	prompt = g_strdup_printf (
 		_("Enter Google password for user '%s'."), user);
 
-	/* XXX The 'key' (3rd) argument doesn't matter since we're
+	/* XXX The 'key' (2nd) argument doesn't matter since we're
 	 *     passing E_PASSWORDS_REMEMBER_NEVER, it just needs to
 	 *     be non-NULL.  This API is degenerating rapidly. */
 	password = e_passwords_ask_password (
-		"", NULL, "bogus key", prompt,
+		"", "bogus key", prompt,
 		E_PASSWORDS_REMEMBER_NEVER |
 		E_PASSWORDS_DISABLE_REMEMBER |
 		E_PASSWORDS_SECRET, NULL, parent);

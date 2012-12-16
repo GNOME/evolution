@@ -26,25 +26,12 @@
 
 #ifndef EDS_DISABLE_DEPRECATED
 
-#ifndef _E_PASSWORD_H_
-#define _E_PASSWORD_H_
+#ifndef E_PASSWORDS_H
+#define E_PASSWORDS_H
 
 #include <gtk/gtk.h>
 
 G_BEGIN_DECLS
-
-/*
- * initialization is now implicit when you call any of the functions
- * below, although this is only correct if the functions are called
- * from the main thread.
- */
-void e_passwords_init (void);
-
-void        e_passwords_set_online (gint state);
-void        e_passwords_remember_password (const gchar *unused, const gchar *key);
-void        e_passwords_add_password      (const gchar *key, const gchar *passwd);
-gchar       *e_passwords_get_password      (const gchar *unused, const gchar *key);
-void        e_passwords_forget_password   (const gchar *unused, const gchar *key);
 
 typedef enum {
 	E_PASSWORDS_REMEMBER_NEVER,
@@ -60,16 +47,27 @@ typedef enum {
 	E_PASSWORDS_PASSPHRASE = 1<<12 /* We are asking a passphrase */
 } EPasswordsRememberType;
 
-gchar *      e_passwords_ask_password     (const gchar *title,
-					   const gchar *unused,
-					   const gchar *key,
-					   const gchar *prompt,
-					   EPasswordsRememberType remember_type,
-					   gboolean *remember,
-					   GtkWindow *parent);
+/*
+ * initialization is now implicit when you call any of the functions
+ * below, although this is only correct if the functions are called
+ * from the main thread.
+ */
+void		e_passwords_init		(void);
+void		e_passwords_set_online		(gint state);
+void		e_passwords_remember_password	(const gchar *key);
+void		e_passwords_add_password	(const gchar *key,
+						 const gchar *passwd);
+gchar *		e_passwords_get_password	(const gchar *key);
+void		e_passwords_forget_password	(const gchar *key);
+gchar *		e_passwords_ask_password	(const gchar *title,
+						 const gchar *key,
+						 const gchar *prompt,
+						 EPasswordsRememberType remember_type,
+						 gboolean *remember,
+						 GtkWindow *parent);
 
 G_END_DECLS
 
-#endif /* _E_PASSWORD_H_ */
+#endif /* E_PASSWORDS_H */
 
 #endif /* EDS_DISABLE_DEPRECATED */

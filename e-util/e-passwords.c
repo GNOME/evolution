@@ -658,8 +658,7 @@ e_passwords_set_online (gint state)
  * Saves the password associated with @key to disk.
  **/
 void
-e_passwords_remember_password (const gchar *unused,
-                               const gchar *key)
+e_passwords_remember_password (const gchar *key)
 {
 	EPassMsg *msg;
 
@@ -679,8 +678,7 @@ e_passwords_remember_password (const gchar *unused,
  * Forgets the password associated with @key, in memory and on disk.
  **/
 void
-e_passwords_forget_password (const gchar *unused,
-                             const gchar *key)
+e_passwords_forget_password (const gchar *key)
 {
 	EPassMsg *msg;
 
@@ -701,8 +699,7 @@ e_passwords_forget_password (const gchar *unused,
  * must free the returned password.
  **/
 gchar *
-e_passwords_get_password (const gchar *unused,
-                          const gchar *key)
+e_passwords_get_password (const gchar *key)
 {
 	EPassMsg *msg;
 	gchar *passwd;
@@ -749,7 +746,6 @@ e_passwords_add_password (const gchar *key,
 /**
  * e_passwords_ask_password:
  * @title: title for the password dialog
- * @unused: this argument is no longer used
  * @key: key to store the password under
  * @prompt: prompt string
  * @remember_type: whether or not to offer to remember the password,
@@ -767,7 +763,6 @@ e_passwords_add_password (const gchar *key,
  **/
 gchar *
 e_passwords_ask_password (const gchar *title,
-                          const gchar *unused,
                           const gchar *key,
                           const gchar *prompt,
                           EPasswordsRememberType remember_type,

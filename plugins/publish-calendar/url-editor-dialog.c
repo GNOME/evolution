@@ -471,7 +471,7 @@ url_editor_dialog_construct (UrlEditorDialog *dialog)
 		gtk_combo_box_set_active (GTK_COMBO_BOX (dialog->publish_frequency), uri->publish_frequency);
 		gtk_combo_box_set_active (GTK_COMBO_BOX (dialog->type_selector), uri->publish_format);
 
-		uri->password = e_passwords_get_password (NULL, uri->location);
+		uri->password = e_passwords_get_password (uri->location);
 		if (uri->password) {
 			if (strlen (uri->password) != 0) {
 				gtk_entry_set_text (GTK_ENTRY (dialog->password_entry), uri->password);
@@ -601,9 +601,9 @@ url_editor_dialog_run (UrlEditorDialog *dialog)
 
 		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dialog->remember_pw))) {
 			e_passwords_add_password (dialog->uri->location, dialog->uri->password);
-			e_passwords_remember_password (NULL, dialog->uri->location);
+			e_passwords_remember_password (dialog->uri->location);
 		} else {
-			e_passwords_forget_password (NULL, dialog->uri->location);
+			e_passwords_forget_password (dialog->uri->location);
 		}
 
 		l = e_source_selector_get_selection (E_SOURCE_SELECTOR (dialog->events_selector));
