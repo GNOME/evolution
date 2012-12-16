@@ -126,11 +126,10 @@ e_cal_config_init (ECalConfig *cfg)
 }
 
 ECalConfig *
-e_cal_config_new (gint type,
-                  const gchar *menuid)
+e_cal_config_new (const gchar *menuid)
 {
 	ECalConfig *ecp = g_object_new (e_cal_config_get_type (), NULL);
-	e_config_construct (&ecp->config, type, menuid);
+	e_config_construct (&ecp->config, menuid);
 	return ecp;
 }
 

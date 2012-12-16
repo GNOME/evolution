@@ -111,18 +111,9 @@ enum _e_config_target_change_t {
  * enum _e_config_t - configuration item type.
  *
  * @E_CONFIG_BOOK: A notebook item.  Only one of this or
- * @E_CONFIG_ASSISTANT may be included in the item list for the entire
- * configuration description.
- * @E_CONFIG_ASSISTANT: An assistant item.  Only one of this or @E_CONFIG_BOOK
- * may be included in the item list for the entire configutation
- * description.
  * @E_CONFIG_PAGE: A configuration page.  The item @label will be
  * either the notebook tab label or the assistant page title if no factory
  * is supplied.
- * @E_CONFIG_PAGE_START: An assistant start page.  Only one of these may be
- * supplied for a assistant and it should be the first page in the assistant.
- * @E_CONFIG_PAGE_FINISH: An assistant finish page.  Only one of these may
- * be supplied for an assistant and it should be the last page of the assistant.
  * @E_CONFIG_SECTION: A section in the configuration page.  A page for
  * this section must have already been defined.  The item @label if
  * supplied will be setup as a borderless hig-compliant frame title.
@@ -144,12 +135,8 @@ enum _e_config_target_change_t {
 enum _e_config_t {
 	/* use one and only one of these for any given config-window id */
 	E_CONFIG_BOOK,
-	E_CONFIG_ASSISTANT,
 
 	E_CONFIG_PAGE,
-	E_CONFIG_PAGE_START,	/* only allowed in assistant types */
-	E_CONFIG_PAGE_FINISH,	/* only allowed in assistant types */
-	E_CONFIG_PAGE_PROGRESS,	/* only allowed in assistant types */
 	E_CONFIG_SECTION,
 	E_CONFIG_SECTION_TABLE,
 	E_CONFIG_ITEM,
@@ -207,8 +194,6 @@ struct _EConfigTarget {
  *
  * @object: Superclass.
  * @priv: Private data.
- * @type: Either @E_CONFIG_BOOK or @E_CONFIG_DRIUD, describing the
- * root window type.
  * @id: The globally unique identifider for this configuration window,
  * used for hooking into it.
  * @target: The current target.
@@ -223,8 +208,6 @@ struct _EConfigTarget {
 struct _EConfig {
 	GObject object;
 	EConfigPrivate *priv;
-
-	gint type;		/* E_CONFIG_BOOK or E_CONFIG_ASSISTANT */
 
 	gchar *id;
 
@@ -269,11 +252,8 @@ EConfigFactory *e_config_class_add_factory	(EConfigClass *klass,
 						 const gchar *id,
 						 EConfigFactoryFunc func,
 						 gpointer user_data);
-void		e_config_class_remove_factory	(EConfigClass *klass,
-						 EConfigFactory *f);
 
 EConfig *	e_config_construct		(EConfig *config,
-						 gint type,
 						 const gchar *id);
 
 void		e_config_add_items		(EConfig *config,
@@ -284,32 +264,15 @@ void		e_config_add_page_check		(EConfig *config,
 						 const gchar *pageid,
 						 EConfigCheckFunc func,
 						 gpointer data);
-void		e_config_set_page_is_finish	(EConfig *config,
-						 const gchar *pageid,
-						 gboolean is_finish);
-void		e_config_add_skip_check		(EConfig *config,
-						 const gchar *pageid,
-						 EConfigCheckFunc func,
-						 gpointer data);
 
 void		e_config_set_target		(EConfig *config,
 						 EConfigTarget *target);
 GtkWidget *	e_config_create_widget		(EConfig *config);
-GtkWidget *	e_config_create_window		(EConfig *config,
-						 GtkWindow *parent,
-						 const gchar *title);
 
 void		e_config_target_changed		(EConfig *config,
 						 e_config_target_change_t how);
 
 gboolean	e_config_page_check		(EConfig *config,
-						 const gchar *pageid);
-
-GtkWidget *	e_config_page_get		(EConfig *config,
-						 const gchar *pageid);
-const gchar *	e_config_page_next		(EConfig *config,
-						 const gchar *pageid);
-const gchar *	e_config_page_prev		(EConfig *config,
 						 const gchar *pageid);
 
 void		e_config_abort			(EConfig *config);

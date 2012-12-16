@@ -97,8 +97,7 @@ struct _EMConfigClass {
 };
 
 GType		em_config_get_type		(void);
-EMConfig *	em_config_new			(gint type,
-						 const gchar *menuid);
+EMConfig *	em_config_new			(const gchar *menuid);
 EMConfigTargetFolder *
 		em_config_target_new_folder	(EMConfig *emp,
 						 CamelFolder *folder);

@@ -126,13 +126,12 @@ em_config_init (EMConfig *emp)
 }
 
 EMConfig *
-em_config_new (gint type,
-               const gchar *menuid)
+em_config_new (const gchar *menuid)
 {
 	EMConfig *emp;
 
 	emp = g_object_new (EM_TYPE_CONFIG, NULL);
-	e_config_construct (&emp->config, type, menuid);
+	e_config_construct (&emp->config, menuid);
 
 	return emp;
 }

@@ -354,8 +354,7 @@ emfp_dialog_run (AsyncContext *context)
 	 *
 	 * The folder properties window.
 	 */
-	ec = em_config_new (
-		E_CONFIG_BOOK, "org.gnome.evolution.mail.folderConfig");
+	ec = em_config_new ("org.gnome.evolution.mail.folderConfig");
 	l = NULL;
 	for (i = 0; i < G_N_ELEMENTS (emfp_items); i++)
 		l = g_slist_prepend (l, &emfp_items[i]);

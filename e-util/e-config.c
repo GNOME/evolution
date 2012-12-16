@@ -90,8 +90,6 @@ struct _EConfigPrivate {
 	GList *menus;
 	GList *widgets;
 	GList *checks;
-	GList *finish_pages;
-	GHashTable *skip_checks;
 };
 
 static GtkWidget *
@@ -165,18 +163,6 @@ config_finalize (GObject *object)
 
 	g_list_free_full (priv->checks, (GDestroyNotify) check_node_free);
 
-	link = priv->finish_pages;
-	while (link != NULL) {
-		struct _finish_page_node *node = link->data;
-
-		g_free (node->pageid);
-		g_free (node);
-
-		link = g_list_delete_link (link, link);
-	}
-
-	g_hash_table_destroy (priv->skip_checks);
-
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_config_parent_class)->finalize (object);
 }
@@ -235,19 +221,11 @@ static void
 e_config_init (EConfig *config)
 {
 	config->priv = E_CONFIG_GET_PRIVATE (config);
-
-	config->priv->skip_checks = g_hash_table_new_full (
-		(GHashFunc) g_str_hash,
-		(GEqualFunc) g_str_equal,
-		(GDestroyNotify) NULL,
-		(GDestroyNotify) check_node_free);
 }
 
 /**
  * e_config_construct:
  * @ep: The instance to initialise.
- * @type: The type of configuration manager, @E_CONFIG_BOOK or
- * @E_CONFIG_ASSISTANT.
  * @id: The name of the configuration window this manager drives.
  *
  * Used by implementing classes to initialise base parameters.
@@ -256,12 +234,8 @@ e_config_init (EConfig *config)
  **/
 EConfig *
 e_config_construct (EConfig *ep,
-                    gint type,
                     const gchar *id)
 {
-	g_return_val_if_fail (type == E_CONFIG_BOOK || type == E_CONFIG_ASSISTANT, NULL);
-
-	ep->type = type;
 	ep->id = g_strdup (id);
 
 	return ep;
@@ -331,91 +305,6 @@ e_config_add_page_check (EConfig *ec,
 	ec->priv->checks = g_list_append (ec->priv->checks, cn);
 }
 
-/**
- * e_config_add_skip_check:
- * @config: an #EConfig
- * @pageid: the page ID for the skip page callback
- * @func: the skip page callback function
- * @data: data to pass to the callback function
- *
- * Adds a callback function to decide whether to skip the page in a
- * GtkAssistant, useful if the page is blank in certain conditions.
- *
- * The callback function should return %TRUE if the page should be
- * skipped, or %FALSE if the page should be visited.
- **/
-void
-e_config_add_skip_check (EConfig *config,
-                         const gchar *pageid,
-                         EConfigCheckFunc func,
-                         gpointer data)
-{
-	struct _check_node *cn;
-
-	g_return_if_fail (E_IS_CONFIG (config));
-	g_return_if_fail (pageid != NULL);
-	g_return_if_fail (func != NULL);
-
-	cn = g_slice_new0 (struct _check_node);
-	cn->pageid = g_strdup (pageid);
-	cn->func = func;
-	cn->data = data;
-
-	g_hash_table_insert (config->priv->skip_checks, cn->pageid, cn);
-}
-
-static struct _finish_page_node *
-find_page_finish (EConfig *config,
-                  const gchar *pageid)
-{
-	GList *link;
-
-	link = config->priv->finish_pages;
-
-	while (link != NULL) {
-		struct _finish_page_node *node = link->data;
-
-		if (g_str_equal (node->pageid, pageid))
-			return node;
-
-		link = g_list_next (link);
-	}
-
-	return NULL;
-}
-
-/**
- * e_config_set_page_is_finish:
- * @ec: Initialised implementing instance of EConfig.
- * @pageid: pageid to change the value on.
- * @can_finish: whether the pageid can finish immediately or not.
- *
- * With is_finish set on the pageid the page is treated as the last page in an assistant.
- **/
-void
-e_config_set_page_is_finish (EConfig *ec,
-                             const gchar *pageid,
-                             gboolean is_finish)
-{
-	struct _finish_page_node *fp;
-
-	fp = find_page_finish (ec, pageid);
-
-	if (is_finish) {
-		if (!fp) {
-			fp = g_malloc0 (sizeof (*fp));
-			fp->pageid = g_strdup (pageid);
-			ec->priv->finish_pages = g_list_append (
-				ec->priv->finish_pages, fp);
-		}
-
-		fp->is_finish = TRUE;
-	} else {
-		if (fp)
-			fp->is_finish = FALSE;
-	}
-}
-
 static void
 ec_add_static_items (EConfig *config)
 {
@@ -441,193 +330,6 @@ ep_cmp (gconstpointer ap,
 	return strcmp (a->item->path, b->item->path);
 }
 
-static GList *
-ec_assistant_find_page (EConfig *ec,
-                        GtkWidget *page,
-                        gint *page_index)
-{
-	struct _widget_node *node = NULL;
-	GList *link;
-
-	g_return_val_if_fail (ec != NULL, NULL);
-	g_return_val_if_fail (GTK_IS_ASSISTANT (ec->widget), NULL);
-	g_return_val_if_fail (page != NULL, NULL);
-
-	/* Assume failure, then if we do fail we can just return. */
-	if (page_index != NULL)
-		*page_index = -1;
-
-	/* Find the page widget in our sorted widget node list. */
-	for (link = ec->priv->widgets; link != NULL; link = link->next) {
-		node = link->data;
-
-		if (node->frame != page)
-			continue;
-
-		if (node->item->type == E_CONFIG_PAGE)
-			break;
-
-		if (node->item->type == E_CONFIG_PAGE_START)
-			break;
-
-		if (node->item->type == E_CONFIG_PAGE_FINISH)
-			break;
-
-		if (node->item->type == E_CONFIG_PAGE_PROGRESS)
-			break;
-	}
-
-	/* FAIL: The widget is not in our list. */
-	if (link == NULL)
-		return NULL;
-
-	/* Find the corresponding GtkAssistant page index. */
-	if (page_index) {
-		GtkAssistant *assistant;
-		GtkWidget *nth_page;
-		gint ii, n_pages;
-
-		assistant = GTK_ASSISTANT (ec->widget);
-		n_pages = gtk_assistant_get_n_pages (assistant);
-
-		for (ii = 0; ii < n_pages; ii++) {
-			nth_page = gtk_assistant_get_nth_page (assistant, ii);
-			if (page == nth_page) {
-				*page_index = ii;
-				break;
-			}
-		}
-
-		g_warn_if_fail (ii < n_pages);
-	}
-
-	return link;
-}
-
-static void
-ec_assistant_check_current (EConfig *ec)
-{
-	struct _widget_node *wn;
-	struct _finish_page_node *fp;
-	GtkAssistant *assistant;
-	GtkWidget *page;
-	GList *link;
-	gint page_no;
-
-	g_return_if_fail (GTK_IS_ASSISTANT (ec->widget));
-
-	assistant = GTK_ASSISTANT (ec->widget);
-	page_no = gtk_assistant_get_current_page (assistant);
-
-	/* no page selected yet */
-	if (page_no == -1)
-		return;
-
-	page = gtk_assistant_get_nth_page (assistant, page_no);
-	g_return_if_fail (page != NULL);
-
-	link = ec_assistant_find_page (ec, page, NULL);
-	g_return_if_fail (link != NULL);
-	wn = link->data;
-
-	/* this should come first, as the check function can change the finish state of the page */
-	gtk_assistant_set_page_complete (assistant, page, e_config_page_check (ec, wn->item->path));
-
-	fp = find_page_finish (ec, wn->item->path);
-	if (fp) {
-		GtkAssistantPageType pt = gtk_assistant_get_page_type (assistant, page);
-
-		if (fp->is_finish && pt != GTK_ASSISTANT_PAGE_CONFIRM) {
-			if (fp->orig_type == GTK_ASSISTANT_PAGE_CONTENT)
-				fp->orig_type = pt;
-			gtk_assistant_set_page_type (assistant, page, GTK_ASSISTANT_PAGE_CONFIRM);
-		} else if (!fp->is_finish && pt != fp->orig_type) {
-			gtk_assistant_set_page_type (assistant, page, fp->orig_type);
-		}
-	}
-
-	gtk_assistant_update_buttons_state (assistant);
-}
-
-static gboolean
-ec_assistant_skip_page (EConfig *config,
-                        struct _widget_node *wn)
-{
-	struct _check_node *cn;
-	gboolean skip_page = FALSE;
-
-	g_return_val_if_fail (wn->item->path != NULL, FALSE);
-	cn = g_hash_table_lookup (config->priv->skip_checks, wn->item->path);
-
-	if (cn != NULL) {
-		g_return_val_if_fail (cn->func != NULL, FALSE);
-		skip_page = cn->func (config, wn->item->path, cn->data);
-	}
-
-	return skip_page;
-}
-
-static gint
-ec_assistant_forward (gint current_page,
-                      gpointer user_data)
-{
-	GtkAssistant *assistant;
-	EConfig *ec = user_data;
-	struct _widget_node *node;
-	GtkWidget *page_widget;
-	GList *link = NULL;
-	gint next_page;
-
-	/* As far as we're concerned, the GtkAssistant is just an unordered
-	 * collection of pages.  Our sorted list of widget nodes determines
-	 * the next page. */
-
-	assistant = GTK_ASSISTANT (ec->widget);
-	page_widget = gtk_assistant_get_nth_page (assistant, current_page);
-	link = ec_assistant_find_page (ec, page_widget, NULL);
-
-	g_return_val_if_fail (link != NULL, -1);
-	node = (struct _widget_node *) link->data;
-
-	/* If we're already on a FINISH page then we're done. */
-	if (node->item->type == E_CONFIG_PAGE_FINISH)
-		return -1;
-
-	/* Find the next E_CONFIG_PAGE* type node. */
-	for (link = link->next; link != NULL; link = link->next) {
-		gboolean node_is_page;
-
-		node = (struct _widget_node *) link->data;
-
-		if (node->empty || node->frame == NULL)
-			continue;
-
-		switch (node->item->type) {
-			case E_CONFIG_PAGE:
-			case E_CONFIG_PAGE_START:
-			case E_CONFIG_PAGE_FINISH:
-			case E_CONFIG_PAGE_PROGRESS:
-				node_is_page = TRUE;
-				break;
-			default:
-				node_is_page = FALSE;
-				break;
-		}
-
-		if (node_is_page && !ec_assistant_skip_page (ec, node))
-			break;
-	}
-
-	/* Find the corresponding GtkAssistant page number. */
-	if (link != NULL) {
-		node = (struct _widget_node *) link->data;
-		ec_assistant_find_page (ec, node->frame, &next_page);
-	} else
-		next_page = -1;
-
-	return next_page;
-}
-
 static void
 ec_widget_destroyed (GtkWidget *widget,
                      struct _widget_node *node)
@@ -643,11 +345,9 @@ ec_rebuild (EConfig *emp)
 {
 	EConfigPrivate *p = emp->priv;
 	struct _widget_node *sectionnode = NULL, *pagenode = NULL;
-	GtkWidget *book = NULL, *page = NULL, *section = NULL, *root = NULL, *assistant = NULL;
+	GtkWidget *book = NULL, *page = NULL, *section = NULL, *root = NULL;
 	gint pageno = 0, sectionno = 0, itemno = 0;
 	gint n_visible_widgets = 0;
-	GList *last_active_link = NULL;
-	gboolean is_assistant;
 	GList *link;
 
 	d (printf ("target changed, rebuilding:\n"));
@@ -658,25 +358,6 @@ ec_rebuild (EConfig *emp)
 	 * duplication */
 
 	/* because rebuild destroys pages, and destroying active page causes crashes */
-	is_assistant = GTK_IS_ASSISTANT (emp->widget);
-	if (is_assistant) {
-		GtkAssistant *assistant;
-		gint page_index;
-
-		assistant = GTK_ASSISTANT (emp->widget);
-		page_index = gtk_assistant_get_current_page (assistant);
-
-		if (page_index != -1) {
-			GtkWidget *nth_page;
-
-			nth_page = gtk_assistant_get_nth_page (
-				GTK_ASSISTANT (emp->widget), page_index);
-			last_active_link = ec_assistant_find_page (
-				emp, nth_page, NULL);
-		}
-		gtk_assistant_set_current_page (GTK_ASSISTANT (emp->widget), 0);
-	}
-
 	for (link = p->widgets; link != NULL; link = g_list_next (link)) {
 		struct _widget_node *wn = link->data;
 		struct _EConfigItem *item = wn->item;
@@ -692,9 +373,6 @@ ec_rebuild (EConfig *emp)
 		if (sectionnode != NULL
 		    && sectionnode->frame != NULL
 		    && (item->type == E_CONFIG_PAGE
-			|| item->type == E_CONFIG_PAGE_START
-			|| item->type == E_CONFIG_PAGE_FINISH
-			|| item->type == E_CONFIG_PAGE_PROGRESS
 			|| item->type == E_CONFIG_SECTION
 			|| item->type == E_CONFIG_SECTION_TABLE)) {
 			if ((sectionnode->empty = (itemno == 0 || n_visible_widgets == 0))) {
@@ -719,10 +397,7 @@ ec_rebuild (EConfig *emp)
 		/* If the last page doesn't contain anything, hide it */
 		if (pagenode != NULL
 		    && pagenode->frame != NULL
-		    && (item->type == E_CONFIG_PAGE
-			|| item->type == E_CONFIG_PAGE_START
-			|| item->type == E_CONFIG_PAGE_FINISH
-			|| item->type == E_CONFIG_PAGE_PROGRESS)) {
+		    && item->type == E_CONFIG_PAGE) {
 			if ((pagenode->empty = sectionno == 0)) {
 				gtk_widget_hide (pagenode->frame);
 				pageno--;
@@ -734,53 +409,22 @@ ec_rebuild (EConfig *emp)
 		/* Now process the item */
 		switch (item->type) {
 		case E_CONFIG_BOOK:
-		case E_CONFIG_ASSISTANT:
-			/* Only one of BOOK or ASSISTANT may be define, it
-			 * is used by the defining code to mark the
-			 * type of the config window.  It is
-			 * cross-checked with the code's defined
-			 * type. */
+			/* This is used by the defining code to mark the
+			 * type of the config window.  It is cross-checked
+			 * with the code's defined type. */
 			if (root != NULL) {
-				g_warning ("EConfig book/assistant redefined at: %s", item->path);
+				g_warning ("EConfig book redefined at: %s", item->path);
 				break;
 			}
 
 			if (wn->widget == NULL) {
-				if (item->type != emp->type) {
-					g_warning ("EConfig book/assistant type mismatch");
-					break;
-				}
 				if (item->factory) {
 					root = item->factory (
 						emp, item, NULL, wn->widget,
 						0, wn->context->data);
-				} else if (item->type == E_CONFIG_BOOK) {
+				} else {
 					root = gtk_notebook_new ();
 					gtk_widget_show (root);
-				} else if (item->type == E_CONFIG_ASSISTANT) {
-					root = gtk_assistant_new ();
-				} else
-					abort ();
-
-				if (item->type == E_CONFIG_ASSISTANT) {
-					g_signal_connect_swapped (
-						root, "apply",
-						G_CALLBACK (e_config_commit), emp);
-					g_signal_connect_swapped (
-						root, "cancel",
-						G_CALLBACK (e_config_abort), emp);
-					g_signal_connect (
-						root, "cancel",
-						G_CALLBACK (gtk_widget_destroy), emp);
-					g_signal_connect (
-						root, "close",
-						G_CALLBACK (gtk_widget_destroy), NULL);
-					g_signal_connect_swapped (
-						root, "prepare",
-						G_CALLBACK (ec_assistant_check_current), emp);
-					gtk_assistant_set_forward_page_func (
-						GTK_ASSISTANT (root),
-						ec_assistant_forward, emp, NULL);
 				}
 
 				emp->widget = root;
@@ -789,10 +433,7 @@ ec_rebuild (EConfig *emp)
 				root = wn->widget;
 			}
 
-			if (item->type == E_CONFIG_BOOK)
-				book = root;
-			else
-				assistant = root;
+			book = root;
 
 			page = NULL;
 			pagenode = NULL;
@@ -801,85 +442,11 @@ ec_rebuild (EConfig *emp)
 			pageno = 0;
 			sectionno = 0;
 			break;
-		case E_CONFIG_PAGE_START:
-		case E_CONFIG_PAGE_FINISH:
-			if (root == NULL) {
-				g_warning ("EConfig page defined before container widget: %s", item->path);
-				break;
-			}
-			if (emp->type != E_CONFIG_ASSISTANT) {
-				g_warning ("EConfig assistant start/finish pages can't be used on E_CONFIG_BOOKs");
-				break;
-			}
-
-			if (wn->widget == NULL) {
-				if (item->factory) {
-					page = item->factory (
-						emp, item, root, wn->frame,
-						pageno, wn->context->data);
-				} else {
-					page = gtk_vbox_new (FALSE, 0);
-					gtk_container_set_border_width (GTK_CONTAINER (page), 12);
-					if (pagenode) {
-						/* put after */
-						gint index = -1;
-						ec_assistant_find_page (emp, pagenode->frame, &index);
-						gtk_assistant_insert_page (GTK_ASSISTANT (assistant), page, index + 1);
-					} else {
-						gtk_assistant_prepend_page (GTK_ASSISTANT (assistant), page);
-					}
-
-					gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), page, item->type == E_CONFIG_PAGE_START ? GTK_ASSISTANT_PAGE_INTRO : GTK_ASSISTANT_PAGE_CONFIRM);
-					gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), page, translated_label);
-					gtk_widget_show_all (page);
-				}
-
-				if (wn->widget != NULL && wn->widget != page) {
-					gtk_widget_destroy (wn->widget);
-				}
-
-				wn->frame = page;
-				wn->widget = page;
-
-				if (page) {
-					const gchar *empty_xpm_img[] = {
-						"75 1 2 1",
-						"	c None",
-						".	c #FFFFFF",
-						"                                                                           "};
-
-					/* left side place with a blue background on a start and finish page */
-					GdkPixbuf *spacer = gdk_pixbuf_new_from_xpm_data (empty_xpm_img);
-
-					gtk_assistant_set_page_side_image (GTK_ASSISTANT (assistant), page, spacer);
-
-					g_object_unref (spacer);
-				}
-			}
-
-			pageno++;
-			page = NULL;
-			pagenode = wn; /* need this for previous page linking */
-			section = NULL;
-			sectionnode = NULL;
-			sectionno = 1; /* never want to hide these */
-			break;
 		case E_CONFIG_PAGE:
-		case E_CONFIG_PAGE_PROGRESS:
-			/* CONFIG_PAGEs depend on the config type.
-			 * E_CONFIG_BOOK:
-				The page is a VBox, stored in the notebook.
-			 * E_CONFIG_ASSISTANT
-				The page is a VBox, stored in the GtkAssistant,
-				any sections automatically added inside it. */
+			/* The page is a VBox, stored in the notebook. */
 			sectionno = 0;
 			if (root == NULL) {
 				g_warning ("EConfig page defined before container widget: %s", item->path);
-				break;
-			}
-			if (item->type == E_CONFIG_PAGE_PROGRESS &&
-			    emp->type != E_CONFIG_ASSISTANT) {
-				g_warning ("EConfig assistant progress pages can't be used on E_CONFIG_BOOKs");
 				break;
 			}
 
@@ -887,43 +454,20 @@ ec_rebuild (EConfig *emp)
 				page = item->factory (
 					emp, item, root, wn->frame,
 					pageno, wn->context->data);
-				if (emp->type == E_CONFIG_ASSISTANT) {
 					wn->frame = page;
-				} else {
-					wn->frame = page;
-					if (page)
-						gtk_notebook_reorder_child ((GtkNotebook *) book, page, pageno);
-				}
+				if (page)
+					gtk_notebook_reorder_child ((GtkNotebook *) book, page, pageno);
 				if (page)
 					sectionno = 1;
 			} else if (wn->widget == NULL) {
-				if (emp->type == E_CONFIG_ASSISTANT) {
-					page = gtk_vbox_new (FALSE, 0);
-					gtk_container_set_border_width (GTK_CONTAINER (page), 12);
-					if (pagenode) {
-						/* put after */
-						gint index = -1;
-						ec_assistant_find_page (emp, pagenode->frame, &index);
-						gtk_assistant_insert_page (GTK_ASSISTANT (assistant), page, index + 1);
-					} else {
-						gtk_assistant_prepend_page (GTK_ASSISTANT (assistant), page);
-					}
-
-					gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), page, item->type == E_CONFIG_PAGE ? GTK_ASSISTANT_PAGE_CONTENT : GTK_ASSISTANT_PAGE_PROGRESS);
-					gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), page, translated_label);
-					gtk_widget_show_all (page);
-
-					wn->frame = page;
-				} else {
-					w = gtk_label_new_with_mnemonic (translated_label);
-					gtk_widget_show (w);
-					page = gtk_vbox_new (FALSE, 12);
-					gtk_container_set_border_width ((GtkContainer *) page, 12);
-					gtk_widget_show (page);
-					gtk_notebook_insert_page ((GtkNotebook *) book, page, w, pageno);
-					gtk_container_child_set (GTK_CONTAINER (book), page, "tab-fill", FALSE, "tab-expand", FALSE, NULL);
-					wn->frame = page;
-				}
+				w = gtk_label_new_with_mnemonic (translated_label);
+				gtk_widget_show (w);
+				page = gtk_vbox_new (FALSE, 12);
+				gtk_container_set_border_width ((GtkContainer *) page, 12);
+				gtk_widget_show (page);
+				gtk_notebook_insert_page ((GtkNotebook *) book, page, w, pageno);
+				gtk_container_child_set (GTK_CONTAINER (book), page, "tab-fill", FALSE, "tab-expand", FALSE, NULL);
+				wn->frame = page;
 			} else
 				page = wn->widget;
 
@@ -1130,17 +674,6 @@ ec_rebuild (EConfig *emp)
 			gtk_notebook_set_show_border ((GtkNotebook *) book, FALSE);
 		}
 	}
-
-	if (is_assistant && last_active_link != NULL) {
-		GtkAssistant *assistant;
-		struct _widget_node *wn;
-		gint page_index = -1;
-
-		wn = last_active_link->data;
-		assistant = GTK_ASSISTANT (emp->widget);
-		ec_assistant_find_page (emp, wn->frame, &page_index);
-		gtk_assistant_set_current_page (assistant, page_index);
-	}
 }
 
 /**
@@ -1178,10 +711,7 @@ ec_widget_destroy (GtkWidget *w,
  * e_config_create_widget:
  * @emp: An initialised EConfig object.
  *
- * Create the widget described by @emp.  Only the core widget
- * appropriate for the given type is created, i.e. a GtkNotebook for
- * the E_CONFIG_BOOK type and a GtkAssistant for the E_CONFIG_ASSISTANT
- * type.
+ * Create the #GtkNotebook described by @emp.
  *
  * This object will be self-driving, but will not close itself once
  * complete.
@@ -1236,98 +766,19 @@ e_config_create_widget (EConfig *emp)
 		G_CALLBACK (ec_widget_destroy), emp);
 
 	/* FIXME: for some reason ec_rebuild puts the widget on page 1, this is just to override that */
-	if (emp->type == E_CONFIG_BOOK)
-		gtk_notebook_set_current_page ((GtkNotebook *) emp->widget, 0);
-	else {
-		gtk_window_set_position (GTK_WINDOW (emp->widget), GTK_WIN_POS_CENTER);
-	}
+	gtk_notebook_set_current_page ((GtkNotebook *) emp->widget, 0);
 
 	return emp->widget;
 }
 
 static void
-ec_dialog_response (GtkWidget *d,
-                    gint id,
-                    EConfig *ec)
-{
-	if (id == GTK_RESPONSE_OK)
-		e_config_commit (ec);
-	else
-		e_config_abort (ec);
-
-	gtk_widget_destroy (d);
-}
-
-/**
- * e_config_create_window:
- * @emp: Initialised and configured EMConfig derived instance.
- * @parent: Parent window or NULL.
- * @title: Title of window or dialog.
- *
- * Create a managed GtkWindow object from @emp.  This window will be
- * fully driven by the EConfig @emp.  If @emp.type is
- * @E_CONFIG_ASSISTANT, then this will be a toplevel GtkWindow containing
- * a GtkAssistant.  If it is @E_CONFIG_BOOK then it will be a GtkDialog
- * containing a Notebook.
- *
- * Unless reffed otherwise, the management object @emp will be
- * finalized when the widget is.
- *
- * Return value: The window widget.  This is also stored in @emp.window.
- **/
-GtkWidget *
-e_config_create_window (EConfig *emp,
-                        GtkWindow *parent,
-                        const gchar *title)
-{
-	GtkWidget *window;
-
-	e_config_create_widget (emp);
-
-	if (emp->type == E_CONFIG_BOOK) {
-		GtkWidget *content_area;
-
-		window = gtk_dialog_new_with_buttons (
-			title, parent,
-			GTK_DIALOG_DESTROY_WITH_PARENT,
-			GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-			GTK_STOCK_APPLY, GTK_RESPONSE_OK,
-			NULL);
-		g_signal_connect (
-			window, "response",
-			G_CALLBACK (ec_dialog_response), emp);
-
-		gtk_container_set_border_width (GTK_CONTAINER (window), 5);
-		gtk_container_set_border_width (GTK_CONTAINER (emp->widget), 5);
-
-		content_area =
-			gtk_dialog_get_content_area (GTK_DIALOG (window));
-		gtk_box_pack_start (
-			GTK_BOX (content_area), emp->widget, TRUE, TRUE, 0);
-	} else {
-		/* response is handled directly by the assistant stuff */
-		window = emp->widget;
-		gtk_window_set_title (GTK_WINDOW (window), title);
-	}
-
-	emp->window = window;
-	gtk_widget_show (window);
-
-	return window;
-}
-
-static void
 ec_call_page_check (EConfig *emp)
 {
-	if (emp->type == E_CONFIG_ASSISTANT) {
-		ec_assistant_check_current (emp);
-	} else {
-		if (emp->window) {
-			if (e_config_page_check (emp, NULL)) {
-				gtk_dialog_set_response_sensitive ((GtkDialog *) emp->window, GTK_RESPONSE_OK, TRUE);
-			} else {
-				gtk_dialog_set_response_sensitive ((GtkDialog *) emp->window, GTK_RESPONSE_OK, FALSE);
-			}
+	if (emp->window) {
+		if (e_config_page_check (emp, NULL)) {
+			gtk_dialog_set_response_sensitive ((GtkDialog *) emp->window, GTK_RESPONSE_OK, TRUE);
+		} else {
+			gtk_dialog_set_response_sensitive ((GtkDialog *) emp->window, GTK_RESPONSE_OK, FALSE);
 		}
 	}
 }
@@ -1435,123 +886,6 @@ e_config_page_check (EConfig *config,
 	return TRUE;
 }
 
-/**
- * e_config_page_get:
- * @ec:
- * @pageid: The path of the page item.
- *
- * Retrieve the page widget corresponding to @pageid.
- *
- * Return value: The page widget.  It will be the root GtkNotebook
- * container or the GtkBox object inside the assistant.
- **/
-GtkWidget *
-e_config_page_get (EConfig *ec,
-                   const gchar *pageid)
-{
-	GList *link;
-
-	link = ec->priv->widgets;
-
-	while (link != NULL) {
-		struct _widget_node *wn = link->data;
-
-		if (!wn->empty
-		    && (wn->item->type == E_CONFIG_PAGE
-			|| wn->item->type == E_CONFIG_PAGE_START
-			|| wn->item->type == E_CONFIG_PAGE_FINISH
-			|| wn->item->type == E_CONFIG_PAGE_PROGRESS)
-		    && !strcmp (wn->item->path, pageid))
-			return wn->frame;
-
-		link = g_list_next (link);
-	}
-
-	return NULL;
-}
-
-/**
- * e_config_page_next:
- * @ec:
- * @pageid: The path of the page item.
- *
- * Find the path of the next visible page after @pageid.  If @pageid
- * is NULL then find the first visible page.
- *
- * Return value: The path of the next page, or @NULL if @pageid was the
- * last configured and visible page.
- **/
-const gchar *
-e_config_page_next (EConfig *ec,
-                    const gchar *pageid)
-{
-	GList *link;
-	gint found;
-
-	link = g_list_first (ec->priv->widgets);
-	found = pageid == NULL ? 1 : 0;
-
-	while (link != NULL) {
-		struct _widget_node *wn = link->data;
-
-		if (!wn->empty
-		    && (wn->item->type == E_CONFIG_PAGE
-			|| wn->item->type == E_CONFIG_PAGE_START
-			|| wn->item->type == E_CONFIG_PAGE_FINISH
-			|| wn->item->type == E_CONFIG_PAGE_PROGRESS)) {
-			if (found)
-				return wn->item->path;
-			else if (strcmp (wn->item->path, pageid) == 0)
-				found = 1;
-		}
-
-		link = g_list_next (link);
-	}
-
-	return NULL;
-}
-
-/**
- * e_config_page_prev:
- * @ec: an #EConfig
- * @pageid: The path of the page item.
- *
- * Find the path of the previous visible page before @pageid.  If @pageid
- * is NULL then find the last visible page.
- *
- * Return value: The path of the previous page, or @NULL if @pageid was the
- * first configured and visible page.
- **/
-const gchar *
-e_config_page_prev (EConfig *ec,
-                    const gchar *pageid)
-{
-	GList *link;
-	gint found;
-
-	link = g_list_last (ec->priv->widgets);
-	found = pageid == NULL ? 1 : 0;
-
-	while (link != NULL) {
-		struct _widget_node *wn = link->data;
-
-		if (!wn->empty
-		    && (wn->item->type == E_CONFIG_PAGE
-			|| wn->item->type == E_CONFIG_PAGE_START
-			|| wn->item->type == E_CONFIG_PAGE_FINISH
-			|| wn->item->type == E_CONFIG_PAGE_PROGRESS)) {
-			if (found)
-				return wn->item->path;
-			else if (strcmp (wn->item->path, pageid) == 0)
-				found = 1;
-		}
-
-		link = g_list_previous (link);
-	}
-
-	return NULL;
-}
-
 /* ********************************************************************** */
 
 /**
@@ -1589,26 +923,6 @@ e_config_class_add_factory (EConfigClass *class,
 	class->factories = g_list_append (class->factories, factory);
 
 	return factory;
-}
-
-/**
- * e_config_class_remove_factory:
- * @factory: an #EConfigFactory
- *
- * Removes a config factory.
- **/
-void
-e_config_class_remove_factory (EConfigClass *class,
-                               EConfigFactory *factory)
-{
-	g_return_if_fail (E_IS_CONFIG_CLASS (class));
-	g_return_if_fail (factory != NULL);
-
-	class->factories = g_list_remove (class->factories, factory);
-
-	g_free (factory->id);
-
-	g_slice_free (EConfigFactory, factory);
 }
 
 /**
@@ -1684,11 +998,8 @@ e_config_target_free (EConfig *ep,
 
 static const EPluginHookTargetKey ech_item_types[] = {
 	{ "book", E_CONFIG_BOOK },
-	{ "assistant", E_CONFIG_ASSISTANT },
 
 	{ "page", E_CONFIG_PAGE },
-	{ "page_start", E_CONFIG_PAGE_START },
-	{ "page_finish", E_CONFIG_PAGE_FINISH },
 	{ "section", E_CONFIG_SECTION },
 	{ "section_table", E_CONFIG_SECTION_TABLE },
 	{ "item", E_CONFIG_ITEM },

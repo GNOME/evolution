@@ -324,13 +324,12 @@ em_network_prefs_construct (EMNetworkPrefs *prefs)
 
 	/** @HookPoint-EMConfig: Network Preferences
 	 * @Id: org.gnome.evolution.mail.networkPrefs
-	 * @Type: E_CONFIG_BOOK
 	 * @Class: org.gnome.evolution.mail.config:1.0
 	 * @Target: EMConfigTargetPrefs
 	 *
 	 * The network preferences settings page.
 	 */
-	ec = em_config_new (E_CONFIG_BOOK, "org.gnome.evolution.mail.networkPrefs");
+	ec = em_config_new ("org.gnome.evolution.mail.networkPrefs");
 	l = NULL;
 	for (i = 0; i < G_N_ELEMENTS (emnp_items); i++)
 		l = g_slist_prepend (l, &emnp_items[i]);

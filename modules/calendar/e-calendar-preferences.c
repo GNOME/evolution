@@ -496,13 +496,12 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 
 	/** @HookPoint-ECalConfig: Calendar Preferences Page
 	 * @Id: org.gnome.evolution.calendar.prefs
-	 * @Type: E_CONFIG_BOOK
 	 * @Class: org.gnome.evolution.calendar.config:1.0
 	 * @Target: ECalConfigTargetPrefs
 	 *
 	 * The mail calendar preferences page
 	 */
-	ec = e_cal_config_new (E_CONFIG_BOOK, "org.gnome.evolution.calendar.prefs");
+	ec = e_cal_config_new ("org.gnome.evolution.calendar.prefs");
 	l = NULL;
 	for (i = 0; i < G_N_ELEMENTS (eccp_items); i++)
 		l = g_slist_prepend (l, &eccp_items[i]);

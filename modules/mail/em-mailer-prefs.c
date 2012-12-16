@@ -777,13 +777,12 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 
 	/** @HookPoint-EMConfig: Mail Preferences Page
 	 * @Id: org.gnome.evolution.mail.prefs
-	 * @Type: E_CONFIG_BOOK
 	 * @Class: org.gnome.evolution.mail.config:1.0
 	 * @Target: EMConfigTargetPrefs
 	 *
 	 * The main mail preferences page.
 	 */
-	ec = em_config_new (E_CONFIG_BOOK, "org.gnome.evolution.mail.prefs");
+	ec = em_config_new ("org.gnome.evolution.mail.prefs");
 	l = NULL;
 	for (i = 0; i < G_N_ELEMENTS (emmp_items); i++)
 		l = g_slist_prepend (l, &emmp_items[i]);

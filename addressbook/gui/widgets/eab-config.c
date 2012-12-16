@@ -124,11 +124,10 @@ eab_config_class_init (EABConfigClass *class)
 }
 
 EABConfig *
-eab_config_new (gint type,
-                const gchar *menuid)
+eab_config_new (const gchar *menuid)
 {
 	EABConfig *ecp = g_object_new (eab_config_get_type (), NULL);
-	e_config_construct (&ecp->config, type, menuid);
+	e_config_construct (&ecp->config, menuid);
 	return ecp;
 }
 
