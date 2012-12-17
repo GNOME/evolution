@@ -595,7 +595,7 @@ TEST_CPPFLAGS = \
 	$(NULL)
 
 TEST_LDADD = \
-	$(top_builddir)/e-util/libeutil.la \
+	libeutil.la \
 	$(libeutil_la_LIBADD) \
 	$(NULL)
 
