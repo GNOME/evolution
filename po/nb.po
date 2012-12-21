@@ -1,6 +1,5 @@
 # Norwegian bokmål translation of evolution.
 # Copyright (C) 1998-2004, 2005 Free Software Foundation, Inc.
-#
 # Kjartan Maraas <kmaraas@gnome.org>, 1998-2012.
 # Terance Edward Sola <terance@lyse.net>, 2005.
 # Torstein Adolf Winterseth <kvikende@fsfe.org>, 2010.
@@ -9,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 3.7.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-19 14:00+0100\n"
-"PO-Revision-Date: 2012-12-19 14:12+0100\n"
+"POT-Creation-Date: 2012-12-21 17:21+0100\n"
+"PO-Revision-Date: 2012-12-21 17:23+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: Norsk bokmål\n"
@@ -2031,7 +2030,9 @@ msgstr "Slett ekstern kalender «{0}»?"
 msgid ""
 "This will permanently remove the calendar '{0}' from the server. Are you "
 "sure you want to proceed?"
-msgstr "Dette vil fjerne kalender «{0}» fra tjener permanent. Er du sikker på at du vil fortsette?"
+msgstr ""
+"Dette vil fjerne kalender «{0}» fra tjener permanent. Er du sikker på at du "
+"vil fortsette?"
 
 #: ../calendar/calendar.error.xml.h:69
 msgid "Delete remote task list '{0}'?"
@@ -2041,7 +2042,9 @@ msgstr "Slett ekstern oppgaveliste «{0}»?"
 msgid ""
 "This will permanently remove the task list '{0}' from the server. Are you "
 "sure you want to proceed?"
-msgstr "Dette vil fjerne oppgavelisten «{0}» fra tjeneren permanent. Er du sikker på at du vil fortsette?"
+msgstr ""
+"Dette vil fjerne oppgavelisten «{0}» fra tjeneren permanent. Er du sikker på "
+"at du vil fortsette?"
 
 #: ../calendar/calendar.error.xml.h:71
 msgid "Delete remote memo list '{0}'?"
@@ -2051,7 +2054,9 @@ msgstr "Slett ekstern notatliste «{0}»?"
 msgid ""
 "This will permanently remove the memo list '{0}' from the server. Are you "
 "sure you want to proceed?"
-msgstr "Dette vil fjerne notatlisten «{0}» fra tjeneren permanent. Er du sikker på at du vil fortsette?"
+msgstr ""
+"Dette vil fjerne notatlisten «{0}» fra tjeneren permanent. Er du sikker på "
+"at du vil fortsette?"
 
 #: ../calendar/calendar.error.xml.h:73
 msgid "Are you sure you want to save the appointment without a summary?"
@@ -8868,7 +8873,7 @@ msgstr ""
 #. indicate that an attachment should have been attached to the message.
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:4
 msgid "['attachment','attaching','attached','enclosed']"
-msgstr ""
+msgstr "['vedlegg','legger ved','vedlagt','lagt ved']"
 
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:5
 msgid ""
@@ -10321,7 +10326,9 @@ msgstr "Egenskaper for kategori"
 msgid ""
 "There is already a category '%s' in the configuration. Please use another "
 "name"
-msgstr "Det finnes allerede en kategori «%s» i konfigurasjonen. Vennligst bruk et annet navn"
+msgstr ""
+"Det finnes allerede en kategori «%s» i konfigurasjonen. Vennligst bruk et "
+"annet navn"
 
 #: ../e-util/e-cell-combo.c:186
 msgid "popup list"
@@ -11006,7 +11013,7 @@ msgstr "Feil ved lasting av adressebok: %s"
 #: ../e-util/e-name-selector-entry.c:3007
 #, c-format, fuzzy
 msgid "E_xpand %s Inline"
-msgstr "Ut_vid alle i"
+msgstr "Ut_vid %s i meldingen"
 
 #. Copy Contact Item
 #: ../e-util/e-name-selector-entry.c:3023
@@ -11766,7 +11773,9 @@ msgid ""
 ">Message Filters.\n"
 "Original error was: %s"
 msgstr ""
-"Klarte ikke å filtrere valgte meldinger. En årsak kan være at mappelokasjonen som er satt i ett eller flere filtre er ugyldig. Vennligst sjekk dine filtre i «Rediger->Meldingsfiltre».\n"
+"Klarte ikke å filtrere valgte meldinger. En årsak kan være at "
+"mappelokasjonen som er satt i ett eller flere filtre er ugyldig. Vennligst "
+"sjekk dine filtre i «Rediger->Meldingsfiltre».\n"
 "Opprinnelig feil var: %s"
 
 #: ../libemail-engine/mail-ops.c:232
@@ -11782,7 +11791,9 @@ msgid ""
 ">Message Filters.\n"
 "Original error was: %s"
 msgstr ""
-"Klarte ikke å bruke utgående filtre. En årsak kan være at mappelokasjonen som er satt i ett eller flere filtre er ugyldig. Vennligst sjekk dine filtre i «Rediger->Meldingsfiltre».\n"
+"Klarte ikke å bruke utgående filtre. En årsak kan være at mappelokasjonen "
+"som er satt i ett eller flere filtre er ugyldig. Vennligst sjekk dine filtre "
+"i «Rediger->Meldingsfiltre».\n"
 "Opprinnelig feil var: %s"
 
 #: ../libemail-engine/mail-ops.c:976
@@ -19553,19 +19564,25 @@ msgstr "Kan ikke åpne kalender. %s"
 msgid ""
 "Selected calendar is read only, thus cannot create event there. Select other "
 "calendar, please."
-msgstr "Valgt kalender er skrivebeskyttet og hendelser kan ikke opprettes der. Velg en annen kalender."
+msgstr ""
+"Valgt kalender er skrivebeskyttet og hendelser kan ikke opprettes der. Velg "
+"en annen kalender."
 
 #: ../plugins/mail-to-task/mail-to-task.c:857
 msgid ""
 "Selected task list is read only, thus cannot create task there. Select other "
 "task list, please."
-msgstr "Valgt oppgaveliste er skrivebeskyttet og oppgaver kan ikke opprettes der. Velg en annen oppgaveliste."
+msgstr ""
+"Valgt oppgaveliste er skrivebeskyttet og oppgaver kan ikke opprettes der. "
+"Velg en annen oppgaveliste."
 
 #: ../plugins/mail-to-task/mail-to-task.c:860
 msgid ""
 "Selected memo list is read only, thus cannot create memo there. Select other "
 "memo list, please."
-msgstr "Valgt notantliste er skrivebeskyttet og notater kan ikke opprettes der. Velg en annen notatliste."
+msgstr ""
+"Valgt notantliste er skrivebeskyttet og notater kan ikke opprettes der. Velg "
+"en annen notatliste."
 
 #: ../plugins/mail-to-task/mail-to-task.c:1189
 msgid "No writable calendar is available."
