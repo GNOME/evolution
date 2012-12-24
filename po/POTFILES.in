@@ -424,7 +424,6 @@ modules/calendar/e-task-shell-sidebar.c
 modules/calendar/e-task-shell-view-actions.c
 modules/calendar/e-task-shell-view.c
 modules/calendar/e-task-shell-view-private.c
-modules/imap-features/e-mail-config-imap-headers-page.c
 modules/itip-formatter/e-mail-formatter-itip.c
 modules/itip-formatter/itip-view.c
 modules/itip-formatter/org-gnome-itip-formatter.error.xml

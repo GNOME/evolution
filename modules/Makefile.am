@@ -46,7 +46,6 @@ SUBDIRS = \
 	$(CONFIG_WEATHER_DIR) \
 	cal-config-webcal \
 	composer-autosave \
-	imap-features \
 	itip-formatter \
 	mail-config \
 	mailto-handler \
