@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2012-12-20 16:30+0000\n"
-"PO-Revision-Date: 2012-12-21 13:20+0530\n"
+"PO-Revision-Date: 2012-12-28 19:07+0530\n"
 "Last-Translator: Nilamdyuti Goswami <ngoswami@redhat.com>\n"
 "Language-Team: Assamese <kde-i18n-doc@kde.org>\n"
 "Language: as_IN\n"
@@ -9990,7 +9990,7 @@ msgstr "প্ৰামাণিক"
 
 #: ../e-util/e-send-options.ui.h:6
 msgid "Proprietary"
-msgstr "Proprietary"
+msgstr "মালিকবৰ্গ"
 
 #
 #: ../e-util/e-send-options.ui.h:8
@@ -10003,7 +10003,7 @@ msgstr "অতিমাত্ৰাত গোপন"
 
 #: ../e-util/e-send-options.ui.h:10
 msgid "For Your Eyes Only"
-msgstr "For Your Eyes Only"
+msgstr "কেৱল তোমাৰ চঁকুৰ বাবে"
 
 #. Translators: Used in send options dialog
 #: ../e-util/e-send-options.ui.h:12
@@ -10013,7 +10013,7 @@ msgstr "কোনো নহয়"
 
 #: ../e-util/e-send-options.ui.h:13
 msgid "Mail Receipt"
-msgstr "Mail Receipt"
+msgstr "মেইল প্ৰাপ্ত"
 
 #: ../e-util/e-send-options.ui.h:15
 msgid "R_eply requested"
@@ -10022,7 +10022,7 @@ msgstr "উত্তৰেৰ অনুৰোধ জানানো হৈছে
 #: ../e-util/e-send-options.ui.h:16
 msgctxt "ESendOptionsWithin"
 msgid "Wi_thin"
-msgstr "Wi_thin"
+msgstr "ভিতৰত (_t)"
 
 #: ../e-util/e-send-options.ui.h:17
 msgctxt "ESendOptionsWithin"
@@ -10044,7 +10044,7 @@ msgstr "বিলম্বেৰৰ পিছত বাৰ্তা প্ৰে
 #: ../e-util/e-send-options.ui.h:21
 msgctxt "ESendOptionsAfter"
 msgid "_After"
-msgstr "_After"
+msgstr "পিছত (_A)"
 
 #: ../e-util/e-send-options.ui.h:22
 msgctxt "ESendOptionsAfter"
@@ -10058,11 +10058,11 @@ msgstr "মেয়াদপূৰ্তীৰ তাৰিখ নিৰ্ধা�
 #: ../e-util/e-send-options.ui.h:24
 msgctxt "ESendOptions"
 msgid "_Until"
-msgstr "_Until"
+msgstr "যেতিয়ালৈকে (_U)"
 
 #: ../e-util/e-send-options.ui.h:25
 msgid "Delivery Options"
-msgstr "Delivery Options"
+msgstr "প্ৰেৰণৰ বিকল্পসমূহ"
 
 #: ../e-util/e-send-options.ui.h:27
 msgid "_Classification:"
@@ -10094,7 +10094,7 @@ msgstr "প্ৰেৰিত বস্তু স্বয়ংক্ৰিয়ৰ�
 
 #: ../e-util/e-send-options.ui.h:34
 msgid "Status Tracking"
-msgstr "Status Tracking"
+msgstr "অৱস্থা অনুকৰণ"
 
 #: ../e-util/e-send-options.ui.h:35
 msgid "_When opened:"
@@ -10114,7 +10114,7 @@ msgstr "গ্ৰহণ কৰাৰ সময় (_p):"
 
 #: ../e-util/e-send-options.ui.h:39
 msgid "Return Notification"
-msgstr "Return Notification"
+msgstr "ঘুৰোৱাৰ অধিসূচনা"
 
 #: ../e-util/e-send-options.ui.h:40
 msgid "Sta_tus Tracking"
@@ -10146,15 +10146,15 @@ msgstr "মচি পেলাওক (_R)"
 
 #: ../e-util/e-table-config.ui.h:9
 msgid "_Show field in View"
-msgstr "ভিউ"
+msgstr "দৰ্শনত ফিল্ড দেখুৱাওক (_S)"
 
 #: ../e-util/e-table-config.ui.h:10 ../e-util/e-table-header-item.c:1751
 msgid "Ascending"
-msgstr "ছোট পৰা বড়"
+msgstr "আৰোহন"
 
 #: ../e-util/e-table-config.ui.h:11 ../e-util/e-table-header-item.c:1751
 msgid "Descending"
-msgstr "বড় পৰা ছোট"
+msgstr "অৱৰোহন"
 
 #: ../e-util/e-table-config.ui.h:12
 msgid "Group Items By"
@@ -10162,7 +10162,7 @@ msgstr "বস্তু উল্লেখিত পৰিমাপ অনুয
 
 #: ../e-util/e-table-config.ui.h:13
 msgid "Show _field in View"
-msgstr "ভিউ"
+msgstr "দৰ্শনত ফিল্ড দেখুৱাওক (_f)"
 
 #: ../e-util/e-table-config.ui.h:14
 msgid "Then By"
@@ -10170,15 +10170,15 @@ msgstr "পৰবৰ্তী ক্ৰমিক মান"
 
 #: ../e-util/e-table-config.ui.h:15
 msgid "Show field i_n View"
-msgstr "ভিউ"
+msgstr "দৰ্শনত ফিল্ড দেখুৱাওক (_n)"
 
 #: ../e-util/e-table-config.ui.h:16
 msgid "Show field in _View"
-msgstr "ভিউ"
+msgstr "দৰ্শনত ফিল্ড দেখুৱাওক (_V)"
 
 #: ../e-util/e-table-config.ui.h:17
 msgid "Clear _All"
-msgstr "সমস্ত মচি পেলাওক"
+msgstr "সকলো পৰিষ্কাৰ কৰক (_A)"
 
 #: ../e-util/e-table-config.ui.h:18
 msgid "Sort"
@@ -10270,7 +10270,7 @@ msgstr "পূৰ্বে"
 
 #: ../e-util/filter.ui.h:13
 msgid "in the future"
-msgstr "পৰে"
+msgstr "ভৱিষ্যতত"
 
 #: ../e-util/filter.ui.h:14
 msgid "Show filters for mail:"
@@ -10278,7 +10278,7 @@ msgstr "বাৰ্তাৰ বাবে প্ৰযোজ্য ফিল্
 
 #: ../e-util/filter.ui.h:15 ../mail/em-filter-editor.c:166
 msgid "_Filter Rules"
-msgstr "ফিল্টাৰেৰ নিয়মাবলী(_F)"
+msgstr "ফিল্টাৰৰ নিয়মাবলী (_F)"
 
 #: ../e-util/filter.ui.h:17
 msgid "Compare against"
@@ -10387,7 +10387,7 @@ msgstr "%s (%d%% সম্পন্ন)"
 
 #: ../e-util/e-alert-bar.c:120
 msgid "Close this message"
-msgstr "Close this message"
+msgstr "এই বাৰ্তা বন্ধ কৰক"
 
 #: ../e-util/e-attachment-bar.c:660 ../e-util/e-attachment-paned.c:703
 msgid "Icon View"
@@ -10415,7 +10415,7 @@ msgstr "সংযুক্ত বস্তু স্বয়ংক্ৰিয়ভ�
 
 #: ../e-util/e-attachment-handler-image.c:97
 msgid "Could not set as background"
-msgstr "Could not set as background"
+msgstr "পটভূমি হিচাপে সংস্থাপন কৰিব পৰা নগল"
 
 #: ../e-util/e-attachment-handler-image.c:147
 msgid "Set as _Background"
@@ -10424,16 +10424,16 @@ msgstr "পটভূমী হিচাপে নিৰ্ধাৰণ কৰক
 #: ../e-util/e-attachment-handler-sendto.c:93
 msgid "Could not send attachment"
 msgid_plural "Could not send attachments"
-msgstr[0] "Could not send attachment"
-msgstr[1] "Could not send attachments"
+msgstr[0] "এটাচমেন্ট পঠাব পৰা নগল"
+msgstr[1] "এটাচমেন্টসমূহ পঠাব পৰা নগল"
 
 #: ../e-util/e-attachment-handler-sendto.c:135
 msgid "_Send To..."
-msgstr "_Send To..."
+msgstr "লৈ পঠাওক (_S)..."
 
 #: ../e-util/e-attachment-handler-sendto.c:137
 msgid "Send the selected attachments somewhere"
-msgstr "Send the selected attachments somewhere"
+msgstr "নিৰ্বাচিত এটাচমেন্টসমূহ কোনো ঠাইত পঠাওক"
 
 #: ../e-util/e-attachment-icon-view.c:166
 #: ../e-util/e-attachment-tree-view.c:549
@@ -10455,7 +10455,7 @@ msgstr "সংযুক্ত বস্তুসহ বাৰ প্ৰদৰ্
 
 #: ../e-util/e-attachment-store.c:429
 msgid "Add Attachment"
-msgstr "Add Attachment"
+msgstr "এটাচমেন্ট যোগ কৰক"
 
 #: ../e-util/e-attachment-store.c:432
 msgid "A_ttach"
@@ -10464,8 +10464,8 @@ msgstr "সংযুক্ত কৰক (_t)"
 #: ../e-util/e-attachment-store.c:495
 msgid "Save Attachment"
 msgid_plural "Save Attachments"
-msgstr[0] "Save Attachment"
-msgstr[1] "Save Attachments"
+msgstr[0] "এটাচমেন্ট সংৰক্ষণ কৰক"
+msgstr[1] "এটাচমেন্টসমূহ সংৰক্ষণ কৰক"
 
 #. Translators: Default attachment filename.
 #: ../e-util/e-attachment-store.c:524 ../e-util/e-attachment.c:1841
@@ -10475,7 +10475,7 @@ msgstr "attachment.dat"
 
 #: ../e-util/e-attachment-view.c:378
 msgid "Open With Other Application..."
-msgstr "Open With Other Application..."
+msgstr "অন্য এপ্লিকেচনৰ সৈতে খোলক..."
 
 #: ../e-util/e-attachment-view.c:385
 msgid "S_ave All"
@@ -10483,15 +10483,15 @@ msgstr "সমস্ত সংৰক্ষণ কৰক (_a)"
 
 #: ../e-util/e-attachment-view.c:411
 msgid "A_dd Attachment..."
-msgstr "A_dd Attachment..."
+msgstr "এটাচমেন্ট যোগ কৰক (_d)..."
 
 #: ../e-util/e-attachment-view.c:435
 msgid "_Hide"
-msgstr "লুকিয়ে পেলাওক (_H)"
+msgstr "লুকাওক (_H)"
 
 #: ../e-util/e-attachment-view.c:442
 msgid "Hid_e All"
-msgstr "Hid_e All"
+msgstr "সকলো লুকাওক (_e)"
 
 #: ../e-util/e-attachment-view.c:449
 msgid "_View Inline"
@@ -10499,17 +10499,17 @@ msgstr "ইনলাইন প্ৰতক্ষ্য কৰক (_V)"
 
 #: ../e-util/e-attachment-view.c:456
 msgid "Vie_w All Inline"
-msgstr "Vie_w All Inline"
+msgstr "সকলো ইনলাইন দৰ্শন কৰক (_w)"
 
 #: ../e-util/e-attachment-view.c:777
 #, c-format
 msgid "Open With \"%s\""
-msgstr "Open With \"%s\""
+msgstr "\"%s\" ৰ সৈতে খোলক"
 
 #: ../e-util/e-attachment-view.c:780
 #, c-format
 msgid "Open this attachment in %s"
-msgstr "Open this attachment in %s"
+msgstr "%s ত এই এটাচমেন্ট খোলক"
 
 #. To Translators: This text is set as a description of an attached
 #. * message when, for example, attaching it to a composer. When the
@@ -10517,25 +10517,25 @@ msgstr "Open this attachment in %s"
 #. * of form "Attached message - Subject", otherwise it's left as is.
 #: ../e-util/e-attachment.c:978
 msgid "Attached message"
-msgstr "Attached message"
+msgstr "সংলগ্ন বাৰ্তা"
 
 #: ../e-util/e-attachment.c:1886 ../e-util/e-attachment.c:2748
 msgid "A load operation is already in progress"
-msgstr "A load operation is already in progress"
+msgstr "এটা ল'ড কাৰ্য্য ইতিমধ্যে প্ৰগতিশীল"
 
 #: ../e-util/e-attachment.c:1894 ../e-util/e-attachment.c:2756
 msgid "A save operation is already in progress"
-msgstr "A save operation is already in progress"
+msgstr "এটা সংৰক্ষণ কাৰ্য্য ইতিমধ্যে প্ৰগতিশীল"
 
 #: ../e-util/e-attachment.c:2002
 #, c-format
 msgid "Could not load '%s'"
-msgstr "Could not load '%s'"
+msgstr "'%s' ল'ড কৰিব পৰা নগল"
 
 #: ../e-util/e-attachment.c:2005
 #, c-format
 msgid "Could not load the attachment"
-msgstr "Could not load the attachment"
+msgstr "এটাচমেন্ট ল'ড কৰিব পৰা নগল"
 
 #: ../e-util/e-attachment.c:2303
 #, c-format
@@ -10545,50 +10545,50 @@ msgstr "'%s' খোলিব নোৱাৰি"
 #: ../e-util/e-attachment.c:2306
 #, c-format
 msgid "Could not open the attachment"
-msgstr "Could not open the attachment"
+msgstr "এটাচমেন্ট খোলিব পৰা নগল"
 
 #: ../e-util/e-attachment.c:2764
 msgid "Attachment contents not loaded"
-msgstr "Attachment contents not loaded"
+msgstr "এটাচমেন্টৰ সমলসমূহ ল'ড কৰা হোৱা নাই"
 
 #: ../e-util/e-attachment.c:2840
 #, c-format
 msgid "Could not save '%s'"
-msgstr "Could not save '%s'"
+msgstr "'%s' সংৰক্ষণ কৰিব পৰা নগল"
 
 #: ../e-util/e-attachment.c:2843
 #, c-format
 msgid "Could not save the attachment"
-msgstr "Could not save the attachment"
+msgstr "এটাচমেন্ট সংৰক্ষণ কৰিব পৰা নগল"
 
 #: ../e-util/e-book-source-config.c:98
 msgid "Mark as default address book"
-msgstr "Mark as default address book"
+msgstr "অবিকল্পিত ঠিকনা বহী হিচাপে চিহ্নিত কৰক"
 
 #: ../e-util/e-book-source-config.c:103
 msgid "Autocomplete with this address book"
-msgstr "Autocomplete with this address book"
+msgstr "এই ঠিকনা বহীৰ সৈতে স্বসম্পূৰ্ণ কৰক"
 
 #: ../e-util/e-book-source-config.c:277
 msgid "Copy book content locally for offline operation"
-msgstr "Copy book content locally for offline operation"
+msgstr "অফলাইন কাৰ্য্যৰ বাবে কিতাপৰ সমল স্থানীয়ভাৱে কপি কৰক"
 
 #. To Translators: The text is concatenated to a form: "Ctrl-click to open a link http://www.example.com"
 #: ../e-util/e-buffer-tagger.c:410
 msgid "Ctrl-click to open a link"
-msgstr "Ctrl-click to open a link"
+msgstr "এটা লিঙ্ক খোলিবলে Ctrl-click কৰক"
 
 #: ../e-util/e-cal-source-config.c:170
 msgid "Mark as default calendar"
-msgstr "Mark as default calendar"
+msgstr "অবিকল্পিত কেলেন্ডাৰ হিচাপে চিহ্নিত কৰক"
 
 #: ../e-util/e-cal-source-config.c:173
 msgid "Mark as default task list"
-msgstr "Mark as default task list"
+msgstr "অবিকল্পিত কাৰ্য্য তালিকা হিচাপে চিহ্নিত কৰক"
 
 #: ../e-util/e-cal-source-config.c:176
 msgid "Mark as default memo list"
-msgstr "Mark as default memo list"
+msgstr "অবিকল্পিত মেমো তালিকা হিচাপে চিহ্নিত কৰক"
 
 #: ../e-util/e-cal-source-config.c:201
 msgid "Color:"
@@ -10596,15 +10596,15 @@ msgstr "ৰঙ:"
 
 #: ../e-util/e-cal-source-config.c:406
 msgid "Copy calendar contents locally for offline operation"
-msgstr "Copy calendar contents locally for offline operation"
+msgstr "অফলাইন কাৰ্য্যৰ বাবে কেলেন্ডাৰ সমলসমূহ স্থানীয়ভাৱে কপি কৰক"
 
 #: ../e-util/e-cal-source-config.c:410
 msgid "Copy task list contents locally for offline operation"
-msgstr "Copy task list contents locally for offline operation"
+msgstr "অফলাইন কাৰ্য্যৰ বাবে কাৰ্য্য তালিকাৰ সমলসমূহ স্থানীয়ভাৱে কপি কৰক"
 
 #: ../e-util/e-cal-source-config.c:414
 msgid "Copy memo list contents locally for offline operation"
-msgstr "Copy memo list contents locally for offline operation"
+msgstr "অফলাইন কাৰ্য্যৰ বাবে মেমো তালিকাৰ সমলসমূহ স্থানীয়ভাৱে কপি কৰক"
 
 #. This is a strftime() format. %B = Month name.
 #: ../e-util/e-calendar-item.c:1324 ../e-util/e-calendar-item.c:2186
@@ -10626,19 +10626,19 @@ msgstr "%B %Y"
 
 #: ../e-util/e-calendar.c:190
 msgid "Previous month"
-msgstr "Previous month"
+msgstr "যোৱা মাহ"
 
 #: ../e-util/e-calendar.c:215
 msgid "Next month"
-msgstr "Next month"
+msgstr "অহা মাহ"
 
 #: ../e-util/e-calendar.c:241
 msgid "Previous year"
-msgstr "Previous year"
+msgstr "যোৱা বছৰ"
 
 #: ../e-util/e-calendar.c:266
 msgid "Next year"
-msgstr "Next year"
+msgstr "অহা বছৰ"
 
 #: ../e-util/e-calendar.c:290
 msgid "Month Calendar"
@@ -10845,7 +10845,7 @@ msgstr "এই মুহূৰ্তে (_w)"
 
 #: ../e-util/e-dateedit.c:707
 msgid "_Today"
-msgstr "আজ(_T)"
+msgstr "আজি (_T)"
 
 #. Note that we don't show this here, since by default a 'None' date
 #. * is not permitted.
@@ -11200,7 +11200,7 @@ msgstr "ইমপোৰ্ট বাতিল কৰক (_C)"
 
 #: ../e-util/e-import-assistant.c:920
 msgid "Preview data to be imported"
-msgstr "Preview data to be imported"
+msgstr "ইমপোৰ্ট কৰিব লগিয়া তথ্য পূৰ্বদৰ্শন কৰক"
 
 #: ../e-util/e-import-assistant.c:926 ../e-util/e-import-assistant.c:939
 #: ../e-util/e-import-assistant.c:1292 ../e-util/e-import-assistant.c:1368
@@ -11210,11 +11210,11 @@ msgstr "তথ্য ইমপোৰ্ট কৰক"
 
 #: ../e-util/e-import-assistant.c:934
 msgid "Select what type of file you want to import from the list."
-msgstr "Select what type of file you want to import from the list."
+msgstr "তালিকাৰ পৰা কিধৰণৰ ফাইল আপুনি ইমপোৰ্ট কৰিব বিচাৰে বাছক।"
 
 #: ../e-util/e-import-assistant.c:1282 ../e-util/e-import-assistant.c:1317
 msgid "Evolution Import Assistant"
-msgstr "Evolution Import Assistant"
+msgstr "Evolution ইমপোৰ্ট সহায়ক"
 
 #: ../e-util/e-import-assistant.c:1299 ../e-util/e-import-assistant.c:1355
 msgid "Import Location"
@@ -11245,7 +11245,7 @@ msgstr "এটা ফাইল বাছক"
 
 #: ../e-util/e-import-assistant.c:1363
 msgid "Click \"Apply\" to begin importing the file into Evolution."
-msgstr "Click \"Apply\" to begin importing the file into Evolution."
+msgstr "Evolution লে ফাইলৰ ইমপোৰ্ট আৰম্ভ কৰিবলে \"প্ৰয়োগ কৰক\" ক্লিক কৰক।"
 
 #: ../e-util/e-mail-signature-combo-box.c:378
 msgid "Autogenerated"
@@ -11280,11 +11280,11 @@ msgstr "স্ক্ৰিপ্ট যোগ কৰা হ'ব (_S)"
 
 #: ../e-util/e-mail-signature-manager.c:422
 msgid "Add Signature Script"
-msgstr "Add Signature Script"
+msgstr "স্বাক্ষৰ স্ক্ৰিপ্ট যোগ কৰক"
 
 #: ../e-util/e-mail-signature-manager.c:492
 msgid "Edit Signature Script"
-msgstr "Edit Signature Script"
+msgstr "স্বাক্ষৰ স্ক্ৰিপ্ট সম্পাদন কৰক"
 
 #: ../e-util/e-mail-signature-script-dialog.c:395
 msgid ""
@@ -11298,11 +11298,11 @@ msgstr ""
 
 #: ../e-util/e-mail-signature-script-dialog.c:446
 msgid "S_cript:"
-msgstr "S_cript:"
+msgstr "স্ক্ৰিপ্ট (_c):"
 
 #: ../e-util/e-mail-signature-script-dialog.c:477
 msgid "Script file must be executable."
-msgstr "Script file must be executable."
+msgstr "স্ক্ৰিপ্ট ফাইল এক্সিকিউটেবুল হব লাগিব।"
 
 #: ../e-util/e-map.c:886
 msgid "World Map"
@@ -11372,7 +11372,7 @@ msgstr "ঠিকনা বহী"
 #: ../modules/addressbook/e-book-shell-backend.c:269
 #: ../modules/addressbook/e-book-shell-view.c:356
 msgid "Contacts"
-msgstr "পৰিচয়"
+msgstr "পৰিচয়সমূহ"
 
 #: ../e-util/e-name-selector-dialog.c:568
 msgid "Select Contacts from Address Book"
@@ -11483,7 +11483,7 @@ msgstr "Matches: %u"
 
 #: ../e-util/e-search-bar.c:527
 msgid "Close the find bar"
-msgstr "Close the find bar"
+msgstr "সন্ধান বাৰ বন্ধ কৰক"
 
 #: ../e-util/e-search-bar.c:535
 msgid "Fin_d:"
@@ -11491,7 +11491,7 @@ msgstr "অনুসন্ধান:(_n)"
 
 #: ../e-util/e-search-bar.c:547
 msgid "Clear the search"
-msgstr "Clear the search"
+msgstr "সন্ধান পৰিষ্কাৰ কৰক"
 
 #: ../e-util/e-search-bar.c:571
 msgid "_Previous"
@@ -11499,7 +11499,7 @@ msgstr "পূৰ্ববৰ্তী (_P)"
 
 #: ../e-util/e-search-bar.c:577
 msgid "Find the previous occurrence of the phrase"
-msgstr "Find the previous occurrence of the phrase"
+msgstr "বাক্যাংশৰ পূৰ্বৱৰ্তী উপস্থিতি সন্ধান কৰক"
 
 #: ../e-util/e-search-bar.c:590
 msgid "_Next"
@@ -11507,7 +11507,7 @@ msgstr "পৰবৰ্তী (_N)"
 
 #: ../e-util/e-search-bar.c:596
 msgid "Find the next occurrence of the phrase"
-msgstr "Find the next occurrence of the phrase"
+msgstr "বাক্যাংশৰ পৰৱৰ্তী উপস্থিতি সন্ধান কৰক"
 
 #: ../e-util/e-search-bar.c:609
 msgid "Mat_ch case"
@@ -11515,11 +11515,11 @@ msgstr "ফলা মিল খোৱাওক (_c)"
 
 #: ../e-util/e-search-bar.c:637
 msgid "Reached bottom of page, continued from top"
-msgstr "Reached bottom of page, continued from top"
+msgstr "পৃষ্ঠাৰ তল প্ৰাপ্ত হল, ওপৰৰ পৰা অব্যাহত ৰখা হৈছে"
 
 #: ../e-util/e-search-bar.c:659
 msgid "Reached top of page, continued from bottom"
-msgstr "Reached top of page, continued from bottom"
+msgstr "পৃষ্ঠাৰ ওপৰ প্ৰাপ্ত হল, তলৰ পৰা অব্যাহত ৰখা হৈছে"
 
 #: ../e-util/e-send-options.c:538 ../mail/importers/elm-importer.c:331
 #: ../mail/importers/pine-importer.c:422
@@ -11543,15 +11543,15 @@ msgstr "নাম:"
 #. * "Refresh every [NUMERIC_ENTRY] [TIME_UNITS_COMBO]"
 #: ../e-util/e-source-config.c:1293
 msgid "Refresh every"
-msgstr "Refresh every"
+msgstr "প্ৰতি চিহ্নিত সময়ত সতেজ কৰক"
 
 #: ../e-util/e-source-config.c:1323 ../e-util/e-source-config.c:1372
 msgid "Use a secure connection"
-msgstr "Use a secure connection"
+msgstr "এটা সুৰক্ষিত সংযোগ ব্যৱহাৰ কৰক"
 
 #: ../e-util/e-source-config.c:1396
 msgid "Ignore invalid SSL certificate"
-msgstr "Ignore invalid SSL certificate"
+msgstr "অবৈধ SSL প্ৰমাণপত্ৰ উপেক্ষা কৰক"
 
 #
 #: ../e-util/e-source-config.c:1433
@@ -11673,7 +11673,9 @@ msgstr "এটা স্তম্ভ যোগ কৰক"
 msgid ""
 "To add a column to your table, drag it into\n"
 "the location in which you want it to appear."
-msgstr "প্ৰাপক."
+msgstr ""
+"আপোনাৰ টেবুলত এটা স্তম্ভ যোগ কৰিবলে, ইয়াক আপুনি\n"
+"উপস্থিত কৰাব বিচৰা অৱস্থানত টানি আনক।"
 
 #: ../e-util/e-table-group-container.c:363
 #, c-format
