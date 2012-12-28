@@ -1124,7 +1124,7 @@ msgstr "انسخ المتراسلين المنتقين إلى الحافظة"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:652
 msgid "Paste contacts from the clipboard"
-msgstr "الصق متراسلين من الحافظة"
+msgstr "ألصق متراسلين من الحافظة"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:658
 #: ../modules/addressbook/e-book-shell-view-actions.c:892
@@ -4137,7 +4137,7 @@ msgstr "انسخ الأحداث المنتقاة إلى الحافظة"
 
 #: ../calendar/gui/e-calendar-view.c:446
 msgid "Paste events from the clipboard"
-msgstr "الصق الأحداث من الحافظة"
+msgstr "ألصق الأحداث من الحافظة"
 
 #: ../calendar/gui/e-calendar-view.c:452
 msgid "Delete selected events"
@@ -4589,7 +4589,7 @@ msgstr "انسخ المفكرات المنتقاة إلى الحافظة"
 
 #: ../calendar/gui/e-memo-table.c:754
 msgid "Paste memos from the clipboard"
-msgstr "الصق المفكرات من الحافظة"
+msgstr "ألصق المفكرات من الحافظة"
 
 #: ../calendar/gui/e-memo-table.c:760
 #: ../modules/calendar/e-memo-shell-view-actions.c:601
@@ -4635,7 +4635,7 @@ msgstr "انسخ المهام المُنتقاة إلى الحافظة"
 
 #: ../calendar/gui/e-task-table.c:1037
 msgid "Paste tasks from the clipboard"
-msgstr "الصق المهام من الحافظة"
+msgstr "ألصق المهام من الحافظة"
 
 #: ../calendar/gui/e-task-table.c:1043
 #: ../modules/calendar/e-task-shell-view-actions.c:725
