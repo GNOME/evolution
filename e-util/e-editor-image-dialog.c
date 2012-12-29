@@ -624,7 +624,7 @@ e_editor_image_dialog_init (EEditorImageDialog *dialog)
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->url_edit);
 	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
 
-	widget = gtk_button_new_with_label (_("_Test URL..."));
+	widget = gtk_button_new_with_mnemonic (_("_Test URL..."));
 	gtk_grid_attach (grid, widget, 2, 0, 1, 1);
 	g_signal_connect_swapped (
 		widget, "clicked",
