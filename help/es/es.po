@@ -2,23 +2,24 @@
 # translation of evolution manual to spanish
 # 
 # 
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012.
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 2009, 2010, 2011, 2012.
+# 
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012., 2012.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-25 16:43+0000\n"
-"PO-Revision-Date: 2012-08-27 17:51+0200\n"
+"POT-Creation-Date: 2012-12-29 19:51+0000\n"
+"PO-Revision-Date: 2012-12-30 20:35+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
-"Language-Team: Español <gnome-es-list@gnome.org>\n"
+"Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Gtranslator 2.91.5\n"
-"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -909,10 +910,15 @@ msgstr ""
 
 #: C/calendar-layout-appointment-display.page:50(section/p)
 #: C/mail-change-time-format.page:21(page/p)
+#, fuzzy
+#| msgid ""
+#| "The placeholders in the format expression are strftime formats. For a "
+#| "complete list of available strftime formats, run <cmd>date --help</cmd> "
+#| "in a terminal window."
 msgid ""
 "The placeholders in the format expression are strftime formats. For a "
-"complete list of available strftime formats, run <cmd>date --help</cmd> in a "
-"terminal window."
+"complete list of available strftime formats, run <cmd>date --help</cmd> in "
+"the <app>Terminal</app> application."
 msgstr ""
 "Los marcadores de posición en la expresión de formato son formatos de "
 "strftime. Para obtener una lista completa de formatos de strftime, ejecute "
@@ -1122,27 +1128,32 @@ msgstr ""
 msgid "Ask somebody else to run the meeting."
 msgstr "Pregunte a alquien para que lleve la reunión."
 
-#: C/calendar-meetings-delegating.page:25(page/title)
+#: C/calendar-meetings-delegating.page:23(page/title)
 msgid "Delegating Meetings"
 msgstr "Eliminar reuniones"
 
-#: C/calendar-meetings-delegating.page:26(page/p)
-msgid "Only attendees of a meeting can delegate a meeting."
-msgstr "Sólo los asistentes a una reunión pueden delegar una reunión."
+#: C/calendar-meetings-delegating.page:24(page/p)
+#| msgid "Only attendees of a meeting can delegate a meeting."
+msgid ""
+"Only attendees of a meeting can delegate a meeting, but not the organizer of "
+"a meeting."
+msgstr ""
+"Sólo los asistentes a una reunión pueden delegar una reunión, no el "
+"organizador de la misma."
 
-#: C/calendar-meetings-delegating.page:29(item/p)
+#: C/calendar-meetings-delegating.page:27(item/p)
 msgid "Right-click on the meeting that you want to delegate."
 msgstr "Pulse con el botón derecho en la reunión que quiere delegar."
 
-#: C/calendar-meetings-delegating.page:32(item/p)
+#: C/calendar-meetings-delegating.page:30(item/p)
 msgid "Click <gui>Delegate Meeting</gui>."
 msgstr "Pulse<gui>Delegar reunión</gui>."
 
-#: C/calendar-meetings-delegating.page:35(item/p)
+#: C/calendar-meetings-delegating.page:33(item/p)
 msgid "Select the contacts you want to delegate the meeting to."
 msgstr "Seleccione los contactos a los que quiere delegar la reunión."
 
-#: C/calendar-meetings-delegating.page:38(item/p)
+#: C/calendar-meetings-delegating.page:36(item/p)
 #: C/contacts-usage-add-contact.page:27(item/p)
 #: C/contacts-usage-edit-contact.page:27(item/p)
 #: C/contacts-using-contact-lists.page:37(item/p)
@@ -1157,7 +1168,7 @@ msgstr "Seleccione los contactos a los que quiere delegar la reunión."
 msgid "Click <gui style=\"button\">OK</gui>."
 msgstr "Pulse <gui style=\"button\">Aceptar</gui>."
 
-#: C/calendar-meetings-delegating.page:41(page/p)
+#: C/calendar-meetings-delegating.page:39(page/p)
 msgid "Each contact receives a copy of the meeting invitation."
 msgstr "Cada contacto recibe una copia de la invitación a la reunión."
 
@@ -3038,11 +3049,14 @@ msgid "Change which web browser websites are opened in"
 msgstr "Cambiar qué páginas web se abren en el navegador"
 
 #: C/default-browser.page:29(section/p)
+#| msgid ""
+#| "Please see <link href=\"help:gnome-help#net-default-browser\">the GNOME "
+#| "Desktop Help</link>."
 msgid ""
-"Please see <link href=\"help:gnome-help#net-default-browser\">the GNOME "
+"Please see <link href=\"help:gnome-help/net-default-browser\">the GNOME "
 "Desktop Help</link>."
 msgstr ""
-"Consulte <link href=\"help:gnome-help#net-default-browser\">la ayuda del "
+"Consulte <link href=\"help:gnome-help/net-default-browser\">la ayuda del "
 "escritorio GNOME</link>."
 
 #: C/default-browser.page:31(section/p)
@@ -3077,11 +3091,14 @@ msgstr ""
 "Cambiar qué aplicación de correo se usa para escribir correos electrónicos"
 
 #: C/default-browser.page:46(section/p)
+#| msgid ""
+#| "Please see <link href=\"help:gnome-help#net-default-email\">the GNOME "
+#| "Desktop Help</link>."
 msgid ""
-"Please see <link href=\"help:gnome-help#net-default-email\">the GNOME "
+"Please see <link href=\"help:gnome-help/net-default-email\">the GNOME "
 "Desktop Help</link>."
 msgstr ""
-"Consulte <link href=\"help:gnome-help#net-default-email\">la ayuda del "
+"Consulte <link href=\"help:gnome-help/net-default-email\">la ayuda del "
 "escritorio GNOME</link>."
 
 #: C/default-browser.page:51(section/title)
@@ -3408,23 +3425,18 @@ msgstr ""
 "complja con tantos ajustes como Evolution."
 
 #: C/express-mode.page:23(page/p)
+#| msgid ""
+#| "You can use the Express version which is targeted for mobile and small-"
+#| "screen devices. This is available from version 2.30 on and can be enabled "
+#| "by starting <code>evolution --express</code> from the terminal window."
 msgid ""
 "You can use the Express version which is targeted for mobile and small-"
-"screen devices. This is available from version 2.30 on and can be enabled by "
-"starting <code>evolution --express</code> from the terminal window."
+"screen devices by entering the command <code>evolution --express</code> in "
+"the <app>Terminal</app> application."
 msgstr ""
 "Puede usar la versión Express que está pensada para dispositivos móviles y "
-"con pantallas pequeñas. Está disponible desde la versión 2.30 en adelante y "
-"se puede activar iniciando <code>evolution --express</code> desde la ventana "
-"de la terminal."
-
-#: C/express-mode.page:25(note/p)
-msgid ""
-"You can also explicitly open Evolution in a specific component. For the "
-"calendar, use <cmd>evolution --express --component=calendar</cmd>."
-msgstr ""
-"También puede abrir explícitamente un componente específico de Evolution. "
-"Para el calendario, use <cmd>evolution --express --component=calendar</cmd>."
+"con pantallas pequeñas. escribiendo el comando <code>evolution --express</"
+"code> en la ventana de la <app>Terminal</app>."
 
 #: C/google-services.page:5(info/desc)
 msgid "Using Google services."
@@ -3832,27 +3844,35 @@ msgid "An introduction to Evolution."
 msgstr "Una introducción a Evolution."
 
 #: C/intro-application.page:25(page/p)
+#| msgid ""
+#| "Evolution is a stable and versatile personal information manager for the "
+#| "GNOME project. Evolution allows you to keep your calendar, email, address "
+#| "book and tasks in one place. Evolution has the ability to <link type="
+#| "\"topic\" xref=\"mail-spam\">filter Junk/Spam Mail</link>, add your "
+#| "favorite web calenders, and <link type=\"topic\" xref=\"mail-encryption"
+#| "\">to keep your information safe and secure</link>."
 msgid ""
 "Evolution is a stable and versatile personal information manager for the "
-"GNOME project. Evolution allows you to keep your calendar, email, address "
-"book and tasks in one place. Evolution has the ability to <link type=\"topic"
-"\" xref=\"mail-spam\">filter Junk/Spam Mail</link>, add your favorite web "
-"calenders, and <link type=\"topic\" xref=\"mail-encryption\">to keep your "
-"information safe and secure</link>."
+"GNOME project. Evolution allows you to keep your calendars, mail, address "
+"books and tasks in one place."
 msgstr ""
 "Evolution es un gestor de información personal estable y versátil del "
 "proyecto GNOME. Evolution le permite mantener su calendario, correo-e "
-"libreta de direcciones y tareas en un único lugar. Evolution permite <link "
-"type=\"topic\" xref=\"mail-spam\">filtrar spam</link>, añadir sus "
-"calendarios web favoritos y <link type=\"topic\" xref=\"mail-encryption"
-"\">mantener su información segura</link>."
+"libreta de direcciones y tareas en un único lugar."
 
 #: C/intro-application.page:27(page/p)
+#| msgid ""
+#| "By default Evolution opens the mail client view. This is were you can "
+#| "view all your mail. You can change to other aspects of the application by "
+#| "going to the bottom of the left pane in the window (the so-called "
+#| "\"switcher\") and selecting the desired view. <link type=\"topic\" xref="
+#| "\"intro-main-window\">Click here</link> for more information on the "
+#| "elements of the window."
 msgid ""
-"By default Evolution opens the mail client view. This is were you can view "
-"all your mail. You can change to other aspects of the application by going "
-"to the bottom of the left pane in the window (the so-called \"switcher\") "
-"and selecting the desired view. <link type=\"topic\" xref=\"intro-main-window"
+"By default Evolution opens the mail view. This is were you can view all your "
+"mail. You can change to other views of the application by going to the "
+"bottom of the left pane in the window (the so-called \"switcher\") and "
+"selecting the desired view. <link type=\"topic\" xref=\"intro-main-window"
 "\">Click here</link> for more information on the elements of the window."
 msgstr ""
 "De manera predeterminada, Evolution abre la vista de cliente de correo. Aquí "
@@ -3861,6 +3881,15 @@ msgstr ""
 "«selector») y seleccionando la vista que quiere. <link type=\"topic\" xref="
 "\"intro-main-window\">Pulse aquí</link> para obtener más información sobre "
 "los elementos de la ventana."
+
+#: C/intro-application.page:29(note/p)
+msgid ""
+"When Evolution starts, it remembers the last view that you used. However you "
+"can also explicitly start Evolution in a specific view. For the calendar "
+"view, use the command <cmd>evolution --component=calendar</cmd> in the "
+"<app>Terminal</app> application. Other available options are \"mail\", "
+"\"contacts\", \"tasks\", and \"memos\"."
+msgstr ""
 
 #: C/intro-first-run.page:7(info/desc)
 msgid "Running Evolution for the very first time."
@@ -4876,8 +4905,8 @@ msgstr ""
 #: C/mail-access-gmail-imap-account.page:28(note/p)
 msgid ""
 "To access Gmail via IMAP you must turn on IMAP in your Google account. See "
-"the <link href=\"https://mail.google.com/support/bin/answer.py?answer=77695"
-"\">Gmail Help</link> for more information."
+"the <link href=\"https://mail.google.com/support/bin/answer.py?"
+"answer=77695\">Gmail Help</link> for more information."
 msgstr ""
 "Para acceder a Gmail mediante IMAP debe activar IMAP en su cuenta de Google. "
 "Consulte la <link href=\"https://mail.google.com/support/bin/answer.py?"
@@ -5659,17 +5688,28 @@ msgstr ""
 "el nombre del remitente."
 
 #: C/mail-change-columns-in-message-list.page:25(note/p)
+#| msgid ""
+#| "If you would like to have the same column layout in all mail folders "
+#| "except for the <gui>Sent</gui> folder, you can enable <guiseq><gui>Edit</"
+#| "gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>General</"
+#| "gui><gui>Apply the same view settings to all folders</gui></guiseq>."
 msgid ""
 "If you would like to have the same column layout in all mail folders except "
 "for the <gui>Sent</gui> folder, you can enable <guiseq><gui>Edit</"
 "gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>General</"
-"gui><gui>Apply the same view settings to all folders</gui></guiseq>."
+"gui><gui>Apply the same view settings to all folders</gui></guiseq>. Note "
+"that this setting also influences <link xref=\"mail-sorting-message-"
+"list#email-threads\"><gui>Group by Threads</gui></link> and the <gui>Message "
+"Preview</gui> visibility in all folders."
 msgstr ""
 "Si quiere tener la misma distribución de columnas en todas las carpetas de "
 "correos excepto en la carpeta <gui>Enviados</gui>, puede activar "
 "<guiseq><gui>Editar</gui><gui>Preferencias</gui><gui>Opciones de correo</"
 "gui><gui>General</gui><gui>Aplicar los mismos ajustes de vista a todas las "
-"carpetas</gui></guiseq>."
+"carpetas</gui></guiseq>. Tenga en cuenta que esta configuración afecta a la "
+"visibilidad de <link xref=\"mail-sorting-message-list#email-threads"
+"\"><gui>Agrupar por conversaciones</gui></link> y a la <gui>Vista previa del "
+"mensaje</gui> en todas las carpetas."
 
 #: C/mail-change-time-format.page:5(info/desc)
 msgid "Changing the date and time format in the message list."
@@ -6299,7 +6339,6 @@ msgstr ""
 "md5='2d416af8bfaec805470e5d2980d90a68'"
 
 #: C/mail-composer-html-text.page:5(info/desc)
-#| msgid "Insert a table in the mail composer."
 msgid "Change font sizes, styles and colors in the mail composer."
 msgstr ""
 "Cambiar el tamaño de la tipografía, el estilo y el color en el editor de "
@@ -6352,14 +6391,6 @@ msgid "Font size."
 msgstr "Tamaño de la tipografía."
 
 #: C/mail-composer-html-text.page:41(td/p)
-#| msgid ""
-#| "At the left in the lower tool bar is the color section tool, where a box "
-#| "displays the current text color. To choose a new color, click the arrow "
-#| "button to the right. If you have text selected, the color applies to the "
-#| "selected text. If you do not have text selected, the color applies to "
-#| "whatever you type next. You can select a background color or image by "
-#| "right-clicking the message background, then selecting <guiseq><gui>Style</"
-#| "gui><gui>Page Style</gui></guiseq>."
 msgid ""
 "Color chooser for text. The box displays the current text color. To choose a "
 "new color, click the arrow button to the right. If you have text selected, "
@@ -6802,10 +6833,6 @@ msgid "Formatting Text in Plain Text Format"
 msgstr "Formatear en texto plano"
 
 #: C/mail-composer-plain-text.page:23(page/p)
-#| msgid ""
-#| "HTML formatting tools are located in the two tool bars just above the "
-#| "area where you actually write the message. They also appear in the "
-#| "<gui>Insert</gui> and <gui>Format</gui> menus."
 msgid ""
 "Text formatting tools are located in the tool bar below the <gui>Subject</"
 "gui> line. They also appear in the <gui>Insert</gui> and <gui>Format</gui> "
@@ -7714,9 +7741,9 @@ msgid ""
 "Evolution's code repository to test."
 msgstr ""
 "Sólo para desarrolladores: en versiones futuras, Evolution usará WebKit en "
-"lugar de gtkhtml para mostrar HTML. Hay una rama llamada «<link href=\"http://"
-"git.gnome.org/browse/evolution?h=webkit\">webkit</link>» en el repositorio "
-"de código de Evolution para pruebas."
+"lugar de gtkhtml para mostrar HTML. Hay una rama llamada «<link href="
+"\"http://git.gnome.org/browse/evolution?h=webkit\">webkit</link>» en el "
+"repositorio de código de Evolution para pruebas."
 
 #: C/mail-displaying-no-css.page:27(note/p)
 msgid ""
@@ -7868,13 +7895,17 @@ msgid "Creating a GPG key"
 msgstr "Crear una clave GPG"
 
 #: C/mail-encryption-gpg-create-key.page:25(note/p)
+#| msgid ""
+#| "These steps are very technical. For average users we recommend using the "
+#| "<link href=\"help:seahorse#index\"><app>Seahorse</app> application</link> "
+#| "for managing GPG/OpenPGP keys."
 msgid ""
 "These steps are very technical. For average users we recommend using the "
-"<link href=\"help:seahorse#index\"><app>Seahorse</app> application</link> "
+"<link href=\"help:seahorse/index\"><app>Seahorse</app> application</link> "
 "for managing GPG/OpenPGP keys."
 msgstr ""
 "Estos pasos son muy técnicos. Se recomienda, para el usuario medio de hoy en "
-"día, usar la aplicación <link href=\"help:seahorse#index\"><app>Seahorse</"
+"día, usar la aplicación <link href=\"help:seahorse/index\"><app>Seahorse</"
 "app> application</link> para gestionar claves GPG/OpenPGP."
 
 #: C/mail-encryption-gpg-create-key.page:28(page/p)
@@ -7886,8 +7917,10 @@ msgstr ""
 "claves pública y privada con GPG."
 
 #: C/mail-encryption-gpg-create-key.page:30(item/p)
-msgid "Open a terminal window and enter <cmd>gpg --gen-key</cmd>."
-msgstr "Abra una terminal e introduzca <cmd>gpg --gen-key</cmd>."
+#| msgid "Open a terminal window and enter <cmd>gpg --gen-key</cmd>."
+msgid ""
+"Open the <app>Terminal</app> application and enter <cmd>gpg --gen-key</cmd>."
+msgstr "Abra la <app>Terminal</app> e introduzca <cmd>gpg --gen-key</cmd>."
 
 #: C/mail-encryption-gpg-create-key.page:31(item/p)
 msgid "Select an algorithm, then press Enter."
@@ -8154,15 +8187,21 @@ msgid "Click <gui style=\"button\">Close</gui>."
 msgstr "Pulse <gui style=\"button\">Cerrar</gui>."
 
 #: C/mail-encryption-gpg-set-up.page:38(page/p)
+#| msgid ""
+#| "Evolution requires that you know your key ID. If you do not remember it, "
+#| "you can find it by typing <cmd>gpg --list-keys</cmd> in a terminal "
+#| "window. Your key ID is an eight-character string with random numbers and "
+#| "letters."
 msgid ""
 "Evolution requires that you know your key ID. If you do not remember it, you "
-"can find it by typing <cmd>gpg --list-keys</cmd> in a terminal window. Your "
-"key ID is an eight-character string with random numbers and letters."
+"can find it by typing <cmd>gpg --list-keys</cmd> in the <app>Terminal</app> "
+"application. Your key ID is an eight-character string with random numbers "
+"and letters."
 msgstr ""
 "Evolution necesita que usted sepa su identificador (ID) de clave. Si no lo "
-"recuerda puede encontrarlo con el comando <cmd>gpg --list-keys</cmd> en una "
-"terminal. El identificador de su clave es una cadena de 8 caracteres con "
-"números y letras aleatorios."
+"recuerda puede encontrarlo con el comando <cmd>gpg --list-keys</cmd> en la "
+"<app>Terminal</app>. El identificador de su clave es una cadena de 8 "
+"caracteres con números y letras aleatorios."
 
 #: C/mail-encryption-gpg-signing-encrypting.page:5(info/desc)
 msgid "Signing or encrypting messages via GPG that you send."
@@ -9107,8 +9146,8 @@ msgid ""
 "can enable logging filter actions. <_:list-2/> <_:p-3/> <_:p-4/>"
 msgstr ""
 "<_:title-1/> Si todavía no tiene claro porqué los filtros no funcionan como "
-"esperaba, puede activar el registro de las acciones de los filtros. <_:list-"
-"2/> <_:p-3/> <_:p-4/>"
+"esperaba, puede activar el registro de las acciones de los filtros. <_:"
+"list-2/> <_:p-3/> <_:p-4/>"
 
 #: C/mail-filters.page:5(info/desc)
 msgid "Use filter rules to sort your mail automatically into folders."
@@ -9781,8 +9820,8 @@ msgid ""
 msgstr ""
 "Generalmente se añade un prefijo «Re:» a la línea del asunto cuando se "
 "responde a un correo. Algunas aplicaciones usan términos traducidos para "
-"esto (por ejemplo, «SV» en danés o «AW» en alemán). <app>Evolution</app> puede "
-"reconocer estos términos para evitar que el sujeto se haga muy largo a "
+"esto (por ejemplo, «SV» en danés o «AW» en alemán). <app>Evolution</app> "
+"puede reconocer estos términos para evitar que el sujeto se haga muy largo a "
 "medida que avanza la conversación."
 
 #: C/mail-localized-re-subjects.page:26(item/p)
@@ -10751,15 +10790,20 @@ msgid "Save messages as PDF"
 msgstr "Guardar el mensaje como PDF"
 
 #: C/mail-save-as-pdf.page:22(page/p)
+#| msgid ""
+#| "In order to save emails in the PDF file format, select <guiseq><gui>File</"
+#| "gui><gui>Print</gui></guiseq> and then choose <gui>Print to File</gui>. "
+#| "See <link href=\"help:gnome-help#printing\">the desktop help</link> for "
+#| "general information on printing."
 msgid ""
 "In order to save emails in the PDF file format, select <guiseq><gui>File</"
 "gui><gui>Print</gui></guiseq> and then choose <gui>Print to File</gui>. See "
-"<link href=\"help:gnome-help#printing\">the desktop help</link> for general "
+"<link href=\"help:gnome-help/printing\">the desktop help</link> for general "
 "information on printing."
 msgstr ""
 "Para guardar correos en formato PDF, seleccione <guiseq><gui>Archivo</"
 "gui><gui>Imprimir</gui></guiseq> y elija <gui>Imprimir a un archivo</gui>. "
-"Consulte <link href=\"help:gnome-help#printing\">la ayuda del escritorio</"
+"Consulte <link href=\"help:gnome-help/printing\">la ayuda del escritorio</"
 "link> para obtener información general sobre la impresión."
 
 #: C/mail-save-as-pdf.page:25(note/p)
@@ -11034,9 +11078,6 @@ msgid "Searching in a Single Message"
 msgstr "Buscar en un único mensaje"
 
 #: C/mail-searching.page:32(section/p)
-#| msgid ""
-#| "To enable the Message Template Plugin, click <guiseq><gui>Edit</"
-#| "gui><gui>Plugins</gui></guiseq> and enable <gui>Templates</gui>."
 msgid ""
 "To find text in the displayed message, select <guiseq><gui>Edit</"
 "gui><gui>Find in Message...</gui></guiseq> from the main menu."
@@ -12056,9 +12097,6 @@ msgid "Searching in a Single Memo"
 msgstr "Buscar una única nota"
 
 #: C/memos-searching.page:32(section/p)
-#| msgid ""
-#| "To enable the Message Template Plugin, click <guiseq><gui>Edit</"
-#| "gui><gui>Plugins</gui></guiseq> and enable <gui>Templates</gui>."
 msgid ""
 "To find text in the displayed memo, select <guiseq><gui>Edit</gui><gui>Find "
 "in Memo...</gui></guiseq> from the main menu."
@@ -12320,6 +12358,20 @@ msgstr ""
 "Pulse en el icono para cambiar su estado."
 
 #: C/offline.page:28(page/p)
+#| msgid ""
+#| "If the problem persists and you are sure you have not clicked the icon, "
+#| "but you can still reach the network from other apps on your system "
+#| "(browsers, FTP, SSH, ping etc.) it may be that NetworkManager (NM) is not "
+#| "properly configured. Many Linux distributions now use NM to manage their "
+#| "connections, and if it is installed Evolution will use it to detect if "
+#| "the network is up. However NM can be installed but not properly "
+#| "configured, leaving the network working but not detectable by Evolution. "
+#| "(Note that other GNOME-based applications may also fail for the same "
+#| "reason.) The solution is to configure NM to manage your network "
+#| "interface. This is usually easy to do but is outside the scope of this "
+#| "document. For more information please take a look at the <link href="
+#| "\"help:gnome-help#net\">Desktop help</link> or seek help from your "
+#| "distribution support forums, mailing lists etc."
 msgid ""
 "If the problem persists and you are sure you have not clicked the icon, but "
 "you can still reach the network from other apps on your system (browsers, "
@@ -12331,7 +12383,7 @@ msgid ""
 "applications may also fail for the same reason.) The solution is to "
 "configure NM to manage your network interface. This is usually easy to do "
 "but is outside the scope of this document. For more information please take "
-"a look at the <link href=\"help:gnome-help#net\">Desktop help</link> or seek "
+"a look at the <link href=\"help:gnome-help/net\">Desktop help</link> or seek "
 "help from your distribution support forums, mailing lists etc."
 msgstr ""
 "Si el problema persiste y está seguro de que no ha pulsado el icono, pero "
@@ -12344,7 +12396,7 @@ msgstr ""
 "otras aplicaciones de GNOME pueden fallar por el mismo motivo). La solución "
 "es configurar NM para gestionar la interfaz de red. Generalmente esto es "
 "fácil de hacer, pero no está fuera del alcance de este documento. Para "
-"obtener más información, consulte la <link href=\"ghelp:gnome-help#net"
+"obtener más información, consulte la <link href=\"help:gnome-help/net"
 "\">ayuda del escritorio</link> o busque ayuda en los foros de soporte de su "
 "distribución, listas de correo, etc."
 
@@ -12399,19 +12451,26 @@ msgid "How to get help"
 msgstr "Cómo obtener ayuda"
 
 #: C/problems-getting-help.page:24(page/p)
+#| msgid ""
+#| "To receive help on problems you can send an email to the <link href="
+#| "\"http://mail.gnome.org/mailman/listinfo/evolution-list\">Evolution "
+#| "mailing list</link> or talk to developers and other users in the IRC chat "
+#| "channel #evolution on the server irc.gimp.net. To connect to an IRC "
+#| "server you can for example <link href=\"help:empathy#irc-manage\">use the "
+#| "internet messenger application <app>Empathy</app></link>."
 msgid ""
 "To receive help on problems you can send an email to the <link href=\"http://"
 "mail.gnome.org/mailman/listinfo/evolution-list\">Evolution mailing list</"
 "link> or talk to developers and other users in the IRC chat channel "
 "#evolution on the server irc.gimp.net. To connect to an IRC server you can "
-"for example <link href=\"help:empathy#irc-manage\">use the internet "
+"for example <link href=\"help:empathy/irc-manage\">use the internet "
 "messenger application <app>Empathy</app></link>."
 msgstr ""
 "Para recibir ayuda sobre problemas puede enviar un correo a la <link href="
 "\"http://mail.gnome.org/mailman/listinfo/evolution-list\">lista de correo de "
 "Evolution</link> o hablar con los desarrolladores y otros usuarios en el "
 "canal de chat de IRC #evolution en el servidor irc.gimp.net. Para conectarse "
-"a un servidor IRC puede, por ejemplo <link href=\"help:empathy#irc-manage"
+"a un servidor IRC puede, por ejemplo <link href=\"help:empathy/irc-manage"
 "\">usar la aplicación de mensajería instantánea <app>Empathy</app></link>."
 
 #: C/problems-reporting-bugs.page:5(info/desc)
@@ -12509,12 +12568,6 @@ msgstr ""
 "wikipedia/en/wiki/SyncML\">SyncML</link>."
 
 #: C/sync-with-other-devices.page:29(page/p)
-#| msgid ""
-#| "Another option might be to use applications and devices that both support "
-#| "the <link href=\"https://secure.wikimedia.org/wikipedia/en/wiki/ActiveSync"
-#| "\">ActiveSync protocol</link>. A <link href=\"https://secure.wikimedia."
-#| "org/wikipedia/en/wiki/List_of_collaborative_software\">list of "
-#| "collaborative software</link> is available on Wikipedia."
 msgid ""
 "In general it is recommended to use applications and devices that both "
 "support the <link href=\"https://secure.wikimedia.org/wikipedia/en/wiki/"
@@ -12827,9 +12880,6 @@ msgid "Searching in a Single Task"
 msgstr "Buscar una única tarea"
 
 #: C/tasks-searching.page:32(section/p)
-#| msgid ""
-#| "To create an Assigned Task, click <guiseq><gui>File</gui><gui>New</"
-#| "gui><gui>Assigned Task</gui></guiseq>."
 msgid ""
 "To find text in the displayed task, select <guiseq><gui>Edit</gui><gui>Find "
 "in Task...</gui></guiseq> from the main menu."
@@ -13144,6 +13194,14 @@ msgstr ""
 "ello pulse el botón <gui style=\"button\">Editar</gui> en la parte inferior "
 "de la ventana de <gui>Categorías</gui>. Pulse el botón <gui style=\"button"
 "\">Eliminar</gui> para eliminar categorías de la lista."
+
+#~ msgid ""
+#~ "You can also explicitly open Evolution in a specific component. For the "
+#~ "calendar, use <cmd>evolution --express --component=calendar</cmd>."
+#~ msgstr ""
+#~ "También puede abrir explícitamente un componente específico de Evolution. "
+#~ "Para el calendario, use <cmd>evolution --express --component=calendar</"
+#~ "cmd>."
 
 #~ msgid "Creating a Message Template from an existing Message"
 #~ msgstr "Crear una plantilla de correo desde un mensaje existente"
