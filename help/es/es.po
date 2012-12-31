@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-30 20:04+0000\n"
-"PO-Revision-Date: 2012-12-30 21:09+0100\n"
+"POT-Creation-Date: 2012-12-30 20:10+0000\n"
+"PO-Revision-Date: 2012-12-31 12:10+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -910,10 +910,6 @@ msgstr ""
 
 #: C/calendar-layout-appointment-display.page:50(section/p)
 #: C/mail-change-time-format.page:21(page/p)
-#| msgid ""
-#| "The placeholders in the format expression are strftime formats. For a "
-#| "complete list of available strftime formats, run <cmd>date --help</cmd> "
-#| "in a terminal window."
 msgid ""
 "The placeholders in the format expression are strftime formats. For a "
 "complete list of available strftime formats, run <cmd>date --help</cmd> in "
@@ -2328,7 +2324,7 @@ msgstr ""
 
 #: C/contacts-ldap.page:42(item/p)
 msgid "One: Searches the Search Base and one entry below it."
-msgstr "Una: busca dentro de la raíz y un nivel de subdirectorios debajo."
+msgstr "Una: busca dentro de la raíz y un nivel de subcarpetas debajo."
 
 #: C/contacts-ldap.page:43(item/p)
 msgid "Sub: Searches the Search Base and all entries below it."
@@ -2413,7 +2409,7 @@ msgid ""
 msgstr ""
 "Las carpetas de red sólo están disponibles cuando se conecta a la red. Si "
 "usa un equipo portátil o una conexión telefónica, conviene hacer una copia "
-"de la carpeta de red o colocar en caché algún directorio de red. Para ello, "
+"de la carpeta de red o colocar en caché alga carpeta de red. Para ello, "
 "arrastre los contactos deseados dentro de la lista de contactos local."
 
 #: C/contacts-ldap.page:70(item/p)
@@ -2505,7 +2501,7 @@ msgid ""
 "As Evolution stores its data in a hidden directory, press <keyseq><key>Ctrl</"
 "key><key>L</key></keyseq> to get the location bar displayed."
 msgstr ""
-"Ya que Evolution almacena sus datos en un directorio oculto, pulse "
+"Ya que Evolution almacena sus datos en una carpeta oculto, pulse "
 "<keyseq><key>Ctrl</key><key>L</key></keyseq> para mostrar la barra de "
 "direcciones."
 
@@ -2988,7 +2984,7 @@ msgid ""
 msgstr ""
 "Evolution 3.6 y posterior almacena sus datos según la <link href=\"http://"
 "www.freedesktop.org/wiki/Specifications/basedir-spec\">Especificación de "
-"directorios base XDG</link>. De forma predeterminada significa que:"
+"carpetas base XDG</link>. De forma predeterminada significa que:"
 
 #: C/data-storage.page:30(item/title)
 msgid "The user's data files"
@@ -4202,7 +4198,7 @@ msgstr ""
 #: C/intro-first-run.page:101(item/p) C/intro-first-run.page:103(item/p)
 #: C/intro-first-run.page:107(item/p)
 msgid "You need to provide the path to the directory you want to use."
-msgstr "Debe proporcionar la ruta al directorio de correo que quiere usar."
+msgstr "Debe proporcionar la ruta a la carpeta que quiere usar."
 
 #: C/intro-first-run.page:101(item/p)
 msgid ""
@@ -4254,7 +4250,7 @@ msgid ""
 "mail spool directory on your local system."
 msgstr ""
 "Directorios de correo mbox en formato estándar de Unix: para leer y "
-"almacenar correo electrónico en el directorio de correo spool en su sistema "
+"almacenar correo electrónico en la carpeta de correo spool en su sistema "
 "local."
 
 #: C/intro-first-run.page:107(item/p)
@@ -10544,10 +10540,10 @@ msgid ""
 "the list. If the directory is not among those folders, choose the last "
 "option <gui>Other...</gui>. This will open a directory chooser window."
 msgstr ""
-"Elija el directorio pulsando el botón junto a <gui>Ruta</gui> en la sección "
+"Elija la carpeta pulsando el botón junto a <gui>Ruta</gui> en la sección "
 "<gui>Configuración</gui>. Existen algunas carpetas predeterminadas en la "
 "lista. Si el directorio no está entre esas carpetas, elija la última opción "
-"<gui>Otras...</gui>. Esto abrirá una ventana de selección de directorio."
+"<gui>Otras...</gui>. Esto abrirá una ventana de selección de carpeta."
 
 #: C/mail-receiving-options-maildir-format-directories.page:40(item/p)
 #: C/mail-receiving-options-unix-mbox-spool-directory.page:39(item/p)
