@@ -97,10 +97,8 @@ book_config_google_commit_changes (ESourceConfigBackend *backend,
 	extension_name = E_SOURCE_EXTENSION_AUTHENTICATION;
 	extension = e_source_get_extension (scratch_source, extension_name);
 
-	/* The authentication method should match what the google backend
-	 * returns for get_supported_auth_methods(), although in practice
-	 * the value just needs to be something other than "none". */
-	e_source_authentication_set_method (extension, "plain/password");
+	e_source_authentication_set_host (extension, "www.google.com");
+	e_source_authentication_set_method (extension, "ClientLogin");
 
 	user = e_source_authentication_get_user (extension);
 	g_return_if_fail (user != NULL);
