@@ -296,6 +296,7 @@ e-util/gal-view-instance.c
 e-util/gal-view-new-dialog.c
 e-util/widgets.error.xml
 libemail-engine/camel-null-store.c
+libemail-engine/camel-sasl-xoauth2.c
 libemail-engine/e-mail-authenticator.c
 libemail-engine/e-mail-folder-utils.c
 libemail-engine/e-mail-session-utils.c
@@ -448,7 +449,6 @@ modules/mailto-handler/evolution-mailto-handler.c
 modules/mdn/evolution-mdn.c
 modules/mdn/evolution-mdn.error.xml
 modules/offline-alert/evolution-offline-alert.error.xml
-modules/online-accounts/camel-sasl-xoauth2.c
 modules/online-accounts/camel-sasl-xoauth.c
 modules/plugin-manager/evolution-plugin-manager.c
 modules/prefer-plain/e-mail-display-popup-prefer-plain.c
