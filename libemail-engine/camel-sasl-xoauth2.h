@@ -55,9 +55,7 @@ struct _CamelSaslXOAuth2Class {
 	CamelSaslClass parent_class;
 };
 
-GType		camel_sasl_xoauth2_get_type	(void);
-void		camel_sasl_xoauth2_type_register
-						(GTypeModule *type_module);
+GType		camel_sasl_xoauth2_get_type	(void) G_GNUC_CONST;
 
 G_END_DECLS
 

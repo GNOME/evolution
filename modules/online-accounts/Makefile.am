@@ -16,8 +16,6 @@ module_online_accounts_la_SOURCES = \
 	evolution-online-accounts.c				\
 	camel-sasl-xoauth.c					\
 	camel-sasl-xoauth.h					\
-	camel-sasl-xoauth2.c					\
-	camel-sasl-xoauth2.h					\
 	$(NULL)
 
 module_online_accounts_la_LIBADD = \
