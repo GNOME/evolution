@@ -1520,25 +1520,6 @@ AC_ARG_WITH([sub-version],
 
 AC_DEFINE_UNQUOTED(SUB_VERSION, "$with_sub_version", [Version substring, for packagers])
 
-dnl ********************
-dnl KDE applnk directory
-dnl ********************
-AC_ARG_WITH([kde-applnk-path],
-	AS_HELP_STRING([--with-kde-applnk-path=PATH],
-	[Location of KDE applnk files]),
-	[with_kde_applnk_path=$withval], [with_kde_applnk_path="no"])
-
-if test x"$with_kde_applnk_path" != x"no"; then
-	if test -z "$with_kde_applnk_path"; then
-		with_kde_applnk_path="$datadir/applnk"
-	fi
-	KDE_APPLNK_DIR="$with_kde_applnk_path"
-else
-	KDE_APPLNK_DIR=""
-fi
-AM_CONDITIONAL(HAVE_KDE_APPLNK, test x"$KDE_APPLNK_DIR" != x)
-AC_SUBST(KDE_APPLNK_DIR)
-
 dnl ********************************************
 dnl Glade 3 catalog files (for maintainers only)
 dnl ********************************************

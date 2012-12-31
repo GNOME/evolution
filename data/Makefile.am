@@ -42,13 +42,6 @@ dist_theme_DATA =	\
 	webview.css	\
 	webview-print.css
 
-if HAVE_KDE_APPLNK
-
-kdedesktopdir = $(KDE_APPLNK_DIR)/Applications
-kdedesktop_DATA = $(desktop_in_in_file:.desktop.in.in=.desktop)
-
-endif
-
 dist_noinst_MANS = evolution.1
 
 
