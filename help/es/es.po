@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-12-30 20:10+0000\n"
-"PO-Revision-Date: 2012-12-31 12:10+0100\n"
+"PO-Revision-Date: 2012-12-31 12:23+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -7399,7 +7399,7 @@ msgid ""
 "view the messages striken off for later deletion."
 msgstr ""
 "Cuando pulsa Eliminar o pulsa en el la carpeta de la Papelera, su correo no "
-"se borra realmente sino que se marca para ser eliminado. Puede ver los "
+"se eliminar realmente sino que se marca para ser eliminado. Puede ver los "
 "mensajes marcados para ser eliminados en la carpeta Papelera. Para mostrar "
 "los mensajes eliminados, pulse <guiseq><gui>Ver</gui><gui>Mostrar mensajes "
 "eliminados</gui></guiseq>. Puede ver los mensajes marcados para ser "
@@ -7411,7 +7411,7 @@ msgid ""
 "<guiseq><gui>Folder</gui><gui>Expunge</gui></guiseq> or press "
 "<keyseq><key>Ctrl</key><key>E</key></keyseq>."
 msgstr ""
-"Para borrar permanentemente todos los mensajes borrados en una carpeta, "
+"Para eliminar permanentemente todos los mensajes eliminados en una carpeta, "
 "pulse <guiseq><gui>Carpeta</gui><gui>Purgar</gui></guiseq> o pulse "
 "<keyseq><key>Ctrl</key><key>E</key></keyseq>."
 
@@ -8495,15 +8495,15 @@ msgstr "Pone una copia del mensaje en la carpeta que especifique."
 
 #: C/mail-filters-actions.page:32(item/p)
 msgid "Delete:"
-msgstr "Borrar:"
+msgstr "Eliminar:"
 
 #: C/mail-filters-actions.page:33(item/p)
 msgid ""
 "Marks the message for deletion. The message can be undeleted until you "
 "expunge or empty the trash."
 msgstr ""
-"Marca el mensaje para borrarlo. Sigue siendo posible recuperar el mensaje de "
-"nuevo, al menos hasta que seleccione Purgar el correo."
+"Marca el mensaje para eliminarlo. Sigue siendo posible recuperar el mensaje "
+"de nuevo, al menos hasta que seleccione Purgar el correo."
 
 #: C/mail-filters-actions.page:35(item/p)
 msgid "Stop Processing:"
@@ -8861,7 +8861,7 @@ msgid ""
 "Filters according to the status of a message. The status can be Replied To, "
 "Draft, Important, Read, or Junk."
 msgstr ""
-"Filtros de acuerdo al estado de un mensaje. El estado puede ser Respoder a, "
+"Filtros de acuerdo al estado de un mensaje. El estado puede ser Responder a, "
 "Borrador, Importante, Leído o SPAM."
 
 #: C/mail-filters-conditions.page:72(item/p)
@@ -9272,7 +9272,7 @@ msgstr ""
 
 #: C/mail-filters.page:66(section/title)
 msgid "Deleting Filters"
-msgstr "Borrar filtros"
+msgstr "Eliminar filtros"
 
 #: C/mail-filters.page:70(item/p)
 msgid "Click <gui style=\"button\">Remove</gui>."
