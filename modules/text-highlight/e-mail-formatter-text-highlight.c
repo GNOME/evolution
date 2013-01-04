@@ -189,14 +189,14 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 	} else if (context->mode == E_MAIL_FORMATTER_MODE_RAW) {
 		gint pipe_stdin, pipe_stdout;
 		GPid pid;
-		CamelStream *read, *write, *utf8;
 		CamelDataWrapper *dw;
-		gchar *font_family, *font_size, *syntax, *tmp;
-		GByteArray *ba;
+		gchar *font_family, *font_size, *syntax;
 		gboolean use_custom_font;
 		EShell *shell;
 		EShellSettings *settings;
 		PangoFontDescription *fd;
+		gboolean success;
+
 		const gchar *argv[] = { "highlight",
 					NULL,	/* --font= */
 					NULL,   /* --font-size= */
@@ -258,11 +258,17 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 		argv[3] = g_strdup_printf ("--syntax=%s", syntax);
 		g_free (syntax);
 
-		if (g_spawn_async_with_pipes (
-				NULL, (gchar **) argv, NULL,
-				G_SPAWN_SEARCH_PATH |
-				G_SPAWN_DO_NOT_REAP_CHILD,
-				NULL, NULL, &pid, &pipe_stdin, &pipe_stdout, NULL, NULL)) {
+		success = g_spawn_async_with_pipes (
+			NULL, (gchar **) argv, NULL,
+			G_SPAWN_SEARCH_PATH, NULL, NULL, &pid,
+			&pipe_stdin, &pipe_stdout, NULL, NULL);
+
+		if (success) {
+			CamelStream *read;
+			CamelStream *write;
+			CamelStream *utf8;
+			GByteArray *ba;
+			gchar *tmp;
 
 			write = camel_stream_fs_new_with_fd (pipe_stdin);
 			read = camel_stream_fs_new_with_fd (pipe_stdout);
