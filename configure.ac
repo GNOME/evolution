@@ -40,6 +40,10 @@ dnl Keep these two definitions in agreement.
 m4_define([gdk_minimum_version], [3.4.0])
 m4_define([gdk_encoded_version], [GDK_VERSION_3_4])
 
+dnl Keep these two definitions in agreement.
+m4_define([soup_minimum_version], [2.38.1])
+m4_define([soup_encoded_version], [SOUP_VERSION_2_38])
+
 m4_define([eds_minimum_version], [evo_version])
 m4_define([gtkhtml_minimum_version], [4.5.2])
 m4_define([gnome_desktop_minimum_version], [2.91.3])
@@ -47,7 +51,6 @@ m4_define([gnome_icon_theme_minimum_version], [2.30.2.1])
 m4_define([gsettings_desktop_schemas_minimum_version], [2.91.92])
 m4_define([webkitgtk_minimum_version], [1.10.0])
 m4_define([libgdata_minimum_version], [0.10])
-m4_define([libsoup_minimum_version], [2.38.1])
 m4_define([libxml_minimum_version], [2.7.3])
 m4_define([shared_mime_info_minimum_version], [0.22])
 m4_define([libpst_minimum_version], [0.6.54])
@@ -121,9 +124,10 @@ if test "x$enable_strict" = xyes; then
 	AM_CPPFLAGS="$AM_CPPFLAGS -DG_DISABLE_DEPRECATED -DE_BOOK_DISABLE_DEPRECATED -DE_CAL_DISABLE_DEPRECATED"
 fi
 
-dnl Warn about GLib/GTK+ API usage that violates our minimum requirements.
+dnl Warn about API usage that violates our minimum requirements.
 AM_CPPFLAGS="$AM_CPPFLAGS -DGLIB_VERSION_MAX_ALLOWED=glib_encoded_version"
 AM_CPPFLAGS="$AM_CPPFLAGS -DGDK_VERSION_MAX_ALLOWED=gdk_encoded_version"
+AM_CPPFLAGS="$AM_CPPFLAGS -DSOUP_VERSION_MAX_ALLOWED=soup_encoded_version"
 
 dnl These will suppress warnings about newly-deprecated symbols.  Ideally
 dnl these settings should match our minimum requirements and we will clean
@@ -131,6 +135,7 @@ dnl up any new deprecation warnings after bumping our minimum requirements.
 dnl But if the warnings get to be overwhelming, use fixed versions instead.
 AM_CPPFLAGS="$AM_CPPFLAGS -DGLIB_VERSION_MIN_REQUIRED=glib_encoded_version"
 AM_CPPFLAGS="$AM_CPPFLAGS -DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_3_0"
+AM_CPPFLAGS="$AM_CPPFLAGS -DSOUP_VERSION_MIN_REQUIRED=soup_encoded_version"
 
 AC_SUBST(AM_CPPFLAGS)
 
@@ -1203,7 +1208,7 @@ AC_SUBST(LIBNOTIFY_LIBS)
 dnl **************
 dnl Calendar Flags
 dnl **************
-PKG_CHECK_MODULES([LIBSOUP], [libsoup-gnome-2.4 >= libsoup_minimum_version])
+PKG_CHECK_MODULES([LIBSOUP], [libsoup-gnome-2.4 >= soup_minimum_version])
 AC_SUBST(LIBSOUP_CFLAGS)
 AC_SUBST(LIBSOUP_LIBS)
 
