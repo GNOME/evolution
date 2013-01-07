@@ -8680,8 +8680,8 @@ msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
 "not contain In-Reply-To or References headers."
 msgstr ""
-"Retomber ou pas sur le tri par sujet quand les messages ne contiennent pas "
-"d'en-têtes In-Reply-To ou References."
+"Retomber ou pas sur le groupement par sujet quand les messages ne contiennent "
+"pas d'en-têtes In-Reply-To ou References."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:123
 msgid "Default value for thread expand state"
