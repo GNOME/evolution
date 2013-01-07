@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 3.7.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-21 17:21+0100\n"
-"PO-Revision-Date: 2012-12-21 17:23+0100\n"
+"POT-Creation-Date: 2013-01-07 11:59+0100\n"
+"PO-Revision-Date: 2013-01-07 11:59+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: Norsk bokmål\n"
@@ -2531,19 +2531,19 @@ msgstr "Lukk aktiv vindu"
 #: ../e-util/e-focus-tracker.c:558 ../e-util/e-web-view-gtkhtml.c:455
 #: ../e-util/e-web-view-gtkhtml.c:1298 ../e-util/e-web-view.c:322
 #: ../e-util/e-web-view.c:1407 ../mail/e-mail-browser.c:130
-#: ../shell/e-shell-window-actions.c:1437
+#: ../shell/e-shell-window-actions.c:876
 msgid "Copy the selection"
 msgstr "Kopier utvalget"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1165 ../e-util/e-focus-tracker.c:114
 #: ../e-util/e-focus-tracker.c:553 ../e-util/e-web-view-gtkhtml.c:1292
 #: ../e-util/e-web-view.c:1401 ../mail/e-mail-browser.c:137
-#: ../shell/e-shell-window-actions.c:1444
+#: ../shell/e-shell-window-actions.c:883
 msgid "Cut the selection"
 msgstr "Klipp ut utvalget"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1172 ../e-util/e-focus-tracker.c:135
-#: ../e-util/e-focus-tracker.c:568 ../shell/e-shell-window-actions.c:1451
+#: ../e-util/e-focus-tracker.c:568 ../shell/e-shell-window-actions.c:890
 msgid "Delete the selection"
 msgstr "Slett utvalget"
 
@@ -2554,7 +2554,7 @@ msgstr "Vis hjelp"
 #: ../calendar/gui/dialogs/comp-editor.c:1186 ../e-util/e-focus-tracker.c:128
 #: ../e-util/e-focus-tracker.c:563 ../e-util/e-web-view-gtkhtml.c:1304
 #: ../e-util/e-web-view.c:1413 ../mail/e-mail-browser.c:144
-#: ../shell/e-shell-window-actions.c:1472
+#: ../shell/e-shell-window-actions.c:911
 msgid "Paste the clipboard"
 msgstr "Lim inn fra utklippstavlen"
 
@@ -2573,7 +2573,7 @@ msgstr "Lagre endringer og lukk redigering"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1221 ../e-util/e-focus-tracker.c:142
 #: ../e-util/e-focus-tracker.c:573 ../mail/e-mail-browser.c:151
-#: ../shell/e-shell-window-actions.c:1549
+#: ../shell/e-shell-window-actions.c:988
 msgid "Select all text"
 msgstr "Velg all tekst"
 
@@ -2585,18 +2585,18 @@ msgstr "K_lassifisering"
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:19 ../e-util/filter.ui.h:16
 #: ../e-util/gal-define-views.ui.h:5 ../mail/e-mail-browser.c:165
 #: ../plugins/publish-calendar/publish-calendar.ui.h:32
-#: ../shell/e-shell-window-actions.c:1577
+#: ../shell/e-shell-window-actions.c:1016
 msgid "_Edit"
 msgstr "R_ediger"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1242
 #: ../e-util/e-mail-signature-editor.c:306 ../mail/e-mail-browser.c:158
-#: ../shell/e-shell-window-actions.c:1584
+#: ../shell/e-shell-window-actions.c:1023
 msgid "_File"
 msgstr "_Fil"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1249
-#: ../shell/e-shell-window-actions.c:1591
+#: ../shell/e-shell-window-actions.c:1030
 msgid "_Help"
 msgstr "_Hjelp"
 
@@ -2610,7 +2610,7 @@ msgid "_Options"
 msgstr "_Alternativer"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1270 ../mail/e-mail-browser.c:172
-#: ../shell/e-shell-window-actions.c:1626 ../smime/gui/smime-ui.ui.h:5
+#: ../shell/e-shell-window-actions.c:1065 ../smime/gui/smime-ui.ui.h:5
 msgid "_View"
 msgstr "_Vis"
 
@@ -6614,7 +6614,7 @@ msgstr "Ny _melding"
 msgid "Open New Message window"
 msgstr "Åpne nytt meldingsvindu"
 
-#: ../composer/e-composer-actions.c:310 ../shell/e-shell-window-actions.c:1486
+#: ../composer/e-composer-actions.c:310 ../shell/e-shell-window-actions.c:925
 msgid "Configure Evolution"
 msgstr "Konfigurer Evolution"
 
@@ -7005,7 +7005,7 @@ msgstr "Varsling om kalenderhendelser"
 msgid "Evolution"
 msgstr "Evolution"
 
-#: ../data/evolution.desktop.in.in.h:2 ../shell/e-shell-window-actions.c:644
+#: ../data/evolution.desktop.in.in.h:2 ../shell/e-shell-window-actions.c:83
 msgid "Groupware Suite"
 msgstr "Gruppevareløsning"
 
@@ -11011,7 +11011,7 @@ msgstr "Feil ved lasting av adressebok: %s"
 
 #. To Translators: This would be similiar to "Expand MyList Inline" where MyList is a Contact List
 #: ../e-util/e-name-selector-entry.c:3007
-#, c-format, fuzzy
+#, c-format
 msgid "E_xpand %s Inline"
 msgstr "Ut_vid %s i meldingen"
 
@@ -11586,6 +11586,14 @@ msgstr "Kunne ikke laste signatur."
 msgid "Could not save signature."
 msgstr "Kunne ikke lagre signatur."
 
+#: ../libemail-engine/camel-sasl-xoauth2.c:27
+msgid "OAuth2"
+msgstr "OAuth2"
+
+#: ../libemail-engine/camel-sasl-xoauth2.c:28
+msgid "This option will use an OAuth 2.0 access token to connect to the server"
+msgstr ""
+
 #: ../libemail-engine/e-mail-authenticator.c:182
 #, c-format
 msgid "Invalid authentication result code (%d)"
@@ -11680,7 +11688,7 @@ msgstr "Kunne ikke legge til i lokal Sendt-mappe: %s"
 msgid "Sending message"
 msgstr "Sender melding"
 
-#: ../libemail-engine/e-mail-session.c:117 ../mail/em-folder-properties.c:333
+#: ../libemail-engine/e-mail-session.c:120 ../mail/em-folder-properties.c:333
 #: ../mail/em-folder-tree-model.c:764
 #: ../modules/mail/e-mail-shell-view-private.c:1095
 #: ../modules/mail/e-mail-shell-view-private.c:1106
@@ -11688,25 +11696,25 @@ msgid "Inbox"
 msgstr "Innboks"
 
 #. E_MAIL_LOCAL_FOLDER_INBOX
-#: ../libemail-engine/e-mail-session.c:118 ../mail/em-folder-tree-model.c:757
+#: ../libemail-engine/e-mail-session.c:121 ../mail/em-folder-tree-model.c:757
 #: ../modules/mail/e-mail-shell-view-private.c:1093
 msgid "Drafts"
 msgstr "Skisser"
 
 #. E_MAIL_LOCAL_FOLDER_DRAFTS
-#: ../libemail-engine/e-mail-session.c:119 ../mail/em-folder-tree-model.c:768
+#: ../libemail-engine/e-mail-session.c:122 ../mail/em-folder-tree-model.c:768
 #: ../modules/mail/e-mail-shell-view-private.c:1097
 msgid "Outbox"
 msgstr "Utboks"
 
 #. E_MAIL_LOCAL_FOLDER_OUTBOX
-#: ../libemail-engine/e-mail-session.c:120 ../mail/em-folder-tree-model.c:772
+#: ../libemail-engine/e-mail-session.c:123 ../mail/em-folder-tree-model.c:772
 #: ../modules/mail/e-mail-shell-view-private.c:1099
 msgid "Sent"
 msgstr "Sendt"
 
 #. E_MAIL_LOCAL_FOLDER_SENT
-#: ../libemail-engine/e-mail-session.c:121 ../mail/em-folder-tree-model.c:760
+#: ../libemail-engine/e-mail-session.c:124 ../mail/em-folder-tree-model.c:760
 #: ../modules/mail/e-mail-shell-view-private.c:1101
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:1
 #: ../plugins/templates/templates.c:1069 ../plugins/templates/templates.c:1366
@@ -11714,29 +11722,29 @@ msgstr "Sendt"
 msgid "Templates"
 msgstr "Maler"
 
-#: ../libemail-engine/e-mail-session.c:1347
+#: ../libemail-engine/e-mail-session.c:1350
 #, c-format
 msgid "User cancelled operation"
 msgstr "Operasjon avbrutt av bruker"
 
-#: ../libemail-engine/e-mail-session.c:1571
+#: ../libemail-engine/e-mail-session.c:1574
 #, c-format
 msgid "%s authentication failed"
 msgstr "%s autentisering feilet"
 
-#: ../libemail-engine/e-mail-session.c:1616
+#: ../libemail-engine/e-mail-session.c:1619
 #, c-format
 msgid "No data source found for UID '%s'"
 msgstr "Fant ingen datakilde for UID «%s»"
 
-#: ../libemail-engine/e-mail-session.c:1667
+#: ../libemail-engine/e-mail-session.c:1670
 #, c-format
 msgid ""
 "No destination address provided, forwarding of the message has been "
 "cancelled."
 msgstr "Ingen måladresse oppgitt. Videresending av meldingen ble avbrutt."
 
-#: ../libemail-engine/e-mail-session.c:1680
+#: ../libemail-engine/e-mail-session.c:1683
 #, c-format
 msgid "No identity found to use, forwarding of the message has been cancelled."
 msgstr "Fant ingen identitet å bruke. Videresending av meldingen ble avbrutt."
@@ -11940,9 +11948,8 @@ msgstr "Mangler domene i e-postadresse"
 msgid "Unknown background operation"
 msgstr "Ukjent bakgrunnsoperasjon"
 
-#: ../mail/e-mail-browser.c:123 ../shell/e-shell-window-actions.c:1409
-#: ../shell/e-shell-window-actions.c:1416
-#: ../shell/e-shell-window-actions.c:1423
+#: ../mail/e-mail-browser.c:123 ../shell/e-shell-window-actions.c:848
+#: ../shell/e-shell-window-actions.c:855 ../shell/e-shell-window-actions.c:862
 msgid "Close this window"
 msgstr "Lukk dette vinduet"
 
@@ -17053,47 +17060,6 @@ msgid_plural "%d tasks"
 msgstr[0] "%d oppgave"
 msgstr[1] "%d oppgaver"
 
-#: ../modules/imap-features/e-mail-config-imap-headers-page.c:225
-#: ../modules/imap-features/e-mail-config-imap-headers-page.c:395
-msgid "IMAP Headers"
-msgstr "IMAP-meldingshoder"
-
-#: ../modules/imap-features/e-mail-config-imap-headers-page.c:233
-msgid ""
-"Select a predefined set of IMAP headers to fetch.\n"
-"Note, larger sets of headers take longer to download."
-msgstr ""
-"Velg et prefefinert sett med IMAP-meldingshoder som skal hentes.\n"
-"Merk at større sett med meldingshoder tar lengre tid å laste ned."
-
-#: ../modules/imap-features/e-mail-config-imap-headers-page.c:243
-msgid "_Fetch All Headers"
-msgstr "Hent alle meldin_gshoder"
-
-#: ../modules/imap-features/e-mail-config-imap-headers-page.c:257
-msgid "_Basic Headers (fastest)"
-msgstr "_Grunnleggende meldingshoder (raskest)"
-
-#: ../modules/imap-features/e-mail-config-imap-headers-page.c:271
-msgid "Use this if you are not filtering any mailing lists."
-msgstr "Bruk dette valget hvis du ikke har filter basert på e-postlister"
-
-#: ../modules/imap-features/e-mail-config-imap-headers-page.c:281
-msgid "Basic and _Mailing List Headers (default)"
-msgstr "Grunnleggende _meldingshoder for e-postlister (Forvalg)"
-
-#: ../modules/imap-features/e-mail-config-imap-headers-page.c:330
-msgid "Custom Headers"
-msgstr "Egendefinerte meldingshoder"
-
-#: ../modules/imap-features/e-mail-config-imap-headers-page.c:338
-msgid ""
-"Specify any extra headers to fetch in addition to the predefined set of "
-"headers selected above."
-msgstr ""
-"Oppgi ekstra meldingshoder som skal hentes i tillegg til det predefinerte "
-"settet med meldingshoder over."
-
 #: ../modules/itip-formatter/e-mail-formatter-itip.c:134
 msgid "ITIP"
 msgstr "ITIP"
@@ -18481,7 +18447,6 @@ msgstr ""
 "Evolution vil gå tilbake i tilkoblet modus når en nettverkstilkobling er "
 "tilgjengelig."
 
-#: ../modules/online-accounts/camel-sasl-xoauth2.c:166
 #: ../modules/online-accounts/camel-sasl-xoauth.c:298
 msgid ""
 "Cannot find a corresponding account in the org.gnome.OnlineAccounts service "
@@ -18490,20 +18455,15 @@ msgstr ""
 "Kan ikke finne en passende konto å hente autentiseringsinformasjon for fra "
 "org.gnome.OnlineAccounts-tjenesten."
 
-#: ../modules/online-accounts/camel-sasl-xoauth2.c:222
-msgid "OAuth2"
-msgstr "OAuth2"
+#: ../modules/online-accounts/camel-sasl-xoauth.c:377
+msgid "OAuth"
+msgstr "OAuth"
 
-#: ../modules/online-accounts/camel-sasl-xoauth2.c:224
 #: ../modules/online-accounts/camel-sasl-xoauth.c:379
 msgid ""
 "This option will connect to the server by way of the GNOME Online Accounts "
 "service"
 msgstr "Dette valget vil koble til tjeneren via GNOME nettkontotjenesten"
-
-#: ../modules/online-accounts/camel-sasl-xoauth.c:377
-msgid "OAuth"
-msgstr "OAuth"
 
 #: ../modules/plugin-manager/evolution-plugin-manager.c:68
 msgid "Author(s)"
@@ -18687,11 +18647,11 @@ msgstr "_Formater som …"
 msgid "_Other languages"
 msgstr "_Andre språk"
 
-#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:356
+#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:361
 msgid "Text Highlight"
 msgstr "Tekstutheving"
 
-#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:357
+#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:362
 msgid "Syntax highlighting of mail parts"
 msgstr "Syntaksutheving for e-postdeler"
 
@@ -20063,272 +20023,271 @@ msgstr "Lagrer tilstand for brukergrensesnitt"
 #. The translator-credits string is for translators to list
 #. * per-language credits for translation, displayed in the
 #. * about dialog.
-#: ../shell/e-shell-window-actions.c:635
+#: ../shell/e-shell-window-actions.c:74
 msgid "translator-credits"
 msgstr "Kjartan Maraas <kmaraas@gnome.org>"
 
-#: ../shell/e-shell-window-actions.c:646
+#: ../shell/e-shell-window-actions.c:85
 msgid "Evolution Website"
 msgstr "Evolution nettsted"
 
-#: ../shell/e-shell-window-actions.c:884
+#: ../shell/e-shell-window-actions.c:323
 msgid "Categories Editor"
 msgstr "Redigering av kategorier"
 
-#: ../shell/e-shell-window-actions.c:1221
+#: ../shell/e-shell-window-actions.c:660
 msgid "Bug Buddy is not installed."
 msgstr "Bug Buddy er ikke installert."
 
-#: ../shell/e-shell-window-actions.c:1222
+#: ../shell/e-shell-window-actions.c:661
 msgid "Bug Buddy could not be run."
 msgstr "Bug Buddy kunne ikke kjøres."
 
-#: ../shell/e-shell-window-actions.c:1402
+#: ../shell/e-shell-window-actions.c:841
 msgid "Show information about Evolution"
 msgstr "Vis informasjon om Evolution"
 
-#: ../shell/e-shell-window-actions.c:1407
-#: ../shell/e-shell-window-actions.c:1421
+#: ../shell/e-shell-window-actions.c:846 ../shell/e-shell-window-actions.c:860
 msgid "_Close Window"
 msgstr "_Lukk vindu"
 
-#: ../shell/e-shell-window-actions.c:1428
+#: ../shell/e-shell-window-actions.c:867
 msgid "_Contents"
 msgstr "_Innhold"
 
-#: ../shell/e-shell-window-actions.c:1430
+#: ../shell/e-shell-window-actions.c:869
 msgid "Open the Evolution User Guide"
 msgstr "Åpne Evolutions brukermanual"
 
-#: ../shell/e-shell-window-actions.c:1456
+#: ../shell/e-shell-window-actions.c:895
 msgid "I_mport..."
 msgstr "I_mporter …"
 
-#: ../shell/e-shell-window-actions.c:1458
+#: ../shell/e-shell-window-actions.c:897
 msgid "Import data from other programs"
 msgstr "Importer data fra andre programmer"
 
-#: ../shell/e-shell-window-actions.c:1463
+#: ../shell/e-shell-window-actions.c:902
 msgid "New _Window"
 msgstr "Nytt _vindu"
 
-#: ../shell/e-shell-window-actions.c:1465
+#: ../shell/e-shell-window-actions.c:904
 msgid "Create a new window displaying this view"
 msgstr "Opprett et nytt vindu med denne visningen"
 
-#: ../shell/e-shell-window-actions.c:1477
+#: ../shell/e-shell-window-actions.c:916
 msgid "Available Cate_gories"
 msgstr "Tilgjengelige kate_gorier"
 
-#: ../shell/e-shell-window-actions.c:1479
+#: ../shell/e-shell-window-actions.c:918
 msgid "Manage available categories"
 msgstr "Håndter tilgjengelige kategorier"
 
-#: ../shell/e-shell-window-actions.c:1491
+#: ../shell/e-shell-window-actions.c:930
 msgid "_Quick Reference"
 msgstr "_Hurtigreferanse"
 
-#: ../shell/e-shell-window-actions.c:1493
+#: ../shell/e-shell-window-actions.c:932
 msgid "Show Evolution's shortcut keys"
 msgstr "Vis snarveitaster for Evolution"
 
-#: ../shell/e-shell-window-actions.c:1500
+#: ../shell/e-shell-window-actions.c:939
 msgid "Exit the program"
 msgstr "Avslutt programmet"
 
-#: ../shell/e-shell-window-actions.c:1505
+#: ../shell/e-shell-window-actions.c:944
 msgid "_Advanced Search..."
 msgstr "_Avansert søk …"
 
-#: ../shell/e-shell-window-actions.c:1507
+#: ../shell/e-shell-window-actions.c:946
 msgid "Construct a more advanced search"
 msgstr "Sett sammen et mer avansert søk"
 
-#: ../shell/e-shell-window-actions.c:1514
+#: ../shell/e-shell-window-actions.c:953
 msgid "Clear the current search parameters"
 msgstr "Tøm aktive søkeparametere"
 
-#: ../shell/e-shell-window-actions.c:1519
+#: ../shell/e-shell-window-actions.c:958
 msgid "_Edit Saved Searches..."
 msgstr "R_ediger lagrede søk …"
 
-#: ../shell/e-shell-window-actions.c:1521
+#: ../shell/e-shell-window-actions.c:960
 msgid "Manage your saved searches"
 msgstr "Håndter dine lagrede søk"
 
-#: ../shell/e-shell-window-actions.c:1528
+#: ../shell/e-shell-window-actions.c:967
 msgid "Click here to change the search type"
 msgstr "Klikk her for å endre søketype"
 
-#: ../shell/e-shell-window-actions.c:1533
+#: ../shell/e-shell-window-actions.c:972
 msgid "_Find Now"
 msgstr "_Finn nå "
 
 #. Block the default Ctrl+F.
-#: ../shell/e-shell-window-actions.c:1535
+#: ../shell/e-shell-window-actions.c:974
 msgid "Execute the current search parameters"
 msgstr "Kjør aktive søkeparametere"
 
-#: ../shell/e-shell-window-actions.c:1540
+#: ../shell/e-shell-window-actions.c:979
 msgid "_Save Search..."
 msgstr "_Lagre søk …"
 
-#: ../shell/e-shell-window-actions.c:1542
+#: ../shell/e-shell-window-actions.c:981
 msgid "Save the current search parameters"
 msgstr "Lagre aktive søkeparametere"
 
-#: ../shell/e-shell-window-actions.c:1554
+#: ../shell/e-shell-window-actions.c:993
 msgid "Submit _Bug Report..."
 msgstr "Sen_d inn feilrapport …"
 
-#: ../shell/e-shell-window-actions.c:1556
+#: ../shell/e-shell-window-actions.c:995
 msgid "Submit a bug report using Bug Buddy"
 msgstr "Send inn en feilrapport med Bug Buddy"
 
-#: ../shell/e-shell-window-actions.c:1561
+#: ../shell/e-shell-window-actions.c:1000
 msgid "_Work Offline"
 msgstr "Ar_beid frakoblet"
 
-#: ../shell/e-shell-window-actions.c:1563
+#: ../shell/e-shell-window-actions.c:1002
 msgid "Put Evolution into offline mode"
 msgstr "Sett Evolution i frakoblet modus"
 
-#: ../shell/e-shell-window-actions.c:1568
+#: ../shell/e-shell-window-actions.c:1007
 msgid "_Work Online"
 msgstr "Ar_beid tilkoblet"
 
-#: ../shell/e-shell-window-actions.c:1570
+#: ../shell/e-shell-window-actions.c:1009
 msgid "Put Evolution into online mode"
 msgstr "Sett Evolution i tilkoblet modus"
 
-#: ../shell/e-shell-window-actions.c:1598
+#: ../shell/e-shell-window-actions.c:1037
 msgid "Lay_out"
 msgstr "Utf_orming"
 
-#: ../shell/e-shell-window-actions.c:1605
+#: ../shell/e-shell-window-actions.c:1044
 msgid "_New"
 msgstr "_Ny"
 
-#: ../shell/e-shell-window-actions.c:1612
+#: ../shell/e-shell-window-actions.c:1051
 msgid "_Search"
 msgstr "_Søk"
 
-#: ../shell/e-shell-window-actions.c:1619
+#: ../shell/e-shell-window-actions.c:1058
 msgid "_Switcher Appearance"
 msgstr "Ut_seende for bytter"
 
-#: ../shell/e-shell-window-actions.c:1633
+#: ../shell/e-shell-window-actions.c:1072
 msgid "_Window"
 msgstr "_Vindu"
 
-#: ../shell/e-shell-window-actions.c:1662
+#: ../shell/e-shell-window-actions.c:1101
 msgid "Show Side _Bar"
 msgstr "Vis si_delinje"
 
-#: ../shell/e-shell-window-actions.c:1664
+#: ../shell/e-shell-window-actions.c:1103
 msgid "Show the side bar"
 msgstr "Vis sidelinjen"
 
-#: ../shell/e-shell-window-actions.c:1670
+#: ../shell/e-shell-window-actions.c:1109
 msgid "Show _Buttons"
 msgstr "Vis _knapper"
 
-#: ../shell/e-shell-window-actions.c:1672
+#: ../shell/e-shell-window-actions.c:1111
 msgid "Show the switcher buttons"
 msgstr "Vis knapper for bytter"
 
-#: ../shell/e-shell-window-actions.c:1678
+#: ../shell/e-shell-window-actions.c:1117
 msgid "Show _Status Bar"
 msgstr "Vis _statuslinje"
 
-#: ../shell/e-shell-window-actions.c:1680
+#: ../shell/e-shell-window-actions.c:1119
 msgid "Show the status bar"
 msgstr "Vis statuslinjen"
 
-#: ../shell/e-shell-window-actions.c:1686
+#: ../shell/e-shell-window-actions.c:1125
 msgid "Show _Tool Bar"
 msgstr "Vis verk_tøylinjen"
 
-#: ../shell/e-shell-window-actions.c:1688
+#: ../shell/e-shell-window-actions.c:1127
 msgid "Show the tool bar"
 msgstr "Vis verktøylinjen"
 
-#: ../shell/e-shell-window-actions.c:1710
+#: ../shell/e-shell-window-actions.c:1149
 msgid "_Icons Only"
 msgstr "Kun _ikoner"
 
-#: ../shell/e-shell-window-actions.c:1712
+#: ../shell/e-shell-window-actions.c:1151
 msgid "Display window buttons with icons only"
 msgstr "Vis bare ikoner på vinduknapper"
 
-#: ../shell/e-shell-window-actions.c:1717
+#: ../shell/e-shell-window-actions.c:1156
 msgid "_Text Only"
 msgstr "Kun _tekst"
 
-#: ../shell/e-shell-window-actions.c:1719
+#: ../shell/e-shell-window-actions.c:1158
 msgid "Display window buttons with text only"
 msgstr "Vis bare tekst på vinduknapper"
 
-#: ../shell/e-shell-window-actions.c:1724
+#: ../shell/e-shell-window-actions.c:1163
 msgid "Icons _and Text"
 msgstr "Ikoner _og tekst"
 
-#: ../shell/e-shell-window-actions.c:1726
+#: ../shell/e-shell-window-actions.c:1165
 msgid "Display window buttons with icons and text"
 msgstr "Vis tekst og ikoner på vinduknapper"
 
-#: ../shell/e-shell-window-actions.c:1731
+#: ../shell/e-shell-window-actions.c:1170
 msgid "Tool_bar Style"
 msgstr "S_til for verktøylinje"
 
-#: ../shell/e-shell-window-actions.c:1733
+#: ../shell/e-shell-window-actions.c:1172
 msgid "Display window buttons using the desktop toolbar setting"
 msgstr ""
 "Vis vinduknapper ved å bruke instillinger for verktøylinjen på skrivebordet"
 
-#: ../shell/e-shell-window-actions.c:1741
+#: ../shell/e-shell-window-actions.c:1180
 msgid "Define Views..."
 msgstr "Definer visninger …"
 
-#: ../shell/e-shell-window-actions.c:1743
+#: ../shell/e-shell-window-actions.c:1182
 msgid "Create or edit views"
 msgstr "Opprett eller rediger visninger"
 
-#: ../shell/e-shell-window-actions.c:1748
+#: ../shell/e-shell-window-actions.c:1187
 msgid "Save Custom View..."
 msgstr "Lagre egendefinert visning …"
 
-#: ../shell/e-shell-window-actions.c:1750
+#: ../shell/e-shell-window-actions.c:1189
 msgid "Save current custom view"
 msgstr "Lagre aktiv egendefinert visning"
 
-#: ../shell/e-shell-window-actions.c:1757
+#: ../shell/e-shell-window-actions.c:1196
 msgid "C_urrent View"
 msgstr "A_ktiv visning"
 
-#: ../shell/e-shell-window-actions.c:1767
+#: ../shell/e-shell-window-actions.c:1206
 msgid "Custom View"
 msgstr "Egendefinert visning"
 
-#: ../shell/e-shell-window-actions.c:1769
+#: ../shell/e-shell-window-actions.c:1208
 msgid "Current view is a customized view"
 msgstr "Aktiv visning er en egendefinert visning"
 
-#: ../shell/e-shell-window-actions.c:1779
+#: ../shell/e-shell-window-actions.c:1218
 msgid "Change the page settings for your current printer"
 msgstr "Endre sideinnstillingene for din skriver"
 
-#: ../shell/e-shell-window-actions.c:2169
+#: ../shell/e-shell-window-actions.c:1608
 #, c-format
 msgid "Switch to %s"
 msgstr "Bytt til %s"
 
-#: ../shell/e-shell-window-actions.c:2290
+#: ../shell/e-shell-window-actions.c:1729
 #, c-format
 msgid "Select view: %s"
 msgstr "Velg visning: %s"
 
-#: ../shell/e-shell-window-actions.c:2391
+#: ../shell/e-shell-window-actions.c:1830
 msgid "Execute these search parameters"
 msgstr "Kjør disse søkeparameterene"
 
