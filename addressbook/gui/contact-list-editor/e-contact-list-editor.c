@@ -946,7 +946,7 @@ contact_list_editor_source_menu_changed_cb (GtkWidget *widget)
 
 	if (!e_source_equal (client_source, active_source))
 		e_client_utils_open_new (
-			client_source, E_CLIENT_SOURCE_TYPE_CONTACTS,
+			active_source, E_CLIENT_SOURCE_TYPE_CONTACTS,
 			FALSE, NULL, contact_list_editor_book_loaded_cb,
 			g_object_ref (editor));
 
