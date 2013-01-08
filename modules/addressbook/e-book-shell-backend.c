@@ -38,6 +38,7 @@
 #include "widgets/misc/e-source-config-dialog.h"
 
 #include "addressbook/gui/widgets/eab-gui-util.h"
+#include "addressbook/gui/widgets/e-addressbook-view.h"
 #include "addressbook/gui/contact-editor/e-contact-editor.h"
 #include "addressbook/gui/contact-editor/e-contact-quick-add.h"
 #include "addressbook/gui/contact-list-editor/e-contact-list-editor.h"
@@ -45,6 +46,7 @@
 
 #include "autocompletion-config.h"
 
+#include "e-book-shell-content.h"
 #include "e-book-shell-migrate.h"
 #include "e-book-shell-settings.h"
 #include "e-book-shell-view.h"
@@ -176,7 +178,7 @@ action_contact_new_cb (GtkAction *action,
                        EShellWindow *shell_window)
 {
 	EShell *shell;
-	ESource *source;
+	ESource *source = NULL;
 	ESourceRegistry *registry;
 	const gchar *action_name;
 
@@ -184,8 +186,36 @@ action_contact_new_cb (GtkAction *action,
 
 	shell = e_shell_window_get_shell (shell_window);
 
-	registry = e_shell_get_registry (shell);
-	source = e_source_registry_ref_default_address_book (registry);
+	if (g_strcmp0 (e_shell_window_get_active_view (shell_window), "addressbook") == 0) {
+		EShellView *shell_view = e_shell_window_get_shell_view (shell_window, "addressbook");
+
+		if (shell_view && E_IS_BOOK_SHELL_VIEW (shell_view)) {
+			EBookShellContent *book_shell_content;
+			EAddressbookView *view;
+			EAddressbookModel *model;
+			EBookClient *book_client;
+
+			book_shell_content = NULL;
+			g_object_get (G_OBJECT (shell_view), "shell-content", &book_shell_content, NULL);
+			g_return_if_fail (book_shell_content != NULL);
+
+			view = e_book_shell_content_get_current_view (book_shell_content);
+			g_return_if_fail (view != NULL);
+
+			model = e_addressbook_view_get_model (view);
+			book_client = e_addressbook_model_get_client (model);
+			g_return_if_fail (book_client != NULL);
+
+			source = g_object_ref (e_client_get_source (E_CLIENT (book_client)));
+
+			g_object_unref (book_shell_content);
+		}
+	}
+
+	if (!source) {
+		registry = e_shell_get_registry (shell);
+		source = e_source_registry_ref_default_address_book (registry);
+	}
 
 	/* Use a callback function appropriate for the action. */
 	action_name = gtk_action_get_name (action);
