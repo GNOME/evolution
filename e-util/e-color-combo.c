@@ -672,7 +672,7 @@ e_color_combo_init (EColorCombo *combo)
 	combo->priv = G_TYPE_INSTANCE_GET_PRIVATE (
 		combo, E_TYPE_COLOR_COMBO, EColorComboPrivate);
 
-	layout = gtk_hbox_new (FALSE, 0);
+	layout = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_container_add (GTK_CONTAINER (combo), layout);
 
 	/* Build the combo button. */
@@ -683,7 +683,7 @@ e_color_combo_init (EColorCombo *combo)
 		G_CALLBACK (color_combo_draw_frame_cb), combo);
 	combo->priv->color_frame = widget;
 
-	widget = gtk_vseparator_new ();
+	widget = gtk_separator_new (GTK_ORIENTATION_VERTICAL);
 	gtk_box_pack_start (GTK_BOX (layout), widget, FALSE, TRUE, 0);
 
 	widget = gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_NONE);
