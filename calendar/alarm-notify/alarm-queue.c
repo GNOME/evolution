@@ -1724,7 +1724,7 @@ popup_notification (time_t trigger,
 	gchar *str, *start_str, *end_str, *alarm_str, *time_str;
 	icaltimezone *current_zone;
 	ECalComponentOrganizer organiser;
-	NotifyNotification *n;
+	NotifyNotification *notify;
 	gchar *body;
 
 	debug (("..."));
@@ -1780,9 +1780,17 @@ popup_notification (time_t trigger,
 				"%s %s", start_str, time_str);
 	}
 
-	n = notify_notification_new (summary, body, "appointment-soon");
-	if (!notify_notification_show (n, NULL))
-	    g_warning ("Could not send notification to daemon\n");
+	notify = notify_notification_new (summary, body, "appointment-soon");
+
+	/* If the user wants Evolution notifications suppressed, honor
+	 * it even though evolution-alarm-notify is a separate process
+	 * with its own .desktop file. */
+	notify_notification_set_hint (
+		notify, "desktop-entry",
+		g_variant_new_string (PACKAGE));
+
+	if (!notify_notification_show (notify, NULL))
+		g_warning ("Could not send notification to daemon\n");
 
 	/* create the private structure */
 	g_free (start_str);

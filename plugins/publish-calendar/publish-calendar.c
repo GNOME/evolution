@@ -149,6 +149,9 @@ update_publish_notification (GtkMessageType msg_type,
 			notify  = notify_notification_new (_("Calendar Publishing"), actual_msg->str, stock_name);
 			notify_notification_set_urgency (notify, NOTIFY_URGENCY_NORMAL);
 			notify_notification_set_timeout (notify, NOTIFY_EXPIRES_DEFAULT);
+			notify_notification_set_hint (
+				notify, "desktop-entry",
+				g_variant_new_string (PACKAGE));
 			g_timeout_add (500, show_notify_cb, NULL);
 
 			g_signal_connect (

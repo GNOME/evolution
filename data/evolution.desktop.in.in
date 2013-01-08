@@ -15,4 +15,5 @@ X-GNOME-Bugzilla-Product=Evolution
 X-GNOME-Bugzilla-Component=BugBuddyBugs
 X-GNOME-Bugzilla-Version=@BASE_VERSION@.x
 X-GNOME-Bugzilla-OtherBinaries=e-addressbook-factory;e-calendar-factory
+X-GNOME-UsesNotifications=true
 MimeType=text/calendar;text/x-vcard;text/directory;application/mbox;message/rfc822;x-scheme-handler/mailto;

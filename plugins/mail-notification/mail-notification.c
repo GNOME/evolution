@@ -442,6 +442,10 @@ new_notify_status (EMEventTargetFolder *t)
 		notify_notification_set_timeout (
 			notify, NOTIFY_EXPIRES_DEFAULT);
 
+		notify_notification_set_hint (
+			notify, "desktop-entry",
+			g_variant_new_string (PACKAGE));
+
 		/* Check if actions are supported */
 		if (can_support_actions ()) {
 			gchar *label;
