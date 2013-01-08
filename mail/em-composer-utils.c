@@ -2817,9 +2817,6 @@ composer_set_body (EMsgComposer *composer,
 	CamelSession *session;
 	GSettings *settings;
 	gboolean start_bottom;
-#if 0
-	gboolean has_body_text = FALSE;
-#endif
 	guint32 validity_found = 0;
 
 	session = e_msg_composer_ref_session (composer);
@@ -2845,9 +2842,6 @@ composer_set_body (EMsgComposer *composer,
 			parts_list, "<span id=\"-x-evolution-reply-citation\">",
 			start_bottom ? "</span><br>" : "</span>", &validity_found);
 		e_msg_composer_set_body_text (composer, text, TRUE);
-#if 0
-		has_body_text = text && *text;
-#endif
 		g_free (text);
 		g_free (original);
 		emu_update_composers_security (composer, validity_found);
@@ -2863,9 +2857,6 @@ composer_set_body (EMsgComposer *composer,
 			start_bottom ? "</span><br>" : "</span>", &validity_found);
 		g_free (credits);
 		e_msg_composer_set_body_text (composer, text, TRUE);
-#if 0
-		has_body_text = text && *text;
-#endif
 		g_free (text);
 		emu_update_composers_security (composer, validity_found);
 		break;

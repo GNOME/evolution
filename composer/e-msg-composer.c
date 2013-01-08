@@ -2280,11 +2280,11 @@ msg_composer_key_press_event (GtkWidget *widget,
 
 /* FIXME WEBKIT We can effectively hack around this by DOM manipulation
  * when inserting signature, right?..or when is this usefull ?? */
+#if 0  /* WEBKIT-COMPOSER */
 static void
 msg_composer_command_before (EMsgComposer *composer,
                              const gchar *command)
 {
-	/*
 	EMsgComposer *composer;
 	const gchar *data;
 
@@ -2308,14 +2308,12 @@ msg_composer_command_before (EMsgComposer *composer,
 		gtkhtml_editor_run_command (editor, "text-default-color");
 		gtkhtml_editor_run_command (editor, "italic-off");
 	}
-	*/
 }
 
 static void
 msg_composer_command_after (EMsgComposer *composer,
                             const gchar *command)
 {
-	/*
 	EMsgComposer *composer;
 	const gchar *data;
 
@@ -2338,7 +2336,7 @@ msg_composer_command_after (EMsgComposer *composer,
 	if (data == NULL || *data != '1')
 		return;
 
-	// Clear the signature.
+	/* Clear the signature. */
 	if (gtkhtml_editor_is_paragraph_empty (editor))
 		gtkhtml_editor_set_paragraph_data (editor, "signature" ,"0");
 
@@ -2351,7 +2349,6 @@ msg_composer_command_after (EMsgComposer *composer,
 
 	gtkhtml_editor_run_command (editor, "text-default-color");
 	gtkhtml_editor_run_command (editor, "italic-off");
-	*/
 }
 
 static gchar *
@@ -2389,6 +2386,7 @@ msg_composer_image_uri (EMsgComposer *composer,
 
 	return g_strconcat ("cid:", cid, NULL);
 }
+#endif /* WEBKIT-COMPOSER */
 
 static gboolean
 msg_composer_presend (EMsgComposer *composer)

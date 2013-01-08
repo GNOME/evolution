@@ -214,7 +214,7 @@ e_editor_replace_dialog_init (EEditorReplaceDialog *dialog)
 	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_grid_attach (main_layout, widget, 0, 1, 1, 1);
 
-	layout = gtk_hbox_new (FALSE, 5);
+	layout = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 5);
 	gtk_grid_attach (main_layout, layout, 1, 2, 2, 1);
 
 	widget = gtk_check_button_new_with_mnemonic (_("Search _backwards"));

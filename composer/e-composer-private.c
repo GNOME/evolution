@@ -197,7 +197,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 
 	priv->focus_tracker = focus_tracker;
 
-	container = gtk_vbox_new (FALSE, 0);
+	container = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_widget_set_vexpand (container, FALSE);
 	gtk_widget_show (container);
 	e_editor_window_pack_above (E_EDITOR_WINDOW (composer), container);

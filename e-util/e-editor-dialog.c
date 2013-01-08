@@ -157,7 +157,7 @@ e_editor_dialog_init (EEditorDialog *dialog)
 	dialog->priv = G_TYPE_INSTANCE_GET_PRIVATE (
 		dialog, E_TYPE_EDITOR_DIALOG, EEditorDialogPrivate);
 
-	main_layout = GTK_BOX (gtk_vbox_new (FALSE, 5));
+	main_layout = GTK_BOX (gtk_box_new (GTK_ORIENTATION_VERTICAL, 5));
 	gtk_container_add (GTK_CONTAINER (dialog), GTK_WIDGET (main_layout));
 	gtk_container_set_border_width (GTK_CONTAINER (dialog), 10);
 

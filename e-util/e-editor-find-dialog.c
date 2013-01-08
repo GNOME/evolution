@@ -151,7 +151,7 @@ e_editor_find_dialog_init (EEditorFindDialog *dialog)
 		widget, "key-release-event",
 		G_CALLBACK (entry_key_release_event), dialog);
 
-	box = GTK_BOX (gtk_hbox_new (FALSE, 5));
+	box = GTK_BOX (gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 5));
 	gtk_grid_attach (main_layout, GTK_WIDGET (box), 0, 1, 1, 1);
 
 	widget = gtk_check_button_new_with_mnemonic (N_("Search _backwards"));
@@ -175,7 +175,7 @@ e_editor_find_dialog_init (EEditorFindDialog *dialog)
 		widget, "toggled",
 		G_CALLBACK (reset_dialog), dialog);
 
-	box = GTK_BOX (gtk_hbox_new (FALSE, 5));
+	box = GTK_BOX (gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 5));
 	gtk_grid_attach (main_layout, GTK_WIDGET (box), 0, 2, 1, 1);
 
 	widget = gtk_label_new ("");
