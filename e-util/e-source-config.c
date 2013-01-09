@@ -1352,6 +1352,26 @@ secure_to_port_cb (GBinding *binding,
 	return TRUE;
 }
 
+static gboolean
+webdav_source_ssl_trust_to_sensitive_cb (GBinding *binding,
+					 const GValue *source_value,
+					 GValue *target_value,
+					 gpointer user_data)
+{
+	const gchar *ssl_trust = g_value_get_string (source_value);
+
+	g_value_set_boolean (target_value, ssl_trust && *ssl_trust);
+
+	return TRUE;
+}
+
+static void
+webdav_unset_ssl_trust_clicked_cb (GtkWidget *button,
+				   ESourceWebdav *extension)
+{
+	e_source_webdav_set_ssl_trust (extension, NULL);
+}
+
 void
 e_source_config_add_secure_connection_for_webdav (ESourceConfig *config,
                                                   ESource *scratch_source)
@@ -1393,22 +1413,19 @@ e_source_config_add_secure_connection_for_webdav (ESourceConfig *config,
 	extension_name = E_SOURCE_EXTENSION_WEBDAV_BACKEND;
 	extension = e_source_get_extension (scratch_source, extension_name);
 
-	label = _("Ignore invalid SSL certificate");
-	widget2 = gtk_check_button_new_with_label (label);
+	widget2 = gtk_button_new_with_mnemonic (_("Unset _trust for SSL certificate"));
 	gtk_widget_set_margin_left (widget2, 24);
 	e_source_config_insert_widget (config, scratch_source, NULL, widget2);
 	gtk_widget_show (widget2);
 
-	g_object_bind_property (
-		widget1, "active",
+	g_object_bind_property_full (
+		extension, "ssl-trust",
 		widget2, "sensitive",
-		G_BINDING_SYNC_CREATE);
+		G_BINDING_SYNC_CREATE,
+		webdav_source_ssl_trust_to_sensitive_cb,
+		NULL, NULL, NULL);
 
-	g_object_bind_property (
-		extension, "ignore-invalid-cert",
-		widget2, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+	g_signal_connect (widget2, "clicked", G_CALLBACK (webdav_unset_ssl_trust_clicked_cb), extension);
 }
 
 void
