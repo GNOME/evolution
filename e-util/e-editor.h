@@ -55,7 +55,6 @@ typedef struct _EEditorPrivate EEditorPrivate;
 
 struct _EEditor {
 	GtkGrid parent;
-
 	EEditorPrivate *priv;
 };
 
@@ -64,17 +63,14 @@ struct _EEditorClass {
 
 	void		(*update_actions)	(EEditor *editor,
 						 GdkEventButton *event);
-
 	void		(*spell_languages_changed)
 						(EEditor *editor,
 						 GList *dictionaries);
 };
 
-GType		e_editor_get_type		(void);
+GType		e_editor_get_type		(void) G_GNUC_CONST;
 GtkWidget *	e_editor_new			(void);
-
-EEditorWidget*	e_editor_get_editor_widget	(EEditor *editor);
-
+EEditorWidget *	e_editor_get_editor_widget	(EEditor *editor);
 GtkBuilder *	e_editor_get_builder		(EEditor *editor);
 GtkUIManager *	e_editor_get_ui_manager		(EEditor *editor);
 GtkAction *	e_editor_get_action		(EEditor *editor,
@@ -83,19 +79,15 @@ GtkActionGroup *e_editor_get_action_group	(EEditor *editor,
 						 const gchar *group_name);
 GtkWidget *	e_editor_get_widget		(EEditor *editor,
 						 const gchar *widget_name);
-GtkWidget *	e_editor_get_managed_widget
-						(EEditor *editor,
+GtkWidget *	e_editor_get_managed_widget	(EEditor *editor,
 						 const gchar *widget_path);
 const gchar *	e_editor_get_filename		(EEditor *editor);
 void		e_editor_set_filename		(EEditor *editor,
 						 const gchar *filename);
-
 void		e_editor_pack_above		(EEditor *editor,
 						 GtkWidget *child);
-
 void		e_editor_emit_spell_languages_changed
 						(EEditor *editor);
-
 
 /*****************************************************************************
  * High-Level Editing Interface

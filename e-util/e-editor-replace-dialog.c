@@ -26,6 +26,10 @@
 
 #include <glib/gi18n-lib.h>
 
+#define E_EDITOR_REPLACE_DIALOG_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_EDITOR_REPLACE_DIALOG, EEditorReplaceDialogPrivate))
+
 G_DEFINE_TYPE (
 	EEditorReplaceDialog,
 	e_editor_replace_dialog,
@@ -129,7 +133,7 @@ editor_replace_dialog_replace_all_cb (EEditorReplaceDialog *dialog)
 	while (jump (dialog)) {
 		e_editor_selection_replace (selection, replacement);
 		i++;
-		
+
 		/* Jump behind the word */
 		e_editor_selection_move (selection, TRUE, E_EDITOR_SELECTION_GRANULARITY_WORD);
 	}
@@ -167,42 +171,14 @@ editor_replace_dialog_show (GtkWidget *widget)
 }
 
 static void
-editor_replace_dialog_set_property (GObject *object,
-				    guint property_id,
-				    const GValue *value,
-				    GParamSpec *pspec)
-{
-	switch (property_id) {
-		case PROP_EDITOR:
-			E_EDITOR_REPLACE_DIALOG (object)->priv->editor =
-				g_object_ref (g_value_get_object (value));
-			return;
-	}
-
-	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-}
-
-static void
-editor_replace_dialog_finalize (GObject *object)
-{
-	EEditorReplaceDialogPrivate *priv = E_EDITOR_REPLACE_DIALOG (object)->priv;
-
-	g_clear_object (&priv->editor);
-
-	/* Chain up to parent implementation */
-	G_OBJECT_CLASS (e_editor_replace_dialog_parent_class)->finalize (object);
-}
-
-static void
-e_editor_replace_dialog_class_init (EEditorReplaceDialogClass *klass)
+e_editor_replace_dialog_class_init (EEditorReplaceDialogClass *class)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	e_editor_replace_dialog_parent_class = g_type_class_peek_parent (klass);
-	g_type_class_add_private (klass, sizeof (EEditorReplaceDialogPrivate));
+	g_type_class_add_private (class, sizeof (EEditorReplaceDialogPrivate));
 
-	widget_class = GTK_WIDGET_CLASS (klass);
+	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->show = editor_replace_dialog_show;
 
 	object_class = G_OBJECT_CLASS (klass);
@@ -227,9 +203,7 @@ e_editor_replace_dialog_init (EEditorReplaceDialog *dialog)
 	GtkWidget *widget, *layout;
 	GtkBox *button_box;
 
-	dialog->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-				dialog, E_TYPE_EDITOR_REPLACE_DIALOG,
-				EEditorReplaceDialogPrivate);
+	dialog->priv = E_EDITOR_REPLACE_DIALOG_GET_PRIVATE (dialog);
 
 	main_layout = e_editor_dialog_get_container (E_EDITOR_DIALOG (dialog));
 

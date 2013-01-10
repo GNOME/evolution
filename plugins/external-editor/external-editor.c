@@ -160,11 +160,7 @@ enable_disable_composer (EMsgComposer *composer,
 	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
 	editor_widget = e_editor_get_editor_widget (editor);
 
-	if (enable) {
-		webkit_web_view_set_editable (WEBKIT_WEB_VIEW (editor_widget), TRUE);
-	} else {
-		webkit_web_view_set_editable (WEBKIT_WEB_VIEW (editor_widget), FALSE);
-	}
+	webkit_web_view_set_editable (WEBKIT_WEB_VIEW (editor_widget), enable);
 
 	action = E_EDITOR_ACTION_EDIT_MENU (editor);
 	gtk_action_set_sensitive (action, enable);
@@ -266,16 +262,16 @@ get_caret_position (EEditorWidget *widget)
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
 	window = webkit_dom_document_get_default_view (document);
 	selection = webkit_dom_dom_window_get_selection (window);
-	if (webkit_dom_dom_selection_get_range_count (selection) < 1) {
+
+	if (webkit_dom_dom_selection_get_range_count (selection) < 1)
 		return 0;
-	}
 
 	range = webkit_dom_dom_selection_get_range_at (selection, 0, NULL);
 	range_count = 0;
 	nodes = webkit_dom_node_get_child_nodes (
-			webkit_dom_node_get_parent_node (
-				webkit_dom_dom_selection_get_anchor_node (
-					selection)));
+		webkit_dom_node_get_parent_node (
+			webkit_dom_dom_selection_get_anchor_node (
+				selection)));
 	length = webkit_dom_node_list_get_length (nodes);
 	for (ii = 0; ii < length; ii++) {
 		WebKitDOMNode *node;
@@ -408,8 +404,9 @@ async_external_editor (EMsgComposer *composer)
 			htmltext = camel_text_to_html (
 				buf, CAMEL_MIME_FILTER_TOHTML_PRE, 0);
 
-			array = g_array_sized_new (TRUE, TRUE,
-						   sizeof (gpointer), 2 * sizeof (gpointer));
+			array = g_array_sized_new (
+				TRUE, TRUE,
+				sizeof (gpointer), 2 * sizeof (gpointer));
 			array = g_array_append_val (array, composer);
 			array = g_array_append_val (array, htmltext);
 

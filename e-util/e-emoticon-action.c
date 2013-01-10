@@ -25,6 +25,10 @@
 #include "e-emoticon-chooser-menu.h"
 #include "e-emoticon-tool-button.h"
 
+#define E_EMOTICON_ACTION_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_EMOTICON_ACTION, EEmoticonActionPrivate))
+
 struct _EEmoticonActionPrivate {
 	GList *choosers;
 	EEmoticonChooser *current_chooser;
@@ -35,11 +39,21 @@ enum {
 	PROP_CURRENT_FACE
 };
 
-static gpointer parent_class;
+/* Forward Declarations */
+static void	e_emoticon_action_interface_init
+					(EEmoticonChooserInterface *interface);
+
+G_DEFINE_TYPE_WITH_CODE (
+	EEmoticonAction,
+	e_emoticon_action,
+	GTK_TYPE_ACTION,
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_EMOTICON_CHOOSER,
+		e_emoticon_action_interface_init))
 
 static void
 emoticon_action_proxy_item_activated_cb (EEmoticonAction *action,
-					 EEmoticonChooser *chooser)
+                                         EEmoticonChooser *chooser)
 {
 	action->priv->current_chooser = chooser;
 
@@ -48,9 +62,9 @@ emoticon_action_proxy_item_activated_cb (EEmoticonAction *action,
 
 static void
 emoticon_action_set_property (GObject *object,
-			      guint property_id,
-			      const GValue *value,
-			      GParamSpec *pspec)
+                              guint property_id,
+                              const GValue *value,
+                              GParamSpec *pspec)
 {
 	switch (property_id) {
 		case PROP_CURRENT_FACE:
@@ -65,9 +79,9 @@ emoticon_action_set_property (GObject *object,
 
 static void
 emoticon_action_get_property (GObject *object,
-			      guint property_id,
-			      GValue *value,
-			      GParamSpec *pspec)
+                              guint property_id,
+                              GValue *value,
+                              GParamSpec *pspec)
 {
 	switch (property_id) {
 		case PROP_CURRENT_FACE:
@@ -85,12 +99,12 @@ emoticon_action_finalize (GObject *object)
 {
 	EEmoticonActionPrivate *priv;
 
-	priv = E_EMOTICON_ACTION (object)->priv;
+	priv = E_EMOTICON_ACTION_GET_PRIVATE (object);
 
 	g_list_free (priv->choosers);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_emoticon_action_parent_class)->finalize (object);
 }
 
 static void
@@ -98,7 +112,7 @@ emoticon_action_activate (GtkAction *action)
 {
 	EEmoticonActionPrivate *priv;
 
-	priv = E_EMOTICON_ACTION (action)->priv;
+	priv = E_EMOTICON_ACTION_GET_PRIVATE (action);
 
 	priv->current_chooser = NULL;
 }
@@ -125,11 +139,11 @@ emoticon_action_create_tool_item (GtkAction *action)
 
 static void
 emoticon_action_connect_proxy (GtkAction *action,
-			       GtkWidget *proxy)
+                               GtkWidget *proxy)
 {
 	EEmoticonActionPrivate *priv;
 
-	priv = E_EMOTICON_ACTION (action)->priv;
+	priv = E_EMOTICON_ACTION_GET_PRIVATE (action);
 
 	if (!E_IS_EMOTICON_CHOOSER (proxy))
 		goto chainup;
@@ -143,21 +157,23 @@ emoticon_action_connect_proxy (GtkAction *action,
 
 chainup:
 	/* Chain up to parent's connect_proxy() method. */
-	GTK_ACTION_CLASS (parent_class)->connect_proxy (action, proxy);
+	GTK_ACTION_CLASS (e_emoticon_action_parent_class)->
+		connect_proxy (action, proxy);
 }
 
 static void
 emoticon_action_disconnect_proxy (GtkAction *action,
-				  GtkWidget *proxy)
+                                  GtkWidget *proxy)
 {
 	EEmoticonActionPrivate *priv;
 
-	priv = E_EMOTICON_ACTION (action)->priv;
+	priv = E_EMOTICON_ACTION_GET_PRIVATE (action);
 
 	priv->choosers = g_list_remove (priv->choosers, proxy);
 
 	/* Chain up to parent's disconnect_proxy() method. */
-	GTK_ACTION_CLASS (parent_class)->disconnect_proxy (action, proxy);
+	GTK_ACTION_CLASS (e_emoticon_action_parent_class)->
+		disconnect_proxy (action, proxy);
 }
 
 static GtkWidget *
@@ -166,7 +182,7 @@ emoticon_action_create_menu (GtkAction *action)
 	EEmoticonActionPrivate *priv;
 	GtkWidget *widget;
 
-	priv = E_EMOTICON_ACTION (action)->priv;
+	priv = E_EMOTICON_ACTION_GET_PRIVATE (action);
 
 	widget = e_emoticon_chooser_menu_new ();
 
@@ -185,7 +201,7 @@ emoticon_action_get_current_emoticon (EEmoticonChooser *chooser)
 	EEmoticonActionPrivate *priv;
 	EEmoticon *emoticon = NULL;
 
-	priv = E_EMOTICON_ACTION (chooser)->priv;
+	priv = E_EMOTICON_ACTION_GET_PRIVATE (chooser);
 
 	if (priv->current_chooser != NULL)
 		emoticon = e_emoticon_chooser_get_current_emoticon (
@@ -196,12 +212,12 @@ emoticon_action_get_current_emoticon (EEmoticonChooser *chooser)
 
 static void
 emoticon_action_set_current_emoticon (EEmoticonChooser *chooser,
-				      EEmoticon *emoticon)
+                                      EEmoticon *emoticon)
 {
 	EEmoticonActionPrivate *priv;
 	GList *iter;
 
-	priv = E_EMOTICON_ACTION (chooser)->priv;
+	priv = E_EMOTICON_ACTION_GET_PRIVATE (chooser);
 
 	for (iter = priv->choosers; iter != NULL; iter = iter->next) {
 		EEmoticonChooser *proxy_chooser = iter->data;
@@ -211,12 +227,11 @@ emoticon_action_set_current_emoticon (EEmoticonChooser *chooser,
 }
 
 static void
-emoticon_action_class_init (EEmoticonActionClass *class)
+e_emoticon_action_class_init (EEmoticonActionClass *class)
 {
 	GObjectClass *object_class;
 	GtkActionClass *action_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EEmoticonAction));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -237,59 +252,23 @@ emoticon_action_class_init (EEmoticonActionClass *class)
 }
 
 static void
-emoticon_action_iface_init (EEmoticonChooserIface *iface)
+e_emoticon_action_interface_init (EEmoticonChooserInterface *interface)
 {
-	iface->get_current_emoticon = emoticon_action_get_current_emoticon;
-	iface->set_current_emoticon = emoticon_action_set_current_emoticon;
+	interface->get_current_emoticon = emoticon_action_get_current_emoticon;
+	interface->set_current_emoticon = emoticon_action_set_current_emoticon;
 }
 
 static void
-emoticon_action_init (EEmoticonAction *action)
+e_emoticon_action_init (EEmoticonAction *action)
 {
-	action->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		action, E_TYPE_EMOTICON_ACTION, EEmoticonActionPrivate);
-}
-
-GType
-e_emoticon_action_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EEmoticonActionClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) emoticon_action_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EEmoticonAction),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) emoticon_action_init,
-			NULL   /* value_table */
-		};
-
-		static const GInterfaceInfo iface_info = {
-			(GInterfaceInitFunc) emoticon_action_iface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL  /* interemoticon_data */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_ACTION, "EEmoticonAction", &type_info, 0);
-
-		g_type_add_interface_static (
-			type, E_TYPE_EMOTICON_CHOOSER, &iface_info);
-	}
-
-	return type;
+	action->priv = E_EMOTICON_ACTION_GET_PRIVATE (action);
 }
 
 GtkAction *
 e_emoticon_action_new (const gchar *name,
-		       const gchar *label,
-		       const gchar *tooltip,
-		       const gchar *stock_id)
+                       const gchar *label,
+                       const gchar *tooltip,
+                       const gchar *stock_id)
 {
 	g_return_val_if_fail (name != NULL, NULL);
 

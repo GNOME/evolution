@@ -30,10 +30,9 @@
 #include <webkit/webkitdom.h>
 #include <stdlib.h>
 
-G_DEFINE_TYPE (
-	EEditorHRuleDialog,
-	e_editor_hrule_dialog,
-	E_TYPE_EDITOR_DIALOG);
+#define E_EDITOR_HRULE_DIALOG_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_EDITOR_HRULE_DIALOG, EEditorHRuleDialogPrivate))
 
 struct _EEditorHRuleDialogPrivate {
 	GtkWidget *width_edit;
@@ -45,6 +44,11 @@ struct _EEditorHRuleDialogPrivate {
 
 	WebKitDOMHTMLHRElement *hr_element;
 };
+
+G_DEFINE_TYPE (
+	EEditorHRuleDialog,
+	e_editor_hrule_dialog,
+	E_TYPE_EDITOR_DIALOG);
 
 static void
 editor_hrule_dialog_set_alignment (EEditorHRuleDialog *dialog)
@@ -191,11 +195,15 @@ editor_hrule_dialog_get_shading (EEditorHRuleDialog *dialog)
 }
 
 static void
-editor_hrule_dialog_hide (GtkWidget *gtk_widget)
+editor_hrule_dialog_hide (GtkWidget *widget)
 {
-	E_EDITOR_HRULE_DIALOG (gtk_widget)->priv->hr_element = NULL;
+	EEditorHRuleDialogPrivate *priv;
 
-	GTK_WIDGET_CLASS (e_editor_hrule_dialog_parent_class)->hide (gtk_widget);
+	priv = E_EDITOR_HRULE_DIALOG_GET_PRIVATE (widget);
+
+	priv->hr_element = NULL;
+
+	GTK_WIDGET_CLASS (e_editor_hrule_dialog_parent_class)->hide (widget);
 }
 
 static void
@@ -272,14 +280,13 @@ editor_hrule_dialog_show (GtkWidget *widget)
 }
 
 static void
-e_editor_hrule_dialog_class_init (EEditorHRuleDialogClass *klass)
+e_editor_hrule_dialog_class_init (EEditorHRuleDialogClass *class)
 {
 	GtkWidgetClass *widget_class;
 
-	g_type_class_peek_parent (klass);
-	g_type_class_add_private (klass, sizeof (EEditorHRuleDialogPrivate));
+	g_type_class_add_private (class, sizeof (EEditorHRuleDialogPrivate));
 
-	widget_class = GTK_WIDGET_CLASS (klass);
+	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->show = editor_hrule_dialog_show;
 	widget_class->hide = editor_hrule_dialog_hide;
 }
@@ -290,8 +297,7 @@ e_editor_hrule_dialog_init (EEditorHRuleDialog *dialog)
 	GtkGrid *main_layout, *grid;
 	GtkWidget *widget;
 
-	dialog->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		dialog, E_TYPE_EDITOR_HRULE_DIALOG, EEditorHRuleDialogPrivate);
+	dialog->priv = E_EDITOR_HRULE_DIALOG_GET_PRIVATE (dialog);
 
 	main_layout = e_editor_dialog_get_container (E_EDITOR_DIALOG (dialog));
 
@@ -346,7 +352,6 @@ e_editor_hrule_dialog_init (EEditorHRuleDialog *dialog)
 	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->size_edit);
 	gtk_grid_attach (grid, widget, 0, 1, 1, 1);
-
 
 	/* == Style == */
 	widget = gtk_label_new ("");

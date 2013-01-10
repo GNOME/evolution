@@ -54,7 +54,6 @@ typedef struct _EEditorCellDialogPrivate EEditorCellDialogPrivate;
 
 struct _EEditorCellDialog {
 	EEditorDialog parent;
-
 	EEditorCellDialogPrivate *priv;
 };
 
@@ -62,10 +61,8 @@ struct _EEditorCellDialogClass {
 	EEditorDialogClass parent_class;
 };
 
-GType		e_editor_cell_dialog_get_type	(void);
-
-GtkWidget*	e_editor_cell_dialog_new	(EEditor *editor);
-
+GType		e_editor_cell_dialog_get_type	(void) G_GNUC_CONST;
+GtkWidget *	e_editor_cell_dialog_new	(EEditor *editor);
 void		e_editor_cell_dialog_show	(EEditorCellDialog *dialog,
 						 WebKitDOMNode *cell);
 

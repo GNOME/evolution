@@ -26,10 +26,9 @@
 #include <glib/gi18n-lib.h>
 #include <string.h>
 
-G_DEFINE_TYPE (
-	ESpellDictionary,
-	e_spell_dictionary,
-	G_TYPE_OBJECT);
+#define E_SPELL_DICTIONARY_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_SPELL_DICTIONARY, ESpellDictionaryPrivate))
 
 /**
  * ESpellDictionary:
@@ -37,15 +36,14 @@ G_DEFINE_TYPE (
  * The #ESpellDictionary is a wrapper around #EnchantDict.
  */
 
-
 enum {
 	PROP_0,
-	PROP_SPELLCHECKER
+	PROP_SPELL_CHECKER
 };
 
 struct _ESpellDictionaryPrivate {
 	ESpellChecker *spell_checker;
-	EnchantDict *dict;
+	EnchantDict *enchant_dict;
 
 	gchar *name;
 	gchar *code;
@@ -57,6 +55,11 @@ struct _ESpellDictionaryPrivate {
 
 static GHashTable *iso_639_table = NULL;
 static GHashTable *iso_3166_table = NULL;
+
+G_DEFINE_TYPE (
+	ESpellDictionary,
+	e_spell_dictionary,
+	G_TYPE_OBJECT);
 
 #ifdef HAVE_ISO_CODES
 
@@ -257,10 +260,10 @@ struct _enchant_dict_description_data {
 
 static void
 describe_dictionary (const gchar *language_tag,
-		     const gchar *provider_name,
-		     const gchar *provider_desc,
-		     const gchar *provider_file,
-		     gpointer user_data)
+                     const gchar *provider_name,
+                     const gchar *provider_desc,
+                     const gchar *provider_file,
+                     gpointer user_data)
 {
 	struct _enchant_dict_description_data *data = user_data;
 	const gchar *iso_639_name;
@@ -312,30 +315,39 @@ exit:
 
 static void
 spell_dictionary_set_enchant_dict (ESpellDictionary *dictionary,
-				   EnchantDict *enchant_dict)
+                                   EnchantDict *enchant_dict)
 {
 	struct _enchant_dict_description_data data;
 
 	enchant_dict_describe (enchant_dict, describe_dictionary, &data);
 
-	dictionary->priv->dict = enchant_dict;
+	dictionary->priv->enchant_dict = enchant_dict;
 	dictionary->priv->code = data.language_tag;
 	dictionary->priv->name = data.dict_name;
 	dictionary->priv->collate_key = g_utf8_collate_key (data.dict_name, -1);
 }
 
 static void
-spell_dictionary_set_property (GObject *object,
-			       guint property_id,
-			       const GValue *value,
-			       GParamSpec *pspec)
+spell_dictionary_set_spell_checker (ESpellDictionary *dictionary,
+                                    ESpellChecker *spell_checker)
 {
-	ESpellDictionary *dict = E_SPELL_DICTIONARY (object);
+	g_return_if_fail (E_IS_SPELL_CHECKER (spell_checker));
+	g_return_if_fail (dictionary->priv->spell_checker == NULL);
 
+	dictionary->priv->spell_checker = g_object_ref (spell_checker);
+}
+
+static void
+spell_dictionary_set_property (GObject *object,
+                               guint property_id,
+                               const GValue *value,
+                               GParamSpec *pspec)
+{
 	switch (property_id) {
-		case PROP_SPELLCHECKER:
-			dict->priv->spell_checker =
-				g_object_ref (g_value_get_object (value));
+		case PROP_SPELL_CHECKER:
+			spell_dictionary_set_spell_checker (
+				E_SPELL_DICTIONARY (object),
+				g_value_get_object (value));
 			return;
 	}
 
@@ -344,17 +356,16 @@ spell_dictionary_set_property (GObject *object,
 
 static void
 spell_dictionary_get_property (GObject *object,
-			       guint property_id,
-			       GValue *value,
-			       GParamSpec *pspec)
+                               guint property_id,
+                               GValue *value,
+                               GParamSpec *pspec)
 {
-	ESpellDictionary *dict = E_SPELL_DICTIONARY (object);
-
 	switch (property_id) {
-		case PROP_SPELLCHECKER:
+		case PROP_SPELL_CHECKER:
 			g_value_set_object (
 				value,
-				e_spell_dictionary_get_parent_checker (dict));
+				e_spell_dictionary_get_parent_checker (
+				E_SPELL_DICTIONARY (object)));
 			return;
 	}
 
@@ -364,107 +375,119 @@ spell_dictionary_get_property (GObject *object,
 static void
 spell_dictionary_dispose (GObject *object)
 {
-	ESpellDictionaryPrivate *priv = E_SPELL_DICTIONARY (object)->priv;
+	ESpellDictionaryPrivate *priv;
 
-	e_spell_checker_free_dict (priv->spell_checker, priv->dict);
-	priv->dict = NULL;
-
-	g_free (priv->name);
-	priv->name = NULL;
-
-	g_free (priv->code);
-	priv->code = NULL;
-
-	g_free (priv->collate_key);
-	priv->collate_key = NULL;
+	priv = E_SPELL_DICTIONARY_GET_PRIVATE (object);
 
 	g_clear_object (&priv->spell_checker);
 
-	/* Chain up to parent implementation */
+	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_spell_dictionary_parent_class)->dispose (object);
 }
 
 static void
-e_spell_dictionary_class_init (ESpellDictionaryClass *klass)
+spell_dictionary_finalize (GObject *object)
 {
-	GObjectClass *object_class;
+	ESpellDictionaryPrivate *priv;
 
-	e_spell_dictionary_parent_class = g_type_class_peek_parent (klass);
-	g_type_class_add_private (klass, sizeof (ESpellDictionaryPrivate));
+	priv = E_SPELL_DICTIONARY_GET_PRIVATE (object);
 
-	object_class = G_OBJECT_CLASS (klass);
-	object_class->set_property = spell_dictionary_set_property;
-	object_class->get_property = spell_dictionary_get_property;
-	object_class->dispose = spell_dictionary_dispose;
+	e_spell_checker_free_dict (priv->spell_checker, priv->enchant_dict);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SPELLCHECKER,
-		g_param_spec_object (
-			"spell-checker",
-		        NULL,
-		        "Parent spell checker",
-		        E_TYPE_SPELL_CHECKER,
-		        G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
+	g_free (priv->name);
+	g_free (priv->code);
+	g_free (priv->collate_key);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (e_spell_dictionary_parent_class)->finalize (object);
 }
 
 static void
-e_spell_dictionary_init (ESpellDictionary *dict)
+e_spell_dictionary_class_init (ESpellDictionaryClass *class)
 {
-	dict->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		dict, E_TYPE_SPELL_DICTIONARY, ESpellDictionaryPrivate);
+	GObjectClass *object_class;
+
+	g_type_class_add_private (class, sizeof (ESpellDictionaryPrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = spell_dictionary_set_property;
+	object_class->get_property = spell_dictionary_get_property;
+	object_class->dispose = spell_dictionary_dispose;
+	object_class->finalize = spell_dictionary_finalize;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SPELL_CHECKER,
+		g_param_spec_object (
+			"spell-checker",
+			NULL,
+			"Parent spell checker",
+			E_TYPE_SPELL_CHECKER,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
+}
+
+static void
+e_spell_dictionary_init (ESpellDictionary *dictionary)
+{
+	dictionary->priv = E_SPELL_DICTIONARY_GET_PRIVATE (dictionary);
 
 	if (!iso_639_table && !iso_3166_table) {
-		#if defined (ENABLE_NLS) && defined (HAVE_ISO_CODES)
-			bindtextdomain (ISO_639_DOMAIN, ISOCODESLOCALEDIR);
-			bind_textdomain_codeset (ISO_639_DOMAIN, "UTF-8");
+#if defined (ENABLE_NLS) && defined (HAVE_ISO_CODES)
+		bindtextdomain (ISO_639_DOMAIN, ISOCODESLOCALEDIR);
+		bind_textdomain_codeset (ISO_639_DOMAIN, "UTF-8");
 
-			bindtextdomain (ISO_3166_DOMAIN, ISOCODESLOCALEDIR);
-			bind_textdomain_codeset (ISO_3166_DOMAIN, "UTF-8");
-		#endif
+		bindtextdomain (ISO_3166_DOMAIN, ISOCODESLOCALEDIR);
+		bind_textdomain_codeset (ISO_3166_DOMAIN, "UTF-8");
+#endif /* ENABLE_NLS && HAVE_ISO_CODES */
 
-			iso_639_table = g_hash_table_new_full (
-				g_str_hash, g_str_equal,
-				(GDestroyNotify) g_free,
-				(GDestroyNotify) g_free);
+		iso_639_table = g_hash_table_new_full (
+			(GHashFunc) g_str_hash,
+			(GEqualFunc) g_str_equal,
+			(GDestroyNotify) g_free,
+			(GDestroyNotify) g_free);
 
-			iso_3166_table = g_hash_table_new_full (
-				g_str_hash, g_str_equal,
-				(GDestroyNotify) g_free,
-				(GDestroyNotify) g_free);
+		iso_3166_table = g_hash_table_new_full (
+			(GHashFunc) g_str_hash,
+			(GEqualFunc) g_str_equal,
+			(GDestroyNotify) g_free,
+			(GDestroyNotify) g_free);
 
-		#ifdef HAVE_ISO_CODES
-			iso_codes_parse (
-				&iso_639_parser, "iso_639.xml", iso_639_table);
-			iso_codes_parse (
-				&iso_3166_parser, "iso_3166.xml", iso_3166_table);
-		#endif
+#ifdef HAVE_ISO_CODES
+		iso_codes_parse (
+			&iso_639_parser, "iso_639.xml", iso_639_table);
+		iso_codes_parse (
+			&iso_3166_parser, "iso_3166.xml", iso_3166_table);
+#endif /* HAVE_ISO_CODES */
 	}
 }
 
 ESpellDictionary *
 e_spell_dictionary_new (ESpellChecker *parent_checker,
-			EnchantDict *dict)
+                        EnchantDict *enchant_dict)
 {
-	ESpellDictionary *e_dict;
+	ESpellDictionary *dictionary;
 
-	e_dict = g_object_new (E_TYPE_SPELL_DICTIONARY,
-			       "spell-checker", parent_checker, NULL);
+	g_return_val_if_fail (E_IS_SPELL_CHECKER (parent_checker), NULL);
+	g_return_val_if_fail (enchant_dict != NULL, NULL);
 
-	spell_dictionary_set_enchant_dict (e_dict, dict);
+	dictionary = g_object_new (
+		E_TYPE_SPELL_DICTIONARY,
+		"spell-checker", parent_checker, NULL);
 
-	return e_dict;
+	spell_dictionary_set_enchant_dict (dictionary, enchant_dict);
+
+	return dictionary;
 }
-
 
 /**
  * e_spell_dictionary_get_name:
  * @dictionary: an #ESpellDictionary
  *
- * Provides a user-friendly name of the dictionary (for example
+ * Returns the display name of the dictionary (for example
  * "English (British)")
  *
- * Return value: a name of the @dictionary
+ * Returns: the display name of the @dictionary
  */
 const gchar *
 e_spell_dictionary_get_name (ESpellDictionary *dictionary)
@@ -478,10 +501,10 @@ e_spell_dictionary_get_name (ESpellDictionary *dictionary)
  * e_spell_dictionary_get_code:
  * @dictionary: an #ESpellDictionary
  *
- * Provides an ISO code of spell-checking language of the
+ * Returns the ISO code of the spell-checking language for
  * @dictionary (for example "en_US").
  *
- * Return value: language code of the @dictionary
+ * Returns: the language code of the @dictionary
  */
 const gchar *
 e_spell_dictionary_get_code (ESpellDictionary *dictionary)
@@ -494,95 +517,98 @@ e_spell_dictionary_get_code (ESpellDictionary *dictionary)
 /**
  * e_spell_dictionary_check:
  * @dictionary: an #ESpellDictionary
- * @word: a word whose spelling to checking
- * @len: size of @word in bytes or -1 when NULL-terminated
+ * @word: a word to spell-check
+ * @length: length of @word in bytes or -1 when %NULL-terminated
  *
  * Tries to lookup the @word in the @dictionary to check whether
  * it's spelled correctly or not.
  *
- * Return value: #TRUE when the word is spelled correctly, FALSE otherwise
+ * Returns: %TRUE when the word is spelled correctly, %FALSE otherwise
  */
 gboolean
 e_spell_dictionary_check (ESpellDictionary *dictionary,
-			  const gchar *word,
-			  gsize len)
+                          const gchar *word,
+                          gsize length)
 {
 	g_return_val_if_fail (E_IS_SPELL_DICTIONARY (dictionary), TRUE);
-	g_return_val_if_fail (word && *word, TRUE);
+	g_return_val_if_fail (word != NULL && *word != '\0', TRUE);
 
-	return enchant_dict_check (dictionary->priv->dict, word, len);
+	return enchant_dict_check (
+		dictionary->priv->enchant_dict, word, length);
 }
 
 /**
  * e_spell_dictionary_learn_word:
  * @dictionary: an #ESpellDictionary
  * @word: a word to add to @dictionary
- * @len: size of @word in bytes or -1 when NULL-terminated
+ * @length: length of @word in bytes or -1 when %NULL-terminated
  *
  * Permanently adds @word to @dictionary so that next time calling
- * e_spell_dictionary_check() on the @word will return #TRUE.
+ * e_spell_dictionary_check() on the @word will return %TRUE.
  */
 void
 e_spell_dictionary_learn_word (ESpellDictionary *dictionary,
-			       const gchar *word,
-			       gsize len)
+                               const gchar *word,
+                               gsize length)
 {
 	g_return_if_fail (E_IS_SPELL_DICTIONARY (dictionary));
-	g_return_if_fail (word && *word);
+	g_return_if_fail (word != NULL && *word != '\0');
 
-	enchant_dict_add_to_personal (dictionary->priv->dict, word, len);
+	enchant_dict_add_to_personal (
+		dictionary->priv->enchant_dict, word, length);
 }
 
 /**
  * e_spell_dictionary_ignore_word:
  * @dictionary: an #ESpellDictionary
  * @word: a word to add to ignore list
- * @len: size of @word in bytes or -1 when NULL-terminated
+ * @length: length of @word in bytes or -1 when %NULL-terminated
  *
  * Adds @word to temporary ignore list of the @dictionary, so that
- * e_spell_dictionary_check() on the @word will return #TRUE. The
- * list is cleared when the dictionary is free'd.
+ * e_spell_dictionary_check() on the @word will return %TRUE. The
+ * list is cleared when the dictionary is freed.
  */
 void
 e_spell_dictionary_ignore_word (ESpellDictionary *dictionary,
-				const gchar *word,
-				gsize len)
+                                const gchar *word,
+                                gsize length)
 {
 	g_return_if_fail (E_IS_SPELL_DICTIONARY (dictionary));
-	g_return_if_fail (word && *word);
+	g_return_if_fail (word != NULL && *word != '\0');
 
-	enchant_dict_add_to_session (dictionary->priv->dict, word, len);
+	enchant_dict_add_to_session (
+		dictionary->priv->enchant_dict, word, length);
 }
 
 /**
  * e_spell_dictionary_get_suggestions:
  * @dictionary: an #ESpellDictionary
  * @word: a word to which to find suggestions
- * @len: size of @word in bytes or -1 when NULL-terminated
+ * @length: length of @word in bytes or -1 when %NULL-terminated
  *
  * Provides list of alternative spellings of @word.
  *
- * Return value: a list of strings that has to be free'd by
+ * Returns: a list of strings that has to be free'd by
  * e_spell_dictionary_free_suggestions().
  */
 GList *
 e_spell_dictionary_get_suggestions (ESpellDictionary *dictionary,
-				    const gchar *word,
-				    gsize len)
+                                    const gchar *word,
+                                    gsize length)
 {
-	gchar **s;
-	GList *list;
-	gsize ii, cnt;
+	GList *list = NULL;
+	gchar **suggestions;
+	gsize ii, count;
 
 	g_return_val_if_fail (E_IS_SPELL_DICTIONARY (dictionary), NULL);
-	g_return_val_if_fail (word && *word, NULL);
+	g_return_val_if_fail (word != NULL && *word != '\0', NULL);
 
-	s = enchant_dict_suggest (dictionary->priv->dict, word, len, &cnt);
-	list = NULL;
-	for (ii = 0; ii < cnt; ii++) {
-		list = g_list_prepend (list, g_strdup (s[ii]));
-	}
-	enchant_dict_free_suggestions (dictionary->priv->dict, s);
+	suggestions = enchant_dict_suggest (
+		dictionary->priv->enchant_dict, word, length, &count);
+	for (ii = 0; ii < count; ii++)
+		list = g_list_prepend (list, g_strdup (suggestions[ii]));
+	enchant_dict_free_suggestions (
+		dictionary->priv->enchant_dict, suggestions);
 
 	return g_list_reverse (list);
 }
@@ -603,27 +629,30 @@ e_spell_dictionary_free_suggestions (GList *suggestions)
 /**
  * e_spell_dictionary_add_correction
  * @dictionary: an #ESpellDictionary
- * @misspelled: a word to which add a correction
- * @misspelled_len: size of @misspelled (in bytes) or -1 when string NULL-terminated
- * @correction: a correct word
- * @correction_len: size of @correction (in bytes) or -1 when string NULL-terminated
+ * @misspelled: a misspelled word
+ * @misspelled_length: length of @misspelled in bytes or -1 when
+ *                     %NULL-terminated
+ * @correction: the corrected word
+ * @correction_length: length of @correction in bytes or -1 when
+ *                     %NULL-terminated
  *
- * Learns a new @correction of @misspelled word
+ * Learns a new @correction of @misspelled word.
  */
 void
 e_spell_dictionary_store_correction (ESpellDictionary *dictionary,
-				     const gchar *misspelled,
-				     gsize misspelled_len,
-				     const gchar *correction,
-				     gsize correction_len)
+                                     const gchar *misspelled,
+                                     gsize misspelled_length,
+                                     const gchar *correction,
+                                     gsize correction_length)
 {
 	g_return_if_fail (E_IS_SPELL_DICTIONARY (dictionary));
-	g_return_if_fail (misspelled && *misspelled);
-	g_return_if_fail (correction && *correction);
+	g_return_if_fail (misspelled != NULL && *misspelled != '\0');
+	g_return_if_fail (correction != NULL && *correction != '\0');
 
 	enchant_dict_store_replacement (
-		dictionary->priv->dict, misspelled, misspelled_len,
-		correction, correction_len);
+		dictionary->priv->enchant_dict,
+		misspelled, misspelled_length,
+		correction, correction_length);
 }
 
 /**
@@ -633,7 +662,7 @@ e_spell_dictionary_store_correction (ESpellDictionary *dictionary,
  * Returns an #ESpellChecker which is parent (and the original owner) of
  * the @dictionary.
  *
- * Return value: an #ESpellChecker
+ * Returns: an #ESpellChecker
  */
 ESpellChecker *
 e_spell_dictionary_get_parent_checker (ESpellDictionary *dictionary)
@@ -644,11 +673,13 @@ e_spell_dictionary_get_parent_checker (ESpellDictionary *dictionary)
 }
 
 gint
-e_spell_dictionary_compare (ESpellDictionary *dict1,
-			    ESpellDictionary *dict2)
+e_spell_dictionary_compare (ESpellDictionary *dictionary1,
+                            ESpellDictionary *dictionary2)
 {
-	g_return_val_if_fail (E_IS_SPELL_DICTIONARY (dict1), 0);
-	g_return_val_if_fail (E_IS_SPELL_DICTIONARY (dict2), 0);
+	g_return_val_if_fail (E_IS_SPELL_DICTIONARY (dictionary1), 0);
+	g_return_val_if_fail (E_IS_SPELL_DICTIONARY (dictionary2), 0);
 
-	return strcmp (dict1->priv->collate_key, dict2->priv->collate_key);
+	return strcmp (
+		dictionary1->priv->collate_key,
+		dictionary2->priv->collate_key);
 }

@@ -16,6 +16,10 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#if !defined (__E_UTIL_H_INSIDE__) && !defined (LIBEUTIL_COMPILATION)
+#error "Only <e-util/e-util.h> should be included directly."
+#endif
+
 #ifndef E_SPELL_DICTIONARY_H
 #define E_SPELL_DICTIONARY_H
 
@@ -41,7 +45,6 @@
 	(G_TYPE_INSTANCE_GET_CLASS \
 	((obj), E_TYPE_SPELL_DICTIONARY, ESpellDictionaryClass))
 
-
 G_BEGIN_DECLS
 
 typedef struct _ESpellDictionary ESpellDictionary;
@@ -51,54 +54,45 @@ typedef struct _ESpellChecker ESpellChecker;
 
 struct _ESpellDictionary {
 	GObject parent;
-
 	ESpellDictionaryPrivate *priv;
 };
 
 struct _ESpellDictionaryClass {
 	GObjectClass parent_class;
-
 };
 
-GType			e_spell_dictionary_get_type	(void);
-
-ESpellDictionary *	e_spell_dictionary_new		(ESpellChecker *parent_checker,
-		 					 EnchantDict *dict);
-
-const gchar *		e_spell_dictionary_get_name	(ESpellDictionary *dict);
-const gchar *		e_spell_dictionary_get_code	(ESpellDictionary *dict);
-
-
-gboolean		e_spell_dictionary_check	(ESpellDictionary *dict,
-							 const gchar *word,
-							 gsize len);
-
-void			e_spell_dictionary_learn_word	(ESpellDictionary *dict,
-							 const gchar *word,
-							 gsize len);
-void			e_spell_dictionary_ignore_word	(ESpellDictionary *dict,
-							 const gchar *word,
-							 gsize len);
-GList *			e_spell_dictionary_get_suggestions
-							(ESpellDictionary *dict,
-							 const gchar *word,
-							 gsize len);
-void			e_spell_dictionary_free_suggestions
-							(GList *suggestions);
-void			e_spell_dictionary_store_correction
-							(ESpellDictionary *dict,
-							 const gchar *misspelled,
-							 gsize misspelled_len,
-							 const gchar *correction,
-							 gsize correction_len);
-
-ESpellChecker *		e_spell_dictionary_get_parent_checker
-							(ESpellDictionary *dict);
-
-gint			e_spell_dictionary_compare	(ESpellDictionary *dict1,
-							 ESpellDictionary *dict2);
+GType		e_spell_dictionary_get_type	(void) G_GNUC_CONST;
+ESpellDictionary *
+		e_spell_dictionary_new		(ESpellChecker *parent_checker,
+						 EnchantDict *enchant_dict);
+const gchar *	e_spell_dictionary_get_name	(ESpellDictionary *dictionary);
+const gchar *	e_spell_dictionary_get_code	(ESpellDictionary *dictionary);
+gboolean	e_spell_dictionary_check	(ESpellDictionary *dictionary,
+						 const gchar *word,
+						 gsize length);
+void		e_spell_dictionary_learn_word	(ESpellDictionary *dictionary,
+						 const gchar *word,
+						 gsize length);
+void		e_spell_dictionary_ignore_word	(ESpellDictionary *dictionary,
+						 const gchar *word,
+						 gsize length);
+GList *		e_spell_dictionary_get_suggestions
+						(ESpellDictionary *dictionary,
+						 const gchar *word,
+						 gsize length);
+void		e_spell_dictionary_free_suggestions
+						(GList *suggestions);
+void		e_spell_dictionary_store_correction
+						(ESpellDictionary *dictionary,
+						 const gchar *misspelled,
+						 gsize misspelled_length,
+						 const gchar *correction,
+						 gsize correction_length);
+ESpellChecker *	e_spell_dictionary_get_parent_checker
+						(ESpellDictionary *dictionary);
+gint		e_spell_dictionary_compare	(ESpellDictionary *dictionary1,
+						 ESpellDictionary *dictionary2);
 
 G_END_DECLS
-
 
 #endif /* E_SPELL_DICTIONARY_H */

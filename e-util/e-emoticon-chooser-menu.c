@@ -33,13 +33,23 @@ enum {
 	PROP_CURRENT_FACE
 };
 
-static gpointer parent_class;
+/* Forward Declarations */
+static void	e_emoticon_chooser_menu_interface_init
+					(EEmoticonChooserInterface *interface);
+
+G_DEFINE_TYPE_WITH_CODE (
+	EEmoticonChooserMenu,
+	e_emoticon_chooser_menu,
+	GTK_TYPE_MENU,
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_EMOTICON_CHOOSER,
+		e_emoticon_chooser_menu_interface_init))
 
 static void
 emoticon_chooser_menu_set_property (GObject *object,
-				    guint property_id,
-				    const GValue *value,
-				    GParamSpec *pspec)
+                                    guint property_id,
+                                    const GValue *value,
+                                    GParamSpec *pspec)
 {
 	switch (property_id) {
 		case PROP_CURRENT_FACE:
@@ -54,9 +64,9 @@ emoticon_chooser_menu_set_property (GObject *object,
 
 static void
 emoticon_chooser_menu_get_property (GObject *object,
-				    guint property_id,
-				    GValue *value,
-				    GParamSpec *pspec)
+                                    guint property_id,
+                                    GValue *value,
+                                    GParamSpec *pspec)
 {
 	switch (property_id) {
 		case PROP_CURRENT_FACE:
@@ -84,7 +94,7 @@ emoticon_chooser_menu_get_current_emoticon (EEmoticonChooser *chooser)
 
 static void
 emoticon_chooser_menu_set_current_emoticon (EEmoticonChooser *chooser,
-					    EEmoticon *emoticon)
+                                            EEmoticon *emoticon)
 {
 	GList *list, *iter;
 
@@ -109,11 +119,9 @@ emoticon_chooser_menu_set_current_emoticon (EEmoticonChooser *chooser,
 }
 
 static void
-emoticon_chooser_menu_class_init (EEmoticonChooserMenuClass *class)
+e_emoticon_chooser_menu_class_init (EEmoticonChooserMenuClass *class)
 {
 	GObjectClass *object_class;
-
-	parent_class = g_type_class_peek_parent (class);
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = emoticon_chooser_menu_set_property;
@@ -124,14 +132,16 @@ emoticon_chooser_menu_class_init (EEmoticonChooserMenuClass *class)
 }
 
 static void
-emoticon_chooser_menu_iface_init (EEmoticonChooserIface *iface)
+e_emoticon_chooser_menu_interface_init (EEmoticonChooserInterface *interface)
 {
-	iface->get_current_emoticon = emoticon_chooser_menu_get_current_emoticon;
-	iface->set_current_emoticon = emoticon_chooser_menu_set_current_emoticon;
+	interface->get_current_emoticon =
+		emoticon_chooser_menu_get_current_emoticon;
+	interface->set_current_emoticon =
+		emoticon_chooser_menu_set_current_emoticon;
 }
 
 static void
-emoticon_chooser_menu_init (EEmoticonChooserMenu *chooser_menu)
+e_emoticon_chooser_menu_init (EEmoticonChooserMenu *chooser_menu)
 {
 	EEmoticonChooser *chooser;
 	GList *list, *iter;
@@ -165,42 +175,6 @@ emoticon_chooser_menu_init (EEmoticonChooserMenu *chooser_menu)
 	}
 
 	g_list_free (list);
-}
-
-GType
-e_emoticon_chooser_menu_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EEmoticonChooserMenuClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) emoticon_chooser_menu_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EEmoticonChooserMenu),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) emoticon_chooser_menu_init,
-			NULL   /* value_table */
-		};
-
-		static const GInterfaceInfo iface_info = {
-			(GInterfaceInitFunc) emoticon_chooser_menu_iface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL  /* interface_data */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_MENU, "EEmoticonChooserMenu",
-			&type_info, 0);
-
-		g_type_add_interface_static (
-			type, E_TYPE_EMOTICON_CHOOSER, &iface_info);
-	}
-
-	return type;
 }
 
 GtkWidget *

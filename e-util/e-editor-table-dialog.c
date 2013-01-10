@@ -31,10 +31,9 @@
 #include "e-image-chooser-dialog.h"
 #include "e-misc-utils.h"
 
-G_DEFINE_TYPE (
-	EEditorTableDialog,
-	e_editor_table_dialog,
-	E_TYPE_EDITOR_DIALOG);
+#define E_EDITOR_TABLE_DIALOG_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_EDITOR_TABLE_DIALOG, EEditorTableDialogPrivate))
 
 struct _EEditorTableDialogPrivate {
 	GtkWidget *rows_edit;
@@ -58,6 +57,11 @@ struct _EEditorTableDialogPrivate {
 };
 
 static GdkRGBA white = { 1, 1, 1, 1 };
+
+G_DEFINE_TYPE (
+	EEditorTableDialog,
+	e_editor_table_dialog,
+	E_TYPE_EDITOR_DIALOG);
 
 static WebKitDOMElement *
 editor_table_dialog_create_table (EEditorTableDialog *dialog)
@@ -290,7 +294,8 @@ editor_table_dialog_set_padding (EEditorTableDialog *dialog)
 
 	g_return_if_fail (dialog->priv->table_element);
 
-	padding = g_strdup_printf ("%d",
+	padding = g_strdup_printf (
+		"%d",
 			gtk_spin_button_get_value_as_int (
 				GTK_SPIN_BUTTON (dialog->priv->padding_edit)));
 
@@ -329,7 +334,8 @@ editor_table_dialog_set_spacing (EEditorTableDialog *dialog)
 
 	g_return_if_fail (dialog->priv->table_element);
 
-	spacing = g_strdup_printf ("%d",
+	spacing = g_strdup_printf (
+		"%d",
 			gtk_spin_button_get_value_as_int (
 				GTK_SPIN_BUTTON (dialog->priv->spacing_edit)));
 
@@ -368,7 +374,8 @@ editor_table_dialog_set_border (EEditorTableDialog *dialog)
 
 	g_return_if_fail (dialog->priv->table_element);
 
-	border = g_strdup_printf ("%d",
+	border = g_strdup_printf (
+		"%d",
 			gtk_spin_button_get_value_as_int (
 				GTK_SPIN_BUTTON (dialog->priv->border_edit)));
 
@@ -467,7 +474,7 @@ editor_table_dialog_get_background_image (EEditorTableDialog *dialog)
 	if (!webkit_dom_element_has_attribute (
 		WEBKIT_DOM_ELEMENT (dialog->priv->table_element), "background")) {
 
-		gtk_file_chooser_unselect_all(
+		gtk_file_chooser_unselect_all (
 			GTK_FILE_CHOOSER (dialog->priv->background_image_button));
 		return;
 	} else {
@@ -538,7 +545,6 @@ editor_table_dialog_reset_values (EEditorTableDialog *dialog)
 	editor_table_dialog_set_background_image (dialog);
 }
 
-
 static void
 editor_table_dialog_show (GtkWidget *widget)
 {
@@ -582,20 +588,23 @@ editor_table_dialog_show (GtkWidget *widget)
 static void
 editor_table_dialog_hide (GtkWidget *widget)
 {
-	E_EDITOR_TABLE_DIALOG (widget)->priv->table_element = NULL;
+	EEditorTableDialogPrivate *priv;
+
+	priv = E_EDITOR_TABLE_DIALOG_GET_PRIVATE (widget);
+
+	priv->table_element = NULL;
 
 	GTK_WIDGET_CLASS (e_editor_table_dialog_parent_class)->hide (widget);
 }
 
 static void
-e_editor_table_dialog_class_init (EEditorTableDialogClass *klass)
+e_editor_table_dialog_class_init (EEditorTableDialogClass *class)
 {
 	GtkWidgetClass *widget_class;
 
-	g_type_class_peek_parent (klass);
-	g_type_class_add_private (klass, sizeof (EEditorTableDialogPrivate));
+	g_type_class_add_private (class, sizeof (EEditorTableDialogPrivate));
 
-	widget_class = GTK_WIDGET_CLASS (klass);
+	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->show = editor_table_dialog_show;
 	widget_class->hide = editor_table_dialog_hide;
 }
@@ -607,8 +616,7 @@ e_editor_table_dialog_init (EEditorTableDialog *dialog)
 	GtkWidget *widget;
 	GtkFileFilter *file_filter;
 
-	dialog->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		dialog, E_TYPE_EDITOR_TABLE_DIALOG, EEditorTableDialogPrivate);
+	dialog->priv = E_EDITOR_TABLE_DIALOG_GET_PRIVATE (dialog);
 
 	main_layout = e_editor_dialog_get_container (E_EDITOR_DIALOG (dialog));
 
@@ -657,7 +665,6 @@ e_editor_table_dialog_init (EEditorTableDialog *dialog)
 	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->columns_edit);
 	gtk_grid_attach (grid, widget, 4, 0, 1, 1);
-
 
 	/* == Layout == */
 	widget = gtk_label_new ("");
@@ -810,7 +817,6 @@ e_editor_table_dialog_init (EEditorTableDialog *dialog)
 		widget, "file-set",
 		G_CALLBACK (editor_table_dialog_set_background_image), dialog);
 	dialog->priv->background_image_button = widget;
-
 
 	widget =gtk_label_new_with_mnemonic (_("Image:"));
 	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);

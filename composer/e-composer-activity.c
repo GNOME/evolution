@@ -51,7 +51,7 @@ composer_activity_lock_interface (EComposerActivity *activity)
 
 	composer = e_composer_activity_get_composer (activity);
 
-	editor = e_msg_composer_get_editor (composer);
+	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
 	editor_widget = e_editor_get_editor_widget (editor);
 	editable = webkit_web_view_get_editable (WEBKIT_WEB_VIEW (editor_widget));
 	webkit_web_view_set_editable (WEBKIT_WEB_VIEW (editor_widget), FALSE);
@@ -73,7 +73,7 @@ composer_activity_unlock_interface (EComposerActivity *activity)
 	composer = e_composer_activity_get_composer (activity);
 
 	editable = activity->priv->saved_editable;
-	editor = e_msg_composer_get_editor (composer);
+	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
 	editor_widget = e_editor_get_editor_widget (editor);
 	webkit_web_view_set_editable (WEBKIT_WEB_VIEW (editor_widget), editable);
 

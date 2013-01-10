@@ -61,7 +61,7 @@ e_emoticon_get_type (void)
 
 gboolean
 e_emoticon_equal (EEmoticon *emoticon_a,
-		  EEmoticon *emoticon_b)
+                  EEmoticon *emoticon_b)
 {
 	if (((emoticon_a == NULL) && (emoticon_b != NULL)) ||
 	    ((emoticon_a != NULL) && (emoticon_b == NULL)))
@@ -92,4 +92,27 @@ void
 e_emoticon_free (EEmoticon *emoticon)
 {
 	g_boxed_free (E_TYPE_EMOTICON, emoticon);
+}
+
+gchar *
+e_emoticon_get_uri (EEmoticon *emoticon)
+{
+	GtkIconInfo *icon_info;
+	GtkIconTheme *icon_theme;
+	const gchar *filename;
+	gchar *uri = NULL;
+
+	icon_theme = gtk_icon_theme_get_default ();
+	icon_info = gtk_icon_theme_lookup_icon (
+		icon_theme, emoticon->icon_name, 16, 0);
+	g_return_val_if_fail (icon_info != NULL, NULL);
+
+	filename = gtk_icon_info_get_filename (icon_info);
+	if (filename != NULL) {
+		uri = g_filename_to_uri (filename, NULL, NULL);
+	}
+	gtk_icon_info_free (icon_info);
+	g_return_val_if_fail (uri != NULL, NULL);
+
+	return uri;
 }

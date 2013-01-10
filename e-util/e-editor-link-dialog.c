@@ -29,6 +29,10 @@
 
 #include <glib/gi18n-lib.h>
 
+#define E_EDITOR_LINK_DIALOG_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_EDITOR_LINK_DIALOG, EEditorLinkDialogPrivate))
+
 G_DEFINE_TYPE (
 	EEditorLinkDialog,
 	e_editor_link_dialog,
@@ -128,7 +132,7 @@ editor_link_dialog_ok (EEditorLinkDialog *dialog)
 		if ((webkit_dom_range_get_start_container (range, NULL) !=
 			webkit_dom_range_get_end_container (range, NULL)) ||
 		    (webkit_dom_range_get_start_offset (range, NULL) !=
-		    	webkit_dom_range_get_end_offset (range, NULL))) {
+			webkit_dom_range_get_end_offset (range, NULL))) {
 
 			WebKitDOMDocumentFragment *fragment;
 			fragment = webkit_dom_range_extract_contents (range, NULL);
@@ -184,7 +188,7 @@ editor_link_dialog_ok (EEditorLinkDialog *dialog)
 
 static gboolean
 editor_link_dialog_entry_key_pressed (EEditorLinkDialog *dialog,
-				      GdkEventKey *event)
+                                      GdkEventKey *event)
 {
 	/* We can't do thins in key_released, because then you could not open
 	 * this dialog from main menu by pressing enter on Insert->Link action */
@@ -195,7 +199,6 @@ editor_link_dialog_entry_key_pressed (EEditorLinkDialog *dialog,
 
 	return FALSE;
 }
-
 
 static void
 editor_link_dialog_show (GtkWidget *widget)
@@ -238,7 +241,7 @@ editor_link_dialog_show (GtkWidget *widget)
 		if ((webkit_dom_range_get_start_container (range, NULL) !=
 			webkit_dom_range_get_end_container (range, NULL)) ||
 		    (webkit_dom_range_get_start_offset (range, NULL) !=
-		    	webkit_dom_range_get_end_offset (range, NULL))) {
+			webkit_dom_range_get_end_offset (range, NULL))) {
 
 			WebKitDOMDocumentFragment *fragment;
 			fragment = webkit_dom_range_clone_contents (range, NULL);
@@ -284,14 +287,13 @@ editor_link_dialog_show (GtkWidget *widget)
 }
 
 static void
-e_editor_link_dialog_class_init (EEditorLinkDialogClass *klass)
+e_editor_link_dialog_class_init (EEditorLinkDialogClass *class)
 {
 	GtkWidgetClass *widget_class;
 
-	e_editor_link_dialog_parent_class  = g_type_class_peek_parent (klass);
-	g_type_class_add_private (klass, sizeof (EEditorLinkDialogPrivate));
+	g_type_class_add_private (class, sizeof (EEditorLinkDialogPrivate));
 
-	widget_class = GTK_WIDGET_CLASS (klass);
+	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->show = editor_link_dialog_show;
 }
 
@@ -302,9 +304,7 @@ e_editor_link_dialog_init (EEditorLinkDialog *dialog)
 	GtkBox *button_box;
 	GtkWidget *widget;
 
-	dialog->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-				dialog, E_TYPE_EDITOR_LINK_DIALOG,
-				EEditorLinkDialogPrivate);
+	dialog->priv = E_EDITOR_LINK_DIALOG_GET_PRIVATE (dialog);
 
 	main_layout = e_editor_dialog_get_container (E_EDITOR_DIALOG (dialog));
 

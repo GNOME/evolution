@@ -94,131 +94,109 @@ typedef enum {
 
 struct _EEditorSelection {
 	GObject parent;
-
 	EEditorSelectionPrivate *priv;
 };
 
 struct _EEditorSelectionClass {
 	GObjectClass parent_class;
 };
-GType			e_editor_selection_get_type 	(void);
 
-gboolean		e_editor_selection_has_text	(EEditorSelection *selection);
-
-gchar *			e_editor_selection_get_caret_word
-							(EEditorSelection *selection);
-void			e_editor_selection_replace_caret_word
-							(EEditorSelection *selection,
-							 const gchar *replacement);
-void			e_editor_selection_set_alignment
-							(EEditorSelection *selection,
-							 EEditorSelectionAlignment alignment);
+GType		e_editor_selection_get_type	(void) G_GNUC_CONST;
+gboolean	e_editor_selection_has_text	(EEditorSelection *selection);
+gchar *		e_editor_selection_get_caret_word
+						(EEditorSelection *selection);
+void		e_editor_selection_replace_caret_word
+						(EEditorSelection *selection,
+						 const gchar *replacement);
 EEditorSelectionAlignment
-			e_editor_selection_get_alignment
-							(EEditorSelection *selection);
-
-void			e_editor_selection_set_background_color
-							(EEditorSelection *selection,
-							 const gchar *color);
-const gchar*		e_editor_selection_get_background_color
-		 					(EEditorSelection *selection);
-
-void			e_editor_selection_set_font_name
-							(EEditorSelection *selection,
-							 const gchar *font_name);
-const gchar *		e_editor_selection_get_font_name
-							(EEditorSelection *selection);
-
-void			e_editor_selection_set_font_size
-							(EEditorSelection *selection,
-							 guint font_size);
-guint			e_editor_selection_get_font_size
-							(EEditorSelection *selection);
-
-void			e_editor_selection_set_font_color
-							(EEditorSelection *selection,
-							 const GdkRGBA *color);
-void			e_editor_selection_get_font_color
-							(EEditorSelection *selection,
-							 GdkRGBA *color);
-
-void			e_editor_selection_set_block_format
-							(EEditorSelection *selection,
-							 EEditorSelectionBlockFormat format);
+		e_editor_selection_get_alignment
+						(EEditorSelection *selection);
+void		e_editor_selection_set_alignment
+						(EEditorSelection *selection,
+						 EEditorSelectionAlignment alignment);
+const gchar *	e_editor_selection_get_background_color
+						(EEditorSelection *selection);
+void		e_editor_selection_set_background_color
+						(EEditorSelection *selection,
+						 const gchar *color);
+void		e_editor_selection_get_font_color
+						(EEditorSelection *selection,
+						 GdkRGBA *color);
+void		e_editor_selection_set_font_color
+						(EEditorSelection *selection,
+						 const GdkRGBA *color);
+const gchar *	e_editor_selection_get_font_name
+						(EEditorSelection *selection);
+void		e_editor_selection_set_font_name
+						(EEditorSelection *selection,
+						 const gchar *font_name);
+guint		e_editor_selection_get_font_size
+						(EEditorSelection *selection);
+void		e_editor_selection_set_font_size
+						(EEditorSelection *selection,
+						 guint font_size);
 EEditorSelectionBlockFormat
-			e_editor_selection_get_block_format
-							(EEditorSelection *selection);
-
-gboolean		e_editor_selection_is_citation	(EEditorSelection *selection);
-gboolean		e_editor_selection_is_indented	(EEditorSelection *selection);
-void			e_editor_selection_indent	(EEditorSelection *selection);
-void			e_editor_selection_unindent	(EEditorSelection *selection);
-
-void			e_editor_selection_set_bold	(EEditorSelection *selection,
-							 gboolean bold);
-gboolean		e_editor_selection_is_bold	(EEditorSelection *selection);
-
-void			e_editor_selection_set_italic	(EEditorSelection *selection,
-							 gboolean italic);
-gboolean		e_editor_selection_is_italic	(EEditorSelection *selection);
-
-void			e_editor_selection_set_monospaced
-							(EEditorSelection *selection,
-							 gboolean monospaced);
-gboolean		e_editor_selection_is_monospaced
-							(EEditorSelection *selection);
-
-void			e_editor_selection_set_strike_through
-							(EEditorSelection *selection,
-							 gboolean strike_through);
-gboolean		e_editor_selection_is_strike_through
-							(EEditorSelection *selection);
-
-void			e_editor_selection_set_superscript
-							(EEditorSelection *selection,
-							 gboolean superscript);
-gboolean		e_editor_selection_is_superscript
-							(EEditorSelection *selection);
-
-void			e_editor_selection_set_subscript
-							(EEditorSelection *selection,
-							 gboolean subscript);
-gboolean		e_editor_selection_is_subscript
-							(EEditorSelection *selection);
-
-void			e_editor_selection_set_underline
-							(EEditorSelection *selection,
-							 gboolean underline);
-gboolean		e_editor_selection_is_underline
-							(EEditorSelection *selection);
-
-void			e_editor_selection_unlink	(EEditorSelection *selection);
-
-void			e_editor_selection_create_link	(EEditorSelection *selection,
-							 const gchar *uri);
-
-const gchar *		e_editor_selection_get_string	(EEditorSelection *selection);
-
-void			e_editor_selection_replace	(EEditorSelection *selection,
-							 const gchar *new_string);
-
-void			e_editor_selection_insert_html	(EEditorSelection *selection,
-							 const gchar *html_text);
-void			e_editor_selection_insert_image	(EEditorSelection *selection,
-							 const gchar *image_uri);
-void			e_editor_selection_insert_text	(EEditorSelection *selection,
-							 const gchar *plain_text);
-void			e_editor_selection_wrap_lines	(EEditorSelection *selection);
-
-void			e_editor_selection_save		(EEditorSelection *selection);
-void			e_editor_selection_restore	(EEditorSelection *selection);
-
-void			e_editor_selection_move		(EEditorSelection *selection,
-							 gboolean forward,
-							 EEditorSelectionGranularity granularity);
-void			e_editor_selection_extend	(EEditorSelection *selection,
-							 gboolean forward,
-							 EEditorSelectionGranularity granularity);
+		e_editor_selection_get_block_format
+						(EEditorSelection *selection);
+void		e_editor_selection_set_block_format
+						(EEditorSelection *selection,
+						 EEditorSelectionBlockFormat format);
+gboolean	e_editor_selection_is_citation	(EEditorSelection *selection);
+gboolean	e_editor_selection_is_indented	(EEditorSelection *selection);
+void		e_editor_selection_indent	(EEditorSelection *selection);
+void		e_editor_selection_unindent	(EEditorSelection *selection);
+gboolean	e_editor_selection_is_bold	(EEditorSelection *selection);
+void		e_editor_selection_set_bold	(EEditorSelection *selection,
+						 gboolean bold);
+gboolean	e_editor_selection_is_italic	(EEditorSelection *selection);
+void		e_editor_selection_set_italic	(EEditorSelection *selection,
+						 gboolean italic);
+gboolean	e_editor_selection_is_monospaced
+						(EEditorSelection *selection);
+void		e_editor_selection_set_monospaced
+						(EEditorSelection *selection,
+						 gboolean monospaced);
+gboolean	e_editor_selection_is_strike_through
+						(EEditorSelection *selection);
+void		e_editor_selection_set_strike_through
+						(EEditorSelection *selection,
+						 gboolean strike_through);
+gboolean	e_editor_selection_is_superscript
+						(EEditorSelection *selection);
+void		e_editor_selection_set_superscript
+						(EEditorSelection *selection,
+						 gboolean superscript);
+gboolean	e_editor_selection_is_subscript
+						(EEditorSelection *selection);
+void		e_editor_selection_set_subscript
+						(EEditorSelection *selection,
+						 gboolean subscript);
+gboolean	e_editor_selection_is_underline
+						(EEditorSelection *selection);
+void		e_editor_selection_set_underline
+						(EEditorSelection *selection,
+						 gboolean underline);
+void		e_editor_selection_unlink	(EEditorSelection *selection);
+void		e_editor_selection_create_link	(EEditorSelection *selection,
+						 const gchar *uri);
+const gchar *	e_editor_selection_get_string	(EEditorSelection *selection);
+void		e_editor_selection_replace	(EEditorSelection *selection,
+						 const gchar *new_string);
+void		e_editor_selection_insert_html	(EEditorSelection *selection,
+						 const gchar *html_text);
+void		e_editor_selection_insert_image	(EEditorSelection *selection,
+						 const gchar *image_uri);
+void		e_editor_selection_insert_text	(EEditorSelection *selection,
+						 const gchar *plain_text);
+void		e_editor_selection_wrap_lines	(EEditorSelection *selection);
+void		e_editor_selection_save		(EEditorSelection *selection);
+void		e_editor_selection_restore	(EEditorSelection *selection);
+void		e_editor_selection_move		(EEditorSelection *selection,
+						 gboolean forward,
+						 EEditorSelectionGranularity granularity);
+void		e_editor_selection_extend	(EEditorSelection *selection,
+						 gboolean forward,
+						 EEditorSelectionGranularity granularity);
 
 G_END_DECLS
 

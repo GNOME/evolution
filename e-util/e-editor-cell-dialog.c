@@ -32,17 +32,9 @@
 #include "e-image-chooser-dialog.h"
 #include "e-misc-utils.h"
 
-G_DEFINE_TYPE (
-	EEditorCellDialog,
-	e_editor_cell_dialog,
-	E_TYPE_EDITOR_DIALOG);
-
-enum {
-	SCOPE_CELL,
-	SCOPE_ROW,
-	SCOPE_COLUMN,
-	SCOPE_TABLE
-} DialogScope;
+#define E_EDITOR_CELL_DIALOG_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_EDITOR_CELL_DIALOG, EEditorCellDialogPrivate))
 
 struct _EEditorCellDialogPrivate {
 	GtkWidget *scope_cell_button;
@@ -70,17 +62,29 @@ struct _EEditorCellDialogPrivate {
 	guint scope;
 };
 
+enum {
+	SCOPE_CELL,
+	SCOPE_ROW,
+	SCOPE_COLUMN,
+	SCOPE_TABLE
+} DialogScope;
+
 static GdkRGBA white = { 1, 1, 1, 1 };
 
 typedef void (*DOMStrFunc) (WebKitDOMHTMLTableCellElement *cell, const gchar *val, gpointer user_data);
 typedef void (*DOMUlongFunc) (WebKitDOMHTMLTableCellElement *cell, gulong val, gpointer user_data);
 typedef void (*DOMBoolFunc) (WebKitDOMHTMLTableCellElement *cell, gboolean val, gpointer user_data);
 
+G_DEFINE_TYPE (
+	EEditorCellDialog,
+	e_editor_cell_dialog,
+	E_TYPE_EDITOR_DIALOG);
+
 static void
 call_cell_dom_func (WebKitDOMHTMLTableCellElement *cell,
-		    gpointer func,
-		    GValue *value,
-		    gpointer user_data)
+                    gpointer func,
+                    GValue *value,
+                    gpointer user_data)
 {
 	if (G_VALUE_HOLDS_STRING (value)) {
 		DOMStrFunc f = func;
@@ -96,9 +100,9 @@ call_cell_dom_func (WebKitDOMHTMLTableCellElement *cell,
 
 static void
 for_each_cell_do (WebKitDOMElement *row,
-		  gpointer func,
-		  GValue *value,
-		  gpointer user_data)
+                  gpointer func,
+                  GValue *value,
+                  gpointer user_data)
 {
 	WebKitDOMHTMLCollection *cells;
 	gulong ii, length;
@@ -119,9 +123,9 @@ for_each_cell_do (WebKitDOMElement *row,
 
 static void
 editor_cell_dialog_set_attribute (EEditorCellDialog *dialog,
-				  gpointer func,
-				  GValue *value,
-				  gpointer user_data)
+                                  gpointer func,
+                                  GValue *value,
+                                  gpointer user_data)
 {
 	if (dialog->priv->scope == SCOPE_CELL) {
 
@@ -201,7 +205,6 @@ editor_cell_dialog_set_attribute (EEditorCellDialog *dialog,
 	}
 }
 
-
 static void
 editor_cell_dialog_set_scope (EEditorCellDialog *dialog)
 {
@@ -268,10 +271,10 @@ editor_cell_dialog_set_wrap_text (EEditorCellDialog *dialog)
 	GValue val = { 0 };
 
 	g_value_init (&val, G_TYPE_BOOLEAN);
-	g_value_set_boolean (&val,
+	g_value_set_boolean (
+		&val,
 		!gtk_toggle_button_get_active (
 			GTK_TOGGLE_BUTTON (dialog->priv->wrap_text_check)));
-
 
 	editor_cell_dialog_set_attribute (
 		dialog, webkit_dom_html_table_cell_element_set_no_wrap, &val, NULL);
@@ -279,8 +282,8 @@ editor_cell_dialog_set_wrap_text (EEditorCellDialog *dialog)
 
 static void
 cell_set_header_style (WebKitDOMHTMLTableCellElement *cell,
-		       gboolean header_style,
-		       gpointer user_data)
+                       gboolean header_style,
+                       gpointer user_data)
 {
 	EEditorCellDialog *dialog = user_data;
 	WebKitDOMDocument *document;
@@ -338,10 +341,10 @@ editor_cell_dialog_set_header_style (EEditorCellDialog *dialog)
 	GValue val = { 0 };
 
 	g_value_init (&val, G_TYPE_BOOLEAN);
-	g_value_set_boolean (&val,
+	g_value_set_boolean (
+		&val,
 		gtk_toggle_button_get_active (
 			GTK_TOGGLE_BUTTON (dialog->priv->header_style_check)));
-
 
 	editor_cell_dialog_set_attribute (
 		dialog, cell_set_header_style, &val, dialog);
@@ -359,7 +362,8 @@ editor_cell_dialog_set_width (EEditorCellDialog *dialog)
 		width = g_strdup ("auto");
 	} else {
 
-		width = g_strdup_printf ("%d%s",
+		width = g_strdup_printf (
+			"%d%s",
 			gtk_spin_button_get_value_as_int (
 				GTK_SPIN_BUTTON (dialog->priv->width_edit)),
 			((gtk_combo_box_get_active (
@@ -381,7 +385,8 @@ editor_cell_dialog_set_column_span (EEditorCellDialog *dialog)
 	GValue val = { 0 };
 
 	g_value_init (&val, G_TYPE_ULONG);
-	g_value_set_ulong (&val,
+	g_value_set_ulong (
+		&val,
 		gtk_spin_button_get_value_as_int (
 			GTK_SPIN_BUTTON (dialog->priv->col_span_edit)));
 
@@ -395,7 +400,8 @@ editor_cell_dialog_set_row_span (EEditorCellDialog *dialog)
 	GValue val = { 0 };
 
 	g_value_init (&val, G_TYPE_ULONG);
-	g_value_set_ulong (&val,
+	g_value_set_ulong (
+		&val,
 		gtk_spin_button_get_value_as_int (
 			GTK_SPIN_BUTTON (dialog->priv->row_span_edit)));
 
@@ -425,8 +431,8 @@ editor_cell_dialog_set_background_color (EEditorCellDialog *dialog)
 
 static void
 cell_set_background_image (WebKitDOMHTMLTableCellElement *cell,
-			   const gchar *uri,
-			   gpointer user_data)
+                           const gchar *uri,
+                           gpointer user_data)
 {
 	if (!uri || !*uri) {
 		webkit_dom_element_remove_attribute (
@@ -454,13 +460,13 @@ editor_cell_dialog_set_background_image (EEditorCellDialog *dialog)
 }
 
 static void
-editor_cell_dialog_show (GtkWidget *gtk_widget)
+editor_cell_dialog_show (GtkWidget *widget)
 {
 	EEditorCellDialog *dialog;
 	gchar *tmp;
 	GdkRGBA color;
 
-	dialog = E_EDITOR_CELL_DIALOG (gtk_widget);
+	dialog = E_EDITOR_CELL_DIALOG (widget);
 
 	gtk_toggle_button_set_active (
 		GTK_TOGGLE_BUTTON (dialog->priv->scope_cell_button), TRUE);
@@ -549,22 +555,19 @@ editor_cell_dialog_show (GtkWidget *gtk_widget)
 	}
 	g_free (tmp);
 
-
-	GTK_WIDGET_CLASS (e_editor_cell_dialog_parent_class)->show (gtk_widget);
+	GTK_WIDGET_CLASS (e_editor_cell_dialog_parent_class)->show (widget);
 }
 
 static void
-e_editor_cell_dialog_class_init (EEditorCellDialogClass *klass)
+e_editor_cell_dialog_class_init (EEditorCellDialogClass *class)
 {
 	GtkWidgetClass *widget_class;
 
-	e_editor_cell_dialog_parent_class = g_type_class_peek_parent (klass);
-	g_type_class_add_private (klass, sizeof (EEditorCellDialogPrivate));
+	g_type_class_add_private (class, sizeof (EEditorCellDialogPrivate));
 
-	widget_class = GTK_WIDGET_CLASS (klass);
+	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->show = editor_cell_dialog_show;
 }
-
 
 static void
 e_editor_cell_dialog_init (EEditorCellDialog *dialog)
@@ -573,8 +576,7 @@ e_editor_cell_dialog_init (EEditorCellDialog *dialog)
 	GtkWidget *widget;
 	GtkFileFilter *file_filter;
 
-	dialog->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		dialog, E_TYPE_EDITOR_CELL_DIALOG, EEditorCellDialogPrivate);
+	dialog->priv = E_EDITOR_CELL_DIALOG_GET_PRIVATE (dialog);
 
 	main_layout = e_editor_dialog_get_container (E_EDITOR_DIALOG (dialog));
 
@@ -594,8 +596,8 @@ e_editor_cell_dialog_init (EEditorCellDialog *dialog)
 	widget = gtk_image_new_from_icon_name ("stock_select-cell", GTK_ICON_SIZE_BUTTON);
 	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
 
-	widget = gtk_radio_button_new_with_mnemonic(NULL, _("C_ell"));
- 	gtk_grid_attach (grid, widget, 1, 0, 1, 1);
+	widget = gtk_radio_button_new_with_mnemonic (NULL, _("C_ell"));
+	gtk_grid_attach (grid, widget, 1, 0, 1, 1);
 	dialog->priv->scope_cell_button = widget;
 
 	g_signal_connect_swapped (
@@ -829,7 +831,6 @@ e_editor_cell_dialog_init (EEditorCellDialog *dialog)
 		G_CALLBACK (editor_cell_dialog_set_background_image), dialog);
 	dialog->priv->background_image_chooser = widget;
 
-
 	widget =gtk_label_new_with_mnemonic (_("_Image:"));
 	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_label_set_mnemonic_widget (
@@ -838,7 +839,6 @@ e_editor_cell_dialog_init (EEditorCellDialog *dialog)
 
 	gtk_widget_show_all (GTK_WIDGET (main_layout));
 }
-
 
 GtkWidget *
 e_editor_cell_dialog_new (EEditor *editor)
@@ -853,9 +853,9 @@ e_editor_cell_dialog_new (EEditor *editor)
 
 void
 e_editor_cell_dialog_show (EEditorCellDialog *dialog,
-			   WebKitDOMNode *cell)
+                           WebKitDOMNode *cell)
 {
-	EEditorCellDialogClass *klass;
+	EEditorCellDialogClass *class;
 
 	g_return_if_fail (E_IS_EDITOR_CELL_DIALOG (dialog));
 	g_return_if_fail (cell != NULL);
@@ -866,8 +866,7 @@ e_editor_cell_dialog_show (EEditorCellDialog *dialog,
 			e_editor_dom_node_find_parent_element (cell, "TH");
 	}
 
-	klass = E_EDITOR_CELL_DIALOG_GET_CLASS (dialog);
-	GTK_WIDGET_CLASS (klass)->show (GTK_WIDGET (dialog));
+	class = E_EDITOR_CELL_DIALOG_GET_CLASS (dialog);
+	GTK_WIDGET_CLASS (class)->show (GTK_WIDGET (dialog));
 }
-
 

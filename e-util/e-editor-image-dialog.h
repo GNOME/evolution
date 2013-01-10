@@ -54,7 +54,6 @@ typedef struct _EEditorImageDialogPrivate EEditorImageDialogPrivate;
 
 struct _EEditorImageDialog {
 	EEditorDialog parent;
-
 	EEditorImageDialogPrivate *priv;
 };
 
@@ -62,10 +61,8 @@ struct _EEditorImageDialogClass {
 	EEditorDialogClass parent_class;
 };
 
-GType		e_editor_image_dialog_get_type	(void);
-
-GtkWidget*	e_editor_image_dialog_new	(EEditor *editor);
-
+GType		e_editor_image_dialog_get_type	(void) G_GNUC_CONST;
+GtkWidget *	e_editor_image_dialog_new	(EEditor *editor);
 void		e_editor_image_dialog_show	(EEditorImageDialog *dialog,
 						 WebKitDOMNode *image);
 

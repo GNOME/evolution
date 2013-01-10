@@ -18,22 +18,18 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
+#include <glib/gi18n-lib.h>
+#include <enchant/enchant.h>
 
 #include "e-editor.h"
 #include "e-editor-private.h"
 #include "e-editor-utils.h"
 #include "e-editor-selection.h"
 
-#include <glib/gi18n-lib.h>
-#include <enchant/enchant.h>
-
-G_DEFINE_TYPE (
-	EEditor,
-	e_editor,
-	GTK_TYPE_GRID);
+#define E_EDITOR_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_EDITOR, EEditorPrivate))
 
 /**
  * EEditor:
@@ -41,20 +37,6 @@ G_DEFINE_TYPE (
  * #EEditor provides GUI for manipulating with properties of #EEditorWidget and
  * it's #EEditorSelection - i.e. toolbars and actions.
  */
-
-enum {
-	PROP_0,
-	PROP_FILENAME
-};
-
-enum {
-	UPDATE_ACTIONS,
-	SPELL_LANGUAGES_CHANGED,
-	LAST_SIGNAL
-};
-
-static guint signals[LAST_SIGNAL] = { 0 };
-
 
 /* This controls how spelling suggestions are divided between the primary
  * context menu and a secondary menu.  The idea is to prevent the primary
@@ -75,6 +57,24 @@ static guint signals[LAST_SIGNAL] = { 0 };
  */
 #define MAX_LEVEL1_SUGGESTIONS	4
 #define MIN_LEVEL2_SUGGESTIONS	3
+
+enum {
+	PROP_0,
+	PROP_FILENAME
+};
+
+enum {
+	UPDATE_ACTIONS,
+	SPELL_LANGUAGES_CHANGED,
+	LAST_SIGNAL
+};
+
+static guint signals[LAST_SIGNAL] = { 0 };
+
+G_DEFINE_TYPE (
+	EEditor,
+	e_editor,
+	GTK_TYPE_GRID)
 
 /* Action callback for context menu spelling suggestions.
  * XXX This should really be in e-editor-actions.c */
@@ -118,9 +118,8 @@ editor_inline_spelling_suggestions (EEditor *editor,
 	checker = WEBKIT_SPELL_CHECKER (webkit_get_text_checker ());
 
 	word = e_editor_selection_get_caret_word (selection);
-	if (!word || !*word) {
+	if (word == NULL || *word == '\0')
 		return;
-	}
 
 	suggestions = webkit_spell_checker_get_guesses_for_word (checker, word, NULL);
 
@@ -129,10 +128,7 @@ editor_inline_spelling_suggestions (EEditor *editor,
 	action_group = editor->priv->suggestion_actions;
 	merge_id = editor->priv->spell_suggestions_merge_id;
 
-	length = 0;
-	while (suggestions && suggestions[length]) {
-		length++;
-	}
+	length = (suggestions != NULL) ? g_strv_length (suggestions) : 0;
 
 	/* Calculate how many suggestions to put directly in the
 	 * context menu.  The rest will go in a secondary menu. */
@@ -203,12 +199,12 @@ static void
 editor_spell_checkers_foreach (ESpellDictionary *dictionary,
                                EEditor *editor)
 {
-	EEditorWidget *widget;
+	EEditorWidget *editor_widget;
 	EEditorSelection *selection;
 	const gchar *language_code;
 	GtkActionGroup *action_group;
 	GtkUIManager *manager;
-	GList *suggestions, *iter;
+	GList *list, *link;
 	gchar *path;
 	gchar *word;
 	gint ii = 0;
@@ -216,14 +212,13 @@ editor_spell_checkers_foreach (ESpellDictionary *dictionary,
 
 	language_code = e_spell_dictionary_get_code (dictionary);
 
-	widget = e_editor_get_editor_widget (editor);
-	selection = e_editor_widget_get_selection (widget);
+	editor_widget = e_editor_get_editor_widget (editor);
+	selection = e_editor_widget_get_selection (editor_widget);
 	word = e_editor_selection_get_caret_word (selection);
-	if (!word || !*word) {
+	if (word == NULL || *word == '\0')
 		return;
-	}
 
-	suggestions = e_spell_dictionary_get_suggestions (dictionary, word, -1);
+	list = e_spell_dictionary_get_suggestions (dictionary, word, -1);
 
 	manager = e_editor_get_ui_manager (editor);
 	action_group = editor->priv->suggestion_actions;
@@ -233,8 +228,8 @@ editor_spell_checkers_foreach (ESpellDictionary *dictionary,
 		"/context-menu/context-spell-suggest/"
 		"context-spell-suggest-%s-menu", language_code);
 
-	for (iter = suggestions; iter; iter = iter->next) {
-		gchar *suggestion = iter->data;
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		gchar *suggestion = link->data;
 		gchar *action_name;
 		gchar *action_label;
 		GtkAction *action;
@@ -278,7 +273,7 @@ editor_spell_checkers_foreach (ESpellDictionary *dictionary,
 		g_free (action_label);
 	}
 
-	e_spell_dictionary_free_suggestions (suggestions);
+	e_spell_dictionary_free_suggestions (list);
 
 	g_free (path);
 	g_free (word);
@@ -286,7 +281,7 @@ editor_spell_checkers_foreach (ESpellDictionary *dictionary,
 
 static void
 editor_update_actions (EEditor *editor,
-		       GdkEventButton *event)
+                       GdkEventButton *event)
 {
 	WebKitWebView *webview;
 	WebKitSpellChecker *checker;
@@ -314,14 +309,13 @@ editor_update_actions (EEditor *editor,
 	g_object_get (
 		G_OBJECT (hit_test),
 		"context", &context,
-	        "inner-node", &node, NULL);
+		"inner-node", &node, NULL);
 	g_object_unref (hit_test);
 
 	visible = (context & WEBKIT_HIT_TEST_RESULT_CONTEXT_IMAGE);
 	gtk_action_set_visible (ACTION (CONTEXT_PROPERTIES_IMAGE), visible);
-	if (visible) {
+	if (visible)
 		editor->priv->image = node;
-	}
 
 	visible = (context & WEBKIT_HIT_TEST_RESULT_CONTEXT_LINK);
 	gtk_action_set_visible (ACTION (CONTEXT_PROPERTIES_LINK), visible);
@@ -344,13 +338,12 @@ editor_update_actions (EEditor *editor,
 	 *   - Cursor is on an image that has a URL or target.
 	 */
 	visible = (WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (node) ||
-		   (e_editor_dom_node_find_parent_element (node, "A") != NULL));
+		(e_editor_dom_node_find_parent_element (node, "A") != NULL));
 	gtk_action_set_visible (ACTION (CONTEXT_REMOVE_LINK), visible);
 
-
 	visible = (WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (node) ||
-		   (e_editor_dom_node_find_parent_element (node, "TD") != NULL) ||
-		   (e_editor_dom_node_find_parent_element (node, "TH") != NULL));
+		(e_editor_dom_node_find_parent_element (node, "TD") != NULL) ||
+		(e_editor_dom_node_find_parent_element (node, "TH") != NULL));
 	gtk_action_set_visible (ACTION (CONTEXT_DELETE_CELL), visible);
 	gtk_action_set_visible (ACTION (CONTEXT_DELETE_COLUMN), visible);
 	gtk_action_set_visible (ACTION (CONTEXT_DELETE_ROW), visible);
@@ -361,13 +354,12 @@ editor_update_actions (EEditor *editor,
 	gtk_action_set_visible (ACTION (CONTEXT_INSERT_ROW_BELOW), visible);
 	gtk_action_set_visible (ACTION (CONTEXT_INSERT_TABLE), visible);
 	gtk_action_set_visible (ACTION (CONTEXT_PROPERTIES_CELL), visible);
-	if (visible) {
+	if (visible)
 		editor->priv->table_cell = node;
-	}
 
 	/* Note the |= (cursor must be in a table cell). */
 	visible |= (WEBKIT_DOM_IS_HTML_TABLE_ELEMENT (node) ||
-		    (e_editor_dom_node_find_parent_element (node, "TABLE") != NULL));
+		(e_editor_dom_node_find_parent_element (node, "TABLE") != NULL));
 	gtk_action_set_visible (ACTION (CONTEXT_PROPERTIES_TABLE), visible);
 
 	/********************** Spell Check Suggestions **********************/
@@ -431,7 +423,7 @@ editor_update_actions (EEditor *editor,
 
 static void
 editor_spell_languages_changed (EEditor *editor,
-				GList *dictionaries)
+                                GList *dictionaries)
 {
 	ESpellChecker *checker;
 	WebKitWebSettings *settings;
@@ -448,9 +440,8 @@ editor_spell_languages_changed (EEditor *editor,
 	for (iter = dictionaries; iter; iter = iter->next) {
 		ESpellDictionary *dictionary = iter->data;
 
-		if (iter != dictionaries) {
+		if (languages->len > 0)
 			g_string_append (languages, ",");
-		}
 
 		g_string_append (
 			languages,
@@ -459,7 +450,8 @@ editor_spell_languages_changed (EEditor *editor,
 
 	/* Set the languages for webview to highlight misspelled words */
 	settings = webkit_web_view_get_settings (
-			WEBKIT_WEB_VIEW (editor->priv->editor_widget));
+		WEBKIT_WEB_VIEW (editor->priv->editor_widget));
+
 	g_object_set (
 		G_OBJECT (settings),
 		"spell-checking-languages", languages->str,
@@ -476,14 +468,14 @@ editor_spell_languages_changed (EEditor *editor,
 
 static gboolean
 editor_show_popup (EEditor *editor,
-		   GdkEventButton *event,
-		   gpointer user_data)
+                   GdkEventButton *event,
+                   gpointer user_data)
 {
 	GtkWidget *menu;
 
 	menu = e_editor_get_managed_widget (editor, "/context-menu");
 
-	g_signal_emit(editor, signals[UPDATE_ACTIONS], 0, event);
+	g_signal_emit (editor, signals[UPDATE_ACTIONS], 0, event);
 
 	if (event != NULL)
 		gtk_menu_popup (
@@ -523,7 +515,7 @@ editor_find_ui_file (const gchar *basename)
 
 static void
 editor_parent_changed (GtkWidget *widget,
-		       GtkWidget *previous_parent)
+                       GtkWidget *previous_parent)
 {
 	GtkWidget *top_level;
 	EEditor *editor = E_EDITOR (widget);
@@ -539,14 +531,14 @@ editor_parent_changed (GtkWidget *widget,
 
 static void
 editor_set_property (GObject *object,
-		     guint property_id,
-		     const GValue *value,
-		     GParamSpec *pspec)
+                     guint property_id,
+                     const GValue *value,
+                     GParamSpec *pspec)
 {
 	switch (property_id) {
-
 		case PROP_FILENAME:
-			e_editor_set_filename (E_EDITOR (object),
+			e_editor_set_filename (
+				E_EDITOR (object),
 				g_value_get_string (value));
 			return;
 
@@ -557,17 +549,16 @@ editor_set_property (GObject *object,
 
 static void
 editor_get_property (GObject *object,
-		     guint property_id,
-		     GValue *value,
-		     GParamSpec *pspec)
+                     guint property_id,
+                     GValue *value,
+                     GParamSpec *pspec)
 {
 	switch (property_id) {
-
 		case PROP_FILENAME:
 			g_value_set_string (
-				value, e_editor_get_filename(
+				value, e_editor_get_filename (
 				E_EDITOR (object)));
-		return;
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -584,7 +575,8 @@ editor_constructed (GObject *object)
 	GtkToolbar *toolbar;
 	GtkToolItem *tool_item;
 
-	/* Construct main window widgets. */
+	/* Construct the editing toolbars. */
+
 	widget = e_editor_get_managed_widget (editor, "/edit-toolbar");
 	gtk_widget_set_hexpand (widget, TRUE);
 	gtk_toolbar_set_style (GTK_TOOLBAR (widget), GTK_TOOLBAR_BOTH_HORIZ);
@@ -598,6 +590,8 @@ editor_constructed (GObject *object)
 	gtk_grid_attach (GTK_GRID (editor), widget, 0, 1, 1, 1);
 	priv->html_toolbar = g_object_ref (widget);
 	gtk_widget_show (widget);
+
+	/* Construct the main editing area. */
 
 	widget = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (
@@ -614,7 +608,8 @@ editor_constructed (GObject *object)
 	widget = GTK_WIDGET (e_editor_get_editor_widget (editor));
 	gtk_container_add (GTK_CONTAINER (priv->scrolled_window), widget);
 	gtk_widget_show (widget);
-	g_signal_connect_swapped (widget, "popup-event",
+	g_signal_connect_swapped (
+		widget, "popup-event",
 		G_CALLBACK (editor_show_popup), editor);
 
 	/* Add some combo boxes to the "edit" toolbar. */
@@ -689,8 +684,9 @@ editor_constructed (GObject *object)
 static void
 editor_dispose (GObject *object)
 {
-	EEditor *editor = E_EDITOR (object);
-	EEditorPrivate *priv = editor->priv;
+	EEditorPrivate *priv;
+
+	priv = E_EDITOR_GET_PRIVATE (object);
 
 	g_clear_object (&priv->manager);
 	g_clear_object (&priv->core_actions);
@@ -717,41 +713,45 @@ editor_dispose (GObject *object)
 	g_clear_object (&priv->scrolled_window);
 
 	g_clear_object (&priv->editor_widget);
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (e_editor_parent_class)->dispose (object);
 }
 
 static void
-e_editor_class_init (EEditorClass *klass)
+e_editor_class_init (EEditorClass *class)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (klass, sizeof (EEditorPrivate));
+	g_type_class_add_private (class, sizeof (EEditorPrivate));
 
-	object_class = G_OBJECT_CLASS (klass);
+	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = editor_set_property;
 	object_class->get_property = editor_get_property;
 	object_class->constructed = editor_constructed;
 	object_class->dispose = editor_dispose;
 
-	widget_class = GTK_WIDGET_CLASS (klass);
+	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->parent_set = editor_parent_changed;
 
-	klass->update_actions = editor_update_actions;
-	klass->spell_languages_changed = editor_spell_languages_changed;
+	class->update_actions = editor_update_actions;
+	class->spell_languages_changed = editor_spell_languages_changed;
 
 	g_object_class_install_property (
 		object_class,
 		PROP_FILENAME,
 		g_param_spec_string (
 			"filename",
-		        NULL,
-		        NULL,
-		        NULL,
-		        G_PARAM_READWRITE));
+			NULL,
+			NULL,
+			NULL,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
 
 	signals[UPDATE_ACTIONS] = g_signal_new (
 		"update-actions",
-		G_TYPE_FROM_CLASS (klass),
+		G_TYPE_FROM_CLASS (class),
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (EEditorClass, update_actions),
 		NULL, NULL,
@@ -761,7 +761,7 @@ e_editor_class_init (EEditorClass *klass)
 
 	signals[SPELL_LANGUAGES_CHANGED] = g_signal_new (
 		"spell-languages-changed",
-		G_OBJECT_CLASS_TYPE (klass),
+		G_OBJECT_CLASS_TYPE (class),
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (EEditorClass, spell_languages_changed),
 		NULL, NULL,
@@ -774,11 +774,10 @@ static void
 e_editor_init (EEditor *editor)
 {
 	EEditorPrivate *priv;
-	GError *error;
 	gchar *filename;
+	GError *error = NULL;
 
-	editor->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		editor, E_TYPE_EDITOR, EEditorPrivate);
+	editor->priv = E_EDITOR_GET_PRIVATE (editor);
 
 	priv = editor->priv;
 
@@ -794,13 +793,10 @@ e_editor_init (EEditor *editor)
 	priv->selection = e_editor_widget_get_selection (priv->editor_widget);
 
 	filename = editor_find_ui_file ("e-editor-manager.ui");
-
-	error = NULL;
 	if (!gtk_ui_manager_add_ui_from_file (priv->manager, filename, &error)) {
 		g_critical ("Couldn't load builder file: %s\n", error->message);
 		g_clear_error (&error);
 	}
-
 	g_free (filename);
 
 	editor_actions_init (editor);
@@ -857,24 +853,25 @@ e_editor_get_ui_manager (EEditor *editor)
  */
 GtkAction *
 e_editor_get_action (EEditor *editor,
-		     const gchar *action_name)
+                     const gchar *action_name)
 {
 	GtkUIManager *manager;
 	GtkAction *action = NULL;
-	GList *iter;
+	GList *list;
 
 	g_return_val_if_fail (E_IS_EDITOR (editor), NULL);
 	g_return_val_if_fail (action_name != NULL, NULL);
 
 	manager = e_editor_get_ui_manager (editor);
-	iter = gtk_ui_manager_get_action_groups (manager);
+	list = gtk_ui_manager_get_action_groups (manager);
 
-	while (iter != NULL && action == NULL) {
-		GtkActionGroup *action_group = iter->data;
+	while (list != NULL && action == NULL) {
+		GtkActionGroup *action_group = list->data;
 
 		action = gtk_action_group_get_action (
 			action_group, action_name);
-		iter = g_list_next (iter);
+
+		list = g_list_next (list);
 	}
 
 	g_return_val_if_fail (action != NULL, NULL);
@@ -892,26 +889,26 @@ e_editor_get_action (EEditor *editor,
  */
 GtkActionGroup *
 e_editor_get_action_group (EEditor *editor,
-			   const gchar *group_name)
+                           const gchar *group_name)
 {
 	GtkUIManager *manager;
-	GList *iter;
+	GList *list;
 
 	g_return_val_if_fail (E_IS_EDITOR (editor), NULL);
 	g_return_val_if_fail (group_name != NULL, NULL);
 
 	manager = e_editor_get_ui_manager (editor);
-	iter = gtk_ui_manager_get_action_groups (manager);
+	list = gtk_ui_manager_get_action_groups (manager);
 
-	while (iter != NULL) {
-		GtkActionGroup *action_group = iter->data;
+	while (list != NULL) {
+		GtkActionGroup *action_group = list->data;
 		const gchar *name;
 
 		name = gtk_action_group_get_name (action_group);
 		if (strcmp (name, group_name) == 0)
 			return action_group;
 
-		iter = g_list_next (iter);
+		list = g_list_next (list);
 	}
 
 	return NULL;
@@ -919,7 +916,7 @@ e_editor_get_action_group (EEditor *editor,
 
 GtkWidget *
 e_editor_get_managed_widget (EEditor *editor,
-			     const gchar *widget_path)
+                             const gchar *widget_path)
 {
 	GtkUIManager *manager;
 	GtkWidget *widget;
@@ -954,11 +951,12 @@ e_editor_get_filename (EEditor *editor)
  * @editor: an #EEditor
  * @filename: Target file
  *
- * Sets file to which content of the editor should be saved (see #e_editor_save())
+ * Sets file to which content of the editor should be saved (see
+ * e_editor_save()).
  */
 void
 e_editor_set_filename (EEditor *editor,
-		       const gchar *filename)
+                       const gchar *filename)
 {
 	g_return_if_fail (E_IS_EDITOR (editor));
 
@@ -979,8 +977,8 @@ e_editor_set_filename (EEditor *editor,
  * Inserts @child right between the toolbars and the editor widget itself.
  */
 void
-e_editor_pack_above (EEditor* editor,
-		     GtkWidget* child)
+e_editor_pack_above (EEditor *editor,
+                     GtkWidget *child)
 {
 	g_return_if_fail (E_IS_EDITOR (editor));
 	g_return_if_fail (GTK_IS_WIDGET (child));
@@ -1004,9 +1002,9 @@ e_editor_pack_above (EEditor* editor,
  */
 gboolean
 e_editor_save (EEditor *editor,
-	       const gchar *filename,
-	       gboolean as_html,
-	       GError **error)
+               const gchar *filename,
+               gboolean as_html,
+               GError **error)
 {
 	GFile *file;
 	GFileOutputStream *stream;
@@ -1019,17 +1017,17 @@ e_editor_save (EEditor *editor,
 	if ((error && *error) || !stream)
 		return FALSE;
 
-	if (as_html) {
+	if (as_html)
 		content = e_editor_widget_get_text_html (
-				E_EDITOR_WIDGET (editor));
-	} else {
+			E_EDITOR_WIDGET (editor));
+	else
 		content = e_editor_widget_get_text_plain (
-				E_EDITOR_WIDGET (editor));
-	}
+			E_EDITOR_WIDGET (editor));
 
 	if (!content || !*content) {
-		g_set_error (error, G_IO_ERROR, G_IO_ERROR_FAILED,
-			     "Failed to obtain content of editor");
+		g_set_error (
+			error, G_IO_ERROR, G_IO_ERROR_FAILED,
+			"Failed to obtain content of editor");
 		return FALSE;
 	}
 
@@ -1056,20 +1054,14 @@ e_editor_save (EEditor *editor,
 void
 e_editor_emit_spell_languages_changed (EEditor *editor)
 {
-	GList *dictionaries, *iter;
+	GList *dictionaries;
 
 	g_return_if_fail (editor != NULL);
 
-	dictionaries = NULL;
-	for (iter = editor->priv->active_dictionaries; iter; iter = g_list_next (iter)) {
-		EnchantDict *dictionary = iter->data;
+	dictionaries = g_list_copy (editor->priv->active_dictionaries);
 
-		dictionaries = g_list_prepend (dictionaries, dictionary);
-	}
-
-	dictionaries = g_list_reverse (dictionaries);
-
-	g_signal_emit (editor, signals[SPELL_LANGUAGES_CHANGED], 0, dictionaries);
+	g_signal_emit (
+		editor, signals[SPELL_LANGUAGES_CHANGED], 0, dictionaries);
 
 	g_list_free (dictionaries);
 }

@@ -65,38 +65,31 @@ struct _EColorComboClass {
 						 GdkRGBA *color);
 };
 
-GType		e_color_combo_get_type	(void);
+GType		e_color_combo_get_type		(void) G_GNUC_CONST;
 GtkWidget *	e_color_combo_new		(void);
 GtkWidget *	e_color_combo_new_defaults	(GdkRGBA *default_color,
 						 const gchar *default_label);
 void		e_color_combo_popup		(EColorCombo *combo);
 void		e_color_combo_popdown		(EColorCombo *combo);
-
 void		e_color_combo_get_current_color	(EColorCombo *combo,
 						 GdkRGBA *rgba);
-
 void		e_color_combo_set_current_color	(EColorCombo *combo,
 						 const GdkRGBA *color);
-
 void		e_color_combo_get_default_color	(EColorCombo *combo,
 						 GdkRGBA *color);
 void		e_color_combo_set_default_color	(EColorCombo *combo,
 						 const GdkRGBA *default_color);
-
 const gchar *	e_color_combo_get_default_label	(EColorCombo *combo);
 void		e_color_combo_set_default_label	(EColorCombo *combo,
 						 const gchar *text);
-
 gboolean	e_color_combo_get_default_transparent
 						(EColorCombo *combo);
 void		e_color_combo_set_default_transparent
 						(EColorCombo *combo,
 						 gboolean transparent);
-
-GList 	*	e_color_combo_get_palette	(EColorCombo *combo);
+GList	*	e_color_combo_get_palette	(EColorCombo *combo);
 void		e_color_combo_set_palette	(EColorCombo *combo,
 						 GList *palette);
-
 
 G_END_DECLS
 

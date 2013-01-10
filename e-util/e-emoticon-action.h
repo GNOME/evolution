@@ -62,7 +62,7 @@ struct _EEmoticonActionClass {
 	GtkActionClass parent_class;
 };
 
-GType		e_emoticon_action_get_type	(void);
+GType		e_emoticon_action_get_type	(void) G_GNUC_CONST;
 GtkAction *	e_emoticon_action_new		(const gchar *name,
 						 const gchar *label,
 						 const gchar *tooltip,

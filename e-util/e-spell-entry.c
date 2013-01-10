@@ -376,7 +376,7 @@ build_suggestion_menu (ESpellEntry *entry,
                        const gchar *word)
 {
 	GtkWidget *mi;
-	GList *suggestions;
+	GList *suggestions, *iter;
 
 	suggestions = e_spell_dictionary_get_suggestions (dict, word, -1);
 
@@ -397,13 +397,10 @@ build_suggestion_menu (ESpellEntry *entry,
 		gtk_widget_show_all (mi);
 		gtk_menu_shell_prepend (GTK_MENU_SHELL (menu), mi);
 	} else {
-		GList *iter;
-		gint ii;
+		gint ii = 0;
 
 		/* build a set of menus with suggestions */
-		for (iter = suggestions, ii = 0; iter; iter = iter->next, ii++) {
-			gchar *suggestion = iter->data;
-
+		for (iter = suggestions; iter; iter = g_list_next (iter), ii++) {
 			if ((ii != 0) && (ii % 10 == 0)) {
 				mi = gtk_separator_menu_item_new ();
 				gtk_widget_show (mi);
@@ -417,9 +414,9 @@ build_suggestion_menu (ESpellEntry *entry,
 				gtk_menu_item_set_submenu (GTK_MENU_ITEM (mi), menu);
 			}
 
-			mi = gtk_menu_item_new_with_label (suggestion);
+			mi = gtk_menu_item_new_with_label (iter->data);
 			g_object_set_data (G_OBJECT (mi), "spell-entry-checker", dict);
-			g_signal_connect (G_OBJECT (mi), "activate", G_CALLBACK (replace_word), entry);
+			g_signal_connect (mi, "activate", G_CALLBACK (replace_word), entry);
 			gtk_widget_show (mi);
 			gtk_menu_shell_append (GTK_MENU_SHELL (menu), mi);
 		}
@@ -512,7 +509,7 @@ build_spelling_menu (ESpellEntry *entry,
 			submi = gtk_menu_item_new_with_label (lang_name ? lang_name : "???");
 			g_object_set_data (G_OBJECT (submi), "spell-entry-checker", dict);
 			g_signal_connect (
-				G_OBJECT (submi), "activate",
+				submi, "activate",
 				G_CALLBACK (add_to_dictionary), entry);
 
 			gtk_widget_show (submi);
@@ -641,7 +638,7 @@ spell_entry_load_spell_languages (ESpellEntry *entry)
 {
 	ESpellChecker *spell_checker;
 	GSettings *settings;
-	GList *dicts = NULL;
+	GList *list = NULL;
 	gchar **strv;
 	gint ii;
 
@@ -654,32 +651,30 @@ spell_entry_load_spell_languages (ESpellEntry *entry)
 
 	/* Convert the codes to spell language structs. */
 	for (ii = 0; strv[ii] != NULL; ii++) {
+		ESpellDictionary *dictionary;
 		gchar *language_code = strv[ii];
-		ESpellDictionary *dict;
 
-		dict  = e_spell_checker_lookup_dictionary (spell_checker, language_code);
-		if (dict != NULL)
-			dicts = g_list_prepend (
-				dicts, (gpointer) dict);
+		dictionary = e_spell_checker_lookup_dictionary (
+			spell_checker, language_code);
+		if (dictionary != NULL)
+			list = g_list_prepend (list, dictionary);
 	}
 
 	g_strfreev (strv);
 
-	dicts = g_list_reverse (dicts);
+	list = g_list_reverse (list);
 
 	/* Pick a default spell language if it came back empty. */
-	if (dicts == NULL) {
-		ESpellDictionary *dict;
+	if (list == NULL) {
+		ESpellDictionary *dictionary;
 
-		dict = e_spell_checker_lookup_dictionary (spell_checker, NULL);
-
-		if (dict) {
-			dicts = g_list_prepend (
-				dicts, (gpointer) dict);
-		}
+		dictionary = e_spell_checker_lookup_dictionary (
+			spell_checker, NULL);
+		if (dictionary != NULL)
+			list = g_list_prepend (list, dictionary);
 	}
 
-	return dicts;
+	return list;
 }
 
 static void
@@ -953,17 +948,15 @@ e_spell_entry_set_languages (ESpellEntry *spell_entry,
 
 	spell_entry->priv->custom_checkers = TRUE;
 
-	if (spell_entry->priv->dictionaries) {
+	if (spell_entry->priv->dictionaries)
 		g_list_free_full (spell_entry->priv->dictionaries, g_object_unref);
-	}
 	spell_entry->priv->dictionaries = NULL;
 
 	spell_entry->priv->dictionaries = g_list_copy (dictionaries);
 	g_list_foreach (spell_entry->priv->dictionaries, (GFunc) g_object_ref, NULL);
 
-	if (gtk_widget_get_realized (GTK_WIDGET (spell_entry))) {
+	if (gtk_widget_get_realized (GTK_WIDGET (spell_entry)))
 		spell_entry_recheck_all (spell_entry);
-	}
 }
 
 gboolean
@@ -980,7 +973,7 @@ e_spell_entry_set_checking_enabled (ESpellEntry *spell_entry,
 {
 	g_return_if_fail (E_IS_SPELL_ENTRY (spell_entry));
 
-	if ((enable_checking ? 1 : 0) == (spell_entry->priv->checking_enabled ? 1 : 0))
+	if (spell_entry->priv->checking_enabled == enable_checking)
 		return;
 
 	spell_entry->priv->checking_enabled = enable_checking;

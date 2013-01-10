@@ -58,7 +58,6 @@ typedef enum {
 	E_EDITOR_WIDGET_REPLACE_ANSWER_NEXT
 } EEditorWidgetReplaceAnswer;
 
-
 /**
  * EEditorWidgetCommand:
  * @E_EDITOR_WIDGET_COMMAND_BACKGROUND_COLOR: Sets background color to given value.
@@ -112,7 +111,7 @@ typedef enum {
  * @E_EDITOR_WIDGET_COMMAND_UNSELECT: Cancels current selection.
  * @E_EDITOR_WIDGET_COMMAND_USE_CSS: Whether to allow use of CSS or not depending on whether given value is "true" or "false".
  *
- * Used to identify DOM command to execute using #e_editor_widget_exec_command().
+ * Used to identify DOM command to execute using e_editor_widget_exec_command().
  * Some commands require value to be passed in, which is always stated in the documentation.
  */
 
@@ -174,38 +173,31 @@ typedef struct _EEditorWidgetPrivate EEditorWidgetPrivate;
 
 struct _EEditorWidget {
 	WebKitWebView parent;
-
 	EEditorWidgetPrivate *priv;
 };
 
 struct _EEditorWidgetClass {
 	WebKitWebViewClass parent_class;
 
-	void		(*paste_clipboard_quoted)	(EEditorWidget *widget);
-
-	gboolean	(*popup_event)			(EEditorWidget *widget,
-							 GdkEventButton *event);
+	void		(*paste_clipboard_quoted)
+						(EEditorWidget *widget);
+	gboolean	(*popup_event)		(EEditorWidget *widget,
+						 GdkEventButton *event);
 };
 
-GType		e_editor_widget_get_type 	(void);
-
+GType		e_editor_widget_get_type	(void) G_GNUC_CONST;
 EEditorWidget *	e_editor_widget_new		(void);
-
 EEditorSelection *
 		e_editor_widget_get_selection	(EEditorWidget *widget);
-
 gboolean	e_editor_widget_exec_command	(EEditorWidget *widget,
 						 EEditorWidgetCommand command,
 						 const gchar *value);
-
 gboolean	e_editor_widget_get_changed	(EEditorWidget *widget);
 void		e_editor_widget_set_changed	(EEditorWidget *widget,
 						 gboolean changed);
-
 gboolean	e_editor_widget_get_html_mode	(EEditorWidget *widget);
 void		e_editor_widget_set_html_mode	(EEditorWidget *widget,
 						 gboolean html_mode);
-
 gboolean	e_editor_widget_get_inline_spelling
 						(EEditorWidget *widget);
 void		e_editor_widget_set_inline_spelling
@@ -219,26 +211,21 @@ gboolean	e_editor_widget_get_magic_smileys
 void		e_editor_widget_set_magic_smileys
 						(EEditorWidget *widget,
 						 gboolean magic_smileys);
-
 GList *		e_editor_widget_get_spell_languages
 						(EEditorWidget *widget);
 void		e_editor_widget_set_spell_languages
 						(EEditorWidget *widget,
 						 GList *spell_languages);
-
 ESpellChecker *	e_editor_widget_get_spell_checker
 						(EEditorWidget *widget);
-
 gchar *		e_editor_widget_get_text_html	(EEditorWidget *widget);
 gchar *		e_editor_widget_get_text_plain	(EEditorWidget *widget);
 void		e_editor_widget_set_text_html	(EEditorWidget *widget,
 						 const gchar *text);
 void		e_editor_widget_set_text_plain	(EEditorWidget *widget,
 						 const gchar *text);
-
 void		e_editor_widget_paste_clipboard_quoted
 						(EEditorWidget *widget);
-
 void		e_editor_widget_update_fonts	(EEditorWidget *widget);
 
 G_END_DECLS

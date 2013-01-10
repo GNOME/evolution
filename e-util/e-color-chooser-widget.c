@@ -26,10 +26,9 @@
 
 #include <glib/gi18n-lib.h>
 
-G_DEFINE_TYPE (
-	EColorChooserWidget,
-	e_color_chooser_widget,
-	GTK_TYPE_COLOR_CHOOSER_WIDGET);
+#define E_COLOR_CHOOSER_WIDGET_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_COLOR_CHOOSER_WIDGET, EColorChooserWidgetPrivate))
 
 /**
  * EColorChooserWidget:
@@ -49,6 +48,11 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
+G_DEFINE_TYPE (
+	EColorChooserWidget,
+	e_color_chooser_widget,
+	GTK_TYPE_COLOR_CHOOSER_WIDGET);
+
 /* UGLY UGLY UGLY!
  * GtkColorChooserWidget sends "color-activated" signal
  * only when user double-clicks the color. This is totally stupid
@@ -65,7 +69,7 @@ static guint signals[LAST_SIGNAL];
  */
 static gboolean
 color_chooser_widget_button_press_event (GtkWidget *widget,
-					 GdkEventButton *event)
+                                         GdkEventButton *event)
 {
 	if ((event->type == GDK_BUTTON_PRESS) &&
 	    (event->button == GDK_BUTTON_PRIMARY)) {
@@ -80,8 +84,8 @@ color_chooser_widget_button_press_event (GtkWidget *widget,
 
 static void
 color_chooser_widget_color_activated (GtkColorChooser *chooser,
-				      GdkRGBA *color,
-				      gpointer user_data)
+                                      GdkRGBA *color,
+                                      gpointer user_data)
 {
 	/* Because we are simulating the double-click by accepting only
 	 * single click, the color in the swatch is actually not selected,
@@ -92,13 +96,13 @@ color_chooser_widget_color_activated (GtkColorChooser *chooser,
 static gboolean
 run_color_chooser_dialog (gpointer user_data)
 {
+	EColorChooserWidgetPrivate *priv;
 	GtkWidget *parent_window;
 	GtkWidget *parent_chooser;
 	GtkWidget *dialog;
 	GtkWidget *chooser;
 
 	parent_chooser = user_data;
-
 
 	g_object_set (
 		G_OBJECT (parent_chooser), "show-editor", FALSE, NULL);
@@ -107,11 +111,11 @@ run_color_chooser_dialog (gpointer user_data)
 	if (!parent_window)
 		parent_window = gtk_widget_get_toplevel (parent_chooser);
 	dialog = gtk_dialog_new_with_buttons (
-			N_("Choose custom color"),
-			GTK_WINDOW (parent_window),
-			GTK_DIALOG_MODAL,
-			GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
-			GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
+		N_("Choose custom color"),
+		GTK_WINDOW (parent_window),
+		GTK_DIALOG_MODAL,
+		GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
+		GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
 
 	chooser = gtk_color_chooser_widget_new ();
 	g_object_set (G_OBJECT (chooser), "show-editor", TRUE, NULL);
@@ -132,14 +136,16 @@ run_color_chooser_dialog (gpointer user_data)
 
 	gtk_widget_destroy (dialog);
 
-	E_COLOR_CHOOSER_WIDGET (parent_chooser)->priv->showing_editor = FALSE;
+	priv = E_COLOR_CHOOSER_WIDGET_GET_PRIVATE (parent_chooser);
+	priv->showing_editor = FALSE;
+
 	return FALSE;
 }
 
 static void
 color_chooser_show_editor_notify_cb (EColorChooserWidget *chooser,
-				     GParamSpec *pspec,
-				     gpointer user_data)
+                                     GParamSpec *pspec,
+                                     gpointer user_data)
 {
 	gboolean show_editor;
 
@@ -160,9 +166,9 @@ color_chooser_show_editor_notify_cb (EColorChooserWidget *chooser,
 }
 
 void
-e_color_chooser_widget_class_init (EColorChooserWidgetClass *klass)
+e_color_chooser_widget_class_init (EColorChooserWidgetClass *class)
 {
-	g_type_class_add_private (klass, sizeof (EColorChooserWidgetPrivate));
+	g_type_class_add_private (class, sizeof (EColorChooserWidgetPrivate));
 
 	signals[SIGNAL_EDITOR_ACTIVATED] = g_signal_new (
 		"editor-activated",
@@ -212,9 +218,7 @@ e_color_chooser_widget_init (EColorChooserWidget *widget)
 {
 	GtkWidget *swatch;
 
-	widget->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-			widget, E_TYPE_COLOR_CHOOSER_WIDGET,
-			EColorChooserWidgetPrivate);
+	widget->priv = E_COLOR_CHOOSER_WIDGET_GET_PRIVATE (widget);
 	widget->priv->showing_editor = FALSE;
 
 	swatch = find_swatch (GTK_CONTAINER (widget));

@@ -15,10 +15,6 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include "e-mail-signature-editor.h"
 
 #include <config.h>
@@ -574,7 +570,6 @@ mail_signature_editor_constructed (GObject *object)
 	g_signal_connect (
 		window, "delete-event",
 		G_CALLBACK (mail_signature_editor_delete_event_cb), NULL);
-
 
 	/* Configure an EFocusTracker to manage selection actions. */
 	focus_tracker = e_focus_tracker_new (GTK_WINDOW (window));

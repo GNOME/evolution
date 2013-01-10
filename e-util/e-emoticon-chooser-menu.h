@@ -61,8 +61,9 @@ struct _EEmoticonChooserMenuClass {
 	GtkMenuClass parent_class;
 };
 
-GType		e_emoticon_chooser_menu_get_type	(void);
-GtkWidget *	e_emoticon_chooser_menu_new		(void);
+GType		e_emoticon_chooser_menu_get_type
+						(void) G_GNUC_CONST;
+GtkWidget *	e_emoticon_chooser_menu_new	(void);
 
 G_END_DECLS
 

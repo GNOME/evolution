@@ -54,7 +54,6 @@ typedef struct _EEditorTextDialogPrivate EEditorTextDialogPrivate;
 
 struct _EEditorTextDialog {
 	EEditorDialog parent;
-
 	EEditorTextDialogPrivate *priv;
 };
 
@@ -62,9 +61,8 @@ struct _EEditorTextDialogClass {
 	EEditorDialogClass parent_class;
 };
 
-GType		e_editor_text_dialog_get_type	(void);
-
-GtkWidget*	e_editor_text_dialog_new	(EEditor *editor);
+GType		e_editor_text_dialog_get_type	(void) G_GNUC_CONST;
+GtkWidget *	e_editor_text_dialog_new	(EEditor *editor);
 
 G_END_DECLS
 
