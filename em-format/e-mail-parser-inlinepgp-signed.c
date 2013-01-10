@@ -66,6 +66,11 @@ empe_inlinepgp_signed_parse (EMailParserExtension *extension,
 	GError *local_error = NULL;
 	GByteArray *ba;
 
+	if (g_cancellable_is_cancelled (cancellable) ||
+	    /* avoid recursion */
+	    (part_id->str && part_id->len > 17 && g_str_has_suffix (part_id->str, ".inlinepgp_signed")))
+ 		return FALSE;
+
 	cipher = camel_gpg_context_new (e_mail_parser_get_session (parser));
 
 	/* Verify the signature of the message */

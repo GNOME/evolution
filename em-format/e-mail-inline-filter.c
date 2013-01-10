@@ -199,6 +199,32 @@ inline_filter_add_part (EMailInlineFilter *emif,
 	emif->parts = g_slist_append (emif->parts, part);
 }
 
+static gboolean
+newline_or_whitespace_follows (const gchar *str,
+			       guint len,
+			       guint skip_first)
+{
+	if (len <= skip_first)
+		return len == skip_first;
+
+	str += skip_first;
+	len -= skip_first;
+
+	while (len > 0 && *str != '\n') {
+		if (!*str)
+			return TRUE;
+
+		
+		if (!camel_mime_is_lwsp (*str))
+			return FALSE;
+
+		len--;
+		str++;
+	}
+
+	return len == 0 || *str == '\n';
+}
+
 static gint
 inline_filter_scan (CamelMimeFilter *f,
                     gchar *in,
@@ -247,12 +273,14 @@ inline_filter_scan (CamelMimeFilter *f,
 				inline_filter_add_part (emif, data_start, start - data_start);
 				data_start = start;
 				emif->state = EMIF_POSTSCRIPT;
-			} else if (rest_len >= 34 && strncmp (start, "-----BEGIN PGP SIGNED MESSAGE-----", 34) == 0) {
+			} else if (rest_len >= 34 && strncmp (start, "-----BEGIN PGP SIGNED MESSAGE-----", 34) == 0 &&
+				   newline_or_whitespace_follows (start, rest_len, 34)) {
 				restore_inptr ();
 				inline_filter_add_part (emif, data_start, start - data_start);
 				data_start = start;
 				emif->state = EMIF_PGPSIGNED;
-			} else if (rest_len >= 27 && strncmp (start, "-----BEGIN PGP MESSAGE-----", 27) == 0) {
+			} else if (rest_len >= 27 && strncmp (start, "-----BEGIN PGP MESSAGE-----", 27) == 0 &&
+				   newline_or_whitespace_follows (start, rest_len, 27)) {
 				restore_inptr ();
 				inline_filter_add_part (emif, data_start, start - data_start);
 				data_start = start;
@@ -279,7 +307,8 @@ inline_filter_scan (CamelMimeFilter *f,
 			}
 			break;
 		case EMIF_PGPSIGNED:
-			if (rest_len >= 27 && strncmp (start, "-----END PGP SIGNATURE-----", 27) == 0) {
+			if (rest_len >= 27 && strncmp (start, "-----END PGP SIGNATURE-----", 27) == 0 &&
+			    newline_or_whitespace_follows (start, rest_len, 27)) {
 				restore_inptr ();
 				inline_filter_add_part (emif, data_start, inptr - data_start);
 				data_start = inptr;
@@ -288,7 +317,8 @@ inline_filter_scan (CamelMimeFilter *f,
 			}
 			break;
 		case EMIF_PGPENCRYPTED:
-			if (rest_len >= 25 && strncmp (start, "-----END PGP MESSAGE-----", 25) == 0) {
+			if (rest_len >= 25 && strncmp (start, "-----END PGP MESSAGE-----", 25) == 0 &&
+			    newline_or_whitespace_follows (start, rest_len, 25)) {
 				restore_inptr ();
 				inline_filter_add_part (emif, data_start, inptr - data_start);
 				data_start = inptr;
