@@ -397,6 +397,8 @@ list_enchant_dicts (const char * const lang_tag,
 GList *
 e_spell_checker_list_available_dicts (ESpellChecker *checker)
 {
+	GList *list;
+
 	g_return_val_if_fail (E_IS_SPELL_CHECKER (checker), NULL);
 
 	if (checker->priv->dictionaries_cache == NULL) {
@@ -407,7 +409,9 @@ e_spell_checker_list_available_dicts (ESpellChecker *checker)
 			checker->priv->broker, list_enchant_dicts, checker);
 	}
 
-	return g_hash_table_get_values (checker->priv->dictionaries_cache);
+	list = g_hash_table_get_values (checker->priv->dictionaries_cache);
+
+	return g_list_sort (list, (GCompareFunc) e_spell_dictionary_compare);
 }
 
 /**
