@@ -523,13 +523,12 @@ e_meeting_time_selector_construct (EMeetingTimeSelector *mts,
 		G_CALLBACK (e_meeting_time_selector_on_canvas_scroll_event), mts);
 	/* used for displaying extended free/busy (XFB) display when hovering
 	 * over a busy period which carries XFB information */
-	g_signal_connect (mts->display_main,
-	                  "query-tooltip",
-	                  G_CALLBACK (e_meeting_time_selector_on_canvas_query_tooltip),
-	                  mts);
-	g_object_set (G_OBJECT (mts->display_main),
-	              "has-tooltip", TRUE,
-	              NULL);
+	g_signal_connect (
+		mts->display_main, "query-tooltip",
+		G_CALLBACK (e_meeting_time_selector_on_canvas_query_tooltip),
+		mts);
+	g_object_set (
+		G_OBJECT (mts->display_main), "has-tooltip", TRUE, NULL);
 
 	scrollable = GTK_SCROLLABLE (mts->display_main);
 
@@ -2698,19 +2697,19 @@ e_meeting_time_selector_on_canvas_query_tooltip (GtkWidget *widget,
 	gint first_idx = 0;
 	gint ii = 0;
 	gchar *tt_text = NULL;
-	
+
 	g_return_val_if_fail (GNOME_IS_CANVAS (widget), FALSE);
 	g_return_val_if_fail (GTK_IS_TOOLTIP (tooltip), FALSE);
 	g_return_val_if_fail (E_IS_MEETING_TIME_SELECTOR (user_data), FALSE);
 
 	mts = E_MEETING_TIME_SELECTOR (user_data);
-	
+
 	scrollable = GTK_SCROLLABLE (widget);
 	adjustment = gtk_scrollable_get_hadjustment (scrollable);
 	scroll_x = (gint) gtk_adjustment_get_value (adjustment);
 	adjustment = gtk_scrollable_get_vadjustment (scrollable);
 	scroll_y = (gint) gtk_adjustment_get_value (adjustment);
-	
+
 	/* calculate the attendee index (row) we're at */
 	row = (scroll_y + y) / mts->row_height;
 
@@ -2730,8 +2729,8 @@ e_meeting_time_selector_on_canvas_query_tooltip (GtkWidget *widget,
 	g_return_val_if_fail (periods->len > 0, FALSE);
 
 	/* no tooltip if no busy period reaches into the current canvas area */
-	first_idx = e_meeting_attendee_find_first_busy_period (attendee,
-	                                                       &(mts->first_date_shown));
+	first_idx = e_meeting_attendee_find_first_busy_period (
+		attendee, &(mts->first_date_shown));
 	if (first_idx < 0)
 		return FALSE;
 
@@ -2746,16 +2745,15 @@ e_meeting_time_selector_on_canvas_query_tooltip (GtkWidget *widget,
 		EMeetingFreeBusyPeriod *p = NULL;
 		gint sx = 0;
 		gint ex = 0;
-		
-		p = &(g_array_index (periods,
-		                     EMeetingFreeBusyPeriod,
-		                     ii));
+
+		p = &(g_array_index (
+			periods, EMeetingFreeBusyPeriod, ii));
 		/* meeting start time x position */
-		sx = e_meeting_time_selector_calculate_time_position (mts,
-		                                                      &(p->start));
+		sx = e_meeting_time_selector_calculate_time_position (
+			mts, &(p->start));
 		/* meeting end time x position */
-		ex = e_meeting_time_selector_calculate_time_position (mts,
-		                                                      &(p->end));
+		ex = e_meeting_time_selector_calculate_time_position (
+			mts, &(p->end));
 		if ((mouse_x >= sx) && (mouse_x <= ex)) {
 			/* found busy period the mouse tip is over */
 			period = p;
@@ -2794,7 +2792,7 @@ e_meeting_time_selector_on_canvas_query_tooltip (GtkWidget *widget,
 	/* set XFB information as tooltip text */
 	gtk_tooltip_set_text (tooltip, tt_text);
 	g_free (tt_text);
-	
+
 	return TRUE;
 }
 

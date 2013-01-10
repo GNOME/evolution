@@ -105,7 +105,7 @@ e_meeting_xfb_data_clear (EMeetingXfbData *xfb)
  * length of the resulting string, since it gets displayed as a
  * tooltip text in the meeting time selector.
  */
-gchar*
+gchar *
 e_meeting_xfb_utf8_string_new_from_ical (const gchar *icalstring,
                                          gsize max_len)
 {
@@ -132,11 +132,8 @@ e_meeting_xfb_utf8_string_new_from_ical (const gchar *icalstring,
 	/* no valid UTF-8, trying to convert to it
 	 * according to system locale
 	 */
-	tmp = g_locale_to_utf8 (icalstring,
-	                        -1,
-	                        &in_len,
-	                        &out_len,
-	                        &tmp_err);
+	tmp = g_locale_to_utf8 (
+		icalstring, -1, &in_len, &out_len, &tmp_err);
 
 	if (tmp_err == NULL)
 		goto valid;
@@ -148,8 +145,8 @@ e_meeting_xfb_utf8_string_new_from_ical (const gchar *icalstring,
 	/* still no success, forcing it into UTF-8, using
 	 * replacement chars to replace invalid ones
 	 */
-	tmp = e_util_utf8_data_make_valid (icalstring,
-	                                   strlen (icalstring));
+	tmp = e_util_utf8_data_make_valid (
+		icalstring, strlen (icalstring));
  valid:
 	if (tmp == NULL)
 		tmp = g_strdup (icalstring);

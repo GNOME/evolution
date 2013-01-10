@@ -83,9 +83,9 @@ free_priv_struct (gpointer ptr)
 
 static void
 begin_section (GtkGrid *add_to,
-	       const gchar *caption,
-	       gint *from_row,
-	       gint for_rows)
+               const gchar *caption,
+               gint *from_row,
+               gint for_rows)
 {
 	GtkWidget *widget;
 	PangoAttribute *attr;
@@ -100,7 +100,8 @@ begin_section (GtkGrid *add_to,
 	pango_attr_list_insert (bold, attr);
 
 	widget = gtk_label_new (caption);
-	g_object_set (G_OBJECT (widget),
+	g_object_set (
+		G_OBJECT (widget),
 		"hexpand", TRUE,
 		"halign", GTK_ALIGN_START,
 		"justify", GTK_JUSTIFY_LEFT,
@@ -121,8 +122,8 @@ begin_section (GtkGrid *add_to,
 
 static GtkWidget *
 add_info_label (GtkGrid *add_to,
-		const gchar *caption,
-		gint *at_row)
+                const gchar *caption,
+                gint *at_row)
 {
 	GtkWidget *widget;
 
@@ -131,7 +132,8 @@ add_info_label (GtkGrid *add_to,
 
 	if (caption) {
 		widget = gtk_label_new (caption);
-		g_object_set (G_OBJECT (widget),
+		g_object_set (
+			G_OBJECT (widget),
 			"hexpand", FALSE,
 			"halign", GTK_ALIGN_START,
 			"justify", GTK_JUSTIFY_LEFT,
@@ -142,7 +144,8 @@ add_info_label (GtkGrid *add_to,
 	}
 
 	widget = gtk_label_new ("");
-	g_object_set (G_OBJECT (widget),
+	g_object_set (
+		G_OBJECT (widget),
 		"hexpand", TRUE,
 		"halign", GTK_ALIGN_START,
 		"justify", GTK_JUSTIFY_LEFT,
@@ -159,9 +162,9 @@ add_info_label (GtkGrid *add_to,
 
 static GtkWidget *
 add_scrolled_window (GtkGrid *add_to,
-		     const gchar *caption,
-		     gint *at_row,
-		     GtkWidget *add_widget)
+                     const gchar *caption,
+                     gint *at_row,
+                     GtkWidget *add_widget)
 {
 	GtkWidget *widget;
 	PangoAttribute *attr;
@@ -176,7 +179,8 @@ add_scrolled_window (GtkGrid *add_to,
 	pango_attr_list_insert (bold, attr);
 
 	widget = gtk_label_new (caption);
-	g_object_set (G_OBJECT (widget),
+	g_object_set (
+		G_OBJECT (widget),
 		"hexpand", TRUE,
 		"halign", GTK_ALIGN_START,
 		"justify", GTK_JUSTIFY_LEFT,
@@ -190,7 +194,8 @@ add_scrolled_window (GtkGrid *add_to,
 	(*at_row)++;
 
 	widget = gtk_scrolled_window_new (NULL, NULL);
-	g_object_set (G_OBJECT (widget),
+	g_object_set (
+		G_OBJECT (widget),
 		"hexpand", TRUE,
 		"halign", GTK_ALIGN_FILL,
 		"vexpand", TRUE,
@@ -214,9 +219,9 @@ add_scrolled_window (GtkGrid *add_to,
 
 static void
 set_label_text (GtkWidget *label,
-		const gchar *not_part_markup,
-		gchar *text,
-		guint32 flags)
+                const gchar *not_part_markup,
+                gchar *text,
+                guint32 flags)
 {
 	if (text) {
 		if ((flags & FLAG_MARKUP) != 0)
@@ -235,8 +240,8 @@ set_label_text (GtkWidget *label,
 
 static void
 get_cert_times (CERTCertificate *cert,
-		gchar **issued_on,
-		gchar **expires_on)
+                gchar **issued_on,
+                gchar **expires_on)
 {
 	PRTime time_issued_on;
 	PRTime time_expires_on;
@@ -363,7 +368,7 @@ populate_fields_tree (CertificateViewerPriv *priv,
 
 static void
 hierarchy_selection_changed_cb (GtkTreeSelection *selection,
-				CertificateViewerPriv *priv)
+                                CertificateViewerPriv *priv)
 {
 	GtkTreeIter iter;
 	GtkTreeModel *model;
@@ -402,7 +407,7 @@ hierarchy_selection_changed_cb (GtkTreeSelection *selection,
 
 static void
 fields_selection_changed_cb (GtkTreeSelection *selection,
-			     CertificateViewerPriv *priv)
+                             CertificateViewerPriv *priv)
 {
 	GtkTreeIter iter;
 	GtkTreeModel *model;
@@ -428,7 +433,8 @@ fields_selection_changed_cb (GtkTreeSelection *selection,
 
 			gtk_text_buffer_get_start_iter (textbuffer, &text_iter);
 
-			gtk_text_buffer_insert_with_tags (textbuffer, &text_iter,
+			gtk_text_buffer_insert_with_tags (
+				textbuffer, &text_iter,
 				value, strlen (value),
 				priv->monospace_tag, NULL);
 		}
@@ -537,8 +543,8 @@ get_window_title (CERTCertificate *cert)
 
 GtkWidget *
 certificate_viewer_new (GtkWindow *parent,
-			const CERTCertificate *cert,
-			const GSList *issuers_chain_certs)
+                        const CERTCertificate *cert,
+                        const GSList *issuers_chain_certs)
 {
 	CertificateViewerPriv *priv;
 	GtkWidget *dialog, *notebook, *widget;
@@ -563,7 +569,8 @@ certificate_viewer_new (GtkWindow *parent,
 
 	title = get_window_title (priv->cert);
 
-	dialog = gtk_dialog_new_with_buttons (title, parent,
+	dialog = gtk_dialog_new_with_buttons (
+		title, parent,
 		GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL,
 		GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
 		NULL);
@@ -579,7 +586,8 @@ certificate_viewer_new (GtkWindow *parent,
 	/* General page */
 	row = 0;
 	grid = GTK_GRID (gtk_grid_new ());
-	g_object_set (G_OBJECT (grid),
+	g_object_set (
+		G_OBJECT (grid),
 		"hexpand", TRUE,
 		"halign", GTK_ALIGN_FILL,
 		"vexpand", FALSE,
@@ -612,7 +620,8 @@ certificate_viewer_new (GtkWindow *parent,
 	}
 
 	widget = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
-	g_object_set (G_OBJECT (widget),
+	g_object_set (
+		G_OBJECT (widget),
 		"hexpand", TRUE,
 		"halign", GTK_ALIGN_FILL,
 		"vexpand", FALSE,
@@ -647,7 +656,8 @@ certificate_viewer_new (GtkWindow *parent,
 	/* Details page */
 	row = 0;
 	grid = GTK_GRID (gtk_grid_new ());
-	g_object_set (G_OBJECT (grid),
+	g_object_set (
+		G_OBJECT (grid),
 		"hexpand", TRUE,
 		"halign", GTK_ALIGN_FILL,
 		"vexpand", TRUE,
@@ -657,14 +667,14 @@ certificate_viewer_new (GtkWindow *parent,
 		"column-spacing", 6,
 		NULL);
 
-	priv->cert_hierarchy_treeview = add_scrolled_window (grid,
-		_("Certificate Hierarchy"), &row, gtk_tree_view_new ());
+	priv->cert_hierarchy_treeview = add_scrolled_window (
+		grid, _("Certificate Hierarchy"), &row, gtk_tree_view_new ());
 
-	priv->cert_fields_treeview = add_scrolled_window (grid,
-		_("Certificate Fields"), &row, gtk_tree_view_new ());
+	priv->cert_fields_treeview = add_scrolled_window (
+		grid, _("Certificate Fields"), &row, gtk_tree_view_new ());
 
-	priv->cert_field_value_textview = add_scrolled_window (grid,
-		_("Field Value"), &row, gtk_text_view_new ());
+	priv->cert_field_value_textview = add_scrolled_window (
+		grid, _("Field Value"), &row, gtk_text_view_new ());
 
 	widget = gtk_label_new (_("Details"));
 	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), GTK_WIDGET (grid), widget);

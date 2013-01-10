@@ -1112,7 +1112,7 @@ e_cert_manager_config_new (EPreferencesWindow *window)
 
 GtkWidget *
 e_cert_manager_new_certificate_viewer (GtkWindow *parent,
-				       ECert *cert)
+                                       ECert *cert)
 {
 	GtkWidget *dialog;
 	GList *chain, *citer;
@@ -1125,7 +1125,8 @@ e_cert_manager_new_certificate_viewer (GtkWindow *parent,
 		issuers = g_slist_append (issuers, e_cert_get_internal_cert (citer->data));
 	}
 
-	dialog = certificate_viewer_new ((GtkWindow *) parent,
+	dialog = certificate_viewer_new (
+		(GtkWindow *) parent,
 		e_cert_get_internal_cert (cert),
 		issuers);
 

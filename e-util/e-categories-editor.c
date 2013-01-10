@@ -239,7 +239,8 @@ e_categories_editor_init (ECategoriesEditor *editor)
 	gtk_misc_set_alignment (GTK_MISC (label2), 0, 0.5);
 
 	scrolledwindow1 = gtk_scrolled_window_new (NULL, NULL);
-	g_object_set (G_OBJECT (scrolledwindow1),
+	g_object_set (
+		G_OBJECT (scrolledwindow1),
 		"hexpand", TRUE,
 		"halign", GTK_ALIGN_FILL,
 		"vexpand", TRUE,
@@ -263,7 +264,8 @@ e_categories_editor_init (ECategoriesEditor *editor)
 		G_CALLBACK (category_checked_cb), editor);
 
 	hbuttonbox1 = gtk_button_box_new (GTK_ORIENTATION_HORIZONTAL);
-	g_object_set (G_OBJECT (hbuttonbox1),
+	g_object_set (
+		G_OBJECT (hbuttonbox1),
 		"hexpand", TRUE,
 		"halign", GTK_ALIGN_FILL,
 		NULL);

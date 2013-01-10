@@ -76,7 +76,8 @@ empe_inlinepgp_encrypted_parse (EMailParserExtension *extension,
 			local_error->message);
 		g_error_free (local_error);
 
-		e_mail_parser_parse_part_as (parser,
+		e_mail_parser_parse_part_as (
+			parser,
 			part, part_id,
 			"application/vnd.evolution.source",
 			cancellable, out_mail_parts);

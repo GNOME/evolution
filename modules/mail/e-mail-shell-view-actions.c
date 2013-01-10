@@ -126,8 +126,8 @@ action_mail_account_properties_cb (GtkAction *action,
 
 static void
 account_refresh_folder_info_received_cb (GObject *source,
-					 GAsyncResult *result,
-					 gpointer user_data)
+                                         GAsyncResult *result,
+                                         gpointer user_data)
 {
 	CamelStore *store;
 	CamelFolderInfo *info;
@@ -139,7 +139,7 @@ account_refresh_folder_info_received_cb (GObject *source,
 	info = camel_store_get_folder_info_finish (store, result, &error);
 	if (info) {
 		/* provider takes care of notifications of new/removed folders,
-		   thus it's enough to free the returned list */
+		 * thus it's enough to free the returned list */
 		camel_store_free_folder_info (store, info);
 	}
 
@@ -172,7 +172,8 @@ action_mail_account_refresh_cb (GtkAction *action,
 	activity = e_mail_reader_new_activity (reader);
 	cancellable = e_activity_get_cancellable (activity);
 
-	camel_store_get_folder_info (store, NULL, CAMEL_STORE_FOLDER_INFO_RECURSIVE,
+	camel_store_get_folder_info (
+		store, NULL, CAMEL_STORE_FOLDER_INFO_RECURSIVE,
 		G_PRIORITY_DEFAULT, cancellable, account_refresh_folder_info_received_cb, activity);
 }
 

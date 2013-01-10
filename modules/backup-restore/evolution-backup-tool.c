@@ -698,7 +698,7 @@ end:
 		txt = _("Restarting Evolution");
 
 		/* wait 5 seconds before restarting evolution, thus any
-		   changes being done are updated in source registry too */
+		 * changes being done are updated in source registry too */
 		g_usleep (G_USEC_PER_SEC * 5);
 
 		run_evolution_no_wait ();
@@ -975,7 +975,8 @@ main (gint argc,
 		gtk_widget_show (widget);
 
 		gtk_grid_attach (GTK_GRID (container), widget, 0, 0, 1, 3);
-		g_object_set (G_OBJECT (widget),
+		g_object_set (
+			G_OBJECT (widget),
 			"halign", GTK_ALIGN_FILL,
 			"valign", GTK_ALIGN_FILL,
 			"vexpand", TRUE,
@@ -1000,7 +1001,8 @@ main (gint argc,
 		g_free (markup);
 
 		gtk_grid_attach (GTK_GRID (container), widget, 1, 0, 1, 1);
-		g_object_set (G_OBJECT (widget),
+		g_object_set (
+			G_OBJECT (widget),
 			"halign", GTK_ALIGN_FILL,
 			"hexpand", TRUE,
 			"valign", GTK_ALIGN_FILL,
@@ -1016,7 +1018,8 @@ main (gint argc,
 		g_free (markup);
 
 		gtk_grid_attach (GTK_GRID (container), widget, 1, 1, 1, 1);
-		g_object_set (G_OBJECT (widget),
+		g_object_set (
+			G_OBJECT (widget),
 			"halign", GTK_ALIGN_FILL,
 			"hexpand", TRUE,
 			"valign", GTK_ALIGN_FILL,
@@ -1033,7 +1036,8 @@ main (gint argc,
 			g_free (str);
 
 			gtk_grid_attach (GTK_GRID (container), widget, 1, 2, 1, 1);
-			g_object_set (G_OBJECT (widget),
+			g_object_set (
+				G_OBJECT (widget),
 				"halign", GTK_ALIGN_FILL,
 				"hexpand", TRUE,
 				"valign", GTK_ALIGN_FILL,
@@ -1043,7 +1047,8 @@ main (gint argc,
 		} else
 			gtk_grid_attach (GTK_GRID (container), pbar, 1, 2, 1, 1);
 
-		g_object_set (G_OBJECT (pbar),
+		g_object_set (
+			G_OBJECT (pbar),
 			"halign", GTK_ALIGN_FILL,
 			"hexpand", TRUE,
 			"valign", GTK_ALIGN_FILL,

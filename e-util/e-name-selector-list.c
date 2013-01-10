@@ -93,7 +93,7 @@ static gboolean
 popup_grab_on_window (GdkWindow *window,
                       GdkDevice *keyboard,
                       GdkDevice *pointer,
-                      guint32    activate_time)
+                      guint32 activate_time)
 {
 	if (keyboard && gdk_device_grab (keyboard, window,
 			GDK_OWNERSHIP_WINDOW, TRUE,
@@ -117,7 +117,7 @@ popup_grab_on_window (GdkWindow *window,
 
 static void
 enl_popup_grab (ENameSelectorList *list,
-		const GdkEvent *event)
+                const GdkEvent *event)
 {
 	EDestinationStore *store;
 	ENameSelectorEntry *entry;
@@ -740,7 +740,8 @@ e_name_selector_list_init (ENameSelectorList *list)
 
 	gtk_container_add (GTK_CONTAINER (list->priv->popup), popup_frame);
 
-	vgrid = g_object_new (GTK_TYPE_GRID,
+	vgrid = g_object_new (
+		GTK_TYPE_GRID,
 		"orientation", GTK_ORIENTATION_VERTICAL,
 		"column-homogeneous", FALSE,
 		"row-spacing", 0,

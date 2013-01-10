@@ -1342,9 +1342,9 @@ static void
 process_free_busy_comp_get_xfb (icalproperty *ip,
                                 gchar **summary,
                                 gchar **location)
-{	
+{
 	const gchar *tmp = NULL;
-	
+
 	g_return_if_fail (ip != NULL);
 	g_return_if_fail (summary != NULL && *summary == NULL);
 	g_return_if_fail (location != NULL && *location == NULL);
@@ -1354,13 +1354,15 @@ process_free_busy_comp_get_xfb (icalproperty *ip,
 	 * it will be displayed as a tooltip for the busy period. Otherwise,
 	 * nothing will happen (*summary and/or *location will be NULL)
 	 */
-	
-	tmp = icalproperty_get_parameter_as_string (ip, E_MEETING_FREE_BUSY_XPROP_SUMMARY);
-	*summary = e_meeting_xfb_utf8_string_new_from_ical (tmp,
-	                                                    E_MEETING_FREE_BUSY_XPROP_MAXLEN);
-	tmp = icalproperty_get_parameter_as_string (ip, E_MEETING_FREE_BUSY_XPROP_LOCATION);
-	*location = e_meeting_xfb_utf8_string_new_from_ical (tmp,
-	                                                     E_MEETING_FREE_BUSY_XPROP_MAXLEN);
+
+	tmp = icalproperty_get_parameter_as_string (
+		ip, E_MEETING_FREE_BUSY_XPROP_SUMMARY);
+	*summary = e_meeting_xfb_utf8_string_new_from_ical (
+		tmp, E_MEETING_FREE_BUSY_XPROP_MAXLEN);
+	tmp = icalproperty_get_parameter_as_string (
+		ip, E_MEETING_FREE_BUSY_XPROP_LOCATION);
+	*location = e_meeting_xfb_utf8_string_new_from_ical (
+		tmp, E_MEETING_FREE_BUSY_XPROP_MAXLEN);
 }
 
 static void
@@ -1458,22 +1460,23 @@ process_free_busy_comp (EMeetingAttendee *attendee,
 			 * for a reference.
 			 */
 			process_free_busy_comp_get_xfb (ip, &summary, &location);
-			
-			e_meeting_attendee_add_busy_period (attendee,
-							    fb.start.year,
-							    fb.start.month,
-							    fb.start.day,
-							    fb.start.hour,
-							    fb.start.minute,
-							    fb.end.year,
-							    fb.end.month,
-							    fb.end.day,
-							    fb.end.hour,
-							    fb.end.minute,
-			                                    busy_type,
-			                                    summary,
-			                                    location);
-			
+
+			e_meeting_attendee_add_busy_period (
+				attendee,
+				fb.start.year,
+				fb.start.month,
+				fb.start.day,
+				fb.start.hour,
+				fb.start.minute,
+				fb.end.year,
+				fb.end.month,
+				fb.end.day,
+				fb.end.hour,
+				fb.end.minute,
+				busy_type,
+				summary,
+				location);
+
 			if (summary != NULL)
 				g_free (summary);
 			if (location != NULL)

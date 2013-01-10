@@ -268,7 +268,8 @@ name_selector_dialog_constructed (GObject *object)
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_name_selector_dialog_parent_class)->constructed (object);
 
-	name_selector_grid = g_object_new (GTK_TYPE_GRID,
+	name_selector_grid = g_object_new (
+		GTK_TYPE_GRID,
 		"orientation", GTK_ORIENTATION_VERTICAL,
 		"column-homogeneous", FALSE,
 		"row-spacing", 6,
@@ -284,7 +285,8 @@ name_selector_dialog_constructed (GObject *object)
 	gtk_misc_set_alignment (GTK_MISC (show_contacts_label), 0, 0.5);
 	g_free (tmp_str);
 
-	hgrid = g_object_new (GTK_TYPE_GRID,
+	hgrid = g_object_new (
+		GTK_TYPE_GRID,
 		"orientation", GTK_ORIENTATION_HORIZONTAL,
 		"row-homogeneous", FALSE,
 		"column-spacing", 12,
@@ -299,7 +301,8 @@ name_selector_dialog_constructed (GObject *object)
 	show_contacts_grid = gtk_grid_new ();
 	gtk_widget_show (show_contacts_grid);
 	gtk_container_add (GTK_CONTAINER (hgrid), show_contacts_grid);
-	g_object_set (G_OBJECT (show_contacts_grid),
+	g_object_set (
+		G_OBJECT (show_contacts_grid),
 		"column-spacing", 12,
 		"row-spacing", 6,
 		"hexpand", TRUE,
@@ -320,7 +323,8 @@ name_selector_dialog_constructed (GObject *object)
 	gtk_label_set_justify (GTK_LABEL (label_category), GTK_JUSTIFY_CENTER);
 	gtk_misc_set_alignment (GTK_MISC (label_category), 0, 0.5);
 
-	hgrid = g_object_new (GTK_TYPE_GRID,
+	hgrid = g_object_new (
+		GTK_TYPE_GRID,
 		"orientation", GTK_ORIENTATION_HORIZONTAL,
 		"row-homogeneous", FALSE,
 		"column-spacing", 12,
@@ -342,7 +346,8 @@ name_selector_dialog_constructed (GObject *object)
 	gtk_widget_set_halign (label_search, GTK_ALIGN_FILL);
 	gtk_misc_set_alignment (GTK_MISC (label_search), 0, 0.5);
 
-	source_menu_hgrid = g_object_new (GTK_TYPE_GRID,
+	source_menu_hgrid = g_object_new (
+		GTK_TYPE_GRID,
 		"orientation", GTK_ORIENTATION_HORIZONTAL,
 		"row-homogeneous", FALSE,
 		"column-spacing", 0,
@@ -354,7 +359,8 @@ name_selector_dialog_constructed (GObject *object)
 
 	combobox_category = gtk_combo_box_text_new ();
 	gtk_widget_show (combobox_category);
-	g_object_set (G_OBJECT (combobox_category),
+	g_object_set (
+		G_OBJECT (combobox_category),
 		"halign", GTK_ALIGN_FILL,
 		"valign", GTK_ALIGN_FILL,
 		NULL);
@@ -380,7 +386,8 @@ name_selector_dialog_constructed (GObject *object)
 		GTK_SCROLLED_WINDOW (scrolledwindow0),
 		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
-	hgrid = g_object_new (GTK_TYPE_GRID,
+	hgrid = g_object_new (
+		GTK_TYPE_GRID,
 		"orientation", GTK_ORIENTATION_HORIZONTAL,
 		"row-homogeneous", FALSE,
 		"column-spacing", 12,
@@ -412,7 +419,8 @@ name_selector_dialog_constructed (GObject *object)
 	gtk_tree_view_set_enable_search (
 		GTK_TREE_VIEW (source_tree_view), FALSE);
 
-	destination_vgrid = g_object_new (GTK_TYPE_GRID,
+	destination_vgrid = g_object_new (
+		GTK_TYPE_GRID,
 		"orientation", GTK_ORIENTATION_VERTICAL,
 		"column-homogeneous", TRUE,
 		"row-spacing", 6,
@@ -851,7 +859,8 @@ setup_section_button (ENameSelectorDialog *name_selector_dialog,
 	alignment = gtk_alignment_new (halign, 0.5, 0.0, 0.0);
 	gtk_container_add (GTK_CONTAINER (button), GTK_WIDGET (alignment));
 
-	hgrid = g_object_new (GTK_TYPE_GRID,
+	hgrid = g_object_new (
+		GTK_TYPE_GRID,
 		"orientation", GTK_ORIENTATION_HORIZONTAL,
 		"row-homogeneous", FALSE,
 		"column-spacing", 2,
@@ -899,7 +908,8 @@ add_section (ENameSelectorDialog *name_selector_dialog,
 	memset (&section, 0, sizeof (Section));
 
 	section.name = g_strdup (name);
-	section.section_grid = g_object_new (GTK_TYPE_GRID,
+	section.section_grid = g_object_new (
+		GTK_TYPE_GRID,
 		"orientation", GTK_ORIENTATION_HORIZONTAL,
 		"row-homogeneous", FALSE,
 		"column-spacing", 12,
@@ -942,7 +952,8 @@ add_section (ENameSelectorDialog *name_selector_dialog,
 	alignment = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
 	gtk_container_add (GTK_CONTAINER (section.section_grid), alignment);
 
-	vgrid = g_object_new (GTK_TYPE_GRID,
+	vgrid = g_object_new (
+		GTK_TYPE_GRID,
 		"orientation", GTK_ORIENTATION_VERTICAL,
 		"column-homogeneous", TRUE,
 		"row-spacing", 6,
@@ -964,7 +975,8 @@ add_section (ENameSelectorDialog *name_selector_dialog,
 	 * spacing.
 	 */
 
-	hgrid = g_object_new (GTK_TYPE_GRID,
+	hgrid = g_object_new (
+		GTK_TYPE_GRID,
 		"orientation", GTK_ORIENTATION_HORIZONTAL,
 		"row-homogeneous", FALSE,
 		"column-spacing", 6,
@@ -1016,7 +1028,8 @@ add_section (ENameSelectorDialog *name_selector_dialog,
 
 	/* Pack this section's box into the dialog */
 	gtk_container_add (GTK_CONTAINER (name_selector_dialog->priv->destination_vgrid), GTK_WIDGET (section.section_grid));
-	g_object_set (G_OBJECT (section.section_grid),
+	g_object_set (
+		G_OBJECT (section.section_grid),
 		"vexpand", TRUE,
 		"valign", GTK_ALIGN_FILL,
 		NULL);

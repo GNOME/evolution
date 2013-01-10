@@ -432,7 +432,8 @@ emfe_secure_button_get_widget (EMailFormatterExtension *extension,
 
 	g_return_val_if_fail (part != NULL, NULL);
 
-	grid = g_object_new (GTK_TYPE_GRID,
+	grid = g_object_new (
+		GTK_TYPE_GRID,
 		"orientation", GTK_ORIENTATION_VERTICAL,
 		"row-spacing", 2,
 		"halign", GTK_ALIGN_FILL,

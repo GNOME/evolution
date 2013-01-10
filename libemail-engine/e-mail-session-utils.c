@@ -578,7 +578,7 @@ mail_session_send_to_thread (GSimpleAsyncResult *simple,
 
 		if (did_connect) {
 			/* if the cancellable is cancelled, then the disconnect will not run,
-			   thus reset it to ensure the service will be properly disconnected */
+			 * thus reset it to ensure the service will be properly disconnected */
 			if (cancellable)
 				g_cancellable_reset (cancellable);
 

@@ -165,10 +165,10 @@ struct _ETableItem {
 	 * During editing
 	 */
 	gint editing_col, editing_row;
-	void *edit_ctx;
+	gpointer edit_ctx;
 
 	gint save_col, save_row;
-	void *save_state;
+	gpointer save_state;
 
 	gint grabbed_col, grabbed_row;
 	gint grabbed_count;

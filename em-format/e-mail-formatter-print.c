@@ -124,7 +124,7 @@ mail_formatter_print_run (EMailFormatter *formatter,
 
 	head = g_queue_peek_head_link (&queue);
 
-	for (link = head; link != NULL ; link = g_list_next (link)) {
+	for (link = head; link != NULL; link = g_list_next (link)) {
 		EMailPart *part = link->data;
 		gboolean ok;
 

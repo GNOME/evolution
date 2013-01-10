@@ -27,7 +27,7 @@
 
 /* Standard GObject macros */
 #define E_TYPE_SPELL_ENTRY \
-	(e_spell_entry_get_type())
+	(e_spell_entry_get_type ())
 #define E_SPELL_ENTRY(obj) \
 	(G_TYPE_CHECK_INSTANCE_CAST \
 	((obj), E_TYPE_SPELL_ENTRY, ESpellEntry))

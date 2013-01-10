@@ -169,8 +169,8 @@ user_message_exec (struct _user_message_msg *m,
 
 static void
 user_message_response_cb (GObject *source,
-			  GAsyncResult *result,
-			  gpointer user_data)
+                          GAsyncResult *result,
+                          gpointer user_data)
 {
 	struct _user_message_msg *m = user_data;
 	GError *local_error = NULL;
@@ -220,7 +220,8 @@ user_message_exec (struct _user_message_msg *m,
 		if (!m->prompter)
 			m->prompter = e_user_prompter_new ();
 
-		e_user_prompter_prompt (m->prompter, type, "",
+		e_user_prompter_prompt (
+			m->prompter, type, "",
 			m->prompt, NULL, FALSE, m->button_captions, cancellable,
 			user_message_response_cb, m);
 	} else
@@ -1374,7 +1375,7 @@ mail_session_alert_user (CamelSession *session,
                          CamelSessionAlertType type,
                          const gchar *prompt,
                          GSList *button_captions,
-			 GCancellable *cancellable)
+                         GCancellable *cancellable)
 {
 	struct _user_message_msg *m;
 	gint result = -1;
@@ -1410,11 +1411,11 @@ mail_session_alert_user (CamelSession *session,
 
 static CamelCertTrust
 mail_session_trust_prompt (CamelSession *session,
-			   const gchar *host,
-			   const gchar *certificate,
-			   guint32 certificate_errors,
-			   const GSList *issuers,
-			   GCancellable *cancellable)
+                           const gchar *host,
+                           const gchar *certificate,
+                           guint32 certificate_errors,
+                           const GSList *issuers,
+                           GCancellable *cancellable)
 {
 	EUserPrompter *prompter;
 	ENamedParameters *parameters;

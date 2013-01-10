@@ -2020,7 +2020,7 @@ e_attachment_load_handle_error (EAttachment *attachment,
 
 gboolean
 e_attachment_load (EAttachment *attachment,
-		   GError **error)
+                   GError **error)
 {
 	EAsyncClosure *closure;
 	GAsyncResult *result;
@@ -2321,8 +2321,8 @@ e_attachment_open_handle_error (EAttachment *attachment,
 
 gboolean
 e_attachment_open (EAttachment *attachment,
-		   GAppInfo *app_info,
-		   GError **error)
+                   GAppInfo *app_info,
+                   GError **error)
 {
 	EAsyncClosure *closure;
 	GAsyncResult *result;
@@ -2858,9 +2858,9 @@ e_attachment_save_handle_error (EAttachment *attachment,
 
 gboolean
 e_attachment_save (EAttachment *attachment,
-		   GFile *in_destination,
-		   GFile **out_destination,
-		   GError **error)
+                   GFile *in_destination,
+                   GFile **out_destination,
+                   GError **error)
 {
 	EAsyncClosure *closure;
 	GAsyncResult *result;

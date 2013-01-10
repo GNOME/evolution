@@ -147,11 +147,12 @@ em_filter_folder_element_exec (struct _filter_mail_msg *m,
 
 	if (g_error_matches (local_error, CAMEL_SERVICE_ERROR, CAMEL_SERVICE_ERROR_URL_INVALID) ||
 	    g_error_matches (local_error, CAMEL_FOLDER_ERROR, CAMEL_FOLDER_ERROR_INVALID)) {
-		g_set_error (error, local_error->domain, local_error->code,
+		g_set_error (
+			error, local_error->domain, local_error->code,
 			_("Failed to filter selected messages. One reason can be that folder "
-			  "location set in one or more filters is invalid. Please check your "
-			  "filters in Edit->Message Filters.\n"
-			  "Original error was: %s"), local_error->message);
+			"location set in one or more filters is invalid. Please check your "
+			"filters in Edit->Message Filters.\n"
+			"Original error was: %s"), local_error->message);
 		g_clear_error (&local_error);
 	} else if (local_error)
 		g_propagate_error (error, local_error);
@@ -749,7 +750,8 @@ mail_send_message (struct _send_queue_msg *m,
 			/* sending mail, filtering failed */
 			if (g_error_matches (local_error, CAMEL_SERVICE_ERROR, CAMEL_SERVICE_ERROR_URL_INVALID) ||
 			    g_error_matches (local_error, CAMEL_FOLDER_ERROR, CAMEL_FOLDER_ERROR_INVALID)) {
-				g_string_append_printf (err,
+				g_string_append_printf (
+					err,
 					_("Failed to apply outgoing filters. One reason can be that folder "
 					"location set in one or more filters is invalid. Please check your "
 					"filters in Edit->Message Filters.\n"
@@ -1354,7 +1356,7 @@ static MailMsgInfo sync_folder_info = {
 
 void
 mail_sync_folder (CamelFolder *folder,
-		  gboolean test_for_expunge,
+                  gboolean test_for_expunge,
                   void (*done) (CamelFolder *folder,
                                 gpointer data),
                   gpointer data)

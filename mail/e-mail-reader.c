@@ -1489,7 +1489,7 @@ action_mail_reply_sender_check (CamelFolder *folder,
 
 	if (message_is_list_administrative (message)) {
 		/* Do not ask for messages which are list administrative, like
-		   list confirmation messages */
+		 * list confirmation messages */
 	} else if (ask_ignore_list_reply_to || !munged_list_message) {
 		/* Don't do the "Are you sure you want to reply in private?" pop-up
 		 * if it's a Reply-To: munged list message... unless we're ignoring

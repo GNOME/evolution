@@ -76,7 +76,8 @@ on_idle_create_widget (ESourceRegistry *registry)
 		window, "delete-event",
 		G_CALLBACK (gtk_main_quit), NULL);
 
-	vgrid = g_object_new (GTK_TYPE_GRID,
+	vgrid = g_object_new (
+		GTK_TYPE_GRID,
 		"orientation", GTK_ORIENTATION_VERTICAL,
 		"column-homogeneous", FALSE,
 		"row-spacing", 6,

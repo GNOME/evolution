@@ -623,7 +623,7 @@ e_mail_ui_session_alert_user (CamelSession *session,
                               CamelSessionAlertType type,
                               const gchar *prompt,
                               GSList *button_captions,
-			      GCancellable *cancellable)
+                              GCancellable *cancellable)
 {
 	struct _user_message_msg *m;
 	gint result = -1;
@@ -662,11 +662,11 @@ e_mail_ui_session_alert_user (CamelSession *session,
 
 CamelCertTrust
 e_mail_ui_session_trust_prompt (CamelSession *session,
-				const gchar *host,
-				const gchar *certificate,
-				guint32 certificate_errors,
-				const GSList *issuers,
-				GCancellable *cancellable)
+                                const gchar *host,
+                                const gchar *certificate,
+                                guint32 certificate_errors,
+                                const GSList *issuers,
+                                GCancellable *cancellable)
 {
 	g_type_ensure (E_TYPE_MAIL_UI_SESSION);
 

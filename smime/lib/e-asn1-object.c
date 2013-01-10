@@ -770,7 +770,7 @@ create_tbs_certificate_asn1_struct (CERTCertificate *cert,
 
 static gboolean
 fill_asn1_from_cert (EASN1Object *asn1,
-		     CERTCertificate *cert)
+                     CERTCertificate *cert)
 {
 	EASN1Object *sequence;
 	SECItem temp;

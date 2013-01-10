@@ -923,7 +923,8 @@ create_new_message (CamelFolder *folder,
 	/* Create the composer */
 	composer = E_MSG_COMPOSER (em_utils_edit_message (shell, folder, new, message_uid));
 	if (composer && context->source_folder_uri && context->message_uid)
-		e_msg_composer_set_source_headers (composer, context->source_folder_uri,
+		e_msg_composer_set_source_headers (
+			composer, context->source_folder_uri,
 			context->message_uid, CAMEL_MESSAGE_ANSWERED | CAMEL_MESSAGE_SEEN);
 
 	g_object_unref (template);
@@ -1016,7 +1017,8 @@ action_reply_with_template_cb (GtkAction *action,
 	context->template_folder = g_object_ref (template_folder);
 	context->template_message_uid = g_strdup (template_message_uid);
 
-	em_utils_get_real_folder_uri_and_message_uid (folder, message_uid,
+	em_utils_get_real_folder_uri_and_message_uid (
+		folder, message_uid,
 		&context->source_folder_uri, &context->message_uid);
 
 	if (!context->message_uid)

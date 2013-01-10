@@ -500,7 +500,8 @@ ep_ask_password (EPassMsg *msg)
 	widget = gtk_image_new_from_icon_name (
 		"dialog-password", GTK_ICON_SIZE_DIALOG);
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.0);
-	g_object_set (G_OBJECT (widget),
+	g_object_set (
+		G_OBJECT (widget),
 		"halign", GTK_ALIGN_FILL,
 		"vexpand", TRUE,
 		"valign", GTK_ALIGN_FILL,
@@ -514,7 +515,8 @@ ep_ask_password (EPassMsg *msg)
 	gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
 	gtk_label_set_markup (GTK_LABEL (widget), msg->prompt);
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
-	g_object_set (G_OBJECT (widget),
+	g_object_set (
+		G_OBJECT (widget),
 		"hexpand", TRUE,
 		"halign", GTK_ALIGN_FILL,
 		NULL);
@@ -530,7 +532,8 @@ ep_ask_password (EPassMsg *msg)
 	gtk_entry_set_visibility (GTK_ENTRY (widget), visible);
 	gtk_entry_set_activates_default (GTK_ENTRY (widget), TRUE);
 	gtk_widget_grab_focus (widget);
-	g_object_set (G_OBJECT (widget),
+	g_object_set (
+		G_OBJECT (widget),
 		"hexpand", TRUE,
 		"halign", GTK_ALIGN_FILL,
 		NULL);
@@ -550,7 +553,8 @@ ep_ask_password (EPassMsg *msg)
 
 	/* Caps Lock Label */
 	widget = gtk_label_new (NULL);
-	g_object_set (G_OBJECT (widget),
+	g_object_set (
+		G_OBJECT (widget),
 		"hexpand", TRUE,
 		"halign", GTK_ALIGN_FILL,
 		NULL);
@@ -586,7 +590,8 @@ ep_ask_password (EPassMsg *msg)
 			GTK_TOGGLE_BUTTON (widget), *msg->remember);
 		if (msg->flags & E_PASSWORDS_DISABLE_REMEMBER)
 			gtk_widget_set_sensitive (widget, FALSE);
-		g_object_set (G_OBJECT (widget),
+		g_object_set (
+			G_OBJECT (widget),
 			"hexpand", TRUE,
 			"halign", GTK_ALIGN_FILL,
 			"valign", GTK_ALIGN_FILL,

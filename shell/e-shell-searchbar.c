@@ -578,8 +578,8 @@ shell_searchbar_resize_idle_cb (gpointer user_data)
 
 static gboolean
 shell_searchbar_entry_focus_in_cb (GtkWidget *entry,
-				   GdkEvent *event,
-				   EShellSearchbar *searchbar)
+                                   GdkEvent *event,
+                                   EShellSearchbar *searchbar)
 {
 	/* to not change background when user changes search entry content */
 	gtk_widget_set_name (entry, "searchbar_searchentry");
@@ -589,8 +589,8 @@ shell_searchbar_entry_focus_in_cb (GtkWidget *entry,
 
 static gboolean
 shell_searchbar_entry_focus_out_cb (GtkWidget *entry,
-				    GdkEvent *event,
-				    EShellSearchbar *searchbar)
+                                    GdkEvent *event,
+                                    EShellSearchbar *searchbar)
 {
 	shell_searchbar_update_search_widgets (searchbar);
 
@@ -851,8 +851,10 @@ shell_searchbar_constructed (GObject *object)
 
 	searchbar->priv->css_provider = gtk_css_provider_new ();
 	widget = searchbar->priv->search_entry;
-	gtk_style_context_add_provider (gtk_widget_get_style_context (widget),
-		GTK_STYLE_PROVIDER (searchbar->priv->css_provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+	gtk_style_context_add_provider (
+		gtk_widget_get_style_context (widget),
+		GTK_STYLE_PROVIDER (searchbar->priv->css_provider),
+		GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 
 	action = E_SHELL_WINDOW_ACTION_SEARCH_CLEAR (shell_window);
 

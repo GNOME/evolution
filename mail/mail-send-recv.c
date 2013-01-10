@@ -1060,7 +1060,8 @@ refresh_folders_exec (struct _refresh_folders_msg *m,
 				} else
 					full_name = (const gchar *) m->folders->pdata[i];
 
-				g_warning ("Failed to refresh folder '%s%s%s': %s",
+				g_warning (
+					"Failed to refresh folder '%s%s%s': %s",
 					account_name ? account_name : "",
 					account_name ? ": " : "",
 					full_name, local_error->message);

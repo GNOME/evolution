@@ -277,7 +277,7 @@ mail_backend_ready_to_quit (EActivity *activity)
 
 static gboolean
 mail_backend_service_is_enabled (ESourceRegistry *registry,
-				 CamelService *service)
+                                 CamelService *service)
 {
 	const gchar *uid;
 	ESource *source;

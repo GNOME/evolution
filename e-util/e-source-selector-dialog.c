@@ -214,7 +214,8 @@ source_selector_dialog_constructed (GObject *object)
 
 	container = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 
-	widget = g_object_new (GTK_TYPE_GRID,
+	widget = g_object_new (
+		GTK_TYPE_GRID,
 		"orientation", GTK_ORIENTATION_VERTICAL,
 		"column-homogeneous", FALSE,
 		"row-spacing", 12,
@@ -233,7 +234,8 @@ source_selector_dialog_constructed (GObject *object)
 	gtk_widget_show (label);
 	g_free (label_text);
 
-	hgrid = g_object_new (GTK_TYPE_GRID,
+	hgrid = g_object_new (
+		GTK_TYPE_GRID,
 		"orientation", GTK_ORIENTATION_HORIZONTAL,
 		"row-homogeneous", FALSE,
 		"column-spacing", 12,

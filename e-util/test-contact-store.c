@@ -72,7 +72,8 @@ start_test (const gchar *param)
 
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 
-	vgrid = g_object_new (GTK_TYPE_GRID,
+	vgrid = g_object_new (
+		GTK_TYPE_GRID,
 		"orientation", GTK_ORIENTATION_VERTICAL,
 		"column-homogeneous", FALSE,
 		"row-spacing", 2,

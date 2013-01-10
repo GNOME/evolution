@@ -178,7 +178,7 @@ e_mail_part_get_instance_size (EMailPart *part)
 
 static EMailPartValidityPair *
 mail_part_find_validity_pair (EMailPart *part,
-			      guint32 validity_type)
+                              guint32 validity_type)
 {
 	GSList *lst;
 
@@ -239,7 +239,7 @@ e_mail_part_update_validity (EMailPart *part,
  */
 CamelCipherValidity *
 e_mail_part_get_validity (EMailPart *part,
-			  guint32 validity_type)
+                          guint32 validity_type)
 {
 	EMailPartValidityPair *pair;
 
