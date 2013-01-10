@@ -31,16 +31,9 @@
 #include "e-spell-checker.h"
 #include "e-spell-dictionary.h"
 
-G_DEFINE_TYPE (
-	EEditorSpellCheckDialog,
-	e_editor_spell_check_dialog,
-	E_TYPE_EDITOR_DIALOG
-);
-
-enum {
-	COMBO_COLUMN_DICTIONARY,	/* E_TYPE_SPELL_DICTIONARY */
-	COMBO_COLUMN_TEXT		/* G_TYPE_STRING */
-};
+#define E_EDITOR_SPELL_CHECK_DIALOG_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_EDITOR_SPELL_CHECK_DIALOG, EEditorSpellCheckDialogPrivate))
 
 struct _EEditorSpellCheckDialogPrivate {
 	GtkWidget *add_word_button;
@@ -60,19 +53,30 @@ struct _EEditorSpellCheckDialogPrivate {
 	ESpellDictionary *current_dict;
 };
 
+enum {
+	COLUMN_NAME,
+	COLUMN_DICTIONARY,
+	NUM_COLUMNS
+};
+
+G_DEFINE_TYPE (
+	EEditorSpellCheckDialog,
+	e_editor_spell_check_dialog,
+	E_TYPE_EDITOR_DIALOG)
+
 static void
 editor_spell_check_dialog_set_word (EEditorSpellCheckDialog *dialog,
-				    const gchar *word)
+                                    const gchar *word)
 {
 	EEditor *editor;
 	EEditorWidget *editor_widget;
+	GtkTreeView *tree_view;
 	GtkListStore *store;
 	gchar *markup;
-	GList *suggestions, *iter;
+	GList *list, *link;
 
-	if (word == NULL) {
+	if (word == NULL)
 		return;
-	}
 
 	if (dialog->priv->word != word) {
 		g_free (dialog->priv->word);
@@ -84,22 +88,22 @@ editor_spell_check_dialog_set_word (EEditorSpellCheckDialog *dialog,
 		GTK_LABEL (dialog->priv->suggestion_label), markup);
 	g_free (markup);
 
-	store = GTK_LIST_STORE (
-			gtk_tree_view_get_model (
-				GTK_TREE_VIEW (dialog->priv->tree_view)));
+	tree_view = GTK_TREE_VIEW (dialog->priv->tree_view);
+	store = GTK_LIST_STORE (gtk_tree_view_get_model (tree_view));
 	gtk_list_store_clear (store);
 
-	suggestions = e_spell_dictionary_get_suggestions (
-			dialog->priv->current_dict, word, -1);
-	for (iter = suggestions; iter; iter = g_list_next (iter)) {
-		GtkTreeIter tree_iter;
-		gchar *suggestion = iter->data;
+	list = e_spell_dictionary_get_suggestions (
+		dialog->priv->current_dict, word, -1);
 
-		gtk_list_store_append (store, &tree_iter);
-		gtk_list_store_set (store, &tree_iter, 0, suggestion, -1);
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		GtkTreeIter iter;
+		gchar *suggestion = link->data;
+
+		gtk_list_store_append (store, &iter);
+		gtk_list_store_set (store, &iter, 0, suggestion, -1);
 	}
 
-	e_spell_dictionary_free_suggestions (suggestions);
+	e_spell_dictionary_free_suggestions (list);
 
 	/* We give focus to WebKit so that the currently selected word
 	 * is highlited. Without focus selection is not visible (at
@@ -145,7 +149,6 @@ select_next_word (EEditorSpellCheckDialog *dialog)
 				dialog->priv->selection)));
 }
 
-
 static gboolean
 editor_spell_check_dialog_next (EEditorSpellCheckDialog *dialog)
 {
@@ -158,13 +161,13 @@ editor_spell_check_dialog_next (EEditorSpellCheckDialog *dialog)
 	} else {
 		/* Remember last selected word */
 		start = webkit_dom_dom_selection_get_anchor_node (
-					dialog->priv->selection);
+			dialog->priv->selection);
 		end = webkit_dom_dom_selection_get_focus_node (
-					dialog->priv->selection);
+			dialog->priv->selection);
 		start_offset = webkit_dom_dom_selection_get_anchor_offset (
-					dialog->priv->selection);
+			dialog->priv->selection);
 		end_offset = webkit_dom_dom_selection_get_focus_offset (
-					dialog->priv->selection);
+			dialog->priv->selection);
 	}
 
 	while (select_next_word (dialog)) {
@@ -173,7 +176,8 @@ editor_spell_check_dialog_next (EEditorSpellCheckDialog *dialog)
 		gint loc, len;
 		gchar *word;
 
-		range = webkit_dom_dom_selection_get_range_at (dialog->priv->selection, 0, NULL);
+		range = webkit_dom_dom_selection_get_range_at (
+			dialog->priv->selection, 0, NULL);
 		word = webkit_dom_range_get_text (range);
 
 		checker = WEBKIT_SPELL_CHECKER (webkit_get_text_checker ());
@@ -199,18 +203,22 @@ editor_spell_check_dialog_next (EEditorSpellCheckDialog *dialog)
 	}
 
 	/* Close the dialog */
- 	gtk_widget_hide (GTK_WIDGET (dialog));
+	gtk_widget_hide (GTK_WIDGET (dialog));
 	return FALSE;
 }
 
 static gboolean
 select_previous_word (EEditorSpellCheckDialog *dialog)
 {
-	WebKitDOMNode *anchor;
-	gulong anchor_offset;
+	WebKitDOMNode *old_anchor_node;
+	WebKitDOMNode *new_anchor_node;
+	gulong old_anchor_offset;
+	gulong new_anchor_offset;
 
-	anchor = webkit_dom_dom_selection_get_anchor_node (dialog->priv->selection);
-	anchor_offset = webkit_dom_dom_selection_get_anchor_offset (dialog->priv->selection);
+	old_anchor_node = webkit_dom_dom_selection_get_anchor_node (
+		dialog->priv->selection);
+	old_anchor_offset = webkit_dom_dom_selection_get_anchor_offset (
+		dialog->priv->selection);
 
 	/* Jump on the beginning of current word */
 	webkit_dom_dom_selection_modify (
@@ -224,10 +232,14 @@ select_previous_word (EEditorSpellCheckDialog *dialog)
 
 	/* If the selection start didn't change, then we have most probably
 	 * reached the beginnig of document. Return FALSE */
-	return ((anchor != webkit_dom_dom_selection_get_anchor_node (
-				dialog->priv->selection)) ||
-		(anchor_offset != webkit_dom_dom_selection_get_anchor_offset (
-				dialog->priv->selection)));
+
+	new_anchor_node = webkit_dom_dom_selection_get_anchor_node (
+		dialog->priv->selection);
+	new_anchor_offset = webkit_dom_dom_selection_get_anchor_offset (
+		dialog->priv->selection);
+
+	return (new_anchor_node != old_anchor_node) ||
+		(new_anchor_offset != old_anchor_offset);
 }
 
 static gboolean
@@ -238,19 +250,21 @@ editor_spell_check_dialog_prev (EEditorSpellCheckDialog *dialog)
 
 	if (dialog->priv->word == NULL) {
 		webkit_dom_dom_selection_modify (
-			dialog->priv->selection, "move", "right", "documentboundary");
+			dialog->priv->selection,
+			"move", "right", "documentboundary");
 		webkit_dom_dom_selection_modify (
-			dialog->priv->selection, "extend", "backward", "word");
+			dialog->priv->selection,
+			"extend", "backward", "word");
 	} else {
 		/* Remember last selected word */
 		start = webkit_dom_dom_selection_get_anchor_node (
-					dialog->priv->selection);
+			dialog->priv->selection);
 		end = webkit_dom_dom_selection_get_focus_node (
-					dialog->priv->selection);
+			dialog->priv->selection);
 		start_offset = webkit_dom_dom_selection_get_anchor_offset (
-					dialog->priv->selection);
+			dialog->priv->selection);
 		end_offset = webkit_dom_dom_selection_get_focus_offset (
-					dialog->priv->selection);
+			dialog->priv->selection);
 	}
 
 	while (select_previous_word (dialog)) {
@@ -259,12 +273,13 @@ editor_spell_check_dialog_prev (EEditorSpellCheckDialog *dialog)
 		gint loc, len;
 		gchar *word;
 
-		range = webkit_dom_dom_selection_get_range_at (dialog->priv->selection, 0, NULL);
+		range = webkit_dom_dom_selection_get_range_at (
+			dialog->priv->selection, 0, NULL);
 		word = webkit_dom_range_get_text (range);
 
 		checker = WEBKIT_SPELL_CHECKER (webkit_get_text_checker ());
 		webkit_spell_checker_check_spelling_of_string (
-				checker, word, &loc, &len);
+			checker, word, &loc, &len);
 
 		/* Found misspelled word! */
 		if (loc != -1) {
@@ -305,7 +320,7 @@ editor_spell_check_dialog_replace (EEditorSpellCheckDialog *dialog)
 	editor_selection = e_editor_widget_get_selection (widget);
 
 	selection = gtk_tree_view_get_selection (
-			GTK_TREE_VIEW (dialog->priv->tree_view));
+		GTK_TREE_VIEW (dialog->priv->tree_view));
 	gtk_tree_selection_get_selected (selection, &model, &iter);
 	gtk_tree_model_get (model, &iter, 0, &replacement, -1);
 
@@ -332,7 +347,7 @@ editor_spell_check_dialog_replace_all (EEditorSpellCheckDialog *dialog)
 	editor_selection = e_editor_widget_get_selection (widget);
 
 	selection = gtk_tree_view_get_selection (
-			GTK_TREE_VIEW (dialog->priv->tree_view));
+		GTK_TREE_VIEW (dialog->priv->tree_view));
 	gtk_tree_selection_get_selected (selection, &model, &iter);
 	gtk_tree_model_get (model, &iter, 0, &replacement, -1);
 
@@ -345,7 +360,6 @@ editor_spell_check_dialog_replace_all (EEditorSpellCheckDialog *dialog)
 
 		e_editor_selection_insert_html (
 			editor_selection, replacement);
-
 	}
 
 	g_free (replacement);
@@ -355,9 +369,8 @@ editor_spell_check_dialog_replace_all (EEditorSpellCheckDialog *dialog)
 static void
 editor_spell_check_dialog_ignore (EEditorSpellCheckDialog *dialog)
 {
-	if (dialog->priv->word == NULL) {
+	if (dialog->priv->word == NULL)
 		return;
-	}
 
 	e_spell_dictionary_ignore_word (
 		dialog->priv->current_dict, dialog->priv->word, -1);
@@ -368,9 +381,8 @@ editor_spell_check_dialog_ignore (EEditorSpellCheckDialog *dialog)
 static void
 editor_spell_check_dialog_learn (EEditorSpellCheckDialog *dialog)
 {
-	if (dialog->priv->word == NULL) {
+	if (dialog->priv->word == NULL)
 		return;
-	}
 
 	e_spell_dictionary_learn_word (
 		dialog->priv->current_dict, dialog->priv->word, -1);
@@ -381,14 +393,14 @@ editor_spell_check_dialog_learn (EEditorSpellCheckDialog *dialog)
 static void
 editor_spell_check_dialog_set_dictionary (EEditorSpellCheckDialog *dialog)
 {
+	GtkComboBox *combo_box;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	ESpellDictionary *dictionary;
 
-	gtk_combo_box_get_active_iter (
-			GTK_COMBO_BOX (dialog->priv->dictionary_combo), &iter);
-	model = gtk_combo_box_get_model (
-			GTK_COMBO_BOX (dialog->priv->dictionary_combo));
+	combo_box = GTK_COMBO_BOX (dialog->priv->dictionary_combo);
+	gtk_combo_box_get_active_iter (combo_box, &iter);
+	model = gtk_combo_box_get_model (combo_box);
 
 	gtk_tree_model_get (model, &iter, 1, &dictionary, -1);
 
@@ -399,17 +411,13 @@ editor_spell_check_dialog_set_dictionary (EEditorSpellCheckDialog *dialog)
 }
 
 static void
-editor_spell_check_dialog_show (GtkWidget *gtk_widget)
+editor_spell_check_dialog_show (GtkWidget *widget)
 {
 	EEditorSpellCheckDialog *dialog;
-	EEditor *editor;
-	EEditorWidget *widget;
 	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *window;
 
-	dialog = E_EDITOR_SPELL_CHECK_DIALOG (gtk_widget);
-	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
-	widget = e_editor_get_editor_widget (editor);
+	dialog = E_EDITOR_SPELL_CHECK_DIALOG (widget);
 
 	g_free (dialog->priv->word);
 	dialog->priv->word = NULL;
@@ -420,34 +428,38 @@ editor_spell_check_dialog_show (GtkWidget *gtk_widget)
 
 	/* Select the first word or quit */
 	if (editor_spell_check_dialog_next (dialog)) {
-		GTK_WIDGET_CLASS (e_editor_spell_check_dialog_parent_class)->show (gtk_widget);
+		GTK_WIDGET_CLASS (e_editor_spell_check_dialog_parent_class)->
+			show (widget);
 	}
 }
 
 static void
 editor_spell_check_dialog_finalize (GObject *object)
 {
-	EEditorSpellCheckDialog *dialog;
+	EEditorSpellCheckDialogPrivate *priv;
 
-	dialog = E_EDITOR_SPELL_CHECK_DIALOG (object);
+	priv = E_EDITOR_SPELL_CHECK_DIALOG_GET_PRIVATE (object);
 
-	g_free (dialog->priv->word);
-	dialog->priv->word = NULL;
+	g_free (priv->word);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (e_editor_spell_check_dialog_parent_class)->
+		finalize (object);
 }
 
 static void
-e_editor_spell_check_dialog_class_init (EEditorSpellCheckDialogClass *klass)
+e_editor_spell_check_dialog_class_init (EEditorSpellCheckDialogClass *class)
 {
 	GtkWidgetClass *widget_class;
 	GObjectClass *object_class;
 
-	e_editor_spell_check_dialog_parent_class = g_type_class_peek_parent (klass);
-	g_type_class_add_private (klass, sizeof (EEditorSpellCheckDialogPrivate));
+	g_type_class_add_private (
+		class, sizeof (EEditorSpellCheckDialogPrivate));
 
-	object_class = G_OBJECT_CLASS (klass);
+	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = editor_spell_check_dialog_finalize;
 
-	widget_class = GTK_WIDGET_CLASS (klass);
+	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->show = editor_spell_check_dialog_show;
 }
 
@@ -455,13 +467,12 @@ static void
 e_editor_spell_check_dialog_init (EEditorSpellCheckDialog *dialog)
 {
 	GtkWidget *widget;
- 	GtkGrid *main_layout;
+	GtkGrid *main_layout;
 	GtkListStore *store;
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *renderer;
 
-	dialog->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		dialog, E_TYPE_EDITOR_SPELL_CHECK_DIALOG, EEditorSpellCheckDialogPrivate);
+	dialog->priv = E_EDITOR_SPELL_CHECK_DIALOG_GET_PRIVATE (dialog);
 
 	main_layout = e_editor_dialog_get_container (E_EDITOR_DIALOG (dialog));
 
@@ -481,7 +492,7 @@ e_editor_spell_check_dialog_init (EEditorSpellCheckDialog *dialog)
 
 	/* Column */
 	column = gtk_tree_view_column_new_with_attributes (
-			"", gtk_cell_renderer_text_new (), "text", 0, NULL);
+		"", gtk_cell_renderer_text_new (), "text", 0, NULL);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (widget), column);
 
 	/* Store */
@@ -605,12 +616,11 @@ e_editor_spell_check_dialog_init (EEditorSpellCheckDialog *dialog)
 GtkWidget *
 e_editor_spell_check_dialog_new (EEditor *editor)
 {
-	return GTK_WIDGET (
-		g_object_new (
-			E_TYPE_EDITOR_SPELL_CHECK_DIALOG,
-			"editor", editor,
-			"title", N_("Spell Checking"),
-			NULL));
+	return g_object_new (
+		E_TYPE_EDITOR_SPELL_CHECK_DIALOG,
+		"editor", editor,
+		"title", N_("Spell Checking"),
+		NULL);
 }
 
 GList *
@@ -623,15 +633,13 @@ e_editor_spell_check_dialog_get_dictionaries (EEditorSpellCheckDialog *dialog)
 
 void
 e_editor_spell_check_dialog_set_dictionaries (EEditorSpellCheckDialog *dialog,
-					      GList *dictionaries)
+                                              GList *dictionaries)
 {
 	GtkComboBox *combo_box;
 	GtkListStore *store;
 	GList *list;
 
 	g_return_if_fail (E_IS_EDITOR_SPELL_CHECK_DIALOG (dialog));
-
-	combo_box = GTK_COMBO_BOX (dialog->priv->dictionary_combo);
 
 	/* Free the old list of spell checkers. */
 	g_list_free (dialog->priv->dictionaries);
@@ -643,22 +651,31 @@ e_editor_spell_check_dialog_set_dictionaries (EEditorSpellCheckDialog *dialog,
 	dialog->priv->dictionaries = list;
 
 	/* Populate a list store for the combo box. */
-	store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_POINTER);
+	store = gtk_list_store_new (
+		NUM_COLUMNS,
+		G_TYPE_STRING,			/* COLUMN_NAME */
+		E_TYPE_SPELL_DICTIONARY);	/* COLUMN_DICTIONARY */
 
 	while (list != NULL) {
 		ESpellDictionary *dictionary = list->data;
 		GtkTreeIter iter;
+		const gchar *name;
+
+		dictionary = E_SPELL_DICTIONARY (list->data);
+		name = e_spell_dictionary_get_name (dictionary);
 
 		gtk_list_store_append (store, &iter);
 		gtk_list_store_set (
 			store, &iter,
-			0, e_spell_dictionary_get_name (dictionary),
-			1, dictionary, -1);
+			COLUMN_NAME, name,
+			COLUMN_DICTIONARY, dictionary,
+			-1);
 
 		list = g_list_next (list);
 	}
 
-	/* FIXME: Try to restore selection */
+	/* FIXME Try to restore selection. */
+	combo_box = GTK_COMBO_BOX (dialog->priv->dictionary_combo);
 	gtk_combo_box_set_model (combo_box, GTK_TREE_MODEL (store));
 	gtk_combo_box_set_active (combo_box, 0);
 

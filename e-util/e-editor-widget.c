@@ -31,10 +31,9 @@
 #include <glib/gi18n-lib.h>
 #include <gdk/gdkkeysyms.h>
 
-G_DEFINE_TYPE (
-	EEditorWidget,
-	e_editor_widget,
-	WEBKIT_TYPE_WEB_VIEW);
+#define E_EDITOR_WIDGET_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_EDITOR_WIDGET, EEditorWidgetPrivate))
 
 /**
  * EEditorWidget:
@@ -69,20 +68,19 @@ struct _EEditorWidgetPrivate {
 	GQueue *postreload_operations;
 };
 
-
 enum {
 	PROP_0,
+	PROP_CAN_COPY,
+	PROP_CAN_CUT,
+	PROP_CAN_PASTE,
+	PROP_CAN_REDO,
+	PROP_CAN_UNDO,
 	PROP_CHANGED,
 	PROP_HTML_MODE,
 	PROP_INLINE_SPELLING,
 	PROP_MAGIC_LINKS,
 	PROP_MAGIC_SMILEYS,
-	PROP_SPELL_LANGUAGES,
-	PROP_CAN_COPY,
-	PROP_CAN_CUT,
-	PROP_CAN_PASTE,
-	PROP_CAN_REDO,
-	PROP_CAN_UNDO
+	PROP_SPELL_LANGUAGES
 };
 
 enum {
@@ -91,7 +89,7 @@ enum {
 };
 
 typedef void (*PostReloadOperationFunc)	(EEditorWidget *widget,
-				 	 gpointer data);
+					 gpointer data);
 
 typedef struct  {
 	PostReloadOperationFunc	func;
@@ -101,11 +99,16 @@ typedef struct  {
 
 static guint signals[LAST_SIGNAL] = { 0 };
 
+G_DEFINE_TYPE (
+	EEditorWidget,
+	e_editor_widget,
+	WEBKIT_TYPE_WEB_VIEW);
+
 static void
 editor_widget_queue_postreload_operation (EEditorWidget *widget,
-					  PostReloadOperationFunc func,
-					  gpointer data,
-					  GDestroyNotify data_free_func)
+                                          PostReloadOperationFunc func,
+                                          gpointer data,
+                                          GDestroyNotify data_free_func)
 {
 	PostReloadOperation *op;
 
@@ -142,20 +145,23 @@ editor_widget_get_dom_range (EEditorWidget *widget)
 
 static void
 editor_widget_user_changed_contents_cb (EEditorWidget *widget,
-					gpointer user_data)
+                                        gpointer user_data)
 {
+	WebKitWebView *web_view;
 	gboolean can_redo, can_undo;
+
+	web_view = WEBKIT_WEB_VIEW (widget);
 
 	e_editor_widget_set_changed (widget, TRUE);
 
-	can_redo = webkit_web_view_can_redo (WEBKIT_WEB_VIEW (widget));
-	if ((widget->priv->can_redo ? TRUE : FALSE) != (can_redo ? TRUE : FALSE)) {
+	can_redo = webkit_web_view_can_redo (web_view);
+	if (widget->priv->can_redo != can_redo) {
 		widget->priv->can_redo = can_redo;
 		g_object_notify (G_OBJECT (widget), "can-redo");
 	}
 
-	can_undo = webkit_web_view_can_undo (WEBKIT_WEB_VIEW (widget));
-	if ((widget->priv->can_undo ? TRUE : FALSE) != (can_undo ? TRUE : FALSE)) {
+	can_undo = webkit_web_view_can_undo (web_view);
+	if (widget->priv->can_undo != can_undo) {
 		widget->priv->can_undo = can_undo;
 		g_object_notify (G_OBJECT (widget), "can-undo");
 	}
@@ -163,32 +169,36 @@ editor_widget_user_changed_contents_cb (EEditorWidget *widget,
 
 static void
 editor_widget_selection_changed_cb (EEditorWidget *widget,
-				    gpointer user_data)
+                                    gpointer user_data)
 {
+	WebKitWebView *web_view;
 	gboolean can_copy, can_cut, can_paste;
 
-	/* When the webview is being (re)loaded, the document is in inconsitant
-	 * state and there is no selection, so don't propagate the signal further
-	 * to EEditorSelection and others and wait until the load is finished */
+	web_view = WEBKIT_WEB_VIEW (widget);
+
+	/* When the webview is being (re)loaded, the document is in an
+	 * inconsistant state and there is no selection, so don't propagate
+	 * the signal further to EEditorSelection and others and wait until
+	 * the load is finished. */
 	if (widget->priv->reload_in_progress) {
 		g_signal_stop_emission_by_name (widget, "selection-changed");
 		return;
 	}
 
-	can_copy = webkit_web_view_can_copy_clipboard (WEBKIT_WEB_VIEW (widget));
-	if ((widget->priv->can_copy ? TRUE : FALSE) != (can_copy ? TRUE : FALSE)) {
+	can_copy = webkit_web_view_can_copy_clipboard (web_view);
+	if (widget->priv->can_copy != can_copy) {
 		widget->priv->can_copy = can_copy;
 		g_object_notify (G_OBJECT (widget), "can-copy");
 	}
 
-	can_cut = webkit_web_view_can_cut_clipboard (WEBKIT_WEB_VIEW (widget));
-	if ((widget->priv->can_cut ? TRUE : FALSE) != (can_cut ? TRUE : FALSE)) {
+	can_cut = webkit_web_view_can_cut_clipboard (web_view);
+	if (widget->priv->can_cut != can_cut) {
 		widget->priv->can_cut = can_cut;
 		g_object_notify (G_OBJECT (widget), "can-cut");
 	}
 
-	can_paste = webkit_web_view_can_paste_clipboard (WEBKIT_WEB_VIEW (widget));
-	if ((widget->priv->can_paste ? TRUE : FALSE) != (can_paste ? TRUE : FALSE)) {
+	can_paste = webkit_web_view_can_paste_clipboard (web_view);
+	if (widget->priv->can_paste != can_paste) {
 		widget->priv->can_paste = can_paste;
 		g_object_notify (G_OBJECT (widget), "can-paste");
 	}
@@ -196,7 +206,7 @@ editor_widget_selection_changed_cb (EEditorWidget *widget,
 
 static gboolean
 editor_widget_should_show_delete_interface_for_element (EEditorWidget *widget,
-							WebKitDOMHTMLElement *element)
+                                                        WebKitDOMHTMLElement *element)
 {
 	return FALSE;
 }
@@ -250,8 +260,8 @@ editor_widget_load_status_changed (EEditorWidget *widget)
 
 static WebKitWebView *
 editor_widget_open_inspector (WebKitWebInspector *inspector,
-			      WebKitWebView *webview,
-			      gpointer user_data)
+                              WebKitWebView *webview,
+                              gpointer user_data)
 {
 	GtkWidget *window;
 	GtkWidget *inspector_view;
@@ -265,28 +275,6 @@ editor_widget_open_inspector (WebKitWebInspector *inspector,
 	gtk_widget_show (window);
 
 	return WEBKIT_WEB_VIEW (inspector_view);
-}
-
-static gboolean
-editor_widget_button_press_event (GtkWidget *gtk_widget,
-				  GdkEventButton *event)
-{
-	gboolean event_handled;
-
-	if (event->button != 3) {
-		event_handled = FALSE;
-	} else {
-		g_signal_emit (
-			gtk_widget, signals[POPUP_EVENT],
-			0, event, &event_handled);
-	}
-
-	if (event_handled) {
-		return TRUE;
-	}
-
-	/* Chain up to parent implementation */
-	return GTK_WIDGET_CLASS (e_editor_widget_parent_class)->button_press_event (gtk_widget, event);
 }
 
 /* Based on original use_pictograms() from GtkHTML */
@@ -334,7 +322,7 @@ static const gchar *emoticons_icon_names[] = {
 
 static void
 editor_widget_check_magic_smileys (EEditorWidget *widget,
-				   WebKitDOMRange *range)
+                                   WebKitDOMRange *range)
 {
 	gint pos;
 	gint state;
@@ -436,7 +424,7 @@ editor_widget_check_magic_smileys (EEditorWidget *widget,
 
 static void
 editor_widget_set_links_active (EEditorWidget *widget,
-			        gboolean active)
+                                gboolean active)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMElement *style;
@@ -467,110 +455,16 @@ editor_widget_set_links_active (EEditorWidget *widget,
 	}
 }
 
-static gboolean
-editor_widget_key_press_event (GtkWidget *gtk_widget,
-			       GdkEventKey *event)
-{
-	EEditorWidget *editor = E_EDITOR_WIDGET (gtk_widget);
-
-	if ((event->keyval == GDK_KEY_Control_L) ||
-	    (event->keyval == GDK_KEY_Control_R)) {
-
-		editor_widget_set_links_active (editor, TRUE);
-	}
-
-	if ((event->keyval == GDK_KEY_Return) ||
-	    (event->keyval == GDK_KEY_KP_Enter)) {
-
-		/* When user presses ENTER in a citation block, WebKit does not
-		 * break the citation automatically, so we need to use the special
-		 * command to do it. */
-		EEditorSelection *selection = e_editor_widget_get_selection (E_EDITOR_WIDGET (gtk_widget));
-		if (e_editor_selection_is_citation (selection)) {
-			return e_editor_widget_exec_command (
-				editor, E_EDITOR_WIDGET_COMMAND_INSERT_NEW_LINE_IN_QUOTED_CONTENT, NULL);
-		}
-	}
-
-	/* Propagate the event to WebKit */
-	return GTK_WIDGET_CLASS (e_editor_widget_parent_class)->key_press_event (gtk_widget, event);
-}
-
-static gboolean
-editor_widget_key_release_event (GtkWidget *gtk_widget,
-				 GdkEventKey *event)
-{
-	WebKitDOMRange *range;
-	EEditorWidget *widget = E_EDITOR_WIDGET (gtk_widget);
-
-	range = editor_widget_get_dom_range (widget);
-
-	if (widget->priv->magic_smileys &&
-	    widget->priv->html_mode) {
-		editor_widget_check_magic_smileys (widget, range);
-	}
-
-	if ((event->keyval == GDK_KEY_Control_L) ||
-	    (event->keyval == GDK_KEY_Control_R)) {
-
-		editor_widget_set_links_active (widget, FALSE);
-	}
-
-	/* Propagate the event to WebKit */
-	return GTK_WIDGET_CLASS (e_editor_widget_parent_class)->key_release_event (gtk_widget, event);
-}
-
-static gboolean
-editor_widget_button_release_event (GtkWidget *gtk_widget,
-				    GdkEventButton *event)
-{
-	WebKitWebView *webview;
-	WebKitHitTestResult *hit_test;
-	WebKitHitTestResultContext context;
-	gchar *uri;
-
-	webview = WEBKIT_WEB_VIEW (gtk_widget);
-	hit_test = webkit_web_view_get_hit_test_result (webview, event);
-
-	g_object_get (
-		hit_test,
-	       	"context", &context,
-	        "link-uri", &uri,
-	       	NULL);
-
-	g_object_unref (hit_test);
-
-	/* Left click on a link */
-	if ((context & WEBKIT_HIT_TEST_RESULT_CONTEXT_LINK) &&
-	    (event->button == 1)) {
-
-		/* Ctrl + Left Click on link opens it, otherwise ignore the
-		 * click completely */
-		if (event->state & GDK_CONTROL_MASK) {
-
-			gtk_show_uri (
-				gtk_window_get_screen (
-					GTK_WINDOW (gtk_widget_get_toplevel (gtk_widget))),
-					uri, event->time, NULL);
-		}
-
-		return TRUE;
-	}
-
-	/* Propagate the event to WebKit */
-	return GTK_WIDGET_CLASS (e_editor_widget_parent_class)->button_release_event (gtk_widget, event);
-}
-
 static void
 clipboard_text_received (GtkClipboard *clipboard,
-			 const gchar *text,
-			 EEditorWidget *widget)
+                         const gchar *text,
+                         EEditorWidget *widget)
 {
 	gchar *html, *escaped_text;
 	WebKitDOMDocument *document;
 	WebKitDOMElement *element;
 
-	/* This is a little trick to escape any HTML characters (like <, > or &).
+	/* This is a trick to escape any HTML characters (like <, > or &).
 	 * <textarea> automatically replaces all these unsafe characters
 	 * by &lt;, &gt; etc. */
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
@@ -591,93 +485,17 @@ clipboard_text_received (GtkClipboard *clipboard,
 }
 
 static void
-editor_widget_paste_clipboard_quoted (EEditorWidget *widget)
-{
-	GtkClipboard *clipboard;
-
-	clipboard = gtk_clipboard_get_for_display (
-			gdk_display_get_default (),
-			GDK_SELECTION_CLIPBOARD);
-
-	gtk_clipboard_request_text (
-		clipboard,
-		(GtkClipboardTextReceivedFunc) clipboard_text_received,
-		widget);
-}
-
-static void
-e_editor_widget_get_property (GObject *object,
-			      guint property_id,
-			      GValue *value,
-			      GParamSpec *pspec)
+editor_widget_set_property (GObject *object,
+                            guint property_id,
+                            const GValue *value,
+                            GParamSpec *pspec)
 {
 	switch (property_id) {
-
-		case PROP_HTML_MODE:
-			g_value_set_boolean (
-				value, e_editor_widget_get_html_mode (
-				E_EDITOR_WIDGET (object)));
-			return;
-
-		case PROP_INLINE_SPELLING:
-			g_value_set_boolean (
-				value, e_editor_widget_get_inline_spelling (
-				E_EDITOR_WIDGET (object)));
-			return;
-
-		case PROP_MAGIC_LINKS:
-			g_value_set_boolean (
-				value, e_editor_widget_get_magic_links (
-				E_EDITOR_WIDGET (object)));
-			return;
-
-		case PROP_MAGIC_SMILEYS:
-			g_value_set_boolean (
-				value, e_editor_widget_get_magic_smileys (
-				E_EDITOR_WIDGET (object)));
-			return;
 		case PROP_CHANGED:
-			g_value_set_boolean (
-				value, e_editor_widget_get_changed (
-				E_EDITOR_WIDGET (object)));
+			e_editor_widget_set_changed (
+				E_EDITOR_WIDGET (object),
+				g_value_get_boolean (value));
 			return;
-		case PROP_CAN_COPY:
-			g_value_set_boolean (
-				value, webkit_web_view_can_copy_clipboard (
-				WEBKIT_WEB_VIEW (object)));
-			return;
-		case PROP_CAN_CUT:
-			g_value_set_boolean (
-				value, webkit_web_view_can_cut_clipboard (
-				WEBKIT_WEB_VIEW (object)));
-			return;
-		case PROP_CAN_PASTE:
-			g_value_set_boolean (
-				value, webkit_web_view_can_paste_clipboard (
-				WEBKIT_WEB_VIEW (object)));
-			return;
-		case PROP_CAN_REDO:
-			g_value_set_boolean (
-				value, webkit_web_view_can_redo (
-				WEBKIT_WEB_VIEW (object)));
-			return;
-		case PROP_CAN_UNDO:
-			g_value_set_boolean (
-				value, webkit_web_view_can_undo (
-				WEBKIT_WEB_VIEW (object)));
-			return;
-	}
-
-	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-}
-
-static void
-e_editor_widget_set_property (GObject *object,
-			      guint property_id,
-			      const GValue *value,
-			      GParamSpec *pspec)
-{
-	switch (property_id) {
 
 		case PROP_HTML_MODE:
 			e_editor_widget_set_html_mode (
@@ -702,10 +520,76 @@ e_editor_widget_set_property (GObject *object,
 				E_EDITOR_WIDGET (object),
 				g_value_get_boolean (value));
 			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+editor_widget_get_property (GObject *object,
+                            guint property_id,
+                            GValue *value,
+                            GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_CAN_COPY:
+			g_value_set_boolean (
+				value, webkit_web_view_can_copy_clipboard (
+				WEBKIT_WEB_VIEW (object)));
+			return;
+
+		case PROP_CAN_CUT:
+			g_value_set_boolean (
+				value, webkit_web_view_can_cut_clipboard (
+				WEBKIT_WEB_VIEW (object)));
+			return;
+
+		case PROP_CAN_PASTE:
+			g_value_set_boolean (
+				value, webkit_web_view_can_paste_clipboard (
+				WEBKIT_WEB_VIEW (object)));
+			return;
+
+		case PROP_CAN_REDO:
+			g_value_set_boolean (
+				value, webkit_web_view_can_redo (
+				WEBKIT_WEB_VIEW (object)));
+			return;
+
+		case PROP_CAN_UNDO:
+			g_value_set_boolean (
+				value, webkit_web_view_can_undo (
+				WEBKIT_WEB_VIEW (object)));
+			return;
+
 		case PROP_CHANGED:
-			e_editor_widget_set_changed (
-				E_EDITOR_WIDGET (object),
-				g_value_get_boolean (value));
+			g_value_set_boolean (
+				value, e_editor_widget_get_changed (
+				E_EDITOR_WIDGET (object)));
+			return;
+
+		case PROP_HTML_MODE:
+			g_value_set_boolean (
+				value, e_editor_widget_get_html_mode (
+				E_EDITOR_WIDGET (object)));
+			return;
+
+		case PROP_INLINE_SPELLING:
+			g_value_set_boolean (
+				value, e_editor_widget_get_inline_spelling (
+				E_EDITOR_WIDGET (object)));
+			return;
+
+		case PROP_MAGIC_LINKS:
+			g_value_set_boolean (
+				value, e_editor_widget_get_magic_links (
+				E_EDITOR_WIDGET (object)));
+			return;
+
+		case PROP_MAGIC_SMILEYS:
+			g_value_set_boolean (
+				value, e_editor_widget_get_magic_smileys (
+				E_EDITOR_WIDGET (object)));
 			return;
 	}
 
@@ -713,36 +597,280 @@ e_editor_widget_set_property (GObject *object,
 }
 
 static void
-e_editor_widget_finalize (GObject *object)
+editor_widget_dispose (GObject *object)
 {
-	EEditorWidgetPrivate *priv = E_EDITOR_WIDGET (object)->priv;
+	EEditorWidgetPrivate *priv;
+
+	priv = E_EDITOR_WIDGET_GET_PRIVATE (object);
 
 	g_clear_object (&priv->selection);
 
-	/* Chain up to parent's implementation */
-	G_OBJECT_CLASS (e_editor_widget_parent_class)->finalize (object);
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (e_editor_widget_parent_class)->dispose (object);
+}
+
+static gboolean
+editor_widget_button_press_event (GtkWidget *widget,
+                                  GdkEventButton *event)
+{
+	gboolean event_handled;
+
+	if (event->button != 3) {
+		event_handled = FALSE;
+	} else {
+		g_signal_emit (
+			widget, signals[POPUP_EVENT],
+			0, event, &event_handled);
+	}
+
+	if (event_handled)
+		return TRUE;
+
+	/* Chain up to parent's button_press_event() method. */
+	return GTK_WIDGET_CLASS (e_editor_widget_parent_class)->
+		button_press_event (widget, event);
+}
+
+static gboolean
+editor_widget_button_release_event (GtkWidget *widget,
+                                    GdkEventButton *event)
+{
+	WebKitWebView *webview;
+	WebKitHitTestResult *hit_test;
+	WebKitHitTestResultContext context;
+	gchar *uri;
+
+	webview = WEBKIT_WEB_VIEW (widget);
+	hit_test = webkit_web_view_get_hit_test_result (webview, event);
+
+	g_object_get (
+		hit_test,
+		"context", &context,
+		"link-uri", &uri,
+		NULL);
+
+	g_object_unref (hit_test);
+
+	/* Left click on a link */
+	if ((context & WEBKIT_HIT_TEST_RESULT_CONTEXT_LINK) &&
+	    (event->button == 1)) {
+
+		/* Ctrl + Left Click on link opens it, otherwise ignore the
+		 * click completely */
+		if (event->state & GDK_CONTROL_MASK) {
+			GtkWidget *toplevel;
+			GdkScreen *screen;
+
+			toplevel = gtk_widget_get_toplevel (widget);
+			screen = gtk_window_get_screen (GTK_WINDOW (toplevel));
+			gtk_show_uri (screen, uri, event->time, NULL);
+		}
+
+		return TRUE;
+	}
+
+	/* Chain up to parent's button_release_event() method. */
+	return GTK_WIDGET_CLASS (e_editor_widget_parent_class)->
+		button_release_event (widget, event);
+}
+
+static gboolean
+editor_widget_key_press_event (GtkWidget *widget,
+                               GdkEventKey *event)
+{
+	EEditorWidget *editor = E_EDITOR_WIDGET (widget);
+
+	if ((event->keyval == GDK_KEY_Control_L) ||
+	    (event->keyval == GDK_KEY_Control_R)) {
+
+		editor_widget_set_links_active (editor, TRUE);
+	}
+
+	if ((event->keyval == GDK_KEY_Return) ||
+	    (event->keyval == GDK_KEY_KP_Enter)) {
+
+		/* When user presses ENTER in a citation block, WebKit does
+		 * not break the citation automatically, so we need to use
+		 * the special command to do it. */
+		EEditorSelection *selection;
+
+		selection = e_editor_widget_get_selection (editor);
+		if (e_editor_selection_is_citation (selection)) {
+			return e_editor_widget_exec_command (
+				editor,
+				E_EDITOR_WIDGET_COMMAND_INSERT_NEW_LINE_IN_QUOTED_CONTENT,
+				NULL);
+		}
+	}
+
+	/* Chain up to parent's key_press_event() method. */
+	return GTK_WIDGET_CLASS (e_editor_widget_parent_class)->
+		key_press_event (widget, event);
+}
+
+static gboolean
+editor_widget_key_release_event (GtkWidget *widget,
+                                 GdkEventKey *event)
+{
+	WebKitDOMRange *range;
+	EEditorWidget *editor_widget;
+
+	editor_widget = E_EDITOR_WIDGET (widget);
+	range = editor_widget_get_dom_range (editor_widget);
+
+	if (editor_widget->priv->magic_smileys &&
+	    editor_widget->priv->html_mode) {
+		editor_widget_check_magic_smileys (editor_widget, range);
+	}
+
+	if ((event->keyval == GDK_KEY_Control_L) ||
+	    (event->keyval == GDK_KEY_Control_R)) {
+
+		editor_widget_set_links_active (editor_widget, FALSE);
+	}
+
+	/* Chain up to parent's key_release_event() method. */
+	return GTK_WIDGET_CLASS (e_editor_widget_parent_class)->
+		key_release_event (widget, event);
 }
 
 static void
-e_editor_widget_class_init (EEditorWidgetClass *klass)
+editor_widget_paste_clipboard_quoted (EEditorWidget *widget)
+{
+	GtkClipboard *clipboard;
+
+	clipboard = gtk_clipboard_get_for_display (
+		gdk_display_get_default (),
+		GDK_SELECTION_CLIPBOARD);
+
+	gtk_clipboard_request_text (
+		clipboard,
+		(GtkClipboardTextReceivedFunc) clipboard_text_received,
+		widget);
+}
+
+static void
+e_editor_widget_class_init (EEditorWidgetClass *class)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (klass, sizeof (EEditorWidgetPrivate));
+	g_type_class_add_private (class, sizeof (EEditorWidgetPrivate));
 
-	object_class = G_OBJECT_CLASS (klass);
-	object_class->get_property = e_editor_widget_get_property;
-	object_class->set_property = e_editor_widget_set_property;
-	object_class->finalize = e_editor_widget_finalize;
+	object_class = G_OBJECT_CLASS (class);
+	object_class->get_property = editor_widget_get_property;
+	object_class->set_property = editor_widget_set_property;
+	object_class->dispose = editor_widget_dispose;
 
-	widget_class = GTK_WIDGET_CLASS (klass);
+	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->button_press_event = editor_widget_button_press_event;
 	widget_class->button_release_event = editor_widget_button_release_event;
 	widget_class->key_press_event = editor_widget_key_press_event;
 	widget_class->key_release_event = editor_widget_key_release_event;
 
-	klass->paste_clipboard_quoted = editor_widget_paste_clipboard_quoted;
+	class->paste_clipboard_quoted = editor_widget_paste_clipboard_quoted;
+
+	/**
+	 * EEditorWidget:can-copy
+	 *
+	 * Determines whether it's possible to copy to clipboard. The action
+	 * is usually disabled when there is no selection to copy.
+	 */
+	g_object_class_install_property (
+		object_class,
+		PROP_CAN_COPY,
+		g_param_spec_boolean (
+			"can-copy",
+			"Can Copy",
+			NULL,
+			FALSE,
+			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS));
+
+	/**
+	 * EEditorWidget:can-cut
+	 *
+	 * Determines whether it's possible to cut to clipboard. The action
+	 * is usually disabled when there is no selection to cut.
+	 */
+	g_object_class_install_property (
+		object_class,
+		PROP_CAN_CUT,
+		g_param_spec_boolean (
+			"can-cut",
+			"Can Cut",
+			NULL,
+			FALSE,
+			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS));
+
+	/**
+	 * EEditorWidget:can-paste
+	 *
+	 * Determines whether it's possible to paste from clipboard. The action
+	 * is usually disabled when there is no valid content in clipboard to
+	 * paste.
+	 */
+	g_object_class_install_property (
+		object_class,
+		PROP_CAN_PASTE,
+		g_param_spec_boolean (
+			"can-paste",
+			"Can Paste",
+			NULL,
+			FALSE,
+			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS));
+
+	/**
+	 * EEditorWidget:can-redo
+	 *
+	 * Determines whether it's possible to redo previous action. The action
+	 * is usually disabled when there is no action to redo.
+	 */
+	g_object_class_install_property (
+		object_class,
+		PROP_CAN_REDO,
+		g_param_spec_boolean (
+			"can-redo",
+			"Can Redo",
+			NULL,
+			FALSE,
+			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS));
+
+	/**
+	 * EEditorWidget:can-undo
+	 *
+	 * Determines whether it's possible to undo last action. The action
+	 * is usually disabled when there is no previous action to undo.
+	 */
+	g_object_class_install_property (
+		object_class,
+		PROP_CAN_UNDO,
+		g_param_spec_boolean (
+			"can-undo",
+			"Can Undo",
+			NULL,
+			FALSE,
+			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS));
+
+	/**
+	 * EEditorWidget:changed
+	 *
+	 * Determines whether document has been modified
+	 */
+	g_object_class_install_property (
+		object_class,
+		PROP_CHANGED,
+		g_param_spec_boolean (
+			"changed",
+			_("Changed property"),
+			_("Whether editor changed"),
+			FALSE,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * EEditorWidget:html-mode
@@ -758,7 +886,8 @@ e_editor_widget_class_init (EEditorWidgetClass *klass)
 			"Edit HTML or plain text",
 			TRUE,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * EEditorWidget::inline-spelling
@@ -774,7 +903,8 @@ e_editor_widget_class_init (EEditorWidgetClass *klass)
 			"Check your spelling as you type",
 			TRUE,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * EEditorWidget:magic-links
@@ -791,7 +921,8 @@ e_editor_widget_class_init (EEditorWidgetClass *klass)
 			"Make URIs clickable as you type",
 			TRUE,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * EEditorWidget:magic-smileys
@@ -808,102 +939,8 @@ e_editor_widget_class_init (EEditorWidgetClass *klass)
 			"Convert emoticons to images as you type",
 			TRUE,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
-
-	/**
-	 * EEditorWidget:changed
-	 *
-	 * Determines whether document has been modified
-	 */
-	g_object_class_install_property (
-		object_class,
-		PROP_CHANGED,
-		g_param_spec_boolean (
-			"changed",
-			_("Changed property"),
-			_("Whether editor changed"),
-			FALSE,
-			G_PARAM_READWRITE));
-
-	/**
-	 * EEditorWidget:can-copy
-	 *
-	 * Determines whether it's possible to copy to clipboard. The action
-	 * is usually disabled when there is no selection to copy.
-	 */
-	g_object_class_install_property (
-		object_class,
-		PROP_CAN_COPY,
-		g_param_spec_boolean (
-			"can-copy",
-			"Can Copy",
-			NULL,
-			FALSE,
-			G_PARAM_READABLE));
-
-	/**
-	 * EEditorWidget:can-cut
-	 *
-	 * Determines whether it's possible to cut to clipboard. The action
-	 * is usually disabled when there is no selection to cut.
-	 */
-	g_object_class_install_property (
-		object_class,
-		PROP_CAN_CUT,
-		g_param_spec_boolean (
-			"can-cut",
-			"Can Cut",
-			NULL,
-			FALSE,
-			G_PARAM_READABLE));
-
-	/**
-	 * EEditorWidget:can-paste
-	 *
-	 * Determines whether it's possible to paste from clipboard. The action
-	 * is usually disabled when there is no valid content in clipboard to paste.
-	 */
-	g_object_class_install_property (
-		object_class,
-		PROP_CAN_PASTE,
-		g_param_spec_boolean (
-			"can-paste",
-			"Can Paste",
-			NULL,
-			FALSE,
-			G_PARAM_READABLE));
-
-	/**
-	 * EEditorWidget:can-redu
-	 *
-	 * Determines whether it's possible to redo previous action. The action
-	 * is usually disabled when there is no action to redo.
-	 */
-	g_object_class_install_property (
-		object_class,
-		PROP_CAN_REDO,
-		g_param_spec_boolean (
-			"can-redo",
-			"Can Redo",
-			NULL,
-			FALSE,
-			G_PARAM_READABLE));
-
-	/**
-	 * EEditorWidget:can-undo
-	 *
-	 * Determines whether it's possible to undo last action. The action
-	 * is usually disabled when there is no previous action to undo.
-	 */
-	g_object_class_install_property (
-		object_class,
-		PROP_CAN_UNDO,
-		g_param_spec_boolean (
-			"can-undo",
-			"Can Undo",
-			NULL,
-			FALSE,
-			G_PARAM_READABLE));
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * EEditorWidget:spell-languages
@@ -917,7 +954,8 @@ e_editor_widget_class_init (EEditorWidgetClass *klass)
 			"spell-languages",
 			"Active spell checking languages",
 			NULL,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * EEditorWidget:popup-event
@@ -926,7 +964,7 @@ e_editor_widget_class_init (EEditorWidgetClass *klass)
 	 */
 	signals[POPUP_EVENT] = g_signal_new (
 		"popup-event",
-		G_TYPE_FROM_CLASS (klass),
+		G_TYPE_FROM_CLASS (class),
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (EEditorWidgetClass, popup_event),
 		g_signal_accumulator_true_handled, NULL,
@@ -944,8 +982,7 @@ e_editor_widget_init (EEditorWidget *editor)
 	GSettingsSchema *settings_schema;
 	ESpellChecker *checker;
 
-	editor->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		editor, E_TYPE_EDITOR_WIDGET, EEditorWidgetPrivate);
+	editor->priv = E_EDITOR_WIDGET_GET_PRIVATE (editor);
 
 	webkit_web_view_set_editable (WEBKIT_WEB_VIEW (editor), TRUE);
 	settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (editor));
@@ -955,9 +992,9 @@ e_editor_widget_init (EEditorWidget *editor)
 		"enable-developer-extras", TRUE,
 		"enable-dom-paste", TRUE,
 		"enable-file-access-from-file-uris", TRUE,
-	        "enable-plugins", FALSE,
-	        "enable-scripts", FALSE,
-	        "enable-spell-checking", TRUE,
+		"enable-plugins", FALSE,
+		"enable-scripts", FALSE,
+		"enable-spell-checking", TRUE,
 		NULL);
 
 	webkit_web_view_set_settings (WEBKIT_WEB_VIEW (editor), settings);
@@ -972,23 +1009,28 @@ e_editor_widget_init (EEditorWidget *editor)
 	e_editor_widget_exec_command (
 		editor, E_EDITOR_WIDGET_COMMAND_STYLE_WITH_CSS, "false");
 
-	g_signal_connect (editor, "user-changed-contents",
+	g_signal_connect (
+		editor, "user-changed-contents",
 		G_CALLBACK (editor_widget_user_changed_contents_cb), NULL);
-	g_signal_connect (editor, "selection-changed",
+	g_signal_connect (
+		editor, "selection-changed",
 		G_CALLBACK (editor_widget_selection_changed_cb), NULL);
-	g_signal_connect (editor, "should-show-delete-interface-for-element",
+	g_signal_connect (
+		editor, "should-show-delete-interface-for-element",
 		G_CALLBACK (editor_widget_should_show_delete_interface_for_element), NULL);
-	g_signal_connect (editor, "notify::load-status",
+	g_signal_connect (
+		editor, "notify::load-status",
 		G_CALLBACK (editor_widget_load_status_changed), NULL);
 
 	inspector = webkit_web_view_get_inspector (WEBKIT_WEB_VIEW (editor));
-	g_signal_connect (inspector, "inspect-web-view",
+	g_signal_connect (
+		inspector, "inspect-web-view",
 		G_CALLBACK (editor_widget_open_inspector), NULL);
 
 	editor->priv->selection = g_object_new (
-					E_TYPE_EDITOR_SELECTION,
-					"editor-widget", editor,
-					NULL);
+		E_TYPE_EDITOR_SELECTION,
+		"editor-widget", editor,
+		NULL);
 
 	g_settings = g_settings_new ("org.gnome.desktop.interface");
 	g_signal_connect_swapped (
@@ -1012,7 +1054,6 @@ e_editor_widget_init (EEditorWidget *editor)
 	}
 
 	e_editor_widget_update_fonts (editor);
-
 
 	/* Make WebKit think we are displaying a local file, so that it
 	 * does not block loading resources from file:// protocol */
@@ -1067,9 +1108,9 @@ e_editor_widget_get_selection (EEditorWidget *widget)
  * Returns: @TRUE when the command was succesfully executed, @FALSE otherwise.
  */
 gboolean
-e_editor_widget_exec_command (EEditorWidget* widget,
-			      EEditorWidgetCommand command,
-			      const gchar* value)
+e_editor_widget_exec_command (EEditorWidget *widget,
+                              EEditorWidgetCommand command,
+                              const gchar *value)
 {
 	WebKitDOMDocument *document;
 	const gchar *cmd_str = 0;
@@ -1086,55 +1127,55 @@ e_editor_widget_exec_command (EEditorWidget* widget,
 	break;
 
 	switch (command) {
-		CHECK_COMMAND(E_EDITOR_WIDGET_COMMAND_BACKGROUND_COLOR, "BackColor", TRUE)
-		CHECK_COMMAND(E_EDITOR_WIDGET_COMMAND_BOLD, "Bold", FALSE)
-		CHECK_COMMAND(E_EDITOR_WIDGET_COMMAND_COPY, "Copy", FALSE)
-		CHECK_COMMAND(E_EDITOR_WIDGET_COMMAND_CREATE_LINK, "CreateLink", TRUE)
-		CHECK_COMMAND(E_EDITOR_WIDGET_COMMAND_CUT, "Cut", FALSE)
-		CHECK_COMMAND(E_EDITOR_WIDGET_COMMAND_DEFAULT_PARAGRAPH_SEPARATOR, "DefaultParagraphSeparator", FALSE)
-		CHECK_COMMAND(E_EDITOR_WIDGET_COMMAND_DELETE, "Delete", FALSE)
-		CHECK_COMMAND(E_EDITOR_WIDGET_COMMAND_FIND_STRING, "FindString", TRUE)
-		CHECK_COMMAND(E_EDITOR_WIDGET_COMMAND_FONT_NAME, "FontName", TRUE)
-		CHECK_COMMAND(E_EDITOR_WIDGET_COMMAND_FONT_SIZE, "FontSize", TRUE)
-		CHECK_COMMAND(E_EDITOR_WIDGET_COMMAND_FONT_SIZE_DELTA, "FontSizeDelta", TRUE)
-		CHECK_COMMAND(E_EDITOR_WIDGET_COMMAND_FORE_COLOR, "ForeColor", TRUE)
-		CHECK_COMMAND(E_EDITOR_WIDGET_COMMAND_FORMAT_BLOCK, "FormatBlock", TRUE)
-		CHECK_COMMAND(E_EDITOR_WIDGET_COMMAND_FORWARD_DELETE, "ForwardDelete", FALSE)
-		CHECK_COMMAND(E_EDITOR_WIDGET_COMMAND_HILITE_COLOR, "HiliteColor", TRUE)
-		CHECK_COMMAND(E_EDITOR_WIDGET_COMMAND_INDENT, "Indent", FALSE)
-		CHECK_COMMAND(E_EDITOR_WIDGET_COMMAND_INSERT_HORIZONTAL_RULE, "InsertHorizontalRule", FALSE)
-		CHECK_COMMAND(E_EDITOR_WIDGET_COMMAND_INSERT_HTML, "InsertHTML", TRUE)
-		CHECK_COMMAND(E_EDITOR_WIDGET_COMMAND_INSERT_IMAGE, "InsertImage", TRUE)
-		CHECK_COMMAND(E_EDITOR_WIDGET_COMMAND_INSERT_LINE_BREAK, "InsertLineBreak", FALSE)
-		CHECK_COMMAND(E_EDITOR_WIDGET_COMMAND_INSERT_NEW_LINE_IN_QUOTED_CONTENT, "InsertNewlineInQuotedContent", FALSE)
-		CHECK_COMMAND(E_EDITOR_WIDGET_COMMAND_INSERT_ORDERED_LIST, "InsertOrderedList", FALSE)
-		CHECK_COMMAND(E_EDITOR_WIDGET_COMMAND_INSERT_PARAGRAPH, "InsertParagraph", FALSE)
-		CHECK_COMMAND(E_EDITOR_WIDGET_COMMAND_INSERT_TEXT, "InsertText", TRUE)
-		CHECK_COMMAND(E_EDITOR_WIDGET_COMMAND_INSERT_UNORDERED_LIST, "InsertUnorderedList", FALSE)
-		CHECK_COMMAND(E_EDITOR_WIDGET_COMMAND_ITALIC, "Italic", FALSE)
-		CHECK_COMMAND(E_EDITOR_WIDGET_COMMAND_JUSTIFY_CENTER, "JustifyCenter", FALSE)
-		CHECK_COMMAND(E_EDITOR_WIDGET_COMMAND_JUSTIFY_FULL, "JustifyFull", FALSE)
-		CHECK_COMMAND(E_EDITOR_WIDGET_COMMAND_JUSTIFY_LEFT, "JustifyLeft", FALSE)
-		CHECK_COMMAND(E_EDITOR_WIDGET_COMMAND_JUSTIFY_NONE, "JustifyNone", FALSE)
-		CHECK_COMMAND(E_EDITOR_WIDGET_COMMAND_JUSTIFY_RIGHT, "JustifyRight", FALSE)
-		CHECK_COMMAND(E_EDITOR_WIDGET_COMMAND_OUTDENT, "Outdent", FALSE)
-		CHECK_COMMAND(E_EDITOR_WIDGET_COMMAND_PASTE, "Paste", FALSE)
-		CHECK_COMMAND(E_EDITOR_WIDGET_COMMAND_PASTE_AND_MATCH_STYLE, "PasteAndMatchStyle", FALSE)
-		CHECK_COMMAND(E_EDITOR_WIDGET_COMMAND_PASTE_AS_PLAIN_TEXT, "PasteAsPlainText", FALSE)
-		CHECK_COMMAND(E_EDITOR_WIDGET_COMMAND_PRINT, "Print", FALSE)
-		CHECK_COMMAND(E_EDITOR_WIDGET_COMMAND_REDO, "Redo", FALSE)
-		CHECK_COMMAND(E_EDITOR_WIDGET_COMMAND_REMOVE_FORMAT, "RemoveFormat", FALSE)
-		CHECK_COMMAND(E_EDITOR_WIDGET_COMMAND_SELECT_ALL, "SelectAll", FALSE)
-		CHECK_COMMAND(E_EDITOR_WIDGET_COMMAND_STRIKETHROUGH, "Strikethrough", FALSE)
-		CHECK_COMMAND(E_EDITOR_WIDGET_COMMAND_STYLE_WITH_CSS, "StyleWithCSS", TRUE)
-		CHECK_COMMAND(E_EDITOR_WIDGET_COMMAND_SUBSCRIPT, "Subscript", FALSE)
-		CHECK_COMMAND(E_EDITOR_WIDGET_COMMAND_SUPERSCRIPT, "Superscript", FALSE)
-		CHECK_COMMAND(E_EDITOR_WIDGET_COMMAND_TRANSPOSE, "Transpose", FALSE)
-		CHECK_COMMAND(E_EDITOR_WIDGET_COMMAND_UNDERLINE, "Underline", FALSE)
-		CHECK_COMMAND(E_EDITOR_WIDGET_COMMAND_UNDO, "Undo", FALSE)
-		CHECK_COMMAND(E_EDITOR_WIDGET_COMMAND_UNLINK, "Unlink", FALSE)
-		CHECK_COMMAND(E_EDITOR_WIDGET_COMMAND_UNSELECT, "Unselect", FALSE)
-		CHECK_COMMAND(E_EDITOR_WIDGET_COMMAND_USE_CSS, "UseCSS", TRUE)
+		CHECK_COMMAND (E_EDITOR_WIDGET_COMMAND_BACKGROUND_COLOR, "BackColor", TRUE)
+		CHECK_COMMAND (E_EDITOR_WIDGET_COMMAND_BOLD, "Bold", FALSE)
+		CHECK_COMMAND (E_EDITOR_WIDGET_COMMAND_COPY, "Copy", FALSE)
+		CHECK_COMMAND (E_EDITOR_WIDGET_COMMAND_CREATE_LINK, "CreateLink", TRUE)
+		CHECK_COMMAND (E_EDITOR_WIDGET_COMMAND_CUT, "Cut", FALSE)
+		CHECK_COMMAND (E_EDITOR_WIDGET_COMMAND_DEFAULT_PARAGRAPH_SEPARATOR, "DefaultParagraphSeparator", FALSE)
+		CHECK_COMMAND (E_EDITOR_WIDGET_COMMAND_DELETE, "Delete", FALSE)
+		CHECK_COMMAND (E_EDITOR_WIDGET_COMMAND_FIND_STRING, "FindString", TRUE)
+		CHECK_COMMAND (E_EDITOR_WIDGET_COMMAND_FONT_NAME, "FontName", TRUE)
+		CHECK_COMMAND (E_EDITOR_WIDGET_COMMAND_FONT_SIZE, "FontSize", TRUE)
+		CHECK_COMMAND (E_EDITOR_WIDGET_COMMAND_FONT_SIZE_DELTA, "FontSizeDelta", TRUE)
+		CHECK_COMMAND (E_EDITOR_WIDGET_COMMAND_FORE_COLOR, "ForeColor", TRUE)
+		CHECK_COMMAND (E_EDITOR_WIDGET_COMMAND_FORMAT_BLOCK, "FormatBlock", TRUE)
+		CHECK_COMMAND (E_EDITOR_WIDGET_COMMAND_FORWARD_DELETE, "ForwardDelete", FALSE)
+		CHECK_COMMAND (E_EDITOR_WIDGET_COMMAND_HILITE_COLOR, "HiliteColor", TRUE)
+		CHECK_COMMAND (E_EDITOR_WIDGET_COMMAND_INDENT, "Indent", FALSE)
+		CHECK_COMMAND (E_EDITOR_WIDGET_COMMAND_INSERT_HORIZONTAL_RULE, "InsertHorizontalRule", FALSE)
+		CHECK_COMMAND (E_EDITOR_WIDGET_COMMAND_INSERT_HTML, "InsertHTML", TRUE)
+		CHECK_COMMAND (E_EDITOR_WIDGET_COMMAND_INSERT_IMAGE, "InsertImage", TRUE)
+		CHECK_COMMAND (E_EDITOR_WIDGET_COMMAND_INSERT_LINE_BREAK, "InsertLineBreak", FALSE)
+		CHECK_COMMAND (E_EDITOR_WIDGET_COMMAND_INSERT_NEW_LINE_IN_QUOTED_CONTENT, "InsertNewlineInQuotedContent", FALSE)
+		CHECK_COMMAND (E_EDITOR_WIDGET_COMMAND_INSERT_ORDERED_LIST, "InsertOrderedList", FALSE)
+		CHECK_COMMAND (E_EDITOR_WIDGET_COMMAND_INSERT_PARAGRAPH, "InsertParagraph", FALSE)
+		CHECK_COMMAND (E_EDITOR_WIDGET_COMMAND_INSERT_TEXT, "InsertText", TRUE)
+		CHECK_COMMAND (E_EDITOR_WIDGET_COMMAND_INSERT_UNORDERED_LIST, "InsertUnorderedList", FALSE)
+		CHECK_COMMAND (E_EDITOR_WIDGET_COMMAND_ITALIC, "Italic", FALSE)
+		CHECK_COMMAND (E_EDITOR_WIDGET_COMMAND_JUSTIFY_CENTER, "JustifyCenter", FALSE)
+		CHECK_COMMAND (E_EDITOR_WIDGET_COMMAND_JUSTIFY_FULL, "JustifyFull", FALSE)
+		CHECK_COMMAND (E_EDITOR_WIDGET_COMMAND_JUSTIFY_LEFT, "JustifyLeft", FALSE)
+		CHECK_COMMAND (E_EDITOR_WIDGET_COMMAND_JUSTIFY_NONE, "JustifyNone", FALSE)
+		CHECK_COMMAND (E_EDITOR_WIDGET_COMMAND_JUSTIFY_RIGHT, "JustifyRight", FALSE)
+		CHECK_COMMAND (E_EDITOR_WIDGET_COMMAND_OUTDENT, "Outdent", FALSE)
+		CHECK_COMMAND (E_EDITOR_WIDGET_COMMAND_PASTE, "Paste", FALSE)
+		CHECK_COMMAND (E_EDITOR_WIDGET_COMMAND_PASTE_AND_MATCH_STYLE, "PasteAndMatchStyle", FALSE)
+		CHECK_COMMAND (E_EDITOR_WIDGET_COMMAND_PASTE_AS_PLAIN_TEXT, "PasteAsPlainText", FALSE)
+		CHECK_COMMAND (E_EDITOR_WIDGET_COMMAND_PRINT, "Print", FALSE)
+		CHECK_COMMAND (E_EDITOR_WIDGET_COMMAND_REDO, "Redo", FALSE)
+		CHECK_COMMAND (E_EDITOR_WIDGET_COMMAND_REMOVE_FORMAT, "RemoveFormat", FALSE)
+		CHECK_COMMAND (E_EDITOR_WIDGET_COMMAND_SELECT_ALL, "SelectAll", FALSE)
+		CHECK_COMMAND (E_EDITOR_WIDGET_COMMAND_STRIKETHROUGH, "Strikethrough", FALSE)
+		CHECK_COMMAND (E_EDITOR_WIDGET_COMMAND_STYLE_WITH_CSS, "StyleWithCSS", TRUE)
+		CHECK_COMMAND (E_EDITOR_WIDGET_COMMAND_SUBSCRIPT, "Subscript", FALSE)
+		CHECK_COMMAND (E_EDITOR_WIDGET_COMMAND_SUPERSCRIPT, "Superscript", FALSE)
+		CHECK_COMMAND (E_EDITOR_WIDGET_COMMAND_TRANSPOSE, "Transpose", FALSE)
+		CHECK_COMMAND (E_EDITOR_WIDGET_COMMAND_UNDERLINE, "Underline", FALSE)
+		CHECK_COMMAND (E_EDITOR_WIDGET_COMMAND_UNDO, "Undo", FALSE)
+		CHECK_COMMAND (E_EDITOR_WIDGET_COMMAND_UNLINK, "Unlink", FALSE)
+		CHECK_COMMAND (E_EDITOR_WIDGET_COMMAND_UNSELECT, "Unselect", FALSE)
+		CHECK_COMMAND (E_EDITOR_WIDGET_COMMAND_USE_CSS, "UseCSS", TRUE)
 	}
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
@@ -1169,11 +1210,11 @@ e_editor_widget_get_changed (EEditorWidget *widget)
  */
 void
 e_editor_widget_set_changed (EEditorWidget *widget,
-			     gboolean changed)
+                             gboolean changed)
 {
 	g_return_if_fail (E_IS_EDITOR_WIDGET (widget));
 
-	if ((widget->priv->changed ? TRUE : FALSE) == (changed ? TRUE : FALSE))
+	if (widget->priv->changed == changed)
 		return;
 
 	widget->priv->changed = changed;
@@ -1211,27 +1252,27 @@ e_editor_widget_get_html_mode (EEditorWidget *widget)
  */
 void
 e_editor_widget_set_html_mode (EEditorWidget *widget,
-			       gboolean html_mode)
+                               gboolean html_mode)
 {
 	g_return_if_fail (E_IS_EDITOR_WIDGET (widget));
 
 	/* If toggling from HTML to plain text mode, ask user first */
 	if (widget->priv->html_mode && !html_mode && widget->priv->changed) {
-		GtkWidget *parent, *dialog;
+		GtkWidget *toplevel, *dialog;
+		GtkWindow *parent = NULL;
 
-		parent = gtk_widget_get_toplevel (GTK_WIDGET (widget));
+		toplevel = gtk_widget_get_toplevel (GTK_WIDGET (widget));
 
-		if (!GTK_IS_WINDOW (parent)) {
-			parent = NULL;
-		}
+		if (GTK_IS_WINDOW (toplevel))
+			parent = GTK_WINDOW (toplevel);
 
 		dialog = gtk_message_dialog_new (
-				parent ? GTK_WINDOW (parent) : NULL,
-				GTK_DIALOG_DESTROY_WITH_PARENT,
-				GTK_MESSAGE_WARNING,
-				GTK_BUTTONS_NONE,
-				_("Turning HTML mode off will cause the text "
-				  "to lose all formatting. Do you want to continue?"));
+			parent,
+			GTK_DIALOG_DESTROY_WITH_PARENT,
+			GTK_MESSAGE_WARNING,
+			GTK_BUTTONS_NONE,
+			_("Turning HTML mode off will cause the text "
+			"to lose all formatting. Do you want to continue?"));
 		gtk_dialog_add_buttons (
 			GTK_DIALOG (dialog),
 			_("_Don't lose formatting"), GTK_RESPONSE_CANCEL,
@@ -1248,9 +1289,8 @@ e_editor_widget_set_html_mode (EEditorWidget *widget,
 		gtk_widget_destroy (dialog);
 	}
 
-	if ((widget->priv->html_mode ? 1 : 0) == (html_mode ? 1 : 0)) {
+	if (html_mode == widget->priv->html_mode)
 		return;
-	}
 
 	widget->priv->html_mode = html_mode;
 
@@ -1285,7 +1325,7 @@ e_editor_widget_set_html_mode (EEditorWidget *widget,
 
 		g_free (plain);
 	}
-	
+
 	g_object_notify (G_OBJECT (widget), "html-mode");
 }
 
@@ -1316,11 +1356,11 @@ e_editor_widget_get_inline_spelling (EEditorWidget *widget)
  */
 void
 e_editor_widget_set_inline_spelling (EEditorWidget *widget,
-				     gboolean inline_spelling)
+                                     gboolean inline_spelling)
 {
 	g_return_if_fail (E_IS_EDITOR_WIDGET (widget));
 
-	if ((widget->priv->inline_spelling ? TRUE : FALSE) == (inline_spelling ? TRUE : FALSE))
+	if (widget->priv->inline_spelling == inline_spelling)
 		return;
 
 	widget->priv->inline_spelling = inline_spelling;
@@ -1354,11 +1394,11 @@ e_editor_widget_get_magic_links (EEditorWidget *widget)
  */
 void
 e_editor_widget_set_magic_links (EEditorWidget *widget,
-				 gboolean magic_links)
+                                 gboolean magic_links)
 {
 	g_return_if_fail (E_IS_EDITOR_WIDGET (widget));
 
-	if ((widget->priv->magic_links ? TRUE : FALSE) == (magic_links ? TRUE : FALSE))
+	if (widget->priv->magic_links == magic_links)
 		return;
 
 	widget->priv->magic_links = magic_links;
@@ -1393,11 +1433,11 @@ e_editor_widget_get_magic_smileys (EEditorWidget *widget)
  */
 void
 e_editor_widget_set_magic_smileys (EEditorWidget *widget,
-				   gboolean magic_smileys)
+                                   gboolean magic_smileys)
 {
 	g_return_if_fail (E_IS_EDITOR_WIDGET (widget));
 
-	if ((widget->priv->magic_smileys ? TRUE : FALSE) == (magic_smileys ? TRUE : FALSE))
+	if (widget->priv->magic_smileys == magic_smileys)
 		return;
 
 	widget->priv->magic_smileys = magic_smileys;
@@ -1481,7 +1521,7 @@ e_editor_widget_get_text_html (EEditorWidget *widget)
 
 static void
 process_elements (WebKitDOMNode *node,
-		  GString *buffer)
+                  GString *buffer)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *window;
@@ -1496,9 +1536,9 @@ process_elements (WebKitDOMNode *node,
 
 	/* Is this a block element? */
 	style = webkit_dom_dom_window_get_computed_style (
-			window, WEBKIT_DOM_ELEMENT (node), "");
+		window, WEBKIT_DOM_ELEMENT (node), "");
 	display = webkit_dom_css_style_declaration_get_property_value (
-			style, "display");
+		style, "display");
 
 	tagname = webkit_dom_element_get_tag_name (WEBKIT_DOM_ELEMENT (node));
 
@@ -1511,12 +1551,12 @@ process_elements (WebKitDOMNode *node,
 			const EEmoticon *emoticon;
 
 			smiley_name = webkit_dom_element_get_attribute (
-					WEBKIT_DOM_ELEMENT (node), "x-evo-smiley");
+				WEBKIT_DOM_ELEMENT (node), "x-evo-smiley");
 			emoticon = e_emoticon_chooser_lookup_emoticon (smiley_name);
-			if (emoticon) {
+			if (emoticon != NULL)
 				g_string_append_printf (
 					buffer, " %s ", emoticon->text_face);
-			}
+
 			g_free (smiley_name);
 			g_free (display);
 
@@ -1524,7 +1564,6 @@ process_elements (WebKitDOMNode *node,
 			return;
 		}
 	}
-
 
 	nodes = webkit_dom_node_get_child_nodes (node);
 	length = webkit_dom_node_list_get_length (nodes);
@@ -1540,7 +1579,7 @@ process_elements (WebKitDOMNode *node,
 			tmp = webkit_dom_node_get_text_content (child);
 
 			/* Replace tabs with 4 whitespaces, otherwise they got
-			   replaced by single whitespace */
+			 * replaced by single whitespace */
 			content = g_regex_replace (
 				regex, tmp, -1, 0, "    ",
 				0, NULL);
@@ -1567,10 +1606,11 @@ process_elements (WebKitDOMNode *node,
  * e_editor_widget_get_text_plain:
  * @widget: an #EEditorWidget
  *
- * Returns plain text content of the @widget. The algorithm removes any formatting
- * or styles from the document and keeps only the text and line breaks.
+ * Returns plain text content of the @widget. The algorithm removes any
+ * formatting or styles from the document and keeps only the text and line
+ * breaks.
  *
- * Returns: A newly allocated string with plain text content of the document. [transfer-full]
+ * Returns: A newly allocated string with plain text content of the document.
  */
 gchar *
 e_editor_widget_get_text_plain (EEditorWidget *widget)
@@ -1598,7 +1638,7 @@ e_editor_widget_get_text_plain (EEditorWidget *widget)
  */
 void
 e_editor_widget_set_text_html (EEditorWidget *widget,
-			       const gchar *text)
+                               const gchar *text)
 {
 	widget->priv->reload_in_progress = TRUE;
 
@@ -1608,7 +1648,7 @@ e_editor_widget_set_text_html (EEditorWidget *widget,
 
 static void
 do_set_text_plain (EEditorWidget *widget,
-		   gpointer data)
+                   gpointer data)
 {
 	e_editor_widget_exec_command (
 		widget, E_EDITOR_WIDGET_COMMAND_INSERT_TEXT, data);
@@ -1623,7 +1663,7 @@ do_set_text_plain (EEditorWidget *widget,
  */
 void
 e_editor_widget_set_text_plain (EEditorWidget *widget,
-				const gchar *text)
+                                const gchar *text)
 {
 	widget->priv->reload_in_progress = TRUE;
 
@@ -1647,14 +1687,14 @@ e_editor_widget_set_text_plain (EEditorWidget *widget,
 void
 e_editor_widget_paste_clipboard_quoted (EEditorWidget *widget)
 {
-	EEditorWidgetClass *klass;
+	EEditorWidgetClass *class;
 
 	g_return_if_fail (E_IS_EDITOR_WIDGET (widget));
 
-	klass = E_EDITOR_WIDGET_GET_CLASS (widget);
-	g_return_if_fail (klass->paste_clipboard_quoted != NULL);
+	class = E_EDITOR_WIDGET_GET_CLASS (widget);
+	g_return_if_fail (class->paste_clipboard_quoted != NULL);
 
-	klass->paste_clipboard_quoted (widget);
+	class->paste_clipboard_quoted (widget);
 }
 
 /**
@@ -1699,7 +1739,8 @@ e_editor_widget_update_fonts (EEditorWidget *widget)
 	}
 
 	stylesheet = g_string_new ("");
-	g_string_append_printf (stylesheet,
+	g_string_append_printf (
+		stylesheet,
 		"body {\n"
 		"  font-family: '%s';\n"
 		"  font-size: %dpt;\n"
@@ -1731,7 +1772,8 @@ e_editor_widget_update_fonts (EEditorWidget *widget)
 
 	g_string_append (stylesheet, "}\n");
 
-	g_string_append_printf (stylesheet,
+	g_string_append_printf (
+		stylesheet,
 		"pre,code,.pre {\n"
 		"  font-family: '%s';\n"
 		"  font-size: %dpt;\n"
@@ -1744,7 +1786,8 @@ e_editor_widget_update_fonts (EEditorWidget *widget)
 		styles[pango_font_description_get_style (ms)]);
 
 	context = gtk_widget_get_style_context (GTK_WIDGET (widget));
-	gtk_style_context_get_style (context,
+	gtk_style_context_get_style (
+		context,
 		"link-color", &link,
 		"visited-link-color", &visited,
 		NULL);
@@ -1759,7 +1802,8 @@ e_editor_widget_update_fonts (EEditorWidget *widget)
 		visited->red = G_MAXINT16;
 	}
 
-	g_string_append_printf (stylesheet,
+	g_string_append_printf (
+		stylesheet,
 		"a {\n"
 		"  color: #%06x;\n"
 		"}\n"
@@ -1770,7 +1814,8 @@ e_editor_widget_update_fonts (EEditorWidget *widget)
 		e_color_to_value (visited));
 
 	/* See bug #689777 for details */
-	g_string_append_printf (stylesheet,
+	g_string_append_printf (
+		stylesheet,
 		"p,pre,code,address {\n"
 		"  margin: 0;\n"
 		"}\n"
@@ -1790,7 +1835,8 @@ e_editor_widget_update_fonts (EEditorWidget *widget)
 	g_free (base64);
 
 	settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (widget));
-	g_object_set (G_OBJECT (settings),
+	g_object_set (
+		G_OBJECT (settings),
 		"default-font-size", pango_font_description_get_size (vw) / PANGO_SCALE,
 		"default-font-family", pango_font_description_get_family (vw),
 		"monospace-font-family", pango_font_description_get_family (ms),

@@ -54,7 +54,6 @@ typedef struct _EEditorFindDialogPrivate EEditorFindDialogPrivate;
 
 struct _EEditorFindDialog {
 	EEditorDialog parent;
-
 	EEditorFindDialogPrivate *priv;
 };
 
@@ -62,10 +61,8 @@ struct _EEditorFindDialogClass {
 	EEditorDialogClass parent_class;
 };
 
-GType		e_editor_find_dialog_get_type	(void);
-
-GtkWidget*	e_editor_find_dialog_new	(EEditor *editor);
-
+GType		e_editor_find_dialog_get_type	(void) G_GNUC_CONST;
+GtkWidget *	e_editor_find_dialog_new	(EEditor *editor);
 void		e_editor_find_dialog_find_next	(EEditorFindDialog *dialog);
 
 G_END_DECLS

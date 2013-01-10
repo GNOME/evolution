@@ -26,6 +26,10 @@
 
 #include <glib/gi18n-lib.h>
 
+#define E_EDITOR_REPLACE_DIALOG_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_EDITOR_REPLACE_DIALOG, EEditorReplaceDialogPrivate))
+
 G_DEFINE_TYPE (
 	EEditorReplaceDialog,
 	e_editor_replace_dialog,
@@ -128,7 +132,7 @@ editor_replace_dialog_replace_all_cb (EEditorReplaceDialog *dialog)
 	while (jump (dialog)) {
 		e_editor_selection_replace (selection, replacement);
 		i++;
-		
+
 		/* Jump behind the word */
 		e_editor_selection_move (selection, TRUE, E_EDITOR_SELECTION_GRANULARITY_WORD);
 	}
@@ -166,14 +170,13 @@ editor_replace_dialog_show (GtkWidget *widget)
 }
 
 static void
-e_editor_replace_dialog_class_init (EEditorReplaceDialogClass *klass)
+e_editor_replace_dialog_class_init (EEditorReplaceDialogClass *class)
 {
 	GtkWidgetClass *widget_class;
 
-	e_editor_replace_dialog_parent_class = g_type_class_peek_parent (klass);
-	g_type_class_add_private (klass, sizeof (EEditorReplaceDialogPrivate));
+	g_type_class_add_private (class, sizeof (EEditorReplaceDialogPrivate));
 
-	widget_class = GTK_WIDGET_CLASS (klass);
+	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->show = editor_replace_dialog_show;
 }
 
@@ -184,9 +187,7 @@ e_editor_replace_dialog_init (EEditorReplaceDialog *dialog)
 	GtkWidget *widget, *layout;
 	GtkBox *button_box;
 
-	dialog->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-				dialog, E_TYPE_EDITOR_REPLACE_DIALOG,
-				EEditorReplaceDialogPrivate);
+	dialog->priv = E_EDITOR_REPLACE_DIALOG_GET_PRIVATE (dialog);
 
 	main_layout = e_editor_dialog_get_container (E_EDITOR_DIALOG (dialog));
 

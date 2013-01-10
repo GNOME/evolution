@@ -28,10 +28,9 @@
 
 #include "e-color-combo.h"
 
-G_DEFINE_TYPE (
-	EEditorTextDialog,
-	e_editor_text_dialog,
-	E_TYPE_EDITOR_DIALOG);
+#define E_EDITOR_TEXT_DIALOG_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_EDITOR_TEXT_DIALOG, EEditorTextDialogPrivate))
 
 struct _EEditorTextDialogPrivate {
 	GtkWidget *bold_check;
@@ -43,6 +42,10 @@ struct _EEditorTextDialogPrivate {
 	GtkWidget *size_check;
 };
 
+G_DEFINE_TYPE (
+	EEditorTextDialog,
+	e_editor_text_dialog,
+	E_TYPE_EDITOR_DIALOG);
 
 static void
 editor_text_dialog_set_bold (EEditorTextDialog *dialog)
@@ -146,18 +149,18 @@ editor_text_dialog_set_size (EEditorTextDialog *dialog)
 }
 
 static void
-editor_text_dialog_show (GtkWidget *gtk_widget)
+editor_text_dialog_show (GtkWidget *widget)
 {
 	EEditorTextDialog *dialog;
 	EEditor *editor;
-	EEditorWidget *widget;
+	EEditorWidget *editor_widget;
 	EEditorSelection *selection;
 	GdkRGBA rgba;
 
-	dialog = E_EDITOR_TEXT_DIALOG (gtk_widget);
+	dialog = E_EDITOR_TEXT_DIALOG (widget);
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
-	widget = e_editor_get_editor_widget (editor);
-	selection = e_editor_widget_get_selection (widget);
+	editor_widget = e_editor_get_editor_widget (editor);
+	selection = e_editor_widget_get_selection (editor_widget);
 
 	gtk_toggle_button_set_active (
 		GTK_TOGGLE_BUTTON (dialog->priv->bold_check),
@@ -180,18 +183,17 @@ editor_text_dialog_show (GtkWidget *gtk_widget)
 	e_color_combo_set_current_color (
 		E_COLOR_COMBO (dialog->priv->color_check), &rgba);
 
-	GTK_WIDGET_CLASS (e_editor_text_dialog_parent_class)->show (gtk_widget);
+	GTK_WIDGET_CLASS (e_editor_text_dialog_parent_class)->show (widget);
 }
 
 static void
-e_editor_text_dialog_class_init (EEditorTextDialogClass *klass)
+e_editor_text_dialog_class_init (EEditorTextDialogClass *class)
 {
 	GtkWidgetClass *widget_class;
 
-	e_editor_text_dialog_parent_class = g_type_class_peek_parent (klass);
-	g_type_class_add_private (klass, sizeof (EEditorTextDialogPrivate));
+	g_type_class_add_private (class, sizeof (EEditorTextDialogPrivate));
 
-	widget_class = GTK_WIDGET_CLASS (klass);
+	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->show = editor_text_dialog_show;
 }
 
@@ -201,8 +203,7 @@ e_editor_text_dialog_init (EEditorTextDialog *dialog)
 	GtkGrid *main_layout;
 	GtkWidget *widget;
 
-	dialog->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		dialog, E_TYPE_EDITOR_TEXT_DIALOG, EEditorTextDialogPrivate);
+	dialog->priv = E_EDITOR_TEXT_DIALOG_GET_PRIVATE (dialog);
 
 	main_layout = e_editor_dialog_get_container (E_EDITOR_DIALOG (dialog));
 
@@ -284,7 +285,6 @@ e_editor_text_dialog_init (EEditorTextDialog *dialog)
 
 	gtk_widget_show_all (GTK_WIDGET (main_layout));
 }
-
 
 GtkWidget *
 e_editor_text_dialog_new (EEditor *editor)

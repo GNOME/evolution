@@ -27,7 +27,27 @@
 #include <pango/pango.h>
 #include <gtk/gtk.h>
 
-static void e_spell_checker_init_webkit_checker (WebKitSpellCheckerInterface *iface);
+#define E_SPELL_CHECKER_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_SPELL_CHECKER, ESpellCheckerPrivate))
+
+struct _ESpellCheckerPrivate {
+	GList *active;
+	EnchantBroker *broker;
+	GHashTable *dictionaries_cache;
+	gboolean dictionaries_loaded;
+};
+
+enum {
+	PROP_0,
+	PROP_ACTIVE_DICTIONARIES
+};
+
+static ESpellChecker *s_instance = NULL;
+
+/* Forward Declarations */
+static void	e_spell_checker_init_webkit_checker
+				(WebKitSpellCheckerInterface *interface);
 
 G_DEFINE_TYPE_EXTENDED (
 	ESpellChecker,
@@ -37,20 +57,6 @@ G_DEFINE_TYPE_EXTENDED (
 	G_IMPLEMENT_INTERFACE (
 		WEBKIT_TYPE_SPELL_CHECKER,
 		e_spell_checker_init_webkit_checker))
-
-
-static ESpellChecker *s_instance = NULL;
-
-struct _ESpellCheckerPrivate {
-	GList *active;
-	GHashTable *dictionaries_cache;
-	EnchantBroker *broker;
-};
-
-enum {
-	PROP_0,
-	PROP_ACTIVE_DICTIONARIES
-};
 
 /**
  * ESpellChecker:
@@ -62,9 +68,9 @@ enum {
 
 static void
 wksc_check_spelling (WebKitSpellChecker *webkit_checker,
-		     const char         *word,
-		     int                *misspelling_location,
-		     int                *misspelling_length)
+                     const gchar *word,
+                     gint *misspelling_location,
+                     gint *misspelling_length)
 {
 	ESpellChecker *checker = E_SPELL_CHECKER (webkit_checker);
 	PangoLanguage *language;
@@ -88,21 +94,20 @@ wksc_check_spelling (WebKitSpellChecker *webkit_checker,
 		 * then we get into an inner loop to find the is_word_end
 		 * corresponding */
 		if (attrs[ii].is_word_start) {
-			int start = ii;
-			int end = ii;
-			int word_length;
+			gint start = ii;
+			gint end = ii;
+			gint word_length;
 			gchar *cstart;
 			gint bytes;
 			gchar *new_word;
 			GList *iter;
 
-			while (attrs[end].is_word_end < 1) {
+			while (attrs[end].is_word_end < 1)
 				end++;
-			}
 
 			word_length = end - start;
-			/* Set the iterator to be at the current word end, so we don't
-			 * check characters twice. */
+			/* Set the iterator to be at the current word
+			 * end, so we don't check characters twice. */
 			ii = end;
 
 			cstart = g_utf8_offset_to_pointer (word, start);
@@ -139,12 +144,12 @@ wksc_check_spelling (WebKitSpellChecker *webkit_checker,
 
 static gchar **
 wksc_get_guesses (WebKitSpellChecker *webkit_checker,
-		  const gchar *word,
-		  const gchar *context)
+                  const gchar *word,
+                  const gchar *context)
 {
 	ESpellChecker *checker = E_SPELL_CHECKER (webkit_checker);
 	GList *dicts;
-	char** guesses;
+	gchar ** guesses;
 	gint ii;
 
 	guesses = g_malloc0_n (sizeof (gchar *), 11);
@@ -178,7 +183,7 @@ wksc_get_guesses (WebKitSpellChecker *webkit_checker,
 
 static gchar *
 wksc_get_autocorrect_suggestions (WebKitSpellChecker *webkit_checker,
-				  const gchar *word)
+                                  const gchar *word)
 {
 	/* Not supported/needed */
 	return NULL;
@@ -186,41 +191,47 @@ wksc_get_autocorrect_suggestions (WebKitSpellChecker *webkit_checker,
 
 static void
 spell_checker_learn_word (WebKitSpellChecker *webkit_checker,
-			  const gchar *word)
+                          const gchar *word)
 {
 	/* Carefully, this will add the word to all active dictionaries! */
 
 	ESpellChecker *checker;
-	GList *iter;
+	GList *list, *link;
 
 	checker = E_SPELL_CHECKER (webkit_checker);
-	for (iter = checker->priv->active; iter; iter = iter->next) {
-		ESpellDictionary *dict = iter->data;
+	list = checker->priv->active;
 
-		e_spell_dictionary_learn_word (dict, word, -1);
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		ESpellDictionary *dictionary;
+
+		dictionary = E_SPELL_DICTIONARY (link->data);
+		e_spell_dictionary_learn_word (dictionary, word, -1);
 	}
 }
 
 static void
 spell_checker_ignore_word (WebKitSpellChecker *webkit_checker,
-			   const gchar *word)
+                           const gchar *word)
 {
 	/* Carefully, this will add the word to all active dictionaries */
 
 	ESpellChecker *checker;
-	GList *iter;
+	GList *list, *link;
 
 	checker = E_SPELL_CHECKER (webkit_checker);
-	for (iter = checker->priv->active; iter; iter = iter->next) {
-		ESpellDictionary *dict = iter->data;
+	list = checker->priv->active;
 
-		e_spell_dictionary_ignore_word (dict, word, -1);
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		ESpellDictionary *dictionary;
+
+		dictionary = E_SPELL_DICTIONARY (link->data);
+		e_spell_dictionary_ignore_word (dictionary, word, -1);
 	}
 }
 
 static void
 wksc_update_languages (WebKitSpellChecker *webkit_checker,
-		       const char *languages)
+                       const gchar *languages)
 {
 	ESpellChecker *checker;
 	GList *dictionaries = NULL;
@@ -254,12 +265,11 @@ wksc_update_languages (WebKitSpellChecker *webkit_checker,
 	g_list_free (dictionaries);
 }
 
-
 static void
 spell_checker_set_property (GObject *object,
-			    guint property_id,
-			    const GValue *value,
-			    GParamSpec *pspec)
+                            guint property_id,
+                            const GValue *value,
+                            GParamSpec *pspec)
 {
 	switch (property_id) {
 		case PROP_ACTIVE_DICTIONARIES:
@@ -274,9 +284,9 @@ spell_checker_set_property (GObject *object,
 
 static void
 spell_checker_get_property (GObject *object,
-			    guint property_id,
-			    GValue *value,
-			    GParamSpec *pspec)
+                            guint property_id,
+                            GValue *value,
+                            GParamSpec *pspec)
 {
 	switch (property_id) {
 		case PROP_ACTIVE_DICTIONARIES:
@@ -293,7 +303,9 @@ spell_checker_get_property (GObject *object,
 static void
 spell_checker_dispose (GObject *object)
 {
-	ESpellCheckerPrivate *priv = E_SPELL_CHECKER (object)->priv;
+	ESpellCheckerPrivate *priv;
+
+	priv = E_SPELL_CHECKER_GET_PRIVATE (object);
 
 	g_list_free_full (priv->active, g_object_unref);
 	priv->active = NULL;
@@ -301,19 +313,18 @@ spell_checker_dispose (GObject *object)
 	enchant_broker_free (priv->broker);
 	priv->broker = NULL;
 
-	/* Chain up to parent implementation */
+	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_spell_checker_parent_class)->dispose (object);
 }
 
 static void
-e_spell_checker_class_init (ESpellCheckerClass *klass)
+e_spell_checker_class_init (ESpellCheckerClass *class)
 {
 	GObjectClass *object_class;
 
-	e_spell_checker_parent_class = g_type_class_peek_parent (klass);
-	g_type_class_add_private (klass, sizeof (ESpellCheckerPrivate));
+	g_type_class_add_private (class, sizeof (ESpellCheckerPrivate));
 
-	object_class = G_OBJECT_CLASS (klass);
+	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = spell_checker_set_property;
 	object_class->get_property = spell_checker_get_property;
 	object_class->dispose = spell_checker_dispose;
@@ -329,25 +340,32 @@ e_spell_checker_class_init (ESpellCheckerClass *klass)
 }
 
 static void
-e_spell_checker_init_webkit_checker (WebKitSpellCheckerInterface *iface)
+e_spell_checker_init_webkit_checker (WebKitSpellCheckerInterface *interface)
 {
-	iface->check_spelling_of_string = wksc_check_spelling;
-	iface->get_autocorrect_suggestions_for_misspelled_word = wksc_get_autocorrect_suggestions;
-	iface->get_guesses_for_word = wksc_get_guesses;
-	iface->ignore_word = spell_checker_ignore_word;
-	iface->learn_word = spell_checker_learn_word;
-	iface->update_spell_checking_languages = wksc_update_languages;
+	interface->check_spelling_of_string = wksc_check_spelling;
+	interface->get_autocorrect_suggestions_for_misspelled_word =
+		wksc_get_autocorrect_suggestions;
+	interface->get_guesses_for_word = wksc_get_guesses;
+	interface->ignore_word = spell_checker_ignore_word;
+	interface->learn_word = spell_checker_learn_word;
+	interface->update_spell_checking_languages = wksc_update_languages;
 }
-
 
 static void
 e_spell_checker_init (ESpellChecker *checker)
 {
-	checker->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		checker, E_TYPE_SPELL_CHECKER, ESpellCheckerPrivate);
+	GHashTable *dictionaries_cache;
+
+	dictionaries_cache = g_hash_table_new_full (
+		(GHashFunc) g_str_hash,
+		(GEqualFunc) g_str_equal,
+		(GDestroyNotify) NULL,
+		(GDestroyNotify) g_object_unref);
+
+	checker->priv = E_SPELL_CHECKER_GET_PRIVATE (checker);
 
 	checker->priv->broker = enchant_broker_init ();
-	checker->priv->dictionaries_cache = NULL;
+	checker->priv->dictionaries_cache = dictionaries_cache;
 }
 
 ESpellChecker *
@@ -361,27 +379,29 @@ e_spell_checker_instance (void)
 }
 
 static void
-list_enchant_dicts (const char * const lang_tag,
-		    const char * const provider_name,
-		    const char * const provider_desc,
-		    const char * const provider_file,
-		    void * user_data)
+list_enchant_dicts (const gchar * const lang_tag,
+                    const gchar * const provider_name,
+                    const gchar * const provider_desc,
+                    const gchar * const provider_file,
+                    gpointer user_data)
 {
 	ESpellChecker *checker = user_data;
-	EnchantDict *dict;
+	EnchantDict *enchant_dict;
 
-	dict = enchant_broker_request_dict (checker->priv->broker, lang_tag);
-	if (dict) {
-		ESpellDictionary *e_dict;
+	enchant_dict = enchant_broker_request_dict (
+		checker->priv->broker, lang_tag);
+	if (enchant_dict != NULL) {
+		ESpellDictionary *dictionary;
+		const gchar *code;
 
-		e_dict = e_spell_dictionary_new (checker, dict);
+		dictionary = e_spell_dictionary_new (checker, enchant_dict);
+		code = e_spell_dictionary_get_code (dictionary);
 
 		g_hash_table_insert (
 			checker->priv->dictionaries_cache,
-			(gpointer) e_spell_dictionary_get_code (e_dict), e_dict);
+			(gpointer) code, dictionary);
 	}
 }
-
 
 /**
  * e_spell_checker_list_available_dicts:
@@ -390,8 +410,8 @@ list_enchant_dicts (const char * const lang_tag,
  * Returns list of all dictionaries available to the actual
  * spell-checking backend.
  *
- * Return value: new copy of #GList of #ESpellDictionary. The dictionaries are
- * owned by the @checker and should not be free'd. The list should be free'd
+ * Returns: new copy of #GList of #ESpellDictionary. The dictionaries are
+ * owned by the @checker and should not be free'd. The list should be freed
  * using g_list_free() when not neede anymore. [transfer-list]
  */
 GList *
@@ -401,12 +421,11 @@ e_spell_checker_list_available_dicts (ESpellChecker *checker)
 
 	g_return_val_if_fail (E_IS_SPELL_CHECKER (checker), NULL);
 
-	if (checker->priv->dictionaries_cache == NULL) {
-
-		checker->priv->dictionaries_cache = g_hash_table_new_full (
-			g_str_hash, g_str_equal, NULL, g_object_unref);
+	if (!checker->priv->dictionaries_loaded) {
 		enchant_broker_list_dicts (
-			checker->priv->broker, list_enchant_dicts, checker);
+			checker->priv->broker,
+			list_enchant_dicts, checker);
+		checker->priv->dictionaries_loaded = TRUE;
 	}
 
 	list = g_hash_table_get_values (checker->priv->dictionaries_cache);
@@ -419,14 +438,15 @@ e_spell_checker_list_available_dicts (ESpellChecker *checker)
  * @checker: an #ESpellChecker
  * @language_code: (allow-none) language code for which to lookup the dictionary
  *
- * Tries to find an #ESpellDictionary for given @language_code. When @language_code
- * is #NULL, this function will return a default #ESpellDictionary.
+ * Tries to find an #ESpellDictionary for given @language_code.
+ * If @language_code is %NULL, the function will return a default
+ * #ESpellDictionary.
  *
- * Return value: an #ESpellDictionary for @language_code
+ * Returns: an #ESpellDictionary for @language_code
  */
 ESpellDictionary *
 e_spell_checker_lookup_dictionary (ESpellChecker *checker,
-				   const gchar *language_code)
+                                   const gchar *language_code)
 {
 	ESpellDictionary *e_dict = NULL;
 	GList *dicts;
@@ -479,7 +499,7 @@ e_spell_checker_get_active_dictionaries (ESpellChecker *checker)
  */
 void
 e_spell_checker_set_active_dictionaries (ESpellChecker *checker,
-					 GList *active_dicts)
+                                         GList *active_dicts)
 {
 	g_return_if_fail (E_IS_SPELL_CHECKER (checker));
 
@@ -491,12 +511,12 @@ e_spell_checker_set_active_dictionaries (ESpellChecker *checker,
 
 void
 e_spell_checker_free_dict (ESpellChecker *checker,
-			   EnchantDict *dict)
+                           EnchantDict *enchant_dict)
 {
 	g_return_if_fail (E_IS_SPELL_CHECKER (checker));
-	g_return_if_fail (dict != NULL);
+	g_return_if_fail (enchant_dict != NULL);
 
-	enchant_broker_free_dict (checker->priv->broker, dict);
+	enchant_broker_free_dict (checker->priv->broker, enchant_dict);
 }
 
 /**
@@ -504,19 +524,19 @@ e_spell_checker_free_dict (ESpellChecker *checker,
  * @checker: an #ESpellChecker
  * @word: word to ignore for the rest of session
  *
- * Calls #e_spell_dictionary_ignore_word() on all active dictionaries in
+ * Calls e_spell_dictionary_ignore_word() on all active dictionaries in
  * the @checker.
  */
 void
 e_spell_checker_ignore_word (ESpellChecker *checker,
-			     const gchar *word)
+                             const gchar *word)
 {
-	WebKitSpellCheckerInterface *webkit_checker_iface;
+	WebKitSpellCheckerInterface *interface;
 
 	g_return_if_fail (E_IS_SPELL_CHECKER (checker));
 
-	webkit_checker_iface = WEBKIT_SPELL_CHECKER_GET_IFACE (checker);
-	webkit_checker_iface->ignore_word (WEBKIT_SPELL_CHECKER (checker), word);
+	interface = WEBKIT_SPELL_CHECKER_GET_IFACE (checker);
+	interface->ignore_word (WEBKIT_SPELL_CHECKER (checker), word);
 }
 
 /**
@@ -524,17 +544,17 @@ e_spell_checker_ignore_word (ESpellChecker *checker,
  * @checker: an #ESpellChecker
  * @word: word to learn
  *
- * Calls #e_spell_dictionary_learn_word() on all active dictionaries in
+ * Calls e_spell_dictionary_learn_word() on all active dictionaries in
  * the @checker.
  */
 void
 e_spell_checker_learn_word (ESpellChecker *checker,
-			    const gchar *word)
+                            const gchar *word)
 {
-	WebKitSpellCheckerInterface *webkit_checker_iface;
+	WebKitSpellCheckerInterface *interface;
 
 	g_return_if_fail (E_IS_SPELL_CHECKER (checker));
 
-	webkit_checker_iface = WEBKIT_SPELL_CHECKER_GET_IFACE (checker);
-	webkit_checker_iface->learn_word (WEBKIT_SPELL_CHECKER (checker), word);
+	interface = WEBKIT_SPELL_CHECKER_GET_IFACE (checker);
+	interface->learn_word (WEBKIT_SPELL_CHECKER (checker), word);
 }

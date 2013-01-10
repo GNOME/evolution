@@ -202,7 +202,7 @@ action_context_delete_row_cb (GtkAction *action,
 
 static void
 action_context_delete_table_cb (GtkAction *action,
-				EEditor *editor)
+                                EEditor *editor)
 {
 	WebKitDOMElement *table;
 
@@ -425,7 +425,7 @@ action_indent_cb (GtkAction *action,
 
 static void
 action_insert_emoticon_cb (GtkAction *action,
-			   EEditor *editor)
+                           EEditor *editor)
 {
 	EEditorWidget *widget;
 	EEditorSelection *selection;
@@ -452,10 +452,10 @@ action_insert_html_file_cb (GtkToggleAction *action,
 	GtkFileFilter *filter;
 
 	dialog = gtk_file_chooser_dialog_new (
-			_("Insert HTML File"), NULL,
-			GTK_FILE_CHOOSER_ACTION_OPEN,
-			GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
-			GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, NULL);
+		_("Insert HTML File"), NULL,
+		GTK_FILE_CHOOSER_ACTION_OPEN,
+		GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
+		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, NULL);
 
 	filter = gtk_file_filter_new ();
 	gtk_file_filter_set_name (filter, _("HTML file"));
@@ -463,8 +463,9 @@ action_insert_html_file_cb (GtkToggleAction *action,
 	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (dialog), filter);
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
-		GFile *file = gtk_file_chooser_get_file (
-					GTK_FILE_CHOOSER (dialog));
+		GFile *file;
+
+		file = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (dialog));
 
 		/* XXX Need a way to cancel this. */
 		g_file_load_contents_async (
@@ -484,20 +485,20 @@ action_insert_image_cb (GtkAction *action,
 {
 	GtkWidget *dialog;
 
-	dialog = e_image_chooser_dialog_new (
-			_("Insert Image"), NULL);
+	dialog = e_image_chooser_dialog_new (_("Insert Image"), NULL);
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
-		gchar *uri;
+		EEditorWidget *editor_widget;
 		EEditorSelection *selection;
+		gchar *uri;
 
-		 uri = gtk_file_chooser_get_uri (
-				GTK_FILE_CHOOSER (dialog));
+		uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (dialog));
 
-		 selection = e_editor_widget_get_selection (
-				e_editor_get_editor_widget (editor));
-		 e_editor_selection_insert_image (selection, uri);
-		 g_free (uri);
+		editor_widget = e_editor_get_editor_widget (editor);
+		selection = e_editor_widget_get_selection (editor_widget);
+		e_editor_selection_insert_image (selection, uri);
+
+		g_free (uri);
 	}
 
 	gtk_widget_destroy (dialog);
@@ -507,10 +508,9 @@ static void
 action_insert_link_cb (GtkAction *action,
                        EEditor *editor)
 {
-	if (editor->priv->link_dialog == NULL) {
+	if (editor->priv->link_dialog == NULL)
 		editor->priv->link_dialog =
 			e_editor_link_dialog_new (editor);
-	}
 
 	gtk_window_present (GTK_WINDOW (editor->priv->link_dialog));
 }
@@ -519,10 +519,9 @@ static void
 action_insert_rule_cb (GtkAction *action,
                        EEditor *editor)
 {
-	if (editor->priv->hrule_dialog == NULL) {
+	if (editor->priv->hrule_dialog == NULL)
 		editor->priv->hrule_dialog =
 			e_editor_hrule_dialog_new (editor);
-	}
 
 	gtk_window_present (GTK_WINDOW (editor->priv->hrule_dialog));
 }
@@ -531,10 +530,9 @@ static void
 action_insert_table_cb (GtkAction *action,
                         EEditor *editor)
 {
-	if (editor->priv->table_dialog == NULL) {
+	if (editor->priv->table_dialog == NULL)
 		editor->priv->table_dialog =
 			e_editor_table_dialog_new (editor);
-	}
 
 	gtk_window_present (GTK_WINDOW (editor->priv->table_dialog));
 }
@@ -547,10 +545,10 @@ action_insert_text_file_cb (GtkAction *action,
 	GtkFileFilter *filter;
 
 	dialog = gtk_file_chooser_dialog_new (
-			_("Insert text file"), NULL,
-			GTK_FILE_CHOOSER_ACTION_OPEN,
-			GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
-			GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, NULL);
+		_("Insert text file"), NULL,
+		GTK_FILE_CHOOSER_ACTION_OPEN,
+		GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
+		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, NULL);
 
 	filter = gtk_file_filter_new ();
 	gtk_file_filter_set_name (filter, _("Text file"));
@@ -558,8 +556,9 @@ action_insert_text_file_cb (GtkAction *action,
 	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (dialog), filter);
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
-		GFile *file = gtk_file_chooser_get_file (
-					GTK_FILE_CHOOSER (dialog));
+		GFile *file;
+
+		file = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (dialog));
 
 		/* XXX Need a way to cancel this. */
 		g_file_load_contents_async (
@@ -636,8 +635,10 @@ update_mode_combobox (gpointer data)
 	editor_widget = e_editor_get_editor_widget (editor);
 	is_html = e_editor_widget_get_html_mode (editor_widget);
 
-	action = gtk_action_group_get_action (editor->priv->core_actions, "mode-html");
-	gtk_radio_action_set_current_value (GTK_RADIO_ACTION (action), (is_html ? TRUE : FALSE));
+	action = gtk_action_group_get_action (
+		editor->priv->core_actions, "mode-html");
+	gtk_radio_action_set_current_value (
+		GTK_RADIO_ACTION (action), (is_html ? 1 : 0));
 
 	return FALSE;
 }
@@ -681,8 +682,6 @@ action_mode_cb (GtkRadioAction *action,
 	gtk_action_set_sensitive (ACTION (STYLE_H6), is_html);
 	gtk_action_set_sensitive (ACTION (STYLE_ADDRESS), is_html);
 }
-
-
 
 static void
 action_paste_cb (GtkAction *action,
@@ -894,13 +893,13 @@ static void
 action_show_webkit_inspector_cb (GtkAction *action,
                                  EEditor *editor)
 {
-        WebKitWebInspector *inspector;
-        EEditorWidget *widget;
+	WebKitWebInspector *inspector;
+	EEditorWidget *widget;
 
-        widget = e_editor_get_editor_widget (editor);
-        inspector = webkit_web_view_get_inspector (WEBKIT_WEB_VIEW (widget));
+	widget = e_editor_get_editor_widget (editor);
+	inspector = webkit_web_view_get_inspector (WEBKIT_WEB_VIEW (widget));
 
-        webkit_web_inspector_show (inspector);
+	webkit_web_inspector_show (inspector);
 }
 
 /*****************************************************************************
@@ -1664,19 +1663,22 @@ static void
 editor_actions_setup_languages_menu (EEditor *editor)
 {
 	ESpellChecker *checker;
+	EEditorWidget *editor_widget;
 	GtkUIManager *manager;
 	GtkActionGroup *action_group;
-	GList *available_dicts, *iter;
+	GList *list, *link;
 	guint merge_id;
 
 	manager = editor->priv->manager;
 	action_group = editor->priv->language_actions;
-	checker = e_editor_widget_get_spell_checker (editor->priv->editor_widget);
-	available_dicts = e_spell_checker_list_available_dicts (checker);
+	editor_widget = e_editor_get_editor_widget (editor);
+	checker = e_editor_widget_get_spell_checker (editor_widget);
 	merge_id = gtk_ui_manager_new_merge_id (manager);
 
-	for (iter = available_dicts; iter; iter = iter->next) {
-		ESpellDictionary *dictionary = iter->data;
+	list = e_spell_checker_list_available_dicts (checker);
+
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		ESpellDictionary *dictionary = link->data;
 		GtkToggleAction *action;
 
 		action = gtk_toggle_action_new (
@@ -1701,7 +1703,7 @@ editor_actions_setup_languages_menu (EEditor *editor)
 			GTK_UI_MANAGER_AUTO, FALSE);
 	}
 
-	g_list_free (available_dicts);
+	g_list_free (list);
 }
 
 static void
@@ -1761,7 +1763,7 @@ editor_actions_setup_spell_check_menu (EEditor *editor)
 			G_CALLBACK (action_context_spell_add_cb), editor);
 
 		/* Visibility is dependent on whether the
-		   corresponding language action is active. */
+		 * corresponding language action is active. */
 		gtk_action_set_visible (action, FALSE);
 
 		gtk_action_group_add_action (action_group, action);

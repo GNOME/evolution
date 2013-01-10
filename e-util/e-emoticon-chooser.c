@@ -86,11 +86,16 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
+G_DEFINE_INTERFACE (
+	EEmoticonChooser,
+	e_emoticon_chooser,
+	G_TYPE_OBJECT)
+
 static void
-emoticon_chooser_class_init (EEmoticonChooserIface *iface)
+e_emoticon_chooser_default_init (EEmoticonChooserInterface *interface)
 {
 	g_object_interface_install_property (
-		iface,
+		interface,
 		g_param_spec_boxed (
 			"current-emoticon",
 			"Current Emoticon",
@@ -100,67 +105,39 @@ emoticon_chooser_class_init (EEmoticonChooserIface *iface)
 
 	signals[ITEM_ACTIVATED] = g_signal_new (
 		"item-activated",
-		G_TYPE_FROM_INTERFACE (iface),
+		G_TYPE_FROM_INTERFACE (interface),
 		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (EEmoticonChooserIface, item_activated),
+		G_STRUCT_OFFSET (EEmoticonChooserInterface, item_activated),
 		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
 }
 
-GType
-e_emoticon_chooser_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EEmoticonChooserIface),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) emoticon_chooser_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			0,     /* instance_size */
-			0,     /* n_preallocs */
-			NULL,  /* instance_init */
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			G_TYPE_INTERFACE, "EEmoticonChooser", &type_info, 0);
-
-		g_type_interface_add_prerequisite (type, G_TYPE_OBJECT);
-	}
-
-	return type;
-}
-
 EEmoticon *
 e_emoticon_chooser_get_current_emoticon (EEmoticonChooser *chooser)
 {
-	EEmoticonChooserIface *iface;
+	EEmoticonChooserInterface *interface;
 
 	g_return_val_if_fail (E_IS_EMOTICON_CHOOSER (chooser), NULL);
 
-	iface = E_EMOTICON_CHOOSER_GET_IFACE (chooser);
-	g_return_val_if_fail (iface->get_current_emoticon != NULL, NULL);
+	interface = E_EMOTICON_CHOOSER_GET_INTERFACE (chooser);
+	g_return_val_if_fail (interface->get_current_emoticon != NULL, NULL);
 
-	return iface->get_current_emoticon (chooser);
+	return interface->get_current_emoticon (chooser);
 }
 
 void
 e_emoticon_chooser_set_current_emoticon (EEmoticonChooser *chooser,
-					 EEmoticon *emoticon)
+                                         EEmoticon *emoticon)
 {
-	EEmoticonChooserIface *iface;
+	EEmoticonChooserInterface *interface;
 
 	g_return_if_fail (E_IS_EMOTICON_CHOOSER (chooser));
 
-	iface = E_EMOTICON_CHOOSER_GET_IFACE (chooser);
-	g_return_if_fail (iface->set_current_emoticon != NULL);
+	interface = E_EMOTICON_CHOOSER_GET_INTERFACE (chooser);
+	g_return_if_fail (interface->set_current_emoticon != NULL);
 
-	iface->set_current_emoticon (chooser, emoticon);
+	interface->set_current_emoticon (chooser, emoticon);
 }
 
 void

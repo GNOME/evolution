@@ -54,7 +54,6 @@ typedef struct _EEditorSpellCheckDialogPrivate EEditorSpellCheckDialogPrivate;
 
 struct _EEditorSpellCheckDialog {
 	EEditorDialog parent;
-
 	EEditorSpellCheckDialogPrivate *priv;
 };
 
@@ -62,14 +61,14 @@ struct _EEditorSpellCheckDialogClass {
 	EEditorDialogClass parent_class;
 };
 
-GType		e_editor_spell_check_dialog_get_type	(void);
-GtkWidget *	e_editor_spell_check_dialog_new		(EEditor *editor);
-
+GType		e_editor_spell_check_dialog_get_type
+						(void) G_GNUC_CONST;
+GtkWidget *	e_editor_spell_check_dialog_new	(EEditor *editor);
 GList *		e_editor_spell_check_dialog_get_dictionaries
-							(EEditorSpellCheckDialog *dialog);
+						(EEditorSpellCheckDialog *dialog);
 void		e_editor_spell_check_dialog_set_dictionaries
-							(EEditorSpellCheckDialog *dialog,
-						 	 GList *dictionaries);
+						(EEditorSpellCheckDialog *dialog,
+						 GList *dictionaries);
 
 G_END_DECLS
 

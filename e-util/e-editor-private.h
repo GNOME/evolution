@@ -42,7 +42,6 @@
 #include <X11/XF86keysym.h>
 #endif
 
-
 #define ACTION(name) (E_EDITOR_ACTION_##name (editor))
 #define WIDGET(name) (E_EDITOR_WIDGETS_##name (editor))
 
@@ -93,7 +92,7 @@ struct _EEditorPrivate {
 	WebKitDOMNode *image;
 	WebKitDOMNode *table_cell;
 
-	int editor_layout_row;
+	gint editor_layout_row;
 };
 
 void		editor_actions_init		(EEditor *editor);

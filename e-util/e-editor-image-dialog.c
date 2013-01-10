@@ -30,10 +30,9 @@
 #include "e-editor-utils.h"
 #include "e-image-chooser-dialog.h"
 
-G_DEFINE_TYPE (
-	EEditorImageDialog,
-	e_editor_image_dialog,
-	E_TYPE_EDITOR_DIALOG);
+#define E_EDITOR_IMAGE_DIALOG_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_EDITOR_IMAGE_DIALOG, EEditorImageDialogPrivate))
 
 struct _EEditorImageDialogPrivate {
 	GtkWidget *file_chooser;
@@ -54,6 +53,11 @@ struct _EEditorImageDialogPrivate {
 
 	WebKitDOMHTMLImageElement *image;
 };
+
+G_DEFINE_TYPE (
+	EEditorImageDialog,
+	e_editor_image_dialog,
+	E_TYPE_EDITOR_DIALOG);
 
 static void
 editor_image_dialog_set_src (EEditorImageDialog *dialog)
@@ -115,7 +119,6 @@ editor_image_dialog_set_width_units (EEditorImageDialog *dialog)
 			dialog->priv->image);
 	requested = gtk_spin_button_get_value_as_int (
 			GTK_SPIN_BUTTON (dialog->priv->width_edit));
-
 
 	switch (gtk_combo_box_get_active (
 		GTK_COMBO_BOX (dialog->priv->width_units))) {
@@ -192,7 +195,6 @@ editor_image_dialog_set_height_units (EEditorImageDialog *dialog)
 			dialog->priv->image);
 	requested = gtk_spin_button_get_value_as_int (
 			GTK_SPIN_BUTTON (dialog->priv->height_edit));
-
 
 	switch (gtk_combo_box_get_active (
 		GTK_COMBO_BOX (dialog->priv->height_units))) {
@@ -328,14 +330,14 @@ editor_image_dialog_test_url (EEditorImageDialog *dialog)
 }
 
 static void
-editor_image_dialog_show (GtkWidget *gtk_widget)
+editor_image_dialog_show (GtkWidget *widget)
 {
 	EEditorImageDialog *dialog;
 	WebKitDOMElement *link;
 	gchar *tmp;
 	glong val;
 
-	dialog = E_EDITOR_IMAGE_DIALOG (gtk_widget);
+	dialog = E_EDITOR_IMAGE_DIALOG (widget);
 
 	if (!dialog->priv->image) {
 		return;
@@ -376,7 +378,6 @@ editor_image_dialog_show (GtkWidget *gtk_widget)
 	gtk_spin_button_set_value (
 		GTK_SPIN_BUTTON (dialog->priv->y_padding_edit), val);
 
-
 	link = e_editor_dom_node_find_parent_element (
 			WEBKIT_DOM_NODE (dialog->priv->image), "A");
 	if (link) {
@@ -387,26 +388,29 @@ editor_image_dialog_show (GtkWidget *gtk_widget)
 	}
 
 	/* Chain up to parent implementation */
-	GTK_WIDGET_CLASS (e_editor_image_dialog_parent_class)->show (gtk_widget);
+	GTK_WIDGET_CLASS (e_editor_image_dialog_parent_class)->show (widget);
 }
 
 static void
-editor_image_dialog_hide (GtkWidget *gtk_widget)
+editor_image_dialog_hide (GtkWidget *widget)
 {
-	E_EDITOR_IMAGE_DIALOG (gtk_widget)->priv->image = NULL;
+	EEditorImageDialogPrivate *priv;
 
-	GTK_WIDGET_CLASS (e_editor_image_dialog_parent_class)->hide (gtk_widget);
+	priv = E_EDITOR_IMAGE_DIALOG_GET_PRIVATE (widget);
+
+	priv->image = NULL;
+
+	GTK_WIDGET_CLASS (e_editor_image_dialog_parent_class)->hide (widget);
 }
 
 static void
-e_editor_image_dialog_class_init (EEditorImageDialogClass *klass)
+e_editor_image_dialog_class_init (EEditorImageDialogClass *class)
 {
 	GtkWidgetClass *widget_class;
 
-	e_editor_image_dialog_parent_class = g_type_class_peek_parent (klass);
-	g_type_class_add_private (klass, sizeof (EEditorImageDialogPrivate));
+	g_type_class_add_private (class, sizeof (EEditorImageDialogPrivate));
 
-	widget_class = GTK_WIDGET_CLASS (klass);
+	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->show = editor_image_dialog_show;
 	widget_class->hide = editor_image_dialog_hide;
 }
@@ -418,8 +422,7 @@ e_editor_image_dialog_init (EEditorImageDialog *dialog)
 	GtkWidget *widget;
 	GtkFileFilter *file_filter;
 
-	dialog->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		dialog, E_TYPE_EDITOR_IMAGE_DIALOG, EEditorImageDialogPrivate);
+	dialog->priv = E_EDITOR_IMAGE_DIALOG_GET_PRIVATE (dialog);
 
 	main_layout = e_editor_dialog_get_container (E_EDITOR_DIALOG (dialog));
 
@@ -472,7 +475,6 @@ e_editor_image_dialog_init (EEditorImageDialog *dialog)
 	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->description_edit);
 	gtk_grid_attach (grid, widget, 0, 1, 1, 1);
-
 
 	/* == Layout == */
 	widget = gtk_label_new ("");
@@ -647,9 +649,9 @@ e_editor_image_dialog_new (EEditor *editor)
 
 void
 e_editor_image_dialog_show (EEditorImageDialog *dialog,
-			    WebKitDOMNode *image)
+                            WebKitDOMNode *image)
 {
-	EEditorImageDialogClass *klass;
+	EEditorImageDialogClass *class;
 
 	g_return_if_fail (E_IS_EDITOR_IMAGE_DIALOG (dialog));
 
@@ -659,6 +661,6 @@ e_editor_image_dialog_show (EEditorImageDialog *dialog,
 		dialog->priv->image = NULL;
 	}
 
-	klass = E_EDITOR_IMAGE_DIALOG_GET_CLASS (dialog);
-	GTK_WIDGET_CLASS (klass)->show (GTK_WIDGET (dialog));
+	class = E_EDITOR_IMAGE_DIALOG_GET_CLASS (dialog);
+	GTK_WIDGET_CLASS (class)->show (GTK_WIDGET (dialog));
 }

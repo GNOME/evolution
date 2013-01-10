@@ -30,7 +30,7 @@
 static void
 composer_setup_charset_menu (EMsgComposer *composer)
 {
- 	EEditor *editor;
+	EEditor *editor;
 	GtkUIManager *ui_manager;
 	const gchar *path;
 	GList *list;
@@ -86,8 +86,8 @@ composer_update_gallery_visibility (EMsgComposer *composer)
 
 static void
 composer_spell_languages_changed (EMsgComposer *composer,
-				  GParamSpec *pspec,
-				  EEditorWidget *editor_widget)
+                                  GParamSpec *pspec,
+                                  EEditorWidget *editor_widget)
 {
 	GList *languages;
 	EComposerHeader *header;
@@ -100,7 +100,6 @@ composer_spell_languages_changed (EMsgComposer *composer,
 	languages = e_editor_widget_get_spell_languages (editor_widget);
 	header = e_composer_header_table_get_header (table, E_COMPOSER_HEADER_SUBJECT);
 	e_composer_spell_header_set_languages (E_COMPOSER_SPELL_HEADER (header), languages);
-
 	g_list_free (languages);
 }
 
@@ -203,12 +202,14 @@ e_composer_private_constructed (EMsgComposer *composer)
 	e_editor_window_pack_above (E_EDITOR_WINDOW (composer), container);
 
 	/* Construct the activity bar. */
+
 	widget = e_activity_bar_new ();
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	priv->activity_bar = g_object_ref_sink (widget);
 	/* EActivityBar controls its own visibility. */
 
 	/* Construct the alert bar for errors. */
+
 	widget = e_alert_bar_new ();
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	priv->alert_bar = g_object_ref_sink (widget);
@@ -270,6 +271,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 	g_signal_connect_swapped (
 		editor_widget, "notify::mode",
 		G_CALLBACK (composer_update_gallery_visibility), composer);
+
 	g_signal_connect_swapped (
 		ACTION (PICTURE_GALLERY), "toggled",
 		G_CALLBACK (composer_update_gallery_visibility), composer);
@@ -418,16 +420,14 @@ e_composer_find_data_file (const gchar *basename)
 
 	/* Support running directly from the source tree. */
 	filename = g_build_filename (".", basename, NULL);
-	if (g_file_test (filename, G_FILE_TEST_EXISTS)) {
+	if (g_file_test (filename, G_FILE_TEST_EXISTS))
 		return filename;
-	}
 	g_free (filename);
 
 	/* XXX This is kinda broken. */
 	filename = g_build_filename (EVOLUTION_UIDIR, basename, NULL);
-	if (g_file_test (filename, G_FILE_TEST_EXISTS)) {
+	if (g_file_test (filename, G_FILE_TEST_EXISTS))
 		return filename;
-	}
 	g_free (filename);
 
 	g_critical ("Could not locate '%s'", basename);
@@ -459,13 +459,11 @@ e_composer_get_default_charset (void)
 
 	g_object_unref (settings);
 
-	if (charset == NULL) {
+	if (charset == NULL)
 		charset = g_strdup (camel_iconv_locale_charset ());
-	}
 
-	if (charset == NULL) {
+	if (charset == NULL)
 		charset = g_strdup ("us-ascii");
-	}
 
 	return charset;
 }
@@ -531,15 +529,13 @@ e_composer_paste_image (EMsgComposer *composer,
 	}
 
 	/* Save the pixbuf as a temporary file in image/png format. */
-	if (!gdk_pixbuf_save (pixbuf, filename, "png", &error, NULL)) {
+	if (!gdk_pixbuf_save (pixbuf, filename, "png", &error, NULL))
 		goto exit;
-	}
 
 	/* Convert the filename to a URI. */
 	uri = g_filename_to_uri (filename, NULL, &error);
-	if (uri == NULL) {
+	if (uri == NULL)
 		goto exit;
-	}
 
 	/* In HTML mode, paste the image into the message body.
 	 * In text mode, add the image to the attachment store. */
@@ -648,9 +644,8 @@ e_composer_selection_is_image_uris (EMsgComposer *composer,
 
 	uris = gtk_selection_data_get_uris (selection);
 
-	if (uris == NULL) {
+	if (uris == NULL)
 		return FALSE;
-	}
 
 	for (ii = 0; uris[ii] != NULL; ii++) {
 		GFile *file;
@@ -762,7 +757,7 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 	e_mail_signature_combo_box_load_selected_finish (
 		combo_box, result, &contents, &length, &is_html, &error);
 
-	/* FIXME Use an EAlert here.*/
+	/* FIXME Use an EAlert here. */
 	if (error != NULL) {
 		g_warning ("%s: %s", G_STRFUNC, error->message);
 		g_error_free (error);
@@ -770,7 +765,7 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 	}
 
 	/* "Edit as New Message" sets "priv->is_from_message".
-	   Always put the signature at the bottom for that case. */
+	 * Always put the signature at the bottom for that case. */
 	top_signature =
 		use_top_signature (composer) &&
 		!composer->priv->is_from_message;
@@ -806,8 +801,9 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 		g_string_append (html_buffer, "<PRE>\n");
 
 	/* The signature dash convention ("-- \n") is specified
-	   in the "Son of RFC 1036", section 4.3.2.
-	   http://www.chemie.fu-berlin.de/outerspace/netnews/son-of-1036.html */
+	 * in the "Son of RFC 1036", section 4.3.2.
+	 * http://www.chemie.fu-berlin.de/outerspace/netnews/son-of-1036.html
+	 */
 	if (add_signature_delimiter (composer)) {
 		const gchar *delim;
 		const gchar *delim_nl;
@@ -822,9 +818,9 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 
 		/* Skip the delimiter if the signature already has one. */
 		if (g_ascii_strncasecmp (contents, delim, strlen (delim)) == 0)
-			;  // skip
+			;  /* skip */
 		else if (e_util_strstrcase (contents, delim_nl) != NULL)
-			;  // skip
+			;  /* skip */
 		else
 			g_string_append (html_buffer, delim);
 	}
@@ -842,6 +838,7 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 
 insert:
 	/* Remove the old signature and insert the new one. */
+
 	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
 	editor_widget = e_editor_get_editor_widget (editor);
 	selection = e_editor_widget_get_selection (editor_widget);
@@ -849,14 +846,15 @@ insert:
 	e_editor_selection_save (selection);
 
 	/* This prevents our command before/after callbacks from
-	   screwing around with the signature as we insert it. */
+	 * screwing around with the signature as we insert it. */
 	composer->priv->in_signature_insert = TRUE;
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (editor_widget));
 	window = webkit_dom_document_get_default_view (document);
 	dom_selection = webkit_dom_dom_window_get_selection (window);
 
-	signatures = webkit_dom_document_get_elements_by_class_name (document, "-x-evolution-signature");
+	signatures = webkit_dom_document_get_elements_by_class_name (
+		document, "-x-evolution-signature");
 	list_length = webkit_dom_node_list_get_length (signatures);
 	for (ii = 0; ii < list_length; ii++) {
 		WebKitDOMNode *node;
@@ -866,40 +864,42 @@ insert:
 		id = webkit_dom_html_element_get_id (WEBKIT_DOM_HTML_ELEMENT (node));
 
 		if (id && (strlen (id) == 1) && (*id == '1')) {
-		      webkit_dom_node_remove_child (
-			    webkit_dom_node_get_parent_node (node), node, NULL);
-		      g_free (id);
-		      break;
+			webkit_dom_node_remove_child (
+				webkit_dom_node_get_parent_node (node),
+				node, NULL);
+			g_free (id);
+			break;
 		}
 
 		g_free (id);
 	}
 
 	if (top_signature) {
-	      WebKitDOMElement *citation;
+		WebKitDOMElement *citation;
 
-	      citation = webkit_dom_document_get_element_by_id (
-				   document, "-x-evolution-reply-citation");
-	      if (!citation) {
-		      webkit_dom_dom_selection_modify (
-			      dom_selection, "move", "forward", "documentBoundary");
-	      } else {
-		      webkit_dom_dom_selection_set_base_and_extent (
-			      dom_selection, WEBKIT_DOM_NODE (citation), 0,
-			      WEBKIT_DOM_NODE (citation), 0, NULL);
-	      }
+		citation = webkit_dom_document_get_element_by_id (
+			document, "-x-evolution-reply-citation");
+		if (citation == NULL) {
+			webkit_dom_dom_selection_modify (
+				dom_selection, "move", "forward",
+				"documentBoundary");
+		} else {
+			webkit_dom_dom_selection_set_base_and_extent (
+				dom_selection, WEBKIT_DOM_NODE (citation), 0,
+				WEBKIT_DOM_NODE (citation), 0, NULL);
+		}
 	} else {
-	      webkit_dom_dom_selection_modify (
-		      dom_selection, "move", "forward", "documentBoundary");
+		webkit_dom_dom_selection_modify (
+			dom_selection, "move", "forward", "documentBoundary");
 	}
 
 	if (html_buffer != NULL) {
 		if (*html_buffer->str) {
 			webkit_dom_document_exec_command (
-				  document, "insertParagraph", FALSE, "");
+				document, "insertParagraph", FALSE, "");
 			e_editor_selection_insert_html (selection, html_buffer->str);
 			webkit_dom_document_exec_command (
-				  document, "insertParagraph", FALSE, "");
+				document, "insertParagraph", FALSE, "");
 		}
 
 		g_string_free (html_buffer, TRUE);
@@ -948,10 +948,10 @@ e_composer_update_signature (EMsgComposer *composer)
 
 	combo_box = e_composer_header_table_get_signature_combo_box (table);
 
-	/*XXX Signature files should be local and therefore load quickly,
-	      so while we do load them asynchronously we don't allow for
-	      user cancellation and we keep the composer alive until the
-	      asynchronous loading is complete. */
+	/* XXX Signature files should be local and therefore load quickly,
+	 *     so while we do load them asynchronously we don't allow for
+	 *     user cancellation and we keep the composer alive until the
+	 *     asynchronous loading is complete. */
 	e_mail_signature_combo_box_load_selected (
 		combo_box, G_PRIORITY_DEFAULT, NULL,
 		(GAsyncReadyCallback) composer_load_signature_cb,

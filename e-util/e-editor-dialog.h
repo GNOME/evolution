@@ -55,7 +55,6 @@ typedef struct _EEditorDialogPrivate EEditorDialogPrivate;
 
 struct _EEditorDialog {
 	GtkWindow parent;
-
 	EEditorDialogPrivate *priv;
 };
 
@@ -63,12 +62,9 @@ struct _EEditorDialogClass {
 	GtkWindowClass parent_class;
 };
 
-GType		e_editor_dialog_get_type	(void);
-
+GType		e_editor_dialog_get_type	(void) G_GNUC_CONST;
 EEditor *	e_editor_dialog_get_editor	(EEditorDialog *dialog);
-
 GtkBox *	e_editor_dialog_get_button_box	(EEditorDialog *dialog);
-
 GtkGrid *	e_editor_dialog_get_container	(EEditorDialog *dialog);
 
 G_END_DECLS

@@ -53,18 +53,16 @@ typedef struct _EColorChooserWidgetPrivate EColorChooserWidgetPrivate;
 
 struct _EColorChooserWidget {
 	GtkColorChooserWidget parent;
-
 	EColorChooserWidgetPrivate *priv;
 };
 
 struct _EColorChooserWidgetClass {
 	GtkColorChooserWidgetClass parent_class;
 
-	void	(*editor_activated)		(GtkColorChooserWidget *chooser);
+	void		(*editor_activated)	(GtkColorChooserWidget *chooser);
 };
 
-GType		e_color_chooser_widget_get_type	(void);
-
+GType		e_color_chooser_widget_get_type	(void) G_GNUC_CONST;
 GtkWidget *	e_color_chooser_widget_new	(void);
 
 G_END_DECLS

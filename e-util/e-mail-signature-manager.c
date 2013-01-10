@@ -406,7 +406,7 @@ mail_signature_manager_add_signature (EMailSignatureManager *manager)
 
 	editor = e_mail_signature_editor_new (registry, NULL);
 	editor_widget = e_mail_signature_editor_get_editor_widget (
-				E_MAIL_SIGNATURE_EDITOR (editor));
+		E_MAIL_SIGNATURE_EDITOR (editor));
 	e_editor_widget_set_html_mode (editor_widget, manager->priv->prefer_html);
 	mail_signature_manager_emit_editor_created (manager, editor);
 

@@ -27,10 +27,9 @@
 #include <glib/gi18n-lib.h>
 #include <gdk/gdkkeysyms.h>
 
-G_DEFINE_TYPE (
-	EEditorFindDialog,
-	e_editor_find_dialog,
-	E_TYPE_EDITOR_DIALOG);
+#define E_EDITOR_FIND_DIALOG_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_EDITOR_FIND_DIALOG, EEditorFindDialogPrivate))
 
 struct _EEditorFindDialogPrivate {
 	GtkWidget *entry;
@@ -42,6 +41,11 @@ struct _EEditorFindDialogPrivate {
 
 	GtkWidget *result_label;
 };
+
+G_DEFINE_TYPE (
+	EEditorFindDialog,
+	e_editor_find_dialog,
+	E_TYPE_EDITOR_DIALOG);
 
 static void
 reset_dialog (EEditorFindDialog *dialog)
@@ -104,8 +108,8 @@ editor_find_dialog_find_cb (EEditorFindDialog *dialog)
 
 static gboolean
 entry_key_release_event (GtkWidget *widget,
-			 GdkEvent *event,
-			 gpointer user_data)
+                         GdkEvent *event,
+                         gpointer user_data)
 {
 	GdkEventKey *key = &event->key;
 	EEditorFindDialog *dialog = user_data;
@@ -120,14 +124,13 @@ entry_key_release_event (GtkWidget *widget,
 }
 
 static void
-e_editor_find_dialog_class_init (EEditorFindDialogClass *klass)
+e_editor_find_dialog_class_init (EEditorFindDialogClass *class)
 {
 	GtkWidgetClass *widget_class;
 
-	e_editor_find_dialog_parent_class = g_type_class_peek_parent (klass);
-	g_type_class_add_private (klass, sizeof (EEditorFindDialogPrivate));
+	g_type_class_add_private (class, sizeof (EEditorFindDialogPrivate));
 
-	widget_class = GTK_WIDGET_CLASS (klass);
+	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->show = editor_find_dialog_show;
 }
 
@@ -138,8 +141,7 @@ e_editor_find_dialog_init (EEditorFindDialog *dialog)
 	GtkBox *box;
 	GtkWidget *widget;
 
-	dialog->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		dialog, E_TYPE_EDITOR_FIND_DIALOG, EEditorFindDialogPrivate);
+	dialog->priv = E_EDITOR_FIND_DIALOG_GET_PRIVATE (dialog);
 
 	main_layout = e_editor_dialog_get_container (E_EDITOR_DIALOG (dialog));
 
@@ -200,7 +202,7 @@ e_editor_find_dialog_init (EEditorFindDialog *dialog)
 }
 
 GtkWidget *
-e_editor_find_dialog_new(EEditor *editor)
+e_editor_find_dialog_new (EEditor *editor)
 {
 	return GTK_WIDGET (
 		g_object_new (

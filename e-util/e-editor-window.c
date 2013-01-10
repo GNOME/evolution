@@ -24,18 +24,17 @@
 
 #include "e-editor-window.h"
 
-G_DEFINE_TYPE (
-	EEditorWindow,
-	e_editor_window,
-	GTK_TYPE_WINDOW)
+#define E_EDITOR_WINDOW_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_EDITOR_WINDOW, EEditorWindowPrivate))
 
 /**
  * EEditorWindow:
  *
  * A #GtkWindow that contains main toolbars and an #EEditor. To create a
- * custom editor window, one can subclass this class and pack additional widgets
- * above and below the editor using #e_editor_window_pack_above() and
- * #e_editor_window_pack_below().
+ * custom editor window, one can subclass this class and pack additional
+ * widgets above and below the editor using e_editor_window_pack_above()
+ * and e_editor_window_pack_below().
  */
 
 struct _EEditorWindowPrivate {
@@ -53,16 +52,23 @@ enum {
 	PROP_EDITOR
 };
 
+G_DEFINE_TYPE (
+	EEditorWindow,
+	e_editor_window,
+	GTK_TYPE_WINDOW)
+
 static void
 editor_window_get_property (GObject *object,
-			    guint property_id,
-			    GValue *value,
-			    GParamSpec *pspec)
+                            guint property_id,
+                            GValue *value,
+                            GParamSpec *pspec)
 {
 	switch (property_id) {
 		case PROP_EDITOR:
 			g_value_set_object (
-				value, E_EDITOR_WINDOW (object)->priv->editor);
+				value,
+				e_editor_window_get_editor (
+				E_EDITOR_WINDOW (object)));
 			return;
 	}
 
@@ -70,14 +76,13 @@ editor_window_get_property (GObject *object,
 }
 
 static void
-e_editor_window_class_init (EEditorWindowClass *klass)
+e_editor_window_class_init (EEditorWindowClass *class)
 {
 	GObjectClass *object_class;
 
-	e_editor_window_parent_class = g_type_class_peek_parent (klass);
-	g_type_class_add_private (klass, sizeof (EEditorWindowPrivate));
+	g_type_class_add_private (class, sizeof (EEditorWindowPrivate));
 
-	object_class = G_OBJECT_CLASS (klass);
+	object_class = G_OBJECT_CLASS (class);
 	object_class->get_property = editor_window_get_property;
 
 	g_object_class_install_property (
@@ -85,10 +90,10 @@ e_editor_window_class_init (EEditorWindowClass *klass)
 		PROP_EDITOR,
 		g_param_spec_object (
 			"editor",
-		        NULL,
-		       	NULL,
-		        E_TYPE_EDITOR,
-		        G_PARAM_READABLE));
+			NULL,
+			NULL,
+			E_TYPE_EDITOR,
+			G_PARAM_READABLE));
 }
 
 static void
@@ -97,8 +102,7 @@ e_editor_window_init (EEditorWindow *window)
 	EEditorWindowPrivate *priv;
 	GtkWidget *widget;
 
-	window->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		window, E_TYPE_EDITOR_WINDOW, EEditorWindowPrivate);
+	window->priv = E_EDITOR_WINDOW_GET_PRIVATE (window);
 
 	priv = window->priv;
 	priv->editor = E_EDITOR (e_editor_new ());
@@ -176,7 +180,7 @@ e_editor_window_get_editor (EEditorWindow *window)
  */
 void
 e_editor_window_pack_above (EEditorWindow *window,
-			    GtkWidget *child)
+                            GtkWidget *child)
 {
 	g_return_if_fail (E_IS_EDITOR_WINDOW (window));
 	g_return_if_fail (GTK_IS_WIDGET (child));
@@ -201,7 +205,7 @@ e_editor_window_pack_above (EEditorWindow *window,
  */
 void
 e_editor_window_pack_below (EEditorWindow *window,
-			    GtkWidget *child)
+                            GtkWidget *child)
 {
 	g_return_if_fail (E_IS_EDITOR_WINDOW (window));
 	g_return_if_fail (GTK_IS_WIDGET (child));
@@ -221,8 +225,8 @@ e_editor_window_pack_below (EEditorWindow *window,
  * (immediatelly adjacent to the editor itself).
  */
 void
-e_editor_window_pack_inside (EEditorWindow* window,
-			     GtkWidget* child)
+e_editor_window_pack_inside (EEditorWindow *window,
+                             GtkWidget *child)
 {
 	g_return_if_fail (E_IS_EDITOR_WINDOW (window));
 	g_return_if_fail (GTK_IS_WIDGET (child));

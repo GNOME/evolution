@@ -28,6 +28,10 @@
 
 #include "e-action-combo-box.h"
 
+#define E_EDITOR_PARAGRAPH_DIALOG_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_EDITOR_PARAGRAPH_DIALOG, EEditorParagraphDialogPrivate))
+
 G_DEFINE_TYPE (
 	EEditorParagraphDialog,
 	e_editor_paragraph_dialog,
@@ -121,22 +125,21 @@ editor_paragraph_dialog_constructed (GObject *object)
 }
 
 static void
-e_editor_paragraph_dialog_class_init (EEditorParagraphDialogClass *klass)
+e_editor_paragraph_dialog_class_init (EEditorParagraphDialogClass *class)
 {
 	GObjectClass *object_class;
 
-	e_editor_paragraph_dialog_parent_class = g_type_class_peek_parent (klass);
-	g_type_class_add_private (klass, sizeof (EEditorParagraphDialogPrivate));
+	g_type_class_add_private (
+		class, sizeof (EEditorParagraphDialogPrivate));
 
-	object_class = G_OBJECT_CLASS (klass);
+	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = editor_paragraph_dialog_constructed;
 }
 
 static void
 e_editor_paragraph_dialog_init (EEditorParagraphDialog *dialog)
 {
-	dialog->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		dialog, E_TYPE_EDITOR_PARAGRAPH_DIALOG, EEditorParagraphDialogPrivate);
+	dialog->priv = E_EDITOR_PARAGRAPH_DIALOG_GET_PRIVATE (dialog);
 }
 
 GtkWidget *

@@ -39,7 +39,7 @@
  */
 WebKitDOMElement *
 e_editor_dom_node_find_parent_element (WebKitDOMNode *node,
-				       const gchar *tagname)
+                                       const gchar *tagname)
 {
 	gint taglen = strlen (tagname);
 
@@ -81,7 +81,7 @@ e_editor_dom_node_find_parent_element (WebKitDOMNode *node,
  */
 WebKitDOMElement *
 e_editor_dom_node_find_child_element (WebKitDOMNode *node,
-				      const gchar *tagname)
+                                      const gchar *tagname)
 {
 	WebKitDOMNode *start_node = node;
 	gint taglen = strlen (tagname);

@@ -133,13 +133,13 @@ static void
 view_source_dialog (EEditor *editor,
                     const gchar *title,
                     gboolean plain_text,
-		    gboolean show_source)
+                    gboolean show_source)
 {
 	GtkWidget *dialog;
 	GtkWidget *content;
 	GtkWidget *content_area;
 	GtkWidget *scrolled_window;
-	gchar* html;
+	gchar * html;
 
 	dialog = gtk_dialog_new_with_buttons (
 		title,
@@ -164,7 +164,6 @@ view_source_dialog (EEditor *editor,
 	gtk_container_set_border_width (GTK_CONTAINER (scrolled_window), 6);
 	gtk_window_set_default_size (GTK_WINDOW (dialog), 400, 300);
 
-
 	if (plain_text) {
 		html = e_editor_widget_get_text_plain (
 				e_editor_get_editor_widget (editor));
@@ -175,7 +174,6 @@ view_source_dialog (EEditor *editor,
 
 	if (show_source || plain_text) {
 		GtkTextBuffer *buffer;
-
 
 		content = gtk_text_view_new ();
 		buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (content));
@@ -255,7 +253,7 @@ action_save_as_cb (GtkAction *action,
 
 static void
 action_toggle_editor (GtkAction *action,
-		      EEditor *editor)
+                      EEditor *editor)
 {
 	EEditorWidget *widget;
 
@@ -288,7 +286,7 @@ action_view_plain_source (GtkAction *action,
 
 static void
 action_view_inspector (GtkAction *action,
-		       EEditor *editor)
+                       EEditor *editor)
 {
 	WebKitWebInspector *inspector;
 	EEditorWidget *widget;
@@ -389,11 +387,10 @@ static GtkActionEntry view_entries[] = {
 	  NULL }
 };
 
-
 static WebKitWebView *
 open_inspector (WebKitWebInspector *inspector,
-		WebKitWebView *webview,
-		gpointer user_data)
+                WebKitWebView *webview,
+                gpointer user_data)
 {
 	GtkWidget *window;
 	GtkWidget *inspector_view;
@@ -426,18 +423,19 @@ gint main (gint argc,
 
 	gtk_init (&argc, &argv);
 
-        window = g_object_new (E_TYPE_EDITOR_WINDOW, GTK_WINDOW_TOPLEVEL, NULL);
-        gtk_widget_set_size_request (window, 600, 400);
-        g_signal_connect_swapped (window, "destroy",
-                G_CALLBACK (gtk_main_quit), NULL);
+	window = g_object_new (E_TYPE_EDITOR_WINDOW, GTK_WINDOW_TOPLEVEL, NULL);
+	gtk_widget_set_size_request (window, 600, 400);
+	g_signal_connect_swapped (
+		window, "destroy",
+		G_CALLBACK (gtk_main_quit), NULL);
 
 	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (window));
 	inspector = webkit_web_view_get_inspector (
 			WEBKIT_WEB_VIEW (e_editor_get_editor_widget (
 				E_EDITOR (editor))));
-	g_signal_connect (inspector, "inspect-web-view",
-			  G_CALLBACK (open_inspector), NULL);
-
+	g_signal_connect (
+		inspector, "inspect-web-view",
+		G_CALLBACK (open_inspector), NULL);
 
 	manager = e_editor_get_ui_manager (E_EDITOR (editor));
 

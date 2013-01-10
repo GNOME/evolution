@@ -20,6 +20,10 @@
 
 #include "e-image-chooser-dialog.h"
 
+#define E_IMAGE_CHOOSER_DIALOG_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_IMAGE_CHOOSER_DIALOG, EImageChooserDialogPrivate))
+
 #define PREVIEW_WIDTH	256
 #define PREVIEW_HEIGHT	256
 
@@ -97,7 +101,7 @@ image_chooser_dialog_update_preview (GtkFileChooser *file_chooser)
 	GFile *preview_file;
 	Context *context;
 
-	priv = E_IMAGE_CHOOSER_DIALOG (file_chooser)->priv;
+	priv = E_IMAGE_CHOOSER_DIALOG_GET_PRIVATE (file_chooser);
 	preview_file = gtk_file_chooser_get_preview_file (file_chooser);
 	preview_widget = gtk_file_chooser_get_preview_widget (file_chooser);
 
@@ -132,7 +136,7 @@ image_chooser_dialog_dispose (GObject *object)
 {
 	EImageChooserDialogPrivate *priv;
 
-	priv = E_IMAGE_CHOOSER_DIALOG (object)->priv;
+	priv = E_IMAGE_CHOOSER_DIALOG_GET_PRIVATE (object);
 
 	if (priv->cancellable != NULL) {
 		g_cancellable_cancel (priv->cancellable);
@@ -170,14 +174,14 @@ image_chooser_dialog_constructed (GObject *object)
 }
 
 static void
-e_image_chooser_dialog_class_init (EImageChooserDialogClass *klass)
+e_image_chooser_dialog_class_init (EImageChooserDialogClass *class)
 {
 	GObjectClass *object_class;
 
 	g_type_class_add_private (
-		klass, sizeof (EImageChooserDialogPrivate));
+		class, sizeof (EImageChooserDialogPrivate));
 
-	object_class = G_OBJECT_CLASS (klass);
+	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = image_chooser_dialog_dispose;
 	object_class->constructed = image_chooser_dialog_constructed;
 }
@@ -185,9 +189,7 @@ e_image_chooser_dialog_class_init (EImageChooserDialogClass *klass)
 static void
 e_image_chooser_dialog_init (EImageChooserDialog *dialog)
 {
-	dialog->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		dialog, E_TYPE_IMAGE_CHOOSER_DIALOG,
-		EImageChooserDialogPrivate);
+	dialog->priv = E_IMAGE_CHOOSER_DIALOG_GET_PRIVATE (dialog);
 
 	g_signal_connect (
 		dialog, "update-preview",
@@ -196,7 +198,7 @@ e_image_chooser_dialog_init (EImageChooserDialog *dialog)
 
 GtkWidget *
 e_image_chooser_dialog_new (const gchar *title,
-			    GtkWindow *parent)
+                            GtkWindow *parent)
 {
 	return g_object_new (
 		E_TYPE_IMAGE_CHOOSER_DIALOG,

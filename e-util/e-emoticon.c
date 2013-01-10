@@ -61,7 +61,7 @@ e_emoticon_get_type (void)
 
 gboolean
 e_emoticon_equal (EEmoticon *emoticon_a,
-		  EEmoticon *emoticon_b)
+                  EEmoticon *emoticon_b)
 {
 	if (((emoticon_a == NULL) && (emoticon_b != NULL)) ||
 	    ((emoticon_a != NULL) && (emoticon_b == NULL)))
@@ -95,7 +95,7 @@ e_emoticon_free (EEmoticon *emoticon)
 }
 
 gchar *
-e_emoticon_get_uri(EEmoticon *emoticon)
+e_emoticon_get_uri (EEmoticon *emoticon)
 {
 	GtkIconInfo *icon_info;
 	GtkIconTheme *icon_theme;

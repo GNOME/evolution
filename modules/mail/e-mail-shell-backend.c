@@ -486,17 +486,17 @@ mail_shell_backend_window_added_cb (GtkApplication *application,
 		EEditorWidget *editor_widget;
 		ESpellChecker *spell_checker;
 		GSettings *settings;
-		GList *spell_languages;
+		GList *list;
 		gboolean active = TRUE;
 
 		editor = e_editor_window_get_editor (E_EDITOR_WINDOW (window));
 		editor_widget = e_editor_get_editor_widget (editor);
 
-		spell_checker = e_editor_widget_get_spell_checker (editor_widget);
-		spell_languages = e_load_spell_languages (spell_checker);
-
-		e_editor_widget_set_spell_languages (editor_widget, spell_languages);
-		g_list_free_full (spell_languages, g_object_unref);
+		spell_checker =
+			e_editor_widget_get_spell_checker (editor_widget);
+		list = e_load_spell_languages (spell_checker);
+		e_editor_widget_set_spell_languages (editor_widget, list);
+		g_list_free_full (list, (GDestroyNotify) g_object_unref);
 
 		settings = g_settings_new ("org.gnome.evolution.mail");
 

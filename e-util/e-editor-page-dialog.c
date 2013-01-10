@@ -29,10 +29,9 @@
 #include "e-color-combo.h"
 #include "e-misc-utils.h"
 
-G_DEFINE_TYPE (
-	EEditorPageDialog,
-	e_editor_page_dialog,
-	E_TYPE_EDITOR_DIALOG);
+#define E_EDITOR_PAGE_DIALOG_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_EDITOR_PAGE_DIALOG, EEditorPageDialogPrivate))
 
 struct _EEditorPageDialogPrivate {
 	GtkWidget *text_color_picker;
@@ -134,8 +133,12 @@ static const Template templates[] = {
 		{ 1.0 , 1.0 , 1.0 , 1 },
 		0
 	}
-
 };
+
+G_DEFINE_TYPE (
+	EEditorPageDialog,
+	e_editor_page_dialog,
+	E_TYPE_EDITOR_DIALOG);
 
 static void
 editor_page_dialog_set_text_color (EEditorPageDialog *dialog)
@@ -147,7 +150,7 @@ editor_page_dialog_set_text_color (EEditorPageDialog *dialog)
 	GdkRGBA rgba;
 	gchar *color;
 
-	editor = e_editor_dialog_get_editor(E_EDITOR_DIALOG (dialog));
+	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
 	widget = e_editor_get_editor_widget (editor);
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
 	body = webkit_dom_document_get_body (document);
@@ -155,7 +158,7 @@ editor_page_dialog_set_text_color (EEditorPageDialog *dialog)
 	e_color_combo_get_current_color (
 		E_COLOR_COMBO (dialog->priv->text_color_picker), &rgba);
 
-	color = g_strdup_printf("#%06x", e_rgba_to_value (&rgba));
+	color = g_strdup_printf ("#%06x", e_rgba_to_value (&rgba));
 	webkit_dom_html_body_element_set_text (
 		(WebKitDOMHTMLBodyElement *) body, color);
 
@@ -172,7 +175,7 @@ editor_page_dialog_set_link_color (EEditorPageDialog *dialog)
 	GdkRGBA rgba;
 	gchar *color;
 
-	editor = e_editor_dialog_get_editor(E_EDITOR_DIALOG (dialog));
+	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
 	widget = e_editor_get_editor_widget (editor);
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
 	body = webkit_dom_document_get_body (document);
@@ -180,7 +183,7 @@ editor_page_dialog_set_link_color (EEditorPageDialog *dialog)
 	e_color_combo_get_current_color (
 		E_COLOR_COMBO (dialog->priv->link_color_picker), &rgba);
 
-	color = g_strdup_printf("#%06x", e_rgba_to_value (&rgba));
+	color = g_strdup_printf ("#%06x", e_rgba_to_value (&rgba));
 	webkit_dom_html_body_element_set_link (
 		(WebKitDOMHTMLBodyElement *) body, color);
 
@@ -197,7 +200,7 @@ editor_page_dialog_set_background_color (EEditorPageDialog *dialog)
 	GdkRGBA rgba;
 	gchar *color;
 
-	editor = e_editor_dialog_get_editor(E_EDITOR_DIALOG (dialog));
+	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
 	widget = e_editor_get_editor_widget (editor);
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
 	body = webkit_dom_document_get_body (document);
@@ -205,7 +208,7 @@ editor_page_dialog_set_background_color (EEditorPageDialog *dialog)
 	e_color_combo_get_current_color (
 		E_COLOR_COMBO (dialog->priv->background_color_picker), &rgba);
 
-	color = g_strdup_printf("#%06x", e_rgba_to_value (&rgba));
+	color = g_strdup_printf ("#%06x", e_rgba_to_value (&rgba));
 
 	webkit_dom_html_body_element_set_bg_color (
 		(WebKitDOMHTMLBodyElement *) body, color);
@@ -221,7 +224,6 @@ editor_page_dialog_set_background_from_template (EEditorPageDialog *dialog)
 	tmplt = &templates[
 		gtk_combo_box_get_active (
 			GTK_COMBO_BOX (dialog->priv->background_template_combo))];
-
 
 	/* Special case - 'none' template */
 	if (tmplt->filename == NULL) {
@@ -259,7 +261,7 @@ editor_page_dialog_set_background_image (EEditorPageDialog *dialog)
 	WebKitDOMHTMLElement *body;
 	gchar *uri;
 
-	editor = e_editor_dialog_get_editor(E_EDITOR_DIALOG (dialog));
+	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
 	widget = e_editor_get_editor_widget (editor);
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
 	body = webkit_dom_document_get_body (document);
@@ -369,19 +371,17 @@ editor_page_dialog_show (GtkWidget *widget)
 	e_color_combo_set_current_color (
 		E_COLOR_COMBO (dialog->priv->background_color_picker), &rgba);
 
-
 	GTK_WIDGET_CLASS (e_editor_page_dialog_parent_class)->show (widget);
 }
 
 static void
-e_editor_page_dialog_class_init (EEditorPageDialogClass *klass)
+e_editor_page_dialog_class_init (EEditorPageDialogClass *class)
 {
 	GtkWidgetClass *widget_class;
 
-	e_editor_page_dialog_parent_class = g_type_class_peek_parent (klass);
-	g_type_class_add_private (klass, sizeof (EEditorPageDialogPrivate));
+	g_type_class_add_private (class, sizeof (EEditorPageDialogPrivate));
 
-	widget_class = GTK_WIDGET_CLASS (klass);
+	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->show = editor_page_dialog_show;
 }
 
@@ -392,8 +392,7 @@ e_editor_page_dialog_init (EEditorPageDialog *dialog)
 	GtkWidget *widget;
 	gint ii;
 
-	dialog->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		dialog, E_TYPE_EDITOR_PAGE_DIALOG, EEditorPageDialogPrivate);
+	dialog->priv = E_EDITOR_PAGE_DIALOG_GET_PRIVATE (dialog);
 
 	main_layout = e_editor_dialog_get_container (E_EDITOR_DIALOG (dialog));
 
@@ -501,7 +500,6 @@ e_editor_page_dialog_init (EEditorPageDialog *dialog)
 
 	gtk_widget_show_all (GTK_WIDGET (main_layout));
 }
-
 
 GtkWidget *
 e_editor_page_dialog_new (EEditor *editor)

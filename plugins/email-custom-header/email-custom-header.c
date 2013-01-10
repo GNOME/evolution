@@ -495,7 +495,6 @@ destroy_compo_data (gpointer data)
 static void
 action_email_custom_header_cb (GtkAction *action,
                                EMsgComposer *composer)
-
 {
 	GtkUIManager *ui_manager;
 	GtkWidget *menuitem;

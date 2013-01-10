@@ -61,11 +61,11 @@ struct _EEmoticonToolButton {
 struct _EEmoticonToolButtonClass {
 	GtkToggleToolButtonClass parent_class;
 
-	void	(*popup)		(EEmoticonToolButton *button);
-	void	(*popdown)		(EEmoticonToolButton *button);
+	void		(*popup)		(EEmoticonToolButton *button);
+	void		(*popdown)		(EEmoticonToolButton *button);
 };
 
-GType		e_emoticon_tool_button_get_type	(void);
+GType		e_emoticon_tool_button_get_type	(void) G_GNUC_CONST;
 GtkToolItem *	e_emoticon_tool_button_new	(void);
 void		e_emoticon_tool_button_popup	(EEmoticonToolButton *button);
 void		e_emoticon_tool_button_popdown	(EEmoticonToolButton *button);
