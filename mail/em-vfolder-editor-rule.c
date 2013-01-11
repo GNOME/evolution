@@ -322,7 +322,11 @@ vfr_folder_response (EMFolderSelector *selector,
 		selection = gtk_tree_view_get_selection (data->tree_view);
 		gtk_tree_selection_unselect_all (selection);
 
-		known_uris = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+		known_uris = g_hash_table_new_full (
+			(GHashFunc) g_str_hash,
+			(GEqualFunc) g_str_equal,
+			(GDestroyNotify) g_free,
+			(GDestroyNotify) NULL);
 
 		if (gtk_tree_model_get_iter_first (GTK_TREE_MODEL (data->model), &iter)) {
 			GtkTreeModel *model = GTK_TREE_MODEL (data->model);
@@ -332,7 +336,7 @@ vfr_folder_response (EMFolderSelector *selector,
 				gtk_tree_model_get (model, &iter, 1, &known, -1);
 
 				if (known)
-					g_hash_table_insert (known_uris, known, GINT_TO_POINTER (1));
+					g_hash_table_add (known_uris, known);
 			} while (gtk_tree_model_iter_next (model, &iter));
 		}
 
@@ -340,10 +344,13 @@ vfr_folder_response (EMFolderSelector *selector,
 			const gchar *uri = uris_iter->data;
 			gchar *markup;
 
-			if (!uri || g_hash_table_lookup (known_uris, uri))
+			if (uri == NULL)
 				continue;
 
-			g_hash_table_insert (known_uris, g_strdup (uri), GINT_TO_POINTER (1));
+			if (g_hash_table_contains (known_uris, uri))
+				continue;
+
+			g_hash_table_add (known_uris, g_strdup (uri));
 
 			changed = TRUE;
 			g_queue_push_tail (em_vfolder_rule_get_sources (data->vr), g_strdup (uri));
@@ -425,7 +432,7 @@ source_remove (GtkWidget *widget,
 		gtk_tree_path_append_index (path, index);
 
 		if (gtk_tree_selection_path_is_selected (selection, path)) {
-			g_hash_table_insert (to_remove, GINT_TO_POINTER (index), GINT_TO_POINTER (1));
+			g_hash_table_add (to_remove, GINT_TO_POINTER (index));
 
 			if (first_selected == -1)
 				first_selected = index;
@@ -444,7 +451,7 @@ source_remove (GtkWidget *widget,
 	removed = 0;
 	prev_source = NULL;
 	while ((source = em_vfolder_rule_next_source (data->vr, source))) {
-		if (g_hash_table_lookup (to_remove, GINT_TO_POINTER (index + removed))) {
+		if (g_hash_table_contains (to_remove, GINT_TO_POINTER (index + removed))) {
 			path = gtk_tree_path_new ();
 			gtk_tree_path_append_index (path, index);
 			gtk_tree_model_get_iter (

@@ -709,9 +709,9 @@ pick_all_cb (GtkTreeModel *model,
 
 	if (can_pick_folder_info (tree_row_data->folder_info, data->mode) &&
 	    (data->skip_folder_infos == NULL ||
-	    !g_hash_table_lookup_extended (
-		data->skip_folder_infos,
-		tree_row_data->folder_info, NULL, NULL))) {
+	    !g_hash_table_contains (
+			data->skip_folder_infos,
+			tree_row_data->folder_info))) {
 		g_queue_push_tail (data->out_tree_rows, tree_row_data);
 	} else
 		tree_row_data_free (tree_row_data);
@@ -912,10 +912,7 @@ subscription_editor_unsubscribe_hidden (EMSubscriptionEditor *editor)
 		if (tree_row_data == NULL)
 			continue;
 
-		g_hash_table_insert (
-			skip_shown,
-			tree_row_data->folder_info,
-			GINT_TO_POINTER (1));
+		g_hash_table_add (skip_shown, tree_row_data->folder_info);
 
 		tree_row_data_free (tree_row_data);
 	}

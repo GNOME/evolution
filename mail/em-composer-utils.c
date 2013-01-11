@@ -2405,9 +2405,9 @@ concat_unique_addrs (CamelInternetAddress *dest,
 	gint i;
 
 	for (i = 0; camel_internet_address_get (src, i, &name, &addr); i++) {
-		if (!g_hash_table_lookup (rcpt_hash, addr)) {
+		if (!g_hash_table_contains (rcpt_hash, addr)) {
 			camel_internet_address_add (dest, name, addr);
-			g_hash_table_insert (rcpt_hash, (gchar *) addr, GINT_TO_POINTER (1));
+			g_hash_table_add (rcpt_hash, (gpointer) addr);
 		}
 	}
 }
@@ -2542,15 +2542,13 @@ em_utils_get_reply_all (ESourceRegistry *registry,
 		while (camel_internet_address_get (reply_to, ii++, &name, &addr)) {
 			/* Ignore references to the Reply-To address
 			 * in the To and Cc lists. */
-			if (addr && !g_hash_table_lookup (rcpt_hash, addr)) {
+			if (addr && !g_hash_table_contains (rcpt_hash, addr)) {
 				/* In the case we are doing a Reply-To-All,
 				 * we do not want to include the user's email
 				 * address because replying to oneself is
 				 * kinda silly. */
 				camel_internet_address_add (to, name, addr);
-				g_hash_table_insert (
-					rcpt_hash, (gchar *) addr,
-					GINT_TO_POINTER (1));
+				g_hash_table_add (rcpt_hash, (gpointer) addr);
 			}
 		}
 	}

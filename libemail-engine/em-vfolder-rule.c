@@ -113,7 +113,9 @@ em_vfolder_rule_init (EMVFolderRule *rule)
 	rule->priv->autoupdate = TRUE;
 	/* it's using pointers from priv::sources, and those
 	 * included has include_subfolders set to true */
-	rule->priv->include_subfolders = g_hash_table_new (g_direct_hash, g_direct_equal);
+	rule->priv->include_subfolders = g_hash_table_new (
+		(GHashFunc) g_direct_hash,
+		(GEqualFunc) g_direct_equal);
 
 	rule->rule.source = g_strdup ("incoming");
 }
@@ -214,7 +216,8 @@ em_vfolder_rule_sources_changed (EMVFolderRule *rule)
 {
 	g_return_if_fail (rule != NULL);
 
-	g_hash_table_foreach_remove (rule->priv->include_subfolders,
+	g_hash_table_foreach_remove (
+		rule->priv->include_subfolders,
 		check_queue_has_key, rule);
 }
 
@@ -227,7 +230,11 @@ em_vfolder_rule_source_get_include_subfolders (EMVFolderRule *rule,
 
 	source = em_vfolder_rule_find_source (rule, source);
 
-	return source && g_hash_table_lookup (rule->priv->include_subfolders, source);
+	if (source == NULL)
+		return FALSE;
+
+	return g_hash_table_contains (
+		rule->priv->include_subfolders, source);
 }
 
 void
@@ -242,9 +249,13 @@ em_vfolder_rule_source_set_include_subfolders (EMVFolderRule *rule,
 	g_return_if_fail (source != NULL);
 
 	if (include_subfolders)
-		g_hash_table_insert (rule->priv->include_subfolders, (gpointer) source, GINT_TO_POINTER (1));
+		g_hash_table_add (
+			rule->priv->include_subfolders,
+			(gpointer) source);
 	else
-		g_hash_table_remove (rule->priv->include_subfolders, (gpointer) source);
+		g_hash_table_remove (
+			rule->priv->include_subfolders,
+			(gpointer) source);
 }
 
 void

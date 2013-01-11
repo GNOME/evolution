@@ -1104,7 +1104,7 @@ mail_account_in_recipients (ESourceRegistry *registry,
 	g_object_unref (source);
 
 	if (address != NULL) {
-		match = (g_hash_table_lookup (recipients, address) != NULL);
+		match = g_hash_table_contains (recipients, address);
 		g_free (address);
 	}
 
@@ -1141,9 +1141,7 @@ em_utils_guess_mail_account_with_recipients (ESourceRegistry *registry,
 		gint index = 0;
 
 		while (camel_internet_address_get (addr, index++, NULL, &key))
-			g_hash_table_insert (
-				recipients, (gpointer) key,
-				GINT_TO_POINTER (1));
+			g_hash_table_add (recipients, (gpointer) key);
 	}
 
 	type = CAMEL_RECIPIENT_TYPE_CC;
@@ -1152,9 +1150,7 @@ em_utils_guess_mail_account_with_recipients (ESourceRegistry *registry,
 		gint index = 0;
 
 		while (camel_internet_address_get (addr, index++, NULL, &key))
-			g_hash_table_insert (
-				recipients, (gpointer) key,
-				GINT_TO_POINTER (1));
+			g_hash_table_add (recipients, (gpointer) key);
 	}
 
 	/* First Preference: We were given a folder that maps to an

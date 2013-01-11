@@ -3041,10 +3041,7 @@ composer_add_auto_recipients (ESource *source,
 		const gchar *addr;
 
 		if (camel_internet_address_get (inet_addr, ii, &name, &addr))
-			g_hash_table_insert (
-				hash_table,
-				g_strdup (addr),
-				GINT_TO_POINTER (1));
+			g_hash_table_add (hash_table, g_strdup (addr));
 	}
 
 	g_object_unref (inet_addr);
@@ -3127,12 +3124,14 @@ e_msg_composer_new_with_message (EShell *shell,
 
 	if (postto == NULL) {
 		auto_cc = g_hash_table_new_full (
-			camel_strcase_hash, camel_strcase_equal,
+			(GHashFunc) camel_strcase_hash,
+			(GEqualFunc) camel_strcase_equal,
 			(GDestroyNotify) g_free,
 			(GDestroyNotify) NULL);
 
 		auto_bcc = g_hash_table_new_full (
-			camel_strcase_hash, camel_strcase_equal,
+			(GHashFunc) camel_strcase_hash,
+			(GEqualFunc) camel_strcase_equal,
 			(GDestroyNotify) g_free,
 			(GDestroyNotify) NULL);
 
@@ -3169,7 +3168,7 @@ e_msg_composer_new_with_message (EShell *shell,
 				e_destination_set_name (dest, name);
 				e_destination_set_email (dest, addr);
 
-				if (g_hash_table_lookup (auto_cc, addr))
+				if (g_hash_table_contains (auto_cc, addr))
 					e_destination_set_auto_recipient (dest, TRUE);
 
 				Cc = g_list_append (Cc, dest);
@@ -3189,7 +3188,7 @@ e_msg_composer_new_with_message (EShell *shell,
 				e_destination_set_name (dest, name);
 				e_destination_set_email (dest, addr);
 
-				if (g_hash_table_lookup (auto_bcc, addr))
+				if (g_hash_table_contains (auto_bcc, addr))
 					e_destination_set_auto_recipient (dest, TRUE);
 
 				Bcc = g_list_append (Bcc, dest);

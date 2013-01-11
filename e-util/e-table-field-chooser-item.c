@@ -128,19 +128,23 @@ etfci_rebuild_combined (ETableFieldChooserItem *etfci)
 		ETableCol *ecol = e_table_header_get_column (etfci->header, i);
 		if (ecol->disabled)
 			continue;
-		g_hash_table_insert (
-			hash, GINT_TO_POINTER (ecol->col_idx),
-			GINT_TO_POINTER (1));
+		g_hash_table_add (hash, GINT_TO_POINTER (ecol->col_idx));
 	}
 
 	count = e_table_header_count (etfci->full_header);
 	for (i = 0; i < count; i++) {
-		ETableCol *ecol = e_table_header_get_column (etfci->full_header, i);
+		ETableCol *ecol;
+		gpointer key;
+
+		ecol = e_table_header_get_column (etfci->full_header, i);
+		key = GINT_TO_POINTER (ecol->col_idx);
+
 		if (ecol->disabled)
 			continue;
-		if (!(GPOINTER_TO_INT (g_hash_table_lookup (
-				hash, GINT_TO_POINTER (ecol->col_idx)))))
-			e_table_header_add_column (etfci->combined_header, ecol, -1);
+
+		if (!g_hash_table_contains (hash, key))
+			e_table_header_add_column (
+				etfci->combined_header, ecol, -1);
 	}
 
 	g_hash_table_destroy (hash);
