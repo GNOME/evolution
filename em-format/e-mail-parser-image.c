@@ -71,6 +71,12 @@ static const gchar *parser_mime_types[] = { "image/gif",
 					    "image/pjpeg",
 					    NULL };
 
+static gboolean
+is_attachment (const gchar *disposition)
+{
+	return disposition && g_ascii_strcasecmp (disposition, "attachment") == 0;
+}
+
 static GSList *
 empe_image_parse (EMailParserExtension *extension,
                   EMailParser *parser,
@@ -103,11 +109,11 @@ empe_image_parse (EMailParserExtension *extension,
 	mail_part->is_attachment = TRUE;
 	mail_part->cid = cid;
 	mail_part->mime_type = ct ? camel_content_type_simple (ct) : g_strdup ("image/*");
-	mail_part->is_hidden = (cid != NULL);
+	mail_part->is_hidden = cid != NULL && !is_attachment (camel_mime_part_get_disposition (part));
 
 	g_string_truncate (part_id, len);
 
-	if (!cid) {
+	if (!mail_part->is_hidden) {
 		return e_mail_parser_wrap_as_attachment (
 			parser, part, g_slist_append (NULL, mail_part),
 			part_id, cancellable);
