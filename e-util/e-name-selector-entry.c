@@ -3062,6 +3062,13 @@ populate_popup (ENameSelectorEntry *name_selector_entry,
 	deep_free_list (email_list);
 }
 
+static gint
+compare_gint_ptr_cb (gconstpointer a,
+		     gconstpointer b)
+{
+	return GPOINTER_TO_INT (a) - GPOINTER_TO_INT (b);
+}
+
 static void
 copy_or_cut_clipboard (ENameSelectorEntry *name_selector_entry,
                        gboolean is_cut)
@@ -3072,8 +3079,9 @@ copy_or_cut_clipboard (ENameSelectorEntry *name_selector_entry,
 	GHashTable *hash;
 	GHashTableIter iter;
 	gpointer key, value;
+	GSList *sorted, *siter;
 	GString *addresses;
-	gint ii, start, end;
+	gint ii, start, end, ostart, oend;
 	gunichar uc;
 
 	editable = GTK_EDITABLE (name_selector_entry);
@@ -3085,6 +3093,10 @@ copy_or_cut_clipboard (ENameSelectorEntry *name_selector_entry,
 	g_return_if_fail (end > start);
 
 	hash = g_hash_table_new (g_direct_hash, g_direct_equal);
+
+	/* convert from character indexes to pointer indexes */
+	ostart = g_utf8_offset_to_pointer (text, start) - text;
+	oend = g_utf8_offset_to_pointer (text, end) - text;
 
 	ii = end;
 	cp = g_utf8_offset_to_pointer (text, end);
@@ -3103,27 +3115,37 @@ copy_or_cut_clipboard (ENameSelectorEntry *name_selector_entry,
 		g_hash_table_insert (hash, GINT_TO_POINTER (index), NULL);
 	}
 
-	addresses = g_string_new ("");
-
+	sorted = NULL;
 	g_hash_table_iter_init (&iter, hash);
 	while (g_hash_table_iter_next (&iter, &key, &value)) {
-		gint index = GPOINTER_TO_INT (key);
+		sorted = g_slist_prepend (sorted, key);
+	}
+
+	sorted = g_slist_sort (sorted, compare_gint_ptr_cb);
+	addresses = g_string_new ("");
+
+	for (siter = sorted; siter != NULL; siter = g_slist_next (siter)) {
+		gint index = GPOINTER_TO_INT (siter->data);
 		EDestination *dest;
 		gint rstart, rend;
 
 		if (!get_range_by_index (text, index, &rstart, &rend))
 			continue;
 
-		if (rstart < start) {
+		/* convert from character indexes to pointer indexes */
+		rstart = g_utf8_offset_to_pointer (text, rstart) - text;
+		rend = g_utf8_offset_to_pointer (text, rend) - text;
+
+		if (rstart < ostart) {
 			if (addresses->str && *addresses->str)
 				g_string_append (addresses, ", ");
 
-			g_string_append_len (addresses, text + start, rend - start);
-		} else if (rend > end) {
+			g_string_append_len (addresses, text + ostart, MIN (oend - ostart, rend - ostart));
+		} else if (rend > oend) {
 			if (addresses->str && *addresses->str)
 				g_string_append (addresses, ", ");
 
-			g_string_append_len (addresses, text + rstart, end - rstart);
+			g_string_append_len (addresses, text + rstart, oend - rstart);
 		} else {
 			/* the contact is whole selected */
 			dest = find_destination_by_index (name_selector_entry, index);
@@ -3132,13 +3154,12 @@ copy_or_cut_clipboard (ENameSelectorEntry *name_selector_entry,
 					g_string_append (addresses, ", ");
 
 				g_string_append (addresses, e_destination_get_textrep (dest, TRUE));
-
-				/* store the 'dest' as a value for the index */
-				g_hash_table_insert (hash, GINT_TO_POINTER (index), dest);
 			} else
 				g_string_append_len (addresses, text + rstart, rend - rstart);
 		}
 	}
+
+	g_slist_free (sorted);
 
 	if (is_cut)
 		gtk_editable_delete_text (editable, start, end);
