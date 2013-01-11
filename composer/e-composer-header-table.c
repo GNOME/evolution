@@ -47,10 +47,6 @@
 	  "carbon copy of the message without appearing " \
 	  "in the recipient list of the message")
 
-#define E_COMPOSER_HEADER_TABLE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_COMPOSER_HEADER_TABLE, EComposerHeaderTablePrivate))
-
 struct _EComposerHeaderTablePrivate {
 	EComposerHeader *headers[E_COMPOSER_NUM_HEADERS];
 	GtkWidget *signature_label;
