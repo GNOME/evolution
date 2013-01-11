@@ -330,7 +330,7 @@ replace_word (GtkWidget *menuitem,
 
 	checker = g_object_get_data (G_OBJECT (menuitem), "spell-entry-checker");
 
-	if (checker)
+	if (checker != NULL)
 		gtkhtml_spell_checker_store_replacement (checker, oldword, -1, newword, -1);
 
 	g_free (oldword);
@@ -763,16 +763,15 @@ e_spell_entry_finalize (GObject *object)
 
 	if (entry->priv->settings)
 		g_object_unref (entry->priv->settings);
-	if (entry->priv->checkers)
-		g_slist_free_full (entry->priv->checkers, g_object_unref);
+
+	g_slist_free_full (entry->priv->checkers, g_object_unref);
+
 	if (entry->priv->attr_list)
 		pango_attr_list_unref (entry->priv->attr_list);
-	if (entry->priv->words)
-		g_strfreev (entry->priv->words);
-	if (entry->priv->word_starts)
-		g_free (entry->priv->word_starts);
-	if (entry->priv->word_ends)
-		g_free (entry->priv->word_ends);
+
+	g_strfreev (entry->priv->words);
+	g_free (entry->priv->word_starts);
+	g_free (entry->priv->word_ends);
 
 	G_OBJECT_CLASS (e_spell_entry_parent_class)->finalize (object);
 }
@@ -844,7 +843,7 @@ e_spell_entry_set_languages (ESpellEntry *spell_entry,
 gboolean
 e_spell_entry_get_checking_enabled (ESpellEntry *spell_entry)
 {
-	g_return_val_if_fail (spell_entry != NULL, FALSE);
+	g_return_val_if_fail (E_IS_SPELL_ENTRY (spell_entry), FALSE);
 
 	return spell_entry->priv->checking_enabled;
 }
@@ -853,7 +852,7 @@ void
 e_spell_entry_set_checking_enabled (ESpellEntry *spell_entry,
                                     gboolean enable_checking)
 {
-	g_return_if_fail (spell_entry != NULL);
+	g_return_if_fail (E_IS_SPELL_ENTRY (spell_entry));
 
 	if (spell_entry->priv->checking_enabled == enable_checking)
 		return;
@@ -862,5 +861,4 @@ e_spell_entry_set_checking_enabled (ESpellEntry *spell_entry,
 	spell_entry_recheck_all (spell_entry);
 
 	g_object_notify (G_OBJECT (spell_entry), "checking-enabled");
-
 }

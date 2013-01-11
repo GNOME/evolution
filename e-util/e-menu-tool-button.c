@@ -191,7 +191,9 @@ menu_tool_button_get_property (GObject *object,
 static void
 menu_tool_button_dispose (GObject *object)
 {
-	EMenuToolButtonPrivate *priv = E_MENU_TOOL_BUTTON (object)->priv;
+	EMenuToolButtonPrivate *priv;
+
+	priv = E_MENU_TOOL_BUTTON_GET_PRIVATE (object);
 
 	if (priv->prefer_item) {
 		g_free (priv->prefer_item);

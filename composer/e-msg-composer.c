@@ -576,8 +576,9 @@ build_message_headers (EMsgComposer *composer,
 			value = camel_address_encode (CAMEL_ADDRESS (addr));
 			camel_medium_set_header (medium, "Resent-From", value);
 			g_free (value);
-		} else
+		} else {
 			camel_mime_message_set_from (message, addr);
+		}
 		g_object_unref (addr);
 
 		/* X-Evolution-Identity */
@@ -1374,9 +1375,10 @@ composer_build_message (EMsgComposer *composer,
 
 			context->top_level_part =
 				CAMEL_DATA_WRAPPER (html_with_images);
-		} else
+		} else {
 			context->top_level_part =
 				CAMEL_DATA_WRAPPER (body);
+		}
 	}
 
 	/* If there are attachments, wrap what we've built so far
@@ -3231,13 +3233,13 @@ e_msg_composer_new_with_message (EShell *shell,
 
 		flags = g_strsplit (format, ", ", 0);
 		for (i = 0; flags[i]; i++) {
-			if (g_ascii_strcasecmp (flags[i], "text/html") == 0)
+			if (g_ascii_strcasecmp (flags[i], "text/html") == 0) {
 				gtkhtml_editor_set_html_mode (
 					GTKHTML_EDITOR (composer), TRUE);
-			else if (g_ascii_strcasecmp (flags[i], "text/plain") == 0)
+			} else if (g_ascii_strcasecmp (flags[i], "text/plain") == 0) {
 				gtkhtml_editor_set_html_mode (
 					GTKHTML_EDITOR (composer), FALSE);
-			else if (g_ascii_strcasecmp (flags[i], "pgp-sign") == 0) {
+			} else if (g_ascii_strcasecmp (flags[i], "pgp-sign") == 0) {
 				action = GTK_TOGGLE_ACTION (ACTION (PGP_SIGN));
 				gtk_toggle_action_set_active (action, TRUE);
 			} else if (g_ascii_strcasecmp (flags[i], "pgp-encrypt") == 0) {
@@ -3333,10 +3335,12 @@ e_msg_composer_new_with_message (EShell *shell,
 			camel_content_type_is (
 				content_type, "application", "x-pkcs7-mime") ||
 			camel_content_type_is (
-				content_type, "application", "pkcs7-mime")))
+				content_type, "application", "pkcs7-mime"))) {
+
 			gtk_toggle_action_set_active (
 				GTK_TOGGLE_ACTION (
 				ACTION (SMIME_ENCRYPT)), TRUE);
+		}
 
 		html = emcu_part_to_html (
 			session, CAMEL_MIME_PART (message),
@@ -3881,9 +3885,10 @@ merge_cc_bcc (EDestination **addrv,
 	for (ii = 0; addrv && addrv[ii]; ii++) {
 		if (!list_contains_addr (to, addrv[ii]) &&
 		    !list_contains_addr (cc, addrv[ii]) &&
-		    !list_contains_addr (bcc, addrv[ii]))
+		    !list_contains_addr (bcc, addrv[ii])) {
 			*merge_into = g_list_append (
 				*merge_into, g_object_ref (addrv[ii]));
+		}
 	}
 }
 
@@ -5017,7 +5022,9 @@ e_save_spell_languages (GList *spell_languages)
 
 	/* Save the language codes to GSettings. */
 	settings = g_settings_new ("org.gnome.evolution.mail");
-	g_settings_set_strv (settings, "composer-spell-languages", (const gchar * const *) lang_array->pdata);
+	g_settings_set_strv (
+		settings, "composer-spell-languages",
+		(const gchar * const *) lang_array->pdata);
 	g_object_unref (settings);
 
 	g_ptr_array_free (lang_array, TRUE);

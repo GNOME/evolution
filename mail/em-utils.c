@@ -1305,7 +1305,7 @@ em_utils_message_to_html (CamelSession *session,
 		gtk_widget_get_style (GTK_WIDGET (window)),
 		gtk_widget_get_state (GTK_WIDGET (window)));
 
-	if (!parts_list) {
+	if (parts_list == NULL) {
 		GSettings *settings;
 		gchar *charset;
 
@@ -1356,7 +1356,7 @@ em_utils_message_to_html (CamelSession *session,
 	while (!g_queue_is_empty (&queue))
 		e_mail_part_unref (g_queue_pop_head (&queue));
 
-	if (validity_found)
+	if (validity_found != NULL)
 		*validity_found = is_validity_found;
 
 	e_mail_formatter_format_sync (
@@ -1364,14 +1364,14 @@ em_utils_message_to_html (CamelSession *session,
 		E_MAIL_FORMATTER_MODE_PRINTING, NULL);
 	g_object_unref (formatter);
 
-	if (hidden_text_html_part)
+	if (hidden_text_html_part != NULL)
 		hidden_text_html_part->is_hidden = TRUE;
 
 	g_object_unref (parts_list);
-	if (parser)
+	if (parser != NULL)
 		g_object_unref (parser);
 
-	if (append && *append)
+	if (append != NULL && *append != '\0')
 		camel_stream_write_string (mem, append, NULL, NULL);
 
 	camel_stream_write (mem, "", 1, NULL, NULL);

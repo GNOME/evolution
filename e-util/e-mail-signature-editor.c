@@ -586,9 +586,9 @@ mail_signature_editor_constructed (GObject *object)
 	/* Set the focus appropriately.  If this is a new signature, draw
 	 * the user's attention to the signature name entry.  Otherwise go
 	 * straight to the editing area. */
-	if (source == NULL)
+	if (source == NULL) {
 		gtk_widget_grab_focus (editor->priv->entry);
-	else {
+	} else {
 		GtkHTML *html;
 
 		html = gtkhtml_editor_get_html (gtkhtml_editor);
