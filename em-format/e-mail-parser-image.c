@@ -58,6 +58,12 @@ static const gchar *parser_mime_types[] = {
 };
 
 static gboolean
+is_attachment (const gchar *disposition)
+{
+	return disposition && g_ascii_strcasecmp (disposition, "attachment") == 0;
+}
+
+static gboolean
 empe_image_parse (EMailParserExtension *extension,
                   EMailParser *parser,
                   CamelMimePart *part,
@@ -88,13 +94,13 @@ empe_image_parse (EMailParserExtension *extension,
 	mail_part->is_attachment = TRUE;
 	mail_part->cid = cid;
 	mail_part->mime_type = ct ? camel_content_type_simple (ct) : g_strdup ("image/*");
-	mail_part->is_hidden = (cid != NULL);
+	mail_part->is_hidden = cid != NULL && !is_attachment (camel_mime_part_get_disposition (part));
 
 	g_string_truncate (part_id, len);
 
 	g_queue_push_tail (&work_queue, mail_part);
 
-	if (cid == NULL)
+	if (!mail_part->is_hidden)
 		e_mail_parser_wrap_as_attachment (
 			parser, part, part_id, &work_queue);
 
