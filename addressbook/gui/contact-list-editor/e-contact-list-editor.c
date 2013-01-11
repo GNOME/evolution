@@ -496,6 +496,36 @@ contact_list_editor_selection_changed_cb (GtkTreeSelection *selection,
 	gtk_tree_path_free (first_item);
 }
 
+static void
+contact_list_editor_add_from_email_entry (EContactListEditor *editor,
+					  ENameSelectorEntry *entry)
+{
+	EDestinationStore *store;
+	GList *dests, *diter;
+	gboolean added = FALSE;
+
+	g_return_if_fail (E_IS_CONTACT_LIST_EDITOR (editor));
+	g_return_if_fail (E_IS_NAME_SELECTOR_ENTRY (entry));
+
+	store = e_name_selector_entry_peek_destination_store (entry);
+	dests = e_destination_store_list_destinations (store);
+
+	for (diter = dests; diter; diter = g_list_next (diter)) {
+		EDestination *dest = diter->data;
+
+		if (dest && e_destination_get_address (dest)) {
+			editor->priv->changed = contact_list_editor_add_destination (WIDGET (DIALOG), dest)
+						|| editor->priv->changed;
+			added = TRUE;
+		}
+	}
+
+	g_list_free (dests);
+
+	if (!added)
+		contact_list_editor_add_email (editor, gtk_entry_get_text (GTK_ENTRY (entry)));
+}
+
 /*********************** Autoconnected Signal Handlers ***********************/
 
 void
@@ -508,9 +538,9 @@ contact_list_editor_add_button_clicked_cb (GtkWidget *widget)
 
 	editor = contact_list_editor_extract (widget);
 
-	contact_list_editor_add_email (
+	contact_list_editor_add_from_email_entry (
 		editor,
-		gtk_entry_get_text (GTK_ENTRY (WIDGET (EMAIL_ENTRY))));
+		E_NAME_SELECTOR_ENTRY (WIDGET (EMAIL_ENTRY)));
 	gtk_entry_set_text (GTK_ENTRY (WIDGET (EMAIL_ENTRY)), "");
 }
 
@@ -681,7 +711,9 @@ contact_list_editor_email_entry_activate_cb (GtkWidget *widget)
 	editor = contact_list_editor_extract (widget);
 	entry = GTK_ENTRY (WIDGET (EMAIL_ENTRY));
 
-	contact_list_editor_add_email (editor, gtk_entry_get_text (entry));
+	contact_list_editor_add_from_email_entry (
+		editor,
+		E_NAME_SELECTOR_ENTRY (entry));
 	gtk_entry_set_text (entry, "");
 }
 
