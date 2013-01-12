@@ -650,7 +650,7 @@ contact_list_editor_drag_data_received_cb (GtkWidget *widget,
 		g_object_unref (dest);
 	}
 
-	e_client_util_free_object_slist (list);
+	g_slist_free_full (list, (GDestroyNotify) g_object_unref);
 
 	contact_list_editor_scroll_to_end (editor);
 

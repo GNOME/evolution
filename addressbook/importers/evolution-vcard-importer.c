@@ -483,7 +483,7 @@ vcard_import_done (VCardImporter *gci)
 
 	g_free (gci->contents);
 	g_object_unref (gci->book_client);
-	e_client_util_free_object_slist (gci->contactlist);
+	g_slist_free_full (gci->contactlist, (GDestroyNotify) g_object_unref);
 
 	e_import_complete (gci->import, gci->target);
 	g_object_unref (gci->import);
@@ -646,7 +646,7 @@ vcard_get_preview (EImport *ei,
 
 	preview = evolution_contact_importer_get_preview_widget (contacts);
 
-	e_client_util_free_object_slist (contacts);
+	g_slist_free_full (contacts, (GDestroyNotify) g_object_unref);
 
 	return preview;
 }

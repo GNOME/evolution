@@ -124,7 +124,7 @@ e_minicard_view_drag_data_get (GtkWidget *widget,
 static void
 clear_drag_data (EMinicardView *view)
 {
-	e_client_util_free_object_slist (view->drag_list);
+	g_slist_free_full (view->drag_list, (GDestroyNotify) g_object_unref);
 	view->drag_list = NULL;
 }
 

@@ -780,7 +780,9 @@ contact_end_print (GtkPrintOperation *operation,
 	pango_font_description_free (ctxt->style->footer_font);
 	pango_font_description_free (ctxt->letter_heading_font);
 
-	e_client_util_free_object_slist (ctxt->contact_list);
+	g_slist_free_full (
+		ctxt->contact_list,
+		(GDestroyNotify) g_object_unref);
 
 	g_free (ctxt->style);
 	g_free (ctxt->section);
@@ -843,7 +845,9 @@ e_contact_print (EBookClient *book_client,
 
 	ctxt = g_new0 (EContactPrintContext, 1);
 	ctxt->action = action;
-	ctxt->contact_list = e_client_util_copy_object_slist (NULL, contact_list);
+	ctxt->contact_list = g_slist_copy_deep (
+		(GSList *) contact_list,
+		(GCopyFunc) g_object_ref, NULL);
 	ctxt->style = g_new0 (EContactPrintStyle, 1);
 	ctxt->page_nr = 0;
 	ctxt->pages = 0;

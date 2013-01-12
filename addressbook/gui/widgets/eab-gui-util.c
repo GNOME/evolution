@@ -469,7 +469,9 @@ process_unref (ContactCopyProcess *process)
 			if (process->count > 0)
 				return;
 		}
-		e_client_util_free_object_slist (process->contacts);
+		g_slist_free_full (
+			process->contacts,
+			(GDestroyNotify) g_object_unref);
 		g_object_unref (process->source);
 		g_object_unref (process->destination);
 		g_object_unref (process->registry);

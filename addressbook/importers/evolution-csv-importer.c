@@ -1012,7 +1012,7 @@ csv_get_preview (EImport *ei,
 	contacts = g_slist_reverse (contacts);
 	preview = evolution_contact_importer_get_preview_widget (contacts);
 
-	e_client_util_free_object_slist (contacts);
+	g_slist_free_full (contacts, (GDestroyNotify) g_object_unref);
 	fclose (file);
 	g_free (gci);
 

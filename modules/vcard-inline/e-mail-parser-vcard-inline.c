@@ -127,7 +127,7 @@ client_loaded_cb (ESource *source,
 	g_object_unref (client);
 
  exit:
-	e_client_util_free_object_slist (contact_list);
+	g_slist_free_full (contact_list, (GDestroyNotify) g_object_unref);
 }
 
 static void
@@ -168,7 +168,9 @@ save_vcard_cb (WebKitDOMEventTarget *button,
 
 	g_return_if_fail (source != NULL);
 
-	contact_list = e_client_util_copy_object_slist (NULL, vcard_part->contact_list);
+	contact_list = g_slist_copy_deep (
+		vcard_part->contact_list,
+		(GCopyFunc) g_object_ref, NULL);
 
 	e_client_utils_open_new (
 		source, E_CLIENT_SOURCE_TYPE_CONTACTS,

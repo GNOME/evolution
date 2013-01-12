@@ -4174,17 +4174,15 @@ e_contact_editor_dispose (GObject *object)
 		e_contact_editor->file_selector = NULL;
 	}
 
-	if (e_contact_editor->writable_fields) {
-		e_client_util_free_string_slist (
-			e_contact_editor->writable_fields);
-		e_contact_editor->writable_fields = NULL;
-	}
+	g_slist_free_full (
+		e_contact_editor->writable_fields,
+		(GDestroyNotify) g_free);
+	e_contact_editor->writable_fields = NULL;
 
-	if (e_contact_editor->required_fields) {
-		e_client_util_free_string_slist (
-			e_contact_editor->required_fields);
-		e_contact_editor->required_fields = NULL;
-	}
+	g_slist_free_full (
+		e_contact_editor->required_fields,
+		(GDestroyNotify) g_free);
+	e_contact_editor->required_fields = NULL;
 
 	if (e_contact_editor->contact) {
 		g_object_unref (e_contact_editor->contact);
@@ -4260,7 +4258,7 @@ supported_fields_cb (GObject *source_object,
 
 	g_object_set (ce, "writable_fields", fields, NULL);
 
-	e_client_util_free_string_slist (fields);
+	g_slist_free_full (fields, (GDestroyNotify) g_free);
 	g_free (prop_value);
 
 	eab_editor_show (EAB_EDITOR (ce));
@@ -4305,7 +4303,7 @@ required_fields_cb (GObject *source_object,
 
 	g_object_set (ce, "required_fields", fields, NULL);
 
-	e_client_util_free_string_slist (fields);
+	g_slist_free_full (fields, (GDestroyNotify) g_free);
 	g_free (prop_value);
 }
 
@@ -4499,21 +4497,22 @@ e_contact_editor_set_property (GObject *object,
 		break;
 	}
 	case PROP_WRITABLE_FIELDS:
-		if (editor->writable_fields)
-			e_client_util_free_string_slist (editor->writable_fields);
-
-		editor->writable_fields =
-			e_client_util_copy_string_slist (
-			NULL, g_value_get_pointer (value));
+		g_slist_free_full (
+			editor->writable_fields,
+			(GDestroyNotify) g_free);
+		editor->writable_fields = g_slist_copy_deep (
+			g_value_get_pointer (value),
+			(GCopyFunc) g_strdup, NULL);
 
 		sensitize_all (editor);
 		break;
 	case PROP_REQUIRED_FIELDS:
-		if (editor->required_fields)
-			e_client_util_free_string_slist (editor->required_fields);
-		editor->required_fields =
-			e_client_util_copy_string_slist (
-			NULL, g_value_get_pointer (value));
+		g_slist_free_full (
+			editor->required_fields,
+			(GDestroyNotify) g_free);
+		editor->required_fields = g_slist_copy_deep (
+			g_value_get_pointer (value),
+			(GCopyFunc) g_strdup, NULL);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);

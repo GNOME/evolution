@@ -280,7 +280,7 @@ table_drag_data_get (ETable *table,
 			break;
 	}
 
-	e_client_util_free_object_slist (contact_list);
+	g_slist_free_full (contact_list, (GDestroyNotify) g_object_unref);
 }
 
 static void
@@ -689,7 +689,7 @@ addressbook_view_copy_clipboard (ESelectable *selectable)
 	e_clipboard_set_directory (clipboard, string, -1);
 	g_free (string);
 
-	e_client_util_free_object_slist (contact_list);
+	g_slist_free_full (contact_list, (GDestroyNotify) g_object_unref);
 }
 
 static void
@@ -724,7 +724,7 @@ addressbook_view_paste_clipboard (ESelectable *selectable)
 			registry, book_client, contact, NULL, NULL);
 	}
 
-	e_client_util_free_object_slist (contact_list);
+	g_slist_free_full (contact_list, (GDestroyNotify) g_object_unref);
 }
 
 static void
@@ -1198,7 +1198,9 @@ e_addressbook_view_print (EAddressbookView *view,
 
 		contact_list = e_addressbook_view_get_selected (view);
 		e_contact_print (NULL, NULL, contact_list, action);
-		e_client_util_free_object_slist (contact_list);
+		g_slist_free_full (
+			contact_list,
+			(GDestroyNotify) g_object_unref);
 
 	/* Print the latest query results. */
 	} else if (GAL_IS_VIEW_MINICARD (gal_view)) {
@@ -1395,7 +1397,7 @@ e_addressbook_view_delete_selection (EAddressbookView *view,
 			GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (view))),
 			plural, is_list, name)) {
 		g_free (name);
-		e_client_util_free_object_slist (list);
+		g_slist_free_full (list, (GDestroyNotify) g_object_unref);
 		return;
 	}
 
@@ -1454,7 +1456,7 @@ e_addressbook_view_delete_selection (EAddressbookView *view,
 		row = e_table_view_to_model_row (E_TABLE (etable), select);
 		e_table_set_cursor_row (E_TABLE (etable), row);
 	}
-	e_client_util_free_object_slist (list);
+	g_slist_free_full (list, (GDestroyNotify) g_object_unref);
 }
 
 void
@@ -1499,7 +1501,7 @@ e_addressbook_view_view (EAddressbookView *view)
 			addressbook_view_emit_open_contact (
 				view, iter->data, FALSE);
 
-	e_client_util_free_object_slist (list);
+	g_slist_free_full (list, (GDestroyNotify) g_object_unref);
 }
 
 void

@@ -101,7 +101,7 @@ book_contacts_received_cb (GObject *source_object,
 		e_contact_map_add_contact (
 			window->priv->map, (EContact *) p->data);
 
-	e_client_util_free_object_slist (contacts);
+	g_slist_free_full (contacts, (GDestroyNotify) g_object_unref);
 	g_object_unref (client);
 }
 

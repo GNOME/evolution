@@ -661,8 +661,8 @@ query_cb (GObject *source_object,
 	if (best_contact)
 		best_contact = g_object_ref (best_contact);
 
-	e_client_util_free_object_slist (contacts);
-	e_client_util_free_object_slist (remaining_contacts);
+	g_slist_free_full (contacts, (GDestroyNotify) g_object_unref);
+	g_slist_free_full (remaining_contacts, (GDestroyNotify) g_object_unref);
 
 	info->cb (info->contact, best_contact, best_match, info->closure);
 	match_search_info_free (info);

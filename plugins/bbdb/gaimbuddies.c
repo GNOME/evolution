@@ -245,14 +245,18 @@ bbdb_sync_buddy_list_in_thread (gpointer data)
 			 * name, just give up; we're not smart enough for
 			 * this. */
 			if (contacts->next != NULL) {
-				e_client_util_free_object_slist (contacts);
+				g_slist_free_full (
+					contacts,
+					(GDestroyNotify) g_object_unref);
 				continue;
 			}
 
 			c = E_CONTACT (contacts->data);
 
 			if (!bbdb_merge_buddy_to_contact (std->client, b, c)) {
-				e_client_util_free_object_slist (contacts);
+				g_slist_free_full (
+					contacts,
+					(GDestroyNotify) g_object_unref);
 				continue;
 			}
 
@@ -261,7 +265,10 @@ bbdb_sync_buddy_list_in_thread (gpointer data)
 				g_warning ("bbdb: Could not modify contact: %s", error->message);
 				g_error_free (error);
 			}
-			e_client_util_free_object_slist (contacts);
+
+			g_slist_free_full (
+				contacts,
+				(GDestroyNotify) g_object_unref);
 			continue;
 		}
 
