@@ -155,7 +155,7 @@ struct _user_message_msg {
 	EUserPrompter *prompter;
 	CamelSessionAlertType type;
 	gchar *prompt;
-	GSList *button_captions;
+	GList *button_captions;
 	EFlag *done;
 
 	gint result;
@@ -232,7 +232,7 @@ static void
 user_message_free (struct _user_message_msg *m)
 {
 	g_free (m->prompt);
-	g_slist_free_full (m->button_captions, g_free);
+	g_list_free_full (m->button_captions, g_free);
 	e_flag_free (m->done);
 
 	if (m->prompter)
@@ -1374,24 +1374,21 @@ static gint
 mail_session_alert_user (CamelSession *session,
                          CamelSessionAlertType type,
                          const gchar *prompt,
-                         GSList *button_captions,
+                         GList *button_captions,
                          GCancellable *cancellable)
 {
 	struct _user_message_msg *m;
 	gint result = -1;
-	GSList *iter;
 
 	m = mail_msg_new (&user_message_info);
 	m->ismain = mail_in_main_thread ();
 	m->type = type;
 	m->prompt = g_strdup (prompt);
 	m->done = e_flag_new ();
-	m->button_captions = g_slist_copy (button_captions);
+	m->button_captions = g_list_copy_deep (
+		button_captions, (GCopyFunc) g_strdup, NULL);
 
-	for (iter = m->button_captions; iter; iter = iter->next)
-		iter->data = g_strdup (iter->data);
-
-	if (g_slist_length (button_captions) > 1)
+	if (g_list_length (button_captions) > 1)
 		mail_msg_ref (m);
 
 	if (m->ismain)
@@ -1399,7 +1396,7 @@ mail_session_alert_user (CamelSession *session,
 	else
 		mail_msg_main_loop_push (m);
 
-	if (g_slist_length (button_captions) > 1) {
+	if (g_list_length (button_captions) > 1) {
 		e_flag_wait (m->done);
 		result = m->result;
 		mail_msg_unref (m);
@@ -1414,14 +1411,14 @@ mail_session_trust_prompt (CamelSession *session,
                            const gchar *host,
                            const gchar *certificate,
                            guint32 certificate_errors,
-                           const GSList *issuers,
+                           GList *issuers,
                            GCancellable *cancellable)
 {
 	EUserPrompter *prompter;
 	ENamedParameters *parameters;
 	CamelCertTrust response;
 	gchar *errors_code;
-	const GSList *iter;
+	GList *iter;
 	gint ii;
 
 	prompter = e_user_prompter_new ();

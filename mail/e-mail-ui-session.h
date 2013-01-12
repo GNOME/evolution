@@ -87,13 +87,13 @@ void		e_mail_ui_session_add_activity	(EMailUISession *session,
 gint		e_mail_ui_session_alert_user	(CamelSession *session,
 						 CamelSessionAlertType type,
 						 const gchar *prompt,
-						 GSList *button_captions,
+						 GList *button_captions,
 						 GCancellable *cancellable);
 CamelCertTrust	e_mail_ui_session_trust_prompt	(CamelSession *session,
 						 const gchar *host,
 						 const gchar *certificate,
 						 guint32 certificate_errors,
-						 const GSList *issuers,
+						 GList *issuers,
 						 GCancellable *cancellable);
 
 G_END_DECLS

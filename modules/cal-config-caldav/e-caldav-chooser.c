@@ -206,13 +206,13 @@ trust_prompt_sync (const ENamedParameters *parameters,
 	#endif
 
 	if (!asked) {
-		GSList *button_captions = NULL;
+		GList *button_captions = NULL;
 		const gchar *markup;
 		gchar *tmp = NULL;
 
-		button_captions = g_slist_append (button_captions, _("_Reject"));
-		button_captions = g_slist_append (button_captions, _("Accept _Temporarily"));
-		button_captions = g_slist_append (button_captions, _("_Accept Permanently"));
+		button_captions = g_list_append (button_captions, _("_Reject"));
+		button_captions = g_list_append (button_captions, _("Accept _Temporarily"));
+		button_captions = g_list_append (button_captions, _("_Accept Permanently"));
 
 		markup = e_named_parameters_get (parameters, "markup");
 		if (!markup) {
@@ -233,7 +233,7 @@ trust_prompt_sync (const ENamedParameters *parameters,
 		else if (response == 2)
 			response = 1;
 
-		g_slist_free (button_captions);
+		g_list_free (button_captions);
 		g_free (tmp);
 	}
 
