@@ -53,9 +53,6 @@ typedef EMailConfigRemoteBackendClass EMailConfigPopBackendClass;
 typedef EMailConfigRemoteBackend EMailConfigNntpBackend;
 typedef EMailConfigRemoteBackendClass EMailConfigNntpBackendClass;
 
-typedef EMailConfigRemoteBackend EMailConfigImapBackend;
-typedef EMailConfigRemoteBackendClass EMailConfigImapBackendClass;
-
 typedef EMailConfigRemoteBackend EMailConfigImapxBackend;
 typedef EMailConfigRemoteBackendClass EMailConfigImapxBackendClass;
 
@@ -82,8 +79,6 @@ GType		e_mail_config_pop_backend_get_type
 						(void) G_GNUC_CONST;
 GType		e_mail_config_nntp_backend_get_type
 						(void) G_GNUC_CONST;
-GType		e_mail_config_imap_backend_get_type
-						(void) G_GNUC_CONST;
 GType		e_mail_config_imapx_backend_get_type
 						(void) G_GNUC_CONST;
 
@@ -102,11 +97,6 @@ G_DEFINE_DYNAMIC_TYPE (
 G_DEFINE_DYNAMIC_TYPE (
 	EMailConfigNntpBackend,
 	e_mail_config_nntp_backend,
-	E_TYPE_MAIL_CONFIG_REMOTE_BACKEND)
-
-G_DEFINE_DYNAMIC_TYPE (
-	EMailConfigImapBackend,
-	e_mail_config_imap_backend,
 	E_TYPE_MAIL_CONFIG_REMOTE_BACKEND)
 
 G_DEFINE_DYNAMIC_TYPE (
@@ -428,37 +418,6 @@ e_mail_config_nntp_backend_init (EMailConfigRemoteBackend *backend)
 }
 
 static gboolean
-mail_config_imap_backend_auto_configure (EMailConfigServiceBackend *backend,
-                                         EMailAutoconfig *autoconfig)
-{
-	ESource *source;
-
-	source = e_mail_config_service_backend_get_source (backend);
-
-	return e_mail_autoconfig_set_imap_details (autoconfig, source);
-}
-
-static void
-e_mail_config_imap_backend_class_init (EMailConfigRemoteBackendClass *class)
-{
-	EMailConfigServiceBackendClass *backend_class;
-
-	backend_class = E_MAIL_CONFIG_SERVICE_BACKEND_CLASS (class);
-	backend_class->backend_name = "imap";
-	backend_class->auto_configure = mail_config_imap_backend_auto_configure;
-}
-
-static void
-e_mail_config_imap_backend_class_finalize (EMailConfigRemoteBackendClass *class)
-{
-}
-
-static void
-e_mail_config_imap_backend_init (EMailConfigRemoteBackend *backend)
-{
-}
-
-static gboolean
 mail_config_imapx_backend_auto_configure (EMailConfigServiceBackend *backend,
                                           EMailAutoconfig *autoconfig)
 {
@@ -498,7 +457,6 @@ e_mail_config_remote_accounts_register_types (GTypeModule *type_module)
 	/* Concrete sub-types */
 	e_mail_config_pop_backend_register_type (type_module);
 	e_mail_config_nntp_backend_register_type (type_module);
-	e_mail_config_imap_backend_register_type (type_module);
 	e_mail_config_imapx_backend_register_type (type_module);
 }
 
