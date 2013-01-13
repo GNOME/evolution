@@ -1,3 +1,42 @@
+Evolution 3.7.4 2013-01-14
+--------------------------
+
+Bug Fixes:
+	Bug 588216 - 'Unsubscribe' disabled for newsgroups (Matthew Barnes)
+	Bug 690177 - Use trust-prompt for certificate verification in WebDAV
+	             backends (Milan Crha)
+	Bug 691047 - Support notification filtering (Matthew Barnes)
+	Bug 691133 - Evolution creates 'highlight' zombies (Matthew Barnes)
+	Bug 691134 - New contact lists always saved to a default book
+	             (Milan Crha)
+	Bug 691134 - Only autocompleted name is added to a contact list
+	             (Milan Crha)
+	Bug 691470 - ENameSelectorEntry: Copy to clipboard issue with
+	             multi-byte characters (Milan Crha)
+
+Other Changes:
+	* evolution-shell.pc.in: Remove libedataserverui-3.0 (Matthew Barnes)
+	* Reset the maintainer list in the About dialog. (Matthew Barnes)
+	* Remove the "imap-features" module. (Matthew Barnes)
+	* Move CamelSaslXOAuth2 to libemail-engine. (Matthew Barnes)
+	* Remove --with-kde-applnk-path configure option. (Matthew Barnes)
+	* Be more strict in inline PGP mime filter/part parser (Milan Crha)
+	* Do not hide 'attachment' images with Content-ID (Milan Crha)
+
+Translations:
+	Nilamdyuti Goswami (as)
+	Ihar Hrachyshka (be)
+	Krasimir Chonov (bg)
+	Dimitris Spingos (el)
+	Daniel Mustieles (es)
+	Alexandre Franke (fr)
+	Aurimas Černius (lt)
+	Kjartan Maraas (nb)
+	Rafael Ferreira (pt_BR)
+	Yuri Myasoedov (ru)
+	Martin Srebotnjak (sl)
+
+
 Evolution 3.7.3 2012-12-16
 --------------------------
 
