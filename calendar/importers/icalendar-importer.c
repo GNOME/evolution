@@ -1143,6 +1143,9 @@ format_dt (const ECalComponentDateTime *dt,
 		dt->value->zone = g_hash_table_lookup (timezones, dt->tzid);
 		if (!dt->value->zone)
 			dt->value->zone = icaltimezone_get_builtin_timezone_from_tzid (dt->tzid);
+
+		if (!dt->value->zone && g_ascii_strcasecmp (dt->tzid, "UTC") == 0)
+			dt->value->zone = icaltimezone_get_utc_timezone ();
 	}
 
 	if (dt->value->zone)
