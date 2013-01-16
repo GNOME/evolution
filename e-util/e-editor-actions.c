@@ -588,7 +588,7 @@ action_language_cb (GtkToggleAction *action,
 	checker = e_editor_widget_get_spell_checker (editor->priv->editor_widget);
 	active = gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action));
 	language_code = gtk_action_get_name (GTK_ACTION (action));
-	dictionary = e_spell_checker_lookup_dictionary (checker, language_code);
+	dictionary = e_spell_checker_ref_dictionary (checker, language_code);
 
 	/* Update the list of active dictionaries */
 	list = editor->priv->active_dictionaries;

@@ -644,7 +644,7 @@ spell_entry_load_spell_languages (ESpellEntry *entry)
 		ESpellDictionary *dictionary;
 		gchar *language_code = strv[ii];
 
-		dictionary = e_spell_checker_lookup_dictionary (
+		dictionary = e_spell_checker_ref_dictionary (
 			spell_checker, language_code);
 		if (dictionary != NULL)
 			list = g_list_prepend (list, dictionary);
@@ -658,7 +658,7 @@ spell_entry_load_spell_languages (ESpellEntry *entry)
 	if (list == NULL) {
 		ESpellDictionary *dictionary;
 
-		dictionary = e_spell_checker_lookup_dictionary (
+		dictionary = e_spell_checker_ref_dictionary (
 			spell_checker, NULL);
 		if (dictionary != NULL)
 			list = g_list_prepend (list, dictionary);
@@ -683,7 +683,7 @@ spell_entry_settings_changed (ESpellEntry *spell_entry,
 
 	languages = spell_entry_load_spell_languages (spell_entry);
 	e_spell_entry_set_languages (spell_entry, languages);
-	g_list_free (languages);
+	g_list_free_full (languages, (GDestroyNotify) g_object_unref);
 
 	spell_entry->priv->custom_checkers = FALSE;
 }
