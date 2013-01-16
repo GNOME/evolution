@@ -244,7 +244,7 @@ wksc_update_languages (WebKitSpellChecker *webkit_checker,
 		for (ii = 0; langs[ii] != NULL; ii++) {
 			ESpellDictionary *dict;
 
-			dict = e_spell_checker_lookup_dictionary (checker, langs[ii]);
+			dict = e_spell_checker_ref_dictionary (checker, langs[ii]);
 			dictionaries = g_list_append (dictionaries, dict);
 		}
 		g_strfreev (langs);
@@ -253,7 +253,7 @@ wksc_update_languages (WebKitSpellChecker *webkit_checker,
 		ESpellDictionary *dict;
 
 		language = pango_language_to_string (gtk_get_default_language ());
-		dict = e_spell_checker_lookup_dictionary (checker, language);
+		dict = e_spell_checker_ref_dictionary (checker, language);
 		if (dict) {
 			dictionaries = g_list_append (dictionaries, dict);
 		} else {
@@ -434,9 +434,9 @@ e_spell_checker_list_available_dicts (ESpellChecker *checker)
 }
 
 /**
- * e_spell_checker_lookup_dictionary:
+ * e_spell_checker_ref_dictionary:
  * @checker: an #ESpellChecker
- * @language_code: (allow-none) language code for which to lookup the dictionary
+ * @language_code: (allow-none): language code of a dictionary, or %NULL
  *
  * Tries to find an #ESpellDictionary for given @language_code.
  * If @language_code is %NULL, the function will return a default
@@ -445,32 +445,32 @@ e_spell_checker_list_available_dicts (ESpellChecker *checker)
  * Returns: an #ESpellDictionary for @language_code
  */
 ESpellDictionary *
-e_spell_checker_lookup_dictionary (ESpellChecker *checker,
-                                   const gchar *language_code)
+e_spell_checker_ref_dictionary (ESpellChecker *checker,
+                                const gchar *language_code)
 {
-	ESpellDictionary *e_dict = NULL;
-	GList *dicts;
+	ESpellDictionary *dictionary;
+	GList *list;
 
 	g_return_val_if_fail (E_IS_SPELL_CHECKER (checker), NULL);
 
 	/* If the cache has not yet been initialized, do so - we will need
 	 * it anyway, Otherwise is this call very cheap */
-	dicts = e_spell_checker_list_available_dicts (checker);
+	list = e_spell_checker_list_available_dicts (checker);
 
-	if (!language_code) {
-		if (dicts) {
-			e_dict = g_object_ref (dicts->data);
-		}
+	if (language_code == NULL) {
+		dictionary = (list != NULL) ? list->data : NULL;
 	} else {
-		e_dict = g_hash_table_lookup (
-			checker->priv->dictionaries_cache, language_code);
-		if (e_dict) {
-			g_object_ref (e_dict);
-		}
+		dictionary = g_hash_table_lookup (
+			checker->priv->dictionaries_cache,
+			language_code);
 	}
 
-	g_list_free (dicts);
-	return e_dict;
+	if (dictionary != NULL)
+		g_object_ref (dictionary);
+
+	g_list_free (list);
+
+	return dictionary;
 }
 
 /**

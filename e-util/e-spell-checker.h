@@ -65,8 +65,7 @@ ESpellChecker *	e_spell_checker_instance	(void);
 GList *		e_spell_checker_list_available_dicts
 						(ESpellChecker *checker);
 ESpellDictionary *
-		e_spell_checker_lookup_dictionary
-						(ESpellChecker *checker,
+		e_spell_checker_ref_dictionary	(ESpellChecker *checker,
 						 const gchar *language_code);
 void		e_spell_checker_set_active_dictionaries
 						(ESpellChecker *checker,
