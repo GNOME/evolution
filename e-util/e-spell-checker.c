@@ -36,6 +36,11 @@ struct _ESpellCheckerPrivate {
 	EnchantBroker *broker;
 	GHashTable *dictionaries_cache;
 	gboolean dictionaries_loaded;
+
+	/* We retain ownership of the EnchantDict's since they
+	 * have to be freed through enchant_broker_free_dict()
+	 * and we also own the EnchantBroker. */
+	GHashTable *enchant_dicts;
 };
 
 enum {
@@ -65,6 +70,19 @@ G_DEFINE_TYPE_EXTENDED (
  * provider for dictionaries. It also implements #WebKitSpellCheckerInterface,
  * so it can be set as a default spell-checker to WebKit editors
  */
+
+static gboolean
+spell_checker_enchant_dicts_foreach_cb (gpointer key,
+                                        gpointer value,
+                                        gpointer user_data)
+{
+	EnchantDict *enchant_dict = value;
+	EnchantBroker *enchant_broker = user_data;
+
+	enchant_broker_free_dict (enchant_broker, enchant_dict);
+
+	return TRUE;
+}
 
 static void
 wksc_check_spelling (WebKitSpellChecker *webkit_checker,
@@ -310,11 +328,32 @@ spell_checker_dispose (GObject *object)
 	g_list_free_full (priv->active, g_object_unref);
 	priv->active = NULL;
 
-	enchant_broker_free (priv->broker);
-	priv->broker = NULL;
+	g_hash_table_remove_all (priv->dictionaries_cache);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_spell_checker_parent_class)->dispose (object);
+}
+
+static void
+spell_checker_finalize (GObject *object)
+{
+	ESpellCheckerPrivate *priv;
+
+	priv = E_SPELL_CHECKER_GET_PRIVATE (object);
+
+	g_hash_table_destroy (priv->dictionaries_cache);
+
+	/* Freeing EnchantDicts requires help from EnchantBroker. */
+	g_hash_table_foreach_remove (
+		priv->enchant_dicts,
+		spell_checker_enchant_dicts_foreach_cb,
+		priv->broker);
+	g_hash_table_destroy (priv->enchant_dicts);
+
+	enchant_broker_free (priv->broker);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (e_spell_checker_parent_class)->finalize (object);
 }
 
 static void
@@ -328,6 +367,7 @@ e_spell_checker_class_init (ESpellCheckerClass *class)
 	object_class->set_property = spell_checker_set_property;
 	object_class->get_property = spell_checker_get_property;
 	object_class->dispose = spell_checker_dispose;
+	object_class->finalize = spell_checker_finalize;
 
 	g_object_class_install_property (
 		object_class,
@@ -355,6 +395,7 @@ static void
 e_spell_checker_init (ESpellChecker *checker)
 {
 	GHashTable *dictionaries_cache;
+	GHashTable *enchant_dicts;
 
 	dictionaries_cache = g_hash_table_new_full (
 		(GHashFunc) g_str_hash,
@@ -362,10 +403,17 @@ e_spell_checker_init (ESpellChecker *checker)
 		(GDestroyNotify) NULL,
 		(GDestroyNotify) g_object_unref);
 
+	enchant_dicts = g_hash_table_new_full (
+		(GHashFunc) g_str_hash,
+		(GEqualFunc) g_str_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) NULL);
+
 	checker->priv = E_SPELL_CHECKER_GET_PRIVATE (checker);
 
 	checker->priv->broker = enchant_broker_init ();
 	checker->priv->dictionaries_cache = dictionaries_cache;
+	checker->priv->enchant_dicts = enchant_dicts;
 }
 
 ESpellChecker *
@@ -394,12 +442,19 @@ list_enchant_dicts (const gchar * const lang_tag,
 		ESpellDictionary *dictionary;
 		const gchar *code;
 
+		/* Note that we retain ownership of the EnchantDict.
+		 * Since EnchantDict is not reference counted, we're
+		 * merely loaning the pointer to ESpellDictionary. */
 		dictionary = e_spell_dictionary_new (checker, enchant_dict);
 		code = e_spell_dictionary_get_code (dictionary);
 
 		g_hash_table_insert (
 			checker->priv->dictionaries_cache,
 			(gpointer) code, dictionary);
+
+		g_hash_table_insert (
+			checker->priv->enchant_dicts,
+			g_strdup (code), enchant_dict);
 	}
 }
 
@@ -474,6 +529,26 @@ e_spell_checker_ref_dictionary (ESpellChecker *checker,
 }
 
 /**
+ * e_spell_checker_get_enchant_dict:
+ * @checker: an #ESpellChecker
+ * @language_code: language code of a dictionary, or %NULL
+ *
+ * Returns the #EnchantDict for @language_code, or %NULL if there is none.
+ *
+ * Returns: the #EnchantDict for @language_code, or %NULL
+ **/
+EnchantDict *
+e_spell_checker_get_enchant_dict (ESpellChecker *checker,
+                                  const gchar *language_code)
+{
+	g_return_val_if_fail (E_IS_SPELL_CHECKER (checker), NULL);
+	g_return_val_if_fail (language_code != NULL, NULL);
+
+	return g_hash_table_lookup (
+		checker->priv->enchant_dicts, language_code);
+}
+
+/**
  * e_spell_checker_get_active_dictionaries:
  * @checker: an #ESpellChecker
  *
@@ -507,16 +582,6 @@ e_spell_checker_set_active_dictionaries (ESpellChecker *checker,
 
 	checker->priv->active = g_list_copy (active_dicts);
 	g_list_foreach (checker->priv->active, (GFunc) g_object_ref, NULL);
-}
-
-void
-e_spell_checker_free_dict (ESpellChecker *checker,
-                           EnchantDict *enchant_dict)
-{
-	g_return_if_fail (E_IS_SPELL_CHECKER (checker));
-	g_return_if_fail (enchant_dict != NULL);
-
-	enchant_broker_free_dict (checker->priv->broker, enchant_dict);
 }
 
 /**

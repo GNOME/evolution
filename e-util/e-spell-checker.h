@@ -67,13 +67,14 @@ GList *		e_spell_checker_list_available_dicts
 ESpellDictionary *
 		e_spell_checker_ref_dictionary	(ESpellChecker *checker,
 						 const gchar *language_code);
+EnchantDict *	e_spell_checker_get_enchant_dict
+						(ESpellChecker *checker,
+						 const gchar *language_code);
 void		e_spell_checker_set_active_dictionaries
 						(ESpellChecker *checker,
 						 GList *active_dicts);
 GList *		e_spell_checker_get_active_dictionaries
 						(ESpellChecker *checker);
-void		e_spell_checker_free_dict	(ESpellChecker *checker,
-						 EnchantDict *enchant_dict);
 void		e_spell_checker_learn_word	(ESpellChecker *checker,
 						 const gchar *word);
 void		e_spell_checker_ignore_word	(ESpellChecker *checker,
