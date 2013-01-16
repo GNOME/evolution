@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: as\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2013-01-11 14:35+0000\n"
-"PO-Revision-Date: 2013-01-11 21:19+0530\n"
+"POT-Creation-Date: 2013-01-14 20:45+0000\n"
+"PO-Revision-Date: 2013-01-16 12:23+0530\n"
 "Last-Translator: Nilamdyuti Goswami <ngoswami@redhat.com>\n"
 "Language-Team: Assamese <kde-i18n-doc@kde.org>\n"
 "Language: as_IN\n"
@@ -217,7 +217,7 @@ msgstr ""
 "একেই ঠিকনাসহ এটা নতুন কাৰ্ড আপুনি যোগ কৰিব নেকি?"
 
 #: ../addressbook/addressbook.error.xml.h:36 ../e-util/e-table-config.ui.h:6
-#: ../e-util/e-name-selector-dialog.c:966 ../mail/em-vfolder-editor-rule.c:390
+#: ../e-util/e-name-selector-dialog.c:966 ../mail/em-vfolder-editor-rule.c:397
 msgid "_Add"
 msgstr "যোগ কৰক (_A)"
 
@@ -399,7 +399,8 @@ msgid "_Profession:"
 msgstr "জীৱিকা(_P):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:27
-#: ../addressbook/gui/contact-editor/fullname.ui.h:14
+#| msgid "_Title:"
+msgctxt "Job"
 msgid "_Title:"
 msgstr "শীৰ্ষক (_T):"
 
@@ -700,6 +701,12 @@ msgstr "সম্পূৰ্ণ নাম"
 #: ../addressbook/gui/contact-editor/fullname.ui.h:13
 msgid "_First:"
 msgstr "প্ৰথম (_F):"
+
+#: ../addressbook/gui/contact-editor/fullname.ui.h:14
+#| msgid "_Title:"
+msgctxt "FullName"
+msgid "_Title:"
+msgstr "শীৰ্ষক (_T):"
 
 #: ../addressbook/gui/contact-editor/fullname.ui.h:15
 msgid "_Middle:"
@@ -5001,144 +5008,144 @@ msgstr "কেলেন্ডাৰৰ ঘটনাসমূহ"
 msgid "Evolution Calendar intelligent importer"
 msgstr "Evolution কেলেন্ডাৰ বুদ্ধিমান ইম্পোৰ্টকাৰী"
 
-#: ../calendar/importers/icalendar-importer.c:1184
-#: ../calendar/importers/icalendar-importer.c:1503
+#: ../calendar/importers/icalendar-importer.c:1187
+#: ../calendar/importers/icalendar-importer.c:1506
 msgctxt "iCalImp"
 msgid "Meeting"
 msgstr "সভা"
 
-#: ../calendar/importers/icalendar-importer.c:1184
-#: ../calendar/importers/icalendar-importer.c:1503
+#: ../calendar/importers/icalendar-importer.c:1187
+#: ../calendar/importers/icalendar-importer.c:1506
 msgctxt "iCalImp"
 msgid "Event"
 msgstr "ঘটনা"
 
-#: ../calendar/importers/icalendar-importer.c:1187
-#: ../calendar/importers/icalendar-importer.c:1504
+#: ../calendar/importers/icalendar-importer.c:1190
+#: ../calendar/importers/icalendar-importer.c:1507
 msgctxt "iCalImp"
 msgid "Task"
 msgstr "কাৰ্য্য"
 
-#: ../calendar/importers/icalendar-importer.c:1190
-#: ../calendar/importers/icalendar-importer.c:1505
+#: ../calendar/importers/icalendar-importer.c:1193
+#: ../calendar/importers/icalendar-importer.c:1508
 msgctxt "iCalImp"
 msgid "Memo"
 msgstr "মেমো"
 
-#: ../calendar/importers/icalendar-importer.c:1199
+#: ../calendar/importers/icalendar-importer.c:1202
 msgctxt "iCalImp"
 msgid "has recurrences"
 msgstr "পুনৰাবৃত্তিসমূহ আছে"
 
-#: ../calendar/importers/icalendar-importer.c:1204
+#: ../calendar/importers/icalendar-importer.c:1207
 msgctxt "iCalImp"
 msgid "is an instance"
 msgstr "এটা উদাহৰণ"
 
-#: ../calendar/importers/icalendar-importer.c:1209
+#: ../calendar/importers/icalendar-importer.c:1212
 msgctxt "iCalImp"
 msgid "has reminders"
 msgstr "ৰিমাইন্ডাৰসমূহ আছে"
 
-#: ../calendar/importers/icalendar-importer.c:1214
+#: ../calendar/importers/icalendar-importer.c:1217
 msgctxt "iCalImp"
 msgid "has attachments"
 msgstr "এটাচমেন্টসমূহ আছে"
 
 #. Translators: Appointment's classification
-#: ../calendar/importers/icalendar-importer.c:1227
+#: ../calendar/importers/icalendar-importer.c:1230
 msgctxt "iCalImp"
 msgid "Public"
 msgstr "ৰাজহুৱা"
 
 #. Translators: Appointment's classification
-#: ../calendar/importers/icalendar-importer.c:1230
+#: ../calendar/importers/icalendar-importer.c:1233
 msgctxt "iCalImp"
 msgid "Private"
 msgstr "ব্যক্তিগত"
 
 #. Translators: Appointment's classification
-#: ../calendar/importers/icalendar-importer.c:1233
+#: ../calendar/importers/icalendar-importer.c:1236
 msgctxt "iCalImp"
 msgid "Confidential"
 msgstr "গোপনীয়"
 
 #. Translators: Appointment's classification section name
-#: ../calendar/importers/icalendar-importer.c:1237
+#: ../calendar/importers/icalendar-importer.c:1240
 msgctxt "iCalImp"
 msgid "Classification"
 msgstr "শ্ৰেণীবিভাজন"
 
 #. Translators: Appointment's summary
-#: ../calendar/importers/icalendar-importer.c:1242
-#: ../calendar/importers/icalendar-importer.c:1547
+#: ../calendar/importers/icalendar-importer.c:1245
+#: ../calendar/importers/icalendar-importer.c:1550
 msgctxt "iCalImp"
 msgid "Summary"
 msgstr "সাৰাংশ"
 
 #. Translators: Appointment's location
-#: ../calendar/importers/icalendar-importer.c:1248
+#: ../calendar/importers/icalendar-importer.c:1251
 msgctxt "iCalImp"
 msgid "Location"
 msgstr "অৱস্থান"
 
 #. Translators: Appointment's start time
-#: ../calendar/importers/icalendar-importer.c:1256
-#: ../calendar/importers/icalendar-importer.c:1542
+#: ../calendar/importers/icalendar-importer.c:1259
+#: ../calendar/importers/icalendar-importer.c:1545
 msgctxt "iCalImp"
 msgid "Start"
 msgstr "আৰম্ভণি"
 
 #. Translators: 'Due' like the time due a task should be finished
-#: ../calendar/importers/icalendar-importer.c:1267
+#: ../calendar/importers/icalendar-importer.c:1270
 msgctxt "iCalImp"
 msgid "Due"
 msgstr "দেনা"
 
 #. Translators: Appointment's end time
-#: ../calendar/importers/icalendar-importer.c:1279
+#: ../calendar/importers/icalendar-importer.c:1282
 msgctxt "iCalImp"
 msgid "End"
 msgstr "সমাপ্তি"
 
 #. Translators: Appointment's categories
-#: ../calendar/importers/icalendar-importer.c:1289
+#: ../calendar/importers/icalendar-importer.c:1292
 msgctxt "iCalImp"
 msgid "Categories"
 msgstr "বিভাগসমূহ"
 
 #. Translators: Appointment's complete value (either percentage, or a date/time of a completion)
-#: ../calendar/importers/icalendar-importer.c:1313
+#: ../calendar/importers/icalendar-importer.c:1316
 msgctxt "iCalImp"
 msgid "Completed"
 msgstr "সম্পন্ন"
 
 #. Translators: Appointment's URL
-#: ../calendar/importers/icalendar-importer.c:1321
+#: ../calendar/importers/icalendar-importer.c:1324
 msgctxt "iCalImp"
 msgid "URL"
 msgstr "URL"
 
 #. Translators: Appointment's organizer
-#: ../calendar/importers/icalendar-importer.c:1332
 #: ../calendar/importers/icalendar-importer.c:1335
+#: ../calendar/importers/icalendar-importer.c:1338
 msgctxt "iCalImp"
 msgid "Organizer"
 msgstr "সংগঠক"
 
 #. Translators: Appointment's attendees
-#: ../calendar/importers/icalendar-importer.c:1355
 #: ../calendar/importers/icalendar-importer.c:1358
+#: ../calendar/importers/icalendar-importer.c:1361
 msgctxt "iCalImp"
 msgid "Attendees"
 msgstr "অংশগ্ৰহণকাৰীবৃন্দ"
 
-#: ../calendar/importers/icalendar-importer.c:1372
+#: ../calendar/importers/icalendar-importer.c:1375
 msgctxt "iCalImp"
 msgid "Description"
 msgstr "বিৱৰণ"
 
-#: ../calendar/importers/icalendar-importer.c:1537
+#: ../calendar/importers/icalendar-importer.c:1540
 msgctxt "iCalImp"
 msgid "Type"
 msgstr "ধৰণ"
@@ -6905,7 +6912,7 @@ msgstr "যে ফোল্ডাৰসমূহত পোস্ট কৰা �
 msgid "Save draft"
 msgstr "খচৰা সংৰক্ষণ কৰক"
 
-#: ../composer/e-msg-composer.c:861
+#: ../composer/e-msg-composer.c:862
 #, c-format
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
@@ -6914,7 +6921,7 @@ msgstr ""
 "প্ৰমাণপত্ৰ "
 "নিৰ্ধাৰিত হোৱা নাই"
 
-#: ../composer/e-msg-composer.c:870
+#: ../composer/e-msg-composer.c:871
 #, c-format
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
@@ -6923,16 +6930,16 @@ msgstr ""
 "বহীৰ্মুখি বাৰ্তা এনক্ৰিপ্ট কৰা সম্ভৱ নহয়: এই একাওন্টৰ বাবে কোনো এনক্ৰিপশনকাৰী "
 "প্ৰমাণপত্ৰ নিৰ্ধাৰিত হোৱা নাই"
 
-#: ../composer/e-msg-composer.c:1550 ../composer/e-msg-composer.c:1959
+#: ../composer/e-msg-composer.c:1552 ../composer/e-msg-composer.c:1961
 msgid "Compose Message"
 msgstr "বাৰ্তা লিখক"
 
-#: ../composer/e-msg-composer.c:4211
+#: ../composer/e-msg-composer.c:4215
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "ৰচকে এটা লিখনীবিহিন বাৰ্তা দেহ অন্তৰ্ভুক্ত কৰে, যাক সম্পাদন কৰিব নোৱাৰি।"
 
-#: ../composer/e-msg-composer.c:4886
+#: ../composer/e-msg-composer.c:4890
 msgid "Untitled Message"
 msgstr "শীৰ্ষকহীন বাৰ্তা"
 
@@ -9682,7 +9689,7 @@ msgstr "মাপ"
 #. Add encryption/signature header
 #: ../em-format/e-mail-formatter-print-headers.c:120
 #: ../mail/e-mail-config-security-page.c:642
-#: ../modules/mail-config/e-mail-config-remote-accounts.c:205
+#: ../modules/mail-config/e-mail-config-remote-accounts.c:195
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:129
 msgid "Security"
 msgstr "নিৰাপত্তা"
@@ -11509,7 +11516,6 @@ msgid "Use a secure connection"
 msgstr "এটা সুৰক্ষিত সংযোগ ব্যৱহাৰ কৰক"
 
 #: ../e-util/e-source-config.c:1416
-#| msgid "Not part of certificate"
 msgid "Unset _trust for SSL certificate"
 msgstr "SSL প্ৰমাণপত্ৰৰ বাবে অসংহিত ভৰসা (_t)"
 
@@ -12072,24 +12078,24 @@ msgstr "টেমপ্লেট"
 msgid "User cancelled operation"
 msgstr "ব্যৱহাৰকাৰী দ্বাৰা কাৰ্য্য বাতিল কৰা হৈছে"
 
-#: ../libemail-engine/e-mail-session.c:1575
+#: ../libemail-engine/e-mail-session.c:1572
 #, c-format
 msgid "%s authentication failed"
 msgstr "%s প্ৰমাণীকৰণ ব্যৰ্থ হল"
 
-#: ../libemail-engine/e-mail-session.c:1620
+#: ../libemail-engine/e-mail-session.c:1617
 #, c-format
 msgid "No data source found for UID '%s'"
 msgstr "UID '%s' ৰ বাবে কোনো তথ্য উৎস পোৱা নগল"
 
-#: ../libemail-engine/e-mail-session.c:1671
+#: ../libemail-engine/e-mail-session.c:1668
 #, c-format
 msgid ""
 "No destination address provided, forwarding of the message has been "
 "cancelled."
 msgstr "কোনো গন্তব্য ঠিকনা প্ৰদান কৰা হোৱা নাই, বাৰ্তা আগবঢ়োৱা বাতিল কৰা হৈছে।"
 
-#: ../libemail-engine/e-mail-session.c:1684
+#: ../libemail-engine/e-mail-session.c:1681
 #, c-format
 msgid "No identity found to use, forwarding of the message has been cancelled."
 msgstr "ব্যৱহাৰ কৰিবলে কোনো পৰিচয় পোৱা নগল, বাৰ্তাৰ আগবঢ়োৱা বাতিল কৰা হৈছে।"
@@ -13478,15 +13484,15 @@ msgstr "-------- ফৰওয়াৰ্ড কৰা বাৰ্তা --------"
 msgid "-----Original Message-----"
 msgstr "-------- মূল বাৰ্তা --------"
 
-#: ../mail/em-composer-utils.c:2613
+#: ../mail/em-composer-utils.c:2611
 msgid "an unknown sender"
 msgstr "অজ্ঞাত প্ৰেৰক"
 
-#: ../mail/em-composer-utils.c:3032
+#: ../mail/em-composer-utils.c:3030
 msgid "Posting destination"
 msgstr "পোস্ট কৰাৰ গন্তব্য"
 
-#: ../mail/em-composer-utils.c:3033
+#: ../mail/em-composer-utils.c:3031
 msgid "Choose folders to post the message to."
 msgstr "যে ফোল্ডাৰসমূহত বাৰ্তা পোস্ট কৰা হ'ব ইয়াক বাছক।"
 
@@ -13878,69 +13884,69 @@ msgstr "Shown ত সাবস্ক্ৰাইব কৰক (_S)"
 msgid "Subscribe To _All"
 msgstr "সকলোত সাবস্ক্ৰাইব কৰক (_S)"
 
-#: ../mail/em-subscription-editor.c:984 ../mail/em-subscription-editor.c:1845
+#: ../mail/em-subscription-editor.c:981 ../mail/em-subscription-editor.c:1842
 #: ../modules/mail/e-mail-shell-view-actions.c:1398
 msgid "_Unsubscribe"
 msgstr "আনসাবস্ক্ৰাইব (_U)"
 
-#: ../mail/em-subscription-editor.c:993
+#: ../mail/em-subscription-editor.c:990
 msgid "Unsu_bscribe From Hidden"
 msgstr "লুকুৱাৰ পৰা আনসাবস্ক্ৰাইব কৰক"
 
-#: ../mail/em-subscription-editor.c:1001
+#: ../mail/em-subscription-editor.c:998
 msgid "Unsubscribe From _All"
 msgstr "সকলোৰ পৰা আন-সবাস্ক্ৰাইব কৰক"
 
-#: ../mail/em-subscription-editor.c:1680
+#: ../mail/em-subscription-editor.c:1677
 msgid "Folder Subscriptions"
 msgstr "ফোল্ডাৰেৰ সাবস্ক্ৰিপশন"
 
-#: ../mail/em-subscription-editor.c:1720
+#: ../mail/em-subscription-editor.c:1717
 msgid "_Account:"
 msgstr "একাওন্ট (_A):"
 
-#: ../mail/em-subscription-editor.c:1735
+#: ../mail/em-subscription-editor.c:1732
 msgid "Clear Search"
 msgstr "সন্ধান পৰিষ্কাৰ কৰক"
 
-#: ../mail/em-subscription-editor.c:1753
+#: ../mail/em-subscription-editor.c:1750
 msgid "Sho_w items that contain:"
 msgstr "বস্তুসমূহ যি অন্তৰ্ভুক্ত কৰে দেখুৱাওক (_w):"
 
-#: ../mail/em-subscription-editor.c:1798
+#: ../mail/em-subscription-editor.c:1795
 msgid "Subscribe to the selected folder"
 msgstr "নিৰ্বাচিত ফোল্ডাৰলে স্বাক্ষৰ কৰক"
 
-#: ../mail/em-subscription-editor.c:1799
+#: ../mail/em-subscription-editor.c:1796
 msgid "Su_bscribe"
 msgstr "স্বাক্ষৰ কৰক (_b)"
 
-#: ../mail/em-subscription-editor.c:1844
+#: ../mail/em-subscription-editor.c:1841
 #: ../modules/mail/e-mail-shell-view-actions.c:1400
 msgid "Unsubscribe from the selected folder"
 msgstr "নিৰ্বাচিত ফোল্ডাৰৰ পৰা অস্বাক্ষৰ কৰক"
 
-#: ../mail/em-subscription-editor.c:1884
+#: ../mail/em-subscription-editor.c:1881
 msgid "Collapse all folders"
 msgstr "সকলো ফোল্ডাৰ স্খলন কৰক"
 
-#: ../mail/em-subscription-editor.c:1885
+#: ../mail/em-subscription-editor.c:1882
 msgid "C_ollapse All"
 msgstr "সকলো স্খলন কৰক (_o)"
 
-#: ../mail/em-subscription-editor.c:1895
+#: ../mail/em-subscription-editor.c:1892
 msgid "Expand all folders"
 msgstr "সকলো ফোল্ডাৰ প্ৰসাৰিত কৰক"
 
-#: ../mail/em-subscription-editor.c:1896
+#: ../mail/em-subscription-editor.c:1893
 msgid "E_xpand All"
 msgstr "সকলো প্ৰসাৰিত কৰক (_x)"
 
-#: ../mail/em-subscription-editor.c:1906
+#: ../mail/em-subscription-editor.c:1903
 msgid "Refresh the folder list"
 msgstr "ফোল্ডাৰ তালিকা সতেজ কৰক"
 
-#: ../mail/em-subscription-editor.c:1918
+#: ../mail/em-subscription-editor.c:1915
 msgid "Stop the current operation"
 msgstr "বৰ্তমান কাৰ্য্য বন্ধ কৰক"
 
@@ -13973,35 +13979,35 @@ msgstr "%s পৰা বাৰ্তা"
 msgid "Search _Folders"
 msgstr "ফোল্ডাৰ অনুসন্ধান কৰক (_F)"
 
-#: ../mail/em-vfolder-editor-rule.c:390
+#: ../mail/em-vfolder-editor-rule.c:397
 msgid "Add Folder"
 msgstr "ফোল্ডাৰ যোগ কৰক"
 
-#: ../mail/em-vfolder-editor-rule.c:516
+#: ../mail/em-vfolder-editor-rule.c:523
 msgid "Search Folder Sources"
 msgstr "সন্ধান ফোল্ডাৰৰ উৎসসমূহ"
 
-#: ../mail/em-vfolder-editor-rule.c:548
+#: ../mail/em-vfolder-editor-rule.c:555
 msgid "Automatically update on any _source folder change"
 msgstr "উৎস ফোল্ডাৰসমূহত পৰিবৰ্তন হলে স্বচালিতভাৱে আপডেইট কৰিব (_u)"
 
-#: ../mail/em-vfolder-editor-rule.c:560
+#: ../mail/em-vfolder-editor-rule.c:567
 msgid "All local folders"
 msgstr "সকলো স্থানীয় ফোল্ডাৰ"
 
-#: ../mail/em-vfolder-editor-rule.c:561
+#: ../mail/em-vfolder-editor-rule.c:568
 msgid "All active remote folders"
 msgstr "সকলো সক্ৰিয় দূৰবৰ্তী ফোল্ডাৰ"
 
-#: ../mail/em-vfolder-editor-rule.c:562
+#: ../mail/em-vfolder-editor-rule.c:569
 msgid "All local and active remote folders"
 msgstr "সকলো স্থানীয় আৰু সক্ৰিয় দূৰবৰ্তী ফোল্ডাৰ"
 
-#: ../mail/em-vfolder-editor-rule.c:563
+#: ../mail/em-vfolder-editor-rule.c:570
 msgid "Specific folders"
 msgstr "সুনিৰ্দিষ্ট ফোল্ডাৰ"
 
-#: ../mail/em-vfolder-editor-rule.c:601
+#: ../mail/em-vfolder-editor-rule.c:608
 msgid "include subfolders"
 msgstr "উপফোল্ডাৰসমূহ অন্তৰ্ভুক্ত কৰক"
 
@@ -14545,7 +14551,7 @@ msgstr ""
 "যায়।"
 
 #: ../mail/mail-config.ui.h:110
-#: ../modules/mail-config/e-mail-config-remote-accounts.c:235
+#: ../modules/mail-config/e-mail-config-remote-accounts.c:225
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:159
 msgid "No encryption"
 msgstr "এনক্ৰিপশনবিহীন"
@@ -16245,7 +16251,7 @@ msgid "Encryption:"
 msgstr "ইনক্ৰিপষণ:"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:654
-#: ../modules/mail-config/e-mail-config-remote-accounts.c:256
+#: ../modules/mail-config/e-mail-config-remote-accounts.c:246
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:180
 msgid "Authentication"
 msgstr "অনুমোদন ব্যৱস্থা"
@@ -16354,17 +16360,14 @@ msgid "Avoid IfMatch (needed on Apache < 2.2.8)"
 msgstr "IfMatch বাদ দিয়ক (প্ৰয়োজনী Apache < 2.2.8 )"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser.c:213
-#| msgid "S_ubject:"
 msgid "_Reject"
 msgstr "নাকচ কৰক (_R)"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser.c:214
-#| msgid "Accept Tentatively"
 msgid "Accept _Temporarily"
 msgstr "অস্থায়ীভাৱে গ্ৰহণ কৰক (_T)"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser.c:215
-#| msgid "Accept Tentatively"
 msgid "_Accept Permanently"
 msgstr "স্থায়ীভাৱে গ্ৰহণ কৰক (_A)"
 
@@ -16375,7 +16378,6 @@ msgstr ""
 "'%s' ৰ বাবে SSL প্ৰমাণপত্ৰ ভৰসা কৰিব নোৱাৰি। আপুনি ইয়াক গ্ৰহণ কৰিব বিচাৰে নে?"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser.c:228
-#| msgid "Certificates"
 msgid "Certificate trust..."
 msgstr "প্ৰমাণপত্ৰ ভৰসা..."
 
@@ -18327,40 +18329,40 @@ msgstr "Spool _Directory:"
 msgid "Choose a mbox spool directory"
 msgstr "Choose a mbox spool directory"
 
-#: ../modules/mail-config/e-mail-config-remote-accounts.c:147
+#: ../modules/mail-config/e-mail-config-remote-accounts.c:137
 #: ../modules/mail-config/e-mail-config-sendmail-backend.c:53
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:80
 #: ../modules/plugin-manager/evolution-plugin-manager.c:159
 msgid "Configuration"
 msgstr "মেইলৰ বিন্যাসতশন"
 
-#: ../modules/mail-config/e-mail-config-remote-accounts.c:165
+#: ../modules/mail-config/e-mail-config-remote-accounts.c:155
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:98
 #: ../plugins/publish-calendar/publish-calendar.ui.h:24
 msgid "_Server:"
 msgstr "চাৰ্ভাৰ: (_S)"
 
-#: ../modules/mail-config/e-mail-config-remote-accounts.c:179
+#: ../modules/mail-config/e-mail-config-remote-accounts.c:169
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:111
 msgid "_Port:"
 msgstr "পোৰ্ট: (_P)"
 
-#: ../modules/mail-config/e-mail-config-remote-accounts.c:191
+#: ../modules/mail-config/e-mail-config-remote-accounts.c:181
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:227
 msgid "User_name:"
 msgstr "ব্যৱহাৰকাৰীৰ নাম (_n):"
 
-#: ../modules/mail-config/e-mail-config-remote-accounts.c:224
+#: ../modules/mail-config/e-mail-config-remote-accounts.c:214
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:148
 msgid "Encryption _method:"
 msgstr "Encryption _method:"
 
-#: ../modules/mail-config/e-mail-config-remote-accounts.c:239
+#: ../modules/mail-config/e-mail-config-remote-accounts.c:229
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:163
 msgid "STARTTLS after connecting"
 msgstr "STARTTLS after connecting"
 
-#: ../modules/mail-config/e-mail-config-remote-accounts.c:243
+#: ../modules/mail-config/e-mail-config-remote-accounts.c:233
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:167
 msgid "SSL on a dedicated port"
 msgstr "SSL on a dedicated port"
