@@ -214,7 +214,6 @@ newline_or_whitespace_follows (const gchar *str,
 		if (!*str)
 			return TRUE;
 
-		
 		if (!camel_mime_is_lwsp (*str))
 			return FALSE;
 
