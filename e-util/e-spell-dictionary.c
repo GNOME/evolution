@@ -503,6 +503,34 @@ e_spell_dictionary_hash (ESpellDictionary *dictionary)
 }
 
 /**
+ * e_spell_dictionary_equal:
+ * @dictionary1: an #ESpellDictionary
+ * @dictionary2: another #ESpellDictionary
+ *
+ * Checks two #ESpellDictionary instances for equality based on their
+ * ISO codes.
+ *
+ * Returns: %TRUE if @dictionary1 and @dictionary2 are equal
+ **/
+gboolean
+e_spell_dictionary_equal (ESpellDictionary *dictionary1,
+                          ESpellDictionary *dictionary2)
+{
+	const gchar *code1, *code2;
+
+	g_return_val_if_fail (E_IS_SPELL_DICTIONARY (dictionary1), FALSE);
+	g_return_val_if_fail (E_IS_SPELL_DICTIONARY (dictionary2), FALSE);
+
+	if (dictionary1 == dictionary2)
+		return TRUE;
+
+	code1 = e_spell_dictionary_get_code (dictionary1);
+	code2 = e_spell_dictionary_get_code (dictionary2);
+
+	return g_str_equal (code1, code2);
+}
+
+/**
  * e_spell_dictionary_get_name:
  * @dictionary: an #ESpellDictionary
  *
