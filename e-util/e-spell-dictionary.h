@@ -66,6 +66,8 @@ ESpellDictionary *
 		e_spell_dictionary_new		(ESpellChecker *parent_checker,
 						 EnchantDict *enchant_dict);
 guint		e_spell_dictionary_hash		(ESpellDictionary *dictionary);
+gboolean	e_spell_dictionary_equal	(ESpellDictionary *dictionary1,
+						 ESpellDictionary *dictionary2);
 const gchar *	e_spell_dictionary_get_name	(ESpellDictionary *dictionary);
 const gchar *	e_spell_dictionary_get_code	(ESpellDictionary *dictionary);
 gboolean	e_spell_dictionary_check	(ESpellDictionary *dictionary,
