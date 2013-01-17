@@ -481,6 +481,28 @@ e_spell_dictionary_new (ESpellChecker *parent_checker,
 }
 
 /**
+ * e_spell_dictionary_hash:
+ * @dictionary: an #ESpellDictionary
+ *
+ * Generates a hash value for @dictionary based on its ISO code.
+ * This function is intended for easily hashing an #ESpellDictionary
+ * to add to a #GHashTable or similar data structure.
+ *
+ * Returns: a hash value for @dictionary
+ **/
+guint
+e_spell_dictionary_hash (ESpellDictionary *dictionary)
+{
+	const gchar *code;
+
+	g_return_val_if_fail (E_IS_SPELL_DICTIONARY (dictionary), 0);
+
+	code = e_spell_dictionary_get_code (dictionary);
+
+	return g_str_hash (code);
+}
+
+/**
  * e_spell_dictionary_get_name:
  * @dictionary: an #ESpellDictionary
  *

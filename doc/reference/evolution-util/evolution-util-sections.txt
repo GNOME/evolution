@@ -3954,6 +3954,7 @@ ESpellCheckerPrivate
 <TITLE>ESpellDictionary</TITLE>
 ESpellDictionary
 e_spell_dictionary_new
+e_spell_dictionary_hash
 e_spell_dictionary_get_name
 e_spell_dictionary_get_code
 e_spell_dictionary_check
