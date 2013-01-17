@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the evolution package.
 # Copyright (C) 2005-2013 Free Software Foundation, Inc.
 # Supranee Thirawatthanasuk <supranee@opentle.org>, 2005.
-# Theppitak Karoonboonyanan <thep@linux.thai.net>, 2005-2010, 2012.
+# Theppitak Karoonboonyanan <thep@linux.thai.net>, 2005-2010, 2012-2013.
 # Akom Chotiphantawanon <knight2000@gmail.com>, 2012-2013.
 #
 # TRANSLATORS NOTE:
@@ -16,9 +16,9 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2013-01-12 19:16+0000\n"
-"PO-Revision-Date: 2013-01-14 11:20+0700\n"
-"Last-Translator: Akom Chotiphantawanon <knight2000@gmail.com>\n"
+"POT-Creation-Date: 2013-01-14 20:45+0000\n"
+"PO-Revision-Date: 2013-01-17 08:48+0700\n"
+"Last-Translator: Theppitak Karoonboonyanan <thep@linux.thai.net>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
 "Language: th\n"
 "MIME-Version: 1.0\n"
@@ -366,11 +366,10 @@ msgstr "ที่อยู่เว็บไซต์"
 msgid "_Profession:"
 msgstr "_อาชีพ:"
 
-# "_ตำแหน่ง//_คำนำหน้าชื่อ:"
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:27
-#: ../addressbook/gui/contact-editor/fullname.ui.h:14
+msgctxt "Job"
 msgid "_Title:"
-msgstr ""
+msgstr "_ตำแหน่ง:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:28
 msgid "_Company:"
@@ -668,6 +667,11 @@ msgstr "ชื่อเต็ม"
 #: ../addressbook/gui/contact-editor/fullname.ui.h:13
 msgid "_First:"
 msgstr "_ชื่อ:"
+
+#: ../addressbook/gui/contact-editor/fullname.ui.h:14
+msgctxt "FullName"
+msgid "_Title:"
+msgstr "คำ_นำหน้าชื่อ:"
 
 #: ../addressbook/gui/contact-editor/fullname.ui.h:15
 msgid "_Middle:"
@@ -4845,144 +4849,144 @@ msgstr "เหตุการณ์แบบปฏิทิน"
 msgid "Evolution Calendar intelligent importer"
 msgstr "เครื่องมือนำเข้าข้อมูลอัจฉริยะสำหรับปฏิทินของ Evolution"
 
-#: ../calendar/importers/icalendar-importer.c:1184
-#: ../calendar/importers/icalendar-importer.c:1503
+#: ../calendar/importers/icalendar-importer.c:1187
+#: ../calendar/importers/icalendar-importer.c:1506
 msgctxt "iCalImp"
 msgid "Meeting"
 msgstr "การประชุม"
 
-#: ../calendar/importers/icalendar-importer.c:1184
-#: ../calendar/importers/icalendar-importer.c:1503
+#: ../calendar/importers/icalendar-importer.c:1187
+#: ../calendar/importers/icalendar-importer.c:1506
 msgctxt "iCalImp"
 msgid "Event"
 msgstr "เหตุการณ์"
 
-#: ../calendar/importers/icalendar-importer.c:1187
-#: ../calendar/importers/icalendar-importer.c:1504
+#: ../calendar/importers/icalendar-importer.c:1190
+#: ../calendar/importers/icalendar-importer.c:1507
 msgctxt "iCalImp"
 msgid "Task"
 msgstr "ภารกิจ"
 
-#: ../calendar/importers/icalendar-importer.c:1190
-#: ../calendar/importers/icalendar-importer.c:1505
+#: ../calendar/importers/icalendar-importer.c:1193
+#: ../calendar/importers/icalendar-importer.c:1508
 msgctxt "iCalImp"
 msgid "Memo"
 msgstr "บันทึกช่วยจำ"
 
-#: ../calendar/importers/icalendar-importer.c:1199
+#: ../calendar/importers/icalendar-importer.c:1202
 msgctxt "iCalImp"
 msgid "has recurrences"
 msgstr "มีการเวียนซ้ำ"
 
-#: ../calendar/importers/icalendar-importer.c:1204
+#: ../calendar/importers/icalendar-importer.c:1207
 msgctxt "iCalImp"
 msgid "is an instance"
 msgstr "เป็นกรณีหนึ่ง"
 
-#: ../calendar/importers/icalendar-importer.c:1209
+#: ../calendar/importers/icalendar-importer.c:1212
 msgctxt "iCalImp"
 msgid "has reminders"
 msgstr "มีการปลุกเตือน"
 
-#: ../calendar/importers/icalendar-importer.c:1214
+#: ../calendar/importers/icalendar-importer.c:1217
 msgctxt "iCalImp"
 msgid "has attachments"
 msgstr "มีแฟ้มแนบ"
 
 #. Translators: Appointment's classification
-#: ../calendar/importers/icalendar-importer.c:1227
+#: ../calendar/importers/icalendar-importer.c:1230
 msgctxt "iCalImp"
 msgid "Public"
 msgstr "เปิดเผย"
 
 #. Translators: Appointment's classification
-#: ../calendar/importers/icalendar-importer.c:1230
+#: ../calendar/importers/icalendar-importer.c:1233
 msgctxt "iCalImp"
 msgid "Private"
 msgstr "ส่วนตัว"
 
 #. Translators: Appointment's classification
-#: ../calendar/importers/icalendar-importer.c:1233
+#: ../calendar/importers/icalendar-importer.c:1236
 msgctxt "iCalImp"
 msgid "Confidential"
 msgstr "เป็นความลับ"
 
 #. Translators: Appointment's classification section name
-#: ../calendar/importers/icalendar-importer.c:1237
+#: ../calendar/importers/icalendar-importer.c:1240
 msgctxt "iCalImp"
 msgid "Classification"
 msgstr "ประเภท"
 
 #. Translators: Appointment's summary
-#: ../calendar/importers/icalendar-importer.c:1242
-#: ../calendar/importers/icalendar-importer.c:1547
+#: ../calendar/importers/icalendar-importer.c:1245
+#: ../calendar/importers/icalendar-importer.c:1550
 msgctxt "iCalImp"
 msgid "Summary"
 msgstr "สรุป"
 
 #. Translators: Appointment's location
-#: ../calendar/importers/icalendar-importer.c:1248
+#: ../calendar/importers/icalendar-importer.c:1251
 msgctxt "iCalImp"
 msgid "Location"
 msgstr "สถานที่"
 
 #. Translators: Appointment's start time
-#: ../calendar/importers/icalendar-importer.c:1256
-#: ../calendar/importers/icalendar-importer.c:1542
+#: ../calendar/importers/icalendar-importer.c:1259
+#: ../calendar/importers/icalendar-importer.c:1545
 msgctxt "iCalImp"
 msgid "Start"
 msgstr "เริ่ม"
 
 #. Translators: 'Due' like the time due a task should be finished
-#: ../calendar/importers/icalendar-importer.c:1267
+#: ../calendar/importers/icalendar-importer.c:1270
 msgctxt "iCalImp"
 msgid "Due"
 msgstr "ถึงกำหนด"
 
 #. Translators: Appointment's end time
-#: ../calendar/importers/icalendar-importer.c:1279
+#: ../calendar/importers/icalendar-importer.c:1282
 msgctxt "iCalImp"
 msgid "End"
 msgstr "สิ้นสุด"
 
 #. Translators: Appointment's categories
-#: ../calendar/importers/icalendar-importer.c:1289
+#: ../calendar/importers/icalendar-importer.c:1292
 msgctxt "iCalImp"
 msgid "Categories"
 msgstr "หมวด"
 
 #. Translators: Appointment's complete value (either percentage, or a date/time of a completion)
-#: ../calendar/importers/icalendar-importer.c:1313
+#: ../calendar/importers/icalendar-importer.c:1316
 msgctxt "iCalImp"
 msgid "Completed"
 msgstr "เสร็จแล้ว"
 
 #. Translators: Appointment's URL
-#: ../calendar/importers/icalendar-importer.c:1321
+#: ../calendar/importers/icalendar-importer.c:1324
 msgctxt "iCalImp"
 msgid "URL"
 msgstr "URL"
 
 #. Translators: Appointment's organizer
-#: ../calendar/importers/icalendar-importer.c:1332
 #: ../calendar/importers/icalendar-importer.c:1335
+#: ../calendar/importers/icalendar-importer.c:1338
 msgctxt "iCalImp"
 msgid "Organizer"
 msgstr "ผู้ประสานงาน"
 
 #. Translators: Appointment's attendees
-#: ../calendar/importers/icalendar-importer.c:1355
 #: ../calendar/importers/icalendar-importer.c:1358
+#: ../calendar/importers/icalendar-importer.c:1361
 msgctxt "iCalImp"
 msgid "Attendees"
 msgstr "ผู้เข้าประชุม"
 
-#: ../calendar/importers/icalendar-importer.c:1372
+#: ../calendar/importers/icalendar-importer.c:1375
 msgctxt "iCalImp"
 msgid "Description"
 msgstr "คำบรรยาย"
 
-#: ../calendar/importers/icalendar-importer.c:1537
+#: ../calendar/importers/icalendar-importer.c:1540
 msgctxt "iCalImp"
 msgid "Type"
 msgstr "ชนิด"
@@ -17764,11 +17768,11 @@ msgstr ""
 
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:123
 msgid "Ser_ver requires authentication"
-msgstr "เซิร์ฟเวอร์ต้องการการ_ยืนยันตัวบุคคล"
+msgstr "เซิร์ฟเวอร์ต้องการการยืนยันตัวบุ_คคล"
 
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:209
 msgid "T_ype:"
-msgstr "_ชนิด:"
+msgstr "ช_นิด:"
 
 #: ../modules/mail-config/e-mail-config-yahoo-summary.c:247
 msgid "Yahoo! Features"
