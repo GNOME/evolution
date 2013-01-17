@@ -99,6 +99,36 @@
   </chapter>
 
   <chapter>
+    <title>HTML Editing</title>
+    <xi:include href="xml/e-editor.xml"/>
+    <xi:include href="xml/e-editor-selection.xml"/>
+    <xi:include href="xml/e-editor-widget.xml"/>
+    <xi:include href="xml/e-editor-window.xml"/>
+    <xi:include href="xml/e-editor-dialog.xml"/>
+    <xi:include href="xml/e-editor-cell-dialog.xml"/>
+    <xi:include href="xml/e-editor-find-dialog.xml"/>
+    <xi:include href="xml/e-editor-hrule-dialog.xml"/>
+    <xi:include href="xml/e-editor-image-dialog.xml"/>
+    <xi:include href="xml/e-editor-link-dialog.xml"/>
+    <xi:include href="xml/e-editor-page-dialog.xml"/>
+    <xi:include href="xml/e-editor-paragraph-dialog.xml"/>
+    <xi:include href="xml/e-editor-replace-dialog.xml"/>
+    <xi:include href="xml/e-editor-spell-check-dialog.xml"/>
+    <xi:include href="xml/e-editor-table-dialog.xml"/>
+    <xi:include href="xml/e-editor-text-dialog.xml"/>
+    <xi:include href="xml/e-color-chooser-widget.xml"/>
+    <xi:include href="xml/e-color-combo.xml"/>
+    <xi:include href="xml/e-emoticon.xml"/>
+    <xi:include href="xml/e-emoticon-action.xml"/>
+    <xi:include href="xml/e-emoticon-chooser.xml"/>
+    <xi:include href="xml/e-emoticon-chooser-menu.xml"/>
+    <xi:include href="xml/e-emoticon-tool-button.xml"/>
+    <xi:include href="xml/e-image-chooser-dialog.xml"/>
+    <xi:include href="xml/e-spell-checker.xml"/>
+    <xi:include href="xml/e-spell-dictionary.xml"/>
+  </chapter>
+
+  <chapter>
     <title>Mail Signatures</title>
     <xi:include href="xml/e-mail-signature-combo-box.xml"/>
     <xi:include href="xml/e-mail-signature-editor.xml"/>

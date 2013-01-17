@@ -493,7 +493,7 @@ e_spell_checker_get_active_dictionaries (ESpellChecker *checker)
 /**
  * e_spell_checker_set_active_dictionaries:
  * @checker: an #ESpellChecker
- * @active_dict: a #GList of #ESpellDictionary to use for spell-checking
+ * @active_dicts: a #GList of #ESpellDictionary to use for spell-checking
  *
  * Set dictionaries to be actively used for spell-checking.
  */

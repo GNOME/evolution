@@ -131,6 +131,7 @@
 #include <e-util/e-html-utils.h>
 #include <e-util/e-icon-factory.h>
 #include <e-util/e-image-chooser.h>
+#include <e-util/e-image-chooser-dialog.h>
 #include <e-util/e-import-assistant.h>
 #include <e-util/e-import.h>
 #include <e-util/e-interval-chooser.h>

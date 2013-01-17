@@ -1375,7 +1375,7 @@ e_editor_widget_get_magic_links (EEditorWidget *widget)
 /**
  * e_editor_widget_set_magic_links:
  * @widget: an #EEditorWidget
- * @magic_link: @TRUE to enable magic links, @FALSE to disable them
+ * @magic_links: @TRUE to enable magic links, @FALSE to disable them
  *
  * Enables or disables automatic links conversion.
  */
