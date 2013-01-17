@@ -53,6 +53,8 @@ gchar *		e_mail_part_describe		(CamelMimePart *part,
 gboolean	e_mail_part_is_inline		(CamelMimePart *part,
 						 GQueue *extensions);
 
+gboolean	e_mail_part_utils_body_refers	(const gchar *body,
+						 const gchar *cid);
 G_END_DECLS
 
 #endif /* E_MAIL_PART_UTILS_H_ */
