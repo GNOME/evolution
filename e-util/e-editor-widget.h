@@ -70,12 +70,12 @@ G_BEGIN_DECLS
  * @E_EDITOR_WIDGET_COMMAND_FORWARD_DELETE:
  * @E_EDITOR_WIDGET_COMMAND_HILITE_COLOR: Sets color in which results of "FindString" command should be highlighted to given value.
  * @E_EDITOR_WIDGET_COMMAND_INDENT: Indents current paragraph by one level.
- * @E_EDITOR_WIDGET_COMMAND_INSERTS_HTML: Inserts give HTML code into document.
+ * @E_EDITOR_WIDGET_COMMAND_INSERT_HTML: Inserts give HTML code into document.
  * @E_EDITOR_WIDGET_COMMAND_INSERT_HORIZONTAL_RULE: Inserts a horizontal rule (&lt;HR&gt;) on current line.
  * @E_EDITOR_WIDGET_COMMAND_INSERT_IMAGE: Inserts an image with given source file.
  * @E_EDITOR_WIDGET_COMMAND_INSERT_LINE_BREAK: Breaks line at current cursor position.
  * @E_EDITOR_WIDGET_COMMAND_INSERT_NEW_LINE_IN_QUOTED_CONTENT: Breaks citation at current cursor position.
- * @E_EDITOR_WIDGET_COMMAND_INSERT_ORDERERED_LIST: Creates an ordered list environment at current cursor position.
+ * @E_EDITOR_WIDGET_COMMAND_INSERT_ORDERED_LIST: Creates an ordered list environment at current cursor position.
  * @E_EDITOR_WIDGET_COMMAND_INSERT_PARAGRAPH: Inserts a new paragraph at current cursor position.
  * @E_EDITOR_WIDGET_COMMAND_INSERT_TEXT: Inserts given text at current cursor position.
  * @E_EDITOR_WIDGET_COMMAND_INSERT_UNORDERED_LIST: Creates an undordered list environment at current cursor position.
@@ -105,7 +105,8 @@ G_BEGIN_DECLS
  * @E_EDITOR_WIDGET_COMMAND_USE_CSS: Whether to allow use of CSS or not depending on whether given value is "true" or "false".
  *
  * Used to identify DOM command to execute using e_editor_widget_exec_command().
- * Some commands require value to be passed in, which is always stated in the documentation.
+ * Some commands require value to be passed in, which is always stated in the
+ * documentation.
  */
 
 typedef enum {

@@ -1239,7 +1239,7 @@ e_editor_selection_set_block_format (EEditorSelection *selection,
 /**
  * e_editor_selection_get_font_color:
  * @selection: an #EEditorSelection
- * @rgba:[out] a #GdkRGBA object to be set to current font color
+ * @rgba: a #GdkRGBA object to be set to current font color
  *
  * Sets @rgba to contain color of current text selection or letter at current
  * cursor position.
@@ -1706,7 +1706,7 @@ e_editor_selection_is_subscript (EEditorSelection *selection)
 /**
  * e_editor_selection_set_subscript:
  * @selection: an #EEditorSelection
- * @subscrupt: @TRUE to enable subscript, @FALSE to disable
+ * @subscript: @TRUE to enable subscript, @FALSE to disable
  *
  * Toggles subscript of current selection or letter at current cursor position,
  * depending on whether @subscript is @TRUE or @FALSE.

@@ -78,6 +78,7 @@ e_editor_spell_check_dialog_get_type
 e_editor_table_dialog_get_type
 e_editor_text_dialog_get_type
 e_editor_widget_get_type
+e_editor_window_get_type
 e_emoticon_action_get_type
 e_emoticon_chooser_get_type
 e_emoticon_chooser_menu_get_type

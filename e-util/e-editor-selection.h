@@ -121,10 +121,10 @@ void		e_editor_selection_set_background_color
 						 const gchar *color);
 void		e_editor_selection_get_font_color
 						(EEditorSelection *selection,
-						 GdkRGBA *color);
+						 GdkRGBA *rgba);
 void		e_editor_selection_set_font_color
 						(EEditorSelection *selection,
-						 const GdkRGBA *color);
+						 const GdkRGBA *rgba);
 const gchar *	e_editor_selection_get_font_name
 						(EEditorSelection *selection);
 void		e_editor_selection_set_font_name
