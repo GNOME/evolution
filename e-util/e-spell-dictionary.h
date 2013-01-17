@@ -68,6 +68,8 @@ ESpellDictionary *
 guint		e_spell_dictionary_hash		(ESpellDictionary *dictionary);
 gboolean	e_spell_dictionary_equal	(ESpellDictionary *dictionary1,
 						 ESpellDictionary *dictionary2);
+gint		e_spell_dictionary_compare	(ESpellDictionary *dictionary1,
+						 ESpellDictionary *dictionary2);
 const gchar *	e_spell_dictionary_get_name	(ESpellDictionary *dictionary);
 const gchar *	e_spell_dictionary_get_code	(ESpellDictionary *dictionary);
 gboolean	e_spell_dictionary_check	(ESpellDictionary *dictionary,
@@ -93,8 +95,6 @@ void		e_spell_dictionary_store_correction
 						 gsize correction_length);
 ESpellChecker *	e_spell_dictionary_get_parent_checker
 						(ESpellDictionary *dictionary);
-gint		e_spell_dictionary_compare	(ESpellDictionary *dictionary1,
-						 ESpellDictionary *dictionary2);
 
 G_END_DECLS
 
