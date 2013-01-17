@@ -66,6 +66,8 @@ empe_mp_related_parse (EMailParserExtension *extension,
 {
 	CamelMultipart *mp;
 	CamelMimePart *body_part, *display_part = NULL;
+	CamelContentType *display_content_type;
+	gchar *html_body = NULL;
 	gint i, nparts, partidlen, displayid = 0;
 	GSList *parts;
 
@@ -86,6 +88,27 @@ empe_mp_related_parse (EMailParserExtension *extension,
 		return e_mail_parser_parse_part_as (
 				parser, part, part_id, "multipart/mixed",
 				cancellable);
+	}
+
+	display_content_type = camel_mime_part_get_content_type (display_part);
+	if (display_content_type &&
+	    camel_content_type_is (display_content_type, "text", "html")) {
+		CamelDataWrapper *dw;
+
+		dw = camel_medium_get_content ((CamelMedium *) display_part);
+		if (dw) {
+			CamelStream *mem = camel_stream_mem_new ();
+			GByteArray *bytes;
+
+			camel_data_wrapper_decode_to_stream_sync (dw, mem, cancellable, NULL);
+			camel_stream_close (mem, cancellable, NULL);
+
+			bytes = camel_stream_mem_get_byte_array	(CAMEL_STREAM_MEM (mem));
+			if (bytes && bytes->len)
+				html_body = g_strndup ((const gchar *) bytes->data, bytes->len);
+
+			g_object_unref (mem);
+		}
 	}
 
 	/* The to-be-displayed part goes first */
@@ -122,12 +145,14 @@ empe_mp_related_parse (EMailParserExtension *extension,
 				continue;
 
 			/* Don't render the part on it's own! */
-			if (mail_part->cid != NULL)
+			if (e_mail_part_utils_body_refers (html_body, mail_part->cid))
 				mail_part->is_hidden = TRUE;
 		}
 
 		parts = g_slist_concat (parts, list);
 	}
+
+	g_free (html_body);
 
 	return parts;
 }

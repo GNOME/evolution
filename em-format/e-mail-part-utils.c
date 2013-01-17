@@ -551,3 +551,31 @@ e_mail_part_is_inline (CamelMimePart *mime_part,
 	return (e_mail_parser_extension_get_flags (extension) &
 			E_MAIL_PARSER_EXTENSION_INLINE) != 0;
 }
+
+/**
+ * e_mail_part_utils_body_refers:
+ * @body: text body to search for references in; can be %NULL, then returns %FALSE
+ * @cid: a Content-ID to search for; if found in body, it should be of form "cid:xxxxx"; can be %NULL
+ *
+ * Returns whether @body contains a reference to @cid enclosed in quotes;
+ *    returns %FALSE if any of the arguments is %NULL.
+ **/
+gboolean
+e_mail_part_utils_body_refers (const gchar *body,
+			       const gchar *cid)
+{
+	const gchar *ptr;
+
+	if (!body || !cid || !*cid)
+		return FALSE;
+
+	ptr = body;
+	while (ptr = strstr (ptr, cid), ptr != NULL) {
+		if (ptr - body > 1 && ptr[-1] == '\"' && ptr[strlen (cid)] == '\"')
+			return TRUE;
+
+		ptr++;
+	}
+
+	return FALSE;
+}
