@@ -70,11 +70,13 @@ ESpellDictionary *
 EnchantDict *	e_spell_checker_get_enchant_dict
 						(ESpellChecker *checker,
 						 const gchar *language_code);
-void		e_spell_checker_set_active_dictionaries
+gboolean	e_spell_checker_get_language_active
 						(ESpellChecker *checker,
-						 GList *active_dicts);
-GList *		e_spell_checker_get_active_dictionaries
-						(ESpellChecker *checker);
+						 const gchar *language_code);
+void		e_spell_checker_set_language_active
+						(ESpellChecker *checker,
+						 const gchar *language_code,
+						 gboolean active);
 void		e_spell_checker_learn_word	(ESpellChecker *checker,
 						 const gchar *word);
 void		e_spell_checker_ignore_word	(ESpellChecker *checker,

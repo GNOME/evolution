@@ -573,11 +573,12 @@ action_insert_text_file_cb (GtkAction *action,
 }
 
 static void
-action_language_cb (GtkToggleAction *action,
+action_language_cb (GtkToggleAction *toggle_action,
                     EEditor *editor)
 {
 	ESpellChecker *checker;
 	ESpellDictionary *dictionary;
+	EEditorWidget *editor_widget;
 	const gchar *language_code;
 	GtkAction *add_action;
 	GList *list;
@@ -585,10 +586,14 @@ action_language_cb (GtkToggleAction *action,
 	gchar *action_name;
 	gboolean active;
 
-	checker = e_editor_widget_get_spell_checker (editor->priv->editor_widget);
-	active = gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action));
-	language_code = gtk_action_get_name (GTK_ACTION (action));
+	editor_widget = e_editor_get_editor_widget (editor);
+	checker = e_editor_widget_get_spell_checker (editor_widget);
+	language_code = gtk_action_get_name (GTK_ACTION (toggle_action));
 	dictionary = e_spell_checker_ref_dictionary (checker, language_code);
+	g_return_if_fail (dictionary != NULL);
+
+	active = gtk_toggle_action_get_active (toggle_action);
+	e_spell_checker_set_language_active (checker, language_code, active);
 
 	/* Update the list of active dictionaries */
 	list = editor->priv->active_dictionaries;

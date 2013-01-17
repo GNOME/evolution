@@ -425,14 +425,9 @@ static void
 editor_spell_languages_changed (EEditor *editor,
                                 GList *dictionaries)
 {
-	ESpellChecker *checker;
 	WebKitWebSettings *settings;
 	GString *languages;
 	const GList *iter;
-
-	/* Set the languages for spell-checker to use for suggestions etc. */
-	checker = e_editor_widget_get_spell_checker (editor->priv->editor_widget);
-	e_spell_checker_set_active_dictionaries (checker, dictionaries);
 
 	languages = g_string_new ("");
 
