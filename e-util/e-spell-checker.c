@@ -43,11 +43,6 @@ struct _ESpellCheckerPrivate {
 	GHashTable *enchant_dicts;
 };
 
-enum {
-	PROP_0,
-	PROP_ACTIVE_DICTIONARIES
-};
-
 static ESpellChecker *s_instance = NULL;
 
 /* Forward Declarations */
@@ -284,41 +279,6 @@ wksc_update_languages (WebKitSpellChecker *webkit_checker,
 }
 
 static void
-spell_checker_set_property (GObject *object,
-                            guint property_id,
-                            const GValue *value,
-                            GParamSpec *pspec)
-{
-	switch (property_id) {
-		case PROP_ACTIVE_DICTIONARIES:
-			e_spell_checker_set_active_dictionaries (
-				E_SPELL_CHECKER (object),
-				g_value_get_pointer (value));
-			return;
-	}
-
-	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-}
-
-static void
-spell_checker_get_property (GObject *object,
-                            guint property_id,
-                            GValue *value,
-                            GParamSpec *pspec)
-{
-	switch (property_id) {
-		case PROP_ACTIVE_DICTIONARIES:
-			g_value_set_pointer (
-				value,
-				e_spell_checker_get_active_dictionaries (
-					E_SPELL_CHECKER (object)));
-			return;
-	}
-
-	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-}
-
-static void
 spell_checker_dispose (GObject *object)
 {
 	ESpellCheckerPrivate *priv;
@@ -364,19 +324,8 @@ e_spell_checker_class_init (ESpellCheckerClass *class)
 	g_type_class_add_private (class, sizeof (ESpellCheckerPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->set_property = spell_checker_set_property;
-	object_class->get_property = spell_checker_get_property;
 	object_class->dispose = spell_checker_dispose;
 	object_class->finalize = spell_checker_finalize;
-
-	g_object_class_install_property (
-		object_class,
-		PROP_ACTIVE_DICTIONARIES,
-		g_param_spec_pointer (
-			"active-dictionaries",
-			NULL,
-			"List of active dictionaries to use for spell-checking",
-			G_PARAM_READWRITE));
 }
 
 static void
