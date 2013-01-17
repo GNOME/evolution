@@ -531,6 +531,31 @@ e_spell_dictionary_equal (ESpellDictionary *dictionary1,
 }
 
 /**
+ * e_spell_dictionary_compare:
+ * @dictionary1: an #ESpellDictionary
+ * @dictionary2: another #ESpellDictionary
+ *
+ * Compares @dictionary1 and @dictionary2 by their display names for
+ * the purpose of lexicographical sorting.  Use this function where a
+ * #GCompareFunc callback is required, such as g_list_sort().
+ *
+ * Returns: 0 if the names match,
+ *          a negative value if @dictionary1 < @dictionary2,
+ *          or a positive value of @dictionary1 > @dictionary2
+ **/
+gint
+e_spell_dictionary_compare (ESpellDictionary *dictionary1,
+                            ESpellDictionary *dictionary2)
+{
+	g_return_val_if_fail (E_IS_SPELL_DICTIONARY (dictionary1), 0);
+	g_return_val_if_fail (E_IS_SPELL_DICTIONARY (dictionary2), 0);
+
+	return strcmp (
+		dictionary1->priv->collate_key,
+		dictionary2->priv->collate_key);
+}
+
+/**
  * e_spell_dictionary_get_name:
  * @dictionary: an #ESpellDictionary
  *
@@ -722,14 +747,3 @@ e_spell_dictionary_get_parent_checker (ESpellDictionary *dictionary)
 	return dictionary->priv->spell_checker;
 }
 
-gint
-e_spell_dictionary_compare (ESpellDictionary *dictionary1,
-                            ESpellDictionary *dictionary2)
-{
-	g_return_val_if_fail (E_IS_SPELL_DICTIONARY (dictionary1), 0);
-	g_return_val_if_fail (E_IS_SPELL_DICTIONARY (dictionary2), 0);
-
-	return strcmp (
-		dictionary1->priv->collate_key,
-		dictionary2->priv->collate_key);
-}

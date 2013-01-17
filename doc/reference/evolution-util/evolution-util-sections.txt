@@ -3956,6 +3956,7 @@ ESpellDictionary
 e_spell_dictionary_new
 e_spell_dictionary_hash
 e_spell_dictionary_equal
+e_spell_dictionary_compare
 e_spell_dictionary_get_name
 e_spell_dictionary_get_code
 e_spell_dictionary_check
@@ -3965,7 +3966,6 @@ e_spell_dictionary_get_suggestions
 e_spell_dictionary_free_suggestions
 e_spell_dictionary_store_correction
 e_spell_dictionary_get_parent_checker
-e_spell_dictionary_compare
 <SUBSECTION Standard>
 E_SPELL_DICTIONARY
 E_IS_SPELL_DICTIONARY
