@@ -663,8 +663,15 @@ e_spell_dictionary_ignore_word (ESpellDictionary *dictionary,
  *
  * Provides list of alternative spellings of @word.
  *
- * Returns: a list of strings that has to be free'd by
- * e_spell_dictionary_free_suggestions().
+ * Free the returned spelling suggestions with g_free(), and the list
+ * itself with g_list_free().  An easy way to free the list properly in
+ * one step is as follows:
+ *
+ * |[
+ *   g_list_free_full (list, (GDestroyNotify) g_free);
+ * ]|
+ *
+ * Returns: a list of spelling suggestions for @word
  */
 GList *
 e_spell_dictionary_get_suggestions (ESpellDictionary *dictionary,
@@ -686,19 +693,6 @@ e_spell_dictionary_get_suggestions (ESpellDictionary *dictionary,
 		dictionary->priv->enchant_dict, suggestions);
 
 	return g_list_reverse (list);
-}
-
-/**
- * e_spell_dictionary_free_suggestions:
- * @suggestions: (allow-none) a list of suggestions obtained from
- * 		 e_spell_dictionary_get_suggestions()
- *
- * Frees the @suggestions list.
- */
-void
-e_spell_dictionary_free_suggestions (GList *suggestions)
-{
-	g_list_foreach (suggestions, (GFunc) g_free, NULL);
 }
 
 /**

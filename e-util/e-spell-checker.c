@@ -174,7 +174,7 @@ wksc_get_guesses (WebKitSpellChecker *webkit_checker,
 
 			guesses[ii] = 0;
 
-			e_spell_dictionary_free_suggestions (suggestions);
+			g_list_free_full (suggestions, (GDestroyNotify) g_free);
 		}
 	}
 

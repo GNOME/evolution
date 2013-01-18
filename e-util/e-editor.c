@@ -273,7 +273,7 @@ editor_spell_checkers_foreach (ESpellDictionary *dictionary,
 		g_free (action_label);
 	}
 
-	e_spell_dictionary_free_suggestions (list);
+	g_list_free_full (list, (GDestroyNotify) g_free);
 
 	g_free (path);
 	g_free (word);
