@@ -631,7 +631,7 @@ do_print_msg_to_file (GObject *source,
 		printer, "done",
 		G_CALLBACK (g_object_unref), printer);
 
-	e_mail_printer_print (printer, GTK_PRINT_OPERATION_ACTION_EXPORT, NULL);
+	e_mail_printer_print (printer, GTK_PRINT_OPERATION_ACTION_EXPORT, NULL, NULL);
 
 	g_object_unref (parser);
 }
@@ -1152,7 +1152,7 @@ em_utils_selection_set_urilist (GtkSelectionData *data,
 }
 
 /**
- * em_utils_selection_set_urilist:
+ * em_utils_selection_get_urilist:
  * @data:
  * @folder:
  * @uids:

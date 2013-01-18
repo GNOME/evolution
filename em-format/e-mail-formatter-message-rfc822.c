@@ -191,13 +191,21 @@ emfe_message_rfc822_format (EMailFormatterExtension *extension,
 	} else {
 		gchar *str;
 		gchar *uri;
-
+		const gchar *default_charset, *charset;
 		EMailPart *p;
 		GSList *iter;
 
 		iter = e_mail_part_list_get_iter (context->parts, part->id);
 		if (!iter || !iter->next)
 			return FALSE;
+
+		default_charset = e_mail_formatter_get_default_charset (formatter);
+		charset = e_mail_formatter_get_charset (formatter);
+
+		if (!default_charset)
+			default_charset = "";
+		if (!charset)
+			charset = "";
 
 		p = iter->data;
 
@@ -206,6 +214,8 @@ emfe_message_rfc822_format (EMailFormatterExtension *extension,
 			"part_id", G_TYPE_STRING, p->id,
 			"mode", G_TYPE_INT, E_MAIL_FORMATTER_MODE_RAW,
 			"headers_collapsable", G_TYPE_INT, 0,
+			"formatter_default_charset", G_TYPE_STRING, default_charset,
+			"formatter_charset", G_TYPE_STRING, charset,
 			NULL);
 
 		str = g_strdup_printf (

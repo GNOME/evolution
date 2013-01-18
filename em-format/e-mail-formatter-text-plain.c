@@ -147,11 +147,22 @@ emfe_text_plain_format (EMailFormatterExtension *extension,
 
 	} else {
 		gchar *uri, *str;
+		const gchar *default_charset, *charset;
+
+		default_charset = e_mail_formatter_get_default_charset (formatter);
+		charset = e_mail_formatter_get_charset (formatter);
+
+		if (!default_charset)
+			default_charset = "";
+		if (!charset)
+			charset = "";
 
 		uri = e_mail_part_build_uri (
 			context->folder, context->message_uid,
 			"part_id", G_TYPE_STRING, part->id,
 			"mode", G_TYPE_INT, E_MAIL_FORMATTER_MODE_RAW,
+			"formatter_default_charset", G_TYPE_STRING, default_charset,
+			"formatter_charset", G_TYPE_STRING, charset,
 			NULL);
 
 		str = g_strdup_printf (

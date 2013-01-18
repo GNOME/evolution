@@ -325,8 +325,17 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 		g_free ((gchar *) argv[3]);
 		pango_font_description_free (fd);
 	} else {
+		const gchar *default_charset, *charset;
 		gchar *uri, *str;
 		gchar *syntax;
+
+		default_charset = e_mail_formatter_get_default_charset (formatter);
+		charset = e_mail_formatter_get_charset (formatter);
+
+		if (!default_charset)
+			default_charset = "";
+		if (!charset)
+			charset = "";
 
 		syntax = get_syntax (part, NULL);
 
@@ -335,6 +344,8 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 			"part_id", G_TYPE_STRING, part->id,
 			"mode", G_TYPE_INT, E_MAIL_FORMATTER_MODE_RAW,
 			"__formatas", G_TYPE_STRING, syntax,
+			"formatter_default_charset", G_TYPE_STRING, default_charset,
+			"formatter_charset", G_TYPE_STRING, charset,
 			NULL);
 
 		g_free (syntax);

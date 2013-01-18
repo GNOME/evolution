@@ -952,6 +952,7 @@ mail_reader_do_print_message (GObject *object,
                               gpointer user_data)
 {
 	EMailReader *reader = E_MAIL_READER (object);
+	EMailDisplay *mail_display;
 	EActivity *activity;
 	GCancellable *cancellable;
 	EMailPrinter *printer;
@@ -970,7 +971,11 @@ mail_reader_do_print_message (GObject *object,
 		printer, "done",
 		G_CALLBACK (printing_done_cb), activity);
 
-	e_mail_printer_print (printer, context->action, cancellable);
+	mail_display = e_mail_reader_get_mail_display (reader);
+
+	e_mail_printer_print (printer, context->action,
+		e_mail_display_get_formatter (mail_display),
+		cancellable);
 
 	free_message_printing_context (context);
 }

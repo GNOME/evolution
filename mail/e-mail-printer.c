@@ -199,25 +199,45 @@ emp_start_printing (GObject *object,
 }
 
 static void
-emp_run_print_operation (EMailPrinter *emp)
+emp_run_print_operation (EMailPrinter *emp,
+			 EMailFormatter *formatter)
 {
 	gchar *mail_uri;
+	const gchar *default_charset, *charset;
+
+	default_charset = formatter ? e_mail_formatter_get_default_charset (formatter) : NULL;
+	charset = formatter ? e_mail_formatter_get_charset (formatter) : NULL;
+
+	if (!default_charset)
+		default_charset = "";
+	if (!charset)
+		charset = "";
 
 	mail_uri = e_mail_part_build_uri (
 		emp->priv->parts_list->folder,
 		emp->priv->parts_list->message_uid,
 		"__evo-load-image", G_TYPE_BOOLEAN, TRUE,
 		"mode", G_TYPE_INT, E_MAIL_FORMATTER_MODE_PRINTING,
+		"formatter_default_charset", G_TYPE_STRING, default_charset,
+		"formatter_charset", G_TYPE_STRING, charset,
 		NULL);
 
 	/* Print_layout is a special EMPart created by EMFormatHTMLPrint */
 	if (emp->priv->webview == NULL) {
+		EMailFormatter *emp_formatter;
+
 		emp->priv->webview = g_object_new (
 			E_TYPE_MAIL_DISPLAY,
 			"mode", E_MAIL_FORMATTER_MODE_PRINTING, NULL);
 		e_web_view_set_enable_frame_flattening (E_WEB_VIEW (emp->priv->webview), FALSE);
 		e_mail_display_set_force_load_images (
 			E_MAIL_DISPLAY (emp->priv->webview), TRUE);
+
+		emp_formatter = e_mail_display_get_formatter (E_MAIL_DISPLAY (emp->priv->webview));
+		if (default_charset && *default_charset)
+			e_mail_formatter_set_default_charset (emp_formatter, default_charset);
+		if (charset && *charset)
+			e_mail_formatter_set_charset (emp_formatter, charset);
 
 		g_object_ref_sink (emp->priv->webview);
 		g_signal_connect (
@@ -824,6 +844,7 @@ e_mail_printer_new (EMailPartList *source)
 void
 e_mail_printer_print (EMailPrinter *emp,
                       GtkPrintOperationAction action,
+		      EMailFormatter *formatter,
                       GCancellable *cancellable)
 {
 	g_return_if_fail (E_IS_MAIL_PRINTER (emp));
@@ -850,7 +871,7 @@ e_mail_printer_print (EMailPrinter *emp,
 			cancellable, "cancelled",
 			G_CALLBACK (gtk_print_operation_cancel), emp->priv->operation);
 
-	emp_run_print_operation (emp);
+	emp_run_print_operation (emp, formatter);
 }
 
 const gchar *

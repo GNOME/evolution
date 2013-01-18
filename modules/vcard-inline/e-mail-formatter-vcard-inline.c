@@ -89,6 +89,7 @@ emfe_vcard_inline_format (EMailFormatterExtension *extension,
 			vcard_part->formatter, contact, stream, cancellable);
 
 	} else {
+		const gchar *default_charset, *charset;
 		gchar *str, *uri;
 		gint length;
 		const gchar *label = NULL;
@@ -100,6 +101,14 @@ emfe_vcard_inline_format (EMailFormatterExtension *extension,
 		if (length < 1)
 			return FALSE;
 
+		default_charset = e_mail_formatter_get_default_charset (formatter);
+		charset = e_mail_formatter_get_charset (formatter);
+
+		if (!default_charset)
+			default_charset = "";
+		if (!charset)
+			charset = "";
+
 		if (!vcard_part->message_uid && context->message_uid)
 			vcard_part->message_uid = g_strdup (context->message_uid);
 
@@ -110,6 +119,8 @@ emfe_vcard_inline_format (EMailFormatterExtension *extension,
 			context->folder, context->message_uid,
 			"part_id", G_TYPE_STRING, part->id,
 			"mode", G_TYPE_INT, E_MAIL_FORMATTER_MODE_RAW,
+			"formatter_default_charset", G_TYPE_STRING, default_charset,
+			"formatter_charset", G_TYPE_STRING, charset,
 			NULL);
 
 		mode = eab_contact_formatter_get_display_mode (vcard_part->formatter);
