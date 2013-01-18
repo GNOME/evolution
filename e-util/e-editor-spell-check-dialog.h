@@ -62,13 +62,11 @@ struct _EEditorSpellCheckDialogClass {
 };
 
 GType		e_editor_spell_check_dialog_get_type
-						(void) G_GNUC_CONST;
-GtkWidget *	e_editor_spell_check_dialog_new	(EEditor *editor);
-GList *		e_editor_spell_check_dialog_get_dictionaries
-						(EEditorSpellCheckDialog *dialog);
-void		e_editor_spell_check_dialog_set_dictionaries
-						(EEditorSpellCheckDialog *dialog,
-						 GList *dictionaries);
+					(void) G_GNUC_CONST;
+GtkWidget *	e_editor_spell_check_dialog_new
+					(EEditor *editor);
+void		e_editor_spell_check_dialog_update_dictionaries
+					(EEditorSpellCheckDialog *dialog);
 
 G_END_DECLS
 

@@ -863,10 +863,6 @@ action_spell_check_cb (GtkAction *action,
 	if (editor->priv->spell_check_dialog == NULL) {
 		editor->priv->spell_check_dialog =
 			e_editor_spell_check_dialog_new (editor);
-
-		e_editor_spell_check_dialog_set_dictionaries (
-			E_EDITOR_SPELL_CHECK_DIALOG (editor->priv->spell_check_dialog),
-			editor->priv->active_dictionaries);
 	}
 
 	gtk_window_present (GTK_WINDOW (editor->priv->spell_check_dialog));

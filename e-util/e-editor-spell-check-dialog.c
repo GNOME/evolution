@@ -46,7 +46,6 @@ struct _EEditorSpellCheckDialogPrivate {
 	GtkWidget *suggestion_label;
 	GtkWidget *tree_view;
 
-	GList *dictionaries;
 	WebKitDOMDOMSelection *selection;
 
 	gchar *word;
@@ -448,6 +447,19 @@ editor_spell_check_dialog_finalize (GObject *object)
 }
 
 static void
+editor_spell_check_dialog_constructed (GObject *object)
+{
+	EEditorSpellCheckDialog *dialog;
+
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_editor_spell_check_dialog_parent_class)->
+		constructed (object);
+
+	dialog = E_EDITOR_SPELL_CHECK_DIALOG (object);
+	e_editor_spell_check_dialog_update_dictionaries (dialog);
+}
+
+static void
 e_editor_spell_check_dialog_class_init (EEditorSpellCheckDialogClass *class)
 {
 	GtkWidgetClass *widget_class;
@@ -458,6 +470,7 @@ e_editor_spell_check_dialog_class_init (EEditorSpellCheckDialogClass *class)
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = editor_spell_check_dialog_finalize;
+	object_class->constructed = editor_spell_check_dialog_constructed;
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->show = editor_spell_check_dialog_show;
@@ -623,32 +636,40 @@ e_editor_spell_check_dialog_new (EEditor *editor)
 		NULL);
 }
 
-GList *
-e_editor_spell_check_dialog_get_dictionaries (EEditorSpellCheckDialog *dialog)
-{
-	g_return_val_if_fail (E_IS_EDITOR_SPELL_CHECK_DIALOG (dialog), NULL);
-
-	return g_list_copy (dialog->priv->dictionaries);
-}
-
 void
-e_editor_spell_check_dialog_set_dictionaries (EEditorSpellCheckDialog *dialog,
-                                              GList *dictionaries)
+e_editor_spell_check_dialog_update_dictionaries (EEditorSpellCheckDialog *dialog)
 {
+	EEditor *editor;
+	EEditorWidget *editor_widget;
+	ESpellChecker *spell_checker;
 	GtkComboBox *combo_box;
 	GtkListStore *store;
-	GList *list;
+	GQueue queue = G_QUEUE_INIT;
+	gchar **languages;
+	guint n_languages = 0;
+	guint ii;
 
 	g_return_if_fail (E_IS_EDITOR_SPELL_CHECK_DIALOG (dialog));
 
-	/* Free the old list of spell checkers. */
-	g_list_free (dialog->priv->dictionaries);
+	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
+	editor_widget = e_editor_get_editor_widget (editor);
+	spell_checker = e_editor_widget_get_spell_checker (editor_widget);
 
-	/* Copy and sort the new list of spell checkers. */
-	list = g_list_sort (
-		g_list_copy (dictionaries),
-		(GCompareFunc) e_spell_dictionary_compare);
-	dialog->priv->dictionaries = list;
+	languages = e_spell_checker_list_active_languages (
+		spell_checker, &n_languages);
+	for (ii = 0; ii < n_languages; ii++) {
+		ESpellDictionary *dictionary;
+
+		dictionary = e_spell_checker_ref_dictionary (
+			spell_checker, languages[ii]);
+		if (dictionary != NULL)
+			g_queue_push_tail (&queue, dictionary);
+		else
+			g_warning (
+				"%s: No '%s' dictionary found",
+				G_STRFUNC, languages[ii]);
+	}
+	g_strfreev (languages);
 
 	/* Populate a list store for the combo box. */
 	store = gtk_list_store_new (
@@ -656,12 +677,12 @@ e_editor_spell_check_dialog_set_dictionaries (EEditorSpellCheckDialog *dialog,
 		G_TYPE_STRING,			/* COLUMN_NAME */
 		E_TYPE_SPELL_DICTIONARY);	/* COLUMN_DICTIONARY */
 
-	while (list != NULL) {
-		ESpellDictionary *dictionary = list->data;
+	while (!g_queue_is_empty (&queue)) {
+		ESpellDictionary *dictionary;
 		GtkTreeIter iter;
 		const gchar *name;
 
-		dictionary = E_SPELL_DICTIONARY (list->data);
+		dictionary = g_queue_pop_head (&queue);
 		name = e_spell_dictionary_get_name (dictionary);
 
 		gtk_list_store_append (store, &iter);
@@ -671,7 +692,7 @@ e_editor_spell_check_dialog_set_dictionaries (EEditorSpellCheckDialog *dialog,
 			COLUMN_DICTIONARY, dictionary,
 			-1);
 
-		list = g_list_next (list);
+		g_object_unref (dictionary);
 	}
 
 	/* FIXME Try to restore selection. */
@@ -681,3 +702,4 @@ e_editor_spell_check_dialog_set_dictionaries (EEditorSpellCheckDialog *dialog,
 
 	g_object_unref (store);
 }
+
