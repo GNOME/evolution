@@ -577,40 +577,19 @@ action_language_cb (GtkToggleAction *toggle_action,
                     EEditor *editor)
 {
 	ESpellChecker *checker;
-	ESpellDictionary *dictionary;
 	EEditorWidget *editor_widget;
 	const gchar *language_code;
 	GtkAction *add_action;
-	GList *list;
-	guint length;
+	guint count;
 	gchar *action_name;
 	gboolean active;
 
 	editor_widget = e_editor_get_editor_widget (editor);
 	checker = e_editor_widget_get_spell_checker (editor_widget);
 	language_code = gtk_action_get_name (GTK_ACTION (toggle_action));
-	dictionary = e_spell_checker_ref_dictionary (checker, language_code);
-	g_return_if_fail (dictionary != NULL);
 
 	active = gtk_toggle_action_get_active (toggle_action);
 	e_spell_checker_set_language_active (checker, language_code, active);
-
-	/* Update the list of active dictionaries */
-	list = editor->priv->active_dictionaries;
-	if (active) {
-		list = g_list_insert_sorted (
-			list, (EnchantDict *) dictionary,
-			(GCompareFunc) e_spell_dictionary_compare);
-	} else {
-		GList *link;
-
-		link = g_list_find (list, dictionary);
-		g_return_if_fail (link != NULL);
-		g_object_unref (link->data);
-		list = g_list_delete_link (list, link);
-	}
-	editor->priv->active_dictionaries = list;
-	length = g_list_length (list);
 
 	/* Update "Add Word To" context menu item visibility. */
 	action_name = g_strdup_printf ("context-spell-add-%s", language_code);
@@ -618,15 +597,15 @@ action_language_cb (GtkToggleAction *toggle_action,
 	gtk_action_set_visible (add_action, active);
 	g_free (action_name);
 
-	gtk_action_set_visible (ACTION (CONTEXT_SPELL_ADD), length == 1);
-	gtk_action_set_visible (ACTION (CONTEXT_SPELL_ADD_MENU), length > 1);
-	gtk_action_set_visible (ACTION (CONTEXT_SPELL_IGNORE), length > 0);
+	count = e_spell_checker_count_active_languages (checker);
 
-	gtk_action_set_sensitive (ACTION (SPELL_CHECK), length > 0);
+	gtk_action_set_visible (ACTION (CONTEXT_SPELL_ADD), count == 1);
+	gtk_action_set_visible (ACTION (CONTEXT_SPELL_ADD_MENU), count > 1);
+	gtk_action_set_visible (ACTION (CONTEXT_SPELL_IGNORE), count > 0);
+
+	gtk_action_set_sensitive (ACTION (SPELL_CHECK), count > 0);
 
 	e_editor_emit_spell_languages_changed (editor);
-
-	g_object_unref (dictionary);
 }
 
 static gboolean
