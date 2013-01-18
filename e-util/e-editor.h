@@ -64,8 +64,7 @@ struct _EEditorClass {
 	void		(*update_actions)	(EEditor *editor,
 						 GdkEventButton *event);
 	void		(*spell_languages_changed)
-						(EEditor *editor,
-						 GList *dictionaries);
+						(EEditor *editor);
 };
 
 GType		e_editor_get_type		(void) G_GNUC_CONST;
