@@ -593,6 +593,53 @@ e_spell_checker_set_language_active (ESpellChecker *checker,
 }
 
 /**
+ * e_spell_checker_list_active_languages:
+ * @checker: an #ESpellChecker
+ * @n_languages: return location for the number of active languages, or %NULL
+ *
+ * Returns a %NULL-terminated array of language codes actively being used
+ * for spell checking.  Free the returned array with g_strfreev().
+ *
+ * Returns: a %NULL-teriminated array of language codes
+ **/
+gchar **
+e_spell_checker_list_active_languages (ESpellChecker *checker,
+                                       guint *n_languages)
+{
+	GHashTable *active_dictionaries;
+	GList *list, *link;
+	gchar **active_languages;
+	guint size;
+	gint ii = 0;
+
+	g_return_val_if_fail (E_IS_SPELL_CHECKER (checker), NULL);
+
+	active_dictionaries = checker->priv->active_dictionaries;
+	list = g_hash_table_get_keys (active_dictionaries);
+	size = g_hash_table_size (active_dictionaries);
+
+	active_languages = g_new0 (gchar *, size + 1);
+
+	list = g_list_sort (list, (GCompareFunc) e_spell_dictionary_compare);
+
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		ESpellDictionary *dictionary;
+		const gchar *language_code;
+
+		dictionary = E_SPELL_DICTIONARY (link->data);
+		language_code = e_spell_dictionary_get_code (dictionary);
+		active_languages[ii++] = g_strdup (language_code);
+	}
+
+	if (n_languages != NULL)
+		*n_languages = size;
+
+	g_list_free (list);
+
+	return active_languages;
+}
+
+/**
  * e_spell_checker_ignore_word:
  * @checker: an #ESpellChecker
  * @word: word to ignore for the rest of session
