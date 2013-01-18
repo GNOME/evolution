@@ -974,7 +974,7 @@ em_utils_composer_print_cb (EMsgComposer *composer,
 		emp, "done",
 		G_CALLBACK (composer_print_done_cb), NULL);
 
-	e_mail_printer_print (emp, action, NULL);
+	e_mail_printer_print (emp, action, NULL, NULL);
 
 	g_object_unref (parts);
 }

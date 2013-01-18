@@ -312,11 +312,19 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 	} else {
 		CamelFolder *folder;
 		const gchar *message_uid;
+		const gchar *default_charset, *charset;
 		gchar *uri, *str;
 		gchar *syntax;
 
 		folder = e_mail_part_list_get_folder (context->part_list);
 		message_uid = e_mail_part_list_get_message_uid (context->part_list);
+		default_charset = e_mail_formatter_get_default_charset (formatter);
+		charset = e_mail_formatter_get_charset (formatter);
+
+		if (!default_charset)
+			default_charset = "";
+		if (!charset)
+			charset = "";
 
 		syntax = get_syntax (part, NULL);
 
@@ -325,6 +333,8 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 			"part_id", G_TYPE_STRING, part->id,
 			"mode", G_TYPE_INT, E_MAIL_FORMATTER_MODE_RAW,
 			"__formatas", G_TYPE_STRING, syntax,
+			"formatter_default_charset", G_TYPE_STRING, default_charset,
+			"formatter_charset", G_TYPE_STRING, charset,
 			NULL);
 
 		g_free (syntax);

@@ -76,6 +76,7 @@ enum {
 	PROP_PART_LIST,
 	PROP_HEADERS_COLLAPSABLE,
 	PROP_HEADERS_COLLAPSED,
+	PROP_FORMATTER
 };
 
 static CamelDataCache *emd_global_http_cache = NULL;
@@ -1282,6 +1283,11 @@ mail_display_get_property (GObject *object,
                            GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_FORMATTER:
+			g_value_set_object (
+				value, e_mail_display_get_formatter (
+				E_MAIL_DISPLAY (object)));
+			return;
 		case PROP_PART_LIST:
 			g_value_set_pointer (
 				value, e_mail_display_get_parts_list (
@@ -1485,6 +1491,16 @@ e_mail_display_class_init (EMailDisplayClass *class)
 
 	web_view_class = E_WEB_VIEW_CLASS (class);
 	web_view_class->set_fonts = mail_display_set_fonts;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_FORMATTER,
+		g_param_spec_pointer (
+			"formatter",
+			"Mail Formatter",
+			NULL,
+			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_install_property (
 		object_class,
@@ -1703,6 +1719,14 @@ e_mail_display_set_mode (EMailDisplay *display,
 	g_object_notify (G_OBJECT (display), "mode");
 }
 
+EMailFormatter *
+e_mail_display_get_formatter (EMailDisplay *display)
+{
+	g_return_val_if_fail (E_IS_MAIL_DISPLAY (display), NULL);
+
+	return display->priv->formatter;
+}
+
 EMailPartList *
 e_mail_display_get_parts_list (EMailDisplay *display)
 {
@@ -1788,6 +1812,7 @@ e_mail_display_load (EMailDisplay *display,
 	EMailPartList *part_list;
 	CamelFolder *folder;
 	const gchar *message_uid;
+	const gchar *default_charset, *charset;
 	gchar *uri;
 
 	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
@@ -1802,14 +1827,21 @@ e_mail_display_load (EMailDisplay *display,
 
 	folder = e_mail_part_list_get_folder (part_list);
 	message_uid = e_mail_part_list_get_message_uid (part_list);
+	default_charset = e_mail_formatter_get_default_charset (display->priv->formatter);
+	charset = e_mail_formatter_get_charset (display->priv->formatter);
+
+	if (!default_charset)
+		default_charset = "";
+	if (!charset)
+		charset = "";
 
 	uri = e_mail_part_build_uri (
 		folder, message_uid,
 		"mode", G_TYPE_INT, display->priv->mode,
-		"headers_collapsable", G_TYPE_BOOLEAN,
-		display->priv->headers_collapsable,
-		"headers_collapsed", G_TYPE_BOOLEAN,
-		display->priv->headers_collapsed,
+		"headers_collapsable", G_TYPE_BOOLEAN, display->priv->headers_collapsable,
+		"headers_collapsed", G_TYPE_BOOLEAN, display->priv->headers_collapsed,
+		"formatter_default_charset", G_TYPE_STRING, default_charset,
+		"formatter_charset", G_TYPE_STRING, charset,
 		NULL);
 
 	e_web_view_load_uri (E_WEB_VIEW (display), uri);
@@ -1825,6 +1857,7 @@ do_reload_display (EMailDisplay *display)
 	GHashTable *table;
 	SoupURI *soup_uri;
 	gchar *mode, *collapsable, *collapsed;
+	const gchar *default_charset, *charset;
 
 	web_view = E_WEB_VIEW (display);
 	uri = (gchar *) e_web_view_get_uri (web_view);
@@ -1844,6 +1877,13 @@ do_reload_display (EMailDisplay *display)
 	mode = g_strdup_printf ("%d", display->priv->mode);
 	collapsable = g_strdup_printf ("%d", display->priv->headers_collapsable);
 	collapsed = g_strdup_printf ("%d", display->priv->headers_collapsed);
+	default_charset = e_mail_formatter_get_default_charset (display->priv->formatter);
+	charset = e_mail_formatter_get_charset (display->priv->formatter);
+
+	if (!default_charset)
+		default_charset = "";
+	if (!charset)
+		charset = "";
 
 	table = soup_form_decode (soup_uri->query);
 	g_hash_table_replace (
@@ -1852,6 +1892,10 @@ do_reload_display (EMailDisplay *display)
 		table, g_strdup ("headers_collapsable"), collapsable);
 	g_hash_table_replace (
 		table, g_strdup ("headers_collapsed"), collapsed);
+	g_hash_table_replace (
+		table, g_strdup ("formatter_default_charset"), g_strdup (default_charset));
+	g_hash_table_replace (
+		table, g_strdup ("formatter_charset"), g_strdup (charset));
 
 	query = soup_form_encode_hash (table);
 

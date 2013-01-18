@@ -71,6 +71,7 @@ handle_mail_request (GSimpleAsyncResult *res,
 	GByteArray *ba;
 	gchar *part_id;
 	gchar *val;
+	const gchar *default_charset, *charset;
 
 	EMailFormatterContext context = { 0 };
 
@@ -99,6 +100,9 @@ handle_mail_request (GSimpleAsyncResult *res,
 	if (val)
 		context.mode = atoi (val);
 
+	default_charset = g_hash_table_lookup (request->priv->uri_query, "formatter_default_charset");
+	charset = g_hash_table_lookup (request->priv->uri_query, "formatter_charset");
+
 	context.part_list = g_object_ref (part_list);
 	context.uri = request->priv->full_uri;
 
@@ -106,6 +110,11 @@ handle_mail_request (GSimpleAsyncResult *res,
 		formatter = e_mail_formatter_print_new ();
 	else
 		formatter = e_mail_formatter_new ();
+
+	if (default_charset && *default_charset)
+		e_mail_formatter_set_default_charset (formatter, default_charset);
+	if (charset && *charset)
+		e_mail_formatter_set_charset (formatter, charset);
 
 	part_id = g_hash_table_lookup (request->priv->uri_query, "part_id");
 	if (part_id) {

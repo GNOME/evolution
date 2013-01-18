@@ -183,6 +183,7 @@ emfe_message_rfc822_format (EMailFormatterExtension *extension,
 		EMailPart *p;
 		CamelFolder *folder;
 		const gchar *message_uid;
+		const gchar *default_charset, *charset;
 		gchar *str;
 		gchar *uri;
 
@@ -192,12 +193,21 @@ emfe_message_rfc822_format (EMailFormatterExtension *extension,
 
 		folder = e_mail_part_list_get_folder (context->part_list);
 		message_uid = e_mail_part_list_get_message_uid (context->part_list);
+		default_charset = e_mail_formatter_get_default_charset (formatter);
+		charset = e_mail_formatter_get_charset (formatter);
+
+		if (!default_charset)
+			default_charset = "";
+		if (!charset)
+			charset = "";
 
 		uri = e_mail_part_build_uri (
 			folder, message_uid,
 			"part_id", G_TYPE_STRING, p->id,
 			"mode", G_TYPE_INT, E_MAIL_FORMATTER_MODE_RAW,
 			"headers_collapsable", G_TYPE_INT, 0,
+			"formatter_default_charset", G_TYPE_STRING, default_charset,
+			"formatter_charset", G_TYPE_STRING, charset,
 			NULL);
 
 		str = g_strdup_printf (

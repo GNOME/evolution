@@ -21,6 +21,7 @@
 #define E_MAIL_PRINTER_H
 
 #include <em-format/e-mail-part-list.h>
+#include <em-format/e-mail-formatter.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_PRINTER \
@@ -67,6 +68,7 @@ EMailPrinter *  e_mail_printer_new	(EMailPartList *source);
 
 void		e_mail_printer_print	(EMailPrinter *printer,
 					 GtkPrintOperationAction action,
+					 EMailFormatter *formatter,
 					 GCancellable *cancellable);
 
 void            e_mail_printer_set_export_filename
