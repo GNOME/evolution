@@ -452,11 +452,10 @@ editor_spell_languages_changed (EEditor *editor,
 		"spell-checking-languages", languages->str,
 		NULL);
 
-	if (editor->priv->spell_check_dialog != NULL) {
-		e_editor_spell_check_dialog_set_dictionaries (
-			E_EDITOR_SPELL_CHECK_DIALOG (editor->priv->spell_check_dialog),
-			dictionaries);
-	}
+	if (editor->priv->spell_check_dialog != NULL)
+		e_editor_spell_check_dialog_update_dictionaries (
+			E_EDITOR_SPELL_CHECK_DIALOG (
+			editor->priv->spell_check_dialog));
 
 	g_string_free (languages, TRUE);
 }

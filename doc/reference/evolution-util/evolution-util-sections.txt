@@ -1832,8 +1832,7 @@ EEditorSelectionPrivate
 <TITLE>EEditorSpellCheckDialog</TITLE>
 EEditorSpellCheckDialog
 e_editor_spell_check_dialog_new
-e_editor_spell_check_dialog_get_dictionaries
-e_editor_spell_check_dialog_set_dictionaries
+e_editor_spell_check_dialog_update_dictionaries
 <SUBSECTION Standard>
 E_EDITOR_SPELL_CHECK_DIALOG
 E_IS_EDITOR_SPELL_CHECK_DIALOG
