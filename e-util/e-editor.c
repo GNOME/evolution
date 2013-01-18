@@ -96,8 +96,7 @@ action_context_spell_suggest_cb (GtkAction *action,
 }
 
 static void
-editor_inline_spelling_suggestions (EEditor *editor,
-                                    EnchantDict *dictionary)
+editor_inline_spelling_suggestions (EEditor *editor)
 {
 	EEditorWidget *widget;
 	EEditorSelection *selection;
@@ -196,12 +195,13 @@ editor_inline_spelling_suggestions (EEditor *editor,
 
 /* Helper for editor_update_actions() */
 static void
-editor_spell_checkers_foreach (ESpellDictionary *dictionary,
-                               EEditor *editor)
+editor_spell_checkers_foreach (EEditor *editor,
+                               const gchar *language_code)
 {
 	EEditorWidget *editor_widget;
 	EEditorSelection *selection;
-	const gchar *language_code;
+	ESpellChecker *spell_checker;
+	ESpellDictionary *dictionary;
 	GtkActionGroup *action_group;
 	GtkUIManager *manager;
 	GList *list, *link;
@@ -210,15 +210,23 @@ editor_spell_checkers_foreach (ESpellDictionary *dictionary,
 	gint ii = 0;
 	guint merge_id;
 
-	language_code = e_spell_dictionary_get_code (dictionary);
-
 	editor_widget = e_editor_get_editor_widget (editor);
 	selection = e_editor_widget_get_selection (editor_widget);
+	spell_checker = e_editor_widget_get_spell_checker (editor_widget);
+
 	word = e_editor_selection_get_caret_word (selection);
 	if (word == NULL || *word == '\0')
 		return;
 
-	list = e_spell_dictionary_get_suggestions (dictionary, word, -1);
+	dictionary = e_spell_checker_ref_dictionary (
+		spell_checker, language_code);
+	if (dictionary != NULL) {
+		list = e_spell_dictionary_get_suggestions (
+			dictionary, word, -1);
+		g_object_unref (dictionary);
+	} else {
+		list = NULL;
+	}
 
 	manager = e_editor_get_ui_manager (editor);
 	action_group = editor->priv->suggestion_actions;
@@ -288,17 +296,22 @@ editor_update_actions (EEditor *editor,
 	WebKitHitTestResult *hit_test;
 	WebKitHitTestResultContext context;
 	WebKitDOMNode *node;
-	EEditorWidget *widget;
 	EEditorSelection *selection;
+	EEditorWidget *editor_widget;
+	ESpellChecker *spell_checker;
 	GtkUIManager *manager;
 	GtkActionGroup *action_group;
 	GList *list;
+	gchar **languages;
+	guint ii, n_languages;
 	gboolean visible;
 	guint merge_id;
 	gint loc, len;
 
-	widget = e_editor_get_editor_widget (editor);
-	webview = WEBKIT_WEB_VIEW (widget);
+	editor_widget = e_editor_get_editor_widget (editor);
+	spell_checker = e_editor_widget_get_spell_checker (editor_widget);
+
+	webview = WEBKIT_WEB_VIEW (editor_widget);
 	manager = e_editor_get_ui_manager (editor);
 
 	editor->priv->image = NULL;
@@ -382,12 +395,14 @@ editor_update_actions (EEditor *editor,
 		list = g_list_delete_link (list, list);
 	}
 
+	languages = e_spell_checker_list_active_languages (
+		spell_checker, &n_languages);
+
 	/* Decide if we should show spell checking items. */
 	checker = WEBKIT_SPELL_CHECKER (webkit_get_text_checker ());
-	selection = e_editor_widget_get_selection (widget);
+	selection = e_editor_widget_get_selection (editor_widget);
 	visible = FALSE;
-	if ((g_list_length (editor->priv->active_dictionaries) > 0) &&
-	    e_editor_selection_has_text (selection)) {
+	if ((n_languages > 0) && e_editor_selection_has_text (selection)) {
 		gchar *word = e_editor_selection_get_caret_word (selection);
 		if (word && *word) {
 			webkit_spell_checker_check_spelling_of_string (
@@ -404,21 +419,25 @@ editor_update_actions (EEditor *editor,
 
 	/* Exit early if spell checking items are invisible. */
 	if (!visible) {
+		g_strfreev (languages);
 		return;
 	}
 
-	list = editor->priv->active_dictionaries;
 	merge_id = gtk_ui_manager_new_merge_id (manager);
 	editor->priv->spell_suggestions_merge_id = merge_id;
 
 	/* Handle a single active language as a special case. */
-	if (g_list_length (list) == 1) {
-		editor_inline_spelling_suggestions (editor, list->data);
+	if (n_languages == 1) {
+		editor_inline_spelling_suggestions (editor);
+		g_strfreev (languages);
 		return;
 	}
 
-	/* Add actions and context menu content for active languages */
-	g_list_foreach (list, (GFunc) editor_spell_checkers_foreach, editor);
+	/* Add actions and context menu content for active languages. */
+	for (ii = 0; ii < n_languages; ii++)
+		editor_spell_checkers_foreach (editor, languages[ii]);
+
+	g_strfreev (languages);
 }
 
 static void
@@ -684,9 +703,6 @@ editor_dispose (GObject *object)
 	g_clear_object (&priv->language_actions);
 	g_clear_object (&priv->spell_check_actions);
 	g_clear_object (&priv->suggestion_actions);
-
-	g_list_free_full (priv->active_dictionaries, g_object_unref);
-	priv->active_dictionaries = NULL;
 
 	g_clear_object (&priv->main_menu);
 	g_clear_object (&priv->main_toolbar);

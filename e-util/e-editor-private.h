@@ -87,7 +87,6 @@ struct _EEditorPrivate {
 	gchar *filename;
 
 	guint spell_suggestions_merge_id;
-	GList *active_dictionaries;
 
 	WebKitDOMNode *image;
 	WebKitDOMNode *table_cell;
