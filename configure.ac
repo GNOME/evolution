@@ -41,8 +41,8 @@ m4_define([gdk_minimum_version], [3.4.0])
 m4_define([gdk_encoded_version], [GDK_VERSION_3_4])
 
 dnl Keep these two definitions in agreement.
-m4_define([soup_minimum_version], [2.38.1])
-m4_define([soup_encoded_version], [SOUP_VERSION_2_38])
+m4_define([soup_minimum_version], [2.40.3])
+m4_define([soup_encoded_version], [SOUP_VERSION_2_40])
 
 m4_define([eds_minimum_version], [evo_version])
 m4_define([gtkhtml_minimum_version], [4.5.2])

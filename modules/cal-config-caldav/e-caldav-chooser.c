@@ -188,54 +188,13 @@ trust_prompt_sync (const ENamedParameters *parameters,
 {
 	EUserPrompter *prompter;
 	gint response;
-	gboolean asked = FALSE;
 
 	g_return_val_if_fail (parameters != NULL, E_TRUST_PROMPT_RESPONSE_UNKNOWN);
 
 	prompter = e_user_prompter_new ();
 	g_return_val_if_fail (prompter != NULL, E_TRUST_PROMPT_RESPONSE_UNKNOWN);
 
-	/* before libsoup 2.41.3 the certificate was not set on failed requests,
-	   thus do a simple prompt only in such case
-	*/
-	#ifdef SOUP_CHECK_VERSION
-	#if SOUP_CHECK_VERSION(2, 41, 3)
-	asked = TRUE;
 	response = e_user_prompter_extension_prompt_sync (prompter, "ETrustPrompt::trust-prompt", parameters, NULL, cancellable, error);
-	#endif
-	#endif
-
-	if (!asked) {
-		GList *button_captions = NULL;
-		const gchar *markup;
-		gchar *tmp = NULL;
-
-		button_captions = g_list_append (button_captions, _("_Reject"));
-		button_captions = g_list_append (button_captions, _("Accept _Temporarily"));
-		button_captions = g_list_append (button_captions, _("_Accept Permanently"));
-
-		markup = e_named_parameters_get (parameters, "markup");
-		if (!markup) {
-			gchar *bhost;
-
-			bhost = g_strconcat ("<b>", e_named_parameters_get (parameters, "host"), "</b>", NULL);
-			tmp = g_strdup_printf (_("SSL certificate for '%s' is not trusted. Do you wish to accept it?"), bhost);
-			g_free (bhost);
-
-			markup = tmp;
-		}
-
-		response = e_user_prompter_prompt_sync (prompter, "question", _("Certificate trust..."),
-			markup, NULL, TRUE, button_captions, cancellable, NULL);
-
-		if (response == 1)
-			response = 2;
-		else if (response == 2)
-			response = 1;
-
-		g_list_free (button_captions);
-		g_free (tmp);
-	}
 
 	g_object_unref (prompter);
 
