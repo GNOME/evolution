@@ -2206,6 +2206,7 @@ EEditorReplaceDialogPrivate
 <SECTION>
 <FILE>e-editor-selection</FILE>
 <TITLE>EEditorSelection</TITLE>
+e_editor_selection_ref_editor_widget
 e_editor_selection_has_text
 e_editor_selection_get_caret_word
 e_editor_selection_replace_caret_word

@@ -49,6 +49,8 @@
 
 G_BEGIN_DECLS
 
+struct _EEditorWidget;
+
 typedef struct _EEditorSelection EEditorSelection;
 typedef struct _EEditorSelectionClass EEditorSelectionClass;
 typedef struct _EEditorSelectionPrivate EEditorSelectionPrivate;
@@ -63,6 +65,9 @@ struct _EEditorSelectionClass {
 };
 
 GType		e_editor_selection_get_type	(void) G_GNUC_CONST;
+struct _EEditorWidget *
+		e_editor_selection_ref_editor_widget
+						(EEditorSelection *selection);
 gboolean	e_editor_selection_has_text	(EEditorSelection *selection);
 gchar *		e_editor_selection_get_caret_word
 						(EEditorSelection *selection);
