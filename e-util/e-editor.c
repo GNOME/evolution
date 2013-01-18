@@ -422,26 +422,20 @@ editor_update_actions (EEditor *editor,
 }
 
 static void
-editor_spell_languages_changed (EEditor *editor,
-                                GList *dictionaries)
+editor_spell_languages_changed (EEditor *editor)
 {
+	EEditorWidget *editor_widget;
+	ESpellChecker *spell_checker;
 	WebKitWebSettings *settings;
-	GString *languages;
-	const GList *iter;
+	gchar *comma_separated;
+	gchar **languages;
 
-	languages = g_string_new ("");
+	editor_widget = e_editor_get_editor_widget (editor);
+	spell_checker = e_editor_widget_get_spell_checker (editor_widget);
 
-	/* Join the languages codes to comma-separated list */
-	for (iter = dictionaries; iter; iter = iter->next) {
-		ESpellDictionary *dictionary = iter->data;
-
-		if (languages->len > 0)
-			g_string_append (languages, ",");
-
-		g_string_append (
-			languages,
-			e_spell_dictionary_get_code (dictionary));
-	}
+	languages = e_spell_checker_list_active_languages (spell_checker, NULL);
+	comma_separated = g_strjoinv (",", languages);
+	g_strfreev (languages);
 
 	/* Set the languages for webview to highlight misspelled words */
 	settings = webkit_web_view_get_settings (
@@ -449,7 +443,7 @@ editor_spell_languages_changed (EEditor *editor,
 
 	g_object_set (
 		G_OBJECT (settings),
-		"spell-checking-languages", languages->str,
+		"spell-checking-languages", comma_separated,
 		NULL);
 
 	if (editor->priv->spell_check_dialog != NULL)
@@ -457,7 +451,7 @@ editor_spell_languages_changed (EEditor *editor,
 			E_EDITOR_SPELL_CHECK_DIALOG (
 			editor->priv->spell_check_dialog));
 
-	g_string_free (languages, TRUE);
+	g_free (comma_separated);
 }
 
 static gboolean
@@ -759,9 +753,8 @@ e_editor_class_init (EEditorClass *class)
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (EEditorClass, spell_languages_changed),
 		NULL, NULL,
-		g_cclosure_marshal_VOID__POINTER,
-		G_TYPE_NONE, 1,
-		G_TYPE_POINTER);
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 }
 
 static void
@@ -1048,14 +1041,7 @@ e_editor_save (EEditor *editor,
 void
 e_editor_emit_spell_languages_changed (EEditor *editor)
 {
-	GList *dictionaries;
-
 	g_return_if_fail (editor != NULL);
 
-	dictionaries = g_list_copy (editor->priv->active_dictionaries);
-
-	g_signal_emit (
-		editor, signals[SPELL_LANGUAGES_CHANGED], 0, dictionaries);
-
-	g_list_free (dictionaries);
+	g_signal_emit (editor, signals[SPELL_LANGUAGES_CHANGED], 0);
 }
