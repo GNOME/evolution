@@ -640,6 +640,22 @@ e_spell_checker_list_active_languages (ESpellChecker *checker,
 }
 
 /**
+ * e_spell_checker_count_active_languages:
+ * @checker: an #ESpellChecker
+ *
+ * Returns the number of languages actively being used for spell checking.
+ *
+ * Returns: number of active spell checking languages
+ **/
+guint
+e_spell_checker_count_active_languages (ESpellChecker *checker)
+{
+	g_return_val_if_fail (E_IS_SPELL_CHECKER (checker), 0);
+
+	return g_hash_table_size (checker->priv->active_dictionaries);
+}
+
+/**
  * e_spell_checker_ignore_word:
  * @checker: an #ESpellChecker
  * @word: word to ignore for the rest of session

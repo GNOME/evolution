@@ -80,6 +80,8 @@ void		e_spell_checker_set_language_active
 gchar **	e_spell_checker_list_active_languages
 						(ESpellChecker *checker,
 						 guint *n_languages);
+guint		e_spell_checker_count_active_languages
+						(ESpellChecker *checker);
 void		e_spell_checker_learn_word	(ESpellChecker *checker,
 						 const gchar *word);
 void		e_spell_checker_ignore_word	(ESpellChecker *checker,
