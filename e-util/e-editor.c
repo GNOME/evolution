@@ -1045,19 +1045,3 @@ e_editor_save (EEditor *editor,
 	return TRUE;
 }
 
-/**
- * e_editor_emit_spell_languages_changed:
- * @editor: an #EEditor
- *
- * Emits "spell-languages-checked" signal on the @editor.
- *
- * This function is for internal use by the editor components and should not
- * be called from outside the editor.
- */
-void
-e_editor_emit_spell_languages_changed (EEditor *editor)
-{
-	g_return_if_fail (editor != NULL);
-
-	g_signal_emit (editor, signals[SPELL_LANGUAGES_CHANGED], 0);
-}

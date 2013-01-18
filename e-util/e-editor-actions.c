@@ -605,7 +605,7 @@ action_language_cb (GtkToggleAction *toggle_action,
 
 	gtk_action_set_sensitive (ACTION (SPELL_CHECK), count > 0);
 
-	e_editor_emit_spell_languages_changed (editor);
+	g_signal_emit_by_name (editor, "spell-languages-changed");
 }
 
 static gboolean
