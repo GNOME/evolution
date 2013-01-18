@@ -77,6 +77,9 @@ void		e_spell_checker_set_language_active
 						(ESpellChecker *checker,
 						 const gchar *language_code,
 						 gboolean active);
+gchar **	e_spell_checker_list_active_languages
+						(ESpellChecker *checker,
+						 guint *n_languages);
 void		e_spell_checker_learn_word	(ESpellChecker *checker,
 						 const gchar *word);
 void		e_spell_checker_ignore_word	(ESpellChecker *checker,
