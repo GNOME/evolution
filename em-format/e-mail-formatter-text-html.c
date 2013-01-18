@@ -285,6 +285,9 @@ emfe_text_html_format (EMailFormatterExtension *extension,
 				tag = g_utf8_find_prev_char (string->str, tag);
 				valid = FALSE;
 			}
+		} else {
+			/* do not cut, if there is no end tag */
+			valid = FALSE;
 		}
 
 		if (valid)
