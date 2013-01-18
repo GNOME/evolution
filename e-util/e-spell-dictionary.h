@@ -85,8 +85,6 @@ GList *		e_spell_dictionary_get_suggestions
 						(ESpellDictionary *dictionary,
 						 const gchar *word,
 						 gsize length);
-void		e_spell_dictionary_free_suggestions
-						(GList *suggestions);
 void		e_spell_dictionary_store_correction
 						(ESpellDictionary *dictionary,
 						 const gchar *misspelled,

@@ -103,7 +103,7 @@ editor_spell_check_dialog_set_word (EEditorSpellCheckDialog *dialog,
 		gtk_list_store_set (store, &iter, 0, suggestion, -1);
 	}
 
-	e_spell_dictionary_free_suggestions (list);
+	g_list_free_full (list, (GDestroyNotify) g_free);
 
 	/* We give focus to WebKit so that the currently selected word
 	 * is highlited. Without focus selection is not visible (at

@@ -3963,7 +3963,6 @@ e_spell_dictionary_check
 e_spell_dictionary_learn_word
 e_spell_dictionary_ignore_word
 e_spell_dictionary_get_suggestions
-e_spell_dictionary_free_suggestions
 e_spell_dictionary_store_correction
 e_spell_dictionary_get_parent_checker
 <SUBSECTION Standard>
