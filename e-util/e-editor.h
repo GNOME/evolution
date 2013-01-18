@@ -85,8 +85,6 @@ void		e_editor_set_filename		(EEditor *editor,
 						 const gchar *filename);
 void		e_editor_pack_above		(EEditor *editor,
 						 GtkWidget *child);
-void		e_editor_emit_spell_languages_changed
-						(EEditor *editor);
 
 /*****************************************************************************
  * High-Level Editing Interface
