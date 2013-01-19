@@ -353,7 +353,7 @@ get_cfg_widget (void)
 	GtkWidget *vbox, *check, *img, *butt;
 	GdkPixbuf *face;
 
-	vbox = gtk_vbox_new (FALSE, 6);
+	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 
 	check = gtk_check_button_new_with_mnemonic (_("_Insert Face picture by default"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), get_include_face_by_default ());

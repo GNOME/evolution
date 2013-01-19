@@ -287,7 +287,7 @@ emfe_audio_inline_get_widget (EMailFormatterExtension *extension,
 	ai_part = (EMailPartAudioInline *) part;
 
 	/* it is OK to call UI functions here, since we are called from UI thread */
-	box = gtk_hbutton_box_new ();
+	box = gtk_button_box_new (GTK_ORIENTATION_HORIZONTAL);
 	ai_part->play_button = g_object_ref (
 		add_button (box, GTK_STOCK_MEDIA_PLAY,
 		G_CALLBACK (play_clicked), part, TRUE));

@@ -672,7 +672,7 @@ create_children (EDateEdit *dedit)
 	gtk_container_add (GTK_CONTAINER (priv->cal_popup), frame);
 	gtk_widget_show (frame);
 
-	vbox = gtk_vbox_new (FALSE, 0);
+	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_container_add (GTK_CONTAINER (frame), vbox);
 	gtk_widget_show (vbox);
 
@@ -691,7 +691,7 @@ create_children (EDateEdit *dedit)
 	gtk_box_pack_start (GTK_BOX (vbox), priv->calendar, FALSE, FALSE, 0);
 	gtk_widget_show (priv->calendar);
 
-	bbox = gtk_hbutton_box_new ();
+	bbox = gtk_button_box_new (GTK_ORIENTATION_HORIZONTAL);
 	gtk_container_set_border_width (GTK_CONTAINER (bbox), 4);
 	gtk_box_set_spacing (GTK_BOX (bbox), 2);
 	gtk_box_pack_start (GTK_BOX (vbox), bbox, FALSE, FALSE, 0);

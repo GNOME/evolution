@@ -421,11 +421,11 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 
 	UIData *ui = g_new0 (UIData, 1);
 
-	templates_configuration_box = gtk_vbox_new (FALSE, 6);
+	templates_configuration_box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	gtk_widget_show (templates_configuration_box);
 	gtk_widget_set_size_request (templates_configuration_box, 385, 189);
 
-	clue_container = gtk_hbox_new (FALSE, 12);
+	clue_container = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
 	gtk_widget_show (clue_container);
 	gtk_box_pack_start (GTK_BOX (templates_configuration_box), clue_container, TRUE, TRUE, 0);
 
@@ -439,7 +439,7 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	gtk_container_add (GTK_CONTAINER (scrolledwindow1), clue_treeview);
 	gtk_container_set_border_width (GTK_CONTAINER (clue_treeview), 1);
 
-	vbuttonbox2 = gtk_vbutton_box_new ();
+	vbuttonbox2 = gtk_button_box_new (GTK_ORIENTATION_VERTICAL);
 	gtk_widget_show (vbuttonbox2);
 	gtk_box_pack_start (GTK_BOX (clue_container), vbuttonbox2, FALSE, TRUE, 0);
 	gtk_button_box_set_layout (GTK_BUTTON_BOX (vbuttonbox2), GTK_BUTTONBOX_START);
@@ -529,7 +529,7 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 
 	/* Add the list here */
 
-	hbox = gtk_vbox_new (FALSE, 0);
+	hbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 
 	gtk_box_pack_start (GTK_BOX (hbox), templates_configuration_box, TRUE, TRUE, 0);
 

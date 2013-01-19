@@ -324,13 +324,13 @@ e_preferences_window_init (EPreferencesWindow *window)
 		window, "delete-event",
 		G_CALLBACK (gtk_widget_hide_on_delete), NULL);
 
-	widget = gtk_vbox_new (FALSE, 12);
+	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 12);
 	gtk_container_add (GTK_CONTAINER (window), widget);
 	gtk_widget_show (widget);
 
 	vbox = widget;
 
-	widget = gtk_hbox_new (FALSE, 12);
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
 	gtk_box_pack_start (GTK_BOX (vbox), widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
 
@@ -368,7 +368,7 @@ e_preferences_window_init (EPreferencesWindow *window)
 	window->priv->notebook = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	widget = gtk_hbutton_box_new ();
+	widget = gtk_button_box_new (GTK_ORIENTATION_HORIZONTAL);
 	gtk_button_box_set_layout (
 		GTK_BUTTON_BOX (widget), GTK_BUTTONBOX_END);
 	gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 0);

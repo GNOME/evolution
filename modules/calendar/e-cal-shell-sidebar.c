@@ -709,7 +709,7 @@ cal_shell_sidebar_constructed (GObject *object)
 
 	container = widget;
 
-	widget = gtk_vbox_new (FALSE, 6);
+	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	gtk_paned_pack1 (GTK_PANED (container), widget, TRUE, TRUE);
 	gtk_widget_show (widget);
 

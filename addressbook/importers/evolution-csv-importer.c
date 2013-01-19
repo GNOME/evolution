@@ -772,7 +772,7 @@ csv_getwidget (EImport *ei,
 	ESource *primary;
 	const gchar *extension_name;
 
-	vbox = gtk_vbox_new (FALSE, FALSE);
+	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 
 	shell = e_shell_get_default ();
 	registry = e_shell_get_registry (shell);

@@ -545,10 +545,10 @@ org_credativ_evolution_readpst_getwidget (EImport *ei,
 
 	pst_import_check_items (target);
 
-	framebox = gtk_vbox_new (FALSE, 2);
+	framebox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 2);
 
 	/* Mail */
-	hbox = gtk_hbox_new (FALSE, 0);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	check = gtk_check_button_new_with_mnemonic (_("_Mail"));
 	gtk_toggle_button_set_active ((GtkToggleButton *) check, GPOINTER_TO_INT (g_datalist_get_data (&target->data, "pst-do-mail")));
 	g_signal_connect (

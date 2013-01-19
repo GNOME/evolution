@@ -204,7 +204,7 @@ e_mail_label_dialog_init (EMailLabelDialog *dialog)
 
 	container = content_area;
 
-	widget = gtk_hbox_new (FALSE, 6);
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 

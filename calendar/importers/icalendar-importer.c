@@ -297,9 +297,9 @@ ivcal_getwidget (EImport *ei,
 	shell = e_shell_get_default ();
 	registry = e_shell_get_registry (shell);
 
-	vbox = gtk_vbox_new (FALSE, FALSE);
+	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 
-	hbox = gtk_hbox_new (FALSE, FALSE);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, TRUE, 6);
 
 	nb = gtk_notebook_new ();
@@ -1067,7 +1067,7 @@ gnome_calendar_getwidget (EImport *ei,
 	g_datalist_set_data (&target->data, "gnomecal-do-cal", GINT_TO_POINTER (!done_cal));
 	g_datalist_set_data (&target->data, "gnomecal-do-tasks", GINT_TO_POINTER (!done_tasks));
 
-	hbox = gtk_hbox_new (FALSE, 2);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2);
 
 	w = gtk_check_button_new_with_label (_("Calendar Events"));
 	gtk_toggle_button_set_active ((GtkToggleButton *) w, !done_cal);

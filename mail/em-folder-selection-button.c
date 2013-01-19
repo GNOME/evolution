@@ -395,7 +395,7 @@ em_folder_selection_button_init (EMFolderSelectionButton *emfsb)
 
 	emfsb->priv = EM_FOLDER_SELECTION_BUTTON_GET_PRIVATE (emfsb);
 
-	box = gtk_hbox_new (FALSE, 4);
+	box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 4);
 	gtk_container_add (GTK_CONTAINER (emfsb), box);
 	gtk_widget_show (box);
 

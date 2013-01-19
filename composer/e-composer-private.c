@@ -318,9 +318,9 @@ e_composer_private_constructed (EMsgComposer *composer)
 		container = e_attachment_paned_get_controls_container (
 			E_ATTACHMENT_PANED (widget));
 
-		tmp_box = gtk_hbox_new (FALSE, 0);
+		tmp_box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 
-		tmp = gtk_hbox_new (FALSE, 0);
+		tmp = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 		tmp1 = gtk_image_new_from_icon_name (
 			"mail-send", GTK_ICON_SIZE_BUTTON);
 		gtk_box_pack_start ((GtkBox *) tmp, tmp1, FALSE, FALSE, 0);
@@ -340,7 +340,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 		gtk_button_set_relief ((GtkButton *) send_widget, GTK_RELIEF_NORMAL);
 		path = "/main-toolbar/pre-main-toolbar/save-draft";
 		send_widget = gtk_ui_manager_get_widget (ui_manager, path);
-		tmp = gtk_hbox_new (FALSE, 0);
+		tmp = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 		tmp1 = gtk_image_new_from_stock (
 			GTK_STOCK_SAVE, GTK_ICON_SIZE_BUTTON);
 		gtk_box_pack_start ((GtkBox *) tmp, tmp1, FALSE, FALSE, 0);
@@ -366,7 +366,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 	container = e_attachment_paned_get_content_area (
 		E_ATTACHMENT_PANED (priv->attachment_paned));
 
-	widget = gtk_vpaned_new ();
+	widget = gtk_paned_new (GTK_ORIENTATION_VERTICAL);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);
 

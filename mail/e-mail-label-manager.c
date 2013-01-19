@@ -358,7 +358,7 @@ e_mail_label_manager_init (EMailLabelManager *manager)
 		0, 1, 1, 2, 0, 0, 0, 0);
 	gtk_widget_show (widget);
 
-	widget = gtk_vbutton_box_new ();
+	widget = gtk_button_box_new (GTK_ORIENTATION_VERTICAL);
 	gtk_button_box_set_layout (
 		GTK_BUTTON_BOX (widget), GTK_BUTTONBOX_START);
 	gtk_box_set_spacing (GTK_BOX (widget), 6);

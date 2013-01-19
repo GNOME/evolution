@@ -513,7 +513,7 @@ e_search_bar_init (ESearchBar *search_bar)
 
 	container = GTK_WIDGET (search_bar);
 
-	widget = gtk_hbox_new (FALSE, 1);
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 1);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
@@ -621,7 +621,7 @@ e_search_bar_init (ESearchBar *search_bar)
 
 	container = GTK_WIDGET (search_bar);
 
-	widget = gtk_hbox_new (FALSE, 6);
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	search_bar->priv->wrapped_next_box = g_object_ref (widget);
 	gtk_widget_hide (widget);
@@ -643,7 +643,7 @@ e_search_bar_init (ESearchBar *search_bar)
 
 	container = GTK_WIDGET (search_bar);
 
-	widget = gtk_hbox_new (FALSE, 6);
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	search_bar->priv->wrapped_prev_box = g_object_ref (widget);
 	gtk_widget_hide (widget);

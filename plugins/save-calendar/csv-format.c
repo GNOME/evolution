@@ -560,7 +560,7 @@ create_options_widget (FormatHandler *handler)
 	GtkWidget *table = gtk_table_new (4, 2, FALSE), *label = NULL,
 		  *csv_options = gtk_expander_new_with_mnemonic (
 			_("A_dvanced options for the CSV format")),
-		  *vbox = gtk_vbox_new (FALSE, 0);
+		  *vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	CsvPluginData *d = handler->data;
 
 	d->delimiter_entry = gtk_entry_new ();

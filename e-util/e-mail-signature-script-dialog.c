@@ -458,7 +458,7 @@ mail_signature_script_dialog_constructed (GObject *object)
 		0, 1, 3, 4, GTK_FILL, 0, 0, 0);
 	gtk_widget_show (widget);
 
-	widget = gtk_hbox_new (FALSE, 6);
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 	gtk_table_attach (
 		GTK_TABLE (container), widget,
 		1, 2, 3, 4, 0, 0, 0, 0);

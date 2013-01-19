@@ -419,13 +419,13 @@ cal_shell_content_constructed (GObject *object)
 	container = priv->vpaned;
 
 	if (!e_shell_get_express_mode (shell)) {
-		widget = gtk_vbox_new (FALSE, 0);
+		widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 		gtk_paned_pack1 (GTK_PANED (container), widget, TRUE, TRUE);
 		gtk_widget_show (widget);
 
 		container = widget;
 
-		widget = gtk_hseparator_new ();
+		widget = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
 		gtk_box_pack_start (GTK_BOX (container), widget, FALSE, TRUE, 0);
 		gtk_widget_show (widget);
 
@@ -462,7 +462,7 @@ cal_shell_content_constructed (GObject *object)
 
 		container = priv->vpaned;
 
-		widget = gtk_vbox_new (FALSE, 0);
+		widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 		gtk_paned_pack2 (GTK_PANED (container), widget, TRUE, TRUE);
 		gtk_widget_show (widget);
 

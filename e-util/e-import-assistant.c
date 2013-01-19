@@ -247,7 +247,7 @@ import_assistant_file_page_init (EImportAssistant *import_assistant)
 	const gchar *text;
 	gint row = 0;
 
-	page = gtk_vbox_new (FALSE, 6);
+	page = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	gtk_container_set_border_width (GTK_CONTAINER (page), 12);
 	gtk_widget_show (page);
 
@@ -331,7 +331,7 @@ import_assistant_destination_page_init (EImportAssistant *import_assistant)
 	GtkWidget *widget;
 	const gchar *text;
 
-	page = gtk_vbox_new (FALSE, 6);
+	page = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	gtk_container_set_border_width (GTK_CONTAINER (page), 12);
 	gtk_widget_show (page);
 
@@ -356,7 +356,7 @@ import_assistant_type_page_init (EImportAssistant *import_assistant)
 	GtkWidget *widget;
 	const gchar *text;
 
-	page = gtk_vbox_new (FALSE, 6);
+	page = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	gtk_container_set_border_width (GTK_CONTAINER (page), 12);
 	gtk_widget_show (page);
 
@@ -394,7 +394,7 @@ import_assistant_selection_page_init (EImportAssistant *import_assistant)
 	GtkWidget *widget;
 	const gchar *text;
 
-	page = gtk_vbox_new (FALSE, 6);
+	page = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	gtk_container_set_border_width (GTK_CONTAINER (page), 12);
 	gtk_widget_show (page);
 
@@ -408,7 +408,7 @@ import_assistant_selection_page_init (EImportAssistant *import_assistant)
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, TRUE, 0);
 	gtk_widget_show (widget);
 
-	widget = gtk_hseparator_new ();
+	widget = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
@@ -422,7 +422,7 @@ import_assistant_progress_page_init (EImportAssistant *import_assistant)
 	GtkWidget *container;
 	GtkWidget *widget;
 
-	page = gtk_vbox_new (FALSE, 6);
+	page = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	gtk_container_set_border_width (GTK_CONTAINER (page), 12);
 	gtk_widget_show (page);
 
@@ -447,7 +447,7 @@ import_assistant_simple_page_init (EImportAssistant *import_assistant)
 	GtkListStore *store;
 	gint row = 0;
 
-	page = gtk_vbox_new (FALSE, 6);
+	page = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	gtk_container_set_border_width (GTK_CONTAINER (page), 12);
 	gtk_widget_show (page);
 

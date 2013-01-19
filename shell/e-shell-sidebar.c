@@ -444,7 +444,7 @@ e_shell_sidebar_init (EShellSidebar *shell_sidebar)
 
 	container = widget;
 
-	widget = gtk_hbox_new (FALSE, 6);
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 	gtk_container_set_border_width (GTK_CONTAINER (widget), 6);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);

@@ -107,7 +107,7 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	gchar *editor;
 	gboolean checked;
 
-	vbox = gtk_vbox_new (FALSE, 10);
+	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 10);
 	textbox = gtk_entry_new ();
 	label = gtk_label_new (_("Command to be executed to launch the editor: "));
 	help = gtk_label_new (_("For XEmacs use \"xemacs\"\nFor Vim use \"gvim -f\""));

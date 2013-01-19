@@ -394,7 +394,7 @@ mergeit (EContactMergingLookup *lookup)
 						continue;
 				}
 				label = gtk_label_new (_("Email"));
-				hbox = gtk_hbox_new (FALSE, 0);
+				hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 				gtk_box_pack_start (GTK_BOX (hbox), (GtkWidget *) label, FALSE, FALSE, 0);
 				gtk_table_attach_defaults (table, (GtkWidget *) hbox, 0, 1, row, row + 1);
 
@@ -413,7 +413,7 @@ mergeit (EContactMergingLookup *lookup)
 					dropdown, "changed",
 					G_CALLBACK (dropdown_changed), data);
 
-				hbox = gtk_hbox_new (FALSE, 0);
+				hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 				gtk_box_pack_start (GTK_BOX (hbox), (GtkWidget *) dropdown, FALSE, FALSE, 0);
 				gtk_table_attach_defaults (table, (GtkWidget *) hbox, 1, 2, row, row + 1);
 				gtk_widget_show ((GtkWidget *) dropdown);
@@ -422,12 +422,12 @@ mergeit (EContactMergingLookup *lookup)
 			if (((field == E_CONTACT_FULL_NAME) && (!g_ascii_strcasecmp (string, string1)))) {
 				row++;
 				label = gtk_label_new (e_contact_pretty_name (field));
-				hbox = gtk_hbox_new (FALSE, 0);
+				hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 				gtk_box_pack_start (GTK_BOX (hbox), (GtkWidget *) label, FALSE, FALSE, 0);
 				gtk_table_attach_defaults (table, (GtkWidget *) hbox, 0, 1, row, row + 1);
 
 				label = gtk_label_new (string);
-				hbox = gtk_hbox_new (FALSE, 0);
+				hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 				gtk_box_pack_start (GTK_BOX (hbox), (GtkWidget *) label, FALSE, FALSE, 0);
 				gtk_table_attach_defaults (table, (GtkWidget *) hbox, 1, 2, row, row + 1);
 				continue;
@@ -437,7 +437,7 @@ mergeit (EContactMergingLookup *lookup)
 			if (!(string1 && *string1) || (g_ascii_strcasecmp (string, string1))) {
 				row++;
 				label = gtk_label_new (e_contact_pretty_name (field));
-				hbox = gtk_hbox_new (FALSE, 0);
+				hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 				gtk_box_pack_start (GTK_BOX (hbox), (GtkWidget *) label, FALSE, FALSE, 0);
 				gtk_table_attach_defaults (table, (GtkWidget *) hbox, 0, 1, row, row + 1);
 				data = g_new0 (dropdown_data, 1);
@@ -461,7 +461,7 @@ mergeit (EContactMergingLookup *lookup)
 					dropdown, "changed",
 					G_CALLBACK (dropdown_changed), data);
 
-				hbox = gtk_hbox_new (FALSE, 0);
+				hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 				gtk_box_pack_start (GTK_BOX (hbox), (GtkWidget *) dropdown, FALSE, FALSE, 0);
 				gtk_table_attach_defaults (table, (GtkWidget *) hbox, 1, 2, row, row + 1);
 				gtk_widget_show_all ((GtkWidget *) dropdown);

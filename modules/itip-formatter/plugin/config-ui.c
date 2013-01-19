@@ -77,13 +77,13 @@ itip_formatter_page_factory (EPlugin *ep,
 	registry = e_shell_get_registry (shell);
 
 	/* Create a new notebook page */
-	page = gtk_vbox_new (FALSE, 0);
+	page = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_container_set_border_width (GTK_CONTAINER (page), 12);
 	tab_label = gtk_label_new (_("Meeting Invitations"));
 	gtk_notebook_append_page (GTK_NOTEBOOK (hook_data->parent), page, tab_label);
 
 	/* Frame */
-	frame = gtk_vbox_new (FALSE, 6);
+	frame = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	gtk_box_pack_start (GTK_BOX (page), frame, FALSE, FALSE, 0);
 
 	/* "General" */
@@ -95,11 +95,11 @@ itip_formatter_page_factory (EPlugin *ep,
 	gtk_box_pack_start (GTK_BOX (frame), frame_label, FALSE, FALSE, 0);
 
 	/* Indent/padding */
-	hbox = gtk_hbox_new (FALSE, 12);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
 	gtk_box_pack_start (GTK_BOX (frame), hbox, FALSE, TRUE, 0);
 	padding_label = gtk_label_new ("");
 	gtk_box_pack_start (GTK_BOX (hbox), padding_label, FALSE, FALSE, 0);
-	inner_vbox = gtk_vbox_new (FALSE, 6);
+	inner_vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	gtk_box_pack_start (GTK_BOX (hbox), inner_vbox, FALSE, FALSE, 0);
 
 	/* Delete message after acting */
@@ -115,7 +115,7 @@ itip_formatter_page_factory (EPlugin *ep,
 	g_object_unref (settings);
 
 	/* "Conflict searching" */
-	frame = gtk_vbox_new (FALSE, 6);
+	frame = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	gtk_box_pack_start (GTK_BOX (page), frame, TRUE, TRUE, 24);
 
 	frame_label = gtk_label_new ("");
@@ -126,11 +126,11 @@ itip_formatter_page_factory (EPlugin *ep,
 	gtk_box_pack_start (GTK_BOX (frame), frame_label, FALSE, FALSE, 0);
 
 	/* Indent/padding */
-	hbox = gtk_hbox_new (FALSE, 12);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
 	gtk_box_pack_start (GTK_BOX (frame), hbox, TRUE, TRUE, 0);
 	padding_label = gtk_label_new ("");
 	gtk_box_pack_start (GTK_BOX (hbox), padding_label, FALSE, FALSE, 0);
-	inner_vbox = gtk_vbox_new (FALSE, 6);
+	inner_vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	gtk_box_pack_start (GTK_BOX (hbox), inner_vbox, TRUE, TRUE, 0);
 
 	/* Source selector */

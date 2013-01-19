@@ -1038,7 +1038,7 @@ e_day_view_init (EDayView *day_view)
 	/*
 	 * Top Canvas
 	 */
-	w = gtk_vbox_new (FALSE, 0);
+	w = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 
 	day_view->top_dates_canvas = e_canvas_new ();
 	gtk_box_pack_start (GTK_BOX (w), day_view->top_dates_canvas, TRUE, TRUE, 0);
@@ -1236,13 +1236,15 @@ e_day_view_init (EDayView *day_view)
 	 */
 	scrollable = GTK_SCROLLABLE (day_view->main_canvas);
 	adjustment = gtk_scrollable_get_hadjustment (scrollable);
-	day_view->mc_hscrollbar = gtk_hscrollbar_new (adjustment);
+	day_view->mc_hscrollbar = gtk_scrollbar_new (
+		GTK_ORIENTATION_HORIZONTAL, adjustment);
 	gtk_table_attach (GTK_TABLE (day_view), day_view->mc_hscrollbar, 1, 2, 2, 3, GTK_FILL, 0, 0, 0);
 	gtk_widget_show (day_view->mc_hscrollbar);
 
 	scrollable = GTK_SCROLLABLE (day_view->top_canvas);
 	adjustment = gtk_scrollable_get_vadjustment (scrollable);
-	day_view->tc_vscrollbar = gtk_vscrollbar_new (adjustment);
+	day_view->tc_vscrollbar = gtk_scrollbar_new (
+		GTK_ORIENTATION_VERTICAL, adjustment);
 	gtk_table_attach (
 		GTK_TABLE (day_view), day_view->tc_vscrollbar,
 		2, 3, 0, 1, 0, GTK_FILL, 0, 0);
@@ -1250,7 +1252,8 @@ e_day_view_init (EDayView *day_view)
 
 	scrollable = GTK_SCROLLABLE (day_view->main_canvas);
 	adjustment = gtk_scrollable_get_vadjustment (scrollable);
-	day_view->vscrollbar = gtk_vscrollbar_new (adjustment);
+	day_view->vscrollbar = gtk_scrollbar_new (
+		GTK_ORIENTATION_VERTICAL, adjustment);
 	gtk_table_attach (
 		GTK_TABLE (day_view), day_view->vscrollbar,
 		2, 3, 1, 2, 0, GTK_EXPAND | GTK_FILL, 0, 0);

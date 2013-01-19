@@ -655,7 +655,7 @@ get_config_widget_sound (void)
 
 	scw = g_malloc0 (sizeof (struct _SoundConfigureWidgets));
 
-	vbox = gtk_vbox_new (FALSE, 6);
+	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	gtk_widget_show (vbox);
 
 	container = vbox;
@@ -686,7 +686,7 @@ get_config_widget_sound (void)
 
 	container = widget;
 
-	widget = gtk_vbox_new (FALSE, 6);
+	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);
 
@@ -718,7 +718,7 @@ get_config_widget_sound (void)
 
 	group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (widget));
 
-	widget = gtk_hbox_new (FALSE, 6);
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
@@ -784,7 +784,7 @@ get_cfg_widget (void)
 
 	settings = g_settings_new ("org.gnome.evolution.plugin.mail-notification");
 
-	widget = gtk_vbox_new (FALSE, 12);
+	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 12);
 	gtk_widget_show (widget);
 
 	container = widget;

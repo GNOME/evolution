@@ -268,7 +268,7 @@ mail_config_provider_page_add_checkspin (EMailConfigProviderPage *page,
 		post += 2;
 	}
 
-	hbox = gtk_hbox_new (FALSE, 3);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 3);
 	gtk_widget_set_margin_left (hbox, STANDARD_MARGIN);
 	gtk_box_pack_start (GTK_BOX (page), hbox, FALSE, FALSE, 0);
 	gtk_widget_show (hbox);
@@ -328,7 +328,7 @@ mail_config_provider_page_add_entry (EMailConfigProviderPage *page,
 	backend = e_mail_config_provider_page_get_backend (page);
 	settings = e_mail_config_service_backend_get_settings (backend);
 
-	hbox = gtk_hbox_new (FALSE, 0);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_box_set_spacing (GTK_BOX (hbox), 6);
 	gtk_widget_set_margin_left (hbox, STANDARD_MARGIN);
 	gtk_box_pack_start (GTK_BOX (page), hbox, FALSE, FALSE, 0);
@@ -387,7 +387,7 @@ mail_config_provider_page_add_options (EMailConfigProviderPage *page,
 	provider = e_mail_config_service_backend_get_provider (backend);
 	settings = e_mail_config_service_backend_get_settings (backend);
 
-	hbox = gtk_hbox_new (FALSE, 0);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_box_set_spacing (GTK_BOX (hbox), 6);
 	gtk_widget_set_margin_left (hbox, STANDARD_MARGIN);
 	gtk_box_pack_start (GTK_BOX (page), hbox, FALSE, FALSE, 0);

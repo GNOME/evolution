@@ -34,7 +34,7 @@ add_section (GtkWidget *container,
 	GtkWidget *widget;
 	gchar *markup;
 
-	widget = gtk_vbox_new (FALSE, 6);
+	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	gtk_box_pack_start (GTK_BOX (container), widget, expand, expand, 0);
 	gtk_widget_show (widget);
 
@@ -55,7 +55,7 @@ add_section (GtkWidget *container,
 
 	container = widget;
 
-	widget = gtk_vbox_new (FALSE, 6);
+	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);
 
@@ -80,7 +80,7 @@ autocompletion_config_new (EPreferencesWindow *window)
 	registry = e_shell_get_registry (shell);
 	shell_settings = e_shell_get_shell_settings (shell);
 
-	vbox = gtk_vbox_new (FALSE, 12);
+	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 12);
 	gtk_widget_show (vbox);
 
 	itembox = add_section (vbox, _("Date/Time Format"), FALSE);

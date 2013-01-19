@@ -417,7 +417,7 @@ pine_getwidget (EImport *ei,
 		&target->data, "pine-do-addr",
 		GINT_TO_POINTER (TRUE));
 
-	box = gtk_vbox_new (FALSE, 2);
+	box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 2);
 
 	w = gtk_check_button_new_with_label (_("Mail"));
 	gtk_toggle_button_set_active ((GtkToggleButton *) w, TRUE);

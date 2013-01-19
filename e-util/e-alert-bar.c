@@ -264,7 +264,7 @@ alert_bar_constructed (GObject *object)
 	priv->image = widget;
 	gtk_widget_show (widget);
 
-	widget = gtk_vbox_new (FALSE, 12);
+	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 12);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
 

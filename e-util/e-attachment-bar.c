@@ -572,7 +572,7 @@ e_attachment_bar_init (EAttachmentBar *bar)
 
 	container = GTK_WIDGET (bar);
 
-	widget = gtk_vbox_new (FALSE, 0);
+	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_box_pack_end (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	bar->priv->vbox = g_object_ref (widget);
 	gtk_widget_show (widget);
@@ -615,7 +615,7 @@ e_attachment_bar_init (EAttachmentBar *bar)
 
 	container = GTK_WIDGET (bar);
 
-	widget = gtk_hbox_new (FALSE, 12);
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
 	gtk_box_pack_end (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
@@ -666,7 +666,7 @@ e_attachment_bar_init (EAttachmentBar *bar)
 
 	container = bar->priv->expander;
 
-	widget = gtk_hbox_new (FALSE, 6);
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 	gtk_size_group_add_widget (size_group, widget);
 	gtk_expander_set_label_widget (GTK_EXPANDER (container), widget);
 	gtk_widget_show (widget);

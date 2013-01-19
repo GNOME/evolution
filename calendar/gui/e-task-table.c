@@ -779,7 +779,7 @@ task_table_query_tooltip (GtkWidget *widget,
 		return FALSE;
 	}
 
-	box = gtk_vbox_new (FALSE, 0);
+	box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 
 	str = e_calendar_view_get_icalcomponent_summary (
 		comp_data->client, comp_data->icalcomp, &free_text);
@@ -810,7 +810,7 @@ task_table_query_tooltip (GtkWidget *widget,
 	w = gtk_event_box_new ();
 	gtk_widget_modify_bg (w, GTK_STATE_NORMAL, &(style->bg[GTK_STATE_NORMAL]));
 
-	l = gtk_vbox_new (FALSE, 0);
+	l = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_container_add (GTK_CONTAINER (w), l);
 	gtk_box_pack_start (GTK_BOX (box), w, FALSE, FALSE, 0);
 	w = l;

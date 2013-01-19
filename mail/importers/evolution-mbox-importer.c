@@ -135,7 +135,7 @@ mbox_getwidget (EImport *ei,
 		select_uri = g_strdup (uri);
 	}
 
-	hbox = gtk_hbox_new (FALSE, 0);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 
 	w = gtk_label_new_with_mnemonic (_("_Destination folder:"));
 	gtk_box_pack_start ((GtkBox *) hbox, w, FALSE, TRUE, 6);
@@ -155,7 +155,7 @@ mbox_getwidget (EImport *ei,
 		G_CALLBACK (folder_selected), target);
 	gtk_box_pack_start ((GtkBox *) hbox, w, FALSE, TRUE, 6);
 
-	w = gtk_vbox_new (FALSE, 0);
+	w = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_box_pack_start ((GtkBox *) w, hbox, FALSE, FALSE, 0);
 	gtk_widget_show_all (w);
 

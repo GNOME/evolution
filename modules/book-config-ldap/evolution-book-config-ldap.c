@@ -500,7 +500,7 @@ book_config_ldap_insert_notebook_widget (GtkWidget *vbox,
 	/* This is similar to e_source_config_insert_widget(),
 	 * but instead adds the widget to the LDAP notebook. */
 
-	hbox = gtk_hbox_new (FALSE, 12);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
 	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, TRUE, 0);
 	gtk_widget_show (hbox);
 
@@ -568,7 +568,7 @@ book_config_ldap_insert_widgets (ESourceConfigBackend *backend,
 	/* Page 1 */
 
 	tab_label = _("Connecting to LDAP");
-	page = gtk_vbox_new (FALSE, 12);
+	page = gtk_box_new (GTK_ORIENTATION_VERTICAL, 12);
 	gtk_container_set_border_width (GTK_CONTAINER (page), 12);
 	gtk_notebook_append_page (notebook, page, NULL);
 	gtk_notebook_set_tab_label_text (notebook, page, tab_label);
@@ -578,7 +578,7 @@ book_config_ldap_insert_widgets (ESourceConfigBackend *backend,
 
 	/* Page 1 : Server Information */
 
-	widget = gtk_vbox_new (FALSE, 6);
+	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	gtk_box_pack_start (GTK_BOX (page), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
@@ -597,7 +597,7 @@ book_config_ldap_insert_widgets (ESourceConfigBackend *backend,
 
 	container = widget;
 
-	widget = gtk_vbox_new (FALSE, 6);
+	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);
 
@@ -645,7 +645,7 @@ book_config_ldap_insert_widgets (ESourceConfigBackend *backend,
 
 	/* Page 1 : Authentication */
 
-	widget = gtk_vbox_new (FALSE, 6);
+	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	gtk_box_pack_start (GTK_BOX (page), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
@@ -664,7 +664,7 @@ book_config_ldap_insert_widgets (ESourceConfigBackend *backend,
 
 	container = widget;
 
-	widget = gtk_vbox_new (FALSE, 6);
+	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);
 
@@ -703,7 +703,7 @@ book_config_ldap_insert_widgets (ESourceConfigBackend *backend,
 	/* Page 2 */
 
 	tab_label = _("Using LDAP");
-	page = gtk_vbox_new (FALSE, 12);
+	page = gtk_box_new (GTK_ORIENTATION_VERTICAL, 12);
 	gtk_container_set_border_width (GTK_CONTAINER (page), 12);
 	gtk_notebook_append_page (notebook, page, NULL);
 	gtk_notebook_set_tab_label_text (notebook, page, tab_label);
@@ -713,7 +713,7 @@ book_config_ldap_insert_widgets (ESourceConfigBackend *backend,
 
 	/* Page 2 : Searching */
 
-	widget = gtk_vbox_new (FALSE, 6);
+	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	gtk_box_pack_start (GTK_BOX (page), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
@@ -732,7 +732,7 @@ book_config_ldap_insert_widgets (ESourceConfigBackend *backend,
 
 	container = widget;
 
-	widget = gtk_vbox_new (FALSE, 6);
+	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);
 
@@ -795,7 +795,7 @@ book_config_ldap_insert_widgets (ESourceConfigBackend *backend,
 
 	/* Page 2 : Downloading */
 
-	widget = gtk_vbox_new (FALSE, 6);
+	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	gtk_box_pack_start (GTK_BOX (page), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
@@ -814,13 +814,13 @@ book_config_ldap_insert_widgets (ESourceConfigBackend *backend,
 
 	container = widget;
 
-	widget = gtk_vbox_new (FALSE, 6);
+	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);
 
 	container = widget;
 
-	widget = gtk_hbox_new (FALSE, 6);
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 	book_config_ldap_insert_notebook_widget (
 		container, size_group, _("Limit:"), widget);
 	gtk_widget_show (widget);

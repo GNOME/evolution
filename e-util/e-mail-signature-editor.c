@@ -516,7 +516,7 @@ mail_signature_editor_constructed (GObject *object)
 
 	container = gtkhtml_editor->vbox;
 
-	widget = gtk_hbox_new (FALSE, 6);
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 	gtk_container_set_border_width (GTK_CONTAINER (widget), 6);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	/* Position 2 should be between the main and style toolbars. */

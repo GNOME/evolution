@@ -158,7 +158,7 @@ create_content (GnomeCanvas **canvas)
 
 	g_return_val_if_fail (canvas != NULL, NULL);
 
-	vbox_top = gtk_vbox_new (FALSE, 4);
+	vbox_top = gtk_box_new (GTK_ORIENTATION_VERTICAL, 4);
 	gtk_widget_show (vbox_top);
 
 	label1 = gtk_label_new (_("To add a column to your table, drag it into\nthe location in which you want it to appear."));

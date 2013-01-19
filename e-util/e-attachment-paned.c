@@ -666,14 +666,14 @@ e_attachment_paned_init (EAttachmentPaned *paned)
 
 	container = GTK_WIDGET (paned);
 
-	widget = gtk_vbox_new (FALSE, 6);
+	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	gtk_paned_pack1 (GTK_PANED (container), widget, TRUE, FALSE);
 	paned->priv->content_area = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	container = widget;
 
-	widget = gtk_hbox_new (FALSE, 6);
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 	gtk_box_pack_end (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	paned->priv->controls_container = widget;
 	gtk_widget_show (widget);
@@ -709,7 +709,7 @@ e_attachment_paned_init (EAttachmentPaned *paned)
 
 	container = paned->priv->expander;
 
-	widget = gtk_hbox_new (FALSE, 6);
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 	gtk_size_group_add_widget (size_group, widget);
 	gtk_expander_set_label_widget (GTK_EXPANDER (container), widget);
 	gtk_widget_show (widget);
@@ -727,7 +727,7 @@ e_attachment_paned_init (EAttachmentPaned *paned)
 
 	container = widget;
 
-	widget = gtk_hbox_new (FALSE, 6);
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);
 

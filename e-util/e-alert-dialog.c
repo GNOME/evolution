@@ -206,7 +206,7 @@ alert_dialog_constructed (GObject *object)
 		actions = g_list_next (actions);
 	}
 
-	widget = gtk_hbox_new (FALSE, 12);
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
 	gtk_container_set_border_width (GTK_CONTAINER (widget), 12);
 	gtk_box_pack_start (GTK_BOX (content_area), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
@@ -218,7 +218,7 @@ alert_dialog_constructed (GObject *object)
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
-	widget = gtk_vbox_new (FALSE, 12);
+	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 12);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	dialog->priv->content_area = widget;
 	gtk_widget_show (widget);

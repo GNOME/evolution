@@ -351,7 +351,7 @@ get_rule_part_widget (EMFilterContext *f,
 	data->f = f;
 	data->part = newpart;
 
-	hbox = gtk_hbox_new (FALSE, 0);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	/* only set to automatically clean up the memory and for less_parts */
 	g_object_set_data_full ((GObject *) hbox, "data", data, g_free);
 

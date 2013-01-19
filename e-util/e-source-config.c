@@ -194,7 +194,7 @@ source_config_add_candidate (ESourceConfig *config,
 	candidate->scratch_source = g_object_ref (scratch_source);
 
 	/* Do not show the page here. */
-	candidate->page = g_object_ref_sink (gtk_vbox_new (FALSE, 6));
+	candidate->page = g_object_ref_sink (gtk_box_new (GTK_ORIENTATION_VERTICAL, 6));
 	gtk_box_pack_start (backend_box, candidate->page, FALSE, FALSE, 0);
 
 	g_ptr_array_add (config->priv->candidates, candidate);
@@ -1014,7 +1014,7 @@ e_source_config_init (ESourceConfig *config)
 
 	/* The backend box holds backend-specific options.  Each backend
 	 * gets a child widget.  Only one child widget is visible at once. */
-	widget = gtk_vbox_new (FALSE, 12);
+	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 12);
 	gtk_box_pack_end (GTK_BOX (config), widget, TRUE, TRUE, 0);
 	config->priv->backend_box = g_object_ref (widget);
 	gtk_widget_show (widget);
@@ -1058,7 +1058,7 @@ e_source_config_insert_widget (ESourceConfig *config,
 	else
 		vbox = e_source_config_get_page (config, scratch_source);
 
-	hbox = gtk_hbox_new (FALSE, 12);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
 	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, TRUE, 0);
 
 	g_object_bind_property (
@@ -1282,7 +1282,7 @@ e_source_config_add_refresh_interval (ESourceConfig *config,
 
 	container = widget;
 
-	widget = gtk_hbox_new (FALSE, 6);
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);
 

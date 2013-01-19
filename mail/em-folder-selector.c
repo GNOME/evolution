@@ -392,7 +392,7 @@ em_folder_selector_create_new (GtkWindow *parent,
 	folder_tree = em_folder_selector_get_folder_tree (emfs);
 	em_folder_tree_set_excluded (folder_tree, EMFT_EXCLUDE_NOINFERIORS);
 
-	hbox = gtk_hbox_new (FALSE, 0);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	w = gtk_label_new_with_mnemonic (_("Folder _name:"));
 	gtk_box_pack_start ((GtkBox *) hbox, w, FALSE, FALSE, 6);
 	emfs->name_entry = (GtkEntry *) gtk_entry_new ();

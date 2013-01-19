@@ -336,7 +336,7 @@ e_filter_part_get_widget (EFilterPart *part)
 
 	g_return_val_if_fail (E_IS_FILTER_PART (part), NULL);
 
-	hbox = gtk_hbox_new (FALSE, 3);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 3);
 
 	for (link = part->elements; link != NULL; link = g_list_next (link)) {
 		EFilterElement *element = link->data;

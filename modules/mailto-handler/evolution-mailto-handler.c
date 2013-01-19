@@ -125,7 +125,7 @@ mailto_handler_prompt (EMailtoHandler *extension)
 
 	container = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 
-	widget = gtk_hbox_new (FALSE, 12);
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
 	gtk_container_set_border_width (GTK_CONTAINER (widget), 5);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
@@ -137,7 +137,7 @@ mailto_handler_prompt (EMailtoHandler *extension)
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
-	widget = gtk_vbox_new (FALSE, 12);
+	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 12);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
 

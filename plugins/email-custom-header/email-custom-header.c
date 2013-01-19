@@ -793,10 +793,10 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	GtkWidget *header_edit;
 	GtkWidget *header_remove;
 
-	ech_configuration_box = gtk_vbox_new (FALSE, 6);
+	ech_configuration_box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	gtk_widget_show (ech_configuration_box);
 
-	vbox2 = gtk_vbox_new (FALSE, 0);
+	vbox2 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_widget_show (vbox2);
 	gtk_box_pack_start (GTK_BOX (ech_configuration_box), vbox2, FALSE, FALSE, 0);
 
@@ -807,11 +807,11 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	gtk_label_set_justify (GTK_LABEL (label1), GTK_JUSTIFY_CENTER);
 	gtk_label_set_line_wrap (GTK_LABEL (label1), TRUE);
 
-	header_configuration_box = gtk_vbox_new (FALSE, 6);
+	header_configuration_box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	gtk_widget_show (header_configuration_box);
 	gtk_box_pack_start (GTK_BOX (ech_configuration_box), header_configuration_box, TRUE, TRUE, 0);
 
-	header_container = gtk_hbox_new (FALSE, 12);
+	header_container = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
 	gtk_widget_show (header_container);
 	gtk_box_pack_start (GTK_BOX (header_configuration_box), header_container, TRUE, TRUE, 0);
 
@@ -825,7 +825,7 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	gtk_container_add (GTK_CONTAINER (scrolledwindow1), header_treeview);
 	gtk_container_set_border_width (GTK_CONTAINER (header_treeview), 1);
 
-	vbuttonbox1 = gtk_vbutton_box_new ();
+	vbuttonbox1 = gtk_button_box_new (GTK_ORIENTATION_VERTICAL);
 	gtk_widget_show (vbuttonbox1);
 	gtk_box_pack_start (GTK_BOX (header_container), vbuttonbox1, FALSE, TRUE, 0);
 	gtk_button_box_set_layout (GTK_BUTTON_BOX (vbuttonbox1), GTK_BUTTONBOX_START);
@@ -933,7 +933,7 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 
 	/* Add the list here */
 
-	hbox = gtk_vbox_new (FALSE, 0);
+	hbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 
 	gtk_box_pack_start (GTK_BOX (hbox), ech_configuration_box, TRUE, TRUE, 0);
 

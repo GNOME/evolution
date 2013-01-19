@@ -1039,7 +1039,7 @@ make_weekly_special (RecurrencePage *rpage)
 
 	/* Create the widgets */
 
-	hbox = gtk_hbox_new (FALSE, 2);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2);
 	gtk_container_add (GTK_CONTAINER (priv->special), hbox);
 
 	/* TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] week(s) on [Wednesday] [forever]'
@@ -1333,7 +1333,7 @@ make_monthly_special (RecurrencePage *rpage)
 
 	/* Create the widgets */
 
-	hbox = gtk_hbox_new (FALSE, 2);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2);
 	gtk_container_add (GTK_CONTAINER (priv->special), hbox);
 
 	/* TRANSLATORS: Entire string is for example: 'This appointment recurs/Every [x] month(s) on the [second] [Tuesday] [forever]'
@@ -1514,7 +1514,7 @@ make_ending_count_special (RecurrencePage *rpage)
 
 	/* Create the widgets */
 
-	hbox = gtk_hbox_new (FALSE, 2);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2);
 	gtk_container_add (GTK_CONTAINER (priv->ending_special), hbox);
 
 	adj = GTK_ADJUSTMENT (gtk_adjustment_new (1, 1, 10000, 1, 10, 0));

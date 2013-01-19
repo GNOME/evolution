@@ -289,7 +289,7 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 
 	/* Construct window widgets. */
 
-	widget = gtk_vbox_new (FALSE, 0);
+	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_container_add (GTK_CONTAINER (shell_window), widget);
 	gtk_widget_show (widget);
 

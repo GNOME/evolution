@@ -924,7 +924,7 @@ composer_header_table_constructed (GObject *object)
 			table->priv->signature_combo_box,
 			3, 4, ii, ii + 1, 0, 0, 0, row_padding);
 	} else {
-		GtkWidget *box = gtk_hbox_new (FALSE, 0);
+		GtkWidget *box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 
 		gtk_box_pack_start (
 			GTK_BOX (box),

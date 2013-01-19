@@ -199,7 +199,7 @@ create_tab_label (EMailNotebookView *view,
 	GtkWidget *container, *widget;
 	GtkAllocation allocation;
 
-	widget = gtk_hbox_new (FALSE, 0);
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_widget_show (widget);
 	container = widget;
 

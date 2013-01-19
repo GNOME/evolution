@@ -462,7 +462,7 @@ ec_rebuild (EConfig *emp)
 			} else if (wn->widget == NULL) {
 				w = gtk_label_new_with_mnemonic (translated_label);
 				gtk_widget_show (w);
-				page = gtk_vbox_new (FALSE, 12);
+				page = gtk_box_new (GTK_ORIENTATION_VERTICAL, 12);
 				gtk_container_set_border_width ((GtkContainer *) page, 12);
 				gtk_widget_show (page);
 				gtk_notebook_insert_page ((GtkNotebook *) book, page, w, pageno);
@@ -559,7 +559,7 @@ ec_rebuild (EConfig *emp)
 				}
 
 				if (item->type == E_CONFIG_SECTION)
-					section = gtk_vbox_new (FALSE, 6);
+					section = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 				else {
 					section = gtk_table_new (1, 1, FALSE);
 					gtk_table_set_col_spacings ((GtkTable *) section, 6);
@@ -1169,7 +1169,7 @@ ech_config_section_factory (EConfig *config,
 
 	switch (item->type) {
 		case E_CONFIG_SECTION:
-			widget = gtk_vbox_new (FALSE, 6);
+			widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 			break;
 
 		case E_CONFIG_SECTION_TABLE:

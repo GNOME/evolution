@@ -851,7 +851,8 @@ e_week_view_init (EWeekView *week_view)
 	 */
 	adjustment = GTK_ADJUSTMENT (gtk_adjustment_new (0, -52, 52, 1, 1, 1));
 
-	week_view->vscrollbar = gtk_vscrollbar_new (adjustment);
+	week_view->vscrollbar = gtk_scrollbar_new (
+		GTK_ORIENTATION_VERTICAL, adjustment);
 	gtk_table_attach (
 		GTK_TABLE (week_view), week_view->vscrollbar,
 		2, 3, 1, 2, 0, GTK_EXPAND | GTK_FILL, 0, 0);

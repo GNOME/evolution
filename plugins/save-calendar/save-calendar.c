@@ -116,8 +116,8 @@ ask_destination_and_save (ESourceSelector *selector,
 {
 	FormatHandler *handler = NULL;
 
-	GtkWidget *extra_widget = gtk_vbox_new (FALSE, 0);
-	GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
+	GtkWidget *extra_widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	GtkWidget *hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	GtkLabel *label = GTK_LABEL (gtk_label_new_with_mnemonic (_("_Format:")));
 	GtkComboBox *combo = GTK_COMBO_BOX (gtk_combo_box_new ());
 	GtkTreeModel *model = GTK_TREE_MODEL (gtk_list_store_new

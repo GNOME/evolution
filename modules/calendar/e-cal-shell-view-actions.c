@@ -328,7 +328,7 @@ action_calendar_purge_cb (GtkAction *action,
 
 	container = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 
-	widget = gtk_hbox_new (FALSE, 6);
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, FALSE, 6);
 	gtk_widget_show (widget);
 

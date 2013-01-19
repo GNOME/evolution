@@ -58,7 +58,7 @@ mail_label_action_menu_item_realize_cb (GtkWidget *menu_item)
 
 	/* Now add our own child widget. */
 
-	widget = gtk_hbox_new (FALSE, 3);
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 3);
 	gtk_container_add (GTK_CONTAINER (menu_item), widget);
 	gtk_widget_show (widget);
 

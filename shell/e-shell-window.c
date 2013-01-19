@@ -422,7 +422,7 @@ shell_window_construct_menubar (EShellWindow *shell_window)
 		parent = gtk_widget_get_parent (main_menu);
 		g_object_ref (parent);
 		gtk_container_remove ((GtkContainer *) parent, main_menu);
-		child = gtk_hbox_new (FALSE, 0);
+		child = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 		gtk_box_pack_start ((GtkBox *) child, main_menu, TRUE, TRUE, 0);
 		gtk_widget_show (child);
 		gtk_container_add ((GtkContainer *) parent, child);
@@ -462,7 +462,7 @@ shell_window_construct_toolbar (EShellWindow *shell_window)
 	shell = e_shell_window_get_shell (shell_window);
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
 
-	box = gtk_hbox_new (FALSE, 0);
+	box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_widget_show (box);
 
 	g_object_bind_property (
@@ -573,7 +573,7 @@ shell_window_construct_content (EShellWindow *shell_window)
 	GtkWidget *box;
 	GtkWidget *widget;
 
-	box = gtk_vbox_new (FALSE, 0);
+	box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_widget_show (box);
 
 	widget = e_alert_bar_new ();
@@ -607,7 +607,7 @@ shell_window_construct_taskbar (EShellWindow *shell_window)
 
 	shell = e_shell_window_get_shell (shell_window);
 
-	status_area = gtk_hbox_new (FALSE, 3);
+	status_area = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 3);
 	gtk_container_set_border_width (GTK_CONTAINER (status_area), 3);
 
 	g_object_bind_property (

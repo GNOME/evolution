@@ -647,7 +647,7 @@ mail_browser_constructed (GObject *object)
 
 	/* Construct window widgets. */
 
-	widget = gtk_vbox_new (FALSE, 0);
+	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_container_add (GTK_CONTAINER (object), widget);
 	gtk_widget_show (widget);
 

@@ -141,7 +141,7 @@ get_rule_part_widget (ERuleContext *context,
 	data->context = context;
 	data->part = newpart;
 
-	hbox = gtk_hbox_new (FALSE, 0);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	/* only set to automatically clean up the memory */
 	g_object_set_data_full ((GObject *) hbox, "data", data, g_free);
 

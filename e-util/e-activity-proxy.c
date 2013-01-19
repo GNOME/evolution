@@ -273,7 +273,7 @@ e_activity_proxy_init (EActivityProxy *proxy)
 
 	container = GTK_WIDGET (proxy);
 
-	widget = gtk_hbox_new (FALSE, 3);
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 3);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);
 

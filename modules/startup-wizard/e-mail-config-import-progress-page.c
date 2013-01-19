@@ -213,7 +213,7 @@ mail_config_import_progress_page_constructed (GObject *object)
 		NULL,
 		NULL, (GDestroyNotify) NULL);
 
-	widget = gtk_vbox_new (FALSE, 12);
+	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 12);
 	gtk_size_group_add_widget (size_group, widget);
 	gtk_box_pack_start (GTK_BOX (page), widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
@@ -247,7 +247,7 @@ mail_config_import_progress_page_constructed (GObject *object)
 
 	container = page->priv->cancelled_msg;
 
-	widget = gtk_hbox_new (FALSE, 6);
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);
 
@@ -264,7 +264,7 @@ mail_config_import_progress_page_constructed (GObject *object)
 
 	container = page->priv->completed_msg;
 
-	widget = gtk_hbox_new (FALSE, 6);
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);
 

@@ -398,7 +398,7 @@ e_shell_taskbar_init (EShellTaskbar *shell_taskbar)
 	shell_taskbar->priv->label = g_object_ref (widget);
 	gtk_widget_hide (widget);
 
-	widget = gtk_hbox_new (FALSE, 3);
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 3);
 	gtk_box_pack_start (GTK_BOX (shell_taskbar), widget, TRUE, TRUE, 0);
 	shell_taskbar->priv->hbox = g_object_ref (widget);
 	gtk_widget_hide (widget);

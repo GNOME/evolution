@@ -274,7 +274,7 @@ mail_signature_manager_constructed (GObject *object)
 
 	container = widget;
 
-	widget = gtk_hbox_new (FALSE, 6);
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);
 
@@ -315,7 +315,7 @@ mail_signature_manager_constructed (GObject *object)
 
 	container = hbox;
 
-	widget = gtk_vbutton_box_new ();
+	widget = gtk_button_box_new (GTK_ORIENTATION_VERTICAL);
 	gtk_button_box_set_layout (
 		GTK_BUTTON_BOX (widget), GTK_BUTTONBOX_START);
 	gtk_box_set_spacing (GTK_BOX (widget), 6);

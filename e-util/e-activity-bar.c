@@ -265,7 +265,7 @@ e_activity_bar_init (EActivityBar *bar)
 
 	container = gtk_info_bar_get_content_area (GTK_INFO_BAR (bar));
 
-	widget = gtk_hbox_new (FALSE, 12);
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);
 

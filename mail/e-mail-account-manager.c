@@ -477,7 +477,7 @@ mail_account_manager_constructed (GObject *object)
 
 	container = GTK_WIDGET (manager);
 
-	widget = gtk_vbutton_box_new ();
+	widget = gtk_button_box_new (GTK_ORIENTATION_VERTICAL);
 	gtk_button_box_set_layout (
 		GTK_BUTTON_BOX (widget), GTK_BUTTONBOX_START);
 	gtk_box_set_spacing (GTK_BOX (widget), 6);

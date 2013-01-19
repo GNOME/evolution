@@ -229,11 +229,11 @@ e_cell_date_edit_init (ECellDateEdit *ecde)
 	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_OUT);
 	gtk_widget_show (frame);
 
-	vbox = gtk_vbox_new (FALSE, 0);
+	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_container_add (GTK_CONTAINER (frame), vbox);
 	gtk_widget_show (vbox);
 
-	hbox = gtk_hbox_new (FALSE, 4);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 4);
 	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
 	gtk_widget_show (hbox);
 
@@ -245,7 +245,7 @@ e_cell_date_edit_init (ECellDateEdit *ecde)
 	gtk_box_pack_start (GTK_BOX (hbox), ecde->calendar, TRUE, TRUE, 0);
 	gtk_widget_show (ecde->calendar);
 
-	vbox2 = gtk_vbox_new (FALSE, 2);
+	vbox2 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 2);
 	gtk_box_pack_start (GTK_BOX (hbox), vbox2, TRUE, TRUE, 0);
 	gtk_widget_show (vbox2);
 
@@ -290,7 +290,7 @@ e_cell_date_edit_init (ECellDateEdit *ecde)
 		gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view)), "changed",
 		G_CALLBACK (e_cell_date_edit_on_time_selected), ecde);
 
-	bbox = gtk_hbutton_box_new ();
+	bbox = gtk_button_box_new (GTK_ORIENTATION_HORIZONTAL);
 	gtk_container_set_border_width (GTK_CONTAINER (bbox), 4);
 	gtk_box_set_spacing (GTK_BOX (bbox), 2);
 	gtk_box_pack_start (GTK_BOX (vbox), bbox, FALSE, FALSE, 0);

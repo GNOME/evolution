@@ -261,7 +261,7 @@ action_plugin_manager_cb (GtkAction *action,
 	gtk_window_set_default_size (GTK_WINDOW (dialog), 640, 400);
 	gtk_container_set_border_width (GTK_CONTAINER (dialog), 6);
 
-	hbox = gtk_hbox_new (FALSE, 12);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
 	gtk_container_set_border_width (GTK_CONTAINER (hbox), 6);
 	gtk_box_pack_start (GTK_BOX (content_area), hbox, TRUE, TRUE, 0);
 
@@ -288,8 +288,8 @@ action_plugin_manager_cb (GtkAction *action,
 		notebook, "switch-page",
 		G_CALLBACK (eppm_switch_page_cb), NULL);
 
-	overview_page = gtk_vbox_new (FALSE, 0);
-	configure_page = gtk_vbox_new (FALSE, 0);
+	overview_page = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	configure_page = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	g_object_ref_sink (configure_page);
 	gtk_container_set_border_width (GTK_CONTAINER (overview_page), 12);
 	gtk_container_set_border_width (GTK_CONTAINER (configure_page), 12);
@@ -389,7 +389,7 @@ action_plugin_manager_cb (GtkAction *action,
 	gtk_box_pack_start (GTK_BOX (hbox), notebook, TRUE, TRUE, 0);
 
 	/* this is plugin's name label */
-	subvbox = gtk_vbox_new (FALSE, 6);
+	subvbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	m->items[0] = g_object_new (
 		GTK_TYPE_LABEL,
 		"wrap", TRUE,
@@ -406,7 +406,7 @@ action_plugin_manager_cb (GtkAction *action,
 	for (i = 1; i < LABEL_LAST; i++) {
 		gchar *markup;
 
-		subvbox = gtk_vbox_new (FALSE, 6);
+		subvbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 
 		markup = g_markup_printf_escaped (
 			"<span weight=\"bold\">%s:</span>",

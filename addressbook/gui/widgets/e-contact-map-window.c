@@ -387,7 +387,7 @@ e_contact_map_window_init (EContactMapWindow *window)
 		G_CALLBACK (map_contact_geocoding_failed_cb), window);
 
 	/* HBox container */
-	hbox = gtk_hbox_new (FALSE, 7);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 7);
 
 	/* Spinner */
 	button = gtk_spinner_new ();
@@ -443,7 +443,7 @@ e_contact_map_window_init (EContactMapWindow *window)
 	viewport = gtk_frame_new (NULL);
 	gtk_container_add (GTK_CONTAINER (viewport), map);
 
-	vbox = gtk_vbox_new (FALSE, 6);
+	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	gtk_container_add (GTK_CONTAINER (vbox), viewport);
 	gtk_box_pack_end (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
 

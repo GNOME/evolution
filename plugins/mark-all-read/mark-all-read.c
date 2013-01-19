@@ -159,7 +159,7 @@ prompt_user (gboolean has_subfolders)
 	gtk_widget_show (widget);
 
 	/* Action Area */
-	widget = gtk_hbox_new (FALSE, 6);
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 	gtk_widget_set_halign (widget, GTK_ALIGN_END);
 	gtk_grid_attach (GTK_GRID (grid), widget, 1, 2, 1, 1);
 	gtk_widget_show (widget);

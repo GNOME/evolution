@@ -134,7 +134,7 @@ dnl these settings should match our minimum requirements and we will clean
 dnl up any new deprecation warnings after bumping our minimum requirements.
 dnl But if the warnings get to be overwhelming, use fixed versions instead.
 AM_CPPFLAGS="$AM_CPPFLAGS -DGLIB_VERSION_MIN_REQUIRED=glib_encoded_version"
-AM_CPPFLAGS="$AM_CPPFLAGS -DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_3_0"
+AM_CPPFLAGS="$AM_CPPFLAGS -DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_3_2"
 AM_CPPFLAGS="$AM_CPPFLAGS -DSOUP_VERSION_MIN_REQUIRED=soup_encoded_version"
 
 AC_SUBST(AM_CPPFLAGS)

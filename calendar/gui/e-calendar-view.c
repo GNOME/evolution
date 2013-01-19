@@ -1957,7 +1957,7 @@ e_calendar_view_get_tooltips (const ECalendarViewEventData *data)
 	if (!e_cal_component_set_icalcomponent (newcomp, clone_comp))
 		g_warning ("couldn't update calendar component with modified data from backend\n");
 
-	box = gtk_vbox_new (FALSE, 0);
+	box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 
 	str = e_calendar_view_get_icalcomponent_summary (pevent->comp_data->client, pevent->comp_data->icalcomp, &free_text);
 
@@ -1978,7 +1978,7 @@ e_calendar_view_get_tooltips (const ECalendarViewEventData *data)
 		str = NULL;
 	}
 
-	hbox = gtk_hbox_new (FALSE, 0);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_box_pack_start ((GtkBox *) hbox, label, FALSE, FALSE, 0);
 	ebox = gtk_event_box_new ();
 	gtk_container_add ((GtkContainer *) ebox, hbox);
@@ -2003,7 +2003,7 @@ e_calendar_view_get_tooltips (const ECalendarViewEventData *data)
 			tmp = g_strdup_printf (_("Organizer: %s"), organiser.cn);
 
 		label = gtk_label_new (tmp);
-		hbox = gtk_hbox_new (FALSE, 0);
+		hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 		gtk_box_pack_start ((GtkBox *) hbox, label, FALSE, FALSE, 0);
 		ebox = gtk_event_box_new ();
 		gtk_container_add ((GtkContainer *) ebox, hbox);
@@ -2019,7 +2019,7 @@ e_calendar_view_get_tooltips (const ECalendarViewEventData *data)
 		tmp = g_markup_printf_escaped (_("Location: %s"), str);
 		label = gtk_label_new (NULL);
 		gtk_label_set_markup ((GtkLabel *) label, tmp);
-		hbox = gtk_hbox_new (FALSE, 0);
+		hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 		gtk_box_pack_start ((GtkBox *) hbox, label, FALSE, FALSE, 0);
 		ebox = gtk_event_box_new ();
 		gtk_container_add ((GtkContainer *) ebox, hbox);
@@ -2063,7 +2063,7 @@ e_calendar_view_get_tooltips (const ECalendarViewEventData *data)
 	e_cal_component_free_datetime (&dtstart);
 	e_cal_component_free_datetime (&dtend);
 
-	hbox = gtk_hbox_new (FALSE, 0);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_box_pack_start ((GtkBox *) hbox, gtk_label_new_with_mnemonic (tmp), FALSE, FALSE, 0);
 	ebox = gtk_event_box_new ();
 	gtk_container_add ((GtkContainer *) ebox, hbox);
@@ -2076,7 +2076,7 @@ e_calendar_view_get_tooltips (const ECalendarViewEventData *data)
 	tmp = e_cal_model_get_attendees_status_info (
 		model, newcomp, pevent->comp_data->client);
 	if (tmp) {
-		hbox = gtk_hbox_new (FALSE, 0);
+		hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 		gtk_box_pack_start ((GtkBox *) hbox, gtk_label_new (tmp), FALSE, FALSE, 0);
 		ebox = gtk_event_box_new ();
 		gtk_container_add ((GtkContainer *) ebox, hbox);

@@ -74,7 +74,7 @@ recur_component_dialog (ECalClient *client,
 
 	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 
-	hbox = gtk_hbox_new (FALSE, 12);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
 	gtk_container_add (GTK_CONTAINER (content_area), hbox);
 
 	placeholder = gtk_label_new ("");
@@ -82,7 +82,7 @@ recur_component_dialog (ECalClient *client,
 	gtk_box_pack_start (GTK_BOX (hbox), placeholder, FALSE, FALSE, 0);
 	gtk_widget_show (placeholder);
 
-	vbox = gtk_vbox_new (FALSE, 6);
+	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	gtk_box_pack_start (GTK_BOX (hbox), vbox, TRUE, TRUE, 0);
 	gtk_widget_show (vbox);
 

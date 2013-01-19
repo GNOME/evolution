@@ -293,7 +293,7 @@ caldav_chooser_dialog_constructed (GObject *object)
 
 	container = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 
-	widget = gtk_vbox_new (FALSE, 6);
+	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	gtk_container_set_border_width (GTK_CONTAINER (widget), 5);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
@@ -332,7 +332,7 @@ caldav_chooser_dialog_constructed (GObject *object)
 
 	container = gtk_info_bar_get_content_area (GTK_INFO_BAR (widget));
 
-	widget = gtk_hbox_new (FALSE, 6);
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
 
