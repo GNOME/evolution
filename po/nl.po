@@ -404,7 +404,7 @@ msgstr "Foto"
 # was eerst: berichten versturen
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:15
 msgid "Instant Messaging"
-msgstr "<b>Instant Messaging</b>"
+msgstr "Instant Messaging"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:16
 msgid "Job"
@@ -451,7 +451,7 @@ msgstr "_Video-chat:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:25
 msgid "Web Addresses"
-msgstr "<b>Webadressen</b>"
+msgstr "Webadressen"
 
 # [vinkje] Shrink To/CC/BCC headers to [tellerknop] addresses
 # dit is het tweede gedeelte van de opgesplitste zin.
@@ -26088,7 +26088,7 @@ msgstr "Invoermethodes"
 # was eerst: berichten versturen
 #, fuzzy
 #~ msgid "AOL Instant Messenger"
-#~ msgstr "<b>Instant Messaging</b>"
+#~ msgstr "Instant Messaging"
 
 # een nieuw bericht opstellen/stel een nieuw bericht op
 #, fuzzy
