@@ -121,7 +121,7 @@ fi
 AC_MSG_RESULT([$enable_strict])
 
 if test "x$enable_strict" = xyes; then
-	AM_CPPFLAGS="$AM_CPPFLAGS -DG_DISABLE_DEPRECATED -DE_BOOK_DISABLE_DEPRECATED -DE_CAL_DISABLE_DEPRECATED"
+	AM_CPPFLAGS="$AM_CPPFLAGS -DG_DISABLE_DEPRECATED"
 fi
 
 dnl Warn about API usage that violates our minimum requirements.
