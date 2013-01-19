@@ -792,7 +792,7 @@ e_editor_init (EEditor *editor)
 	priv->language_actions = gtk_action_group_new ("language");
 	priv->spell_check_actions = gtk_action_group_new ("spell-check");
 	priv->suggestion_actions = gtk_action_group_new ("suggestion");
-	priv->editor_widget = e_editor_widget_new ();
+	priv->editor_widget = g_object_ref_sink (e_editor_widget_new ());
 	priv->selection = e_editor_widget_get_selection (priv->editor_widget);
 
 	filename = editor_find_ui_file ("e-editor-manager.ui");
