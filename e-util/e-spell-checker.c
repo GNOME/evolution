@@ -45,6 +45,11 @@ struct _ESpellCheckerPrivate {
 	GHashTable *enchant_dicts;
 };
 
+enum {
+	PROP_0,
+	PROP_ACTIVE_LANGUAGES
+};
+
 /* Forward Declarations */
 static void	e_spell_checker_init_webkit_checker
 				(WebKitSpellCheckerInterface *interface);
@@ -314,6 +319,26 @@ wksc_update_languages (WebKitSpellChecker *webkit_checker,
 		dictionary = g_queue_pop_head (&queue);
 		g_hash_table_add (active_dictionaries, dictionary);
 	}
+
+	g_object_notify (G_OBJECT (checker), "active-languages");
+}
+
+static void
+spell_checker_get_property (GObject *object,
+                            guint property_id,
+                            GValue *value,
+                            GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_ACTIVE_LANGUAGES:
+			g_value_take_boxed (
+				value,
+				e_spell_checker_list_active_languages (
+				E_SPELL_CHECKER (object), NULL));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
 static void
@@ -361,8 +386,20 @@ e_spell_checker_class_init (ESpellCheckerClass *class)
 	g_type_class_add_private (class, sizeof (ESpellCheckerPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
+	object_class->get_property = spell_checker_get_property;
 	object_class->dispose = spell_checker_dispose;
 	object_class->finalize = spell_checker_finalize;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_ACTIVE_LANGUAGES,
+		g_param_spec_boxed (
+			"active-languages",
+			"Active Languages",
+			"Active spell check language codes",
+			G_TYPE_STRV,
+			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS));
 }
 
 static void
@@ -574,6 +611,7 @@ e_spell_checker_set_language_active (ESpellChecker *checker,
 {
 	ESpellDictionary *dictionary;
 	GHashTable *active_dictionaries;
+	gboolean is_active;
 
 	g_return_if_fail (E_IS_SPELL_CHECKER (checker));
 	g_return_if_fail (language_code != NULL);
@@ -582,12 +620,15 @@ e_spell_checker_set_language_active (ESpellChecker *checker,
 	g_return_if_fail (dictionary != NULL);
 
 	active_dictionaries = checker->priv->active_dictionaries;
+	is_active = g_hash_table_contains (active_dictionaries, dictionary);
 
-	if (active) {
+	if (active && !is_active) {
 		g_object_ref (dictionary);
 		g_hash_table_add (active_dictionaries, dictionary);
-	} else {
+		g_object_notify (G_OBJECT (checker), "active-languages");
+	} else if (!active && is_active) {
 		g_hash_table_remove (active_dictionaries, dictionary);
+		g_object_notify (G_OBJECT (checker), "active-languages");
 	}
 
 	g_object_unref (dictionary);
