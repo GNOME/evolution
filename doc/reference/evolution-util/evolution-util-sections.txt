@@ -3988,6 +3988,8 @@ e_spell_entry_new
 e_spell_entry_set_languages
 e_spell_entry_get_checking_enabled
 e_spell_entry_set_checking_enabled
+e_spell_entry_get_spell_checker
+e_spell_entry_set_spell_checker
 <SUBSECTION Standard>
 E_SPELL_ENTRY
 E_IS_SPELL_ENTRY

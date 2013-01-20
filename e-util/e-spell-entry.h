@@ -24,6 +24,8 @@
 
 #include <gtk/gtk.h>
 
+#include <e-util/e-util.h>
+
 /* Standard GObject macros */
 #define E_TYPE_SPELL_ENTRY \
 	(e_spell_entry_get_type ())
@@ -67,6 +69,9 @@ gboolean	e_spell_entry_get_checking_enabled
 void		e_spell_entry_set_checking_enabled
 						(ESpellEntry *spell_entry,
 						 gboolean enable_checking);
+ESpellChecker *	e_spell_entry_get_spell_checker	(ESpellEntry *spell_entry);
+void		e_spell_entry_set_spell_checker	(ESpellEntry *spell_entry,
+						 ESpellChecker *spell_checker);
 
 G_END_DECLS
 
