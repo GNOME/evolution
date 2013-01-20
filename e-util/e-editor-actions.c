@@ -109,6 +109,25 @@ insert_text_file_ready_cb (GFile *file,
 	g_object_unref (editor);
 }
 
+static void
+editor_update_static_spell_actions (EEditor *editor)
+{
+	ESpellChecker *checker;
+	EEditorWidget *editor_widget;
+	guint count;
+
+	editor_widget = e_editor_get_editor_widget (editor);
+	checker = e_editor_widget_get_spell_checker (editor_widget);
+
+	count = e_spell_checker_count_active_languages (checker);
+
+	gtk_action_set_visible (ACTION (CONTEXT_SPELL_ADD), count == 1);
+	gtk_action_set_visible (ACTION (CONTEXT_SPELL_ADD_MENU), count > 1);
+	gtk_action_set_visible (ACTION (CONTEXT_SPELL_IGNORE), count > 0);
+
+	gtk_action_set_sensitive (ACTION (SPELL_CHECK), count > 0);
+}
+
 /*****************************************************************************
  * Action Callbacks
  *****************************************************************************/
@@ -580,7 +599,6 @@ action_language_cb (GtkToggleAction *toggle_action,
 	EEditorWidget *editor_widget;
 	const gchar *language_code;
 	GtkAction *add_action;
-	guint count;
 	gchar *action_name;
 	gboolean active;
 
@@ -597,13 +615,7 @@ action_language_cb (GtkToggleAction *toggle_action,
 	gtk_action_set_visible (add_action, active);
 	g_free (action_name);
 
-	count = e_spell_checker_count_active_languages (checker);
-
-	gtk_action_set_visible (ACTION (CONTEXT_SPELL_ADD), count == 1);
-	gtk_action_set_visible (ACTION (CONTEXT_SPELL_ADD_MENU), count > 1);
-	gtk_action_set_visible (ACTION (CONTEXT_SPELL_IGNORE), count > 0);
-
-	gtk_action_set_sensitive (ACTION (SPELL_CHECK), count > 0);
+	editor_update_static_spell_actions (editor);
 
 	g_signal_emit_by_name (editor, "spell-languages-changed");
 }
@@ -1660,11 +1672,19 @@ editor_actions_setup_languages_menu (EEditor *editor)
 	for (link = list; link != NULL; link = g_list_next (link)) {
 		ESpellDictionary *dictionary = link->data;
 		GtkToggleAction *action;
+		gboolean active;
 
 		action = gtk_toggle_action_new (
 			e_spell_dictionary_get_code (dictionary),
 			e_spell_dictionary_get_name (dictionary),
 			NULL, NULL);
+
+		/* Do this BEFORE connecting to the "toggled" signal.
+		 * We're not prepared to invoke the signal handler yet.
+		 * The "Add Word To" actions have not yet been added. */
+		active = e_spell_checker_get_language_active (
+			checker, e_spell_dictionary_get_code (dictionary));
+		gtk_toggle_action_set_active (action, active);
 
 		g_signal_connect (
 			action, "toggled",
@@ -1870,6 +1890,9 @@ editor_actions_init (EEditor *editor)
 	action_group = editor->priv->suggestion_actions;
 	editor_actions_setup_spell_check_menu (editor);
 	gtk_ui_manager_insert_action_group (manager, action_group, 0);
+
+	/* Do this after all language actions are initialized. */
+	editor_update_static_spell_actions (editor);
 
 	/* Fine Tuning */
 
