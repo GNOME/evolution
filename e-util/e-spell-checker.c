@@ -45,8 +45,6 @@ struct _ESpellCheckerPrivate {
 	GHashTable *enchant_dicts;
 };
 
-static ESpellChecker *s_instance = NULL;
-
 /* Forward Declarations */
 static void	e_spell_checker_init_webkit_checker
 				(WebKitSpellCheckerInterface *interface);
@@ -410,15 +408,6 @@ e_spell_checker_init (ESpellChecker *checker)
 	checker->priv->active_dictionaries = active_dictionaries;
 	checker->priv->dictionaries_cache = dictionaries_cache;
 	checker->priv->enchant_dicts = enchant_dicts;
-}
-
-ESpellChecker *
-e_spell_checker_instance (void)
-{
-	if (s_instance == NULL)
-		s_instance = e_spell_checker_new ();
-
-	return s_instance;
 }
 
 /**
