@@ -862,7 +862,7 @@ e_spell_entry_init (ESpellEntry *spell_entry)
 	spell_entry->priv->attr_list = pango_attr_list_new ();
 	spell_entry->priv->dictionaries = NULL;
 	spell_entry->priv->checking_enabled = TRUE;
-	spell_entry->priv->spell_checker = g_object_new (E_TYPE_SPELL_CHECKER, NULL);
+	spell_entry->priv->spell_checker = e_spell_checker_new ();
 
 	g_signal_connect (
 		spell_entry, "popup-menu",

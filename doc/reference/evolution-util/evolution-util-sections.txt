@@ -3928,6 +3928,7 @@ e_source_util_remote_delete
 <TITLE>ESpellChecker</TITLE>
 ESpellChecker
 e_spell_checker_instance
+e_spell_checker_new
 e_spell_checker_list_available_dicts
 e_spell_checker_ref_dictionary
 e_spell_checker_get_enchant_dict

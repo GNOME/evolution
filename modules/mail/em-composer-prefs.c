@@ -1008,7 +1008,7 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	prefs->builder = gtk_builder_new ();
 	e_load_ui_builder_definition (prefs->builder, "mail-config.ui");
 
-	prefs->spell_checker = e_spell_checker_instance ();
+	prefs->spell_checker = e_spell_checker_new ();
 
 	/** @HookPoint-EMConfig: Mail Composer Preferences
 	 * @Id: org.gnome.evolution.mail.composerPrefs
