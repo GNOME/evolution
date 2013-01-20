@@ -59,9 +59,6 @@ struct _EEditorWidgetPrivate {
 
 	EEditorSelection *selection;
 
-	/* FIXME WEBKIT Is this in widget's competence? */
-	GList *spelling_langs;
-
 	GSettings *font_settings;
 	GSettings *aliasing_settings;
 
@@ -80,8 +77,7 @@ enum {
 	PROP_INLINE_SPELLING,
 	PROP_MAGIC_LINKS,
 	PROP_MAGIC_SMILEYS,
-	PROP_SPELL_CHECKER,
-	PROP_SPELL_LANGUAGES
+	PROP_SPELL_CHECKER
 };
 
 enum {
@@ -959,21 +955,6 @@ e_editor_widget_class_init (EEditorWidgetClass *class)
 			G_PARAM_STATIC_STRINGS));
 
 	/**
-	 * EEditorWidget:spell-languages
-	 *
-	 * List of #ESpellDictionary objects used for spellchecking.
-	 */
-	g_object_class_install_property (
-		object_class,
-		PROP_SPELL_LANGUAGES,
-		g_param_spec_pointer (
-			"spell-languages",
-			"Active spell checking languages",
-			NULL,
-			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
-
-	/**
 	 * EEditorWidget:popup-event
 	 *
 	 * Emitted whenever a context menu is requested.
@@ -1453,46 +1434,6 @@ e_editor_widget_set_magic_smileys (EEditorWidget *widget,
 	widget->priv->magic_smileys = magic_smileys;
 
 	g_object_notify (G_OBJECT (widget), "magic-smileys");
-}
-
-/**
- * e_editor_widget_get_spell_languages:
- * @widget: an #EEditorWidget
- *
- * Returns list of #ESpellDictionary objects that are used for spell checking.
- *
- * Returns: A newly allocated list of #ESpellDictionary objects. You should free
- * the list by g_list_free() The objects are owned by #EEditorWidget.and should
- * not be unref'ed or free'd. [element-type ESpellDictionary]
- */
-GList *
-e_editor_widget_get_spell_languages (EEditorWidget *widget)
-{
-	g_return_val_if_fail (E_IS_EDITOR_WIDGET (widget), NULL);
-
-	return g_list_copy (widget->priv->spelling_langs);
-}
-
-/**
- * e_editor_widget_set_spell_languages:
- * @widget: an #EEditorWidget
- * @spell_languages:[element-type ESpellDictionary][transfer-none] a list of
- * #ESpellDictionary objects
- *
- * Sets list of #ESpellDictionary objects that will be used for spell checking.
- */
-void
-e_editor_widget_set_spell_languages (EEditorWidget *widget,
-                                     GList *spell_languages)
-{
-	g_return_if_fail (E_IS_EDITOR_WIDGET (widget));
-	g_return_if_fail (spell_languages);
-
-	g_list_free_full (widget->priv->spelling_langs, g_object_unref);
-	widget->priv->spelling_langs = g_list_copy ((GList *) spell_languages);
-	g_list_foreach (widget->priv->spelling_langs, (GFunc) g_object_ref, NULL);
-
-	g_object_notify (G_OBJECT (widget), "spell-languages");
 }
 
 /**
