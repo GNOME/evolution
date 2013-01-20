@@ -633,7 +633,7 @@ e_spell_dictionary_check_word (ESpellDictionary *dictionary,
 		spell_checker, e_spell_dictionary_get_code (dictionary));
 	g_return_val_if_fail (enchant_dict != NULL, TRUE);
 
-	recognized = enchant_dict_check (enchant_dict, word, length);
+	recognized = (enchant_dict_check (enchant_dict, word, length) == 0);
 
 	g_object_unref (spell_checker);
 
