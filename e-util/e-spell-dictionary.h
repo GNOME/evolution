@@ -74,7 +74,7 @@ const gchar *	e_spell_dictionary_get_name	(ESpellDictionary *dictionary);
 const gchar *	e_spell_dictionary_get_code	(ESpellDictionary *dictionary);
 ESpellChecker *	e_spell_dictionary_ref_spell_checker
 						(ESpellDictionary *dictionary);
-gboolean	e_spell_dictionary_check	(ESpellDictionary *dictionary,
+gboolean	e_spell_dictionary_check_word	(ESpellDictionary *dictionary,
 						 const gchar *word,
 						 gsize length);
 void		e_spell_dictionary_learn_word	(ESpellDictionary *dictionary,

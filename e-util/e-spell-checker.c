@@ -708,8 +708,8 @@ e_spell_checker_count_active_languages (ESpellChecker *checker)
  * @word: a word to spell-check
  * @length: length of @word in bytes or -1 when %NULL-terminated
  *
- * Calls e_spell_dictionary_check() on all active dictionaries in @checker,
- * and returns %TRUE if @word is recognized by any of them.
+ * Calls e_spell_dictionary_check_word() on all active dictionaries in
+ * @checker, and returns %TRUE if @word is recognized by any of them.
  *
  * Returns: %TRUE if @word is recognized, %FALSE otherwise
  **/
@@ -730,7 +730,7 @@ e_spell_checker_check_word (ESpellChecker *checker,
 		ESpellDictionary *dictionary;
 
 		dictionary = E_SPELL_DICTIONARY (link->data);
-		if (e_spell_dictionary_check (dictionary, word, length)) {
+		if (e_spell_dictionary_check_word (dictionary, word, length)) {
 			recognized = TRUE;
 			break;
 		}

@@ -604,7 +604,7 @@ e_spell_dictionary_ref_spell_checker (ESpellDictionary *dictionary)
 }
 
 /**
- * e_spell_dictionary_check:
+ * e_spell_dictionary_check_word:
  * @dictionary: an #ESpellDictionary
  * @word: a word to spell-check
  * @length: length of @word in bytes or -1 when %NULL-terminated
@@ -612,16 +612,16 @@ e_spell_dictionary_ref_spell_checker (ESpellDictionary *dictionary)
  * Tries to lookup the @word in the @dictionary to check whether
  * it's spelled correctly or not.
  *
- * Returns: %TRUE when the word is spelled correctly, %FALSE otherwise
+ * Returns: %TRUE if @word is recognized, %FALSE otherwise
  */
 gboolean
-e_spell_dictionary_check (ESpellDictionary *dictionary,
-                          const gchar *word,
-                          gsize length)
+e_spell_dictionary_check_word (ESpellDictionary *dictionary,
+                               const gchar *word,
+                               gsize length)
 {
 	ESpellChecker *spell_checker;
 	EnchantDict *enchant_dict;
-	gboolean correctly_spelled;
+	gboolean recognized;
 
 	g_return_val_if_fail (E_IS_SPELL_DICTIONARY (dictionary), TRUE);
 	g_return_val_if_fail (word != NULL && *word != '\0', TRUE);
@@ -633,11 +633,11 @@ e_spell_dictionary_check (ESpellDictionary *dictionary,
 		spell_checker, e_spell_dictionary_get_code (dictionary));
 	g_return_val_if_fail (enchant_dict != NULL, TRUE);
 
-	correctly_spelled = enchant_dict_check (enchant_dict, word, length);
+	recognized = enchant_dict_check (enchant_dict, word, length);
 
 	g_object_unref (spell_checker);
 
-	return correctly_spelled;
+	return recognized;
 }
 
 /**
