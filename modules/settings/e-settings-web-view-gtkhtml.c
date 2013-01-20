@@ -1,5 +1,5 @@
 /*
- * e-mail-config-web-view.c
+ * e-settings-web-view-gtkhtml.c
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -23,27 +23,27 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "e-mail-config-web-view-gtkhtml.h"
+#include "e-settings-web-view-gtkhtml.h"
 
 #include <shell/e-shell.h>
 
-#define E_MAIL_CONFIG_WEB_VIEW_GTKHTML_GET_PRIVATE(obj) \
+#define E_SETTINGS_WEB_VIEW_GTKHTML_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_CONFIG_WEB_VIEW_GTKHTML, EMailConfigWebViewGtkHTMLPrivate))
+	((obj), E_TYPE_SETTINGS_WEB_VIEW_GTKHTML, ESettingsWebViewGtkHTMLPrivate))
 
-struct _EMailConfigWebViewGtkHTMLPrivate {
+struct _ESettingsWebViewGtkHTMLPrivate {
 	GtkCssProvider *css_provider;
 	EShellSettings *shell_settings;
 };
 
 G_DEFINE_DYNAMIC_TYPE (
-	EMailConfigWebViewGtkHTML,
-	e_mail_config_web_view_gtkhtml,
+	ESettingsWebViewGtkHTML,
+	e_settings_web_view_gtkhtml,
 	E_TYPE_EXTENSION)
 
 /* replaces content of color string */
 static void
-mail_config_web_view_gtkhtml_fix_color_string (gchar *color_string)
+settings_web_view_gtkhtml_fix_color_string (gchar *color_string)
 {
 	GdkColor color;
 
@@ -64,7 +64,7 @@ mail_config_web_view_gtkhtml_fix_color_string (gchar *color_string)
 }
 
 static void
-mail_config_web_view_gtkhtml_load_style (EMailConfigWebViewGtkHTML *extension)
+settings_web_view_gtkhtml_load_style (ESettingsWebViewGtkHTML *extension)
 {
 	GString *buffer;
 	gchar *citation_color;
@@ -104,8 +104,8 @@ mail_config_web_view_gtkhtml_load_style (EMailConfigWebViewGtkHTML *extension)
 
 	buffer = g_string_new ("EWebViewGtkHTML {\n");
 
-	mail_config_web_view_gtkhtml_fix_color_string (citation_color);
-	mail_config_web_view_gtkhtml_fix_color_string (spell_color);
+	settings_web_view_gtkhtml_fix_color_string (citation_color);
+	settings_web_view_gtkhtml_fix_color_string (spell_color);
 
 	if (custom_fonts && variable_font != NULL)
 		g_string_append_printf (
@@ -150,8 +150,8 @@ mail_config_web_view_gtkhtml_load_style (EMailConfigWebViewGtkHTML *extension)
 }
 
 static void
-mail_config_web_view_gtkhtml_realize (GtkWidget *widget,
-                                      EMailConfigWebViewGtkHTML *extension)
+settings_web_view_gtkhtml_realize (GtkWidget *widget,
+                                   ESettingsWebViewGtkHTML *extension)
 {
 	EShellSettings *shell_settings;
 
@@ -177,47 +177,47 @@ mail_config_web_view_gtkhtml_realize (GtkWidget *widget,
 		GTK_STYLE_PROVIDER (extension->priv->css_provider),
 		GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 
-	mail_config_web_view_gtkhtml_load_style (extension);
+	settings_web_view_gtkhtml_load_style (extension);
 
 	/* Reload the style sheet when certain settings change. */
 
 	g_signal_connect_swapped (
 		shell_settings, "notify::mail-use-custom-fonts",
-		G_CALLBACK (mail_config_web_view_gtkhtml_load_style),
+		G_CALLBACK (settings_web_view_gtkhtml_load_style),
 		extension);
 
 	g_signal_connect_swapped (
 		shell_settings, "notify::mail-font-monospace",
-		G_CALLBACK (mail_config_web_view_gtkhtml_load_style),
+		G_CALLBACK (settings_web_view_gtkhtml_load_style),
 		extension);
 
 	g_signal_connect_swapped (
 		shell_settings, "notify::mail-font-variable",
-		G_CALLBACK (mail_config_web_view_gtkhtml_load_style),
+		G_CALLBACK (settings_web_view_gtkhtml_load_style),
 		extension);
 
 	g_signal_connect_swapped (
 		shell_settings, "notify::mail-mark-citations",
-		G_CALLBACK (mail_config_web_view_gtkhtml_load_style),
+		G_CALLBACK (settings_web_view_gtkhtml_load_style),
 		extension);
 
 	g_signal_connect_swapped (
 		shell_settings, "notify::mail-citation-color",
-		G_CALLBACK (mail_config_web_view_gtkhtml_load_style),
+		G_CALLBACK (settings_web_view_gtkhtml_load_style),
 		extension);
 
 	g_signal_connect_swapped (
 		shell_settings, "notify::composer-spell-color",
-		G_CALLBACK (mail_config_web_view_gtkhtml_load_style),
+		G_CALLBACK (settings_web_view_gtkhtml_load_style),
 		extension);
 }
 
 static void
-mail_config_web_view_gtkhtml_dispose (GObject *object)
+settings_web_view_gtkhtml_dispose (GObject *object)
 {
-	EMailConfigWebViewGtkHTMLPrivate *priv;
+	ESettingsWebViewGtkHTMLPrivate *priv;
 
-	priv = E_MAIL_CONFIG_WEB_VIEW_GTKHTML_GET_PRIVATE (object);
+	priv = E_SETTINGS_WEB_VIEW_GTKHTML_GET_PRIVATE (object);
 
 	if (priv->css_provider != NULL) {
 		g_object_unref (priv->css_provider);
@@ -227,28 +227,28 @@ mail_config_web_view_gtkhtml_dispose (GObject *object)
 	if (priv->shell_settings != NULL) {
 		g_signal_handlers_disconnect_by_func (
 			priv->shell_settings,
-			mail_config_web_view_gtkhtml_load_style, object);
+			settings_web_view_gtkhtml_load_style, object);
 		g_object_unref (priv->shell_settings);
 		priv->shell_settings = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (e_mail_config_web_view_gtkhtml_parent_class)->
+	G_OBJECT_CLASS (e_settings_web_view_gtkhtml_parent_class)->
 		dispose (object);
 }
 
 static void
-mail_config_web_view_gtkhtml_constructed (GObject *object)
+settings_web_view_gtkhtml_constructed (GObject *object)
 {
 	EShell *shell;
 	EShellSettings *shell_settings;
-	EMailConfigWebViewGtkHTML *extension;
+	ESettingsWebViewGtkHTML *extension;
 	EExtensible *extensible;
 
 	shell = e_shell_get_default ();
 	shell_settings = e_shell_get_shell_settings (shell);
 
-	extension = (EMailConfigWebViewGtkHTML *) object;
+	extension = (ESettingsWebViewGtkHTML *) object;
 	extensible = e_extension_get_extensible (E_EXTENSION (extension));
 
 	extension->priv->css_provider = gtk_css_provider_new ();
@@ -260,48 +260,48 @@ mail_config_web_view_gtkhtml_constructed (GObject *object)
 
 	g_signal_connect (
 		extensible, "realize",
-		G_CALLBACK (mail_config_web_view_gtkhtml_realize), extension);
+		G_CALLBACK (settings_web_view_gtkhtml_realize), extension);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_mail_config_web_view_gtkhtml_parent_class)->
+	G_OBJECT_CLASS (e_settings_web_view_gtkhtml_parent_class)->
 		constructed (object);
 }
 
 static void
-e_mail_config_web_view_gtkhtml_class_init (EMailConfigWebViewGtkHTMLClass *class)
+e_settings_web_view_gtkhtml_class_init (ESettingsWebViewGtkHTMLClass *class)
 {
 	GObjectClass *object_class;
 	EExtensionClass *extension_class;
 
 	g_type_class_add_private (
-		class, sizeof (EMailConfigWebViewGtkHTMLPrivate));
+		class, sizeof (ESettingsWebViewGtkHTMLPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->dispose = mail_config_web_view_gtkhtml_dispose;
-	object_class->constructed = mail_config_web_view_gtkhtml_constructed;
+	object_class->dispose = settings_web_view_gtkhtml_dispose;
+	object_class->constructed = settings_web_view_gtkhtml_constructed;
 
 	extension_class = E_EXTENSION_CLASS (class);
 	extension_class->extensible_type = E_TYPE_WEB_VIEW_GTKHTML;
 }
 
 static void
-e_mail_config_web_view_gtkhtml_class_finalize (EMailConfigWebViewGtkHTMLClass *class)
+e_settings_web_view_gtkhtml_class_finalize (ESettingsWebViewGtkHTMLClass *class)
 {
 }
 
 static void
-e_mail_config_web_view_gtkhtml_init (EMailConfigWebViewGtkHTML *extension)
+e_settings_web_view_gtkhtml_init (ESettingsWebViewGtkHTML *extension)
 {
 	extension->priv =
-		E_MAIL_CONFIG_WEB_VIEW_GTKHTML_GET_PRIVATE (extension);
+		E_SETTINGS_WEB_VIEW_GTKHTML_GET_PRIVATE (extension);
 }
 
 void
-e_mail_config_web_view_gtkhtml_type_register (GTypeModule *type_module)
+e_settings_web_view_gtkhtml_type_register (GTypeModule *type_module)
 {
 	/* XXX G_DEFINE_DYNAMIC_TYPE declares a static type registration
 	 *     function, so we have to wrap it with a public function in
 	 *     order to register types from a separate compilation unit. */
-	e_mail_config_web_view_gtkhtml_register_type (type_module);
+	e_settings_web_view_gtkhtml_register_type (type_module);
 }
 

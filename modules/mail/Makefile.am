@@ -15,16 +15,8 @@ module_mail_la_SOURCES = \
 	evolution-module-mail.c						\
 	e-mail-attachment-handler.c					\
 	e-mail-attachment-handler.h					\
-	e-mail-config-format-html.c					\
-	e-mail-config-format-html.h					\
 	e-mail-config-hook.c						\
 	e-mail-config-hook.h						\
-	e-mail-config-reader.c						\
-	e-mail-config-reader.h						\
-	e-mail-config-web-view.c					\
-	e-mail-config-web-view.h					\
-	e-mail-config-web-view-gtkhtml.c				\
-	e-mail-config-web-view-gtkhtml.h				\
 	e-mail-event-hook.c						\
 	e-mail-event-hook.h						\
 	e-mail-shell-backend.c						\
@@ -58,7 +50,6 @@ module_mail_la_LIBADD = \
 	$(top_builddir)/composer/libcomposer.la				\
 	$(top_builddir)/mail/libevolution-mail.la			\
 	$(top_builddir)/mail/importers/libevolution-mail-importers.la	\
-	$(top_builddir)/em-format/libemformat.la			\
 	$(libevolution_mail_settings_la)				\
 	$(EVOLUTION_DATA_SERVER_LIBS)					\
 	$(GNOME_PLATFORM_LIBS)						\

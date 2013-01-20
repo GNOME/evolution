@@ -1,5 +1,5 @@
 /*
- * e-cal-config-view.c
+ * e-settings-calendar-view.c
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,27 +20,27 @@
 #include <config.h>
 #endif
 
-#include "e-cal-config-view.h"
+#include "e-settings-calendar-view.h"
 
 #include <shell/e-shell.h>
 #include <calendar/gui/e-day-view.h>
 #include <calendar/gui/e-week-view.h>
 
-#define E_CAL_CONFIG_VIEW_GET_PRIVATE(obj) \
+#define E_SETTINGS_CALENDAR_VIEW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CAL_CONFIG_VIEW, ECalConfigViewPrivate))
+	((obj), E_TYPE_SETTINGS_CALENDAR_VIEW, ESettingsCalendarViewPrivate))
 
-struct _ECalConfigViewPrivate {
+struct _ESettingsCalendarViewPrivate {
 	gint placeholder;
 };
 
 G_DEFINE_DYNAMIC_TYPE (
-	ECalConfigView,
-	e_cal_config_view,
+	ESettingsCalendarView,
+	e_settings_calendar_view,
 	E_TYPE_EXTENSION)
 
 static void
-cal_config_view_constructed (GObject *object)
+settings_calendar_view_constructed (GObject *object)
 {
 	EExtension *extension;
 	EExtensible *extensible;
@@ -105,41 +105,42 @@ cal_config_view_constructed (GObject *object)
 	}
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_cal_config_view_parent_class)->constructed (object);
+	G_OBJECT_CLASS (e_settings_calendar_view_parent_class)->
+		constructed (object);
 }
 
 static void
-e_cal_config_view_class_init (ECalConfigViewClass *class)
+e_settings_calendar_view_class_init (ESettingsCalendarViewClass *class)
 {
 	GObjectClass *object_class;
 	EExtensionClass *extension_class;
 
-	g_type_class_add_private (class, sizeof (ECalConfigViewPrivate));
+	g_type_class_add_private (class, sizeof (ESettingsCalendarViewPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->constructed = cal_config_view_constructed;
+	object_class->constructed = settings_calendar_view_constructed;
 
 	extension_class = E_EXTENSION_CLASS (class);
 	extension_class->extensible_type = E_TYPE_CALENDAR_VIEW;
 }
 
 static void
-e_cal_config_view_class_finalize (ECalConfigViewClass *class)
+e_settings_calendar_view_class_finalize (ESettingsCalendarViewClass *class)
 {
 }
 
 static void
-e_cal_config_view_init (ECalConfigView *extension)
+e_settings_calendar_view_init (ESettingsCalendarView *extension)
 {
-	extension->priv = E_CAL_CONFIG_VIEW_GET_PRIVATE (extension);
+	extension->priv = E_SETTINGS_CALENDAR_VIEW_GET_PRIVATE (extension);
 }
 
 void
-e_cal_config_view_type_register (GTypeModule *type_module)
+e_settings_calendar_view_type_register (GTypeModule *type_module)
 {
 	/* XXX G_DEFINE_DYNAMIC_TYPE declares a static type registration
 	 *     function, so we have to wrap it with a public function in
 	 *     order to register types from a separate compilation unit. */
-	e_cal_config_view_register_type (type_module);
+	e_settings_calendar_view_register_type (type_module);
 }
 

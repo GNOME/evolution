@@ -24,7 +24,6 @@
 #endif
 
 #include "e-book-config-hook.h"
-#include "e-book-config-name-selector-entry.h"
 
 #include "e-book-shell-view.h"
 #include "e-book-shell-backend.h"
@@ -41,7 +40,6 @@ e_module_load (GTypeModule *type_module)
 	/* Register dynamically loaded types. */
 
 	e_book_config_hook_register_type (type_module);
-	e_book_config_name_selector_entry_type_register (type_module);
 
 	e_book_shell_view_register_type (type_module);
 	e_book_shell_backend_type_register (type_module);

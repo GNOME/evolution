@@ -30,8 +30,6 @@ module_addressbook_la_SOURCES = \
 	eab-composer-util.h					\
 	e-book-config-hook.c					\
 	e-book-config-hook.h					\
-	e-book-config-name-selector-entry.c			\
-	e-book-config-name-selector-entry.h			\
 	e-book-shell-backend.c					\
 	e-book-shell-backend.h					\
 	e-book-shell-content.c					\

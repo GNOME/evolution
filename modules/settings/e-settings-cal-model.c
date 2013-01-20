@@ -1,5 +1,5 @@
 /*
- * e-cal-config-model.c
+ * e-settings-cal-model.c
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,27 +20,27 @@
 #include <config.h>
 #endif
 
-#include "e-cal-config-model.h"
+#include "e-settings-cal-model.h"
 
 #include <shell/e-shell.h>
 #include <calendar/gui/e-cal-model.h>
 #include <calendar/gui/e-cal-model-tasks.h>
 
-#define E_CAL_CONFIG_MODEL_GET_PRIVATE(obj) \
+#define E_SETTINGS_CAL_MODEL_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CAL_CONFIG_MODEL, ECalConfigModelPrivate))
+	((obj), E_TYPE_SETTINGS_CAL_MODEL, ESettingsCalModelPrivate))
 
-struct _ECalConfigModelPrivate {
+struct _ESettingsCalModelPrivate {
 	gint placeholder;
 };
 
 G_DEFINE_DYNAMIC_TYPE (
-	ECalConfigModel,
-	e_cal_config_model,
+	ESettingsCalModel,
+	e_settings_cal_model,
 	E_TYPE_EXTENSION)
 
 static void
-cal_config_model_constructed (GObject *object)
+settings_cal_model_constructed (GObject *object)
 {
 	EExtension *extension;
 	EExtensible *extensible;
@@ -141,41 +141,42 @@ cal_config_model_constructed (GObject *object)
 	}
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_cal_config_model_parent_class)->constructed (object);
+	G_OBJECT_CLASS (e_settings_cal_model_parent_class)->
+		constructed (object);
 }
 
 static void
-e_cal_config_model_class_init (ECalConfigModelClass *class)
+e_settings_cal_model_class_init (ESettingsCalModelClass *class)
 {
 	GObjectClass *object_class;
 	EExtensionClass *extension_class;
 
-	g_type_class_add_private (class, sizeof (ECalConfigModelPrivate));
+	g_type_class_add_private (class, sizeof (ESettingsCalModelPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->constructed = cal_config_model_constructed;
+	object_class->constructed = settings_cal_model_constructed;
 
 	extension_class = E_EXTENSION_CLASS (class);
 	extension_class->extensible_type = E_TYPE_CAL_MODEL;
 }
 
 static void
-e_cal_config_model_class_finalize (ECalConfigModelClass *class)
+e_settings_cal_model_class_finalize (ESettingsCalModelClass *class)
 {
 }
 
 static void
-e_cal_config_model_init (ECalConfigModel *extension)
+e_settings_cal_model_init (ESettingsCalModel *extension)
 {
-	extension->priv = E_CAL_CONFIG_MODEL_GET_PRIVATE (extension);
+	extension->priv = E_SETTINGS_CAL_MODEL_GET_PRIVATE (extension);
 }
 
 void
-e_cal_config_model_type_register (GTypeModule *type_module)
+e_settings_cal_model_type_register (GTypeModule *type_module)
 {
 	/* XXX G_DEFINE_DYNAMIC_TYPE declares a static type registration
 	 *     function, so we have to wrap it with a public function in
 	 *     order to register types from a separate compilation unit. */
-	e_cal_config_model_register_type (type_module);
+	e_settings_cal_model_register_type (type_module);
 }
 

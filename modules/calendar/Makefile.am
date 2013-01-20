@@ -17,22 +17,8 @@ module_calendar_la_SOURCES = \
 	e-calendar-preferences.h			\
 	e-cal-attachment-handler.c			\
 	e-cal-attachment-handler.h			\
-	e-cal-config-calendar-item.c			\
-	e-cal-config-calendar-item.h			\
-	e-cal-config-comp-editor.c			\
-	e-cal-config-comp-editor.h			\
-	e-cal-config-date-edit.c			\
-	e-cal-config-date-edit.h			\
 	e-cal-config-hook.c				\
 	e-cal-config-hook.h				\
-	e-cal-config-meeting-store.c			\
-	e-cal-config-meeting-store.h			\
-	e-cal-config-meeting-time-selector.c		\
-	e-cal-config-meeting-time-selector.h		\
-	e-cal-config-model.c				\
-	e-cal-config-model.h				\
-	e-cal-config-view.c				\
-	e-cal-config-view.h				\
 	e-cal-event-hook.c				\
 	e-cal-event-hook.h				\
 	e-cal-shell-backend.c				\

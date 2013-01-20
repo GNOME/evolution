@@ -1,5 +1,5 @@
 /*
- * e-book-config-name-selector-entry.c
+ * e-settings-name-selector-entry.c
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,29 +20,29 @@
 #include <config.h>
 #endif
 
-#include "e-book-config-name-selector-entry.h"
+#include "e-settings-name-selector-entry.h"
 
 #include <e-util/e-util.h>
 
-#define E_BOOK_CONFIG_NAME_SELECTOR_ENTRY_GET_PRIVATE(obj) \
+#define E_SETTINGS_NAME_SELECTOR_ENTRY_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_BOOK_CONFIG_NAME_SELECTOR_ENTRY, EBookConfigNameSelectorEntryPrivate))
+	((obj), E_TYPE_SETTINGS_NAME_SELECTOR_ENTRY, ESettingsNameSelectorEntryPrivate))
 
-struct _EBookConfigNameSelectorEntryPrivate {
+struct _ESettingsNameSelectorEntryPrivate {
 	GSettings *settings;
 };
 
 G_DEFINE_DYNAMIC_TYPE (
-	EBookConfigNameSelectorEntry,
-	e_book_config_name_selector_entry,
+	ESettingsNameSelectorEntry,
+	e_settings_name_selector_entry,
 	E_TYPE_EXTENSION)
 
 static void
-book_config_name_selector_entry_dispose (GObject *object)
+settings_name_selector_entry_dispose (GObject *object)
 {
-	EBookConfigNameSelectorEntryPrivate *priv;
+	ESettingsNameSelectorEntryPrivate *priv;
 
-	priv = E_BOOK_CONFIG_NAME_SELECTOR_ENTRY_GET_PRIVATE (object);
+	priv = E_SETTINGS_NAME_SELECTOR_ENTRY_GET_PRIVATE (object);
 
 	if (priv->settings != NULL) {
 		g_object_unref (priv->settings);
@@ -50,71 +50,73 @@ book_config_name_selector_entry_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (e_book_config_name_selector_entry_parent_class)->
+	G_OBJECT_CLASS (e_settings_name_selector_entry_parent_class)->
 		dispose (object);
 }
 
 static void
-book_config_name_selector_entry_constructed (GObject *object)
+settings_name_selector_entry_constructed (GObject *object)
 {
-	EBookConfigNameSelectorEntry *extension;
+	ESettingsNameSelectorEntry *extension;
 	EExtensible *extensible;
 
-	extension = E_BOOK_CONFIG_NAME_SELECTOR_ENTRY (object);
+	extension = E_SETTINGS_NAME_SELECTOR_ENTRY (object);
 	extensible = e_extension_get_extensible (E_EXTENSION (extension));
 
 	/* Chain up to parent's consturcted() method. */
-	G_OBJECT_CLASS (e_book_config_name_selector_entry_parent_class)->
+	G_OBJECT_CLASS (e_settings_name_selector_entry_parent_class)->
 		constructed (object);
 
 	g_settings_bind (
 		extension->priv->settings, "completion-minimum-query-length",
 		extensible, "minimum-query-length",
-		G_SETTINGS_BIND_DEFAULT | G_SETTINGS_BIND_NO_SENSITIVITY);
+		G_SETTINGS_BIND_DEFAULT |
+		G_SETTINGS_BIND_NO_SENSITIVITY);
 
 	g_settings_bind (
 		extension->priv->settings, "completion-show-address",
 		extensible, "show-address",
-		G_SETTINGS_BIND_DEFAULT | G_SETTINGS_BIND_NO_SENSITIVITY);
+		G_SETTINGS_BIND_DEFAULT |
+		G_SETTINGS_BIND_NO_SENSITIVITY);
 }
 
 static void
-e_book_config_name_selector_entry_class_init (EBookConfigNameSelectorEntryClass *class)
+e_settings_name_selector_entry_class_init (ESettingsNameSelectorEntryClass *class)
 {
 	GObjectClass *object_class;
 	EExtensionClass *extension_class;
 
 	g_type_class_add_private (
-		class, sizeof (EBookConfigNameSelectorEntryPrivate));
+		class, sizeof (ESettingsNameSelectorEntryPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->dispose = book_config_name_selector_entry_dispose;
-	object_class->constructed = book_config_name_selector_entry_constructed;
+	object_class->dispose = settings_name_selector_entry_dispose;
+	object_class->constructed = settings_name_selector_entry_constructed;
 
 	extension_class = E_EXTENSION_CLASS (class);
 	extension_class->extensible_type = E_TYPE_NAME_SELECTOR_ENTRY;
 }
 
 static void
-e_book_config_name_selector_entry_class_finalize (EBookConfigNameSelectorEntryClass *class)
+e_settings_name_selector_entry_class_finalize (ESettingsNameSelectorEntryClass *class)
 {
 }
 
 static void
-e_book_config_name_selector_entry_init (EBookConfigNameSelectorEntry *extension)
+e_settings_name_selector_entry_init (ESettingsNameSelectorEntry *extension)
 {
 	extension->priv =
-		E_BOOK_CONFIG_NAME_SELECTOR_ENTRY_GET_PRIVATE (extension);
+		E_SETTINGS_NAME_SELECTOR_ENTRY_GET_PRIVATE (extension);
 	extension->priv->settings =
 		g_settings_new ("org.gnome.evolution.addressbook");
 }
 
 void
-e_book_config_name_selector_entry_type_register (GTypeModule *type_module)
+e_settings_name_selector_entry_type_register (GTypeModule *type_module)
 {
 	/* XXX G_DEFINE_DYNAMIC_TYPE declares a static type registration
 	 *     function, so we have to wrap it with a public function in
 	 *     order to register types from a separate compilation unit. */
-	e_book_config_name_selector_entry_register_type (type_module);
+	e_settings_name_selector_entry_register_type (type_module);
 }
 

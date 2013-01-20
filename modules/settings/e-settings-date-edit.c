@@ -1,5 +1,5 @@
 /*
- * e-cal-config-date-edit.c
+ * e-settings-date-edit.c
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,25 +20,25 @@
 #include <config.h>
 #endif
 
-#include "e-cal-config-date-edit.h"
+#include "e-settings-date-edit.h"
 
 #include <shell/e-shell.h>
 
-#define E_CAL_CONFIG_DATE_EDIT_GET_PRIVATE(obj) \
+#define E_SETTINGS_DATE_EDIT_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CAL_CONFIG_DATE_EDIT, ECalConfigDateEditPrivate))
+	((obj), E_TYPE_SETTINGS_DATE_EDIT, ESettingsDateEditPrivate))
 
-struct _ECalConfigDateEditPrivate {
+struct _ESettingsDateEditPrivate {
 	gint placeholder;
 };
 
 G_DEFINE_DYNAMIC_TYPE (
-	ECalConfigDateEdit,
-	e_cal_config_date_edit,
+	ESettingsDateEdit,
+	e_settings_date_edit,
 	E_TYPE_EXTENSION)
 
 static void
-cal_config_date_edit_constructed (GObject *object)
+settings_date_edit_constructed (GObject *object)
 {
 	EExtension *extension;
 	EExtensible *extensible;
@@ -62,42 +62,42 @@ cal_config_date_edit_constructed (GObject *object)
 		G_BINDING_SYNC_CREATE);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_cal_config_date_edit_parent_class)->
+	G_OBJECT_CLASS (e_settings_date_edit_parent_class)->
 		constructed (object);
 }
 
 static void
-e_cal_config_date_edit_class_init (ECalConfigDateEditClass *class)
+e_settings_date_edit_class_init (ESettingsDateEditClass *class)
 {
 	GObjectClass *object_class;
 	EExtensionClass *extension_class;
 
-	g_type_class_add_private (class, sizeof (ECalConfigDateEditPrivate));
+	g_type_class_add_private (class, sizeof (ESettingsDateEditPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->constructed = cal_config_date_edit_constructed;
+	object_class->constructed = settings_date_edit_constructed;
 
 	extension_class = E_EXTENSION_CLASS (class);
 	extension_class->extensible_type = E_TYPE_DATE_EDIT;
 }
 
 static void
-e_cal_config_date_edit_class_finalize (ECalConfigDateEditClass *class)
+e_settings_date_edit_class_finalize (ESettingsDateEditClass *class)
 {
 }
 
 static void
-e_cal_config_date_edit_init (ECalConfigDateEdit *extension)
+e_settings_date_edit_init (ESettingsDateEdit *extension)
 {
-	extension->priv = E_CAL_CONFIG_DATE_EDIT_GET_PRIVATE (extension);
+	extension->priv = E_SETTINGS_DATE_EDIT_GET_PRIVATE (extension);
 }
 
 void
-e_cal_config_date_edit_type_register (GTypeModule *type_module)
+e_settings_date_edit_type_register (GTypeModule *type_module)
 {
 	/* XXX G_DEFINE_DYNAMIC_TYPE declares a static type registration
 	 *     function, so we have to wrap it with a public function in
 	 *     order to register types from a separate compilation unit. */
-	e_cal_config_date_edit_register_type (type_module);
+	e_settings_date_edit_register_type (type_module);
 }
 

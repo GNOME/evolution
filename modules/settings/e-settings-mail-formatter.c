@@ -1,5 +1,5 @@
 /*
- * e-mail-config-format-html.c
+ * e-settings-mail-formatter.c
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,29 +20,29 @@
 #include <config.h>
 #endif
 
-#include "e-mail-config-format-html.h"
+#include "e-settings-mail-formatter.h"
 
 #include <shell/e-shell.h>
 #include <e-util/e-util.h>
 #include <em-format/e-mail-formatter.h>
 #include <mail/e-mail-reader-utils.h>
 
-#define E_MAIL_CONFIG_FORMAT_HTML_GET_PRIVATE(obj) \
+#define E_SETTINGS_MAIL_FORMATTER_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_CONFIG_FORMAT_HTML, EMailConfigFormatHTMLPrivate))
+	((obj), E_TYPE_SETTINGS_MAIL_FORMATTER, ESettingsMailFormatterPrivate))
 
-struct _EMailConfigFormatHTMLPrivate {
+struct _ESettingsMailFormatterPrivate {
 	GSettings *settings;
 	gulong headers_changed_id;
 };
 
 G_DEFINE_DYNAMIC_TYPE (
-	EMailConfigFormatHTML,
-	e_mail_config_format_html,
+	ESettingsMailFormatter,
+	e_settings_mail_formatter,
 	E_TYPE_EXTENSION)
 
 static EMailFormatter *
-mail_config_format_html_get_formatter (EMailConfigFormatHTML *extension)
+settings_mail_formatter_get_extensible (ESettingsMailFormatter *extension)
 {
 	EExtensible *extensible;
 
@@ -52,15 +52,15 @@ mail_config_format_html_get_formatter (EMailConfigFormatHTML *extension)
 }
 
 static void
-mail_config_format_html_headers_changed_cb (GSettings *settings,
+settings_mail_formatter_headers_changed_cb (GSettings *settings,
                                             const gchar *key,
-                                            EMailConfigFormatHTML *extension)
+                                            ESettingsMailFormatter *extension)
 {
 	EMailFormatter *formatter;
 	gchar **headers;
 	gint ii;
 
-	formatter = mail_config_format_html_get_formatter (extension);
+	formatter = settings_mail_formatter_get_extensible (extension);
 
 	headers = g_settings_get_strv (settings, "headers");
 
@@ -85,11 +85,11 @@ mail_config_format_html_headers_changed_cb (GSettings *settings,
 }
 
 static void
-mail_config_format_html_dispose (GObject *object)
+settings_mail_formatter_dispose (GObject *object)
 {
-	EMailConfigFormatHTMLPrivate *priv;
+	ESettingsMailFormatterPrivate *priv;
 
-	priv = E_MAIL_CONFIG_FORMAT_HTML_GET_PRIVATE (object);
+	priv = E_SETTINGS_MAIL_FORMATTER_GET_PRIVATE (object);
 
 	if (priv->settings != NULL) {
 		g_signal_handler_disconnect (
@@ -100,20 +100,20 @@ mail_config_format_html_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (e_mail_config_format_html_parent_class)->
+	G_OBJECT_CLASS (e_settings_mail_formatter_parent_class)->
 		dispose (object);
 }
 
 static void
-mail_config_format_html_constructed (GObject *object)
+settings_mail_formatter_constructed (GObject *object)
 {
-	EMailConfigFormatHTML *extension;
+	ESettingsMailFormatter *extension;
 	EMailFormatter *formatter;
 	EShellSettings *shell_settings;
 	EShell *shell;
 
-	extension = E_MAIL_CONFIG_FORMAT_HTML (object);
-	formatter = mail_config_format_html_get_formatter (extension);
+	extension = E_SETTINGS_MAIL_FORMATTER (object);
+	formatter = settings_mail_formatter_get_extensible (extension);
 
 	shell = e_shell_get_default ();
 	shell_settings = e_shell_get_shell_settings (shell);
@@ -157,55 +157,55 @@ mail_config_format_html_constructed (GObject *object)
 
 	extension->priv->headers_changed_id = g_signal_connect (
 		extension->priv->settings, "changed::headers",
-		G_CALLBACK (mail_config_format_html_headers_changed_cb),
+		G_CALLBACK (settings_mail_formatter_headers_changed_cb),
 		extension);
 
 	/* Initial synchronization */
-	mail_config_format_html_headers_changed_cb (
+	settings_mail_formatter_headers_changed_cb (
 		extension->priv->settings, NULL, extension);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_mail_config_format_html_parent_class)->
+	G_OBJECT_CLASS (e_settings_mail_formatter_parent_class)->
 		constructed (object);
 }
 
 static void
-e_mail_config_format_html_class_init (EMailConfigFormatHTMLClass *class)
+e_settings_mail_formatter_class_init (ESettingsMailFormatterClass *class)
 {
 	GObjectClass *object_class;
 	EExtensionClass *extension_class;
 
 	g_type_class_add_private (
-		class, sizeof (EMailConfigFormatHTMLPrivate));
+		class, sizeof (ESettingsMailFormatterPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->dispose = mail_config_format_html_dispose;
-	object_class->constructed = mail_config_format_html_constructed;
+	object_class->dispose = settings_mail_formatter_dispose;
+	object_class->constructed = settings_mail_formatter_constructed;
 
 	extension_class = E_EXTENSION_CLASS (class);
 	extension_class->extensible_type = E_TYPE_MAIL_FORMATTER;
 }
 
 static void
-e_mail_config_format_html_class_finalize (EMailConfigFormatHTMLClass *class)
+e_settings_mail_formatter_class_finalize (ESettingsMailFormatterClass *class)
 {
 }
 
 static void
-e_mail_config_format_html_init (EMailConfigFormatHTML *extension)
+e_settings_mail_formatter_init (ESettingsMailFormatter *extension)
 {
-	extension->priv = E_MAIL_CONFIG_FORMAT_HTML_GET_PRIVATE (extension);
+	extension->priv = E_SETTINGS_MAIL_FORMATTER_GET_PRIVATE (extension);
 
 	extension->priv->settings =
 		g_settings_new ("org.gnome.evolution.mail");
 }
 
 void
-e_mail_config_format_html_type_register (GTypeModule *type_module)
+e_settings_mail_formatter_type_register (GTypeModule *type_module)
 {
 	/* XXX G_DEFINE_DYNAMIC_TYPE declares a static type registration
 	 *     function, so we have to wrap it with a public function in
 	 *     order to register types from a separate compilation unit. */
-	e_mail_config_format_html_register_type (type_module);
+	e_settings_mail_formatter_register_type (type_module);
 }
 

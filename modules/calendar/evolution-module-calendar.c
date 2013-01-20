@@ -43,14 +43,6 @@
 #include "e-task-shell-sidebar.h"
 #include "e-task-shell-view.h"
 
-#include "e-cal-config-calendar-item.h"
-#include "e-cal-config-comp-editor.h"
-#include "e-cal-config-date-edit.h"
-#include "e-cal-config-meeting-store.h"
-#include "e-cal-config-meeting-time-selector.h"
-#include "e-cal-config-model.h"
-#include "e-cal-config-view.h"
-
 #include "e-calendar-preferences.h"
 
 /* Module Entry Points */
@@ -81,14 +73,6 @@ e_module_load (GTypeModule *type_module)
 	e_task_shell_content_type_register (type_module);
 	e_task_shell_sidebar_type_register (type_module);
 	e_task_shell_view_register_type (type_module);
-
-	e_cal_config_calendar_item_type_register (type_module);
-	e_cal_config_comp_editor_type_register (type_module);
-	e_cal_config_date_edit_type_register (type_module);
-	e_cal_config_meeting_store_type_register (type_module);
-	e_cal_config_meeting_time_selector_type_register (type_module);
-	e_cal_config_model_type_register (type_module);
-	e_cal_config_view_type_register (type_module);
 
 	e_calendar_preferences_type_register (type_module);
 }

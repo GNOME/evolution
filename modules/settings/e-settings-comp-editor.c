@@ -1,5 +1,5 @@
 /*
- * e-cal-config-comp-editor.c
+ * e-settings-comp-editor.c
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,26 +20,26 @@
 #include <config.h>
 #endif
 
-#include "e-cal-config-comp-editor.h"
+#include "e-settings-comp-editor.h"
 
 #include <shell/e-shell.h>
 #include <calendar/gui/dialogs/comp-editor.h>
 
-#define E_CAL_CONFIG_COMP_EDITOR_GET_PRIVATE(obj) \
+#define E_SETTINGS_COMP_EDITOR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CAL_CONFIG_COMP_EDITOR, ECalConfigCompEditorPrivate))
+	((obj), E_TYPE_SETTINGS_COMP_EDITOR, ESettingsCompEditorPrivate))
 
-struct _ECalConfigCompEditorPrivate {
+struct _ESettingsCompEditorPrivate {
 	gint placeholder;
 };
 
 G_DEFINE_DYNAMIC_TYPE (
-	ECalConfigCompEditor,
-	e_cal_config_comp_editor,
+	ESettingsCompEditor,
+	e_settings_comp_editor,
 	E_TYPE_EXTENSION)
 
 static void
-cal_config_comp_editor_constructed (GObject *object)
+settings_comp_editor_constructed (GObject *object)
 {
 	EExtension *extension;
 	EExtensible *extensible;
@@ -83,42 +83,42 @@ cal_config_comp_editor_constructed (GObject *object)
 		G_BINDING_SYNC_CREATE);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_cal_config_comp_editor_parent_class)->
+	G_OBJECT_CLASS (e_settings_comp_editor_parent_class)->
 		constructed (object);
 }
 
 static void
-e_cal_config_comp_editor_class_init (ECalConfigCompEditorClass *class)
+e_settings_comp_editor_class_init (ESettingsCompEditorClass *class)
 {
 	GObjectClass *object_class;
 	EExtensionClass *extension_class;
 
-	g_type_class_add_private (class, sizeof (ECalConfigCompEditorPrivate));
+	g_type_class_add_private (class, sizeof (ESettingsCompEditorPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->constructed = cal_config_comp_editor_constructed;
+	object_class->constructed = settings_comp_editor_constructed;
 
 	extension_class = E_EXTENSION_CLASS (class);
 	extension_class->extensible_type = TYPE_COMP_EDITOR;
 }
 
 static void
-e_cal_config_comp_editor_class_finalize (ECalConfigCompEditorClass *class)
+e_settings_comp_editor_class_finalize (ESettingsCompEditorClass *class)
 {
 }
 
 static void
-e_cal_config_comp_editor_init (ECalConfigCompEditor *extension)
+e_settings_comp_editor_init (ESettingsCompEditor *extension)
 {
-	extension->priv = E_CAL_CONFIG_COMP_EDITOR_GET_PRIVATE (extension);
+	extension->priv = E_SETTINGS_COMP_EDITOR_GET_PRIVATE (extension);
 }
 
 void
-e_cal_config_comp_editor_type_register (GTypeModule *type_module)
+e_settings_comp_editor_type_register (GTypeModule *type_module)
 {
 	/* XXX G_DEFINE_DYNAMIC_TYPE declares a static type registration
 	 *     function, so we have to wrap it with a public function in
 	 *     order to register types from a separate compilation unit. */
-	e_cal_config_comp_editor_register_type (type_module);
+	e_settings_comp_editor_register_type (type_module);
 }
 

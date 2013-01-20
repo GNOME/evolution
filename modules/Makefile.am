@@ -54,6 +54,7 @@ SUBDIRS = \
 	plugin-lib \
 	plugin-manager \
 	prefer-plain \
+	settings \
 	startup-wizard \
 	vcard-inline \
 	web-inspector \
