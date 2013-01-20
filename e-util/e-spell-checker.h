@@ -82,6 +82,9 @@ gchar **	e_spell_checker_list_active_languages
 						 guint *n_languages);
 guint		e_spell_checker_count_active_languages
 						(ESpellChecker *checker);
+gboolean	e_spell_checker_check_word	(ESpellChecker *checker,
+						 const gchar *word,
+						 gsize length);
 void		e_spell_checker_learn_word	(ESpellChecker *checker,
 						 const gchar *word);
 void		e_spell_checker_ignore_word	(ESpellChecker *checker,

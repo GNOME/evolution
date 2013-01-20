@@ -97,12 +97,10 @@ wksc_check_spelling (WebKitSpellChecker *webkit_checker,
 	GHashTable *active_dictionaries;
 	PangoLanguage *language;
 	PangoLogAttr *attrs;
-	GList *dicts;
 	gint length, ii;
 
 	active_dictionaries = checker->priv->active_dictionaries;
-	dicts = g_hash_table_get_keys (active_dictionaries);
-	if (dicts == NULL)
+	if (g_hash_table_size (active_dictionaries) == 0)
 		return;
 
 	length = g_utf8_strlen (word, -1);
@@ -117,13 +115,13 @@ wksc_check_spelling (WebKitSpellChecker *webkit_checker,
 		 * then we get into an inner loop to find the is_word_end
 		 * corresponding */
 		if (attrs[ii].is_word_start) {
+			gboolean word_recognized;
 			gint start = ii;
 			gint end = ii;
 			gint word_length;
 			gchar *cstart;
 			gint bytes;
 			gchar *new_word;
-			GList *iter;
 
 			while (attrs[end].is_word_end < 1)
 				end++;
@@ -139,23 +137,19 @@ wksc_check_spelling (WebKitSpellChecker *webkit_checker,
 
 			g_utf8_strncpy (new_word, cstart, word_length);
 
-			for (iter = dicts; iter; iter = iter->next) {
-				ESpellDictionary *dict = iter->data;
+			word_recognized = e_spell_checker_check_word (
+				checker, new_word, word_length);
 
-				if (e_spell_dictionary_check (dict, new_word, word_length)) {
-					if (misspelling_location)
-						*misspelling_location = start;
-					if (misspelling_length)
-						*misspelling_length = word_length;
-				} else {
-					/* Stop checking, this word is ok in at
-					 * least one dict. */
-					if (misspelling_location)
-						*misspelling_location = -1;
-					if (misspelling_length)
-						*misspelling_length = 0;
-					break;
-				}
+			if (word_recognized) {
+				if (misspelling_location != NULL)
+					*misspelling_location = -1;
+				if (misspelling_length != NULL)
+					*misspelling_length = 0;
+			} else {
+				if (misspelling_location != NULL)
+					*misspelling_location = start;
+				if (misspelling_length != NULL)
+					*misspelling_length = word_length;
 			}
 
 			g_free (new_word);
@@ -163,8 +157,6 @@ wksc_check_spelling (WebKitSpellChecker *webkit_checker,
 	}
 
 	g_free (attrs);
-
-	g_list_free (dicts);
 }
 
 static gchar **
@@ -708,6 +700,45 @@ e_spell_checker_count_active_languages (ESpellChecker *checker)
 	g_return_val_if_fail (E_IS_SPELL_CHECKER (checker), 0);
 
 	return g_hash_table_size (checker->priv->active_dictionaries);
+}
+
+/**
+ * e_spell_checker_check_word:
+ * @checker: an #SpellChecker
+ * @word: a word to spell-check
+ * @length: length of @word in bytes or -1 when %NULL-terminated
+ *
+ * Calls e_spell_dictionary_check() on all active dictionaries in @checker,
+ * and returns %TRUE if @word is recognized by any of them.
+ *
+ * Returns: %TRUE if @word is recognized, %FALSE otherwise
+ **/
+gboolean
+e_spell_checker_check_word (ESpellChecker *checker,
+                            const gchar *word,
+                            gsize length)
+{
+	GList *list, *link;
+	gboolean recognized = FALSE;
+
+	g_return_val_if_fail (E_IS_SPELL_CHECKER (checker), TRUE);
+	g_return_val_if_fail (word != NULL && *word != '\0', TRUE);
+
+	list = g_hash_table_get_keys (checker->priv->active_dictionaries);
+
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		ESpellDictionary *dictionary;
+
+		dictionary = E_SPELL_DICTIONARY (link->data);
+		if (e_spell_dictionary_check (dictionary, word, length)) {
+			recognized = TRUE;
+			break;
+		}
+	}
+
+	g_list_free (list);
+
+	return recognized;
 }
 
 /**
