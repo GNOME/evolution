@@ -62,8 +62,6 @@ struct _ESpellEntryClass {
 
 GType		e_spell_entry_get_type		(void) G_GNUC_CONST;
 GtkWidget *	e_spell_entry_new		(void);
-void		e_spell_entry_set_languages	(ESpellEntry *spell_entry,
-						 GList *languages);
 gboolean	e_spell_entry_get_checking_enabled
 						(ESpellEntry *spell_entry);
 void		e_spell_entry_set_checking_enabled

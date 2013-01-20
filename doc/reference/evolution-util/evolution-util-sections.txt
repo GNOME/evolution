@@ -3985,7 +3985,6 @@ ESpellDictionaryPrivate
 <TITLE>ESpellEntry</TITLE>
 ESpellEntry
 e_spell_entry_new
-e_spell_entry_set_languages
 e_spell_entry_get_checking_enabled
 e_spell_entry_set_checking_enabled
 e_spell_entry_get_spell_checker
