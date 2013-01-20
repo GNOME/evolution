@@ -4993,47 +4993,6 @@ e_msg_composer_get_attachment_view (EMsgComposer *composer)
 	return E_ATTACHMENT_VIEW (composer->priv->attachment_paned);
 }
 
-GList *
-e_load_spell_languages (ESpellChecker *spell_checker)
-{
-	GSettings *settings;
-	GList *spell_dicts = NULL;
-	gchar **strv;
-	gint ii;
-
-	/* Ask GSettings for a list of spell check language codes. */
-	settings = g_settings_new ("org.gnome.evolution.mail");
-	strv = g_settings_get_strv (settings, "composer-spell-languages");
-	g_object_unref (settings);
-
-	/* Convert the codes to spell language structs. */
-	for (ii = 0; strv[ii] != NULL; ii++) {
-		gchar *language_code = strv[ii];
-		ESpellDictionary *dict;
-
-		dict = e_spell_checker_ref_dictionary (
-			spell_checker, language_code);
-		if (dict != NULL)
-			spell_dicts = g_list_prepend (spell_dicts, dict);
-	}
-
-	g_strfreev (strv);
-
-	spell_dicts = g_list_reverse (spell_dicts);
-
-	/* Pick a default spell language if it came back empty. */
-	if (spell_dicts == NULL) {
-		ESpellDictionary *dict;
-
-		dict = e_spell_checker_ref_dictionary (spell_checker, NULL);
-
-		if (dict != NULL)
-			spell_dicts = g_list_prepend (spell_dicts, dict);
-	}
-
-	return spell_dicts;
-}
-
 void
 e_save_spell_languages (const GList *spell_dicts)
 {
