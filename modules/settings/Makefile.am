@@ -45,6 +45,10 @@ module_settings_la_SOURCES = \
 	e-settings-message-list.h \
 	e-settings-name-selector-entry.c \
 	e-settings-name-selector-entry.h \
+	e-settings-photo-cache.c \
+	e-settings-photo-cache.h \
+	e-settings-spell-checker.c \
+	e-settings-spell-checker.h \
 	e-settings-spell-entry.c \
 	e-settings-spell-entry.h \
 	e-settings-web-view.c \
