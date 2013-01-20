@@ -84,30 +84,12 @@ composer_update_gallery_visibility (EMsgComposer *composer)
 	}
 }
 
-static void
-composer_spell_languages_changed (EMsgComposer *composer,
-                                  GParamSpec *pspec,
-                                  EEditorWidget *editor_widget)
-{
-	GList *languages;
-	EComposerHeader *header;
-	EComposerHeaderTable *table;
-
-	table = e_msg_composer_get_header_table (composer);
-	header = e_composer_header_table_get_header (
-		table, E_COMPOSER_HEADER_SUBJECT);
-
-	languages = e_editor_widget_get_spell_languages (editor_widget);
-	header = e_composer_header_table_get_header (table, E_COMPOSER_HEADER_SUBJECT);
-	e_composer_spell_header_set_languages (E_COMPOSER_SPELL_HEADER (header), languages);
-	g_list_free (languages);
-}
-
 void
 e_composer_private_constructed (EMsgComposer *composer)
 {
 	EMsgComposerPrivate *priv = composer->priv;
 	EFocusTracker *focus_tracker;
+	EComposerHeader *header;
 	EShell *shell;
 	EClientCache *client_cache;
 	EEditor *editor;
@@ -229,9 +211,16 @@ e_composer_private_constructed (EMsgComposer *composer)
 		widget, "sensitive",
 		G_BINDING_SYNC_CREATE);
 
-	g_signal_connect_swapped (
-		editor_widget, "notify::spell-languages",
-		G_CALLBACK (composer_spell_languages_changed), composer);
+	priv->header_table = g_object_ref (widget);
+	gtk_widget_show (widget);
+
+	header = e_composer_header_table_get_header (
+		E_COMPOSER_HEADER_TABLE (widget),
+		E_COMPOSER_HEADER_SUBJECT);
+	g_object_bind_property (
+		editor_widget, "spell-checker",
+		header->input_widget, "spell-checker",
+		G_BINDING_SYNC_CREATE);
 
 	/* Construct the attachment paned. */
 
