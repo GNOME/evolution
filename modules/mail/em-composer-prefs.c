@@ -145,22 +145,22 @@ spell_setup (EMComposerPrefs *prefs)
 
 	store = GTK_LIST_STORE (prefs->language_model);
 
-	available_languages =
-		e_spell_checker_list_available_dicts (prefs->spell_checker);
-
-	active_languages = e_load_spell_languages (prefs->spell_checker);
+	list = e_spell_checker_list_available_dicts (prefs->spell_checker);
 
 	/* Populate the GtkListStore. */
-	while (available_languages != NULL) {
-		ESpellDictionary *language;
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		ESpellDictionary *dictionary;
 		GtkTreeIter tree_iter;
 		const gchar *name;
 		const gchar *code;
 		gboolean active;
 
-		language = available_languages->data;
-		name = e_spell_dictionary_get_name (language);
-		active = (g_list_find (active_languages, language) != NULL);
+		dictionary = E_SPELL_DICTIONARY (link->data);
+		name = e_spell_dictionary_get_name (dictionary);
+		code = e_spell_dictionary_get_code (dictionary);
+
+		active = e_spell_checker_get_language_active (
+			prefs->spell_checker, code);
 
 		gtk_list_store_append (store, &tree_iter);
 
@@ -169,7 +169,7 @@ spell_setup (EMComposerPrefs *prefs)
 			0, active, 1, name, 2, dictionary, -1);
 	}
 
-	g_list_free_full (active_languages, g_object_unref);
+	g_list_free (list);
 }
 
 #define MAIL_SEND_ACCOUNT_OVERRIDE_KEY "sao-mail-send-account-override"
