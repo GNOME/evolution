@@ -415,11 +415,23 @@ e_spell_checker_init (ESpellChecker *checker)
 ESpellChecker *
 e_spell_checker_instance (void)
 {
-	if (s_instance == NULL) {
-		s_instance = g_object_new (E_TYPE_SPELL_CHECKER, NULL);
-	}
+	if (s_instance == NULL)
+		s_instance = e_spell_checker_new ();
 
 	return s_instance;
+}
+
+/**
+ * e_spell_checker_new:
+ *
+ * Creates a new #ESpellChecker instance.
+ *
+ * Returns: a new #ESpellChecker
+ **/
+ESpellChecker *
+e_spell_checker_new (void)
+{
+	return g_object_new (E_TYPE_SPELL_CHECKER, NULL);
 }
 
 static void

@@ -992,7 +992,7 @@ e_editor_widget_init (EEditorWidget *editor)
 	webkit_web_view_set_settings (WEBKIT_WEB_VIEW (editor), settings);
 
 	/* Override the spell-checker, use our own */
-	checker = g_object_new (E_TYPE_SPELL_CHECKER, NULL);
+	checker = e_spell_checker_new ();
 	webkit_set_text_checker (G_OBJECT (checker));
 	g_object_unref (checker);
 
