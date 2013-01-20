@@ -4378,6 +4378,7 @@ e_spell_checker_get_language_active
 e_spell_checker_set_language_active
 e_spell_checker_list_active_languages
 e_spell_checker_count_active_languages
+e_spell_checker_check_word
 e_spell_checker_learn_word
 e_spell_checker_ignore_word
 <SUBSECTION Standard>
