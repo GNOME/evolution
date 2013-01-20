@@ -96,11 +96,6 @@ gboolean	e_editor_widget_get_magic_smileys
 void		e_editor_widget_set_magic_smileys
 						(EEditorWidget *widget,
 						 gboolean magic_smileys);
-GList *		e_editor_widget_get_spell_languages
-						(EEditorWidget *widget);
-void		e_editor_widget_set_spell_languages
-						(EEditorWidget *widget,
-						 GList *spell_languages);
 ESpellChecker *	e_editor_widget_get_spell_checker
 						(EEditorWidget *widget);
 gchar *		e_editor_widget_get_text_html	(EEditorWidget *widget);
