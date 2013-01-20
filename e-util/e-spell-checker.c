@@ -23,6 +23,7 @@
 #include "e-spell-checker.h"
 #include "e-spell-dictionary.h"
 
+#include <libebackend/libebackend.h>
 #include <webkit/webkitspellchecker.h>
 #include <pango/pango.h>
 #include <gtk/gtk.h>
@@ -59,6 +60,8 @@ G_DEFINE_TYPE_EXTENDED (
 	e_spell_checker,
 	G_TYPE_OBJECT,
 	0,
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_EXTENSIBLE, NULL)
 	G_IMPLEMENT_INTERFACE (
 		WEBKIT_TYPE_SPELL_CHECKER,
 		e_spell_checker_init_webkit_checker))
@@ -379,6 +382,15 @@ spell_checker_finalize (GObject *object)
 }
 
 static void
+spell_checker_constructed (GObject *object)
+{
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_spell_checker_parent_class)->constructed (object);
+
+	e_extensible_load_extensions (E_EXTENSIBLE (object));
+}
+
+static void
 e_spell_checker_class_init (ESpellCheckerClass *class)
 {
 	GObjectClass *object_class;
@@ -389,6 +401,7 @@ e_spell_checker_class_init (ESpellCheckerClass *class)
 	object_class->get_property = spell_checker_get_property;
 	object_class->dispose = spell_checker_dispose;
 	object_class->finalize = spell_checker_finalize;
+	object_class->constructed = spell_checker_constructed;
 
 	g_object_class_install_property (
 		object_class,
