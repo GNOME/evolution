@@ -80,6 +80,7 @@ enum {
 	PROP_INLINE_SPELLING,
 	PROP_MAGIC_LINKS,
 	PROP_MAGIC_SMILEYS,
+	PROP_SPELL_CHECKER,
 	PROP_SPELL_LANGUAGES
 };
 
@@ -574,6 +575,12 @@ editor_widget_get_property (GObject *object,
 				value, e_editor_widget_get_magic_smileys (
 				E_EDITOR_WIDGET (object)));
 			return;
+
+		case PROP_SPELL_CHECKER:
+			g_value_set_object (
+				value, e_editor_widget_get_spell_checker (
+				E_EDITOR_WIDGET (object)));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -933,6 +940,22 @@ e_editor_widget_class_init (EEditorWidgetClass *class)
 			TRUE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
+
+	/**
+	 * EEditorWidget:spell-checker:
+	 *
+	 * The #ESpellChecker used for spell checking.
+	 **/
+	g_object_class_install_property (
+		object_class,
+		PROP_SPELL_CHECKER,
+		g_param_spec_object (
+			"spell-checker",
+			"Spell Checker",
+			"The spell checker",
+			E_TYPE_SPELL_CHECKER,
+			G_PARAM_READABLE |
 			G_PARAM_STATIC_STRINGS));
 
 	/**
