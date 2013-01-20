@@ -188,7 +188,6 @@ GByteArray *	e_msg_composer_get_raw_message_text
 
 gboolean	e_msg_composer_is_exiting	(EMsgComposer *composer);
 
-GList *		e_load_spell_languages		(ESpellChecker *spell_checker);
 void		e_save_spell_languages		(const GList *spell_languages);
 
 G_END_DECLS
