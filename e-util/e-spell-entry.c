@@ -37,7 +37,6 @@ struct _ESpellEntryPrivate {
 	gint entry_scroll_offset;
 	gboolean custom_checkers;
 	gboolean checking_enabled;
-	GList *dictionaries;
 	gchar **words;
 	gint *word_starts;
 	gint *word_ends;
@@ -750,10 +749,6 @@ spell_entry_dispose (GObject *object)
 
 	g_clear_object (&priv->spell_checker);
 
-	g_list_free_full (
-		priv->dictionaries, (GDestroyNotify) g_object_unref);
-	priv->dictionaries = NULL;
-
 	if (priv->attr_list != NULL) {
 		pango_attr_list_unref (priv->attr_list);
 		priv->attr_list = NULL;
@@ -877,7 +872,6 @@ e_spell_entry_init (ESpellEntry *spell_entry)
 {
 	spell_entry->priv = E_SPELL_ENTRY_GET_PRIVATE (spell_entry);
 	spell_entry->priv->attr_list = pango_attr_list_new ();
-	spell_entry->priv->dictionaries = NULL;
 	spell_entry->priv->checking_enabled = TRUE;
 
 	g_signal_connect (
@@ -898,25 +892,6 @@ GtkWidget *
 e_spell_entry_new (void)
 {
 	return g_object_new (E_TYPE_SPELL_ENTRY, NULL);
-}
-
-void
-e_spell_entry_set_languages (ESpellEntry *spell_entry,
-                             GList *dictionaries)
-{
-	g_return_if_fail (E_IS_SPELL_ENTRY (spell_entry));
-
-	spell_entry->priv->custom_checkers = TRUE;
-
-	if (spell_entry->priv->dictionaries)
-		g_list_free_full (spell_entry->priv->dictionaries, g_object_unref);
-	spell_entry->priv->dictionaries = NULL;
-
-	spell_entry->priv->dictionaries = g_list_copy (dictionaries);
-	g_list_foreach (spell_entry->priv->dictionaries, (GFunc) g_object_ref, NULL);
-
-	if (gtk_widget_get_realized (GTK_WIDGET (spell_entry)))
-		spell_entry_recheck_all (spell_entry);
 }
 
 gboolean
