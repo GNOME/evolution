@@ -249,6 +249,12 @@ mail_config_assistant_autoconfigure_cb (GObject *source_object,
 	e_mail_config_service_page_auto_configure (
 		priv->sending_page, autoconfig);
 
+	/* Add these pages to the visited pages hash table to
+	 * prevent calling e_mail_config_page_setup_defaults(). */
+
+	g_hash_table_add (priv->visited_pages, priv->receiving_page);
+	g_hash_table_add (priv->visited_pages, priv->sending_page);
+
 	/* Also set the initial display name to the email address
 	 * given so the user can just click past the Summary page. */
 	email_address = e_mail_autoconfig_get_email_address (autoconfig);
