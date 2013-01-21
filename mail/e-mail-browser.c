@@ -672,7 +672,10 @@ mail_browser_constructed (GObject *object)
 		gtk_widget_get_style_context (widget),
 		GTK_STYLE_CLASS_PRIMARY_TOOLBAR);
 
-	gtk_container_add (GTK_CONTAINER (container), browser->priv->preview_pane);
+	gtk_box_pack_start (
+		GTK_BOX (container),
+		browser->priv->preview_pane,
+		TRUE, TRUE, 0);
 
 	/* Bind GObject properties to GSettings keys. */
 
