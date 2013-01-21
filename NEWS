@@ -1,3 +1,72 @@
+Evolution 3.6.3 2012-01-21
+--------------------------
+
+Bug Fixes:
+	Bug 588216 - 'Unsubscribe' disabled for newsgroups (Matthew Barnes)
+	Bug 671628 - Size of backup window is big (Milan Crha)
+	Bug 677378 - Alert about self-signed certificates when checking auth
+	             types (Milan Crha)
+	Bug 678606 - Crash under mail_backend_folder_deleted_cb() (Milan Crha)
+	Bug 680201 - Backup restore doesn't migrate accounts from GConf
+	             (Milan Crha)
+	Bug 685808 - Search bar entry background does not change on search
+	             (Milan Crha)
+	Bug 686212 - Cannot print html mails with defined <style />
+	             (Milan Crha)
+	Bug 687360 - Crash on quit in gtk_style_context_get_valist()
+	             (Milan Crha)
+	Bug 687974 - No displaying of extended free/busy (XFB) information
+	             (Christian Hilberg)
+	Bug 687997 - No email sent for shared memos (Milan Crha)
+	Bug 687998 - Attachment dialog shown when storing assigned task
+	             (Milan Crha)
+	Bug 687999 - 'Open calendar' in invitation email does nothing
+	             (Milan Crha)
+	Bug 688819 - It's possible to make Evolution stop sending emails
+	             (Milan Crha)
+	Bug 689639 - File -> Print Preview in composer brings up Print dialog
+	             (Matthew Barnes)
+	Bug 689966 - MDN bar shown in Sent folder (Milan Crha)
+	Bug 691133 - Evolution creates 'highlight' zombies (Matthew Barnes)
+	Bug 691134 - New contact lists always saved to a default book
+	             (Milan Crha)
+	Bug 691134 - Only autocompleted name is added to a contact list
+	             (Milan Crha)
+	Bug 691194 - Import .ics preview shows UTC time instead of local time
+	             (Milan Crha)
+	Bug 691732 - multipart/related hides attachments (Milan Crha)
+	Bug 692003 - Print of text/html with no html/body end tag cuts content
+	             (Milan Crha)
+	Bug 692005 - Changing character encoding doesn't work (Milan Crha)
+	Bug 692009 - text/css always formatted as attachment (Milan Crha)
+	Bug 692143 - Auto-configured MSN account should use POP, not IMAP
+	             (Matthew Barnes)
+
+Other Changes:
+	* Relative URI can crash Evolution in http_request_send_async()
+	  (Milan Crha)
+	* EMailDisplay lefts opened file handles to downloaded images
+	  (Milan Crha)
+	* Do not empty trash/delete junk in disabled accounts on exit
+	  (Milan Crha)
+	* backup-restore: Remove references to ~/.camel_certs. (Matthew Barnes)
+	* Do not hide 'attachment' images with Content-ID (Milan Crha)
+
+Translations:
+	Nilamdyuti Goswami (as)
+	Christian Kirbach (de)
+	Mario Blättermann (de)
+	Sweta Kothari (gu)
+	Rajesh Ranjan (hi)
+	Balázs Úr (hu)
+	Takayuki KUSANO (ja)
+	Shankar Prasad (kn)
+	Rafael Ferreira (pt_BR)
+	Dr.T.Vasudevan (ta)
+	Krishnababu Krothapalli (te)
+	Gheyret Kenji (ug)
+
+
 Evolution 3.6.2 2012-11-12
 --------------------------
 
