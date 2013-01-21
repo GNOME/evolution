@@ -143,7 +143,8 @@ handle_mail_request (GSimpleAsyncResult *res,
 			if (context.mode == E_MAIL_FORMATTER_MODE_RAW && content_type &&
 			    camel_content_type_is (content_type, "text", "*") &&
 			    !camel_content_type_is (content_type, "text", "plain") &&
-			    !camel_content_type_is (content_type, "text", "html")) {
+			    !camel_content_type_is (content_type, "text", "html") &&
+			    !camel_content_type_is (content_type, "text", "calendar")) {
 				CamelDataWrapper *dw;
 				CamelStream *raw_content;
 				GByteArray *ba;
