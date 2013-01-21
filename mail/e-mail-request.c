@@ -136,9 +136,34 @@ handle_mail_request (GSimpleAsyncResult *res,
 		}
 
 		if (part != NULL) {
-			e_mail_formatter_format_as (
-				formatter, &context, part, request->priv->output_stream,
-				mime_type ? mime_type : part->mime_type, cancellable);
+			CamelContentType *content_type;
+
+			content_type = camel_mime_part_get_content_type (part->part);
+
+			if (context.mode == E_MAIL_FORMATTER_MODE_RAW && content_type &&
+			    camel_content_type_is (content_type, "text", "*") &&
+			    !camel_content_type_is (content_type, "text", "plain") &&
+			    !camel_content_type_is (content_type, "text", "html")) {
+				CamelDataWrapper *dw;
+				CamelStream *raw_content;
+				GByteArray *ba;
+
+				dw = camel_medium_get_content (CAMEL_MEDIUM (part->part));
+				g_return_if_fail (dw);
+
+				raw_content = camel_stream_mem_new ();
+				camel_data_wrapper_decode_to_stream_sync (dw, raw_content, cancellable, NULL);
+				ba = camel_stream_mem_get_byte_array (CAMEL_STREAM_MEM (raw_content));
+
+				camel_stream_write (request->priv->output_stream, (gchar *) ba->data, ba->len, cancellable, NULL);
+
+				g_object_unref (raw_content);
+			} else {
+				e_mail_formatter_format_as (
+					formatter, &context, part, request->priv->output_stream,
+					mime_type ? mime_type : part->mime_type, cancellable);
+			}
+
 			e_mail_part_unref (part);
 		} else {
 			g_warning ("Failed to lookup requested part '%s' - this should not happen!", part_id);
