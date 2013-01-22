@@ -2,12 +2,12 @@
       type="topic" id="offline">
 
   <info>
-    <desc>Make Evolution be online again.</desc>
+    <desc>Make Evolution mail be online again.</desc>
     
     <link type="guide" xref="index#common-other-problems"/>
     <link type="seealso" xref="mail-working-offline" />
 
-    <revision pkgversion="3.2.1" version="0.3" date="2012-08-09" status="final"/>
+    <revision pkgversion="3.7.4" version="0.3" date="2013-01-22" status="final"/>
     <credit type="author">
       <name its:translate="no">Brian Grohe</name>
       <email its:translate="no">grohe43@gmail.com</email>
@@ -20,10 +20,13 @@
     </license>
 
   </info>
-<title>Why is Evolution offline when my net connection is working?</title>
-<p>You may have started Evolution with the <cmd>--offline</cmd> commandline option.</p>
+<title>Why is Evolution's mail offline when my net connection is working?</title>
+<p>You may have started Evolution with the <cmd>--offline</cmd> commandline option to enforce offline mode.</p>
 
-<p>If this is not the case and Evolution normally works but has suddenly stopped connecting, you may have unintentionally clicked on the connection icon in the lower left corner. When connected, the icon resembles a pair of sockets joined together. If the sockets are open, there is no connection (and the <gui style="button">Send/Receive</gui> button is grayed out). Click on the icon to change its state.</p>
+<p>If this is not the case and Evolution normally works but has suddenly stopped connecting to your mail accounts, you may have unintentionally clicked on the connection icon in the lower left corner. When connected, the icon resembles a pair of sockets joined together. If the sockets are open, there is no connection to your mail accounts (and the <gui style="button">Send/Receive</gui> button is grayed out). Click on the icon to change its state.</p>
 
-<p>If the problem persists and you are sure you have not clicked the icon, but you can still reach the network from other apps on your system (browsers, FTP, SSH, ping etc.) it may be that NetworkManager (NM) is not properly configured. Many Linux distributions now use NM to manage their connections, and if it is installed Evolution will use it to detect if the network is up. However NM can be installed but not properly configured, leaving the network working but not detectable by Evolution. (Note that other GNOME-based applications may also fail for the same reason.) The solution is to configure NM to manage your network interface. This is usually easy to do but is outside the scope of this document. For more information please take a look at the <link href="help:gnome-help/net">Desktop help</link> or seek help from your distribution support forums, mailing lists etc.</p>
+<p>If the problem persists and you are sure you have not clicked the icon, but you can still reach the network from other apps on your system (browsers, FTP, SSH, ping etc.) it may be that your network connection is not properly configured. For more information please take a look at the <link href="help:gnome-help/net-problem">Desktop help</link> or seek help from your distribution support forums, mailing lists etc.</p>
+
+<note style="warning"><p>Evolution's forced offline mode only refers to mail and does not apply to contacts and calendars.</p></note>
+
 </page>
