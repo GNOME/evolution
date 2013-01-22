@@ -4,7 +4,6 @@
   <info>
     <desc>Make somebody always receive copies of your sent mail.</desc>
 
-    <link type="guide" xref="mail-account-manage-imap#defaults"/>
     <link type="guide" xref="mail-account-manage-imap-plus#defaults"/>
     <link type="guide" xref="mail-account-manage-local-delivery#defaults"/>
     <link type="guide" xref="mail-account-manage-maildir-format-directories#defaults"/>

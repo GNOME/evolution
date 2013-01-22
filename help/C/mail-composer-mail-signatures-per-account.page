@@ -5,7 +5,6 @@
     <desc>Setting a default signature for an email account.</desc>
     
     <link type="guide" xref="mail-composer-mail-signatures" />
-    <link type="guide" xref="mail-account-manage-imap#identity"/>
     <link type="guide" xref="mail-account-manage-imap-plus#identity"/>
     <link type="guide" xref="mail-account-manage-local-delivery#identity"/>
     <link type="guide" xref="mail-account-manage-maildir-format-directories#identity"/>

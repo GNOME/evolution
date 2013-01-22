@@ -6,7 +6,7 @@
     
     <link type="guide" xref="index#common-mail-problems" />
     <link type="guide" xref="google-services"/>
-    <link type="seealso" xref="mail-account-manage-imap"/>
+    <link type="seealso" xref="mail-account-manage-imap-plus"/>
 
     <revision pkgversion="3.1.5" version="0.2" date="2011-07-30" status="final"/>
     <credit type="author">
@@ -23,7 +23,7 @@
 
 <title>Access a Gmail IMAP Account via Evolution</title>
 
-<p>Please refer to the <link xref="mail-account-manage-imap">IMAP mail account settings</link>.</p>
+<p>Please refer to the <link xref="mail-account-manage-imap-plus">IMAP+ mail account settings</link>.</p>
 
 <note style="important"><p>To access Gmail via IMAP you must turn on IMAP in your Google account. See the <link href="https://mail.google.com/support/bin/answer.py?answer=77695">Gmail Help</link> for more information.</p></note>
 </page>

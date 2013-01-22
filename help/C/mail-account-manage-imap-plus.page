@@ -57,5 +57,4 @@
 <p>Other account related settings that are not located in the <gui>Account Editor</gui>:</p>
 </section>
 
-<!-- TODO:DEVELOPERS: Find out if there are any different settings between IMAP and IMAP+. If not, merge with mail-account-manage-imap! Also see https://bugzilla.gnome.org/show_bug.cgi?id=670277 -->
 </page>

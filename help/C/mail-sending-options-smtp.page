@@ -4,7 +4,6 @@
   <info>
     <desc>Sending options for SMTP.</desc>
 
-    <link type="guide" xref="mail-account-manage-imap#sending-email"/>
     <link type="guide" xref="mail-account-manage-imap-plus#sending-email"/>
     <link type="guide" xref="mail-account-manage-local-delivery#sending-email"/>
     <link type="guide" xref="mail-account-manage-maildir-format-directories#sending-email"/>
