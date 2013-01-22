@@ -17,7 +17,6 @@
     <link type="guide" xref="mail-account-manage-unix-mbox-spool-file#security"/>
     <link type="guide" xref="mail-account-manage-usenet-news#security"/>
     <link type="guide" xref="mail-account-manage-microsoft-exchange-evo-mapi#security"/>
-    <link type="guide" xref="mail-account-manage-microsoft-exchange-evo-exchange#security"/>
     <link type="guide" xref="mail-account-manage-microsoft-exchange-evo-ews#security"/>
 
     <revision pkgversion="2.32.1" version="0.3" date="2011-01-06" status="candidate"/>

@@ -8,7 +8,7 @@
 
     <link type="guide" xref="exchange-placeholder"/>
 
-    <revision pkgversion="3.5.3" version="0.6" date="2012-06-18" status="final"/>
+    <revision pkgversion="3.7.5" version="0.7" date="2013-01-22" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -32,20 +32,13 @@
   </if:when>
 </if:choose>
 
-<p>Only if <sys>evolution-ews</sys> does not work well for you it is recommended to use the package <sys>evolution-mapi</sys>. It supports Microsoft Exchange 2007 and 2010 (and possibly earlier versions that support MAPI).</p>
+
+<p>For older versions of Microsoft Exchange, or if <sys>evolution-ews</sys> does not work well for you, try <sys>evolution-mapi</sys>. It uses Microsoft's Messaging API which is also used by Microsoft Outlook. However, <sys>evolution-mapi</sys> requires installing <sys>OpenChange</sys> and <sys>Samba 4</sys>, and is not as performant as <sys>evolution-ews</sys>.</p>
+
 <if:choose>
   <if:when test="if:supports('action:install')">
     <note style="info package">
       <p><link action="install:evolution-mapi" href="http://projects.gnome.org/evolution/download" style="button">Install evolution-mapi</link></p>
-    </note>
-  </if:when>
-</if:choose>
-
-<p>For Microsoft Exchange 2000 and 2003 (and possibly earlier versions of Exchange that use Outlook Web Access) it is recommended to use the package <sys>evolution-exchange</sys>.</p>
-<if:choose>
-  <if:when test="if:supports('action:install')">
-    <note style="info package">
-      <p><link action="install:evolution-exchange" href="http://projects.gnome.org/evolution/download" style="button">Install evolution-exchange</link></p>
     </note>
   </if:when>
 </if:choose>
