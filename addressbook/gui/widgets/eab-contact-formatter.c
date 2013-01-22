@@ -25,6 +25,7 @@
 
 #include "e-util/e-util.h"
 
+#include "eab-book-util.h"
 #include "eab-gui-util.h"
 
 G_DEFINE_TYPE (

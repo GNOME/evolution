@@ -36,6 +36,8 @@
 #include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
 
+#include "addressbook/util/eab-book-util.h"
+
 #include "e-contact-print.h"
 
 typedef struct _EContactPrintContext EContactPrintContext;
@@ -226,6 +228,41 @@ e_contact_start_new_column (EContactPrintContext *ctxt)
 	}
 }
 
+static gchar *
+get_contact_string_value (EContact *contact,
+			  gint field)
+{
+	const gchar *value;
+
+	g_return_val_if_fail (contact != NULL, NULL);
+
+	value = e_contact_get_const (contact, field);
+	if (!value || !*value)
+		return NULL;
+
+	if (field == E_CONTACT_EMAIL_1 ||
+	    field == E_CONTACT_EMAIL_2 ||
+	    field == E_CONTACT_EMAIL_3 ||
+	    field == E_CONTACT_EMAIL_4) {
+		gchar *email = NULL, *name = NULL;
+
+		if (eab_parse_qp_email (value, &name, &email)) {
+			gchar *res;
+
+			if (name && *name)
+				res = g_strdup_printf ("%s <%s>", name, email);
+			else
+				res = g_strdup_printf ("%s", email);
+
+			g_free (name);
+			g_free (email);
+
+			return res;
+		}
+	}
+	return g_strdup (value);
+}
+
 static gdouble
 e_contact_get_contact_height (EContact *contact,
                               EContactPrintContext *ctxt)
@@ -247,12 +284,14 @@ e_contact_get_contact_height (EContact *contact,
 
 	for (field = E_CONTACT_FILE_AS; field != E_CONTACT_LAST_SIMPLE_STRING; field++)
 	{
-		const gchar *value;
+		gchar *value;
 		gchar *text;
 
-		value = e_contact_get_const (contact, field);
-		if (value == NULL || *value == '\0')
+		value = get_contact_string_value (contact, field);
+		if (value == NULL || *value == '\0') {
+			g_free (value);
 			continue;
+		}
 
 		text = g_strdup_printf (
 			"%s:  %s",
@@ -263,6 +302,7 @@ e_contact_get_contact_height (EContact *contact,
 
 		cntct_height += .2 * get_font_height (ctxt->style->body_font);
 
+		g_free (value);
 		g_free (text);
 	}
 
@@ -314,16 +354,18 @@ e_contact_print_contact (EContact *contact,
 
 	for (field = E_CONTACT_FILE_AS; field != E_CONTACT_LAST_SIMPLE_STRING; field++)
 	{
-		const gchar *value;
+		gchar *value;
 		gchar *text;
 		gint wrapped_lines = 0;
 
 		if (ctxt->y > page_height)
 			e_contact_start_new_column (ctxt);
 
-		value = e_contact_get_const (contact, field);
-		if (value == NULL || *value == '\0')
+		value = get_contact_string_value (contact, field);
+		if (value == NULL || *value == '\0') {
+			g_free (value);
 			continue;
+		}
 
 		text = g_strdup_printf (
 			"%s:  %s",
@@ -349,6 +391,7 @@ e_contact_print_contact (EContact *contact,
 
 		ctxt->y += .2 * get_font_height (ctxt->style->body_font);
 
+		g_free (value);
 		g_free (text);
 	}
 

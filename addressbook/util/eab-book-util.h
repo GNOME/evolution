@@ -45,6 +45,12 @@ gint		e_utf8_casefold_collate_len	(const gchar *str1,
 gint		e_utf8_casefold_collate		(const gchar *str1,
 						 const gchar *str2);
 
+/* To parse quoted printable address & return email & name fields */
+gboolean	eab_parse_qp_email		(const gchar *string,
+						 gchar **name,
+						 gchar **email);
+gchar *		eab_parse_qp_email_to_html	(const gchar *string);
+
 G_END_DECLS
 
 #endif /* EAB_BOOK_UTIL_H */

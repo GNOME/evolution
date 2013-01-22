@@ -54,12 +54,6 @@ ESource *	eab_select_source		(ESourceRegistry *registry,
 						 const gchar *select_uid,
 						 GtkWindow *parent);
 
-/* To parse quoted printable address & return email & name fields */
-gboolean	eab_parse_qp_email		(const gchar *string,
-						 gchar **name,
-						 gchar **email);
-gchar *		eab_parse_qp_email_to_html	(const gchar *string);
-
 gchar *		eab_format_address		(EContact *contact,
 						 EContactField address_type);
 

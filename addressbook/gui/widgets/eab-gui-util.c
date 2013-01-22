@@ -617,61 +617,6 @@ eab_transfer_contacts (ESourceRegistry *registry,
 		book_loaded_cb, process);
 }
 
-/* To parse something like...
- * =?UTF-8?Q?=E0=A4=95=E0=A4=95=E0=A4=AC=E0=A5=82=E0=A5=8B=E0=A5=87?=\t\n=?UTF-8?Q?=E0=A4=B0?=\t\n<aa@aa.ccom>
- * and return the decoded representation of name & email parts. */
-gboolean
-eab_parse_qp_email (const gchar *string,
-                    gchar **name,
-                    gchar **email)
-{
-	struct _camel_header_address *address;
-	gboolean res = FALSE;
-
-	address = camel_header_address_decode (string, "UTF-8");
-
-	if (!address)
-		return FALSE;
-
-	/* report success only when we have filled both name and email address */
-	if (address->type == CAMEL_HEADER_ADDRESS_NAME  && address->name && *address->name && address->v.addr && *address->v.addr) {
-		*name = g_strdup (address->name);
-		*email = g_strdup (address->v.addr);
-		res = TRUE;
-	}
-
-	camel_header_address_unref (address);
-
-	return res;
-}
-
-/* This is only wrapper to parse_qp_mail, it decodes string and if returned TRUE,
- * then makes one string and returns it, otherwise returns NULL.
- * Returned string is usable to place directly into GtkHtml stream.
- * Returned value should be freed with g_free. */
-gchar *
-eab_parse_qp_email_to_html (const gchar *string)
-{
-	gchar *name = NULL, *mail = NULL;
-	gchar *html_name, *html_mail;
-	gchar *value;
-
-	if (!eab_parse_qp_email (string, &name, &mail))
-		return NULL;
-
-	html_name = e_text_to_html (name, 0);
-	html_mail = e_text_to_html (mail, E_TEXT_TO_HTML_CONVERT_ADDRESSES);
-
-	value = g_strdup_printf ("%s &lt;%s&gt;", html_name, html_mail);
-
-	g_free (html_name);
-	g_free (html_mail);
-	g_free (name);
-	g_free (mail);
-
-	return value;
-}
-
 /*
  * eab_format_address helper function
  *

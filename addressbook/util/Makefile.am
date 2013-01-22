@@ -10,7 +10,9 @@ libeabutil_la_CPPFLAGS =				\
 	-I$(top_srcdir) 				\
 	-I$(top_builddir)/shell				\
 	-I$(top_srcdir)/shell				\
+	$(CAMEL_CFLAGS)					\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
+	$(GTKHTML_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)
 
 libeabutil_la_SOURCES =					\
@@ -22,7 +24,9 @@ libeabutil_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 libeabutil_la_LIBADD =					\
 	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/shell/libeshell.la		\
+	$(CAMEL_LIBS)					\
 	$(EVOLUTION_DATA_SERVER_LIBS)			\
+	$(GTKHTML_LIBS)					\
 	$(GNOME_PLATFORM_LIBS)
 
 dist-hook:

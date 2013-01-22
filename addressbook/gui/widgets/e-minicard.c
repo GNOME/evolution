@@ -34,6 +34,7 @@
 
 #include "e-util/e-util.h"
 
+#include "eab-book-util.h"
 #include "eab-gui-util.h"
 #include "e-minicard-label.h"
 #include "e-minicard-view.h"

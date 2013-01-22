@@ -30,6 +30,7 @@
 
 #include "e-addressbook-model.h"
 #include "e-addressbook-table-adapter.h"
+#include "eab-book-util.h"
 #include "eab-contact-merging.h"
 #include "eab-gui-util.h"
 #include <libxml/tree.h>
