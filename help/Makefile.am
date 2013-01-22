@@ -98,14 +98,12 @@ HELP_FILES = \
 	intro-main-window.page \
 	mail-access-gmail-imap-account.page \
 	mail-access-gmail-pop-account.page \
-	mail-account-manage-imap.page \
 	mail-account-manage-imap-plus.page \
 	mail-account-manage-local-delivery.page \
 	mail-account-manage-maildir-format-directories.page \
 	mail-account-management.page \
 	mail-account-manage-mh-format-directories.page \
 	mail-account-manage-microsoft-exchange-evo-ews.page \
-	mail-account-manage-microsoft-exchange-evo-exchange.page \
 	mail-account-manage-microsoft-exchange-evo-mapi.page \
 	mail-account-manage-microsoft-exchange.page \
 	mail-account-manage-novell-groupwise.page \
@@ -173,7 +171,6 @@ HELP_FILES = \
 	mail-filters.page \
 	mail-folders.page \
 	mail-follow-up-flag.page \
-	mail-imap-headers.page \
 	mail-imap-subscriptions.page \
 	mail-labels.page \
 	mail-layout-changing.page \
@@ -184,7 +181,6 @@ HELP_FILES = \
 	mail-reading-keyboard-shortcuts.page \
 	mail-read-receipts.page \
 	mail-received-notification.page \
-	mail-receiving-options-evolution-exchange.page \
 	mail-receiving-options-exchange-ews.page \
 	mail-receiving-options-exchange-mapi.page \
 	mail-receiving-options-imap.page \
