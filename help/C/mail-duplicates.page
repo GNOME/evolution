@@ -6,7 +6,7 @@
     
     <link type="guide" xref="index#common-mail-problems" />
 
-    <revision pkgversion="3.0.2" version="0.5" date="2011-08-05" status="final"/>
+    <revision pkgversion="3.7.4" version="0.6" date="2013-01-23" status="final"/>
     <credit type="author">
       <name its:translate="no">April Gonzales</name>
       <email its:translate="no">loonycookie@gmail.com</email>
@@ -35,7 +35,7 @@
 <list>
 <item><p>There are several copies of the same message in the mailbox</p></item>
 <item><p>Evolution is having a problem with the UIDL extension.</p></item>
-<item><p>The cache files located at <file>$HOME/.local/share/evolution/mail/pop/</file> are not writable.</p></item>
+<item><p>The cache files located at <file>$HOME/.local/share/evolution/mail/local/</file> are not writable.</p></item>
 </list>
 </section>
 
