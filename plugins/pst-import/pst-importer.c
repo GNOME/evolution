@@ -350,68 +350,43 @@ widget_sanitizer_cb (GtkToggleButton *button,
 }
 
 static const gchar *
-get_source_combo_key (EClientSourceType source_type)
+get_source_combo_key (const gchar *extension_name)
 {
-	const gchar *key = NULL;
+	if (g_strcmp0 (extension_name, E_SOURCE_EXTENSION_ADDRESS_BOOK) == 0)
+		return "pst-contacts-source-combo";
 
-	switch (source_type) {
-	case E_CLIENT_SOURCE_TYPE_CONTACTS:
-		key = "pst-contacts-source-combo";
-		break;
-	case E_CLIENT_SOURCE_TYPE_EVENTS:
-		key = "pst-events-source-combo";
-		break;
-	case E_CLIENT_SOURCE_TYPE_TASKS:
-		key = "pst-tasks-source-combo";
-		break;
-	case E_CLIENT_SOURCE_TYPE_MEMOS:
-		key = "pst-memos-source-combo";
-		break;
-	case E_CLIENT_SOURCE_TYPE_LAST:
-		break;
-	}
+	if (g_strcmp0 (extension_name, E_SOURCE_EXTENSION_CALENDAR) == 0)
+		return "pst-events-source-combo";
 
-	return key;
+	if (g_strcmp0 (extension_name, E_SOURCE_EXTENSION_TASK_LIST) == 0)
+		return "pst-tasks-source-combo";
+
+	if (g_strcmp0 (extension_name, E_SOURCE_EXTENSION_MEMO_LIST) == 0)
+		return "pst-memos-source-combo";
+
+	return NULL;
 }
 
 static void
 add_source_list_with_check (GtkWidget *frame,
                             const gchar *caption,
                             ESourceRegistry *registry,
-                            EClientSourceType source_type,
+                            const gchar *extension_name,
                             GCallback toggle_callback,
                             EImportTarget *target,
                             gboolean active)
 {
-	ESource *source;
+	ESource *source = NULL;
 	GtkWidget *check, *hbox;
 	GtkWidget *combo = NULL;
-	const gchar *extension_name;
 
 	g_return_if_fail (frame != NULL);
 	g_return_if_fail (caption != NULL);
 	g_return_if_fail (toggle_callback != NULL);
 
-	switch (source_type) {
-		case E_CLIENT_SOURCE_TYPE_CONTACTS:
-			extension_name = E_SOURCE_EXTENSION_ADDRESS_BOOK;
-			source = e_source_registry_ref_default_address_book (registry);
-			break;
-		case E_CLIENT_SOURCE_TYPE_EVENTS:
-			extension_name = E_SOURCE_EXTENSION_CALENDAR;
-			source = e_source_registry_ref_default_calendar (registry);
-			break;
-		case E_CLIENT_SOURCE_TYPE_TASKS:
-			extension_name = E_SOURCE_EXTENSION_TASK_LIST;
-			source = e_source_registry_ref_default_task_list (registry);
-			break;
-		case E_CLIENT_SOURCE_TYPE_MEMOS:
-			extension_name = E_SOURCE_EXTENSION_MEMO_LIST;
-			source = e_source_registry_ref_default_memo_list (registry);
-			break;
-		default:
-			g_return_if_reached ();
-	}
+	source = e_source_registry_ref_default_for_extension_name (
+		registry, extension_name);
+	g_return_if_fail (source != NULL);
 
 	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2);
 
@@ -433,7 +408,7 @@ add_source_list_with_check (GtkWidget *frame,
 	gtk_box_pack_start ((GtkBox *) frame, hbox, FALSE, FALSE, 0);
 
 	if (combo) {
-		const gchar *key = get_source_combo_key (source_type);
+		const gchar *key = get_source_combo_key (extension_name);
 
 		g_return_if_fail (key != NULL);
 
@@ -589,22 +564,22 @@ org_credativ_evolution_readpst_getwidget (EImport *ei,
 
 	add_source_list_with_check (
 		framebox, _("_Address Book"),
-		registry, E_CLIENT_SOURCE_TYPE_CONTACTS,
+		registry, E_SOURCE_EXTENSION_ADDRESS_BOOK,
 		G_CALLBACK (checkbox_addr_toggle_cb), target,
 		GPOINTER_TO_INT (g_datalist_get_data (&target->data, "pst-do-addr")));
 	add_source_list_with_check (
 		framebox, _("A_ppointments"),
-		registry, E_CLIENT_SOURCE_TYPE_EVENTS,
+		registry, E_SOURCE_EXTENSION_CALENDAR,
 		G_CALLBACK (checkbox_appt_toggle_cb), target,
 		GPOINTER_TO_INT (g_datalist_get_data (&target->data, "pst-do-appt")));
 	add_source_list_with_check (
 		framebox, _("_Tasks"),
-		registry, E_CLIENT_SOURCE_TYPE_TASKS,
+		registry, E_SOURCE_EXTENSION_TASK_LIST,
 		G_CALLBACK (checkbox_task_toggle_cb), target,
 		GPOINTER_TO_INT (g_datalist_get_data (&target->data, "pst-do-task")));
 	add_source_list_with_check (
 		framebox, _("_Journal entries"),
-		registry, E_CLIENT_SOURCE_TYPE_MEMOS,
+		registry, E_SOURCE_EXTENSION_MEMO_LIST,
 		G_CALLBACK (checkbox_journal_toggle_cb), target,
 		GPOINTER_TO_INT (g_datalist_get_data (&target->data, "pst-do-journal")));
 
@@ -672,12 +647,14 @@ client_connect_cb (GObject *source_object,
 
 static void
 open_client (PstImporter *m,
-             EClientSourceType source_type)
+             const gchar *extension_name)
 {
 	ESourceComboBox *combo;
 	ESource *source;
+	const gchar *key;
 
-	combo = g_datalist_get_data (&m->target->data, get_source_combo_key (source_type));
+	key = get_source_combo_key (extension_name);
+	combo = g_datalist_get_data (&m->target->data, key);
 	g_return_if_fail (combo != NULL);
 
 	source = e_source_combo_box_ref_active (combo);
@@ -694,19 +671,19 @@ static void
 pst_prepare_run (PstImporter *m)
 {
 	if (GPOINTER_TO_INT (g_datalist_get_data (&m->target->data, "pst-do-addr"))) {
-		open_client (m, E_CLIENT_SOURCE_TYPE_CONTACTS);
+		open_client (m, E_SOURCE_EXTENSION_ADDRESS_BOOK);
 	}
 
 	if (GPOINTER_TO_INT (g_datalist_get_data (&m->target->data, "pst-do-appt"))) {
-		open_client (m, E_CLIENT_SOURCE_TYPE_EVENTS);
+		open_client (m, E_SOURCE_EXTENSION_CALENDAR);
 	}
 
 	if (GPOINTER_TO_INT (g_datalist_get_data (&m->target->data, "pst-do-task"))) {
-		open_client (m, E_CLIENT_SOURCE_TYPE_TASKS);
+		open_client (m, E_SOURCE_EXTENSION_TASK_LIST);
 	}
 
 	if (GPOINTER_TO_INT (g_datalist_get_data (&m->target->data, "pst-do-journal"))) {
-		open_client (m, E_CLIENT_SOURCE_TYPE_MEMOS);
+		open_client (m, E_SOURCE_EXTENSION_MEMO_LIST);
 	}
 
 	if (!m->waiting_open)
