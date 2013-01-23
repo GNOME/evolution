@@ -36,7 +36,7 @@
 typedef struct {
 	GtkWindow *parent;
 	ESource *orig_source;
-	EClientSourceType obj_type;
+	ECalClientSourceType obj_type;
 	ESource *selected_source;
 	ECalClient *source_client, *dest_client;
 } CopySourceDialogData;
@@ -99,26 +99,27 @@ free_copy_data (CopySourceDialogData *csdd)
 }
 
 static void
-dest_source_opened_cb (GObject *source_object,
-                       GAsyncResult *result,
-                       gpointer user_data)
+dest_source_connected_cb (GObject *source_object,
+                          GAsyncResult *result,
+                          gpointer user_data)
 {
-	ESource *source = E_SOURCE (source_object);
 	CopySourceDialogData *csdd = user_data;
-	EClient *client = NULL;
+	EClient *client;
 	GError *error = NULL;
 
-	e_client_utils_open_new_finish (source, result, &client, &error);
+	client = e_cal_client_connect_finish (result, &error);
+
+	/* Sanity check. */
+	g_return_if_fail (
+		((client != NULL) && (error == NULL)) ||
+		((client == NULL) && (error != NULL)));
 
 	if (error != NULL) {
-		g_warn_if_fail (client == NULL);
 		show_error (csdd, _("Could not open destination"), error);
 		g_error_free (error);
 		free_copy_data (csdd);
 		return;
 	}
-
-	g_return_if_fail (E_IS_CLIENT (client));
 
 	csdd->dest_client = E_CAL_CLIENT (client);
 
@@ -174,32 +175,33 @@ dest_source_opened_cb (GObject *source_object,
 }
 
 static void
-orig_source_opened_cb (GObject *source_object,
-                       GAsyncResult *result,
-                       gpointer user_data)
+orig_source_connected_cb (GObject *source_object,
+                          GAsyncResult *result,
+                          gpointer user_data)
 {
-	ESource *source = E_SOURCE (source_object);
 	CopySourceDialogData *csdd = user_data;
-	EClient *client = NULL;
+	EClient *client;
 	GError *error = NULL;
 
-	e_client_utils_open_new_finish (source, result, &client, &error);
+	client = e_cal_client_connect_finish (result, &error);
+
+	/* Sanity check. */
+	g_return_if_fail (
+		((client != NULL) && (error == NULL)) ||
+		((client == NULL) && (error != NULL)));
 
 	if (error != NULL) {
-		g_warn_if_fail (client == NULL);
 		show_error (csdd, _("Could not open source"), error);
 		g_error_free (error);
 		free_copy_data (csdd);
 		return;
 	}
 
-	g_return_if_fail (E_IS_CLIENT (client));
-
 	csdd->source_client = E_CAL_CLIENT (client);
 
-	e_client_utils_open_new (
-		csdd->selected_source, csdd->obj_type, FALSE, NULL,
-		dest_source_opened_cb, csdd);
+	e_cal_client_connect (
+		csdd->selected_source, csdd->obj_type, NULL,
+		dest_source_connected_cb, csdd);
 }
 
 static void
@@ -210,17 +212,15 @@ copy_source (const CopySourceDialogData *const_csdd)
 	if (!const_csdd->selected_source)
 		return;
 
-	g_return_if_fail (const_csdd->obj_type != E_CLIENT_SOURCE_TYPE_LAST);
-
 	csdd = g_new0 (CopySourceDialogData, 1);
 	csdd->parent = const_csdd->parent;
 	csdd->orig_source = g_object_ref (const_csdd->orig_source);
 	csdd->obj_type = const_csdd->obj_type;
 	csdd->selected_source = g_object_ref (const_csdd->selected_source);
 
-	e_client_utils_open_new (
-		csdd->orig_source, csdd->obj_type, FALSE, NULL,
-		orig_source_opened_cb, csdd);
+	e_cal_client_connect (
+		csdd->orig_source, csdd->obj_type, NULL,
+		orig_source_connected_cb, csdd);
 }
 
 /**
@@ -246,10 +246,7 @@ copy_source_dialog (GtkWindow *parent,
 	csdd.parent = parent;
 	csdd.orig_source = source;
 	csdd.selected_source = NULL;
-	csdd.obj_type = obj_type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS ? E_CLIENT_SOURCE_TYPE_EVENTS :
-			obj_type == E_CAL_CLIENT_SOURCE_TYPE_TASKS ? E_CLIENT_SOURCE_TYPE_TASKS :
-			obj_type == E_CAL_CLIENT_SOURCE_TYPE_MEMOS ? E_CLIENT_SOURCE_TYPE_MEMOS :
-			E_CLIENT_SOURCE_TYPE_LAST;
+	csdd.obj_type = obj_type;
 
 	csdd.selected_source = select_source_dialog (
 		parent, registry, obj_type, source);

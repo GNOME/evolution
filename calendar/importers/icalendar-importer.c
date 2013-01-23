@@ -53,7 +53,7 @@ typedef struct {
 	guint idle_id;
 
 	ECalClient *cal_client;
-	EClientSourceType source_type;
+	ECalClientSourceType source_type;
 
 	icalcomponent *icalcomp;
 
@@ -69,8 +69,8 @@ typedef struct {
 } ICalIntelligentImporter;
 
 static const gint import_type_map[] = {
-	E_CLIENT_SOURCE_TYPE_EVENTS,
-	E_CLIENT_SOURCE_TYPE_TASKS,
+	E_CAL_CLIENT_SOURCE_TYPE_EVENTS,
+	E_CAL_CLIENT_SOURCE_TYPE_TASKS,
 	-1
 };
 
@@ -316,10 +316,10 @@ ivcal_getwidget (EImport *ei,
 		GList *list;
 
 		switch (import_type_map[i]) {
-			case E_CLIENT_SOURCE_TYPE_EVENTS:
+			case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
 				extension_name = E_SOURCE_EXTENSION_CALENDAR;
 				break;
-			case E_CLIENT_SOURCE_TYPE_TASKS:
+			case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
 				extension_name = E_SOURCE_EXTENSION_TASK_LIST;
 				break;
 			default:
@@ -389,11 +389,11 @@ ivcal_import_items (gpointer d)
 	ICalImporter *ici = d;
 
 	switch (ici->source_type) {
-	case E_CLIENT_SOURCE_TYPE_EVENTS:
+	case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
 		prepare_events (ici->icalcomp, NULL);
 		update_objects (ici->cal_client, ici->icalcomp, ici->cancellable, ivcal_call_import_done, ici);
 		break;
-	case E_CLIENT_SOURCE_TYPE_TASKS:
+	case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
 		prepare_tasks (ici->icalcomp, NULL);
 		update_objects (ici->cal_client, ici->icalcomp, ici->cancellable, ivcal_call_import_done, ici);
 		break;
@@ -411,21 +411,24 @@ ivcal_import_items (gpointer d)
 }
 
 static void
-ivcal_opened (GObject *source_object,
-              GAsyncResult *result,
-              gpointer user_data)
+ivcal_connect_cb (GObject *source_object,
+                  GAsyncResult *result,
+                  gpointer user_data)
 {
-	ESource *source = E_SOURCE (source_object);
-	EClient *client = NULL;
+	EClient *client;
 	ICalImporter *ici = user_data;
 	GError *error = NULL;
 
 	g_return_if_fail (ici != NULL);
 
-	e_client_utils_open_new_finish (source, result, &client, &error);
+	client = e_cal_client_connect_finish (result, &error);
+
+	/* Sanity check. */
+	g_return_if_fail (
+		((client != NULL) && (error == NULL)) ||
+		((client == NULL) && (error != NULL)));
 
 	if (error != NULL) {
-		g_warn_if_fail (client == NULL);
 		g_warning (
 			"%s: Failed to open calendar: %s",
 			G_STRFUNC, error->message);
@@ -433,8 +436,6 @@ ivcal_opened (GObject *source_object,
 		ivcal_import_done (ici);
 		return;
 	}
-
-	g_return_if_fail (E_IS_CLIENT (client));
 
 	ici->cal_client = E_CAL_CLIENT (client);
 
@@ -447,7 +448,7 @@ ivcal_import (EImport *ei,
               EImportTarget *target,
               icalcomponent *icalcomp)
 {
-	EClientSourceType type;
+	ECalClientSourceType type;
 	ICalImporter *ici = g_malloc0 (sizeof (*ici));
 
 	type = GPOINTER_TO_INT (g_datalist_get_data (&target->data, "primary-type"));
@@ -462,9 +463,9 @@ ivcal_import (EImport *ei,
 	ici->cancellable = g_cancellable_new ();
 	e_import_status (ei, target, _("Opening calendar"), 0);
 
-	e_client_utils_open_new (
+	e_cal_client_connect (
 		g_datalist_get_data (&target->data, "primary-source"),
-		type, FALSE, ici->cancellable, ivcal_opened, ici);
+		type, ici->cancellable, ivcal_connect_cb, ici);
 }
 
 static void
@@ -833,12 +834,11 @@ struct OpenDefaultSourceData
 };
 
 static void
-default_source_opened_cb (GObject *source_object,
-                          GAsyncResult *result,
-                          gpointer user_data)
+default_client_connect_cb (GObject *source_object,
+                           GAsyncResult *result,
+                           gpointer user_data)
 {
-	ESource *source = E_SOURCE (source_object);
-	EClient *client = NULL;
+	EClient *client;
 	struct OpenDefaultSourceData *odsd = user_data;
 	GError *error = NULL;
 
@@ -846,7 +846,12 @@ default_source_opened_cb (GObject *source_object,
 	g_return_if_fail (odsd->ici != NULL);
 	g_return_if_fail (odsd->opened_cb != NULL);
 
-	e_client_utils_open_new_finish (source, result, &client, &error);
+	client = e_cal_client_connect_finish (result, &error);
+
+	/* Sanity check. */
+	g_return_if_fail (
+		((client != NULL) && (error == NULL)) ||
+		((client == NULL) && (error != NULL)));
 
 	/* Client may be NULL; don't use a type cast macro. */
 	odsd->opened_cb ((ECalClient *) client, error, odsd->ici);
@@ -869,7 +874,6 @@ open_default_source (ICalIntelligentImporter *ici,
 	EShell *shell;
 	ESource *source;
 	ESourceRegistry *registry;
-	EClientSourceType client_source_type;
 	struct OpenDefaultSourceData *odsd;
 
 	g_return_if_fail (ici != NULL);
@@ -880,15 +884,12 @@ open_default_source (ICalIntelligentImporter *ici,
 
 	switch (source_type) {
 		case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
-			client_source_type = E_CLIENT_SOURCE_TYPE_EVENTS;
 			source = e_source_registry_ref_default_calendar (registry);
 			break;
 		case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
-			client_source_type = E_CLIENT_SOURCE_TYPE_TASKS;
 			source = e_source_registry_ref_default_task_list (registry);
 			break;
 		case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
-			client_source_type = E_CLIENT_SOURCE_TYPE_MEMOS;
 			source = e_source_registry_ref_default_memo_list (registry);
 			break;
 		default:
@@ -901,9 +902,9 @@ open_default_source (ICalIntelligentImporter *ici,
 
 	e_import_status (ici->ei, ici->target, _("Opening calendar"), 0);
 
-	e_client_utils_open_new (
-		source, client_source_type, FALSE, ici->cancellable,
-		default_source_opened_cb, odsd);
+	e_cal_client_connect (
+		source, source_type, ici->cancellable,
+		default_client_connect_cb, odsd);
 
 	g_object_unref (source);
 }

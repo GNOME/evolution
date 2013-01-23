@@ -3516,28 +3516,29 @@ cal_opened_cb (GObject *source_object,
 	ItipView *view = user_data;
 	EMailPartItip *pitip = itip_view_get_mail_part (view);
 	ECalClientSourceType source_type;
-	EClient *client = NULL;
+	EClient *client;
 	ECalClient *cal_client;
 	const gchar *uid;
 	GError *error = NULL;
 
-	e_client_utils_open_new_finish (source, result, &client, &error);
+	client = e_cal_client_connect_finish (result, &error);
+
+	/* Sanity check. */
+	g_return_if_fail (
+		((client != NULL) && (error == NULL)) ||
+		((client == NULL) && (error != NULL)));
 
 	/* Ignore cancellations. */
 	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
 	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-		g_warn_if_fail (client == NULL);
 		g_error_free (error);
 		return;
 
 	} else if (error != NULL) {
-		g_warn_if_fail (client == NULL);
 		add_failed_to_load_msg (view, source, error);
 		g_error_free (error);
 		return;
 	}
-
-	g_return_if_fail (E_IS_CAL_CLIENT (client));
 
 	cal_client = E_CAL_CLIENT (client);
 	g_return_if_fail (cal_client != NULL);
@@ -3596,13 +3597,7 @@ start_calendar_server (EMailPartItip *pitip,
 		return;
 	}
 
-	e_client_utils_open_new (
-		source,
-		type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS ? E_CLIENT_SOURCE_TYPE_EVENTS :
-		type == E_CAL_CLIENT_SOURCE_TYPE_MEMOS ? E_CLIENT_SOURCE_TYPE_MEMOS :
-		type == E_CAL_CLIENT_SOURCE_TYPE_TASKS ? E_CLIENT_SOURCE_TYPE_TASKS : E_CLIENT_SOURCE_TYPE_LAST,
-		TRUE, pitip->cancellable,
-		func, data);
+	e_cal_client_connect (source, type, pitip->cancellable, func, data);
 }
 
 static void
@@ -3994,19 +3989,23 @@ find_cal_opened_cb (GObject *source_object,
 	EMailPartItip *pitip = fd->puri;
 	ItipView *view = fd->view;
 	ECalClientSourceType source_type;
-	EClient *client = NULL;
+	EClient *client;
 	ECalClient *cal_client;
 	gboolean search_for_conflicts = FALSE;
 	const gchar *extension_name;
 	const gchar *uid;
 	GError *error = NULL;
 
-	e_client_utils_open_new_finish (source, result, &client, &error);
+	client = e_cal_client_connect_finish (result, &error);
+
+	/* Sanity check. */
+	g_return_if_fail (
+		((client != NULL) && (error == NULL)) ||
+		((client == NULL) && (error != NULL)));
 
 	/* Ignore cancellations. */
 	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
 	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-		g_warn_if_fail (client == NULL);
 		decrease_find_data (fd);
 		g_error_free (error);
 		return;
@@ -4022,14 +4021,11 @@ find_cal_opened_cb (GObject *source_object,
 		/* FIXME Do we really want to warn here?  If we fail
 		 * to find the item, this won't be cleared but the
 		 * selector might be shown */
-		g_warn_if_fail (client == NULL);
 		add_failed_to_load_msg (view, source, error);
 		decrease_find_data (fd);
 		g_error_free (error);
 		return;
 	}
-
-	g_return_if_fail (E_IS_CAL_CLIENT (client));
 
 	/* Do not process read-only calendars */
 	if (e_client_is_readonly (client)) {

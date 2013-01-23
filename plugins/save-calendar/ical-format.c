@@ -86,7 +86,7 @@ do_save_calendar_ical (FormatHandler *handler,
                        gchar *dest_uri)
 {
 	ESource *primary_source;
-	ECalClient *source_client;
+	EClient *source_client;
 	GError *error = NULL;
 	GSList *objects = NULL;
 	icalcomponent *top_level = NULL;
@@ -96,13 +96,19 @@ do_save_calendar_ical (FormatHandler *handler,
 
 	/* open source client */
 	primary_source = e_source_selector_ref_primary_selection (selector);
-	source_client = e_cal_client_new (primary_source, type, &error);
+	source_client = e_cal_client_connect_sync (
+		primary_source, type, NULL, &error);
 	g_object_unref (primary_source);
 
-	if (!source_client || !e_client_open_sync (E_CLIENT (source_client), TRUE, NULL, &error)) {
-		display_error_message (gtk_widget_get_toplevel (GTK_WIDGET (selector)), error->message);
-		if (source_client)
-			g_object_unref (source_client);
+	/* Sanity check. */
+	g_return_if_fail (
+		((source_client != NULL) && (error == NULL)) ||
+		((source_client == NULL) && (error != NULL)));
+
+	if (source_client == NULL) {
+		display_error_message (
+			gtk_widget_get_toplevel (GTK_WIDGET (selector)),
+			error->message);
 		g_error_free (error);
 		return;
 	}
@@ -111,13 +117,13 @@ do_save_calendar_ical (FormatHandler *handler,
 	top_level = e_cal_util_new_top_level ();
 
 	error = NULL;
-	if (e_cal_client_get_object_list_sync (source_client, "#t", &objects, NULL, &error)) {
+	if (e_cal_client_get_object_list_sync (E_CAL_CLIENT (source_client), "#t", &objects, NULL, &error)) {
 		CompTzData tdata;
 		GOutputStream *stream;
 		GSList *iter;
 
 		tdata.zones = g_hash_table_new (g_str_hash, g_str_equal);
-		tdata.client = source_client;
+		tdata.client = E_CAL_CLIENT (source_client);
 
 		for (iter = objects; iter; iter = iter->next) {
 			icalcomponent *icalcomp = icalcomponent_new_clone (iter->data);

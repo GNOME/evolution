@@ -94,6 +94,9 @@ ECalClient *	e_task_shell_sidebar_get_default_client
 ESourceSelector *
 		e_task_shell_sidebar_get_selector
 					(ETaskShellSidebar *task_shell_sidebar);
+void		e_task_shell_sidebar_add_client
+					(ETaskShellSidebar *task_shell_sidebar,
+					 EClient *client);
 void		e_task_shell_sidebar_add_source
 					(ETaskShellSidebar *task_shell_sidebar,
 					 ESource *source);

@@ -318,7 +318,7 @@ do_save_calendar_csv (FormatHandler *handler,
 	 */
 
 	ESource *primary_source;
-	ECalClient *source_client;
+	EClient *source_client;
 	GError *error = NULL;
 	GSList *objects = NULL;
 	GOutputStream *stream;
@@ -332,15 +332,19 @@ do_save_calendar_csv (FormatHandler *handler,
 
 	/* open source client */
 	primary_source = e_source_selector_ref_primary_selection (selector);
-	source_client = e_cal_client_new (primary_source, type, &error);
+	source_client = e_cal_client_connect_sync (
+		primary_source, type, NULL, &error);
 	g_object_unref (primary_source);
 
-	if (!source_client || !e_client_open_sync (E_CLIENT (source_client), TRUE, NULL, &error)) {
+	/* Sanity check. */
+	g_return_if_fail (
+		((source_client != NULL) && (error == NULL)) ||
+		((source_client == NULL) && (error != NULL)));
+
+	if (source_client == NULL) {
 		display_error_message (
 			gtk_widget_get_toplevel (GTK_WIDGET (selector)),
 			error);
-		if (source_client)
-			g_object_unref (source_client);
 		g_error_free (error);
 		return;
 	}
@@ -360,7 +364,7 @@ do_save_calendar_csv (FormatHandler *handler,
 		GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (selector))),
 		dest_uri, &error);
 
-	if (stream && e_cal_client_get_object_list_as_comps_sync (source_client, "#t", &objects, NULL, NULL)) {
+	if (stream && e_cal_client_get_object_list_as_comps_sync (E_CAL_CLIENT (source_client), "#t", &objects, NULL, NULL)) {
 		GSList *iter;
 
 		if (config->header) {

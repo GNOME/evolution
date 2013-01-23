@@ -225,17 +225,17 @@ alarm_notify_new (GCancellable *cancellable,
 }
 
 static void
-client_opened_cb (GObject *source_object,
-                  GAsyncResult *result,
-                  gpointer user_data)
+client_connect_cb (GObject *source_object,
+                   GAsyncResult *result,
+                   gpointer user_data)
 {
 	ESource *source = E_SOURCE (source_object);
 	AlarmNotify *an = ALARM_NOTIFY (user_data);
-	EClient *client = NULL;
+	EClient *client;
 	ECalClient *cal_client;
 	GError *error = NULL;
 
-	e_client_utils_open_new_finish (source, result, &client, &error);
+	client = e_cal_client_connect_finish (result, &error);
 
 	/* Sanity check. */
 	g_return_if_fail (
@@ -276,7 +276,7 @@ void
 alarm_notify_add_calendar (AlarmNotify *an,
                            ESource *source)
 {
-	EClientSourceType client_source_type;
+	ECalClientSourceType source_type;
 	const gchar *extension_name;
 
 	g_return_if_fail (IS_ALARM_NOTIFY (an));
@@ -291,11 +291,11 @@ alarm_notify_add_calendar (AlarmNotify *an,
 
 	/* Check if this is an ESource we're interested in. */
 	if (e_source_has_extension (source, E_SOURCE_EXTENSION_CALENDAR))
-		client_source_type = E_CLIENT_SOURCE_TYPE_EVENTS;
+		source_type = E_CAL_CLIENT_SOURCE_TYPE_EVENTS;
 	else if (e_source_has_extension (source, E_SOURCE_EXTENSION_MEMO_LIST))
-		client_source_type = E_CLIENT_SOURCE_TYPE_MEMOS;
+		source_type = E_CAL_CLIENT_SOURCE_TYPE_MEMOS;
 	else if (e_source_has_extension (source, E_SOURCE_EXTENSION_TASK_LIST))
-		client_source_type = E_CLIENT_SOURCE_TYPE_TASKS;
+		source_type = E_CAL_CLIENT_SOURCE_TYPE_TASKS;
 	else {
 		g_mutex_unlock (&an->priv->mutex);
 		return;
@@ -314,9 +314,9 @@ alarm_notify_add_calendar (AlarmNotify *an,
 
 	debug (("Opening '%s' (%s)", e_source_get_display_name (source), e_source_get_uid (source)));
 
-	e_client_utils_open_new (
-		source, client_source_type, TRUE, NULL,
-		client_opened_cb, an);
+	e_cal_client_connect (
+		source, source_type, NULL,
+		client_connect_cb, an);
 
 	g_mutex_unlock (&an->priv->mutex);
 }

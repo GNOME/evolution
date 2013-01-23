@@ -96,6 +96,9 @@ GtkWidget *	e_cal_shell_sidebar_get_new_calendar_button
 ESourceSelector *
 		e_cal_shell_sidebar_get_selector
 					(ECalShellSidebar *cal_shell_sidebar);
+void		e_cal_shell_sidebar_add_client
+					(ECalShellSidebar *cal_shell_sidebar,
+					 EClient *client);
 void		e_cal_shell_sidebar_add_source
 					(ECalShellSidebar *cal_shell_sidebar,
 					 ESource *source);

@@ -59,7 +59,7 @@ write_calendar (const gchar *uid,
 	EShell *shell;
 	ESource *source;
 	ESourceRegistry *registry;
-	ECalClient *client = NULL;
+	EClient *client = NULL;
 	GSList *objects = NULL;
 	icaltimezone *utc;
 	time_t start = time (NULL), end;
@@ -89,21 +89,21 @@ write_calendar (const gchar *uid,
 	source = e_source_registry_ref_source (registry, uid);
 
 	if (source != NULL) {
-		client = e_cal_client_new (source, E_CAL_CLIENT_SOURCE_TYPE_EVENTS, error);
+		client = e_cal_client_connect_sync (
+			source, E_CAL_CLIENT_SOURCE_TYPE_EVENTS,
+			NULL, error);
 		g_object_unref (source);
-	}
-	if (!client) {
-		if (error && !*error)
-			*error = g_error_new (E_CAL_CLIENT_ERROR, E_CAL_CLIENT_ERROR_NO_SUCH_CALENDAR, _("Could not publish calendar: Calendar backend no longer exists"));
-		return FALSE;
-	}
-
-	if (!e_client_open_sync (E_CLIENT (client), TRUE, NULL, error)) {
-		g_object_unref (client);
-		return FALSE;
+	} else {
+		g_set_error (
+			error, E_CAL_CLIENT_ERROR,
+			E_CAL_CLIENT_ERROR_NO_SUCH_CALENDAR,
+			_("Invalid source UID '%s'"), uid);
 	}
 
-	if (e_client_get_backend_property_sync (E_CLIENT (client), CAL_BACKEND_PROPERTY_CAL_EMAIL_ADDRESS, &email, NULL, NULL)) {
+	if (client == NULL)
+		return FALSE;
+
+	if (e_client_get_backend_property_sync (client, CAL_BACKEND_PROPERTY_CAL_EMAIL_ADDRESS, &email, NULL, NULL)) {
 		if (email && *email)
 			users = g_slist_append (users, email);
 	}
@@ -114,7 +114,7 @@ write_calendar (const gchar *uid,
 		client, "free-busy-data",
 		G_CALLBACK (free_busy_data_cb), &objects);
 
-	if (e_cal_client_get_free_busy_sync (client, start, end, users, NULL, error)) {
+	if (e_cal_client_get_free_busy_sync (E_CAL_CLIENT (client), start, end, users, NULL, error)) {
 		gchar *ical_string;
 		GSList *iter;
 

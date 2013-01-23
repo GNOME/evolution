@@ -113,7 +113,7 @@ struct _TaskPagePrivate {
 
 	ESendOptionsDialog *sod;
 
-	GCancellable *open_cancellable;
+	GCancellable *connect_cancellable;
 };
 
 static const gint classification_map[] = {
@@ -399,10 +399,10 @@ task_page_dispose (GObject *object)
 
 	priv = TASK_PAGE_GET_PRIVATE (object);
 
-	if (priv->open_cancellable) {
-		g_cancellable_cancel (priv->open_cancellable);
-		g_object_unref (priv->open_cancellable);
-		priv->open_cancellable = NULL;
+	if (priv->connect_cancellable != NULL) {
+		g_cancellable_cancel (priv->connect_cancellable);
+		g_object_unref (priv->connect_cancellable);
+		priv->connect_cancellable = NULL;
 	}
 
 	if (priv->main != NULL) {
@@ -1049,7 +1049,6 @@ task_page_init (TaskPage *tpage)
 {
 	tpage->priv = TASK_PAGE_GET_PRIVATE (tpage);
 	tpage->priv->deleted_attendees = g_ptr_array_new ();
-	tpage->priv->open_cancellable = NULL;
 }
 
 void
@@ -1785,23 +1784,27 @@ due_date_changed_cb (TaskPage *tpage)
 }
 
 static void
-tpage_client_opened_cb (GObject *source_object,
-                        GAsyncResult *result,
-                        gpointer user_data)
+tpage_client_connect_cb (GObject *source_object,
+                         GAsyncResult *result,
+                         gpointer user_data)
 {
-	ESource *source = E_SOURCE (source_object);
-	EClient *client = NULL;
+	EClient *client;
 	TaskPage *tpage = user_data;
 	TaskPagePrivate *priv;
 	CompEditor *editor;
 	GError *error = NULL;
 
-	if (!e_client_utils_open_new_finish (source, result, &client, &error)) {
-		if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
-		    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-			g_clear_error (&error);
-			return;
-		}
+	client = e_cal_client_connect_finish (result, &error);
+
+	/* Sanity check. */
+	g_return_if_fail (
+		((client != NULL) && (error == NULL)) ||
+		((client == NULL) && (error != NULL)));
+
+	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
+	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		g_clear_error (&error);
+		return;
 	}
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (tpage));
@@ -1809,8 +1812,12 @@ tpage_client_opened_cb (GObject *source_object,
 	if (error) {
 		GtkWidget *dialog;
 		ECalClient *old_client;
+		ESource *source;
 
 		old_client = comp_editor_get_client (editor);
+
+		source = e_source_combo_box_ref_active (
+			E_SOURCE_COMBO_BOX (priv->source_combo_box));
 
 		e_source_combo_box_set_active (
 			E_SOURCE_COMBO_BOX (priv->source_combo_box),
@@ -1824,6 +1831,8 @@ tpage_client_opened_cb (GObject *source_object,
 			error->message);
 		gtk_dialog_run (GTK_DIALOG (dialog));
 		gtk_widget_destroy (dialog);
+
+		g_object_unref (source);
 
 		g_clear_error (&error);
 	} else {
@@ -1871,16 +1880,16 @@ source_changed_cb (ESourceComboBox *source_combo_box,
 	source = e_source_combo_box_ref_active (source_combo_box);
 	g_return_if_fail (source != NULL);
 
-	if (priv->open_cancellable) {
-		g_cancellable_cancel (priv->open_cancellable);
-		g_object_unref (priv->open_cancellable);
+	if (priv->connect_cancellable != NULL) {
+		g_cancellable_cancel (priv->connect_cancellable);
+		g_object_unref (priv->connect_cancellable);
 	}
-	priv->open_cancellable = g_cancellable_new ();
+	priv->connect_cancellable = g_cancellable_new ();
 
-	e_client_utils_open_new (
-		source, E_CLIENT_SOURCE_TYPE_TASKS,
-		FALSE, priv->open_cancellable,
-		tpage_client_opened_cb, tpage);
+	e_cal_client_connect (
+		source, E_CAL_CLIENT_SOURCE_TYPE_TASKS,
+		priv->connect_cancellable,
+		tpage_client_connect_cb, tpage);
 
 	g_object_unref (source);
 }

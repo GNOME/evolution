@@ -538,7 +538,7 @@ action_event_copy_cb (GtkAction *action,
 	ESource *source_source = NULL;
 	ESource *destination_source = NULL;
 	ESourceRegistry *registry;
-	ECalClient *destination_client = NULL;
+	EClient *destination_client = NULL;
 	GList *selected, *iter;
 	GError *error = NULL;
 
@@ -571,12 +571,10 @@ action_event_copy_cb (GtkAction *action,
 		return;
 
 	/* Open the destination calendar. */
-	destination_client = e_cal_client_new (
-		destination_source, E_CAL_CLIENT_SOURCE_TYPE_EVENTS, NULL);
-	if (destination_client == NULL)
-		goto exit;
-
-	e_client_open_sync (E_CLIENT (destination_client), FALSE, NULL, &error);
+	destination_client = e_cal_client_connect_sync (
+		destination_source,
+		E_CAL_CLIENT_SOURCE_TYPE_EVENTS,
+		NULL, &error);
 
 	if (error != NULL) {
 		g_warning (
@@ -594,7 +592,8 @@ action_event_copy_cb (GtkAction *action,
 		gboolean remove = FALSE;
 
 		e_cal_shell_view_transfer_item_to (
-			cal_shell_view, event, destination_client, remove);
+			cal_shell_view, event,
+			E_CAL_CLIENT (destination_client), remove);
 	}
 
 	e_cal_shell_view_set_status_message (cal_shell_view, NULL, -1.0);
@@ -832,7 +831,7 @@ action_event_move_cb (GtkAction *action,
 	ESource *source_source = NULL;
 	ESource *destination_source = NULL;
 	ESourceRegistry *registry;
-	ECalClient *destination_client = NULL;
+	EClient *destination_client = NULL;
 	GList *selected, *iter;
 	GError *error = NULL;
 
@@ -865,12 +864,10 @@ action_event_move_cb (GtkAction *action,
 		return;
 
 	/* Open the destination calendar. */
-	destination_client = e_cal_client_new (
-		destination_source, E_CAL_CLIENT_SOURCE_TYPE_EVENTS, NULL);
-	if (destination_client == NULL)
-		goto exit;
-
-	e_client_open_sync (E_CLIENT (destination_client), FALSE, NULL, &error);
+	destination_client = e_cal_client_connect_sync (
+		destination_source,
+		E_CAL_CLIENT_SOURCE_TYPE_EVENTS,
+		NULL, &error);
 
 	if (error != NULL) {
 		g_warning (
@@ -888,7 +885,8 @@ action_event_move_cb (GtkAction *action,
 		gboolean remove = TRUE;
 
 		e_cal_shell_view_transfer_item_to (
-			cal_shell_view, event, destination_client, remove);
+			cal_shell_view, event,
+			E_CAL_CLIENT (destination_client), remove);
 	}
 
 	e_cal_shell_view_set_status_message (cal_shell_view, NULL, -1.0);

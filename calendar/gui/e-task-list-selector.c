@@ -119,29 +119,30 @@ task_list_selector_update_objects (ECalClient *client,
 }
 
 static void
-client_opened_cb (GObject *source_object,
-                  GAsyncResult *result,
-                  gpointer user_data)
+client_connect_cb (GObject *source_object,
+                   GAsyncResult *result,
+                   gpointer user_data)
 {
-	ESource *source = E_SOURCE (source_object);
-	EClient *client = NULL;
+	EClient *client;
 	gchar *uid = user_data;
 	GError *error = NULL;
 
 	g_return_if_fail (uid != NULL);
 
-	e_client_utils_open_new_finish (source, result, &client, &error);
+	client = e_cal_client_connect_finish (result, &error);
+
+	/* Sanity check. */
+	g_return_if_fail (
+		((client != NULL) && (error == NULL)) ||
+		((client == NULL) && (error != NULL)));
 
 	if (error != NULL) {
-		g_warn_if_fail (client == NULL);
 		g_warning (
 			"%s: Failed to open task list: %s",
 			G_STRFUNC, error->message);
 		g_error_free (error);
 		goto exit;
 	}
-
-	g_return_if_fail (E_IS_CLIENT (client));
 
 	if (!e_client_is_readonly (client))
 		e_cal_client_remove_object_sync (
@@ -207,9 +208,9 @@ task_list_selector_process_data (ESourceSelector *selector,
 	source = e_source_registry_ref_source (registry, source_uid);
 
 	if (source != NULL) {
-		e_client_utils_open_new (
-			source, E_CLIENT_SOURCE_TYPE_MEMOS, TRUE, NULL,
-			client_opened_cb, g_strdup (old_uid));
+		e_cal_client_connect (
+			source, E_CAL_CLIENT_SOURCE_TYPE_MEMOS, NULL,
+			client_connect_cb, g_strdup (old_uid));
 		g_object_unref (source);
 	}
 
@@ -227,31 +228,32 @@ struct DropData
 };
 
 static void
-client_opened_for_drop_cb (GObject *source_object,
-                           GAsyncResult *result,
-                           gpointer user_data)
+client_connect_for_drop_cb (GObject *source_object,
+                            GAsyncResult *result,
+                            gpointer user_data)
 {
-	ESource *source = E_SOURCE (source_object);
 	struct DropData *dd = user_data;
-	EClient *client = NULL;
+	EClient *client;
 	ECalClient *cal_client;
 	GSList *iter;
 	GError *error = NULL;
 
 	g_return_if_fail (dd != NULL);
 
-	e_client_utils_open_new_finish (source, result, &client, &error);
+	client = e_cal_client_connect_finish (result, &error);
+
+	/* Sanity check. */
+	g_return_if_fail (
+		((client != NULL) && (error == NULL)) ||
+		((client == NULL) && (error != NULL)));
 
 	if (error != NULL) {
-		g_warn_if_fail (client == NULL);
 		g_warning (
 			"%s: Failed to open task list: %s",
 			G_STRFUNC, error->message);
 		g_error_free (error);
 		goto exit;
 	}
-
-	g_return_if_fail (E_IS_CLIENT (client));
 
 	cal_client = E_CAL_CLIENT (client);
 
@@ -318,9 +320,9 @@ task_list_selector_data_dropped (ESourceSelector *selector,
 	dd->action = action;
 	dd->list = cal_comp_selection_get_string_list (selection_data);
 
-	e_client_utils_open_new (
-		destination, E_CLIENT_SOURCE_TYPE_TASKS, TRUE, NULL,
-		client_opened_for_drop_cb, dd);
+	e_cal_client_connect (
+		destination, E_CAL_CLIENT_SOURCE_TYPE_TASKS, NULL,
+		client_connect_for_drop_cb, dd);
 
 	return TRUE;
 }

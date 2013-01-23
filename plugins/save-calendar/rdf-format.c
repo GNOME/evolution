@@ -71,13 +71,13 @@ enum { /* XML helper enum */
 
 static void
 display_error_message (GtkWidget *parent,
-                       GError *error)
+                       const gchar *error_message)
 {
 	GtkWidget *dialog;
 
 	dialog = gtk_message_dialog_new (
 		GTK_WINDOW (parent), 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
-		"%s", error->message);
+		"%s", error_message);
 	gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);
 }
@@ -187,7 +187,7 @@ do_save_calendar_rdf (FormatHandler *handler,
 	 */
 
 	ESource *primary_source;
-	ECalClient *source_client;
+	EClient *source_client;
 	GError *error = NULL;
 	GSList *objects = NULL;
 	gchar *temp = NULL;
@@ -198,20 +198,26 @@ do_save_calendar_rdf (FormatHandler *handler,
 
 	/* open source client */
 	primary_source = e_source_selector_ref_primary_selection (selector);
-	source_client = e_cal_client_new (primary_source, type, &error);
+	source_client = e_cal_client_connect_sync (
+		primary_source, type, NULL, &error);
 	g_object_unref (primary_source);
 
-	if (!source_client || !e_client_open_sync (E_CLIENT (source_client), TRUE, NULL, &error)) {
-		display_error_message (gtk_widget_get_toplevel (GTK_WIDGET (selector)), error);
-		if (source_client)
-			g_object_unref (source_client);
+	/* Sanity check. */
+	g_return_if_fail (
+		((source_client != NULL) && (error == NULL)) ||
+		((source_client == NULL) && (error != NULL)));
+
+	if (source_client == NULL) {
+		display_error_message (
+			gtk_widget_get_toplevel (GTK_WIDGET (selector)),
+			error->message);
 		g_error_free (error);
 		return;
 	}
 
 	stream = open_for_writing (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (selector))), dest_uri, &error);
 
-	if (stream && e_cal_client_get_object_list_as_comps_sync (source_client, "#t", &objects, NULL, NULL)) {
+	if (stream && e_cal_client_get_object_list_as_comps_sync (E_CAL_CLIENT (source_client), "#t", &objects, NULL, NULL)) {
 		GSList *iter;
 
 		xmlBufferPtr buffer = xmlBufferCreate ();
@@ -363,7 +369,9 @@ do_save_calendar_rdf (FormatHandler *handler,
 	g_object_unref (source_client);
 
 	if (error) {
-		display_error_message (gtk_widget_get_toplevel (GTK_WIDGET (selector)), error);
+		display_error_message (
+			gtk_widget_get_toplevel (GTK_WIDGET (selector)),
+			error->message);
 		g_error_free (error);
 	}
 

@@ -60,17 +60,21 @@ task_shell_backend_new_task (ESource *source,
                              EShell *shell,
                              CompEditorFlags flags)
 {
-	EClient *client = NULL;
+	EClient *client;
 	ECalClient *cal_client;
 	ECalComponent *comp;
 	CompEditor *editor;
 	GError *error = NULL;
 
-	e_client_utils_open_new_finish (source, result, &client, &error);
+	client = e_cal_client_connect_finish (result, &error);
+
+	/* Sanity check. */
+	g_return_if_fail (
+		((client != NULL) && (error == NULL)) ||
+		((client == NULL) && (error != NULL)));
 
 	/* XXX Handle errors better. */
 	if (error != NULL) {
-		g_warn_if_fail (client == NULL);
 		g_warning (
 			"%s: Failed to open '%s': %s",
 			G_STRFUNC, e_source_get_display_name (source),
@@ -78,8 +82,6 @@ task_shell_backend_new_task (ESource *source,
 		g_error_free (error);
 		return;
 	}
-
-	g_return_if_fail (E_IS_CAL_CLIENT (client));
 
 	cal_client = E_CAL_CLIENT (client);
 	editor = task_editor_new (cal_client, shell, flags);
@@ -131,7 +133,7 @@ action_task_new_cb (GtkAction *action,
 	EShell *shell;
 	ESource *source;
 	ESourceRegistry *registry;
-	EClientSourceType source_type;
+	ECalClientSourceType source_type;
 	const gchar *action_name;
 
 	/* This callback is used for both tasks and assigned tasks. */
@@ -139,20 +141,20 @@ action_task_new_cb (GtkAction *action,
 	shell = e_shell_window_get_shell (shell_window);
 
 	registry = e_shell_get_registry (shell);
-	source_type = E_CLIENT_SOURCE_TYPE_TASKS;
+	source_type = E_CAL_CLIENT_SOURCE_TYPE_TASKS;
 	source = e_source_registry_ref_default_task_list (registry);
 
 	/* Use a callback function appropriate for the action.
 	 * FIXME Need to obtain a better default time zone. */
 	action_name = gtk_action_get_name (action);
 	if (strcmp (action_name, "task-assigned-new") == 0)
-		e_client_utils_open_new (
-			source, source_type, FALSE, NULL,
+		e_cal_client_connect (
+			source, source_type, NULL,
 			task_shell_backend_task_assigned_new_cb,
 			g_object_ref (shell));
 	else
-		e_client_utils_open_new (
-			source, source_type, FALSE, NULL,
+		e_cal_client_connect (
+			source, source_type, NULL,
 			task_shell_backend_task_new_cb,
 			g_object_ref (shell));
 
@@ -223,7 +225,7 @@ task_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 	EShell *shell;
 	CompEditor *editor;
 	CompEditorFlags flags = 0;
-	ECalClient *client;
+	EClient *client;
 	ECalComponent *comp;
 	ESource *source;
 	ESourceRegistry *registry;
@@ -302,17 +304,17 @@ task_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 		goto exit;
 	}
 
-	client = e_cal_client_new (source, source_type, &error);
+	client = e_cal_client_connect_sync (source, source_type, NULL, &error);
 
-	if (client != NULL)
-		e_client_open_sync (E_CLIENT (client), TRUE, NULL, &error);
+	/* Sanity check. */
+	g_return_val_if_fail (
+		((client != NULL) && (error == NULL)) ||
+		((client == NULL) && (error != NULL)), FALSE);
 
 	if (error != NULL) {
 		g_warning (
 			"%s: Failed to create/open client: %s",
 			G_STRFUNC, error->message);
-		if (client != NULL)
-			g_object_unref (client);
 		g_object_unref (source);
 		g_error_free (error);
 		goto exit;
@@ -330,7 +332,8 @@ task_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 		goto present;
 
 	e_cal_client_get_object_sync (
-		client, comp_uid, comp_rid, &icalcomp, NULL, &error);
+		E_CAL_CLIENT (client), comp_uid,
+		comp_rid, &icalcomp, NULL, &error);
 
 	if (error != NULL) {
 		g_warning (
@@ -353,13 +356,13 @@ task_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 	if (icalprop != NULL)
 		flags |= COMP_EDITOR_IS_ASSIGNED;
 
-	if (itip_organizer_is_user (registry, comp, client))
+	if (itip_organizer_is_user (registry, comp, E_CAL_CLIENT (client)))
 		flags |= COMP_EDITOR_USER_ORG;
 
 	if (!e_cal_component_has_attendees (comp))
 		flags |= COMP_EDITOR_USER_ORG;
 
-	editor = task_editor_new (client, shell, flags);
+	editor = task_editor_new (E_CAL_CLIENT (client), shell, flags);
 	comp_editor_edit_comp (editor, comp);
 
 	g_object_unref (comp);

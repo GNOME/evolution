@@ -117,28 +117,29 @@ calendar_selector_update_objects (ECalClient *client,
 }
 
 static void
-client_opened_cb (GObject *source_object,
-                  GAsyncResult *result,
-                  gpointer user_data)
+client_connect_cb (GObject *source_object,
+                   GAsyncResult *result,
+                   gpointer user_data)
 {
-	ESource *source = E_SOURCE (source_object);
-	EClient *client = NULL;
+	EClient *client;
 	icalcomponent *icalcomp = user_data;
 	GError *error = NULL;
 
 	g_return_if_fail (icalcomp != NULL);
 
-	e_client_utils_open_new_finish (source, result, &client, &error);
+	client = e_cal_client_connect_finish (result, &error);
+
+	/* Sanity check. */
+	g_return_if_fail (
+		((client != NULL) && (error == NULL)) ||
+		((client == NULL) && (error != NULL)));
 
 	if (error != NULL) {
-		g_warn_if_fail (client == NULL);
 		g_warning (
 			"%s: Failed to open client: %s",
 			G_STRFUNC, error->message);
 		g_error_free (error);
 	}
-
-	g_return_if_fail (E_IS_CLIENT (client));
 
 	calendar_selector_update_objects (E_CAL_CLIENT (client), icalcomp);
 	g_object_unref (client);
@@ -191,9 +192,9 @@ calendar_selector_data_dropped (ESourceSelector *selector,
 		icalcomponent_set_uid (icalcomp, uid);
 	}
 
-	e_client_utils_open_new (
-		destination, E_CLIENT_SOURCE_TYPE_EVENTS, FALSE, NULL,
-		client_opened_cb, icalcomp);
+	e_cal_client_connect (
+		destination, E_CAL_CLIENT_SOURCE_TYPE_EVENTS, NULL,
+		client_connect_cb, icalcomp);
 
 	success = TRUE;
 

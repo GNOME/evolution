@@ -171,16 +171,20 @@ attachment_handler_import_event (GObject *source_object,
 {
 	ESource *source = E_SOURCE (source_object);
 	EAttachment *attachment = user_data;
-	EClient *client = NULL;
-	GError *error = NULL;
+	EClient *client;
 	icalcomponent *component;
 	icalcomponent *subcomponent;
 	icalcompiter iter;
+	GError *error = NULL;
 
-	e_client_utils_open_new_finish (source, result, &client, &error);
+	client = e_cal_client_connect_finish (result, &error);
+
+	/* Sanity check. */
+	g_return_if_fail (
+		((client != NULL) && (error == NULL)) ||
+		((client == NULL) && (error != NULL)));
 
 	if (error != NULL) {
-		g_warn_if_fail (client == NULL);
 		g_warning (
 			"%s: Failed to open '%s': %s",
 			G_STRFUNC, e_source_get_display_name (source),
@@ -189,8 +193,6 @@ attachment_handler_import_event (GObject *source_object,
 		g_error_free (error);
 		return;
 	}
-
-	g_return_if_fail (E_IS_CLIENT (client));
 
 	component = attachment_handler_get_component (attachment);
 	g_return_if_fail (component != NULL);
@@ -227,16 +229,20 @@ attachment_handler_import_todo (GObject *source_object,
 {
 	ESource *source = E_SOURCE (source_object);
 	EAttachment *attachment = user_data;
-	EClient *client = NULL;
-	GError *error = NULL;
+	EClient *client;
 	icalcomponent *component;
 	icalcomponent *subcomponent;
 	icalcompiter iter;
+	GError *error = NULL;
 
-	e_client_utils_open_new_finish (source, result, &client, &error);
+	client = e_cal_client_connect_finish (result, &error);
+
+	/* Sanity check. */
+	g_return_if_fail (
+		((client != NULL) && (error == NULL)) ||
+		((client == NULL) && (error != NULL)));
 
 	if (error != NULL) {
-		g_warn_if_fail (client == NULL);
 		g_warning (
 			"%s: Failed to open '%s': %s",
 			G_STRFUNC, e_source_get_display_name (source),
@@ -245,8 +251,6 @@ attachment_handler_import_todo (GObject *source_object,
 		g_error_free (error);
 		return;
 	}
-
-	g_return_if_fail (E_IS_CLIENT (client));
 
 	component = attachment_handler_get_component (attachment);
 	g_return_if_fail (component != NULL);
@@ -363,14 +367,14 @@ attachment_handler_run_dialog (GtkWindow *parent,
 
 	switch (source_type) {
 	case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
-		e_client_utils_open_new (
-			source, E_CLIENT_SOURCE_TYPE_EVENTS, FALSE, NULL,
+		e_cal_client_connect (
+			source, source_type, NULL,
 			attachment_handler_import_event,
 			g_object_ref (attachment));
 		break;
 	case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
-		e_client_utils_open_new (
-			source, E_CLIENT_SOURCE_TYPE_TASKS, FALSE, NULL,
+		e_cal_client_connect (
+			source, source_type, NULL,
 			attachment_handler_import_todo,
 			g_object_ref (attachment));
 		break;

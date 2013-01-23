@@ -39,6 +39,8 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_CAL_SHELL_SIDEBAR, ECalShellSidebarPrivate))
 
+typedef struct _ConnectClosure ConnectClosure;
+
 struct _ECalShellSidebarPrivate {
 	GtkWidget *paned;
 	GtkWidget *selector;
@@ -55,12 +57,21 @@ struct _ECalShellSidebarPrivate {
 	 * opened.  So the user first highlights a source, then
 	 * sometime later we update our default-client property
 	 * which is bound by an EBinding to ECalModel. */
-	ECalClient *default_client;
+	EClient *default_client;
 
-	ESource *loading_default_source_instance; /* not-reffed, only for comparison */
+	/* Not referenced, only for pointer comparison. */
+	ESource *connecting_default_source_instance;
 
-	GCancellable *loading_default_client;
+	GCancellable *connecting_default_client;
 	GCancellable *loading_clients;
+};
+
+struct _ConnectClosure {
+	ECalShellSidebar *cal_shell_sidebar;
+
+	/* For error messages. */
+	gchar *source_display_name;
+	gchar *parent_display_name;
 };
 
 enum {
@@ -84,9 +95,45 @@ G_DEFINE_DYNAMIC_TYPE (
 	e_cal_shell_sidebar,
 	E_TYPE_SHELL_SIDEBAR)
 
+static ConnectClosure *
+connect_closure_new (ECalShellSidebar *cal_shell_sidebar,
+                     ESource *source)
+{
+	ConnectClosure *closure;
+	ESourceRegistry *registry;
+	ESourceSelector *selector;
+	ESource *parent;
+	const gchar *parent_uid;
+
+	selector = e_cal_shell_sidebar_get_selector (cal_shell_sidebar);
+	registry = e_source_selector_get_registry (selector);
+	parent_uid = e_source_get_parent (source);
+	parent = e_source_registry_ref_source (registry, parent_uid);
+
+	closure = g_slice_new0 (ConnectClosure);
+	closure->cal_shell_sidebar = g_object_ref (cal_shell_sidebar);
+	closure->source_display_name = e_source_dup_display_name (source);
+	closure->parent_display_name = e_source_dup_display_name (parent);
+
+	g_object_unref (parent);
+
+	return closure;
+}
+
+static void
+connect_closure_free (ConnectClosure *closure)
+{
+	g_object_unref (closure->cal_shell_sidebar);
+
+	g_free (closure->source_display_name);
+	g_free (closure->parent_display_name);
+
+	g_slice_free (ConnectClosure, closure);
+}
+
 static void
 cal_shell_sidebar_emit_client_added (ECalShellSidebar *cal_shell_sidebar,
-                                     ECalClient *client)
+                                     EClient *client)
 {
 	guint signal_id = signals[CLIENT_ADDED];
 
@@ -188,170 +235,170 @@ cal_shell_sidebar_backend_error_cb (ECalShellSidebar *cal_shell_sidebar,
 }
 
 static void
-cal_shell_sidebar_retrieve_capabilies_cb (GObject *source_object,
-                                          GAsyncResult *result,
-                                          gpointer user_data)
+cal_shell_sidebar_handle_connect_error (ECalShellSidebar *cal_shell_sidebar,
+                                        const gchar *parent_display_name,
+                                        const gchar *source_display_name,
+                                        const GError *error)
 {
-	ECalClient *client = E_CAL_CLIENT (source_object);
-	ECalShellSidebar *cal_shell_sidebar = user_data;
-	gchar *capabilities = NULL;
-
-	g_return_if_fail (client != NULL);
-	g_return_if_fail (cal_shell_sidebar != NULL);
-
-	e_client_retrieve_capabilities_finish (
-		E_CLIENT (client), result, &capabilities, NULL);
-	g_free (capabilities);
-
-	cal_shell_sidebar_emit_status_message (
-		cal_shell_sidebar, _("Loading calendars"));
-	cal_shell_sidebar_emit_client_added (cal_shell_sidebar, client);
-	cal_shell_sidebar_emit_status_message (cal_shell_sidebar, NULL);
-}
-
-static void
-cal_shell_sidebar_client_opened_cb (GObject *source_object,
-                                    GAsyncResult *result,
-                                    gpointer user_data)
-{
-	ECalClient *client = E_CAL_CLIENT (source_object);
-	ECalShellSidebar *cal_shell_sidebar = user_data;
-	ESource *source, *parent;
 	EShellView *shell_view;
 	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
-	ESourceRegistry *registry;
-	GError *error = NULL;
-
-	source = e_client_get_source (E_CLIENT (client));
-
-	e_client_open_finish (E_CLIENT (client), result, &error);
-
-	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
-	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-		g_clear_error (&error);
-		return;
-	}
+	gboolean cancelled = FALSE;
+	gboolean offline_error;
 
 	shell_sidebar = E_SHELL_SIDEBAR (cal_shell_sidebar);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
 	shell_content = e_shell_view_get_shell_content (shell_view);
-	registry = e_shell_get_registry (e_shell_backend_get_shell (e_shell_view_get_shell_backend (shell_view)));
-	parent = e_source_registry_ref_source (registry, e_source_get_parent (source));
 
-	/* Handle errors. */
-	switch ((error && error->domain == E_CLIENT_ERROR) ? error->code : -1) {
-		case -1:
-			break;
+	cancelled |= g_error_matches (
+		error, G_IO_ERROR, G_IO_ERROR_CANCELLED);
+	cancelled |= g_error_matches (
+		error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED);
 
-		case E_CLIENT_ERROR_REPOSITORY_OFFLINE:
-			e_alert_submit (
-				E_ALERT_SINK (shell_content),
-				"calendar:prompt-no-contents-offline-calendar",
-				e_source_get_display_name (parent),
-				e_source_get_display_name (source), NULL);
-			/* fall through */
+	offline_error = g_error_matches (
+		error, E_CLIENT_ERROR, E_CLIENT_ERROR_REPOSITORY_OFFLINE);
 
-		default:
-			if (error->code != E_CLIENT_ERROR_REPOSITORY_OFFLINE) {
-				e_alert_submit (
-					E_ALERT_SINK (shell_content),
-					"calendar:failed-open-calendar",
-					e_source_get_display_name (parent),
-					e_source_get_display_name (source),
-					error->message, NULL);
-			}
-
-			e_cal_shell_sidebar_remove_source (
-				cal_shell_sidebar,
-				e_client_get_source (E_CLIENT (client)));
-			g_clear_error (&error);
-			g_object_unref (parent);
-			return;
-	}
-
-	g_clear_error (&error);
-	g_object_unref (parent);
-
-	/* to have them ready for later use */
-	e_client_retrieve_capabilities (
-		E_CLIENT (client), NULL,
-		cal_shell_sidebar_retrieve_capabilies_cb,
-		cal_shell_sidebar);
-}
-
-static void
-cal_shell_sidebar_default_loaded_cb (GObject *source_object,
-                                     GAsyncResult *result,
-                                     gpointer user_data)
-{
-	ESource *source = E_SOURCE (source_object);
-	EShellSidebar *shell_sidebar = user_data;
-	ECalShellSidebarPrivate *priv;
-	EShellContent *shell_content;
-	EShellView *shell_view;
-	ECalShellContent *cal_shell_content;
-	ECalModel *model;
-	EClient *client = NULL;
-	GError *error = NULL;
-
-	priv = E_CAL_SHELL_SIDEBAR_GET_PRIVATE (shell_sidebar);
-
-	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
-	shell_content = e_shell_view_get_shell_content (shell_view);
-	cal_shell_content = E_CAL_SHELL_CONTENT (shell_content);
-	model = e_cal_shell_content_get_model (cal_shell_content);
-
-	e_client_utils_open_new_finish (source, result, &client, &error);
-
-	if (priv->loading_default_client) {
-		g_object_unref (priv->loading_default_client);
-		priv->loading_default_client = NULL;
-	}
-
-	if (source == priv->loading_default_source_instance)
-		priv->loading_default_source_instance = NULL;
-
-	/* Ignore cancellations. */
-	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
-	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-		g_warn_if_fail (client == NULL);
-		g_error_free (error);
-		goto exit;
-
-	} else if (error != NULL) {
-		ESourceRegistry *registry;
-		ESource *parent;
-
-		registry = e_shell_get_registry (e_shell_backend_get_shell (e_shell_view_get_shell_backend (shell_view)));
-		parent = e_source_registry_ref_source (registry, e_source_get_parent (source));
-
-		g_warn_if_fail (client == NULL);
+	if (cancelled) {
+		/* do nothing */
+	} else if (offline_error) {
+		e_alert_submit (
+			E_ALERT_SINK (shell_content),
+			"calendar:prompt-no-contents-offline-calendar",
+			parent_display_name,
+			source_display_name,
+			NULL);
+	} else {
 		e_alert_submit (
 			E_ALERT_SINK (shell_content),
 			"calendar:failed-open-calendar",
-			e_source_get_display_name (parent),
-			e_source_get_display_name (source),
-			error->message, NULL);
+			parent_display_name,
+			source_display_name,
+			error->message,
+			NULL);
+	}
+}
+
+static void
+cal_shell_sidebar_client_connect_cb (GObject *source_object,
+                                     GAsyncResult *result,
+                                     gpointer user_data)
+{
+	EClient *client;
+	ConnectClosure *closure = user_data;
+	ECalShellContent *cal_shell_content;
+	EShellContent *shell_content;
+	EShellSidebar *shell_sidebar;
+	EShellView *shell_view;
+	ECalModel *model;
+	icaltimezone *timezone;
+	GError *error = NULL;
+
+	client = e_cal_client_connect_finish (result, &error);
+
+	/* Sanity check. */
+	g_return_if_fail (
+		((client != NULL) && (error == NULL)) ||
+		((client == NULL) && (error != NULL)));
+
+	if (error != NULL) {
+		cal_shell_sidebar_handle_connect_error (
+			closure->cal_shell_sidebar,
+			closure->parent_display_name,
+			closure->source_display_name,
+			error);
 		g_error_free (error);
-		g_object_unref (parent);
 		goto exit;
 	}
 
-	g_return_if_fail (E_IS_CAL_CLIENT (client));
+	/* FIXME Sidebar should not be accessing the EShellContent.
+	 *       This probably needs to be moved to ECalShellView. */
+	shell_sidebar = E_SHELL_SIDEBAR (closure->cal_shell_sidebar);
+	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+
+	cal_shell_content = E_CAL_SHELL_CONTENT (shell_content);
+	model = e_cal_shell_content_get_model (cal_shell_content);
+	timezone = e_cal_model_get_timezone (model);
+
+	e_cal_client_set_default_timezone (E_CAL_CLIENT (client), timezone);
+
+	e_cal_shell_sidebar_add_client (closure->cal_shell_sidebar, client);
+
+	g_object_unref (client);
+
+exit:
+	connect_closure_free (closure);
+}
+
+static void
+cal_shell_sidebar_default_connect_cb (GObject *source_object,
+                                      GAsyncResult *result,
+                                      gpointer user_data)
+{
+	EClient *client;
+	ESource *source;
+	ConnectClosure *closure = user_data;
+	ECalShellSidebarPrivate *priv;
+	EShellContent *shell_content;
+	EShellSidebar *shell_sidebar;
+	EShellView *shell_view;
+	ECalShellContent *cal_shell_content;
+	ECalModel *model;
+	icaltimezone *timezone;
+	GError *error = NULL;
+
+	priv = E_CAL_SHELL_SIDEBAR_GET_PRIVATE (closure->cal_shell_sidebar);
+
+	client = e_cal_client_connect_finish (result, &error);
+
+	/* Sanity check. */
+	g_return_if_fail (
+		((client != NULL) && (error == NULL)) ||
+		((client == NULL) && (error != NULL)));
+
+	if (priv->connecting_default_client != NULL) {
+		g_object_unref (priv->connecting_default_client);
+		priv->connecting_default_client = NULL;
+	}
+
+	if (error != NULL) {
+		cal_shell_sidebar_handle_connect_error (
+			closure->cal_shell_sidebar,
+			closure->parent_display_name,
+			closure->source_display_name,
+			error);
+		g_error_free (error);
+		goto exit;
+	}
+
+	source = e_client_get_source (client);
+
+	if (source == priv->connecting_default_source_instance)
+		priv->connecting_default_source_instance = NULL;
 
 	if (priv->default_client != NULL)
 		g_object_unref (priv->default_client);
 
-	priv->default_client = E_CAL_CLIENT (client);
+	priv->default_client = g_object_ref (client);
 
-	e_cal_client_set_default_timezone (
-		priv->default_client, e_cal_model_get_timezone (model));
+	/* FIXME Sidebar should not be accessing the EShellContent.
+	 *       This probably needs to be moved to ECalShellView. */
+	shell_sidebar = E_SHELL_SIDEBAR (closure->cal_shell_sidebar);
+	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+
+	cal_shell_content = E_CAL_SHELL_CONTENT (shell_content);
+	model = e_cal_shell_content_get_model (cal_shell_content);
+	timezone = e_cal_model_get_timezone (model);
+
+	e_cal_client_set_default_timezone (E_CAL_CLIENT (client), timezone);
 
 	g_object_notify (G_OBJECT (shell_sidebar), "default-client");
 
- exit:
-	g_object_unref (shell_sidebar);
+	g_object_unref (client);
+
+exit:
+	connect_closure_free (closure);
 }
 
 static void
@@ -366,7 +413,7 @@ cal_shell_sidebar_set_default (ECalShellSidebar *cal_shell_sidebar,
 	priv = cal_shell_sidebar->priv;
 
 	/* already loading that source as default source */
-	if (source == priv->loading_default_source_instance)
+	if (source == priv->connecting_default_source_instance)
 		return;
 
 	/* FIXME Sidebar should not be accessing the EShellContent.
@@ -374,10 +421,10 @@ cal_shell_sidebar_set_default (ECalShellSidebar *cal_shell_sidebar,
 	shell_sidebar = E_SHELL_SIDEBAR (cal_shell_sidebar);
 
 	/* Cancel any unfinished previous request. */
-	if (priv->loading_default_client != NULL) {
-		g_cancellable_cancel (priv->loading_default_client);
-		g_object_unref (priv->loading_default_client);
-		priv->loading_default_client = NULL;
+	if (priv->connecting_default_client != NULL) {
+		g_cancellable_cancel (priv->connecting_default_client);
+		g_object_unref (priv->connecting_default_client);
+		priv->connecting_default_client = NULL;
 	}
 
 	uid = e_source_get_uid (source);
@@ -394,14 +441,14 @@ cal_shell_sidebar_set_default (ECalShellSidebar *cal_shell_sidebar,
 	}
 
 	/* it's only for pointer comparison, no need to ref it */
-	priv->loading_default_source_instance = source;
-	priv->loading_default_client = g_cancellable_new ();
+	priv->connecting_default_source_instance = source;
+	priv->connecting_default_client = g_cancellable_new ();
 
-	e_client_utils_open_new (
-		source, E_CLIENT_SOURCE_TYPE_EVENTS,
-		FALSE, priv->loading_default_client,
-		cal_shell_sidebar_default_loaded_cb,
-		g_object_ref (shell_sidebar));
+	e_cal_client_connect (
+		source, E_CAL_CLIENT_SOURCE_TYPE_EVENTS,
+		priv->connecting_default_client,
+		cal_shell_sidebar_default_connect_cb,
+		connect_closure_new (cal_shell_sidebar, source));
 }
 
 static void
@@ -569,10 +616,10 @@ cal_shell_sidebar_dispose (GObject *object)
 		priv->default_client = NULL;
 	}
 
-	if (priv->loading_default_client != NULL) {
-		g_cancellable_cancel (priv->loading_default_client);
-		g_object_unref (priv->loading_default_client);
-		priv->loading_default_client = NULL;
+	if (priv->connecting_default_client != NULL) {
+		g_cancellable_cancel (priv->connecting_default_client);
+		g_object_unref (priv->connecting_default_client);
+		priv->connecting_default_client = NULL;
 	}
 
 	if (priv->loading_clients != NULL) {
@@ -946,7 +993,7 @@ e_cal_shell_sidebar_get_default_client (ECalShellSidebar *cal_shell_sidebar)
 	g_return_val_if_fail (
 		E_IS_CAL_SHELL_SIDEBAR (cal_shell_sidebar), NULL);
 
-	return cal_shell_sidebar->priv->default_client;
+	return (ECalClient *) cal_shell_sidebar->priv->default_client;
 }
 
 GtkWidget *
@@ -968,20 +1015,56 @@ e_cal_shell_sidebar_get_selector (ECalShellSidebar *cal_shell_sidebar)
 }
 
 void
+e_cal_shell_sidebar_add_client (ECalShellSidebar *cal_shell_sidebar,
+                                EClient *client)
+{
+	ESource *source;
+	ESourceSelector *selector;
+	GHashTable *client_table;
+	const gchar *message;
+	const gchar *uid;
+
+	g_return_if_fail (E_IS_CAL_SHELL_SIDEBAR (cal_shell_sidebar));
+	g_return_if_fail (E_IS_CAL_CLIENT (client));
+
+	client_table = cal_shell_sidebar->priv->client_table;
+
+	source = e_client_get_source (client);
+	uid = e_source_get_uid (source);
+
+	if (g_hash_table_contains (client_table, uid))
+		return;
+
+	g_hash_table_insert (
+		client_table, g_strdup (uid), g_object_ref (client));
+
+	g_signal_connect_swapped (
+		client, "backend-died",
+		G_CALLBACK (cal_shell_sidebar_backend_died_cb),
+		cal_shell_sidebar);
+
+	g_signal_connect_swapped (
+		client, "backend-error",
+		G_CALLBACK (cal_shell_sidebar_backend_error_cb),
+		cal_shell_sidebar);
+
+	selector = e_cal_shell_sidebar_get_selector (cal_shell_sidebar);
+	e_source_selector_select_source (selector, source);
+
+	message = _("Loading calendars");
+	cal_shell_sidebar_emit_status_message (cal_shell_sidebar, message);
+	cal_shell_sidebar_emit_client_added (cal_shell_sidebar, client);
+	cal_shell_sidebar_emit_status_message (cal_shell_sidebar, NULL);
+}
+
+void
 e_cal_shell_sidebar_add_source (ECalShellSidebar *cal_shell_sidebar,
                                 ESource *source)
 {
-	EShellView *shell_view;
-	EShellContent *shell_content;
-	EShellSidebar *shell_sidebar;
-	ECalShellContent *cal_shell_content;
 	ECalClientSourceType source_type;
 	ESourceSelector *selector;
 	GHashTable *client_table;
-	ECalModel *model;
-	ECalClient *default_client;
-	ECalClient *client;
-	icaltimezone *timezone;
+	EClient *default_client;
 	const gchar *display_name;
 	const gchar *uid;
 	gchar *message;
@@ -995,38 +1078,22 @@ e_cal_shell_sidebar_add_source (ECalShellSidebar *cal_shell_sidebar,
 	selector = e_cal_shell_sidebar_get_selector (cal_shell_sidebar);
 
 	uid = e_source_get_uid (source);
-	client = g_hash_table_lookup (client_table, uid);
 
-	if (client != NULL)
+	if (g_hash_table_contains (client_table, uid))
 		return;
 
 	if (default_client != NULL) {
 		ESource *default_source;
-		const gchar *default_uid;
 
-		default_source = e_client_get_source (E_CLIENT (default_client));
-		default_uid = e_source_get_uid (default_source);
+		default_source = e_client_get_source (default_client);
 
-		if (g_strcmp0 (uid, default_uid) == 0)
-			client = g_object_ref (default_client);
+		if (e_source_equal (source, default_source)) {
+			e_cal_shell_sidebar_add_client (
+				cal_shell_sidebar, default_client);
+			return;
+		}
 	}
 
-	if (client == NULL)
-		client = e_cal_client_new (source, source_type, NULL);
-
-	g_return_if_fail (client != NULL);
-
-	g_signal_connect_swapped (
-		client, "backend-died",
-		G_CALLBACK (cal_shell_sidebar_backend_died_cb),
-		cal_shell_sidebar);
-
-	g_signal_connect_swapped (
-		client, "backend-error",
-		G_CALLBACK (cal_shell_sidebar_backend_error_cb),
-		cal_shell_sidebar);
-
-	g_hash_table_insert (client_table, g_strdup (uid), client);
 	e_source_selector_select_source (selector, source);
 
 	display_name = e_source_get_display_name (source);
@@ -1034,22 +1101,11 @@ e_cal_shell_sidebar_add_source (ECalShellSidebar *cal_shell_sidebar,
 	cal_shell_sidebar_emit_status_message (cal_shell_sidebar, message);
 	g_free (message);
 
-	/* FIXME Sidebar should not be accessing the EShellContent.
-	 *       This probably needs to be moved to ECalShellView. */
-	shell_sidebar = E_SHELL_SIDEBAR (cal_shell_sidebar);
-	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
-	shell_content = e_shell_view_get_shell_content (shell_view);
-
-	cal_shell_content = E_CAL_SHELL_CONTENT (shell_content);
-	model = e_cal_shell_content_get_model (cal_shell_content);
-	timezone = e_cal_model_get_timezone (model);
-
-	e_cal_client_set_default_timezone (client, timezone);
-
-	e_client_open (
-		E_CLIENT (client), FALSE,
+	e_cal_client_connect (
+		source, source_type,
 		cal_shell_sidebar->priv->loading_clients,
-		cal_shell_sidebar_client_opened_cb, cal_shell_sidebar);
+		cal_shell_sidebar_client_connect_cb,
+		connect_closure_new (cal_shell_sidebar, source));
 }
 
 void

@@ -94,6 +94,9 @@ ECalClient *	e_memo_shell_sidebar_get_default_client
 ESourceSelector *
 		e_memo_shell_sidebar_get_selector
 					(EMemoShellSidebar *memo_shell_sidebar);
+void		e_memo_shell_sidebar_add_client
+					(EMemoShellSidebar *memo_shell_sidebar,
+					 EClient *client);
 void		e_memo_shell_sidebar_add_source
 					(EMemoShellSidebar *memo_shell_sidebar,
 					 ESource *source);

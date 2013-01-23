@@ -824,7 +824,8 @@ do_manage_comp_idle (struct _manage_comp *mc)
 }
 
 typedef struct {
-	ECalClient *client;
+	ESource *source;
+	ECalClientSourceType source_type;
 	CamelFolder *folder;
 	GPtrArray *uids;
 	gchar *selected_text;
@@ -834,21 +835,26 @@ typedef struct {
 static gboolean
 do_mail_to_event (AsyncData *data)
 {
-	ECalClient *client = data->client;
+	EClient *client;
 	CamelFolder *folder = data->folder;
 	GPtrArray *uids = data->uids;
-	GError *err = NULL;
+	GError *error = NULL;
 
-	/* open the task client */
-	e_client_open_sync (E_CLIENT (client), FALSE, NULL, &err);
+	client = e_cal_client_connect_sync (
+		data->source, data->source_type, NULL, &error);
 
-	if (err != NULL) {
-		report_error_idle (_("Cannot open calendar. %s"), err->message);
+	/* Sanity check. */
+	g_return_val_if_fail (
+		((client != NULL) && (error == NULL)) ||
+		((client == NULL) && (error != NULL)), TRUE);
+
+	if (error != NULL) {
+		report_error_idle (_("Cannot open calendar. %s"), error->message);
 	} else if (e_client_is_readonly (E_CLIENT (client))) {
-		if (err)
-			report_error_idle ("Check readonly failed. %s", err->message);
+		if (error != NULL)
+			report_error_idle ("Check readonly failed. %s", error->message);
 		else {
-			switch (e_cal_client_get_source_type (client)) {
+			switch (data->source_type) {
 			case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
 				report_error_idle (_("Selected calendar is read only, thus cannot create event there. Select other calendar, please."), NULL);
 				break;
@@ -865,7 +871,6 @@ do_mail_to_event (AsyncData *data)
 		}
 	} else {
 		gint i;
-		ECalClientSourceType source_type = e_cal_client_get_source_type (client);
 		ECalComponentDateTime dt, dt2;
 		struct icaltimetype tt, tt2;
 		struct _manage_comp *oldmc = NULL;
@@ -913,7 +918,7 @@ do_mail_to_event (AsyncData *data)
 
 			comp = e_cal_component_new ();
 
-			switch (source_type) {
+			switch (data->source_type) {
 			case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
 				e_cal_component_set_new_vtype (comp, E_CAL_COMPONENT_EVENT);
 				break;
@@ -931,7 +936,7 @@ do_mail_to_event (AsyncData *data)
 			e_cal_component_set_uid (comp, camel_mime_message_get_message_id (message));
 			e_cal_component_set_dtstart (comp, &dt);
 
-			if (source_type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS) {
+			if (data->source_type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS) {
 				/* make it an all-day event */
 				e_cal_component_set_dtend (comp, &dt2);
 			}
@@ -964,7 +969,7 @@ do_mail_to_event (AsyncData *data)
 			}
 
 			/* set attachment files */
-			set_attachments (client, comp, message);
+			set_attachments (E_CAL_CLIENT (client), comp, message);
 
 			/* priority */
 			set_priority (comp, CAMEL_MIME_PART (message));
@@ -1003,7 +1008,7 @@ do_mail_to_event (AsyncData *data)
 					break;
 			}
 
-			if (!e_cal_client_get_object_sync (client, icalcomponent_get_uid (icalcomp), NULL, &(mc->stored_comp), NULL, NULL))
+			if (!e_cal_client_get_object_sync (E_CAL_CLIENT (client), icalcomponent_get_uid (icalcomp), NULL, &(mc->stored_comp), NULL, NULL))
 				mc->stored_comp = NULL;
 
 			g_idle_add ((GSourceFunc) do_manage_comp_idle, mc);
@@ -1025,15 +1030,18 @@ do_mail_to_event (AsyncData *data)
 	}
 
 	/* free memory */
-	g_object_unref (data->client);
+	if (client != NULL)
+		g_object_unref (client);
 	em_utils_uids_free (uids);
 	g_object_unref (folder);
+
+	g_object_unref (data->source);
 	g_free (data->selected_text);
 	g_free (data);
 	data = NULL;
 
-	if (err)
-		g_error_free (err);
+	if (error != NULL)
+		g_error_free (error);
 
 	return TRUE;
 }
@@ -1196,23 +1204,14 @@ mail_to_event (ECalClientSourceType source_type,
 
 	if (source) {
 		/* if a source has been selected, perform the mail2event operation */
-		ECalClient *client = NULL;
 		AsyncData *data = NULL;
 		GThread *thread = NULL;
 		GError *error = NULL;
 
-		client = e_cal_client_new (source, source_type, &error);
-		if (!client) {
-			e_notice (
-				parent, GTK_MESSAGE_ERROR,
-				"Could not connect to '%s'",
-				e_source_get_display_name (source));
-			goto exit;
-		}
-
 		/* Fill the elements in AsynData */
 		data = g_new0 (AsyncData, 1);
-		data->client = client;
+		data->source = g_object_ref (source);
+		data->source_type = source_type;
 		data->folder = folder;
 		data->uids = uids;
 		data->with_attendees = with_attendees;

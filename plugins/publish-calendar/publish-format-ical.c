@@ -77,7 +77,7 @@ write_calendar (const gchar *uid,
 	EShell *shell;
 	ESource *source;
 	ESourceRegistry *registry;
-	ECalClient *client = NULL;
+	EClient *client = NULL;
 	GSList *objects;
 	icalcomponent *top_level;
 	gboolean res = FALSE;
@@ -87,29 +87,29 @@ write_calendar (const gchar *uid,
 	source = e_source_registry_ref_source (registry, uid);
 
 	if (source != NULL) {
-		client = e_cal_client_new (source, E_CAL_CLIENT_SOURCE_TYPE_EVENTS, error);
+		client = e_cal_client_connect_sync (
+			source, E_CAL_CLIENT_SOURCE_TYPE_EVENTS,
+			NULL, error);
 		g_object_unref (source);
-	}
-	if (!client) {
-		if (error && !error)
-			*error = g_error_new (E_CAL_CLIENT_ERROR, E_CAL_CLIENT_ERROR_NO_SUCH_CALENDAR, _("Could not publish calendar: Calendar backend no longer exists"));
-		return FALSE;
+	} else {
+		g_set_error (
+			error, E_CAL_CLIENT_ERROR,
+			E_CAL_CLIENT_ERROR_NO_SUCH_CALENDAR,
+			_("Invalid source UID '%s'"), uid);
 	}
 
-	if (!e_client_open_sync (E_CLIENT (client), TRUE, NULL, error)) {
-		g_object_unref (client);
+	if (client == NULL)
 		return FALSE;
-	}
 
 	top_level = e_cal_util_new_top_level ();
 
-	if (e_cal_client_get_object_list_sync (client, "#t", &objects, NULL, error)) {
+	if (e_cal_client_get_object_list_sync (E_CAL_CLIENT (client), "#t", &objects, NULL, error)) {
 		GSList *iter;
 		gchar *ical_string;
 		CompTzData tdata;
 
 		tdata.zones = g_hash_table_new (g_str_hash, g_str_equal);
-		tdata.client = client;
+		tdata.client = E_CAL_CLIENT (client);
 
 		for (iter = objects; iter; iter = iter->next) {
 			icalcomponent *icalcomp = icalcomponent_new_clone (iter->data);

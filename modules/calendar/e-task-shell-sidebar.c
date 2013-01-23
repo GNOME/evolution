@@ -40,6 +40,8 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_TASK_SHELL_SIDEBAR, ETaskShellSidebarPrivate))
 
+typedef struct _ConnectClosure ConnectClosure;
+
 struct _ETaskShellSidebarPrivate {
 	GtkWidget *selector;
 
@@ -53,12 +55,21 @@ struct _ETaskShellSidebarPrivate {
 	 * opened.  So the user first highlights a source, then
 	 * sometime later we update our default-client property
 	 * which is bound by an EBinding to ECalModel. */
-	ECalClient *default_client;
+	EClient *default_client;
 
-	ESource *loading_default_source_instance; /* not-reffed, only for comparison */
+	/* Not referenced, only for pointer comparison. */
+	ESource *connecting_default_source_instance;
 
-	GCancellable *loading_default_client;
+	GCancellable *connecting_default_client;
 	GCancellable *loading_clients;
+};
+
+struct _ConnectClosure {
+	ETaskShellSidebar *task_shell_sidebar;
+
+	/* For error messages. */
+	gchar *source_display_name;
+	gchar *parent_display_name;
 };
 
 enum {
@@ -81,9 +92,45 @@ G_DEFINE_DYNAMIC_TYPE (
 	e_task_shell_sidebar,
 	E_TYPE_SHELL_SIDEBAR)
 
+static ConnectClosure *
+connect_closure_new (ETaskShellSidebar *task_shell_sidebar,
+                     ESource *source)
+{
+	ConnectClosure *closure;
+	ESourceRegistry *registry;
+	ESourceSelector *selector;
+	ESource *parent;
+	const gchar *parent_uid;
+
+	selector = e_task_shell_sidebar_get_selector (task_shell_sidebar);
+	registry = e_source_selector_get_registry (selector);
+	parent_uid = e_source_get_parent (source);
+	parent = e_source_registry_ref_source (registry, parent_uid);
+
+	closure = g_slice_new0 (ConnectClosure);
+	closure->task_shell_sidebar = g_object_ref (task_shell_sidebar);
+	closure->source_display_name = e_source_dup_display_name (source);
+	closure->parent_display_name = e_source_dup_display_name (parent);
+
+	g_object_unref (parent);
+
+	return closure;
+}
+
+static void
+connect_closure_free (ConnectClosure *closure)
+{
+	g_object_unref (closure->task_shell_sidebar);
+
+	g_free (closure->source_display_name);
+	g_free (closure->parent_display_name);
+
+	g_slice_free (ConnectClosure, closure);
+}
+
 static void
 task_shell_sidebar_emit_client_added (ETaskShellSidebar *task_shell_sidebar,
-                                      ECalClient *client)
+                                      EClient *client)
 {
 	guint signal_id = signals[CLIENT_ADDED];
 
@@ -185,170 +232,170 @@ task_shell_sidebar_backend_error_cb (ETaskShellSidebar *task_shell_sidebar,
 }
 
 static void
-task_shell_sidebar_retrieve_capabilies_cb (GObject *source_object,
-                                           GAsyncResult *result,
-                                           gpointer user_data)
+task_shell_sidebar_handle_connect_error (ETaskShellSidebar *task_shell_sidebar,
+                                         const gchar *parent_display_name,
+                                         const gchar *source_display_name,
+                                         const GError *error)
 {
-	ECalClient *client = E_CAL_CLIENT (source_object);
-	ETaskShellSidebar *task_shell_sidebar = user_data;
-	gchar *capabilities = NULL;
-
-	g_return_if_fail (client != NULL);
-	g_return_if_fail (task_shell_sidebar != NULL);
-
-	e_client_retrieve_capabilities_finish (
-		E_CLIENT (client), result, &capabilities, NULL);
-	g_free (capabilities);
-
-	task_shell_sidebar_emit_status_message (
-		task_shell_sidebar, _("Loading tasks"));
-	task_shell_sidebar_emit_client_added (task_shell_sidebar, client);
-	task_shell_sidebar_emit_status_message (task_shell_sidebar, NULL);
-}
-
-static void
-task_shell_sidebar_client_opened_cb (GObject *source_object,
-                                     GAsyncResult *result,
-                                     gpointer user_data)
-{
-	ECalClient *client = E_CAL_CLIENT (source_object);
-	ETaskShellSidebar *task_shell_sidebar = user_data;
-	ESource *source, *parent;
 	EShellView *shell_view;
 	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
-	ESourceRegistry *registry;
-	GError *error = NULL;
-
-	source = e_client_get_source (E_CLIENT (client));
-
-	e_client_open_finish (E_CLIENT (client), result, &error);
-
-	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
-	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-		g_clear_error (&error);
-		return;
-	}
+	gboolean cancelled = FALSE;
+	gboolean offline_error;
 
 	shell_sidebar = E_SHELL_SIDEBAR (task_shell_sidebar);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
 	shell_content = e_shell_view_get_shell_content (shell_view);
-	registry = e_shell_get_registry (e_shell_backend_get_shell (e_shell_view_get_shell_backend (shell_view)));
-	parent = e_source_registry_ref_source (registry, e_source_get_parent (source));
 
-	/* Handle errors. */
-	switch ((error && error->domain == E_CLIENT_ERROR) ? error->code : -1) {
-		case -1:
-			break;
+	cancelled |= g_error_matches (
+		error, G_IO_ERROR, G_IO_ERROR_CANCELLED);
+	cancelled |= g_error_matches (
+		error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED);
 
-		case E_CLIENT_ERROR_REPOSITORY_OFFLINE:
-			e_alert_submit (
-				E_ALERT_SINK (shell_content),
-				"calendar:prompt-no-contents-offline-tasks",
-				e_source_get_display_name (parent),
-				e_source_get_display_name (source), NULL);
-			/* fall through */
+	offline_error = g_error_matches (
+		error, E_CLIENT_ERROR, E_CLIENT_ERROR_REPOSITORY_OFFLINE);
 
-		default:
-			if (error->code != E_CLIENT_ERROR_REPOSITORY_OFFLINE) {
-				e_alert_submit (
-					E_ALERT_SINK (shell_content),
-					"calendar:failed-open-tasks",
-					e_source_get_display_name (parent),
-					e_source_get_display_name (source),
-					error->message, NULL);
-			}
-
-			e_task_shell_sidebar_remove_source (
-				task_shell_sidebar,
-				e_client_get_source (E_CLIENT (client)));
-			g_clear_error (&error);
-			g_object_unref (parent);
-			return;
+	if (cancelled) {
+		/* do nothing */
+	} else if (offline_error) {
+		e_alert_submit (
+			E_ALERT_SINK (shell_content),
+			"calendar:prompt-no-contents-offline-calendar",
+			parent_display_name,
+			source_display_name,
+			NULL);
+	} else {
+		e_alert_submit (
+			E_ALERT_SINK (shell_content),
+			"calendar:failed-open-calendar",
+			parent_display_name,
+			source_display_name,
+			error->message,
+			NULL);
 	}
-
-	g_clear_error (&error);
-	g_object_unref (parent);
-
-	/* to have them ready for later use */
-	e_client_retrieve_capabilities (
-		E_CLIENT (client), NULL,
-		task_shell_sidebar_retrieve_capabilies_cb,
-		task_shell_sidebar);
 }
 
 static void
-task_shell_sidebar_default_loaded_cb (GObject *source_object,
+task_shell_sidebar_client_connect_cb (GObject *source_object,
                                       GAsyncResult *result,
                                       gpointer user_data)
 {
-	ESource *source = E_SOURCE (source_object);
-	EShellSidebar *shell_sidebar = user_data;
+	EClient *client;
+	ConnectClosure *closure = user_data;
+	ETaskShellContent *task_shell_content;
+	EShellContent *shell_content;
+	EShellSidebar *shell_sidebar;
+	EShellView *shell_view;
+	ECalModel *model;
+	icaltimezone *timezone;
+	GError *error = NULL;
+
+	client = e_cal_client_connect_finish (result, &error);
+
+	/* Sanity check. */
+	g_return_if_fail (
+		((client != NULL) && (error == NULL)) ||
+		((client == NULL) && (error != NULL)));
+
+	if (error != NULL) {
+		task_shell_sidebar_handle_connect_error (
+			closure->task_shell_sidebar,
+			closure->parent_display_name,
+			closure->source_display_name,
+			error);
+		g_error_free (error);
+		goto exit;
+	}
+
+	/* FIXME Sidebar should not be accessing the EShellContent.
+	 *       This probably needs to be moved to ETaskShellView. */
+	shell_sidebar = E_SHELL_SIDEBAR (closure->task_shell_sidebar);
+	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+
+	task_shell_content = E_TASK_SHELL_CONTENT (shell_content);
+	model = e_task_shell_content_get_task_model (task_shell_content);
+	timezone = e_cal_model_get_timezone (model);
+
+	e_cal_client_set_default_timezone (E_CAL_CLIENT (client), timezone);
+
+	e_task_shell_sidebar_add_client (closure->task_shell_sidebar, client);
+
+	g_object_unref (client);
+
+exit:
+	connect_closure_free (closure);
+}
+
+static void
+task_shell_sidebar_default_connect_cb (GObject *source_object,
+                                       GAsyncResult *result,
+                                       gpointer user_data)
+{
+	EClient *client;
+	ESource *source;
+	ConnectClosure *closure = user_data;
 	ETaskShellSidebarPrivate *priv;
 	EShellContent *shell_content;
+	EShellSidebar *shell_sidebar;
 	EShellView *shell_view;
 	ETaskShellContent *task_shell_content;
 	ECalModel *model;
-	EClient *client = NULL;
+	icaltimezone *timezone;
 	GError *error = NULL;
 
-	priv = E_TASK_SHELL_SIDEBAR_GET_PRIVATE (shell_sidebar);
+	priv = E_TASK_SHELL_SIDEBAR_GET_PRIVATE (closure->task_shell_sidebar);
 
-	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
-	shell_content = e_shell_view_get_shell_content (shell_view);
-	task_shell_content = E_TASK_SHELL_CONTENT (shell_content);
-	model = e_task_shell_content_get_task_model (task_shell_content);
+	client = e_cal_client_connect_finish (result, &error);
 
-	e_client_utils_open_new_finish (source, result, &client, &error);
+	/* Sanity check. */
+	g_return_if_fail (
+		((client != NULL) && (error == NULL)) ||
+		((client == NULL) && (error != NULL)));
 
-	if (priv->loading_default_client) {
-		g_object_unref (priv->loading_default_client);
-		priv->loading_default_client = NULL;
+	if (priv->connecting_default_client) {
+		g_object_unref (priv->connecting_default_client);
+		priv->connecting_default_client = NULL;
 	}
 
-	if (source == priv->loading_default_source_instance)
-		priv->loading_default_source_instance = NULL;
-
-	/* Ignore cancellations. */
-	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
-	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-		g_warn_if_fail (client == NULL);
+	if (error != NULL) {
+		task_shell_sidebar_handle_connect_error (
+			closure->task_shell_sidebar,
+			closure->parent_display_name,
+			closure->source_display_name,
+			error);
 		g_error_free (error);
-		goto exit;
-
-	} else if (error != NULL) {
-		ESourceRegistry *registry;
-		ESource *parent;
-
-		registry = e_shell_get_registry (e_shell_backend_get_shell (e_shell_view_get_shell_backend (shell_view)));
-		parent = e_source_registry_ref_source (registry, e_source_get_parent (source));
-
-		g_warn_if_fail (client == NULL);
-		e_alert_submit (
-			E_ALERT_SINK (shell_content),
-			"calendar:failed-open-tasks",
-			e_source_get_display_name (parent),
-			e_source_get_display_name (source),
-			error->message, NULL);
-		g_error_free (error);
-		g_object_unref (parent);
 		goto exit;
 	}
 
-	g_return_if_fail (E_IS_CAL_CLIENT (client));
+	source = e_client_get_source (client);
+
+	if (source == priv->connecting_default_source_instance)
+		priv->connecting_default_source_instance = NULL;
 
 	if (priv->default_client != NULL)
 		g_object_unref (priv->default_client);
 
-	priv->default_client = E_CAL_CLIENT (client);
+	priv->default_client = g_object_ref (client);
 
-	e_cal_client_set_default_timezone (
-		priv->default_client, e_cal_model_get_timezone (model));
+	/* FIXME Sidebar should not be accessing the EShellContent.
+	 *       This probably needs to be moved to ETaskShellView. */
+	shell_sidebar = E_SHELL_SIDEBAR (closure->task_shell_sidebar);
+	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+
+	task_shell_content = E_TASK_SHELL_CONTENT (shell_content);
+	model = e_task_shell_content_get_task_model (task_shell_content);
+	timezone = e_cal_model_get_timezone (model);
+
+	e_cal_client_set_default_timezone (E_CAL_CLIENT (client), timezone);
 
 	g_object_notify (G_OBJECT (shell_sidebar), "default-client");
 
- exit:
-	g_object_unref (shell_sidebar);
+	g_object_unref (client);
+
+exit:
+	connect_closure_free (closure);
 }
 
 static void
@@ -363,7 +410,7 @@ task_shell_sidebar_set_default (ETaskShellSidebar *task_shell_sidebar,
 	priv = task_shell_sidebar->priv;
 
 	/* already loading that source as default source */
-	if (source == priv->loading_default_source_instance)
+	if (source == priv->connecting_default_source_instance)
 		return;
 
 	/* FIXME Sidebar should not be accessing the EShellContent.
@@ -371,10 +418,10 @@ task_shell_sidebar_set_default (ETaskShellSidebar *task_shell_sidebar,
 	shell_sidebar = E_SHELL_SIDEBAR (task_shell_sidebar);
 
 	/* Cancel any unfinished previous request. */
-	if (priv->loading_default_client != NULL) {
-		g_cancellable_cancel (priv->loading_default_client);
-		g_object_unref (priv->loading_default_client);
-		priv->loading_default_client = NULL;
+	if (priv->connecting_default_client != NULL) {
+		g_cancellable_cancel (priv->connecting_default_client);
+		g_object_unref (priv->connecting_default_client);
+		priv->connecting_default_client = NULL;
 	}
 
 	uid = e_source_get_uid (source);
@@ -391,14 +438,14 @@ task_shell_sidebar_set_default (ETaskShellSidebar *task_shell_sidebar,
 	}
 
 	/* it's only for pointer comparison, no need to ref it */
-	priv->loading_default_source_instance = source;
-	priv->loading_default_client = g_cancellable_new ();
+	priv->connecting_default_source_instance = source;
+	priv->connecting_default_client = g_cancellable_new ();
 
-	e_client_utils_open_new (
-		source, E_CLIENT_SOURCE_TYPE_TASKS,
-		FALSE, priv->loading_default_client,
-		task_shell_sidebar_default_loaded_cb,
-		g_object_ref (shell_sidebar));
+	e_cal_client_connect (
+		source, E_CAL_CLIENT_SOURCE_TYPE_TASKS,
+		priv->connecting_default_client,
+		task_shell_sidebar_default_connect_cb,
+		connect_closure_new (task_shell_sidebar, source));
 }
 
 static void
@@ -533,10 +580,10 @@ task_shell_sidebar_dispose (GObject *object)
 		priv->default_client = NULL;
 	}
 
-	if (priv->loading_default_client != NULL) {
-		g_cancellable_cancel (priv->loading_default_client);
-		g_object_unref (priv->loading_default_client);
-		priv->loading_default_client = NULL;
+	if (priv->connecting_default_client != NULL) {
+		g_cancellable_cancel (priv->connecting_default_client);
+		g_object_unref (priv->connecting_default_client);
+		priv->connecting_default_client = NULL;
 	}
 
 	if (priv->loading_clients != NULL) {
@@ -842,7 +889,7 @@ e_task_shell_sidebar_get_default_client (ETaskShellSidebar *task_shell_sidebar)
 	g_return_val_if_fail (
 		E_IS_TASK_SHELL_SIDEBAR (task_shell_sidebar), NULL);
 
-	return task_shell_sidebar->priv->default_client;
+	return (ECalClient *) task_shell_sidebar->priv->default_client;
 }
 
 ESourceSelector *
@@ -855,20 +902,56 @@ e_task_shell_sidebar_get_selector (ETaskShellSidebar *task_shell_sidebar)
 }
 
 void
+e_task_shell_sidebar_add_client (ETaskShellSidebar *task_shell_sidebar,
+                                 EClient *client)
+{
+	ESource *source;
+	ESourceSelector *selector;
+	GHashTable *client_table;
+	const gchar *message;
+	const gchar *uid;
+
+	g_return_if_fail (E_IS_TASK_SHELL_SIDEBAR (task_shell_sidebar));
+	g_return_if_fail (E_IS_CAL_CLIENT (client));
+
+	client_table = task_shell_sidebar->priv->client_table;
+
+	source = e_client_get_source (client);
+	uid = e_source_get_uid (source);
+
+	if (g_hash_table_contains (client_table, uid))
+		return;
+
+	g_hash_table_insert (
+		client_table, g_strdup (uid), g_object_ref (client));
+
+	g_signal_connect_swapped (
+		client, "backend-died",
+		G_CALLBACK (task_shell_sidebar_backend_died_cb),
+		task_shell_sidebar);
+
+	g_signal_connect_swapped (
+		client, "backend-error",
+		G_CALLBACK (task_shell_sidebar_backend_error_cb),
+		task_shell_sidebar);
+
+	selector = e_task_shell_sidebar_get_selector (task_shell_sidebar);
+	e_source_selector_select_source (selector, source);
+
+	message = _("Loading task list");
+	task_shell_sidebar_emit_status_message (task_shell_sidebar, message);
+	task_shell_sidebar_emit_client_added (task_shell_sidebar, client);
+	task_shell_sidebar_emit_status_message (task_shell_sidebar, NULL);
+}
+
+void
 e_task_shell_sidebar_add_source (ETaskShellSidebar *task_shell_sidebar,
                                  ESource *source)
 {
-	EShellView *shell_view;
-	EShellContent *shell_content;
-	EShellSidebar *shell_sidebar;
-	ETaskShellContent *task_shell_content;
 	ECalClientSourceType source_type;
 	ESourceSelector *selector;
 	GHashTable *client_table;
-	ECalModel *model;
-	ECalClient *default_client;
-	ECalClient *client;
-	icaltimezone *timezone;
+	EClient *default_client;
 	const gchar *display_name;
 	const gchar *uid;
 	gchar *message;
@@ -882,38 +965,22 @@ e_task_shell_sidebar_add_source (ETaskShellSidebar *task_shell_sidebar,
 	selector = e_task_shell_sidebar_get_selector (task_shell_sidebar);
 
 	uid = e_source_get_uid (source);
-	client = g_hash_table_lookup (client_table, uid);
 
-	if (client != NULL)
+	if (g_hash_table_contains (client_table, uid))
 		return;
 
 	if (default_client != NULL) {
 		ESource *default_source;
-		const gchar *default_uid;
 
-		default_source = e_client_get_source (E_CLIENT (default_client));
-		default_uid = e_source_get_uid (default_source);
+		default_source = e_client_get_source (default_client);
 
-		if (g_strcmp0 (uid, default_uid) == 0)
-			client = g_object_ref (default_client);
+		if (e_source_equal (source, default_source)) {
+			e_task_shell_sidebar_add_client (
+				task_shell_sidebar, default_client);
+			return;
+		}
 	}
 
-	if (client == NULL)
-		client = e_cal_client_new (source, source_type, NULL);
-
-	g_return_if_fail (client != NULL);
-
-	g_signal_connect_swapped (
-		client, "backend-died",
-		G_CALLBACK (task_shell_sidebar_backend_died_cb),
-		task_shell_sidebar);
-
-	g_signal_connect_swapped (
-		client, "backend-error",
-		G_CALLBACK (task_shell_sidebar_backend_error_cb),
-		task_shell_sidebar);
-
-	g_hash_table_insert (client_table, g_strdup (uid), client);
 	e_source_selector_select_source (selector, source);
 
 	display_name = e_source_get_display_name (source);
@@ -921,22 +988,11 @@ e_task_shell_sidebar_add_source (ETaskShellSidebar *task_shell_sidebar,
 	task_shell_sidebar_emit_status_message (task_shell_sidebar, message);
 	g_free (message);
 
-	/* FIXME Sidebar should not be accessing the EShellContent.
-	 *       This probably needs to be moved to ETaskShellView. */
-	shell_sidebar = E_SHELL_SIDEBAR (task_shell_sidebar);
-	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
-	shell_content = e_shell_view_get_shell_content (shell_view);
-
-	task_shell_content = E_TASK_SHELL_CONTENT (shell_content);
-	model = e_task_shell_content_get_task_model (task_shell_content);
-	timezone = e_cal_model_get_timezone (model);
-
-	e_cal_client_set_default_timezone (client, timezone);
-
-	e_client_open (
-		E_CLIENT (client), FALSE,
+	e_cal_client_connect (
+		source, source_type,
 		task_shell_sidebar->priv->loading_clients,
-		task_shell_sidebar_client_opened_cb, task_shell_sidebar);
+		task_shell_sidebar_client_connect_cb,
+		connect_closure_new (task_shell_sidebar, source));
 }
 
 void
