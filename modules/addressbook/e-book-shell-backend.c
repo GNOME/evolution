@@ -93,26 +93,27 @@ book_shell_backend_new_contact_cb (GObject *source_object,
                                    GAsyncResult *result,
                                    gpointer user_data)
 {
-	ESource *source = E_SOURCE (source_object);
 	EShell *shell = user_data;
-	EClient *client = NULL;
+	EClient *client;
 	EContact *contact;
 	EABEditor *editor;
 	GError *error = NULL;
 
-	e_client_utils_open_new_finish (source, result, &client, &error);
+	client = e_book_client_connect_finish (result, &error);
+
+	/* Sanity check. */
+	g_return_if_fail (
+		((client != NULL) && (error == NULL)) ||
+		((client == NULL) && (error != NULL)));
 
 	/* XXX Handle errors better. */
 	if (error != NULL) {
-		g_warn_if_fail (client == NULL);
 		g_warning (
 			"%s: Failed to open book: %s",
 			G_STRFUNC, error->message);
 		g_error_free (error);
 		goto exit;
 	}
-
-	g_return_if_fail (E_IS_CLIENT (client));
 
 	contact = e_contact_new ();
 
@@ -133,26 +134,27 @@ book_shell_backend_new_contact_list_cb (GObject *source_object,
                                         GAsyncResult *result,
                                         gpointer user_data)
 {
-	ESource *source = E_SOURCE (source_object);
 	EShell *shell = user_data;
-	EClient *client = NULL;
+	EClient *client;
 	EContact *contact;
 	EABEditor *editor;
 	GError *error = NULL;
 
-	e_client_utils_open_new_finish (source, result, &client, &error);
+	client = e_book_client_connect_finish (result, &error);
+
+	/* Sanity check. */
+	g_return_if_fail (
+		((client != NULL) && (error == NULL)) ||
+		((client == NULL) && (error != NULL)));
 
 	/* XXX Handle errors better. */
 	if (error != NULL) {
-		g_warn_if_fail (client == NULL);
 		g_warning (
 			"%s: Failed to open book: %s",
 			G_STRFUNC, error->message);
 		g_error_free (error);
 		goto exit;
 	}
-
-	g_return_if_fail (E_IS_CLIENT (client));
 
 	contact = e_contact_new ();
 
@@ -215,13 +217,13 @@ action_contact_new_cb (GtkAction *action,
 	/* Use a callback function appropriate for the action. */
 	action_name = gtk_action_get_name (action);
 	if (strcmp (action_name, "contact-new") == 0)
-		e_client_utils_open_new (
-			source, E_CLIENT_SOURCE_TYPE_CONTACTS, FALSE, NULL,
+		e_book_client_connect (
+			source, NULL,
 			book_shell_backend_new_contact_cb,
 			g_object_ref (shell));
 	if (strcmp (action_name, "contact-new-list") == 0)
-		e_client_utils_open_new (
-			source, E_CLIENT_SOURCE_TYPE_CONTACTS, FALSE, NULL,
+		e_book_client_connect (
+			source, NULL,
 			book_shell_backend_new_contact_list_cb,
 			g_object_ref (shell));
 

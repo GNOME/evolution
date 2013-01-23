@@ -36,7 +36,6 @@
 #include "e-source-combo-box.h"
 #include "e-destination-store.h"
 #include "e-contact-store.h"
-#include "e-client-utils.h"
 #include "e-name-selector-dialog.h"
 #include "e-name-selector-entry.h"
 
@@ -1134,21 +1133,25 @@ stop_client_view_cb (EContactStore *store,
 }
 
 static void
-book_loaded_cb (GObject *source_object,
-                GAsyncResult *result,
-                gpointer user_data)
+book_client_connect_cb (GObject *source_object,
+                        GAsyncResult *result,
+                        gpointer user_data)
 {
 	ENameSelectorDialog *name_selector_dialog = user_data;
-	EClient *client = NULL;
+	EClient *client;
 	EBookClient *book_client;
 	EContactStore *store;
 	ENameSelectorModel *model;
 	GError *error = NULL;
 
-	e_client_utils_open_new_finish (E_SOURCE (source_object), result, &client, &error);
+	client = e_book_client_connect_finish (result, &error);
+
+	/* Sanity check. */
+	g_return_if_fail (
+		((client != NULL) && (error == NULL)) ||
+		((client == NULL) && (error != NULL)));
 
 	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-		g_warn_if_fail (client == NULL);
 		g_error_free (error);
 		goto exit;
 	}
@@ -1162,7 +1165,6 @@ book_loaded_cb (GObject *source_object,
 			name_selector_dialog->priv->status_label, message);
 		g_free (message);
 
-		g_warn_if_fail (client == NULL);
 		g_error_free (error);
 		goto exit;
 	}
@@ -1204,10 +1206,11 @@ source_changed (ENameSelectorDialog *name_selector_dialog,
 	cancellable = g_cancellable_new ();
 	name_selector_dialog->priv->cancellable = cancellable;
 
-	/* Start loading selected book */
-	e_client_utils_open_new (
-		source, E_CLIENT_SOURCE_TYPE_CONTACTS, TRUE, cancellable,
-		book_loaded_cb, g_object_ref (name_selector_dialog));
+	/* Connect to the selected book. */
+	e_book_client_connect (
+		source, cancellable,
+		book_client_connect_cb,
+		g_object_ref (name_selector_dialog));
 
 	g_object_unref (source);
 }

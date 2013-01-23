@@ -301,25 +301,28 @@ contact_list_editor_add_email (EContactListEditor *editor,
 }
 
 static void
-contact_list_editor_book_loaded_cb (GObject *source_object,
-                                    GAsyncResult *result,
-                                    gpointer user_data)
+contact_list_editor_client_connect_cb (GObject *source_object,
+                                       GAsyncResult *result,
+                                       gpointer user_data)
 {
 	ESource *source = E_SOURCE (source_object);
 	EContactListEditor *editor = user_data;
 	EContactListEditorPrivate *priv = editor->priv;
 	EContactStore *contact_store;
 	ENameSelectorEntry *entry;
-	EClient *client = NULL;
+	EClient *client;
 	EBookClient *book_client;
 	GError *error = NULL;
 
-	e_client_utils_open_new_finish (source, result, &client, &error);
+	client = e_book_client_connect_finish (result, &error);
+
+	/* Sanity check. */
+	g_return_if_fail (
+		((client != NULL) && (error == NULL)) ||
+		((client == NULL) && (error != NULL)));
 
 	if (error != NULL) {
 		GtkWindow *parent;
-
-		g_warn_if_fail (client == NULL);
 
 		parent = eab_editor_get_window (EAB_EDITOR (editor));
 		eab_load_error_dialog (GTK_WIDGET (parent), NULL, source, error);
@@ -331,8 +334,6 @@ contact_list_editor_book_loaded_cb (GObject *source_object,
 		g_error_free (error);
 		goto exit;
 	}
-
-	g_return_if_fail (E_IS_CLIENT (client));
 
 	book_client = E_BOOK_CLIENT (client);
 
@@ -977,9 +978,9 @@ contact_list_editor_source_menu_changed_cb (GtkWidget *widget)
 	client_source = e_client_get_source (client);
 
 	if (!e_source_equal (client_source, active_source))
-		e_client_utils_open_new (
-			active_source, E_CLIENT_SOURCE_TYPE_CONTACTS,
-			FALSE, NULL, contact_list_editor_book_loaded_cb,
+		e_book_client_connect (
+			active_source, NULL,
+			contact_list_editor_client_connect_cb,
 			g_object_ref (editor));
 
 	g_object_unref (active_source);

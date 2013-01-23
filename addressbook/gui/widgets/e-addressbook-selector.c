@@ -247,28 +247,29 @@ addressbook_selector_constructed (GObject *object)
 }
 
 static void
-target_client_open_ready_cb (GObject *source_object,
-                             GAsyncResult *result,
-                             gpointer user_data)
+target_client_connect_cb (GObject *source_object,
+                          GAsyncResult *result,
+                          gpointer user_data)
 {
-	ESource *source = E_SOURCE (source_object);
 	MergeContext *merge_context = user_data;
-	EClient *client = NULL;
+	EClient *client;
 	GError *error = NULL;
 
 	g_return_if_fail (merge_context != NULL);
 
-	e_client_utils_open_new_finish (source, result, &client, &error);
+	client = e_book_client_connect_finish (result, &error);
+
+	/* Sanity check. */
+	g_return_if_fail (
+		((client != NULL) && (error == NULL)) ||
+		((client == NULL) && (error != NULL)));
 
 	if (error != NULL) {
-		g_warn_if_fail (client == NULL);
 		g_warning (
 			"%s: Failed to open targer client: %s",
 			G_STRFUNC, error->message);
 		g_error_free (error);
 	}
-
-	g_return_if_fail (E_IS_CLIENT (client));
 
 	merge_context->target_client = client ? E_BOOK_CLIENT (client) : NULL;
 
@@ -299,7 +300,7 @@ addressbook_selector_data_dropped (ESourceSelector *selector,
 	EAddressbookSelectorPrivate *priv;
 	MergeContext *merge_context;
 	EAddressbookModel *model;
-	EBookClient *source_client = NULL;
+	EBookClient *source_client;
 	ESourceRegistry *registry;
 	GSList *list;
 	const gchar *string;
@@ -314,12 +315,8 @@ addressbook_selector_data_dropped (ESourceSelector *selector,
 	model = e_addressbook_view_get_model (priv->current_view);
 	registry = e_addressbook_model_get_registry (model);
 
-	/* XXX Function assumes both out arguments are provided.  All we
-	 *     care about is the contact list; source_client will be NULL. */
-	eab_book_and_contact_list_from_string (
-		registry, string, &source_client, &list);
-	if (source_client)
-		g_object_unref (source_client);
+	eab_source_and_contact_list_from_string (
+		registry, string, NULL, &list);
 
 	if (list == NULL)
 		return FALSE;
@@ -332,9 +329,8 @@ addressbook_selector_data_dropped (ESourceSelector *selector,
 	merge_context->remove_from_source = remove_from_source;
 	merge_context->pending_adds = TRUE;
 
-	e_client_utils_open_new (
-		destination, E_CLIENT_SOURCE_TYPE_CONTACTS, FALSE, NULL,
-		target_client_open_ready_cb, merge_context);
+	e_book_client_connect (
+		destination, NULL, target_client_connect_cb, merge_context);
 
 	return TRUE;
 }

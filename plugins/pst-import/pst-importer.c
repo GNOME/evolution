@@ -616,20 +616,24 @@ org_credativ_evolution_readpst_getwidget (EImport *ei,
 }
 
 static void
-client_opened_cb (GObject *source_object,
-                  GAsyncResult *result,
-                  gpointer user_data)
+client_connect_cb (GObject *source_object,
+                   GAsyncResult *result,
+                   gpointer user_data)
 {
 	PstImporter *m = user_data;
+	EClient *client;
 	GError *error = NULL;
-	EClient *client = NULL;
 
 	g_return_if_fail (result != NULL);
 	g_return_if_fail (m != NULL);
 	g_return_if_fail (m->waiting_open > 0);
 
-	if (!e_client_utils_open_new_finish (E_SOURCE (source_object), result, &client, &error))
-		client = NULL;
+	client = e_book_client_connect_finish (result, &error);
+
+	/* Sanity check. */
+	g_return_if_fail (
+		((client != NULL) && (error == NULL)) ||
+		((client == NULL) && (error != NULL)));
 
 	if (error)
 		g_debug ("%s: Failed to open client: %s", G_STRFUNC, error->message);
@@ -681,9 +685,7 @@ open_client (PstImporter *m,
 
 	m->waiting_open++;
 
-	e_client_utils_open_new (
-		source, source_type, FALSE, m->cancellable,
-		client_opened_cb, m);
+	e_book_client_connect (source, m->cancellable, client_connect_cb, m);
 
 	g_object_unref (source);
 }

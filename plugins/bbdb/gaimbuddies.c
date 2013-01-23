@@ -199,18 +199,6 @@ bbdb_sync_buddy_list_in_thread (gpointer data)
 
 	g_return_val_if_fail (std != NULL, NULL);
 
-	if (!bbdb_open_book_client (std->client)) {
-		/* client got freed in bbdb_open_book_client on a failure */
-		free_buddy_list (std->blist);
-		g_free (std);
-
-		G_LOCK (syncing);
-		syncing = FALSE;
-		G_UNLOCK (syncing);
-
-		return NULL;
-	}
-
 	printf ("bbdb: Synchronizing buddy list to contacts...\n");
 	/* Walk the buddy list */
 	for (l = std->blist; l != NULL; l = l->next) {

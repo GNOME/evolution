@@ -28,7 +28,6 @@
 #include <camel/camel.h>
 #include <libebackend/libebackend.h>
 
-#include "e-client-utils.h"
 #include "e-name-selector-entry.h"
 
 #define E_NAME_SELECTOR_ENTRY_GET_PRIVATE(obj) \
@@ -2206,27 +2205,29 @@ setup_contact_store (ENameSelectorEntry *name_selector_entry)
 }
 
 static void
-book_loaded_cb (GObject *source_object,
-                GAsyncResult *result,
-                gpointer user_data)
+book_client_connect_cb (GObject *source_object,
+                        GAsyncResult *result,
+                        gpointer user_data)
 {
 	EContactStore *contact_store = user_data;
-	ESource *source = E_SOURCE (source_object);
 	EBookClient *book_client;
-	EClient *client = NULL;
+	EClient *client;
 	GError *error = NULL;
 
-	e_client_utils_open_new_finish (source, result, &client, &error);
+	client = e_book_client_connect_finish (result, &error);
+
+	/* Sanity check. */
+	g_return_if_fail (
+		((client != NULL) && (error == NULL)) ||
+		((client == NULL) && (error != NULL)));
 
 	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-		g_warn_if_fail (client == NULL);
 		g_error_free (error);
 		goto exit;
 	}
 
 	if (error != NULL) {
 		g_warning ("%s", error->message);
-		g_warn_if_fail (client == NULL);
 		g_error_free (error);
 		goto exit;
 	}
@@ -2287,9 +2288,10 @@ setup_default_contact_store (ENameSelectorEntry *name_selector_entry)
 			&name_selector_entry->priv->cancellables,
 			cancellable);
 
-		e_client_utils_open_new (
-			source, E_CLIENT_SOURCE_TYPE_CONTACTS, TRUE, cancellable,
-			book_loaded_cb, g_object_ref (contact_store));
+		e_book_client_connect (
+			source, cancellable,
+			book_client_connect_cb,
+			g_object_ref (contact_store));
 	}
 
 	g_list_free_full (list, (GDestroyNotify) g_object_unref);

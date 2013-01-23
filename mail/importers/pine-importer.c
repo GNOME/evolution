@@ -174,7 +174,7 @@ import_contacts (void)
 {
 	EShell *shell;
 	ESourceRegistry *registry;
-	EBookClient *book_client = NULL;
+	EClient *client = NULL;
 	GList *list;
 	gchar *name;
 	GString *line;
@@ -201,13 +201,10 @@ import_contacts (void)
 		ESource *source;
 
 		source = E_SOURCE (list->data);
-		book_client = e_book_client_new (source, &error);
+		client = e_book_client_connect_sync (source, NULL, &error);
 	}
 
 	g_list_free_full (list, (GDestroyNotify) g_object_unref);
-
-	if (book_client != NULL)
-		e_client_open_sync (E_CLIENT (book_client), TRUE, NULL, &error);
 
 	if (error != NULL) {
 		g_warning (
@@ -235,13 +232,13 @@ import_contacts (void)
 			g_string_truncate (line, len);
 		}
 
-		import_contact (book_client, line->str);
+		import_contact (E_BOOK_CLIENT (client), line->str);
 		offset = 0;
 	}
 
 	g_string_free (line, TRUE);
 	fclose (fp);
-	g_object_unref (book_client);
+	g_object_unref (client);
 }
 
 static gchar *

@@ -771,6 +771,7 @@ guint
 action_list_cards_init (ESourceRegistry *registry,
                         ActionContext *p_actctx)
 {
+	EClient *client;
 	EBookClient *book_client;
 	EBookQuery *query;
 	ESource *source;
@@ -788,12 +789,14 @@ action_list_cards_init (ESourceRegistry *registry,
 	else
 		source = e_source_registry_ref_default_address_book (registry);
 
-	book_client = e_book_client_new (source, &error);
+	client = e_book_client_connect_sync (source, NULL, &error);
 
 	g_object_unref (source);
 
-	if (book_client != NULL)
-		e_client_open_sync (E_CLIENT (book_client), TRUE, NULL, &error);
+	/* Sanity check. */
+	g_return_val_if_fail (
+		((client != NULL) && (error == NULL)) ||
+		((client == NULL) && (error != NULL)), FAILED);
 
 	if (error != NULL) {
 		g_warning (
@@ -801,13 +804,11 @@ action_list_cards_init (ESourceRegistry *registry,
 			p_actctx->action_list_cards.addressbook_source_uid ?
 			p_actctx->action_list_cards.addressbook_source_uid :
 			"'default'", error->message);
-		if (book_client != NULL)
-			g_object_unref (book_client);
 		g_error_free (error);
 		exit (-1);
 	}
 
-	g_return_val_if_fail (E_IS_BOOK_CLIENT (book_client), FAILED);
+	book_client = E_BOOK_CLIENT (client);
 
 	query = e_book_query_any_field_contains ("");
 	query_str = e_book_query_to_string (query);

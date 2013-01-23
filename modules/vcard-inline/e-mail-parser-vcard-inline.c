@@ -93,29 +93,32 @@ mail_part_vcard_inline_free (EMailPart *mail_part)
 }
 
 static void
-client_loaded_cb (ESource *source,
-                  GAsyncResult *result,
-                  GSList *contact_list)
+client_connect_cb (GObject *source_object,
+                   GAsyncResult *result,
+                   gpointer user_data)
 {
+	GSList *contact_list = user_data;
 	EShell *shell;
-	EClient *client = NULL;
+	EClient *client;
 	EBookClient *book_client;
 	ESourceRegistry *registry;
 	GSList *iter;
 	GError *error = NULL;
 
-	e_client_utils_open_new_finish (source, result, &client, &error);
+	client = e_book_client_connect_finish (result, &error);
+
+	/* Sanity check. */
+	g_return_if_fail (
+		((client != NULL) && (error == NULL)) ||
+		((client == NULL) && (error != NULL)));
 
 	if (error != NULL) {
-		g_warn_if_fail (client == NULL);
 		g_warning (
 			"%s: Failed to open book client: %s",
 			G_STRFUNC, error->message);
 		g_error_free (error);
 		goto exit;
 	}
-
-	g_return_if_fail (E_IS_BOOK_CLIENT (client));
 
 	book_client = E_BOOK_CLIENT (client);
 
@@ -178,10 +181,8 @@ save_vcard_cb (WebKitDOMEventTarget *button,
 		vcard_part->contact_list,
 		(GCopyFunc) g_object_ref, NULL);
 
-	e_client_utils_open_new (
-		source, E_CLIENT_SOURCE_TYPE_CONTACTS,
-		FALSE, NULL, (GAsyncReadyCallback) client_loaded_cb,
-		contact_list);
+	e_book_client_connect (
+		source, NULL, client_connect_cb, contact_list);
 }
 
 static void

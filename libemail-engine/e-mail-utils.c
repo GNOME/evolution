@@ -285,80 +285,6 @@ struct TryOpenEBookStruct {
 	gboolean result;
 };
 
-static void
-try_open_book_client_cb (GObject *source_object,
-                         GAsyncResult *result,
-                         gpointer closure)
-{
-	EBookClient *book_client = E_BOOK_CLIENT (source_object);
-	struct TryOpenEBookStruct *data = (struct TryOpenEBookStruct *) closure;
-	GError *error = NULL;
-
-	if (!data)
-		return;
-
-	e_client_open_finish (E_CLIENT (book_client), result, &error);
-
-	data->result = error == NULL;
-
-	if (!data->result) {
-		g_clear_error (data->error);
-		g_propagate_error (data->error, error);
-	}
-
-	e_flag_set (data->flag);
-}
-
-/*
- * try_open_book_client:
- * Tries to open address book asynchronously, but acts as synchronous.
- * The advantage is it checks periodically whether the camel_operation
- * has been canceled or not, and if so, then stops immediately, with
- * result FALSE. Otherwise returns same as e_client_open()
- */
-static gboolean
-try_open_book_client (EBookClient *book_client,
-                      gboolean only_if_exists,
-                      GCancellable *cancellable,
-                      GError **error)
-{
-	struct TryOpenEBookStruct data;
-	gboolean canceled = FALSE;
-	EFlag *flag = e_flag_new ();
-
-	data.error = error;
-	data.flag = flag;
-	data.result = FALSE;
-
-	e_client_open (
-		E_CLIENT (book_client), only_if_exists,
-		cancellable, try_open_book_client_cb, &data);
-
-	while (canceled = g_cancellable_is_cancelled (cancellable),
-			!canceled && !e_flag_is_set (flag)) {
-		gint64 end_time;
-
-		/* waits 250ms */
-		end_time = g_get_monotonic_time () + (G_TIME_SPAN_SECOND / 4);
-
-		e_flag_wait_until (flag, end_time);
-	}
-
-	if (canceled) {
-		g_cancellable_cancel (cancellable);
-
-		g_clear_error (error);
-		g_propagate_error (
-			error, e_client_error_create (
-			E_CLIENT_ERROR_CANCELLED, NULL));
-	}
-
-	e_flag_wait (flag);
-	e_flag_free (flag);
-
-	return data.result && (!error || !*error);
-}
-
 extern gint camel_application_is_exiting;
 
 #define NOT_FOUND_BOOK (GINT_TO_POINTER (1))
@@ -517,7 +443,11 @@ search_address_in_addressbooks (ESourceRegistry *registry,
 
 		book_client = g_hash_table_lookup (emu_books_hash, uid);
 		if (!book_client) {
-			book_client = e_book_client_new (source, &err);
+			/* FIXME This blocks, but this entire function is
+			 *       in desperate need of a rewrite.  This is
+			 *       horribly convoluted, even for Evolution! */
+			book_client = (EBookClient *)
+				e_book_client_connect_sync (source, NULL, &err);
 
 			if (book_client == NULL) {
 				if (err && (g_error_matches (err, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
@@ -539,7 +469,7 @@ search_address_in_addressbooks (ESourceRegistry *registry,
 						err->message);
 				}
 				g_clear_error (&err);
-			} else if (!stop && !try_open_book_client (book_client, TRUE, cancellable, &err)) {
+			} else if (!stop) {
 				g_object_unref (book_client);
 				book_client = NULL;
 

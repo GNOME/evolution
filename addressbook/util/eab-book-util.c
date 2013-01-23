@@ -150,21 +150,24 @@ eab_contact_list_to_string (const GSList *contacts)
 }
 
 gboolean
-eab_book_and_contact_list_from_string (ESourceRegistry *registry,
-                                       const gchar *str,
-                                       EBookClient **book_client,
-                                       GSList **contacts)
+eab_source_and_contact_list_from_string (ESourceRegistry *registry,
+                                         const gchar *str,
+                                         ESource **out_source,
+                                         GSList **out_contacts)
 {
 	ESource *source;
 	const gchar *s0, *s1;
 	gchar *uid;
+	gboolean success = FALSE;
 
 	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), FALSE);
 	g_return_val_if_fail (str != NULL, FALSE);
-	g_return_val_if_fail (book_client != NULL, FALSE);
-	g_return_val_if_fail (contacts != NULL, FALSE);
 
-	*contacts = eab_contact_list_from_string (str);
+	if (out_source != NULL)
+		*out_source = NULL;  /* in case we fail */
+
+	if (out_contacts != NULL)
+		*out_contacts = NULL;  /* in case we fail */
 
 	if (!strncmp (str, "Book: ", 6)) {
 		s0 = str + 6;
@@ -177,22 +180,23 @@ eab_book_and_contact_list_from_string (ESourceRegistry *registry,
 		s1 = NULL;
 	}
 
-	if (!s0 || !s1) {
-		*book_client = NULL;
+	if (!s0 || !s1)
 		return FALSE;
-	}
 
 	uid = g_strndup (s0, s1 - s0);
 	source = e_source_registry_ref_source (registry, uid);
 	if (source != NULL) {
-		*book_client = e_book_client_new (source, NULL);
+		if (out_source != NULL)
+			*out_source = g_object_ref (source);
 		g_object_unref (source);
-	} else {
-		*book_client = NULL;
+		success = TRUE;
 	}
 	g_free (uid);
 
-	return (*book_client != NULL);
+	if (success && out_contacts != NULL)
+		*out_contacts = eab_contact_list_from_string (str);
+
+	return success;
 }
 
 gchar *

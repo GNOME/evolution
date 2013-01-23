@@ -32,7 +32,6 @@
 
 #include "e-name-selector.h"
 
-#include "e-client-utils.h"
 #include "e-contact-store.h"
 #include "e-destination-store.h"
 
@@ -91,20 +90,25 @@ reset_pointer_cb (gpointer data,
 }
 
 static void
-name_selector_book_loaded_cb (GObject *source_object,
-                              GAsyncResult *result,
-                              gpointer user_data)
+name_selector_book_client_connect_cb (GObject *source_object,
+                                      GAsyncResult *result,
+                                      gpointer user_data)
 {
 	ENameSelector *name_selector = user_data;
 	ESource *source = E_SOURCE (source_object);
 	EBookClient *book_client;
-	EClient *client = NULL;
+	EClient *client;
 	GArray *sections;
 	SourceBook source_book;
 	guint ii;
 	GError *error = NULL;
 
-	e_client_utils_open_new_finish (source, result, &client, &error);
+	client = e_book_client_connect_finish (result, &error);
+
+	/* Sanity check. */
+	g_return_if_fail (
+		((client != NULL) && (error == NULL)) ||
+		((client == NULL) && (error != NULL)));
 
 	if (error != NULL) {
 		if (!g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_REPOSITORY_OFFLINE)
@@ -186,10 +190,9 @@ e_name_selector_load_books (ENameSelector *name_selector)
 		if (!e_source_autocomplete_get_include_me (extension))
 			continue;
 
-		e_client_utils_open_new (
-			source, E_CLIENT_SOURCE_TYPE_CONTACTS,
-			TRUE, name_selector->priv->cancellable,
-			name_selector_book_loaded_cb,
+		e_book_client_connect (
+			source, name_selector->priv->cancellable,
+			name_selector_book_client_connect_cb,
 			g_object_ref (name_selector));
 	}
 

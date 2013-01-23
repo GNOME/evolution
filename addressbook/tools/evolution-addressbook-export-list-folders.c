@@ -52,6 +52,7 @@ action_list_folders_init (ESourceRegistry *registry,
 	list = e_source_registry_list_sources (registry, extension_name);
 
 	for (iter = list; iter != NULL; iter = g_list_next (iter)) {
+		EClient *client;
 		EBookClient *book_client;
 		EBookQuery *query;
 		ESource *source;
@@ -63,22 +64,23 @@ action_list_folders_init (ESourceRegistry *registry,
 
 		source = E_SOURCE (iter->data);
 
-		book_client = e_book_client_new (source, &error);
+		client = e_book_client_connect_sync (source, NULL, &error);
 
-		if (book_client != NULL)
-			e_client_open_sync (
-				E_CLIENT (book_client), TRUE, NULL, &error);
+		/* Sanity check. */
+		g_return_val_if_fail (
+			((client != NULL) && (error == NULL)) ||
+			((client == NULL) && (error != NULL)), FAILED);
 
 		if (error != NULL) {
 			g_warning (
 				_("Failed to open client '%s': %s"),
 				e_source_get_display_name (source),
 				error->message);
-			if (book_client != NULL)
-				g_object_unref (book_client);
 			g_error_free (error);
 			continue;
 		}
+
+		book_client = E_BOOK_CLIENT (client);
 
 		query = e_book_query_any_field_contains ("");
 		query_str = e_book_query_to_string (query);

@@ -137,7 +137,7 @@ bbdb_do_in_thread (gpointer data)
 	EBookClient *client = data;
 
 	/* Open the addressbook */
-	if (!client || !bbdb_open_book_client (client)) {
+	if (client == NULL) {
 		G_LOCK (todo);
 
 		g_slist_foreach (todo, (GFunc) free_todo_struct, NULL);
@@ -370,7 +370,7 @@ bbdb_create_book_client (gint type)
 	EShell *shell;
 	ESource *source = NULL;
 	ESourceRegistry *registry;
-	EBookClient *client = NULL;
+	EClient *client = NULL;
 	GSettings *settings;
 	gboolean enable = TRUE;
 	gchar *uid;
@@ -406,7 +406,7 @@ bbdb_create_book_client (gint type)
 	if (source == NULL)
 		source = e_source_registry_ref_builtin_address_book (registry);
 
-	client = e_book_client_new (source, &error);
+	client = e_book_client_connect_sync (source, NULL, &error);
 	if (client == NULL) {
 		g_warning (
 			"bbdb: Failed to get addressbook: %s\n",
@@ -416,29 +416,7 @@ bbdb_create_book_client (gint type)
 
 	g_object_unref (source);
 
-	return client;
-}
-
-gboolean
-bbdb_open_book_client (EBookClient *client)
-{
-	GError *error = NULL;
-
-	if (!client)
-		return FALSE;
-
-	e_client_open_sync (E_CLIENT (client), FALSE, NULL, &error);
-
-	if (error != NULL) {
-		g_warning (
-			"bbdb: failed to open addressbook: %s",
-			error->message);
-		g_object_unref (client);
-		g_error_free (error);
-		return FALSE;
-	}
-
-	return TRUE;
+	return (EBookClient *) client;
 }
 
 gboolean

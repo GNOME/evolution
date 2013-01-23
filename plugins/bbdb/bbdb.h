@@ -44,10 +44,6 @@
  * this function should be called in a main thread. */
 EBookClient *bbdb_create_book_client (gint type);
 
-/* opens an EBookClient. Returns false if it fails, and unrefs the book too;
- * this function can be called in any thread */
-gboolean bbdb_open_book_client (EBookClient *client);
-
 gboolean bbdb_check_gaim_enabled (void);
 
 /* gaimbuddies.c */

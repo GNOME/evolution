@@ -768,15 +768,14 @@ use_common_book_client (EBookClient *book_client,
 }
 
 static void
-book_loaded_cb (GObject *source_object,
-                GAsyncResult *result,
-                gpointer user_data)
+book_client_connect_cb (GObject *source_object,
+                        GAsyncResult *result,
+                        gpointer user_data)
 {
-	ESource *source = E_SOURCE (source_object);
 	MatchSearchInfo *info = user_data;
-	EClient *client = NULL;
+	EClient *client;
 
-	e_client_utils_open_new_finish (source, result, &client, NULL);
+	client = e_book_client_connect_finish (result, NULL);
 
 	/* Client may be NULL; don't use a type cast macro. */
 	use_common_book_client ((EBookClient *) client, info);
@@ -833,9 +832,7 @@ eab_contact_locate_match_full (ESourceRegistry *registry,
 
 	source = e_source_registry_ref_default_address_book (registry);
 
-	e_client_utils_open_new (
-		source, E_CLIENT_SOURCE_TYPE_CONTACTS, FALSE, NULL,
-		book_loaded_cb, info);
+	e_book_client_connect (source, NULL, book_client_connect_cb, info);
 
 	g_object_unref (source);
 }

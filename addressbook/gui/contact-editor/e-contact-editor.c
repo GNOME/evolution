@@ -3084,16 +3084,21 @@ init_all (EContactEditor *editor)
 }
 
 static void
-contact_editor_book_loaded_cb (GObject *source_object,
-                               GAsyncResult *result,
-                               gpointer user_data)
+contact_editor_client_connect_cb (GObject *source_object,
+                                  GAsyncResult *result,
+                                  gpointer user_data)
 {
 	ESource *source = E_SOURCE (source_object);
 	EContactEditor *editor = user_data;
-	EClient *client = NULL;
+	EClient *client;
 	GError *error = NULL;
 
-	e_client_utils_open_new_finish (source, result, &client, &error);
+	client = e_book_client_connect_finish (result, &error);
+
+	/* Sanity check. */
+	g_return_if_fail (
+		((client != NULL) && (error == NULL)) ||
+		((client == NULL) && (error != NULL)));
 
 	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
 	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
@@ -3104,8 +3109,6 @@ contact_editor_book_loaded_cb (GObject *source_object,
 	} else if (error != NULL) {
 		GtkWidget *source_combo_box;
 		GtkWindow *parent;
-
-		g_warn_if_fail (client == NULL);
 
 		parent = eab_editor_get_window (EAB_EDITOR (editor));
 		eab_load_error_dialog (GTK_WIDGET (parent), NULL, source, error);
@@ -3118,8 +3121,6 @@ contact_editor_book_loaded_cb (GObject *source_object,
 		g_error_free (error);
 		goto exit;
 	}
-
-	g_return_if_fail (E_IS_CLIENT (client));
 
 	/* FIXME Write a private contact_editor_set_target_client(). */
 	g_object_set (editor, "target_client", client, NULL);
@@ -3162,10 +3163,10 @@ source_changed (ESourceComboBox *source_combo_box,
 
 	editor->cancellable = g_cancellable_new ();
 
-	e_client_utils_open_new (
-		source, E_CLIENT_SOURCE_TYPE_CONTACTS,
-		FALSE, editor->cancellable,
-		contact_editor_book_loaded_cb, g_object_ref (editor));
+	e_book_client_connect (
+		source, editor->cancellable,
+		contact_editor_client_connect_cb,
+		g_object_ref (editor));
 
 exit:
 	g_object_unref (source);

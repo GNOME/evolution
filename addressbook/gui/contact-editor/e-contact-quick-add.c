@@ -126,10 +126,15 @@ merge_cb (GObject *source_object,
 {
 	ESource *source = E_SOURCE (source_object);
 	QuickAdd *qa = user_data;
-	EClient *client = NULL;
+	EClient *client;
 	GError *error = NULL;
 
-	e_client_utils_open_new_finish (source, result, &client, &error);
+	client = e_book_client_connect_finish (result, &error);
+
+	/* Sanity check. */
+	g_return_if_fail (
+		((client != NULL) && (error == NULL)) ||
+		((client == NULL) && (error != NULL)));
 
 	/* Ignore cancellations. */
 	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
@@ -140,15 +145,12 @@ merge_cb (GObject *source_object,
 	}
 
 	if (error != NULL) {
-		g_warn_if_fail (client == NULL);
 		if (qa->cb)
 			qa->cb (NULL, qa->closure);
 		g_error_free (error);
 		quick_add_unref (qa);
 		return;
 	}
-
-	g_return_if_fail (E_IS_CLIENT (client));
 
 	if (!e_client_is_readonly (client))
 		eab_merging_book_add_contact (
@@ -179,9 +181,7 @@ quick_add_merge_contact (QuickAdd *qa)
 
 	qa->cancellable = g_cancellable_new ();
 
-	e_client_utils_open_new (
-		qa->source, E_CLIENT_SOURCE_TYPE_CONTACTS,
-		FALSE, qa->cancellable, merge_cb, qa);
+	e_book_client_connect (qa->source, qa->cancellable, merge_cb, qa);
 }
 
 /* Raise a contact editor with all fields editable,
@@ -279,12 +279,16 @@ ce_have_book (GObject *source_object,
               GAsyncResult *result,
               gpointer user_data)
 {
-	ESource *source = E_SOURCE (source_object);
 	QuickAdd *qa = user_data;
-	EClient *client = NULL;
+	EClient *client;
 	GError *error = NULL;
 
-	e_client_utils_open_new_finish (source, result, &client, &error);
+	client = e_book_client_connect_finish (result, &error);
+
+	/* Sanity check. */
+	g_return_if_fail (
+		((client != NULL) && (error == NULL)) ||
+		((client == NULL) && (error != NULL)));
 
 	/* Ignore cancellations. */
 	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
@@ -295,7 +299,6 @@ ce_have_book (GObject *source_object,
 	}
 
 	if (error != NULL) {
-		g_warn_if_fail (client == NULL);
 		g_warning (
 			"Couldn't open local address book (%s).",
 			error->message);
@@ -303,8 +306,6 @@ ce_have_book (GObject *source_object,
 		g_error_free (error);
 		return;
 	}
-
-	g_return_if_fail (E_IS_CLIENT (client));
 
 	eab_merging_book_find_contact (
 		qa->registry, E_BOOK_CLIENT (client),
@@ -321,9 +322,7 @@ edit_contact (QuickAdd *qa)
 
 	qa->cancellable = g_cancellable_new ();
 
-	e_client_utils_open_new (
-		qa->source, E_CLIENT_SOURCE_TYPE_CONTACTS,
-		FALSE, qa->cancellable, ce_have_book, qa);
+	e_book_client_connect (qa->source, qa->cancellable, ce_have_book, qa);
 }
 
 #define QUICK_ADD_RESPONSE_EDIT_FULL 2

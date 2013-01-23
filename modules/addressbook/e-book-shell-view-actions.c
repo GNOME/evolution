@@ -234,7 +234,7 @@ map_window_show_contact_editor_cb (EContactMapWindow *window,
 	EBookShellSidebar *book_shell_sidebar;
 	ESource *source;
 	ESourceSelector *selector;
-	EBookClient *book_client;
+	EClient *client;
 	EContact *contact;
 	EABEditor *editor;
 	GError *error = NULL;
@@ -244,26 +244,32 @@ map_window_show_contact_editor_cb (EContactMapWindow *window,
 	source = e_source_selector_ref_primary_selection (selector);
 	g_return_if_fail (source != NULL);
 
-	book_client = e_book_client_new (source, &error);
+	client = e_book_client_connect_sync (source, NULL, &error);
+
 	g_object_unref (source);
 
-	if (error) {
+	/* Sanity check. */
+	g_return_if_fail (
+		((client != NULL) && (error == NULL)) ||
+		((client == NULL) && (error != NULL)));
+
+	if (error != NULL) {
 		g_warning ("Error loading addressbook: %s", error->message);
 		g_error_free (error);
-		if (book_client)
-			g_object_unref (book_client);
 		return;
 	}
 
-	e_book_client_get_contact_sync (book_client, contact_uid, &contact, NULL, &error);
-	if (error) {
+	e_book_client_get_contact_sync (
+		E_BOOK_CLIENT (client), contact_uid, &contact, NULL, &error);
+	if (error != NULL) {
 		g_warning ("Error getting contact from addressbook: %s", error->message);
 		g_error_free (error);
-		g_object_unref (book_client);
+		g_object_unref (client);
 		return;
 	}
 
-	editor = e_contact_editor_new (shell, book_client, contact, FALSE, TRUE);
+	editor = e_contact_editor_new (
+		shell, E_BOOK_CLIENT (client), contact, FALSE, TRUE);
 
 	g_signal_connect (
 		editor, "contact-modified",
@@ -273,7 +279,7 @@ map_window_show_contact_editor_cb (EContactMapWindow *window,
 		G_CALLBACK (g_object_unref), editor);
 
 	eab_editor_show (editor);
-	g_object_unref (book_client);
+	g_object_unref (client);
 }
 #endif
 
@@ -287,7 +293,7 @@ action_address_book_map_cb (GtkAction *action,
 	EBookShellSidebar *book_shell_sidebar;
 	ESource *source;
 	ESourceSelector *selector;
-	EBookClient *book_client;
+	EClient *client;
 	GError *error = NULL;
 
 	book_shell_sidebar = book_shell_view->priv->book_shell_sidebar;
@@ -295,8 +301,14 @@ action_address_book_map_cb (GtkAction *action,
 	source = e_source_selector_ref_primary_selection (selector);
 	g_return_if_fail (source != NULL);
 
-	book_client = e_book_client_new (source, &error);
+	client = e_book_client_connect_sync (source, NULL, &error);
+
 	g_object_unref (source);
+
+	/* Sanity check. */
+	g_return_if_fail (
+		((client != NULL) && (error == NULL)) ||
+		((client == NULL) && (error != NULL)));
 
 	if (error != NULL) {
 		g_warning ("Error loading addressbook: %s", error->message);
@@ -305,7 +317,8 @@ action_address_book_map_cb (GtkAction *action,
 	}
 
 	map_window = e_contact_map_window_new ();
-	e_contact_map_window_load_addressbook (map_window, book_client);
+	e_contact_map_window_load_addressbook (
+		map_window, E_BOOK_CLIENT (client));
 
 	/* Free the map_window automatically when it is closed */
 	g_signal_connect_swapped (
@@ -317,7 +330,7 @@ action_address_book_map_cb (GtkAction *action,
 
 	gtk_widget_show_all (GTK_WIDGET (map_window));
 
-	g_object_unref (book_client);
+	g_object_unref (client);
 #endif
 }
 

@@ -31,11 +31,11 @@ G_BEGIN_DECLS
 GSList *	eab_contact_list_from_string	(const gchar *str);
 gchar *		eab_contact_list_to_string	(const GSList *contacts);
 
-gboolean	eab_book_and_contact_list_from_string
+gboolean	eab_source_and_contact_list_from_string
 						(ESourceRegistry *registry,
 						 const gchar *str,
-						 EBookClient **book_client,
-						 GSList **contacts);
+						 ESource **out_source,
+						 GSList **out_contacts);
 gchar *		eab_book_and_contact_list_to_string
 						(EBookClient *book_client,
 						 const GSList *contacts);

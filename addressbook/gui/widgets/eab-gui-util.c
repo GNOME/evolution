@@ -524,27 +524,28 @@ do_copy (gpointer data,
 }
 
 static void
-book_loaded_cb (GObject *source_object,
-                GAsyncResult *result,
-                gpointer user_data)
+book_client_connect_cb (GObject *source_object,
+                        GAsyncResult *result,
+                        gpointer user_data)
 {
-	ESource *destination = E_SOURCE (source_object);
 	ContactCopyProcess *process = user_data;
-	EClient *client = NULL;
+	EClient *client;
 	GError *error = NULL;
 
-	e_client_utils_open_new_finish (destination, result, &client, &error);
+	client = e_book_client_connect_finish (result, &error);
+
+	/* Sanity check. */
+	g_return_if_fail (
+		((client != NULL) && (error == NULL)) ||
+		((client == NULL) && (error != NULL)));
 
 	if (error != NULL) {
-		g_warn_if_fail (client == NULL);
 		g_warning (
 			"%s: Failed to open destination client: %s",
 			G_STRFUNC, error->message);
 		g_error_free (error);
 		goto exit;
 	}
-
-	g_return_if_fail (E_IS_CLIENT (client));
 
 	process->destination = E_BOOK_CLIENT (client);
 	process->book_status = TRUE;
@@ -612,9 +613,8 @@ eab_transfer_contacts (ESourceRegistry *registry,
 	process->alert_sink = alert_sink;
 	process->delete_from_source = delete_from_source;
 
-	e_client_utils_open_new (
-		destination, E_CLIENT_SOURCE_TYPE_CONTACTS, FALSE, NULL,
-		book_loaded_cb, process);
+	e_book_client_connect (
+		destination, NULL, book_client_connect_cb, process);
 }
 
 /*

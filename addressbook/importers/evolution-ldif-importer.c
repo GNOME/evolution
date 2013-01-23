@@ -663,15 +663,14 @@ ldif_import_done (LDIFImporter *gci)
 }
 
 static void
-book_loaded_cb (GObject *source_object,
-                GAsyncResult *result,
-                gpointer user_data)
+book_client_connect_cb (GObject *source_object,
+                        GAsyncResult *result,
+                        gpointer user_data)
 {
-	ESource *source = E_SOURCE (source_object);
 	LDIFImporter *gci = user_data;
-	EClient *client = NULL;
+	EClient *client;
 
-	e_client_utils_open_new_finish (source, result, &client, NULL);
+	client = e_book_client_connect_finish (result, NULL);
 
 	if (client == NULL) {
 		ldif_import_done (gci);
@@ -719,9 +718,7 @@ ldif_import (EImport *ei,
 
 	source = g_datalist_get_data (&target->data, "ldif-source");
 
-	e_client_utils_open_new (
-		source, E_CLIENT_SOURCE_TYPE_CONTACTS, FALSE, NULL,
-		book_loaded_cb, gci);
+	e_book_client_connect (source, NULL, book_client_connect_cb, gci);
 }
 
 static void
