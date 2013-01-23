@@ -59,29 +59,77 @@ static GtkTargetEntry target_table[] = {
 	{ (gchar *) "x-uid-list",	0, 0 }
 };
 
+static CamelMimeMessage *
+mail_attachment_handler_get_selected_message (EAttachmentHandler *handler)
+{
+	EAttachment *attachment;
+	EAttachmentView *view;
+	CamelMimePart *mime_part;
+	CamelDataWrapper *wrapper;
+	CamelMimeMessage *message = NULL;
+	CamelContentType *content_type;
+	GList *selected;
+
+	view = e_attachment_handler_get_view (handler);
+
+	selected = e_attachment_view_get_selected_attachments (view);
+	g_return_val_if_fail (g_list_length (selected) == 1, NULL);
+
+	attachment = E_ATTACHMENT (selected->data);
+	mime_part = e_attachment_get_mime_part (attachment);
+	wrapper = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
+
+	content_type = camel_data_wrapper_get_mime_type_field (wrapper);
+	if (content_type && camel_content_type_is (content_type, "message", "rfc822")) {
+		CamelDataWrapper *inner;
+		CamelContentType *inner_content_type;
+
+		inner = camel_medium_get_content (CAMEL_MEDIUM (wrapper));
+		inner_content_type = camel_data_wrapper_get_mime_type_field (inner);
+		if (!camel_content_type_is (inner_content_type, content_type->type, content_type->subtype)) {
+			CamelStream *mem;
+
+			/* Create a message copy in case the inner content-type doesn't match
+			   the mime_part's content type, which can happen for multipart/digest,
+			   where it confuses the formatter on reply, which skips all rfc822 subparts.
+			*/
+			mem = camel_stream_mem_new ();
+			camel_data_wrapper_write_to_stream_sync (CAMEL_DATA_WRAPPER (wrapper), mem, NULL, NULL);
+
+			g_seekable_seek (G_SEEKABLE (mem), 0, G_SEEK_SET, NULL, NULL);
+			message = camel_mime_message_new ();
+			if (!camel_data_wrapper_construct_from_stream_sync (CAMEL_DATA_WRAPPER (message), mem, NULL, NULL)) {
+				g_object_unref (message);
+				message = NULL;
+			}
+
+			g_object_unref (mem);
+		}
+	}
+
+	if (!message)
+		message = g_object_ref (wrapper);
+
+	g_list_foreach (selected, (GFunc) g_object_unref, NULL);
+	g_list_free (selected);
+
+	return message;
+}
+
 static void
 mail_attachment_handler_forward (GtkAction *action,
                                  EAttachmentHandler *handler)
 {
 	EMailAttachmentHandlerPrivate *priv;
 	EShellSettings *shell_settings;
-	EAttachment *attachment;
-	EAttachmentView *view;
-	CamelMimePart *mime_part;
-	CamelDataWrapper *wrapper;
 	EMailForwardStyle style;
+	CamelMimeMessage *message;
 	const gchar *property_name;
-	GList *selected;
 
-	view = e_attachment_handler_get_view (handler);
 	priv = E_MAIL_ATTACHMENT_HANDLER_GET_PRIVATE (handler);
 
-	selected = e_attachment_view_get_selected_attachments (view);
-	g_return_if_fail (g_list_length (selected) == 1);
-
-	attachment = E_ATTACHMENT (selected->data);
-	mime_part = e_attachment_get_mime_part (attachment);
-	wrapper = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
+	message = mail_attachment_handler_get_selected_message (handler);
+	g_return_if_fail (message != NULL);
 
 	property_name = "mail-forward-style";
 	shell_settings = e_shell_get_shell_settings (priv->shell);
@@ -89,10 +137,9 @@ mail_attachment_handler_forward (GtkAction *action,
 
 	em_utils_forward_message (
 		priv->shell, CAMEL_SESSION (priv->session),
-		CAMEL_MIME_MESSAGE (wrapper), style, NULL, NULL);
+		message, style, NULL, NULL);
 
-	g_list_foreach (selected, (GFunc) g_object_unref, NULL);
-	g_list_free (selected);
+	g_object_unref (message);
 }
 
 static void
@@ -101,34 +148,24 @@ mail_attachment_handler_reply (EAttachmentHandler *handler,
 {
 	EMailAttachmentHandlerPrivate *priv;
 	EShellSettings *shell_settings;
-	EAttachment *attachment;
-	EAttachmentView *view;
-	CamelMimePart *mime_part;
-	CamelDataWrapper *wrapper;
 	EMailReplyStyle style;
+	CamelMimeMessage *message;
 	const gchar *property_name;
-	GList *selected;
 
-	view = e_attachment_handler_get_view (handler);
 	priv = E_MAIL_ATTACHMENT_HANDLER_GET_PRIVATE (handler);
 
-	selected = e_attachment_view_get_selected_attachments (view);
-	g_return_if_fail (g_list_length (selected) == 1);
-
-	attachment = E_ATTACHMENT (selected->data);
-	mime_part = e_attachment_get_mime_part (attachment);
-	wrapper = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
+	message = mail_attachment_handler_get_selected_message (handler);
+	g_return_if_fail (message != NULL);
 
 	property_name = "mail-reply-style";
 	shell_settings = e_shell_get_shell_settings (priv->shell);
 	style = e_shell_settings_get_int (shell_settings, property_name);
 
 	em_utils_reply_to_message (
-		priv->shell, CAMEL_MIME_MESSAGE (wrapper),
+		priv->shell, message,
 		NULL, NULL, reply_type, style, NULL, NULL);
 
-	g_list_foreach (selected, (GFunc) g_object_unref, NULL);
-	g_list_free (selected);
+	g_object_unref (message);
 }
 
 static void
