@@ -1251,15 +1251,6 @@ ECharsetComboBoxPrivate
 </SECTION>
 
 <SECTION>
-<FILE>e-client-utils</FILE>
-<TITLE>EClient Utilities</TITLE>
-EClientSourceType
-e_client_utils_new
-e_client_utils_open_new
-e_client_utils_open_new_finish
-</SECTION>
-
-<SECTION>
 <FILE>e-config</FILE>
 <TITLE>EConfig</TITLE>
 EConfig
