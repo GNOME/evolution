@@ -209,28 +209,6 @@ cal_shell_sidebar_retrieve_capabilies_cb (GObject *source_object,
 	cal_shell_sidebar_emit_status_message (cal_shell_sidebar, NULL);
 }
 
-static gboolean cal_shell_sidebar_retry_open_timeout_cb (gpointer user_data);
-
-struct RetryOpenData
-{
-	EClient *client;
-	ECalShellSidebar *cal_shell_sidebar;
-	GCancellable *cancellable;
-};
-
-static void
-free_retry_open_data (gpointer data)
-{
-	struct RetryOpenData *rod = data;
-
-	if (!rod)
-		return;
-
-	g_object_unref (rod->client);
-	g_object_unref (rod->cancellable);
-	g_free (rod);
-}
-
 static void
 cal_shell_sidebar_client_opened_cb (GObject *source_object,
                                     GAsyncResult *result,
@@ -255,24 +233,6 @@ cal_shell_sidebar_client_opened_cb (GObject *source_object,
 		return;
 	}
 
-	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_BUSY)) {
-		struct RetryOpenData *rod;
-
-		rod = g_new0 (struct RetryOpenData, 1);
-		rod->client = g_object_ref (client);
-		rod->cal_shell_sidebar = cal_shell_sidebar;
-		rod->cancellable = g_object_ref (cal_shell_sidebar->priv->loading_clients);
-
-		/* postpone for 1/2 of a second, backend is busy now */
-		g_timeout_add_full (
-			G_PRIORITY_DEFAULT, 500,
-			cal_shell_sidebar_retry_open_timeout_cb,
-			rod, free_retry_open_data);
-
-		g_clear_error (&error);
-		return;
-	}
-
 	shell_sidebar = E_SHELL_SIDEBAR (cal_shell_sidebar);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
 	shell_content = e_shell_view_get_shell_content (shell_view);
@@ -283,15 +243,6 @@ cal_shell_sidebar_client_opened_cb (GObject *source_object,
 	switch ((error && error->domain == E_CLIENT_ERROR) ? error->code : -1) {
 		case -1:
 			break;
-
-		case E_CLIENT_ERROR_BUSY:
-			g_warning (
-				"%s: Cannot open '%s', it's busy (%s)",
-				G_STRFUNC, e_source_get_display_name (source),
-				error->message);
-			g_clear_error (&error);
-			g_object_unref (parent);
-			return;
 
 		case E_CLIENT_ERROR_REPOSITORY_OFFLINE:
 			e_alert_submit (
@@ -327,28 +278,6 @@ cal_shell_sidebar_client_opened_cb (GObject *source_object,
 		E_CLIENT (client), NULL,
 		cal_shell_sidebar_retrieve_capabilies_cb,
 		cal_shell_sidebar);
-}
-
-static gboolean
-cal_shell_sidebar_retry_open_timeout_cb (gpointer user_data)
-{
-	struct RetryOpenData *rod = user_data;
-
-	g_return_val_if_fail (rod != NULL, FALSE);
-	g_return_val_if_fail (rod->client != NULL, FALSE);
-	g_return_val_if_fail (rod->cal_shell_sidebar != NULL, FALSE);
-	g_return_val_if_fail (rod->cancellable != NULL, FALSE);
-
-	if (g_cancellable_is_cancelled (rod->cancellable))
-		return FALSE;
-
-	e_client_open (
-		rod->client, FALSE,
-		rod->cal_shell_sidebar->priv->loading_clients,
-		cal_shell_sidebar_client_opened_cb,
-		rod->cal_shell_sidebar);
-
-	return FALSE;
 }
 
 static void

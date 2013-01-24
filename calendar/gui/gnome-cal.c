@@ -1176,25 +1176,13 @@ update_query_async (struct _date_query_msg *msg)
 	for (iter = list; iter != NULL; iter = iter->next) {
 		ECalClient *client = E_CAL_CLIENT (iter->data);
 		GError *error = NULL;
-		gint tries = 0;
 
 		/* don't create queries for clients not loaded yet */
 		if (!e_client_is_opened (E_CLIENT (client)))
 			continue;
 
- try_again:
 		new_view = NULL;
 		if (!e_cal_client_get_view_sync (client, real_sexp, &new_view, NULL, &error)) {
-			/* If calendar is busy try again for 3 times. */
-			if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_BUSY) && tries != 10) {
-				tries++;
-				/*TODO chose an optimal value */
-				g_usleep (500);
-
-				g_clear_error (&error);
-				goto try_again;
-			}
-
 			g_warning (G_STRLOC ": Could not create the view: %s ", error->message);
 			g_clear_error (&error);
 

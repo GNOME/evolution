@@ -3005,28 +3005,6 @@ cal_model_retrieve_capabilies_cb (GObject *source_object,
 	update_e_cal_view_for_client (model, client_data);
 }
 
-struct RetryOpenData
-{
-	EClient *client;
-	ECalModel *model;
-	GCancellable *cancellable;
-};
-
-static void
-free_retry_open_data (gpointer data)
-{
-	struct RetryOpenData *rod = data;
-
-	if (!rod)
-		return;
-
-	g_object_unref (rod->client);
-	g_object_unref (rod->cancellable);
-	g_free (rod);
-}
-
-static gboolean cal_model_retry_open_timeout_cb (gpointer user_data);
-
 static void
 client_opened_cb (GObject *source_object,
                   GAsyncResult *result,
@@ -3041,25 +3019,6 @@ client_opened_cb (GObject *source_object,
 	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
 	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 		g_error_free (error);
-		return;
-	}
-
-	if (error && g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_BUSY)) {
-		struct RetryOpenData *rod;
-
-		rod = g_new0 (struct RetryOpenData, 1);
-		rod->client = g_object_ref (client);
-		rod->model = model;
-		rod->cancellable = g_object_ref (model->priv->loading_clients);
-
-		/* postpone for 1/2 of a second, backend is busy now */
-		g_timeout_add_full (
-			G_PRIORITY_DEFAULT, 500,
-			cal_model_retry_open_timeout_cb,
-			rod, free_retry_open_data);
-
-		g_error_free (error);
-
 		return;
 	}
 
@@ -3082,22 +3041,6 @@ client_opened_cb (GObject *source_object,
 	e_client_retrieve_capabilities (
 		E_CLIENT (client), model->priv->loading_clients,
 		cal_model_retrieve_capabilies_cb, model);
-}
-
-static gboolean
-cal_model_retry_open_timeout_cb (gpointer user_data)
-{
-	struct RetryOpenData *rod = user_data;
-
-	g_return_val_if_fail (rod != NULL, FALSE);
-	g_return_val_if_fail (rod->client != NULL, FALSE);
-	g_return_val_if_fail (rod->model != NULL, FALSE);
-
-	e_client_open (
-		rod->client, TRUE, rod->cancellable,
-		client_opened_cb, rod->model);
-
-	return FALSE;
 }
 
 static ECalModelClient *

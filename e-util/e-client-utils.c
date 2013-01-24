@@ -246,7 +246,6 @@ client_utils_open_new_done (EClientUtilsAsyncOpData *async_data)
 	e_client_retrieve_capabilities (async_data->client, async_data->cancellable, client_utils_capabilities_retrieved_cb, async_data);
 }
 
-static gboolean client_utils_retry_open_timeout_cb (gpointer user_data);
 static void client_utils_opened_cb (EClient *client, const GError *error, EClientUtilsAsyncOpData *async_data);
 
 static void
@@ -255,11 +254,7 @@ finish_or_retry_open (EClientUtilsAsyncOpData *async_data,
 {
 	g_return_if_fail (async_data != NULL);
 
-	if (error && g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_BUSY)) {
-		/* postpone for 1/2 of a second, backend is busy now */
-		async_data->open_finished = FALSE;
-		async_data->retry_open_id = g_timeout_add (500, client_utils_retry_open_timeout_cb, async_data);
-	} else if (error) {
+	if (error) {
 		return_async_error (error, async_data->callback, async_data->user_data, async_data->source, e_client_utils_open_new);
 		free_client_utils_async_op_data (async_data);
 	} else {
@@ -323,25 +318,6 @@ client_utils_open_new_async_cb (GObject *source_object,
 	}
 
 	/* wait for 'opened' signal, which is received in client_utils_opened_cb */
-}
-
-static gboolean
-client_utils_retry_open_timeout_cb (gpointer user_data)
-{
-	EClientUtilsAsyncOpData *async_data = user_data;
-
-	g_return_val_if_fail (async_data != NULL, FALSE);
-
-	g_signal_handlers_disconnect_matched (async_data->cancellable, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, async_data);
-
-	/* reconnect to the signal */
-	g_signal_connect (async_data->client, "opened", G_CALLBACK (client_utils_opened_cb), async_data);
-
-	e_client_open (async_data->client, async_data->only_if_exists, async_data->cancellable, client_utils_open_new_async_cb, async_data);
-
-	async_data->retry_open_id = 0;
-
-	return FALSE;
 }
 
 /**

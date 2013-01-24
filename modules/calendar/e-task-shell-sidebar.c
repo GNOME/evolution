@@ -206,28 +206,6 @@ task_shell_sidebar_retrieve_capabilies_cb (GObject *source_object,
 	task_shell_sidebar_emit_status_message (task_shell_sidebar, NULL);
 }
 
-static gboolean task_shell_sidebar_retry_open_timeout_cb (gpointer user_data);
-
-struct RetryOpenData
-{
-	EClient *client;
-	ETaskShellSidebar *task_shell_sidebar;
-	GCancellable *cancellable;
-};
-
-static void
-free_retry_open_data (gpointer data)
-{
-	struct RetryOpenData *rod = data;
-
-	if (!rod)
-		return;
-
-	g_object_unref (rod->client);
-	g_object_unref (rod->cancellable);
-	g_free (rod);
-}
-
 static void
 task_shell_sidebar_client_opened_cb (GObject *source_object,
                                      GAsyncResult *result,
@@ -252,24 +230,6 @@ task_shell_sidebar_client_opened_cb (GObject *source_object,
 		return;
 	}
 
-	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_BUSY)) {
-		struct RetryOpenData *rod;
-
-		rod = g_new0 (struct RetryOpenData, 1);
-		rod->client = g_object_ref (client);
-		rod->task_shell_sidebar = task_shell_sidebar;
-		rod->cancellable = g_object_ref (task_shell_sidebar->priv->loading_clients);
-
-		/* postpone for 1/2 of a second, backend is busy now */
-		g_timeout_add_full (
-			G_PRIORITY_DEFAULT, 500,
-			task_shell_sidebar_retry_open_timeout_cb,
-			rod, free_retry_open_data);
-
-		g_clear_error (&error);
-		return;
-	}
-
 	shell_sidebar = E_SHELL_SIDEBAR (task_shell_sidebar);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
 	shell_content = e_shell_view_get_shell_content (shell_view);
@@ -280,15 +240,6 @@ task_shell_sidebar_client_opened_cb (GObject *source_object,
 	switch ((error && error->domain == E_CLIENT_ERROR) ? error->code : -1) {
 		case -1:
 			break;
-
-		case E_CLIENT_ERROR_BUSY:
-			g_warning (
-				"%s: Cannot open '%s', it's busy (%s)",
-				G_STRFUNC, e_source_get_display_name (source),
-				error->message);
-			g_clear_error (&error);
-			g_object_unref (parent);
-			return;
 
 		case E_CLIENT_ERROR_REPOSITORY_OFFLINE:
 			e_alert_submit (
@@ -324,28 +275,6 @@ task_shell_sidebar_client_opened_cb (GObject *source_object,
 		E_CLIENT (client), NULL,
 		task_shell_sidebar_retrieve_capabilies_cb,
 		task_shell_sidebar);
-}
-
-static gboolean
-task_shell_sidebar_retry_open_timeout_cb (gpointer user_data)
-{
-	struct RetryOpenData *rod = user_data;
-
-	g_return_val_if_fail (rod != NULL, FALSE);
-	g_return_val_if_fail (rod->client != NULL, FALSE);
-	g_return_val_if_fail (rod->task_shell_sidebar != NULL, FALSE);
-	g_return_val_if_fail (rod->cancellable != NULL, FALSE);
-
-	if (g_cancellable_is_cancelled (rod->cancellable))
-		return FALSE;
-
-	e_client_open (
-		rod->client, FALSE,
-		rod->task_shell_sidebar->priv->loading_clients,
-		task_shell_sidebar_client_opened_cb,
-		rod->task_shell_sidebar);
-
-	return FALSE;
 }
 
 static void
