@@ -354,7 +354,7 @@ mail_display_resource_requested (WebKitWebView *web_view,
 		new_uri = e_mail_part_build_uri (
 			part_list->folder, part_list->message_uid,
 			"part_id", G_TYPE_STRING, uri,
-			"mode", G_TYPE_INT, E_MAIL_FORMATTER_MODE_RAW, NULL);
+			"mode", G_TYPE_INT, E_MAIL_FORMATTER_MODE_CID, NULL);
 
 		webkit_network_request_set_uri (request, new_uri);
 
