@@ -1457,8 +1457,7 @@ ecm_append_row (ETableModel *etm,
 	if (comp_data->client)
 		g_object_ref (comp_data->client);
 
-	/* guard against saving before the calendar is open */
-	if (!comp_data->client || !e_client_is_opened (E_CLIENT (comp_data->client))) {
+	if (!comp_data->client) {
 		g_object_unref (comp_data);
 		return;
 	}
@@ -2923,10 +2922,6 @@ update_e_cal_view_for_client (ECalModel *model,
 
 	priv = model->priv;
 
-	/* Skip if this client has not finished loading yet */
-	if (!e_client_is_opened (E_CLIENT (client_data->client)))
-		return;
-
 	/* free the previous view, if any */
 	if (client_data->view) {
 		g_signal_handlers_disconnect_matched (
@@ -2980,69 +2975,6 @@ backend_died_cb (ECalClient *client,
 	e_cal_model_remove_client (model, client);
 }
 
-static void
-cal_model_retrieve_capabilies_cb (GObject *source_object,
-                                  GAsyncResult *result,
-                                  gpointer user_data)
-{
-	ECalClient *client = E_CAL_CLIENT (source_object);
-	ECalModel *model = user_data;
-	ECalModelClient *client_data;
-	gchar *capabilities = NULL;
-
-	g_return_if_fail (client != NULL);
-	g_return_if_fail (model != NULL);
-
-	e_client_retrieve_capabilities_finish (
-		E_CLIENT (client), result, &capabilities, NULL);
-	g_free (capabilities);
-
-	e_cal_model_update_status_message (model, NULL, -1.0);
-
-	client_data = find_client_data (model, client);
-	g_return_if_fail (client_data);
-
-	update_e_cal_view_for_client (model, client_data);
-}
-
-static void
-client_opened_cb (GObject *source_object,
-                  GAsyncResult *result,
-                  gpointer user_data)
-{
-	ECalClient *client = E_CAL_CLIENT (source_object);
-	ECalModel *model = (ECalModel *) user_data;
-	GError *error = NULL;
-
-	e_client_open_finish (E_CLIENT (client), result, &error);
-
-	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
-	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-		g_error_free (error);
-		return;
-	}
-
-	if (error != NULL) {
-		ESource *source;
-
-		source = e_client_get_source (E_CLIENT (client));
-		e_cal_model_remove_client (model, client);
-		g_warning (
-			"%s: Failed to open '%s': %s",
-			G_STRFUNC,
-			e_source_get_display_name (source),
-			error->message);
-		g_error_free (error);
-		e_cal_model_update_status_message (model, NULL, -1.0);
-		return;
-	}
-
-	/* to have them ready for later use */
-	e_client_retrieve_capabilities (
-		E_CLIENT (client), model->priv->loading_clients,
-		cal_model_retrieve_capabilies_cb, model);
-}
-
 static ECalModelClient *
 add_new_client (ECalModel *model,
                 ECalClient *client,
@@ -3081,23 +3013,7 @@ add_new_client (ECalModel *model,
 		G_CALLBACK (backend_died_cb), model);
 
  load:
-	if (e_client_is_opened (E_CLIENT (client))) {
-		update_e_cal_view_for_client (model, client_data);
-	} else {
-		ESource *source;
-		const gchar *display_name;
-		gchar *msg;
-
-		source = e_client_get_source (E_CLIENT (client));
-		display_name = e_source_get_display_name (source);
-		msg = g_strdup_printf (_("Opening %s"), display_name);
-		e_cal_model_update_status_message (model, msg, -1.0);
-		g_free (msg);
-
-		e_cal_client_set_default_timezone (client, e_cal_model_get_timezone (model));
-
-		e_client_open (E_CLIENT (client), TRUE, model->priv->loading_clients, client_opened_cb, model);
-	}
+	update_e_cal_view_for_client (model, client_data);
 
 	return client_data;
 }

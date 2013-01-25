@@ -1177,10 +1177,6 @@ update_query_async (struct _date_query_msg *msg)
 		ECalClient *client = E_CAL_CLIENT (iter->data);
 		GError *error = NULL;
 
-		/* don't create queries for clients not loaded yet */
-		if (!e_client_is_opened (E_CLIENT (client)))
-			continue;
-
 		new_view = NULL;
 		if (!e_cal_client_get_view_sync (client, real_sexp, &new_view, NULL, &error)) {
 			g_warning (G_STRLOC ": Could not create the view: %s ", error->message);

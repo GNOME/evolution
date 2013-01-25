@@ -881,7 +881,7 @@ static void
 query_contact_source (EContactStore *contact_store,
                       ContactSource *source)
 {
-	gboolean is_opened;
+	gchar *query_str;
 
 	g_assert (source->book_client != NULL);
 
@@ -889,8 +889,6 @@ query_contact_source (EContactStore *contact_store,
 		clear_contact_source (contact_store, source);
 		return;
 	}
-
-	is_opened = e_client_is_opened (E_CLIENT (source->book_client));
 
 	if (source->client_view) {
 		if (source->client_view_pending) {
@@ -902,13 +900,9 @@ query_contact_source (EContactStore *contact_store,
 		}
 	}
 
-	if (is_opened) {
-		gchar *query_str;
-
-		query_str = e_book_query_to_string (contact_store->priv->query);
-		e_book_client_get_view (source->book_client, query_str, NULL, client_view_ready_cb, g_object_ref (contact_store));
-		g_free (query_str);
-	}
+	query_str = e_book_query_to_string (contact_store->priv->query);
+	e_book_client_get_view (source->book_client, query_str, NULL, client_view_ready_cb, g_object_ref (contact_store));
+	g_free (query_str);
 }
 
 /* ----------------- *

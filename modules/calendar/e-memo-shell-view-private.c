@@ -456,8 +456,7 @@ e_memo_shell_view_update_timezone (EMemoShellView *memo_shell_view)
 	for (iter = clients; iter != NULL; iter = iter->next) {
 		ECalClient *client = iter->data;
 
-		if (e_client_is_opened (E_CLIENT (client)))
-			e_cal_client_set_default_timezone (client, timezone);
+		e_cal_client_set_default_timezone (client, timezone);
 	}
 
 	g_list_free (clients);

@@ -165,9 +165,6 @@ tag_calendar_by_client (ECalendar *ecal,
 	if (!gtk_widget_get_visible (GTK_WIDGET (ecal)))
 		return;
 
-	if (!e_client_is_opened (E_CLIENT (client)))
-		return;
-
 	closure = g_new0 (struct calendar_tag_closure, 1);
 
 	if (!prepare_tag (ecal, closure, NULL, TRUE)) {

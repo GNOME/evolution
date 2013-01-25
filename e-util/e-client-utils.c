@@ -312,12 +312,7 @@ client_utils_open_new_async_cb (GObject *source_object,
 		return;
 	}
 
-	if (e_client_is_opened (async_data->client)) {
-		client_utils_open_new_done (async_data);
-		return;
-	}
-
-	/* wait for 'opened' signal, which is received in client_utils_opened_cb */
+	client_utils_open_new_done (async_data);
 }
 
 /**
