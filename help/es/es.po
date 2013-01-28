@@ -4,28 +4,28 @@
 # 
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 2009, 2010, 2011, 2012.
 # 
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012., 2012.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012., 2013.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-30 20:10+0000\n"
-"PO-Revision-Date: 2012-12-31 12:23+0100\n"
+"POT-Creation-Date: 2013-01-24 17:20+0000\n"
+"PO-Revision-Date: 2013-01-28 11:33+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
-"Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
+"Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Gtranslator 2.91.5\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
 msgstr ""
-"Daniel Mustieles <daniel.mustieles@gmail.com>, 2012\n"
+"Daniel Mustieles <daniel.mustieles@gmail.com>, 2012, 2013\n"
 "Jorge González <jorgegonz@svn.gnome.org>, 2007-2011\n"
 "Francisco Javier F. Serrador <serrador@openshine.com>, 2005, 2006"
 
@@ -130,14 +130,12 @@ msgstr "Correo y calendario de Evolution"
 #: C/intro-main-window.page:24(license/p)
 #: C/mail-access-gmail-imap-account.page:17(license/p)
 #: C/mail-access-gmail-pop-account.page:17(license/p)
-#: C/mail-account-manage-imap.page:15(license/p)
 #: C/mail-account-manage-imap-plus.page:15(license/p)
 #: C/mail-account-manage-local-delivery.page:15(license/p)
 #: C/mail-account-manage-maildir-format-directories.page:15(license/p)
 #: C/mail-account-management.page:15(license/p)
 #: C/mail-account-manage-mh-format-directories.page:15(license/p)
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:15(license/p)
-#: C/mail-account-manage-microsoft-exchange-evo-exchange.page:15(license/p)
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:15(license/p)
 #: C/mail-account-manage-microsoft-exchange.page:16(license/p)
 #: C/mail-account-manage-novell-groupwise.page:16(license/p)
@@ -165,7 +163,7 @@ msgstr "Correo y calendario de Evolution"
 #: C/mail-composer-html-text.page:17(license/p)
 #: C/mail-composer-mail-signatures-manage.page:15(license/p)
 #: C/mail-composer-mail-signatures.page:15(license/p)
-#: C/mail-composer-mail-signatures-per-account.page:27(license/p)
+#: C/mail-composer-mail-signatures-per-account.page:26(license/p)
 #: C/mail-composer-message-templates.page:18(license/p)
 #: C/mail-composer-message-templates-reply.page:18(license/p)
 #: C/mail-composer-message-templates-save.page:18(license/p)
@@ -177,8 +175,8 @@ msgstr "Correo y calendario de Evolution"
 #: C/mail-composer-several-recipients.page:21(license/p)
 #: C/mail-composer-spellcheck.page:17(license/p)
 #: C/mail-composer-write-new-message.page:18(license/p)
-#: C/mail-default-CC-and-BCC.page:27(license/p)
-#: C/mail-default-folder-locations.page:27(license/p)
+#: C/mail-default-CC-and-BCC.page:25(license/p)
+#: C/mail-default-folder-locations.page:25(license/p)
 #: C/mail-delete-and-undelete.page:20(license/p)
 #: C/mail-displaying-character-encodings.page:16(license/p)
 #: C/mail-displaying-collapsible-headers.page:18(license/p)
@@ -193,29 +191,25 @@ msgstr "Correo y calendario de Evolution"
 #: C/mail-encryption-gpg-getting-keys.page:18(license/p)
 #: C/mail-encryption-gpg-set-up.page:18(license/p)
 #: C/mail-encryption-gpg-signing-encrypting.page:18(license/p)
-#: C/mail-encryption.page:29(license/p)
+#: C/mail-encryption.page:27(license/p)
 #: C/mail-encryption-s-mime-manage.page:18(license/p)
 #: C/mail-encryption-s-mime-signing-encrypting.page:18(license/p)
-#: C/mail-error-failed-to-append-to-sent-folder.page:19(license/p)
-#: C/mail-error-no-provider-available.page:15(license/p)
 #: C/mail-filters-actions.page:18(license/p)
 #: C/mail-filters-conditions.page:18(license/p)
 #: C/mail-filters-not-working.page:20(license/p)
 #: C/mail-filters.page:18(license/p) C/mail-folders.page:23(license/p)
 #: C/mail-follow-up-flag.page:18(license/p)
-#: C/mail-imap-headers.page:19(license/p)
-#: C/mail-imap-subscriptions.page:20(license/p)
+#: C/mail-imap-subscriptions.page:19(license/p)
 #: C/mail-labels.page:16(license/p) C/mail-layout-changing.page:15(license/p)
 #: C/mail-localized-re-subjects.page:15(license/p)
 #: C/mail-moving-emails.page:19(license/p) C/mail-not-sent.page:15(license/p)
 #: C/mail-organizing.page:16(license/p)
 #: C/mail-reading-keyboard-shortcuts.page:19(license/p)
-#: C/mail-read-receipts.page:28(license/p)
+#: C/mail-read-receipts.page:27(license/p)
 #: C/mail-received-notification.page:15(license/p)
-#: C/mail-receiving-options-evolution-exchange.page:18(license/p)
 #: C/mail-receiving-options-exchange-ews.page:15(license/p)
 #: C/mail-receiving-options-exchange-mapi.page:15(license/p)
-#: C/mail-receiving-options-imap.page:18(license/p)
+#: C/mail-receiving-options-imap.page:17(license/p)
 #: C/mail-receiving-options-imap-plus.page:18(license/p)
 #: C/mail-receiving-options-local-delivery.page:15(license/p)
 #: C/mail-receiving-options-maildir-format-directories.page:15(license/p)
@@ -239,12 +233,12 @@ msgstr "Correo y calendario de Evolution"
 #: C/mail-send-and-receive-automatically.page:15(license/p)
 #: C/mail-send-and-receive-manual.page:15(license/p)
 #: C/mail-send-and-receive.page:15(license/p)
-#: C/mail-sending-options-smtp.page:22(license/p)
+#: C/mail-sending-options-smtp.page:21(license/p)
 #: C/mail-several-pop-accounts.page:17(license/p)
 #: C/mail-sorting-message-list.page:23(license/p)
 #: C/mail-spam-marking.page:25(license/p) C/mail-spam.page:15(license/p)
 #: C/mail-spam-settings.page:31(license/p)
-#: C/mail-two-trash-folders.page:15(license/p)
+#: C/mail-two-trash-folders.page:20(license/p)
 #: C/mail-usenet-subscriptions.page:19(license/p)
 #: C/mail-vertical-view.page:17(license/p) C/mail-word-wrap.page:15(license/p)
 #: C/mail-working-offline.page:18(license/p)
@@ -558,7 +552,7 @@ msgstr "Introduzca la dirección del calendario en el campo <gui>URL</gui>."
 
 #: C/calendar-caldav.page:33(item/p) C/calendar-weather.page:32(item/p)
 #: C/calendar-webdav.page:32(item/p) C/contacts-google.page:30(item/p)
-#: C/mail-sending-options-smtp.page:39(item/p) C/tasks-caldav.page:30(item/p)
+#: C/mail-sending-options-smtp.page:38(item/p) C/tasks-caldav.page:30(item/p)
 #: C/tasks-webdav.page:32(item/p)
 msgid ""
 "Choose <gui>Use secure connection</gui> if you want to connect securely."
@@ -2021,7 +2015,7 @@ msgid "Select the type <gui>On the Web</gui>."
 msgstr "Seleccione el tipo <gui>En la red</gui>."
 
 #: C/calendar-webdav.page:33(item/p)
-#: C/mail-sending-options-smtp.page:36(item/p) C/tasks-webdav.page:33(item/p)
+#: C/mail-sending-options-smtp.page:35(item/p) C/tasks-webdav.page:33(item/p)
 msgid "Enter your username."
 msgstr "Introduzca su nombre de usuario."
 
@@ -3225,18 +3219,22 @@ msgstr ""
 "<link action=\"install:evolution-ews\" href=\"http://projects.gnome.org/"
 "evolution/download\" style=\"button\">Instalar evolution-ews</link>"
 
-#: C/exchange-connectors-overview.page:35(page/p)
+#: C/exchange-connectors-overview.page:36(page/p)
 msgid ""
-"Only if <sys>evolution-ews</sys> does not work well for you it is "
-"recommended to use the package <sys>evolution-mapi</sys>. It supports "
-"Microsoft Exchange 2007 and 2010 (and possibly earlier versions that support "
-"MAPI)."
+"For older versions of Microsoft Exchange, or if <sys>evolution-ews</sys> "
+"does not work well for you, try <sys>evolution-mapi</sys>. It uses "
+"Microsoft's Messaging API which is also used by Microsoft Outlook. However, "
+"<sys>evolution-mapi</sys> requires installing <sys>OpenChange</sys> and "
+"<sys>Samba 4</sys>, and is not as performant as <sys>evolution-ews</sys>."
 msgstr ""
-"Sólo se recomienda usar el paquete <sys>evolution-mapi</sys> si "
-"<sys>evolution-ews</sys> no le funciona correctamente. Soporta Microsoft "
-"Exchange 2007 y 2010 (y posiblemente versiones anteriores que soporten MAPI)."
+"Para versiones antiguas de Microsoft Exchange, o si <sys>evolution-ews</sys> "
+"no le funciona bien, pruebe <sys>evolution-mapi</sys>. Usa la API de "
+"mensajería de Microsoft que se usa también en Microsoft Outlook. Sin "
+"embargo, <sys>evolution-mapi</sys> requiere que se instale <sys>OpenChange</"
+"sys> y <sys>Samba 4</sys>, y no es tan eficiente como <sys>evolution-ews</"
+"sys>."
 
-#: C/exchange-connectors-overview.page:39(note/p)
+#: C/exchange-connectors-overview.page:41(note/p)
 #: C/intro-first-run.page:76(when/p)
 msgid ""
 "<link action=\"install:evolution-mapi\" href=\"http://projects.gnome.org/"
@@ -3245,26 +3243,7 @@ msgstr ""
 "<link action=\"install:evolution-mapi\" href=\"http://projects.gnome.org/"
 "evolution/download\" style=\"button\">Instalar evolution-mapi</link>"
 
-#: C/exchange-connectors-overview.page:44(page/p)
-msgid ""
-"For Microsoft Exchange 2000 and 2003 (and possibly earlier versions of "
-"Exchange that use Outlook Web Access) it is recommended to use the package "
-"<sys>evolution-exchange</sys>."
-msgstr ""
-"Para Microsoft Exchange 2000 y 2003 (y, posiblemente, versiones anteriores "
-"de Exchange que usan Acceso web a Outlook) se recomienda usar el paquete "
-"<sys>evolution-exchange</sys>."
-
-#: C/exchange-connectors-overview.page:48(note/p)
-#: C/intro-first-run.page:86(when/p)
-msgid ""
-"<link action=\"install:evolution-exchange\" href=\"http://projects.gnome.org/"
-"evolution/download\" style=\"button\">Install evolution-exchange</link>"
-msgstr ""
-"<link action=\"install:evolution-exchange\" href=\"http://projects.gnome.org/"
-"evolution/download\" style=\"button\">Instalar evolution-exchange</link>"
-
-#: C/exchange-connectors-overview.page:53(note/p)
+#: C/exchange-connectors-overview.page:46(note/p)
 msgid ""
 "If you are unsure which Microsoft Exchange server version is used, you may "
 "want to contact your system administrator for more information."
@@ -3885,13 +3864,11 @@ msgstr ""
 "<link xref=\"import-data\">importar datos de otras aplicaciones</link>."
 
 #: C/intro-first-run.page:27(section/title)
-#: C/mail-account-manage-imap.page:29(section/title)
 #: C/mail-account-manage-imap-plus.page:29(section/title)
 #: C/mail-account-manage-local-delivery.page:29(section/title)
 #: C/mail-account-manage-maildir-format-directories.page:29(section/title)
 #: C/mail-account-manage-mh-format-directories.page:29(section/title)
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:30(section/title)
-#: C/mail-account-manage-microsoft-exchange-evo-exchange.page:30(section/title)
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:30(section/title)
 #: C/mail-account-manage-novell-groupwise.page:30(section/title)
 #: C/mail-account-manage-pop.page:29(section/title)
@@ -3902,13 +3879,11 @@ msgid "Identity"
 msgstr "Identidad"
 
 #: C/intro-first-run.page:28(section/p)
-#: C/mail-account-manage-imap.page:31(section/p)
 #: C/mail-account-manage-imap-plus.page:31(section/p)
 #: C/mail-account-manage-local-delivery.page:31(section/p)
 #: C/mail-account-manage-maildir-format-directories.page:31(section/p)
 #: C/mail-account-manage-mh-format-directories.page:31(section/p)
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:32(section/p)
-#: C/mail-account-manage-microsoft-exchange-evo-exchange.page:32(section/p)
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:32(section/p)
 #: C/mail-account-manage-novell-groupwise.page:32(section/p)
 #: C/mail-account-manage-pop.page:31(section/p)
@@ -3919,13 +3894,11 @@ msgid "Here you define your name and your email address."
 msgstr "Introduzca aquí su nombre y su dorección de correo electrónico."
 
 #: C/intro-first-run.page:29(section/p)
-#: C/mail-account-manage-imap.page:32(section/p)
 #: C/mail-account-manage-imap-plus.page:32(section/p)
 #: C/mail-account-manage-local-delivery.page:32(section/p)
 #: C/mail-account-manage-maildir-format-directories.page:32(section/p)
 #: C/mail-account-manage-mh-format-directories.page:32(section/p)
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:33(section/p)
-#: C/mail-account-manage-microsoft-exchange-evo-exchange.page:33(section/p)
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:33(section/p)
 #: C/mail-account-manage-novell-groupwise.page:33(section/p)
 #: C/mail-account-manage-pop.page:32(section/p)
@@ -3960,10 +3933,9 @@ msgstr ""
 "link>. De lo contrario, continúe con la siguiente página."
 
 #: C/intro-first-run.page:38(section/title)
-#: C/mail-receiving-options-evolution-exchange.page:26(section/title)
 #: C/mail-receiving-options-exchange-ews.page:23(section/title)
 #: C/mail-receiving-options-exchange-mapi.page:23(section/title)
-#: C/mail-receiving-options-imap.page:26(section/title)
+#: C/mail-receiving-options-imap.page:25(section/title)
 #: C/mail-receiving-options-imap-plus.page:26(section/title)
 #: C/mail-receiving-options-local-delivery.page:23(section/title)
 #: C/mail-receiving-options-maildir-format-directories.page:23(section/title)
@@ -4142,6 +4114,14 @@ msgid ""
 "This requires having the <sys>evolution-exchange</sys> package installed."
 msgstr ""
 "Esto requiere tener instalado el paquete <sys>evolution-exchange</sys>."
+
+#: C/intro-first-run.page:86(when/p)
+msgid ""
+"<link action=\"install:evolution-exchange\" href=\"http://projects.gnome.org/"
+"evolution/download\" style=\"button\">Install evolution-exchange</link>"
+msgstr ""
+"<link action=\"install:evolution-exchange\" href=\"http://projects.gnome.org/"
+"evolution/download\" style=\"button\">Instalar evolution-exchange</link>"
 
 #: C/intro-first-run.page:91(item/p)
 msgid "Novell Groupwise: For connecting to a Novell GroupWise server."
@@ -4870,18 +4850,21 @@ msgid "Access a Gmail IMAP Account via Evolution"
 msgstr "Acceder a una cuenta IMAP de GMail a través de Evolution"
 
 #: C/mail-access-gmail-imap-account.page:26(page/p)
+#| msgid ""
+#| "Please refer to the <link xref=\"mail-account-manage-imap\">IMAP mail "
+#| "account settings</link>."
 msgid ""
-"Please refer to the <link xref=\"mail-account-manage-imap\">IMAP mail "
+"Please refer to the <link xref=\"mail-account-manage-imap-plus\">IMAP+ mail "
 "account settings</link>."
 msgstr ""
-"Consulte la <link xref=\"mail-account-manage-imap\">configuración de cuenta "
-"de correo IMAP</link>."
+"Consulte la <link xref=\"mail-account-manage-imap-plus\">configuración de "
+"cuenta de correo IMAP+</link>."
 
 #: C/mail-access-gmail-imap-account.page:28(note/p)
 msgid ""
 "To access Gmail via IMAP you must turn on IMAP in your Google account. See "
-"the <link href=\"https://mail.google.com/support/bin/answer.py?"
-"answer=77695\">Gmail Help</link> for more information."
+"the <link href=\"https://mail.google.com/support/bin/answer.py?answer=77695"
+"\">Gmail Help</link> for more information."
 msgstr ""
 "Para acceder a Gmail mediante IMAP debe activar IMAP en su cuenta de Google. "
 "Consulte la <link href=\"https://mail.google.com/support/bin/answer.py?"
@@ -4960,21 +4943,19 @@ msgstr ""
 "Proporcione la información requerida. Para la configuración de la cuenta, "
 "vaya al paso 5."
 
-#: C/mail-account-manage-imap.page:5(info/desc)
-msgid "Add and edit an IMAP mail account in Evolution."
-msgstr "Añadir y editar una cuenta de correo IMAP en Evolution."
+#: C/mail-account-manage-imap-plus.page:5(info/desc)
+msgid "Add and edit an IMAP+ mail account in Evolution."
+msgstr "Añadir y editar una cuenta de correo IMAP+ en Evolution."
 
-#: C/mail-account-manage-imap.page:20(page/title)
-msgid "IMAP mail account settings"
-msgstr "Configuración de cuenta de correo IMAP"
+#: C/mail-account-manage-imap-plus.page:20(page/title)
+msgid "IMAP+ mail account settings"
+msgstr "Configuración de cuenta de correo IMAP+"
 
-#: C/mail-account-manage-imap.page:23(section/title)
 #: C/mail-account-manage-imap-plus.page:23(section/title)
 #: C/mail-account-manage-local-delivery.page:23(section/title)
 #: C/mail-account-manage-maildir-format-directories.page:23(section/title)
 #: C/mail-account-manage-mh-format-directories.page:23(section/title)
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:23(section/title)
-#: C/mail-account-manage-microsoft-exchange-evo-exchange.page:23(section/title)
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:23(section/title)
 #: C/mail-account-manage-novell-groupwise.page:24(section/title)
 #: C/mail-account-manage-pop.page:23(section/title)
@@ -4984,13 +4965,11 @@ msgstr "Configuración de cuenta de correo IMAP"
 msgid "Account Editor"
 msgstr "Editor de cuentas"
 
-#: C/mail-account-manage-imap.page:24(section/p)
 #: C/mail-account-manage-imap-plus.page:24(section/p)
 #: C/mail-account-manage-local-delivery.page:24(section/p)
 #: C/mail-account-manage-maildir-format-directories.page:24(section/p)
 #: C/mail-account-manage-mh-format-directories.page:24(section/p)
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:25(section/p)
-#: C/mail-account-manage-microsoft-exchange-evo-exchange.page:25(section/p)
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:25(section/p)
 #: C/mail-account-manage-novell-groupwise.page:25(section/p)
 #: C/mail-account-manage-pop.page:24(section/p)
@@ -5013,10 +4992,8 @@ msgstr ""
 "link>, excepto que no se le preguntará si quiere importar datos de otras "
 "aplicaciones o restaurarlos desde un archivo de respaldo."
 
-#: C/mail-account-manage-imap.page:25(section/p)
 #: C/mail-account-manage-imap-plus.page:25(section/p)
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:26(section/p)
-#: C/mail-account-manage-microsoft-exchange-evo-exchange.page:26(section/p)
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:26(section/p)
 #: C/mail-account-manage-novell-groupwise.page:26(section/p)
 #: C/mail-account-manage-usenet-news.page:25(section/p)
@@ -5032,13 +5009,11 @@ msgstr ""
 "nodo de nivel superior en la lista de carpetas y eligiendo <gui>Propiedades</"
 "gui>."
 
-#: C/mail-account-manage-imap.page:26(section/p)
 #: C/mail-account-manage-imap-plus.page:26(section/p)
 #: C/mail-account-manage-local-delivery.page:26(section/p)
 #: C/mail-account-manage-maildir-format-directories.page:26(section/p)
 #: C/mail-account-manage-mh-format-directories.page:26(section/p)
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:27(section/p)
-#: C/mail-account-manage-microsoft-exchange-evo-exchange.page:27(section/p)
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:27(section/p)
 #: C/mail-account-manage-novell-groupwise.page:27(section/p)
 #: C/mail-account-manage-pop.page:26(section/p)
@@ -5049,13 +5024,11 @@ msgid "The following settings are available when editing an existing account:"
 msgstr ""
 "La siguiente configuración está disponible al editar una cuenta existente:"
 
-#: C/mail-account-manage-imap.page:36(section/title)
 #: C/mail-account-manage-imap-plus.page:36(section/title)
 #: C/mail-account-manage-local-delivery.page:36(section/title)
 #: C/mail-account-manage-maildir-format-directories.page:36(section/title)
 #: C/mail-account-manage-mh-format-directories.page:36(section/title)
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:37(section/title)
-#: C/mail-account-manage-microsoft-exchange-evo-exchange.page:37(section/title)
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:37(section/title)
 #: C/mail-account-manage-novell-groupwise.page:37(section/title)
 #: C/mail-account-manage-pop.page:36(section/title)
@@ -5065,7 +5038,6 @@ msgstr ""
 msgid "Receiving Email and Receiving options"
 msgstr "Recibir correo y opciones de recepción"
 
-#: C/mail-account-manage-imap.page:40(section/title)
 #: C/mail-account-manage-imap-plus.page:40(section/title)
 #: C/mail-account-manage-local-delivery.page:40(section/title)
 #: C/mail-account-manage-maildir-format-directories.page:40(section/title)
@@ -5077,13 +5049,11 @@ msgstr "Recibir correo y opciones de recepción"
 msgid "Sending Email"
 msgstr "Envío de correo"
 
-#: C/mail-account-manage-imap.page:44(section/title)
 #: C/mail-account-manage-imap-plus.page:44(section/title)
 #: C/mail-account-manage-local-delivery.page:44(section/title)
 #: C/mail-account-manage-maildir-format-directories.page:44(section/title)
 #: C/mail-account-manage-mh-format-directories.page:44(section/title)
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:41(section/title)
-#: C/mail-account-manage-microsoft-exchange-evo-exchange.page:41(section/title)
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:41(section/title)
 #: C/mail-account-manage-novell-groupwise.page:41(section/title)
 #: C/mail-account-manage-pop.page:44(section/title)
@@ -5093,13 +5063,11 @@ msgstr "Envío de correo"
 msgid "Defaults"
 msgstr "Predeterminados"
 
-#: C/mail-account-manage-imap.page:48(section/title)
 #: C/mail-account-manage-imap-plus.page:48(section/title)
 #: C/mail-account-manage-local-delivery.page:48(section/title)
 #: C/mail-account-manage-maildir-format-directories.page:48(section/title)
 #: C/mail-account-manage-mh-format-directories.page:48(section/title)
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:45(section/title)
-#: C/mail-account-manage-microsoft-exchange-evo-exchange.page:50(section/title)
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:50(section/title)
 #: C/mail-account-manage-novell-groupwise.page:46(section/title)
 #: C/mail-account-manage-pop.page:48(section/title)
@@ -5109,32 +5077,17 @@ msgstr "Predeterminados"
 msgid "Security"
 msgstr "Seguridad"
 
-#: C/mail-account-manage-imap.page:52(section/title)
-#: C/mail-imap-headers.page:25(page/title)
-msgid "IMAP Headers"
-msgstr "Cabeceras IMAP"
-
-#: C/mail-account-manage-imap.page:58(section/title)
 #: C/mail-account-manage-imap-plus.page:56(section/title)
 #: C/mail-account-manage-usenet-news.page:54(section/title)
 msgid "Other settings"
 msgstr "Otros ajustes"
 
-#: C/mail-account-manage-imap.page:59(section/p)
 #: C/mail-account-manage-imap-plus.page:57(section/p)
 #: C/mail-account-manage-usenet-news.page:55(section/p)
 msgid ""
 "Other account related settings that are not located in the <gui>Account "
 "Editor</gui>:"
 msgstr "Otros ajustes "
-
-#: C/mail-account-manage-imap-plus.page:5(info/desc)
-msgid "Add and edit an IMAP+ mail account in Evolution."
-msgstr "Añadir y editar una cuenta de correo IMAP+ en Evolution."
-
-#: C/mail-account-manage-imap-plus.page:20(page/title)
-msgid "IMAP+ mail account settings"
-msgstr "Configuración de cuenta de correo IMAP+"
 
 #: C/mail-account-manage-local-delivery.page:5(info/desc)
 msgid "Add and edit a Local Delivery account in Evolution."
@@ -5199,47 +5152,27 @@ msgid "MH Format Mail Directories account settings"
 msgstr "Configuración de cuenta para directorios de correo en formato MH"
 
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:5(info/desc)
-msgid "Add and edit a Microsoft Exchange 2010 account in Evolution."
-msgstr "Añadir y editar una cuenta de Microsoft Exchange 2010 en Evolution."
+#| msgid "Add and edit a Microsoft Exchange 2010 account in Evolution."
+msgid "Add and edit a Microsoft Exchange 2007 or 2010 account in Evolution."
+msgstr ""
+"Añadir y editar una cuenta de Microsoft Exchange 2007 o 2010 en Evolution."
 
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:20(page/title)
 msgid "Exchange Web Services account settings"
 msgstr "Configuración de cuenta para Exchange Web Services"
 
-#: C/mail-account-manage-microsoft-exchange-evo-exchange.page:5(info/desc)
-msgid "Add and edit a Microsoft Exchange 2000/2003 account in Evolution."
-msgstr ""
-"Añadir y editar una cuenta de Microsoft Exchange 2000/2003 en Evolution."
-
-#: C/mail-account-manage-microsoft-exchange-evo-exchange.page:20(page/title)
-#: C/mail-account-manage-microsoft-exchange.page:21(page/title)
-msgid "Microsoft Exchange account settings"
-msgstr "Configuración de cuenta para Microsoft Exchange"
-
-#: C/mail-account-manage-microsoft-exchange-evo-exchange.page:45(section/title)
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:45(section/title)
-msgid "Exchange Settings"
-msgstr "Configuración de Exchange"
-
-#: C/mail-account-manage-microsoft-exchange-evo-exchange.page:46(section/p)
-msgid ""
-"In this section you can define your \"Out of Office\" status, change the "
-"password for your Exchange account, and manage the delegation settings."
-msgstr ""
-"En esta sección puede definir su estado «Fuera de la oficina», cambiar la "
-"contraseña de su cuenta Exchange y gestionar la configuración de delegación."
-
-#: C/mail-account-manage-microsoft-exchange-evo-exchange.page:46(section/p)
-msgid "You can also view the size of all Exchange folders."
-msgstr "También puede ver el tamaño de todas sus carpetas Exchange."
-
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:5(info/desc)
-msgid "Add and edit a Microsoft Exchange 2007 account in Evolution."
-msgstr "Añadir y editar una cuenta de Microsoft Exchange 2007 en Evolution."
+#| msgid "Add and edit a Microsoft Exchange account in Evolution."
+msgid "Add and edit a Microsoft Exchange MAPI account in Evolution."
+msgstr "Añadir y editar una cuenta de Microsoft Exchange MAPI en Evolution."
 
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:20(page/title)
 msgid "Exchange MAPI account settings"
 msgstr "Configuración de cuenta para Exchange MAPI"
+
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:45(section/title)
+msgid "Exchange Settings"
+msgstr "Configuración de Exchange"
 
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:46(section/p)
 msgid "In this section you can view the size of all Exchange folders."
@@ -5248,6 +5181,10 @@ msgstr "En esta sección puede ver el tamaño de todas sus carpetas Exchange."
 #: C/mail-account-manage-microsoft-exchange.page:5(info/desc)
 msgid "Add and edit a Microsoft Exchange account in Evolution."
 msgstr "Añadir y editar una cuenta de Microsoft Exchange en Evolution."
+
+#: C/mail-account-manage-microsoft-exchange.page:21(page/title)
+msgid "Microsoft Exchange account settings"
+msgstr "Configuración de cuenta para Microsoft Exchange"
 
 #: C/mail-account-manage-microsoft-exchange.page:23(note/p)
 msgid ""
@@ -6488,11 +6425,11 @@ msgid "Setting a default signature for an email account."
 msgstr ""
 "Configurar una firma predeterminada para una cuenta de correo electrónico."
 
-#: C/mail-composer-mail-signatures-per-account.page:32(page/title)
+#: C/mail-composer-mail-signatures-per-account.page:31(page/title)
 msgid "Default account signature"
 msgstr "Firma de la cuenta predeterminada"
 
-#: C/mail-composer-mail-signatures-per-account.page:34(page/p)
+#: C/mail-composer-mail-signatures-per-account.page:33(page/p)
 msgid ""
 "You can define a default <link xref=\"mail-composer-mail-signatures"
 "\">signature</link> for each of your mail accounts. This can be edited under "
@@ -6506,7 +6443,7 @@ msgstr ""
 "gui><gui>Editar</gui><gui>Identidad</gui><gui>Información opcional</gui></"
 "guiseq>."
 
-#: C/mail-composer-mail-signatures-per-account.page:36(page/p)
+#: C/mail-composer-mail-signatures-per-account.page:35(page/p)
 msgid ""
 "If you have a signature for your account defined but exceptionally do not "
 "want to use it for one message, or want to use a different signature, you "
@@ -7315,11 +7252,11 @@ msgstr ""
 msgid "Make somebody always receive copies of your sent mail."
 msgstr "Hacer que alguien siempre reciba copias de los correos que envía."
 
-#: C/mail-default-CC-and-BCC.page:32(page/title)
+#: C/mail-default-CC-and-BCC.page:30(page/title)
 msgid "Default CC and BCC"
 msgstr "Cc y Cco predeterminadas"
 
-#: C/mail-default-CC-and-BCC.page:34(page/p)
+#: C/mail-default-CC-and-BCC.page:32(page/p)
 msgid ""
 "You can set email addresses that should always receive copies of your sent "
 "mail (either as CC visible for all recipients, or BCC not visible for other "
@@ -7335,14 +7272,16 @@ msgstr ""
 "gui><gui style=\"button\">Editar</gui><gui>Predeterminados</gui></guiseq>)."
 
 #: C/mail-default-folder-locations.page:5(info/desc)
-msgid "Changing the location of the Draft folder and Sent folder."
-msgstr "Cambiar la ubicación de las carpetas Borradores y Enviados."
+#| msgid "Changing the location of the Draft folder and Sent folder."
+msgid "Changing the location of Draft, Sent, Trash and Junk folders."
+msgstr ""
+"Cambiar la ubicación de las carpetas Borradores, Enviados, Papelera y Spam."
 
-#: C/mail-default-folder-locations.page:32(page/title)
+#: C/mail-default-folder-locations.page:30(page/title)
 msgid "Mail folder locations"
 msgstr "Ubicaciones de las carpetas de correo"
 
-#: C/mail-default-folder-locations.page:34(page/p)
+#: C/mail-default-folder-locations.page:32(page/p)
 msgid ""
 "You can set a different place where to store messages in your Draft folder "
 "and Sent folder in the <gui>Defaults</gui> section of the mail account "
@@ -7355,16 +7294,22 @@ msgstr ""
 "gui><gui>Cuentas de correo</gui><gui style=\"button\">Editar</"
 "gui><gui>Predeterminados</gui></guiseq>)."
 
-#: C/mail-default-folder-locations.page:35(page/p)
+#: C/mail-default-folder-locations.page:33(page/p)
+#| msgid ""
+#| "For remote account types (accounts such as IMAP) you can also set a Trash "
+#| "folder and Junk folder on the mail server so Evolution's local virtual "
+#| "folders will not be used for it, but folders on the mail server."
 msgid ""
-"For remote account types (accounts such as IMAP) you can also set a Trash "
-"folder and Junk folder on the mail server so Evolution's local virtual "
-"folders will not be used for it, but folders on the mail server."
+"For remote account types (accounts such as IMAP) you can also use folders on "
+"the mail server for Junk and Trash by selecting the corresponding <gui>Use a "
+"Real Folder</gui> option. In this case, Evolution's local <link xref=\"mail-"
+"search-folders\">virtual folders</link> will not be used."
 msgstr ""
-"Para tipos de cuenta remota (tales como IMAP) también puede establecer una "
-"carpeta de Papelera y de SPAM en el servidor de correo, de tal forma que no "
-"se usarán las carpetas virtuales locales de Evolution para ello, sino las "
-"del servidor de correo en su lugar."
+"Para tipos de cuenta remota (tales como IMAP) también puede usar carpetas de "
+"Papelera y de SPAM en el servidor de correo seleccionando la opción "
+"<gui>Usar una carpeta real</gui> correspondiente. en este caso, las <link "
+"xref=\"mail-search-folders\">carpetas virtuales</link> de la copia local de "
+"Evolution no se usarán."
 
 #: C/mail-delete-and-undelete.page:5(info/desc)
 msgid "Deleting, expunging, and undeleting mail."
@@ -7711,9 +7656,9 @@ msgid ""
 "Evolution's code repository to test."
 msgstr ""
 "Sólo para desarrolladores: en versiones futuras, Evolution usará WebKit en "
-"lugar de gtkhtml para mostrar HTML. Hay una rama llamada «<link href="
-"\"http://git.gnome.org/browse/evolution?h=webkit\">webkit</link>» en el "
-"repositorio de código de Evolution para pruebas."
+"lugar de gtkhtml para mostrar HTML. Hay una rama llamada «<link href=\"http://"
+"git.gnome.org/browse/evolution?h=webkit\">webkit</link>» en el repositorio "
+"de código de Evolution para pruebas."
 
 #: C/mail-displaying-no-css.page:27(note/p)
 msgid ""
@@ -7848,12 +7793,15 @@ msgid "Evolution is having a problem with the UIDL extension."
 msgstr "Evolution está sufriendo un problema con la extensión UIDL."
 
 #: C/mail-duplicates.page:38(item/p)
+#| msgid ""
+#| "The cache files located at <file>$HOME/.local/share/evolution/mail/pop/</"
+#| "file> are not writable."
 msgid ""
-"The cache files located at <file>$HOME/.local/share/evolution/mail/pop/</"
+"The cache files located at <file>$HOME/.local/share/evolution/mail/local/</"
 "file> are not writable."
 msgstr ""
-"Los archivo de la cache se encuentran en <file>$HOME/.local/share/evolution/"
-"mail/pop/</file> y no se puede escribir en ellos."
+"Los archivos de la caché se encuentran en <file>$HOME/.local/share/evolution/"
+"mail/local/</file> y no se puede escribir en ellos."
 
 #: C/mail-encryption-gpg-create-key.page:5(info/desc)
 msgid "Signing or encrypting messages via GPG/OpenPGP that you send."
@@ -8111,7 +8059,6 @@ msgstr ""
 #: C/mail-encryption-gpg-set-up.page:29(item/p)
 #: C/mail-encryption-gpg-signing-encrypting.page:30(item/p)
 #: C/mail-encryption-s-mime-signing-encrypting.page:28(item/p)
-#: C/mail-imap-headers.page:38(item/p)
 msgid ""
 "Select <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</"
 "gui></guiseq>."
@@ -8220,11 +8167,11 @@ msgstr ""
 msgid "Sending and receiving encrypted mail."
 msgstr "Enviar y recibir correo cifrado."
 
-#: C/mail-encryption.page:34(page/title)
+#: C/mail-encryption.page:32(page/title)
 msgid "Mail encryption and certificates"
 msgstr "Cifrado de correo y certificados"
 
-#: C/mail-encryption.page:36(page/p)
+#: C/mail-encryption.page:34(page/p)
 msgid ""
 "Evolution offers GPG Encryption and S/MIME Encryption for signing and "
 "encrypting email messages. S/MIME is used most often in corporate "
@@ -8233,11 +8180,11 @@ msgstr ""
 "Evolution ofrece cifrado GPG y S/MIME para firmar y cifrar mensajes de "
 "correo electrónico. En entornos corporativos S/MIME se usa más."
 
-#: C/mail-encryption.page:39(section/title)
+#: C/mail-encryption.page:37(section/title)
 msgid "GPG"
 msgstr "GPG"
 
-#: C/mail-encryption.page:43(section/title)
+#: C/mail-encryption.page:41(section/title)
 msgid "S/MIME"
 msgstr "S/MIME"
 
@@ -8345,129 +8292,6 @@ msgstr ""
 #: C/mail-encryption-s-mime-signing-encrypting.page:33(item/p)
 msgid "Select the appropriate options."
 msgstr "Seleccione las opciones apropiadas."
-
-#: C/mail-error-failed-to-append-to-sent-folder.page:5(info/desc)
-#: C/mail-error-no-provider-available.page:5(info/desc)
-msgid "What to do when this error is shown."
-msgstr "Qué hacer cuando se muestra este error."
-
-#: C/mail-error-failed-to-append-to-sent-folder.page:24(page/title)
-msgid "Error message \"Failed to append to...\" after sending message"
-msgstr ""
-"Mensaje de error «No es posible anexar a ...» después de enviar un correo"
-
-#: C/mail-error-failed-to-append-to-sent-folder.page:26(page/p)
-msgid ""
-"If the error message \"Your message was sent, but an error occurred during "
-"post-processing. The reported error was \"Failed to append to mbox:///home/"
-"user/.local/share/evolution/mail/local#Sent: Cannot get folder 'Sent': "
-"folder does not exist. Appending to local 'Sent' folder instead.\".\" is "
-"shown, you can fix the problem by editing your default folder settings under "
-"<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui "
-"style=\"button\">Edit</gui><gui>Defaults</gui><gui>Folder for sent messages</"
-"gui></guiseq>."
-msgstr ""
-"Si se muestra el mensaje «Se envió su mensaje pero ocurrió un error en el "
-"posprocesado. El error devuelto fue «Falló al anexar a mbox:///home/user/."
-"local/share/evolution/mail/local#Sent: No se puede obtener la carpeta "
-"«Enviados»: la carpeta no existe. En su lugar se anexará a la carpeta local "
-"«Correo enviado».» puede solucionar el problema editando su carpeta "
-"predeterminada en <guiseq><gui>Editar</gui><gui>Preferencias</"
-"gui><gui>Cuentas de correo</gui><gui style=\"button\">Editar</"
-"gui><gui>Predeterminados</gui><gui>Carpeta de mensajes enviados</gui></"
-"guiseq>."
-
-#: C/mail-error-failed-to-append-to-sent-folder.page:27(page/p)
-msgid ""
-"This bug is fixed in Evolution versions higher than 3.0.2 (stable series) "
-"and 3.1.3 (unstable development series). If this is not the case, please add "
-"a comment to the corresponding <link href=\"https://bugzilla.gnome.org/"
-"show_bug.cgi?id=638307\">bug report</link>."
-msgstr ""
-"Este error está solucionado en las versiones de Evolution mayores que 3.0.2 "
-"(series estables) y mayor que 3.1.3 (versiones de desarrollo inestables). Si "
-"no es el caso, añada un comentario al correspondiente <link href=\"https://"
-"bugzilla.gnome.org/show_bug.cgi?id=638307\">informe de error</link>."
-
-#: C/mail-error-no-provider-available.page:20(page/title)
-msgid "Error message \"No provider available for protocol email\""
-msgstr ""
-"Mensaje de error «No hay proveedor disponible para el protocolo de correo»"
-
-#: C/mail-error-no-provider-available.page:22(page/p)
-msgid "This error message may be displayed for a number of reasons:"
-msgstr "Este mensaje se puede mostrar por cierto número de motivos:"
-
-#: C/mail-error-no-provider-available.page:26(item/p)
-msgid "The filters used do not match the account they are associated with."
-msgstr ""
-"Los filtros usados no coinciden con la cuenta a la que están asociados."
-
-#: C/mail-error-no-provider-available.page:27(item/p)
-msgid ""
-"This happens when the <file>filters.xml</file> file is copied and used on a "
-"fresh install of Evolution on a new machine."
-msgstr ""
-"Esto sucede cuando el archivo <file>filters.xml</file> se copia y usa en una "
-"instalación nueva de Evolution en un equipo nuevo."
-
-#: C/mail-error-no-provider-available.page:28(item/p)
-msgid ""
-"Accounts have unique ID numbers, and filters refer to these accounts "
-"directly. Simply copying the <file>filters.xml</file> file will cause a "
-"version mismatch with Evolution, affecting the filter rules."
-msgstr ""
-"Las cuentas tienen números de identificación (ID) únicos y los filtros se "
-"refieren a esas cuentas directamente. Copiar el archivo <file>filters.xml</"
-"file> hará que exista un error de versión en Evolution que afectará a las "
-"reglas."
-
-#: C/mail-error-no-provider-available.page:31(item/p)
-msgid "The account settings may not have been copied properly."
-msgstr ""
-"Puede que la configuración de la cuenta no se haya copiado correctamente."
-
-#: C/mail-error-no-provider-available.page:32(item/p)
-msgid "The account settings were modified."
-msgstr "Se modificó la configuración de la cuenta."
-
-#: C/mail-error-no-provider-available.page:35(page/p)
-msgid ""
-"To fix this problem, edit the email filters and re-select the folder for "
-"each Copy/Move filter. To do this:"
-msgstr ""
-"Para solucionar este problema edite los filtros de correo y vuelva a "
-"seleccionar la carpeta para cada filtro de Copiar/mover. Para ello:"
-
-#: C/mail-error-no-provider-available.page:37(item/p)
-msgid "Go to <guiseq><gui>Edit</gui><gui>Message Filters</gui></guiseq>."
-msgstr ""
-"Vaya a <guiseq><gui>Editar</gui><gui>Filtros de mensajes</gui></guiseq>."
-
-#: C/mail-error-no-provider-available.page:38(item/p)
-msgid "Select the Copy/Move filter and click <gui>Edit</gui>."
-msgstr "Seleccione el filtro Copiar-Mover y pulse <gui>Editar</gui>."
-
-#: C/mail-error-no-provider-available.page:39(item/p)
-msgid ""
-"Refer to the list of folders associated with that particular filter. Click "
-"on the button that allows you to modify the folders assigned for that "
-"filter. Set the folders again."
-msgstr ""
-"Consulte la lista de las carpetas asociadas con ese filtro en particular. "
-"Pulse el botón que le permite modificar las carpetas asignadas para ese "
-"filtro. Configure de nuevo las carpetas."
-
-#: C/mail-error-no-provider-available.page:43(note/p)
-msgid ""
-"Advanced users may also be interested in this write up: <link href=\"https://"
-"thomas.apestaart.org/thomas/trac/wiki/Evolution\">How to keep the Evolution "
-"filters in sync on multiple machines by Thomas Vander Stichele</link>"
-msgstr ""
-"Los usuarios avanzados también pueden estar interesados en este escrito: "
-"<link href=\"https://thomas.apestaart.org/thomas/trac/wiki/Evolution\">cómo "
-"mantener sincronizados los filtros de Evolution en varios equipos, por "
-"Thomas Vander Stichele</link>"
 
 #: C/mail-filters-actions.page:5(info/desc)
 msgid "Available actions for setting up filtering."
@@ -9106,8 +8930,8 @@ msgid ""
 "can enable logging filter actions. <_:list-2/> <_:p-3/> <_:p-4/>"
 msgstr ""
 "<_:title-1/> Si todavía no tiene claro porqué los filtros no funcionan como "
-"esperaba, puede activar el registro de las acciones de los filtros. <_:"
-"list-2/> <_:p-3/> <_:p-4/>"
+"esperaba, puede activar el registro de las acciones de los filtros. <_:list-"
+"2/> <_:p-3/> <_:p-4/>"
 
 #: C/mail-filters.page:5(info/desc)
 msgid "Use filter rules to sort your mail automatically into folders."
@@ -9500,134 +9324,15 @@ msgstr ""
 "seleccionar <guiseq><gui>Mensaje</gui><gui>Marcar como</gui><gui>Importante</"
 "gui></guiseq> desde la barra de menú."
 
-#: C/mail-imap-headers.page:5(info/desc)
-msgid "Define which mail headers to download when using IMAP."
-msgstr "Defina qué cabeceras de correo descargar cuando use IMAP."
-
-#: C/mail-imap-headers.page:27(note/p)
-msgid ""
-"The <gui>IMAP Headers</gui> tab is only displayed in the <gui>Account "
-"Editor</gui> if <guiseq><gui>Edit</gui><gui>Plugins</gui><gui>IMAP Features</"
-"gui></guiseq> is enabled."
-msgstr ""
-"La pestaña <gui>Cabeceras IMAP</gui> sólo se muestra en el <gui>Editor de "
-"cuentas</gui> si <guiseq><gui>Editar</gui><gui>Complementos</"
-"gui><gui>Cabeceras IMAP</gui></guiseq> está activada."
-
-#: C/mail-imap-headers.page:29(page/p)
-msgid ""
-"Evolution allows you for IMAP accounts to choose the headers that you want "
-"to download so that you can reduce the download time and filter or move your "
-"mail around the way you like it. The IMAP Mail header options are as follows:"
-msgstr ""
-"Evolution le permite elegir para las cuentas IMAP las cabeceras que quiere "
-"descargar para reducir el tiempo de descarga y filtrar o mover sus correos "
-"de la manera que quiera. Las opciones de las cabeceras de correo IMAP son "
-"las siguientes:"
-
-#: C/mail-imap-headers.page:31(item/p)
-msgid "Fetch All Headers:"
-msgstr "Obtener todas las cabeceras:"
-
-#: C/mail-imap-headers.page:31(item/p)
-msgid ""
-"All available IMAP mail headers for all the messages will be downloaded."
-msgstr ""
-"Se descargarán todas las cabeceras IMAP disponibles para todos los mensajes."
-
-#: C/mail-imap-headers.page:32(item/p)
-msgid "Basic Headers (Fastest):"
-msgstr "Cabeceras básicas (lo más rápido):"
-
-#: C/mail-imap-headers.page:32(item/p)
-msgid ""
-"This will include Date, From, To, CC, Subject, Preferences, In-Reply-To, "
-"Message-ID, Mime-Version, and Content-Type. If you want to just fetch and "
-"see messages without having to categorically filter messages based on your "
-"mailing lists, choose this option. This will make Evolution work faster and "
-"is generally recommended for common users."
-msgstr ""
-"Esto incluirá Fecha, De, Para, Cc, Asunto, Preferencias, Responder a, Id del "
-"mensaje, Versión MIME y Tipo de contenido. Si sólo quiere obtener el correo "
-"y ver los correos sin tener que filtrar los correos por categorías basados "
-"en sus listas de correo, elija esta opción. Esto hará que Evolution trabaje "
-"más rápido y generalmente se recomienda para usuarios normales."
-
-#: C/mail-imap-headers.page:33(item/p)
-msgid "Basic and Mailing List Headers (Default):"
-msgstr "Cabeceras básicas y de listas de correo (predeterminadas):"
-
-#: C/mail-imap-headers.page:33(item/p)
-msgid ""
-"Enable this option to have filters based on mailing list headers (like list "
-"ID) so that in addition to the basic headers, the headers that correspond to "
-"mailing-lists are also fetched. Mailing list headers will have information "
-"such as the mailinglist-ID, owner of the mailing list, and so on with which "
-"you can create mailing list filters."
-msgstr ""
-"Active esta opción para tener filtros basados en las cabeceras de las listas "
-"de correo (como id-lista) además de las cabeceras básicas, se obtendrán "
-"también las cabeceras que correspondan a listas de correo. Las cabeceras de "
-"las listas de correo contendrán información tal como el ID de la lista de "
-"correo, el propietario de la lista de correo y demás, con lo que puede crear "
-"un filtro para listas de correo."
-
-#: C/mail-imap-headers.page:33(item/p)
-msgid ""
-"This is the default Header preference that comes with Evolution. When this "
-"option is chosen, Evolution will download a basic set of headers (as "
-"described above) along with a set of headers that are needed for client-side "
-"filters based on mailing lists. If you do not have any filters on Evolution, "
-"it is recommended to switch to the <gui>Basic Headers</gui> option."
-msgstr ""
-"Estas son las preferencias predeterminadas en Evolution para las Cabeceras. "
-"Cuando se elige esta opción, Evolution descargará un juego básico de "
-"cabeceras (como se describió anteriormente) junto con las cabeceras "
-"necesarias para los filtros de correo del cliente, basados en listas de "
-"correo. Si no tiene ningún filtro en Evolution, se recomienda que cambie a "
-"la opción <gui>Cabeceras básicas</gui>."
-
-#: C/mail-imap-headers.page:36(page/p)
-msgid "To set the IMAP Mail headers:"
-msgstr "Para establecer las cabeceras de correo IMAP:"
-
-#: C/mail-imap-headers.page:39(item/p)
-msgid "Select the IMAP account."
-msgstr "Seleccione la cuenta IMAP."
-
-#: C/mail-imap-headers.page:40(item/p)
-msgid "Click <gui>Edit</gui>."
-msgstr "Pulse <gui>Editar</gui>."
-
-#: C/mail-imap-headers.page:41(item/p)
-msgid "Click the <gui>IMAP Headers</gui> tab."
-msgstr "Pulse en le pestaña <gui>Cabeceras IMAP</gui>."
-
-#: C/mail-imap-headers.page:42(item/p)
-msgid ""
-"Optionally: If you want to define extra headers to download you can add "
-"these in the <gui>Custom Headers</gui> section."
-msgstr ""
-"Opcionalmente: si quiere definir cabeceras adicionales para descargar puede "
-"añadirlas en la sección <gui>Cabeceras personalizadas</gui>."
-
-#: C/mail-imap-headers.page:45(note/p)
-msgid ""
-"The option to define IMAP Headers is currently only available for IMAP "
-"accounts, but not for IMAP+ accounts."
-msgstr ""
-"Actualmente la opción para definir las cabeceras IMAP sólo está disponible "
-"para cuentas IMAP, pero no para cuentas IMAP+."
-
 #: C/mail-imap-subscriptions.page:5(info/desc)
 msgid "IMAP folder subscriptions."
 msgstr "Carpeta IMAP para suscripciones."
 
-#: C/mail-imap-subscriptions.page:26(page/title)
+#: C/mail-imap-subscriptions.page:25(page/title)
 msgid "IMAP Subscriptions"
 msgstr "Suscripciones IMAP"
 
-#: C/mail-imap-subscriptions.page:28(page/p)
+#: C/mail-imap-subscriptions.page:27(page/p)
 msgid ""
 "As opening many IMAP folders on the server takes time you can define which "
 "IMAP folders to check and display in Evolution, and which ones to ignore for "
@@ -9637,7 +9342,7 @@ msgstr ""
 "definir qué carpetas IMAP comprobar y mostrar en Evolution y cuáles ignorar "
 "por el momento, a través del <gui>Gestor de suscripciones IMAP</gui>."
 
-#: C/mail-imap-subscriptions.page:30(item/p)
+#: C/mail-imap-subscriptions.page:29(item/p)
 msgid ""
 "Select <guiseq><gui>Folder</gui><gui>Subscriptions</gui></guiseq>, or right-"
 "click on the top level node of an email account in the folder list and click "
@@ -9648,7 +9353,7 @@ msgstr ""
 "cuenta de correo-e en la lista de carpetas y pulse <gui>Gestionar "
 "subscripciones</gui>."
 
-#: C/mail-imap-subscriptions.page:31(item/p)
+#: C/mail-imap-subscriptions.page:30(item/p)
 #: C/mail-usenet-subscriptions.page:30(item/p)
 msgid ""
 "If you have accounts on multiple servers, select the server where you want "
@@ -9657,18 +9362,18 @@ msgstr ""
 "Si tiene cuentas en varios servidores, seleccione el servidor donde quiere "
 "gestionar sus suscripciones."
 
-#: C/mail-imap-subscriptions.page:32(item/p)
+#: C/mail-imap-subscriptions.page:31(item/p)
 msgid ""
 "Evolution displays a list of files and folders available on the IMAP server."
 msgstr ""
 "Evolution mostrará la lista de archivos y carpetas disponibles en el "
 "servidor IMAP."
 
-#: C/mail-imap-subscriptions.page:33(item/p)
+#: C/mail-imap-subscriptions.page:32(item/p)
 msgid "Select a file or folder by clicking it."
 msgstr "Seleccione un archivo o carpeta pulsando sobre él."
 
-#: C/mail-imap-subscriptions.page:34(item/p)
+#: C/mail-imap-subscriptions.page:33(item/p)
 msgid ""
 "You should select at least the Inbox folder. Depending upon the way your "
 "IMAP server is configured, the list of available files might include non-"
@@ -9679,7 +9384,7 @@ msgstr ""
 "puede incluir carpetas que no son de correo, que puede ignorar sin mayor "
 "problema."
 
-#: C/mail-imap-subscriptions.page:35(item/p)
+#: C/mail-imap-subscriptions.page:34(item/p)
 msgid "Click a folder's checkbox to add a folder to your subscriptions."
 msgstr ""
 "Active la correspondiente casilla de verificación de carpeta para añadir una "
@@ -9780,8 +9485,8 @@ msgid ""
 msgstr ""
 "Generalmente se añade un prefijo «Re:» a la línea del asunto cuando se "
 "responde a un correo. Algunas aplicaciones usan términos traducidos para "
-"esto (por ejemplo, «SV» en danés o «AW» en alemán). <app>Evolution</app> "
-"puede reconocer estos términos para evitar que el sujeto se haga muy largo a "
+"esto (por ejemplo, «SV» en danés o «AW» en alemán). <app>Evolution</app> puede "
+"reconocer estos términos para evitar que el sujeto se haga muy largo a "
 "medida que avanza la conversación."
 
 #: C/mail-localized-re-subjects.page:26(item/p)
@@ -10029,11 +9734,11 @@ msgstr ""
 msgid "How to enable requesting read receipts."
 msgstr "Cómo activar la solicitud de confirmación de lectura."
 
-#: C/mail-read-receipts.page:33(page/title)
+#: C/mail-read-receipts.page:32(page/title)
 msgid "Read receipts for emails"
 msgstr "Confirmación de lectura para correos"
 
-#: C/mail-read-receipts.page:35(page/p)
+#: C/mail-read-receipts.page:34(page/p)
 msgid ""
 "Read receipts are a way for people to acknowledge that they have received "
 "your email. The recipient can normally choose whether to acknowledge the "
@@ -10045,7 +9750,7 @@ msgstr ""
 "quiere confirmar la lectura o no, de tal forma que no es una forma "
 "completamente segura de saber si alguien ha recibido sus correos."
 
-#: C/mail-read-receipts.page:37(page/p)
+#: C/mail-read-receipts.page:36(page/p)
 msgid ""
 "You can request read receipts by enabling this option in the email "
 "composer's menu. To do so, go to <guiseq><gui>Options</gui><gui>Request Read "
@@ -10055,7 +9760,7 @@ msgstr ""
 "editor de correos. Para ello, vaya a <guiseq><gui>Opciones</"
 "gui><gui>Solicitar confirmación de lectura</gui></guiseq>."
 
-#: C/mail-read-receipts.page:39(page/p)
+#: C/mail-read-receipts.page:38(page/p)
 msgid ""
 "For read receipts that you receive you can define Evolution's behavior by "
 "going to <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</"
@@ -10129,18 +9834,17 @@ msgstr ""
 "para obtener notificaciones también para los mensajes nuevos en el área de "
 "Notificación de GNOME en la parte inferior de la pantalla."
 
-#: C/mail-receiving-options-evolution-exchange.page:5(info/desc)
-msgid "Receiving options for Evolution Exchange accounts."
-msgstr "Opciones de recepción para cuentas de Evolution Exchange."
+#: C/mail-receiving-options-exchange-ews.page:5(info/desc)
+msgid "Receiving options for Exchange Web Services accounts."
+msgstr "Opciones de recepción para cuentas Exchange Web Services."
 
-#: C/mail-receiving-options-evolution-exchange.page:23(page/title)
-msgid "Evolution Exchange receiving options"
-msgstr "Opciones de recepción de Microsoft Exchange"
+#: C/mail-receiving-options-exchange-ews.page:20(page/title)
+msgid "Exchange Web Services receiving options"
+msgstr "Opciones de recepción Exchange Web Services"
 
-#: C/mail-receiving-options-evolution-exchange.page:28(section/p)
 #: C/mail-receiving-options-exchange-ews.page:25(section/p)
 #: C/mail-receiving-options-exchange-mapi.page:25(section/p)
-#: C/mail-receiving-options-imap.page:28(section/p)
+#: C/mail-receiving-options-imap.page:27(section/p)
 #: C/mail-receiving-options-imap-plus.page:28(section/p)
 #: C/mail-receiving-options-local-delivery.page:25(section/p)
 #: C/mail-receiving-options-maildir-format-directories.page:25(section/p)
@@ -10160,24 +9864,20 @@ msgstr ""
 "gui><gui style=\"button\">Editar</gui><gui>Recepción de correo</gui></"
 "guiseq>):"
 
-#: C/mail-receiving-options-evolution-exchange.page:31(item/p)
 #: C/mail-receiving-options-exchange-ews.page:28(item/p)
 msgid "Enter your username for that server."
 msgstr "Introduzca su nombre de usuario para ese servidor."
 
-#: C/mail-receiving-options-evolution-exchange.page:32(item/p)
-msgid "Enter the OWA URL for that server."
-msgstr "Introduzca el URL del OWA para ese servidor."
-
-#: C/mail-receiving-options-evolution-exchange.page:33(item/p)
+#: C/mail-receiving-options-exchange-ews.page:29(item/p)
 msgid ""
-"Select if the mailbox name is different from the username. If it is, enter "
-"the mailbox name."
+"Either manually enter the Host URL and OAB URL, or click <gui style=\"button"
+"\">Fetch URL</gui> which will ask you for your password and then try to "
+"automatically fill in the values."
 msgstr ""
-"Seleccione si el nombre del buzón de correo es diferente del nombre de "
-"usuario. De serlo, introduzca el nombre del buzón."
+"Introduzca el URL del servidor y el URL OAB o pulse <gui style=\"button"
+"\">Obtener URL</gui> que le preguntará una contraseña y después inententará "
+"rellenar automáticamente los valores."
 
-#: C/mail-receiving-options-evolution-exchange.page:34(note/p)
 #: C/mail-receiving-options-exchange-ews.page:30(note/p)
 #: C/mail-receiving-options-exchange-mapi.page:30(note/p)
 #: C/mail-receiving-options-novell-groupwise.page:34(note/p)
@@ -10188,10 +9888,9 @@ msgstr ""
 "Si está en un acontecimiento organizado puede que quiera contactar con el "
 "administrador de su sistema para obtener más información."
 
-#: C/mail-receiving-options-evolution-exchange.page:35(item/p)
 #: C/mail-receiving-options-exchange-ews.page:31(item/p)
 #: C/mail-receiving-options-exchange-mapi.page:31(item/p)
-#: C/mail-receiving-options-imap.page:34(item/p)
+#: C/mail-receiving-options-imap.page:33(item/p)
 #: C/mail-receiving-options-imap-plus.page:34(item/p)
 #: C/mail-receiving-options-novell-groupwise.page:35(item/p)
 #: C/mail-receiving-options-pop.page:38(item/p)
@@ -10209,16 +9908,9 @@ msgstr ""
 "mecanismos de autenticación soportan esto, así que pulsar este botón no "
 "garantiza que los mecanismos disponibles actualmente funcionen."
 
-#: C/mail-receiving-options-evolution-exchange.page:36(item/p)
-#: C/mail-receiving-options-exchange-mapi.page:33(item/p)
-msgid "Click <gui style=\"button\">Authenticate</gui> and enter your password."
-msgstr ""
-"Pulse <gui style=\"button\">Autenticar</gui> e introduzca su contraseña."
-
-#: C/mail-receiving-options-evolution-exchange.page:42(section/title)
 #: C/mail-receiving-options-exchange-ews.page:37(section/title)
 #: C/mail-receiving-options-exchange-mapi.page:39(section/title)
-#: C/mail-receiving-options-imap.page:41(section/title)
+#: C/mail-receiving-options-imap.page:40(section/title)
 #: C/mail-receiving-options-imap-plus.page:41(section/title)
 #: C/mail-receiving-options-local-delivery.page:34(section/title)
 #: C/mail-receiving-options-maildir-format-directories.page:34(section/title)
@@ -10231,10 +9923,9 @@ msgstr ""
 msgid "Receiving Options"
 msgstr "Opciones de recepción"
 
-#: C/mail-receiving-options-evolution-exchange.page:44(section/p)
 #: C/mail-receiving-options-exchange-ews.page:39(section/p)
 #: C/mail-receiving-options-exchange-mapi.page:41(section/p)
-#: C/mail-receiving-options-imap.page:43(section/p)
+#: C/mail-receiving-options-imap.page:42(section/p)
 #: C/mail-receiving-options-imap-plus.page:43(section/p)
 #: C/mail-receiving-options-local-delivery.page:36(section/p)
 #: C/mail-receiving-options-maildir-format-directories.page:36(section/p)
@@ -10254,10 +9945,9 @@ msgstr ""
 "gui><gui style=\"button\">Editar</gui><gui>Recepción de correo</gui></"
 "guiseq>):"
 
-#: C/mail-receiving-options-evolution-exchange.page:47(item/p)
 #: C/mail-receiving-options-exchange-ews.page:42(item/p)
 #: C/mail-receiving-options-exchange-mapi.page:44(item/p)
-#: C/mail-receiving-options-imap.page:46(item/p)
+#: C/mail-receiving-options-imap.page:45(item/p)
 #: C/mail-receiving-options-imap-plus.page:46(item/p)
 #: C/mail-receiving-options-local-delivery.page:39(item/p)
 #: C/mail-receiving-options-maildir-format-directories.page:39(item/p)
@@ -10275,7 +9965,6 @@ msgstr ""
 "seleccione la opción <gui>Comprobar si hay mensajes nuevos cada ... minutos</"
 "gui> y seleccione la frecuencia en minutos."
 
-#: C/mail-receiving-options-evolution-exchange.page:48(item/p)
 #: C/mail-receiving-options-exchange-ews.page:43(item/p)
 #: C/mail-receiving-options-exchange-mapi.page:45(item/p)
 msgid ""
@@ -10283,76 +9972,6 @@ msgid ""
 msgstr ""
 "También puede definir si quiere que Evolution compruebe si hay mensajes "
 "nuevos en todas las carpetas."
-
-#: C/mail-receiving-options-evolution-exchange.page:49(item/p)
-msgid ""
-"In the section <gui>Global Address List/Active Directory</gui>, specify the "
-"name of the Global Catalog server. The Global Catalog Server contains the "
-"user information for users."
-msgstr ""
-"En la sección <gui>Lista de acceso global/Directorio Activo</gui> "
-"especifique el nombre del servidor del catálogo global. El servidor del "
-"catálogo global contiene la información de los usuarios."
-
-#: C/mail-receiving-options-evolution-exchange.page:50(item/p)
-msgid ""
-"Select if you want to limit the number of Global Address List (GAL) "
-"responses as this may increase speed. The GAL contains a list of all email "
-"addresses."
-msgstr ""
-"Seleccione si quiere limitar el número de respuestas de Listas de "
-"direcciones globales (GAL) ya puede aumentar la velocidad. Las GAL contienen "
-"una lista de todas las direcciones de correo-e."
-
-#: C/mail-receiving-options-evolution-exchange.page:51(item/p)
-msgid ""
-"You also have to define the Authentication type, and whether you want groups "
-"of contacts in GAL to be represented in the Evolution address book by <link "
-"xref=\"contacts-using-contact-lists\">contact lists</link>."
-msgstr ""
-"También tiene que definir el tipo de Autenticación y si quiere que los "
-"grupos de contactos en GAL se muestren en la libreta de direcciones de "
-"Evolution a través de <link xref=\"contacts-using-contact-lists\">listas de "
-"contactos</link>."
-
-#: C/mail-receiving-options-evolution-exchange.page:58(section/p)
-#: C/mail-receiving-options-exchange-ews.page:52(section/p)
-#: C/mail-receiving-options-exchange-mapi.page:52(section/p)
-#: C/mail-receiving-options-imap.page:57(section/p)
-#: C/mail-receiving-options-imap-plus.page:58(section/p)
-#: C/mail-receiving-options-local-delivery.page:46(section/p)
-#: C/mail-receiving-options-maildir-format-directories.page:47(section/p)
-#: C/mail-receiving-options-mh-format-directories.page:46(section/p)
-#: C/mail-receiving-options-novell-groupwise.page:56(section/p)
-#: C/mail-receiving-options-pop.page:60(section/p)
-#: C/mail-receiving-options-unix-mbox-spool-directory.page:46(section/p)
-#: C/mail-receiving-options-unix-mbox-spool-file.page:47(section/p)
-#: C/mail-receiving-options-usenet-news.page:57(section/p)
-msgid ""
-"If you came to this page from the first-run wizard help page, click <link "
-"xref=\"intro-first-run#sending\">here</link> to continue with the next step."
-msgstr ""
-"Si ha llegado a esta página desde la página del asistente de primera "
-"ejecución, pulse <link xref=\"intro-first-run#sending\">aquí</link> para "
-"continuar con el siguiente paso."
-
-#: C/mail-receiving-options-exchange-ews.page:5(info/desc)
-msgid "Receiving options for Exchange Web Services accounts."
-msgstr "Opciones de recepción para cuentas Exchange Web Services."
-
-#: C/mail-receiving-options-exchange-ews.page:20(page/title)
-msgid "Exchange Web Services receiving options"
-msgstr "Opciones de recepción Exchange Web Services"
-
-#: C/mail-receiving-options-exchange-ews.page:29(item/p)
-msgid ""
-"Either manually enter the Host URL and OAB URL, or click <gui style=\"button"
-"\">Fetch URL</gui> which will ask you for your password and then try to "
-"automatically fill in the values."
-msgstr ""
-"Introduzca el URL del servidor y el URL OAB o pulse <gui style=\"button"
-"\">Obtener URL</gui> que le preguntará una contraseña y después inententará "
-"rellenar automáticamente los valores."
 
 #: C/mail-receiving-options-exchange-ews.page:44(item/p)
 msgid ""
@@ -10377,6 +9996,26 @@ msgstr ""
 "automáticamente para los correos nuevos en su Bandeja de entrada, active "
 "<gui>Aplicar filtros a los mensajes nuevos en la bandeja de entrada</gui>."
 
+#: C/mail-receiving-options-exchange-ews.page:52(section/p)
+#: C/mail-receiving-options-exchange-mapi.page:52(section/p)
+#: C/mail-receiving-options-imap.page:56(section/p)
+#: C/mail-receiving-options-imap-plus.page:58(section/p)
+#: C/mail-receiving-options-local-delivery.page:46(section/p)
+#: C/mail-receiving-options-maildir-format-directories.page:47(section/p)
+#: C/mail-receiving-options-mh-format-directories.page:46(section/p)
+#: C/mail-receiving-options-novell-groupwise.page:56(section/p)
+#: C/mail-receiving-options-pop.page:60(section/p)
+#: C/mail-receiving-options-unix-mbox-spool-directory.page:46(section/p)
+#: C/mail-receiving-options-unix-mbox-spool-file.page:47(section/p)
+#: C/mail-receiving-options-usenet-news.page:57(section/p)
+msgid ""
+"If you came to this page from the first-run wizard help page, click <link "
+"xref=\"intro-first-run#sending\">here</link> to continue with the next step."
+msgstr ""
+"Si ha llegado a esta página desde la página del asistente de primera "
+"ejecución, pulse <link xref=\"intro-first-run#sending\">aquí</link> para "
+"continuar con el siguiente paso."
+
 #: C/mail-receiving-options-exchange-mapi.page:5(info/desc)
 msgid "Receiving options for Exchange MAPI accounts."
 msgstr "Opciones de recepción para cuentas Exchange MAPI."
@@ -10386,7 +10025,7 @@ msgid "Exchange MAPI receiving options"
 msgstr "Opciones de recepción Exchange MAPI"
 
 #: C/mail-receiving-options-exchange-mapi.page:28(item/p)
-#: C/mail-receiving-options-imap.page:31(item/p)
+#: C/mail-receiving-options-imap.page:30(item/p)
 #: C/mail-receiving-options-imap-plus.page:31(item/p)
 #: C/mail-receiving-options-novell-groupwise.page:32(item/p)
 #: C/mail-receiving-options-pop.page:35(item/p)
@@ -10403,7 +10042,7 @@ msgid "Enter the Domain name for that server."
 msgstr "Introduzca el nombre de dominio para ese servidor."
 
 #: C/mail-receiving-options-exchange-mapi.page:32(item/p)
-#: C/mail-receiving-options-imap.page:32(item/p)
+#: C/mail-receiving-options-imap.page:31(item/p)
 #: C/mail-receiving-options-imap-plus.page:32(item/p)
 #: C/mail-receiving-options-novell-groupwise.page:33(item/p)
 #: C/mail-receiving-options-pop.page:36(item/p)
@@ -10411,15 +10050,20 @@ msgstr "Introduzca el nombre de dominio para ese servidor."
 msgid "Select if you want to use a secure connection (SSL or TLS)."
 msgstr "Seleccione su quiere usar una conexión segura (SSL o TLS)."
 
+#: C/mail-receiving-options-exchange-mapi.page:33(item/p)
+msgid "Click <gui style=\"button\">Authenticate</gui> and enter your password."
+msgstr ""
+"Pulse <gui style=\"button\">Autenticar</gui> e introduzca su contraseña."
+
 #: C/mail-receiving-options-imap.page:5(info/desc)
 msgid "Receiving options for IMAP accounts."
 msgstr "Opciones de recepción para cuentas IMAP."
 
-#: C/mail-receiving-options-imap.page:23(page/title)
+#: C/mail-receiving-options-imap.page:22(page/title)
 msgid "IMAP receiving options"
 msgstr "Opciones de recepción IMAP"
 
-#: C/mail-receiving-options-imap.page:32(item/p)
+#: C/mail-receiving-options-imap.page:31(item/p)
 #: C/mail-receiving-options-imap-plus.page:32(item/p)
 #: C/mail-receiving-options-novell-groupwise.page:33(item/p)
 #: C/mail-receiving-options-pop.page:36(item/p)
@@ -10427,12 +10071,12 @@ msgstr "Opciones de recepción IMAP"
 msgid "You should enable this option if your server supports it."
 msgstr "Debería activar esta opción si su servidor la soporta."
 
-#: C/mail-receiving-options-imap.page:33(note/p)
+#: C/mail-receiving-options-imap.page:32(note/p)
 #: C/mail-receiving-options-imap-plus.page:33(note/p)
 #: C/mail-receiving-options-pop.page:37(note/p)
 #: C/mail-receiving-options-pop.page:39(note/p)
 #: C/mail-receiving-options-usenet-news.page:33(note/p)
-#: C/mail-sending-options-smtp.page:31(note/p)
+#: C/mail-sending-options-smtp.page:30(note/p)
 msgid ""
 "Free webmail providers often supply information about which of these options "
 "can be used. If you are in an organizational environment, you may want to "
@@ -10443,7 +10087,7 @@ msgstr ""
 "acontecimiento organizado puede que quiera contactar con el administrador de "
 "su sistema para obtener más información."
 
-#: C/mail-receiving-options-imap.page:35(item/p)
+#: C/mail-receiving-options-imap.page:34(item/p)
 #: C/mail-receiving-options-imap-plus.page:35(item/p)
 #: C/mail-receiving-options-novell-groupwise.page:36(item/p)
 #: C/mail-receiving-options-pop.page:40(item/p)
@@ -10451,7 +10095,7 @@ msgstr ""
 msgid "Select if you want Evolution to remember your password."
 msgstr "Marque si quiere que Evolution recuerde su contraseña."
 
-#: C/mail-receiving-options-imap.page:47(item/p)
+#: C/mail-receiving-options-imap.page:46(item/p)
 #: C/mail-receiving-options-imap-plus.page:48(item/p)
 msgid ""
 "You can also define if Evolution checks for new messages in all folders, or "
@@ -10460,7 +10104,7 @@ msgstr ""
 "También puede definir si Evolution debe comprobar si existe correo nuevo en "
 "todas sus carpetas o solo en las carpetas suscritas."
 
-#: C/mail-receiving-options-imap.page:48(item/p)
+#: C/mail-receiving-options-imap.page:47(item/p)
 #: C/mail-receiving-options-imap-plus.page:49(item/p)
 msgid ""
 "Select if you want Evolution to use custom commands to connect to the IMAP "
@@ -10469,7 +10113,7 @@ msgstr ""
 "Seleccione si quiere que Evolution use comandos personalizados para "
 "conectarse al servidor IMAP."
 
-#: C/mail-receiving-options-imap.page:49(item/p)
+#: C/mail-receiving-options-imap.page:48(item/p)
 #: C/mail-receiving-options-imap-plus.page:50(item/p)
 msgid ""
 "Select if you want Evolution to show only <link xref=\"mail-imap-"
@@ -10478,7 +10122,7 @@ msgstr ""
 "Seleccione si quiere que Evolution sólo muestre las <link xref=\"mail-imap-"
 "subscriptions\">carpetas suscritas</link>."
 
-#: C/mail-receiving-options-imap.page:50(item/p)
+#: C/mail-receiving-options-imap.page:49(item/p)
 #: C/mail-receiving-options-imap-plus.page:51(item/p)
 msgid ""
 "Select if you want Evolution to override server-supplied folder namespaces."
@@ -11187,11 +10831,11 @@ msgstr ""
 msgid "Sending options for SMTP."
 msgstr "Opciones de envío para SMTP."
 
-#: C/mail-sending-options-smtp.page:27(page/title)
+#: C/mail-sending-options-smtp.page:26(page/title)
 msgid "SMTP sending options"
 msgstr "Opciones de envío SMTP"
 
-#: C/mail-sending-options-smtp.page:30(item/p)
+#: C/mail-sending-options-smtp.page:29(item/p)
 msgid ""
 "Enter the address of your mail server for sending mail in the <gui>Server</"
 "gui> field and select if the server requires authentication (entering a "
@@ -11201,7 +10845,7 @@ msgstr ""
 "campo <gui>Servidor</gui> y seleccione si el servidor requiere autenticación "
 "(introduciendo un nombre de usuario y una contraseña)."
 
-#: C/mail-sending-options-smtp.page:33(item/p)
+#: C/mail-sending-options-smtp.page:32(item/p)
 msgid ""
 "If the server requires authentication, you need to provide the following "
 "information:"
@@ -11209,7 +10853,7 @@ msgstr ""
 "Si el servidor requiere autenticación debe proporcionar la siguiente "
 "información:"
 
-#: C/mail-sending-options-smtp.page:35(item/p)
+#: C/mail-sending-options-smtp.page:34(item/p)
 msgid ""
 "Select the authentication type in the Authentication list, or click "
 "<gui>Check for Supported Types</gui> to have Evolution check. Some servers "
@@ -11221,7 +10865,7 @@ msgstr ""
 "Algunos servidores no soportan esto, así que pulsar este botón no garantiza "
 "que los mecanismos disponibles actualmente funcionen."
 
-#: C/mail-sending-options-smtp.page:43(page/p)
+#: C/mail-sending-options-smtp.page:42(page/p)
 msgid ""
 "If you came to this page from the first-run wizard help page, click <link "
 "xref=\"intro-first-run#account-information\">here</link> to continue with "
@@ -11781,39 +11425,24 @@ msgstr ""
 "\">SpamAssassin</link>."
 
 #: C/mail-two-trash-folders.page:5(info/desc)
-msgid ""
-"An explanation for the problem that two trash folders are present in "
-"Evolution."
+msgid "How to have only one trash or junk folder per account."
 msgstr ""
-"Una explicación para el problema de las dos carpetas de Papelera presentes "
-"en Evolution."
+"Cómo hacer para tener una sola carpeta de Papelera o Spam para cada cuenta."
 
-#: C/mail-two-trash-folders.page:20(page/title)
-msgid "Two Trash folders shown for the same account"
-msgstr "Dos carpetas de Papelera mostradas para la misma cuenta"
+#: C/mail-two-trash-folders.page:25(page/title)
+#| msgid "Two Trash folders shown for the same account"
+msgid "Two Trash or Junk folders shown for the same account"
+msgstr "Dos carpetas de Papelera o Spam mostradas para la misma cuenta"
 
-#: C/mail-two-trash-folders.page:22(page/p)
+#: C/mail-two-trash-folders.page:27(page/p)
 msgid ""
-"You may have created another Trash folder to hold all your deleted email "
-"messages. This can happen when you use another email client together with "
-"Evolution."
+"If you use a remote mail account that also has Junk and/or Trash folders on "
+"the server you might face duplicated folders in Evolution."
 msgstr ""
-"Puede haber creado otra carpeta de Papelera para dejar allí todos sus "
-"correos electrónicos eliminados. Esto puede suceder cuando usa otro cliente "
-"de correo electrónico junto con Evolution."
+"Si usa una cuenta de correo remota que también tiene carpetas de Spam y/o de "
+"Papelera en el servidor, puede tener carpetas duplicadas en Evolution."
 
-#: C/mail-two-trash-folders.page:24(page/p)
-msgid ""
-"Evolution's <gui>Trash</gui> folder is a <link xref=\"mail-search-folders"
-"\">Search folder</link>. It does not really exist but simply displays all "
-"the messages that are marked for deletion in any folders of that account."
-msgstr ""
-"La carpeta de <gui>Papelera</gui> de Evolution es una <link xref=\"mail-"
-"search-folders\">Carpeta de búsqueda</link>. Realmente no existe pero "
-"muestra todos los mensajes marcados para su eliminación en cualquier carpeta "
-"de la cuenta."
-
-#: C/mail-two-trash-folders.page:26(page/p)
+#: C/mail-two-trash-folders.page:28(page/p)
 msgid ""
 "You can easily tell the two Trash folders apart by looking at their icons. "
 "The Evolution <gui>Trash</gui> folder has a special icon whereas the other "
@@ -11823,13 +11452,41 @@ msgstr ""
 "de <gui>Papelera</gui> de Evolution tiene un icono especial mientras que la "
 "otra carpeta física de Papelera es igual a cualquier otra carpeta."
 
-#: C/mail-two-trash-folders.page:28(note/p)
+#: C/mail-two-trash-folders.page:30(page/p)
+#| msgid ""
+#| "Evolution's <gui>Trash</gui> folder is a <link xref=\"mail-search-folders"
+#| "\">Search folder</link>. It does not really exist but simply displays all "
+#| "the messages that are marked for deletion in any folders of that account."
 msgid ""
-"Note that the <gui>Junk</gui> folder is also a search folder and may also "
-"appear twice."
+"By default, Evolution's <gui>Trash</gui> and <gui>Junk</gui> folders are "
+"<link xref=\"mail-search-folders\">Search folders</link>. They do not really "
+"exist but simply display all the messages that are marked as junk or for "
+"deletion in any folders of that account."
 msgstr ""
-"Tenga en cuenta que la carpeta <gui>SPAM</gui> es una carpeta de búsqueda y "
-"también puede aparecer dos veces."
+"De manera predeterminada, las carpeta de <gui>Papelera</gui> y <gui>Spam</"
+"gui> son <link xref=\"mail-search-folders\">Carpeta de búsqueda</link>. "
+"Realmente no existen pero muestran todos los mensajes marcados como spam o "
+"para seliminar en cualquier carpeta de la cuenta."
+
+#: C/mail-two-trash-folders.page:32(page/p)
+#| msgid ""
+#| "You can set a different place where to store messages in your Draft "
+#| "folder and Sent folder in the <gui>Defaults</gui> section of the mail "
+#| "account editor (<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail "
+#| "Accounts</gui><gui style=\"button\">Edit</gui><gui>Defaults</gui></"
+#| "guiseq>)."
+msgid ""
+"In order to only use the folders for Junk and Trash on the mail server, "
+"select the corresponding <gui>Use a Real Folder</gui> option under "
+"<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui "
+"style=\"button\">Edit</gui><gui>Defaults</gui></guiseq>. In this case, "
+"Evolution's local virtual folders will not be used."
+msgstr ""
+"Para usar las carpetas de Papelera y Spam del servidor de correo, seleccione "
+"la opción <gui>Usa una carpeta real</gui> correspondiente en "
+"<guiseq><gui>Editar</gui><gui>Preferencias</gui><gui>Cuentas de correo</"
+"gui><gui style=\"button\">Editar</gui><gui>Predeterminados</gui></guiseq>. "
+"En este caso, no se usarán las carpetas virtuales de Evolution."
 
 #: C/mail-usenet-subscriptions.page:5(info/desc)
 msgid "Subscribing to Usenet newsgroups."
@@ -11945,10 +11602,16 @@ msgid "Working Offline"
 msgstr "Trabar desconectado"
 
 #: C/mail-working-offline.page:25(page/p)
+#| msgid ""
+#| "Offline mode helps you communicate with remote mail storage systems like "
+#| "GroupWise, IMAP or Exchange, in situations where you are not connected to "
+#| "the network at all times. Evolution keeps a local copy of one or more "
+#| "folders to allow you to compose messages, storing them in your Outbox to "
+#| "be sent the next time you connect."
 msgid ""
-"Offline mode helps you communicate with remote mail storage systems like "
-"GroupWise, IMAP or Exchange, in situations where you are not connected to "
-"the network at all times. Evolution keeps a local copy of one or more "
+"Forced offline mode helps you communicate with remote mail storage systems "
+"like GroupWise, IMAP or Exchange, in situations where you are not connected "
+"to the network at all times. Evolution keeps a local copy of one or more "
 "folders to allow you to compose messages, storing them in your Outbox to be "
 "sent the next time you connect."
 msgstr ""
@@ -11958,12 +11621,25 @@ msgstr ""
 "de una o más carpetas y le permite crear nuevos mensajes, guardarlos en la "
 "Bandeja de salida y enviarlo en cuanto vuelva a conectarse."
 
-#: C/mail-working-offline.page:27(page/p)
+#: C/mail-working-offline.page:27(note/p) C/offline.page:30(note/p)
+msgid ""
+"Evolution's forced offline mode only refers to mail and does not apply to "
+"contacts and calendars."
+msgstr ""
+"El modo desconectado de Evolution sólo se refiere al correo y no se aplica a "
+"los contactos ni a los calendarios."
+
+#: C/mail-working-offline.page:29(page/p)
+#| msgid ""
+#| "POP mail downloads all messages to your local system, but other "
+#| "connections usually download just the headers, and get the rest only when "
+#| "you want to read the message. Before you go offline, Evolution downloads "
+#| "the unread messages from the folders you have chosen to store."
 msgid ""
 "POP mail downloads all messages to your local system, but other connections "
 "usually download just the headers, and get the rest only when you want to "
-"read the message. Before you go offline, Evolution downloads the unread "
-"messages from the folders you have chosen to store."
+"read the message. Before you force Evolution to be offline, Evolution "
+"downloads the unread messages from the folders you have chosen to store."
 msgstr ""
 "El correo POP descarga todos sus mensajes al sistema local, pero normalmente "
 "otras conexiones sólo descargan las cabeceras y obtienen el resto solamente "
@@ -11971,48 +11647,55 @@ msgstr ""
 "descargará todos los mensajes sin leer desde las carpetas que haya elegido "
 "almacenar."
 
-#: C/mail-working-offline.page:30(section/title)
+#: C/mail-working-offline.page:32(section/title)
 msgid "Marking folders for offline usage"
 msgstr "Marcar carpetas para su uso desconectado"
 
-#: C/mail-working-offline.page:31(section/p)
+#: C/mail-working-offline.page:33(section/p)
 msgid "To mark a mail folder for offline use,"
 msgstr "Para marcar una carpeta de correo para su uso desconectado,"
 
-#: C/mail-working-offline.page:33(item/p)
+#: C/mail-working-offline.page:35(item/p)
 msgid "Right-click the folder, then click <gui>Properties</gui>."
 msgstr ""
 "Pulse con el botón derecho del ratón sobre la carpeta, después pulse "
 "<gui>Propiedades</gui>."
 
-#: C/mail-working-offline.page:34(item/p)
+#: C/mail-working-offline.page:36(item/p)
 msgid "Click <gui>Copy folder content locally for offline operation</gui>."
 msgstr ""
 "Pulse <gui>Copiar el contenido de la carpeta localmente para operar "
 "desconectado</gui>."
 
-#: C/mail-working-offline.page:39(section/title)
+#: C/mail-working-offline.page:41(section/title)
 msgid "Syncing messages for offline usage"
 msgstr "Sincronizar mensajes para su uso desconectado"
 
-#: C/mail-working-offline.page:40(section/p)
+#: C/mail-working-offline.page:42(section/p)
+#| msgid ""
+#| "Your connection status is shown by the small icon in the lower left "
+#| "corner of the Evolution main window. When you are online, it displays two "
+#| "connected cables. When you go offline via clicking the icon or via "
+#| "<guiseq><gui>File</gui><gui>Work Offline</gui></guiseq>, the cables "
+#| "separate. You will be asked whether you want to go offline immediately or "
+#| "synchronize folders locally before you go offline."
 msgid ""
 "Your connection status is shown by the small icon in the lower left corner "
 "of the Evolution main window. When you are online, it displays two connected "
-"cables. When you go offline via clicking the icon or via <guiseq><gui>File</"
-"gui><gui>Work Offline</gui></guiseq>, the cables separate. You will be asked "
-"whether you want to go offline immediately or synchronize folders locally "
-"before you go offline."
+"cables. When you force offline mode via clicking the icon or via "
+"<guiseq><gui>File</gui><gui>Work Offline</gui></guiseq>, the cables "
+"separate. You will be asked whether you want to go offline immediately or "
+"synchronize folders locally before you go offline."
 msgstr ""
 "El estado de la conexión lo muestra un icono en la esquina inferior "
 "izquierda de la ventana principal de Evolution. Cuando está conectado "
-"mostrará dos cables enchufados. Cuando esté desconectado los cables estarán "
-"desenchufados. Al desconectarse a través del icono o a través de "
-"<guiseq><gui>Archivo</gui><gui>Trabajar desconectado</gui></guiseq> los "
-"cables se separan. Se le preguntará si quiere desconectarse inmediatamente o "
-"sincronizar sus carpetas localmente antes de desconectarse."
+"mostrará dos cables enchufados. Cuando fuerza el modo desconectado, pulsando "
+"el icono o mediante <guiseq><gui>Archivo</gui><gui>Trabajar desconectado</"
+"gui></guiseq> los cables estarán desenchufados. Se le preguntará si quiere "
+"desconectarse inmediatamente o sincronizar sus carpetas localmente antes de "
+"desconectarse."
 
-#: C/mail-working-offline.page:41(section/p)
+#: C/mail-working-offline.page:43(section/p)
 msgid ""
 "To download Messages for Offline Operations without immediately going "
 "offline, select <guiseq><gui>File</gui><gui>Download Messages for Offline "
@@ -12022,22 +11705,25 @@ msgstr ""
 "seleccione <guiseq><gui>Archivo</gui><gui>Descargar mensajes para trabajar "
 "sin conexión</gui></guiseq>."
 
-#: C/mail-working-offline.page:45(section/title)
+#: C/mail-working-offline.page:47(section/title)
 msgid "Automatic Network State Handling"
 msgstr "Gestión automática del estado de la red"
 
-#: C/mail-working-offline.page:46(section/p)
+#: C/mail-working-offline.page:48(section/p)
+#| msgid ""
+#| "Evolution automatically understands the network state and acts "
+#| "accordingly. For instance, Evolution switches to offline mode when the "
+#| "network goes down and automatically switches on when the network is up "
+#| "again. Ensure that your system has Network Manager installed to enable "
+#| "this feature."
 msgid ""
 "Evolution automatically understands the network state and acts accordingly. "
 "For instance, Evolution switches to offline mode when the network goes down "
-"and automatically switches on when the network is up again. Ensure that your "
-"system has Network Manager installed to enable this feature."
+"and automatically switches on when the network is up again."
 msgstr ""
 "Evolution entiende automáticamente el estado de la red y actúa en "
 "concordancia. Por ejemplo, Evolution cambia a modo desconectado cuando la "
-"red se cae y cambia automáticamente cuando la red se recupera. Para activar "
-"esta característica, asegúrese de que su sistema tiene instalado Network "
-"Manager."
+"red se cae y cambia automáticamente cuando la red se recupera."
 
 #: C/memos-searching.page:5(info/desc)
 msgid "Searching memos."
@@ -12281,65 +11967,79 @@ msgstr ""
 "tint2/\">Tint2</link>. esto ya no es posible en GNOME 3."
 
 #: C/offline.page:5(info/desc)
-msgid "Make Evolution be online again."
+#| msgid "Make Evolution be online again."
+msgid "Make Evolution mail be online again."
 msgstr "Conectar Evolution otra vez."
 
 #: C/offline.page:23(page/title)
-msgid "Why is Evolution offline when my net connection is working?"
+#| msgid "Why is Evolution offline when my net connection is working?"
+msgid "Why is Evolution's mail offline when my net connection is working?"
 msgstr "¿Por qué Evolution está desconectado si mi conexión está funcionando?"
 
 #: C/offline.page:24(page/p)
+#| msgid ""
+#| "You may have started Evolution with the <cmd>--offline</cmd> commandline "
+#| "option."
 msgid ""
 "You may have started Evolution with the <cmd>--offline</cmd> commandline "
-"option."
+"option to enforce offline mode."
 msgstr ""
 "Puede que haya iniciado Evolution con la opción de línea de comandos <cmd>--"
-"offline</cmd>."
+"offline</cmd> para forzar el modo desconectado."
 
 #: C/offline.page:26(page/p)
+#| msgid ""
+#| "If this is not the case and Evolution normally works but has suddenly "
+#| "stopped connecting, you may have unintentionally clicked on the "
+#| "connection icon in the lower left corner. When connected, the icon "
+#| "resembles a pair of sockets joined together. If the sockets are open, "
+#| "there is no connection (and the <gui style=\"button\">Send/Receive</gui> "
+#| "button is grayed out). Click on the icon to change its state."
 msgid ""
 "If this is not the case and Evolution normally works but has suddenly "
-"stopped connecting, you may have unintentionally clicked on the connection "
-"icon in the lower left corner. When connected, the icon resembles a pair of "
-"sockets joined together. If the sockets are open, there is no connection "
-"(and the <gui style=\"button\">Send/Receive</gui> button is grayed out). "
-"Click on the icon to change its state."
+"stopped connecting to your mail accounts, you may have unintentionally "
+"clicked on the connection icon in the lower left corner. When connected, the "
+"icon resembles a pair of sockets joined together. If the sockets are open, "
+"there is no connection to your mail accounts (and the <gui style=\"button"
+"\">Send/Receive</gui> button is grayed out). Click on the icon to change its "
+"state."
 msgstr ""
 "Si este no es el caso y Evolution normalmente funciona, pero se ha "
 "desconectado de repente, puede que haya pulsado sin querer en el icono de "
 "conexión en la esquina inferior izquierda. Cuando está conectado, el icono "
 "simula dos enchufes unidos. Si los enchufes están separados, no hay conexión "
-"(y el botón de <gui style=\"button\">Enviar/Recibir</gui> está sobreado). "
+"(y el botón de <gui style=\"button\">Enviar/Recibir</gui> está sombreado). "
 "Pulse en el icono para cambiar su estado."
 
 #: C/offline.page:28(page/p)
+#| msgid ""
+#| "If the problem persists and you are sure you have not clicked the icon, "
+#| "but you can still reach the network from other apps on your system "
+#| "(browsers, FTP, SSH, ping etc.) it may be that NetworkManager (NM) is not "
+#| "properly configured. Many Linux distributions now use NM to manage their "
+#| "connections, and if it is installed Evolution will use it to detect if "
+#| "the network is up. However NM can be installed but not properly "
+#| "configured, leaving the network working but not detectable by Evolution. "
+#| "(Note that other GNOME-based applications may also fail for the same "
+#| "reason.) The solution is to configure NM to manage your network "
+#| "interface. This is usually easy to do but is outside the scope of this "
+#| "document. For more information please take a look at the <link href="
+#| "\"help:gnome-help/net\">Desktop help</link> or seek help from your "
+#| "distribution support forums, mailing lists etc."
 msgid ""
 "If the problem persists and you are sure you have not clicked the icon, but "
 "you can still reach the network from other apps on your system (browsers, "
-"FTP, SSH, ping etc.) it may be that NetworkManager (NM) is not properly "
-"configured. Many Linux distributions now use NM to manage their connections, "
-"and if it is installed Evolution will use it to detect if the network is up. "
-"However NM can be installed but not properly configured, leaving the network "
-"working but not detectable by Evolution. (Note that other GNOME-based "
-"applications may also fail for the same reason.) The solution is to "
-"configure NM to manage your network interface. This is usually easy to do "
-"but is outside the scope of this document. For more information please take "
-"a look at the <link href=\"help:gnome-help/net\">Desktop help</link> or seek "
-"help from your distribution support forums, mailing lists etc."
+"FTP, SSH, ping etc.) it may be that your network connection is not properly "
+"configured. For more information please take a look at the <link href=\"help:"
+"gnome-help/net-problem\">Desktop help</link> or seek help from your "
+"distribution support forums, mailing lists etc."
 msgstr ""
 "Si el problema persiste y está seguro de que no ha pulsado el icono, pero "
 "puede usar la red con otras aplicaciones de su sistema (navegadores, FTP, "
-"SSH, ping, etc) puede ser que NetworkManager (NM) no esté bien configurado. "
-"Muchas distribuciones de Linux usan NM para gestionar las conexiones y, si "
-"está instalado, Evolution lo usará para detectar si la red está activada. "
-"Sin embargo, NM puede estar instalado pero no bien configurado, haciendo que "
-"la red funcione pero que Evolution no pueda detectarla. (Tenga en cuenta que "
-"otras aplicaciones de GNOME pueden fallar por el mismo motivo). La solución "
-"es configurar NM para gestionar la interfaz de red. Generalmente esto es "
-"fácil de hacer, pero no está fuera del alcance de este documento. Para "
-"obtener más información, consulte la <link href=\"help:gnome-help/net"
-"\">ayuda del escritorio</link> o busque ayuda en los foros de soporte de su "
-"distribución, listas de correo, etc."
+"SSH, ping, etc) puede ser que su conexión de red no esté bien configurada. "
+"Para obtener más información, consulte la <link href=\"help:gnome-help/net-"
+"problem\">ayuda del escritorio</link> o busque ayuda en los foros de soporte "
+"de su distribución, listas de correo, etc."
 
 #: C/organizing.page:5(info/desc)
 msgid "On organizing and finding your data in Evolution."
@@ -13128,6 +12828,335 @@ msgstr ""
 "ello pulse el botón <gui style=\"button\">Editar</gui> en la parte inferior "
 "de la ventana de <gui>Categorías</gui>. Pulse el botón <gui style=\"button"
 "\">Eliminar</gui> para eliminar categorías de la lista."
+
+#~ msgid ""
+#~ "Only if <sys>evolution-ews</sys> does not work well for you it is "
+#~ "recommended to use the package <sys>evolution-mapi</sys>. It supports "
+#~ "Microsoft Exchange 2007 and 2010 (and possibly earlier versions that "
+#~ "support MAPI)."
+#~ msgstr ""
+#~ "Sólo se recomienda usar el paquete <sys>evolution-mapi</sys> si "
+#~ "<sys>evolution-ews</sys> no le funciona correctamente. Soporta Microsoft "
+#~ "Exchange 2007 y 2010 (y posiblemente versiones anteriores que soporten "
+#~ "MAPI)."
+
+#~ msgid ""
+#~ "For Microsoft Exchange 2000 and 2003 (and possibly earlier versions of "
+#~ "Exchange that use Outlook Web Access) it is recommended to use the "
+#~ "package <sys>evolution-exchange</sys>."
+#~ msgstr ""
+#~ "Para Microsoft Exchange 2000 y 2003 (y, posiblemente, versiones "
+#~ "anteriores de Exchange que usan Acceso web a Outlook) se recomienda usar "
+#~ "el paquete <sys>evolution-exchange</sys>."
+
+#~ msgid "Add and edit an IMAP mail account in Evolution."
+#~ msgstr "Añadir y editar una cuenta de correo IMAP en Evolution."
+
+#~ msgid "IMAP mail account settings"
+#~ msgstr "Configuración de cuenta de correo IMAP"
+
+#~ msgid "IMAP Headers"
+#~ msgstr "Cabeceras IMAP"
+
+#~ msgid "Add and edit a Microsoft Exchange 2000/2003 account in Evolution."
+#~ msgstr ""
+#~ "Añadir y editar una cuenta de Microsoft Exchange 2000/2003 en Evolution."
+
+#~ msgid ""
+#~ "In this section you can define your \"Out of Office\" status, change the "
+#~ "password for your Exchange account, and manage the delegation settings."
+#~ msgstr ""
+#~ "En esta sección puede definir su estado «Fuera de la oficina», cambiar la "
+#~ "contraseña de su cuenta Exchange y gestionar la configuración de "
+#~ "delegación."
+
+#~ msgid "You can also view the size of all Exchange folders."
+#~ msgstr "También puede ver el tamaño de todas sus carpetas Exchange."
+
+#~ msgid "Add and edit a Microsoft Exchange 2007 account in Evolution."
+#~ msgstr "Añadir y editar una cuenta de Microsoft Exchange 2007 en Evolution."
+
+#~ msgid "What to do when this error is shown."
+#~ msgstr "Qué hacer cuando se muestra este error."
+
+#~ msgid "Error message \"Failed to append to...\" after sending message"
+#~ msgstr ""
+#~ "Mensaje de error «No es posible anexar a ...» después de enviar un correo"
+
+#~ msgid ""
+#~ "If the error message \"Your message was sent, but an error occurred "
+#~ "during post-processing. The reported error was \"Failed to append to "
+#~ "mbox:///home/user/.local/share/evolution/mail/local#Sent: Cannot get "
+#~ "folder 'Sent': folder does not exist. Appending to local 'Sent' folder "
+#~ "instead.\".\" is shown, you can fix the problem by editing your default "
+#~ "folder settings under <guiseq><gui>Edit</gui><gui>Preferences</"
+#~ "gui><gui>Mail Accounts</gui><gui style=\"button\">Edit</"
+#~ "gui><gui>Defaults</gui><gui>Folder for sent messages</gui></guiseq>."
+#~ msgstr ""
+#~ "Si se muestra el mensaje «Se envió su mensaje pero ocurrió un error en el "
+#~ "posprocesado. El error devuelto fue «Falló al anexar a mbox:///home/user/."
+#~ "local/share/evolution/mail/local#Sent: No se puede obtener la carpeta "
+#~ "«Enviados»: la carpeta no existe. En su lugar se anexará a la carpeta "
+#~ "local «Correo enviado».» puede solucionar el problema editando su carpeta "
+#~ "predeterminada en <guiseq><gui>Editar</gui><gui>Preferencias</"
+#~ "gui><gui>Cuentas de correo</gui><gui style=\"button\">Editar</"
+#~ "gui><gui>Predeterminados</gui><gui>Carpeta de mensajes enviados</gui></"
+#~ "guiseq>."
+
+#~ msgid ""
+#~ "This bug is fixed in Evolution versions higher than 3.0.2 (stable series) "
+#~ "and 3.1.3 (unstable development series). If this is not the case, please "
+#~ "add a comment to the corresponding <link href=\"https://bugzilla.gnome."
+#~ "org/show_bug.cgi?id=638307\">bug report</link>."
+#~ msgstr ""
+#~ "Este error está solucionado en las versiones de Evolution mayores que "
+#~ "3.0.2 (series estables) y mayor que 3.1.3 (versiones de desarrollo "
+#~ "inestables). Si no es el caso, añada un comentario al correspondiente "
+#~ "<link href=\"https://bugzilla.gnome.org/show_bug.cgi?id=638307\">informe "
+#~ "de error</link>."
+
+#~ msgid "Error message \"No provider available for protocol email\""
+#~ msgstr ""
+#~ "Mensaje de error «No hay proveedor disponible para el protocolo de correo»"
+
+#~ msgid "This error message may be displayed for a number of reasons:"
+#~ msgstr "Este mensaje se puede mostrar por cierto número de motivos:"
+
+#~ msgid "The filters used do not match the account they are associated with."
+#~ msgstr ""
+#~ "Los filtros usados no coinciden con la cuenta a la que están asociados."
+
+#~ msgid ""
+#~ "This happens when the <file>filters.xml</file> file is copied and used on "
+#~ "a fresh install of Evolution on a new machine."
+#~ msgstr ""
+#~ "Esto sucede cuando el archivo <file>filters.xml</file> se copia y usa en "
+#~ "una instalación nueva de Evolution en un equipo nuevo."
+
+#~ msgid ""
+#~ "Accounts have unique ID numbers, and filters refer to these accounts "
+#~ "directly. Simply copying the <file>filters.xml</file> file will cause a "
+#~ "version mismatch with Evolution, affecting the filter rules."
+#~ msgstr ""
+#~ "Las cuentas tienen números de identificación (ID) únicos y los filtros se "
+#~ "refieren a esas cuentas directamente. Copiar el archivo <file>filters."
+#~ "xml</file> hará que exista un error de versión en Evolution que afectará "
+#~ "a las reglas."
+
+#~ msgid "The account settings may not have been copied properly."
+#~ msgstr ""
+#~ "Puede que la configuración de la cuenta no se haya copiado correctamente."
+
+#~ msgid "The account settings were modified."
+#~ msgstr "Se modificó la configuración de la cuenta."
+
+#~ msgid ""
+#~ "To fix this problem, edit the email filters and re-select the folder for "
+#~ "each Copy/Move filter. To do this:"
+#~ msgstr ""
+#~ "Para solucionar este problema edite los filtros de correo y vuelva a "
+#~ "seleccionar la carpeta para cada filtro de Copiar/mover. Para ello:"
+
+#~ msgid "Go to <guiseq><gui>Edit</gui><gui>Message Filters</gui></guiseq>."
+#~ msgstr ""
+#~ "Vaya a <guiseq><gui>Editar</gui><gui>Filtros de mensajes</gui></guiseq>."
+
+#~ msgid "Select the Copy/Move filter and click <gui>Edit</gui>."
+#~ msgstr "Seleccione el filtro Copiar-Mover y pulse <gui>Editar</gui>."
+
+#~ msgid ""
+#~ "Refer to the list of folders associated with that particular filter. "
+#~ "Click on the button that allows you to modify the folders assigned for "
+#~ "that filter. Set the folders again."
+#~ msgstr ""
+#~ "Consulte la lista de las carpetas asociadas con ese filtro en particular. "
+#~ "Pulse el botón que le permite modificar las carpetas asignadas para ese "
+#~ "filtro. Configure de nuevo las carpetas."
+
+#~ msgid ""
+#~ "Advanced users may also be interested in this write up: <link href="
+#~ "\"https://thomas.apestaart.org/thomas/trac/wiki/Evolution\">How to keep "
+#~ "the Evolution filters in sync on multiple machines by Thomas Vander "
+#~ "Stichele</link>"
+#~ msgstr ""
+#~ "Los usuarios avanzados también pueden estar interesados en este escrito: "
+#~ "<link href=\"https://thomas.apestaart.org/thomas/trac/wiki/Evolution"
+#~ "\">cómo mantener sincronizados los filtros de Evolution en varios "
+#~ "equipos, por Thomas Vander Stichele</link>"
+
+#~ msgid "Define which mail headers to download when using IMAP."
+#~ msgstr "Defina qué cabeceras de correo descargar cuando use IMAP."
+
+#~ msgid ""
+#~ "The <gui>IMAP Headers</gui> tab is only displayed in the <gui>Account "
+#~ "Editor</gui> if <guiseq><gui>Edit</gui><gui>Plugins</gui><gui>IMAP "
+#~ "Features</gui></guiseq> is enabled."
+#~ msgstr ""
+#~ "La pestaña <gui>Cabeceras IMAP</gui> sólo se muestra en el <gui>Editor de "
+#~ "cuentas</gui> si <guiseq><gui>Editar</gui><gui>Complementos</"
+#~ "gui><gui>Cabeceras IMAP</gui></guiseq> está activada."
+
+#~ msgid ""
+#~ "Evolution allows you for IMAP accounts to choose the headers that you "
+#~ "want to download so that you can reduce the download time and filter or "
+#~ "move your mail around the way you like it. The IMAP Mail header options "
+#~ "are as follows:"
+#~ msgstr ""
+#~ "Evolution le permite elegir para las cuentas IMAP las cabeceras que "
+#~ "quiere descargar para reducir el tiempo de descarga y filtrar o mover sus "
+#~ "correos de la manera que quiera. Las opciones de las cabeceras de correo "
+#~ "IMAP son las siguientes:"
+
+#~ msgid "Fetch All Headers:"
+#~ msgstr "Obtener todas las cabeceras:"
+
+#~ msgid ""
+#~ "All available IMAP mail headers for all the messages will be downloaded."
+#~ msgstr ""
+#~ "Se descargarán todas las cabeceras IMAP disponibles para todos los "
+#~ "mensajes."
+
+#~ msgid "Basic Headers (Fastest):"
+#~ msgstr "Cabeceras básicas (lo más rápido):"
+
+#~ msgid ""
+#~ "This will include Date, From, To, CC, Subject, Preferences, In-Reply-To, "
+#~ "Message-ID, Mime-Version, and Content-Type. If you want to just fetch and "
+#~ "see messages without having to categorically filter messages based on "
+#~ "your mailing lists, choose this option. This will make Evolution work "
+#~ "faster and is generally recommended for common users."
+#~ msgstr ""
+#~ "Esto incluirá Fecha, De, Para, Cc, Asunto, Preferencias, Responder a, Id "
+#~ "del mensaje, Versión MIME y Tipo de contenido. Si sólo quiere obtener el "
+#~ "correo y ver los correos sin tener que filtrar los correos por categorías "
+#~ "basados en sus listas de correo, elija esta opción. Esto hará que "
+#~ "Evolution trabaje más rápido y generalmente se recomienda para usuarios "
+#~ "normales."
+
+#~ msgid "Basic and Mailing List Headers (Default):"
+#~ msgstr "Cabeceras básicas y de listas de correo (predeterminadas):"
+
+#~ msgid ""
+#~ "Enable this option to have filters based on mailing list headers (like "
+#~ "list ID) so that in addition to the basic headers, the headers that "
+#~ "correspond to mailing-lists are also fetched. Mailing list headers will "
+#~ "have information such as the mailinglist-ID, owner of the mailing list, "
+#~ "and so on with which you can create mailing list filters."
+#~ msgstr ""
+#~ "Active esta opción para tener filtros basados en las cabeceras de las "
+#~ "listas de correo (como id-lista) además de las cabeceras básicas, se "
+#~ "obtendrán también las cabeceras que correspondan a listas de correo. Las "
+#~ "cabeceras de las listas de correo contendrán información tal como el ID "
+#~ "de la lista de correo, el propietario de la lista de correo y demás, con "
+#~ "lo que puede crear un filtro para listas de correo."
+
+#~ msgid ""
+#~ "This is the default Header preference that comes with Evolution. When "
+#~ "this option is chosen, Evolution will download a basic set of headers (as "
+#~ "described above) along with a set of headers that are needed for client-"
+#~ "side filters based on mailing lists. If you do not have any filters on "
+#~ "Evolution, it is recommended to switch to the <gui>Basic Headers</gui> "
+#~ "option."
+#~ msgstr ""
+#~ "Estas son las preferencias predeterminadas en Evolution para las "
+#~ "Cabeceras. Cuando se elige esta opción, Evolution descargará un juego "
+#~ "básico de cabeceras (como se describió anteriormente) junto con las "
+#~ "cabeceras necesarias para los filtros de correo del cliente, basados en "
+#~ "listas de correo. Si no tiene ningún filtro en Evolution, se recomienda "
+#~ "que cambie a la opción <gui>Cabeceras básicas</gui>."
+
+#~ msgid "To set the IMAP Mail headers:"
+#~ msgstr "Para establecer las cabeceras de correo IMAP:"
+
+#~ msgid "Select the IMAP account."
+#~ msgstr "Seleccione la cuenta IMAP."
+
+#~ msgid "Click <gui>Edit</gui>."
+#~ msgstr "Pulse <gui>Editar</gui>."
+
+#~ msgid "Click the <gui>IMAP Headers</gui> tab."
+#~ msgstr "Pulse en le pestaña <gui>Cabeceras IMAP</gui>."
+
+#~ msgid ""
+#~ "Optionally: If you want to define extra headers to download you can add "
+#~ "these in the <gui>Custom Headers</gui> section."
+#~ msgstr ""
+#~ "Opcionalmente: si quiere definir cabeceras adicionales para descargar "
+#~ "puede añadirlas en la sección <gui>Cabeceras personalizadas</gui>."
+
+#~ msgid ""
+#~ "The option to define IMAP Headers is currently only available for IMAP "
+#~ "accounts, but not for IMAP+ accounts."
+#~ msgstr ""
+#~ "Actualmente la opción para definir las cabeceras IMAP sólo está "
+#~ "disponible para cuentas IMAP, pero no para cuentas IMAP+."
+
+#~ msgid "Receiving options for Evolution Exchange accounts."
+#~ msgstr "Opciones de recepción para cuentas de Evolution Exchange."
+
+#~ msgid "Evolution Exchange receiving options"
+#~ msgstr "Opciones de recepción de Microsoft Exchange"
+
+#~ msgid "Enter the OWA URL for that server."
+#~ msgstr "Introduzca el URL del OWA para ese servidor."
+
+#~ msgid ""
+#~ "Select if the mailbox name is different from the username. If it is, "
+#~ "enter the mailbox name."
+#~ msgstr ""
+#~ "Seleccione si el nombre del buzón de correo es diferente del nombre de "
+#~ "usuario. De serlo, introduzca el nombre del buzón."
+
+#~ msgid ""
+#~ "In the section <gui>Global Address List/Active Directory</gui>, specify "
+#~ "the name of the Global Catalog server. The Global Catalog Server contains "
+#~ "the user information for users."
+#~ msgstr ""
+#~ "En la sección <gui>Lista de acceso global/Directorio Activo</gui> "
+#~ "especifique el nombre del servidor del catálogo global. El servidor del "
+#~ "catálogo global contiene la información de los usuarios."
+
+#~ msgid ""
+#~ "Select if you want to limit the number of Global Address List (GAL) "
+#~ "responses as this may increase speed. The GAL contains a list of all "
+#~ "email addresses."
+#~ msgstr ""
+#~ "Seleccione si quiere limitar el número de respuestas de Listas de "
+#~ "direcciones globales (GAL) ya puede aumentar la velocidad. Las GAL "
+#~ "contienen una lista de todas las direcciones de correo-e."
+
+#~ msgid ""
+#~ "You also have to define the Authentication type, and whether you want "
+#~ "groups of contacts in GAL to be represented in the Evolution address book "
+#~ "by <link xref=\"contacts-using-contact-lists\">contact lists</link>."
+#~ msgstr ""
+#~ "También tiene que definir el tipo de Autenticación y si quiere que los "
+#~ "grupos de contactos en GAL se muestren en la libreta de direcciones de "
+#~ "Evolution a través de <link xref=\"contacts-using-contact-lists\">listas "
+#~ "de contactos</link>."
+
+#~ msgid ""
+#~ "An explanation for the problem that two trash folders are present in "
+#~ "Evolution."
+#~ msgstr ""
+#~ "Una explicación para el problema de las dos carpetas de Papelera "
+#~ "presentes en Evolution."
+
+#~ msgid ""
+#~ "You may have created another Trash folder to hold all your deleted email "
+#~ "messages. This can happen when you use another email client together with "
+#~ "Evolution."
+#~ msgstr ""
+#~ "Puede haber creado otra carpeta de Papelera para dejar allí todos sus "
+#~ "correos electrónicos eliminados. Esto puede suceder cuando usa otro "
+#~ "cliente de correo electrónico junto con Evolution."
+
+#~ msgid ""
+#~ "Note that the <gui>Junk</gui> folder is also a search folder and may also "
+#~ "appear twice."
+#~ msgstr ""
+#~ "Tenga en cuenta que la carpeta <gui>SPAM</gui> es una carpeta de búsqueda "
+#~ "y también puede aparecer dos veces."
 
 #~ msgid ""
 #~ "You can also explicitly open Evolution in a specific component. For the "
