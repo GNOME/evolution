@@ -322,6 +322,20 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 	}
 
 	if (plain_text_parts) {
+		if (parts && nparts > 1) {
+			/* a text/html part is hidden, but not marked as attachment,
+			   thus do that now, when there exists a text/plain part */
+			GSList *piter;
+
+			for (piter = parts; piter; piter = g_slist_next (piter)) {
+				EMailPart *mpart = piter->data;
+
+				if (mpart && mpart->is_hidden && g_strcmp0 (mpart->mime_type, "text/html") == 0) {
+					mpart->is_attachment = TRUE;
+				}
+			}
+		}
+
 		/* plain_text parts should be always first */
 		parts = g_slist_concat (plain_text_parts, parts);
 	}
