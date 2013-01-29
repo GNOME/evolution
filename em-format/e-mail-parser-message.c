@@ -26,13 +26,12 @@
 #include <e-util/e-util.h>
 #include <libemail-engine/e-mail-utils.h>
 
+#include "e-mail-format-extensions.h"
 #include "e-mail-parser-extension.h"
 #include "e-mail-part-utils.h"
 
 typedef EMailParserExtension EMailParserMessage;
 typedef EMailParserExtensionClass EMailParserMessageClass;
-
-GType e_mail_parser_message_get_type (void);
 
 G_DEFINE_TYPE (
 	EMailParserMessage,

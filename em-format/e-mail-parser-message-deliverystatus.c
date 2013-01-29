@@ -24,12 +24,11 @@
 
 #include <e-util/e-util.h>
 
+#include "e-mail-format-extensions.h"
 #include "e-mail-parser-extension.h"
 
 typedef EMailParserExtension EMailParserMessageDeliveryStatus;
 typedef EMailParserExtensionClass EMailParserMessageDeliveryStatusClass;
-
-GType e_mail_parser_message_delivery_status_get_type (void);
 
 G_DEFINE_TYPE (
 	EMailParserMessageDeliveryStatus,

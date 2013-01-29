@@ -170,9 +170,9 @@ e_mail_formatter_quote_base_init (EMailFormatterQuoteClass *class)
 	g_type_ensure (e_mail_formatter_quote_text_html_get_type ());
 	g_type_ensure (e_mail_formatter_quote_text_plain_get_type ());
 
-	e_mail_formatter_extension_registry_load (
-		E_MAIL_FORMATTER_CLASS (class)->extension_registry,
-		E_TYPE_MAIL_FORMATTER_QUOTE_EXTENSION);
+	e_mail_formatter_quote_internal_extensions_load (
+		E_MAIL_EXTENSION_REGISTRY (
+			E_MAIL_FORMATTER_CLASS (class)->extension_registry));
 
 	E_MAIL_FORMATTER_CLASS (class)->text_html_flags =
 		CAMEL_MIME_FILTER_TOHTML_PRE |

@@ -24,13 +24,12 @@
 
 #include <e-util/e-util.h>
 
+#include "e-mail-format-extensions.h"
 #include "e-mail-parser-extension.h"
 #include "e-mail-part-utils.h"
 
 typedef EMailParserExtension EMailParserTextEnriched;
 typedef EMailParserExtensionClass EMailParserTextEnrichedClass;
-
-GType e_mail_parser_text_enriched_get_type (void);
 
 G_DEFINE_TYPE (
 	EMailParserTextEnriched,

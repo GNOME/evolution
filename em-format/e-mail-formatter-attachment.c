@@ -25,6 +25,7 @@
 #include <shell/e-shell.h>
 #include <shell/e-shell-window.h>
 
+#include "e-mail-format-extensions.h"
 #include "e-mail-formatter-extension.h"
 #include "e-mail-inline-filter.h"
 #include "e-mail-part-attachment-bar.h"
@@ -35,8 +36,6 @@
 
 typedef EMailFormatterExtension EMailFormatterAttachment;
 typedef EMailFormatterExtensionClass EMailFormatterAttachmentClass;
-
-GType e_mail_formatter_attachment_get_type (void);
 
 G_DEFINE_TYPE (
 	EMailFormatterAttachment,

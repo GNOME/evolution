@@ -28,14 +28,13 @@
 #include <e-util/e-util.h>
 #include <libemail-engine/e-mail-utils.h>
 
+#include "e-mail-format-extensions.h"
 #include "e-mail-formatter-quote.h"
 #include "e-mail-formatter-utils.h"
 #include "e-mail-inline-filter.h"
 
 typedef EMailFormatterExtension EMailFormatterQuoteHeaders;
 typedef EMailFormatterExtensionClass EMailFormatterQuoteHeadersClass;
-
-GType e_mail_formatter_quote_headers_get_type (void);
 
 G_DEFINE_TYPE (
 	EMailFormatterQuoteHeaders,

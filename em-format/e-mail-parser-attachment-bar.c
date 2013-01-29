@@ -19,6 +19,7 @@
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
+#include "e-mail-format-extensions.h"
 
 #include "e-mail-part-attachment-bar.h"
 
@@ -40,8 +41,6 @@ mail_part_attachment_bar_free (EMailPart *part)
 
 typedef EMailParserExtension EMailParserAttachmentBar;
 typedef EMailParserExtensionClass EMailParserAttachmentBarClass;
-
-GType e_mail_parser_attachment_bar_get_type (void);
 
 G_DEFINE_TYPE (
 	EMailParserAttachmentBar,

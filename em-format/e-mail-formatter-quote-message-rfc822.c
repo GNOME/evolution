@@ -27,14 +27,13 @@
 
 #include <e-util/e-util.h>
 
+#include "e-mail-format-extensions.h"
 #include "e-mail-formatter-quote.h"
 #include "e-mail-part-list.h"
 #include "e-mail-part-utils.h"
 
 typedef EMailFormatterExtension EMailFormatterQuoteMessageRFC822;
 typedef EMailFormatterExtensionClass EMailFormatterQuoteMessageRFC822Class;
-
-GType e_mail_formatter_quote_message_rfc822_get_type (void);
 
 G_DEFINE_TYPE (
 	EMailFormatterQuoteMessageRFC822,

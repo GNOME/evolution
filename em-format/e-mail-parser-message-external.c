@@ -26,12 +26,11 @@
 
 #include <e-util/e-util.h>
 
+#include "e-mail-format-extensions.h"
 #include "e-mail-parser-extension.h"
 
 typedef EMailParserExtension EMailParserMessageExternal;
 typedef EMailParserExtensionClass EMailParserMessageExternalClass;
-
-GType e_mail_parser_message_external_get_type (void);
 
 G_DEFINE_TYPE (
 	EMailParserMessageExternal,

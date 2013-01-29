@@ -22,6 +22,7 @@
 
 #include <libebackend/libebackend.h>
 
+#include "e-mail-format-extensions.h"
 #include "e-mail-formatter-extension.h"
 #include "e-mail-parser-extension.h"
 
@@ -54,49 +55,6 @@ static void
 destroy_queue (GQueue *queue)
 {
 	g_queue_free_full (queue, g_object_unref);
-}
-
-static void
-mail_extension_registry_add_extension (EMailExtensionRegistry *registry,
-                                       const gchar **mime_types,
-                                       GType extension_type)
-{
-	GObject *extension;
-	gint ii;
-
-	if (mime_types == NULL) {
-		g_critical (
-			"%s does not define any MIME types",
-			g_type_name (extension_type));
-		return;
-	}
-
-	extension = g_object_new (extension_type, NULL);
-
-	for (ii = 0; mime_types[ii] != NULL; ii++) {
-		GQueue *queue;
-
-		queue = g_hash_table_lookup (
-			registry->priv->table, mime_types[ii]);
-		if (queue == NULL) {
-			queue = g_queue_new ();
-			g_hash_table_insert (
-				registry->priv->table,
-				(gpointer) mime_types[ii],
-				queue);
-		}
-
-		g_queue_push_head (queue, g_object_ref (extension));
-
-		if (camel_debug ("emformat:registry")) {
-			printf (
-				"Added extension '%s' for type '%s'\n",
-				g_type_name (extension_type),
-				mime_types[ii]);
-		}
-	}
-
-	g_object_unref (extension);
 }
 
 static void
@@ -135,6 +93,55 @@ e_mail_extension_registry_init (EMailExtensionRegistry *registry)
 		(GEqualFunc) g_str_equal,
 		(GDestroyNotify) NULL,
 		(GDestroyNotify) destroy_queue);
+}
+
+/**
+ * e_mail_extension_registry_add_extension:
+ * @registry: an #EMailExtensionRegistry
+ * @mime_types: a %NULL-terminated array of MIME types
+ * @extension_type: the #GType of the extension being added
+ *
+ * Creates an instance of @extension_type and registers the instance for
+ * all provided MIME types.
+ */
+void
+e_mail_extension_registry_add_extension (EMailExtensionRegistry *registry,
+                                         const gchar **mime_types,
+                                         GType extension_type)
+{
+	GObject *extension;
+	gint ii;
+
+	g_return_if_fail (E_IS_MAIL_EXTENSION_REGISTRY (registry));
+	g_return_if_fail (mime_types != NULL);
+	g_return_if_fail (extension_type != G_TYPE_INVALID);
+
+	extension = g_object_new (extension_type, NULL);
+
+	for (ii = 0; mime_types[ii] != NULL; ii++) {
+		GQueue *queue;
+
+		queue = g_hash_table_lookup (
+			registry->priv->table, mime_types[ii]);
+		if (queue == NULL) {
+			queue = g_queue_new ();
+			g_hash_table_insert (
+				registry->priv->table,
+				(gpointer) mime_types[ii],
+				queue);
+		}
+
+		g_queue_push_head (queue, g_object_ref (extension));
+
+		if (camel_debug ("emformat:registry")) {
+			printf (
+				"Added extension '%s' for type '%s'\n",
+				g_type_name (extension_type),
+				mime_types[ii]);
+		}
+	}
+
+	g_object_unref (extension);
 }
 
 /**
@@ -217,36 +224,6 @@ e_mail_parser_extension_registry_init (EMailParserExtensionRegistry *registry)
 {
 }
 
-void
-e_mail_parser_extension_registry_load (EMailParserExtensionRegistry *registry)
-{
-	GType *children;
-	GType base_extension_type;
-	guint ii, n_children;
-
-	g_return_if_fail (E_IS_MAIL_PARSER_EXTENSION_REGISTRY (registry));
-
-	base_extension_type = E_TYPE_MAIL_PARSER_EXTENSION;
-	children = g_type_children (base_extension_type, &n_children);
-
-	for (ii = 0; ii < n_children; ii++) {
-		EMailParserExtensionClass *class;
-
-		if (G_TYPE_IS_ABSTRACT (children[ii]))
-			continue;
-
-		class = g_type_class_ref (children[ii]);
-
-		mail_extension_registry_add_extension (
-			E_MAIL_EXTENSION_REGISTRY (registry),
-			class->mime_types, children[ii]);
-
-		g_type_class_unref (class);
-	}
-
-	g_free (children);
-}
-
 /******************************************************************************/
 
 G_DEFINE_TYPE_WITH_CODE (
@@ -263,34 +240,5 @@ e_mail_formatter_extension_registry_class_init (EMailFormatterExtensionRegistryC
 static void
 e_mail_formatter_extension_registry_init (EMailFormatterExtensionRegistry *registry)
 {
-}
-
-void
-e_mail_formatter_extension_registry_load (EMailFormatterExtensionRegistry *registry,
-                                          GType base_extension_type)
-{
-	GType *children;
-	guint ii, n_children;
-
-	g_return_if_fail (E_IS_MAIL_FORMATTER_EXTENSION_REGISTRY (registry));
-
-	children = g_type_children (base_extension_type, &n_children);
-
-	for (ii = 0; ii < n_children; ii++) {
-		EMailFormatterExtensionClass *class;
-
-		if (G_TYPE_IS_ABSTRACT (children[ii]))
-			continue;
-
-		class = g_type_class_ref (children[ii]);
-
-		mail_extension_registry_add_extension (
-			E_MAIL_EXTENSION_REGISTRY (registry),
-			class->mime_types, children[ii]);
-
-		g_type_class_unref (class);
-	}
-
-	g_free (children);
 }
 

@@ -19,6 +19,7 @@
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
+#include "e-mail-format-extensions.h"
 
 #include <glib/gi18n-lib.h>
 
@@ -33,8 +34,6 @@
 
 typedef EMailFormatterExtension EMailFormatterSecureButton;
 typedef EMailFormatterExtensionClass EMailFormatterSecureButtonClass;
-
-GType e_mail_formatter_secure_button_get_type (void);
 
 G_DEFINE_TYPE (
 	EMailFormatterSecureButton,

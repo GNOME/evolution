@@ -25,13 +25,12 @@
 
 #include <e-util/e-util.h>
 
+#include "e-mail-format-extensions.h"
 #include "e-mail-parser-extension.h"
 #include "e-mail-part-utils.h"
 
 typedef EMailParserExtension EMailParserInlinePGPSigned;
 typedef EMailParserExtensionClass EMailParserInlinePGPSignedClass;
-
-GType e_mail_parser_inline_pgp_signed_get_type (void);
 
 G_DEFINE_TYPE (
 	EMailParserInlinePGPSigned,

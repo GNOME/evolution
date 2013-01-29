@@ -28,14 +28,13 @@
 #include <e-util/e-util.h>
 #include <libemail-engine/e-mail-utils.h>
 
+#include "e-mail-format-extensions.h"
 #include "e-mail-formatter-print.h"
 #include "e-mail-formatter-utils.h"
 #include "e-mail-inline-filter.h"
 
 typedef EMailFormatterExtension EMailFormatterPrintHeaders;
 typedef EMailFormatterExtensionClass EMailFormatterPrintHeadersClass;
-
-GType e_mail_formatter_print_headers_get_type (void);
 
 G_DEFINE_TYPE (
 	EMailFormatterPrintHeaders,
