@@ -157,7 +157,7 @@ import_contact (EBookClient *book_client,
 			book_client, card, &new_uid, NULL, &error);
 
 		if (error != NULL) {
-			g_error (
+			g_warning (
 				"%s: Failed to add contact: %s",
 				G_STRFUNC, error->message);
 			g_error_free (error);
