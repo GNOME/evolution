@@ -685,9 +685,6 @@ mail_backend_folder_renamed_cb (MailFolderCache *folder_cache,
 
 	g_list_free_full (list, (GDestroyNotify) g_object_unref);
 
-	g_free (old_uri);
-	g_free (new_uri);
-
 	/* Rename GalView files. */
 
 	for (ii = 0; ii < G_N_ELEMENTS (cachenames); ii++) {
@@ -703,6 +700,9 @@ mail_backend_folder_renamed_cb (MailFolderCache *folder_cache,
 		g_free (oldname);
 		g_free (newname);
 	}
+
+	g_free (old_uri);
+	g_free (new_uri);
 
 	/* This does something completely different.
 	 * XXX Make it a separate signal handler? */
