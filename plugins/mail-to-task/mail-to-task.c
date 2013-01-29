@@ -821,7 +821,6 @@ do_manage_comp_idle (struct _manage_comp *mc)
 	} else {
 		/* User canceled editing already existing event, so treat it as if he just closed the editor window */
 		comp_editor_closed (NULL, FALSE, mc);
-		g_cond_signal (mc->cond);
 	}
 
 	if (error) {
