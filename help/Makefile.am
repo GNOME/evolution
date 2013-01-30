@@ -86,7 +86,6 @@ HELP_FILES = \
 	exporting-data.page \
 	express-mode.page \
 	google-services.page \
-	groupwise-placeholder.page \
 	import-apps-mozilla.page \
 	import-apps-outlook.page \
 	import-data.page \
@@ -106,7 +105,6 @@ HELP_FILES = \
 	mail-account-manage-microsoft-exchange-evo-ews.page \
 	mail-account-manage-microsoft-exchange-evo-mapi.page \
 	mail-account-manage-microsoft-exchange.page \
-	mail-account-manage-novell-groupwise.page \
 	mail-account-manage-pop.page \
 	mail-account-manage-unix-mbox-spool-directory.page \
 	mail-account-manage-unix-mbox-spool-file.page \
@@ -186,7 +184,6 @@ HELP_FILES = \
 	mail-receiving-options-local-delivery.page \
 	mail-receiving-options-maildir-format-directories.page \
 	mail-receiving-options-mh-format-directories.page \
-	mail-receiving-options-novell-groupwise.page \
 	mail-receiving-options.page \
 	mail-receiving-options-pop.page \
 	mail-receiving-options-unix-mbox-spool-directory.page \
