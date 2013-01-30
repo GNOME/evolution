@@ -88,7 +88,6 @@
   </if:choose>
 </note>
 </item>
-<item><p>Novell Groupwise: For connecting to a Novell GroupWise server.</p><p>Continue <link xref="mail-receiving-options-novell-groupwise">here</link> for configuration.</p></item>
 </list>
 </section>
 

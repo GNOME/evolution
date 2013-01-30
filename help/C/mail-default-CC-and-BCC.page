@@ -13,7 +13,6 @@
     <link type="guide" xref="mail-account-manage-unix-mbox-spool-file#defaults"/>
     <link type="guide" xref="mail-account-manage-usenet-news#defaults"/>
     <link type="guide" xref="mail-account-manage-microsoft-exchange-evo-mapi#defaults"/>
-    <link type="guide" xref="mail-account-manage-novell-groupwise#defaults"/>
     <link type="guide" xref="mail-account-manage-microsoft-exchange-evo-ews#defaults"/>
 
     <revision pkgversion="2.32.1" version="0.2" date="2011-09-05" status="draft"/>

@@ -10,7 +10,6 @@
     <link type="guide" xref="mail-account-manage-maildir-format-directories#security"/>
     <link type="guide" xref="mail-account-manage-mh-format-directories#security"/>
     <link type="guide" xref="mail-account-manage-microsoft-exchange#security"/>
-    <link type="guide" xref="mail-account-manage-novell-groupwise#security"/>
     <link type="guide" xref="mail-account-manage-pop#security"/>
     <link type="guide" xref="mail-account-manage-unix-mbox-spool-directory#security"/>
     <link type="guide" xref="mail-account-manage-unix-mbox-spool-file#security"/>
