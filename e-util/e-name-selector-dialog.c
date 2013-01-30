@@ -1157,14 +1157,9 @@ book_client_connect_cb (GObject *source_object,
 	}
 
 	if (error != NULL) {
-		gchar *message;
-
-		message = g_strdup_printf (
-			_("Error loading address book: %s"), error->message);
 		gtk_label_set_text (
-			name_selector_dialog->priv->status_label, message);
-		g_free (message);
-
+			name_selector_dialog->priv->status_label,
+			error->message);
 		g_error_free (error);
 		goto exit;
 	}

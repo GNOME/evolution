@@ -108,9 +108,7 @@ book_shell_backend_new_contact_cb (GObject *source_object,
 
 	/* XXX Handle errors better. */
 	if (error != NULL) {
-		g_warning (
-			"%s: Failed to open book: %s",
-			G_STRFUNC, error->message);
+		g_warning ("%s: %s", G_STRFUNC, error->message);
 		g_error_free (error);
 		goto exit;
 	}
@@ -149,9 +147,7 @@ book_shell_backend_new_contact_list_cb (GObject *source_object,
 
 	/* XXX Handle errors better. */
 	if (error != NULL) {
-		g_warning (
-			"%s: Failed to open book: %s",
-			G_STRFUNC, error->message);
+		g_warning ("%s: %s", G_STRFUNC, error->message);
 		g_error_free (error);
 		goto exit;
 	}

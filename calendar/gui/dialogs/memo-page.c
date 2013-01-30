@@ -970,12 +970,8 @@ mpage_client_connect_cb (GObject *source_object,
 	if (error != NULL) {
 		GtkWidget *dialog;
 		ECalClient *old_client;
-		ESource *source;
 
 		old_client = comp_editor_get_client (editor);
-
-		source = e_source_combo_box_ref_active (
-			E_SOURCE_COMBO_BOX (priv->source_combo_box));
 
 		e_source_combo_box_set_active (
 			E_SOURCE_COMBO_BOX (priv->source_combo_box),
@@ -984,13 +980,9 @@ mpage_client_connect_cb (GObject *source_object,
 		dialog = gtk_message_dialog_new (
 			NULL, GTK_DIALOG_MODAL,
 			GTK_MESSAGE_WARNING, GTK_BUTTONS_OK,
-			_("Unable to open memos in '%s': %s"),
-			e_source_get_display_name (source),
-			error->message);
+			"%s", error->message);
 		gtk_dialog_run (GTK_DIALOG (dialog));
 		gtk_widget_destroy (dialog);
-
-		g_object_unref (source);
 
 		g_clear_error (&error);
 	} else {

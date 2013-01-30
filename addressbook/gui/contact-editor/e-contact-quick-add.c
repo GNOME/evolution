@@ -124,7 +124,6 @@ merge_cb (GObject *source_object,
           GAsyncResult *result,
           gpointer user_data)
 {
-	ESource *source = E_SOURCE (source_object);
 	QuickAdd *qa = user_data;
 	EClient *client;
 	GError *error = NULL;
@@ -156,12 +155,15 @@ merge_cb (GObject *source_object,
 		eab_merging_book_add_contact (
 			qa->registry, E_BOOK_CLIENT (client),
 			qa->contact, NULL, NULL);
-	else
+	else {
+		ESource *source = e_client_get_source (client);
+
 		e_alert_run_dialog_for_args (
 			e_shell_get_active_window (NULL),
 			"addressbook:error-read-only",
 			e_source_get_display_name (source),
 			NULL);
+	}
 
 	if (qa->cb)
 		qa->cb (qa->contact, qa->closure);
@@ -299,9 +301,7 @@ ce_have_book (GObject *source_object,
 	}
 
 	if (error != NULL) {
-		g_warning (
-			"Couldn't open local address book (%s).",
-			error->message);
+		g_warning ("%s", error->message);
 		quick_add_unref (qa);
 		g_error_free (error);
 		return;

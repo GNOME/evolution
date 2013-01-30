@@ -3489,22 +3489,13 @@ set_buttons_sensitive (EMailPartItip *pitip,
 
 static void
 add_failed_to_load_msg (ItipView *view,
-                        ESource *source,
                         const GError *error)
 {
-	gchar *msg;
-
 	g_return_if_fail (view != NULL);
-	g_return_if_fail (source != NULL);
 	g_return_if_fail (error != NULL);
 
-	/* Translators: The first '%s' is replaced with a calendar name,
-	 * the second '%s' with an error message */
-	msg = g_strdup_printf (_("Failed to load the calendar '%s' (%s)"), e_source_get_display_name (source), error->message);
-
-	itip_view_add_lower_info_item (view, ITIP_VIEW_INFO_ITEM_TYPE_WARNING, msg);
-
-	g_free (msg);
+	itip_view_add_lower_info_item (
+		view, ITIP_VIEW_INFO_ITEM_TYPE_WARNING, error->message);
 }
 
 static void
@@ -3512,11 +3503,11 @@ cal_opened_cb (GObject *source_object,
                GAsyncResult *result,
                gpointer user_data)
 {
-	ESource *source = E_SOURCE (source_object);
 	ItipView *view = user_data;
 	EMailPartItip *pitip = itip_view_get_mail_part (view);
 	ECalClientSourceType source_type;
 	EClient *client;
+	ESource *source;
 	ECalClient *cal_client;
 	const gchar *uid;
 	GError *error = NULL;
@@ -3535,7 +3526,7 @@ cal_opened_cb (GObject *source_object,
 		return;
 
 	} else if (error != NULL) {
-		add_failed_to_load_msg (view, source, error);
+		add_failed_to_load_msg (view, error);
 		g_error_free (error);
 		return;
 	}
@@ -3543,6 +3534,7 @@ cal_opened_cb (GObject *source_object,
 	cal_client = E_CAL_CLIENT (client);
 	g_return_if_fail (cal_client != NULL);
 
+	source = e_client_get_source (client);
 	uid = e_source_get_uid (source);
 	source_type = e_cal_client_get_source_type (cal_client);
 	g_hash_table_insert (
@@ -3984,12 +3976,12 @@ find_cal_opened_cb (GObject *source_object,
                     GAsyncResult *result,
                     gpointer user_data)
 {
-	ESource *source = E_SOURCE (source_object);
 	FormatItipFindData *fd = user_data;
 	EMailPartItip *pitip = fd->puri;
 	ItipView *view = fd->view;
 	ECalClientSourceType source_type;
 	EClient *client;
+	ESource *source;
 	ECalClient *cal_client;
 	gboolean search_for_conflicts = FALSE;
 	const gchar *extension_name;
@@ -4021,7 +4013,7 @@ find_cal_opened_cb (GObject *source_object,
 		/* FIXME Do we really want to warn here?  If we fail
 		 * to find the item, this won't be cleared but the
 		 * selector might be shown */
-		add_failed_to_load_msg (view, source, error);
+		add_failed_to_load_msg (view, error);
 		decrease_find_data (fd);
 		g_error_free (error);
 		return;
@@ -4037,6 +4029,7 @@ find_cal_opened_cb (GObject *source_object,
 	cal_client = E_CAL_CLIENT (client);
 	source_type = e_cal_client_get_source_type (cal_client);
 
+	source = e_client_get_source (client);
 	uid = e_source_get_uid (source);
 	g_hash_table_insert (
 		pitip->clients[source_type], g_strdup (uid), cal_client);

@@ -63,6 +63,11 @@ enum {
 	NUM_IM_COLUMNS
 };
 
+typedef struct {
+	EContactEditor *editor;
+	ESource *source;
+} ConnectClosure;
+
 static void	e_contact_editor_set_property	(GObject *object,
 						 guint property_id,
 						 const GValue *value,
@@ -194,6 +199,18 @@ static const gint email_default[] = { 0, 1, 2, 2 };
 #define STRING_MAKE_NON_NULL(x) ((x) ? (x) : "")
 
 G_DEFINE_TYPE (EContactEditor, e_contact_editor, EAB_TYPE_EDITOR)
+
+static void
+connect_closure_free (ConnectClosure *connect_closure)
+{
+	if (connect_closure->editor != NULL)
+		g_object_unref (connect_closure->editor);
+
+	if (connect_closure->source != NULL)
+		g_object_unref (connect_closure->source);
+
+	g_slice_free (ConnectClosure, connect_closure);
+}
 
 static void
 e_contact_editor_contact_added (EABEditor *editor,
@@ -3088,8 +3105,7 @@ contact_editor_client_connect_cb (GObject *source_object,
                                   GAsyncResult *result,
                                   gpointer user_data)
 {
-	ESource *source = E_SOURCE (source_object);
-	EContactEditor *editor = user_data;
+	ConnectClosure *closure = user_data;
 	EClient *client;
 	GError *error = NULL;
 
@@ -3110,31 +3126,37 @@ contact_editor_client_connect_cb (GObject *source_object,
 		GtkWidget *source_combo_box;
 		GtkWindow *parent;
 
-		parent = eab_editor_get_window (EAB_EDITOR (editor));
-		eab_load_error_dialog (GTK_WIDGET (parent), NULL, source, error);
+		parent = eab_editor_get_window (EAB_EDITOR (closure->editor));
+
+		eab_load_error_dialog (
+			GTK_WIDGET (parent), NULL,
+			closure->source, error);
 
 		source_combo_box = e_builder_get_widget (
-			editor->builder, "source-combo-box-source");
+			closure->editor->builder,
+			"source-combo-box-source");
 		e_source_combo_box_set_active (
-			E_SOURCE_COMBO_BOX (source_combo_box), source);
+			E_SOURCE_COMBO_BOX (source_combo_box),
+			closure->source);
 
 		g_error_free (error);
 		goto exit;
 	}
 
 	/* FIXME Write a private contact_editor_set_target_client(). */
-	g_object_set (editor, "target_client", client, NULL);
+	g_object_set (closure->editor, "target_client", client, NULL);
 
 	g_object_unref (client);
 
 exit:
-	g_object_unref (editor);
+	connect_closure_free (closure);
 }
 
 static void
 source_changed (ESourceComboBox *source_combo_box,
                 EContactEditor *editor)
 {
+	ConnectClosure *closure;
 	ESource *target_source;
 	ESource *source_source;
 	ESource *source;
@@ -3163,10 +3185,14 @@ source_changed (ESourceComboBox *source_combo_box,
 
 	editor->cancellable = g_cancellable_new ();
 
+	closure = g_slice_new0 (ConnectClosure);
+	closure->editor = g_object_ref (editor);
+	closure->source = g_object_ref (source);
+
 	e_book_client_connect (
 		source, editor->cancellable,
 		contact_editor_client_connect_cb,
-		g_object_ref (editor));
+		closure);
 
 exit:
 	g_object_unref (source);

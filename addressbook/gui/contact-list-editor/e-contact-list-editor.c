@@ -134,7 +134,24 @@ struct _EContactListEditorPrivate {
 	guint in_async_call : 1;
 };
 
+typedef struct {
+	EContactListEditor *editor;
+	ESource *source;
+} ConnectClosure;
+
 G_DEFINE_TYPE (EContactListEditor, e_contact_list_editor, EAB_TYPE_EDITOR)
+
+static void
+connect_closure_free (ConnectClosure *connect_closure)
+{
+	if (connect_closure->editor != NULL)
+		g_object_unref (connect_closure->editor);
+
+	if (connect_closure->source != NULL)
+		g_object_unref (connect_closure->source);
+
+	g_slice_free (ConnectClosure, connect_closure);
+}
 
 static EContactListEditor *
 contact_list_editor_extract (GtkWidget *widget)
@@ -305,9 +322,8 @@ contact_list_editor_client_connect_cb (GObject *source_object,
                                        GAsyncResult *result,
                                        gpointer user_data)
 {
-	ESource *source = E_SOURCE (source_object);
-	EContactListEditor *editor = user_data;
-	EContactListEditorPrivate *priv = editor->priv;
+	ConnectClosure *closure = user_data;
+	EContactListEditor *editor = closure->editor;
 	EContactStore *contact_store;
 	ENameSelectorEntry *entry;
 	EClient *client;
@@ -325,11 +341,14 @@ contact_list_editor_client_connect_cb (GObject *source_object,
 		GtkWindow *parent;
 
 		parent = eab_editor_get_window (EAB_EDITOR (editor));
-		eab_load_error_dialog (GTK_WIDGET (parent), NULL, source, error);
+
+		eab_load_error_dialog (
+			GTK_WIDGET (parent), NULL,
+			closure->source, error);
 
 		e_source_combo_box_set_active (
 			E_SOURCE_COMBO_BOX (WIDGET (SOURCE_MENU)),
-			e_client_get_source (E_CLIENT (priv->book_client)));
+			closure->source);
 
 		g_error_free (error);
 		goto exit;
@@ -345,7 +364,7 @@ contact_list_editor_client_connect_cb (GObject *source_object,
 	g_object_unref (client);
 
 exit:
-	g_object_unref (editor);
+	connect_closure_free (closure);
 }
 
 static void

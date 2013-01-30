@@ -75,10 +75,7 @@ task_shell_backend_new_task (ESource *source,
 
 	/* XXX Handle errors better. */
 	if (error != NULL) {
-		g_warning (
-			"%s: Failed to open '%s': %s",
-			G_STRFUNC, e_source_get_display_name (source),
-			error->message);
+		g_warning ("%s: %s", G_STRFUNC, error->message);
 		g_error_free (error);
 		return;
 	}

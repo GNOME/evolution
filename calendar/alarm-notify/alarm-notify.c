@@ -229,9 +229,9 @@ client_connect_cb (GObject *source_object,
                    GAsyncResult *result,
                    gpointer user_data)
 {
-	ESource *source = E_SOURCE (source_object);
 	AlarmNotify *an = ALARM_NOTIFY (user_data);
 	EClient *client;
+	ESource *source;
 	ECalClient *cal_client;
 	GError *error = NULL;
 
@@ -243,13 +243,12 @@ client_connect_cb (GObject *source_object,
 		((client == NULL) && (error != NULL)));
 
 	if (error != NULL) {
-		debug (
-			("Failed to open '%s' (%s): %s",
-			e_source_get_display_name (source),
-			e_source_get_uid (source), error->message));
+		debug (("%s", error->message));
 		g_error_free (error);
 		return;
 	}
+
+	source = e_client_get_source (client);
 
 	g_hash_table_insert (
 		an->priv->clients,

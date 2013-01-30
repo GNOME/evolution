@@ -169,7 +169,6 @@ attachment_handler_import_event (GObject *source_object,
                                  GAsyncResult *result,
                                  gpointer user_data)
 {
-	ESource *source = E_SOURCE (source_object);
 	EAttachment *attachment = user_data;
 	EClient *client;
 	icalcomponent *component;
@@ -185,10 +184,7 @@ attachment_handler_import_event (GObject *source_object,
 		((client == NULL) && (error != NULL)));
 
 	if (error != NULL) {
-		g_warning (
-			"%s: Failed to open '%s': %s",
-			G_STRFUNC, e_source_get_display_name (source),
-			error->message);
+		g_warning ("%s: %s", G_STRFUNC, error->message);
 		g_object_unref (attachment);
 		g_error_free (error);
 		return;
@@ -227,7 +223,6 @@ attachment_handler_import_todo (GObject *source_object,
                                 GAsyncResult *result,
                                 gpointer user_data)
 {
-	ESource *source = E_SOURCE (source_object);
 	EAttachment *attachment = user_data;
 	EClient *client;
 	icalcomponent *component;
@@ -243,10 +238,7 @@ attachment_handler_import_todo (GObject *source_object,
 		((client == NULL) && (error != NULL)));
 
 	if (error != NULL) {
-		g_warning (
-			"%s: Failed to open '%s': %s",
-			G_STRFUNC, e_source_get_display_name (source),
-			error->message);
+		g_warning ("%s: %s", G_STRFUNC, error->message);
 		g_object_unref (attachment);
 		g_error_free (error);
 		return;

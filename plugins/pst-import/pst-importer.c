@@ -611,7 +611,7 @@ client_connect_cb (GObject *source_object,
 		((client == NULL) && (error != NULL)));
 
 	if (error)
-		g_debug ("%s: Failed to open client: %s", G_STRFUNC, error->message);
+		g_debug ("%s: %s", G_STRFUNC, error->message);
 	g_clear_error (&error);
 
 	if (client) {

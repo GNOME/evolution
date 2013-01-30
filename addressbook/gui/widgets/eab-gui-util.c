@@ -540,9 +540,7 @@ book_client_connect_cb (GObject *source_object,
 		((client == NULL) && (error != NULL)));
 
 	if (error != NULL) {
-		g_warning (
-			"%s: Failed to open destination client: %s",
-			G_STRFUNC, error->message);
+		g_warning ("%s: %s", G_STRFUNC, error->message);
 		g_error_free (error);
 		goto exit;
 	}

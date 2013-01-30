@@ -2227,7 +2227,7 @@ book_client_connect_cb (GObject *source_object,
 	}
 
 	if (error != NULL) {
-		g_warning ("%s", error->message);
+		g_warning ("%s: %s", G_STRFUNC, error->message);
 		g_error_free (error);
 		goto exit;
 	}
