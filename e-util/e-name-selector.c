@@ -296,6 +296,16 @@ name_selector_dispose (GObject *object)
 	g_array_set_size (priv->source_books, 0);
 	g_array_set_size (priv->sections, 0);
 
+	if (priv->dialog) {
+		gtk_widget_destroy (GTK_WIDGET (priv->dialog));
+		priv->dialog = NULL;
+	}
+
+	if (priv->model) {
+		g_object_unref (priv->model);
+		priv->model = NULL;
+	}
+
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_name_selector_parent_class)->dispose (object);
 }
