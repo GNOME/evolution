@@ -485,7 +485,7 @@ mail_sidebar_check_state (EMailSidebar *sidebar)
 		can_delete &= !(folder_flags & CAMEL_FOLDER_SYSTEM);
 	}
 
-	/* GOA-based accounts cannot be disabled from Evolution. */
+	/* GOA and UOA-based accounts cannot be disabled from Evolution. */
 	if (is_store && !store_is_local && !store_is_vfolder) {
 		EMFolderTree *folder_tree;
 		EMailSession *session;
@@ -500,6 +500,13 @@ mail_sidebar_check_state (EMailSidebar *sidebar)
 
 		ancestor = e_source_registry_find_extension (
 			registry, source, E_SOURCE_EXTENSION_GOA);
+		if (ancestor != NULL) {
+			can_disable = FALSE;
+			g_object_unref (ancestor);
+		}
+
+		ancestor = e_source_registry_find_extension (
+			registry, source, E_SOURCE_EXTENSION_UOA);
 		if (ancestor != NULL) {
 			can_disable = FALSE;
 			g_object_unref (ancestor);

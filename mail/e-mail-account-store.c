@@ -1153,6 +1153,13 @@ e_mail_account_store_add_service (EMailAccountStore *store,
 			enabled_visible = FALSE;
 		}
 
+		/* Check for Ubuntu Online Accounts linkage. */
+		extension_name = E_SOURCE_EXTENSION_UOA;
+		if (e_source_has_extension (collection, extension_name)) {
+			online_account = TRUE;
+			enabled_visible = FALSE;
+		}
+
 		g_object_unref (collection);
 	} else {
 		enabled = e_source_get_enabled (source);

@@ -506,6 +506,27 @@ mail_session_check_goa_mail_disabled (EMailSession *session,
 	return goa_mail_disabled;
 }
 
+static gboolean
+mail_session_check_uoa_mail_disabled (EMailSession *session,
+                                      ESource *source)
+{
+	ESource *uoa_source;
+	ESourceRegistry *registry;
+	gboolean uoa_mail_disabled = FALSE;
+
+	registry = e_mail_session_get_registry (session);
+
+	uoa_source = e_source_registry_find_extension (
+		registry, source, E_SOURCE_EXTENSION_UOA);
+
+	if (uoa_source != NULL) {
+		uoa_mail_disabled = !e_source_get_enabled (source);
+		g_object_unref (uoa_source);
+	}
+
+	return uoa_mail_disabled;
+}
+
 static void
 mail_session_add_from_source (EMailSession *session,
                               CamelProviderType type,
@@ -545,6 +566,10 @@ mail_session_add_from_source (EMailSession *session,
 	 * flag is FALSE, do not add a CamelService.  The account must
 	 * not appear anywhere, not even in the Mail Accounts list. */
 	if (mail_session_check_goa_mail_disabled (session, source))
+		return;
+
+	/* Same deal for the [Ubuntu Online Accounts] extension. */
+	if (mail_session_check_uoa_mail_disabled (session, source))
 		return;
 
 	service = camel_session_add_service (
@@ -630,17 +655,26 @@ mail_session_source_enabled_cb (ESourceRegistry *registry,
                                 EMailSession *session)
 {
 	ESource *goa_source;
+	ESource *uoa_source;
 
-	/* If the source is linked to a GNOME Online Account,
-	 * enabling the source is equivalent to adding it. */
+	/* If the source is linked to a GNOME Online Account
+	 * or Ubuntu Online Account, enabling the source is
+	 * equivalent to adding it. */
 
 	goa_source = e_source_registry_find_extension (
 		registry, source, E_SOURCE_EXTENSION_GOA);
 
-	if (goa_source != NULL) {
+	uoa_source = e_source_registry_find_extension (
+		registry, source, E_SOURCE_EXTENSION_UOA);
+
+	if (goa_source != NULL || uoa_source != NULL)
 		mail_session_source_added_cb (registry, source, session);
+
+	if (goa_source != NULL)
 		g_object_unref (goa_source);
-	}
+
+	if (uoa_source != NULL)
+		g_object_unref (uoa_source);
 }
 
 static void
@@ -649,17 +683,26 @@ mail_session_source_disabled_cb (ESourceRegistry *registry,
                                  EMailSession *session)
 {
 	ESource *goa_source;
+	ESource *uoa_source;
 
-	/* If the source is linked to a GNOME Online Account,
-	 * disabling the source is equivalent to removing it. */
+	/* If the source is linked to a GNOME Online Account
+	 * or Ubuntu Online Account, disabling the source is
+	 * equivalent to removing it. */
 
 	goa_source = e_source_registry_find_extension (
 		registry, source, E_SOURCE_EXTENSION_GOA);
 
-	if (goa_source != NULL) {
+	uoa_source = e_source_registry_find_extension (
+		registry, source, E_SOURCE_EXTENSION_UOA);
+
+	if (goa_source != NULL || uoa_source != NULL)
 		mail_session_source_removed_cb (registry, source, session);
+
+	if (goa_source != NULL)
 		g_object_unref (goa_source);
-	}
+
+	if (uoa_source != NULL)
+		g_object_unref (uoa_source);
 }
 
 static void
