@@ -978,6 +978,7 @@ e_mail_account_store_init (EMailAccountStore *store)
 	types[ii++] = G_TYPE_BOOLEAN;		/* COLUMN_DEFAULT */
 	types[ii++] = G_TYPE_STRING;		/* COLUMN_BACKEND_NAME */
 	types[ii++] = G_TYPE_STRING;		/* COLUMN_DISPLAY_NAME */
+	types[ii++] = G_TYPE_STRING;		/* COLUMN_ICON_NAME */
 	types[ii++] = G_TYPE_BOOLEAN;		/* COLUMN_ONLINE_ACCOUNT */
 	types[ii++] = G_TYPE_BOOLEAN;		/* COLUMN_ENABLED_VISIBLE */
 
@@ -1110,6 +1111,7 @@ e_mail_account_store_add_service (EMailAccountStore *store,
 	ESource *source;
 	GtkTreeIter iter;
 	const gchar *filename;
+	const gchar *icon_name = NULL;
 	const gchar *uid;
 	gboolean builtin;
 	gboolean enabled;
@@ -1151,6 +1153,9 @@ e_mail_account_store_add_service (EMailAccountStore *store,
 		if (e_source_has_extension (collection, extension_name)) {
 			online_account = TRUE;
 			enabled_visible = FALSE;
+
+			/* Provided by gnome-control-center-data. */
+			icon_name = "goa-panel";
 		}
 
 		/* Check for Ubuntu Online Accounts linkage. */
@@ -1158,6 +1163,9 @@ e_mail_account_store_add_service (EMailAccountStore *store,
 		if (e_source_has_extension (collection, extension_name)) {
 			online_account = TRUE;
 			enabled_visible = FALSE;
+
+			/* Provided by gnome-control-center-signon. */
+			icon_name = "credentials-preferences";
 		}
 
 		g_object_unref (collection);
@@ -1186,6 +1194,7 @@ e_mail_account_store_add_service (EMailAccountStore *store,
 		E_MAIL_ACCOUNT_STORE_COLUMN_SERVICE, service,
 		E_MAIL_ACCOUNT_STORE_COLUMN_BUILTIN, builtin,
 		E_MAIL_ACCOUNT_STORE_COLUMN_ENABLED, enabled,
+		E_MAIL_ACCOUNT_STORE_COLUMN_ICON_NAME, icon_name,
 		E_MAIL_ACCOUNT_STORE_COLUMN_ONLINE_ACCOUNT, online_account,
 		E_MAIL_ACCOUNT_STORE_COLUMN_ENABLED_VISIBLE, enabled_visible,
 		-1);

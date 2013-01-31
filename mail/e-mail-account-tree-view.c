@@ -108,6 +108,18 @@ mail_account_tree_view_constructed (GObject *object)
 	gtk_tree_view_column_set_expand (column, TRUE);
 	gtk_tree_view_column_set_title (column, _("Account Name"));
 
+	cell_renderer = gtk_cell_renderer_pixbuf_new ();
+	g_object_set (cell_renderer, "stock-size", GTK_ICON_SIZE_MENU, NULL);
+	gtk_tree_view_column_pack_start (column, cell_renderer, FALSE);
+
+	gtk_tree_view_column_add_attribute (
+		column, cell_renderer, "icon-name",
+		E_MAIL_ACCOUNT_STORE_COLUMN_ICON_NAME);
+
+	gtk_tree_view_column_add_attribute (
+		column, cell_renderer, "visible",
+		E_MAIL_ACCOUNT_STORE_COLUMN_ONLINE_ACCOUNT);
+
 	cell_renderer = gtk_cell_renderer_text_new ();
 	g_object_set (cell_renderer, "ellipsize", PANGO_ELLIPSIZE_END, NULL);
 	gtk_tree_view_column_pack_start (column, cell_renderer, FALSE);
@@ -115,16 +127,6 @@ mail_account_tree_view_constructed (GObject *object)
 	gtk_tree_view_column_add_attribute (
 		column, cell_renderer, "text",
 		E_MAIL_ACCOUNT_STORE_COLUMN_DISPLAY_NAME);
-
-	cell_renderer = gtk_cell_renderer_pixbuf_new ();
-	g_object_set (
-		cell_renderer, "icon-name", "goa-panel",
-		"stock-size", GTK_ICON_SIZE_MENU, NULL);
-	gtk_tree_view_column_pack_start (column, cell_renderer, FALSE);
-
-	gtk_tree_view_column_add_attribute (
-		column, cell_renderer, "visible",
-		E_MAIL_ACCOUNT_STORE_COLUMN_ONLINE_ACCOUNT);
 
 	/* This renderer is just an empty space filler. */
 	cell_renderer = gtk_cell_renderer_pixbuf_new ();
