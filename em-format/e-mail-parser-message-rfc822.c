@@ -25,13 +25,14 @@
 
 #include <e-util/e-util.h>
 
-#include "e-mail-format-extensions.h"
 #include "e-mail-parser-extension.h"
 #include "e-mail-part-list.h"
 #include "e-mail-part-utils.h"
 
 typedef EMailParserExtension EMailParserMessageRFC822;
 typedef EMailParserExtensionClass EMailParserMessageRFC822Class;
+
+GType e_mail_parser_message_rfc822_get_type (void);
 
 G_DEFINE_TYPE (
 	EMailParserMessageRFC822,

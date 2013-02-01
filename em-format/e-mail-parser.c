@@ -233,8 +233,7 @@ e_mail_parser_base_init (EMailParserClass *class)
 	class->extension_registry = g_object_new (
 		E_TYPE_MAIL_PARSER_EXTENSION_REGISTRY, NULL);
 
-	e_mail_parser_internal_extensions_load (
-		E_MAIL_EXTENSION_REGISTRY (class->extension_registry));
+	e_mail_parser_extension_registry_load (class->extension_registry);
 
 	e_extensible_load_extensions (E_EXTENSIBLE (class->extension_registry));
 }

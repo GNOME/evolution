@@ -41,17 +41,11 @@ typedef EExtension EMailParserTextHighlightLoader;
 typedef EExtensionClass EMailParserTextHighlightLoaderClass;
 
 GType e_mail_parser_text_highlight_get_type (void);
-GType e_mail_parser_text_highlight_loader_get_type (void);
 
 G_DEFINE_DYNAMIC_TYPE (
 	EMailParserTextHighlight,
 	e_mail_parser_text_highlight,
 	E_TYPE_MAIL_PARSER_EXTENSION)
-
-G_DEFINE_DYNAMIC_TYPE (
-	EMailParserTextHighlightLoader,
-	e_mail_parser_text_highlight_loader,
-	E_TYPE_EXTENSION)
 
 static gboolean
 empe_text_highlight_parse (EMailParserExtension *extension,
@@ -110,44 +104,9 @@ e_mail_parser_text_highlight_init (EMailParserExtension *extension)
 {
 }
 
-static void
-mail_parser_text_highlight_loader_constructed (GObject *object)
-{
-	EExtensible *extensible;
-
-	extensible = e_extension_get_extensible (E_EXTENSION (object));
-
-	e_mail_extension_registry_add_extension (
-		E_MAIL_EXTENSION_REGISTRY (extensible),
-		get_mime_types (),
-		e_mail_parser_text_highlight_get_type ());
-}
-
-static void
-e_mail_parser_text_highlight_loader_class_init (EExtensionClass *class)
-{
-	GObjectClass *object_class;
-
-	object_class = G_OBJECT_CLASS (class);
-	object_class->constructed = mail_parser_text_highlight_loader_constructed;
-
-	class->extensible_type = E_TYPE_MAIL_PARSER_EXTENSION_REGISTRY;
-}
-
-static void
-e_mail_parser_text_highlight_loader_class_finalize (EExtensionClass *class)
-{
-}
-
-static void
-e_mail_parser_text_highlight_loader_init (EExtension *extension)
-{
-}
-
 void
 e_mail_parser_text_highlight_type_register (GTypeModule *type_module)
 {
 	e_mail_parser_text_highlight_register_type (type_module);
-	e_mail_parser_text_highlight_loader_register_type (type_module);
 }
 

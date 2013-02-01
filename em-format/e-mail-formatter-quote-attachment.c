@@ -26,7 +26,6 @@
 
 #include <e-util/e-util.h>
 
-#include "e-mail-format-extensions.h"
 #include "e-mail-formatter-quote.h"
 #include "e-mail-part-attachment.h"
 #include "e-mail-part-utils.h"
@@ -35,6 +34,8 @@
 
 typedef EMailFormatterExtension EMailFormatterQuoteAttachment;
 typedef EMailFormatterExtensionClass EMailFormatterQuoteAttachmentClass;
+
+GType e_mail_formatter_quote_attachment_get_type (void);
 
 G_DEFINE_TYPE (
 	EMailFormatterQuoteAttachment,

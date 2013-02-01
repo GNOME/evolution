@@ -54,17 +54,11 @@ typedef EExtension EMailParserVCardInlineLoader;
 typedef EExtensionClass EMailParserVCardInlineLoaderClass;
 
 GType e_mail_parser_vcard_inline_get_type (void);
-GType e_mail_parser_vcard_inline_loader_get_type (void);
 
 G_DEFINE_DYNAMIC_TYPE (
 	EMailParserVCardInline,
 	e_mail_parser_vcard_inline,
 	E_TYPE_MAIL_PARSER_EXTENSION)
-
-G_DEFINE_DYNAMIC_TYPE (
-	EMailParserVCardInlineLoader,
-	e_mail_parser_vcard_inline_loader,
-	E_TYPE_EXTENSION)
 
 static const gchar *parser_mime_types[] = {
 	"text/vcard",
@@ -387,44 +381,9 @@ e_mail_parser_vcard_inline_init (EMailParserExtension *extension)
 {
 }
 
-static void
-mail_parser_vcard_inline_loader_constructed (GObject *object)
-{
-	EExtensible *extensible;
-
-	extensible = e_extension_get_extensible (E_EXTENSION (object));
-
-	e_mail_extension_registry_add_extension (
-		E_MAIL_EXTENSION_REGISTRY (extensible),
-		parser_mime_types,
-		e_mail_parser_vcard_inline_get_type ());
-}
-
-static void
-e_mail_parser_vcard_inline_loader_class_init (EExtensionClass *class)
-{
-	GObjectClass *object_class;
-
-	object_class = G_OBJECT_CLASS (class);
-	object_class->constructed = mail_parser_vcard_inline_loader_constructed;
-
-	class->extensible_type = E_TYPE_MAIL_PARSER_EXTENSION_REGISTRY;
-}
-
-static void
-e_mail_parser_vcard_inline_loader_class_finalize (EExtensionClass *class)
-{
-}
-
-static void
-e_mail_parser_vcard_inline_loader_init (EExtension *extension)
-{
-}
-
 void
 e_mail_parser_vcard_inline_type_register (GTypeModule *type_module)
 {
 	e_mail_parser_vcard_inline_register_type (type_module);
-	e_mail_parser_vcard_inline_loader_register_type (type_module);
 }
 

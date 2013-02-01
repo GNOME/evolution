@@ -237,9 +237,9 @@ e_mail_formatter_print_base_init (EMailFormatterPrintClass *class)
 	/* Register internal extensions. */
 	g_type_ensure (e_mail_formatter_print_headers_get_type ());
 
-	e_mail_formatter_print_internal_extensions_load (
-		E_MAIL_EXTENSION_REGISTRY (
-			E_MAIL_FORMATTER_CLASS (class)->extension_registry));
+	e_mail_formatter_extension_registry_load (
+		E_MAIL_FORMATTER_CLASS (class)->extension_registry,
+		E_TYPE_MAIL_FORMATTER_PRINT_EXTENSION);
 
 	E_MAIL_FORMATTER_CLASS (class)->text_html_flags =
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |

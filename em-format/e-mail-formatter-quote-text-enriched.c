@@ -26,12 +26,13 @@
 
 #include <e-util/e-util.h>
 
-#include "e-mail-format-extensions.h"
 #include "e-mail-formatter-quote.h"
 #include "e-mail-inline-filter.h"
 
 typedef EMailFormatterExtension EMailFormatterQuoteTextEnriched;
 typedef EMailFormatterExtensionClass EMailFormatterQuoteTextEnrichedClass;
+
+GType e_mail_formatter_quote_text_enriched_get_type (void);
 
 G_DEFINE_TYPE (
 	EMailFormatterQuoteTextEnriched,

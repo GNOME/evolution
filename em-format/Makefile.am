@@ -40,8 +40,6 @@ libemformat_la_SOURCES =				\
 	$(emformatinclude_HEADERS)			\
 	e-mail-extension-registry.c			\
 	e-mail-inline-filter.c				\
-	e-mail-format-extensions.c			\
-	e-mail-format-extensions.h			\
 	e-mail-formatter.c				\
 	e-mail-formatter-print.c			\
 	e-mail-formatter-quote.c			\

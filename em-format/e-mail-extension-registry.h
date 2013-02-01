@@ -57,10 +57,6 @@ struct _EMailExtensionRegistryClass {
 
 GType		e_mail_extension_registry_get_type
 					(void) G_GNUC_CONST;
-void		e_mail_extension_registry_add_extension
-					(EMailExtensionRegistry *registry,
-					 const gchar **mime_types,
-					 GType extension_type);
 GQueue *	e_mail_extension_registry_get_for_mime_type
 					(EMailExtensionRegistry *registry,
 					 const gchar *mime_type);
@@ -108,6 +104,8 @@ struct _EMailParserExtensionRegistryClass {
 
 GType		e_mail_parser_extension_registry_get_type
 					(void) G_GNUC_CONST;
+void		e_mail_parser_extension_registry_load
+					(EMailParserExtensionRegistry *registry);
 
 G_END_DECLS
 
@@ -149,6 +147,9 @@ struct _EMailFormatterExtensionRegistryClass {
 
 GType		e_mail_formatter_extension_registry_get_type
 					(void) G_GNUC_CONST;
+void		e_mail_formatter_extension_registry_load
+					(EMailFormatterExtensionRegistry *registry,
+					 GType base_extension_type);
 
 G_END_DECLS
 

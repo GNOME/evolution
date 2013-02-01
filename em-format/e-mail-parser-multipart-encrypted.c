@@ -24,12 +24,13 @@
 
 #include <libedataserver/libedataserver.h>
 
-#include "e-mail-format-extensions.h"
 #include "e-mail-parser-extension.h"
 #include "e-mail-part-utils.h"
 
 typedef EMailParserExtension EMailParserMultipartEncrypted;
 typedef EMailParserExtensionClass EMailParserMultipartEncryptedClass;
+
+GType e_mail_parser_multipart_encrypted_get_type (void);
 
 G_DEFINE_TYPE (
 	EMailParserMultipartEncrypted,

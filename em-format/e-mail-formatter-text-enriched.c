@@ -24,12 +24,13 @@
 
 #include <e-util/e-util.h>
 
-#include "e-mail-format-extensions.h"
 #include "e-mail-formatter-extension.h"
 #include "e-mail-inline-filter.h"
 
 typedef EMailFormatterExtension EMailFormatterTextEnriched;
 typedef EMailFormatterExtensionClass EMailFormatterTextEnrichedClass;
+
+GType e_mail_formatter_text_enriched_get_type (void);
 
 G_DEFINE_TYPE (
 	EMailFormatterTextEnriched,

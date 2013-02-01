@@ -24,12 +24,13 @@
 
 #include <libedataserver/libedataserver.h>
 
-#include "e-mail-format-extensions.h"
 #include "e-mail-parser-extension.h"
 #include "e-mail-part-utils.h"
 
 typedef EMailParserExtension EMailParserMultipartSigned;
 typedef EMailParserExtensionClass EMailParserMultipartSignedClass;
+
+GType e_mail_parser_multipart_signed_get_type (void);
 
 G_DEFINE_TYPE (
 	EMailParserMultipartSigned,

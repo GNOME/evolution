@@ -24,7 +24,6 @@
 
 #include <e-util/e-util.h>
 
-#include "e-mail-format-extensions.h"
 #include "e-mail-formatter-extension.h"
 #include "e-mail-inline-filter.h"
 #include "e-mail-parser-extension.h"
@@ -32,6 +31,8 @@
 
 typedef EMailFormatterExtension EMailFormatterImage;
 typedef EMailFormatterExtensionClass EMailFormatterImageClass;
+
+GType e_mail_formatter_image_get_type (void);
 
 G_DEFINE_TYPE (
 	EMailFormatterImage,
