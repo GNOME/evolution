@@ -81,6 +81,10 @@ struct _EMailParserExtensionClass {
 	 * wildcard (e.g. "text/ *"). */
 	const gchar **mime_types;
 
+	/* This is used to prioritize extensions with identical MIME
+	 * types.  Lower values win.  Defaults to G_PRIORITY_DEFAULT. */
+	gint priority;
+
 	/* See the flag descriptions above. */
 	EMailParserExtensionFlags flags;
 

@@ -186,6 +186,7 @@ e_mail_formatter_text_plain_class_init (EMailFormatterExtensionClass *class)
 	class->display_name = _("Plain Text");
 	class->description = _("Format part as plain text");
 	class->mime_types = formatter_mime_types;
+	class->priority = G_PRIORITY_LOW;
 	class->format = emfe_text_plain_format;
 }
 

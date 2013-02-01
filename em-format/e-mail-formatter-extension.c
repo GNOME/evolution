@@ -26,6 +26,7 @@ G_DEFINE_ABSTRACT_TYPE (
 static void
 e_mail_formatter_extension_class_init (EMailFormatterExtensionClass *class)
 {
+	class->priority = G_PRIORITY_DEFAULT;
 }
 
 static void

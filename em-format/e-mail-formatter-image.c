@@ -143,6 +143,7 @@ e_mail_formatter_image_class_init (EMailFormatterExtensionClass *class)
 	class->display_name = _("Regular Image");
 	class->description = _("Display part as an image");
 	class->mime_types = formatter_mime_types;
+	class->priority = G_PRIORITY_LOW;
 	class->format = emfe_image_format;
 }
 

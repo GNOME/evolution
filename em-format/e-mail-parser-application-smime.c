@@ -150,6 +150,7 @@ static void
 e_mail_parser_application_smime_class_init (EMailParserExtensionClass *class)
 {
 	class->mime_types = parser_mime_types;
+	class->priority = G_PRIORITY_LOW;
 	class->flags = E_MAIL_PARSER_EXTENSION_INLINE;
 	class->parse = empe_app_smime_parse;
 }

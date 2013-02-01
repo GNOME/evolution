@@ -88,6 +88,7 @@ e_mail_formatter_quote_text_enriched_class_init (EMailFormatterExtensionClass *c
 	class->display_name = _("Richtext");
 	class->description = _("Display part as enriched text");
 	class->mime_types = formatter_mime_types;
+	class->priority = G_PRIORITY_LOW;
 	class->format = emqfe_text_enriched_format;
 }
 

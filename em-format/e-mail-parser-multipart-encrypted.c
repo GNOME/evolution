@@ -173,6 +173,7 @@ static void
 e_mail_parser_multipart_encrypted_class_init (EMailParserExtensionClass *class)
 {
 	class->mime_types = parser_mime_types;
+	class->priority = G_PRIORITY_LOW;
 	class->parse = empe_mp_encrypted_parse;
 }
 

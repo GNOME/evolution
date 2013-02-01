@@ -168,6 +168,7 @@ static void
 e_mail_parser_inline_pgp_encrypted_class_init (EMailParserExtensionClass *class)
 {
 	class->mime_types = parser_mime_types;
+	class->priority = G_PRIORITY_LOW;
 	class->parse = empe_inlinepgp_encrypted_parse;
 }
 

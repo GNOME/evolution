@@ -110,6 +110,7 @@ e_mail_formatter_quote_text_plain_class_init (EMailFormatterExtensionClass *clas
 	class->display_name = _("Plain Text");
 	class->description = _("Format part as plain text");
 	class->mime_types = formatter_mime_types;
+	class->priority = G_PRIORITY_LOW;
 	class->format = emqfe_text_plain_format;
 }
 

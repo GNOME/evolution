@@ -67,6 +67,7 @@ static void
 e_mail_parser_secure_button_class_init (EMailParserExtensionClass *class)
 {
 	class->mime_types = parser_mime_types;
+	class->priority = G_PRIORITY_LOW;
 	class->parse = empe_secure_button_parse;
 }
 

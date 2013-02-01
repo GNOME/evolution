@@ -148,6 +148,7 @@ static void
 e_mail_parser_multipart_alternative_class_init (EMailParserExtensionClass *class)
 {
 	class->mime_types = parser_mime_types;
+	class->priority = G_PRIORITY_LOW;
 	class->parse = empe_mp_alternative_parse;
 }
 

@@ -191,6 +191,7 @@ static void
 e_mail_parser_inline_pgp_signed_class_init (EMailParserExtensionClass *class)
 {
 	class->mime_types = parser_mime_types;
+	class->priority = G_PRIORITY_LOW;
 	class->parse = empe_inlinepgp_signed_parse;
 }
 

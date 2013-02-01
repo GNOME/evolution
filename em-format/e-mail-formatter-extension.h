@@ -74,6 +74,10 @@ struct _EMailFormatterExtensionClass {
 	 * wildcard (e.g. "text/ *"). */
 	const gchar **mime_types;
 
+	/* This is used to prioritize extensions with identical MIME
+	 * types.  Lower values win.  Defaults to G_PRIORITY_DEFAULT. */
+	gint priority;
+
 	gboolean	(*format)	(EMailFormatterExtension *extension,
 					 EMailFormatter *formatter,
 					 EMailFormatterContext *context,

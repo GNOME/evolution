@@ -26,6 +26,7 @@ G_DEFINE_ABSTRACT_TYPE (
 static void
 e_mail_parser_extension_class_init (EMailParserExtensionClass *class)
 {
+	class->priority = G_PRIORITY_DEFAULT;
 }
 
 static void

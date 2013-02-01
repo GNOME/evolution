@@ -560,6 +560,7 @@ static void
 e_mail_formatter_headers_class_init (EMailFormatterExtensionClass *class)
 {
 	class->mime_types = formatter_mime_types;
+	class->priority = G_PRIORITY_LOW;
 	class->format = emfe_headers_format;
 }
 

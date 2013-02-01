@@ -102,6 +102,7 @@ static void
 e_mail_formatter_attachment_bar_class_init (EMailFormatterExtensionClass *class)
 {
 	class->mime_types = formatter_mime_types;
+	class->priority = G_PRIORITY_LOW;
 	class->format = emfe_attachment_bar_format;
 	class->get_widget = emfe_attachment_bar_get_widget;
 }

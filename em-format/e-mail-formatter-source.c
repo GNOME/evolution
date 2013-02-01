@@ -126,6 +126,7 @@ e_mail_formatter_source_class_init (EMailFormatterExtensionClass *class)
 	class->display_name = _("Source");
 	class->description = _("Display source of a MIME part");
 	class->mime_types = formatter_mime_types;
+	class->priority = G_PRIORITY_LOW;
 	class->format = emfe_source_format;
 }
 

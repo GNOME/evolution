@@ -113,6 +113,7 @@ static void
 e_mail_parser_image_class_init (EMailParserExtensionClass *class)
 {
 	class->mime_types = parser_mime_types;
+	class->priority = G_PRIORITY_LOW;
 	class->parse = empe_image_parse;
 }
 

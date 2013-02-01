@@ -464,6 +464,7 @@ static void
 e_mail_formatter_secure_button_class_init (EMailFormatterExtensionClass *class)
 {
 	class->mime_types = formatter_mime_types;
+	class->priority = G_PRIORITY_LOW;
 	class->format = emfe_secure_button_format;
 	class->get_widget = emfe_secure_button_get_widget;
 }

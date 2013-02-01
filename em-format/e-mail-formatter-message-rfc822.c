@@ -242,6 +242,7 @@ e_mail_formatter_message_rfc822_class_init (EMailFormatterExtensionClass *class)
 	class->display_name = _("RFC822 message");
 	class->description = _("Format part as an RFC822 message");
 	class->mime_types = formatter_mime_types;
+	class->priority = G_PRIORITY_LOW;
 	class->format = emfe_message_rfc822_format;
 }
 

@@ -160,6 +160,7 @@ static void
 e_mail_parser_application_mbox_class_init (EMailParserExtensionClass *class)
 {
 	class->mime_types = parser_mime_types;
+	class->priority = G_PRIORITY_LOW;
 	class->flags =
 		E_MAIL_PARSER_EXTENSION_INLINE |
 		E_MAIL_PARSER_EXTENSION_COMPOUND_TYPE;

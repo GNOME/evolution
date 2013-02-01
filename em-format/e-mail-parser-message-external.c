@@ -169,6 +169,7 @@ static void
 e_mail_parser_message_external_class_init (EMailParserExtensionClass *class)
 {
 	class->mime_types = parser_mime_types;
+	class->priority = G_PRIORITY_LOW;
 	class->parse = empe_msg_external_parse;
 }
 

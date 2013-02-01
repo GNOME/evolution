@@ -207,6 +207,7 @@ static void
 e_mail_parser_multipart_signed_class_init (EMailParserExtensionClass *class)
 {
 	class->mime_types = parser_mime_types;
+	class->priority = G_PRIORITY_LOW;
 	class->parse = empe_mp_signed_parse;
 }
 

@@ -59,7 +59,8 @@ destroy_queue (GQueue *queue)
 static void
 mail_extension_registry_add_extension (EMailExtensionRegistry *registry,
                                        const gchar **mime_types,
-                                       GType extension_type)
+                                       GType extension_type,
+                                       GCompareDataFunc compare_func)
 {
 	GObject *extension;
 	gint ii;
@@ -86,7 +87,9 @@ mail_extension_registry_add_extension (EMailExtensionRegistry *registry,
 				queue);
 		}
 
-		g_queue_push_head (queue, g_object_ref (extension));
+		g_queue_insert_sorted (
+			queue, g_object_ref (extension),
+			compare_func, NULL);
 
 		if (camel_debug ("emformat:registry")) {
 			printf (
@@ -217,6 +220,23 @@ e_mail_parser_extension_registry_init (EMailParserExtensionRegistry *registry)
 {
 }
 
+static gint
+mail_parser_extension_registry_compare (gconstpointer extension1,
+                                        gconstpointer extension2,
+                                        gpointer user_data)
+{
+	EMailParserExtensionClass *class1;
+	EMailParserExtensionClass *class2;
+
+	class1 = E_MAIL_PARSER_EXTENSION_GET_CLASS (extension1);
+	class2 = E_MAIL_PARSER_EXTENSION_GET_CLASS (extension2);
+
+	if (class1->priority == class2->priority)
+		return 0;
+
+	return (class1->priority < class2->priority) ? -1 : 1;
+}
+
 void
 e_mail_parser_extension_registry_load (EMailParserExtensionRegistry *registry)
 {
@@ -239,7 +259,8 @@ e_mail_parser_extension_registry_load (EMailParserExtensionRegistry *registry)
 
 		mail_extension_registry_add_extension (
 			E_MAIL_EXTENSION_REGISTRY (registry),
-			class->mime_types, children[ii]);
+			class->mime_types, children[ii],
+			mail_parser_extension_registry_compare);
 
 		g_type_class_unref (class);
 	}
@@ -265,6 +286,23 @@ e_mail_formatter_extension_registry_init (EMailFormatterExtensionRegistry *regis
 {
 }
 
+static gint
+mail_formatter_extension_registry_compare (gconstpointer extension1,
+                                           gconstpointer extension2,
+                                           gpointer user_data)
+{
+	EMailFormatterExtensionClass *class1;
+	EMailFormatterExtensionClass *class2;
+
+	class1 = E_MAIL_FORMATTER_EXTENSION_GET_CLASS (extension1);
+	class2 = E_MAIL_FORMATTER_EXTENSION_GET_CLASS (extension2);
+
+	if (class1->priority == class2->priority)
+		return 0;
+
+	return (class1->priority < class2->priority) ? -1 : 1;
+}
+
 void
 e_mail_formatter_extension_registry_load (EMailFormatterExtensionRegistry *registry,
                                           GType base_extension_type)
@@ -286,7 +324,8 @@ e_mail_formatter_extension_registry_load (EMailFormatterExtensionRegistry *regis
 
 		mail_extension_registry_add_extension (
 			E_MAIL_EXTENSION_REGISTRY (registry),
-			class->mime_types, children[ii]);
+			class->mime_types, children[ii],
+			mail_formatter_extension_registry_compare);
 
 		g_type_class_unref (class);
 	}
