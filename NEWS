@@ -1,3 +1,68 @@
+Evolution 3.7.5 2013-02-04
+--------------------------
+
+Bug Fixes:
+	Bug 639698 - Crash in mail_shell_view_execute_search() (Milan Crha)
+	Bug 680537 - Reply to individual message in digest generates empty
+	             body (Milan Crha)
+	Bug 685757 - [userdocs] Update cache location in user docs
+	             (Andre Klapper)
+	Bug 688294 - [userdocs] Update how online/offline mode works nowadays
+	             (Andre Klapper)
+	Bug 689476 - Slow composer open (ENameSelector object leaks)
+	             (Milan Crha)
+	Bug 690696 - [userdocs] Remove references to the old IMAP backend
+	             (Andre Klapper)
+	Bug 690697 - [userdocs] Document using real (non-virtual) Junk and
+	             Trash folders with IMAP+ (Andre Klapper)
+	Bug 691194 - Import .ics preview shows UTC time instead of local time
+	             (Milan Crha)
+	Bug 691640 - Distinguish the word "Title" for translation (Milan Crha)
+	Bug 691732 - multipart/related hides attachments (Milan Crha)
+	Bug 692003 - Print of text/html with no html/body end tag cuts content
+	             (Milan Crha)
+	Bug 692005 - Changing character encoding doesn't work (Milan Crha)
+	Bug 692009 - text/css always formatted as attachment (Milan Crha)
+	Bug 692143 - Auto-configured MSN account should use POP, not IMAP
+	             (Matthew Barnes)
+	Bug 692213 - [userdocs] Remove evolution-exchange recommendation
+	             (Andre Klapper)
+	Bug 692775 - Double-quoting message with HTML and text (Milan Crha)
+	Bug 692777 - Crash on folder rename (Milan Crha)
+	Bug 692781 - [pine-importer] Abort on book failure during contact
+	             import (Milan Crha)
+	Bug 692783 - [mail-to-task] Crash on edit prompt cancel (Milan Crha)
+	Bug 692818 - [userdocs] Remove documentation on Novell GroupWise
+	             (Andre Klapper)
+
+Other Changes:
+	* Bump libsoup dependency to 2.40.3 (Milan Crha)
+	* Add a "settings" module. (Matthew Barnes)
+	* Contact's print doesn't decode QP encoded email addresses
+	  (Milan Crha)
+	* Use e_book_client_connect(). (Matthew Barnes)
+	* Use e_cal_client_connect(). (Matthew Barnes)
+	* Incorporate ESourceUOA. (Matthew Barnes)
+	* EMailAccountStore: Use an appropriate icon for online accounts.
+	  (Matthew Barnes)
+	* Add a priority field for mail formatter and parser extensions.
+	  (Matthew Barnes)
+
+Translations:
+	Nilamdyuti Goswami (as)
+	Daniel Mustieles (es)
+	Aurimas Černius (lt)
+	Kjartan Maraas (nb)
+	Patrick Holthuizen (nl)
+	Marián Čavojský (sk)
+	Matej Urbančič (sl)
+	Мирослав Николић (sr)
+	Akom Chotiphantawanon (th)
+	Theppitak Karoonboonyanan (th)
+	Gheyret Kenji (ug)
+	Chao-Hsiung Liao (zh_HK)
+
+
 Evolution 3.7.4 2013-01-14
 --------------------------
 
