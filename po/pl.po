@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-02-03 00:47+0100\n"
-"PO-Revision-Date: 2013-02-03 00:48+0100\n"
+"PO-Revision-Date: 2013-02-03 03:18+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -10321,7 +10321,7 @@ msgstr "Zapisz _wszystkie"
 
 #: ../e-util/e-attachment-view.c:411
 msgid "A_dd Attachment..."
-msgstr "Dod_aj załącznik..."
+msgstr "_Dodaj załącznik..."
 
 #: ../e-util/e-attachment-view.c:435
 msgid "_Hide"
@@ -19216,7 +19216,7 @@ msgstr ""
 
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:3
 msgid "_Add Attachment..."
-msgstr "Dod_aj załącznik..."
+msgstr "_Dodaj załącznik..."
 
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:4
 msgid "_Edit Message"
