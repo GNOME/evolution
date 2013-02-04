@@ -34,12 +34,12 @@
 	((obj), E_TYPE_COLOR_COMBO, EColorComboPrivate))
 
 struct _EColorComboPrivate {
-	GtkWidget *color_frame;
-	GtkWidget *arrow;
+	GtkWidget *color_frame;		/* not referenced */
+	GtkWidget *arrow;		/* not referenced */
 
 	GtkWidget *window;
-	GtkWidget *default_button;
-	GtkWidget *chooser_widget;
+	GtkWidget *default_button;	/* not referenced */
+	GtkWidget *chooser_widget;	/* not referenced */
 
 	guint popup_shown	: 1;
 	guint popup_in_progress : 1;
@@ -524,6 +524,11 @@ color_combo_dispose (GObject *object)
 
 	priv = E_COLOR_COMBO_GET_PRIVATE (object);
 
+	if (priv->window != NULL) {
+		gtk_widget_destroy (priv->window);
+		priv->window = NULL;
+	}
+
 	if (priv->current_color != NULL) {
 		gdk_rgba_free (priv->current_color);
 		priv->current_color = NULL;
@@ -690,14 +695,14 @@ e_color_combo_init (EColorCombo *combo)
 	g_signal_connect (
 		widget, "draw",
 		G_CALLBACK (color_combo_draw_frame_cb), combo);
-	combo->priv->color_frame = widget;
+	combo->priv->color_frame = widget;  /* do not reference */
 
 	widget = gtk_separator_new (GTK_ORIENTATION_VERTICAL);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, TRUE, 0);
 
 	widget = gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_NONE);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, TRUE, 0);
-	combo->priv->arrow = widget;
+	combo->priv->arrow = widget;  /* do not reference */
 
 	/* Build the drop-down menu */
 	widget = gtk_window_new (GTK_WINDOW_POPUP);
@@ -705,7 +710,7 @@ e_color_combo_init (EColorCombo *combo)
 	gtk_window_set_resizable (GTK_WINDOW (widget), FALSE);
 	gtk_window_set_type_hint (
 		GTK_WINDOW (widget), GDK_WINDOW_TYPE_HINT_COMBO);
-	combo->priv->window = widget;
+	combo->priv->window = g_object_ref_sink (widget);
 
 	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (combo));
 	if (GTK_IS_WINDOW (toplevel)) {
@@ -739,7 +744,7 @@ e_color_combo_init (EColorCombo *combo)
 
 	widget = gtk_button_new ();
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 0, 1, 1);
-	combo->priv->default_button = widget;
+	combo->priv->default_button = widget;  /* do not reference */
 
 	g_signal_connect_swapped (
 		widget, "clicked",
@@ -751,7 +756,7 @@ e_color_combo_init (EColorCombo *combo)
 	widget = e_color_chooser_widget_new ();
 	g_object_set_data (G_OBJECT (widget), "window", combo->priv->window);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 1, 1, 1);
-	combo->priv->chooser_widget = widget;
+	combo->priv->chooser_widget = widget;  /* do not reference */
 
 	g_signal_connect_swapped (
 		widget, "color-activated",
