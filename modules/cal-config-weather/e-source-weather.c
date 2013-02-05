@@ -212,21 +212,17 @@ void
 e_source_weather_set_location (ESourceWeather *extension,
                                const gchar *location)
 {
-	gchar *new_location;
-
 	g_return_if_fail (E_IS_SOURCE_WEATHER (extension));
 
 	g_mutex_lock (&extension->priv->property_lock);
 
-	new_location = e_util_strdup_strip (location);
-	if (g_strcmp0 (extension->priv->location, new_location) == 0) {
+	if (g_strcmp0 (extension->priv->location, location) == 0) {
 		g_mutex_unlock (&extension->priv->property_lock);
-		g_free (new_location);
 		return;
 	}
 
 	g_free (extension->priv->location);
-	extension->priv->location = new_location;
+	extension->priv->location = e_util_strdup_strip (location);
 
 	g_mutex_unlock (&extension->priv->property_lock);
 
