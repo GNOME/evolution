@@ -294,7 +294,7 @@ emoticon_tool_button_dispose (GObject *object)
 	priv = E_EMOTICON_TOOL_BUTTON_GET_PRIVATE (object);
 
 	if (priv->window != NULL) {
-		g_object_unref (priv->window);
+		gtk_widget_destroy (priv->window);
 		priv->window = NULL;
 	}
 
@@ -573,10 +573,12 @@ e_emoticon_tool_button_init (EEmoticonToolButton *button)
 	/* Build the pop-up window. */
 
 	window = gtk_window_new (GTK_WINDOW_POPUP);
-	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (button));
 	gtk_window_set_resizable (GTK_WINDOW (window), FALSE);
 	gtk_window_set_type_hint (
 		GTK_WINDOW (window), GDK_WINDOW_TYPE_HINT_COMBO);
+	button->priv->window = g_object_ref_sink (window);
+
+	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (button));
 	if (GTK_IS_WINDOW (toplevel)) {
 		gtk_window_group_add_window (
 			gtk_window_get_group (GTK_WINDOW (toplevel)),
@@ -584,7 +586,6 @@ e_emoticon_tool_button_init (EEmoticonToolButton *button)
 		gtk_window_set_transient_for (
 			GTK_WINDOW (window), GTK_WINDOW (toplevel));
 	}
-	button->priv->window = g_object_ref (window);
 
 	g_signal_connect_swapped (
 		window, "show",
