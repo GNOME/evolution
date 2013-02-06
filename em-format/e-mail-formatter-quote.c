@@ -21,6 +21,7 @@
 #include <camel/camel.h>
 
 #include "e-mail-formatter-quote.h"
+#include "e-mail-formatter-utils.h"
 #include "e-mail-part.h"
 #include "e-mail-part-attachment.h"
 #include "e-mail-part-utils.h"
@@ -110,20 +111,7 @@ mail_formatter_quote_run (EMailFormatter *formatter,
 		}
 
 		if (g_str_has_suffix (part->id, ".rfc822")) {
-			gchar *end = g_strconcat (part->id, ".end", NULL);
-
-			while (link != NULL) {
-				EMailPart *p = link->data;
-
-				if (g_strcmp0 (p->id, end) == 0)
-					break;
-
-				link = g_list_next (link);
-				if (link == NULL)
-					break;
-			}
-			g_free (end);
-
+			link = e_mail_formatter_find_rfc822_end_iter (link);
 			continue;
 		}
 
