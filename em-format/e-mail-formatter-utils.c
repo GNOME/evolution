@@ -49,6 +49,10 @@ e_mail_formatter_format_text_header (EMailFormatter *formatter,
 	gchar *mhtml = NULL;
 	gboolean is_rtl;
 
+	g_return_if_fail (E_IS_MAIL_FORMATTER (formatter));
+	g_return_if_fail (buffer != NULL);
+	g_return_if_fail (label != NULL);
+
 	if (value == NULL)
 		return;
 
@@ -100,7 +104,7 @@ gchar *
 e_mail_formatter_format_address (EMailFormatter *formatter,
                                  GString *out,
                                  struct _camel_header_address *a,
-                                 gchar *field,
+                                 const gchar *field,
                                  gboolean no_links,
                                  gboolean elipsize)
 {
@@ -110,7 +114,11 @@ e_mail_formatter_format_address (EMailFormatter *formatter,
 	gchar *str = NULL;
 	gint limit = mail_config_get_address_count ();
 
-	while (a) {
+	g_return_val_if_fail (E_IS_MAIL_FORMATTER (formatter), NULL);
+	g_return_val_if_fail (out != NULL, NULL);
+	g_return_val_if_fail (field != NULL, NULL);
+
+	while (a != NULL) {
 		if (a->name)
 			name = camel_text_to_html (a->name, flags, 0);
 		else
@@ -118,7 +126,7 @@ e_mail_formatter_format_address (EMailFormatter *formatter,
 
 		switch (a->type) {
 		case CAMEL_HEADER_ADDRESS_NAME:
-			if (name && *name) {
+			if (name != NULL && *name != '\0') {
 				gchar *real, *mailaddr;
 
 				if (strchr (a->name, ',') || strchr (a->name, ';'))
@@ -148,7 +156,7 @@ e_mail_formatter_format_address (EMailFormatter *formatter,
 			g_free (mailto);
 			g_free (addr);
 
-			if (name && *name)
+			if (name != NULL && *name != '\0')
 				g_string_append (out, "&gt;");
 			break;
 		case CAMEL_HEADER_ADDRESS_GROUP:
@@ -167,7 +175,7 @@ e_mail_formatter_format_address (EMailFormatter *formatter,
 
 		i++;
 		a = a->next;
-		if (a)
+		if (a != NULL)
 			g_string_append (out, ", ");
 
 		if (!elipsize)
@@ -185,7 +193,7 @@ e_mail_formatter_format_address (EMailFormatter *formatter,
 				id = "bcc";
 			}
 
-			if (id) {
+			if (id != NULL) {
 				g_string_append_printf (
 					out,
 					"<span id=\"__evo-moreaddr-%s\" "
@@ -209,7 +217,7 @@ e_mail_formatter_format_address (EMailFormatter *formatter,
 			id = "bcc";
 		}
 
-		if (id) {
+		if (id != NULL) {
 			g_string_append_printf (
 				out,
 				"</span>"
@@ -227,6 +235,8 @@ void
 e_mail_formatter_canon_header_name (gchar *name)
 {
 	gchar *inptr = name;
+
+	g_return_if_fail (name != NULL);
 
 	/* canonicalise the header name... first letter is
 	 * capitalised and any letter following a '-' also gets
@@ -261,12 +271,17 @@ e_mail_formatter_format_header (EMailFormatter *formatter,
 	gchar *str_field = NULL;
 	gint i;
 
+	/* XXX Not sure if buffer or part can be NULL.
+	 *     They're just passthrough parameters anyway. */
+	g_return_if_fail (E_IS_MAIL_FORMATTER (formatter));
+	g_return_if_fail (header != NULL);
+
 	name = g_alloca (strlen (header->name) + 1);
 	strcpy (name, header->name);
 	e_mail_formatter_canon_header_name (name);
 
 	for (i = 0; addrspec_hdrs[i]; i++) {
-		if (!strcmp (name, addrspec_hdrs[i])) {
+		if (g_str_equal (name, addrspec_hdrs[i])) {
 			addrspec = TRUE;
 			break;
 		}
@@ -278,12 +293,15 @@ e_mail_formatter_format_header (EMailFormatter *formatter,
 		struct _camel_header_address *addrs;
 		GString *html;
 		gchar *img;
-		const gchar *charset = e_mail_formatter_get_charset (formatter) ?
-						e_mail_formatter_get_charset (formatter) :
-						e_mail_formatter_get_default_charset (formatter);
+		const gchar *charset;
+
+		charset = e_mail_formatter_get_charset (formatter);
+		if (charset == NULL)
+			charset = e_mail_formatter_get_default_charset (formatter);
 
 		buf = camel_header_unfold (header->value);
-		if (!(addrs = camel_header_address_decode (buf, charset))) {
+		addrs = camel_header_address_decode (buf, charset);
+		if (addrs == NULL) {
 			g_free (buf);
 			return;
 		}
@@ -292,11 +310,11 @@ e_mail_formatter_format_header (EMailFormatter *formatter,
 
 		html = g_string_new ("");
 		img = e_mail_formatter_format_address (
-			formatter, html, addrs, (gchar *) label,
+			formatter, html, addrs, label,
 			(flags & E_MAIL_FORMATTER_HEADER_FLAG_NOLINKS),
 			!(flags & E_MAIL_FORMATTER_HEADER_FLAG_NOELIPSIZE));
 
-		if (img) {
+		if (img != NULL) {
 			str_field = g_strdup_printf ("%s: %s", label, img);
 			label = str_field;
 			flags |= E_MAIL_FORMATTER_HEADER_FLAG_NODEC;
@@ -307,19 +325,23 @@ e_mail_formatter_format_header (EMailFormatter *formatter,
 		txt = value = html->str;
 		g_string_free (html, FALSE);
 
-		flags |= E_MAIL_FORMATTER_HEADER_FLAG_HTML | E_MAIL_FORMATTER_HEADER_FLAG_BOLD;
-	} else if (!strcmp (name, "Subject")) {
+		flags |= E_MAIL_FORMATTER_HEADER_FLAG_HTML;
+		flags |= E_MAIL_FORMATTER_HEADER_FLAG_BOLD;
+
+	} else if (g_str_equal (name, "Subject")) {
 		buf = camel_header_unfold (header->value);
 		txt = value = camel_header_decode_string (buf, charset);
 		g_free (buf);
 
 		flags |= E_MAIL_FORMATTER_HEADER_FLAG_BOLD;
-	} else if (!strcmp (name, "X-evolution-mailer")) {
+
+	} else if (g_str_equal (name, "X-evolution-mailer")) {
 		/* pseudo-header */
 		label = _("Mailer");
 		txt = value = camel_header_format_ctext (header->value, charset);
 		flags |= E_MAIL_FORMATTER_HEADER_FLAG_BOLD;
-	} else if (!strcmp (name, "Date") || !strcmp (name, "Resent-Date")) {
+
+	} else if (g_str_equal (name, "Date") || g_str_equal (name, "Resent-Date")) {
 		gint msg_offset, local_tz;
 		time_t msg_date;
 		struct tm local;
@@ -346,7 +368,8 @@ e_mail_formatter_format_header (EMailFormatter *formatter,
 
 		/* value will be freed at the end */
 		if (!hide_real_date && !msg_offset) {
-			/* No timezone difference; just show the real Date: header */
+			/* No timezone difference; just
+			 * show the real Date: header. */
 			txt = value = html;
 		} else {
 			gchar *date_str;
@@ -356,19 +379,22 @@ e_mail_formatter_format_header (EMailFormatter *formatter,
 				DTFormatKindDateTime, msg_date);
 
 			if (hide_real_date) {
-				/* Show only the local-formatted date, losing all timezone
-				 * information like Outlook does. Should we attempt to show
-				 * it somehow? */
+				/* Show only the local-formatted date, losing
+				 * all timezone information like Outlook does.
+				 * Should we attempt to show it somehow? */
 				txt = value = date_str;
 			} else {
-				txt = value = g_strdup_printf ("%s (<I>%s</I>)", html, date_str);
+				txt = value = g_strdup_printf (
+					"%s (<I>%s</I>)", html, date_str);
 				g_free (date_str);
 			}
 			g_free (html);
 		}
-		flags |= E_MAIL_FORMATTER_HEADER_FLAG_HTML |
-			 E_MAIL_FORMATTER_HEADER_FLAG_BOLD;
-	} else if (!strcmp (name, "Newsgroups")) {
+
+		flags |= E_MAIL_FORMATTER_HEADER_FLAG_HTML;
+		flags |= E_MAIL_FORMATTER_HEADER_FLAG_BOLD;
+
+	} else if (g_str_equal (name, "Newsgroups")) {
 		struct _camel_header_newsgroup *ng, *scan;
 		GString *html;
 
@@ -385,7 +411,8 @@ e_mail_formatter_format_header (EMailFormatter *formatter,
 		scan = ng;
 		while (scan) {
 			if (flags & E_MAIL_FORMATTER_HEADER_FLAG_NOLINKS)
-				g_string_append_printf (html, "%s", scan->newsgroup);
+				g_string_append_printf (
+					html, "%s", scan->newsgroup);
 			else
 				g_string_append_printf (
 					html, "<a href=\"news:%s\">%s</a>",
@@ -399,11 +426,14 @@ e_mail_formatter_format_header (EMailFormatter *formatter,
 
 		txt = html->str;
 		g_string_free (html, FALSE);
-		flags |= E_MAIL_FORMATTER_HEADER_FLAG_HTML |
-			 E_MAIL_FORMATTER_HEADER_FLAG_BOLD;
-	} else if (!strcmp (name, "Received") || !strncmp (name, "X-", 2)) {
+
+		flags |= E_MAIL_FORMATTER_HEADER_FLAG_HTML;
+		flags |= E_MAIL_FORMATTER_HEADER_FLAG_BOLD;
+
+	} else if (g_str_equal (name, "Received") || g_str_has_prefix (name, "X-")) {
 		/* don't unfold Received nor extension headers */
 		txt = value = camel_header_decode_string (header->value, charset);
+
 	} else {
 		/* don't unfold Received nor extension headers */
 		buf = camel_header_unfold (header->value);
@@ -411,45 +441,57 @@ e_mail_formatter_format_header (EMailFormatter *formatter,
 		g_free (buf);
 	}
 
-	e_mail_formatter_format_text_header (formatter, buffer, label, txt, flags);
+	e_mail_formatter_format_text_header (
+		formatter, buffer, label, txt, flags);
 
 	g_free (value);
 	g_free (str_field);
 }
 
 GList *
-e_mail_formatter_find_rfc822_end_iter (GList *iter)
+e_mail_formatter_find_rfc822_end_iter (GList *rfc822_start_iter)
 {
+	GList *link = rfc822_start_iter;
 	EMailPart *part;
 	gchar *end;
 
-	part = iter->data;
-	end = g_strconcat (part->id, ".end", NULL);
-	for (; iter != NULL; iter = g_list_next (iter)) {
-		part = iter->data;
-		if (!part)
-			continue;
+	g_return_val_if_fail (rfc822_start_iter != NULL, NULL);
 
-		if (g_strcmp0 (part->id, end) == 0) {
-			g_free (end);
-			return iter;
-		}
+	part = (EMailPart *) link->data;
+	g_return_val_if_fail (part != NULL, NULL);
+
+	end = g_strconcat (part->id, ".end", NULL);
+
+	while (link != NULL) {
+		part = (EMailPart *) link->data;
+		g_return_val_if_fail (part != NULL, NULL);
+
+		if (g_strcmp0 (part->id, end) == 0)
+			break;
+
+		link = g_list_next (link);
 	}
+
 	g_free (end);
-	return iter;
+
+	return link;
 }
 
 gchar *
 e_mail_formatter_parse_html_mnemonics (const gchar *label,
-                                       gchar **access_key)
+                                       gchar **out_access_key)
 {
 	const gchar *pos = NULL;
-	gchar ak = 0;
 	GString *html_label = NULL;
+
+	g_return_val_if_fail (label != NULL, NULL);
+
+	if (out_access_key != NULL)
+		*out_access_key = NULL;
 
 	pos = strstr (label, "_");
 	if (pos != NULL) {
-		ak = pos[1];
+		gchar ak = pos[1];
 
 		/* Convert to uppercase */
 		if (ak >= 'a')
@@ -460,20 +502,11 @@ e_mail_formatter_parse_html_mnemonics (const gchar *label,
 		g_string_append_printf (html_label, "<u>%c</u>", pos[1]);
 		g_string_append (html_label, &pos[2]);
 
-		if (access_key) {
-			if (ak) {
-				*access_key = g_strdup_printf ("%c", ak);
-			} else {
-				*access_key = NULL;
-			}
-		}
+		if (out_access_key != NULL && ak != '\0')
+			*out_access_key = g_strdup_printf ("%c", ak);
 
 	} else {
 		html_label = g_string_new (label);
-
-		if (access_key) {
-			*access_key = NULL;
-		}
 	}
 
 	return g_string_free (html_label, FALSE);

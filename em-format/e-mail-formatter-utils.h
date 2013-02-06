@@ -41,7 +41,7 @@ void		e_mail_formatter_format_text_header
 gchar *		e_mail_formatter_format_address (EMailFormatter *formatter,
 						 GString *out,
 						 struct _camel_header_address *a,
-						 gchar *field,
+						 const gchar *field,
 						 gboolean no_links,
 						 gboolean elipsize);
 
@@ -53,7 +53,7 @@ GList *		e_mail_formatter_find_rfc822_end_iter
 
 gchar *		e_mail_formatter_parse_html_mnemonics
 						(const gchar *label,
-						 gchar **access_key);
+						 gchar **out_access_key);
 
 G_END_DECLS
 
