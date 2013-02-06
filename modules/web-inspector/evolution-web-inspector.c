@@ -18,6 +18,7 @@
 
 #include <config.h>
 #include <glib/gi18n-lib.h>
+#include <gdk/gdkkeysyms.h>
 
 #include <libebackend/libebackend.h>
 
@@ -30,6 +31,14 @@
 	(G_TYPE_CHECK_INSTANCE_CAST \
 	((obj), E_TYPE_WEB_INSPECTOR, EWebInspector))
 
+/* <Control>+<Alt>+I */
+#define WEB_INSPECTOR_MOD  (GDK_CONTROL_MASK | GDK_MOD1_MASK)
+#define WEB_INSPECTOR_KEY  (GDK_KEY_i)
+
+#define WEB_INSPECTOR_SHORTCUT_SHOW(event) \
+	((((event)->state & GDK_MODIFIER_MASK) == WEB_INSPECTOR_MOD) && \
+	((event)->keyval == WEB_INSPECTOR_KEY))
+
 typedef struct _EWebInspector EWebInspector;
 typedef struct _EWebInspectorClass EWebInspectorClass;
 
@@ -41,15 +50,6 @@ struct _EWebInspectorClass {
 	EExtensionClass parent_class;
 };
 
-static const gchar *ui =
-"<ui>"
-"  <popup name='context'>"
-"    <placeholder name='inspect-menu' >"
-"      <menuitem action='inspect'/>"
-"    </placeholder>"
-"  </popup>"
-"</ui>";
-
 /* Module Entry Points */
 void e_module_load (GTypeModule *type_module);
 void e_module_unload (GTypeModule *type_module);
@@ -59,42 +59,35 @@ GType e_web_inspector_get_type (void);
 
 G_DEFINE_DYNAMIC_TYPE (EWebInspector, e_web_inspector, E_TYPE_EXTENSION)
 
-static EWebView *
+static WebKitWebView *
 web_inspector_get_web_view (EWebInspector *extension)
 {
 	EExtensible *extensible;
 
 	extensible = e_extension_get_extensible (E_EXTENSION (extension));
 
-	return E_WEB_VIEW (extensible);
+	return WEBKIT_WEB_VIEW (extensible);
 }
 
-static void
-web_inspector_action_inspect_cb (GtkAction *action,
-                                 EWebInspector *extension)
+static gboolean
+web_inspector_key_press_event_cb (WebKitWebView *web_view,
+                                  GdkEventKey *event)
 {
 	WebKitWebInspector *inspector;
-	EWebView *web_view;
+	gboolean handled = FALSE;
 
-	web_view = web_inspector_get_web_view (extension);
-	inspector = webkit_web_view_get_inspector (WEBKIT_WEB_VIEW (web_view));
+	inspector = webkit_web_view_get_inspector (web_view);
 
-	webkit_web_inspector_show (inspector);
+	if (WEB_INSPECTOR_SHORTCUT_SHOW (event)) {
+		webkit_web_inspector_show (inspector);
+		handled = TRUE;
+	}
+
+	return handled;
 }
 
-static GtkActionEntry inspect_entries[] = {
-
-	{ "inspect",
-	  NULL,
-	  N_("_Inspect..."),
-	  NULL,
-	  N_("Inspect the HTML content (debugging feature)"),
-	  G_CALLBACK (web_inspector_action_inspect_cb) }
-};
-
 static WebKitWebView *
-web_inspector_inspect_web_view_cb (WebKitWebInspector *inspector,
-                                   EWebInspector *extension)
+web_inspector_inspect_web_view_cb (WebKitWebInspector *inspector)
 {
 	GtkWidget *web_view;
 	GtkWidget *window;
@@ -117,38 +110,24 @@ static void
 web_inspector_constructed (GObject *object)
 {
 	EWebInspector *extension;
+	WebKitWebView *web_view;
 	WebKitWebSettings *settings;
 	WebKitWebInspector *inspector;
-	GtkActionGroup *action_group;
-	GtkUIManager *ui_manager;
-	EWebView *web_view;
-	GError *error = NULL;
 
 	extension = E_WEB_INSPECTOR (object);
 	web_view = web_inspector_get_web_view (extension);
+	settings = webkit_web_view_get_settings (web_view);
+	inspector = webkit_web_view_get_inspector (web_view);
 
-	ui_manager = e_web_view_get_ui_manager (web_view);
-	action_group = e_web_view_get_action_group (web_view, "standard");
-
-	settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (web_view));
 	g_object_set (settings, "enable-developer-extras", TRUE, NULL);
 
-	inspector = webkit_web_view_get_inspector (WEBKIT_WEB_VIEW (web_view));
+	g_signal_connect (
+		web_view, "key-press-event",
+		G_CALLBACK (web_inspector_key_press_event_cb), NULL);
 
 	g_signal_connect (
 		inspector, "inspect-web-view",
-		G_CALLBACK (web_inspector_inspect_web_view_cb), extension);
-
-	gtk_action_group_add_actions (
-		action_group, inspect_entries,
-		G_N_ELEMENTS (inspect_entries), extension);
-
-	/* Because we are loading from a hard-coded string, there is
-	 * no chance of I/O errors.  Failure here implies a malformed
-	 * UI definition.  Full stop. */
-	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, &error);
-	if (error != NULL)
-		g_error ("%s", error->message);
+		G_CALLBACK (web_inspector_inspect_web_view_cb), NULL);
 }
 
 static void
@@ -161,7 +140,7 @@ e_web_inspector_class_init (EWebInspectorClass *class)
 	object_class->constructed = web_inspector_constructed;
 
 	extension_class = E_EXTENSION_CLASS (class);
-	extension_class->extensible_type = E_TYPE_WEB_VIEW;
+	extension_class->extensible_type = WEBKIT_TYPE_WEB_VIEW;
 }
 
 static void
