@@ -105,7 +105,8 @@ format_short_headers (EMailFormatter *formatter,
 			subject = camel_header_unfold (header->value);
 			buf = camel_header_decode_string (subject, hdr_charset);
 			g_free (subject);
-			subject = camel_text_to_html (buf, CAMEL_MIME_FILTER_TOHTML_PRESERVE_8BIT, 0);
+			subject = camel_text_to_html (
+				buf, CAMEL_MIME_FILTER_TOHTML_PRESERVE_8BIT, 0);
 			g_free (buf);
 		}
 		header = header->next;

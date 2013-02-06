@@ -362,7 +362,8 @@ external_editor_thread (gpointer user_data)
 			gchar *htmltext;
 			GArray *array;
 
-			htmltext = camel_text_to_html (buf, CAMEL_MIME_FILTER_TOHTML_PRE, 0);
+			htmltext = camel_text_to_html (
+				buf, CAMEL_MIME_FILTER_TOHTML_PRE, 0);
 
 			array = g_array_sized_new (
 				TRUE, TRUE,

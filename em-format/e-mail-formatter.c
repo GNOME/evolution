@@ -1110,7 +1110,7 @@ e_mail_formatter_get_extension_registry (EMailFormatter *formatter)
 	return E_MAIL_EXTENSION_REGISTRY (formatter_class->extension_registry);
 }
 
-guint32
+CamelMimeFilterToHTMLFlags
 e_mail_formatter_get_text_format_flags (EMailFormatter *formatter)
 {
 	g_return_val_if_fail (E_IS_MAIL_FORMATTER (formatter), 0);

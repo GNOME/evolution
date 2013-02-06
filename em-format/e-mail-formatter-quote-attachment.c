@@ -56,9 +56,9 @@ emfqe_attachment_format (EMailFormatterExtension *extension,
                          GCancellable *cancellable)
 {
 	gchar *text, *html;
-	guint32 text_format_flags;
 	EMailPartAttachment *empa;
 	EMailPart *attachment_view_part;
+	CamelMimeFilterToHTMLFlags text_format_flags;
 
 	empa = E_MAIL_PART_ATTACHMENT (part);
 

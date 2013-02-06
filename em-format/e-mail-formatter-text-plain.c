@@ -59,7 +59,6 @@ emfe_text_plain_format (EMailFormatterExtension *extension,
 	CamelMimeFilter *html_filter;
 	gchar *content;
 	const gchar *format;
-	guint32 filter_flags;
 	guint32 rgb;
 
 	if (g_cancellable_is_cancelled (cancellable))
@@ -67,6 +66,7 @@ emfe_text_plain_format (EMailFormatterExtension *extension,
 
 	if ((context->mode == E_MAIL_FORMATTER_MODE_RAW) ||
 	    (context->mode == E_MAIL_FORMATTER_MODE_PRINTING)) {
+		CamelMimeFilterToHTMLFlags flags;
 
 		if (context->mode == E_MAIL_FORMATTER_MODE_RAW) {
 			gchar *header;
@@ -81,7 +81,7 @@ emfe_text_plain_format (EMailFormatterExtension *extension,
 				cancellable, NULL);
 		}
 
-		filter_flags = e_mail_formatter_get_text_format_flags (formatter);
+		flags = e_mail_formatter_get_text_format_flags (formatter);
 
 		dw = camel_medium_get_content (CAMEL_MEDIUM (part->part));
 		if (!dw)
@@ -91,14 +91,14 @@ emfe_text_plain_format (EMailFormatterExtension *extension,
 		if (camel_content_type_is (dw->mime_type, "text", "plain")
 		&& (format = camel_content_type_param (dw->mime_type, "format"))
 		&& !g_ascii_strcasecmp (format, "flowed"))
-			filter_flags |= CAMEL_MIME_FILTER_TOHTML_FORMAT_FLOWED;
+			flags |= CAMEL_MIME_FILTER_TOHTML_FORMAT_FLOWED;
 
 		rgb = e_color_to_value ((GdkColor *)
 			e_mail_formatter_get_color (
 				formatter, E_MAIL_FORMATTER_COLOR_CITATION));
 
 		filtered_stream = camel_stream_filter_new (stream);
-		html_filter = camel_mime_filter_tohtml_new (filter_flags, rgb);
+		html_filter = camel_mime_filter_tohtml_new (flags, rgb);
 		camel_stream_filter_add (
 			CAMEL_STREAM_FILTER (filtered_stream), html_filter);
 		g_object_unref (html_filter);

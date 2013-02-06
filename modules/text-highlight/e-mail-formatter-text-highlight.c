@@ -155,8 +155,8 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 
 		filter_stream = camel_stream_filter_new (stream);
 		mime_filter = camel_mime_filter_tohtml_new (
-				CAMEL_MIME_FILTER_TOHTML_PRE |
-				CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES, 0);
+			CAMEL_MIME_FILTER_TOHTML_PRE |
+			CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES, 0);
 		camel_stream_filter_add (
 			CAMEL_STREAM_FILTER (filter_stream), mime_filter);
 		g_object_unref (mime_filter);

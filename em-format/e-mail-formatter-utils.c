@@ -59,12 +59,16 @@ e_mail_formatter_format_text_header (EMailFormatter *formatter,
 	while (*value == ' ')
 		value++;
 
-	if (!(flags & E_MAIL_FORMATTER_HEADER_FLAG_HTML))
+	if (!(flags & E_MAIL_FORMATTER_HEADER_FLAG_HTML)) {
+		CamelMimeFilterToHTMLFlags text_format_flags;
+
+		text_format_flags =
+			e_mail_formatter_get_text_format_flags (formatter);
 		html = mhtml = camel_text_to_html (
-			value,
-			e_mail_formatter_get_text_format_flags (formatter), 0);
-	else
+			value, text_format_flags, 0);
+	} else {
 		html = value;
+	}
 
 	is_rtl = gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL;
 
@@ -108,7 +112,7 @@ e_mail_formatter_format_address (EMailFormatter *formatter,
                                  gboolean no_links,
                                  gboolean elipsize)
 {
-	guint32 flags = CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES;
+	CamelMimeFilterToHTMLFlags flags;
 	gchar *name, *mailto, *addr;
 	gint i = 0;
 	gchar *str = NULL;
@@ -117,6 +121,8 @@ e_mail_formatter_format_address (EMailFormatter *formatter,
 	g_return_val_if_fail (E_IS_MAIL_FORMATTER (formatter), NULL);
 	g_return_val_if_fail (out != NULL, NULL);
 	g_return_val_if_fail (field != NULL, NULL);
+
+	flags = CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES;
 
 	while (a != NULL) {
 		if (a->name)
@@ -342,6 +348,7 @@ e_mail_formatter_format_header (EMailFormatter *formatter,
 		flags |= E_MAIL_FORMATTER_HEADER_FLAG_BOLD;
 
 	} else if (g_str_equal (name, "Date") || g_str_equal (name, "Resent-Date")) {
+		CamelMimeFilterToHTMLFlags text_format_flags;
 		gint msg_offset, local_tz;
 		time_t msg_date;
 		struct tm local;
@@ -354,9 +361,10 @@ e_mail_formatter_format_header (EMailFormatter *formatter,
 		while (*txt == ' ' || *txt == '\t')
 			txt++;
 
-		html = camel_text_to_html (
-			txt,
-			e_mail_formatter_get_text_format_flags (formatter), 0);
+		text_format_flags =
+			e_mail_formatter_get_text_format_flags (formatter);
+
+		html = camel_text_to_html (txt, text_format_flags, 0);
 
 		msg_date = camel_header_decode_date (txt, &msg_offset);
 		e_localtime_with_offset (msg_date, &local, &local_tz);

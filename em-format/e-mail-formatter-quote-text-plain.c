@@ -58,21 +58,22 @@ emqfe_text_plain_format (EMailFormatterExtension *extension,
 	CamelMimeFilter *sig_strip;
 	CamelContentType *type;
 	EMailFormatterQuoteContext *qf_context;
+	CamelMimeFilterToHTMLFlags text_flags;
 	const gchar *format;
-	guint32 rgb = 0x737373, text_flags;
+	guint32 rgb = 0x737373;
 
 	if (!part->part)
 		return FALSE;
 
 	qf_context = (EMailFormatterQuoteContext *) context;
 
-	text_flags = CAMEL_MIME_FILTER_TOHTML_PRE |
+	text_flags =
+		CAMEL_MIME_FILTER_TOHTML_PRE |
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES;
 
-	if (e_mail_formatter_get_mark_citations (formatter)) {
+	if (e_mail_formatter_get_mark_citations (formatter))
 		text_flags |= CAMEL_MIME_FILTER_TOHTML_MARK_CITATION;
-	}
 
 	/* Check for RFC 2646 flowed text. */
 	type = camel_mime_part_get_content_type (part->part);

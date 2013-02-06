@@ -107,7 +107,7 @@ struct _EMailFormatterClass {
 	GObjectClass parent_class;
 
 	EMailFormatterExtensionRegistry *extension_registry;
-	guint32 text_html_flags;
+	CamelMimeFilterToHTMLFlags text_html_flags;
 
 	/* Colors should apply globally */
 	GdkColor colors[E_MAIL_FORMATTER_NUM_COLOR_TYPES];
@@ -171,7 +171,8 @@ EMailExtensionRegistry *
 		e_mail_formatter_get_extension_registry
 						(EMailFormatter *formatter);
 
-guint32		e_mail_formatter_get_text_format_flags
+CamelMimeFilterToHTMLFlags
+		e_mail_formatter_get_text_format_flags
 						(EMailFormatter *formatter);
 
 const GdkColor *
