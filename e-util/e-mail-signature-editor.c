@@ -40,7 +40,6 @@ struct _EMailSignatureEditorPrivate {
 	gchar *original_name;
 
 	GtkWidget *entry;		/* not referenced */
-	GtkWidget *alert_bar;		/* not referenced */
 };
 
 struct _AsyncContext {
@@ -75,17 +74,10 @@ static const gchar *ui =
 "  </toolbar>\n"
 "</ui>";
 
-/* Forward Declarations */
-static void	e_mail_signature_editor_alert_sink_init
-					(EAlertSinkInterface *iface);
-
-G_DEFINE_TYPE_WITH_CODE (
+G_DEFINE_TYPE (
 	EMailSignatureEditor,
 	e_mail_signature_editor,
-	E_TYPE_EDITOR_WINDOW,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_ALERT_SINK,
-		e_mail_signature_editor_alert_sink_init))
+	E_TYPE_EDITOR_WINDOW)
 
 static void
 async_context_free (AsyncContext *async_context)
@@ -530,14 +522,6 @@ mail_signature_editor_constructed (GObject *object)
 	e_editor_window_pack_above (E_EDITOR_WINDOW (window), container);
 	gtk_widget_show (container);
 
-	/* Construct the alert bar for errors. */
-	widget = e_alert_bar_new ();
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	/* Position 5 should be between the style toolbar and editing area. */
-	gtk_box_reorder_child (GTK_BOX (container), widget, 5);
-	window->priv->alert_bar = widget;  /* not referenced */
-	/* EAlertBar controls its own visibility. */
-
 	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 	gtk_container_set_border_width (GTK_CONTAINER (widget), 6);
 	e_editor_window_pack_above (E_EDITOR_WINDOW (window), widget);
@@ -619,34 +603,6 @@ mail_signature_editor_constructed (GObject *object)
 }
 
 static void
-mail_signature_editor_submit_alert (EAlertSink *alert_sink,
-                                    EAlert *alert)
-{
-	EMailSignatureEditorPrivate *priv;
-	EAlertBar *alert_bar;
-	GtkWidget *dialog;
-	GtkWindow *parent;
-
-	priv = E_MAIL_SIGNATURE_EDITOR_GET_PRIVATE (alert_sink);
-
-	switch (e_alert_get_message_type (alert)) {
-		case GTK_MESSAGE_INFO:
-		case GTK_MESSAGE_WARNING:
-		case GTK_MESSAGE_ERROR:
-			alert_bar = E_ALERT_BAR (priv->alert_bar);
-			e_alert_bar_add_alert (alert_bar, alert);
-			break;
-
-		default:
-			parent = GTK_WINDOW (alert_sink);
-			dialog = e_alert_dialog_new (parent, alert);
-			gtk_dialog_run (GTK_DIALOG (dialog));
-			gtk_widget_destroy (dialog);
-			break;
-	}
-}
-
-static void
 e_mail_signature_editor_class_init (EMailSignatureEditorClass *class)
 {
 	GObjectClass *object_class;
@@ -694,12 +650,6 @@ e_mail_signature_editor_class_init (EMailSignatureEditorClass *class)
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
 			G_PARAM_STATIC_STRINGS));
-}
-
-static void
-e_mail_signature_editor_alert_sink_init (EAlertSinkInterface *iface)
-{
-	iface->submit_alert = mail_signature_editor_submit_alert;
 }
 
 static void
