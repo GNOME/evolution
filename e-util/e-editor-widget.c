@@ -99,10 +99,12 @@ typedef struct  {
 
 static guint signals[LAST_SIGNAL] = { 0 };
 
-G_DEFINE_TYPE (
+G_DEFINE_TYPE_WITH_CODE (
 	EEditorWidget,
 	e_editor_widget,
-	WEBKIT_TYPE_WEB_VIEW);
+	WEBKIT_TYPE_WEB_VIEW,
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_EXTENSIBLE, NULL))
 
 static void
 editor_widget_queue_postreload_operation (EEditorWidget *widget,
@@ -609,6 +611,15 @@ editor_widget_dispose (GObject *object)
 	G_OBJECT_CLASS (e_editor_widget_parent_class)->dispose (object);
 }
 
+static void
+editor_widget_constructed (GObject *object)
+{
+	e_extensible_load_extensions (E_EXTENSIBLE (object));
+
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_editor_widget_parent_class)->constructed (object);
+}
+
 static gboolean
 editor_widget_button_press_event (GtkWidget *widget,
                                   GdkEventButton *event)
@@ -761,6 +772,7 @@ e_editor_widget_class_init (EEditorWidgetClass *class)
 	object_class->get_property = editor_widget_get_property;
 	object_class->set_property = editor_widget_set_property;
 	object_class->dispose = editor_widget_dispose;
+	object_class->constructed = editor_widget_constructed;
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->button_press_event = editor_widget_button_press_event;
