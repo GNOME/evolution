@@ -1775,6 +1775,13 @@ e_editor_widget_update_fonts (EEditorWidget *widget)
 		"  margin-bottom: 0.2em;\n"
 		"}\n");
 
+	/* Do not indent citations. */
+	g_string_append_printf (
+		stylesheet,
+		"blockquote[type=cite] {\n"
+		"  margin: 0;\n"
+		"}\n");
+
 	gdk_color_free (link);
 	gdk_color_free (visited);
 
