@@ -25,6 +25,8 @@
 #include "e-editor.h"
 
 #include "e-alert-bar.h"
+#include "e-alert-dialog.h"
+#include "e-alert-sink.h"
 #include "e-editor-private.h"
 #include "e-editor-utils.h"
 #include "e-editor-selection.h"
@@ -73,10 +75,17 @@ enum {
 
 static guint signals[LAST_SIGNAL] = { 0 };
 
-G_DEFINE_TYPE (
+/* Forward Declarations */
+static void	e_editor_alert_sink_init
+					(EAlertSinkInterface *interface);
+
+G_DEFINE_TYPE_WITH_CODE (
 	EEditor,
 	e_editor,
-	GTK_TYPE_GRID)
+	GTK_TYPE_GRID,
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_ALERT_SINK,
+		e_editor_alert_sink_init))
 
 /* Action callback for context menu spelling suggestions.
  * XXX This should really be in e-editor-actions.c */
@@ -734,6 +743,39 @@ editor_dispose (GObject *object)
 }
 
 static void
+editor_submit_alert (EAlertSink *alert_sink,
+                     EAlert *alert)
+{
+	EEditorPrivate *priv;
+	EAlertBar *alert_bar;
+	GtkWidget *toplevel;
+	GtkWidget *widget;
+	GtkWindow *parent;
+
+	priv = E_EDITOR_GET_PRIVATE (alert_sink);
+
+	switch (e_alert_get_message_type (alert)) {
+		case GTK_MESSAGE_INFO:
+		case GTK_MESSAGE_WARNING:
+		case GTK_MESSAGE_ERROR:
+			alert_bar = E_ALERT_BAR (priv->alert_bar);
+			e_alert_bar_add_alert (alert_bar, alert);
+			break;
+
+		default:
+			widget = GTK_WIDGET (alert_sink);
+			toplevel = gtk_widget_get_toplevel (widget);
+			if (GTK_IS_WINDOW (toplevel))
+				parent = GTK_WINDOW (toplevel);
+			else
+				parent = NULL;
+			widget = e_alert_dialog_new (parent, alert);
+			gtk_dialog_run (GTK_DIALOG (widget));
+			gtk_widget_destroy (widget);
+	}
+}
+
+static void
 e_editor_class_init (EEditorClass *class)
 {
 	GObjectClass *object_class;
@@ -782,6 +824,12 @@ e_editor_class_init (EEditorClass *class)
 		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
+}
+
+static void
+e_editor_alert_sink_init (EAlertSinkInterface *interface)
+{
+	interface->submit_alert = editor_submit_alert;
 }
 
 static void
