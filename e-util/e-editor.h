@@ -26,6 +26,7 @@
 #define E_EDITOR_H
 
 #include <gtk/gtk.h>
+#include <e-util/e-activity.h>
 #include <e-util/e-editor-widget.h>
 
 /* Standard GObject macros */
@@ -84,6 +85,7 @@ GtkWidget *	e_editor_get_managed_widget	(EEditor *editor,
 const gchar *	e_editor_get_filename		(EEditor *editor);
 void		e_editor_set_filename		(EEditor *editor,
 						 const gchar *filename);
+EActivity *	e_editor_new_activity		(EEditor *editor);
 void		e_editor_pack_above		(EEditor *editor,
 						 GtkWidget *child);
 

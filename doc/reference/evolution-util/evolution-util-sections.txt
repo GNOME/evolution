@@ -2024,6 +2024,7 @@ e_editor_get_widget
 e_editor_get_managed_widget
 e_editor_get_filename
 e_editor_set_filename
+e_editor_new_activity
 e_editor_pack_above
 e_editor_save
 <SUBSECTION Standard>
