@@ -154,8 +154,6 @@ G_DEFINE_TYPE_WITH_CODE (
 	EMsgComposer,
 	e_msg_composer,
 	E_TYPE_EDITOR_WINDOW,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_ALERT_SINK, e_msg_composer_alert_sink_init)
 	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 static void
