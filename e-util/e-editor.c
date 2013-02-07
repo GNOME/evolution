@@ -554,6 +554,9 @@ editor_notify_activity_cb (EActivityBar *activity_bar,
                            GParamSpec *pspec,
                            EEditor *editor)
 {
+	EEditorWidget *editor_widget;
+	WebKitWebView *web_view;
+	gboolean editable;
 	gboolean busy;
 
 	busy = (e_activity_bar_get_activity (activity_bar) != NULL);
@@ -562,6 +565,18 @@ editor_notify_activity_cb (EActivityBar *activity_bar,
 		return;
 
 	editor->priv->busy = busy;
+
+	editor_widget = e_editor_get_editor_widget (editor);
+	web_view = WEBKIT_WEB_VIEW (editor_widget);
+
+	if (busy) {
+		editable = webkit_web_view_get_editable (web_view);
+		webkit_web_view_set_editable (web_view, FALSE);
+		editor->priv->saved_editable = editable;
+	} else {
+		editable = editor->priv->saved_editable;
+		webkit_web_view_set_editable (web_view, editable);
+	}
 
 	g_object_notify (G_OBJECT (editor), "busy");
 }

@@ -96,6 +96,10 @@ struct _EEditorPrivate {
 	gint editor_layout_row;
 
 	gboolean busy;
+
+	/* The web view is uneditable while the editor is busy.
+	 * This is used to restore the previous editable state. */
+	gboolean saved_editable;
 };
 
 void		editor_actions_init		(EEditor *editor);
