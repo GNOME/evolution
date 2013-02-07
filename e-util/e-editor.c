@@ -777,6 +777,7 @@ static void
 e_editor_init (EEditor *editor)
 {
 	EEditorPrivate *priv;
+	GtkWidget *widget;
 	gchar *filename;
 	GError *error = NULL;
 
@@ -804,6 +805,12 @@ e_editor_init (EEditor *editor)
 
 	editor_actions_init (editor);
 	priv->editor_layout_row = 2;
+
+	/* Tweak the main-toolbar style. */
+	widget = e_editor_get_managed_widget (editor, "/main-toolbar");
+	gtk_style_context_add_class (
+		gtk_widget_get_style_context (widget),
+		GTK_STYLE_CLASS_PRIMARY_TOOLBAR);
 }
 
 /**
