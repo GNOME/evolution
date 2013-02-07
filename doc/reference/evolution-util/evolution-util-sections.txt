@@ -2014,6 +2014,7 @@ EEmoticonToolButtonPrivate
 <TITLE>EEditor</TITLE>
 EEditor
 e_editor_new
+e_editor_is_busy
 e_editor_get_editor_widget
 e_editor_get_builder
 e_editor_get_ui_manager
