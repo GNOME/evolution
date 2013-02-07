@@ -65,6 +65,7 @@
 
 enum {
 	PROP_0,
+	PROP_BUSY,
 	PROP_FILENAME
 };
 
@@ -549,6 +550,23 @@ editor_parent_changed (GtkWidget *widget,
 }
 
 static void
+editor_notify_activity_cb (EActivityBar *activity_bar,
+                           GParamSpec *pspec,
+                           EEditor *editor)
+{
+	gboolean busy;
+
+	busy = (e_activity_bar_get_activity (activity_bar) != NULL);
+
+	if (busy == editor->priv->busy)
+		return;
+
+	editor->priv->busy = busy;
+
+	g_object_notify (G_OBJECT (editor), "busy");
+}
+
+static void
 editor_set_property (GObject *object,
                      guint property_id,
                      const GValue *value,
@@ -573,6 +591,12 @@ editor_get_property (GObject *object,
                      GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_BUSY:
+			g_value_set_boolean (
+				value, e_editor_is_busy (
+				E_EDITOR (object)));
+			return;
+
 		case PROP_FILENAME:
 			g_value_set_string (
 				value, e_editor_get_filename (
@@ -617,6 +641,10 @@ editor_constructed (GObject *object)
 	gtk_grid_attach (GTK_GRID (editor), widget, 0, 2, 1, 1);
 	priv->activity_bar = g_object_ref (widget);
 	/* EActivityBar controls its own visibility. */
+
+	g_signal_connect (
+		widget, "notify::activity",
+		G_CALLBACK (editor_notify_activity_cb), editor);
 
 	/* Construct the alert bar for errors. */
 
@@ -807,6 +835,17 @@ e_editor_class_init (EEditorClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_BUSY,
+		g_param_spec_boolean (
+			"busy",
+			"Busy",
+			"Whether an activity is in progress",
+			FALSE,
+			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_FILENAME,
 		g_param_spec_string (
 			"filename",
@@ -893,6 +932,22 @@ GtkWidget *
 e_editor_new (void)
 {
 	return g_object_new (E_TYPE_EDITOR, NULL);
+}
+
+/**
+ * e_editor_is_busy:
+ * @editor: an #EEditor
+ *
+ * Returns %TRUE only while an #EActivity is in progress.
+ *
+ * Returns: whether @editor is busy
+ **/
+gboolean
+e_editor_is_busy (EEditor *editor)
+{
+	g_return_val_if_fail (E_IS_EDITOR (editor), FALSE);
+
+	return editor->priv->busy;
 }
 
 /**

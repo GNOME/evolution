@@ -94,6 +94,8 @@ struct _EEditorPrivate {
 	WebKitDOMNode *table_cell;
 
 	gint editor_layout_row;
+
+	gboolean busy;
 };
 
 void		editor_actions_init		(EEditor *editor);

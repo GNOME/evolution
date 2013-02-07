@@ -69,6 +69,7 @@ struct _EEditorClass {
 
 GType		e_editor_get_type		(void) G_GNUC_CONST;
 GtkWidget *	e_editor_new			(void);
+gboolean	e_editor_is_busy		(EEditor *editor);
 EEditorWidget *	e_editor_get_editor_widget	(EEditor *editor);
 GtkBuilder *	e_editor_get_builder		(EEditor *editor);
 GtkUIManager *	e_editor_get_ui_manager		(EEditor *editor);
