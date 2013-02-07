@@ -23,6 +23,8 @@
 #include <enchant/enchant.h>
 
 #include "e-editor.h"
+
+#include "e-alert-bar.h"
 #include "e-editor-private.h"
 #include "e-editor-utils.h"
 #include "e-editor-selection.h"
@@ -598,6 +600,14 @@ editor_constructed (GObject *object)
 	priv->html_toolbar = g_object_ref (widget);
 	gtk_widget_show (widget);
 
+	/* Construct the alert bar for errors. */
+
+	widget = e_alert_bar_new ();
+	gtk_widget_set_hexpand (widget, TRUE);
+	gtk_grid_attach (GTK_GRID (editor), widget, 0, 2, 1, 1);
+	priv->alert_bar = g_object_ref (widget);
+	/* EAlertBar controls its own visibility. */
+
 	/* Construct the main editing area. */
 
 	widget = gtk_scrolled_window_new (NULL, NULL);
@@ -608,7 +618,7 @@ editor_constructed (GObject *object)
 		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
 	gtk_widget_set_hexpand (widget, TRUE);
 	gtk_widget_set_vexpand (widget, TRUE);
-	gtk_grid_attach (GTK_GRID (editor), widget, 0, 2, 1, 1);
+	gtk_grid_attach (GTK_GRID (editor), widget, 0, 3, 1, 1);
 	priv->scrolled_window = g_object_ref (widget);
 	gtk_widget_show (widget);
 
@@ -708,6 +718,7 @@ editor_dispose (GObject *object)
 	g_clear_object (&priv->main_toolbar);
 	g_clear_object (&priv->edit_toolbar);
 	g_clear_object (&priv->html_toolbar);
+	g_clear_object (&priv->alert_bar);
 	g_clear_object (&priv->edit_area);
 
 	g_clear_object (&priv->color_combo_box);

@@ -61,6 +61,7 @@ struct _EEditorPrivate {
 	GtkWidget *main_toolbar;
 	GtkWidget *edit_toolbar;
 	GtkWidget *html_toolbar;
+	GtkWidget *alert_bar;
 	GtkWidget *edit_area;
 
 	GtkWidget *find_dialog;
