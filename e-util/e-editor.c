@@ -20,6 +20,8 @@
 
 #include <config.h>
 #include <glib/gi18n-lib.h>
+
+#include <camel/camel.h>
 #include <enchant/enchant.h>
 
 #include "e-editor.h"
@@ -1116,6 +1118,37 @@ e_editor_set_filename (EEditor *editor,
 	editor->priv->filename = g_strdup (filename);
 
 	g_object_notify (G_OBJECT (editor), "filename");
+}
+
+/**
+ * e_editor_new_activity:
+ * @editor: an #EEditor
+ *
+ * Creates and configures a new #EActivity so its progress is shown in
+ * the @editor.  The #EActivity comes pre-loaded with a #CamelOperation.
+ *
+ * Returns: a new #EActivity for use with @editor
+ **/
+EActivity *
+e_editor_new_activity (EEditor *editor)
+{
+	EActivity *activity;
+	EActivityBar *activity_bar;
+	GCancellable *cancellable;
+
+	g_return_val_if_fail (E_IS_EDITOR (editor), NULL);
+
+	activity = e_activity_new ();
+	e_activity_set_alert_sink (activity, E_ALERT_SINK (editor));
+
+	cancellable = camel_operation_new ();
+	e_activity_set_cancellable (activity, cancellable);
+	g_object_unref (cancellable);
+
+	activity_bar = E_ACTIVITY_BAR (editor->priv->activity_bar);
+	e_activity_bar_set_activity (activity_bar, activity);
+
+	return activity;
 }
 
 /**
