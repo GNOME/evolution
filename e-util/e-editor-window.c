@@ -126,10 +126,6 @@ e_editor_window_init (EEditorWindow *window)
 	priv->main_toolbar = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	gtk_style_context_add_class (
-		gtk_widget_get_style_context (widget),
-		GTK_STYLE_CLASS_PRIMARY_TOOLBAR);
-
 	gtk_widget_set_hexpand (GTK_WIDGET (priv->editor), TRUE);
 	gtk_grid_attach (
 		priv->main_layout, GTK_WIDGET (priv->editor),
