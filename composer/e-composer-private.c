@@ -190,13 +190,6 @@ e_composer_private_constructed (EMsgComposer *composer)
 	priv->activity_bar = g_object_ref_sink (widget);
 	/* EActivityBar controls its own visibility. */
 
-	/* Construct the alert bar for errors. */
-
-	widget = e_alert_bar_new ();
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	priv->alert_bar = g_object_ref_sink (widget);
-	/* EAlertBar controls its own visibility. */
-
 	/* Construct the header table. */
 
 	widget = e_composer_header_table_new (client_cache);
@@ -329,11 +322,6 @@ e_composer_private_dispose (EMsgComposer *composer)
 	if (composer->priv->activity_bar != NULL) {
 		g_object_unref (composer->priv->activity_bar);
 		composer->priv->activity_bar = NULL;
-	}
-
-	if (composer->priv->alert_bar != NULL) {
-		g_object_unref (composer->priv->alert_bar);
-		composer->priv->alert_bar = NULL;
 	}
 
 	if (composer->priv->attachment_paned != NULL) {

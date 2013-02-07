@@ -129,14 +129,10 @@ static void	handle_multipart_signed		(EMsgComposer *composer,
 						 GCancellable *cancellable,
 						 gint depth);
 
-static void	e_msg_composer_alert_sink_init	(EAlertSinkInterface *iface);
-
 G_DEFINE_TYPE_WITH_CODE (
 	EMsgComposer,
 	e_msg_composer,
 	E_TYPE_EDITOR_WINDOW,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_ALERT_SINK, e_msg_composer_alert_sink_init)
 	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 static void
@@ -2332,34 +2328,6 @@ msg_composer_presend (EMsgComposer *composer)
 	return TRUE;
 }
 
-static void
-msg_composer_submit_alert (EAlertSink *alert_sink,
-                           EAlert *alert)
-{
-	EMsgComposerPrivate *priv;
-	EAlertBar *alert_bar;
-	GtkWidget *dialog;
-	GtkWindow *parent;
-
-	priv = E_MSG_COMPOSER_GET_PRIVATE (alert_sink);
-
-	switch (e_alert_get_message_type (alert)) {
-		case GTK_MESSAGE_INFO:
-		case GTK_MESSAGE_WARNING:
-		case GTK_MESSAGE_ERROR:
-			alert_bar = E_ALERT_BAR (priv->alert_bar);
-			e_alert_bar_add_alert (alert_bar, alert);
-			break;
-
-		default:
-			parent = GTK_WINDOW (alert_sink);
-			dialog = e_alert_dialog_new (parent, alert);
-			gtk_dialog_run (GTK_DIALOG (dialog));
-			gtk_widget_destroy (dialog);
-			break;
-	}
-}
-
 static gboolean
 msg_composer_accumulator_false_abort (GSignalInvocationHint *ihint,
                                       GValue *return_accu,
@@ -2470,12 +2438,6 @@ e_msg_composer_class_init (EMsgComposerClass *class)
 		GTK_TYPE_PRINT_OPERATION_ACTION,
 		CAMEL_TYPE_MIME_MESSAGE,
 		E_TYPE_ACTIVITY);
-}
-
-static void
-e_msg_composer_alert_sink_init (EAlertSinkInterface *iface)
-{
-	iface->submit_alert = msg_composer_submit_alert;
 }
 
 static void
