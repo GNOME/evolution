@@ -1775,11 +1775,61 @@ e_editor_widget_update_fonts (EEditorWidget *widget)
 		"  margin-bottom: 0.2em;\n"
 		"}\n");
 
-	/* Do not indent citations. */
 	g_string_append_printf (
 		stylesheet,
 		"blockquote[type=cite] {\n"
-		"  margin: 0;\n"
+		"  padding: 0.4ex 1ex;\n"
+		"  margin: 1ex;\n"
+		"  border-width: 0px 2px 0px 2px;\n"
+		"  border-style: none solid none solid;\n"
+		"  border-radius: 2px;\n"
+		"}\n");
+
+	/* Block quote border colors are borrowed from Thunderbird. */
+
+	g_string_append_printf (
+		stylesheet,
+		"blockquote[type=cite] "
+		"{\n"
+		"  border-color: rgb(114,159,207);\n"  /* Sky Blue 1 */
+		"}\n");
+
+	g_string_append_printf (
+		stylesheet,
+		"blockquote[type=cite] "
+		"blockquote[type=cite] "
+		"{\n"
+		"  border-color: rgb(173,127,168);\n"  /* Plum 1 */
+		"}\n");
+
+	g_string_append_printf (
+		stylesheet,
+		"blockquote[type=cite] "
+		"blockquote[type=cite] "
+		"blockquote[type=cite] "
+		"{\n"
+		"  border-color: rgb(138,226,52);\n"  /* Chameleon 1 */
+		"}\n");
+
+	g_string_append_printf (
+		stylesheet,
+		"blockquote[type=cite] "
+		"blockquote[type=cite] "
+		"blockquote[type=cite] "
+		"blockquote[type=cite] "
+		"{\n"
+		"  border-color: rgb(252,175,62);\n"  /* Orange 1 */
+		"}\n");
+
+	g_string_append_printf (
+		stylesheet,
+		"blockquote[type=cite] "
+		"blockquote[type=cite] "
+		"blockquote[type=cite] "
+		"blockquote[type=cite] "
+		"blockquote[type=cite] "
+		"{\n"
+		"  border-color: rgb(233,185,110);\n"  /* Chocolate 1 */
 		"}\n");
 
 	gdk_color_free (link);
