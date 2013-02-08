@@ -597,7 +597,7 @@ mail_ui_session_add_service (CamelSession *session,
 		context->service = g_object_ref (service);
 
 		g_idle_add_full (
-			G_PRIORITY_DEFAULT_IDLE,
+			G_PRIORITY_DEFAULT,
 			(GSourceFunc) mail_ui_session_add_service_cb,
 			context, (GDestroyNotify) source_context_free);
 	}

@@ -86,7 +86,7 @@ settings_mail_reader_constructed (GObject *object)
 	/* Bind properties to settings from an idle callback so the
 	 * EMailReader interface has a chance to be initialized first. */
 	g_idle_add_full (
-		G_PRIORITY_DEFAULT_IDLE,
+		G_PRIORITY_DEFAULT,
 		(GSourceFunc) settings_mail_reader_idle_cb,
 		g_object_ref (object),
 		(GDestroyNotify) g_object_unref);
