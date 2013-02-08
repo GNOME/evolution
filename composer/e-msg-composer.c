@@ -2566,6 +2566,22 @@ e_msg_composer_new (EShell *shell)
 		"shell", shell, NULL);
 }
 
+/**
+ * e_msg_composer_get_editor:
+ * @composer: an #EMsgComposer
+ *
+ * Returns @composer's internal #EEditor instance.
+ *
+ * Returns: an #EEditor
+ **/
+EEditor *
+e_msg_composer_get_editor (EMsgComposer *composer)
+{
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
+
+	return e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+}
+
 EFocusTracker *
 e_msg_composer_get_focus_tracker (EMsgComposer *composer)
 {
