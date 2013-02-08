@@ -10,7 +10,6 @@ evolution_mail_composer_includedir = $(privincludedir)/composer
 
 evolution_mail_composer_include_HEADERS = 	\
 	e-composer-actions.h			\
-	e-composer-activity.h			\
 	e-composer-common.h			\
 	e-composer-from-header.h		\
 	e-composer-header-table.h		\
@@ -42,7 +41,6 @@ libevolution_mail_composer_la_CPPFLAGS =				\
 libevolution_mail_composer_la_SOURCES =		\
 	$(evolution_mail_composer_include_HEADERS) \
 	e-composer-actions.c			\
-	e-composer-activity.c			\
 	e-composer-from-header.c		\
 	e-composer-header-table.c		\
 	e-composer-header.c			\
