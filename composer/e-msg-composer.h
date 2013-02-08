@@ -92,6 +92,7 @@ EMsgComposer *	e_msg_composer_new_redirect	(EShell *shell,
 						 CamelMimeMessage *message,
 						 const gchar *identity_uid,
 						 GCancellable *cancellable);
+EEditor *	e_msg_composer_get_editor	(EMsgComposer *composer);
 EFocusTracker *	e_msg_composer_get_focus_tracker
 						(EMsgComposer *composer);
 CamelSession *	e_msg_composer_ref_session	(EMsgComposer *composer);
