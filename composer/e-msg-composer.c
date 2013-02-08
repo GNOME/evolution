@@ -86,6 +86,7 @@ typedef enum {
 
 enum {
 	PROP_0,
+	PROP_EDITOR,
 	PROP_FOCUS_TRACKER,
 	PROP_SHELL
 };
@@ -132,7 +133,7 @@ static void	handle_multipart_signed		(EMsgComposer *composer,
 G_DEFINE_TYPE_WITH_CODE (
 	EMsgComposer,
 	e_msg_composer,
-	E_TYPE_EDITOR_WINDOW,
+	GTK_TYPE_WINDOW,
 	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 static void
@@ -2446,6 +2447,8 @@ static void
 e_msg_composer_init (EMsgComposer *composer)
 {
 	composer->priv = E_MSG_COMPOSER_GET_PRIVATE (composer);
+
+	composer->priv->editor = g_object_ref_sink (e_editor_new ());
 }
 
 /**
@@ -2479,7 +2482,7 @@ e_msg_composer_get_editor (EMsgComposer *composer)
 {
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
 
-	return e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	return composer->priv->editor;
 }
 
 EFocusTracker *
