@@ -531,6 +531,7 @@ mail_signature_editor_constructed (GObject *object)
 	gtk_ui_manager_ensure_update (ui_manager);
 
 	gtk_window_set_title (GTK_WINDOW (window), _("Edit Signature"));
+	gtk_window_set_default_size (GTK_WINDOW (window), 600, 440);
 
 	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_container_add (GTK_CONTAINER (window), widget);
