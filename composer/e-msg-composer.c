@@ -3658,7 +3658,7 @@ e_msg_composer_send (EMsgComposer *composer)
 		return;
 	}
 
-	editor = e_msg_composer_get_editor (composer);
+	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
 
 	context = g_slice_new0 (AsyncContext);
 	context->activity = e_editor_new_activity (editor);
@@ -3753,7 +3753,7 @@ e_msg_composer_save_to_drafts (EMsgComposer *composer)
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
-	editor = e_msg_composer_get_editor (composer);
+	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
 
 	context = g_slice_new0 (AsyncContext);
 	context->activity = e_editor_new_activity (editor);
@@ -3836,7 +3836,7 @@ e_msg_composer_save_to_outbox (EMsgComposer *composer)
 	if (!proceed_with_save)
 		return;
 
-	editor = e_msg_composer_get_editor (composer);
+	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
 
 	context = g_slice_new0 (AsyncContext);
 	context->activity = e_editor_new_activity (editor);
@@ -3909,7 +3909,7 @@ e_msg_composer_print (EMsgComposer *composer,
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
-	editor = e_msg_composer_get_editor (composer);
+	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
 
 	context = g_slice_new0 (AsyncContext);
 	context->activity = e_editor_new_activity (editor);
