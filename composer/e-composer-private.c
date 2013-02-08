@@ -301,6 +301,16 @@ e_composer_private_constructed (EMsgComposer *composer)
 			G_BINDING_SYNC_CREATE);
 	}
 
+	/* Disable actions that start asynchronous activities while an
+	 * asynchronous activity is in progress.  We enforce this with
+	 * a simple inverted binding to EEditor's "busy" property. */
+
+	g_object_bind_property (
+		editor, "busy",
+		priv->async_actions, "sensitive",
+		G_BINDING_SYNC_CREATE |
+		G_BINDING_INVERT_BOOLEAN);
+
 	g_object_unref (settings);
 }
 
