@@ -1078,7 +1078,7 @@ e_cert_manager_config_init (ECertManagerConfig *ecmc)
 	 * fully initialize itself and start its main loop before we
 	 * load certificates, since doing so may trigger a password
 	 * dialog, and dialogs require a main loop. */
-	g_idle_add ((GSourceFunc) populate_ui, ecmc);
+	g_idle_add_full (G_PRIORITY_DEFAULT, (GSourceFunc) populate_ui, ecmc, NULL);
 
 	/* Disconnect cert-manager-notebook from it's window and attach it
 	 * to this ECertManagerConfig */

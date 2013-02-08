@@ -883,7 +883,7 @@ free_mail_cache_thread (gpointer user_data)
 
 	G_UNLOCK (photos_cache);
 
-	g_idle_add (free_mail_cache_idle, user_data);
+	g_idle_add_full (G_PRIORITY_HIGH, free_mail_cache_idle, user_data, NULL);
 
 	return NULL;
 }

@@ -1014,7 +1014,7 @@ do_mail_to_event (AsyncData *data)
 			if (!e_cal_client_get_object_sync (client, icalcomponent_get_uid (icalcomp), NULL, &(mc->stored_comp), NULL, NULL))
 				mc->stored_comp = NULL;
 
-			g_idle_add ((GSourceFunc) do_manage_comp_idle, mc);
+			g_idle_add_full (G_PRIORITY_DEFAULT, (GSourceFunc) do_manage_comp_idle, mc, NULL);
 
 			oldmc = mc;
 
