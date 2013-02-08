@@ -1922,6 +1922,7 @@ e_mail_display_reload (EMailDisplay *display)
 		return;
 
 	/* Schedule reloading if neccessary */
+	/* schedule with priority higher than gtk+ uses for animations (check docs for G_PRIORITY_HIGH_IDLE) */
 	display->priv->scheduled_reload =
 		g_idle_add_full (G_PRIORITY_DEFAULT, (GSourceFunc) do_reload_display, display, NULL);
 }

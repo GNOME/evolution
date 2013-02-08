@@ -216,6 +216,7 @@ mail_msg_unref (gpointer msg)
 
 		/* Destroy the message from an idle callback
 		 * so we know we're in the main loop thread. */
+		/* schedule with priority higher than gtk+ uses for animations (check docs for G_PRIORITY_HIGH_IDLE) */
 		g_idle_add_full (G_PRIORITY_DEFAULT, (GSourceFunc) mail_msg_free, mail_msg, NULL);
 	}
 }
@@ -429,6 +430,7 @@ mail_msg_proxy (MailMsg *msg)
 
 	G_LOCK (idle_source_id);
 	if (idle_source_id == 0)
+		/* schedule with priority higher than gtk+ uses for animations (check docs for G_PRIORITY_HIGH_IDLE) */
 		idle_source_id = g_idle_add_full (G_PRIORITY_DEFAULT,
 			(GSourceFunc) mail_msg_idle_cb, NULL, NULL);
 	G_UNLOCK (idle_source_id);
@@ -484,6 +486,7 @@ mail_msg_main_loop_push (gpointer msg)
 
 	G_LOCK (idle_source_id);
 	if (idle_source_id == 0)
+		/* schedule with priority higher than gtk+ uses for animations (check docs for G_PRIORITY_HIGH_IDLE) */
 		idle_source_id = g_idle_add_full (G_PRIORITY_DEFAULT,
 			(GSourceFunc) mail_msg_idle_cb, NULL, NULL);
 	G_UNLOCK (idle_source_id);
