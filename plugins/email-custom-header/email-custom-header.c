@@ -42,17 +42,17 @@
 	((obj), EMAIL_CUSTOM_HEADER_OPTIONS_DIALOG, CustomHeaderOptionsDialogPrivate))
 
 typedef struct {
-        GtkWidget *treeview;
-        GtkWidget *header_add;
-        GtkWidget *header_edit;
-        GtkWidget *header_remove;
-        GtkListStore *store;
+	GtkWidget *treeview;
+	GtkWidget *header_add;
+	GtkWidget *header_edit;
+	GtkWidget *header_remove;
+	GtkListStore *store;
 } ConfigData;
 
 enum {
-        HEADER_KEY_COLUMN,
+	HEADER_KEY_COLUMN,
 	HEADER_VALUE_COLUMN,
-        HEADER_N_COLUMNS
+	HEADER_N_COLUMNS
 };
 
 struct _CustomHeaderOptionsDialogPrivate {
@@ -490,7 +490,9 @@ destroy_compo_data (gpointer data)
 	g_free (compo_data);
 }
 
-static void action_email_custom_header_cb (GtkAction *action, EMsgComposer *composer)
+static void
+action_email_custom_header_cb (GtkAction *action,
+                               EMsgComposer *composer)
 
 {
 	GtkUIManager *ui_manager;
