@@ -1923,28 +1923,6 @@ EEditorWidgetPrivate
 </SECTION>
 
 <SECTION>
-<FILE>e-editor-window</FILE>
-<TITLE>EEditorWindow</TITLE>
-EEditorWindow
-e_editor_window_new
-e_editor_window_get_editor
-e_editor_window_pack_above
-e_editor_window_pack_inside
-e_editor_window_pack_below
-<SUBSECTION Standard>
-E_EDITOR_WINDOW
-E_IS_EDITOR_WINDOW
-E_TYPE_EDITOR_WINDOW
-E_EDITOR_WINDOW_CLASS
-E_IS_EDITOR_WINDOW_CLASS
-E_EDITOR_WINDOW_GET_CLASS
-EEditorWindowClass
-e_editor_window_get_type
-<SUBSECTION Private>
-EEditorWindowPrivate
-</SECTION>
-
-<SECTION>
 <FILE>e-emoticon</FILE>
 <TITLE>EEmoticon</TITLE>
 EEmoticon
