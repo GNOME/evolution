@@ -1084,7 +1084,9 @@ e_cert_manager_config_init (ECertManagerConfig *ecmc)
 	/* Run this in an idle callback so Evolution has a chance to
 	 * fully initialize itself and start its main loop before we
 	 * load certificates, since doing so may trigger a password
-	 * dialog, and dialogs require a main loop. */
+	 * dialog, and dialogs require a main loop.
+	 * Schedule with priority higher than gtk+ uses for animations
+	 * (check docs for G_PRIORITY_HIGH_IDLE). */
 	g_idle_add_full (G_PRIORITY_DEFAULT, (GSourceFunc) populate_ui, ecmc, NULL);
 
 	/* Disconnect cert-manager-notebook from it's window and attach it

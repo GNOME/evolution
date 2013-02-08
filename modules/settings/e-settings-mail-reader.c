@@ -85,6 +85,7 @@ settings_mail_reader_constructed (GObject *object)
 {
 	/* Bind properties to settings from an idle callback so the
 	 * EMailReader interface has a chance to be initialized first. */
+	/* schedule with priority higher than gtk+ uses for animations (check docs for G_PRIORITY_HIGH_IDLE) */
 	g_idle_add_full (
 		G_PRIORITY_DEFAULT,
 		(GSourceFunc) settings_mail_reader_idle_cb,

@@ -304,6 +304,7 @@ flush_updates (MailFolderCache *cache)
 	if (g_queue_is_empty (&cache->priv->updates))
 		return;
 
+	/* schedule with priority higher than gtk+ uses for animations (check docs for G_PRIORITY_HIGH_IDLE) */
 	cache->priv->update_id = g_idle_add_full (G_PRIORITY_DEFAULT,
 		(GSourceFunc) flush_updates_idle_cb, cache, NULL);
 }
