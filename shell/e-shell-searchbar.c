@@ -1546,7 +1546,7 @@ e_shell_searchbar_load_state (EShellSearchbar *searchbar)
 	/* Execute the search when we have time. */
 	g_object_ref (shell_view);
 	searchbar->priv->state_dirty = FALSE;
-	g_idle_add (idle_execute_search, shell_view);
+	g_idle_add_full (G_PRIORITY_DEFAULT, idle_execute_search, shell_view, NULL);
 }
 
 void

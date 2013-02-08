@@ -5723,7 +5723,7 @@ view_response_cb (ItipView *view,
 			send_item (pitip, view);
 			break;
 		case ITIP_VIEW_RESPONSE_OPEN:
-			g_idle_add (idle_open_cb, pitip);
+			g_idle_add_full (G_PRIORITY_DEFAULT, idle_open_cb, pitip, NULL);
 			return;
 		default:
 			break;
