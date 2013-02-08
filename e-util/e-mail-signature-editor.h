@@ -24,7 +24,7 @@
 
 #include <libedataserver/libedataserver.h>
 
-#include <e-util/e-editor-window.h>
+#include <e-util/e-editor.h>
 #include <e-util/e-focus-tracker.h>
 
 /* Standard GObject macros */
@@ -53,12 +53,12 @@ typedef struct _EMailSignatureEditorClass EMailSignatureEditorClass;
 typedef struct _EMailSignatureEditorPrivate EMailSignatureEditorPrivate;
 
 struct _EMailSignatureEditor {
-	EEditorWindow parent;
+	GtkWindow parent;
 	EMailSignatureEditorPrivate *priv;
 };
 
 struct _EMailSignatureEditorClass {
-	EEditorWindowClass parent_class;
+	GtkWindowClass parent_class;
 };
 
 GType		e_mail_signature_editor_get_type
