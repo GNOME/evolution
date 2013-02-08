@@ -1231,7 +1231,7 @@ composer_build_message (EMsgComposer *composer,
 		EEditor *editor;
 		EEditorWidget *editor_widget;
 
-		editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+		editor = e_msg_composer_get_editor (composer);
 		editor_widget = e_editor_get_editor_widget (editor);
 		data = g_byte_array_new ();
 		text = e_editor_widget_get_text_plain (editor_widget);
@@ -1303,7 +1303,7 @@ composer_build_message (EMsgComposer *composer,
 
 		clear_current_images (composer);
 
-		editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+		editor = e_msg_composer_get_editor (composer);
 		editor_widget = e_editor_get_editor_widget (editor);
 		data = g_byte_array_new ();
 		text = e_editor_widget_get_text_html (editor_widget);
@@ -1533,7 +1533,7 @@ set_editor_text (EMsgComposer *composer,
 		body = g_strdup_printf ("%s<BR>", text);
 	}
 
-	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor = e_msg_composer_get_editor (composer);
 	editor_widget = e_editor_get_editor_widget (editor);
 	e_editor_widget_set_text_html (editor_widget, body);
 
@@ -1553,7 +1553,7 @@ attachment_store_changed_cb (EMsgComposer *composer)
 
 	/* Mark the editor as changed so it prompts about unsaved
 	 * changes on close. */
-	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor = e_msg_composer_get_editor (composer);
 	editor_widget = e_editor_get_editor_widget (editor);
 	e_editor_widget_set_changed (editor_widget, TRUE);
 }
@@ -1653,7 +1653,7 @@ msg_composer_paste_clipboard_targets_cb (GtkClipboard *clipboard,
 	EEditor *editor;
 	EEditorWidget *editor_widget;
 
-	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor = e_msg_composer_get_editor (composer);
 	editor_widget = e_editor_get_editor_widget (editor);
 
 	/* Order is important here to ensure common use cases are
@@ -1763,7 +1763,7 @@ msg_composer_drag_data_received_cb (GtkWidget *widget,
 	EEditor *editor;
 	EEditorWidget *editor_widget;
 
-	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor = e_msg_composer_get_editor (composer);
 	editor_widget = e_editor_get_editor_widget (editor);
 
 	/* HTML mode has a few special cases for drops... */
@@ -1801,7 +1801,7 @@ msg_composer_notify_header_cb (EMsgComposer *composer)
 	EEditor *editor;
 	EEditorWidget *editor_widget;
 
-	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor = e_msg_composer_get_editor (composer);
 	editor_widget = e_editor_get_editor_widget (editor);
 	e_editor_widget_set_changed (editor_widget, TRUE);
 }
@@ -1984,7 +1984,7 @@ msg_composer_constructed (GObject *object)
 
 	e_composer_private_constructed (composer);
 
-	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor = e_msg_composer_get_editor (composer);
 	editor_widget = e_editor_get_editor_widget (editor);
 	ui_manager = e_editor_get_ui_manager (editor);
 	view = e_msg_composer_get_attachment_view (composer);
@@ -2131,6 +2131,7 @@ msg_composer_dispose (GObject *object)
 static void
 msg_composer_map (GtkWidget *widget)
 {
+	EMsgComposer *composer;
 	EComposerHeaderTable *table;
 	GtkWidget *input_widget;
 	EEditor *editor;
@@ -2140,7 +2141,9 @@ msg_composer_map (GtkWidget *widget)
 	/* Chain up to parent's map() method. */
 	GTK_WIDGET_CLASS (e_msg_composer_parent_class)->map (widget);
 
-	table = e_msg_composer_get_header_table (E_MSG_COMPOSER (widget));
+	composer = E_MSG_COMPOSER (widget);
+	editor = e_msg_composer_get_editor (composer);
+	table = e_msg_composer_get_header_table (composer);
 
 	/* If the 'To' field is empty, focus it. */
 	input_widget =
@@ -2163,7 +2166,6 @@ msg_composer_map (GtkWidget *widget)
 	}
 
 	/* Jump to the editor as a last resort. */
-	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (widget));
 	editor_widget = e_editor_get_editor_widget (editor);
 	gtk_widget_grab_focus (GTK_WIDGET (editor_widget));
 }
@@ -2178,7 +2180,7 @@ msg_composer_key_press_event (GtkWidget *widget,
 	EEditorWidget *editor_widget;
 
 	composer = E_MSG_COMPOSER (widget);
-	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor = e_msg_composer_get_editor (composer);
 	editor_widget = e_editor_get_editor_widget (editor);
 
 	input_widget =
@@ -2960,7 +2962,7 @@ set_signature_gui (EMsgComposer *composer)
 	table = e_msg_composer_get_header_table (composer);
 	combo_box = e_composer_header_table_get_signature_combo_box (table);
 
-	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor = e_msg_composer_get_editor (composer);
 	widget = e_editor_get_editor_widget (editor);
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
 
@@ -3090,8 +3092,8 @@ e_msg_composer_new_with_message (EShell *shell,
 
 	composer = e_msg_composer_new (shell);
 	priv = E_MSG_COMPOSER_GET_PRIVATE (composer);
+	editor = e_msg_composer_get_editor (composer);
 	table = e_msg_composer_get_header_table (composer);
-	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
 	editor_widget = e_editor_get_editor_widget (editor);
 
 	if (postto) {
@@ -3383,7 +3385,7 @@ e_msg_composer_new_redirect (EShell *shell,
 	e_composer_header_table_set_identity_uid (table, identity_uid);
 	e_composer_header_table_set_subject (table, subject);
 
-	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor = e_msg_composer_get_editor (composer);
 	editor_widget = e_editor_get_editor_widget (editor);
 	webkit_web_view_set_editable (WEBKIT_WEB_VIEW (editor_widget), FALSE);
 
@@ -3476,7 +3478,7 @@ msg_composer_send_cb (EMsgComposer *composer,
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
 
 	/* The callback can set editor 'changed' if anything failed. */
-	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor = e_msg_composer_get_editor (composer);
 	editor_widget = e_editor_get_editor_widget (editor);
 	e_editor_widget_set_changed (editor_widget, TRUE);
 
@@ -3513,7 +3515,7 @@ e_msg_composer_send (EMsgComposer *composer)
 		return;
 	}
 
-	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor = e_msg_composer_get_editor (composer);
 
 	context = g_slice_new0 (AsyncContext);
 	context->activity = e_editor_new_activity (editor);
@@ -3575,7 +3577,7 @@ msg_composer_save_to_drafts_cb (EMsgComposer *composer,
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
 
 	/* The callback can set editor 'changed' if anything failed. */
-	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor = e_msg_composer_get_editor (composer);
 	editor_widget = e_editor_get_editor_widget (editor);
 	e_editor_widget_set_changed (editor_widget, FALSE);
 
@@ -3608,7 +3610,7 @@ e_msg_composer_save_to_drafts (EMsgComposer *composer)
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
-	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor = e_msg_composer_get_editor (composer);
 
 	context = g_slice_new0 (AsyncContext);
 	context->activity = e_editor_new_activity (editor);
@@ -3664,7 +3666,7 @@ msg_composer_save_to_outbox_cb (EMsgComposer *composer,
 
 	async_context_free (context);
 
-	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor = e_msg_composer_get_editor (composer);
 	editor_widget = e_editor_get_editor_widget (editor);
 	e_editor_widget_set_changed (editor_widget, FALSE);
 }
@@ -3691,7 +3693,7 @@ e_msg_composer_save_to_outbox (EMsgComposer *composer)
 	if (!proceed_with_save)
 		return;
 
-	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor = e_msg_composer_get_editor (composer);
 
 	context = g_slice_new0 (AsyncContext);
 	context->activity = e_editor_new_activity (editor);
@@ -3764,7 +3766,7 @@ e_msg_composer_print (EMsgComposer *composer,
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
-	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor = e_msg_composer_get_editor (composer);
 
 	context = g_slice_new0 (AsyncContext);
 	context->activity = e_editor_new_activity (editor);
@@ -4150,7 +4152,7 @@ e_msg_composer_set_body (EMsgComposer *composer,
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
-	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor = e_msg_composer_get_editor (composer);
 	editor_widget = e_editor_get_editor_widget (editor);
 	table = e_msg_composer_get_header_table (composer);
 
@@ -4528,7 +4530,7 @@ e_msg_composer_get_message (EMsgComposer *composer,
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
-	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor = e_msg_composer_get_editor (composer);
 	editor_widget = e_editor_get_editor_widget (editor);
 
 	simple = g_simple_async_result_new (
@@ -4668,7 +4670,7 @@ e_msg_composer_get_message_draft (EMsgComposer *composer,
 
 	g_simple_async_result_set_check_cancellable (simple, cancellable);
 
-	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor = e_msg_composer_get_editor (composer);
 	editor_widget = e_editor_get_editor_widget (editor);
 	if (e_editor_widget_get_html_mode (editor_widget))
 		flags |= COMPOSER_FLAG_HTML_CONTENT;
@@ -4807,7 +4809,7 @@ e_msg_composer_get_raw_message_text (EMsgComposer *composer)
 
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
 
-	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor = e_msg_composer_get_editor (composer);
 	editor_widget = e_editor_get_editor_widget (editor);
 
 	array = g_byte_array_new ();
@@ -4854,7 +4856,7 @@ e_msg_composer_can_close (EMsgComposer *composer,
 	gint response;
 
 	widget = GTK_WIDGET (composer);
-	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor = e_msg_composer_get_editor (composer);
 	editor_widget = e_editor_get_editor_widget (editor);
 
 	/* this means that there is an async operation running,

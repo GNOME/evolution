@@ -1,23 +1,4 @@
 <SECTION>
-<FILE>e-composer-activity</FILE>
-<TITLE>EComposerActivity</TITLE>
-EComposerActivity
-e_composer_activity_new
-e_composer_activity_get_composer
-<SUBSECTION Standard>
-E_COMPOSER_ACTIVITY
-E_IS_COMPOSER_ACTIVITY
-E_TYPE_COMPOSER_ACTIVITY
-E_COMPOSER_ACTIVITY_CLASS
-E_IS_COMPOSER_ACTIVITY_CLASS
-E_COMPOSER_ACTIVITY_GET_CLASS
-EComposerActivityClass
-e_composer_activity_get_type
-<SUBSECTION Private>
-EComposerActivityPrivate
-</SECTION>
-
-<SECTION>
 <FILE>e-composer-from-header</FILE>
 <TITLE>EComposerFromHeader</TITLE>
 EComposerFromHeader

@@ -455,11 +455,12 @@ composer_presend_check_unwanted_html (EMsgComposer *composer,
 
 	settings = g_settings_new ("org.gnome.evolution.mail");
 
-	table = e_msg_composer_get_header_table (composer);
-	recipients = e_composer_header_table_get_destinations (table);
-	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor = e_msg_composer_get_editor (composer);
 	editor_widget = e_editor_get_editor_widget (editor);
 	html_mode = e_editor_widget_get_html_mode (editor_widget);
+
+	table = e_msg_composer_get_header_table (composer);
+	recipients = e_composer_header_table_get_destinations (table);
 
 	send_html = g_settings_get_boolean (settings, "composer-send-html");
 	confirm_html = g_settings_get_boolean (settings, "prompt-on-unwanted-html");
@@ -592,8 +593,7 @@ exit:
 		EEditor *editor;
 		EEditorWidget *editor_widget;
 
-		editor = e_editor_window_get_editor (
-			E_EDITOR_WINDOW (async_context->composer));
+		editor = e_msg_composer_get_editor (async_context->composer);
 		editor_widget = e_editor_get_editor_widget (editor);
 		e_editor_widget_set_changed (editor_widget, TRUE);
 
@@ -635,7 +635,7 @@ composer_set_no_change (EMsgComposer *composer)
 
 	g_return_if_fail (composer != NULL);
 
-	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor = e_msg_composer_get_editor (composer);
 	editor_widget = e_editor_get_editor_widget (editor);
 
 	e_editor_widget_set_changed (editor_widget, FALSE);
@@ -686,6 +686,11 @@ composer_save_to_drafts_complete (GObject *source_object,
 	EEditor *editor;
 	EEditorWidget *editor_widget;
 	GError *local_error = NULL;
+
+	async_context = (AsyncContext *) user_data;
+
+	editor = e_msg_composer_get_editor (async_context->composer);
+	editor_widget = e_editor_get_editor_widget (editor);
 
 	/* We don't really care if this failed.  If something other than
 	 * cancellation happened, emit a runtime warning so the error is
@@ -742,8 +747,7 @@ composer_save_to_drafts_cleanup (GObject *source_object,
 
 	async_context = (AsyncContext *) user_data;
 
-	editor = e_editor_window_get_editor (
-		E_EDITOR_WINDOW (async_context->composer));
+	editor = e_msg_composer_get_editor (async_context->composer);
 	editor_widget = e_editor_get_editor_widget (editor);
 
 	activity = async_context->activity;
@@ -834,8 +838,7 @@ composer_save_to_drafts_got_folder (GObject *source_object,
 
 	activity = async_context->activity;
 
-	editor = e_editor_window_get_editor (
-		E_EDITOR_WINDOW (async_context->composer));
+	editor = e_msg_composer_get_editor (async_context->composer);
 	editor_widget = e_editor_get_editor_widget (editor);
 
 	drafts_folder = e_mail_session_uri_to_folder_finish (

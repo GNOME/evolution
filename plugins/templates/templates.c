@@ -1334,7 +1334,7 @@ init_composer_actions (GtkUIManager *ui_manager,
 {
 	EEditor *editor;
 
-	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor = e_msg_composer_get_editor (composer);
 
 	/* Add actions to the "composer" action group. */
 	gtk_action_group_add_actions (

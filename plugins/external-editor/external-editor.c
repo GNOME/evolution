@@ -157,7 +157,7 @@ enable_disable_composer (EMsgComposer *composer,
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
-	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor = e_msg_composer_get_editor (composer);
 	editor_widget = e_editor_get_editor_widget (editor);
 
 	webkit_web_view_set_editable (WEBKIT_WEB_VIEW (editor_widget), enable);
@@ -302,7 +302,7 @@ async_external_editor (EMsgComposer *composer)
 	EEditor *editor;
 	EEditorWidget *editor_widget;
 
-	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor = e_msg_composer_get_editor (composer);
 	editor_widget = e_editor_get_editor_widget (editor);
 
 	/* prefix temp files with evo so .*vimrc can be setup to recognize them */
@@ -518,7 +518,7 @@ e_plugin_ui_init (GtkUIManager *manager,
 	EEditor *editor;
 	EEditorWidget *editor_widget;
 
-	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor = e_msg_composer_get_editor (composer);
 	editor_widget = e_editor_get_editor_widget (editor);
 
 	/* Add actions to the "composer" action group. */
