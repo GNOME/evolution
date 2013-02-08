@@ -302,8 +302,10 @@ mail_browser_message_list_built_cb (EMailBrowser *browser,
 	g_return_if_fail (IS_MESSAGE_LIST (message_list));
 
 	if (!message_list_count (message_list))
-		/* schedule with priority higher than gtk+ uses for animations (check docs for G_PRIORITY_HIGH_IDLE) */
-		g_idle_add_full (G_PRIORITY_DEFAULT, close_on_idle_cb, browser, NULL);
+		/* Prioritize ahead of GTK+ redraws. */
+		g_idle_add_full (
+			G_PRIORITY_HIGH_IDLE,
+			close_on_idle_cb, browser, NULL);
 }
 
 static gboolean

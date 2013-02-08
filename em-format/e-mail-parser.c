@@ -723,8 +723,9 @@ e_mail_parser_wrap_as_attachment (EMailParser *parser,
 	}
 
 	/* e_attachment_load_async must be called from main thread */
-	/* schedule with priority higher than gtk+ uses for animations (check docs for G_PRIORITY_HIGH_IDLE) */
-	g_idle_add_full (G_PRIORITY_HIGH,
+	/* Prioritize ahead of GTK+ redraws. */
+	g_idle_add_full (
+		G_PRIORITY_HIGH_IDLE,
 		(GSourceFunc) load_attachment_idle,
 		g_object_ref (empa->attachment),
 		NULL);

@@ -596,9 +596,9 @@ mail_ui_session_add_service (CamelSession *session,
 		context->session = g_object_ref (session);
 		context->service = g_object_ref (service);
 
-		/* schedule with priority higher than gtk+ uses for animations (check docs for G_PRIORITY_HIGH_IDLE) */
+		/* Prioritize ahead of GTK+ redraws. */
 		g_idle_add_full (
-			G_PRIORITY_DEFAULT,
+			G_PRIORITY_HIGH_IDLE,
 			(GSourceFunc) mail_ui_session_add_service_cb,
 			context, (GDestroyNotify) source_context_free);
 	}
