@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2012-09-01 11:25+0000\n"
-"PO-Revision-Date: 2012-09-13 20:31+0700\n"
+"PO-Revision-Date: 2013-02-08 15:16+0700\n"
 "Last-Translator: Nguyễn Thái Ngọc Duy <pclouds@gmail.com>\n"
 "Language-Team: Vietnamese <vi-VN@googlegroups.com>\n"
 "Language: vi\n"
@@ -17083,7 +17083,7 @@ msgstr[0] "%d chưa đọc, "
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
-msgstr[0] "%d tổng cộng"
+msgstr[0] "tổng cộng %d"
 
 #: ../modules/mail/e-mail-shell-view-private.c:1042
 msgid "Trash"
