@@ -144,7 +144,7 @@ mail_signature_editor_loaded_cb (GObject *object,
 	mime_type = e_source_mail_signature_get_mime_type (extension);
 	is_html = (g_strcmp0 (mime_type, "text/html") == 0);
 
-	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (object));
+	editor = e_mail_signature_editor_get_editor (window);
 	editor_widget = e_editor_get_editor_widget (editor);
 	e_editor_widget_set_html_mode (editor_widget, is_html);
 
@@ -186,7 +186,8 @@ action_close_cb (GtkAction *action,
 
 	original_name = window->priv->original_name;
 	signature_name = gtk_entry_get_text (GTK_ENTRY (window->priv->entry));
-	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (window));
+
+	editor = e_mail_signature_editor_get_editor (window);
 	editor_widget = e_editor_get_editor_widget (editor);
 
 	something_changed |= webkit_web_view_can_undo (WEBKIT_WEB_VIEW (editor_widget));
@@ -499,7 +500,7 @@ mail_signature_editor_constructed (GObject *object)
 		constructed (object);
 
 	window = E_MAIL_SIGNATURE_EDITOR (object);
-	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (window));
+	editor = e_mail_signature_editor_get_editor (window);
 	editor_widget = e_editor_get_editor_widget (editor);
 
 	ui_manager = e_editor_get_ui_manager (editor);
@@ -697,7 +698,7 @@ e_mail_signature_editor_get_editor (EMailSignatureEditor *editor)
 {
 	g_return_val_if_fail (E_IS_MAIL_SIGNATURE_EDITOR (editor), NULL);
 
-	return editor->priv->editor;
+	return e_editor_window_get_editor (E_EDITOR_WINDOW (editor));
 }
 
 EFocusTracker *
@@ -802,7 +803,8 @@ e_mail_signature_editor_commit (EMailSignatureEditor *window,
 
 	registry = e_mail_signature_editor_get_registry (window);
 	source = e_mail_signature_editor_get_source (window);
-	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (window));
+
+	editor = e_mail_signature_editor_get_editor (window);
 	editor_widget = e_editor_get_editor_widget (editor);
 
 	if (e_editor_widget_get_html_mode (editor_widget)) {
@@ -864,6 +866,7 @@ e_mail_signature_editor_get_editor_widget (EMailSignatureEditor *window)
 
 	g_return_val_if_fail (E_IS_MAIL_SIGNATURE_EDITOR (window), NULL);
 
-	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (window));
+	editor = e_mail_signature_editor_get_editor (window);
+
 	return e_editor_get_editor_widget (editor);
 }

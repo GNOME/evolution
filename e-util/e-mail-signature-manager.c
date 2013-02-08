@@ -401,16 +401,19 @@ mail_signature_manager_add_signature (EMailSignatureManager *manager)
 	EEditor *editor;
 	EEditorWidget *editor_widget;
 	ESourceRegistry *registry;
-	EEditorWidget *editor_widget;
-	GtkWidget *editor;
+	GtkWidget *widget;
 
 	registry = e_mail_signature_manager_get_registry (manager);
 
-	editor = e_mail_signature_editor_new (registry, NULL);
-	editor_widget = e_mail_signature_editor_get_editor_widget (
-		E_MAIL_SIGNATURE_EDITOR (editor));
-	e_editor_widget_set_html_mode (editor_widget, manager->priv->prefer_html);
-	mail_signature_manager_emit_editor_created (manager, editor);
+	widget = e_mail_signature_editor_new (registry, NULL);
+
+	editor = e_mail_signature_editor_get_editor (
+		E_MAIL_SIGNATURE_EDITOR (widget));
+	editor_widget = e_editor_get_editor_widget (editor);
+	e_editor_widget_set_html_mode (
+		editor_widget, manager->priv->prefer_html);
+
+	mail_signature_manager_emit_editor_created (manager, widget);
 
 	gtk_widget_grab_focus (manager->priv->tree_view);
 }
