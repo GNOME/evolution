@@ -406,13 +406,16 @@ open_inspector (WebKitWebInspector *inspector,
 	return WEBKIT_WEB_VIEW (inspector_view);
 }
 
-gint main (gint argc,
-	   gchar **argv)
+gint
+main (gint argc,
+      gchar **argv)
 {
 	GtkActionGroup *action_group;
 	GtkUIManager *manager;
-	GtkWidget *window;
+	GtkWidget *container;
+	GtkWidget *widget;
 	EEditor *editor;
+	EEditorWidget *editor_widget;
 	WebKitWebInspector *inspector;
 
 	GError *error = NULL;
@@ -423,21 +426,44 @@ gint main (gint argc,
 
 	gtk_init (&argc, &argv);
 
-	window = g_object_new (E_TYPE_EDITOR_WINDOW, GTK_WINDOW_TOPLEVEL, NULL);
-	gtk_widget_set_size_request (window, 600, 400);
-	g_signal_connect_swapped (
-		window, "destroy",
-		G_CALLBACK (gtk_main_quit), NULL);
+	editor = g_object_ref_sink (e_editor_new ());
+	editor_widget = e_editor_get_editor_widget (editor);
 
-	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (window));
 	inspector = webkit_web_view_get_inspector (
-			WEBKIT_WEB_VIEW (e_editor_get_editor_widget (
-				E_EDITOR (editor))));
+		WEBKIT_WEB_VIEW (editor_widget));
 	g_signal_connect (
 		inspector, "inspect-web-view",
 		G_CALLBACK (open_inspector), NULL);
 
-	manager = e_editor_get_ui_manager (E_EDITOR (editor));
+	widget = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	gtk_widget_set_size_request (widget, 600, 400);
+	gtk_widget_show (widget);
+
+	g_signal_connect_swapped (
+		widget, "destroy",
+		G_CALLBACK (gtk_main_quit), NULL);
+
+	container = widget;
+
+	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_container_add (GTK_CONTAINER (container), widget);
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	widget = e_editor_get_managed_widget (editor, "/main-menu");
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	widget = e_editor_get_managed_widget (editor, "/main-toolbar");
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	widget = GTK_WIDGET (editor);
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
+	gtk_widget_show (widget);
+
+	manager = e_editor_get_ui_manager (editor);
 
 	gtk_ui_manager_add_ui_from_string (manager, file_ui, -1, &error);
 	handle_error (&error);
@@ -462,13 +488,14 @@ gint main (gint argc,
 	gtk_ui_manager_insert_action_group (manager, action_group, 0);
 
 	gtk_ui_manager_ensure_update (manager);
-	gtk_widget_show (window);
 
 	g_signal_connect (
 		editor, "destroy",
 		G_CALLBACK (gtk_main_quit), NULL);
 
 	gtk_main ();
+
+	g_object_unref (editor);
 
 	return 0;
 }
