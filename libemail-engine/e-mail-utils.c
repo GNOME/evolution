@@ -824,7 +824,7 @@ free_mail_cache_thread (gpointer user_data)
 		e_cancellable_mutex_unlock (&photos_cache_lock);
 	}
 
-	g_idle_add_full (G_PRIORITY_HIGH, free_mail_cache_idle, user_data, NULL);
+	g_idle_add (free_mail_cache_idle, user_data);
 
 	return NULL;
 }
