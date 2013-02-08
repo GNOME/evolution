@@ -62,7 +62,6 @@ struct _EMsgComposerPrivate {
 	/*** UI Management ***/
 
 	GtkWidget *header_table;
-	GtkWidget *activity_bar;
 	GtkWidget *attachment_paned;
 
 	EFocusTracker *focus_tracker;
