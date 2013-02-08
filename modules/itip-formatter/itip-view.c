@@ -5723,8 +5723,10 @@ view_response_cb (ItipView *view,
 			send_item (pitip, view);
 			break;
 		case ITIP_VIEW_RESPONSE_OPEN:
-			/* schedule with priority higher than gtk+ uses for animations (check docs for G_PRIORITY_HIGH_IDLE) */
-			g_idle_add_full (G_PRIORITY_DEFAULT, idle_open_cb, pitip, NULL);
+			/* Prioritize ahead of GTK+ redraws. */
+			g_idle_add_full (
+				G_PRIORITY_HIGH_IDLE,
+				idle_open_cb, pitip, NULL);
 			return;
 		default:
 			break;

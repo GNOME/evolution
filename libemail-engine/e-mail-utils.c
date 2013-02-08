@@ -883,8 +883,10 @@ free_mail_cache_thread (gpointer user_data)
 
 	G_UNLOCK (photos_cache);
 
-	/* schedule with priority higher than gtk+ uses for animations (check docs for G_PRIORITY_HIGH_IDLE) */
-	g_idle_add_full (G_PRIORITY_HIGH, free_mail_cache_idle, user_data, NULL);
+	/* Prioritize ahead of GTK+ redraws. */
+	g_idle_add_full (
+		G_PRIORITY_HIGH_IDLE,
+		free_mail_cache_idle, user_data, NULL);
 
 	return NULL;
 }

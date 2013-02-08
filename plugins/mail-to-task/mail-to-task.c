@@ -1014,8 +1014,10 @@ do_mail_to_event (AsyncData *data)
 			if (!e_cal_client_get_object_sync (client, icalcomponent_get_uid (icalcomp), NULL, &(mc->stored_comp), NULL, NULL))
 				mc->stored_comp = NULL;
 
-			/* schedule with priority higher than gtk+ uses for animations (check docs for G_PRIORITY_HIGH_IDLE) */
-			g_idle_add_full (G_PRIORITY_DEFAULT, (GSourceFunc) do_manage_comp_idle, mc, NULL);
+			/* Prioritize ahead of GTK+ redraws. */
+			g_idle_add_full (
+				G_PRIORITY_HIGH_IDLE,
+				(GSourceFunc) do_manage_comp_idle, mc, NULL);
 
 			oldmc = mc;
 
