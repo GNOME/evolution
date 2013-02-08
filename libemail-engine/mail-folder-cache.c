@@ -304,8 +304,8 @@ flush_updates (MailFolderCache *cache)
 	if (g_queue_is_empty (&cache->priv->updates))
 		return;
 
-	cache->priv->update_id = g_idle_add (
-		(GSourceFunc) flush_updates_idle_cb, cache);
+	cache->priv->update_id = g_idle_add_full (G_PRIORITY_DEFAULT,
+		(GSourceFunc) flush_updates_idle_cb, cache, NULL);
 }
 
 /* This is how unread counts work (and don't work):
