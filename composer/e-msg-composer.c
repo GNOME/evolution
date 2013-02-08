@@ -3482,9 +3482,8 @@ msg_composer_send_cb (EMsgComposer *composer,
 void
 e_msg_composer_send (EMsgComposer *composer)
 {
+	EEditor *editor;
 	AsyncContext *context;
-	EAlertSink *alert_sink;
-	EActivityBar *activity_bar;
 	GCancellable *cancellable;
 	gboolean proceed_with_send = TRUE;
 
@@ -3498,18 +3497,12 @@ e_msg_composer_send (EMsgComposer *composer)
 		return;
 	}
 
+	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+
 	context = g_slice_new0 (AsyncContext);
-	context->activity = e_composer_activity_new (composer);
+	context->activity = e_editor_new_activity (editor);
 
-	alert_sink = E_ALERT_SINK (composer);
-	e_activity_set_alert_sink (context->activity, alert_sink);
-
-	cancellable = camel_operation_new ();
-	e_activity_set_cancellable (context->activity, cancellable);
-	g_object_unref (cancellable);
-
-	activity_bar = E_ACTIVITY_BAR (composer->priv->activity_bar);
-	e_activity_bar_set_activity (activity_bar, context->activity);
+	cancellable = e_activity_get_cancellable (context->activity);
 
 	e_msg_composer_get_message (
 		composer, G_PRIORITY_DEFAULT, cancellable,
@@ -3593,25 +3586,18 @@ msg_composer_save_to_drafts_cb (EMsgComposer *composer,
 void
 e_msg_composer_save_to_drafts (EMsgComposer *composer)
 {
+	EEditor *editor;
 	AsyncContext *context;
-	EAlertSink *alert_sink;
-	EActivityBar *activity_bar;
 	GCancellable *cancellable;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
+	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+
 	context = g_slice_new0 (AsyncContext);
-	context->activity = e_composer_activity_new (composer);
+	context->activity = e_editor_new_activity (editor);
 
-	alert_sink = E_ALERT_SINK (composer);
-	e_activity_set_alert_sink (context->activity, alert_sink);
-
-	cancellable = camel_operation_new ();
-	e_activity_set_cancellable (context->activity, cancellable);
-	g_object_unref (cancellable);
-
-	activity_bar = E_ACTIVITY_BAR (composer->priv->activity_bar);
-	e_activity_bar_set_activity (activity_bar, context->activity);
+	cancellable = e_activity_get_cancellable (context->activity);
 
 	e_msg_composer_get_message_draft (
 		composer, G_PRIORITY_DEFAULT, cancellable,
@@ -3676,9 +3662,8 @@ msg_composer_save_to_outbox_cb (EMsgComposer *composer,
 void
 e_msg_composer_save_to_outbox (EMsgComposer *composer)
 {
+	EEditor *editor;
 	AsyncContext *context;
-	EAlertSink *alert_sink;
-	EActivityBar *activity_bar;
 	GCancellable *cancellable;
 	gboolean proceed_with_save = TRUE;
 
@@ -3690,18 +3675,12 @@ e_msg_composer_save_to_outbox (EMsgComposer *composer)
 	if (!proceed_with_save)
 		return;
 
+	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+
 	context = g_slice_new0 (AsyncContext);
-	context->activity = e_composer_activity_new (composer);
+	context->activity = e_editor_new_activity (editor);
 
-	alert_sink = E_ALERT_SINK (composer);
-	e_activity_set_alert_sink (context->activity, alert_sink);
-
-	cancellable = camel_operation_new ();
-	e_activity_set_cancellable (context->activity, cancellable);
-	g_object_unref (cancellable);
-
-	activity_bar = E_ACTIVITY_BAR (composer->priv->activity_bar);
-	e_activity_bar_set_activity (activity_bar, context->activity);
+	cancellable = e_activity_get_cancellable (context->activity);
 
 	e_msg_composer_get_message (
 		composer, G_PRIORITY_DEFAULT, cancellable,
@@ -3763,26 +3742,19 @@ void
 e_msg_composer_print (EMsgComposer *composer,
                       GtkPrintOperationAction print_action)
 {
+	EEditor *editor;
 	AsyncContext *context;
-	EAlertSink *alert_sink;
-	EActivityBar *activity_bar;
 	GCancellable *cancellable;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
+	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+
 	context = g_slice_new0 (AsyncContext);
-	context->activity = e_composer_activity_new (composer);
+	context->activity = e_editor_new_activity (editor);
 	context->print_action = print_action;
 
-	alert_sink = E_ALERT_SINK (composer);
-	e_activity_set_alert_sink (context->activity, alert_sink);
-
-	cancellable = camel_operation_new ();
-	e_activity_set_cancellable (context->activity, cancellable);
-	g_object_unref (cancellable);
-
-	activity_bar = E_ACTIVITY_BAR (composer->priv->activity_bar);
-	e_activity_bar_set_activity (activity_bar, context->activity);
+	cancellable = e_activity_get_cancellable (context->activity);
 
 	e_msg_composer_get_message_print (
 		composer, G_PRIORITY_DEFAULT, cancellable,
