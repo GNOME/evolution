@@ -56,12 +56,12 @@ typedef struct _EMsgComposerClass EMsgComposerClass;
 typedef struct _EMsgComposerPrivate EMsgComposerPrivate;
 
 struct _EMsgComposer {
-	EEditorWindow parent;
+	GtkWindow parent;
 	EMsgComposerPrivate *priv;
 };
 
 struct _EMsgComposerClass {
-	EEditorWindowClass parent_class;
+	GtkWindowClass parent_class;
 
 	/* Signals */
 	gboolean	(*presend)		(EMsgComposer *composer);

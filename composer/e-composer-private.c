@@ -172,17 +172,27 @@ e_composer_private_constructed (EMsgComposer *composer)
 
 	priv->focus_tracker = focus_tracker;
 
-	container = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-	gtk_widget_set_vexpand (container, FALSE);
-	gtk_widget_show (container);
-	e_editor_window_pack_above (E_EDITOR_WINDOW (composer), container);
+	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_container_add (GTK_CONTAINER (composer), widget);
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	/* Construct the main menu and toolbar. */
+
+	widget = e_editor_get_managed_widget (editor, "/main-menu");
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	widget = e_editor_get_managed_widget (editor, "/main-toolbar");
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
 
 	/* Construct the header table. */
 
 	widget = e_composer_header_table_new (client_cache);
 	gtk_container_set_border_width (GTK_CONTAINER (widget), 6);
-	gtk_widget_set_hexpand (widget, TRUE);
-	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	priv->header_table = g_object_ref (widget);
 	gtk_widget_show (widget);
 
@@ -191,9 +201,6 @@ e_composer_private_constructed (EMsgComposer *composer)
 		widget, "sensitive",
 		G_BINDING_SYNC_CREATE);
 
-	priv->header_table = g_object_ref (widget);
-	gtk_widget_show (widget);
-
 	header = e_composer_header_table_get_header (
 		E_COMPOSER_HEADER_TABLE (widget),
 		E_COMPOSER_HEADER_SUBJECT);
@@ -201,6 +208,13 @@ e_composer_private_constructed (EMsgComposer *composer)
 		editor_widget, "spell-checker",
 		header->input_widget, "spell-checker",
 		G_BINDING_SYNC_CREATE);
+
+	/* Construct the editing toolbars.  We'll have to reparent
+	 * the embedded EEditorWidget a little further down. */
+
+	widget = GTK_WIDGET (editor);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
 
 	/* Construct the attachment paned. */
 
@@ -214,6 +228,15 @@ e_composer_private_constructed (EMsgComposer *composer)
 		widget, "sensitive",
 		G_BINDING_SYNC_CREATE);
 
+	container = e_attachment_paned_get_content_area (
+		E_ATTACHMENT_PANED (priv->attachment_paned));
+
+	widget = gtk_paned_new (GTK_ORIENTATION_VERTICAL);
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
+	gtk_widget_show (widget);
+
+	container = widget;
+
 	widget = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (
 		GTK_SCROLLED_WINDOW (widget),
@@ -221,9 +244,16 @@ e_composer_private_constructed (EMsgComposer *composer)
 	gtk_scrolled_window_set_shadow_type (
 		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
 	gtk_widget_set_size_request (widget, -1, GALLERY_INITIAL_HEIGHT);
+	gtk_paned_pack1 (GTK_PANED (container), widget, FALSE, FALSE);
 	priv->gallery_scrolled_window = g_object_ref (widget);
-	container = priv->gallery_scrolled_window;
-	e_editor_window_pack_inside (E_EDITOR_WINDOW (composer), container);
+	gtk_widget_show (widget);
+
+	/* Reparent the scrolled window containing the web view
+	 * widget into the content area of the top attachment pane. */
+
+	widget = GTK_WIDGET (editor_widget);
+	widget = gtk_widget_get_parent (widget);
+	gtk_widget_reparent (widget, container);
 
 	/* Construct the picture gallery. */
 
