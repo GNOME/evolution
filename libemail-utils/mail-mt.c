@@ -216,7 +216,7 @@ mail_msg_unref (gpointer msg)
 
 		/* Destroy the message from an idle callback
 		 * so we know we're in the main loop thread. */
-		g_idle_add_full (G_PRIORITY_DEFAULT, (GSourceFunc) mail_msg_free, mail_msg, NULL);
+		g_idle_add ((GSourceFunc) mail_msg_free, mail_msg);
 	}
 }
 
@@ -429,8 +429,8 @@ mail_msg_proxy (MailMsg *msg)
 
 	G_LOCK (idle_source_id);
 	if (idle_source_id == 0)
-		idle_source_id = g_idle_add_full (G_PRIORITY_DEFAULT,
-			(GSourceFunc) mail_msg_idle_cb, NULL, NULL);
+		idle_source_id = g_idle_add (
+			(GSourceFunc) mail_msg_idle_cb, NULL);
 	G_UNLOCK (idle_source_id);
 }
 
@@ -484,8 +484,8 @@ mail_msg_main_loop_push (gpointer msg)
 
 	G_LOCK (idle_source_id);
 	if (idle_source_id == 0)
-		idle_source_id = g_idle_add_full (G_PRIORITY_DEFAULT,
-			(GSourceFunc) mail_msg_idle_cb, NULL, NULL);
+		idle_source_id = g_idle_add (
+			(GSourceFunc) mail_msg_idle_cb, NULL);
 	G_UNLOCK (idle_source_id);
 }
 

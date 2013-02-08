@@ -306,7 +306,7 @@ mail_browser_message_list_built_cb (EMailBrowser *browser,
 	g_return_if_fail (IS_MESSAGE_LIST (message_list));
 
 	if (!message_list_count (message_list))
-		g_idle_add_full (G_PRIORITY_DEFAULT, close_on_idle_cb, browser, NULL);
+		g_idle_add (close_on_idle_cb, browser);
 }
 
 static gboolean

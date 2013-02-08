@@ -1923,7 +1923,7 @@ e_mail_display_reload (EMailDisplay *display)
 
 	/* Schedule reloading if neccessary */
 	display->priv->scheduled_reload =
-		g_idle_add_full (G_PRIORITY_DEFAULT, (GSourceFunc) do_reload_display, display, NULL);
+		g_idle_add ((GSourceFunc) do_reload_display, display);
 }
 
 GtkAction *

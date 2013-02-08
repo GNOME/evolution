@@ -660,10 +660,9 @@ e_mail_parser_wrap_as_attachment (EMailParser *parser,
 	}
 
 	/* e_attachment_load_async must be called from main thread */
-	g_idle_add_full (G_PRIORITY_HIGH,
+	g_idle_add (
 		(GSourceFunc) load_attachment_idle,
-		g_object_ref (empa->attachment),
-		NULL);
+		g_object_ref (empa->attachment));
 
 	if (size != 0) {
 		GFileInfo *fileinfo;
