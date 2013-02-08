@@ -2587,6 +2587,7 @@ EMailSignatureComboBoxPrivate
 <TITLE>EMailSignatureEditor</TITLE>
 EMailSignatureEditor
 e_mail_signature_editor_new
+e_mail_signature_editor_get_editor
 e_mail_signature_editor_get_focus_tracker
 e_mail_signature_editor_get_registry
 e_mail_signature_editor_get_source
