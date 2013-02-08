@@ -79,7 +79,7 @@ static const gchar *ui =
 G_DEFINE_TYPE (
 	EMailSignatureEditor,
 	e_mail_signature_editor,
-	E_TYPE_EDITOR_WINDOW)
+	GTK_TYPE_WINDOW)
 
 static void
 async_context_free (AsyncContext *async_context)
@@ -532,29 +532,45 @@ mail_signature_editor_constructed (GObject *object)
 
 	gtk_window_set_title (GTK_WINDOW (window), _("Edit Signature"));
 
-	widget = e_editor_get_managed_widget (editor, "/main-toolbar");
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	gtk_widget_show (widget);
-
-	container = gtk_box_new (GTK_ORIENTATION_VERTICAL, 5);
-	e_editor_window_pack_above (E_EDITOR_WINDOW (window), container);
-	gtk_widget_show (container);
-
-	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
-	gtk_container_set_border_width (GTK_CONTAINER (widget), 6);
-	e_editor_window_pack_above (E_EDITOR_WINDOW (window), widget);
+	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_container_add (GTK_CONTAINER (window), widget);
 	gtk_widget_show (widget);
 
 	container = widget;
 
+	/* Construct the main menu and toolbar. */
+
+	widget = e_editor_get_managed_widget (editor, "/main-menu");
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	widget = e_editor_get_managed_widget (editor, "/main-toolbar");
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	/* Construct the signature name entry. */
+
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
+	gtk_container_set_border_width (GTK_CONTAINER (widget), 6);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	hbox = widget;
+
 	widget = gtk_entry_new ();
-	gtk_box_pack_end (GTK_BOX (container), widget, TRUE, TRUE, 0);
+	gtk_box_pack_end (GTK_BOX (hbox), widget, TRUE, TRUE, 0);
 	window->priv->entry = widget;  /* not referenced */
 	gtk_widget_show (widget);
 
 	widget = gtk_label_new_with_mnemonic (_("_Signature Name:"));
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), window->priv->entry);
-	gtk_box_pack_end (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_box_pack_end (GTK_BOX (hbox), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	/* Construct the main editing area. */
+
+	widget = GTK_WIDGET (editor);
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
 
 	g_signal_connect (
@@ -636,6 +652,17 @@ e_mail_signature_editor_class_init (EMailSignatureEditorClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_EDITOR,
+		g_param_spec_object (
+			"editor",
+			NULL,
+			NULL,
+			E_TYPE_EDITOR,
+			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_FOCUS_TRACKER,
 		g_param_spec_object (
 			"focus-tracker",
@@ -698,7 +725,7 @@ e_mail_signature_editor_get_editor (EMailSignatureEditor *editor)
 {
 	g_return_val_if_fail (E_IS_MAIL_SIGNATURE_EDITOR (editor), NULL);
 
-	return e_editor_window_get_editor (E_EDITOR_WINDOW (editor));
+	return editor->priv->editor;
 }
 
 EFocusTracker *
