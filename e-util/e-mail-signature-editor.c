@@ -840,14 +840,3 @@ e_mail_signature_editor_commit_finish (EMailSignatureEditor *editor,
 	return !g_simple_async_result_propagate_error (simple, error);
 }
 
-EEditorWidget *
-e_mail_signature_editor_get_editor_widget (EMailSignatureEditor *window)
-{
-	EEditor *editor;
-
-	g_return_val_if_fail (E_IS_MAIL_SIGNATURE_EDITOR (window), NULL);
-
-	editor = e_mail_signature_editor_get_editor (window);
-
-	return e_editor_get_editor_widget (editor);
-}
