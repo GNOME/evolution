@@ -444,7 +444,7 @@ e_plugin_ui_init (GtkUIManager *ui_manager,
 		g_free (face);
 	}
 
-	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor = e_msg_composer_get_editor (composer);
 
 	/* Add actions to the "composer" action group. */
 	gtk_action_group_add_toggle_actions (
@@ -467,7 +467,7 @@ face_handle_send (EPlugin *ep,
 	EEditor *editor;
 	GtkAction *action;
 
-	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (target->composer));
+	editor = e_msg_composer_get_editor (target->composer);
 	action = e_editor_get_action (editor, "face-plugin");
 
 	g_return_if_fail (action != NULL);

@@ -131,7 +131,7 @@ composer_autosave_changed_cb (EComposerAutosave *autosave)
 
 	extensible = e_extension_get_extensible (E_EXTENSION (autosave));
 
-	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (extensible));
+	editor = e_msg_composer_get_editor (E_MSG_COMPOSER (extensible));
 	editor_widget = e_editor_get_editor_widget (editor);
 	autosave->changed = e_editor_widget_get_changed (editor_widget);
 

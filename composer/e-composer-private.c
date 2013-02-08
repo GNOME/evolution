@@ -38,7 +38,7 @@ composer_setup_charset_menu (EMsgComposer *composer)
 	GList *list;
 	guint merge_id;
 
-	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor = e_msg_composer_get_editor (composer);
 	ui_manager = e_editor_get_ui_manager (editor);
 	path = "/main-menu/options-menu/charset-menu";
 	merge_id = gtk_ui_manager_new_merge_id (ui_manager);
@@ -70,7 +70,7 @@ composer_update_gallery_visibility (EMsgComposer *composer)
 	gboolean gallery_active;
 	gboolean is_html;
 
-	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor = e_msg_composer_get_editor (composer);
 	editor_widget = e_editor_get_editor_widget (editor);
 	is_html = e_editor_widget_get_html_mode (editor_widget);
 
@@ -108,7 +108,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 	gint ii;
 	GError *error = NULL;
 
-	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor = e_msg_composer_get_editor (composer);
 	ui_manager = e_editor_get_ui_manager (editor);
 	editor_widget = e_editor_get_editor_widget (editor);
 
@@ -450,7 +450,7 @@ e_composer_paste_html (EMsgComposer *composer,
 	html = e_clipboard_wait_for_html (clipboard);
 	g_return_val_if_fail (html != NULL, FALSE);
 
-	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor = e_msg_composer_get_editor (composer);
 	editor_widget = e_editor_get_editor_widget (editor);
 	editor_selection = e_editor_widget_get_selection (editor_widget);
 	e_editor_selection_insert_html (editor_selection, html);
@@ -506,7 +506,7 @@ e_composer_paste_image (EMsgComposer *composer,
 
 	/* In HTML mode, paste the image into the message body.
 	 * In text mode, add the image to the attachment store. */
-	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor = e_msg_composer_get_editor (composer);
 	editor_widget = e_editor_get_editor_widget (editor);
 	if (e_editor_widget_get_html_mode (editor_widget)) {
 		EEditorSelection *selection;
@@ -554,7 +554,7 @@ e_composer_paste_text (EMsgComposer *composer,
 	text = gtk_clipboard_wait_for_text (clipboard);
 	g_return_val_if_fail (text != NULL, FALSE);
 
-	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor = e_msg_composer_get_editor (composer);
 	editor_widget = e_editor_get_editor_widget (editor);
 	editor_selection = e_editor_widget_get_selection (editor_widget);
 	e_editor_selection_insert_text (editor_selection, text);
@@ -1047,7 +1047,7 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 insert:
 	/* Remove the old signature and insert the new one. */
 
-	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor = e_msg_composer_get_editor (composer);
 	editor_widget = e_editor_get_editor_widget (editor);
 	selection = e_editor_widget_get_selection (editor_widget);
 
