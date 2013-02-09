@@ -2452,8 +2452,6 @@ e_editor_selection_restore (EEditorSelection *selection)
 	WebKitDOMDocument *document;
 	WebKitDOMRange *range;
 	WebKitDOMElement *marker;
-	WebKitDOMNode *marker_node;
-	WebKitDOMNode *parent_node;
 
 	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
 
@@ -2465,25 +2463,30 @@ e_editor_selection_restore (EEditorSelection *selection)
 	document = webkit_web_view_get_dom_document (web_view);
 	range = editor_selection_get_current_range (selection);
 
-	marker = webkit_dom_document_get_element_by_id (
-		document, "-x-evolution-selection-start-marker");
-	g_return_if_fail (marker != NULL);
+	if (range != NULL) {
+		WebKitDOMNode *marker_node;
+		WebKitDOMNode *parent_node;
 
-	marker_node = WEBKIT_DOM_NODE (marker);
-	parent_node = webkit_dom_node_get_parent_node (marker_node);
+		marker = webkit_dom_document_get_element_by_id (
+			document, "-x-evolution-selection-start-marker");
+		g_return_if_fail (marker != NULL);
 
-	webkit_dom_range_set_start_after (range, marker_node, NULL);
-	webkit_dom_node_remove_child (parent_node, marker_node, NULL);
+		marker_node = WEBKIT_DOM_NODE (marker);
+		parent_node = webkit_dom_node_get_parent_node (marker_node);
 
-	marker = webkit_dom_document_get_element_by_id (
-		document, "-x-evolution-selection-end-marker");
-	g_return_if_fail (marker != NULL);
+		webkit_dom_range_set_start_after (range, marker_node, NULL);
+		webkit_dom_node_remove_child (parent_node, marker_node, NULL);
 
-	marker_node = WEBKIT_DOM_NODE (marker);
-	parent_node = webkit_dom_node_get_parent_node (marker_node);
+		marker = webkit_dom_document_get_element_by_id (
+			document, "-x-evolution-selection-end-marker");
+		g_return_if_fail (marker != NULL);
 
-	webkit_dom_range_set_end_before (range, marker_node, NULL);
-	webkit_dom_node_remove_child (parent_node, marker_node, NULL);
+		marker_node = WEBKIT_DOM_NODE (marker);
+		parent_node = webkit_dom_node_get_parent_node (marker_node);
+
+		webkit_dom_range_set_end_before (range, marker_node, NULL);
+		webkit_dom_node_remove_child (parent_node, marker_node, NULL);
+	}
 
 	g_object_unref (editor_widget);
 }
