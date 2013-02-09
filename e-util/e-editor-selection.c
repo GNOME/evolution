@@ -2345,10 +2345,6 @@ e_editor_selection_save (EEditorSelection *selection)
 	WebKitDOMRange *range;
 	WebKitDOMNode *container;
 	WebKitDOMElement *marker;
-	WebKitDOMNode *marker_node;
-	WebKitDOMNode *parent_node;
-	WebKitDOMNode *split_node;
-	glong start_offset;
 
 	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
 
@@ -2384,51 +2380,62 @@ e_editor_selection_save (EEditorSelection *selection)
 
 	range = editor_selection_get_current_range (selection);
 
-	start_offset = webkit_dom_range_get_start_offset (range, NULL);
+	if (range != NULL) {
+		WebKitDOMNode *marker_node;
+		WebKitDOMNode *parent_node;
+		WebKitDOMNode *split_node;
+		glong start_offset;
 
-	marker = webkit_dom_document_create_element (document, "SPAN", NULL);
-	webkit_dom_html_element_set_id (
-		WEBKIT_DOM_HTML_ELEMENT (marker),
-		"-x-evolution-selection-start-marker");
+		start_offset = webkit_dom_range_get_start_offset (range, NULL);
 
-	container = webkit_dom_range_get_start_container (range, NULL);
-	if (WEBKIT_DOM_IS_TEXT (container)) {
-		WebKitDOMText *split_text;
+		marker = webkit_dom_document_create_element (
+			document, "SPAN", NULL);
+		webkit_dom_html_element_set_id (
+			WEBKIT_DOM_HTML_ELEMENT (marker),
+			"-x-evolution-selection-start-marker");
 
-		split_text = webkit_dom_text_split_text (
-			WEBKIT_DOM_TEXT (container), start_offset, NULL);
-		split_node = WEBKIT_DOM_NODE (split_text);
-	} else {
-		split_node = container;
+		container = webkit_dom_range_get_start_container (range, NULL);
+		if (WEBKIT_DOM_IS_TEXT (container)) {
+			WebKitDOMText *split_text;
+
+			split_text = webkit_dom_text_split_text (
+				WEBKIT_DOM_TEXT (container),
+				start_offset, NULL);
+			split_node = WEBKIT_DOM_NODE (split_text);
+		} else {
+			split_node = container;
+		}
+
+		marker_node = WEBKIT_DOM_NODE (marker);
+		parent_node = webkit_dom_node_get_parent_node (container);
+
+		webkit_dom_node_insert_before (
+			parent_node, marker_node, split_node, NULL);
+
+		marker = webkit_dom_document_create_element (
+			document, "SPAN", NULL);
+		webkit_dom_html_element_set_id (
+			WEBKIT_DOM_HTML_ELEMENT (marker),
+			"-x-evolution-selection-end-marker");
+
+		container = webkit_dom_range_get_end_container (range, NULL);
+		if (WEBKIT_DOM_IS_TEXT (container)) {
+			WebKitDOMText *split_text;
+
+			split_text = webkit_dom_text_split_text (
+				WEBKIT_DOM_TEXT (container),
+				start_offset, NULL);
+			split_node = WEBKIT_DOM_NODE (split_text);
+		} else {
+			split_node = container;
+		}
+
+		marker_node = WEBKIT_DOM_NODE (marker);
+		parent_node = webkit_dom_node_get_parent_node (container);
+
+		webkit_dom_node_insert_before (
+			parent_node, marker_node, split_node, NULL);
 	}
-
-	marker_node = WEBKIT_DOM_NODE (marker);
-	parent_node = webkit_dom_node_get_parent_node (container);
-
-	webkit_dom_node_insert_before (
-		parent_node, marker_node, split_node, NULL);
-
-	marker = webkit_dom_document_create_element (document, "SPAN", NULL);
-	webkit_dom_html_element_set_id (
-		WEBKIT_DOM_HTML_ELEMENT (marker),
-		"-x-evolution-selection-end-marker");
-
-	container = webkit_dom_range_get_end_container (range, NULL);
-	if (WEBKIT_DOM_IS_TEXT (container)) {
-		WebKitDOMText *split_text;
-
-		split_text = webkit_dom_text_split_text (
-			WEBKIT_DOM_TEXT (container), start_offset, NULL);
-		split_node = WEBKIT_DOM_NODE (split_text);
-	} else {
-		split_node = container;
-	}
-
-	marker_node = WEBKIT_DOM_NODE (marker);
-	parent_node = webkit_dom_node_get_parent_node (container);
-
-	webkit_dom_node_insert_before (
-		parent_node, marker_node, split_node, NULL);
 
 	g_object_unref (editor_widget);
 }
