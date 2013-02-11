@@ -422,7 +422,7 @@ mail_filter_rename_folder (CamelStore *store,
 	g_return_if_fail (old_folder_name != NULL);
 	g_return_if_fail (new_folder_name != NULL);
 
-	session = camel_service_get_session (CAMEL_SERVICE (store));
+	session = camel_service_ref_session (CAMEL_SERVICE (store));
 
 	old_uri = e_mail_folder_uri_build (store, old_folder_name);
 	new_uri = e_mail_folder_uri_build (store, new_folder_name);
@@ -447,6 +447,8 @@ mail_filter_rename_folder (CamelStore *store,
 
 	g_free (old_uri);
 	g_free (new_uri);
+
+	g_object_unref (session);
 }
 
 void
@@ -465,7 +467,7 @@ mail_filter_delete_folder (CamelStore *store,
 	g_return_if_fail (folder_name != NULL);
 	g_return_if_fail (E_IS_ALERT_SINK (alert_sink));
 
-	session = camel_service_get_session (CAMEL_SERVICE (store));
+	session = camel_service_ref_session (CAMEL_SERVICE (store));
 
 	uri = e_mail_folder_uri_build (store, folder_name);
 
@@ -525,4 +527,6 @@ mail_filter_delete_folder (CamelStore *store,
 	g_free (user);
 	g_object_unref (fc);
 	g_free (uri);
+
+	g_object_unref (session);
 }

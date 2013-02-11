@@ -432,7 +432,7 @@ folder_changed_cb (CamelFolder *folder,
 
 	full_name = camel_folder_get_full_name (folder);
 	parent_store = camel_folder_get_parent_store (folder);
-	session = camel_service_get_session (CAMEL_SERVICE (parent_store));
+	session = camel_service_ref_session (CAMEL_SERVICE (parent_store));
 
 	if (!last_newmail_per_folder)
 		last_newmail_per_folder = g_hash_table_new (g_direct_hash, g_direct_equal);
@@ -504,6 +504,8 @@ folder_changed_cb (CamelFolder *folder,
 	g_free (uid);
 	g_free (sender);
 	g_free (subject);
+
+	g_object_unref (session);
 }
 
 static void
@@ -1032,15 +1034,19 @@ storeinfo_find_folder_info (CamelStore *store,
                             StoreInfo *si,
                             struct _find_info *fi)
 {
+	CamelSession *session;
 	gchar *folder_name;
 	gboolean success;
 
 	if (fi->fi != NULL)
 		return;
 
+	session = camel_service_ref_session (CAMEL_SERVICE (store));
+
 	success = e_mail_folder_uri_parse (
-		camel_service_get_session (CAMEL_SERVICE (store)),
-		fi->folder_uri, NULL, &folder_name, NULL);
+		session, fi->folder_uri, NULL, &folder_name, NULL);
+
+	g_object_unref (session);
 
 	if (success) {
 		fi->fi = g_hash_table_lookup (si->folders, folder_name);
@@ -1170,7 +1176,7 @@ mail_folder_cache_folder_available (MailFolderCache *cache,
 			return;
 
 	service = CAMEL_SERVICE (store);
-	session = camel_service_get_session (service);
+	session = camel_service_ref_session (service);
 	provider = camel_service_get_provider (service);
 
 	/* Reuse the stores mutex just because it's handy. */
@@ -1189,6 +1195,8 @@ mail_folder_cache_folder_available (MailFolderCache *cache,
 		g_free (folder_uri);
 
 	g_rec_mutex_unlock (&cache->priv->stores_mutex);
+
+	g_object_unref (session);
 }
 
 static void
@@ -1218,7 +1226,7 @@ mail_folder_cache_folder_unavailable (MailFolderCache *cache,
 			return;
 
 	service = CAMEL_SERVICE (store);
-	session = camel_service_get_session (service);
+	session = camel_service_ref_session (service);
 	provider = camel_service_get_provider (service);
 
 	/* Reuse the stores mutex just because it's handy. */
@@ -1240,6 +1248,8 @@ mail_folder_cache_folder_unavailable (MailFolderCache *cache,
 	g_free (folder_uri);
 
 	g_rec_mutex_unlock (&cache->priv->stores_mutex);
+
+	g_object_unref (session);
 }
 
 static void
@@ -1268,7 +1278,7 @@ mail_folder_cache_folder_deleted (MailFolderCache *cache,
 			return;
 
 	service = CAMEL_SERVICE (store);
-	session = camel_service_get_session (service);
+	session = camel_service_ref_session (service);
 
 	/* Reuse the stores mutex just because it's handy. */
 	g_rec_mutex_lock (&cache->priv->stores_mutex);
@@ -1292,6 +1302,8 @@ mail_folder_cache_folder_deleted (MailFolderCache *cache,
 	g_free (folder_uri);
 
 	g_rec_mutex_unlock (&cache->priv->stores_mutex);
+
+	g_object_unref (session);
 }
 
 static void
@@ -1507,7 +1519,7 @@ mail_folder_cache_note_store (MailFolderCache *cache,
 	g_return_if_fail (MAIL_IS_FOLDER_CACHE (cache));
 	g_return_if_fail (CAMEL_IS_STORE (store));
 
-	session = camel_service_get_session (CAMEL_SERVICE (store));
+	session = camel_service_ref_session (CAMEL_SERVICE (store));
 
 	g_rec_mutex_lock (&cache->priv->stores_mutex);
 
@@ -1590,6 +1602,8 @@ mail_folder_cache_note_store (MailFolderCache *cache,
 			store, "folder-unsubscribed",
 			G_CALLBACK (store_folder_unsubscribed_cb), cache);
 	}
+
+	g_object_unref (session);
 }
 
 /**

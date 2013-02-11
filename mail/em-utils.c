@@ -642,7 +642,7 @@ em_utils_print_messages_to_file (CamelFolder *folder,
 		return FALSE;
 
 	parent_store = camel_folder_get_parent_store (folder);
-	session = camel_service_get_session (CAMEL_SERVICE (parent_store));
+	session = camel_service_ref_session (CAMEL_SERVICE (parent_store));
 
 	parser = e_mail_parser_new (session);
 
@@ -650,6 +650,8 @@ em_utils_print_messages_to_file (CamelFolder *folder,
 		parser, folder, uid, message,
 		(GAsyncReadyCallback) do_print_msg_to_file,
 		NULL, g_strdup (filename));
+
+	g_object_unref (session);
 
 	return TRUE;
 }

@@ -223,13 +223,13 @@ mail_folder_expunge_pop3_stores (CamelFolder *folder,
 	parent_store = camel_folder_get_parent_store (folder);
 
 	service = CAMEL_SERVICE (parent_store);
-	session = camel_service_get_session (service);
+	session = camel_service_ref_session (service);
 	registry = e_mail_session_get_registry (E_MAIL_SESSION (session));
 
 	uids = camel_folder_get_uids (folder);
 
 	if (uids == NULL)
-		return TRUE;
+		goto exit;
 
 	expunging_uids = g_hash_table_new_full (
 		(GHashFunc) g_str_hash,
@@ -377,6 +377,9 @@ mail_folder_expunge_pop3_stores (CamelFolder *folder,
 
 	g_hash_table_destroy (expunging_uids);
 
+exit:
+	g_object_unref (session);
+
 	return success;
 }
 
@@ -400,7 +403,7 @@ e_mail_folder_expunge_sync (CamelFolder *folder,
 	parent_store = camel_folder_get_parent_store (folder);
 
 	service = CAMEL_SERVICE (parent_store);
-	session = camel_service_get_session (service);
+	session = camel_service_ref_session (service);
 
 	uid = camel_service_get_uid (service);
 	store_is_local = (g_strcmp0 (uid, E_MAIL_SESSION_LOCAL_UID) == 0);
@@ -420,7 +423,8 @@ e_mail_folder_expunge_sync (CamelFolder *folder,
 			is_local_trash = (folder == local_trash);
 			g_object_unref (local_trash);
 		} else {
-			return FALSE;
+			success = FALSE;
+			goto exit;
 		}
 	}
 
@@ -433,6 +437,9 @@ e_mail_folder_expunge_sync (CamelFolder *folder,
 	if (success)
 		success = camel_folder_expunge_sync (
 			folder, cancellable, error);
+
+exit:
+	g_object_unref (session);
 
 	return success;
 }

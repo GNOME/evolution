@@ -1307,18 +1307,18 @@ mail_receive_service (CamelService *service)
 	g_return_if_fail (CAMEL_IS_SERVICE (service));
 
 	uid = camel_service_get_uid (service);
-	session = camel_service_get_session (service);
+	session = camel_service_ref_session (service);
 
 	data = setup_send_data (E_MAIL_SESSION (session));
 	info = g_hash_table_lookup (data->active, uid);
 
 	if (info != NULL)
-		return;
+		goto exit;
 
 	type = get_receive_type (service);
 
 	if (type == SEND_INVALID || type == SEND_SEND)
-		return;
+		goto exit;
 
 	info = g_malloc0 (sizeof (*info));
 	info->type = type;
@@ -1374,6 +1374,9 @@ mail_receive_service (CamelService *service)
 	default:
 		g_return_if_reached ();
 	}
+
+exit:
+	g_object_unref (session);
 }
 
 void

@@ -80,7 +80,7 @@ sasl_xoauth2_challenge_sync (CamelSasl *sasl,
 	gboolean success;
 
 	service = camel_sasl_get_service (sasl);
-	session = camel_service_get_session (service);
+	session = camel_service_ref_session (service);
 	settings = camel_service_ref_settings (service);
 
 	uid = camel_service_get_uid (service);
@@ -108,6 +108,7 @@ sasl_xoauth2_challenge_sync (CamelSasl *sasl,
 
 	g_object_unref (source);
 	g_object_unref (settings);
+	g_object_unref (session);
 
 	/* IMAP and SMTP services will Base64-encode the request. */
 

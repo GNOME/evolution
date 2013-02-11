@@ -196,7 +196,8 @@ emfp_get_folder_item (EConfig *ec,
 		MailFolderCache *folder_cache;
 
 		store = camel_folder_get_parent_store (context->folder);
-		session = camel_service_get_session (CAMEL_SERVICE (store));
+		session = camel_service_ref_session (CAMEL_SERVICE (store));
+
 		folder_cache = e_mail_session_get_folder_cache (
 			E_MAIL_SESSION (session));
 
@@ -205,6 +206,8 @@ emfp_get_folder_item (EConfig *ec,
 			mail_folder_cache_get_folder_info_flags (
 				folder_cache, context->folder, &fi_flags) &&
 			(fi_flags & CAMEL_FOLDER_TYPE_MASK) != CAMEL_FOLDER_TYPE_INBOX;
+
+		g_object_unref (session);
 	}
 
 	class = G_OBJECT_GET_CLASS (context->folder);
@@ -493,7 +496,7 @@ em_folder_properties_show (CamelStore *store,
 
 	service = CAMEL_SERVICE (store);
 	uid = camel_service_get_uid (service);
-	session = camel_service_get_session (service);
+	session = camel_service_ref_session (service);
 
 	/* Show the Edit Rule dialog for Search Folders, but not "Unmatched".
 	 * "Unmatched" is a special Search Folder which can't be modified. */
@@ -507,7 +510,8 @@ em_folder_properties_show (CamelStore *store,
 				E_MAIL_SESSION (session),
 				folder_uri, alert_sink);
 			g_free (folder_uri);
-			return;
+
+			goto exit;
 		}
 	}
 
@@ -530,4 +534,7 @@ em_folder_properties_show (CamelStore *store,
 		(GAsyncReadyCallback) emfp_dialog_got_folder, context);
 
 	g_object_unref (cancellable);
+
+exit:
+	g_object_unref (session);
 }

@@ -73,19 +73,20 @@ em_utils_folder_is_drafts (ESourceRegistry *registry,
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), FALSE);
 
 	store = camel_folder_get_parent_store (folder);
-	session = camel_service_get_session (CAMEL_SERVICE (store));
+	session = camel_service_ref_session (CAMEL_SERVICE (store));
 
 	local_drafts_folder =
 		e_mail_session_get_local_folder (
 		E_MAIL_SESSION (session), E_MAIL_LOCAL_FOLDER_DRAFTS);
 
-	if (folder == local_drafts_folder)
-		return TRUE;
+	if (folder == local_drafts_folder) {
+		is_drafts = TRUE;
+		goto exit;
+	}
 
 	folder_uri = e_mail_folder_uri_from_folder (folder);
 
 	store = camel_folder_get_parent_store (folder);
-	session = camel_service_get_session (CAMEL_SERVICE (store));
 
 	extension_name = E_SOURCE_EXTENSION_MAIL_COMPOSITION;
 	list = e_source_registry_list_sources (registry, extension_name);
@@ -111,6 +112,9 @@ em_utils_folder_is_drafts (ESourceRegistry *registry,
 
 	g_list_free_full (list, (GDestroyNotify) g_object_unref);
 	g_free (folder_uri);
+
+exit:
+	g_object_unref (session);
 
 	return is_drafts;
 }
@@ -140,19 +144,20 @@ em_utils_folder_is_templates (ESourceRegistry *registry,
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), FALSE);
 
 	store = camel_folder_get_parent_store (folder);
-	session = camel_service_get_session (CAMEL_SERVICE (store));
+	session = camel_service_ref_session (CAMEL_SERVICE (store));
 
 	local_templates_folder =
 		e_mail_session_get_local_folder (
 		E_MAIL_SESSION (session), E_MAIL_LOCAL_FOLDER_TEMPLATES);
 
-	if (folder == local_templates_folder)
-		return TRUE;
+	if (folder == local_templates_folder) {
+		is_templates = TRUE;
+		goto exit;
+	}
 
 	folder_uri = e_mail_folder_uri_from_folder (folder);
 
 	store = camel_folder_get_parent_store (folder);
-	session = camel_service_get_session (CAMEL_SERVICE (store));
 
 	extension_name = E_SOURCE_EXTENSION_MAIL_COMPOSITION;
 	list = e_source_registry_list_sources (registry, extension_name);
@@ -178,6 +183,9 @@ em_utils_folder_is_templates (ESourceRegistry *registry,
 
 	g_list_free_full (list, (GDestroyNotify) g_object_unref);
 	g_free (folder_uri);
+
+exit:
+	g_object_unref (session);
 
 	return is_templates;
 }
@@ -206,19 +214,20 @@ em_utils_folder_is_sent (ESourceRegistry *registry,
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), FALSE);
 
 	store = camel_folder_get_parent_store (folder);
-	session = camel_service_get_session (CAMEL_SERVICE (store));
+	session = camel_service_ref_session (CAMEL_SERVICE (store));
 
 	local_sent_folder =
 		e_mail_session_get_local_folder (
 		E_MAIL_SESSION (session), E_MAIL_LOCAL_FOLDER_SENT);
 
-	if (folder == local_sent_folder)
-		return TRUE;
+	if (folder == local_sent_folder) {
+		is_sent = TRUE;
+		goto exit;
+	}
 
 	folder_uri = e_mail_folder_uri_from_folder (folder);
 
 	store = camel_folder_get_parent_store (folder);
-	session = camel_service_get_session (CAMEL_SERVICE (store));
 
 	extension_name = E_SOURCE_EXTENSION_MAIL_SUBMISSION;
 	list = e_source_registry_list_sources (registry, extension_name);
@@ -245,6 +254,9 @@ em_utils_folder_is_sent (ESourceRegistry *registry,
 	g_list_free_full (list, (GDestroyNotify) g_object_unref);
 	g_free (folder_uri);
 
+exit:
+	g_object_unref (session);
+
 	return is_sent;
 }
 
@@ -264,17 +276,22 @@ em_utils_folder_is_outbox (ESourceRegistry *registry,
 	CamelStore *store;
 	CamelSession *session;
 	CamelFolder *local_outbox_folder;
+	gboolean is_outbox;
 
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), FALSE);
 
 	store = camel_folder_get_parent_store (folder);
-	session = camel_service_get_session (CAMEL_SERVICE (store));
+	session = camel_service_ref_session (CAMEL_SERVICE (store));
 
 	local_outbox_folder =
 		e_mail_session_get_local_folder (
 		E_MAIL_SESSION (session), E_MAIL_LOCAL_FOLDER_OUTBOX);
 
-	return (folder == local_outbox_folder);
+	is_outbox = (folder == local_outbox_folder);
+
+	g_object_unref (session);
+
+	return is_outbox;
 }
 
 /* ********************************************************************** */

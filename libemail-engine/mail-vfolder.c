@@ -202,7 +202,7 @@ static MailMsgInfo vfolder_setup_info = {
 
 /* sources_uri should be camel uri's */
 static gint
-vfolder_setup (EMailSession *session,
+vfolder_setup (CamelSession *session,
                CamelFolder *folder,
                const gchar *query,
                GList *sources_uri)
@@ -442,7 +442,6 @@ mail_vfolder_add_folder (CamelStore *store,
 	g_return_if_fail (folder_name != NULL);
 
 	service = CAMEL_SERVICE (store);
-	session = camel_service_get_session (service);
 	provider = camel_service_get_provider (service);
 
 	remote = (provider->flags & CAMEL_PROVIDER_IS_REMOTE) != 0;
@@ -452,6 +451,7 @@ mail_vfolder_add_folder (CamelStore *store,
 
 	g_return_if_fail (mail_in_main_thread ());
 
+	session = camel_service_ref_session (service);
 	uri = e_mail_folder_uri_build (store, folder_name);
 
 	G_LOCK (vfolder);
@@ -517,6 +517,7 @@ done:
 		g_free (exuri);
 	}
 
+	g_object_unref (session);
 	g_free (uri);
 }
 
@@ -562,8 +563,8 @@ mail_vfolder_delete_folder (CamelStore *store,
 	g_return_if_fail (mail_in_main_thread ());
 
 	service = CAMEL_SERVICE (store);
-	session = camel_service_get_session (service);
 
+	session = camel_service_ref_session (service);
 	uri = e_mail_folder_uri_build (store, folder_name);
 
 	changed_count = 0;
@@ -659,6 +660,7 @@ done:
 
 	g_string_free (changed, TRUE);
 
+	g_object_unref (session);
 	g_free (uri);
 }
 
@@ -692,7 +694,7 @@ mail_vfolder_rename_folder (CamelStore *store,
 	g_return_if_fail (mail_in_main_thread ());
 
 	service = CAMEL_SERVICE (store);
-	session = camel_service_get_session (service);
+	session = camel_service_ref_session (service);
 
 	old_uri = e_mail_folder_uri_build (store, old_folder_name);
 	new_uri = e_mail_folder_uri_build (store, new_folder_name);
@@ -750,6 +752,8 @@ mail_vfolder_rename_folder (CamelStore *store,
 
 	g_free (old_uri);
 	g_free (new_uri);
+
+	g_object_unref (session);
 }
 
 /* ********************************************************************** */
@@ -786,31 +790,25 @@ rule_add_sources (EMailSession *session,
 	*sources_urip = sources_uri;
 }
 
-static EMailSession *
-get_session (CamelFolder *folder)
-{
-	CamelStore *store;
-
-	store = camel_folder_get_parent_store (folder);
-
-	return (EMailSession *) camel_service_get_session (CAMEL_SERVICE (store));
-}
-
 static void
 rule_changed (EFilterRule *rule,
               CamelFolder *folder)
 {
-	EMailSession *session;
+	CamelStore *store;
 	CamelService *service;
+	CamelSession *session;
+	MailFolderCache *cache;
 	GList *sources_uri = NULL;
 	GString *query;
 	const gchar *full_name;
 
 	full_name = camel_folder_get_full_name (folder);
-	session = get_session (folder);
+	store = camel_folder_get_parent_store (folder);
+	session = camel_service_ref_session (CAMEL_SERVICE (store));
+	cache = e_mail_session_get_folder_cache (E_MAIL_SESSION (session));
 
 	service = camel_session_ref_service (
-		CAMEL_SESSION (session), E_MAIL_SESSION_VFOLDER_UID);
+		session, E_MAIL_SESSION_VFOLDER_UID);
 	g_return_if_fail (service != NULL);
 
 	/* If the folder has changed name, then
@@ -856,7 +854,8 @@ rule_changed (EFilterRule *rule,
 	if (em_vfolder_rule_get_with ((EMVFolderRule *) rule) == EM_VFOLDER_RULE_WITH_SPECIFIC) {
 		/* find any (currently available) folders, and add them to the ones to open */
 		rule_add_sources (
-			session, em_vfolder_rule_get_sources ((EMVFolderRule *) rule),
+			E_MAIL_SESSION (session),
+			em_vfolder_rule_get_sources ((EMVFolderRule *) rule),
 			&sources_uri, (EMVFolderRule *) rule);
 	}
 
@@ -865,13 +864,13 @@ rule_changed (EFilterRule *rule,
 	if (em_vfolder_rule_get_with ((EMVFolderRule *) rule) == EM_VFOLDER_RULE_WITH_LOCAL ||
 	    em_vfolder_rule_get_with ((EMVFolderRule *) rule) == EM_VFOLDER_RULE_WITH_LOCAL_REMOTE_ACTIVE) {
 
-		MailFolderCache *cache;
 		GQueue queue = G_QUEUE_INIT;
 
-		cache = e_mail_session_get_folder_cache (session);
 		mail_folder_cache_get_local_folder_uris (cache, &queue);
 
-		rule_add_sources (session, &queue, &sources_uri, NULL);
+		rule_add_sources (
+			E_MAIL_SESSION (session),
+			&queue, &sources_uri, NULL);
 
 		while (!g_queue_is_empty (&queue))
 			g_free (g_queue_pop_head (&queue));
@@ -880,13 +879,13 @@ rule_changed (EFilterRule *rule,
 	if (em_vfolder_rule_get_with ((EMVFolderRule *) rule) == EM_VFOLDER_RULE_WITH_REMOTE_ACTIVE ||
 	    em_vfolder_rule_get_with ((EMVFolderRule *) rule) == EM_VFOLDER_RULE_WITH_LOCAL_REMOTE_ACTIVE) {
 
-		MailFolderCache *cache;
 		GQueue queue = G_QUEUE_INIT;
 
-		cache = e_mail_session_get_folder_cache (session);
 		mail_folder_cache_get_remote_folder_uris (cache, &queue);
 
-		rule_add_sources (session, &queue, &sources_uri, NULL);
+		rule_add_sources (
+			E_MAIL_SESSION (session),
+			&queue, &sources_uri, NULL);
 
 		while (!g_queue_is_empty (&queue))
 			g_free (g_queue_pop_head (&queue));
@@ -900,6 +899,8 @@ rule_changed (EFilterRule *rule,
 	vfolder_setup (session, folder, query->str, sources_uri);
 
 	g_string_free (query, TRUE);
+
+	g_object_unref (session);
 }
 
 static void
@@ -987,8 +988,10 @@ store_folder_deleted_cb (CamelStore *store,
 	/* delete it from our list */
 	rule = e_rule_context_find_rule ((ERuleContext *) context, info->full_name, NULL);
 	if (rule) {
+		CamelSession *session;
 		const gchar *config_dir;
-		EMailSession *session = E_MAIL_SESSION (camel_service_get_session (CAMEL_SERVICE (store)));
+
+		session = camel_service_ref_session (CAMEL_SERVICE (store));
 
 		/* We need to stop listening to removed events,
 		 * otherwise we'll try and remove it again. */
@@ -997,6 +1000,10 @@ store_folder_deleted_cb (CamelStore *store,
 			0, 0, NULL, context_rule_removed, NULL);
 		e_rule_context_remove_rule ((ERuleContext *) context, rule);
 		g_object_unref (rule);
+
+		/* FIXME This is dangerous.  Either the signal closure
+		 *       needs to be referenced somehow, or ERuleContext
+		 *       needs to keep its own CamelSession reference. */
 		g_signal_connect (
 			context, "rule_removed",
 			G_CALLBACK (context_rule_removed), session);
@@ -1005,6 +1012,8 @@ store_folder_deleted_cb (CamelStore *store,
 		user = g_build_filename (config_dir, "vfolders.xml", NULL);
 		e_rule_context_save ((ERuleContext *) context, user);
 		g_free (user);
+
+		g_object_unref (session);
 	} else {
 		g_warning (
 			"Cannot find rule for deleted vfolder '%s'",

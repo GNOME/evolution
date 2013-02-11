@@ -278,12 +278,12 @@ sasl_xoauth_challenge_sync (CamelSasl *sasl,
 	gboolean success;
 
 	service = camel_sasl_get_service (sasl);
-	session = camel_service_get_session (service);
+	session = camel_service_ref_session (service);
 	registry = e_mail_session_get_registry (E_MAIL_SESSION (session));
 
 	goa_client = goa_client_new_sync (cancellable, error);
 	if (goa_client == NULL)
-		return NULL;
+		goto exit;
 
 	uid = camel_service_get_uid (service);
 	account_id = sasl_xoauth_find_account_id (registry, uid);
@@ -299,7 +299,7 @@ sasl_xoauth_challenge_sync (CamelSasl *sasl,
 			"the org.gnome.OnlineAccounts service from "
 			"which to obtain an authentication token."));
 		g_object_unref (goa_client);
-		return NULL;
+		goto exit;
 	}
 
 	goa_account = goa_object_get_account (goa_object);
@@ -363,6 +363,9 @@ sasl_xoauth_challenge_sync (CamelSasl *sasl,
 	g_object_unref (goa_client);
 
 	/* IMAP and SMTP services will Base64-encode the request. */
+
+exit:
+	g_object_unref (session);
 
 	return byte_array;
 }

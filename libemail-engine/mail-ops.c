@@ -257,7 +257,7 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 	gint i;
 
 	service = CAMEL_SERVICE (m->store);
-	session = camel_service_get_session (service);
+	session = camel_service_ref_session (service);
 
 	fm->destination = e_mail_session_get_local_folder (
 		E_MAIL_SESSION (session), E_MAIL_LOCAL_FOLDER_LOCAL_INBOX);
@@ -436,6 +436,8 @@ exit:
 	if (!is_local_delivery)
 		camel_service_disconnect_sync (
 			service, TRUE, cancellable, NULL);
+
+	g_object_unref (session);
 }
 
 static void
@@ -489,7 +491,7 @@ mail_fetch_mail (CamelStore *store,
 
 	g_return_if_fail (CAMEL_IS_STORE (store));
 
-	session = camel_service_get_session (CAMEL_SERVICE (store));
+	session = camel_service_ref_session (CAMEL_SERVICE (store));
 
 	m = mail_msg_new (&fetch_mail_info);
 	fm = (struct _filter_mail_msg *) m;
@@ -515,6 +517,8 @@ mail_fetch_mail (CamelStore *store,
 		camel_filter_driver_set_status_func (fm->driver, status, status_data);
 
 	mail_msg_unordered_push (m);
+
+	g_object_unref (session);
 }
 
 /* ********************************************************************** */
