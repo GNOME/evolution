@@ -1251,6 +1251,29 @@ ECharsetComboBoxPrivate
 </SECTION>
 
 <SECTION>
+<FILE>e-client-cache</FILE>
+<TITLE>EClientCache</TITLE>
+EClientCache
+e_client_cache_new
+e_client_cache_ref_registry
+e_client_cache_get_client_sync
+e_client_cache_get_client
+e_client_cache_get_client_finish
+e_client_cache_ref_cached_client
+<SUBSECTION Standard>
+E_CLIENT_CACHE
+E_IS_CLIENT_CACHE
+E_TYPE_CLIENT_CACHE
+E_CLIENT_CACHE_CLASS
+E_IS_CLIENT_CACHE_CLASS
+E_CLIENT_CACHE_GET_CLASS
+EClientCacheClass
+e_client_cache_get_type
+<SUBSECTION Private>
+EClientCachePrivate
+</SECTION>
+
+<SECTION>
 <FILE>e-config</FILE>
 <TITLE>EConfig</TITLE>
 EConfig

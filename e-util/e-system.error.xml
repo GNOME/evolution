@@ -45,4 +45,44 @@
     <_secondary>The reported error was &quot;{1}&quot;.</_secondary>
   </error>
 
+ <error id="address-book-backend-died" type="error">
+  <_primary>The address book backend servicing &quot;{0}&quot; has quit unexpectedly.</_primary>
+  <_secondary>Some of your contacts may not be available until Evolution is restarted.</_secondary>
+ </error>
+
+ <error id="calendar-backend-died" type="error">
+  <_primary>The calendar backend servicing &quot;{0}&quot; has quit unexpectedly.</_primary>
+  <_secondary>Some of your appointments may not be available until Evolution is restarted.</_secondary>
+ </error>
+
+ <error id="memo-list-backend-died" type="error">
+  <_primary>The memo list backend servicing &quot;{0}&quot; has quit unexpectedly.</_primary>
+  <_secondary>Some of your memos may not be available until Evolution is restarted.</_secondary>
+ </error>
+
+ <error id="task-list-backend-died" type="error">
+  <_primary>The task list backend servicing &quot;{0}&quot; has quit unexpectedly.</_primary>
+  <_secondary>Some of your tasks may not be available until Evolution is restarted.</_secondary>
+ </error>
+
+ <error id="address-book-backend-error" type="warning">
+  <_primary>The address book backend servicing &quot;{0}&quot; encountered an error.</_primary>
+  <_secondary>The reported error was &quot;{1}&quot;.</_secondary>
+ </error>
+
+ <error id="calendar-backend-error" type="warning">
+  <_primary>The calendar backend servicing &quot;{0}&quot; encountered an error.</_primary>
+  <_secondary>The reported error was &quot;{1}&quot;.</_secondary>
+ </error>
+
+ <error id="memo-list-backend-error" type="warning">
+  <_primary>The memo list backend servicing &quot;{0}&quot; encountered an error.</_primary>
+  <_secondary>The reported error was &quot;{1}&quot;.</_secondary>
+ </error>
+
+ <error id="task-list-backend-error" type="warning">
+  <_primary>The task list backend servicing &quot;{0}&quot; encountered an error.</_primary>
+  <_secondary>The reported error was &quot;{1}&quot;.</_secondary>
+ </error>
+
 </error-list>
