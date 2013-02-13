@@ -116,6 +116,7 @@ EShellBackend *	e_shell_get_backend_by_name	(EShell *shell,
 						 const gchar *name);
 EShellBackend *	e_shell_get_backend_by_scheme	(EShell *shell,
 						 const gchar *scheme);
+EClientCache *	e_shell_get_client_cache	(EShell *shell);
 EShellSettings *e_shell_get_shell_settings	(EShell *shell);
 ESourceRegistry *
 		e_shell_get_registry		(EShell *shell);

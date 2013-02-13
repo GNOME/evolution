@@ -49,6 +49,7 @@ struct _EShellPrivate {
 	GQueue alerts;
 	EShellSettings *settings;
 	ESourceRegistry *registry;
+	EClientCache *client_cache;
 	GtkWidget *preferences_window;
 
 	/* Shell Backends */
@@ -66,6 +67,8 @@ struct _EShellPrivate {
 
 	guint inhibit_cookie;
 
+	gulong backend_died_handler_id;
+
 	guint auto_reconnect		: 1;
 	guint express_mode		: 1;
 	guint meego_mode		: 1;
@@ -80,6 +83,7 @@ struct _EShellPrivate {
 
 enum {
 	PROP_0,
+	PROP_CLIENT_CACHE,
 	PROP_EXPRESS_MODE,
 	PROP_MEEGO_MODE,
 	PROP_SMALL_SCREEN_MODE,
@@ -518,6 +522,17 @@ shell_process_backend (EShellBackend *shell_backend,
 }
 
 static void
+shell_backend_died_cb (EClientCache *client_cache,
+                       EClient *client,
+                       EAlert *alert,
+                       EShell *shell)
+{
+	/* Backend crashes are quite serious.
+	 * Post the alert to all shell views. */
+	e_shell_submit_alert (shell, alert);
+}
+
+static void
 shell_sm_quit_cb (EShell *shell,
                   gpointer user_data)
 {
@@ -623,6 +638,12 @@ shell_get_property (GObject *object,
                     GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_CLIENT_CACHE:
+			g_value_set_object (
+				value, e_shell_get_client_cache (
+				E_SHELL (object)));
+			return;
+
 		case PROP_EXPRESS_MODE:
 			g_value_set_boolean (
 				value, e_shell_get_express_mode (
@@ -695,6 +716,13 @@ shell_dispose (GObject *object)
 		g_object_unref (alert);
 	}
 
+	if (priv->backend_died_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->client_cache,
+			priv->backend_died_handler_id);
+		priv->backend_died_handler_id = 0;
+	}
+
 	if (priv->startup_view != NULL) {
 		g_free (priv->startup_view);
 		priv->startup_view = NULL;
@@ -708,6 +736,11 @@ shell_dispose (GObject *object)
 	if (priv->registry != NULL) {
 		g_object_unref (priv->registry);
 		priv->registry = NULL;
+	}
+
+	if (priv->client_cache != NULL) {
+		g_object_unref (priv->client_cache);
+		priv->client_cache = NULL;
 	}
 
 	if (priv->preferences_window != NULL) {
@@ -839,18 +872,28 @@ shell_initable_init (GInitable *initable,
                      GError **error)
 {
 	GApplication *application = G_APPLICATION (initable);
-	EShellPrivate *priv;
-
-	priv = E_SHELL_GET_PRIVATE (initable);
+	EShell *shell = E_SHELL (initable);
+	ESourceRegistry *registry;
+	gulong handler_id;
 
 	shell_add_actions (application);
 
-	priv->registry = e_source_registry_new_sync (cancellable, error);
-	if (priv->registry == NULL)
-		return FALSE;
-
 	if (!g_application_register (application, cancellable, error))
 		return FALSE;
+
+	registry = e_source_registry_new_sync (cancellable, error);
+	if (registry == NULL)
+		return FALSE;
+
+	shell->priv->registry = g_object_ref (registry);
+	shell->priv->client_cache = e_client_cache_new (registry);
+
+	handler_id = g_signal_connect (
+		shell->priv->client_cache, "backend-died",
+		G_CALLBACK (shell_backend_died_cb), shell);
+	shell->priv->backend_died_handler_id = handler_id;
+
+	g_object_unref (registry);
 
 	return TRUE;
 }
@@ -877,6 +920,21 @@ e_shell_class_init (EShellClass *class)
 
 	gtk_application_class = GTK_APPLICATION_CLASS (class);
 	gtk_application_class->window_added = shell_window_added;
+
+	/**
+	 * EShell:client-cache:
+	 *
+	 * Shared #EClient instances.
+	 **/
+	g_object_class_install_property (
+		object_class,
+		PROP_CLIENT_CACHE,
+		g_param_spec_object (
+			"client-cache",
+			"Client Cache",
+			"Shared EClient instances",
+			E_TYPE_CLIENT_CACHE,
+			G_PARAM_READABLE));
 
 	/**
 	 * EShell:express-mode
@@ -1369,6 +1427,22 @@ e_shell_get_backend_by_scheme (EShell *shell,
 	hash_table = shell->priv->backends_by_scheme;
 
 	return g_hash_table_lookup (hash_table, scheme);
+}
+
+/**
+ * e_shell_get_client_cache:
+ * @shell: an #EShell
+ *
+ * Returns the #EClientCache instance for @shell.
+ *
+ * Returns: the #EClientCache instance for @shell
+ **/
+EClientCache *
+e_shell_get_client_cache (EShell *shell)
+{
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
+
+	return shell->priv->client_cache;
 }
 
 /**

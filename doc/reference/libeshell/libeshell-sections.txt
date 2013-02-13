@@ -8,6 +8,7 @@ e_shell_get_shell_backends
 e_shell_get_canonical_name
 e_shell_get_backend_by_name
 e_shell_get_backend_by_scheme
+e_shell_get_client_cache
 e_shell_get_shell_settings
 e_shell_get_registry
 e_shell_create_shell_window
