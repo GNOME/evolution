@@ -173,26 +173,6 @@
     <button _label="_Send" response="GTK_RESPONSE_YES"/>
   </error>
 
-  <error id="tasks-crashed" type="error">
-    <_primary>The Evolution tasks have quit unexpectedly.</_primary>
-    <_secondary>Your tasks will not be available until Evolution is restarted.</_secondary>
-  </error>
-
-  <error id="calendar-crashed" type="error">
-    <_primary>The Evolution calendar has quit unexpectedly.</_primary>
-    <_secondary>Your calendars will not be available until Evolution is restarted.</_secondary>
-  </error>
-
-  <error id="memos-crashed" type="error">
-    <_primary>The Evolution memo has quit unexpectedly.</_primary>
-    <_secondary>Your memos will not be available until Evolution is restarted.</_secondary>
-  </error>
-
-  <error id="backend_died" type="error">
-   <_primary>The Evolution calendars have quit unexpectedly.</_primary>
-   <_secondary>Your calendars will not be available until Evolution is restarted.</_secondary>
-  </error>
-
   <error id="editor-error" type="error">
     <_primary>Editor could not be loaded.</_primary>
     <secondary>{0}.</secondary>

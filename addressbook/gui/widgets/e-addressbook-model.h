@@ -76,7 +76,6 @@ struct _EAddressbookModelClass {
 						 gint index);
 	void		(*model_changed)	(EAddressbookModel *model);
 	void		(*stop_state_changed)	(EAddressbookModel *model);
-	void		(*backend_died)		(EAddressbookModel *model);
 };
 
 GType		e_addressbook_model_get_type	(void);

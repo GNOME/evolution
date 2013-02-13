@@ -3009,7 +3009,7 @@ add_new_client (ECalModel *model,
 	priv->clients = g_list_append (priv->clients, client_data);
 
 	g_signal_connect (
-		client_data->client, "backend_died",
+		client_data->client, "backend-died",
 		G_CALLBACK (backend_died_cb), model);
 
  load:

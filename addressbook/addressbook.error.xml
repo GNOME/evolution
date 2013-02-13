@@ -92,12 +92,6 @@
     <_secondary>Error saving {0} to {1}: {2}</_secondary>
   </error>
 
-  <error id="backend-died" type="error">
-    <_primary>The Evolution address book has quit unexpectedly.</_primary>
-    <!-- Translators: {0} is replaced with an address book name which will not be available -->
-    <_secondary>Your contacts for {0} will not be available until Evolution is restarted.</_secondary>
-  </error>
-
   <error id="ask-list-add-exists" type="question" default="GTK_RESPONSE_NO">
     <_primary>Address '{0}' already exists.</_primary>
     <_secondary>A contact already exists with this address. Would you like to add a new card with the same address anyway?</_secondary>

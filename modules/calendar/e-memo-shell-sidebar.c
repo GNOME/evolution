@@ -159,32 +159,19 @@ static void
 memo_shell_sidebar_backend_died_cb (EMemoShellSidebar *memo_shell_sidebar,
                                     ECalClient *client)
 {
-	EShellView *shell_view;
-	EShellContent *shell_content;
-	EShellSidebar *shell_sidebar;
 	GHashTable *client_table;
 	ESource *source;
-	const gchar *uid;
+	gchar *uid;
 
 	client_table = memo_shell_sidebar->priv->client_table;
 
-	shell_sidebar = E_SHELL_SIDEBAR (memo_shell_sidebar);
-	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
-	shell_content = e_shell_view_get_shell_content (shell_view);
-
 	source = e_client_get_source (E_CLIENT (client));
-	uid = e_source_get_uid (source);
-
-	g_object_ref (source);
+	uid = e_source_dup_uid (source);
 
 	g_hash_table_remove (client_table, uid);
 	memo_shell_sidebar_emit_status_message (memo_shell_sidebar, NULL);
 
-	e_alert_submit (
-		E_ALERT_SINK (shell_content),
-		"calendar:memos-crashed", NULL);
-
-	g_object_unref (source);
+	g_free (uid);
 }
 
 static void

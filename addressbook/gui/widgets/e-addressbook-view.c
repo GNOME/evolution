@@ -62,7 +62,6 @@ static void	folder_bar_message		(EAddressbookView *view,
 						 const gchar *status);
 static void	stop_state_changed		(GObject *object,
 						 EAddressbookView *view);
-static void	backend_died			(EAddressbookView *view);
 static void	command_state_change		(EAddressbookView *view);
 
 struct _EAddressbookViewPrivate {
@@ -913,9 +912,6 @@ e_addressbook_view_new (EShellView *shell_view,
 	g_signal_connect_swapped (
 		view->priv->model, "writable-status",
 		G_CALLBACK (command_state_change), view);
-	g_signal_connect_swapped (
-		view->priv->model, "backend_died",
-		G_CALLBACK (backend_died), view);
 
 	return widget;
 }
@@ -1110,28 +1106,6 @@ static void
 command_state_change (EAddressbookView *view)
 {
 	g_signal_emit (view, signals[COMMAND_STATE_CHANGE], 0);
-}
-
-static void
-backend_died (EAddressbookView *view)
-{
-	EShellView *shell_view;
-	EAlertSink *alert_sink;
-	EAddressbookModel *model;
-	EBookClient *book_client;
-	ESource *source;
-
-	shell_view = e_addressbook_view_get_shell_view (view);
-	alert_sink = E_ALERT_SINK (e_shell_view_get_shell_content (shell_view));
-
-	model = e_addressbook_view_get_model (view);
-	book_client = e_addressbook_model_get_client (model);
-	source = e_client_get_source (E_CLIENT (book_client));
-
-	e_alert_submit (
-		alert_sink,
-		"addressbook:backend-died",
-		e_source_get_display_name (source), NULL);
 }
 
 static void

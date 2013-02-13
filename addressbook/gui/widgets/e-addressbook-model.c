@@ -52,7 +52,6 @@ struct _EAddressbookModelPrivate {
 	gulong status_message_id;
 	gulong writable_status_id;
 	gulong view_complete_id;
-	gulong backend_died_id;
 	guint remove_status_id;
 
 	guint search_in_progress	: 1;
@@ -79,7 +78,6 @@ enum {
 	CONTACT_CHANGED,
 	MODEL_CHANGED,
 	STOP_STATE_CHANGED,
-	BACKEND_DIED,
 	LAST_SIGNAL
 };
 
@@ -348,13 +346,6 @@ readonly_cb (EBookClient *book_client,
 }
 
 static void
-backend_died_cb (EBookClient *book_client,
-                 EAddressbookModel *model)
-{
-	g_signal_emit (model, signals[BACKEND_DIED], 0);
-}
-
-static void
 client_view_ready_cb (GObject *source_object,
                       GAsyncResult *result,
                       gpointer user_data)
@@ -558,12 +549,6 @@ addressbook_model_dispose (GObject *object)
 				model->priv->writable_status_id);
 		model->priv->writable_status_id = 0;
 
-		if (model->priv->backend_died_id)
-			g_signal_handler_disconnect (
-				model->priv->book_client,
-				model->priv->backend_died_id);
-		model->priv->backend_died_id = 0;
-
 		g_object_unref (model->priv->book_client);
 		model->priv->book_client = NULL;
 	}
@@ -747,15 +732,6 @@ e_addressbook_model_class_init (EAddressbookModelClass *class)
 		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
-
-	signals[BACKEND_DIED] = g_signal_new (
-		"backend_died",
-		G_OBJECT_CLASS_TYPE (object_class),
-		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (EAddressbookModelClass, backend_died),
-		NULL, NULL,
-		g_cclosure_marshal_VOID__VOID,
-		G_TYPE_NONE, 0);
 }
 
 static void
@@ -907,12 +883,6 @@ e_addressbook_model_set_client (EAddressbookModel *model,
 				model->priv->writable_status_id);
 		model->priv->writable_status_id = 0;
 
-		if (model->priv->backend_died_id != 0)
-			g_signal_handler_disconnect (
-				model->priv->book_client,
-				model->priv->backend_died_id);
-		model->priv->backend_died_id = 0;
-
 		g_object_unref (model->priv->book_client);
 	}
 
@@ -922,10 +892,6 @@ e_addressbook_model_set_client (EAddressbookModel *model,
 	model->priv->writable_status_id = g_signal_connect (
 		book_client, "notify::readonly",
 		G_CALLBACK (readonly_cb), model);
-
-	model->priv->backend_died_id = g_signal_connect (
-		book_client, "backend-died",
-		G_CALLBACK (backend_died_cb), model);
 
 	editable = !e_client_is_readonly (E_CLIENT (book_client));
 	e_addressbook_model_set_editable (model, editable);
