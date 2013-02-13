@@ -566,16 +566,16 @@ e_cert_db_init (ECertDB *ec)
 {
 }
 
-GStaticMutex init_mutex = G_STATIC_MUTEX_INIT;
+GMutex init_mutex;
 static ECertDB *cert_db = NULL;
 
 ECertDB *
 e_cert_db_peek (void)
 {
-	g_static_mutex_lock (&init_mutex);
+	g_mutex_lock (&init_mutex);
 	if (!cert_db)
 		cert_db = g_object_new (E_TYPE_CERT_DB, NULL);
-	g_static_mutex_unlock (&init_mutex);
+	g_mutex_unlock (&init_mutex);
 
 	return cert_db;
 }

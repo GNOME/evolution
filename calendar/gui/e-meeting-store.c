@@ -1600,7 +1600,7 @@ freebusy_async (gpointer data)
 	EMeetingAttendee *attendee = fbd->attendee;
 	gchar *default_fb_uri = NULL;
 	gchar *fburi = NULL;
-	static GStaticMutex mutex = G_STATIC_MUTEX_INIT;
+	static GMutex mutex;
 	EMeetingStorePrivate *priv = fbd->store->priv;
 
 	if (fbd->client) {
@@ -1608,7 +1608,7 @@ freebusy_async (gpointer data)
 		/* FIXME This a workaround for getting all the free busy
 		 *       information for the users.  We should be able to
 		 *       get free busy asynchronously. */
-		g_static_mutex_lock (&mutex);
+		g_mutex_lock (&mutex);
 		priv->num_queries++;
 		sigid = g_signal_connect (
 			fbd->client, "free-busy-data",
@@ -1618,7 +1618,7 @@ freebusy_async (gpointer data)
 			fbd->endt, fbd->users, NULL, NULL);
 		g_signal_handler_disconnect (fbd->client, sigid);
 		priv->num_queries--;
-		g_static_mutex_unlock (&mutex);
+		g_mutex_unlock (&mutex);
 
 		g_slist_foreach (fbd->users, (GFunc) g_free, NULL);
 		g_slist_free (fbd->users);

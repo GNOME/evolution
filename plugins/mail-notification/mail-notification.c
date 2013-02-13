@@ -52,7 +52,7 @@
 
 static gboolean enabled = FALSE;
 static GtkWidget *get_cfg_widget (void);
-static GStaticMutex mlock = G_STATIC_MUTEX_INIT;
+static GMutex mlock;
 
 /**
  * each part should "implement" its own "public" functions:
@@ -833,7 +833,7 @@ org_gnome_mail_new_notify (EPlugin *ep,
 		is_part_enabled (CONF_KEY_NOTIFY_ONLY_INBOX)))
 		return;
 
-	g_static_mutex_lock (&mlock);
+	g_mutex_lock (&mlock);
 
 	new_notify_dbus (t);
 
@@ -845,7 +845,7 @@ org_gnome_mail_new_notify (EPlugin *ep,
 	if (is_part_enabled (CONF_KEY_ENABLED_SOUND))
 		new_notify_sound (t);
 
-	g_static_mutex_unlock (&mlock);
+	g_mutex_unlock (&mlock);
 }
 
 void
@@ -857,7 +857,7 @@ org_gnome_mail_read_notify (EPlugin *ep,
 	if (!enabled)
 		return;
 
-	g_static_mutex_lock (&mlock);
+	g_mutex_lock (&mlock);
 
 	read_notify_dbus (t);
 
@@ -869,7 +869,7 @@ org_gnome_mail_read_notify (EPlugin *ep,
 	if (is_part_enabled (CONF_KEY_ENABLED_SOUND))
 		read_notify_sound (t);
 
-	g_static_mutex_unlock (&mlock);
+	g_mutex_unlock (&mlock);
 }
 
 gint

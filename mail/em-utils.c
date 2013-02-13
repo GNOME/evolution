@@ -1193,7 +1193,7 @@ em_utils_selection_get_urilist (GtkSelectionData *selection_data,
 
 /* ********************************************************************** */
 static EProxy *emu_proxy = NULL;
-static GStaticMutex emu_proxy_lock = G_STATIC_MUTEX_INIT;
+static GMutex emu_proxy_lock;
 
 static gpointer
 emu_proxy_setup (gpointer data)
@@ -1210,13 +1210,13 @@ emu_proxy_setup (gpointer data)
 EProxy *
 em_utils_get_proxy (void)
 {
-	g_static_mutex_lock (&emu_proxy_lock);
+	g_mutex_lock (&emu_proxy_lock);
 
 	if (!emu_proxy) {
 		mail_call_main (MAIL_CALL_p_p, (MailMainFunc) emu_proxy_setup, NULL);
 	}
 
-	g_static_mutex_unlock (&emu_proxy_lock);
+	g_mutex_unlock (&emu_proxy_lock);
 
 	return emu_proxy;
 }

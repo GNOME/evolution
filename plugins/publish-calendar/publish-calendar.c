@@ -50,7 +50,7 @@ static GSList *queued_publishes = NULL;
 static gint online = 0;
 
 static GSList *error_queue = NULL;
-static GStaticMutex error_queue_lock = G_STATIC_MUTEX_INIT;
+static GMutex error_queue_lock;
 static guint error_queue_show_idle_id = 0;
 static void  error_queue_add (gchar *descriptions, GError *error);
 
@@ -1035,7 +1035,7 @@ error_queue_show_idle (gpointer user_data)
 	GSList *l;
 	gboolean has_error = FALSE, has_info = FALSE;
 
-	g_static_mutex_lock (&error_queue_lock);
+	g_mutex_lock (&error_queue_lock);
 
 	for (l = error_queue; l; l = l->next) {
 		struct eq_data *data = l->data;
@@ -1078,7 +1078,7 @@ error_queue_show_idle (gpointer user_data)
 	error_queue = NULL;
 	error_queue_show_idle_id = 0;
 
-	g_static_mutex_unlock (&error_queue_lock);
+	g_mutex_unlock (&error_queue_lock);
 
 	if (info) {
 		update_publish_notification (has_error && has_info ? GTK_MESSAGE_WARNING : has_error ? GTK_MESSAGE_ERROR : GTK_MESSAGE_INFO, info->str);
@@ -1102,11 +1102,11 @@ error_queue_add (gchar *description,
 	data->description = description;
 	data->error = error;
 
-	g_static_mutex_lock (&error_queue_lock);
+	g_mutex_lock (&error_queue_lock);
 	error_queue = g_slist_append (error_queue, data);
 	if (error_queue_show_idle_id == 0)
 		error_queue_show_idle_id = g_idle_add (error_queue_show_idle, NULL);
-	g_static_mutex_unlock (&error_queue_lock);
+	g_mutex_unlock (&error_queue_lock);
 }
 
 static void

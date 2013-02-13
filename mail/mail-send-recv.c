@@ -281,7 +281,7 @@ dialog_response (GtkDialog *gd,
 	}
 }
 
-static GStaticMutex status_lock = G_STATIC_MUTEX_INIT;
+static GMutex status_lock;
 static gchar *format_service_name (CamelService *service);
 
 static gint
@@ -292,7 +292,7 @@ operation_status_timeout (gpointer data)
 	if (info->progress_bar) {
 		GtkProgressBar *progress_bar;
 
-		g_static_mutex_lock (&status_lock);
+		g_mutex_lock (&status_lock);
 
 		progress_bar = GTK_PROGRESS_BAR (info->progress_bar);
 
@@ -308,7 +308,7 @@ operation_status_timeout (gpointer data)
 			g_free (tmp);
 		}
 
-		g_static_mutex_unlock (&status_lock);
+		g_mutex_unlock (&status_lock);
 
 		return TRUE;
 	}
@@ -321,13 +321,13 @@ set_send_status (struct _send_info *info,
                  const gchar *desc,
                  gint pc)
 {
-	g_static_mutex_lock (&status_lock);
+	g_mutex_lock (&status_lock);
 
 	g_free (info->what);
 	info->what = g_strdup (desc);
 	info->pc = pc;
 
-	g_static_mutex_unlock (&status_lock);
+	g_mutex_unlock (&status_lock);
 }
 
 static void
@@ -336,7 +336,7 @@ set_transport_service (struct _send_info *info,
 {
 	CamelService *service;
 
-	g_static_mutex_lock (&status_lock);
+	g_mutex_lock (&status_lock);
 
 	service = camel_session_ref_service (info->session, transport_uid);
 
@@ -349,7 +349,7 @@ set_transport_service (struct _send_info *info,
 	if (service != NULL)
 		g_object_unref (service);
 
-	g_static_mutex_unlock (&status_lock);
+	g_mutex_unlock (&status_lock);
 }
 
 /* for camel operation status */
