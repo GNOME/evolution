@@ -417,6 +417,30 @@ book_shell_view_selector_popup_menu_cb (EShellView *shell_view)
 }
 
 static void
+book_shell_view_backend_error_cb (EClientCache *client_cache,
+                                  EClient *client,
+                                  EAlert *alert,
+                                  EBookShellView *book_shell_view)
+{
+	EBookShellContent *book_shell_content;
+	ESource *source;
+	const gchar *extension_name;
+
+	book_shell_content = book_shell_view->priv->book_shell_content;
+
+	source = e_client_get_source (client);
+	extension_name = E_SOURCE_EXTENSION_ADDRESS_BOOK;
+
+	/* Only submit alerts from address book backends. */
+	if (e_source_has_extension (source, extension_name)) {
+		EAlertSink *alert_sink;
+
+		alert_sink = E_ALERT_SINK (book_shell_content);
+		e_alert_sink_submit_alert (alert_sink, alert);
+	}
+}
+
+static void
 book_shell_view_source_removed_cb (ESourceRegistry *registry,
                                    ESource *source,
                                    EBookShellView *book_shell_view)
@@ -549,10 +573,20 @@ e_book_shell_view_private_constructed (EBookShellView *book_shell_view)
 
 	/* Keep our own reference to this so we can
 	 * disconnect our signal handler in dispose(). */
+	priv->client_cache = g_object_ref (e_shell_get_client_cache (shell));
+
+	/* Keep our own reference to this so we can
+	 * disconnect our signal handler in dispose(). */
 	priv->registry = g_object_ref (e_shell_get_registry (shell));
 
 	selector = e_book_shell_sidebar_get_selector (
 		E_BOOK_SHELL_SIDEBAR (shell_sidebar));
+
+	handler_id = g_signal_connect (
+		priv->client_cache, "backend-error",
+		G_CALLBACK (book_shell_view_backend_error_cb),
+		book_shell_view);
+	priv->backend_error_handler_id = handler_id;
 
 	handler_id = g_signal_connect (
 		priv->registry, "source-removed",
@@ -589,6 +623,13 @@ e_book_shell_view_private_dispose (EBookShellView *book_shell_view)
 {
 	EBookShellViewPrivate *priv = book_shell_view->priv;
 
+	if (priv->backend_error_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->client_cache,
+			priv->backend_error_handler_id);
+		priv->backend_error_handler_id = 0;
+	}
+
 	if (priv->source_removed_handler_id > 0) {
 		g_signal_handler_disconnect (
 			priv->registry,
@@ -600,6 +641,7 @@ e_book_shell_view_private_dispose (EBookShellView *book_shell_view)
 	g_clear_object (&priv->book_shell_content);
 	g_clear_object (&priv->book_shell_sidebar);
 
+	g_clear_object (&priv->client_cache);
 	g_clear_object (&priv->registry);
 
 	g_hash_table_remove_all (priv->uid_to_view);

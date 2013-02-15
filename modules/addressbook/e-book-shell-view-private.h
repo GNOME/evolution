@@ -84,6 +84,9 @@ struct _EBookShellViewPrivate {
 	EBookShellContent *book_shell_content;
 	EBookShellSidebar *book_shell_sidebar;
 
+	EClientCache *client_cache;
+	gulong backend_error_handler_id;
+
 	ESourceRegistry *registry;
 	gulong source_removed_handler_id;
 
