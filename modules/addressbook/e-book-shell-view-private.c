@@ -587,9 +587,9 @@ e_book_shell_view_private_dispose (EBookShellView *book_shell_view)
 {
 	EBookShellViewPrivate *priv = book_shell_view->priv;
 
-	DISPOSE (priv->book_shell_backend);
-	DISPOSE (priv->book_shell_content);
-	DISPOSE (priv->book_shell_sidebar);
+	g_clear_object (&priv->book_shell_backend);
+	g_clear_object (&priv->book_shell_content);
+	g_clear_object (&priv->book_shell_sidebar);
 
 	if (priv->registry != NULL) {
 		g_signal_handlers_disconnect_matched (
