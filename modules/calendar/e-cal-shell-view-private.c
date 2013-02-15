@@ -237,7 +237,6 @@ cal_shell_view_date_navigator_scroll_event_cb (ECalShellView *cal_shell_view,
 
 	direction = event->direction;
 
-	#if GTK_CHECK_VERSION(3,3,18)
 	if (direction == GDK_SCROLL_SMOOTH) {
 		static gdouble total_delta_y = 0.0;
 
@@ -253,7 +252,6 @@ cal_shell_view_date_navigator_scroll_event_cb (ECalShellView *cal_shell_view,
 			return FALSE;
 		}
 	}
-	#endif
 
 	switch (direction) {
 		case GDK_SCROLL_UP:

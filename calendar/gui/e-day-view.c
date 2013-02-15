@@ -3396,14 +3396,12 @@ e_day_view_on_main_canvas_scroll (GtkWidget *widget,
 	case GDK_SCROLL_DOWN:
 		e_day_view_scroll (day_view, -E_DAY_VIEW_WHEEL_MOUSE_STEP_SIZE);
 		return TRUE;
-	#if GTK_CHECK_VERSION(3,3,18)
 	case GDK_SCROLL_SMOOTH:
 		if (scroll->delta_y < -0.001 || scroll->delta_y > 0.001) {
 			e_day_view_scroll (day_view, -E_DAY_VIEW_WHEEL_MOUSE_STEP_SIZE * scroll->delta_y);
 			return TRUE;
 		}
 		break;
-	#endif
 	default:
 		break;
 	}
@@ -3423,14 +3421,12 @@ e_day_view_on_top_canvas_scroll (GtkWidget *widget,
 	case GDK_SCROLL_DOWN:
 		e_day_view_top_scroll (day_view, -E_DAY_VIEW_WHEEL_MOUSE_STEP_SIZE);
 		return TRUE;
-	#if GTK_CHECK_VERSION(3,3,18)
 	case GDK_SCROLL_SMOOTH:
 		if (scroll->delta_y < -0.001 || scroll->delta_y > 0.001) {
 			e_day_view_top_scroll (day_view, -E_DAY_VIEW_WHEEL_MOUSE_STEP_SIZE * scroll->delta_y);
 			return TRUE;
 		}
 		break;
-	#endif
 	default:
 		break;
 	}
@@ -3457,14 +3453,12 @@ e_day_view_on_time_canvas_scroll (GtkWidget *widget,
 	case GDK_SCROLL_DOWN:
 		e_day_view_scroll (day_view, -E_DAY_VIEW_WHEEL_MOUSE_STEP_SIZE);
 		return TRUE;
-	#if GTK_CHECK_VERSION(3,3,18)
 	case GDK_SCROLL_SMOOTH:
 		if (scroll->delta_y < -0.001 || scroll->delta_y > 0.001) {
 			e_day_view_scroll (day_view, -E_DAY_VIEW_WHEEL_MOUSE_STEP_SIZE * scroll->delta_y);
 			return TRUE;
 		}
 		break;
-	#endif
 	default:
 		break;
 	}

@@ -851,7 +851,6 @@ web_view_gtkhtml_scroll_event (GtkWidget *widget,
 	if (event->state & GDK_CONTROL_MASK) {
 		GdkScrollDirection direction = event->direction;
 
-		#if GTK_CHECK_VERSION(3,3,18)
 		if (direction == GDK_SCROLL_SMOOTH) {
 			static gdouble total_delta_y = 0.0;
 
@@ -867,7 +866,6 @@ web_view_gtkhtml_scroll_event (GtkWidget *widget,
 				return FALSE;
 			}
 		}
-		#endif
 
 		switch (direction) {
 			case GDK_SCROLL_UP:
