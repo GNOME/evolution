@@ -85,8 +85,6 @@ GType		e_cal_shell_sidebar_get_type	(void);
 void		e_cal_shell_sidebar_type_register
 					(GTypeModule *type_module);
 GtkWidget *	e_cal_shell_sidebar_new	(EShellView *shell_view);
-GList *		e_cal_shell_sidebar_get_clients
-					(ECalShellSidebar *cal_shell_sidebar);
 ECalendar *	e_cal_shell_sidebar_get_date_navigator
 					(ECalShellSidebar *cal_shell_sidebar);
 ECalClient *	e_cal_shell_sidebar_get_default_client

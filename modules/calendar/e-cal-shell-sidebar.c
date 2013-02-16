@@ -878,19 +878,6 @@ e_cal_shell_sidebar_new (EShellView *shell_view)
 		"shell-view", shell_view, NULL);
 }
 
-GList *
-e_cal_shell_sidebar_get_clients (ECalShellSidebar *cal_shell_sidebar)
-{
-	GHashTable *client_table;
-
-	g_return_val_if_fail (
-		E_IS_CAL_SHELL_SIDEBAR (cal_shell_sidebar), NULL);
-
-	client_table = cal_shell_sidebar->priv->client_table;
-
-	return g_hash_table_get_values (client_table);
-}
-
 ECalendar *
 e_cal_shell_sidebar_get_date_navigator (ECalShellSidebar *cal_shell_sidebar)
 {
