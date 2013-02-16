@@ -508,7 +508,8 @@ exit:
 void
 e_task_shell_view_delete_completed (ETaskShellView *task_shell_view)
 {
-	ETaskShellSidebar *task_shell_sidebar;
+	ETaskShellContent *task_shell_content;
+	ECalModel *model;
 	GList *list, *iter;
 	const gchar *sexp;
 
@@ -516,11 +517,13 @@ e_task_shell_view_delete_completed (ETaskShellView *task_shell_view)
 
 	sexp = "(is-completed?)";
 
-	task_shell_sidebar = task_shell_view->priv->task_shell_sidebar;
-	list = e_task_shell_sidebar_get_clients (task_shell_sidebar);
+	task_shell_content = task_shell_view->priv->task_shell_content;
+	model = e_task_shell_content_get_task_model (task_shell_content);
 
 	e_task_shell_view_set_status_message (
 		task_shell_view, _("Expunging"), -1.0);
+
+	list = e_cal_model_get_client_list (model);
 
 	for (iter = list; iter != NULL; iter = iter->next) {
 		ECalClient *client = E_CAL_CLIENT (iter->data);
@@ -561,6 +564,8 @@ e_task_shell_view_delete_completed (ETaskShellView *task_shell_view)
 
 		e_cal_client_free_icalcomp_slist (objects);
 	}
+
+	g_list_free (list);
 
 	e_task_shell_view_set_status_message (task_shell_view, NULL, -1.0);
 }
