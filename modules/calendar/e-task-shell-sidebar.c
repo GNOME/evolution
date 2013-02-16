@@ -155,6 +155,22 @@ task_shell_sidebar_emit_status_message (ETaskShellSidebar *task_shell_sidebar,
 	g_signal_emit (task_shell_sidebar, signal_id, 0, status_message, -1.0);
 }
 
+static EClientCache *
+task_shell_sidebar_ref_client_cache (ETaskShellSidebar *task_shell_sidebar)
+{
+	EShell *shell;
+	EShellView *shell_view;
+	EShellBackend *shell_backend;
+	EShellSidebar *shell_sidebar;
+
+	shell_sidebar = E_SHELL_SIDEBAR (task_shell_sidebar);
+	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	shell = e_shell_backend_get_shell (shell_backend);
+
+	return g_object_ref (e_shell_get_client_cache (shell));
+}
+
 static void
 task_shell_sidebar_backend_died_cb (ETaskShellSidebar *task_shell_sidebar,
                                     ECalClient *client)
@@ -225,15 +241,10 @@ task_shell_sidebar_client_connect_cb (GObject *source_object,
 {
 	EClient *client;
 	ConnectClosure *closure = user_data;
-	ETaskShellContent *task_shell_content;
-	EShellContent *shell_content;
-	EShellSidebar *shell_sidebar;
-	EShellView *shell_view;
-	ECalModel *model;
-	icaltimezone *timezone;
 	GError *error = NULL;
 
-	client = e_cal_client_connect_finish (result, &error);
+	client = e_client_cache_get_client_finish (
+		E_CLIENT_CACHE (source_object), result, &error);
 
 	/* Sanity check. */
 	g_return_if_fail (
@@ -249,18 +260,6 @@ task_shell_sidebar_client_connect_cb (GObject *source_object,
 		g_error_free (error);
 		goto exit;
 	}
-
-	/* FIXME Sidebar should not be accessing the EShellContent.
-	 *       This probably needs to be moved to ETaskShellView. */
-	shell_sidebar = E_SHELL_SIDEBAR (closure->task_shell_sidebar);
-	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
-	shell_content = e_shell_view_get_shell_content (shell_view);
-
-	task_shell_content = E_TASK_SHELL_CONTENT (shell_content);
-	model = e_task_shell_content_get_task_model (task_shell_content);
-	timezone = e_cal_model_get_timezone (model);
-
-	e_cal_client_set_default_timezone (E_CAL_CLIENT (client), timezone);
 
 	e_task_shell_sidebar_add_client (closure->task_shell_sidebar, client);
 
@@ -279,17 +278,12 @@ task_shell_sidebar_default_connect_cb (GObject *source_object,
 	ESource *source;
 	ConnectClosure *closure = user_data;
 	ETaskShellSidebarPrivate *priv;
-	EShellContent *shell_content;
-	EShellSidebar *shell_sidebar;
-	EShellView *shell_view;
-	ETaskShellContent *task_shell_content;
-	ECalModel *model;
-	icaltimezone *timezone;
 	GError *error = NULL;
 
 	priv = E_TASK_SHELL_SIDEBAR_GET_PRIVATE (closure->task_shell_sidebar);
 
-	client = e_cal_client_connect_finish (result, &error);
+	client = e_client_cache_get_client_finish (
+		E_CLIENT_CACHE (source_object), result, &error);
 
 	/* Sanity check. */
 	g_return_if_fail (
@@ -321,19 +315,8 @@ task_shell_sidebar_default_connect_cb (GObject *source_object,
 
 	priv->default_client = g_object_ref (client);
 
-	/* FIXME Sidebar should not be accessing the EShellContent.
-	 *       This probably needs to be moved to ETaskShellView. */
-	shell_sidebar = E_SHELL_SIDEBAR (closure->task_shell_sidebar);
-	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
-	shell_content = e_shell_view_get_shell_content (shell_view);
-
-	task_shell_content = E_TASK_SHELL_CONTENT (shell_content);
-	model = e_task_shell_content_get_task_model (task_shell_content);
-	timezone = e_cal_model_get_timezone (model);
-
-	e_cal_client_set_default_timezone (E_CAL_CLIENT (client), timezone);
-
-	g_object_notify (G_OBJECT (shell_sidebar), "default-client");
+	g_object_notify (
+		G_OBJECT (closure->task_shell_sidebar), "default-client");
 
 	g_object_unref (client);
 
@@ -346,19 +329,13 @@ task_shell_sidebar_set_default (ETaskShellSidebar *task_shell_sidebar,
                                 ESource *source)
 {
 	ETaskShellSidebarPrivate *priv;
-	EShellSidebar *shell_sidebar;
-	ECalClient *client;
-	const gchar *uid;
+	EClientCache *client_cache;
 
 	priv = task_shell_sidebar->priv;
 
 	/* already loading that source as default source */
 	if (source == priv->connecting_default_source_instance)
 		return;
-
-	/* FIXME Sidebar should not be accessing the EShellContent.
-	 *       This probably needs to be moved to ETaskShellView. */
-	shell_sidebar = E_SHELL_SIDEBAR (task_shell_sidebar);
 
 	/* Cancel any unfinished previous request. */
 	if (priv->connecting_default_client != NULL) {
@@ -367,28 +344,21 @@ task_shell_sidebar_set_default (ETaskShellSidebar *task_shell_sidebar,
 		priv->connecting_default_client = NULL;
 	}
 
-	uid = e_source_get_uid (source);
-	client = g_hash_table_lookup (priv->client_table, uid);
-
-	/* If we already have an open connection for
-	 * this UID, we can finish immediately. */
-	if (client != NULL) {
-		if (priv->default_client != NULL)
-			g_object_unref (priv->default_client);
-		priv->default_client = g_object_ref (client);
-		g_object_notify (G_OBJECT (shell_sidebar), "default-client");
-		return;
-	}
-
 	/* it's only for pointer comparison, no need to ref it */
 	priv->connecting_default_source_instance = source;
 	priv->connecting_default_client = g_cancellable_new ();
 
-	e_cal_client_connect (
-		source, E_CAL_CLIENT_SOURCE_TYPE_TASKS,
+	client_cache =
+		task_shell_sidebar_ref_client_cache (task_shell_sidebar);
+
+	e_client_cache_get_client (
+		client_cache, source,
+		E_SOURCE_EXTENSION_TASK_LIST,
 		priv->connecting_default_client,
 		task_shell_sidebar_default_connect_cb,
 		connect_closure_new (task_shell_sidebar, source));
+
+	g_object_unref (client_cache);
 }
 
 static void
@@ -886,8 +856,8 @@ void
 e_task_shell_sidebar_add_source (ETaskShellSidebar *task_shell_sidebar,
                                  ESource *source)
 {
-	ECalClientSourceType source_type;
 	ESourceSelector *selector;
+	EClientCache *client_cache;
 	GHashTable *client_table;
 	EClient *default_client;
 	const gchar *display_name;
@@ -897,7 +867,6 @@ e_task_shell_sidebar_add_source (ETaskShellSidebar *task_shell_sidebar,
 	g_return_if_fail (E_IS_TASK_SHELL_SIDEBAR (task_shell_sidebar));
 	g_return_if_fail (E_IS_SOURCE (source));
 
-	source_type = E_CAL_CLIENT_SOURCE_TYPE_TASKS;
 	client_table = task_shell_sidebar->priv->client_table;
 	default_client = task_shell_sidebar->priv->default_client;
 	selector = e_task_shell_sidebar_get_selector (task_shell_sidebar);
@@ -926,11 +895,17 @@ e_task_shell_sidebar_add_source (ETaskShellSidebar *task_shell_sidebar,
 	task_shell_sidebar_emit_status_message (task_shell_sidebar, message);
 	g_free (message);
 
-	e_cal_client_connect (
-		source, source_type,
+	client_cache =
+		task_shell_sidebar_ref_client_cache (task_shell_sidebar);
+
+	e_client_cache_get_client (
+		client_cache, source,
+		E_SOURCE_EXTENSION_TASK_LIST,
 		task_shell_sidebar->priv->loading_clients,
 		task_shell_sidebar_client_connect_cb,
 		connect_closure_new (task_shell_sidebar, source));
+
+	g_object_unref (client_cache);
 }
 
 void
