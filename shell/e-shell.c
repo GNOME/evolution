@@ -1305,6 +1305,7 @@ e_shell_get_default (void)
 void
 e_shell_load_modules (EShell *shell)
 {
+	EClientCache *client_cache;
 	const gchar *module_directory;
 	GList *list;
 
@@ -1330,6 +1331,11 @@ e_shell_load_modules (EShell *shell)
 		(GCompareFunc) e_shell_backend_compare);
 	g_list_foreach (list, (GFunc) shell_process_backend, shell);
 	shell->priv->loaded_backends = list;
+
+	/* XXX The client cache needs extra help loading its extensions,
+	 *     since it gets instantiated before any modules are loaded. */
+	client_cache = e_shell_get_client_cache (shell);
+	e_extensible_load_extensions (E_EXTENSIBLE (client_cache));
 
 	shell->priv->modules_loaded = TRUE;
 }
