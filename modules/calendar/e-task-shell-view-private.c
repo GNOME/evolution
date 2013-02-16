@@ -167,6 +167,30 @@ task_shell_view_update_timeout_cb (ETaskShellView *task_shell_view)
 }
 
 static void
+task_shell_view_backend_error_cb (EClientCache *client_cache,
+                                  EClient *client,
+                                  EAlert *alert,
+                                  ETaskShellView *task_shell_view)
+{
+	ETaskShellContent *task_shell_content;
+	ESource *source;
+	const gchar *extension_name;
+
+	task_shell_content = task_shell_view->priv->task_shell_content;
+
+	source = e_client_get_source (client);
+	extension_name = E_SOURCE_EXTENSION_TASK_LIST;
+
+	/* Only submit alerts from task list backends. */
+	if (e_source_has_extension (source, extension_name)) {
+		EAlertSink *alert_sink;
+
+		alert_sink = E_ALERT_SINK (task_shell_content);
+		e_alert_sink_submit_alert (alert_sink, alert);
+	}
+}
+
+static void
 task_shell_view_load_view_collection (EShellViewClass *shell_view_class)
 {
 	GalViewCollection *collection;
@@ -235,16 +259,17 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 	ETaskShellViewPrivate *priv = task_shell_view->priv;
 	ETaskShellContent *task_shell_content;
 	ETaskShellSidebar *task_shell_sidebar;
-	EShell *shell;
-	EShellView *shell_view;
+	EShellSettings *shell_settings;
 	EShellBackend *shell_backend;
 	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
-	EShellSettings *shell_settings;
 	EShellWindow *shell_window;
+	EShellView *shell_view;
+	EShell *shell;
 	ETaskTable *task_table;
 	ECalModel *model;
 	ESourceSelector *selector;
+	gulong handler_id;
 
 	shell_view = E_SHELL_VIEW (task_shell_view);
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
@@ -269,6 +294,16 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 
 	task_shell_sidebar = E_TASK_SHELL_SIDEBAR (shell_sidebar);
 	selector = e_task_shell_sidebar_get_selector (task_shell_sidebar);
+
+	/* Keep our own reference to this so we can
+	 * disconnect our signal handler in dispose(). */
+	priv->client_cache = g_object_ref (e_shell_get_client_cache (shell));
+
+	handler_id = g_signal_connect (
+		priv->client_cache, "backend-error",
+		G_CALLBACK (task_shell_view_backend_error_cb),
+		task_shell_view);
+	priv->backend_error_handler_id = handler_id;
 
 	g_signal_connect_object (
 		model, "notify::timezone",
@@ -395,9 +430,18 @@ e_task_shell_view_private_dispose (ETaskShellView *task_shell_view)
 {
 	ETaskShellViewPrivate *priv = task_shell_view->priv;
 
+	if (priv->backend_error_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->client_cache,
+			priv->backend_error_handler_id);
+		priv->backend_error_handler_id = 0;
+	}
+
 	g_clear_object (&priv->task_shell_backend);
 	g_clear_object (&priv->task_shell_content);
 	g_clear_object (&priv->task_shell_sidebar);
+
+	g_clear_object (&priv->client_cache);
 
 	if (task_shell_view->priv->activity != NULL) {
 		/* XXX Activity is not cancellable. */

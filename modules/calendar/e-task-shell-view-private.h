@@ -86,6 +86,9 @@ struct _ETaskShellViewPrivate {
 	ETaskShellContent *task_shell_content;
 	ETaskShellSidebar *task_shell_sidebar;
 
+	EClientCache *client_cache;
+	gulong backend_error_handler_id;
+
 	EActivity *activity;
 	guint update_timeout;
 	guint update_completed_timeout;
