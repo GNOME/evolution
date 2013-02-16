@@ -601,7 +601,7 @@ task_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 	if (source != NULL) {
 		EClient *client;
 		ESource *collection;
-		const gchar *uid;
+		EClientCache *client_cache;
 
 		has_primary_source = TRUE;
 		is_writable = e_source_get_writable (source);
@@ -616,12 +616,17 @@ task_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 			g_object_unref (collection);
 		}
 
-		uid = e_source_get_uid (source);
-		client = g_hash_table_lookup (
-			task_shell_sidebar->priv->client_table, uid);
-		refresh_supported =
-			client != NULL &&
-			e_client_check_refresh_supported (client);
+		client_cache = task_shell_sidebar_ref_client_cache (
+			E_TASK_SHELL_SIDEBAR (shell_sidebar));
+		client = e_client_cache_ref_cached_client (
+			client_cache, source, E_SOURCE_EXTENSION_TASK_LIST);
+		g_object_unref (client_cache);
+
+		if (client != NULL) {
+			refresh_supported =
+				e_client_check_refresh_supported (client);
+			g_object_unref (client);
+		}
 
 		g_object_unref (source);
 	}
