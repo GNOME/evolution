@@ -123,8 +123,6 @@ void		e_task_shell_view_update_sidebar
 					(ETaskShellView *task_shell_view);
 void		e_task_shell_view_update_search_filter
 					(ETaskShellView *task_shell_view);
-void		e_task_shell_view_update_timezone
-					(ETaskShellView *task_shell_view);
 
 G_END_DECLS
 

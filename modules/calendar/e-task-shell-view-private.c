@@ -111,7 +111,6 @@ task_shell_view_selector_client_added_cb (ETaskShellView *task_shell_view,
 	model = e_task_table_get_model (task_table);
 
 	e_cal_model_add_client (model, client);
-	e_task_shell_view_update_timezone (task_shell_view);
 }
 
 static void
@@ -306,11 +305,6 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 	priv->backend_error_handler_id = handler_id;
 
 	g_signal_connect_object (
-		model, "notify::timezone",
-		G_CALLBACK (e_task_shell_view_update_timezone),
-		task_shell_view, G_CONNECT_SWAPPED);
-
-	g_signal_connect_object (
 		model, "row-appended",
 		G_CALLBACK (task_shell_view_model_row_appended_cb),
 		task_shell_view, G_CONNECT_SWAPPED);
@@ -414,7 +408,6 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 	e_task_shell_view_actions_init (task_shell_view);
 	e_task_shell_view_update_sidebar (task_shell_view);
 	e_task_shell_view_update_search_filter (task_shell_view);
-	e_task_shell_view_update_timezone (task_shell_view);
 
 	/* Call this when everything is ready, like actions in
 	 * action groups and such. */
@@ -662,27 +655,3 @@ e_task_shell_view_update_sidebar (ETaskShellView *task_shell_view)
 	g_string_free (string, TRUE);
 }
 
-void
-e_task_shell_view_update_timezone (ETaskShellView *task_shell_view)
-{
-	ETaskShellContent *task_shell_content;
-	ETaskShellSidebar *task_shell_sidebar;
-	icaltimezone *timezone;
-	ECalModel *model;
-	GList *clients, *iter;
-
-	task_shell_content = task_shell_view->priv->task_shell_content;
-	model = e_task_shell_content_get_task_model (task_shell_content);
-	timezone = e_cal_model_get_timezone (model);
-
-	task_shell_sidebar = task_shell_view->priv->task_shell_sidebar;
-	clients = e_task_shell_sidebar_get_clients (task_shell_sidebar);
-
-	for (iter = clients; iter != NULL; iter = iter->next) {
-		ECalClient *client = iter->data;
-
-		e_cal_client_set_default_timezone (client, timezone);
-	}
-
-	g_list_free (clients);
-}
