@@ -87,8 +87,6 @@ void		e_task_shell_sidebar_type_register
 					(GTypeModule *type_module);
 GtkWidget *	e_task_shell_sidebar_new
 					(EShellView *shell_view);
-GList *		e_task_shell_sidebar_get_clients
-					(ETaskShellSidebar *task_shell_sidebar);
 ECalClient *	e_task_shell_sidebar_get_default_client
 					(ETaskShellSidebar *task_shell_sidebar);
 ESourceSelector *
