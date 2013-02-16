@@ -85,6 +85,8 @@ struct _EBookShellViewPrivate {
 	EBookShellSidebar *book_shell_sidebar;
 
 	ESourceRegistry *registry;
+	gulong source_removed_handler_id;
+
 	GHashTable *uid_to_view;
 
 	gint preview_index;

@@ -530,6 +530,7 @@ e_book_shell_view_private_constructed (EBookShellView *book_shell_view)
 	EShellSidebar *shell_sidebar;
 	EShellBackend *shell_backend;
 	ESourceSelector *selector;
+	gulong handler_id;
 
 	shell_view = E_SHELL_VIEW (book_shell_view);
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
@@ -553,10 +554,11 @@ e_book_shell_view_private_constructed (EBookShellView *book_shell_view)
 	selector = e_book_shell_sidebar_get_selector (
 		E_BOOK_SHELL_SIDEBAR (shell_sidebar));
 
-	g_signal_connect (
+	handler_id = g_signal_connect (
 		priv->registry, "source-removed",
 		G_CALLBACK (book_shell_view_source_removed_cb),
 		book_shell_view);
+	priv->source_removed_handler_id = handler_id;
 
 	g_signal_connect_object (
 		selector, "button-press-event",
@@ -587,17 +589,18 @@ e_book_shell_view_private_dispose (EBookShellView *book_shell_view)
 {
 	EBookShellViewPrivate *priv = book_shell_view->priv;
 
+	if (priv->source_removed_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->registry,
+			priv->source_removed_handler_id);
+		priv->source_removed_handler_id = 0;
+	}
+
 	g_clear_object (&priv->book_shell_backend);
 	g_clear_object (&priv->book_shell_content);
 	g_clear_object (&priv->book_shell_sidebar);
 
-	if (priv->registry != NULL) {
-		g_signal_handlers_disconnect_matched (
-			priv->registry, G_SIGNAL_MATCH_DATA,
-			0, 0, NULL, NULL, book_shell_view);
-		g_object_unref (priv->registry);
-		priv->registry = NULL;
-	}
+	g_clear_object (&priv->registry);
 
 	g_hash_table_remove_all (priv->uid_to_view);
 }
