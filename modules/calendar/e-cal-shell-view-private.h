@@ -147,8 +147,6 @@ void		e_cal_shell_view_update_sidebar
 					(ECalShellView *cal_shell_view);
 void		e_cal_shell_view_update_search_filter
 					(ECalShellView *cal_shell_view);
-void		e_cal_shell_view_update_timezone
-					(ECalShellView *cal_shell_view);
 void		e_cal_shell_view_search_events
 					(ECalShellView *cal_shell_view,
 					 gboolean search_forward);

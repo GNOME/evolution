@@ -662,11 +662,6 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 		cal_shell_view, G_CONNECT_SWAPPED);
 
 	g_signal_connect_object (
-		model, "notify::timezone",
-		G_CALLBACK (e_cal_shell_view_update_timezone),
-		cal_shell_view, G_CONNECT_SWAPPED);
-
-	g_signal_connect_object (
 		date_navigator, "scroll-event",
 		G_CALLBACK (cal_shell_view_date_navigator_scroll_event_cb),
 		cal_shell_view, G_CONNECT_SWAPPED);
@@ -740,7 +735,6 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 	e_cal_shell_view_actions_init (cal_shell_view);
 	e_cal_shell_view_update_sidebar (cal_shell_view);
 	e_cal_shell_view_update_search_filter (cal_shell_view);
-	e_cal_shell_view_update_timezone (cal_shell_view);
 
 	/* Express mode only: Bind the "New Calendar"
 	 * sidebar button to the appropriate action. */
@@ -1211,31 +1205,6 @@ e_cal_shell_view_update_sidebar (ECalShellView *cal_shell_view)
 	}
 
 	e_shell_sidebar_set_secondary_text (shell_sidebar, buffer);
-}
-
-void
-e_cal_shell_view_update_timezone (ECalShellView *cal_shell_view)
-{
-	ECalShellContent *cal_shell_content;
-	ECalShellSidebar *cal_shell_sidebar;
-	icaltimezone *timezone;
-	ECalModel *model;
-	GList *clients, *iter;
-
-	cal_shell_content = cal_shell_view->priv->cal_shell_content;
-	model = e_cal_shell_content_get_model (cal_shell_content);
-	timezone = e_cal_model_get_timezone (model);
-
-	cal_shell_sidebar = cal_shell_view->priv->cal_shell_sidebar;
-	clients = e_cal_shell_sidebar_get_clients (cal_shell_sidebar);
-
-	for (iter = clients; iter != NULL; iter = iter->next) {
-		ECalClient *client = iter->data;
-
-		e_cal_client_set_default_timezone (client, timezone);
-	}
-
-	g_list_free (clients);
 }
 
 static gint
