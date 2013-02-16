@@ -855,17 +855,16 @@ e_mail_shell_view_private_dispose (EMailShellView *mail_shell_view)
 		priv->prepare_for_quit_handler_id = 0;
 	}
 
-	DISPOSE (priv->mail_shell_backend);
-	DISPOSE (priv->mail_shell_content);
-	DISPOSE (priv->mail_shell_sidebar);
+	g_clear_object (&priv->mail_shell_backend);
+	g_clear_object (&priv->mail_shell_content);
+	g_clear_object (&priv->mail_shell_sidebar);
 
 	for (ii = 0; ii < MAIL_NUM_SEARCH_RULES; ii++)
-		DISPOSE (priv->search_rules[ii]);
+		g_clear_object (&priv->search_rules[ii]);
 
 	if (priv->opening_folder != NULL) {
 		g_cancellable_cancel (priv->opening_folder);
-		g_object_unref (priv->opening_folder);
-		priv->opening_folder = NULL;
+		g_clear_object (&priv->opening_folder);
 	}
 
 	if (priv->search_account_all != NULL) {
