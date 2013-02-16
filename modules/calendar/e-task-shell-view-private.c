@@ -395,9 +395,9 @@ e_task_shell_view_private_dispose (ETaskShellView *task_shell_view)
 {
 	ETaskShellViewPrivate *priv = task_shell_view->priv;
 
-	DISPOSE (priv->task_shell_backend);
-	DISPOSE (priv->task_shell_content);
-	DISPOSE (priv->task_shell_sidebar);
+	g_clear_object (&priv->task_shell_backend);
+	g_clear_object (&priv->task_shell_content);
+	g_clear_object (&priv->task_shell_sidebar);
 
 	if (task_shell_view->priv->activity != NULL) {
 		/* XXX Activity is not cancellable. */

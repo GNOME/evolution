@@ -54,12 +54,6 @@
 #define ACTION_GROUP(name) \
 	(E_SHELL_WINDOW_ACTION_GROUP_##name (shell_window))
 
-/* For use in dispose() methods. */
-#define DISPOSE(obj) \
-	G_STMT_START { \
-	if ((obj) != NULL) { g_object_unref (obj); (obj) = NULL; } \
-	} G_STMT_END
-
 /* ETable Specifications */
 #define ETSPEC_FILENAME		"e-calendar-table.etspec"
 
