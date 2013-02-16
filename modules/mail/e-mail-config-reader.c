@@ -88,7 +88,7 @@ mail_config_reader_constructed (GObject *object)
 	 * Prioritize ahead of GTK+ redraws. */
 	g_idle_add_full (
 		G_PRIORITY_HIGH_IDLE,
-		(GSourceFunc) settings_mail_reader_idle_cb,
+		(GSourceFunc) mail_config_reader_idle_cb,
 		g_object_ref (object),
 		(GDestroyNotify) g_object_unref);
 
