@@ -293,9 +293,9 @@ e_memo_shell_view_private_dispose (EMemoShellView *memo_shell_view)
 {
 	EMemoShellViewPrivate *priv = memo_shell_view->priv;
 
-	DISPOSE (priv->memo_shell_backend);
-	DISPOSE (priv->memo_shell_content);
-	DISPOSE (priv->memo_shell_sidebar);
+	g_clear_object (&priv->memo_shell_backend);
+	g_clear_object (&priv->memo_shell_content);
+	g_clear_object (&priv->memo_shell_sidebar);
 
 	if (memo_shell_view->priv->activity != NULL) {
 		/* XXX Activity is not cancellable. */
