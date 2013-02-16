@@ -99,6 +99,30 @@ memo_shell_view_selector_popup_event_cb (EShellView *shell_view,
 }
 
 static void
+memo_shell_view_backend_error_cb (EClientCache *client_cache,
+                                  EClient *client,
+                                  EAlert *alert,
+                                  EMemoShellView *memo_shell_view)
+{
+	EMemoShellContent *memo_shell_content;
+	ESource *source;
+	const gchar *extension_name;
+
+	memo_shell_content = memo_shell_view->priv->memo_shell_content;
+
+	source = e_client_get_source (client);
+	extension_name = E_SOURCE_EXTENSION_MEMO_LIST;
+
+	/* Only submit alerts from memo list backends. */
+	if (e_source_has_extension (source, extension_name)) {
+		EAlertSink *alert_sink;
+
+		alert_sink = E_ALERT_SINK (memo_shell_content);
+		e_alert_sink_submit_alert (alert_sink, alert);
+	}
+}
+
+static void
 memo_shell_view_load_view_collection (EShellViewClass *shell_view_class)
 {
 	GalViewCollection *collection;
@@ -167,20 +191,23 @@ e_memo_shell_view_private_constructed (EMemoShellView *memo_shell_view)
 	EMemoShellViewPrivate *priv = memo_shell_view->priv;
 	EMemoShellContent *memo_shell_content;
 	EMemoShellSidebar *memo_shell_sidebar;
-	EShellView *shell_view;
 	EShellBackend *shell_backend;
 	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
 	EShellWindow *shell_window;
+	EShellView *shell_view;
+	EShell *shell;
 	EMemoTable *memo_table;
 	ECalModel *model;
 	ESourceSelector *selector;
+	gulong handler_id;
 
 	shell_view = E_SHELL_VIEW (memo_shell_view);
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
 	shell_content = e_shell_view_get_shell_content (shell_view);
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell = e_shell_window_get_shell (shell_window);
 
 	e_shell_window_add_action_group (shell_window, "memos");
 	e_shell_window_add_action_group (shell_window, "memos-filter");
@@ -196,6 +223,16 @@ e_memo_shell_view_private_constructed (EMemoShellView *memo_shell_view)
 
 	memo_shell_sidebar = E_MEMO_SHELL_SIDEBAR (shell_sidebar);
 	selector = e_memo_shell_sidebar_get_selector (memo_shell_sidebar);
+
+	/* Keep our own reference to this so we can
+	 * disconnect our signal handler in dispose(). */
+	priv->client_cache = g_object_ref (e_shell_get_client_cache (shell));
+
+	handler_id = g_signal_connect (
+		priv->client_cache, "backend-error",
+		G_CALLBACK (memo_shell_view_backend_error_cb),
+		memo_shell_view);
+	priv->backend_error_handler_id = handler_id;
 
 	g_signal_connect_swapped (
 		model, "notify::timezone",
@@ -293,9 +330,18 @@ e_memo_shell_view_private_dispose (EMemoShellView *memo_shell_view)
 {
 	EMemoShellViewPrivate *priv = memo_shell_view->priv;
 
+	if (priv->backend_error_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->client_cache,
+			priv->backend_error_handler_id);
+		priv->backend_error_handler_id = 0;
+	}
+
 	g_clear_object (&priv->memo_shell_backend);
 	g_clear_object (&priv->memo_shell_content);
 	g_clear_object (&priv->memo_shell_sidebar);
+
+	g_clear_object (&priv->client_cache);
 
 	if (memo_shell_view->priv->activity != NULL) {
 		/* XXX Activity is not cancellable. */

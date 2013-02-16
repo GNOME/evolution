@@ -78,6 +78,9 @@ struct _EMemoShellViewPrivate {
 	EMemoShellContent *memo_shell_content;
 	EMemoShellSidebar *memo_shell_sidebar;
 
+	EClientCache *client_cache;
+	gulong backend_error_handler_id;
+
 	EActivity *activity;
 };
 
