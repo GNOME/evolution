@@ -393,6 +393,30 @@ cal_shell_view_user_created_cb (ECalShellView *cal_shell_view,
 }
 
 static void
+cal_shell_view_backend_error_cb (EClientCache *client_cache,
+                                 EClient *client,
+                                 EAlert *alert,
+                                 ECalShellView *cal_shell_view)
+{
+	ECalShellContent *cal_shell_content;
+	ESource *source;
+	const gchar *extension_name;
+
+	cal_shell_content = cal_shell_view->priv->cal_shell_content;
+
+	source = e_client_get_source (client);
+	extension_name = E_SOURCE_EXTENSION_CALENDAR;
+
+	/* Only submit alerts from calendar backends. */
+	if (e_source_has_extension (source, extension_name)) {
+		EAlertSink *alert_sink;
+
+		alert_sink = E_ALERT_SINK (cal_shell_content);
+		e_alert_sink_submit_alert (alert_sink, alert);
+	}
+}
+
+static void
 cal_shell_view_load_view_collection (EShellViewClass *shell_view_class)
 {
 	GalViewCollection *collection;
@@ -548,6 +572,7 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 	EShellSidebar *shell_sidebar;
 	EShellWindow *shell_window;
 	EShellView *shell_view;
+	EShell *shell;
 	GnomeCalendar *calendar;
 	ECalendar *date_navigator;
 	EMemoTable *memo_table;
@@ -555,6 +580,7 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 	ESourceSelector *selector;
 	GtkWidget *widget;
 	ECalModel *model;
+	gulong handler_id;
 	gint ii;
 
 	shell_view = E_SHELL_VIEW (cal_shell_view);
@@ -562,6 +588,7 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 	shell_content = e_shell_view_get_shell_content (shell_view);
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell = e_shell_window_get_shell (shell_window);
 
 	e_shell_window_add_action_group (shell_window, "calendar");
 	e_shell_window_add_action_group (shell_window, "calendar-filter");
@@ -591,6 +618,16 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 	e_calendar_item_set_get_time_callback (
 		date_navigator->calitem, (ECalendarItemGetTimeCallback)
 		cal_shell_view_get_current_time, cal_shell_view, NULL);
+
+	/* Keep our own reference to this so we can
+	 * disconnect our signal handler in dispose(). */
+	priv->client_cache = g_object_ref (e_shell_get_client_cache (shell));
+
+	handler_id = g_signal_connect (
+		priv->client_cache, "backend-error",
+		G_CALLBACK (cal_shell_view_backend_error_cb),
+		cal_shell_view);
+	priv->backend_error_handler_id = handler_id;
 
 	for (ii = 0; ii < GNOME_CAL_LAST_VIEW; ii++) {
 		ECalendarView *calendar_view;
@@ -742,9 +779,18 @@ e_cal_shell_view_private_dispose (ECalShellView *cal_shell_view)
 	if (priv->cal_shell_content != NULL)
 		e_cal_shell_content_save_state (priv->cal_shell_content);
 
+	if (priv->backend_error_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->client_cache,
+			priv->backend_error_handler_id);
+		priv->backend_error_handler_id = 0;
+	}
+
 	g_clear_object (&priv->cal_shell_backend);
 	g_clear_object (&priv->cal_shell_content);
 	g_clear_object (&priv->cal_shell_sidebar);
+
+	g_clear_object (&priv->client_cache);
 
 	if (priv->calendar_activity != NULL) {
 		/* XXX Activity is not cancellable. */

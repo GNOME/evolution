@@ -93,6 +93,9 @@ struct _ECalShellViewPrivate {
 	ECalShellContent *cal_shell_content;
 	ECalShellSidebar *cal_shell_sidebar;
 
+	EClientCache *client_cache;
+	gulong backend_error_handler_id;
+
 	/* The last time explicitly selected by the user. */
 	time_t base_view_time;
 
