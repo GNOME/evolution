@@ -45,9 +45,6 @@ typedef struct _ConnectClosure ConnectClosure;
 struct _ETaskShellSidebarPrivate {
 	GtkWidget *selector;
 
-	/* UID -> Client */
-	GHashTable *client_table;
-
 	/* The default client is for ECalModel.  It follows the
 	 * sidebar's primary selection, even if the highlighted
 	 * source is not selected.  The tricky part is we don't
@@ -139,7 +136,7 @@ task_shell_sidebar_emit_client_added (ETaskShellSidebar *task_shell_sidebar,
 
 static void
 task_shell_sidebar_emit_client_removed (ETaskShellSidebar *task_shell_sidebar,
-                                        ECalClient *client)
+                                        EClient *client)
 {
 	guint signal_id = signals[CLIENT_REMOVED];
 
@@ -169,25 +166,6 @@ task_shell_sidebar_ref_client_cache (ETaskShellSidebar *task_shell_sidebar)
 	shell = e_shell_backend_get_shell (shell_backend);
 
 	return g_object_ref (e_shell_get_client_cache (shell));
-}
-
-static void
-task_shell_sidebar_backend_died_cb (ETaskShellSidebar *task_shell_sidebar,
-                                    ECalClient *client)
-{
-	GHashTable *client_table;
-	ESource *source;
-	gchar *uid;
-
-	client_table = task_shell_sidebar->priv->client_table;
-
-	source = e_client_get_source (E_CLIENT (client));
-	uid = e_source_dup_uid (source);
-
-	g_hash_table_remove (client_table, uid);
-	task_shell_sidebar_emit_status_message (task_shell_sidebar, NULL);
-
-	g_free (uid);
 }
 
 static void
@@ -505,23 +483,8 @@ task_shell_sidebar_dispose (GObject *object)
 		priv->loading_clients = NULL;
 	}
 
-	g_hash_table_remove_all (priv->client_table);
-
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_task_shell_sidebar_parent_class)->dispose (object);
-}
-
-static void
-task_shell_sidebar_finalize (GObject *object)
-{
-	ETaskShellSidebarPrivate *priv;
-
-	priv = E_TASK_SHELL_SIDEBAR_GET_PRIVATE (object);
-
-	g_hash_table_destroy (priv->client_table);
-
-	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (e_task_shell_sidebar_parent_class)->finalize (object);
 }
 
 static void
@@ -654,21 +617,11 @@ task_shell_sidebar_client_removed (ETaskShellSidebar *task_shell_sidebar,
                                    ECalClient *client)
 {
 	ESourceSelector *selector;
-	GHashTable *client_table;
 	ESource *source;
-	const gchar *uid;
-
-	client_table = task_shell_sidebar->priv->client_table;
-	selector = e_task_shell_sidebar_get_selector (task_shell_sidebar);
-
-	g_signal_handlers_disconnect_matched (
-		client, G_SIGNAL_MATCH_DATA, 0, 0,
-		NULL, NULL, task_shell_sidebar);
 
 	source = e_client_get_source (E_CLIENT (client));
-	uid = e_source_get_uid (source);
 
-	g_hash_table_remove (client_table, uid);
+	selector = e_task_shell_sidebar_get_selector (task_shell_sidebar);
 	e_source_selector_unselect_source (selector, source);
 
 	task_shell_sidebar_emit_status_message (task_shell_sidebar, NULL);
@@ -685,7 +638,6 @@ e_task_shell_sidebar_class_init (ETaskShellSidebarClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	object_class->get_property = task_shell_sidebar_get_property;
 	object_class->dispose = task_shell_sidebar_dispose;
-	object_class->finalize = task_shell_sidebar_finalize;
 	object_class->constructed = task_shell_sidebar_constructed;
 
 	shell_sidebar_class = E_SHELL_SIDEBAR_CLASS (class);
@@ -753,17 +705,9 @@ e_task_shell_sidebar_class_finalize (ETaskShellSidebarClass *class)
 static void
 e_task_shell_sidebar_init (ETaskShellSidebar *task_shell_sidebar)
 {
-	GHashTable *client_table;
-
-	client_table = g_hash_table_new_full (
-		g_str_hash, g_str_equal,
-		(GDestroyNotify) g_free,
-		(GDestroyNotify) g_object_unref);
-
 	task_shell_sidebar->priv =
 		E_TASK_SHELL_SIDEBAR_GET_PRIVATE (task_shell_sidebar);
 
-	task_shell_sidebar->priv->client_table = client_table;
 	task_shell_sidebar->priv->loading_clients = g_cancellable_new ();
 
 	/* Postpone widget construction until we have a shell view. */
@@ -812,28 +756,12 @@ e_task_shell_sidebar_add_client (ETaskShellSidebar *task_shell_sidebar,
 {
 	ESource *source;
 	ESourceSelector *selector;
-	GHashTable *client_table;
 	const gchar *message;
-	const gchar *uid;
 
 	g_return_if_fail (E_IS_TASK_SHELL_SIDEBAR (task_shell_sidebar));
 	g_return_if_fail (E_IS_CAL_CLIENT (client));
 
-	client_table = task_shell_sidebar->priv->client_table;
-
 	source = e_client_get_source (client);
-	uid = e_source_get_uid (source);
-
-	if (g_hash_table_contains (client_table, uid))
-		return;
-
-	g_hash_table_insert (
-		client_table, g_strdup (uid), g_object_ref (client));
-
-	g_signal_connect_swapped (
-		client, "backend-died",
-		G_CALLBACK (task_shell_sidebar_backend_died_cb),
-		task_shell_sidebar);
 
 	selector = e_task_shell_sidebar_get_selector (task_shell_sidebar);
 	e_source_selector_select_source (selector, source);
@@ -850,35 +778,13 @@ e_task_shell_sidebar_add_source (ETaskShellSidebar *task_shell_sidebar,
 {
 	ESourceSelector *selector;
 	EClientCache *client_cache;
-	GHashTable *client_table;
-	EClient *default_client;
 	const gchar *display_name;
-	const gchar *uid;
 	gchar *message;
 
 	g_return_if_fail (E_IS_TASK_SHELL_SIDEBAR (task_shell_sidebar));
 	g_return_if_fail (E_IS_SOURCE (source));
 
-	client_table = task_shell_sidebar->priv->client_table;
-	default_client = task_shell_sidebar->priv->default_client;
 	selector = e_task_shell_sidebar_get_selector (task_shell_sidebar);
-
-	uid = e_source_get_uid (source);
-
-	if (g_hash_table_contains (client_table, uid))
-		return;
-
-	if (default_client != NULL) {
-		ESource *default_source;
-
-		default_source = e_client_get_source (default_client);
-
-		if (e_source_equal (source, default_source)) {
-			e_task_shell_sidebar_add_client (
-				task_shell_sidebar, default_client);
-			return;
-		}
-	}
 
 	e_source_selector_select_source (selector, source);
 
@@ -904,20 +810,21 @@ void
 e_task_shell_sidebar_remove_source (ETaskShellSidebar *task_shell_sidebar,
                                     ESource *source)
 {
-	GHashTable *client_table;
-	ECalClient *client;
-	const gchar *uid;
+	EClientCache *client_cache;
+	EClient *client;
 
 	g_return_if_fail (E_IS_TASK_SHELL_SIDEBAR (task_shell_sidebar));
 	g_return_if_fail (E_IS_SOURCE (source));
 
-	client_table = task_shell_sidebar->priv->client_table;
+	client_cache =
+		task_shell_sidebar_ref_client_cache (task_shell_sidebar);
+	client = e_client_cache_ref_cached_client (
+		client_cache, source, E_SOURCE_EXTENSION_TASK_LIST);
+	g_object_unref (client_cache);
 
-	uid = e_source_get_uid (source);
-	client = g_hash_table_lookup (client_table, uid);
-
-	if (client == NULL)
-		return;
-
-	task_shell_sidebar_emit_client_removed (task_shell_sidebar, client);
+	if (client != NULL) {
+		task_shell_sidebar_emit_client_removed (
+			task_shell_sidebar, client);
+		g_object_unref (client);
+	}
 }
