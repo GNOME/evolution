@@ -178,50 +178,6 @@ cal_shell_sidebar_backend_died_cb (ECalShellSidebar *cal_shell_sidebar,
 }
 
 static void
-cal_shell_sidebar_backend_error_cb (ECalShellSidebar *cal_shell_sidebar,
-                                    const gchar *message,
-                                    ECalClient *client)
-{
-	EShell *shell;
-	EShellView *shell_view;
-	EShellBackend *shell_backend;
-	EShellContent *shell_content;
-	EShellSidebar *shell_sidebar;
-	ESourceRegistry *registry;
-	ESource *parent;
-	ESource *source;
-	const gchar *parent_uid;
-	const gchar *parent_display_name;
-	const gchar *source_display_name;
-
-	shell_sidebar = E_SHELL_SIDEBAR (cal_shell_sidebar);
-	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
-	shell_backend = e_shell_view_get_shell_backend (shell_view);
-	shell_content = e_shell_view_get_shell_content (shell_view);
-
-	shell = e_shell_backend_get_shell (shell_backend);
-	registry = e_shell_get_registry (shell);
-
-	source = e_client_get_source (E_CLIENT (client));
-
-	parent_uid = e_source_get_parent (source);
-	parent = e_source_registry_ref_source (registry, parent_uid);
-	g_return_if_fail (parent != NULL);
-
-	parent_display_name = e_source_get_display_name (parent);
-	source_display_name = e_source_get_display_name (source);
-
-	e_alert_submit (
-		E_ALERT_SINK (shell_content),
-		"calendar:backend-error",
-		parent_display_name,
-		source_display_name,
-		message, NULL);
-
-	g_object_unref (parent);
-}
-
-static void
 cal_shell_sidebar_handle_connect_error (ECalShellSidebar *cal_shell_sidebar,
                                         const gchar *parent_display_name,
                                         const gchar *source_display_name,
@@ -1028,11 +984,6 @@ e_cal_shell_sidebar_add_client (ECalShellSidebar *cal_shell_sidebar,
 	g_signal_connect_swapped (
 		client, "backend-died",
 		G_CALLBACK (cal_shell_sidebar_backend_died_cb),
-		cal_shell_sidebar);
-
-	g_signal_connect_swapped (
-		client, "backend-error",
-		G_CALLBACK (cal_shell_sidebar_backend_error_cb),
 		cal_shell_sidebar);
 
 	selector = e_cal_shell_sidebar_get_selector (cal_shell_sidebar);
