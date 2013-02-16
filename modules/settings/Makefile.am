@@ -19,6 +19,8 @@ module_settings_la_SOURCES = \
 	e-settings-calendar-item.h \
 	e-settings-calendar-view.c \
 	e-settings-calendar-view.h \
+	e-settings-client-cache.c \
+	e-settings-client-cache.h \
 	e-settings-comp-editor.c \
 	e-settings-comp-editor.h \
 	e-settings-date-edit.c \
