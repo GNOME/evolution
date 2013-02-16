@@ -87,8 +87,6 @@ void		e_memo_shell_sidebar_type_register
 					(GTypeModule *type_module);
 GtkWidget *	e_memo_shell_sidebar_new
 					(EShellView *shell_view);
-GList *		e_memo_shell_sidebar_get_clients
-					(EMemoShellSidebar *memo_shell_sidebar);
 ECalClient *	e_memo_shell_sidebar_get_default_client
 					(EMemoShellSidebar *memo_shell_sidebar);
 ESourceSelector *

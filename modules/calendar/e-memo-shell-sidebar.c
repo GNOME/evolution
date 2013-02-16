@@ -783,19 +783,6 @@ e_memo_shell_sidebar_new (EShellView *shell_view)
 		"shell-view", shell_view, NULL);
 }
 
-GList *
-e_memo_shell_sidebar_get_clients (EMemoShellSidebar *memo_shell_sidebar)
-{
-	GHashTable *client_table;
-
-	g_return_val_if_fail (
-		E_IS_MEMO_SHELL_SIDEBAR (memo_shell_sidebar), NULL);
-
-	client_table = memo_shell_sidebar->priv->client_table;
-
-	return g_hash_table_get_values (client_table);
-}
-
 ECalClient *
 e_memo_shell_sidebar_get_default_client (EMemoShellSidebar *memo_shell_sidebar)
 {
