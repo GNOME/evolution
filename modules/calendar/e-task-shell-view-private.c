@@ -48,25 +48,18 @@ static gboolean
 task_shell_view_process_completed_tasks (ETaskShellView *task_shell_view)
 {
 	ETaskShellContent *task_shell_content;
-	ETaskShellSidebar *task_shell_sidebar;
 	ETaskTable *task_table;
-	GList *clients;
 
 	task_shell_view->priv->update_completed_timeout = 0;
 
 	task_shell_content = task_shell_view->priv->task_shell_content;
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
 
-	task_shell_sidebar = task_shell_view->priv->task_shell_sidebar;
-	clients = e_task_shell_sidebar_get_clients (task_shell_sidebar);
-
-	e_task_table_process_completed_tasks (task_table, clients, TRUE);
+	e_task_table_process_completed_tasks (task_table, TRUE);
 
 	/* Search query takes whether to show completed tasks into account,
 	 * so if the preference has changed we need to update the query. */
 	e_shell_view_execute_search (E_SHELL_VIEW (task_shell_view));
-
-	g_list_free (clients);
 
 	return FALSE;
 }
@@ -145,22 +138,15 @@ static gboolean
 task_shell_view_update_timeout_cb (ETaskShellView *task_shell_view)
 {
 	ETaskShellContent *task_shell_content;
-	ETaskShellSidebar *task_shell_sidebar;
 	ETaskTable *task_table;
 	ECalModel *model;
-	GList *clients;
 
 	task_shell_content = task_shell_view->priv->task_shell_content;
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
 	model = e_task_table_get_model (task_table);
 
-	task_shell_sidebar = task_shell_view->priv->task_shell_sidebar;
-	clients = e_task_shell_sidebar_get_clients (task_shell_sidebar);
-
-	e_task_table_process_completed_tasks (task_table, clients, FALSE);
+	e_task_table_process_completed_tasks (task_table, FALSE);
 	e_cal_model_tasks_update_due_tasks (E_CAL_MODEL_TASKS (model));
-
-	g_list_free (clients);
 
 	return TRUE;
 }

@@ -104,7 +104,6 @@ void		e_task_table_hide_completed_tasks
 						 gboolean config_changed);
 void		e_task_table_process_completed_tasks
 						(ETaskTable *table,
-						 GList *clients_list,
 						 gboolean config_changed);
 
 G_END_DECLS

@@ -1843,18 +1843,17 @@ e_task_table_get_current_time (ECellDateEdit *ecde,
 }
 
 /**
- * e_task_table_hide_completed_tasks:
+ * e_task_table_process_completed_tasks:
  * @table: A calendar table model.
- * @client_list: Clients List
  *
- * Hide completed tasks.
+ * Process completed tasks.
  */
 void
 e_task_table_process_completed_tasks (ETaskTable *task_table,
-                                      GList *clients_list,
                                       gboolean config_changed)
 {
 	ECalModel *model;
+	GList *client_list;
 	GCancellable *cancellable;
 	gchar *hide_sexp, *show_sexp;
 
@@ -1874,19 +1873,23 @@ e_task_table_process_completed_tasks (ETaskTable *task_table,
 	if (!(hide_sexp && show_sexp))
 		show_sexp = g_strdup ("(is-completed?)");
 
-	/* Delete rows from model*/
+	client_list = e_cal_model_get_client_list (model);
+
+	/* Delete rows from model */
 	if (hide_sexp) {
 		task_table_get_object_list_async (
-			clients_list, hide_sexp, cancellable,
+			client_list, hide_sexp, cancellable,
 			hide_completed_rows_ready, model);
 	}
 
 	/* Insert rows into model */
 	if (config_changed) {
 		task_table_get_object_list_async (
-			clients_list, show_sexp, cancellable,
+			client_list, show_sexp, cancellable,
 			show_completed_rows_ready, model);
 	}
+
+	g_list_free (client_list);
 
 	g_free (hide_sexp);
 	g_free (show_sexp);
