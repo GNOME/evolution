@@ -742,9 +742,9 @@ e_cal_shell_view_private_dispose (ECalShellView *cal_shell_view)
 	if (priv->cal_shell_content != NULL)
 		e_cal_shell_content_save_state (priv->cal_shell_content);
 
-	DISPOSE (priv->cal_shell_backend);
-	DISPOSE (priv->cal_shell_content);
-	DISPOSE (priv->cal_shell_sidebar);
+	g_clear_object (&priv->cal_shell_backend);
+	g_clear_object (&priv->cal_shell_content);
+	g_clear_object (&priv->cal_shell_sidebar);
 
 	if (priv->calendar_activity != NULL) {
 		/* XXX Activity is not cancellable. */
