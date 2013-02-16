@@ -67,7 +67,6 @@ memo_shell_view_selector_client_added_cb (EMemoShellView *memo_shell_view,
 	model = e_memo_table_get_model (memo_table);
 
 	e_cal_model_add_client (model, client);
-	e_memo_shell_view_update_timezone (memo_shell_view);
 }
 
 static void
@@ -235,11 +234,6 @@ e_memo_shell_view_private_constructed (EMemoShellView *memo_shell_view)
 	priv->backend_error_handler_id = handler_id;
 
 	g_signal_connect_swapped (
-		model, "notify::timezone",
-		G_CALLBACK (e_memo_shell_view_update_timezone),
-		memo_shell_view);
-
-	g_signal_connect_swapped (
 		model, "row-appended",
 		G_CALLBACK (memo_shell_view_model_row_appended_cb),
 		memo_shell_view);
@@ -322,7 +316,6 @@ e_memo_shell_view_private_constructed (EMemoShellView *memo_shell_view)
 	e_memo_shell_view_actions_init (memo_shell_view);
 	e_memo_shell_view_update_sidebar (memo_shell_view);
 	e_memo_shell_view_update_search_filter (memo_shell_view);
-	e_memo_shell_view_update_timezone (memo_shell_view);
 }
 
 void
@@ -483,27 +476,3 @@ e_memo_shell_view_update_sidebar (EMemoShellView *memo_shell_view)
 	g_string_free (string, TRUE);
 }
 
-void
-e_memo_shell_view_update_timezone (EMemoShellView *memo_shell_view)
-{
-	EMemoShellContent *memo_shell_content;
-	EMemoShellSidebar *memo_shell_sidebar;
-	icaltimezone *timezone;
-	ECalModel *model;
-	GList *clients, *iter;
-
-	memo_shell_content = memo_shell_view->priv->memo_shell_content;
-	model = e_memo_shell_content_get_memo_model (memo_shell_content);
-	timezone = e_cal_model_get_timezone (model);
-
-	memo_shell_sidebar = memo_shell_view->priv->memo_shell_sidebar;
-	clients = e_memo_shell_sidebar_get_clients (memo_shell_sidebar);
-
-	for (iter = clients; iter != NULL; iter = iter->next) {
-		ECalClient *client = iter->data;
-
-		e_cal_client_set_default_timezone (client, timezone);
-	}
-
-	g_list_free (clients);
-}
