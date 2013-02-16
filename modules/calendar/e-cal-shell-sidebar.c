@@ -158,6 +158,22 @@ cal_shell_sidebar_emit_status_message (ECalShellSidebar *cal_shell_sidebar,
 	g_signal_emit (cal_shell_sidebar, signal_id, 0, status_message);
 }
 
+static EClientCache *
+cal_shell_sidebar_ref_client_cache (ECalShellSidebar *cal_shell_sidebar)
+{
+	EShell *shell;
+	EShellView *shell_view;
+	EShellBackend *shell_backend;
+	EShellSidebar *shell_sidebar;
+
+	shell_sidebar = E_SHELL_SIDEBAR (cal_shell_sidebar);
+	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	shell = e_shell_backend_get_shell (shell_backend);
+
+	return g_object_ref (e_shell_get_client_cache (shell));
+}
+
 static void
 cal_shell_sidebar_backend_died_cb (ECalShellSidebar *cal_shell_sidebar,
                                    ECalClient *client)
@@ -228,15 +244,10 @@ cal_shell_sidebar_client_connect_cb (GObject *source_object,
 {
 	EClient *client;
 	ConnectClosure *closure = user_data;
-	ECalShellContent *cal_shell_content;
-	EShellContent *shell_content;
-	EShellSidebar *shell_sidebar;
-	EShellView *shell_view;
-	ECalModel *model;
-	icaltimezone *timezone;
 	GError *error = NULL;
 
-	client = e_cal_client_connect_finish (result, &error);
+	client = e_client_cache_get_client_finish (
+		E_CLIENT_CACHE (source_object), result, &error);
 
 	/* Sanity check. */
 	g_return_if_fail (
@@ -252,18 +263,6 @@ cal_shell_sidebar_client_connect_cb (GObject *source_object,
 		g_error_free (error);
 		goto exit;
 	}
-
-	/* FIXME Sidebar should not be accessing the EShellContent.
-	 *       This probably needs to be moved to ECalShellView. */
-	shell_sidebar = E_SHELL_SIDEBAR (closure->cal_shell_sidebar);
-	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
-	shell_content = e_shell_view_get_shell_content (shell_view);
-
-	cal_shell_content = E_CAL_SHELL_CONTENT (shell_content);
-	model = e_cal_shell_content_get_model (cal_shell_content);
-	timezone = e_cal_model_get_timezone (model);
-
-	e_cal_client_set_default_timezone (E_CAL_CLIENT (client), timezone);
 
 	e_cal_shell_sidebar_add_client (closure->cal_shell_sidebar, client);
 
@@ -282,17 +281,12 @@ cal_shell_sidebar_default_connect_cb (GObject *source_object,
 	ESource *source;
 	ConnectClosure *closure = user_data;
 	ECalShellSidebarPrivate *priv;
-	EShellContent *shell_content;
-	EShellSidebar *shell_sidebar;
-	EShellView *shell_view;
-	ECalShellContent *cal_shell_content;
-	ECalModel *model;
-	icaltimezone *timezone;
 	GError *error = NULL;
 
 	priv = E_CAL_SHELL_SIDEBAR_GET_PRIVATE (closure->cal_shell_sidebar);
 
-	client = e_cal_client_connect_finish (result, &error);
+	client = e_client_cache_get_client_finish (
+		E_CLIENT_CACHE (source_object), result, &error);
 
 	/* Sanity check. */
 	g_return_if_fail (
@@ -324,19 +318,8 @@ cal_shell_sidebar_default_connect_cb (GObject *source_object,
 
 	priv->default_client = g_object_ref (client);
 
-	/* FIXME Sidebar should not be accessing the EShellContent.
-	 *       This probably needs to be moved to ECalShellView. */
-	shell_sidebar = E_SHELL_SIDEBAR (closure->cal_shell_sidebar);
-	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
-	shell_content = e_shell_view_get_shell_content (shell_view);
-
-	cal_shell_content = E_CAL_SHELL_CONTENT (shell_content);
-	model = e_cal_shell_content_get_model (cal_shell_content);
-	timezone = e_cal_model_get_timezone (model);
-
-	e_cal_client_set_default_timezone (E_CAL_CLIENT (client), timezone);
-
-	g_object_notify (G_OBJECT (shell_sidebar), "default-client");
+	g_object_notify (
+		G_OBJECT (closure->cal_shell_sidebar), "default-client");
 
 	g_object_unref (client);
 
@@ -349,19 +332,13 @@ cal_shell_sidebar_set_default (ECalShellSidebar *cal_shell_sidebar,
                                ESource *source)
 {
 	ECalShellSidebarPrivate *priv;
-	EShellSidebar *shell_sidebar;
-	ECalClient *client;
-	const gchar *uid;
+	EClientCache *client_cache;
 
 	priv = cal_shell_sidebar->priv;
 
 	/* already loading that source as default source */
 	if (source == priv->connecting_default_source_instance)
 		return;
-
-	/* FIXME Sidebar should not be accessing the EShellContent.
-	 *       This probably needs to be moved to ECalShellView. */
-	shell_sidebar = E_SHELL_SIDEBAR (cal_shell_sidebar);
 
 	/* Cancel any unfinished previous request. */
 	if (priv->connecting_default_client != NULL) {
@@ -370,28 +347,21 @@ cal_shell_sidebar_set_default (ECalShellSidebar *cal_shell_sidebar,
 		priv->connecting_default_client = NULL;
 	}
 
-	uid = e_source_get_uid (source);
-	client = g_hash_table_lookup (priv->client_table, uid);
-
-	/* If we already have an open connection for
-	 * this UID, we can finish immediately. */
-	if (client != NULL) {
-		if (priv->default_client != NULL)
-			g_object_unref (priv->default_client);
-		priv->default_client = g_object_ref (client);
-		g_object_notify (G_OBJECT (shell_sidebar), "default-client");
-		return;
-	}
-
 	/* it's only for pointer comparison, no need to ref it */
 	priv->connecting_default_source_instance = source;
 	priv->connecting_default_client = g_cancellable_new ();
 
-	e_cal_client_connect (
-		source, E_CAL_CLIENT_SOURCE_TYPE_EVENTS,
+	client_cache =
+		cal_shell_sidebar_ref_client_cache (cal_shell_sidebar);
+
+	e_client_cache_get_client (
+		client_cache, source,
+		E_SOURCE_EXTENSION_CALENDAR,
 		priv->connecting_default_client,
 		cal_shell_sidebar_default_connect_cb,
 		connect_closure_new (cal_shell_sidebar, source));
+
+	g_object_unref (client_cache);
 }
 
 static void
@@ -999,8 +969,8 @@ void
 e_cal_shell_sidebar_add_source (ECalShellSidebar *cal_shell_sidebar,
                                 ESource *source)
 {
-	ECalClientSourceType source_type;
 	ESourceSelector *selector;
+	EClientCache *client_cache;
 	GHashTable *client_table;
 	EClient *default_client;
 	const gchar *display_name;
@@ -1010,7 +980,6 @@ e_cal_shell_sidebar_add_source (ECalShellSidebar *cal_shell_sidebar,
 	g_return_if_fail (E_IS_CAL_SHELL_SIDEBAR (cal_shell_sidebar));
 	g_return_if_fail (E_IS_SOURCE (source));
 
-	source_type = E_CAL_CLIENT_SOURCE_TYPE_EVENTS;
 	client_table = cal_shell_sidebar->priv->client_table;
 	default_client = cal_shell_sidebar->priv->default_client;
 	selector = e_cal_shell_sidebar_get_selector (cal_shell_sidebar);
@@ -1039,11 +1008,17 @@ e_cal_shell_sidebar_add_source (ECalShellSidebar *cal_shell_sidebar,
 	cal_shell_sidebar_emit_status_message (cal_shell_sidebar, message);
 	g_free (message);
 
-	e_cal_client_connect (
-		source, source_type,
+	client_cache =
+		cal_shell_sidebar_ref_client_cache (cal_shell_sidebar);
+
+	e_client_cache_get_client (
+		client_cache, source,
+		E_SOURCE_EXTENSION_CALENDAR,
 		cal_shell_sidebar->priv->loading_clients,
 		cal_shell_sidebar_client_connect_cb,
 		connect_closure_new (cal_shell_sidebar, source));
+
+	g_object_unref (client_cache);
 }
 
 void
