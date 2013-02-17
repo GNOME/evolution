@@ -2997,7 +2997,8 @@ epage_client_connect_cb (GObject *source_object,
 	CompEditor *editor;
 	GError *error = NULL;
 
-	client = e_cal_client_connect_finish (result, &error);
+	client = e_client_cache_get_client_finish (
+		E_CLIENT_CACHE (source_object), result, &error);
 
 	/* Sanity check. */
 	g_return_if_fail (
@@ -3067,7 +3068,10 @@ source_changed_cb (ESourceComboBox *source_combo_box,
                    EventPage *epage)
 {
 	EventPagePrivate *priv = epage->priv;
+	EClientCache *client_cache;
+	CompEditor *editor;
 	ESource *source;
+	EShell *shell;
 
 	if (comp_editor_page_get_updating (COMP_EDITOR_PAGE (epage)))
 		return;
@@ -3081,8 +3085,13 @@ source_changed_cb (ESourceComboBox *source_combo_box,
 	}
 	priv->connect_cancellable = g_cancellable_new ();
 
-	e_cal_client_connect (
-		source, E_CAL_CLIENT_SOURCE_TYPE_EVENTS,
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (epage));
+	shell = comp_editor_get_shell (editor);
+	client_cache = e_shell_get_client_cache (shell);
+
+	e_client_cache_get_client (
+		client_cache, source,
+		E_SOURCE_EXTENSION_CALENDAR,
 		priv->connect_cancellable,
 		epage_client_connect_cb, epage);
 
