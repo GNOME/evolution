@@ -214,7 +214,8 @@ book_shell_view_client_connect_cb (GObject *source_object,
 	EAddressbookModel *model;
 	GError *error = NULL;
 
-	client = e_book_client_connect_finish (result, &error);
+	client = e_client_cache_get_client_finish (
+		E_CLIENT_CACHE (source_object), result, &error);
 
 	/* Sanity check. */
 	g_return_if_fail (
@@ -255,10 +256,13 @@ static void
 book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
                                           ESourceSelector *selector)
 {
+	EShell *shell;
 	EShellView *shell_view;
+	EShellBackend *shell_backend;
 	EBookShellContent *book_shell_content;
 	EAddressbookView *view;
 	EAddressbookModel *model;
+	EClientCache *client_cache;
 	ESource *source;
 	GalViewInstance *view_instance;
 	GHashTable *hash_table;
@@ -267,6 +271,9 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
 	gchar *view_id;
 
 	shell_view = E_SHELL_VIEW (book_shell_view);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	shell = e_shell_backend_get_shell (shell_backend);
+	client_cache = e_shell_get_client_cache (shell);
 
 	book_shell_content = book_shell_view->priv->book_shell_content;
 	source = e_source_selector_ref_primary_selection (selector);
@@ -288,8 +295,10 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
 
 		if (e_addressbook_model_get_client (model) == NULL)
 			/* XXX No way to cancel this? */
-			e_book_client_connect (
-				source, NULL,
+			e_client_cache_get_client (
+				client_cache, source,
+				E_SOURCE_EXTENSION_ADDRESS_BOOK,
+				NULL,
 				book_shell_view_client_connect_cb,
 				g_object_ref (view));
 
@@ -334,8 +343,10 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
 		model = e_addressbook_view_get_model (view);
 
 		/* XXX No way to cancel this? */
-		e_book_client_connect (
-			source, NULL,
+		e_client_cache_get_client (
+			client_cache, source,
+			E_SOURCE_EXTENSION_ADDRESS_BOOK,
+			NULL,
 			book_shell_view_client_connect_cb,
 			g_object_ref (view));
 

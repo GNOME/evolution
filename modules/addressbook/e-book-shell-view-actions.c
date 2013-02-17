@@ -229,12 +229,15 @@ map_window_show_contact_editor_cb (EContactMapWindow *window,
                                    const gchar *contact_uid,
                                    gpointer user_data)
 {
-	EShell *shell = e_shell_get_default ();
 	EBookShellView *book_shell_view = user_data;
 	EBookShellSidebar *book_shell_sidebar;
+	EShell *shell;
+	EShellView *shell_view;
+	EShellBackend *shell_backend;
 	ESource *source;
 	ESourceSelector *selector;
 	EClient *client;
+	EClientCache *client_cache;
 	EContact *contact;
 	EABEditor *editor;
 	GError *error = NULL;
@@ -244,7 +247,16 @@ map_window_show_contact_editor_cb (EContactMapWindow *window,
 	source = e_source_selector_ref_primary_selection (selector);
 	g_return_if_fail (source != NULL);
 
-	client = e_book_client_connect_sync (source, NULL, &error);
+	shell_view = E_SHELL_VIEW (book_shell_view);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	shell = e_shell_backend_get_shell (shell_backend);
+	client_cache = e_shell_get_client_cache (shell);
+
+	/* FIXME This blocks.  Needs to be asynchronous. */
+	client = e_client_cache_get_client_sync (
+		client_cache, source,
+		E_SOURCE_EXTENSION_ADDRESS_BOOK,
+		NULL, &error);
 
 	g_object_unref (source);
 
@@ -289,11 +301,15 @@ action_address_book_map_cb (GtkAction *action,
                             EBookShellView *book_shell_view)
 {
 #ifdef WITH_CONTACT_MAPS
+	EShell *shell;
+	EShellView *shell_view;
+	EShellBackend *shell_backend;
 	EContactMapWindow *map_window;
 	EBookShellSidebar *book_shell_sidebar;
 	ESource *source;
 	ESourceSelector *selector;
 	EClient *client;
+	EClientCache *client_cache;
 	GError *error = NULL;
 
 	book_shell_sidebar = book_shell_view->priv->book_shell_sidebar;
@@ -301,7 +317,16 @@ action_address_book_map_cb (GtkAction *action,
 	source = e_source_selector_ref_primary_selection (selector);
 	g_return_if_fail (source != NULL);
 
-	client = e_book_client_connect_sync (source, NULL, &error);
+	shell_view = E_SHELL_VIEW (book_shell_view);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	shell = e_shell_backend_get_shell (shell_backend);
+	client_cache = e_shell_get_client_cache (shell);
+
+	/* FIXME This blocks.  Needs to be asynchronous. */
+	client = e_client_cache_get_client_sync (
+		client_cache, source,
+		E_SOURCE_EXTENSION_ADDRESS_BOOK,
+		NULL, &error);
 
 	g_object_unref (source);
 
