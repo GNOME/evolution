@@ -57,32 +57,13 @@ G_DEFINE_DYNAMIC_TYPE (
 	E_TYPE_SHELL_BACKEND)
 
 static void
-memo_shell_backend_new_memo (ESource *source,
-                             GAsyncResult *result,
+memo_shell_backend_new_memo (ECalClient *cal_client,
                              EShell *shell,
                              CompEditorFlags flags)
 {
-	EClient *client;
-	ECalClient *cal_client;
 	ECalComponent *comp;
 	CompEditor *editor;
-	GError *error = NULL;
 
-	client = e_cal_client_connect_finish (result, &error);
-
-	/* Sanity check.  */
-	g_return_if_fail (
-		((client != NULL) && (error == NULL)) ||
-		((client == NULL) && (error != NULL)));
-
-	/* XXX Handle errors better. */
-	if (error != NULL) {
-		g_warning ("%s: %s", G_STRFUNC, error->message);
-		g_error_free (error);
-		return;
-	}
-
-	cal_client = E_CAL_CLIENT (client);
 	comp = cal_comp_memo_new_with_defaults (cal_client);
 	cal_comp_update_time_by_active_window (comp, shell);
 	editor = memo_editor_new (cal_client, shell, flags);
@@ -91,20 +72,37 @@ memo_shell_backend_new_memo (ESource *source,
 	gtk_window_present (GTK_WINDOW (editor));
 
 	g_object_unref (comp);
-	g_object_unref (client);
 }
 
 static void
 memo_shell_backend_memo_new_cb (GObject *source_object,
                                 GAsyncResult *result,
-                                gpointer shell)
+                                gpointer user_data)
 {
+	EShell *shell = E_SHELL (user_data);
+	EClient *client;
 	CompEditorFlags flags = 0;
+	GError *error = NULL;
 
 	flags |= COMP_EDITOR_NEW_ITEM;
 
-	memo_shell_backend_new_memo (
-		E_SOURCE (source_object), result, shell, flags);
+	client = e_client_cache_get_client_finish (
+		E_CLIENT_CACHE (source_object), result, &error);
+
+	/* Sanity check. */
+	g_return_if_fail (
+		((client != NULL) && (error == NULL)) ||
+		((client == NULL) && (error != NULL)));
+
+	if (client != NULL) {
+		memo_shell_backend_new_memo (
+			E_CAL_CLIENT (client), shell, flags);
+		g_object_unref (client);
+	} else {
+		/* XXX Handle errors better. */
+		g_warning ("%s: %s", G_STRFUNC, error->message);
+		g_error_free (error);
+	}
 
 	g_object_unref (shell);
 }
@@ -112,16 +110,34 @@ memo_shell_backend_memo_new_cb (GObject *source_object,
 static void
 memo_shell_backend_memo_shared_new_cb (GObject *source_object,
                                        GAsyncResult *result,
-                                       gpointer shell)
+                                       gpointer user_data)
 {
+	EShell *shell = E_SHELL (user_data);
+	EClient *client;
 	CompEditorFlags flags = 0;
+	GError *error = NULL;
 
 	flags |= COMP_EDITOR_NEW_ITEM;
 	flags |= COMP_EDITOR_IS_SHARED;
 	flags |= COMP_EDITOR_USER_ORG;
 
-	memo_shell_backend_new_memo (
-		E_SOURCE (source_object), result, shell, flags);
+	client = e_client_cache_get_client_finish (
+		E_CLIENT_CACHE (source_object), result, &error);
+
+	/* Sanity check. */
+	g_return_if_fail (
+		((client != NULL) && (error == NULL)) ||
+		((client == NULL) && (error != NULL)));
+
+	if (client != NULL) {
+		memo_shell_backend_new_memo (
+			E_CAL_CLIENT (client), shell, flags);
+		g_object_unref (client);
+	} else {
+		/* XXX Handle errors better. */
+		g_warning ("%s: %s", G_STRFUNC, error->message);
+		g_error_free (error);
+	}
 
 	g_object_unref (shell);
 }
@@ -133,28 +149,31 @@ action_memo_new_cb (GtkAction *action,
 	EShell *shell;
 	ESource *source;
 	ESourceRegistry *registry;
-	ECalClientSourceType source_type;
+	EClientCache *client_cache;
 	const gchar *action_name;
 
 	/* This callback is used for both memos and shared memos. */
 
 	shell = e_shell_window_get_shell (shell_window);
+	client_cache = e_shell_get_client_cache (shell);
 
 	registry = e_shell_get_registry (shell);
-	source_type = E_CAL_CLIENT_SOURCE_TYPE_MEMOS;
 	source = e_source_registry_ref_default_memo_list (registry);
 
-	/* Use a callback function appropriate for the action.
-	 * FIXME Need to obtain a better default time zone. */
+	/* Use a callback function appropriate for the action. */
 	action_name = gtk_action_get_name (action);
 	if (g_strcmp0 (action_name, "memo-shared-new") == 0)
-		e_cal_client_connect (
-			source, source_type, NULL,
+		e_client_cache_get_client (
+			client_cache, source,
+			E_SOURCE_EXTENSION_MEMO_LIST,
+			NULL,
 			memo_shell_backend_memo_shared_new_cb,
 			g_object_ref (shell));
 	else
-		e_cal_client_connect (
-			source, source_type, NULL,
+		e_client_cache_get_client (
+			client_cache, source,
+			E_SOURCE_EXTENSION_MEMO_LIST,
+			NULL,
 			memo_shell_backend_memo_new_cb,
 			g_object_ref (shell));
 
@@ -226,10 +245,10 @@ memo_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 	CompEditor *editor;
 	CompEditorFlags flags = 0;
 	EClient *client;
+	EClientCache *client_cache;
 	ECalComponent *comp;
 	ESource *source;
 	ESourceRegistry *registry;
-	ECalClientSourceType source_type;
 	SoupURI *soup_uri;
 	icalcomponent *icalcomp;
 	const gchar *cp;
@@ -239,8 +258,8 @@ memo_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 	gboolean handled = FALSE;
 	GError *error = NULL;
 
-	source_type = E_CAL_CLIENT_SOURCE_TYPE_MEMOS;
 	shell = e_shell_backend_get_shell (shell_backend);
+	client_cache = e_shell_get_client_cache (shell);
 
 	if (strncmp (uri, "memo:", 5) != 0)
 		return FALSE;
@@ -303,7 +322,10 @@ memo_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 		goto exit;
 	}
 
-	client = e_cal_client_connect_sync (source, source_type, NULL, &error);
+	client = e_client_cache_get_client_sync (
+		client_cache, source,
+		E_SOURCE_EXTENSION_MEMO_LIST,
+		NULL, &error);
 
 	/* Sanity check. */
 	g_return_val_if_fail (
