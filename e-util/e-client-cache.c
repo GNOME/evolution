@@ -47,7 +47,7 @@ typedef struct _ClientData ClientData;
 typedef struct _SignalClosure SignalClosure;
 
 struct _EClientCachePrivate {
-	GWeakRef registry;
+	ESourceRegistry *registry;
 
 	GHashTable *client_ht;
 	GMutex client_ht_lock;
@@ -215,36 +215,34 @@ static gchar *
 client_cache_build_source_description (EClientCache *cache,
                                        ESource *source)
 {
-	GString *description;
 	ESourceRegistry *registry;
+	ESource *parent;
+	GString *description;
 	gchar *display_name;
+	gchar *parent_uid;
 
 	description = g_string_sized_new (128);
 
 	registry = e_client_cache_ref_registry (cache);
-	if (registry != NULL) {
-		ESource *parent;
-		gchar *parent_uid;
 
-		parent_uid = e_source_dup_parent (source);
-		parent = e_source_registry_ref_source (registry, parent_uid);
-		g_free (parent_uid);
+	parent_uid = e_source_dup_parent (source);
+	parent = e_source_registry_ref_source (registry, parent_uid);
+	g_free (parent_uid);
 
-		if (parent != NULL) {
-			display_name = e_source_dup_display_name (parent);
-			g_string_append (description, display_name);
-			g_string_append (description, " / ");
-			g_free (display_name);
+	if (parent != NULL) {
+		display_name = e_source_dup_display_name (parent);
+		g_string_append (description, display_name);
+		g_string_append (description, " / ");
+		g_free (display_name);
 
-			g_object_unref (parent);
-		}
-
-		g_object_unref (registry);
+		g_object_unref (parent);
 	}
 
 	display_name = e_source_dup_display_name (source);
 	g_string_append (description, display_name);
 	g_free (display_name);
+
+	g_object_unref (registry);
 
 	return g_string_free (description, FALSE);
 }
@@ -524,8 +522,9 @@ client_cache_set_registry (EClientCache *cache,
                            ESourceRegistry *registry)
 {
 	g_return_if_fail (E_IS_SOURCE_REGISTRY (registry));
+	g_return_if_fail (cache->priv->registry == NULL);
 
-	g_weak_ref_set (&cache->priv->registry, registry);
+	cache->priv->registry = g_object_ref (registry);
 }
 
 static void
@@ -570,7 +569,7 @@ client_cache_dispose (GObject *object)
 
 	priv = E_CLIENT_CACHE_GET_PRIVATE (object);
 
-	g_weak_ref_set (&priv->registry, NULL);
+	g_clear_object (&priv->registry);
 
 	g_hash_table_remove_all (priv->client_ht);
 
@@ -783,7 +782,7 @@ e_client_cache_ref_registry (EClientCache *cache)
 {
 	g_return_val_if_fail (E_IS_CLIENT_CACHE (cache), NULL);
 
-	return g_weak_ref_get (&cache->priv->registry);
+	return g_object_ref (cache->priv->registry);
 }
 
 /**
