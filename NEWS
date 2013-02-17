@@ -1,3 +1,27 @@
+Evolution 3.7.90 2013-02-18
+---------------------------
+
+Bug Fixes:
+	Bug 683867 - Schedule actions with higher idle priority (Michel Dänzer)
+	Bug 693132 - Editing a signature does not refresh preview after save
+	             (Milan Crha)
+
+Other Changes:
+	* Add a centralized cache for EClient instances and adapt most
+	  of the application to use it. (Matthew Barnes)
+	* [web-inspector] Add a secret debugging shortcut. (Matthew Barnes)
+	* Add mnemonic widgets for title and suffix comboboxes.
+	  (Vadim Rutkovsky)
+	* Add mnemonic widget for Start date field in memo editor.
+	  (Vadim Rutkovsky)
+
+Translations:
+	Fran Diéguez (gl)
+	Piotr Drąg (pl)
+	Gheyret Kenji (ug)
+	Nguyễn Thái Ngọc Duy (vi)
+
+
 Evolution 3.7.5 2013-02-04
 --------------------------
 
