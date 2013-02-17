@@ -55,32 +55,13 @@ G_DEFINE_DYNAMIC_TYPE (
 	E_TYPE_SHELL_BACKEND)
 
 static void
-task_shell_backend_new_task (ESource *source,
-                             GAsyncResult *result,
+task_shell_backend_new_task (ECalClient *cal_client,
                              EShell *shell,
                              CompEditorFlags flags)
 {
-	EClient *client;
-	ECalClient *cal_client;
 	ECalComponent *comp;
 	CompEditor *editor;
-	GError *error = NULL;
 
-	client = e_cal_client_connect_finish (result, &error);
-
-	/* Sanity check. */
-	g_return_if_fail (
-		((client != NULL) && (error == NULL)) ||
-		((client == NULL) && (error != NULL)));
-
-	/* XXX Handle errors better. */
-	if (error != NULL) {
-		g_warning ("%s: %s", G_STRFUNC, error->message);
-		g_error_free (error);
-		return;
-	}
-
-	cal_client = E_CAL_CLIENT (client);
 	editor = task_editor_new (cal_client, shell, flags);
 	comp = cal_comp_task_new_with_defaults (cal_client);
 	comp_editor_edit_comp (editor, comp);
@@ -88,20 +69,37 @@ task_shell_backend_new_task (ESource *source,
 	gtk_window_present (GTK_WINDOW (editor));
 
 	g_object_unref (comp);
-	g_object_unref (client);
 }
 
 static void
 task_shell_backend_task_new_cb (GObject *source_object,
                                 GAsyncResult *result,
-                                gpointer shell)
+                                gpointer user_data)
 {
+	EShell *shell = user_data;
+	EClient *client;
 	CompEditorFlags flags = 0;
+	GError *error = NULL;
 
 	flags |= COMP_EDITOR_NEW_ITEM;
 
-	task_shell_backend_new_task (
-		E_SOURCE (source_object), result, shell, flags);
+	client = e_client_cache_get_client_finish (
+		E_CLIENT_CACHE (source_object), result, &error);
+
+	/* Sanity check. */
+	g_return_if_fail (
+		((client != NULL) && (error == NULL)) ||
+		((client == NULL) && (error != NULL)));
+
+	if (client != NULL) {
+		task_shell_backend_new_task (
+			E_CAL_CLIENT (client), shell, flags);
+		g_object_unref (client);
+	} else {
+		/* XXX Handle errors better. */
+		g_warning ("%s: %s", G_STRFUNC, error->message);
+		g_error_free (error);
+	}
 
 	g_object_unref (shell);
 }
@@ -109,16 +107,34 @@ task_shell_backend_task_new_cb (GObject *source_object,
 static void
 task_shell_backend_task_assigned_new_cb (GObject *source_object,
                                          GAsyncResult *result,
-                                         gpointer shell)
+                                         gpointer user_data)
 {
+	EShell *shell = E_SHELL (user_data);
+	EClient *client;
 	CompEditorFlags flags = 0;
+	GError *error = NULL;
 
 	flags |= COMP_EDITOR_NEW_ITEM;
 	flags |= COMP_EDITOR_IS_ASSIGNED;
 	flags |= COMP_EDITOR_USER_ORG;
 
-	task_shell_backend_new_task (
-		E_SOURCE (source_object), result, shell, flags);
+	client = e_client_cache_get_client_finish (
+		E_CLIENT_CACHE (source_object), result, &error);
+
+	/* Sanity check. */
+	g_return_if_fail (
+		((client != NULL) && (error == NULL)) ||
+		((client == NULL) && (error != NULL)));
+
+	if (client != NULL) {
+		task_shell_backend_new_task (
+			E_CAL_CLIENT (client), shell, flags);
+		g_object_unref (client);
+	} else {
+		/* XXX Handle errors better. */
+		g_warning ("%s: %s", G_STRFUNC, error->message);
+		g_error_free (error);
+	}
 
 	g_object_unref (shell);
 }
@@ -130,28 +146,31 @@ action_task_new_cb (GtkAction *action,
 	EShell *shell;
 	ESource *source;
 	ESourceRegistry *registry;
-	ECalClientSourceType source_type;
+	EClientCache *client_cache;
 	const gchar *action_name;
 
 	/* This callback is used for both tasks and assigned tasks. */
 
 	shell = e_shell_window_get_shell (shell_window);
+	client_cache = e_shell_get_client_cache (shell);
 
 	registry = e_shell_get_registry (shell);
-	source_type = E_CAL_CLIENT_SOURCE_TYPE_TASKS;
 	source = e_source_registry_ref_default_task_list (registry);
 
-	/* Use a callback function appropriate for the action.
-	 * FIXME Need to obtain a better default time zone. */
+	/* Use a callback function appropriate for the action. */
 	action_name = gtk_action_get_name (action);
 	if (strcmp (action_name, "task-assigned-new") == 0)
-		e_cal_client_connect (
-			source, source_type, NULL,
+		e_client_cache_get_client (
+			client_cache, source,
+			E_SOURCE_EXTENSION_TASK_LIST,
+			NULL,
 			task_shell_backend_task_assigned_new_cb,
 			g_object_ref (shell));
 	else
-		e_cal_client_connect (
-			source, source_type, NULL,
+		e_client_cache_get_client (
+			client_cache, source,
+			E_SOURCE_EXTENSION_TASK_LIST,
+			NULL,
 			task_shell_backend_task_new_cb,
 			g_object_ref (shell));
 
@@ -223,10 +242,10 @@ task_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 	CompEditor *editor;
 	CompEditorFlags flags = 0;
 	EClient *client;
+	EClientCache *client_cache;
 	ECalComponent *comp;
 	ESource *source;
 	ESourceRegistry *registry;
-	ECalClientSourceType source_type;
 	SoupURI *soup_uri;
 	icalcomponent *icalcomp;
 	icalproperty *icalprop;
@@ -237,8 +256,8 @@ task_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 	gboolean handled = FALSE;
 	GError *error = NULL;
 
-	source_type = E_CAL_CLIENT_SOURCE_TYPE_TASKS;
 	shell = e_shell_backend_get_shell (shell_backend);
+	client_cache = e_shell_get_client_cache (shell);
 
 	if (strncmp (uri, "task:", 5) != 0)
 		return FALSE;
@@ -301,7 +320,10 @@ task_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 		goto exit;
 	}
 
-	client = e_cal_client_connect_sync (source, source_type, NULL, &error);
+	client = e_client_cache_get_client_sync (
+		client_cache, source,
+		E_SOURCE_EXTENSION_TASK_LIST,
+		NULL, &error);
 
 	/* Sanity check. */
 	g_return_val_if_fail (
