@@ -99,7 +99,8 @@ book_shell_backend_new_contact_cb (GObject *source_object,
 	EABEditor *editor;
 	GError *error = NULL;
 
-	client = e_book_client_connect_finish (result, &error);
+	client = e_client_cache_get_client_finish (
+		E_CLIENT_CACHE (source_object), result, &error);
 
 	/* Sanity check. */
 	g_return_if_fail (
@@ -138,7 +139,8 @@ book_shell_backend_new_contact_list_cb (GObject *source_object,
 	EABEditor *editor;
 	GError *error = NULL;
 
-	client = e_book_client_connect_finish (result, &error);
+	client = e_client_cache_get_client_finish (
+		E_CLIENT_CACHE (source_object), result, &error);
 
 	/* Sanity check. */
 	g_return_if_fail (
@@ -173,11 +175,13 @@ action_contact_new_cb (GtkAction *action,
 	EShell *shell;
 	ESource *source = NULL;
 	ESourceRegistry *registry;
+	EClientCache *client_cache;
 	const gchar *action_name;
 
 	/* This callback is used for both contacts and contact lists. */
 
 	shell = e_shell_window_get_shell (shell_window);
+	client_cache = e_shell_get_client_cache (shell);
 
 	if (g_strcmp0 (e_shell_window_get_active_view (shell_window), "addressbook") == 0) {
 		EShellView *shell_view = e_shell_window_get_shell_view (shell_window, "addressbook");
@@ -213,13 +217,17 @@ action_contact_new_cb (GtkAction *action,
 	/* Use a callback function appropriate for the action. */
 	action_name = gtk_action_get_name (action);
 	if (strcmp (action_name, "contact-new") == 0)
-		e_book_client_connect (
-			source, NULL,
+		e_client_cache_get_client (
+			client_cache, source,
+			E_SOURCE_EXTENSION_ADDRESS_BOOK,
+			NULL,
 			book_shell_backend_new_contact_cb,
 			g_object_ref (shell));
 	if (strcmp (action_name, "contact-new-list") == 0)
-		e_book_client_connect (
-			source, NULL,
+		e_client_cache_get_client (
+			client_cache, source,
+			E_SOURCE_EXTENSION_ADDRESS_BOOK,
+			NULL,
 			book_shell_backend_new_contact_list_cb,
 			g_object_ref (shell));
 
