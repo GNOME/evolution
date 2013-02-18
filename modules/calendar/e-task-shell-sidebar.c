@@ -152,22 +152,6 @@ task_shell_sidebar_emit_status_message (ETaskShellSidebar *task_shell_sidebar,
 	g_signal_emit (task_shell_sidebar, signal_id, 0, status_message, -1.0);
 }
 
-static EClientCache *
-task_shell_sidebar_ref_client_cache (ETaskShellSidebar *task_shell_sidebar)
-{
-	EShell *shell;
-	EShellView *shell_view;
-	EShellBackend *shell_backend;
-	EShellSidebar *shell_sidebar;
-
-	shell_sidebar = E_SHELL_SIDEBAR (task_shell_sidebar);
-	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
-	shell_backend = e_shell_view_get_shell_backend (shell_view);
-	shell = e_shell_backend_get_shell (shell_backend);
-
-	return g_object_ref (e_shell_get_client_cache (shell));
-}
-
 static void
 task_shell_sidebar_handle_connect_error (ETaskShellSidebar *task_shell_sidebar,
                                          const gchar *parent_display_name,
@@ -560,7 +544,6 @@ task_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 	if (source != NULL) {
 		EClient *client;
 		ESource *collection;
-		EClientCache *client_cache;
 
 		has_primary_source = TRUE;
 		is_writable = e_source_get_writable (source);
@@ -575,11 +558,8 @@ task_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 			g_object_unref (collection);
 		}
 
-		client_cache = task_shell_sidebar_ref_client_cache (
-			E_TASK_SHELL_SIDEBAR (shell_sidebar));
-		client = e_client_cache_ref_cached_client (
-			client_cache, source, E_SOURCE_EXTENSION_TASK_LIST);
-		g_object_unref (client_cache);
+		client = e_client_selector_ref_cached_client (
+			E_CLIENT_SELECTOR (selector), source);
 
 		if (client != NULL) {
 			refresh_supported =
@@ -799,17 +779,16 @@ void
 e_task_shell_sidebar_remove_source (ETaskShellSidebar *task_shell_sidebar,
                                     ESource *source)
 {
-	EClientCache *client_cache;
+	ESourceSelector *selector;
 	EClient *client;
 
 	g_return_if_fail (E_IS_TASK_SHELL_SIDEBAR (task_shell_sidebar));
 	g_return_if_fail (E_IS_SOURCE (source));
 
-	client_cache =
-		task_shell_sidebar_ref_client_cache (task_shell_sidebar);
-	client = e_client_cache_ref_cached_client (
-		client_cache, source, E_SOURCE_EXTENSION_TASK_LIST);
-	g_object_unref (client_cache);
+	selector = e_task_shell_sidebar_get_selector (task_shell_sidebar);
+
+	client = e_client_selector_ref_cached_client (
+		E_CLIENT_SELECTOR (selector), source);
 
 	if (client != NULL) {
 		task_shell_sidebar_emit_client_removed (
