@@ -495,7 +495,7 @@ task_shell_sidebar_constructed (GObject *object)
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	EShellSidebar *shell_sidebar;
-	ESourceRegistry *registry;
+	EClientCache *client_cache;
 	GtkContainer *container;
 	GtkWidget *widget;
 	AtkObject *a11y;
@@ -523,8 +523,8 @@ task_shell_sidebar_constructed (GObject *object)
 
 	container = GTK_CONTAINER (widget);
 
-	registry = e_shell_get_registry (shell);
-	widget = e_task_list_selector_new (registry);
+	client_cache = e_shell_get_client_cache (shell);
+	widget = e_task_list_selector_new (client_cache);
 	e_source_selector_set_select_new (E_SOURCE_SELECTOR (widget), TRUE);
 	gtk_container_add (container, widget);
 	a11y = gtk_widget_get_accessible (widget);

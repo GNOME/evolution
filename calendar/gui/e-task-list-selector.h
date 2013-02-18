@@ -54,16 +54,16 @@ typedef struct _ETaskListSelectorClass ETaskListSelectorClass;
 typedef struct _ETaskListSelectorPrivate ETaskListSelectorPrivate;
 
 struct _ETaskListSelector {
-	ESourceSelector parent;
+	EClientSelector parent;
 	ETaskListSelectorPrivate *priv;
 };
 
 struct _ETaskListSelectorClass {
-	ESourceSelectorClass parent_class;
+	EClientSelectorClass parent_class;
 };
 
 GType		e_task_list_selector_get_type	(void);
-GtkWidget *	e_task_list_selector_new	(ESourceRegistry *registry);
+GtkWidget *	e_task_list_selector_new	(EClientCache *client_cache);
 
 G_END_DECLS
 
