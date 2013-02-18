@@ -221,8 +221,8 @@ memo_shell_sidebar_client_connect_cb (GObject *source_object,
 	ConnectClosure *closure = user_data;
 	GError *error = NULL;
 
-	client = e_client_cache_get_client_finish (
-		E_CLIENT_CACHE (source_object), result, &error);
+	client = e_client_selector_get_client_finish (
+		E_CLIENT_SELECTOR (source_object), result, &error);
 
 	/* Sanity check. */
 	g_return_if_fail (
@@ -260,8 +260,8 @@ memo_shell_sidebar_default_connect_cb (GObject *source_object,
 
 	priv = E_MEMO_SHELL_SIDEBAR_GET_PRIVATE (closure->memo_shell_sidebar);
 
-	client = e_client_cache_get_client_finish (
-		E_CLIENT_CACHE (source_object), result, &error);
+	client = e_client_selector_get_client_finish (
+		E_CLIENT_SELECTOR (source_object), result, &error);
 
 	/* Sanity check. */
 	g_return_if_fail (
@@ -307,9 +307,11 @@ memo_shell_sidebar_set_default (EMemoShellSidebar *memo_shell_sidebar,
                                 ESource *source)
 {
 	EMemoShellSidebarPrivate *priv;
-	EClientCache *client_cache;
+	ESourceSelector *selector;
 
 	priv = memo_shell_sidebar->priv;
+
+	selector = e_memo_shell_sidebar_get_selector (memo_shell_sidebar);
 
 	/* already loading that source as default source */
 	if (source == priv->connecting_default_source_instance)
@@ -326,17 +328,11 @@ memo_shell_sidebar_set_default (EMemoShellSidebar *memo_shell_sidebar,
 	priv->connecting_default_source_instance = source;
 	priv->connecting_default_client = g_cancellable_new ();
 
-	client_cache =
-		memo_shell_sidebar_ref_client_cache (memo_shell_sidebar);
-
-	e_client_cache_get_client (
-		client_cache, source,
-		E_SOURCE_EXTENSION_MEMO_LIST,
+	e_client_selector_get_client (
+		E_CLIENT_SELECTOR (selector), source,
 		priv->connecting_default_client,
 		memo_shell_sidebar_default_connect_cb,
 		connect_closure_new (memo_shell_sidebar, source));
-
-	g_object_unref (client_cache);
 }
 
 static void
@@ -777,7 +773,6 @@ e_memo_shell_sidebar_add_source (EMemoShellSidebar *memo_shell_sidebar,
                                  ESource *source)
 {
 	ESourceSelector *selector;
-	EClientCache *client_cache;
 	const gchar *display_name;
 	gchar *message;
 
@@ -793,17 +788,11 @@ e_memo_shell_sidebar_add_source (EMemoShellSidebar *memo_shell_sidebar,
 	memo_shell_sidebar_emit_status_message (memo_shell_sidebar, message);
 	g_free (message);
 
-	client_cache =
-		memo_shell_sidebar_ref_client_cache (memo_shell_sidebar);
-
-	e_client_cache_get_client (
-		client_cache, source,
-		E_SOURCE_EXTENSION_MEMO_LIST,
+	e_client_selector_get_client (
+		E_CLIENT_SELECTOR (selector), source,
 		memo_shell_sidebar->priv->loading_clients,
 		memo_shell_sidebar_client_connect_cb,
 		connect_closure_new (memo_shell_sidebar, source));
-
-	g_object_unref (client_cache);
 }
 
 void
