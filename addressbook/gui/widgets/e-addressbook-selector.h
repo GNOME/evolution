@@ -49,16 +49,16 @@ typedef struct _EAddressbookSelectorClass EAddressbookSelectorClass;
 typedef struct _EAddressbookSelectorPrivate EAddressbookSelectorPrivate;
 
 struct _EAddressbookSelector {
-	ESourceSelector parent;
+	EClientSelector parent;
 	EAddressbookSelectorPrivate *priv;
 };
 
 struct _EAddressbookSelectorClass {
-	ESourceSelectorClass parent_class;
+	EClientSelectorClass parent_class;
 };
 
 GType		e_addressbook_selector_get_type	(void);
-GtkWidget *	e_addressbook_selector_new	(ESourceRegistry *registry);
+GtkWidget *	e_addressbook_selector_new	(EClientCache *client_cache);
 EAddressbookView *
 		e_addressbook_selector_get_current_view
 						(EAddressbookSelector *selector);

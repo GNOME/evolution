@@ -94,7 +94,7 @@ book_shell_sidebar_constructed (GObject *object)
 	EShellBackend *shell_backend;
 	EShellSidebar *shell_sidebar;
 	EShellSettings *shell_settings;
-	ESourceRegistry *registry;
+	EClientCache *client_cache;
 	GtkContainer *container;
 	GtkWidget *widget;
 
@@ -123,8 +123,8 @@ book_shell_sidebar_constructed (GObject *object)
 
 	container = GTK_CONTAINER (widget);
 
-	registry = e_shell_get_registry (shell);
-	widget = e_addressbook_selector_new (registry);
+	client_cache = e_shell_get_client_cache (shell);
+	widget = e_addressbook_selector_new (client_cache);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	priv->selector = g_object_ref (widget);
 	gtk_widget_show (widget);
@@ -136,7 +136,7 @@ book_shell_sidebar_constructed (GObject *object)
 		G_BINDING_SYNC_CREATE,
 		(GBindingTransformFunc) e_binding_transform_uid_to_source,
 		(GBindingTransformFunc) e_binding_transform_source_to_uid,
-		g_object_ref (registry),
+		e_client_cache_ref_registry (client_cache),
 		(GDestroyNotify) g_object_unref);
 }
 

@@ -65,7 +65,7 @@ static GtkTargetEntry drag_types[] = {
 G_DEFINE_TYPE (
 	EAddressbookSelector,
 	e_addressbook_selector,
-	E_TYPE_SOURCE_SELECTOR)
+	E_TYPE_CLIENT_SELECTOR)
 
 static void
 merge_context_next (MergeContext *merge_context)
@@ -257,7 +257,8 @@ target_client_connect_cb (GObject *source_object,
 
 	g_return_if_fail (merge_context != NULL);
 
-	client = e_book_client_connect_finish (result, &error);
+	client = e_client_selector_get_client_finish (
+		E_CLIENT_SELECTOR (source_object), result, &error);
 
 	/* Sanity check. */
 	g_return_if_fail (
@@ -327,8 +328,9 @@ addressbook_selector_data_dropped (ESourceSelector *selector,
 	merge_context->remove_from_source = remove_from_source;
 	merge_context->pending_adds = TRUE;
 
-	e_book_client_connect (
-		destination, NULL, target_client_connect_cb, merge_context);
+	e_client_selector_get_client (
+		E_CLIENT_SELECTOR (selector), destination, NULL,
+		target_client_connect_cb, merge_context);
 
 	return TRUE;
 }
@@ -381,14 +383,24 @@ e_addressbook_selector_init (EAddressbookSelector *selector)
 }
 
 GtkWidget *
-e_addressbook_selector_new (ESourceRegistry *registry)
+e_addressbook_selector_new (EClientCache *client_cache)
 {
-	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
+	ESourceRegistry *registry;
+	GtkWidget *widget;
 
-	return g_object_new (
+	g_return_val_if_fail (E_IS_CLIENT_CACHE (client_cache), NULL);
+
+	registry = e_client_cache_ref_registry (client_cache);
+
+	widget = g_object_new (
 		E_TYPE_ADDRESSBOOK_SELECTOR,
+		"client-cache", client_cache,
 		"extension-name", E_SOURCE_EXTENSION_ADDRESS_BOOK,
 		"registry", registry, NULL);
+
+	g_object_unref (registry);
+
+	return widget;
 }
 
 EAddressbookView *
