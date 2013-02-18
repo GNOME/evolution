@@ -54,16 +54,16 @@ typedef struct _EMemoListSelectorClass EMemoListSelectorClass;
 typedef struct _EMemoListSelectorPrivate EMemoListSelectorPrivate;
 
 struct _EMemoListSelector {
-	ESourceSelector parent;
+	EClientSelector parent;
 	EMemoListSelectorPrivate *priv;
 };
 
 struct _EMemoListSelectorClass {
-	ESourceSelectorClass parent_class;
+	EClientSelectorClass parent_class;
 };
 
 GType		e_memo_list_selector_get_type	(void);
-GtkWidget *	e_memo_list_selector_new	(ESourceRegistry *registry);
+GtkWidget *	e_memo_list_selector_new	(EClientCache *client_cache);
 
 G_END_DECLS
 

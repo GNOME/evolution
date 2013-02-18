@@ -38,7 +38,7 @@ struct _EMemoListSelectorPrivate {
 G_DEFINE_TYPE (
 	EMemoListSelector,
 	e_memo_list_selector,
-	E_TYPE_SOURCE_SELECTOR)
+	E_TYPE_CLIENT_SELECTOR)
 
 static gboolean
 memo_list_selector_update_single_object (ECalClient *client,
@@ -128,7 +128,8 @@ client_connect_cb (GObject *source_object,
 
 	g_return_if_fail (uid != NULL);
 
-	client = e_cal_client_connect_finish (result, &error);
+	client = e_client_selector_get_client_finish (
+		E_CLIENT_SELECTOR (source_object), result, &error);
 
 	/* Sanity check. */
 	g_return_if_fail (
@@ -204,8 +205,8 @@ memo_list_selector_process_data (ESourceSelector *selector,
 	source = e_source_registry_ref_source (registry, source_uid);
 
 	if (source != NULL) {
-		e_cal_client_connect (
-			source, E_CAL_CLIENT_SOURCE_TYPE_MEMOS, NULL,
+		e_client_selector_get_client (
+			E_CLIENT_SELECTOR (selector), source, NULL,
 			client_connect_cb, g_strdup (old_uid));
 		g_object_unref (source);
 	}
@@ -236,7 +237,8 @@ client_connect_for_drop_cb (GObject *source_object,
 
 	g_return_if_fail (dd != NULL);
 
-	client = e_cal_client_connect_finish (result, &error);
+	client = e_client_selector_get_client_finish (
+		E_CLIENT_SELECTOR (source_object), result, &error);
 
 	/* Sanity check. */
 	g_return_if_fail (
@@ -314,8 +316,8 @@ memo_list_selector_data_dropped (ESourceSelector *selector,
 	dd->action = action;
 	dd->list = cal_comp_selection_get_string_list (selection_data);
 
-	e_cal_client_connect (
-		destination, E_CAL_CLIENT_SOURCE_TYPE_MEMOS, NULL,
+	e_client_selector_get_client (
+		E_CLIENT_SELECTOR (selector), destination, NULL,
 		client_connect_for_drop_cb, dd);
 
 	return TRUE;
@@ -349,12 +351,22 @@ e_memo_list_selector_init (EMemoListSelector *selector)
 }
 
 GtkWidget *
-e_memo_list_selector_new (ESourceRegistry *registry)
+e_memo_list_selector_new (EClientCache *client_cache)
 {
-	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
+	ESourceRegistry *registry;
+	GtkWidget *widget;
 
-	return g_object_new (
+	g_return_val_if_fail (E_IS_CLIENT_CACHE (client_cache), NULL);
+
+	registry = e_client_cache_ref_registry (client_cache);
+
+	widget = g_object_new (
 		E_TYPE_MEMO_LIST_SELECTOR,
+		"client-cache", client_cache,
 		"extension-name", E_SOURCE_EXTENSION_MEMO_LIST,
 		"registry", registry, NULL);
+
+	g_object_unref (registry);
+
+	return widget;
 }
