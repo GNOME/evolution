@@ -224,8 +224,8 @@ cal_shell_sidebar_client_connect_cb (GObject *source_object,
 	ConnectClosure *closure = user_data;
 	GError *error = NULL;
 
-	client = e_client_cache_get_client_finish (
-		E_CLIENT_CACHE (source_object), result, &error);
+	client = e_client_selector_get_client_finish (
+		E_CLIENT_SELECTOR (source_object), result, &error);
 
 	/* Sanity check. */
 	g_return_if_fail (
@@ -263,8 +263,8 @@ cal_shell_sidebar_default_connect_cb (GObject *source_object,
 
 	priv = E_CAL_SHELL_SIDEBAR_GET_PRIVATE (closure->cal_shell_sidebar);
 
-	client = e_client_cache_get_client_finish (
-		E_CLIENT_CACHE (source_object), result, &error);
+	client = e_client_selector_get_client_finish (
+		E_CLIENT_SELECTOR (source_object), result, &error);
 
 	/* Sanity check. */
 	g_return_if_fail (
@@ -310,9 +310,11 @@ cal_shell_sidebar_set_default (ECalShellSidebar *cal_shell_sidebar,
                                ESource *source)
 {
 	ECalShellSidebarPrivate *priv;
-	EClientCache *client_cache;
+	ESourceSelector *selector;
 
 	priv = cal_shell_sidebar->priv;
+
+	selector = e_cal_shell_sidebar_get_selector (cal_shell_sidebar);
 
 	/* already loading that source as default source */
 	if (source == priv->connecting_default_source_instance)
@@ -329,17 +331,11 @@ cal_shell_sidebar_set_default (ECalShellSidebar *cal_shell_sidebar,
 	priv->connecting_default_source_instance = source;
 	priv->connecting_default_client = g_cancellable_new ();
 
-	client_cache =
-		cal_shell_sidebar_ref_client_cache (cal_shell_sidebar);
-
-	e_client_cache_get_client (
-		client_cache, source,
-		E_SOURCE_EXTENSION_CALENDAR,
+	e_client_selector_get_client (
+		E_CLIENT_SELECTOR (selector), source,
 		priv->connecting_default_client,
 		cal_shell_sidebar_default_connect_cb,
 		connect_closure_new (cal_shell_sidebar, source));
-
-	g_object_unref (client_cache);
 }
 
 static void
@@ -890,7 +886,6 @@ e_cal_shell_sidebar_add_source (ECalShellSidebar *cal_shell_sidebar,
                                 ESource *source)
 {
 	ESourceSelector *selector;
-	EClientCache *client_cache;
 	const gchar *display_name;
 	gchar *message;
 
@@ -906,17 +901,11 @@ e_cal_shell_sidebar_add_source (ECalShellSidebar *cal_shell_sidebar,
 	cal_shell_sidebar_emit_status_message (cal_shell_sidebar, message);
 	g_free (message);
 
-	client_cache =
-		cal_shell_sidebar_ref_client_cache (cal_shell_sidebar);
-
-	e_client_cache_get_client (
-		client_cache, source,
-		E_SOURCE_EXTENSION_CALENDAR,
+	e_client_selector_get_client (
+		E_CLIENT_SELECTOR (selector), source,
 		cal_shell_sidebar->priv->loading_clients,
 		cal_shell_sidebar_client_connect_cb,
 		connect_closure_new (cal_shell_sidebar, source));
-
-	g_object_unref (client_cache);
 }
 
 void
