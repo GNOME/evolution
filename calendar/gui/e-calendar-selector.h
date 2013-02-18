@@ -49,16 +49,16 @@ typedef struct _ECalendarSelectorClass ECalendarSelectorClass;
 typedef struct _ECalendarSelectorPrivate ECalendarSelectorPrivate;
 
 struct _ECalendarSelector {
-	ESourceSelector parent;
+	EClientSelector parent;
 	ECalendarSelectorPrivate *priv;
 };
 
 struct _ECalendarSelectorClass {
-	ESourceSelectorClass parent_class;
+	EClientSelectorClass parent_class;
 };
 
 GType		e_calendar_selector_get_type	(void);
-GtkWidget *	e_calendar_selector_new		(ESourceRegistry *registry);
+GtkWidget *	e_calendar_selector_new		(EClientCache *client_cache);
 
 G_END_DECLS
 

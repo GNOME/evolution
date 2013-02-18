@@ -533,7 +533,7 @@ cal_shell_sidebar_constructed (GObject *object)
 	EShellBackend *shell_backend;
 	EShellSidebar *shell_sidebar;
 	EShellSettings *shell_settings;
-	ESourceRegistry *registry;
+	EClientCache *client_cache;
 	ECalendarItem *calitem;
 	GtkWidget *container;
 	GtkWidget *widget;
@@ -589,8 +589,8 @@ cal_shell_sidebar_constructed (GObject *object)
 
 	container = widget;
 
-	registry = e_shell_get_registry (shell);
-	widget = e_calendar_selector_new (registry);
+	client_cache = e_shell_get_client_cache (shell);
+	widget = e_calendar_selector_new (client_cache);
 	e_source_selector_set_select_new (E_SOURCE_SELECTOR (widget), TRUE);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	a11y = gtk_widget_get_accessible (widget);

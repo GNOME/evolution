@@ -35,7 +35,7 @@ struct _ECalendarSelectorPrivate {
 G_DEFINE_TYPE (
 	ECalendarSelector,
 	e_calendar_selector,
-	E_TYPE_SOURCE_SELECTOR)
+	E_TYPE_CLIENT_SELECTOR)
 
 static gboolean
 calendar_selector_update_single_object (ECalClient *client,
@@ -127,7 +127,8 @@ client_connect_cb (GObject *source_object,
 
 	g_return_if_fail (icalcomp != NULL);
 
-	client = e_cal_client_connect_finish (result, &error);
+	client = e_client_selector_get_client_finish (
+		E_CLIENT_SELECTOR (source_object), result, &error);
 
 	/* Sanity check. */
 	g_return_if_fail (
@@ -190,8 +191,8 @@ calendar_selector_data_dropped (ESourceSelector *selector,
 		icalcomponent_set_uid (icalcomp, uid);
 	}
 
-	e_cal_client_connect (
-		destination, E_CAL_CLIENT_SOURCE_TYPE_EVENTS, NULL,
+	e_client_selector_get_client (
+		E_CLIENT_SELECTOR (selector), destination, NULL,
 		client_connect_cb, icalcomp);
 
 	success = TRUE;
@@ -234,12 +235,22 @@ e_calendar_selector_init (ECalendarSelector *selector)
 }
 
 GtkWidget *
-e_calendar_selector_new (ESourceRegistry *registry)
+e_calendar_selector_new (EClientCache *client_cache)
 {
-	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
+	ESourceRegistry *registry;
+	GtkWidget *widget;
 
-	return g_object_new (
+	g_return_val_if_fail (E_IS_CLIENT_CACHE (client_cache), NULL);
+
+	registry = e_client_cache_ref_registry (client_cache);
+
+	widget = g_object_new (
 		E_TYPE_CALENDAR_SELECTOR,
+		"client-cache", client_cache,
 		"extension-name", E_SOURCE_EXTENSION_CALENDAR,
 		"registry", registry, NULL);
+
+	g_object_unref (registry);
+
+	return widget;
 }
