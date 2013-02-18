@@ -159,6 +159,7 @@ eutilinclude_HEADERS =  \
 	e-charset-combo-box.h \
 	e-charset.h \
 	e-client-cache.h \
+	e-client-selector.h \
 	e-config.h \
 	e-contact-store.h \
 	e-dateedit.h \
@@ -404,6 +405,7 @@ libeutil_la_SOURCES = \
 	e-charset-combo-box.c \
 	e-charset.c \
 	e-client-cache.c \
+	e-client-selector.c \
 	e-config.c \
 	e-contact-store.c \
 	e-dateedit.c \

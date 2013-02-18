@@ -181,6 +181,8 @@
     <xi:include href="xml/e-source-selector-dialog.xml"/>
     <xi:include href="xml/e-source-combo-box.xml"/>
     <xi:include href="xml/e-source-util.xml"/>
+    <xi:include href="xml/e-client-cache.xml"/>
+    <xi:include href="xml/e-client-selector.xml"/>
   </chapter>
 
   <chapter>
@@ -226,7 +228,6 @@
     <xi:include href="xml/e-calendar.xml"/>
     <xi:include href="xml/e-cell-renderer-color.xml"/>
     <xi:include href="xml/e-charset-combo-box.xml"/>
-    <xi:include href="xml/e-client-cache.xml"/>
     <xi:include href="xml/e-contact-store.xml"/>
     <xi:include href="xml/e-dateedit.xml"/>
     <xi:include href="xml/e-destination-store.xml"/>

@@ -54,6 +54,7 @@ e_cell_tree_get_type
 e_cell_vbox_get_type
 e_charset_combo_box_get_type
 e_client_cache_get_type
+e_client_selector_get_type
 e_config_get_type
 e_config_hook_get_type
 e_contact_store_get_type

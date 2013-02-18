@@ -1274,6 +1274,29 @@ EClientCachePrivate
 </SECTION>
 
 <SECTION>
+<FILE>e-client-selector</FILE>
+<TITLE>EClientSelector</TITLE>
+EClientSelector
+e_client_selector_new
+e_client_selector_ref_client_cache
+e_client_selector_get_client_sync
+e_client_selector_get_client
+e_client_selector_get_client_finish
+e_client_selector_ref_cached_client
+<SUBSECTION Standard>
+E_CLIENT_SELECTOR
+E_IS_CLIENT_SELECTOR
+E_TYPE_CLIENT_SELECTOR
+E_CLIENT_SELECTOR_CLASS
+E_IS_CLIENT_SELECTOR_CLASS
+E_CLIENT_SELECTOR_GET_CLASS
+EClientSelectorClass
+e_client_selector_get_type
+<SUBSECTION Private>
+EClientSelectorPrivate
+</SECTION>
+
+<SECTION>
 <FILE>e-config</FILE>
 <TITLE>EConfig</TITLE>
 EConfig
