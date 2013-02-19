@@ -490,10 +490,12 @@ e_action_combo_box_set_action (EActionComboBox *combo_box,
 		combo_box->priv->action_group = NULL;
 	}
 
-	if (action != NULL)
+	if (action != NULL) {
+		/* This also adds a reference to the combo_box->priv->action_group */
 		g_object_get (
 			g_object_ref (action), "action-group",
 			&combo_box->priv->action_group, NULL);
+	}
 
 	combo_box->priv->action = action;
 	action_combo_box_update_model (combo_box);
@@ -505,7 +507,6 @@ e_action_combo_box_set_action (EActionComboBox *combo_box,
 			combo_box);
 
 	if (combo_box->priv->action_group != NULL) {
-		g_object_ref (combo_box->priv->action_group);
 		combo_box->priv->group_sensitive_handler_id =
 			g_signal_connect (
 				combo_box->priv->action_group,
