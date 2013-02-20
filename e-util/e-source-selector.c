@@ -231,87 +231,6 @@ source_selector_cancel_write (ESourceSelector *selector,
 	g_hash_table_remove (pending_writes, source);
 }
 
-static void
-source_selector_update_row (ESourceSelector *selector,
-                            ESource *source)
-{
-	GHashTable *source_index;
-	ESourceExtension *extension = NULL;
-	GtkTreeRowReference *reference;
-	GtkTreeModel *model;
-	GtkTreePath *path;
-	GtkTreeIter iter;
-	const gchar *extension_name;
-	const gchar *display_name;
-	gboolean selected;
-
-	source_index = selector->priv->source_index;
-	reference = g_hash_table_lookup (source_index, source);
-
-	/* This function runs when ANY ESource in the registry changes.
-	 * If the ESource is not in our tree model then return silently. */
-	if (reference == NULL)
-		return;
-
-	/* If we do have a row reference, it should be valid. */
-	g_return_if_fail (gtk_tree_row_reference_valid (reference));
-
-	model = gtk_tree_row_reference_get_model (reference);
-	path = gtk_tree_row_reference_get_path (reference);
-	gtk_tree_model_get_iter (model, &iter, path);
-	gtk_tree_path_free (path);
-
-	display_name = e_source_get_display_name (source);
-
-	extension_name = e_source_selector_get_extension_name (selector);
-	selected = e_source_selector_source_is_selected (selector, source);
-
-	if (e_source_has_extension (source, extension_name))
-		extension = e_source_get_extension (source, extension_name);
-
-	if (extension != NULL) {
-		GdkColor color;
-		const gchar *color_spec = NULL;
-		gboolean show_color = FALSE;
-		gboolean show_toggle;
-
-		show_color =
-			E_IS_SOURCE_SELECTABLE (extension) &&
-			e_source_selector_get_show_colors (selector);
-
-		if (show_color)
-			color_spec = e_source_selectable_get_color (
-				E_SOURCE_SELECTABLE (extension));
-
-		if (color_spec != NULL && *color_spec != '\0')
-			show_color = gdk_color_parse (color_spec, &color);
-
-		show_toggle = e_source_selector_get_show_toggles (selector);
-
-		gtk_tree_store_set (
-			GTK_TREE_STORE (model), &iter,
-			COLUMN_NAME, display_name,
-			COLUMN_COLOR, show_color ? &color : NULL,
-			COLUMN_ACTIVE, selected,
-			COLUMN_SHOW_COLOR, show_color,
-			COLUMN_SHOW_TOGGLE, show_toggle,
-			COLUMN_WEIGHT, PANGO_WEIGHT_NORMAL,
-			COLUMN_SOURCE, source,
-			-1);
-	} else {
-		gtk_tree_store_set (
-			GTK_TREE_STORE (model), &iter,
-			COLUMN_NAME, display_name,
-			COLUMN_COLOR, NULL,
-			COLUMN_ACTIVE, FALSE,
-			COLUMN_SHOW_COLOR, FALSE,
-			COLUMN_SHOW_TOGGLE, FALSE,
-			COLUMN_WEIGHT, PANGO_WEIGHT_BOLD,
-			COLUMN_SOURCE, source,
-			-1);
-	}
-}
-
 static gboolean
 source_selector_traverse (GNode *node,
                           ESourceSelector *selector)
@@ -353,7 +272,7 @@ source_selector_traverse (GNode *node,
 	g_hash_table_insert (source_index, g_object_ref (source), reference);
 	gtk_tree_path_free (path);
 
-	source_selector_update_row (selector, source);
+	e_source_selector_update_row (selector, source);
 
 	return FALSE;
 }
@@ -493,7 +412,7 @@ source_selector_source_changed_cb (ESourceRegistry *registry,
 {
 	source_selector_cancel_write (selector, source);
 
-	source_selector_update_row (selector, source);
+	e_source_selector_update_row (selector, source);
 }
 
 static void
@@ -2078,5 +1997,101 @@ e_source_selector_queue_write (ESourceSelector *selector,
 	g_source_set_priority (idle_source, G_PRIORITY_HIGH_IDLE);
 	g_source_attach (idle_source, main_context);
 	g_source_unref (idle_source);
+}
+
+/**
+ * e_source_selector_update_row:
+ * @selector: an #ESourceSelector
+ * @source: an #ESource
+ *
+ * Updates the corresponding #GtkTreeModel row for @source.
+ *
+ * This function is public so it can be called from subclasses like
+ * #EClientSelector.
+ *
+ * Since: 3.8
+ **/
+void
+e_source_selector_update_row (ESourceSelector *selector,
+                              ESource *source)
+{
+	GHashTable *source_index;
+	ESourceExtension *extension = NULL;
+	GtkTreeRowReference *reference;
+	GtkTreeModel *model;
+	GtkTreePath *path;
+	GtkTreeIter iter;
+	const gchar *extension_name;
+	const gchar *display_name;
+	gboolean selected;
+
+	g_return_if_fail (E_IS_SOURCE_SELECTOR (selector));
+	g_return_if_fail (E_IS_SOURCE (source));
+
+	source_index = selector->priv->source_index;
+	reference = g_hash_table_lookup (source_index, source);
+
+	/* This function runs when ANY ESource in the registry changes.
+	 * If the ESource is not in our tree model then return silently. */
+	if (reference == NULL)
+		return;
+
+	/* If we do have a row reference, it should be valid. */
+	g_return_if_fail (gtk_tree_row_reference_valid (reference));
+
+	model = gtk_tree_row_reference_get_model (reference);
+	path = gtk_tree_row_reference_get_path (reference);
+	gtk_tree_model_get_iter (model, &iter, path);
+	gtk_tree_path_free (path);
+
+	display_name = e_source_get_display_name (source);
+
+	extension_name = e_source_selector_get_extension_name (selector);
+	selected = e_source_selector_source_is_selected (selector, source);
+
+	if (e_source_has_extension (source, extension_name))
+		extension = e_source_get_extension (source, extension_name);
+
+	if (extension != NULL) {
+		GdkColor color;
+		const gchar *color_spec = NULL;
+		gboolean show_color = FALSE;
+		gboolean show_toggle;
+
+		show_color =
+			E_IS_SOURCE_SELECTABLE (extension) &&
+			e_source_selector_get_show_colors (selector);
+
+		if (show_color)
+			color_spec = e_source_selectable_get_color (
+				E_SOURCE_SELECTABLE (extension));
+
+		if (color_spec != NULL && *color_spec != '\0')
+			show_color = gdk_color_parse (color_spec, &color);
+
+		show_toggle = e_source_selector_get_show_toggles (selector);
+
+		gtk_tree_store_set (
+			GTK_TREE_STORE (model), &iter,
+			COLUMN_NAME, display_name,
+			COLUMN_COLOR, show_color ? &color : NULL,
+			COLUMN_ACTIVE, selected,
+			COLUMN_SHOW_COLOR, show_color,
+			COLUMN_SHOW_TOGGLE, show_toggle,
+			COLUMN_WEIGHT, PANGO_WEIGHT_NORMAL,
+			COLUMN_SOURCE, source,
+			-1);
+	} else {
+		gtk_tree_store_set (
+			GTK_TREE_STORE (model), &iter,
+			COLUMN_NAME, display_name,
+			COLUMN_COLOR, NULL,
+			COLUMN_ACTIVE, FALSE,
+			COLUMN_SHOW_COLOR, FALSE,
+			COLUMN_SHOW_TOGGLE, FALSE,
+			COLUMN_WEIGHT, PANGO_WEIGHT_BOLD,
+			COLUMN_SOURCE, source,
+			-1);
+	}
 }
 

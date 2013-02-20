@@ -135,6 +135,8 @@ ESource *	e_source_selector_ref_source_by_path
 						 GtkTreePath *path);
 void		e_source_selector_queue_write	(ESourceSelector *selector,
 						 ESource *source);
+void		e_source_selector_update_row	(ESourceSelector *selector,
+						 ESource *source);
 
 G_END_DECLS
 
