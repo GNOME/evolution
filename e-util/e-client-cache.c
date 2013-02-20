@@ -62,6 +62,7 @@ struct _ClientData {
 	GWeakRef cache;
 	EClient *client;
 	GQueue connecting;
+	gboolean dead_backend;
 	gulong backend_died_handler_id;
 	gulong backend_error_handler_id;
 	gulong notify_handler_id;
@@ -411,6 +412,14 @@ client_cache_backend_died_cb (EClient *client,
 
 		g_object_unref (cache);
 	}
+
+	/* Discard the EClient and tag the backend as
+	 * dead until we create a replacement EClient. */
+	g_mutex_lock (&client_data->lock);
+	g_clear_object (&client_data->client);
+	client_data->dead_backend = TRUE;
+	g_mutex_unlock (&client_data->lock);
+
 }
 
 static void
@@ -495,7 +504,11 @@ client_cache_process_results (ClientData *client_data,
 	if (client != NULL) {
 		EClientCache *cache;
 
+		/* Make sure we're not leaking a reference. */
+		g_warn_if_fail (client_data->client == NULL);
+
 		client_data->client = g_object_ref (client);
+		client_data->dead_backend = FALSE;
 
 		cache = g_weak_ref_get (&client_data->cache);
 
@@ -1202,3 +1215,38 @@ e_client_cache_ref_cached_client (EClientCache *cache,
 
 	return client;
 }
+
+/**
+ * e_client_cache_is_backend_dead:
+ * @cache: an #EClientCache
+ * @source: an #ESource
+ * @extension_name: an extension name
+ *
+ * Returns %TRUE if an #EClient instance for @source and @extension_name
+ * was recently discarded after having emitted a #EClient::backend-died
+ * signal, and a replacement #EClient instance has not yet been created.
+ *
+ * Returns: whether the backend for @source and @extension_name died
+ **/
+gboolean
+e_client_cache_is_backend_dead (EClientCache *cache,
+                                ESource *source,
+                                const gchar *extension_name)
+{
+	ClientData *client_data;
+	gboolean dead_backend = FALSE;
+
+	g_return_val_if_fail (E_IS_CLIENT_CACHE (cache), FALSE);
+	g_return_val_if_fail (E_IS_SOURCE (source), FALSE);
+	g_return_val_if_fail (extension_name != NULL, FALSE);
+
+	client_data = client_ht_lookup (cache, source, extension_name);
+
+	if (client_data != NULL) {
+		dead_backend = client_data->dead_backend;
+		client_data_unref (client_data);
+	}
+
+	return dead_backend;
+}
+

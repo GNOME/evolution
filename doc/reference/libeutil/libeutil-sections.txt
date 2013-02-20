@@ -1260,6 +1260,7 @@ e_client_cache_get_client_sync
 e_client_cache_get_client
 e_client_cache_get_client_finish
 e_client_cache_ref_cached_client
+e_client_cache_is_backend_dead
 <SUBSECTION Standard>
 E_CLIENT_CACHE
 E_IS_CLIENT_CACHE
