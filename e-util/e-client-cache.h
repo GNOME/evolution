@@ -72,6 +72,9 @@ struct _EClientCacheClass {
 	void		(*backend_error)	(EClientCache *cache,
 						 EClient *client,
 						 EAlert *alert);
+	void		(*client_notify)	(EClientCache *cache,
+						 EClient *client,
+						 GParamSpec *pspec);
 	void		(*client_created)	(EClientCache *cache,
 						 EClient *client);
 };

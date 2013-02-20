@@ -64,11 +64,13 @@ struct _ClientData {
 	GQueue connecting;
 	gulong backend_died_handler_id;
 	gulong backend_error_handler_id;
+	gulong notify_handler_id;
 };
 
 struct _SignalClosure {
 	EClientCache *cache;
 	EClient *client;
+	GParamSpec *pspec;
 	gchar *error_message;
 };
 
@@ -88,6 +90,7 @@ enum {
 	BACKEND_DIED,
 	BACKEND_ERROR,
 	CLIENT_CREATED,
+	CLIENT_NOTIFY,
 	LAST_SIGNAL
 };
 
@@ -130,6 +133,7 @@ client_data_unref (ClientData *client_data)
 		 * have already been disconnected. */
 		g_warn_if_fail (client_data->backend_died_handler_id == 0);
 		g_warn_if_fail (client_data->backend_error_handler_id == 0);
+		g_warn_if_fail (client_data->notify_handler_id == 0);
 
 		g_mutex_clear (&client_data->lock);
 		g_clear_object (&client_data->client);
@@ -158,6 +162,11 @@ client_data_dispose (ClientData *client_data)
 			client_data->backend_error_handler_id);
 		client_data->backend_error_handler_id = 0;
 
+		g_signal_handler_disconnect (
+			client_data->client,
+			client_data->notify_handler_id);
+		client_data->notify_handler_id = 0;
+
 		g_clear_object (&client_data->client);
 	}
 
@@ -171,6 +180,9 @@ signal_closure_free (SignalClosure *signal_closure)
 {
 	g_clear_object (&signal_closure->cache);
 	g_clear_object (&signal_closure->client);
+
+	if (signal_closure->pspec != NULL)
+		g_param_spec_unref (signal_closure->pspec);
 
 	g_free (signal_closure->error_message);
 
@@ -341,6 +353,24 @@ client_cache_emit_backend_error_idle_cb (gpointer user_data)
 	return FALSE;
 }
 
+static gboolean
+client_cache_emit_client_notify_idle_cb (gpointer user_data)
+{
+	SignalClosure *signal_closure = user_data;
+	const gchar *name;
+
+	name = g_param_spec_get_name (signal_closure->pspec);
+
+	g_signal_emit (
+		signal_closure->cache,
+		signals[CLIENT_NOTIFY],
+		g_quark_from_string (name),
+		signal_closure->client,
+		signal_closure->pspec);
+
+	return FALSE;
+}
+
 static void
 client_cache_backend_died_cb (EClient *client,
                               ClientData *client_data)
@@ -402,6 +432,37 @@ client_cache_backend_error_cb (EClient *client,
 }
 
 static void
+client_cache_notify_cb (EClient *client,
+                        GParamSpec *pspec,
+                        ClientData *client_data)
+{
+	EClientCache *cache;
+
+	cache = g_weak_ref_get (&client_data->cache);
+
+	if (cache != NULL) {
+		GSource *idle_source;
+		SignalClosure *signal_closure;
+
+		signal_closure = g_slice_new0 (SignalClosure);
+		signal_closure->cache = g_object_ref (cache);
+		signal_closure->client = g_object_ref (client);
+		signal_closure->pspec = g_param_spec_ref (pspec);
+
+		idle_source = g_idle_source_new ();
+		g_source_set_callback (
+			idle_source,
+			client_cache_emit_client_notify_idle_cb,
+			signal_closure,
+			(GDestroyNotify) signal_closure_free);
+		g_source_attach (idle_source, cache->priv->main_context);
+		g_source_unref (idle_source);
+
+		g_object_unref (cache);
+	}
+}
+
+static void
 client_cache_process_results (ClientData *client_data,
                               EClient *client,
                               const GError *error)
@@ -448,6 +509,14 @@ client_cache_process_results (ClientData *client_data,
 				(GClosureNotify) client_data_unref,
 				0);
 			client_data->backend_error_handler_id = handler_id;
+
+			handler_id = g_signal_connect_data (
+				client, "notify",
+				G_CALLBACK (client_cache_notify_cb),
+				client_data_ref (client_data),
+				(GClosureNotify) client_data_unref,
+				0);
+			client_data->notify_handler_id = handler_id;
 
 			g_signal_emit (
 				cache, signals[CLIENT_CREATED], 0, client);
@@ -684,7 +753,7 @@ e_client_cache_class_init (EClientCacheClass *class)
 
 	/**
 	 * EClientCache::client-created:
-	 * @cache: the #EClientCache the received the signal
+	 * @cache: the #EClientCache that received the signal
 	 * @client: the newly-created #EClient
 	 *
 	 * This signal is emitted when a call to e_client_cache_get_client()
@@ -698,6 +767,37 @@ e_client_cache_class_init (EClientCacheClass *class)
 		NULL, NULL, NULL,
 		G_TYPE_NONE, 1,
 		E_TYPE_CLIENT);
+
+	/**
+	 * EClientCache::client-notify:
+	 * @cache: the #EClientCache that received the signal
+	 * @client: the #EClient whose property changed
+	 * @pspec: the #GParamSpec of the property that changed
+	 *
+	 * Rebroadcasts a #GObject::notify signal emitted by @client.
+	 *
+	 * This signal supports "::detail" appendices to the signal name
+	 * just like the #GObject::notify signal, so you can connect to
+	 * change notification signals for specific #EClient properties.
+	 *
+	 * As a convenience to signal handlers, this signal is always emitted
+	 * from the #GMainContext that was thread-default when the @cache was
+	 * created.
+	 **/
+	signals[CLIENT_NOTIFY] = g_signal_new (
+		"client-notify",
+		G_TYPE_FROM_CLASS (class),
+		/* same flags as GObject::notify */
+		G_SIGNAL_RUN_FIRST |
+		G_SIGNAL_NO_RECURSE |
+		G_SIGNAL_DETAILED |
+		G_SIGNAL_NO_HOOKS |
+		G_SIGNAL_ACTION,
+		G_STRUCT_OFFSET (EClientCacheClass, client_notify),
+		NULL, NULL, NULL,
+		G_TYPE_NONE, 2,
+		E_TYPE_CLIENT,
+		G_TYPE_PARAM);
 }
 
 static void
