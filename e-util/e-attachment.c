@@ -1785,7 +1785,7 @@ attachment_load_from_mime_part_thread (GSimpleAsyncResult *simple,
 	CamelMimePart *mime_part;
 	const gchar *attribute;
 	const gchar *string;
-	gchar *allocated;
+	gchar *allocated, *decoded_string = NULL;
 	CamelStream *null;
 	CamelDataWrapper *dw;
 
@@ -1836,11 +1836,21 @@ attachment_load_from_mime_part_thread (GSimpleAsyncResult *simple,
 
 	/* Strip any path components from the filename. */
 	string = camel_mime_part_get_filename (mime_part);
-	if (string == NULL)
+	if (string == NULL) {
 		/* Translators: Default attachment filename. */
 		string = _("attachment.dat");
+	} else {
+		decoded_string = camel_header_decode_string (string, "UTF-8");
+		if (decoded_string && *decoded_string && !g_str_equal (decoded_string, string)) {
+			string = decoded_string;
+		} else {
+			g_free (decoded_string);
+			decoded_string = NULL;
+		}
+	}
 	allocated = g_path_get_basename (string);
 	g_file_info_set_display_name (file_info, allocated);
+	g_free (decoded_string);
 	g_free (allocated);
 
 	attribute = G_FILE_ATTRIBUTE_STANDARD_DESCRIPTION;
