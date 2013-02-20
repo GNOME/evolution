@@ -130,6 +130,9 @@ ESource *	e_source_selector_ref_primary_selection
 void		e_source_selector_set_primary_selection
 						(ESourceSelector *selector,
 						 ESource *source);
+ESource *	e_source_selector_ref_source_by_iter
+						(ESourceSelector *selector,
+						 GtkTreeIter *iter);
 ESource *	e_source_selector_ref_source_by_path
 						(ESourceSelector *selector,
 						 GtkTreePath *path);

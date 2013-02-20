@@ -1911,6 +1911,37 @@ e_source_selector_set_primary_selection (ESourceSelector *selector,
 }
 
 /**
+ * e_source_selector_ref_source_by_iter:
+ * @selector: an #ESourceSelector
+ * @iter: a #GtkTreeIter
+ *
+ * Returns the #ESource object at @iter.
+ *
+ * The returned #ESource is referenced for thread-safety and must be
+ * unreferenced with g_object_unref() when finished with it.
+ *
+ * Returns: the #ESource object at @iter, or %NULL
+ *
+ * Since: 3.8
+ **/
+ESource *
+e_source_selector_ref_source_by_iter (ESourceSelector *selector,
+                                      GtkTreeIter *iter)
+{
+	ESource *source = NULL;
+	GtkTreeModel *model;
+
+	g_return_val_if_fail (E_IS_SOURCE_SELECTOR (selector), NULL);
+	g_return_val_if_fail (iter != NULL, NULL);
+
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (selector));
+
+	gtk_tree_model_get (model, iter, COLUMN_SOURCE, &source, -1);
+
+	return source;
+}
+
+/**
  * e_source_selector_ref_source_by_path:
  * @selector: an #ESourceSelector
  * @path: a #GtkTreePath
