@@ -1284,6 +1284,7 @@ e_client_selector_get_client_sync
 e_client_selector_get_client
 e_client_selector_get_client_finish
 e_client_selector_ref_cached_client
+e_client_selector_ref_cached_client_by_iter
 e_client_selector_is_backend_dead
 <SUBSECTION Standard>
 E_CLIENT_SELECTOR

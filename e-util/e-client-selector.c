@@ -418,6 +418,43 @@ e_client_selector_ref_cached_client (EClientSelector *selector,
 }
 
 /**
+ * e_client_selector_ref_cached_client_by_iter:
+ * @selector: an #EClientSelector
+ * @iter: a #GtkTreeIter
+ *
+ * Returns a shared #EClient instance for the #ESource in the tree model
+ * row pointed to by @iter and the value of #ESourceSelector:extension-name
+ * if such an instance is already cached, or else %NULL.  This function does
+ * not create a new #EClient instance, and therefore does not block.
+ *
+ * The returned #EClient is referenced for thread-safety and must be
+ * unreferenced with g_object_unref() when finished with it.
+ *
+ * Returns: an #EClient, or %NULL
+ **/
+EClient *
+e_client_selector_ref_cached_client_by_iter (EClientSelector *selector,
+                                             GtkTreeIter *iter)
+{
+	EClient *client = NULL;
+	ESource *source;
+
+	g_return_val_if_fail (E_IS_CLIENT_SELECTOR (selector), NULL);
+	g_return_val_if_fail (iter != NULL, NULL);
+
+	source = e_source_selector_ref_source_by_iter (
+		E_SOURCE_SELECTOR (selector), iter);
+
+	if (source != NULL) {
+		client = e_client_selector_ref_cached_client (
+			selector, source);
+		g_object_unref (source);
+	}
+
+	return client;
+}
+
+/**
  * e_client_selector_is_backend_dead:
  * @selector: an #EClientSelector
  * @source: an #ESource
