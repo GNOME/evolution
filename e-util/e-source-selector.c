@@ -1307,6 +1307,7 @@ e_source_selector_init (ESourceSelector *selector)
 	gtk_tree_view_set_model (tree_view, GTK_TREE_MODEL (tree_store));
 
 	column = gtk_tree_view_column_new ();
+	gtk_tree_view_column_set_expand (column, TRUE);
 	gtk_tree_view_append_column (tree_view, column);
 
 	renderer = e_cell_renderer_color_new ();

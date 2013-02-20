@@ -34,6 +34,9 @@
 
 struct _EClientSelectorPrivate {
 	EClientCache *client_cache;
+	gulong backend_died_handler_id;
+	gulong client_created_handler_id;
+	gulong client_notify_online_handler_id;
 };
 
 enum {
@@ -45,6 +48,97 @@ G_DEFINE_TYPE (
 	EClientSelector,
 	e_client_selector,
 	E_TYPE_SOURCE_SELECTOR)
+
+static void
+client_selector_update_status_icon_cb (GtkTreeViewColumn *column,
+                                       GtkCellRenderer *renderer,
+                                       GtkTreeModel *model,
+                                       GtkTreeIter *iter,
+                                       gpointer user_data)
+{
+	GtkWidget *tree_view;
+	EClient *client;
+	const gchar *icon_name = NULL;
+
+	tree_view = gtk_tree_view_column_get_tree_view (column);
+
+	client = e_client_selector_ref_cached_client_by_iter (
+		E_CLIENT_SELECTOR (tree_view), iter);
+
+	if (client != NULL) {
+		if (e_client_is_online (client))
+			icon_name = "network-idle-symbolic";
+		else
+			icon_name = "network-offline-symbolic";
+
+		g_object_unref (client);
+
+	} else {
+		ESource *source;
+
+		/* No client... did the backend die? */
+		source = e_source_selector_ref_source_by_iter (
+			E_SOURCE_SELECTOR (tree_view), iter);
+
+		if (source != NULL) {
+			gboolean dead_backend;
+
+			dead_backend = e_client_selector_is_backend_dead (
+				E_CLIENT_SELECTOR (tree_view), source);
+			if (dead_backend)
+				icon_name = "network-error-symbolic";
+
+			g_object_unref (source);
+		}
+	}
+
+	if (icon_name != NULL) {
+		GIcon *icon;
+
+		/* Use fallbacks if symbolic icons are not available. */
+		icon = g_themed_icon_new_with_default_fallbacks (icon_name);
+		g_object_set (renderer, "gicon", icon, NULL);
+		g_object_unref (icon);
+	} else {
+		g_object_set (renderer, "gicon", NULL, NULL);
+	}
+}
+
+static void
+client_selector_update_row (EClientSelector *selector,
+                            EClient *client)
+{
+	ESource *source;
+
+	source = e_client_get_source (client);
+	e_source_selector_update_row (E_SOURCE_SELECTOR (selector), source);
+}
+
+static void
+client_selector_backend_died_cb (EClientCache *client_cache,
+                                 EClient *client,
+                                 EAlert *alert,
+                                 EClientSelector *selector)
+{
+	client_selector_update_row (selector, client);
+}
+
+static void
+client_selector_client_created_cb (EClientCache *client_cache,
+                                   EClient *client,
+                                   EClientSelector *selector)
+{
+	client_selector_update_row (selector, client);
+}
+
+static void
+client_selector_client_notify_cb (EClientCache *client_cache,
+                                  EClient *client,
+                                  GParamSpec *pspec,
+                                  EClientSelector *selector)
+{
+	client_selector_update_row (selector, client);
+}
 
 static void
 client_selector_set_client_cache (EClientSelector *selector,
@@ -98,10 +192,84 @@ client_selector_dispose (GObject *object)
 
 	priv = E_CLIENT_SELECTOR_GET_PRIVATE (object);
 
+	if (priv->backend_died_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->client_cache,
+			priv->backend_died_handler_id);
+		priv->backend_died_handler_id = 0;
+	}
+
+	if (priv->client_created_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->client_cache,
+			priv->client_created_handler_id);
+		priv->client_created_handler_id = 0;
+	}
+
+	if (priv->client_notify_online_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->client_cache,
+			priv->client_notify_online_handler_id);
+		priv->client_notify_online_handler_id = 0;
+	}
+
 	g_clear_object (&priv->client_cache);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_client_selector_parent_class)->dispose (object);
+}
+
+static void
+client_selector_constructed (GObject *object)
+{
+	EClientSelector *selector;
+	EClientCache *client_cache;
+	GtkTreeView *tree_view;
+	GtkTreeViewColumn *column;
+	GtkCellRenderer *renderer;
+	gulong handler_id;
+
+	selector = E_CLIENT_SELECTOR (object);
+	client_cache = e_client_selector_ref_client_cache (selector);
+
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_client_selector_parent_class)->constructed (object);
+
+	/* Append an icon to hint at backend status. */
+
+	tree_view = GTK_TREE_VIEW (object);
+	column = gtk_tree_view_column_new ();
+	gtk_tree_view_append_column (tree_view, column);
+
+	renderer = gtk_cell_renderer_pixbuf_new ();
+	gtk_tree_view_column_pack_start (column, renderer, FALSE);
+
+	gtk_tree_view_column_set_cell_data_func (
+		column, renderer,
+		client_selector_update_status_icon_cb,
+		NULL, (GDestroyNotify) NULL);
+
+	/* Listen for signals that may change the icon. */
+
+	handler_id = g_signal_connect (
+		client_cache, "backend-died",
+		G_CALLBACK (client_selector_backend_died_cb),
+		selector);
+	selector->priv->backend_died_handler_id = handler_id;
+
+	handler_id = g_signal_connect (
+		client_cache, "client-created",
+		G_CALLBACK (client_selector_client_created_cb),
+		selector);
+	selector->priv->client_created_handler_id = handler_id;
+
+	handler_id = g_signal_connect (
+		client_cache, "client-notify::online",
+		G_CALLBACK (client_selector_client_notify_cb),
+		selector);
+	selector->priv->client_notify_online_handler_id = handler_id;
+
+	g_object_unref (client_cache);
 }
 
 static void
@@ -115,6 +283,7 @@ e_client_selector_class_init (EClientSelectorClass *class)
 	object_class->set_property = client_selector_set_property;
 	object_class->get_property = client_selector_get_property;
 	object_class->dispose = client_selector_dispose;
+	object_class->constructed = client_selector_constructed;
 
 	/**
 	 * EClientSelector:client-cache:
