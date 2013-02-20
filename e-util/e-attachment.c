@@ -1839,6 +1839,27 @@ attachment_load_from_mime_part_thread (GSimpleAsyncResult *simple,
 	if (string == NULL) {
 		/* Translators: Default attachment filename. */
 		string = _("attachment.dat");
+
+		if (camel_content_type_is (content_type, "message", "rfc822")) {
+			CamelMimeMessage *msg = NULL;
+			const gchar *subject = NULL;
+
+			if (CAMEL_IS_MIME_MESSAGE (mime_part)) {
+				msg = CAMEL_MIME_MESSAGE (mime_part);
+			} else {
+				CamelDataWrapper *content;
+
+				content = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
+				if (CAMEL_IS_MIME_MESSAGE (content))
+					msg = CAMEL_MIME_MESSAGE (content);
+			}
+
+			if (msg)
+				subject = camel_mime_message_get_subject (msg);
+
+			if (subject && *subject)
+				string = subject;
+		}
 	} else {
 		decoded_string = camel_header_decode_string (string, "UTF-8");
 		if (decoded_string && *decoded_string && !g_str_equal (decoded_string, string)) {
