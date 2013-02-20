@@ -62,8 +62,8 @@ struct _ClientData {
 	GWeakRef cache;
 	EClient *client;
 	GQueue connecting;
-	gulong client_died_handler_id;
-	gulong client_error_handler_id;
+	gulong backend_died_handler_id;
+	gulong backend_error_handler_id;
 };
 
 struct _SignalClosure {
@@ -128,8 +128,8 @@ client_data_unref (ClientData *client_data)
 		/* The signal handlers hold a reference on client_data,
 		 * so we should not be here unless the signal handlers
 		 * have already been disconnected. */
-		g_warn_if_fail (client_data->client_died_handler_id == 0);
-		g_warn_if_fail (client_data->client_error_handler_id == 0);
+		g_warn_if_fail (client_data->backend_died_handler_id == 0);
+		g_warn_if_fail (client_data->backend_error_handler_id == 0);
 
 		g_mutex_clear (&client_data->lock);
 		g_clear_object (&client_data->client);
@@ -150,13 +150,13 @@ client_data_dispose (ClientData *client_data)
 	if (client_data->client != NULL) {
 		g_signal_handler_disconnect (
 			client_data->client,
-			client_data->client_died_handler_id);
-		client_data->client_died_handler_id = 0;
+			client_data->backend_died_handler_id);
+		client_data->backend_died_handler_id = 0;
 
 		g_signal_handler_disconnect (
 			client_data->client,
-			client_data->client_error_handler_id);
-		client_data->client_error_handler_id = 0;
+			client_data->backend_error_handler_id);
+		client_data->backend_error_handler_id = 0;
 
 		g_clear_object (&client_data->client);
 	}
@@ -439,7 +439,7 @@ client_cache_process_results (ClientData *client_data,
 				client_data_ref (client_data),
 				(GClosureNotify) client_data_unref,
 				0);
-			client_data->client_died_handler_id = handler_id;
+			client_data->backend_died_handler_id = handler_id;
 
 			handler_id = g_signal_connect_data (
 				client, "backend-error",
@@ -447,7 +447,7 @@ client_cache_process_results (ClientData *client_data,
 				client_data_ref (client_data),
 				(GClosureNotify) client_data_unref,
 				0);
-			client_data->client_error_handler_id = handler_id;
+			client_data->backend_error_handler_id = handler_id;
 
 			g_signal_emit (
 				cache, signals[CLIENT_CREATED], 0, client);
