@@ -371,6 +371,19 @@ client_cache_emit_client_notify_idle_cb (gpointer user_data)
 	return FALSE;
 }
 
+static gboolean
+client_cache_emit_client_created_idle_cb (gpointer user_data)
+{
+	SignalClosure *signal_closure = user_data;
+
+	g_signal_emit (
+		signal_closure->cache,
+		signals[CLIENT_CREATED], 0,
+		signal_closure->client);
+
+	return FALSE;
+}
+
 static void
 client_cache_backend_died_cb (EClient *client,
                               ClientData *client_data)
@@ -489,6 +502,8 @@ client_cache_process_results (ClientData *client_data,
 		/* If the EClientCache has been disposed already,
 		 * there's no point in connecting signal handlers. */
 		if (cache != NULL) {
+			GSource *idle_source;
+			SignalClosure *signal_closure;
 			gulong handler_id;
 
 			/* client_data_dispose() will break the
@@ -518,8 +533,19 @@ client_cache_process_results (ClientData *client_data,
 				0);
 			client_data->notify_handler_id = handler_id;
 
-			g_signal_emit (
-				cache, signals[CLIENT_CREATED], 0, client);
+			signal_closure = g_slice_new0 (SignalClosure);
+			signal_closure->cache = g_object_ref (cache);
+			signal_closure->client = g_object_ref (client);
+
+			idle_source = g_idle_source_new ();
+			g_source_set_callback (
+				idle_source,
+				client_cache_emit_client_created_idle_cb,
+				signal_closure,
+				(GDestroyNotify) signal_closure_free);
+			g_source_attach (
+				idle_source, cache->priv->main_context);
+			g_source_unref (idle_source);
 
 			g_object_unref (cache);
 		}
