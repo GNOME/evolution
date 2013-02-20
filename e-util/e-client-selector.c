@@ -417,3 +417,39 @@ e_client_selector_ref_cached_client (EClientSelector *selector,
 	return client;
 }
 
+/**
+ * e_client_selector_is_backend_dead:
+ * @selector: an #EClientSelector
+ * @source: an #ESource
+ *
+ * Returns %TRUE if an #EClient instance for @source and the value of
+ * #ESourceSelector:extension-name was recently discarded after having
+ * emitted a #EClient:backend-died signal, and a replacement #EClient
+ * instance has not yet been created.
+ *
+ * Returns: whether the backend for @source died
+ **/
+gboolean
+e_client_selector_is_backend_dead (EClientSelector *selector,
+                                   ESource *source)
+{
+	EClientCache *client_cache;
+	const gchar *extension_name;
+	gboolean dead_backend;
+
+	g_return_val_if_fail (E_IS_CLIENT_SELECTOR (selector), FALSE);
+	g_return_val_if_fail (E_IS_SOURCE (source), FALSE);
+
+	extension_name = e_source_selector_get_extension_name (
+		E_SOURCE_SELECTOR (selector));
+
+	client_cache = e_client_selector_ref_client_cache (selector);
+
+	dead_backend = e_client_cache_is_backend_dead (
+		client_cache, source, extension_name);
+
+	g_object_unref (client_cache);
+
+	return dead_backend;
+}
+

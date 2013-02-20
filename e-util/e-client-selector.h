@@ -82,6 +82,9 @@ EClient *	e_client_selector_get_client_finish
 EClient *	e_client_selector_ref_cached_client
 						(EClientSelector *selector,
 						 ESource *source);
+gboolean	e_client_selector_is_backend_dead
+						(EClientSelector *selector,
+						 ESource *source);
 
 #endif /* E_CLIENT_SELECTOR_H */
 
