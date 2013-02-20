@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2013-02-17 00:01+0000\n"
-"PO-Revision-Date: 2013-02-17 15:22+0900\n"
+"POT-Creation-Date: 2013-02-20 11:01+0000\n"
+"PO-Revision-Date: 2013-02-20 20:56+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
 "Language: \n"
@@ -757,19 +757,19 @@ msgid "Merge Contact"
 msgstr "ئالاقەداش بىرلەشتۈر"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:1
-#: ../modules/addressbook/e-book-shell-view-actions.c:1079
+#: ../modules/addressbook/e-book-shell-view-actions.c:1104
 msgid "Name contains"
 msgstr "ئات ئىچىدە"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:2
-#: ../modules/addressbook/e-book-shell-view-actions.c:1072
+#: ../modules/addressbook/e-book-shell-view-actions.c:1097
 msgid "Email begins with"
 msgstr "ئېلخەت مۇنداق باشلىنىدۇ"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:3
 #: ../calendar/gui/caltypes.xml.h:26 ../calendar/gui/memotypes.xml.h:19
 #: ../calendar/gui/tasktypes.xml.h:30
-#: ../modules/addressbook/e-book-shell-view-actions.c:1065
+#: ../modules/addressbook/e-book-shell-view-actions.c:1090
 #: ../modules/calendar/e-cal-shell-view-actions.c:1795
 #: ../modules/calendar/e-memo-shell-view-actions.c:812
 #: ../modules/calendar/e-task-shell-view-actions.c:1011
@@ -811,7 +811,7 @@ msgid "Paste contacts from the clipboard"
 msgstr "ئالاقەداشنى چاپلاش تاختىسىدىن چاپلا"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:652
-#: ../modules/addressbook/e-book-shell-view-actions.c:883
+#: ../modules/addressbook/e-book-shell-view-actions.c:908
 msgid "Delete selected contacts"
 msgstr "تاللانغان ئالاقەداشلارنى ئۆچۈر"
 
@@ -2746,7 +2746,7 @@ msgid "Event cannot be fully edited, because you are not the organizer"
 msgstr "ھادىسىنى تولۇق تەھرىرلىيەلمەيدۇ چۈنكى سىز تەشكىللىگۈچى ئەمەس"
 
 #: ../calendar/gui/dialogs/event-page.c:650
-#: ../calendar/gui/dialogs/event-page.c:3172
+#: ../calendar/gui/dialogs/event-page.c:3181
 msgid "This event has reminders"
 msgstr "بۇ ھادىسىنىڭ ئەسكەرتكۈچىلىرى بار"
 
@@ -2800,30 +2800,30 @@ msgstr "ۋاكالەتچىلەر(_D)"
 msgid "Atte_ndees"
 msgstr "قاتناشقۇچىلار(_N)"
 
-#: ../calendar/gui/dialogs/event-page.c:3452
+#: ../calendar/gui/dialogs/event-page.c:3461
 #, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
 msgstr[0] "ئۇچرىشىشتىن %d كۈن ئىلگىرى"
 
-#: ../calendar/gui/dialogs/event-page.c:3458
+#: ../calendar/gui/dialogs/event-page.c:3467
 #, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
 msgstr[0] "ئۇچرىشىشتىن %d سائەت ئىلگىرى"
 
-#: ../calendar/gui/dialogs/event-page.c:3464
+#: ../calendar/gui/dialogs/event-page.c:3473
 #, c-format
 msgid "%d minute before appointment"
 msgid_plural "%d minutes before appointment"
 msgstr[0] "ئۇچرىشىشتىن %d مىنۇت ئىلگىرى"
 
-#: ../calendar/gui/dialogs/event-page.c:3485
+#: ../calendar/gui/dialogs/event-page.c:3494
 msgid "Customize"
 msgstr "ئىختىيارى"
 
 #. Translators: "None" for "No reminder set"
-#: ../calendar/gui/dialogs/event-page.c:3492
+#: ../calendar/gui/dialogs/event-page.c:3501
 msgctxt "cal-reminders"
 msgid "None"
 msgstr "يوق"
@@ -2977,7 +2977,7 @@ msgstr "ئەسلەتمىنى تەھرىرلىيەلمەيدۇ چۈنكى تال�
 msgid "Memo cannot be fully edited, because you are not the organizer"
 msgstr "ئەسلەتمىنى تولۇق تەھرىرلىگىلى بولمايدۇ چۈنكى سىز تەشكىللىگۈچى ئەمەس."
 
-#: ../calendar/gui/dialogs/memo-page.c:1174
+#: ../calendar/gui/dialogs/memo-page.c:1183
 #: ../em-format/e-mail-formatter.c:1391
 #: ../em-format/e-mail-formatter-utils.c:194
 #: ../em-format/e-mail-formatter-utils.c:218 ../mail/em-filter-i18n.h:78
@@ -7190,7 +7190,7 @@ msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the memo list. \"0\" (Classic View) places the preview pane below the memo "
 "list. \"1\" (Vertical View) places the preview pane next to the memo list"
-msgstr ""
+msgstr "ئورۇنلاشتۇرۇش ئۇسلۇبى ئالدىن كۆرۈش تاختىسىنى ئەسلەتمە تىزىمىغا نىسبەتەن قانداق ئۇرۇنغان قويۇشنى بەلگىلەيدۇ.«0»: (كلاسسىك كۆرۈنۈش) ئالدىن كۆرۈش تاختىسىنى ئەسلەتمە تىزىمىنىڭ ئاستىغا قويىدۇ. «1» : (تىك يۆنىلىشتىكى كۆرۈنۈش) ئالدىن كۆرۈش تاختىسىنى ئەسلەتمە تىزىمىغا يانداش قويىدۇ."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:65
 msgid "Memo preview pane position (vertical)"
@@ -7293,14 +7293,14 @@ msgstr "تەكرار ھادىسىنىڭ كۈنلىرىنى يانتۇ خەتتە
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:88
 msgid "Search range for time-based searching in years"
-msgstr ""
+msgstr "ۋاقىتنى ئاساس قىلغان ئىزدەشتىكى يىل دائىرىسى"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:89
 msgid ""
 "How many years can the time-based search go forward or backward from "
 "currently selected day when searching for another occurrence; default is ten "
 "years"
-msgstr ""
+msgstr "ھازىر تاللانغان كۈندىن باشلاپ ئالدىغا ياكى كەينىگە قاراپ ئىزدىگەندە قانچە يىلنى ئىزدەيدۇ بەلگىلەيدۇ. كۆڭۈلدىكى قىممىتى ئوڭ يىل"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:90
 msgid "Show appointment end times in week and month views"
@@ -7370,7 +7370,7 @@ msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the task list. \"0\" (Classic View) places the preview pane below the task "
 "list. \"1\" (Vertical View) places the preview pane next to the task list"
-msgstr ""
+msgstr "ئورۇنلاشتۇرۇش ئۇسلۇبى ئالدىن كۆرۈش تاختىسىنى ۋەزىپە تىزىمىغا نىسبەتەن قانداق ئۇرۇنغان قويۇشنى بەلگىلەيدۇ.«0»: (كلاسسىك كۆرۈنۈش) ئالدىن كۆرۈش تاختىسىنى ۋەزىپە تىزىمىنىڭ ئاستىغا قويىدۇ. «1» : (تىك يۆنىلىشتىكى كۆرۈنۈش) ئالدىن كۆرۈش تاختىسىنى ۋەزىپە تىزىمىغا يانداش قويىدۇ."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:106
 msgid "Task preview pane position (vertical)"
@@ -7474,7 +7474,7 @@ msgid ""
 "The most recently used version of Evolution, expressed as \"major.minor.micro"
 "\". This is used for data and settings migration from older to newer "
 "versions."
-msgstr ""
+msgstr "ئەڭ يېقىندا ئىشلەتكەن «major.minor.micro» شەكىلدە ئىپادىلەنگەن Evolution نەشرى. مۇشۇنىڭدا ئاساسەن كونا سانلىق-مەلۇمات ۋە تەڭشەكلەرنى يېڭى نەشرىگە كۆچۈرىدۇ."
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:3
 msgid "List of disabled plugins"
@@ -7719,7 +7719,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:43
 msgid "Encode filenames in an Outlook/GMail way"
-msgstr ""
+msgstr "ھۆججەت ئاتىنى Outlook/GMail ئوخشاش كودلىسۇن"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:44
 msgid ""
@@ -7727,7 +7727,7 @@ msgid ""
 "them display correctly filenames with UTF-8 letters sent by Evolution, "
 "because they do not follow the RFC 2231, but use the incorrect RFC 2047 "
 "standard."
-msgstr ""
+msgstr "خەت ماۋزۇسىدىكى ھۆججەت ئاتىنى Outlook ياكى GMail غا ئوخشاش كودلاپ، Evolution دا ئەۋەتىلگەن خەتلەردىكى UTF-8 دىكى ھەرپلەرنى توغرا كۆرسىتىدىغان قىلىدۇ. چۈنكى ئۇلار RFC 2231 غا بويسۇنماي، توغرا بولمىغان RFC 2047 ئۆلچىمىنى ئىشلەتكەن."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:45
 msgid "Put personalized signatures at the top of replies"
@@ -7767,14 +7767,14 @@ msgstr "بەزى خەت تىزىمى Reply-To: بېشىنى تەڭشەش ئار�
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:51
 msgid "List of localized 'Re'"
-msgstr ""
+msgstr "ھەر خىل تىلدىكى ‹Re› نىڭ تىزىمىنى"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:52
 msgid ""
 "Comma-separated list of localized 'Re' abbreviations to skip in a subject "
 "text when replying to a message, as an addition to the standard \"Re\" "
 "prefix. An example is 'SV,AV'."
-msgstr ""
+msgstr "ھەر خىل تىلدا ‹Re› نى ئىپادىلىگەندە، ئۇلارنى پەش بىلەن ئايرىپ تىزىپ كۆرسىتىدۇ. بۇ يەردىكى ‹Re› بولسا، خەتكە جاۋاب يازغان ۋاقىتتىكى خەتنىڭ ماۋزۇسىغا قوشۇلىدىغان تېكىست. مەسىلەن ‹SV,AV› دېگەندەك."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:53
 msgid "Save file format for drag-and-drop operation"
@@ -7968,7 +7968,7 @@ msgstr "ئۇچۇر تىزىمىنىڭ يەنە بىر ئىستونىدا ئې-خ
 msgid ""
 "Determines whether to use the same fonts for both \"From\" and \"Subject\" "
 "lines in the \"Messages\" column in vertical view"
-msgstr ""
+msgstr "تىك يۆلىنىشتىكى كۆرۈنۈشتە «ئۇچۇر» ئىستونىنىڭ «يوللىغۇچى» ۋە «تېما» قۇرى ئوخشاش خەت نۇسخىسى ئىشلىتىش-ئىشلەتمەسلىكنى بەلگىلەيدۇ"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:96
 msgid ""
@@ -8020,7 +8020,7 @@ msgstr "كۆزنەكچە كۆرۈنۈشىدىكى خەت بېشى ھالىتى"
 msgid ""
 "Describes whether message headers in paned view should be collapsed or "
 "expanded by default. \"0\" = expanded and \"1\" = collapsed"
-msgstr ""
+msgstr "كۆزنەكچە كۆرۈنۈشىدە خەت بەشىنى يېيىپ كۆرسىتەمدۇ ياكى قاتلاپ كۆرسىتەمدۇ بەلگىلەيدۇ. «0» = يېيىپ كۆرسىتىش، «1»=قاتلاپ كۆرسىتىش"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:107
 msgid "Width of the message-list pane"
@@ -8119,7 +8119,7 @@ msgstr "بۇ تەڭشەك كۆڭۈلدىكى ئەھۋالدا جەرياننى �
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:127
 msgid "Sort accounts alphabetically in a folder tree"
-msgstr ""
+msgstr "ھېساباتلارنى قىسقۇچ دەرىخىدە ئېلىپبە تەرتىپىدە تەرتىپلەپ كۆرسەتسۇن"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:128
 msgid ""
@@ -8127,7 +8127,7 @@ msgid ""
 "true accounts are sorted alphabetically, with an exception of On This "
 "Computer and Search folders, otherwise accounts are sorted based on an order "
 "given by a user"
-msgstr ""
+msgstr "خەت كۆرۈنۈشىدە ھېساباتلارنى قىسقۇچ دەرىخىدە قانداق تەرتىپلەيدىغانلىقنى بەلگىلەيدۇ. ئەگەر true قىلىنسا، ئېلىپبە تەرتىپىدە تەرىپلەيدۇ (مەزكۇر كومپيۇتېر ۋە ئىزدەش قىسقۇچى بۇنىڭ سىرتىدا). باشقا ئەھۋالدا ئىشلەتكۈچى كۆرسەتكەن تەرتىپتە تەرتىپلەيدۇ"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:129
 msgid "Log filter actions"
@@ -8244,7 +8244,7 @@ msgstr "ئىزدەش قىسقۇچىدىكى ئۇچۇرنى مەڭگۈلۈك ئۆ
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:154
 msgid "Asks whether to copy a folder by drag &amp; drop in the folder tree"
-msgstr ""
+msgstr "قىسقۇچنى قىسقۇچ دەرىخىگە سۆرەپ-تاشلاش ئارقىلىق كۆچۈرگەندە سورىسۇنمۇ"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:155
 msgid ""
@@ -8252,11 +8252,11 @@ msgid ""
 "folders in folder tree, 'always' - allow copy with drag &amp; drop of "
 "folders in folder tree without asking, or 'ask' - (or any other value) will "
 "ask user."
-msgstr ""
+msgstr "قىممەتلەر: ‹زادىلا› - سۆرەپ-تاشلاپ ئارقىلىق قىسقۇچنى قىسقۇچ دەرىخىگە كۆچۈرۈشكە ئىجازەت يوق، ‹ھەمىشە› - سورىمايلا سۆرەپ-تاشلاپ ئارقىلىق قىسقۇچنى قىسقۇچ دەرىخىگە كۆچۈرىدۇ، ‹سورىسۇن› -  (ياكى باشقا قىممەت) بولسا ھامان ئىشلەتكۈچىدىن سورايدۇ."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:156
 msgid "Asks whether to move a folder by drag &amp; drop in the folder tree"
-msgstr ""
+msgstr "قىسقۇچنى قىسقۇچ دەرىخىگە سۆرەپ-تاشلاش ئارقىلىق يۆتكىگەندە سورىسۇنمۇ"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:157
 msgid ""
@@ -8264,7 +8264,7 @@ msgid ""
 "folders in folder tree, 'always' - allow move with drag &amp; drop of "
 "folders in folder tree without asking, or 'ask' - (or any other value) will "
 "ask user."
-msgstr ""
+msgstr "قىممەتلەر: ‹زادىلا› - سۆرەپ-تاشلاپ ئارقىلىق قىسقۇچنى قىسقۇچ دەرىخىگە يۆتكەشكە ئىجازەت يوق، ‹ھەمىشە› - سورىمايلا سۆرەپ-تاشلاپ ئارقىلىق قىسقۇچنى قىسقۇچ دەرىخىگە يۆتكەيدۇ، ‹سورىسۇن› -  (ياكى باشقا قىممەت) بولسا ھامان ئىشلەتكۈچىدىن سورايدۇ."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:158
 msgid "Prompt when replying privately to list messages"
@@ -8307,7 +8307,7 @@ msgstr "ئىشلەتكۈچى كۆچۈرۈپ يوللاش ياكى جاۋاب ق�
 msgid ""
 "Possible values are: 'never' - to never close browser window, 'always' - to "
 "always close browser window or 'ask' - (or any other value) will ask user."
-msgstr ""
+msgstr "قىممەتلەر: ‹زادىلا› - كۆرۈش كۆزنىكىنى زادىلا ياپمايدۇ، ‹ھەمىشە› - كۆرۈش كۆزنىكىنى ھەمىشە ياپىدۇ، ‹سورىسۇن› -  (ياكى باشقا قىممەت) بولسا ھامان ئىشلەتكۈچىدىن سورايدۇ."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:166
 msgid "Empty Trash folders on exit"
@@ -8487,7 +8487,7 @@ msgstr "قوزغالغاندا يېڭى ئۇچۇرنى تەكشۈر"
 msgid ""
 "Whether to check for new messages when Evolution is started. This includes "
 "also sending messages from Outbox."
-msgstr ""
+msgstr "ھەر قېتىم قوزغالغاندا يېڭى خەت بارمۇ-يوق تەكشۈرىدۇ. شۇنداقلا ئەۋەتىدىغان خەت بارمۇ يوقمۇ ئۇنىمۇ تەكشۈرىدۇ."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
 msgid "Check for new messages in all active accounts"
@@ -8535,7 +8535,7 @@ msgstr "ئادرېس دەپتىرى مەنبەسى"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:2
 msgid "Address book to use for storing automatically synced contacts."
-msgstr ""
+msgstr "ئاپتوماتىك قەدەمداشلانغان ئالاقەداشلارنى ساقلاشتا ئىشلىتىدىغان ئادرېس دەپتىرى."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:3
 msgid "Auto sync Pidgin contacts"
@@ -8561,7 +8561,7 @@ msgstr "پىدگىن(Pidgin) ئادرېس دەپتىرى مەنبەسى"
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:8
 msgid ""
 "Address book to use for storing automatically synced contacts from Pidgin."
-msgstr ""
+msgstr "ئاپتوماتىك قەدەمداشلانغان Pidgin ئالاقەداشلىرىنى ساقلاشتا ئىشلىتىدىغان ئادرېس دەپتىرى."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:9
 msgid "Pidgin check interval"
@@ -8569,23 +8569,23 @@ msgstr "پىدگىن(Pidgin) نى تەكشۈرۈش ئىنتېرۋالى"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:10
 msgid "Check interval for Pidgin syncing of contacts."
-msgstr ""
+msgstr "پىدگىن(Pidgin) ئالاقەداشلىرىنى قەدەمداشلاشنىڭ ئىنتېرۋالى."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:11
 msgid "Pidgin last sync MD5"
-msgstr ""
+msgstr "پىدگىن(Pidgin) نى ئەڭ ئاخىرقى قېتىم قەدەمداشلىغاندىكى MD5"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:12
 msgid "Pidgin last sync MD5."
-msgstr ""
+msgstr "پىدگىن(Pidgin) نى ئەڭ ئاخىرقى قېتىم قەدەمداشلىغاندىكى MD5."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:13
 msgid "Pidgin last sync time"
-msgstr ""
+msgstr "پىدگىن(Pidgin) نى ئەڭ ئاخىرقى قېتىم قەدەمداشلىغان ۋاقىت"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:14
 msgid "Pidgin last sync time."
-msgstr ""
+msgstr "پىدگىن(Pidgin) نى ئەڭ ئاخىرقى قېتىم قەدەمداشلىغان ۋاقىت."
 
 #: ../data/org.gnome.evolution.plugin.email-custom-header.gschema.xml.in.h:1
 msgid "List of Custom Headers"
@@ -8627,11 +8627,11 @@ msgstr "كۆڭۈلدىكى ھالەتتە چىراي سۈرىتىنى يوللا
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:1
 msgid "Delete processed"
-msgstr ""
+msgstr "بىر تەرەپ قىلىنغانلىرىنى ئۆچۈرسۇن"
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:2
 msgid "Whether to delete processed iTip objects"
-msgstr ""
+msgstr "بىر تەرەپ قىلىنىپ بولغان iTip نەڭىنى ئۆچۈرەمدۇ يوق"
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:1
 msgid "Notify new messages for Inbox only."
@@ -8667,7 +8667,7 @@ msgstr "يېڭى ئۇچۇر كەلگەندە سىنبەلگىدە ئۇچۇر ك�
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:9
 msgid "Enable audible notifications when new messages arrive."
-msgstr ""
+msgstr "يېڭى ئۇچۇر كەلگەندە ئاۋازلىق ئۇقتۇرۇش چىقىرىشنى ئىناۋەتلىك قىلىدۇ."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:10
 msgid ""
@@ -8678,11 +8678,11 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:11
 msgid "Whether to emit a beep."
-msgstr ""
+msgstr "زىل چالامدۇ يوق."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:12
 msgid "Whether to emit a beep when new messages arrive."
-msgstr ""
+msgstr "يېڭى ئۇچۇر كەلگەندە زىل چالامدۇ يوق."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:13
 msgid "Sound filename to be played."
@@ -8692,7 +8692,7 @@ msgstr "قويىدىغان ئۈن ھۆججىتىنىڭ ئاتى."
 msgid ""
 "Sound file to be played when new messages arrive, if \"notify-sound-play-file"
 "\" is \"true\"."
-msgstr ""
+msgstr "يېڭى ئۇچۇر كەلگەندە قويىدىغان ئاۋاز ھۆججىتى («notify-sound-play-file» دېگىنى true بولۇشى كېرەك)."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:15
 msgid "Whether to play a sound file."
@@ -8702,7 +8702,7 @@ msgstr "ئۈن ھۆججىتىنى قويامدۇ."
 msgid ""
 "Whether to play a sound file when new messages arrive. The name of the sound "
 "file is given by the 'notify-sound-file' key."
-msgstr ""
+msgstr "يېڭى ئۇچۇر كەلگەندە ئاۋاز ھۆججىتىنى قويامدۇ يوق. ئاۋاز ھۆججىتىنىڭ ئاتى ‹notify-sound-file› دېگەن ئاچقۇچتا بېرىلگەن بولىدۇ."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:17
 msgid "Use sound theme"
@@ -8714,7 +8714,7 @@ msgstr "بىپىلداش ھالىتىدە بولمىسا يېڭى ئۇچۇر ك�
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:1
 msgid "Mode to use when displaying mails"
-msgstr ""
+msgstr "خەتلەرنى كۆرسەتكەن چاغدىكى ھالەت"
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:2
 msgid ""
@@ -8729,7 +8729,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.plugin.publish-calendar.gschema.xml.in.h:1
 msgid "List of Destinations for publishing"
-msgstr ""
+msgstr "ئېلان قىلىدىغان نىشانلارنىڭ تىزىمى"
 
 #: ../data/org.gnome.evolution.plugin.publish-calendar.gschema.xml.in.h:2
 msgid ""
@@ -8785,7 +8785,7 @@ msgstr ""
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:10
 msgid ""
 "List of paths for the folders to be synchronized to disk for offline usage."
-msgstr ""
+msgstr "تورسىز ئىشلەتكەندە دىسكىغا قەدەمداشلايدىغان قىسقۇچ يولىنىڭ تىزىمى."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:11
 msgid "Enable express mode"
@@ -8960,7 +8960,7 @@ msgstr "RFC822 ئۇچۇرى"
 
 #: ../em-format/e-mail-formatter-message-rfc822.c:243
 msgid "Format part as an RFC822 message"
-msgstr ""
+msgstr "بۆلەكنى RFC822 ئۇچۇرى سۈپىتىدە پىچسۇن"
 
 #: ../em-format/e-mail-formatter-print.c:56
 #: ../e-util/gal-define-views-dialog.c:361
@@ -9145,12 +9145,12 @@ msgstr "مەنبە"
 
 #: ../em-format/e-mail-formatter-source.c:127
 msgid "Display source of a MIME part"
-msgstr ""
+msgstr "MIME بۆلىكىنىڭ مەنبەسىنى كۆرسىتىدۇ"
 
 #: ../em-format/e-mail-parser-application-mbox.c:88
 #, c-format
 msgid "Error parsing MBOX part: %s"
-msgstr ""
+msgstr "MBOX بۆلىكىنى تەھلىل قىلىشتا خاتالىق كۆرۈلدى: %s"
 
 #: ../em-format/e-mail-parser-application-smime.c:84
 #, c-format
@@ -9694,7 +9694,7 @@ msgstr[0] "قوشۇلمىنى ساقلا"
 
 #. Translators: Default attachment filename.
 #: ../e-util/e-attachment-store.c:524 ../e-util/e-attachment.c:1841
-#: ../e-util/e-attachment.c:2446
+#: ../e-util/e-attachment.c:2477
 msgid "attachment.dat"
 msgstr "attachment.dat"
 
@@ -9744,44 +9744,44 @@ msgstr "بۇ قوشۇلمىنى %s نىڭ ئىچىدە ئاچىدۇ"
 msgid "Attached message"
 msgstr "قوشۇلغان ئۇچۇر"
 
-#: ../e-util/e-attachment.c:1886 ../e-util/e-attachment.c:2748
+#: ../e-util/e-attachment.c:1917 ../e-util/e-attachment.c:2779
 msgid "A load operation is already in progress"
 msgstr "بىر يۈكلەنگەن مەشغۇلات ئىجرا قىلىنىۋاتىدۇ"
 
-#: ../e-util/e-attachment.c:1894 ../e-util/e-attachment.c:2756
+#: ../e-util/e-attachment.c:1925 ../e-util/e-attachment.c:2787
 msgid "A save operation is already in progress"
 msgstr "بىر ساقلانغان مەشغۇلات ئىجرا قىلىنىۋاتىدۇ"
 
-#: ../e-util/e-attachment.c:2002
+#: ../e-util/e-attachment.c:2033
 #, c-format
 msgid "Could not load '%s'"
 msgstr "‹%s› نى ئوقۇغىلى بولمىدى"
 
-#: ../e-util/e-attachment.c:2005
+#: ../e-util/e-attachment.c:2036
 #, c-format
 msgid "Could not load the attachment"
 msgstr "قوشۇلمىنى ئوقۇغىلى بولمىدى"
 
-#: ../e-util/e-attachment.c:2303
+#: ../e-util/e-attachment.c:2334
 #, c-format
 msgid "Could not open '%s'"
 msgstr "‹%s› نى ئاچالمىدى"
 
-#: ../e-util/e-attachment.c:2306
+#: ../e-util/e-attachment.c:2337
 #, c-format
 msgid "Could not open the attachment"
 msgstr "قوشۇلمىنى ئاچالمىدى"
 
-#: ../e-util/e-attachment.c:2764
+#: ../e-util/e-attachment.c:2795
 msgid "Attachment contents not loaded"
 msgstr "قوشۇلما مەزمۇنلىرى يۈكلەنمىدى"
 
-#: ../e-util/e-attachment.c:2840
+#: ../e-util/e-attachment.c:2871
 #, c-format
 msgid "Could not save '%s'"
 msgstr "«%s» نى ساقلىيالمىدى"
 
-#: ../e-util/e-attachment.c:2843
+#: ../e-util/e-attachment.c:2874
 #, c-format
 msgid "Could not save the attachment"
 msgstr "قوشۇلمىنى ساقلىيالمىدى"
@@ -10041,10 +10041,10 @@ msgstr "ئۇكرائىنچە"
 msgid "Visual"
 msgstr "كۆرۈنۈشچان"
 
-#: ../e-util/e-client-cache.c:927
+#: ../e-util/e-client-cache.c:926
 #, c-format
 msgid "Cannot create a client object from extension name '%s'"
-msgstr ""
+msgstr "كېڭەيتىلمە ئات ‹%s› دىن خېرىدار نەڭىنى قۇرغىلى بولمىدى"
 
 #: ../e-util/e-dateedit.c:523
 msgid "Date and Time"
@@ -10536,7 +10536,7 @@ msgstr "ئىزدە(_S):"
 
 #: ../e-util/e-name-selector-dialog.c:368
 #: ../e-util/e-name-selector-dialog.c:1243
-#: ../modules/addressbook/e-book-shell-view-actions.c:1041
+#: ../modules/addressbook/e-book-shell-view-actions.c:1066
 #: ../modules/calendar/e-cal-shell-view-actions.c:1757
 #: ../modules/calendar/e-memo-shell-view-actions.c:788
 #: ../modules/calendar/e-task-shell-view-actions.c:959
@@ -10557,7 +10557,7 @@ msgid "Address Book"
 msgstr "ئادرېس دەپتىرى"
 
 #: ../e-util/e-name-selector-dialog.c:453
-#: ../modules/addressbook/e-book-shell-backend.c:297
+#: ../modules/addressbook/e-book-shell-backend.c:305
 #: ../modules/addressbook/e-book-shell-view.c:356
 msgid "Contacts"
 msgstr "ئالاقەداشلار"
@@ -10811,65 +10811,56 @@ msgid "Failed to delete resource &quot;{0}&quot;."
 msgstr "مەنبە ‹{0}› نى ئۆچۈرۈش مەغلۇپ بولدى."
 
 #: ../e-util/e-system.error.xml.h:11
-#| msgid "The Evolution address book has quit unexpectedly."
 msgid ""
 "The address book backend servicing &quot;{0}&quot; has quit unexpectedly."
-msgstr ""
+msgstr "ئادرېس دەپتىرى ئارقا ئۇچ مۇلازىمىتى &quot;{0}&quot; ئويلىمىغان يەردىن ئاخىرلىشىپ كەتتى."
 
 #: ../e-util/e-system.error.xml.h:12
-#| msgid ""
-#| "Your contacts for {0} will not be available until Evolution is restarted."
 msgid ""
 "Some of your contacts may not be available until Evolution is restarted."
-msgstr ""
+msgstr "بىر قىسىم ئالاقەداشلارنى Evolution نى قايتا قوزغاتمىسا ئىشلەتكىلى بولمايدۇ."
 
 #: ../e-util/e-system.error.xml.h:13
-#| msgid "The Evolution calendar has quit unexpectedly."
 msgid "The calendar backend servicing &quot;{0}&quot; has quit unexpectedly."
-msgstr ""
+msgstr "يىلنامە ئارقا ئۇچ مۇلازىمىتى &quot;{0}&quot; ئويلىمىغان يەردىن ئاخىرلىشىپ كەتتى."
 
 #: ../e-util/e-system.error.xml.h:14
-#| msgid "Your memos will not be available until Evolution is restarted."
 msgid ""
 "Some of your appointments may not be available until Evolution is restarted."
-msgstr ""
+msgstr "بىر قىسىم ئۇچرىشىشلارنى Evolution نى قايتا قوزغاتمىسا ئىشلەتكىلى بولمايدۇ."
 
 #: ../e-util/e-system.error.xml.h:15
-#| msgid "The Evolution calendar has quit unexpectedly."
 msgid "The memo list backend servicing &quot;{0}&quot; has quit unexpectedly."
-msgstr ""
+msgstr "ئەسلەتمە تىزىمى ئارقا ئۇچ مۇلازىمىتى &quot;{0}&quot; ئويلىمىغان يەردىن ئاخىرلىشىپ كەتتى."
 
 #: ../e-util/e-system.error.xml.h:16
-#| msgid "Your memos will not be available until Evolution is restarted."
 msgid "Some of your memos may not be available until Evolution is restarted."
-msgstr ""
+msgstr "بىر قىسىم ئەسلەتمىلەرنى Evolution نى قايتا قوزغاتمىسا ئىشلەتكىلى بولمايدۇ."
 
 #: ../e-util/e-system.error.xml.h:17
-#| msgid "The Evolution calendar has quit unexpectedly."
 msgid "The task list backend servicing &quot;{0}&quot; has quit unexpectedly."
-msgstr ""
+msgstr "ۋەزىپە تىزىمى ئارقا ئۇچ مۇلازىمىتى &quot;{0}&quot; ئويلىمىغان يەردىن ئاخىرلىشىپ كەتتى."
 
 #: ../e-util/e-system.error.xml.h:18
-#| msgid "Your tasks will not be available until Evolution is restarted."
 msgid "Some of your tasks may not be available until Evolution is restarted."
-msgstr ""
+msgstr "بىر قىسىم ۋەزىپىلەرنى Evolution نى قايتا قوزغاتمىسا ئىشلەتكىلى بولمايدۇ."
 
 #: ../e-util/e-system.error.xml.h:19
 msgid ""
 "The address book backend servicing &quot;{0}&quot; encountered an error."
-msgstr ""
+msgstr "ئادرېس دەپتىرى ئارقا ئۇچ مۇلازىمىتى &quot;{0}&quot; دا خاتالىق كۆرۈلدى."
 
 #: ../e-util/e-system.error.xml.h:20
 msgid "The calendar backend servicing &quot;{0}&quot; encountered an error."
-msgstr ""
+msgstr "يىلنامە ئارقا ئۇچ مۇلازىمىتى &quot;{0}&quot; دا خاتالىق كۆرۈلدى."
 
 #: ../e-util/e-system.error.xml.h:21
 msgid "The memo list backend servicing &quot;{0}&quot; encountered an error."
-msgstr ""
+msgstr "ئەسلەتمە تىزىمى ئارقا ئۇچ مۇلازىمىتى &quot;{0}&quot; دا خاتالىق كۆرۈلدى."
 
 #: ../e-util/e-system.error.xml.h:22
 msgid "The task list backend servicing &quot;{0}&quot; encountered an error."
-msgstr ""
+msgstr "ۋەزىپە تىزىمى ئارقا ئۇچ مۇلازىمىتى &quot;{0}&quot; دا خاتالىق كۆرۈلدى."
 
 #: ../e-util/e-table-click-to-add.c:643
 #: ../e-util/gal-a11y-e-table-click-to-add.c:62
@@ -11202,12 +11193,12 @@ msgstr "OAuth2"
 
 #: ../libemail-engine/camel-sasl-xoauth2.c:28
 msgid "This option will use an OAuth 2.0 access token to connect to the server"
-msgstr ""
+msgstr "بۇ تاللانما  OAuth 2.0 زىيارەت مايىقىنى ئىشلىتىپ مۇلازىمېتىرغا باغلىنىدۇ"
 
 #: ../libemail-engine/e-mail-authenticator.c:182
 #, c-format
 msgid "Invalid authentication result code (%d)"
-msgstr ""
+msgstr "سالاھىيەت دەلىللەشنىڭ نەتىجە كودى ئىناۋەتسىز(%d)"
 
 #: ../libemail-engine/e-mail-folder-utils.c:114
 #, c-format
@@ -11261,12 +11252,12 @@ msgstr "ئىناۋەتسىز قىسقۇچ URI «%s»"
 #: ../libemail-engine/e-mail-session-utils.c:540
 #, c-format
 msgid "No mail service found with UID '%s'"
-msgstr ""
+msgstr "كىملىكى(UID) ‹%s› بولغان خەت مۇلازىمىتىنى يوق"
 
 #: ../libemail-engine/e-mail-session-utils.c:549
 #, c-format
 msgid "UID '%s' is not a mail transport"
-msgstr ""
+msgstr "كىملىك(UID) ‹%s› خەت توشۇمايدۇ"
 
 #: ../libemail-engine/e-mail-session-utils.c:647
 #: ../libemail-engine/mail-ops.c:765
@@ -11342,19 +11333,19 @@ msgstr "%s نىڭ كىملىكىنى دەلىللەش مەغلۇپ بولدى."
 #: ../libemail-engine/e-mail-session.c:1660
 #, c-format
 msgid "No data source found for UID '%s'"
-msgstr ""
+msgstr "كىملىك(UID) ‹%s› نىڭ سانلىق-مەلۇمات مەنبەسى تېپىلمىدى"
 
 #: ../libemail-engine/e-mail-session.c:1711
 #, c-format
 msgid ""
 "No destination address provided, forwarding of the message has been "
 "cancelled."
-msgstr ""
+msgstr "نىشان ئادرېس يوق، شۇڭا خەتنى يوللاپ بېرىش ئەمەلدىن قالدۇرۇلدى."
 
 #: ../libemail-engine/e-mail-session.c:1724
 #, c-format
 msgid "No identity found to use, forwarding of the message has been cancelled."
-msgstr ""
+msgstr "ئىشلىتىدىغان كىملىك تېپىلمىدى، شۇڭا خەتنى يوللاپ بېرىش ئەمەلدىن قالدۇرۇلدى."
 
 #: ../libemail-engine/e-mail-store-utils.c:171
 #, c-format
@@ -11504,7 +11495,7 @@ msgstr "كۆڭۈلدىكىگە ئەسلىگە كەلتۈر(_R)"
 
 #: ../mail/e-mail-account-manager.c:473
 msgid "You can drag and drop account names to reorder them."
-msgstr ""
+msgstr "ھېساباتلارنىڭ تەرتىپىنى ئۆزگەرتىش ئۈچۈن ئۇلارنى سۆرەپ تاشلىسىڭىز بولىدۇ."
 
 #: ../mail/e-mail-account-manager.c:518
 msgid "De_fault"
@@ -11538,7 +11529,7 @@ msgstr "ئېلخەت ئادرېسى تەركىبىدىكى دائىرە ئاتى
 
 #: ../mail/e-mail-backend.c:766
 msgid "Unknown background operation"
-msgstr ""
+msgstr "نامەلۇم ئارقا تەرەپ مەشغۇلاتى"
 
 #: ../mail/e-mail-browser.c:123 ../shell/e-shell-window-actions.c:848
 #: ../shell/e-shell-window-actions.c:855 ../shell/e-shell-window-actions.c:862
@@ -11878,7 +11869,7 @@ msgstr "بىخەتەرلىك:"
 
 #: ../mail/e-mail-config-summary-page.c:787
 msgid "Account Summary"
-msgstr ""
+msgstr "ھېسابات ھەققىدە"
 
 #: ../mail/e-mail-config-welcome-page.c:157
 msgid ""
@@ -14115,11 +14106,11 @@ msgstr "قىسقۇچ \"{0}\" نى  \"{1}\" غا يۆتكىيەلمىدى."
 
 #: ../mail/mail.error.xml.h:74
 msgid "Cannot open source folder. Error: {2}"
-msgstr ""
+msgstr "ئەسلى قىسقۇچنى ئاچقىلى بولمىدى. خاتالىق: {2}"
 
 #: ../mail/mail.error.xml.h:75
 msgid "Cannot open target folder. Error: {2}"
-msgstr ""
+msgstr "نىشان قىسقۇچنى ئاچقىلى بولمىدى. خاتالىق: {2}"
 
 #: ../mail/mail.error.xml.h:76
 msgid "Cannot copy folder \"{0}\" to \"{1}\"."
@@ -14131,7 +14122,7 @@ msgstr "قىسقۇچ \"{0}\" نى قۇرالمىدى."
 
 #: ../mail/mail.error.xml.h:78
 msgid "Cannot open folder. Error: {1}"
-msgstr ""
+msgstr "قىسقۇچنى ئاچقىلى بولمىدى. خاتالىق: {1}"
 
 #: ../mail/mail.error.xml.h:79
 msgid "Cannot save changes to account."
@@ -14504,7 +14495,7 @@ msgstr "كۈتۈۋاتىدۇ…"
 #: ../mail/mail-send-recv.c:1020
 #, c-format
 msgid "Checking for new mail at '%s'"
-msgstr "يېڭى خەت كەلگەنلىكىنى ‹%s› ئىدى تەكشۈرسۇن"
+msgstr "يېڭى خەت كەلگەنلىكىنى ‹%s› نى تەكشۈرسۇن"
 
 #: ../mail/mail-vfolder-ui.c:78
 msgid "Search Folders"
@@ -14709,42 +14700,42 @@ msgstr "ئالاقەداش ئۇچۇرى"
 msgid "Contact information for %s"
 msgstr "%s نىڭ ئالاقەداش ئۇچۇرى"
 
-#: ../modules/addressbook/e-book-shell-backend.c:252
+#: ../modules/addressbook/e-book-shell-backend.c:260
 #: ../modules/addressbook/e-book-shell-view-actions.c:125
 msgid "New Address Book"
 msgstr "يېڭى ئادرېس دەپتىرى"
 
-#: ../modules/addressbook/e-book-shell-backend.c:261
+#: ../modules/addressbook/e-book-shell-backend.c:269
 msgctxt "New"
 msgid "_Contact"
 msgstr "ئالاقەداش(_C)"
 
-#: ../modules/addressbook/e-book-shell-backend.c:263
-#: ../modules/addressbook/e-book-shell-view-actions.c:911
+#: ../modules/addressbook/e-book-shell-backend.c:271
+#: ../modules/addressbook/e-book-shell-view-actions.c:936
 msgid "Create a new contact"
 msgstr "يېڭى ئالاقەداش قۇرىدۇ"
 
-#: ../modules/addressbook/e-book-shell-backend.c:268
+#: ../modules/addressbook/e-book-shell-backend.c:276
 msgctxt "New"
 msgid "Contact _List"
 msgstr "ئالاقەداش تىزىمى(_L)"
 
-#: ../modules/addressbook/e-book-shell-backend.c:270
-#: ../modules/addressbook/e-book-shell-view-actions.c:918
+#: ../modules/addressbook/e-book-shell-backend.c:278
+#: ../modules/addressbook/e-book-shell-view-actions.c:943
 msgid "Create a new contact list"
 msgstr "يېڭى ئالاقەداشلار تىزىمى قۇرىدۇ"
 
-#: ../modules/addressbook/e-book-shell-backend.c:278
+#: ../modules/addressbook/e-book-shell-backend.c:286
 msgctxt "New"
 msgid "Address _Book"
 msgstr "ئادرېس دەپتىرى(_B)"
 
-#: ../modules/addressbook/e-book-shell-backend.c:280
-#: ../modules/addressbook/e-book-shell-view-actions.c:841
+#: ../modules/addressbook/e-book-shell-backend.c:288
+#: ../modules/addressbook/e-book-shell-view-actions.c:866
 msgid "Create a new address book"
 msgstr "يېڭى ئادرېس دەپتىرى قۇرىدۇ"
 
-#: ../modules/addressbook/e-book-shell-backend.c:308
+#: ../modules/addressbook/e-book-shell-backend.c:316
 msgid "Certificates"
 msgstr "گۇۋاھنامە"
 
@@ -14753,56 +14744,56 @@ msgid "Address Book Properties"
 msgstr "ئادرېس دەپتىرى خاسلىقلىرى"
 
 #. Translators: This is a save dialog title
-#: ../modules/addressbook/e-book-shell-view-actions.c:393
-#: ../modules/addressbook/e-book-shell-view-actions.c:689
+#: ../modules/addressbook/e-book-shell-view-actions.c:418
+#: ../modules/addressbook/e-book-shell-view-actions.c:714
 msgid "Save as vCard"
 msgstr "vCard قا ساقلا"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:818
+#: ../modules/addressbook/e-book-shell-view-actions.c:843
 msgid "Co_py All Contacts To..."
 msgstr "ھەممە ئالاقەداشلارنى كۆچۈرۈش ئورنى(_P)…"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:820
+#: ../modules/addressbook/e-book-shell-view-actions.c:845
 msgid "Copy the contacts of the selected address book to another"
 msgstr "تاللانغان ئادرېس دەپتىرىدىكى ئالاقەداشلارنى باشقىسىغا كۆچۈرىدۇ"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:825
+#: ../modules/addressbook/e-book-shell-view-actions.c:850
 msgid "D_elete Address Book"
 msgstr "ئادرېس دەپتىرىنى ئۆچۈر(_E)"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:827
+#: ../modules/addressbook/e-book-shell-view-actions.c:852
 msgid "Delete the selected address book"
 msgstr "تاللانغان ئادرېس دەپتىرىنى ئۆچۈرىدۇ"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:832
+#: ../modules/addressbook/e-book-shell-view-actions.c:857
 msgid "Mo_ve All Contacts To..."
 msgstr "ھەممە ئالاقەداشلارنى يۆتكەش ئورنى(_V)…"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:834
+#: ../modules/addressbook/e-book-shell-view-actions.c:859
 msgid "Move the contacts of the selected address book to another"
 msgstr "تاللانغان ئادرېس دەپتىرىدىكى ئالاقەداشلارنى باشقىسىغا يۆتكەيدۇ"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:839
+#: ../modules/addressbook/e-book-shell-view-actions.c:864
 msgid "_New Address Book"
 msgstr "يېڭى ئادرېس دەپتىرى(_N)"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:846
+#: ../modules/addressbook/e-book-shell-view-actions.c:871
 msgid "Address _Book Properties"
 msgstr "ئادرېس دەپتىرى خاسلىقلىرى(_B)"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:848
+#: ../modules/addressbook/e-book-shell-view-actions.c:873
 msgid "Show properties of the selected address book"
 msgstr "تاللانغان ئادرېس دەپتىرىنىڭ خاسلىقلىرىنى كۆرسىتىدۇ"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:853
+#: ../modules/addressbook/e-book-shell-view-actions.c:878
 msgid "Address Book _Map"
 msgstr "ئادرېس دەپتىرى خەرىتىسى(_M)"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:855
+#: ../modules/addressbook/e-book-shell-view-actions.c:880
 msgid "Show map with all contacts from selected address book"
 msgstr "تاللانغان ئادرېس دەپتىرىدىكى  ھەممە ھېساباتنىڭ خەرىتىسىنى كۆرسىتىدۇ"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:860
+#: ../modules/addressbook/e-book-shell-view-actions.c:885
 #: ../modules/calendar/e-cal-shell-view-actions.c:1445
 #: ../modules/calendar/e-memo-shell-view-actions.c:664
 #: ../modules/calendar/e-task-shell-view-actions.c:788
@@ -14810,149 +14801,149 @@ msgstr "تاللانغان ئادرېس دەپتىرىدىكى  ھەممە ھې�
 msgid "_Rename..."
 msgstr "ئات ئۆزگەرت(_R)…"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:862
+#: ../modules/addressbook/e-book-shell-view-actions.c:887
 msgid "Rename the selected address book"
 msgstr "تاللانغان ئادرېس دەپتىرىنىڭ ئاتىنى ئۆزگەرتىدۇ"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:869
+#: ../modules/addressbook/e-book-shell-view-actions.c:894
 msgid "Stop loading"
 msgstr "يۈكلەشنى توختات"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:874
+#: ../modules/addressbook/e-book-shell-view-actions.c:899
 msgid "_Copy Contact To..."
 msgstr "ئالاقەداشنى كۆچۈرۈش ئورنى(_C)…"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:876
+#: ../modules/addressbook/e-book-shell-view-actions.c:901
 msgid "Copy selected contacts to another address book"
 msgstr "تاللانغان ئالاقەداشلارنى باشقا ئادرېس دەپتىرىگە كۆچۈرىدۇ"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:881
+#: ../modules/addressbook/e-book-shell-view-actions.c:906
 msgid "_Delete Contact"
 msgstr "ئالاقەداشنى ئۆچۈر(_D)"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:888
+#: ../modules/addressbook/e-book-shell-view-actions.c:913
 msgid "_Find in Contact..."
 msgstr "ئالاقەداشتىن ئىزدە(_F)…"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:890
+#: ../modules/addressbook/e-book-shell-view-actions.c:915
 msgid "Search for text in the displayed contact"
 msgstr "كۆرسەتكەن ئالاقەداشتىن تېكىستنى ئىزدەيدۇ"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:895
+#: ../modules/addressbook/e-book-shell-view-actions.c:920
 msgid "_Forward Contact..."
 msgstr "ئالاقەداشقا جاۋاب يوللا(_F)…"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:897
+#: ../modules/addressbook/e-book-shell-view-actions.c:922
 msgid "Send selected contacts to another person"
 msgstr "تاللانغان ئالاقەداشلارنى باشقا كىشىگە يوللايدۇ"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:902
+#: ../modules/addressbook/e-book-shell-view-actions.c:927
 msgid "_Move Contact To..."
 msgstr "ئالاقەداشنى يۆتكەش ئورنى(_M)…"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:904
+#: ../modules/addressbook/e-book-shell-view-actions.c:929
 msgid "Move selected contacts to another address book"
 msgstr "تاللانغان ئالاقەداشلارنى باشقا ئادرېس دەپتىرىگە يۆتكەيدۇ"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:909
+#: ../modules/addressbook/e-book-shell-view-actions.c:934
 msgid "_New Contact..."
 msgstr "يېڭى ئالاقەداش(_N)…"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:916
+#: ../modules/addressbook/e-book-shell-view-actions.c:941
 msgid "New Contact _List..."
 msgstr "يېڭى ئالاقەداش تىزىمى(_L)…"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:923
+#: ../modules/addressbook/e-book-shell-view-actions.c:948
 msgid "_Open Contact"
 msgstr "ئالاقەداش ئاچ(_O)"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:925
+#: ../modules/addressbook/e-book-shell-view-actions.c:950
 msgid "View the current contact"
 msgstr "نۆۋەتتىكى ئالاقەداشنى كۆرسىتىدۇ"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:930
+#: ../modules/addressbook/e-book-shell-view-actions.c:955
 msgid "_Send Message to Contact..."
 msgstr "ئۇچۇرنى ئالاقەداشقا يوللا(_S)…"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:932
+#: ../modules/addressbook/e-book-shell-view-actions.c:957
 msgid "Send a message to the selected contacts"
 msgstr "تاللانغان ئالاقەداشلارغا ئۇچۇرنى يوللايدۇ"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:939
+#: ../modules/addressbook/e-book-shell-view-actions.c:964
 #: ../modules/calendar/e-cal-shell-view-actions.c:1601
 #: ../modules/calendar/e-task-shell-view-actions.c:846
 msgid "_Actions"
 msgstr "مەشغۇلاتلار(_A)"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:946
+#: ../modules/addressbook/e-book-shell-view-actions.c:971
 #: ../modules/calendar/e-memo-shell-view-actions.c:701
 #: ../modules/calendar/e-task-shell-view-actions.c:853
 #: ../modules/mail/e-mail-shell-view-actions.c:1535
 msgid "_Preview"
 msgstr "ئالدىن كۆزەت(_P)"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:955
+#: ../modules/addressbook/e-book-shell-view-actions.c:980
 #: ../modules/calendar/e-cal-shell-view-actions.c:1618
 #: ../modules/calendar/e-memo-shell-view-actions.c:714
 #: ../modules/calendar/e-task-shell-view-actions.c:866
 msgid "_Delete"
 msgstr "ئۆچۈر(_D)"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:959
+#: ../modules/addressbook/e-book-shell-view-actions.c:984
 #: ../modules/mail/e-mail-shell-view-actions.c:1293
 msgid "_Properties"
 msgstr "خاسلىق(_P)"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:963
+#: ../modules/addressbook/e-book-shell-view-actions.c:988
 msgid "Address Book Map"
 msgstr "ئادرېس دەپتىرى خەرىتىسى"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:995
+#: ../modules/addressbook/e-book-shell-view-actions.c:1020
 msgid "Contact _Preview"
 msgstr "ئالاقەداشنى ئالدىن كۆزەت(_P)"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:997
+#: ../modules/addressbook/e-book-shell-view-actions.c:1022
 msgid "Show contact preview window"
 msgstr "ئالاقەداش ئالدىن كۆزىتىش كۆزنىكىنى كۆرسىتىدۇ"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1003
+#: ../modules/addressbook/e-book-shell-view-actions.c:1028
 msgid "Show _Maps"
 msgstr "خەرىتىلەرنى كۆرسەت(_M)"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1005
+#: ../modules/addressbook/e-book-shell-view-actions.c:1030
 msgid "Show maps in contact preview window"
 msgstr "ئالاقەداش ئالدىن كۆزىتىش كۆزنىكىدە خەرىتىلەرنى كۆرسەت"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1024
+#: ../modules/addressbook/e-book-shell-view-actions.c:1049
 #: ../modules/calendar/e-memo-shell-view-actions.c:771
 #: ../modules/calendar/e-task-shell-view-actions.c:935
 #: ../modules/mail/e-mail-shell-view-actions.c:1665
 msgid "_Classic View"
 msgstr "كلاسسىك كۆرۈنۈش(_C)"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1026
+#: ../modules/addressbook/e-book-shell-view-actions.c:1051
 msgid "Show contact preview below the contact list"
 msgstr "ئالاقەداش تىزىمىنىڭ ئاستىدا ئالاقەداش ئالدىن كۆزىتىشنى كۆرسىتىدۇ"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1031
+#: ../modules/addressbook/e-book-shell-view-actions.c:1056
 #: ../modules/calendar/e-memo-shell-view-actions.c:778
 #: ../modules/calendar/e-task-shell-view-actions.c:942
 #: ../modules/mail/e-mail-shell-view-actions.c:1672
 msgid "_Vertical View"
 msgstr "بويىغا كۆرۈنۈش(_V)"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1033
+#: ../modules/addressbook/e-book-shell-view-actions.c:1058
 msgid "Show contact preview alongside the contact list"
 msgstr "ئالاقەداش تىزىمىنىڭ يېنىدا ئالاقەداش ئالدىن كۆزىتىشنى كۆرسىتىدۇ"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1048
+#: ../modules/addressbook/e-book-shell-view-actions.c:1073
 #: ../modules/calendar/e-cal-shell-view-actions.c:1778
 #: ../modules/calendar/e-memo-shell-view-actions.c:795
 #: ../modules/calendar/e-task-shell-view-actions.c:994
 msgid "Unmatched"
 msgstr "ماسلاشمىغان"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1058
+#: ../modules/addressbook/e-book-shell-view-actions.c:1083
 #: ../modules/calendar/e-cal-shell-view-actions.c:1788
 #: ../modules/calendar/e-memo-shell-view-actions.c:805
 #: ../modules/calendar/e-task-shell-view-actions.c:1004
@@ -14961,33 +14952,33 @@ msgstr "ماسلاشمىغان"
 msgid "Advanced Search"
 msgstr "ئالىي ئىزدەش"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1091
+#: ../modules/addressbook/e-book-shell-view-actions.c:1116
 msgid "Print all shown contacts"
 msgstr "كۆرۈنگەن ھەممە ئالاقەداشنى باس"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1098
+#: ../modules/addressbook/e-book-shell-view-actions.c:1123
 msgid "Preview the contacts to be printed"
 msgstr "باسىدىغان ئالاقەداشلارنى ئالدىن كۆزەت"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1105
+#: ../modules/addressbook/e-book-shell-view-actions.c:1130
 msgid "Print selected contacts"
 msgstr "تاللانغان ئالاقەداشلارنى باس"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1120
+#: ../modules/addressbook/e-book-shell-view-actions.c:1145
 msgid "S_ave Address Book as vCard"
 msgstr "ئادرېس دەپتىرىنى vCard قا ساقلا(_A)"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1122
+#: ../modules/addressbook/e-book-shell-view-actions.c:1147
 msgid "Save the contacts of the selected address book as a vCard"
 msgstr "تاللانغان ئادرېس دەپتىرىدىكى ئالاقەداشلارنى vCard سۈپىتىدە ساقلايدۇ"
 
 #. Translators: This is an action label
-#: ../modules/addressbook/e-book-shell-view-actions.c:1128
-#: ../modules/addressbook/e-book-shell-view-actions.c:1138
+#: ../modules/addressbook/e-book-shell-view-actions.c:1153
+#: ../modules/addressbook/e-book-shell-view-actions.c:1163
 msgid "_Save as vCard..."
 msgstr "vCard قا ساقلا…"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1130
+#: ../modules/addressbook/e-book-shell-view-actions.c:1155
 msgid "Save selected contacts as a vCard"
 msgstr "تاللانغان ئالاقەداشلارنى vCard قا ساقلا"
 
@@ -15719,62 +15710,62 @@ msgstr "%u ۋە %d ئېلخەت ئادرېسىدىكى ئىشلەتكۈچى ۋە
 msgid "Publishing Information"
 msgstr "ئېلان قىلىدىغان ئۇچۇرلار"
 
-#: ../modules/calendar/e-cal-shell-backend.c:272
+#: ../modules/calendar/e-cal-shell-backend.c:310
 #: ../modules/calendar/e-cal-shell-view-actions.c:191
 msgid "New Calendar"
 msgstr "يېڭى يىلنامە"
 
-#: ../modules/calendar/e-cal-shell-backend.c:281
+#: ../modules/calendar/e-cal-shell-backend.c:319
 msgctxt "New"
 msgid "_Appointment"
 msgstr "ئۇچرىشىش(_A)"
 
-#: ../modules/calendar/e-cal-shell-backend.c:283
+#: ../modules/calendar/e-cal-shell-backend.c:321
 #: ../modules/calendar/e-cal-shell-view-actions.c:1545
 msgid "Create a new appointment"
 msgstr "يېڭى بىر ئۇچرىشىش قۇرىدۇ"
 
-#: ../modules/calendar/e-cal-shell-backend.c:288
+#: ../modules/calendar/e-cal-shell-backend.c:326
 msgctxt "New"
 msgid "All Day A_ppointment"
 msgstr "پۈتۈن كۈنلۈك ئۇچرىشىش(_P)"
 
-#: ../modules/calendar/e-cal-shell-backend.c:290
+#: ../modules/calendar/e-cal-shell-backend.c:328
 msgid "Create a new all-day appointment"
 msgstr "پۈتۈن كۈنلۈك يېڭى بىر ئۇچرىشىش قۇرىدۇ"
 
-#: ../modules/calendar/e-cal-shell-backend.c:295
+#: ../modules/calendar/e-cal-shell-backend.c:333
 msgctxt "New"
 msgid "M_eeting"
 msgstr "يىغىن(_E)"
 
-#: ../modules/calendar/e-cal-shell-backend.c:297
+#: ../modules/calendar/e-cal-shell-backend.c:335
 msgid "Create a new meeting request"
 msgstr "يېڭى بىر يىغىن ئىلتىماسى قۇرىدۇ"
 
-#: ../modules/calendar/e-cal-shell-backend.c:305
+#: ../modules/calendar/e-cal-shell-backend.c:343
 msgctxt "New"
 msgid "Cale_ndar"
 msgstr "يىلنامە(_N):"
 
-#: ../modules/calendar/e-cal-shell-backend.c:307
+#: ../modules/calendar/e-cal-shell-backend.c:345
 #: ../modules/calendar/e-cal-shell-view-actions.c:1419
 msgid "Create a new calendar"
 msgstr "يېڭى بىر يىلنامە قۇرىدۇ"
 
-#: ../modules/calendar/e-cal-shell-backend.c:627
+#: ../modules/calendar/e-cal-shell-backend.c:668
 msgid "Calendar and Tasks"
 msgstr "يىلنامە ۋە ۋەزىپىلەر"
 
-#: ../modules/calendar/e-cal-shell-sidebar.c:597
+#: ../modules/calendar/e-cal-shell-sidebar.c:577
 msgid "Calendar Selector"
 msgstr "يىلنامە تاللىغۇچ"
 
-#: ../modules/calendar/e-cal-shell-sidebar.c:882
+#: ../modules/calendar/e-cal-shell-sidebar.c:858
 msgid "Loading calendars"
 msgstr "يىلنامە يۈكلەۋاتىدۇ"
 
-#: ../modules/calendar/e-cal-shell-sidebar.c:905
+#: ../modules/calendar/e-cal-shell-sidebar.c:880
 #, c-format
 msgid "Opening calendar '%s'"
 msgstr "ئېچىۋاتقان يىلنامە ‹%s›"
@@ -16099,7 +16090,7 @@ msgid "New _Memo"
 msgstr "يېڭى ئەسلەتمە(_M)"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:274
-#: ../modules/calendar/e-memo-shell-backend.c:200
+#: ../modules/calendar/e-memo-shell-backend.c:219
 #: ../modules/calendar/e-memo-shell-view-actions.c:680
 msgid "Create a new memo"
 msgstr "يېڭى ئەسلەتمە قۇرىدۇ"
@@ -16189,7 +16180,7 @@ msgid "New _Task"
 msgstr "يېڭى ۋەزىپە(_T)"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:361
-#: ../modules/calendar/e-task-shell-backend.c:197
+#: ../modules/calendar/e-task-shell-backend.c:216
 #: ../modules/calendar/e-task-shell-view-actions.c:818
 msgid "Create a new task"
 msgstr "يېڭى بىر ۋەزىپە قۇرىدۇ"
@@ -16209,44 +16200,44 @@ msgstr "تاللانغان ۋەزىپىنى كۆرسىتىدۇ"
 msgid "Print the selected task"
 msgstr "تاللانغان ۋەزىپىنى باسىدۇ"
 
-#: ../modules/calendar/e-memo-shell-backend.c:189
+#: ../modules/calendar/e-memo-shell-backend.c:208
 #: ../modules/calendar/e-memo-shell-view-actions.c:216
 msgid "New Memo List"
 msgstr "يېڭى ئەسلەتمە تىزىمى"
 
-#: ../modules/calendar/e-memo-shell-backend.c:198
+#: ../modules/calendar/e-memo-shell-backend.c:217
 msgctxt "New"
 msgid "Mem_o"
 msgstr "ئەسلەتمە(_O)"
 
-#: ../modules/calendar/e-memo-shell-backend.c:205
+#: ../modules/calendar/e-memo-shell-backend.c:224
 msgctxt "New"
 msgid "_Shared Memo"
 msgstr "ھەمبەھىرلەنگەن ئەسلەتمە(_S)"
 
-#: ../modules/calendar/e-memo-shell-backend.c:207
+#: ../modules/calendar/e-memo-shell-backend.c:226
 msgid "Create a new shared memo"
 msgstr "ھەمبەھىرلىنىدىغان يېڭى بىر ئەسلەتمە قۇرىدۇ"
 
-#: ../modules/calendar/e-memo-shell-backend.c:215
+#: ../modules/calendar/e-memo-shell-backend.c:234
 msgctxt "New"
 msgid "Memo Li_st"
 msgstr "ئەسلەتمە تىزىمى(_S)"
 
-#: ../modules/calendar/e-memo-shell-backend.c:217
+#: ../modules/calendar/e-memo-shell-backend.c:236
 #: ../modules/calendar/e-memo-shell-view-actions.c:645
 msgid "Create a new memo list"
 msgstr "يېڭى بىر ئەسلەتمە تىزىمى قۇرىدۇ"
 
-#: ../modules/calendar/e-memo-shell-sidebar.c:531
+#: ../modules/calendar/e-memo-shell-sidebar.c:511
 msgid "Memo List Selector"
 msgstr "ئەسلەتمە تىزىمى تاللىغۇچ"
 
-#: ../modules/calendar/e-memo-shell-sidebar.c:769
+#: ../modules/calendar/e-memo-shell-sidebar.c:745
 msgid "Loading memo list"
 msgstr "ئەسلەتمە تىزىمىنى ئوقۇۋاتىدۇ"
 
-#: ../modules/calendar/e-memo-shell-sidebar.c:792
+#: ../modules/calendar/e-memo-shell-sidebar.c:767
 #, c-format
 msgid "Opening memo list '%s'"
 msgstr "ئەسلەتمە تىزىمى ‹%s› نى ئېچىۋاتىدۇ"
@@ -16340,44 +16331,44 @@ msgstr[0] "%d ئەسلەتمە"
 msgid "%d selected"
 msgstr "%d تاللاندى"
 
-#: ../modules/calendar/e-task-shell-backend.c:186
+#: ../modules/calendar/e-task-shell-backend.c:205
 #: ../modules/calendar/e-task-shell-view-actions.c:239
 msgid "New Task List"
 msgstr "يېڭى ۋەزىپە تىزىمى"
 
-#: ../modules/calendar/e-task-shell-backend.c:195
+#: ../modules/calendar/e-task-shell-backend.c:214
 msgctxt "New"
 msgid "_Task"
 msgstr "ۋەزىپە(_T)"
 
-#: ../modules/calendar/e-task-shell-backend.c:202
+#: ../modules/calendar/e-task-shell-backend.c:221
 msgctxt "New"
 msgid "Assigne_d Task"
 msgstr "تەقسىملەنگەن ۋەزىپە(_D)"
 
-#: ../modules/calendar/e-task-shell-backend.c:204
+#: ../modules/calendar/e-task-shell-backend.c:223
 msgid "Create a new assigned task"
 msgstr "يېڭى بىر تەقسىملەنگەن ۋەزىپە قۇرىدۇ"
 
-#: ../modules/calendar/e-task-shell-backend.c:212
+#: ../modules/calendar/e-task-shell-backend.c:231
 msgctxt "New"
 msgid "Tas_k List"
 msgstr "ۋەزىپە تىزىمى(_K)"
 
-#: ../modules/calendar/e-task-shell-backend.c:214
+#: ../modules/calendar/e-task-shell-backend.c:233
 #: ../modules/calendar/e-task-shell-view-actions.c:769
 msgid "Create a new task list"
 msgstr "يېڭى بىر ۋەزىپە تىزىمى قۇرىدۇ"
 
-#: ../modules/calendar/e-task-shell-sidebar.c:531
+#: ../modules/calendar/e-task-shell-sidebar.c:511
 msgid "Task List Selector"
 msgstr "ۋەزىپە تىزىمى تاللىغۇچ"
 
-#: ../modules/calendar/e-task-shell-sidebar.c:769
+#: ../modules/calendar/e-task-shell-sidebar.c:745
 msgid "Loading task list"
 msgstr "ۋەزىپە تىزىمىنى ئوقۇۋاتىدۇ"
 
-#: ../modules/calendar/e-task-shell-sidebar.c:792
+#: ../modules/calendar/e-task-shell-sidebar.c:767
 #, c-format
 msgid "Opening task list '%s'"
 msgstr "ۋەزىپە تىزىمى ‹%s› نى ئېچىۋاتىدۇ"
@@ -17224,28 +17215,28 @@ msgstr "خەت ئۇچۇرىنىڭ MIME بۆلىكىدە «تېكىست/يىلن�
 
 #: ../modules/mail-config/e-mail-config-google-summary.c:252
 msgid "Google Features"
-msgstr ""
+msgstr "گۇگىل ئالاھىدىلىكلىرى"
 
 #: ../modules/mail-config/e-mail-config-google-summary.c:261
 msgid "Add Google Ca_lendar to this account"
-msgstr ""
+msgstr "بۇ ھېساباتقا گۇگىل يىلنامىسىنى قوش(_L)"
 
 #: ../modules/mail-config/e-mail-config-google-summary.c:269
 msgid "Add Google Con_tacts to this account"
-msgstr ""
+msgstr "بۇ ھېساباتقا گۇگىل ئالاقەداشلىرىنى قوش(_T)"
 
 #: ../modules/mail-config/e-mail-config-google-summary.c:277
 msgid "You may need to enable IMAP access"
-msgstr ""
+msgstr "چوقۇم IMAP زىيارىتىنى ئىناۋەتلىك قىلىش زۆرۈردۇر"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:246
 #: ../modules/mail-config/e-mail-config-local-accounts.c:292
 msgid "Mail _Directory:"
-msgstr ""
+msgstr "خەت مۇندەرىجىسى(_D):"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:247
 msgid "Choose a MH mail directory"
-msgstr ""
+msgstr "بىر MH خەت مۇندەرىجىسىنى تاللاڭ"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:269
 msgid "Local Delivery _File:"
@@ -17315,11 +17306,11 @@ msgstr "بېكىتىلگەن ئېغىزدا SSL"
 
 #: ../modules/mail-config/e-mail-config-sendmail-backend.c:69
 msgid "_Use custom binary, instead of 'sendmail'"
-msgstr ""
+msgstr "سىز تاللىغاننى ئىشلىتەي(‹sendmail› نى ئىشلەتمەي)"
 
 #: ../modules/mail-config/e-mail-config-sendmail-backend.c:73
 msgid "_Custom binary:"
-msgstr ""
+msgstr "سىزنىڭ تاللىغىنىڭىز(_C):"
 
 #: ../modules/mail-config/e-mail-config-sendmail-backend.c:90
 msgid "U_se custom arguments"
