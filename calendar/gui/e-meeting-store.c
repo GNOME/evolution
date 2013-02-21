@@ -1105,12 +1105,13 @@ e_meeting_store_remove_attendee (EMeetingStore *store,
 	}
 
 	if (row != -1) {
+		g_ptr_array_remove_index (store->priv->attendees, row);
+
 		path = gtk_tree_path_new ();
 		gtk_tree_path_append_index (path, row);
 		gtk_tree_model_row_deleted (GTK_TREE_MODEL (store), path);
 		gtk_tree_path_free (path);
 
-		g_ptr_array_remove_index (store->priv->attendees, row);
 		g_object_unref (attendee);
 	}
 }
@@ -1129,13 +1130,13 @@ e_meeting_store_remove_all_attendees (EMeetingStore *store)
 		GtkTreePath *path;
 
 		attendee = g_ptr_array_index (store->priv->attendees, k);
+		g_ptr_array_remove_index (store->priv->attendees, k);
 
 		path = gtk_tree_path_new ();
 		gtk_tree_path_append_index (path, k);
 		gtk_tree_model_row_deleted (GTK_TREE_MODEL (store), path);
 		gtk_tree_path_free (path);
 
-		g_ptr_array_remove_index (store->priv->attendees, k);
 		g_object_unref (attendee);
 	}
 }
