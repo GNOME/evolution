@@ -93,11 +93,14 @@ G_DEFINE_TYPE_WITH_CODE (
 /* 1/3 of the second to wait until invoking autocomplete lookup */
 #define AUTOCOMPLETE_TIMEOUT 333
 
-#define re_set_timeout(id,func,ptr)			\
-	if (id)						\
-		g_source_remove (id);			\
-	id = g_timeout_add (AUTOCOMPLETE_TIMEOUT,	\
-			    (GSourceFunc) func, ptr);
+/* 1/20 of a second to wait until show the completion results */
+#define SHOW_RESULT_TIMEOUT 50
+
+#define re_set_timeout(id,func,ptr,tout) G_STMT_START {		\
+	if (id)							\
+		g_source_remove (id);				\
+	id = g_timeout_add (tout, (GSourceFunc) func, ptr);	\
+	} G_STMT_END
 
 static void destination_row_inserted (ENameSelectorEntry *name_selector_entry, GtkTreePath *path, GtkTreeIter *iter);
 static void destination_row_changed  (ENameSelectorEntry *name_selector_entry, GtkTreePath *path, GtkTreeIter *iter);
@@ -1509,8 +1512,10 @@ user_insert_text (ENameSelectorEntry *name_selector_entry,
 
 	if (chars_inserted >= 1) {
 		/* If the user inserted one character, kick off completion */
-		re_set_timeout (name_selector_entry->priv->update_completions_cb_id,  update_completions_on_timeout_cb,  name_selector_entry);
-		re_set_timeout (name_selector_entry->priv->type_ahead_complete_cb_id, type_ahead_complete_on_timeout_cb, name_selector_entry);
+		re_set_timeout (name_selector_entry->priv->update_completions_cb_id,
+			update_completions_on_timeout_cb,  name_selector_entry, AUTOCOMPLETE_TIMEOUT);
+		re_set_timeout (name_selector_entry->priv->type_ahead_complete_cb_id,
+			type_ahead_complete_on_timeout_cb, name_selector_entry, SHOW_RESULT_TIMEOUT);
 	}
 
 	g_signal_handlers_unblock_by_func (name_selector_entry, user_delete_text, name_selector_entry);
@@ -1553,7 +1558,8 @@ user_delete_text (ENameSelectorEntry *name_selector_entry,
 
 	if (end_pos - start_pos == 1) {
 		/* Might be backspace; update completion model so dropdown is accurate */
-		re_set_timeout (name_selector_entry->priv->update_completions_cb_id, update_completions_on_timeout_cb, name_selector_entry);
+		re_set_timeout (name_selector_entry->priv->update_completions_cb_id,
+			update_completions_on_timeout_cb, name_selector_entry, AUTOCOMPLETE_TIMEOUT);
 	}
 
 	index_start = get_index_at_position (text, start_pos);
@@ -2162,9 +2168,14 @@ generate_contact_rows (EContactStore *contact_store,
 static void
 ensure_type_ahead_complete_on_timeout (ENameSelectorEntry *name_selector_entry)
 {
-	re_set_timeout (
-		name_selector_entry->priv->type_ahead_complete_cb_id,
-		type_ahead_complete_on_timeout_cb, name_selector_entry);
+	/* this is called whenever a new item is added to the model,
+	   thus, to not starve when there are many matches, do not
+	   postpone on each add, but show results as soon as possible */
+	if (!name_selector_entry->priv->type_ahead_complete_cb_id) {
+		re_set_timeout (
+			name_selector_entry->priv->type_ahead_complete_cb_id,
+			type_ahead_complete_on_timeout_cb, name_selector_entry, SHOW_RESULT_TIMEOUT);
+	}
 }
 
 static void
