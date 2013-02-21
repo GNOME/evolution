@@ -1893,9 +1893,9 @@ do_reload_display (EMailDisplay *display)
 	g_hash_table_replace (
 		table, g_strdup ("headers_collapsed"), collapsed);
 	g_hash_table_replace (
-		table, g_strdup ("formatter_default_charset"), g_strdup (default_charset));
+		table, g_strdup ("formatter_default_charset"), (gpointer) default_charset);
 	g_hash_table_replace (
-		table, g_strdup ("formatter_charset"), g_strdup (charset));
+		table, g_strdup ("formatter_charset"), (gpointer) charset);
 
 	query = soup_form_encode_hash (table);
 
