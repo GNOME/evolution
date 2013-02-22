@@ -1515,7 +1515,7 @@ user_insert_text (ENameSelectorEntry *name_selector_entry,
 		re_set_timeout (name_selector_entry->priv->update_completions_cb_id,
 			update_completions_on_timeout_cb,  name_selector_entry, AUTOCOMPLETE_TIMEOUT);
 		re_set_timeout (name_selector_entry->priv->type_ahead_complete_cb_id,
-			type_ahead_complete_on_timeout_cb, name_selector_entry, SHOW_RESULT_TIMEOUT);
+			type_ahead_complete_on_timeout_cb, name_selector_entry, AUTOCOMPLETE_TIMEOUT);
 	}
 
 	g_signal_handlers_unblock_by_func (name_selector_entry, user_delete_text, name_selector_entry);
