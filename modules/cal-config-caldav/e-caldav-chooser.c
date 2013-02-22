@@ -643,11 +643,11 @@ caldav_chooser_get_supported_component_set (xmlXPathContextPtr xp_ctx,
 		if (name == NULL)
 			continue;
 
-		if (g_ascii_strcasecmp (name, "VEVENT"))
+		if (g_ascii_strcasecmp (name, "VEVENT") == 0)
 			set |= SUPPORTS_VEVENT;
-		else if (g_ascii_strcasecmp (name, "VTODO"))
+		else if (g_ascii_strcasecmp (name, "VTODO") == 0)
 			set |= SUPPORTS_VTODO;
-		else if (g_ascii_strcasecmp (name, "VJOURNAL"))
+		else if (g_ascii_strcasecmp (name, "VJOURNAL") == 0)
 			set |= SUPPORTS_VJOURNAL;
 
 		g_free (name);
