@@ -4441,9 +4441,7 @@ finish_message_delete_with_rsvp (EMailPartItip *pitip,
                                  ItipView *view,
                                  ECalClient *client)
 {
-	gboolean save_schedules = e_cal_client_check_save_schedules (client);
-
-	if (!save_schedules && pitip->delete_message && pitip->folder)
+	if (pitip->delete_message && pitip->folder)
 		camel_folder_delete_message (pitip->folder, pitip->uid);
 
 	if (itip_view_get_rsvp (view)) {
