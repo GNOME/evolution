@@ -1819,7 +1819,7 @@ mail_session_forward_to_sync (CamelSession *session,
 			GSource *timeout_source;
 
 			main_context =
-				camel_session_get_main_context (session);
+				camel_session_ref_main_context (session);
 
 			timeout_source =
 				g_timeout_source_new_seconds (60);
@@ -1830,6 +1830,8 @@ mail_session_forward_to_sync (CamelSession *session,
 			priv->preparing_flush = g_source_attach (
 				timeout_source, main_context);
 			g_source_unref (timeout_source);
+
+			g_main_context_unref (main_context);
 		}
 
 		g_mutex_unlock (&priv->preparing_flush_lock);
