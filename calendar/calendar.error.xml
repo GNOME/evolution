@@ -288,13 +288,6 @@
     <secondary>{1}</secondary>
   </error>
 
-  <error id="online-operation" type="error">
-    <!-- Translators: {0} is replaced with a group name, like CalDAV, Google, or such;
-     {1} is replaced with a calendar/task/memo list name, where the error happened -->
-    <_primary>Could not perform this operation on '{0}: {1}'.</_primary>
-    <_secondary>You must be working online to complete this operation.</_secondary>
-  </error>
-
   <error id="search-error-generic" type="error">
     <secondary>{0}</secondary>
   </error>
