@@ -241,9 +241,8 @@
   </error>
 
   <error id="prompt-no-contents-offline-calendar" type="error" default="GTK_RESPONSE_YES">
-    <!-- Translators: {0} is replaced with a group name, like CalDAV, Google, or such;
-     {1} is replaced with a calendar/task/memo list name, where the error happened -->
-    <_primary>Error loading calendar '{0}: {1}'</_primary>
+    <!-- Translators: {0} is the name of the calendar. -->
+    <_primary>Error loading calendar '{0}'</_primary>
     <_secondary>The calendar is not marked for offline usage.</_secondary>
   </error>
 
@@ -274,10 +273,9 @@
   </error>
 
   <error id="failed-open-calendar" type="error" default="GTK_RESPONSE_YES">
-    <!-- Translators: {0} is replaced with a group name, like CalDAV, Google, or such;
-     {1} is replaced with a calendar/task/memo list name, where the error happened -->
-    <_primary>Error loading calendar '{0}: {1}'</_primary>
-    <secondary>{2}</secondary>
+    <!-- Translators: {0} is the name of the calendar. -->
+    <_primary>Error loading calendar '{0}'</_primary>
+    <secondary>{1}</secondary>
   </error>
 
   <error id="failed-open-tasks" type="error" default="GTK_RESPONSE_YES">
