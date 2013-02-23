@@ -224,76 +224,54 @@ client_ht_lookup (EClientCache *cache,
 	return client_data;
 }
 
-static gchar *
-client_cache_build_source_description (EClientCache *cache,
-                                       ESource *source)
-{
-	ESourceRegistry *registry;
-	ESource *parent;
-	GString *description;
-	gchar *display_name;
-	gchar *parent_uid;
-
-	description = g_string_sized_new (128);
-
-	registry = e_client_cache_ref_registry (cache);
-
-	parent_uid = e_source_dup_parent (source);
-	parent = e_source_registry_ref_source (registry, parent_uid);
-	g_free (parent_uid);
-
-	if (parent != NULL) {
-		display_name = e_source_dup_display_name (parent);
-		g_string_append (description, display_name);
-		g_string_append (description, " / ");
-		g_free (display_name);
-
-		g_object_unref (parent);
-	}
-
-	display_name = e_source_dup_display_name (source);
-	g_string_append (description, display_name);
-	g_free (display_name);
-
-	g_object_unref (registry);
-
-	return g_string_free (description, FALSE);
-}
-
 static gboolean
 client_cache_emit_backend_died_idle_cb (gpointer user_data)
 {
 	SignalClosure *signal_closure = user_data;
+	ESourceRegistry *registry;
 	EAlert *alert;
 	ESource *source;
 	const gchar *alert_id = NULL;
 	const gchar *extension_name;
-	gchar *description;
+	gchar *display_name = NULL;
 
 	source = e_client_get_source (signal_closure->client);
+	registry = e_client_cache_ref_registry (signal_closure->cache);
 
 	extension_name = E_SOURCE_EXTENSION_ADDRESS_BOOK;
-	if (e_source_has_extension (source, extension_name))
+	if (e_source_has_extension (source, extension_name)) {
 		alert_id = "system:address-book-backend-died";
+		display_name = e_source_registry_dup_unique_display_name (
+			registry, source, extension_name);
+	}
 
 	extension_name = E_SOURCE_EXTENSION_CALENDAR;
-	if (e_source_has_extension (source, extension_name))
+	if (e_source_has_extension (source, extension_name)) {
 		alert_id = "system:calendar-backend-died";
+		display_name = e_source_registry_dup_unique_display_name (
+			registry, source, extension_name);
+	}
 
 	extension_name = E_SOURCE_EXTENSION_MEMO_LIST;
-	if (e_source_has_extension (source, extension_name))
+	if (e_source_has_extension (source, extension_name)) {
 		alert_id = "system:memo-list-backend-died";
+		display_name = e_source_registry_dup_unique_display_name (
+			registry, source, extension_name);
+	}
 
 	extension_name = E_SOURCE_EXTENSION_TASK_LIST;
-	if (e_source_has_extension (source, extension_name))
+	if (e_source_has_extension (source, extension_name)) {
 		alert_id = "system:task-list-backend-died";
+		display_name = e_source_registry_dup_unique_display_name (
+			registry, source, extension_name);
+	}
+
+	g_object_unref (registry);
 
 	g_return_val_if_fail (alert_id != NULL, FALSE);
+	g_return_val_if_fail (display_name != NULL, FALSE);
 
-	description = client_cache_build_source_description (
-		signal_closure->cache, source);
-	alert = e_alert_new (alert_id, description, NULL);
-	g_free (description);
+	alert = e_alert_new (alert_id, display_name, NULL);
 
 	g_signal_emit (
 		signal_closure->cache,
@@ -303,6 +281,8 @@ client_cache_emit_backend_died_idle_cb (gpointer user_data)
 
 	g_object_unref (alert);
 
+	g_free (display_name);
+
 	return FALSE;
 }
 
@@ -310,38 +290,52 @@ static gboolean
 client_cache_emit_backend_error_idle_cb (gpointer user_data)
 {
 	SignalClosure *signal_closure = user_data;
+	ESourceRegistry *registry;
 	EAlert *alert;
 	ESource *source;
 	const gchar *alert_id = NULL;
 	const gchar *extension_name;
-	gchar *description;
+	gchar *display_name = NULL;
 
 	source = e_client_get_source (signal_closure->client);
+	registry = e_client_cache_ref_registry (signal_closure->cache);
 
 	extension_name = E_SOURCE_EXTENSION_ADDRESS_BOOK;
-	if (e_source_has_extension (source, extension_name))
+	if (e_source_has_extension (source, extension_name)) {
 		alert_id = "system:address-book-backend-error";
+		display_name = e_source_registry_dup_unique_display_name (
+			registry, source, extension_name);
+	}
 
 	extension_name = E_SOURCE_EXTENSION_CALENDAR;
-	if (e_source_has_extension (source, extension_name))
+	if (e_source_has_extension (source, extension_name)) {
 		alert_id = "system:calendar-backend-error";
+		display_name = e_source_registry_dup_unique_display_name (
+			registry, source, extension_name);
+	}
 
 	extension_name = E_SOURCE_EXTENSION_MEMO_LIST;
-	if (e_source_has_extension (source, extension_name))
+	if (e_source_has_extension (source, extension_name)) {
 		alert_id = "system:memo-list-backend-error";
+		display_name = e_source_registry_dup_unique_display_name (
+			registry, source, extension_name);
+	}
 
 	extension_name = E_SOURCE_EXTENSION_TASK_LIST;
-	if (e_source_has_extension (source, extension_name))
+	if (e_source_has_extension (source, extension_name)) {
 		alert_id = "system:task-list-backend-error";
+		display_name = e_source_registry_dup_unique_display_name (
+			registry, source, extension_name);
+	}
+
+	g_object_unref (registry);
 
 	g_return_val_if_fail (alert_id != NULL, FALSE);
+	g_return_val_if_fail (display_name != NULL, FALSE);
 
-	description = client_cache_build_source_description (
-		signal_closure->cache, source);
 	alert = e_alert_new (
-		alert_id, description,
+		alert_id, display_name,
 		signal_closure->error_message, NULL);
-	g_free (description);
 
 	g_signal_emit (
 		signal_closure->cache,
@@ -350,6 +344,8 @@ client_cache_emit_backend_error_idle_cb (gpointer user_data)
 		alert);
 
 	g_object_unref (alert);
+
+	g_free (display_name);
 
 	return FALSE;
 }
