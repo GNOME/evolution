@@ -65,8 +65,7 @@ struct _ConnectClosure {
 	EMemoShellSidebar *memo_shell_sidebar;
 
 	/* For error messages. */
-	gchar *source_display_name;
-	gchar *parent_display_name;
+	gchar *unique_display_name;
 };
 
 enum {
@@ -96,20 +95,15 @@ connect_closure_new (EMemoShellSidebar *memo_shell_sidebar,
 	ConnectClosure *closure;
 	ESourceRegistry *registry;
 	ESourceSelector *selector;
-	ESource *parent;
-	const gchar *parent_uid;
 
 	selector = e_memo_shell_sidebar_get_selector (memo_shell_sidebar);
 	registry = e_source_selector_get_registry (selector);
-	parent_uid = e_source_get_parent (source);
-	parent = e_source_registry_ref_source (registry, parent_uid);
 
 	closure = g_slice_new0 (ConnectClosure);
 	closure->memo_shell_sidebar = g_object_ref (memo_shell_sidebar);
-	closure->source_display_name = e_source_dup_display_name (source);
-	closure->parent_display_name = e_source_dup_display_name (parent);
-
-	g_object_unref (parent);
+	closure->unique_display_name =
+		e_source_registry_dup_unique_display_name (
+		registry, source, E_SOURCE_EXTENSION_MEMO_LIST);
 
 	return closure;
 }
@@ -119,8 +113,7 @@ connect_closure_free (ConnectClosure *closure)
 {
 	g_object_unref (closure->memo_shell_sidebar);
 
-	g_free (closure->source_display_name);
-	g_free (closure->parent_display_name);
+	g_free (closure->unique_display_name);
 
 	g_slice_free (ConnectClosure, closure);
 }
@@ -154,8 +147,7 @@ memo_shell_sidebar_emit_status_message (EMemoShellSidebar *memo_shell_sidebar,
 
 static void
 memo_shell_sidebar_handle_connect_error (EMemoShellSidebar *memo_shell_sidebar,
-                                         const gchar *parent_display_name,
-                                         const gchar *source_display_name,
+                                         const gchar *unique_display_name,
                                          const GError *error)
 {
 	EShellView *shell_view;
@@ -181,16 +173,14 @@ memo_shell_sidebar_handle_connect_error (EMemoShellSidebar *memo_shell_sidebar,
 	} else if (offline_error) {
 		e_alert_submit (
 			E_ALERT_SINK (shell_content),
-			"calendar:prompt-no-contents-offline-calendar",
-			parent_display_name,
-			source_display_name,
+			"calendar:prompt-no-contents-offline-memos",
+			unique_display_name,
 			NULL);
 	} else {
 		e_alert_submit (
 			E_ALERT_SINK (shell_content),
-			"calendar:failed-open-calendar",
-			parent_display_name,
-			source_display_name,
+			"calendar:failed-open-memos",
+			unique_display_name,
 			error->message,
 			NULL);
 	}
@@ -216,8 +206,7 @@ memo_shell_sidebar_client_connect_cb (GObject *source_object,
 	if (error != NULL) {
 		memo_shell_sidebar_handle_connect_error (
 			closure->memo_shell_sidebar,
-			closure->parent_display_name,
-			closure->source_display_name,
+			closure->unique_display_name,
 			error);
 		g_error_free (error);
 		goto exit;
@@ -260,8 +249,7 @@ memo_shell_sidebar_default_connect_cb (GObject *source_object,
 	if (error != NULL) {
 		memo_shell_sidebar_handle_connect_error (
 			closure->memo_shell_sidebar,
-			closure->parent_display_name,
-			closure->source_display_name,
+			closure->unique_display_name,
 			error);
 		g_error_free (error);
 		goto exit;
