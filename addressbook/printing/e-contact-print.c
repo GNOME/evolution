@@ -230,7 +230,7 @@ e_contact_start_new_column (EContactPrintContext *ctxt)
 
 static gchar *
 get_contact_string_value (EContact *contact,
-			  gint field)
+                          gint field)
 {
 	const gchar *value;
 

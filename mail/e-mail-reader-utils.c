@@ -972,7 +972,8 @@ mail_reader_do_print_message (GObject *object,
 
 	mail_display = e_mail_reader_get_mail_display (reader);
 
-	e_mail_printer_print (printer, context->action,
+	e_mail_printer_print (
+		printer, context->action,
 		e_mail_display_get_formatter (mail_display),
 		cancellable);
 

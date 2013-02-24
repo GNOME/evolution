@@ -1354,9 +1354,9 @@ secure_to_port_cb (GBinding *binding,
 
 static gboolean
 webdav_source_ssl_trust_to_sensitive_cb (GBinding *binding,
-					 const GValue *source_value,
-					 GValue *target_value,
-					 gpointer user_data)
+                                         const GValue *source_value,
+                                         GValue *target_value,
+                                         gpointer user_data)
 {
 	const gchar *ssl_trust = g_value_get_string (source_value);
 
@@ -1367,7 +1367,7 @@ webdav_source_ssl_trust_to_sensitive_cb (GBinding *binding,
 
 static void
 webdav_unset_ssl_trust_clicked_cb (GtkWidget *button,
-				   ESourceWebdav *extension)
+                                   ESourceWebdav *extension)
 {
 	e_source_webdav_set_ssl_trust (extension, NULL);
 }

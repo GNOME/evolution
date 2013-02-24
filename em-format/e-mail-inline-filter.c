@@ -201,8 +201,8 @@ inline_filter_add_part (EMailInlineFilter *emif,
 
 static gboolean
 newline_or_whitespace_follows (const gchar *str,
-			       guint len,
-			       guint skip_first)
+                               guint len,
+                               guint skip_first)
 {
 	if (len <= skip_first)
 		return len == skip_first;

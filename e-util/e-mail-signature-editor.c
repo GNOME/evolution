@@ -286,9 +286,9 @@ action_save_and_close_cb (GtkAction *action,
 		registry = e_mail_signature_editor_get_registry (editor);
 
 		/* Only make sure that the 'source-changed' is called,
-		   thus the preview of the signature is updated on save.
-		   It is not called when only signature body is changed
-		   (and ESource properties are left unchanged).
+		 * thus the preview of the signature is updated on save.
+		 * It is not called when only signature body is changed
+		 * (and ESource properties are left unchanged).
 		*/
 		g_signal_emit_by_name (registry, "source-changed", source);
 

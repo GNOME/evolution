@@ -1512,9 +1512,11 @@ user_insert_text (ENameSelectorEntry *name_selector_entry,
 
 	if (chars_inserted >= 1) {
 		/* If the user inserted one character, kick off completion */
-		re_set_timeout (name_selector_entry->priv->update_completions_cb_id,
+		re_set_timeout (
+			name_selector_entry->priv->update_completions_cb_id,
 			update_completions_on_timeout_cb,  name_selector_entry, AUTOCOMPLETE_TIMEOUT);
-		re_set_timeout (name_selector_entry->priv->type_ahead_complete_cb_id,
+		re_set_timeout (
+			name_selector_entry->priv->type_ahead_complete_cb_id,
 			type_ahead_complete_on_timeout_cb, name_selector_entry, AUTOCOMPLETE_TIMEOUT);
 	}
 
@@ -1558,7 +1560,8 @@ user_delete_text (ENameSelectorEntry *name_selector_entry,
 
 	if (end_pos - start_pos == 1) {
 		/* Might be backspace; update completion model so dropdown is accurate */
-		re_set_timeout (name_selector_entry->priv->update_completions_cb_id,
+		re_set_timeout (
+			name_selector_entry->priv->update_completions_cb_id,
 			update_completions_on_timeout_cb, name_selector_entry, AUTOCOMPLETE_TIMEOUT);
 	}
 
@@ -2169,8 +2172,8 @@ static void
 ensure_type_ahead_complete_on_timeout (ENameSelectorEntry *name_selector_entry)
 {
 	/* this is called whenever a new item is added to the model,
-	   thus, to not starve when there are many matches, do not
-	   postpone on each add, but show results as soon as possible */
+	 * thus, to not starve when there are many matches, do not
+	 * postpone on each add, but show results as soon as possible */
 	if (!name_selector_entry->priv->type_ahead_complete_cb_id) {
 		re_set_timeout (
 			name_selector_entry->priv->type_ahead_complete_cb_id,
@@ -3077,7 +3080,7 @@ populate_popup (ENameSelectorEntry *name_selector_entry,
 
 static gint
 compare_gint_ptr_cb (gconstpointer a,
-		     gconstpointer b)
+                     gconstpointer b)
 {
 	return GPOINTER_TO_INT (a) - GPOINTER_TO_INT (b);
 }

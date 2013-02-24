@@ -515,7 +515,7 @@ contact_list_editor_selection_changed_cb (GtkTreeSelection *selection,
 
 static void
 contact_list_editor_add_from_email_entry (EContactListEditor *editor,
-					  ENameSelectorEntry *entry)
+                                          ENameSelectorEntry *entry)
 {
 	EDestinationStore *store;
 	GList *dests, *diter;

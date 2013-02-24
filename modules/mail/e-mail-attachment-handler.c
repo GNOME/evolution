@@ -90,8 +90,8 @@ mail_attachment_handler_get_selected_message (EAttachmentHandler *handler)
 			CamelStream *mem;
 
 			/* Create a message copy in case the inner content-type doesn't match
-			   the mime_part's content type, which can happen for multipart/digest,
-			   where it confuses the formatter on reply, which skips all rfc822 subparts.
+			 * the mime_part's content type, which can happen for multipart/digest,
+			 * where it confuses the formatter on reply, which skips all rfc822 subparts.
 			*/
 			mem = camel_stream_mem_new ();
 			camel_data_wrapper_write_to_stream_sync (CAMEL_DATA_WRAPPER (wrapper), mem, NULL, NULL);

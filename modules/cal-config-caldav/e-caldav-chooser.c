@@ -183,8 +183,8 @@ context_free (Context *context)
 
 static ETrustPromptResponse
 trust_prompt_sync (const ENamedParameters *parameters,
-		   GCancellable *cancellable,
-		   GError **error)
+                   GCancellable *cancellable,
+                   GError **error)
 {
 	EUserPrompter *prompter;
 	gint response;
@@ -386,7 +386,8 @@ caldav_chooser_configure_session (ECaldavChooser *chooser,
 		g_object_unref (logger);
 	}
 
-	g_object_set (session,
+	g_object_set (
+		session,
 		SOUP_SESSION_TIMEOUT, 90,
 		SOUP_SESSION_SSL_USE_SYSTEM_CA_FILE, TRUE,
 		SOUP_SESSION_SSL_STRICT, TRUE,
@@ -1438,7 +1439,6 @@ caldav_chooser_try_password_sync (ESourceAuthenticator *auth,
 			soup_session_send_message (session, message);
 		}
 	}
-	
 
 	if (cancel_id > 0)
 		g_cancellable_disconnect (cancellable, cancel_id);

@@ -84,7 +84,7 @@ empe_mp_related_parse (EMailParserExtension *extension,
 			camel_data_wrapper_decode_to_stream_sync (dw, mem, cancellable, NULL);
 			camel_stream_close (mem, cancellable, NULL);
 
-			bytes = camel_stream_mem_get_byte_array	(CAMEL_STREAM_MEM (mem));
+			bytes = camel_stream_mem_get_byte_array (CAMEL_STREAM_MEM (mem));
 			if (bytes && bytes->len)
 				html_body = g_strndup ((const gchar *) bytes->data, bytes->len);
 

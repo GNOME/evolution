@@ -313,7 +313,7 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 
 	if (!g_queue_is_empty (&plain_text_parts) && !g_queue_is_empty (&work_queue) && nparts > 1) {
 		/* a text/html part is hidden, but not marked as attachment,
-		   thus do that now, when there exists a text/plain part */
+		 * thus do that now, when there exists a text/plain part */
 		GList *qiter;
 
 		for (qiter = g_queue_peek_head_link (&work_queue); qiter; qiter = g_list_next (qiter)) {

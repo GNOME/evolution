@@ -199,7 +199,7 @@ emp_start_printing (GObject *object,
 
 static void
 emp_run_print_operation (EMailPrinter *emp,
-			 EMailFormatter *formatter)
+                         EMailFormatter *formatter)
 {
 	EMailPartList *part_list;
 	CamelFolder *folder;
@@ -850,7 +850,7 @@ e_mail_printer_new (EMailPartList *source)
 void
 e_mail_printer_print (EMailPrinter *emp,
                       GtkPrintOperationAction action,
-		      EMailFormatter *formatter,
+                      EMailFormatter *formatter,
                       GCancellable *cancellable)
 {
 	g_return_if_fail (E_IS_MAIL_PRINTER (emp));

@@ -563,7 +563,7 @@ e_mail_part_is_inline (CamelMimePart *mime_part,
  **/
 gboolean
 e_mail_part_utils_body_refers (const gchar *body,
-			       const gchar *cid)
+                               const gchar *cid)
 {
 	const gchar *ptr;
 

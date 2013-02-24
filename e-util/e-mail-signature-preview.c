@@ -72,7 +72,7 @@ replace_local_image_links (WebKitDOMElement *element)
 			gchar *new_src;
 
 			/* this forms "evo-file://", which can be loaded,
-			   while "file://" cannot be, due to webkit policy */
+			 * while "file://" cannot be, due to webkit policy */
 			new_src = g_strconcat ("evo-", src, NULL);
 			webkit_dom_html_image_element_set_src (img, new_src);
 			g_free (new_src);
@@ -99,8 +99,8 @@ replace_local_image_links (WebKitDOMElement *element)
 
 static void
 signature_preview_document_loaded_cb (WebKitWebView *web_view,
-				      WebKitWebFrame *web_frame,
-				      gpointer user_data)
+                                      WebKitWebFrame *web_frame,
+                                      gpointer user_data)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMNode *node;
