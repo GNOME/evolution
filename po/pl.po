@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-17 15:02+0100\n"
-"PO-Revision-Date: 2013-02-17 15:03+0100\n"
+"POT-Creation-Date: 2013-02-24 02:21+0100\n"
+"PO-Revision-Date: 2013-02-24 02:22+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -793,19 +793,19 @@ msgid "Merge Contact"
 msgstr "Połącz kontakt"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:1
-#: ../modules/addressbook/e-book-shell-view-actions.c:1079
+#: ../modules/addressbook/e-book-shell-view-actions.c:1104
 msgid "Name contains"
 msgstr "Nazwa zawiera"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:2
-#: ../modules/addressbook/e-book-shell-view-actions.c:1072
+#: ../modules/addressbook/e-book-shell-view-actions.c:1097
 msgid "Email begins with"
 msgstr "E-mail rozpoczyna się od"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:3
 #: ../calendar/gui/caltypes.xml.h:26 ../calendar/gui/memotypes.xml.h:19
 #: ../calendar/gui/tasktypes.xml.h:30
-#: ../modules/addressbook/e-book-shell-view-actions.c:1065
+#: ../modules/addressbook/e-book-shell-view-actions.c:1090
 #: ../modules/calendar/e-cal-shell-view-actions.c:1795
 #: ../modules/calendar/e-memo-shell-view-actions.c:812
 #: ../modules/calendar/e-task-shell-view-actions.c:1011
@@ -849,7 +849,7 @@ msgid "Paste contacts from the clipboard"
 msgstr "Wkleja kontakty ze schowka"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:652
-#: ../modules/addressbook/e-book-shell-view-actions.c:883
+#: ../modules/addressbook/e-book-shell-view-actions.c:908
 msgid "Delete selected contacts"
 msgstr "Usuwa zaznaczone kontakty"
 
@@ -2071,22 +2071,21 @@ msgstr ""
 msgid "Are you sure you want to save the memo without a summary?"
 msgstr "Na pewno zapisać notatkę bez podsumowania?"
 
-#. Translators: {0} is replaced with a group name, like CalDAV, Google, or such;
-#. {1} is replaced with a calendar/task/memo list name, where the error happened
-#: ../calendar/calendar.error.xml.h:73
-msgid "Error loading calendar '{0}: {1}'"
-msgstr "Błąd podczas wczytywania kalendarza \"{0}: {1}\""
+#. Translators: {0} is the name of the calendar.
+#: ../calendar/calendar.error.xml.h:72
+msgid "Error loading calendar '{0}'"
+msgstr "Błąd podczas wczytywania kalendarza \"{0}\""
 
-#: ../calendar/calendar.error.xml.h:74
+#: ../calendar/calendar.error.xml.h:73
 msgid "The calendar is not marked for offline usage."
 msgstr "Ten kalendarz nie jest zaznaczony do użycia w trybie offline."
 
-#: ../calendar/calendar.error.xml.h:75
+#: ../calendar/calendar.error.xml.h:74
 msgid "Cannot save event"
 msgstr "Nie można zapisać wydarzenia"
 
 #. Translators: {0} is the name of the calendar source
-#: ../calendar/calendar.error.xml.h:77
+#: ../calendar/calendar.error.xml.h:76
 msgid ""
 "'{0}' is a read-only calendar and cannot be modified. Please select a "
 "different calendar that can accept appointments."
@@ -2094,46 +2093,34 @@ msgstr ""
 "\"{0}\" to kalendarz tylko do odczytu, który nie może być modyfikowany. "
 "Proszę wybrać inny kalendarz, do którego można wpisywać nowe spotkania."
 
-#: ../calendar/calendar.error.xml.h:78
+#: ../calendar/calendar.error.xml.h:77
 msgid "Cannot save task"
 msgstr "Nie można zapisać zadania"
 
 #. Translators: {0} is the name of the calendar source
-#: ../calendar/calendar.error.xml.h:80
+#: ../calendar/calendar.error.xml.h:79
 msgid ""
 "'{0}' does not support assigned tasks, please select a different task list."
 msgstr ""
 "\"{0}\" nie obsługuje przypisywania zadań. Proszę wybrać inną listę zadań."
 
-#. Translators: {0} is replaced with a group name, like CalDAV, Google, or such;
-#. {1} is replaced with a calendar/task/memo list name, where the error happened
-#: ../calendar/calendar.error.xml.h:83
-msgid "Error loading task list '{0}: {1}'"
-msgstr "Błąd podczas wczytywania listy zadań \"{0}: {1}\""
+#. Translators: {0} is the name of the task list.
+#: ../calendar/calendar.error.xml.h:81
+msgid "Error loading task list '{0}'"
+msgstr "Błąd podczas wczytywania listy zadań \"{0}\""
 
-#: ../calendar/calendar.error.xml.h:84
+#: ../calendar/calendar.error.xml.h:82
 msgid "The task list is not marked for offline usage."
 msgstr "Ta lista zadań nie jest zaznaczona do użycia w trybie offline."
 
-#. Translators: {0} is replaced with a group name, like CalDAV, Google, or such;
-#. {1} is replaced with a calendar/task/memo list name, where the error happened
-#: ../calendar/calendar.error.xml.h:87
-msgid "Error loading memo list '{0}: {1}'"
-msgstr "Błąd podczas wczytywania listy notatek \"{0}: {1}\""
+#. Translators: {0} is the name of the memo list.
+#: ../calendar/calendar.error.xml.h:84
+msgid "Error loading memo list '{0}'"
+msgstr "Błąd podczas wczytywania listy notatek \"{0}\""
 
-#: ../calendar/calendar.error.xml.h:88
+#: ../calendar/calendar.error.xml.h:85
 msgid "The memo list is not marked for offline usage."
 msgstr "Ta lista notatek nie jest zaznaczona do użycia w trybie offline."
-
-#. Translators: {0} is replaced with a group name, like CalDAV, Google, or such;
-#. {1} is replaced with a calendar/task/memo list name, where the error happened
-#: ../calendar/calendar.error.xml.h:91
-msgid "Could not perform this operation on '{0}: {1}'."
-msgstr "Nie można wykonać tego działania na \"{0}: {1}\"."
-
-#: ../calendar/calendar.error.xml.h:92 ../mail/mail.error.xml.h:167
-msgid "You must be working online to complete this operation."
-msgstr "Działanie można ukończyć tylko w trybie online."
 
 #: ../calendar/gui/calendar-view-factory.c:88
 msgid "Day View"
@@ -2879,7 +2866,7 @@ msgstr ""
 "Tylko organizator wydarzenia może modyfikować wszystkie aspekty wydarzenia"
 
 #: ../calendar/gui/dialogs/event-page.c:650
-#: ../calendar/gui/dialogs/event-page.c:3172
+#: ../calendar/gui/dialogs/event-page.c:3181
 msgid "This event has reminders"
 msgstr "To wydarzenie zawiera przypomnienia"
 
@@ -2933,7 +2920,7 @@ msgstr "_Delegaci"
 msgid "Atte_ndees"
 msgstr "_Uczestnicy"
 
-#: ../calendar/gui/dialogs/event-page.c:3452
+#: ../calendar/gui/dialogs/event-page.c:3461
 #, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
@@ -2941,7 +2928,7 @@ msgstr[0] "dzień przed spotkaniem"
 msgstr[1] "%d dni przed spotkaniem"
 msgstr[2] "%d dni przed spotkaniem"
 
-#: ../calendar/gui/dialogs/event-page.c:3458
+#: ../calendar/gui/dialogs/event-page.c:3467
 #, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
@@ -2949,7 +2936,7 @@ msgstr[0] "godzinę przed spotkaniem"
 msgstr[1] "%d godziny przed spotkaniem"
 msgstr[2] "%d godzin przed spotkaniem"
 
-#: ../calendar/gui/dialogs/event-page.c:3464
+#: ../calendar/gui/dialogs/event-page.c:3473
 #, c-format
 msgid "%d minute before appointment"
 msgid_plural "%d minutes before appointment"
@@ -2957,12 +2944,12 @@ msgstr[0] "minutę przed spotkaniem"
 msgstr[1] "%d minuty przed spotkaniem"
 msgstr[2] "%d minut przed spotkaniem"
 
-#: ../calendar/gui/dialogs/event-page.c:3485
+#: ../calendar/gui/dialogs/event-page.c:3494
 msgid "Customize"
 msgstr "Dostosuj"
 
 #. Translators: "None" for "No reminder set"
-#: ../calendar/gui/dialogs/event-page.c:3492
+#: ../calendar/gui/dialogs/event-page.c:3501
 msgctxt "cal-reminders"
 msgid "None"
 msgstr "Brak"
@@ -3118,7 +3105,7 @@ msgstr ""
 msgid "Memo cannot be fully edited, because you are not the organizer"
 msgstr "Tylko organizator może modyfikować wszystkie aspekty notatki"
 
-#: ../calendar/gui/dialogs/memo-page.c:1174
+#: ../calendar/gui/dialogs/memo-page.c:1183
 #: ../em-format/e-mail-formatter.c:1391
 #: ../em-format/e-mail-formatter-utils.c:194
 #: ../em-format/e-mail-formatter-utils.c:218 ../mail/em-filter-i18n.h:78
@@ -4010,7 +3997,7 @@ msgstr "Data ukończenia"
 #: ../calendar/gui/e-meeting-store.c:236 ../calendar/gui/print.c:1235
 #: ../calendar/gui/print.c:1252 ../e-util/e-charset.c:52
 #: ../modules/itip-formatter/itip-view.c:3472
-#: ../modules/itip-formatter/itip-view.c:5969
+#: ../modules/itip-formatter/itip-view.c:5967
 #: ../modules/plugin-manager/evolution-plugin-manager.c:100
 msgid "Unknown"
 msgstr "Nieznany"
@@ -4039,14 +4026,14 @@ msgstr "Nie"
 #: ../calendar/gui/e-cal-model.c:3461
 #: ../calendar/gui/e-meeting-list-view.c:221
 #: ../calendar/gui/e-meeting-store.c:200 ../calendar/gui/e-meeting-store.c:223
-#: ../modules/itip-formatter/itip-view.c:5957
+#: ../modules/itip-formatter/itip-view.c:5955
 msgid "Accepted"
 msgstr "Zaakceptowano"
 
 #: ../calendar/gui/e-cal-model.c:3462
 #: ../calendar/gui/e-meeting-list-view.c:222
 #: ../calendar/gui/e-meeting-store.c:202 ../calendar/gui/e-meeting-store.c:225
-#: ../modules/itip-formatter/itip-view.c:5963
+#: ../modules/itip-formatter/itip-view.c:5961
 msgid "Declined"
 msgstr "Odrzucono"
 
@@ -4060,7 +4047,7 @@ msgstr "Próbne"
 #: ../calendar/gui/e-cal-model.c:3464
 #: ../calendar/gui/e-meeting-list-view.c:224
 #: ../calendar/gui/e-meeting-store.c:206 ../calendar/gui/e-meeting-store.c:229
-#: ../modules/itip-formatter/itip-view.c:5966
+#: ../modules/itip-formatter/itip-view.c:5964
 msgid "Delegated"
 msgstr "Oddelegowano"
 
@@ -4257,19 +4244,19 @@ msgstr "RSVP"
 msgid "In Process"
 msgstr "W toku"
 
-#: ../calendar/gui/e-meeting-store.c:1954
+#: ../calendar/gui/e-meeting-store.c:1955
 #, c-format
 msgid "Enter password to access free/busy information on server %s as user %s"
 msgstr ""
 "Proszę wprowadzić hasło, aby uzyskać informacje o zajętości na serwerze %s "
 "jako użytkownik %s"
 
-#: ../calendar/gui/e-meeting-store.c:1964
+#: ../calendar/gui/e-meeting-store.c:1965
 #, c-format
 msgid "Failure reason: %s"
 msgstr "Przyczyna niepowodzenia: %s"
 
-#: ../calendar/gui/e-meeting-store.c:1969
+#: ../calendar/gui/e-meeting-store.c:1970
 #: ../plugins/publish-calendar/publish-calendar.c:341
 #: ../smime/gui/component.c:55
 msgid "Enter password"
@@ -10254,7 +10241,7 @@ msgstr[2] "Zapis załączników"
 
 #. Translators: Default attachment filename.
 #: ../e-util/e-attachment-store.c:524 ../e-util/e-attachment.c:1841
-#: ../e-util/e-attachment.c:2446
+#: ../e-util/e-attachment.c:2477
 msgid "attachment.dat"
 msgstr "załącznik.dat"
 
@@ -10304,44 +10291,44 @@ msgstr "Otwiera ten załącznik w %s"
 msgid "Attached message"
 msgstr "Załączona wiadomość"
 
-#: ../e-util/e-attachment.c:1886 ../e-util/e-attachment.c:2748
+#: ../e-util/e-attachment.c:1917 ../e-util/e-attachment.c:2779
 msgid "A load operation is already in progress"
 msgstr "Działanie wczytywania jest już wykonywane"
 
-#: ../e-util/e-attachment.c:1894 ../e-util/e-attachment.c:2756
+#: ../e-util/e-attachment.c:1925 ../e-util/e-attachment.c:2787
 msgid "A save operation is already in progress"
 msgstr "Działanie zapisywania jest już wykonywane"
 
-#: ../e-util/e-attachment.c:2002
+#: ../e-util/e-attachment.c:2033
 #, c-format
 msgid "Could not load '%s'"
 msgstr "Nie można wczytać \"%s\""
 
-#: ../e-util/e-attachment.c:2005
+#: ../e-util/e-attachment.c:2036
 #, c-format
 msgid "Could not load the attachment"
 msgstr "Nie można wczytać załącznika"
 
-#: ../e-util/e-attachment.c:2303
+#: ../e-util/e-attachment.c:2334
 #, c-format
 msgid "Could not open '%s'"
 msgstr "Nie można otworzyć \"%s\""
 
-#: ../e-util/e-attachment.c:2306
+#: ../e-util/e-attachment.c:2337
 #, c-format
 msgid "Could not open the attachment"
 msgstr "Nie można otworzyć załącznika"
 
-#: ../e-util/e-attachment.c:2764
+#: ../e-util/e-attachment.c:2795
 msgid "Attachment contents not loaded"
 msgstr "Treść załącznika nie jest wczytana"
 
-#: ../e-util/e-attachment.c:2840
+#: ../e-util/e-attachment.c:2871
 #, c-format
 msgid "Could not save '%s'"
 msgstr "Nie można zapisać \"%s\""
 
-#: ../e-util/e-attachment.c:2843
+#: ../e-util/e-attachment.c:2874
 #, c-format
 msgid "Could not save the attachment"
 msgstr "Nie można zapisać załącznika"
@@ -10601,7 +10588,7 @@ msgstr "ukraińskie"
 msgid "Visual"
 msgstr "wizualne"
 
-#: ../e-util/e-client-cache.c:927
+#: ../e-util/e-client-cache.c:1061
 #, c-format
 msgid "Cannot create a client object from extension name '%s'"
 msgstr "Nie można utworzyć obiektu klienta z nazwy rozszerzenia \"%s\""
@@ -11138,7 +11125,7 @@ msgstr "Wy_szukiwanie:"
 
 #: ../e-util/e-name-selector-dialog.c:368
 #: ../e-util/e-name-selector-dialog.c:1243
-#: ../modules/addressbook/e-book-shell-view-actions.c:1041
+#: ../modules/addressbook/e-book-shell-view-actions.c:1066
 #: ../modules/calendar/e-cal-shell-view-actions.c:1757
 #: ../modules/calendar/e-memo-shell-view-actions.c:788
 #: ../modules/calendar/e-task-shell-view-actions.c:959
@@ -11159,7 +11146,7 @@ msgid "Address Book"
 msgstr "Książka adresowa"
 
 #: ../e-util/e-name-selector-dialog.c:453
-#: ../modules/addressbook/e-book-shell-backend.c:297
+#: ../modules/addressbook/e-book-shell-backend.c:305
 #: ../modules/addressbook/e-book-shell-view.c:356
 msgid "Contacts"
 msgstr "Kontakty"
@@ -11169,25 +11156,25 @@ msgid "Select Contacts from Address Book"
 msgstr "Wybór kontaktów z książki adresowej"
 
 #. To Translators: This would be similiar to "Expand MyList Inline" where MyList is a Contact List
-#: ../e-util/e-name-selector-entry.c:3009
+#: ../e-util/e-name-selector-entry.c:3020
 #, c-format
 msgid "E_xpand %s Inline"
 msgstr "_Rozwiń %s w treści wiadomości"
 
 #. Copy Contact Item
-#: ../e-util/e-name-selector-entry.c:3025
+#: ../e-util/e-name-selector-entry.c:3036
 #, c-format
 msgid "Cop_y %s"
 msgstr "S_kopiuj %s"
 
 #. Cut Contact Item
-#: ../e-util/e-name-selector-entry.c:3036
+#: ../e-util/e-name-selector-entry.c:3047
 #, c-format
 msgid "C_ut %s"
 msgstr "_Wytnij %s"
 
 #. Edit Contact item
-#: ../e-util/e-name-selector-entry.c:3054
+#: ../e-util/e-name-selector-entry.c:3065
 #, c-format
 msgid "_Edit %s"
 msgstr "_Modyfikuj %s"
@@ -15265,6 +15252,10 @@ msgstr "Odpowiedź drukarki: \"{0}\"."
 msgid "Could not perform this operation on {0}."
 msgstr "Nie można wykonać tego działania na {0}."
 
+#: ../mail/mail.error.xml.h:167
+msgid "You must be working online to complete this operation."
+msgstr "Działanie można ukończyć tylko w trybie online."
+
 #: ../mail/mail-send-recv.c:202
 msgid "Canceling..."
 msgstr "Anulowanie..."
@@ -15498,42 +15489,42 @@ msgstr "Informacje kontaktowe"
 msgid "Contact information for %s"
 msgstr "Informacje kontaktowe dla %s"
 
-#: ../modules/addressbook/e-book-shell-backend.c:252
+#: ../modules/addressbook/e-book-shell-backend.c:260
 #: ../modules/addressbook/e-book-shell-view-actions.c:125
 msgid "New Address Book"
 msgstr "Nowa książka adresowa"
 
-#: ../modules/addressbook/e-book-shell-backend.c:261
+#: ../modules/addressbook/e-book-shell-backend.c:269
 msgctxt "New"
 msgid "_Contact"
 msgstr "_Kontakt"
 
-#: ../modules/addressbook/e-book-shell-backend.c:263
-#: ../modules/addressbook/e-book-shell-view-actions.c:911
+#: ../modules/addressbook/e-book-shell-backend.c:271
+#: ../modules/addressbook/e-book-shell-view-actions.c:936
 msgid "Create a new contact"
 msgstr "Tworzy nowy kontakt"
 
-#: ../modules/addressbook/e-book-shell-backend.c:268
+#: ../modules/addressbook/e-book-shell-backend.c:276
 msgctxt "New"
 msgid "Contact _List"
 msgstr "_Lista kontaktów"
 
-#: ../modules/addressbook/e-book-shell-backend.c:270
-#: ../modules/addressbook/e-book-shell-view-actions.c:918
+#: ../modules/addressbook/e-book-shell-backend.c:278
+#: ../modules/addressbook/e-book-shell-view-actions.c:943
 msgid "Create a new contact list"
 msgstr "Tworzy nową listę kontaktów"
 
-#: ../modules/addressbook/e-book-shell-backend.c:278
+#: ../modules/addressbook/e-book-shell-backend.c:286
 msgctxt "New"
 msgid "Address _Book"
 msgstr "Książka _adresowa"
 
-#: ../modules/addressbook/e-book-shell-backend.c:280
-#: ../modules/addressbook/e-book-shell-view-actions.c:841
+#: ../modules/addressbook/e-book-shell-backend.c:288
+#: ../modules/addressbook/e-book-shell-view-actions.c:866
 msgid "Create a new address book"
 msgstr "Tworzy nową książkę adresową"
 
-#: ../modules/addressbook/e-book-shell-backend.c:308
+#: ../modules/addressbook/e-book-shell-backend.c:316
 msgid "Certificates"
 msgstr "Certyfikaty"
 
@@ -15542,56 +15533,56 @@ msgid "Address Book Properties"
 msgstr "Właściwości książki adresowej"
 
 #. Translators: This is a save dialog title
-#: ../modules/addressbook/e-book-shell-view-actions.c:393
-#: ../modules/addressbook/e-book-shell-view-actions.c:689
+#: ../modules/addressbook/e-book-shell-view-actions.c:418
+#: ../modules/addressbook/e-book-shell-view-actions.c:714
 msgid "Save as vCard"
 msgstr "Zapis jako vCard"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:818
+#: ../modules/addressbook/e-book-shell-view-actions.c:843
 msgid "Co_py All Contacts To..."
 msgstr "S_kopiuj wszystkie kontakty do..."
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:820
+#: ../modules/addressbook/e-book-shell-view-actions.c:845
 msgid "Copy the contacts of the selected address book to another"
 msgstr "Kopiuje kontakty z wybranej książki adresowej do innej"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:825
+#: ../modules/addressbook/e-book-shell-view-actions.c:850
 msgid "D_elete Address Book"
 msgstr "_Usuń książkę adresową"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:827
+#: ../modules/addressbook/e-book-shell-view-actions.c:852
 msgid "Delete the selected address book"
 msgstr "Usuwa wybraną książkę adresową"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:832
+#: ../modules/addressbook/e-book-shell-view-actions.c:857
 msgid "Mo_ve All Contacts To..."
 msgstr "Pr_zenieś kontakty do..."
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:834
+#: ../modules/addressbook/e-book-shell-view-actions.c:859
 msgid "Move the contacts of the selected address book to another"
 msgstr "Przenosi kontakty z wybranej książki adresowej do innej"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:839
+#: ../modules/addressbook/e-book-shell-view-actions.c:864
 msgid "_New Address Book"
 msgstr "_Nowa książka adresowa"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:846
+#: ../modules/addressbook/e-book-shell-view-actions.c:871
 msgid "Address _Book Properties"
 msgstr "Właściwości książki _adresowej"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:848
+#: ../modules/addressbook/e-book-shell-view-actions.c:873
 msgid "Show properties of the selected address book"
 msgstr "Wyświetla właściwości zaznaczonej książki adresowej"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:853
+#: ../modules/addressbook/e-book-shell-view-actions.c:878
 msgid "Address Book _Map"
 msgstr "_Mapa książki adresowej"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:855
+#: ../modules/addressbook/e-book-shell-view-actions.c:880
 msgid "Show map with all contacts from selected address book"
 msgstr "Wyświetla mapę ze wszystkimi kontaktami z wybranej książki adresowej"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:860
+#: ../modules/addressbook/e-book-shell-view-actions.c:885
 #: ../modules/calendar/e-cal-shell-view-actions.c:1445
 #: ../modules/calendar/e-memo-shell-view-actions.c:664
 #: ../modules/calendar/e-task-shell-view-actions.c:788
@@ -15599,149 +15590,149 @@ msgstr "Wyświetla mapę ze wszystkimi kontaktami z wybranej książki adresowej
 msgid "_Rename..."
 msgstr "Z_mień nazwę..."
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:862
+#: ../modules/addressbook/e-book-shell-view-actions.c:887
 msgid "Rename the selected address book"
 msgstr "Zmienia nazwę wybranej książki adresowej"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:869
+#: ../modules/addressbook/e-book-shell-view-actions.c:894
 msgid "Stop loading"
 msgstr "Zatrzymuje wczytywanie"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:874
+#: ../modules/addressbook/e-book-shell-view-actions.c:899
 msgid "_Copy Contact To..."
 msgstr "_Skopiuj kontakt do..."
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:876
+#: ../modules/addressbook/e-book-shell-view-actions.c:901
 msgid "Copy selected contacts to another address book"
 msgstr "Kopiuje wybrane kontakty do innej książki adresowej"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:881
+#: ../modules/addressbook/e-book-shell-view-actions.c:906
 msgid "_Delete Contact"
 msgstr "_Usuń kontakt"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:888
+#: ../modules/addressbook/e-book-shell-view-actions.c:913
 msgid "_Find in Contact..."
 msgstr "_Znajdź w kontakcie..."
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:890
+#: ../modules/addressbook/e-book-shell-view-actions.c:915
 msgid "Search for text in the displayed contact"
 msgstr "Wyszukuje tekst w treści wyświetlanego kontaktu"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:895
+#: ../modules/addressbook/e-book-shell-view-actions.c:920
 msgid "_Forward Contact..."
 msgstr "_Prześlij kontakt..."
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:897
+#: ../modules/addressbook/e-book-shell-view-actions.c:922
 msgid "Send selected contacts to another person"
 msgstr "Wysyła zaznaczone kontakty do innej osoby"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:902
+#: ../modules/addressbook/e-book-shell-view-actions.c:927
 msgid "_Move Contact To..."
 msgstr "_Przenieś kontakt do..."
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:904
+#: ../modules/addressbook/e-book-shell-view-actions.c:929
 msgid "Move selected contacts to another address book"
 msgstr "Przenosi wybrane kontakty do innej książki adresowej"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:909
+#: ../modules/addressbook/e-book-shell-view-actions.c:934
 msgid "_New Contact..."
 msgstr "_Nowy kontakt..."
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:916
+#: ../modules/addressbook/e-book-shell-view-actions.c:941
 msgid "New Contact _List..."
 msgstr "Nowa _lista kontaktów..."
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:923
+#: ../modules/addressbook/e-book-shell-view-actions.c:948
 msgid "_Open Contact"
 msgstr "_Otwórz kontakt"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:925
+#: ../modules/addressbook/e-book-shell-view-actions.c:950
 msgid "View the current contact"
 msgstr "Wyświetla bieżący kontakt"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:930
+#: ../modules/addressbook/e-book-shell-view-actions.c:955
 msgid "_Send Message to Contact..."
 msgstr "Wyślij _wiadomość do kontaktu..."
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:932
+#: ../modules/addressbook/e-book-shell-view-actions.c:957
 msgid "Send a message to the selected contacts"
 msgstr "Wysyła wiadomość do wybranych kontaktów"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:939
+#: ../modules/addressbook/e-book-shell-view-actions.c:964
 #: ../modules/calendar/e-cal-shell-view-actions.c:1601
 #: ../modules/calendar/e-task-shell-view-actions.c:846
 msgid "_Actions"
 msgstr "_Działania"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:946
+#: ../modules/addressbook/e-book-shell-view-actions.c:971
 #: ../modules/calendar/e-memo-shell-view-actions.c:701
 #: ../modules/calendar/e-task-shell-view-actions.c:853
 #: ../modules/mail/e-mail-shell-view-actions.c:1535
 msgid "_Preview"
 msgstr "_Podgląd"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:955
+#: ../modules/addressbook/e-book-shell-view-actions.c:980
 #: ../modules/calendar/e-cal-shell-view-actions.c:1618
 #: ../modules/calendar/e-memo-shell-view-actions.c:714
 #: ../modules/calendar/e-task-shell-view-actions.c:866
 msgid "_Delete"
 msgstr "_Usuń"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:959
+#: ../modules/addressbook/e-book-shell-view-actions.c:984
 #: ../modules/mail/e-mail-shell-view-actions.c:1293
 msgid "_Properties"
 msgstr "_Właściwości"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:963
+#: ../modules/addressbook/e-book-shell-view-actions.c:988
 msgid "Address Book Map"
 msgstr "Mapa książki adresowej"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:995
+#: ../modules/addressbook/e-book-shell-view-actions.c:1020
 msgid "Contact _Preview"
 msgstr "_Podgląd kontaktu"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:997
+#: ../modules/addressbook/e-book-shell-view-actions.c:1022
 msgid "Show contact preview window"
 msgstr "Wyświetla okno podglądu kontaktu"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1003
+#: ../modules/addressbook/e-book-shell-view-actions.c:1028
 msgid "Show _Maps"
 msgstr "Wyświetl _mapy"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1005
+#: ../modules/addressbook/e-book-shell-view-actions.c:1030
 msgid "Show maps in contact preview window"
 msgstr "Wyświetla mapy w oknie podglądu kontaktu"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1024
+#: ../modules/addressbook/e-book-shell-view-actions.c:1049
 #: ../modules/calendar/e-memo-shell-view-actions.c:771
 #: ../modules/calendar/e-task-shell-view-actions.c:935
 #: ../modules/mail/e-mail-shell-view-actions.c:1665
 msgid "_Classic View"
 msgstr "Widok _klasyczny"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1026
+#: ../modules/addressbook/e-book-shell-view-actions.c:1051
 msgid "Show contact preview below the contact list"
 msgstr "Wyświetla podgląd kontaktu pod listą kontaktów"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1031
+#: ../modules/addressbook/e-book-shell-view-actions.c:1056
 #: ../modules/calendar/e-memo-shell-view-actions.c:778
 #: ../modules/calendar/e-task-shell-view-actions.c:942
 #: ../modules/mail/e-mail-shell-view-actions.c:1672
 msgid "_Vertical View"
 msgstr "Widok pi_onowy"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1033
+#: ../modules/addressbook/e-book-shell-view-actions.c:1058
 msgid "Show contact preview alongside the contact list"
 msgstr "Wyświetla podgląd kontaktu obok listy kontaktów"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1048
+#: ../modules/addressbook/e-book-shell-view-actions.c:1073
 #: ../modules/calendar/e-cal-shell-view-actions.c:1778
 #: ../modules/calendar/e-memo-shell-view-actions.c:795
 #: ../modules/calendar/e-task-shell-view-actions.c:994
 msgid "Unmatched"
 msgstr "Niepasujące"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1058
+#: ../modules/addressbook/e-book-shell-view-actions.c:1083
 #: ../modules/calendar/e-cal-shell-view-actions.c:1788
 #: ../modules/calendar/e-memo-shell-view-actions.c:805
 #: ../modules/calendar/e-task-shell-view-actions.c:1004
@@ -15750,33 +15741,33 @@ msgstr "Niepasujące"
 msgid "Advanced Search"
 msgstr "Wyszukiwanie zaawansowane"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1091
+#: ../modules/addressbook/e-book-shell-view-actions.c:1116
 msgid "Print all shown contacts"
 msgstr "Drukuje wszystkie widoczne kontakty"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1098
+#: ../modules/addressbook/e-book-shell-view-actions.c:1123
 msgid "Preview the contacts to be printed"
 msgstr "Wyświetla podgląd kontaktów w postaci przygotowanej do druku"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1105
+#: ../modules/addressbook/e-book-shell-view-actions.c:1130
 msgid "Print selected contacts"
 msgstr "Drukuje zaznaczone kontakty"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1120
+#: ../modules/addressbook/e-book-shell-view-actions.c:1145
 msgid "S_ave Address Book as vCard"
 msgstr "Z_apisz książkę adresową jako vCard"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1122
+#: ../modules/addressbook/e-book-shell-view-actions.c:1147
 msgid "Save the contacts of the selected address book as a vCard"
 msgstr "Zapisuje kontakty z wybranej książki adresowej w formacie vCard"
 
 #. Translators: This is an action label
-#: ../modules/addressbook/e-book-shell-view-actions.c:1128
-#: ../modules/addressbook/e-book-shell-view-actions.c:1138
+#: ../modules/addressbook/e-book-shell-view-actions.c:1153
+#: ../modules/addressbook/e-book-shell-view-actions.c:1163
 msgid "_Save as vCard..."
 msgstr "Z_apisz jako vCard..."
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1130
+#: ../modules/addressbook/e-book-shell-view-actions.c:1155
 msgid "Save selected contacts as a vCard"
 msgstr "Zapisuje zaznaczone kontakty w formacie vCard"
 
@@ -16536,62 +16527,62 @@ msgstr ""
 msgid "Publishing Information"
 msgstr "Publikowanie informacji"
 
-#: ../modules/calendar/e-cal-shell-backend.c:272
+#: ../modules/calendar/e-cal-shell-backend.c:310
 #: ../modules/calendar/e-cal-shell-view-actions.c:191
 msgid "New Calendar"
 msgstr "Nowy kalendarz"
 
-#: ../modules/calendar/e-cal-shell-backend.c:281
+#: ../modules/calendar/e-cal-shell-backend.c:319
 msgctxt "New"
 msgid "_Appointment"
 msgstr "_Spotkanie"
 
-#: ../modules/calendar/e-cal-shell-backend.c:283
+#: ../modules/calendar/e-cal-shell-backend.c:321
 #: ../modules/calendar/e-cal-shell-view-actions.c:1545
 msgid "Create a new appointment"
 msgstr "Tworzy nowe spotkanie"
 
-#: ../modules/calendar/e-cal-shell-backend.c:288
+#: ../modules/calendar/e-cal-shell-backend.c:326
 msgctxt "New"
 msgid "All Day A_ppointment"
 msgstr "Spotkanie _całodniowe"
 
-#: ../modules/calendar/e-cal-shell-backend.c:290
+#: ../modules/calendar/e-cal-shell-backend.c:328
 msgid "Create a new all-day appointment"
 msgstr "Tworzy nowe spotkanie całodniowe"
 
-#: ../modules/calendar/e-cal-shell-backend.c:295
+#: ../modules/calendar/e-cal-shell-backend.c:333
 msgctxt "New"
 msgid "M_eeting"
 msgstr "Ze_branie"
 
-#: ../modules/calendar/e-cal-shell-backend.c:297
+#: ../modules/calendar/e-cal-shell-backend.c:335
 msgid "Create a new meeting request"
 msgstr "Tworzy nową prośbę o zebranie"
 
-#: ../modules/calendar/e-cal-shell-backend.c:305
+#: ../modules/calendar/e-cal-shell-backend.c:343
 msgctxt "New"
 msgid "Cale_ndar"
 msgstr "Kal_endarz"
 
-#: ../modules/calendar/e-cal-shell-backend.c:307
+#: ../modules/calendar/e-cal-shell-backend.c:345
 #: ../modules/calendar/e-cal-shell-view-actions.c:1419
 msgid "Create a new calendar"
 msgstr "Tworzy nowy kalendarz"
 
-#: ../modules/calendar/e-cal-shell-backend.c:627
+#: ../modules/calendar/e-cal-shell-backend.c:668
 msgid "Calendar and Tasks"
 msgstr "Kalendarz i zadania"
 
-#: ../modules/calendar/e-cal-shell-sidebar.c:597
+#: ../modules/calendar/e-cal-shell-sidebar.c:565
 msgid "Calendar Selector"
 msgstr "Wybór kalendarza"
 
-#: ../modules/calendar/e-cal-shell-sidebar.c:882
+#: ../modules/calendar/e-cal-shell-sidebar.c:846
 msgid "Loading calendars"
 msgstr "Wczytywanie kalendarzy"
 
-#: ../modules/calendar/e-cal-shell-sidebar.c:905
+#: ../modules/calendar/e-cal-shell-sidebar.c:868
 #, c-format
 msgid "Opening calendar '%s'"
 msgstr "Otwieranie kalendarza \"%s\""
@@ -16919,7 +16910,7 @@ msgid "New _Memo"
 msgstr "_Nowa notatka"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:274
-#: ../modules/calendar/e-memo-shell-backend.c:200
+#: ../modules/calendar/e-memo-shell-backend.c:219
 #: ../modules/calendar/e-memo-shell-view-actions.c:680
 msgid "Create a new memo"
 msgstr "Tworzy nową notatkę"
@@ -17013,7 +17004,7 @@ msgid "New _Task"
 msgstr "Nowe _zadanie"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:361
-#: ../modules/calendar/e-task-shell-backend.c:197
+#: ../modules/calendar/e-task-shell-backend.c:216
 #: ../modules/calendar/e-task-shell-view-actions.c:818
 msgid "Create a new task"
 msgstr "Tworzy nowe zadanie"
@@ -17033,44 +17024,44 @@ msgstr "Wyświetla zaznaczone zadania"
 msgid "Print the selected task"
 msgstr "Drukuje wybrane zadanie"
 
-#: ../modules/calendar/e-memo-shell-backend.c:189
+#: ../modules/calendar/e-memo-shell-backend.c:208
 #: ../modules/calendar/e-memo-shell-view-actions.c:216
 msgid "New Memo List"
 msgstr "Nowa lista notatek"
 
-#: ../modules/calendar/e-memo-shell-backend.c:198
+#: ../modules/calendar/e-memo-shell-backend.c:217
 msgctxt "New"
 msgid "Mem_o"
 msgstr "N_otatka"
 
-#: ../modules/calendar/e-memo-shell-backend.c:205
+#: ../modules/calendar/e-memo-shell-backend.c:224
 msgctxt "New"
 msgid "_Shared Memo"
 msgstr "Notatka _współdzielona"
 
-#: ../modules/calendar/e-memo-shell-backend.c:207
+#: ../modules/calendar/e-memo-shell-backend.c:226
 msgid "Create a new shared memo"
 msgstr "Tworzy nową notatkę współdzieloną"
 
-#: ../modules/calendar/e-memo-shell-backend.c:215
+#: ../modules/calendar/e-memo-shell-backend.c:234
 msgctxt "New"
 msgid "Memo Li_st"
 msgstr "Li_sta notatek"
 
-#: ../modules/calendar/e-memo-shell-backend.c:217
+#: ../modules/calendar/e-memo-shell-backend.c:236
 #: ../modules/calendar/e-memo-shell-view-actions.c:645
 msgid "Create a new memo list"
 msgstr "Tworzy nową listę notatek"
 
-#: ../modules/calendar/e-memo-shell-sidebar.c:531
+#: ../modules/calendar/e-memo-shell-sidebar.c:499
 msgid "Memo List Selector"
 msgstr "Wybór źródła notek"
 
-#: ../modules/calendar/e-memo-shell-sidebar.c:769
+#: ../modules/calendar/e-memo-shell-sidebar.c:733
 msgid "Loading memo list"
 msgstr "Wczytywanie listy notatek"
 
-#: ../modules/calendar/e-memo-shell-sidebar.c:792
+#: ../modules/calendar/e-memo-shell-sidebar.c:755
 #, c-format
 msgid "Opening memo list '%s'"
 msgstr "Otwieranie listy notatek \"%s\""
@@ -17166,44 +17157,44 @@ msgstr[2] "%d notatek"
 msgid "%d selected"
 msgstr "%d zaznaczono"
 
-#: ../modules/calendar/e-task-shell-backend.c:186
+#: ../modules/calendar/e-task-shell-backend.c:205
 #: ../modules/calendar/e-task-shell-view-actions.c:239
 msgid "New Task List"
 msgstr "Nowa lista zadań"
 
-#: ../modules/calendar/e-task-shell-backend.c:195
+#: ../modules/calendar/e-task-shell-backend.c:214
 msgctxt "New"
 msgid "_Task"
 msgstr "_Zadanie"
 
-#: ../modules/calendar/e-task-shell-backend.c:202
+#: ../modules/calendar/e-task-shell-backend.c:221
 msgctxt "New"
 msgid "Assigne_d Task"
 msgstr "Przypisane za_danie"
 
-#: ../modules/calendar/e-task-shell-backend.c:204
+#: ../modules/calendar/e-task-shell-backend.c:223
 msgid "Create a new assigned task"
 msgstr "Tworzy nowe przypisane zadanie"
 
-#: ../modules/calendar/e-task-shell-backend.c:212
+#: ../modules/calendar/e-task-shell-backend.c:231
 msgctxt "New"
 msgid "Tas_k List"
 msgstr "Li_sta zadań"
 
-#: ../modules/calendar/e-task-shell-backend.c:214
+#: ../modules/calendar/e-task-shell-backend.c:233
 #: ../modules/calendar/e-task-shell-view-actions.c:769
 msgid "Create a new task list"
 msgstr "Tworzy nową listę zadań"
 
-#: ../modules/calendar/e-task-shell-sidebar.c:531
+#: ../modules/calendar/e-task-shell-sidebar.c:499
 msgid "Task List Selector"
 msgstr "Wybór listy zadań"
 
-#: ../modules/calendar/e-task-shell-sidebar.c:769
+#: ../modules/calendar/e-task-shell-sidebar.c:733
 msgid "Loading task list"
 msgstr "Wczytywanie listy zadań"
 
-#: ../modules/calendar/e-task-shell-sidebar.c:792
+#: ../modules/calendar/e-task-shell-sidebar.c:755
 #, c-format
 msgid "Opening task list '%s'"
 msgstr "Otwieranie listy zadań \"%s\""
@@ -17858,132 +17849,132 @@ msgstr "Otwieranie kalendarza. Proszę czekać..."
 msgid "Searching for an existing version of this appointment"
 msgstr "Wyszukiwanie istniejącej wersji spotkania"
 
-#: ../modules/itip-formatter/itip-view.c:4557
+#: ../modules/itip-formatter/itip-view.c:4555
 #, c-format
 msgid "Unable to send item to calendar '%s'.  %s"
 msgstr "Nie można wysłać elementu do kalendarza \"%s\". %s"
 
-#: ../modules/itip-formatter/itip-view.c:4573
+#: ../modules/itip-formatter/itip-view.c:4571
 #, c-format
 msgid "Sent to calendar '%s' as accepted"
 msgstr "Wysłane do kalendarza \"%s\" jako zaakceptowane"
 
-#: ../modules/itip-formatter/itip-view.c:4578
+#: ../modules/itip-formatter/itip-view.c:4576
 #, c-format
 msgid "Sent to calendar '%s' as tentative"
 msgstr "Wysłane do kalendarza \"%s\" jako wstępne"
 
-#: ../modules/itip-formatter/itip-view.c:4584
+#: ../modules/itip-formatter/itip-view.c:4582
 #, c-format
 msgid "Sent to calendar '%s' as declined"
 msgstr "Wysłane do kalendarza \"%s\" jako odrzucone"
 
-#: ../modules/itip-formatter/itip-view.c:4590
+#: ../modules/itip-formatter/itip-view.c:4588
 #, c-format
 msgid "Sent to calendar '%s' as canceled"
 msgstr "Wysłane do kalendarza \"%s\" jako odwołane"
 
-#: ../modules/itip-formatter/itip-view.c:4611
-#: ../modules/itip-formatter/itip-view.c:5052
-#: ../modules/itip-formatter/itip-view.c:5159
+#: ../modules/itip-formatter/itip-view.c:4609
+#: ../modules/itip-formatter/itip-view.c:5050
+#: ../modules/itip-formatter/itip-view.c:5157
 msgid "Saving changes to the calendar. Please wait..."
 msgstr "Zapisywanie zmian w kalendarzu. Proszę czekać..."
 
-#: ../modules/itip-formatter/itip-view.c:4652
+#: ../modules/itip-formatter/itip-view.c:4650
 msgid "Unable to parse item"
 msgstr "Nie można przetworzyć elementu"
 
-#: ../modules/itip-formatter/itip-view.c:4842
+#: ../modules/itip-formatter/itip-view.c:4840
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "Organizator usunął delegata %s "
 
-#: ../modules/itip-formatter/itip-view.c:4857
+#: ../modules/itip-formatter/itip-view.c:4855
 msgid "Sent a cancelation notice to the delegate"
 msgstr "Wysłano informację o odwołaniu do delegata"
 
-#: ../modules/itip-formatter/itip-view.c:4861
+#: ../modules/itip-formatter/itip-view.c:4859
 msgid "Could not send the cancelation notice to the delegate"
 msgstr "Nie można wysłać informacji o odwołaniu do delegata"
 
-#: ../modules/itip-formatter/itip-view.c:4911
+#: ../modules/itip-formatter/itip-view.c:4909
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "Nie można zaktualizować uczestnika. \"%s\""
 
-#: ../modules/itip-formatter/itip-view.c:4918
+#: ../modules/itip-formatter/itip-view.c:4916
 msgid "Attendee status updated"
 msgstr "Stan uczestnika został zaktualizowany"
 
-#: ../modules/itip-formatter/itip-view.c:4941
+#: ../modules/itip-formatter/itip-view.c:4939
 msgid "The meeting is invalid and cannot be updated"
 msgstr "Zebranie jest nieprawidłowe i nie może zostać zaktualizowane"
 
-#: ../modules/itip-formatter/itip-view.c:5017
+#: ../modules/itip-formatter/itip-view.c:5015
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr "Nie można uaktualnić stanu uczestnika, ponieważ jest on nieprawidłowy"
 
-#: ../modules/itip-formatter/itip-view.c:5089
-#: ../modules/itip-formatter/itip-view.c:5129
+#: ../modules/itip-formatter/itip-view.c:5087
+#: ../modules/itip-formatter/itip-view.c:5127
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 "Nie można zaktualizować stanu uczestnika, ponieważ ten element już nie "
 "istnieje"
 
-#: ../modules/itip-formatter/itip-view.c:5192
+#: ../modules/itip-formatter/itip-view.c:5190
 msgid "Meeting information sent"
 msgstr "Wysłano informacje o zebraniu"
 
-#: ../modules/itip-formatter/itip-view.c:5197
+#: ../modules/itip-formatter/itip-view.c:5195
 msgid "Task information sent"
 msgstr "Wysłano informacje o zadaniu"
 
-#: ../modules/itip-formatter/itip-view.c:5202
+#: ../modules/itip-formatter/itip-view.c:5200
 msgid "Memo information sent"
 msgstr "Wysłano informacje o notatce"
 
-#: ../modules/itip-formatter/itip-view.c:5213
+#: ../modules/itip-formatter/itip-view.c:5211
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr "Nie można wysłać informacji o zebraniu. Zebranie nie istnieje"
 
-#: ../modules/itip-formatter/itip-view.c:5218
+#: ../modules/itip-formatter/itip-view.c:5216
 msgid "Unable to send task information, the task does not exist"
 msgstr "Nie wysłać informacji o zadaniu. Zadanie nie istnieje"
 
-#: ../modules/itip-formatter/itip-view.c:5223
+#: ../modules/itip-formatter/itip-view.c:5221
 msgid "Unable to send memo information, the memo does not exist"
 msgstr "Nie można wysłać informacji o notatce. Notatka nie istnieje"
 
 #. Translators: This is a default filename for a calendar.
-#: ../modules/itip-formatter/itip-view.c:5288
+#: ../modules/itip-formatter/itip-view.c:5286
 msgid "calendar.ics"
 msgstr "kalendarz.ics"
 
-#: ../modules/itip-formatter/itip-view.c:5293
+#: ../modules/itip-formatter/itip-view.c:5291
 msgid "Save Calendar"
 msgstr "Zapis kalendarza"
 
-#: ../modules/itip-formatter/itip-view.c:5346
-#: ../modules/itip-formatter/itip-view.c:5359
+#: ../modules/itip-formatter/itip-view.c:5344
+#: ../modules/itip-formatter/itip-view.c:5357
 msgid "The calendar attached is not valid"
 msgstr "Przypisany kalendarz jest nieprawidłowy"
 
-#: ../modules/itip-formatter/itip-view.c:5347
-#: ../modules/itip-formatter/itip-view.c:5360
+#: ../modules/itip-formatter/itip-view.c:5345
+#: ../modules/itip-formatter/itip-view.c:5358
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
 msgstr "Wiadomość zawiera kalendarz, ale nie jest on formatu iCalendar."
 
-#: ../modules/itip-formatter/itip-view.c:5402
-#: ../modules/itip-formatter/itip-view.c:5432
-#: ../modules/itip-formatter/itip-view.c:5532
+#: ../modules/itip-formatter/itip-view.c:5400
+#: ../modules/itip-formatter/itip-view.c:5430
+#: ../modules/itip-formatter/itip-view.c:5530
 msgid "The item in the calendar is not valid"
 msgstr "Element w kalendarzu nie jest prawidłowy"
 
-#: ../modules/itip-formatter/itip-view.c:5403
-#: ../modules/itip-formatter/itip-view.c:5433
-#: ../modules/itip-formatter/itip-view.c:5533
+#: ../modules/itip-formatter/itip-view.c:5401
+#: ../modules/itip-formatter/itip-view.c:5431
+#: ../modules/itip-formatter/itip-view.c:5531
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
@@ -17991,11 +17982,11 @@ msgstr ""
 "Wiadomość zawiera kalendarz, ale nie zawiera on wydarzeń, zadań lub "
 "informacji o zajętości"
 
-#: ../modules/itip-formatter/itip-view.c:5448
+#: ../modules/itip-formatter/itip-view.c:5446
 msgid "The calendar attached contains multiple items"
 msgstr "Załączony kalendarz zawiera wiele elementów"
 
-#: ../modules/itip-formatter/itip-view.c:5449
+#: ../modules/itip-formatter/itip-view.c:5447
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
@@ -18003,24 +17994,24 @@ msgstr ""
 "Aby przetworzyć wszystkie elementy, należy zapisać plik, a następnie "
 "zaimportować kalendarz"
 
-#: ../modules/itip-formatter/itip-view.c:5944
+#: ../modules/itip-formatter/itip-view.c:5942
 msgctxt "cal-itip"
 msgid "None"
 msgstr "Brak"
 
-#: ../modules/itip-formatter/itip-view.c:5960
+#: ../modules/itip-formatter/itip-view.c:5958
 msgid "Tentatively Accepted"
 msgstr "Wstępnie zaakceptowane"
 
-#: ../modules/itip-formatter/itip-view.c:6103
+#: ../modules/itip-formatter/itip-view.c:6101
 msgid "This meeting recurs"
 msgstr "Spotkanie powtarzalne"
 
-#: ../modules/itip-formatter/itip-view.c:6106
+#: ../modules/itip-formatter/itip-view.c:6104
 msgid "This task recurs"
 msgstr "Zadanie powtarzalne"
 
-#: ../modules/itip-formatter/itip-view.c:6109
+#: ../modules/itip-formatter/itip-view.c:6107
 msgid "This memo recurs"
 msgstr "Notatka powtarzalna"
 
