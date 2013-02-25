@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2013-02-22 08:41+0000\n"
-"PO-Revision-Date: 2013-02-22 12:26+0100\n"
+"POT-Creation-Date: 2013-02-25 08:59+0000\n"
+"PO-Revision-Date: 2013-02-25 13:31+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -2078,22 +2078,22 @@ msgstr ""
 msgid "Are you sure you want to save the memo without a summary?"
 msgstr "¿Seguro que quiere guardar la nota sin un resumen?"
 
-#. Translators: {0} is replaced with a group name, like CalDAV, Google, or such;
-#. {1} is replaced with a calendar/task/memo list name, where the error happened
-#: ../calendar/calendar.error.xml.h:73
-msgid "Error loading calendar '{0}: {1}'"
-msgstr "Error al cargar el calendario «{0}: {1}»"
+#. Translators: {0} is the name of the calendar.
+#: ../calendar/calendar.error.xml.h:72
+#| msgid "Error loading calendar '{0}: {1}'"
+msgid "Error loading calendar '{0}'"
+msgstr "Error al cargar el calendario «{0}»"
 
-#: ../calendar/calendar.error.xml.h:74
+#: ../calendar/calendar.error.xml.h:73
 msgid "The calendar is not marked for offline usage."
 msgstr "El calendario no está marcado para usarse sin conexión."
 
-#: ../calendar/calendar.error.xml.h:75
+#: ../calendar/calendar.error.xml.h:74
 msgid "Cannot save event"
 msgstr "No se puede guardar el acontecimiento"
 
 #. Translators: {0} is the name of the calendar source
-#: ../calendar/calendar.error.xml.h:77
+#: ../calendar/calendar.error.xml.h:76
 msgid ""
 "'{0}' is a read-only calendar and cannot be modified. Please select a "
 "different calendar that can accept appointments."
@@ -2101,47 +2101,37 @@ msgstr ""
 "«{0}» es calendario de sólo lectura y no se puede modificar. Seleccione un "
 "calendario diferente que pueda aceptar citas."
 
-#: ../calendar/calendar.error.xml.h:78
+#: ../calendar/calendar.error.xml.h:77
 msgid "Cannot save task"
 msgstr "No se puede guardar la tarea"
 
 #. Translators: {0} is the name of the calendar source
-#: ../calendar/calendar.error.xml.h:80
+#: ../calendar/calendar.error.xml.h:79
 msgid ""
 "'{0}' does not support assigned tasks, please select a different task list."
 msgstr ""
 "«{0}» no soporta asignación de tareas, seleccione una lista de tareas "
 "diferentes."
 
-#. Translators: {0} is replaced with a group name, like CalDAV, Google, or such;
-#. {1} is replaced with a calendar/task/memo list name, where the error happened
-#: ../calendar/calendar.error.xml.h:83
-msgid "Error loading task list '{0}: {1}'"
-msgstr "Error al cargar la lista de tareas «{0}: {1}»"
+#. Translators: {0} is the name of the task list.
+#: ../calendar/calendar.error.xml.h:81
+#| msgid "Error loading task list '{0}: {1}'"
+msgid "Error loading task list '{0}'"
+msgstr "Error al cargar la lista de tareas «{0}»"
 
-#: ../calendar/calendar.error.xml.h:84
+#: ../calendar/calendar.error.xml.h:82
 msgid "The task list is not marked for offline usage."
 msgstr "La lista de tareas no está marcada para usarse sin conexión."
 
-#. Translators: {0} is replaced with a group name, like CalDAV, Google, or such;
-#. {1} is replaced with a calendar/task/memo list name, where the error happened
-#: ../calendar/calendar.error.xml.h:87
-msgid "Error loading memo list '{0}: {1}'"
-msgstr "Error al cargar la lista de notas «{0}: {1}»"
+#. Translators: {0} is the name of the memo list.
+#: ../calendar/calendar.error.xml.h:84
+#| msgid "Error loading memo list '{0}: {1}'"
+msgid "Error loading memo list '{0}'"
+msgstr "Error al cargar la lista de notas «{0}»"
 
-#: ../calendar/calendar.error.xml.h:88
+#: ../calendar/calendar.error.xml.h:85
 msgid "The memo list is not marked for offline usage."
 msgstr "La lista de notas no está marcada para usarse sin conexión."
-
-#. Translators: {0} is replaced with a group name, like CalDAV, Google, or such;
-#. {1} is replaced with a calendar/task/memo list name, where the error happened
-#: ../calendar/calendar.error.xml.h:91
-msgid "Could not perform this operation on '{0}: {1}'."
-msgstr "No se puede realizar esta operación en «{0}: {1}»."
-
-#: ../calendar/calendar.error.xml.h:92 ../mail/mail.error.xml.h:167
-msgid "You must be working online to complete this operation."
-msgstr "Debe estar trabajando en línea para completar esta operación."
 
 #: ../calendar/gui/calendar-view-factory.c:88
 msgid "Day View"
@@ -4007,7 +3997,7 @@ msgstr "Fecha de terminación"
 #: ../calendar/gui/e-meeting-store.c:236 ../calendar/gui/print.c:1235
 #: ../calendar/gui/print.c:1252 ../e-util/e-charset.c:52
 #: ../modules/itip-formatter/itip-view.c:3472
-#: ../modules/itip-formatter/itip-view.c:5969
+#: ../modules/itip-formatter/itip-view.c:5967
 #: ../modules/plugin-manager/evolution-plugin-manager.c:100
 msgid "Unknown"
 msgstr "Desconocido"
@@ -4036,14 +4026,14 @@ msgstr "No"
 #: ../calendar/gui/e-cal-model.c:3461
 #: ../calendar/gui/e-meeting-list-view.c:221
 #: ../calendar/gui/e-meeting-store.c:200 ../calendar/gui/e-meeting-store.c:223
-#: ../modules/itip-formatter/itip-view.c:5957
+#: ../modules/itip-formatter/itip-view.c:5955
 msgid "Accepted"
 msgstr "Aceptado"
 
 #: ../calendar/gui/e-cal-model.c:3462
 #: ../calendar/gui/e-meeting-list-view.c:222
 #: ../calendar/gui/e-meeting-store.c:202 ../calendar/gui/e-meeting-store.c:225
-#: ../modules/itip-formatter/itip-view.c:5963
+#: ../modules/itip-formatter/itip-view.c:5961
 msgid "Declined"
 msgstr "Rehusado"
 
@@ -4057,7 +4047,7 @@ msgstr "Provisional"
 #: ../calendar/gui/e-cal-model.c:3464
 #: ../calendar/gui/e-meeting-list-view.c:224
 #: ../calendar/gui/e-meeting-store.c:206 ../calendar/gui/e-meeting-store.c:229
-#: ../modules/itip-formatter/itip-view.c:5966
+#: ../modules/itip-formatter/itip-view.c:5964
 msgid "Delegated"
 msgstr "Delegado"
 
@@ -9447,7 +9437,7 @@ msgstr "Usar el demonio y cliente de SpamAssassin"
 msgid "Use spamc and spamd programs, if available."
 msgstr "Usar los programas «spamc» y «spamd» si están disponibles"
 
-#: ../em-format/e-mail-formatter-attachment.c:364
+#: ../em-format/e-mail-formatter-attachment.c:370
 #: ../e-util/e-attachment-bar.c:101 ../e-util/e-attachment-bar.c:106
 #: ../e-util/e-attachment-paned.c:176 ../e-util/e-attachment-paned.c:181
 #: ../mail/message-list.etspec.h:4
@@ -9456,7 +9446,7 @@ msgid_plural "Attachments"
 msgstr[0] "Adjunto"
 msgstr[1] "Adjuntos"
 
-#: ../em-format/e-mail-formatter-attachment.c:365
+#: ../em-format/e-mail-formatter-attachment.c:371
 msgid "Display as attachment"
 msgstr "Mostrar como adjunto"
 
@@ -9544,7 +9534,7 @@ msgstr "Formatear parte como un mensaje RFC822"
 #: ../e-util/gal-define-views-dialog.c:361
 #: ../e-util/gal-view-instance-save-as-dialog.c:95
 #: ../mail/e-mail-label-tree-view.c:99
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:1327
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:1328
 #: ../modules/cal-config-google/e-google-chooser.c:209
 #: ../modules/plugin-manager/evolution-plugin-manager.c:67
 msgid "Name"
@@ -10656,7 +10646,7 @@ msgstr "Ucraniano"
 msgid "Visual"
 msgstr "visual"
 
-#: ../e-util/e-client-cache.c:1065
+#: ../e-util/e-client-cache.c:1061
 #, c-format
 msgid "Cannot create a client object from extension name '%s'"
 msgstr ""
@@ -11212,25 +11202,25 @@ msgid "Select Contacts from Address Book"
 msgstr "Seleccionar contactos de la libreta de direcciones"
 
 #. To Translators: This would be similiar to "Expand MyList Inline" where MyList is a Contact List
-#: ../e-util/e-name-selector-entry.c:3020
+#: ../e-util/e-name-selector-entry.c:3023
 #, c-format
 msgid "E_xpand %s Inline"
 msgstr "E_xpandir %s en línea"
 
 #. Copy Contact Item
-#: ../e-util/e-name-selector-entry.c:3036
+#: ../e-util/e-name-selector-entry.c:3039
 #, c-format
 msgid "Cop_y %s"
 msgstr "_Copiar %s"
 
 #. Cut Contact Item
-#: ../e-util/e-name-selector-entry.c:3047
+#: ../e-util/e-name-selector-entry.c:3050
 #, c-format
 msgid "C_ut %s"
 msgstr "Cor_tar %s"
 
 #. Edit Contact item
-#: ../e-util/e-name-selector-entry.c:3065
+#: ../e-util/e-name-selector-entry.c:3068
 #, c-format
 msgid "_Edit %s"
 msgstr "_Editar %s"
@@ -11467,7 +11457,6 @@ msgid "Failed to delete resource &quot;{0}&quot;."
 msgstr "Falló al eliminar el recurso «{0}»."
 
 #: ../e-util/e-system.error.xml.h:11
-#| msgid "The Evolution address book has quit unexpectedly."
 msgid ""
 "The address book backend servicing &quot;{0}&quot; has quit unexpectedly."
 msgstr ""
@@ -11475,8 +11464,6 @@ msgstr ""
 "inesperadamente."
 
 #: ../e-util/e-system.error.xml.h:12
-#| msgid ""
-#| "Your contacts for {0} will not be available until Evolution is restarted."
 msgid ""
 "Some of your contacts may not be available until Evolution is restarted."
 msgstr ""
@@ -11484,40 +11471,34 @@ msgstr ""
 "reinicie."
 
 #: ../e-util/e-system.error.xml.h:13
-#| msgid "The Evolution calendar has quit unexpectedly."
 msgid "The calendar backend servicing &quot;{0}&quot; has quit unexpectedly."
 msgstr ""
 "El «backend» del calendario que sirve «{0}» se ha cerrado inesperadamente."
 
 #: ../e-util/e-system.error.xml.h:14
-#| msgid "Your memos will not be available until Evolution is restarted."
 msgid ""
 "Some of your appointments may not be available until Evolution is restarted."
 msgstr ""
 "Algunas de sus citas no estarán disponibles hasta que reinicie Evolution."
 
 #: ../e-util/e-system.error.xml.h:15
-#| msgid "The Evolution calendar has quit unexpectedly."
 msgid "The memo list backend servicing &quot;{0}&quot; has quit unexpectedly."
 msgstr ""
 "El «backend» de la lista de notas que sirve «{0}» se ha cerrado "
 "inesperadamente."
 
 #: ../e-util/e-system.error.xml.h:16
-#| msgid "Your memos will not be available until Evolution is restarted."
 msgid "Some of your memos may not be available until Evolution is restarted."
 msgstr ""
 "Algunas de sus notas no estarán disponibles hasta que reinicie Evolution."
 
 #: ../e-util/e-system.error.xml.h:17
-#| msgid "The Evolution calendar has quit unexpectedly."
 msgid "The task list backend servicing &quot;{0}&quot; has quit unexpectedly."
 msgstr ""
 "El «backend» de la lista de tareas que sirve «{0}» se ha cerrado "
 "inesperadamente."
 
 #: ../e-util/e-system.error.xml.h:18
-#| msgid "Your tasks will not be available until Evolution is restarted."
 msgid "Some of your tasks may not be available until Evolution is restarted."
 msgstr ""
 "Algunas de sus tareas no estarán disponibles hasta que reinicie Evolution."
@@ -13353,7 +13334,7 @@ msgstr "Imprimiendo"
 
 #. Translators: %s is replaced with a folder
 #. * name %u with count of duplicate messages.
-#: ../mail/e-mail-reader-utils.c:1148
+#: ../mail/e-mail-reader-utils.c:1149
 #, c-format
 msgid ""
 "Folder '%s' contains %u duplicate message. Are you sure you want to delete "
@@ -13368,7 +13349,7 @@ msgstr[1] ""
 "La carpeta «%s» contiene %u correos duplicados. ¿Está seguro de que quiere "
 "eliminarlos?"
 
-#: ../mail/e-mail-reader-utils.c:1613
+#: ../mail/e-mail-reader-utils.c:1614
 msgid "Save Message"
 msgid_plural "Save Messages"
 msgstr[0] "Guardar mensaje"
@@ -13379,13 +13360,13 @@ msgstr[1] "Guardar mensajes"
 #. * mbox format, when the first message doesn't have a
 #. * subject.  The extension ".mbox" is appended to the
 #. * string; for example "Message.mbox".
-#: ../mail/e-mail-reader-utils.c:1634
+#: ../mail/e-mail-reader-utils.c:1635
 msgid "Message"
 msgid_plural "Messages"
 msgstr[0] "Mensaje"
 msgstr[1] "Mensajes"
 
-#: ../mail/e-mail-reader-utils.c:2084
+#: ../mail/e-mail-reader-utils.c:2085
 msgid "Parsing message"
 msgstr "Analizando mensaje"
 
@@ -15311,6 +15292,10 @@ msgstr "La impresora respondió &quot;{0}&quot;."
 msgid "Could not perform this operation on {0}."
 msgstr "No se puede realizar esta operación en {0}."
 
+#: ../mail/mail.error.xml.h:167
+msgid "You must be working online to complete this operation."
+msgstr "Debe estar trabajando en línea para completar esta operación."
+
 #: ../mail/mail-send-recv.c:202
 msgid "Canceling..."
 msgstr "Cancelando…"
@@ -16237,28 +16222,28 @@ msgstr "URL:"
 msgid "Avoid IfMatch (needed on Apache < 2.2.8)"
 msgstr "Evitar IfMatch (necesario en Apache < 2.2.8)"
 
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:446
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:447
 #, c-format
 msgid "HTTP Error: %s"
 msgstr "Error HTTP: %s"
 
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:474
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:475
 msgid "Could not parse response"
 msgstr "No se pudo analizar la respuesta"
 
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:483
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:484
 msgid "Empty response"
 msgstr "Respuesta vacía"
 
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:491
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:492
 msgid "Unexpected reply from server"
 msgstr "Respuesta inesperada del servidor"
 
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:1123
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:1124
 msgid "Could not locate user's calendars"
 msgstr "No se pudo encontrar ningún calendario del usuario"
 
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:1347
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:1348
 msgid "Path"
 msgstr "Ruta"
 
@@ -16631,15 +16616,15 @@ msgstr "Crea un calendario nuevo"
 msgid "Calendar and Tasks"
 msgstr "Calendario y tareas"
 
-#: ../modules/calendar/e-cal-shell-sidebar.c:577
+#: ../modules/calendar/e-cal-shell-sidebar.c:565
 msgid "Calendar Selector"
 msgstr "Selector de calendarios"
 
-#: ../modules/calendar/e-cal-shell-sidebar.c:858
+#: ../modules/calendar/e-cal-shell-sidebar.c:846
 msgid "Loading calendars"
 msgstr "Cargando calendarios"
 
-#: ../modules/calendar/e-cal-shell-sidebar.c:880
+#: ../modules/calendar/e-cal-shell-sidebar.c:868
 #, c-format
 msgid "Opening calendar '%s'"
 msgstr "Abriendo calendario «%s»"
@@ -17108,15 +17093,15 @@ msgstr "Li_sta de notas"
 msgid "Create a new memo list"
 msgstr "Crea una lista de notas nueva"
 
-#: ../modules/calendar/e-memo-shell-sidebar.c:511
+#: ../modules/calendar/e-memo-shell-sidebar.c:499
 msgid "Memo List Selector"
 msgstr "Selector de lista de notas"
 
-#: ../modules/calendar/e-memo-shell-sidebar.c:745
+#: ../modules/calendar/e-memo-shell-sidebar.c:733
 msgid "Loading memo list"
 msgstr "Cargando lista de notas"
 
-#: ../modules/calendar/e-memo-shell-sidebar.c:767
+#: ../modules/calendar/e-memo-shell-sidebar.c:755
 #, c-format
 msgid "Opening memo list '%s'"
 msgstr "Abriendo lista de notas «%s»"
@@ -17240,15 +17225,15 @@ msgstr "Lista de _tareas"
 msgid "Create a new task list"
 msgstr "Crea una lista de tareas nueva"
 
-#: ../modules/calendar/e-task-shell-sidebar.c:511
+#: ../modules/calendar/e-task-shell-sidebar.c:499
 msgid "Task List Selector"
 msgstr "Selector de listas de tareas"
 
-#: ../modules/calendar/e-task-shell-sidebar.c:745
+#: ../modules/calendar/e-task-shell-sidebar.c:733
 msgid "Loading task list"
 msgstr "Cargando lista de tareas"
 
-#: ../modules/calendar/e-task-shell-sidebar.c:767
+#: ../modules/calendar/e-task-shell-sidebar.c:755
 #, c-format
 msgid "Opening task list '%s'"
 msgstr "Abriendo lista de tareas «%s»"
@@ -17905,120 +17890,120 @@ msgstr "Abriendo el calendario. Espere…"
 msgid "Searching for an existing version of this appointment"
 msgstr "Buscando una versión existente de esta cita"
 
-#: ../modules/itip-formatter/itip-view.c:4557
+#: ../modules/itip-formatter/itip-view.c:4555
 #, c-format
 msgid "Unable to send item to calendar '%s'.  %s"
 msgstr "No es posible enviar el elemento al calendario «%s»: %s"
 
-#: ../modules/itip-formatter/itip-view.c:4573
+#: ../modules/itip-formatter/itip-view.c:4571
 #, c-format
 msgid "Sent to calendar '%s' as accepted"
 msgstr "Enviado al calendario «%s» como aceptado"
 
-#: ../modules/itip-formatter/itip-view.c:4578
+#: ../modules/itip-formatter/itip-view.c:4576
 #, c-format
 msgid "Sent to calendar '%s' as tentative"
 msgstr "Enviado al calendario «%s» como tentativa"
 
-#: ../modules/itip-formatter/itip-view.c:4584
+#: ../modules/itip-formatter/itip-view.c:4582
 #, c-format
 msgid "Sent to calendar '%s' as declined"
 msgstr "Enviado al calendario «%s» como rehusado"
 
-#: ../modules/itip-formatter/itip-view.c:4590
+#: ../modules/itip-formatter/itip-view.c:4588
 #, c-format
 msgid "Sent to calendar '%s' as canceled"
 msgstr "Enviado al calendario «%s» como cancelado"
 
-#: ../modules/itip-formatter/itip-view.c:4611
-#: ../modules/itip-formatter/itip-view.c:5052
-#: ../modules/itip-formatter/itip-view.c:5159
+#: ../modules/itip-formatter/itip-view.c:4609
+#: ../modules/itip-formatter/itip-view.c:5050
+#: ../modules/itip-formatter/itip-view.c:5157
 msgid "Saving changes to the calendar. Please wait..."
 msgstr "Guardando cambios en el calendario. Espere…"
 
-#: ../modules/itip-formatter/itip-view.c:4652
+#: ../modules/itip-formatter/itip-view.c:4650
 msgid "Unable to parse item"
 msgstr "No es posible interpretar el elemento"
 
-#: ../modules/itip-formatter/itip-view.c:4842
+#: ../modules/itip-formatter/itip-view.c:4840
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "El organizador ha quitado al delegado %s"
 
-#: ../modules/itip-formatter/itip-view.c:4857
+#: ../modules/itip-formatter/itip-view.c:4855
 msgid "Sent a cancelation notice to the delegate"
 msgstr "Enviar una notificación de cancelación al delegado"
 
-#: ../modules/itip-formatter/itip-view.c:4861
+#: ../modules/itip-formatter/itip-view.c:4859
 msgid "Could not send the cancelation notice to the delegate"
 msgstr "No es posible enviar una notificación de cancelación al delegado"
 
-#: ../modules/itip-formatter/itip-view.c:4911
+#: ../modules/itip-formatter/itip-view.c:4909
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "No es posible actualizar la asistencia. %s"
 
-#: ../modules/itip-formatter/itip-view.c:4918
+#: ../modules/itip-formatter/itip-view.c:4916
 msgid "Attendee status updated"
 msgstr "Estado de asistencia actualizado"
 
-#: ../modules/itip-formatter/itip-view.c:4941
+#: ../modules/itip-formatter/itip-view.c:4939
 msgid "The meeting is invalid and cannot be updated"
 msgstr "La cita no es válida y no se puede actualizar"
 
-#: ../modules/itip-formatter/itip-view.c:5017
+#: ../modules/itip-formatter/itip-view.c:5015
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr ""
 "El estado de asistencia no pudo actualizarse debido a que el estado no es "
 "válido"
 
-#: ../modules/itip-formatter/itip-view.c:5089
-#: ../modules/itip-formatter/itip-view.c:5129
+#: ../modules/itip-formatter/itip-view.c:5087
+#: ../modules/itip-formatter/itip-view.c:5127
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 "El estado del participante no pudo actualizarse porque ya no existe el "
 "elemento"
 
-#: ../modules/itip-formatter/itip-view.c:5192
+#: ../modules/itip-formatter/itip-view.c:5190
 msgid "Meeting information sent"
 msgstr "Información de reunión enviada"
 
-#: ../modules/itip-formatter/itip-view.c:5197
+#: ../modules/itip-formatter/itip-view.c:5195
 msgid "Task information sent"
 msgstr "Información de la tarea enviada"
 
-#: ../modules/itip-formatter/itip-view.c:5202
+#: ../modules/itip-formatter/itip-view.c:5200
 msgid "Memo information sent"
 msgstr "Información de la nota enviada"
 
-#: ../modules/itip-formatter/itip-view.c:5213
+#: ../modules/itip-formatter/itip-view.c:5211
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr "No se puede enviar la información de la reunión, la reunión no existe"
 
-#: ../modules/itip-formatter/itip-view.c:5218
+#: ../modules/itip-formatter/itip-view.c:5216
 msgid "Unable to send task information, the task does not exist"
 msgstr "No se puede enviar la información de la tarea, la tarea no existe"
 
-#: ../modules/itip-formatter/itip-view.c:5223
+#: ../modules/itip-formatter/itip-view.c:5221
 msgid "Unable to send memo information, the memo does not exist"
 msgstr "No se puede enviar la información de la nota, la nota no existe"
 
 #. Translators: This is a default filename for a calendar.
-#: ../modules/itip-formatter/itip-view.c:5288
+#: ../modules/itip-formatter/itip-view.c:5286
 msgid "calendar.ics"
 msgstr "calendario.ics"
 
-#: ../modules/itip-formatter/itip-view.c:5293
+#: ../modules/itip-formatter/itip-view.c:5291
 msgid "Save Calendar"
 msgstr "Guardar calendario"
 
-#: ../modules/itip-formatter/itip-view.c:5346
-#: ../modules/itip-formatter/itip-view.c:5359
+#: ../modules/itip-formatter/itip-view.c:5344
+#: ../modules/itip-formatter/itip-view.c:5357
 msgid "The calendar attached is not valid"
 msgstr "El calendario adjunto no es válido"
 
-#: ../modules/itip-formatter/itip-view.c:5347
-#: ../modules/itip-formatter/itip-view.c:5360
+#: ../modules/itip-formatter/itip-view.c:5345
+#: ../modules/itip-formatter/itip-view.c:5358
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
@@ -18026,15 +18011,15 @@ msgstr ""
 "El mensaje dice contener un calendario, pero el calendario no es un "
 "iCalendar válido."
 
-#: ../modules/itip-formatter/itip-view.c:5402
-#: ../modules/itip-formatter/itip-view.c:5432
-#: ../modules/itip-formatter/itip-view.c:5532
+#: ../modules/itip-formatter/itip-view.c:5400
+#: ../modules/itip-formatter/itip-view.c:5430
+#: ../modules/itip-formatter/itip-view.c:5530
 msgid "The item in the calendar is not valid"
 msgstr "El elemento en el calendario no es válido"
 
-#: ../modules/itip-formatter/itip-view.c:5403
-#: ../modules/itip-formatter/itip-view.c:5433
-#: ../modules/itip-formatter/itip-view.c:5533
+#: ../modules/itip-formatter/itip-view.c:5401
+#: ../modules/itip-formatter/itip-view.c:5431
+#: ../modules/itip-formatter/itip-view.c:5531
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
@@ -18042,11 +18027,11 @@ msgstr ""
 "El mensaje contiene un calendario, pero el calendario no contiene ningún "
 "acontecimiento, tarea o información de disponibilidad"
 
-#: ../modules/itip-formatter/itip-view.c:5448
+#: ../modules/itip-formatter/itip-view.c:5446
 msgid "The calendar attached contains multiple items"
 msgstr "El calendario adjunto contiene elementos múltiples"
 
-#: ../modules/itip-formatter/itip-view.c:5449
+#: ../modules/itip-formatter/itip-view.c:5447
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
@@ -18054,24 +18039,24 @@ msgstr ""
 "Para procesar todos estos elementos, el archivo debería guardarse y el "
 "calendario importarse"
 
-#: ../modules/itip-formatter/itip-view.c:5944
+#: ../modules/itip-formatter/itip-view.c:5942
 msgctxt "cal-itip"
 msgid "None"
 msgstr "Ninguno"
 
-#: ../modules/itip-formatter/itip-view.c:5960
+#: ../modules/itip-formatter/itip-view.c:5958
 msgid "Tentatively Accepted"
 msgstr "Aceptado provisionalmente"
 
-#: ../modules/itip-formatter/itip-view.c:6103
+#: ../modules/itip-formatter/itip-view.c:6101
 msgid "This meeting recurs"
 msgstr "Esta reunión se repite"
 
-#: ../modules/itip-formatter/itip-view.c:6106
+#: ../modules/itip-formatter/itip-view.c:6104
 msgid "This task recurs"
 msgstr "Esta tarea se repite"
 
-#: ../modules/itip-formatter/itip-view.c:6109
+#: ../modules/itip-formatter/itip-view.c:6107
 msgid "This memo recurs"
 msgstr "Esta nota se repite"
 
@@ -21406,6 +21391,9 @@ msgstr "Con fecha de _vencimiento"
 #: ../views/tasks/galview.xml.h:3
 msgid "With _Status"
 msgstr "Con _estado"
+
+#~ msgid "Could not perform this operation on '{0}: {1}'."
+#~ msgstr "No se puede realizar esta operación en «{0}: {1}»."
 
 #~ msgid "The Evolution tasks have quit unexpectedly."
 #~ msgstr "Las tareas de Evolution han terminado inesperadamente."
