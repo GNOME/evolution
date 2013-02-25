@@ -269,6 +269,12 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 				context->part_list,
 				empa->attachment_view_part_id);
 
+			/* Avoid recursion. */
+			if (attachment_view_part == part) {
+				e_mail_part_unref (attachment_view_part);
+				attachment_view_part = NULL;
+			}
+
 			if (attachment_view_part != NULL) {
 				ok = e_mail_formatter_format_as (
 					formatter, context,
