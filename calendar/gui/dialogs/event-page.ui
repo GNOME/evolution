@@ -286,6 +286,7 @@
                     <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
                     <property name="single_line_mode">False</property>
                     <property name="angle">0</property>
+                    <property name="mnemonic_widget">start-timezone</property>
                   </object>
                   <packing>
                     <property name="left_attach">0</property>
@@ -599,7 +600,7 @@
                     <property name="has_frame">True</property>
                     <property name="activates_default">False</property>
                     <accessibility>
-		    
+
 		  </accessibility>
                     <child internal-child="accessible">
                       <object class="AtkObject" id="a11y-categories1">
@@ -641,7 +642,7 @@
                         <property name="right_margin">0</property>
                         <property name="indent">0</property>
                         <accessibility>
-			
+
 		      </accessibility>
                         <child internal-child="accessible">
                           <object class="AtkObject" id="a11y-description1">
