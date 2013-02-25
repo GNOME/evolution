@@ -267,17 +267,27 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 		content_stream = camel_stream_mem_new ();
 		ok = FALSE;
 		if (empa->attachment_view_part_id != NULL) {
-
+			EMailPart *attachment_view_part = NULL;
 			GSList *att_parts;
 
 			att_parts = e_mail_part_list_get_iter (
-						context->parts,
-						empa->attachment_view_part_id);
+				context->parts,
+				empa->attachment_view_part_id);
 
-			if (att_parts && att_parts->data) {
+			if (att_parts != NULL && att_parts->data != NULL) {
+				attachment_view_part = att_parts->data;
+
+				/* Avoid recursion. */
+				if (attachment_view_part == part)
+					attachment_view_part = NULL;
+			}
+
+			if (attachment_view_part != NULL) {
 				ok = e_mail_formatter_format_as (
-					formatter, context, att_parts->data,
-					content_stream, NULL, cancellable);
+					formatter, context,
+					attachment_view_part,
+					content_stream, NULL,
+					cancellable);
 			}
 
 		} else {
