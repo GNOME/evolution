@@ -208,6 +208,7 @@ eutilinclude_HEADERS =  \
 	e-online-button.h \
 	e-paned.h \
 	e-passwords.h \
+	e-photo-cache.h \
 	e-picture-gallery.h \
 	e-plugin-ui.h \
 	e-plugin.h \
@@ -454,6 +455,7 @@ libeutil_la_SOURCES = \
 	e-online-button.c \
 	e-paned.c \
 	e-passwords.c \
+	e-photo-cache.c \
 	e-picture-gallery.c \
 	e-plugin-ui.c \
 	e-plugin.c \

@@ -246,6 +246,7 @@
     <xi:include href="xml/e-name-selector.xml"/>
     <xi:include href="xml/e-online-button.xml"/>
     <xi:include href="xml/e-paned.xml"/>
+    <xi:include href="xml/e-photo-cache.xml"/>
     <xi:include href="xml/e-picture-gallery.xml"/>
     <xi:include href="xml/e-poolv.xml"/>
     <xi:include href="xml/e-popup-action.xml"/>

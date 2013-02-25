@@ -2418,6 +2418,31 @@ e_passwords_ask_password
 </SECTION>
 
 <SECTION>
+<FILE>e-photo-cache</FILE>
+<TITLE>EPhotoCache</TITLE>
+EPhotoCache
+e_photo_cache_new
+e_photo_cache_ref_client_cache
+e_photo_cache_get_local_only
+e_photo_cache_set_local_only
+e_photo_cache_get_photo_sync
+e_photo_cache_get_photo
+e_photo_cache_get_photo_finish
+e_photo_cache_remove
+<SUBSECTION Standard>
+E_PHOTO_CACHE
+E_IS_PHOTO_CACHE
+E_TYPE_PHOTO_CACHE
+E_PHOTO_CACHE_CLASS
+E_IS_PHOTO_CACHE_CLASS
+E_PHOTO_CACHE_GET_CLASS
+EPhotoCacheClass
+e_photo_cache_get_type
+<SUBSECTION Private>
+EPhotoCachePrivate
+</SECTION>
+
+<SECTION>
 <FILE>e-picture-gallery</FILE>
 <TITLE>EPictureGallery</TITLE>
 EPictureGallery
