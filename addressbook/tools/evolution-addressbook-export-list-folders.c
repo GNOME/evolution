@@ -41,8 +41,8 @@ action_list_folders_init (ESourceRegistry *registry,
 
 	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), FAILED);
 
-	if (p_actctx->action_list_folders.output_file != NULL) {
-		if (!(outputfile = g_fopen (p_actctx->action_list_folders.output_file, "w"))) {
+	if (p_actctx->output_file != NULL) {
+		if (!(outputfile = g_fopen (p_actctx->output_file, "w"))) {
 			g_warning (_("Can not open file"));
 			exit (-1);
 		}

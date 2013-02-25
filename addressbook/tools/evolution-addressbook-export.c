@@ -158,22 +158,22 @@ main (gint argc,
 	if (current_action == ACTION_LIST_FOLDERS) {
 		actctx.action_type = current_action;
 		if (opt_output_file == NULL) {
-			actctx.action_list_folders.output_file = NULL;
+			actctx.output_file = NULL;
 		} else {
-			actctx.action_list_folders.output_file = g_strdup (opt_output_file);
+			actctx.output_file = g_strdup (opt_output_file);
 		}
 		action_list_folders_init (registry, &actctx);
 
 	} else if (current_action == ACTION_LIST_CARDS) {
 		actctx.action_type = current_action;
 		if (opt_output_file == NULL) {
-			actctx.action_list_cards.output_file = NULL;
+			actctx.output_file = NULL;
 		} else {
-			actctx.action_list_cards.output_file = g_strdup (opt_output_file);
+			actctx.output_file = g_strdup (opt_output_file);
 		}
-		actctx.action_list_cards.IsCSV = IsCSV;
-		actctx.action_list_cards.IsVCard = IsVCard;
-		actctx.action_list_cards.addressbook_source_uid =
+		actctx.IsCSV = IsCSV;
+		actctx.IsVCard = IsVCard;
+		actctx.addressbook_source_uid =
 			g_strdup (opt_addressbook_source_uid);
 
 		action_list_cards_init (registry, &actctx);

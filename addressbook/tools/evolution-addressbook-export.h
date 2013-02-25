@@ -37,30 +37,18 @@ G_BEGIN_DECLS
 
 #define DEFAULT_SIZE_NUMBER 100
 
-union _ActionContext
-{
+struct _ActionContext {
 
 	guint action_type;
+	gchar *output_file;
 
-	struct
-	{
-		gint action_type;
-		gchar *output_file;
-	}
-	action_list_folders;
-
-	struct
-	{
-		gint action_type;
-		gchar *output_file;
-		gint IsCSV;
-		gint IsVCard;
-		gchar *addressbook_source_uid;
-	}
-	action_list_cards;
+	/* for cards only */
+	gint IsCSV;
+	gint IsVCard;
+	gchar *addressbook_source_uid;
 };
 
-typedef union _ActionContext ActionContext;
+typedef struct _ActionContext ActionContext;
 
 /* action_list_folders */
 guint		action_list_folders_init	(ESourceRegistry *registry,
