@@ -740,21 +740,27 @@ void
 e_memo_shell_sidebar_add_source (EMemoShellSidebar *memo_shell_sidebar,
                                  ESource *source)
 {
+	ESourceRegistry *registry;
 	ESourceSelector *selector;
-	const gchar *display_name;
+	gchar *display_name;
 	gchar *message;
 
 	g_return_if_fail (E_IS_MEMO_SHELL_SIDEBAR (memo_shell_sidebar));
 	g_return_if_fail (E_IS_SOURCE (source));
 
 	selector = e_memo_shell_sidebar_get_selector (memo_shell_sidebar);
+	registry = e_source_selector_get_registry (selector);
 
 	e_source_selector_select_source (selector, source);
 
-	display_name = e_source_get_display_name (source);
+	display_name = e_source_registry_dup_unique_display_name (
+		registry, source, E_SOURCE_EXTENSION_MEMO_LIST);
+
 	message = g_strdup_printf (_("Opening memo list '%s'"), display_name);
 	memo_shell_sidebar_emit_status_message (memo_shell_sidebar, message);
 	g_free (message);
+
+	g_free (display_name);
 
 	e_client_selector_get_client (
 		E_CLIENT_SELECTOR (selector), source,
