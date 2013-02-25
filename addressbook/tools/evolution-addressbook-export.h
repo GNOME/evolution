@@ -53,10 +53,10 @@ struct _ActionContext {
 typedef struct _ActionContext ActionContext;
 
 /* action_list_folders */
-guint		action_list_folders_init	(ActionContext *p_actctx);
+void		action_list_folders_init	(ActionContext *p_actctx);
 
 /*action list cards*/
-guint		action_list_cards_init		(ActionContext *p_actctx);
+void		action_list_cards_init		(ActionContext *p_actctx);
 
 G_END_DECLS
 

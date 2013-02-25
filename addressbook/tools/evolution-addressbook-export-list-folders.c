@@ -31,7 +31,7 @@
 
 #include "evolution-addressbook-export.h"
 
-guint
+void
 action_list_folders_init (ActionContext *p_actctx)
 {
 	ESourceRegistry *registry;
@@ -67,9 +67,9 @@ action_list_folders_init (ActionContext *p_actctx)
 		client = e_book_client_connect_sync (source, NULL, &error);
 
 		/* Sanity check. */
-		g_return_val_if_fail (
+		g_return_if_fail (
 			((client != NULL) && (error == NULL)) ||
-			((client == NULL) && (error != NULL)), FAILED);
+			((client == NULL) && (error != NULL)));
 
 		if (error != NULL) {
 			g_warning (
@@ -111,6 +111,4 @@ action_list_folders_init (ActionContext *p_actctx)
 
 	if (outputfile)
 		fclose (outputfile);
-
-	return SUCCESS;
 }

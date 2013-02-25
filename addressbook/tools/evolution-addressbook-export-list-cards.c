@@ -688,7 +688,7 @@ set_pre_defined_field (GSList **pre_defined_fields)
 	*pre_defined_fields = g_slist_append (*pre_defined_fields, GINT_TO_POINTER (E_CONTACT_CSV_NOTE));
 }
 
-guint
+void
 action_list_cards_init (ActionContext *p_actctx)
 {
 	ESourceRegistry *registry;
@@ -714,9 +714,9 @@ action_list_cards_init (ActionContext *p_actctx)
 	g_object_unref (source);
 
 	/* Sanity check. */
-	g_return_val_if_fail (
+	g_return_if_fail (
 		((client != NULL) && (error == NULL)) ||
-		((client == NULL) && (error != NULL)), FAILED);
+		((client == NULL) && (error != NULL)));
 
 	if (error != NULL) {
 		g_warning (
@@ -747,6 +747,4 @@ action_list_cards_init (ActionContext *p_actctx)
 		g_warning ("Failed to get contacts: %s", error->message);
 		g_error_free (error);
 	}
-
-	return error ? FAILED : SUCCESS;
 }
