@@ -833,7 +833,6 @@ e_cal_shell_sidebar_add_client (ECalShellSidebar *cal_shell_sidebar,
 {
 	ESource *source;
 	ESourceSelector *selector;
-	const gchar *message;
 
 	g_return_if_fail (E_IS_CAL_SHELL_SIDEBAR (cal_shell_sidebar));
 	g_return_if_fail (E_IS_CAL_CLIENT (client));
@@ -843,10 +842,7 @@ e_cal_shell_sidebar_add_client (ECalShellSidebar *cal_shell_sidebar,
 	selector = e_cal_shell_sidebar_get_selector (cal_shell_sidebar);
 	e_source_selector_select_source (selector, source);
 
-	message = _("Loading calendars");
-	cal_shell_sidebar_emit_status_message (cal_shell_sidebar, message);
 	cal_shell_sidebar_emit_client_added (cal_shell_sidebar, client);
-	cal_shell_sidebar_emit_status_message (cal_shell_sidebar, NULL);
 }
 
 void
