@@ -689,9 +689,9 @@ set_pre_defined_field (GSList **pre_defined_fields)
 }
 
 guint
-action_list_cards_init (ESourceRegistry *registry,
-                        ActionContext *p_actctx)
+action_list_cards_init (ActionContext *p_actctx)
 {
+	ESourceRegistry *registry;
 	EClient *client;
 	EBookClient *book_client;
 	EBookQuery *query;
@@ -701,8 +701,7 @@ action_list_cards_init (ESourceRegistry *registry,
 	gchar *query_str;
 	GError *error = NULL;
 
-	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), FAILED);
-
+	registry = p_actctx->registry;
 	uid = p_actctx->addressbook_source_uid;
 
 	if (uid != NULL)

@@ -74,7 +74,6 @@ gint
 main (gint argc,
       gchar **argv)
 {
-	ESourceRegistry *registry;
 	ActionContext actctx;
 	GOptionContext *context;
 	GError *error = NULL;
@@ -120,7 +119,7 @@ main (gint argc,
 		exit (-1);
 	}
 
-	registry = e_source_registry_new_sync (NULL, &error);
+	actctx.registry = e_source_registry_new_sync (NULL, &error);
 	if (error != NULL) {
 		g_printerr ("%s\n", error->message);
 		g_error_free (error);
@@ -162,7 +161,7 @@ main (gint argc,
 		} else {
 			actctx.output_file = g_strdup (opt_output_file);
 		}
-		action_list_folders_init (registry, &actctx);
+		action_list_folders_init (&actctx);
 
 	} else if (current_action == ACTION_LIST_CARDS) {
 		actctx.action_type = current_action;
@@ -176,12 +175,14 @@ main (gint argc,
 		actctx.addressbook_source_uid =
 			g_strdup (opt_addressbook_source_uid);
 
-		action_list_cards_init (registry, &actctx);
+		action_list_cards_init (&actctx);
 
 	} else {
 		g_warning (_("Unhandled error"));
 		exit (-1);
 	}
+
+	g_object_unref (actctx.registry);
 
 	/*FIXME:should free actctx's some gchar * field, such as output_file! but since the program will end, so that will not cause mem leak.  */
 

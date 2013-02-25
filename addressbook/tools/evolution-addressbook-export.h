@@ -40,6 +40,8 @@ G_BEGIN_DECLS
 struct _ActionContext {
 
 	guint action_type;
+
+	ESourceRegistry *registry;
 	gchar *output_file;
 
 	/* for cards only */
@@ -51,12 +53,10 @@ struct _ActionContext {
 typedef struct _ActionContext ActionContext;
 
 /* action_list_folders */
-guint		action_list_folders_init	(ESourceRegistry *registry,
-						 ActionContext *p_actctx);
+guint		action_list_folders_init	(ActionContext *p_actctx);
 
 /*action list cards*/
-guint		action_list_cards_init		(ESourceRegistry *registry,
-						 ActionContext *p_actctx);
+guint		action_list_cards_init		(ActionContext *p_actctx);
 
 G_END_DECLS
 

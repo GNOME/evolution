@@ -32,14 +32,14 @@
 #include "evolution-addressbook-export.h"
 
 guint
-action_list_folders_init (ESourceRegistry *registry,
-                          ActionContext *p_actctx)
+action_list_folders_init (ActionContext *p_actctx)
 {
+	ESourceRegistry *registry;
 	GList *list, *iter;
 	FILE *outputfile = NULL;
 	const gchar *extension_name;
 
-	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), FAILED);
+	registry = p_actctx->registry;
 
 	if (p_actctx->output_file != NULL) {
 		if (!(outputfile = g_fopen (p_actctx->output_file, "w"))) {
