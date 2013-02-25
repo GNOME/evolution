@@ -244,7 +244,6 @@ gchar *delivery_address_get_sub_field (const EContactAddress * delivery_address,
 gchar *check_null_pointer (gchar * orig);
 gchar *escape_string (gchar * orig);
 gint output_n_cards_file (FILE * outputfile, GSList *contacts, gint size, gint begin_no, CARD_FORMAT format);
-static void fork_to_background (void);
 void set_pre_defined_field (GSList ** pre_defined_fields);
 
 /* function declarations*/
@@ -603,37 +602,12 @@ output_n_cards_file (FILE *outputfile,
 }
 
 static void
-fork_to_background (void)
-{
-#ifndef G_OS_WIN32
-	pid_t pid;
-	pid = fork ();
-	if (pid == -1) {
-		/* ouch, fork() failed */
-		perror ("fork");
-		exit (-1);
-	} else if (pid == 0) {
-		/* child */
-		/*contunue */
-
-	} else {
-		/* parent exit,  note the use of _exit() instead of exit() */
-		_exit (-1);
-	}
-#endif
-}
-
-static void
 action_list_cards (GSList *contacts,
                    ActionContext *p_actctx)
 {
 	FILE *outputfile;
 	long length;
-	gint IsFirstOne;
-	gint series_no;
-	gchar *file_series_name;
 	CARD_FORMAT format;
-	gint size;
 
 	length = g_slist_length (contacts);
 
@@ -643,78 +617,25 @@ action_list_cards (GSList *contacts,
 		exit (-1);
 	}
 
-	if (p_actctx->action_list_cards.async_mode == FALSE) {	/* normal mode */
-
-		if (p_actctx->action_list_cards.output_file == NULL) {
-			outputfile = stdout;
-		} else {
-			/* fopen output file */
-			if (!(outputfile = g_fopen (p_actctx->action_list_cards.output_file, "w"))) {
-				g_warning (_("Can not open file"));
-				exit (-1);
-			}
-		}
-
-		if (p_actctx->action_list_cards.IsVCard == TRUE)
-			format = CARD_FORMAT_VCARD;
-		else
-			format = CARD_FORMAT_CSV;
-
-		output_n_cards_file (outputfile, contacts, length, 0, format);
-
-		if (p_actctx->action_list_cards.output_file != NULL) {
-			fclose (outputfile);
+	if (p_actctx->action_list_cards.output_file == NULL) {
+		outputfile = stdout;
+	} else {
+		/* fopen output file */
+		if (!(outputfile = g_fopen (p_actctx->action_list_cards.output_file, "w"))) {
+			g_warning (_("Can not open file"));
+			exit (-1);
 		}
 	}
 
-	/*async mode */
-	else {
+	if (p_actctx->action_list_cards.IsVCard == TRUE)
+		format = CARD_FORMAT_VCARD;
+	else
+		format = CARD_FORMAT_CSV;
 
-		size = p_actctx->action_list_cards.file_size;
-		IsFirstOne = TRUE;
-		series_no = 0;
+	output_n_cards_file (outputfile, contacts, length, 0, format);
 
-		do {
-			/* whether it is the last file */
-			if ((series_no + 1) * size >= length) {	/*last one */
-				file_series_name = g_strdup_printf ("%s.end", p_actctx->action_list_cards.output_file);
-
-			} else {	/*next one */
-				file_series_name =
-					g_strdup_printf ("%s.%04d", p_actctx->action_list_cards.output_file, series_no);
-			}
-
-			if (!(outputfile = g_fopen (file_series_name, "w"))) {
-				g_warning (_("Can not open file"));
-				exit (-1);
-			}
-
-			if (p_actctx->action_list_cards.IsVCard == TRUE)
-				format = CARD_FORMAT_VCARD;
-			else
-				format = CARD_FORMAT_CSV;
-			output_n_cards_file (outputfile, contacts, size, series_no * size, format);
-
-			fclose (outputfile);
-
-			series_no++;
-
-			if (IsFirstOne == TRUE) {
-				fork_to_background ();
-				IsFirstOne = FALSE;
-			}
-
-		}
-		while (series_no * size < length);
-		g_free (file_series_name);
-#ifdef G_OS_WIN32
-		/* On Unix the parent exits already in
-		 * fork_to_background(), but without fork() exit only
-		 * after doing the job. XXX Is this correct?
-		 */
-		if (IsFirstOne == FALSE)
-			_exit (-1);
-#endif
+	if (p_actctx->action_list_cards.output_file != NULL) {
+		fclose (outputfile);
 	}
 }
 

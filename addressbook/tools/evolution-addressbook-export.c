@@ -51,8 +51,6 @@ static gchar *opt_output_file = NULL;
 static gboolean opt_list_folders_mode = FALSE;
 static gchar *opt_output_format = NULL;
 static gchar *opt_addressbook_source_uid = NULL;
-static gboolean opt_async_mode = FALSE;
-static gint opt_file_size = 0;
 static gchar **opt_remaining = NULL;
 
 static GOptionEntry entries[] = {
@@ -67,14 +65,6 @@ static GOptionEntry entries[] = {
 	  G_OPTION_ARG_STRING, &opt_output_format,
 	  N_("Show cards as vcard or csv file"),
 	  N_("[vcard|csv]") },
-	{ "async", 'a', 0,
-	  G_OPTION_ARG_NONE, &opt_async_mode,
-	  N_("Export in asynchronous mode") },
-	{ "size", '\0', 0,
-	  G_OPTION_ARG_INT, &opt_file_size,
-	  N_("The number of cards in one output file in asynchronous mode, "
-	     "default size 100."),
-	  N_("NUMBER") },
 	{ G_OPTION_REMAINING, '\0', 0,
 	  G_OPTION_ARG_STRING_ARRAY, &opt_remaining },
 	{ NULL }
@@ -143,9 +133,7 @@ main (gint argc,
 
 	if (opt_list_folders_mode != FALSE) {
 		current_action = ACTION_LIST_FOLDERS;
-		/* check there should not be addressbook-source-uid,
-		 * and async and size, output_format */
-		if (opt_addressbook_source_uid != NULL || opt_async_mode != FALSE || opt_output_format != NULL || opt_file_size != 0) {
+		if (opt_addressbook_source_uid != NULL || opt_output_format != NULL) {
 			g_warning (_("Command line arguments error, please use --help option to see the usage."));
 			exit (-1);
 		}
@@ -161,23 +149,6 @@ main (gint argc,
 			IsVCard = !strcmp (opt_output_format, "vcard");
 			if (IsCSV == FALSE && IsVCard == FALSE) {
 				g_warning (_("Only support csv or vcard format."));
-				exit (-1);
-			}
-		}
-
-		/*check async and output file */
-		if (opt_async_mode == TRUE) {
-			/* check have to output file , set default file_size */
-			if (opt_output_file == NULL) {
-				g_warning (_("In async mode, output must be file."));
-				exit (-1);
-			}
-			if (opt_file_size == 0)
-				opt_file_size = DEFAULT_SIZE_NUMBER;
-		} else {
-			/*check no file_size */
-			if (opt_file_size != 0) {
-				g_warning (_("In normal mode, there is no need for the size option."));
 				exit (-1);
 			}
 		}
@@ -204,8 +175,6 @@ main (gint argc,
 		actctx.action_list_cards.IsVCard = IsVCard;
 		actctx.action_list_cards.addressbook_source_uid =
 			g_strdup (opt_addressbook_source_uid);
-		actctx.action_list_cards.async_mode = opt_async_mode;
-		actctx.action_list_cards.file_size = opt_file_size;
 
 		action_list_cards_init (registry, &actctx);
 

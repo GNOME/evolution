@@ -56,8 +56,6 @@ union _ActionContext
 		gint IsCSV;
 		gint IsVCard;
 		gchar *addressbook_source_uid;
-		gint async_mode;
-		gint file_size;
 	}
 	action_list_cards;
 };
