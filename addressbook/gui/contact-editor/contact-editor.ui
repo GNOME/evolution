@@ -490,7 +490,7 @@
                                         <property name="relief">none</property>
                                         <child internal-child="accessible">
                                           <object class="AtkObject" id="button-mail-expand-atkobject">
-                                            <property name="AtkObject::accessible-name" translatable="yes">Telephone</property>
+                                            <property name="AtkObject::accessible-name" translatable="yes">Email</property>
                                           </object>
                                         </child>
                                         <child>
