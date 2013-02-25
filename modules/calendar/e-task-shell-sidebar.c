@@ -720,7 +720,6 @@ e_task_shell_sidebar_add_client (ETaskShellSidebar *task_shell_sidebar,
 {
 	ESource *source;
 	ESourceSelector *selector;
-	const gchar *message;
 
 	g_return_if_fail (E_IS_TASK_SHELL_SIDEBAR (task_shell_sidebar));
 	g_return_if_fail (E_IS_CAL_CLIENT (client));
@@ -730,10 +729,7 @@ e_task_shell_sidebar_add_client (ETaskShellSidebar *task_shell_sidebar,
 	selector = e_task_shell_sidebar_get_selector (task_shell_sidebar);
 	e_source_selector_select_source (selector, source);
 
-	message = _("Loading task list");
-	task_shell_sidebar_emit_status_message (task_shell_sidebar, message);
 	task_shell_sidebar_emit_client_added (task_shell_sidebar, client);
-	task_shell_sidebar_emit_status_message (task_shell_sidebar, NULL);
 }
 
 void
