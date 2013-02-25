@@ -37,6 +37,8 @@
 
 struct _EAddressbookModelPrivate {
 	EClientCache *client_cache;
+	gulong client_notify_readonly_handler_id;
+
 	EBookClient *book_client;
 	gchar *query_str;
 	EBookClientView *client_view;
@@ -50,7 +52,6 @@ struct _EAddressbookModelPrivate {
 	gulong remove_contact_id;
 	gulong modify_contact_id;
 	gulong status_message_id;
-	gulong writable_status_id;
 	gulong view_complete_id;
 	guint remove_status_id;
 
@@ -335,14 +336,18 @@ view_complete_cb (EBookClientView *client_view,
 }
 
 static void
-readonly_cb (EBookClient *book_client,
-             GParamSpec *pspec,
-             EAddressbookModel *model)
+addressbook_model_client_notify_readonly_cb (EClientCache *client_cache,
+                                             EClient *client,
+                                             GParamSpec *pspec,
+                                             EAddressbookModel *model)
 {
-	gboolean editable;
+	if (!E_IS_BOOK_CLIENT (client))
+		return;
 
-	editable = !e_client_is_readonly (E_CLIENT (book_client));
-	e_addressbook_model_set_editable (model, editable);
+	if (E_BOOK_CLIENT (client) == model->priv->book_client) {
+		gboolean editable = !e_client_is_readonly (client);
+		e_addressbook_model_set_editable (model, editable);
+	}
 }
 
 static void
@@ -542,18 +547,15 @@ addressbook_model_dispose (GObject *object)
 	remove_book_view (model);
 	free_data (model);
 
-	g_clear_object (&model->priv->client_cache);
-
-	if (model->priv->book_client) {
-		if (model->priv->writable_status_id)
-			g_signal_handler_disconnect (
-				model->priv->book_client,
-				model->priv->writable_status_id);
-		model->priv->writable_status_id = 0;
-
-		g_object_unref (model->priv->book_client);
-		model->priv->book_client = NULL;
+	if (model->priv->client_notify_readonly_handler_id > 0) {
+		g_signal_handler_disconnect (
+			model->priv->client_cache,
+			model->priv->client_notify_readonly_handler_id);
+		model->priv->client_notify_readonly_handler_id = 0;
 	}
+
+	g_clear_object (&model->priv->client_cache);
+	g_clear_object (&model->priv->book_client);
 
 	if (model->priv->query_str) {
 		g_free (model->priv->query_str);
@@ -578,6 +580,27 @@ addressbook_model_finalize (GObject *object)
 }
 
 static void
+addressbook_model_constructed (GObject *object)
+{
+	EAddressbookModel *model;
+	EClientCache *client_cache;
+	gulong handler_id;
+
+	model = E_ADDRESSBOOK_MODEL (object);
+
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_addressbook_model_parent_class)->constructed (object);
+
+	client_cache = e_addressbook_model_get_client_cache (model);
+
+	handler_id = g_signal_connect (
+		client_cache, "client-notify::readonly",
+		G_CALLBACK (addressbook_model_client_notify_readonly_cb),
+		model);
+	model->priv->client_notify_readonly_handler_id = handler_id;
+}
+
+static void
 e_addressbook_model_class_init (EAddressbookModelClass *class)
 {
 	GObjectClass *object_class;
@@ -589,6 +612,7 @@ e_addressbook_model_class_init (EAddressbookModelClass *class)
 	object_class->get_property = addressbook_model_get_property;
 	object_class->dispose = addressbook_model_dispose;
 	object_class->finalize = addressbook_model_finalize;
+	object_class->constructed = addressbook_model_constructed;
 
 	g_object_class_install_property (
 		object_class,
@@ -875,25 +899,11 @@ e_addressbook_model_set_client (EAddressbookModel *model,
 	if (model->priv->book_client == book_client)
 		return;
 
-	if (model->priv->book_client != NULL) {
-		if (model->priv->book_client == book_client)
-			return;
-
-		if (model->priv->writable_status_id != 0)
-			g_signal_handler_disconnect (
-				model->priv->book_client,
-				model->priv->writable_status_id);
-		model->priv->writable_status_id = 0;
-
+	if (model->priv->book_client != NULL)
 		g_object_unref (model->priv->book_client);
-	}
 
 	model->priv->book_client = g_object_ref (book_client);
 	model->priv->first_get_view = TRUE;
-
-	model->priv->writable_status_id = g_signal_connect (
-		book_client, "notify::readonly",
-		G_CALLBACK (readonly_cb), model);
 
 	editable = !e_client_is_readonly (E_CLIENT (book_client));
 	e_addressbook_model_set_editable (model, editable);
