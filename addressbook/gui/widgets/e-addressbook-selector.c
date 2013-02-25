@@ -311,8 +311,7 @@ addressbook_selector_data_dropped (ESourceSelector *selector,
 	string = (const gchar *) gtk_selection_data_get_data (selection_data);
 	remove_from_source = (action == GDK_ACTION_MOVE);
 
-	model = e_addressbook_view_get_model (priv->current_view);
-	registry = e_addressbook_model_get_registry (model);
+	registry = e_source_selector_get_registry (selector);
 
 	eab_source_and_contact_list_from_string (
 		registry, string, NULL, &list);
@@ -320,6 +319,7 @@ addressbook_selector_data_dropped (ESourceSelector *selector,
 	if (list == NULL)
 		return FALSE;
 
+	model = e_addressbook_view_get_model (priv->current_view);
 	source_client = e_addressbook_model_get_client (model);
 	g_return_val_if_fail (E_IS_BOOK_CLIENT (source_client), FALSE);
 

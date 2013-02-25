@@ -171,12 +171,10 @@ addressbook_set_value_at (ETableModel *etc,
 	EAddressbookTableAdapterPrivate *priv = adapter->priv;
 
 	if (e_addressbook_model_get_editable (priv->model)) {
+		EClientCache *client_cache;
 		ESourceRegistry *registry;
 		EBookClient *book_client;
 		EContact *contact;
-
-		registry = e_addressbook_model_get_registry (priv->model);
-		book_client = e_addressbook_model_get_client (priv->model);
 
 		if (col >= COLS || row >= e_addressbook_model_contact_count (priv->model))
 			return;
@@ -197,10 +195,18 @@ addressbook_set_value_at (ETableModel *etc,
 				g_hash_table_remove (priv->emails, old_value);
 		}
 
+		client_cache =
+			e_addressbook_model_get_client_cache (priv->model);
+		book_client = e_addressbook_model_get_client (priv->model);
+
+		registry = e_client_cache_ref_registry (client_cache);
+
 		e_contact_set (contact, col, (gpointer) val);
 		eab_merging_book_modify_contact (
 			registry, book_client,
 			contact, contact_modified_cb, etc);
+
+		g_object_unref (registry);
 
 		g_object_unref (contact);
 
@@ -226,6 +232,7 @@ addressbook_append_row (ETableModel *etm,
 {
 	EAddressbookTableAdapter *adapter = E_ADDRESSBOOK_TABLE_ADAPTER (etm);
 	EAddressbookTableAdapterPrivate *priv = adapter->priv;
+	EClientCache *client_cache;
 	ESourceRegistry *registry;
 	EBookClient *book_client;
 	EContact *contact;
@@ -238,11 +245,16 @@ addressbook_append_row (ETableModel *etm,
 		e_contact_set (contact, col, (gpointer) val);
 	}
 
-	registry = e_addressbook_model_get_registry (priv->model);
+	client_cache =
+		e_addressbook_model_get_client_cache (priv->model);
 	book_client = e_addressbook_model_get_client (priv->model);
+
+	registry = e_client_cache_ref_registry (client_cache);
 
 	eab_merging_book_add_contact (
 		registry, book_client, contact, NULL, NULL);
+
+	g_object_unref (registry);
 
 	g_object_unref (contact);
 }

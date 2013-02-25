@@ -36,7 +36,7 @@
 	((obj), E_TYPE_ADDRESSBOOK_MODEL, EAddressbookModelPrivate))
 
 struct _EAddressbookModelPrivate {
-	ESourceRegistry *registry;
+	EClientCache *client_cache;
 	EBookClient *book_client;
 	gchar *query_str;
 	EBookClientView *client_view;
@@ -62,9 +62,9 @@ struct _EAddressbookModelPrivate {
 enum {
 	PROP_0,
 	PROP_CLIENT,
+	PROP_CLIENT_CACHE,
 	PROP_EDITABLE,
-	PROP_QUERY,
-	PROP_REGISTRY
+	PROP_QUERY
 };
 
 enum {
@@ -454,13 +454,13 @@ remove_status_cb (gpointer data)
 }
 
 static void
-addressbook_model_set_registry (EAddressbookModel *model,
-                                ESourceRegistry *registry)
+addressbook_model_set_client_cache (EAddressbookModel *model,
+                                    EClientCache *client_cache)
 {
-	g_return_if_fail (E_IS_SOURCE_REGISTRY (registry));
-	g_return_if_fail (model->priv->registry == NULL);
+	g_return_if_fail (E_IS_CLIENT_CACHE (client_cache));
+	g_return_if_fail (model->priv->client_cache == NULL);
 
-	model->priv->registry = g_object_ref (registry);
+	model->priv->client_cache = g_object_ref (client_cache);
 }
 
 static void
@@ -476,6 +476,12 @@ addressbook_model_set_property (GObject *object,
 				g_value_get_object (value));
 			return;
 
+		case PROP_CLIENT_CACHE:
+			addressbook_model_set_client_cache (
+				E_ADDRESSBOOK_MODEL (object),
+				g_value_get_object (value));
+			return;
+
 		case PROP_EDITABLE:
 			e_addressbook_model_set_editable (
 				E_ADDRESSBOOK_MODEL (object),
@@ -486,12 +492,6 @@ addressbook_model_set_property (GObject *object,
 			e_addressbook_model_set_query (
 				E_ADDRESSBOOK_MODEL (object),
 				g_value_get_string (value));
-			return;
-
-		case PROP_REGISTRY:
-			addressbook_model_set_registry (
-				E_ADDRESSBOOK_MODEL (object),
-				g_value_get_object (value));
 			return;
 	}
 
@@ -512,6 +512,12 @@ addressbook_model_get_property (GObject *object,
 				E_ADDRESSBOOK_MODEL (object)));
 			return;
 
+		case PROP_CLIENT_CACHE:
+			g_value_set_object (
+				value, e_addressbook_model_get_client_cache (
+				E_ADDRESSBOOK_MODEL (object)));
+			return;
+
 		case PROP_EDITABLE:
 			g_value_set_boolean (
 				value, e_addressbook_model_get_editable (
@@ -521,12 +527,6 @@ addressbook_model_get_property (GObject *object,
 		case PROP_QUERY:
 			g_value_set_string (
 				value, e_addressbook_model_get_query (
-				E_ADDRESSBOOK_MODEL (object)));
-			return;
-
-		case PROP_REGISTRY:
-			g_value_set_object (
-				value, e_addressbook_model_get_registry (
 				E_ADDRESSBOOK_MODEL (object)));
 			return;
 	}
@@ -541,6 +541,8 @@ addressbook_model_dispose (GObject *object)
 
 	remove_book_view (model);
 	free_data (model);
+
+	g_clear_object (&model->priv->client_cache);
 
 	if (model->priv->book_client) {
 		if (model->priv->writable_status_id)
@@ -601,6 +603,18 @@ e_addressbook_model_class_init (EAddressbookModelClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_CLIENT_CACHE,
+		g_param_spec_object (
+			"client-cache",
+			"Client Cache",
+			"Shared EClient instances",
+			E_TYPE_CLIENT_CACHE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_EDITABLE,
 		g_param_spec_boolean (
 			"editable",
@@ -620,18 +634,6 @@ e_addressbook_model_class_init (EAddressbookModelClass *class)
 			NULL,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_REGISTRY,
-		g_param_spec_object (
-			"registry",
-			"Registry",
-			"Data source registry",
-			E_TYPE_SOURCE_REGISTRY,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY |
 			G_PARAM_STATIC_STRINGS));
 
 	signals[WRITABLE_STATUS] = g_signal_new (
@@ -743,21 +745,21 @@ e_addressbook_model_init (EAddressbookModel *model)
 }
 
 EAddressbookModel *
-e_addressbook_model_new (ESourceRegistry *registry)
+e_addressbook_model_new (EClientCache *client_cache)
 {
-	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
+	g_return_val_if_fail (E_IS_CLIENT_CACHE (client_cache), NULL);
 
 	return g_object_new (
 		E_TYPE_ADDRESSBOOK_MODEL,
-		"registry", registry, NULL);
+		"client-cache", client_cache, NULL);
 }
 
-ESourceRegistry *
-e_addressbook_model_get_registry (EAddressbookModel *model)
+EClientCache *
+e_addressbook_model_get_client_cache (EAddressbookModel *model)
 {
 	g_return_val_if_fail (E_IS_ADDRESSBOOK_MODEL (model), NULL);
 
-	return model->priv->registry;
+	return model->priv->client_cache;
 }
 
 EContact *

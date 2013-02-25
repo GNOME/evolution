@@ -566,19 +566,19 @@ addressbook_view_constructed (GObject *object)
 	EShell *shell;
 	EShellView *shell_view;
 	EShellBackend *shell_backend;
-	ESourceRegistry *registry;
+	EClientCache *client_cache;
 	ESource *source;
 	const gchar *uid;
 
 	shell_view = e_addressbook_view_get_shell_view (view);
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
 	shell = e_shell_backend_get_shell (shell_backend);
-	registry = e_shell_get_registry (shell);
+	client_cache = e_shell_get_client_cache (shell);
 
 	source = e_addressbook_view_get_source (view);
 	uid = e_source_get_uid (source);
 
-	view->priv->model = e_addressbook_model_new (registry);
+	view->priv->model = e_addressbook_model_new (client_cache);
 
 	view_instance = e_shell_view_new_view_instance (shell_view, uid);
 	g_signal_connect_swapped (
@@ -697,6 +697,7 @@ addressbook_view_paste_clipboard (ESelectable *selectable)
 	EBookClient *book_client;
 	EAddressbookView *view;
 	EAddressbookModel *model;
+	EClientCache *client_cache;
 	ESourceRegistry *registry;
 	GtkClipboard *clipboard;
 	GSList *contact_list, *iter;
@@ -709,12 +710,14 @@ addressbook_view_paste_clipboard (ESelectable *selectable)
 		return;
 
 	model = e_addressbook_view_get_model (view);
-	registry = e_addressbook_model_get_registry (model);
+	client_cache = e_addressbook_model_get_client_cache (model);
 	book_client = e_addressbook_model_get_client (model);
 
 	string = e_clipboard_wait_for_directory (clipboard);
 	contact_list = eab_contact_list_from_string (string);
 	g_free (string);
+
+	registry = e_client_cache_ref_registry (client_cache);
 
 	for (iter = contact_list; iter != NULL; iter = iter->next) {
 		EContact *contact = iter->data;
@@ -722,6 +725,8 @@ addressbook_view_paste_clipboard (ESelectable *selectable)
 		eab_merging_book_add_contact (
 			registry, book_client, contact, NULL, NULL);
 	}
+
+	g_object_unref (registry);
 
 	g_slist_free_full (contact_list, (GDestroyNotify) g_object_unref);
 }
@@ -1508,7 +1513,7 @@ all_contacts_ready_cb (GObject *source_object,
 	EBookClient *book_client = E_BOOK_CLIENT (source_object);
 	struct TransferContactsData *tcd = user_data;
 	EAddressbookModel *model;
-	ESourceRegistry *registry;
+	EClientCache *client_cache;
 	EShellView *shell_view;
 	EShellContent *shell_content;
 	EAlertSink *alert_sink;
@@ -1526,7 +1531,7 @@ all_contacts_ready_cb (GObject *source_object,
 	alert_sink = E_ALERT_SINK (shell_content);
 
 	model = e_addressbook_view_get_model (tcd->view);
-	registry = e_addressbook_model_get_registry (model);
+	client_cache = e_addressbook_model_get_client_cache (model);
 
 	if (error) {
 		e_alert_submit (
@@ -1534,9 +1539,15 @@ all_contacts_ready_cb (GObject *source_object,
 			error->message, NULL);
 		g_error_free (error);
 	} else if (contacts) {
+		ESourceRegistry *registry;
+
+		registry = e_client_cache_ref_registry (client_cache);
+
 		eab_transfer_contacts (
 			registry, book_client, contacts,
 			tcd->delete_from_source, alert_sink);
+
+		g_object_unref (registry);
 	}
 
 	g_object_unref (tcd->view);
@@ -1548,11 +1559,13 @@ view_transfer_contacts (EAddressbookView *view,
                         gboolean delete_from_source,
                         gboolean all)
 {
+	EAddressbookModel *model;
 	EBookClient *book_client;
-	ESourceRegistry *registry;
+	EClientCache *client_cache;
 
-	registry = e_addressbook_model_get_registry (view->priv->model);
-	book_client = e_addressbook_model_get_client (view->priv->model);
+	model = e_addressbook_view_get_model (view);
+	book_client = e_addressbook_model_get_client (model);
+	client_cache = e_addressbook_model_get_client_cache (model);
 
 	if (all) {
 		EBookQuery *query;
@@ -1575,6 +1588,7 @@ view_transfer_contacts (EAddressbookView *view,
 		EShellView *shell_view;
 		EShellContent *shell_content;
 		EAlertSink *alert_sink;
+		ESourceRegistry *registry;
 
 		shell_view = e_addressbook_view_get_shell_view (view);
 		shell_content = e_shell_view_get_shell_content (shell_view);
@@ -1582,9 +1596,13 @@ view_transfer_contacts (EAddressbookView *view,
 
 		contacts = e_addressbook_view_get_selected (view);
 
+		registry = e_client_cache_ref_registry (client_cache);
+
 		eab_transfer_contacts (
 			registry, book_client, contacts,
 			delete_from_source, alert_sink);
+
+		g_object_unref (registry);
 	}
 }
 
