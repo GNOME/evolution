@@ -629,53 +629,6 @@ emu_free_photo_info (PhotoInfo *pi)
 static ECancellableMutex photos_cache_lock;
 static GSList *photos_cache = NULL; /* list of PhotoInfo-s */
 
-/* list of email addresses (strings) to remove from local cache of photos and
- * contacts, but only if the photo doesn't exist or is an not-found contact */
-void
-emu_remove_from_mail_cache (const GSList *addresses)
-{
-	const GSList *a;
-	GSList *p;
-	CamelInternetAddress *cia;
-
-	cia = camel_internet_address_new ();
-
-	for (a = addresses; a; a = a->next) {
-		const gchar *addr = NULL;
-
-		if (!a->data)
-			continue;
-
-		if (camel_address_decode ((CamelAddress *) cia, a->data) != -1 &&
-		    camel_internet_address_get (cia, 0, NULL, &addr) && addr) {
-			gchar *lowercase_addr = g_utf8_strdown (addr, -1);
-
-			if (e_cancellable_mutex_lock (&contact_cache_lock, NULL)) {
-				if (g_hash_table_lookup (contact_cache, lowercase_addr) == NOT_FOUND_BOOK)
-					g_hash_table_remove (contact_cache, lowercase_addr);
-				e_cancellable_mutex_unlock (&contact_cache_lock);
-			}
-
-			g_free (lowercase_addr);
-
-			if (e_cancellable_mutex_lock (&photos_cache_lock, NULL)) {
-				for (p = photos_cache; p; p = p->next) {
-					PhotoInfo *pi = p->data;
-
-					if (pi && !pi->photo && g_ascii_strcasecmp (pi->address, addr) == 0) {
-						photos_cache = g_slist_remove (photos_cache, pi);
-						emu_free_photo_info (pi);
-						break;
-					}
-				}
-				e_cancellable_mutex_unlock (&photos_cache_lock);
-			}
-		}
-	}
-
-	g_object_unref (cia);
-}
-
 struct FreeMailCacheData
 {
 	GDestroyNotify done_cb;
