@@ -982,6 +982,18 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 	if (contents == NULL)
 		goto insert;
 
+	if (!is_html) {
+		gchar *html;
+
+		html = camel_text_to_html (contents, 0, 0);
+		if (html) {
+			g_free (contents);
+
+			contents = html;
+			length = strlen (contents);
+		}
+	}
+
 	/* Generate HTML code for the signature. */
 
 	html_buffer = g_string_sized_new (1024);
