@@ -82,6 +82,8 @@ EMailAccountStore *
 EMailLabelListStore *
 		e_mail_ui_session_get_label_store
 						(EMailUISession *session);
+EPhotoCache *	e_mail_ui_session_get_photo_cache
+						(EMailUISession *session);
 void		e_mail_ui_session_add_activity	(EMailUISession *session,
 						 EActivity *activity);
 gint		e_mail_ui_session_alert_user	(CamelSession *session,

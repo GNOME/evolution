@@ -80,12 +80,14 @@ struct _EMailUISessionPrivate {
 	ESourceRegistry *registry;
 	EMailAccountStore *account_store;
 	EMailLabelListStore *label_store;
+	EPhotoCache *photo_cache;
 };
 
 enum {
 	PROP_0,
 	PROP_ACCOUNT_STORE,
-	PROP_LABEL_STORE
+	PROP_LABEL_STORE,
+	PROP_PHOTO_CACHE
 };
 
 enum {
@@ -499,6 +501,13 @@ mail_ui_session_get_property (GObject *object,
 				e_mail_ui_session_get_label_store (
 				E_MAIL_UI_SESSION (object)));
 			return;
+
+		case PROP_PHOTO_CACHE:
+			g_value_set_object (
+				value,
+				e_mail_ui_session_get_photo_cache (
+				E_MAIL_UI_SESSION (object)));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -527,6 +536,11 @@ mail_ui_session_dispose (GObject *object)
 		priv->label_store = NULL;
 	}
 
+	if (priv->photo_cache != NULL) {
+		g_object_unref (priv->photo_cache);
+		priv->photo_cache = NULL;
+	}
+
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_ui_session_parent_class)->dispose (object);
 }
@@ -537,6 +551,7 @@ mail_ui_session_constructed (GObject *object)
 	EMailUISessionPrivate *priv;
 	EMFolderTreeModel *folder_tree_model;
 	ESourceRegistry *registry;
+	EClientCache *client_cache;
 	EMailSession *session;
 	EShell *shell;
 
@@ -556,6 +571,9 @@ mail_ui_session_constructed (GObject *object)
 	 * can easily disconnect signal handlers in dispose(). */
 	registry = e_mail_session_get_registry (session);
 	priv->registry = g_object_ref (registry);
+
+	client_cache = e_shell_get_client_cache (shell);
+	priv->photo_cache = e_photo_cache_new (client_cache);
 
 	/* XXX Make sure the folder tree model is created before we
 	 *     add built-in CamelStores so it gets signals from the
@@ -731,6 +749,17 @@ e_mail_ui_session_class_init (EMailUISessionClass *class)
 			G_PARAM_READABLE |
 			G_PARAM_STATIC_STRINGS));
 
+	g_object_class_install_property (
+		object_class,
+		PROP_PHOTO_CACHE,
+		g_param_spec_object (
+			"photo-cache",
+			"Photo Cache",
+			"Contact photo cache",
+			E_TYPE_PHOTO_CACHE,
+			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS));
+
 	signals[ACTIVITY_ADDED] = g_signal_new (
 		"activity-added",
 		G_OBJECT_CLASS_TYPE (class),
@@ -782,6 +811,14 @@ e_mail_ui_session_get_label_store (EMailUISession *session)
 	g_return_val_if_fail (E_IS_MAIL_UI_SESSION (session), NULL);
 
 	return session->priv->label_store;
+}
+
+EPhotoCache *
+e_mail_ui_session_get_photo_cache (EMailUISession *session)
+{
+	g_return_val_if_fail (E_IS_MAIL_UI_SESSION (session), NULL);
+
+	return session->priv->photo_cache;
 }
 
 void
