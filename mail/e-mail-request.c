@@ -36,6 +36,8 @@
 #include "em-format/e-mail-formatter-utils.h"
 #include "em-format/e-mail-formatter-print.h"
 
+#include "e-mail-ui-session.h"
+
 #define d(x)
 #define dd(x)
 
@@ -221,90 +223,61 @@ handle_contact_photo_request (GSimpleAsyncResult *res,
                               GCancellable *cancellable)
 {
 	EMailRequest *request = E_MAIL_REQUEST (object);
-	const gchar *email;
-	gchar *photo_name;
-	gboolean only_local_photo;
-	CamelMimePart *photopart;
 	EShell *shell;
-	ESourceRegistry *registry;
+	EShellBackend *shell_backend;
+	EMailBackend *mail_backend;
+	EMailSession *mail_session;
+	EPhotoCache *photo_cache;
 	CamelInternetAddress *cia;
-	CamelDataWrapper *dw;
-	GByteArray *ba;
 	GInputStream *stream = NULL;
+	const gchar *email_address;
+	const gchar *escaped_string;
+	gchar *unescaped_string;
+	GError *error = NULL;
 
+	/* XXX Is this really the only way to obtain
+	 *     the mail session instance from here? */
 	shell = e_shell_get_default ();
-	registry = e_shell_get_registry (shell);
+	shell_backend = e_shell_get_backend_by_name (shell, "mail");
+	mail_backend = E_MAIL_BACKEND (shell_backend);
+	mail_session = e_mail_backend_get_session (mail_backend);
+
+	photo_cache = e_mail_ui_session_get_photo_cache (
+		E_MAIL_UI_SESSION (mail_session));
 
 	request->priv->mime_type = g_strdup ("image/*");
 
-	email = g_hash_table_lookup (
-			request->priv->uri_query, "mailaddr");
-	if (!email || !*email) {
-		gsize len;
-
-		stream = get_empty_image_stream (&len);
-		request->priv->content_length = len;
-
-		g_simple_async_result_set_op_res_gpointer (res, stream, NULL);
-		return;
-	}
-
-	photo_name = g_uri_unescape_string (email, NULL);
-	only_local_photo = g_hash_table_lookup_extended (
-				request->priv->uri_query, "only-local-photo",
-				NULL, NULL);
+	escaped_string = g_hash_table_lookup (
+		request->priv->uri_query, "mailaddr");
+	if (escaped_string == NULL || *escaped_string == '\0')
+		goto exit;
 
 	cia = camel_internet_address_new ();
-	camel_address_decode ((CamelAddress *) cia, (const gchar *) photo_name);
-	photopart = em_utils_contact_photo (
-			registry, cia, only_local_photo, cancellable);
+
+	unescaped_string = g_uri_unescape_string (escaped_string, NULL);
+	camel_address_decode (CAMEL_ADDRESS (cia), unescaped_string);
+	g_free (unescaped_string);
+
+	if (camel_internet_address_get (cia, 0, NULL, &email_address))
+		e_photo_cache_get_photo_sync (
+			photo_cache, email_address,
+			cancellable, &stream, &error);
+
 	g_object_unref (cia);
-	if (!photopart) {
-		gsize len;
 
-		stream = get_empty_image_stream (&len);
-		request->priv->content_length = len;
-
-		g_simple_async_result_set_op_res_gpointer (res, stream, NULL);
-		g_free (photo_name);
-		return;
+	/* Ignore cancellations. */
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		g_clear_error (&error);
+	} else if (error != NULL) {
+		g_warning ("%s: %s", G_STRFUNC, error->message);
+		g_clear_error (&error);
 	}
 
-	ba = NULL;
-	dw = camel_medium_get_content (CAMEL_MEDIUM (photopart));
-	if (dw) {
-		ba = camel_data_wrapper_get_byte_array (dw);
-	}
+exit:
+	if (stream == NULL)
+		stream = get_empty_image_stream (
+			(gsize *) &request->priv->content_length);
 
-	if (!ba || ba->len == 0) {
-
-		const gchar *filename = camel_mime_part_get_filename (photopart);
-
-		if (filename && *filename &&
-		    g_file_test (filename, G_FILE_TEST_EXISTS | G_FILE_TEST_IS_REGULAR)) {
-			gchar *data;
-			gsize len;
-
-			if (!g_file_get_contents (filename, &data, &len, NULL)) {
-				stream = get_empty_image_stream (&len);
-			} else {
-				stream = g_memory_input_stream_new_from_data (
-					(gchar *) data, len, g_free);
-			}
-
-			request->priv->content_length = len;
-		}
-
-	} else {
-
-		stream = g_memory_input_stream_new_from_data (
-				(gchar *) ba->data, ba->len, NULL);
-
-		request->priv->content_length = ba->len;
-
-	}
-
-	g_free (photo_name);
 	g_simple_async_result_set_op_res_gpointer (res, stream, NULL);
 }
 
