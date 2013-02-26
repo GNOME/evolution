@@ -3122,6 +3122,8 @@ itip_view_set_error (ItipView *view,
 
 		el = webkit_dom_document_get_element_by_id (
 			view->priv->dom_document, BUTTON_SAVE);
+		webkit_dom_html_button_element_set_disabled (
+			WEBKIT_DOM_HTML_BUTTON_ELEMENT (el), FALSE);
 		webkit_dom_event_target_add_event_listener (
 			WEBKIT_DOM_EVENT_TARGET (el), "click",
 			G_CALLBACK (button_clicked_cb), FALSE, view);
