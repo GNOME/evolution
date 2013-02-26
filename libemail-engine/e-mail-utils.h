@@ -59,7 +59,6 @@ ESource *	em_utils_ref_mail_identity_for_store
 						(ESourceRegistry *registry,
 						 CamelStore *store);
 void		emu_remove_from_mail_cache	(const GSList *addresses);
-void		emu_remove_from_mail_cache_1	(const gchar *address);
 void		emu_free_mail_cache		(GDestroyNotify done_cb,
 						 gpointer user_data);
 void		em_utils_uids_free		(GPtrArray *uids);

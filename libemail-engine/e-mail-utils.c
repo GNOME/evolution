@@ -676,20 +676,6 @@ emu_remove_from_mail_cache (const GSList *addresses)
 	g_object_unref (cia);
 }
 
-void
-emu_remove_from_mail_cache_1 (const gchar *address)
-{
-	GSList *l;
-
-	g_return_if_fail (address != NULL);
-
-	l = g_slist_append (NULL, (gpointer) address);
-
-	emu_remove_from_mail_cache (l);
-
-	g_slist_free (l);
-}
-
 struct FreeMailCacheData
 {
 	GDestroyNotify done_cb;
