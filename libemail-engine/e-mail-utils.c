@@ -608,22 +608,6 @@ em_utils_in_addressbook (ESourceRegistry *registry,
 		registry, addr, local_only, NULL, NULL, cancellable);
 }
 
-static gboolean
-extract_photo_data (EContact *contact,
-                    gpointer user_data)
-{
-	EContactPhoto **photo = user_data;
-
-	g_return_val_if_fail (contact != NULL, FALSE);
-	g_return_val_if_fail (user_data != NULL, FALSE);
-
-	*photo = e_contact_get (contact, E_CONTACT_PHOTO);
-	if (!*photo)
-		*photo = e_contact_get (contact, E_CONTACT_LOGO);
-
-	return *photo != NULL;
-}
-
 typedef struct _PhotoInfo {
 	gchar *address;
 	EContactPhoto *photo;
@@ -644,89 +628,6 @@ emu_free_photo_info (PhotoInfo *pi)
 
 static ECancellableMutex photos_cache_lock;
 static GSList *photos_cache = NULL; /* list of PhotoInfo-s */
-
-CamelMimePart *
-em_utils_contact_photo (ESourceRegistry *registry,
-                        CamelInternetAddress *cia,
-                        gboolean local_only,
-                        GCancellable *cancellable)
-{
-	const gchar *addr = NULL;
-	CamelMimePart *part = NULL;
-	EContactPhoto *photo = NULL;
-	GSList *p, *last = NULL;
-	gint cache_len;
-
-	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
-
-	if (cia == NULL || !camel_internet_address_get (cia, 0, NULL, &addr) || !addr) {
-		return NULL;
-	}
-
-	if (!e_cancellable_mutex_lock (&photos_cache_lock, cancellable))
-		return NULL;
-
-	/* search a cache first */
-	cache_len = 0;
-	last = NULL;
-	for (p = photos_cache; p; p = p->next) {
-		PhotoInfo *pi = p->data;
-
-		if (!pi)
-			continue;
-
-		if (g_ascii_strcasecmp (addr, pi->address) == 0) {
-			photo = pi->photo;
-			break;
-		}
-
-		cache_len++;
-		last = p;
-	}
-
-	/* !p means the address had not been found in the cache */
-	if (!p && search_address_in_addressbooks (
-		registry, addr, local_only, extract_photo_data, &photo, cancellable)) {
-
-		PhotoInfo *pi;
-
-		/* keep only up to 10 photos in memory */
-		if (last && (cache_len >= 10)) {
-			pi = last->data;
-			photos_cache = g_slist_remove (photos_cache, pi);
-
-			if (pi)
-				emu_free_photo_info (pi);
-		}
-
-		pi = g_new0 (PhotoInfo, 1);
-		pi->address = g_strdup (addr);
-		pi->photo = photo;
-
-		photos_cache = g_slist_prepend (photos_cache, pi);
-	}
-
-	/* some photo found, use it */
-	if (photo) {
-		/* Form a mime part out of the photo */
-		part = camel_mime_part_new ();
-
-		if (photo->type == E_CONTACT_PHOTO_TYPE_INLINED) {
-			camel_mime_part_set_content (
-				part,
-				(const gchar *) photo->data.inlined.data,
-				photo->data.inlined.length, "image/jpeg");
-		} else {
-			gchar *s = g_filename_from_uri (photo->data.uri, NULL, NULL);
-			camel_mime_part_set_filename (part, s);
-			g_free (s);
-		}
-	}
-
-	e_cancellable_mutex_unlock (&photos_cache_lock);
-
-	return part;
-}
 
 /* list of email addresses (strings) to remove from local cache of photos and
  * contacts, but only if the photo doesn't exist or is an not-found contact */
