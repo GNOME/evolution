@@ -50,7 +50,6 @@ empe_headers_bind_dom (EMailPart *part,
 	WebKitDOMDocument *document;
 	WebKitDOMElement *photo;
 	gchar *addr, *uri;
-	gboolean only_local;
 
 	document = webkit_dom_node_get_owner_document (WEBKIT_DOM_NODE (element));
 	photo = webkit_dom_document_get_element_by_id (document, "__evo-contact-photo");
@@ -60,11 +59,7 @@ empe_headers_bind_dom (EMailPart *part,
 		return;
 
 	addr = webkit_dom_element_get_attribute (photo, "data-mailaddr");
-	only_local = webkit_dom_element_has_attribute (photo, "data-onlylocal");
-
-	uri = g_strdup_printf (
-		"mail://contact-photo?mailaddr=%s%s",
-		addr, only_local ? "&only-local-photo=1" : "");
+	uri = g_strdup_printf ("mail://contact-photo?mailaddr=%s", addr);
 
 	webkit_dom_html_image_element_set_src (
 		WEBKIT_DOM_HTML_IMAGE_ELEMENT (photo), uri);

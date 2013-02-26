@@ -198,12 +198,6 @@ void		e_mail_formatter_set_mark_citations
 						(EMailFormatter *formatter,
 						 gboolean mark_citations);
 
-gboolean	e_mail_formatter_get_only_local_photos
-						(EMailFormatter *formatter);
-void		e_mail_formatter_set_only_local_photos
-						(EMailFormatter *formatter,
-						 gboolean only_local_photos);
-
 gboolean	e_mail_formatter_get_show_sender_photo
 						(EMailFormatter *formatter);
 void		e_mail_formatter_set_show_sender_photo

@@ -432,18 +432,16 @@ format_full_headers (EMailFormatter *formatter,
 	g_string_append (buffer, "</table></td>");
 
 	if (photo_name) {
-		gboolean only_local_photo;
 		gchar *name;
 
 		name = g_uri_escape_string (photo_name, NULL, FALSE);
-		only_local_photo = e_mail_formatter_get_only_local_photos (formatter);
 		g_string_append (buffer, "<td align=\"right\" valign=\"top\">");
 
 		g_string_append_printf (
 			buffer,
-			"<img src=\"mail://contact-photo?mailaddr=&only-local-photo=1\" "
-			"data-mailaddr=\"%s\" %s id=\"__evo-contact-photo\"/>",
-			name, only_local_photo ? "data-onlylocal=1" : "");
+			"<img src=\"mail://contact-photo?mailaddr=\" "
+			"data-mailaddr=\"%s\" id=\"__evo-contact-photo\"/>",
+			name);
 		g_string_append (buffer, "</td>");
 
 		g_free (name);

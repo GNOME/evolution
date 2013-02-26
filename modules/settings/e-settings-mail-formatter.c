@@ -136,11 +136,6 @@ settings_mail_formatter_constructed (GObject *object)
 		G_BINDING_SYNC_CREATE);
 
 	g_object_bind_property (
-		shell_settings, "mail-only-local-photos",
-		formatter, "only-local-photos",
-		G_BINDING_SYNC_CREATE);
-
-	g_object_bind_property (
 		shell_settings, "mail-show-sender-photo",
 		formatter, "show-sender-photo",
 		G_BINDING_SYNC_CREATE);

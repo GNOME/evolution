@@ -47,7 +47,6 @@ void e_mail_formatter_internal_extensions_load (EMailExtensionRegistry *ereg);
 struct _EMailFormatterPrivate {
 	EMailImageLoadingPolicy image_loading_policy;
 
-	guint only_local_photos	: 1;
 	guint show_sender_photo	: 1;
 	guint show_real_date	: 1;
         guint animate_images    : 1;
@@ -75,7 +74,6 @@ enum {
 	PROP_IMAGE_LOADING_POLICY,
 	PROP_FORCE_IMAGE_LOADING,
 	PROP_MARK_CITATIONS,
-	PROP_ONLY_LOCAL_PHOTOS,
 	PROP_SHOW_SENDER_PHOTO,
 	PROP_SHOW_REAL_DATE,
         PROP_ANIMATE_IMAGES,
@@ -170,12 +168,6 @@ e_mail_formatter_set_property (GObject *object,
 
 		case PROP_MARK_CITATIONS:
 			e_mail_formatter_set_mark_citations (
-				E_MAIL_FORMATTER (object),
-				g_value_get_boolean (value));
-			return;
-
-		case PROP_ONLY_LOCAL_PHOTOS:
-			e_mail_formatter_set_only_local_photos (
 				E_MAIL_FORMATTER (object),
 				g_value_get_boolean (value));
 			return;
@@ -279,13 +271,6 @@ e_mail_formatter_get_property (GObject *object,
 			g_value_set_boolean (
 				value,
 				e_mail_formatter_get_mark_citations (
-				E_MAIL_FORMATTER (object)));
-			return;
-
-		case PROP_ONLY_LOCAL_PHOTOS:
-			g_value_set_boolean (
-				value,
-				e_mail_formatter_get_only_local_photos (
 				E_MAIL_FORMATTER (object)));
 			return;
 
@@ -653,17 +638,6 @@ e_mail_formatter_class_init (EMailFormatterClass *class)
 			NULL,
 			TRUE,
 			G_PARAM_READWRITE));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_ONLY_LOCAL_PHOTOS,
-		g_param_spec_boolean (
-			"only-local-photos",
-			"Only Local Photos",
-			NULL,
-			TRUE,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
 
 	g_object_class_install_property (
 		object_class,
@@ -1239,28 +1213,6 @@ e_mail_formatter_set_mark_citations (EMailFormatter *formatter,
 			~CAMEL_MIME_FILTER_TOHTML_MARK_CITATION;
 
 	g_object_notify (G_OBJECT (formatter), "mark-citations");
-}
-
-gboolean
-e_mail_formatter_get_only_local_photos (EMailFormatter *formatter)
-{
-	g_return_val_if_fail (E_IS_MAIL_FORMATTER (formatter), FALSE);
-
-	return formatter->priv->only_local_photos;
-}
-
-void
-e_mail_formatter_set_only_local_photos (EMailFormatter *formatter,
-                                        gboolean only_local_photos)
-{
-	g_return_if_fail (E_IS_MAIL_FORMATTER (formatter));
-
-	if (formatter->priv->only_local_photos == only_local_photos)
-		return;
-
-	formatter->priv->only_local_photos = only_local_photos;
-
-	g_object_notify (G_OBJECT (formatter), "only-local-photos");
 }
 
 gboolean
