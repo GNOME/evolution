@@ -220,11 +220,6 @@
       <_summary>Search for the sender photo in local address books </_summary>
       <_description>This option would help in improving the speed of fetching.</_description>
     </key>
-    <key name="mime-types" type="as">
-      <default>[]</default>
-      <_summary>List of MIME types to check for Bonobo component viewers</_summary>
-      <_description>If there isn't a builtin viewer for a particular MIME type inside Evolution, any MIME types appearing in this list which map to a Bonobo component viewer in GNOME's MIME type database may be used for displaying content.</_description>
-    </key>
     <key name="mark-seen" type="b">
       <default>true</default>
       <_summary>Mark as Seen after specified timeout</_summary>
