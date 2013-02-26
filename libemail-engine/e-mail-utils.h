@@ -58,8 +58,6 @@ ESource *	em_utils_guess_mail_identity_with_recipients
 ESource *	em_utils_ref_mail_identity_for_store
 						(ESourceRegistry *registry,
 						 CamelStore *store);
-void		emu_free_mail_cache		(GDestroyNotify done_cb,
-						 gpointer user_data);
 void		em_utils_uids_free		(GPtrArray *uids);
 gboolean	em_utils_is_local_delivery_mbox_file
 						(CamelURL *url);

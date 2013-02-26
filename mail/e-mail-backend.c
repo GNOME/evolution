@@ -265,16 +265,6 @@ mail_backend_poll_to_quit (EActivity *activity)
 	return mail_msg_active ();
 }
 
-/* Helper for mail_backend_prepare_for_quit_cb() */
-static void
-mail_backend_ready_to_quit (EActivity *activity)
-{
-	emu_free_mail_cache (g_object_unref, g_object_ref (activity));
-
-	/* Do this last.  It may terminate the process. */
-	g_object_unref (activity);
-}
-
 static gboolean
 mail_backend_service_is_enabled (ESourceRegistry *registry,
                                  CamelService *service)
@@ -368,9 +358,7 @@ mail_backend_prepare_for_quit_cb (EShell *shell,
 			G_PRIORITY_DEFAULT, QUIT_POLL_INTERVAL,
 			(GSourceFunc) mail_backend_poll_to_quit,
 			g_object_ref (activity),
-			(GDestroyNotify) mail_backend_ready_to_quit);
-	else
-		mail_backend_ready_to_quit (g_object_ref (activity));
+			(GDestroyNotify) g_object_unref);
 }
 
 static void
