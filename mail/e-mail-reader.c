@@ -159,7 +159,9 @@ action_mail_add_sender_cb (GtkAction *action,
 {
 	EShell *shell;
 	EMailBackend *backend;
+	EMailSession *session;
 	EShellBackend *shell_backend;
+	CamelInternetAddress *cia;
 	CamelMessageInfo *info = NULL;
 	CamelFolder *folder;
 	GPtrArray *uids;
@@ -168,6 +170,7 @@ action_mail_add_sender_cb (GtkAction *action,
 
 	folder = e_mail_reader_get_folder (reader);
 	backend = e_mail_reader_get_backend (reader);
+	session = e_mail_backend_get_session (backend);
 
 	uids = e_mail_reader_get_selected_uids (reader);
 	g_return_if_fail (uids != NULL && uids->len == 1);
@@ -186,7 +189,19 @@ action_mail_add_sender_cb (GtkAction *action,
 	shell_backend = E_SHELL_BACKEND (backend);
 	shell = e_shell_backend_get_shell (shell_backend);
 	e_shell_event (shell, "contact-quick-add-email", (gpointer) address);
-	emu_remove_from_mail_cache_1 (address);
+
+	/* Remove this address from the photo cache. */
+	cia = camel_internet_address_new ();
+	if (camel_address_decode (CAMEL_ADDRESS (cia), address) > 0) {
+		EPhotoCache *photo_cache;
+		const gchar *address_only = NULL;
+
+		photo_cache = e_mail_ui_session_get_photo_cache (
+			E_MAIL_UI_SESSION (session));
+		camel_internet_address_get (cia, 0, NULL, &address_only);
+		e_photo_cache_remove (photo_cache, address_only);
+	}
+	g_object_unref (cia);
 
 exit:
 	if (info)
@@ -200,16 +215,20 @@ action_add_to_address_book_cb (GtkAction *action,
 {
 	EShell *shell;
 	EMailBackend *backend;
+	EMailSession *session;
 	EShellBackend *shell_backend;
 	CamelInternetAddress *cia;
+	EPhotoCache *photo_cache;
 	EWebView *web_view;
 	CamelURL *curl;
 	const gchar *uri;
+	const gchar *address_only = NULL;
 	gchar *email;
 
 	/* This action is defined in EMailDisplay. */
 
 	backend = e_mail_reader_get_backend (reader);
+	session = e_mail_backend_get_session (backend);
 
 	web_view = E_WEB_VIEW (e_mail_reader_get_mail_display (reader));
 	if (!web_view)
@@ -230,17 +249,21 @@ action_add_to_address_book_cb (GtkAction *action,
 		goto exit;
 	}
 
-	email = camel_address_format (CAMEL_ADDRESS (cia));
-
 	/* XXX EBookShellBackend should be listening for this
 	 *     event.  Kind of kludgey, but works for now. */
 	shell_backend = E_SHELL_BACKEND (backend);
 	shell = e_shell_backend_get_shell (shell_backend);
+	email = camel_address_format (CAMEL_ADDRESS (cia));
 	e_shell_event (shell, "contact-quick-add-email", email);
-	emu_remove_from_mail_cache_1 (curl->path);
+	g_free (email);
+
+	/* Remove this address from the photo cache. */
+	photo_cache = e_mail_ui_session_get_photo_cache (
+		E_MAIL_UI_SESSION (session));
+	camel_internet_address_get (cia, 0, NULL, &address_only);
+	e_photo_cache_remove (photo_cache, address_only);
 
 	g_object_unref (cia);
-	g_free (email);
 
 exit:
 	camel_url_free (curl);
