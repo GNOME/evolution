@@ -1515,28 +1515,6 @@ mail_session_get_filter_driver (CamelSession *session,
 		session, type, error);
 }
 
-static gboolean
-mail_session_lookup_addressbook (CamelSession *session,
-                                 const gchar *name)
-{
-	ESourceRegistry *registry;
-	CamelInternetAddress *addr;
-	gboolean ret;
-
-	if (!mail_config_get_lookup_book ())
-		return FALSE;
-
-	registry = e_mail_session_get_registry (E_MAIL_SESSION (session));
-
-	addr = camel_internet_address_new ();
-	camel_address_decode ((CamelAddress *) addr, name);
-	ret = em_utils_in_addressbook (
-		registry, addr, mail_config_get_lookup_book_local_only (), NULL);
-	g_object_unref (addr);
-
-	return ret;
-}
-
 static void
 mail_session_get_socks_proxy (CamelSession *session,
                               const gchar *for_host,
@@ -1873,7 +1851,6 @@ e_mail_session_class_init (EMailSessionClass *class)
 	session_class->alert_user = mail_session_alert_user;
 	session_class->trust_prompt = mail_session_trust_prompt;
 	session_class->get_filter_driver = mail_session_get_filter_driver;
-	session_class->lookup_addressbook = mail_session_lookup_addressbook;
 	session_class->get_socks_proxy = mail_session_get_socks_proxy;
 	session_class->authenticate_sync = mail_session_authenticate_sync;
 	session_class->forward_to_sync = mail_session_forward_to_sync;

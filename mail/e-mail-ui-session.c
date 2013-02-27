@@ -700,6 +700,44 @@ mail_ui_session_get_filter_driver (CamelSession *session,
 		session, type, error);
 }
 
+static gboolean
+mail_ui_session_lookup_addressbook (CamelSession *session,
+                                    const gchar *name)
+{
+	CamelInternetAddress *cia;
+	gboolean known_address = FALSE;
+
+	/* FIXME CamelSession's lookup_addressbook() method needs redone.
+	 *       No GCancellable provided, no means of reporting an error. */
+
+	if (!mail_config_get_lookup_book ())
+		return FALSE;
+
+	cia = camel_internet_address_new ();
+
+	if (camel_address_decode (CAMEL_ADDRESS (cia), name) > 0) {
+		GError *error = NULL;
+
+		e_mail_ui_session_check_known_address_sync (
+			E_MAIL_UI_SESSION (session), cia,
+			mail_config_get_lookup_book_local_only (),
+			NULL, &known_address, &error);
+
+		if (error != NULL) {
+			g_warning ("%s: %s", G_STRFUNC, error->message);
+			g_error_free (error);
+		}
+	} else {
+		g_warning (
+			"%s: Failed to decode internet "
+			"address '%s'", G_STRFUNC, name);
+	}
+
+	g_object_unref (cia);
+
+	return known_address;
+}
+
 static void
 mail_ui_session_refresh_service (EMailSession *session,
                                  CamelService *service)
@@ -733,6 +771,7 @@ e_mail_ui_session_class_init (EMailUISessionClass *class)
 	session_class->remove_service = mail_ui_session_remove_service;
 	session_class->alert_user = e_mail_ui_session_alert_user;
 	session_class->get_filter_driver = mail_ui_session_get_filter_driver;
+	session_class->lookup_addressbook = mail_ui_session_lookup_addressbook;
 
 	mail_session_class = E_MAIL_SESSION_CLASS (class);
 	mail_session_class->create_vfolder_context = mail_ui_session_create_vfolder_context;
