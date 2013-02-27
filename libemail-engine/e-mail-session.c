@@ -248,56 +248,6 @@ static MailMsgInfo user_message_info = {
 	(MailMsgFreeFunc) user_message_free
 };
 
-/* Support for CamelSession.get_filter_driver () *****************************/
-
-static CamelFolder *
-get_folder (CamelFilterDriver *d,
-            const gchar *uri,
-            gpointer user_data,
-            GError **error)
-{
-	EMailSession *session = E_MAIL_SESSION (user_data);
-
-	/* FIXME Not passing a GCancellable here. */
-	/* FIXME Need a camel_filter_driver_get_session(). */
-	return e_mail_session_uri_to_folder_sync (
-		session, uri, 0, NULL, error);
-}
-
-static CamelFilterDriver *
-main_get_filter_driver (CamelSession *session,
-                        const gchar *type,
-                        GError **error)
-{
-	CamelFilterDriver *driver;
-	EMailSession *ms = (EMailSession *) session;
-	GSettings *settings;
-
-	settings = g_settings_new ("org.gnome.evolution.mail");
-
-	driver = camel_filter_driver_new (session);
-	camel_filter_driver_set_folder_func (driver, get_folder, session);
-
-	if (g_settings_get_boolean (settings, "filters-log-actions")) {
-		if (ms->priv->filter_logfile == NULL) {
-			gchar *filename;
-
-			filename = g_settings_get_string (settings, "filters-log-file");
-			if (filename) {
-				ms->priv->filter_logfile = g_fopen (filename, "a+");
-				g_free (filename);
-			}
-		}
-
-		if (ms->priv->filter_logfile)
-			camel_filter_driver_set_logfile (driver, ms->priv->filter_logfile);
-	}
-
-	g_object_unref (settings);
-
-	return driver;
-}
-
 static gboolean
 session_forward_to_flush_outbox_cb (gpointer user_data)
 {
@@ -1505,16 +1455,6 @@ mail_session_trust_prompt (CamelSession *session,
 	return response;
 }
 
-static CamelFilterDriver *
-mail_session_get_filter_driver (CamelSession *session,
-                                const gchar *type,
-                                GError **error)
-{
-	return (CamelFilterDriver *) mail_call_main (
-		MAIL_CALL_p_ppp, (MailMainFunc) main_get_filter_driver,
-		session, type, error);
-}
-
 static void
 mail_session_get_socks_proxy (CamelSession *session,
                               const gchar *for_host,
@@ -1850,7 +1790,6 @@ e_mail_session_class_init (EMailSessionClass *class)
 	session_class->forget_password = mail_session_forget_password;
 	session_class->alert_user = mail_session_alert_user;
 	session_class->trust_prompt = mail_session_trust_prompt;
-	session_class->get_filter_driver = mail_session_get_filter_driver;
 	session_class->get_socks_proxy = mail_session_get_socks_proxy;
 	session_class->authenticate_sync = mail_session_authenticate_sync;
 	session_class->forward_to_sync = mail_session_forward_to_sync;
