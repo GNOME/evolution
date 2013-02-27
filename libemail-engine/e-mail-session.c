@@ -276,7 +276,7 @@ session_forward_to_flush_outbox_cb (gpointer user_data)
 	EMailSession *session = E_MAIL_SESSION (user_data);
 
 	g_mutex_lock (session->priv->preparing_flush_lock);
-	session->priv->preparing_flush_lock = 0;
+	session->priv->preparing_flush = 0;
 	g_mutex_unlock (session->priv->preparing_flush_lock);
 
 	/* Connect to this and call mail_send in the main email client.*/
