@@ -53,8 +53,10 @@ struct _EMailRequestPrivate {
 	gchar *uri_base;
 	gchar *full_uri;
 
-        gchar *ret_mime_type;
+	gchar *ret_mime_type;
 };
+
+static const gchar *data_schemes[] = { "mail", NULL };
 
 G_DEFINE_TYPE (EMailRequest, e_mail_request, SOUP_TYPE_REQUEST)
 
@@ -307,29 +309,34 @@ handle_contact_photo_request (GSimpleAsyncResult *res,
 }
 
 static void
+mail_request_dispose (GObject *object)
+{
+	EMailRequestPrivate *priv;
+
+	priv = E_MAIL_REQUEST_GET_PRIVATE (object);
+
+	g_clear_object (&priv->output_stream);
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (e_mail_request_parent_class)->dispose (object);
+}
+
+static void
 mail_request_finalize (GObject *object)
 {
-	EMailRequest *request = E_MAIL_REQUEST (object);
+	EMailRequestPrivate *priv;
 
-	g_clear_object (&request->priv->output_stream);
+	priv = E_MAIL_REQUEST_GET_PRIVATE (object);
 
-	g_free (request->priv->mime_type);
-	request->priv->mime_type = NULL;
+	if (priv->uri_query != NULL)
+		g_hash_table_destroy (priv->uri_query);
 
-	if (request->priv->uri_query) {
-		g_hash_table_destroy (request->priv->uri_query);
-		request->priv->uri_query = NULL;
-	}
+	g_free (priv->mime_type);
+	g_free (priv->uri_base);
+	g_free (priv->full_uri);
+	g_free (priv->ret_mime_type);
 
-	g_free (request->priv->ret_mime_type);
-	request->priv->ret_mime_type = NULL;
-
-	g_free (request->priv->uri_base);
-	request->priv->uri_base = NULL;
-
-	g_free (request->priv->full_uri);
-	request->priv->full_uri = NULL;
-
+	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_mail_request_parent_class)->finalize (object);
 }
 
@@ -391,17 +398,20 @@ mail_request_send_finish (SoupRequest *request,
                           GAsyncResult *result,
                           GError **error)
 {
+	GSimpleAsyncResult *simple;
 	GInputStream *stream;
 
-	stream = g_simple_async_result_get_op_res_gpointer (
-					G_SIMPLE_ASYNC_RESULT (result));
+	simple = G_SIMPLE_ASYNC_RESULT (result);
+	stream = g_simple_async_result_get_op_res_gpointer (simple);
 
 	/* Reset the stream before passing it back to webkit */
 	if (G_IS_INPUT_STREAM (stream) && G_IS_SEEKABLE (stream))
 		g_seekable_seek (G_SEEKABLE (stream), 0, G_SEEK_SET, NULL, NULL);
 
-	if (!stream) /* We must always return something */
+	if (stream == NULL) {
+		/* We must always return something */
 		stream = g_memory_input_stream_new ();
+	}
 
 	return stream;
 }
@@ -409,20 +419,25 @@ mail_request_send_finish (SoupRequest *request,
 static goffset
 mail_request_get_content_length (SoupRequest *request)
 {
-	EMailRequest *emr = E_MAIL_REQUEST (request);
-	GByteArray *ba;
-	gint content_length = 0;
+	EMailRequestPrivate *priv;
+	gint content_length = -1;  /* -1 means unknown */
 
-	if (emr->priv->content_length > 0)
-		content_length = emr->priv->content_length;
-	else if (emr->priv->output_stream) {
-		ba = camel_stream_mem_get_byte_array (CAMEL_STREAM_MEM (emr->priv->output_stream));
-		if (ba) {
+	priv = E_MAIL_REQUEST_GET_PRIVATE (request);
+
+	if (priv->content_length > 0) {
+		content_length = priv->content_length;
+
+	} else if (priv->output_stream != NULL) {
+		GByteArray *ba;
+
+		ba = camel_stream_mem_get_byte_array (
+			CAMEL_STREAM_MEM (priv->output_stream));
+		if (ba != NULL)
 			content_length = ba->len;
-		}
 	}
 
 	d (printf ("Content-Length: %d bytes\n", content_length));
+
 	return content_length;
 }
 
@@ -450,8 +465,6 @@ mail_request_get_content_type (SoupRequest *request)
 	return emr->priv->ret_mime_type;
 }
 
-static const gchar *data_schemes[] = { "mail", NULL };
-
 static void
 e_mail_request_class_init (EMailRequestClass *class)
 {
@@ -461,6 +474,7 @@ e_mail_request_class_init (EMailRequestClass *class)
 	g_type_class_add_private (class, sizeof (EMailRequestPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
+	object_class->dispose = mail_request_dispose;
 	object_class->finalize = mail_request_finalize;
 
 	request_class = SOUP_REQUEST_CLASS (class);
