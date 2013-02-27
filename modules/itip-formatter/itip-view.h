@@ -21,29 +21,43 @@
  *
  */
 
-#ifndef _ITIP_VIEW_H_
-#define _ITIP_VIEW_H_
+#ifndef ITIP_VIEW_H
+#define ITIP_VIEW_H
 
 #include <stdarg.h>
 #include <unistd.h>
+
 #include <gtk/gtk.h>
 #include <webkit/webkitdom.h>
+
 #include <libecal/libecal.h>
-#include <libedataserver/libedataserver.h>
+
 #include <em-format/e-mail-formatter.h>
+
+/* Standard GObject macros */
+#define ITIP_TYPE_VIEW \
+	(itip_view_get_type ())
+#define ITIP_VIEW(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), ITIP_TYPE_VIEW, ItipView))
+#define ITIP_VIEW_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), ITIP_TYPE_VIEW, ItipViewClass))
+#define ITIP_IS_VIEW(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), ITIP_TYPE_VIEW))
+#define ITIP_IS_VIEW_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), ITIP_TYPE_VIEW))
+#define ITIP_VIEW_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), ITIP_TYPE_VIEW, ItipViewClass))
 
 G_BEGIN_DECLS
 
-#define ITIP_TYPE_VIEW            (itip_view_get_type ())
-#define ITIP_VIEW(object)         (G_TYPE_CHECK_INSTANCE_CAST ((object), ITIP_TYPE_VIEW, ItipView))
-#define ITIP_VIEW_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), ITIP_TYPE_VIEW, ItipViewClass))
-#define ITIP_IS_VIEW(object)      (G_TYPE_CHECK_INSTANCE_TYPE ((object), ITIP_TYPE_VIEW))
-#define ITIP_IS_VIEW_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), ITIP_TYPE_VIEW))
-#define ITIP_VIEW_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), ITIP_TYPE_VIEW, ItipViewClass))
-
-typedef struct _ItipView        ItipView;
+typedef struct _ItipView ItipView;
+typedef struct _ItipViewClass ItipViewClass;
 typedef struct _ItipViewPrivate ItipViewPrivate;
-typedef struct _ItipViewClass   ItipViewClass;
 
 struct _EMailPartItip;
 
@@ -81,36 +95,29 @@ typedef enum {
 } ItipViewInfoItemType;
 
 struct _ItipView {
-	GObject parent_instance;
-
+	GObject parent;
 	ItipViewPrivate *priv;
 };
 
 struct _ItipViewClass {
 	GObjectClass parent_class;
 
-	void    (* source_selected)             (ItipView *view,
-                                                 ESource *selected_source);
-
-	void    (* response)                    (ItipView *view,
-                                                 gint response);
+	void		(*source_selected)	(ItipView *view,
+						 ESource *selected_source);
+	void		(*response)		(ItipView *view,
+						 gint response);
 };
 
-GType           itip_view_get_type              (void);
-
-ItipView *      itip_view_new                   (struct _EMailPartItip *puri,
+GType		itip_view_get_type		(void);
+ItipView *	itip_view_new			(struct _EMailPartItip *puri,
 						 ESourceRegistry *registry);
 void		itip_view_init_view		(ItipView *view);
-
-void            itip_view_write                 (EMailFormatter *formatter,
+void		itip_view_write			(EMailFormatter *formatter,
 						 GString *buffer);
-
-void            itip_view_write_for_printing    (ItipView *view,
-                                                 GString *buffer);
-
-void            itip_view_create_dom_bindings   (ItipView *view,
-                                                 WebKitDOMElement *element);
-
+void		itip_view_write_for_printing	(ItipView *view,
+						 GString *buffer);
+void		itip_view_create_dom_bindings	(ItipView *view,
+						 WebKitDOMElement *element);
 struct _EMailPartItip *
 		itip_view_get_mail_part		(ItipView *view);
 ESourceRegistry *
@@ -118,157 +125,130 @@ ESourceRegistry *
 const gchar *	itip_view_get_extension_name	(ItipView *view);
 void		itip_view_set_extension_name	(ItipView *view,
 						 const gchar *extension_name);
-
-void            itip_view_set_mode              (ItipView *view,
-                                                 ItipViewMode mode);
-ItipViewMode    itip_view_get_mode              (ItipView *view);
-
-void            itip_view_set_item_type         (ItipView *view,
-                                                 ECalClientSourceType type);
+ItipViewMode	itip_view_get_mode		(ItipView *view);
+void		itip_view_set_mode		(ItipView *view,
+						 ItipViewMode mode);
 ECalClientSourceType
-                itip_view_get_item_type         (ItipView *view);
-
-void            itip_view_set_organizer         (ItipView *view,
-                                                 const gchar *organizer);
-const gchar *    itip_view_get_organizer         (ItipView *view);
-
-void            itip_view_set_organizer_sentby  (ItipView *view,
-                                                 const gchar *sentby);
-const gchar *    itip_view_get_organizer_sentby  (ItipView *view);
-
-void            itip_view_set_attendee          (ItipView *view,
-                                                 const gchar *attendee);
-const gchar *    itip_view_get_attendee          (ItipView *view);
-
-void            itip_view_set_attendee_sentby   (ItipView *view,
-                                                 const gchar *sentby);
-const gchar *    itip_view_get_attendee_sentby   (ItipView *view);
-
-void            itip_view_set_delegator         (ItipView *view,
-                                                 const gchar *delegator);
-const gchar *    itip_view_get_delegator         (ItipView *view);
-
-void            itip_view_set_proxy             (ItipView *view,
-                                                 const gchar *proxy);
-const gchar *    itip_view_get_proxy             (ItipView *view);
-
-void            itip_view_set_summary           (ItipView *view,
-                                                 const gchar *summary);
-const gchar *    itip_view_get_summary           (ItipView *view);
-
-void            itip_view_set_location          (ItipView *view,
-                                                 const gchar *location);
-const gchar *    itip_view_get_location          (ItipView *view);
-
-void            itip_view_set_status            (ItipView *view,
-                                                 const gchar *status);
-const gchar *    itip_view_get_status            (ItipView *view);
-
-void            itip_view_set_comment           (ItipView *view,
-                                                 const gchar *comment);
-const gchar *    itip_view_get_comment           (ItipView *view);
-
-void            itip_view_set_description       (ItipView *view,
-                                                 const gchar *description);
-const gchar *    itip_view_get_description       (ItipView *view);
-
-void            itip_view_set_start             (ItipView *view,
-                                                 struct tm *start,
-                                                 gboolean is_date);
+		itip_view_get_item_type		(ItipView *view);
+void		itip_view_set_item_type		(ItipView *view,
+						 ECalClientSourceType type);
+const gchar *	itip_view_get_organizer		(ItipView *view);
+void		itip_view_set_organizer		(ItipView *view,
+						 const gchar *organizer);
+const gchar *	itip_view_get_organizer_sentby	(ItipView *view);
+void		itip_view_set_organizer_sentby	(ItipView *view,
+						 const gchar *sentby);
+const gchar *	itip_view_get_attendee		(ItipView *view);
+void		itip_view_set_attendee		(ItipView *view,
+						 const gchar *attendee);
+const gchar *	itip_view_get_attendee_sentby	(ItipView *view);
+void		itip_view_set_attendee_sentby	(ItipView *view,
+						 const gchar *sentby);
+const gchar *	itip_view_get_delegator		(ItipView *view);
+void		itip_view_set_delegator		(ItipView *view,
+						 const gchar *delegator);
+const gchar *	itip_view_get_proxy		(ItipView *view);
+void		itip_view_set_proxy		(ItipView *view,
+						 const gchar *proxy);
+const gchar *	itip_view_get_summary		(ItipView *view);
+void		itip_view_set_summary		(ItipView *view,
+						 const gchar *summary);
+const gchar *	itip_view_get_location		(ItipView *view);
+void		itip_view_set_location		(ItipView *view,
+						 const gchar *location);
+const gchar *	itip_view_get_status		(ItipView *view);
+void		itip_view_set_status		(ItipView *view,
+						 const gchar *status);
+const gchar *	itip_view_get_comment		(ItipView *view);
+void		itip_view_set_comment		(ItipView *view,
+						 const gchar *comment);
+const gchar *	itip_view_get_description	(ItipView *view);
+void		itip_view_set_description	(ItipView *view,
+						 const gchar *description);
 const struct tm *
-                itip_view_get_start             (ItipView *view,
-                                                 gboolean *is_date);
-
-void            itip_view_set_end               (ItipView *view,
-                                                 struct tm *end,
-                                                 gboolean is_date);
+		itip_view_get_start		(ItipView *view,
+						 gboolean *is_date);
+void		itip_view_set_start		(ItipView *view,
+						 struct tm *start,
+						 gboolean is_date);
 const struct tm *
-                itip_view_get_end               (ItipView *view,
-                                                 gboolean *is_date);
-
-guint           itip_view_add_upper_info_item   (ItipView *view,
-                                                 ItipViewInfoItemType type,
-                                                 const gchar *message);
-guint           itip_view_add_upper_info_item_printf
-                                                (ItipView *view,
-                                                 ItipViewInfoItemType,
-                                                 const gchar *format, ...) G_GNUC_PRINTF (3, 4);
-void            itip_view_remove_upper_info_item
-                                                (ItipView *view,
-                                                 guint id);
-void            itip_view_clear_upper_info_items
-                                                (ItipView *view);
-
-guint           itip_view_add_lower_info_item   (ItipView *view,
-                                                 ItipViewInfoItemType type,
-                                                 const gchar *message);
-guint           itip_view_add_lower_info_item_printf
-                                                (ItipView *view,
-                                                 ItipViewInfoItemType type,
-                                                 const gchar *format, ...) G_GNUC_PRINTF (3, 4);
-void            itip_view_remove_lower_info_item
-                                                (ItipView *view,
-                                                 guint id);
-void            itip_view_clear_lower_info_items
-                                                (ItipView *view);
-
-void            itip_view_set_source            (ItipView *view,
-                                                 ESource *source);
-ESource *        itip_view_ref_source		(ItipView *view);
-
-void            itip_view_set_rsvp              (ItipView *view,
-                                                 gboolean rsvp);
-gboolean        itip_view_get_rsvp              (ItipView *view);
-
-void            itip_view_set_show_rsvp_check   (ItipView *view,
-                                                 gboolean show);
-gboolean        itip_view_get_show_rsvp_check   (ItipView *view);
-
-void            itip_view_set_update            (ItipView *view,
-                                                 gboolean update);
-gboolean        itip_view_get_update            (ItipView *view);
-
-void            itip_view_set_show_update_check (ItipView *view,
-                                                 gboolean show);
-gboolean        itip_view_get_show_update_check (ItipView *view);
-
-void            itip_view_set_rsvp_comment      (ItipView *view,
-                                                 const gchar *comment);
-gchar *          itip_view_get_rsvp_comment      (ItipView *view);
-
-void            itip_view_set_buttons_sensitive (ItipView *view,
-                                                 gboolean sensitive);
-gboolean        itip_view_get_buttons_sensitive (ItipView *view);
-
-void            itip_view_set_show_recur_check  (ItipView *view,
-                                                 gboolean show);
-gboolean        itip_view_get_recur_check_state (ItipView *view);
-
-void            itip_view_set_needs_decline     (ItipView *view,
-                                                 gboolean needs_decline);
-
-void            itip_view_set_show_free_time_check
-                                                (ItipView *view,
-                                                 gboolean show);
-gboolean        itip_view_get_free_time_check_state
-                                                (ItipView *view);
-
-void            itip_view_set_show_keep_alarm_check
-                                                (ItipView *view,
-                                                 gboolean show);
-gboolean        itip_view_get_keep_alarm_check_state
-                                                (ItipView *view);
-
-void            itip_view_set_show_inherit_alarm_check
-                                                (ItipView *view,
-                                                 gboolean show);
-gboolean        itip_view_get_inherit_alarm_check_state
-                                                (ItipView *view);
-
-void            itip_view_set_error             (ItipView *view,
-                                                 const gchar *error_html,
-                                                 gboolean show_save_btn);
+		itip_view_get_end		(ItipView *view,
+						 gboolean *is_date);
+void		itip_view_set_end		(ItipView *view,
+						 struct tm *end,
+						 gboolean is_date);
+guint		itip_view_add_upper_info_item	(ItipView *view,
+						 ItipViewInfoItemType type,
+						 const gchar *message);
+guint		itip_view_add_upper_info_item_printf
+						(ItipView *view,
+						 ItipViewInfoItemType,
+						 const gchar *format,
+						 ...) G_GNUC_PRINTF (3, 4);
+void		itip_view_remove_upper_info_item
+						(ItipView *view,
+						 guint id);
+void		itip_view_clear_upper_info_items
+						(ItipView *view);
+guint		itip_view_add_lower_info_item	(ItipView *view,
+						 ItipViewInfoItemType type,
+						 const gchar *message);
+guint		itip_view_add_lower_info_item_printf
+						(ItipView *view,
+						 ItipViewInfoItemType type,
+						 const gchar *format,
+						 ...) G_GNUC_PRINTF (3, 4);
+void		itip_view_remove_lower_info_item
+						(ItipView *view,
+						 guint id);
+void		itip_view_clear_lower_info_items
+						(ItipView *view);
+ESource *	itip_view_ref_source		(ItipView *view);
+void		itip_view_set_source		(ItipView *view,
+						 ESource *source);
+gboolean	itip_view_get_rsvp		(ItipView *view);
+void		itip_view_set_rsvp		(ItipView *view,
+						 gboolean rsvp);
+gboolean	itip_view_get_show_rsvp_check	(ItipView *view);
+void		itip_view_set_show_rsvp_check	(ItipView *view,
+						 gboolean show);
+gboolean	itip_view_get_update		(ItipView *view);
+void		itip_view_set_update		(ItipView *view,
+						 gboolean update);
+gboolean	itip_view_get_show_update_check (ItipView *view);
+void		itip_view_set_show_update_check (ItipView *view,
+						 gboolean show);
+gchar *		itip_view_get_rsvp_comment	(ItipView *view);
+void		itip_view_set_rsvp_comment	(ItipView *view,
+						 const gchar *comment);
+gboolean	itip_view_get_buttons_sensitive	(ItipView *view);
+void		itip_view_set_buttons_sensitive	(ItipView *view,
+						 gboolean sensitive);
+gboolean	itip_view_get_recur_check_state	(ItipView *view);
+void		itip_view_set_show_recur_check	(ItipView *view,
+						 gboolean show);
+void		itip_view_set_needs_decline	(ItipView *view,
+						 gboolean needs_decline);
+gboolean	itip_view_get_free_time_check_state
+						(ItipView *view);
+void		itip_view_set_show_free_time_check
+						(ItipView *view,
+						 gboolean show);
+gboolean	itip_view_get_keep_alarm_check_state
+						(ItipView *view);
+void		itip_view_set_show_keep_alarm_check
+						(ItipView *view,
+						 gboolean show);
+gboolean	itip_view_get_inherit_alarm_check_state
+						(ItipView *view);
+void		itip_view_set_show_inherit_alarm_check
+						(ItipView *view,
+						 gboolean show);
+void		itip_view_set_error		(ItipView *view,
+						 const gchar *error_html,
+						 gboolean show_save_btn);
 
 G_END_DECLS
 
-#endif
+#endif /* ITIP_VIEW_H */
+
