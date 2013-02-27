@@ -33,10 +33,6 @@ gboolean	em_utils_folder_is_sent		(ESourceRegistry *registry,
 						 CamelFolder *folder);
 gboolean	em_utils_folder_is_outbox	(ESourceRegistry *registry,
 						 CamelFolder *folder);
-gboolean	em_utils_in_addressbook		(ESourceRegistry *registry,
-						 CamelInternetAddress *addr,
-						 gboolean local_only,
-						 GCancellable *cancellable);
 ESource *	em_utils_guess_mail_account	(ESourceRegistry *registry,
 						 CamelMimeMessage *message,
 						 CamelFolder *folder,
