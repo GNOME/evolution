@@ -3545,7 +3545,8 @@ cal_opened_cb (GObject *source_object,
 	const gchar *uid;
 	GError *error = NULL;
 
-	client = e_cal_client_connect_finish (result, &error);
+	client = e_client_cache_get_client_finish (
+		E_CLIENT_CACHE (source_object), result, &error);
 
 	/* Sanity check. */
 	g_return_if_fail (
@@ -3607,6 +3608,8 @@ start_calendar_server (EMailPartItip *pitip,
                        gpointer data)
 {
 	ECalClient *client;
+	EClientCache *client_cache;
+	const gchar *extension_name = NULL;
 
 	g_return_if_fail (source != NULL);
 
@@ -3622,7 +3625,25 @@ start_calendar_server (EMailPartItip *pitip,
 		return;
 	}
 
-	e_cal_client_connect (source, type, pitip->cancellable, func, data);
+	switch (type) {
+		case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
+			extension_name = E_SOURCE_EXTENSION_CALENDAR;
+			break;
+		case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
+			extension_name = E_SOURCE_EXTENSION_MEMO_LIST;
+			break;
+		case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
+			extension_name = E_SOURCE_EXTENSION_TASK_LIST;
+			break;
+		default:
+			g_return_if_reached ();
+	}
+
+	client_cache = itip_view_get_client_cache (view);
+
+	e_client_cache_get_client (
+		client_cache, source, extension_name,
+		pitip->cancellable, func, data);
 }
 
 static void
@@ -4022,7 +4043,8 @@ find_cal_opened_cb (GObject *source_object,
 	const gchar *uid;
 	GError *error = NULL;
 
-	client = e_cal_client_connect_finish (result, &error);
+	client = e_client_cache_get_client_finish (
+		E_CLIENT_CACHE (source_object), result, &error);
 
 	/* Sanity check. */
 	g_return_if_fail (
