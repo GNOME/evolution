@@ -43,7 +43,7 @@ struct _EMailPartItip {
 
 	gchar *uid;
 
-	ESourceRegistry *registry;
+	EClientCache *client_cache;
 	GHashTable *clients[E_CAL_CLIENT_SOURCE_TYPE_LAST];
 
 	ECalClient *current_client;

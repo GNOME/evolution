@@ -67,10 +67,12 @@ typedef struct  {
 } ItipViewInfoItem;
 
 struct _ItipViewPrivate {
-	ESourceRegistry *registry;
-	gulong source_added_id;
-	gulong source_removed_id;
+	EClientCache *client_cache;
 	gchar *extension_name;
+
+	ESourceRegistry *registry;
+	gulong source_added_handler_id;
+	gulong source_removed_handler_id;
 
 	ItipViewMode mode;
 	ECalClientSourceType type;
@@ -163,8 +165,8 @@ struct _ItipViewPrivate {
 
 enum {
 	PROP_0,
-	PROP_EXTENSION_NAME,
-	PROP_REGISTRY
+	PROP_CLIENT_CACHE,
+	PROP_EXTENSION_NAME
 };
 
 enum {
@@ -1058,7 +1060,7 @@ itip_view_rebuild_source_list (ItipView *view)
 	if (!view->priv->dom_document)
 		return;
 
-	registry = itip_view_get_registry (view);
+	registry = view->priv->registry;
 	extension_name = itip_view_get_extension_name (view);
 
 	select = webkit_dom_document_get_element_by_id (
@@ -1076,8 +1078,9 @@ itip_view_rebuild_source_list (ItipView *view)
 
 	list = e_source_registry_list_sources (registry, extension_name);
 	groups = g_hash_table_new_full (
-			g_str_hash, g_str_equal,
-			(GDestroyNotify) g_free, NULL);
+		g_str_hash, g_str_equal,
+		(GDestroyNotify) g_free, NULL);
+
 	for (link = list; link != NULL; link = g_list_next (link)) {
 		ESource *source = E_SOURCE (link->data);
 		ESource *parent;
@@ -1085,7 +1088,7 @@ itip_view_rebuild_source_list (ItipView *view)
 		WebKitDOMHTMLOptGroupElement *optgroup;
 
 		parent = e_source_registry_ref_source (
-				registry, e_source_get_parent (source));
+			registry, e_source_get_parent (source));
 
 		optgroup = g_hash_table_lookup (groups, e_source_get_uid (parent));
 		if (!optgroup) {
@@ -1143,6 +1146,7 @@ itip_view_rebuild_source_list (ItipView *view)
 			WEBKIT_DOM_NODE (select), optgroup, NULL);
 	}
 	g_list_free (list);
+
 	g_hash_table_destroy (groups);
 
 	source_changed_cb (select, NULL, view);
@@ -1185,13 +1189,13 @@ itip_view_source_removed_cb (ESourceRegistry *registry,
 }
 
 static void
-itip_view_set_registry (ItipView *view,
-                        ESourceRegistry *registry)
+itip_view_set_client_cache (ItipView *view,
+                            EClientCache *client_cache)
 {
-	g_return_if_fail (E_IS_SOURCE_REGISTRY (registry));
-	g_return_if_fail (view->priv->registry == NULL);
+	g_return_if_fail (E_IS_CLIENT_CACHE (client_cache));
+	g_return_if_fail (view->priv->client_cache == NULL);
 
-	view->priv->registry = g_object_ref (registry);
+	view->priv->client_cache = g_object_ref (client_cache);
 }
 
 static void
@@ -1201,16 +1205,16 @@ itip_view_set_property (GObject *object,
                         GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_CLIENT_CACHE:
+			itip_view_set_client_cache (
+				ITIP_VIEW (object),
+				g_value_get_object (value));
+			return;
+
 		case PROP_EXTENSION_NAME:
 			itip_view_set_extension_name (
 				ITIP_VIEW (object),
 				g_value_get_string (value));
-			return;
-
-		case PROP_REGISTRY:
-			itip_view_set_registry (
-				ITIP_VIEW (object),
-				g_value_get_object (value));
 			return;
 	}
 
@@ -1224,15 +1228,17 @@ itip_view_get_property (GObject *object,
                         GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_EXTENSION_NAME:
-			g_value_set_string (
-				value, itip_view_get_extension_name (
+		case PROP_CLIENT_CACHE:
+			g_value_set_object (
+				value,
+				itip_view_get_client_cache (
 				ITIP_VIEW (object)));
 			return;
 
-		case PROP_REGISTRY:
-			g_value_set_object (
-				value, itip_view_get_registry (
+		case PROP_EXTENSION_NAME:
+			g_value_set_string (
+				value,
+				itip_view_get_extension_name (
 				ITIP_VIEW (object)));
 			return;
 	}
@@ -1247,14 +1253,22 @@ itip_view_dispose (GObject *object)
 
 	priv = ITIP_VIEW_GET_PRIVATE (object);
 
-	if (priv->registry != NULL) {
+	if (priv->source_added_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->registry, priv->source_added_id);
-		g_signal_handler_disconnect (
-			priv->registry, priv->source_removed_id);
-		g_object_unref (priv->registry);
-		priv->registry = NULL;
+			priv->registry,
+			priv->source_added_handler_id);
+		priv->source_added_handler_id = 0;
 	}
+
+	if (priv->source_removed_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->registry,
+			priv->source_removed_handler_id);
+		priv->source_removed_handler_id = 0;
+	}
+
+	g_clear_object (&priv->client_cache);
+	g_clear_object (&priv->registry);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (itip_view_parent_class)->dispose (object);
@@ -1314,18 +1328,29 @@ static void
 itip_view_constructed (GObject *object)
 {
 	ItipView *view;
+	EClientCache *client_cache;
 	ESourceRegistry *registry;
+	gulong handler_id;
 
 	view = ITIP_VIEW (object);
-	registry = itip_view_get_registry (view);
+	client_cache = itip_view_get_client_cache (view);
+	registry = e_client_cache_ref_registry (client_cache);
 
-	view->priv->source_added_id = g_signal_connect (
-		registry, "source-added",
+	/* Keep our own reference on the ESourceRegistry
+	 * to use when disconnecting these signal handlers. */
+	view->priv->registry = g_object_ref (registry);
+
+	handler_id = g_signal_connect (
+		view->priv->registry, "source-added",
 		G_CALLBACK (itip_view_source_added_cb), view);
+	view->priv->source_added_handler_id = handler_id;
 
-	view->priv->source_removed_id = g_signal_connect (
-		registry, "source-removed",
+	handler_id = g_signal_connect (
+		view->priv->registry, "source-removed",
 		G_CALLBACK (itip_view_source_removed_cb), view);
+	view->priv->source_removed_handler_id = handler_id;
+
+	g_object_unref (registry);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (itip_view_parent_class)->constructed (object);
@@ -1347,24 +1372,24 @@ itip_view_class_init (ItipViewClass *class)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_REGISTRY,
+		PROP_CLIENT_CACHE,
+		g_param_spec_object (
+			"client-cache",
+			"Client Cache",
+			"Cache of shared EClient instances",
+			E_TYPE_CLIENT_CACHE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_EXTENSION_NAME,
 		g_param_spec_string (
 			"extension-name",
 			"Extension Name",
 			"Show only data sources with this extension",
 			NULL,
 			G_PARAM_READWRITE));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_REGISTRY,
-		g_param_spec_object (
-			"registry",
-			"Registry",
-			"Data source registry",
-			E_TYPE_SOURCE_REGISTRY,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
 
 	signals[SOURCE_SELECTED] = g_signal_new (
 		"source_selected",
@@ -1395,12 +1420,12 @@ itip_view_get_mail_part (ItipView *view)
 	return view->priv->itip_part;
 }
 
-ESourceRegistry *
-itip_view_get_registry (ItipView *view)
+EClientCache *
+itip_view_get_client_cache (ItipView *view)
 {
 	g_return_val_if_fail (ITIP_IS_VIEW (view), NULL);
 
-	return view->priv->registry;
+	return view->priv->client_cache;
 }
 
 const gchar *
@@ -1725,13 +1750,15 @@ itip_view_init (ItipView *view)
 
 ItipView *
 itip_view_new (EMailPartItip *puri,
-               ESourceRegistry *registry)
+               EClientCache *client_cache)
 {
 	ItipView *view;
 
+	g_return_val_if_fail (E_IS_CLIENT_CACHE (client_cache), NULL);
+
 	view = ITIP_VIEW (g_object_new (
 		ITIP_TYPE_VIEW,
-		"registry", registry,
+		"client-cache", client_cache,
 		NULL));
 	view->priv->itip_part = puri;
 
@@ -2553,7 +2580,6 @@ itip_view_set_source (ItipView *view,
 ESource *
 itip_view_ref_source (ItipView *view)
 {
-	ESourceRegistry *registry;
 	WebKitDOMElement *select;
 	gchar *uid;
 	ESource *source;
@@ -2576,8 +2602,7 @@ itip_view_ref_source (ItipView *view)
 	uid = webkit_dom_html_select_element_get_value (
 		WEBKIT_DOM_HTML_SELECT_ELEMENT (select));
 
-	registry = itip_view_get_registry (view);
-	source = e_source_registry_ref_source (registry, uid);
+	source = e_source_registry_ref_source (view->priv->registry, uid);
 
 	g_free (uid);
 
@@ -3216,7 +3241,8 @@ find_attendee_if_sentby (icalcomponent *ical_comp,
 }
 
 static void
-find_to_address (EMailPartItip *itip_part,
+find_to_address (ItipView *view,
+                 EMailPartItip *itip_part,
                  icalcomponent *ical_comp,
                  icalparameter_partstat *status)
 {
@@ -3225,7 +3251,7 @@ find_to_address (EMailPartItip *itip_part,
 	GList *list, *link;
 	const gchar *extension_name;
 
-	registry = itip_part->registry;
+	registry = view->priv->registry;
 	extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
 
 	if (itip_part->to_address != NULL)
@@ -3235,7 +3261,8 @@ find_to_address (EMailPartItip *itip_part,
 		ESource *source;
 
 		source = em_utils_guess_mail_identity (
-			registry, itip_part->msg, itip_part->folder, itip_part->uid);
+			registry, itip_part->msg,
+			itip_part->folder, itip_part->uid);
 
 		if (source != NULL) {
 			extension = e_source_get_extension (source, extension_name);
@@ -3359,9 +3386,11 @@ find_to_address (EMailPartItip *itip_part,
 }
 
 static void
-find_from_address (EMailPartItip *pitip,
+find_from_address (ItipView *view,
+                   EMailPartItip *pitip,
                    icalcomponent *ical_comp)
 {
+	ESourceRegistry *registry;
 	GList *list, *link;
 	icalproperty *prop;
 	gchar *organizer;
@@ -3370,6 +3399,8 @@ find_from_address (EMailPartItip *pitip,
 	const gchar *organizer_sentby;
 	gchar *organizer_clean = NULL;
 	gchar *organizer_sentby_clean = NULL;
+
+	registry = view->priv->registry;
 
 	prop = icalcomponent_get_first_property (ical_comp, ICAL_ORGANIZER_PROPERTY);
 
@@ -3402,14 +3433,14 @@ find_from_address (EMailPartItip *pitip,
 		pitip->from_name = g_strdup (icalparameter_get_cn (param));
 
 	extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
-	list = e_source_registry_list_sources (pitip->registry, extension_name);
+	list = e_source_registry_list_sources (registry, extension_name);
 
 	for (link = list; link != NULL; link = g_list_next (link)) {
 		ESource *source = E_SOURCE (link->data);
 		ESourceMailIdentity *extension;
 		const gchar *address;
 
-		if (!e_source_registry_check_enabled (pitip->registry, source))
+		if (!e_source_registry_check_enabled (registry, source))
 			continue;
 
 		extension = e_source_get_extension (source, extension_name);
@@ -3604,7 +3635,8 @@ start_calendar_server_by_uid (EMailPartItip *pitip,
 
 	itip_view_set_buttons_sensitive (view, FALSE);
 
-	source = e_source_registry_ref_source (pitip->registry, uid);
+	source = e_source_registry_ref_source (view->priv->registry, uid);
+
 	if (source != NULL) {
 		start_calendar_server (
 			pitip, view, source, type, cal_opened_cb, view);
@@ -3776,7 +3808,7 @@ decrease_find_data (FormatItipFindData *fd)
 			}
 
 			source = e_source_registry_ref_default_for_extension_name (
-				pitip->registry, extension_name);
+				view->priv->registry, extension_name);
 
 			itip_view_set_extension_name (view, extension_name);
 
@@ -4084,7 +4116,6 @@ find_server (EMailPartItip *pitip,
 	const gchar *uid;
 	gchar *rid = NULL;
 	CamelStore *parent_store;
-	ESourceRegistry *registry;
 	ESource *current_source = NULL;
 	GList *list, *link;
 	GList *conflict_list = NULL;
@@ -4107,8 +4138,8 @@ find_server (EMailPartItip *pitip,
 			g_return_if_reached ();
 	}
 
-	registry = pitip->registry;
-	list = e_source_registry_list_sources (registry, extension_name);
+	list = e_source_registry_list_sources (
+		view->priv->registry, extension_name);
 
 	e_cal_component_get_uid (comp, &uid);
 	rid = e_cal_component_get_recurid_as_string (comp);
@@ -4461,7 +4492,7 @@ finish_message_delete_with_rsvp (EMailPartItip *pitip,
 			return;
 
 		if (pitip->to_address == NULL)
-			find_to_address (pitip, pitip->ical_comp, NULL);
+			find_to_address (view, pitip, pitip->ical_comp, NULL);
 		g_assert (pitip->to_address != NULL);
 
 		ical_comp = e_cal_component_get_icalcomponent (comp);
@@ -4516,8 +4547,9 @@ finish_message_delete_with_rsvp (EMailPartItip *pitip,
 		}
 
 		e_cal_component_rescan (comp);
+
 		if (itip_send_comp (
-				pitip->registry,
+				view->priv->registry,
 				E_CAL_COMPONENT_METHOD_REPLY,
 				comp, pitip->current_client,
 				pitip->top_level, NULL, NULL, TRUE, FALSE) &&
@@ -4839,26 +4871,32 @@ remove_delegate (EMailPartItip *pitip,
                  ECalComponent *comp)
 {
 	gboolean status;
-	gchar *comment = g_strdup_printf (_("Organizer has removed the delegate %s "), itip_strip_mailto (delegate));
+	gchar *comment;
+
+	comment = g_strdup_printf (
+		_("Organizer has removed the delegate %s "),
+		itip_strip_mailto (delegate));
 
 	/* send cancellation notice to delegate */
 	status = send_comp_to_attendee (
-		pitip->registry,
+		view->priv->registry,
 		E_CAL_COMPONENT_METHOD_CANCEL, pitip->comp,
 		delegate, pitip->current_client, comment);
-	if (status)
+	if (status != 0) {
 		send_comp_to_attendee (
-			pitip->registry,
+			view->priv->registry,
 			E_CAL_COMPONENT_METHOD_REQUEST, pitip->comp,
 			delegator, pitip->current_client, comment);
-	if (status) {
+	}
+	if (status != 0) {
 		itip_view_add_lower_info_item (
 			view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
 			_("Sent a cancelation notice to the delegate"));
-	} else
+	} else {
 		itip_view_add_lower_info_item (
 			view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
 			_("Could not send the cancelation notice to the delegate"));
+	}
 
 	g_free (comment);
 
@@ -5004,7 +5042,7 @@ update_attendee_status_icalcomp (EMailPartItip *pitip,
 
 				if (response == GTK_RESPONSE_YES) {
 					change_status (
-						pitip->registry, icalcomp,
+						view->priv->registry, icalcomp,
 						itip_strip_mailto (a->value),
 						a->status);
 					e_cal_component_rescan (comp);
@@ -5028,7 +5066,7 @@ update_attendee_status_icalcomp (EMailPartItip *pitip,
 					icalcomponent_add_property (icalcomp, icalproperty_new_clone (new_prop));
 				} else {
 					change_status (
-						pitip->registry, icalcomp,
+						view->priv->registry,icalcomp,
 						itip_strip_mailto (a->value),
 						a->status);
 				}
@@ -5043,7 +5081,7 @@ update_attendee_status_icalcomp (EMailPartItip *pitip,
 	if (itip_view_get_update (view)) {
 		e_cal_component_commit_sequence (comp);
 		itip_send_comp (
-			pitip->registry,
+			view->priv->registry,
 			E_CAL_COMPONENT_METHOD_REQUEST,
 			comp, pitip->current_client,
 			NULL, NULL, NULL, TRUE, FALSE);
@@ -5179,7 +5217,7 @@ send_item (EMailPartItip *pitip,
 
 	if (comp != NULL) {
 		itip_send_comp (
-			pitip->registry,
+			view->priv->registry,
 			E_CAL_COMPONENT_METHOD_REQUEST,
 			comp, pitip->current_client,
 			NULL, NULL, NULL, TRUE, FALSE);
@@ -5461,7 +5499,8 @@ extract_itip_data (EMailPartItip *pitip,
 		prop = NULL;
 		comp = e_cal_component_new ();
 		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (pitip->ical_comp));
-		my_address = itip_get_comp_attendee (pitip->registry, comp, NULL);
+		my_address = itip_get_comp_attendee (
+			view->priv->registry, comp, NULL);
 		g_object_unref (comp);
 		comp = NULL;
 
@@ -5581,8 +5620,8 @@ extract_itip_data (EMailPartItip *pitip,
 		e_cal_component_alarm_free (acomp);
 	}
 
-	find_from_address (pitip, pitip->ical_comp);
-	find_to_address (pitip, pitip->ical_comp, NULL);
+	find_from_address (view, pitip, pitip->ical_comp);
+	find_to_address (view, pitip, pitip->ical_comp, NULL);
 
 	return TRUE;
 }
@@ -5654,7 +5693,7 @@ view_response_cb (ItipView *view,
 		case ITIP_VIEW_RESPONSE_ACCEPT:
 			if (pitip->type != E_CAL_CLIENT_SOURCE_TYPE_MEMOS)
 				status = change_status (
-					pitip->registry,
+					view->priv->registry,
 					pitip->ical_comp,
 					pitip->to_address,
 					ICAL_PARTSTAT_ACCEPTED);
@@ -5667,7 +5706,7 @@ view_response_cb (ItipView *view,
 			break;
 		case ITIP_VIEW_RESPONSE_TENTATIVE:
 			status = change_status (
-					pitip->registry,
+					view->priv->registry,
 					pitip->ical_comp,
 					pitip->to_address,
 					ICAL_PARTSTAT_TENTATIVE);
@@ -5679,7 +5718,7 @@ view_response_cb (ItipView *view,
 		case ITIP_VIEW_RESPONSE_DECLINE:
 			if (pitip->type != E_CAL_CLIENT_SOURCE_TYPE_MEMOS)
 				status = change_status (
-					pitip->registry,
+					view->priv->registry,
 					pitip->ical_comp,
 					pitip->to_address,
 					ICAL_PARTSTAT_DECLINED);
@@ -5735,14 +5774,14 @@ check_is_instance (icalcomponent *icalcomp)
 }
 
 static gboolean
-in_proper_folder (ESourceRegistry *registry,
-                  CamelFolder *folder)
+in_proper_folder (CamelFolder *folder)
 {
 	EShell *shell;
 	EShellBackend *shell_backend;
 	EMailBackend *backend;
 	EMailSession *session;
 	MailFolderCache *folder_cache;
+	ESourceRegistry *registry;
 	gboolean res = TRUE;
 	CamelFolderInfoFlags flags = 0;
 
@@ -5750,6 +5789,7 @@ in_proper_folder (ESourceRegistry *registry,
 		return FALSE;
 
 	shell = e_shell_get_default ();
+	registry = e_shell_get_registry (shell);
 	shell_backend = e_shell_get_backend_by_name (shell, "mail");
 	backend = E_MAIL_BACKEND (shell_backend);
 	session = e_mail_backend_get_session (backend);
@@ -5785,7 +5825,7 @@ itip_view_init_view (ItipView *view)
 {
 	EShell *shell;
 	EShellSettings *shell_settings;
-	ESourceRegistry *registry;
+	EClientCache *client_cache;
 	ECalComponentText text;
 	ECalComponentOrganizer organizer;
 	ECalComponentDateTime datetime;
@@ -5803,10 +5843,10 @@ itip_view_init_view (ItipView *view)
 	g_return_if_fail (info != NULL);
 
 	shell = e_shell_get_default ();
-	registry = e_shell_get_registry (shell);
+	client_cache = e_shell_get_client_cache (shell);
 	shell_settings = e_shell_get_shell_settings (shell);
 
-	info->registry = g_object_ref (registry);
+	info->client_cache = g_object_ref (client_cache);
 
         /* Reset current client before initializing view */
 	info->current_client = NULL;
@@ -5823,7 +5863,7 @@ itip_view_init_view (ItipView *view)
 	if (!extract_itip_data (info, view, &have_alarms))
 		return;
 
-	response_enabled = in_proper_folder (registry, info->folder);
+	response_enabled = in_proper_folder (info->folder);
 
 	if (!response_enabled) {
 		itip_view_set_mode (view, ITIP_VIEW_MODE_HIDE_ALL);

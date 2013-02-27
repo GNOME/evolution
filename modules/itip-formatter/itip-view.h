@@ -32,6 +32,7 @@
 
 #include <libecal/libecal.h>
 
+#include <e-util/e-util.h>
 #include <em-format/e-mail-formatter.h>
 
 /* Standard GObject macros */
@@ -110,7 +111,7 @@ struct _ItipViewClass {
 
 GType		itip_view_get_type		(void);
 ItipView *	itip_view_new			(struct _EMailPartItip *puri,
-						 ESourceRegistry *registry);
+						 EClientCache *client_cache);
 void		itip_view_init_view		(ItipView *view);
 void		itip_view_write			(EMailFormatter *formatter,
 						 GString *buffer);
@@ -120,8 +121,7 @@ void		itip_view_create_dom_bindings	(ItipView *view,
 						 WebKitDOMElement *element);
 struct _EMailPartItip *
 		itip_view_get_mail_part		(ItipView *view);
-ESourceRegistry *
-		itip_view_get_registry		(ItipView *view);
+EClientCache *	itip_view_get_client_cache	(ItipView *view);
 const gchar *	itip_view_get_extension_name	(ItipView *view);
 void		itip_view_set_extension_name	(ItipView *view,
 						 const gchar *extension_name);

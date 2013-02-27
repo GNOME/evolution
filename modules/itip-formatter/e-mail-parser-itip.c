@@ -70,7 +70,7 @@ mail_part_itip_free (EMailPart *mail_part)
 
 	g_cancellable_cancel (pitip->cancellable);
 	g_clear_object (&pitip->cancellable);
-	g_clear_object (&pitip->registry);
+	g_clear_object (&pitip->client_cache);
 
 	for (i = 0; i < E_CAL_CLIENT_SOURCE_TYPE_LAST; i++) {
 		if (pitip->clients[i]) {
@@ -156,7 +156,7 @@ bind_itip_view (EMailPart *part,
 			WEBKIT_DOM_HTML_IFRAME_ELEMENT (element));
 	pitip = E_MAIL_PART_ITIP (part);
 
-	view = itip_view_new (pitip, pitip->registry);
+	view = itip_view_new (pitip, pitip->client_cache);
 	g_object_set_data_full (
 		G_OBJECT (element), "view", view,
 		(GDestroyNotify) g_object_unref);
@@ -180,6 +180,7 @@ empe_itip_parse (EMailParserExtension *extension,
 {
 	EShell *shell;
 	GSettings *settings;
+	EClientCache *client_cache;
 	EMailPartItip *itip_part;
 	CamelDataWrapper *content;
 	CamelStream *stream;
@@ -192,11 +193,14 @@ empe_itip_parse (EMailParserExtension *extension,
 	g_string_append_printf (part_id, ".itip");
 
 	settings = g_settings_new ("org.gnome.evolution.plugin.itip");
+
 	shell = e_shell_get_default ();
+	client_cache = e_shell_get_client_cache (shell);
 
 	itip_part = (EMailPartItip *) e_mail_part_subclass_new (
-					part, part_id->str, sizeof (EMailPartItip),
-					(GFreeFunc)	mail_part_itip_free);
+		part, part_id->str,
+		sizeof (EMailPartItip),
+		(GFreeFunc) mail_part_itip_free);
 	itip_part->parent.mime_type = g_strdup ("text/calendar");
 	itip_part->parent.bind_func = bind_itip_view;
 	itip_part->parent.force_collapse = TRUE;
@@ -206,7 +210,7 @@ empe_itip_parse (EMailParserExtension *extension,
 	itip_part->part = part;
 	itip_part->cancellable = g_cancellable_new ();
 	itip_part->real_comps = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
-	itip_part->registry = g_object_ref (e_shell_get_registry (shell));
+	itip_part->client_cache = g_object_ref (client_cache);
 
 	g_object_unref (settings);
 
