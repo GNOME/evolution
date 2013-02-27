@@ -97,6 +97,13 @@ CamelCertTrust	e_mail_ui_session_trust_prompt	(CamelSession *session,
 						 guint32 certificate_errors,
 						 GList *issuers,
 						 GCancellable *cancellable);
+gboolean	e_mail_ui_session_check_known_address_sync
+						(EMailUISession *session,
+						 CamelInternetAddress *addr,
+						 gboolean check_local_only,
+						 GCancellable *cancellable,
+						 gboolean *out_known_address,
+						 GError **error);
 
 G_END_DECLS
 

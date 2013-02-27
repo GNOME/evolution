@@ -831,3 +831,122 @@ e_mail_ui_session_add_activity (EMailUISession *session,
 	g_signal_emit (session, signals[ACTIVITY_ADDED], 0, activity);
 }
 
+/**
+ * e_mail_ui_session_check_known_address_sync:
+ * @session: an #EMailUISession
+ * @addr: a #CamelInternetAddress
+ * @check_local_only: only check the builtin address book
+ * @cancellable: optional #GCancellable object, or %NULL
+ * @out_known_address: return location for the determination of
+ *                     whether @addr is a known address
+ * @error: return location for a #GError, or %NULL
+ *
+ * Determines whether @addr is a known email address by querying address
+ * books for contacts with a matching email address.  If @check_local_only
+ * is %TRUE then only the builtin address book is checked, otherwise all
+ * enabled address books are checked.
+ *
+ * The result of the query is returned through the @out_known_address
+ * boolean pointer, not through the return value.  The return value only
+ * indicates whether the address book queries were completed successfully.
+ * If an error occurred, the function sets @error and returns %FALSE.
+ *
+ * Returns: whether address books were successfully queried
+ **/
+gboolean
+e_mail_ui_session_check_known_address_sync (EMailUISession *session,
+                                            CamelInternetAddress *addr,
+                                            gboolean check_local_only,
+                                            GCancellable *cancellable,
+                                            gboolean *out_known_address,
+                                            GError **error)
+{
+	EPhotoCache *photo_cache;
+	EClientCache *client_cache;
+	ESourceRegistry *registry;
+	EBookQuery *book_query;
+	GList *list, *link;
+	const gchar *email_address = NULL;
+	gchar *book_query_string;
+	gboolean known_address = FALSE;
+	gboolean success = TRUE;
+
+	g_return_val_if_fail (E_IS_MAIL_UI_SESSION (session), FALSE);
+	g_return_val_if_fail (CAMEL_IS_INTERNET_ADDRESS (addr), FALSE);
+
+	camel_internet_address_get (addr, 0, NULL, &email_address);
+	g_return_val_if_fail (email_address != NULL, FALSE);
+
+	/* XXX EPhotoCache holds a reference on EClientCache, which
+	 *     we need.  EMailUISession should probably hold its own
+	 *     EClientCache reference, but this will do for now. */
+	photo_cache = e_mail_ui_session_get_photo_cache (session);
+	client_cache = e_photo_cache_ref_client_cache (photo_cache);
+	registry = e_client_cache_ref_registry (client_cache);
+
+	book_query = e_book_query_field_test (
+		E_CONTACT_EMAIL, E_BOOK_QUERY_IS, email_address);
+	book_query_string = e_book_query_to_string (book_query);
+	e_book_query_unref (book_query);
+
+	if (check_local_only) {
+		ESource *source;
+
+		source = e_source_registry_ref_builtin_address_book (registry);
+		list = g_list_prepend (NULL, g_object_ref (source));
+		g_object_unref (source);
+	} else {
+		list = e_source_registry_list_sources (
+			registry, E_SOURCE_EXTENSION_ADDRESS_BOOK);
+	}
+
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		ESource *source = E_SOURCE (link->data);
+		EClient *client;
+		GSList *uids = NULL;
+
+		/* Skip disabled sources. */
+		if (!e_source_get_enabled (source))
+			continue;
+
+		client = e_client_cache_get_client_sync (
+			client_cache, source,
+			E_SOURCE_EXTENSION_ADDRESS_BOOK,
+			cancellable, error);
+
+		if (client == NULL) {
+			success = FALSE;
+			break;
+		}
+
+		success = e_book_client_get_contacts_uids_sync (
+			E_BOOK_CLIENT (client), book_query_string,
+			&uids, cancellable, error);
+
+		g_object_unref (client);
+
+		if (!success) {
+			g_warn_if_fail (uids == NULL);
+			break;
+		}
+
+		if (uids != NULL) {
+			g_slist_free_full (uids, (GDestroyNotify) g_free);
+			known_address = TRUE;
+			break;
+		}
+	}
+
+	g_list_free_full (list, (GDestroyNotify) g_object_unref);
+
+	g_free (book_query_string);
+
+	g_object_unref (registry);
+	g_object_unref (client_cache);
+
+	if (success && out_known_address != NULL)
+		*out_known_address = known_address;
+
+	return success;
+}
+
