@@ -37,6 +37,8 @@
 
 #include <shell/e-shell.h>
 
+#include "e-mail-ui-session.h"
+
 #define d(x)
 
 #define E_HTTP_REQUEST_GET_PRIVATE(obj) \
@@ -288,17 +290,34 @@ handle_http_request (GSimpleAsyncResult *res,
 
 		part_list = camel_object_bag_get (registry, decoded_uri);
 		if (part_list) {
-			EShell *shell;
-			ESourceRegistry *registry;
+			EShellBackend *shell_backend;
+			EMailBackend *backend;
+			EMailSession *session;
 			CamelInternetAddress *addr;
 			CamelMimeMessage *message;
+			gboolean known_address = FALSE;
+			GError *error = NULL;
 
-			shell = e_shell_get_default ();
-			registry = e_shell_get_registry (shell);
+			shell_backend =
+				e_shell_get_backend_by_name (shell, "mail");
+			backend = E_MAIL_BACKEND (shell_backend);
+			session = e_mail_backend_get_session (backend);
+
 			message = e_mail_part_list_get_message (part_list);
 			addr = camel_mime_message_get_from (message);
-			force_load_images = em_utils_in_addressbook (
-				registry, addr, FALSE, cancellable);
+
+			e_mail_ui_session_check_known_address_sync (
+				E_MAIL_UI_SESSION (session),
+				addr, FALSE, cancellable,
+				&known_address, &error);
+
+			if (error != NULL) {
+				g_warning ("%s: %s", G_STRFUNC, error->message);
+				g_error_free (error);
+			}
+
+			if (known_address)
+				force_load_images = TRUE;
 
 			g_object_unref (part_list);
 		}
