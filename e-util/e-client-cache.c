@@ -22,8 +22,9 @@
  * @short_description: Shared #EClient instances
  *
  * #EClientCache provides for application-wide sharing of #EClient
- * instances and centralized rebroadcasting of #EClient::backend-died
- * and #EClient::backend-error signals from cached #EClient instances.
+ * instances and centralized rebroadcasting of #EClient::backend-died,
+ * #EClient::backend-error and #GObject::notify signals from cached
+ * #EClient instances.
  *
  * #EClientCache automatically invalidates cache entries in response to
  * #EClient::backend-died signals.  The #EClient instance is discarded,
@@ -59,7 +60,7 @@ struct _EClientCachePrivate {
 struct _ClientData {
 	volatile gint ref_count;
 	GMutex lock;
-	GWeakRef cache;
+	GWeakRef client_cache;
 	EClient *client;
 	GQueue connecting;
 	gboolean dead_backend;
@@ -69,7 +70,7 @@ struct _ClientData {
 };
 
 struct _SignalClosure {
-	EClientCache *cache;
+	EClientCache *client_cache;
 	EClient *client;
 	GParamSpec *pspec;
 	gchar *error_message;
@@ -98,14 +99,14 @@ enum {
 static guint signals[LAST_SIGNAL];
 
 static ClientData *
-client_data_new (EClientCache *cache)
+client_data_new (EClientCache *client_cache)
 {
 	ClientData *client_data;
 
 	client_data = g_slice_new0 (ClientData);
 	client_data->ref_count = 1;
 	g_mutex_init (&client_data->lock);
-	g_weak_ref_set (&client_data->cache, cache);
+	g_weak_ref_set (&client_data->client_cache, client_cache);
 
 	return client_data;
 }
@@ -138,7 +139,7 @@ client_data_unref (ClientData *client_data)
 
 		g_mutex_clear (&client_data->lock);
 		g_clear_object (&client_data->client);
-		g_weak_ref_set (&client_data->cache, NULL);
+		g_weak_ref_set (&client_data->client_cache, NULL);
 
 		/* There should be no connect() operations in progress. */
 		g_warn_if_fail (g_queue_is_empty (&client_data->connecting));
@@ -179,7 +180,7 @@ client_data_dispose (ClientData *client_data)
 static void
 signal_closure_free (SignalClosure *signal_closure)
 {
-	g_clear_object (&signal_closure->cache);
+	g_clear_object (&signal_closure->client_cache);
 	g_clear_object (&signal_closure->client);
 
 	if (signal_closure->pspec != NULL)
@@ -191,7 +192,7 @@ signal_closure_free (SignalClosure *signal_closure)
 }
 
 static ClientData *
-client_ht_lookup (EClientCache *cache,
+client_ht_lookup (EClientCache *client_cache,
                   ESource *source,
                   const gchar *extension_name)
 {
@@ -202,9 +203,9 @@ client_ht_lookup (EClientCache *cache,
 	g_return_val_if_fail (E_IS_SOURCE (source), NULL);
 	g_return_val_if_fail (extension_name != NULL, NULL);
 
-	client_ht = cache->priv->client_ht;
+	client_ht = client_cache->priv->client_ht;
 
-	g_mutex_lock (&cache->priv->client_ht_lock);
+	g_mutex_lock (&client_cache->priv->client_ht_lock);
 
 	/* We pre-load the hash table with supported extension names,
 	 * so lookup failures indicate an unsupported extension name. */
@@ -213,13 +214,13 @@ client_ht_lookup (EClientCache *cache,
 		client_data = g_hash_table_lookup (inner_ht, source);
 		if (client_data == NULL) {
 			g_object_ref (source);
-			client_data = client_data_new (cache);
+			client_data = client_data_new (client_cache);
 			g_hash_table_insert (inner_ht, source, client_data);
 		}
 		client_data_ref (client_data);
 	}
 
-	g_mutex_unlock (&cache->priv->client_ht_lock);
+	g_mutex_unlock (&client_cache->priv->client_ht_lock);
 
 	return client_data;
 }
@@ -236,7 +237,7 @@ client_cache_emit_backend_died_idle_cb (gpointer user_data)
 	gchar *display_name = NULL;
 
 	source = e_client_get_source (signal_closure->client);
-	registry = e_client_cache_ref_registry (signal_closure->cache);
+	registry = e_client_cache_ref_registry (signal_closure->client_cache);
 
 	extension_name = E_SOURCE_EXTENSION_ADDRESS_BOOK;
 	if (e_source_has_extension (source, extension_name)) {
@@ -274,7 +275,7 @@ client_cache_emit_backend_died_idle_cb (gpointer user_data)
 	alert = e_alert_new (alert_id, display_name, NULL);
 
 	g_signal_emit (
-		signal_closure->cache,
+		signal_closure->client_cache,
 		signals[BACKEND_DIED], 0,
 		signal_closure->client,
 		alert);
@@ -298,7 +299,7 @@ client_cache_emit_backend_error_idle_cb (gpointer user_data)
 	gchar *display_name = NULL;
 
 	source = e_client_get_source (signal_closure->client);
-	registry = e_client_cache_ref_registry (signal_closure->cache);
+	registry = e_client_cache_ref_registry (signal_closure->client_cache);
 
 	extension_name = E_SOURCE_EXTENSION_ADDRESS_BOOK;
 	if (e_source_has_extension (source, extension_name)) {
@@ -338,7 +339,7 @@ client_cache_emit_backend_error_idle_cb (gpointer user_data)
 		signal_closure->error_message, NULL);
 
 	g_signal_emit (
-		signal_closure->cache,
+		signal_closure->client_cache,
 		signals[BACKEND_ERROR], 0,
 		signal_closure->client,
 		alert);
@@ -359,7 +360,7 @@ client_cache_emit_client_notify_idle_cb (gpointer user_data)
 	name = g_param_spec_get_name (signal_closure->pspec);
 
 	g_signal_emit (
-		signal_closure->cache,
+		signal_closure->client_cache,
 		signals[CLIENT_NOTIFY],
 		g_quark_from_string (name),
 		signal_closure->client,
@@ -374,7 +375,7 @@ client_cache_emit_client_created_idle_cb (gpointer user_data)
 	SignalClosure *signal_closure = user_data;
 
 	g_signal_emit (
-		signal_closure->cache,
+		signal_closure->client_cache,
 		signals[CLIENT_CREATED], 0,
 		signal_closure->client);
 
@@ -385,16 +386,16 @@ static void
 client_cache_backend_died_cb (EClient *client,
                               ClientData *client_data)
 {
-	EClientCache *cache;
+	EClientCache *client_cache;
 
-	cache = g_weak_ref_get (&client_data->cache);
+	client_cache = g_weak_ref_get (&client_data->client_cache);
 
-	if (cache != NULL) {
+	if (client_cache != NULL) {
 		GSource *idle_source;
 		SignalClosure *signal_closure;
 
 		signal_closure = g_slice_new0 (SignalClosure);
-		signal_closure->cache = g_object_ref (cache);
+		signal_closure->client_cache = g_object_ref (client_cache);
 		signal_closure->client = g_object_ref (client);
 
 		idle_source = g_idle_source_new ();
@@ -403,10 +404,11 @@ client_cache_backend_died_cb (EClient *client,
 			client_cache_emit_backend_died_idle_cb,
 			signal_closure,
 			(GDestroyNotify) signal_closure_free);
-		g_source_attach (idle_source, cache->priv->main_context);
+		g_source_attach (
+			idle_source, client_cache->priv->main_context);
 		g_source_unref (idle_source);
 
-		g_object_unref (cache);
+		g_object_unref (client_cache);
 	}
 
 	/* Discard the EClient and tag the backend as
@@ -423,16 +425,16 @@ client_cache_backend_error_cb (EClient *client,
                                const gchar *error_message,
                                ClientData *client_data)
 {
-	EClientCache *cache;
+	EClientCache *client_cache;
 
-	cache = g_weak_ref_get (&client_data->cache);
+	client_cache = g_weak_ref_get (&client_data->client_cache);
 
-	if (cache != NULL) {
+	if (client_cache != NULL) {
 		GSource *idle_source;
 		SignalClosure *signal_closure;
 
 		signal_closure = g_slice_new0 (SignalClosure);
-		signal_closure->cache = g_object_ref (cache);
+		signal_closure->client_cache = g_object_ref (client_cache);
 		signal_closure->client = g_object_ref (client);
 		signal_closure->error_message = g_strdup (error_message);
 
@@ -442,10 +444,11 @@ client_cache_backend_error_cb (EClient *client,
 			client_cache_emit_backend_error_idle_cb,
 			signal_closure,
 			(GDestroyNotify) signal_closure_free);
-		g_source_attach (idle_source, cache->priv->main_context);
+		g_source_attach (
+			idle_source, client_cache->priv->main_context);
 		g_source_unref (idle_source);
 
-		g_object_unref (cache);
+		g_object_unref (client_cache);
 	}
 }
 
@@ -454,16 +457,16 @@ client_cache_notify_cb (EClient *client,
                         GParamSpec *pspec,
                         ClientData *client_data)
 {
-	EClientCache *cache;
+	EClientCache *client_cache;
 
-	cache = g_weak_ref_get (&client_data->cache);
+	client_cache = g_weak_ref_get (&client_data->client_cache);
 
-	if (cache != NULL) {
+	if (client_cache != NULL) {
 		GSource *idle_source;
 		SignalClosure *signal_closure;
 
 		signal_closure = g_slice_new0 (SignalClosure);
-		signal_closure->cache = g_object_ref (cache);
+		signal_closure->client_cache = g_object_ref (client_cache);
 		signal_closure->client = g_object_ref (client);
 		signal_closure->pspec = g_param_spec_ref (pspec);
 
@@ -473,10 +476,11 @@ client_cache_notify_cb (EClient *client,
 			client_cache_emit_client_notify_idle_cb,
 			signal_closure,
 			(GDestroyNotify) signal_closure_free);
-		g_source_attach (idle_source, cache->priv->main_context);
+		g_source_attach (
+			idle_source, client_cache->priv->main_context);
 		g_source_unref (idle_source);
 
-		g_object_unref (cache);
+		g_object_unref (client_cache);
 	}
 }
 
@@ -498,7 +502,7 @@ client_cache_process_results (ClientData *client_data,
 	e_queue_transfer (&client_data->connecting, &queue);
 
 	if (client != NULL) {
-		EClientCache *cache;
+		EClientCache *client_cache;
 
 		/* Make sure we're not leaking a reference. */
 		g_warn_if_fail (client_data->client == NULL);
@@ -506,11 +510,11 @@ client_cache_process_results (ClientData *client_data,
 		client_data->client = g_object_ref (client);
 		client_data->dead_backend = FALSE;
 
-		cache = g_weak_ref_get (&client_data->cache);
+		client_cache = g_weak_ref_get (&client_data->client_cache);
 
 		/* If the EClientCache has been disposed already,
 		 * there's no point in connecting signal handlers. */
-		if (cache != NULL) {
+		if (client_cache != NULL) {
 			GSource *idle_source;
 			SignalClosure *signal_closure;
 			gulong handler_id;
@@ -543,7 +547,8 @@ client_cache_process_results (ClientData *client_data,
 			client_data->notify_handler_id = handler_id;
 
 			signal_closure = g_slice_new0 (SignalClosure);
-			signal_closure->cache = g_object_ref (cache);
+			signal_closure->client_cache =
+				g_object_ref (client_cache);
 			signal_closure->client = g_object_ref (client);
 
 			idle_source = g_idle_source_new ();
@@ -553,10 +558,10 @@ client_cache_process_results (ClientData *client_data,
 				signal_closure,
 				(GDestroyNotify) signal_closure_free);
 			g_source_attach (
-				idle_source, cache->priv->main_context);
+				idle_source, client_cache->priv->main_context);
 			g_source_unref (idle_source);
 
-			g_object_unref (cache);
+			g_object_unref (client_cache);
 		}
 	}
 
@@ -622,13 +627,13 @@ client_cache_cal_connect_cb (GObject *source_object,
 }
 
 static void
-client_cache_set_registry (EClientCache *cache,
+client_cache_set_registry (EClientCache *client_cache,
                            ESourceRegistry *registry)
 {
 	g_return_if_fail (E_IS_SOURCE_REGISTRY (registry));
-	g_return_if_fail (cache->priv->registry == NULL);
+	g_return_if_fail (client_cache->priv->registry == NULL);
 
-	cache->priv->registry = g_object_ref (registry);
+	client_cache->priv->registry = g_object_ref (registry);
 }
 
 static void
@@ -742,16 +747,16 @@ e_client_cache_class_init (EClientCacheClass *class)
 
 	/**
 	 * EClientCache::backend-died:
-	 * @cache: the #EClientCache that received the signal
+	 * @client_cache: the #EClientCache that received the signal
 	 * @client: the #EClient that received the D-Bus notification
 	 * @alert: an #EAlert with a user-friendly error description
 	 *
 	 * Rebroadcasts a #EClient::backend-died signal emitted by @client,
 	 * along with a pre-formatted #EAlert.
 	 *
-	 * As a convenience to signal handlers, this signal is always emitted
-	 * from the #GMainContext that was thread-default when the @cache was
-	 * created.
+	 * As a convenience to signal handlers, this signal is always
+	 * emitted from the #GMainContext that was thread-default when
+	 * the @client_cache was created.
 	 **/
 	signals[BACKEND_DIED] = g_signal_new (
 		"backend-died",
@@ -765,16 +770,16 @@ e_client_cache_class_init (EClientCacheClass *class)
 
 	/**
 	 * EClientCache::backend-error:
-	 * @cache: the #EClientCache that received the signal
+	 * @client_cache: the #EClientCache that received the signal
 	 * @client: the #EClient that received the D-Bus notification
 	 * @alert: an #EAlert with a user-friendly error description
 	 *
 	 * Rebroadcasts a #EClient::backend-error signal emitted by @client,
 	 * along with a pre-formatted #EAlert.
 	 *
-	 * As a convenience to signal handlers, this signal is always emitted
-	 * from the #GMainContext that was thread-default when the @cache was
-	 * created.
+	 * As a convenience to signal handlers, this signal is always
+	 * emitted from the #GMainContext that was thread-default when
+	 * the @client_cache was created.
 	 **/
 	signals[BACKEND_ERROR] = g_signal_new (
 		"backend-error",
@@ -788,7 +793,7 @@ e_client_cache_class_init (EClientCacheClass *class)
 
 	/**
 	 * EClientCache::client-created:
-	 * @cache: the #EClientCache that received the signal
+	 * @client_cache: the #EClientCache that received the signal
 	 * @client: the newly-created #EClient
 	 *
 	 * This signal is emitted when a call to e_client_cache_get_client()
@@ -805,7 +810,7 @@ e_client_cache_class_init (EClientCacheClass *class)
 
 	/**
 	 * EClientCache::client-notify:
-	 * @cache: the #EClientCache that received the signal
+	 * @client_cache: the #EClientCache that received the signal
 	 * @client: the #EClient whose property changed
 	 * @pspec: the #GParamSpec of the property that changed
 	 *
@@ -815,9 +820,9 @@ e_client_cache_class_init (EClientCacheClass *class)
 	 * just like the #GObject::notify signal, so you can connect to
 	 * change notification signals for specific #EClient properties.
 	 *
-	 * As a convenience to signal handlers, this signal is always emitted
-	 * from the #GMainContext that was thread-default when the @cache was
-	 * created.
+	 * As a convenience to signal handlers, this signal is always
+	 * emitted from the #GMainContext that was thread-default when
+	 * the @client_cache was created.
 	 **/
 	signals[CLIENT_NOTIFY] = g_signal_new (
 		"client-notify",
@@ -836,7 +841,7 @@ e_client_cache_class_init (EClientCacheClass *class)
 }
 
 static void
-e_client_cache_init (EClientCache *cache)
+e_client_cache_init (EClientCache *client_cache)
 {
 	GHashTable *client_ht;
 	gint ii;
@@ -854,12 +859,12 @@ e_client_cache_init (EClientCache *cache)
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) g_hash_table_unref);
 
-	cache->priv = E_CLIENT_CACHE_GET_PRIVATE (cache);
+	client_cache->priv = E_CLIENT_CACHE_GET_PRIVATE (client_cache);
 
-	cache->priv->main_context = g_main_context_ref_thread_default ();
-	cache->priv->client_ht = client_ht;
+	client_cache->priv->main_context = g_main_context_ref_thread_default ();
+	client_cache->priv->client_ht = client_ht;
 
-	g_mutex_init (&cache->priv->client_ht_lock);
+	g_mutex_init (&client_cache->priv->client_ht_lock);
 
 	/* Pre-load the extension names that can be used to instantiate
 	 * EClients.  Then we can validate an extension name by testing
@@ -903,7 +908,7 @@ e_client_cache_new (ESourceRegistry *registry)
 
 /**
  * e_client_cache_ref_registry:
- * @cache: an #EClientCache
+ * @client_cache: an #EClientCache
  *
  * Returns the #ESourceRegistry passed to e_client_cache_new().
  *
@@ -913,16 +918,16 @@ e_client_cache_new (ESourceRegistry *registry)
  * Returns: an #ESourceRegistry
  **/
 ESourceRegistry *
-e_client_cache_ref_registry (EClientCache *cache)
+e_client_cache_ref_registry (EClientCache *client_cache)
 {
-	g_return_val_if_fail (E_IS_CLIENT_CACHE (cache), NULL);
+	g_return_val_if_fail (E_IS_CLIENT_CACHE (client_cache), NULL);
 
-	return g_object_ref (cache->priv->registry);
+	return g_object_ref (client_cache->priv->registry);
 }
 
 /**
  * e_client_cache_get_client_sync:
- * @cache: an #EClientCache
+ * @client_cache: an #EClientCache
  * @source: an #ESource
  * @extension_name: an extension name
  * @cancellable: optional #GCancellable object, or %NULL
@@ -961,7 +966,7 @@ e_client_cache_ref_registry (EClientCache *cache)
  * Returns: an #EClient, or %NULL
  **/
 EClient *
-e_client_cache_get_client_sync (EClientCache *cache,
+e_client_cache_get_client_sync (EClientCache *client_cache,
                                 ESource *source,
                                 const gchar *extension_name,
                                 GCancellable *cancellable,
@@ -971,19 +976,20 @@ e_client_cache_get_client_sync (EClientCache *cache,
 	GAsyncResult *result;
 	EClient *client;
 
-	g_return_val_if_fail (E_IS_CLIENT_CACHE (cache), NULL);
+	g_return_val_if_fail (E_IS_CLIENT_CACHE (client_cache), NULL);
 	g_return_val_if_fail (E_IS_SOURCE (source), NULL);
 	g_return_val_if_fail (extension_name != NULL, NULL);
 
 	closure = e_async_closure_new ();
 
 	e_client_cache_get_client (
-		cache, source, extension_name, cancellable,
+		client_cache, source, extension_name,cancellable,
 		e_async_closure_callback, closure);
 
 	result = e_async_closure_wait (closure);
 
-	client = e_client_cache_get_client_finish (cache, result, error);
+	client = e_client_cache_get_client_finish (
+		client_cache, result, error);
 
 	e_async_closure_free (closure);
 
@@ -992,7 +998,7 @@ e_client_cache_get_client_sync (EClientCache *cache,
 
 /**
  * e_client_cache_get_client:
- * @cache: an #EClientCache
+ * @client_cache: an #EClientCache
  * @source: an #ESource
  * @extension_name: an extension name
  * @cancellable: optional #GCancellable object, or %NULL
@@ -1030,7 +1036,7 @@ e_client_cache_get_client_sync (EClientCache *cache,
  * operation.
  **/
 void
-e_client_cache_get_client (EClientCache *cache,
+e_client_cache_get_client (EClientCache *client_cache,
                            ESource *source,
                            const gchar *extension_name,
                            GCancellable *cancellable,
@@ -1042,17 +1048,17 @@ e_client_cache_get_client (EClientCache *cache,
 	EClient *client = NULL;
 	gboolean connect_in_progress = FALSE;
 
-	g_return_if_fail (E_IS_CLIENT_CACHE (cache));
+	g_return_if_fail (E_IS_CLIENT_CACHE (client_cache));
 	g_return_if_fail (E_IS_SOURCE (source));
 	g_return_if_fail (extension_name != NULL);
 
 	simple = g_simple_async_result_new (
-		G_OBJECT (cache), callback,
+		G_OBJECT (client_cache), callback,
 		user_data, e_client_cache_get_client);
 
 	g_simple_async_result_set_check_cancellable (simple, cancellable);
 
-	client_data = client_ht_lookup (cache, source, extension_name);
+	client_data = client_ht_lookup (client_cache, source, extension_name);
 
 	if (client_data == NULL) {
 		g_simple_async_result_set_error (
@@ -1133,7 +1139,7 @@ exit:
 
 /**
  * e_client_cache_get_client_finish:
- * @cache: an #EClientCache
+ * @client_cache: an #EClientCache
  * @result: a #GAsyncResult
  * @error: return location for a #GError, or %NULL
  *
@@ -1146,7 +1152,7 @@ exit:
  * Returns: an #EClient, or %NULL
  **/
 EClient *
-e_client_cache_get_client_finish (EClientCache *cache,
+e_client_cache_get_client_finish (EClientCache *client_cache,
                                   GAsyncResult *result,
                                   GError **error)
 {
@@ -1155,7 +1161,7 @@ e_client_cache_get_client_finish (EClientCache *cache,
 
 	g_return_val_if_fail (
 		g_simple_async_result_is_valid (
-		result, G_OBJECT (cache),
+		result, G_OBJECT (client_cache),
 		e_client_cache_get_client), NULL);
 
 	simple = G_SIMPLE_ASYNC_RESULT (result);
@@ -1171,7 +1177,7 @@ e_client_cache_get_client_finish (EClientCache *cache,
 
 /**
  * e_client_cache_ref_cached_client:
- * @cache: an #EClientCache
+ * @client_cache: an #EClientCache
  * @source: an #ESource
  * @extension_name: an extension name
  *
@@ -1187,18 +1193,18 @@ e_client_cache_get_client_finish (EClientCache *cache,
  * Returns: an #EClient, or %NULL
  **/
 EClient *
-e_client_cache_ref_cached_client (EClientCache *cache,
+e_client_cache_ref_cached_client (EClientCache *client_cache,
                                   ESource *source,
                                   const gchar *extension_name)
 {
 	ClientData *client_data;
 	EClient *client = NULL;
 
-	g_return_val_if_fail (E_IS_CLIENT_CACHE (cache), NULL);
+	g_return_val_if_fail (E_IS_CLIENT_CACHE (client_cache), NULL);
 	g_return_val_if_fail (E_IS_SOURCE (source), NULL);
 	g_return_val_if_fail (extension_name != NULL, NULL);
 
-	client_data = client_ht_lookup (cache, source, extension_name);
+	client_data = client_ht_lookup (client_cache, source, extension_name);
 
 	if (client_data != NULL) {
 		g_mutex_lock (&client_data->lock);
@@ -1214,7 +1220,7 @@ e_client_cache_ref_cached_client (EClientCache *cache,
 
 /**
  * e_client_cache_is_backend_dead:
- * @cache: an #EClientCache
+ * @client_cache: an #EClientCache
  * @source: an #ESource
  * @extension_name: an extension name
  *
@@ -1225,18 +1231,18 @@ e_client_cache_ref_cached_client (EClientCache *cache,
  * Returns: whether the backend for @source and @extension_name died
  **/
 gboolean
-e_client_cache_is_backend_dead (EClientCache *cache,
+e_client_cache_is_backend_dead (EClientCache *client_cache,
                                 ESource *source,
                                 const gchar *extension_name)
 {
 	ClientData *client_data;
 	gboolean dead_backend = FALSE;
 
-	g_return_val_if_fail (E_IS_CLIENT_CACHE (cache), FALSE);
+	g_return_val_if_fail (E_IS_CLIENT_CACHE (client_cache), FALSE);
 	g_return_val_if_fail (E_IS_SOURCE (source), FALSE);
 	g_return_val_if_fail (extension_name != NULL, FALSE);
 
-	client_data = client_ht_lookup (cache, source, extension_name);
+	client_data = client_ht_lookup (client_cache, source, extension_name);
 
 	if (client_data != NULL) {
 		dead_backend = client_data->dead_backend;

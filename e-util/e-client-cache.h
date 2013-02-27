@@ -66,43 +66,43 @@ struct _EClientCacheClass {
 	GObjectClass parent_class;
 
 	/* Signals */
-	void		(*backend_died)		(EClientCache *cache,
+	void		(*backend_died)		(EClientCache *client_cache,
 						 EClient *client,
 						 EAlert *alert);
-	void		(*backend_error)	(EClientCache *cache,
+	void		(*backend_error)	(EClientCache *client_cache,
 						 EClient *client,
 						 EAlert *alert);
-	void		(*client_notify)	(EClientCache *cache,
+	void		(*client_notify)	(EClientCache *client_cache,
 						 EClient *client,
 						 GParamSpec *pspec);
-	void		(*client_created)	(EClientCache *cache,
+	void		(*client_created)	(EClientCache *client_cache,
 						 EClient *client);
 };
 
 GType		e_client_cache_get_type		(void) G_GNUC_CONST;
 EClientCache *	e_client_cache_new		(ESourceRegistry *registry);
 ESourceRegistry *
-		e_client_cache_ref_registry	(EClientCache *cache);
-EClient *	e_client_cache_get_client_sync	(EClientCache *cache,
+		e_client_cache_ref_registry	(EClientCache *client_cache);
+EClient *	e_client_cache_get_client_sync	(EClientCache *client_cache,
 						 ESource *source,
 						 const gchar *extension_name,
 						 GCancellable *cancellable,
 						 GError **error);
-void		e_client_cache_get_client	(EClientCache *cache,
+void		e_client_cache_get_client	(EClientCache *client_cache,
 						 ESource *source,
 						 const gchar *extension_name,
 						 GCancellable *cancellable,
 						 GAsyncReadyCallback callback,
 						 gpointer user_data);
 EClient *	e_client_cache_get_client_finish
-						(EClientCache *cache,
+						(EClientCache *client_cache,
 						 GAsyncResult *result,
 						 GError **error);
 EClient *	e_client_cache_ref_cached_client
-						(EClientCache *cache,
+						(EClientCache *client_cache,
 						 ESource *source,
 						 const gchar *extension_name);
-gboolean	e_client_cache_is_backend_dead	(EClientCache *cache,
+gboolean	e_client_cache_is_backend_dead	(EClientCache *client_cache,
 						 ESource *source,
 						 const gchar *extension_name);
 
