@@ -3538,11 +3538,8 @@ cal_opened_cb (GObject *source_object,
 {
 	ItipView *view = user_data;
 	EMailPartItip *pitip = itip_view_get_mail_part (view);
-	ECalClientSourceType source_type;
 	EClient *client;
-	ESource *source;
 	ECalClient *cal_client;
-	const gchar *uid;
 	GError *error = NULL;
 
 	client = e_client_cache_get_client_finish (
@@ -3567,12 +3564,6 @@ cal_opened_cb (GObject *source_object,
 
 	cal_client = E_CAL_CLIENT (client);
 	g_return_if_fail (cal_client != NULL);
-
-	source = e_client_get_source (client);
-	uid = e_source_get_uid (source);
-	source_type = e_cal_client_get_source_type (cal_client);
-	g_hash_table_insert (
-		pitip->clients[source_type], g_strdup (uid), cal_client);
 
 	if (e_cal_client_check_recurrences_no_master (cal_client)) {
 		icalcomponent *icalcomp;
@@ -3607,23 +3598,10 @@ start_calendar_server (EMailPartItip *pitip,
                        GAsyncReadyCallback func,
                        gpointer data)
 {
-	ECalClient *client;
 	EClientCache *client_cache;
 	const gchar *extension_name = NULL;
 
 	g_return_if_fail (source != NULL);
-
-	client = g_hash_table_lookup (pitip->clients[type], e_source_get_uid (source));
-	if (client) {
-		pitip->current_client = client;
-
-		itip_view_remove_lower_info_item (view, pitip->progress_info_id);
-		pitip->progress_info_id = 0;
-
-		set_buttons_sensitive (pitip, view);
-
-		return;
-	}
 
 	switch (type) {
 		case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
@@ -4034,13 +4012,11 @@ find_cal_opened_cb (GObject *source_object,
 	FormatItipFindData *fd = user_data;
 	EMailPartItip *pitip = fd->puri;
 	ItipView *view = fd->view;
-	ECalClientSourceType source_type;
 	EClient *client;
 	ESource *source;
 	ECalClient *cal_client;
 	gboolean search_for_conflicts = FALSE;
 	const gchar *extension_name;
-	const gchar *uid;
 	GError *error = NULL;
 
 	client = e_client_cache_get_client_finish (
@@ -4083,12 +4059,8 @@ find_cal_opened_cb (GObject *source_object,
 	}
 
 	cal_client = E_CAL_CLIENT (client);
-	source_type = e_cal_client_get_source_type (cal_client);
 
 	source = e_client_get_source (client);
-	uid = e_source_get_uid (source);
-	g_hash_table_insert (
-		pitip->clients[source_type], g_strdup (uid), cal_client);
 
 	extension_name = E_SOURCE_EXTENSION_CONFLICT_SEARCH;
 	if (e_source_has_extension (source, extension_name)) {
@@ -5856,7 +5828,6 @@ itip_view_init_view (ItipView *view)
 	GSList *list, *l;
 	icalcomponent *icalcomp;
 	const gchar *string, *org;
-	gint i;
 	gboolean response_enabled;
 	gboolean have_alarms = FALSE;
 	EMailPartItip *info;
@@ -5872,14 +5843,6 @@ itip_view_init_view (ItipView *view)
 
         /* Reset current client before initializing view */
 	info->current_client = NULL;
-
-	/* Initialize the ecal hashes */
-	for (i = 0; i < E_CAL_CLIENT_SOURCE_TYPE_LAST; i++)
-		info->clients[i] = g_hash_table_new_full (
-			(GHashFunc) g_str_hash,
-			(GEqualFunc) g_str_equal,
-			(GDestroyNotify) g_free,
-			(GDestroyNotify) g_object_unref);
 
         /* FIXME Handle multiple VEVENTS with the same UID, ie detached instances */
 	if (!extract_itip_data (info, view, &have_alarms))

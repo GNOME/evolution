@@ -66,18 +66,10 @@ static void
 mail_part_itip_free (EMailPart *mail_part)
 {
 	EMailPartItip *pitip = (EMailPartItip *) mail_part;
-	gint i;
 
 	g_cancellable_cancel (pitip->cancellable);
 	g_clear_object (&pitip->cancellable);
 	g_clear_object (&pitip->client_cache);
-
-	for (i = 0; i < E_CAL_CLIENT_SOURCE_TYPE_LAST; i++) {
-		if (pitip->clients[i]) {
-			g_hash_table_destroy (pitip->clients[i]);
-			pitip->clients[i] = NULL;
-		}
-	}
 
 	g_free (pitip->vcalendar);
 	pitip->vcalendar = NULL;
