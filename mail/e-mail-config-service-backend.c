@@ -404,10 +404,15 @@ e_mail_config_service_backend_get_settings (EMailConfigServiceBackend *backend)
 		backend_name =
 			e_source_backend_get_backend_name (backend_extension);
 
-		extension_name =
-			e_source_camel_get_extension_name (backend_name);
-		camel_extension =
-			e_source_get_extension (source, extension_name);
+		/* XXX ESourceCollection's default backend name is "none".
+		 *     Unfortunately so is CamelNullStore's provider name.
+		 *     Make sure these two misfits don't get paired up! */
+		if (g_strcmp0 (backend_name, "none") != 0) {
+			extension_name =
+				e_source_camel_get_extension_name (backend_name);
+			camel_extension =
+				e_source_get_extension (source, extension_name);
+		}
 	}
 
 	if (camel_extension == NULL) {
