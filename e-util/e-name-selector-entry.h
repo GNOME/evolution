@@ -31,6 +31,7 @@
 #include <gtk/gtk.h>
 #include <libebook/libebook.h>
 
+#include <e-util/e-client-cache.h>
 #include <e-util/e-contact-store.h>
 #include <e-util/e-destination-store.h>
 #include <e-util/e-tree-model-generator.h>
@@ -75,14 +76,12 @@ struct _ENameSelectorEntryClass {
 };
 
 GType		e_name_selector_entry_get_type	(void) G_GNUC_CONST;
-ENameSelectorEntry *
-		e_name_selector_entry_new	(ESourceRegistry *registry);
-ESourceRegistry *
-		e_name_selector_entry_get_registry
+GtkWidget *	e_name_selector_entry_new	(EClientCache *client_cache);
+EClientCache *	e_name_selector_entry_ref_client_cache
 						(ENameSelectorEntry *name_selector_entry);
-void		e_name_selector_entry_set_registry
+void		e_name_selector_entry_set_client_cache
 						(ENameSelectorEntry *name_selector_entry,
-						 ESourceRegistry *registry);
+						 EClientCache *client_cache);
 gint		e_name_selector_entry_get_minimum_query_length
 						(ENameSelectorEntry *name_selector_entry);
 void		e_name_selector_entry_set_minimum_query_length

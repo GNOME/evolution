@@ -35,8 +35,6 @@
 
 #include <libical/icalattach.h>
 
-#include "e-util/e-util.h"
-
 #include "../calendar-config.h"
 #include "comp-editor-util.h"
 #include "alarm-dialog.h"
@@ -50,7 +48,7 @@ typedef struct {
 	/* The client */
 	ECalClient *cal_client;
 
-	ESourceRegistry *registry;
+	EClientCache *client_cache;
 
 	/* Toplevel */
 	GtkWidget *toplevel;
@@ -911,7 +909,7 @@ setup_select_names (Dialog *dialog)
 	ENameSelectorModel *name_selector_model;
 	ENameSelectorDialog *name_selector_dialog;
 
-	dialog->name_selector = e_name_selector_new (dialog->registry);
+	dialog->name_selector = e_name_selector_new (dialog->client_cache);
 	e_name_selector_load_books (dialog->name_selector);
 	name_selector_model = e_name_selector_peek_model (dialog->name_selector);
 
@@ -1216,7 +1214,7 @@ init_widgets (Dialog *dialog)
 
 gboolean
 alarm_dialog_run (GtkWidget *parent,
-                  ESourceRegistry *registry,
+                  EClientCache *client_cache,
                   ECalClient *cal_client,
                   ECalComponentAlarm *alarm)
 {
@@ -1224,12 +1222,12 @@ alarm_dialog_run (GtkWidget *parent,
 	GtkWidget *container;
 	gint response_id;
 
-	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), FALSE);
+	g_return_val_if_fail (E_IS_CLIENT_CACHE (client_cache), FALSE);
 	g_return_val_if_fail (alarm != NULL, FALSE);
 
 	dialog.alarm = alarm;
 	dialog.cal_client = cal_client;
-	dialog.registry = registry;
+	dialog.client_cache = client_cache;
 
 	dialog.builder = gtk_builder_new ();
 	e_load_ui_builder_definition (dialog.builder, "alarm-dialog.ui");

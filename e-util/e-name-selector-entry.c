@@ -35,8 +35,7 @@
 	((obj), E_TYPE_NAME_SELECTOR_ENTRY, ENameSelectorEntryPrivate))
 
 struct _ENameSelectorEntryPrivate {
-
-	ESourceRegistry *registry;
+	EClientCache *client_cache;
 	gint minimum_query_length;
 	gboolean show_address;
 
@@ -70,7 +69,7 @@ struct _ENameSelectorEntryPrivate {
 
 enum {
 	PROP_0,
-	PROP_REGISTRY,
+	PROP_CLIENT_CACHE,
 	PROP_MINIMUM_QUERY_LENGTH,
 	PROP_SHOW_ADDRESS
 };
@@ -119,8 +118,8 @@ name_selector_entry_set_property (GObject *object,
                                   GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_REGISTRY:
-			e_name_selector_entry_set_registry (
+		case PROP_CLIENT_CACHE:
+			e_name_selector_entry_set_client_cache (
 				E_NAME_SELECTOR_ENTRY (object),
 				g_value_get_object (value));
 			return;
@@ -148,10 +147,10 @@ name_selector_entry_get_property (GObject *object,
                                   GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_REGISTRY:
-			g_value_set_object (
+		case PROP_CLIENT_CACHE:
+			g_value_take_object (
 				value,
-				e_name_selector_entry_get_registry (
+				e_name_selector_entry_ref_client_cache (
 				E_NAME_SELECTOR_ENTRY (object)));
 			return;
 
@@ -180,9 +179,9 @@ name_selector_entry_dispose (GObject *object)
 
 	priv = E_NAME_SELECTOR_ENTRY_GET_PRIVATE (object);
 
-	if (priv->registry != NULL) {
-		g_object_unref (priv->registry);
-		priv->registry = NULL;
+	if (priv->client_cache != NULL) {
+		g_object_unref (priv->client_cache);
+		priv->client_cache = NULL;
 	}
 
 	if (priv->attr_list != NULL) {
@@ -327,14 +326,19 @@ e_name_selector_entry_class_init (ENameSelectorEntryClass *class)
 	widget_class->realize = name_selector_entry_realize;
 	widget_class->drag_data_received = name_selector_entry_drag_data_received;
 
+	/**
+	 * ENameSelectorEntry:client-cache:
+	 *
+	 * Cache of shared #EClient instances.
+	 **/
 	g_object_class_install_property (
 		object_class,
-		PROP_REGISTRY,
+		PROP_CLIENT_CACHE,
 		g_param_spec_object (
-			"registry",
-			"Registry",
-			"Data source registry",
-			E_TYPE_SOURCE_REGISTRY,
+			"client-cache",
+			"Client Cache",
+			"Cache of shared EClient instances",
+			E_TYPE_CLIENT_CACHE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
 			G_PARAM_STATIC_STRINGS));
@@ -2219,16 +2223,17 @@ setup_contact_store (ENameSelectorEntry *name_selector_entry)
 }
 
 static void
-book_client_connect_cb (GObject *source_object,
-                        GAsyncResult *result,
-                        gpointer user_data)
+name_selector_entry_get_client_cb (GObject *source_object,
+                                   GAsyncResult *result,
+                                   gpointer user_data)
 {
 	EContactStore *contact_store = user_data;
 	EBookClient *book_client;
 	EClient *client;
 	GError *error = NULL;
 
-	client = e_book_client_connect_finish (result, &error);
+	client = e_client_cache_get_client_finish (
+		E_CLIENT_CACHE (source_object), result, &error);
 
 	/* Sanity check. */
 	g_return_if_fail (
@@ -2259,6 +2264,7 @@ book_client_connect_cb (GObject *source_object,
 static void
 setup_default_contact_store (ENameSelectorEntry *name_selector_entry)
 {
+	EClientCache *client_cache;
 	ESourceRegistry *registry;
 	EContactStore *contact_store;
 	GList *list, *iter;
@@ -2272,10 +2278,8 @@ setup_default_contact_store (ENameSelectorEntry *name_selector_entry)
 	name_selector_entry->priv->contact_store = contact_store;
 
 	extension_name = E_SOURCE_EXTENSION_ADDRESS_BOOK;
-	registry = e_name_selector_entry_get_registry (name_selector_entry);
-
-	/* An ESourceRegistry should have been set by now. */
-	g_return_if_fail (registry != NULL);
+	client_cache = e_name_selector_entry_ref_client_cache (name_selector_entry);
+	registry = e_client_cache_ref_registry (client_cache);
 
 	list = e_source_registry_list_sources (registry, extension_name);
 
@@ -2302,13 +2306,18 @@ setup_default_contact_store (ENameSelectorEntry *name_selector_entry)
 			&name_selector_entry->priv->cancellables,
 			cancellable);
 
-		e_book_client_connect (
-			source, cancellable,
-			book_client_connect_cb,
+		e_client_cache_get_client (
+			client_cache, source,
+			E_SOURCE_EXTENSION_ADDRESS_BOOK,
+			cancellable,
+			name_selector_entry_get_client_cb,
 			g_object_ref (contact_store));
 	}
 
 	g_list_free_full (list, (GDestroyNotify) g_object_unref);
+
+	g_object_unref (registry);
+	g_object_unref (client_cache);
 
 	setup_contact_store (name_selector_entry);
 }
@@ -3308,73 +3317,80 @@ e_name_selector_entry_init (ENameSelectorEntry *name_selector_entry)
 
 /**
  * e_name_selector_entry_new:
+ * @client_cache: an #EClientCache
  *
  * Creates a new #ENameSelectorEntry.
  *
  * Returns: A new #ENameSelectorEntry.
  **/
-ENameSelectorEntry *
-e_name_selector_entry_new (ESourceRegistry *registry)
+GtkWidget *
+e_name_selector_entry_new (EClientCache *client_cache)
 {
-	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
+	g_return_val_if_fail (E_IS_CLIENT_CACHE (client_cache), NULL);
 
 	return g_object_new (
 		E_TYPE_NAME_SELECTOR_ENTRY,
-		"registry", registry, NULL);
+		"client-cache", client_cache, NULL);
 }
 
 /**
- * e_name_selector_entry_get_registry:
+ * e_name_selector_entry_ref_client_cache:
  * @name_selector_entry: an #ENameSelectorEntry
  *
- * Returns the #ESourceRegistry used to query address books.
+ * Returns the #EClientCache passed to e_name_selector_entry_new().
  *
- * Returns: the #ESourceRegistry, or %NULL
+ * The returned #EClientCache is referenced for thread-safety and must be
+ * unreferenced with g_object_unref() when finished with it.
  *
- * Since: 3.6
+ * Returns: an #EClientCache
+ *
+ * Since: 3.8
  **/
-ESourceRegistry *
-e_name_selector_entry_get_registry (ENameSelectorEntry *name_selector_entry)
+EClientCache *
+e_name_selector_entry_ref_client_cache (ENameSelectorEntry *name_selector_entry)
 {
 	g_return_val_if_fail (
 		E_IS_NAME_SELECTOR_ENTRY (name_selector_entry), NULL);
 
-	return name_selector_entry->priv->registry;
+	if (name_selector_entry->priv->client_cache == NULL)
+		return NULL;
+
+	return g_object_ref (name_selector_entry->priv->client_cache);
 }
 
 /**
- * e_name_selector_entry_set_registry:
+ * e_name_selector_entry_set_client_cache:
  * @name_selector_entry: an #ENameSelectorEntry
- * @registry: an #ESourceRegistry
+ * @client_cache: an #EClientCache
  *
- * Sets the #ESourceRegistry used to query address books.
+ * Sets the #EClientCache used to query address books.
  *
  * This function is intended for cases where @name_selector_entry is
- * instantiated by a #GtkBuilder and has to be given an #EsourceRegistry
+ * instantiated by a #GtkBuilder and has to be given an #EClientCache
  * after it is fully constructed.
  *
  * Since: 3.6
  **/
 void
-e_name_selector_entry_set_registry (ENameSelectorEntry *name_selector_entry,
-                                    ESourceRegistry *registry)
+e_name_selector_entry_set_client_cache (ENameSelectorEntry *name_selector_entry,
+                                        EClientCache *client_cache)
 {
 	g_return_if_fail (E_IS_NAME_SELECTOR_ENTRY (name_selector_entry));
 
-	if (name_selector_entry->priv->registry == registry)
+	if (client_cache == name_selector_entry->priv->client_cache)
 		return;
 
-	if (registry != NULL) {
-		g_return_if_fail (E_IS_SOURCE_REGISTRY (registry));
-		g_object_ref (registry);
+	if (client_cache != NULL) {
+		g_return_if_fail (E_IS_CLIENT_CACHE (client_cache));
+		g_object_ref (client_cache);
 	}
 
-	if (name_selector_entry->priv->registry != NULL)
-		g_object_unref (name_selector_entry->priv->registry);
+	if (name_selector_entry->priv->client_cache != NULL)
+		g_object_unref (name_selector_entry->priv->client_cache);
 
-	name_selector_entry->priv->registry = registry;
+	name_selector_entry->priv->client_cache = client_cache;
 
-	g_object_notify (G_OBJECT (name_selector_entry), "registry");
+	g_object_notify (G_OBJECT (name_selector_entry), "client-cache");
 }
 
 /**

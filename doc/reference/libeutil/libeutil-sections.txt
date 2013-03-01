@@ -2259,7 +2259,7 @@ e_mkdtemp
 <TITLE>ENameSelector</TITLE>
 ENameSelector
 e_name_selector_new
-e_name_selector_get_registry
+e_name_selector_ref_client_cache
 e_name_selector_peek_model
 e_name_selector_peek_dialog
 e_name_selector_peek_section_entry
@@ -2285,7 +2285,7 @@ ENameSelectorPrivate
 <TITLE>ENameSelectorDialog</TITLE>
 ENameSelectorDialog
 e_name_selector_dialog_new
-e_name_selector_dialog_get_registry
+e_name_selector_dialog_ref_client_cache
 e_name_selector_dialog_peek_model
 e_name_selector_dialog_set_model
 e_name_selector_dialog_set_destination_index
@@ -2310,8 +2310,8 @@ ENameSelectorDialogPrivate
 <TITLE>ENameSelectorEntry</TITLE>
 ENameSelectorEntry
 e_name_selector_entry_new
-e_name_selector_entry_get_registry
-e_name_selector_entry_set_registry
+e_name_selector_entry_ref_client_cache
+e_name_selector_entry_set_client_cache
 e_name_selector_entry_get_minimum_query_length
 e_name_selector_entry_set_minimum_query_length
 e_name_selector_entry_get_show_address

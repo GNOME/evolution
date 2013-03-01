@@ -78,7 +78,7 @@ struct _MemoPagePrivate {
 	GtkWidget *categories_btn;
 	GtkWidget *categories;
 
-	GtkWidget *source_combo_box;
+	GtkWidget *client_combo_box;
 
 	gchar **address_strings;
 	gchar *fallback_address;
@@ -367,7 +367,7 @@ memo_page_fill_widgets (CompEditorPage *page,
 
 	/* Source */
 	e_source_combo_box_set_active (
-		E_SOURCE_COMBO_BOX (priv->source_combo_box),
+		E_SOURCE_COMBO_BOX (priv->client_combo_box),
 		e_client_get_source (E_CLIENT (client)));
 
 	if (priv->to_entry && (flags & COMP_EDITOR_IS_SHARED) && !(flags & COMP_EDITOR_NEW_ITEM))
@@ -840,7 +840,7 @@ static gboolean
 get_widgets (MemoPage *mpage)
 {
 	EShell *shell;
-	ESourceRegistry *registry;
+	EClientCache *client_cache;
 	CompEditor *editor;
 	CompEditorPage *page = COMP_EDITOR_PAGE (mpage);
 	GtkEntryCompletion *completion;
@@ -855,7 +855,7 @@ get_widgets (MemoPage *mpage)
 
 	editor = comp_editor_page_get_editor (page);
 	shell = comp_editor_get_shell (editor);
-	registry = e_shell_get_registry (shell);
+	client_cache = e_shell_get_client_cache (shell);
 
 	priv->main = GW ("memo-page");
 	if (!priv->main) {
@@ -897,9 +897,9 @@ get_widgets (MemoPage *mpage)
 	priv->categories_btn = GW ("categories-button");
 	priv->categories = GW ("categories");
 
-	priv->source_combo_box = GW ("source");
-	e_source_combo_box_set_registry (
-		E_SOURCE_COMBO_BOX (priv->source_combo_box), registry);
+	priv->client_combo_box = GW ("client-combo-box");
+	e_client_combo_box_set_client_cache (
+		E_CLIENT_COMBO_BOX (priv->client_combo_box), client_cache);
 #undef GW
 
 	completion = e_category_completion_new ();
@@ -941,18 +941,20 @@ categories_clicked_cb (GtkWidget *button,
 }
 
 static void
-mpage_client_connect_cb (GObject *source_object,
-                         GAsyncResult *result,
-                         gpointer user_data)
+mpage_get_client_cb (GObject *source_object,
+                     GAsyncResult *result,
+                     gpointer user_data)
 {
 	EClient *client;
+	EClientComboBox *combo_box;
 	MemoPage *mpage = user_data;
-	MemoPagePrivate *priv;
 	CompEditor *editor;
 	GError *error = NULL;
 
-	client = e_client_cache_get_client_finish (
-		E_CLIENT_CACHE (source_object), result, &error);
+	combo_box = E_CLIENT_COMBO_BOX (source_object);
+
+	client = e_client_combo_box_get_client_finish (
+		combo_box, result, &error);
 
 	/* Sanity check. */
 	g_return_if_fail (
@@ -966,7 +968,6 @@ mpage_client_connect_cb (GObject *source_object,
 	}
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (mpage));
-	priv = mpage->priv;
 
 	if (error != NULL) {
 		GtkWidget *dialog;
@@ -975,7 +976,7 @@ mpage_client_connect_cb (GObject *source_object,
 		old_client = comp_editor_get_client (editor);
 
 		e_source_combo_box_set_active (
-			E_SOURCE_COMBO_BOX (priv->source_combo_box),
+			E_SOURCE_COMBO_BOX (combo_box),
 			e_client_get_source (E_CLIENT (old_client)));
 
 		dialog = gtk_message_dialog_new (
@@ -1016,19 +1017,16 @@ mpage_client_connect_cb (GObject *source_object,
 }
 
 static void
-source_changed_cb (ESourceComboBox *source_combo_box,
+source_changed_cb (ESourceComboBox *combo_box,
                    MemoPage *mpage)
 {
 	MemoPagePrivate *priv = mpage->priv;
-	EClientCache *client_cache;
-	CompEditor *editor;
 	ESource *source;
-	EShell *shell;
 
 	if (comp_editor_page_get_updating (COMP_EDITOR_PAGE (mpage)))
 		return;
 
-	source = e_source_combo_box_ref_active (source_combo_box);
+	source = e_source_combo_box_ref_active (combo_box);
 	g_return_if_fail (source != NULL);
 
 	if (priv->connect_cancellable != NULL) {
@@ -1037,15 +1035,10 @@ source_changed_cb (ESourceComboBox *source_combo_box,
 	}
 	priv->connect_cancellable = g_cancellable_new ();
 
-	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (mpage));
-	shell = comp_editor_get_shell (editor);
-	client_cache = e_shell_get_client_cache (shell);
-
-	e_client_cache_get_client (
-		client_cache, source,
-		E_SOURCE_EXTENSION_MEMO_LIST,
-		priv->connect_cancellable,
-		mpage_client_connect_cb, mpage);
+	e_client_combo_box_get_client (
+		E_CLIENT_COMBO_BOX (combo_box),
+		source, priv->connect_cancellable,
+		mpage_get_client_cb, mpage);
 
 	g_object_unref (source);
 }
@@ -1123,7 +1116,7 @@ init_widgets (MemoPage *mpage)
 
 	/* Source selector */
 	g_signal_connect (
-		priv->source_combo_box, "changed",
+		priv->client_combo_box, "changed",
 		G_CALLBACK (source_changed_cb), mpage);
 
 	/* Connect the default signal handler to use to make sure the "changed"
@@ -1143,7 +1136,7 @@ init_widgets (MemoPage *mpage)
 		G_CALLBACK (comp_editor_page_changed), mpage);
 
 	g_signal_connect_swapped (
-		priv->source_combo_box, "changed",
+		priv->client_combo_box, "changed",
 		G_CALLBACK (comp_editor_page_changed), mpage);
 
 	g_signal_connect_swapped (
@@ -1239,6 +1232,7 @@ memo_page_construct (MemoPage *mpage)
 	CompEditor *editor;
 	CompEditorFlags flags;
 	ESourceRegistry *registry;
+	EClientCache *client_cache;
 
 	priv = mpage->priv;
 
@@ -1248,6 +1242,7 @@ memo_page_construct (MemoPage *mpage)
 	shell = comp_editor_get_shell (editor);
 
 	registry = e_shell_get_registry (shell);
+	client_cache = e_shell_get_client_cache (shell);
 
 	/* Make sure our custom widget classes are registered with
 	 * GType before we load the GtkBuilder definition file. */
@@ -1291,7 +1286,7 @@ memo_page_construct (MemoPage *mpage)
 		gtk_widget_show (priv->org_label);
 		gtk_widget_show (priv->org_combo);
 
-		priv->name_selector = e_name_selector_new (registry);
+		priv->name_selector = e_name_selector_new (client_cache);
 		priv->to_entry = get_to_entry (priv->name_selector);
 		gtk_container_add ((GtkContainer *) priv->to_hbox, priv->to_entry);
 		gtk_widget_show (priv->to_hbox);

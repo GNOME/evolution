@@ -34,14 +34,13 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
-#include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
 #include "alarm-dialog.h"
 #include "alarm-list-dialog.h"
 
 typedef struct {
 	GtkBuilder *builder;
-	ESourceRegistry *registry;
+	EClientCache *client_cache;
 
 	/* The client */
 	ECalClient *cal_client;
@@ -125,7 +124,7 @@ add_clicked_cb (GtkButton *button,
 	icalproperty_set_x_name (icalprop, "X-EVOLUTION-NEEDS-DESCRIPTION");
 	icalcomponent_add_property (icalcomp, icalprop);
 
-	if (alarm_dialog_run (dialog->toplevel, dialog->registry, dialog->cal_client, alarm)) {
+	if (alarm_dialog_run (dialog->toplevel, dialog->client_cache, dialog->cal_client, alarm)) {
 		e_alarm_list_append (dialog->list_store, &iter, alarm);
 		gtk_tree_selection_select_iter (gtk_tree_view_get_selection (view), &iter);
 	} else {
@@ -158,7 +157,7 @@ edit_clicked_cb (GtkButton *button,
 	alarm = (ECalComponentAlarm *) e_alarm_list_get_alarm (dialog->list_store, &iter);
 	path = gtk_tree_model_get_path (GTK_TREE_MODEL (dialog->list_store), &iter);
 
-	if (alarm_dialog_run (dialog->toplevel, dialog->registry, dialog->cal_client, alarm)) {
+	if (alarm_dialog_run (dialog->toplevel, dialog->client_cache, dialog->cal_client, alarm)) {
 		gtk_tree_selection_select_iter (gtk_tree_view_get_selection (view), &iter);
 		gtk_tree_model_row_changed (GTK_TREE_MODEL (dialog->list_store), path, &iter);
 	}
@@ -264,7 +263,7 @@ init_widgets (Dialog *dialog)
 
 gboolean
 alarm_list_dialog_run (GtkWidget *parent,
-                       ESourceRegistry *registry,
+                       EClientCache *client_cache,
                        ECalClient *cal_client,
                        EAlarmList *list_store)
 {
@@ -272,9 +271,9 @@ alarm_list_dialog_run (GtkWidget *parent,
 	GtkWidget *container;
 	gint response_id;
 
-	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), FALSE);
+	g_return_val_if_fail (E_IS_CLIENT_CACHE (client_cache), FALSE);
 
-	dialog.registry = registry;
+	dialog.client_cache = client_cache;
 	dialog.cal_client = cal_client;
 	dialog.list_store = list_store;
 
@@ -315,14 +314,14 @@ alarm_list_dialog_run (GtkWidget *parent,
 }
 
 GtkWidget *
-alarm_list_dialog_peek (ESourceRegistry *registry,
+alarm_list_dialog_peek (EClientCache *client_cache,
                         ECalClient *cal_client,
                         EAlarmList *list_store)
 {
 	Dialog *dialog;
 
 	dialog = (Dialog *) g_new (Dialog, 1);
-	dialog->registry = registry;
+	dialog->client_cache = client_cache;
 	dialog->cal_client = cal_client;
 	dialog->list_store = list_store;
 

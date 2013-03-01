@@ -370,6 +370,7 @@ bbdb_create_book_client (gint type)
 	EShell *shell;
 	ESource *source = NULL;
 	ESourceRegistry *registry;
+	EClientCache *client_cache;
 	EClient *client = NULL;
 	GSettings *settings;
 	gboolean enable = TRUE;
@@ -397,6 +398,7 @@ bbdb_create_book_client (gint type)
 
 	shell = e_shell_get_default ();
 	registry = e_shell_get_registry (shell);
+	client_cache = e_shell_get_client_cache (shell);
 
 	if (uid != NULL) {
 		source = e_source_registry_ref_source (registry, uid);
@@ -406,7 +408,10 @@ bbdb_create_book_client (gint type)
 	if (source == NULL)
 		source = e_source_registry_ref_builtin_address_book (registry);
 
-	client = e_book_client_connect_sync (source, NULL, &error);
+	client = e_client_cache_get_client_sync (
+		client_cache, source,
+		E_SOURCE_EXTENSION_ADDRESS_BOOK,
+		NULL, &error);
 	if (client == NULL) {
 		g_warning (
 			"bbdb: Failed to get addressbook: %s\n",

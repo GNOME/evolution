@@ -370,12 +370,13 @@ get_source_combo_key (const gchar *extension_name)
 static void
 add_source_list_with_check (GtkWidget *frame,
                             const gchar *caption,
-                            ESourceRegistry *registry,
+                            EClientCache *client_cache,
                             const gchar *extension_name,
                             GCallback toggle_callback,
                             EImportTarget *target,
                             gboolean active)
 {
+	ESourceRegistry *registry;
 	ESource *source = NULL;
 	GtkWidget *check, *hbox;
 	GtkWidget *combo = NULL;
@@ -384,8 +385,10 @@ add_source_list_with_check (GtkWidget *frame,
 	g_return_if_fail (caption != NULL);
 	g_return_if_fail (toggle_callback != NULL);
 
+	registry = e_client_cache_ref_registry (client_cache);
 	source = e_source_registry_ref_default_for_extension_name (
 		registry, extension_name);
+	g_object_unref (registry);
 	g_return_if_fail (source != NULL);
 
 	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2);
@@ -395,7 +398,7 @@ add_source_list_with_check (GtkWidget *frame,
 	g_signal_connect (check, "toggled", toggle_callback, target);
 	gtk_box_pack_start ((GtkBox *) hbox, check, FALSE, FALSE, 0);
 
-	combo = e_source_combo_box_new (registry, extension_name);
+	combo = e_client_combo_box_new (client_cache, extension_name);
 	e_source_combo_box_set_active (E_SOURCE_COMBO_BOX (combo), source);
 
 	gtk_box_pack_end ((GtkBox *) hbox, combo, FALSE, FALSE, 0);
@@ -511,7 +514,7 @@ org_credativ_evolution_readpst_getwidget (EImport *ei,
                                           EImportImporter *im)
 {
 	EShell *shell;
-	ESourceRegistry *registry;
+	EClientCache *client_cache;
 	EShellBackend *shell_backend;
 	EMailBackend *backend;
 	EMailSession *session;
@@ -532,7 +535,7 @@ org_credativ_evolution_readpst_getwidget (EImport *ei,
 	gtk_box_pack_start ((GtkBox *) hbox, check, FALSE, FALSE, 0);
 
 	shell = e_shell_get_default ();
-	registry = e_shell_get_registry (shell);
+	client_cache = e_shell_get_client_cache (shell);
 	shell_backend = e_shell_get_backend_by_name (shell, "mail");
 
 	backend = E_MAIL_BACKEND (shell_backend);
@@ -564,22 +567,22 @@ org_credativ_evolution_readpst_getwidget (EImport *ei,
 
 	add_source_list_with_check (
 		framebox, _("_Address Book"),
-		registry, E_SOURCE_EXTENSION_ADDRESS_BOOK,
+		client_cache, E_SOURCE_EXTENSION_ADDRESS_BOOK,
 		G_CALLBACK (checkbox_addr_toggle_cb), target,
 		GPOINTER_TO_INT (g_datalist_get_data (&target->data, "pst-do-addr")));
 	add_source_list_with_check (
 		framebox, _("A_ppointments"),
-		registry, E_SOURCE_EXTENSION_CALENDAR,
+		client_cache, E_SOURCE_EXTENSION_CALENDAR,
 		G_CALLBACK (checkbox_appt_toggle_cb), target,
 		GPOINTER_TO_INT (g_datalist_get_data (&target->data, "pst-do-appt")));
 	add_source_list_with_check (
 		framebox, _("_Tasks"),
-		registry, E_SOURCE_EXTENSION_TASK_LIST,
+		client_cache, E_SOURCE_EXTENSION_TASK_LIST,
 		G_CALLBACK (checkbox_task_toggle_cb), target,
 		GPOINTER_TO_INT (g_datalist_get_data (&target->data, "pst-do-task")));
 	add_source_list_with_check (
 		framebox, _("_Journal entries"),
-		registry, E_SOURCE_EXTENSION_MEMO_LIST,
+		client_cache, E_SOURCE_EXTENSION_MEMO_LIST,
 		G_CALLBACK (checkbox_journal_toggle_cb), target,
 		GPOINTER_TO_INT (g_datalist_get_data (&target->data, "pst-do-journal")));
 
@@ -591,7 +594,7 @@ org_credativ_evolution_readpst_getwidget (EImport *ei,
 }
 
 static void
-client_connect_cb (GObject *source_object,
+pst_get_client_cb (GObject *source_object,
                    GAsyncResult *result,
                    gpointer user_data)
 {
@@ -603,7 +606,8 @@ client_connect_cb (GObject *source_object,
 	g_return_if_fail (m != NULL);
 	g_return_if_fail (m->waiting_open > 0);
 
-	client = e_book_client_connect_finish (result, &error);
+	client = e_client_combo_box_get_client_finish (
+		E_CLIENT_COMBO_BOX (source_object), result, &error);
 
 	/* Sanity check. */
 	g_return_if_fail (
@@ -649,20 +653,23 @@ static void
 open_client (PstImporter *m,
              const gchar *extension_name)
 {
-	ESourceComboBox *combo;
+	ESourceComboBox *combo_box;
 	ESource *source;
 	const gchar *key;
 
 	key = get_source_combo_key (extension_name);
-	combo = g_datalist_get_data (&m->target->data, key);
-	g_return_if_fail (combo != NULL);
+	combo_box = g_datalist_get_data (&m->target->data, key);
+	g_return_if_fail (combo_box != NULL);
 
-	source = e_source_combo_box_ref_active (combo);
+	source = e_source_combo_box_ref_active (combo_box);
 	g_return_if_fail (source != NULL);
 
 	m->waiting_open++;
 
-	e_book_client_connect (source, m->cancellable, client_connect_cb, m);
+	e_client_combo_box_get_client (
+		E_CLIENT_COMBO_BOX (combo_box),
+		source, m->cancellable,
+		pst_get_client_cb, m);
 
 	g_object_unref (source);
 }

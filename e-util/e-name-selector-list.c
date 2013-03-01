@@ -780,12 +780,12 @@ e_name_selector_list_init (ENameSelectorList *list)
 
 }
 
-ENameSelectorList *
-e_name_selector_list_new (ESourceRegistry *registry)
+GtkWidget *
+e_name_selector_list_new (EClientCache *client_cache)
 {
-	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
+	g_return_val_if_fail (E_IS_CLIENT_CACHE (client_cache), NULL);
 
 	return g_object_new (
 		E_TYPE_NAME_SELECTOR_LIST,
-		"registry", registry, NULL);
+		"client-cache", client_cache, NULL);
 }

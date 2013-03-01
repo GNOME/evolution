@@ -41,7 +41,7 @@ struct _QuickAdd {
 	gchar *vcard;
 	EContact *contact;
 	GCancellable *cancellable;
-	ESourceRegistry *registry;
+	EClientCache *client_cache;
 	ESource *source;
 
 	EContactQuickAddCallback cb;
@@ -57,11 +57,11 @@ struct _QuickAdd {
 };
 
 static QuickAdd *
-quick_add_new (ESourceRegistry *registry)
+quick_add_new (EClientCache *client_cache)
 {
 	QuickAdd *qa = g_new0 (QuickAdd, 1);
 	qa->contact = e_contact_new ();
-	qa->registry = g_object_ref (registry);
+	qa->client_cache = g_object_ref (client_cache);
 	qa->refs = 1;
 	return qa;
 }
@@ -80,7 +80,7 @@ quick_add_unref (QuickAdd *qa)
 			g_free (qa->email);
 			g_free (qa->vcard);
 			g_object_unref (qa->contact);
-			g_object_unref (qa->registry);
+			g_object_unref (qa->client_cache);
 			g_free (qa);
 		}
 	}
@@ -128,7 +128,8 @@ merge_cb (GObject *source_object,
 	EClient *client;
 	GError *error = NULL;
 
-	client = e_book_client_connect_finish (result, &error);
+	client = e_client_cache_get_client_finish (
+		E_CLIENT_CACHE (source_object), result, &error);
 
 	/* Sanity check. */
 	g_return_if_fail (
@@ -151,11 +152,17 @@ merge_cb (GObject *source_object,
 		return;
 	}
 
-	if (!e_client_is_readonly (client))
+	if (!e_client_is_readonly (client)) {
+		ESourceRegistry *registry;
+
+		registry = e_client_cache_ref_registry (qa->client_cache);
+
 		eab_merging_book_add_contact (
-			qa->registry, E_BOOK_CLIENT (client),
+			registry, E_BOOK_CLIENT (client),
 			qa->contact, NULL, NULL);
-	else {
+
+		g_object_unref (registry);
+	} else {
 		ESource *source = e_client_get_source (client);
 
 		e_alert_run_dialog_for_args (
@@ -183,7 +190,10 @@ quick_add_merge_contact (QuickAdd *qa)
 
 	qa->cancellable = g_cancellable_new ();
 
-	e_book_client_connect (qa->source, qa->cancellable, merge_cb, qa);
+	e_client_cache_get_client (
+		qa->client_cache, qa->source,
+		E_SOURCE_EXTENSION_ADDRESS_BOOK,
+		qa->cancellable, merge_cb, qa);
 }
 
 /* Raise a contact editor with all fields editable,
@@ -283,9 +293,11 @@ ce_have_book (GObject *source_object,
 {
 	QuickAdd *qa = user_data;
 	EClient *client;
+	ESourceRegistry *registry;
 	GError *error = NULL;
 
-	client = e_book_client_connect_finish (result, &error);
+	client = e_client_cache_get_client_finish (
+		E_CLIENT_CACHE (source_object), result, &error);
 
 	/* Sanity check. */
 	g_return_if_fail (
@@ -307,9 +319,13 @@ ce_have_book (GObject *source_object,
 		return;
 	}
 
+	registry = e_client_cache_ref_registry (qa->client_cache);
+
 	eab_merging_book_find_contact (
-		qa->registry, E_BOOK_CLIENT (client),
+		registry, E_BOOK_CLIENT (client),
 		qa->contact, ce_have_contact, qa);
+
+	g_object_unref (registry);
 }
 
 static void
@@ -322,7 +338,10 @@ edit_contact (QuickAdd *qa)
 
 	qa->cancellable = g_cancellable_new ();
 
-	e_book_client_connect (qa->source, qa->cancellable, ce_have_book, qa);
+	e_client_cache_get_client (
+		qa->client_cache, qa->source,
+		E_SOURCE_EXTENSION_ADDRESS_BOOK,
+		qa->cancellable, ce_have_book, qa);
 }
 
 #define QUICK_ADD_RESPONSE_EDIT_FULL 2
@@ -425,6 +444,7 @@ build_quick_add_dialog (QuickAdd *qa)
 	GtkWidget *label;
 	GtkTable *table;
 	ESource *source;
+	ESourceRegistry *registry;
 	const gchar *extension_name;
 	const gint xpad = 0, ypad = 0;
 
@@ -467,9 +487,12 @@ build_quick_add_dialog (QuickAdd *qa)
 	}
 
 	extension_name = E_SOURCE_EXTENSION_ADDRESS_BOOK;
-	source = e_source_registry_ref_default_address_book (qa->registry);
+	registry = e_client_cache_ref_registry (qa->client_cache);
+	source = e_source_registry_ref_default_address_book (registry);
+	g_object_unref (registry);
 
-	qa->combo_box = e_source_combo_box_new (qa->registry, extension_name);
+	qa->combo_box = e_client_combo_box_new (
+		qa->client_cache, extension_name);
 	e_source_combo_box_set_active (
 		E_SOURCE_COMBO_BOX (qa->combo_box), source);
 
@@ -533,7 +556,7 @@ build_quick_add_dialog (QuickAdd *qa)
 }
 
 void
-e_contact_quick_add (ESourceRegistry *registry,
+e_contact_quick_add (EClientCache *client_cache,
                      const gchar *in_name,
                      const gchar *email,
                      EContactQuickAddCallback cb,
@@ -544,7 +567,7 @@ e_contact_quick_add (ESourceRegistry *registry,
 	gchar *name = NULL;
 	gint len;
 
-	g_return_if_fail (E_IS_SOURCE_REGISTRY (registry));
+	g_return_if_fail (E_IS_CLIENT_CACHE (client_cache));
 
 	/* We need to have *something* to work with. */
 	if (in_name == NULL && email == NULL) {
@@ -567,7 +590,7 @@ e_contact_quick_add (ESourceRegistry *registry,
 		g_strstrip (name);
 	}
 
-	qa = quick_add_new (registry);
+	qa = quick_add_new (client_cache);
 	qa->cb = cb;
 	qa->closure = closure;
 	if (name)
@@ -582,7 +605,7 @@ e_contact_quick_add (ESourceRegistry *registry,
 }
 
 void
-e_contact_quick_add_free_form (ESourceRegistry *registry,
+e_contact_quick_add_free_form (EClientCache *client_cache,
                                const gchar *text,
                                EContactQuickAddCallback cb,
                                gpointer closure)
@@ -591,10 +614,10 @@ e_contact_quick_add_free_form (ESourceRegistry *registry,
 	const gchar *last_at, *s;
 	gboolean in_quote;
 
-	g_return_if_fail (E_IS_SOURCE_REGISTRY (registry));
+	g_return_if_fail (E_IS_CLIENT_CACHE (client_cache));
 
 	if (text == NULL) {
-		e_contact_quick_add (registry, NULL, NULL, cb, closure);
+		e_contact_quick_add (client_cache, NULL, NULL, cb, closure);
 		return;
 	}
 
@@ -658,14 +681,14 @@ e_contact_quick_add_free_form (ESourceRegistry *registry,
 			g_strstrip (email);
 	}
 
-	e_contact_quick_add (registry, name, email, cb, closure);
+	e_contact_quick_add (client_cache, name, email, cb, closure);
 
 	g_free (name);
 	g_free (email);
 }
 
 void
-e_contact_quick_add_email (ESourceRegistry *registry,
+e_contact_quick_add_email (EClientCache *client_cache,
                            const gchar *email,
                            EContactQuickAddCallback cb,
                            gpointer closure)
@@ -688,14 +711,14 @@ e_contact_quick_add_email (ESourceRegistry *registry,
 		addr = g_strdup (email);
 	}
 
-	e_contact_quick_add (registry, name, addr, cb, closure);
+	e_contact_quick_add (client_cache, name, addr, cb, closure);
 
 	g_free (name);
 	g_free (addr);
 }
 
 void
-e_contact_quick_add_vcard (ESourceRegistry *registry,
+e_contact_quick_add_vcard (EClientCache *client_cache,
                            const gchar *vcard,
                            EContactQuickAddCallback cb,
                            gpointer closure)
@@ -704,7 +727,7 @@ e_contact_quick_add_vcard (ESourceRegistry *registry,
 	GtkWidget *dialog;
 	EContact *contact;
 
-	g_return_if_fail (E_IS_SOURCE_REGISTRY (registry));
+	g_return_if_fail (E_IS_CLIENT_CACHE (client_cache));
 
 	/* We need to have *something* to work with. */
 	if (vcard == NULL) {
@@ -713,7 +736,7 @@ e_contact_quick_add_vcard (ESourceRegistry *registry,
 		return;
 	}
 
-	qa = quick_add_new (registry);
+	qa = quick_add_new (client_cache);
 	qa->cb = cb;
 	qa->closure = closure;
 	quick_add_set_vcard (qa, vcard);

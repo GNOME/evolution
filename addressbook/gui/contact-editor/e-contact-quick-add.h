@@ -25,23 +25,25 @@
 
 #include <libebook/libebook.h>
 
+#include <e-util/e-util.h>
+
 typedef void	(*EContactQuickAddCallback)	(EContact *new_contact,
 						 gpointer closure);
 
-void		e_contact_quick_add		(ESourceRegistry *registry,
+void		e_contact_quick_add		(EClientCache *client_cache,
 						 const gchar *name,
 						 const gchar *email,
 						 EContactQuickAddCallback cb,
 						 gpointer closure);
-void		e_contact_quick_add_free_form	(ESourceRegistry *registry,
+void		e_contact_quick_add_free_form	(EClientCache *client_cache,
 						 const gchar *text,
 						 EContactQuickAddCallback cb,
 						 gpointer closure);
-void		e_contact_quick_add_email	(ESourceRegistry *registry,
+void		e_contact_quick_add_email	(EClientCache *client_cache,
 						 const gchar *email,
 						 EContactQuickAddCallback cb,
 						 gpointer closure);
-void		e_contact_quick_add_vcard	(ESourceRegistry *registry,
+void		e_contact_quick_add_vcard	(EClientCache *client_cache,
 						 const gchar *vcard,
 						 EContactQuickAddCallback cb,
 						 gpointer closure);

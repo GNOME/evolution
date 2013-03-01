@@ -811,6 +811,7 @@ composer_header_table_constructed (GObject *object)
 {
 	EComposerHeaderTable *table;
 	ENameSelector *name_selector;
+	EClientCache *client_cache;
 	ESourceRegistry *registry;
 	EComposerHeader *header;
 	GtkWidget *widget;
@@ -825,11 +826,12 @@ composer_header_table_constructed (GObject *object)
 
 	table = E_COMPOSER_HEADER_TABLE (object);
 	shell = e_composer_header_table_get_shell (table);
+	client_cache = e_shell_get_client_cache (shell);
 	registry = e_composer_header_table_get_registry (table);
 
 	small_screen_mode = e_shell_get_small_screen_mode (shell);
 
-	name_selector = e_name_selector_new (registry);
+	name_selector = e_name_selector_new (client_cache);
 	table->priv->name_selector = name_selector;
 
 	header = e_composer_from_header_new (registry, _("Fr_om:"));

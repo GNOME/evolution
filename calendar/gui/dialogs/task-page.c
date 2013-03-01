@@ -86,7 +86,7 @@ struct _TaskPagePrivate {
 	GtkWidget *categories_btn;
 	GtkWidget *categories;
 
-	GtkWidget *source_combo_box;
+	GtkWidget *client_combo_box;
 
 	/* Meeting related items */
 	GtkWidget *list_box;
@@ -334,7 +334,7 @@ sensitize_widgets (TaskPage *tpage)
 		gtk_widget_hide (priv->organizer);
 		gtk_widget_hide (priv->invite);
 		gtk_label_set_text_with_mnemonic (GTK_LABEL (priv->org_cal_label), _("_List:"));
-		gtk_label_set_mnemonic_widget (GTK_LABEL (priv->org_cal_label), priv->source_combo_box);
+		gtk_label_set_mnemonic_widget (GTK_LABEL (priv->org_cal_label), priv->client_combo_box);
 	} else {
 		gtk_widget_show (priv->invite);
 		gtk_widget_show (priv->calendar_label);
@@ -637,7 +637,7 @@ task_page_fill_widgets (CompEditorPage *page,
 
 	/* Source */
 	e_source_combo_box_set_active (
-		E_SOURCE_COMBO_BOX (priv->source_combo_box),
+		E_SOURCE_COMBO_BOX (priv->client_combo_box),
 		e_client_get_source (E_CLIENT (client)));
 
 	e_client_get_backend_property_sync (E_CLIENT (client), CAL_BACKEND_PROPERTY_CAL_EMAIL_ADDRESS, &backend_addr, NULL, NULL);
@@ -1450,7 +1450,7 @@ static gboolean
 get_widgets (TaskPage *tpage)
 {
 	EShell *shell;
-	ESourceRegistry *registry;
+	EClientCache *client_cache;
 	CompEditor *editor;
 	CompEditorPage *page = COMP_EDITOR_PAGE (tpage);
 	GtkEntryCompletion *completion;
@@ -1465,7 +1465,7 @@ get_widgets (TaskPage *tpage)
 
 	editor = comp_editor_page_get_editor (page);
 	shell = comp_editor_get_shell (editor);
-	registry = e_shell_get_registry (shell);
+	client_cache = e_shell_get_client_cache (shell);
 
 	priv->main = e_builder_get_widget (priv->builder, "task-page");
 	if (!priv->main)
@@ -1528,11 +1528,12 @@ get_widgets (TaskPage *tpage)
 	gtk_container_add (GTK_CONTAINER (sw), GTK_WIDGET (priv->list_view));
 	gtk_box_pack_start (GTK_BOX (priv->list_box), sw, TRUE, TRUE, 0);
 
-	priv->source_combo_box = e_builder_get_widget (priv->builder, "source");
-	e_source_combo_box_set_registry (
-		E_SOURCE_COMBO_BOX (priv->source_combo_box), registry);
+	priv->client_combo_box = e_builder_get_widget (
+		priv->builder, "client-combo-box");
+	e_client_combo_box_set_client_cache (
+		E_CLIENT_COMBO_BOX (priv->client_combo_box), client_cache);
 
-	gtk_label_set_mnemonic_widget (GTK_LABEL (priv->calendar_label), priv->source_combo_box);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (priv->calendar_label), priv->client_combo_box);
 
 	completion = e_category_completion_new ();
 	gtk_entry_set_completion (GTK_ENTRY (priv->categories), completion);
@@ -1784,18 +1785,21 @@ due_date_changed_cb (TaskPage *tpage)
 }
 
 static void
-tpage_client_connect_cb (GObject *source_object,
-                         GAsyncResult *result,
-                         gpointer user_data)
+tpage_get_client_cb (GObject *source_object,
+                     GAsyncResult *result,
+                     gpointer user_data)
 {
 	EClient *client;
+	EClientComboBox *combo_box;
 	TaskPage *tpage = user_data;
 	TaskPagePrivate *priv;
 	CompEditor *editor;
 	GError *error = NULL;
 
-	client = e_client_cache_get_client_finish (
-		E_CLIENT_CACHE (source_object), result, &error);
+	combo_box = E_CLIENT_COMBO_BOX (source_object);
+
+	client = e_client_combo_box_get_client_finish (
+		combo_box, result, &error);
 
 	/* Sanity check. */
 	g_return_if_fail (
@@ -1817,7 +1821,7 @@ tpage_client_connect_cb (GObject *source_object,
 		old_client = comp_editor_get_client (editor);
 
 		e_source_combo_box_set_active (
-			E_SOURCE_COMBO_BOX (priv->source_combo_box),
+			E_SOURCE_COMBO_BOX (combo_box),
 			e_client_get_source (E_CLIENT (old_client)));
 
 		dialog = gtk_message_dialog_new (
@@ -1861,19 +1865,16 @@ tpage_client_connect_cb (GObject *source_object,
 }
 
 static void
-source_changed_cb (ESourceComboBox *source_combo_box,
+source_changed_cb (ESourceComboBox *combo_box,
                    TaskPage *tpage)
 {
 	TaskPagePrivate *priv = tpage->priv;
-	EClientCache *client_cache;
-	CompEditor *editor;
 	ESource *source;
-	EShell *shell;
 
 	if (comp_editor_page_get_updating (COMP_EDITOR_PAGE (tpage)))
 		return;
 
-	source = e_source_combo_box_ref_active (source_combo_box);
+	source = e_source_combo_box_ref_active (combo_box);
 	g_return_if_fail (source != NULL);
 
 	if (priv->connect_cancellable != NULL) {
@@ -1882,15 +1883,10 @@ source_changed_cb (ESourceComboBox *source_combo_box,
 	}
 	priv->connect_cancellable = g_cancellable_new ();
 
-	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (tpage));
-	shell = comp_editor_get_shell (editor);
-	client_cache = e_shell_get_client_cache (shell);
-
-	e_client_cache_get_client (
-		client_cache, source,
-		E_SOURCE_EXTENSION_TASK_LIST,
-		priv->connect_cancellable,
-		tpage_client_connect_cb, tpage);
+	e_client_combo_box_get_client (
+		E_CLIENT_COMBO_BOX (combo_box),
+		source, priv->connect_cancellable,
+		tpage_get_client_cb, tpage);
 
 	g_object_unref (source);
 }
@@ -1919,7 +1915,7 @@ task_page_send_options_clicked_cb (TaskPage *tpage)
 		priv->sod = e_send_options_dialog_new ();
 		priv->sod->data->initialized = TRUE;
 		source = e_source_combo_box_ref_active (
-			E_SOURCE_COMBO_BOX (priv->source_combo_box));
+			E_SOURCE_COMBO_BOX (priv->client_combo_box));
 		e_send_options_utils_set_default_data (
 			priv->sod, source, "task");
 		g_object_unref (source);
@@ -1996,7 +1992,7 @@ init_widgets (TaskPage *tpage)
 
 	/* Source selector */
 	g_signal_connect (
-		priv->source_combo_box, "changed",
+		priv->client_combo_box, "changed",
 		G_CALLBACK (source_changed_cb), tpage);
 
 	/* Connect the default signal handler to use to make sure the "changed"

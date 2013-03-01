@@ -143,7 +143,7 @@ static void
 e_meeting_list_view_init (EMeetingListView *view)
 {
 	ENameSelectorDialog *name_selector_dialog;
-	ESourceRegistry *registry;
+	EClientCache *client_cache;
 	EShell *shell;
 	gint i;
 
@@ -153,9 +153,9 @@ e_meeting_list_view_init (EMeetingListView *view)
 
 	/* FIXME Refactor this so we don't need e_shell_get_default(). */
 	shell = e_shell_get_default ();
-	registry = e_shell_get_registry (shell);
+	client_cache = e_shell_get_client_cache (shell);
 
-	view->priv->name_selector = e_name_selector_new (registry);
+	view->priv->name_selector = e_name_selector_new (client_cache);
 
 	for (i = 0; sections[i]; i++)
 		add_section (view->priv->name_selector, sections[i]);

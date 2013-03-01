@@ -27,8 +27,7 @@
 #ifndef E_NAME_SELECTOR_H
 #define E_NAME_SELECTOR_H
 
-#include <libedataserver/libedataserver.h>
-
+#include <e-util/e-client-cache.h>
 #include <e-util/e-name-selector-model.h>
 #include <e-util/e-name-selector-dialog.h>
 #include <e-util/e-name-selector-entry.h>
@@ -69,9 +68,9 @@ struct _ENameSelectorClass {
 };
 
 GType		e_name_selector_get_type	(void) G_GNUC_CONST;
-ENameSelector *	e_name_selector_new		(ESourceRegistry *registry);
-ESourceRegistry *
-		e_name_selector_get_registry	(ENameSelector *name_selector);
+ENameSelector *	e_name_selector_new		(EClientCache *client_cache);
+EClientCache *	e_name_selector_ref_client_cache
+						(ENameSelector *name_selector);
 ENameSelectorModel *
 		e_name_selector_peek_model	(ENameSelector *name_selector);
 ENameSelectorDialog *

@@ -50,7 +50,7 @@ typedef struct {
 } SourceBook;
 
 struct _ENameSelectorPrivate {
-	ESourceRegistry *registry;
+	EClientCache *client_cache;
 	ENameSelectorModel *model;
 	ENameSelectorDialog *dialog;
 
@@ -63,7 +63,7 @@ struct _ENameSelectorPrivate {
 
 enum {
 	PROP_0,
-	PROP_REGISTRY
+	PROP_CLIENT_CACHE
 };
 
 G_DEFINE_TYPE (ENameSelector, e_name_selector, G_TYPE_OBJECT)
@@ -90,9 +90,9 @@ reset_pointer_cb (gpointer data,
 }
 
 static void
-name_selector_book_client_connect_cb (GObject *source_object,
-                                      GAsyncResult *result,
-                                      gpointer user_data)
+name_selector_get_client_cb (GObject *source_object,
+                             GAsyncResult *result,
+                             gpointer user_data)
 {
 	ENameSelector *name_selector = user_data;
 	EBookClient *book_client;
@@ -102,7 +102,8 @@ name_selector_book_client_connect_cb (GObject *source_object,
 	guint ii;
 	GError *error = NULL;
 
-	client = e_book_client_connect_finish (result, &error);
+	client = e_client_cache_get_client_finish (
+		E_CLIENT_CACHE (source_object), result, &error);
 
 	/* Sanity check. */
 	g_return_if_fail (
@@ -160,6 +161,7 @@ name_selector_book_client_connect_cb (GObject *source_object,
 void
 e_name_selector_load_books (ENameSelector *name_selector)
 {
+	EClientCache *client_cache;
 	ESourceRegistry *registry;
 	GList *list, *iter;
 	const gchar *extension_name;
@@ -167,7 +169,9 @@ e_name_selector_load_books (ENameSelector *name_selector)
 	g_return_if_fail (E_IS_NAME_SELECTOR (name_selector));
 
 	extension_name = E_SOURCE_EXTENSION_ADDRESS_BOOK;
-	registry = e_name_selector_get_registry (name_selector);
+	client_cache = e_name_selector_ref_client_cache (name_selector);
+	registry = e_client_cache_ref_registry (client_cache);
+
 	list = e_source_registry_list_sources (registry, extension_name);
 
 	for (iter = list; iter != NULL; iter = g_list_next (iter)) {
@@ -187,13 +191,21 @@ e_name_selector_load_books (ENameSelector *name_selector)
 		if (!e_source_autocomplete_get_include_me (extension))
 			continue;
 
-		e_book_client_connect (
-			source, name_selector->priv->cancellable,
-			name_selector_book_client_connect_cb,
+		/* FIXME GCancellable is only to be used for one
+		 *       operation at a time, not for multiple
+		 *       concurrent operations like this. */
+		e_client_cache_get_client (
+			client_cache, source,
+			E_SOURCE_EXTENSION_ADDRESS_BOOK,
+			name_selector->priv->cancellable,
+			name_selector_get_client_cb,
 			g_object_ref (name_selector));
 	}
 
 	g_list_free_full (list, (GDestroyNotify) g_object_unref);
+
+	g_object_unref (registry);
+	g_object_unref (client_cache);
 }
 
 /**
@@ -215,13 +227,13 @@ e_name_selector_cancel_loading (ENameSelector *name_selector)
 }
 
 static void
-name_selector_set_registry (ENameSelector *name_selector,
-                            ESourceRegistry *registry)
+name_selector_set_client_cache (ENameSelector *name_selector,
+                                EClientCache *client_cache)
 {
-	g_return_if_fail (E_IS_SOURCE_REGISTRY (registry));
-	g_return_if_fail (name_selector->priv->registry == NULL);
+	g_return_if_fail (E_IS_CLIENT_CACHE (client_cache));
+	g_return_if_fail (name_selector->priv->client_cache == NULL);
 
-	name_selector->priv->registry = g_object_ref (registry);
+	name_selector->priv->client_cache = g_object_ref (client_cache);
 }
 
 static void
@@ -231,8 +243,8 @@ name_selector_set_property (GObject *object,
                             GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_REGISTRY:
-			name_selector_set_registry (
+		case PROP_CLIENT_CACHE:
+			name_selector_set_client_cache (
 				E_NAME_SELECTOR (object),
 				g_value_get_object (value));
 			return;
@@ -248,10 +260,10 @@ name_selector_get_property (GObject *object,
                             GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_REGISTRY:
-			g_value_set_object (
+		case PROP_CLIENT_CACHE:
+			g_value_take_object (
 				value,
-				e_name_selector_get_registry (
+				e_name_selector_ref_client_cache (
 				E_NAME_SELECTOR (object)));
 			return;
 	}
@@ -337,14 +349,19 @@ e_name_selector_class_init (ENameSelectorClass *class)
 	object_class->dispose = name_selector_dispose;
 	object_class->finalize = name_selector_finalize;
 
+	/**
+	 * ENameSelector:client-cache:
+	 *
+	 * Cache of shared #EClient instances.
+	 **/
 	g_object_class_install_property (
 		object_class,
-		PROP_REGISTRY,
+		PROP_CLIENT_CACHE,
 		g_param_spec_object (
-			"registry",
-			"Registry",
-			"Data source registry",
-			E_TYPE_SOURCE_REGISTRY,
+			"client-cache",
+			"Client Cache",
+			"Cache of shared EClient instances",
+			E_TYPE_CLIENT_CACHE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
 			G_PARAM_STATIC_STRINGS));
@@ -369,38 +386,41 @@ e_name_selector_init (ENameSelector *name_selector)
 
 /**
  * e_name_selector_new:
- * @registry: an #ESourceRegistry
+ * @client_cache: an #EClientCache
  *
  * Creates a new #ENameSelector.
  *
  * Returns: A new #ENameSelector.
  **/
 ENameSelector *
-e_name_selector_new (ESourceRegistry *registry)
+e_name_selector_new (EClientCache *client_cache)
 {
-	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
+	g_return_val_if_fail (E_IS_CLIENT_CACHE (client_cache), NULL);
 
 	return g_object_new (
 		E_TYPE_NAME_SELECTOR,
-		"registry", registry, NULL);
+		"client-cache", client_cache, NULL);
 }
 
 /**
- * e_name_selector_get_registry:
+ * e_name_selector_ref_client_cache:
  * @name_selector: an #ENameSelector
  *
- * Returns the #ESourceRegistry passed to e_name_selector_new().
+ * Returns the #EClientCache passed to e_name_selector_new().
  *
- * Returns: the #ESourceRegistry
+ * The returned #EClientCache is referenced for thread-safety and must be
+ * unreferenced with g_object_unref() when finished with it.
  *
- * Since: 3.6
+ * Returns: an #EClientCache
+ *
+ * Since: 3.8
  **/
-ESourceRegistry *
-e_name_selector_get_registry (ENameSelector *name_selector)
+EClientCache *
+e_name_selector_ref_client_cache (ENameSelector *name_selector)
 {
 	g_return_val_if_fail (E_IS_NAME_SELECTOR (name_selector), NULL);
 
-	return name_selector->priv->registry;
+	return g_object_ref (name_selector->priv->client_cache);
 }
 
 /* ------- *
@@ -479,13 +499,14 @@ e_name_selector_peek_dialog (ENameSelector *name_selector)
 	g_return_val_if_fail (E_IS_NAME_SELECTOR (name_selector), NULL);
 
 	if (name_selector->priv->dialog == NULL) {
-		ESourceRegistry *registry;
+		EClientCache *client_cache;
 		ENameSelectorDialog *dialog;
 		ENameSelectorModel *model;
 
-		registry = e_name_selector_get_registry (name_selector);
-		dialog = e_name_selector_dialog_new (registry);
+		client_cache = e_name_selector_ref_client_cache (name_selector);
+		dialog = e_name_selector_dialog_new (client_cache);
 		name_selector->priv->dialog = dialog;
+		g_object_unref (client_cache);
 
 		model = e_name_selector_peek_model (name_selector);
 		e_name_selector_dialog_set_model (dialog, model);
@@ -563,13 +584,17 @@ e_name_selector_peek_section_entry (ENameSelector *name_selector,
 	section = &g_array_index (name_selector->priv->sections, Section, n);
 
 	if (!section->entry) {
-		ESourceRegistry *registry;
+		EClientCache *client_cache;
 		EContactStore *contact_store;
+		GtkWidget *widget;
 		gchar         *text;
 		gint           i;
 
-		registry = e_name_selector_get_registry (name_selector);
-		section->entry = e_name_selector_entry_new (registry);
+		client_cache = e_name_selector_ref_client_cache (name_selector);
+		widget = e_name_selector_entry_new (client_cache);
+		section->entry = E_NAME_SELECTOR_ENTRY (widget);
+		g_object_unref (client_cache);
+
 		g_object_weak_ref (G_OBJECT (section->entry), reset_pointer_cb, name_selector);
 		if (pango_parse_markup (name, -1, '_', NULL,
 					&text, NULL, NULL))  {
@@ -635,13 +660,16 @@ e_name_selector_peek_section_list (ENameSelector *name_selector,
 
 	if (!section->entry) {
 		EContactStore *contact_store;
-		ESourceRegistry *registry;
+		EClientCache *client_cache;
+		GtkWidget *widget;
 		gchar         *text;
 		gint           i;
 
-		registry = name_selector->priv->registry;
-		section->entry = (ENameSelectorEntry *)
-			e_name_selector_list_new (registry);
+		client_cache = e_name_selector_ref_client_cache (name_selector);
+		widget = e_name_selector_list_new (client_cache);
+		section->entry = E_NAME_SELECTOR_ENTRY (widget);
+		g_object_unref (client_cache);
+
 		g_object_weak_ref (G_OBJECT (section->entry), reset_pointer_cb, name_selector);
 		if (pango_parse_markup (name, -1, '_', NULL,
 					&text, NULL, NULL))  {

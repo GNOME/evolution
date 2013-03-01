@@ -39,12 +39,12 @@ close_dialog (GtkWidget *widget,
 }
 
 static gboolean
-start_test (ESourceRegistry *registry)
+start_test (EClientCache *client_cache)
 {
-	ENameSelectorModel  *name_selector_model;
-	ENameSelectorEntry  *name_selector_entry;
-	EDestinationStore   *destination_store;
-	GtkWidget           *container;
+	ENameSelectorModel *name_selector_model;
+	EDestinationStore *destination_store;
+	GtkWidget *name_selector_entry;
+	GtkWidget *container;
 
 	destination_store = e_destination_store_new ();
 	name_selector_model = e_name_selector_model_new ();
@@ -53,18 +53,23 @@ start_test (ESourceRegistry *registry)
 	e_name_selector_model_add_section (name_selector_model, "cc", "Cc", NULL);
 	e_name_selector_model_add_section (name_selector_model, "bcc", "Bcc", NULL);
 
-	name_selector_dialog = e_name_selector_dialog_new (registry);
+	name_selector_dialog = e_name_selector_dialog_new (client_cache);
 	e_name_selector_dialog_set_model (name_selector_dialog, name_selector_model);
 	gtk_window_set_modal (GTK_WINDOW (name_selector_dialog), FALSE);
 
-	name_selector_entry = e_name_selector_entry_new (registry);
-	e_name_selector_entry_set_destination_store (name_selector_entry, destination_store);
+	name_selector_entry = e_name_selector_entry_new (client_cache);
+	e_name_selector_entry_set_destination_store (
+		E_NAME_SELECTOR_ENTRY (name_selector_entry),
+		destination_store);
 
-	g_signal_connect (name_selector_dialog, "response", G_CALLBACK (close_dialog), name_selector_dialog);
+	g_signal_connect (
+		name_selector_dialog, "response",
+		G_CALLBACK (close_dialog), name_selector_dialog);
+
 	gtk_widget_show (GTK_WIDGET (name_selector_dialog));
 
 	container = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-	gtk_container_add (GTK_CONTAINER (container), GTK_WIDGET (name_selector_entry));
+	gtk_container_add (GTK_CONTAINER (container), name_selector_entry);
 	gtk_widget_show_all (container);
 
 	name_selector_entry_window = container;
@@ -79,6 +84,7 @@ main (gint argc,
       gchar **argv)
 {
 	ESourceRegistry *registry;
+	EClientCache *client_cache;
 	GError *error = NULL;
 
 	gtk_init (&argc, &argv);
@@ -94,9 +100,14 @@ main (gint argc,
 		g_assert_not_reached ();
 	}
 
-	g_idle_add ((GSourceFunc) start_test, registry);
+	client_cache = e_client_cache_new (registry);
+
+	g_idle_add ((GSourceFunc) start_test, client_cache);
 
 	gtk_main ();
+
+	g_object_unref (registry);
+	g_object_unref (client_cache);
 
 	return 0;
 }

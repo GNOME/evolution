@@ -33,7 +33,7 @@
 #include <libebook/libebook.h>
 #include <libebackend/libebackend.h>
 
-#include "e-source-combo-box.h"
+#include "e-client-combo-box.h"
 #include "e-destination-store.h"
 #include "e-contact-store.h"
 #include "e-name-selector-dialog.h"
@@ -61,7 +61,7 @@ typedef struct {
 } SelData;
 
 struct _ENameSelectorDialogPrivate {
-	ESourceRegistry *registry;
+	EClientCache *client_cache;
 	ENameSelectorModel *name_selector_model;
 	GtkTreeModelSort *contact_sort;
 	GCancellable *cancellable;
@@ -83,11 +83,12 @@ struct _ENameSelectorDialogPrivate {
 
 enum {
 	PROP_0,
-	PROP_REGISTRY
+	PROP_CLIENT_CACHE
 };
 
 static void     search_changed                (ENameSelectorDialog *name_selector_dialog);
-static void     source_changed                (ENameSelectorDialog *name_selector_dialog, ESourceComboBox *source_combo_box);
+static void     source_changed                (ENameSelectorDialog *name_selector_dialog,
+					       EClientComboBox *combo_box);
 static void     transfer_button_clicked       (ENameSelectorDialog *name_selector_dialog, GtkButton *transfer_button);
 static void     contact_selection_changed     (ENameSelectorDialog *name_selector_dialog);
 static void     setup_name_selector_model     (ENameSelectorDialog *name_selector_dialog);
@@ -146,13 +147,13 @@ name_selector_dialog_populate_categories (ENameSelectorDialog *name_selector_dia
 }
 
 static void
-name_selector_dialog_set_registry (ENameSelectorDialog *name_selector_dialog,
-                                   ESourceRegistry *registry)
+name_selector_dialog_set_client_cache (ENameSelectorDialog *name_selector_dialog,
+                                       EClientCache *client_cache)
 {
-	g_return_if_fail (E_IS_SOURCE_REGISTRY (registry));
-	g_return_if_fail (name_selector_dialog->priv->registry == NULL);
+	g_return_if_fail (E_IS_CLIENT_CACHE (client_cache));
+	g_return_if_fail (name_selector_dialog->priv->client_cache == NULL);
 
-	name_selector_dialog->priv->registry = g_object_ref (registry);
+	name_selector_dialog->priv->client_cache = g_object_ref (client_cache);
 }
 
 static void
@@ -162,8 +163,8 @@ name_selector_dialog_set_property (GObject *object,
                                    GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_REGISTRY:
-			name_selector_dialog_set_registry (
+		case PROP_CLIENT_CACHE:
+			name_selector_dialog_set_client_cache (
 				E_NAME_SELECTOR_DIALOG (object),
 				g_value_get_object (value));
 			return;
@@ -179,10 +180,10 @@ name_selector_dialog_get_property (GObject *object,
                                    GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_REGISTRY:
-			g_value_set_object (
+		case PROP_CLIENT_CACHE:
+			g_value_take_object (
 				value,
-				e_name_selector_dialog_get_registry (
+				e_name_selector_dialog_ref_client_cache (
 				E_NAME_SELECTOR_DIALOG (object)));
 			return;
 	}
@@ -200,10 +201,7 @@ name_selector_dialog_dispose (GObject *object)
 	remove_books (E_NAME_SELECTOR_DIALOG (object));
 	shutdown_name_selector_model (E_NAME_SELECTOR_DIALOG (object));
 
-	if (priv->registry != NULL) {
-		g_object_unref (priv->registry);
-		priv->registry = NULL;
-	}
+	g_clear_object (&priv->client_cache);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_name_selector_dialog_parent_class)->dispose (object);
@@ -235,6 +233,7 @@ name_selector_dialog_constructed (GObject *object)
 	GtkTreeViewColumn *column;
 	GtkCellRenderer   *cell_renderer;
 	GtkTreeSelection  *selection;
+	ESourceRegistry *registry;
 	ESource *source;
 	gchar *tmp_str;
 	GtkWidget *name_selector_grid;
@@ -259,7 +258,7 @@ name_selector_dialog_constructed (GObject *object)
 	GtkWidget *source_tree_view;
 	GtkWidget *destination_vgrid;
 	GtkWidget *status_message;
-	GtkWidget *source_combo;
+	GtkWidget *client_combo;
 	const gchar *extension_name;
 
 	priv = E_NAME_SELECTOR_DIALOG_GET_PRIVATE (object);
@@ -514,18 +513,22 @@ name_selector_dialog_constructed (GObject *object)
 	/* Create source menu */
 
 	extension_name = E_SOURCE_EXTENSION_ADDRESS_BOOK;
-	source_combo = e_source_combo_box_new (priv->registry, extension_name);
+	client_combo = e_client_combo_box_new (
+		priv->client_cache, extension_name);
 	g_signal_connect_swapped (
-		source_combo, "changed",
+		client_combo, "changed",
 		G_CALLBACK (source_changed), object);
 
-	source_changed (E_NAME_SELECTOR_DIALOG (object), E_SOURCE_COMBO_BOX (source_combo));
+	source_changed (
+		E_NAME_SELECTOR_DIALOG (object),
+		E_CLIENT_COMBO_BOX (client_combo));
 
-	gtk_label_set_mnemonic_widget (GTK_LABEL (AddressBookLabel), source_combo);
-	gtk_widget_show (source_combo);
-	gtk_widget_set_hexpand (source_combo, TRUE);
-	gtk_widget_set_halign (source_combo, GTK_ALIGN_FILL);
-	gtk_container_add (GTK_CONTAINER (source_menu_hgrid), source_combo);
+	gtk_label_set_mnemonic_widget (
+		GTK_LABEL (AddressBookLabel), client_combo);
+	gtk_widget_show (client_combo);
+	gtk_widget_set_hexpand (client_combo, TRUE);
+	gtk_widget_set_halign (client_combo, GTK_ALIGN_FILL);
+	gtk_container_add (GTK_CONTAINER (source_menu_hgrid), client_combo);
 
 	name_selector_dialog_populate_categories (
 		E_NAME_SELECTOR_DIALOG (object));
@@ -538,10 +541,12 @@ name_selector_dialog_constructed (GObject *object)
 
 	/* Display initial source */
 
-	source = e_source_registry_ref_default_address_book (priv->registry);
+	registry = e_client_cache_ref_registry (priv->client_cache);
+	source = e_source_registry_ref_default_address_book (registry);
 	e_source_combo_box_set_active (
-		E_SOURCE_COMBO_BOX (source_combo), source);
+		E_SOURCE_COMBO_BOX (client_combo), source);
 	g_object_unref (source);
+	g_object_unref (registry);
 
 	/* Set up dialog defaults */
 
@@ -592,14 +597,19 @@ e_name_selector_dialog_class_init (ENameSelectorDialogClass *class)
 	object_class->finalize = name_selector_dialog_finalize;
 	object_class->constructed = name_selector_dialog_constructed;
 
+	/**
+	 * ENameSelectorDialog:client-cache:
+	 *
+	 * Cache of shared #EClient instances.
+	 **/
 	g_object_class_install_property (
 		object_class,
-		PROP_REGISTRY,
+		PROP_CLIENT_CACHE,
 		g_param_spec_object (
-			"registry",
-			"Registry",
-			"Data source registry",
-			E_TYPE_SOURCE_REGISTRY,
+			"client-cache",
+			"Client Cache",
+			"Cache of shared EClient instances",
+			E_TYPE_CLIENT_CACHE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
 			G_PARAM_STATIC_STRINGS));
@@ -614,40 +624,42 @@ e_name_selector_dialog_init (ENameSelectorDialog *name_selector_dialog)
 
 /**
  * e_name_selector_dialog_new:
- * @registry: an #ESourceRegistry
+ * @client_cache: an #EClientCache
  *
  * Creates a new #ENameSelectorDialog.
  *
  * Returns: A new #ENameSelectorDialog.
  **/
 ENameSelectorDialog *
-e_name_selector_dialog_new (ESourceRegistry *registry)
+e_name_selector_dialog_new (EClientCache *client_cache)
 {
-	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
+	g_return_val_if_fail (E_IS_CLIENT_CACHE (client_cache), NULL);
 
 	return g_object_new (
 		E_TYPE_NAME_SELECTOR_DIALOG,
-		"registry", registry, NULL);
+		"client-cache", client_cache, NULL);
 }
 
 /**
- * e_name_selector_dialog_get_registry:
+ * e_name_selector_dialog_ref_client_cache:
  * @name_selector_dialog: an #ENameSelectorDialog
  *
- * Returns the #ESourceRegistry that was passed to
- * e_name_selector_dialog_new().
+ * Returns the #EClientCache passed to e_name_selector_dialog_new().
  *
- * Returns: the #ESourceRegistry
+ * The returned #EClientCache is referenced for thread-safety and must be
+ * unreferenced with g_object_unref() when finished with it.
  *
- * Since: 3.6
+ * Returns: an #EClientCache
+ *
+ * Since: 3.8
  **/
-ESourceRegistry *
-e_name_selector_dialog_get_registry (ENameSelectorDialog *name_selector_dialog)
+EClientCache *
+e_name_selector_dialog_ref_client_cache (ENameSelectorDialog *name_selector_dialog)
 {
 	g_return_val_if_fail (
 		E_IS_NAME_SELECTOR_DIALOG (name_selector_dialog), NULL);
 
-	return name_selector_dialog->priv->registry;
+	return g_object_ref (name_selector_dialog->priv->client_cache);
 }
 
 /* --------- *
@@ -1133,9 +1145,9 @@ stop_client_view_cb (EContactStore *store,
 }
 
 static void
-book_client_connect_cb (GObject *source_object,
-                        GAsyncResult *result,
-                        gpointer user_data)
+name_selector_dialog_get_client_cb (GObject *source_object,
+                                    GAsyncResult *result,
+                                    gpointer user_data)
 {
 	ENameSelectorDialog *name_selector_dialog = user_data;
 	EClient *client;
@@ -1144,7 +1156,8 @@ book_client_connect_cb (GObject *source_object,
 	ENameSelectorModel *model;
 	GError *error = NULL;
 
-	client = e_book_client_connect_finish (result, &error);
+	client = e_client_combo_box_get_client_finish (
+		E_CLIENT_COMBO_BOX (source_object), result, &error);
 
 	/* Sanity check. */
 	g_return_if_fail (
@@ -1181,13 +1194,13 @@ book_client_connect_cb (GObject *source_object,
 
 static void
 source_changed (ENameSelectorDialog *name_selector_dialog,
-                ESourceComboBox *source_combo_box)
+                EClientComboBox *combo_box)
 {
 	GCancellable *cancellable;
 	ESource *source;
 	gpointer parent;
 
-	source = e_source_combo_box_ref_active (source_combo_box);
+	source = e_source_combo_box_ref_active (E_SOURCE_COMBO_BOX (combo_box));
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (name_selector_dialog));
 	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
@@ -1201,10 +1214,10 @@ source_changed (ENameSelectorDialog *name_selector_dialog,
 	cancellable = g_cancellable_new ();
 	name_selector_dialog->priv->cancellable = cancellable;
 
-	/* Connect to the selected book. */
-	e_book_client_connect (
-		source, cancellable,
-		book_client_connect_cb,
+	/* Connect to the selected source. */
+	e_client_combo_box_get_client (
+		combo_box, source, cancellable,
+		name_selector_dialog_get_client_cb,
 		g_object_ref (name_selector_dialog));
 
 	g_object_unref (source);

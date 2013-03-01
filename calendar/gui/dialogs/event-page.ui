@@ -767,7 +767,7 @@
                             <property name="yalign">0.5</property>
                             <property name="xpad">0</property>
                             <property name="ypad">0</property>
-                            <property name="mnemonic_widget">source</property>
+                            <property name="mnemonic_widget">client-combo-box</property>
                             <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
                             <property name="single_line_mode">False</property>
                             <property name="angle">0</property>
@@ -779,7 +779,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="ESourceComboBox" type-func="e_source_combo_box_get_type" id="source">
+                          <object class="EClientComboBox" type-func="e_client_combo_box_get_type" id="client-combo-box">
                             <property name="extension-name">Calendar</property>
                             <property name="show-colors">True</property>
                             <property name="visible">True</property>

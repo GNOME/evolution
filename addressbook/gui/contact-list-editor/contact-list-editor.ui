@@ -61,7 +61,7 @@
                     <property name="xalign">1</property>
                     <property name="label" translatable="yes">_Where:</property>
                     <property name="use_underline">True</property>
-		    <property name="mnemonic_widget">source-combo-box</property>
+		    <property name="mnemonic_widget">client-combo-box</property>
                   </object>
                   <packing>
                     <property name="top_attach">1</property>
@@ -82,7 +82,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="ESourceComboBox" type-func="e_source_combo_box_get_type" id="source-combo-box">
+                  <object class="EClientComboBox" type-func="e_client_combo_box_get_type" id="client-combo-box">
                     <property name="extension-name">Address Book</property>
                     <property name="show-colors">False</property>
                     <property name="visible">True</property>

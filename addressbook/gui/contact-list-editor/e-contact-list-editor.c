@@ -61,6 +61,8 @@
 	CONTACT_LIST_EDITOR_WIDGET ((editor), "add-button")
 #define CONTACT_LIST_EDITOR_WIDGET_CHECK_BUTTON(editor) \
 	CONTACT_LIST_EDITOR_WIDGET ((editor), "check-button")
+#define CONTACT_LIST_EDITOR_WIDGET_CLIENT_COMBO_BOX(editor) \
+	CONTACT_LIST_EDITOR_WIDGET ((editor), "client-combo-box")
 #define CONTACT_LIST_EDITOR_WIDGET_DIALOG(editor) \
 	CONTACT_LIST_EDITOR_WIDGET ((editor), "dialog")
 #define CONTACT_LIST_EDITOR_WIDGET_EMAIL_ENTRY(editor) \
@@ -73,8 +75,6 @@
 	CONTACT_LIST_EDITOR_WIDGET ((editor), "ok-button")
 #define CONTACT_LIST_EDITOR_WIDGET_REMOVE_BUTTON(editor) \
 	CONTACT_LIST_EDITOR_WIDGET ((editor), "remove-button")
-#define CONTACT_LIST_EDITOR_WIDGET_SOURCE_MENU(editor) \
-	CONTACT_LIST_EDITOR_WIDGET ((editor), "source-combo-box")
 #define CONTACT_LIST_EDITOR_WIDGET_TREE_VIEW(editor) \
 	CONTACT_LIST_EDITOR_WIDGET ((editor), "tree-view")
 #define CONTACT_LIST_EDITOR_WIDGET_TOP_BUTTON(editor) \
@@ -189,7 +189,7 @@ contact_list_editor_update (EContactListEditor *editor)
 		priv->allows_contact_lists);
 
 	gtk_widget_set_sensitive (
-		WIDGET (SOURCE_MENU), priv->is_new_list);
+		WIDGET (CLIENT_COMBO_BOX), priv->is_new_list);
 }
 
 static void
@@ -318,19 +318,23 @@ contact_list_editor_add_email (EContactListEditor *editor,
 }
 
 static void
-contact_list_editor_client_connect_cb (GObject *source_object,
-                                       GAsyncResult *result,
-                                       gpointer user_data)
+contact_list_editor_get_client_cb (GObject *source_object,
+                                   GAsyncResult *result,
+                                   gpointer user_data)
 {
 	ConnectClosure *closure = user_data;
 	EContactListEditor *editor = closure->editor;
+	EClientComboBox *combo_box;
 	EContactStore *contact_store;
 	ENameSelectorEntry *entry;
 	EClient *client;
 	EBookClient *book_client;
 	GError *error = NULL;
 
-	client = e_book_client_connect_finish (result, &error);
+	combo_box = E_CLIENT_COMBO_BOX (source_object);
+
+	client = e_client_combo_box_get_client_finish (
+		combo_box, result, &error);
 
 	/* Sanity check. */
 	g_return_if_fail (
@@ -347,7 +351,7 @@ contact_list_editor_client_connect_cb (GObject *source_object,
 			closure->source, error);
 
 		e_source_combo_box_set_active (
-			E_SOURCE_COMBO_BOX (WIDGET (SOURCE_MENU)),
+			E_SOURCE_COMBO_BOX (combo_box),
 			closure->source);
 
 		g_error_free (error);
@@ -976,10 +980,10 @@ contact_list_editor_select_button_clicked_cb (GtkWidget *widget)
 }
 
 void
-contact_list_editor_source_menu_changed_cb (GtkWidget *widget);
+contact_list_editor_combo_box_changed_cb (GtkWidget *widget);
 
 void
-contact_list_editor_source_menu_changed_cb (GtkWidget *widget)
+contact_list_editor_combo_box_changed_cb (GtkWidget *widget)
 {
 	ESourceComboBox *combo_box;
 	EContactListEditor *editor;
@@ -997,9 +1001,10 @@ contact_list_editor_source_menu_changed_cb (GtkWidget *widget)
 	client_source = e_client_get_source (client);
 
 	if (!e_source_equal (client_source, active_source))
-		e_book_client_connect (
+		e_client_combo_box_get_client (
+			E_CLIENT_COMBO_BOX (widget),
 			active_source, NULL,
-			contact_list_editor_client_connect_cb,
+			contact_list_editor_get_client_cb,
 			g_object_ref (editor));
 
 	g_object_unref (active_source);
@@ -1224,7 +1229,7 @@ static void
 setup_custom_widgets (EContactListEditor *editor)
 {
 	EShell *shell;
-	ESourceRegistry *registry;
+	EClientCache *client_cache;
 	GtkWidget *combo_box;
 	ENameSelectorEntry *name_selector_entry;
 	GtkWidget *old, *parent;
@@ -1236,16 +1241,16 @@ setup_custom_widgets (EContactListEditor *editor)
 	priv = E_CONTACT_LIST_EDITOR_GET_PRIVATE (editor);
 
 	shell = eab_editor_get_shell (EAB_EDITOR (editor));
-	registry = e_shell_get_registry (shell);
+	client_cache = e_shell_get_client_cache (shell);
 
-	combo_box = WIDGET (SOURCE_MENU);
+	combo_box = WIDGET (CLIENT_COMBO_BOX);
 
-	e_source_combo_box_set_registry (
-		E_SOURCE_COMBO_BOX (combo_box), registry);
+	e_client_combo_box_set_client_cache (
+		E_CLIENT_COMBO_BOX (combo_box), client_cache);
 
 	g_signal_connect (
 		combo_box, "changed", G_CALLBACK (
-		contact_list_editor_source_menu_changed_cb), NULL);
+		contact_list_editor_combo_box_changed_cb), NULL);
 
 	old = CONTACT_LIST_EDITOR_WIDGET (editor, "email-entry");
 	g_return_if_fail (old != NULL);
@@ -1407,7 +1412,7 @@ contact_list_editor_constructed (GObject *object)
 	GtkCellRenderer *renderer;
 	GtkTreeView *view;
 	GtkTreeSelection *selection;
-	ESourceRegistry *registry;
+	EClientCache *client_cache;
 	EShell *shell;
 
 	editor = E_CONTACT_LIST_EDITOR (object);
@@ -1417,7 +1422,7 @@ contact_list_editor_constructed (GObject *object)
 		constructed (object);
 
 	shell = eab_editor_get_shell (EAB_EDITOR (editor));
-	registry = e_shell_get_registry (shell);
+	client_cache = e_shell_get_client_cache (shell);
 
 	editor->priv->editable = TRUE;
 	editor->priv->allows_contact_lists = TRUE;
@@ -1456,7 +1461,7 @@ contact_list_editor_constructed (GObject *object)
 		column, renderer, (GtkTreeCellDataFunc)
 		contact_list_editor_render_destination, NULL, NULL);
 
-	editor->priv->name_selector = e_name_selector_new (registry);
+	editor->priv->name_selector = e_name_selector_new (client_cache);
 
 	e_name_selector_model_add_section (
 		e_name_selector_peek_model (editor->priv->name_selector),
@@ -1916,10 +1921,10 @@ e_contact_list_editor_set_contact (EContactListEditor *editor,
 
 	if (priv->book_client != NULL) {
 		e_source_combo_box_set_active (
-			E_SOURCE_COMBO_BOX (WIDGET (SOURCE_MENU)),
+			E_SOURCE_COMBO_BOX (WIDGET (CLIENT_COMBO_BOX)),
 			e_client_get_source (E_CLIENT (priv->book_client)));
 		gtk_widget_set_sensitive (
-			WIDGET (SOURCE_MENU), priv->is_new_list);
+			WIDGET (CLIENT_COMBO_BOX), priv->is_new_list);
 	}
 
 	priv->changed = FALSE;

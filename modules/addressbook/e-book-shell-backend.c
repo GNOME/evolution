@@ -326,26 +326,26 @@ static void
 book_shell_backend_quick_add_email_cb (EShell *shell,
                                        const gchar *email)
 {
-	ESourceRegistry *registry;
+	EClientCache *client_cache;
 
 	/* XXX This is an ugly hack but it's the only way I could think
 	 *     of to integrate this feature with other shell modules. */
 
-	registry = e_shell_get_registry (shell);
-	e_contact_quick_add_email (registry, email, NULL, NULL);
+	client_cache = e_shell_get_client_cache (shell);
+	e_contact_quick_add_email (client_cache, email, NULL, NULL);
 }
 
 static void
 book_shell_backend_quick_add_vcard_cb (EShell *shell,
                                        const gchar *vcard)
 {
-	ESourceRegistry *registry;
+	EClientCache *client_cache;
 
 	/* XXX This is an ugly hack but it's the only way I could think
 	 *     of to integrate this feature with other shell modules. */
 
-	registry = e_shell_get_registry (shell);
-	e_contact_quick_add_vcard (registry, vcard, NULL, NULL);
+	client_cache = e_shell_get_client_cache (shell);
+	e_contact_quick_add_vcard (client_cache, vcard, NULL, NULL);
 }
 
 static gboolean

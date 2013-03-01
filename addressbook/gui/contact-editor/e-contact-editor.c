@@ -686,7 +686,7 @@ fill_in_source_field (EContactEditor *editor)
 		return;
 
 	source_menu = e_builder_get_widget (
-		editor->builder, "source-combo-box-source");
+		editor->builder, "client-combo-box");
 
 	e_source_combo_box_set_active (
 		E_SOURCE_COMBO_BOX (source_menu),
@@ -3101,15 +3101,19 @@ init_all (EContactEditor *editor)
 }
 
 static void
-contact_editor_client_connect_cb (GObject *source_object,
-                                  GAsyncResult *result,
-                                  gpointer user_data)
+contact_editor_get_client_cb (GObject *source_object,
+                              GAsyncResult *result,
+                              gpointer user_data)
 {
+	EClientComboBox *combo_box;
 	ConnectClosure *closure = user_data;
 	EClient *client;
 	GError *error = NULL;
 
-	client = e_book_client_connect_finish (result, &error);
+	combo_box = E_CLIENT_COMBO_BOX (source_object);
+
+	client = e_client_combo_box_get_client_finish (
+		combo_box, result, &error);
 
 	/* Sanity check. */
 	g_return_if_fail (
@@ -3123,7 +3127,6 @@ contact_editor_client_connect_cb (GObject *source_object,
 		goto exit;
 
 	} else if (error != NULL) {
-		GtkWidget *source_combo_box;
 		GtkWindow *parent;
 
 		parent = eab_editor_get_window (EAB_EDITOR (closure->editor));
@@ -3132,11 +3135,8 @@ contact_editor_client_connect_cb (GObject *source_object,
 			GTK_WIDGET (parent), NULL,
 			closure->source, error);
 
-		source_combo_box = e_builder_get_widget (
-			closure->editor->builder,
-			"source-combo-box-source");
 		e_source_combo_box_set_active (
-			E_SOURCE_COMBO_BOX (source_combo_box),
+			E_SOURCE_COMBO_BOX (combo_box),
 			closure->source);
 
 		g_error_free (error);
@@ -3153,7 +3153,7 @@ exit:
 }
 
 static void
-source_changed (ESourceComboBox *source_combo_box,
+source_changed (EClientComboBox *combo_box,
                 EContactEditor *editor)
 {
 	ConnectClosure *closure;
@@ -3161,7 +3161,8 @@ source_changed (ESourceComboBox *source_combo_box,
 	ESource *source_source;
 	ESource *source;
 
-	source = e_source_combo_box_ref_active (source_combo_box);
+	source = e_source_combo_box_ref_active (
+		E_SOURCE_COMBO_BOX (combo_box));
 	g_return_if_fail (source != NULL);
 
 	if (editor->cancellable != NULL) {
@@ -3189,9 +3190,10 @@ source_changed (ESourceComboBox *source_combo_box,
 	closure->editor = g_object_ref (editor);
 	closure->source = g_object_ref (source);
 
-	e_book_client_connect (
-		source, editor->cancellable,
-		contact_editor_client_connect_cb,
+	e_client_combo_box_get_client (
+		combo_box, source,
+		editor->cancellable,
+		contact_editor_get_client_cb,
 		closure);
 
 exit:
@@ -4062,7 +4064,7 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 {
 	GtkBuilder *builder;
 	EShell *shell;
-	ESourceRegistry *registry;
+	EClientCache *client_cache;
 	GtkWidget *container;
 	GtkWidget *widget, *label;
 	GtkEntryCompletion *completion;
@@ -4070,7 +4072,7 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	/* FIXME The shell should be obtained
 	 *       through a constructor property. */
 	shell = e_shell_get_default ();
-	registry = e_shell_get_registry (shell);
+	client_cache = e_shell_get_client_cache (shell);
 
 	e_contact_editor->name = e_contact_name_new ();
 
@@ -4122,9 +4124,9 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 		widget, "clicked",
 		G_CALLBACK (categories_clicked), e_contact_editor);
 	widget = e_builder_get_widget (
-		e_contact_editor->builder, "source-combo-box-source");
-	e_source_combo_box_set_registry (
-		E_SOURCE_COMBO_BOX (widget), registry);
+		e_contact_editor->builder, "client-combo-box");
+	e_client_combo_box_set_client_cache (
+		E_CLIENT_COMBO_BOX (widget), client_cache);
 	g_signal_connect (
 		widget, "changed",
 		G_CALLBACK (source_changed), e_contact_editor);

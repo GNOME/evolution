@@ -32,6 +32,7 @@
 #include <gtk/gtk.h>
 #include <libebook/libebook.h>
 
+#include <e-util/e-client-cache.h>
 #include <e-util/e-contact-store.h>
 #include <e-util/e-destination-store.h>
 #include <e-util/e-tree-model-generator.h>
@@ -72,8 +73,7 @@ struct _ENameSelectorListClass {
 };
 
 GType		e_name_selector_list_get_type	(void) G_GNUC_CONST;
-ENameSelectorList *
-		e_name_selector_list_new	(ESourceRegistry *registry);
+GtkWidget *	e_name_selector_list_new	(EClientCache *client_cache);
 void		e_name_selector_list_expand_clicked
 						(ENameSelectorList *list);
 

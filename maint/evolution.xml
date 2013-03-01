@@ -4,6 +4,8 @@
 
     <glade-widget-class name="EAuthComboBox" generic-name="auth-combo-box" title="Authentication Combo Box" get-type-function="e_auth_combo_box_get_type"/>
 
+    <glade-widget-class name="EClientComboBox" generic-name="client-combo-box" title="Client Combo Box"/>
+
     <glade-widget-class name="EDateEdit" generic-name="date-edit" title="Date Edit">
       <property id="allow-no-date-set"/>
       <property id="set-none"/>
@@ -40,6 +42,7 @@
 
   <glade-widget-group name="evolution-widgets" title="Evolution">
     <glade-widget-class-ref name="EAuthComboBox"/>
+    <glade-widget-class-ref name="EClientComboBox"/>
     <glade-widget-class-ref name="EDateEdit"/>
     <glade-widget-class-ref name="EImageChooser"/>
     <glade-widget-class-ref name="EMailJunkOptions"/>

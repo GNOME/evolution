@@ -141,7 +141,7 @@ struct _EventPagePrivate {
 	GtkWidget *categories_btn;
 	GtkWidget *categories;
 
-	GtkWidget *source_combo_box;
+	GtkWidget *client_combo_box;
 
 	/* Meeting related items */
 	GtkWidget *list_box;
@@ -681,7 +681,7 @@ sensitize_widgets (EventPage *epage)
 	gtk_editable_set_editable (GTK_EDITABLE (priv->categories), !read_only);
 
 	if (delegate) {
-		gtk_widget_set_sensitive (priv->source_combo_box, FALSE);
+		gtk_widget_set_sensitive (priv->client_combo_box, FALSE);
 	}
 
 	gtk_widget_set_sensitive (priv->organizer, !read_only);
@@ -707,7 +707,7 @@ sensitize_widgets (EventPage *epage)
 		gtk_widget_hide (priv->attendee_box);
 		gtk_widget_hide (priv->organizer);
 		gtk_label_set_text_with_mnemonic ((GtkLabel *) priv->org_cal_label, _("_Calendar:"));
-		gtk_label_set_mnemonic_widget ((GtkLabel *) priv->org_cal_label, priv->source_combo_box);
+		gtk_label_set_mnemonic_widget ((GtkLabel *) priv->org_cal_label, priv->client_combo_box);
 	} else {
 		gtk_widget_show (priv->calendar_label);
 		gtk_widget_show (priv->list_box);
@@ -1369,7 +1369,7 @@ event_page_fill_widgets (CompEditorPage *page,
 
 	/* Source */
 	e_source_combo_box_set_active (
-		E_SOURCE_COMBO_BOX (priv->source_combo_box),
+		E_SOURCE_COMBO_BOX (priv->client_combo_box),
 		e_client_get_source (E_CLIENT (client)));
 
 	e_cal_component_get_uid (comp, &uid);
@@ -2535,7 +2535,7 @@ static gboolean
 get_widgets (EventPage *epage)
 {
 	EShell *shell;
-	ESourceRegistry *registry;
+	EClientCache *client_cache;
 	CompEditor *editor;
 	CompEditorPage *page = COMP_EDITOR_PAGE (epage);
 	GtkEntryCompletion *completion;
@@ -2552,7 +2552,7 @@ get_widgets (EventPage *epage)
 
 	editor = comp_editor_page_get_editor (page);
 	shell = comp_editor_get_shell (editor);
-	registry = e_shell_get_registry (shell);
+	client_cache = e_shell_get_client_cache (shell);
 
 	priv->main = GW ("event-page");
 	if (!priv->main)
@@ -2645,9 +2645,9 @@ get_widgets (EventPage *epage)
 
 	priv->description = GW ("description");
 
-	priv->source_combo_box = GW ("source");
-	e_source_combo_box_set_registry (
-		E_SOURCE_COMBO_BOX (priv->source_combo_box), registry);
+	priv->client_combo_box = GW ("client-combo-box");
+	e_client_combo_box_set_client_cache (
+		E_CLIENT_COMBO_BOX (priv->client_combo_box), client_cache);
 
 	completion = e_category_completion_new ();
 	gtk_entry_set_completion (GTK_ENTRY (priv->categories), completion);
@@ -2971,7 +2971,7 @@ event_page_send_options_clicked_cb (EventPage *epage)
 	if (!priv->sod) {
 		priv->sod = e_send_options_dialog_new ();
 		source = e_source_combo_box_ref_active (
-			E_SOURCE_COMBO_BOX (priv->source_combo_box));
+			E_SOURCE_COMBO_BOX (priv->client_combo_box));
 		e_send_options_utils_set_default_data (
 			priv->sod, source, "calendar");
 		priv->sod->data->initialized = TRUE;
@@ -2987,18 +2987,21 @@ event_page_send_options_clicked_cb (EventPage *epage)
 }
 
 static void
-epage_client_connect_cb (GObject *source_object,
-                         GAsyncResult *result,
-                         gpointer user_data)
+epage_get_client_cb (GObject *source_object,
+                     GAsyncResult *result,
+                     gpointer user_data)
 {
 	EClient *client;
+	EClientComboBox *combo_box;
 	EventPage *epage = user_data;
 	EventPagePrivate *priv;
 	CompEditor *editor;
 	GError *error = NULL;
 
-	client = e_client_cache_get_client_finish (
-		E_CLIENT_CACHE (source_object), result, &error);
+	combo_box = E_CLIENT_COMBO_BOX (source_object);
+
+	client = e_client_combo_box_get_client_finish (
+		combo_box, result, &error);
 
 	/* Sanity check. */
 	g_return_if_fail (
@@ -3021,7 +3024,7 @@ epage_client_connect_cb (GObject *source_object,
 		old_client = comp_editor_get_client (editor);
 
 		e_source_combo_box_set_active (
-			E_SOURCE_COMBO_BOX (priv->source_combo_box),
+			E_SOURCE_COMBO_BOX (combo_box),
 			e_client_get_source (E_CLIENT (old_client)));
 
 		dialog = gtk_message_dialog_new (
@@ -3064,19 +3067,16 @@ epage_client_connect_cb (GObject *source_object,
 }
 
 static void
-source_changed_cb (ESourceComboBox *source_combo_box,
-                   EventPage *epage)
+combo_box_changed_cb (ESourceComboBox *combo_box,
+                      EventPage *epage)
 {
 	EventPagePrivate *priv = epage->priv;
-	EClientCache *client_cache;
-	CompEditor *editor;
 	ESource *source;
-	EShell *shell;
 
 	if (comp_editor_page_get_updating (COMP_EDITOR_PAGE (epage)))
 		return;
 
-	source = e_source_combo_box_ref_active (source_combo_box);
+	source = e_source_combo_box_ref_active (combo_box);
 	g_return_if_fail (source != NULL);
 
 	if (priv->connect_cancellable != NULL) {
@@ -3085,15 +3085,10 @@ source_changed_cb (ESourceComboBox *source_combo_box,
 	}
 	priv->connect_cancellable = g_cancellable_new ();
 
-	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (epage));
-	shell = comp_editor_get_shell (editor);
-	client_cache = e_shell_get_client_cache (shell);
-
-	e_client_cache_get_client (
-		client_cache, source,
-		E_SOURCE_EXTENSION_CALENDAR,
-		priv->connect_cancellable,
-		epage_client_connect_cb, epage);
+	e_client_combo_box_get_client (
+		E_CLIENT_COMBO_BOX (combo_box),
+		source, priv->connect_cancellable,
+		epage_get_client_cb, epage);
 
 	g_object_unref (source);
 }
@@ -3259,7 +3254,7 @@ init_widgets (EventPage *epage)
 	EventPagePrivate *priv = epage->priv;
 	EShell *shell;
 	CompEditor *editor;
-	ESourceRegistry *registry;
+	EClientCache *client_cache;
 	GtkTextBuffer *text_buffer;
 	icaltimezone *zone;
 	gchar *combo_label = NULL;
@@ -3275,7 +3270,7 @@ init_widgets (EventPage *epage)
 	shell = comp_editor_get_shell (editor);
 	client = comp_editor_get_client (editor);
 
-	registry = e_shell_get_registry (shell);
+	client_cache = e_shell_get_client_cache (shell);
 
 	/* Make sure the EDateEdit widgets use our timezones to get the
 	 * current time. */
@@ -3318,10 +3313,10 @@ init_widgets (EventPage *epage)
 		priv->categories_btn, "clicked",
 		G_CALLBACK (categories_clicked_cb), epage);
 
-	/* Source selector */
+	/* Client selector */
 	g_signal_connect (
-		priv->source_combo_box, "changed",
-		G_CALLBACK (source_changed_cb), epage);
+		priv->client_combo_box, "changed",
+		G_CALLBACK (combo_box_changed_cb), epage);
 
 	/* Alarms */
 	priv->alarm_list_store = e_alarm_list_new ();
@@ -3401,7 +3396,7 @@ init_widgets (EventPage *epage)
 		priv->alarm_dialog, "delete-event",
 		G_CALLBACK (alarm_dialog_delete_event_cb), priv->alarm_dialog);
 	priv->alarm_list_dlg_widget = alarm_list_dialog_peek (
-		registry, client, priv->alarm_list_store);
+		client_cache, client, priv->alarm_list_store);
 	gtk_widget_reparent (priv->alarm_list_dlg_widget, priv->alarm_box);
 	gtk_widget_show_all (priv->alarm_list_dlg_widget);
 	gtk_widget_hide (priv->alarm_dialog);
@@ -3528,7 +3523,7 @@ init_widgets (EventPage *epage)
 		priv->categories, "changed",
 		G_CALLBACK (comp_editor_page_changed), epage);
 	g_signal_connect_swapped (
-		priv->source_combo_box, "changed",
+		priv->client_combo_box, "changed",
 		G_CALLBACK (comp_editor_page_changed), epage);
 	g_signal_connect_swapped (
 		priv->start_timezone, "changed",
