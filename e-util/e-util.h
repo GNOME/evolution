@@ -81,6 +81,7 @@
 #include <e-util/e-charset-combo-box.h>
 #include <e-util/e-charset.h>
 #include <e-util/e-client-cache.h>
+#include <e-util/e-client-combo-box.h>
 #include <e-util/e-client-selector.h>
 #include <e-util/e-config.h>
 #include <e-util/e-contact-store.h>

@@ -182,6 +182,7 @@
     <xi:include href="xml/e-source-combo-box.xml"/>
     <xi:include href="xml/e-source-util.xml"/>
     <xi:include href="xml/e-client-cache.xml"/>
+    <xi:include href="xml/e-client-combo-box.xml"/>
     <xi:include href="xml/e-client-selector.xml"/>
   </chapter>
 

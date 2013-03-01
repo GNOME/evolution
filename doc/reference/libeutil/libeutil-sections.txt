@@ -1275,6 +1275,30 @@ EClientCachePrivate
 </SECTION>
 
 <SECTION>
+<FILE>e-client-combo-box</FILE>
+<TITLE>EClientComboBox</TITLE>
+EClientComboBox
+e_client_combo_box_new
+e_client_combo_box_ref_client_cache
+e_client_combo_box_set_client_cache
+e_client_combo_box_get_client_sync
+e_client_combo_box_get_client
+e_client_combo_box_get_client_finish
+e_client_combo_box_ref_cached_client
+<SUBSECTION Standard>
+E_CLIENT_COMBO_BOX
+E_IS_CLIENT_COMBO_BOX
+E_TYPE_CLIENT_COMBO_BOX
+E_CLIENT_COMBO_BOX_CLASS
+E_IS_CLIENT_COMBO_BOX_CLASS
+E_CLIENT_COMBO_BOX_GET_CLASS
+EClientComboBoxClass
+e_client_combo_box_get_type
+<SUBSECTION Private>
+EClientComboBoxPrivate
+</SECTION>
+
+<SECTION>
 <FILE>e-client-selector</FILE>
 <TITLE>EClientSelector</TITLE>
 EClientSelector
