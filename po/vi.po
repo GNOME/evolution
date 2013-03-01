@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2013-02-28 17:49+0000\n"
-"PO-Revision-Date: 2013-03-01 21:32+0700\n"
+"PO-Revision-Date: 2013-03-01 21:35+0700\n"
 "Last-Translator: Nguyễn Thái Ngọc Duy <pclouds@gmail.com>\n"
 "Language-Team: Vietnamese <vi-VN@googlegroups.com>\n"
 "Language: vi\n"
@@ -362,7 +362,7 @@ msgstr "_Nghề nghiệp:"
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:27
 msgctxt "Job"
 msgid "_Title:"
-msgstr "_Tựa:"
+msgstr "_Chức vụ:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:28
 msgid "_Company:"
@@ -665,7 +665,7 @@ msgstr "Tê_n:"
 #: ../addressbook/gui/contact-editor/fullname.ui.h:14
 msgctxt "FullName"
 msgid "_Title:"
-msgstr "_Tước:"
+msgstr "_Tước vị:"
 
 #: ../addressbook/gui/contact-editor/fullname.ui.h:15
 msgid "_Middle:"
@@ -1268,7 +1268,7 @@ msgstr "Thành viên danh sách"
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:956
 msgid "Job Title"
-msgstr "Tên nghề"
+msgstr "Chức vụ"
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:997
 msgid "Home page"
