@@ -89,5 +89,7 @@ gboolean	e_client_selector_is_backend_dead
 						(EClientSelector *selector,
 						 ESource *source);
 
+G_END_DECLS
+
 #endif /* E_CLIENT_SELECTOR_H */
 
