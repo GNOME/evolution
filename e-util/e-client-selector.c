@@ -398,6 +398,9 @@ e_client_selector_get_client_sync (EClientSelector *selector,
 	GAsyncResult *result;
 	EClient *client;
 
+	g_return_val_if_fail (E_IS_CLIENT_SELECTOR (selector), NULL);
+	g_return_val_if_fail (E_IS_SOURCE (source), NULL);
+
 	closure = e_async_closure_new ();
 
 	e_client_selector_get_client (
