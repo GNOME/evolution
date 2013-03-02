@@ -93,7 +93,7 @@ struct _EConfigPrivate {
 };
 
 static GtkWidget *
-		ech_config_section_factory	(EConfig *config,
+		config_hook_section_factory	(EConfig *config,
 						 EConfigItem *item,
 						 GtkWidget *parent,
 						 GtkWidget *old,
@@ -225,27 +225,26 @@ e_config_init (EConfig *config)
 
 /**
  * e_config_construct:
- * @ep: The instance to initialise.
+ * @config: The instance to initialise.
  * @id: The name of the configuration window this manager drives.
  *
  * Used by implementing classes to initialise base parameters.
  *
- * Return value: @ep is returned.
+ * Return value: @config is returned.
  **/
 EConfig *
-e_config_construct (EConfig *ep,
+e_config_construct (EConfig *config,
                     const gchar *id)
 {
-	ep->id = g_strdup (id);
+	config->id = g_strdup (id);
 
-	return ep;
+	return config;
 }
 
 /**
  * e_config_add_items:
- * @ec: An initialised implementing instance of EConfig.
- * @items: A list of EConfigItem's to add to the configuration manager
- * @ec.
+ * @config: An initialised implementing instance of EConfig.
+ * @items: A list of EConfigItem's to add to the configuration manager.
  * @freefunc: If supplied, called to free the item list (and/or items)
  * once they are no longer needed.
  * @data: Data for the callback methods.
@@ -273,7 +272,7 @@ e_config_add_items (EConfig *ec,
 
 /**
  * e_config_add_page_check:
- * @ec: Initialised implemeting instance of EConfig.
+ * @config: Initialised implemeting instance of EConfig.
  * @pageid: pageid to check.
  * @func: checking callback.
  * @data: user-data for the callback.
@@ -341,9 +340,9 @@ ec_widget_destroyed (GtkWidget *widget,
 }
 
 static void
-ec_rebuild (EConfig *emp)
+ec_rebuild (EConfig *config)
 {
-	EConfigPrivate *p = emp->priv;
+	EConfigPrivate *p = config->priv;
 	struct _widget_node *sectionnode = NULL, *pagenode = NULL;
 	GtkWidget *book = NULL, *page = NULL, *section = NULL, *root = NULL;
 	gint pageno = 0, sectionno = 0, itemno = 0;
@@ -420,14 +419,14 @@ ec_rebuild (EConfig *emp)
 			if (wn->widget == NULL) {
 				if (item->factory) {
 					root = item->factory (
-						emp, item, NULL, wn->widget,
+						config, item, NULL, wn->widget,
 						0, wn->context->data);
 				} else {
 					root = gtk_notebook_new ();
 					gtk_widget_show (root);
 				}
 
-				emp->widget = root;
+				config->widget = root;
 				wn->widget = root;
 			} else {
 				root = wn->widget;
@@ -452,7 +451,7 @@ ec_rebuild (EConfig *emp)
 
 			if (item->factory) {
 				page = item->factory (
-					emp, item, root, wn->frame,
+					config, item, root, wn->frame,
 					pageno, wn->context->data);
 					wn->frame = page;
 				if (page)
@@ -513,20 +512,20 @@ ec_rebuild (EConfig *emp)
 				EConfigItemSectionFactoryFunc factory = (EConfigItemSectionFactoryFunc) item->factory;
 
 				section = factory (
-					emp, item, page, wn->widget, 0,
+					config, item, page, wn->widget, 0,
 					wn->context->data, &wn->real_frame);
 				wn->frame = section;
 				if (section)
 					itemno = 1;
 
-				if (factory != ech_config_section_factory) {
+				if (factory != config_hook_section_factory) {
 					/* This means there is a section that came from a user-specified factory,
 					 * so we don't know what is inside the section.  In that case, we increment
 					 * n_visible_widgets so that the section will not get hidden later (we don't know
 					 * if the section is empty or not, so we cannot decide to hide it).
 					 *
-					 * For automatically-generated sections, we use a special ech_config_section_factory() -
-					 * see emph_construct_item().
+					 * For automatically-generated sections, we use a special config_hook_section_factory() -
+					 * see config_hook_construct_item().
 					 */
 					n_visible_widgets++;
 					d (printf ("  n_visible_widgets++ because there is a section factory -> frame=%p\n", section));
@@ -614,7 +613,7 @@ ec_rebuild (EConfig *emp)
 				g_warning ("EConfig item parent type is incorrect: %s", item->path);
 			else if (item->factory)
 				w = item->factory (
-					emp, item, section, wn->widget,
+					config, item, section, wn->widget,
 					0, wn->context->data);
 
 			if (wn->widget && wn->widget != w) {
@@ -678,8 +677,8 @@ ec_rebuild (EConfig *emp)
 
 /**
  * e_config_set_target:
- * @emp: An initialised EConfig.
- * @target: A target allocated from @emp.
+ * @config: An initialised EConfig.
+ * @target: A target allocated from @config.
  *
  * Sets the target object for the config window.  Generally the target
  * is set only once, and will supply its own "changed" signal which
@@ -688,11 +687,11 @@ ec_rebuild (EConfig *emp)
  * initiate a e_config_target_changed() call where appropriate.
  **/
 void
-e_config_set_target (EConfig *emp,
+e_config_set_target (EConfig *config,
                      EConfigTarget *target)
 {
-	if (emp->target != target)
-		((EConfigClass *) G_OBJECT_GET_CLASS (emp))->set_target (emp, target);
+	if (config->target != target)
+		E_CONFIG_GET_CLASS (config)->set_target (config, target);
 }
 
 static void
@@ -709,30 +708,30 @@ ec_widget_destroy (GtkWidget *w,
 
 /**
  * e_config_create_widget:
- * @emp: An initialised EConfig object.
+ * @config: An initialised EConfig object.
  *
- * Create the #GtkNotebook described by @emp.
+ * Create the #GtkNotebook described by @config.
  *
  * This object will be self-driving, but will not close itself once
  * complete.
  *
- * Unless reffed otherwise, the management object @emp will be
+ * Unless reffed otherwise, the management object @config will be
  * finalized when the widget is.
  *
- * Return value: The widget, also available in @emp.widget
+ * Return value: The widget, also available in @config.widget
  **/
 GtkWidget *
-e_config_create_widget (EConfig *emp)
+e_config_create_widget (EConfig *config)
 {
-	EConfigPrivate *p = emp->priv;
+	EConfigPrivate *p = config->priv;
 	GPtrArray *items = g_ptr_array_new ();
 	GList *link;
 	GSList *l;
 	gint i;
 
-	g_return_val_if_fail (emp->target != NULL, NULL);
+	g_return_val_if_fail (config->target != NULL, NULL);
 
-	ec_add_static_items (emp);
+	ec_add_static_items (config);
 
 	/* FIXME: need to override old ones with new names */
 	link = p->menus;
@@ -745,7 +744,7 @@ e_config_create_widget (EConfig *emp)
 
 			wn->item = item;
 			wn->context = mnode;
-			wn->config = emp;
+			wn->config = config;
 			g_ptr_array_add (items, wn);
 		}
 
@@ -758,27 +757,27 @@ e_config_create_widget (EConfig *emp)
 		p->widgets = g_list_append (p->widgets, items->pdata[i]);
 
 	g_ptr_array_free (items, TRUE);
-	ec_rebuild (emp);
+	ec_rebuild (config);
 
 	/* auto-unref it */
 	g_signal_connect (
-		emp->widget, "destroy",
-		G_CALLBACK (ec_widget_destroy), emp);
+		config->widget, "destroy",
+		G_CALLBACK (ec_widget_destroy), config);
 
 	/* FIXME: for some reason ec_rebuild puts the widget on page 1, this is just to override that */
-	gtk_notebook_set_current_page ((GtkNotebook *) emp->widget, 0);
+	gtk_notebook_set_current_page ((GtkNotebook *) config->widget, 0);
 
-	return emp->widget;
+	return config->widget;
 }
 
 static void
-ec_call_page_check (EConfig *emp)
+ec_call_page_check (EConfig *config)
 {
-	if (emp->window) {
-		if (e_config_page_check (emp, NULL)) {
-			gtk_dialog_set_response_sensitive ((GtkDialog *) emp->window, GTK_RESPONSE_OK, TRUE);
+	if (config->window) {
+		if (e_config_page_check (config, NULL)) {
+			gtk_dialog_set_response_sensitive ((GtkDialog *) config->window, GTK_RESPONSE_OK, TRUE);
 		} else {
-			gtk_dialog_set_response_sensitive ((GtkDialog *) emp->window, GTK_RESPONSE_OK, FALSE);
+			gtk_dialog_set_response_sensitive ((GtkDialog *) config->window, GTK_RESPONSE_OK, FALSE);
 		}
 	}
 }
@@ -786,17 +785,17 @@ ec_call_page_check (EConfig *emp)
 static gboolean
 ec_idle_handler_for_rebuild (gpointer data)
 {
-	EConfig *emp = (EConfig *) data;
+	EConfig *config = (EConfig *) data;
 
-	ec_rebuild (emp);
-	ec_call_page_check (emp);
+	ec_rebuild (config);
+	ec_call_page_check (config);
 
 	return FALSE;
 }
 
 /**
  * e_config_target_changed:
- * @emp: an #EConfig
+ * @config: an #EConfig
  * @how: an enum value indicating how the target has changed
  *
  * Indicate that the target has changed.  This may be called by the
@@ -808,13 +807,13 @@ ec_idle_handler_for_rebuild (gpointer data)
  * button for the Notebook mode.
  **/
 void
-e_config_target_changed (EConfig *emp,
+e_config_target_changed (EConfig *config,
                          e_config_target_change_t how)
 {
 	if (how == E_CONFIG_TARGET_CHANGED_REBUILD) {
-		g_idle_add (ec_idle_handler_for_rebuild, emp);
+		g_idle_add (ec_idle_handler_for_rebuild, config);
 	} else {
-		ec_call_page_check (emp);
+		ec_call_page_check (config);
 	}
 
 	/* virtual method/signal? */
@@ -838,7 +837,7 @@ e_config_abort (EConfig *config)
 
 /**
  * e_config_commit:
- * @ec: an #EConfig
+ * @config: an #EConfig
  *
  * Signify that the stateful configuration changes should be saved.
  * This is used by the self-driven assistant or notebook, or may be used
@@ -890,12 +889,11 @@ e_config_page_check (EConfig *config,
 
 /**
  * e_config_class_add_factory:
- * @class: Implementing class pointer.
+ * @klass: Implementing class pointer.
  * @id: The name of the configuration window you're interested in.
- * This may be NULL to be called for all windows.
- * @func: An EConfigFactoryFunc to call when the window @id is being
- * created.
- * @data: Callback data.
+ *      This may be NULL to be called for all windows.
+ * @func: An EConfigFactoryFunc to call when the window @id is being created.
+ * @user_data: Callback data.
  *
  * Add a config factory which will be called to add_items() any
  * extra items's if wants to, to the current Config window.
@@ -905,14 +903,14 @@ e_config_page_check (EConfig *config,
  * Return value: A handle to the factory.
  **/
 EConfigFactory *
-e_config_class_add_factory (EConfigClass *class,
+e_config_class_add_factory (EConfigClass *klass,
                             const gchar *id,
                             EConfigFactoryFunc func,
                             gpointer user_data)
 {
 	EConfigFactory *factory;
 
-	g_return_val_if_fail (E_IS_CONFIG_CLASS (class), NULL);
+	g_return_val_if_fail (E_IS_CONFIG_CLASS (klass), NULL);
 	g_return_val_if_fail (func != NULL, NULL);
 
 	factory = g_slice_new0 (EConfigFactory);
@@ -920,52 +918,53 @@ e_config_class_add_factory (EConfigClass *class,
 	factory->func = func;
 	factory->user_data = user_data;
 
-	class->factories = g_list_append (class->factories, factory);
+	klass->factories = g_list_append (klass->factories, factory);
 
 	return factory;
 }
 
 /**
  * e_config_target_new:
- * @ep: Parent EConfig object.
+ * @config: an #EConfig
  * @type: type, up to implementor
- * @size: Size of object to allocate.
+ * @size: size of object to allocate
  *
  * Allocate a new config target suitable for this class.  Implementing
  * classes will define the actual content of the target.
  **/
-gpointer e_config_target_new (EConfig *ep, gint type, gsize size)
+gpointer
+e_config_target_new (EConfig *config,
+                     gint type,
+                     gsize size)
 {
-	EConfigTarget *t;
+	EConfigTarget *target;
 
 	if (size < sizeof (EConfigTarget)) {
 		g_warning ("Size is less than size of EConfigTarget\n");
 		size = sizeof (EConfigTarget);
 	}
 
-	t = g_malloc0 (size);
-	t->config = ep;
-	g_object_ref (ep);
-	t->type = type;
+	target = g_malloc0 (size);
+	target->config = g_object_ref (config);
+	target->type = type;
 
-	return t;
+	return target;
 }
 
 /**
  * e_config_target_free:
- * @ep: Parent EConfig object.
- * @o: The target to fre.
+ * @config: an #EConfig
+ * @target: the target to free
  *
  * Free a target.  The implementing class can override this method to
  * free custom targets.
  **/
 void
-e_config_target_free (EConfig *ep,
-                      gpointer o)
+e_config_target_free (EConfig *config,
+                      gpointer target)
 {
-	EConfigTarget *t = o;
-
-	((EConfigClass *) G_OBJECT_GET_CLASS (ep))->target_free (ep, t);
+	E_CONFIG_GET_CLASS (config)->target_free (
+		config, (EConfigTarget *) target);
 }
 
 /* ********************************************************************** */
@@ -994,9 +993,7 @@ e_config_target_free (EConfig *ep,
  * </e-plugin>
  */
 
-#define emph ((EConfigHook *)eph)
-
-static const EPluginHookTargetKey ech_item_types[] = {
+static const EPluginHookTargetKey config_hook_item_types[] = {
 	{ "book", E_CONFIG_BOOK },
 
 	{ "page", E_CONFIG_PAGE },
@@ -1013,25 +1010,25 @@ G_DEFINE_TYPE (
 	E_TYPE_PLUGIN_HOOK)
 
 static void
-ech_commit (EConfig *ec,
-            EConfigHookGroup *group)
+config_hook_commit (EConfig *ec,
+                    EConfigHookGroup *group)
 {
 	if (group->commit && group->hook->hook.plugin->enabled)
 		e_plugin_invoke (group->hook->hook.plugin, group->commit, ec->target);
 }
 
 static void
-ech_abort (EConfig *ec,
-           EConfigHookGroup *group)
+config_hook_abort (EConfig *ec,
+                   EConfigHookGroup *group)
 {
 	if (group->abort && group->hook->hook.plugin->enabled)
 		e_plugin_invoke (group->hook->hook.plugin, group->abort, ec->target);
 }
 
 static gboolean
-ech_check (EConfig *ec,
-           const gchar *pageid,
-           gpointer data)
+config_hook_check (EConfig *ec,
+                   const gchar *pageid,
+                   gpointer data)
 {
 	EConfigHookGroup *group = data;
 	EConfigHookPageCheckData hdata;
@@ -1047,33 +1044,33 @@ ech_check (EConfig *ec,
 }
 
 static void
-ech_config_factory (EConfig *emp,
-                    gpointer data)
+config_hook_factory (EConfig *config,
+                     gpointer data)
 {
 	EConfigHookGroup *group = data;
 
 	d (printf ("config factory called %s\n", group->id ? group->id:"all menus"));
 
-	if (emp->target->type != group->target_type
+	if (config->target->type != group->target_type
 	    || !group->hook->hook.plugin->enabled)
 		return;
 
 	if (group->items) {
-		e_config_add_items (emp, group->items, NULL, group);
+		e_config_add_items (config, group->items, NULL, group);
 		g_signal_connect (
-			emp, "abort",
-			G_CALLBACK (ech_abort), group);
+			config, "abort",
+			G_CALLBACK (config_hook_abort), group);
 		g_signal_connect (
-			emp, "commit",
-			G_CALLBACK (ech_commit), group);
+			config, "commit",
+			G_CALLBACK (config_hook_commit), group);
 	}
 
 	if (group->check)
-		e_config_add_page_check (emp, NULL, ech_check, group);
+		e_config_add_page_check (config, NULL, config_hook_check, group);
 }
 
 static void
-emph_free_item (struct _EConfigItem *item)
+config_hook_free_item (struct _EConfigItem *item)
 {
 	g_free (item->path);
 	g_free (item->label);
@@ -1082,9 +1079,9 @@ emph_free_item (struct _EConfigItem *item)
 }
 
 static void
-emph_free_group (EConfigHookGroup *group)
+config_hook_free_group (EConfigHookGroup *group)
 {
-	g_slist_foreach (group->items, (GFunc) emph_free_item, NULL);
+	g_slist_foreach (group->items, (GFunc) config_hook_free_item, NULL);
 	g_slist_free (group->items);
 
 	g_free (group->id);
@@ -1092,12 +1089,12 @@ emph_free_group (EConfigHookGroup *group)
 }
 
 static GtkWidget *
-ech_config_widget_factory (EConfig *config,
-                           EConfigItem *item,
-                           GtkWidget *parent,
-                           GtkWidget *old,
-                           gint position,
-                           gpointer data)
+config_hook_widget_factory (EConfig *config,
+                            EConfigItem *item,
+                            GtkWidget *parent,
+                            GtkWidget *old,
+                            gint position,
+                            gpointer data)
 {
 	EConfigHookGroup *group = data;
 	EConfigHookItemFactoryData factory_data;
@@ -1115,13 +1112,13 @@ ech_config_widget_factory (EConfig *config,
 }
 
 static GtkWidget *
-ech_config_section_factory (EConfig *config,
-                            EConfigItem *item,
-                            GtkWidget *parent,
-                            GtkWidget *old,
-                            gint position,
-                            gpointer data,
-                            GtkWidget **real_frame)
+config_hook_section_factory (EConfig *config,
+                             EConfigItem *item,
+                             GtkWidget *parent,
+                             GtkWidget *old,
+                             gint position,
+                             gpointer data,
+                             GtkWidget **real_frame)
 {
 	EConfigHookGroup *group = data;
 	GtkWidget *label = NULL;
@@ -1189,7 +1186,7 @@ ech_config_section_factory (EConfig *config,
 }
 
 static struct _EConfigItem *
-emph_construct_item (EPluginHook *eph,
+config_hook_construct_item (EPluginHook *eph,
                      EConfigHookGroup *menu,
                      xmlNodePtr root,
                      EConfigHookTargetMap *map)
@@ -1198,7 +1195,7 @@ emph_construct_item (EPluginHook *eph,
 
 	d (printf ("  loading config item\n"));
 	item = g_malloc0 (sizeof (*item));
-	if ((item->type = e_plugin_hook_id (root, ech_item_types, "type")) == -1)
+	if ((item->type = e_plugin_hook_id (root, config_hook_item_types, "type")) == -1)
 		goto error;
 	item->path = e_plugin_xml_prop (root, "path");
 	item->label = e_plugin_xml_prop_domain (root, "label", eph->plugin->domain);
@@ -1209,30 +1206,32 @@ emph_construct_item (EPluginHook *eph,
 		goto error;
 
 	if (item->user_data)
-		item->factory = ech_config_widget_factory;
+		item->factory = config_hook_widget_factory;
 	else if (item->type == E_CONFIG_SECTION)
-		item->factory = (EConfigItemFactoryFunc) ech_config_section_factory;
+		item->factory = (EConfigItemFactoryFunc) config_hook_section_factory;
 	else if (item->type == E_CONFIG_SECTION_TABLE)
-		item->factory = (EConfigItemFactoryFunc) ech_config_section_factory;
+		item->factory = (EConfigItemFactoryFunc) config_hook_section_factory;
 
 	d (printf ("   path=%s label=%s factory=%s\n", item->path, item->label, (gchar *) item->user_data));
 
 	return item;
 error:
 	d (printf ("error!\n"));
-	emph_free_item (item);
+	config_hook_free_item (item);
 	return NULL;
 }
 
 static EConfigHookGroup *
-emph_construct_menu (EPluginHook *eph,
-                     xmlNodePtr root)
+config_hook_construct_menu (EPluginHook *eph,
+                            xmlNodePtr root)
 {
 	EConfigHookGroup *menu;
 	xmlNodePtr node;
 	EConfigHookTargetMap *map;
-	EConfigHookClass *class = (EConfigHookClass *) G_OBJECT_GET_CLASS (eph);
+	EConfigHookClass *class;
 	gchar *tmp;
+
+	class = E_CONFIG_HOOK_GET_CLASS (eph);
 
 	d (printf (" loading menu\n"));
 	menu = g_malloc0 (sizeof (*menu));
@@ -1251,7 +1250,7 @@ emph_construct_menu (EPluginHook *eph,
 		g_warning (
 			"Plugin '%s' missing 'id' field in group for '%s'\n",
 			eph->plugin->name,
-			((EPluginHookClass *) G_OBJECT_GET_CLASS (eph))->id);
+			E_PLUGIN_HOOK_CLASS (class)->id);
 		goto error;
 	}
 	menu->check = e_plugin_xml_prop (root, "check");
@@ -1263,7 +1262,7 @@ emph_construct_menu (EPluginHook *eph,
 		if (0 == strcmp ((gchar *) node->name, "item")) {
 			struct _EConfigItem *item;
 
-			item = emph_construct_item (eph, menu, node, map);
+			item = config_hook_construct_item (eph, menu, node, map);
 			if (item)
 				menu->items = g_slist_append (menu->items, item);
 		}
@@ -1272,34 +1271,37 @@ emph_construct_menu (EPluginHook *eph,
 
 	return menu;
 error:
-	emph_free_group (menu);
+	config_hook_free_group (menu);
 	return NULL;
 }
 
 static gint
-emph_construct (EPluginHook *eph,
-                EPlugin *ep,
-                xmlNodePtr root)
+config_hook_construct (EPluginHook *eph,
+                       EPlugin *ep,
+                       xmlNodePtr root)
 {
 	xmlNodePtr node;
 	EConfigClass *class;
+	EConfigHook *config_hook;
+
+	config_hook = (EConfigHook *) eph;
 
 	d (printf ("loading config hook\n"));
 
 	if (((EPluginHookClass *) e_config_hook_parent_class)->construct (eph, ep, root) == -1)
 		return -1;
 
-	class = ((EConfigHookClass *) G_OBJECT_GET_CLASS (eph))->config_class;
+	class = E_CONFIG_HOOK_GET_CLASS (eph)->config_class;
 
 	node = root->children;
 	while (node) {
 		if (strcmp ((gchar *) node->name, "group") == 0) {
 			EConfigHookGroup *group;
 
-			group = emph_construct_menu (eph, node);
+			group = config_hook_construct_menu (eph, node);
 			if (group) {
-				e_config_class_add_factory (class, group->id, ech_config_factory, group);
-				emph->groups = g_slist_append (emph->groups, group);
+				e_config_class_add_factory (class, group->id, config_hook_factory, group);
+				config_hook->groups = g_slist_append (config_hook->groups, group);
 			}
 		}
 		node = node->next;
@@ -1311,14 +1313,16 @@ emph_construct (EPluginHook *eph,
 }
 
 static void
-emph_finalize (GObject *o)
+config_hook_finalize (GObject *object)
 {
-	EPluginHook *eph = (EPluginHook *) o;
+	EConfigHook *config_hook = (EConfigHook *) object;
 
-	g_slist_foreach (emph->groups, (GFunc) emph_free_group, NULL);
-	g_slist_free (emph->groups);
+	g_slist_free_full (
+		config_hook->groups,
+		(GDestroyNotify) config_hook_free_group);
 
-	((GObjectClass *) e_config_hook_parent_class)->finalize (o);
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (e_config_hook_parent_class)->finalize (object);
 }
 
 static void
@@ -1328,10 +1332,10 @@ e_config_hook_class_init (EConfigHookClass *class)
 	EPluginHookClass *plugin_hook_class;
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->finalize = emph_finalize;
+	object_class->finalize = config_hook_finalize;
 
 	plugin_hook_class = E_PLUGIN_HOOK_CLASS (class);
-	plugin_hook_class->construct = emph_construct;
+	plugin_hook_class->construct = config_hook_construct;
 
 	/* this is actually an abstract implementation but list it anyway */
 	plugin_hook_class->id = "org.gnome.evolution.config:1.0";
@@ -1348,17 +1352,18 @@ e_config_hook_init (EConfigHook *hook)
 /**
  * e_config_hook_class_add_target_map:
  *
- * @class: The dervied EconfigHook class.
- * @map: A map used to describe a single EConfigTarget type for this
- * class.
+ * @hook_class: The dervied #EConfigHook class.
+ * @map: A map used to describe a single EConfigTarget type for this class.
  *
  * Add a targe tmap to a concrete derived class of EConfig.  The
  * target map enumates the target types available for the implenting
  * class.
  **/
 void
-e_config_hook_class_add_target_map (EConfigHookClass *class,
+e_config_hook_class_add_target_map (EConfigHookClass *hook_class,
                                     const EConfigHookTargetMap *map)
 {
-	g_hash_table_insert (class->target_map, (gpointer) map->type, (gpointer) map);
+	g_hash_table_insert (
+		hook_class->target_map,
+		(gpointer) map->type, (gpointer) map);
 }

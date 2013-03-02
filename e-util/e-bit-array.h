@@ -68,37 +68,37 @@ struct _EBitArrayClass {
 GType		e_bit_array_get_type		(void) G_GNUC_CONST;
 EBitArray *	e_bit_array_new			(gint count);
 
-gboolean	e_bit_array_value_at		(EBitArray *selection,
+gboolean	e_bit_array_value_at		(EBitArray *bit_array,
 						 gint n);
-void		e_bit_array_foreach		(EBitArray *selection,
+void		e_bit_array_foreach		(EBitArray *bit_array,
 						 EForeachFunc callback,
 						 gpointer closure);
-gint		e_bit_array_selected_count	(EBitArray *selection);
-void		e_bit_array_select_all		(EBitArray *selection);
-void		e_bit_array_invert_selection	(EBitArray *selection);
-gint		e_bit_array_bit_count		(EBitArray *selection);
-void		e_bit_array_change_one_row	(EBitArray *selection,
+gint		e_bit_array_selected_count	(EBitArray *bit_array);
+void		e_bit_array_select_all		(EBitArray *bit_array);
+void		e_bit_array_invert_selection	(EBitArray *bit_array);
+gint		e_bit_array_bit_count		(EBitArray *bit_array);
+void		e_bit_array_change_one_row	(EBitArray *bit_array,
 						 gint row,
 						 gboolean grow);
-void		e_bit_array_change_range	(EBitArray *selection,
+void		e_bit_array_change_range	(EBitArray *bit_array,
 						 gint start,
 						 gint end,
 						 gboolean grow);
-void		e_bit_array_select_single_row	(EBitArray *eba,
+void		e_bit_array_select_single_row	(EBitArray *bit_array,
 						 gint row);
-void		e_bit_array_toggle_single_row	(EBitArray *eba,
+void		e_bit_array_toggle_single_row	(EBitArray *bit_array,
 						 gint row);
 
-void		e_bit_array_insert		(EBitArray *esm,
+void		e_bit_array_insert		(EBitArray *bit_array,
 						 gint row,
 						 gint count);
-void		e_bit_array_delete		(EBitArray *esm,
+void		e_bit_array_delete		(EBitArray *bit_array,
 						 gint row,
 						 gint count);
-void		e_bit_array_delete_single_mode	(EBitArray *esm,
+void		e_bit_array_delete_single_mode	(EBitArray *bit_array,
 						 gint row,
 						 gint count);
-void		e_bit_array_move_row		(EBitArray *esm,
+void		e_bit_array_move_row		(EBitArray *bit_array,
 						 gint old_row,
 						 gint new_row);
 

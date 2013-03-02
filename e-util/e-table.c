@@ -1983,8 +1983,8 @@ e_table_construct_from_spec_file (ETable *e_table,
  * e_table_new:
  * @etm: The model for this table.
  * @ete: An optional #ETableExtras.  (%NULL is valid.)
- * @spec: The spec.
- * @state: An optional state.  (%NULL is valid.)
+ * @spec_str: The spec.
+ * @state_str: An optional state.  (%NULL is valid.)
  *
  * This function creates an #ETable from the given parameters.  The
  * #ETableModel is a table model to be represented.  The #ETableExtras
@@ -2003,18 +2003,18 @@ e_table_construct_from_spec_file (ETable *e_table,
 GtkWidget *
 e_table_new (ETableModel *etm,
              ETableExtras *ete,
-             const gchar *spec,
-             const gchar *state)
+             const gchar *spec_str,
+             const gchar *state_str)
 {
 	ETable *e_table;
 
 	g_return_val_if_fail (E_IS_TABLE_MODEL (etm), NULL);
 	g_return_val_if_fail (ete == NULL || E_IS_TABLE_EXTRAS (ete), NULL);
-	g_return_val_if_fail (spec != NULL, NULL);
+	g_return_val_if_fail (spec_str != NULL, NULL);
 
 	e_table = g_object_new (E_TYPE_TABLE, NULL);
 
-	e_table = e_table_construct (e_table, etm, ete, spec, state);
+	e_table = e_table_construct (e_table, etm, ete, spec_str, state_str);
 
 	return GTK_WIDGET (e_table);
 }

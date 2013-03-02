@@ -120,18 +120,20 @@ e_event_init (EEvent *event)
 
 /**
  * e_event_construct:
- * @ep: An instantiated but uninitialised EEvent.
+ * @event: An instantiated but uninitialised EEvent.
  * @id: Event manager id.
  *
  * Construct the base event instance with standard parameters.
  *
- * Return value: Returns @ep.
+ * Returns: the @event
  **/
-EEvent *e_event_construct (EEvent *ep, const gchar *id)
+EEvent *
+e_event_construct (EEvent *event,
+                   const gchar *id)
 {
-	ep->id = g_strdup (id);
+	event->id = g_strdup (id);
 
-	return ep;
+	return event;
 }
 
 /**
@@ -213,7 +215,7 @@ ee_cmp (gconstpointer ap,
 
 /**
  * e_event_emit:
- * @ee: An initialised EEvent, potentially with registered event listeners.
+ * event: An initialised EEvent, potentially with registered event listeners.
  * @id: Event name.  This will be compared against EEventItem.id.
  * @target: The target describing the event context.  This will be
  * implementation defined.
@@ -281,7 +283,7 @@ e_event_emit (EEvent *event,
 
 /**
  * e_event_target_new:
- * @ep: An initialised EEvent instance.
+ * @event: An initialised EEvent instance.
  * @type: type, up to implementor
  * @size: The size of memory to allocate.  This must be >= sizeof(EEventTarget).
  *
@@ -310,18 +312,17 @@ e_event_target_new (EEvent *event,
 
 /**
  * e_event_target_free:
- * @ep: An initialised EEvent instance on which this target was allocated.
- * @o: The target to free.
+ * @event: An initialised EEvent instance on which this target was allocated.
+ * @target: The target to free.
  *
  * Free a target.  This invokes the virtual free method on the EEventClass.
  **/
 void
 e_event_target_free (EEvent *event,
-                     gpointer object)
+                     gpointer target)
 {
-	EEventTarget *target = object;
-
-	E_EVENT_GET_CLASS (event)->target_free (event, target);
+	E_EVENT_GET_CLASS (event)->target_free (
+		event, (EEventTarget *) target);
 }
 
 /* ********************************************************************** */
@@ -510,17 +511,18 @@ e_event_hook_init (EEventHook *hook)
 
 /**
  * e_event_hook_class_add_target_map:
- * @class: The derived EEventHook class.
- * @map: A map used to describe a single EEventTarget type for this
- * class.
+ * @hook_class: The derived EEventHook class.
+ * @map: A map used to describe a single EEventTarget type for this class.
  *
  * Add a target map to a concrete derived class of EEvent.  The target
  * map enumerates a single target type and th eenable mask bit names,
  * so that the type can be loaded automatically by the base EEvent class.
  **/
-void e_event_hook_class_add_target_map (EEventHookClass *class,
-                                        const EEventHookTargetMap *map)
+void
+e_event_hook_class_add_target_map (EEventHookClass *hook_class,
+                                   const EEventHookTargetMap *map)
 {
 	g_hash_table_insert (
-		class->target_map, (gpointer) map->type, (gpointer) map);
+		hook_class->target_map,
+		(gpointer) map->type, (gpointer) map);
 }

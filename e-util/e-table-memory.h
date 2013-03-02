@@ -67,22 +67,22 @@ struct _ETableMemoryClass {
 
 GType		e_table_memory_get_type		(void) G_GNUC_CONST;
 ETableMemory *	e_table_memory_new		(void);
-void		e_table_memory_construct	(ETableMemory *etable);
+void		e_table_memory_construct	(ETableMemory *table_memory);
 
 /* row operations */
-void		e_table_memory_insert		(ETableMemory *etable,
+void		e_table_memory_insert		(ETableMemory *table_memory,
 						 gint row,
 						 gpointer data);
-gpointer	e_table_memory_remove		(ETableMemory *etable,
+gpointer	e_table_memory_remove		(ETableMemory *table_memory,
 						 gint row);
-void		e_table_memory_clear		(ETableMemory *etable);
+void		e_table_memory_clear		(ETableMemory *table_memory);
 
 /* Freeze and thaw */
-void		e_table_memory_freeze		(ETableMemory *etable);
-void		e_table_memory_thaw		(ETableMemory *etable);
-gpointer	e_table_memory_get_data		(ETableMemory *etm,
+void		e_table_memory_freeze		(ETableMemory *table_memory);
+void		e_table_memory_thaw		(ETableMemory *table_memory);
+gpointer	e_table_memory_get_data		(ETableMemory *table_memory,
 						 gint row);
-void		e_table_memory_set_data		(ETableMemory *etm,
+void		e_table_memory_set_data		(ETableMemory *table_memory,
 						 gint row,
 						 gpointer data);
 

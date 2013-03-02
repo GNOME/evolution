@@ -101,18 +101,20 @@ e_import_init (EImport *import)
 
 /**
  * e_import_construct:
- * @ep: The instance to initialise.
+ * @import: The instance to initialise.
  * @id: The name of the instance.
  *
  * Used by implementing classes to initialise base parameters.
  *
  * Return value: @ep is returned.
  **/
-EImport *e_import_construct (EImport *ep, const gchar *id)
+EImport *
+e_import_construct (EImport *import,
+                    const gchar *id)
 {
-	ep->id = g_strdup (id);
+	import->id = g_strdup (id);
 
-	return ep;
+	return import;
 }
 
 EImport *
@@ -128,8 +130,8 @@ e_import_new (const gchar *id)
 /**
  * e_import_import:
  * @import: an #EImport
- * @t: Target to import.
- * @im: Importer to use.
+ * @target: Target to import.
+ * @importer: Importer to use.
  * @status: Status callback, called with progress information.
  * @done: Complete callback, will always be called once complete.
  * @data: user data for callback functions
@@ -143,19 +145,19 @@ e_import_new (const gchar *id)
  **/
 void
 e_import_import (EImport *import,
-                 EImportTarget *t,
-                 EImportImporter *im,
+                 EImportTarget *target,
+                 EImportImporter *importer,
                  EImportStatusFunc status,
                  EImportCompleteFunc done,
                  gpointer data)
 {
-	g_return_if_fail (im != NULL);
+	g_return_if_fail (importer != NULL);
 
 	import->status = status;
 	import->done = done;
 	import->done_data = data;
 
-	im->import (import, t, im);
+	importer->import (import, target, importer);
 }
 
 void
@@ -171,7 +173,7 @@ e_import_cancel (EImport *import,
  * e_import_get_widget:
  * @import: an #EImport
  * @target: Target of interest
- * @im: Importer to get widget of
+ * @importer: Importer to get widget of
  *
  * Gets a widget that the importer uses to configure its
  * destination.  This widget should be packed into a container
@@ -183,12 +185,12 @@ e_import_cancel (EImport *import,
 GtkWidget *
 e_import_get_widget (EImport *import,
                      EImportTarget *target,
-                     EImportImporter *im)
+                     EImportImporter *importer)
 {
-	g_return_val_if_fail (im != NULL, NULL);
+	g_return_val_if_fail (importer != NULL, NULL);
 	g_return_val_if_fail (target != NULL, NULL);
 
-	return im->get_widget (import, target, im);
+	return importer->get_widget (import, target, importer);
 }
 
 /**
@@ -245,7 +247,7 @@ e_import_status (EImport *import,
 
 /**
  * e_import_get_importers:
- * @emp: an #EImport
+ * @import: an #EImport
  * @target: an #EImportTarget
  *
  * Get a list of importers.  If @target is supplied, then only
@@ -257,20 +259,20 @@ e_import_status (EImport *import,
  * no longer needed.
  **/
 GSList *
-e_import_get_importers (EImport *emp,
+e_import_get_importers (EImport *import,
                         EImportTarget *target)
 {
 	GSList *importers = NULL;
 	GList *link;
 
-	link = E_IMPORT_GET_CLASS (emp)->importers;
+	link = E_IMPORT_GET_CLASS (import)->importers;
 
 	while (link != NULL) {
 		EImportImporters *ei = link->data;
 
 		if (target == NULL
 		    || (ei->importer->type == target->type
-			&& ei->importer->supported (emp, target, ei->importer))) {
+			&& ei->importer->supported (import, target, ei->importer))) {
 			importers = g_slist_append (importers, ei->importer);
 		}
 
@@ -294,7 +296,7 @@ importer_compare (EImportImporters *node_a,
 
 /**
  * e_import_class_add_importer:
- * @ec: An initialised implementing instance of EImport.
+ * @klass: An initialised implementing instance of EImport.
  * @importer: Importer to add.
  * @freefunc: If supplied, called to free the importer node
  * when it is no longer needed.
@@ -302,7 +304,7 @@ importer_compare (EImportImporters *node_a,
  *
  **/
 void
-e_import_class_add_importer (EImportClass *class,
+e_import_class_add_importer (EImportClass *klass,
                              EImportImporter *importer,
                              EImportImporterFunc freefunc,
                              gpointer data)
@@ -314,14 +316,14 @@ e_import_class_add_importer (EImportClass *class,
 	node->free = freefunc;
 	node->data = data;
 
-	class->importers = g_list_sort (
-		g_list_prepend (class->importers, node),
+	klass->importers = g_list_sort (
+		g_list_prepend (klass->importers, node),
 		(GCompareFunc) importer_compare);
 }
 
 /**
  * e_import_target_new:
- * @ep: Parent EImport object.
+ * @import: an #EImport
  * @type: type, up to implementor
  * @size: Size of object to allocate.
  *
@@ -329,41 +331,40 @@ e_import_class_add_importer (EImportClass *class,
  * classes will define the actual content of the target.
  **/
 gpointer
-e_import_target_new (EImport *ep,
+e_import_target_new (EImport *import,
                      gint type,
                      gsize size)
 {
-	EImportTarget *t;
+	EImportTarget *target;
 
 	if (size < sizeof (EImportTarget)) {
 		g_warning ("Size less than size of EImportTarget\n");
 		size = sizeof (EImportTarget);
 	}
 
-	t = g_malloc0 (size);
-	t->import = ep;
-	g_object_ref (ep);
-	t->type = type;
-	g_datalist_init (&t->data);
+	target = g_malloc0 (size);
+	target->import = g_object_ref (import);
+	target->type = type;
 
-	return t;
+	g_datalist_init (&target->data);
+
+	return target;
 }
 
 /**
  * e_import_target_free:
- * @ep: Parent EImport object.
- * @o: The target to fre.
+ * @import: an #EImport
+ * @target: the target to free
  *
  * Free a target.  The implementing class can override this method to
  * free custom targets.
  **/
 void
-e_import_target_free (EImport *ep,
-                      gpointer o)
+e_import_target_free (EImport *import,
+                      gpointer target)
 {
-	EImportTarget *t = o;
-
-	((EImportClass *) G_OBJECT_GET_CLASS (ep))->target_free (ep, t);
+	E_IMPORT_GET_CLASS (import)->target_free (
+		import, (EImportTarget *) target);
 }
 
 EImportTargetURI *

@@ -631,7 +631,7 @@ e_rule_context_add_rule_set (ERuleContext *context,
 
 /**
  * e_rule_context_load:
- * @f:
+ * @context:
  * @system:
  * @user:
  *
@@ -663,7 +663,7 @@ e_rule_context_load (ERuleContext *context,
 
 /**
  * e_rule_context_save:
- * @f:
+ * @context:
  * @user:
  *
  * Save a rule context to disk.
@@ -687,7 +687,7 @@ e_rule_context_save (ERuleContext *context,
 
 /**
  * e_rule_context_revert:
- * @f:
+ * @context:
  * @user:
  *
  * Reverts a rule context from a user description file.  Assumes the

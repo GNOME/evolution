@@ -43,7 +43,7 @@ IGNORE_HFILES = \
 	gal-a11y-e-text.h \
 	gal-a11y-e-tree-factory.h \
 	gal-a11y-e-tree.h \
-	gal-a11y-factory.h
+	gal-a11y-factory.h \
 	gal-a11y-util.h \
 	$(NULL)
 

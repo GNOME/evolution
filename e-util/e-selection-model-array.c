@@ -240,15 +240,6 @@ esma_set_property (GObject *object,
 	}
 }
 
-/**
- * e_selection_model_is_row_selected
- * @selection: #ESelectionModel to check
- * @n: The row to check
- *
- * This routine calculates whether the given row is selected.
- *
- * Returns: %TRUE if the given row is selected
- */
 static gboolean
 esma_is_row_selected (ESelectionModel *selection,
                       gint n)
@@ -260,15 +251,6 @@ esma_is_row_selected (ESelectionModel *selection,
 		return FALSE;
 }
 
-/**
- * e_selection_model_foreach
- * @selection: #ESelectionModel to traverse
- * @callback: The callback function to call back.
- * @closure: The closure
- *
- * This routine calls the given callback function once for each
- * selected row, passing closure as the closure.
- */
 static void
 esma_foreach (ESelectionModel *selection,
               EForeachFunc callback,
@@ -279,12 +261,6 @@ esma_foreach (ESelectionModel *selection,
 		e_bit_array_foreach (esma->eba, callback, closure);
 }
 
-/**
- * e_selection_model_clear
- * @selection: #ESelectionModel to clear
- *
- * This routine clears the selection to no rows selected.
- */
 static void
 esma_clear (ESelectionModel *selection)
 {
@@ -305,14 +281,6 @@ esma_clear (ESelectionModel *selection)
 #define PART(x,n) (((x) & (0x01010101 << n)) >> n)
 #define SECTION(x, n) (((x) >> (n * 8)) & 0xff)
 
-/**
- * e_selection_model_selected_count
- * @selection: #ESelectionModel to count
- *
- * This routine calculates the number of rows selected.
- *
- * Returns: The number of rows selected in the given model.
- */
 static gint
 esma_selected_count (ESelectionModel *selection)
 {
@@ -323,13 +291,6 @@ esma_selected_count (ESelectionModel *selection)
 		return 0;
 }
 
-/**
- * e_selection_model_select_all
- * @selection: #ESelectionModel to select all
- *
- * This routine selects all the rows in the given
- * #ESelectionModel.
- */
 static void
 esma_select_all (ESelectionModel *selection)
 {
@@ -349,13 +310,6 @@ esma_select_all (ESelectionModel *selection)
 	e_selection_model_cursor_changed (E_SELECTION_MODEL (esma), 0, 0);
 }
 
-/**
- * e_selection_model_invert_selection
- * @selection: #ESelectionModel to invert
- *
- * This routine inverts all the rows in the given
- * #ESelectionModel.
- */
 static void
 esma_invert_selection (ESelectionModel *selection)
 {

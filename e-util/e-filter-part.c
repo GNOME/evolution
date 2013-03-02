@@ -382,7 +382,7 @@ e_filter_part_build_code (EFilterPart *part,
 
 /**
  * e_filter_part_build_code_list:
- * @l:
+ * @list:
  * @out:
  *
  * Construct a list of the filter parts code into
@@ -406,7 +406,7 @@ e_filter_part_build_code_list (GList *list,
 
 /**
  * e_filter_part_find_list:
- * @l:
+ * @list:
  * @name:
  *
  * Find a filter part stored in a list.
@@ -433,7 +433,7 @@ e_filter_part_find_list (GList *list,
 
 /**
  * e_filter_part_next_list:
- * @l:
+ * @list:
  * @last: The last item retrieved, or NULL to start
  * from the beginning of the list.
  *

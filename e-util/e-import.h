@@ -233,7 +233,7 @@ gpointer	e_import_target_new		(EImport *import,
 						 gint type,
 						 gsize size);
 void		e_import_target_free		(EImport *import,
-						 gpointer object);
+						 gpointer target);
 EImportTargetURI *
 		e_import_target_new_uri		(EImport *import,
 						 const gchar *uri_src,

@@ -189,7 +189,7 @@ gpointer	e_event_target_new		(EEvent *event,
 						 gint type,
 						 gsize size);
 void		e_event_target_free		(EEvent *event,
-						 gpointer object);
+						 gpointer target);
 
 /* ********************************************************************** */
 
@@ -272,7 +272,7 @@ struct _EEventHookClass {
 
 GType		e_event_hook_get_type	(void) G_GNUC_CONST;
 void		e_event_hook_class_add_target_map
-					(EEventHookClass *klass,
+					(EEventHookClass *hook_class,
 					 const EEventHookTargetMap *map);
 
 G_END_DECLS

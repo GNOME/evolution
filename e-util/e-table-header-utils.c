@@ -103,7 +103,7 @@ e_table_header_width_extras (GtkWidget *widget)
 
 /**
  * e_table_header_draw_button:
- * @drawable: Destination drawable.
+ * @cr: a cairo context
  * @ecol: Table column for the header information.
  * @widget: The table widget.
  * @x: Leftmost coordinate of the button.

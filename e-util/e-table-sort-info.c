@@ -202,7 +202,7 @@ e_table_sort_info_grouping_real_truncate (ETableSortInfo *info,
 /**
  * e_table_sort_info_grouping_truncate:
  * @info: The ETableSortInfo object
- * @lenght: position where the truncation happens.
+ * @length: position where the truncation happens.
  *
  * This routine can be used to reduce or grow the number of grouping
  * criteria in the object.
@@ -283,7 +283,7 @@ e_table_sort_info_sorting_real_truncate (ETableSortInfo *info,
 /**
  * e_table_sort_info_sorting_truncate:
  * @info: The ETableSortInfo object
- * @lenght: position where the truncation happens.
+ * @length: position where the truncation happens.
  *
  * This routine can be used to reduce or grow the number of sort
  * criteria in the object.
@@ -316,7 +316,7 @@ e_table_sort_info_sorting_get_nth (ETableSortInfo *info,
 }
 
 /**
- * e_table_sort_info_sorting_get_nth:
+ * e_table_sort_info_sorting_set_nth:
  * @info: The ETableSortInfo object
  * @n: Item information to fetch.
  * @column: new values for the sorting

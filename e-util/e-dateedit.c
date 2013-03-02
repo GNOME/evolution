@@ -754,7 +754,7 @@ e_date_edit_grab_focus (GtkWidget *widget)
 
 /**
  * e_date_edit_set_editable:
- * @dedit: an #EDateEdit widget.
+ * @dedit: an #EDateEdit
  * @editable: whether or not the widget should accept edits.
  *
  * Allows the programmer to disallow editing (and the popping up of
@@ -777,15 +777,15 @@ e_date_edit_set_editable (EDateEdit *dedit,
 
 /**
  * e_date_edit_get_time:
- * @dedit: an #EDateEdit widget.
- * @the_time: returns the last valid time entered.
- * @Returns: the last valid time entered, or -1 if the time is not set.
+ * @dedit: an #EDateEdit
  *
  * Returns the last valid time entered. If empty times are valid, by calling
  * e_date_edit_set_allow_no_date_set(), then it may return -1.
  *
  * Note that the last time entered may actually have been invalid. You can
  * check this with e_date_edit_time_is_valid().
+ *
+ * Returns: the last valid time entered, or -1 if the time is not set.
  */
 time_t
 e_date_edit_get_time (EDateEdit *dedit)
@@ -823,7 +823,7 @@ e_date_edit_get_time (EDateEdit *dedit)
 
 /**
  * e_date_edit_set_time:
- * @dedit: the EDateEdit widget
+ * @dedit: an #EDateEdit
  * @the_time: The time and date that should be set on the widget
  *
  * Description:  Changes the displayed date and time in the EDateEdit
@@ -889,7 +889,7 @@ e_date_edit_set_time (EDateEdit *dedit,
 
 /**
  * e_date_edit_get_date:
- * @dedit: an #EDateEdit widget.
+ * @dedit: an #EDateEdit
  * @year: returns the year set.
  * @month: returns the month set (1 - 12).
  * @day: returns the day set (1 - 31).
@@ -925,7 +925,7 @@ e_date_edit_get_date (EDateEdit *dedit,
 
 /**
  * e_date_edit_set_date:
- * @dedit: an #EDateEdit widget.
+ * @dedit: an #EDateEdit
  * @year: the year to set.
  * @month: the month to set (1 - 12).
  * @day: the day to set (1 - 31).
@@ -957,7 +957,7 @@ e_date_edit_set_date (EDateEdit *dedit,
 
 /**
  * e_date_edit_get_time_of_day:
- * @dedit: an #EDateEdit widget.
+ * @dedit: an #EDateEdit
  * @hour: returns the hour set, or 0 if the time isn't set.
  * @minute: returns the minute set, or 0 if the time isn't set.
  * @Returns: TRUE if a time was set, or FALSE if the field is empty or 'None'.
@@ -991,7 +991,7 @@ e_date_edit_get_time_of_day (EDateEdit *dedit,
 
 /**
  * e_date_edit_set_time_of_day:
- * @dedit: an #EDateEdit widget.
+ * @dedit: an #EDateEdit
  * @hour: the hour to set, or -1 to set the time to None (i.e. empty).
  * @minute: the minute to set.
  *
@@ -1060,7 +1060,7 @@ e_date_edit_set_date_and_time_of_day (EDateEdit *dedit,
 
 /**
  * e_date_edit_get_show_date:
- * @dedit: an #EDateEdit widget.
+ * @dedit: an #EDateEdit
  * @Returns: Whether the date field is shown.
  *
  * Description: Returns TRUE if the date field is currently shown.
@@ -1075,7 +1075,7 @@ e_date_edit_get_show_date (EDateEdit *dedit)
 
 /**
  * e_date_edit_set_show_date:
- * @dedit: an #EDateEdit widget.
+ * @dedit: an #EDateEdit
  * @show_date: TRUE if the date field should be shown.
  *
  * Description: Specifies whether the date field should be shown. The date
@@ -1117,7 +1117,7 @@ e_date_edit_set_show_date (EDateEdit *dedit,
 
 /**
  * e_date_edit_get_show_time:
- * @dedit: an #EDateEdit widget
+ * @dedit: an #EDateEdit
  * @Returns: Whether the time field is shown.
  *
  * Description: Returns TRUE if the time field is currently shown.
@@ -1132,7 +1132,7 @@ e_date_edit_get_show_time (EDateEdit *dedit)
 
 /**
  * e_date_edit_set_show_time:
- * @dedit: an #EDateEdit widget
+ * @dedit: an #EDateEdit
  * @show_time: TRUE if the time field should be shown.
  *
  * Description: Specifies whether the time field should be shown. The time
@@ -1160,7 +1160,7 @@ e_date_edit_set_show_time (EDateEdit *dedit,
 
 /**
  * e_date_edit_get_make_time_insensitive:
- * @dedit: an #EDateEdit widget
+ * @dedit: an #EDateEdit
  * @Returns: Whether the time field is be made insensitive instead of hiding
  * it.
  *
@@ -1177,7 +1177,7 @@ e_date_edit_get_make_time_insensitive (EDateEdit *dedit)
 
 /**
  * e_date_edit_set_make_time_insensitive:
- * @dedit: an #EDateEdit widget
+ * @dedit: an #EDateEdit
  * @make_insensitive: TRUE if the time field should be made insensitive instead
  * of hiding it.
  *
@@ -1208,7 +1208,7 @@ e_date_edit_set_make_time_insensitive (EDateEdit *dedit,
 
 /**
  * e_date_edit_get_week_start_day:
- * @dedit: an #EDateEdit widget
+ * @dedit: an #EDateEdit
  * @Returns: the week start day, from 0 (Monday) to 6 (Sunday).
  *
  * Description: Returns the week start day currently used in the calendar
@@ -1230,7 +1230,7 @@ e_date_edit_get_week_start_day (EDateEdit *dedit)
 
 /**
  * e_date_edit_set_week_start_day:
- * @dedit: an #EDateEdit widget
+ * @dedit: an #EDateEdit
  * @week_start_day: the week start day, from 0 (Monday) to 6 (Sunday).
  *
  * Description: Sets the week start day to use in the calendar popup.
@@ -2304,7 +2304,7 @@ e_date_edit_check_time_changed (EDateEdit *dedit)
 
 /**
  * e_date_edit_date_is_valid:
- * @dedit: an #EDateEdit widget.
+ * @dedit: an #EDateEdit
  * @Returns: TRUE if the last date entered was valid.
  *
  * Returns TRUE if the last date entered was valid.
@@ -2331,7 +2331,7 @@ e_date_edit_date_is_valid (EDateEdit *dedit)
 
 /**
  * e_date_edit_time_is_valid:
- * @dedit: an #EDateEdit widget.
+ * @dedit: an #EDateEdit
  * @Returns: TRUE if the last time entered was valid.
  *
  * Returns TRUE if the last time entered was valid.

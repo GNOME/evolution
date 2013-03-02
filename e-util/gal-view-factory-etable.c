@@ -168,7 +168,7 @@ gal_view_factory_etable_init (GalViewFactoryEtable *factory)
 }
 
 /**
- * gal_view_etable_new:
+ * gal_view_factory_etable_new:
  * @specification: The spec to create GalViewEtables based upon.
  *
  * A new GalViewFactory for creating ETable views.  Create one of

@@ -1327,6 +1327,7 @@ EClientSelectorPrivate
 <FILE>e-config</FILE>
 <TITLE>EConfig</TITLE>
 EConfig
+e_config_t
 EConfigItem
 EConfigFactory
 EConfigTarget
@@ -1340,6 +1341,7 @@ e_config_add_items
 e_config_add_page_check
 e_config_set_target
 e_config_create_widget
+e_config_target_change_t
 e_config_target_changed
 e_config_page_check
 e_config_abort
@@ -1362,6 +1364,12 @@ E_TYPE_CONFIG
 E_CONFIG_CLASS
 E_IS_CONFIG_CLASS
 E_CONFIG_GET_CLASS
+E_CONFIG_HOOK
+E_IS_CONFIG_HOOK
+E_TYPE_CONFIG_HOOK
+E_CONFIG_HOOK_CLASS
+E_IS_CONFIG_HOOK_CLASS
+E_CONFIG_HOOK_GET_CLASS
 EConfigClass
 e_config_get_type
 <SUBSECTION Standard>
@@ -1495,6 +1503,7 @@ e_dialog_combo_box_get
 <FILE>e-event</FILE>
 <TITLE>EEvent</TITLE>
 EEvent
+e_event_t
 EEventItem
 EEventFactory
 EEventTarget
@@ -1698,6 +1707,7 @@ EFilterIntPrivate
 <SECTION>
 <FILE>e-filter-option</FILE>
 <TITLE>EFilterOption</TITLE>
+filter_option
 EFilterOption
 e_filter_option_new
 e_filter_option_set_current
@@ -1752,6 +1762,8 @@ EFilterPartPrivate
 <SECTION>
 <FILE>e-filter-rule</FILE>
 <TITLE>EFilterRule</TITLE>
+filter_grouping_t
+filter_threading_t
 EFilterRule
 e_filter_rule_new
 e_filter_rule_clone
@@ -1873,6 +1885,7 @@ EImageChooserPrivate
 <FILE>e-import</FILE>
 <TITLE>EImport</TITLE>
 EImport
+e_import_target_t
 EImportImporter
 EImportFactory
 EImportTarget
@@ -2739,6 +2752,8 @@ e_reflow_model_get_type
 <SECTION>
 <FILE>e-rule-context</FILE>
 <TITLE>ERuleContext</TITLE>
+part_set_map
+rule_set_map
 ERuleContext
 ERuleContextRegisterFunc
 ERuleContextPartFunc

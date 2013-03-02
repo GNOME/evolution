@@ -175,12 +175,12 @@ GType		e_tree_get_type			(void) G_GNUC_CONST;
 gboolean	e_tree_construct		(ETree *e_tree,
 						 ETreeModel *etm,
 						 ETableExtras *ete,
-						 const gchar *spec,
-						 const gchar *state);
+						 const gchar *spec_str,
+						 const gchar *state_str);
 GtkWidget *	e_tree_new			(ETreeModel *etm,
 						 ETableExtras *ete,
-						 const gchar *spec,
-						 const gchar *state);
+						 const gchar *spec_str,
+						 const gchar *state_str);
 
 /* Create an ETree using files. */
 gboolean	e_tree_construct_from_spec_file	(ETree *e_tree,
@@ -205,7 +205,7 @@ ETableSpecification *
 void		e_tree_set_search_column	(ETree *e_tree,
 						 gint col);
 void		e_tree_set_state		(ETree *e_tree,
-						 const gchar *state);
+						 const gchar *state_str);
 void		e_tree_set_state_object		(ETree *e_tree,
 						 ETableState *state);
 void		e_tree_load_state		(ETree *e_tree,

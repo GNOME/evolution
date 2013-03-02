@@ -422,15 +422,6 @@ etsm_is_path_selected (ETreeSelectionModel *etsm,
 	return FALSE;
 }
 
-/**
- * e_selection_model_is_row_selected
- * @selection: #ESelectionModel to check
- * @n: The row to check
- *
- * This routine calculates whether the given row is selected.
- *
- * Returns: %TRUE if the given row is selected
- */
 static gboolean
 etsm_is_row_selected (ESelectionModel *selection,
                       gint row)
@@ -467,15 +458,6 @@ etsm_row_foreach_cb (gpointer key,
 		mac->callback (row, mac->closure);
 }
 
-/**
- * e_selection_model_foreach
- * @selection: #ESelectionModel to traverse
- * @callback: The callback function to call back.
- * @closure: The closure
- *
- * This routine calls the given callback function once for each
- * selected row, passing closure as the closure.
- */
 static void
 etsm_foreach (ESelectionModel *selection,
               EForeachFunc callback,
@@ -491,12 +473,6 @@ etsm_foreach (ESelectionModel *selection,
 	g_hash_table_foreach (etsm->priv->paths, etsm_row_foreach_cb, &mac);
 }
 
-/**
- * e_selection_model_clear
- * @selection: #ESelectionModel to clear
- *
- * This routine clears the selection to no rows selected.
- */
 static void
 etsm_clear (ESelectionModel *selection)
 {
@@ -509,14 +485,6 @@ etsm_clear (ESelectionModel *selection)
 	e_selection_model_cursor_changed (E_SELECTION_MODEL (etsm), -1, -1);
 }
 
-/**
- * e_selection_model_selected_count
- * @selection: #ESelectionModel to count
- *
- * This routine calculates the number of rows selected.
- *
- * Returns: The number of rows selected in the given model.
- */
 static gint
 etsm_selected_count (ESelectionModel *selection)
 {
@@ -532,13 +500,6 @@ etsm_row_count (ESelectionModel *selection)
 	return e_table_model_row_count (E_TABLE_MODEL (etsm->priv->etta));
 }
 
-/**
- * e_selection_model_select_all
- * @selection: #ESelectionModel to select all
- *
- * This routine selects all the rows in the given
- * #ESelectionModel.
- */
 static void
 etsm_select_all (ESelectionModel *selection)
 {
@@ -563,13 +524,6 @@ etsm_select_all (ESelectionModel *selection)
 		get_cursor_row (etsm), etsm->priv->cursor_col);
 }
 
-/**
- * e_selection_model_invert_selection
- * @selection: #ESelectionModel to invert
- *
- * This routine inverts all the rows in the given
- * #ESelectionModel.
- */
 static void
 etsm_invert_selection (ESelectionModel *selection)
 {

@@ -285,12 +285,12 @@ void		e_cell_load_state		(ECellView *ecell_view,
 						 gint view_col,
 						 gint row,
 						 gpointer edit_context,
-						 gpointer state);
+						 gpointer save_state);
 void		e_cell_free_state		(ECellView *ecell_view,
 						 gint model_col,
 						 gint view_col,
 						 gint row,
-						 gpointer state);
+						 gpointer save_state);
 
 G_END_DECLS
 

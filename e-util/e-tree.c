@@ -1692,9 +1692,7 @@ e_tree_construct (ETree *e_tree,
 	ETableSpecification *specification;
 	ETableState *state;
 
-	g_return_val_if_fail (e_tree != NULL, FALSE);
 	g_return_val_if_fail (E_IS_TREE (e_tree), FALSE);
-	g_return_val_if_fail (etm != NULL, FALSE);
 	g_return_val_if_fail (E_IS_TREE_MODEL (etm), FALSE);
 	g_return_val_if_fail (ete == NULL || E_IS_TABLE_EXTRAS (ete), FALSE);
 	g_return_val_if_fail (spec_str != NULL, FALSE);
@@ -1755,9 +1753,7 @@ e_tree_construct_from_spec_file (ETree *e_tree,
 	ETableSpecification *specification;
 	ETableState *state;
 
-	g_return_val_if_fail (e_tree != NULL, FALSE);
 	g_return_val_if_fail (E_IS_TREE (e_tree), FALSE);
-	g_return_val_if_fail (etm != NULL, FALSE);
 	g_return_val_if_fail (E_IS_TREE_MODEL (etm), FALSE);
 	g_return_val_if_fail (ete == NULL || E_IS_TABLE_EXTRAS (ete), FALSE);
 	g_return_val_if_fail (spec_fn != NULL, FALSE);
@@ -1802,8 +1798,8 @@ e_tree_construct_from_spec_file (ETree *e_tree,
  * e_tree_new:
  * @etm: The model for this tree
  * @ete: An optional #ETableExtras  (%NULL is valid.)
- * @spec: The spec
- * @state: An optional state  (%NULL is valid.)
+ * @spec_str: The spec
+ * @state_str: An optional state  (%NULL is valid.)
  *
  * This function creates an #ETree from the given parameters.  The
  * #ETreeModel is a tree model to be represented.  The #ETableExtras
@@ -1822,19 +1818,18 @@ e_tree_construct_from_spec_file (ETree *e_tree,
 GtkWidget *
 e_tree_new (ETreeModel *etm,
             ETableExtras *ete,
-            const gchar *spec,
-            const gchar *state)
+            const gchar *spec_str,
+            const gchar *state_str)
 {
 	ETree *e_tree;
 
-	g_return_val_if_fail (etm != NULL, NULL);
 	g_return_val_if_fail (E_IS_TREE_MODEL (etm), NULL);
 	g_return_val_if_fail (ete == NULL || E_IS_TABLE_EXTRAS (ete), NULL);
-	g_return_val_if_fail (spec != NULL, NULL);
+	g_return_val_if_fail (spec_str != NULL, NULL);
 
 	e_tree = g_object_new (E_TYPE_TREE, NULL);
 
-	if (!e_tree_construct (e_tree, etm, ete, spec, state)) {
+	if (!e_tree_construct (e_tree, etm, ete, spec_str, state_str)) {
 		g_object_unref (e_tree);
 		return NULL;
 	}
@@ -1870,7 +1865,6 @@ e_tree_new_from_spec_file (ETreeModel *etm,
 {
 	ETree *e_tree;
 
-	g_return_val_if_fail (etm != NULL, NULL);
 	g_return_val_if_fail (E_IS_TREE_MODEL (etm), NULL);
 	g_return_val_if_fail (ete == NULL || E_IS_TABLE_EXTRAS (ete), NULL);
 	g_return_val_if_fail (spec_fn != NULL, NULL);

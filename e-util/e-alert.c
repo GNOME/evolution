@@ -697,13 +697,11 @@ e_alert_init (EAlert *alert)
 /**
  * e_alert_new:
  * @tag: alert identifier
- * @arg0: The first argument for the alert formatter.  The list must
- * be NULL terminated.
+ * @...: %NULL-terminated argument list
  *
  * Creates a new EAlert.  The @tag argument is used to determine
  * which alert to use, it is in the format domain:alert-id.  The NULL
- * terminated list of arguments, starting with @arg0 is used to fill
- * out the alert definition.
+ * terminated list of arguments is used to fill out the alert definition.
  *
  * Returns: a new #EAlert
  **/

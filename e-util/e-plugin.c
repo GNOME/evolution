@@ -574,7 +574,7 @@ e_plugin_list_plugins (void)
 
 /**
  * e_plugin_construct:
- * @ep: an #EPlugin
+ * @plugin: an #EPlugin
  * @root: The XML root node of the sub-tree containing the plugin
  * definition.
  *
@@ -583,22 +583,22 @@ e_plugin_list_plugins (void)
  * Return value: The return from the construct virtual method.
  **/
 gint
-e_plugin_construct (EPlugin *ep,
+e_plugin_construct (EPlugin *plugin,
                     xmlNodePtr root)
 {
 	EPluginClass *class;
 
-	g_return_val_if_fail (E_IS_PLUGIN (ep), -1);
+	g_return_val_if_fail (E_IS_PLUGIN (plugin), -1);
 
-	class = E_PLUGIN_GET_CLASS (ep);
+	class = E_PLUGIN_GET_CLASS (plugin);
 	g_return_val_if_fail (class->construct != NULL, -1);
 
-	return class->construct (ep, root);
+	return class->construct (plugin, root);
 }
 
 /**
  * e_plugin_invoke:
- * @ep: an #EPlugin
+ * @plugin: an #EPlugin
  * @name: The name of the function to invoke. The format of this name
  * will depend on the EPlugin type and its language conventions.
  * @data: The argument to the function. Its actual type depends on
@@ -610,27 +610,27 @@ e_plugin_construct (EPlugin *ep,
  * Return value: The return of the plugin invocation.
  **/
 gpointer
-e_plugin_invoke (EPlugin *ep,
+e_plugin_invoke (EPlugin *plugin,
                  const gchar *name,
                  gpointer data)
 {
 	EPluginClass *class;
 
-	g_return_val_if_fail (E_IS_PLUGIN (ep), NULL);
+	g_return_val_if_fail (E_IS_PLUGIN (plugin), NULL);
 	g_return_val_if_fail (name != NULL, NULL);
 
 	/* Prevent invocation on a disabled plugin. */
-	g_return_val_if_fail (ep->enabled, NULL);
+	g_return_val_if_fail (plugin->enabled, NULL);
 
-	class = E_PLUGIN_GET_CLASS (ep);
+	class = E_PLUGIN_GET_CLASS (plugin);
 	g_return_val_if_fail (class->invoke != NULL, NULL);
 
-	return class->invoke (ep, name, data);
+	return class->invoke (plugin, name, data);
 }
 
 /**
  * e_plugin_get_symbol:
- * @ep: an #EPlugin
+ * @plugin: an #EPlugin
  * @name: The name of the symbol to fetch. The format of this name
  * will depend on the EPlugin type and its language conventions.
  *
@@ -639,22 +639,22 @@ e_plugin_invoke (EPlugin *ep,
  * Return value: the symbol value, or %NULL if not found
  **/
 gpointer
-e_plugin_get_symbol (EPlugin *ep,
+e_plugin_get_symbol (EPlugin *plugin,
                      const gchar *name)
 {
 	EPluginClass *class;
 
-	g_return_val_if_fail (E_IS_PLUGIN (ep), NULL);
+	g_return_val_if_fail (E_IS_PLUGIN (plugin), NULL);
 
-	class = E_PLUGIN_GET_CLASS (ep);
+	class = E_PLUGIN_GET_CLASS (plugin);
 	g_return_val_if_fail (class->get_symbol != NULL, NULL);
 
-	return class->get_symbol (ep, name);
+	return class->get_symbol (plugin, name);
 }
 
 /**
  * e_plugin_enable:
- * @ep: an #EPlugin
+ * @plugin: an #EPlugin
  * @state: %TRUE to enable, %FALSE to disable
  *
  * Set the enable state of a plugin.
@@ -662,26 +662,27 @@ e_plugin_get_symbol (EPlugin *ep,
  * THIS IS NOT FULLY IMPLEMENTED YET
  **/
 void
-e_plugin_enable (EPlugin *ep,
+e_plugin_enable (EPlugin *plugin,
                  gint state)
 {
 	EPluginClass *class;
 
-	g_return_if_fail (E_IS_PLUGIN (ep));
+	g_return_if_fail (E_IS_PLUGIN (plugin));
 
-	if ((ep->enabled == 0) == (state == 0))
+	if ((plugin->enabled == 0) == (state == 0))
 		return;
 
-	class = E_PLUGIN_GET_CLASS (ep);
+	class = E_PLUGIN_GET_CLASS (plugin);
 	g_return_if_fail (class->enable != NULL);
 
-	class->enable (ep, state);
-	g_object_notify (G_OBJECT (ep), "enabled");
+	class->enable (plugin, state);
+
+	g_object_notify (G_OBJECT (plugin), "enabled");
 }
 
 /**
  * e_plugin_get_configure_widget
- * @ep: an #EPlugin
+ * @plugin: an #EPlugin
  *
  * Plugin itself should have implemented "e_plugin_lib_get_configure_widget"
  * function * of prototype EPluginLibGetConfigureWidgetFunc.
@@ -689,17 +690,17 @@ e_plugin_enable (EPlugin *ep,
  * Returns: Configure widget or %NULL
  **/
 GtkWidget *
-e_plugin_get_configure_widget (EPlugin *ep)
+e_plugin_get_configure_widget (EPlugin *plugin)
 {
 	EPluginClass *class;
 
-	g_return_val_if_fail (E_IS_PLUGIN (ep), NULL);
+	g_return_val_if_fail (E_IS_PLUGIN (plugin), NULL);
 
-	class = E_PLUGIN_GET_CLASS (ep);
+	class = E_PLUGIN_GET_CLASS (plugin);
 	if (class->get_configure_widget == NULL)
 		return NULL;
 
-	return class->get_configure_widget (ep);
+	return class->get_configure_widget (plugin);
 }
 
 /**
@@ -846,18 +847,18 @@ G_DEFINE_TYPE (
 	G_TYPE_OBJECT)
 
 static gint
-eph_construct (EPluginHook *eph,
-               EPlugin *ep,
-               xmlNodePtr root)
+plugin_hook_construct (EPluginHook *plugin_hook,
+                       EPlugin *plugin,
+                       xmlNodePtr root)
 {
-	eph->plugin = ep;
+	plugin_hook->plugin = plugin;
 
 	return 0;
 }
 
 static void
-eph_enable (EPluginHook *eph,
-            gint state)
+plugin_hook_enable (EPluginHook *plugin_hook,
+                    gint state)
 {
 	/* NOOP */
 }
@@ -865,8 +866,8 @@ eph_enable (EPluginHook *eph,
 static void
 e_plugin_hook_class_init (EPluginHookClass *class)
 {
-	class->construct = eph_construct;
-	class->enable = eph_enable;
+	class->construct = plugin_hook_construct;
+	class->enable = plugin_hook_enable;
 }
 
 static void
@@ -875,8 +876,8 @@ e_plugin_hook_init (EPluginHook *hook)
 }
 
 /**
- * e_plugin_hook_enable: Set hook enabled state.
- * @eph:
+ * e_plugin_hook_enable:
+ * @plugin_hook:
  * @state:
  *
  * Set the enabled state of the plugin hook.  This is called by the
@@ -885,17 +886,17 @@ e_plugin_hook_init (EPluginHook *hook)
  * THIS IS NOT FULY IMEPLEMENTED YET
  **/
 void
-e_plugin_hook_enable (EPluginHook *eph,
+e_plugin_hook_enable (EPluginHook *plugin_hook,
                       gint state)
 {
 	EPluginHookClass *class;
 
-	g_return_if_fail (E_IS_PLUGIN_HOOK (eph));
+	g_return_if_fail (E_IS_PLUGIN_HOOK (plugin_hook));
 
-	class = E_PLUGIN_HOOK_GET_CLASS (eph);
+	class = E_PLUGIN_HOOK_GET_CLASS (plugin_hook);
 	g_return_if_fail (class->enable != NULL);
 
-	class->enable (eph, state);
+	class->enable (plugin_hook, state);
 }
 
 /**

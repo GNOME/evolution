@@ -58,7 +58,7 @@ typedef struct _ETreeMemory ETreeMemory;
 typedef struct _ETreeMemoryClass ETreeMemoryClass;
 typedef struct _ETreeMemoryPrivate ETreeMemoryPrivate;
 
-typedef gint	(*ETreeMemorySortCallback)	(ETreeMemory *etmm,
+typedef gint	(*ETreeMemorySortCallback)	(ETreeMemory *tree_memory,
 						 ETreePath path1,
 						 ETreePath path2,
 						 gpointer closure);
@@ -77,44 +77,44 @@ struct _ETreeMemoryClass {
 };
 
 GType		e_tree_memory_get_type		(void) G_GNUC_CONST;
-void		e_tree_memory_construct		(ETreeMemory *etree);
+void		e_tree_memory_construct		(ETreeMemory *tree_memory);
 ETreeMemory *	e_tree_memory_new		(void);
 
 /* node operations */
-ETreePath	e_tree_memory_node_insert	(ETreeMemory *etree,
-						 ETreePath parent,
+ETreePath	e_tree_memory_node_insert	(ETreeMemory *tree_memory,
+						 ETreePath parent_node,
 						 gint position,
 						 gpointer node_data);
-ETreePath	e_tree_memory_node_insert_id	(ETreeMemory *etree,
+ETreePath	e_tree_memory_node_insert_id	(ETreeMemory *tree_memory,
 						 ETreePath parent,
 						 gint position,
 						 gpointer node_data,
 						 gchar *id);
 ETreePath	e_tree_memory_node_insert_before
-						(ETreeMemory *etree,
+						(ETreeMemory *tree_memory,
 						 ETreePath parent,
 						 ETreePath sibling,
 						 gpointer node_data);
-gpointer	e_tree_memory_node_remove	(ETreeMemory *etree,
+gpointer	e_tree_memory_node_remove	(ETreeMemory *tree_memory,
 						 ETreePath path);
 
 /* Freeze and thaw */
-void		e_tree_memory_freeze		(ETreeMemory *etree);
-void		e_tree_memory_thaw		(ETreeMemory *etree);
+void		e_tree_memory_freeze		(ETreeMemory *tree_memory);
+void		e_tree_memory_thaw		(ETreeMemory *tree_memory);
 void		e_tree_memory_set_expanded_default
-						(ETreeMemory *etree,
+						(ETreeMemory *tree_memory,
 						 gboolean expanded);
-gpointer	e_tree_memory_node_get_data	(ETreeMemory *etm,
+gpointer	e_tree_memory_node_get_data	(ETreeMemory *tree_memory,
 						 ETreePath node);
-void		e_tree_memory_node_set_data	(ETreeMemory *etm,
+void		e_tree_memory_node_set_data	(ETreeMemory *tree_memory,
 						 ETreePath node,
 						 gpointer node_data);
-void		e_tree_memory_sort_node		(ETreeMemory *etm,
+void		e_tree_memory_sort_node		(ETreeMemory *tree_memory,
 						 ETreePath node,
 						 ETreeMemorySortCallback callback,
 						 gpointer user_data);
 void		e_tree_memory_set_node_destroy_func
-						(ETreeMemory *etmm,
+						(ETreeMemory *tree_memory,
 						 GFunc destroy_func,
 						 gpointer user_data);
 

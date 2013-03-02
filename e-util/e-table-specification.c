@@ -289,9 +289,8 @@ e_table_specification_save_to_file (ETableSpecification *specification,
 	xmlDoc *doc;
 	gint ret;
 
-	g_return_val_if_fail (specification != NULL, -1);
-	g_return_val_if_fail (filename != NULL, -1);
 	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (specification), -1);
+	g_return_val_if_fail (filename != NULL, -1);
 
 	if ((doc = xmlNewDoc ((const guchar *)"1.0")) == NULL)
 		return -1;
@@ -323,7 +322,6 @@ e_table_specification_save_to_string (ETableSpecification *specification)
 	gint length;
 	xmlDoc *doc;
 
-	g_return_val_if_fail (specification != NULL, NULL);
 	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (specification), NULL);
 
 	doc = xmlNewDoc ((const guchar *)"1.0");
@@ -353,9 +351,8 @@ e_table_specification_save_to_node (ETableSpecification *specification,
 	xmlNode *node;
 	const gchar *s;
 
-	g_return_val_if_fail (doc != NULL, NULL);
-	g_return_val_if_fail (specification != NULL, NULL);
 	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (specification), NULL);
+	g_return_val_if_fail (doc != NULL, NULL);
 
 	node = xmlNewNode (NULL, (const guchar *)"ETableSpecification");
 	e_xml_set_bool_prop_by_name (node, (const guchar *)"no-headers", specification->no_headers);
@@ -407,23 +404,22 @@ e_table_specification_save_to_node (ETableSpecification *specification,
 
 /**
  * e_table_specification_duplicate:
- * @spec: specification to duplicate
+ * @specification: specification to duplicate
  *
- * This creates a copy of the %ETableSpecification @spec
+ * This creates a copy of the %ETableSpecification @specification.
  *
  * Returns: The duplicated %ETableSpecification.
  */
 ETableSpecification *
-e_table_specification_duplicate (ETableSpecification *spec)
+e_table_specification_duplicate (ETableSpecification *specification)
 {
 	ETableSpecification *new_spec;
 	gchar *spec_str;
 
-	g_return_val_if_fail (spec != NULL, NULL);
-	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (spec), NULL);
+	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (specification), NULL);
 
 	new_spec = e_table_specification_new ();
-	spec_str = e_table_specification_save_to_string (spec);
+	spec_str = e_table_specification_save_to_string (specification);
 	if (!e_table_specification_load_from_string (new_spec, spec_str)) {
 		g_warning ("Unable to duplicate ETable specification");
 		g_object_unref (new_spec);

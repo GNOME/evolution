@@ -86,7 +86,8 @@ struct _ETableSpecificationClass {
 	GObjectClass parent_class;
 };
 
-GType		e_table_specification_get_type	(void) G_GNUC_CONST;
+GType		e_table_specification_get_type
+						(void) G_GNUC_CONST;
 ETableSpecification *
 		e_table_specification_new	(void);
 
@@ -107,7 +108,7 @@ gchar *		e_table_specification_save_to_string
 						(ETableSpecification *specification);
 xmlNode *	e_table_specification_save_to_node
 						(ETableSpecification *specification,
-						 xmlDoc              *doc);
+						 xmlDoc *doc);
 ETableSpecification *
 		e_table_specification_duplicate	(ETableSpecification *specification);
 

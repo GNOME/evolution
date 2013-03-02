@@ -562,7 +562,6 @@ e_cell_load_state (ECellView *ecell_view,
  * @model_col: the column in the model
  * @view_col: the column in the view
  * @row: the row
- * @edit_context: the editing context
  * @save_state: the save state to free
  *
  * Requests that the ECellView free the given save state.
@@ -634,9 +633,6 @@ e_cell_max_width_by_row (ECellView *ecell_view,
 /**
  * e_cell_max_width_by_row_implemented:
  * @ecell_view: the ECellView that we are curious about
- * @model_col: the column in the model
- * @view_col: the column in the view.
- * @row: The row in the model.
  *
  * Returns: the maximum width for the ECellview at @model_col which
  * is being rendered as @view_col for the data in @row.

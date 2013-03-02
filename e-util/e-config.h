@@ -282,7 +282,9 @@ gpointer	e_config_target_new		(EConfig *config,
 						 gint type,
 						 gsize size);
 void		e_config_target_free		(EConfig *config,
-						 gpointer);
+						 gpointer target);
+
+G_END_DECLS
 
 /* ********************************************************************** */
 
@@ -292,6 +294,27 @@ void		e_config_target_free		(EConfig *config,
  * this and initialise the class target type tables */
 
 #include <e-util/e-plugin.h>
+
+/* Standard GObject macros */
+#define E_TYPE_CONFIG_HOOK \
+	(e_config_hook_get_type ())
+#define E_CONFIG_HOOK(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_CONFIG_HOOK, EConfigHook))
+#define E_CONFIG_HOOK_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_CONFIG_HOOK, EConfigHookClass))
+#define E_IS_CONFIG_HOOK(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_CONFIG_HOOK))
+#define E_IS_CONFIG_HOOK_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_CONFIG_HOOK))
+#define E_CONFIG_HOOK_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_CONFIG_HOOK, EConfigHookClass))
+
+G_BEGIN_DECLS
 
 typedef struct _EConfigHookGroup EConfigHookGroup;
 typedef struct _EConfigHook EConfigHook;
@@ -414,7 +437,7 @@ GType e_config_hook_get_type (void);
 
 /* for implementors */
 void		e_config_hook_class_add_target_map
-					(EConfigHookClass *klass,
+					(EConfigHookClass *hook_class,
 					 const EConfigHookTargetMap *map);
 
 G_END_DECLS

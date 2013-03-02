@@ -295,16 +295,7 @@ e_table_memory_store_class_init (ETableMemoryStoreClass *class)
 
 /**
  * e_table_memory_store_new:
- * @col_count:
- * @value_at:
- * @set_value_at:
- * @is_cell_editable:
- * @duplicate_value:
- * @free_value:
- * @initialize_value:
- * @value_is_empty:
- * @value_to_string:
- * @data: closure pointer.
+ * @columns:
  *
  * This initializes a new ETableMemoryStoreModel object.  ETableMemoryStoreModel is
  * an implementaiton of the abstract class ETableModel.  The ETableMemoryStoreModel
