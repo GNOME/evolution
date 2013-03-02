@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2013-02-28 17:49+0000\n"
-"PO-Revision-Date: 2013-03-01 21:35+0700\n"
+"PO-Revision-Date: 2013-03-02 10:16+0700\n"
 "Last-Translator: Nguyễn Thái Ngọc Duy <pclouds@gmail.com>\n"
 "Language-Team: Vietnamese <vi-VN@googlegroups.com>\n"
 "Language: vi\n"
@@ -6897,7 +6897,9 @@ msgstr "Quản lý thư tín, lịch biểu và các liên lạc"
 
 #: ../data/evolution.desktop.in.in.h:5
 msgid "mail;calendar;contact;addressbook;task;"
-msgstr "thư;lịch;liên;lạc;địa;chỉ;công;việc;hẹn;"
+msgstr ""
+"mail;thư;thu;calendar;lịch;lich;contact;liên;lạc;lien;lac;addressbook;dia;"
+"chi;địa;chỉ;task;công;việc;hẹn;cong;viec;hen;"
 
 #: ../data/evolution-settings.desktop.in.in.h:1
 msgid "Email Settings"
