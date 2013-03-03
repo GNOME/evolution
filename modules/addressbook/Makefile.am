@@ -36,8 +36,6 @@ module_addressbook_la_SOURCES = \
 	e-book-shell-content.h					\
 	e-book-shell-migrate.c					\
 	e-book-shell-migrate.h					\
-	e-book-shell-settings.c					\
-	e-book-shell-settings.h					\
 	e-book-shell-sidebar.c					\
 	e-book-shell-sidebar.h					\
 	e-book-shell-view.c					\

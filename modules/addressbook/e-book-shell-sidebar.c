@@ -52,6 +52,43 @@ G_DEFINE_DYNAMIC_TYPE (
 	e_book_shell_sidebar,
 	E_TYPE_SHELL_SIDEBAR)
 
+static gboolean
+book_shell_sidebar_map_uid_to_source (GValue *value,
+                                      GVariant *variant,
+                                      gpointer user_data)
+{
+	ESourceRegistry *registry;
+	ESource *source;
+	const gchar *uid;
+
+	registry = E_SOURCE_REGISTRY (user_data);
+	uid = g_variant_get_string (variant, NULL);
+	source = e_source_registry_ref_source (registry, uid);
+	g_value_take_object (value, source);
+
+	return (source != NULL);
+}
+
+static GVariant *
+book_shell_sidebar_map_source_to_uid (const GValue *value,
+                                      const GVariantType *expected_type,
+                                      gpointer user_data)
+{
+	GVariant *variant = NULL;
+	ESource *source;
+
+	source = g_value_get_object (value);
+
+	if (source != NULL) {
+		const gchar *uid;
+
+		uid = e_source_get_uid (source);
+		variant = g_variant_new_string (uid);
+	}
+
+	return variant;
+}
+
 static void
 book_shell_sidebar_get_property (GObject *object,
                                  guint property_id,
@@ -93,10 +130,10 @@ book_shell_sidebar_constructed (GObject *object)
 	EShellView *shell_view;
 	EShellBackend *shell_backend;
 	EShellSidebar *shell_sidebar;
-	EShellSettings *shell_settings;
 	EClientCache *client_cache;
 	GtkContainer *container;
 	GtkWidget *widget;
+	GSettings *settings;
 
 	priv = E_BOOK_SHELL_SIDEBAR_GET_PRIVATE (object);
 
@@ -106,9 +143,7 @@ book_shell_sidebar_constructed (GObject *object)
 	shell_sidebar = E_SHELL_SIDEBAR (object);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
-
 	shell = e_shell_backend_get_shell (shell_backend);
-	shell_settings = e_shell_get_shell_settings (shell);
 
 	container = GTK_CONTAINER (shell_sidebar);
 
@@ -129,15 +164,18 @@ book_shell_sidebar_constructed (GObject *object)
 	priv->selector = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	g_object_bind_property_full (
-		shell_settings, "book-primary-selection",
+	settings = g_settings_new ("org.gnome.evolution.addressbook");
+
+	g_settings_bind_with_mapping (
+		settings, "primary-addressbook",
 		widget, "primary-selection",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE,
-		(GBindingTransformFunc) e_binding_transform_uid_to_source,
-		(GBindingTransformFunc) e_binding_transform_source_to_uid,
+		G_SETTINGS_BIND_DEFAULT,
+		book_shell_sidebar_map_uid_to_source,
+		book_shell_sidebar_map_source_to_uid,
 		e_client_cache_ref_registry (client_cache),
 		(GDestroyNotify) g_object_unref);
+
+	g_object_unref (settings);
 }
 
 static guint32

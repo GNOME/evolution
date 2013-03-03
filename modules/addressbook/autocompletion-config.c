@@ -65,7 +65,7 @@ add_section (GtkWidget *container,
 GtkWidget *
 autocompletion_config_new (EPreferencesWindow *window)
 {
-	EShellSettings *shell_settings;
+	GSettings *settings;
 	ESourceRegistry *registry;
 	GtkWidget *container;
 	GtkWidget *itembox;
@@ -74,11 +74,9 @@ autocompletion_config_new (EPreferencesWindow *window)
 	EShell *shell;
 
 	shell = e_preferences_window_get_shell (window);
-
-	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
-
 	registry = e_shell_get_registry (shell);
-	shell_settings = e_shell_get_shell_settings (shell);
+
+	settings = g_settings_new ("org.gnome.evolution.addressbook");
 
 	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 12);
 	gtk_widget_show (vbox);
@@ -96,11 +94,10 @@ autocompletion_config_new (EPreferencesWindow *window)
 
 	widget = gtk_check_button_new_with_mnemonic (
 		_("_Format address according to standard of its destination country"));
-	g_object_bind_property (
-		shell_settings, "enable-address-formatting",
+	g_settings_bind (
+		settings, "address-formatting",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 	gtk_box_pack_start (GTK_BOX (itembox), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
@@ -108,11 +105,10 @@ autocompletion_config_new (EPreferencesWindow *window)
 
 	widget = gtk_check_button_new_with_mnemonic (
 		_("Always _show address of the autocompleted contact"));
-	g_object_bind_property (
-		shell_settings, "book-completion-show-address",
+	g_settings_bind (
+		settings, "completion-show-address",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 	gtk_box_pack_start (GTK_BOX (itembox), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
@@ -130,6 +126,8 @@ autocompletion_config_new (EPreferencesWindow *window)
 	widget = e_autocomplete_selector_new (registry);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);
+
+	g_object_unref (settings);
 
 	return vbox;
 }

@@ -43,7 +43,6 @@
 
 #include "e-book-shell-content.h"
 #include "e-book-shell-migrate.h"
-#include "e-book-shell-settings.h"
 #include "e-book-shell-view.h"
 
 #ifdef ENABLE_SMIME
@@ -472,8 +471,6 @@ book_shell_backend_constructed (GObject *object)
 		shell, "window-added",
 		G_CALLBACK (book_shell_backend_window_added_cb),
 		shell_backend);
-
-	e_book_shell_backend_init_settings (shell);
 
 	/* Initialize preferences after the main loop starts so
 	 * that all EPlugins and EPluginHooks are loaded first. */
