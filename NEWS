@@ -1,3 +1,59 @@
+Evolution 3.7.91 2013-03-04
+---------------------------
+
+Bug Fixes:
+	Bug 674236 - Extra ref in e_action_combo_box_set_action() (Milan Crha)
+	Bug 693250 - Signature HTML problem using <...> (Milan Crha)
+	Bug 693420 - Crash when adding contact list as attendee (Milan Crha)
+	Bug 693625 - [itip-formatter] Save button insensitive for multiple
+	             events (Milan Crha)
+	Bug 694159 - Malformed content-type header causes infinite recursion
+	             (Matthew Barnes)
+	Bug 694170 - Accepted invitation not removed from Inbox when it should
+	             (Milan Crha)
+	Bug 694363 - CALDAV navigation through Calendars or Tasklist is wrong
+	             (Milan Crha)
+	Bug 694460 - 'Email' section toggle button in contact editor has
+	             incorrect name (Vadim Rutkovsky)
+
+Other Changes:
+	* Keep EClient instances in a central cache for more consistent
+	  event-handling.  (Matthew Barnes)
+	* Add status icons in sidebar for calendar, contact, task and memo
+	  backends.  Similiar icons for mail accounts are not yet finished.
+	  (Matthew Barnes)
+	* Rewrite the contact photo in email feature to avoid deadlocks.
+	  (Matthew Barnes)
+	* EAttachment: Use Subject as fallback filename for message attachments
+	  (Milan Crha)
+	* Show local images in Signature preview (Milan Crha)
+	* Speed-up auto-completion results showing (Milan Crha)
+	* Autocompletion - do not use quick timeout when user types text
+	  (Milan Crha)
+	* Add mnemonic widgets for Status and Priority comboboxes
+	  (Vadim Rutkovsky)
+	* Correct label for "Country:" textbox in Work section on "Mailing
+	  Address" tab of contact editor (Vadim Rutkovsky)
+	* evolution-addressbook-export: Remove --async option. (Matthew Barnes)
+	* Remove obsolete "mime-types" mail setting. (Matthew Barnes)
+	* Added mnemonic widget for 'Time zone' field in event editor
+	  (Vadim Rutkovsky)
+
+Translations:
+	Ihar Hrachyshka (be)
+	Dimitris Spingos (el)
+	Daniel Mustieles (es)
+	Fran Diéguez (gl)
+	Sweta Kothari (gu)
+	Aurimas Černius (lt)
+	Kjartan Maraas (nb)
+	Piotr Drąg (pl)
+	Мирослав Николић (sr)
+	Gheyret Kenji (ug)
+	Nguyễn Thái Ngọc Duy (vi)
+	Chao-Hsiung Liao (zh_HK)
+
+
 Evolution 3.7.90 2013-02-18
 ---------------------------
 
