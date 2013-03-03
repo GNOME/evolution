@@ -89,6 +89,12 @@ struct _ETaskShellViewPrivate {
 	EClientCache *client_cache;
 	gulong backend_error_handler_id;
 
+	/* org.gnome.evolution.calendar */
+	GSettings *settings;
+	gulong settings_hide_completed_tasks_handler_id;
+	gulong settings_hide_completed_tasks_units_handler_id;
+	gulong settings_hide_completed_tasks_value_handler_id;
+
 	EActivity *activity;
 	guint update_timeout;
 	guint update_completed_timeout;

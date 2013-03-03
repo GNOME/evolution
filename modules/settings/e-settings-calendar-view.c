@@ -22,7 +22,6 @@
 
 #include "e-settings-calendar-view.h"
 
-#include <shell/e-shell.h>
 #include <calendar/gui/e-day-view.h>
 #include <calendar/gui/e-week-view.h>
 
@@ -44,60 +43,59 @@ settings_calendar_view_constructed (GObject *object)
 {
 	EExtension *extension;
 	EExtensible *extensible;
-	EShellSettings *shell_settings;
-	EShell *shell;
+	GSettings *settings;
 
 	extension = E_EXTENSION (object);
 	extensible = e_extension_get_extensible (extension);
 
-	shell = e_shell_get_default ();
-	shell_settings = e_shell_get_shell_settings (shell);
+	settings = g_settings_new ("org.gnome.evolution.calendar");
 
-	g_object_bind_property (
-		shell_settings, "cal-time-divisions",
+	g_settings_bind (
+		settings, "time-divisions",
 		extensible, "time-divisions",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	/*** EDayView ***/
 
 	if (E_IS_DAY_VIEW (extensible)) {
 
-		g_object_bind_property (
-			shell_settings, "cal-show-week-numbers",
+		g_settings_bind (
+			settings, "show-week-numbers",
 			E_DAY_VIEW (extensible)->week_number_label, "visible",
-			G_BINDING_SYNC_CREATE);
+			G_SETTINGS_BIND_GET);
 
-		g_object_bind_property (
-			shell_settings, "cal-marcus-bains-show-line",
+		g_settings_bind (
+			settings, "marcus-bains-line",
 			extensible, "marcus-bains-show-line",
-			G_BINDING_SYNC_CREATE);
+			G_SETTINGS_BIND_GET);
 
-		g_object_bind_property (
-			shell_settings, "cal-marcus-bains-day-view-color",
+		g_settings_bind (
+			settings, "marcus-bains-color-dayview",
 			extensible, "marcus-bains-day-view-color",
-			G_BINDING_SYNC_CREATE);
+			G_SETTINGS_BIND_GET);
 
-		g_object_bind_property (
-			shell_settings, "cal-marcus-bains-time-bar-color",
+		g_settings_bind (
+			settings, "marcus-bains-color-timebar",
 			extensible, "marcus-bains-time-bar-color",
-			G_BINDING_SYNC_CREATE);
+			G_SETTINGS_BIND_GET);
 	}
 
 	/*** EWeekView ***/
 
 	if (E_IS_WEEK_VIEW (extensible)) {
 
-		g_object_bind_property (
-			shell_settings, "cal-compress-weekend",
+		g_settings_bind (
+			settings, "compress-weekend",
 			extensible, "compress-weekend",
-			G_BINDING_SYNC_CREATE);
+			G_SETTINGS_BIND_GET);
 
-		g_object_bind_property (
-			shell_settings, "cal-show-event-end-times",
+		g_settings_bind (
+			settings, "show-event-end",
 			extensible, "show-event-end-times",
-			G_BINDING_SYNC_CREATE);
+			G_SETTINGS_BIND_GET);
 	}
+
+	g_object_unref (settings);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_settings_calendar_view_parent_class)->

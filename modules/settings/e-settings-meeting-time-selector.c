@@ -22,7 +22,6 @@
 
 #include "e-settings-meeting-time-selector.h"
 
-#include <shell/e-shell.h>
 #include <calendar/gui/e-meeting-time-sel.h>
 
 #define E_SETTINGS_MEETING_TIME_SELECTOR_GET_PRIVATE(obj) \
@@ -43,19 +42,19 @@ settings_meeting_time_selector_constructed (GObject *object)
 {
 	EExtension *extension;
 	EExtensible *extensible;
-	EShellSettings *shell_settings;
-	EShell *shell;
+	GSettings *settings;
 
 	extension = E_EXTENSION (object);
 	extensible = e_extension_get_extensible (extension);
 
-	shell = e_shell_get_default ();
-	shell_settings = e_shell_get_shell_settings (shell);
+	settings = g_settings_new ("org.gnome.evolution.calendar");
 
-	g_object_bind_property (
-		shell_settings, "cal-use-24-hour-format",
+	g_settings_bind (
+		settings, "use-24hour-format",
 		extensible, "use-24-hour-format",
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_GET);
+
+	g_object_unref (settings);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_settings_meeting_time_selector_parent_class)->

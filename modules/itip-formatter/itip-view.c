@@ -5350,8 +5350,7 @@ extract_itip_data (EMailPartItip *pitip,
                    ItipView *view,
                    gboolean *have_alarms)
 {
-	EShell *shell;
-	EShellSettings *shell_settings;
+	GSettings *settings;
 	icalproperty *prop;
 	icalcomponent_kind kind = ICAL_NO_COMPONENT;
 	icalcomponent *tz_comp;
@@ -5360,9 +5359,6 @@ extract_itip_data (EMailPartItip *pitip,
 	icalcompiter alarm_iter;
 	ECalComponent *comp;
 	gboolean use_default_reminder;
-
-	shell = e_shell_get_default ();
-	shell_settings = e_shell_get_shell_settings (shell);
 
 	if (!pitip->vcalendar) {
 		set_itip_error (
@@ -5563,8 +5559,10 @@ extract_itip_data (EMailPartItip *pitip,
 
 	/* Add default reminder if the config says so */
 
-	use_default_reminder = e_shell_settings_get_boolean (
-		shell_settings, "cal-use-default-reminder");
+	settings = g_settings_new ("org.gnome.evolution.calendar");
+
+	use_default_reminder =
+		g_settings_get_boolean (settings, "use-default-reminder");
 
 	if (use_default_reminder) {
 		ECalComponentAlarm *acomp;
@@ -5572,10 +5570,10 @@ extract_itip_data (EMailPartItip *pitip,
 		EDurationType units;
 		ECalComponentAlarmTrigger trigger;
 
-		interval = e_shell_settings_get_int (
-			shell_settings, "cal-default-reminder-interval");
-		units = e_shell_settings_get_int (
-			shell_settings, "cal-default-reminder-units");
+		interval = g_settings_get_int (
+			settings, "default-reminder-interval");
+		units = g_settings_get_enum (
+			settings, "default-reminder-units");
 
 		acomp = e_cal_component_alarm_new ();
 
@@ -5605,6 +5603,8 @@ extract_itip_data (EMailPartItip *pitip,
 
 		e_cal_component_alarm_free (acomp);
 	}
+
+	g_object_unref (settings);
 
 	find_from_address (view, pitip, pitip->ical_comp);
 	find_to_address (view, pitip, pitip->ical_comp, NULL);
@@ -5810,12 +5810,13 @@ void
 itip_view_init_view (ItipView *view)
 {
 	EShell *shell;
-	EShellSettings *shell_settings;
 	EClientCache *client_cache;
 	ECalComponentText text;
 	ECalComponentOrganizer organizer;
 	ECalComponentDateTime datetime;
-	icaltimezone *from_zone, *to_zone;
+	icaltimezone *from_zone;
+	icaltimezone *to_zone = NULL;
+	GSettings *settings;
 	GString *gstring = NULL;
 	GSList *list, *l;
 	icalcomponent *icalcomp;
@@ -5829,7 +5830,6 @@ itip_view_init_view (ItipView *view)
 
 	shell = e_shell_get_default ();
 	client_cache = e_shell_get_client_cache (shell);
-	shell_settings = e_shell_get_shell_settings (shell);
 
 	info->client_cache = g_object_ref (client_cache);
 
@@ -6045,7 +6045,24 @@ itip_view_init_view (ItipView *view)
 		g_free (html);
 	}
 
-	to_zone = e_shell_settings_get_pointer (shell_settings, "cal-timezone");
+	settings = g_settings_new ("org.gnome.evolution.calendar");
+
+	if (g_settings_get_boolean (settings, "use-system-timezone"))
+		to_zone = e_cal_util_get_system_timezone ();
+	else {
+		gchar *location;
+
+		location = g_settings_get_string (settings, "timezone");
+		if (location != NULL) {
+			to_zone = icaltimezone_get_builtin_timezone (location);
+			g_free (location);
+		}
+	}
+
+	if (to_zone == NULL)
+		to_zone = icaltimezone_get_utc_timezone ();
+
+	g_object_unref (settings);
 
 	e_cal_component_get_dtstart (info->comp, &datetime);
 	info->start_time = 0;

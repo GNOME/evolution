@@ -503,15 +503,7 @@ system_timezone_monitor_changed (GFileMonitor *handle,
                                  GFileMonitorEvent event,
                                  gpointer user_data)
 {
-	ECalShellView  *view = E_CAL_SHELL_VIEW (user_data);
-	ECalShellViewPrivate *priv = view->priv;
-	ECalShellContent *cal_shell_content;
-	icaltimezone *timezone = NULL, *current_zone = NULL;
-	EShellSettings *settings;
-	EShellBackend *shell_backend;
-	EShell *shell;
-	ECalModel *model;
-	const gchar *location;
+	GSettings *settings;
 
 	if (event != G_FILE_MONITOR_EVENT_CHANGED &&
 	    event != G_FILE_MONITOR_EVENT_CHANGES_DONE_HINT &&
@@ -519,25 +511,9 @@ system_timezone_monitor_changed (GFileMonitor *handle,
 	    event != G_FILE_MONITOR_EVENT_CREATED)
 		return;
 
-	cal_shell_content = priv->cal_shell_content;
-	model = e_cal_shell_content_get_model (cal_shell_content);
-	current_zone = e_cal_model_get_timezone (model);
-	timezone = e_cal_util_get_system_timezone ();
-
-	if (!g_strcmp0 (
-		icaltimezone_get_tzid (timezone),
-		icaltimezone_get_tzid (current_zone)))
-		return;
-
-	shell_backend = e_shell_view_get_shell_backend ((EShellView *) view);
-	shell = e_shell_backend_get_shell (shell_backend);
-	settings = e_shell_get_shell_settings (shell);
-	location = icaltimezone_get_location (timezone);
-	if (location == NULL)
-		location = "UTC";
-
-	g_object_set (settings, "cal-timezone-string", location, NULL);
-	g_object_set (settings, "cal-timezone", timezone, NULL);
+	settings = g_settings_new ("org.gnome.evolution.calendar");
+	g_signal_emit_by_name (settings, "changed::timezone", "timezone");
+	g_object_unref (settings);
 }
 
 static void
@@ -555,10 +531,10 @@ init_timezone_monitors (ECalShellView *view)
 		g_object_unref (file);
 
 		if (priv->monitors[i])
-			g_signal_connect_object (
+			g_signal_connect (
 				priv->monitors[i], "changed",
 				G_CALLBACK (system_timezone_monitor_changed),
-				view, 0);
+				NULL);
 	}
 }
 
@@ -1211,18 +1187,19 @@ e_cal_shell_view_update_sidebar (ECalShellView *cal_shell_view)
 static gint
 cal_searching_get_search_range_years (ECalShellView *cal_shell_view)
 {
-	EShellBackend *backend;
-	EShellSettings *shell_settings;
-	gint value;
+	GSettings *settings;
+	gint search_range_years;
 
-	backend = e_shell_view_get_shell_backend (E_SHELL_VIEW (cal_shell_view));
-	shell_settings = e_shell_get_shell_settings (e_shell_backend_get_shell (backend));
+	settings = g_settings_new ("org.gnome.evolution.calendar");
 
-	value = e_shell_settings_get_int (shell_settings, "cal-search-range-years");
-	if (value <= 0)
-		value = 10;
+	search_range_years =
+		g_settings_get_int (settings, "search-range-years");
+	if (search_range_years <= 0)
+		search_range_years = 10;
 
-	return value;
+	g_object_unref (settings);
+
+	return search_range_years;
 }
 
 static gint

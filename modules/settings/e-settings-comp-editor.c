@@ -22,7 +22,6 @@
 
 #include "e-settings-comp-editor.h"
 
-#include <shell/e-shell.h>
 #include <calendar/gui/dialogs/comp-editor.h>
 
 #define E_SETTINGS_COMP_EDITOR_GET_PRIVATE(obj) \
@@ -38,54 +37,86 @@ G_DEFINE_DYNAMIC_TYPE (
 	e_settings_comp_editor,
 	E_TYPE_EXTENSION)
 
+static gboolean
+settings_map_string_to_icaltimezone (GValue *value,
+                                     GVariant *variant,
+                                     gpointer user_data)
+{
+	GSettings *settings;
+	const gchar *location = NULL;
+	icaltimezone *timezone = NULL;
+
+	settings = g_settings_new ("org.gnome.evolution.calendar");
+
+	if (g_settings_get_boolean (settings, "use-system-timezone"))
+		timezone = e_cal_util_get_system_timezone ();
+	else
+		location = g_variant_get_string (variant, NULL);
+
+	if (location != NULL && *location != '\0')
+		timezone = icaltimezone_get_builtin_timezone (location);
+
+	if (timezone == NULL)
+		timezone = icaltimezone_get_utc_timezone ();
+
+	g_value_set_pointer (value, timezone);
+
+	g_object_unref (settings);
+
+	return TRUE;
+}
+
 static void
 settings_comp_editor_constructed (GObject *object)
 {
 	EExtension *extension;
 	EExtensible *extensible;
-	EShellSettings *shell_settings;
-	EShell *shell;
+	GSettings *settings;
 
 	extension = E_EXTENSION (object);
 	extensible = e_extension_get_extensible (extension);
 
-	shell = e_shell_get_default ();
-	shell_settings = e_shell_get_shell_settings (shell);
+	settings = g_settings_new ("org.gnome.evolution.calendar");
 
-	g_object_bind_property (
-		shell_settings, "cal-timezone",
+	g_settings_bind_with_mapping (
+		settings, "timezone",
 		extensible, "timezone",
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_GET,
+		settings_map_string_to_icaltimezone,
+		NULL, /* one-way binding */
+		NULL, (GDestroyNotify) NULL);
 
-	g_object_bind_property (
-		shell_settings, "cal-use-24-hour-format",
+	g_settings_bind (
+		settings, "use-24hour-format",
 		extensible, "use-24-hour-format",
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_GET);
 
-	g_object_bind_property (
-		shell_settings, "cal-week-start-day",
+	g_settings_bind (
+		settings, "week-start-day-name",
 		extensible, "week-start-day",
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_GET);
 
-	g_object_bind_property (
-		shell_settings, "cal-work-day-end-hour",
+	g_settings_bind (
+		settings, "day-end-hour",
 		extensible, "work-day-end-hour",
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_GET);
 
-	g_object_bind_property (
-		shell_settings, "cal-work-day-end-minute",
+	g_settings_bind (
+		settings, "day-end-minute",
 		extensible, "work-day-end-minute",
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_GET);
 
-	g_object_bind_property (
-		shell_settings, "cal-work-day-start-hour",
+	g_settings_bind (
+		settings, "day-start-hour",
 		extensible, "work-day-start-hour",
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_GET);
 
-	g_object_bind_property (
-		shell_settings, "cal-work-day-start-minute",
+	g_settings_bind (
+		settings, "day-start-minute",
 		extensible, "work-day-start-minute",
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_GET);
+
+	g_object_unref (settings);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_settings_comp_editor_parent_class)->

@@ -22,7 +22,6 @@
 
 #include "e-settings-meeting-store.h"
 
-#include <shell/e-shell.h>
 #include <calendar/gui/e-meeting-store.h>
 
 #define E_SETTINGS_MEETING_STORE_GET_PRIVATE(obj) \
@@ -38,39 +37,71 @@ G_DEFINE_DYNAMIC_TYPE (
 	e_settings_meeting_store,
 	E_TYPE_EXTENSION)
 
+static gboolean
+settings_map_string_to_icaltimezone (GValue *value,
+                                     GVariant *variant,
+                                     gpointer user_data)
+{
+	GSettings *settings;
+	const gchar *location = NULL;
+	icaltimezone *timezone = NULL;
+
+	settings = g_settings_new ("org.gnome.evolution.calendar");
+
+	if (g_settings_get_boolean (settings, "use-system-timezone"))
+		timezone = e_cal_util_get_system_timezone ();
+	else
+		location = g_variant_get_string (variant, NULL);
+
+	if (location != NULL && *location != '\0')
+		timezone = icaltimezone_get_builtin_timezone (location);
+
+	if (timezone == NULL)
+		timezone = icaltimezone_get_utc_timezone ();
+
+	g_value_set_pointer (value, timezone);
+
+	g_object_unref (settings);
+
+	return TRUE;
+}
+
 static void
 settings_meeting_store_constructed (GObject *object)
 {
 	EExtension *extension;
 	EExtensible *extensible;
-	EShellSettings *shell_settings;
-	EShell *shell;
+	GSettings *settings;
 
 	extension = E_EXTENSION (object);
 	extensible = e_extension_get_extensible (extension);
 
-	shell = e_shell_get_default ();
-	shell_settings = e_shell_get_shell_settings (shell);
+	settings = g_settings_new ("org.gnome.evolution.calendar");
 
-	g_object_bind_property (
-		shell_settings, "cal-default-reminder-interval",
+	g_settings_bind (
+		settings, "default-reminder-interval",
 		extensible, "default-reminder-interval",
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_GET);
 
-	g_object_bind_property (
-		shell_settings, "cal-default-reminder-units",
+	g_settings_bind (
+		settings, "default-reminder-units",
 		extensible, "default-reminder-units",
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_GET);
 
-	g_object_bind_property (
-		shell_settings, "cal-free-busy-template",
+	g_settings_bind (
+		settings, "publish-template",
 		extensible, "free-busy-template",
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_GET);
 
-	g_object_bind_property (
-		shell_settings, "cal-timezone",
+	g_settings_bind_with_mapping (
+		settings, "timezone",
 		extensible, "timezone",
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_GET,
+		settings_map_string_to_icaltimezone,
+		NULL, /* one-way binding */
+		NULL, (GDestroyNotify) NULL);
+
+	g_object_unref (settings);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_settings_meeting_store_parent_class)->

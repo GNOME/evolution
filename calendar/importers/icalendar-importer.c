@@ -1407,24 +1407,19 @@ static icaltimezone *
 get_users_timezone (void)
 {
 	/* more or less copy&paste of calendar_config_get_icaltimezone */
-	EShell *shell;
-	EShellSettings *shell_settings;
+	GSettings *settings;
 	icaltimezone *zone = NULL;
 	gchar *location;
 
-	/* FIXME Pass this in. */
-	shell = e_shell_get_default ();
-	shell_settings = e_shell_get_shell_settings (shell);
+	settings = g_settings_new ("org.gnome.evolution.calendar");
 
-	if (e_shell_settings_get_boolean (shell_settings, "cal-use-system-timezone")) {
+	if (g_settings_get_boolean (settings, "use-system-timezone")) {
 		location = e_cal_util_get_system_timezone_location ();
 	} else {
-		GSettings *settings = g_settings_new ("org.gnome.evolution.calendar");
-
 		location = g_settings_get_string (settings, "timezone");
-
-		g_object_unref (settings);
 	}
+
+	g_object_unref (settings);
 
 	if (location) {
 		zone = icaltimezone_get_builtin_timezone (location);

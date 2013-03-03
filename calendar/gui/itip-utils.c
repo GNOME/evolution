@@ -1653,7 +1653,7 @@ itip_send_comp (ESourceRegistry *registry,
                 gboolean only_new_attendees)
 {
 	EShell *shell;
-	EShellSettings *shell_settings;
+	GSettings *settings;
 	EMsgComposer *composer;
 	EComposerHeaderTable *table;
 	EDestination **destinations;
@@ -1670,10 +1670,13 @@ itip_send_comp (ESourceRegistry *registry,
 
 	/* FIXME Pass this in. */
 	shell = e_shell_get_default ();
-	shell_settings = e_shell_get_shell_settings (shell);
 
-	use_24_hour_format = e_shell_settings_get_boolean (
-		shell_settings, "cal-use-24-hour-format");
+	settings = g_settings_new ("org.gnome.evolution.calendar");
+
+	use_24_hour_format =
+		g_settings_get_boolean (settings, "use-24hour-format");
+
+	g_object_unref (settings);
 
 	default_zone = e_cal_client_get_default_timezone (cal_client);
 

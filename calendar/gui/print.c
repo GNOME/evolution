@@ -637,14 +637,17 @@ titled_box (GtkPrintContext *context,
 static gboolean
 get_show_week_numbers (void)
 {
-	EShell *shell;
-	EShellSettings *shell_settings;
+	GSettings *settings;
+	gboolean show_week_numbers;
 
-	shell = e_shell_get_default ();
-	shell_settings = e_shell_get_shell_settings (shell);
+	settings = g_settings_new ("org.gnome.evolution.calendar");
 
-	return e_shell_settings_get_boolean (
-		shell_settings, "cal-show-week-numbers");
+	show_week_numbers =
+		g_settings_get_boolean (settings, "show-week-numbers");
+
+	g_object_unref (settings);
+
+	return show_week_numbers;
 }
 
 enum datefmt {

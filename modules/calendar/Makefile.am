@@ -27,8 +27,6 @@ module_calendar_la_SOURCES = \
 	e-cal-shell-content.h				\
 	e-cal-shell-migrate.c				\
 	e-cal-shell-migrate.h				\
-	e-cal-shell-settings.c				\
-	e-cal-shell-settings.h				\
 	e-cal-shell-sidebar.c				\
 	e-cal-shell-sidebar.h				\
 	e-cal-shell-view.c				\

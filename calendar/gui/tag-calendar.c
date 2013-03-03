@@ -29,7 +29,6 @@
 #endif
 
 #include "shell/e-shell.h"
-#include "shell/e-shell-settings.h"
 #include "calendar-config.h"
 #include "tag-calendar.h"
 
@@ -129,19 +128,6 @@ tag_calendar_cb (ECalComponent *comp,
 	return TRUE;
 }
 
-static gboolean
-get_recur_events_italic (void)
-{
-	EShell *shell;
-	EShellSettings *shell_settings;
-
-	shell = e_shell_get_default ();
-	shell_settings = e_shell_get_shell_settings (shell);
-
-	return e_shell_settings_get_boolean (
-		shell_settings, "cal-recur-events-italic");
-}
-
 /**
  * tag_calendar_by_client:
  * @ecal: Calendar widget to tag.
@@ -156,6 +142,7 @@ tag_calendar_by_client (ECalendar *ecal,
                         ECalClient *client,
                         GCancellable *cancellable)
 {
+	GSettings *settings;
 	struct calendar_tag_closure *closure;
 
 	g_return_if_fail (E_IS_CALENDAR (ecal));
@@ -172,8 +159,13 @@ tag_calendar_by_client (ECalendar *ecal,
 		return;
 	}
 
+	settings = g_settings_new ("org.gnome.evolution.calendar");
+
 	closure->skip_transparent_events = TRUE;
-	closure->recur_events_italic = get_recur_events_italic ();
+	closure->recur_events_italic =
+		g_settings_get_boolean (settings, "recur-events-italic");
+
+	g_object_unref (settings);
 
 	e_cal_client_generate_instances (
 		client, closure->start_time, closure->end_time, cancellable,
@@ -235,6 +227,7 @@ tag_calendar_by_comp (ECalendar *ecal,
                       gboolean can_recur_events_italic,
                       GCancellable *cancellable)
 {
+	GSettings *settings;
 	struct calendar_tag_closure closure;
 
 	g_return_if_fail (E_IS_CALENDAR (ecal));
@@ -247,9 +240,14 @@ tag_calendar_by_comp (ECalendar *ecal,
 	if (!prepare_tag (ecal, &closure, display_zone, clear_first))
 		return;
 
+	settings = g_settings_new ("org.gnome.evolution.calendar");
+
 	closure.skip_transparent_events = FALSE;
 	closure.recur_events_italic =
-		can_recur_events_italic && get_recur_events_italic ();
+		can_recur_events_italic &&
+		g_settings_get_boolean (settings, "recur-events-italic");
+
+	g_object_unref (settings);
 
 	if (comp_is_on_server) {
 		struct calendar_tag_closure *alloced_closure;

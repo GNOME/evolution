@@ -22,7 +22,7 @@
 
 #include "e-settings-calendar-item.h"
 
-#include <shell/e-shell.h>
+#include <e-util/e-util.h>
 
 #define E_SETTINGS_CALENDAR_ITEM_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -42,24 +42,24 @@ settings_calendar_item_constructed (GObject *object)
 {
 	EExtension *extension;
 	EExtensible *extensible;
-	EShellSettings *shell_settings;
-	EShell *shell;
+	GSettings *settings;
 
 	extension = E_EXTENSION (object);
 	extensible = e_extension_get_extensible (extension);
 
-	shell = e_shell_get_default ();
-	shell_settings = e_shell_get_shell_settings (shell);
+	settings = g_settings_new ("org.gnome.evolution.calendar");
 
-	g_object_bind_property (
-		shell_settings, "cal-show-week-numbers",
+	g_settings_bind (
+		settings, "show-week-numbers",
 		extensible, "show-week-numbers",
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_GET);
 
-	g_object_bind_property (
-		shell_settings, "cal-week-start-day",
+	g_settings_bind (
+		settings, "week-start-day-name",
 		extensible, "week-start-day",
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_GET);
+
+	g_object_unref (settings);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_settings_calendar_item_parent_class)->

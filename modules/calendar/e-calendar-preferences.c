@@ -47,30 +47,130 @@ G_DEFINE_DYNAMIC_TYPE (
 	GTK_TYPE_VBOX)
 
 static gboolean
-transform_time_divisions_to_index (GBinding *binding,
-                                   const GValue *source_value,
-                                   GValue *target_value,
-                                   gpointer not_used)
+calendar_preferences_map_string_to_integer (GValue *value,
+                                            GVariant *variant,
+                                            gpointer user_data)
+{
+	GEnumClass *enum_class = G_ENUM_CLASS (user_data);
+	GEnumValue *enum_value;
+	const gchar *nick;
+
+	/* XXX GSettings should know how to bind enum settings to
+	 *     integer properties.  I filed a bug asking for this:
+	 *     https://bugzilla.gnome.org/show_bug.cgi?id=695217 */
+
+	nick = g_variant_get_string (variant, NULL);
+	enum_value = g_enum_get_value_by_nick (enum_class, nick);
+	g_return_val_if_fail (enum_value != NULL, FALSE);
+	g_value_set_int (value, enum_value->value);
+
+	return TRUE;
+}
+
+static GVariant *
+calendar_preferences_map_integer_to_string (const GValue *value,
+                                            const GVariantType *expected_type,
+                                            gpointer user_data)
+{
+	GEnumClass *enum_class = G_ENUM_CLASS (user_data);
+	GEnumValue *enum_value;
+
+	/* XXX GSettings should know how to bind enum settings to
+	 *     integer properties.  I filed a bug asking for this:
+	 *     https://bugzilla.gnome.org/show_bug.cgi?id=695217 */
+
+	enum_value = g_enum_get_value (enum_class, g_value_get_int (value));
+	g_return_val_if_fail (enum_value != NULL, NULL);
+
+	return g_variant_new_string (enum_value->value_nick);
+}
+
+static gboolean
+calendar_preferences_map_string_to_icaltimezone (GValue *value,
+                                                 GVariant *variant,
+                                                 gpointer user_data)
+{
+	GSettings *settings;
+	const gchar *location = NULL;
+	icaltimezone *timezone = NULL;
+
+	settings = g_settings_new ("org.gnome.evolution.calendar");
+
+	if (g_settings_get_boolean (settings, "use-system-timezone"))
+		timezone = e_cal_util_get_system_timezone ();
+	else
+		location = g_variant_get_string (variant, NULL);
+
+	if (location != NULL && *location != '\0')
+		timezone = icaltimezone_get_builtin_timezone (location);
+
+	if (timezone == NULL)
+		timezone = icaltimezone_get_utc_timezone ();
+
+	g_value_set_pointer (value, timezone);
+
+	g_object_unref (settings);
+
+	return TRUE;
+}
+
+static GVariant *
+calendar_preferences_map_icaltimezone_to_string (const GValue *value,
+                                                 const GVariantType *expected_type,
+                                                 gpointer user_data)
+{
+	GVariant *variant;
+	GSettings *settings;
+	const gchar *location = NULL;
+	gchar *location_str = NULL;
+	icaltimezone *timezone;
+
+	settings = g_settings_new ("org.gnome.evolution.calendar");
+
+	if (g_settings_get_boolean (settings, "use-system-timezone")) {
+		location_str = g_settings_get_string (settings, "timezone");
+		location = location_str;
+	} else {
+		timezone = g_value_get_pointer (value);
+
+		if (timezone != NULL)
+			location = icaltimezone_get_location (timezone);
+	}
+
+	if (location == NULL)
+		location = "UTC";
+
+	variant = g_variant_new_string (location);
+
+	g_free (location_str);
+
+	g_object_unref (settings);
+
+	return variant;
+}
+
+static gboolean
+calendar_preferences_map_time_divisions_to_index (GValue *value,
+                                                  GVariant *variant,
+                                                  gpointer user_data)
 {
 	gboolean success = TRUE;
 
-	g_return_val_if_fail (G_IS_BINDING (binding), FALSE);
-
-	switch (g_value_get_int (source_value)) {
+	switch (g_variant_get_int32 (variant)) {
 		case 60:
-			g_value_set_int (target_value, 0);
+			g_value_set_int (value, 0);
 			break;
 		case 30:
-			g_value_set_int (target_value, 1);
+			g_value_set_int (value, 1);
 			break;
 		case 15:
-			g_value_set_int (target_value, 2);
+			g_value_set_int (value, 2);
 			break;
 		case 10:
-			g_value_set_int (target_value, 3);
+			g_value_set_int (value, 3);
 			break;
 		case 5:
-			g_value_set_int (target_value, 4);
+			g_value_set_int (value, 4);
 			break;
 		default:
 			success = FALSE;
@@ -79,35 +179,67 @@ transform_time_divisions_to_index (GBinding *binding,
 	return success;
 }
 
-static gboolean
-transform_index_to_time_divisions (GBinding *binding,
-                                   const GValue *source_value,
-                                   GValue *target_value,
-                                   gpointer not_used)
+static GVariant *
+calendar_preferences_map_index_to_time_divisions (const GValue *value,
+                                                  const GVariantType *expected_type,
+                                                  gpointer user_data)
 {
-	gboolean success = TRUE;
-
-	switch (g_value_get_int (source_value)) {
+	switch (g_value_get_int (value)) {
 		case 0:
-			g_value_set_int (target_value, 60);
-			break;
+			return g_variant_new_int32 (60);
 		case 1:
-			g_value_set_int (target_value, 30);
-			break;
+			return g_variant_new_int32 (30);
 		case 2:
-			g_value_set_int (target_value, 15);
-			break;
+			return g_variant_new_int32 (15);
 		case 3:
-			g_value_set_int (target_value, 10);
-			break;
+			return g_variant_new_int32 (10);
 		case 4:
-			g_value_set_int (target_value, 5);
-			break;
+			return g_variant_new_int32 (5);
 		default:
-			success = FALSE;
+			break;
+	}
+
+	return NULL;
+}
+
+static gboolean
+calendar_preferences_map_string_to_gdk_color (GValue *value,
+                                              GVariant *variant,
+                                              gpointer user_data)
+{
+	GdkColor color;
+	const gchar *string;
+	gboolean success = FALSE;
+
+	string = g_variant_get_string (variant, NULL);
+	if (gdk_color_parse (string, &color)) {
+		g_value_set_boxed (value, &color);
+		success = TRUE;
 	}
 
 	return success;
+}
+
+static GVariant *
+calendar_preferences_map_gdk_color_to_string (const GValue *value,
+                                              const GVariantType *expected_type,
+                                              gpointer user_data)
+{
+	GVariant *variant;
+	const GdkColor *color;
+
+	color = g_value_get_boxed (value);
+	if (color == NULL) {
+		variant = g_variant_new_string ("");
+	} else {
+		gchar *string;
+
+		string = gdk_color_to_string (color);
+		variant = g_variant_new_string (string);
+		g_free (string);
+	}
+
+	return variant;
 }
 
 static void
@@ -123,11 +255,6 @@ calendar_preferences_dispose (GObject *object)
 	if (prefs->registry != NULL) {
 		g_object_unref (prefs->registry);
 		prefs->registry = NULL;
-	}
-
-	if (prefs->shell_settings != NULL) {
-		g_object_unref (prefs->shell_settings);
-		prefs->shell_settings = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -276,8 +403,12 @@ static void
 start_of_day_changed (GtkWidget *widget,
                       ECalendarPreferences *prefs)
 {
-	gint start_hour, start_minute, end_hour, end_minute;
 	EDateEdit *start, *end;
+	GSettings *settings;
+	gint start_hour;
+	gint start_minute;
+	gint end_hour;
+	gint end_minute;
 
 	start = E_DATE_EDIT (prefs->start_of_day);
 	end = E_DATE_EDIT (prefs->end_of_day);
@@ -294,20 +425,24 @@ start_of_day_changed (GtkWidget *widget,
 		return;
 	}
 
-	e_shell_settings_set_int (
-		prefs->shell_settings,
-		"cal-work-day-start-hour", start_hour);
-	e_shell_settings_set_int (
-		prefs->shell_settings,
-		"cal-work-day-start-minute", start_minute);
+	settings = g_settings_new ("org.gnome.evolution.calendar");
+
+	g_settings_set_int (settings, "day-start-hour", start_hour);
+	g_settings_set_int (settings, "day-start-minute", start_minute);
+
+	g_object_unref (settings);
 }
 
 static void
 end_of_day_changed (GtkWidget *widget,
                     ECalendarPreferences *prefs)
 {
-	gint start_hour, start_minute, end_hour, end_minute;
 	EDateEdit *start, *end;
+	GSettings *settings;
+	gint start_hour;
+	gint start_minute;
+	gint end_hour;
+	gint end_minute;
 
 	start = E_DATE_EDIT (prefs->start_of_day);
 	end = E_DATE_EDIT (prefs->end_of_day);
@@ -324,30 +459,16 @@ end_of_day_changed (GtkWidget *widget,
 		return;
 	}
 
-	e_shell_settings_set_int (
-		prefs->shell_settings,
-		"cal-work-day-end-hour", end_hour);
-	e_shell_settings_set_int (
-		prefs->shell_settings,
-		"cal-work-day-end-minute", end_minute);
-}
-
-static void
-notify_with_tray_toggled (GtkToggleButton *toggle,
-                          ECalendarPreferences *prefs)
-{
-	GSettings *settings;
-
-	g_return_if_fail (toggle != NULL);
-
 	settings = g_settings_new ("org.gnome.evolution.calendar");
-	g_settings_set_boolean (settings, "notify-with-tray", gtk_toggle_button_get_active (toggle));
+
+	g_settings_set_int (settings, "day-end-hour", end_hour);
+	g_settings_set_int (settings, "day-end-minute", end_minute);
+
 	g_object_unref (settings);
 }
 
 static void
-update_system_tz_widgets (EShellSettings *shell_settings,
-                          GParamSpec *pspec,
+update_system_tz_widgets (GtkCheckButton *button,
                           ECalendarPreferences *prefs)
 {
 	GtkWidget *widget;
@@ -383,16 +504,11 @@ setup_changes (ECalendarPreferences *prefs)
 	g_signal_connect (
 		prefs->end_of_day, "changed",
 		G_CALLBACK (end_of_day_changed), prefs);
-
-	g_signal_connect (
-		prefs->notify_with_tray, "toggled",
-		G_CALLBACK (notify_with_tray_toggled), prefs);
 }
 
 static void
 show_alarms_config (ECalendarPreferences *prefs)
 {
-	GSettings *settings;
 	GtkWidget *widget;
 
 	widget = e_alarm_selector_new (prefs->registry);
@@ -401,19 +517,15 @@ show_alarms_config (ECalendarPreferences *prefs)
 		_("Selected Calendars for Alarms"));
 	gtk_container_add (GTK_CONTAINER (prefs->scrolled_window), widget);
 	gtk_widget_show (widget);
-
-	settings = g_settings_new ("org.gnome.evolution.calendar");
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (prefs->notify_with_tray), g_settings_get_boolean (settings, "notify-with-tray"));
-	g_object_unref (settings);
 }
 
 /* Shows the current config settings in the dialog. */
 static void
 show_config (ECalendarPreferences *prefs)
 {
-	EShellSettings *shell_settings;
+	GSettings *settings;
 
-	shell_settings = prefs->shell_settings;
+	settings = g_settings_new ("org.gnome.evolution.calendar");
 
 	/* Day's second zone */
 	update_day_second_zone_caption (prefs);
@@ -421,21 +533,19 @@ show_config (ECalendarPreferences *prefs)
 	/* Start of Day. */
 	e_date_edit_set_time_of_day (
 		E_DATE_EDIT (prefs->start_of_day),
-		e_shell_settings_get_int (
-			shell_settings, "cal-work-day-start-hour"),
-		e_shell_settings_get_int (
-			shell_settings, "cal-work-day-start-minute"));
+		g_settings_get_int (settings, "day-start-hour"),
+		g_settings_get_int (settings, "day-start-minute"));
 
 	/* End of Day. */
 	e_date_edit_set_time_of_day (
 		E_DATE_EDIT (prefs->end_of_day),
-		e_shell_settings_get_int (
-			shell_settings, "cal-work-day-end-hour"),
-		e_shell_settings_get_int (
-			shell_settings, "cal-work-day-end-minute"));
+		g_settings_get_int (settings, "day-end-hour"),
+		g_settings_get_int (settings, "day-end-minute"));
 
 	/* Alarms list */
 	show_alarms_config (prefs);
+
+	g_object_unref (settings);
 }
 
 /* plugin meta-data */
@@ -468,7 +578,8 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 {
 	ECalConfig *ec;
 	ECalConfigTargetPrefs *target;
-	EShellSettings *shell_settings;
+	GSettings *settings;
+	GSettings *eds_settings;
 	gboolean locale_supports_12_hour_format;
 	gint i;
 	GtkWidget *toplevel;
@@ -476,15 +587,14 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 	GtkWidget *table;
 	GSList *l;
 
-	shell_settings = prefs->shell_settings;
+	settings = g_settings_new ("org.gnome.evolution.calendar");
 
 	locale_supports_12_hour_format =
 		calendar_config_locale_supports_12_hour_format ();
 
 	/* Force 24 hour format for locales which don't support 12 hour format */
-	if (!locale_supports_12_hour_format
-	    && !e_shell_settings_get_boolean (shell_settings, "cal-use-24-hour-format"))
-		e_shell_settings_set_boolean (shell_settings, "cal-use-24-hour-format", TRUE);
+	if (!locale_supports_12_hour_format)
+		g_settings_set_boolean (settings, "use-24hour-format", TRUE);
 
 	/* Make sure our custom widget classes are registered with
 	 * GType before we load the GtkBuilder definition file. */
@@ -508,317 +618,307 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 	e_config_add_items ((EConfig *) ec, l, eccp_free, prefs);
 
 	widget = e_builder_get_widget (prefs->builder, "use-system-tz-check");
-	g_object_bind_property (
-		shell_settings, "cal-use-system-timezone",
+	g_settings_bind (
+		settings, "use-system-timezone",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 	g_signal_connect (
-		shell_settings, "notify::cal-use-system-timezone",
+		widget, "toggled",
 		G_CALLBACK (update_system_tz_widgets), prefs);
-	update_system_tz_widgets (shell_settings, NULL, prefs);
+	update_system_tz_widgets (GTK_CHECK_BUTTON (widget), prefs);
 
 	widget = e_builder_get_widget (prefs->builder, "timezone");
-	g_object_bind_property (
-		shell_settings, "cal-timezone",
+	g_settings_bind_with_mapping (
+		settings, "timezone",
 		widget, "timezone",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
-	g_object_bind_property (
-		shell_settings, "cal-use-system-timezone",
+		G_SETTINGS_BIND_DEFAULT,
+		calendar_preferences_map_string_to_icaltimezone,
+		calendar_preferences_map_icaltimezone_to_string,
+		NULL, (GDestroyNotify) NULL);
+	g_settings_bind (
+		settings, "use-system-timezone",
 		widget, "sensitive",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE |
-		G_BINDING_INVERT_BOOLEAN);
+		G_SETTINGS_BIND_DEFAULT |
+		G_SETTINGS_BIND_INVERT_BOOLEAN);
 
 	/* General tab */
 	prefs->day_second_zone = e_builder_get_widget (prefs->builder, "day_second_zone");
 
 	widget = e_builder_get_widget (prefs->builder, "sun_button");
-	g_object_bind_property (
-		shell_settings, "cal-working-days-sunday",
+	g_settings_bind (
+		settings, "work-day-sunday",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->builder, "mon_button");
-	g_object_bind_property (
-		shell_settings, "cal-working-days-monday",
+	g_settings_bind (
+		settings, "work-day-monday",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->builder, "tue_button");
-	g_object_bind_property (
-		shell_settings, "cal-working-days-tuesday",
+	g_settings_bind (
+		settings, "work-day-tuesday",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->builder, "wed_button");
-	g_object_bind_property (
-		shell_settings, "cal-working-days-wednesday",
+	g_settings_bind (
+		settings, "work-day-wednesday",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->builder, "thu_button");
-	g_object_bind_property (
-		shell_settings, "cal-working-days-thursday",
+	g_settings_bind (
+		settings, "work-day-thursday",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->builder, "fri_button");
-	g_object_bind_property (
-		shell_settings, "cal-working-days-friday",
+	g_settings_bind (
+		settings, "work-day-friday",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->builder, "sat_button");
-	g_object_bind_property (
-		shell_settings, "cal-working-days-saturday",
+	g_settings_bind (
+		settings, "work-day-saturday",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->builder, "week_start_day");
-	g_object_bind_property_full (
-		shell_settings, "cal-week-start-day",
+	g_settings_bind (
+		settings, "week-start-day-name",
 		widget, "active-id",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE,
-		e_binding_transform_enum_value_to_nick,
-		e_binding_transform_enum_nick_to_value,
-		NULL, (GDestroyNotify) NULL);
+		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->builder, "start_of_day");
 	prefs->start_of_day = widget;  /* XXX delete this */
 	if (locale_supports_12_hour_format)
-		g_object_bind_property (
-			shell_settings, "cal-use-24-hour-format",
+		g_settings_bind (
+			settings, "use-24hour-format",
 			widget, "use-24-hour-format",
-			G_BINDING_SYNC_CREATE);
+			G_SETTINGS_BIND_GET);
 
 	widget = e_builder_get_widget (prefs->builder, "end_of_day");
 	prefs->end_of_day = widget;  /* XXX delete this */
 	if (locale_supports_12_hour_format)
-		g_object_bind_property (
-			shell_settings, "cal-use-24-hour-format",
+		g_settings_bind (
+			settings, "use-24hour-format",
 			widget, "use-24-hour-format",
-			G_BINDING_SYNC_CREATE);
+			G_SETTINGS_BIND_GET);
 
 	widget = e_builder_get_widget (prefs->builder, "use_12_hour");
 	gtk_widget_set_sensitive (widget, locale_supports_12_hour_format);
-	g_object_bind_property (
-		shell_settings, "cal-use-24-hour-format",
+	g_settings_bind (
+		settings, "use-24hour-format",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE |
-		G_BINDING_INVERT_BOOLEAN);
+		G_SETTINGS_BIND_DEFAULT |
+		G_SETTINGS_BIND_INVERT_BOOLEAN);
 
 	widget = e_builder_get_widget (prefs->builder, "use_24_hour");
 	gtk_widget_set_sensitive (widget, locale_supports_12_hour_format);
-	g_object_bind_property (
-		shell_settings, "cal-use-24-hour-format",
+	g_settings_bind (
+		settings, "use-24hour-format",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->builder, "confirm_delete");
-	g_object_bind_property (
-		shell_settings, "cal-confirm-delete",
+	g_settings_bind (
+		settings, "confirm-delete",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->builder, "default_reminder");
-	g_object_bind_property (
-		shell_settings, "cal-use-default-reminder",
+	g_settings_bind (
+		settings, "use-default-reminder",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->builder, "default_reminder_interval");
-	g_object_bind_property (
-		shell_settings, "cal-default-reminder-interval",
+	g_settings_bind (
+		settings, "default-reminder-interval",
 		widget, "value",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
-	g_object_bind_property (
-		shell_settings, "cal-use-default-reminder",
+		G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		settings, "use-default-reminder",
 		widget, "sensitive",
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_GET);
 
 	widget = e_builder_get_widget (prefs->builder, "default_reminder_units");
-	g_object_bind_property (
-		shell_settings, "cal-default-reminder-units",
+	g_settings_bind_with_mapping (
+		settings, "default-reminder-units",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
-	g_object_bind_property (
-		shell_settings, "cal-use-default-reminder",
+		G_SETTINGS_BIND_DEFAULT,
+		calendar_preferences_map_string_to_integer,
+		calendar_preferences_map_integer_to_string,
+		g_type_class_ref (E_TYPE_DURATION_TYPE),
+		(GDestroyNotify) g_type_class_unref);
+	g_settings_bind (
+		settings, "use-default-reminder",
 		widget, "sensitive",
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_GET);
+
+	/* These settings control the "Birthdays & Anniversaries" backend. */
+
+	eds_settings =
+		g_settings_new ("org.gnome.evolution-data-server.calendar");
 
 	widget = e_builder_get_widget (prefs->builder, "ba_reminder");
-	g_object_bind_property (
-		shell_settings, "cal-use-ba-reminder",
+	g_settings_bind (
+		eds_settings, "contacts-reminder-enabled",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->builder, "ba_reminder_interval");
-	g_object_bind_property (
-		shell_settings, "cal-ba-reminder-interval",
+	g_settings_bind (
+		eds_settings, "contacts-reminder-interval",
 		widget, "value",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
-	g_object_bind_property (
-		shell_settings, "cal-use-ba-reminder",
+		G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		eds_settings, "contacts-reminder-enabled",
 		widget, "sensitive",
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_GET);
 
 	widget = e_builder_get_widget (prefs->builder, "ba_reminder_units");
-	g_object_bind_property (
-		shell_settings, "cal-ba-reminder-units",
+	g_settings_bind_with_mapping (
+		eds_settings, "contacts-reminder-units",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
-	g_object_bind_property (
-		shell_settings, "cal-use-ba-reminder",
+		G_SETTINGS_BIND_DEFAULT,
+		calendar_preferences_map_string_to_integer,
+		calendar_preferences_map_integer_to_string,
+		g_type_class_ref (E_TYPE_DURATION_TYPE),
+		(GDestroyNotify) g_type_class_unref);
+	g_settings_bind (
+		eds_settings, "contacts-reminder-enabled",
 		widget, "sensitive",
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_GET);
+
+	g_object_unref (eds_settings);
 
 	/* Display tab */
 	widget = e_builder_get_widget (prefs->builder, "time_divisions");
-	g_object_bind_property_full (
-		shell_settings, "cal-time-divisions",
+	g_settings_bind_with_mapping (
+		settings, "time-divisions",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE,
-		transform_time_divisions_to_index,
-		transform_index_to_time_divisions,
+		G_SETTINGS_BIND_DEFAULT,
+		calendar_preferences_map_time_divisions_to_index,
+		calendar_preferences_map_index_to_time_divisions,
 		NULL, (GDestroyNotify) NULL);
 
 	widget = e_builder_get_widget (prefs->builder, "show_end_times");
-	g_object_bind_property (
-		shell_settings, "cal-show-event-end-times",
+	g_settings_bind (
+		settings, "show-event-end",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->builder, "compress_weekend");
-	g_object_bind_property (
-		shell_settings, "cal-compress-weekend",
+	g_settings_bind (
+		settings, "compress-weekend",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->builder, "show_week_numbers");
-	g_object_bind_property (
-		shell_settings, "cal-show-week-numbers",
+	g_settings_bind (
+		settings, "show-week-numbers",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->builder, "recur_events_italic");
-	g_object_bind_property (
-		shell_settings, "cal-recur-events-italic",
+	g_settings_bind (
+		settings, "recur-events-italic",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->builder, "month_scroll_by_week");
-	g_object_bind_property (
-		shell_settings, "cal-month-scroll-by-week",
+	g_settings_bind (
+		settings, "month-scroll-by-week",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->builder, "tasks_due_today_highlight");
-	g_object_bind_property (
-		shell_settings, "cal-tasks-highlight-due-today",
+	g_settings_bind (
+		settings, "task-due-today-highlight",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->builder, "tasks_due_today_color");
-	g_object_bind_property_full (
-		shell_settings, "cal-tasks-color-due-today",
+	g_settings_bind_with_mapping (
+		settings, "task-due-today-color",
 		widget, "color",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE,
-		e_binding_transform_string_to_color,
-		e_binding_transform_color_to_string,
+		G_SETTINGS_BIND_DEFAULT,
+		calendar_preferences_map_string_to_gdk_color,
+		calendar_preferences_map_gdk_color_to_string,
 		NULL, (GDestroyNotify) NULL);
-	g_object_bind_property (
-		shell_settings, "cal-tasks-highlight-due-today",
+	g_settings_bind (
+		settings, "task-due-today-highlight",
 		widget, "sensitive",
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_GET);
 
 	widget = e_builder_get_widget (prefs->builder, "tasks_overdue_highlight");
-	g_object_bind_property (
-		shell_settings, "cal-tasks-highlight-overdue",
+	g_settings_bind (
+		settings, "task-overdue-highlight",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->builder, "tasks_overdue_color");
-	g_object_bind_property_full (
-		shell_settings, "cal-tasks-color-overdue",
+	g_settings_bind_with_mapping (
+		settings, "task-overdue-color",
 		widget, "color",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE,
-		e_binding_transform_string_to_color,
-		e_binding_transform_color_to_string,
-		(GDestroyNotify) NULL, NULL);
-	g_object_bind_property (
-		shell_settings, "cal-tasks-highlight-overdue",
+		G_SETTINGS_BIND_DEFAULT,
+		calendar_preferences_map_string_to_gdk_color,
+		calendar_preferences_map_gdk_color_to_string,
+		NULL, (GDestroyNotify) NULL);
+	g_settings_bind (
+		settings, "task-overdue-highlight",
 		widget, "sensitive",
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_GET);
 
 	widget = e_builder_get_widget (prefs->builder, "tasks_hide_completed");
-	g_object_bind_property (
-		shell_settings, "cal-hide-completed-tasks",
+	g_settings_bind (
+		settings, "hide-completed-tasks",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->builder, "tasks_hide_completed_interval");
-	g_object_bind_property (
-		shell_settings, "cal-hide-completed-tasks-value",
+	g_settings_bind (
+		settings, "hide-completed-tasks-value",
 		widget, "value",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
-	g_object_bind_property (
-		shell_settings, "cal-hide-completed-tasks",
+		G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		settings, "hide-completed-tasks",
 		widget, "sensitive",
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_GET);
 
 	widget = e_builder_get_widget (prefs->builder, "tasks_hide_completed_units");
-	g_object_bind_property (
-		shell_settings, "cal-hide-completed-tasks-units",
+	g_settings_bind_with_mapping (
+		settings, "hide-completed-tasks-units",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
-	g_object_bind_property (
-		shell_settings, "cal-hide-completed-tasks",
+		G_SETTINGS_BIND_DEFAULT,
+		calendar_preferences_map_string_to_integer,
+		calendar_preferences_map_integer_to_string,
+		g_type_class_ref (E_TYPE_DURATION_TYPE),
+		(GDestroyNotify) g_type_class_unref);
+	g_settings_bind (
+		settings, "hide-completed-tasks",
 		widget, "sensitive",
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_GET);
 
 	/* Alarms tab */
-	prefs->notify_with_tray = e_builder_get_widget (prefs->builder, "notify_with_tray");
+	widget = e_builder_get_widget (prefs->builder, "notify_with_tray");
+	g_settings_bind (
+		settings, "notify-with-tray",
+		widget, "active",
+		G_SETTINGS_BIND_DEFAULT);
+
 	prefs->scrolled_window = e_builder_get_widget (prefs->builder, "calendar-source-scrolled-window");
 
 	/* Free/Busy tab */
 	widget = e_builder_get_widget (prefs->builder, "template_url");
-	g_object_bind_property (
-		shell_settings, "cal-free-busy-template",
+	g_settings_bind (
+		settings, "publish-template",
 		widget, "text",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	/* date/time format */
 	table = e_builder_get_widget (prefs->builder, "datetime_format_table");
@@ -860,6 +960,8 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 	show_config (prefs);
 	/* FIXME: weakref? */
 	setup_changes (prefs);
+
+	g_object_unref (settings);
 }
 
 void
@@ -876,20 +978,17 @@ e_calendar_preferences_new (EPreferencesWindow *window)
 {
 	EShell *shell;
 	ESourceRegistry *registry;
-	EShellSettings *shell_settings;
 	ECalendarPreferences *preferences;
 
 	shell = e_preferences_window_get_shell (window);
 
 	registry = e_shell_get_registry (shell);
-	shell_settings = e_shell_get_shell_settings (shell);
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
 	preferences = g_object_new (E_TYPE_CALENDAR_PREFERENCES, NULL);
 
 	preferences->registry = g_object_ref (registry);
-	preferences->shell_settings = g_object_ref (shell_settings);
 
 	/* FIXME Kill this function. */
 	calendar_preferences_construct (preferences, shell);

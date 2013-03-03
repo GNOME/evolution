@@ -45,10 +45,13 @@ task_shell_view_model_row_appended_cb (ETaskShellView *task_shell_view,
 }
 
 static gboolean
-task_shell_view_process_completed_tasks (ETaskShellView *task_shell_view)
+task_shell_view_process_completed_tasks_cb (gpointer user_data)
 {
 	ETaskShellContent *task_shell_content;
+	ETaskShellView *task_shell_view;
 	ETaskTable *task_table;
+
+	task_shell_view = E_TASK_SHELL_VIEW (user_data);
 
 	task_shell_view->priv->update_completed_timeout = 0;
 
@@ -65,7 +68,7 @@ task_shell_view_process_completed_tasks (ETaskShellView *task_shell_view)
 }
 
 static void
-task_shell_view_schedule_process_completed_tasks (ETaskShellView *task_shell_view)
+task_shell_view_process_completed_tasks (ETaskShellView *task_shell_view)
 {
 	guint source_id;
 
@@ -75,10 +78,18 @@ task_shell_view_schedule_process_completed_tasks (ETaskShellView *task_shell_vie
 		g_source_remove (source_id);
 
 	source_id = g_timeout_add_seconds (
-		1, (GSourceFunc) task_shell_view_process_completed_tasks,
+		1, task_shell_view_process_completed_tasks_cb,
 		task_shell_view);
 
 	task_shell_view->priv->update_completed_timeout = source_id;
+}
+
+static void
+task_shell_view_hide_completed_tasks_changed_cb (GSettings *settings,
+                                                 const gchar *key,
+                                                 ETaskShellView *task_shell_view)
+{
+	task_shell_view_process_completed_tasks (task_shell_view);
 }
 
 static void
@@ -244,7 +255,6 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 	ETaskShellViewPrivate *priv = task_shell_view->priv;
 	ETaskShellContent *task_shell_content;
 	ETaskShellSidebar *task_shell_sidebar;
-	EShellSettings *shell_settings;
 	EShellBackend *shell_backend;
 	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
@@ -261,9 +271,7 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 	shell_content = e_shell_view_get_shell_content (shell_view);
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
-
 	shell = e_shell_window_get_shell (shell_window);
-	shell_settings = e_shell_get_shell_settings (shell);
 
 	e_shell_window_add_action_group (shell_window, "tasks");
 	e_shell_window_add_action_group (shell_window, "tasks-filter");
@@ -272,6 +280,8 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 	priv->task_shell_backend = g_object_ref (shell_backend);
 	priv->task_shell_content = g_object_ref (shell_content);
 	priv->task_shell_sidebar = g_object_ref (shell_sidebar);
+
+	priv->settings = g_settings_new ("org.gnome.evolution.calendar");
 
 	task_shell_content = E_TASK_SHELL_CONTENT (shell_content);
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
@@ -365,11 +375,10 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 		task_shell_view);
 
 	/* Listen for configuration changes. */
-	g_object_bind_property (
-		shell_settings, "cal-confirm-purge",
+	g_settings_bind (
+		priv->settings, "confirm-purge",
 		task_shell_view, "confirm-purge",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	/* Keep the ECalModel in sync with the sidebar. */
 	g_object_bind_property (
@@ -378,18 +387,21 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 		G_BINDING_SYNC_CREATE);
 
 	/* Hide Completed Tasks (enable/units/value) */
-	g_signal_connect_object (
-		shell_settings, "notify::cal-hide-completed-tasks",
-		G_CALLBACK (task_shell_view_schedule_process_completed_tasks),
-		task_shell_view, G_CONNECT_SWAPPED);
-	g_signal_connect_object (
-		shell_settings, "notify::cal-hide-completed-tasks-units",
-		G_CALLBACK (task_shell_view_schedule_process_completed_tasks),
-		task_shell_view, G_CONNECT_SWAPPED);
-	g_signal_connect_object (
-		shell_settings, "notify::cal-hide-completed-tasks-value",
-		G_CALLBACK (task_shell_view_schedule_process_completed_tasks),
-		task_shell_view, G_CONNECT_SWAPPED);
+	handler_id = g_signal_connect (
+		priv->settings, "changed::hide-completed-tasks",
+		G_CALLBACK (task_shell_view_hide_completed_tasks_changed_cb),
+		task_shell_view);
+	priv->settings_hide_completed_tasks_handler_id = handler_id;
+	handler_id = g_signal_connect (
+		priv->settings, "changed::hide-completed-tasks-units",
+		G_CALLBACK (task_shell_view_hide_completed_tasks_changed_cb),
+		task_shell_view);
+	priv->settings_hide_completed_tasks_units_handler_id = handler_id;
+	handler_id = g_signal_connect (
+		priv->settings, "changed::hide-completed-tasks-value",
+		G_CALLBACK (task_shell_view_hide_completed_tasks_changed_cb),
+		task_shell_view);
+	priv->settings_hide_completed_tasks_value_handler_id = handler_id;
 
 	e_task_shell_view_actions_init (task_shell_view);
 	e_task_shell_view_update_sidebar (task_shell_view);
@@ -416,11 +428,33 @@ e_task_shell_view_private_dispose (ETaskShellView *task_shell_view)
 		priv->backend_error_handler_id = 0;
 	}
 
+	if (priv->settings_hide_completed_tasks_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->settings,
+			priv->settings_hide_completed_tasks_handler_id);
+		priv->settings_hide_completed_tasks_handler_id = 0;
+	}
+
+	if (priv->settings_hide_completed_tasks_units_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->settings,
+			priv->settings_hide_completed_tasks_units_handler_id);
+		priv->settings_hide_completed_tasks_units_handler_id = 0;
+	}
+
+	if (priv->settings_hide_completed_tasks_value_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->settings,
+			priv->settings_hide_completed_tasks_value_handler_id);
+		priv->settings_hide_completed_tasks_units_handler_id = 0;
+	}
+
 	g_clear_object (&priv->task_shell_backend);
 	g_clear_object (&priv->task_shell_content);
 	g_clear_object (&priv->task_shell_sidebar);
 
 	g_clear_object (&priv->client_cache);
+	g_clear_object (&priv->settings);
 
 	if (task_shell_view->priv->activity != NULL) {
 		/* XXX Activity is not cancellable. */

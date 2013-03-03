@@ -21,7 +21,6 @@
 #include "e-settings-client-cache.h"
 
 #include <e-util/e-util.h>
-#include <shell/e-shell.h>
 
 #define E_SETTINGS_CLIENT_CACHE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -36,21 +35,53 @@ G_DEFINE_DYNAMIC_TYPE (
 	e_settings_client_cache,
 	E_TYPE_EXTENSION)
 
+static gboolean
+settings_map_string_to_icaltimezone (GValue *value,
+                                     GVariant *variant,
+                                     gpointer user_data)
+{
+	GSettings *settings;
+	const gchar *location = NULL;
+	icaltimezone *timezone = NULL;
+
+	settings = g_settings_new ("org.gnome.evolution.calendar");
+
+	if (g_settings_get_boolean (settings, "use-system-timezone"))
+		timezone = e_cal_util_get_system_timezone ();
+	else
+		location = g_variant_get_string (variant, NULL);
+
+	if (location != NULL && *location != '\0')
+		timezone = icaltimezone_get_builtin_timezone (location);
+
+	if (timezone == NULL)
+		timezone = icaltimezone_get_utc_timezone ();
+
+	g_value_set_pointer (value, timezone);
+
+	g_object_unref (settings);
+
+	return TRUE;
+}
+
 static void
 settings_client_cache_client_created_cb (EClientCache *client_cache,
                                          EClient *client)
 {
-	EShell *shell;
-	EShellSettings *shell_settings;
-
-	shell = e_shell_get_default ();
-	shell_settings = e_shell_get_shell_settings (shell);
-
 	if (E_IS_CAL_CLIENT (client)) {
-		g_object_bind_property (
-			shell_settings, "cal-timezone",
+		GSettings *settings;
+
+		settings = g_settings_new ("org.gnome.evolution.calendar");
+
+		g_settings_bind_with_mapping (
+			settings, "timezone",
 			client, "default-timezone",
-			G_BINDING_SYNC_CREATE);
+			G_SETTINGS_BIND_GET,
+			settings_map_string_to_icaltimezone,
+			NULL,  /* one-way binding */
+			NULL, (GDestroyNotify) NULL);
+
+		g_object_unref (settings);
 	}
 }
 

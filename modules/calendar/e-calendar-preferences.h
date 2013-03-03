@@ -56,7 +56,6 @@ struct _ECalendarPreferences {
 	GtkBuilder *builder;
 
 	ESourceRegistry *registry;
-	EShellSettings *shell_settings;
 
 	/* General tab */
 	GtkWidget *day_second_zone;
@@ -67,7 +66,6 @@ struct _ECalendarPreferences {
 	GtkWidget *ba_reminder_units;
 
 	/* Alarms tab */
-	GtkWidget *notify_with_tray;
 	GtkWidget *scrolled_window;
 };
 

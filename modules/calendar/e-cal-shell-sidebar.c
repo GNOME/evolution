@@ -121,6 +121,43 @@ connect_closure_free (ConnectClosure *closure)
 	g_slice_free (ConnectClosure, closure);
 }
 
+static gboolean
+cal_shell_sidebar_map_uid_to_source (GValue *value,
+                                     GVariant *variant,
+                                     gpointer user_data)
+{
+	ESourceRegistry *registry;
+	ESource *source;
+	const gchar *uid;
+
+	registry = E_SOURCE_REGISTRY (user_data);
+	uid = g_variant_get_string (variant, NULL);
+	source = e_source_registry_ref_source (registry, uid);
+	g_value_take_object (value, source);
+
+	return (source != NULL);
+}
+
+static GVariant *
+cal_shell_sidebar_map_source_to_uid (const GValue *value,
+                                     const GVariantType *expected_type,
+                                     gpointer user_data)
+{
+	GVariant *variant = NULL;
+	ESource *source;
+
+	source = g_value_get_object (value);
+
+	if (source != NULL) {
+		const gchar *uid;
+
+		uid = e_source_get_uid (source);
+		variant = g_variant_new_string (uid);
+	}
+
+	return variant;
+}
+
 static void
 cal_shell_sidebar_emit_client_added (ECalShellSidebar *cal_shell_sidebar,
                                      EClient *client)
@@ -359,27 +396,16 @@ cal_shell_sidebar_restore_state_cb (EShellWindow *shell_window,
                                     EShellSidebar *shell_sidebar)
 {
 	ECalShellSidebarPrivate *priv;
-	EShell *shell;
-	EShellBackend *shell_backend;
-	EShellSettings *shell_settings;
 	ESourceRegistry *registry;
 	ESourceSelector *selector;
 	GSettings *settings;
 	GtkTreeModel *model;
-	GObject *object;
 
 	priv = E_CAL_SHELL_SIDEBAR_GET_PRIVATE (shell_sidebar);
 
-	shell = e_shell_window_get_shell (shell_window);
-	shell_settings = e_shell_get_shell_settings (shell);
-
-	shell_backend = e_shell_view_get_shell_backend (shell_view);
-	g_return_if_fail (E_IS_CAL_SHELL_BACKEND (shell_backend));
-
 	selector = E_SOURCE_SELECTOR (priv->selector);
+	registry = e_source_selector_get_registry (selector);
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (selector));
-
-	registry = e_shell_get_registry (shell);
 
 	g_signal_connect_swapped (
 		model, "row-changed",
@@ -391,24 +417,25 @@ cal_shell_sidebar_restore_state_cb (EShellWindow *shell_window,
 		G_CALLBACK (cal_shell_sidebar_primary_selection_changed_cb),
 		shell_sidebar);
 
-	g_object_bind_property_full (
-		shell_settings, "cal-primary-calendar",
-		selector, "primary-selection",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE,
-		(GBindingTransformFunc) e_binding_transform_uid_to_source,
-		(GBindingTransformFunc) e_binding_transform_source_to_uid,
-		g_object_ref (registry),
-		(GDestroyNotify) g_object_unref);
-
 	/* Bind GObject properties to settings keys. */
 
 	settings = g_settings_new ("org.gnome.evolution.calendar");
 
-	object = G_OBJECT (priv->paned);
-	g_settings_bind (settings, "date-navigator-pane-position", object, "vposition", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind_with_mapping (
+		settings, "primary-calendar",
+		selector, "primary-selection",
+		G_SETTINGS_BIND_DEFAULT,
+		cal_shell_sidebar_map_uid_to_source,
+		cal_shell_sidebar_map_source_to_uid,
+		g_object_ref (registry),
+		(GDestroyNotify) g_object_unref);
 
-	g_object_unref (G_OBJECT (settings));
+	g_settings_bind (
+		settings, "date-navigator-pane-position",
+		priv->paned, "vposition",
+		G_SETTINGS_BIND_DEFAULT);
+
+	g_object_unref (settings);
 }
 
 static void
@@ -500,7 +527,6 @@ cal_shell_sidebar_constructed (GObject *object)
 	EShellWindow *shell_window;
 	EShellBackend *shell_backend;
 	EShellSidebar *shell_sidebar;
-	EShellSettings *shell_settings;
 	EClientCache *client_cache;
 	ECalendarItem *calitem;
 	GtkWidget *container;
@@ -516,9 +542,7 @@ cal_shell_sidebar_constructed (GObject *object)
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
-
 	shell = e_shell_backend_get_shell (shell_backend);
-	shell_settings = e_shell_get_shell_settings (shell);
 
 	container = GTK_WIDGET (shell_sidebar);
 
@@ -575,16 +599,6 @@ cal_shell_sidebar_constructed (GObject *object)
 	gtk_paned_pack2 (GTK_PANED (container), widget, FALSE, FALSE);
 	priv->date_navigator = g_object_ref (widget);
 	gtk_widget_show (widget);
-
-	g_object_bind_property (
-		shell_settings, "cal-show-week-numbers",
-		calitem, "show-week-numbers",
-		G_BINDING_SYNC_CREATE);
-
-	g_object_bind_property (
-		shell_settings, "cal-week-start-day",
-		calitem, "week-start-day",
-		G_BINDING_SYNC_CREATE);
 
 	/* Restore widget state from the last session once
 	 * the shell view is fully initialized and visible. */

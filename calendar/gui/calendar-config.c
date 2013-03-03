@@ -100,15 +100,15 @@ calendar_config_get_timezone_stored (void)
 static gchar *
 calendar_config_get_timezone (void)
 {
-	EShell *shell;
-	EShellSettings *shell_settings;
+	GSettings *settings;
 	gboolean use_system_timezone;
 
-	shell = e_shell_get_default ();
-	shell_settings = e_shell_get_shell_settings (shell);
+	settings = g_settings_new ("org.gnome.evolution.calendar");
 
-	use_system_timezone = e_shell_settings_get_boolean (
-		shell_settings, "cal-use-system-timezone");
+	use_system_timezone =
+		g_settings_get_boolean (settings, "use-system-timezone");
+
+	g_object_unref (settings);
 
 	if (use_system_timezone)
 		return e_cal_util_get_system_timezone_location ();
@@ -442,19 +442,17 @@ calendar_config_add_notification_day_second_zone (CalendarConfigChangedFunc func
 gboolean
 calendar_config_get_prefer_meeting (void)
 {
-	EShell *shell;
-	EShellSettings *shell_settings;
+	GSettings *settings;
 	gchar *prefer_new_item;
 	gboolean prefer_meeting;
 
-	shell = e_shell_get_default ();
-	shell_settings = e_shell_get_shell_settings (shell);
+	settings = g_settings_new ("org.gnome.evolution.calendar");
 
-	prefer_new_item = e_shell_settings_get_string (
-		shell_settings, "cal-prefer-new-item");
+	prefer_new_item = g_settings_get_string (settings, "prefer-new-item");
 	prefer_meeting = g_strcmp0 (prefer_new_item, "event-meeting-new") == 0;
-
 	g_free (prefer_new_item);
+
+	g_object_unref (settings);
 
 	return prefer_meeting;
 }

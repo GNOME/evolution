@@ -41,7 +41,6 @@
 
 #include "e-cal-shell-content.h"
 #include "e-cal-shell-migrate.h"
-#include "e-cal-shell-settings.h"
 #include "e-cal-shell-sidebar.h"
 #include "e-cal-shell-view.h"
 
@@ -67,26 +66,25 @@ cal_shell_backend_new_event (ECalClient *cal_client,
                              gboolean all_day)
 {
 	ECalComponent *comp;
-	EShellSettings *shell_settings;
+	GSettings *settings;
 	CompEditor *editor;
 
-	shell_settings = e_shell_get_shell_settings (shell);
+	settings = g_settings_new ("org.gnome.evolution.calendar");
 
 	editor = event_editor_new (cal_client, shell, flags);
 	comp = cal_comp_event_new_with_current_time (
 		cal_client, all_day,
-		e_shell_settings_get_boolean (
-			shell_settings, "cal-use-default-reminder"),
-		e_shell_settings_get_int (
-			shell_settings, "cal-default-reminder-interval"),
-		e_shell_settings_get_int (  /* enum, actually */
-			shell_settings, "cal-default-reminder-units"));
+		g_settings_get_boolean (settings, "use-default-reminder"),
+		g_settings_get_int (settings, "default-reminder-interval"),
+		g_settings_get_enum (settings, "default-reminder-units"));
 	e_cal_component_commit_sequence (comp);
 	comp_editor_edit_comp (editor, comp);
 
 	gtk_window_present (GTK_WINDOW (editor));
 
 	g_object_unref (comp);
+
+	g_object_unref (settings);
 }
 
 static void
@@ -391,7 +389,6 @@ cal_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
                                  const gchar *uri)
 {
 	EShell *shell;
-	EShellSettings *shell_settings;
 	CompEditor *editor;
 	CompEditorFlags flags = 0;
 	EClient *client;
@@ -399,6 +396,7 @@ cal_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 	ECalComponent *comp;
 	ESource *source;
 	ESourceRegistry *registry;
+	GSettings *settings;
 	SoupURI *soup_uri;
 	icalcomponent *icalcomp;
 	icalproperty *icalprop;
@@ -414,9 +412,6 @@ cal_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 
 	shell = e_shell_backend_get_shell (shell_backend);
 	client_cache = e_shell_get_client_cache (shell);
-	shell_settings = e_shell_get_shell_settings (shell);
-
-	zone = e_shell_settings_get_pointer (shell_settings, "cal-timezone");
 
 	if (strncmp (uri, "calendar:", 9) != 0)
 		return FALSE;
@@ -432,6 +427,26 @@ cal_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 
 	g_date_clear (&start_date, 1);
 	g_date_clear (&end_date, 1);
+
+	settings = g_settings_new ("org.gnome.evolution.calendar");
+
+	if (g_settings_get_boolean (settings, "use-system-timezone"))
+		zone = e_cal_util_get_system_timezone ();
+	else {
+		gchar *location;
+
+		location = g_settings_get_string (settings, "timezone");
+
+		if (location != NULL) {
+			zone = icaltimezone_get_builtin_timezone (location);
+			g_free (location);
+		}
+	}
+
+	if (zone == NULL)
+		zone = icaltimezone_get_utc_timezone ();
+
+	g_object_unref (settings);
 
 	while (*cp != '\0') {
 		gchar *header;
@@ -642,11 +657,19 @@ ensure_alarm_notify_is_running (void)
 }
 
 static void
+cal_shell_backend_use_system_timezone_changed_cb (GSettings *settings,
+                                                  const gchar *key)
+{
+	g_signal_emit_by_name (settings, "changed::timezone", timezone);
+}
+
+static void
 cal_shell_backend_constructed (GObject *object)
 {
 	EShell *shell;
 	EShellBackend *shell_backend;
 	GtkWidget *preferences_window;
+	GSettings *settings;
 
 	shell_backend = E_SHELL_BACKEND (object);
 	shell = e_shell_backend_get_shell (shell_backend);
@@ -663,8 +686,6 @@ cal_shell_backend_constructed (GObject *object)
 
 	cal_shell_backend_init_importers ();
 
-	e_cal_shell_backend_init_settings (shell);
-
 	/* Setup preference widget factories */
 	preferences_window = e_shell_get_preferences_window (shell);
 
@@ -677,11 +698,22 @@ cal_shell_backend_constructed (GObject *object)
 		e_calendar_preferences_new,
 		600);
 
-	g_object_bind_property (
-		e_shell_get_shell_settings (shell), "cal-prefer-new-item",
+	settings = g_settings_new ("org.gnome.evolution.calendar");
+
+	g_settings_bind (
+		settings, "prefer-new-item",
 		shell_backend, "prefer-new-item",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
+
+	/* Changing whether or not to use the system timezone may change
+	 * Evolution's current timezone.  Need to emit "changed" signals
+	 * for both keys. */
+	g_signal_connect (
+		settings, "changed::use-system-timezone",
+		G_CALLBACK (cal_shell_backend_use_system_timezone_changed_cb),
+		NULL);
+
+	g_object_unref (settings);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_cal_shell_backend_parent_class)->constructed (object);

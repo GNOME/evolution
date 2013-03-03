@@ -118,6 +118,43 @@ connect_closure_free (ConnectClosure *closure)
 	g_slice_free (ConnectClosure, closure);
 }
 
+static gboolean
+task_shell_sidebar_map_uid_to_source (GValue *value,
+                                      GVariant *variant,
+                                      gpointer user_data)
+{
+	ESourceRegistry *registry;
+	ESource *source;
+	const gchar *uid;
+
+	registry = E_SOURCE_REGISTRY (user_data);
+	uid = g_variant_get_string (variant, NULL);
+	source = e_source_registry_ref_source (registry, uid);
+	g_value_take_object (value, source);
+
+	return (source != NULL);
+}
+
+static GVariant *
+task_shell_sidebar_map_source_to_uid (const GValue *value,
+                                      const GVariantType *expected_type,
+                                      gpointer user_data)
+{
+	GVariant *variant = NULL;
+	ESource *source;
+
+	source = g_value_get_object (value);
+
+	if (source != NULL) {
+		const gchar *uid;
+
+		uid = e_source_get_uid (source);
+		variant = g_variant_new_string (uid);
+	}
+
+	return variant;
+}
+
 static void
 task_shell_sidebar_emit_client_added (ETaskShellSidebar *task_shell_sidebar,
                                       EClient *client)
@@ -356,25 +393,16 @@ task_shell_sidebar_restore_state_cb (EShellWindow *shell_window,
                                      EShellSidebar *shell_sidebar)
 {
 	ETaskShellSidebarPrivate *priv;
-	EShell *shell;
-	EShellBackend *shell_backend;
-	EShellSettings *shell_settings;
 	ESourceRegistry *registry;
 	ESourceSelector *selector;
+	GSettings *settings;
 	GtkTreeModel *model;
 
 	priv = E_TASK_SHELL_SIDEBAR_GET_PRIVATE (shell_sidebar);
 
-	shell = e_shell_window_get_shell (shell_window);
-	shell_settings = e_shell_get_shell_settings (shell);
-
-	shell_backend = e_shell_view_get_shell_backend (shell_view);
-	g_return_if_fail (E_IS_TASK_SHELL_BACKEND (shell_backend));
-
 	selector = E_SOURCE_SELECTOR (priv->selector);
+	registry = e_source_selector_get_registry (selector);
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (selector));
-
-	registry = e_shell_get_registry (shell);
 
 	g_signal_connect_swapped (
 		model, "row-changed",
@@ -386,15 +414,20 @@ task_shell_sidebar_restore_state_cb (EShellWindow *shell_window,
 		G_CALLBACK (task_shell_sidebar_primary_selection_changed_cb),
 		shell_sidebar);
 
-	g_object_bind_property_full (
-		shell_settings, "cal-primary-task-list",
+	/* Bind GObject properties to settings keys. */
+
+	settings = g_settings_new ("org.gnome.evolution.calendar");
+
+	g_settings_bind_with_mapping (
+		settings, "primary-tasks",
 		selector, "primary-selection",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE,
-		(GBindingTransformFunc) e_binding_transform_uid_to_source,
-		(GBindingTransformFunc) e_binding_transform_source_to_uid,
+		G_SETTINGS_BIND_DEFAULT,
+		task_shell_sidebar_map_uid_to_source,
+		task_shell_sidebar_map_source_to_uid,
 		g_object_ref (registry),
 		(GDestroyNotify) g_object_unref);
+
+	g_object_unref (settings);
 }
 
 static void
