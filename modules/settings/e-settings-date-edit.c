@@ -57,6 +57,11 @@ settings_date_edit_constructed (GObject *object)
 		G_BINDING_SYNC_CREATE);
 
 	g_object_bind_property (
+		shell_settings, "cal-use-24-hour-format",
+		extensible, "use-24-hour-format",
+		G_BINDING_SYNC_CREATE);
+
+	g_object_bind_property (
 		shell_settings, "cal-week-start-day",
 		extensible, "week-start-day",
 		G_BINDING_SYNC_CREATE);
