@@ -363,10 +363,6 @@ em_utils_flag_for_followup (EMailReader *reader,
                             CamelFolder *folder,
                             GPtrArray *uids)
 {
-	EShell *shell;
-	EMailBackend *backend;
-	EShellSettings *shell_settings;
-	EShellBackend *shell_backend;
 	EMailDisplay *display;
 	GtkWidget *editor;
 	GtkWindow *window;
@@ -378,24 +374,9 @@ em_utils_flag_for_followup (EMailReader *reader,
 	g_return_if_fail (uids != NULL);
 
 	window = e_mail_reader_get_window (reader);
-	backend = e_mail_reader_get_backend (reader);
 
 	editor = e_mail_tag_editor_new ();
 	gtk_window_set_transient_for (GTK_WINDOW (editor), window);
-
-	shell_backend = E_SHELL_BACKEND (backend);
-	shell = e_shell_backend_get_shell (shell_backend);
-	shell_settings = e_shell_get_shell_settings (shell);
-
-	/* These settings come from the calendar module. */
-	g_object_bind_property (
-		shell_settings, "cal-use-24-hour-format",
-		editor, "use-24-hour-format",
-		G_BINDING_SYNC_CREATE);
-	g_object_bind_property (
-		shell_settings, "cal-week-start-day",
-		editor, "week-start-day",
-		G_BINDING_SYNC_CREATE);
 
 	for (i = 0; i < uids->len; i++) {
 		CamelMessageInfo *info;

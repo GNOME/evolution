@@ -45,17 +45,11 @@ struct _EMailTagEditorPrivate {
 
 	gboolean completed;
 	time_t completed_date;
-
-	/* EDateEdit settings */
-	gint week_start_day;
-	gboolean use_24_hour_format;
 };
 
 enum {
 	PROP_0,
-	PROP_COMPLETED,
-	PROP_USE_24_HOUR_FORMAT,
-	PROP_WEEK_START_DAY
+	PROP_COMPLETED
 };
 
 enum {
@@ -85,18 +79,6 @@ mail_tag_editor_set_property (GObject *object,
 				E_MAIL_TAG_EDITOR (object),
 				g_value_get_boolean (value));
 			return;
-
-		case PROP_USE_24_HOUR_FORMAT:
-			e_mail_tag_editor_set_use_24_hour_format (
-				E_MAIL_TAG_EDITOR (object),
-				g_value_get_boolean (value));
-			return;
-
-		case PROP_WEEK_START_DAY:
-			e_mail_tag_editor_set_week_start_day (
-				E_MAIL_TAG_EDITOR (object),
-				g_value_get_int (value));
-			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -113,20 +95,6 @@ mail_tag_editor_get_property (GObject *object,
 			g_value_set_boolean (
 				value,
 				e_mail_tag_editor_get_completed (
-				E_MAIL_TAG_EDITOR (object)));
-			return;
-
-		case PROP_USE_24_HOUR_FORMAT:
-			g_value_set_boolean (
-				value,
-				e_mail_tag_editor_get_use_24_hour_format (
-				E_MAIL_TAG_EDITOR (object)));
-			return;
-
-		case PROP_WEEK_START_DAY:
-			g_value_set_int (
-				value,
-				e_mail_tag_editor_get_week_start_day (
 				E_MAIL_TAG_EDITOR (object)));
 			return;
 	}
@@ -248,28 +216,6 @@ e_mail_tag_editor_class_init (EMailTagEditorClass *class)
 			NULL,
 			FALSE,
 			G_PARAM_READWRITE));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_USE_24_HOUR_FORMAT,
-		g_param_spec_boolean (
-			"use-24-hour-format",
-			"Use 24-Hour Format",
-			NULL,
-			TRUE,
-			G_PARAM_READWRITE));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_WEEK_START_DAY,
-		g_param_spec_int (
-			"week-start-day",
-			"Week Start Day",
-			NULL,
-			0,  /* Monday */
-			6,  /* Sunday */
-			0,
-			G_PARAM_READWRITE));
 }
 
 static void
@@ -337,14 +283,6 @@ e_mail_tag_editor_init (EMailTagEditor *editor)
 
 	widget = e_builder_get_widget (builder, "target_date");
 	editor->priv->target_date = E_DATE_EDIT (widget);
-	g_object_bind_property (
-		editor, "use-24-hour-format",
-		widget, "use-24-hour-format",
-		G_BINDING_SYNC_CREATE);
-	g_object_bind_property (
-		editor, "week-start-day",
-		widget, "week-start-day",
-		G_BINDING_SYNC_CREATE);
 
 	widget = e_builder_get_widget (builder, "completed");
 	g_object_bind_property (
@@ -388,51 +326,6 @@ e_mail_tag_editor_set_completed (EMailTagEditor *editor,
 	editor->priv->completed_date = completed ? time (NULL) : 0;
 
 	g_object_notify (G_OBJECT (editor), "completed");
-}
-
-gint
-e_mail_tag_editor_get_week_start_day (EMailTagEditor *editor)
-{
-	g_return_val_if_fail (E_IS_MAIL_TAG_EDITOR (editor), 1);
-
-	return editor->priv->week_start_day;
-}
-
-void
-e_mail_tag_editor_set_week_start_day (EMailTagEditor *editor,
-                                      gint week_start_day)
-{
-	g_return_if_fail (E_IS_MAIL_TAG_EDITOR (editor));
-	g_return_if_fail (week_start_day >= 0 && week_start_day < 7);
-
-	if (editor->priv->week_start_day == week_start_day)
-		return;
-
-	editor->priv->week_start_day = week_start_day;
-
-	g_object_notify (G_OBJECT (editor), "week-start-day");
-}
-
-gboolean
-e_mail_tag_editor_get_use_24_hour_format (EMailTagEditor *editor)
-{
-	g_return_val_if_fail (E_IS_MAIL_TAG_EDITOR (editor), TRUE);
-
-	return editor->priv->use_24_hour_format;
-}
-
-void
-e_mail_tag_editor_set_use_24_hour_format (EMailTagEditor *editor,
-                                          gboolean use_24_hour_format)
-{
-	g_return_if_fail (E_IS_MAIL_TAG_EDITOR (editor));
-
-	if (editor->priv->use_24_hour_format == use_24_hour_format)
-		return;
-
-	editor->priv->use_24_hour_format = use_24_hour_format;
-
-	g_object_notify (G_OBJECT (editor), "use-24-hour-format");
 }
 
 CamelTag *
