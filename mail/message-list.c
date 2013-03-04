@@ -4783,6 +4783,7 @@ regen_list_done (struct _regen_list_msg *m)
 
 	if (m->dotree) {
 		gboolean forcing_expand_state = m->ml->expand_all || m->ml->collapse_all;
+		ETableItem *table_item = e_tree_get_item (E_TREE (m->ml));
 
 		if (m->ml->just_set_folder) {
 			m->ml->just_set_folder = FALSE;
@@ -4796,11 +4797,18 @@ regen_list_done (struct _regen_list_msg *m)
 		if (forcing_expand_state || searching)
 			e_tree_force_expanded_state (tree, (m->ml->expand_all || searching) ? 1 : -1);
 
+		e_tree_memory_freeze (E_TREE_MEMORY (m->ml->model));
+
 		build_tree (m->ml, m->tree, m->changes);
 		if (m->ml->thread_tree)
 			camel_folder_thread_messages_unref (m->ml->thread_tree);
 		m->ml->thread_tree = m->tree;
 		m->tree = NULL;
+
+		if (!m->scroll_to_cursor && table_item)
+			table_item->queue_show_cursor = FALSE;
+
+		e_tree_memory_thaw (E_TREE_MEMORY (m->ml->model));
 
 		if (forcing_expand_state || searching) {
 			if (m->ml->folder != NULL && tree != NULL && !searching)
