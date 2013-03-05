@@ -484,10 +484,12 @@ mail_account_in_recipients (ESourceRegistry *registry,
 }
 
 ESource *
-em_utils_guess_mail_account_with_recipients (ESourceRegistry *registry,
-                                             CamelMimeMessage *message,
-                                             CamelFolder *folder,
-                                             const gchar *message_uid)
+em_utils_guess_mail_account_with_recipients_and_sort (ESourceRegistry *registry,
+						      CamelMimeMessage *message,
+						      CamelFolder *folder,
+						      const gchar *message_uid,
+						      EMailUtilsSourtSourcesFunc sort_func,
+						      gpointer sort_func_data)
 {
 	ESource *source = NULL;
 	GHashTable *recipients;
@@ -552,6 +554,9 @@ second_preference:
 	extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
 	list = e_source_registry_list_sources (registry, extension_name);
 
+	if (sort_func)
+		sort_func (&list, sort_func_data);
+
 	for (iter = list; iter != NULL; iter = g_list_next (iter)) {
 		ESource *temp = E_SOURCE (iter->data);
 
@@ -578,10 +583,12 @@ exit:
 }
 
 ESource *
-em_utils_guess_mail_identity_with_recipients (ESourceRegistry *registry,
-                                              CamelMimeMessage *message,
-                                              CamelFolder *folder,
-                                              const gchar *message_uid)
+em_utils_guess_mail_identity_with_recipients_and_sort (ESourceRegistry *registry,
+						       CamelMimeMessage *message,
+						       CamelFolder *folder,
+						       const gchar *message_uid,
+						       EMailUtilsSourtSourcesFunc sort_func,
+						       gpointer sort_func_data)
 {
 	ESource *source;
 	ESourceExtension *extension;
@@ -591,8 +598,8 @@ em_utils_guess_mail_identity_with_recipients (ESourceRegistry *registry,
 	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
 	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
 
-	source = em_utils_guess_mail_account_with_recipients (
-		registry, message, folder, message_uid);
+	source = em_utils_guess_mail_account_with_recipients_and_sort (
+		registry, message, folder, message_uid, sort_func, sort_func_data);
 
 	if (source == NULL)
 		return NULL;
@@ -616,6 +623,24 @@ em_utils_guess_mail_identity_with_recipients (ESourceRegistry *registry,
 	}
 
 	return source;
+}
+
+ESource *
+em_utils_guess_mail_account_with_recipients (ESourceRegistry *registry,
+                                             CamelMimeMessage *message,
+                                             CamelFolder *folder,
+                                             const gchar *message_uid)
+{
+	return em_utils_guess_mail_account_with_recipients_and_sort (registry, message, folder, message_uid, NULL, NULL);
+}
+
+ESource *
+em_utils_guess_mail_identity_with_recipients (ESourceRegistry *registry,
+                                              CamelMimeMessage *message,
+                                              CamelFolder *folder,
+                                              const gchar *message_uid)
+{
+	return em_utils_guess_mail_identity_with_recipients_and_sort (registry, message, folder, message_uid, NULL, NULL);
 }
 
 ESource *
