@@ -3853,6 +3853,7 @@ decrease_find_data (FormatItipFindData *fd)
 		g_cancellable_disconnect (fd->itip_cancellable, fd->cancelled_id);
 		g_object_unref (fd->cancellable);
 		g_object_unref (fd->itip_cancellable);
+		g_object_unref (fd->view);
 		g_free (fd->uid);
 		g_free (fd->rid);
 		if (fd->sexp)
@@ -4200,7 +4201,7 @@ find_server (EMailPartItip *pitip,
 
 			fd = g_new0 (FormatItipFindData, 1);
 			fd->puri = pitip;
-			fd->view = view;
+			fd->view = g_object_ref (view);
 			fd->itip_cancellable = g_object_ref (pitip->cancellable);
 			fd->cancellable = g_cancellable_new ();
 			fd->cancelled_id = g_cancellable_connect (
