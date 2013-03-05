@@ -3234,10 +3234,12 @@ static void build_subtree_diff (MessageList *ml, ETreePath parent, ETreePath pat
 static void
 build_tree (MessageList *ml,
             CamelFolderThread *thread,
-            CamelFolderChangeInfo *changes)
+            CamelFolderChangeInfo *changes,
+	    gboolean can_scroll_to_cursor)
 {
 	gint row = 0;
 	ETreeModel *etm = ml->model;
+	ETableItem *table_item = e_tree_get_item (E_TREE (ml));
 #ifndef BROKEN_ETREE
 	ETreePath *top;
 #endif
@@ -3277,10 +3279,23 @@ build_tree (MessageList *ml,
 		clear_tree (ml, FALSE);
 
 		build_subtree (ml, ml->tree_root, thread->tree, &row);
+
+		if (!can_scroll_to_cursor && table_item)
+			table_item->queue_show_cursor = FALSE;
+
 		e_tree_memory_thaw (E_TREE_MEMORY (etm));
 #ifdef BROKEN_ETREE
+
+		/* it's required to thaw & freeze, to propagate changes */
+		e_tree_memory_freeze (E_TREE_MEMORY (etm));
+
 		message_list_set_selected (ml, selected);
 		em_utils_uids_free (selected);
+
+		if (!can_scroll_to_cursor && table_item)
+			table_item->queue_show_cursor = FALSE;
+
+		e_tree_memory_thaw (E_TREE_MEMORY (etm));
 #else
 	} else {
 		static gint tree_equal (ETreeModel *etm, ETreePath ap, CamelFolderThreadNode *bp);
@@ -3312,7 +3327,14 @@ build_tree (MessageList *ml,
 					node = parent;
 			}
 
+			e_tree_memory_freeze (E_TREE_MEMORY (etm));
+
 			e_tree_set_cursor (E_TREE (ml), node);
+
+			if (!can_scroll_to_cursor && table_item)
+				table_item->queue_show_cursor = FALSE;
+
+			e_tree_memory_thaw (E_TREE_MEMORY (etm));
 		}
 		g_free (saveuid);
 	} else if (ml->cursor_uid && !g_hash_table_lookup (ml->uid_nodemap, ml->cursor_uid)) {
@@ -4801,7 +4823,6 @@ regen_list_done (struct _regen_list_msg *m)
 
 	if (m->dotree) {
 		gboolean forcing_expand_state = m->ml->expand_all || m->ml->collapse_all;
-		ETableItem *table_item = e_tree_get_item (E_TREE (m->ml));
 
 		if (m->ml->just_set_folder) {
 			m->ml->just_set_folder = FALSE;
@@ -4815,18 +4836,11 @@ regen_list_done (struct _regen_list_msg *m)
 		if (forcing_expand_state || searching)
 			e_tree_force_expanded_state (tree, (m->ml->expand_all || searching) ? 1 : -1);
 
-		e_tree_memory_freeze (E_TREE_MEMORY (m->ml->model));
-
-		build_tree (m->ml, m->tree, m->changes);
+		build_tree (m->ml, m->tree, m->changes, m->scroll_to_cursor);
 		if (m->ml->thread_tree)
 			camel_folder_thread_messages_unref (m->ml->thread_tree);
 		m->ml->thread_tree = m->tree;
 		m->tree = NULL;
-
-		if (!m->scroll_to_cursor && table_item)
-			table_item->queue_show_cursor = FALSE;
-
-		e_tree_memory_thaw (E_TREE_MEMORY (m->ml->model));
 
 		if (forcing_expand_state || searching) {
 			if (m->ml->folder != NULL && tree != NULL && !searching)
