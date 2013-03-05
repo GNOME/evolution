@@ -25,6 +25,8 @@
 #include <camel/camel.h>
 #include <libedataserver/libedataserver.h>
 
+typedef void (* EMailUtilsSourtSourcesFunc) (GList **psources, gpointer user_data);
+
 gboolean	em_utils_folder_is_drafts	(ESourceRegistry *registry,
 						 CamelFolder *folder);
 gboolean	em_utils_folder_is_templates	(ESourceRegistry *registry,
@@ -59,6 +61,20 @@ ESource *	em_utils_guess_mail_identity_with_recipients
 						 CamelMimeMessage *message,
 						 CamelFolder *folder,
 						 const gchar *message_uid);
+ESource *	em_utils_guess_mail_account_with_recipients_and_sort
+						(ESourceRegistry *registry,
+						 CamelMimeMessage *message,
+						 CamelFolder *folder,
+						 const gchar *message_uid,
+						 EMailUtilsSourtSourcesFunc sort_func,
+						 gpointer sort_func_data);
+ESource *	em_utils_guess_mail_identity_with_recipients_and_sort
+						(ESourceRegistry *registry,
+						 CamelMimeMessage *message,
+						 CamelFolder *folder,
+						 const gchar *message_uid,
+						 EMailUtilsSourtSourcesFunc sort_func,
+						 gpointer sort_func_data);
 ESource *	em_utils_ref_mail_identity_for_store
 						(ESourceRegistry *registry,
 						 CamelStore *store);
