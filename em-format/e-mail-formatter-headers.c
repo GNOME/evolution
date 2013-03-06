@@ -56,7 +56,7 @@ format_short_headers (EMailFormatter *formatter,
 {
 	const gchar *charset;
 	CamelContentType *ct;
-	const gchar *hdr_charset;
+	gchar *hdr_charset;
 	gchar *evolution_imagesdir;
 	gchar *subject = NULL;
 	struct _camel_header_address *addrs = NULL;
@@ -70,9 +70,9 @@ format_short_headers (EMailFormatter *formatter,
 	ct = camel_mime_part_get_content_type ((CamelMimePart *) part);
 	charset = camel_content_type_param (ct, "charset");
 	charset = camel_iconv_charset_name (charset);
-	hdr_charset = e_mail_formatter_get_charset (formatter) ?
-			e_mail_formatter_get_charset (formatter) :
-			e_mail_formatter_get_default_charset (formatter);
+	hdr_charset = e_mail_formatter_dup_charset (formatter);
+	if (!hdr_charset)
+		hdr_charset = e_mail_formatter_dup_default_charset (formatter);
 
 	evolution_imagesdir = g_filename_to_uri (EVOLUTION_IMAGESDIR, NULL, NULL);
 	from = g_string_new ("");
@@ -111,6 +111,8 @@ format_short_headers (EMailFormatter *formatter,
 		}
 		header = header->next;
 	}
+
+	g_free (hdr_charset);
 
 	is_rtl = gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL;
 	if (is_rtl) {
@@ -241,7 +243,7 @@ format_full_headers (EMailFormatter *formatter,
 	gsize face_header_len = 0;
 	gchar *header_sender = NULL, *header_from = NULL, *name;
 	gboolean mail_from_delegate = FALSE;
-	const gchar *hdr_charset;
+	gchar *hdr_charset;
 	gchar *evolution_imagesdir;
 
 	if (g_cancellable_is_cancelled (cancellable))
@@ -250,9 +252,9 @@ format_full_headers (EMailFormatter *formatter,
 	ct = camel_mime_part_get_content_type ((CamelMimePart *) part);
 	charset = camel_content_type_param (ct, "charset");
 	charset = camel_iconv_charset_name (charset);
-	hdr_charset = e_mail_formatter_get_charset (formatter) ?
-			e_mail_formatter_get_charset (formatter) :
-			e_mail_formatter_get_default_charset (formatter);
+	hdr_charset = e_mail_formatter_dup_charset (formatter);
+	if (!hdr_charset)
+		hdr_charset = e_mail_formatter_dup_default_charset (formatter);
 
 	evolution_imagesdir = g_filename_to_uri (EVOLUTION_IMAGESDIR, NULL, NULL);
 
@@ -305,6 +307,8 @@ format_full_headers (EMailFormatter *formatter,
 		header = header->next;
 	}
 
+	g_free (hdr_charset);
+
 	if (header_sender && header_from && mail_from_delegate) {
 		gchar *bold_sender, *bold_from;
 
@@ -352,11 +356,12 @@ format_full_headers (EMailFormatter *formatter,
 			header = header->next;
 		}
 	} else {
+		GQueue *headers_queue;
 		GList *link;
 		gint mailer_shown = FALSE;
 
-		link = g_queue_peek_head_link (
-				(GQueue *) e_mail_formatter_get_headers (formatter));
+		headers_queue = e_mail_formatter_dup_headers (formatter);
+		link = g_queue_peek_head_link (headers_queue);
 
 		while (link != NULL) {
 			EMailFormatterHeader *h = link->data;
@@ -427,6 +432,8 @@ format_full_headers (EMailFormatter *formatter,
 
 			link = g_list_next (link);
 		}
+
+		g_queue_free_full (headers_queue, (GDestroyNotify) e_mail_formatter_header_free);
 	}
 
 	g_string_append (buffer, "</table></td>");

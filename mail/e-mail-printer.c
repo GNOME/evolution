@@ -649,6 +649,7 @@ emp_set_parts_list (EMailPrinter *emp,
 	CamelMediumHeader *header;
 	CamelMimeMessage *message;
 	GArray *headers;
+	GQueue *headers_queue;
 	gint i;
 	GtkTreeIter last_known = { 0 };
 
@@ -667,6 +668,7 @@ emp_set_parts_list (EMailPrinter *emp,
 	if (!headers)
 		return;
 
+	headers_queue = e_mail_formatter_dup_headers (E_MAIL_FORMATTER (emp->priv->formatter));
 	for (i = 0; i < headers->len; i++) {
 		GtkTreeIter iter;
 		GList *found_header;
@@ -675,10 +677,7 @@ emp_set_parts_list (EMailPrinter *emp,
 		header = &g_array_index (headers, CamelMediumHeader, i);
 		emfh = e_mail_formatter_header_new (header->name, header->value);
 
-		found_header = g_queue_find_custom (
-				(GQueue *) e_mail_formatter_get_headers (
-					E_MAIL_FORMATTER (emp->priv->formatter)),
-				emfh, (GCompareFunc) emp_header_name_equal);
+		found_header = g_queue_find_custom (headers_queue, emfh, (GCompareFunc) emp_header_name_equal);
 
 		if (!found_header) {
 			emfh->flags |= E_MAIL_FORMATTER_HEADER_FLAG_HIDDEN;
@@ -702,6 +701,7 @@ emp_set_parts_list (EMailPrinter *emp,
 			COLUMN_HEADER_STRUCT, emfh, -1);
 	}
 
+	g_queue_free_full (headers_queue, (GDestroyNotify) e_mail_formatter_header_free);
 	camel_medium_free_headers (CAMEL_MEDIUM (message), headers);
 }
 

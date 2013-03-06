@@ -61,7 +61,7 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 	const gchar *buf;
 	gint attachments_count;
 	gchar *part_id_prefix;
-	const GQueue *headers;
+	GQueue *headers_queue;
 	GQueue queue = G_QUEUE_INIT;
 	GList *head, *link;
 
@@ -76,8 +76,8 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 		"<table border=\"0\" cellspacing=\"5\" "
 		"cellpadding=\"0\" class=\"printing-header\">\n");
 
-	headers = e_mail_formatter_get_headers (formatter);
-	for (link = headers->head; link != NULL; link = g_list_next (link)) {
+	headers_queue = e_mail_formatter_dup_headers (formatter);
+	for (link = headers_queue->head; link != NULL; link = g_list_next (link)) {
 		EMailFormatterHeader *header = link->data;
 		raw_header.name = header->name;
 
@@ -112,6 +112,8 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 				g_free (raw_header.value);
 		}
 	}
+
+	g_queue_free_full (headers_queue, (GDestroyNotify) e_mail_formatter_header_free);
 
         /* Get prefix of this PURI */
 	part_id_prefix = g_strndup (part->id, g_strrstr (part->id, ".") - part->id);

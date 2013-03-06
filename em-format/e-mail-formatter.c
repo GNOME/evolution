@@ -51,6 +51,8 @@ struct _EMailFormatterPrivate {
 	guint show_real_date	: 1;
         guint animate_images    : 1;
 
+	GMutex property_lock;
+
 	gchar *charset;
 	gchar *default_charset;
 
@@ -304,16 +306,16 @@ e_mail_formatter_get_property (GObject *object,
 			return;
 
 		case PROP_CHARSET:
-			g_value_set_string (
+			g_value_take_string (
 				value,
-				e_mail_formatter_get_charset (
+				e_mail_formatter_dup_charset (
 				E_MAIL_FORMATTER (object)));
 			return;
 
 		case PROP_DEFAULT_CHARSET:
-			g_value_set_string (
+			g_value_take_string (
 				value,
-				e_mail_formatter_get_default_charset (
+				e_mail_formatter_dup_default_charset (
 				E_MAIL_FORMATTER (object)));
 			return;
 	}
@@ -343,6 +345,8 @@ e_mail_formatter_finalize (GObject *object)
 		g_queue_free (priv->header_list);
 		priv->header_list = NULL;
 	}
+
+	g_mutex_clear (&priv->property_lock);
 
 	/* Chain up to parent's finalize() */
 	G_OBJECT_CLASS (e_mail_formatter_parent_class)->finalize (object);
@@ -717,6 +721,7 @@ e_mail_formatter_init (EMailFormatter *formatter)
 {
 	formatter->priv = E_MAIL_FORMATTER_GET_PRIVATE (formatter);
 
+	g_mutex_init (&formatter->priv->property_lock);
 	formatter->priv->header_list = g_queue_new ();
 	e_mail_formatter_set_default_headers (formatter);
 }
@@ -1289,14 +1294,31 @@ e_mail_formatter_get_charset (EMailFormatter *formatter)
 	return formatter->priv->charset;
 }
 
+gchar *
+e_mail_formatter_dup_charset (EMailFormatter *formatter)
+{
+	gchar *charset;
+
+	g_return_val_if_fail (E_IS_MAIL_FORMATTER (formatter), NULL);
+
+	g_mutex_lock (&formatter->priv->property_lock);
+	charset = g_strdup (e_mail_formatter_get_charset (formatter));
+	g_mutex_unlock (&formatter->priv->property_lock);
+
+	return charset;
+}
+
 void
 e_mail_formatter_set_charset (EMailFormatter *formatter,
                               const gchar *charset)
 {
 	g_return_if_fail (E_IS_MAIL_FORMATTER (formatter));
 
-	if (g_strcmp0 (formatter->priv->charset, charset) == 0)
+	g_mutex_lock (&formatter->priv->property_lock);
+	if (g_strcmp0 (formatter->priv->charset, charset) == 0) {
+		g_mutex_unlock (&formatter->priv->property_lock);
 		return;
+	}
 
 	g_free (formatter->priv->charset);
 
@@ -1305,6 +1327,8 @@ e_mail_formatter_set_charset (EMailFormatter *formatter,
 	} else {
 		formatter->priv->charset = g_strdup (charset);
 	}
+
+	g_mutex_unlock (&formatter->priv->property_lock);
 
 	g_object_notify (G_OBJECT (formatter), "charset");
 }
@@ -1317,6 +1341,20 @@ e_mail_formatter_get_default_charset (EMailFormatter *formatter)
 	return formatter->priv->default_charset;
 }
 
+gchar *
+e_mail_formatter_dup_default_charset (EMailFormatter *formatter)
+{
+	gchar *default_charset;
+
+	g_return_val_if_fail (E_IS_MAIL_FORMATTER (formatter), NULL);
+
+	g_mutex_lock (&formatter->priv->property_lock);
+	default_charset = g_strdup (e_mail_formatter_get_default_charset (formatter));
+	g_mutex_unlock (&formatter->priv->property_lock);
+
+	return default_charset;
+}
+
 void
 e_mail_formatter_set_default_charset (EMailFormatter *formatter,
                                       const gchar *default_charset)
@@ -1324,11 +1362,17 @@ e_mail_formatter_set_default_charset (EMailFormatter *formatter,
 	g_return_if_fail (E_IS_MAIL_FORMATTER (formatter));
 	g_return_if_fail (default_charset && *default_charset);
 
-	if (g_strcmp0 (formatter->priv->default_charset, default_charset) == 0)
+	g_mutex_lock (&formatter->priv->property_lock);
+
+	if (g_strcmp0 (formatter->priv->default_charset, default_charset) == 0) {
+		g_mutex_unlock (&formatter->priv->property_lock);
 		return;
+	}
 
 	g_free (formatter->priv->default_charset);
 	formatter->priv->default_charset = g_strdup (default_charset);
+
+	g_mutex_unlock (&formatter->priv->property_lock);
 
 	g_object_notify (G_OBJECT (formatter), "default-charset");
 }
@@ -1366,6 +1410,46 @@ e_mail_formatter_get_headers (EMailFormatter *formatter)
 }
 
 /**
+ * e_mail_formatter_dup_headers:
+ * @formatter: an #EMailFormatter
+ *
+ * Returns copy of a list of currently set headers.
+ *
+ * Returns: (transfer-full): A new #GQueue of currently set headers; the pointer should
+ *    be freed when no longer needed with command:
+ *    g_queue_free_full (queue, (GDestroyNotify) e_mail_formatter_header_free);
+ */
+GQueue *
+e_mail_formatter_dup_headers (EMailFormatter *formatter)
+{
+	GQueue *header_list;
+	GList *link;
+
+	g_return_val_if_fail (E_IS_MAIL_FORMATTER (formatter), NULL);
+
+	g_mutex_lock (&formatter->priv->property_lock);
+
+	header_list = g_queue_new ();
+	for (link = g_queue_peek_head_link ((GQueue *) e_mail_formatter_get_headers (formatter));
+	     link;
+	     link = g_list_next (link)) {
+		EMailFormatterHeader *h = link->data, *copy;
+
+		if (!h)
+			continue;
+
+		copy = e_mail_formatter_header_new (h->name, h->value);
+		copy->flags = h->flags;
+
+		g_queue_push_tail (header_list, copy);
+	}
+
+	g_mutex_unlock (&formatter->priv->property_lock);
+
+	return header_list;
+}
+
+/**
  * e_mail_formatter_clear_headers:
  * @formatter: an #EMailFormatter
  *
@@ -1379,9 +1463,13 @@ e_mail_formatter_clear_headers (EMailFormatter *formatter)
 
 	g_return_if_fail (E_IS_MAIL_FORMATTER (formatter));
 
+	g_mutex_lock (&formatter->priv->property_lock);
+
 	while ((header = g_queue_pop_head (formatter->priv->header_list)) != NULL) {
 		e_mail_formatter_header_free (header);
 	}
+
+	g_mutex_unlock (&formatter->priv->property_lock);
 }
 
 /**
@@ -1432,7 +1520,10 @@ e_mail_formatter_add_header (EMailFormatter *formatter,
 
 	h = e_mail_formatter_header_new (name, value);
 	h->flags = flags;
+
+	g_mutex_lock (&formatter->priv->property_lock);
 	g_queue_push_tail (formatter->priv->header_list, h);
+	g_mutex_unlock (&formatter->priv->property_lock);
 
 	g_signal_emit (formatter, signals[NEED_REDRAW], 0, NULL);
 }
@@ -1447,14 +1538,17 @@ e_mail_formatter_add_header_struct (EMailFormatter *formatter,
 	e_mail_formatter_add_header (formatter, header->name, header->value, header->flags);
 }
 
-void e_mail_formatter_remove_header (EMailFormatter *formatter,
-				     const gchar *name,
-				     const gchar *value)
+void
+e_mail_formatter_remove_header (EMailFormatter *formatter,
+				const gchar *name,
+				const gchar *value)
 {
 	GList *iter = NULL;
 
 	g_return_if_fail (E_IS_MAIL_FORMATTER (formatter));
 	g_return_if_fail (name && *name);
+
+	g_mutex_lock (&formatter->priv->property_lock);
 
 	iter = g_queue_peek_head_link (formatter->priv->header_list);
 	while (iter) {
@@ -1485,6 +1579,8 @@ void e_mail_formatter_remove_header (EMailFormatter *formatter,
 		e_mail_formatter_header_free (iter->data);
 		g_queue_delete_link (formatter->priv->header_list, iter);
 	}
+
+	g_mutex_unlock (&formatter->priv->property_lock);
 }
 
 void

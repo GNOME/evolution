@@ -299,19 +299,21 @@ e_mail_formatter_format_header (EMailFormatter *formatter,
 		struct _camel_header_address *addrs;
 		GString *html;
 		gchar *img;
-		const gchar *charset;
+		gchar *charset;
 
-		charset = e_mail_formatter_get_charset (formatter);
+		charset = e_mail_formatter_dup_charset (formatter);
 		if (charset == NULL)
-			charset = e_mail_formatter_get_default_charset (formatter);
+			charset = e_mail_formatter_dup_default_charset (formatter);
 
 		buf = camel_header_unfold (header->value);
 		addrs = camel_header_address_decode (buf, charset);
 		if (addrs == NULL) {
+			g_free (charset);
 			g_free (buf);
 			return;
 		}
 
+		g_free (charset);
 		g_free (buf);
 
 		html = g_string_new ("");

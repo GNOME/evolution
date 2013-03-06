@@ -217,16 +217,20 @@ void		e_mail_formatter_set_show_real_date
 						 gboolean show_real_date);
 
 const gchar *	e_mail_formatter_get_charset	(EMailFormatter *formatter);
+gchar *		e_mail_formatter_dup_charset	(EMailFormatter *formatter);
 void		e_mail_formatter_set_charset	(EMailFormatter *formatter,
 						 const gchar *charset);
 
 const gchar *	e_mail_formatter_get_default_charset
+						(EMailFormatter *formatter);
+gchar *		e_mail_formatter_dup_default_charset
 						(EMailFormatter *formatter);
 void		e_mail_formatter_set_default_charset
 						(EMailFormatter *formatter,
 						 const gchar *charset);
 
 const GQueue *	e_mail_formatter_get_headers	(EMailFormatter *formatter);
+GQueue *	e_mail_formatter_dup_headers	(EMailFormatter *formatter);
 
 void		e_mail_formatter_clear_headers	(EMailFormatter *formatter);
 

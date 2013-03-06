@@ -121,15 +121,19 @@ emfqe_format_header (EMailFormatter *formatter,
 	if (addrspec) {
 		struct _camel_header_address *addrs;
 		GString *html;
+		gchar *charset;
 
 		if (!(txt = camel_medium_get_header (part, name)))
 			return;
 
+		charset = e_mail_formatter_dup_charset (formatter);
+		if (!charset)
+			charset = e_mail_formatter_dup_default_charset (formatter);
+
 		buf = camel_header_unfold (txt);
-		addrs = camel_header_address_decode (
-			txt, e_mail_formatter_get_charset (formatter) ?
-			e_mail_formatter_get_charset (formatter) :
-			e_mail_formatter_get_default_charset (formatter));
+		addrs = camel_header_address_decode (txt, charset);
+		g_free (charset);
+
 		if (addrs == NULL) {
 			g_free (buf);
 			return;
@@ -189,7 +193,7 @@ emqfe_headers_format (EMailFormatterExtension *extension,
 	const gchar *charset;
 	GList *iter;
 	GString *buffer;
-	const GQueue *default_headers;
+	GQueue *headers_queue;
 
 	if (!part)
 		return FALSE;
@@ -201,8 +205,8 @@ emqfe_headers_format (EMailFormatterExtension *extension,
 	buffer = g_string_new ("");
 
         /* dump selected headers */
-	default_headers = e_mail_formatter_get_headers (formatter);
-	for (iter = default_headers->head; iter; iter = iter->next) {
+	headers_queue = e_mail_formatter_dup_headers (formatter);
+	for (iter = headers_queue->head; iter; iter = iter->next) {
 		struct _camel_header_raw *raw_header;
 		EMailFormatterHeader *h = iter->data;
 		guint32 flags;
@@ -221,6 +225,8 @@ emqfe_headers_format (EMailFormatterExtension *extension,
 			}
 		}
 	}
+
+	g_queue_free_full (headers_queue, (GDestroyNotify) e_mail_formatter_header_free);
 
 	g_string_append (buffer, "<br>\n");
 
