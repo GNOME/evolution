@@ -1813,7 +1813,6 @@ reply_to_calendar_comp (ESourceRegistry *registry,
                         GSList *attachments_list)
 {
 	EShell *shell;
-	EShellSettings *shell_settings;
 	EMsgComposer *composer;
 	EComposerHeaderTable *table;
 	EDestination **destinations;
@@ -1829,7 +1828,6 @@ reply_to_calendar_comp (ESourceRegistry *registry,
 
 	/* FIXME Pass this in. */
 	shell = e_shell_get_default ();
-	shell_settings = e_shell_get_shell_settings (shell);
 
 	default_zone = e_cal_client_get_default_timezone (cal_client);
 
