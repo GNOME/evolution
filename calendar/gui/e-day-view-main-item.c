@@ -1001,10 +1001,9 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 	gint row, row_y, grid_x1, grid_x2;
 	gint day, grid_y1, grid_y2;
 	gint work_day_start_y, work_day_end_y;
-	gint day_x, day_w, work_day;
+	gint day_x, day_w;
 	gint start_row, end_row, rect_x, rect_y, rect_width, rect_height;
 	struct icaltimetype day_start_tt, today_tt;
-	gint weekday;
 	gboolean today = FALSE;
 	cairo_region_t *draw_region;
 	GdkRectangle rect;
@@ -1042,17 +1041,43 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 		e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
 
 	for (day = 0; day < day_view->days_shown; day++) {
+		GDateWeekday weekday;
+
 		day_start_tt = icaltime_from_timet_with_zone (
 			day_view->day_starts[day], FALSE,
 			e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
-		weekday = icaltime_day_of_week (day_start_tt) - 1;
 
-		work_day = day_view->working_days & (1 << weekday);
+		switch (icaltime_day_of_week (day_start_tt)) {
+			case 1:
+				weekday = G_DATE_SUNDAY;
+				break;
+			case 2:
+				weekday = G_DATE_MONDAY;
+				break;
+			case 3:
+				weekday = G_DATE_TUESDAY;
+				break;
+			case 4:
+				weekday = G_DATE_WEDNESDAY;
+				break;
+			case 5:
+				weekday = G_DATE_THURSDAY;
+				break;
+			case 6:
+				weekday = G_DATE_FRIDAY;
+				break;
+			case 7:
+				weekday = G_DATE_SATURDAY;
+				break;
+			default:
+				weekday = G_DATE_BAD_WEEKDAY;
+				break;
+		}
 
 		day_x = day_view->day_offsets[day] - x;
 		day_w = day_view->day_widths[day];
 
-		if (work_day) {
+		if (e_day_view_get_work_day (day_view, weekday)) {
 			if (can_draw_in_region (draw_region, day_x, 0 - y, day_w, work_day_start_y - (0 - y))) {
 				cairo_save (cr);
 				gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_BG_NOT_WORKING]);

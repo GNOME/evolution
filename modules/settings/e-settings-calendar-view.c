@@ -84,8 +84,38 @@ settings_calendar_view_constructed (GObject *object)
 			G_BINDING_SYNC_CREATE);
 
 		g_object_bind_property (
-			shell_settings, "cal-working-days-bitset",
-			extensible, "working-days",
+			shell_settings, "cal-working-days-monday",
+			extensible, "work-day-monday",
+			G_BINDING_SYNC_CREATE);
+
+		g_object_bind_property (
+			shell_settings, "cal-working-days-tuesday",
+			extensible, "work-day-tuesday",
+			G_BINDING_SYNC_CREATE);
+
+		g_object_bind_property (
+			shell_settings, "cal-working-days-wednesday",
+			extensible, "work-day-wednesday",
+			G_BINDING_SYNC_CREATE);
+
+		g_object_bind_property (
+			shell_settings, "cal-working-days-thursday",
+			extensible, "work-day-thursday",
+			G_BINDING_SYNC_CREATE);
+
+		g_object_bind_property (
+			shell_settings, "cal-working-days-friday",
+			extensible, "work-day-friday",
+			G_BINDING_SYNC_CREATE);
+
+		g_object_bind_property (
+			shell_settings, "cal-working-days-saturday",
+			extensible, "work-day-saturday",
+			G_BINDING_SYNC_CREATE);
+
+		g_object_bind_property (
+			shell_settings, "cal-working-days-sunday",
+			extensible, "work-day-sunday",
 			G_BINDING_SYNC_CREATE);
 	}
 

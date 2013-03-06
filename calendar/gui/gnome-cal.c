@@ -460,7 +460,31 @@ gnome_calendar_constructed (GObject *object)
 	g_object_ref_sink (calendar_view);
 
 	g_signal_connect_swapped (
-		calendar_view, "notify::working-days",
+		calendar_view, "notify::working-day-monday",
+		G_CALLBACK (gnome_calendar_update_time_range), gcal);
+
+	g_signal_connect_swapped (
+		calendar_view, "notify::working-day-tuesday",
+		G_CALLBACK (gnome_calendar_update_time_range), gcal);
+
+	g_signal_connect_swapped (
+		calendar_view, "notify::working-day-wednesday",
+		G_CALLBACK (gnome_calendar_update_time_range), gcal);
+
+	g_signal_connect_swapped (
+		calendar_view, "notify::working-day-thursday",
+		G_CALLBACK (gnome_calendar_update_time_range), gcal);
+
+	g_signal_connect_swapped (
+		calendar_view, "notify::working-day-friday",
+		G_CALLBACK (gnome_calendar_update_time_range), gcal);
+
+	g_signal_connect_swapped (
+		calendar_view, "notify::working-day-saturday",
+		G_CALLBACK (gnome_calendar_update_time_range), gcal);
+
+	g_signal_connect_swapped (
+		calendar_view, "notify::working-day-sunday",
 		G_CALLBACK (gnome_calendar_update_time_range), gcal);
 
 	/* Week View */
@@ -902,9 +926,11 @@ get_times_for_views (GnomeCalendar *gcal,
 	EWeekView *week_view;
 	gint shown, display_start;
 	GDate date;
-	gint week_start_day;
-	gint weekday, first_day, last_day, days_shown, i;
-	gboolean has_working_days = FALSE;
+	gint days_shown;
+	GDateWeekday week_start_day;
+	GDateWeekday first_work_day;
+	GDateWeekday last_work_day;
+	GDateWeekday weekday;
 	guint offset;
 	struct icaltimetype tt = icaltime_null_time ();
 	icaltimezone *timezone;
@@ -914,7 +940,7 @@ get_times_for_views (GnomeCalendar *gcal,
 	range_selected = gnome_calendar_get_range_selected (gcal);
 
 	timezone = e_cal_model_get_timezone (model);
-	week_start_day = e_cal_model_get_week_start_day (model);
+	week_start_day = e_cal_model_get_week_start_day (model) + 1;
 
 	priv = gcal->priv;
 
@@ -933,44 +959,35 @@ get_times_for_views (GnomeCalendar *gcal,
 		/* The start of the work-week is the first working day after the
 		 * week start day. */
 
-		/* Get the weekday corresponding to start_time, 0 (Mon) to 6 (Sun). */
-		weekday = (g_date_get_weekday (&date) + 6) % 7;
+		/* Get the weekday corresponding to start_time. */
+		weekday = g_date_get_weekday (&date);
 
-		/* Find the first working day in the week, 0 (Mon) to 6 (Sun). */
-		first_day = week_start_day % 7;
-		for (i = 0; i < 7; i++) {
-			/* the working_days has stored 0 (Sun) to 6 (Sat) */
-			if (day_view->working_days & (1 << ((first_day + 1) % 7))) {
-				has_working_days = TRUE;
-				break;
-			}
-			first_day = (first_day + 1) % 7;
-		}
+		/* Find the first working day of the week. */
+		first_work_day = e_day_view_get_first_work_day (day_view);
 
-		if (has_working_days) {
-			/* Now find the last working day of the week, backwards. */
-			last_day = (first_day + 6) % 7;
-			for (i = 0; i < 7; i++) {
-				/* the working_days has stored 0 (Sun) to 6 (Sat) */
-				if (day_view->working_days & (1 << ((last_day + 1) % 7)))
-					break;
-				last_day = (last_day + 6) % 7;
-			}
-			/* Now calculate the days we need to show to include all the
-			 * working days in the week. Add 1 to make it inclusive. */
-			days_shown = (last_day + 7 - first_day) % 7 + 1;
+		if (first_work_day != G_DATE_BAD_WEEKDAY) {
+			last_work_day = e_day_view_get_last_work_day (day_view);
+
+			/* Now calculate the days we need to show to include
+			 * all the working days in the week. Add 1 to make it
+			 * inclusive. */
+			days_shown = e_weekday_get_days_between (
+				first_work_day, last_work_day) + 1;
 		} else {
 			/* If no working days are set, just use 7. */
 			days_shown = 7;
 		}
 
+		if (first_work_day == G_DATE_BAD_WEEKDAY)
+			first_work_day = week_start_day;
+
 		/* Calculate how many days we need to go back to the first workday. */
-		if (weekday < first_day) {
-			offset = (7 - first_day + weekday) % 7;
-		} else {
-			offset = (weekday - first_day) % 7;
-		}
-		if (offset)
+		if (weekday < first_work_day)
+			offset = (weekday + 7) - first_work_day;
+		else
+			offset = weekday - first_work_day;
+
+		if (offset > 0)
 			g_date_subtract_days (&date, offset);
 
 		tt.year = g_date_get_year (&date);

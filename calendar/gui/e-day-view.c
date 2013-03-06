@@ -410,7 +410,13 @@ enum {
 	PROP_MARCUS_BAINS_SHOW_LINE,
 	PROP_MARCUS_BAINS_DAY_VIEW_COLOR,
 	PROP_MARCUS_BAINS_TIME_BAR_COLOR,
-	PROP_WORKING_DAYS
+	PROP_WORK_DAY_MONDAY,
+	PROP_WORK_DAY_TUESDAY,
+	PROP_WORK_DAY_WEDNESDAY,
+	PROP_WORK_DAY_THURSDAY,
+	PROP_WORK_DAY_FRIDAY,
+	PROP_WORK_DAY_SATURDAY,
+	PROP_WORK_DAY_SUNDAY
 };
 
 G_DEFINE_TYPE (EDayView, e_day_view, E_TYPE_CALENDAR_VIEW)
@@ -680,10 +686,53 @@ day_view_set_property (GObject *object,
 				g_value_get_string (value));
 			return;
 
-		case PROP_WORKING_DAYS:
-			e_day_view_set_working_days (
+		case PROP_WORK_DAY_MONDAY:
+			e_day_view_set_work_day (
 				E_DAY_VIEW (object),
-				g_value_get_int (value));
+				G_DATE_MONDAY,
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_WORK_DAY_TUESDAY:
+			e_day_view_set_work_day (
+				E_DAY_VIEW (object),
+				G_DATE_TUESDAY,
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_WORK_DAY_WEDNESDAY:
+			e_day_view_set_work_day (
+				E_DAY_VIEW (object),
+				G_DATE_WEDNESDAY,
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_WORK_DAY_THURSDAY:
+			e_day_view_set_work_day (
+				E_DAY_VIEW (object),
+				G_DATE_THURSDAY,
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_WORK_DAY_FRIDAY:
+			e_day_view_set_work_day (
+				E_DAY_VIEW (object),
+				G_DATE_FRIDAY,
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_WORK_DAY_SATURDAY:
+			e_day_view_set_work_day (
+				E_DAY_VIEW (object),
+				G_DATE_SATURDAY,
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_WORK_DAY_SUNDAY:
+			e_day_view_set_work_day (
+				E_DAY_VIEW (object),
+				G_DATE_SUNDAY,
+				g_value_get_boolean (value));
 			return;
 	}
 
@@ -718,11 +767,60 @@ day_view_get_property (GObject *object,
 				E_DAY_VIEW (object)));
 			return;
 
-		case PROP_WORKING_DAYS:
-			g_value_set_int (
+		case PROP_WORK_DAY_MONDAY:
+			g_value_set_boolean (
 				value,
-				e_day_view_get_working_days (
-				E_DAY_VIEW (object)));
+				e_day_view_get_work_day (
+				E_DAY_VIEW (object),
+				G_DATE_MONDAY));
+			return;
+
+		case PROP_WORK_DAY_TUESDAY:
+			g_value_set_boolean (
+				value,
+				e_day_view_get_work_day (
+				E_DAY_VIEW (object),
+				G_DATE_TUESDAY));
+			return;
+
+		case PROP_WORK_DAY_WEDNESDAY:
+			g_value_set_boolean (
+				value,
+				e_day_view_get_work_day (
+				E_DAY_VIEW (object),
+				G_DATE_WEDNESDAY));
+			return;
+
+		case PROP_WORK_DAY_THURSDAY:
+			g_value_set_boolean (
+				value,
+				e_day_view_get_work_day (
+				E_DAY_VIEW (object),
+				G_DATE_THURSDAY));
+			return;
+
+		case PROP_WORK_DAY_FRIDAY:
+			g_value_set_boolean (
+				value,
+				e_day_view_get_work_day (
+				E_DAY_VIEW (object),
+				G_DATE_FRIDAY));
+			return;
+
+		case PROP_WORK_DAY_SATURDAY:
+			g_value_set_boolean (
+				value,
+				e_day_view_get_work_day (
+				E_DAY_VIEW (object),
+				G_DATE_SATURDAY));
+			return;
+
+		case PROP_WORK_DAY_SUNDAY:
+			g_value_set_boolean (
+				value,
+				e_day_view_get_work_day (
+				E_DAY_VIEW (object),
+				G_DATE_SUNDAY));
 			return;
 	}
 
@@ -1467,18 +1565,88 @@ e_day_view_class_init (EDayViewClass *class)
 			G_PARAM_READWRITE |
 			G_PARAM_STATIC_STRINGS));
 
-	/* FIXME Make this a real GFlags type. */
 	g_object_class_install_property (
 		object_class,
-		PROP_WORKING_DAYS,
-		g_param_spec_int (
-			"working-days",
-			"Working Days",
-			NULL,
-			0x00,
-			0x7f,
-			0,
+		PROP_WORK_DAY_MONDAY,
+		g_param_spec_boolean (
+			"work-day-monday",
+			"Work Day: Monday",
+			"Whether Monday is a work day",
+			TRUE,
 			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_TUESDAY,
+		g_param_spec_boolean (
+			"work-day-tuesday",
+			"Work Day: Tuesday",
+			"Whether Tuesday is a work day",
+			TRUE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_WEDNESDAY,
+		g_param_spec_boolean (
+			"work-day-wednesday",
+			"Work Day: Wednesday",
+			"Whether Wednesday is a work day",
+			TRUE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_THURSDAY,
+		g_param_spec_boolean (
+			"work-day-thursday",
+			"Work Day: Thursday",
+			"Whether Thursday is a work day",
+			TRUE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_FRIDAY,
+		g_param_spec_boolean (
+			"work-day-friday",
+			"Work Day: Friday",
+			"Whether Friday is a work day",
+			TRUE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_SATURDAY,
+		g_param_spec_boolean (
+			"work-day-saturday",
+			"Work Day: Saturday",
+			"Whether Saturday is a work day",
+			FALSE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_SUNDAY,
+		g_param_spec_boolean (
+			"work-day-sunday",
+			"Work Day: Sunday",
+			"Whether Sunday is a work day",
+			FALSE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
 			G_PARAM_STATIC_STRINGS));
 
 	/* init the accessibility support for e_day_view */
@@ -1535,10 +1703,6 @@ e_day_view_init (EDayView *day_view)
 	day_view->last_minute_shown = 0;
 
 	e_day_view_recalc_num_rows (day_view);
-
-	day_view->working_days = E_DAY_VIEW_MONDAY | E_DAY_VIEW_TUESDAY
-		| E_DAY_VIEW_WEDNESDAY | E_DAY_VIEW_THURSDAY
-		| E_DAY_VIEW_FRIDAY;
 
 	day_view->show_event_end_times = TRUE;
 	day_view->scroll_to_work_day = TRUE;
@@ -2874,48 +3038,42 @@ e_day_view_find_work_week_start (EDayView *day_view,
 {
 	GDate date;
 	ECalModel *model;
-	gint week_start_day;
-	gint weekday, day, i;
 	guint offset;
+	GDateWeekday weekday;
+	GDateWeekday first_work_day;
 	struct icaltimetype tt = icaltime_null_time ();
+	icaltimezone *zone;
 
 	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
-	week_start_day = e_cal_model_get_week_start_day (model);
+	zone = e_cal_model_get_timezone (model);
 
-	time_to_gdate_with_zone (&date, start_time, e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
+	time_to_gdate_with_zone (&date, start_time, zone);
 
 	/* The start of the work-week is the first working day after the
 	 * week start day. */
 
-	/* Get the weekday corresponding to start_time, 0 (Mon) to 6 (Sun). */
-	weekday = (g_date_get_weekday (&date) + 6) % 7;
+	/* Get the weekday corresponding to start_time. */
+	weekday = g_date_get_weekday (&date);
 
-	/* Calculate the first working day of the week, 0 (Mon) to 6 (Sun).
-	 * It will automatically default to the week start day if no days
-	 * are set as working days. */
-	day = week_start_day % 7;
-	for (i = 0; i < 7; i++) {
-		/* the working_days has stored 0 (Sun) to 6 (Sat) */
-		if (day_view->working_days & (1 << ((day + 1) % 7)))
-			break;
-		day = (day + 1) % 7;
-	}
+	/* Calculate the first working day of the week. */
+	first_work_day = e_day_view_get_first_work_day (day_view);
+	if (first_work_day == G_DATE_BAD_WEEKDAY)
+		first_work_day = e_cal_model_get_week_start_day (model) + 1;
 
 	/* Calculate how many days we need to go back to the first workday. */
-	if (weekday < day) {
-		offset = (7 - day + weekday) % 7;
-	} else {
-		offset = (weekday - day) % 7;
-	}
+	if (weekday < first_work_day)
+		offset = (weekday + 7) - first_work_day;
+	else
+		offset = weekday - first_work_day;
 
-	if (offset)
+	if (offset > 0)
 		g_date_subtract_days (&date, offset);
 
 	tt.year = g_date_get_year (&date);
 	tt.month = g_date_get_month (&date);
 	tt.day = g_date_get_day (&date);
 
-	return icaltime_as_timet_with_zone (tt, e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
+	return icaltime_as_timet_with_zone (tt, zone);
 }
 
 static void
@@ -3003,26 +3161,28 @@ e_day_view_set_days_shown (EDayView *day_view,
 	e_day_view_update_query (day_view);
 }
 
-/* This specifies the working days in the week. The value is a bitwise
- * combination of day flags. Defaults to Mon-Fri. */
-EDayViewDays
-e_day_view_get_working_days (EDayView *day_view)
+gboolean
+e_day_view_get_work_day (EDayView *day_view,
+                         GDateWeekday weekday)
 {
-	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), 0);
+	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), FALSE);
+	g_return_val_if_fail (g_date_valid_weekday (weekday), FALSE);
 
-	return day_view->working_days;
+	return day_view->work_days[weekday];
 }
 
 void
-e_day_view_set_working_days (EDayView *day_view,
-                             EDayViewDays days)
+e_day_view_set_work_day (EDayView *day_view,
+                         GDateWeekday weekday,
+                         gboolean work_day)
 {
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
+	g_return_if_fail (g_date_valid_weekday (weekday));
 
-	if (day_view->working_days == days)
+	if (work_day == day_view->work_days[weekday])
 		return;
 
-	day_view->working_days = days;
+	day_view->work_days[weekday] = work_day;
 
 	if (day_view->work_week_view)
 		e_day_view_recalc_work_week (day_view);
@@ -3031,43 +3191,124 @@ e_day_view_set_working_days (EDayView *day_view,
 	 * the days shown, but we still want the background color to change. */
 	gtk_widget_queue_draw (day_view->main_canvas);
 
-	g_object_notify (G_OBJECT (day_view), "working-days");
+	switch (weekday) {
+		case G_DATE_MONDAY:
+			g_object_notify (
+				G_OBJECT (day_view),
+				"work-day-monday");
+			break;
+		case G_DATE_TUESDAY:
+			g_object_notify (
+				G_OBJECT (day_view),
+				"work-day-tuesday");
+			break;
+		case G_DATE_WEDNESDAY:
+			g_object_notify (
+				G_OBJECT (day_view),
+				"work-day-wednesday");
+			break;
+		case G_DATE_THURSDAY:
+			g_object_notify (
+				G_OBJECT (day_view),
+				"work-day-thursday");
+			break;
+		case G_DATE_FRIDAY:
+			g_object_notify (
+				G_OBJECT (day_view),
+				"work-day-friday");
+			break;
+		case G_DATE_SATURDAY:
+			g_object_notify (
+				G_OBJECT (day_view),
+				"work-day-saturday");
+			break;
+		case G_DATE_SUNDAY:
+			g_object_notify (
+				G_OBJECT (day_view),
+				"work-day-sunday");
+			break;
+		default:
+			g_warn_if_reached ();
+	}
+}
+
+/**
+ * e_day_view_get_first_work_day:
+ * @day_view: an #EDayView
+ *
+ * Returns the first work day of the week with respect to the week start day.
+ * If no work days are set, the function returns %G_DATE_BAD_WEEKDAY.
+ *
+ * Returns: first work day of the week, or %G_DATE_BAD_WEEKDAY
+ **/
+GDateWeekday
+e_day_view_get_first_work_day (EDayView *day_view)
+{
+	ECalModel *model;
+	GDateWeekday weekday;
+	gint ii;
+
+	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), G_DATE_BAD_WEEKDAY);
+
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
+	weekday = e_cal_model_get_week_start_day (model) + 1;
+
+	for (ii = 0; ii < 7; ii++) {
+		if (e_day_view_get_work_day (day_view, weekday))
+			return weekday;
+		weekday = e_weekday_get_next (weekday);
+	}
+
+	return G_DATE_BAD_WEEKDAY;
+}
+
+/**
+ * e_day_view_get_last_work_day:
+ * @day_view: an #EDayView
+ *
+ * Returns the last work day of the week with respect to the week start day.
+ * If no work days are set, the function returns %G_DATE_BAD_WEEKDAY.
+ *
+ * Returns: last work day of the week, or %G_DATE_BAD_WEEKDAY
+ **/
+GDateWeekday
+e_day_view_get_last_work_day (EDayView *day_view)
+{
+	ECalModel *model;
+	GDateWeekday weekday;
+	gint ii;
+
+	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), G_DATE_BAD_WEEKDAY);
+
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
+	weekday = e_cal_model_get_week_start_day (model) + 1;
+
+	for (ii = 0; ii < 7; ii++) {
+		weekday = e_weekday_get_prev (weekday);
+		if (e_day_view_get_work_day (day_view, weekday))
+			return weekday;
+	}
+
+	return G_DATE_BAD_WEEKDAY;
 }
 
 static void
 e_day_view_recalc_work_week_days_shown (EDayView *day_view)
 {
-	ECalModel *model;
-	gint week_start_day;
-	gint first_day, last_day, i, days_shown;
-	gboolean has_working_days = FALSE;
+	GDateWeekday first_work_day;
+	GDateWeekday last_work_day;
+	gint days_shown;
 
-	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
-	week_start_day = e_cal_model_get_week_start_day (model);
+	/* Find the first working day in the week. */
+	first_work_day = e_day_view_get_first_work_day (day_view);
 
-	/* Find the first working day in the week, 0 (Mon) to 6 (Sun). */
-	first_day = week_start_day % 7;
-	for (i = 0; i < 7; i++) {
-		/* the working_days has stored 0 (Sun) to 6 (Sat) */
-		if (day_view->working_days & (1 << ((first_day + 1) % 7))) {
-			has_working_days = TRUE;
-			break;
-		}
-		first_day = (first_day + 1) % 7;
-	}
+	if (first_work_day != G_DATE_BAD_WEEKDAY) {
+		last_work_day = e_day_view_get_last_work_day (day_view);
 
-	if (has_working_days) {
-		/* Now find the last working day of the week, backwards. */
-		last_day = (first_day + 6) % 7;
-		for (i = 0; i < 7; i++) {
-			/* the working_days has stored 0 (Sun) to 6 (Sat) */
-			if (day_view->working_days & (1 << ((last_day + 1) % 7)))
-				break;
-			last_day = (last_day + 6) % 7;
-		}
 		/* Now calculate the days we need to show to include all the
 		 * working days in the week. Add 1 to make it inclusive. */
-		days_shown = (last_day + 7 - first_day) % 7 + 1;
+		days_shown = e_weekday_get_days_between (
+			first_work_day, last_work_day) + 1;
 	} else {
 		/* If no working days are set, just use 7. */
 		days_shown = 7;

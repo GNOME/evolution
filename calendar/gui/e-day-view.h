@@ -115,19 +115,6 @@
 
 G_BEGIN_DECLS
 
-/* These are used to get/set the working days in the week. The bit-flags are
- * combined together. The bits must be from 0 (Sun) to 6 (Sat) to match the
- * day values used by localtime etc. */
-typedef enum {
-	E_DAY_VIEW_SUNDAY	= 1 << 0,
-	E_DAY_VIEW_MONDAY	= 1 << 1,
-	E_DAY_VIEW_TUESDAY	= 1 << 2,
-	E_DAY_VIEW_WEDNESDAY	= 1 << 3,
-	E_DAY_VIEW_THURSDAY	= 1 << 4,
-	E_DAY_VIEW_FRIDAY	= 1 << 5,
-	E_DAY_VIEW_SATURDAY	= 1 << 6
-} EDayViewDays;
-
 /* These are used to specify the type of an appointment. They match those
  * used in EMeetingTimeSelector. */
 typedef enum {
@@ -289,8 +276,9 @@ struct _EDayView {
 	gint last_hour_shown;
 	gint last_minute_shown;
 
-	/* Bitwise combination of working days. Defaults to Mon-Fri. */
-	EDayViewDays working_days;
+	/* Work days.  Indices are based on GDateWeekday.
+	 * The first element (G_DATE_BAD_WEEKDAY) is unused. */
+	gboolean work_days[G_DATE_SUNDAY + 1];
 
 	/* Whether we show the Marcus Bains Line in the main canvas and time canvas. */
 	gboolean marcus_bains_show_line;
@@ -493,11 +481,14 @@ gint		e_day_view_get_days_shown	(EDayView *day_view);
 void		e_day_view_set_days_shown	(EDayView *day_view,
 						 gint days_shown);
 
-/* This specifies the working days in the week. The value is a bitwise
- * combination of day flags. Defaults to Mon-Fri. */
-EDayViewDays	e_day_view_get_working_days	(EDayView *day_view);
-void		e_day_view_set_working_days	(EDayView *day_view,
-						 EDayViewDays days);
+/* This specifies the work days in the week. */
+gboolean	e_day_view_get_work_day		(EDayView *day_view,
+						 GDateWeekday weekday);
+void		e_day_view_set_work_day		(EDayView *day_view,
+						 GDateWeekday weekday,
+						 gboolean work_day);
+GDateWeekday	e_day_view_get_first_work_day	(EDayView *day_view);
+GDateWeekday	e_day_view_get_last_work_day	(EDayView *day_view);
 
 /* Whether we display the Marcus Bains Line in the main canvas and time
  * canvas. */
