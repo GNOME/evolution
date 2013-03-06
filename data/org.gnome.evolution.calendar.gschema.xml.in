@@ -1,4 +1,12 @@
 <schemalist>
+
+  <!-- Keep this synchronized with EDurationType. -->
+  <enum id="org.gnome.evolution.calendar.Duration">
+    <value nick='minutes' value='0'/>
+    <value nick='hours'   value='1'/>
+    <value nick='days'    value='2'/>
+  </enum>
+
   <schema gettext-domain="evolution" id="org.gnome.evolution.calendar" path="/org/gnome/evolution/calendar/">
     <key name="audio-dir" type="s">
       <default>''</default>
@@ -10,7 +18,7 @@
       <_summary>Birthday and anniversary reminder value</_summary>
       <_description>Number of units for determining a birthday or anniversary reminder</_description>
     </key>
-    <key name="ba-reminder-units" type="s">
+    <key name="ba-reminder-units" enum="org.gnome.evolution.calendar.Duration">
       <default>'minutes'</default>
       <_summary>Birthday and anniversary reminder units</_summary>
       <_description>Units for a birthday or anniversary reminder, "minutes", "hours" or "days"</_description>
@@ -75,7 +83,7 @@
       <_summary>Default reminder value</_summary>
       <_description>Number of units for determining a default reminder</_description>
     </key>
-    <key name="default-reminder-units" type="s">
+    <key name="default-reminder-units" enum="org.gnome.evolution.calendar.Duration">
       <default>'minutes'</default>
       <_summary>Default reminder units</_summary>
       <_description>Units for a default reminder, "minutes", "hours" or "days"</_description>
@@ -115,7 +123,7 @@
       <_summary>Hide completed tasks</_summary>
       <_description>Whether to hide completed tasks in the tasks view</_description>
     </key>
-    <key name="hide-completed-tasks-units" type="s">
+    <key name="hide-completed-tasks-units" enum="org.gnome.evolution.calendar.Duration">
       <default>'days'</default>
       <_summary>Hide task units</_summary>
       <_description>Units for determining when to hide tasks, "minutes", "hours" or "days"</_description>
@@ -321,4 +329,5 @@
       <_description>Days on which the start and end of work hours should be indicated</_description>
     </key>
   </schema>
+
 </schemalist>
