@@ -48,6 +48,44 @@ typedef enum {
 } EActivityState;
 
 /**
+ * EDateWeekday:
+ * @E_DATE_BAD_WEEKDAY:
+ *   Invalid value
+ * @E_DATE_MONDAY:
+ *   Monday
+ * @E_DATE_TUESDAY:
+ *   Tuesday
+ * @E_DATE_WEDNESDAY:
+ *   Wednesday
+ * @E_DATE_THURSDAY:
+ *   Thursday
+ * @E_DATE_FRIDAY:
+ *   Friday
+ * @E_DATE_SATURDAY:
+ *   Saturday
+ * @E_DATE_SUNDAY:
+ *   Sunday
+ *
+ * Enumeration representing a day of the week; @E_DATE_MONDAY,
+ * @E_DATE_TUESDAY, etc.  @G_DATE_BAD_WEEKDAY is an invalid weekday.
+ *
+ * This enum type is intentionally compatible with #GDateWeekday.
+ * It exists only because GLib does not provide a #GEnumClass for
+ * #GDateWeekday.  If that ever changes, this enum can go away.
+ **/
+/* XXX Be pedantic with the value assignments to ensure compatibility. */
+typedef enum {
+	E_DATE_BAD_WEEKDAY = G_DATE_BAD_WEEKDAY,
+	E_DATE_MONDAY      = G_DATE_MONDAY,
+	E_DATE_TUESDAY     = G_DATE_TUESDAY,
+	E_DATE_WEDNESDAY   = G_DATE_WEDNESDAY,
+	E_DATE_THURSDAY    = G_DATE_THURSDAY,
+	E_DATE_FRIDAY      = G_DATE_FRIDAY,
+	E_DATE_SATURDAY    = G_DATE_SATURDAY,
+	E_DATE_SUNDAY      = G_DATE_SUNDAY
+} EDateWeekday;
+
+/**
  * EDurationType:
  * @E_DURATION_MINUTES:
  *   Duration value is in minutes.

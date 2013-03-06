@@ -2217,6 +2217,7 @@ EMenuToolButtonPrivate
 <SECTION>
 <FILE>e-misc-utils</FILE>
 <TITLE>Miscellaneous Utilities</TITLE>
+EDateWeekday
 EForeachFunc
 e_get_accels_filename
 e_show_uri
