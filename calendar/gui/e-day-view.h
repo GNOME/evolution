@@ -21,8 +21,8 @@
  *
  */
 
-#ifndef _E_DAY_VIEW_H_
-#define _E_DAY_VIEW_H_
+#ifndef E_DAY_VIEW_H
+#define E_DAY_VIEW_H
 
 #include <time.h>
 #include <gtk/gtk.h>
@@ -31,11 +31,28 @@
 #include "e-calendar-view.h"
 #include "gnome-cal.h"
 
-G_BEGIN_DECLS
-
 /*
  * EDayView - displays the Day & Work-Week views of the calendar.
  */
+
+/* Standard GObject macros */
+#define E_TYPE_DAY_VIEW \
+	(e_day_view_get_type ())
+#define E_DAY_VIEW(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_DAY_VIEW, EDayView))
+#define E_DAY_VIEW_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_DAY_VIEW, EDayViewClass))
+#define E_IS_DAY_VIEW(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_DAY_VIEW))
+#define E_IS_DAY_VIEW_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_DAY_VIEW))
+#define E_DAY_VIEW_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_DAY_VIEW, EDayViewClass))
 
 /* The maximum number of days shown. We use the week view for anything more
  * than about 9 days. */
@@ -96,11 +113,12 @@ G_BEGIN_DECLS
 /* The gap between rows in the top canvas. */
 #define E_DAY_VIEW_TOP_CANVAS_Y_GAP	2
 
+G_BEGIN_DECLS
+
 /* These are used to get/set the working days in the week. The bit-flags are
  * combined together. The bits must be from 0 (Sun) to 6 (Sat) to match the
  * day values used by localtime etc. */
-typedef enum
-{
+typedef enum {
 	E_DAY_VIEW_SUNDAY	= 1 << 0,
 	E_DAY_VIEW_MONDAY	= 1 << 1,
 	E_DAY_VIEW_TUESDAY	= 1 << 2,
@@ -112,8 +130,7 @@ typedef enum
 
 /* These are used to specify the type of an appointment. They match those
  * used in EMeetingTimeSelector. */
-typedef enum
-{
+typedef enum {
 	E_DAY_VIEW_BUSY_TENTATIVE	= 0,
 	E_DAY_VIEW_BUSY_OUT_OF_OFFICE	= 1,
 	E_DAY_VIEW_BUSY_BUSY		= 2,
@@ -126,8 +143,7 @@ typedef enum
  * like 'Thu 12 Sep'. The no weekday format is like '12 Sep'. The short format
  * is like '12'. The actual format used is determined in
  * e_day_view_recalc_cell_sizes (), once we know the font being used. */
-typedef enum
-{
+typedef enum {
 	E_DAY_VIEW_DATE_FULL,
 	E_DAY_VIEW_DATE_ABBREVIATED,
 	E_DAY_VIEW_DATE_NO_WEEKDAY,
@@ -135,8 +151,7 @@ typedef enum
 } EDayViewDateFormat;
 
 /* These index our colors array. */
-typedef enum
-{
+typedef enum {
 	E_DAY_VIEW_COLOR_BG_WORKING,
 	E_DAY_VIEW_COLOR_BG_NOT_WORKING,
 	E_DAY_VIEW_COLOR_BG_SELECTED,
@@ -161,8 +176,7 @@ typedef enum
 } EDayViewColors;
 
 /* These specify which part of the selection we are dragging, if any. */
-typedef enum
-{
+typedef enum {
 	E_DAY_VIEW_DRAG_START,
 	E_DAY_VIEW_DRAG_END
 } EDayViewDragPosition;
@@ -183,30 +197,13 @@ struct _EDayViewEvent {
 	guint8 num_columns;
 };
 
-/* Standard GObject macros */
-#define E_TYPE_DAY_VIEW \
-	(e_day_view_get_type ())
-#define E_DAY_VIEW(obj) \
-	(G_TYPE_CHECK_INSTANCE_CAST \
-	((obj), E_TYPE_DAY_VIEW, EDayView))
-#define E_DAY_VIEW_CLASS(cls) \
-	(G_TYPE_CHECK_CLASS_CAST \
-	((cls), E_TYPE_DAY_VIEW, EDayViewClass))
-#define E_IS_DAY_VIEW(obj) \
-	(G_TYPE_CHECK_INSTANCE_TYPE \
-	((obj), E_TYPE_DAY_VIEW))
-#define E_IS_DAY_VIEW_CLASS(cls) \
-	(G_TYPE_CHECK_CLASS_TYPE \
-	((cls), E_TYPE_DAY_VIEW))
-#define E_DAY_VIEW_GET_CLASS(obj) \
-	(G_TYPE_INSTANCE_GET_CLASS \
-	((obj), E_TYPE_DAY_VIEW, EDayViewClass))
-
-typedef struct _EDayView       EDayView;
-typedef struct _EDayViewClass  EDayViewClass;
+typedef struct _EDayView EDayView;
+typedef struct _EDayViewClass EDayViewClass;
+typedef struct _EDayViewPrivate EDayViewPrivate;
 
 struct _EDayView {
 	ECalendarView parent;
+	EDayViewPrivate *priv;
 
 	/* The top canvas where the dates are shown. */
 	GtkWidget *top_dates_canvas;
@@ -477,124 +474,131 @@ struct _EDayView {
 	gboolean requires_update;
 };
 
-struct _EDayViewClass
-{
+struct _EDayViewClass {
 	ECalendarViewClass parent_class;
 };
 
-GType		   e_day_view_get_type			(void);
-ECalendarView *    e_day_view_new			(ECalModel *model);
+GType		e_day_view_get_type		(void) G_GNUC_CONST;
+ECalendarView *	e_day_view_new			(ECalModel *model);
 
 /* Whether we are displaying a work-week, in which case the display always
  * starts on the first day of the working week. */
-gboolean   e_day_view_get_work_week_view	(EDayView	*day_view);
-void	   e_day_view_set_work_week_view	(EDayView	*day_view,
-						 gboolean	 work_week_view);
+gboolean	e_day_view_get_work_week_view	(EDayView *day_view);
+void		e_day_view_set_work_week_view	(EDayView *day_view,
+						 gboolean  work_week_view);
 
 /* The number of days shown in the EDayView, from 1 to 7. This is normally
  * either 1 or 5 (for the Work-Week view). */
-gint	   e_day_view_get_days_shown		(EDayView	*day_view);
-void	   e_day_view_set_days_shown		(EDayView	*day_view,
-						 gint		 days_shown);
+gint		e_day_view_get_days_shown	(EDayView *day_view);
+void		e_day_view_set_days_shown	(EDayView *day_view,
+						 gint days_shown);
 
 /* This specifies the working days in the week. The value is a bitwise
  * combination of day flags. Defaults to Mon-Fri. */
-EDayViewDays e_day_view_get_working_days	(EDayView	*day_view);
-void	   e_day_view_set_working_days		(EDayView	*day_view,
-						 EDayViewDays	 days);
+EDayViewDays	e_day_view_get_working_days	(EDayView *day_view);
+void		e_day_view_set_working_days	(EDayView *day_view,
+						 EDayViewDays days);
 
 /* Whether we display the Marcus Bains Line in the main canvas and time
  * canvas. */
-void	   e_day_view_marcus_bains_update	(EDayView *day_view);
-gboolean   e_day_view_marcus_bains_get_show_line (EDayView *day_view);
-void	   e_day_view_marcus_bains_set_show_line (EDayView *day_view,
-						 gboolean show_line);
-const gchar *
-	   e_day_view_marcus_bains_get_day_view_color
+void		e_day_view_marcus_bains_update	(EDayView *day_view);
+gboolean	e_day_view_marcus_bains_get_show_line
 						(EDayView *day_view);
-void	   e_day_view_marcus_bains_set_day_view_color
+void		e_day_view_marcus_bains_set_show_line
+						(EDayView *day_view,
+						 gboolean show_line);
+const gchar *	e_day_view_marcus_bains_get_day_view_color
+						(EDayView *day_view);
+void		e_day_view_marcus_bains_set_day_view_color
 						(EDayView *day_view,
 						 const gchar *day_view_color);
-const gchar *
-	   e_day_view_marcus_bains_get_time_bar_color
+const gchar *	e_day_view_marcus_bains_get_time_bar_color
 						(EDayView *day_view);
-void	   e_day_view_marcus_bains_set_time_bar_color
+void		e_day_view_marcus_bains_set_time_bar_color
 						(EDayView *day_view,
 						 const gchar *time_bar_color);
 
 /* Whether we display event end times in the main canvas. */
-gboolean   e_day_view_get_show_event_end_times	(EDayView	*day_view);
-void	   e_day_view_set_show_event_end_times	(EDayView	*day_view,
-						 gboolean	 show);
+gboolean	e_day_view_get_show_event_end_times
+						(EDayView *day_view);
+void		e_day_view_set_show_event_end_times
+						(EDayView *day_view,
+						 gboolean show);
 
-void       e_day_view_delete_occurrence         (EDayView       *day_view);
+void		e_day_view_delete_occurrence	(EDayView *day_view);
 
 /* Returns the number of selected events (0 or 1 at present). */
-gint	   e_day_view_get_num_events_selected	(EDayView	*day_view);
+gint		e_day_view_get_num_events_selected
+						(EDayView *day_view);
 
 /*
  * Internal functions called by the associated canvas items.
  */
-void	   e_day_view_check_layout		(EDayView	*day_view);
-gint	   e_day_view_convert_time_to_row	(EDayView	*day_view,
-						 gint		 hour,
-						 gint		 minute);
-gint	   e_day_view_convert_time_to_position	(EDayView	*day_view,
-						 gint		 hour,
-						 gint		 minute);
-gboolean   e_day_view_get_event_rows            (EDayView *day_view,
+void		e_day_view_check_layout		(EDayView *day_view);
+gint		e_day_view_convert_time_to_row	(EDayView *day_view,
+						 gint hour,
+						 gint minute);
+gint		e_day_view_convert_time_to_position
+						(EDayView *day_view,
+						 gint hour,
+						 gint minute);
+gboolean	e_day_view_get_event_rows	(EDayView *day_view,
 						 gint day,
 						 gint event_num,
 						 gint *start_row_out,
 						 gint *end_row_out);
-gboolean   e_day_view_get_event_position	(EDayView	*day_view,
-						 gint		 day,
-						 gint		 event_num,
-						 gint		*item_x,
-						 gint		*item_y,
-						 gint		*item_w,
-						 gint		*item_h);
-gboolean   e_day_view_get_long_event_position	(EDayView	*day_view,
-						 gint		 event_num,
-						 gint		*start_day,
-						 gint		*end_day,
-						 gint		*item_x,
-						 gint		*item_y,
-						 gint		*item_w,
-						 gint		*item_h);
+gboolean	e_day_view_get_event_position	(EDayView *day_view,
+						 gint day,
+						 gint event_num,
+						 gint *item_x,
+						 gint *item_y,
+						 gint *item_w,
+						 gint *item_h);
+gboolean	e_day_view_get_long_event_position
+						(EDayView *day_view,
+						 gint event_num,
+						 gint *start_day,
+						 gint *end_day,
+						 gint *item_x,
+						 gint *item_y,
+						 gint *item_w,
+						 gint *item_h);
 
-void	   e_day_view_start_selection		(EDayView	*day_view,
-						 gint		 day,
-						 gint		 row);
-void	   e_day_view_update_selection		(EDayView	*day_view,
-						 gint		 day,
-						 gint		 row);
-void	   e_day_view_finish_selection		(EDayView	*day_view);
+void		e_day_view_start_selection	(EDayView *day_view,
+						 gint day,
+						 gint row);
+void		e_day_view_update_selection	(EDayView *day_view,
+						 gint day,
+						 gint row);
+void		e_day_view_finish_selection	(EDayView *day_view);
 
-void	   e_day_view_check_auto_scroll		(EDayView	*day_view,
-						 gint		 event_x,
-						 gint		 event_y);
-void	   e_day_view_stop_auto_scroll		(EDayView	*day_view);
+void		e_day_view_check_auto_scroll	(EDayView *day_view,
+						 gint event_x,
+						 gint event_y);
+void		e_day_view_stop_auto_scroll	(EDayView *day_view);
 
-void	   e_day_view_convert_time_to_display	(EDayView	*day_view,
-						 gint		 hour,
-						 gint		*display_hour,
-						 const gchar	**suffix,
-						 gint		*suffix_width);
-gint	   e_day_view_get_time_string_width	(EDayView	*day_view);
+void		e_day_view_convert_time_to_display
+						(EDayView *day_view,
+						 gint hour,
+						 gint *display_hour,
+						 const gchar **suffix,
+						 gint *suffix_width);
+gint		e_day_view_get_time_string_width
+						(EDayView *day_view);
 
-gint	   e_day_view_event_sort_func		(const void	*arg1,
-						 const void	*arg2);
+gint		e_day_view_event_sort_func	(gconstpointer arg1,
+						 gconstpointer arg2);
 
-gboolean e_day_view_find_event_from_item (EDayView *day_view,
-					  GnomeCanvasItem *item,
-					  gint *day_return,
-					  gint *event_num_return);
-void e_day_view_update_calendar_selection_time (EDayView *day_view);
-void e_day_view_ensure_rows_visible (EDayView *day_view,
-				     gint start_row,
-				     gint end_row);
+gboolean	e_day_view_find_event_from_item	(EDayView *day_view,
+						 GnomeCanvasItem *item,
+						 gint *day_return,
+						 gint *event_num_return);
+void		e_day_view_update_calendar_selection_time
+						(EDayView *day_view);
+void		e_day_view_ensure_rows_visible	(EDayView *day_view,
+						 gint start_row,
+						 gint end_row);
 
 G_END_DECLS
 
-#endif /* _E_DAY_VIEW_H_ */
+#endif /* E_DAY_VIEW_H */
