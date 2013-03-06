@@ -1,4 +1,46 @@
-Evolution 3.6.3 2012-01-21
+Evolution 3.6.4 2013-03-06
+--------------------------
+
+Bug Fixes:
+	Bug 639698 - Crash in mail_shell_view_execute_search() (Milan Crha)
+	Bug 645476 - Avoid scroll to cursor on folder change in message list
+	             (take 3) (Milan Crha)
+	Bug 674236 - Extra ref in e_action_combo_box_set_action() (Milan Crha)
+	Bug 680537 - Reply to individual message in digest generates empty body
+	             (Milan Crha)
+	Bug 683867 - Schedule actions with higher idle priority (Michel Dänzer)
+	Bug 692009 - text/css always formatted as attachment (Milan Crha)
+	Bug 692775 - Double-quoting message with HTML and text (Milan Crha)
+	Bug 692777 - Crash on folder rename (Milan Crha)
+	Bug 692781 - [pine-importer] Abort on book failure during contact
+	             import (Milan Crha)
+	Bug 692783 - [mail-to-task] Crash on edit prompt cancel (Milan Crha)
+	Bug 693250 - Signature HTML problem using <...> (Milan Crha)
+	Bug 693254 - Mail reply uses wrong "From:" account (Milan Crha)
+	Bug 693420 - Crash when adding contact list as attendee (Milan Crha)
+	Bug 693625 - [itip-formatter] Save button insensitive for multiple
+	             events (Milan Crha)
+	Bug 694159 - Malformed content-type header causes infinite recursion
+	             (Matthew Barnes)
+	Bug 694170 - Accepted invitation not removed from Inbox when it should
+	             (Milan Crha)
+	Bug 694363 - CALDAV navigation through Calendars or Tasklist is wrong
+	             (Milan Crha)
+	Bug 694460 - 'Email' section toggle button in contact editor has
+	             incorrect name (Vadim Rutkovsky)
+	Bug 694647 - Crash in flush Outbox after Forward filter (Milan Crha)
+
+Other Changes:
+	* Add some missing mnemonic to widgets. (Vadim Rutkovsky)
+	* EAttachment: Use Subject as fallback filename for message
+	  attachments (Milan Crha)
+
+Translations:
+	Alexandre Franke (fr)
+	Rafael Ferreira (pt_BR)
+
+
+Evolution 3.6.3 2013-01-21
 --------------------------
 
 Bug Fixes:
