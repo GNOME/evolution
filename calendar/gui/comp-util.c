@@ -364,7 +364,6 @@ cal_comp_event_new_with_defaults (ECalClient *client,
 ECalComponent *
 cal_comp_event_new_with_current_time (ECalClient *client,
                                       gboolean all_day,
-                                      icaltimezone *zone,
                                       gboolean use_default_reminder,
                                       gint default_reminder_interval,
                                       EDurationType default_reminder_units)
@@ -372,11 +371,14 @@ cal_comp_event_new_with_current_time (ECalClient *client,
 	ECalComponent *comp;
 	struct icaltimetype itt;
 	ECalComponentDateTime dt;
+	icaltimezone *zone;
 
 	comp = cal_comp_event_new_with_defaults (
 		client, all_day, use_default_reminder,
 		default_reminder_interval, default_reminder_units);
 	g_return_val_if_fail (comp != NULL, NULL);
+
+	zone = e_cal_client_get_default_timezone (client);
 
 	if (all_day) {
 		itt = icaltime_from_timet_with_zone (time (NULL), 1, zone);

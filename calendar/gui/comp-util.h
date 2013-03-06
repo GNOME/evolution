@@ -57,7 +57,6 @@ ECalComponent *	cal_comp_event_new_with_defaults
 ECalComponent *	cal_comp_event_new_with_current_time
 						(ECalClient *client,
 						 gboolean all_day,
-						 icaltimezone *zone,
 						 gboolean use_default_reminder,
 						 gint default_reminder_interval,
 						 EDurationType default_reminder_units);

@@ -75,8 +75,6 @@ cal_shell_backend_new_event (ECalClient *cal_client,
 	editor = event_editor_new (cal_client, shell, flags);
 	comp = cal_comp_event_new_with_current_time (
 		cal_client, all_day,
-		e_shell_settings_get_pointer (
-			shell_settings, "cal-timezone"),
 		e_shell_settings_get_boolean (
 			shell_settings, "cal-use-default-reminder"),
 		e_shell_settings_get_int (
