@@ -238,7 +238,6 @@ goto_dialog (GtkWindow *parent,
 	time_t start_time;
 	struct icaltimetype tt;
 	icaltimezone *timezone;
-	gint week_start_day;
 	gint b;
 
 	if (dlg) {
@@ -283,10 +282,6 @@ goto_dialog (GtkWindow *parent,
 	dlg->ecal->calitem->selection_start_day = tt.day;
 	dlg->ecal->calitem->selection_end_month_offset = 0;
 	dlg->ecal->calitem->selection_end_day = tt.day;
-
-	/* Set week_start_day. Convert it to 0 (Mon) to 6 (Sun), which is what we use. */
-	week_start_day = e_cal_model_get_week_start_day (model);
-	dlg->ecal->calitem->week_start_day = (week_start_day + 6) % 7;
 
 	gnome_canvas_item_grab_focus (GNOME_CANVAS_ITEM (dlg->ecal->calitem));
 
