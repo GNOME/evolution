@@ -1831,8 +1831,7 @@ reply_to_calendar_comp (ESourceRegistry *registry,
 	shell = e_shell_get_default ();
 	shell_settings = e_shell_get_shell_settings (shell);
 
-	default_zone = e_shell_settings_get_pointer (
-		shell_settings, "cal-timezone");
+	default_zone = e_cal_client_get_default_timezone (cal_client);
 
 	/* Tidy up the comp */
 	comp = comp_compliant (
