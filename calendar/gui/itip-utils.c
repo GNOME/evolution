@@ -1678,11 +1678,10 @@ itip_send_comp (ESourceRegistry *registry,
 	shell = e_shell_get_default ();
 	shell_settings = e_shell_get_shell_settings (shell);
 
-	default_zone = e_shell_settings_get_pointer (
-		shell_settings, "cal-timezone");
-
 	use_24_hour_format = e_shell_settings_get_boolean (
 		shell_settings, "cal-use-24-hour-format");
+
+	default_zone = e_cal_client_get_default_timezone (cal_client);
 
 	/* check whether backend could handle auto-saving requests/updates */
 	if (method != E_CAL_COMPONENT_METHOD_PUBLISH && e_cal_client_check_save_schedules (cal_client))
