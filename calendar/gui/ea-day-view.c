@@ -219,6 +219,7 @@ ea_day_view_get_n_children (AtkObject *accessible)
 	EDayView *day_view;
 	GtkWidget *widget;
 	gint day;
+	gint days_shown;
 	gint child_num = 0;
 
 	g_return_val_if_fail (EA_IS_DAY_VIEW (accessible), -1);
@@ -228,10 +229,11 @@ ea_day_view_get_n_children (AtkObject *accessible)
 		return -1;
 
 	day_view = E_DAY_VIEW (widget);
+	days_shown = e_day_view_get_days_shown (day_view);
 
 	child_num += day_view->long_events->len;
 
-	for (day = 0; day < day_view->days_shown; day++) {
+	for (day = 0; day < days_shown; day++) {
 		child_num += day_view->events[day]->len;
 	}
 

@@ -103,6 +103,24 @@ struct _EDayViewPrivate {
 	gulong notify_work_day_friday_handler_id;
 	gulong notify_work_day_saturday_handler_id;
 	gulong notify_work_day_sunday_handler_id;
+
+	/* Whether we are showing the work-week view. */
+	gboolean work_week_view;
+
+	/* The number of days we are shoing.  Usually 1 or 5, but can be
+	 * up to E_DAY_VIEW_MAX_DAYS, e.g. when the user selects a range
+	 * of days in the date navigator. */
+	gint days_shown;
+
+	/* Work days.  Indices are based on GDateWeekday.
+	 * The first element (G_DATE_BAD_WEEKDAY) is unused. */
+	gboolean work_days[G_DATE_SUNDAY + 1];
+
+	/* Whether we show the Marcus Bains Line in the main
+	 * canvas and time canvas, and the colors for each. */
+	gboolean marcus_bains_show_line;
+	gchar *marcus_bains_day_view_color;
+	gchar *marcus_bains_time_bar_color;
 };
 
 typedef struct {
@@ -457,7 +475,7 @@ day_view_notify_week_start_day_cb (EDayView *day_view)
 {
 	/* FIXME Write an EWorkWeekView subclass, like EMonthView. */
 
-	if (day_view->work_week_view)
+	if (day_view->priv->work_week_view)
 		e_day_view_recalc_work_week (day_view);
 }
 
@@ -468,7 +486,7 @@ day_view_notify_work_day_cb (ECalModel *model,
 {
 	/* FIXME Write an EWorkWeekView subclass, like EMonthView. */
 
-	if (day_view->work_week_view)
+	if (day_view->priv->work_week_view)
 		e_day_view_recalc_work_week (day_view);
 
 	/* We have to do this, as the new working days may have no effect on
@@ -1452,13 +1470,16 @@ day_view_get_visible_time_range (ECalendarView *cal_view,
                                  time_t *end_time)
 {
 	EDayView *day_view = E_DAY_VIEW (cal_view);
+	gint days_shown;
 
 	/* If the date isn't set, return FALSE. */
 	if (day_view->lower == 0 && day_view->upper == 0)
 		return FALSE;
 
+	days_shown = e_day_view_get_days_shown (day_view);
+
 	*start_time = day_view->day_starts[0];
-	*end_time = day_view->day_starts[day_view->days_shown];
+	*end_time = day_view->day_starts[days_shown];
 
 	return TRUE;
 }
@@ -1544,6 +1565,7 @@ e_day_view_class_init (EDayViewClass *class)
 			NULL,
 			TRUE,
 			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
 			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_install_property (
@@ -1607,8 +1629,7 @@ e_day_view_init (EDayView *day_view)
 	day_view->lower = 0;
 	day_view->upper = 0;
 
-	day_view->work_week_view = FALSE;
-	day_view->days_shown = 1;
+	day_view->priv->days_shown = 1;
 
 	day_view->date_format = E_DAY_VIEW_DATE_FULL;
 	day_view->rows_in_top_display = 0;
@@ -1625,10 +1646,6 @@ e_day_view_init (EDayView *day_view)
 
 	day_view->show_event_end_times = TRUE;
 	day_view->scroll_to_work_day = TRUE;
-
-	day_view->marcus_bains_show_line = TRUE;
-	day_view->marcus_bains_day_view_color = NULL;
-	day_view->marcus_bains_time_bar_color = NULL;
 
 	day_view->editing_event_day = -1;
 	day_view->editing_event_num = -1;
@@ -1931,15 +1948,18 @@ time_range_changed_cb (ECalModel *model,
 {
 	EDayView *day_view = E_DAY_VIEW (user_data);
 	EDayViewTimeItem *eti;
+	gint days_shown;
 	time_t lower;
 
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
+
+	days_shown = e_day_view_get_days_shown (day_view);
 
 	/* Calculate the first day that should be shown, based on start_time
 	 * and the days_shown setting. If we are showing 1 day it is just the
 	 * start of the day given by start_time, otherwise it is the previous
 	 * work-week start day. */
-	if (!day_view->work_week_view) {
+	if (!e_day_view_get_work_week_view (day_view)) {
 		lower = time_day_begin_with_zone (start_time, e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
 	} else {
 		lower = e_day_view_find_work_week_start (day_view, start_time);
@@ -1956,7 +1976,7 @@ time_range_changed_cb (ECalModel *model,
 	}
 
 	/* If we don't show the new selection, don't preserve it */
-	if (day_view->selection_start_day == -1 || day_view->days_shown <= day_view->selection_start_day)
+	if (day_view->selection_start_day == -1 || days_shown <= day_view->selection_start_day)
 		day_view_set_selected_time_range (E_CALENDAR_VIEW (day_view), start_time, end_time);
 
 	if (day_view->selection_start_row != -1)
@@ -2335,8 +2355,11 @@ e_day_view_recalc_cell_sizes (EDayView *day_view)
 	PangoContext *pango_context;
 	PangoLayout *layout;
 	gint pango_width;
+	gint days_shown;
 
 	g_return_if_fail (gtk_widget_get_style (GTK_WIDGET (day_view)) != NULL);
+
+	days_shown = e_day_view_get_days_shown (day_view);
 
 	gtk_widget_get_allocation (day_view->main_canvas, &allocation);
 
@@ -2348,17 +2371,17 @@ e_day_view_recalc_cell_sizes (EDayView *day_view)
 	 * get divided evenly. Note that we use one more element than the
 	 * number of columns, to make it easy to get the column widths. */
 	width = allocation.width;
-	if (day_view->days_shown == 1)
+	if (days_shown == 1)
 		width = MAX (width, day_view->max_cols * (E_DAY_VIEW_MIN_DAY_COL_WIDTH + E_DAY_VIEW_GAP_WIDTH) - E_DAY_VIEW_MIN_DAY_COL_WIDTH - 1);
-	width /= day_view->days_shown;
+	width /= days_shown;
 	offset = 0;
-	for (day = 0; day <= day_view->days_shown; day++) {
+	for (day = 0; day <= days_shown; day++) {
 		day_view->day_offsets[day] = floor (offset + 0.5);
 		offset += width;
 	}
 
 	/* Calculate the days widths based on the offsets. */
-	for (day = 0; day < day_view->days_shown; day++) {
+	for (day = 0; day < days_shown; day++) {
 		day_view->day_widths[day] = day_view->day_offsets[day + 1] - day_view->day_offsets[day];
 	}
 
@@ -2435,8 +2458,11 @@ e_day_view_foreach_event (EDayView *day_view,
                           gpointer data)
 {
 	gint day, event_num;
+	gint days_shown;
 
-	for (day = 0; day < day_view->days_shown; day++) {
+	days_shown = e_day_view_get_days_shown (day_view);
+
+	for (day = 0; day < days_shown; day++) {
 		for (event_num = day_view->events[day]->len - 1;
 		     event_num >= 0;
 		     event_num--) {
@@ -2466,12 +2492,15 @@ e_day_view_foreach_event_with_uid (EDayView *day_view,
 {
 	EDayViewEvent *event;
 	gint day, event_num;
+	gint days_shown;
 	const gchar *u;
 
 	if (!uid)
 		return;
 
-	for (day = 0; day < day_view->days_shown; day++) {
+	days_shown = e_day_view_get_days_shown (day_view);
+
+	for (day = 0; day < days_shown; day++) {
 		for (event_num = day_view->events[day]->len - 1;
 		     event_num >= 0;
 		     event_num--) {
@@ -2654,10 +2683,14 @@ e_day_view_update_event_label (EDayView *day_view,
 
 	if (!editing_event) {
 		if (!short_event) {
-			const gchar *location = icalcomponent_get_location (event->comp_data->icalcomp);
+			const gchar *location;
+			gint days_shown;
+
+			days_shown = e_day_view_get_days_shown (day_view);
+			location = icalcomponent_get_location (event->comp_data->icalcomp);
 
 			if (location && *location)
-				text = g_strdup_printf (" \n%s%c(%s)", text, day_view->days_shown == 1 ? ' ' : '\n', location);
+				text = g_strdup_printf (" \n%s%c(%s)", text, days_shown == 1 ? ' ' : '\n', location);
 			else
 				text = g_strdup_printf (" \n%s", text);
 
@@ -2730,8 +2763,11 @@ e_day_view_find_event_from_item (EDayView *day_view,
 {
 	EDayViewEvent *event;
 	gint day, event_num;
+	gint days_shown;
 
-	for (day = 0; day < day_view->days_shown; day++) {
+	days_shown = e_day_view_get_days_shown (day_view);
+
+	for (day = 0; day < days_shown; day++) {
 		for (event_num = 0; event_num < day_view->events[day]->len;
 		     event_num++) {
 			event = &g_array_index (day_view->events[day],
@@ -2775,13 +2811,16 @@ e_day_view_find_event_from_uid (EDayView *day_view,
 {
 	EDayViewEvent *event;
 	gint day, event_num;
+	gint days_shown;
 	const gchar *u;
 	gchar *r = NULL;
 
 	if (!uid)
 		return FALSE;
 
-	for (day = 0; day < day_view->days_shown; day++) {
+	days_shown = e_day_view_get_days_shown (day_view);
+
+	for (day = 0; day < days_shown; day++) {
 		for (event_num = 0; event_num < day_view->events[day]->len;
 		     event_num++) {
 			event = &g_array_index (day_view->events[day],
@@ -2860,7 +2899,7 @@ e_day_view_set_selected_time_range_in_top_visible (EDayView *day_view,
 	if (!start_in_grid)
 		start_col = 0;
 	if (!end_in_grid)
-		end_col = day_view->days_shown - 1;
+		end_col = e_day_view_get_days_shown (day_view) - 1;
 
 	if (start_row != day_view->selection_start_row
 	    || start_col != day_view->selection_start_day) {
@@ -3001,16 +3040,19 @@ e_day_view_recalc_day_starts (EDayView *day_view,
 {
 	gint day;
 	gchar *str;
+	gint days_shown;
 	struct icaltimetype tt;
 	GDate dt;
 
+	days_shown = e_day_view_get_days_shown (day_view);
+
 	day_view->day_starts[0] = start_time;
-	for (day = 1; day <= day_view->days_shown; day++) {
+	for (day = 1; day <= days_shown; day++) {
 		day_view->day_starts[day] = time_add_day_with_zone (day_view->day_starts[day - 1], 1, e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
 	}
 
 	day_view->lower = start_time;
-	day_view->upper = day_view->day_starts[day_view->days_shown];
+	day_view->upper = day_view->day_starts[days_shown];
 
 	tt = icaltime_from_timet_with_zone (day_view->day_starts[0], FALSE, e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
 	g_date_clear (&dt, 1);
@@ -3020,8 +3062,7 @@ e_day_view_recalc_day_starts (EDayView *day_view,
 	gtk_label_set_text (GTK_LABEL (day_view->week_number_label), str);
 	g_free (str);
 
-	if (day_view->work_week_view)
-		e_day_view_recalc_work_week (day_view);
+	e_day_view_recalc_work_week (day_view);
 }
 
 /* Whether we are displaying a work-week, in which case the display always
@@ -3031,7 +3072,7 @@ e_day_view_get_work_week_view (EDayView *day_view)
 {
 	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), FALSE);
 
-	return day_view->work_week_view;
+	return day_view->priv->work_week_view;
 }
 
 void
@@ -3040,13 +3081,12 @@ e_day_view_set_work_week_view (EDayView *day_view,
 {
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
 
-	if (day_view->work_week_view == work_week_view)
+	if (work_week_view == day_view->priv->work_week_view)
 		return;
 
-	day_view->work_week_view = work_week_view;
+	day_view->priv->work_week_view = work_week_view;
 
-	if (day_view->work_week_view)
-		e_day_view_recalc_work_week (day_view);
+	e_day_view_recalc_work_week (day_view);
 }
 
 gint
@@ -3054,7 +3094,7 @@ e_day_view_get_days_shown (EDayView *day_view)
 {
 	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), -1);
 
-	return day_view->days_shown;
+	return day_view->priv->days_shown;
 }
 
 void
@@ -3065,10 +3105,10 @@ e_day_view_set_days_shown (EDayView *day_view,
 	g_return_if_fail (days_shown >= 1);
 	g_return_if_fail (days_shown <= E_DAY_VIEW_MAX_DAYS);
 
-	if (day_view->days_shown == days_shown)
+	if (days_shown == day_view->priv->days_shown)
 		return;
 
-	day_view->days_shown = days_shown;
+	day_view->priv->days_shown = days_shown;
 
 	/* If the date isn't set, just return. */
 	if (day_view->lower == 0 && day_view->upper == 0)
@@ -3122,7 +3162,7 @@ e_day_view_marcus_bains_get_show_line (EDayView *day_view)
 {
 	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), FALSE);
 
-	return day_view->marcus_bains_show_line;
+	return day_view->priv->marcus_bains_show_line;
 }
 
 void
@@ -3131,10 +3171,10 @@ e_day_view_marcus_bains_set_show_line (EDayView *day_view,
 {
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
 
-	if (day_view->marcus_bains_show_line == show_line)
+	if (show_line == day_view->priv->marcus_bains_show_line)
 		return;
 
-	day_view->marcus_bains_show_line = show_line;
+	day_view->priv->marcus_bains_show_line = show_line;
 
 	e_day_view_marcus_bains_update (day_view);
 
@@ -3146,7 +3186,7 @@ e_day_view_marcus_bains_get_day_view_color (EDayView *day_view)
 {
 	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), NULL);
 
-	return day_view->marcus_bains_day_view_color;
+	return day_view->priv->marcus_bains_day_view_color;
 }
 
 void
@@ -3155,11 +3195,8 @@ e_day_view_marcus_bains_set_day_view_color (EDayView *day_view,
 {
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
 
-	if (g_strcmp0 (day_view->marcus_bains_day_view_color, day_view_color) == 0)
-		return;
-
-	g_free (day_view->marcus_bains_day_view_color);
-	day_view->marcus_bains_day_view_color = g_strdup (day_view_color);
+	g_free (day_view->priv->marcus_bains_day_view_color);
+	day_view->priv->marcus_bains_day_view_color = g_strdup (day_view_color);
 
 	e_day_view_marcus_bains_update (day_view);
 
@@ -3171,7 +3208,7 @@ e_day_view_marcus_bains_get_time_bar_color (EDayView *day_view)
 {
 	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), NULL);
 
-	return day_view->marcus_bains_time_bar_color;
+	return day_view->priv->marcus_bains_time_bar_color;
 }
 
 void
@@ -3180,11 +3217,8 @@ e_day_view_marcus_bains_set_time_bar_color (EDayView *day_view,
 {
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
 
-	if (g_strcmp0 (day_view->marcus_bains_time_bar_color, time_bar_color) == 0)
-		return;
-
-	g_free (day_view->marcus_bains_time_bar_color);
-	day_view->marcus_bains_time_bar_color = g_strdup (time_bar_color);
+	g_free (day_view->priv->marcus_bains_time_bar_color);
+	day_view->priv->marcus_bains_time_bar_color = g_strdup (time_bar_color);
 
 	e_day_view_marcus_bains_update (day_view);
 
@@ -3233,7 +3267,7 @@ e_day_view_recalc_work_week (EDayView *day_view)
 	time_t lower;
 
 	/* If we aren't showing the work week, just return. */
-	if (!day_view->work_week_view)
+	if (!e_day_view_get_work_week_view (day_view))
 		return;
 
 	e_day_view_recalc_work_week_days_shown (day_view);
@@ -3288,7 +3322,7 @@ e_day_view_update_scroll_regions (EDayView *day_view)
 		NULL, NULL, &old_x2, &old_y2);
 	new_x2 = main_canvas_allocation.width - 1;
 
-	if (day_view->days_shown == 1)
+	if (e_day_view_get_days_shown (day_view) == 1)
 		new_x2 = MAX (new_x2, day_view->max_cols * (E_DAY_VIEW_MIN_DAY_COL_WIDTH + E_DAY_VIEW_GAP_WIDTH) - E_DAY_VIEW_MIN_DAY_COL_WIDTH - 1);
 
 	if (old_x2 != new_x2 || old_y2 != new_y2) {
@@ -3862,10 +3896,11 @@ e_day_view_on_long_event_click (EDayView *day_view,
 		GdkDevice *event_device;
 		guint32 event_time;
 
-		if (!e_day_view_find_long_event_days (event,
-						      day_view->days_shown,
-						      day_view->day_starts,
-						      &start_day, &end_day))
+		if (!e_day_view_find_long_event_days (
+			event,
+			e_day_view_get_days_shown (day_view),
+			day_view->day_starts,
+			&start_day, &end_day))
 			return;
 
 		/* Grab the keyboard focus, so the event being edited is saved
@@ -4927,6 +4962,7 @@ e_day_view_add_event (ESourceRegistry *registry,
 {
 	EDayViewEvent event;
 	gint day, offset;
+	gint days_shown;
 	struct icaltimetype start_tt, end_tt;
 	AddEventData *add_event_data;
 
@@ -4994,8 +5030,10 @@ e_day_view_add_event (ESourceRegistry *registry,
 	else
 		event.is_editable = FALSE;
 
+	days_shown = e_day_view_get_days_shown (add_event_data->day_view);
+
 	/* Find out which array to add the event to. */
-	for (day = 0; day < add_event_data->day_view->days_shown; day++) {
+	for (day = 0; day < days_shown; day++) {
 		if (start >= add_event_data->day_view->day_starts[day]
 		    && end <= add_event_data->day_view->day_starts[day + 1]) {
 
@@ -5035,7 +5073,10 @@ e_day_view_check_layout (EDayView *day_view)
 	ECalendarView *cal_view;
 	gint time_divisions;
 	gint day, rows_in_top_display;
+	gint days_shown;
 	gint max_cols = -1;
+
+	days_shown = e_day_view_get_days_shown (day_view);
 
 	cal_view = E_CALENDAR_VIEW (day_view);
 	time_divisions = e_calendar_view_get_time_divisions (cal_view);
@@ -5050,7 +5091,7 @@ e_day_view_check_layout (EDayView *day_view)
 	/* Make sure the events are sorted (by start and size). */
 	e_day_view_ensure_events_sorted (day_view);
 
-	for (day = 0; day < day_view->days_shown; day++) {
+	for (day = 0; day < days_shown; day++) {
 		if (day_view->need_layout[day]) {
 			gint cols;
 
@@ -5059,7 +5100,7 @@ e_day_view_check_layout (EDayView *day_view)
 				day_view->rows,
 				time_divisions,
 				day_view->cols_per_row[day],
-				day_view->days_shown == 1 ? -1 :
+				days_shown == 1 ? -1 :
 				E_DAY_VIEW_MULTI_DAY_MAX_COLUMNS);
 
 			max_cols = MAX (cols, max_cols);
@@ -5080,7 +5121,7 @@ e_day_view_check_layout (EDayView *day_view)
 	if (day_view->long_events_need_layout) {
 		e_day_view_layout_long_events (
 			day_view->long_events,
-			day_view->days_shown,
+			days_shown,
 			day_view->day_starts,
 			&rows_in_top_display);
 	}
@@ -5476,6 +5517,9 @@ static void
 e_day_view_ensure_events_sorted (EDayView *day_view)
 {
 	gint day;
+	gint days_shown;
+
+	days_shown = e_day_view_get_days_shown (day_view);
 
 	/* Sort the long events. */
 	if (!day_view->long_events_sorted) {
@@ -5488,7 +5532,7 @@ e_day_view_ensure_events_sorted (EDayView *day_view)
 	}
 
 	/* Sort the events for each day. */
-	for (day = 0; day < day_view->days_shown; day++) {
+	for (day = 0; day < days_shown; day++) {
 		if (!day_view->events_sorted[day]) {
 			qsort (
 				day_view->events[day]->data,
@@ -6134,7 +6178,7 @@ e_day_view_cursor_key_right_shifted (EDayView *day_view,
 	else
 		day = &day_view->selection_end_day;
 
-	if (*day >= day_view->days_shown - 1)
+	if (*day >= e_day_view_get_days_shown (day_view) - 1)
 		return;
 
 	*day = *day + 1;
@@ -6239,7 +6283,11 @@ static void
 e_day_view_cursor_key_right (EDayView *day_view,
                              GdkEventKey *event)
 {
-	if (day_view->selection_end_day == day_view->days_shown - 1) {
+	gint days_shown;
+
+	days_shown = e_day_view_get_days_shown (day_view);
+
+	if (day_view->selection_end_day == days_shown - 1) {
 		gnome_calendar_next (e_calendar_view_get_calendar (E_CALENDAR_VIEW (day_view)));
 	} else {
 		day_view->selection_start_day++;
@@ -6762,7 +6810,7 @@ e_day_view_event_move (ECalendarView *cal_view,
 		end_dt = icaltime_as_timet (end_time);
 		break;
 	case E_CAL_VIEW_MOVE_RIGHT:
-		if (day + 1 >= day_view->days_shown)
+		if (day + 1 >= e_day_view_get_days_shown (day_view))
 			return TRUE;
 		start_dt = e_day_view_convert_grid_position_to_time (day_view, day, resize_start_row);
 		end_dt = e_day_view_convert_grid_position_to_time (day_view, day, resize_end_row + 1);
@@ -7257,6 +7305,7 @@ e_day_view_convert_time_to_grid_position (EDayView *day_view,
 	struct icaltimetype tt;
 	gint time_divisions;
 	gint day, minutes;
+	gint days_shown;
 
 	*col = *row = 0;
 
@@ -7266,8 +7315,10 @@ e_day_view_convert_time_to_grid_position (EDayView *day_view,
 	if (time < day_view->lower || time >= day_view->upper)
 		return FALSE;
 
+	days_shown = e_day_view_get_days_shown (day_view);
+
 	/* We can find the column easily using the day_starts array. */
-	for (day = 1; day <= day_view->days_shown; day++) {
+	for (day = 1; day <= days_shown; day++) {
 		if (time < day_view->day_starts[day]) {
 			*col = day - 1;
 			break;
@@ -7518,6 +7569,9 @@ e_day_view_get_long_event_position (EDayView *day_view,
                                     gint *item_h)
 {
 	EDayViewEvent *event;
+	gint days_shown;
+
+	days_shown = e_day_view_get_days_shown (day_view);
 
 	if (!is_array_index_in_bounds (day_view->long_events, event_num))
 		return FALSE;
@@ -7530,7 +7584,7 @@ e_day_view_get_long_event_position (EDayView *day_view,
 		return FALSE;
 
 	if (!e_day_view_find_long_event_days (event,
-					      day_view->days_shown,
+					      days_shown,
 					      day_view->day_starts,
 					      start_day, end_day))
 		return FALSE;
@@ -7546,7 +7600,7 @@ e_day_view_get_long_event_position (EDayView *day_view,
 	}
 
 	*item_x = day_view->day_offsets[*start_day] + E_DAY_VIEW_BAR_WIDTH;
-	if (day_view->days_shown == 1) {
+	if (days_shown == 1) {
 		GtkAllocation allocation;
 
 		gtk_widget_get_allocation (day_view->top_canvas, &allocation);
@@ -7572,6 +7626,9 @@ e_day_view_convert_position_in_top_canvas (EDayView *day_view,
 	EDayViewEvent *event;
 	gint day, row, col;
 	gint event_num, start_day, end_day, item_x, item_y, item_w, item_h;
+	gint days_shown;
+
+	days_shown = e_day_view_get_days_shown (day_view);
 
 	*day_return = -1;
 	if (event_num_return)
@@ -7583,7 +7640,7 @@ e_day_view_convert_position_in_top_canvas (EDayView *day_view,
 	row = y / day_view->top_row_height;
 
 	day = -1;
-	for (col = 1; col <= day_view->days_shown; col++) {
+	for (col = 1; col <= days_shown; col++) {
 		if (x < day_view->day_offsets[col]) {
 			day = col - 1;
 			break;
@@ -7647,6 +7704,9 @@ e_day_view_convert_position_in_main_canvas (EDayView *day_view,
 {
 	gint day, row, col, event_num;
 	gint item_x, item_y, item_w, item_h;
+	gint days_shown;
+
+	days_shown = e_day_view_get_days_shown (day_view);
 
 	*day_return = -1;
 	*row_return = -1;
@@ -7663,7 +7723,7 @@ e_day_view_convert_position_in_main_canvas (EDayView *day_view,
 		return E_CALENDAR_VIEW_POS_OUTSIDE;
 
 	day = -1;
-	for (col = 1; col <= day_view->days_shown; col++) {
+	for (col = 1; col <= days_shown; col++) {
 		if (x < day_view->day_offsets[col]) {
 			day = col - 1;
 			break;
@@ -7782,7 +7842,10 @@ e_day_view_update_top_canvas_drag (EDayView *day_view,
 	EDayViewEvent *event = NULL;
 	gint row, num_days, start_day, end_day;
 	gdouble item_x, item_y, item_w, item_h;
+	gint days_shown;
 	gchar *text;
+
+	days_shown = e_day_view_get_days_shown (day_view);
 
 	/* Calculate the event's position. If the event is in the same
 	 * position we started in, we use the same columns. */
@@ -7798,7 +7861,7 @@ e_day_view_update_top_canvas_drag (EDayView *day_view,
 		row = event->start_row_or_col + 1;
 
 		if (!e_day_view_find_long_event_days (event,
-						      day_view->days_shown,
+						      days_shown,
 						      day_view->day_starts,
 						      &start_day, &end_day))
 			return;
@@ -7806,7 +7869,7 @@ e_day_view_update_top_canvas_drag (EDayView *day_view,
 		num_days = end_day - start_day + 1;
 
 		/* Make sure we don't go off the screen. */
-		day = MIN (day, day_view->days_shown - num_days);
+		day = MIN (day, days_shown - num_days);
 
 	} else if (day_view->drag_event_day != -1) {
 		if (!is_array_index_in_bounds (day_view->events[day_view->drag_event_day], day_view->drag_event_num))
@@ -8252,10 +8315,13 @@ e_day_view_on_top_canvas_drag_data_received (GtkWidget *widget,
 	gboolean drag_from_same_window;
 	const guchar *data;
 	gint format, length;
+	gint days_shown;
 
 	data = gtk_selection_data_get_data (selection_data);
 	format = gtk_selection_data_get_format (selection_data);
 	length = gtk_selection_data_get_length (selection_data);
+
+	days_shown = e_day_view_get_days_shown (day_view);
 
 	if (day_view->drag_event_day != -1)
 		drag_from_same_window = TRUE;
@@ -8299,13 +8365,13 @@ e_day_view_on_top_canvas_drag_data_received (GtkWidget *widget,
 
 				e_day_view_find_long_event_days (
 					event,
-					day_view->days_shown,
+					days_shown,
 					day_view->day_starts,
 					&start_day,
 					&end_day);
 				num_days = end_day - start_day + 1;
 				/* Make sure we don't go off the screen. */
-				day = MIN (day, day_view->days_shown - num_days);
+				day = MIN (day, days_shown - num_days);
 
 				start_offset = event->start_minute;
 				end_offset = event->end_minute;

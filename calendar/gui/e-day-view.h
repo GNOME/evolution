@@ -223,14 +223,6 @@ struct _EDayView {
 	time_t lower;
 	time_t upper;
 
-	/* Whether we are showing the work-week view. */
-	gboolean work_week_view;
-
-	/* The number of days we are showing. Usually 1 or 5, but can be up
-	 * to E_DAY_VIEW_MAX_DAYS, e.g. when the user selects a range of
-	 * days in the date navigator. */
-	gint days_shown;
-
 	/* The start of each day & an extra element to hold the last time. */
 	time_t day_starts[E_DAY_VIEW_MAX_DAYS + 1];
 
@@ -275,11 +267,6 @@ struct _EDayView {
 	gint first_minute_shown;
 	gint last_hour_shown;
 	gint last_minute_shown;
-
-	/* Whether we show the Marcus Bains Line in the main canvas and time canvas. */
-	gboolean marcus_bains_show_line;
-	gchar *marcus_bains_day_view_color;
-	gchar *marcus_bains_time_bar_color;
 
 	/* Whether we use show event end times in the main canvas. */
 	gboolean show_event_end_times;

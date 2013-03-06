@@ -386,9 +386,12 @@ ea_cal_view_event_get_index_in_parent (AtkObject *accessible)
 		return -1;
 
 	if (E_IS_DAY_VIEW (cal_view)) {
-		gint day, event_num, num_before;
-		EDayViewEvent *day_view_event;
 		EDayView *day_view = E_DAY_VIEW (cal_view);
+		EDayViewEvent *day_view_event;
+		gint day, event_num, num_before;
+		gint days_shown;
+
+		days_shown = e_day_view_get_days_shown (day_view);
 
 		/* the long event comes first in the order */
 		for (event_num = day_view->long_events->len - 1; event_num >= 0;
@@ -401,7 +404,7 @@ ea_cal_view_event_get_index_in_parent (AtkObject *accessible)
 		}
 		num_before = day_view->long_events->len;
 
-		for (day = 0; day < day_view->days_shown; ++day) {
+		for (day = 0; day < days_shown; ++day) {
 			for (event_num = day_view->events[day]->len - 1; event_num >= 0;
 			     --event_num) {
 				day_view_event = &g_array_index (day_view->events[day],

@@ -123,10 +123,11 @@ day_view_main_item_draw_long_events_in_vbars (EDayViewMainItem *main_item,
 			continue;
 		}
 
-		if (!e_day_view_find_long_event_days (event,
-						      day_view->days_shown,
-						      day_view->day_starts,
-						      &start_day, &end_day)) {
+		if (!e_day_view_find_long_event_days (
+			event,
+			e_day_view_get_days_shown (day_view),
+			day_view->day_starts,
+			&start_day, &end_day)) {
 			continue;
 		}
 
@@ -1003,6 +1004,7 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 	gint work_day_start_y, work_day_end_y;
 	gint day_x, day_w;
 	gint start_row, end_row, rect_x, rect_y, rect_width, rect_height;
+	gint days_shown;
 	struct icaltimetype day_start_tt, today_tt;
 	gboolean today = FALSE;
 	cairo_region_t *draw_region;
@@ -1011,6 +1013,8 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 	main_item = E_DAY_VIEW_MAIN_ITEM (canvas_item);
 	day_view = e_day_view_main_item_get_day_view (main_item);
 	g_return_if_fail (day_view != NULL);
+
+	days_shown = e_day_view_get_days_shown (day_view);
 
 	cal_view = E_CALENDAR_VIEW (day_view);
 	time_divisions = e_calendar_view_get_time_divisions (cal_view);
@@ -1040,7 +1044,7 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 		time (NULL), FALSE,
 		e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
 
-	for (day = 0; day < day_view->days_shown; day++) {
+	for (day = 0; day < days_shown; day++) {
 		GDateWeekday weekday;
 
 		day_start_tt = icaltime_from_timet_with_zone (
@@ -1086,7 +1090,7 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 				cairo_restore (cr);
 			}
 
-			if (day_view->days_shown > 1) {
+			if (days_shown > 1) {
 				/* Check if we are drawing today */
 				today =  day_start_tt.year == today_tt.year
 					&& day_start_tt.month == today_tt.month
@@ -1153,7 +1157,7 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 
 	/* Drawing the horizontal grid lines. */
 	grid_x1 = day_view->day_offsets[0] - x;
-	grid_x2 = day_view->day_offsets[day_view->days_shown] - x;
+	grid_x2 = day_view->day_offsets[days_shown] - x;
 
 	cairo_save (cr);
 	gdk_cairo_set_source_color (
@@ -1175,7 +1179,7 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 	/* Draw the vertical bars down the left of each column. */
 	grid_y1 = 0;
 	grid_y2 = height;
-	for (day = 0; day < day_view->days_shown; day++) {
+	for (day = 0; day < days_shown; day++) {
 		grid_x1 = day_view->day_offsets[day] - x;
 
 		/* Skip if it isn't visible. */
@@ -1221,7 +1225,7 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 
 	/* Draw the event borders and backgrounds, and the vertical bars
 	 * down the left edges. */
-	for (day = 0; day < day_view->days_shown; day++)
+	for (day = 0; day < days_shown; day++)
 		day_view_main_item_draw_day_events (
 			main_item, cr, x, y,
 			width, height, day, draw_region);
@@ -1229,6 +1233,7 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 	if (e_day_view_marcus_bains_get_show_line (day_view)) {
 		icaltimezone *zone;
 		struct icaltimetype time_now, day_start;
+		const gchar *marcus_bains_day_view_color;
 		gint marcus_bains_y;
 		GdkColor mb_color;
 
@@ -1237,13 +1242,18 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 			cr,
 			&day_view->colors[E_DAY_VIEW_COLOR_MARCUS_BAINS_LINE]);
 
-		if (day_view->marcus_bains_day_view_color && gdk_color_parse (day_view->marcus_bains_day_view_color, &mb_color)) {
+		marcus_bains_day_view_color =
+			e_day_view_marcus_bains_get_day_view_color (day_view);
+		if (marcus_bains_day_view_color == NULL)
+			marcus_bains_day_view_color = "";
+
+		if (gdk_color_parse (marcus_bains_day_view_color, &mb_color))
 			gdk_cairo_set_source_color (cr, &mb_color);
-		}
+
 		zone = e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view));
 		time_now = icaltime_current_time_with_zone (zone);
 
-		for (day = 0; day < day_view->days_shown; day++) {
+		for (day = 0; day < days_shown; day++) {
 			day_start = icaltime_from_timet_with_zone (day_view->day_starts[day], FALSE, zone);
 
 			if ((day_start.year  == time_now.year) &&

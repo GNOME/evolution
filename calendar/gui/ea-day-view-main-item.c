@@ -345,7 +345,7 @@ ea_day_view_main_item_get_n_children (AtkObject *accessible)
 	main_item = E_DAY_VIEW_MAIN_ITEM (g_obj);
 	day_view = e_day_view_main_item_get_day_view (main_item);
 
-	return day_view->rows * day_view->days_shown;
+	return day_view->rows * e_day_view_get_days_shown (day_view);
 }
 
 static AtkObject *
@@ -512,7 +512,7 @@ ea_day_view_main_item_get_child_index_at (EaDayViewMainItem *ea_main_item,
 	day_view = e_day_view_main_item_get_day_view (main_item);
 
 	if (row >= 0 && row < day_view->rows &&
-	    column >= 0 && column < day_view->days_shown)
+	    column >= 0 && column < e_day_view_get_days_shown (day_view))
 		return column * day_view->rows + row;
 	return -1;
 }
@@ -636,7 +636,7 @@ ea_day_view_main_item_get_cell_data (EaDayViewMainItem *ea_main_item)
 	if (!cell_data) {
 		cell_data = ea_cell_table_create (
 			day_view->rows,
-			day_view->days_shown, TRUE);
+			e_day_view_get_days_shown (day_view), TRUE);
 		g_object_set_data (
 			G_OBJECT (ea_main_item),
 			"ea-day-view-cell-table", cell_data);
@@ -788,7 +788,7 @@ table_interface_get_n_columns (AtkTable *table)
 	main_item = E_DAY_VIEW_MAIN_ITEM (g_obj);
 	day_view = e_day_view_main_item_get_day_view (main_item);
 
-	return day_view->days_shown;
+	return e_day_view_get_days_shown (day_view);
 }
 
 static gint
@@ -1124,7 +1124,7 @@ table_interface_get_column_description (AtkTable *table,
 	main_item = E_DAY_VIEW_MAIN_ITEM (g_obj);
 	day_view = e_day_view_main_item_get_day_view (main_item);
 
-	if (in_col < 0 || in_col >= day_view->days_shown)
+	if (in_col < 0 || in_col >= e_day_view_get_days_shown (day_view))
 		return NULL;
 	cell_data = ea_day_view_main_item_get_cell_data (ea_main_item);
 	if (!cell_data)

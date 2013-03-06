@@ -419,19 +419,23 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 	/* Draw the Marcus Bains Line first, so it appears under other elements. */
 	if (e_day_view_marcus_bains_get_show_line (day_view)) {
 		struct icaltimetype time_now;
+		const gchar *marcus_bains_time_bar_color;
 		gint marcus_bains_y;
 
 		cairo_save (cr);
 		gdk_cairo_set_source_color (
 			cr, &day_view->colors[E_DAY_VIEW_COLOR_MARCUS_BAINS_LINE]);
 
-		if (day_view->marcus_bains_time_bar_color &&
-			gdk_color_parse (
-				day_view->marcus_bains_time_bar_color,
-				&mb_color)) {
+		marcus_bains_time_bar_color =
+			e_day_view_marcus_bains_get_time_bar_color (day_view);
+		if (marcus_bains_time_bar_color == NULL)
+			marcus_bains_time_bar_color = "";
+
+		if (gdk_color_parse (marcus_bains_time_bar_color, &mb_color)) {
 			gdk_cairo_set_source_color (cr, &mb_color);
-		} else
+		} else {
 			mb_color = day_view->colors[E_DAY_VIEW_COLOR_MARCUS_BAINS_LINE];
+		}
 
 		time_now = icaltime_current_time_with_zone (
 			e_calendar_view_get_timezone (
@@ -448,14 +452,17 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 		cairo_stroke (cr);
 		cairo_restore (cr);
 	} else {
+		const gchar *marcus_bains_time_bar_color;
+
+		marcus_bains_time_bar_color =
+			e_day_view_marcus_bains_get_time_bar_color (day_view);
+		if (marcus_bains_time_bar_color == NULL)
+			marcus_bains_time_bar_color = "";
+
 		mb_color = day_view->colors[E_DAY_VIEW_COLOR_MARCUS_BAINS_LINE];
 
-		if (day_view->marcus_bains_time_bar_color &&
-			gdk_color_parse (
-				day_view->marcus_bains_time_bar_color,
-				&mb_color)) {
+		if (gdk_color_parse (marcus_bains_time_bar_color, &mb_color))
 			gdk_cairo_set_source_color (cr, &mb_color);
-		}
 	}
 
 	/* Step through each row, drawing the times and the horizontal lines

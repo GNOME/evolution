@@ -677,14 +677,18 @@ day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 	}
 
 	if (show_dates) {
+		gint days_shown;
+
+		days_shown = e_day_view_get_days_shown (day_view);
+
 		/* Draw the date. Set a clipping rectangle
 		 * so we don't draw over the next day. */
-		for (day = 0; day < day_view->days_shown; day++) {
+		for (day = 0; day < days_shown; day++) {
 			e_day_view_top_item_get_day_label (
 				day_view, day, buffer, sizeof (buffer));
 			clip_rect.x = day_view->day_offsets[day] - x;
 			clip_rect.y = 2 - y;
-			if (day_view->days_shown == 1) {
+			if (days_shown == 1) {
 				gtk_widget_get_allocation (
 					day_view->top_canvas, &allocation);
 				clip_rect.width =
