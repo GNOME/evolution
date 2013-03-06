@@ -178,11 +178,9 @@ window_unmap_cb (GtkWindow *window,
 	if (data->timeout_id > 0)
 		g_source_remove (data->timeout_id);
 
-	/* It's too late to record the window position.
-	 * gtk_window_get_position() will report (0, 0). */
-	data->flags &= ~E_RESTORE_WINDOW_POSITION;
-
-	window_update_settings (data);
+	/* Reset the flags so the window position and size are not
+	 * accidentally reverted to their default value at the next run. */
+	data->flags = 0;
 
 	return FALSE;
 }
