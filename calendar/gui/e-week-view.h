@@ -111,8 +111,7 @@
 G_BEGIN_DECLS
 
 /* These index our colors array. */
-typedef enum
-{
+typedef enum {
 	E_WEEK_VIEW_COLOR_EVEN_MONTHS,
 	E_WEEK_VIEW_COLOR_ODD_MONTHS,
 	E_WEEK_VIEW_COLOR_EVENT_BACKGROUND,
@@ -131,8 +130,7 @@ typedef enum
 } EWeekViewColors;
 
 /* These specify which part of the selection we are dragging, if any. */
-typedef enum
-{
+typedef enum {
 	E_WEEK_VIEW_DRAG_NONE,
 	E_WEEK_VIEW_DRAG_START,
 	E_WEEK_VIEW_DRAG_END
@@ -140,8 +138,7 @@ typedef enum
 
 /* These specify which times are shown for the 1-day events. We use the small
  * font for the minutes if it can be loaded and the option is on. */
-typedef enum
-{
+typedef enum {
 	E_WEEK_VIEW_TIME_NONE,
 	E_WEEK_VIEW_TIME_START,
 	E_WEEK_VIEW_TIME_BOTH,
@@ -168,9 +165,11 @@ struct _EWeekViewEvent {
 
 typedef struct _EWeekView EWeekView;
 typedef struct _EWeekViewClass EWeekViewClass;
+typedef struct _EWeekViewPrivate EWeekViewPrivate;
 
 struct _EWeekView {
 	ECalendarView parent;
+	EWeekViewPrivate *priv;
 
 	/* The top canvas where the dates are shown. */
 	GtkWidget *titles_canvas;
@@ -408,7 +407,7 @@ void		e_week_view_set_show_event_end_times
 void		e_week_view_delete_occurrence	(EWeekView *week_view);
 
 /* Returns the number of selected events (0 or 1 at present). */
-gint e_week_view_get_num_events_selected
+gint		e_week_view_get_num_events_selected
 						(EWeekView *week_view);
 
 /*
