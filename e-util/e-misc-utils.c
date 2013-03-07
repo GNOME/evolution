@@ -1583,6 +1583,71 @@ e_weekday_get_prev (GDateWeekday weekday)
 	return prev;
 }
 
+/**
+ * e_weekday_add_days:
+ * @weekday: a #GDateWeekday
+ * @n_days: number of days to add
+ *
+ * Increments @weekday by @n_days.
+ *
+ * Returns: a #GDateWeekday
+ **/
+GDateWeekday
+e_weekday_add_days (GDateWeekday weekday,
+                    guint n_days)
+{
+	n_days %= 7;  /* Weekdays repeat every 7 days. */
+
+	while (n_days-- > 0)
+		weekday = e_weekday_get_next (weekday);
+
+	return weekday;
+}
+
+/**
+ * e_weekday_subtract_days:
+ * @weekday: a #GDateWeekday
+ * @n_days: number of days to subtract
+ *
+ * Decrements @weekday by @n_days.
+ *
+ * Returns: a #GDateWeekday
+ **/
+GDateWeekday
+e_weekday_subtract_days (GDateWeekday weekday,
+                         guint n_days)
+{
+	n_days %= 7;  /* Weekdays repeat every 7 days. */
+
+	while (n_days-- > 0)
+		weekday = e_weekday_get_prev (weekday);
+
+	return weekday;
+}
+
+/**
+ * e_weekday_get_days_between:
+ * @weekday1: a #GDateWeekday
+ * @weekday2: a #GDateWeekday
+ *
+ * Counts the number of days starting at @weekday1 and ending at @weekday2.
+ *
+ * Returns: the number of days
+ **/
+guint
+e_weekday_get_days_between (GDateWeekday weekday1,
+                            GDateWeekday weekday2)
+{
+	guint n_days = 0;
+
+	while (weekday1 != weekday2) {
+		n_days++;
+		weekday1 = e_weekday_get_next (weekday1);
+	}
+
+	return n_days;
+}
+
 /* Evolution Locks for crash recovery */
 static const gchar *
 get_lock_filename (void)

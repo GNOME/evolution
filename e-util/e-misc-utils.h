@@ -141,6 +141,12 @@ const gchar *	e_get_weekday_name		(GDateWeekday weekday,
 						 gboolean abbreviated);
 GDateWeekday	e_weekday_get_next		(GDateWeekday weekday);
 GDateWeekday	e_weekday_get_prev		(GDateWeekday weekday);
+GDateWeekday	e_weekday_add_days		(GDateWeekday weekday,
+						 guint n_days);
+GDateWeekday	e_weekday_subtract_days		(GDateWeekday weekday,
+						 guint n_days);
+guint		e_weekday_get_days_between	(GDateWeekday weekday1,
+						 GDateWeekday weekday2);
 
 gboolean	e_file_lock_create		(void);
 void		e_file_lock_destroy		(void);

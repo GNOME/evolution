@@ -2249,6 +2249,9 @@ e_get_month_name
 e_get_weekday_name
 e_weekday_get_next
 e_weekday_get_prev
+e_weekday_add_days
+e_weekday_subtract_days
+e_weekday_get_days_between
 e_flexible_strtod
 E_ASCII_DTOSTR_BUF_SIZE
 e_ascii_dtostr
