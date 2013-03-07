@@ -156,7 +156,8 @@ strip_home_dir (const gchar *dir)
 }
 
 static GString *
-replace_variables (const gchar *str)
+replace_variables (const gchar *str,
+		   gboolean remove_dir_sep)
 {
 	GString *res = NULL, *use;
 	const gchar *strip_datadir, *strip_configdir;
@@ -185,9 +186,11 @@ replace_variables (const gchar *str)
 
 	g_return_val_if_fail (res != NULL, NULL);
 
-	/* remove trailing dir separator */
-	while (res->len > 0 && res->str[res->len - 1] == G_DIR_SEPARATOR) {
-		g_string_truncate (res, res->len - 1);
+	if (remove_dir_sep) {
+		/* remove trailing dir separator */
+		while (res->len > 0 && res->str[res->len - 1] == G_DIR_SEPARATOR) {
+			g_string_truncate (res, res->len - 1);
+		}
 	}
 
 	return res;
@@ -208,7 +211,7 @@ replace_in_file (const gchar *filename,
 	g_return_if_fail (replace != NULL);
 
 	if (strstr (filename, "$")) {
-		filenamestr = replace_variables (filename);
+		filenamestr = replace_variables (filename, TRUE);
 
 		if (!filenamestr) {
 			g_warning (
@@ -258,7 +261,7 @@ run_cmd (const gchar *cmd)
 
 	if (strstr (cmd, "$") != NULL) {
 		/* read the doc for g_get_home_dir to know why replacing it here */
-		GString *str = replace_variables (cmd);
+		GString *str = replace_variables (cmd, FALSE);
 
 		if (str) {
 			print_and_run (str->str);
@@ -280,14 +283,15 @@ write_dir_file (void)
 	GString *content, *filename;
 	GError *error = NULL;
 
-	filename = replace_variables ("$HOME/" EVOLUTION_DIR_FILE);
+	filename = replace_variables ("$HOME/" EVOLUTION_DIR_FILE, TRUE);
 	g_return_if_fail (filename != NULL);
 
 	content = replace_variables (
 		"[" KEY_FILE_GROUP "]\n"
 		"Version=" VERSION "\n"
 		"UserDataDir=$STRIPDATADIR\n"
-		"UserConfigDir=$STRIPCONFIGDIR\n");
+		"UserConfigDir=$STRIPCONFIGDIR\n"
+		, TRUE);
 	g_return_if_fail (content != NULL);
 
 	g_file_set_contents (filename->str, content->str, content->len, &error);
@@ -453,7 +457,7 @@ get_source_manager_reload_command (void)
 	GString *tmp;
 	gchar *command;
 
-	tmp = replace_variables (DBUS_SOURCE_REGISTRY_SERVICE_FILE);
+	tmp = replace_variables (DBUS_SOURCE_REGISTRY_SERVICE_FILE, TRUE);
 	if (tmp) {
 		GKeyFile *key_file;
 		gchar *str = NULL;
@@ -535,7 +539,7 @@ restore (const gchar *filename,
 		run_cmd (command);
 		g_free (command);
 
-		dir_fn = replace_variables ("$TMP" G_DIR_SEPARATOR_S EVOLUTION_DIR_FILE);
+		dir_fn = replace_variables ("$TMP" G_DIR_SEPARATOR_S EVOLUTION_DIR_FILE, TRUE);
 		if (!dir_fn) {
 			g_warning ("Failed to create evolution's dir filename");
 			goto end;
@@ -607,7 +611,7 @@ restore (const gchar *filename,
 
 	if (is_new_format) {
 		/* new format has it in DATADIR... */
-		GString *file = replace_variables (EVOLUTION_DIR ANCIENT_GCONF_DUMP_FILE);
+		GString *file = replace_variables (EVOLUTION_DIR ANCIENT_GCONF_DUMP_FILE, TRUE);
 		if (file && g_file_test (file->str, G_FILE_TEST_EXISTS)) {
 			/* ancient backup */
 			replace_in_file (
