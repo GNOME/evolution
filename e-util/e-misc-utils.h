@@ -139,6 +139,8 @@ const gchar *	e_get_month_name		(GDateMonth month,
 						 gboolean abbreviated);
 const gchar *	e_get_weekday_name		(GDateWeekday weekday,
 						 gboolean abbreviated);
+GDateWeekday	e_get_next_weekday		(GDateWeekday weekday);
+GDateWeekday	e_get_prev_weekday		(GDateWeekday weekday);
 
 gboolean	e_file_lock_create		(void);
 void		e_file_lock_destroy		(void);

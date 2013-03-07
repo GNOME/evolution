@@ -1495,6 +1495,94 @@ e_get_weekday_name (GDateWeekday weekday,
 	return abbreviated ? abbr_names[weekday] : full_names[weekday];
 }
 
+/**
+ * e_get_next_weekday:
+ * @weekday: a #GDateWeekday
+ *
+ * Returns the #GDateWeekday after @weekday.
+ *
+ * Returns: the day after @weekday
+ **/
+GDateWeekday
+e_get_next_weekday (GDateWeekday weekday)
+{
+	GDateWeekday next;
+
+	/* Verbose for readability. */
+	switch (weekday) {
+		case G_DATE_MONDAY:
+			next = G_DATE_TUESDAY;
+			break;
+		case G_DATE_TUESDAY:
+			next = G_DATE_WEDNESDAY;
+			break;
+		case G_DATE_WEDNESDAY:
+			next = G_DATE_THURSDAY;
+			break;
+		case G_DATE_THURSDAY:
+			next = G_DATE_FRIDAY;
+			break;
+		case G_DATE_FRIDAY:
+			next = G_DATE_SATURDAY;
+			break;
+		case G_DATE_SATURDAY:
+			next = G_DATE_SUNDAY;
+			break;
+		case G_DATE_SUNDAY:
+			next = G_DATE_MONDAY;
+			break;
+		default:
+			next = G_DATE_BAD_WEEKDAY;
+			break;
+	}
+
+	return next;
+}
+
+/**
+ * e_get_prev_weekday:
+ * @weekday: a #GDateWeekday
+ *
+ * Returns the #GDateWeekday before @weekday.
+ *
+ * Returns: the day before @weekday
+ **/
+GDateWeekday
+e_get_prev_weekday (GDateWeekday weekday)
+{
+	GDateWeekday prev;
+
+	/* Verbose for readability. */
+	switch (weekday) {
+		case G_DATE_MONDAY:
+			prev = G_DATE_SUNDAY;
+			break;
+		case G_DATE_TUESDAY:
+			prev = G_DATE_MONDAY;
+			break;
+		case G_DATE_WEDNESDAY:
+			prev = G_DATE_TUESDAY;
+			break;
+		case G_DATE_THURSDAY:
+			prev = G_DATE_WEDNESDAY;
+			break;
+		case G_DATE_FRIDAY:
+			prev = G_DATE_THURSDAY;
+			break;
+		case G_DATE_SATURDAY:
+			prev = G_DATE_FRIDAY;
+			break;
+		case G_DATE_SUNDAY:
+			prev = G_DATE_SATURDAY;
+			break;
+		default:
+			prev = G_DATE_BAD_WEEKDAY;
+			break;
+	}
+
+	return prev;
+}
+
 /* Evolution Locks for crash recovery */
 static const gchar *
 get_lock_filename (void)
