@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2013-02-23 14:35+0000\n"
-"PO-Revision-Date: 2013-02-24 13:15+0900\n"
+"POT-Creation-Date: 2013-03-06 23:30+0000\n"
+"PO-Revision-Date: 2013-03-07 20:34+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
 "Language: \n"
@@ -168,7 +168,7 @@ msgid ""
 msgstr "بۇ ئالاقەداش ئادرېس دەپتەردە مەۋجۇت. ئوخشاش ئاتتا يېڭى كارتىدىن بىرنى قوشۇۋېرەمسىز؟"
 
 #: ../addressbook/addressbook.error.xml.h:33 ../e-util/e-table-config.ui.h:6
-#: ../e-util/e-name-selector-dialog.c:965 ../mail/em-vfolder-editor-rule.c:397
+#: ../e-util/e-name-selector-dialog.c:977 ../mail/em-vfolder-editor-rule.c:397
 msgid "_Add"
 msgstr "قوش(_A)"
 
@@ -201,7 +201,7 @@ msgid ""
 msgstr "ئاتى '{0}' بولغان ئالاقەداش ئالاقەداشلار تىزىمىدا بار. بولسىمۇ قوشۇۋېرەمسىز؟"
 
 #: ../addressbook/addressbook.error.xml.h:40
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1232
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1237
 msgid "Failed to delete contact"
 msgstr "ئالاقەداشنى ئۆچۈرۈش مەغلۇپ بولدى"
 
@@ -288,7 +288,7 @@ msgstr "باش بەت(_H):"
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:14
 #: ../calendar/gui/dialogs/event-page.c:709
 #: ../calendar/gui/dialogs/event-page.ui.h:22
-#: ../modules/itip-formatter/itip-view.c:1850
+#: ../modules/itip-formatter/itip-view.c:1877
 msgid "_Calendar:"
 msgstr "يىلنامە(_C):"
 
@@ -526,63 +526,63 @@ msgstr "ئالاقەداشنى ئۆچۈرۈۋاتقاندا خاتالىق كۆ�
 msgid "Contact Editor - %s"
 msgstr "ئالاقەداش تەھرىرلىگۈچ - %s"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3474
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3476
 msgid "Please select an image for this contact"
 msgstr "بۇ ئالاقەداشقا سۈرەت تاللاڭ"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3475
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3477
 msgid "_No image"
 msgstr "سۈرەت يوق(_N)"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3808
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3810
 msgid ""
 "The contact data is invalid:\n"
 "\n"
 msgstr "ئالاقەداش سانلىق-مەلۇمات ئىناۋەتسىز:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3814
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3816
 #, c-format
 msgid "'%s' has an invalid format"
 msgstr "‹%s› نىڭ فورماتى ئىناۋەتسىز"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3822
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3824
 #, c-format
 msgid "'%s' cannot be a future date"
 msgstr "‹%s› كېلىدىغان چېسلا بولسا بولمايدۇ"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3830
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3832
 #, c-format
 msgid "%s'%s' has an invalid format"
 msgstr "%s‹%s› نىڭ فورماتى ئىناۋەتسىز"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3843
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3857
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3845
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3859
 #, c-format
 msgid "%s'%s' is empty"
 msgstr "%s‹%s› بوش"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3872
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3874
 msgid "Invalid contact."
 msgstr "ئىناۋەتسىز ئالاقەداش."
 
-#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:434
+#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:454
 msgid "Contact Quick-Add"
 msgstr "ئالاقەداشنى تېز قوش"
 
-#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:437
+#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:457
 msgid "_Edit Full"
 msgstr "تولۇق ئات تەھرىر(_E)"
 
-#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:487
+#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:510
 msgid "_Full name"
 msgstr "تولۇق ئاتى(_F):"
 
-#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:500
+#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:523
 msgid "E_mail"
 msgstr "ئېلخەت(_M)"
 
-#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:513
+#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:536
 msgid "_Select Address Book"
 msgstr "ئادرېس دەپتەر تاللا(_S)"
 
@@ -657,7 +657,7 @@ msgid "_Suffix:"
 msgstr "كەينى قوشۇلغۇچى_S):"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:1
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:814
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:818
 msgid "Contact List Editor"
 msgstr "ئالاقەداش تىزىمىنى تەھرىرلىگۈچ"
 
@@ -693,23 +693,23 @@ msgstr "ئادرېس دەپتىرىدىن ئېلخەت ئادرېسىنى قىس
 msgid "_Select..."
 msgstr "تاللا(_S)…"
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:937
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:941
 msgid "Contact List Members"
 msgstr "ئالاقەداش تىزىمى ئەزالىرى"
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1463
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1468
 msgid "_Members"
 msgstr "ئەزالار(_M)"
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1582
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1587
 msgid "Error adding list"
 msgstr "تىزىم قوشۇۋاتقاندا خاتالىق كۆرۈلدى"
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1597
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1602
 msgid "Error modifying list"
 msgstr "تىزىمنى تۈزىتىۋاتقاندا خاتالىق كۆرۈلدى"
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1612
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1617
 msgid "Error removing list"
 msgstr "تىزىمنى ئۆچۈرۈۋاتقاندا خاتالىق كۆرۈلدى"
 
@@ -776,21 +776,21 @@ msgstr "ئېلخەت مۇنداق باشلىنىدۇ"
 msgid "Any field contains"
 msgstr "ھەر قانداق سۆز بۆلىكى ئۆز ئىچىگە ئالغان"
 
-#: ../addressbook/gui/widgets/e-addressbook-model.c:162
+#: ../addressbook/gui/widgets/e-addressbook-model.c:163
 msgid "No contacts"
 msgstr "ئالاقەداش يوق"
 
-#: ../addressbook/gui/widgets/e-addressbook-model.c:166
+#: ../addressbook/gui/widgets/e-addressbook-model.c:167
 #, c-format
 msgid "%d contact"
 msgid_plural "%d contacts"
 msgstr[0] "%d ئالاقەداش"
 
-#: ../addressbook/gui/widgets/e-addressbook-model.c:362
+#: ../addressbook/gui/widgets/e-addressbook-model.c:367
 msgid "Error getting book view"
 msgstr "كىتاب كۆرۈنۈشىگە ئېرىشىۋاتقاندا خاتالىق كۆرۈلدى"
 
-#: ../addressbook/gui/widgets/e-addressbook-model.c:788
+#: ../addressbook/gui/widgets/e-addressbook-model.c:814
 msgid "Search Interrupted"
 msgstr "ئىزدەش ئۈزۈلدى"
 
@@ -819,34 +819,34 @@ msgstr "تاللانغان ئالاقەداشلارنى ئۆچۈر"
 msgid "Select all visible contacts"
 msgstr "كۆرۈنۈشچان ئالاقەداشلارنىڭ ھەممىسىنى تاللا"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1280
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1285
 msgid "Are you sure you want to delete these contact lists?"
 msgstr "بۇ ئالاقەداشلار تىزىملىكىنى راستلا ئۆچۈرەمسىز؟"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1284
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1289
 msgid "Are you sure you want to delete this contact list?"
 msgstr "بۇ ئالاقەداشلار تىزىملىكىنى راستلا ئۆچۈرەمسىز؟"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1288
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1293
 #, c-format
 msgid "Are you sure you want to delete this contact list (%s)?"
 msgstr "بۇ ئالاقەداشلار تىزىملىكى (%s) نى راستلا ئۆچۈرەمسىز؟"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1294
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1299
 msgid "Are you sure you want to delete these contacts?"
 msgstr "بۇ ئالاقەداشلارنى راستلا ئۆچۈرەمسىز؟"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1298
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1303
 msgid "Are you sure you want to delete this contact?"
 msgstr "بۇ ئالاقەداشنى راستلا ئۆچۈرەمسىز؟"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1302
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1307
 #, c-format
 msgid "Are you sure you want to delete this contact (%s)?"
 msgstr "بۇ ئالاقەداش (%s) نى راستلا ئۆچۈرەمسىز؟"
 
 #. Translators: This is shown for > 5 contacts.
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1458
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1463
 #, c-format
 msgid ""
 "Opening %d contacts will open %d new windows as well.\n"
@@ -857,11 +857,11 @@ msgid_plural ""
 msgstr[0] "%d ئالاقەداشنى ئېچىشتا بىرلا ۋاقىتتا %d يېڭى كۆزنەك ئېچىلىدۇ.\n"
 "راستلا بۇ ئالاقەداشلارنىڭ ھەممىسىنى كۆرسىتەمسىز؟"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1466
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1471
 msgid "_Don't Display"
 msgstr "كۆرسەتمە(_D)"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1467
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1472
 msgid "Display _All Contacts"
 msgstr "بارلىق ئالاقەداشلارنى كۆرسەت(_A)"
 
@@ -1399,63 +1399,40 @@ msgstr "Evolution vCard ئەكىرگۈچ"
 msgid "Page %d"
 msgstr "%d - بەت"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:61
+#: ../addressbook/tools/evolution-addressbook-export.c:59
 msgid "Specify the output file instead of standard output"
 msgstr "ئۆلچەملىك چىقىرىشنىڭ ئورنىنى ئېلىشقا بەلگىلەنگەن چىقىرىش ھۆججىتى"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:62
+#: ../addressbook/tools/evolution-addressbook-export.c:60
 msgid "OUTPUTFILE"
 msgstr "چىقىرىش ھۆججىتى"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:65
+#: ../addressbook/tools/evolution-addressbook-export.c:63
 msgid "List local address book folders"
 msgstr "يەرلىك ئادرېس دەپتەر قىسقۇچ تىزىمىنى كۆرسىتىدۇ"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:68
+#: ../addressbook/tools/evolution-addressbook-export.c:66
 msgid "Show cards as vcard or csv file"
 msgstr "كارتىنى vcard ياكى csv ھۆججەت سۈپىتىدە كۆرسىتىدۇ"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:69
+#: ../addressbook/tools/evolution-addressbook-export.c:67
 msgid "[vcard|csv]"
 msgstr "[vcard|csv]"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:72
-msgid "Export in asynchronous mode"
-msgstr "بىقەدەمداش ھالەتتە چىقار"
-
-#: ../addressbook/tools/evolution-addressbook-export.c:75
-msgid ""
-"The number of cards in one output file in asynchronous mode, default size "
-"100."
-msgstr "بىقەدەمداش ھالەتتە بىر چىقىرىش ھۆججىتىدىكى كارتا سانى، كۆڭۈلدىكى چوڭلۇقى 100."
-
-#: ../addressbook/tools/evolution-addressbook-export.c:77
-msgid "NUMBER"
-msgstr "NUMBER"
-
-#: ../addressbook/tools/evolution-addressbook-export.c:149
+#: ../addressbook/tools/evolution-addressbook-export.c:136
 msgid ""
 "Command line arguments error, please use --help option to see the usage."
 msgstr "بۇيرۇق قۇرى ئەركىن ئۆزگەرگۈچى خاتا. --help تاللانمىنى ئىشلىتىپ ئىشلىتىش ئۇسۇلىنى كۆرۈڭ."
 
-#: ../addressbook/tools/evolution-addressbook-export.c:163
+#: ../addressbook/tools/evolution-addressbook-export.c:150
 msgid "Only support csv or vcard format."
 msgstr "csv ياكى vcard فورماتىنىلا ئىشلەتكىلى بولىدۇ."
 
-#: ../addressbook/tools/evolution-addressbook-export.c:172
-msgid "In async mode, output must be file."
-msgstr "بىقەدەمداش ھالەتتە، چىقىرىش چوقۇم ھۆججەت بولىدۇ."
-
-#: ../addressbook/tools/evolution-addressbook-export.c:180
-msgid "In normal mode, there is no need for the size option."
-msgstr "نورمال ھالەتتە، چوڭلۇق تاللانمىسى زۆرۈر ئەمەس."
-
-#: ../addressbook/tools/evolution-addressbook-export.c:213
+#: ../addressbook/tools/evolution-addressbook-export.c:181
 msgid "Unhandled error"
 msgstr "بىر تەرەپ قىلىنمىغان خاتالىق"
 
-#: ../addressbook/tools/evolution-addressbook-export-list-cards.c:653
-#: ../addressbook/tools/evolution-addressbook-export-list-cards.c:688
+#: ../addressbook/tools/evolution-addressbook-export-list-cards.c:625
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:46
 msgid "Can not open file"
 msgstr "ھۆججەتنى ئاچالمايدۇ"
@@ -1508,8 +1485,8 @@ msgstr "ئۆتكۈزۈۋەت(_D)"
 #: ../calendar/alarm-notify/alarm-queue.c:1766
 #: ../calendar/alarm-notify/alarm-queue.c:1776
 #: ../modules/cal-config-weather/evolution-cal-config-weather.c:190
-#: ../modules/itip-formatter/itip-view.c:1464
-#: ../modules/itip-formatter/itip-view.c:1575
+#: ../modules/itip-formatter/itip-view.c:1489
+#: ../modules/itip-formatter/itip-view.c:1600
 msgid "Location:"
 msgstr "ئورنى:"
 
@@ -1948,7 +1925,6 @@ msgstr "سىز راستىنىلا ئۈزۈندىسى يوق ئەسلەتمىنى
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:72
-#| msgid "Error loading calendar '{0}: {1}'"
 msgid "Error loading calendar '{0}'"
 msgstr "يىلنامە ‹{0}› نى ئوقۇۋاتقاندا خاتالىق كۆرۈلدى"
 
@@ -1979,7 +1955,6 @@ msgstr "تەقسىملەنگەن ۋەزىپىنى ‹{0}› تېخى قىلال�
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:81
-#| msgid "Error loading task list '{0}: {1}'"
 msgid "Error loading task list '{0}'"
 msgstr "ۋەزىپە ‹{0}› نى ئوقۇۋاتقاندا خاتالىق كۆرۈلدى"
 
@@ -1989,7 +1964,6 @@ msgstr "ۋەزىپە تىزىمىغا تورسىز ئىشلىتىش بەلگىس
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:84
-#| msgid "Error loading memo list '{0}: {1}'"
 msgid "Error loading memo list '{0}'"
 msgstr "ئەسلەتمە ‹{0}› نى ئوقۇۋاتقاندا خاتالىق كۆرۈلدى"
 
@@ -2101,7 +2075,7 @@ msgstr "كاتېگورىيە"
 
 #: ../calendar/gui/caltypes.xml.h:16 ../calendar/gui/memotypes.xml.h:14
 #: ../calendar/gui/tasktypes.xml.h:15 ../em-format/e-mail-formatter-print.c:56
-#: ../em-format/e-mail-formatter-print-headers.c:187
+#: ../em-format/e-mail-formatter-print-headers.c:189
 #: ../mail/em-filter-i18n.h:6
 msgid "Attachments"
 msgstr "قوشۇلمىلار"
@@ -2125,7 +2099,7 @@ msgstr "قايتىلىنىش"
 
 #: ../calendar/gui/caltypes.xml.h:20
 msgid "Occurs"
-msgstr ""
+msgstr "كۆرۈلۈش"
 
 #: ../calendar/gui/caltypes.xml.h:21
 msgid "Less Than"
@@ -2149,26 +2123,26 @@ msgstr "ئۈزۈندى ئىچىدە"
 msgid "Description Contains"
 msgstr "چۈشەندۈرۈش ئىچىدە"
 
-#: ../calendar/gui/dialogs/alarm-dialog.c:631
+#: ../calendar/gui/dialogs/alarm-dialog.c:629
 msgid "Edit Reminder"
 msgstr "ئەسكەرتكۈچ تەھرىرلەش"
 
-#: ../calendar/gui/dialogs/alarm-dialog.c:822
+#: ../calendar/gui/dialogs/alarm-dialog.c:820
 #: ../calendar/gui/e-alarm-list.c:412
 msgid "Pop up an alert"
 msgstr "ئاگاھلاندۇرۇش قاڭقىت"
 
-#: ../calendar/gui/dialogs/alarm-dialog.c:823
+#: ../calendar/gui/dialogs/alarm-dialog.c:821
 #: ../calendar/gui/e-alarm-list.c:408
 msgid "Play a sound"
 msgstr "ئاۋاز قوي"
 
-#: ../calendar/gui/dialogs/alarm-dialog.c:824
+#: ../calendar/gui/dialogs/alarm-dialog.c:822
 #: ../calendar/gui/e-alarm-list.c:420
 msgid "Run a program"
 msgstr "پروگراممىنى ئىجرا قىلىدۇ"
 
-#: ../calendar/gui/dialogs/alarm-dialog.c:825
+#: ../calendar/gui/dialogs/alarm-dialog.c:823
 #: ../calendar/gui/e-alarm-list.c:416
 msgid "Send an email"
 msgstr "ئېلخەتتىن بىرنى يوللا"
@@ -2259,7 +2233,7 @@ msgstr "ئەركىن ئۆزگەرگۈچى(_A):"
 msgid "Send To:"
 msgstr "يوللاش ئورنى:"
 
-#: ../calendar/gui/dialogs/alarm-list-dialog.c:241
+#: ../calendar/gui/dialogs/alarm-list-dialog.c:240
 msgid "Action/Trigger"
 msgstr "مەشغۇلات/قوزغاتقۇچ"
 
@@ -2736,7 +2710,7 @@ msgid "Event cannot be fully edited, because you are not the organizer"
 msgstr "ھادىسىنى تولۇق تەھرىرلىيەلمەيدۇ چۈنكى سىز تەشكىللىگۈچى ئەمەس"
 
 #: ../calendar/gui/dialogs/event-page.c:650
-#: ../calendar/gui/dialogs/event-page.c:3181
+#: ../calendar/gui/dialogs/event-page.c:3176
 msgid "This event has reminders"
 msgstr "بۇ ھادىسىنىڭ ئەسكەرتكۈچىلىرى بار"
 
@@ -2790,30 +2764,30 @@ msgstr "ۋاكالەتچىلەر(_D)"
 msgid "Atte_ndees"
 msgstr "قاتناشقۇچىلار(_N)"
 
-#: ../calendar/gui/dialogs/event-page.c:3461
+#: ../calendar/gui/dialogs/event-page.c:3456
 #, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
 msgstr[0] "ئۇچرىشىشتىن %d كۈن ئىلگىرى"
 
-#: ../calendar/gui/dialogs/event-page.c:3467
+#: ../calendar/gui/dialogs/event-page.c:3462
 #, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
 msgstr[0] "ئۇچرىشىشتىن %d سائەت ئىلگىرى"
 
-#: ../calendar/gui/dialogs/event-page.c:3473
+#: ../calendar/gui/dialogs/event-page.c:3468
 #, c-format
 msgid "%d minute before appointment"
 msgid_plural "%d minutes before appointment"
 msgstr[0] "ئۇچرىشىشتىن %d مىنۇت ئىلگىرى"
 
-#: ../calendar/gui/dialogs/event-page.c:3494
+#: ../calendar/gui/dialogs/event-page.c:3489
 msgid "Customize"
 msgstr "ئىختىيارى"
 
 #. Translators: "None" for "No reminder set"
-#: ../calendar/gui/dialogs/event-page.c:3501
+#: ../calendar/gui/dialogs/event-page.c:3496
 msgctxt "cal-reminders"
 msgid "None"
 msgstr "يوق"
@@ -2967,8 +2941,8 @@ msgstr "ئەسلەتمىنى تەھرىرلىيەلمەيدۇ چۈنكى تال�
 msgid "Memo cannot be fully edited, because you are not the organizer"
 msgstr "ئەسلەتمىنى تولۇق تەھرىرلىگىلى بولمايدۇ چۈنكى سىز تەشكىللىگۈچى ئەمەس."
 
-#: ../calendar/gui/dialogs/memo-page.c:1183
-#: ../em-format/e-mail-formatter.c:1391
+#: ../calendar/gui/dialogs/memo-page.c:1176
+#: ../em-format/e-mail-formatter.c:1387
 #: ../em-format/e-mail-formatter-utils.c:194
 #: ../em-format/e-mail-formatter-utils.c:218 ../mail/em-filter-i18n.h:78
 #: ../mail/message-list.etspec.h:9 ../modules/mail/em-mailer-prefs.c:63
@@ -3701,8 +3675,8 @@ msgid "Due Date:"
 msgstr "مۆھلىتى:"
 
 #: ../calendar/gui/e-cal-component-preview.c:319
-#: ../modules/itip-formatter/itip-view.c:1467
-#: ../modules/itip-formatter/itip-view.c:1584
+#: ../modules/itip-formatter/itip-view.c:1492
+#: ../modules/itip-formatter/itip-view.c:1609
 msgid "Status:"
 msgstr "ھالىتى:"
 
@@ -3843,8 +3817,8 @@ msgstr "ئاخىرلىشىش چېسلاسى"
 #: ../calendar/gui/e-meeting-store.c:138 ../calendar/gui/e-meeting-store.c:173
 #: ../calendar/gui/e-meeting-store.c:236 ../calendar/gui/print.c:1235
 #: ../calendar/gui/print.c:1252 ../e-util/e-charset.c:52
-#: ../modules/itip-formatter/itip-view.c:3472
-#: ../modules/itip-formatter/itip-view.c:5967
+#: ../modules/itip-formatter/itip-view.c:3505
+#: ../modules/itip-formatter/itip-view.c:5995
 #: ../modules/plugin-manager/evolution-plugin-manager.c:100
 msgid "Unknown"
 msgstr "نامەلۇم"
@@ -3873,14 +3847,14 @@ msgstr "ياق"
 #: ../calendar/gui/e-cal-model.c:3461
 #: ../calendar/gui/e-meeting-list-view.c:221
 #: ../calendar/gui/e-meeting-store.c:200 ../calendar/gui/e-meeting-store.c:223
-#: ../modules/itip-formatter/itip-view.c:5955
+#: ../modules/itip-formatter/itip-view.c:5983
 msgid "Accepted"
 msgstr "قوشۇلغان"
 
 #: ../calendar/gui/e-cal-model.c:3462
 #: ../calendar/gui/e-meeting-list-view.c:222
 #: ../calendar/gui/e-meeting-store.c:202 ../calendar/gui/e-meeting-store.c:225
-#: ../modules/itip-formatter/itip-view.c:5961
+#: ../modules/itip-formatter/itip-view.c:5989
 msgid "Declined"
 msgstr "رەت قىلىنغان"
 
@@ -3894,7 +3868,7 @@ msgstr "سىناق"
 #: ../calendar/gui/e-cal-model.c:3464
 #: ../calendar/gui/e-meeting-list-view.c:224
 #: ../calendar/gui/e-meeting-store.c:206 ../calendar/gui/e-meeting-store.c:229
-#: ../modules/itip-formatter/itip-view.c:5964
+#: ../modules/itip-formatter/itip-view.c:5992
 msgid "Delegated"
 msgstr "ھاۋالە قىلىندى"
 
@@ -6556,35 +6530,35 @@ msgid ""
 "appearing in the recipient list of the message"
 msgstr "بۇ ئۇچۇرنىڭ كۆپەيتىلمىسىنى تاپشۇرۇۋالىدىغان ئەمما تاپشۇرۇۋالغۇچىلار تىزىمىدا كۆرۈنمەيدىغان تاپشۇرۇۋالغۇچىنىڭ ئادرېسىنى كىرگۈزۈڭ"
 
-#: ../composer/e-composer-header-table.c:835
+#: ../composer/e-composer-header-table.c:837
 msgid "Fr_om:"
 msgstr "ئەۋەتكۈچى(_O):"
 
-#: ../composer/e-composer-header-table.c:842
+#: ../composer/e-composer-header-table.c:844
 msgid "_Reply-To:"
 msgstr "جاۋاب(_R):"
 
-#: ../composer/e-composer-header-table.c:847
+#: ../composer/e-composer-header-table.c:849
 msgid "_To:"
 msgstr "نىشان(_T):"
 
-#: ../composer/e-composer-header-table.c:853
+#: ../composer/e-composer-header-table.c:855
 msgid "_Cc:"
 msgstr "كۆچۈرۈپ يوللا(_C):"
 
-#: ../composer/e-composer-header-table.c:859
+#: ../composer/e-composer-header-table.c:861
 msgid "_Bcc:"
 msgstr "مەخپىي كۆچۈرۈپ يوللا(_B):"
 
-#: ../composer/e-composer-header-table.c:864
+#: ../composer/e-composer-header-table.c:866
 msgid "_Post To:"
 msgstr "ئەۋەتىش ئورنى(_P):"
 
-#: ../composer/e-composer-header-table.c:868
+#: ../composer/e-composer-header-table.c:870
 msgid "S_ubject:"
 msgstr "ماۋزۇ:"
 
-#: ../composer/e-composer-header-table.c:876
+#: ../composer/e-composer-header-table.c:878
 #: ../mail/e-mail-config-identity-page.c:488
 msgid "Si_gnature:"
 msgstr "ئىمزا(_G):"
@@ -7326,7 +7300,7 @@ msgstr "يىلنامىنىڭ ھەر خىل ئورۇنلىرىدا ھەپتە س�
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:98
 msgid "Vertical position for the tag pane"
-msgstr ""
+msgstr "خەتكۈش(tag) كوزنەكچىسنىڭ تىك يونۇلۇشتىكى ئورنى"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:99
 msgid "Highlight tasks due today"
@@ -7699,13 +7673,13 @@ msgstr "مەزمۇننى خەۋەر گۇرۇپپىسىغا يوللىغاندا 
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:41
 msgid "Digitally sign replies when the original message is signed"
-msgstr ""
+msgstr "ئەسلى خەتكە ئىمزا قويۇلغان بولسا، جاۋاب خەتكىمۇ رەقەملىك ئىمزا قويسۇن"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:42
 msgid ""
 "Automatically enable PGP or S/MIME signatures when replying to a message "
 "which is also PGP or S/MIME signed."
-msgstr ""
+msgstr "ئەگەر خەتكە PGP ياكى S/MIME ئىمزاسى قويۇلغان بولسا، ئۇ چاغدا جاۋاب خەتكىمۇ PGP ياكى S/MIME ئىمزاسىنى ئاپتوماتىك قويىدۇ"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:43
 msgid "Encode filenames in an Outlook/GMail way"
@@ -7768,7 +7742,7 @@ msgstr "ھەر خىل تىلدا ‹Re› نى ئىپادىلىگەندە، ئۇ
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:53
 msgid "Save file format for drag-and-drop operation"
-msgstr ""
+msgstr "سۆرەپ-تاشلاپ مەشغۇلاتىنىڭ ساقلاش ھۆججىتىنىڭ پىچىمى"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:54
 msgid "Can be either 'mbox' or 'pdf'."
@@ -7776,13 +7750,13 @@ msgstr "‹mbox› ياكى ‹pdf› بولسا بولىدۇ."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:55
 msgid "Save name format for drag-and-drop operation"
-msgstr ""
+msgstr "سۆرەپ-تاشلاپ مەشغۇلاتىنىڭ ساقلاش ئاتىنىڭ پىچىمى"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:56
 msgid ""
 "Can be either 2 to use current date and time or any other value for sent "
 "date of the message. This has a meaning only when dropping just one message."
-msgstr ""
+msgstr "بۇنىڭغا 2 ياكى باشقا قىممەتنى ئىشلىتىشكە بولىدۇ. 2 بولسا نۆۋەتتىكى چېسلا ۋە ۋاقىتنى ئىشلىتىدۇ، باشقا قىممەت  بولسا ئەۋەتىلگەن خەتنىڭ چېسلاسىنى ئىشلىتىدۇ. بۇ بىرلا خەتنى تاشلىغاندىلا كۈچكە ئىگە."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:57
 msgid "Show image animations"
@@ -7918,113 +7892,102 @@ msgid "This option would help in improving the speed of fetching."
 msgstr "بۇ تاللانما ئۇچۇرغا ئېرىشىش سۈرئىتىنى ئۆستۈرۈشكە ياردەم بېرىدۇ."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:87
-msgid "List of MIME types to check for Bonobo component viewers"
-msgstr "Bonobo بۆلەك كۆرگۈچتە كۆرىدىغان MIME تىپىنىڭ تىزىمى"
-
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:88
-msgid ""
-"If there isn't a builtin viewer for a particular MIME type inside Evolution, "
-"any MIME types appearing in this list which map to a Bonobo component viewer "
-"in GNOME's MIME type database may be used for displaying content."
-msgstr "ئەگەر Evolution نىڭ ئىچىدە بەلگىلىك MIME تىپىنىڭ ئىچكى كۆرگۈچىسى بولمىسا، ئۇنداقتا بۇ تىزىمدا كۆرۈلگەن ھەر قانداق MIME تىپى گىنوم نىڭ گىنوم تىپلىق سانداندا خەرىتىلەنگەن Bonobo بۆلەك كۆرگۈچنى مەزمۇننى كۆرسىتىشكە ئىشلىتىدۇ."
-
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:89
 msgid "Mark as Seen after specified timeout"
 msgstr "بەلگىلەنگەن مۇددەت ئۆتكەندە كۆرۈلدى بەلگىسى سالىدۇ"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:90
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:88
 msgid "Mark as Seen after specified timeout."
 msgstr "بەلگىلەنگەن مۇددەت ئۆتكەندە كۆرۈلدى بەلگىسى سالىدۇ."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:91
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:89
 msgid "Timeout for marking messages as seen"
 msgstr "ئۇچۇرغا كۆرۈپ بولغان بەلگىسىنى سالىدىغان مۆھلەت"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:92
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:90
 msgid "Timeout in milliseconds for marking messages as seen."
 msgstr "ئۇچۇرغا كۆرۈپ بولغان بەلگىسىنى سالىدىغان مۆھلەت، بىرلىكى مىللىسېكۇنت."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:93
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:91
 msgid "Sender email-address column in the message list"
 msgstr "ئۇچۇر تىزىمىدا ئېلخەت ئادرېسىنى كۆرسەت"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:94
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:92
 msgid ""
 "Show the email-address of the sender in a separate column in the message "
 "list."
 msgstr "ئۇچۇر تىزىمىنىڭ يەنە بىر ئىستونىدا ئې-خەتنىڭ يوللىغۇچىسىنى كۆرسىتىدۇ."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:95
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:93
 msgid ""
 "Determines whether to use the same fonts for both \"From\" and \"Subject\" "
 "lines in the \"Messages\" column in vertical view"
 msgstr "تىك يۆلىنىشتىكى كۆرۈنۈشتە «ئۇچۇر» ئىستونىنىڭ «يوللىغۇچى» ۋە «تېما» قۇرى ئوخشاش خەت نۇسخىسى ئىشلىتىش-ئىشلەتمەسلىكنى بەلگىلەيدۇ"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:96
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:94
 msgid ""
 "Determines whether to use the same fonts for both \"From\" and \"Subject\" "
 "lines in the \"Messages\" column in vertical view."
 msgstr "بويىغا كۆرۈنۈشتە «ئۇچۇر» ئىستونىنىڭ «يوللىغۇچى» ۋە «تېما» قۇرى ئوخشاش خەت نۇسخىسى ئىشلىتىش ئىشلەتمەسلىكنى جەزملەيدۇ."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:97
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:95
 msgid "Show deleted messages in the message-list"
 msgstr "ئۇچۇر تىزىمىدا ئۆچۈرۈلگەن ئۇچۇرنى كۆرسىتىدۇ."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:98
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:96
 msgid "Show deleted messages (with a strike-through) in the message-list."
 msgstr "ئۇچۇر تىزىمىدا ئۆچۈرۈلگەن ئۇچۇر(ئۆچۈرۈش سىزىقى بار)نى كۆرسىتىدۇ."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:99
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:97
 msgid "Enable Unmatched search folder"
 msgstr "ماسلاشمىغان‏ قىسقۇچنى ئىناۋەتلىك قىلسۇن"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:100
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:98
 msgid ""
 "Enable Unmatched search folder within Search Folders. It does nothing if "
 "Search Folders are disabled."
 msgstr "ئىزدەش قىسقۇچى ئىچىدىكى ماس كەلمىگەن قىسقۇچلارنى ئىناۋەتلىك قىلىدۇ. ئەگەر ئىزدەش قىسقۇچى ئىناۋەتسىز قىلىنغان بولسا ھېچنەرسە قىلمايدۇ."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:101
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:99
 msgid "Hides the per-folder preview and removes the selection"
 msgstr "يەككە قىسقۇچنى ئالدىن كۆزىتىشنى يوشۇرۇپ تاللاشنى چىقىرىۋېتىدۇ"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:102
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:100
 msgid ""
 "This key is read only once and reset to \"false\" after read. This unselects "
 "the mail in the list and removes the preview for that folder."
 msgstr "بۇ كۇنۇپكا پەقەت بىرلا قېتىم ئوقۇلىدۇ ھەمدە ئوقۇلغاندىن كېيىن \"false\" گە تەڭشىلىدۇ. ئۇ تاللانغان تىزىمدىكى خەتنى بىكار قىلىدۇ ھەمدە مۇناسىپ قىسقۇچتىكى ئالدىن كۆزىتىشنى چىقىرىۋېتىدۇ."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:103
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:101
 msgid "Height of the message-list pane"
 msgstr "ئۇچۇر تىزىمىنىڭ كۆزنەكچە ئېگىزلىكى"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:104
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:102
 msgid "Height of the message-list pane."
 msgstr "ئۇچۇر تىزىمىنىڭ كۆزنەكچە ئېگىزلىكى."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:105
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:103
 msgid "State of message headers in paned view"
 msgstr "كۆزنەكچە كۆرۈنۈشىدىكى خەت بېشى ھالىتى"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:106
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:104
 msgid ""
 "Describes whether message headers in paned view should be collapsed or "
 "expanded by default. \"0\" = expanded and \"1\" = collapsed"
 msgstr "كۆزنەكچە كۆرۈنۈشىدە خەت بەشىنى يېيىپ كۆرسىتەمدۇ ياكى قاتلاپ كۆرسىتەمدۇ بەلگىلەيدۇ. «0» = يېيىپ كۆرسىتىش، «1»=قاتلاپ كۆرسىتىش"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:107
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:105
 msgid "Width of the message-list pane"
 msgstr "ئۇچۇر تىزىمى تاختىسىنىڭ كەڭلىكى"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:108
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:106
 msgid "Width of the message-list pane."
 msgstr "ئۇچۇر تىزىمى تاختىسىنىڭ كەڭلىكى."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:109
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:107
 msgid "Layout style"
 msgstr "ئورۇنلاشتۇرۇش ئۇسلۇبى"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:110
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:108
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the message list. \"0\" (Classic View) places the preview pane below the "
@@ -8032,86 +7995,86 @@ msgid ""
 "message list."
 msgstr "جايلاشتۇرۇش ئۇسلۇبى قەيەرگە ئۇچۇر تىزىمىنىڭ ئالدىن كۆزىتىش تاختىسىنى قويۇشنى بەلگىلەيدۇ. \"0\" (كلاسسىك كۆرۈنۈش) ئالدىن كۆزىتىش تاختىسىنى ئۇچۇر تىزىمىنىڭ ئاستىغا قويىدۇ. \"1\" (بويىغا كۆرۈنۈش) ئالدىن كۆزىتىش تاختىسىنى ئۇچۇر تىزىمىنىڭ يېنىغا قويىدۇ."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:111
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:109
 msgid "Variable width font"
 msgstr "ئۆزگىرىشچان كەڭلىكتىكى خەت نۇسخىسى"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:112
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:110
 msgid "The variable width font for mail display."
 msgstr "خەت كۆرسىتىشتە ئىشلىتىلىدىغان ئۆزگىرىشچان كەڭلىكتىكى خەت نۇسخىسى."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:113
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:111
 msgid "Terminal font"
 msgstr "تېرمىنال خەت نۇسخىسى"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:114
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:112
 msgid "The terminal font for mail display."
 msgstr "خەت كۆرسىتىشتە ئىشلىتىدىغان تېرمىنال خەت نۇسخىسى."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:115
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:113
 msgid "Use custom fonts"
 msgstr "ئۆزلەشتۈرگەن خەت نۇسخىسى ئىشلەت"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:116
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:114
 msgid "Use custom fonts for displaying mail."
 msgstr "ئۆزلەشتۈرگەن خەت نۇسخىسىنى ئىشلىتىپ خەتنى كۆرسىتىدۇ."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:117
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:115
 msgid "Compress display of addresses in TO/CC/BCC"
 msgstr "يوللانغۇچى/كۆچۈرۈپ/مەخپىي يوللاش ئادرېسىنى پرېسلا"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:118
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:116
 msgid ""
 "Compress display of addresses in TO/CC/BCC to the number specified in "
 "address_count."
 msgstr "يوللانغۇچى/كۆچۈرۈپ/مەخپىي يوللاشتا كۆرسىتىدىغان ئادرېس سانىنى address_count دا بەلگىلەنگەن سانغا پرېسلايدۇ."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:119
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:117
 msgid "Number of addresses to display in TO/CC/BCC"
 msgstr "يوللانغۇچى/كۆچۈرۈپ/مەخپىي يوللاشتا كۆرسىتىلىدىغان ئادرېس سانى"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:120
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:118
 msgid ""
 "This sets the number of addresses to show in default message list view, "
 "beyond which a '...' is shown."
 msgstr "كۆڭۈلدىكى ئۇچۇر كۆرۈنۈشىدە كۆرسىتىدىغان ئادرېس سانىنى تەڭشەيدۇ، ئېشىپ كەتكەن قىسمى  '...'  كۆرۈنىدۇ."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:121
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:119
 msgid "Thread the message-list based on Subject"
 msgstr "تېما ئاساسىدىكى جەريان بويىچە ئۇچۇر تىزىمىنى تەرتىپلەيدۇ"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:122
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:120
 msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
 "not contain In-Reply-To or References headers."
 msgstr "ئۇچۇر In-Reply-To ياكى References بېشىنى ئۆز ئىچىگە ئالمىغاندا مەجبۇرىي ھالدا تېما بويىچە جەرياننى تەرتىپلەمدۇ يوق."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:123
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:121
 msgid "Default value for thread expand state"
 msgstr "جەرياننىڭ يېيىلغان ھالەتتىكى كۆڭۈلدىكى قىممىتى"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:124
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:122
 msgid ""
 "This setting specifies whether the threads should be in expanded or "
 "collapsed state by default. Evolution requires a restart."
 msgstr "بۇ تەڭشەك كۆڭۈلدىكى ئەھۋالدا جەريان يېيىلغان ياكى قاتلانغانلىقىنى تەڭشەيدۇ. Evolution نى قايتا قوزغىتىش زۆرۈر."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:125
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:123
 msgid "Whether sort threads based on latest message in that thread"
 msgstr "جەرياندىكى ئەڭ يېڭى ئۇچۇر ئارقىلىق جەرياننى تەرتىپلەمدۇ يوق"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:126
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:124
 msgid ""
 "This setting specifies whether the threads should be sorted based on latest "
 "message in each thread, rather than by message's date. Evolution requires a "
 "restart."
 msgstr "بۇ تەڭشەك كۆڭۈلدىكى ئەھۋالدا جەرياننى ئۇچۇر چېسلاسى بويىچە ئەمەس بەلكى جەرياندىكى ئەڭ يېڭى ئۇچۇر بويىچە تەرتىپلەيدىغانلىقىنى بەلگىلەيدۇ. Evolution نى قايتا قوزغىتىش زۆرۈر."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:127
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:125
 msgid "Sort accounts alphabetically in a folder tree"
 msgstr "ھېساباتلارنى قىسقۇچ دەرىخىدە ئېلىپبە تەرتىپىدە تەرتىپلەپ كۆرسەتسۇن"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:128
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:126
 msgid ""
 "Tells how to sort accounts in a folder tree used in a Mail view. When set to "
 "true accounts are sorted alphabetically, with an exception of On This "
@@ -8119,124 +8082,124 @@ msgid ""
 "given by a user"
 msgstr "خەت كۆرۈنۈشىدە ھېساباتلارنى قىسقۇچ دەرىخىدە قانداق تەرتىپلەيدىغانلىقنى بەلگىلەيدۇ. ئەگەر true قىلىنسا، ئېلىپبە تەرتىپىدە تەرىپلەيدۇ (مەزكۇر كومپيۇتېر ۋە ئىزدەش قىسقۇچى بۇنىڭ سىرتىدا). باشقا ئەھۋالدا ئىشلەتكۈچى كۆرسەتكەن تەرتىپتە تەرتىپلەيدۇ"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:129
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:127
 msgid "Log filter actions"
 msgstr "سۈزگۈچ ھەرىكىتى خاتىرىسى"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:130
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:128
 msgid "Log filter actions to the specified log file."
 msgstr "سۈزگۈچ ھەرىكىتىنى بەلگىلەنگەن خاتىرە ھۆججىتىگە خاتىرىلەيدۇ."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:131
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:129
 msgid "Logfile to log filter actions"
 msgstr "سۈزگۈچ ھەرىكىتى خاتىرىسىنىڭ خاتىرە ھۆججىتى"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:132
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:130
 msgid "Logfile to log filter actions."
 msgstr "سۈزگۈچ ھەرىكىتى خاتىرىسىنىڭ خاتىرە ھۆججىتى."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:133
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:131
 msgid "Flush Outbox after filtering"
 msgstr "سۈزگەندىن كېيىن چىقىرىش كۆزنىكىنى تازىلا"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:134
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:132
 msgid ""
 "Whether to flush Outbox after filtering is done. Outbox flush will happen "
 "only when there was used any 'Forward to' filter action and approximately "
 "one minute after the last action invocation."
 msgstr "سۈزۈش ئاخىرلاشقاندا يوللاش ساندۇقىنى يېڭىلامدۇ يوق. پەقەت خالىغان «كۆچۈرۈپ يوللا» سۈزگۈچنىڭ قىلمىشىنى ئىشلەتكەن ھەمدە ئالدىنقى قېتىم تەخمىنەن بىر مىنۇتتىن كېيىن يوللاش ساندۇقىنى يېڭىلايدۇ."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:135
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:133
 msgid "Default forward style"
 msgstr "كۆڭۈلدىكى جاۋاب ئۇسلۇبى"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:136
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:134
 msgid "Prompt on empty subject"
 msgstr "ماۋزۇ بوش قالسا ئەسكەرت"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:137
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:135
 msgid ""
 "Prompt the user when he or she tries to send a message without a Subject."
 msgstr "ئىشلەتكۈچى ماۋزۇسى يوق خەت يوللىماقچى بولغاندا ئەسكەرتىدۇ."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:138
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:136
 msgid "Prompt when emptying the trash"
 msgstr "ئەخلەتخانىنى تازىلايدىغان ۋاقىتتا ئەسكەرتسۇن"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:139
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:137
 msgid "Prompt the user when he or she tries to empty the trash."
 msgstr "ئەخلەتخانىنى تازىلىماقچى بولغاندا ئىشلەتكۈچىگە كۆرسەتمە ئۇچۇر كۆرسىتىدۇ."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:140
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:138
 msgid "Prompt when user expunges"
 msgstr "ئىشلەتكۈچى ئۆچۈرگەندە ئەسكەرت"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:141
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:139
 msgid "Prompt the user when he or she tries to expunge a folder."
 msgstr "ئىشلەتكۈچى قىسقۇچنى ئۆچۈرۈۋەتمەكچى بولغاندا ئەسكەرتىدۇ."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:142
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:140
 msgid "Prompt before sending to recipients not entered as mail addresses"
 msgstr "خەت يوللاشتىن ئىلگىرى كىرگۈزۈلگەننىڭ خەت ئادرېسى ئەمەسلىكىنى ئەسكەرت"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:143
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:141
 msgid ""
 "It disables/enables the repeated prompts to warn that you are trying to send "
 "a message to recipients not entered as mail addresses"
 msgstr "شەخسىي جاۋاب ئۇچۇرنى خەت تىزىمىغا يوللىغاندا ئاگاھلاندۇرۇشنى قوزغىتىپ/چەكلەيدۇ."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:144
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:142
 msgid "Prompt when user only fills Bcc"
 msgstr "ئىشلەتكۈچى مەخپىي يوللاشنىلا تولدۇرغاندا ئەسكەرت"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:145
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:143
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
 msgstr "ئىشلەتكۈچى قوبۇللىغۇچى ياكى كۆچۈرۈپ يوللانغۇچى يوق ھالدا خەت يوللىماقچى بولغاندا ئەسكەرتىدۇ."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:146
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:144
 msgid "Prompt when user tries to send unwanted HTML"
 msgstr "ئىشلەتكۈچى تاسادىپىي HTML يوللىماقچى بولغاندا ئەسكەرت"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:147
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:145
 msgid ""
 "Prompt when user tries to send HTML mail to recipients that may not want to "
 "receive HTML mail."
 msgstr "ئىشلەتكۈچى HTML خەتنى قوبۇل قىلمايدىغان ئالاقەداشقا HTML خەت يوللىماقچى بولغاندا ئەسكەرتىدۇ."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:148
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:146
 msgid "Prompt when user tries to open 10 or more messages at once"
 msgstr "ئىشلەتكۈچى بىر قېتىمدا 10 ياكى ئۇنىڭدىن ئارتۇق خەتنى ئاچماقچى بولغاندا ئەسكەرت"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:149
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:147
 msgid ""
 "If a user tries to open 10 or more messages at one time, ask the user if "
 "they really want to do it."
 msgstr "ئەگەر ئىشلەتكۈچى بىرلا ۋاقىتتا ئاچىدىغان خەتنىڭ سانى 10 غا  تەڭ ياكى چوڭ بولغاندا ئىشلەتكۈچىدىن راستىنىلا مۇشۇ مەشغۇلاتنى ئىجرا قىلىشنى سورايدۇ."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:150
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:148
 msgid "Prompt while marking multiple messages"
 msgstr "كۆپ ئۇچۇرغا بەلگە سالغاندا ئەسكەرت"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:151
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:149
 msgid "Enable or disable the prompt whilst marking multiple messages."
 msgstr "كۆپ ئۇچۇرغا بەلگە سالغاندا ئەسكەرتىشنى قوزغات ياكى چەكلە."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:152
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:150
 msgid "Prompt when deleting messages in search folder"
 msgstr "ئىزدەش قىسقۇچىدىكى ئۇچۇرنى ئۆچۈرگەندە ئەسكەرت"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:153
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:151
 msgid ""
 "It disables/enables the repeated prompts to warn that deleting messages from "
 "a search folder permanently deletes the message, not simply removing it from "
 "the search results."
 msgstr "ئىزدەش قىسقۇچىدىكى ئۇچۇرنى مەڭگۈلۈك ئۆچۈر(ئاددىي ھالدا نەتىجىدىن چىقىرىۋەتمەستىن)گەندە ئۈزلۈكسىز قاڭقىغان ئەسكەرتىشنى قوزغىتىپ/چەكلەيدۇ."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:154
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:152
 msgid "Asks whether to copy a folder by drag &amp; drop in the folder tree"
 msgstr "قىسقۇچنى قىسقۇچ دەرىخىگە سۆرەپ-تاشلاش ئارقىلىق كۆچۈرگەندە سورىسۇنمۇ"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:155
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:153
 msgid ""
 "Possible values are: 'never' - do not allow copy with drag &amp; drop of "
 "folders in folder tree, 'always' - allow copy with drag &amp; drop of "
@@ -8244,11 +8207,11 @@ msgid ""
 "ask user."
 msgstr "قىممەتلەر: ‹زادىلا› - سۆرەپ-تاشلاپ ئارقىلىق قىسقۇچنى قىسقۇچ دەرىخىگە كۆچۈرۈشكە ئىجازەت يوق، ‹ھەمىشە› - سورىمايلا سۆرەپ-تاشلاپ ئارقىلىق قىسقۇچنى قىسقۇچ دەرىخىگە كۆچۈرىدۇ، ‹سورىسۇن› -  (ياكى باشقا قىممەت) بولسا ھامان ئىشلەتكۈچىدىن سورايدۇ."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:156
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:154
 msgid "Asks whether to move a folder by drag &amp; drop in the folder tree"
 msgstr "قىسقۇچنى قىسقۇچ دەرىخىگە سۆرەپ-تاشلاش ئارقىلىق يۆتكىگەندە سورىسۇنمۇ"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:157
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:155
 msgid ""
 "Possible values are: 'never' - do not allow move with drag &amp; drop of "
 "folders in folder tree, 'always' - allow move with drag &amp; drop of "
@@ -8256,158 +8219,158 @@ msgid ""
 "ask user."
 msgstr "قىممەتلەر: ‹زادىلا› - سۆرەپ-تاشلاپ ئارقىلىق قىسقۇچنى قىسقۇچ دەرىخىگە يۆتكەشكە ئىجازەت يوق، ‹ھەمىشە› - سورىمايلا سۆرەپ-تاشلاپ ئارقىلىق قىسقۇچنى قىسقۇچ دەرىخىگە يۆتكەيدۇ، ‹سورىسۇن› -  (ياكى باشقا قىممەت) بولسا ھامان ئىشلەتكۈچىدىن سورايدۇ."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:158
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:156
 msgid "Prompt when replying privately to list messages"
 msgstr "خەت تىزىمىغا شەخسىي جاۋاب قايتۇرغاندا ئەسكەرت"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:159
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:157
 msgid ""
 "It disables/enables the repeated prompts to warn that you are sending a "
 "private reply to a message which arrived via a mailing list."
 msgstr "ئۇچۇرنىڭ شەخسىي جاۋاب ئۇچۇرىنى خەت تىزىمىغا يوللىغاندا ئاگاھلاندۇرۇشنى قوزغىتىپ/چەكلەيدۇ."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:160
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:158
 msgid "Prompt when mailing list hijacks private replies"
 msgstr "خەت تىزىمى شەخسىي جاۋابنى توسۇۋالغاندا  ئەسكەرت"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:161
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:159
 msgid ""
 "It disables/enables the repeated prompts to warn that you are trying sending "
 "a private reply to a message which arrived via a mailing list, but the list "
 "sets a Reply-To: header which redirects your reply back to the list"
 msgstr "خەت تىزىملىكىدىن تاپشۇرۇۋالغان ئۇچۇرغا شەخسىي جاۋاب قايتۇرماقچى بولغان ۋاقتىڭىزدا، خەت بېشىدىكى Reply-To: خەت تىزىملىكىگە قايتا نىشانلانغان بولسا تەكرار ئەسكەرتىش ئۇچۇرىنى قوزغىتىپ ياكى چەكلەيدۇ."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:162
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:160
 msgid "Prompt when replying to many recipients"
 msgstr "كۆپ تاپشۇرۇۋالغۇچىغا جاۋاب قايتۇرغاندا ئەسكەرت"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:163
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:161
 msgid ""
 "It disables/enables the repeated prompts to warn that you are sending a "
 "reply to many people."
 msgstr "شەخسىي جاۋاب ئۇچۇرنى يوللىغاندا ئاگاھلاندۇرۇشنى قوزغىتىپ/چەكلەيدۇ."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:164
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:162
 msgid ""
 "Asks whether to close the message window when the user forwards or replies "
 "to the message shown in the window"
 msgstr "ئىشلەتكۈچى كۆچۈرۈپ يوللاش ياكى جاۋاب قايتۇرۇش كۆزنەكتىكى ئۇچۇرنى كۆرسىتىشتە، ئۇچۇر كۆزنىكىنى يېپىش ياكى ياپماسلىقنى سورايدۇ"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:165
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:163
 msgid ""
 "Possible values are: 'never' - to never close browser window, 'always' - to "
 "always close browser window or 'ask' - (or any other value) will ask user."
 msgstr "قىممەتلەر: ‹زادىلا› - كۆرۈش كۆزنىكىنى زادىلا ياپمايدۇ، ‹ھەمىشە› - كۆرۈش كۆزنىكىنى ھەمىشە ياپىدۇ، ‹سورىسۇن› -  (ياكى باشقا قىممەت) بولسا ھامان ئىشلەتكۈچىدىن سورايدۇ."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:166
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:164
 msgid "Empty Trash folders on exit"
 msgstr "چېكىنگەندە ئەخلەت قىسقۇچىنى قۇرۇقدا"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:167
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:165
 msgid "Empty all Trash folders when exiting Evolution."
 msgstr "Evolution دىن چېكىنگەندە ئەخلەت قىسقۇچىنى قۇرۇقدايدۇ."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:168
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:166
 msgid "Minimum days between emptying the trash on exit"
 msgstr "چېكىنگەندە ئەخلەت ساندۇقىنى بوشىتىدىغان ئەڭ قىسقا كۈن سانى"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:169
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:167
 msgid "Minimum time between emptying the trash on exit, in days."
 msgstr "چېكىنگەندە ئەخلەت ساندۇقىنى بوشىتىدىغان ئەڭ قىسقا ۋاقىت، كۈن بويىچە ھېسابلىنىدۇ."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:170
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:168
 msgid "Last time Empty Trash was run"
 msgstr "ئالدىنقى قېتىم ئەخلەت ساندۇقنى تازىلىغان ۋاقىت"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:171
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:169
 msgid ""
 "The last time Empty Trash was run, in days since January 1st, 1970 (Epoch)."
 msgstr "ئالدىنقى قېتىم ئەخلەت ساندۇقىنى تازىلىغان ۋاقىت، 1970-يىلى 1-ئاينىڭ 1-كۈنىدىن كېيىنكى كۈن سانىنى كۆرسىتىدۇ."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:172
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:170
 msgid "Amount of time in seconds the error should be shown on the status bar."
 msgstr "ھالەت بالداقتا خاتا ۋاقىتنىڭ سېكۇنت سانىنى كۆرسىتىدۇ."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:173
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:171
 msgid "Level beyond which the message should be logged."
 msgstr "بۇ دەرىجىدىن يۇقىرى ئۇچۇرلار خاتىرىلىنىدۇ."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:174
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:172
 msgid ""
 "This can have three possible values. \"0\" for errors. \"1\" for warnings. "
 "\"2\" for debug messages."
 msgstr "بۇنىڭ 3 خىل ئىشلەتكىلى بولىدىغان قىممىتى بار: \"0\" خاتالىق، \"1\" ئاگاھلاندۇرۇش، \"2\" سازلاش ئۇچۇرى"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:175
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:173
 msgid "Show original \"Date\" header value."
 msgstr "ئەسلى خەتنىڭ «چېسلا» قىممىتىنى كۆرسىتىدۇ."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:176
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:174
 msgid ""
 "Show the original \"Date\" header (with a local time only if the time zone "
 "differs). Otherwise always show \"Date\" header value in a user preferred "
 "format and local time zone."
 msgstr "ئەسلى خەتنىڭ بېشىدىكى «چېسلا» قىممىتى(ئەگەر ۋاقىت رايونى ئوخشاش بولمىسا يەرلىك ۋاقىت قوشۇلىدۇ)نى كۆرسىتىدۇ، بولمىسا ھەمىشە ئىشلەتكۈچىنىڭ مايىللىقى ۋە يەرلىك ۋاقىت رايونى بويىچە خەت بېشىدىكى «چېسلا» قىممىتىنى كۆرسىتىدۇ."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:177
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:175
 msgid "List of Labels and their associated colors"
 msgstr "ئەن ۋە ئۇنىڭغا ماس كەلگەن رەڭ تىزىمى"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:178
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:176
 msgid ""
 "List of labels known to the mail component of Evolution. The list contains "
 "strings containing name:color where color uses the HTML hex encoding."
 msgstr "Evolution خەت بۆلىكىگە مەلۇملۇق بەلگە تىزىمىنى كۆرسىتىدۇ. تىزىمدىكى ھەر تىزىقىنىڭ شەكلى: «ئات:رەڭ»، ئۇنىڭدىكى رەڭ HTML دىكى ئون ئالتىلىك سىستېمىدىكى كودىنى ئىشلىتىدۇ."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:179
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:177
 msgid "Check incoming mail being junk"
 msgstr "قوبۇللىغان خەتنىڭ ئەخلەتمۇ ئەمەسمۇ تەكشۈر"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:180
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:178
 msgid "Run junk test on incoming mail."
 msgstr "قوبۇللىغان خەتكە ئەخلەت ئۇچۇر سىنىقى ئىجرا قىلىدۇ."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:181
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:179
 msgid "Empty Junk folders on exit"
 msgstr "چېكىنگەندە Junk قىسقۇچىنى قۇرۇقدا"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:182
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:180
 msgid "Empty all Junk folders when exiting Evolution."
 msgstr "Evolution دىن چېكىنگەندە Junk قىسقۇچىنى قۇرۇقدايدۇ."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:183
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:181
 msgid "Minimum days between emptying the junk on exit"
 msgstr "چېكىنگەندە ئەخلەت ئۇچۇرنى تازىلايدىغان ئەڭ قىسقا كۈن سانى"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:184
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:182
 msgid "Minimum time between emptying the junk on exit, in days."
 msgstr "چېكىنگەندە ئەخلەت ئۇچۇرنى تازىلايدىغان ئەڭ قىسقا ۋاقىت، كۈن بويىچە ھېسابلىنىدۇ."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:185
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:183
 msgid "Last time Empty Junk was run"
 msgstr "ئالدىنقى قېتىم ئەخلەت خەتنى تازىلىغان ۋاقىت"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:186
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:184
 msgid ""
 "The last time Empty Junk was run, in days since January 1st, 1970 (Epoch)."
 msgstr "ئالدىنقى قېتىم ئەخلەت ئۇچۇرنى تازىلىغان ۋاقىت، 1970-يىلى 1-ئاينىڭ 1-كۈنىدىن كېيىنكى كۈن سانىنى كۆرسىتىدۇ."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:187
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:185
 msgid "The default plugin for Junk hook"
 msgstr "كۆڭۈلدىكى ئەخلەت ئۇچۇر قارماق قىستۇرمىسى"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:188
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:186
 msgid ""
 "This is the default junk plugin, even though there are multiple plugins "
 "enabled. If the default listed plugin is disabled, then it won't fall back "
 "to the other available plugins."
 msgstr "بۇ كۆڭۈلدىكى ئەخلەت ئۇچۇر قىستۇرمىسى، كۆپ قىستۇرما قوزغىتىلغان تەقدىردىمۇ. ئەگەر كۆڭۈلدىكى تىزىمدا كۆرسىتىلگەن قىستۇرما چەكلەنگەن بولسا، ئۇ باشقا ئىشلەتكىلى بولىدىغان كۆڭۈلدىكى قىستۇرمىلارغا قايتۇرۇلمايدۇ."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:189
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:187
 msgid "Determines whether to lookup in address book for sender email"
 msgstr "ئادرېس دەپتىرىدىن يوللىغۇچىنىڭ ئېلخەت ئادرېسىنى ئىزدەپ جەزملەمدۇ يوق"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:190
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:188
 msgid ""
 "Determines whether to lookup the sender email in address book. If found, it "
 "shouldn't be a spam. It looks up in the books marked for autocompletion. It "
@@ -8415,86 +8378,86 @@ msgid ""
 "autocompletion."
 msgstr "ئادرېس دەپتىرىدىن يوللىغۇچىنىڭ ئېلخەت ئادرېسىنى ئىزدەپ جەزملەمدۇ يوق. ئەگەر تاپسا ئۇنداقتا ئەخلەت خەت ئەمەس. بۇنداق بولغاندا ئۆزلۈكىدىن تاماملايدىغان ئادرېس دەپتىرىدىن ئىزدەيدۇ. ئەگەر يىراقتىكى ئادرېس دەپتەر(LDAP گە ئوخشاش) ئۆزلۈكىدىن تاماملايدىغان بەلگە قويۇلسا ئاستا بولۇشى مۇمكىن."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:191
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:189
 msgid ""
 "Determines whether to look up addresses for junk filtering in local address "
 "book only"
 msgstr "يەرلىك ئادرېس دەپتىرىدىن ئادرېس ئىزدەپ ئەخلەت خەتنى سۈزۈشنى جەزملەمدۇ يوق"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:192
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:190
 msgid ""
 "This option is related to the key lookup_addressbook and is used to "
 "determine whether to look up addresses in local address book only to exclude "
 "mail sent by known contacts from junk filtering."
 msgstr "بۇ تاللانما بىلەن lookup_addressbook كۇنۇپكا قىممىتى مۇناسىۋەتلىك، يەرلىك ئادرېس دەپتىرىنى تەكشۈرۈپ، سىز تونۇيدىغان كىشىلەرنىڭ خېتىنىڭ ئەخلەت خەت سۈزگۈچ تەرىپىدىن سۈزۈۋېتىلىشىنىڭ ئالدىنى ئالىدۇ."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:193
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:191
 msgid "Determines whether to use custom headers to check for junk"
 msgstr "ئەخلەت خەت تەكشۈرگەندە ئۆزلەشتۈرگەن خەت بېشى ئىشلىتەمدۇ يوق"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:194
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:192
 msgid ""
 "Determines whether to use custom headers to check for junk. If this option "
 "is enabled and the headers are mentioned, it will be improve the junk "
 "checking speed."
 msgstr "ئەخلەت خەت تەكشۈرگەندە ئۆزلەشتۈرگەن خەت بېشى ئىشلىتەمدۇ يوق. ئەگەر بۇ تاللانما قوزغىتىلىپ خەت بېشى تەڭشەلسە، ئەخلەت خەت تەكشۈرۈش سۈرئىتى تېزلىشىدۇ."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:195
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:193
 msgid "Custom headers to use while checking for junk."
 msgstr "ئەخلەت خەت تەكشۈرگەندە ئۆزلەشتۈرگەن خەت بېشى."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:196
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:194
 msgid ""
 "Custom headers to use while checking for junk. The list elements are string "
 "in the format \"headername=value\"."
 msgstr "ئەخلەت خەت تەكشۈرگەندە ئۆزلەشتۈرگەن خەت بېشى. تىزىم ئېلېمېنتىنىڭ ھەرپ تىزىقى پىچىمى «خەت باش ئاتى=قىممىتى»."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:197
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:195
 msgid "UID string of the default account."
 msgstr "كۆڭۈلدىكى ھېساباتنىڭ UID ھەرپ تىزىقى."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:198
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:196
 msgid "Save directory"
 msgstr "مۇندەرىجە ساقلا"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:199
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:197
 msgid "Directory for saving mail component files."
 msgstr "خەت بۆلەك ھۆججەتلىرىنى ساقلايدىغان مۇندەرىجە."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:200
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:198
 msgid "Composer load/attach directory"
 msgstr "لايىھىلىگۈچى يۈكلەپ/قوشىدىغان مۇندەرىجە"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:201
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:199
 msgid "Directory for loading/attaching files to composer."
 msgstr "لايىھىلىگۈچى ھۆججەت يۈكلەش/قوشۇشقا ئىشلىتىدىغان مۇندەرىجە"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:202
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:200
 msgid "Check for new messages on start"
 msgstr "قوزغالغاندا يېڭى ئۇچۇرنى تەكشۈر"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:201
 msgid ""
 "Whether to check for new messages when Evolution is started. This includes "
 "also sending messages from Outbox."
 msgstr "ھەر قېتىم قوزغالغاندا يېڭى خەت بارمۇ-يوق تەكشۈرىدۇ. شۇنداقلا ئەۋەتىدىغان خەت بارمۇ يوقمۇ ئۇنىمۇ تەكشۈرىدۇ."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:202
 msgid "Check for new messages in all active accounts"
 msgstr "ھەممە ئاكتىپ ھېساباتنىڭ يېڭى ئۇچۇرىنى تەكشۈرىدۇ"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:205
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
 msgid ""
 "Whether to check for new messages in all active accounts regardless of the "
 "account \"Check for new messages every X minutes\" option when Evolution is "
 "started. This option is used only together with 'send_recv_on_start' option."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:206
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
 msgid "Server synchronization interval"
 msgstr "مۇلازىمېتىر قەدەمداشلاش ئارىلىقى"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:207
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:205
 msgid ""
 "Controls how frequently local changes are synchronized with the remote mail "
 "server. The interval must be at least 30 seconds."
@@ -8664,7 +8627,7 @@ msgid ""
 "Whether to make a sound of any kind when new messages arrive. If \"false\", "
 "the \"notify-sound-beep\", \"notify-sound-file\", \"notify-sound-play-file\" "
 "and \"notify-sound-use-theme\" keys are disregarded."
-msgstr ""
+msgstr "بىرەر ئۇچۇر كەلسە ئاۋاز چىقىرامدۇ يوق. ئەگەر «false» بولسا، «notify-sound-beep»،«notify-sound-file»، «notify-sound-play-file»، «notify-sound-use-theme» دېگەن ئاچقۇچلارنىڭ ھەممىسى نەزەرگە ئېلىنمايدۇ."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:11
 msgid "Whether to emit a beep."
@@ -8711,7 +8674,7 @@ msgid ""
 "The mode to use for displaying mails. \"normal\" makes Evolution choose the "
 "best part to show, \"prefer_plain\" makes it use the text part, if present, "
 "and \"only_plain\" forces Evolution to only show plain text"
-msgstr ""
+msgstr "خەتلەرنى كۆرسەتكەندە ئىشلىتىدىغان ھالەت. «normal» بولسا Evolution خەتنى ئەڭ ياخشى ھالەتتە كۆرسىتىدۇ. «prefer_plain» بولسا تېكىست بۆلەكلىرى بار بولسا تېكىست ھالەتتە كۆرسىتىدۇ. «only_plain» بولسا پەقەتلا تېكىست ھالەتتىلا كۆرسىتىدۇ."
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:3
 msgid "Whether to show suppressed HTML output"
@@ -8725,7 +8688,7 @@ msgstr "ئېلان قىلىدىغان نىشانلارنىڭ تىزىمى"
 msgid ""
 "The key specifies the list of destinations to where publish calendars. Each "
 "values specifies an XML with setup for publishing to one destination."
-msgstr ""
+msgstr "مەزكۇر ئاچقۇچ يىلنامىلەرنى ئېلان قىلىدىغان نىشانلارنىڭ تىزىمىنى كۆرسىتىپ بېرىدۇ. ھەر بىر قىممەت بىر XML نى كۆرسىتىدۇ. بۇنىڭ ئىچىدە ئېلان قىلىدىغان بىرلا نىشان بار بولىدۇ."
 
 #: ../data/org.gnome.evolution.plugin.templates.gschema.xml.in.h:1
 msgid ""
@@ -8860,7 +8823,7 @@ msgstr "SpamAssassin مۇئەككىلى ۋە خېرىدارىنى ئىشلەتس
 msgid "Use spamc and spamd programs, if available."
 msgstr "ئەگەر بار بولسا spamc ۋە spamd پروگراممىلىرىنى ئىشلىتىدۇ."
 
-#: ../em-format/e-mail-formatter-attachment.c:364
+#: ../em-format/e-mail-formatter-attachment.c:370
 #: ../e-util/e-attachment-bar.c:101 ../e-util/e-attachment-bar.c:106
 #: ../e-util/e-attachment-paned.c:176 ../e-util/e-attachment-paned.c:181
 #: ../mail/message-list.etspec.h:4
@@ -8868,52 +8831,52 @@ msgid "Attachment"
 msgid_plural "Attachments"
 msgstr[0] "قوشۇلمىلار"
 
-#: ../em-format/e-mail-formatter-attachment.c:365
+#: ../em-format/e-mail-formatter-attachment.c:371
 msgid "Display as attachment"
 msgstr "قوشۇلما سۈپىتىدە كۆرسەتسۇن"
 
-#: ../em-format/e-mail-formatter.c:1389 ../mail/e-mail-tag-editor.c:326
+#: ../em-format/e-mail-formatter.c:1385 ../mail/e-mail-tag-editor.c:272
 #: ../mail/message-list.etspec.h:5 ../modules/mail/em-mailer-prefs.c:61
 msgid "From"
 msgstr "يوللىغۇچى"
 
-#: ../em-format/e-mail-formatter.c:1390 ../modules/mail/em-mailer-prefs.c:62
+#: ../em-format/e-mail-formatter.c:1386 ../modules/mail/em-mailer-prefs.c:62
 msgid "Reply-To"
 msgstr "جاۋاب"
 
-#: ../em-format/e-mail-formatter.c:1392
+#: ../em-format/e-mail-formatter.c:1388
 #: ../em-format/e-mail-formatter-utils.c:196
 #: ../em-format/e-mail-formatter-utils.c:220
 #: ../modules/mail/em-mailer-prefs.c:64
 msgid "Cc"
 msgstr "كۆچۈرۈپ يوللا"
 
-#: ../em-format/e-mail-formatter.c:1393
+#: ../em-format/e-mail-formatter.c:1389
 #: ../em-format/e-mail-formatter-utils.c:198
 #: ../em-format/e-mail-formatter-utils.c:222
 #: ../modules/mail/em-mailer-prefs.c:65
 msgid "Bcc"
 msgstr "مەخپىي كۆچۈرۈپ يوللا"
 
-#: ../em-format/e-mail-formatter.c:1394
-#: ../em-format/e-mail-formatter-quote-headers.c:150
-#: ../mail/e-mail-tag-editor.c:331 ../mail/em-filter-i18n.h:77
+#: ../em-format/e-mail-formatter.c:1390
+#: ../em-format/e-mail-formatter-quote-headers.c:154
+#: ../mail/e-mail-tag-editor.c:277 ../mail/em-filter-i18n.h:77
 #: ../mail/message-list.etspec.h:6 ../modules/mail/em-mailer-prefs.c:66
 #: ../smime/lib/e-asn1-object.c:712
 msgid "Subject"
 msgstr "تېما"
 
-#: ../em-format/e-mail-formatter.c:1395 ../e-util/e-dateedit.c:549
+#: ../em-format/e-mail-formatter.c:1391 ../e-util/e-dateedit.c:549
 #: ../e-util/e-dateedit.c:572 ../mail/message-list.etspec.h:7
 #: ../modules/mail/em-mailer-prefs.c:67
 msgid "Date"
 msgstr "چېسلا"
 
-#: ../em-format/e-mail-formatter.c:1396 ../modules/mail/em-mailer-prefs.c:68
+#: ../em-format/e-mail-formatter.c:1392 ../modules/mail/em-mailer-prefs.c:68
 msgid "Newsgroups"
 msgstr "خەۋەر گۇرۇپپىسى"
 
-#: ../em-format/e-mail-formatter.c:1397 ../modules/mail/em-mailer-prefs.c:69
+#: ../em-format/e-mail-formatter.c:1393 ../modules/mail/em-mailer-prefs.c:69
 #: ../plugins/face/org-gnome-face.eplug.xml.h:1
 msgid "Face"
 msgstr "يۈز"
@@ -8926,12 +8889,12 @@ msgstr "يۈز"
 msgid "From: %s"
 msgstr "مەنبە: %s"
 
-#: ../em-format/e-mail-formatter-headers.c:121
-#: ../em-format/e-mail-formatter-headers.c:126
+#: ../em-format/e-mail-formatter-headers.c:123
+#: ../em-format/e-mail-formatter-headers.c:128
 msgid "(no subject)"
 msgstr "(ماۋزۇسىز)"
 
-#: ../em-format/e-mail-formatter-headers.c:328
+#: ../em-format/e-mail-formatter-headers.c:332
 #, c-format
 msgid "This message was sent by %s on behalf of %s"
 msgstr "بۇ ئۇچۇر %s تەرىپىدىن %s نىڭ سالاھىيىتىگە ۋاكالىتەن يوللايدۇ"
@@ -8956,7 +8919,7 @@ msgstr "بۆلەكنى RFC822 ئۇچۇرى سۈپىتىدە پىچسۇن"
 #: ../e-util/gal-define-views-dialog.c:361
 #: ../e-util/gal-view-instance-save-as-dialog.c:95
 #: ../mail/e-mail-label-tree-view.c:99
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:1327
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:1328
 #: ../modules/cal-config-google/e-google-chooser.c:209
 #: ../modules/plugin-manager/evolution-plugin-manager.c:67
 msgid "Name"
@@ -8968,32 +8931,32 @@ msgid "Size"
 msgstr "چوڭلۇقى"
 
 #. Add encryption/signature header
-#: ../em-format/e-mail-formatter-print-headers.c:120
+#: ../em-format/e-mail-formatter-print-headers.c:122
 #: ../mail/e-mail-config-security-page.c:642
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:195
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:129
 msgid "Security"
 msgstr "بىخەتەرلىك"
 
-#: ../em-format/e-mail-formatter-print-headers.c:138
+#: ../em-format/e-mail-formatter-print-headers.c:140
 msgid "GPG signed"
 msgstr "GPG ئىمزالىق"
 
-#: ../em-format/e-mail-formatter-print-headers.c:144
+#: ../em-format/e-mail-formatter-print-headers.c:146
 msgid "GPG encrpyted"
 msgstr "GPG شىفىرلىق"
 
-#: ../em-format/e-mail-formatter-print-headers.c:150
+#: ../em-format/e-mail-formatter-print-headers.c:152
 msgid "S/MIME signed"
 msgstr "S/MIME ئىمزالىق"
 
-#: ../em-format/e-mail-formatter-print-headers.c:156
+#: ../em-format/e-mail-formatter-print-headers.c:158
 msgid "S/MIME encrpyted"
 msgstr "S/MIME شىفىرلىق"
 
 #. pseudo-header
-#: ../em-format/e-mail-formatter-quote-headers.c:161
-#: ../em-format/e-mail-formatter-utils.c:346
+#: ../em-format/e-mail-formatter-quote-headers.c:165
+#: ../em-format/e-mail-formatter-utils.c:348
 #: ../modules/mail/em-mailer-prefs.c:1117
 msgid "Mailer"
 msgstr "خەتچى"
@@ -9365,7 +9328,7 @@ msgstr "يۇقىرىغا(_U)"
 msgid "Move _Down"
 msgstr "تۆۋەنگە(_D)"
 
-#: ../e-util/e-table-config.ui.h:7 ../e-util/e-name-selector-dialog.c:969
+#: ../e-util/e-table-config.ui.h:7 ../e-util/e-name-selector-dialog.c:981
 msgid "_Remove"
 msgstr "چىقىرىۋەت(_R)"
 
@@ -9914,7 +9877,7 @@ msgstr "ھازىرلا"
 #. strftime format of a weekday and a date.
 #: ../e-util/e-cell-date-edit.c:307 ../e-util/e-datetime-format.c:209
 #: ../modules/calendar/e-cal-shell-view-actions.c:1924
-#: ../modules/itip-formatter/itip-view.c:228
+#: ../modules/itip-formatter/itip-view.c:230
 msgid "Today"
 msgstr "بۈگۈن"
 
@@ -10031,7 +9994,7 @@ msgstr "ئۇكرائىنچە"
 msgid "Visual"
 msgstr "كۆرۈنۈشچان"
 
-#: ../e-util/e-client-cache.c:1061
+#: ../e-util/e-client-cache.c:1067
 #, c-format
 msgid "Cannot create a client object from extension name '%s'"
 msgstr "كېڭەيتىلمە ئات ‹%s› دىن خېرىدار نەڭىنى قۇرغىلى بولمىدى"
@@ -10087,7 +10050,7 @@ msgid "Invalid Time Value"
 msgstr "ۋاقىت قىممىتى ئىناۋەتسىز"
 
 #. strftime format of a weekday and a date.
-#: ../e-util/e-datetime-format.c:220 ../modules/itip-formatter/itip-view.c:256
+#: ../e-util/e-datetime-format.c:220 ../modules/itip-formatter/itip-view.c:258
 msgid "Tomorrow"
 msgstr "ئەتە"
 
@@ -10500,32 +10463,32 @@ msgid ""
 "should instead select the timezone from the drop-down combination box below."
 msgstr "چاشقىنەكتە مەشغۇلات قىلىنىدىغان خەرىتە بۆلىكىدىن ۋاقىت رايونىنى تاللىغىلى بولىدۇ. ھەرپتاختا ئىشلەتكۈچىلىرى تۆۋەندىكى بىرىكمە رامكىدىن ۋاقىت رايونى تاللىسا بولىدۇ."
 
-#: ../e-util/e-misc-utils.c:244
+#: ../e-util/e-misc-utils.c:242
 msgid "Could not open the link."
 msgstr "ئۇلانمىنى ئاچالمايدۇ"
 
-#: ../e-util/e-misc-utils.c:291
+#: ../e-util/e-misc-utils.c:289
 msgid "Could not display help for Evolution."
 msgstr "Evolution ياردەم ئۇچۇرىنى كۆرسىتەلمىدى."
 
-#: ../e-util/e-name-selector-dialog.c:279
+#: ../e-util/e-name-selector-dialog.c:278
 msgid "Show Contacts"
 msgstr "ئالاقەداشلارنى كۆرسىتىش"
 
-#: ../e-util/e-name-selector-dialog.c:311
+#: ../e-util/e-name-selector-dialog.c:310
 msgid "Address B_ook:"
 msgstr "ئادرېس دەپتىرى(_O):"
 
-#: ../e-util/e-name-selector-dialog.c:318
+#: ../e-util/e-name-selector-dialog.c:317
 msgid "Cat_egory:"
 msgstr "كاتېگورىيە(_E):"
 
-#: ../e-util/e-name-selector-dialog.c:342
+#: ../e-util/e-name-selector-dialog.c:341
 msgid "_Search:"
 msgstr "ئىزدە(_S):"
 
-#: ../e-util/e-name-selector-dialog.c:368
-#: ../e-util/e-name-selector-dialog.c:1243
+#: ../e-util/e-name-selector-dialog.c:367
+#: ../e-util/e-name-selector-dialog.c:1256
 #: ../modules/addressbook/e-book-shell-view-actions.c:1066
 #: ../modules/calendar/e-cal-shell-view-actions.c:1757
 #: ../modules/calendar/e-memo-shell-view-actions.c:788
@@ -10533,49 +10496,49 @@ msgstr "ئىزدە(_S):"
 msgid "Any Category"
 msgstr "خالىغان كاتېگورىيە"
 
-#: ../e-util/e-name-selector-dialog.c:370
+#: ../e-util/e-name-selector-dialog.c:369
 msgid "Co_ntacts"
 msgstr "ئالاقەداشلار(_O)"
 
-#: ../e-util/e-name-selector-dialog.c:447
+#: ../e-util/e-name-selector-dialog.c:446
 msgid "Search"
 msgstr "ئىزدە"
 
-#: ../e-util/e-name-selector-dialog.c:450
+#: ../e-util/e-name-selector-dialog.c:449
 #: ../mail/importers/pine-importer.c:426
 msgid "Address Book"
 msgstr "ئادرېس دەپتىرى"
 
-#: ../e-util/e-name-selector-dialog.c:453
+#: ../e-util/e-name-selector-dialog.c:452
 #: ../modules/addressbook/e-book-shell-backend.c:305
 #: ../modules/addressbook/e-book-shell-view.c:356
 msgid "Contacts"
 msgstr "ئالاقەداشلار"
 
-#: ../e-util/e-name-selector-dialog.c:575
+#: ../e-util/e-name-selector-dialog.c:580
 msgid "Select Contacts from Address Book"
 msgstr "ئادرېس دەپتىرىدىن ئالاقەداشلارنى تاللاش"
 
 #. To Translators: This would be similiar to "Expand MyList Inline" where MyList is a Contact List
-#: ../e-util/e-name-selector-entry.c:3020
+#: ../e-util/e-name-selector-entry.c:3032
 #, c-format
 msgid "E_xpand %s Inline"
 msgstr "%s نى قۇردا ياي(_X)"
 
 #. Copy Contact Item
-#: ../e-util/e-name-selector-entry.c:3036
+#: ../e-util/e-name-selector-entry.c:3048
 #, c-format
 msgid "Cop_y %s"
 msgstr "%s نى كۆچۈر(_Y)"
 
 #. Cut Contact Item
-#: ../e-util/e-name-selector-entry.c:3047
+#: ../e-util/e-name-selector-entry.c:3059
 #, c-format
 msgid "C_ut %s"
 msgstr "%s نى كەس(_U)"
 
 #. Edit Contact item
-#: ../e-util/e-name-selector-entry.c:3065
+#: ../e-util/e-name-selector-entry.c:3077
 #, c-format
 msgid "_Edit %s"
 msgstr "%s نى تەھرىرلە(_E)"
@@ -10721,7 +10684,7 @@ msgstr "بىخەتەر باغلىنىش ئىشلەت"
 
 #: ../e-util/e-source-config.c:1416
 msgid "Unset _trust for SSL certificate"
-msgstr ""
+msgstr "SSL گۇۋاھنامىسىنىڭ ئىشەنچىنى ئېلىۋەت(_T)"
 
 #: ../e-util/e-source-config.c:1450
 msgid "User"
@@ -11188,7 +11151,7 @@ msgstr "بۇ تاللانما  OAuth 2.0 زىيارەت مايىقىنى ئىش�
 #: ../libemail-engine/e-mail-authenticator.c:182
 #, c-format
 msgid "Invalid authentication result code (%d)"
-msgstr "سالاھىيەت دەلىللەشنىڭ نەتىجە كودى ئىناۋەتسىز(%d)"
+msgstr "كىملىك دەلىللەشنىڭ نەتىجە كودى ئىناۋەتسىز(%d)"
 
 #: ../libemail-engine/e-mail-folder-utils.c:114
 #, c-format
@@ -11310,29 +11273,29 @@ msgstr "ئەۋەتكەنلىرى"
 msgid "Templates"
 msgstr "قېلىپلار"
 
-#: ../libemail-engine/e-mail-session.c:1394
+#: ../libemail-engine/e-mail-session.c:1344
 #, c-format
 msgid "User cancelled operation"
 msgstr "ئىشلەتكۈچى مەشغۇلاتتىن ۋاز كەچتى"
 
-#: ../libemail-engine/e-mail-session.c:1615
+#: ../libemail-engine/e-mail-session.c:1533
 #, c-format
 msgid "%s authentication failed"
 msgstr "%s نىڭ كىملىكىنى دەلىللەش مەغلۇپ بولدى."
 
-#: ../libemail-engine/e-mail-session.c:1660
+#: ../libemail-engine/e-mail-session.c:1578
 #, c-format
 msgid "No data source found for UID '%s'"
 msgstr "كىملىك(UID) ‹%s› نىڭ سانلىق-مەلۇمات مەنبەسى تېپىلمىدى"
 
-#: ../libemail-engine/e-mail-session.c:1711
+#: ../libemail-engine/e-mail-session.c:1629
 #, c-format
 msgid ""
 "No destination address provided, forwarding of the message has been "
 "cancelled."
 msgstr "نىشان ئادرېس يوق، شۇڭا خەتنى يوللاپ بېرىش ئەمەلدىن قالدۇرۇلدى."
 
-#: ../libemail-engine/e-mail-session.c:1724
+#: ../libemail-engine/e-mail-session.c:1642
 #, c-format
 msgid "No identity found to use, forwarding of the message has been cancelled."
 msgstr "ئىشلىتىدىغان كىملىك تېپىلمىدى، شۇڭا خەتنى يوللاپ بېرىش ئەمەلدىن قالدۇرۇلدى."
@@ -11368,7 +11331,8 @@ msgid ""
 "set in one or more filters is invalid. Please check your filters in Edit-"
 ">Message Filters.\n"
 "Original error was: %s"
-msgstr ""
+msgstr "تاللانغان ئۇچۇرنى سۈزۈش مەغلۇپ بولدى. سەۋەبى بىر ياكى بىر قانچە سۈزگۈچتىكى بەلگىلەنگەن  قىسقۇچ ئىناۋەتسىز بولۇشى مۇمكىن. سۈزگۈچلىرىڭىزنى «تەھرىر->ئۇچۇر سۈزگۈچلىرى» نى بېسىپ تەھرىرلەڭ.\n"
+"ئەسلى خاتالىق: %s"
 
 #: ../libemail-engine/mail-ops.c:233
 #, c-format
@@ -11382,7 +11346,8 @@ msgid ""
 "in one or more filters is invalid. Please check your filters in Edit-"
 ">Message Filters.\n"
 "Original error was: %s"
-msgstr ""
+msgstr "ئەۋەتىدىغان ئۇچۇرلارنى سۈزۈش مەغلۇپ بولدى. سەۋەبى بىر ياكى بىر قانچە سۈزگۈچتىكى بەلگىلەنگەن  قىسقۇچ ئىناۋەتسىز بولۇشى مۇمكىن. سۈزگۈچلىرىڭىزنى «تەھرىر->ئۇچۇر سۈزگۈچلىرى» نى بېسىپ تەھرىرلەڭ.\n"
+"ئەسلى خاتالىق: %s"
 
 #: ../libemail-engine/mail-ops.c:982
 #, c-format
@@ -11504,7 +11469,7 @@ msgstr "ھېسابات ئاتى"
 
 #: ../mail/e-mail-account-tree-view.c:136
 #: ../mail/e-mail-config-security-page.c:333
-#: ../mail/e-mail-config-security-page.c:472 ../mail/e-mail-reader.c:3684
+#: ../mail/e-mail-config-security-page.c:472 ../mail/e-mail-reader.c:3707
 #: ../mail/mail-config.ui.h:44
 msgid "Default"
 msgstr "كۆڭۈلدىكى"
@@ -11517,7 +11482,7 @@ msgstr "ئېلخەت ئادرېسىنى تەمىنلەنمىگەن"
 msgid "Missing domain in email address"
 msgstr "ئېلخەت ئادرېسى تەركىبىدىكى دائىرە ئاتى يوق"
 
-#: ../mail/e-mail-backend.c:766
+#: ../mail/e-mail-backend.c:754
 msgid "Unknown background operation"
 msgstr "نامەلۇم ئارقا تەرەپ مەشغۇلاتى"
 
@@ -11991,623 +11956,623 @@ msgstr "قاش قىممىتى"
 msgid "Headers"
 msgstr "بەت قېشى"
 
-#: ../mail/e-mail-reader.c:347
+#: ../mail/e-mail-reader.c:370
 msgid "Save Image"
 msgstr "سۈرەت ساقلا"
 
-#: ../mail/e-mail-reader.c:429 ../mail/em-filter-i18n.h:12
+#: ../mail/e-mail-reader.c:452 ../mail/em-filter-i18n.h:12
 msgid "Copy to Folder"
 msgstr "قىسقۇچقا كۆچۈر"
 
-#: ../mail/e-mail-reader.c:429 ../mail/em-folder-utils.c:489
+#: ../mail/e-mail-reader.c:452 ../mail/em-folder-utils.c:489
 msgid "C_opy"
 msgstr "كۆچۈر(_O)"
 
-#: ../mail/e-mail-reader.c:963 ../mail/em-filter-i18n.h:54
+#: ../mail/e-mail-reader.c:986 ../mail/em-filter-i18n.h:54
 msgid "Move to Folder"
 msgstr "قىسقۇچقا يۆتكە"
 
-#: ../mail/e-mail-reader.c:963 ../mail/em-folder-utils.c:489
+#: ../mail/e-mail-reader.c:986 ../mail/em-folder-utils.c:489
 msgid "_Move"
 msgstr "يۆتكە(_M)"
 
-#: ../mail/e-mail-reader.c:1311 ../mail/e-mail-reader.c:1511
-#: ../mail/e-mail-reader.c:1551
+#: ../mail/e-mail-reader.c:1334 ../mail/e-mail-reader.c:1534
+#: ../mail/e-mail-reader.c:1574
 msgid "_Do not ask me again."
 msgstr "قايتا سورىما(_D)."
 
-#: ../mail/e-mail-reader.c:1557
+#: ../mail/e-mail-reader.c:1580
 msgid "_Always ignore Reply-To: for mailing lists."
 msgstr "ئېلخەت تىزىمىنىڭ جاۋاب يوللا سۆز بۆلىكىگە ھەمىشە پەرۋا قىلما(_A)"
 
-#: ../mail/e-mail-reader.c:1752
+#: ../mail/e-mail-reader.c:1775
 msgid "Failed to retrieve message:"
 msgstr "ئۇچۇرنى ئېلىش مەغلۇپ بولدى:"
 
-#: ../mail/e-mail-reader.c:1798 ../mail/e-mail-reader.c:2891
+#: ../mail/e-mail-reader.c:1821 ../mail/e-mail-reader.c:2914
 #, c-format
 msgid "Retrieving message '%s'"
 msgstr "ئۇچۇر ‹%s› نى ئېلىۋاتىدۇ"
 
-#: ../mail/e-mail-reader.c:1975
+#: ../mail/e-mail-reader.c:1998
 msgid "A_dd Sender to Address Book"
 msgstr "ئەۋەتكۈچىنى ئادرېس دەپتىرىگە قوش(_D)"
 
-#: ../mail/e-mail-reader.c:1977
+#: ../mail/e-mail-reader.c:2000
 msgid "Add sender to address book"
 msgstr "ئەۋەتكۈچى ئادرېسىنى ئادرېس دەپتىرىگە قوشىدۇ"
 
-#: ../mail/e-mail-reader.c:1982
+#: ../mail/e-mail-reader.c:2005
 msgid "Check for _Junk"
 msgstr "ئەخلەت ئۇچۇرنى تەكشۈر(_J)"
 
-#: ../mail/e-mail-reader.c:1984
+#: ../mail/e-mail-reader.c:2007
 msgid "Filter the selected messages for junk status"
 msgstr "تاللانغان ئۇچۇرلارنى ئەخلەت ئۇچۇرلار قاتارىغا سۈزىدۇ"
 
-#: ../mail/e-mail-reader.c:1989
+#: ../mail/e-mail-reader.c:2012
 msgid "_Copy to Folder..."
 msgstr "قىسقۇچقا كۆچۈر(_C)…"
 
-#: ../mail/e-mail-reader.c:1991
+#: ../mail/e-mail-reader.c:2014
 msgid "Copy selected messages to another folder"
 msgstr "تاللانغان ئۇچۇرلارنى باشقا قىسقۇچقا كۆچۈرىدۇ"
 
-#: ../mail/e-mail-reader.c:1996
+#: ../mail/e-mail-reader.c:2019
 msgid "_Delete Message"
 msgstr "ئۇچۇر ئۆچۈر(_D)"
 
-#: ../mail/e-mail-reader.c:1998
+#: ../mail/e-mail-reader.c:2021
 msgid "Mark the selected messages for deletion"
 msgstr "تاللانغان ئۇچۇرلارغا ئۆچۈرۈش بەلگىسى سالىدۇ"
 
-#: ../mail/e-mail-reader.c:2003
+#: ../mail/e-mail-reader.c:2026
 msgid "Create a Filter Rule for Mailing _List..."
 msgstr "ئېلخەت تىزىمى ئۈچۈن سۈزگۈچ قائىدىسى قۇر(_L)…"
 
-#: ../mail/e-mail-reader.c:2005
+#: ../mail/e-mail-reader.c:2028
 msgid "Create a rule to filter messages to this mailing list"
 msgstr "بۇ ئېلخەت تىزىمىغا يوللانغان ئۇچۇرلارنى سۈزىدىغان قائىدە قۇرىدۇ"
 
-#: ../mail/e-mail-reader.c:2010
+#: ../mail/e-mail-reader.c:2033
 msgid "Create a Filter Rule for _Recipients..."
 msgstr "تاپشۇرۇۋالغۇچىلار ئۈچۈن سۈزگۈچ قائىدىسى قۇر(_R)…"
 
-#: ../mail/e-mail-reader.c:2012
+#: ../mail/e-mail-reader.c:2035
 msgid "Create a rule to filter messages to these recipients"
 msgstr "بۇ قوبۇللىغۇچىغا يوللانغان ئۇچۇرلارنى سۈزىدىغان قائىدە قۇرىدۇ"
 
-#: ../mail/e-mail-reader.c:2017
+#: ../mail/e-mail-reader.c:2040
 msgid "Create a Filter Rule for Se_nder..."
 msgstr "ئەۋەتكۈچىلەر ئۈچۈن سۈزگۈچ قائىدىسى قۇر(_N)…"
 
-#: ../mail/e-mail-reader.c:2019
+#: ../mail/e-mail-reader.c:2042
 msgid "Create a rule to filter messages from this sender"
 msgstr "بۇ يوللىغۇچىدىن كەلگەن ئۇچۇرلارنى سۈزىدىغان قائىدە قۇرىدۇ"
 
-#: ../mail/e-mail-reader.c:2024
+#: ../mail/e-mail-reader.c:2047
 msgid "Create a Filter Rule for _Subject..."
 msgstr "ماۋزۇ ئۈچۈن سۈزگۈچ قائىدىسى قۇر(_S)…"
 
-#: ../mail/e-mail-reader.c:2026
+#: ../mail/e-mail-reader.c:2049
 msgid "Create a rule to filter messages with this subject"
 msgstr "بۇ تېمىدىكى ئۇچۇرلارنى سۈزىدىغان قائىدە قۇرىدۇ"
 
-#: ../mail/e-mail-reader.c:2031
+#: ../mail/e-mail-reader.c:2054
 msgid "A_pply Filters"
 msgstr "سۈزگۈچلەرنى قوللان(_P)"
 
-#: ../mail/e-mail-reader.c:2033
+#: ../mail/e-mail-reader.c:2056
 msgid "Apply filter rules to the selected messages"
 msgstr "تاللانغان ئۇچۇرلارغا سۈزگۈچ قائىدىسىنى قوللان"
 
-#: ../mail/e-mail-reader.c:2038
+#: ../mail/e-mail-reader.c:2061
 msgid "_Find in Message..."
 msgstr "ئۇچۇردىن ئىزدە(_F)…"
 
-#: ../mail/e-mail-reader.c:2040
+#: ../mail/e-mail-reader.c:2063
 msgid "Search for text in the body of the displayed message"
 msgstr "كۆرسىتىدىغان ئۇچۇرنىڭ گەۋدىسىدىن تېكىست ئىزدەيدۇ"
 
-#: ../mail/e-mail-reader.c:2045
+#: ../mail/e-mail-reader.c:2068
 msgid "_Clear Flag"
 msgstr "بەلگىنى تازىلا_C)"
 
-#: ../mail/e-mail-reader.c:2047
+#: ../mail/e-mail-reader.c:2070
 msgid "Remove the follow-up flag from the selected messages"
 msgstr "تاللانغان ئۇچۇرلاردىكى ئىزلاش بەلگىسىنى چىقىرىۋېتىدۇ"
 
-#: ../mail/e-mail-reader.c:2052
+#: ../mail/e-mail-reader.c:2075
 msgid "_Flag Completed"
 msgstr "بەلگە تاماملاندى(_F)"
 
-#: ../mail/e-mail-reader.c:2054
+#: ../mail/e-mail-reader.c:2077
 msgid "Set the follow-up flag to completed on the selected messages"
 msgstr "تاللانغان ئۇچۇرلاردىكى ئىزلاش بەلگىسىنى تاماملاندى قىلىپ تەڭشەيدۇ"
 
-#: ../mail/e-mail-reader.c:2059
+#: ../mail/e-mail-reader.c:2082
 msgid "Follow _Up..."
 msgstr "ئىزلا(_U)…"
 
-#: ../mail/e-mail-reader.c:2061
+#: ../mail/e-mail-reader.c:2084
 msgid "Flag the selected messages for follow-up"
 msgstr "تاللانغان ئۇچۇرلارغا ئىزلاش بەلگىسى سالىدۇ"
 
-#: ../mail/e-mail-reader.c:2066
+#: ../mail/e-mail-reader.c:2089
 msgid "_Attached"
 msgstr "قوشۇمچە(_A)"
 
-#: ../mail/e-mail-reader.c:2068 ../mail/e-mail-reader.c:2075
+#: ../mail/e-mail-reader.c:2091 ../mail/e-mail-reader.c:2098
 msgid "Forward the selected message to someone as an attachment"
 msgstr "تاللانغان ئۇچۇرنى قوشۇلما سۈپىتىدە باشقىلارغا يوللايدۇ"
 
-#: ../mail/e-mail-reader.c:2073
+#: ../mail/e-mail-reader.c:2096
 msgid "Forward As _Attached"
 msgstr "قوشۇمچە سۈپىتىدە يوللا(_A)"
 
-#: ../mail/e-mail-reader.c:2080
+#: ../mail/e-mail-reader.c:2103
 msgid "_Inline"
 msgstr "سىڭدۈر(_I)"
 
-#: ../mail/e-mail-reader.c:2082 ../mail/e-mail-reader.c:2089
+#: ../mail/e-mail-reader.c:2105 ../mail/e-mail-reader.c:2112
 msgid "Forward the selected message in the body of a new message"
 msgstr "يېڭى ئۇچۇر گەۋدىسىدە تاللانغان ئۇچۇرنى يوللايدۇ"
 
-#: ../mail/e-mail-reader.c:2087
+#: ../mail/e-mail-reader.c:2110
 msgid "Forward As _Inline"
 msgstr "سىڭدۈرمە سۈپىتىدە يوللا(_I)"
 
-#: ../mail/e-mail-reader.c:2094
+#: ../mail/e-mail-reader.c:2117
 msgid "_Quoted"
 msgstr "نەقىل(_Q)"
 
-#: ../mail/e-mail-reader.c:2096 ../mail/e-mail-reader.c:2103
+#: ../mail/e-mail-reader.c:2119 ../mail/e-mail-reader.c:2126
 msgid "Forward the selected message quoted like a reply"
 msgstr "كۆچۈرۈپ يوللاشقا ئوخشاپ كېتىدىغان نەقىل ئۇسۇلىدا تاللانغان ئۇچۇرنى كۆچۈرۈپ يوللايدۇ"
 
-#: ../mail/e-mail-reader.c:2101
+#: ../mail/e-mail-reader.c:2124
 msgid "Forward As _Quoted"
 msgstr "نەقىل سۈپىتىدە يوللا(_Q)"
 
-#: ../mail/e-mail-reader.c:2108
+#: ../mail/e-mail-reader.c:2131
 msgid "_Load Images"
 msgstr "سۈرەت يۈكلە(_L)"
 
-#: ../mail/e-mail-reader.c:2110
+#: ../mail/e-mail-reader.c:2133
 msgid "Force images in HTML mail to be loaded"
 msgstr "HTML خەتتىكى سۈرەتلەرنى مەجبۇرىي يۈكلەيدۇ"
 
-#: ../mail/e-mail-reader.c:2115
+#: ../mail/e-mail-reader.c:2138
 msgid "_Important"
 msgstr "مۇھىم(_I)"
 
-#: ../mail/e-mail-reader.c:2117
+#: ../mail/e-mail-reader.c:2140
 msgid "Mark the selected messages as important"
 msgstr "تاللانغان ئۇچۇرلارغا مۇھىم بەلگىسى سالىدۇ"
 
-#: ../mail/e-mail-reader.c:2122
+#: ../mail/e-mail-reader.c:2145
 msgid "_Junk"
 msgstr "ئەخلەت(_J)"
 
-#: ../mail/e-mail-reader.c:2124
+#: ../mail/e-mail-reader.c:2147
 msgid "Mark the selected messages as junk"
 msgstr "تاللانغان ئۇچۇرلارغا ئەخلەت بەلگىسى سالىدۇ"
 
-#: ../mail/e-mail-reader.c:2129
+#: ../mail/e-mail-reader.c:2152
 msgid "_Not Junk"
 msgstr "ئەخلەت ئەمەس(_N)"
 
-#: ../mail/e-mail-reader.c:2131
+#: ../mail/e-mail-reader.c:2154
 msgid "Mark the selected messages as not being junk"
 msgstr "تاللانغان ئۇچۇرلارغا ئەخلەت ئەمەس بەلگىسى سالىدۇ"
 
-#: ../mail/e-mail-reader.c:2136
+#: ../mail/e-mail-reader.c:2159
 msgid "_Read"
 msgstr "ئوقۇ(_R)"
 
-#: ../mail/e-mail-reader.c:2138
+#: ../mail/e-mail-reader.c:2161
 msgid "Mark the selected messages as having been read"
 msgstr "تاللانغان ئۇچۇرلارغا ئوقۇلدى بەلگىسى سالىدۇ"
 
-#: ../mail/e-mail-reader.c:2143
+#: ../mail/e-mail-reader.c:2166
 msgid "Uni_mportant"
 msgstr "مۇھىم ئەمەس(_M)"
 
-#: ../mail/e-mail-reader.c:2145
+#: ../mail/e-mail-reader.c:2168
 msgid "Mark the selected messages as unimportant"
 msgstr "تاللانغان ئۇچۇرلارغا مۇھىم ئەمەس بەلگىسى سالىدۇ"
 
-#: ../mail/e-mail-reader.c:2150
+#: ../mail/e-mail-reader.c:2173
 msgid "_Unread"
 msgstr "ئوقۇلمىدى(_U)"
 
-#: ../mail/e-mail-reader.c:2152
+#: ../mail/e-mail-reader.c:2175
 msgid "Mark the selected messages as not having been read"
 msgstr "تاللانغان ئۇچۇرلارغا ئوقۇلمىدى بەلگىسى سالىدۇ"
 
-#: ../mail/e-mail-reader.c:2157
+#: ../mail/e-mail-reader.c:2180
 msgid "_Edit as New Message..."
 msgstr "يېڭى ئۇچۇر سۈپىتىدە تەھرىر(_E)…"
 
-#: ../mail/e-mail-reader.c:2159
+#: ../mail/e-mail-reader.c:2182
 msgid "Open the selected messages in the composer for editing"
 msgstr "تاللانغان ئۇچۇرنى تەھرىرلىگۈچتە ئېچىپ تەھرىرلەيدۇ"
 
-#: ../mail/e-mail-reader.c:2164
+#: ../mail/e-mail-reader.c:2187
 msgid "Compose _New Message"
 msgstr "يېڭى ئۇچۇر ياز(_N)"
 
-#: ../mail/e-mail-reader.c:2166
+#: ../mail/e-mail-reader.c:2189
 msgid "Open a window for composing a mail message"
 msgstr "خەت يېزىش ئۈچۈن يېڭى كۆزنەك ئاچىدۇ"
 
-#: ../mail/e-mail-reader.c:2171
+#: ../mail/e-mail-reader.c:2194
 msgid "_Open in New Window"
 msgstr "يېڭى كۆزنەكتە ئاچ(_O)"
 
-#: ../mail/e-mail-reader.c:2173
+#: ../mail/e-mail-reader.c:2196
 msgid "Open the selected messages in a new window"
 msgstr "تاللانغان ئۇچۇرلارنى يېڭى كۆزنەكتە ئاچىدۇ"
 
-#: ../mail/e-mail-reader.c:2178
+#: ../mail/e-mail-reader.c:2201
 msgid "_Move to Folder..."
 msgstr "قىسقۇچقا يۆتكە(_M)…"
 
-#: ../mail/e-mail-reader.c:2180
+#: ../mail/e-mail-reader.c:2203
 msgid "Move selected messages to another folder"
 msgstr "تاللانغان ئۇچۇرنى باشقا قىسقۇچقا يۆتكەيدۇ"
 
-#: ../mail/e-mail-reader.c:2185
+#: ../mail/e-mail-reader.c:2208
 msgid "_Switch to Folder"
 msgstr "قىسقۇچقا ئالماشتۇر(_S)"
 
-#: ../mail/e-mail-reader.c:2187
+#: ../mail/e-mail-reader.c:2210
 msgid "Display the parent folder"
 msgstr "ئاتا قىسقۇچنى كۆرسىتىدۇ"
 
-#: ../mail/e-mail-reader.c:2192
+#: ../mail/e-mail-reader.c:2215
 msgid "Switch to _next tab"
 msgstr "كېيىنكى بەتكۈچكە ئالماشتۇر(_N)"
 
-#: ../mail/e-mail-reader.c:2194
+#: ../mail/e-mail-reader.c:2217
 msgid "Switch to the next tab"
 msgstr "كېيىنكى بەتكۈچكە ئالمىشىدۇ"
 
-#: ../mail/e-mail-reader.c:2199
+#: ../mail/e-mail-reader.c:2222
 msgid "Switch to _previous tab"
 msgstr "ئالدىنقى بەتكۈچكە ئالماشتۇر(_P)"
 
-#: ../mail/e-mail-reader.c:2201
+#: ../mail/e-mail-reader.c:2224
 msgid "Switch to the previous tab"
 msgstr "ئالدىنقى بەتكۈچكە ئالمىشىدۇ"
 
-#: ../mail/e-mail-reader.c:2206
+#: ../mail/e-mail-reader.c:2229
 msgid "Cl_ose current tab"
 msgstr "نۆۋەتتىكى بەتكۈچنى ياپ(_O)"
 
-#: ../mail/e-mail-reader.c:2208
+#: ../mail/e-mail-reader.c:2231
 msgid "Close current tab"
 msgstr "نۆۋەتتىكى بەتكۈچنى ياپ"
 
-#: ../mail/e-mail-reader.c:2213
+#: ../mail/e-mail-reader.c:2236
 msgid "_Next Message"
 msgstr "كېيىنكى ئۇچۇر(_N)"
 
-#: ../mail/e-mail-reader.c:2215
+#: ../mail/e-mail-reader.c:2238
 msgid "Display the next message"
 msgstr "كېيىنكى ئۇچۇرنى كۆرسىتىدۇ"
 
-#: ../mail/e-mail-reader.c:2220
+#: ../mail/e-mail-reader.c:2243
 msgid "Next _Important Message"
 msgstr "كېيىنكى مۇھىم ئۇچۇر(_I)"
 
-#: ../mail/e-mail-reader.c:2222
+#: ../mail/e-mail-reader.c:2245
 msgid "Display the next important message"
 msgstr "كېيىنكى مۇھىم ئۇچۇرنى كۆرسىتىدۇ"
 
-#: ../mail/e-mail-reader.c:2227
+#: ../mail/e-mail-reader.c:2250
 msgid "Next _Thread"
 msgstr "كېيىنكى جەريان(_T)"
 
-#: ../mail/e-mail-reader.c:2229
+#: ../mail/e-mail-reader.c:2252
 msgid "Display the next thread"
 msgstr "كېيىنكى جەرياننى كۆرسىتىدۇ"
 
-#: ../mail/e-mail-reader.c:2234
+#: ../mail/e-mail-reader.c:2257
 msgid "Next _Unread Message"
 msgstr "كېيىنكى ئوقۇلمىغان ئۇچۇر(_U)"
 
-#: ../mail/e-mail-reader.c:2236
+#: ../mail/e-mail-reader.c:2259
 msgid "Display the next unread message"
 msgstr "كېيىنكى ئوقۇلمىغان ئۇچۇرنى كۆرسىتىدۇ"
 
-#: ../mail/e-mail-reader.c:2241
+#: ../mail/e-mail-reader.c:2264
 msgid "_Previous Message"
 msgstr "ئالدىنقى ئۇچۇر(_P)"
 
-#: ../mail/e-mail-reader.c:2243
+#: ../mail/e-mail-reader.c:2266
 msgid "Display the previous message"
 msgstr "ئالدىنقى ئۇچۇرنى كۆرسىتىدۇ"
 
-#: ../mail/e-mail-reader.c:2248
+#: ../mail/e-mail-reader.c:2271
 msgid "Pr_evious Important Message"
 msgstr "ئالدىنقى مۇھىم ئۇچۇر(_E)"
 
-#: ../mail/e-mail-reader.c:2250
+#: ../mail/e-mail-reader.c:2273
 msgid "Display the previous important message"
 msgstr "ئالدىنقى مۇھىم ئۇچۇرنى كۆرسىتىدۇ"
 
-#: ../mail/e-mail-reader.c:2255
+#: ../mail/e-mail-reader.c:2278
 msgid "Previous T_hread"
 msgstr "ئالدىنقى جەريان(_H)"
 
-#: ../mail/e-mail-reader.c:2257
+#: ../mail/e-mail-reader.c:2280
 msgid "Display the previous thread"
 msgstr "ئالدىنقى جەرياننى كۆرسىتىدۇ"
 
-#: ../mail/e-mail-reader.c:2262
+#: ../mail/e-mail-reader.c:2285
 msgid "P_revious Unread Message"
 msgstr "ئالدىنقى ئوقۇلمىغان ئۇچۇر(_R)"
 
-#: ../mail/e-mail-reader.c:2264
+#: ../mail/e-mail-reader.c:2287
 msgid "Display the previous unread message"
 msgstr "ئالدىنقى ئوقۇلمىغان ئۇچۇرنى كۆرسىتىدۇ"
 
-#: ../mail/e-mail-reader.c:2271
+#: ../mail/e-mail-reader.c:2294
 msgid "Print this message"
 msgstr "بۇ ئۇچۇرنى باس"
 
-#: ../mail/e-mail-reader.c:2278
+#: ../mail/e-mail-reader.c:2301
 msgid "Preview the message to be printed"
 msgstr "باسىدىغان ئۇچۇرنى ئالدىن كۆزەت"
 
-#: ../mail/e-mail-reader.c:2283
+#: ../mail/e-mail-reader.c:2306
 msgid "Re_direct"
 msgstr "قايتا يوللا(_D)"
 
-#: ../mail/e-mail-reader.c:2285
+#: ../mail/e-mail-reader.c:2308
 msgid "Redirect (bounce) the selected message to someone"
 msgstr "تاللانغان ئۇچۇرنى باشقىلارغا قايتا يوللا(قايتۇر)"
 
-#: ../mail/e-mail-reader.c:2290
+#: ../mail/e-mail-reader.c:2313
 msgid "Remo_ve Attachments"
 msgstr "قوشۇلمىلارنى چىقىرىۋەت(_W)"
 
-#: ../mail/e-mail-reader.c:2292
+#: ../mail/e-mail-reader.c:2315
 msgid "Remove attachments"
 msgstr "قوشۇلمىلارنى چىقىرىۋېتىدۇ"
 
-#: ../mail/e-mail-reader.c:2297
+#: ../mail/e-mail-reader.c:2320
 msgid "Remove Du_plicate Messages"
 msgstr "تەكرارلانغان ئۇچۇرلارنى چىقىرىۋەت"
 
-#: ../mail/e-mail-reader.c:2299
+#: ../mail/e-mail-reader.c:2322
 msgid "Checks selected messages for duplicates"
 msgstr "تاللانغان ئۇچۇرلاردىكى تەكرارلانغانلىرىنى تەكشۈرىدۇ"
 
-#: ../mail/e-mail-reader.c:2304 ../mail/mail.error.xml.h:27
+#: ../mail/e-mail-reader.c:2327 ../mail/mail.error.xml.h:27
 #: ../modules/calendar/e-cal-shell-view-actions.c:1571
 #: ../modules/mail/e-mail-attachment-handler.c:196
 msgid "Reply to _All"
 msgstr "ھەممىگە جاۋاب ياز(_A)"
 
-#: ../mail/e-mail-reader.c:2306
+#: ../mail/e-mail-reader.c:2329
 msgid "Compose a reply to all the recipients of the selected message"
 msgstr "تاللانغان ئۇچۇرنىڭ ھەممە قوبۇللىغۇچىلىرىغا جاۋاب يازىدۇ"
 
-#: ../mail/e-mail-reader.c:2311 ../mail/mail.error.xml.h:25
+#: ../mail/e-mail-reader.c:2334 ../mail/mail.error.xml.h:25
 msgid "Reply to _List"
 msgstr "تىزىمغا جاۋاب ياز(_L)"
 
-#: ../mail/e-mail-reader.c:2313
+#: ../mail/e-mail-reader.c:2336
 msgid "Compose a reply to the mailing list of the selected message"
 msgstr "تاللانغان ئۇچۇرنىڭ خەت تىزىمىغا جاۋاب خەت يازىدۇ"
 
-#: ../mail/e-mail-reader.c:2318
+#: ../mail/e-mail-reader.c:2341
 #: ../modules/mail/e-mail-attachment-handler.c:203
 msgid "_Reply to Sender"
 msgstr "يوللىغۇچىغا جاۋاب قايتۇر(_R)"
 
-#: ../mail/e-mail-reader.c:2320
+#: ../mail/e-mail-reader.c:2343
 msgid "Compose a reply to the sender of the selected message"
 msgstr "تاللىغان ئۇچۇرنىڭ يوللىغۇچىسىغا جاۋاب خەت يازىدۇ"
 
-#: ../mail/e-mail-reader.c:2325
+#: ../mail/e-mail-reader.c:2348
 msgid "_Save as mbox..."
 msgstr "mbox پىچىمىدا ساقلا(_S)…"
 
-#: ../mail/e-mail-reader.c:2327
+#: ../mail/e-mail-reader.c:2350
 msgid "Save selected messages as an mbox file"
 msgstr "تاللانغان ئۇچۇرنى mbox ھۆججەت پىچىمىدا ساقلايدۇ"
 
-#: ../mail/e-mail-reader.c:2332
+#: ../mail/e-mail-reader.c:2355
 msgid "_Message Source"
 msgstr "ئۇچۇر ئەسلى كودى(_M)"
 
-#: ../mail/e-mail-reader.c:2334
+#: ../mail/e-mail-reader.c:2357
 msgid "Show the raw email source of the message"
 msgstr "ئۇچۇرنىڭ ئەسلى ئېلخېتىنىڭ ئەسلى كودىنى كۆرسىتىدۇ"
 
-#: ../mail/e-mail-reader.c:2346
+#: ../mail/e-mail-reader.c:2369
 msgid "_Undelete Message"
 msgstr "ئۇچۇر ئۆچۈرمە(_U)"
 
-#: ../mail/e-mail-reader.c:2348
+#: ../mail/e-mail-reader.c:2371
 msgid "Undelete the selected messages"
 msgstr "تاللانغان ئۇچۇرنى ئۆچۈرۈلۈشىنى بىكار قىلىدۇ"
 
-#: ../mail/e-mail-reader.c:2353
+#: ../mail/e-mail-reader.c:2376
 msgid "_Normal Size"
 msgstr "ئادەتتىكى چوڭلۇقى(_N)"
 
-#: ../mail/e-mail-reader.c:2355
+#: ../mail/e-mail-reader.c:2378
 msgid "Reset the text to its original size"
 msgstr "تېكىستنى قايتىدىن ئادەتتىكى چوڭلۇقىغا ئەسلىگە قايتۇرىدۇ"
 
-#: ../mail/e-mail-reader.c:2360
+#: ../mail/e-mail-reader.c:2383
 msgid "_Zoom In"
 msgstr "چوڭايت(_Z)"
 
-#: ../mail/e-mail-reader.c:2362
+#: ../mail/e-mail-reader.c:2385
 msgid "Increase the text size"
 msgstr "تېكىستنى چوڭايتىدۇ"
 
-#: ../mail/e-mail-reader.c:2367
+#: ../mail/e-mail-reader.c:2390
 msgid "Zoom _Out"
 msgstr "كىچىكلەت(_O)"
 
-#: ../mail/e-mail-reader.c:2369
+#: ../mail/e-mail-reader.c:2392
 msgid "Decrease the text size"
 msgstr "تېكىستنى كىچىكلىتىدۇ"
 
-#: ../mail/e-mail-reader.c:2376
+#: ../mail/e-mail-reader.c:2399
 msgid "Cre_ate"
 msgstr "قۇر(_A)"
 
-#: ../mail/e-mail-reader.c:2383
+#: ../mail/e-mail-reader.c:2406
 msgid "Ch_aracter Encoding"
 msgstr "ھەرپ كودلىنىشى(_A)"
 
-#: ../mail/e-mail-reader.c:2390
+#: ../mail/e-mail-reader.c:2413
 msgid "F_orward As"
 msgstr "كۆچۈرۈپ يوللا(_O)"
 
-#: ../mail/e-mail-reader.c:2397
+#: ../mail/e-mail-reader.c:2420
 msgid "_Group Reply"
 msgstr "گۇرۇپپىغا جاۋا قايتۇر(_G)"
 
-#: ../mail/e-mail-reader.c:2404
+#: ../mail/e-mail-reader.c:2427
 msgid "_Go To"
 msgstr "يۆتكەل(_G)"
 
-#: ../mail/e-mail-reader.c:2411
+#: ../mail/e-mail-reader.c:2434
 msgid "Mar_k As"
 msgstr "بەلگە سال(_K)"
 
-#: ../mail/e-mail-reader.c:2418
+#: ../mail/e-mail-reader.c:2441
 msgid "_Message"
 msgstr "ئۇچۇر(_M)"
 
-#: ../mail/e-mail-reader.c:2425
+#: ../mail/e-mail-reader.c:2448
 msgid "_Zoom"
 msgstr "يىراق-يېقىن(_Z)"
 
-#: ../mail/e-mail-reader.c:2435
+#: ../mail/e-mail-reader.c:2458
 msgid "Create a Search Folder from Mailing _List..."
 msgstr "خەت تىزىمى ئۈچۈن ئىزدەش قىسقۇچى قۇر(_L)…"
 
-#: ../mail/e-mail-reader.c:2437
+#: ../mail/e-mail-reader.c:2460
 msgid "Create a search folder for this mailing list"
 msgstr "بۇ خەت تىزىمىغا ئىزدەش قىسقۇچى قۇرىدۇ"
 
-#: ../mail/e-mail-reader.c:2442
+#: ../mail/e-mail-reader.c:2465
 msgid "Create a Search Folder from Recipien_ts..."
 msgstr "تاپشۇرۇۋالغۇچىلار ئۈچۈن ئىزدەش قىسقۇچى قۇر(_T)…"
 
-#: ../mail/e-mail-reader.c:2444
+#: ../mail/e-mail-reader.c:2467
 msgid "Create a search folder for these recipients"
 msgstr "بۇ قوبۇللىغۇچىلارغا ئىزدەش قىسقۇچىدىن بىرنى قۇرىدۇ"
 
-#: ../mail/e-mail-reader.c:2449
+#: ../mail/e-mail-reader.c:2472
 msgid "Create a Search Folder from Sen_der..."
 msgstr "ئەۋەتكۈچىلەر ئۈچۈن ئىزدەش قىسقۇچى قۇر(_D)…"
 
-#: ../mail/e-mail-reader.c:2451
+#: ../mail/e-mail-reader.c:2474
 msgid "Create a search folder for this sender"
 msgstr "بۇ يوللىغۇچىغا ئىزدەش قىسقۇچىدىن بىرنى قۇرىدۇ"
 
-#: ../mail/e-mail-reader.c:2456
+#: ../mail/e-mail-reader.c:2479
 msgid "Create a Search Folder from S_ubject..."
 msgstr "ماۋزۇ ئۈچۈن ئىزدەش قىسقۇچى قۇر(_U)…"
 
-#: ../mail/e-mail-reader.c:2458
+#: ../mail/e-mail-reader.c:2481
 msgid "Create a search folder for this subject"
 msgstr "بۇ تېمىغا ئىزدەش قىسقۇچىدىن بىرنى قۇرىدۇ"
 
-#: ../mail/e-mail-reader.c:2481
+#: ../mail/e-mail-reader.c:2504
 msgid "Mark for Follo_w Up..."
 msgstr "ئىزلاش بەلگىسى سال(_W)…"
 
-#: ../mail/e-mail-reader.c:2489
+#: ../mail/e-mail-reader.c:2512
 msgid "Mark as _Important"
 msgstr "مۇھىم بەلگىسى سال(_I)"
 
-#: ../mail/e-mail-reader.c:2493
+#: ../mail/e-mail-reader.c:2516
 msgid "Mark as _Junk"
 msgstr "ئەخلەت بەلگىسى سال(_J)"
 
-#: ../mail/e-mail-reader.c:2497
+#: ../mail/e-mail-reader.c:2520
 msgid "Mark as _Not Junk"
 msgstr "ئەخلەت ئەمەس بەلگىسى سال(_N)"
 
-#: ../mail/e-mail-reader.c:2501
+#: ../mail/e-mail-reader.c:2524
 msgid "Mar_k as Read"
 msgstr "ئوقۇلدى بەلگىسى سال(_K)"
 
-#: ../mail/e-mail-reader.c:2505
+#: ../mail/e-mail-reader.c:2528
 msgid "Mark as Uni_mportant"
 msgstr "مۇھىم ئەمەس بەلگىسى سال(_M)"
 
-#: ../mail/e-mail-reader.c:2509
+#: ../mail/e-mail-reader.c:2532
 msgid "Mark as _Unread"
 msgstr "ئوقۇلمىدى بەلگىسى سال(_U)"
 
-#: ../mail/e-mail-reader.c:2553
+#: ../mail/e-mail-reader.c:2576
 msgid "_Caret Mode"
 msgstr "نۇربەلگە ھالىتى_C)"
 
-#: ../mail/e-mail-reader.c:2555
+#: ../mail/e-mail-reader.c:2578
 msgid "Show a blinking cursor in the body of displayed messages"
 msgstr "كۆرسىتىدىغان ئۇچۇر گەۋدىسىدە لىپىلداۋاتقان نۇربەلگىسىنى كۆرسىتىدۇ"
 
-#: ../mail/e-mail-reader.c:2561
+#: ../mail/e-mail-reader.c:2584
 msgid "All Message _Headers"
 msgstr "ھەممە ئۇچۇر بېشى(_H)"
 
-#: ../mail/e-mail-reader.c:2563
+#: ../mail/e-mail-reader.c:2586
 msgid "Show messages with all email headers"
 msgstr "ئۇچۇر كۆرسەتكەندە ھەممە ئۇچۇر بېشىنى كۆرسىتىدۇ"
 
-#: ../mail/e-mail-reader.c:2897
+#: ../mail/e-mail-reader.c:2920
 msgid "Retrieving message"
 msgstr "ئۇچۇرلارنى ئېلىۋاتىدۇ"
 
-#: ../mail/e-mail-reader.c:3877
+#: ../mail/e-mail-reader.c:3900
 #: ../modules/mail/e-mail-attachment-handler.c:189
 msgid "_Forward"
 msgstr "ئالدىغا(_F)"
 
-#: ../mail/e-mail-reader.c:3878
+#: ../mail/e-mail-reader.c:3901
 msgid "Forward the selected message to someone"
 msgstr "تاللانغان ئۇچۇرنى باشقىلارغا كۆچۈرۈپ يوللايدۇ"
 
-#: ../mail/e-mail-reader.c:3897
+#: ../mail/e-mail-reader.c:3920
 msgid "Group Reply"
 msgstr "گۇرۇپپىغا جاۋا قايتۇر"
 
-#: ../mail/e-mail-reader.c:3898
+#: ../mail/e-mail-reader.c:3921
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "تاللانغان ئۇچۇرنىڭ خەت تىزىمىغا ياكى ھەممە قوبۇللىغۇچىغا جاۋاب قايتۇرىدۇ"
 
-#: ../mail/e-mail-reader.c:3964 ../mail/em-filter-i18n.h:15
+#: ../mail/e-mail-reader.c:3987 ../mail/em-filter-i18n.h:15
 msgid "Delete"
 msgstr "ئۆچۈر"
 
-#: ../mail/e-mail-reader.c:3997
+#: ../mail/e-mail-reader.c:4020
 #: ../modules/calendar/e-cal-shell-view-actions.c:1396
 msgid "Next"
 msgstr "كېيىنكى"
 
-#: ../mail/e-mail-reader.c:4001
+#: ../mail/e-mail-reader.c:4024
 #: ../modules/calendar/e-cal-shell-view-actions.c:1389
 msgid "Previous"
 msgstr "ئالدىنقى"
 
-#: ../mail/e-mail-reader.c:4010 ../mail/mail-dialogs.ui.h:15
+#: ../mail/e-mail-reader.c:4033 ../mail/mail-dialogs.ui.h:15
 msgid "Reply"
 msgstr "جاۋاب قايتۇر"
 
-#: ../mail/e-mail-reader.c:4728
+#: ../mail/e-mail-reader.c:4751
 #, c-format
 msgid "Folder '%s'"
 msgstr "قىسقۇچ ‹%s›"
@@ -12622,7 +12587,7 @@ msgstr "بېسىش"
 
 #. Translators: %s is replaced with a folder
 #. * name %u with count of duplicate messages.
-#: ../mail/e-mail-reader-utils.c:1148
+#: ../mail/e-mail-reader-utils.c:1149
 #, c-format
 msgid ""
 "Folder '%s' contains %u duplicate message. Are you sure you want to delete "
@@ -12632,7 +12597,7 @@ msgid_plural ""
 "them?"
 msgstr[0] "قىسقۇچ ‹%s› دا %u  دانا تەكرارلانغان ئۇچۇر بار. ئۇلارنى ئۆچۈرگۈڭىز بارمۇ؟"
 
-#: ../mail/e-mail-reader-utils.c:1613
+#: ../mail/e-mail-reader-utils.c:1614
 msgid "Save Message"
 msgid_plural "Save Messages"
 msgstr[0] "ئۇچۇر ساقلا"
@@ -12642,21 +12607,21 @@ msgstr[0] "ئۇچۇر ساقلا"
 #. * mbox format, when the first message doesn't have a
 #. * subject.  The extension ".mbox" is appended to the
 #. * string; for example "Message.mbox".
-#: ../mail/e-mail-reader-utils.c:1634
+#: ../mail/e-mail-reader-utils.c:1635
 msgid "Message"
 msgid_plural "Messages"
 msgstr[0] "ئۇچۇرلار"
 
-#: ../mail/e-mail-reader-utils.c:2084
+#: ../mail/e-mail-reader-utils.c:2085
 msgid "Parsing message"
 msgstr "ئۇچۇرلارنى تەھلىل قىلىۋاتىدۇ"
 
-#: ../mail/e-mail-request.c:177
+#: ../mail/e-mail-request.c:181
 #, c-format
 msgid "Failed to load part '%s'"
 msgstr "بۆلەك ‹%s› نى ئوقۇش مەغلۇپ بولدى"
 
-#: ../mail/e-mail-tag-editor.c:292
+#: ../mail/e-mail-tag-editor.c:238
 msgid "Flag to Follow Up"
 msgstr "ئىزلاش بەلگىسى"
 
@@ -12664,29 +12629,29 @@ msgstr "ئىزلاش بەلگىسى"
 #. * when quoting messages.  Each ${Variable} gets replaced
 #. * with a value.  To see a full list of available variables,
 #. * see mail/em-composer-utils.c:attribvars array.
-#: ../mail/em-composer-utils.c:1278
+#: ../mail/em-composer-utils.c:1279
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
 msgstr "${Year}-${Month}-${Day}، ${AbbrevWeekdayName}، ${24Hour}:${Minute} ${TimeZone} دا ${Sender} يازدىكى:"
 
-#: ../mail/em-composer-utils.c:1284
+#: ../mail/em-composer-utils.c:1285
 msgid "-------- Forwarded Message --------"
 msgstr "-------- جاۋاب خەت --------"
 
-#: ../mail/em-composer-utils.c:1289
+#: ../mail/em-composer-utils.c:1290
 msgid "-----Original Message-----"
 msgstr "-----ئەسلى ئۇچۇر-----"
 
-#: ../mail/em-composer-utils.c:2611
+#: ../mail/em-composer-utils.c:2685
 msgid "an unknown sender"
 msgstr "نامەلۇم يوللىغۇچى"
 
-#: ../mail/em-composer-utils.c:3030
+#: ../mail/em-composer-utils.c:3104
 msgid "Posting destination"
 msgstr "ئەۋەتىش نىشانى"
 
-#: ../mail/em-composer-utils.c:3031
+#: ../mail/em-composer-utils.c:3105
 msgid "Choose folders to post the message to."
 msgstr "ئۇچۇرنى ئەۋەتىدىغان قىسقۇچنى تاللاڭ."
 
@@ -12946,7 +12911,7 @@ msgstr "بىر تەرەپ قىلىشنى توختات"
 
 #: ../mail/em-filter-i18n.h:79
 msgid "Unset Color"
-msgstr ""
+msgstr "رەڭنى قالدۇر"
 
 #: ../mail/em-filter-i18n.h:80
 msgid "Unset Status"
@@ -13158,7 +13123,7 @@ msgstr "بۇ ئۇچۇرنى قايتا كۆرسەتمە(_D)"
 msgid "Message Filters"
 msgstr "ئۇچۇر سۈزگۈچلىرى"
 
-#: ../mail/em-utils.c:1060
+#: ../mail/em-utils.c:1041
 #, c-format
 msgid "Messages from %s"
 msgstr "%s دىن كەلگەن ئۇچۇرلار"
@@ -13177,7 +13142,7 @@ msgstr "قىسقۇچ مەنبەسىنى ئىزدە"
 
 #: ../mail/em-vfolder-editor-rule.c:555
 msgid "Automatically update on any _source folder change"
-msgstr ""
+msgstr "خالىغان بىر مەنبە قىسقۇچ ئۆزگەرگەندە ئاپتوماتىك يېڭىلىسۇن(_S)"
 
 #: ../mail/em-vfolder-editor-rule.c:567
 msgid "All local folders"
@@ -13218,13 +13183,13 @@ msgstr "نىشان قىسقۇچ(_D):"
 
 #: ../mail/importers/evolution-mbox-importer.c:146
 #: ../plugins/dbx-import/dbx-importer.c:256
-#: ../plugins/pst-import/pst-importer.c:542
+#: ../plugins/pst-import/pst-importer.c:545
 msgid "Select folder"
 msgstr "قىسقۇچ تاللا"
 
 #: ../mail/importers/evolution-mbox-importer.c:147
 #: ../plugins/dbx-import/dbx-importer.c:257
-#: ../plugins/pst-import/pst-importer.c:543
+#: ../plugins/pst-import/pst-importer.c:546
 msgid "Select folder to import into"
 msgstr "ئېلىپ كىرىدىغان قىسقۇچنى تاللاڭ"
 
@@ -13254,7 +13219,7 @@ msgstr "خەت ساندۇقىنى ئېلىپ كىرىۋاتىدۇ"
 #. Destination folder, was set in our widget
 #: ../mail/importers/mail-importer.c:153
 #: ../plugins/dbx-import/dbx-importer.c:612
-#: ../plugins/pst-import/pst-importer.c:760
+#: ../plugins/pst-import/pst-importer.c:767
 #, c-format
 msgid "Importing '%s'"
 msgstr "«%s» نى ئېلىپ كىرىۋاتىدۇ"
@@ -13388,7 +13353,7 @@ msgstr ""
 
 #: ../mail/mail-config.ui.h:18
 msgid "Digitally _sign messages when original message signed (PGP or S/MIME)"
-msgstr ""
+msgstr "ئەسلى ئۇچۇرغا ئىمزا(PGP ياكى S/MIME) قويۇلغان بولسا، ئۇچۇرغا رەقەملىك ئىمزا قويسۇن(_S)"
 
 #: ../mail/mail-config.ui.h:20
 msgid "Sig_natures"
@@ -13541,7 +13506,7 @@ msgstr "ئېغىز:"
 
 #: ../mail/mail-config.ui.h:65
 msgid "Use Authe_ntication"
-msgstr "سالاھىيەت دەلىللەشنى ئىشلەت(_N)"
+msgstr "كىملىك دەلىللەشنى ئىشلەت(_N)"
 
 #: ../mail/mail-config.ui.h:66
 msgid "Us_ername:"
@@ -13804,7 +13769,7 @@ msgstr "ئىناۋەتسىز دەلىللەش"
 msgid ""
 "This server does not support this type of authentication and may not support "
 "authentication at all."
-msgstr "مەزكۇر مۇلازىمېتىر بۇ خىل تىپتىكى سالاھىيەت دەلىللەشنى قوللىمايدۇ، بەلكىم سالاھىيەت دەلىللەشنى پەقەت قوللىماسلىقى مۇمكىن."
+msgstr "مەزكۇر مۇلازىمېتىر بۇ خىل تىپتىكى كىملىك دەلىللەشنى قوللىمايدۇ، بەلكىم كىملىك دەلىللەشنى پەقەت قوللىماسلىقى مۇمكىن."
 
 #: ../mail/mail.error.xml.h:3
 msgid "Your login to your server \"{0}\" as \"{0}\" failed."
@@ -14042,7 +14007,7 @@ msgstr "Evolution نىڭ نورمال خىزمەت قىلىشى ئۈچۈن زۆ�
 
 #: ../mail/mail.error.xml.h:60
 msgid "Failed to expunge folder &quot;{0}&quot;."
-msgstr ""
+msgstr "قىسقۇچ &quot;{0}&quot; نى ئۆچۈرۈش مەغلۇپ بولدى."
 
 #: ../mail/mail.error.xml.h:62
 msgid "Failed to refresh folder &quot;{0}&quot;."
@@ -14278,7 +14243,7 @@ msgstr "سەل كۈتۈڭ."
 
 #: ../mail/mail.error.xml.h:121
 msgid "Querying server for a list of supported authentication mechanisms."
-msgstr "مۇلازىمېتىر قوللايدىغان سالاھىيەت دەلىللەش ھېسابلاش ئۇسۇلى تىزىمىنى سۈرۈشتۈرۈۋاتىدۇ."
+msgstr "مۇلازىمېتىر قوللايدىغان كىملىك دەلىللەش ھېسابلاش ئۇسۇلى تىزىمىنى سۈرۈشتۈرۈۋاتىدۇ."
 
 #: ../mail/mail.error.xml.h:122
 msgid ""
@@ -14545,7 +14510,7 @@ msgstr "ئەڭ يۇقىرى"
 
 #. strftime format of a time,
 #. * in 12-hour format, without seconds.
-#: ../mail/message-list.c:1889 ../modules/itip-formatter/itip-view.c:242
+#: ../mail/message-list.c:1889 ../modules/itip-formatter/itip-view.c:244
 msgid "Today %l:%M %p"
 msgstr "بۈگۈن %p%l:%M"
 
@@ -14574,16 +14539,16 @@ msgid "Messages"
 msgstr "ئۇچۇرلار"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../mail/message-list.c:4114
+#: ../mail/message-list.c:4136
 msgid "Follow-up"
 msgstr "ئەگەش"
 
 #. there is some info why the message list is empty, let it be something useful
-#: ../mail/message-list.c:4616 ../mail/message-list.c:5020
+#: ../mail/message-list.c:4638 ../mail/message-list.c:5042
 msgid "Generating message list"
 msgstr "ئۇچۇر تىزىمى قۇرۇلۇۋاتىدۇ"
 
-#: ../mail/message-list.c:4850
+#: ../mail/message-list.c:4872
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -14591,7 +14556,7 @@ msgid ""
 "by changing the query above."
 msgstr ""
 
-#: ../mail/message-list.c:4855
+#: ../mail/message-list.c:4877
 msgid "There are no messages in this folder."
 msgstr "بۇ قىسقۇچتا ئۇچۇر يوق."
 
@@ -15009,7 +14974,9 @@ msgid ""
 "You can restore Evolution from a backup file.\n"
 "\n"
 "This will restore all your personal data, settings mail filters, etc."
-msgstr ""
+msgstr "سىز زاپاسلانغان ھۆججەتتىن Evolution نى ئەسلىگە كەلتۈرۈشكە بولىدۇ.\n"
+"\n"
+"بۇنىڭ بىلەن شەخسىي سانلىق-مەلۇماتلار، تەڭشەك ۋە ئېلخەت سۈزگۈچلىرى قاتارلىقلار ئەسلىگە كېلىدۇ."
 
 #: ../modules/backup-restore/e-mail-config-restore-page.c:180
 msgid "_Restore from a backup file:"
@@ -15269,7 +15236,7 @@ msgstr "شىفىرلاش:"
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:246
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:180
 msgid "Authentication"
-msgstr "سالاھىيەت دەلىللەش"
+msgstr "كىملىك دەلىللەش"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:677
 msgid "Anonymous"
@@ -15330,7 +15297,7 @@ msgid ""
 "the directory tree.  A search scope of \"Subtree\" will include all entries "
 "below your search base.  A search scope of \"One Level\" will only include "
 "the entries one level beneath your search base."
-msgstr ""
+msgstr "ئىزدەش دائىرىسى سىزنىڭ مۇندەرىجە شېخىدا قانچىلىك چوڭقۇرلۇقتا ئىزدەيدىغانلىقىڭىز بەلگىلىنىدۇ. ئىزدەش دائىرىسى «Subtree»نى ئۆز ئىچىگە ئالسا ئۇنداقتا بەلگىلەنگەن ئىزدەش ئاساسىدا ئۇنىڭغا تەۋە ھەممە تارماق تۈرلەرنىمۇ ئۆز ئىچىگە ئالىدۇ. ئىزدەش دائىرىسى «بىر» بولسا ئۇنداقتا پەقەت بەلگىلەنگەن ئىزدەش ئاساسىدىكى بىر دەرىجە تۈرلەرنى ئۆز ئىچىگە ئالىدۇ."
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:792
 msgid "Search Filter:"
@@ -15362,28 +15329,28 @@ msgstr "URL:"
 msgid "Avoid IfMatch (needed on Apache < 2.2.8)"
 msgstr "IfMatch دىن خالىي(Apache < 2.2.8 زۆرۈر)"
 
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:446
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:447
 #, c-format
 msgid "HTTP Error: %s"
 msgstr "HTTP خاتالىقى: %s"
 
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:474
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:475
 msgid "Could not parse response"
 msgstr "ئىنكاسنى يېشەلمىدى"
 
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:483
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:484
 msgid "Empty response"
 msgstr "بوش ئىنكاس"
 
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:491
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:492
 msgid "Unexpected reply from server"
 msgstr "مۇلازىمېتىر ئويلاشمىغان ئىنكاس قايتۇردى"
 
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:1123
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:1124
 msgid "Could not locate user's calendars"
 msgstr "ئىشلەتكۈچىنىڭ يىلنامىسىنى تاپقىلى بولمىدى"
 
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:1347
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:1348
 msgid "Path"
 msgstr "يول"
 
@@ -15704,60 +15671,56 @@ msgstr "%u ۋە %d ئېلخەت ئادرېسىدىكى ئىشلەتكۈچى ۋە
 msgid "Publishing Information"
 msgstr "ئېلان قىلىدىغان ئۇچۇرلار"
 
-#: ../modules/calendar/e-cal-shell-backend.c:310
+#: ../modules/calendar/e-cal-shell-backend.c:308
 #: ../modules/calendar/e-cal-shell-view-actions.c:191
 msgid "New Calendar"
 msgstr "يېڭى يىلنامە"
 
-#: ../modules/calendar/e-cal-shell-backend.c:319
+#: ../modules/calendar/e-cal-shell-backend.c:317
 msgctxt "New"
 msgid "_Appointment"
 msgstr "ئۇچرىشىش(_A)"
 
-#: ../modules/calendar/e-cal-shell-backend.c:321
+#: ../modules/calendar/e-cal-shell-backend.c:319
 #: ../modules/calendar/e-cal-shell-view-actions.c:1545
 msgid "Create a new appointment"
 msgstr "يېڭى بىر ئۇچرىشىش قۇرىدۇ"
 
-#: ../modules/calendar/e-cal-shell-backend.c:326
+#: ../modules/calendar/e-cal-shell-backend.c:324
 msgctxt "New"
 msgid "All Day A_ppointment"
 msgstr "پۈتۈن كۈنلۈك ئۇچرىشىش(_P)"
 
-#: ../modules/calendar/e-cal-shell-backend.c:328
+#: ../modules/calendar/e-cal-shell-backend.c:326
 msgid "Create a new all-day appointment"
 msgstr "پۈتۈن كۈنلۈك يېڭى بىر ئۇچرىشىش قۇرىدۇ"
 
-#: ../modules/calendar/e-cal-shell-backend.c:333
+#: ../modules/calendar/e-cal-shell-backend.c:331
 msgctxt "New"
 msgid "M_eeting"
 msgstr "يىغىن(_E)"
 
-#: ../modules/calendar/e-cal-shell-backend.c:335
+#: ../modules/calendar/e-cal-shell-backend.c:333
 msgid "Create a new meeting request"
 msgstr "يېڭى بىر يىغىن ئىلتىماسى قۇرىدۇ"
 
-#: ../modules/calendar/e-cal-shell-backend.c:343
+#: ../modules/calendar/e-cal-shell-backend.c:341
 msgctxt "New"
 msgid "Cale_ndar"
 msgstr "يىلنامە(_N):"
 
-#: ../modules/calendar/e-cal-shell-backend.c:345
+#: ../modules/calendar/e-cal-shell-backend.c:343
 #: ../modules/calendar/e-cal-shell-view-actions.c:1419
 msgid "Create a new calendar"
 msgstr "يېڭى بىر يىلنامە قۇرىدۇ"
 
-#: ../modules/calendar/e-cal-shell-backend.c:668
+#: ../modules/calendar/e-cal-shell-backend.c:666
 msgid "Calendar and Tasks"
 msgstr "يىلنامە ۋە ۋەزىپىلەر"
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:565
 msgid "Calendar Selector"
 msgstr "يىلنامە تاللىغۇچ"
-
-#: ../modules/calendar/e-cal-shell-sidebar.c:846
-msgid "Loading calendars"
-msgstr "يىلنامە يۈكلەۋاتىدۇ"
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:868
 #, c-format
@@ -16227,10 +16190,6 @@ msgstr "يېڭى بىر ئەسلەتمە تىزىمى قۇرىدۇ"
 msgid "Memo List Selector"
 msgstr "ئەسلەتمە تىزىمى تاللىغۇچ"
 
-#: ../modules/calendar/e-memo-shell-sidebar.c:733
-msgid "Loading memo list"
-msgstr "ئەسلەتمە تىزىمىنى ئوقۇۋاتىدۇ"
-
 #: ../modules/calendar/e-memo-shell-sidebar.c:755
 #, c-format
 msgid "Opening memo list '%s'"
@@ -16357,10 +16316,6 @@ msgstr "يېڭى بىر ۋەزىپە تىزىمى قۇرىدۇ"
 #: ../modules/calendar/e-task-shell-sidebar.c:499
 msgid "Task List Selector"
 msgstr "ۋەزىپە تىزىمى تاللىغۇچ"
-
-#: ../modules/calendar/e-task-shell-sidebar.c:733
-msgid "Loading task list"
-msgstr "ۋەزىپە تىزىمىنى ئوقۇۋاتىدۇ"
 
 #: ../modules/calendar/e-task-shell-sidebar.c:755
 #, c-format
@@ -16500,671 +16455,671 @@ msgid "%d task"
 msgid_plural "%d tasks"
 msgstr[0] "%d ۋەزىپە"
 
-#: ../modules/itip-formatter/e-mail-formatter-itip.c:145
+#: ../modules/itip-formatter/e-mail-formatter-itip.c:146
 msgid "ITIP"
 msgstr "ITIP"
 
-#: ../modules/itip-formatter/e-mail-formatter-itip.c:146
+#: ../modules/itip-formatter/e-mail-formatter-itip.c:147
 msgid "Display part as an invitation"
 msgstr "بۆلەكنى تەكلىپ سۈپىتىدە كۆرسەتسۇن"
 
 #. strftime format of a time,
 #. * in 24-hour format, without seconds.
-#: ../modules/itip-formatter/itip-view.c:233
+#: ../modules/itip-formatter/itip-view.c:235
 msgid "Today %H:%M"
 msgstr "بۈگۈن: %H:%M"
 
 #. strftime format of a time,
 #. * in 24-hour format.
-#: ../modules/itip-formatter/itip-view.c:237
+#: ../modules/itip-formatter/itip-view.c:239
 msgid "Today %H:%M:%S"
 msgstr "بۈگۈن: %H:%M:%S"
 
 #. strftime format of a time,
 #. * in 12-hour format.
-#: ../modules/itip-formatter/itip-view.c:246
+#: ../modules/itip-formatter/itip-view.c:248
 msgid "Today %l:%M:%S %p"
 msgstr "بۈگۈن  %l:%M:%S %p"
 
 #. strftime format of a time,
 #. * in 24-hour format, without seconds.
-#: ../modules/itip-formatter/itip-view.c:261
+#: ../modules/itip-formatter/itip-view.c:263
 msgid "Tomorrow %H:%M"
 msgstr "ئەتە %H:%M"
 
 #. strftime format of a time,
 #. * in 24-hour format.
-#: ../modules/itip-formatter/itip-view.c:265
+#: ../modules/itip-formatter/itip-view.c:267
 msgid "Tomorrow %H:%M:%S"
 msgstr "ئەتە %H:%M:%S"
 
 #. strftime format of a time,
 #. * in 12-hour format, without seconds.
-#: ../modules/itip-formatter/itip-view.c:270
+#: ../modules/itip-formatter/itip-view.c:272
 msgid "Tomorrow %l:%M %p"
 msgstr "ئەتە %l:%M %p"
 
 #. strftime format of a time,
 #. * in 12-hour format.
-#: ../modules/itip-formatter/itip-view.c:274
+#: ../modules/itip-formatter/itip-view.c:276
 msgid "Tomorrow %l:%M:%S %p"
 msgstr "ئەتە %l:%M:%S %p"
 
 #. strftime format of a weekday.
-#: ../modules/itip-formatter/itip-view.c:293
+#: ../modules/itip-formatter/itip-view.c:295
 #, c-format
 msgid "%A"
 msgstr "%A"
 
 #. strftime format of a weekday and a
 #. * time, in 24-hour format, without seconds.
-#: ../modules/itip-formatter/itip-view.c:298
+#: ../modules/itip-formatter/itip-view.c:300
 msgid "%A %H:%M"
 msgstr "%A %H:%M"
 
 #. strftime format of a weekday and a
 #. * time, in 24-hour format.
-#: ../modules/itip-formatter/itip-view.c:302
+#: ../modules/itip-formatter/itip-view.c:304
 msgid "%A %H:%M:%S"
 msgstr "%A %H:%M:%S"
 
 #. strftime format of a weekday and a
 #. * time, in 12-hour format, without seconds.
-#: ../modules/itip-formatter/itip-view.c:307
+#: ../modules/itip-formatter/itip-view.c:309
 msgid "%A %l:%M %p"
 msgstr "%A %l:%M %p"
 
 #. strftime format of a weekday and a
 #. * time, in 12-hour format.
-#: ../modules/itip-formatter/itip-view.c:311
+#: ../modules/itip-formatter/itip-view.c:313
 msgid "%A %l:%M:%S %p"
 msgstr "%A %l:%M:%S %p"
 
 #. strftime format of a weekday and a date
 #. * without a year.
-#: ../modules/itip-formatter/itip-view.c:320
+#: ../modules/itip-formatter/itip-view.c:322
 msgid "%A, %B %e"
 msgstr "%A، %B %e"
 
 #. strftime format of a weekday, a date
 #. * without a year and a time,
 #. * in 24-hour format, without seconds.
-#: ../modules/itip-formatter/itip-view.c:326
+#: ../modules/itip-formatter/itip-view.c:328
 msgid "%A, %B %e %H:%M"
 msgstr "%A، %B %e %H:%M"
 
 #. strftime format of a weekday, a date without a year
 #. * and a time, in 24-hour format.
-#: ../modules/itip-formatter/itip-view.c:330
+#: ../modules/itip-formatter/itip-view.c:332
 msgid "%A, %B %e %H:%M:%S"
 msgstr "%A، %B %e %H:%M:%S"
 
 #. strftime format of a weekday, a date without a year
 #. * and a time, in 12-hour format, without seconds.
-#: ../modules/itip-formatter/itip-view.c:335
+#: ../modules/itip-formatter/itip-view.c:337
 msgid "%A, %B %e %l:%M %p"
 msgstr "%A، %B %e %l:%M %p"
 
 #. strftime format of a weekday, a date without a year
 #. * and a time, in 12-hour format.
-#: ../modules/itip-formatter/itip-view.c:339
+#: ../modules/itip-formatter/itip-view.c:341
 msgid "%A, %B %e %l:%M:%S %p"
 msgstr "%A، %B %e %l:%M:%S %p"
 
 #. strftime format of a weekday and a date.
-#: ../modules/itip-formatter/itip-view.c:345
+#: ../modules/itip-formatter/itip-view.c:347
 msgid "%A, %B %e, %Y"
 msgstr "%A، %B %e، %Y"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 24-hour format, without seconds.
-#: ../modules/itip-formatter/itip-view.c:350
+#: ../modules/itip-formatter/itip-view.c:352
 msgid "%A, %B %e, %Y %H:%M"
 msgstr "%A، %B %e، %Y %H:%M"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 24-hour format.
-#: ../modules/itip-formatter/itip-view.c:354
+#: ../modules/itip-formatter/itip-view.c:356
 msgid "%A, %B %e, %Y %H:%M:%S"
 msgstr "%A، %B %e، %Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 12-hour format, without seconds.
-#: ../modules/itip-formatter/itip-view.c:359
+#: ../modules/itip-formatter/itip-view.c:361
 msgid "%A, %B %e, %Y %l:%M %p"
 msgstr "%A، %B %e، %Y %l:%M %p"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 12-hour format.
-#: ../modules/itip-formatter/itip-view.c:363
+#: ../modules/itip-formatter/itip-view.c:365
 msgid "%A, %B %e, %Y %l:%M:%S %p"
 msgstr "%A، %B %e، %Y %l:%M:%S %p"
 
-#: ../modules/itip-formatter/itip-view.c:401
-#: ../modules/itip-formatter/itip-view.c:402
-#: ../modules/itip-formatter/itip-view.c:491
-#: ../modules/itip-formatter/itip-view.c:492
-#: ../modules/itip-formatter/itip-view.c:581
+#: ../modules/itip-formatter/itip-view.c:403
+#: ../modules/itip-formatter/itip-view.c:404
+#: ../modules/itip-formatter/itip-view.c:493
+#: ../modules/itip-formatter/itip-view.c:494
+#: ../modules/itip-formatter/itip-view.c:583
 msgid "An unknown person"
 msgstr "ناتونۇش ئادەم"
-
-#: ../modules/itip-formatter/itip-view.c:406
-#: ../modules/itip-formatter/itip-view.c:496
-#: ../modules/itip-formatter/itip-view.c:585
-#, c-format
-msgid "Please respond on behalf of %s"
-msgstr "%s سالاھىيىتىدە ئىنكاس قايتۇر"
 
 #: ../modules/itip-formatter/itip-view.c:408
 #: ../modules/itip-formatter/itip-view.c:498
 #: ../modules/itip-formatter/itip-view.c:587
 #, c-format
+msgid "Please respond on behalf of %s"
+msgstr "%s سالاھىيىتىدە ئىنكاس قايتۇر"
+
+#: ../modules/itip-formatter/itip-view.c:410
+#: ../modules/itip-formatter/itip-view.c:500
+#: ../modules/itip-formatter/itip-view.c:589
+#, c-format
 msgid "Received on behalf of %s"
 msgstr "%s سالاھىيىتىدە قوبۇللىدى"
 
-#: ../modules/itip-formatter/itip-view.c:413
+#: ../modules/itip-formatter/itip-view.c:415
 #, c-format
 msgid "%s through %s has published the following meeting information:"
 msgstr "%s بولسا %s ئارقىلىق يىغىن ئۇچۇرىنى تارقاتتى:"
 
-#: ../modules/itip-formatter/itip-view.c:415
+#: ../modules/itip-formatter/itip-view.c:417
 #, c-format
 msgid "%s has published the following meeting information:"
 msgstr "%s تۆۋەندىكى يىغىن ئۇچۇرىنى تارقاتتى:"
 
-#: ../modules/itip-formatter/itip-view.c:420
+#: ../modules/itip-formatter/itip-view.c:422
 #, c-format
 msgid "%s has delegated the following meeting to you:"
 msgstr "%s سىز ئۈچۈن تۆۋەندىكى يىغىنغا ۋاكالەتچى بولدى:"
 
-#: ../modules/itip-formatter/itip-view.c:423
+#: ../modules/itip-formatter/itip-view.c:425
 #, c-format
 msgid "%s through %s requests your presence at the following meeting:"
 msgstr "%s بولسا %s ئارقىلىق سىزنىڭ تۆۋەندىكى يىغىنغا قاتنىشىشىڭىزنى تەلەپ قىلىدۇ:"
 
-#: ../modules/itip-formatter/itip-view.c:425
+#: ../modules/itip-formatter/itip-view.c:427
 #, c-format
 msgid "%s requests your presence at the following meeting:"
 msgstr "%s  سىزنىڭ تۆۋەندىكى يىغىنغا قاتنىشىشىڭىزنى تەلەپ قىلىدۇ:"
 
-#: ../modules/itip-formatter/itip-view.c:431
+#: ../modules/itip-formatter/itip-view.c:433
 #, c-format
 msgid "%s through %s wishes to add to an existing meeting:"
 msgstr "%s بولسا %s ئارقىلىق مەۋجۇت يىغىنغا قاتنىشىشنى ئۈمىد قىلىدۇ:"
 
-#: ../modules/itip-formatter/itip-view.c:433
+#: ../modules/itip-formatter/itip-view.c:435
 #, c-format
 msgid "%s wishes to add to an existing meeting:"
 msgstr "%s مەۋجۇت يىغىنغا قاتنىشىشنى ئۈمىد قىلىدۇ:"
 
-#: ../modules/itip-formatter/itip-view.c:437
+#: ../modules/itip-formatter/itip-view.c:439
 #, c-format
 msgid ""
 "%s through %s wishes to receive the latest information for the following "
 "meeting:"
 msgstr "%s بولسا %s ئارقىلىق تۆۋەندىكى يىغىننىڭ ئەڭ يېڭى ئۇچۇرىنى قوبۇللاشنى ئۈمىد قىلىدۇ:"
 
-#: ../modules/itip-formatter/itip-view.c:439
+#: ../modules/itip-formatter/itip-view.c:441
 #, c-format
 msgid "%s wishes to receive the latest information for the following meeting:"
 msgstr "%s تۆۋەندىكى يىغىننىڭ ئەڭ يېڭى ئۇچۇرىنى قوبۇللاشنى ئۈمىد قىلىدۇ:"
 
-#: ../modules/itip-formatter/itip-view.c:443
+#: ../modules/itip-formatter/itip-view.c:445
 #, c-format
 msgid "%s through %s has sent back the following meeting response:"
 msgstr "%s بولسا %s ئارقىلىق تۆۋەندىكى يىغىن ئىلتىماسىنىڭ ئىنكاسىنى قايتۇرۇۋەتتى:"
 
-#: ../modules/itip-formatter/itip-view.c:445
+#: ../modules/itip-formatter/itip-view.c:447
 #, c-format
 msgid "%s has sent back the following meeting response:"
 msgstr "%s تۆۋەندىكى يىغىن ئىلتىماسىنىڭ ئىنكاسىنى قايتۇرۇۋەتتى:"
 
-#: ../modules/itip-formatter/itip-view.c:449
+#: ../modules/itip-formatter/itip-view.c:451
 #, c-format
 msgid "%s through %s has canceled the following meeting:"
 msgstr "%s بولسا %s ئارقىلىق يىغىننى ئەمەلدىن قالدۇردى:"
 
-#: ../modules/itip-formatter/itip-view.c:451
+#: ../modules/itip-formatter/itip-view.c:453
 #, c-format
 msgid "%s has canceled the following meeting:"
 msgstr "تۆۋەندىكى يىغىننى %s ئەمەلدىن قالدۇردى:"
 
-#: ../modules/itip-formatter/itip-view.c:455
+#: ../modules/itip-formatter/itip-view.c:457
 #, c-format
 msgid "%s through %s has proposed the following meeting changes."
 msgstr "%s بولسا %s ئارقىلىق تۆۋەندىكى يىغىن ئۆزگىرىشىنى ئوتتۇرىغا قويدى:"
 
-#: ../modules/itip-formatter/itip-view.c:457
+#: ../modules/itip-formatter/itip-view.c:459
 #, c-format
 msgid "%s has proposed the following meeting changes:"
 msgstr "تۆۋەندىكى يىغىننى %s ئۆزگەرتىش تەكلىپىنى بەردى:"
 
-#: ../modules/itip-formatter/itip-view.c:461
+#: ../modules/itip-formatter/itip-view.c:463
 #, c-format
 msgid "%s through %s has declined the following meeting changes:"
 msgstr "%s بولسا %s ئارقىلىق تۆۋەندىكى يىغىن ئۆزگىرىشىنى رەت قىلدى."
 
-#: ../modules/itip-formatter/itip-view.c:463
+#: ../modules/itip-formatter/itip-view.c:465
 #, c-format
 msgid "%s has declined the following meeting changes:"
 msgstr "تۆۋەندىكى يىغىن ئۆزگىرىشىنى %s رەت قىلدى:"
 
-#: ../modules/itip-formatter/itip-view.c:503
+#: ../modules/itip-formatter/itip-view.c:505
 #, c-format
 msgid "%s through %s has published the following task:"
 msgstr "%s بولسا %s ئارقىلىق تۆۋەندىكى ۋەزىپىنى تارقاتتى:"
 
-#: ../modules/itip-formatter/itip-view.c:505
+#: ../modules/itip-formatter/itip-view.c:507
 #, c-format
 msgid "%s has published the following task:"
 msgstr "%s ئارقىلىق تۆۋەندىكى ۋەزىپىنى تارقاتتى:"
 
-#: ../modules/itip-formatter/itip-view.c:510
+#: ../modules/itip-formatter/itip-view.c:512
 #, c-format
 msgid "%s requests the assignment of %s to the following task:"
 msgstr "%s بولسا %s غا تۆۋەندىكى ۋەزىپىنى تەقسىملەشنى تەلەپ قىلدى:"
 
-#: ../modules/itip-formatter/itip-view.c:513
+#: ../modules/itip-formatter/itip-view.c:515
 #, c-format
 msgid "%s through %s has assigned you a task:"
 msgstr "%s بولسا %s ئارقىلىق سىزگە تۆۋەندىكى ۋەزىپىنى تەقسىم قىلدى:"
 
-#: ../modules/itip-formatter/itip-view.c:515
+#: ../modules/itip-formatter/itip-view.c:517
 #, c-format
 msgid "%s has assigned you a task:"
 msgstr "%s سىزگە تۆۋەندىكى ۋەزىپىنى تەقسىم قىلدى:"
 
-#: ../modules/itip-formatter/itip-view.c:521
+#: ../modules/itip-formatter/itip-view.c:523
 #, c-format
 msgid "%s through %s wishes to add to an existing task:"
 msgstr "%s بولسا %s ئارقىلىق مەۋجۇت ۋەزىپىگە قاتنىشىشنى ئۈمىد قىلىدۇ:"
 
-#: ../modules/itip-formatter/itip-view.c:523
+#: ../modules/itip-formatter/itip-view.c:525
 #, c-format
 msgid "%s wishes to add to an existing task:"
 msgstr "%s مەۋجۇت ۋەزىپىگە قاتنىشىشنى ئۈمىد قىلىدۇ:"
 
-#: ../modules/itip-formatter/itip-view.c:527
+#: ../modules/itip-formatter/itip-view.c:529
 #, c-format
 msgid ""
 "%s through %s wishes to receive the latest information for the following "
 "assigned task:"
 msgstr "%s بولسا %s ئارقىلىق تۆۋەندىكى تەقسىملەنگەن ۋەزىپىنىڭ ئەڭ يېڭى ئۇچۇرىنى قوبۇللاشنى ئۈمىد قىلىدۇ:"
 
-#: ../modules/itip-formatter/itip-view.c:529
+#: ../modules/itip-formatter/itip-view.c:531
 #, c-format
 msgid ""
 "%s wishes to receive the latest information for the following assigned task:"
 msgstr "%s تۆۋەندىكى تەقسىملەنگەن ۋەزىپىنىڭ ئەڭ يېڭى ئۇچۇرىنى قوبۇللاشنى ئۈمىد قىلىدۇ:"
 
-#: ../modules/itip-formatter/itip-view.c:533
+#: ../modules/itip-formatter/itip-view.c:535
 #, c-format
 msgid "%s through %s has sent back the following assigned task response:"
 msgstr "%s بولسا %s ئارقىلىق تۆۋەندىكى ۋەزىپە ئىلتىماسىنىڭ ئىنكاسىنى قايتۇرۇۋەتتى:"
 
-#: ../modules/itip-formatter/itip-view.c:535
+#: ../modules/itip-formatter/itip-view.c:537
 #, c-format
 msgid "%s has sent back the following assigned task response:"
 msgstr "%s تۆۋەندىكى ۋەزىپە ئىلتىماسىنىڭ ئىنكاسىنى قايتۇرۇۋەتتى:"
 
-#: ../modules/itip-formatter/itip-view.c:539
+#: ../modules/itip-formatter/itip-view.c:541
 #, c-format
 msgid "%s through %s has canceled the following assigned task:"
 msgstr "%s بولسا %s ئارقىلىق تەقسىملەنگەن ۋەزىپىنى ئەمەلدىن قالدۇردى:"
 
-#: ../modules/itip-formatter/itip-view.c:541
+#: ../modules/itip-formatter/itip-view.c:543
 #, c-format
 msgid "%s has canceled the following assigned task:"
 msgstr "%s تۆۋەندىكى تەقسىملەنگەن ۋەزىپىنى ئەمەلدىن قالدۇردى:"
 
-#: ../modules/itip-formatter/itip-view.c:545
+#: ../modules/itip-formatter/itip-view.c:547
 #, c-format
 msgid "%s through %s has proposed the following task assignment changes:"
 msgstr "%s بولسا %s ئارقىلىق تۆۋەندىكى تەقسىملەنگەن ۋەزىپە ئۆزگىرىشىنى ئوتتۇرىغا قويدى:"
 
-#: ../modules/itip-formatter/itip-view.c:547
+#: ../modules/itip-formatter/itip-view.c:549
 #, c-format
 msgid "%s has proposed the following task assignment changes:"
 msgstr "%s تۆۋەندىكى تەقسىملەنگەن ۋەزىپە ئۆزگىرىشىنى ئوتتۇرىغا قويدى:"
 
-#: ../modules/itip-formatter/itip-view.c:551
+#: ../modules/itip-formatter/itip-view.c:553
 #, c-format
 msgid "%s through %s has declined the following assigned task:"
 msgstr "%s بولسا %s ئارقىلىق تۆۋەندىكى تەقسىملەنگەن ۋەزىپىنى رەت قىلدى:"
 
-#: ../modules/itip-formatter/itip-view.c:553
+#: ../modules/itip-formatter/itip-view.c:555
 #, c-format
 msgid "%s has declined the following assigned task:"
 msgstr "%s تۆۋەندىكى تەقسىملەنگەن ۋەزىپىنى رەت قىلدى:"
 
-#: ../modules/itip-formatter/itip-view.c:592
+#: ../modules/itip-formatter/itip-view.c:594
 #, c-format
 msgid "%s through %s has published the following memo:"
 msgstr "%s بولسا %s ئارقىلىق تۆۋەندىكى ئەسلەتمىنى تارقاتتى:"
 
-#: ../modules/itip-formatter/itip-view.c:594
+#: ../modules/itip-formatter/itip-view.c:596
 #, c-format
 msgid "%s has published the following memo:"
 msgstr "%s تۆۋەندىكى ئەسلەتمىنى تارقاتتى:"
 
-#: ../modules/itip-formatter/itip-view.c:599
+#: ../modules/itip-formatter/itip-view.c:601
 #, c-format
 msgid "%s through %s wishes to add to an existing memo:"
 msgstr "%s بولسا %s ئارقىلىق مەۋجۇت ئەسلەتمىگە قاتنىشىشنى ئۈمىد قىلىدۇ:"
 
-#: ../modules/itip-formatter/itip-view.c:601
+#: ../modules/itip-formatter/itip-view.c:603
 #, c-format
 msgid "%s wishes to add to an existing memo:"
 msgstr "%s مەۋجۇت ئەسلەتمىگە قاتنىشىشنى ئۈمىد قىلىدۇ:"
 
-#: ../modules/itip-formatter/itip-view.c:605
+#: ../modules/itip-formatter/itip-view.c:607
 #, c-format
 msgid "%s through %s has canceled the following shared memo:"
 msgstr "%s بولسا %s ئارقىلىق تۆۋەندىكى ھەمبەھىر ئەسلەتمىنى ئەمەلدىن قالدۇردى:"
 
-#: ../modules/itip-formatter/itip-view.c:607
+#: ../modules/itip-formatter/itip-view.c:609
 #, c-format
 msgid "%s has canceled the following shared memo:"
 msgstr "%s تۆۋەندىكى ھەمبەھىر ئەسلەتمىنى ئەمەلدىن قالدۇردى:"
 
-#: ../modules/itip-formatter/itip-view.c:680
+#: ../modules/itip-formatter/itip-view.c:682
 msgid "All day:"
 msgstr "پۈتۈن كۈن:"
 
-#: ../modules/itip-formatter/itip-view.c:686
+#: ../modules/itip-formatter/itip-view.c:688
 msgid "Start day:"
 msgstr "باشلىنىش كۈنى:"
 
-#: ../modules/itip-formatter/itip-view.c:686
-#: ../modules/itip-formatter/itip-view.c:1465
+#: ../modules/itip-formatter/itip-view.c:688
+#: ../modules/itip-formatter/itip-view.c:1490
 msgid "Start time:"
 msgstr "باشلىنىش ۋاقتى:"
 
-#: ../modules/itip-formatter/itip-view.c:695
+#: ../modules/itip-formatter/itip-view.c:697
 msgid "End day:"
 msgstr "ئاخىرلىشىش كۈنى:"
 
-#: ../modules/itip-formatter/itip-view.c:695
-#: ../modules/itip-formatter/itip-view.c:1466
+#: ../modules/itip-formatter/itip-view.c:697
+#: ../modules/itip-formatter/itip-view.c:1491
 msgid "End time:"
 msgstr "ئاخىرلىشىش ۋاقتى:"
 
-#: ../modules/itip-formatter/itip-view.c:1014
+#: ../modules/itip-formatter/itip-view.c:1016
 msgid "Ope_n Calendar"
 msgstr "يىلنامە ئاچ(_N)"
 
-#: ../modules/itip-formatter/itip-view.c:1017
+#: ../modules/itip-formatter/itip-view.c:1019
 msgid "_Decline all"
 msgstr "ھەممىنى رەت قىل(_D)"
 
-#: ../modules/itip-formatter/itip-view.c:1020
+#: ../modules/itip-formatter/itip-view.c:1022
 msgid "_Decline"
 msgstr "رەت قىل(_D)"
 
-#: ../modules/itip-formatter/itip-view.c:1023
+#: ../modules/itip-formatter/itip-view.c:1025
 msgid "_Tentative all"
 msgstr "ھەممىنى قارارسىزلاشتۇر(_T)"
 
-#: ../modules/itip-formatter/itip-view.c:1026
+#: ../modules/itip-formatter/itip-view.c:1028
 msgid "_Tentative"
 msgstr "قارارسىزلاشتۇر(_T)"
 
-#: ../modules/itip-formatter/itip-view.c:1029
+#: ../modules/itip-formatter/itip-view.c:1031
 msgid "Acce_pt all"
 msgstr "ھەممىنى قوبۇل قىل(_P)"
 
-#: ../modules/itip-formatter/itip-view.c:1032
+#: ../modules/itip-formatter/itip-view.c:1034
 msgid "Acce_pt"
 msgstr "قوبۇل قىل(_P)"
 
-#: ../modules/itip-formatter/itip-view.c:1035
+#: ../modules/itip-formatter/itip-view.c:1037
 msgid "Send _Information"
 msgstr "ئۇچۇرلارنى يوللا(_I)"
 
-#: ../modules/itip-formatter/itip-view.c:1038
+#: ../modules/itip-formatter/itip-view.c:1040
 msgid "_Update Attendee Status"
 msgstr "قاتناشقۇچى ھالىتىنى يېڭىلا(_U)"
 
-#: ../modules/itip-formatter/itip-view.c:1041
+#: ../modules/itip-formatter/itip-view.c:1043
 msgid "_Update"
 msgstr "يېڭىلا(_U)"
 
-#: ../modules/itip-formatter/itip-view.c:1468
-#: ../modules/itip-formatter/itip-view.c:1516
-#: ../modules/itip-formatter/itip-view.c:1587
+#: ../modules/itip-formatter/itip-view.c:1493
+#: ../modules/itip-formatter/itip-view.c:1541
+#: ../modules/itip-formatter/itip-view.c:1612
 msgid "Comment:"
 msgstr "ئىزاھات:"
 
 #. RSVP area
-#: ../modules/itip-formatter/itip-view.c:1504
+#: ../modules/itip-formatter/itip-view.c:1529
 msgid "Send reply to sender"
 msgstr "ئەۋەتكۈچىگە جاۋاب قايتۇر"
 
 #. Updates
-#: ../modules/itip-formatter/itip-view.c:1519
+#: ../modules/itip-formatter/itip-view.c:1544
 msgid "Send _updates to attendees"
 msgstr "قاتناشقۇچىغا يېڭىلاشنى يوللا(_U)"
 
 #. The recurrence check button
-#: ../modules/itip-formatter/itip-view.c:1522
+#: ../modules/itip-formatter/itip-view.c:1547
 msgid "_Apply to all instances"
 msgstr "ھەممە مىسالغا قوللان(_A)"
 
-#: ../modules/itip-formatter/itip-view.c:1523
+#: ../modules/itip-formatter/itip-view.c:1548
 msgid "Show time as _free"
 msgstr "ۋاقىتنى بوش كۆرسەت(_F)"
 
-#: ../modules/itip-formatter/itip-view.c:1524
+#: ../modules/itip-formatter/itip-view.c:1549
 msgid "_Preserve my reminder"
 msgstr "ئەسكەرتكۈچۈمنى ساقلاپ قال(_P)"
 
-#: ../modules/itip-formatter/itip-view.c:1525
+#: ../modules/itip-formatter/itip-view.c:1550
 msgid "_Inherit reminder"
 msgstr "ئەسكەرتكۈچكە ۋارىسلىق قىل(_I)"
 
-#: ../modules/itip-formatter/itip-view.c:1853
+#: ../modules/itip-formatter/itip-view.c:1880
 msgid "_Tasks:"
 msgstr "ۋەزىپىلەر(_T):"
 
-#: ../modules/itip-formatter/itip-view.c:1856
+#: ../modules/itip-formatter/itip-view.c:1883
 msgid "_Memos:"
 msgstr "ئەسلەتمىلەر(_M):"
 
-#: ../modules/itip-formatter/itip-view.c:3086
+#: ../modules/itip-formatter/itip-view.c:3111
 msgid "Sa_ve"
 msgstr "ساقلا(_V)"
 
-#: ../modules/itip-formatter/itip-view.c:3649
+#: ../modules/itip-formatter/itip-view.c:3682
 #, c-format
 msgid "An appointment in the calendar '%s' conflicts with this meeting"
 msgstr "يىلنامە ‹%s› دىكى بىر ئۇچرىشىش بۇ يىغىن بىلەن توقۇنۇشىدۇ"
 
-#: ../modules/itip-formatter/itip-view.c:3678
+#: ../modules/itip-formatter/itip-view.c:3711
 #, c-format
 msgid "Found the appointment in the calendar '%s'"
 msgstr "يىلنامە ‹%s› دىن ئۇچرىشىشنى تاپتى"
 
-#: ../modules/itip-formatter/itip-view.c:3791
+#: ../modules/itip-formatter/itip-view.c:3824
 msgid "Unable to find any calendars"
 msgstr "ھېچقانداق يىلنامە تاپالمىدى"
 
-#: ../modules/itip-formatter/itip-view.c:3799
+#: ../modules/itip-formatter/itip-view.c:3832
 msgid "Unable to find this meeting in any calendar"
 msgstr "ھېچقانداق يىلنامىدىن بۇ يىغىننى تاپالمىدى"
 
-#: ../modules/itip-formatter/itip-view.c:3804
+#: ../modules/itip-formatter/itip-view.c:3837
 msgid "Unable to find this task in any task list"
 msgstr "ھېچقانداق ۋەزىپە تىزىمىدىن بۇ  ۋەزىپىنى تاپالمىدى"
 
-#: ../modules/itip-formatter/itip-view.c:3809
+#: ../modules/itip-formatter/itip-view.c:3842
 msgid "Unable to find this memo in any memo list"
 msgstr "ھېچقانداق ئەسلەتمە تىزىمىدىن بۇ  ئەسلەتمىنى تاپالمىدى"
 
-#: ../modules/itip-formatter/itip-view.c:4160
+#: ../modules/itip-formatter/itip-view.c:4188
 msgid "Opening the calendar. Please wait..."
 msgstr "يىلنامە ئېچىۋاتىدۇ. سەل كۈتۈڭ…"
 
-#: ../modules/itip-formatter/itip-view.c:4165
+#: ../modules/itip-formatter/itip-view.c:4193
 msgid "Searching for an existing version of this appointment"
 msgstr "بۇ ئۇچرىشىشنىڭ مەۋجۇت نەشرىنى ئىزدەۋاتىدۇ"
 
-#: ../modules/itip-formatter/itip-view.c:4555
+#: ../modules/itip-formatter/itip-view.c:4584
 #, c-format
 msgid "Unable to send item to calendar '%s'.  %s"
 msgstr "تۈرنى ‹%s› يىلنامىگە يوللىيالمىدى. %s"
 
-#: ../modules/itip-formatter/itip-view.c:4571
+#: ../modules/itip-formatter/itip-view.c:4600
 #, c-format
 msgid "Sent to calendar '%s' as accepted"
 msgstr "‹%s› يىلنامىنى قوشۇلغان سۈپىتىدە يوللا"
 
-#: ../modules/itip-formatter/itip-view.c:4576
+#: ../modules/itip-formatter/itip-view.c:4605
 #, c-format
 msgid "Sent to calendar '%s' as tentative"
 msgstr "‹%s› يىلنامىنى بېكىتىلمىگەن سۈپىتىدە يوللا"
 
-#: ../modules/itip-formatter/itip-view.c:4582
+#: ../modules/itip-formatter/itip-view.c:4611
 #, c-format
 msgid "Sent to calendar '%s' as declined"
 msgstr "‹%s› يىلنامىنى رەت قىلىنغان سۈپىتىدە يوللا"
 
-#: ../modules/itip-formatter/itip-view.c:4588
+#: ../modules/itip-formatter/itip-view.c:4617
 #, c-format
 msgid "Sent to calendar '%s' as canceled"
 msgstr "‹%s› يىلنامىنى بىكار قىلىنغان سۈپىتىدە يوللا"
 
-#: ../modules/itip-formatter/itip-view.c:4609
-#: ../modules/itip-formatter/itip-view.c:5050
-#: ../modules/itip-formatter/itip-view.c:5157
+#: ../modules/itip-formatter/itip-view.c:4638
+#: ../modules/itip-formatter/itip-view.c:5085
+#: ../modules/itip-formatter/itip-view.c:5192
 msgid "Saving changes to the calendar. Please wait..."
 msgstr "ئۆزگىرىشلەرنى يىلنامىگە ساقلاۋاتىدۇ. بىرئاز كۈتۈڭ…"
 
-#: ../modules/itip-formatter/itip-view.c:4650
+#: ../modules/itip-formatter/itip-view.c:4679
 msgid "Unable to parse item"
 msgstr "تۈرنى تەھلىل قىلالمىدى"
 
-#: ../modules/itip-formatter/itip-view.c:4840
+#: ../modules/itip-formatter/itip-view.c:4872
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "تەشكىللىگۈچى ۋاكالەتچى %s نى چىقىرىۋەتتى "
 
-#: ../modules/itip-formatter/itip-view.c:4855
+#: ../modules/itip-formatter/itip-view.c:4889
 msgid "Sent a cancelation notice to the delegate"
 msgstr "ۋاكالەتچىگە بىكار قىلىش ئۇقتۇرۇشى يوللىدى"
 
-#: ../modules/itip-formatter/itip-view.c:4859
+#: ../modules/itip-formatter/itip-view.c:4893
 msgid "Could not send the cancelation notice to the delegate"
 msgstr "ۋاكالەتچىگە بىكار قىلىش ئۇقتۇرۇشى يوللىيالمىدى"
 
-#: ../modules/itip-formatter/itip-view.c:4909
+#: ../modules/itip-formatter/itip-view.c:4944
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "قاتناشقۇچىنى يېڭىلىيالمىدى. %s"
 
-#: ../modules/itip-formatter/itip-view.c:4916
+#: ../modules/itip-formatter/itip-view.c:4951
 msgid "Attendee status updated"
 msgstr "قاتناشقۇچى ھالىتى يېڭىلاندى"
 
-#: ../modules/itip-formatter/itip-view.c:4939
+#: ../modules/itip-formatter/itip-view.c:4974
 msgid "The meeting is invalid and cannot be updated"
 msgstr "يىغىن ئىناۋەتسىز بولغاچقا يېڭىلىغىلى بولمىدى"
 
-#: ../modules/itip-formatter/itip-view.c:5015
+#: ../modules/itip-formatter/itip-view.c:5050
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr "قاتناشقۇچى ھالىتىنى يېڭىلىيالمىدى، سەۋەبى ھالىتى ئىناۋەتسىز"
 
-#: ../modules/itip-formatter/itip-view.c:5087
-#: ../modules/itip-formatter/itip-view.c:5127
+#: ../modules/itip-formatter/itip-view.c:5122
+#: ../modules/itip-formatter/itip-view.c:5162
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr "تۈر مەۋجۇت بولمىغانلىقتىن قاتناشقۇچى ھالىتىنى يېڭىلىيالمايدۇ"
 
-#: ../modules/itip-formatter/itip-view.c:5190
+#: ../modules/itip-formatter/itip-view.c:5225
 msgid "Meeting information sent"
 msgstr "يىغىن ئۇچۇرى يوللاندى"
 
-#: ../modules/itip-formatter/itip-view.c:5195
+#: ../modules/itip-formatter/itip-view.c:5230
 msgid "Task information sent"
 msgstr "ۋەزىپە ئۇچۇرى يوللاندى"
 
-#: ../modules/itip-formatter/itip-view.c:5200
+#: ../modules/itip-formatter/itip-view.c:5235
 msgid "Memo information sent"
 msgstr "ئەسلەتمە ئۇچۇرى يوللاندى"
 
-#: ../modules/itip-formatter/itip-view.c:5211
+#: ../modules/itip-formatter/itip-view.c:5246
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr "يىغىن ئۇچۇرىنى يوللىيالمىدى، يىغىن مەۋجۇت ئەمەس"
 
-#: ../modules/itip-formatter/itip-view.c:5216
+#: ../modules/itip-formatter/itip-view.c:5251
 msgid "Unable to send task information, the task does not exist"
 msgstr "ۋەزىپە ئۇچۇرىنى يوللىيالمىدى، ۋەزىپە مەۋجۇت ئەمەس"
 
-#: ../modules/itip-formatter/itip-view.c:5221
+#: ../modules/itip-formatter/itip-view.c:5256
 msgid "Unable to send memo information, the memo does not exist"
 msgstr "ئەسلەتمە ئۇچۇرىنى يوللىيالمىدى، ئەسلەتمە مەۋجۇت ئەمەس"
 
 #. Translators: This is a default filename for a calendar.
-#: ../modules/itip-formatter/itip-view.c:5286
+#: ../modules/itip-formatter/itip-view.c:5321
 msgid "calendar.ics"
 msgstr "calendar.ics"
 
-#: ../modules/itip-formatter/itip-view.c:5291
+#: ../modules/itip-formatter/itip-view.c:5326
 msgid "Save Calendar"
 msgstr "يىلنامە ساقلا"
 
-#: ../modules/itip-formatter/itip-view.c:5344
-#: ../modules/itip-formatter/itip-view.c:5357
+#: ../modules/itip-formatter/itip-view.c:5379
+#: ../modules/itip-formatter/itip-view.c:5392
 msgid "The calendar attached is not valid"
 msgstr "يىلنامە قوشۇمچىسى ئىناۋەتسىز"
 
-#: ../modules/itip-formatter/itip-view.c:5345
-#: ../modules/itip-formatter/itip-view.c:5358
+#: ../modules/itip-formatter/itip-view.c:5380
+#: ../modules/itip-formatter/itip-view.c:5393
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
 msgstr "ئۇچۇردا يىلنامە بارلىقى قەيت قىلىنغان ئەمما يىلنامە ئىناۋەتلىك iCalendar ئەمەس."
 
-#: ../modules/itip-formatter/itip-view.c:5400
-#: ../modules/itip-formatter/itip-view.c:5430
-#: ../modules/itip-formatter/itip-view.c:5530
+#: ../modules/itip-formatter/itip-view.c:5435
+#: ../modules/itip-formatter/itip-view.c:5465
+#: ../modules/itip-formatter/itip-view.c:5566
 msgid "The item in the calendar is not valid"
 msgstr "يىلنامە تۈرى ئىناۋەتسىز"
 
-#: ../modules/itip-formatter/itip-view.c:5401
-#: ../modules/itip-formatter/itip-view.c:5431
-#: ../modules/itip-formatter/itip-view.c:5531
+#: ../modules/itip-formatter/itip-view.c:5436
+#: ../modules/itip-formatter/itip-view.c:5466
+#: ../modules/itip-formatter/itip-view.c:5567
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
 msgstr "ئۇچۇردا ھەقىقەتەن يىلنامە بار ئەمما يىلنامىدە ھادىسە، ۋەزىپە ياكى بىكار/ئالدىراش ئۇچۇرىنى ئۆز ئىچىگە ئالمىغان"
 
-#: ../modules/itip-formatter/itip-view.c:5446
+#: ../modules/itip-formatter/itip-view.c:5481
 msgid "The calendar attached contains multiple items"
 msgstr "قوشۇمچە يىلنامە كۆپ تۈرنى ئۆز ئىچىگە ئالغان"
 
-#: ../modules/itip-formatter/itip-view.c:5447
+#: ../modules/itip-formatter/itip-view.c:5482
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
 msgstr "بۇ ئۇچۇرلارنىڭ ھەممىسىنى بىر تەرەپ قىلىش ئۈچۈن ھۆججەتنى ساقلاپ يىلنامە ئېلىپ كىرىلىدۇ"
 
-#: ../modules/itip-formatter/itip-view.c:5942
+#: ../modules/itip-formatter/itip-view.c:5970
 msgctxt "cal-itip"
 msgid "None"
 msgstr "يوق"
 
-#: ../modules/itip-formatter/itip-view.c:5958
+#: ../modules/itip-formatter/itip-view.c:5986
 msgid "Tentatively Accepted"
 msgstr "ۋاقىتلىق قوشۇلغان"
 
-#: ../modules/itip-formatter/itip-view.c:6101
+#: ../modules/itip-formatter/itip-view.c:6129
 msgid "This meeting recurs"
 msgstr "بۇ يىغىن تەكرارلىنىدۇ"
 
-#: ../modules/itip-formatter/itip-view.c:6104
+#: ../modules/itip-formatter/itip-view.c:6132
 msgid "This task recurs"
 msgstr "بۇ ۋەزىپە تەكرارلىنىدۇ"
 
-#: ../modules/itip-formatter/itip-view.c:6107
+#: ../modules/itip-formatter/itip-view.c:6135
 msgid "This memo recurs"
 msgstr "بۇ ئەسلەتمە تەكرارلىنىدۇ"
 
@@ -17242,23 +17197,23 @@ msgstr "يەرلىك يەتكۈزۈش ھۆججىتىنى تاللايدۇ"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:293
 msgid "Choose a Maildir mail directory"
-msgstr ""
+msgstr "بىر Maildir خەت مۇندەرىجىسىنى تاللاڭ"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:315
 msgid "Spool _File:"
-msgstr ""
+msgstr "ئورام(Spool) ھۆججەت(_F):"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:316
 msgid "Choose a mbox spool file"
-msgstr ""
+msgstr "mbox ئورام(spool) ھۆججىتىنى تاللاڭ"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:338
 msgid "Spool _Directory:"
-msgstr ""
+msgstr "ئورام(Spool) مۇندەرىجىسى(_D):"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:339
 msgid "Choose a mbox spool directory"
-msgstr ""
+msgstr "mbox ئورام(spool) مۇندەرىجىسىنى تاللاڭ"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:137
 #: ../modules/mail-config/e-mail-config-sendmail-backend.c:53
@@ -17319,7 +17274,9 @@ msgid ""
 "Default arguments are '-i -f %F -- %R', where\n"
 "   %F - stands for the From address\n"
 "   %R - stands for the recipient addresses"
-msgstr ""
+msgstr "كۆڭۈلدىكى پارامېتىرلار '-i -f %F -- %R'، بۇنىڭدا\n"
+"   %F - دېگەن كەلگەن ئادرېس\n"
+"   %R - دېگەن تاپشۇرۇپ ئالغۇچىلارنىڭ ئادرېسى"
 
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:123
 msgid "Ser_ver requires authentication"
@@ -18028,7 +17985,9 @@ msgid ""
 "\n"
 "The next few screens will allow Evolution to connect to your email accounts, "
 "and to import files from other applications."
-msgstr ""
+msgstr "ئېۋولىيۇشون(Evolution)غا مەرھابا.\n"
+"\n"
+"كېيىنكى بىر قانچە ئېكراندا ئېۋولىيۇشون(Evolution) سىزنىڭ ئېلخەت ھېساباتىڭىزغا باغلىنىدۇ ۋە باشقا پروگراممىلاردىن ھۆججەتلەرنى ئېلىپ كىرىدۇ."
 
 #: ../modules/startup-wizard/evolution-startup-wizard.c:239
 msgid "Loading accounts..."
@@ -18337,35 +18296,35 @@ msgstr "قوشۇلما ئەسكەرتكۈچ"
 msgid "Reminds you when you forgot to add an attachment to a mail message."
 msgstr "خەتكە قوشۇلما قوشۇشنى ئۇنتۇپ قالغان ۋاقتىڭىزدا سىزنى ئەسكەرتىدۇ."
 
-#: ../plugins/bbdb/bbdb.c:633 ../plugins/bbdb/bbdb.c:642
+#: ../plugins/bbdb/bbdb.c:638 ../plugins/bbdb/bbdb.c:647
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1
 msgid "Automatic Contacts"
 msgstr "ئاپتوماتىك ئالاقەداشلار"
 
 #. Enable BBDB checkbox
-#: ../plugins/bbdb/bbdb.c:657
+#: ../plugins/bbdb/bbdb.c:662
 msgid "Create _address book entries when sending mails"
 msgstr "خەت ئەۋەتكەندە يېڭى ئادرېس دەپتىرى تۇرلىرىنى قۇر(_A)"
 
-#: ../plugins/bbdb/bbdb.c:665
+#: ../plugins/bbdb/bbdb.c:670
 msgid "Select Address book for Automatic Contacts"
 msgstr "ئاپتوماتىك ئالاقەداشلارنىڭ ئادرېس دەپتىرىنى تاللاڭ"
 
-#: ../plugins/bbdb/bbdb.c:682
+#: ../plugins/bbdb/bbdb.c:687
 msgid "Instant Messaging Contacts"
 msgstr "مۇڭداشقۇ ئالاقەداشلىرى"
 
 #. Enable Gaim Checkbox
-#: ../plugins/bbdb/bbdb.c:697
+#: ../plugins/bbdb/bbdb.c:702
 msgid "_Synchronize contact info and images from Pidgin buddy list"
 msgstr "Pidgin دوستلار تىزىمىدىن ئالاقەداشلار ۋە سۈرەتلەرنى قەدەمداشلا(_S)"
 
-#: ../plugins/bbdb/bbdb.c:705
+#: ../plugins/bbdb/bbdb.c:710
 msgid "Select Address book for Pidgin buddy list"
 msgstr "Pidgin دوستلار تىزىمىنىڭ ئادرېس دەپتىرىنى تاللاڭ"
 
 #. Synchronize now button.
-#: ../plugins/bbdb/bbdb.c:718
+#: ../plugins/bbdb/bbdb.c:723
 msgid "Synchronize with _buddy list now"
 msgstr "دوستلار تىزىمىنى دەرھال قەدەمداشلا(_B)"
 
@@ -18958,31 +18917,31 @@ msgstr "Outlook شەخسىي قىسقۇچ (.pst)"
 msgid "Import Outlook messages from PST file"
 msgstr "PST ھۆججىتىدىن Outlook Express ئۇچۇرلىرىنى ئېلىپ كىرىدۇ"
 
-#: ../plugins/pst-import/pst-importer.c:527
+#: ../plugins/pst-import/pst-importer.c:530
 msgid "_Mail"
 msgstr "خەت(_M)"
 
-#: ../plugins/pst-import/pst-importer.c:556
+#: ../plugins/pst-import/pst-importer.c:559
 msgid "Destination folder:"
 msgstr "نىشان قىسقۇچ:"
 
-#: ../plugins/pst-import/pst-importer.c:566
+#: ../plugins/pst-import/pst-importer.c:569
 msgid "_Address Book"
 msgstr "ئادرېس دەپتىرى(_A)"
 
-#: ../plugins/pst-import/pst-importer.c:571
+#: ../plugins/pst-import/pst-importer.c:574
 msgid "A_ppointments"
 msgstr "ئۇچرىشىشلار(_P)"
 
-#: ../plugins/pst-import/pst-importer.c:576 ../views/tasks/galview.xml.h:1
+#: ../plugins/pst-import/pst-importer.c:579 ../views/tasks/galview.xml.h:1
 msgid "_Tasks"
 msgstr "ۋەزىپىلەر(_T)"
 
-#: ../plugins/pst-import/pst-importer.c:581
+#: ../plugins/pst-import/pst-importer.c:584
 msgid "_Journal entries"
 msgstr "كۈندىلىك خاتىرە تۈرلىرى(_J)"
 
-#: ../plugins/pst-import/pst-importer.c:697
+#: ../plugins/pst-import/pst-importer.c:704
 msgid "Importing Outlook data"
 msgstr "Outlook سانلىق-مەلۇماتىنى ئېلىپ كىرىۋاتىدۇ"
 
@@ -20355,6 +20314,47 @@ msgstr "ۋاقتى توشۇش چېسلاسى بىلەن(_D)"
 #: ../views/tasks/galview.xml.h:3
 msgid "With _Status"
 msgstr "ھالىتى بىلەن(_S)"
+
+#~ msgid "Export in asynchronous mode"
+#~ msgstr "بىقەدەمداش ھالەتتە چىقار"
+
+#~ msgid ""
+#~ "The number of cards in one output file in asynchronous mode, default size "
+#~ "100."
+#~ msgstr ""
+#~ "بىقەدەمداش ھالەتتە بىر چىقىرىش ھۆججىتىدىكى كارتا سانى، كۆڭۈلدىكى چوڭلۇقى "
+#~ "100."
+
+#~ msgid "NUMBER"
+#~ msgstr "NUMBER"
+
+#~ msgid "In async mode, output must be file."
+#~ msgstr "بىقەدەمداش ھالەتتە، چىقىرىش چوقۇم ھۆججەت بولىدۇ."
+
+#~ msgid "In normal mode, there is no need for the size option."
+#~ msgstr "نورمال ھالەتتە، چوڭلۇق تاللانمىسى زۆرۈر ئەمەس."
+
+#~ msgid "List of MIME types to check for Bonobo component viewers"
+#~ msgstr "Bonobo بۆلەك كۆرگۈچتە كۆرىدىغان MIME تىپىنىڭ تىزىمى"
+
+#~ msgid ""
+#~ "If there isn't a builtin viewer for a particular MIME type inside "
+#~ "Evolution, any MIME types appearing in this list which map to a Bonobo "
+#~ "component viewer in GNOME's MIME type database may be used for displaying "
+#~ "content."
+#~ msgstr ""
+#~ "ئەگەر Evolution نىڭ ئىچىدە بەلگىلىك MIME تىپىنىڭ ئىچكى كۆرگۈچىسى بولمىسا، "
+#~ "ئۇنداقتا بۇ تىزىمدا كۆرۈلگەن ھەر قانداق MIME تىپى گىنوم نىڭ گىنوم تىپلىق "
+#~ "سانداندا خەرىتىلەنگەن Bonobo بۆلەك كۆرگۈچنى مەزمۇننى كۆرسىتىشكە ئىشلىتىدۇ."
+
+#~ msgid "Loading calendars"
+#~ msgstr "يىلنامە يۈكلەۋاتىدۇ"
+
+#~ msgid "Loading memo list"
+#~ msgstr "ئەسلەتمە تىزىمىنى ئوقۇۋاتىدۇ"
+
+#~ msgid "Loading task list"
+#~ msgstr "ۋەزىپە تىزىمىنى ئوقۇۋاتىدۇ"
 
 #~ msgid "Could not perform this operation on '{0}: {1}'."
 #~ msgstr "مەشغۇلاتنى‹{0}: {1}›  غا نىسبەتەن ئېلىپ بارغىلى بولمىدى."
