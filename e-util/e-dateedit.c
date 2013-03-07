@@ -41,6 +41,7 @@
 #include <libebackend/libebackend.h>
 
 #include "e-calendar.h"
+#include "e-util-enumtypes.h"
 
 #define E_DATE_EDIT_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -257,7 +258,7 @@ date_edit_set_property (GObject *object,
 		case PROP_WEEK_START_DAY:
 			e_date_edit_set_week_start_day (
 				E_DATE_EDIT (object),
-				g_value_get_int (value));
+				g_value_get_enum (value));
 			return;
 
 		case PROP_TWODIGIT_YEAR_CAN_FUTURE:
@@ -313,7 +314,7 @@ date_edit_get_property (GObject *object,
 			return;
 
 		case PROP_WEEK_START_DAY:
-			g_value_set_int (
+			g_value_set_enum (
 				value, e_date_edit_get_week_start_day (
 				E_DATE_EDIT (object)));
 			return;
@@ -432,14 +433,14 @@ e_date_edit_class_init (EDateEditClass *class)
 	g_object_class_install_property (
 		object_class,
 		PROP_WEEK_START_DAY,
-		g_param_spec_int (
+		g_param_spec_enum (
 			"week-start-day",
 			"Week Start Day",
 			NULL,
-			0,  /* Monday */
-			6,  /* Sunday */
-			0,
-			G_PARAM_READWRITE));
+			E_TYPE_DATE_WEEKDAY,
+			G_DATE_MONDAY,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_install_property (
 		object_class,
@@ -1209,21 +1210,21 @@ e_date_edit_set_make_time_insensitive (EDateEdit *dedit,
 /**
  * e_date_edit_get_week_start_day:
  * @dedit: an #EDateEdit
- * @Returns: the week start day, from 0 (Monday) to 6 (Sunday).
  *
- * Description: Returns the week start day currently used in the calendar
- * popup.
+ * Returns the week start day currently used in the calendar popup.
+ *
+ * Returns: a #GDateWeekday
  */
-gint
+GDateWeekday
 e_date_edit_get_week_start_day (EDateEdit *dedit)
 {
-	gint week_start_day;
+	GDateWeekday week_start_day;
 
 	g_return_val_if_fail (E_IS_DATE_EDIT (dedit), 1);
 
 	g_object_get (
 		E_CALENDAR (dedit->priv->calendar)->calitem,
-		"week_start_day", &week_start_day, NULL);
+		"week-start-day", &week_start_day, NULL);
 
 	return week_start_day;
 }
@@ -1231,19 +1232,20 @@ e_date_edit_get_week_start_day (EDateEdit *dedit)
 /**
  * e_date_edit_set_week_start_day:
  * @dedit: an #EDateEdit
- * @week_start_day: the week start day, from 0 (Monday) to 6 (Sunday).
+ * @week_start_day: a #GDateWeekday
  *
- * Description: Sets the week start day to use in the calendar popup.
+ * Sets the week start day to use in the calendar popup.
  */
 void
 e_date_edit_set_week_start_day (EDateEdit *dedit,
-                                gint week_start_day)
+                                GDateWeekday week_start_day)
 {
 	g_return_if_fail (E_IS_DATE_EDIT (dedit));
+	g_return_if_fail (g_date_valid_weekday (week_start_day));
 
 	gnome_canvas_item_set (
 		GNOME_CANVAS_ITEM (E_CALENDAR (dedit->priv->calendar)->calitem),
-		"week_start_day", week_start_day, NULL);
+		"week-start-day", week_start_day, NULL);
 
 	g_object_notify (G_OBJECT (dedit), "week-start-day");
 }

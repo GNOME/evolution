@@ -44,7 +44,7 @@ static gint e_week_view_find_day	(time_t		 time_to_find,
 					 time_t		*day_starts);
 static gint e_week_view_find_span_end	(gboolean	 multi_week_view,
 					 gboolean	 compress_weekend,
-					 gint		 display_start_day,
+					 GDateWeekday	 display_start_day,
 					 gint		 day);
 
 GArray *
@@ -259,7 +259,7 @@ e_week_view_find_day (time_t time_to_find,
 static gint
 e_week_view_find_span_end (gboolean multi_week_view,
                            gboolean compress_weekend,
-                           gint display_start_day,
+                           GDateWeekday display_start_day,
                            gint day)
 {
 	gint week, col, sat_col, end_col;
@@ -274,7 +274,8 @@ e_week_view_find_span_end (gboolean multi_week_view,
 		/* If the weekend is compressed we must end any spans on
 		 * Saturday and Sunday. */
 		if (compress_weekend) {
-			sat_col = (5 + 7 - display_start_day) % 7;
+			sat_col = e_weekday_get_days_between (
+				display_start_day, G_DATE_SATURDAY);
 			if (col <= sat_col)
 				end_col = sat_col;
 			else if (col == sat_col + 1)
@@ -291,13 +292,14 @@ void
 e_week_view_layout_get_day_position (gint day,
                                      gboolean multi_week_view,
                                      gint weeks_shown,
-                                     gint display_start_day,
+                                     GDateWeekday display_start_day,
                                      gboolean compress_weekend,
                                      gint *day_x,
                                      gint *day_y,
                                      gint *rows)
 {
-	gint week, day_of_week, col, weekend_col;
+	GDateWeekday day_of_week;
+	gint week, col, weekend_col;
 
 	*day_x = *day_y = *rows = 0;
 	g_return_if_fail (day >= 0);
@@ -307,12 +309,12 @@ e_week_view_layout_get_day_position (gint day,
 
 		week = day / 7;
 		col = day % 7;
-		day_of_week = (display_start_day + day) % 7;
-		if (compress_weekend && day_of_week >= 5) {
+		day_of_week = e_weekday_add_days (display_start_day, day);
+		if (compress_weekend && day_of_week >= G_DATE_SATURDAY) {
 			/* In the compressed view Saturday is above Sunday and
 			 * both have just one row as opposed to 2 for all the
 			 * other days. */
-			if (day_of_week == 5) {
+			if (day_of_week == G_DATE_SATURDAY) {
 				*day_y = week * 2;
 				*rows = 1;
 			} else {
@@ -326,9 +328,9 @@ e_week_view_layout_get_day_position (gint day,
 			/* If the weekend is compressed and the day is after
 			 * the weekend we have to move back a column. */
 			if (compress_weekend) {
-				/* Calculate where the weekend column is.
-				 * Note that 5 is Saturday. */
-				weekend_col = (5 + 7 - display_start_day) % 7;
+				/* Calculate where the weekend column is. */
+				weekend_col = e_weekday_get_days_between (
+					display_start_day, G_DATE_SATURDAY);
 				if (col > weekend_col)
 					col--;
 			}
@@ -445,18 +447,20 @@ e_week_view_layout_get_span_position (EWeekViewEvent *event,
                                       EWeekViewEventSpan *span,
                                       gint rows_per_cell,
                                       gint rows_per_compressed_cell,
-                                      gint display_start_day,
+                                      GDateWeekday display_start_day,
                                       gboolean multi_week_view,
                                       gboolean compress_weekend,
                                       gint *span_num_days)
 {
-	gint end_day_of_week;
+	GDateWeekday end_day_of_week;
+	guint n_days;
 
 	if (multi_week_view && span->row >= rows_per_cell)
 		return FALSE;
 
-	end_day_of_week = (display_start_day + span->start_day
-			   + span->num_days - 1) % 7;
+	n_days = span->start_day + span->num_days - 1;
+	end_day_of_week = e_weekday_add_days (display_start_day, n_days);
+
 	*span_num_days = span->num_days;
 	/* Check if the row will not be visible in compressed cells. */
 	if (span->row >= rows_per_compressed_cell) {
@@ -466,13 +470,13 @@ e_week_view_layout_get_span_position (EWeekViewEvent *event,
 				 * we skip it, else we shorten it. If it ends
 				 * on a Sunday it must be 1 day long and we
 				 * skip it. */
-				if (end_day_of_week == 5) {	   /* Sat */
+				if (end_day_of_week == G_DATE_SATURDAY) {
 					if (*span_num_days == 1) {
 						return FALSE;
 					} else {
 						(*span_num_days)--;
 					}
-				} else if (end_day_of_week == 6) { /* Sun */
+				} else if (end_day_of_week == G_DATE_SUNDAY) {
 					return FALSE;
 				}
 			}

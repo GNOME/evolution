@@ -3016,7 +3016,7 @@ e_day_view_find_work_week_start (EDayView *day_view,
 	/* Calculate the first working day of the week. */
 	first_work_day = e_cal_model_get_work_day_first (model);
 	if (first_work_day == G_DATE_BAD_WEEKDAY)
-		first_work_day = e_cal_model_get_week_start_day (model) + 1;
+		first_work_day = e_cal_model_get_week_start_day (model);
 
 	/* Calculate how many days we need to go back to the first workday. */
 	if (weekday < first_work_day)

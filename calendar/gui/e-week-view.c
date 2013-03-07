@@ -98,6 +98,11 @@ struct _EWeekViewPrivate {
 
 	/* Whether to update the base date when the time range changes. */
 	gboolean update_base_date;
+
+	/* The first day of the week we display.  This will usually be
+	 * week_start_day, but if the Sat & Sun are compressed and the
+	 * week starts on Sunday then we have to use Saturday. */
+	GDateWeekday display_start_day;
 };
 
 typedef struct {
@@ -373,7 +378,9 @@ week_view_time_range_changed_cb (EWeekView *week_view,
                                  ECalModel *model)
 {
 	GDate date, base_date;
-	gint day_offset, weekday, week_start_offset;
+	GDateWeekday weekday;
+	GDateWeekday display_start_day;
+	guint day_offset, week_start_offset;
 	gint num_days;
 	gboolean update_adjustment_value = FALSE;
 
@@ -381,11 +388,12 @@ week_view_time_range_changed_cb (EWeekView *week_view,
 
 	time_to_gdate_with_zone (&date, start_time, e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
 
-	/* Calculate the weekday of the given date, 0 = Mon. */
-	weekday = g_date_get_weekday (&date) - 1;
+	weekday = g_date_get_weekday (&date);
+	display_start_day = e_week_view_get_display_start_day (week_view);
 
 	/* Convert it to an offset from the start of the display. */
-	week_start_offset = (weekday + 7 - week_view->display_start_day) % 7;
+	week_start_offset = e_weekday_get_days_between (
+		display_start_day, weekday);
 
 	/* Set the day_offset to the result, so we move back to the
 	 * start of the week. */
@@ -408,7 +416,7 @@ week_view_time_range_changed_cb (EWeekView *week_view,
 	    || g_date_compare (&week_view->priv->first_day_shown, &base_date)) {
 		week_view->priv->first_day_shown = base_date;
 		start_time = time_add_day_with_zone (
-			start_time, -day_offset,
+			start_time, -((gint) day_offset),
 			e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
 		start_time = time_day_begin_with_zone (
 			start_time,
@@ -1477,6 +1485,7 @@ e_week_view_init (EWeekView *week_view)
 	week_view->priv->compress_weekend = TRUE;
 	week_view->priv->show_event_end_times = TRUE;
 	week_view->priv->update_base_date = TRUE;
+	week_view->priv->display_start_day = G_DATE_MONDAY;
 
 	gtk_widget_set_can_focus (GTK_WIDGET (week_view), TRUE);
 
@@ -1496,7 +1505,6 @@ e_week_view_init (EWeekView *week_view)
 	week_view->scroll_by_week_notif_id = 0;
 	week_view->rows = 6;
 	week_view->columns = 2;
-	week_view->display_start_day = 0;	/* Monday. */
 
 	g_date_clear (&week_view->base_date, 1);
 	g_date_clear (&week_view->priv->first_day_shown, 1);
@@ -1985,7 +1993,10 @@ e_week_view_set_first_day_shown (EWeekView *week_view,
                                  GDate *date)
 {
 	GDate base_date;
-	gint weekday, day_offset, num_days;
+	GDateWeekday weekday;
+	GDateWeekday display_start_day;
+	guint day_offset;
+	gint num_days;
 	gboolean update_adjustment_value = FALSE;
 	guint32 old_selection_start_julian = 0, old_selection_end_julian = 0;
 	struct icaltimetype start_tt = icaltime_null_time ();
@@ -2003,11 +2014,11 @@ e_week_view_set_first_day_shown (EWeekView *week_view,
 			+ week_view->selection_end_day;
 	}
 
-	/* Calculate the weekday of the given date, 0 = Mon. */
-	weekday = g_date_get_weekday (date) - 1;
+	weekday = g_date_get_weekday (date);
+	display_start_day = e_week_view_get_display_start_day (week_view);
 
 	/* Convert it to an offset from the start of the display. */
-	day_offset = (weekday + 7 - week_view->display_start_day) % 7;
+	day_offset = e_weekday_get_days_between (display_start_day, weekday);
 
 	/* Calculate the base date, i.e. the first day shown when the
 	 * scrollbar adjustment value is 0. */
@@ -2070,6 +2081,14 @@ e_week_view_set_first_day_shown (EWeekView *week_view,
 
 	e_week_view_update_query (week_view);
 	gtk_widget_queue_draw (week_view->main_canvas);
+}
+
+GDateWeekday
+e_week_view_get_display_start_day (EWeekView *week_view)
+{
+	g_return_val_if_fail (E_IS_WEEK_VIEW (week_view), G_DATE_BAD_WEEKDAY);
+
+	return week_view->priv->display_start_day;
 }
 
 /* Recalculates the time_t corresponding to the start of each day. */
@@ -2307,8 +2326,9 @@ static gboolean
 e_week_view_recalc_display_start_day (EWeekView *week_view)
 {
 	ECalModel *model;
-	gint week_start_day;
-	gint display_start_day;
+	GDateWeekday week_start_day;
+	GDateWeekday display_start_day;
+	gboolean changed;
 
 	model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
 	week_start_day = e_cal_model_get_week_start_day (model);
@@ -2318,20 +2338,19 @@ e_week_view_recalc_display_start_day (EWeekView *week_view)
 	 * is Sunday. */
 	display_start_day = week_start_day;
 
-	if (display_start_day == 6) {
+	if (display_start_day == G_DATE_SUNDAY) {
 		if (!e_week_view_get_multi_week_view (week_view))
-			display_start_day = 5;
+			display_start_day = G_DATE_SATURDAY;
 
 		if (e_week_view_get_compress_weekend (week_view))
-			display_start_day = 5;
+			display_start_day = G_DATE_SATURDAY;
 	}
 
-	if (week_view->display_start_day != display_start_day) {
-		week_view->display_start_day = display_start_day;
-		return TRUE;
-	}
+	changed = (display_start_day != week_view->priv->display_start_day);
 
-	return FALSE;
+	week_view->priv->display_start_day = display_start_day;
+
+	return changed;
 }
 
 /* Checks if the users participation status is NEEDS-ACTION and shows the summary as bold text */
@@ -2492,7 +2511,7 @@ e_week_view_get_day_position (EWeekView *week_view,
 		day,
 		e_week_view_get_multi_week_view (week_view),
 		e_week_view_get_weeks_shown (week_view),
-		week_view->display_start_day,
+		e_week_view_get_display_start_day (week_view),
 		e_week_view_get_compress_weekend (week_view),
 		&cell_x, &cell_y, &cell_h);
 
@@ -2548,7 +2567,7 @@ e_week_view_get_span_position (EWeekView *week_view,
 		event, span,
 		week_view->rows_per_cell,
 		week_view->rows_per_compressed_cell,
-		week_view->display_start_day,
+		e_week_view_get_display_start_day (week_view),
 		e_week_view_get_multi_week_view (week_view),
 		e_week_view_get_compress_weekend (week_view),
 		&num_days)) {
@@ -2817,8 +2836,11 @@ e_week_view_convert_position_to_day (EWeekView *week_view,
                                      gint x,
                                      gint y)
 {
+	GDateWeekday display_start_day;
 	gint col, row, grid_x = -1, grid_y = -1, week, day;
 	gint weekend_col;
+
+	display_start_day = e_week_view_get_display_start_day (week_view);
 
 	/* First we convert it to a grid position. */
 	for (col = 0; col <= week_view->columns; col++) {
@@ -2845,7 +2867,8 @@ e_week_view_convert_position_to_day (EWeekView *week_view,
 		day = grid_x;
 
 		if (e_week_view_get_compress_weekend (week_view)) {
-			weekend_col = (5 + 7 - week_view->display_start_day) % 7;
+			weekend_col = e_weekday_get_days_between (
+				display_start_day, G_DATE_SATURDAY);
 			if (grid_x > weekend_col
 			    || (grid_x == weekend_col && grid_y % 2 == 1))
 				day++;
@@ -2857,7 +2880,7 @@ e_week_view_convert_position_to_day (EWeekView *week_view,
 			gint day_x = 0, day_y = 0, rows = 0;
 			e_week_view_layout_get_day_position (
 				day, FALSE, 1,
-				week_view->display_start_day,
+				e_week_view_get_display_start_day (week_view),
 				e_week_view_get_compress_weekend (week_view),
 				&day_x, &day_y, &rows);
 
@@ -3051,7 +3074,7 @@ e_week_view_check_layout (EWeekView *week_view)
 			e_week_view_get_multi_week_view (week_view),
 			e_week_view_get_weeks_shown (week_view),
 			e_week_view_get_compress_weekend (week_view),
-			week_view->display_start_day,
+			e_week_view_get_display_start_day (week_view),
 			week_view->day_starts,
 			week_view->rows_per_day);
 
@@ -3101,6 +3124,7 @@ static void
 e_week_view_reshape_events (EWeekView *week_view)
 {
 	EWeekViewEvent *event;
+	GDateWeekday display_start_day;
 	gint event_num, span_num;
 	gint num_days, day, day_x, day_y, day_w, day_h, max_rows;
 	gboolean is_weekend;
@@ -3138,9 +3162,18 @@ e_week_view_reshape_events (EWeekView *week_view)
 
 	/* Reshape the jump buttons and show/hide them as appropriate. */
 	num_days = e_week_view_get_weeks_shown (week_view) * 7;
+	display_start_day = e_week_view_get_display_start_day (week_view);
 	for (day = 0; day < num_days; day++) {
+		switch (e_weekday_add_days (display_start_day, day)) {
+			case G_DATE_SATURDAY:
+			case G_DATE_SUNDAY:
+				is_weekend = TRUE;
+				break;
+			default:
+				is_weekend = FALSE;
+				break;
+		}
 
-		is_weekend = ((week_view->display_start_day + day) % 7 >= 5) ? TRUE : FALSE;
 		if (!is_weekend || (
 		    e_week_view_get_multi_week_view (week_view)
 		    && !e_week_view_get_compress_weekend (week_view)))

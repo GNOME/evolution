@@ -134,9 +134,9 @@ gboolean	comp_editor_get_use_24_hour_format
 void		comp_editor_set_use_24_hour_format
 						(CompEditor *editor,
 						 gboolean use_24_hour_format);
-gint		comp_editor_get_week_start_day	(CompEditor *editor);
+GDateWeekday	comp_editor_get_week_start_day	(CompEditor *editor);
 void		comp_editor_set_week_start_day	(CompEditor *editor,
-						 gint week_start_day);
+						 GDateWeekday week_start_day);
 gint		comp_editor_get_work_day_end_hour
 						(CompEditor *editor);
 void		comp_editor_set_work_day_end_hour

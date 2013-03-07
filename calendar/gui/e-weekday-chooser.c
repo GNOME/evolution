@@ -36,17 +36,14 @@
 
 /* Private part of the EWeekdayChooser structure */
 struct _EWeekdayChooserPrivate {
-	/* Selected days; see weekday_chooser_set_days() */
-	guint8 day_mask;
+	gboolean blocked_weekdays[8];   /* indexed by GDateWeekday */
+	gboolean selected_weekdays[8];  /* indexed by GDateWeekday */
 
-	/* Blocked days; these cannot be modified */
-	guint8 blocked_day_mask;
-
-	/* Day that defines the start of the week; 0 = Sunday, ..., 6 = Saturday */
-	gint week_start_day;
+	/* Day that defines the start of the week. */
+	GDateWeekday week_start_day;
 
 	/* Current keyboard focus day */
-	gint focus_day;
+	GDateWeekday focus_day;
 
 	/* Metrics */
 	gint font_ascent, font_descent;
@@ -76,29 +73,16 @@ G_DEFINE_TYPE_WITH_CODE (
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_EXTENSIBLE, NULL))
 
-static gchar *
-get_day_text (gint day_index)
-{
-	GDateWeekday weekday;
-
-	/* Convert from tm_wday to GDateWeekday. */
-	weekday = (day_index == 0) ? G_DATE_SUNDAY : day_index;
-
-	return g_strdup (e_get_weekday_name (weekday, TRUE));
-}
-
 static void
 colorize_items (EWeekdayChooser *chooser)
 {
-	EWeekdayChooserPrivate *priv;
 	GdkColor *outline, *focus_outline;
 	GdkColor *fill, *sel_fill;
 	GdkColor *text_fill, *sel_text_fill;
 	GtkStateType state;
 	GtkStyle *style;
-	gint i;
-
-	priv = chooser->priv;
+	GDateWeekday weekday;
+	gint ii;
 
 	state = gtk_widget_get_state (GTK_WIDGET (chooser));
 	style = gtk_widget_get_style (GTK_WIDGET (chooser));
@@ -112,15 +96,12 @@ colorize_items (EWeekdayChooser *chooser)
 	sel_fill = &style->bg[GTK_STATE_SELECTED];
 	sel_text_fill = &style->fg[GTK_STATE_SELECTED];
 
-	for (i = 0; i < 7; i++) {
-		gint day;
+	weekday = e_weekday_chooser_get_week_start_day (chooser);
+
+	for (ii = 0; ii < 7; ii++) {
 		GdkColor *f, *t, *o;
 
-		day = i + priv->week_start_day;
-		if (day >= 7)
-			day -= 7;
-
-		if (priv->day_mask & (0x1 << day)) {
+		if (chooser->priv->selected_weekdays[weekday]) {
 			f = sel_fill;
 			t = sel_text_fill;
 		} else {
@@ -128,34 +109,34 @@ colorize_items (EWeekdayChooser *chooser)
 			t = text_fill;
 		}
 
-		if (day == priv->focus_day)
+		if (weekday == chooser->priv->focus_day)
 			o = focus_outline;
 		else
 			o = outline;
 
 		gnome_canvas_item_set (
-			priv->boxes[i],
+			chooser->priv->boxes[ii],
 			"fill_color_gdk", f,
 			"outline_color_gdk", o,
 			NULL);
 
 		gnome_canvas_item_set (
-			priv->labels[i],
+			chooser->priv->labels[ii],
 			"fill_color_gdk", t,
 			NULL);
+
+		weekday = e_weekday_get_next (weekday);
 	}
 }
 
 static void
 configure_items (EWeekdayChooser *chooser)
 {
-	EWeekdayChooserPrivate *priv;
 	GtkAllocation allocation;
 	gint width, height;
 	gint box_width;
-	gint i;
-
-	priv = chooser->priv;
+	GDateWeekday weekday;
+	gint ii;
 
 	gtk_widget_get_allocation (GTK_WIDGET (chooser), &allocation);
 
@@ -164,31 +145,26 @@ configure_items (EWeekdayChooser *chooser)
 
 	box_width = (width - 1) / 7;
 
-	for (i = 0; i < 7; i++) {
-		gchar *c;
-		gint day;
+	weekday = e_weekday_chooser_get_week_start_day (chooser);
 
-		day = i + priv->week_start_day;
-		if (day >= 7)
-			day -= 7;
-
+	for (ii = 0; ii < 7; ii++) {
 		gnome_canvas_item_set (
-			priv->boxes[i],
-			"x1", (gdouble) (i * box_width),
+			chooser->priv->boxes[ii],
+			"x1", (gdouble) (ii * box_width),
 			"y1", (gdouble) 0,
-			"x2", (gdouble) ((i + 1) * box_width),
+			"x2", (gdouble) ((ii + 1) * box_width),
 			"y2", (gdouble) (height - 1),
 			"line_width", 0.0,
 			NULL);
 
-		c = get_day_text (day);
 		gnome_canvas_item_set (
-			priv->labels[i],
-			"text", c,
-			"x", (gdouble) (i * box_width) + PADDING,
+			chooser->priv->labels[ii],
+			"text", e_get_weekday_name (weekday, TRUE),
+			"x", (gdouble) (ii * box_width) + PADDING,
 			"y", (gdouble) (1 + PADDING),
 			NULL);
-		g_free (c);
+
+		weekday = e_weekday_get_next (weekday);
 	}
 
 	colorize_items (chooser);
@@ -204,7 +180,7 @@ weekday_chooser_set_property (GObject *object,
 		case PROP_WEEK_START_DAY:
 			e_weekday_chooser_set_week_start_day (
 				E_WEEKDAY_CHOOSER (object),
-				g_value_get_int (value));
+				g_value_get_enum (value));
 			return;
 	}
 
@@ -219,7 +195,7 @@ weekday_chooser_get_property (GObject *object,
 {
 	switch (property_id) {
 		case PROP_WEEK_START_DAY:
-			g_value_set_int (
+			g_value_set_enum (
 				value,
 				e_weekday_chooser_get_week_start_day (
 				E_WEEKDAY_CHOOSER (object)));
@@ -279,11 +255,11 @@ weekday_chooser_style_set (GtkWidget *widget,
 	EWeekdayChooser *chooser;
 	EWeekdayChooserPrivate *priv;
 	gint max_width;
-	gint i;
 	PangoFontDescription *font_desc;
 	PangoContext *pango_context;
 	PangoFontMetrics *font_metrics;
 	PangoLayout *layout;
+	GDateWeekday weekday;
 
 	chooser = E_WEEKDAY_CHOOSER (widget);
 	priv = chooser->priv;
@@ -303,14 +279,13 @@ weekday_chooser_style_set (GtkWidget *widget,
 
 	max_width = 0;
 
-	for (i = 0; i < 7; i++) {
-		gchar *c;
+	for (weekday = G_DATE_MONDAY; weekday <= G_DATE_SUNDAY; weekday++) {
+		const gchar *name;
 		gint w;
 
-		c = get_day_text (i);
-		pango_layout_set_text (layout, c, strlen (c));
+		name = e_get_weekday_name (weekday, TRUE);
+		pango_layout_set_text (layout, name, strlen (name));
 		pango_layout_get_pixel_size (layout, &w, NULL);
-		g_free (c);
 
 		if (w > max_width)
 			max_width = w;
@@ -362,23 +337,21 @@ weekday_chooser_focus (GtkWidget *widget,
                        GtkDirectionType direction)
 {
 	EWeekdayChooser *chooser;
-	EWeekdayChooserPrivate *priv;
 
-	g_return_val_if_fail (E_IS_WEEKDAY_CHOOSER (widget), FALSE);
 	chooser = E_WEEKDAY_CHOOSER (widget);
-	priv = chooser->priv;
 
 	if (!gtk_widget_get_can_focus (widget))
 		return FALSE;
 
 	if (gtk_widget_has_focus (widget)) {
-		priv->focus_day = -1;
+		chooser->priv->focus_day = G_DATE_BAD_WEEKDAY;
 		colorize_items (chooser);
 		return FALSE;
 	}
 
-	priv->focus_day = priv->week_start_day;
-	gnome_canvas_item_grab_focus (priv->boxes[priv->focus_day]);
+	chooser->priv->focus_day = chooser->priv->week_start_day;
+	gnome_canvas_item_grab_focus (chooser->priv->boxes[0]);
+
 	colorize_items (chooser);
 
 	return TRUE;
@@ -408,13 +381,12 @@ e_weekday_chooser_class_init (EWeekdayChooserClass *class)
 	g_object_class_install_property (
 		object_class,
 		PROP_WEEK_START_DAY,
-		g_param_spec_int (
+		g_param_spec_enum (
 			"week-start-day",
 			"Week Start Day",
 			NULL,
-			0,  /* Monday */
-			6,  /* Sunday */
-			0,
+			E_TYPE_DATE_WEEKDAY,
+			G_DATE_MONDAY,
 			G_PARAM_READWRITE |
 			G_PARAM_STATIC_STRINGS));
 
@@ -430,20 +402,15 @@ e_weekday_chooser_class_init (EWeekdayChooserClass *class)
 
 static void
 day_clicked (EWeekdayChooser *chooser,
-             gint index)
+             GDateWeekday weekday)
 {
-	EWeekdayChooserPrivate *priv = chooser->priv;
-	guint8 day_mask;
+	gboolean selected;
 
-	if (priv->blocked_day_mask & (0x1 << index))
+	if (chooser->priv->blocked_weekdays[weekday])
 		return;
 
-	if (priv->day_mask & (0x1 << index))
-		day_mask = priv->day_mask & ~(0x1 << index);
-	else
-		day_mask = priv->day_mask | (0x1 << index);
-
-	e_weekday_chooser_set_days (chooser, day_mask);
+	selected = e_weekday_chooser_get_selected (chooser, weekday);
+	e_weekday_chooser_set_selected (chooser, weekday, !selected);
 }
 
 static gint
@@ -452,18 +419,21 @@ handle_key_press_event (EWeekdayChooser *chooser,
 {
 	EWeekdayChooserPrivate *priv = chooser->priv;
 	guint keyval = event->key.keyval;
+	guint index;
 
-	if (priv->focus_day == -1)
-		priv->focus_day = priv->week_start_day;
+	if (chooser->priv->focus_day == G_DATE_BAD_WEEKDAY)
+		chooser->priv->focus_day = chooser->priv->week_start_day;
 
 	switch (keyval) {
 		case GDK_KEY_Up:
 		case GDK_KEY_Right:
-			priv->focus_day += 1;
+			chooser->priv->focus_day =
+				e_weekday_get_next (chooser->priv->focus_day);
 			break;
 		case GDK_KEY_Down:
 		case GDK_KEY_Left:
-			priv->focus_day -= 1;
+			chooser->priv->focus_day =
+				e_weekday_get_prev (chooser->priv->focus_day);
 			break;
 		case GDK_KEY_space:
 		case GDK_KEY_Return:
@@ -473,28 +443,27 @@ handle_key_press_event (EWeekdayChooser *chooser,
 			return FALSE;
 	}
 
-	if (priv->focus_day > 6)
-		priv->focus_day = 0;
-	if (priv->focus_day < 0)
-		priv->focus_day = 6;
-
 	colorize_items (chooser);
-	gnome_canvas_item_grab_focus (priv->boxes[priv->focus_day]);
+
+	index = e_weekday_get_days_between (
+		chooser->priv->week_start_day,
+		chooser->priv->focus_day);
+
+	gnome_canvas_item_grab_focus (chooser->priv->boxes[index]);
+
 	return TRUE;
 }
 
 /* Event handler for the day items */
-static gint
+static gboolean
 day_event_cb (GnomeCanvasItem *item,
               GdkEvent *event,
               gpointer data)
 {
 	EWeekdayChooser *chooser;
-	EWeekdayChooserPrivate *priv;
-	gint i;
+	gint ii;
 
 	chooser = E_WEEKDAY_CHOOSER (data);
-	priv = chooser->priv;
 
 	if (event->type == GDK_KEY_PRESS)
 		return handle_key_press_event (chooser, event);
@@ -504,19 +473,22 @@ day_event_cb (GnomeCanvasItem *item,
 
 	/* Find which box was clicked */
 
-	for (i = 0; i < 7; i++)
-		if (priv->boxes[i] == item || priv->labels[i] == item)
+	for (ii = 0; ii < 7; ii++) {
+		if (chooser->priv->boxes[ii] == item)
 			break;
+		if (chooser->priv->labels[ii] == item)
+			break;
+	}
 
-	g_return_val_if_fail (i != 7, TRUE);
+	g_return_val_if_fail (ii < 7, FALSE);
 
-	i += priv->week_start_day;
-	if (i >= 7)
-		i -= 7;
+	chooser->priv->focus_day = e_weekday_add_days (
+		chooser->priv->week_start_day, ii);
 
-	priv->focus_day = i;
-	gnome_canvas_item_grab_focus (priv->boxes[i]);
-	day_clicked (chooser, i);
+	gnome_canvas_item_grab_focus (chooser->priv->boxes[ii]);
+
+	day_clicked (chooser, chooser->priv->focus_day);
+
 	return TRUE;
 }
 
@@ -525,29 +497,26 @@ day_event_cb (GnomeCanvasItem *item,
 static void
 create_items (EWeekdayChooser *chooser)
 {
-	EWeekdayChooserPrivate *priv;
 	GnomeCanvasGroup *parent;
-	gint i;
-
-	priv = chooser->priv;
+	gint ii;
 
 	parent = gnome_canvas_root (GNOME_CANVAS (chooser));
 
-	for (i = 0; i < 7; i++) {
-		priv->boxes[i] = gnome_canvas_item_new (
+	for (ii = 0; ii < 7; ii++) {
+		chooser->priv->boxes[ii] = gnome_canvas_item_new (
 			parent,
 			GNOME_TYPE_CANVAS_RECT,
 			NULL);
 		g_signal_connect (
-			priv->boxes[i], "event",
+			chooser->priv->boxes[ii], "event",
 			G_CALLBACK (day_event_cb), chooser);
 
-		priv->labels[i] = gnome_canvas_item_new (
+		chooser->priv->labels[ii] = gnome_canvas_item_new (
 			parent,
 			GNOME_TYPE_CANVAS_TEXT,
 			NULL);
 		g_signal_connect (
-			priv->labels[i], "event",
+			chooser->priv->labels[ii], "event",
 			G_CALLBACK (day_event_cb), chooser);
 	}
 }
@@ -577,74 +546,81 @@ e_weekday_chooser_new (void)
 /**
  * e_weekday_chooser_get_days:
  * @chooser: an #EWeekdayChooser
+ * @weekday: a #GDateWeekday
  *
- * Queries the days that are selected in @chooser.
+ * Returns whether @weekday is selected.
  *
- * Return value: Bit mask of selected days.  Sunday is bit 0, Monday is bit 1,
- * etc.
+ * Returns: whether @weekday is selected
  **/
-guint8
-e_weekday_chooser_get_days (EWeekdayChooser *chooser)
+gboolean
+e_weekday_chooser_get_selected (EWeekdayChooser *chooser,
+                                GDateWeekday weekday)
 {
-	g_return_val_if_fail (E_IS_WEEKDAY_CHOOSER (chooser), 0);
+	g_return_val_if_fail (E_IS_WEEKDAY_CHOOSER (chooser), FALSE);
+	g_return_val_if_fail (g_date_valid_weekday (weekday), FALSE);
 
-	return chooser->priv->day_mask;
+	return chooser->priv->selected_weekdays[weekday];
 }
 
 /**
- * e_weekday_chooser_set_days:
+ * e_weekday_chooser_set_selected:
  * @chooser: an #EWeekdayChooser
- * @day_mask: Bitmask with the days to be selected.
+ * @weekday: a #GDateWeekday
+ * @selected: selected flag
  *
- * Sets the days that are selected in @chooser.  In the @day_mask,
- * Sunday is bit 0, Monday is bit 1, etc.
+ * Selects or deselects @weekday.
  **/
 void
-e_weekday_chooser_set_days (EWeekdayChooser *chooser,
-                            guint8 day_mask)
+e_weekday_chooser_set_selected (EWeekdayChooser *chooser,
+                                GDateWeekday weekday,
+                                gboolean selected)
 {
 	g_return_if_fail (E_IS_WEEKDAY_CHOOSER (chooser));
+	g_return_if_fail (g_date_valid_weekday (weekday));
 
-	chooser->priv->day_mask = day_mask;
+	chooser->priv->selected_weekdays[weekday] = selected;
+
 	colorize_items (chooser);
 
 	g_signal_emit (chooser, chooser_signals[CHANGED], 0);
 }
 
 /**
- * e_weekday_chooser_get_blocked_days:
+ * e_weekday_chooser_get_blocked:
  * @chooser: an #EWeekdayChooser
+ * @weekday: a #GDateWeekday
  *
- * Queries the set of days that the @chooser prevents from being modified
- * by the user.
+ * Returns whether @weekday is blocked from being modified by the user.
  *
- * Return value: Bit mask of blocked days, with the same format as that
- * returned by e_weekday_chooser_get_days().
+ * Returns: whether @weekday is blocked
  **/
-guint
-e_weekday_chooser_get_blocked_days (EWeekdayChooser *chooser)
+gboolean
+e_weekday_chooser_get_blocked (EWeekdayChooser *chooser,
+                               GDateWeekday weekday)
 {
-	g_return_val_if_fail (E_IS_WEEKDAY_CHOOSER (chooser), 0);
+	g_return_val_if_fail (E_IS_WEEKDAY_CHOOSER (chooser), FALSE);
+	g_return_val_if_fail (g_date_valid_weekday (weekday), FALSE);
 
-	return chooser->priv->blocked_day_mask;
+	return chooser->priv->blocked_weekdays[weekday];
 }
 
 /**
- * e_weekday_chooser_set_blocked_days:
+ * e_weekday_chooser_set_blocked:
  * @chooser: an #EWeekdayChooser
- * @blocked_day_mask: Bitmask with the days to be blocked.
+ * @weekday: a #GDateWeekday
+ * @blocked: blocked flag
  *
- * Sets the days that the @chooser will prevent from being modified by
- * the user.  The @blocked_day_mask is specified in the same way as in
- * e_weekday_chooser_set_days().
+ * Sets whether @weekday is blocked from being modified by the user.
  **/
 void
-e_weekday_chooser_set_blocked_days (EWeekdayChooser *chooser,
-                                    guint8 blocked_day_mask)
+e_weekday_chooser_set_blocked (EWeekdayChooser *chooser,
+                               GDateWeekday weekday,
+                               gboolean blocked)
 {
 	g_return_if_fail (E_IS_WEEKDAY_CHOOSER (chooser));
+	g_return_if_fail (g_date_valid_weekday (weekday));
 
-	chooser->priv->blocked_day_mask = blocked_day_mask;
+	chooser->priv->blocked_weekdays[weekday] = blocked;
 }
 
 /**
@@ -653,10 +629,9 @@ e_weekday_chooser_set_blocked_days (EWeekdayChooser *chooser,
  *
  * Queries the day that defines the start of the week in @chooser.
  *
- * Return value: Index of the day that defines the start of the week.  See
- * weekday_chooser_set_week_start_day() to see how this is represented.
+ * Returns: a #GDateWeekday
  **/
-gint
+GDateWeekday
 e_weekday_chooser_get_week_start_day (EWeekdayChooser *chooser)
 {
 	g_return_val_if_fail (E_IS_WEEKDAY_CHOOSER (chooser), -1);
@@ -667,17 +642,16 @@ e_weekday_chooser_get_week_start_day (EWeekdayChooser *chooser)
 /**
  * e_weekday_chooser_set_week_start_day:
  * @chooser: an #EWeekdayChooser
- * @week_start_day: Index of the day that defines the start of the week; 0 is
- * Sunday, 1 is Monday, etc.
+ * @week_start_day: a #GDateWeekday
  *
  * Sets the day that defines the start of the week for @chooser.
  **/
 void
 e_weekday_chooser_set_week_start_day (EWeekdayChooser *chooser,
-                                      gint week_start_day)
+                                      GDateWeekday week_start_day)
 {
 	g_return_if_fail (E_IS_WEEKDAY_CHOOSER (chooser));
-	g_return_if_fail (week_start_day >= 0 && week_start_day < 7);
+	g_return_if_fail (g_date_valid_weekday (week_start_day));
 
 	if (week_start_day == chooser->priv->week_start_day)
 		return;

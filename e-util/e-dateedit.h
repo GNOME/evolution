@@ -152,10 +152,10 @@ gboolean	e_date_edit_get_show_time	(EDateEdit *dedit);
 void		e_date_edit_set_show_time	(EDateEdit *dedit,
 						 gboolean show_time);
 
-/* The week start day, used in the date popup. 0 (Mon) to 6 (Sun). */
-gint		e_date_edit_get_week_start_day	(EDateEdit *dedit);
+/* The week start day, used in the date popup. */
+GDateWeekday	e_date_edit_get_week_start_day	(EDateEdit *dedit);
 void		e_date_edit_set_week_start_day	(EDateEdit *dedit,
-						 gint week_start_day);
+						 GDateWeekday week_start_day);
 
 /* Whether we show week numbers in the date popup. */
 gboolean	e_date_edit_get_show_week_numbers

@@ -211,8 +211,7 @@ struct pdinfo
 	icaltimezone *zone;
 };
 
-struct psinfo
-{
+struct psinfo {
 	gint days_shown;
 	time_t day_starts[E_WEEK_VIEW_MAX_WEEKS * 7 + 1];
 
@@ -220,7 +219,7 @@ struct psinfo
 
 	gint rows_per_cell;
 	gint rows_per_compressed_cell;
-	gint display_start_weekday;
+	GDateWeekday display_start_weekday;
 	gboolean multi_week_view;
 	gint weeks_shown;
 	gint month;
@@ -268,7 +267,10 @@ build_month (ECalModel *model,
              gint *end)
 {
 	gint i;
-	gint d_month, d_week, week_start_day;
+	gint d_month;
+	gint d_week;
+	GDateWeekday weekday;
+	GDateWeekday week_start_day;
 
 	/* Note that months are zero-based, so September is month 8 */
 
@@ -292,17 +294,16 @@ build_month (ECalModel *model,
 	d_week = time_day_of_week (1, month, year);
 
 	/* Get the configuration setting specifying which weekday we put on
-	 * the left column, 0=Sun to 6=Sat. */
+	 * the left column. */
 	week_start_day = e_cal_model_get_week_start_day (model);
 
-	/* Figure out which square we want to put the 1 in. */
-	d_week = (d_week + 7 - week_start_day) % 7;
+	weekday = e_weekday_from_tm_wday (d_week);
 
 	for (i = 0; i < d_month; i++)
 		days[d_week + i] = i + 1;
 
 	if (start)
-		*start = d_week;
+		*start = e_weekday_get_days_between (week_start_day, weekday);
 
 	if (end)
 		*end = d_week + d_month - 1;
@@ -716,10 +717,18 @@ instance_cb (ECalComponent *comp,
 	return FALSE;
 }
 
-const gchar *daynames[] =
-/* Translators: These are workday abbreviations, e.g. Su=Sunday and Th=thursday */
-	{ N_("Su"), N_("Mo"), N_("Tu"), N_("We"),
-	  N_("Th"), N_("Fr"), N_("Sa") };
+const gchar *daynames[] = {
+	/* Translators: These are workday abbreviations,
+	 * e.g. Su=Sunday and Th=thursday */
+	/* G_DATE_BAD_WEEKDAY */ "",
+	/* G_DATE_MONDAY      */ N_("Mo"),
+	/* G_DATE_TUESDAY     */ N_("Tu"),
+	/* G_DATE_WEDNESDAY   */ N_("We"),
+	/* G_DATE_THURSDAY    */ N_("Th"),
+	/* G_DATE_FRIDAY      */ N_("Fr"),
+	/* G_DATE_SATURDAY    */ N_("Sa"),
+	/* G_DATE_SUNDAY      */ N_("Su")
+};
 
 static gdouble
 calc_small_month_width (GtkPrintContext *context,
@@ -733,7 +742,7 @@ calc_small_month_width (GtkPrintContext *context,
 	font_bold = get_font_for_size (for_height / 7.4, PANGO_WEIGHT_BOLD);
 	res = MAX (evo_calendar_print_renderer_get_width (
 		context, font_bold, "23"), res);
-	for (ii = 0; ii < 7; ii++) {
+	for (ii = G_DATE_MONDAY; ii < G_N_ELEMENTS (daynames); ii++) {
 		res = MAX (evo_calendar_print_renderer_get_width (
 			context, font_bold, _(daynames[ii])), res);
 	}
@@ -771,8 +780,10 @@ print_month_small (GtkPrintContext *context,
 	ECalModel *model;
 	time_t now, next;
 	gint x, y;
+	gint day;
 	gint days[42];
-	gint day, weekday, week_start_day;
+	GDateWeekday weekday;
+	GDateWeekday week_start_day;
 	gchar buf[100];
 	struct tm tm;
 	gdouble font_size;
@@ -837,7 +848,7 @@ print_month_small (GtkPrintContext *context,
 			x1 + (x + (week_numbers ? 1 : 0)) * col_width,
 			x1 + (x + 1 + (week_numbers ? 1 : 0)) * col_width,
 			y1, y1 + row_height * 1.4);
-		weekday = (weekday + 1) % 7;
+		weekday = e_weekday_get_next (weekday);
 	}
 
 	y1 += row_height * 1.4;
@@ -866,9 +877,11 @@ print_month_small (GtkPrintContext *context,
 
 			if (day != 0) {
 				time_t week_begin;
+				gint wday;
 
+				wday = e_weekday_to_tm_wday (week_start_day);
 				week_begin = time_week_begin_with_zone (
-					now, week_start_day, zone);
+					now, wday, zone);
 
 				convert_timet_to_struct_tm (
 					week_begin, zone, &tm);
@@ -1895,8 +1908,8 @@ print_week_event (GtkPrintContext *context,
 		span = &g_array_index (spans, EWeekViewEventSpan,
 				       event->spans_index + span_num);
 
-		if (e_week_view_layout_get_span_position
-		    (event, span,
+		if (e_week_view_layout_get_span_position (
+		     event, span,
 		     psi->rows_per_cell,
 		     psi->rows_per_compressed_cell,
 		     psi->display_start_weekday,
@@ -1952,25 +1965,31 @@ print_week_event (GtkPrintContext *context,
 		} else {
 			cairo_t *cr = gtk_print_context_get_cairo_context (context);
 
-			e_week_view_layout_get_day_position
-				(span->start_day,
-				 psi->multi_week_view,
-				 psi->weeks_shown,
-				 psi->display_start_weekday,
-				 psi->compress_weekend,
-				 &start_x, &start_y, &start_h);
+			e_week_view_layout_get_day_position (
+				span->start_day,
+				psi->multi_week_view,
+				psi->weeks_shown,
+				psi->display_start_weekday,
+				psi->compress_weekend,
+				&start_x, &start_y, &start_h);
 
 			y1 = top + start_y * cell_height
 				 + psi->header_row_height
 				 + psi->rows_per_cell * (psi->row_height + 2);
 
 			if (span->row >= psi->rows_per_compressed_cell && psi->compress_weekend) {
-				gint end_day_of_week =
-					(psi->display_start_weekday +
-					 span->start_day) % 7;
+				GDateWeekday end_weekday;
+				gboolean end_on_weekend;
 
-				if (end_day_of_week == 5 || end_day_of_week == 6) {
-					/* Sat or Sun */
+				end_weekday = e_weekday_add_days (
+					psi->display_start_weekday,
+					span->start_day);
+
+				end_on_weekend =
+					(end_weekday == G_DATE_SATURDAY) ||
+					(end_weekday == G_DATE_SUNDAY);
+
+				if (end_on_weekend) {
 					y1 = top + start_y * cell_height
 						 + psi->header_row_height
 						 + psi->rows_per_compressed_cell * (psi->row_height + 2);
@@ -2167,13 +2186,11 @@ print_week_summary (GtkPrintContext *context,
 		psi.compress_weekend = TRUE;
 	psi.use_24_hour_format = e_cal_model_get_use_24_hour_format (model);
 
-	/* We convert this from (0 = Sun, 6 = Sat) to (0 = Mon, 6 = Sun). */
 	psi.display_start_weekday = e_cal_model_get_week_start_day (model);
-	psi.display_start_weekday = (psi.display_start_weekday + 6) % 7;
 
 	/* If weekends are compressed then we can't start on a Sunday. */
-	if (psi.compress_weekend && psi.display_start_weekday == 6)
-		psi.display_start_weekday = 5;
+	if (psi.compress_weekend && psi.display_start_weekday == G_DATE_SUNDAY)
+		psi.display_start_weekday = G_DATE_SATURDAY;
 
 	day_start = time_day_begin_with_zone (whence, zone);
 	for (day = 0; day <= psi.days_shown; day++) {
@@ -2184,8 +2201,8 @@ print_week_summary (GtkPrintContext *context,
 	/* Get the events from the server. */
 	e_cal_model_generate_instances_sync (
 		model,
-					psi.day_starts[0], psi.day_starts[psi.days_shown],
-					print_week_summary_cb, &psi);
+		psi.day_starts[0], psi.day_starts[psi.days_shown],
+		print_week_summary_cb, &psi);
 	qsort (
 		psi.events->data, psi.events->len,
 		sizeof (EWeekViewEvent), e_week_view_event_sort_func);
@@ -2263,7 +2280,9 @@ print_month_summary (GtkPrintContext *context,
 	ECalModel *model;
 	PangoFontDescription *font;
 	gboolean compress_weekend;
-	gint columns, col, weekday, month, weeks;
+	gint columns, col, month, weeks;
+	GDateWeekday weekday;
+	gint wday;
 	gdouble font_size, cell_width, x1, x2, y1, y2;
 
 	model = gnome_calendar_get_model (gcal);
@@ -2303,10 +2322,12 @@ print_month_summary (GtkPrintContext *context,
 	 * or before that day. */
 	if (!date)
 		date = time_month_begin_with_zone (whence, zone);
-	date = time_week_begin_with_zone (date, weekday, zone);
+
+	wday = e_weekday_to_tm_wday (weekday);
+	date = time_week_begin_with_zone (date, wday, zone);
 
 	/* If weekends are compressed then we can't start on a Sunday. */
-	if (compress_weekend && weekday == 0)
+	if (compress_weekend && weekday == G_DATE_SUNDAY)
 		date = time_add_day_with_zone (date, -1, zone);
 
 	/* do day names ... */
@@ -3027,7 +3048,8 @@ print_week_view (GtkPrintContext *context,
 	gdouble l, week_numbers_inc, small_month_width;
 	gchar buf[100];
 	time_t when;
-	gint week_start_day;
+	GDateWeekday week_start_day;
+	gint wday;
 	struct tm tm;
 	gdouble width, height;
 
@@ -3043,11 +3065,13 @@ print_week_view (GtkPrintContext *context,
 
 	convert_timet_to_struct_tm (date, zone, &tm);
 	week_start_day = e_cal_model_get_week_start_day (model);
-	when = time_week_begin_with_zone (date, week_start_day, zone);
+
+	wday = e_weekday_to_tm_wday (week_start_day);
+	when = time_week_begin_with_zone (date, wday, zone);
 
 	/* If the week starts on a Sunday, we have to show the Saturday first,
 	 * since the weekend is compressed. */
-	if (week_start_day == 0) {
+	if (week_start_day == G_DATE_SUNDAY) {
 		if (tm.tm_wday == 6)
 			when = time_add_day_with_zone (when, 6, zone);
 		else

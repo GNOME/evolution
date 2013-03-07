@@ -108,7 +108,7 @@ struct _CompEditorPrivate {
 	icaltimezone *zone;
 	gboolean use_24_hour_format;
 
-	gint week_start_day;
+	GDateWeekday week_start_day;
 
 	gint work_day_end_hour;
 	gint work_day_end_minute;
@@ -1428,7 +1428,7 @@ comp_editor_set_property (GObject *object,
 		case PROP_WEEK_START_DAY:
 			comp_editor_set_week_start_day (
 				COMP_EDITOR (object),
-				g_value_get_int (value));
+				g_value_get_enum (value));
 			return;
 
 		case PROP_WORK_DAY_END_HOUR:
@@ -1515,7 +1515,7 @@ comp_editor_get_property (GObject *object,
 			return;
 
 		case PROP_WEEK_START_DAY:
-			g_value_set_int (
+			g_value_set_enum (
 				value, comp_editor_get_week_start_day (
 				COMP_EDITOR (object)));
 			return;
@@ -1909,13 +1909,12 @@ comp_editor_class_init (CompEditorClass *class)
 	g_object_class_install_property (
 		object_class,
 		PROP_WEEK_START_DAY,
-		g_param_spec_int (
+		g_param_spec_enum (
 			"week-start-day",
 			"Week Start Day",
 			NULL,
-			0,  /* Monday */
-			6,  /* Sunday  */
-			0,
+			E_TYPE_DATE_WEEKDAY,
+			G_DATE_MONDAY,
 			G_PARAM_READWRITE |
 			G_PARAM_STATIC_STRINGS));
 
@@ -2557,7 +2556,7 @@ comp_editor_set_use_24_hour_format (CompEditor *editor,
 	g_object_notify (G_OBJECT (editor), "use-24-hour-format");
 }
 
-gint
+GDateWeekday
 comp_editor_get_week_start_day (CompEditor *editor)
 {
 	g_return_val_if_fail (IS_COMP_EDITOR (editor), 0);
@@ -2567,10 +2566,10 @@ comp_editor_get_week_start_day (CompEditor *editor)
 
 void
 comp_editor_set_week_start_day (CompEditor *editor,
-                                gint week_start_day)
+                                GDateWeekday week_start_day)
 {
 	g_return_if_fail (IS_COMP_EDITOR (editor));
-	g_return_if_fail (week_start_day >= 0 && week_start_day < 7);
+	g_return_if_fail (g_date_valid_weekday (week_start_day));
 
 	if (week_start_day == editor->priv->week_start_day)
 		return;

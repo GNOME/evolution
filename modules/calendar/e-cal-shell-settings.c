@@ -147,31 +147,7 @@ transform_weekdays_settings_to_evolution (GBinding *binding,
 	}
 
 	/* Evolution numbering */
-	switch (weekday) {
-		case G_DATE_MONDAY:
-			g_value_set_int (target_value, 0);
-			break;
-		case G_DATE_TUESDAY:
-			g_value_set_int (target_value, 1);
-			break;
-		case G_DATE_WEDNESDAY:
-			g_value_set_int (target_value, 2);
-			break;
-		case G_DATE_THURSDAY:
-			g_value_set_int (target_value, 3);
-			break;
-		case G_DATE_FRIDAY:
-			g_value_set_int (target_value, 4);
-			break;
-		case G_DATE_SATURDAY:
-			g_value_set_int (target_value, 5);
-			break;
-		case G_DATE_SUNDAY:
-			g_value_set_int (target_value, 6);
-			break;
-		default:
-			return FALSE;
-	}
+	g_value_set_enum (target_value, weekday);
 
 	return TRUE;
 }
@@ -192,34 +168,10 @@ transform_weekdays_evolution_to_settings (GBinding *binding,
 
 	/* This is purposefully verbose for better readability. */
 
-	/* setting numbering */
-	switch (g_value_get_int (source_value)) {
-		case 0:
-			weekday = G_DATE_MONDAY;
-			break;
-		case 1:
-			weekday = G_DATE_TUESDAY;
-			break;
-		case 2:
-			weekday = G_DATE_WEDNESDAY;
-			break;
-		case 3:
-			weekday = G_DATE_THURSDAY;
-			break;
-		case 4:
-			weekday = G_DATE_FRIDAY;
-			break;
-		case 5:
-			weekday = G_DATE_SATURDAY;
-			break;
-		case 6:
-			weekday = G_DATE_SUNDAY;
-			break;
-		default:
-			return FALSE;
-	}
-
 	/* Evolution numbering */
+	weekday = g_value_get_enum (source_value);
+
+	/* setting numbering */
 	switch (weekday) {
 		case G_DATE_MONDAY:
 			g_value_set_int (target_value, 1);
@@ -802,13 +754,12 @@ e_cal_shell_backend_init_settings (EShell *shell)
 		(GDestroyNotify) g_object_unref);
 
 	e_shell_settings_install_property (
-		g_param_spec_int (
+		g_param_spec_enum (
 			"cal-week-start-day",
 			NULL,
 			NULL,
-			0,  /* Monday */
-			6,  /* Sunday */
-			0,
+			E_TYPE_DATE_WEEKDAY,
+			G_DATE_MONDAY,
 			G_PARAM_READWRITE));
 
 	g_object_bind_property_full (

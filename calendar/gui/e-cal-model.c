@@ -94,8 +94,8 @@ struct _ECalModelPrivate {
 	/* Whether to compress weekends into one cell. */
 	gboolean compress_weekend;
 
-	/* First day of the week: 0 (Monday) to 6 (Sunday) */
-	gint week_start_day;
+	/* First day of the week */
+	GDateWeekday week_start_day;
 
 	/* Work days.  Indices are based on GDateWeekday.
 	 * The first element (G_DATE_BAD_WEEKDAY) is unused. */
@@ -273,7 +273,7 @@ cal_model_set_property (GObject *object,
 		case PROP_WEEK_START_DAY:
 			e_cal_model_set_week_start_day (
 				E_CAL_MODEL (object),
-				g_value_get_int (value));
+				g_value_get_enum (value));
 			return;
 
 		case PROP_WORK_DAY_MONDAY:
@@ -424,7 +424,7 @@ cal_model_get_property (GObject *object,
 			return;
 
 		case PROP_WEEK_START_DAY:
-			g_value_set_int (
+			g_value_set_enum (
 				value,
 				e_cal_model_get_week_start_day (
 				E_CAL_MODEL (object)));
@@ -732,14 +732,14 @@ e_cal_model_class_init (ECalModelClass *class)
 	g_object_class_install_property (
 		object_class,
 		PROP_WEEK_START_DAY,
-		g_param_spec_int (
+		g_param_spec_enum (
 			"week-start-day",
 			"Week Start Day",
 			NULL,
-			0,  /* Monday */
-			6,  /* Sunday */
-			0,
-			G_PARAM_READWRITE));
+			E_TYPE_DATE_WEEKDAY,
+			G_DATE_MONDAY,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
 
 	g_object_class_install_property (
 		object_class,
@@ -2186,21 +2186,20 @@ e_cal_model_set_use_default_reminder (ECalModel *model,
 	g_object_notify (G_OBJECT (model), "use-default-reminder");
 }
 
-gint
+GDateWeekday
 e_cal_model_get_week_start_day (ECalModel *model)
 {
-	g_return_val_if_fail (E_IS_CAL_MODEL (model), 0);
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), G_DATE_BAD_WEEKDAY);
 
 	return model->priv->week_start_day;
 }
 
 void
 e_cal_model_set_week_start_day (ECalModel *model,
-                                gint week_start_day)
+                                GDateWeekday week_start_day)
 {
 	g_return_if_fail (E_IS_CAL_MODEL (model));
-	g_return_if_fail (week_start_day >= 0);
-	g_return_if_fail (week_start_day < 7);
+	g_return_if_fail (g_date_valid_weekday (week_start_day));
 
 	if (model->priv->week_start_day == week_start_day)
 		return;
@@ -2281,7 +2280,7 @@ e_cal_model_get_work_day_first (ECalModel *model)
 
 	g_return_val_if_fail (E_IS_CAL_MODEL (model), G_DATE_BAD_WEEKDAY);
 
-	weekday = e_cal_model_get_week_start_day (model) + 1;
+	weekday = e_cal_model_get_week_start_day (model);
 
 	for (ii = 0; ii < 7; ii++) {
 		if (e_cal_model_get_work_day (model, weekday))
@@ -2309,7 +2308,7 @@ e_cal_model_get_work_day_last (ECalModel *model)
 
 	g_return_val_if_fail (E_IS_CAL_MODEL (model), G_DATE_BAD_WEEKDAY);
 
-	weekday = e_cal_model_get_week_start_day (model) + 1;
+	weekday = e_cal_model_get_week_start_day (model);
 
 	for (ii = 0; ii < 7; ii++) {
 		weekday = e_weekday_get_prev (weekday);

@@ -167,8 +167,8 @@ struct _ECalendarItem {
 	/* whether to keep same week days selected on week number click */
 	gboolean keep_wdays_on_weeknum_click;
 
-	/* The first day of the week, 0 (Monday) to 6 (Sunday). */
-	gint week_start_day;
+	/* The first day of the week. */
+	GDateWeekday week_start_day;
 
 	/* Whether the cells expand to fill extra space. */
 	gboolean expand;
@@ -234,7 +234,7 @@ struct _ECalendarItem {
 	gint selection_real_start_day;
 
 	/* Widths of the day characters. */
-	gint day_widths[7];
+	gint day_widths[8]; /* indexed by GDateWeekday */
 	gint max_day_width;
 
 	/* Widths of the digits, '0' .. '9'. */

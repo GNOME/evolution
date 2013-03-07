@@ -748,8 +748,33 @@ simple_recur_to_comp (RecurrencePage *rpage,
 	r.freq = e_dialog_combo_box_get (priv->interval_unit_combo, freq_map);
 	r.interval = gtk_spin_button_get_value_as_int (
 		GTK_SPIN_BUTTON (priv->interval_value));
-	r.week_start = ICAL_SUNDAY_WEEKDAY +
-		comp_editor_get_week_start_day (editor);
+
+	switch (comp_editor_get_week_start_day (editor)) {
+		case G_DATE_MONDAY:
+			r.week_start = ICAL_MONDAY_WEEKDAY;
+			break;
+		case G_DATE_TUESDAY:
+			r.week_start = ICAL_TUESDAY_WEEKDAY;
+			break;
+		case G_DATE_WEDNESDAY:
+			r.week_start = ICAL_WEDNESDAY_WEEKDAY;
+			break;
+		case G_DATE_THURSDAY:
+			r.week_start = ICAL_THURSDAY_WEEKDAY;
+			break;
+		case G_DATE_FRIDAY:
+			r.week_start = ICAL_FRIDAY_WEEKDAY;
+			break;
+		case G_DATE_SATURDAY:
+			r.week_start = ICAL_SATURDAY_WEEKDAY;
+			break;
+		case G_DATE_SUNDAY:
+			r.week_start = ICAL_SUNDAY_WEEKDAY;
+			break;
+		default:
+			g_warn_if_reached ();
+			break;
+	}
 
 	/* Frequency-specific data */
 
@@ -759,36 +784,35 @@ simple_recur_to_comp (RecurrencePage *rpage,
 		break;
 
 	case ICAL_WEEKLY_RECURRENCE: {
-		guint8 day_mask;
+		EWeekdayChooser *chooser;
 		gint i;
 
 		g_return_if_fail (gtk_bin_get_child (GTK_BIN (priv->special)) != NULL);
 		g_return_if_fail (E_IS_WEEKDAY_CHOOSER (priv->weekday_chooser));
 
-		day_mask = e_weekday_chooser_get_days (
-			E_WEEKDAY_CHOOSER (priv->weekday_chooser));
+		chooser = E_WEEKDAY_CHOOSER (priv->weekday_chooser);
 
 		i = 0;
 
-		if (day_mask & (1 << 0))
+		if (e_weekday_chooser_get_selected (chooser, E_DATE_SUNDAY))
 			r.by_day[i++] = ICAL_SUNDAY_WEEKDAY;
 
-		if (day_mask & (1 << 1))
+		if (e_weekday_chooser_get_selected (chooser, E_DATE_MONDAY))
 			r.by_day[i++] = ICAL_MONDAY_WEEKDAY;
 
-		if (day_mask & (1 << 2))
+		if (e_weekday_chooser_get_selected (chooser, E_DATE_TUESDAY))
 			r.by_day[i++] = ICAL_TUESDAY_WEEKDAY;
 
-		if (day_mask & (1 << 3))
+		if (e_weekday_chooser_get_selected (chooser, E_DATE_WEDNESDAY))
 			r.by_day[i++] = ICAL_WEDNESDAY_WEEKDAY;
 
-		if (day_mask & (1 << 4))
+		if (e_weekday_chooser_get_selected (chooser, E_DATE_THURSDAY))
 			r.by_day[i++] = ICAL_THURSDAY_WEEKDAY;
 
-		if (day_mask & (1 << 5))
+		if (e_weekday_chooser_get_selected (chooser, E_DATE_FRIDAY))
 			r.by_day[i++] = ICAL_FRIDAY_WEEKDAY;
 
-		if (day_mask & (1 << 6))
+		if (e_weekday_chooser_get_selected (chooser, E_DATE_SATURDAY))
 			r.by_day[i] = ICAL_SATURDAY_WEEKDAY;
 
 		break;
@@ -1058,7 +1082,27 @@ make_weekly_special (RecurrencePage *rpage)
 
 	/* Set the weekdays */
 
-	e_weekday_chooser_set_days (chooser, priv->weekday_day_mask);
+	e_weekday_chooser_set_selected (
+		chooser, G_DATE_SUNDAY,
+		(priv->weekday_day_mask & (1 << 0)) != 0);
+	e_weekday_chooser_set_selected (
+		chooser, G_DATE_MONDAY,
+		(priv->weekday_day_mask & (1 << 1)) != 0);
+	e_weekday_chooser_set_selected (
+		chooser, G_DATE_TUESDAY,
+		(priv->weekday_day_mask & (1 << 2)) != 0);
+	e_weekday_chooser_set_selected (
+		chooser, G_DATE_WEDNESDAY,
+		(priv->weekday_day_mask & (1 << 3)) != 0);
+	e_weekday_chooser_set_selected (
+		chooser, G_DATE_THURSDAY,
+		(priv->weekday_day_mask & (1 << 4)) != 0);
+	e_weekday_chooser_set_selected (
+		chooser, G_DATE_FRIDAY,
+		(priv->weekday_day_mask & (1 << 5)) != 0);
+	e_weekday_chooser_set_selected (
+		chooser, G_DATE_SATURDAY,
+		(priv->weekday_day_mask & (1 << 6)) != 0);
 
 	g_signal_connect_swapped (
 		chooser, "changed",
@@ -2086,12 +2130,56 @@ recurrence_page_set_dates (CompEditorPage *page,
 		priv->weekday_blocked_day_mask = mask;
 
 		if (priv->weekday_chooser != NULL) {
-			e_weekday_chooser_set_days (
-				E_WEEKDAY_CHOOSER (priv->weekday_chooser),
-				priv->weekday_day_mask);
-			e_weekday_chooser_set_blocked_days (
-				E_WEEKDAY_CHOOSER (priv->weekday_chooser),
-				priv->weekday_blocked_day_mask);
+			EWeekdayChooser *chooser;
+			guint8 mask;
+
+			chooser = E_WEEKDAY_CHOOSER (priv->weekday_chooser);
+
+			mask = priv->weekday_day_mask;
+			e_weekday_chooser_set_selected (
+				chooser, G_DATE_SUNDAY,
+				(mask & (1 << 0)) != 0);
+			e_weekday_chooser_set_selected (
+				chooser, G_DATE_MONDAY,
+				(mask & (1 << 1)) != 0);
+			e_weekday_chooser_set_selected (
+				chooser, G_DATE_TUESDAY,
+				(mask & (1 << 2)) != 0);
+			e_weekday_chooser_set_selected (
+				chooser, G_DATE_WEDNESDAY,
+				(mask & (1 << 3)) != 0);
+			e_weekday_chooser_set_selected (
+				chooser, G_DATE_THURSDAY,
+				(mask & (1 << 4)) != 0);
+			e_weekday_chooser_set_selected (
+				chooser, G_DATE_FRIDAY,
+				(mask & (1 << 5)) != 0);
+			e_weekday_chooser_set_selected (
+				chooser, G_DATE_SATURDAY,
+				(mask & (1 << 6)) != 0);
+
+			mask = priv->weekday_blocked_day_mask;
+			e_weekday_chooser_set_blocked (
+				chooser, G_DATE_SUNDAY,
+				(mask & (1 << 0)) != 0);
+			e_weekday_chooser_set_blocked (
+				chooser, G_DATE_MONDAY,
+				(mask & (1 << 1)) != 0);
+			e_weekday_chooser_set_blocked (
+				chooser, G_DATE_TUESDAY,
+				(mask & (1 << 2)) != 0);
+			e_weekday_chooser_set_blocked (
+				chooser, G_DATE_WEDNESDAY,
+				(mask & (1 << 3)) != 0);
+			e_weekday_chooser_set_blocked (
+				chooser, G_DATE_THURSDAY,
+				(mask & (1 << 4)) != 0);
+			e_weekday_chooser_set_blocked (
+				chooser, G_DATE_FRIDAY,
+				(mask & (1 << 5)) != 0);
+			e_weekday_chooser_set_blocked (
+				chooser, G_DATE_SATURDAY,
+				(mask & (1 << 6)) != 0);
 		}
 	}
 

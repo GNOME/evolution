@@ -220,9 +220,9 @@ gboolean	e_cal_model_get_use_default_reminder
 void		e_cal_model_set_use_default_reminder
 						(ECalModel *model,
 						 gboolean use_def_reminder);
-gint		e_cal_model_get_week_start_day	(ECalModel *model);
+GDateWeekday	e_cal_model_get_week_start_day	(ECalModel *model);
 void		e_cal_model_set_week_start_day	(ECalModel *model,
-						 gint week_start_day);
+						 GDateWeekday week_start_day);
 gboolean	e_cal_model_get_work_day	(ECalModel *model,
 						 GDateWeekday weekday);
 void		e_cal_model_set_work_day	(ECalModel *model,

@@ -133,7 +133,7 @@ week_view_titles_item_draw (GnomeCanvasItem *canvas_item,
 	GtkAllocation allocation;
 	gboolean abbreviated;
 	gboolean compress_weekend;
-	gint weekday;
+	GDateWeekday weekday;
 	PangoLayout *layout;
 
 	titles_item = E_WEEK_VIEW_TITLES_ITEM (canvas_item);
@@ -173,9 +173,9 @@ week_view_titles_item_draw (GnomeCanvasItem *canvas_item,
 
 	/* Draw the date. Set a clipping rectangle so we don't draw over the
 	 * next day. */
-	weekday = week_view->display_start_day;
+	weekday = e_week_view_get_display_start_day (week_view);
 	for (col = 0; col < week_view->columns; col++) {
-		if (weekday == 5 && compress_weekend)
+		if (weekday == G_DATE_SATURDAY && compress_weekend)
 			g_snprintf (
 				buffer, sizeof (buffer), "%s/%s",
 				e_get_weekday_name (G_DATE_SATURDAY, TRUE),
@@ -183,7 +183,7 @@ week_view_titles_item_draw (GnomeCanvasItem *canvas_item,
 		else
 			g_snprintf (
 				buffer, sizeof (buffer), "%s",
-				e_get_weekday_name (weekday + 1, abbreviated));
+				e_get_weekday_name (weekday, abbreviated));
 
 		cairo_save (cr);
 
@@ -193,7 +193,7 @@ week_view_titles_item_draw (GnomeCanvasItem *canvas_item,
 			week_view->col_widths[col], allocation.height - 2);
 		cairo_clip (cr);
 
-		if (weekday == 5 && compress_weekend)
+		if (weekday == G_DATE_SATURDAY && compress_weekend)
 			date_width = week_view->abbr_day_widths[5]
 				+ week_view->slash_width
 				+ week_view->abbr_day_widths[6];
@@ -234,12 +234,9 @@ week_view_titles_item_draw (GnomeCanvasItem *canvas_item,
 			cairo_fill (cr);
 		}
 
-		if (weekday == 5 && compress_weekend)
-			weekday += 2;
-		else
-			weekday++;
-
-		weekday = weekday % 7;
+		weekday = e_weekday_get_next (weekday);
+		if (weekday == G_DATE_SUNDAY && compress_weekend)
+			weekday = e_weekday_get_next (weekday);
 	}
 
 	g_object_unref (layout);

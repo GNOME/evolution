@@ -221,7 +221,8 @@ ea_week_view_cell_get_name (AtkObject *accessible)
 		gchar *new_name;
 		const gchar *row_label, *column_label;
 		gint new_column, new_row;
-		gint start_day;
+		GDateWeekday start_day;
+		gint offset;
 
 		atk_gobj = ATK_GOBJECT_ACCESSIBLE (accessible);
 		g_obj = atk_gobject_accessible_get_object (atk_gobj);
@@ -232,12 +233,14 @@ ea_week_view_cell_get_name (AtkObject *accessible)
 		main_item = cell->week_view->main_canvas_item;
 		ea_main_item = atk_gobject_accessible_for_object (G_OBJECT (main_item));
 
-		start_day = cell->week_view->display_start_day;
-		if (cell->column + start_day >= 7) {
-			new_column = cell->column + start_day - 7;
+		start_day = e_week_view_get_display_start_day (cell->week_view);
+		offset = (start_day - G_DATE_MONDAY);
+
+		if (cell->column + offset >= 7) {
+			new_column = cell->column + offset - 7;
 			new_row = cell->row + 1;
 		} else {
-			new_column = cell->column + start_day;
+			new_column = cell->column + offset;
 			new_row = cell->row;
 		}
 
@@ -359,7 +362,7 @@ component_interface_get_extents (AtkComponent *component,
 	gboolean compress_weekend;
 	gint week_view_width, week_view_height;
 	gint scroll_x, scroll_y;
-	gint start_day;
+	GDateWeekday start_day;
 
 	*x = *y = *width = *height = 0;
 
@@ -385,19 +388,19 @@ component_interface_get_extents (AtkComponent *component,
 	gnome_canvas_get_scroll_offsets (
 		GNOME_CANVAS (week_view->main_canvas),
 		&scroll_x, &scroll_y);
-	start_day = week_view->display_start_day;
+	start_day = e_week_view_get_display_start_day (week_view);
 	if (e_week_view_get_multi_week_view (week_view)) {
-		if (compress_weekend && (cell->column == (5 - start_day))) {
+		if (compress_weekend && (cell->column == e_weekday_get_days_between (start_day, G_DATE_SATURDAY))) {
 			*height = week_view->row_heights[cell->row*2];
 			*width = week_view->col_widths[cell->column];
 			*x += week_view->col_offsets[cell->column] - scroll_x;
 			*y += week_view->row_offsets[cell->row*2]- scroll_y;
-		} else if (compress_weekend && (cell->column == (6 - start_day))) {
+		} else if (compress_weekend && (cell->column == e_weekday_get_days_between (start_day, G_DATE_SUNDAY))) {
 			*height = week_view->row_heights[cell->row*2];
 			*width = week_view->col_widths[cell->column - 1];
 			*x += week_view->col_offsets[cell->column - 1]- scroll_x;
 			*y += week_view->row_offsets[cell->row*2 + 1]- scroll_y;
-		} else if (compress_weekend && (cell->column > (6 - start_day))) {
+		} else if (compress_weekend && (cell->column > e_weekday_get_days_between (start_day, G_DATE_SUNDAY))) {
 			*height = week_view->row_heights[cell->row*2]*2;
 			*width = week_view->col_widths[cell->column - 1];
 			*x += week_view->col_offsets[cell->column - 1] - scroll_x;
@@ -409,24 +412,24 @@ component_interface_get_extents (AtkComponent *component,
 			*y += week_view->row_offsets[cell->row*2]- scroll_y;
 		}
 	} else {
-		if (start_day < 3) {
+		if (start_day < G_DATE_THURSDAY) {
 			if (cell->column < 3) {
 				*height = week_view->row_heights[cell->column*2]*2;
 				*width = week_view->col_widths[0];
 				*x += week_view->col_offsets[0] - scroll_x;
 				*y += week_view->row_offsets[cell->column*2]- scroll_y;
 			} else {
-				if (cell->column == 5 - start_day) {
+				if (cell->column == e_weekday_get_days_between (start_day, G_DATE_SATURDAY)) {
 					*height = week_view->row_heights[(cell->column - 3)*2];
 					*width = week_view->col_widths[1];
 					*x += week_view->col_offsets[1] - scroll_x;
 					*y += week_view->row_offsets[(cell->column - 3)*2]- scroll_y;
-				} else if (cell->column == 6 - start_day) {
+				} else if (cell->column == e_weekday_get_days_between (start_day, G_DATE_SUNDAY)) {
 					*height = week_view->row_heights[(cell->column - 4)*2];
 					*width = week_view->col_widths[1];
 					*x += week_view->col_offsets[1] - scroll_x;
 					*y += week_view->row_offsets[(cell->column - 3)*2 - 1]- scroll_y;
-				} else if (cell->column > 6 - start_day) {
+				} else if (cell->column > e_weekday_get_days_between (start_day, G_DATE_SUNDAY)) {
 					*height = week_view->row_heights[(cell->column - 4)*2]*2;
 					*width = week_view->col_widths[1];
 					*x += week_view->col_offsets[1] - scroll_x;
@@ -439,17 +442,17 @@ component_interface_get_extents (AtkComponent *component,
 				}
 			}
 		} else if (cell->column < 4) {
-			if (cell->column == 5 - start_day) {
+			if (cell->column == e_weekday_get_days_between (start_day, G_DATE_SATURDAY)) {
 				*height = week_view->row_heights[cell->column*2];
 				*width = week_view->col_widths[0];
 				*x += week_view->col_offsets[0] - scroll_x;
 				*y += week_view->row_offsets[cell->column*2]- scroll_y;
-			} else if (cell->column == 6 - start_day) {
+			} else if (cell->column == e_weekday_get_days_between (start_day, G_DATE_SUNDAY)) {
 				*height = week_view->row_heights[(cell->column - 1)*2];
 				*width = week_view->col_widths[0];
 				*x += week_view->col_offsets[0] - scroll_x;
 				*y += week_view->row_offsets[cell->column*2 - 1]- scroll_y;
-			} else if (cell->column > 6 - start_day) {
+			} else if (cell->column > e_weekday_get_days_between (start_day, G_DATE_SUNDAY)) {
 				*height = week_view->row_heights[(cell->column - 1)*2]*2;
 				*width = week_view->col_widths[0];
 				*x += week_view->col_offsets[0] - scroll_x;

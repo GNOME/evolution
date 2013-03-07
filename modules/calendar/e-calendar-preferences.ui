@@ -19,35 +19,6 @@
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
-  <object class="GtkListStore" id="model1">
-    <columns>
-      <!-- column-name gchararray -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes">Monday</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Tuesday</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Wednesday</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Thursday</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Friday</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Saturday</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Sunday</col>
-      </row>
-    </data>
-  </object>
   <object class="GtkListStore" id="model2">
     <columns>
       <!-- column-name gchararray -->
@@ -588,15 +559,17 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkComboBox" id="week_start_day">
+                  <object class="GtkComboBoxText" id="week_start_day">
                     <property name="visible">True</property>
-                    <property name="model">model1</property>
-                    <child>
-                      <object class="GtkCellRendererText" id="renderer1"/>
-                      <attributes>
-                        <attribute name="text">0</attribute>
-                      </attributes>
-                    </child>
+                    <items>
+                      <item translatable="yes" id="monday">Monday</item>
+                      <item translatable="yes" id="tuesday">Tuesday</item>
+                      <item translatable="yes" id="wednesday">Wednesday</item>
+                      <item translatable="yes" id="thursday">Thursday</item>
+                      <item translatable="yes" id="friday">Friday</item>
+                      <item translatable="yes" id="saturday">Saturday</item>
+                      <item translatable="yes" id="sunday">Sunday</item>
+                    </items>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>

@@ -59,19 +59,21 @@ struct _EWeekdayChooserClass {
 
 GType		e_weekday_chooser_get_type	(void) G_GNUC_CONST;
 GtkWidget *	e_weekday_chooser_new		(void);
-guint8		e_weekday_chooser_get_days	(EWeekdayChooser *chooser);
-void		e_weekday_chooser_set_days	(EWeekdayChooser *chooser,
-						 guint8 day_mask);
-guint		e_weekday_chooser_get_blocked_days
-						(EWeekdayChooser *chooser);
-void		e_weekday_chooser_set_blocked_days
-						(EWeekdayChooser *chooser,
-						 guint8 blocked_day_mask);
-gint		e_weekday_chooser_get_week_start_day
+gboolean	e_weekday_chooser_get_selected	(EWeekdayChooser *chooser,
+						 GDateWeekday weekday);
+void		e_weekday_chooser_set_selected	(EWeekdayChooser *chooser,
+						 GDateWeekday weekday,
+						 gboolean selected);
+gboolean	e_weekday_chooser_get_blocked	(EWeekdayChooser *chooser,
+						 GDateWeekday weekday);
+void		e_weekday_chooser_set_blocked	(EWeekdayChooser *chooser,
+						 GDateWeekday weekday,
+						 gboolean blocked);
+GDateWeekday	e_weekday_chooser_get_week_start_day
 						(EWeekdayChooser *chooser);
 void		e_weekday_chooser_set_week_start_day
 						(EWeekdayChooser *chooser,
-						 gint week_start_day);
+						 GDateWeekday week_start_day);
 
 G_END_DECLS
 

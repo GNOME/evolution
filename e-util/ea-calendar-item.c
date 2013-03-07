@@ -1334,8 +1334,8 @@ e_calendar_item_get_n_days_from_week_start (ECalendarItem *calitem,
                                             gint year,
                                             gint month)
 {
+	GDateWeekday weekday;
 	struct tm tmp_tm;
-	gint start_weekday, days_from_week_start;
 
 	memset (&tmp_tm, 0, sizeof (tmp_tm));
 	tmp_tm.tm_year = year - 1900;
@@ -1343,10 +1343,10 @@ e_calendar_item_get_n_days_from_week_start (ECalendarItem *calitem,
 	tmp_tm.tm_mday = 1;
 	tmp_tm.tm_isdst = -1;
 	mktime (&tmp_tm);
-	start_weekday = (tmp_tm.tm_wday + 6) % 7;   /* 0 to 6 */
-	days_from_week_start = (start_weekday + 7 - calitem->week_start_day)
-		% 7;
-	return days_from_week_start;
+
+	weekday = e_weekday_from_tm_wday (tmp_tm.tm_wday);
+
+	return e_weekday_get_days_between (calitem->week_start_day, weekday);
 }
 
 static void

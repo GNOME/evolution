@@ -96,7 +96,7 @@ cal_shell_view_date_navigator_selection_changed_cb (ECalShellView *cal_shell_vie
 	time_t start, end, new_time;
 	gboolean starts_on_week_start_day;
 	gint new_days_shown, old_days_shown;
-	gint week_start_day;
+	GDateWeekday week_start_day;
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
@@ -125,7 +125,8 @@ cal_shell_view_date_navigator_selection_changed_cb (ECalShellView *cal_shell_vie
 		multi_week_view = e_week_view_get_multi_week_view (week_view);
 		compress_weekend = e_week_view_get_compress_weekend (week_view);
 
-		if (week_start_day == 0 && (!multi_week_view || compress_weekend))
+		if (week_start_day == G_DATE_SUNDAY &&
+				(!multi_week_view || compress_weekend))
 			g_date_add_days (&start_date, 1);
 	}
 
@@ -151,7 +152,7 @@ cal_shell_view_date_navigator_selection_changed_cb (ECalShellView *cal_shell_vie
 	 * day is set to Sunday, we don't actually show complete
 	 * weeks in the week view, so this may need tweaking. */
 	starts_on_week_start_day =
-		(g_date_get_weekday (&new_start_date) % 7 == week_start_day);
+		(g_date_get_weekday (&new_start_date) == week_start_day);
 
 	/* Update selection to be in the new time range. */
 	tt = icaltime_null_time ();

@@ -584,11 +584,14 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 		G_BINDING_SYNC_CREATE);
 
 	widget = e_builder_get_widget (prefs->builder, "week_start_day");
-	g_object_bind_property (
+	g_object_bind_property_full (
 		shell_settings, "cal-week-start-day",
-		widget, "active",
+		widget, "active-id",
 		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_BINDING_SYNC_CREATE,
+		e_binding_transform_enum_value_to_nick,
+		e_binding_transform_enum_nick_to_value,
+		NULL, (GDestroyNotify) NULL);
 
 	widget = e_builder_get_widget (prefs->builder, "start_of_day");
 	prefs->start_of_day = widget;  /* XXX delete this */

@@ -208,11 +208,6 @@ struct _EWeekView {
 	gboolean month_scroll_by_week;
 	guint scroll_by_week_notif_id;
 
-	/* The first day of the week we display, 0 (Monday) to 6 (Sunday).
-	 * This will usually be week_start_day, but if the weekend is
-	 * compressed, and week_start_day is Sunday we have to use Saturday. */
-	gint display_start_day;
-
 	/* The vertical offset of the events from the top of the cells. */
 	gint events_y_offset;
 
@@ -347,6 +342,10 @@ void		e_week_view_get_first_day_shown	(EWeekView *week_view,
 						 GDate *date);
 void		e_week_view_set_first_day_shown	(EWeekView *week_view,
 						 GDate *date);
+
+/* The first day of the week we display. */
+GDateWeekday	e_week_view_get_display_start_day
+						(EWeekView *week_view);
 
 /* The selected time range. The EWeekView will show the corresponding
  * month and the days between start_time and end_time will be selected.

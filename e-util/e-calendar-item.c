@@ -38,6 +38,7 @@
 
 #include "ea-widgets.h"
 #include "e-misc-utils.h"
+#include "e-util-enumtypes.h"
 
 static const gint e_calendar_item_days_in_month[12] = {
 	31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
@@ -84,7 +85,7 @@ static void	e_calendar_item_draw_day_numbers
 						 gint col,
 						 gint year,
 						 gint month,
-						 gint start_weekday,
+						 GDateWeekday start_weekday,
 						 gint cells_x,
 						 gint cells_y);
 static GnomeCanvasItem *e_calendar_item_point	(GnomeCanvasItem *item,
@@ -446,14 +447,14 @@ e_calendar_item_class_init (ECalendarItemClass *class)
 	g_object_class_install_property (
 		object_class,
 		PROP_WEEK_START_DAY,
-		g_param_spec_int (
-			"week_start_day",
+		g_param_spec_enum (
+			"week-start-day",
 			NULL,
 			NULL,
-			G_MININT,
-			G_MAXINT,
-			0,
-			G_PARAM_READWRITE));
+			E_TYPE_DATE_WEEKDAY,
+			G_DATE_MONDAY,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_install_property (
 		object_class,
@@ -583,7 +584,7 @@ e_calendar_item_init (ECalendarItem *calitem)
 
 	calitem->show_week_numbers = FALSE;
 	calitem->keep_wdays_on_weeknum_click = FALSE;
-	calitem->week_start_day = 0;
+	calitem->week_start_day = G_DATE_MONDAY;
 	calitem->expand = TRUE;
 	calitem->max_days_selected = 1;
 	calitem->days_to_start_week_selection = -1;
@@ -707,7 +708,7 @@ e_calendar_item_get_property (GObject *object,
 		g_value_set_int (value, calitem->max_cols);
 		return;
 	case PROP_WEEK_START_DAY:
-		g_value_set_int (value, calitem->week_start_day);
+		g_value_set_enum (value, calitem->week_start_day);
 		return;
 	case PROP_SHOW_WEEK_NUMBERS:
 		g_value_set_boolean (value, calitem->show_week_numbers);
@@ -835,7 +836,7 @@ e_calendar_item_set_property (GObject *object,
 		}
 		return;
 	case PROP_WEEK_START_DAY:
-		ivalue = g_value_get_int (value);
+		ivalue = g_value_get_enum (value);
 		if (calitem->week_start_day != ivalue) {
 			calitem->week_start_day = ivalue;
 			gnome_canvas_item_request_update (item);
@@ -1186,12 +1187,11 @@ e_calendar_item_draw (GnomeCanvasItem *canvas_item,
 static void
 layout_set_day_text (ECalendarItem *calitem,
                      PangoLayout *layout,
-                     gint day_index)
+                     GDateWeekday weekday)
 {
 	const gchar *abbr_name;
 
-	/* day_index: 0 = Monday ... 6 = Sunday */
-	abbr_name = e_get_weekday_name (day_index + 1, TRUE);
+	abbr_name = e_get_weekday_name (weekday, TRUE);
 	pango_layout_set_text (layout, abbr_name, -1);
 }
 
@@ -1211,13 +1211,15 @@ e_calendar_item_draw_month (ECalendarItem *calitem,
 	PangoFontDescription *font_desc;
 	struct tm tmp_tm;
 	GdkRectangle clip_rect;
-	gint char_height, xthickness, ythickness, start_weekday;
+	GDateWeekday start_weekday;
+	gint char_height, xthickness, ythickness;
 	gint year, month;
 	gint month_x, month_y, month_w, month_h;
 	gint min_x, max_x, text_x, text_y;
-	gint day, day_index, cells_x, cells_y, min_cell_width, text_width, arrow_button_size;
+	gint day, cells_x, cells_y, min_cell_width, text_width, arrow_button_size;
 	gint clip_width, clip_height;
 	gchar buffer[64];
+	GDateWeekday weekday;
 	PangoContext *pango_context;
 	PangoFontMetrics *font_metrics;
 	PangoLayout *layout;
@@ -1301,7 +1303,8 @@ e_calendar_item_draw_month (ECalendarItem *calitem,
 	tmp_tm.tm_mday = 1;
 	tmp_tm.tm_isdst = -1;
 	mktime (&tmp_tm);
-	start_weekday = (tmp_tm.tm_wday + 6) % 7;
+
+	start_weekday = e_weekday_from_tm_wday (tmp_tm.tm_wday);
 
 	if (month_x + max_x - clip_rect.x > 0) {
 		cairo_save (cr);
@@ -1427,25 +1430,24 @@ e_calendar_item_draw_month (ECalendarItem *calitem,
 	cairo_fill (cr);
 	cairo_restore (cr);
 
-	day_index = calitem->week_start_day;
+	weekday = calitem->week_start_day;
 	pango_layout_set_font_description (layout, font_desc);
 	if (gtk_widget_get_direction (widget) == GTK_TEXT_DIR_RTL)
 		text_x += (7 - 1) * calitem->cell_width;
 	gdk_cairo_set_source_color (cr, &style->text[GTK_STATE_ACTIVE]);
 	for (day = 0; day < 7; day++) {
 		cairo_save (cr);
-		layout_set_day_text (calitem, layout, day_index);
+		layout_set_day_text (calitem, layout, weekday);
 		cairo_move_to (
 			cr,
-			text_x - calitem->day_widths[day_index],
+			text_x - calitem->day_widths[weekday],
 			text_y);
 		pango_cairo_show_layout (cr, layout);
 		text_x += (gtk_widget_get_direction (widget) == GTK_TEXT_DIR_RTL)
 				? -calitem->cell_width : calitem->cell_width;
-		day_index++;
-		if (day_index == 7)
-			day_index = 0;
 		cairo_restore (cr);
+
+		weekday = e_weekday_get_next (weekday);
 	}
 
 	/* Draw the rectangle around the week number. */
@@ -1504,7 +1506,7 @@ e_calendar_item_draw_day_numbers (ECalendarItem *calitem,
                                   gint col,
                                   gint year,
                                   gint month,
-                                  gint start_weekday,
+                                  GDateWeekday start_weekday,
                                   gint cells_x,
                                   gint cells_y)
 {
@@ -1579,8 +1581,8 @@ e_calendar_item_draw_day_numbers (ECalendarItem *calitem,
 
 	month_offset = row * calitem->cols + col - 1;
 	day_num = days_in_month[0];
-	days_from_week_start = (start_weekday + 7 - calitem->week_start_day)
-		% 7;
+	days_from_week_start = e_weekday_get_days_between (
+		calitem->week_start_day, start_weekday);
 	/* For the top-left month we show the end of the previous month, and
 	 * if the new month starts on the first day of the week we show a
 	 * complete week from the previous month. */
@@ -1838,23 +1840,29 @@ e_calendar_item_get_week_number (ECalendarItem *calitem,
                                  gint year)
 {
 	GDate date;
-	guint weekday, yearday;
+	GDateWeekday weekday;
+	guint yearday;
 	gint week_num;
 
 	g_date_clear (&date, 1);
 	g_date_set_dmy (&date, day, month + 1, year);
 
-	/* This results in a value of 0 (Monday) - 6 (Sunday).
-	 * (or -1 on error - oops!!) */
-	weekday = g_date_get_weekday (&date) - 1;
+	weekday = g_date_get_weekday (&date);
 
-	if (weekday > 0) {
-		/* we want always point to nearest Monday, as the first day of the week,
-		 * regardless of the calendar's week_start_day */
-		if (weekday >= 3)
-			g_date_add_days (&date, 7 - weekday);
-		else
-			g_date_subtract_days (&date, weekday);
+	if (g_date_valid_weekday (weekday)) {
+		guint days_between;
+
+		/* We want always point to nearest Monday as the first day
+		 * of the week regardless of the calendar's week_start_day. */
+		if (weekday >= G_DATE_THURSDAY) {
+			days_between = e_weekday_get_days_between (
+				weekday, G_DATE_MONDAY);
+			g_date_add_days (&date, days_between);
+		} else {
+			days_between = e_weekday_get_days_between (
+				G_DATE_MONDAY, weekday);
+			g_date_subtract_days (&date, days_between);
+		}
 	}
 
 	/* Calculate the day of the year, from 0 to 365. */
@@ -2079,7 +2087,7 @@ e_calendar_item_recalc_sizes (ECalendarItem *calitem)
 {
 	GnomeCanvasItem *canvas_item;
 	GtkStyle *style;
-	gint day, max_day_width, digit, max_digit_width, max_week_number_digit_width;
+	gint max_day_width, digit, max_digit_width, max_week_number_digit_width;
 	gint char_height, width, min_cell_width, min_cell_height;
 	gchar buffer[64];
 	struct tm tmp_tm;
@@ -2087,6 +2095,7 @@ e_calendar_item_recalc_sizes (ECalendarItem *calitem)
 	PangoContext *pango_context;
 	PangoFontMetrics *font_metrics;
 	PangoLayout *layout;
+	GDateWeekday weekday;
 
 	canvas_item = GNOME_CANVAS_ITEM (calitem);
 	style = gtk_widget_get_style (GTK_WIDGET (canvas_item->canvas));
@@ -2112,11 +2121,11 @@ e_calendar_item_recalc_sizes (ECalendarItem *calitem)
 		PANGO_PIXELS (pango_font_metrics_get_descent (font_metrics));
 
 	max_day_width = 0;
-	for (day = 0; day < 7; day++) {
-		layout_set_day_text (calitem, layout, day);
+	for (weekday = G_DATE_MONDAY; weekday <= G_DATE_SUNDAY; weekday++) {
+		layout_set_day_text (calitem, layout, weekday);
 		pango_layout_get_pixel_size (layout, &width, NULL);
 
-		calitem->day_widths[day] = width;
+		calitem->day_widths[weekday] = width;
 		max_day_width = MAX (max_day_width, width);
 	}
 	calitem->max_day_width = max_day_width;
@@ -2742,7 +2751,8 @@ e_calendar_item_get_month_info (ECalendarItem *calitem,
                                 gint *days_in_month,
                                 gint *days_in_prev_month)
 {
-	gint year, month, start_weekday, first_day_of_month;
+	GDateWeekday start_weekday;
+	gint year, month, first_day_of_month;
 	struct tm tmp_tm = { 0 };
 
 	month = calitem->month + row * calitem->cols + col;
@@ -2761,10 +2771,10 @@ e_calendar_item_get_month_info (ECalendarItem *calitem,
 	tmp_tm.tm_isdst = -1;
 	mktime (&tmp_tm);
 
-	/* Convert to 0 (Monday) to 6 (Sunday). */
-	start_weekday = (tmp_tm.tm_wday + 6) % 7;
+	start_weekday = e_weekday_from_tm_wday (tmp_tm.tm_wday);
 
-	first_day_of_month = (start_weekday + 7 - calitem->week_start_day) % 7;
+	first_day_of_month = e_weekday_get_days_between (
+		calitem->week_start_day, start_weekday);
 
 	if (row == 0 && col == 0 && first_day_of_month == 0)
 		*first_day_offset = 7;
@@ -3177,7 +3187,8 @@ e_calendar_item_round_up_selection (ECalendarItem *calitem,
                                     gint *month_offset,
                                     gint *day)
 {
-	gint year, month, weekday, days, days_in_month;
+	GDateWeekday weekday;
+	gint year, month, days, days_in_month;
 	struct tm tmp_tm = { 0 };
 
 	year = calitem->year;
@@ -3190,11 +3201,9 @@ e_calendar_item_round_up_selection (ECalendarItem *calitem,
 	tmp_tm.tm_isdst = -1;
 	mktime (&tmp_tm);
 
-	/* Convert to 0 (Monday) to 6 (Sunday). */
-	weekday = (tmp_tm.tm_wday + 6) % 7;
-
 	/* Calculate how many days to the end of the row. */
-	days = (calitem->week_start_day + 6 - weekday) % 7;
+	weekday = e_weekday_from_tm_wday (tmp_tm.tm_wday);
+	days = e_weekday_get_days_between (weekday, calitem->week_start_day);
 
 	*day += days;
 	days_in_month = DAYS_IN_MONTH (year, month);
@@ -3210,7 +3219,8 @@ e_calendar_item_round_down_selection (ECalendarItem *calitem,
                                       gint *month_offset,
                                       gint *day)
 {
-	gint year, month, weekday, days, days_in_month;
+	GDateWeekday weekday;
+	gint year, month, days, days_in_month;
 	struct tm tmp_tm = { 0 };
 
 	year = calitem->year;
@@ -3223,11 +3233,9 @@ e_calendar_item_round_down_selection (ECalendarItem *calitem,
 	tmp_tm.tm_isdst = -1;
 	mktime (&tmp_tm);
 
-	/* Convert to 0 (Monday) to 6 (Sunday). */
-	weekday = (tmp_tm.tm_wday + 6) % 7;
-
 	/* Calculate how many days to the start of the row. */
-	days = (weekday + 7 - calitem->week_start_day) % 7;
+	weekday = e_weekday_from_tm_wday (tmp_tm.tm_wday);
+	days = e_weekday_get_days_between (weekday, calitem->week_start_day);
 
 	*day -= days;
 	if (*day <= 0) {
