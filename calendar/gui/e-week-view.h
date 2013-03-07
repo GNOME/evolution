@@ -229,9 +229,6 @@ struct _EWeekView {
 	/* Whether we use show event end times. */
 	gboolean show_event_end_times;
 
-	/* The first day of the week, 0 (Monday) to 6 (Sunday). */
-	gint week_start_day;
-
 	/* The first day of the week we display, 0 (Monday) to 6 (Sunday).
 	 * This will usually be week_start_day, but if the weekend is
 	 * compressed, and week_start_day is Sunday we have to use Saturday. */
