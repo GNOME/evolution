@@ -1496,7 +1496,7 @@ e_get_weekday_name (GDateWeekday weekday,
 }
 
 /**
- * e_get_next_weekday:
+ * e_weekday_get_next:
  * @weekday: a #GDateWeekday
  *
  * Returns the #GDateWeekday after @weekday.
@@ -1504,7 +1504,7 @@ e_get_weekday_name (GDateWeekday weekday,
  * Returns: the day after @weekday
  **/
 GDateWeekday
-e_get_next_weekday (GDateWeekday weekday)
+e_weekday_get_next (GDateWeekday weekday)
 {
 	GDateWeekday next;
 
@@ -1540,7 +1540,7 @@ e_get_next_weekday (GDateWeekday weekday)
 }
 
 /**
- * e_get_prev_weekday:
+ * e_weekday_get_prev:
  * @weekday: a #GDateWeekday
  *
  * Returns the #GDateWeekday before @weekday.
@@ -1548,7 +1548,7 @@ e_get_next_weekday (GDateWeekday weekday)
  * Returns: the day before @weekday
  **/
 GDateWeekday
-e_get_prev_weekday (GDateWeekday weekday)
+e_weekday_get_prev (GDateWeekday weekday)
 {
 	GDateWeekday prev;
 

@@ -2247,8 +2247,8 @@ e_strftime_fix_am_pm
 e_utf8_strftime_fix_am_pm
 e_get_month_name
 e_get_weekday_name
-e_get_next_weekday
-e_get_prev_weekday
+e_weekday_get_next
+e_weekday_get_prev
 e_flexible_strtod
 E_ASCII_DTOSTR_BUF_SIZE
 e_ascii_dtostr
