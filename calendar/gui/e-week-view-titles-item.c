@@ -132,12 +132,15 @@ week_view_titles_item_draw (GnomeCanvasItem *canvas_item,
 	gchar buffer[128];
 	GtkAllocation allocation;
 	gboolean abbreviated;
+	gboolean compress_weekend;
 	gint weekday;
 	PangoLayout *layout;
 
 	titles_item = E_WEEK_VIEW_TITLES_ITEM (canvas_item);
 	week_view = e_week_view_titles_item_get_week_view (titles_item);
 	g_return_if_fail (week_view != NULL);
+
+	compress_weekend = e_week_view_get_compress_weekend (week_view);
 
 	cairo_save (cr);
 	cairo_set_line_width (cr, 1.0);
@@ -172,7 +175,7 @@ week_view_titles_item_draw (GnomeCanvasItem *canvas_item,
 	 * next day. */
 	weekday = week_view->display_start_day;
 	for (col = 0; col < week_view->columns; col++) {
-		if (weekday == 5 && week_view->compress_weekend)
+		if (weekday == 5 && compress_weekend)
 			g_snprintf (
 				buffer, sizeof (buffer), "%s/%s",
 				e_get_weekday_name (G_DATE_SATURDAY, TRUE),
@@ -190,7 +193,7 @@ week_view_titles_item_draw (GnomeCanvasItem *canvas_item,
 			week_view->col_widths[col], allocation.height - 2);
 		cairo_clip (cr);
 
-		if (weekday == 5 && week_view->compress_weekend)
+		if (weekday == 5 && compress_weekend)
 			date_width = week_view->abbr_day_widths[5]
 				+ week_view->slash_width
 				+ week_view->abbr_day_widths[6];
@@ -231,7 +234,7 @@ week_view_titles_item_draw (GnomeCanvasItem *canvas_item,
 			cairo_fill (cr);
 		}
 
-		if (weekday == 5 && week_view->compress_weekend)
+		if (weekday == 5 && compress_weekend)
 			weekday += 2;
 		else
 			weekday++;

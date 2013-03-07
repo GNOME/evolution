@@ -78,7 +78,26 @@
 #define E_WEEK_VIEW_LAYOUT_TIMEOUT	100
 
 struct _EWeekViewPrivate {
-	gint placeholder;
+	/* The first day shown in the view. */
+	GDate first_day_shown;
+
+	/* If we are displaying multiple weeks in rows.  If this is
+	 * FALSE only one week is shown, with a different layout. */
+	gboolean multi_week_view;
+
+	/* How many weeks we are showing.  This is only relevant if
+	 * multi_week_view is TRUE. */
+	gint weeks_shown;
+
+	/* If Sat & Sun are compressed.  Only applicable in month view,
+	 * since they are always compressed into 1 cell in week view. */
+	gboolean compress_weekend;
+
+	/* Whether we show event end times. */
+	gboolean show_event_end_times;
+
+	/* Whether to update the base date when the time range changes. */
+	gboolean update_base_date;
 };
 
 typedef struct {
@@ -192,7 +211,7 @@ week_view_process_component (EWeekView *week_view,
 	gchar *rid = NULL;
 
 	/* If we don't have a valid date set yet, just return. */
-	if (!g_date_valid (&week_view->first_day_shown))
+	if (!g_date_valid (&week_view->priv->first_day_shown))
 		return;
 
 	comp = e_cal_component_new ();
@@ -355,6 +374,7 @@ week_view_time_range_changed_cb (EWeekView *week_view,
 {
 	GDate date, base_date;
 	gint day_offset, weekday, week_start_offset;
+	gint num_days;
 	gboolean update_adjustment_value = FALSE;
 
 	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
@@ -378,15 +398,15 @@ week_view_time_range_changed_cb (EWeekView *week_view,
 
 	/* See if we need to update the base date. */
 	if (!g_date_valid (&week_view->base_date)
-	    || week_view->update_base_date) {
+	    || e_week_view_get_update_base_date (week_view)) {
 		week_view->base_date = base_date;
 		update_adjustment_value = TRUE;
 	}
 
 	/* See if we need to update the first day shown. */
-	if (!g_date_valid (&week_view->first_day_shown)
-	    || g_date_compare (&week_view->first_day_shown, &base_date)) {
-		week_view->first_day_shown = base_date;
+	if (!g_date_valid (&week_view->priv->first_day_shown)
+	    || g_date_compare (&week_view->priv->first_day_shown, &base_date)) {
+		week_view->priv->first_day_shown = base_date;
 		start_time = time_add_day_with_zone (
 			start_time, -day_offset,
 			e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
@@ -416,9 +436,11 @@ week_view_time_range_changed_cb (EWeekView *week_view,
 
 	gtk_widget_queue_draw (week_view->main_canvas);
 
+	num_days = e_week_view_get_weeks_shown (week_view) * 7;
+
 	/* FIXME Preserve selection if possible */
 	if (week_view->selection_start_day == -1 ||
-	    (week_view->multi_week_view ? week_view->weeks_shown * 7 : 7) <= week_view->selection_start_day)
+	    num_days <= week_view->selection_start_day)
 		e_calendar_view_set_selected_time_range (
 			E_CALENDAR_VIEW (week_view), start_time, start_time);
 }
@@ -430,11 +452,14 @@ timezone_changed_cb (ECalModel *cal_model,
                      gpointer user_data)
 {
 	ECalendarView *cal_view = (ECalendarView *) user_data;
+	GDate *first_day_shown;
 	struct icaltimetype tt = icaltime_null_time ();
 	time_t lower;
 	EWeekView *week_view = (EWeekView *) cal_view;
 
 	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
+
+	first_day_shown = &week_view->priv->first_day_shown;
 
 	if (!cal_view->in_focus) {
 		e_week_view_free_events (week_view);
@@ -443,14 +468,14 @@ timezone_changed_cb (ECalModel *cal_model,
 	}
 
 	/* If we don't have a valid date set yet, just return. */
-	if (!g_date_valid (&week_view->first_day_shown))
+	if (!g_date_valid (first_day_shown))
 		return;
 
 	/* Recalculate the new start of the first week. We just use exactly
 	 * the same time, but with the new timezone. */
-	tt.year = g_date_get_year (&week_view->first_day_shown);
-	tt.month = g_date_get_month (&week_view->first_day_shown);
-	tt.day = g_date_get_day (&week_view->first_day_shown);
+	tt.year = g_date_get_year (first_day_shown);
+	tt.month = g_date_get_month (first_day_shown);
+	tt.day = g_date_get_day (first_day_shown);
 
 	lower = icaltime_as_timet_with_zone (tt, new_zone);
 
@@ -463,7 +488,7 @@ week_view_notify_week_start_day_cb (EWeekView *week_view)
 {
 	GDate *first_day_shown;
 
-	first_day_shown = &week_view->first_day_shown;
+	first_day_shown = &week_view->priv->first_day_shown;
 
 	e_week_view_recalc_display_start_day (week_view);
 
@@ -485,8 +510,9 @@ month_scroll_by_week_changed_cb (GSettings *settings,
 	g_return_if_fail (week_view != NULL);
 	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
 
-	if (week_view->multi_week_view && week_view->month_scroll_by_week != calendar_config_get_month_scroll_by_week ()) {
-		week_view->multi_week_view = FALSE;
+	if (e_week_view_get_multi_week_view (week_view) &&
+	    week_view->month_scroll_by_week != calendar_config_get_month_scroll_by_week ()) {
+		week_view->priv->multi_week_view = FALSE;
 		e_week_view_set_multi_week_view (week_view, TRUE);
 	}
 }
@@ -1235,8 +1261,7 @@ week_view_set_selected_time_range (ECalendarView *cal_view,
 	}
 
 	/* Make sure the selection is valid. */
-	num_days = week_view->multi_week_view ? week_view->weeks_shown * 7 : 7;
-	num_days--;
+	num_days = (e_week_view_get_weeks_shown (week_view) * 7) - 1;
 	week_view->selection_start_day = CLAMP (
 		week_view->selection_start_day, 0, num_days);
 	week_view->selection_end_day = CLAMP (
@@ -1268,10 +1293,11 @@ week_view_get_visible_time_range (ECalendarView *cal_view,
 	EWeekView *week_view = E_WEEK_VIEW (cal_view);
 
 	/* If we don't have a valid date set yet, return FALSE. */
-	if (!g_date_valid (&week_view->first_day_shown))
+	if (!g_date_valid (&week_view->priv->first_day_shown))
 		return FALSE;
 
-	num_days = week_view->multi_week_view ? week_view->weeks_shown * 7 : 7;
+	num_days = e_week_view_get_weeks_shown (week_view) * 7;
+
 	*start_time = week_view->day_starts[0];
 	*end_time = week_view->day_starts[num_days];
 
@@ -1447,6 +1473,10 @@ e_week_view_init (EWeekView *week_view)
 	gint i;
 
 	week_view->priv = E_WEEK_VIEW_GET_PRIVATE (week_view);
+	week_view->priv->weeks_shown = 6;
+	week_view->priv->compress_weekend = TRUE;
+	week_view->priv->show_event_end_times = TRUE;
+	week_view->priv->update_base_date = TRUE;
 
 	gtk_widget_set_can_focus (GTK_WIDGET (week_view), TRUE);
 
@@ -1462,19 +1492,14 @@ e_week_view_init (EWeekView *week_view)
 
 	week_view->spans = NULL;
 
-	week_view->multi_week_view = FALSE;
 	week_view->month_scroll_by_week = FALSE;
 	week_view->scroll_by_week_notif_id = 0;
-	week_view->update_base_date = TRUE;
-	week_view->weeks_shown = 6;
 	week_view->rows = 6;
 	week_view->columns = 2;
-	week_view->compress_weekend = TRUE;
-	week_view->show_event_end_times = TRUE;
 	week_view->display_start_day = 0;	/* Monday. */
 
 	g_date_clear (&week_view->base_date, 1);
-	g_date_clear (&week_view->first_day_shown, 1);
+	g_date_clear (&week_view->priv->first_day_shown, 1);
 
 	week_view->row_height = 10;
 	week_view->rows_per_cell = 1;
@@ -1703,9 +1728,11 @@ e_week_view_recalc_cell_sizes (EWeekView *week_view)
 	PangoContext *pango_context;
 	PangoFontMetrics *font_metrics;
 
-	if (week_view->multi_week_view) {
-		week_view->rows = week_view->weeks_shown * 2;
-		week_view->columns = week_view->compress_weekend ? 6 : 7;
+	if (e_week_view_get_multi_week_view (week_view)) {
+		week_view->rows =
+			e_week_view_get_weeks_shown (week_view) * 2;
+		week_view->columns =
+			e_week_view_get_compress_weekend (week_view) ? 6 : 7;
 	} else {
 		week_view->rows = 6;
 		week_view->columns = 2;
@@ -1763,8 +1790,8 @@ e_week_view_recalc_cell_sizes (EWeekView *week_view)
 
 	/* Calculate the number of rows of events in each cell, for the large
 	 * cells and the compressed weekend cells. */
-	if (week_view->multi_week_view) {
-		week_view->events_y_offset = E_WEEK_VIEW_DATE_T_PAD +
+	if (e_week_view_get_multi_week_view (week_view)) {
+		week_view->events_y_offset = E_WEEK_VIEW_DATE_T_PAD
 			+ PANGO_PIXELS (pango_font_metrics_get_ascent (font_metrics))
 			+ PANGO_PIXELS (pango_font_metrics_get_descent (font_metrics))
 			+ E_WEEK_VIEW_DATE_B_PAD;
@@ -1799,14 +1826,14 @@ e_week_view_recalc_cell_sizes (EWeekView *week_view)
 
 	week_view->time_format = E_WEEK_VIEW_TIME_NONE;
 	if (week_view->use_small_font && week_view->small_font_desc) {
-		if (week_view->show_event_end_times
-		    && width / 2 > time_width * 2 + E_WEEK_VIEW_EVENT_TIME_SPACING)
+		if (e_week_view_get_show_event_end_times (week_view) &&
+		    width / 2 > time_width * 2 + E_WEEK_VIEW_EVENT_TIME_SPACING)
 			week_view->time_format = E_WEEK_VIEW_TIME_BOTH_SMALL_MIN;
 		else if (width / 2 > time_width)
 			week_view->time_format = E_WEEK_VIEW_TIME_START_SMALL_MIN;
 	} else {
-		if (week_view->show_event_end_times
-		    && width / 2 > time_width * 2 + E_WEEK_VIEW_EVENT_TIME_SPACING)
+		if (e_week_view_get_show_event_end_times (week_view) &&
+		    width / 2 > time_width * 2 + E_WEEK_VIEW_EVENT_TIME_SPACING)
 			week_view->time_format = E_WEEK_VIEW_TIME_BOTH;
 		else if (width / 2 > time_width)
 			week_view->time_format = E_WEEK_VIEW_TIME_START;
@@ -1906,32 +1933,35 @@ e_week_view_set_selected_time_range_visible (EWeekView *week_view,
                                              time_t start_time,
                                              time_t end_time)
 {
+	GDate *first_day_shown;
 	GDate date, end_date;
 	gint num_days;
 
 	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
 
+	first_day_shown = &week_view->priv->first_day_shown;
+
 	time_to_gdate_with_zone (&date, start_time, e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
 
 	/* Set the selection to the given days. */
-	week_view->selection_start_day = g_date_get_julian (&date)
-		- g_date_get_julian (&week_view->first_day_shown);
+	week_view->selection_start_day =
+		g_date_get_julian (&date) -
+		g_date_get_julian (first_day_shown);
 	if (end_time == start_time
 	    || end_time <= time_add_day_with_zone (start_time, 1,
 						   e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view))))
 		week_view->selection_end_day = week_view->selection_start_day;
 	else {
 		time_to_gdate_with_zone (&end_date, end_time - 60, e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
-		week_view->selection_end_day = g_date_get_julian (&end_date)
-			- g_date_get_julian (&week_view->first_day_shown);
+		week_view->selection_end_day =
+			g_date_get_julian (&end_date) -
+			g_date_get_julian (first_day_shown);
 	}
 
 	/* Make sure the selection is valid. */
-	num_days = week_view->multi_week_view ? week_view->weeks_shown * 7 : 7;
-	num_days--;
+	num_days = (e_week_view_get_weeks_shown (week_view) * 7) - 1;
 	week_view->selection_start_day = CLAMP (
-		week_view->selection_start_day,
-						0, num_days);
+		week_view->selection_start_day, 0, num_days);
 	week_view->selection_end_day = CLAMP (
 		week_view->selection_end_day,
 		week_view->selection_start_day,
@@ -1945,7 +1975,7 @@ void
 e_week_view_get_first_day_shown (EWeekView *week_view,
                                  GDate *date)
 {
-	*date = week_view->first_day_shown;
+	*date = week_view->priv->first_day_shown;
 }
 
 /* This sets the first day shown in the view. It will be rounded down to the
@@ -1992,9 +2022,9 @@ e_week_view_set_first_day_shown (EWeekView *week_view,
 	}
 
 	/* See if we need to update the first day shown. */
-	if (!g_date_valid (&week_view->first_day_shown)
-	    || g_date_compare (&week_view->first_day_shown, &base_date)) {
-		week_view->first_day_shown = base_date;
+	if (!g_date_valid (&week_view->priv->first_day_shown)
+	    || g_date_compare (&week_view->priv->first_day_shown, &base_date)) {
+		week_view->priv->first_day_shown = base_date;
 
 		start_tt.year = g_date_get_year (&base_date);
 		start_tt.month = g_date_get_month (&base_date);
@@ -2017,9 +2047,7 @@ e_week_view_set_first_day_shown (EWeekView *week_view,
 			- g_date_get_julian (&base_date);
 
 		/* Make sure the selection is valid. */
-		num_days = week_view->multi_week_view
-			? week_view->weeks_shown * 7 : 7;
-		num_days--;
+		num_days = (e_week_view_get_weeks_shown (week_view) * 7) - 1;
 		week_view->selection_start_day = CLAMP (
 			week_view->selection_start_day, 0, num_days);
 		week_view->selection_end_day = CLAMP (
@@ -2052,7 +2080,7 @@ e_week_view_recalc_day_starts (EWeekView *week_view,
 	gint num_days, day;
 	time_t tmp_time;
 
-	num_days = week_view->multi_week_view ? week_view->weeks_shown * 7 : 7;
+	num_days = e_week_view_get_weeks_shown (week_view) * 7;
 
 	tmp_time = lower;
 	week_view->day_starts[0] = tmp_time;
@@ -2069,7 +2097,7 @@ e_week_view_get_multi_week_view (EWeekView *week_view)
 {
 	g_return_val_if_fail (E_IS_WEEK_VIEW (week_view), FALSE);
 
-	return week_view->multi_week_view;
+	return week_view->priv->multi_week_view;
 }
 
 void
@@ -2082,10 +2110,10 @@ e_week_view_set_multi_week_view (EWeekView *week_view,
 
 	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
 
-	if (week_view->multi_week_view == multi_week_view)
+	if (multi_week_view == week_view->priv->multi_week_view)
 		return;
 
-	week_view->multi_week_view = multi_week_view;
+	week_view->priv->multi_week_view = multi_week_view;
 
 	if (multi_week_view) {
 		gtk_widget_show (week_view->titles_canvas);
@@ -2120,10 +2148,10 @@ e_week_view_set_multi_week_view (EWeekView *week_view,
 	e_week_view_recalc_display_start_day (week_view);
 	e_week_view_recalc_cell_sizes (week_view);
 
-	if (g_date_valid (&week_view->first_day_shown))
+	if (g_date_valid (&week_view->priv->first_day_shown))
 		e_week_view_set_first_day_shown (
 			week_view,
-			&week_view->first_day_shown);
+			&week_view->priv->first_day_shown);
 }
 
 gboolean
@@ -2131,7 +2159,7 @@ e_week_view_get_update_base_date (EWeekView *week_view)
 {
 	g_return_val_if_fail (E_IS_WEEK_VIEW (week_view), FALSE);
 
-	return week_view->update_base_date;
+	return week_view->priv->update_base_date;
 }
 
 void
@@ -2140,7 +2168,7 @@ e_week_view_set_update_base_date (EWeekView *week_view,
 {
 	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
 
-	week_view->update_base_date = update_base_date;
+	week_view->priv->update_base_date = update_base_date;
 }
 
 gint
@@ -2148,7 +2176,11 @@ e_week_view_get_weeks_shown (EWeekView *week_view)
 {
 	g_return_val_if_fail (E_IS_WEEK_VIEW (week_view), 1);
 
-	return week_view->weeks_shown;
+	/* Give a sensible answer for single-week view. */
+	if (!e_week_view_get_multi_week_view (week_view))
+		return 1;
+
+	return week_view->priv->weeks_shown;
 }
 
 void
@@ -2163,12 +2195,12 @@ e_week_view_set_weeks_shown (EWeekView *week_view,
 
 	weeks_shown = MIN (weeks_shown, E_WEEK_VIEW_MAX_WEEKS);
 
-	if (week_view->weeks_shown == weeks_shown)
+	if (weeks_shown == week_view->priv->weeks_shown)
 		return;
 
-	week_view->weeks_shown = weeks_shown;
+	week_view->priv->weeks_shown = weeks_shown;
 
-	if (week_view->multi_week_view) {
+	if (e_week_view_get_multi_week_view (week_view)) {
 		if (week_view->month_scroll_by_week) {
 			page_increment = 1;
 			page_size = 1;
@@ -2184,8 +2216,10 @@ e_week_view_set_weeks_shown (EWeekView *week_view,
 
 		e_week_view_recalc_cell_sizes (week_view);
 
-		if (g_date_valid (&week_view->first_day_shown))
-			e_week_view_set_first_day_shown (week_view, &week_view->first_day_shown);
+		if (g_date_valid (&week_view->priv->first_day_shown))
+			e_week_view_set_first_day_shown (
+				week_view,
+				&week_view->priv->first_day_shown);
 
 		e_week_view_update_query (week_view);
 	}
@@ -2196,7 +2230,7 @@ e_week_view_get_compress_weekend (EWeekView *week_view)
 {
 	g_return_val_if_fail (E_IS_WEEK_VIEW (week_view), FALSE);
 
-	return week_view->compress_weekend;
+	return week_view->priv->compress_weekend;
 }
 
 void
@@ -2207,13 +2241,13 @@ e_week_view_set_compress_weekend (EWeekView *week_view,
 
 	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
 
-	if (week_view->compress_weekend == compress_weekend)
+	if (compress_weekend == week_view->priv->compress_weekend)
 		return;
 
-	week_view->compress_weekend = compress_weekend;
+	week_view->priv->compress_weekend = compress_weekend;
 
 	/* The option only affects the month view. */
-	if (!week_view->multi_week_view)
+	if (!e_week_view_get_multi_week_view (week_view))
 		return;
 
 	e_week_view_recalc_cell_sizes (week_view);
@@ -2225,8 +2259,10 @@ e_week_view_set_compress_weekend (EWeekView *week_view,
 	 * do a reshape. */
 	if (need_reload) {
 		/* Recalculate the days shown and reload if necessary. */
-		if (g_date_valid (&week_view->first_day_shown))
-			e_week_view_set_first_day_shown (week_view, &week_view->first_day_shown);
+		if (g_date_valid (&week_view->priv->first_day_shown))
+			e_week_view_set_first_day_shown (
+				week_view,
+				&week_view->priv->first_day_shown);
 	} else {
 		week_view->events_need_reshape = TRUE;
 		e_week_view_check_layout (week_view);
@@ -2244,7 +2280,7 @@ e_week_view_get_show_event_end_times (EWeekView *week_view)
 {
 	g_return_val_if_fail (E_IS_WEEK_VIEW (week_view), TRUE);
 
-	return week_view->show_event_end_times;
+	return week_view->priv->show_event_end_times;
 }
 
 void
@@ -2253,10 +2289,10 @@ e_week_view_set_show_event_end_times (EWeekView *week_view,
 {
 	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
 
-	if (week_view->show_event_end_times == show_event_end_times)
+	if (show_event_end_times == week_view->priv->show_event_end_times)
 		return;
 
-	week_view->show_event_end_times = show_event_end_times;
+	week_view->priv->show_event_end_times = show_event_end_times;
 	e_week_view_recalc_cell_sizes (week_view);
 	week_view->events_need_reshape = TRUE;
 	e_week_view_check_layout (week_view);
@@ -2282,9 +2318,13 @@ e_week_view_recalc_display_start_day (EWeekView *week_view)
 	 * is Sunday. */
 	display_start_day = week_start_day;
 
-	if (display_start_day == 6
-	    && (!week_view->multi_week_view || week_view->compress_weekend))
-		display_start_day = 5;
+	if (display_start_day == 6) {
+		if (!e_week_view_get_multi_week_view (week_view))
+			display_start_day = 5;
+
+		if (e_week_view_get_compress_weekend (week_view))
+			display_start_day = 5;
+	}
 
 	if (week_view->display_start_day != display_start_day) {
 		week_view->display_start_day = display_start_day;
@@ -2450,10 +2490,10 @@ e_week_view_get_day_position (EWeekView *week_view,
 
 	e_week_view_layout_get_day_position (
 		day,
-		week_view->multi_week_view,
-		week_view->weeks_shown,
+		e_week_view_get_multi_week_view (week_view),
+		e_week_view_get_weeks_shown (week_view),
 		week_view->display_start_day,
-		week_view->compress_weekend,
+		e_week_view_get_compress_weekend (week_view),
 		&cell_x, &cell_y, &cell_h);
 
 	*day_x = week_view->col_offsets[cell_x];
@@ -2504,13 +2544,14 @@ e_week_view_get_span_position (EWeekView *week_view,
 	span = &g_array_index (week_view->spans, EWeekViewEventSpan,
 			       event->spans_index + span_num);
 
-	if (!e_week_view_layout_get_span_position (event, span,
-						   week_view->rows_per_cell,
-						   week_view->rows_per_compressed_cell,
-						   week_view->display_start_day,
-						   week_view->multi_week_view,
-						   week_view->compress_weekend,
-						   &num_days)) {
+	if (!e_week_view_layout_get_span_position (
+		event, span,
+		week_view->rows_per_cell,
+		week_view->rows_per_compressed_cell,
+		week_view->display_start_day,
+		e_week_view_get_multi_week_view (week_view),
+		e_week_view_get_compress_weekend (week_view),
+		&num_days)) {
 		return FALSE;
 	}
 
@@ -2799,11 +2840,11 @@ e_week_view_convert_position_to_day (EWeekView *week_view,
 		return -1;
 
 	/* Now convert the grid position to a week and day. */
-	if (week_view->multi_week_view) {
+	if (e_week_view_get_multi_week_view (week_view)) {
 		week = grid_y / 2;
 		day = grid_x;
 
-		if (week_view->compress_weekend) {
+		if (e_week_view_get_compress_weekend (week_view)) {
 			weekend_col = (5 + 7 - week_view->display_start_day) % 7;
 			if (grid_x > weekend_col
 			    || (grid_x == weekend_col && grid_y % 2 == 1))
@@ -2817,7 +2858,7 @@ e_week_view_convert_position_to_day (EWeekView *week_view,
 			e_week_view_layout_get_day_position (
 				day, FALSE, 1,
 				week_view->display_start_day,
-				week_view->compress_weekend,
+				e_week_view_get_compress_weekend (week_view),
 				&day_x, &day_y, &rows);
 
 			if (grid_x == day_x && grid_y >= day_y && grid_y < day_y + rows)
@@ -2907,7 +2948,7 @@ e_week_view_free_events (EWeekView *week_view)
 	}
 
 	/* Clear the number of rows used per day. */
-	num_days = week_view->multi_week_view ? week_view->weeks_shown * 7 : 7;
+	num_days = e_week_view_get_weeks_shown (week_view) * 7;
 	for (day = 0; day <= num_days; day++) {
 		week_view->rows_per_day[day] = 0;
 	}
@@ -2935,15 +2976,7 @@ e_week_view_add_event (ECalComponent *comp,
 	add_event_data = data;
 
 	/* Check that the event times are valid. */
-	num_days = add_event_data->week_view->multi_week_view ? add_event_data->week_view->weeks_shown * 7 : 7;
-
-	/*if (start > end || start >= add_event_data->week_view->day_starts[num_days] || end <= add_event_data->week_view->day_starts[0]) {
-		g_print ("%s: week_view:%p\n", G_STRFUNC, add_event_data->week_view);
-		g_print ("\tstart: %s", ctime (&start));
-		g_print ("\tend: %s", ctime (&end));
-		g_print ("\tday_starts[0]: %s", ctime (&add_event_data->week_view->day_starts[0]));
-		g_print ("\tday_starts[%d]: %s\n", num_days, ctime (&add_event_data->week_view->day_starts[num_days]));
-	}*/
+	num_days = e_week_view_get_weeks_shown (add_event_data->week_view) * 7;
 
 	g_return_val_if_fail (start <= end, TRUE);
 	g_return_val_if_fail (start < add_event_data->week_view->day_starts[num_days], TRUE);
@@ -3012,14 +3045,15 @@ e_week_view_check_layout (EWeekView *week_view)
 	e_week_view_ensure_events_sorted (week_view);
 
 	if (week_view->events_need_layout)
-		week_view->spans = e_week_view_layout_events
-			(week_view->events, week_view->spans,
-			 week_view->multi_week_view,
-			 week_view->weeks_shown,
-			 week_view->compress_weekend,
-			 week_view->display_start_day,
-			 week_view->day_starts,
-			 week_view->rows_per_day);
+		week_view->spans = e_week_view_layout_events (
+			week_view->events,
+			week_view->spans,
+			e_week_view_get_multi_week_view (week_view),
+			e_week_view_get_weeks_shown (week_view),
+			e_week_view_get_compress_weekend (week_view),
+			week_view->display_start_day,
+			week_view->day_starts,
+			week_view->rows_per_day);
 
 	if (week_view->events_need_layout || week_view->events_need_reshape)
 		e_week_view_reshape_events (week_view);
@@ -3103,12 +3137,13 @@ e_week_view_reshape_events (EWeekView *week_view)
 	}
 
 	/* Reshape the jump buttons and show/hide them as appropriate. */
-	num_days = week_view->multi_week_view ? week_view->weeks_shown * 7 : 7;
+	num_days = e_week_view_get_weeks_shown (week_view) * 7;
 	for (day = 0; day < num_days; day++) {
 
 		is_weekend = ((week_view->display_start_day + day) % 7 >= 5) ? TRUE : FALSE;
-		if (!is_weekend || (week_view->multi_week_view
-				    && !week_view->compress_weekend))
+		if (!is_weekend || (
+		    e_week_view_get_multi_week_view (week_view)
+		    && !e_week_view_get_compress_weekend (week_view)))
 			max_rows = week_view->rows_per_cell;
 		else
 			max_rows = week_view->rows_per_compressed_cell;
@@ -3988,20 +4023,14 @@ e_week_view_event_move (ECalendarView *cal_view,
 	if (is_all_day)
 		current_end_day--;
 
-	if (current_start_day < 0) {
+	if (current_start_day < 0)
 		return TRUE;
-	}
-	if (week_view->multi_week_view) {
-		if (current_end_day >= week_view->weeks_shown * 7) {
-			return TRUE;
-		}
-	}else {
-		if (current_end_day >= 7) {
-			return TRUE;
-		}
-	}
+
+	if (current_end_day >= e_week_view_get_weeks_shown (week_view) * 7)
+		return TRUE;
 
 	e_week_view_change_event_time (week_view, start_dt, end_dt, is_all_day);
+
 	return TRUE;
 }
 
@@ -4565,13 +4594,13 @@ e_week_view_do_key_press (GtkWidget *widget,
 		stop_emission = TRUE;
 		switch (keyval) {
 		case GDK_KEY_Page_Up:
-			if (!week_view->multi_week_view)
+			if (!e_week_view_get_multi_week_view (week_view))
 				e_week_view_scroll_a_step (week_view, E_CAL_VIEW_MOVE_UP);
 			else
 				e_week_view_scroll_a_step (week_view, E_CAL_VIEW_MOVE_PAGE_UP);
 			break;
 		case GDK_KEY_Page_Down:
-			if (!week_view->multi_week_view)
+			if (!e_week_view_get_multi_week_view (week_view))
 				e_week_view_scroll_a_step (week_view, E_CAL_VIEW_MOVE_DOWN);
 			else
 				e_week_view_scroll_a_step (week_view, E_CAL_VIEW_MOVE_PAGE_DOWN);
@@ -4637,20 +4666,14 @@ static gint
 e_week_view_get_adjust_days_for_move_up (EWeekView *week_view,
                                          gint current_day)
 {
-       if (week_view->multi_week_view)
-	       return -7;
-       else
-	       return 0;
+	return e_week_view_get_multi_week_view (week_view) ? -7 : 0;
 }
 
 static gint
 e_week_view_get_adjust_days_for_move_down (EWeekView *week_view,
                                            gint current_day)
 {
-       if (week_view->multi_week_view)
-	       return 7;
-       else
-	       return 0;
+	return e_week_view_get_multi_week_view (week_view) ? 7 : 0;
 }
 
 static gint

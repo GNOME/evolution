@@ -70,8 +70,8 @@ e_week_view_cell_class_init (EWeekViewCellClass *class)
 
 EWeekViewCell *
 e_week_view_cell_new (EWeekView *week_view,
-                      gint row,
-                      gint column)
+		      gint row,
+		      gint column)
 {
 	GObject *object;
 	EWeekViewCell *cell;
@@ -345,17 +345,18 @@ atk_component_interface_init (AtkComponentIface *iface)
 
 static void
 component_interface_get_extents (AtkComponent *component,
-                                 gint *x,
-                                 gint *y,
-                                 gint *width,
-                                 gint *height,
-                                 AtkCoordType coord_type)
+				 gint *x,
+				 gint *y,
+				 gint *width,
+				 gint *height,
+				 AtkCoordType coord_type)
 {
 	GObject *g_obj;
 	AtkObject *atk_obj;
 	EWeekViewCell *cell;
 	EWeekView *week_view;
 	GtkWidget *main_canvas;
+	gboolean compress_weekend;
 	gint week_view_width, week_view_height;
 	gint scroll_x, scroll_y;
 	gint start_day;
@@ -373,6 +374,8 @@ component_interface_get_extents (AtkComponent *component,
 	week_view = cell->week_view;
 	main_canvas = cell->week_view->main_canvas;
 
+	compress_weekend = e_week_view_get_compress_weekend (week_view);
+
 	atk_obj = atk_gobject_accessible_for_object (G_OBJECT (main_canvas));
 	atk_component_get_extents (
 		ATK_COMPONENT (atk_obj),
@@ -383,85 +386,85 @@ component_interface_get_extents (AtkComponent *component,
 		GNOME_CANVAS (week_view->main_canvas),
 		&scroll_x, &scroll_y);
 	start_day = week_view->display_start_day;
-	if (week_view->multi_week_view) {
-		if (week_view->compress_weekend && (cell->column == (5 - start_day))) {
-                        *height = week_view->row_heights[cell->row*2];
+	if (e_week_view_get_multi_week_view (week_view)) {
+		if (compress_weekend && (cell->column == (5 - start_day))) {
+			*height = week_view->row_heights[cell->row*2];
 			*width = week_view->col_widths[cell->column];
 			*x += week_view->col_offsets[cell->column] - scroll_x;
 			*y += week_view->row_offsets[cell->row*2]- scroll_y;
-		} else if (week_view->compress_weekend && (cell->column == (6 - start_day))) {
-                        *height = week_view->row_heights[cell->row*2];
-                        *width = week_view->col_widths[cell->column - 1];
-                        *x += week_view->col_offsets[cell->column - 1]- scroll_x;
-                        *y += week_view->row_offsets[cell->row*2 + 1]- scroll_y;
-		} else if (week_view->compress_weekend && (cell->column > (6 - start_day))) {
-                        *height = week_view->row_heights[cell->row*2]*2;
-                        *width = week_view->col_widths[cell->column - 1];
-                        *x += week_view->col_offsets[cell->column - 1] - scroll_x;
-                        *y += week_view->row_offsets[cell->row*2]- scroll_y;
+		} else if (compress_weekend && (cell->column == (6 - start_day))) {
+			*height = week_view->row_heights[cell->row*2];
+			*width = week_view->col_widths[cell->column - 1];
+			*x += week_view->col_offsets[cell->column - 1]- scroll_x;
+			*y += week_view->row_offsets[cell->row*2 + 1]- scroll_y;
+		} else if (compress_weekend && (cell->column > (6 - start_day))) {
+			*height = week_view->row_heights[cell->row*2]*2;
+			*width = week_view->col_widths[cell->column - 1];
+			*x += week_view->col_offsets[cell->column - 1] - scroll_x;
+			*y += week_view->row_offsets[cell->row*2]- scroll_y;
 		} else {
 			*height = week_view->row_heights[cell->row*2]*2;
-                        *width = week_view->col_widths[cell->column];
+			*width = week_view->col_widths[cell->column];
 			*x += week_view->col_offsets[cell->column] - scroll_x;
 			*y += week_view->row_offsets[cell->row*2]- scroll_y;
 		}
 	} else {
 		if (start_day < 3) {
 			if (cell->column < 3) {
-                                *height = week_view->row_heights[cell->column*2]*2;
-                                *width = week_view->col_widths[0];
-                                *x += week_view->col_offsets[0] - scroll_x;
-                                *y += week_view->row_offsets[cell->column*2]- scroll_y;
+				*height = week_view->row_heights[cell->column*2]*2;
+				*width = week_view->col_widths[0];
+				*x += week_view->col_offsets[0] - scroll_x;
+				*y += week_view->row_offsets[cell->column*2]- scroll_y;
 			} else {
 				if (cell->column == 5 - start_day) {
-                                        *height = week_view->row_heights[(cell->column - 3)*2];
-                                        *width = week_view->col_widths[1];
-                                        *x += week_view->col_offsets[1] - scroll_x;
-                                        *y += week_view->row_offsets[(cell->column - 3)*2]- scroll_y;
+					*height = week_view->row_heights[(cell->column - 3)*2];
+					*width = week_view->col_widths[1];
+					*x += week_view->col_offsets[1] - scroll_x;
+					*y += week_view->row_offsets[(cell->column - 3)*2]- scroll_y;
 				} else if (cell->column == 6 - start_day) {
-                                        *height = week_view->row_heights[(cell->column - 4)*2];
-                                        *width = week_view->col_widths[1];
-                                        *x += week_view->col_offsets[1] - scroll_x;
-                                        *y += week_view->row_offsets[(cell->column - 3)*2 - 1]- scroll_y;
+					*height = week_view->row_heights[(cell->column - 4)*2];
+					*width = week_view->col_widths[1];
+					*x += week_view->col_offsets[1] - scroll_x;
+					*y += week_view->row_offsets[(cell->column - 3)*2 - 1]- scroll_y;
 				} else if (cell->column > 6 - start_day) {
-                                        *height = week_view->row_heights[(cell->column - 4)*2]*2;
-                                        *width = week_view->col_widths[1];
-                                        *x += week_view->col_offsets[1] - scroll_x;
-                                        *y += week_view->row_offsets[(cell->column - 4)*2]- scroll_y;
+					*height = week_view->row_heights[(cell->column - 4)*2]*2;
+					*width = week_view->col_widths[1];
+					*x += week_view->col_offsets[1] - scroll_x;
+					*y += week_view->row_offsets[(cell->column - 4)*2]- scroll_y;
 				} else {
-                                        *height = week_view->row_heights[(cell->column - 3)*2]*2;
-                                        *width = week_view->col_widths[1];
-                                        *x += week_view->col_offsets[1] - scroll_x;
-                                        *y += week_view->row_offsets[(cell->column - 3)*2]- scroll_y;
+					*height = week_view->row_heights[(cell->column - 3)*2]*2;
+					*width = week_view->col_widths[1];
+					*x += week_view->col_offsets[1] - scroll_x;
+					*y += week_view->row_offsets[(cell->column - 3)*2]- scroll_y;
 				}
 			}
 		} else if (cell->column < 4) {
 			if (cell->column == 5 - start_day) {
-                                *height = week_view->row_heights[cell->column*2];
-                                *width = week_view->col_widths[0];
-                                *x += week_view->col_offsets[0] - scroll_x;
-                                *y += week_view->row_offsets[cell->column*2]- scroll_y;
+				*height = week_view->row_heights[cell->column*2];
+				*width = week_view->col_widths[0];
+				*x += week_view->col_offsets[0] - scroll_x;
+				*y += week_view->row_offsets[cell->column*2]- scroll_y;
 			} else if (cell->column == 6 - start_day) {
-                                *height = week_view->row_heights[(cell->column - 1)*2];
-                                *width = week_view->col_widths[0];
-                                *x += week_view->col_offsets[0] - scroll_x;
-                                *y += week_view->row_offsets[cell->column*2 - 1]- scroll_y;
+				*height = week_view->row_heights[(cell->column - 1)*2];
+				*width = week_view->col_widths[0];
+				*x += week_view->col_offsets[0] - scroll_x;
+				*y += week_view->row_offsets[cell->column*2 - 1]- scroll_y;
 			} else if (cell->column > 6 - start_day) {
-                                *height = week_view->row_heights[(cell->column - 1)*2]*2;
-                                *width = week_view->col_widths[0];
-                                *x += week_view->col_offsets[0] - scroll_x;
-                                *y += week_view->row_offsets[(cell->column - 1)*2]- scroll_y;
+				*height = week_view->row_heights[(cell->column - 1)*2]*2;
+				*width = week_view->col_widths[0];
+				*x += week_view->col_offsets[0] - scroll_x;
+				*y += week_view->row_offsets[(cell->column - 1)*2]- scroll_y;
 			} else {
-                                *height = week_view->row_heights[(cell->column)*2]*2;
-                                *width = week_view->col_widths[0];
-                                *x += week_view->col_offsets[0] - scroll_x;
-                                *y += week_view->row_offsets[cell->column*2]- scroll_y;
+				*height = week_view->row_heights[(cell->column)*2]*2;
+				*width = week_view->col_widths[0];
+				*x += week_view->col_offsets[0] - scroll_x;
+				*y += week_view->row_offsets[cell->column*2]- scroll_y;
 			}
 		} else {
-                        *height = week_view->row_heights[(cell->column - 4)*2]*2;
-                        *width = week_view->col_widths[1];
-                        *x += week_view->col_offsets[1] - scroll_x;
-                        *y += week_view->row_offsets[(cell->column - 4)*2]- scroll_y;
+			*height = week_view->row_heights[(cell->column - 4)*2]*2;
+			*width = week_view->col_widths[1];
+			*x += week_view->col_offsets[1] - scroll_x;
+			*y += week_view->row_offsets[(cell->column - 4)*2]- scroll_y;
 		}
 	}
 }

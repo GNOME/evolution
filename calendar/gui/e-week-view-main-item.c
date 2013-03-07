@@ -74,10 +74,13 @@ week_view_main_item_draw_day (EWeekViewMainItem *main_item,
 	PangoFontMetrics *font_metrics;
 	PangoLayout *layout;
 	gboolean today = FALSE;
+	gboolean multi_week_view;
 
 	week_view = e_week_view_main_item_get_week_view (main_item);
 	model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
 	style = gtk_widget_get_style (GTK_WIDGET (week_view));
+
+	multi_week_view = e_week_view_get_multi_week_view (week_view);
 
 	/* Set up Pango prerequisites */
 	font_desc = pango_font_description_copy (style->font_desc);
@@ -119,7 +122,7 @@ week_view_main_item_draw_day (EWeekViewMainItem *main_item,
 		bg_color = &week_view->colors[E_WEEK_VIEW_COLOR_TODAY_BACKGROUND];
 	else if (!e_cal_model_get_work_day (model, weekday))
 		bg_color = &week_view->colors[E_WEEK_VIEW_COLOR_MONTH_NONWORKING_DAY];
-	else if (week_view->multi_week_view && (month % 2 == 0))
+	else if (multi_week_view && (month % 2 == 0))
 		bg_color = &week_view->colors[E_WEEK_VIEW_COLOR_EVEN_MONTHS];
 	else
 		bg_color = &week_view->colors[E_WEEK_VIEW_COLOR_ODD_MONTHS];
@@ -162,7 +165,7 @@ week_view_main_item_draw_day (EWeekViewMainItem *main_item,
 				cr, &week_view->colors[E_WEEK_VIEW_COLOR_SELECTED]);
 		}
 
-		if (week_view->multi_week_view) {
+		if (multi_week_view) {
 			cairo_rectangle (
 				cr, x + 2, y + 1,
 				width - 5,
@@ -186,7 +189,7 @@ week_view_main_item_draw_day (EWeekViewMainItem *main_item,
 	 * the 1st of each month, otherwise use "10". */
 	show_day_name = FALSE;
 	show_month_name = FALSE;
-	if (!week_view->multi_week_view) {
+	if (!multi_week_view) {
 		show_day_name = TRUE;
 		show_month_name = TRUE;
 	} else if (day == 0 || day_of_month == 1) {
@@ -234,7 +237,7 @@ week_view_main_item_draw_day (EWeekViewMainItem *main_item,
 	if (selected) {
 		gdk_cairo_set_source_color (
 			cr, &week_view->colors[E_WEEK_VIEW_COLOR_DATES_SELECTED]);
-	} else if (week_view->multi_week_view) {
+	} else if (multi_week_view) {
 		if (today) {
 			gdk_cairo_set_source_color (
 				cr, &week_view->colors[E_WEEK_VIEW_COLOR_TODAY]);
@@ -277,7 +280,7 @@ week_view_main_item_draw_day (EWeekViewMainItem *main_item,
 	g_object_unref (layout);
 
 	/* Draw the line under the date. */
-	if (!week_view->multi_week_view) {
+	if (!multi_week_view) {
 		cairo_save (cr);
 		gdk_cairo_set_source_color (
 			cr, &week_view->colors[E_WEEK_VIEW_COLOR_GRID]);
@@ -378,13 +381,13 @@ week_view_main_item_draw (GnomeCanvasItem *canvas_item,
 	g_return_if_fail (week_view != NULL);
 
 	/* Step through each of the days. */
-	date = week_view->first_day_shown;
+	e_week_view_get_first_day_shown (week_view, &date);
 
 	/* If no date has been set, we just use Dec 1999/January 2000. */
 	if (!g_date_valid (&date))
 		g_date_set_dmy (&date, 27, 12, 1999);
 
-	num_days = week_view->multi_week_view ? week_view->weeks_shown * 7 : 7;
+	num_days = e_week_view_get_weeks_shown (week_view) * 7;
 	for (day = 0; day < num_days; day++) {
 		e_week_view_get_day_position (
 			week_view, day,

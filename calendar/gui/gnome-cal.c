@@ -221,6 +221,7 @@ update_adjustment (GnomeCalendar *gcal,
                    EWeekView *week_view)
 {
 	GDate date;
+	GDate first_day_shown;
 	ECalModel *model;
 	gint week_offset;
 	struct icaltimetype start_tt = icaltime_null_time ();
@@ -229,8 +230,10 @@ update_adjustment (GnomeCalendar *gcal,
 	icaltimezone *timezone;
 	gdouble value;
 
+	e_week_view_get_first_day_shown (week_view, &first_day_shown);
+
 	/* If we don't have a valid date set yet, just return. */
-	if (!g_date_valid (&week_view->first_day_shown))
+	if (!g_date_valid (&first_day_shown))
 		return;
 
 	value = gtk_adjustment_get_value (adjustment);
@@ -241,7 +244,7 @@ update_adjustment (GnomeCalendar *gcal,
 	g_date_add_days (&date, week_offset * 7);
 
 	/* Convert the old & new first days shown to julian values. */
-	old_first_day_julian = g_date_get_julian (&week_view->first_day_shown);
+	old_first_day_julian = g_date_get_julian (&first_day_shown);
 	new_first_day_julian = g_date_get_julian (&date);
 
 	/* If we are already showing the date, just return. */
@@ -1022,7 +1025,7 @@ get_times_for_views (GnomeCalendar *gcal,
 		display_start = (week_view->display_start_day + 1) % 7;
 
 		if (!range_selected && (
-			!week_view->multi_week_view ||
+			!e_week_view_get_multi_week_view (week_view) ||
 			!week_view->month_scroll_by_week))
 			*start_time = time_month_begin_with_zone (
 				*start_time, timezone);
@@ -2203,7 +2206,7 @@ gnome_calendar_update_date_navigator (GnomeCalendar *gcal)
 	GnomeCalendarPrivate *priv;
 	ECalModel *model;
 	time_t start, end;
-	gint week_start_day;
+	GDateWeekday week_start_day;
 	GDate start_date, end_date;
 	icaltimezone *timezone;
 
@@ -2230,8 +2233,9 @@ gnome_calendar_update_date_navigator (GnomeCalendar *gcal)
 	if (priv->current_view_type == GNOME_CAL_MONTH_VIEW) {
 		EWeekView *week_view = E_WEEK_VIEW (priv->views[priv->current_view_type]);
 
-		if (week_start_day == 0
-		    && (!week_view->multi_week_view || week_view->compress_weekend))
+		if (week_start_day == G_DATE_MONDAY &&
+		   (!e_week_view_get_multi_week_view (week_view) ||
+		    e_week_view_get_compress_weekend (week_view)))
 			g_date_add_days (&start_date, 1);
 	}
 	time_to_gdate_with_zone (&end_date, end, timezone);

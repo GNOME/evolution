@@ -372,10 +372,7 @@ ea_week_view_main_item_get_n_children (AtkObject *accessible)
 	main_item = E_WEEK_VIEW_MAIN_ITEM (g_obj);
 	week_view = e_week_view_main_item_get_week_view (main_item);
 
-	if (week_view->multi_week_view)
-		return 7 * week_view->weeks_shown;
-	else
-		return 7;
+	return e_week_view_get_weeks_shown (week_view) * 7;
 }
 
 static AtkObject *
@@ -529,6 +526,7 @@ ea_week_view_main_item_get_child_index_at (EaWeekViewMainItem *ea_main_item,
 	GObject *g_obj;
 	EWeekViewMainItem *main_item;
 	EWeekView *week_view;
+	gint weeks_shown;
 
 	g_return_val_if_fail (ea_main_item, -1);
 
@@ -539,9 +537,9 @@ ea_week_view_main_item_get_child_index_at (EaWeekViewMainItem *ea_main_item,
 
 	main_item = E_WEEK_VIEW_MAIN_ITEM (g_obj);
 	week_view = e_week_view_main_item_get_week_view (main_item);
+	weeks_shown = e_week_view_get_weeks_shown (week_view);
 
-	if (row >= 0 && row < week_view->weeks_shown &&
-	    column >= 0 && column < 7)
+	if (row >= 0 && row < weeks_shown && column >= 0 && column < 7)
 		return row * 7 + column;
 
 	return -1;
@@ -619,6 +617,7 @@ ea_week_view_main_item_get_cell_data (EaWeekViewMainItem *ea_main_item)
 	EWeekViewMainItem *main_item;
 	EWeekView *week_view;
 	EaCellTable *cell_data;
+	gint weeks_shown;
 
 	g_return_val_if_fail (ea_main_item, NULL);
 
@@ -629,12 +628,13 @@ ea_week_view_main_item_get_cell_data (EaWeekViewMainItem *ea_main_item)
 
 	main_item = E_WEEK_VIEW_MAIN_ITEM (g_obj);
 	week_view = e_week_view_main_item_get_week_view (main_item);
+	weeks_shown = e_week_view_get_weeks_shown (week_view);
 
 	cell_data = g_object_get_data (
 		G_OBJECT (ea_main_item),
 		"ea-week-view-cell-table");
 	if (!cell_data) {
-		cell_data = ea_cell_table_create (week_view->weeks_shown, 7, TRUE);
+		cell_data = ea_cell_table_create (weeks_shown, 7, TRUE);
 		g_object_set_data (
 			G_OBJECT (ea_main_item),
 			"ea-week-view-cell-table", cell_data);
@@ -766,7 +766,7 @@ table_interface_get_n_rows (AtkTable *table)
 	main_item = E_WEEK_VIEW_MAIN_ITEM (g_obj);
 	week_view = e_week_view_main_item_get_week_view (main_item);
 
-	return week_view->weeks_shown;
+	return e_week_view_get_weeks_shown (week_view);
 }
 
 static gint
@@ -862,6 +862,7 @@ table_interface_is_row_selected (AtkTable *table,
 	EWeekViewMainItem *main_item;
 	EWeekView *week_view;
 	EaWeekViewMainItem * ea_main_item = EA_WEEK_VIEW_MAIN_ITEM (table);
+	gint weeks_shown;
 
 	atk_gobj = ATK_GOBJECT_ACCESSIBLE (ea_main_item);
 	g_obj = atk_gobject_accessible_get_object (atk_gobj);
@@ -870,11 +871,12 @@ table_interface_is_row_selected (AtkTable *table,
 
 	main_item = E_WEEK_VIEW_MAIN_ITEM (g_obj);
 	week_view = e_week_view_main_item_get_week_view (main_item);
+	weeks_shown = e_week_view_get_weeks_shown (week_view);
 
 	if (week_view->selection_start_day == -1)
 		/* no selection */
 		return FALSE;
-	if ((row < 0) && (row + 1 > week_view->weeks_shown))
+	if ((row < 0) && (row + 1 > weeks_shown))
 		return FALSE;
 	if (((week_view->selection_start_day < row * 7) &&
 		(week_view->selection_end_day < row * 7)) ||
@@ -903,6 +905,7 @@ table_interface_is_column_selected (AtkTable *table,
 	EWeekViewMainItem *main_item;
 	EWeekView *week_view;
 	EaWeekViewMainItem * ea_main_item = EA_WEEK_VIEW_MAIN_ITEM (table);
+	gint weeks_shown;
 
 	atk_gobj = ATK_GOBJECT_ACCESSIBLE (ea_main_item);
 	g_obj = atk_gobject_accessible_get_object (atk_gobj);
@@ -911,12 +914,13 @@ table_interface_is_column_selected (AtkTable *table,
 
 	main_item = E_WEEK_VIEW_MAIN_ITEM (g_obj);
 	week_view = e_week_view_main_item_get_week_view (main_item);
+	weeks_shown = e_week_view_get_weeks_shown (week_view);
 
 	if ((column <0) || (column >6))
 		return FALSE;
 	else {
 		gint i;
-		for (i = 0; i < week_view->weeks_shown; i++)
+		for (i = 0; i < weeks_shown; i++)
 			if ((column + i *7>= week_view->selection_start_day) &&
 			    (column + i *7<= week_view->selection_end_day))
 				return TRUE;
@@ -1040,6 +1044,7 @@ table_interface_add_column_selection (AtkTable *table,
 	EWeekViewMainItem *main_item;
 	EWeekView *week_view;
 	EaWeekViewMainItem * ea_main_item = EA_WEEK_VIEW_MAIN_ITEM (table);
+	gint weeks_shown;
 
 	atk_gobj = ATK_GOBJECT_ACCESSIBLE (ea_main_item);
 	g_obj = atk_gobject_accessible_get_object (atk_gobj);
@@ -1048,11 +1053,12 @@ table_interface_add_column_selection (AtkTable *table,
 
 	main_item = E_WEEK_VIEW_MAIN_ITEM (g_obj);
 	week_view = e_week_view_main_item_get_week_view (main_item);
+	weeks_shown = e_week_view_get_weeks_shown (week_view);
 
 	/* FIXME: we need multi-selection */
 
 	week_view->selection_start_day = column;
-	week_view->selection_end_day = (week_view->weeks_shown - 1) * 7 + column;
+	week_view->selection_end_day = (weeks_shown - 1) * 7 + column;
 
 	gtk_widget_queue_draw (week_view->main_canvas);
 	return TRUE;
@@ -1157,6 +1163,7 @@ table_interface_get_row_description (AtkTable *table,
 	EaWeekViewMainItem * ea_main_item = EA_WEEK_VIEW_MAIN_ITEM (table);
 	const gchar *description;
 	EaCellTable *cell_data;
+	gint weeks_shown;
 
 	atk_gobj = ATK_GOBJECT_ACCESSIBLE (ea_main_item);
 	g_obj = atk_gobject_accessible_get_object (atk_gobj);
@@ -1165,8 +1172,9 @@ table_interface_get_row_description (AtkTable *table,
 
 	main_item = E_WEEK_VIEW_MAIN_ITEM (g_obj);
 	week_view = e_week_view_main_item_get_week_view (main_item);
+	weeks_shown = e_week_view_get_weeks_shown (week_view);
 
-	if (row < 0 || row >= week_view->weeks_shown)
+	if (row < 0 || row >= weeks_shown)
 		return NULL;
 	cell_data = ea_week_view_main_item_get_cell_data (ea_main_item);
 	if (!cell_data)
@@ -1213,6 +1221,7 @@ selection_interface_add_selection (AtkSelection *selection,
 	EWeekViewMainItem *main_item;
 	EWeekView *week_view;
 	EaWeekViewMainItem * ea_main_item = EA_WEEK_VIEW_MAIN_ITEM (selection);
+	gint weeks_shown;
 
 	atk_gobj = ATK_GOBJECT_ACCESSIBLE (ea_main_item);
 	g_obj = atk_gobject_accessible_get_object (atk_gobj);
@@ -1221,8 +1230,9 @@ selection_interface_add_selection (AtkSelection *selection,
 
 	main_item = E_WEEK_VIEW_MAIN_ITEM (g_obj);
 	week_view = e_week_view_main_item_get_week_view (main_item);
+	weeks_shown = e_week_view_get_weeks_shown (week_view);
 
-	if (i < 0 || i > week_view->weeks_shown * 7 -1)
+	if (i < 0 || i > weeks_shown * 7 -1)
 		return FALSE;
 
 	/*FIXME: multi-selection is needed */

@@ -204,29 +204,9 @@ struct _EWeekView {
 	/* The base date, where the adjustment value is 0. */
 	GDate base_date;
 
-	/* The first day shown in the view. */
-	GDate first_day_shown;
-
-	/* If we are displaying multiple weeks in rows. If this is FALSE only
-	 * one week is shown, with a different layout. */
-	gboolean multi_week_view;
-
 	/* TRUE when requires scrolling by a week in a multi_week_view */
 	gboolean month_scroll_by_week;
 	guint scroll_by_week_notif_id;
-
-	gboolean update_base_date;
-
-	/* How many weeks we are showing. This is only relevant if
-	 * display_month is TRUE. */
-	gint weeks_shown;
-
-	/* If Sat & Sun are compressed. Only applicable in month view, since
-	 * they are always compressed into 1 cell in the week view. */
-	gboolean compress_weekend;
-
-	/* Whether we use show event end times. */
-	gboolean show_event_end_times;
 
 	/* The first day of the week we display, 0 (Monday) to 6 (Sunday).
 	 * This will usually be week_start_day, but if the weekend is
@@ -387,7 +367,7 @@ void		e_week_view_set_update_base_date (EWeekView *week_view,
 						 gboolean update_base_date);
 
 /* The number of weeks shown in the multi-week view. */
-gint e_week_view_get_weeks_shown	(EWeekView *week_view);
+gint		e_week_view_get_weeks_shown	(EWeekView *week_view);
 void		e_week_view_set_weeks_shown	(EWeekView *week_view,
 						 gint weeks_shown);
 

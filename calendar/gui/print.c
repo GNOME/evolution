@@ -2277,15 +2277,20 @@ print_month_summary (GtkPrintContext *context,
 		GnomeCalendarViewType view_type;
 		ECalendarView *calendar_view;
 		EWeekView *week_view;
+		GDate first_day_shown;
+		gboolean multi_week_view;
+		gint weeks_shown;
 
 		view_type = gnome_calendar_get_view (gcal);
 		calendar_view = gnome_calendar_get_calendar_view (gcal, view_type);
 		week_view = E_WEEK_VIEW (calendar_view);
+		weeks_shown = e_week_view_get_weeks_shown (week_view);
+		multi_week_view = e_week_view_get_multi_week_view (week_view);
+		e_week_view_get_first_day_shown (week_view, &first_day_shown);
 
-		if (week_view && week_view->multi_week_view
-		    && !(week_view->weeks_shown >= 4 &&
-		    g_date_valid (&week_view->first_day_shown))) {
-			weeks = week_view->weeks_shown;
+		if (multi_week_view && !(weeks_shown >= 4 &&
+		    g_date_valid (&first_day_shown))) {
+			weeks = weeks_shown;
 			date = whence;
 		}
 	}
@@ -3374,16 +3379,21 @@ print_calendar (GnomeCalendar *gcal,
 		GnomeCalendarViewType view_type;
 		ECalendarView *calendar_view;
 		EWeekView *week_view;
+		GDate date;
+		gboolean multi_week_view;
+		gint weeks_shown;
 
 		view_type = gnome_calendar_get_view (gcal);
 		calendar_view = gnome_calendar_get_calendar_view (gcal, view_type);
 		week_view = E_WEEK_VIEW (calendar_view);
+		weeks_shown = e_week_view_get_weeks_shown (week_view);
+		multi_week_view = e_week_view_get_multi_week_view (week_view);
+		e_week_view_get_first_day_shown (week_view, &date);
 
-		if (week_view && week_view->multi_week_view &&
-			week_view->weeks_shown >= 4 &&
-			g_date_valid (&week_view->first_day_shown)) {
+		if (multi_week_view &&
+		    weeks_shown >= 4 &&
+		    g_date_valid (&date)) {
 
-			GDate date = week_view->first_day_shown;
 			struct icaltimetype start_tt;
 
 			g_date_add_days (&date, 7);
@@ -3395,7 +3405,7 @@ print_calendar (GnomeCalendar *gcal,
 			start_tt.day = g_date_get_day (&date);
 
 			start = icaltime_as_timet (start_tt);
-		} else if (week_view && week_view->multi_week_view) {
+		} else if (multi_week_view) {
 			start = week_view->day_starts[0];
 		}
 	}
