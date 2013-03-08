@@ -290,8 +290,9 @@ e_ui_manager_add_ui_from_file (EUIManager *ui_manager,
  * EUIManager:express-mode property is %TRUE, a simplified version of
  * the UI may be presented.
  *
- * Failure here is <i>not</i> fatal, since the function is primarily
- * used to load UI definitions for plugins, which we can get by without.
+ * Failure here is <emphasis>not</emphasis> fatal, since the function is
+ * primarily used to load UI definitions for plugins, which we can get by
+ * without.
  *
  * Returns: The merge ID for the merged UI.  The merge ID can be used to
  *          unmerge the UI with gtk_ui_manager_remove_ui().
