@@ -7,6 +7,17 @@
     <value nick='days'    value='2'/>
   </enum>
 
+  <!-- Keep this synchronized with GDateWeekday. -->
+  <enum id="org.gnome.evolution.calendar.Weekday">
+    <value nick='monday'    value='1'/>
+    <value nick='tuesday'   value='2'/>
+    <value nick='wednesday' value='3'/>
+    <value nick='thursday'  value='4'/>
+    <value nick='friday'    value='5'/>
+    <value nick='saturday'  value='6'/>
+    <value nick='sunday'    value='7'/>
+  </enum>
+
   <schema gettext-domain="evolution" id="org.gnome.evolution.calendar" path="/org/gnome/evolution/calendar/">
     <key name="audio-dir" type="s">
       <default>''</default>
@@ -318,16 +329,24 @@
       <_summary>Use system timezone</_summary>
       <_description>Use the system timezone instead of the timezone selected in Evolution</_description>
     </key>
-    <key name="week-start-day" type="i">
-      <default>1</default>
-      <_summary>Week start</_summary>
-      <_description>Weekday the week starts on, from Sunday (0) to Saturday (6)</_description>
+    <key name="week-start-day-name" enum="org.gnome.evolution.calendar.Weekday">
+      <default>'monday'</default>
+      <_summary>First day of the week</_summary>
     </key>
     <key name="working-days" type="i">
       <default>62</default>
       <_summary>Work days</_summary>
       <_description>Days on which the start and end of work hours should be indicated</_description>
     </key>
+
+    <!-- The following keys are deprecated. -->
+
+    <key name="week-start-day" type="i">
+      <default>1</default>
+      <_summary>(Deprecated) First day of the week, from Sunday (0) to Saturday (6)</_summary>
+      <_description>This key was deprecated in version 3.10 and should no longer be used.  Use "week-start-day-name" instead.</_description>
+    </key>
+
   </schema>
 
 </schemalist>
