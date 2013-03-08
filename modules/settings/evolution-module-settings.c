@@ -22,6 +22,7 @@
 #include "e-settings-client-cache.h"
 #include "e-settings-comp-editor.h"
 #include "e-settings-date-edit.h"
+#include "e-settings-deprecated.h"
 #include "e-settings-mail-formatter.h"
 #include "e-settings-mail-reader.h"
 #include "e-settings-meeting-store.h"
@@ -46,6 +47,7 @@ e_module_load (GTypeModule *type_module)
 	e_settings_client_cache_type_register (type_module);
 	e_settings_comp_editor_type_register (type_module);
 	e_settings_date_edit_type_register (type_module);
+	e_settings_deprecated_type_register (type_module);
 	e_settings_mail_formatter_type_register (type_module);
 	e_settings_mail_reader_type_register (type_module);
 	e_settings_meeting_store_type_register (type_module);
