@@ -283,21 +283,11 @@ GtkWidget *	e_meeting_time_selector_new	(EMeetingStore *ems);
 void		e_meeting_time_selector_construct
 						(EMeetingTimeSelector *mts,
 						 EMeetingStore *ems);
-gboolean	e_meeting_time_selector_get_show_week_numbers
-						(EMeetingTimeSelector *mts);
-void		e_meeting_time_selector_set_show_week_numbers
-						(EMeetingTimeSelector *mts,
-						 gboolean show_week_numbers);
 gboolean	e_meeting_time_selector_get_use_24_hour_format
 						(EMeetingTimeSelector *mts);
 void		e_meeting_time_selector_set_use_24_hour_format
 						(EMeetingTimeSelector *mts,
 						 gboolean use_24_hour_format);
-gint		e_meeting_time_selector_get_week_start_day
-						(EMeetingTimeSelector *mts);
-void		e_meeting_time_selector_set_week_start_day
-						(EMeetingTimeSelector *mts,
-						 gint week_start_day);
 
 /* This returns the currently selected meeting time.
  * Note that months are 1-12 and days are 1-31. The start time is guaranteed to

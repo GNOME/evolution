@@ -45,9 +45,7 @@
 	((obj), E_TYPE_MEETING_TIME_SELECTOR, EMeetingTimeSelectorPrivate))
 
 struct _EMeetingTimeSelectorPrivate {
-	gint week_start_day;
-	guint show_week_numbers  : 1;
-	guint use_24_hour_format : 1;
+	gboolean use_24_hour_format;
 };
 
 /* An array of hour strings for 24 hour time, "0:00" .. "23:00". */
@@ -80,9 +78,7 @@ const gchar *EMeetingTimeSelectorHours12[24] = {
 
 enum {
 	PROP_0,
-	PROP_SHOW_WEEK_NUMBERS,
-	PROP_USE_24_HOUR_FORMAT,
-	PROP_WEEK_START_DAY
+	PROP_USE_24_HOUR_FORMAT
 };
 
 enum {
@@ -213,22 +209,10 @@ meeting_time_selector_set_property (GObject *object,
                                     GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_SHOW_WEEK_NUMBERS:
-			e_meeting_time_selector_set_show_week_numbers (
-				E_MEETING_TIME_SELECTOR (object),
-				g_value_get_boolean (value));
-			return;
-
 		case PROP_USE_24_HOUR_FORMAT:
 			e_meeting_time_selector_set_use_24_hour_format (
 				E_MEETING_TIME_SELECTOR (object),
 				g_value_get_boolean (value));
-			return;
-
-		case PROP_WEEK_START_DAY:
-			e_meeting_time_selector_set_week_start_day (
-				E_MEETING_TIME_SELECTOR (object),
-				g_value_get_int (value));
 			return;
 	}
 
@@ -242,24 +226,10 @@ meeting_time_selector_get_property (GObject *object,
                                     GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_SHOW_WEEK_NUMBERS:
-			g_value_set_boolean (
-				value,
-				e_meeting_time_selector_get_show_week_numbers (
-				E_MEETING_TIME_SELECTOR (object)));
-			return;
-
 		case PROP_USE_24_HOUR_FORMAT:
 			g_value_set_boolean (
 				value,
 				e_meeting_time_selector_get_use_24_hour_format (
-				E_MEETING_TIME_SELECTOR (object)));
-			return;
-
-		case PROP_WEEK_START_DAY:
-			g_value_set_int (
-				value,
-				e_meeting_time_selector_get_week_start_day (
 				E_MEETING_TIME_SELECTOR (object)));
 			return;
 	}
@@ -322,34 +292,12 @@ e_meeting_time_selector_class_init (EMeetingTimeSelectorClass *class)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_SHOW_WEEK_NUMBERS,
-		g_param_spec_boolean (
-			"show-week-numbers",
-			"Show Week Numbers",
-			NULL,
-			TRUE,
-			G_PARAM_READWRITE));
-
-	g_object_class_install_property (
-		object_class,
 		PROP_USE_24_HOUR_FORMAT,
 		g_param_spec_boolean (
 			"use-24-hour-format",
 			"Use 24-Hour Format",
 			NULL,
 			TRUE,
-			G_PARAM_READWRITE));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_WEEK_START_DAY,
-		g_param_spec_int (
-			"week-start-day",
-			"Week Start Day",
-			NULL,
-			0,  /* Monday */
-			6,  /* Sunday */
-			0,
 			G_PARAM_READWRITE));
 
 	signals[CHANGED] = g_signal_new (
@@ -1015,28 +963,6 @@ e_meeting_time_selector_new (EMeetingStore *ems)
 }
 
 gboolean
-e_meeting_time_selector_get_show_week_numbers (EMeetingTimeSelector *mts)
-{
-	g_return_val_if_fail (E_IS_MEETING_TIME_SELECTOR (mts), FALSE);
-
-	return mts->priv->show_week_numbers;
-}
-
-void
-e_meeting_time_selector_set_show_week_numbers (EMeetingTimeSelector *mts,
-                                               gboolean show_week_numbers)
-{
-	g_return_if_fail (E_IS_MEETING_TIME_SELECTOR (mts));
-
-	if (mts->priv->show_week_numbers == show_week_numbers)
-		return;
-
-	mts->priv->show_week_numbers = show_week_numbers;
-
-	g_object_notify (G_OBJECT (mts), "show-week-numbers");
-}
-
-gboolean
 e_meeting_time_selector_get_use_24_hour_format (EMeetingTimeSelector *mts)
 {
 	g_return_val_if_fail (E_IS_MEETING_TIME_SELECTOR (mts), FALSE);
@@ -1056,28 +982,6 @@ e_meeting_time_selector_set_use_24_hour_format (EMeetingTimeSelector *mts,
 	mts->priv->use_24_hour_format = use_24_hour_format;
 
 	g_object_notify (G_OBJECT (mts), "use-24-hour-format");
-}
-
-gint
-e_meeting_time_selector_get_week_start_day (EMeetingTimeSelector *mts)
-{
-	g_return_val_if_fail (E_IS_MEETING_TIME_SELECTOR (mts), 0);
-
-	return mts->priv->week_start_day;
-}
-
-void
-e_meeting_time_selector_set_week_start_day (EMeetingTimeSelector *mts,
-                                            gint week_start_day)
-{
-	g_return_if_fail (E_IS_MEETING_TIME_SELECTOR (mts));
-
-	if (mts->priv->week_start_day == week_start_day)
-		return;
-
-	mts->priv->week_start_day = week_start_day;
-
-	g_object_notify (G_OBJECT (mts), "week-start-day");
 }
 
 static cairo_pattern_t *

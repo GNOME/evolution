@@ -53,18 +53,8 @@ settings_meeting_time_selector_constructed (GObject *object)
 	shell_settings = e_shell_get_shell_settings (shell);
 
 	g_object_bind_property (
-		shell_settings, "cal-show-week-numbers",
-		extensible, "show-week-numbers",
-		G_BINDING_SYNC_CREATE);
-
-	g_object_bind_property (
 		shell_settings, "cal-use-24-hour-format",
 		extensible, "use-24-hour-format",
-		G_BINDING_SYNC_CREATE);
-
-	g_object_bind_property (
-		shell_settings, "cal-week-start-day",
-		extensible, "week-start-day",
 		G_BINDING_SYNC_CREATE);
 
 	/* Chain up to parent's constructed() method. */
