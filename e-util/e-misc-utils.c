@@ -1648,6 +1648,92 @@ e_weekday_get_days_between (GDateWeekday weekday1,
 	return n_days;
 }
 
+/**
+ * e_weekday_to_tm_wday:
+ * @weekday: a #GDateWeekday
+ *
+ * Converts a #GDateWeekday to the numbering used in
+ * <structname>struct tm</structname>.
+ *
+ * Returns: number of days since Sunday (0 - 6)
+ **/
+gint
+e_weekday_to_tm_wday (GDateWeekday weekday)
+{
+	gint tm_wday;
+
+	switch (weekday) {
+		case G_DATE_MONDAY:
+			tm_wday = 1;
+			break;
+		case G_DATE_TUESDAY:
+			tm_wday = 2;
+			break;
+		case G_DATE_WEDNESDAY:
+			tm_wday = 3;
+			break;
+		case G_DATE_THURSDAY:
+			tm_wday = 4;
+			break;
+		case G_DATE_FRIDAY:
+			tm_wday = 5;
+			break;
+		case G_DATE_SATURDAY:
+			tm_wday = 6;
+			break;
+		case G_DATE_SUNDAY:
+			tm_wday = 0;
+			break;
+		default:
+			g_return_val_if_reached (-1);
+	}
+
+	return tm_wday;
+}
+
+/**
+ * e_weekday_from_tm_wday:
+ * @tm_wday: number of days since Sunday (0 - 6)
+ *
+ * Converts a weekday in the numbering used in
+ * <structname>struct tm</structname> to a #GDateWeekday.
+ *
+ * Returns: a #GDateWeekday
+ **/
+GDateWeekday
+e_weekday_from_tm_wday (gint tm_wday)
+{
+	GDateWeekday weekday;
+
+	switch (tm_wday) {
+		case 0:
+			weekday = G_DATE_SUNDAY;
+			break;
+		case 1:
+			weekday = G_DATE_MONDAY;
+			break;
+		case 2:
+			weekday = G_DATE_TUESDAY;
+			break;
+		case 3:
+			weekday = G_DATE_WEDNESDAY;
+			break;
+		case 4:
+			weekday = G_DATE_THURSDAY;
+			break;
+		case 5:
+			weekday = G_DATE_FRIDAY;
+			break;
+		case 6:
+			weekday = G_DATE_SATURDAY;
+			break;
+		default:
+			g_return_val_if_reached (G_DATE_BAD_WEEKDAY);
+	}
+
+	return weekday;
+}
+
 /* Evolution Locks for crash recovery */
 static const gchar *
 get_lock_filename (void)

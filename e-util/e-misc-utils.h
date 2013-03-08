@@ -147,6 +147,8 @@ GDateWeekday	e_weekday_subtract_days		(GDateWeekday weekday,
 						 guint n_days);
 guint		e_weekday_get_days_between	(GDateWeekday weekday1,
 						 GDateWeekday weekday2);
+gint		e_weekday_to_tm_wday		(GDateWeekday weekday);
+GDateWeekday	e_weekday_from_tm_wday		(gint tm_wday);
 
 gboolean	e_file_lock_create		(void);
 void		e_file_lock_destroy		(void);

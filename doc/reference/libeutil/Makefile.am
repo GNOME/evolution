@@ -62,6 +62,9 @@ GTKDOC_LIBS = 						\
 	$(GTKHTML_LIBS)					\
 	$(NULL)
 
+# Extra options to supply to gtkdoc-mkdb
+MKDB_OPTIONS = --output-format=xml --sgml-mode
+
 # This includes the standard gtk-doc make rules, copied by gtkdocize.
 include $(top_srcdir)/gtk-doc.make
 
