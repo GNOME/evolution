@@ -333,10 +333,33 @@
       <default>'monday'</default>
       <_summary>First day of the week</_summary>
     </key>
-    <key name="working-days" type="i">
-      <default>62</default>
-      <_summary>Work days</_summary>
-      <_description>Days on which the start and end of work hours should be indicated</_description>
+    <key name="work-day-monday" type="b">
+      <default>true</default>
+      <_summary>Monday is a work day</_summary>
+    </key>
+    <key name="work-day-tuesday" type="b">
+      <default>true</default>
+      <_summary>Tuesday is a work day</_summary>
+    </key>
+    <key name="work-day-wednesday" type="b">
+      <default>true</default>
+      <_summary>Wednesday is a work day</_summary>
+    </key>
+    <key name="work-day-thursday" type="b">
+      <default>true</default>
+      <_summary>Thursday is a work day</_summary>
+    </key>
+    <key name="work-day-friday" type="b">
+      <default>true</default>
+      <_summary>Friday is a work day</_summary>
+    </key>
+    <key name="work-day-saturday" type="b">
+      <default>false</default>
+      <_summary>Saturday is a work day</_summary>
+    </key>
+    <key name="work-day-sunday" type="b">
+      <default>false</default>
+      <_summary>Sunday is a work day</_summary>
     </key>
 
     <!-- The following keys are deprecated. -->
@@ -345,6 +368,11 @@
       <default>1</default>
       <_summary>(Deprecated) First day of the week, from Sunday (0) to Saturday (6)</_summary>
       <_description>This key was deprecated in version 3.10 and should no longer be used.  Use "week-start-day-name" instead.</_description>
+    </key>
+    <key name="working-days" type="i">
+      <default>62</default>
+      <_summary>(Deprecated) Work days</_summary>
+      <_description>Days on which the start and end of work hours should be indicated.  (This key was deprecated in version 3.10 and should no longer be used.  Use the "work-day-monday", "work-day-tuesday", etc. keys instead.)</_description>
     </key>
 
   </schema>
