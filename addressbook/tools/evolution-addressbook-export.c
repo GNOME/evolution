@@ -182,12 +182,6 @@ main (gint argc,
 		exit (-1);
 	}
 
-	/* Flush any undispatched event sources from the default main
-	 * loop context.  Since this program does not use a main loop,
-	 * these scheduled event sources would otherwise leak. */
-	while (g_main_context_pending (NULL))
-		g_main_context_iteration (NULL, FALSE);
-
 	g_object_unref (actctx.registry);
 
 	/*FIXME:should free actctx's some gchar * field, such as output_file! but since the program will end, so that will not cause mem leak.  */
