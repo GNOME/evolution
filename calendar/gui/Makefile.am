@@ -39,12 +39,12 @@ ecalendarinclude_HEADERS =			\
 	e-week-view-main-item.h			\
 	e-week-view-titles-item.h		\
 	e-week-view.h				\
+	e-weekday-chooser.h			\
 	e-timezone-entry.h			\
 	gnome-cal.h				\
 	itip-utils.h				\
 	misc.h					\
-	tag-calendar.h				\
-	weekday-picker.h
+	tag-calendar.h
 
 search_files = tasktypes.xml memotypes.xml caltypes.xml
 
@@ -160,6 +160,8 @@ libevolution_calendar_la_SOURCES = \
 	e-week-view-titles-item.h		\
 	e-week-view.c				\
 	e-week-view.h				\
+	e-weekday-chooser.c			\
+	e-weekday-chooser.h			\
 	e-timezone-entry.c			\
 	e-timezone-entry.h			\
 	gnome-cal.c				\
@@ -172,8 +174,6 @@ libevolution_calendar_la_SOURCES = \
 	print.h					\
 	tag-calendar.c				\
 	tag-calendar.h				\
-	weekday-picker.c			\
-	weekday-picker.h			\
 	ea-calendar.c				\
 	ea-calendar.h				\
 	ea-calendar-helpers.c			\

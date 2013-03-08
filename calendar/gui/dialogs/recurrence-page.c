@@ -34,7 +34,7 @@
 #include <glib/gi18n.h>
 
 #include "../tag-calendar.h"
-#include "../weekday-picker.h"
+#include "../e-weekday-chooser.h"
 #include "comp-editor-util.h"
 #include "../e-date-time-list.h"
 #include "recurrence-page.h"
@@ -145,7 +145,7 @@ struct _RecurrencePagePrivate {
 	GtkWidget *custom_warning_bin;
 
 	/* For weekly recurrences, created by hand */
-	GtkWidget *weekday_picker;
+	GtkWidget *weekday_chooser;
 	guint8 weekday_day_mask;
 	guint8 weekday_blocked_day_mask;
 
@@ -760,10 +760,10 @@ simple_recur_to_comp (RecurrencePage *rpage,
 		gint i;
 
 		g_return_if_fail (gtk_bin_get_child (GTK_BIN (priv->special)) != NULL);
-		g_return_if_fail (priv->weekday_picker != NULL);
-		g_return_if_fail (IS_WEEKDAY_PICKER (priv->weekday_picker));
+		g_return_if_fail (E_IS_WEEKDAY_CHOOSER (priv->weekday_chooser));
 
-		day_mask = weekday_picker_get_days (WEEKDAY_PICKER (priv->weekday_picker));
+		day_mask = e_weekday_chooser_get_days (
+			E_WEEKDAY_CHOOSER (priv->weekday_chooser));
 
 		i = 0;
 
@@ -1029,13 +1029,13 @@ make_weekly_special (RecurrencePage *rpage)
 	RecurrencePagePrivate *priv;
 	GtkWidget *hbox;
 	GtkWidget *label;
-	WeekdayPicker *wp;
+	EWeekdayChooser *chooser;
 	gint week_start_day;
 
 	priv = rpage->priv;
 
 	g_return_if_fail (gtk_bin_get_child (GTK_BIN (priv->special)) == NULL);
-	g_return_if_fail (priv->weekday_picker == NULL);
+	g_return_if_fail (priv->weekday_chooser == NULL);
 
 	/* Create the widgets */
 
@@ -1047,21 +1047,21 @@ make_weekly_special (RecurrencePage *rpage)
 	label = gtk_label_new (_("on"));
 	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 6);
 
-	wp = WEEKDAY_PICKER (weekday_picker_new ());
+	priv->weekday_chooser = e_weekday_chooser_new ();
+	chooser = E_WEEKDAY_CHOOSER (priv->weekday_chooser);
 
-	priv->weekday_picker = GTK_WIDGET (wp);
-	gtk_box_pack_start (GTK_BOX (hbox), GTK_WIDGET (wp), FALSE, FALSE, 6);
+	gtk_box_pack_start (GTK_BOX (hbox), GTK_WIDGET (chooser), FALSE, FALSE, 6);
 
 	gtk_widget_show_all (hbox);
 
 	/* Set the weekdays */
 
 	week_start_day = e_meeting_store_get_week_start_day (priv->meeting_store);
-	weekday_picker_set_week_start_day (wp, week_start_day);
-	weekday_picker_set_days (wp, priv->weekday_day_mask);
+	e_weekday_chooser_set_week_start_day (chooser, week_start_day);
+	e_weekday_chooser_set_days (chooser, priv->weekday_day_mask);
 
 	g_signal_connect_swapped (
-		wp, "changed",
+		chooser, "changed",
 		G_CALLBACK (comp_editor_page_changed), rpage);
 }
 
@@ -1403,7 +1403,7 @@ make_recurrence_special (RecurrencePage *rpage)
 	if (child != NULL) {
 		gtk_widget_destroy (child);
 
-		priv->weekday_picker = NULL;
+		priv->weekday_chooser = NULL;
 		priv->month_day_combo = NULL;
 	}
 
@@ -2085,12 +2085,12 @@ recurrence_page_set_dates (CompEditorPage *page,
 		priv->weekday_day_mask = priv->weekday_day_mask | mask;
 		priv->weekday_blocked_day_mask = mask;
 
-		if (priv->weekday_picker != NULL) {
-			weekday_picker_set_days (
-				WEEKDAY_PICKER (priv->weekday_picker),
+		if (priv->weekday_chooser != NULL) {
+			e_weekday_chooser_set_days (
+				E_WEEKDAY_CHOOSER (priv->weekday_chooser),
 				priv->weekday_day_mask);
-			weekday_picker_set_blocked_days (
-				WEEKDAY_PICKER (priv->weekday_picker),
+			e_weekday_chooser_set_blocked_days (
+				E_WEEKDAY_CHOOSER (priv->weekday_chooser),
 				priv->weekday_blocked_day_mask);
 		}
 	}
