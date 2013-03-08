@@ -1030,7 +1030,6 @@ make_weekly_special (RecurrencePage *rpage)
 	GtkWidget *hbox;
 	GtkWidget *label;
 	EWeekdayChooser *chooser;
-	gint week_start_day;
 
 	priv = rpage->priv;
 
@@ -1056,8 +1055,6 @@ make_weekly_special (RecurrencePage *rpage)
 
 	/* Set the weekdays */
 
-	week_start_day = e_meeting_store_get_week_start_day (priv->meeting_store);
-	e_weekday_chooser_set_week_start_day (chooser, week_start_day);
 	e_weekday_chooser_set_days (chooser, priv->weekday_day_mask);
 
 	g_signal_connect_swapped (

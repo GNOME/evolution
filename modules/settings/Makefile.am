@@ -41,6 +41,8 @@ module_settings_la_SOURCES = \
 	e-settings-web-view.h \
 	e-settings-web-view-gtkhtml.c \
 	e-settings-web-view-gtkhtml.h \
+	e-settings-weekday-chooser.c \
+	e-settings-weekday-chooser.h \
 	$(NULL)
 
 module_settings_la_LIBADD = \
