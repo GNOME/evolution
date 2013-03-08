@@ -808,21 +808,6 @@ e_meeting_time_selector_construct (EMeetingTimeSelector *mts,
 	}
 	e_date_edit_set_show_time (E_DATE_EDIT (mts->start_date_edit), TRUE);
 
-	g_object_bind_property (
-		mts, "show-week-numbers",
-		mts->start_date_edit, "show-week-numbers",
-		G_BINDING_SYNC_CREATE);
-
-	g_object_bind_property (
-		mts, "use-24-hour-format",
-		mts->start_date_edit, "use-24-hour-format",
-		G_BINDING_SYNC_CREATE);
-
-	g_object_bind_property (
-		mts, "week-start-day",
-		mts->start_date_edit, "week-start-day",
-		G_BINDING_SYNC_CREATE);
-
 	gtk_table_attach (
 		GTK_TABLE (table), mts->start_date_edit,
 		1, 2, 0, 1, GTK_FILL, 0, 0, 0);
@@ -851,21 +836,6 @@ e_meeting_time_selector_construct (EMeetingTimeSelector *mts,
 					a11y_label);
 	}
 	e_date_edit_set_show_time (E_DATE_EDIT (mts->end_date_edit), TRUE);
-
-	g_object_bind_property (
-		mts, "show-week-numbers",
-		mts->end_date_edit, "show-week-numbers",
-		G_BINDING_SYNC_CREATE);
-
-	g_object_bind_property (
-		mts, "use-24-hour-format",
-		mts->end_date_edit, "use-24-hour-format",
-		G_BINDING_SYNC_CREATE);
-
-	g_object_bind_property (
-		mts, "week-start-day",
-		mts->end_date_edit, "week-start-day",
-		G_BINDING_SYNC_CREATE);
 
 	gtk_table_attach (
 		GTK_TABLE (table), mts->end_date_edit,
