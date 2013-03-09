@@ -223,6 +223,13 @@ void		e_cal_model_set_use_default_reminder
 gint		e_cal_model_get_week_start_day	(ECalModel *model);
 void		e_cal_model_set_week_start_day	(ECalModel *model,
 						 gint week_start_day);
+gboolean	e_cal_model_get_work_day	(ECalModel *model,
+						 GDateWeekday weekday);
+void		e_cal_model_set_work_day	(ECalModel *model,
+						 GDateWeekday weekday,
+						 gboolean work_day);
+GDateWeekday	e_cal_model_get_work_day_first	(ECalModel *model);
+GDateWeekday	e_cal_model_get_work_day_last	(ECalModel *model);
 gint		e_cal_model_get_work_day_end_hour
 						(ECalModel *model);
 void		e_cal_model_set_work_day_end_hour

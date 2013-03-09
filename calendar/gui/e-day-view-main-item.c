@@ -1077,7 +1077,7 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 		day_x = day_view->day_offsets[day] - x;
 		day_w = day_view->day_widths[day];
 
-		if (e_day_view_get_work_day (day_view, weekday)) {
+		if (e_cal_model_get_work_day (model, weekday)) {
 			if (can_draw_in_region (draw_region, day_x, 0 - y, day_w, work_day_start_y - (0 - y))) {
 				cairo_save (cr);
 				gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_BG_NOT_WORKING]);

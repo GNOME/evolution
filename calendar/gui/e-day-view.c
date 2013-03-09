@@ -95,7 +95,14 @@
 #define E_DAY_VIEW_MAX_ROWS_AT_TOP     6
 
 struct _EDayViewPrivate {
-	gint placeholder;
+	ECalModel *model;
+	gulong notify_work_day_monday_handler_id;
+	gulong notify_work_day_tuesday_handler_id;
+	gulong notify_work_day_wednesday_handler_id;
+	gulong notify_work_day_thursday_handler_id;
+	gulong notify_work_day_friday_handler_id;
+	gulong notify_work_day_saturday_handler_id;
+	gulong notify_work_day_sunday_handler_id;
 };
 
 typedef struct {
@@ -409,14 +416,7 @@ enum {
 	PROP_0,
 	PROP_MARCUS_BAINS_SHOW_LINE,
 	PROP_MARCUS_BAINS_DAY_VIEW_COLOR,
-	PROP_MARCUS_BAINS_TIME_BAR_COLOR,
-	PROP_WORK_DAY_MONDAY,
-	PROP_WORK_DAY_TUESDAY,
-	PROP_WORK_DAY_WEDNESDAY,
-	PROP_WORK_DAY_THURSDAY,
-	PROP_WORK_DAY_FRIDAY,
-	PROP_WORK_DAY_SATURDAY,
-	PROP_WORK_DAY_SUNDAY
+	PROP_MARCUS_BAINS_TIME_BAR_COLOR
 };
 
 G_DEFINE_TYPE (EDayView, e_day_view, E_TYPE_CALENDAR_VIEW)
@@ -455,10 +455,25 @@ day_view_notify_time_divisions_cb (EDayView *day_view)
 static void
 day_view_notify_week_start_day_cb (EDayView *day_view)
 {
-	/* XXX Write a EWorkWeekView subclass, like EMonthView. */
+	/* FIXME Write an EWorkWeekView subclass, like EMonthView. */
 
 	if (day_view->work_week_view)
 		e_day_view_recalc_work_week (day_view);
+}
+
+static void
+day_view_notify_work_day_cb (ECalModel *model,
+                             GParamSpec *pspec,
+                             EDayView *day_view)
+{
+	/* FIXME Write an EWorkWeekView subclass, like EMonthView. */
+
+	if (day_view->work_week_view)
+		e_day_view_recalc_work_week (day_view);
+
+	/* We have to do this, as the new working days may have no effect on
+	 * the days shown, but we still want the background color to change. */
+	gtk_widget_queue_draw (day_view->main_canvas);
 }
 
 static void
@@ -685,55 +700,6 @@ day_view_set_property (GObject *object,
 				E_DAY_VIEW (object),
 				g_value_get_string (value));
 			return;
-
-		case PROP_WORK_DAY_MONDAY:
-			e_day_view_set_work_day (
-				E_DAY_VIEW (object),
-				G_DATE_MONDAY,
-				g_value_get_boolean (value));
-			return;
-
-		case PROP_WORK_DAY_TUESDAY:
-			e_day_view_set_work_day (
-				E_DAY_VIEW (object),
-				G_DATE_TUESDAY,
-				g_value_get_boolean (value));
-			return;
-
-		case PROP_WORK_DAY_WEDNESDAY:
-			e_day_view_set_work_day (
-				E_DAY_VIEW (object),
-				G_DATE_WEDNESDAY,
-				g_value_get_boolean (value));
-			return;
-
-		case PROP_WORK_DAY_THURSDAY:
-			e_day_view_set_work_day (
-				E_DAY_VIEW (object),
-				G_DATE_THURSDAY,
-				g_value_get_boolean (value));
-			return;
-
-		case PROP_WORK_DAY_FRIDAY:
-			e_day_view_set_work_day (
-				E_DAY_VIEW (object),
-				G_DATE_FRIDAY,
-				g_value_get_boolean (value));
-			return;
-
-		case PROP_WORK_DAY_SATURDAY:
-			e_day_view_set_work_day (
-				E_DAY_VIEW (object),
-				G_DATE_SATURDAY,
-				g_value_get_boolean (value));
-			return;
-
-		case PROP_WORK_DAY_SUNDAY:
-			e_day_view_set_work_day (
-				E_DAY_VIEW (object),
-				G_DATE_SUNDAY,
-				g_value_get_boolean (value));
-			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -765,62 +731,6 @@ day_view_get_property (GObject *object,
 				value,
 				e_day_view_marcus_bains_get_time_bar_color (
 				E_DAY_VIEW (object)));
-			return;
-
-		case PROP_WORK_DAY_MONDAY:
-			g_value_set_boolean (
-				value,
-				e_day_view_get_work_day (
-				E_DAY_VIEW (object),
-				G_DATE_MONDAY));
-			return;
-
-		case PROP_WORK_DAY_TUESDAY:
-			g_value_set_boolean (
-				value,
-				e_day_view_get_work_day (
-				E_DAY_VIEW (object),
-				G_DATE_TUESDAY));
-			return;
-
-		case PROP_WORK_DAY_WEDNESDAY:
-			g_value_set_boolean (
-				value,
-				e_day_view_get_work_day (
-				E_DAY_VIEW (object),
-				G_DATE_WEDNESDAY));
-			return;
-
-		case PROP_WORK_DAY_THURSDAY:
-			g_value_set_boolean (
-				value,
-				e_day_view_get_work_day (
-				E_DAY_VIEW (object),
-				G_DATE_THURSDAY));
-			return;
-
-		case PROP_WORK_DAY_FRIDAY:
-			g_value_set_boolean (
-				value,
-				e_day_view_get_work_day (
-				E_DAY_VIEW (object),
-				G_DATE_FRIDAY));
-			return;
-
-		case PROP_WORK_DAY_SATURDAY:
-			g_value_set_boolean (
-				value,
-				e_day_view_get_work_day (
-				E_DAY_VIEW (object),
-				G_DATE_SATURDAY));
-			return;
-
-		case PROP_WORK_DAY_SUNDAY:
-			g_value_set_boolean (
-				value,
-				e_day_view_get_work_day (
-				E_DAY_VIEW (object),
-				G_DATE_SUNDAY));
 			return;
 	}
 
@@ -887,6 +797,57 @@ day_view_dispose (GObject *object)
 		day_view->grabbed_pointer = NULL;
 	}
 
+	if (day_view->priv->notify_work_day_monday_handler_id > 0) {
+		g_signal_handler_disconnect (
+			day_view->priv->model,
+			day_view->priv->notify_work_day_monday_handler_id);
+		day_view->priv->notify_work_day_monday_handler_id = 0;
+	}
+
+	if (day_view->priv->notify_work_day_tuesday_handler_id > 0) {
+		g_signal_handler_disconnect (
+			day_view->priv->model,
+			day_view->priv->notify_work_day_tuesday_handler_id);
+		day_view->priv->notify_work_day_tuesday_handler_id = 0;
+	}
+
+	if (day_view->priv->notify_work_day_wednesday_handler_id > 0) {
+		g_signal_handler_disconnect (
+			day_view->priv->model,
+			day_view->priv->notify_work_day_wednesday_handler_id);
+		day_view->priv->notify_work_day_wednesday_handler_id = 0;
+	}
+
+	if (day_view->priv->notify_work_day_thursday_handler_id > 0) {
+		g_signal_handler_disconnect (
+			day_view->priv->model,
+			day_view->priv->notify_work_day_thursday_handler_id);
+		day_view->priv->notify_work_day_thursday_handler_id = 0;
+	}
+
+	if (day_view->priv->notify_work_day_friday_handler_id > 0) {
+		g_signal_handler_disconnect (
+			day_view->priv->model,
+			day_view->priv->notify_work_day_friday_handler_id);
+		day_view->priv->notify_work_day_friday_handler_id = 0;
+	}
+
+	if (day_view->priv->notify_work_day_saturday_handler_id > 0) {
+		g_signal_handler_disconnect (
+			day_view->priv->model,
+			day_view->priv->notify_work_day_saturday_handler_id);
+		day_view->priv->notify_work_day_saturday_handler_id = 0;
+	}
+
+	if (day_view->priv->notify_work_day_sunday_handler_id > 0) {
+		g_signal_handler_disconnect (
+			day_view->priv->model,
+			day_view->priv->notify_work_day_sunday_handler_id);
+		day_view->priv->notify_work_day_sunday_handler_id = 0;
+	}
+
+	g_clear_object (&day_view->priv->model);
+
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_day_view_parent_class)->dispose (object);
 }
@@ -896,6 +857,7 @@ day_view_constructed (GObject *object)
 {
 	EDayView *day_view;
 	ECalModel *model;
+	gulong handler_id;
 
 	day_view = E_DAY_VIEW (object);
 
@@ -903,6 +865,47 @@ day_view_constructed (GObject *object)
 	G_OBJECT_CLASS (e_day_view_parent_class)->constructed (object);
 
 	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
+
+	/* Keep our own model reference so we can
+	 * disconnect signal handlers in dispose(). */
+	day_view->priv->model = g_object_ref (model);
+
+	handler_id = g_signal_connect (
+		model, "notify::work-day-monday",
+		G_CALLBACK (day_view_notify_work_day_cb), day_view);
+	day_view->priv->notify_work_day_monday_handler_id = handler_id;
+
+	handler_id = g_signal_connect (
+		model, "notify::work-day-tuesday",
+		G_CALLBACK (day_view_notify_work_day_cb), day_view);
+	day_view->priv->notify_work_day_tuesday_handler_id = handler_id;
+
+	handler_id = g_signal_connect (
+		model, "notify::work-day-wednesday",
+		G_CALLBACK (day_view_notify_work_day_cb), day_view);
+	day_view->priv->notify_work_day_wednesday_handler_id = handler_id;
+
+	handler_id = g_signal_connect (
+		model, "notify::work-day-thursday",
+		G_CALLBACK (day_view_notify_work_day_cb), day_view);
+	day_view->priv->notify_work_day_thursday_handler_id = handler_id;
+
+	handler_id = g_signal_connect (
+		model, "notify::work-day-friday",
+		G_CALLBACK (day_view_notify_work_day_cb), day_view);
+	day_view->priv->notify_work_day_friday_handler_id = handler_id;
+
+	handler_id = g_signal_connect (
+		model, "notify::work-day-saturday",
+		G_CALLBACK (day_view_notify_work_day_cb), day_view);
+	day_view->priv->notify_work_day_saturday_handler_id = handler_id;
+
+	handler_id = g_signal_connect (
+		model, "notify::work-day-sunday",
+		G_CALLBACK (day_view_notify_work_day_cb), day_view);
+	day_view->priv->notify_work_day_sunday_handler_id = handler_id;
+
+	/* FIXME Should be doing something similar for these handlers. */
 
 	g_signal_connect_swapped (
 		day_view, "notify::time-divisions",
@@ -1563,90 +1566,6 @@ e_day_view_class_init (EDayViewClass *class)
 			NULL,
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_WORK_DAY_MONDAY,
-		g_param_spec_boolean (
-			"work-day-monday",
-			"Work Day: Monday",
-			"Whether Monday is a work day",
-			TRUE,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_WORK_DAY_TUESDAY,
-		g_param_spec_boolean (
-			"work-day-tuesday",
-			"Work Day: Tuesday",
-			"Whether Tuesday is a work day",
-			TRUE,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_WORK_DAY_WEDNESDAY,
-		g_param_spec_boolean (
-			"work-day-wednesday",
-			"Work Day: Wednesday",
-			"Whether Wednesday is a work day",
-			TRUE,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_WORK_DAY_THURSDAY,
-		g_param_spec_boolean (
-			"work-day-thursday",
-			"Work Day: Thursday",
-			"Whether Thursday is a work day",
-			TRUE,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_WORK_DAY_FRIDAY,
-		g_param_spec_boolean (
-			"work-day-friday",
-			"Work Day: Friday",
-			"Whether Friday is a work day",
-			TRUE,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_WORK_DAY_SATURDAY,
-		g_param_spec_boolean (
-			"work-day-saturday",
-			"Work Day: Saturday",
-			"Whether Saturday is a work day",
-			FALSE,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_WORK_DAY_SUNDAY,
-		g_param_spec_boolean (
-			"work-day-sunday",
-			"Work Day: Sunday",
-			"Whether Sunday is a work day",
-			FALSE,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT |
 			G_PARAM_STATIC_STRINGS));
 
 	/* init the accessibility support for e_day_view */
@@ -3056,7 +2975,7 @@ e_day_view_find_work_week_start (EDayView *day_view,
 	weekday = g_date_get_weekday (&date);
 
 	/* Calculate the first working day of the week. */
-	first_work_day = e_day_view_get_first_work_day (day_view);
+	first_work_day = e_cal_model_get_work_day_first (model);
 	if (first_work_day == G_DATE_BAD_WEEKDAY)
 		first_work_day = e_cal_model_get_week_start_day (model) + 1;
 
@@ -3161,149 +3080,21 @@ e_day_view_set_days_shown (EDayView *day_view,
 	e_day_view_update_query (day_view);
 }
 
-gboolean
-e_day_view_get_work_day (EDayView *day_view,
-                         GDateWeekday weekday)
-{
-	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), FALSE);
-	g_return_val_if_fail (g_date_valid_weekday (weekday), FALSE);
-
-	return day_view->work_days[weekday];
-}
-
-void
-e_day_view_set_work_day (EDayView *day_view,
-                         GDateWeekday weekday,
-                         gboolean work_day)
-{
-	g_return_if_fail (E_IS_DAY_VIEW (day_view));
-	g_return_if_fail (g_date_valid_weekday (weekday));
-
-	if (work_day == day_view->work_days[weekday])
-		return;
-
-	day_view->work_days[weekday] = work_day;
-
-	if (day_view->work_week_view)
-		e_day_view_recalc_work_week (day_view);
-
-	/* We have to do this, as the new working days may have no effect on
-	 * the days shown, but we still want the background color to change. */
-	gtk_widget_queue_draw (day_view->main_canvas);
-
-	switch (weekday) {
-		case G_DATE_MONDAY:
-			g_object_notify (
-				G_OBJECT (day_view),
-				"work-day-monday");
-			break;
-		case G_DATE_TUESDAY:
-			g_object_notify (
-				G_OBJECT (day_view),
-				"work-day-tuesday");
-			break;
-		case G_DATE_WEDNESDAY:
-			g_object_notify (
-				G_OBJECT (day_view),
-				"work-day-wednesday");
-			break;
-		case G_DATE_THURSDAY:
-			g_object_notify (
-				G_OBJECT (day_view),
-				"work-day-thursday");
-			break;
-		case G_DATE_FRIDAY:
-			g_object_notify (
-				G_OBJECT (day_view),
-				"work-day-friday");
-			break;
-		case G_DATE_SATURDAY:
-			g_object_notify (
-				G_OBJECT (day_view),
-				"work-day-saturday");
-			break;
-		case G_DATE_SUNDAY:
-			g_object_notify (
-				G_OBJECT (day_view),
-				"work-day-sunday");
-			break;
-		default:
-			g_warn_if_reached ();
-	}
-}
-
-/**
- * e_day_view_get_first_work_day:
- * @day_view: an #EDayView
- *
- * Returns the first work day of the week with respect to the week start day.
- * If no work days are set, the function returns %G_DATE_BAD_WEEKDAY.
- *
- * Returns: first work day of the week, or %G_DATE_BAD_WEEKDAY
- **/
-GDateWeekday
-e_day_view_get_first_work_day (EDayView *day_view)
-{
-	ECalModel *model;
-	GDateWeekday weekday;
-	gint ii;
-
-	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), G_DATE_BAD_WEEKDAY);
-
-	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
-	weekday = e_cal_model_get_week_start_day (model) + 1;
-
-	for (ii = 0; ii < 7; ii++) {
-		if (e_day_view_get_work_day (day_view, weekday))
-			return weekday;
-		weekday = e_weekday_get_next (weekday);
-	}
-
-	return G_DATE_BAD_WEEKDAY;
-}
-
-/**
- * e_day_view_get_last_work_day:
- * @day_view: an #EDayView
- *
- * Returns the last work day of the week with respect to the week start day.
- * If no work days are set, the function returns %G_DATE_BAD_WEEKDAY.
- *
- * Returns: last work day of the week, or %G_DATE_BAD_WEEKDAY
- **/
-GDateWeekday
-e_day_view_get_last_work_day (EDayView *day_view)
-{
-	ECalModel *model;
-	GDateWeekday weekday;
-	gint ii;
-
-	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), G_DATE_BAD_WEEKDAY);
-
-	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
-	weekday = e_cal_model_get_week_start_day (model) + 1;
-
-	for (ii = 0; ii < 7; ii++) {
-		weekday = e_weekday_get_prev (weekday);
-		if (e_day_view_get_work_day (day_view, weekday))
-			return weekday;
-	}
-
-	return G_DATE_BAD_WEEKDAY;
-}
-
 static void
 e_day_view_recalc_work_week_days_shown (EDayView *day_view)
 {
+	ECalModel *model;
 	GDateWeekday first_work_day;
 	GDateWeekday last_work_day;
 	gint days_shown;
 
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
+
 	/* Find the first working day in the week. */
-	first_work_day = e_day_view_get_first_work_day (day_view);
+	first_work_day = e_cal_model_get_work_day_first (model);
 
 	if (first_work_day != G_DATE_BAD_WEEKDAY) {
-		last_work_day = e_day_view_get_last_work_day (day_view);
+		last_work_day = e_cal_model_get_work_day_last (model);
 
 		/* Now calculate the days we need to show to include all the
 		 * working days in the week. Add 1 to make it inclusive. */

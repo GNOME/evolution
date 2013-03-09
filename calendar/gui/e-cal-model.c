@@ -97,6 +97,10 @@ struct _ECalModelPrivate {
 	/* First day of the week: 0 (Monday) to 6 (Sunday) */
 	gint week_start_day;
 
+	/* Work days.  Indices are based on GDateWeekday.
+	 * The first element (G_DATE_BAD_WEEKDAY) is unused. */
+	gboolean work_days[G_DATE_SUNDAY + 1];
+
 	/* Work day timespan */
 	gint work_day_start_hour;
 	gint work_day_start_minute;
@@ -160,6 +164,13 @@ enum {
 	PROP_USE_24_HOUR_FORMAT,
 	PROP_USE_DEFAULT_REMINDER,
 	PROP_WEEK_START_DAY,
+	PROP_WORK_DAY_MONDAY,
+	PROP_WORK_DAY_TUESDAY,
+	PROP_WORK_DAY_WEDNESDAY,
+	PROP_WORK_DAY_THURSDAY,
+	PROP_WORK_DAY_FRIDAY,
+	PROP_WORK_DAY_SATURDAY,
+	PROP_WORK_DAY_SUNDAY,
 	PROP_WORK_DAY_END_HOUR,
 	PROP_WORK_DAY_END_MINUTE,
 	PROP_WORK_DAY_START_HOUR,
@@ -265,6 +276,55 @@ cal_model_set_property (GObject *object,
 				g_value_get_int (value));
 			return;
 
+		case PROP_WORK_DAY_MONDAY:
+			e_cal_model_set_work_day (
+				E_CAL_MODEL (object),
+				G_DATE_MONDAY,
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_WORK_DAY_TUESDAY:
+			e_cal_model_set_work_day (
+				E_CAL_MODEL (object),
+				G_DATE_TUESDAY,
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_WORK_DAY_WEDNESDAY:
+			e_cal_model_set_work_day (
+				E_CAL_MODEL (object),
+				G_DATE_WEDNESDAY,
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_WORK_DAY_THURSDAY:
+			e_cal_model_set_work_day (
+				E_CAL_MODEL (object),
+				G_DATE_THURSDAY,
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_WORK_DAY_FRIDAY:
+			e_cal_model_set_work_day (
+				E_CAL_MODEL (object),
+				G_DATE_FRIDAY,
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_WORK_DAY_SATURDAY:
+			e_cal_model_set_work_day (
+				E_CAL_MODEL (object),
+				G_DATE_SATURDAY,
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_WORK_DAY_SUNDAY:
+			e_cal_model_set_work_day (
+				E_CAL_MODEL (object),
+				G_DATE_SUNDAY,
+				g_value_get_boolean (value));
+			return;
+
 		case PROP_WORK_DAY_END_HOUR:
 			e_cal_model_set_work_day_end_hour (
 				E_CAL_MODEL (object),
@@ -368,6 +428,55 @@ cal_model_get_property (GObject *object,
 				value,
 				e_cal_model_get_week_start_day (
 				E_CAL_MODEL (object)));
+			return;
+
+		case PROP_WORK_DAY_MONDAY:
+			g_value_set_boolean (
+				value,
+				e_cal_model_get_work_day (
+				E_CAL_MODEL (object), G_DATE_MONDAY));
+			return;
+
+		case PROP_WORK_DAY_TUESDAY:
+			g_value_set_boolean (
+				value,
+				e_cal_model_get_work_day (
+				E_CAL_MODEL (object), G_DATE_TUESDAY));
+			return;
+
+		case PROP_WORK_DAY_WEDNESDAY:
+			g_value_set_boolean (
+				value,
+				e_cal_model_get_work_day (
+				E_CAL_MODEL (object), G_DATE_WEDNESDAY));
+			return;
+
+		case PROP_WORK_DAY_THURSDAY:
+			g_value_set_boolean (
+				value,
+				e_cal_model_get_work_day (
+				E_CAL_MODEL (object), G_DATE_THURSDAY));
+			return;
+
+		case PROP_WORK_DAY_FRIDAY:
+			g_value_set_boolean (
+				value,
+				e_cal_model_get_work_day (
+				E_CAL_MODEL (object), G_DATE_FRIDAY));
+			return;
+
+		case PROP_WORK_DAY_SATURDAY:
+			g_value_set_boolean (
+				value,
+				e_cal_model_get_work_day (
+				E_CAL_MODEL (object), G_DATE_SATURDAY));
+			return;
+
+		case PROP_WORK_DAY_SUNDAY:
+			g_value_set_boolean (
+				value,
+				e_cal_model_get_work_day (
+				E_CAL_MODEL (object), G_DATE_SUNDAY));
 			return;
 
 		case PROP_WORK_DAY_END_HOUR:
@@ -631,6 +740,90 @@ e_cal_model_class_init (ECalModelClass *class)
 			6,  /* Sunday */
 			0,
 			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_MONDAY,
+		g_param_spec_boolean (
+			"work-day-monday",
+			"Work Day: Monday",
+			"Whether Monday is a work day",
+			TRUE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_TUESDAY,
+		g_param_spec_boolean (
+			"work-day-tuesday",
+			"Work Day: Tuesday",
+			"Whether Tuesday is a work day",
+			TRUE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_WEDNESDAY,
+		g_param_spec_boolean (
+			"work-day-wednesday",
+			"Work Day: Wednesday",
+			"Whether Wednesday is a work day",
+			TRUE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_THURSDAY,
+		g_param_spec_boolean (
+			"work-day-thursday",
+			"Work Day: Thursday",
+			"Whether Thursday is a work day",
+			TRUE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_FRIDAY,
+		g_param_spec_boolean (
+			"work-day-friday",
+			"Work Day: Friday",
+			"Whether Friday is a work day",
+			TRUE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_SATURDAY,
+		g_param_spec_boolean (
+			"work-day-saturday",
+			"Work Day: Saturday",
+			"Whether Saturday is a work day",
+			TRUE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_SUNDAY,
+		g_param_spec_boolean (
+			"work-day-sunday",
+			"Work Day: Sunday",
+			"Whether Sunday is a work day",
+			TRUE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_install_property (
 		object_class,
@@ -2015,6 +2208,116 @@ e_cal_model_set_week_start_day (ECalModel *model,
 	model->priv->week_start_day = week_start_day;
 
 	g_object_notify (G_OBJECT (model), "week-start-day");
+}
+
+gboolean
+e_cal_model_get_work_day (ECalModel *model,
+                          GDateWeekday weekday)
+{
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), FALSE);
+	g_return_val_if_fail (g_date_valid_weekday (weekday), FALSE);
+
+	return model->priv->work_days[weekday];
+}
+
+void
+e_cal_model_set_work_day (ECalModel *model,
+                          GDateWeekday weekday,
+                          gboolean work_day)
+{
+	const gchar *property_name = NULL;
+
+	g_return_if_fail (E_IS_CAL_MODEL (model));
+	g_return_if_fail (g_date_valid_weekday (weekday));
+
+	if (work_day == model->priv->work_days[weekday])
+		return;
+
+	model->priv->work_days[weekday] = work_day;
+
+	switch (weekday) {
+		case G_DATE_MONDAY:
+			property_name = "work-day-monday";
+			break;
+		case G_DATE_TUESDAY:
+			property_name = "work-day-tuesday";
+			break;
+		case G_DATE_WEDNESDAY:
+			property_name = "work-day-wednesday";
+			break;
+		case G_DATE_THURSDAY:
+			property_name = "work-day-thursday";
+			break;
+		case G_DATE_FRIDAY:
+			property_name = "work-day-friday";
+			break;
+		case G_DATE_SATURDAY:
+			property_name = "work-day-saturday";
+			break;
+		case G_DATE_SUNDAY:
+			property_name = "work-day-sunday";
+			break;
+		default:
+			g_warn_if_reached ();
+	}
+
+	g_object_notify (G_OBJECT (model), property_name);
+}
+
+/**
+ * e_cal_model_get_work_day_first:
+ * @model: an #ECalModel
+ *
+ * Returns the first work day with respect to #ECalModel:work-week-start.
+ * If no work days are set, the function returns %G_DATE_BAD_WEEKDAY.
+ *
+ * Returns: first work day of the week, or %G_DATE_BAD_WEEKDAY
+ **/
+GDateWeekday
+e_cal_model_get_work_day_first (ECalModel *model)
+{
+	GDateWeekday weekday;
+	gint ii;
+
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), G_DATE_BAD_WEEKDAY);
+
+	weekday = e_cal_model_get_week_start_day (model) + 1;
+
+	for (ii = 0; ii < 7; ii++) {
+		if (e_cal_model_get_work_day (model, weekday))
+			return weekday;
+		weekday = e_weekday_get_next (weekday);
+	}
+
+	return G_DATE_BAD_WEEKDAY;
+}
+
+/**
+ * e_cal_model_get_work_day_last:
+ * @model: an #ECalModel
+ *
+ * Returns the last work day with respect to #ECalModel:work-week-start.
+ * If no work days are set, the function returns %G_DATE_BAD_WEEKDAY.
+ *
+ * Returns: last work day of the week, or %G_DATE_BAD_WEEKDAY
+ **/
+GDateWeekday
+e_cal_model_get_work_day_last (ECalModel *model)
+{
+	GDateWeekday weekday;
+	gint ii;
+
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), G_DATE_BAD_WEEKDAY);
+
+	weekday = e_cal_model_get_week_start_day (model) + 1;
+
+	for (ii = 0; ii < 7; ii++) {
+		weekday = e_weekday_get_prev (weekday);
+		if (e_cal_model_get_work_day (model, weekday))
+			return weekday;
+	}
+
+	return G_DATE_BAD_WEEKDAY;
 }
 
 gint

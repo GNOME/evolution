@@ -963,10 +963,10 @@ get_times_for_views (GnomeCalendar *gcal,
 		weekday = g_date_get_weekday (&date);
 
 		/* Find the first working day of the week. */
-		first_work_day = e_day_view_get_first_work_day (day_view);
+		first_work_day = e_cal_model_get_work_day_first (model);
 
 		if (first_work_day != G_DATE_BAD_WEEKDAY) {
-			last_work_day = e_day_view_get_last_work_day (day_view);
+			last_work_day = e_cal_model_get_work_day_last (model);
 
 			/* Now calculate the days we need to show to include
 			 * all the working days in the week. Add 1 to make it

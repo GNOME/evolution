@@ -276,10 +276,6 @@ struct _EDayView {
 	gint last_hour_shown;
 	gint last_minute_shown;
 
-	/* Work days.  Indices are based on GDateWeekday.
-	 * The first element (G_DATE_BAD_WEEKDAY) is unused. */
-	gboolean work_days[G_DATE_SUNDAY + 1];
-
 	/* Whether we show the Marcus Bains Line in the main canvas and time canvas. */
 	gboolean marcus_bains_show_line;
 	gchar *marcus_bains_day_view_color;
@@ -480,15 +476,6 @@ void		e_day_view_set_work_week_view	(EDayView *day_view,
 gint		e_day_view_get_days_shown	(EDayView *day_view);
 void		e_day_view_set_days_shown	(EDayView *day_view,
 						 gint days_shown);
-
-/* This specifies the work days in the week. */
-gboolean	e_day_view_get_work_day		(EDayView *day_view,
-						 GDateWeekday weekday);
-void		e_day_view_set_work_day		(EDayView *day_view,
-						 GDateWeekday weekday,
-						 gboolean work_day);
-GDateWeekday	e_day_view_get_first_work_day	(EDayView *day_view);
-GDateWeekday	e_day_view_get_last_work_day	(EDayView *day_view);
 
 /* Whether we display the Marcus Bains Line in the main canvas and time
  * canvas. */
