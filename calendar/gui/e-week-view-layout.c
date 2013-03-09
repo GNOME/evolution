@@ -338,29 +338,41 @@ e_week_view_layout_get_day_position (gint day,
 			*day_x = col;
 		}
 	} else {
-		#define wk(x) \
-			((working_days & \
-			(days[((x) + display_start_day) % 7])) ? 1 : 0)
-		CalWeekdays days[] = {
-			CAL_MONDAY,
-			CAL_TUESDAY,
-			CAL_WEDNESDAY,
-			CAL_THURSDAY,
-			CAL_FRIDAY,
-			CAL_SATURDAY,
-			CAL_SUNDAY };
-		CalWeekdays working_days;
+		GSettings *settings;
 		gint arr[4] = {1, 1, 1, 1};
 		gint edge, i, wd, m, M;
 		gboolean any = TRUE;
+		gint n_work_days_mon_wed = 0;
+		gint n_work_days_thu_sun = 0;
+
+		/* 0 = Monday, 6 = Sunday */
+		gint work_days[7] = { 0, 0, 0, 0, 0, 0, 0 };
 
 		g_return_if_fail (day < 7);
 
-		working_days = calendar_config_get_working_days ();
-		edge = 3;
+		settings = g_settings_new ("org.gnome.evolution.calendar");
 
-		if (wk (0) + wk (1) + wk (2) < wk (3) + wk (4) + wk (5) + wk (6))
-			edge++;
+		if (g_settings_get_boolean (settings, "work-day-monday"))
+			work_days[0] = 1, n_work_days_mon_wed++;
+		if (g_settings_get_boolean (settings, "work-day-tuesday"))
+			work_days[1] = 1, n_work_days_mon_wed++;
+		if (g_settings_get_boolean (settings, "work-day-wednesday"))
+			work_days[2] = 1, n_work_days_mon_wed++;
+		if (g_settings_get_boolean (settings, "work-day-thursday"))
+			work_days[3] = 1, n_work_days_thu_sun++;
+		if (g_settings_get_boolean (settings, "work-day-friday"))
+			work_days[4] = 1, n_work_days_thu_sun++;
+		if (g_settings_get_boolean (settings, "work-day-saturday"))
+			work_days[5] = 1, n_work_days_thu_sun++;
+		if (g_settings_get_boolean (settings, "work-day-sunday"))
+			work_days[6] = 1, n_work_days_thu_sun++;
+
+		g_object_unref (settings);
+
+		if (n_work_days_mon_wed < n_work_days_thu_sun)
+			edge = 4;  /* Friday */
+		else
+			edge = 3;  /* Thursday */
 
 		if (day < edge) {
 			*day_x = 0;
@@ -374,7 +386,7 @@ e_week_view_layout_get_day_position (gint day,
 
 		wd = 0; /* number of used rows in column */
 		for (i = m; i < M; i++) {
-			arr[i - m] += wk (i);
+			arr[i - m] += work_days[i];
 			wd += arr[i - m];
 		}
 
