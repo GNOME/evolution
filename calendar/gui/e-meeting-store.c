@@ -57,8 +57,6 @@ struct _EMeetingStorePrivate {
 	gint default_reminder_interval;
 	EDurationType default_reminder_units;
 
-	gint week_start_day;
-
 	gchar *fb_uri;
 
 	GPtrArray *refresh_queue;
@@ -95,8 +93,7 @@ enum {
 	PROP_DEFAULT_REMINDER_INTERVAL,
 	PROP_DEFAULT_REMINDER_UNITS,
 	PROP_FREE_BUSY_TEMPLATE,
-	PROP_TIMEZONE,
-	PROP_WEEK_START_DAY
+	PROP_TIMEZONE
 };
 
 /* Forward Declarations */
@@ -667,12 +664,6 @@ meeting_store_set_property (GObject *object,
 				E_MEETING_STORE (object),
 				g_value_get_pointer (value));
 			return;
-
-		case PROP_WEEK_START_DAY:
-			e_meeting_store_set_week_start_day (
-				E_MEETING_STORE (object),
-				g_value_get_int (value));
-			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -717,13 +708,6 @@ meeting_store_get_property (GObject *object,
 			g_value_set_pointer (
 				value,
 				e_meeting_store_get_timezone (
-				E_MEETING_STORE (object)));
-			return;
-
-		case PROP_WEEK_START_DAY:
-			g_value_set_int (
-				value,
-				e_meeting_store_get_week_start_day (
 				E_MEETING_STORE (object)));
 			return;
 	}
@@ -826,18 +810,6 @@ e_meeting_store_class_init (EMeetingStoreClass *class)
 			"timezone",
 			"Timezone",
 			NULL,
-			G_PARAM_READWRITE));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_WEEK_START_DAY,
-		g_param_spec_int (
-			"week-start-day",
-			"Week Start Day",
-			NULL,
-			0,  /* Monday */
-			6,  /* Sunday */
-			0,
 			G_PARAM_READWRITE));
 }
 
@@ -981,28 +953,6 @@ e_meeting_store_set_timezone (EMeetingStore *store,
 	store->priv->zone = timezone;
 
 	g_object_notify (G_OBJECT (store), "timezone");
-}
-
-gint
-e_meeting_store_get_week_start_day (EMeetingStore *store)
-{
-	g_return_val_if_fail (E_IS_MEETING_STORE (store), 0);
-
-	return store->priv->week_start_day;
-}
-
-void
-e_meeting_store_set_week_start_day (EMeetingStore *store,
-                                    gint week_start_day)
-{
-	g_return_if_fail (E_IS_MEETING_STORE (store));
-
-	if (store->priv->week_start_day == week_start_day)
-		return;
-
-	store->priv->week_start_day = week_start_day;
-
-	g_object_notify (G_OBJECT (store), "week-start-day");
 }
 
 static void

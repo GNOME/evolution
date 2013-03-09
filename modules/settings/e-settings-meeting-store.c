@@ -72,11 +72,6 @@ settings_meeting_store_constructed (GObject *object)
 		extensible, "timezone",
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
-		shell_settings, "cal-week-start-day",
-		extensible, "week-start-day",
-		G_BINDING_SYNC_CREATE);
-
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_settings_meeting_store_parent_class)->
 		constructed (object);

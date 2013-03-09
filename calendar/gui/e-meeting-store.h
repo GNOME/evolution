@@ -109,11 +109,6 @@ void		e_meeting_store_set_free_busy_template
 icaltimezone *	e_meeting_store_get_timezone	(EMeetingStore *meeting_store);
 void		e_meeting_store_set_timezone	(EMeetingStore *meeting_store,
 						 icaltimezone *timezone);
-gint		e_meeting_store_get_week_start_day
-						(EMeetingStore *meeting_store);
-void		e_meeting_store_set_week_start_day
-						(EMeetingStore *meeting_store,
-						 gint week_start_day);
 void		e_meeting_store_add_attendee	(EMeetingStore *meeting_store,
 						 EMeetingAttendee *attendee);
 EMeetingAttendee *
