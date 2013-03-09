@@ -108,6 +108,8 @@ struct _CompEditorPrivate {
 	icaltimezone *zone;
 	gboolean use_24_hour_format;
 
+	gint week_start_day;
+
 	gint work_day_end_hour;
 	gint work_day_end_minute;
 	gint work_day_start_hour;
@@ -137,6 +139,7 @@ enum {
 	PROP_SUMMARY,
 	PROP_TIMEZONE,
 	PROP_USE_24_HOUR_FORMAT,
+	PROP_WEEK_START_DAY,
 	PROP_WORK_DAY_END_HOUR,
 	PROP_WORK_DAY_END_MINUTE,
 	PROP_WORK_DAY_START_HOUR,
@@ -1422,6 +1425,12 @@ comp_editor_set_property (GObject *object,
 				g_value_get_boolean (value));
 			return;
 
+		case PROP_WEEK_START_DAY:
+			comp_editor_set_week_start_day (
+				COMP_EDITOR (object),
+				g_value_get_int (value));
+			return;
+
 		case PROP_WORK_DAY_END_HOUR:
 			comp_editor_set_work_day_end_hour (
 				COMP_EDITOR (object),
@@ -1502,6 +1511,12 @@ comp_editor_get_property (GObject *object,
 		case PROP_USE_24_HOUR_FORMAT:
 			g_value_set_boolean (
 				value, comp_editor_get_use_24_hour_format (
+				COMP_EDITOR (object)));
+			return;
+
+		case PROP_WEEK_START_DAY:
+			g_value_set_int (
+				value, comp_editor_get_week_start_day (
 				COMP_EDITOR (object)));
 			return;
 
@@ -1890,6 +1905,19 @@ comp_editor_class_init (CompEditorClass *class)
 			NULL,
 			FALSE,
 			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WEEK_START_DAY,
+		g_param_spec_int (
+			"week-start-day",
+			"Week Start Day",
+			NULL,
+			0,  /* Monday */
+			6,  /* Sunday  */
+			0,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_install_property (
 		object_class,
@@ -2527,6 +2555,29 @@ comp_editor_set_use_24_hour_format (CompEditor *editor,
 	editor->priv->use_24_hour_format = use_24_hour_format;
 
 	g_object_notify (G_OBJECT (editor), "use-24-hour-format");
+}
+
+gint
+comp_editor_get_week_start_day (CompEditor *editor)
+{
+	g_return_val_if_fail (IS_COMP_EDITOR (editor), 0);
+
+	return editor->priv->week_start_day;
+}
+
+void
+comp_editor_set_week_start_day (CompEditor *editor,
+                                gint week_start_day)
+{
+	g_return_if_fail (IS_COMP_EDITOR (editor));
+	g_return_if_fail (week_start_day >= 0 && week_start_day < 7);
+
+	if (week_start_day == editor->priv->week_start_day)
+		return;
+
+	editor->priv->week_start_day = week_start_day;
+
+	g_object_notify (G_OBJECT (editor), "week-start-day");
 }
 
 gint

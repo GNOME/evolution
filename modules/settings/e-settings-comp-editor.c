@@ -63,6 +63,11 @@ settings_comp_editor_constructed (GObject *object)
 		G_BINDING_SYNC_CREATE);
 
 	g_object_bind_property (
+		shell_settings, "cal-week-start-day",
+		extensible, "week-start-day",
+		G_BINDING_SYNC_CREATE);
+
+	g_object_bind_property (
 		shell_settings, "cal-work-day-end-hour",
 		extensible, "work-day-end-hour",
 		G_BINDING_SYNC_CREATE);
