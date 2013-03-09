@@ -807,18 +807,18 @@ e_mail_config_notebook_commit (EMailConfigNotebook *notebook,
 
 	/* Queue the collection data source if one is defined. */
 	source = e_mail_config_notebook_get_collection_source (notebook);
-	if (source != NULL)
+	if (source != NULL && e_source_get_writable (source))
 		g_queue_push_tail (source_queue, g_object_ref (source));
 
 	/* Queue the mail-related data sources for the account. */
 	source = e_mail_config_notebook_get_account_source (notebook);
-	if (source != NULL)
+	if (source != NULL && e_source_get_writable (source))
 		g_queue_push_tail (source_queue, g_object_ref (source));
 	source = e_mail_config_notebook_get_identity_source (notebook);
-	if (source != NULL)
+	if (source != NULL && e_source_get_writable (source))
 		g_queue_push_tail (source_queue, g_object_ref (source));
 	source = e_mail_config_notebook_get_transport_source (notebook);
-	if (source != NULL)
+	if (source != NULL && e_source_get_writable (source))
 		g_queue_push_tail (source_queue, g_object_ref (source));
 
 	list = gtk_container_get_children (GTK_CONTAINER (notebook));
