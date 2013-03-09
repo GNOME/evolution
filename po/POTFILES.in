@@ -118,7 +118,6 @@ calendar/gui/memotypes.xml
 calendar/gui/misc.c
 calendar/gui/print.c
 calendar/gui/tasktypes.xml
-calendar/gui/weekday-picker.c
 calendar/importers/icalendar-importer.c
 calendar/zones.h
 composer/e-composer-actions.c
