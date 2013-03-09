@@ -50,23 +50,6 @@ G_DEFINE_TYPE (
 	e_week_view_main_item,
 	GNOME_TYPE_CANVAS_ITEM)
 
-static gint
-gdate_to_cal_weekdays (GDateWeekday wd)
-{
-	switch (wd) {
-	case G_DATE_MONDAY: return CAL_MONDAY;
-	case G_DATE_TUESDAY: return CAL_TUESDAY;
-	case G_DATE_WEDNESDAY: return CAL_WEDNESDAY;
-	case G_DATE_THURSDAY: return CAL_THURSDAY;
-	case G_DATE_FRIDAY: return CAL_FRIDAY;
-	case G_DATE_SATURDAY: return CAL_SATURDAY;
-	case G_DATE_SUNDAY: return CAL_SUNDAY;
-	default: break;
-	}
-
-	return 0;
-}
-
 static void
 week_view_main_item_draw_day (EWeekViewMainItem *main_item,
                               gint day,
@@ -78,20 +61,22 @@ week_view_main_item_draw_day (EWeekViewMainItem *main_item,
                               gint height)
 {
 	EWeekView *week_view;
+	ECalModel *model;
 	GtkStyle *style;
 	gint right_edge, bottom_edge, date_width, date_x, line_y;
 	gboolean show_day_name, show_month_name, selected;
 	gchar buffer[128], *format_string;
-	gint day_of_week, month, day_of_month, max_width;
+	gint month, day_of_month, max_width;
+	GDateWeekday weekday;
 	GdkColor *bg_color;
 	PangoFontDescription *font_desc;
 	PangoContext *pango_context;
 	PangoFontMetrics *font_metrics;
 	PangoLayout *layout;
 	gboolean today = FALSE;
-	CalWeekdays working_days;
 
 	week_view = e_week_view_main_item_get_week_view (main_item);
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
 	style = gtk_widget_get_style (GTK_WIDGET (week_view));
 
 	/* Set up Pango prerequisites */
@@ -101,8 +86,8 @@ week_view_main_item_draw_day (EWeekViewMainItem *main_item,
 		pango_context, font_desc,
 		pango_context_get_language (pango_context));
 
-	day_of_week = gdate_to_cal_weekdays (g_date_get_weekday (date));
 	month = g_date_get_month (date);
+	weekday = g_date_get_weekday (date);
 	day_of_month = g_date_get_day (date);
 	line_y = y + E_WEEK_VIEW_DATE_T_PAD +
 		PANGO_PIXELS (pango_font_metrics_get_ascent (font_metrics)) +
@@ -125,8 +110,6 @@ week_view_main_item_draw_day (EWeekViewMainItem *main_item,
 			&& g_date_get_day (date) == tt.day;
 	}
 
-	working_days = calendar_config_get_working_days ();
-
 	/* Draw the background of the day. In the month view odd months are
 	 * one color and even months another, so you can easily see when each
 	 * month starts (defaults are white for odd - January, March, ... and
@@ -134,7 +117,7 @@ week_view_main_item_draw_day (EWeekViewMainItem *main_item,
 	 * same color, the color used for the odd months in the month view. */
 	if (today)
 		bg_color = &week_view->colors[E_WEEK_VIEW_COLOR_TODAY_BACKGROUND];
-	else if ((working_days & day_of_week) == 0)
+	else if (!e_cal_model_get_work_day (model, weekday))
 		bg_color = &week_view->colors[E_WEEK_VIEW_COLOR_MONTH_NONWORKING_DAY];
 	else if (week_view->multi_week_view && (month % 2 == 0))
 		bg_color = &week_view->colors[E_WEEK_VIEW_COLOR_EVEN_MONTHS];
