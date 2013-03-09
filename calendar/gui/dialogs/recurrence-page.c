@@ -730,6 +730,7 @@ static void
 simple_recur_to_comp (RecurrencePage *rpage,
                       ECalComponent *comp)
 {
+	CompEditor *editor;
 	RecurrencePagePrivate *priv;
 	struct icalrecurrencetype r;
 	GSList l;
@@ -738,6 +739,8 @@ simple_recur_to_comp (RecurrencePage *rpage,
 
 	priv = rpage->priv;
 
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (rpage));
+
 	icalrecurrencetype_clear (&r);
 
 	/* Frequency, interval, week start */
@@ -745,8 +748,8 @@ simple_recur_to_comp (RecurrencePage *rpage,
 	r.freq = e_dialog_combo_box_get (priv->interval_unit_combo, freq_map);
 	r.interval = gtk_spin_button_get_value_as_int (
 		GTK_SPIN_BUTTON (priv->interval_value));
-	r.week_start = ICAL_SUNDAY_WEEKDAY
-		+ e_meeting_store_get_week_start_day (priv->meeting_store);
+	r.week_start = ICAL_SUNDAY_WEEKDAY +
+		comp_editor_get_week_start_day (editor);
 
 	/* Frequency-specific data */
 
