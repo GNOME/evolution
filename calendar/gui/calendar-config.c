@@ -171,15 +171,6 @@ calendar_config_add_notification_month_scroll_by_week (CalendarConfigChangedFunc
 
 /***************************************/
 
-/* The working days of the week, a bit-wise combination of flags. */
-CalWeekdays
-calendar_config_get_working_days (void)
-{
-	calendar_config_init ();
-
-	return g_settings_get_int (config, "working-days");
-}
-
 /* Settings to hide completed tasks. */
 gboolean
 calendar_config_get_hide_completed_tasks (void)

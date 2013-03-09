@@ -34,20 +34,6 @@
 
 #include <e-util/e-util.h>
 
-/* These are used to get/set the working days in the week. The bit-flags are
- * combined together. The bits must be from 0 (Sun) to 6 (Sat) to match the
- * day values used by localtime etc. */
-typedef enum
-{
-	CAL_SUNDAY	= 1 << 0,
-	CAL_MONDAY	= 1 << 1,
-	CAL_TUESDAY	= 1 << 2,
-	CAL_WEDNESDAY	= 1 << 3,
-	CAL_THURSDAY	= 1 << 4,
-	CAL_FRIDAY	= 1 << 5,
-	CAL_SATURDAY	= 1 << 6
-} CalWeekdays;
-
 typedef void (* CalendarConfigChangedFunc) (GSettings *settings,
 					    const gchar *key,
 					    gpointer user_data);
@@ -60,9 +46,6 @@ void calendar_config_remove_notification (CalendarConfigChangedFunc func, gpoint
 
 /* The current timezone, e.g. "Europe/London". */
 icaltimezone *calendar_config_get_icaltimezone (void);
-
-/* The working days of the week, a bit-wise combination of flags. */
-CalWeekdays calendar_config_get_working_days	(void);
 
 /* Whether we use 24-hour format or 12-hour format (AM/PM). */
 gboolean  calendar_config_get_24_hour_format	(void);
