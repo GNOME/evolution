@@ -1695,18 +1695,17 @@ em_subscription_editor_init (EMSubscriptionEditor *editor)
 
 	container = box = widget;
 
-	widget = gtk_table_new (2, 3, FALSE);
-	gtk_table_set_col_spacings (GTK_TABLE (widget), 6);
-	gtk_table_set_row_spacings (GTK_TABLE (widget), 6);
+	widget = gtk_grid_new ();
+	gtk_grid_set_row_spacing (GTK_GRID (widget), 6);
+	gtk_grid_set_column_spacing (GTK_GRID (widget), 6);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
 	container = widget;
 
 	widget = gtk_combo_box_text_new ();
-	gtk_table_attach (
-		GTK_TABLE (container), widget,
-		1, 2, 0, 1, GTK_EXPAND | GTK_FILL, GTK_FILL, 0, 0);
+	gtk_widget_set_hexpand (widget, TRUE);
+	gtk_grid_attach (GTK_GRID (container), widget, 1, 0, 1, 1);
 	editor->priv->combo_box = widget;
 	gtk_widget_show (widget);
 
@@ -1718,9 +1717,7 @@ em_subscription_editor_init (EMSubscriptionEditor *editor)
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (widget), editor->priv->combo_box);
 	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
-	gtk_table_attach (
-		GTK_TABLE (container), widget,
-		0, 1, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
+	gtk_grid_attach (GTK_GRID (container), widget, 0, 0, 1, 1);
 	gtk_widget_show (widget);
 
 	widget = gtk_entry_new ();
@@ -1733,9 +1730,8 @@ em_subscription_editor_init (EMSubscriptionEditor *editor)
 	gtk_entry_set_icon_sensitive (
 		GTK_ENTRY (widget),
 		GTK_ENTRY_ICON_SECONDARY, FALSE);
-	gtk_table_attach (
-		GTK_TABLE (container), widget,
-		1, 2, 1, 2, GTK_EXPAND | GTK_FILL, GTK_FILL, 0, 0);
+	gtk_widget_set_hexpand (widget, TRUE);
+	gtk_grid_attach (GTK_GRID (container), widget, 1, 1, 1, 1);
 	editor->priv->entry = widget;
 	gtk_widget_show (widget);
 
@@ -1751,9 +1747,7 @@ em_subscription_editor_init (EMSubscriptionEditor *editor)
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (widget), editor->priv->entry);
 	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
-	gtk_table_attach (
-		GTK_TABLE (container), widget,
-		0, 1, 1, 2, GTK_FILL, GTK_FILL, 0, 0);
+	gtk_grid_attach (GTK_GRID (container), widget, 0, 1, 1, 1);
 	gtk_widget_show (widget);
 
 	container = box;
