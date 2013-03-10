@@ -1761,7 +1761,7 @@ em_subscription_editor_init (EMSubscriptionEditor *editor)
 	widget = gtk_notebook_new ();
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (widget), FALSE);
 	gtk_notebook_set_show_border (GTK_NOTEBOOK (widget), FALSE);
-	gtk_container_add (GTK_CONTAINER (container), widget);
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	editor->priv->notebook = widget;
 	gtk_widget_show (widget);
 
