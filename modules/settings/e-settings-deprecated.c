@@ -24,6 +24,7 @@
 #include "e-settings-deprecated.h"
 
 #include <shell/e-shell.h>
+#include <libemail-engine/e-mail-enums.h>
 
 #define E_SETTINGS_DEPRECATED_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -39,6 +40,9 @@ struct _ESettingsDeprecatedPrivate {
 	gulong work_day_friday_handler_id;
 	gulong work_day_saturday_handler_id;
 	gulong work_day_sunday_handler_id;
+
+	GSettings *mail_settings;
+	gulong forward_style_name_handler_id;
 };
 
 /* Flag values used in the "working-days" key. */
@@ -168,6 +172,16 @@ settings_deprecated_work_day_sunday_cb (GSettings *settings,
 }
 
 static void
+settings_deprecated_forward_style_name_cb (GSettings *settings,
+                                           const gchar *key)
+{
+	EMailForwardStyle style;
+
+	style = g_settings_get_enum (settings, "forward-style-name");
+	g_settings_set_int (settings, "forward-style", style);
+}
+
+static void
 settings_deprecated_dispose (GObject *object)
 {
 	ESettingsDeprecatedPrivate *priv;
@@ -230,7 +244,15 @@ settings_deprecated_dispose (GObject *object)
 		priv->work_day_sunday_handler_id = 0;
 	}
 
+	if (priv->forward_style_name_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->mail_settings,
+			priv->forward_style_name_handler_id);
+		priv->forward_style_name_handler_id = 0;
+	}
+
 	g_clear_object (&priv->calendar_settings);
+	g_clear_object (&priv->mail_settings);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_settings_deprecated_parent_class)->dispose (object);
@@ -281,6 +303,11 @@ settings_deprecated_constructed (GObject *object)
 		priv->calendar_settings, "work-day-sunday",
 		(int_value & DEPRECATED_WORKING_DAYS_SUNDAY) != 0);
 
+	int_value = g_settings_get_int (
+		priv->mail_settings, "forward-style");
+	g_settings_set_enum (
+		priv->mail_settings, "forward-style-name", int_value);
+
 	/* Write changes back to the deprecated keys. */
 
 	handler_id = g_signal_connect (
@@ -322,6 +349,11 @@ settings_deprecated_constructed (GObject *object)
 		priv->calendar_settings, "changed::work-day-sunday",
 		G_CALLBACK (settings_deprecated_work_day_sunday_cb), NULL);
 	priv->work_day_sunday_handler_id = handler_id;
+
+	handler_id = g_signal_connect (
+		priv->mail_settings, "changed::forward-style-name",
+		G_CALLBACK (settings_deprecated_forward_style_name_cb), NULL);
+	priv->forward_style_name_handler_id = handler_id;
 }
 
 static void
@@ -354,6 +386,9 @@ e_settings_deprecated_init (ESettingsDeprecated *extension)
 
 	settings = g_settings_new ("org.gnome.evolution.calendar");
 	extension->priv->calendar_settings = settings;
+
+	settings = g_settings_new ("org.gnome.evolution.mail");
+	extension->priv->mail_settings = settings;
 }
 
 void

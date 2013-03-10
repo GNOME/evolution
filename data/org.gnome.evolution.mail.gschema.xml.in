@@ -1,4 +1,12 @@
 <schemalist>
+
+  <!-- Keep this synchronized with EMailForwardStyle. -->
+  <enum id="org.gnome.evolution.mail.ForwardStyle">
+    <value nick='attached' value='0'/>
+    <value nick='inline'   value='1'/>
+    <value nick='quoted'   value='2'/>
+  </enum>
+
   <schema gettext-domain="evolution" id="org.gnome.evolution.mail" path="/org/gnome/evolution/mail/">
     <key name="prompt-check-if-default-mailer" type="b">
       <default>true</default>
@@ -335,10 +343,9 @@
       <_summary>Flush Outbox after filtering</_summary>
       <_description>Whether to flush Outbox after filtering is done. Outbox flush will happen only when there was used any 'Forward to' filter action and approximately one minute after the last action invocation.</_description>
     </key>
-    <key name="forward-style" type="i">
-      <default>0</default>
+    <key name="forward-style-name" enum="org.gnome.evolution.mail.ForwardStyle">
+      <default>'attached'</default>
       <_summary>Default forward style</_summary>
-      <_description></_description>
     </key>
     <key name="reply-style" type="i">
       <default>0</default>
@@ -536,5 +543,15 @@
     <child name="send-recv-window" schema="org.gnome.evolution.window"/>
     <child name="subscription-window" schema="org.gnome.evolution.window"/>
     <child name="vfolder-window" schema="org.gnome.evolution.window"/>
+
+    <!-- The following keys are deprecated. -->
+
+    <key name="forward-style" type="i">
+      <default>0</default>
+      <_summary>(Deprecated) Default forward style</_summary>
+      <_description>This key was deprecated in version 3.10 and should no longer be used.  Use "forward-style-name" instead.</_description>
+    </key>
+
   </schema>
+
 </schemalist>
