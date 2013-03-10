@@ -7,6 +7,14 @@
     <value nick='quoted'   value='2'/>
   </enum>
 
+  <!-- Keep this synchronized with EMailReplyStyle. -->
+  <enum id="org.gnome.evolution.mail.ReplyStyle">
+    <value nick='quoted'       value='0'/>
+    <value nick='do-not-quote' value='1'/>
+    <value nick='attach'       value='2'/>
+    <value nick='outlook'      value='3'/>
+  </enum>
+
   <schema gettext-domain="evolution" id="org.gnome.evolution.mail" path="/org/gnome/evolution/mail/">
     <key name="prompt-check-if-default-mailer" type="b">
       <default>true</default>
@@ -347,10 +355,9 @@
       <default>'attached'</default>
       <_summary>Default forward style</_summary>
     </key>
-    <key name="reply-style" type="i">
-      <default>0</default>
-      <_summary>Default forward style</_summary>
-      <_description></_description>
+    <key name="reply-style-name" enum="org.gnome.evolution.mail.ReplyStyle">
+      <default>'quoted'</default>
+      <_summary>Default reply style</_summary>
     </key>
     <key name="prompt-on-empty-subject" type="b">
       <default>true</default>
@@ -550,6 +557,11 @@
       <default>0</default>
       <_summary>(Deprecated) Default forward style</_summary>
       <_description>This key was deprecated in version 3.10 and should no longer be used.  Use "forward-style-name" instead.</_description>
+    </key>
+    <key name="reply-style" type="i">
+      <default>0</default>
+      <_summary>(Deprecated) Default reply style</_summary>
+      <_description>This key was deprecated in version 3.10 and should no longer be used.  Use "reply-style-name" instead.</_description>
     </key>
 
   </schema>

@@ -43,6 +43,7 @@ struct _ESettingsDeprecatedPrivate {
 
 	GSettings *mail_settings;
 	gulong forward_style_name_handler_id;
+	gulong reply_style_name_handler_id;
 };
 
 /* Flag values used in the "working-days" key. */
@@ -182,6 +183,30 @@ settings_deprecated_forward_style_name_cb (GSettings *settings,
 }
 
 static void
+settings_deprecated_reply_style_name_cb (GSettings *settings,
+                                         const gchar *key)
+{
+	/* XXX The "reply-style" key uses a completely different
+	 *     numbering than the EMailReplyStyle enum.  *sigh* */
+	switch (g_settings_get_enum (settings, "reply-style-name")) {
+		case E_MAIL_REPLY_STYLE_QUOTED:
+			g_settings_set_int (settings, "reply-style", 2);
+			break;
+		case E_MAIL_REPLY_STYLE_DO_NOT_QUOTE:
+			g_settings_set_int (settings, "reply-style", 3);
+			break;
+		case E_MAIL_REPLY_STYLE_ATTACH:
+			g_settings_set_int (settings, "reply-style", 0);
+			break;
+		case E_MAIL_REPLY_STYLE_OUTLOOK:
+			g_settings_set_int (settings, "reply-style", 1);
+			break;
+		default:
+			g_warn_if_reached ();
+	}
+}
+
+static void
 settings_deprecated_dispose (GObject *object)
 {
 	ESettingsDeprecatedPrivate *priv;
@@ -251,6 +276,13 @@ settings_deprecated_dispose (GObject *object)
 		priv->forward_style_name_handler_id = 0;
 	}
 
+	if (priv->reply_style_name_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->mail_settings,
+			priv->reply_style_name_handler_id);
+		priv->reply_style_name_handler_id = 0;
+	}
+
 	g_clear_object (&priv->calendar_settings);
 	g_clear_object (&priv->mail_settings);
 
@@ -308,6 +340,38 @@ settings_deprecated_constructed (GObject *object)
 	g_settings_set_enum (
 		priv->mail_settings, "forward-style-name", int_value);
 
+	/* XXX The "reply-style" key uses a completely different
+	 *     numbering than the EMailReplyStyle enum.  *sigh* */
+	switch (g_settings_get_int (priv->mail_settings, "reply-style")) {
+		case 0:
+			g_settings_set_enum (
+				priv->mail_settings,
+				"reply-style-name",
+				E_MAIL_REPLY_STYLE_ATTACH);
+			break;
+		case 1:
+			g_settings_set_enum (
+				priv->mail_settings,
+				"reply-style-name",
+				E_MAIL_REPLY_STYLE_OUTLOOK);
+			break;
+		case 2:
+			g_settings_set_enum (
+				priv->mail_settings,
+				"reply-style-name",
+				E_MAIL_REPLY_STYLE_QUOTED);
+			break;
+		case 3:
+			g_settings_set_enum (
+				priv->mail_settings,
+				"reply-style-name",
+				E_MAIL_REPLY_STYLE_DO_NOT_QUOTE);
+			break;
+		default:
+			/* do nothing */
+			break;
+	}
+
 	/* Write changes back to the deprecated keys. */
 
 	handler_id = g_signal_connect (
@@ -354,6 +418,11 @@ settings_deprecated_constructed (GObject *object)
 		priv->mail_settings, "changed::forward-style-name",
 		G_CALLBACK (settings_deprecated_forward_style_name_cb), NULL);
 	priv->forward_style_name_handler_id = handler_id;
+
+	handler_id = g_signal_connect (
+		priv->mail_settings, "changed::reply-style-name",
+		G_CALLBACK (settings_deprecated_reply_style_name_cb), NULL);
+	priv->reply_style_name_handler_id = handler_id;
 }
 
 static void
