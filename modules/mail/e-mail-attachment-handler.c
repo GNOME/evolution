@@ -121,19 +121,18 @@ mail_attachment_handler_forward (GtkAction *action,
                                  EAttachmentHandler *handler)
 {
 	EMailAttachmentHandlerPrivate *priv;
-	EShellSettings *shell_settings;
+	GSettings *settings;
 	EMailForwardStyle style;
 	CamelMimeMessage *message;
-	const gchar *property_name;
 
 	priv = E_MAIL_ATTACHMENT_HANDLER_GET_PRIVATE (handler);
 
 	message = mail_attachment_handler_get_selected_message (handler);
 	g_return_if_fail (message != NULL);
 
-	property_name = "mail-forward-style";
-	shell_settings = e_shell_get_shell_settings (priv->shell);
-	style = e_shell_settings_get_int (shell_settings, property_name);
+	settings = g_settings_new ("org.gnome.evolution.mail");
+	style = g_settings_get_enum (settings, "forward-style-name");
+	g_object_unref (settings);
 
 	em_utils_forward_message (
 		priv->shell, CAMEL_SESSION (priv->session),
@@ -147,19 +146,18 @@ mail_attachment_handler_reply (EAttachmentHandler *handler,
                                EMailReplyType reply_type)
 {
 	EMailAttachmentHandlerPrivate *priv;
-	EShellSettings *shell_settings;
+	GSettings *settings;
 	EMailReplyStyle style;
 	CamelMimeMessage *message;
-	const gchar *property_name;
 
 	priv = E_MAIL_ATTACHMENT_HANDLER_GET_PRIVATE (handler);
 
 	message = mail_attachment_handler_get_selected_message (handler);
 	g_return_if_fail (message != NULL);
 
-	property_name = "mail-reply-style";
-	shell_settings = e_shell_get_shell_settings (priv->shell);
-	style = e_shell_settings_get_int (shell_settings, property_name);
+	settings = g_settings_new ("org.gnome.evolution.mail");
+	style = g_settings_get_enum (settings, "reply-style-name");
+	g_object_unref (settings);
 
 	em_utils_reply_to_message (
 		priv->shell, message,

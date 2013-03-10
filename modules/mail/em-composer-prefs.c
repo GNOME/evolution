@@ -52,75 +52,50 @@ G_DEFINE_TYPE (
 	GTK_TYPE_VBOX)
 
 static gboolean
-transform_old_to_new_reply_style (GBinding *binding,
-                                  const GValue *source_value,
-                                  GValue *target_value,
-                                  gpointer user_data)
+composer_prefs_map_string_to_color (GValue *value,
+                                    GVariant *variant,
+                                    gpointer user_data)
 {
-	gboolean success = TRUE;
+	GdkColor color;
+	const gchar *string;
+	gboolean success = FALSE;
 
-	/* XXX This is the kind of legacy crap we wind up
-	 *     with when we don't migrate things properly. */
-
-	switch (g_value_get_int (source_value)) {
-		case 0:  /* Quoted: 0 -> 2 */
-			g_value_set_int (target_value, 2);
-			break;
-
-		case 1:  /* Do Not Quote: 1 -> 3 */
-			g_value_set_int (target_value, 3);
-			break;
-
-		case 2:  /* Attach: 2 -> 0 */
-			g_value_set_int (target_value, 0);
-			break;
-
-		case 3:  /* Outlook: 3 -> 1 */
-			g_value_set_int (target_value, 1);
-			break;
-
-		default:
-			success = FALSE;
-			break;
+	string = g_variant_get_string (variant, NULL);
+	if (gdk_color_parse (string, &color)) {
+		g_value_set_boxed (value, &color);
+		success = TRUE;
 	}
 
 	return success;
 }
 
-static gboolean
-transform_new_to_old_reply_style (GBinding *binding,
-                                  const GValue *source_value,
-                                  GValue *target_value,
-                                  gpointer user_data)
+static GVariant *
+composer_prefs_map_color_to_string (const GValue *value,
+                                    const GVariantType *expected_type,
+                                    gpointer user_data)
 {
-	gboolean success = TRUE;
+	GVariant *variant;
+	const GdkColor *color;
 
-	/* XXX This is the kind of legacy crap we wind up
-	 *     with when we don't migrate things properly. */
+	color = g_value_get_boxed (value);
+	if (color == NULL) {
+		variant = g_variant_new_string ("");
+	} else {
+		gchar *string;
 
-	switch (g_value_get_int (source_value)) {
-		case 0:  /* Attach: 0 -> 2 */
-			g_value_set_int (target_value, 2);
-			break;
-
-		case 1:  /* Outlook: 1 -> 3 */
-			g_value_set_int (target_value, 3);
-			break;
-
-		case 2:  /* Quoted: 2 -> 0 */
-			g_value_set_int (target_value, 0);
-			break;
-
-		case 3:  /* Do Not Quote: 3 -> 1 */
-			g_value_set_int (target_value, 1);
-			break;
-
-		default:
-			success = FALSE;
-			break;
+		/* Encode the color manually because CSS styles expect
+		 * color codes as #rrggbb, whereas gdk_color_to_string()
+		 * returns color codes as #rrrrggggbbbb. */
+		string = g_strdup_printf (
+			"#%02x%02x%02x",
+			(gint) color->red * 256 / 65536,
+			(gint) color->green * 256 / 65536,
+			(gint) color->blue * 256 / 65536);
+		variant = g_variant_new_string (string);
+		g_free (string);
 	}
 
-	return success;
+	return variant;
 }
 
 static void
@@ -302,7 +277,7 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 {
 	GtkWidget *toplevel, *widget, *info_pixmap;
 	GtkWidget *container;
-	EShellSettings *shell_settings;
+	GSettings *settings;
 	ESourceRegistry *registry;
 	GtkTreeView *view;
 	GtkListStore *store;
@@ -314,7 +289,8 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	gint i;
 
 	registry = e_shell_get_registry (shell);
-	shell_settings = e_shell_get_shell_settings (shell);
+
+	settings = g_settings_new ("org.gnome.evolution.mail");
 
 	/* Make sure our custom widget classes are registered with
 	 * GType before we load the GtkBuilder definition file. */
@@ -343,129 +319,113 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 
 	/* Express mode does not honor this setting. */
 	widget = e_builder_get_widget (prefs->builder, "chkSendHTML");
-	if (e_shell_get_express_mode (shell))
+	if (e_shell_get_express_mode (shell)) {
 		gtk_widget_hide (widget);
-	else
-		g_object_bind_property (
-			shell_settings, "composer-format-html",
+	} else {
+		g_settings_bind (
+			settings, "composer-send-html",
 			widget, "active",
-			G_BINDING_BIDIRECTIONAL |
-			G_BINDING_SYNC_CREATE);
+			G_SETTINGS_BIND_DEFAULT);
+	}
 
 	widget = e_builder_get_widget (prefs->builder, "chkPromptEmptySubject");
-	g_object_bind_property (
-		shell_settings, "composer-prompt-empty-subject",
+	g_settings_bind (
+		settings, "prompt-on-empty-subject",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->builder, "chkPromptBccOnly");
-	g_object_bind_property (
-		shell_settings, "composer-prompt-only-bcc",
+	g_settings_bind (
+		settings, "prompt-on-only-bcc",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->builder, "chkPromptPrivateListReply");
-	g_object_bind_property (
-		shell_settings, "composer-prompt-private-list-reply",
+	g_settings_bind (
+		settings, "prompt-on-private-list-reply",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->builder, "chkPromptReplyManyRecips");
-	g_object_bind_property (
-		shell_settings, "composer-prompt-reply-many-recips",
+	g_settings_bind (
+		settings, "prompt-on-reply-many-recips",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->builder, "chkPromptListReplyTo");
-	g_object_bind_property (
-		shell_settings, "composer-prompt-list-reply-to",
+	g_settings_bind (
+		settings, "prompt-on-list-reply-to",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->builder, "chkPromptSendInvalidRecip");
-	g_object_bind_property (
-		shell_settings, "composer-prompt-send-invalid-recip",
+	g_settings_bind (
+		settings, "prompt-on-invalid-recip",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->builder, "chkAutoSmileys");
-	g_object_bind_property (
-		shell_settings, "composer-magic-smileys",
+	g_settings_bind (
+		settings, "composer-magic-smileys",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->builder, "chkRequestReceipt");
-	g_object_bind_property (
-		shell_settings, "composer-request-receipt",
+	g_settings_bind (
+		settings, "composer-request-receipt",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->builder, "chkReplyStartBottom");
-	g_object_bind_property (
-		shell_settings, "composer-reply-start-bottom",
+	g_settings_bind (
+		settings, "composer-reply-start-bottom",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->builder, "chkOutlookFilenames");
-	g_object_bind_property (
-		shell_settings, "composer-outlook-filenames",
+	g_settings_bind (
+		settings, "composer-outlook-filenames",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->builder, "chkIgnoreListReplyTo");
-	g_object_bind_property (
-		shell_settings, "composer-ignore-list-reply-to",
+	g_settings_bind (
+		settings, "composer-ignore-list-reply-to",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->builder, "chkGroupReplyToList");
-	g_object_bind_property (
-		shell_settings, "composer-group-reply-to-list",
+	g_settings_bind (
+		settings, "composer-group-reply-to-list",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->builder, "chkSignReplyIfSigned");
-	g_object_bind_property (
-		shell_settings, "composer-sign-reply-if-signed",
+	g_settings_bind (
+		settings, "composer-sign-reply-if-signed",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->builder, "chkTopSignature");
-	g_object_bind_property (
-		shell_settings, "composer-top-signature",
+	g_settings_bind (
+		settings, "composer-top-signature",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->builder, "chkEnableSpellChecking");
-	g_object_bind_property (
-		shell_settings, "composer-inline-spelling",
+	g_settings_bind (
+		settings, "composer-inline-spelling",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_charset_combo_box_new ();
 	container = e_builder_get_widget (prefs->builder, "hboxComposerCharset");
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
-	g_object_bind_property (
-		shell_settings, "composer-charset",
+	g_settings_bind (
+		settings, "composer-charset",
 		widget, "charset",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	container = e_builder_get_widget (prefs->builder, "lblCharset");
 	gtk_label_set_mnemonic_widget (GTK_LABEL (container), widget);
@@ -500,34 +460,28 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 		GTK_STOCK_DIALOG_INFO, GTK_ICON_SIZE_BUTTON);
 
 	widget = e_builder_get_widget (prefs->builder, "colorButtonSpellCheckColor");
-	g_object_bind_property_full (
-		shell_settings, "composer-spell-color",
+	g_settings_bind_with_mapping (
+		settings, "composer-spell-color",
 		widget, "color",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE,
-		e_binding_transform_string_to_color,
-		e_binding_transform_color_to_string,
+		G_SETTINGS_BIND_DEFAULT,
+		composer_prefs_map_string_to_color,
+		composer_prefs_map_color_to_string,
 		NULL, (GDestroyNotify) NULL);
 
 	spell_setup (prefs);
 
 	/* Forwards and Replies */
 	widget = e_builder_get_widget (prefs->builder, "comboboxForwardStyle");
-	g_object_bind_property (
-		shell_settings, "mail-forward-style",
-		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+	g_settings_bind (
+		settings, "forward-style-name",
+		widget, "active-id",
+		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->builder, "comboboxReplyStyle");
-	g_object_bind_property_full (
-		shell_settings, "mail-reply-style",
-		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE,
-		transform_old_to_new_reply_style,
-		transform_new_to_old_reply_style,
-		NULL, (GDestroyNotify) NULL);
+	g_settings_bind (
+		settings, "reply-style-name",
+		widget, "active-id",
+		G_SETTINGS_BIND_DEFAULT);
 
 	/* Signatures */
 	container = e_builder_get_widget (
@@ -544,10 +498,10 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 
 	/* Express mode does not honor this setting. */
 	if (!e_shell_get_express_mode (shell))
-		g_object_bind_property (
-			shell_settings, "composer-format-html",
+		g_settings_bind (
+			settings, "composer-send-html",
 			widget, "prefer-html",
-			G_BINDING_SYNC_CREATE);
+			G_SETTINGS_BIND_GET);
 
 	/* Sanitize the dialog for Express mode */
 	e_shell_hide_widgets_for_express_mode (
@@ -561,6 +515,8 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	e_config_set_target ((EConfig *) ec, (EConfigTarget *) target);
 	toplevel = e_config_create_widget ((EConfig *) ec);
 	gtk_container_add (GTK_CONTAINER (prefs), toplevel);
+
+	g_object_unref (settings);
 }
 
 GtkWidget *

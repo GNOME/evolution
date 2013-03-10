@@ -22,7 +22,6 @@
 
 #include "e-settings-mail-formatter.h"
 
-#include <shell/e-shell.h>
 #include <e-util/e-util.h>
 #include <em-format/e-mail-formatter.h>
 #include <mail/e-mail-reader-utils.h>
@@ -49,6 +48,24 @@ settings_mail_formatter_get_extensible (ESettingsMailFormatter *extension)
 	extensible = e_extension_get_extensible (E_EXTENSION (extension));
 
 	return E_MAIL_FORMATTER (extensible);
+}
+
+static gboolean
+settings_mail_formatter_map_string_to_color (GValue *value,
+                                             GVariant *variant,
+                                             gpointer user_data)
+{
+	GdkColor color;
+	const gchar *string;
+	gboolean success = FALSE;
+
+	string = g_variant_get_string (variant, NULL);
+	if (gdk_color_parse (string, &color)) {
+		g_value_set_boxed (value, &color);
+		success = TRUE;
+	}
+
+	return success;
 }
 
 static void
@@ -91,13 +108,14 @@ settings_mail_formatter_dispose (GObject *object)
 
 	priv = E_SETTINGS_MAIL_FORMATTER_GET_PRIVATE (object);
 
-	if (priv->settings != NULL) {
+	if (priv->headers_changed_id > 0) {
 		g_signal_handler_disconnect (
 			priv->settings,
 			priv->headers_changed_id);
-		g_object_unref (priv->settings);
-		priv->settings = NULL;
+		priv->headers_changed_id = 0;
 	}
+
+	g_clear_object (&priv->settings);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_settings_mail_formatter_parent_class)->
@@ -109,46 +127,45 @@ settings_mail_formatter_constructed (GObject *object)
 {
 	ESettingsMailFormatter *extension;
 	EMailFormatter *formatter;
-	EShellSettings *shell_settings;
-	EShell *shell;
+	GSettings *settings;
 
 	extension = E_SETTINGS_MAIL_FORMATTER (object);
 	formatter = settings_mail_formatter_get_extensible (extension);
 
-	shell = e_shell_get_default ();
-	shell_settings = e_shell_get_shell_settings (shell);
+	settings = extension->priv->settings;
 
-	g_object_bind_property_full (
-		shell_settings, "mail-citation-color",
+	g_settings_bind_with_mapping (
+		settings, "citation-color",
 		formatter, "citation-color",
-		G_BINDING_SYNC_CREATE,
-		e_binding_transform_string_to_color,
-		NULL, NULL, (GDestroyNotify) NULL);
+		G_SETTINGS_BIND_GET,
+		settings_mail_formatter_map_string_to_color,
+		(GSettingsBindSetMapping) NULL,
+		NULL, (GDestroyNotify) NULL);
 
-	g_object_bind_property (
-		shell_settings, "mail-mark-citations",
+	g_settings_bind (
+		settings, "mark-citations",
 		formatter, "mark-citations",
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_GET);
 
-	g_object_bind_property (
-		shell_settings, "mail-image-loading-policy",
+	g_settings_bind (
+		settings, "image-loading-policy",
 		formatter, "image-loading-policy",
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
-		shell_settings, "mail-show-sender-photo",
+	g_settings_bind (
+		settings, "show-sender-photo",
 		formatter, "show-sender-photo",
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_GET);
 
-	g_object_bind_property (
-		shell_settings, "mail-show-real-date",
+	g_settings_bind (
+		settings, "show-real-date",
 		formatter, "show-real-date",
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_GET);
 
-	g_object_bind_property (
-		shell_settings, "mail-show-animated-images",
+	g_settings_bind (
+		settings, "show-animated-images",
 		formatter, "animate-images",
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_GET);
 
 	extension->priv->headers_changed_id = g_signal_connect (
 		extension->priv->settings, "changed::headers",
@@ -189,10 +206,12 @@ e_settings_mail_formatter_class_finalize (ESettingsMailFormatterClass *class)
 static void
 e_settings_mail_formatter_init (ESettingsMailFormatter *extension)
 {
+	GSettings *settings;
+
 	extension->priv = E_SETTINGS_MAIL_FORMATTER_GET_PRIVATE (extension);
 
-	extension->priv->settings =
-		g_settings_new ("org.gnome.evolution.mail");
+	settings = g_settings_new ("org.gnome.evolution.mail");
+	extension->priv->settings = settings;
 }
 
 void

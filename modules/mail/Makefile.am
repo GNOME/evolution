@@ -23,8 +23,6 @@ module_mail_la_SOURCES = \
 	e-mail-shell-backend.h						\
 	e-mail-shell-content.c						\
 	e-mail-shell-content.h						\
-	e-mail-shell-settings.c						\
-	e-mail-shell-settings.h						\
 	e-mail-shell-sidebar.c						\
 	e-mail-shell-sidebar.h						\
 	e-mail-shell-view.c						\

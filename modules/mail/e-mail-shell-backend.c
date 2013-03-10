@@ -53,7 +53,6 @@
 #include <em-format/e-mail-formatter.h>
 #include <em-format/e-mail-part-utils.h>
 
-#include "e-mail-shell-settings.h"
 #include "e-mail-shell-sidebar.h"
 #include "e-mail-shell-view.h"
 #include "em-account-prefs.h"
@@ -369,7 +368,7 @@ mail_shell_backend_window_added_cb (GtkApplication *application,
 
 	/* This applies to both the composer and signature editor. */
 	if (GTKHTML_IS_EDITOR (window)) {
-		EShellSettings *shell_settings;
+		GSettings *settings;
 		GList *spell_languages;
 		gboolean active = TRUE;
 
@@ -378,12 +377,14 @@ mail_shell_backend_window_added_cb (GtkApplication *application,
 			GTKHTML_EDITOR (window), spell_languages);
 		g_list_free (spell_languages);
 
-		shell_settings = e_shell_get_shell_settings (shell);
+		settings = g_settings_new ("org.gnome.evolution.mail");
 
 		/* Express mode does not honor this setting. */
 		if (!e_shell_get_express_mode (shell))
-			active = e_shell_settings_get_boolean (
-				shell_settings, "composer-format-html");
+			active = g_settings_get_boolean (
+				settings, "composer-send-html");
+
+		g_object_unref (settings);
 
 		gtkhtml_editor_set_html_mode (GTKHTML_EDITOR (window), active);
 	}
@@ -513,15 +514,14 @@ static void
 mail_shell_backend_constructed (GObject *object)
 {
 	EShell *shell;
-	EShellSettings *shell_settings;
 	EShellBackend *shell_backend;
 	EMailSession *mail_session;
 	CamelService *vstore;
 	GtkWidget *preferences_window;
+	GSettings *settings;
 
 	shell_backend = E_SHELL_BACKEND (object);
 	shell = e_shell_backend_get_shell (shell_backend);
-	shell_settings = e_shell_get_shell_settings (shell);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_mail_shell_backend_parent_class)->constructed (object);
@@ -542,8 +542,6 @@ mail_shell_backend_constructed (GObject *object)
 		shell, "window-added",
 		G_CALLBACK (mail_shell_backend_window_added_cb),
 		shell_backend);
-
-	e_mail_shell_settings_init (shell_backend);
 
 	/* Setup preference widget factories */
 	preferences_window = e_shell_get_preferences_window (shell);
@@ -589,10 +587,14 @@ mail_shell_backend_constructed (GObject *object)
 		CAMEL_SESSION (mail_session), E_MAIL_SESSION_VFOLDER_UID);
 	g_return_if_fail (vstore != NULL);
 
-	g_object_bind_property (
-		shell_settings, "mail-enable-unmatched-search-folder",
+	settings = g_settings_new ("org.gnome.evolution.mail");
+
+	g_settings_bind (
+		settings, "enable-unmatched",
 		vstore, "unmatched-enabled",
-		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
+		G_SETTINGS_BIND_DEFAULT);
+
+	g_object_unref (settings);
 
 	g_object_unref (vstore);
 }
@@ -630,38 +632,31 @@ mail_shell_backend_start (EShellBackend *shell_backend)
 static gboolean
 mail_shell_backend_delete_junk_policy_decision (EMailBackend *backend)
 {
-	EShell *shell;
-	EShellSettings *shell_settings;
 	GSettings *settings;
 	gboolean delete_junk;
-	gint empty_date;
-	gint empty_days;
+	gint empty_date = 0;
+	gint empty_days = 0;
 	gint now;
 
-	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
-
 	settings = g_settings_new ("org.gnome.evolution.mail");
-	shell_settings = e_shell_get_shell_settings (shell);
 
 	now = time (NULL) / 60 / 60 / 24;
 
-	delete_junk = e_shell_settings_get_boolean (
-		shell_settings, "mail-empty-junk-on-exit");
-
-	/* XXX No EShellSettings properties for these keys. */
-
-	empty_date = empty_days = 0;
+	delete_junk = g_settings_get_boolean (settings, "junk-empty-on-exit");
 
 	if (delete_junk) {
-		empty_days = g_settings_get_int (settings, "junk-empty-on-exit-days");
-		empty_date = g_settings_get_int (settings, "junk-empty-date");
+		empty_days = g_settings_get_int (
+			settings, "junk-empty-on-exit-days");
+		empty_date = g_settings_get_int (
+			settings, "junk-empty-date");
 	}
 
-	delete_junk = delete_junk && ((empty_days == 0) || (empty_days > 0 && empty_date + empty_days <= now));
+	delete_junk = delete_junk && (
+		(empty_days == 0) ||
+		(empty_days > 0 && empty_date + empty_days <= now));
 
-	if (delete_junk) {
+	if (delete_junk)
 		g_settings_set_int (settings, "junk-empty-date", now);
-	}
 
 	g_object_unref (settings);
 
@@ -671,38 +666,31 @@ mail_shell_backend_delete_junk_policy_decision (EMailBackend *backend)
 static gboolean
 mail_shell_backend_empty_trash_policy_decision (EMailBackend *backend)
 {
-	EShell *shell;
-	EShellSettings *shell_settings;
 	GSettings *settings;
 	gboolean empty_trash;
-	gint empty_date;
-	gint empty_days;
+	gint empty_date = 0;
+	gint empty_days = 0;
 	gint now;
 
-	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
-
 	settings = g_settings_new ("org.gnome.evolution.mail");
-	shell_settings = e_shell_get_shell_settings (shell);
 
 	now = time (NULL) / 60 / 60 / 24;
 
-	empty_trash = e_shell_settings_get_boolean (
-		shell_settings, "mail-empty-trash-on-exit");
-
-	/* XXX No EShellSettings properties for these keys. */
-
-	empty_date = empty_days = 0;
+	empty_trash = g_settings_get_boolean (settings, "trash-empty-on-exit");
 
 	if (empty_trash) {
-		empty_days = g_settings_get_int (settings, "trash-empty-on-exit-days");
-		empty_date = g_settings_get_int (settings, "trash-empty-date");
+		empty_days = g_settings_get_int (
+			settings, "trash-empty-on-exit-days");
+		empty_date = g_settings_get_int (
+			settings, "trash-empty-date");
 	}
 
-	empty_trash = empty_trash && ((empty_days == 0) || (empty_days > 0 && empty_date + empty_days <= now));
+	empty_trash = empty_trash && (
+		(empty_days == 0) ||
+		(empty_days > 0 && empty_date + empty_days <= now));
 
-	if (empty_trash) {
+	if (empty_trash)
 		g_settings_set_int (settings, "trash-empty-date", now);
-	}
 
 	g_object_unref (settings);
 
@@ -851,8 +839,6 @@ e_mail_shell_backend_edit_account (EMailShellBackend *mail_shell_backend,
 }
 
 /******************* Code below here belongs elsewhere. *******************/
-
-#include "shell/e-shell-settings.h"
 
 static GSList *
 mail_labels_get_filter_options (gboolean include_none)

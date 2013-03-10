@@ -102,17 +102,13 @@ mailto_handler_is_evolution (GAppInfo *app_info)
 static gboolean
 mailto_handler_prompt (EMailtoHandler *extension)
 {
-	EShell *shell;
-	EShellSettings *shell_settings;
+	GSettings *settings;
 	GtkWidget *container;
 	GtkWidget *dialog;
 	GtkWidget *widget;
 	const gchar *text;
 	gchar *markup;
 	gint response;
-
-	shell = mailto_handler_get_shell (extension);
-	shell_settings = e_shell_get_shell_settings (shell);
 
 	dialog = gtk_dialog_new_with_buttons (
 		"", NULL, 0,
@@ -156,12 +152,16 @@ mailto_handler_prompt (EMailtoHandler *extension)
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 12);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
-		shell_settings, "mailto-handler-check",
+	settings = g_settings_new ("org.gnome.evolution.mail");
+
+	g_settings_bind (
+		settings, "prompt-check-if-default-mailer",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE |
-		G_BINDING_INVERT_BOOLEAN);
+		G_SETTINGS_BIND_GET |
+		G_SETTINGS_BIND_SET |
+		G_SETTINGS_BIND_INVERT_BOOLEAN);
+
+	g_object_unref (settings);
 
 	/* Direct input focus away from the checkbox. */
 	widget = gtk_dialog_get_widget_for_response (
@@ -178,19 +178,17 @@ mailto_handler_prompt (EMailtoHandler *extension)
 static void
 mailto_handler_check (EMailtoHandler *extension)
 {
-	EShell *shell;
-	EShellSettings *shell_settings;
+	GSettings *settings;
 	gboolean check_mailto_handler = TRUE;
 	GAppInfo *app_info = NULL;
 	GError *error = NULL;
 
-	shell = mailto_handler_get_shell (extension);
-	shell_settings = e_shell_get_shell_settings (shell);
+	settings = g_settings_new ("org.gnome.evolution.mail");
 
-	g_object_get (
-		shell_settings,
-		"mailto-handler-check", &check_mailto_handler,
-		NULL);
+	check_mailto_handler = g_settings_get_boolean (
+		settings, "prompt-check-if-default-mailer");
+
+	g_object_unref (settings);
 
 	/* Should we check the "mailto" URI handler? */
 	if (!check_mailto_handler)
@@ -244,11 +242,6 @@ mailto_handler_constructed (GObject *object)
 	extension = E_MAILTO_HANDLER (object);
 
 	shell = mailto_handler_get_shell (extension);
-
-	e_shell_settings_install_property_for_key (
-		"mailto-handler-check",
-		"org.gnome.evolution.mail",
-		"prompt-check-if-default-mailer");
 
 	g_signal_connect_swapped (
 		shell, "event::ready-to-start",

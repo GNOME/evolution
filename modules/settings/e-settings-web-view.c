@@ -25,7 +25,7 @@
 
 #include "e-settings-web-view.h"
 
-#include <shell/e-shell.h>
+#include <e-util/e-util.h>
 
 #define E_SETTINGS_WEB_VIEW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -43,29 +43,29 @@ G_DEFINE_DYNAMIC_TYPE (
 static void
 settings_web_view_constructed (GObject *object)
 {
-	EShell *shell;
-	EShellSettings *shell_settings;
+	GSettings *settings;
 	EExtensible *extensible;
-
-	shell = e_shell_get_default ();
-	shell_settings = e_shell_get_shell_settings (shell);
 
 	extensible = e_extension_get_extensible (E_EXTENSION (object));
 
-	g_object_bind_property (
-		shell_settings, "composer-inline-spelling",
+	settings = g_settings_new ("org.gnome.evolution.mail");
+
+	g_settings_bind (
+		settings, "composer-inline-spelling",
 		extensible, "inline-spelling",
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_GET);
 
-	g_object_bind_property (
-		shell_settings, "composer-magic-links",
+	g_settings_bind (
+		settings, "composer-magic-links",
 		extensible, "magic-links",
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_GET);
 
-	g_object_bind_property (
-		shell_settings, "composer-magic-smileys",
+	g_settings_bind (
+		settings, "composer-magic-smileys",
 		extensible, "magic-smileys",
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_GET);
+
+	g_object_unref (settings);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_settings_web_view_parent_class)->

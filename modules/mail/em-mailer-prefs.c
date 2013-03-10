@@ -117,35 +117,79 @@ em_mailer_prefs_init (EMMailerPrefs *preferences)
 }
 
 static gboolean
-mark_seen_milliseconds_to_seconds (GBinding *binding,
-                                   const GValue *source_value,
-                                   GValue *target_value,
-                                   gpointer user_data)
+mailer_prefs_map_milliseconds_to_seconds (GValue *value,
+                                          GVariant *variant,
+                                          gpointer user_data)
 {
-	gint milliseconds;
+	gint32 milliseconds;
 	gdouble seconds;
 
-	milliseconds = g_value_get_int (source_value);
+	milliseconds = g_variant_get_int32 (variant);
 	seconds = milliseconds / 1000.0;
-	g_value_set_double (target_value, seconds);
+	g_value_set_double (value, seconds);
 
 	return TRUE;
 }
 
-static gboolean
-mark_seen_seconds_to_milliseconds (GBinding *binding,
-                                   const GValue *source_value,
-                                   GValue *target_value,
-                                   gpointer user_data)
+static GVariant *
+mailer_prefs_map_seconds_to_milliseconds (const GValue *value,
+                                          const GVariantType *expected_type,
+                                          gpointer user_data)
 {
-	gint milliseconds;
+	gint32 milliseconds;
 	gdouble seconds;
 
-	seconds = g_value_get_double (source_value);
+	seconds = g_value_get_double (value);
 	milliseconds = seconds * 1000;
-	g_value_set_int (target_value, milliseconds);
 
-	return TRUE;
+	return g_variant_new_int32 (milliseconds);
+}
+
+static gboolean
+mailer_prefs_map_string_to_color (GValue *value,
+                                  GVariant *variant,
+                                  gpointer user_data)
+{
+	GdkColor color;
+	const gchar *string;
+	gboolean success = FALSE;
+
+	string = g_variant_get_string (variant, NULL);
+	if (gdk_color_parse (string, &color)) {
+		g_value_set_boxed (value, &color);
+		success = TRUE;
+	}
+
+	return success;
+}
+
+static GVariant *
+mailer_prefs_map_color_to_string (const GValue *value,
+                                  const GVariantType *expected_type,
+                                  gpointer user_data)
+{
+	GVariant *variant;
+	const GdkColor *color;
+
+	color = g_value_get_boxed (value);
+	if (color == NULL) {
+		variant = g_variant_new_string ("");
+	} else {
+		gchar *string;
+
+		/* Encode the color manually because CSS styles expect
+		 * color codes as #rrggbb, whereas gdk_color_to_string()
+		 * returns color codes as #rrrrggggbbbb. */
+		string = g_strdup_printf (
+			"#%02x%02x%02x",
+			(gint) color->red * 256 / 65536,
+			(gint) color->green * 256 / 65536,
+			(gint) color->blue * 256 / 65536);
+		variant = g_variant_new_string (string);
+		g_free (string);
+	}
+
+	return variant;
 }
 
 enum {
@@ -687,19 +731,51 @@ emmp_empty_junk_init (EMMailerPrefs *prefs,
 }
 
 static void
-http_images_changed (GtkWidget *widget,
-                     EMMailerPrefs *prefs)
+image_loading_policy_always_cb (GtkToggleButton *toggle_button)
 {
-	EMailImageLoadingPolicy policy;
+	if (gtk_toggle_button_get_active (toggle_button)) {
+		GSettings *settings;
 
-	if (gtk_toggle_button_get_active (prefs->images_always))
-		policy = E_MAIL_IMAGE_LOADING_POLICY_ALWAYS;
-	else if (gtk_toggle_button_get_active (prefs->images_sometimes))
-		policy = E_MAIL_IMAGE_LOADING_POLICY_SOMETIMES;
-	else
-		policy = E_MAIL_IMAGE_LOADING_POLICY_NEVER;
+		settings = g_settings_new ("org.gnome.evolution.mail");
 
-	g_settings_set_int (prefs->settings, "load-http-images", policy);
+		g_settings_set_enum (
+			settings, "image-loading-policy",
+			E_MAIL_IMAGE_LOADING_POLICY_ALWAYS);
+
+		g_object_unref (settings);
+	}
+}
+
+static void
+image_loading_policy_sometimes_cb (GtkToggleButton *toggle_button)
+{
+	if (gtk_toggle_button_get_active (toggle_button)) {
+		GSettings *settings;
+
+		settings = g_settings_new ("org.gnome.evolution.mail");
+
+		g_settings_set_enum (
+			settings, "image-loading-policy",
+			E_MAIL_IMAGE_LOADING_POLICY_SOMETIMES);
+
+		g_object_unref (settings);
+	}
+}
+
+static void
+image_loading_policy_never_cb (GtkToggleButton *toggle_button)
+{
+	if (gtk_toggle_button_get_active (toggle_button)) {
+		GSettings *settings;
+
+		settings = g_settings_new ("org.gnome.evolution.mail");
+
+		g_settings_set_enum (
+			settings, "image-loading-policy",
+			E_MAIL_IMAGE_LOADING_POLICY_NEVER);
+
+		g_object_unref (settings);
+	}
 }
 
 static GtkWidget *
@@ -750,7 +826,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 {
 	GSList *header_add_list, *p;
 	gchar **headers_config;
-	EShellSettings *shell_settings;
+	GSettings *settings;
 	GHashTable *default_header_hash;
 	GtkWidget *toplevel;
 	GtkWidget *container;
@@ -760,12 +836,13 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	GtkCellRenderer *renderer;
 	GtkTreeIter iter;
 	gboolean locked;
+	gboolean writable;
 	gint val, i;
 	EMConfig *ec;
 	EMConfigTargetPrefs *target;
 	GSList *l;
 
-	shell_settings = e_shell_get_shell_settings (shell);
+	settings = g_settings_new ("org.gnome.evolution.mail");
 
 	/* Make sure our custom widget classes are registered with
 	 * GType before we load the GtkBuilder definition file. */
@@ -791,197 +868,187 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	/* General tab */
 
 	widget = e_builder_get_widget (prefs->builder, "chkCheckMailOnStart");
-	g_object_bind_property (
-		shell_settings, "mail-check-on-start",
+	g_settings_bind (
+		settings, "send-recv-on-start",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->builder, "chkCheckMailInAllOnStart");
-	g_object_bind_property (
-		shell_settings, "mail-check-all-on-start",
+	g_settings_bind (
+		settings, "send-recv-all-on-start",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
-	g_object_bind_property (
-		shell_settings, "mail-check-on-start",
+		G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		settings, "send-recv-on-start",
 		widget, "sensitive",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_GET);
 
 	/* Message Display */
 
 	widget = e_builder_get_widget (prefs->builder, "chkMarkTimeout");
-	g_object_bind_property (
-		shell_settings, "mail-mark-seen",
+	g_settings_bind (
+		settings, "mark-seen",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	/* The "mark seen" timeout requires special transform functions
 	 * because we display the timeout value to the user in seconds
 	 * but store the settings value in milliseconds. */
 	widget = e_builder_get_widget (prefs->builder, "spinMarkTimeout");
-	g_object_bind_property (
-		shell_settings, "mail-mark-seen",
-		widget, "sensitive",
-		G_BINDING_SYNC_CREATE);
-	g_object_bind_property_full (
-		shell_settings, "mail-mark-seen-timeout",
+	g_settings_bind_with_mapping (
+		settings, "mark-seen-timeout",
 		widget, "value",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE,
-		mark_seen_milliseconds_to_seconds,
-		mark_seen_seconds_to_milliseconds,
+		G_SETTINGS_BIND_DEFAULT,
+		mailer_prefs_map_milliseconds_to_seconds,
+		mailer_prefs_map_seconds_to_milliseconds,
 		NULL, (GDestroyNotify) NULL);
+	g_settings_bind (
+		settings, "mark-seen",
+		widget, "sensitive",
+		G_SETTINGS_BIND_GET);
 
 	widget = e_builder_get_widget (prefs->builder, "view-check");
-	g_object_bind_property (
-		shell_settings, "mail-global-view-setting",
+	g_settings_bind (
+		settings, "global-view-setting",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_charset_combo_box_new ();
 	container = e_builder_get_widget (prefs->builder, "hboxDefaultCharset");
-	gtk_label_set_mnemonic_widget (GTK_LABEL (e_builder_get_widget (prefs->builder, "lblDefaultCharset")), widget);
+	gtk_label_set_mnemonic_widget (
+		GTK_LABEL (e_builder_get_widget (
+		prefs->builder, "lblDefaultCharset")), widget);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
-	g_object_bind_property (
-		shell_settings, "mail-charset",
+	g_settings_bind (
+		settings, "charset",
 		widget, "charset",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->builder, "chkHighlightCitations");
-	g_object_bind_property (
-		shell_settings, "mail-mark-citations",
+	g_settings_bind (
+		settings, "mark-citations",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->builder, "colorButtonHighlightCitations");
-	g_object_bind_property (
-		shell_settings, "mail-mark-citations",
-		widget, "sensitive",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
-	g_object_bind_property_full (
-		shell_settings, "mail-citation-color",
+	g_settings_bind_with_mapping (
+		settings, "citation-color",
 		widget, "color",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE,
-		e_binding_transform_string_to_color,
-		e_binding_transform_color_to_string,
+		G_SETTINGS_BIND_DEFAULT,
+		mailer_prefs_map_string_to_color,
+		mailer_prefs_map_color_to_string,
 		NULL, (GDestroyNotify) NULL);
+	g_settings_bind (
+		settings, "mark-citations",
+		widget, "sensitive",
+		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->builder, "thread-by-subject");
-	g_object_bind_property (
-		shell_settings, "mail-thread-by-subject",
+	g_settings_bind (
+		settings, "thread-subject",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	/* Deleting Mail */
 	widget = e_builder_get_widget (prefs->builder, "chkEmptyTrashOnExit");
-	g_object_bind_property (
-		shell_settings, "mail-empty-trash-on-exit",
+	g_settings_bind (
+		settings, "trash-empty-on-exit",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->builder, "comboboxEmptyTrashDays");
-	g_object_bind_property (
-		shell_settings, "mail-empty-trash-on-exit",
+	g_settings_bind (
+		settings, "trash-empty-on-exit",
 		widget, "sensitive",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_GET);
 	emmp_empty_trash_init (prefs, GTK_COMBO_BOX (widget));
 
 	widget = e_builder_get_widget (prefs->builder, "chkConfirmExpunge");
-	g_object_bind_property (
-		shell_settings, "mail-confirm-expunge",
+	g_settings_bind (
+		settings, "prompt-on-expunge",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	/* Mail Fonts */
 	widget = e_builder_get_widget (prefs->builder, "radFontUseSame");
-	g_object_bind_property (
-		shell_settings, "mail-use-custom-fonts",
+	g_settings_bind (
+		settings, "use-custom-font",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE |
-		G_BINDING_INVERT_BOOLEAN);
+		G_SETTINGS_BIND_DEFAULT |
+		G_SETTINGS_BIND_INVERT_BOOLEAN);
 
 	widget = e_builder_get_widget (prefs->builder, "FontFixed");
-	g_object_bind_property (
-		shell_settings, "mail-font-monospace",
+	g_settings_bind (
+		settings, "monospace-font",
 		widget, "font-name",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
-	g_object_bind_property (
-		shell_settings, "mail-use-custom-fonts",
+		G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		settings, "use-custom-font",
 		widget, "sensitive",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_GET);
 
 	widget = e_builder_get_widget (prefs->builder, "FontVariable");
-	g_object_bind_property (
-		shell_settings, "mail-font-variable",
+	g_settings_bind (
+		settings, "variable-width-font",
 		widget, "font-name",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
-	g_object_bind_property (
-		shell_settings, "mail-use-custom-fonts",
+		G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		settings, "use-custom-font",
 		widget, "sensitive",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_GET);
 
 	/* HTML Mail tab */
 
 	/* Loading Images */
-	locked = !g_settings_is_writable (prefs->settings, "load-http-images");
+	writable = g_settings_is_writable (
+		prefs->settings, "image-loading-policy");
 
-	val = g_settings_get_int (prefs->settings, "load-http-images");
-	prefs->images_never = GTK_TOGGLE_BUTTON (e_builder_get_widget (prefs->builder, "radImagesNever"));
-	gtk_toggle_button_set_active (prefs->images_never, val == E_MAIL_IMAGE_LOADING_POLICY_NEVER);
-	if (locked)
-		gtk_widget_set_sensitive ((GtkWidget *) prefs->images_never, FALSE);
-
-	prefs->images_sometimes = GTK_TOGGLE_BUTTON (e_builder_get_widget (prefs->builder, "radImagesSometimes"));
-	gtk_toggle_button_set_active (prefs->images_sometimes, val == E_MAIL_IMAGE_LOADING_POLICY_SOMETIMES);
-	if (locked)
-		gtk_widget_set_sensitive ((GtkWidget *) prefs->images_sometimes, FALSE);
-
-	prefs->images_always = GTK_TOGGLE_BUTTON (e_builder_get_widget (prefs->builder, "radImagesAlways"));
-	gtk_toggle_button_set_active (prefs->images_always, val == E_MAIL_IMAGE_LOADING_POLICY_ALWAYS);
-	if (locked)
-		gtk_widget_set_sensitive ((GtkWidget *) prefs->images_always, FALSE);
+	val = g_settings_get_enum (prefs->settings, "image-loading-policy");
+	widget = e_builder_get_widget (
+		prefs->builder, "radImagesNever");
+	gtk_toggle_button_set_active (
+		GTK_TOGGLE_BUTTON (widget),
+		val == E_MAIL_IMAGE_LOADING_POLICY_NEVER);
+	gtk_widget_set_sensitive (widget, writable);
 
 	g_signal_connect (
-		prefs->images_never, "toggled",
-		G_CALLBACK (http_images_changed), prefs);
+		widget, "toggled",
+		G_CALLBACK (image_loading_policy_never_cb), NULL);
+
+	widget = e_builder_get_widget (
+		prefs->builder, "radImagesSometimes");
+	gtk_toggle_button_set_active (
+		GTK_TOGGLE_BUTTON (widget),
+		val == E_MAIL_IMAGE_LOADING_POLICY_SOMETIMES);
+	gtk_widget_set_sensitive (widget, writable);
+
 	g_signal_connect (
-		prefs->images_sometimes, "toggled",
-		G_CALLBACK (http_images_changed), prefs);
+		widget, "toggled",
+		G_CALLBACK (image_loading_policy_sometimes_cb), NULL);
+
+	widget = e_builder_get_widget (
+		prefs->builder, "radImagesAlways");
+	gtk_toggle_button_set_active (
+		GTK_TOGGLE_BUTTON (widget),
+		val == E_MAIL_IMAGE_LOADING_POLICY_ALWAYS);
+	gtk_widget_set_sensitive (widget, FALSE);
+
 	g_signal_connect (
-		prefs->images_always, "toggled",
-		G_CALLBACK (http_images_changed), prefs);
+		widget, "toggled",
+		G_CALLBACK (image_loading_policy_always_cb), NULL);
 
 	widget = e_builder_get_widget (prefs->builder, "chkShowAnimatedImages");
-	g_object_bind_property (
-		shell_settings, "mail-show-animated-images",
+	g_settings_bind (
+		settings, "show-animated-images",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->builder, "chkPromptWantHTML");
-	g_object_bind_property (
-		shell_settings, "mail-confirm-unwanted-html",
+	g_settings_bind (
+		settings, "prompt-on-unwanted-html",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	container = e_builder_get_widget (prefs->builder, "labels-alignment");
 	widget = e_mail_label_manager_new ();
@@ -997,23 +1064,20 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	locked = !g_settings_is_writable (prefs->settings, "headers");
 
 	widget = e_builder_get_widget (prefs->builder, "photo_show");
-	g_object_bind_property (
-		shell_settings, "mail-show-sender-photo",
+	g_settings_bind (
+		settings, "show-sender-photo",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->builder, "photo_local");
-	g_object_bind_property (
-		shell_settings, "mail-show-sender-photo",
-		widget, "sensitive",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
-	g_object_bind_property (
-		shell_settings, "mail-only-local-photos",
+	g_settings_bind (
+		settings, "photo-local",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		settings, "show-sender-photo",
+		widget, "sensitive",
+		G_SETTINGS_BIND_GET);
 
 	/* always de-sensitised until the user types something in the entry */
 	prefs->add_header = GTK_BUTTON (e_builder_get_widget (prefs->builder, "cmdHeadersAdd"));
@@ -1142,33 +1206,30 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	widget = gtk_check_button_new_with_mnemonic (_("Show _original header value"));
 	gtk_widget_show (widget);
 	gtk_table_attach ((GtkTable *) table, widget, 0, 3, 2, 3, GTK_EXPAND | GTK_FILL, 0, 12, 0);
-	g_object_bind_property (
-		shell_settings, "mail-show-real-date",
+	g_settings_bind (
+		settings, "show-real-date",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	/* Junk prefs */
 	widget = e_builder_get_widget (prefs->builder, "chkCheckIncomingMail");
-	g_object_bind_property (
-		shell_settings, "mail-check-for-junk",
+	g_settings_bind (
+		settings, "junk-check-incoming",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->builder, "junk_empty_check");
-	g_object_bind_property (
-		shell_settings, "mail-empty-junk-on-exit",
+	g_settings_bind (
+		settings, "junk-empty-on-exit",
 		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->builder, "junk_empty_combobox");
 	emmp_empty_junk_init (prefs, GTK_COMBO_BOX (widget));
-	g_object_bind_property (
-		shell_settings, "mail-empty-junk-on-exit",
+	g_settings_bind (
+		settings, "junk-empty-on-exit",
 		widget, "sensitive",
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_GET);
 
 	widget = e_builder_get_widget (prefs->builder, "junk-module-options");
 	e_mail_junk_options_set_session (E_MAIL_JUNK_OPTIONS (widget), session);
@@ -1211,6 +1272,8 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	e_config_set_target ((EConfig *) ec, (EConfigTarget *) target);
 	toplevel = e_config_create_widget ((EConfig *) ec);
 	gtk_container_add (GTK_CONTAINER (prefs), toplevel);
+
+	g_object_unref (settings);
 }
 
 GtkWidget *

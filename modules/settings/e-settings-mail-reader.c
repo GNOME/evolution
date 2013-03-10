@@ -43,30 +43,33 @@ settings_mail_reader_idle_cb (EExtension *extension)
 {
 	EExtensible *extensible;
 	GtkActionGroup *action_group;
-	EShellSettings *shell_settings;
 	ESourceRegistry *registry;
+	GSettings *settings;
 	ESource *source;
 	EShell *shell;
 
 	extensible = e_extension_get_extensible (extension);
 
-	shell = e_shell_get_default ();
-	registry = e_shell_get_registry (shell);
-	shell_settings = e_shell_get_shell_settings (shell);
+	settings = g_settings_new ("org.gnome.evolution.mail");
 
-	g_object_bind_property (
-		shell_settings, "mail-forward-style",
+	g_settings_bind (
+		settings, "forward-style-name",
 		extensible, "forward-style",
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_GET);
 
-	g_object_bind_property (
-		shell_settings, "mail-reply-style",
+	g_settings_bind (
+		settings, "reply-style-name",
 		extensible, "reply-style",
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_GET);
+
+	g_object_unref (settings);
 
 	action_group = e_mail_reader_get_action_group (
 		E_MAIL_READER (extensible),
 		E_MAIL_READER_ACTION_GROUP_SEARCH_FOLDERS);
+
+	shell = e_shell_get_default ();
+	registry = e_shell_get_registry (shell);
 
 	source = e_source_registry_ref_source (registry, "vfolder");
 

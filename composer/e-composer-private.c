@@ -140,7 +140,6 @@ e_composer_private_constructed (EMsgComposer *composer)
 	EMsgComposerPrivate *priv = composer->priv;
 	EFocusTracker *focus_tracker;
 	EShell *shell;
-	EShellSettings *shell_settings;
 	EWebViewGtkHTML *web_view;
 	ESourceRegistry *registry;
 	GtkhtmlEditor *editor;
@@ -150,6 +149,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 	GtkWidget *widget;
 	GtkWidget *send_widget;
 	GtkWindow *window;
+	GSettings *settings;
 	const gchar *path;
 	gboolean small_screen_mode;
 	gchar *filename, *gallery_path;
@@ -159,9 +159,10 @@ e_composer_private_constructed (EMsgComposer *composer)
 	editor = GTKHTML_EDITOR (composer);
 	ui_manager = gtkhtml_editor_get_ui_manager (editor);
 
+	settings = g_settings_new ("org.gnome.evolution.mail");
+
 	shell = e_msg_composer_get_shell (composer);
 	registry = e_shell_get_registry (shell);
-	shell_settings = e_shell_get_shell_settings (shell);
 	web_view = e_msg_composer_get_web_view (composer);
 	small_screen_mode = e_shell_get_small_screen_mode (shell);
 
@@ -385,8 +386,9 @@ e_composer_private_constructed (EMsgComposer *composer)
 
 	container = priv->gallery_scrolled_window;
 
-	gallery_path = e_shell_settings_get_string (
-		shell_settings, "composer-gallery-path");
+	/* FIXME This should be an EMsgComposer property. */
+	gallery_path = g_settings_get_string (
+		settings, "composer-gallery-path");
 	widget = e_picture_gallery_new (gallery_path);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	priv->gallery_icon_view = g_object_ref (widget);
@@ -457,6 +459,8 @@ e_composer_private_constructed (EMsgComposer *composer)
 	g_signal_connect (
 		web_view, "url-requested",
 		G_CALLBACK (msg_composer_url_requested_cb), composer);
+
+	g_object_unref (settings);
 }
 
 void
@@ -912,31 +916,31 @@ e_composer_selection_is_image_uris (EMsgComposer *composer,
 static gboolean
 add_signature_delimiter (EMsgComposer *composer)
 {
-	EShell *shell;
-	EShellSettings *shell_settings;
+	GSettings *settings;
+	gboolean signature_delim;
 
-	/* FIXME This preference should be an EMsgComposer property. */
+	/* FIXME This should be an EMsgComposer property. */
+	settings = g_settings_new ("org.gnome.evolution.mail");
+	signature_delim = !g_settings_get_boolean (
+		settings, "composer-no-signature-delim");
+	g_object_unref (settings);
 
-	shell = e_msg_composer_get_shell (composer);
-	shell_settings = e_shell_get_shell_settings (shell);
-
-	return !e_shell_settings_get_boolean (
-		shell_settings, "composer-no-signature-delim");
+	return signature_delim;
 }
 
 static gboolean
 use_top_signature (EMsgComposer *composer)
 {
-	EShell *shell;
-	EShellSettings *shell_settings;
+	GSettings *settings;
+	gboolean top_signature;
 
-	/* FIXME This preference should be an EMsgComposer property. */
+	/* FIXME This should be an EMsgComposer property. */
+	settings = g_settings_new ("org.gnome.evolution.mail");
+	top_signature = g_settings_get_boolean (
+		settings, "composer-top-signature");
+	g_object_unref (settings);
 
-	shell = e_msg_composer_get_shell (composer);
-	shell_settings = e_shell_get_shell_settings (shell);
-
-	return e_shell_settings_get_boolean (
-		shell_settings, "composer-top-signature");
+	return top_signature;
 }
 
 static void

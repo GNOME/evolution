@@ -115,42 +115,36 @@ mail_reader_is_special_local_folder (const gchar *name)
 gboolean
 e_mail_reader_confirm_delete (EMailReader *reader)
 {
-	EShell *shell;
-	EMailBackend *backend;
-	EShellBackend *shell_backend;
-	EShellSettings *shell_settings;
 	CamelFolder *folder;
 	CamelStore *parent_store;
 	GtkWidget *check_button;
 	GtkWidget *container;
 	GtkWidget *dialog;
 	GtkWindow *window;
+	GSettings *settings;
 	const gchar *label;
 	gboolean prompt_delete_in_vfolder;
-	gint response;
+	gint response = GTK_RESPONSE_OK;
 
 	/* Remind users what deleting from a search folder does. */
 
 	g_return_val_if_fail (E_IS_MAIL_READER (reader), FALSE);
 
-	backend = e_mail_reader_get_backend (reader);
 	folder = e_mail_reader_get_folder (reader);
 	window = e_mail_reader_get_window (reader);
 
-	shell_backend = E_SHELL_BACKEND (backend);
-	shell = e_shell_backend_get_shell (shell_backend);
-	shell_settings = e_shell_get_shell_settings (shell);
+	settings = g_settings_new ("org.gnome.evolution.mail");
 
-	prompt_delete_in_vfolder = e_shell_settings_get_boolean (
-		shell_settings, "mail-prompt-delete-in-vfolder");
+	prompt_delete_in_vfolder = g_settings_get_boolean (
+		settings, "prompt-on-delete-in-vfolder");
 
 	parent_store = camel_folder_get_parent_store (folder);
 
 	if (!CAMEL_IS_VEE_STORE (parent_store))
-		return TRUE;
+		goto exit;
 
 	if (!prompt_delete_in_vfolder)
-		return TRUE;
+		goto exit;
 
 	dialog = e_alert_dialog_new_for_args (
 		window, "mail:ask-delete-vfolder-msg",
@@ -166,14 +160,15 @@ e_mail_reader_confirm_delete (EMailReader *reader)
 	response = gtk_dialog_run (GTK_DIALOG (dialog));
 
 	if (response != GTK_RESPONSE_DELETE_EVENT)
-		e_shell_settings_set_boolean (
-			shell_settings,
-			"mail-prompt-delete-in-vfolder",
+		g_settings_set_boolean (
+			settings,
+			"prompt-on-delete-in-vfolder",
 			!gtk_toggle_button_get_active (
 			GTK_TOGGLE_BUTTON (check_button)));
 
 	gtk_widget_destroy (dialog);
 
+exit:
 	return (response == GTK_RESPONSE_OK);
 }
 

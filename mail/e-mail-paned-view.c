@@ -496,14 +496,14 @@ mail_paned_view_set_folder (EMailReader *reader,
 	EShell *shell;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
-	EShellSettings *shell_settings;
+	GSettings *settings;
 	EMailReaderInterface *default_interface;
 	GtkWidget *message_list;
 	GKeyFile *key_file;
 	gchar *folder_uri;
 	gchar *group_name;
 	const gchar *key;
-	gboolean value, global_view_settings;
+	gboolean value, global_view_setting;
 	GError *error = NULL;
 
 	priv = E_MAIL_PANED_VIEW_GET_PRIVATE (reader);
@@ -513,8 +513,12 @@ mail_paned_view_set_folder (EMailReader *reader,
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	shell = e_shell_window_get_shell (shell_window);
-	shell_settings = e_shell_get_shell_settings (shell);
-	global_view_settings = e_shell_settings_get_boolean (shell_settings, "mail-global-view-setting");
+
+	settings = g_settings_new ("org.gnome.evolution.mail");
+
+	/* FIXME This should be an EMailReader property. */
+	global_view_setting = g_settings_get_boolean (
+		settings, "global-view-setting");
 
 	message_list = e_mail_reader_get_message_list (reader);
 
@@ -547,11 +551,11 @@ mail_paned_view_set_folder (EMailReader *reader,
 	g_free (folder_uri);
 
 	key = STATE_KEY_GROUP_BY_THREADS;
-	value = g_key_file_get_boolean (key_file, global_view_settings ? STATE_GROUP_GLOBAL_FOLDER : group_name, key, &error);
+	value = g_key_file_get_boolean (key_file, global_view_setting ? STATE_GROUP_GLOBAL_FOLDER : group_name, key, &error);
 	if (error != NULL) {
 		g_clear_error (&error);
 
-		value = !global_view_settings ||
+		value = !global_view_setting ||
 			g_key_file_get_boolean (key_file, STATE_GROUP_GLOBAL_FOLDER, key, &error);
 		if (error != NULL) {
 			g_clear_error (&error);
@@ -562,11 +566,11 @@ mail_paned_view_set_folder (EMailReader *reader,
 	e_mail_reader_set_group_by_threads (reader, value);
 
 	key = STATE_KEY_PREVIEW_VISIBLE;
-	value = g_key_file_get_boolean (key_file, global_view_settings ? STATE_GROUP_GLOBAL_FOLDER : group_name, key, &error);
+	value = g_key_file_get_boolean (key_file, global_view_setting ? STATE_GROUP_GLOBAL_FOLDER : group_name, key, &error);
 	if (error != NULL) {
 		g_clear_error (&error);
 
-		value = !global_view_settings ||
+		value = !global_view_setting ||
 			g_key_file_get_boolean (key_file, STATE_GROUP_GLOBAL_FOLDER, key, &error);
 		if (error != NULL) {
 			g_clear_error (&error);
@@ -576,11 +580,10 @@ mail_paned_view_set_folder (EMailReader *reader,
 
 	/* XXX This is a little confusing and needs rethought.  The
 	 *     EShellWindow:safe-mode property blocks automatic message
-	 *     selection, but the "mail-safe-list" shell setting blocks
-	 *     both the preview pane and automatic message selection. */
-	if (e_shell_settings_get_boolean (shell_settings, "mail-safe-list")) {
-		e_shell_settings_set_boolean (
-			shell_settings, "mail-safe-list", FALSE);
+	 *     selection, but the "safe-list" setting blocks both the
+	 *     preview pane and automatic message selection. */
+	if (g_settings_get_boolean (settings, "safe-list")) {
+		g_settings_set_boolean (settings, "safe-list", FALSE);
 		e_shell_window_set_safe_mode (shell_window, TRUE);
 		value = FALSE;
 	}
@@ -591,6 +594,8 @@ mail_paned_view_set_folder (EMailReader *reader,
 
 exit:
 	message_list_thaw (MESSAGE_LIST (message_list));
+
+	g_object_unref (settings);
 }
 
 static guint
@@ -806,15 +811,16 @@ mail_paned_view_update_view_instance (EMailView *view)
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	EShellViewClass *shell_view_class;
-	EShellSettings *shell_settings;
 	ESourceRegistry *registry;
 	GalViewCollection *view_collection;
 	GalViewInstance *view_instance;
 	CamelFolder *folder;
 	GtkOrientable *orientable;
 	GtkOrientation orientation;
+	GSettings *settings;
 	gboolean outgoing_folder;
 	gboolean show_vertical_view;
+	gboolean global_view_setting;
 	gchar *view_id;
 
 	priv = E_MAIL_PANED_VIEW_GET_PRIVATE (view);
@@ -826,7 +832,6 @@ mail_paned_view_update_view_instance (EMailView *view)
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	shell = e_shell_window_get_shell (shell_window);
 	registry = e_shell_get_registry (shell);
-	shell_settings = e_shell_get_shell_settings (shell);
 
 	reader = E_MAIL_READER (view);
 	folder = e_mail_reader_get_folder (reader);
@@ -848,7 +853,12 @@ mail_paned_view_update_view_instance (EMailView *view)
 		em_utils_folder_is_outbox (registry, folder) ||
 		em_utils_folder_is_sent (registry, folder);
 
-	if (e_shell_settings_get_boolean (shell_settings, "mail-global-view-setting"))
+	settings = g_settings_new ("org.gnome.evolution.mail");
+	global_view_setting = g_settings_get_boolean (
+		settings, "global-view-setting");
+	g_object_unref (settings);
+
+	if (global_view_setting)
 		view_instance = e_shell_view_new_view_instance (
 			shell_view, outgoing_folder ?
 			"global_view_sent_setting" : "global_view_setting");
@@ -860,9 +870,8 @@ mail_paned_view_update_view_instance (EMailView *view)
 	orientable = GTK_ORIENTABLE (view);
 	orientation = gtk_orientable_get_orientation (orientable);
 	show_vertical_view =
-		(orientation == GTK_ORIENTATION_HORIZONTAL) &&
-		!e_shell_settings_get_boolean (
-		shell_settings, "mail-global-view-setting");
+		!global_view_setting &&
+		(orientation == GTK_ORIENTATION_HORIZONTAL);
 
 	if (show_vertical_view) {
 		gchar *filename;

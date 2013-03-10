@@ -157,7 +157,7 @@ handle_http_request (GSimpleAsyncResult *res,
 	EMailImageLoadingPolicy image_policy;
 	gchar *uri_md5;
 	EShell *shell;
-	EShellSettings *shell_settings;
+	GSettings *settings;
 	const gchar *user_cache_dir;
 	CamelDataCache *cache;
 	CamelStream *cache_stream;
@@ -274,8 +274,9 @@ handle_http_request (GSimpleAsyncResult *res,
 		goto cleanup;
 	}
 
-	shell_settings = e_shell_get_shell_settings (shell);
-	image_policy =  e_shell_settings_get_int (shell_settings, "mail-image-loading-policy");
+	settings = g_settings_new ("org.gnome.evolution.mail");
+	image_policy = g_settings_get_enum (settings, "image-loading-policy");
+	g_object_unref (settings);
 
 	/* Item not found in cache, but image loading policy allows us to fetch
 	 * it from the interwebs */

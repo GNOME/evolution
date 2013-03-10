@@ -481,16 +481,14 @@
                         <property name="xalign">0</property>
                         <property name="xscale">0</property>
                         <child>
-                          <object class="GtkComboBox" id="comboboxReplyStyle">
+                          <object class="GtkComboBoxText" id="comboboxReplyStyle">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="model">model3</property>
-                            <child>
-                              <object class="GtkCellRendererText" id="renderer3"/>
-                              <attributes>
-                                <attribute name="text">0</attribute>
-                              </attributes>
-                            </child>
+                            <items>
+                              <item translatable="yes" context="ReplyForward" id="attach">Attachment</item>
+                              <item translatable="yes" context="ReplyForward" id="outlook">Inline (Outlook style)</item>
+                              <item translatable="yes" context="ReplyForward" id="quoted">Quoted</item>
+                              <item translatable="yes" context="ReplyForward" id="do-not-quote">Do Not Quote</item>
+                            </items>
                           </object>
                         </child>
                       </object>
@@ -506,16 +504,13 @@
                         <property name="xalign">0</property>
                         <property name="xscale">0</property>
                         <child>
-                          <object class="GtkComboBox" id="comboboxForwardStyle">
+                          <object class="GtkComboBoxText" id="comboboxForwardStyle">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="model">model4</property>
-                            <child>
-                              <object class="GtkCellRendererText" id="renderer4"/>
-                              <attributes>
-                                <attribute name="text">0</attribute>
-                              </attributes>
-                            </child>
+                            <items>
+                              <item translatable="yes" context="ReplyForward" id="attached">Attachment</item>
+                              <item translatable="yes" context="ReplyForward" id="inline">Inline</item>
+                              <item translatable="yes" context="ReplyForward" id="quoted">Quoted</item>
+                            </items>
                           </object>
                         </child>
                       </object>
@@ -1062,43 +1057,6 @@
       </row>
       <row>
         <col id="0" translatable="yes">b</col>
-      </row>
-    </data>
-  </object>
-  <object class="GtkListStore" id="model3">
-    <columns>
-      <!-- column-name gchararray -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes" context="ReplyForward">Attachment</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes" context="ReplyForward">Inline (Outlook style)</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes" context="ReplyForward">Quoted</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes" context="ReplyForward">Do not quote</col>
-      </row>
-    </data>
-  </object>
-  <object class="GtkListStore" id="model4">
-    <columns>
-      <!-- column-name gchararray -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes" context="ReplyForward">Attachment</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes" context="ReplyForward">Inline</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes" context="ReplyForward">Quoted</col>
       </row>
     </data>
   </object>

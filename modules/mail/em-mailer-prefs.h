@@ -67,11 +67,6 @@ struct _EMMailerPrefs {
 	GtkFontButton *font_fixed;
 	GtkToggleButton *font_share;
 
-	/* Loading Images */
-	GtkToggleButton *images_always;
-	GtkToggleButton *images_sometimes;
-	GtkToggleButton *images_never;
-
 	GtkToggleButton *autodetect_links;
 
 	/* Labels and Colours tab */

@@ -1456,11 +1456,11 @@ composer_build_message_finish (EMsgComposer *composer,
 static gboolean
 use_top_signature (EMsgComposer *composer)
 {
-	EShell *shell;
-	EShellSettings *shell_settings;
-	EMsgComposerPrivate *priv = E_MSG_COMPOSER_GET_PRIVATE (composer);
+	EMsgComposerPrivate *priv;
+	GSettings *settings;
+	gboolean top_signature;
 
-	g_return_val_if_fail (priv != NULL, FALSE);
+	priv = E_MSG_COMPOSER_GET_PRIVATE (composer);
 
 	/* The composer had been created from a stored message, thus the
 	 * signature placement is either there already, or pt it at the
@@ -1469,11 +1469,13 @@ use_top_signature (EMsgComposer *composer)
 	if (priv->is_from_message)
 		return FALSE;
 
-	shell = e_msg_composer_get_shell (composer);
-	shell_settings = e_shell_get_shell_settings (shell);
+	/* FIXME This should be an EMsgComposer property. */
+	settings = g_settings_new ("org.gnome.evolution.mail");
+	top_signature = g_settings_get_boolean (
+		settings, "composer-top-signature");
+	g_object_unref (settings);
 
-	return e_shell_settings_get_boolean (
-		shell_settings, "composer-top-signature");
+	return top_signature;
 }
 
 #define NO_SIGNATURE_TEXT	\
@@ -1928,7 +1930,6 @@ static void
 msg_composer_constructed (GObject *object)
 {
 	EShell *shell;
-	EShellSettings *shell_settings;
 	GtkhtmlEditor *editor;
 	EMsgComposer *composer;
 	EAttachmentView *view;
@@ -1937,6 +1938,7 @@ msg_composer_constructed (GObject *object)
 	EWebViewGtkHTML *web_view;
 	GtkUIManager *ui_manager;
 	GtkToggleAction *action;
+	GSettings *settings;
 	const gchar *id;
 	gboolean active;
 
@@ -1944,7 +1946,6 @@ msg_composer_constructed (GObject *object)
 	composer = E_MSG_COMPOSER (object);
 
 	shell = e_msg_composer_get_shell (composer);
-	shell_settings = e_shell_get_shell_settings (shell);
 
 	if (e_shell_get_express_mode (shell)) {
 		GtkWindow *parent = e_shell_get_active_window (shell);
@@ -1988,10 +1989,12 @@ msg_composer_constructed (GObject *object)
 
 	/* Honor User Preferences */
 
+	/* FIXME This should be an EMsgComposer property. */
+	settings = g_settings_new ("org.gnome.evolution.mail");
 	action = GTK_TOGGLE_ACTION (ACTION (REQUEST_READ_RECEIPT));
-	active = e_shell_settings_get_boolean (
-		shell_settings, "composer-request-receipt");
+	active = g_settings_get_boolean (settings, "composer-request-receipt");
 	gtk_toggle_action_set_active (action, active);
+	g_object_unref (settings);
 
 	/* Clipboard Support */
 
@@ -3413,16 +3416,20 @@ CamelSession *
 e_msg_composer_get_session (EMsgComposer *composer)
 {
 	EShell *shell;
-	EShellSettings *shell_settings;
-	CamelSession *session;
+	EShellBackend *shell_backend;
+	CamelSession *session = NULL;
 
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
 
 	shell = e_msg_composer_get_shell (composer);
-	shell_settings = e_shell_get_shell_settings (shell);
+	shell_backend = e_shell_get_backend_by_name (shell, "mail");
 
-	session = e_shell_settings_get_pointer (shell_settings, "mail-session");
+	g_object_get (shell_backend, "session", &session, NULL);
 	g_return_val_if_fail (CAMEL_IS_SESSION (session), NULL);
+
+	/* FIXME Drop the new reference for backward-compatibility.
+	 *       Rename this function to e_msg_composer_ref_session(). */
+	g_object_unref (session);
 
 	return session;
 }

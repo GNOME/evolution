@@ -39,7 +39,6 @@
 #include <glib/gstdio.h>
 
 #include "shell/e-shell.h"
-#include "shell/e-shell-settings.h"
 
 #include "libemail-engine/e-mail-utils.h"
 #include "libemail-engine/mail-config.h"

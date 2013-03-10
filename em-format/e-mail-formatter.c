@@ -27,6 +27,8 @@
 #include <gdk/gdk.h>
 #include <glib/gi18n.h>
 
+#include "libemail-engine/e-mail-enumtypes.h"
+
 #define d(x)
 
 /* internal formatter extensions */
@@ -165,7 +167,7 @@ e_mail_formatter_set_property (GObject *object,
 		case PROP_IMAGE_LOADING_POLICY:
 			e_mail_formatter_set_image_loading_policy (
 				E_MAIL_FORMATTER (object),
-				g_value_get_int (value));
+				g_value_get_enum (value));
 			return;
 
 		case PROP_MARK_CITATIONS:
@@ -263,7 +265,7 @@ e_mail_formatter_get_property (GObject *object,
 			return;
 
 		case PROP_IMAGE_LOADING_POLICY:
-			g_value_set_int (
+			g_value_set_enum (
 				value,
 				e_mail_formatter_get_image_loading_policy (
 				E_MAIL_FORMATTER (object)));
@@ -620,16 +622,14 @@ e_mail_formatter_class_init (EMailFormatterClass *class)
 			GDK_TYPE_COLOR,
 			G_PARAM_READWRITE));
 
-	/* FIXME Make this a proper enum property. */
 	g_object_class_install_property (
 		object_class,
 		PROP_IMAGE_LOADING_POLICY,
-		g_param_spec_int (
+		g_param_spec_enum (
 			"image-loading-policy",
 			"Image Loading Policy",
 			NULL,
-			E_MAIL_IMAGE_LOADING_POLICY_NEVER,
-			E_MAIL_IMAGE_LOADING_POLICY_ALWAYS,
+			E_TYPE_MAIL_IMAGE_LOADING_POLICY,
 			E_MAIL_IMAGE_LOADING_POLICY_NEVER,
 			G_PARAM_READWRITE));
 

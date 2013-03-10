@@ -122,12 +122,9 @@ static void
 mail_shell_sidebar_constructed (GObject *object)
 {
 	EMailShellSidebar *mail_shell_sidebar;
-	EShellSettings *shell_settings;
 	EShellBackend *shell_backend;
 	EShellSidebar *shell_sidebar;
-	EShellWindow *shell_window;
 	EShellView *shell_view;
-	EShell *shell;
 	EMailBackend *backend;
 	EMailSession *session;
 	EAlertSink *alert_sink;
@@ -135,6 +132,7 @@ mail_shell_sidebar_constructed (GObject *object)
 	GtkTreeView *tree_view;
 	GtkWidget *container;
 	GtkWidget *widget;
+	GSettings *settings;
 
 	/* Chain up to parent's constructed method. */
 	G_OBJECT_CLASS (e_mail_shell_sidebar_parent_class)->constructed (object);
@@ -142,10 +140,6 @@ mail_shell_sidebar_constructed (GObject *object)
 	shell_sidebar = E_SHELL_SIDEBAR (object);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
-
-	shell = e_shell_window_get_shell (shell_window);
-	shell_settings = e_shell_get_shell_settings (shell);
 
 	backend = E_MAIL_BACKEND (shell_backend);
 	session = e_mail_backend_get_session (backend);
@@ -179,15 +173,19 @@ mail_shell_sidebar_constructed (GObject *object)
 		widget, "key-file",
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
-		shell_settings, "mail-sidebar-ellipsize",
-		widget, "ellipsize",
-		G_BINDING_SYNC_CREATE);
+	settings = g_settings_new ("org.gnome.evolution.mail");
 
-	g_object_bind_property (
-		shell_settings, "mail-sidebar-search",
+	g_settings_bind (
+		settings, "side-bar-ellipsize-mode",
+		widget, "ellipsize",
+		G_SETTINGS_BIND_GET);
+
+	g_settings_bind (
+		settings, "side-bar-search",
 		widget, "enable-search",
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_GET);
+
+	g_object_unref (settings);
 
 	g_signal_connect_swapped (
 		widget, "key-file-changed",

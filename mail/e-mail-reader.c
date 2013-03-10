@@ -2732,32 +2732,28 @@ mail_reader_message_seen_cb (EMailReaderClosure *closure)
 static gboolean
 schedule_timeout_mark_seen (EMailReader *reader)
 {
-	EShell *shell;
-	EMailBackend *backend;
-	EShellBackend *shell_backend;
-	EShellSettings *shell_settings;
 	MessageList *message_list;
+	GSettings *settings;
 	gboolean schedule_timeout;
 	gint timeout_interval;
 	const gchar *message_uid;
-	backend = e_mail_reader_get_backend (reader);
+
 	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
-	shell_backend = E_SHELL_BACKEND (backend);
-	shell = e_shell_backend_get_shell (shell_backend);
-	shell_settings = e_shell_get_shell_settings (shell);
 
 	message_uid = message_list->cursor_uid;
 	if (message_uid == NULL ||
 	    e_tree_is_dragging (E_TREE (message_list)))
 		return FALSE;
 
+	settings = g_settings_new ("org.gnome.evolution.mail");
+
+	/* FIXME These should be EMailReader properties. */
 	schedule_timeout =
 		(message_uid != NULL) &&
-		e_shell_settings_get_boolean (
-			shell_settings, "mail-mark-seen");
-	timeout_interval =
-		e_shell_settings_get_int (
-		shell_settings, "mail-mark-seen-timeout");
+		g_settings_get_boolean (settings, "mark-seen");
+	timeout_interval = g_settings_get_int (settings, "mark-seen-timeout");
+
+	g_object_unref (settings);
 
 	if (message_list->seen_id > 0) {
 		g_source_remove (message_list->seen_id);

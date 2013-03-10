@@ -1519,7 +1519,7 @@ em_utils_is_re_in_subject (EShell *shell,
                            const gchar *subject,
                            gint *skip_len)
 {
-	EShellSettings *shell_settings;
+	GSettings *settings;
 	gchar *prefixes, **prefixes_strv;
 	gboolean res;
 	gint ii;
@@ -1536,8 +1536,10 @@ em_utils_is_re_in_subject (EShell *shell,
 	if (check_prefix (subject, "Re", skip_len))
 		return TRUE;
 
-	shell_settings = e_shell_get_shell_settings (shell);
-	prefixes = e_shell_settings_get_string (shell_settings, "composer-localized-re");
+	settings = g_settings_new ("org.gnome.evolution.mail");
+	prefixes = g_settings_get_string (settings, "composer-localized-re");
+	g_object_unref (settings);
+
 	if (!prefixes || !*prefixes) {
 		g_free (prefixes);
 		return FALSE;

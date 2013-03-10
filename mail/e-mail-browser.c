@@ -30,7 +30,6 @@
 
 #include "shell/e-shell.h"
 #include "shell/e-shell-utils.h"
-#include "shell/e-shell-settings.h"
 
 #include "mail/e-mail-reader.h"
 #include "mail/e-mail-reader-utils.h"

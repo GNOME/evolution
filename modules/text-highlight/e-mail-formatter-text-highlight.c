@@ -28,9 +28,6 @@
 #include <em-format/e-mail-part-utils.h>
 #include <e-util/e-util.h>
 
-#include <shell/e-shell-settings.h>
-#include <shell/e-shell.h>
-
 #include <libebackend/libebackend.h>
 #include <libedataserver/libedataserver.h>
 
@@ -50,21 +47,6 @@ G_DEFINE_DYNAMIC_TYPE (
 	EMailFormatterTextHighlight,
 	e_mail_formatter_text_highlight,
 	E_TYPE_MAIL_FORMATTER_EXTENSION)
-
-static gchar *
-get_default_font (void)
-{
-	gchar *font;
-	GSettings *settings;
-
-	settings = g_settings_new ("org.gnome.desktop.interface");
-
-	font = g_settings_get_string (settings, "monospace-font-name");
-
-	g_object_unref (settings);
-
-	return font ? font : g_strdup ("monospace 10");
-}
 
 static gchar *
 get_syntax (EMailPart *part,
@@ -177,10 +159,9 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 		GPid pid;
 		CamelDataWrapper *dw;
 		gchar *font_family, *font_size, *syntax;
-		gboolean use_custom_font;
-		EShell *shell;
-		EShellSettings *settings;
 		PangoFontDescription *fd;
+		GSettings *settings;
+		gchar *font = NULL;
 		gboolean success;
 
 		const gchar *argv[] = { HIGHLIGHT_COMMAND,
@@ -207,30 +188,26 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 			return FALSE;
 		}
 
-		shell = e_shell_get_default ();
-		settings = e_shell_get_shell_settings (shell);
+		settings = g_settings_new ("org.gnome.evolution.mail");
+		if (g_settings_get_boolean (settings, "use-custom-font"))
+			font = g_settings_get_string (
+				settings, "monospace-font");
+		g_object_unref (settings);
 
-		fd = NULL;
-		use_custom_font = e_shell_settings_get_boolean (
-					settings, "mail-use-custom-fonts");
-		if (!use_custom_font) {
-			gchar *font;
-
-			font = get_default_font ();
-			fd = pango_font_description_from_string (font);
-			g_free (font);
-
-		} else {
-			gchar *font;
-
-			font = e_shell_settings_get_string (
-					settings, "mail-font-monospace");
-			if (!font)
-				font = get_default_font ();
-
-			fd = pango_font_description_from_string (font);
-			g_free (font);
+		if (font == NULL) {
+			settings = g_settings_new (
+				"org.gnome.desktop.interface");
+			font = g_settings_get_string (
+				settings, "monospace-font-name");
+			g_object_unref (settings);
 		}
+
+		if (font == NULL)
+			font = g_strdup ("monospace 10");
+
+		fd = pango_font_description_from_string (font);
+
+		g_free (font);
 
 		font_family = g_strdup_printf (
 			"--font='%s'",

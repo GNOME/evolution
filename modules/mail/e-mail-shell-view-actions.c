@@ -953,10 +953,8 @@ static void
 action_mail_smart_backward_cb (GtkAction *action,
                                EMailShellView *mail_shell_view)
 {
-	EShell *shell;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
-	EShellSettings *shell_settings;
 	EMailShellContent *mail_shell_content;
 	EMailShellSidebar *mail_shell_sidebar;
 	EMFolderTree *folder_tree;
@@ -967,6 +965,7 @@ action_mail_smart_backward_cb (GtkAction *action,
 	GtkWidget *window;
 	GtkAdjustment *adj;
 	EMailDisplay *display;
+	GSettings *settings;
 	gboolean caret_mode;
 	gboolean magic_spacebar;
 	gdouble value;
@@ -975,8 +974,6 @@ action_mail_smart_backward_cb (GtkAction *action,
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
-	shell = e_shell_window_get_shell (shell_window);
-	shell_settings = e_shell_get_shell_settings (shell);
 
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
 	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
@@ -988,8 +985,9 @@ action_mail_smart_backward_cb (GtkAction *action,
 	display = e_mail_reader_get_mail_display (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
-	magic_spacebar = e_shell_settings_get_boolean (
-		shell_settings, "mail-magic-spacebar");
+	settings = g_settings_new ("org.gnome.evolution.mail");
+	magic_spacebar = g_settings_get_boolean (settings, "magic-spacebar");
+	g_object_unref (settings);
 
 	toggle_action = GTK_TOGGLE_ACTION (ACTION (MAIL_CARET_MODE));
 	caret_mode = gtk_toggle_action_get_active (toggle_action);
@@ -1005,7 +1003,7 @@ action_mail_smart_backward_cb (GtkAction *action,
 		if (caret_mode || !magic_spacebar)
 			return;
 
-                /* XXX Are two separate calls really necessary? */
+		/* XXX Are two separate calls really necessary? */
 
 		if (message_list_select (
 		    MESSAGE_LIST (message_list),
@@ -1038,10 +1036,8 @@ static void
 action_mail_smart_forward_cb (GtkAction *action,
                               EMailShellView *mail_shell_view)
 {
-	EShell *shell;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
-	EShellSettings *shell_settings;
 	EMailShellContent *mail_shell_content;
 	EMailShellSidebar *mail_shell_sidebar;
 	EMFolderTree *folder_tree;
@@ -1052,6 +1048,7 @@ action_mail_smart_forward_cb (GtkAction *action,
 	GtkAdjustment *adj;
 	GtkToggleAction *toggle_action;
 	EMailDisplay *display;
+	GSettings *settings;
 	gboolean caret_mode;
 	gboolean magic_spacebar;
 	gdouble value;
@@ -1061,8 +1058,6 @@ action_mail_smart_forward_cb (GtkAction *action,
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
-	shell = e_shell_window_get_shell (shell_window);
-	shell_settings = e_shell_get_shell_settings (shell);
 
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
 	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
@@ -1074,8 +1069,9 @@ action_mail_smart_forward_cb (GtkAction *action,
 	display = e_mail_reader_get_mail_display (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
-	magic_spacebar = e_shell_settings_get_boolean (
-		shell_settings, "mail-magic-spacebar");
+	settings = g_settings_new ("org.gnome.evolution.mail");
+	magic_spacebar = g_settings_get_boolean (settings, "magic-spacebar");
+	g_object_unref (settings);
 
 	toggle_action = GTK_TOGGLE_ACTION (ACTION (MAIL_CARET_MODE));
 	caret_mode = gtk_toggle_action_get_active (toggle_action);
@@ -1092,7 +1088,7 @@ action_mail_smart_forward_cb (GtkAction *action,
 		if (caret_mode || !magic_spacebar)
 			return;
 
-                /* XXX Are two separate calls really necessary? */
+		/* XXX Are two separate calls really necessary? */
 
 		if (message_list_select (
 		    MESSAGE_LIST (message_list),
