@@ -2281,7 +2281,7 @@ setup_default_contact_store (ENameSelectorEntry *name_selector_entry)
 	client_cache = e_name_selector_entry_ref_client_cache (name_selector_entry);
 	registry = e_client_cache_ref_registry (client_cache);
 
-	list = e_source_registry_list_sources (registry, extension_name);
+	list = e_source_registry_list_enabled (registry, extension_name);
 
 	for (iter = list; iter != NULL; iter = g_list_next (iter)) {
 		ESource *source = E_SOURCE (iter->data);
@@ -2291,10 +2291,6 @@ setup_default_contact_store (ENameSelectorEntry *name_selector_entry)
 
 		extension_name = E_SOURCE_EXTENSION_AUTOCOMPLETE;
 		extension = e_source_get_extension (source, extension_name);
-
-		/* Skip disabled address books. */
-		if (!e_source_registry_check_enabled (registry, source))
-			continue;
 
 		/* Skip non-completion address books. */
 		if (!e_source_autocomplete_get_include_me (extension))

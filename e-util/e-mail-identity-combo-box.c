@@ -278,7 +278,7 @@ e_mail_identity_combo_box_refresh (EMailIdentityComboBox *combo_box)
 
 	extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
 	registry = e_mail_identity_combo_box_get_registry (combo_box);
-	list = e_source_registry_list_sources (registry, extension_name);
+	list = e_source_registry_list_enabled (registry, extension_name);
 
 	/* Build a hash table of GQueues by email address so we can
 	 * spot duplicate email addresses.  Then if the GQueue for a
@@ -325,9 +325,6 @@ e_mail_identity_combo_box_refresh (EMailIdentityComboBox *combo_box)
 		const gchar *uid;
 
 		source = E_SOURCE (link->data);
-
-		if (!e_source_registry_check_enabled (registry, source))
-			continue;
 
 		extension = e_source_get_extension (source, extension_name);
 		name = e_source_mail_identity_get_name (extension);

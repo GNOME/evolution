@@ -3277,7 +3277,7 @@ find_to_address (ItipView *view,
 		return;
 
 	/* Look through the list of attendees to find the user's address */
-	list = e_source_registry_list_sources (registry, extension_name);
+	list = e_source_registry_list_enabled (registry, extension_name);
 
 	for (link = list; link != NULL; link = g_list_next (link)) {
 		ESource *source = E_SOURCE (link->data);
@@ -3285,9 +3285,6 @@ find_to_address (ItipView *view,
 		icalparameter *param;
 		const gchar *address;
 		gchar *text;
-
-		if (!e_source_registry_check_enabled (registry, source))
-			continue;
 
 		extension = e_source_get_extension (source, extension_name);
 		address = e_source_mail_identity_get_address (extension);
@@ -3338,7 +3335,7 @@ find_to_address (ItipView *view,
 	 * accounts list again.
  	 */
 
-	list = e_source_registry_list_sources (registry, extension_name);
+	list = e_source_registry_list_enabled (registry, extension_name);
 
 	for (link = list; link != NULL; link = g_list_next (link)) {
 		ESource *source = E_SOURCE (link->data);
@@ -3346,9 +3343,6 @@ find_to_address (ItipView *view,
 		icalparameter *param;
 		const gchar *address;
 		gchar *text;
-
-		if (!e_source_registry_check_enabled (registry, source))
-			continue;
 
 		extension = e_source_get_extension (source, extension_name);
 		address = e_source_mail_identity_get_address (extension);
@@ -3433,15 +3427,12 @@ find_from_address (ItipView *view,
 		pitip->from_name = g_strdup (icalparameter_get_cn (param));
 
 	extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
-	list = e_source_registry_list_sources (registry, extension_name);
+	list = e_source_registry_list_enabled (registry, extension_name);
 
 	for (link = list; link != NULL; link = g_list_next (link)) {
 		ESource *source = E_SOURCE (link->data);
 		ESourceMailIdentity *extension;
 		const gchar *address;
-
-		if (!e_source_registry_check_enabled (registry, source))
-			continue;
 
 		extension = e_source_get_extension (source, extension_name);
 		address = e_source_mail_identity_get_address (extension);

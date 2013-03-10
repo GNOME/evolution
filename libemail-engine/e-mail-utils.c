@@ -552,7 +552,7 @@ second_preference:
 	}
 
 	extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
-	list = e_source_registry_list_sources (registry, extension_name);
+	list = e_source_registry_list_enabled (registry, extension_name);
 
 	if (sort_func)
 		sort_func (&list, sort_func_data);
@@ -560,8 +560,7 @@ second_preference:
 	for (iter = list; iter != NULL; iter = g_list_next (iter)) {
 		ESource *temp = E_SOURCE (iter->data);
 
-		if (e_source_registry_check_enabled (registry, temp) &&
-		    mail_account_in_recipients (registry, temp, recipients)) {
+		if (mail_account_in_recipients (registry, temp, recipients)) {
 			source = g_object_ref (temp);
 			break;
 		}

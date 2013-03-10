@@ -172,7 +172,7 @@ e_name_selector_load_books (ENameSelector *name_selector)
 	client_cache = e_name_selector_ref_client_cache (name_selector);
 	registry = e_client_cache_ref_registry (client_cache);
 
-	list = e_source_registry_list_sources (registry, extension_name);
+	list = e_source_registry_list_enabled (registry, extension_name);
 
 	for (iter = list; iter != NULL; iter = g_list_next (iter)) {
 		ESource *source = E_SOURCE (iter->data);
@@ -181,10 +181,6 @@ e_name_selector_load_books (ENameSelector *name_selector)
 
 		extension_name = E_SOURCE_EXTENSION_AUTOCOMPLETE;
 		extension = e_source_get_extension (source, extension_name);
-
-		/* Skip disabled address books. */
-		if (!e_source_registry_check_enabled (registry, source))
-			continue;
 
 		/* Only load address books with autocomplete enabled,
 		 * so as to avoid unnecessary authentication prompts. */

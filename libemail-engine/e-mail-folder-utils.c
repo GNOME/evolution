@@ -286,7 +286,7 @@ mail_folder_expunge_pop3_stores (CamelFolder *folder,
 	}
 
 	extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
-	list = e_source_registry_list_sources (registry, extension_name);
+	list = e_source_registry_list_enabled (registry, extension_name);
 
 	for (link = list; link != NULL; link = g_list_next (link)) {
 		ESource *source = E_SOURCE (link->data);
@@ -306,8 +306,7 @@ mail_folder_expunge_pop3_stores (CamelFolder *folder,
 		extension = e_source_get_extension (source, extension_name);
 		backend_name = e_source_backend_get_backend_name (extension);
 
-		if (!e_source_registry_check_enabled (registry, source) ||
-		    g_strcmp0 (backend_name, "pop") != 0)
+		if (g_strcmp0 (backend_name, "pop") != 0)
 			continue;
 
 		service = camel_session_ref_service (

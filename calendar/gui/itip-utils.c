@@ -430,15 +430,12 @@ itip_get_comp_attendee (ESourceRegistry *registry,
 	}
 
 	extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
-	list = e_source_registry_list_sources (registry, extension_name);
+	list = e_source_registry_list_enabled (registry, extension_name);
 
 	for (link = list; link != NULL; link = g_list_next (link)) {
 		ESourceExtension *extension;
 
 		source = E_SOURCE (link->data);
-
-		if (!e_source_registry_check_enabled (registry, source))
-			continue;
 
 		extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
 		extension = e_source_get_extension (source, extension_name);
@@ -1579,15 +1576,12 @@ find_enabled_identity (ESourceRegistry *registry,
 		return NULL;
 
 	extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
-	list = e_source_registry_list_sources (registry, extension_name);
+	list = e_source_registry_list_enabled (registry, extension_name);
 
 	for (link = list; link != NULL; link = g_list_next (link)) {
 		ESource *source = E_SOURCE (link->data);
 		ESourceMailIdentity *extension;
 		const gchar *address;
-
-		if (!e_source_registry_check_enabled (registry, source))
-			continue;
 
 		extension = e_source_get_extension (source, extension_name);
 		address = e_source_mail_identity_get_address (extension);
