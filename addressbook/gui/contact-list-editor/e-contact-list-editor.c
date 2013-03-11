@@ -1000,12 +1000,19 @@ contact_list_editor_combo_box_changed_cb (GtkWidget *widget)
 	client = E_CLIENT (editor->priv->book_client);
 	client_source = e_client_get_source (client);
 
-	if (!e_source_equal (client_source, active_source))
+	if (!e_source_equal (client_source, active_source)) {
+		ConnectClosure *connect_closure;
+
+		connect_closure = g_slice_new0 (ConnectClosure);
+		connect_closure->editor = g_object_ref (editor);
+		connect_closure->source = g_object_ref (active_source);
+
 		e_client_combo_box_get_client (
 			E_CLIENT_COMBO_BOX (widget),
 			active_source, NULL,
 			contact_list_editor_get_client_cb,
-			g_object_ref (editor));
+			connect_closure);
+	}
 
 	g_object_unref (active_source);
 }
