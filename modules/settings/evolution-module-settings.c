@@ -28,6 +28,7 @@
 #include "e-settings-meeting-time-selector.h"
 #include "e-settings-name-selector-entry.h"
 #include "e-settings-photo-cache.h"
+#include "e-settings-spell-entry.h"
 #include "e-settings-web-view.h"
 #include "e-settings-web-view-gtkhtml.h"
 #include "e-settings-weekday-chooser.h"
@@ -51,6 +52,7 @@ e_module_load (GTypeModule *type_module)
 	e_settings_meeting_time_selector_type_register (type_module);
 	e_settings_name_selector_entry_type_register (type_module);
 	e_settings_photo_cache_type_register (type_module);
+	e_settings_spell_entry_type_register (type_module);
 	e_settings_web_view_type_register (type_module);
 	e_settings_web_view_gtkhtml_type_register (type_module);
 	e_settings_weekday_chooser_type_register (type_module);

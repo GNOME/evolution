@@ -2653,17 +2653,6 @@ get_widgets (EventPage *epage)
 	gtk_entry_set_completion (GTK_ENTRY (priv->categories), completion);
 	g_object_unref (completion);
 
-	if (priv->summary) {
-		EShellSettings *shell_settings;
-
-		shell_settings = e_shell_get_shell_settings (shell);
-
-		g_object_bind_property (
-			shell_settings, "composer-inline-spelling",
-			priv->summary, "checking-enabled",
-			G_BINDING_SYNC_CREATE);
-	}
-
 	return (priv->summary
 		&& priv->location
 		&& priv->start_time

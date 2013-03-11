@@ -906,21 +906,6 @@ get_widgets (MemoPage *mpage)
 	gtk_entry_set_completion (GTK_ENTRY (priv->categories), completion);
 	g_object_unref (completion);
 
-	if (priv->summary_entry) {
-		EShell *shell;
-		EShellSettings *shell_settings;
-		CompEditor *editor;
-
-		editor = comp_editor_page_get_editor (page);
-		shell = comp_editor_get_shell (editor);
-		shell_settings = e_shell_get_shell_settings (shell);
-
-		g_object_bind_property (
-			shell_settings, "composer-inline-spelling",
-			priv->summary_entry, "checking-enabled",
-			G_BINDING_SYNC_CREATE);
-	}
-
 	return (priv->memo_content
 		&& priv->categories_btn
 		&& priv->categories
