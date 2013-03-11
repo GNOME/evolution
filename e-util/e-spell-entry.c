@@ -22,6 +22,8 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
 
+#include <libebackend/libebackend.h>
+
 #include <editor/gtkhtml-spell-language.h>
 #include <editor/gtkhtml-spell-checker.h>
 
@@ -49,7 +51,12 @@ enum {
 	PROP_CHECKING_ENABLED
 };
 
-G_DEFINE_TYPE (ESpellEntry, e_spell_entry, GTK_TYPE_ENTRY);
+G_DEFINE_TYPE_WITH_CODE (
+	ESpellEntry,
+	e_spell_entry,
+	GTK_TYPE_ENTRY,
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_EXTENSIBLE, NULL))
 
 static gboolean
 word_misspelled (ESpellEntry *entry,
@@ -785,6 +792,15 @@ spell_entry_finalize (GObject *object)
 	G_OBJECT_CLASS (e_spell_entry_parent_class)->finalize (object);
 }
 
+static void
+spell_entry_constructed (GObject *object)
+{
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_spell_entry_parent_class)->constructed (object);
+
+	e_extensible_load_extensions (E_EXTENSIBLE (object));
+}
+
 static gboolean
 spell_entry_draw (GtkWidget *widget,
                   cairo_t *cr)
@@ -828,6 +844,7 @@ e_spell_entry_class_init (ESpellEntryClass *class)
 	object_class->get_property = spell_entry_get_property;
 	object_class->dispose = spell_entry_dispose;
 	object_class->finalize = spell_entry_finalize;
+	object_class->constructed = spell_entry_constructed;
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->draw = spell_entry_draw;
