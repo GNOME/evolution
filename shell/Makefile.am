@@ -23,7 +23,6 @@ eshellinclude_HEADERS = 			\
 	e-shell-content.h			\
 	e-shell-enumtypes.h			\
 	e-shell-searchbar.h			\
-	e-shell-settings.h			\
 	e-shell-sidebar.h			\
 	e-shell-switcher.h			\
 	e-shell-taskbar.h			\
@@ -69,7 +68,6 @@ libeshell_la_SOURCES =				\
 	e-shell-meego.c				\
 	e-shell-meego.h				\
 	e-shell-searchbar.c			\
-	e-shell-settings.c			\
 	e-shell-sidebar.c			\
 	e-shell-switcher.c			\
 	e-shell-taskbar.c			\

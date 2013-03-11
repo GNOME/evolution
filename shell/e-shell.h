@@ -28,7 +28,6 @@
 
 #include <shell/e-shell-common.h>
 #include <shell/e-shell-backend.h>
-#include <shell/e-shell-settings.h>
 
 /* Standard GObject macros */
 #define E_TYPE_SHELL \
@@ -117,7 +116,6 @@ EShellBackend *	e_shell_get_backend_by_name	(EShell *shell,
 EShellBackend *	e_shell_get_backend_by_scheme	(EShell *shell,
 						 const gchar *scheme);
 EClientCache *	e_shell_get_client_cache	(EShell *shell);
-EShellSettings *e_shell_get_shell_settings	(EShell *shell);
 ESourceRegistry *
 		e_shell_get_registry		(EShell *shell);
 GtkWidget *	e_shell_create_shell_window	(EShell *shell,

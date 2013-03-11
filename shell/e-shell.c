@@ -47,7 +47,6 @@
 
 struct _EShellPrivate {
 	GQueue alerts;
-	EShellSettings *settings;
 	ESourceRegistry *registry;
 	EClientCache *client_cache;
 	GtkWidget *preferences_window;
@@ -91,8 +90,7 @@ enum {
 	PROP_MODULE_DIRECTORY,
 	PROP_NETWORK_AVAILABLE,
 	PROP_ONLINE,
-	PROP_REGISTRY,
-	PROP_SHELL_SETTINGS
+	PROP_REGISTRY
 };
 
 enum {
@@ -103,14 +101,6 @@ enum {
 	PREPARE_FOR_QUIT,
 	QUIT_REQUESTED,
 	LAST_SIGNAL
-};
-
-enum {
-	DEBUG_KEY_SETTINGS = 1 << 0
-};
-
-static GDebugKey debug_keys[] = {
-	{ "settings",	DEBUG_KEY_SETTINGS }
 };
 
 static gpointer default_shell;
@@ -127,19 +117,6 @@ G_DEFINE_TYPE_WITH_CODE (
 		G_TYPE_INITABLE, e_shell_initable_init)
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_EXTENSIBLE, NULL))
-
-static void
-shell_parse_debug_string (EShell *shell)
-{
-	guint flags;
-
-	flags = g_parse_debug_string (
-		g_getenv ("EVOLUTION_DEBUG"),
-		debug_keys, G_N_ELEMENTS (debug_keys));
-
-	if (flags & DEBUG_KEY_SETTINGS)
-		e_shell_settings_enable_debug (shell->priv->settings);
-}
 
 static void
 shell_alert_response_cb (EShell *shell,
@@ -685,12 +662,6 @@ shell_get_property (GObject *object,
 				value, e_shell_get_registry (
 				E_SHELL (object)));
 			return;
-
-		case PROP_SHELL_SETTINGS:
-			g_value_set_object (
-				value, e_shell_get_shell_settings (
-				E_SHELL (object)));
-			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -726,11 +697,6 @@ shell_dispose (GObject *object)
 	if (priv->startup_view != NULL) {
 		g_free (priv->startup_view);
 		priv->startup_view = NULL;
-	}
-
-	if (priv->settings != NULL) {
-		g_object_unref (priv->settings);
-		priv->settings = NULL;
 	}
 
 	if (priv->registry != NULL) {
@@ -1067,21 +1033,6 @@ e_shell_class_init (EShellClass *class)
 			G_PARAM_READABLE));
 
 	/**
-	 * EShell:settings
-	 *
-	 * The #EShellSettings object stores application settings.
-	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_SHELL_SETTINGS,
-		g_param_spec_object (
-			"shell-settings",
-			"Shell Settings",
-			"Application-wide settings",
-			E_TYPE_SHELL_SETTINGS,
-			G_PARAM_READABLE));
-
-	/**
 	 * EShell::event
 	 * @shell: the #EShell which emitted the signal
 	 * @event_data: data associated with the event
@@ -1244,7 +1195,6 @@ e_shell_init (EShell *shell)
 
 	g_queue_init (&shell->priv->alerts);
 
-	shell->priv->settings = g_object_new (E_TYPE_SHELL_SETTINGS, NULL);
 	shell->priv->preferences_window = e_preferences_window_new (shell);
 	shell->priv->backends_by_name = backends_by_name;
 	shell->priv->backends_by_scheme = backends_by_scheme;
@@ -1259,19 +1209,9 @@ e_shell_init (EShell *shell)
 	icon_theme = gtk_icon_theme_get_default ();
 	gtk_icon_theme_append_search_path (icon_theme, EVOLUTION_ICONDIR);
 
-	shell_parse_debug_string (shell);
-
 	g_signal_connect (
 		shell, "notify::online",
 		G_CALLBACK (shell_notify_online_cb), NULL);
-
-	/* XXX Do this after creating the EShellSettings instance,
-	 *     otherwise the GSettings bindings will not get set up. */
-
-	e_shell_settings_install_property_for_key (
-		"start-offline",
-		"org.gnome.evolution.shell",
-		"start-offline");
 
 	g_signal_connect_swapped (
 		G_APPLICATION (shell), "shutdown",
@@ -1449,22 +1389,6 @@ e_shell_get_client_cache (EShell *shell)
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
 	return shell->priv->client_cache;
-}
-
-/**
- * e_shell_get_shell_settings:
- * @shell: an #EShell
- *
- * Returns the #EShellSettings instance for @shell.
- *
- * Returns: the #EShellSettings instance for @shell
- **/
-EShellSettings *
-e_shell_get_shell_settings (EShell *shell)
-{
-	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
-
-	return shell->priv->settings;
 }
 
 /**

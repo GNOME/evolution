@@ -9,7 +9,6 @@ e_shell_get_canonical_name
 e_shell_get_backend_by_name
 e_shell_get_backend_by_scheme
 e_shell_get_client_cache
-e_shell_get_shell_settings
 e_shell_get_registry
 e_shell_create_shell_window
 e_shell_handle_uris
@@ -148,36 +147,6 @@ EShellSearchbarClass
 e_shell_searchbar_get_type
 <SUBSECTION Private>
 EShellSearchbarPrivate
-</SECTION>
-
-<SECTION>
-<FILE>e-shell-settings</FILE>
-<TITLE>EShellSettings</TITLE>
-EShellSettings
-e_shell_settings_install_property
-e_shell_settings_install_property_for_key
-e_shell_settings_enable_debug
-e_shell_settings_get_boolean
-e_shell_settings_set_boolean
-e_shell_settings_get_int
-e_shell_settings_set_int
-e_shell_settings_get_string
-e_shell_settings_set_string
-e_shell_settings_get_object
-e_shell_settings_set_object
-e_shell_settings_get_pointer
-e_shell_settings_set_pointer
-<SUBSECTION Standard>
-E_SHELL_SETTINGS
-E_IS_SHELL_SETTINGS
-E_TYPE_SHELL_SETTINGS
-E_SHELL_SETTINGS_CLASS
-E_IS_SHELL_SETTINGS_CLASS
-E_SHELL_SETTINGS_GET_CLASS
-EShellSettingsClass
-e_shell_settings_get_type
-<SUBSECTION Private>
-EShellSettingsPrivate
 </SECTION>
 
 <SECTION>

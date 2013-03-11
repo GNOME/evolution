@@ -20,7 +20,6 @@
     <xi:include href="xml/e-shell-sidebar.xml"/>
     <xi:include href="xml/e-shell-taskbar.xml"/>
     <xi:include href="xml/e-shell-searchbar.xml"/>
-    <xi:include href="xml/e-shell-settings.xml"/>
     <xi:include href="xml/e-shell-switcher.xml"/>
     <xi:include href="xml/e-shell-utils.xml"/>
   </chapter>
