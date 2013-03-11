@@ -15,6 +15,13 @@
     <value nick='outlook'      value='3'/>
   </enum>
 
+  <!-- Keep this synchronized with EMailImageLoadingPolicy. -->
+  <enum id="org.gnome.evolution.mail.ImageLoadingPolicy">
+    <value nick='never'     value='0'/>
+    <value nick='sometimes' value='1'/>
+    <value nick='always'    value='2'/>
+  </enum>
+
   <schema gettext-domain="evolution" id="org.gnome.evolution.mail" path="/org/gnome/evolution/mail/">
     <key name="prompt-check-if-default-mailer" type="b">
       <default>true</default>
@@ -201,15 +208,9 @@
       <_summary>Default charset in which to display messages</_summary>
       <_description>Default charset in which to display messages.</_description>
     </key>
-    <key name="load-http-images" type="i">
-      <default>0</default>
-      <_summary>Load images for HTML messages over HTTP</_summary>
-      <_description>
-	Load images for HTML messages over HTTP(S). Possible values are:
-        "0" - Never load images off the net.
-        "1" - Load images in messages from contacts.
-        "2" - Always load images off the net.
-      </_description>
+    <key name="image-loading-policy" enum="org.gnome.evolution.mail.ImageLoadingPolicy">
+      <default>'never'</default>
+      <_summary>Automatically load images for HTML messages over HTTP</_summary>
     </key>
     <key name="animate-images" type="b">
       <default>true</default>
@@ -562,6 +563,11 @@
       <default>0</default>
       <_summary>(Deprecated) Default reply style</_summary>
       <_description>This key was deprecated in version 3.10 and should no longer be used.  Use "reply-style-name" instead.</_description>
+    </key>
+    <key name="load-http-images" type="i">
+      <default>0</default>
+      <_summary>(Deprecated) Load images for HTML messages over HTTP</_summary>
+      <_description>This key was deprecated in version 3.10 and should no longer be used.  Use "image-loading-policy" instead.</_description>
     </key>
 
   </schema>

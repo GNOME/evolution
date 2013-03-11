@@ -44,6 +44,7 @@ struct _ESettingsDeprecatedPrivate {
 	GSettings *mail_settings;
 	gulong forward_style_name_handler_id;
 	gulong reply_style_name_handler_id;
+	gulong image_loading_policy_handler_id;
 };
 
 /* Flag values used in the "working-days" key. */
@@ -207,6 +208,16 @@ settings_deprecated_reply_style_name_cb (GSettings *settings,
 }
 
 static void
+settings_deprecated_image_loading_policy_cb (GSettings *settings,
+                                             const gchar *key)
+{
+	EMailImageLoadingPolicy policy;
+
+	policy = g_settings_get_enum (settings, "image-loading-policy");
+	g_settings_set_int (settings, "load-http-images", policy);
+}
+
+static void
 settings_deprecated_dispose (GObject *object)
 {
 	ESettingsDeprecatedPrivate *priv;
@@ -281,6 +292,13 @@ settings_deprecated_dispose (GObject *object)
 			priv->mail_settings,
 			priv->reply_style_name_handler_id);
 		priv->reply_style_name_handler_id = 0;
+	}
+
+	if (priv->image_loading_policy_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->mail_settings,
+			priv->image_loading_policy_handler_id);
+		priv->image_loading_policy_handler_id = 0;
 	}
 
 	g_clear_object (&priv->calendar_settings);
@@ -372,6 +390,11 @@ settings_deprecated_constructed (GObject *object)
 			break;
 	}
 
+	int_value = g_settings_get_int (
+		priv->mail_settings, "load-http-images");
+	g_settings_set_enum (
+		priv->mail_settings, "image-loading-policy", int_value);
+
 	/* Write changes back to the deprecated keys. */
 
 	handler_id = g_signal_connect (
@@ -423,6 +446,10 @@ settings_deprecated_constructed (GObject *object)
 		priv->mail_settings, "changed::reply-style-name",
 		G_CALLBACK (settings_deprecated_reply_style_name_cb), NULL);
 	priv->reply_style_name_handler_id = handler_id;
+
+	handler_id = g_signal_connect (
+		priv->mail_settings, "changed::image-loading-policy",
+		G_CALLBACK (settings_deprecated_image_loading_policy_cb), NULL);
 }
 
 static void
