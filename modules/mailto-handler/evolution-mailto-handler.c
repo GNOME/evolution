@@ -68,7 +68,7 @@ mailto_handler_get_shell (EMailtoHandler *extension)
 }
 
 static gboolean
-mailto_handler_is_evolution (/*const */ GAppInfo *app_info)
+mailto_handler_is_evolution (GAppInfo *app_info)
 {
 	gint argc;
 	gchar **argv;
@@ -206,8 +206,7 @@ mailto_handler_check (EMailtoHandler *extension)
 	if (!mailto_handler_prompt (extension))
 		goto exit;
 
-	if (app_info)
-		g_object_unref (app_info);
+	g_clear_object (&app_info);
 
 	/* Configure Evolution to be the "mailto" URI handler. */
 	app_info = g_app_info_create_from_commandline (
@@ -216,15 +215,22 @@ mailto_handler_check (EMailtoHandler *extension)
 		G_APP_INFO_CREATE_SUPPORTS_URIS,
 		&error);
 
-	if (app_info && !error)
-		g_app_info_set_as_default_for_type (app_info, MAILTO_HANDLER, &error);
+	/* Sanity check. */
+	g_return_if_fail (
+		((app_info != NULL) && (error == NULL)) ||
+		((app_info == NULL) && (error != NULL)));
+
+	if (app_info != NULL)
+		g_app_info_set_as_default_for_type (
+			app_info, MAILTO_HANDLER, &error);
 
 exit:
-	if (app_info)
-		g_object_unref (app_info);
+	g_clear_object (&app_info);
 
-	if (error) {
-		g_warning ("Failed to register as default handler: %s", error->message);
+	if (error != NULL) {
+		g_warning (
+			"Failed to register as default handler: %s",
+			error->message);
 		g_error_free (error);
 	}
 }
