@@ -1022,8 +1022,9 @@ e_contact_store_get_clients (EContactStore *contact_store)
  * @contact_store: an #EContactStore
  * @book_client: an #EBookClient
  *
- * Adds @book_client to the list of book clients that provide contacts for @contact_store.
- * The @contact_store adds a reference to @book_client, if added.
+ * Adds @book_client to the list of clients that provide contacts for
+ * @contact_store.  The @contact_store adds a reference to @book_client,
+ * if added.
  *
  * Since: 3.2
  **/
@@ -1038,10 +1039,9 @@ e_contact_store_add_client (EContactStore *contact_store,
 	g_return_if_fail (E_IS_CONTACT_STORE (contact_store));
 	g_return_if_fail (E_IS_BOOK_CLIENT (book_client));
 
-	if (find_contact_source_by_client (contact_store, book_client) >= 0) {
-		g_warning ("Same book client added more than once to EContactStore!");
+	/* Return silently if we already have this EBookClient. */
+	if (find_contact_source_by_client (contact_store, book_client) >= 0)
 		return;
-	}
 
 	array = contact_store->priv->contact_sources;
 
@@ -1060,11 +1060,14 @@ e_contact_store_add_client (EContactStore *contact_store,
  * @contact_store: an #EContactStore
  * @book_client: an #EBookClient
  *
- * Removes @book from the list of book clients that provide contacts for @contact_store.
+ * Removes @book_client from the list of clients that provide contacts for
+ * @contact_store.
+ *
+ * Returns: whether @book_client was found and removed
  *
  * Since: 3.2
  **/
-void
+gboolean
 e_contact_store_remove_client (EContactStore *contact_store,
                                EBookClient *book_client)
 {
@@ -1072,14 +1075,12 @@ e_contact_store_remove_client (EContactStore *contact_store,
 	ContactSource *source;
 	gint source_index;
 
-	g_return_if_fail (E_IS_CONTACT_STORE (contact_store));
-	g_return_if_fail (E_IS_BOOK_CLIENT (book_client));
+	g_return_val_if_fail (E_IS_CONTACT_STORE (contact_store), FALSE);
+	g_return_val_if_fail (E_IS_BOOK_CLIENT (book_client), FALSE);
 
 	source_index = find_contact_source_by_client (contact_store, book_client);
-	if (source_index < 0) {
-		g_warning ("Tried to remove unknown book client from EContactStore!");
-		return;
-	}
+	if (source_index < 0)
+		return FALSE;
 
 	array = contact_store->priv->contact_sources;
 
@@ -1089,6 +1090,8 @@ e_contact_store_remove_client (EContactStore *contact_store,
 	g_object_unref (book_client);
 
 	g_array_remove_index (array, source_index);  /* Preserve order */
+
+	return TRUE;
 }
 
 /**

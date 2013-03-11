@@ -85,7 +85,7 @@ gboolean	e_contact_store_find_contact	(EContactStore *contact_store,
 GSList *	e_contact_store_get_clients	(EContactStore *contact_store);
 void		e_contact_store_add_client	(EContactStore *contact_store,
 						 EBookClient *book_client);
-void		e_contact_store_remove_client	(EContactStore *contact_store,
+gboolean	e_contact_store_remove_client	(EContactStore *contact_store,
 						 EBookClient *book_client);
 void		e_contact_store_set_query	(EContactStore *contact_store,
 						 EBookQuery *book_query);
