@@ -22,6 +22,14 @@
     <value nick='always'    value='2'/>
   </enum>
 
+  <!-- Keep this synchronized with PangoEllipsizeMode. -->
+  <enum id="org.gnome.evolution.mail.EllipsizeMode">
+    <value nick='none'   value='0'/>
+    <value nick='start'  value='1'/>
+    <value nick='middle' value='2'/>
+    <value nick='end'    value='3'/>
+  </enum>
+
   <schema gettext-domain="evolution" id="org.gnome.evolution.mail" path="/org/gnome/evolution/mail/">
     <key name="prompt-check-if-default-mailer" type="b">
       <default>true</default>
@@ -168,15 +176,14 @@
       <_summary>Show image animations</_summary>
       <_description>Enable animated images in HTML mail. Many users find animated images annoying and prefer to see a static image instead.</_description>
     </key>
+    <key name="side-bar-ellipsize-mode" enum="org.gnome.evolution.mail.EllipsizeMode">
+      <default>'none'</default>
+      <_summary>Ellipsize mode for folder names in side bar</_summary>
+    </key>
     <key name="side-bar-search" type="b">
       <default>true</default>
       <_summary>Enable or disable type ahead search feature</_summary>
       <_description>Enable the side bar search feature to allow interactive searching of folder names.</_description>
-    </key>
-    <key name="no-folder-dots" type="b">
-      <default>false</default>
-      <_summary>Disable or enable ellipsizing of folder names in side bar</_summary>
-      <_description>Whether disable ellipsizing feature of folder names in side bar.</_description>
     </key>
     <key name="magic-spacebar" type="b">
       <default>true</default>
