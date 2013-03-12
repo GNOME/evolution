@@ -362,15 +362,28 @@ cal_shell_backend_init_importers (void)
 	e_import_class_add_importer (import_class, importer, NULL, NULL);
 }
 
-static time_t
-utc_to_user_zone (time_t utc_time,
-                  icaltimezone *zone)
+static void
+populate_g_date (GDate *date,
+		 time_t utc_time,
+		 icaltimezone *zone)
 {
-	if (!zone || (gint) utc_time == -1)
-		return utc_time;
+	struct icaltimetype icaltm;
 
-	return icaltime_as_timet (
-		icaltime_from_timet_with_zone (utc_time, FALSE, zone));
+	g_return_if_fail (date != NULL);
+
+	if ((gint) utc_time == -1)
+		return;
+
+	if (zone)
+		icaltm = icaltime_from_timet_with_zone (utc_time, FALSE, zone);
+	else
+		icaltm = icaltime_from_timet (utc_time, FALSE);
+
+	if (icaltime_is_null_time (icaltm) ||
+	    !icaltime_is_valid_time (icaltm))
+		return;
+
+	g_date_set_dmy (date, icaltm.day, icaltm.month, icaltm.year);
 }
 
 static gboolean
@@ -440,13 +453,9 @@ cal_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 
 		content = g_strndup (cp, content_len);
 		if (g_ascii_strcasecmp (header, "startdate") == 0)
-			g_date_set_time_t (
-				&start_date, utc_to_user_zone (
-				time_from_isodate (content), zone));
+			populate_g_date (&start_date, time_from_isodate (content), zone);
 		else if (g_ascii_strcasecmp (header, "enddate") == 0)
-			g_date_set_time_t (
-				&end_date, utc_to_user_zone (
-				time_from_isodate (content), zone));
+			populate_g_date (&end_date, time_from_isodate (content), zone);
 		else if (g_ascii_strcasecmp (header, "source-uid") == 0)
 			source_uid = g_strdup (content);
 		else if (g_ascii_strcasecmp (header, "comp-uid") == 0)
