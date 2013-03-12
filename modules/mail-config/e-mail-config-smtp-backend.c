@@ -323,6 +323,8 @@ mail_config_smtp_backend_auto_configure (EMailConfigServiceBackend *backend,
 		e_mail_config_auth_check_set_active_mechanism (
 			E_MAIL_CONFIG_AUTH_CHECK (priv->auth_check),
 			mechanism);
+
+	return TRUE;
 }
 
 static gboolean
