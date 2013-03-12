@@ -89,6 +89,7 @@ struct _EMailAutoconfigResult {
 	gchar *user;
 	gchar *host;
 	guint16 port;
+	gchar *auth_mechanism;
 	CamelNetworkSecurityMethod security_method;
 };
 
@@ -281,10 +282,43 @@ mail_autoconfig_parse_text (GMarkupParseContext *context,
 				CAMEL_NETWORK_SECURITY_METHOD_STARTTLS_ON_STANDARD_PORT;
 			closure->result->set = TRUE;
 		}
-	}
 
-	/* FIXME Not handling <authentication> elements.
-	 *       Unclear how some map to SASL mechanisms. */
+	} else if (g_str_equal (element_name, "authentication")) {
+		gboolean use_plain_auth = FALSE;
+
+		/* "password-cleartext" and "plain" are synonymous. */
+
+		if (g_str_equal (string->str, "password-cleartext"))
+			use_plain_auth = TRUE;
+
+		if (g_str_equal (string->str, "plain"))
+			use_plain_auth = TRUE;
+
+		if (use_plain_auth) {
+			gchar *auth_mechanism = NULL;
+
+			/* The exact auth name depends on the protocol. */
+
+			/* Leave this NULL for IMAP so Camel
+			 * will issue an IMAP LOGIN command. */
+			if (closure->result == &priv->imap_result)
+				auth_mechanism = NULL;
+
+			/* Leave this NULL for POP3 so Camel
+			 * will issue POP3 USER/PASS commands. */
+			if (closure->result == &priv->pop3_result)
+				auth_mechanism = NULL;
+
+			if (closure->result == &priv->smtp_result)
+				auth_mechanism = g_strdup ("LOGIN");
+
+			closure->result->auth_mechanism = auth_mechanism;
+			closure->result->set = TRUE;
+		}
+
+		/* XXX Other <authentication> values not handled,
+		 *     but they are corner cases for the most part. */
+	}
 
 	g_string_free (string, TRUE);
 }
@@ -429,6 +463,7 @@ mail_autoconfig_set_details (EMailAutoconfig *autoconfig,
 		"user", result->user,
 		"host", result->host,
 		"port", result->port,
+		"auth-mechanism", result->auth_mechanism,
 		"security-method", result->security_method,
 		NULL);
 
@@ -493,10 +528,13 @@ mail_autoconfig_finalize (GObject *object)
 
 	g_free (priv->imap_result.user);
 	g_free (priv->imap_result.host);
+	g_free (priv->imap_result.auth_mechanism);
 	g_free (priv->pop3_result.user);
 	g_free (priv->pop3_result.host);
+	g_free (priv->pop3_result.auth_mechanism);
 	g_free (priv->smtp_result.user);
 	g_free (priv->smtp_result.host);
+	g_free (priv->smtp_result.auth_mechanism);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_mail_autoconfig_parent_class)->finalize (object);

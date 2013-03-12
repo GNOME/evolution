@@ -289,11 +289,40 @@ static gboolean
 mail_config_smtp_backend_auto_configure (EMailConfigServiceBackend *backend,
                                          EMailAutoconfig *autoconfig)
 {
+	EMailConfigSmtpBackendPrivate *priv;
 	ESource *source;
+	CamelSettings *settings;
+	const gchar *mechanism;
 
 	source = e_mail_config_service_backend_get_source (backend);
 
-	return e_mail_autoconfig_set_smtp_details (autoconfig, source);
+	if (!e_mail_autoconfig_set_smtp_details (autoconfig, source))
+		return FALSE;
+
+	/* XXX Need to set the authentication widgets to match the
+	 *     auto-configured settings or else the auto-configured
+	 *     settings will be overwritten in commit_changes().
+	 *
+	 *     It's not good enough to just set an auto-configured
+	 *     flag and skip the widget checks in commit_changes()
+	 *     if the flag is TRUE, since the user may revise the
+	 *     SMTP settings before committing. */
+
+	priv = E_MAIL_CONFIG_SMTP_BACKEND_GET_PRIVATE (backend);
+
+	settings = e_mail_config_service_backend_get_settings (backend);
+
+	mechanism = camel_network_settings_get_auth_mechanism (
+		CAMEL_NETWORK_SETTINGS (settings));
+
+	gtk_toggle_button_set_active (
+		GTK_TOGGLE_BUTTON (priv->auth_required_toggle),
+		(mechanism != NULL));
+
+	if (mechanism != NULL)
+		e_mail_config_auth_check_set_active_mechanism (
+			E_MAIL_CONFIG_AUTH_CHECK (priv->auth_check),
+			mechanism);
 }
 
 static gboolean
