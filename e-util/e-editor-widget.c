@@ -317,7 +317,13 @@ editor_widget_check_magic_smileys (EEditorWidget *widget,
 		return;
 	}
 
+	if (!WEBKIT_DOM_IS_TEXT (node))
+		return;
+
 	node_text = webkit_dom_text_get_whole_text ((WebKitDOMText *) node);
+	if (node_text == NULL)
+		return;
+
 	start = webkit_dom_range_get_end_offset (range, NULL) - 1;
 	pos = start;
 	state = 0;
