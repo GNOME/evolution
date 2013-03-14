@@ -58,7 +58,7 @@ struct _EWebViewPrivate {
 	GdkPixbufAnimation *cursor_image;
 	gchar *cursor_image_src;
 
-        GSList *highlights;
+	GSList *highlights;
 
 	GtkAction *open_proxy;
 	GtkAction *print_proxy;
@@ -424,7 +424,7 @@ replace_text (WebKitDOMNode *node,
 	} else {
 		WebKitDOMNode *child, *next_child;
 
-                /* Iframe? Let's traverse inside! */
+		/* Iframe? Let's traverse inside! */
 		if (WEBKIT_DOM_IS_HTML_IFRAME_ELEMENT (node)) {
 
 			WebKitDOMDocument *frame_document;
