@@ -2743,6 +2743,8 @@ WebKitWebSettings *
 e_web_view_get_default_settings (void)
 {
 	WebKitWebSettings *settings;
+	GObjectClass *class;
+	GParamSpec *pspec;
 
 	settings = webkit_web_settings_new ();
 
@@ -2756,6 +2758,17 @@ e_web_view_get_default_settings (void)
 		"enable-site-specific-quirks", TRUE,
 		"enable-scripts", FALSE,
 		NULL);
+
+	/* This property was introduced in WebKitGTK 2.0,
+	 * so check for it and enable it if it's present. */
+	class = G_OBJECT_GET_CLASS (settings);
+	pspec = g_object_class_find_property (
+		class, "respect-image-orientation");
+	if (pspec != NULL) {
+		g_object_set (
+			G_OBJECT (settings),
+			pspec->name, TRUE, NULL);
+	}
 
 	return settings;
 }
