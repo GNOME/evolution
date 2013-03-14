@@ -1733,6 +1733,11 @@ mail_reader_create_filter_cb (CamelFolder *folder,
 	backend = e_mail_reader_get_backend (context->reader);
 	session = e_mail_backend_get_session (backend);
 
+	/* Switch to Incoming filter in case the message contains a Received header */
+	if (g_str_equal (context->filter_source, E_FILTER_SOURCE_OUTGOING) &&
+	    camel_medium_get_header (CAMEL_MEDIUM (message), "received"))
+		context->filter_source = E_FILTER_SOURCE_INCOMING;
+
 	filter_gui_add_from_message (
 		session, message,
 		context->filter_source,
@@ -1767,9 +1772,8 @@ e_mail_reader_create_filter_from_selected (EMailReader *reader,
 	folder = e_mail_reader_get_folder (reader);
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 
-	if (em_utils_folder_is_sent (registry, folder))
-		filter_source = E_FILTER_SOURCE_OUTGOING;
-	else if (em_utils_folder_is_outbox (registry, folder))
+	if (em_utils_folder_is_sent (registry, folder) ||
+	    em_utils_folder_is_outbox (registry, folder))
 		filter_source = E_FILTER_SOURCE_OUTGOING;
 	else
 		filter_source = E_FILTER_SOURCE_INCOMING;
