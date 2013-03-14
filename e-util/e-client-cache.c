@@ -577,7 +577,7 @@ client_cache_process_results (ClientData *client_data,
 				(GDestroyNotify) g_object_unref);
 		if (error != NULL)
 			g_simple_async_result_set_from_error (simple, error);
-		g_simple_async_result_complete (simple);
+		g_simple_async_result_complete_in_idle (simple);
 		g_object_unref (simple);
 	}
 }
