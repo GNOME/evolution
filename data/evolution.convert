@@ -163,7 +163,6 @@ mime-types = /apps/evolution/mail/display/mime_types
 monospace-font = /apps/evolution/mail/display/fonts/monospace
 no-folder-dots = /apps/evolution/mail/display/no_folder_dots
 paned-size = /apps/evolution/mail/display/paned_size
-paned-view-headers-state = /apps/evolution/mail/display/paned_view_headers_state
 photo-local = /apps/evolution/mail/display/photo_local
 prompt-check-if-default-mailer = /apps/evolution/mail/prompts/checkdefault
 prompt-on-delete-in-vfolder = /apps/evolution/mail/prompts/delete_in_vfolder

@@ -362,9 +362,9 @@ e_mail_shell_settings_init (EShellBackend *shell_backend)
 		"composer-gallery-path");
 
 	e_shell_settings_install_property_for_key (
-		"paned-view-headers-state",
+		"mail-headers-collapsed",
 		MAIL_SCHEMA,
-		"paned-view-headers-state");
+		"headers-collapsed");
 
 	e_shell_settings_install_property (
 		g_param_spec_enum (

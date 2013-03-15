@@ -284,10 +284,9 @@
       <_summary>Height of the message-list pane</_summary>
       <_description>Height of the message-list pane.</_description>
     </key>
-    <key name="paned-view-headers-state" type="i">
-      <default>0</default>
-      <_summary>State of message headers in paned view</_summary>
-      <_description>Describes whether message headers in paned view should be collapsed or expanded by default. "0" = expanded and "1" = collapsed</_description>
+    <key name="headers-collapsed" type="b">
+      <default>false</default>
+      <_summary>Whether message headers are collapsed in the user interface</_summary>
     </key>
     <key name="hpaned-size" type="i">
       <default>450</default>

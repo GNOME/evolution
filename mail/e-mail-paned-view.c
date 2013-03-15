@@ -624,8 +624,7 @@ mail_paned_view_constructed (GObject *object)
 	EShellBackend *shell_backend;
 	EShellWindow *shell_window;
 	EShellView *shell_view;
-	EShell *shell;
-	EShellSettings *shell_settings;
+	GSettings *settings;
 	EMailReader *reader;
 	EMailBackend *backend;
 	EMailSession *session;
@@ -644,16 +643,21 @@ mail_paned_view_constructed (GObject *object)
 	shell_view = e_mail_view_get_shell_view (view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
-	shell = e_shell_window_get_shell (shell_window);
-	shell_settings = e_shell_get_shell_settings (shell);
 
 	backend = E_MAIL_BACKEND (shell_backend);
 	session = e_mail_backend_get_session (backend);
 
-	g_object_bind_property (
-		shell_settings, "paned-view-headers-state",
+	/* FIXME This should be an EMailPanedView property, so
+	 *       it can be configured from the settings module. */
+
+	settings = g_settings_new ("org.gnome.evolution.mail");
+
+	g_settings_bind (
+		settings, "headers-collapsed",
 		priv->display, "headers-collapsed",
-		G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_DEFAULT);
+
+	g_object_unref (settings);
 
 	/* Build content widgets. */
 
