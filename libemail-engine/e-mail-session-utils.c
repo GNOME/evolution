@@ -933,7 +933,6 @@ e_mail_session_send_to (EMailSession *session,
 	context->io_priority = io_priority;
 	context->from = from;
 	context->recipients = recipients;
-	context->message = g_object_ref (message);
 	context->info = info;
 	context->xev = xev;
 	context->post_to_uris = post_to_uris;
