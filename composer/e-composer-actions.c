@@ -245,7 +245,7 @@ action_send_cb (GtkAction *action,
 {
 	CamelSession *session;
 
-	session = e_msg_composer_get_session (composer);
+	session = e_msg_composer_ref_session (composer);
 
 	/* If we're online, send the message now.
 	 * Otherwise write the message to Outbox. */
@@ -258,6 +258,8 @@ action_send_cb (GtkAction *action,
 			"mail-composer:saving-to-outbox", NULL);
 		e_msg_composer_save_to_outbox (composer);
 	}
+
+	g_object_unref (session);
 }
 
 static void

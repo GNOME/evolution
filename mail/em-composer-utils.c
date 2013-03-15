@@ -694,7 +694,6 @@ composer_save_to_drafts_cleanup (CamelFolder *drafts_folder,
 	GCancellable *cancellable;
 	GError *error = NULL;
 
-	session = e_msg_composer_get_session (context->composer);
 	alert_sink = e_activity_get_alert_sink (context->activity);
 	cancellable = e_activity_get_cancellable (context->activity);
 
@@ -720,12 +719,16 @@ composer_save_to_drafts_cleanup (CamelFolder *drafts_folder,
 		return;
 	}
 
+	session = e_msg_composer_ref_session (context->composer);
+
 	/* Mark the previously saved draft message for deletion.
 	 * Note: This is just a nice-to-have; ignore failures. */
 	e_mail_session_handle_draft_headers (
 		E_MAIL_SESSION (session), context->message,
 		G_PRIORITY_DEFAULT, cancellable, (GAsyncReadyCallback)
 		composer_save_to_drafts_complete, context);
+
+	g_object_unref (session);
 }
 
 static void
@@ -2875,7 +2878,7 @@ composer_set_body (EMsgComposer *composer,
 	gboolean start_bottom, has_body_text = FALSE;
 	guint32 validity_found = 0;
 
-	session = e_msg_composer_get_session (composer);
+	session = e_msg_composer_ref_session (composer);
 
 	settings = g_settings_new ("org.gnome.evolution.mail");
 
@@ -2943,6 +2946,8 @@ composer_set_body (EMsgComposer *composer,
 	}
 
 	g_object_unref (settings);
+
+	g_object_unref (session);
 }
 
 gchar *

@@ -176,11 +176,12 @@ async_context_free (AsyncContext *context)
  * Return Value: The part in displayable html format.
  **/
 static gchar *
-emcu_part_to_html (CamelSession *session,
+emcu_part_to_html (EMsgComposer *composer,
                    CamelMimePart *part,
                    gssize *len,
                    GCancellable *cancellable)
 {
+	CamelSession *session;
 	CamelStreamMem *mem;
 	GByteArray *buf;
 	gchar *text;
@@ -194,6 +195,8 @@ emcu_part_to_html (CamelSession *session,
 
 	shell = e_shell_get_default ();
 	window = e_shell_get_active_window (shell);
+
+	session = e_msg_composer_ref_session (composer);
 
 	buf = g_byte_array_new ();
 	mem = (CamelStreamMem *) camel_stream_mem_new ();
@@ -233,6 +236,8 @@ emcu_part_to_html (CamelSession *session,
 	if (len)
 		*len = buf->len - 1;
 	g_byte_array_free (buf, FALSE);
+
+	g_object_unref (session);
 
 	return text;
 }
@@ -1078,7 +1083,6 @@ composer_build_message (EMsgComposer *composer,
 	const gchar *organization;
 	CamelMultipart *body = NULL;
 	CamelContentType *type;
-	CamelSession *session;
 	CamelStream *stream;
 	CamelStream *mem_stream;
 	CamelMimePart *part;
@@ -1092,7 +1096,6 @@ composer_build_message (EMsgComposer *composer,
 	table = e_msg_composer_get_header_table (composer);
 	view = e_msg_composer_get_attachment_view (composer);
 	store = e_attachment_view_get_store (view);
-	session = e_msg_composer_get_session (composer);
 
 	registry = e_composer_header_table_get_registry (table);
 	identity_uid = e_composer_header_table_get_identity_uid (table);
@@ -1104,7 +1107,7 @@ composer_build_message (EMsgComposer *composer,
 
 	context = g_slice_new0 (AsyncContext);
 	context->source = source;  /* takes the reference */
-	context->session = g_object_ref (session);
+	context->session = e_msg_composer_ref_session (composer);
 	context->from = e_msg_composer_get_from (composer);
 
 	if (flags & COMPOSER_FLAG_PGP_SIGN)
@@ -2660,11 +2663,8 @@ handle_multipart_signed (EMsgComposer *composer,
 	CamelContentType *content_type;
 	CamelDataWrapper *content;
 	CamelMimePart *mime_part;
-	CamelSession *session;
 	GtkToggleAction *action = NULL;
 	const gchar *protocol;
-
-	session = e_msg_composer_get_session (composer);
 
 	content = CAMEL_DATA_WRAPPER (multipart);
 	content_type = camel_data_wrapper_get_mime_type_field (content);
@@ -2726,8 +2726,9 @@ handle_multipart_signed (EMsgComposer *composer,
 		gssize length;
 
 		html = emcu_part_to_html (
-			session, mime_part, &length, cancellable);
+			composer, mime_part, &length, cancellable);
 		e_msg_composer_set_pending_body (composer, html, length);
+
 	} else {
 		e_msg_composer_attach (composer, mime_part);
 	}
@@ -2761,12 +2762,13 @@ handle_multipart_encrypted (EMsgComposer *composer,
 	if (action)
 		gtk_toggle_action_set_active (action, TRUE);
 
-	session = e_msg_composer_get_session (composer);
+	session = e_msg_composer_ref_session (composer);
 	cipher = camel_gpg_context_new (session);
 	mime_part = camel_mime_part_new ();
 	valid = camel_cipher_context_decrypt_sync (
 		cipher, multipart, mime_part, cancellable, NULL);
 	g_object_unref (cipher);
+	g_object_unref (session);
 
 	if (valid == NULL)
 		return;
@@ -2814,8 +2816,9 @@ handle_multipart_encrypted (EMsgComposer *composer,
 		gssize length;
 
 		html = emcu_part_to_html (
-			session, mime_part, &length, cancellable);
+			composer, mime_part, &length, cancellable);
 		e_msg_composer_set_pending_body (composer, html, length);
+
 	} else {
 		e_msg_composer_attach (composer, mime_part);
 	}
@@ -2831,10 +2834,7 @@ handle_multipart_alternative (EMsgComposer *composer,
 {
 	/* Find the text/html part and set the composer body to it's contents */
 	CamelMimePart *text_part = NULL;
-	CamelSession *session;
 	gint i, nparts;
-
-	session = e_msg_composer_get_session (composer);
 
 	nparts = camel_multipart_get_number (multipart);
 
@@ -2895,7 +2895,7 @@ handle_multipart_alternative (EMsgComposer *composer,
 		gssize length;
 
 		html = emcu_part_to_html (
-			session, text_part, &length, cancellable);
+			composer, text_part, &length, cancellable);
 		e_msg_composer_set_pending_body (composer, html, length);
 	}
 }
@@ -2906,10 +2906,7 @@ handle_multipart (EMsgComposer *composer,
                   GCancellable *cancellable,
                   gint depth)
 {
-	CamelSession *session;
 	gint i, nparts;
-
-	session = e_msg_composer_get_session (composer);
 
 	nparts = camel_multipart_get_number (multipart);
 
@@ -2963,13 +2960,15 @@ handle_multipart (EMsgComposer *composer,
 			/* Since the first part is not multipart/alternative,
 			 * this must be the body. */
 			html = emcu_part_to_html (
-				session, mime_part, &length, cancellable);
+				composer, mime_part, &length, cancellable);
 			e_msg_composer_set_pending_body (composer, html, length);
+
 		} else if (camel_mime_part_get_content_id (mime_part) ||
 			   camel_mime_part_get_content_location (mime_part)) {
 			/* special in-line attachment */
 			e_msg_composer_add_inline_image_from_mime_part (
 				composer, mime_part);
+
 		} else {
 			/* normal attachment */
 			e_msg_composer_attach (composer, mime_part);
@@ -3074,7 +3073,6 @@ e_msg_composer_new_with_message (EShell *shell,
 	CamelContentType *content_type;
 	struct _camel_header_raw *headers;
 	CamelDataWrapper *content;
-	CamelSession *session;
 	EMsgComposer *composer;
 	EMsgComposerPrivate *priv;
 	EComposerHeaderTable *table;
@@ -3101,7 +3099,6 @@ e_msg_composer_new_with_message (EShell *shell,
 
 	composer = e_msg_composer_new (shell);
 	priv = E_MSG_COMPOSER_GET_PRIVATE (composer);
-	session = e_msg_composer_get_session (composer);
 	table = e_msg_composer_get_header_table (composer);
 	registry = e_composer_header_table_get_registry (table);
 
@@ -3345,7 +3342,7 @@ e_msg_composer_new_with_message (EShell *shell,
 		}
 
 		html = emcu_part_to_html (
-			session, CAMEL_MIME_PART (message),
+			composer, CAMEL_MIME_PART (message),
 			&length, cancellable);
 		e_msg_composer_set_pending_body (composer, html, length);
 	}
@@ -3404,16 +3401,19 @@ e_msg_composer_new_redirect (EShell *shell,
 }
 
 /**
- * e_msg_composer_get_session:
+ * e_msg_composer_ref_session:
  * @composer: an #EMsgComposer
  *
  * Returns the mail module's global #CamelSession instance.  Calling
  * this function will load the mail module if it isn't already loaded.
  *
+ * The returned #CamelSession is referenced for thread-safety and must
+ * be unreferenced with g_object_unref() when finished with it.
+ *
  * Returns: the mail module's #CamelSession
  **/
 CamelSession *
-e_msg_composer_get_session (EMsgComposer *composer)
+e_msg_composer_ref_session (EMsgComposer *composer)
 {
 	EShell *shell;
 	EShellBackend *shell_backend;
@@ -3426,10 +3426,6 @@ e_msg_composer_get_session (EMsgComposer *composer)
 
 	g_object_get (shell_backend, "session", &session, NULL);
 	g_return_val_if_fail (CAMEL_IS_SESSION (session), NULL);
-
-	/* FIXME Drop the new reference for backward-compatibility.
-	 *       Rename this function to e_msg_composer_ref_session(). */
-	g_object_unref (session);
 
 	return session;
 }

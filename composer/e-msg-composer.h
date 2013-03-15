@@ -95,7 +95,7 @@ EMsgComposer *	e_msg_composer_new_redirect	(EShell *shell,
 						 GCancellable *cancellable);
 EFocusTracker *	e_msg_composer_get_focus_tracker
 						(EMsgComposer *composer);
-CamelSession *	e_msg_composer_get_session	(EMsgComposer *composer);
+CamelSession *	e_msg_composer_ref_session	(EMsgComposer *composer);
 EShell *	e_msg_composer_get_shell	(EMsgComposer *composer);
 EWebViewGtkHTML *
 		e_msg_composer_get_web_view	(EMsgComposer *composer);
