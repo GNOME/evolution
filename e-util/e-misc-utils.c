@@ -1596,6 +1596,10 @@ GDateWeekday
 e_weekday_add_days (GDateWeekday weekday,
                     guint n_days)
 {
+	g_return_val_if_fail (
+		g_date_valid_weekday (weekday),
+		G_DATE_BAD_WEEKDAY);
+
 	n_days %= 7;  /* Weekdays repeat every 7 days. */
 
 	while (n_days-- > 0)
@@ -1617,6 +1621,10 @@ GDateWeekday
 e_weekday_subtract_days (GDateWeekday weekday,
                          guint n_days)
 {
+	g_return_val_if_fail (
+		g_date_valid_weekday (weekday),
+		G_DATE_BAD_WEEKDAY);
+
 	n_days %= 7;  /* Weekdays repeat every 7 days. */
 
 	while (n_days-- > 0)
@@ -1639,6 +1647,9 @@ e_weekday_get_days_between (GDateWeekday weekday1,
                             GDateWeekday weekday2)
 {
 	guint n_days = 0;
+
+	g_return_val_if_fail (g_date_valid_weekday (weekday1), 0);
+	g_return_val_if_fail (g_date_valid_weekday (weekday2), 0);
 
 	while (weekday1 != weekday2) {
 		n_days++;
