@@ -1,3 +1,56 @@
+Evolution 3.7.92 2013-03-18
+---------------------------
+
+Bug Fixes:
+	Bug 415371 - Create Incoming filter for messages with Received header
+	             (Milan Crha)
+	Bug 645476 - Avoid scroll to cursor on folder change in message list
+	             (Milan Crha)
+	Bug 676696 - Automatic EXIF image rotation doesn't work
+	             (Matthew Barnes)
+	Bug 690092 - Crash under format_full_headers() (Milan Crha)
+	Bug 690930 - Launching calendar from clock-applet applies timezone
+	             twice (Milan Crha)
+	Bug 693254 - Mail reply uses wrong "From:" account (Milan Crha)
+	Bug 695193 - Window size resets to default at exit with gtk 3.7.10+
+	             (Fabien Tassin)
+	Bug 695477 - Crash in EContactListEditor (Matthew Barnes)
+	Bug 695570 - Don't use gtk_container_add() to pack a GtkBox
+	             (Matthew Barnes)
+	Bug 695693 - Handle <authentication> tags during auto-configuration
+	             (Matthew Barnes)
+
+Other Changes:
+	* [itip-formatter] Reference a view when searching for a calendar
+	  (Tomas Popela)
+	* org.gnome.evolution.calendar.gschema.xml.in: Define a 'Duration'
+	  enum. (Matthew Barnes)
+	* [backup-restore] Dir separator removal breaks DConf settings restore
+	  (Milan Crha)
+	* Add utility functions for manipulating weekdays. (Matthew Barnes)
+	* evolution-addressbook-export: Remove main loop event flushing.
+	  (Matthew Barnes)
+	* e_mail_config_notebook_commit: Skip non-writable sources.
+	  (Matthew Barnes)
+	* Do not leak each sent message (Milan Crha)
+
+Translations:
+	Nilamdyuti Goswami (as)
+	Ihar Hrachyshka (be)
+	Jiri Eischmann (cs)
+	Christian Kirbach (de)
+	Bruce Cowan (en_GB)
+	Andika Triwidada (id)
+	Rūdolfs Mazurs (lv)
+	Duarte Loreto (pt)
+	Enrico Nicoletto (pt_BR)
+	Rafael Ferreira (pt_BR)
+	Martin Srebotnjak (sl)
+	Matej Urbančič (sl)
+	Dr.T.Vasudevan (ta)
+	Gheyret Kenji (ug)
+
+
 Evolution 3.7.91 2013-03-04
 ---------------------------
 
