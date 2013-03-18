@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2013-03-14 14:01+0000\n"
-"PO-Revision-Date: 2013-03-14 23:05+0100\n"
+"POT-Creation-Date: 2013-03-18 08:20+0000\n"
+"PO-Revision-Date: 2013-03-18 10:12+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: Slovenian\n"
@@ -10488,7 +10488,7 @@ msgstr "Vidno"
 #: ../e-util/e-client-cache.c:1067
 #, c-format
 msgid "Cannot create a client object from extension name '%s'"
-msgstr ""
+msgstr "Iz imena pripone '%s' ni mogoče ustvariti predmeta odjemalca"
 
 #: ../e-util/e-dateedit.c:523
 msgid "Date and Time"
@@ -11125,7 +11125,7 @@ msgstr "Za_pomni si šifrirno geslo"
 
 #: ../e-util/e-passwords.c:579
 msgid "_Remember this passphrase for the remainder of this session"
-msgstr ""
+msgstr "_Zapomni si to šifrirno geslo za preostanek te seje"
 
 #: ../e-util/e-passwords.c:584
 msgid "_Remember this password"
@@ -11133,7 +11133,7 @@ msgstr "Za_pomni si geslo"
 
 #: ../e-util/e-passwords.c:585
 msgid "_Remember this password for the remainder of this session"
-msgstr ""
+msgstr "_Zapomni si to geslo za preostanek te seje"
 
 #: ../e-util/e-preferences-window.c:318
 msgid "Evolution Preferences"
@@ -11318,7 +11318,7 @@ msgstr "Napaka med izbrisom sredstva &quot;{0}&quot;."
 #: ../e-util/e-system.error.xml.h:11
 msgid ""
 "The address book backend servicing &quot;{0}&quot; has quit unexpectedly."
-msgstr "Ozadnji program koledarja &quot;{0}&quot; se je nepričakovano končal."
+msgstr "Ozadnji program imenika &quot;{0}&quot; se je nepričakovano končal."
 
 #: ../e-util/e-system.error.xml.h:12
 msgid ""
@@ -11359,19 +11359,19 @@ msgstr ""
 #: ../e-util/e-system.error.xml.h:19
 msgid ""
 "The address book backend servicing &quot;{0}&quot; encountered an error."
-msgstr ""
+msgstr "Ozadnji program imenika &quot;{0}&quot; je naletel na napako."
 
 #: ../e-util/e-system.error.xml.h:20
 msgid "The calendar backend servicing &quot;{0}&quot; encountered an error."
-msgstr ""
+msgstr "Ozadnji program koledarja &quot;{0}&quot; je naletel na napako."
 
 #: ../e-util/e-system.error.xml.h:21
 msgid "The memo list backend servicing &quot;{0}&quot; encountered an error."
-msgstr ""
+msgstr "Ozadnji program seznama opomnikov &quot;{0}&quot; je naletel na napako."
 
 #: ../e-util/e-system.error.xml.h:22
 msgid "The task list backend servicing &quot;{0}&quot; encountered an error."
-msgstr ""
+msgstr "Ozadnji program seznama nalog &quot;{0}&quot; je naletel na napako."
 
 #: ../e-util/e-table-click-to-add.c:643
 #: ../e-util/gal-a11y-e-table-click-to-add.c:62
@@ -11712,7 +11712,7 @@ msgstr "OAuth2"
 
 #: ../libemail-engine/camel-sasl-xoauth2.c:28
 msgid "This option will use an OAuth 2.0 access token to connect to the server"
-msgstr ""
+msgstr "Ta možnost uporablja za povezavo s strežnikom žeton dostopa OAuth 2.0."
 
 #: ../libemail-engine/e-mail-authenticator.c:182
 #, c-format
@@ -11807,7 +11807,7 @@ msgstr ""
 msgid "Failed to append to local 'Sent' folder: %s"
 msgstr "Pripenjanje v krajevno mapo 'Poslano' ni uspelo: %s"
 
-#: ../libemail-engine/e-mail-session-utils.c:974
+#: ../libemail-engine/e-mail-session-utils.c:973
 #: ../libemail-engine/mail-ops.c:971 ../libemail-engine/mail-ops.c:1073
 msgid "Sending message"
 msgstr "Pošiljanje sporočila"
@@ -11907,6 +11907,10 @@ msgid ""
 ">Message Filters.\n"
 "Original error was: %s"
 msgstr ""
+"Izbranih sporočil ni mogoče filtrirati. Možen razlog je, da je mesto mape, "
+"nastavljeno v enem ali več filtrih, neveljavno. Preverite svoje filtre v "
+"Uredi->Filtri sporočil.\n"
+"Izvorna napaka: %s"
 
 #: ../libemail-engine/mail-ops.c:233
 #, c-format
@@ -11921,6 +11925,10 @@ msgid ""
 ">Message Filters.\n"
 "Original error was: %s"
 msgstr ""
+"Odhodnih filtrov ni mogoče uveljaviti. Možen razlog je, da je mesto mape, "
+"nastavljeno v enem ali več filtrih, neveljavno. Preverite svoje filtre v "
+"Uredi->Filtri sporočil.\n"
+"Izvorna napaka: %s"
 
 #: ../libemail-engine/mail-ops.c:982
 #, c-format
@@ -12089,7 +12097,7 @@ msgstr "(brez zadeve)"
 #. GtkAssistant sinks the floating button reference.
 #: ../mail/e-mail-config-assistant.c:102
 msgid "_Skip Lookup"
-msgstr ""
+msgstr "_Preskoči poizvedbo"
 
 #: ../mail/e-mail-config-assistant.c:562
 msgid "Evolution Account Assistant"
@@ -12139,7 +12147,7 @@ msgstr "Izberite mapo za shranjevanje poslanih sporočil."
 
 #: ../mail/e-mail-config-defaults-page.c:614
 msgid "S_ave replies in the folder of the message being replied to"
-msgstr ""
+msgstr "S_hrani odgovore v mapo sporočila, na katerega se nanaša odgovor"
 
 #: ../mail/e-mail-config-defaults-page.c:631
 msgid "_Restore Defaults"
@@ -18056,6 +18064,9 @@ msgid ""
 "   %F - stands for the From address\n"
 "   %R - stands for the recipient addresses"
 msgstr ""
+"Privzeti argumenti so '-i -f %F -- %R', kjer je\n"
+"   %F - predstavlja naslov Od\n"
+"   %R - predstavlja naslove prejemnikov"
 
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:123
 msgid "Ser_ver requires authentication"
@@ -18544,7 +18555,7 @@ msgstr "Ob izhodu, enkrat na mesec"
 
 #: ../modules/mail/em-mailer-prefs.c:84
 msgid "Immediately, on folder leave"
-msgstr ""
+msgstr "Nemudoma, ob zapustitvi mape"
 
 #: ../modules/mail/em-mailer-prefs.c:313
 msgid "Header"
@@ -20590,6 +20601,8 @@ msgid ""
 "Cannot start Evolution.  Another Evolution instance may be unresponsive. "
 "System error: %s"
 msgstr ""
+"Programa Evolution ni mogoče zagnati. Morda se že zagnani program Evolution "
+"ne odziva. Sistemska napaka: %s"
 
 #: ../shell/main.c:515 ../shell/main.c:520
 msgid "- The Evolution PIM and Email Client"
@@ -21247,309 +21260,3 @@ msgstr "Z _datumom zapadlosti"
 #: ../views/tasks/galview.xml.h:3
 msgid "With _Status"
 msgstr "S _stanjem"
-
-#~ msgid "Export in asynchronous mode"
-#~ msgstr "Izvozi v asinhronem načinu"
-
-#~ msgid ""
-#~ "The number of cards in one output file in asynchronous mode, default size "
-#~ "100."
-#~ msgstr ""
-#~ "Število vizitk v eni izhodni datoteki v asinhronem načinu. Privzeta "
-#~ "velikost je 100."
-
-#~ msgid "NUMBER"
-#~ msgstr "ŠTEVILKA"
-
-#~ msgid "In async mode, output must be file."
-#~ msgstr "V asinhronem načinu mora biti izhod datoteka."
-
-#~ msgid "In normal mode, there is no need for the size option."
-#~ msgstr "V običajnem načinu ni treba določiti velikosti."
-
-#~ msgid "The Evolution tasks have quit unexpectedly."
-#~ msgstr "Naloge programa Evolution so se nepričakovano končale."
-
-#~ msgid "Your calendars will not be available until Evolution is restarted."
-#~ msgstr "Vaši koledarji ne bodo na voljo do ponovnega zagona Evolutiona."
-
-#~ msgid "The Evolution memo has quit unexpectedly."
-#~ msgstr "Opomniki programa Evolution so se nepričakovano končali."
-
-#~ msgid "The Evolution calendars have quit unexpectedly."
-#~ msgstr "Koledarji programa Evolution so se nepričakovano končali."
-
-#~ msgid "Error on '{0}: {1}'"
-#~ msgstr "Napaka na '{0}: {1}'"
-
-#~ msgid "Could not perform this operation on '{0}: {1}'."
-#~ msgstr "Tega dejanja ni mogoče izvesti na '{0}: {1}'"
-
-#~ msgid "Unable to open the calendar '%s': %s"
-#~ msgstr "Ni mogoče odpreti koledarja '%s': %s"
-
-#~ msgid "Unable to open memos in '%s': %s"
-#~ msgstr "Ni mogoče odpreti opomnikov v '%s': %s"
-
-#~ msgid "Unable to open tasks in '%s': %s"
-#~ msgstr "Ni mogoče odpreti nalog v '%s': %s"
-
-#~ msgid "List of MIME types to check for Bonobo component viewers"
-#~ msgstr ""
-#~ "Seznam vrst MIME za preverjanje pregledovalnikov sestavnih delov Bonobo"
-
-#~ msgid ""
-#~ "If there isn't a builtin viewer for a particular MIME type inside "
-#~ "Evolution, any MIME types appearing in this list which map to a Bonobo "
-#~ "component viewer in GNOME's MIME type database may be used for displaying "
-#~ "content."
-#~ msgstr ""
-#~ "V primeru, da v programu Evolution ni vgrajenega pregledovalnika za "
-#~ "določeno vrsto MIME, se lahko za prikaz vsebine uporabi poljubna vrsta "
-#~ "MIME v tem seznamu, povezana s pregledovalnikom bonobo-component v GNOME-"
-#~ "ovi zbirki vrst MIME."
-
-#, fuzzy
-#~ msgid "Error loading address book: %s"
-#~ msgstr "Napaka med nalaganjem seznama nalog"
-
-#~ msgid "Loading calendars"
-#~ msgstr "Nalaganje koledarjev"
-
-#~ msgid "Loading memos"
-#~ msgstr "Nalaganje opomnikov"
-
-#~ msgid "Loading tasks"
-#~ msgstr "Nalaganje nalog"
-
-#~ msgid "Failed to load the calendar '%s' (%s)"
-#~ msgstr "Naložiti koledarja '%s' je spodletelo (%s)"
-
-#~ msgid "_Inspect..."
-#~ msgstr "_Preveri ..."
-
-#~ msgid "Inspect the HTML content (debugging feature)"
-#~ msgstr "Preveri vsebino HTML (zmožnost razhroščevanja)"
-
-#~ msgid "Could not publish calendar: Calendar backend no longer exists"
-#~ msgstr "Ni mogoče objaviti koledarja: Hrbtni del koledarja ne obstaja več"
-
-#~ msgid "Opening %s"
-#~ msgstr "Odpiranje %s"
-
-#, fuzzy
-#~ msgid "_Reject"
-#~ msgstr "Z_adeva:"
-
-#, fuzzy
-#~ msgid "Accept _Temporarily"
-#~ msgstr "Sprejmi _vse"
-
-#, fuzzy
-#~ msgid "_Accept Permanently"
-#~ msgstr "_Sprejmi licenco"
-
-#, fuzzy
-#~ msgid "Certificate trust..."
-#~ msgstr "Potrdila"
-
-#~ msgid "Delete remote calendar &quot;{0}&quot;?"
-#~ msgstr "Ali želite odstraniti oddaljeni koledar &quot;{0}&quot;?"
-
-#~ msgid "Delete remote task list &quot;{0}&quot;?"
-#~ msgstr "Ali želite odstraniti oddaljeni seznam opravil &quot;{0}&quot;?"
-
-#~ msgid "Delete remote memo list &quot;{0}&quot;?"
-#~ msgstr "Ali želite odstraniti seznam opomnikov &quot;{0}&quot;?"
-
-#~ msgid "Cannot create a new event"
-#~ msgstr "Ni mogoče ustvariti novega dogodka"
-
-#~ msgid ""
-#~ "'{0}' is a read-only calendar and cannot be modified. Please select a "
-#~ "different calendar from the side bar in the Calendar view."
-#~ msgstr ""
-#~ "'{0}' je koledar le za branje in ga ni mogoče spreminjati. Izberite drug "
-#~ "koledar iz stranske vrstice okna v pogledu koledarja."
-
-#~ msgid "Could not perform this operation."
-#~ msgstr "Opravila ni mogoče izvesti."
-
-#~ msgid "Use SpamAssassin daemon and client (spamc/spamd)."
-#~ msgstr "Uporabi SpamAssassin ozadnji program in odjemalca (spamc/spamd)"
-
-#~ msgid "SpamAssassin client binary"
-#~ msgstr "Dvojiška datoteka uporabniškega programa SpamAssassin"
-
-#~ msgid "SpamAssassin daemon binary"
-#~ msgstr "Dvojiška datoteka ozadnjega programa SpamAssassin"
-
-#~ msgid "No mail exchanger record for '%s'"
-#~ msgstr "Ni zapisa poštnega izmenjevalnika za '%s'"
-
-#~ msgid "Temporarily unable to resolve '%s'"
-#~ msgstr "Začasno ni mogoče razrešiti '%s'"
-
-#~ msgid "Error resolving '%s'"
-#~ msgstr "Napaka med razreševanjem '%s'"
-
-#~ msgid "No authoritative name server for '%s'"
-#~ msgstr "Ni pooblastilnega imenskega strežnika za '%s'"
-
-#~ msgid "Unable to create local mail folders at '%s': %s"
-#~ msgstr "Ni mogoče ustvariti krajevnih map pošte v '%s': %s"
-
-#~ msgid "Cannot open source \"{1}\"."
-#~ msgstr "Ni mogoče odpreti vira \"{1}\"."
-
-#~ msgid "Sent Messages"
-#~ msgstr "Pošlji sporočila"
-
-#~ msgid "Anonymously"
-#~ msgstr "Anonimno"
-
-#~ msgid "One"
-#~ msgstr "Ena"
-
-#~ msgid "Sub"
-#~ msgstr "Pod"
-
-#~ msgid "Supported Search Bases"
-#~ msgstr "Podprte iskalne zbirke"
-
-#~ msgid "Ser_ver:"
-#~ msgstr "_Strežnik:"
-
-#~ msgid "Use secure _connection:"
-#~ msgstr "_Uporabi varno povezavo:"
-
-#~ msgid "_Login method:"
-#~ msgstr "_Način prijave:"
-
-#~ msgid "Lo_gin:"
-#~ msgstr "_Prijava:"
-
-#~ msgid "Search _base:"
-#~ msgstr "Iskalna z_birka:"
-
-#~ msgid "_Search scope:"
-#~ msgstr "_Doseg iskanja:"
-
-#~ msgid "_Find Possible Search Bases"
-#~ msgstr "_Najdi mogoče iskalne zbirke"
-
-#~ msgid "S_earch filter:"
-#~ msgstr "Filter I_skanja:"
-
-#~ msgid "Search Filter"
-#~ msgstr "Iskalni filter"
-
-#~ msgid ""
-#~ "Search filter is the type of object to be searched for. If this is not "
-#~ "modified, the default search will be performed on the type \"person\"."
-#~ msgstr ""
-#~ "Iskalni filter je vrsta iskanih predmetov. Če vrednost ni spremenjena, se "
-#~ "bo iskanje privzeto izvedlo na vrsti \"oseba\"."
-
-#~ msgid "1"
-#~ msgstr "1"
-
-#~ msgid "5"
-#~ msgstr "5"
-
-#~ msgid "_Timeout:"
-#~ msgstr "Časovna _zakasnitev:"
-
-#~ msgid "_Download limit:"
-#~ msgstr "_Omejitev prejemanja:"
-
-#~ msgid "B_rowse this book until limit reached"
-#~ msgstr "_Brskaj po knjigi, dokler ni dosežena omejitev"
-
-#~ msgid "Path:"
-#~ msgstr "Pot:"
-
-#~ msgid ""
-#~ "Select a predefined set of IMAP headers to fetch.\n"
-#~ "Note, larger sets of headers take longer to download."
-#~ msgstr ""
-#~ "Izberite vnaprej določeno zbirko glav IMAP za pridobitev.\n"
-#~ "Prenos večjih zbirk glav traja dalj časa."
-
-#~ msgid "_Fetch All Headers"
-#~ msgstr "_Pridobi vse glave sporočil"
-
-#~ msgid "_Basic Headers (fastest)"
-#~ msgstr "_Osnovne glave sporočil (najhitreje)"
-
-#~ msgid "Use this if you are not filtering any mailing lists."
-#~ msgstr "To uporabite, če ne filtrirate dopisnih seznamov."
-
-#~ msgid "Basic and _Mailing List Headers (default)"
-#~ msgstr "Osnovne glave in glave _dopisnega seznama (privzeto)"
-
-#~ msgid "Custom Headers"
-#~ msgstr "Glave sporočil po meri"
-
-#~ msgid ""
-#~ "Specify any extra headers to fetch in addition to the predefined set of "
-#~ "headers selected above."
-#~ msgstr ""
-#~ "Določite vse dodatne glave za pridobivanje, kot dopolnilo določenemu "
-#~ "naboru glav, izbranih zgoraj."
-
-#~ msgid "A_ccept"
-#~ msgstr "_Sprejmi"
-
-#~ msgid "Proxy _Logout"
-#~ msgstr "_Odjavi se iz posredniškega strežnika"
-
-#~ msgid "Unknown error."
-#~ msgstr "Neznana napaka."
-
-#~ msgid "File is not a valid .desktop file"
-#~ msgstr "Datoteka ni veljavna datoteka .desktop"
-
-#~ msgid "Unrecognized desktop file Version '%s'"
-#~ msgstr "Neznana različica datoteke namizja '%s'"
-
-#~ msgid "Starting %s"
-#~ msgstr "Zaganjanje %s"
-
-#~ msgid "Application does not accept documents on command line"
-#~ msgstr "Program ne sprejme dokumentov preko ukazne vrstice"
-
-#~ msgid "Unrecognized launch option: %d"
-#~ msgstr "Nepoznana možnost zagona: %d"
-
-#~ msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
-#~ msgstr ""
-#~ "Ni mogoče poslati naslova URI dokumenta na vnos 'Vrsta=Povezava' predmeta "
-#~ "namizja"
-
-#~ msgid "Not a launchable item"
-#~ msgstr "Predmet ni izvedljiv"
-
-#~ msgid "Disable connection to session manager"
-#~ msgstr "Onemogoči povezavo z upravljalnikom seje"
-
-#~ msgid "Specify file containing saved configuration"
-#~ msgstr "Določitev datoteke s shranjenimi nastavitvami"
-
-#~ msgid "FILE"
-#~ msgstr "DATOTEKA"
-
-#~ msgid "Specify session management ID"
-#~ msgstr "Določi ID upravljanja seje"
-
-#~ msgid "ID"
-#~ msgstr "ID"
-
-#~ msgid "Session management options:"
-#~ msgstr "Možnosti upravljanja seje:"
-
-#~ msgid "Show session management options"
-#~ msgstr "Pokaži možnosti upravljanja seje"
-
-#~ msgid "Certificate Viewer: %s"
-#~ msgstr "Pregledovalnik potrdil: %s"
