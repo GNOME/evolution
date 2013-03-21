@@ -1551,7 +1551,7 @@ process_elements (WebKitDOMNode *node,
 		}
 	}
 
-	if (g_strcmp0 (display, "block") == 0) {
+	if (g_strcmp0 (display, "block") == 0 && g_strcmp0 (tagname, "BODY") != 0) {
 		g_string_append (buffer, "\n");
 	}
 
