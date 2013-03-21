@@ -491,7 +491,7 @@ mail_display_plugin_widget_resize (GtkWidget *widget,
 	if (!WEBKIT_DOM_IS_ELEMENT (parent_element)) {
 		d (
 			printf ("%s: %s does not have (valid) parent element!\n",
-			G_STRFUNC, (gchar *) g_object_get_data (object, "uri")));
+			G_STRFUNC, (gchar *) g_object_get_data (G_OBJECT (widget), "uri")));
 		return;
 	}
 
