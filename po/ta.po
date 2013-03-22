@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: evolution.gnome-2-28\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2013-03-17 13:41+0000\n"
+"POT-Creation-Date: 2013-03-20 18:06+0000\n"
 "PO-Revision-Date: 2013-03-22 12:57+0530\n"
 "Last-Translator: Shantha kumar <shkumar@redhat.com>\n"
 "Language-Team: Tamil <>\n"
@@ -21034,6 +21034,37 @@ msgstr "நிலுவை தேதியுடன் (_D)"
 msgid "With _Status"
 msgstr "நிலையுடன் (_S)"
 
+#~ msgid "Week start"
+#~ msgstr "வாரம் துவங்குகிறது"
+
+#~ msgid "Work days"
+#~ msgstr "வேலை நாட்கள்"
+
+#~ msgid "Days on which the start and end of work hours should be indicated"
+#~ msgstr "ஆரம்ப மற்றும் முடிவு வேலை நேரத்தின் நாட்களை குறிப்பிட வேண்டும்."
+
+#~ msgid "Whether disable ellipsizing feature of folder names in side bar."
+#~ msgstr "பக்க பட்டியில்  அடைவு பெயர்களை அடைப்பில் அமைப்பதை முடமாக்க வேண்டுமா."
+
+#~ msgid ""
+#~ "Load images for HTML messages over HTTP(S). Possible values are: \"0\" - "
+#~ "Never load images off the net. \"1\" - Load images in messages from "
+#~ "contacts. \"2\" - Always load images off the net."
+#~ msgstr ""
+#~ "HTML செய்திகளுக்கு ஹெச்டிடிபி(s) வழியாக பிம்பங்களை ஏற்றுக. மதிப்புகள்: \"0\" - "
+#~ "ஒருபோதும் வலையிலிருந்து பிம்பங்களை ஏற்றாதே.\"1\" - அஞ்சல் தொடர்புகளிலிருந்து "
+#~ "பிம்பங்களை ஏற்று. \"2\" - எப்போதும் பிம்பங்களை வலையிலிருந்து ஏற்று."
+
+#~ msgid "State of message headers in paned view"
+#~ msgstr "பலக காட்சியில் செய்தி தலைகளின் நிலை"
+
+#~ msgid ""
+#~ "Describes whether message headers in paned view should be collapsed or "
+#~ "expanded by default. \"0\" = expanded and \"1\" = collapsed"
+#~ msgstr ""
+#~ "பலக காட்சியில் செய்தி தலைகள்  சுருக்கி இருக்க வேண்டுமா அல்லது விரித்து இருக்க "
+#~ "வேண்டுமா என்று விவரிக்கிறது \"0\" =விரித்தது  மற்றும் \"1\" = சுருக்கியது"
+
 #~ msgid "Export in asynchronous mode"
 #~ msgstr "ஒருங்கிணைப்பில்லா முறையில் ஏற்று"
 
@@ -21064,31 +21095,11 @@ msgstr "நிலையுடன் (_S)"
 #~ msgid "The Evolution calendars have quit unexpectedly."
 #~ msgstr "எவல்யூஷன் நாள்காட்டிகள் எதிர்பாராமல் வெளியேறின."
 
-#~ msgid "Delete remote calendar &quot;{0}&quot;?"
-#~ msgstr "&quot;{0}&quot; என்ற தொலைநிலை நாள்காட்டியை நீக்க வேண்டுமா?"
-
-#~ msgid "Delete remote task list &quot;{0}&quot;?"
-#~ msgstr "&quot;{0}&quot; என்ற தொலைநிலை பணிப் பட்டியலை நீக்க வேண்டுமா?"
-
-#~ msgid "Delete remote memo list &quot;{0}&quot;?"
-#~ msgstr "&quot;{0}&quot; என்ற தொலைநிலை குறிப்புப் பட்டியலை நீக்க வேண்டுமா?"
-
-#~ msgid "Cannot create a new event"
-#~ msgstr "ஒரு புதிய நிகழ்வினை உருவாக்க முடியவில்லை"
-
-#~ msgid ""
-#~ "'{0}' is a read-only calendar and cannot be modified. Please select a "
-#~ "different calendar from the side bar in the Calendar view."
-#~ msgstr ""
-#~ "'{0}' என்பது படிக்கமட்டுமேயான நாள்காட்டி. அதை மாற்ற முடியாது. தயை செய்து வேறொரு "
-#~ "நாள்காட்டியை நாள்காட்டி பார்வையில்  பக்க பலகத்தில் இருந்து தேர்ந்தெடுக்கவும்."
-
-#, fuzzy
-#~ msgid "Error on {0}: {1}"
+#~ msgid "Error on '{0}: {1}'"
 #~ msgstr "{0}: {1} இல் பிழை"
 
-#~ msgid "Could not perform this operation."
-#~ msgstr "இந்தச் செயலைச் செய்ய முடியவில்லை."
+#~ msgid "Could not perform this operation on '{0}: {1}'."
+#~ msgstr "'{0}: {1}' இல் இந்தச் செயலைச் செய்ய முடியவில்லை."
 
 #~ msgid "Unable to open the calendar '%s': %s"
 #~ msgstr "நாள்காட்டியை திறக்க முடியவில்லை '%s': %s"
@@ -21101,27 +21112,6 @@ msgstr "நிலையுடன் (_S)"
 
 #~ msgid "Opening %s"
 #~ msgstr "%sஐ திறக்கிறது"
-
-#~ msgid "Week start"
-#~ msgstr "வாரம் துவங்குகிறது"
-
-#~ msgid "Work days"
-#~ msgstr "வேலை நாட்கள்"
-
-#~ msgid "Days on which the start and end of work hours should be indicated"
-#~ msgstr "ஆரம்ப மற்றும் முடிவு வேலை நேரத்தின் நாட்களை குறிப்பிட வேண்டும்."
-
-#~ msgid "Whether disable ellipsizing feature of folder names in side bar."
-#~ msgstr "பக்க பட்டியில்  அடைவு பெயர்களை அடைப்பில் அமைப்பதை முடமாக்க வேண்டுமா."
-
-#~ msgid ""
-#~ "Load images for HTML messages over HTTP(S). Possible values are: \"0\" - "
-#~ "Never load images off the net. \"1\" - Load images in messages from "
-#~ "contacts. \"2\" - Always load images off the net."
-#~ msgstr ""
-#~ "HTML செய்திகளுக்கு ஹெச்டிடிபி(s) வழியாக பிம்பங்களை ஏற்றுக. மதிப்புகள்: \"0\" - "
-#~ "ஒருபோதும் வலையிலிருந்து பிம்பங்களை ஏற்றாதே.\"1\" - அஞ்சல் தொடர்புகளிலிருந்து "
-#~ "பிம்பங்களை ஏற்று. \"2\" - எப்போதும் பிம்பங்களை வலையிலிருந்து ஏற்று."
 
 #~ msgid "List of MIME types to check for Bonobo component viewers"
 #~ msgstr "போனபோ பொருள் காட்டிகளை சோதிக்க வேண்டிய மைம்வகைகளின் பட்டியல்"
@@ -21136,109 +21126,8 @@ msgstr "நிலையுடன் (_S)"
 #~ "உள்ள எந்த ஒரு மைம் வகையையும் க்னோமின் போனபோ பொருள்  காட்டி ஐ  பயன்படுத்தி "
 #~ "உள்ளடக்கங்களை காட்ட முடியும்."
 
-#~ msgid "State of message headers in paned view"
-#~ msgstr "பலக காட்சியில் செய்தி தலைகளின் நிலை"
-
-#~ msgid ""
-#~ "Describes whether message headers in paned view should be collapsed or "
-#~ "expanded by default. \"0\" = expanded and \"1\" = collapsed"
-#~ msgstr ""
-#~ "பலக காட்சியில் செய்தி தலைகள்  சுருக்கி இருக்க வேண்டுமா அல்லது விரித்து இருக்க "
-#~ "வேண்டுமா என்று விவரிக்கிறது \"0\" =விரித்தது  மற்றும் \"1\" = சுருக்கியது"
-
-#~ msgid "Use SpamAssassin daemon and client (spamc/spamd)."
-#~ msgstr "ஸ்பாம் அஸாஸின் கிங்கரன் மற்றும் சார்ந்தோன் (spamc/spamd) ஐ பயன்படுத்து."
-
-#~ msgid "SpamAssassin client binary"
-#~ msgstr "ஸ்பாம் அஸாஸின் சார்ந்தோன் இருமம்"
-
-#~ msgid "SpamAssassin daemon binary"
-#~ msgstr "ஸ்பாம் அஸாஸின் கிங்கரன் இருமம்"
-
-#~ msgid "No mail exchanger record for '%s'"
-#~ msgstr "'%s' என்ற மதிப்பிற்கு அஞ்சல் பரிமாற்றப் பதிவு இல்லை"
-
-#~ msgid "Temporarily unable to resolve '%s'"
-#~ msgstr "தற்காலிகமாக '%s' ஐத் தீர்க்க முடியவில்லை"
-
-#~ msgid "Error resolving '%s'"
-#~ msgstr "'%s' ஐத் தீர்ப்பதில் பிழை"
-
-#~ msgid "No authoritative name server for '%s'"
-#~ msgstr "'%s' என்ற மதிப்பிற்கு அங்கீகரிக்கும் பெயர் இல்லை"
-
 #~ msgid "Unable to create local mail folders at '%s': %s"
 #~ msgstr "உள்ளமை மின்னஞ்சல் அடைவை `%s' இடத்தில் உருவாக்க முடியவில்லை: %s"
-
-#~ msgid "Cannot open source \"{1}\"."
-#~ msgstr "மூலம் \"{1}\" ஐ திறக்க முடியவில்லை"
-
-#~ msgid "Sent Messages"
-#~ msgstr "செய்திகளை அனுப்புக"
-
-#~ msgid "Anonymously"
-#~ msgstr "அனாமதேயமாக"
-
-#~ msgid "One"
-#~ msgstr "ஒன்று"
-
-#~ msgid "Sub"
-#~ msgstr "துணை"
-
-#~ msgid "Supported Search Bases"
-#~ msgstr "தேடல் அடிப்படைக்கான ஆதரவு"
-
-#~ msgid "Ser_ver:"
-#~ msgstr "சேவகன் (_v):"
-
-#~ msgid "Use secure _connection:"
-#~ msgstr "பாதுகாப்பான இணைப்பை பயன்படுத்து (_c):"
-
-#~ msgid "_Login method:"
-#~ msgstr "உள் நுழையும் முறை (_L):"
-
-#~ msgid "Lo_gin:"
-#~ msgstr "உள்நுழை (_g):"
-
-#~ msgid "Search _base:"
-#~ msgstr "அடிப்படை தேடல்கள் (_b):"
-
-#~ msgid "_Search scope:"
-#~ msgstr "தேடல் எல்லை (_S):"
-
-#~ msgid "_Find Possible Search Bases"
-#~ msgstr "இயன்ற அடிப்படை தேடல் கண்டறி (_F)"
-
-#~ msgid "S_earch filter:"
-#~ msgstr "வடிப்பியை தேடு (_e): "
-
-#~ msgid "Search Filter"
-#~ msgstr "தேடும் வடிப்பி"
-
-#~ msgid ""
-#~ "Search filter is the type of object to be searched for. If this is not "
-#~ "modified, the default search will be performed on the type \"person\"."
-#~ msgstr ""
-#~ "தேடல் வடிகட்டி என்பது தேடும்போது தேடும் பொருட்களின் வகை. இதை மாற்றாவிட்டால் "
-#~ "முன்னிருப்பு  தேடல் \"person\" வகை (தனிமனிதன்) ஆகிவிடும்."
-
-#~ msgid "1"
-#~ msgstr "1"
-
-#~ msgid "5"
-#~ msgstr "5"
-
-#~ msgid "_Timeout:"
-#~ msgstr "கால தாமதம் (_T):"
-
-#~ msgid "_Download limit:"
-#~ msgstr "பதிவிறக்க எல்லை (_D):"
-
-#~ msgid "B_rowse this book until limit reached"
-#~ msgstr "வரையரை வரும் வரை இந்த புத்தகத்தை பார்வையிடு (_r)"
-
-#~ msgid "Path:"
-#~ msgstr "பாதை:"
 
 #~ msgid "Loading calendars"
 #~ msgstr "நாள்காட்டிகள் ஏற்றப்படுகிறன"
@@ -21248,6 +21137,9 @@ msgstr "நிலையுடன் (_S)"
 
 #~ msgid "Loading tasks"
 #~ msgstr "பணியை ஏற்றுகிறது"
+
+#~ msgid "IMAP Headers"
+#~ msgstr "IMAP தலைப்புகள்"
 
 #~ msgid ""
 #~ "Select a predefined set of IMAP headers to fetch.\n"
@@ -21279,14 +21171,8 @@ msgstr "நிலையுடன் (_S)"
 #~ "மேலே தேர்ந்தெடுக்கப்பட்ட முன்வரையறுக்கப்பட்ட மேற்குறிப்புகளுடன் கூடுதலாக கூடுதலாக "
 #~ "ஏதேனும் மேற்குறிப்புகள் இருந்தால் பெறுவதற்கு அவற்றையும் குறிப்பிடவும்."
 
-#~ msgid "A_ccept"
-#~ msgstr "_c ஏற்க"
-
 #~ msgid "Failed to load the calendar '%s' (%s)"
 #~ msgstr "நாள்காட்டி '%s' ஐ ஏற்ற முடியவில்லை (%s)"
-
-#~ msgid "Proxy _Logout"
-#~ msgstr "பதிலாள் வெளியேறு (_L)"
 
 #~ msgid "_Inspect..."
 #~ msgstr "ஆய்வு செய் (_I)..."
@@ -21294,25 +21180,72 @@ msgstr "நிலையுடன் (_S)"
 #~ msgid "Inspect the HTML content (debugging feature)"
 #~ msgstr "HTML உள்ளடக்கத்தை ஆய்வு செய் (வழுநீக்கல் அம்சம்)"
 
-#~ msgid "Unknown error."
-#~ msgstr "தெரியாத பிழை."
-
 #~ msgid "Could not publish calendar: Calendar backend no longer exists"
 #~ msgstr "நாள்காட்டியை வெளியிட முடியவில்லை. நாள்காட்டி பின்னகம் இருப்பில் இல்லை"
 
-#~ msgctxt "New"
-#~ msgid "_Test Item"
-#~ msgstr "சோதனை உருப்படி (_T)"
+#~ msgid "Certificate Viewer: %s"
+#~ msgstr "சான்றிதழ் காட்டி: %s"
 
-#~ msgid "Create a new test item"
-#~ msgstr "புதிய பணியை உருவாக்கு"
+#~ msgid "Cannot create a new event"
+#~ msgstr "ஒரு புதிய நிகழ்வினை உருவாக்க முடியவில்லை"
 
-#~ msgctxt "New"
-#~ msgid "Test _Source"
-#~ msgstr "_S சோதனை மூலங்கள்"
+#~ msgid ""
+#~ "'{0}' is a read-only calendar and cannot be modified. Please select a "
+#~ "different calendar from the side bar in the Calendar view."
+#~ msgstr ""
+#~ "'{0}' என்பது படிக்கமட்டுமேயான நாள்காட்டி. அதை மாற்ற முடியாது. தயை செய்து வேறொரு "
+#~ "நாள்காட்டியை நாள்காட்டி பார்வையில்  பக்க பலகத்தில் இருந்து தேர்ந்தெடுக்கவும்."
 
-#~ msgid "Create a new test source"
-#~ msgstr "புதிய சோதனை மூலத்தை உருவாக்கு"
+#~ msgid "Cannot open source \"{1}\"."
+#~ msgstr "மூலம் \"{1}\" ஐ திறக்க முடியவில்லை"
+
+#~ msgid "Could not perform this operation."
+#~ msgstr "இந்தச் செயலைச் செய்ய முடியவில்லை."
+
+#~ msgid "Delete remote calendar &quot;{0}&quot;?"
+#~ msgstr "&quot;{0}&quot; என்ற தொலைநிலை நாள்காட்டியை நீக்க வேண்டுமா?"
+
+#~ msgid "Delete remote memo list &quot;{0}&quot;?"
+#~ msgstr "&quot;{0}&quot; என்ற தொலைநிலை குறிப்புப் பட்டியலை நீக்க வேண்டுமா?"
+
+#~ msgid "Delete remote task list &quot;{0}&quot;?"
+#~ msgstr "&quot;{0}&quot; என்ற தொலைநிலை பணிப் பட்டியலை நீக்க வேண்டுமா?"
+
+#~ msgid "Path:"
+#~ msgstr "பாதை:"
+
+#~ msgid "SpamAssassin client binary"
+#~ msgstr "ஸ்பாம் அஸாஸின் சார்ந்தோன் இருமம்"
+
+#~ msgid "SpamAssassin daemon binary"
+#~ msgstr "ஸ்பாம் அஸாஸின் கிங்கரன் இருமம்"
+
+#~ msgid "Use SpamAssassin daemon and client (spamc/spamd)."
+#~ msgstr "ஸ்பாம் அஸாஸின் கிங்கரன் மற்றும் சார்ந்தோன் (spamc/spamd) ஐ பயன்படுத்து."
+
+#~ msgid "No mail exchanger record for '%s'"
+#~ msgstr "'%s' என்ற மதிப்பிற்கு அஞ்சல் பரிமாற்றப் பதிவு இல்லை"
+
+#~ msgid "Temporarily unable to resolve '%s'"
+#~ msgstr "தற்காலிகமாக '%s' ஐத் தீர்க்க முடியவில்லை"
+
+#~ msgid "Error resolving '%s'"
+#~ msgstr "'%s' ஐத் தீர்ப்பதில் பிழை"
+
+#~ msgid "No authoritative name server for '%s'"
+#~ msgstr "'%s' என்ற மதிப்பிற்கு அங்கீகரிக்கும் பெயர் இல்லை"
+
+#~ msgid "Sent Messages"
+#~ msgstr "செய்திகளை அனுப்புக"
+
+#~ msgid "A_ccept"
+#~ msgstr "_c ஏற்க"
+
+#~ msgid "Proxy _Logout"
+#~ msgstr "பதிலாள் வெளியேறு (_L)"
+
+#~ msgid "Unknown error."
+#~ msgstr "தெரியாத பிழை."
 
 #~ msgid "File is not a valid .desktop file"
 #~ msgstr "கோப்பு செல்லுபடியாகும் .desktop  கோப்பு இல்லை."
@@ -21356,8 +21289,66 @@ msgstr "நிலையுடன் (_S)"
 #~ msgid "Show session management options"
 #~ msgstr "அமர்வு மேலாண்மை தேர்வுகளைக் காட்டு"
 
-#~ msgid "Certificate Viewer: %s"
-#~ msgstr "சான்றிதழ் காட்டி: %s"
+#~ msgid "1"
+#~ msgstr "1"
+
+#~ msgid "5"
+#~ msgstr "5"
+
+#~ msgid "Anonymously"
+#~ msgstr "அனாமதேயமாக"
+
+#~ msgid "B_rowse this book until limit reached"
+#~ msgstr "வரையரை வரும் வரை இந்த புத்தகத்தை பார்வையிடு (_r)"
+
+#~ msgid "Lo_gin:"
+#~ msgstr "உள்நுழை (_g):"
+
+#~ msgid "One"
+#~ msgstr "ஒன்று"
+
+#~ msgid "S_earch filter:"
+#~ msgstr "வடிப்பியை தேடு (_e): "
+
+#~ msgid "Search Filter"
+#~ msgstr "தேடும் வடிப்பி"
+
+#~ msgid "Search _base:"
+#~ msgstr "அடிப்படை தேடல்கள் (_b):"
+
+#~ msgid ""
+#~ "Search filter is the type of object to be searched for. If this is not "
+#~ "modified, the default search will be performed on the type \"person\"."
+#~ msgstr ""
+#~ "தேடல் வடிகட்டி என்பது தேடும்போது தேடும் பொருட்களின் வகை. இதை மாற்றாவிட்டால் "
+#~ "முன்னிருப்பு  தேடல் \"person\" வகை (தனிமனிதன்) ஆகிவிடும்."
+
+#~ msgid "Ser_ver:"
+#~ msgstr "சேவகன் (_v):"
+
+#~ msgid "Sub"
+#~ msgstr "துணை"
+
+#~ msgid "Supported Search Bases"
+#~ msgstr "தேடல் அடிப்படைக்கான ஆதரவு"
+
+#~ msgid "Use secure _connection:"
+#~ msgstr "பாதுகாப்பான இணைப்பை பயன்படுத்து (_c):"
+
+#~ msgid "_Download limit:"
+#~ msgstr "பதிவிறக்க எல்லை (_D):"
+
+#~ msgid "_Find Possible Search Bases"
+#~ msgstr "இயன்ற அடிப்படை தேடல் கண்டறி (_F)"
+
+#~ msgid "_Login method:"
+#~ msgstr "உள் நுழையும் முறை (_L):"
+
+#~ msgid "_Search scope:"
+#~ msgstr "தேடல் எல்லை (_S):"
+
+#~ msgid "_Timeout:"
+#~ msgstr "கால தாமதம் (_T):"
 
 #~ msgid ""
 #~ "Currently you can only access the GroupWise System Address Book from "
@@ -23003,6 +22994,20 @@ msgstr "நிலையுடன் (_S)"
 #~ msgid "_Forget"
 #~ msgstr "மற (_F)"
 
+#~ msgctxt "New"
+#~ msgid "_Test Item"
+#~ msgstr "சோதனை உருப்படி (_T)"
+
+#~ msgid "Create a new test item"
+#~ msgstr "புதிய பணியை உருவாக்கு"
+
+#~ msgctxt "New"
+#~ msgid "Test _Source"
+#~ msgstr "_S சோதனை மூலங்கள்"
+
+#~ msgid "Create a new test source"
+#~ msgstr "புதிய சோதனை மூலத்தை உருவாக்கு"
+
 #~ msgid "Recent _Documents"
 #~ msgstr "அண்மை ஆவணங்கள் (_D)"
 
@@ -23703,9 +23708,3 @@ msgstr "நிலையுடன் (_S)"
 
 #~ msgid "Start Evolution activating the specified component"
 #~ msgstr "குறிப்பிட்ட உருப்படியை துவக்குவதன் மூலம் எவல்யூஷனை துவக்கு"
-
-#~ msgid "Could not perform this operation on '{0}: {1}'."
-#~ msgstr "'{0}: {1}' இல் இந்தச் செயலைச் செய்ய முடியவில்லை."
-
-#~ msgid "IMAP Headers"
-#~ msgstr "IMAP தலைப்புகள்"
