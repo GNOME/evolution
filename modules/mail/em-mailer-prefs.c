@@ -1032,7 +1032,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	gtk_toggle_button_set_active (
 		GTK_TOGGLE_BUTTON (widget),
 		val == E_MAIL_IMAGE_LOADING_POLICY_ALWAYS);
-	gtk_widget_set_sensitive (widget, FALSE);
+	gtk_widget_set_sensitive (widget, writable);
 
 	g_signal_connect (
 		widget, "toggled",
