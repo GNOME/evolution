@@ -129,7 +129,10 @@ task_shell_sidebar_map_uid_to_source (GValue *value,
 
 	registry = E_SOURCE_REGISTRY (user_data);
 	uid = g_variant_get_string (variant, NULL);
-	source = e_source_registry_ref_source (registry, uid);
+	if (uid != NULL && *uid != '\0')
+		source = e_source_registry_ref_source (registry, uid);
+	else
+		source = e_source_registry_ref_default_task_list (registry);
 	g_value_take_object (value, source);
 
 	return (source != NULL);
