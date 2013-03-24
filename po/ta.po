@@ -6995,7 +6995,7 @@ msgstr ""
 
 #: ../data/evolution.desktop.in.in.h:5
 msgid "mail;calendar;contact;addressbook;task;"
-msgstr "அஞ்சல்;நாட்காட்டி;தொடர்பு;முகவரிபுத்தகம்;பணி"
+msgstr "அஞ்சல்;நாட்காட்டி;தொடர்பு;முகவரிபுத்தகம்;பணி;"
 
 #: ../data/evolution-settings.desktop.in.in.h:1
 msgid "Email Settings"
