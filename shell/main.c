@@ -109,6 +109,7 @@ static gchar **remaining_args;
 
 /* Forward declarations */
 void e_convert_local_mail (EShell *shell);
+void e_migrate_base_dirs (EShell *shell);
 
 static void
 categories_icon_theme_hack (void)
@@ -665,7 +666,15 @@ main (gint argc,
 	 * This has to be done before we load modules because some of the
 	 * EShellBackends immediately add GMainContext sources that would
 	 * otherwise get dispatched during gtk_dialog_run(), and we don't
-	 * want them dispatched until after the conversion is complete. */
+	 * want them dispatched until after the conversion is complete.
+	 *
+	 * Addendum: We need to perform the XDG Base Directory migration
+	 *           before converting the local mail store, because the
+	 *           conversion is triggered by checking for certain key
+	 *           files and directories under XDG_DATA_HOME.  Without
+	 *           this the mail conversion will not trigger for users
+	 *           upgrading from Evolution 2.30 or older. */
+	e_migrate_base_dirs (shell);
 	e_convert_local_mail (shell);
 
 	e_shell_load_modules (shell);

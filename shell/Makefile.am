@@ -125,7 +125,8 @@ evolution_CPPFLAGS =						\
 
 evolution_SOURCES =				\
 	main.c					\
-	e-convert-local-mail.c
+	e-convert-local-mail.c			\
+	e-migrate-base-dirs.c
 
 evolution_LDADD =							\
 	libeshell.la							\
