@@ -105,11 +105,11 @@ action_combo_box_render_pixbuf (GtkCellLayout *layout,
 	gboolean visible;
 	gint width;
 
-	gtk_tree_model_get (model, iter, COLUMN_ACTION, &action, -1);
-
 	/* Do any of the actions have an icon? */
 	if (!combo_box->priv->group_has_icons)
 		return;
+
+	gtk_tree_model_get (model, iter, COLUMN_ACTION, &action, -1);
 
 	/* A NULL action means the row is a separator. */
 	if (action == NULL)
@@ -151,6 +151,7 @@ action_combo_box_render_pixbuf (GtkCellLayout *layout,
 			"width", width,
 			NULL);
 
+	g_object_unref (action);
 	g_free (icon_name);
 	g_free (stock_id);
 }
@@ -198,6 +199,7 @@ action_combo_box_render_text (GtkCellLayout *layout,
 		"xpad", xpad,
 		NULL);
 
+	g_object_unref (action);
 	g_free (label);
 }
 
@@ -279,6 +281,7 @@ action_combo_box_update_model (EActionComboBox *combo_box)
 		COLUMN_SORT, GTK_SORT_ASCENDING);
 	gtk_combo_box_set_model (
 		GTK_COMBO_BOX (combo_box), GTK_TREE_MODEL (list_store));
+	g_object_unref (list_store);
 
 	action_combo_box_action_changed_cb (
 		combo_box->priv->action,
@@ -401,6 +404,7 @@ action_combo_box_changed (GtkComboBox *combo_box)
 	gtk_tree_model_get (model, &iter, COLUMN_ACTION, &action, -1);
 	g_object_get (action, "value", &value, NULL);
 	gtk_radio_action_set_current_value (action, value);
+	g_object_unref (action);
 }
 
 static void
