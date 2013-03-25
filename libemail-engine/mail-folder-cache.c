@@ -841,13 +841,13 @@ update_folders (CamelStore *store,
 
 	g_rec_mutex_lock (&ud->cache->priv->stores_mutex);
 	si = g_hash_table_lookup (ud->cache->priv->stores, store);
-	if (si && !g_cancellable_is_cancelled (ud->cancellable)) {
+	if (si) {
 		/* The 'si' is still there, so we can remove ourselves from
 		 * its list.  Or else its not, and we're on our own and free
 		 * anyway. */
 		g_queue_remove (&si->folderinfo_updates, ud);
 
-		if (fi != NULL)
+		if (fi != NULL && !g_cancellable_is_cancelled (ud->cancellable))
 			create_folders (ud->cache, fi, si);
 	}
 	g_rec_mutex_unlock (&ud->cache->priv->stores_mutex);
@@ -998,6 +998,12 @@ store_go_online_cb (CamelStore *store,
 				G_PRIORITY_DEFAULT, ud->cancellable,
 				(GAsyncReadyCallback) update_folders, ud);
 	} else {
+		StoreInfo *si;
+
+		si = g_hash_table_lookup (ud->cache->priv->stores, store);
+		if (si)
+			g_queue_remove (&si->folderinfo_updates, ud);
+
 		/* The store vanished, that means we were probably cancelled,
 		 * or at any rate, need to clean ourselves up. */
 		if (ud->cancellable != NULL)
