@@ -99,6 +99,13 @@ static void templates_folder_msg_changed_cb (CamelFolder *folder,
 static gboolean plugin_enabled;
 
 static void
+disconnect_signals_on_dispose (gpointer object_with_signal,
+			       GObject *signal_data)
+{
+	g_signal_handlers_disconnect_by_data (object_with_signal, signal_data);
+}
+
+static void
 async_context_free (AsyncContext *context)
 {
 	if (context->activity != NULL)
@@ -1083,12 +1090,14 @@ build_template_menus_recurse (CamelStore *local_store,
 
 		/* Disconnect previous connection to avoid possible multiple calls because
 		 * folder is a persistent structure */
-		g_signal_handlers_disconnect_by_func (
-			folder, G_CALLBACK (templates_folder_msg_changed_cb), shell_window);
+		if (g_signal_handlers_disconnect_by_func (
+			folder, G_CALLBACK (templates_folder_msg_changed_cb), shell_window))
+			g_object_weak_unref (G_OBJECT (shell_window), disconnect_signals_on_dispose, folder);
 		g_signal_connect (
 			folder, "changed",
 			G_CALLBACK (templates_folder_msg_changed_cb),
 			shell_window);
+		g_object_weak_ref (G_OBJECT (shell_window), disconnect_signals_on_dispose, folder);
 
 		path = g_strdup_printf ("%s/%s", menu_path, action_name);
 
@@ -1423,6 +1432,9 @@ mail_shell_view_created_cb (EShellWindow *shell_window,
 	g_signal_connect (
 		local_store, "folder-renamed",
 		G_CALLBACK (templates_folder_renamed_cb), shell_window);
+
+	g_object_weak_ref (G_OBJECT (shell_window), disconnect_signals_on_dispose, folder);
+	g_object_weak_ref (G_OBJECT (shell_window), disconnect_signals_on_dispose, local_store);
 
 	g_signal_connect (
 		shell_view, "update-actions",
