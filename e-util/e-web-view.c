@@ -1659,6 +1659,10 @@ e_web_view_class_init (EWebViewClass *class)
 		NULL, NULL,
 		e_marshal_BOOLEAN__STRING,
 		G_TYPE_BOOLEAN, 1, G_TYPE_STRING);
+
+	webkit_set_cache_model (WEBKIT_CACHE_MODEL_DOCUMENT_VIEWER);
+	webkit_set_default_web_database_quota (0);
+	webkit_application_cache_set_maximum_size (0);
 }
 
 static void
