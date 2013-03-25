@@ -623,7 +623,11 @@ toggle_widget_visibility (EAttachmentButton *button,
 			if (e_attachment_button_get_expanded (button) &&
 			    (e_attachment_store_get_num_attachments (store) == 0))
 				return;
+			else
+				children = NULL;
 		}
+
+		g_list_free (children);
 	}
 
 	webkit_dom_html_element_set_hidden (

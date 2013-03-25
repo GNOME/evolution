@@ -196,7 +196,7 @@ handle_mail_request (GSimpleAsyncResult *res,
 
 	stream = g_memory_input_stream_new_from_data (
 		(gchar *) ba->data, ba->len, NULL);
-	g_simple_async_result_set_op_res_gpointer (res, stream, NULL);
+	g_simple_async_result_set_op_res_gpointer (res, stream, g_object_unref);
 }
 
 static GInputStream *
@@ -278,7 +278,7 @@ exit:
 		stream = get_empty_image_stream (
 			(gsize *) &request->priv->content_length);
 
-	g_simple_async_result_set_op_res_gpointer (res, stream, NULL);
+	g_simple_async_result_set_op_res_gpointer (res, stream, g_object_unref);
 }
 
 static void
@@ -384,6 +384,8 @@ mail_request_send_finish (SoupRequest *request,
 	if (stream == NULL) {
 		/* We must always return something */
 		stream = g_memory_input_stream_new ();
+	} else {
+		g_object_ref (stream);
 	}
 
 	return stream;

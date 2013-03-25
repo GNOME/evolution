@@ -940,6 +940,8 @@ shell_searchbar_get_preferred_width (GtkWidget *widget,
 		}
 	}
 
+	g_list_free (children);
+
 	*minimum_width = max_minimum + COLUMN_SPACING;
 	*natural_width = max_natural + COLUMN_SPACING;
 }
