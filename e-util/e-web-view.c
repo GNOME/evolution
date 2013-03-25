@@ -1456,6 +1456,28 @@ web_view_drag_motion (GtkWidget *widget,
 }
 
 static void
+web_view_disable_webkit_3rd_party_plugins (void)
+{
+	WebKitWebPluginDatabase *database;
+	GSList *installed_plugins, *iterator;
+
+	database = webkit_get_web_plugin_database ();
+
+	if (!database)
+		return;
+
+	installed_plugins = webkit_web_plugin_database_get_plugins (database);
+
+	if (!installed_plugins)
+		return;
+
+	for (iterator = installed_plugins; iterator; iterator = iterator->next)
+		webkit_web_plugin_set_enabled (iterator->data, FALSE);
+
+	webkit_web_plugin_database_plugins_list_free (installed_plugins);
+}
+
+static void
 e_web_view_class_init (EWebViewClass *class)
 {
 	GObjectClass *object_class;
@@ -1659,6 +1681,8 @@ e_web_view_class_init (EWebViewClass *class)
 		NULL, NULL,
 		e_marshal_BOOLEAN__STRING,
 		G_TYPE_BOOLEAN, 1, G_TYPE_STRING);
+
+	web_view_disable_webkit_3rd_party_plugins ();
 
 	webkit_set_cache_model (WEBKIT_CACHE_MODEL_DOCUMENT_VIEWER);
 	webkit_set_default_web_database_quota (0);
