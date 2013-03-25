@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2013-03-17 14:48+0000\n"
-"PO-Revision-Date: 2013-03-20 17:37+0530\n"
+"PO-Revision-Date: 2013-03-25 07:45+0530\n"
 "Last-Translator: Shankar Prasad <svenkate@redhat.com>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "Language: en_US\n"
@@ -3288,7 +3288,7 @@ msgstr "ಇತರೆ ದಿನಾಂಕ"
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:1166
 msgid "1st to 10th"
-msgstr "೧ ರಿಂದ ೧೦ ನೆಯ"
+msgstr "1 ರಿಂದ 10 ನೆಯ"
 
 #. TRANSLATORS: This is a submenu option string to split the date range into three submenus to choose the exact day of
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
@@ -3296,7 +3296,7 @@ msgstr "೧ ರಿಂದ ೧೦ ನೆಯ"
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:1172
 msgid "11th to 20th"
-msgstr "೧೧ ರಿಂದ ೨೦ ನೆಯ"
+msgstr "11 ರಿಂದ 20 ನೆಯ"
 
 #. TRANSLATORS: This is a submenu option string to split the date range into three submenus to choose the exact day of
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
@@ -3304,7 +3304,7 @@ msgstr "೧೧ ರಿಂದ ೨೦ ನೆಯ"
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:1178
 msgid "21st to 31st"
-msgstr "೨೧ ರಿಂದ ೩೧ ನೆಯ"
+msgstr "21 ರಿಂದ 31 ನೆಯ"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:1205
 #: ../modules/calendar/e-calendar-preferences.ui.h:1
@@ -9050,7 +9050,7 @@ msgid ""
 "server. The interval must be at least 30 seconds."
 msgstr ""
 "ಸ್ಥಳೀಯ ಬದಲಾವಣೆಗಳನ್ನು ದೂರಸ್ಥ ಅಂಚೆ‌ ಪೂರೈಕೆಗಣಕದೊಂದಿಗೆ ಎಷ್ಟು ಬಾರಿ(ಪುನರಾವರ್ತಿತ) "
-"ಮೇಳೈಸಬೇಕು ಎಂಬುದನ್ನು ನಿಯಂತ್ರಿಸುತ್ತದೆ. ಅವಧಿಯು ಕನಿಷ್ಟ ೩೦ ನಿಮಷವಾಗಿರಬೇಕು."
+"ಮೇಳೈಸಬೇಕು ಎಂಬುದನ್ನು ನಿಯಂತ್ರಿಸುತ್ತದೆ. ಅವಧಿಯು ಕನಿಷ್ಟ 30 ನಿಮಷವಾಗಿರಬೇಕು."
 
 #. Translators: This is the a list of words for the attach reminder plugin to look
 #. for in a message body. Please use any number of words here in your language that might
@@ -10854,21 +10854,21 @@ msgstr[1] "ಭವಿಷ್ಯದ %d ನಿಮಿಷಗಳು"
 #, c-format
 msgid "1 hour ago"
 msgid_plural "%d hours ago"
-msgstr[0] "೧ ಗಂಟೆಯ ಮೊದಲು"
+msgstr[0] "1 ಗಂಟೆಯ ಮೊದಲು"
 msgstr[1] "%d ಗಂಟೆಗಳ ಮೊದಲು"
 
 #: ../e-util/e-filter-datespec.c:72
 #, c-format
 msgid "1 hour in the future"
 msgid_plural "%d hours in the future"
-msgstr[0] "ಮುಂದಿನ ೧ ಗಂಟೆ"
+msgstr[0] "ಮುಂದಿನ 1 ಗಂಟೆ"
 msgstr[1] "ಮುಂದಿನ %d ಗಂಟೆಗಳು"
 
 #: ../e-util/e-filter-datespec.c:73
 #, c-format
 msgid "1 day ago"
 msgid_plural "%d days ago"
-msgstr[0] "೧ ದಿನದ ಹಿಂದೆ"
+msgstr[0] "1 ದಿನದ ಹಿಂದೆ"
 msgstr[1] "%d ದಿನಗಳ ಹಿಂದೆ"
 
 #: ../e-util/e-filter-datespec.c:74
@@ -10917,7 +10917,7 @@ msgstr[1] "%d ವರ್ಷಗಳ ಮೊದಲು"
 #, c-format
 msgid "1 year in the future"
 msgid_plural "%d years in the future"
-msgstr[0] "ಮುಂದಿನ ೧ ವರ್ಷ"
+msgstr[0] "ಮುಂದಿನ 1 ವರ್ಷ"
 msgstr[1] "ಮುಂದಿನ %d ವರ್ಷಗಳು"
 
 #: ../e-util/e-filter-datespec.c:130
@@ -16475,23 +16475,23 @@ msgstr "ದಿನಗಳು"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:11
 msgid "60 minutes"
-msgstr "೬೦ ನಿಮಿಷಗಳು"
+msgstr "60 ನಿಮಿಷಗಳು"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:12
 msgid "30 minutes"
-msgstr "೩೦ ನಿಮಿಷಗಳು"
+msgstr "30 ನಿಮಿಷಗಳು"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:13
 msgid "15 minutes"
-msgstr "೧೫ ನಿಮಿಷಗಳು"
+msgstr "15 ನಿಮಿಷಗಳು"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:14
 msgid "10 minutes"
-msgstr "೧೦ ನಿಮಿಷಗಳು"
+msgstr "10 ನಿಮಿಷಗಳು"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:15
 msgid "05 minutes"
-msgstr "0೫ ನಿಮಿಷಗಳು"
+msgstr "05 ನಿಮಿಷಗಳು"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:17
 msgid "Se_cond zone:"
