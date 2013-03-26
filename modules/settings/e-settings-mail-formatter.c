@@ -150,7 +150,7 @@ settings_mail_formatter_constructed (GObject *object)
 	g_settings_bind (
 		settings, "image-loading-policy",
 		formatter, "image-loading-policy",
-		G_BINDING_SYNC_CREATE);
+		G_SETTINGS_BIND_GET);
 
 	g_settings_bind (
 		settings, "show-sender-photo",
