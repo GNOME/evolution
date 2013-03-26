@@ -159,9 +159,9 @@ action_context_delete_cell_cb (GtkAction *action,
 
 	if (sibling) {
 		webkit_dom_html_table_cell_element_set_col_span (
-			(WebKitDOMHTMLTableCellElement *) sibling,
+			WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (sibling),
 			webkit_dom_html_table_cell_element_get_col_span (
-				(WebKitDOMHTMLTableCellElement *) sibling) + 1);
+				WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (sibling)) + 1);
 	}
 }
 
@@ -187,11 +187,11 @@ action_context_delete_column_cb (GtkAction *action,
 	g_return_if_fail (table != NULL);
 
 	rows = webkit_dom_html_table_element_get_rows (
-			(WebKitDOMHTMLTableElement *) table);
+			WEBKIT_DOM_HTML_TABLE_ELEMENT (table));
 	length = webkit_dom_html_collection_get_length (rows);
 
 	index = webkit_dom_html_table_cell_element_get_cell_index (
-			(WebKitDOMHTMLTableCellElement *) cell);
+			WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (cell));
 
 	for (ii = 0; ii < length; ii++) {
 		WebKitDOMNode *row;
@@ -199,7 +199,7 @@ action_context_delete_column_cb (GtkAction *action,
 		row = webkit_dom_html_collection_item (rows, ii);
 
 		webkit_dom_html_table_row_element_delete_cell (
-			(WebKitDOMHTMLTableRowElement *) row, index, NULL);
+			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row), index, NULL);
 	}
 }
 
@@ -260,11 +260,11 @@ action_context_insert_column_after_cb (GtkAction *action,
 			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (row)));
 
 	index = webkit_dom_html_table_cell_element_get_cell_index (
-			(WebKitDOMHTMLTableCellElement *) (cell));
+			WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (cell));
 
 	while (row) {
 		webkit_dom_html_table_row_element_insert_cell (
-			(WebKitDOMHTMLTableRowElement *) row, index + 1, NULL);
+			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row), index + 1, NULL);
 
 		row = (WebKitDOMElement *)
 			webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (row));
@@ -296,11 +296,11 @@ action_context_insert_column_before_cb (GtkAction *action,
 			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (row)));
 
 	index = webkit_dom_html_table_cell_element_get_cell_index (
-			(WebKitDOMHTMLTableCellElement *) (cell));
+			WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (cell));
 
 	while (row) {
 		webkit_dom_html_table_row_element_insert_cell (
-			(WebKitDOMHTMLTableRowElement *) row, index - 1, NULL);
+			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row), index - 1, NULL);
 
 		row = (WebKitDOMElement *)
 			webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (row));
@@ -325,17 +325,17 @@ action_context_insert_row_above_cb (GtkAction *action,
 	g_return_if_fail (table != NULL);
 
 	index = webkit_dom_html_table_row_element_get_row_index (
-			(WebKitDOMHTMLTableRowElement *) row);
+			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row));
 
 	new_row = webkit_dom_html_table_element_insert_row (
-			(WebKitDOMHTMLTableElement *) table, index, NULL);
+			WEBKIT_DOM_HTML_TABLE_ELEMENT (table), index, NULL);
 
 	cells = webkit_dom_html_table_row_element_get_cells (
-			(WebKitDOMHTMLTableRowElement *) row);
+			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row));
 	cell_count = webkit_dom_html_collection_get_length (cells);
 	for (ii = 0; ii < cell_count; ii++) {
 		webkit_dom_html_table_row_element_insert_cell (
-			(WebKitDOMHTMLTableRowElement *) new_row, -1, NULL);
+			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (new_row), -1, NULL);
 	}
 
 }
@@ -358,17 +358,17 @@ action_context_insert_row_below_cb (GtkAction *action,
 	g_return_if_fail (table != NULL);
 
 	index = webkit_dom_html_table_row_element_get_row_index (
-			(WebKitDOMHTMLTableRowElement *) row);
+			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row));
 
 	new_row = webkit_dom_html_table_element_insert_row (
-			(WebKitDOMHTMLTableElement *) table, index + 1, NULL);
+			WEBKIT_DOM_HTML_TABLE_ELEMENT (table), index + 1, NULL);
 
 	cells = webkit_dom_html_table_row_element_get_cells (
-			(WebKitDOMHTMLTableRowElement *) row);
+			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row));
 	cell_count = webkit_dom_html_collection_get_length (cells);
 	for (ii = 0; ii < cell_count; ii++) {
 		webkit_dom_html_table_row_element_insert_cell (
-			(WebKitDOMHTMLTableRowElement *) new_row, -1, NULL);
+			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (new_row), -1, NULL);
 	}
 }
 
