@@ -88,11 +88,11 @@ editor_table_dialog_create_table (EEditorTableDialog *dialog)
 		gint j;
 
 		row = webkit_dom_html_table_element_insert_row (
-			(WebKitDOMHTMLTableElement *) table, -1, NULL);
+			WEBKIT_DOM_HTML_TABLE_ELEMENT (table), -1, NULL);
 
 		for (j = 0; j < 3; j++) {
 			webkit_dom_html_table_row_element_insert_cell (
-				(WebKitDOMHTMLTableRowElement *) row, -1, NULL);
+				WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row), -1, NULL);
 		}
 	}
 
