@@ -927,6 +927,7 @@ save_and_close_editor (CompEditor *editor,
 	gboolean delegated = FALSE;
 	gboolean correct = FALSE;
 	ECalComponent *comp;
+	const gchar *uid = NULL;
 
 	view = E_ATTACHMENT_VIEW (priv->attachment_view);
 	store = e_attachment_view_get_store (view);
@@ -1008,7 +1009,6 @@ save_and_close_editor (CompEditor *editor,
 
 		if (delegate && !remove_event_dialog (
 			priv->cal_client, priv->comp, GTK_WINDOW (editor))) {
-			const gchar *uid = NULL;
 			GError *error = NULL;
 
 			e_cal_component_get_uid (priv->comp, &uid);
@@ -1036,8 +1036,101 @@ save_and_close_editor (CompEditor *editor,
 	if (correct) {
 		if (can_close)
 			close_dialog (editor);
-		else
+		else {
+			ECalComponent *comp;
+			ECalClientSourceType source_type;
+			icalcomponent *icalcomp = NULL;
+			const gchar *uid = NULL;
+			gchar *msg;
+			gchar *rid = NULL;
+			GError *error = NULL;
+
 			comp_editor_set_changed (editor, FALSE);
+
+			/*
+			 * A server can modify the event on save. Considering this, it is needed to fetch the updated
+			 * version of the event from server, updating the component, then user can keep editing the
+			 * event
+			 */
+			e_cal_component_get_uid (priv->comp, &uid);
+			rid = e_cal_component_get_recurid_as_string (priv->comp);
+
+			source_type = e_cal_client_get_source_type (priv->cal_client);
+			if (!e_cal_client_get_object_sync (priv->cal_client, uid, rid, &icalcomp, NULL, &error)) {
+				if (error != NULL) {
+					switch (source_type) {
+						case (E_CAL_CLIENT_SOURCE_TYPE_TASKS):
+							msg = g_strdup_printf (
+								  _("Unable to retrieve saved component from the task list, returned error was: %s"),
+								  error->message);
+							break;
+						case (E_CAL_CLIENT_SOURCE_TYPE_MEMOS):
+							msg = g_strdup_printf (
+								  _("Unable to retrieve saved component from the memo list, returned error was: %s"),
+								  error->message);
+							break;
+						case (E_CAL_CLIENT_SOURCE_TYPE_EVENTS):
+						default:
+							msg = g_strdup_printf (
+								  _("Unable to retrieve saved component from the calendar, returned error was: %s"),
+								  error->message);
+							break;
+					}
+					g_clear_error (&error);
+				} else {
+					switch (source_type) {
+						case (E_CAL_CLIENT_SOURCE_TYPE_TASKS):
+							msg = g_strdup (
+								  _("Unable to retrieve saved component from the task list"));
+						break;
+						case (E_CAL_CLIENT_SOURCE_TYPE_MEMOS):
+							msg = g_strdup (
+								  _("Unable to retrieve saved component from the memo list"));
+							break;
+						case (E_CAL_CLIENT_SOURCE_TYPE_EVENTS):
+						default:
+							msg = g_strdup (
+								  _("Unable to retrieve saved component from the calendar"));
+							break;
+					}
+				}
+				e_notice (GTK_WINDOW (editor), GTK_MESSAGE_ERROR, "%s", msg);
+				g_free (msg);
+			} else {
+				comp = e_cal_component_new ();
+				if (e_cal_component_set_icalcomponent (comp, icalcomp)) {
+					gboolean has_recurrences;
+
+					has_recurrences = e_cal_component_has_recurrences (comp);
+
+					if (has_recurrences && priv->mod == CALOBJ_MOD_ALL)
+						comp_util_sanitize_recurrence_master (comp, priv->cal_client);
+
+					comp_editor_edit_comp (editor, comp);
+				} else {
+					switch (source_type) {
+						case (E_CAL_CLIENT_SOURCE_TYPE_TASKS):
+							msg = g_strdup (
+								  _("Unable to update the editor with the retrieved component from the task list"));
+						break;
+						case (E_CAL_CLIENT_SOURCE_TYPE_MEMOS):
+							msg = g_strdup (
+								  _("Unable to update the editor with the retrieved component from the memo list"));
+							break;
+						case (E_CAL_CLIENT_SOURCE_TYPE_EVENTS):
+						default:
+							msg = g_strdup (
+								  _("Unable to update the editor with the retrieved component from the calendar"));
+							break;
+					}
+					e_notice (GTK_WINDOW (editor), GTK_MESSAGE_ERROR, "%s", msg);
+					g_free (msg);
+					icalcomponent_free (icalcomp);
+				}
+				g_object_unref (comp);
+			}
+			g_free (rid);
+		}
 	}
 }
 
