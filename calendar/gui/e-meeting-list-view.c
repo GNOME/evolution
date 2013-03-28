@@ -607,6 +607,7 @@ build_table (EMeetingListView *lview)
 	GtkCellRenderer *renderer;
 	GtkTreeView *view = GTK_TREE_VIEW (lview);
 	EMeetingListViewPrivate *priv;
+	EClientCache *client_cache;
 	GHashTable *edit_table;
 	GtkTreeViewColumn *col;
 	gint pos;
@@ -616,7 +617,9 @@ build_table (EMeetingListView *lview)
 	gtk_tree_view_set_headers_visible (view, TRUE);
 	gtk_tree_view_set_rules_hint (view, TRUE);
 
-	renderer = e_select_names_renderer_new ();
+	client_cache = e_name_selector_ref_client_cache (priv->name_selector);
+
+	renderer = e_select_names_renderer_new (client_cache);
 	g_object_set (renderer, "editable", TRUE, NULL);
 	/* The extra space is just a hack to occupy more space for Attendee */
 	pos = gtk_tree_view_insert_column_with_attributes (
@@ -702,6 +705,8 @@ build_table (EMeetingListView *lview)
 	g_hash_table_insert (edit_table, GINT_TO_POINTER (E_MEETING_STORE_STATUS_COL), renderer);
 
 	priv->renderers = edit_table;
+
+	g_object_unref (client_cache);
 }
 
 static void

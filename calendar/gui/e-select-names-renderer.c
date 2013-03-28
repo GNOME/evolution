@@ -24,8 +24,6 @@
 #include <config.h>
 #endif
 
-#include "e-util/e-util.h"
-
 #include "e-select-names-editable.h"
 #include "e-select-names-renderer.h"
 
@@ -34,6 +32,7 @@
 	((obj), E_TYPE_SELECT_NAMES_RENDERER, ESelectNamesRendererPrivate))
 
 struct _ESelectNamesRendererPrivate {
+	EClientCache *client_cache;
 	ESelectNamesEditable *editable;
 	gchar *path;
 
@@ -43,6 +42,7 @@ struct _ESelectNamesRendererPrivate {
 
 enum {
 	PROP_0,
+	PROP_CLIENT_CACHE,
 	PROP_NAME,
 	PROP_EMAIL
 };
@@ -113,12 +113,28 @@ cleanup:
 }
 
 static void
+select_names_renderer_set_client_cache (ESelectNamesRenderer *renderer,
+                                        EClientCache *client_cache)
+{
+	g_return_if_fail (E_IS_CLIENT_CACHE (client_cache));
+	g_return_if_fail (renderer->priv->client_cache == NULL);
+
+	renderer->priv->client_cache = g_object_ref (client_cache);
+}
+
+static void
 select_names_renderer_set_property (GObject *object,
                                     guint property_id,
                                     const GValue *value,
                                     GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_CLIENT_CACHE:
+			select_names_renderer_set_client_cache (
+				E_SELECT_NAMES_RENDERER (object),
+				g_value_get_object (value));
+			return;
+
 		case PROP_NAME:
 			e_select_names_renderer_set_name (
 				E_SELECT_NAMES_RENDERER (object),
@@ -142,6 +158,13 @@ select_names_renderer_get_property (GObject *object,
                                     GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_CLIENT_CACHE:
+			g_value_take_object (
+				value,
+				e_select_names_renderer_ref_client_cache (
+				E_SELECT_NAMES_RENDERER (object)));
+			return;
+
 		case PROP_NAME:
 			g_value_set_string (
 				value,
@@ -167,6 +190,7 @@ select_names_renderer_dispose (GObject *object)
 
 	priv = E_SELECT_NAMES_RENDERER_GET_PRIVATE (object);
 
+	g_clear_object (&priv->client_cache);
 	g_clear_object (&priv->editable);
 
 	/* Chain up to parent's dispose() method. */
@@ -250,6 +274,23 @@ e_select_names_renderer_class_init (ESelectNamesRendererClass *class)
 	renderer_class = GTK_CELL_RENDERER_CLASS (class);
 	renderer_class->start_editing = select_names_renderer_start_editing;
 
+	/**
+	 * ESelectNamesRenderer:client-cache:
+	 *
+	 * Cache of shared #EClient instances.
+	 **/
+	g_object_class_install_property (
+		object_class,
+		PROP_CLIENT_CACHE,
+		g_param_spec_object (
+			"client-cache",
+			"Client Cache",
+			"Cache of shared EClient instances",
+			E_TYPE_CLIENT_CACHE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
+
 	g_object_class_install_property (
 		object_class,
 		PROP_NAME,
@@ -292,9 +333,21 @@ e_select_names_renderer_init (ESelectNamesRenderer *renderer)
 }
 
 GtkCellRenderer *
-e_select_names_renderer_new (void)
+e_select_names_renderer_new (EClientCache *client_cache)
 {
-	return g_object_new (E_TYPE_SELECT_NAMES_RENDERER, NULL);
+	g_return_val_if_fail (E_IS_CLIENT_CACHE (client_cache), NULL);
+
+	return g_object_new (
+		E_TYPE_SELECT_NAMES_RENDERER,
+		"client-cache", client_cache, NULL);
+}
+
+EClientCache *
+e_select_names_renderer_ref_client_cache (ESelectNamesRenderer *renderer)
+{
+	g_return_val_if_fail (E_IS_SELECT_NAMES_RENDERER (renderer), NULL);
+
+	return g_object_ref (renderer->priv->client_cache);
 }
 
 const gchar *

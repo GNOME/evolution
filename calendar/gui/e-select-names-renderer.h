@@ -24,7 +24,7 @@
 #ifndef E_SELECT_NAMES_RENDERER_H
 #define E_SELECT_NAMES_RENDERER_H
 
-#include <gtk/gtk.h>
+#include <e-util/e-util.h>
 
 /* Standard GObject macros */
 #define E_TYPE_SELECT_NAMES_RENDERER \
@@ -68,7 +68,9 @@ struct _ESelectNamesRendererClass {
 GType		e_select_names_renderer_get_type
 						(void) G_GNUC_CONST;
 GtkCellRenderer *
-		e_select_names_renderer_new	(void);
+		e_select_names_renderer_new	(EClientCache *client_cache);
+EClientCache *	e_select_names_renderer_ref_client_cache
+						(ESelectNamesRenderer *renderer);
 const gchar *	e_select_names_renderer_get_name
 						(ESelectNamesRenderer *renderer);
 void		e_select_names_renderer_set_name
