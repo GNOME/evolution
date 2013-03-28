@@ -48,7 +48,7 @@ e_select_names_editable_init (ESelectNamesEditable *esne)
 {
 }
 
-ESelectNamesEditable *
+GtkWidget *
 e_select_names_editable_new (void)
 {
 	EShell *shell;
@@ -68,20 +68,25 @@ gchar *
 e_select_names_editable_get_email (ESelectNamesEditable *esne)
 {
 	EDestinationStore *destination_store;
-	GList *destinations;
-	EDestination *destination;
+	GList *list;
 	gchar *result = NULL;
 
 	g_return_val_if_fail (E_SELECT_NAMES_EDITABLE (esne), NULL);
 
-	destination_store = e_name_selector_entry_peek_destination_store (E_NAME_SELECTOR_ENTRY (esne));
-	destinations = e_destination_store_list_destinations (destination_store);
-	if (!destinations)
+	destination_store = e_name_selector_entry_peek_destination_store (
+		E_NAME_SELECTOR_ENTRY (esne));
+	list = e_destination_store_list_destinations (destination_store);
+	if (list == NULL)
 		return NULL;
 
-	destination = destinations->data;
-	result = g_strdup (e_destination_get_email (destination));
-	g_list_free (destinations);
+	if (list != NULL) {
+		EDestination *destination;
+
+		destination = E_DESTINATION (list->data);
+		result = g_strdup (e_destination_get_email (destination));
+		g_list_free (list);
+	}
+
 	return result;
 }
 
@@ -89,63 +94,85 @@ GList *
 e_select_names_editable_get_emails (ESelectNamesEditable *esne)
 {
 	EDestinationStore *destination_store;
-	GList *destinations, *l;
-	EDestination *destination;
-	GList *result = NULL;
+	GQueue queue = G_QUEUE_INIT;
+	GList *list, *link;
 
 	g_return_val_if_fail (E_SELECT_NAMES_EDITABLE (esne), NULL);
 
-	destination_store = e_name_selector_entry_peek_destination_store (E_NAME_SELECTOR_ENTRY (esne));
-	destinations = e_destination_store_list_destinations (destination_store);
-	if (!destinations)
-		return NULL;
+	destination_store = e_name_selector_entry_peek_destination_store (
+		E_NAME_SELECTOR_ENTRY (esne));
+	list = e_destination_store_list_destinations (destination_store);
 
-	for (l = destinations; l != NULL; l = l->next) {
-		destination = l->data;
+	for (link = list; link != NULL; link = g_list_next (link->next)) {
+		EDestination *destination;
+
+		destination = E_DESTINATION (link->data);
+
 		if (e_destination_is_evolution_list (destination)) {
-			const GList *list_dests, *l;
+			const GList *list_dests;
 
 			list_dests = e_destination_list_get_dests (destination);
-			for (l = list_dests; l != NULL; l = g_list_next (l)) {
-				result = g_list_append (result, g_strdup (e_destination_get_email (l->data)));
-			}
-		} else {
-			/* check if the contact is contact list, it does not contain all the email ids  */
-			/* we dont expand it currently, TODO do we need to expand it by getting it from addressbook*/
-			if (e_destination_get_contact (destination) &&
-			    e_contact_get (e_destination_get_contact (destination), E_CONTACT_IS_LIST)) {
-				/* If its a contact_list which is not expanded, it wont have a email id,
-				 * so we can use the name as the email id */
+			while (list_dests != NULL) {
+				const gchar *email;
 
-				result = g_list_append (result, g_strdup (e_destination_get_name (destination)));
-			} else
-				result = g_list_append (result, g_strdup (e_destination_get_email (destination)));
+				destination = E_DESTINATION (list_dests->data);
+				email = e_destination_get_email (destination);
+				g_queue_push_tail (&queue, g_strdup (email));
+
+				list_dests = g_list_next (list_dests);
+			}
+
+		} else {
+			EContact *contact;
+			const gchar *name;
+			const gchar *email;
+			gboolean contact_is_list;
+
+			contact = e_destination_get_contact (destination);
+			name = e_destination_get_name (destination);
+			email = e_destination_get_email (destination);
+
+			contact_is_list =
+				(contact != NULL) &&
+				e_contact_get (contact, E_CONTACT_IS_LIST);
+
+			if (contact_is_list) {
+				/* If its a contact_list which is not expanded,
+				 * it won't have an email id, so we can use the
+				 * name as the email id. */
+				g_queue_push_tail (&queue, g_strdup (name));
+			} else {
+				g_queue_push_tail (&queue, g_strdup (email));
+			}
 		}
 	}
 
-	g_list_free (destinations);
+	g_list_free (list);
 
-	return result;
+	return queue.head;
 }
 
 gchar *
 e_select_names_editable_get_name (ESelectNamesEditable *esne)
 {
 	EDestinationStore *destination_store;
-	GList *destinations;
-	EDestination *destination;
+	GList *list;
 	gchar *result = NULL;
 
 	g_return_val_if_fail (E_SELECT_NAMES_EDITABLE (esne), NULL);
 
-	destination_store = e_name_selector_entry_peek_destination_store (E_NAME_SELECTOR_ENTRY (esne));
-	destinations = e_destination_store_list_destinations (destination_store);
-	if (!destinations)
-		return NULL;
+	destination_store = e_name_selector_entry_peek_destination_store (
+		E_NAME_SELECTOR_ENTRY (esne));
+	list = e_destination_store_list_destinations (destination_store);
 
-	destination = destinations->data;
-	result = g_strdup (e_destination_get_name (destination));
-	g_list_free (destinations);
+	if (list != NULL) {
+		EDestination *destination;
+
+		destination = E_DESTINATION (list->data);
+		result = g_strdup (e_destination_get_name (destination));
+		g_list_free (list);
+	}
+
 	return result;
 }
 
@@ -153,34 +180,44 @@ GList *
 e_select_names_editable_get_names (ESelectNamesEditable *esne)
 {
 	EDestinationStore *destination_store;
-	GList *destinations, *l;
-	EDestination *destination;
-	GList *result = NULL;
+	GQueue queue = G_QUEUE_INIT;
+	GList *list, *link;
 
 	g_return_val_if_fail (E_SELECT_NAMES_EDITABLE (esne), NULL);
 
-	destination_store = e_name_selector_entry_peek_destination_store (E_NAME_SELECTOR_ENTRY (esne));
-	destinations = e_destination_store_list_destinations (destination_store);
-	if (!destinations)
-		return NULL;
+	destination_store = e_name_selector_entry_peek_destination_store (
+		E_NAME_SELECTOR_ENTRY (esne));
+	list = e_destination_store_list_destinations (destination_store);
 
-	for (l = destinations; l != NULL; l = l->next) {
-		destination = l->data;
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		EDestination *destination;
+
+		destination = E_DESTINATION (link->data);
+
 		if (e_destination_is_evolution_list (destination)) {
-			const GList *list_dests, *l;
+			const GList *list_dests;
 
 			list_dests = e_destination_list_get_dests (destination);
-			for (l = list_dests; l != NULL; l = g_list_next (l)) {
-				result = g_list_append (result, g_strdup (e_destination_get_name (l->data)));
+			while (list_dests != NULL) {
+				const gchar *name;
+
+				destination = E_DESTINATION (list_dests->data);
+				name = e_destination_get_name (destination);
+				g_queue_push_tail (&queue, g_strdup (name));
+
+				list_dests = g_list_next (list_dests);
 			}
 		} else {
-			result = g_list_append (result, g_strdup (e_destination_get_name (destination)));
+			const gchar *name;
+
+			name = e_destination_get_name (destination);
+			g_queue_push_tail (&queue, g_strdup (name));
 		}
 	}
 
-	g_list_free (destinations);
+	g_list_free (list);
 
-	return result;
+	return queue.head;
 }
 
 void
@@ -189,23 +226,26 @@ e_select_names_editable_set_address (ESelectNamesEditable *esne,
                                      const gchar *email)
 {
 	EDestinationStore *destination_store;
-	GList *destinations;
+	GList *list;
 	EDestination *destination;
 
 	g_return_if_fail (E_IS_SELECT_NAMES_EDITABLE (esne));
 
-	destination_store = e_name_selector_entry_peek_destination_store (E_NAME_SELECTOR_ENTRY (esne));
-	destinations = e_destination_store_list_destinations (destination_store);
+	destination_store = e_name_selector_entry_peek_destination_store (
+		E_NAME_SELECTOR_ENTRY (esne));
+	list = e_destination_store_list_destinations (destination_store);
 
-	if (!destinations)
+	if (list == NULL)
 		destination = e_destination_new ();
 	else
-		destination = g_object_ref (destinations->data);
+		destination = g_object_ref (list->data);
 
 	e_destination_set_name (destination, name);
 	e_destination_set_email (destination, email);
 
-	if (!destinations)
-		e_destination_store_append_destination (destination_store, destination);
+	if (list == NULL)
+		e_destination_store_append_destination (
+			destination_store, destination);
+
 	g_object_unref (destination);
 }
