@@ -49,19 +49,13 @@ e_select_names_editable_init (ESelectNamesEditable *esne)
 }
 
 GtkWidget *
-e_select_names_editable_new (void)
+e_select_names_editable_new (EClientCache *client_cache)
 {
-	EShell *shell;
-
-	/* Might be cleaner to have 'registry' passed in, but the call chain
-	 * of this widget doesn't have access that low in the functions, thus
-	 * making the change without (private) API break. */
-	shell = e_shell_get_default ();
+	g_return_val_if_fail (E_IS_CLIENT_CACHE (client_cache), NULL);
 
 	return g_object_new (
 		E_TYPE_SELECT_NAMES_EDITABLE,
-		"registry", e_shell_get_registry (shell),
-		NULL);
+		"client-cache", client_cache, NULL);
 }
 
 gchar *

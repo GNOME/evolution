@@ -62,7 +62,7 @@ struct _ESelectNamesEditableClass {
 
 GType		e_select_names_editable_get_type
 						(void) G_GNUC_CONST;
-GtkWidget *	e_select_names_editable_new	(void);
+GtkWidget *	e_select_names_editable_new	(EClientCache *client_cache);
 gchar *		e_select_names_editable_get_email
 						(ESelectNamesEditable *esne);
 GList *		e_select_names_editable_get_emails
