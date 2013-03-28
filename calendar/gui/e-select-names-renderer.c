@@ -225,6 +225,7 @@ select_names_renderer_start_editing (GtkCellRenderer *cell,
 {
 	ESelectNamesRenderer *sn_cell = E_SELECT_NAMES_RENDERER (cell);
 	GtkCellRendererText *text_cell = GTK_CELL_RENDERER_TEXT (cell);
+	EClientCache *client_cache;
 	GtkWidget *editable;
 	gboolean is_editable;
 	gfloat xalign;
@@ -237,7 +238,9 @@ select_names_renderer_start_editing (GtkCellRenderer *cell,
 	if (!is_editable)
 		return NULL;
 
-	editable = e_select_names_editable_new ();
+	client_cache = e_select_names_renderer_ref_client_cache (sn_cell);
+
+	editable = e_select_names_editable_new (client_cache);
 	gtk_entry_set_has_frame (GTK_ENTRY (editable), FALSE);
 	gtk_entry_set_alignment (GTK_ENTRY (editable), xalign);
 	if (sn_cell->priv->email != NULL && *sn_cell->priv->email != '\0')
@@ -253,6 +256,8 @@ select_names_renderer_start_editing (GtkCellRenderer *cell,
 
 	sn_cell->priv->editable = g_object_ref (editable);
 	sn_cell->priv->path = g_strdup (path);
+
+	g_object_unref (client_cache);
 
 	return GTK_CELL_EDITABLE (editable);
 }
