@@ -61,22 +61,26 @@ G_DEFINE_TYPE (
 
 static void
 e_select_names_renderer_editing_done (GtkCellEditable *editable,
-                                      ESelectNamesRenderer *cell)
+                                      ESelectNamesRenderer *renderer)
 {
 	GList *addresses = NULL, *names = NULL, *a, *n;
 	gboolean editing_canceled;
 
 	/* We don't need to listen for the focus out event any more */
-	g_signal_handlers_disconnect_matched (editable, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, cell);
+	g_signal_handlers_disconnect_matched (
+		editable, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, renderer);
 
 	g_object_get (editable, "editing-canceled", &editing_canceled, NULL);
 	if (editing_canceled) {
-		gtk_cell_renderer_stop_editing (GTK_CELL_RENDERER (cell), TRUE);
+		gtk_cell_renderer_stop_editing (
+			GTK_CELL_RENDERER (renderer), TRUE);
 		goto cleanup;
 	}
 
-	addresses = e_select_names_editable_get_emails (E_SELECT_NAMES_EDITABLE (editable));
-	names = e_select_names_editable_get_names (E_SELECT_NAMES_EDITABLE (editable));
+	addresses = e_select_names_editable_get_emails (
+		E_SELECT_NAMES_EDITABLE (editable));
+	names = e_select_names_editable_get_names (
+		E_SELECT_NAMES_EDITABLE (editable));
 
 	/* remove empty addresses */
 	for (a = addresses, n = names; a && n;) {
@@ -95,27 +99,105 @@ e_select_names_renderer_editing_done (GtkCellEditable *editable,
 		}
 	}
 
-	g_signal_emit (cell, signals[CELL_EDITED], 0, cell->priv->path, addresses, names);
+	g_signal_emit (
+		renderer, signals[CELL_EDITED], 0,
+		renderer->priv->path, addresses, names);
 
-	g_list_foreach (addresses, (GFunc) g_free, NULL);
-	g_list_foreach (names, (GFunc) g_free, NULL);
-	g_list_free (addresses);
-	g_list_free (names);
+	g_list_free_full (addresses, (GDestroyNotify) g_free);
+	g_list_free_full (names, (GDestroyNotify) g_free);
 
- cleanup:
-	g_free (cell->priv->path);
-	cell->priv->path = NULL;
-	cell->priv->editable = NULL;
+cleanup:
+	g_free (renderer->priv->path);
+	renderer->priv->path = NULL;
+	renderer->priv->editable = NULL;
+}
+
+static void
+select_names_renderer_set_property (GObject *object,
+                                    guint property_id,
+                                    const GValue *value,
+                                    GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_NAME:
+			e_select_names_renderer_set_name (
+				E_SELECT_NAMES_RENDERER (object),
+				g_value_get_string (value));
+			return;
+
+		case PROP_EMAIL:
+			e_select_names_renderer_set_email (
+				E_SELECT_NAMES_RENDERER (object),
+				g_value_get_string (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+select_names_renderer_get_property (GObject *object,
+                                    guint property_id,
+                                    GValue *value,
+                                    GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_NAME:
+			g_value_set_string (
+				value,
+				e_select_names_renderer_get_name (
+				E_SELECT_NAMES_RENDERER (object)));
+			return;
+
+		case PROP_EMAIL:
+			g_value_set_string (
+				value,
+				e_select_names_renderer_get_email (
+				E_SELECT_NAMES_RENDERER (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+select_names_renderer_dispose (GObject *object)
+{
+	ESelectNamesRendererPrivate *priv;
+
+	priv = E_SELECT_NAMES_RENDERER_GET_PRIVATE (object);
+
+	g_clear_object (&priv->editable);
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (e_select_names_renderer_parent_class)->
+		dispose (object);
+}
+
+static void
+select_names_renderer_finalize (GObject *object)
+{
+	ESelectNamesRendererPrivate *priv;
+
+	priv = E_SELECT_NAMES_RENDERER_GET_PRIVATE (object);
+
+	g_free (priv->path);
+	g_free (priv->name);
+	g_free (priv->email);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (e_select_names_renderer_parent_class)->
+		finalize (object);
 }
 
 static GtkCellEditable *
-e_select_names_renderer_start_editing (GtkCellRenderer *cell,
-                                       GdkEvent *event,
-                                       GtkWidget *widget,
-                                       const gchar *path,
-                                       const GdkRectangle *bg_area,
-                                       const GdkRectangle *cell_area,
-                                       GtkCellRendererState flags)
+select_names_renderer_start_editing (GtkCellRenderer *cell,
+                                     GdkEvent *event,
+                                     GtkWidget *widget,
+                                     const gchar *path,
+                                     const GdkRectangle *bg_area,
+                                     const GdkRectangle *cell_area,
+                                     GtkCellRendererState flags)
 {
 	ESelectNamesRenderer *sn_cell = E_SELECT_NAMES_RENDERER (cell);
 	GtkCellRendererText *text_cell = GTK_CELL_RENDERER_TEXT (cell);
@@ -134,7 +216,7 @@ e_select_names_renderer_start_editing (GtkCellRenderer *cell,
 	editable = e_select_names_editable_new ();
 	gtk_entry_set_has_frame (GTK_ENTRY (editable), FALSE);
 	gtk_entry_set_alignment (GTK_ENTRY (editable), xalign);
-	if (sn_cell->priv->email && *sn_cell->priv->email)
+	if (sn_cell->priv->email != NULL && *sn_cell->priv->email != '\0')
 		e_select_names_editable_set_address (
 			E_SELECT_NAMES_EDITABLE (editable),
 			sn_cell->priv->name,
@@ -145,9 +227,6 @@ e_select_names_renderer_start_editing (GtkCellRenderer *cell,
 		editable, "editing_done",
 		G_CALLBACK (e_select_names_renderer_editing_done), sn_cell);
 
-	/* Removed focus-out-event. focus out event already listen by base class.
-	 * We don't need to listen for the focus out event any more */
-
 	sn_cell->priv->editable = g_object_ref (editable);
 	sn_cell->priv->path = g_strdup (path);
 
@@ -155,81 +234,21 @@ e_select_names_renderer_start_editing (GtkCellRenderer *cell,
 }
 
 static void
-e_select_names_renderer_get_property (GObject *object,
-                                      guint property_id,
-                                      GValue *value,
-                                      GParamSpec *pspec)
-{
-	ESelectNamesRenderer *esnr = E_SELECT_NAMES_RENDERER (object);
-
-	switch (property_id) {
-	case PROP_NAME:
-		g_value_set_string (value, esnr->priv->name);
-		break;
-	case PROP_EMAIL:
-		g_value_set_string (value, esnr->priv->email);
-		break;
-	default:
-		break;
-	}
-}
-
-static void
-e_select_names_renderer_set_property (GObject *object,
-                                      guint property_id,
-                                      const GValue *value,
-                                      GParamSpec *pspec)
-{
-	ESelectNamesRenderer *esnr = E_SELECT_NAMES_RENDERER (object);
-
-	switch (property_id) {
-	case PROP_NAME:
-		g_free (esnr->priv->name);
-		esnr->priv->name = g_strdup (g_value_get_string (value));
-		break;
-	case PROP_EMAIL:
-		g_free (esnr->priv->email);
-		esnr->priv->email = g_strdup (g_value_get_string (value));
-		break;
-	default:
-		break;
-	}
-}
-
-static void
-e_select_names_renderer_finalize (GObject *object)
-{
-	ESelectNamesRendererPrivate *priv;
-
-	priv = E_SELECT_NAMES_RENDERER_GET_PRIVATE (object);
-
-	if (priv->editable != NULL) {
-		g_object_unref (priv->editable);
-		priv->editable = NULL;
-	}
-
-	g_free (priv->path);
-	g_free (priv->name);
-	g_free (priv->email);
-
-	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (e_select_names_renderer_parent_class)->finalize (object);
-}
-
-static void
 e_select_names_renderer_class_init (ESelectNamesRendererClass *class)
 {
 	GObjectClass *object_class;
-	GtkCellRendererClass *cell_class = GTK_CELL_RENDERER_CLASS (class);
+	GtkCellRendererClass *renderer_class;
 
 	g_type_class_add_private (class, sizeof (ESelectNamesRendererPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->get_property = e_select_names_renderer_get_property;
-	object_class->set_property = e_select_names_renderer_set_property;
-	object_class->finalize = e_select_names_renderer_finalize;
+	object_class->get_property = select_names_renderer_get_property;
+	object_class->set_property = select_names_renderer_set_property;
+	object_class->dispose = select_names_renderer_dispose;
+	object_class->finalize = select_names_renderer_finalize;
 
-	cell_class->start_editing = e_select_names_renderer_start_editing;
+	renderer_class = GTK_CELL_RENDERER_CLASS (class);
+	renderer_class->start_editing = select_names_renderer_start_editing;
 
 	g_object_class_install_property (
 		object_class,
@@ -239,7 +258,8 @@ e_select_names_renderer_class_init (ESelectNamesRendererClass *class)
 			"Name",
 			"Email name.",
 			NULL,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_install_property (
 		object_class,
@@ -249,7 +269,8 @@ e_select_names_renderer_class_init (ESelectNamesRendererClass *class)
 			"Email",
 			"Email address.",
 			NULL,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
 
 	signals[CELL_EDITED] = g_signal_new (
 		"cell_edited",
@@ -265,14 +286,54 @@ e_select_names_renderer_class_init (ESelectNamesRendererClass *class)
 }
 
 static void
-e_select_names_renderer_init (ESelectNamesRenderer *cell)
+e_select_names_renderer_init (ESelectNamesRenderer *renderer)
 {
-	cell->priv = E_SELECT_NAMES_RENDERER_GET_PRIVATE (cell);
+	renderer->priv = E_SELECT_NAMES_RENDERER_GET_PRIVATE (renderer);
 }
 
 GtkCellRenderer *
 e_select_names_renderer_new (void)
 {
 	return g_object_new (E_TYPE_SELECT_NAMES_RENDERER, NULL);
+}
+
+const gchar *
+e_select_names_renderer_get_name (ESelectNamesRenderer *renderer)
+{
+	g_return_val_if_fail (E_IS_SELECT_NAMES_RENDERER (renderer), NULL);
+
+	return renderer->priv->name;
+}
+
+void
+e_select_names_renderer_set_name (ESelectNamesRenderer *renderer,
+                                  const gchar *name)
+{
+	g_return_if_fail (E_IS_SELECT_NAMES_RENDERER (renderer));
+
+	g_free (renderer->priv->name);
+	renderer->priv->name = g_strdup (name);
+
+	g_object_notify (G_OBJECT (renderer), "name");
+}
+
+const gchar *
+e_select_names_renderer_get_email (ESelectNamesRenderer *renderer)
+{
+	g_return_val_if_fail (E_IS_SELECT_NAMES_RENDERER (renderer), NULL);
+
+	return renderer->priv->email;
+}
+
+void
+e_select_names_renderer_set_email (ESelectNamesRenderer *renderer,
+                                   const gchar *email)
+{
+	g_return_if_fail (E_IS_SELECT_NAMES_RENDERER (renderer));
+
+	g_free (renderer->priv->email);
+	renderer->priv->email = g_strdup (email);
+
+	g_object_notify (G_OBJECT (renderer), "email");
 }
 
