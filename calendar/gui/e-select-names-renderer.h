@@ -65,9 +65,20 @@ struct _ESelectNamesRendererClass {
 						 GList *names);
 };
 
-GType		e_select_names_renderer_get_type	(void) G_GNUC_CONST;
+GType		e_select_names_renderer_get_type
+						(void) G_GNUC_CONST;
 GtkCellRenderer *
-		e_select_names_renderer_new		(void);
+		e_select_names_renderer_new	(void);
+const gchar *	e_select_names_renderer_get_name
+						(ESelectNamesRenderer *renderer);
+void		e_select_names_renderer_set_name
+						(ESelectNamesRenderer *renderer,
+						 const gchar *name);
+const gchar *	e_select_names_renderer_get_email
+						(ESelectNamesRenderer *renderer);
+void		e_select_names_renderer_set_email
+						(ESelectNamesRenderer *renderer,
+						 const gchar *email);
 
 G_END_DECLS
 
