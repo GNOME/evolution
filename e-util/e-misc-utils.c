@@ -708,6 +708,42 @@ e_load_ui_builder_definition (GtkBuilder *builder,
 	}
 }
 
+/**
+ * e_load_ui_manager_definition:
+ * @ui_manager: a #GtkUIManager
+ * @basename: basename of the UI definition file
+ *
+ * Loads a UI definition into @ui_manager from Evolution's UI directory.
+ * Failure here is fatal, since the application can't function without
+ * its UI definitions.
+ *
+ * Returns: The merge ID for the merged UI.  The merge ID can be used to
+ *          unmerge the UI with gtk_ui_manager_remove_ui().
+ **/
+guint
+e_load_ui_manager_definition (GtkUIManager *ui_manager,
+                              const gchar *basename)
+{
+	gchar *filename;
+	guint merge_id;
+	GError *error = NULL;
+
+	g_return_val_if_fail (GTK_IS_UI_MANAGER (ui_manager), 0);
+	g_return_val_if_fail (basename != NULL, 0);
+
+	filename = g_build_filename (EVOLUTION_UIDIR, basename, NULL);
+	merge_id = gtk_ui_manager_add_ui_from_file (
+		ui_manager, filename, &error);
+	g_free (filename);
+
+	if (error != NULL) {
+		g_error ("%s: %s", basename, error->message);
+		g_assert_not_reached ();
+	}
+
+	return merge_id;
+}
+
 /* Helper for e_categories_add_change_hook() */
 static void
 categories_changed_cb (GObject *useless_opaque_object,

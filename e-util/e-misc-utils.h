@@ -81,6 +81,8 @@ GtkWidget *	e_builder_get_widget		(GtkBuilder *builder,
 						 const gchar *widget_name);
 void		e_load_ui_builder_definition	(GtkBuilder *builder,
 						 const gchar *basename);
+guint		e_load_ui_manager_definition	(GtkUIManager *ui_manager,
+						 const gchar *basename);
 void		e_categories_add_change_hook	(GHookFunc func,
 						 gpointer object);
 

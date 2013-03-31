@@ -2232,6 +2232,7 @@ e_radio_action_get_current_action
 e_action_group_add_actions_localized
 e_builder_get_widget
 e_load_ui_builder_definition
+e_load_ui_manager_definition
 e_categories_add_change_hook
 e_str_without_underscores
 e_str_compare
