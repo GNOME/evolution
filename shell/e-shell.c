@@ -70,7 +70,6 @@ struct _EShellPrivate {
 
 	guint auto_reconnect		: 1;
 	guint express_mode		: 1;
-	guint meego_mode		: 1;
 	guint modules_loaded		: 1;
 	guint network_available		: 1;
 	guint network_available_locked	: 1;
@@ -83,7 +82,6 @@ enum {
 	PROP_0,
 	PROP_CLIENT_CACHE,
 	PROP_EXPRESS_MODE,
-	PROP_MEEGO_MODE,
 	PROP_GEOMETRY,
 	PROP_MODULE_DIRECTORY,
 	PROP_NETWORK_AVAILABLE,
@@ -522,13 +520,6 @@ shell_set_express_mode (EShell *shell,
 }
 
 static void
-shell_set_meego_mode (EShell *shell,
-                      gboolean is_meego)
-{
-	shell->priv->meego_mode = is_meego;
-}
-
-static void
 shell_set_geometry (EShell *shell,
                     const gchar *geometry)
 {
@@ -555,12 +546,6 @@ shell_set_property (GObject *object,
 	switch (property_id) {
 		case PROP_EXPRESS_MODE:
 			shell_set_express_mode (
-				E_SHELL (object),
-				g_value_get_boolean (value));
-			return;
-
-		case PROP_MEEGO_MODE:
-			shell_set_meego_mode (
 				E_SHELL (object),
 				g_value_get_boolean (value));
 			return;
@@ -609,12 +594,6 @@ shell_get_property (GObject *object,
 		case PROP_EXPRESS_MODE:
 			g_value_set_boolean (
 				value, e_shell_get_express_mode (
-				E_SHELL (object)));
-			return;
-
-		case PROP_MEEGO_MODE:
-			g_value_set_boolean (
-				value, e_shell_get_meego_mode (
 				E_SHELL (object)));
 			return;
 
@@ -894,23 +873,6 @@ e_shell_class_init (EShellClass *class)
 			"express-mode",
 			"Express Mode",
 			"Whether express mode is enabled",
-			FALSE,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
-
-	/**
-	 * EShell:meego
-	 *
-	 * Are we running under meego - if so, adapt ourselves
-	 * to fit in well with their theming.
-	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_MEEGO_MODE,
-		g_param_spec_boolean (
-			"meego-mode",
-			"Meego Mode",
-			"Whether meego mode is enabled",
 			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
@@ -1578,22 +1540,6 @@ e_shell_get_express_mode (EShell *shell)
 	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
 
 	return shell->priv->express_mode;
-}
-
-/**
- * e_shell_get_meego_mode:
- * @shell: an #EShell
- *
- * Returns %TRUE if Evolution is in MeeGo mode.
- *
- * Returns: %TRUE if Evolution is in MeeGo mode
- **/
-gboolean
-e_shell_get_meego_mode (EShell *shell)
-{
-	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
-
-	return shell->priv->meego_mode;
 }
 
 /**

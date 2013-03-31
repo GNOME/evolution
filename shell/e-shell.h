@@ -126,7 +126,6 @@ guint		e_shell_handle_uris		(EShell *shell,
 void		e_shell_submit_alert		(EShell *shell,
 						 EAlert *alert);
 GtkWindow *     e_shell_get_active_window	(EShell *shell);
-gboolean	e_shell_get_meego_mode		(EShell *shell);
 gboolean	e_shell_get_express_mode	(EShell *shell);
 const gchar *	e_shell_get_module_directory	(EShell *shell);
 gboolean	e_shell_get_network_available	(EShell *shell);

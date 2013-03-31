@@ -2003,7 +2003,6 @@ comp_editor_init (CompEditor *editor)
 	GtkWindow *window;
 	EShell *shell;
 	gboolean express_mode;
-	gboolean meego_mode;
 	gint n_targets;
 	GError *error = NULL;
 
@@ -2011,7 +2010,6 @@ comp_editor_init (CompEditor *editor)
 	 *       that depends on it to a constructed() method. */
 	shell = e_shell_get_default ();
 	express_mode = e_shell_get_express_mode (shell);
-	meego_mode = e_shell_get_meego_mode (shell);
 
 	editor->priv = priv = COMP_EDITOR_GET_PRIVATE (editor);
 
@@ -2166,11 +2164,9 @@ comp_editor_init (CompEditor *editor)
 
 	container = widget;
 
-	if (!express_mode) {
-		widget = comp_editor_get_managed_widget (editor, "/main-menu");
-		gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-		gtk_widget_set_visible (widget, !meego_mode);
-	}
+	widget = comp_editor_get_managed_widget (editor, "/main-menu");
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_set_visible (widget, TRUE);
 
 	widget = comp_editor_get_managed_widget (editor, "/main-toolbar");
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
@@ -2197,26 +2193,9 @@ comp_editor_init (CompEditor *editor)
 	container = e_attachment_paned_get_content_area (
 		E_ATTACHMENT_PANED (priv->attachment_view));
 
-	if (meego_mode) {
-		widget = gtk_scrolled_window_new (NULL, NULL);
-		gtk_scrolled_window_set_policy (
-			GTK_SCROLLED_WINDOW (widget),
-			GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-		gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
-		gtk_widget_set_size_request (widget, 300, -1);
-		gtk_widget_show (widget);
-
-		container = widget;
-	}
-
 	widget = gtk_notebook_new ();
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (widget), express_mode);
-	if (!meego_mode)
-		gtk_box_pack_start (
-			GTK_BOX (container), widget, TRUE, TRUE, 0);
-	else
-		gtk_scrolled_window_add_with_viewport (
-			GTK_SCROLLED_WINDOW (container), widget);
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	priv->notebook = GTK_NOTEBOOK (widget);
 	gtk_widget_show (widget);
 

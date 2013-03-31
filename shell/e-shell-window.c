@@ -452,9 +452,6 @@ shell_window_construct_toolbar (EShellWindow *shell_window)
 		gtk_widget_get_style_context (toolbar),
 		GTK_STYLE_CLASS_PRIMARY_TOOLBAR);
 
-	if (e_shell_get_meego_mode (shell))
-		 gtk_widget_set_name (GTK_WIDGET (toolbar), "MeeGoToolbar");
-
 	/* XXX Having this separator in the UI definition doesn't work
 	 *     because GtkUIManager is unaware of the "New" button, so
 	 *     it makes the separator invisible.  One possibility is to
@@ -495,16 +492,10 @@ shell_window_construct_toolbar (EShellWindow *shell_window)
 	gtk_toolbar_set_show_arrow (GTK_TOOLBAR (toolbar), FALSE);
 	if (e_shell_get_express_mode (shell))
 		gtk_box_pack_start (GTK_BOX (box), toolbar, FALSE, FALSE, 0);
-	if (e_shell_get_meego_mode (shell))
-		gtk_widget_set_name (GTK_WIDGET (toolbar), "MeeGoToolbar");
 
 	toolbar = e_shell_window_get_managed_widget (
 		shell_window, "/close-toolbar");
 	gtk_toolbar_set_show_arrow (GTK_TOOLBAR (toolbar), FALSE);
-	if (e_shell_get_meego_mode (shell))
-		gtk_box_pack_start (GTK_BOX (box), toolbar, FALSE, FALSE, 0);
-	if (e_shell_get_meego_mode (shell))
-		gtk_widget_set_name (GTK_WIDGET (toolbar), "MeeGoToolbar");
 
 	return box;
 }

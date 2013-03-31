@@ -14,7 +14,6 @@ e_shell_create_shell_window
 e_shell_handle_uris
 e_shell_submit_alert
 e_shell_get_active_window
-e_shell_get_meego_mode
 e_shell_get_express_mode
 e_shell_get_module_directory
 e_shell_get_network_available
