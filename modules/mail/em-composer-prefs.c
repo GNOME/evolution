@@ -503,13 +503,6 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 			widget, "prefer-html",
 			G_SETTINGS_BIND_GET);
 
-	/* Sanitize the dialog for Express mode */
-	e_shell_hide_widgets_for_express_mode (
-		shell, prefs->builder,
-		"chkOutlookFilenames",
-		"chkTopSignature",
-		NULL);
-
 	/* get our toplevel widget */
 	target = em_config_target_new_prefs (ec);
 	e_config_set_target ((EConfig *) ec, (EConfigTarget *) target);

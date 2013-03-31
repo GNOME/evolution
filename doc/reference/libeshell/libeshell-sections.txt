@@ -223,7 +223,6 @@ EShellTaskbarPrivate
 e_shell_run_open_dialog
 e_shell_run_save_dialog
 e_shell_utils_import_uris
-e_shell_hide_widgets_for_express_mode
 </SECTION>
 
 <SECTION>
