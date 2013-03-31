@@ -294,7 +294,6 @@ eutilinclude_HEADERS =  \
 	e-tree-sorted.h \
 	e-tree-table-adapter.h \
 	e-tree.h \
-	e-ui-manager.h \
 	e-unicode.h \
 	e-url-entry.h \
 	e-util-enums.h \
@@ -539,7 +538,6 @@ libeutil_la_SOURCES = \
 	e-tree-sorted.c \
 	e-tree-table-adapter.c \
 	e-tree.c \
-	e-ui-manager.c \
 	e-unicode.c \
 	e-url-entry.c \
 	e-util-enumtypes.c \

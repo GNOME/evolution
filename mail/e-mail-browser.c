@@ -553,7 +553,7 @@ mail_browser_constructed (GObject *object)
 	shell_backend = E_SHELL_BACKEND (backend);
 	shell = e_shell_backend_get_shell (shell_backend);
 
-	ui_manager = e_ui_manager_new ();
+	ui_manager = gtk_ui_manager_new ();
 
 	browser->priv->ui_manager = ui_manager;
 	domain = GETTEXT_PACKAGE;
@@ -618,12 +618,10 @@ mail_browser_constructed (GObject *object)
 
 	e_mail_reader_init (reader, TRUE, TRUE);
 
-	e_ui_manager_add_ui_from_file (
-		E_UI_MANAGER (ui_manager), E_MAIL_READER_UI_DEFINITION);
-	e_ui_manager_add_ui_from_string (
-		E_UI_MANAGER (ui_manager), ui, NULL);
+	e_load_ui_manager_definition (ui_manager, E_MAIL_READER_UI_DEFINITION);
+	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, NULL);
 
-	merge_id = gtk_ui_manager_new_merge_id (GTK_UI_MANAGER (ui_manager));
+	merge_id = gtk_ui_manager_new_merge_id (ui_manager);
 	e_mail_reader_create_charset_menu (reader, ui_manager, merge_id);
 
 	accel_group = gtk_ui_manager_get_accel_group (ui_manager);

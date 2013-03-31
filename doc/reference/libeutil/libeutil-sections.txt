@@ -4488,28 +4488,6 @@ e_xml_get_translated_utf8_string_prop_by_name
 </SECTION>
 
 <SECTION>
-<FILE>e-ui-manager</FILE>
-<TITLE>EUIManager</TITLE>
-EUIManager
-e_ui_manager_new
-e_ui_manager_get_express_mode
-e_ui_manager_set_express_mode
-e_ui_manager_add_ui_from_file
-e_ui_manager_add_ui_from_string
-<SUBSECTION Standard>
-E_UI_MANAGER
-E_IS_UI_MANAGER
-E_TYPE_UI_MANAGER
-E_UI_MANAGER_CLASS
-E_IS_UI_MANAGER_CLASS
-E_UI_MANAGER_GET_CLASS
-EUIManagerClass
-e_ui_manager_get_type
-<SUBSECTION Private>
-EUIManagerPrivate
-</SECTION>
-
-<SECTION>
 <FILE>e-url-entry</FILE>
 <TITLE>EUrlEntry</TITLE>
 EUrlEntry

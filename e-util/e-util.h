@@ -215,7 +215,6 @@
 #include <e-util/e-tree-sorted.h>
 #include <e-util/e-tree-table-adapter.h>
 #include <e-util/e-tree.h>
-#include <e-util/e-ui-manager.h>
 #include <e-util/e-unicode.h>
 #include <e-util/e-url-entry.h>
 #include <e-util/e-util-enums.h>

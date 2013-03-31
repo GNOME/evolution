@@ -2030,9 +2030,7 @@ comp_editor_init (CompEditor *editor)
 	priv->is_group_item = FALSE;
 	priv->saved = FALSE;
 
-	priv->ui_manager = e_ui_manager_new ();
-	e_ui_manager_set_express_mode (
-		E_UI_MANAGER (priv->ui_manager), express_mode);
+	priv->ui_manager = gtk_ui_manager_new ();
 
 	gtk_window_add_accel_group (
 		GTK_WINDOW (editor),
@@ -2142,7 +2140,7 @@ comp_editor_init (CompEditor *editor)
 	action = comp_editor_get_action (editor, "save");
 	gtk_action_set_sensitive (action, FALSE);
 
-	e_ui_manager_add_ui_from_string (E_UI_MANAGER (priv->ui_manager), ui, &error);
+	gtk_ui_manager_add_ui_from_string (priv->ui_manager, ui, -1, &error);
 	if (error != NULL) {
 		g_warning ("%s: %s", G_STRFUNC, error->message);
 		g_error_free (error);

@@ -21,8 +21,6 @@
 
 #include "e-plugin-ui.h"
 
-#include "e-ui-manager.h"
-
 #include <string.h>
 
 #define E_PLUGIN_UI_HOOK_GET_PRIVATE(obj) \
@@ -247,12 +245,8 @@ plugin_ui_hook_merge_ui (EPluginUIHook *hook,
 	ui_definition = g_hash_table_lookup (hash_table, id);
 	g_return_val_if_fail (ui_definition != NULL, 0);
 
-	if (E_IS_UI_MANAGER (ui_manager))
-		merge_id = e_ui_manager_add_ui_from_string (
-			E_UI_MANAGER (ui_manager), ui_definition, &error);
-	else
-		merge_id = gtk_ui_manager_add_ui_from_string (
-			ui_manager, ui_definition, -1, &error);
+	merge_id = gtk_ui_manager_add_ui_from_string (
+		ui_manager, ui_definition, -1, &error);
 
 	if (error != NULL) {
 		g_warning ("%s", error->message);

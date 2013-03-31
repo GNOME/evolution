@@ -559,7 +559,7 @@ event_editor_init (EventEditor *ee)
 		G_N_ELEMENTS (meeting_entries), ee);
 
 	ui_manager = comp_editor_get_ui_manager (editor);
-	e_ui_manager_add_ui_from_string (E_UI_MANAGER (ui_manager), ui, &error);
+	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, &error);
 
 	id = "org.gnome.evolution.event-editor";
 	e_plugin_ui_register_manager (ui_manager, id, ee);

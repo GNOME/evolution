@@ -266,7 +266,6 @@
     <xi:include href="xml/e-spell-entry.xml"/>
     <xi:include href="xml/e-timezone-dialog.xml"/>
     <xi:include href="xml/e-tree-model-generator.xml"/>
-    <xi:include href="xml/e-ui-manager.xml"/>
     <xi:include href="xml/e-url-entry.xml"/>
   </chapter>
 

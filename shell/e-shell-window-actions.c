@@ -1283,8 +1283,8 @@ e_shell_window_actions_init (EShellWindow *shell_window)
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
 
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
-	e_ui_manager_add_ui_from_file (
-		E_UI_MANAGER (ui_manager), "evolution-shell.ui");
+
+	e_load_ui_manager_definition (ui_manager, "evolution-shell.ui");
 
 	/* Shell Actions */
 	action_group = ACTION_GROUP (SHELL);

@@ -253,8 +253,8 @@ mail_shell_view_toggled (EShellView *shell_view)
 	if (view_is_active && priv->merge_id == 0) {
 		EMailView *mail_view;
 
-		priv->merge_id = e_ui_manager_add_ui_from_file (
-			E_UI_MANAGER (ui_manager), basename);
+		priv->merge_id = e_load_ui_manager_definition (
+			ui_manager, basename);
 		mail_view = e_mail_shell_content_get_mail_view (
 			priv->mail_shell_content);
 		e_mail_reader_create_charset_menu (
