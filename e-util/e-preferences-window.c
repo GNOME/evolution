@@ -512,38 +512,6 @@ e_preferences_window_show_page (EPreferencesWindow *window,
 	gtk_tree_path_free (path);
 }
 
-void
-e_preferences_window_filter_page (EPreferencesWindow *window,
-                                  const gchar *page_name)
-{
-	GtkTreeRowReference *reference;
-	GtkIconView *icon_view;
-	GtkTreePath *path;
-
-	g_return_if_fail (E_IS_PREFERENCES_WINDOW (window));
-	g_return_if_fail (page_name != NULL);
-	g_return_if_fail (window->priv->setup);
-
-	icon_view = GTK_ICON_VIEW (window->priv->icon_view);
-	reference = g_hash_table_lookup (window->priv->index, page_name);
-	g_return_if_fail (reference != NULL);
-
-	path = gtk_tree_row_reference_get_path (reference);
-	gtk_icon_view_select_path (icon_view, path);
-	gtk_icon_view_scroll_to_path (icon_view, path, FALSE, 0.0, 0.0);
-	gtk_tree_path_free (path);
-
-	window->priv->filter_view = page_name;
-	gtk_tree_model_filter_refilter (window->priv->filter);
-
-	/* XXX: We need a better solution to hide the icon view when
-	 * there is just one entry */
-	if (strncmp (page_name, "cal", 3) == 0) {
-		gtk_widget_hide (window->priv->scroll);
-	} else
-		gtk_widget_show (window->priv->scroll);
-}
-
 /*
  * Create all the deferred configuration pages.
  */

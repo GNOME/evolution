@@ -2650,7 +2650,6 @@ e_preferences_window_get_shell
 e_preferences_window_setup
 e_preferences_window_add_page
 e_preferences_window_show_page
-e_preferences_window_filter_page
 <SUBSECTION Standard>
 E_PREFERENCES_WINDOW
 E_IS_PREFERENCES_WINDOW
