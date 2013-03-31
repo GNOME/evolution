@@ -1970,8 +1970,6 @@ msg_composer_constructed (GObject *object)
 		object, "delete-event",
 		G_CALLBACK (msg_composer_delete_event_cb), NULL);
 
-	e_shell_adapt_window_size (shell, GTK_WINDOW (object));
-
 	gtk_application_add_window (
 		GTK_APPLICATION (shell), GTK_WINDOW (object));
 

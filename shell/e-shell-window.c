@@ -726,20 +726,6 @@ shell_window_create_shell_view (EShellWindow *shell_window,
 }
 
 static void
-shell_window_realize (GtkWidget *widget)
-{
-	EShellWindow *shell_window;
-
-	shell_window = E_SHELL_WINDOW (widget);
-	e_shell_adapt_window_size (
-		shell_window->priv->shell,
-		GTK_WINDOW (widget));
-
-	/* Chain up to parent's dispose() method. */
-	GTK_WIDGET_CLASS (e_shell_window_parent_class)->realize (widget);
-}
-
-static void
 shell_window_submit_alert (EAlertSink *alert_sink,
                            EAlert *alert)
 {
@@ -771,7 +757,6 @@ static void
 e_shell_window_class_init (EShellWindowClass *class)
 {
 	GObjectClass *object_class;
-	GtkWidgetClass *widget_class;
 
 	g_type_class_add_private (class, sizeof (EShellWindowPrivate));
 
@@ -781,9 +766,6 @@ e_shell_window_class_init (EShellWindowClass *class)
 	object_class->dispose = shell_window_dispose;
 	object_class->finalize = shell_window_finalize;
 	object_class->constructed = shell_window_constructed;
-
-	widget_class = GTK_WIDGET_CLASS (class);
-	widget_class->realize = shell_window_realize;
 
 	class->construct_menubar = shell_window_construct_menubar;
 	class->construct_toolbar = shell_window_construct_toolbar;

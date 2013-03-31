@@ -1836,40 +1836,6 @@ e_shell_cancel_quit (EShell *shell)
 	g_signal_stop_emission (shell, signals[QUIT_REQUESTED], 0);
 }
 
-/**
- * e_shell_adapt_window_size:
- * @shell: an #EShell
- * @window: a #GtkWindow to adapt to full-screen
- *
- * This is used to adapt to window's size to be optimal for
- * the platform. The shell settings are used to determine if
- * a window should be set to full screen etc.
- *
- * This method is best called when the widget is realized on
- * a given screen.
- **/
-void
-e_shell_adapt_window_size (EShell *shell,
-                           GtkWindow *window)
-{
-	GdkScreen *screen;
-	GdkRectangle rect;
-	GdkWindow *gdk_window;
-	gint monitor;
-
-	if (!e_shell_get_meego_mode (shell) || TRUE)
-		return;
-
-	screen = gdk_screen_get_default ();
-	gdk_window = gtk_widget_get_window (GTK_WIDGET (window));
-	monitor = gdk_screen_get_monitor_at_window (screen, gdk_window);
-	gdk_screen_get_monitor_geometry (screen, monitor, &rect);
-
-	gtk_window_set_default_size (window, rect.width, rect.height);
-	gtk_window_set_decorated (window, FALSE);
-	gtk_window_maximize (window);
-}
-
 void
 e_shell_set_startup_view (EShell *shell,
                           const gchar *view)

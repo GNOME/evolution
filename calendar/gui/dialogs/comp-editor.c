@@ -2261,7 +2261,6 @@ comp_editor_init (CompEditor *editor)
 
 	gtk_application_add_window (
 		GTK_APPLICATION (shell), GTK_WINDOW (editor));
-	e_shell_adapt_window_size (shell, GTK_WINDOW (editor));
 }
 
 static gboolean
