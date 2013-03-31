@@ -49,12 +49,12 @@ typedef struct _EMailAccountManagerClass EMailAccountManagerClass;
 typedef struct _EMailAccountManagerPrivate EMailAccountManagerPrivate;
 
 struct _EMailAccountManager {
-	GtkTable parent;
+	GtkGrid parent;
 	EMailAccountManagerPrivate *priv;
 };
 
 struct _EMailAccountManagerClass {
-	GtkTableClass parent_class;
+	GtkGridClass parent_class;
 
 	/* Signals */
 	void		(*add_account)		(EMailAccountManager *manager);

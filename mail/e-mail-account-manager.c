@@ -58,7 +58,7 @@ static guint signals[LAST_SIGNAL];
 G_DEFINE_TYPE (
 	EMailAccountManager,
 	e_mail_account_manager,
-	GTK_TYPE_TABLE)
+	GTK_TYPE_GRID)
 
 static void
 mail_account_manager_add_cb (EMailAccountManager *manager)
@@ -392,9 +392,7 @@ mail_account_manager_constructed (GObject *object)
 	/* We disconnect the handler in dispose(). */
 	manager->priv->row_changed_handler_id = handler_id;
 
-	gtk_table_resize (GTK_TABLE (manager), 2, 2);
-	gtk_table_set_col_spacings (GTK_TABLE (manager), 6);
-	gtk_table_set_row_spacings (GTK_TABLE (manager), 0);
+	gtk_grid_set_column_spacing (GTK_GRID (manager), 6);
 
 	container = GTK_WIDGET (manager);
 
@@ -404,9 +402,9 @@ mail_account_manager_constructed (GObject *object)
 		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (
 		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
-	gtk_table_attach (
-		GTK_TABLE (container), widget, 0, 1, 0, 1,
-		GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
+	gtk_widget_set_hexpand (widget, TRUE);
+	gtk_widget_set_vexpand (widget, TRUE);
+	gtk_grid_attach (GTK_GRID (container), widget, 0, 0, 1, 1);
 	gtk_widget_show (widget);
 
 	container = widget;
@@ -445,9 +443,7 @@ mail_account_manager_constructed (GObject *object)
 	widget = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type (
 		GTK_FRAME (widget), GTK_SHADOW_IN);
-	gtk_table_attach (
-		GTK_TABLE (container), widget,
-		0, 1, 1, 2, GTK_FILL, 0, 0, 0);
+	gtk_grid_attach (GTK_GRID (container), widget, 0, 1, 1, 1);
 	gtk_widget_show (widget);
 
 	container = widget;
@@ -481,9 +477,7 @@ mail_account_manager_constructed (GObject *object)
 	gtk_button_box_set_layout (
 		GTK_BUTTON_BOX (widget), GTK_BUTTONBOX_START);
 	gtk_box_set_spacing (GTK_BOX (widget), 6);
-	gtk_table_attach (
-		GTK_TABLE (container), widget,
-		1, 2, 0, 2, 0, GTK_FILL, 0, 0);
+	gtk_grid_attach (GTK_GRID (container), widget, 1, 0, 1, 2);
 	gtk_widget_show (widget);
 
 	container = widget;
