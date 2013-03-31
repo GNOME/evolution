@@ -84,6 +84,9 @@
 #define DEVELOPMENT 1
 #endif
 
+/* Set this to TRUE and rebuild to enable MeeGo's Express Mode. */
+#define EXPRESS_MODE FALSE
+
 /* Command-line options.  */
 #ifdef G_OS_WIN32
 static gboolean register_handlers = FALSE;
@@ -92,7 +95,6 @@ static gboolean show_icons = FALSE;
 static gboolean hide_icons = FALSE;
 static gboolean unregister_handlers = FALSE;
 #endif /* G_OS_WIN32 */
-static gboolean express_mode = FALSE;
 static gboolean force_online = FALSE;
 static gboolean start_online = FALSE;
 static gboolean start_offline = FALSE;
@@ -245,8 +247,6 @@ idle_cb (const gchar * const *uris)
 		if (e_shell_handle_uris (shell, uris, import_uris) == 0)
 			gtk_main_quit ();
 	} else {
-		if (express_mode && requested_view == NULL)
-			requested_view = (gchar *) "mail";
 		e_shell_create_shell_window (shell, requested_view);
 	}
 
@@ -312,8 +312,6 @@ static GOptionEntry entries[] = {
 	  N_("Start in online mode"), NULL },
 	{ "force-online", '\0', 0, G_OPTION_ARG_NONE, &force_online,
 	  N_("Ignore network availability"), NULL },
-	{ "express", '\0', 0, G_OPTION_ARG_NONE, &express_mode,
-	  N_("Start in \"express\" mode"), NULL },
 #ifdef KILL_PROCESS_CMD
 	{ "force-shutdown", '\0', 0, G_OPTION_ARG_NONE, &force_shutdown,
 	  N_("Forcibly shut down Evolution"), NULL },
@@ -353,8 +351,6 @@ create_default_shell (void)
 	GSettings *settings;
 	GApplicationFlags flags;
 	gboolean online = TRUE;
-	gboolean is_meego = FALSE;
-	gboolean small_screen = FALSE;
 	GError *error = NULL;
 
 	settings = g_settings_new ("org.gnome.evolution.shell");
@@ -383,15 +379,6 @@ create_default_shell (void)
 
 	/* Determine whether to run Evolution in "express" mode. */
 
-	if (!express_mode)
-		express_mode = g_settings_get_boolean (settings, "express-mode");
-
-	if (!express_mode)
-		e_shell_detect_meego (&is_meego, &small_screen);
-
-	if (is_meego)
-		express_mode = TRUE;
-
 	if (error != NULL) {
 		g_warning ("%s", error->message);
 		g_clear_error (&error);
@@ -406,9 +393,7 @@ create_default_shell (void)
 		"flags", flags,
 		"geometry", geometry,
 		"module-directory", EVOLUTION_MODULEDIR,
-		"meego-mode", is_meego,
-		"express-mode", express_mode,
-		"small-screen-mode", small_screen,
+		"express-mode", EXPRESS_MODE,
 		"online", online,
 		"register-session", TRUE,
 		NULL);
@@ -690,10 +675,8 @@ main (gint argc,
 		e_plugin_load_plugins ();
 	}
 
-	if (requested_view)
+	if (requested_view != NULL)
 		e_shell_set_startup_view (shell, requested_view);
-	else if (express_mode)
-		e_shell_set_startup_view (shell, "mail");
 
 	/* Attempt migration -after- loading all modules and plugins,
 	 * as both shell backends and certain plugins hook into this. */
