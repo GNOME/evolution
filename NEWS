@@ -1,3 +1,11 @@
+Evolution 3.9.1 2013-04-??
+--------------------------
+
+* The Express Mode feature developed for MeeGo has been removed.
+  The MeeGo project is long dead and the Express Mode feature has
+  been unmaintained quite for some time.  It served its purpose.
+
+
 Evolution 3.7.92 2013-03-18
 ---------------------------
 
