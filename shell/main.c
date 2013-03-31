@@ -59,7 +59,6 @@
 
 #include "e-shell.h"
 #include "e-shell-migrate.h"
-#include "e-shell-meego.h"
 #include "es-event.h"
 
 #ifdef G_OS_WIN32

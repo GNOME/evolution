@@ -65,8 +65,6 @@ libeshell_la_SOURCES =				\
 	e-shell-backend.c			\
 	e-shell-content.c			\
 	e-shell-enumtypes.c			\
-	e-shell-meego.c				\
-	e-shell-meego.h				\
 	e-shell-searchbar.c			\
 	e-shell-sidebar.c			\
 	e-shell-switcher.c			\
