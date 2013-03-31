@@ -1950,11 +1950,6 @@ msg_composer_constructed (GObject *object)
 
 	shell = e_msg_composer_get_shell (composer);
 
-	if (e_shell_get_express_mode (shell)) {
-		GtkWindow *parent = e_shell_get_active_window (shell);
-		gtk_window_set_transient_for (GTK_WINDOW (composer), parent);
-	}
-
 	e_composer_private_constructed (composer);
 
 	web_view = e_msg_composer_get_web_view (composer);

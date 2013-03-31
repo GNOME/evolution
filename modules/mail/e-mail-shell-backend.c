@@ -379,10 +379,8 @@ mail_shell_backend_window_added_cb (GtkApplication *application,
 
 		settings = g_settings_new ("org.gnome.evolution.mail");
 
-		/* Express mode does not honor this setting. */
-		if (!e_shell_get_express_mode (shell))
-			active = g_settings_get_boolean (
-				settings, "composer-send-html");
+		active = g_settings_get_boolean (
+			settings, "composer-send-html");
 
 		g_object_unref (settings);
 

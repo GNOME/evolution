@@ -85,15 +85,6 @@ reconnect_folder_loaded_event (EMailReader *child,
 }
 
 static void
-mail_shell_content_view_changed_cb (EMailView *view,
-                                    EMailShellContent *content)
-{
-	g_object_freeze_notify (G_OBJECT (content));
-	g_object_notify (G_OBJECT (content), "group-by-threads");
-	g_object_thaw_notify (G_OBJECT (content));
-}
-
-static void
 mail_shell_content_set_property (GObject *object,
                                  guint property_id,
                                  const GValue *value,
@@ -194,14 +185,7 @@ mail_shell_content_constructed (GObject *object)
 
 	container = GTK_WIDGET (object);
 
-	if (e_shell_get_express_mode (e_shell_get_default ())) {
-		widget = e_mail_notebook_view_new (shell_view);
-		g_signal_connect (
-			widget, "view-changed",
-			G_CALLBACK (mail_shell_content_view_changed_cb),
-			object);
-	} else
-		widget = e_mail_paned_view_new (shell_view);
+	widget = e_mail_paned_view_new (shell_view);
 
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	priv->mail_view = g_object_ref (widget);

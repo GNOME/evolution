@@ -93,10 +93,6 @@ cal_shell_view_constructed (GObject *object)
 
 	e_cal_shell_view_private_constructed (E_CAL_SHELL_VIEW (object));
 
-	/* no search bar in express mode */
-	if (e_shell_get_express_mode (e_shell_get_default ()))
-		return;
-
 	shell_window = e_shell_view_get_shell_window (E_SHELL_VIEW (object));
 	shell_content = e_shell_view_get_shell_content (E_SHELL_VIEW (object));
 	searchbar = e_cal_shell_content_get_searchbar (E_CAL_SHELL_CONTENT (shell_content));
@@ -347,22 +343,6 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	shell = e_shell_window_get_shell (shell_window);
 
-	if (e_shell_get_express_mode (shell)) {
-		GtkWidget *widget;
-
-		/* Hide the New button on the toolbar. */
-		widget = e_shell_window_get_managed_widget (
-			shell_window, "/main-toolbar");
-		widget = (GtkWidget *) gtk_toolbar_get_nth_item (
-			GTK_TOOLBAR (widget), 0);
-		gtk_widget_hide (widget);
-
-		/* Hide the main menu. */
-		widget = e_shell_window_get_managed_widget (
-			shell_window, "/main-menu");
-		gtk_widget_hide (widget);
-	}
-
 	registry = e_shell_get_registry (shell);
 	source = e_source_registry_ref_default_mail_identity (registry);
 	has_mail_identity = (source != NULL);
@@ -555,13 +535,6 @@ cal_shell_view_class_init (ECalShellViewClass *class,
 	shell_view_class->new_shell_sidebar = e_cal_shell_sidebar_new;
 	shell_view_class->execute_search = cal_shell_view_execute_search;
 	shell_view_class->update_actions = cal_shell_view_update_actions;
-
-	/* XXX This is an unusual place to need an EShell instance.
-	 *     Would be cleaner to implement a method that either
-	 *     chains up or does nothing based on express mode. */
-	if (e_shell_get_express_mode (e_shell_get_default ()))
-		shell_view_class->construct_searchbar = NULL;
-
 }
 
 static void

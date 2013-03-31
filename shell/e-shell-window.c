@@ -428,13 +428,11 @@ e_shell_window_get_menu_bar_box (EShellWindow *shell_window)
 static GtkWidget *
 shell_window_construct_toolbar (EShellWindow *shell_window)
 {
-	EShell *shell;
 	GtkUIManager *ui_manager;
 	GtkWidget *toolbar;
 	GtkWidget *box;
 	GtkToolItem *item;
 
-	shell = e_shell_window_get_shell (shell_window);
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
 
 	box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
@@ -490,8 +488,6 @@ shell_window_construct_toolbar (EShellWindow *shell_window)
 	toolbar = e_shell_window_get_managed_widget (
 		shell_window, "/search-toolbar");
 	gtk_toolbar_set_show_arrow (GTK_TOOLBAR (toolbar), FALSE);
-	if (e_shell_get_express_mode (shell))
-		gtk_box_pack_start (GTK_BOX (box), toolbar, FALSE, FALSE, 0);
 
 	toolbar = e_shell_window_get_managed_widget (
 		shell_window, "/close-toolbar");

@@ -317,16 +317,11 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 
 	/* Default Behavior */
 
-	/* Express mode does not honor this setting. */
 	widget = e_builder_get_widget (prefs->builder, "chkSendHTML");
-	if (e_shell_get_express_mode (shell)) {
-		gtk_widget_hide (widget);
-	} else {
-		g_settings_bind (
-			settings, "composer-send-html",
-			widget, "active",
-			G_SETTINGS_BIND_DEFAULT);
-	}
+	g_settings_bind (
+		settings, "composer-send-html",
+		widget, "active",
+		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->builder, "chkPromptEmptySubject");
 	g_settings_bind (
@@ -496,12 +491,10 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 		widget, "editor-created",
 		G_CALLBACK (gtk_application_add_window), shell);
 
-	/* Express mode does not honor this setting. */
-	if (!e_shell_get_express_mode (shell))
-		g_settings_bind (
-			settings, "composer-send-html",
-			widget, "prefer-html",
-			G_SETTINGS_BIND_GET);
+	g_settings_bind (
+		settings, "composer-send-html",
+		widget, "prefer-html",
+		G_SETTINGS_BIND_GET);
 
 	/* get our toplevel widget */
 	target = em_config_target_new_prefs (ec);

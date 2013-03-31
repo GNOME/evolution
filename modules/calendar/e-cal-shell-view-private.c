@@ -555,7 +555,6 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 	EMemoTable *memo_table;
 	ETaskTable *task_table;
 	ESourceSelector *selector;
-	GtkWidget *widget;
 	ECalModel *model;
 	gulong handler_id;
 	gint ii;
@@ -712,13 +711,6 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 	e_cal_shell_view_actions_init (cal_shell_view);
 	e_cal_shell_view_update_sidebar (cal_shell_view);
 	e_cal_shell_view_update_search_filter (cal_shell_view);
-
-	/* Express mode only: Bind the "New Calendar"
-	 * sidebar button to the appropriate action. */
-	widget = e_cal_shell_sidebar_get_new_calendar_button (cal_shell_sidebar);
-	if (widget != NULL)
-		gtk_activatable_set_related_action (
-			GTK_ACTIVATABLE (widget), ACTION (CALENDAR_NEW));
 
 	/* Keep the ECalModel in sync with the sidebar. */
 	g_object_bind_property (

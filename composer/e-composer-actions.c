@@ -116,12 +116,8 @@ action_preferences_cb (GtkAction *action,
 		GTK_WIN_POS_CENTER_ON_PARENT);
 	gtk_window_present (GTK_WINDOW (preferences_window));
 
-	if (e_shell_get_express_mode (shell))
-		e_preferences_window_filter_page (
-			E_PREFERENCES_WINDOW (preferences_window), page_name);
-	else
-		e_preferences_window_show_page (
-			E_PREFERENCES_WINDOW (preferences_window), page_name);
+	e_preferences_window_show_page (
+		E_PREFERENCES_WINDOW (preferences_window), page_name);
 }
 
 static void

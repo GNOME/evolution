@@ -45,7 +45,6 @@ struct _ECalShellSidebarPrivate {
 	GtkWidget *paned;
 	GtkWidget *selector;
 	GtkWidget *date_navigator;
-	GtkWidget *new_calendar_button;
 
 	/* The default client is for ECalModel.  It follows the
 	 * sidebar's primary selection, even if the highlighted
@@ -495,11 +494,6 @@ cal_shell_sidebar_dispose (GObject *object)
 		priv->date_navigator = NULL;
 	}
 
-	if (priv->new_calendar_button != NULL) {
-		g_object_unref (priv->new_calendar_button);
-		priv->new_calendar_button = NULL;
-	}
-
 	if (priv->default_client != NULL) {
 		g_object_unref (priv->default_client);
 		priv->default_client = NULL;
@@ -561,17 +555,6 @@ cal_shell_sidebar_constructed (GObject *object)
 	gtk_widget_show (widget);
 
 	container = widget;
-
-	/* "New Calendar" button is only shown in express mode.
-	 * ECalShellView will bind the button to an appropriate
-	 * GtkAction so we don't have to reimplement it here. */
-	if (e_shell_get_express_mode (shell)) {
-		widget = gtk_button_new ();
-		gtk_box_pack_end (
-			GTK_BOX (container), widget, FALSE, FALSE, 0);
-		priv->new_calendar_button = g_object_ref (widget);
-		gtk_widget_show (widget);
-	}
 
 	widget = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (
@@ -824,15 +807,6 @@ e_cal_shell_sidebar_get_default_client (ECalShellSidebar *cal_shell_sidebar)
 		E_IS_CAL_SHELL_SIDEBAR (cal_shell_sidebar), NULL);
 
 	return (ECalClient *) cal_shell_sidebar->priv->default_client;
-}
-
-GtkWidget *
-e_cal_shell_sidebar_get_new_calendar_button (ECalShellSidebar *cal_shell_sidebar)
-{
-	g_return_val_if_fail (
-		E_IS_CAL_SHELL_SIDEBAR (cal_shell_sidebar), NULL);
-
-	return cal_shell_sidebar->priv->new_calendar_button;
 }
 
 ESourceSelector *

@@ -382,11 +382,6 @@ mail_backend_quit_requested_cb (EShell *shell,
 	if (reason == E_SHELL_QUIT_REMOTE_REQUEST)
 		return;
 
-	/* In express mode, don't raise mail request in non mail window. */
-	if (e_shell_get_express_mode (shell) &&
-		strcmp (e_shell_window_get_active_view ((EShellWindow *) window), "mail") != 0)
-		return;
-
 	if (!e_shell_backend_is_started (mail_shell_backend))
 		return;
 

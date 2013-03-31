@@ -350,48 +350,39 @@ cal_shell_content_constructed (GObject *object)
 
 	/* We borrow the memopad and taskpad models from the memo
 	 * and task views, loading the views if necessary. */
-	if (!e_shell_get_express_mode (shell)) {
-		foreign_view = e_shell_window_get_shell_view (shell_window, "memos");
-		foreign_content = e_shell_view_get_shell_content (foreign_view);
-		g_object_get (foreign_content, "model", &memo_model, NULL);
+	foreign_view = e_shell_window_get_shell_view (shell_window, "memos");
+	foreign_content = e_shell_view_get_shell_content (foreign_view);
+	g_object_get (foreign_content, "model", &memo_model, NULL);
 
-		foreign_view = e_shell_window_get_shell_view (shell_window, "tasks");
-		foreign_content = e_shell_view_get_shell_content (foreign_view);
-		g_object_get (foreign_content, "model", &task_model, NULL);
-	}
+	foreign_view = e_shell_window_get_shell_view (shell_window, "tasks");
+	foreign_content = e_shell_view_get_shell_content (foreign_view);
+	g_object_get (foreign_content, "model", &task_model, NULL);
 
 	/* Build content widgets. */
 
 	container = GTK_WIDGET (object);
 
-	if (!e_shell_get_express_mode (shell)) {
-		widget = e_paned_new (GTK_ORIENTATION_HORIZONTAL);
-		gtk_container_add (GTK_CONTAINER (container), widget);
-		priv->hpaned = g_object_ref (widget);
-		gtk_widget_show (widget);
+	widget = e_paned_new (GTK_ORIENTATION_HORIZONTAL);
+	gtk_container_add (GTK_CONTAINER (container), widget);
+	priv->hpaned = g_object_ref (widget);
+	gtk_widget_show (widget);
 
-		container = priv->hpaned;
-	}
+	container = priv->hpaned;
 
 	widget = gtk_notebook_new ();
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (widget), FALSE);
 	gtk_notebook_set_show_border (GTK_NOTEBOOK (widget), FALSE);
-	if (!e_shell_get_express_mode (shell))
-		gtk_paned_pack1 (GTK_PANED (container), widget, TRUE, FALSE);
-	else
-		gtk_container_add (GTK_CONTAINER (container), widget);
+	gtk_paned_pack1 (GTK_PANED (container), widget, TRUE, FALSE);
 	priv->notebook = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	if (!e_shell_get_express_mode (shell)) {
-		/* FIXME Need to deal with saving and restoring the position.
-		 *       Month view has its own position. */
-		widget = e_paned_new (GTK_ORIENTATION_VERTICAL);
-		e_paned_set_fixed_resize (E_PANED (widget), FALSE);
-		gtk_paned_pack2 (GTK_PANED (container), widget, FALSE, TRUE);
-		priv->vpaned = g_object_ref (widget);
-		gtk_widget_show (widget);
-	}
+	/* FIXME Need to deal with saving and restoring the position.
+	 *       Month view has its own position. */
+	widget = e_paned_new (GTK_ORIENTATION_VERTICAL);
+	e_paned_set_fixed_resize (E_PANED (widget), FALSE);
+	gtk_paned_pack2 (GTK_PANED (container), widget, FALSE, TRUE);
+	priv->vpaned = g_object_ref (widget);
+	gtk_widget_show (widget);
 
 	container = priv->notebook;
 
@@ -418,90 +409,88 @@ cal_shell_content_constructed (GObject *object)
 
 	container = priv->vpaned;
 
-	if (!e_shell_get_express_mode (shell)) {
-		widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-		gtk_paned_pack1 (GTK_PANED (container), widget, TRUE, TRUE);
-		gtk_widget_show (widget);
+	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_paned_pack1 (GTK_PANED (container), widget, TRUE, TRUE);
+	gtk_widget_show (widget);
 
-		container = widget;
+	container = widget;
 
-		widget = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
-		gtk_box_pack_start (GTK_BOX (container), widget, FALSE, TRUE, 0);
-		gtk_widget_show (widget);
+	widget = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, TRUE, 0);
+	gtk_widget_show (widget);
 
-		widget = gtk_label_new (NULL);
-		markup = g_strdup_printf ("<b>%s</b>", _("Tasks"));
-		gtk_label_set_markup (GTK_LABEL (widget), markup);
-		gtk_box_pack_start (GTK_BOX (container), widget, FALSE, TRUE, 0);
-		gtk_widget_show (widget);
-		g_free (markup);
+	widget = gtk_label_new (NULL);
+	markup = g_strdup_printf ("<b>%s</b>", _("Tasks"));
+	gtk_label_set_markup (GTK_LABEL (widget), markup);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, TRUE, 0);
+	gtk_widget_show (widget);
+	g_free (markup);
 
-		widget = gtk_scrolled_window_new (NULL, NULL);
-		gtk_scrolled_window_set_policy (
-			GTK_SCROLLED_WINDOW (widget),
-			GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-		gtk_scrolled_window_set_shadow_type (
-			GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
-		gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
-		gtk_widget_show (widget);
+	widget = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (
+		GTK_SCROLLED_WINDOW (widget),
+		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type (
+		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
+	gtk_widget_show (widget);
 
-		container = widget;
+	container = widget;
 
-		widget = e_task_table_new (shell_view, task_model);
-		gtk_container_add (GTK_CONTAINER (container), widget);
-		priv->task_table = g_object_ref (widget);
-		gtk_widget_show (widget);
+	widget = e_task_table_new (shell_view, task_model);
+	gtk_container_add (GTK_CONTAINER (container), widget);
+	priv->task_table = g_object_ref (widget);
+	gtk_widget_show (widget);
 
-		cal_shell_content_load_table_state (
-			shell_content, E_TABLE (widget));
+	cal_shell_content_load_table_state (
+		shell_content, E_TABLE (widget));
 
-		g_signal_connect_swapped (
-			widget, "open-component",
-			G_CALLBACK (e_cal_shell_view_taskpad_open_task),
-			shell_view);
+	g_signal_connect_swapped (
+		widget, "open-component",
+		G_CALLBACK (e_cal_shell_view_taskpad_open_task),
+		shell_view);
 
-		container = priv->vpaned;
+	container = priv->vpaned;
 
-		widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-		gtk_paned_pack2 (GTK_PANED (container), widget, TRUE, TRUE);
-		gtk_widget_show (widget);
+	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_paned_pack2 (GTK_PANED (container), widget, TRUE, TRUE);
+	gtk_widget_show (widget);
 
-		container = widget;
+	container = widget;
 
-		widget = gtk_label_new (NULL);
-		markup = g_strdup_printf ("<b>%s</b>", _("Memos"));
-		gtk_label_set_markup (GTK_LABEL (widget), markup);
-		gtk_box_pack_start (GTK_BOX (container), widget, FALSE, TRUE, 0);
-		gtk_widget_show (widget);
-		g_free (markup);
+	widget = gtk_label_new (NULL);
+	markup = g_strdup_printf ("<b>%s</b>", _("Memos"));
+	gtk_label_set_markup (GTK_LABEL (widget), markup);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, TRUE, 0);
+	gtk_widget_show (widget);
+	g_free (markup);
 
-		widget = gtk_scrolled_window_new (NULL, NULL);
-		gtk_scrolled_window_set_policy (
-			GTK_SCROLLED_WINDOW (widget),
-			GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-		gtk_scrolled_window_set_shadow_type (
-			GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
-		gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
-		gtk_widget_show (widget);
+	widget = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (
+		GTK_SCROLLED_WINDOW (widget),
+		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type (
+		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
+	gtk_widget_show (widget);
 
-		container = widget;
+	container = widget;
 
-		widget = e_memo_table_new (shell_view, memo_model);
-		gtk_container_add (GTK_CONTAINER (container), widget);
-		priv->memo_table = g_object_ref (widget);
-		gtk_widget_show (widget);
+	widget = e_memo_table_new (shell_view, memo_model);
+	gtk_container_add (GTK_CONTAINER (container), widget);
+	priv->memo_table = g_object_ref (widget);
+	gtk_widget_show (widget);
 
-		cal_shell_content_load_table_state (
-			shell_content, E_TABLE (widget));
+	cal_shell_content_load_table_state (
+		shell_content, E_TABLE (widget));
 
-		e_cal_model_set_default_time_func (
-			memo_model, gc_get_default_time, calendar);
+	e_cal_model_set_default_time_func (
+		memo_model, gc_get_default_time, calendar);
 
-		g_signal_connect_swapped (
-			widget, "open-component",
-			G_CALLBACK (e_cal_shell_view_memopad_open_memo),
-			shell_view);
-	}
+	g_signal_connect_swapped (
+		widget, "open-component",
+		G_CALLBACK (e_cal_shell_view_memopad_open_memo),
+		shell_view);
 
 	/* Load the view instance. */
 
@@ -514,21 +503,19 @@ cal_shell_content_constructed (GObject *object)
 	 *     The GtkWidget::map() callback below explains why. */
 	priv->view_instance = view_instance;
 
-	if (!e_shell_get_express_mode (shell)) {
-		g_signal_connect_swapped (
-			shell_view, "notify::view-id",
-			G_CALLBACK (cal_shell_content_notify_view_id_cb),
-			object);
+	g_signal_connect_swapped (
+		shell_view, "notify::view-id",
+		G_CALLBACK (cal_shell_content_notify_view_id_cb),
+		object);
 
-		settings = g_settings_new ("org.gnome.evolution.calendar");
+	settings = g_settings_new ("org.gnome.evolution.calendar");
 
-		g_settings_bind (
-			settings, "tag-vpane-position",
-			priv->vpaned, "proportion",
-			G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		settings, "tag-vpane-position",
+		priv->vpaned, "proportion",
+		G_SETTINGS_BIND_DEFAULT);
 
-		g_object_unref (settings);
-	}
+	g_object_unref (settings);
 
 	if (memo_model)
 		g_object_unref (memo_model);

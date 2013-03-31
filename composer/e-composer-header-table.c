@@ -269,30 +269,6 @@ skip_custom:
 	return new_destinations;
 }
 
-static gboolean
-from_header_should_be_visible (EComposerHeaderTable *table)
-{
-	EShell *shell;
-	EComposerHeader *header;
-	EComposerHeaderType type;
-	GtkComboBox *combo_box;
-	GtkTreeModel *tree_model;
-
-	shell = e_composer_header_table_get_shell (table);
-
-	/* Always display From in standard mode. */
-	if (!e_shell_get_express_mode (shell))
-		return TRUE;
-
-	type = E_COMPOSER_HEADER_FROM;
-	header = e_composer_header_table_get_header (table, type);
-
-	combo_box = GTK_COMBO_BOX (header->input_widget);
-	tree_model = gtk_combo_box_get_model (combo_box);
-
-	return (gtk_tree_model_iter_n_children (tree_model, NULL) > 1);
-}
-
 static void
 composer_header_table_setup_mail_headers (EComposerHeaderTable *table)
 {
@@ -333,7 +309,7 @@ composer_header_table_setup_mail_headers (EComposerHeaderTable *table)
 		switch (ii) {
 			case E_COMPOSER_HEADER_FROM:
 				sensitive = TRUE;
-				visible = from_header_should_be_visible (table);
+				visible = TRUE;
 				break;
 
 			case E_COMPOSER_HEADER_BCC:

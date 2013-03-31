@@ -629,55 +629,16 @@ shell_view_constructed (GObject *object)
 static GtkWidget *
 shell_view_construct_searchbar (EShellView *shell_view)
 {
-	EShell *shell;
-	EShellWindow *shell_window;
 	EShellContent *shell_content;
-	EShellSearchbar *shell_searchbar;
 	EShellViewClass *shell_view_class;
-	GtkToolItem *item;
-	GtkAction *action;
-	GtkWidget *main_toolbar;
 	GtkWidget *widget;
 
 	shell_content = e_shell_view_get_shell_content (shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
-	shell = e_shell_window_get_shell (shell_window);
 
 	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
 	widget = shell_view_class->new_shell_searchbar (shell_view);
-
-	/* In normal mode, we hand the searchbar off to EShellContent. */
-	if (!e_shell_get_express_mode (shell)) {
-		e_shell_content_set_searchbar (shell_content, widget);
-		gtk_widget_show (widget);
-		return widget;
-	}
-
-	/* Express mode is more complicated.  We append a heavily simplified
-	 * version of it to the main toolbar, but only show it when this shell
-	 * view is active.  So each view still gets its own searchbar. */
-
-	shell_searchbar = E_SHELL_SEARCHBAR (widget);
-	e_shell_searchbar_set_express_mode (shell_searchbar, TRUE);
-
-	/* XXX Hardcoded sizes are evil, but what should the width be
-	 *     relative to.  Window width?  The other toolbar width? */
-	gtk_widget_set_size_request (widget, SIMPLE_SEARCHBAR_WIDTH, -1);
-
-	main_toolbar = e_shell_window_get_managed_widget (
-		shell_window, "/search-toolbar");
-
-	item = gtk_tool_item_new ();
-	gtk_container_add (GTK_CONTAINER (item), widget);
-	gtk_widget_show (GTK_WIDGET (item));
-
-	action = e_shell_view_get_action (shell_view);
-	g_object_bind_property (
-		action, "active",
-		widget, "visible",
-		G_BINDING_SYNC_CREATE);
-
-	gtk_toolbar_insert (GTK_TOOLBAR (main_toolbar), item, -1);
+	e_shell_content_set_searchbar (shell_content, widget);
+	gtk_widget_show (widget);
 
 	return widget;
 }

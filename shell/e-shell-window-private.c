@@ -432,14 +432,10 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 		shell_window, "taskbar-visible",
 		G_SETTINGS_BIND_DEFAULT);
 
-	if (e_shell_get_express_mode (shell)) {
-		e_shell_window_set_switcher_visible (shell_window, FALSE);
-	} else {
-		g_settings_bind (
-			settings, "buttons-visible",
-			shell_window, "switcher-visible",
-			G_SETTINGS_BIND_DEFAULT);
-	}
+	g_settings_bind (
+		settings, "buttons-visible",
+		shell_window, "switcher-visible",
+		G_SETTINGS_BIND_DEFAULT);
 
 	g_settings_bind (
 		settings, "toolbar-visible",

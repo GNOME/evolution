@@ -372,16 +372,10 @@ action_preferences_cb (GtkAction *action,
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
 	shell_backend_class = E_SHELL_BACKEND_GET_CLASS (shell_backend);
 
-	if (shell_backend_class->preferences_page != NULL) {
-		if (e_shell_get_express_mode (shell))
-			e_preferences_window_filter_page (
-				E_PREFERENCES_WINDOW (preferences_window),
-				shell_backend_class->preferences_page);
-		else
-			e_preferences_window_show_page (
-				E_PREFERENCES_WINDOW (preferences_window),
-				shell_backend_class->preferences_page);
-	}
+	if (shell_backend_class->preferences_page != NULL)
+		e_preferences_window_show_page (
+			E_PREFERENCES_WINDOW (preferences_window),
+			shell_backend_class->preferences_page);
 }
 
 /**
@@ -1404,38 +1398,15 @@ e_shell_window_actions_init (EShellWindow *shell_window)
 	g_free (path);
 }
 
-static GList *
-express_filter_new_actions (GList *list)
-{
-	GList *l, *filtered = NULL;
-
-	for (l = list; l; l = l->next) {
-		const gchar *backend_name;
-
-		backend_name = g_object_get_data (
-			G_OBJECT (l->data), "backend-name");
-
-		/* only the addressbook pieces in express mode */
-		if (!strcmp (backend_name, "addressbook"))
-			filtered = g_list_prepend (filtered, l->data);
-	}
-	g_list_free (list);
-
-	return g_list_reverse (filtered);
-}
-
 GtkWidget *
 e_shell_window_create_new_menu (EShellWindow *shell_window)
 {
-	EShell *shell;
 	GtkActionGroup *action_group;
 	GList *new_item_actions;
 	GList *new_source_actions;
 	GList *iter, *list = NULL;
 	GtkWidget *menu;
 	GtkWidget *separator;
-
-	shell = e_shell_window_get_shell (shell_window);
 
 	/* Get sorted lists of "new item" and "new source" actions. */
 
@@ -1463,12 +1434,6 @@ e_shell_window_create_new_menu (EShellWindow *shell_window)
 
 	for (iter = list; iter != NULL; iter = iter->next)
 		iter->data = gtk_action_create_menu_item (iter->data);
-
-	if (e_shell_get_express_mode (shell)) {
-		new_item_actions = express_filter_new_actions (new_item_actions);
-		g_list_free (new_source_actions);
-		new_source_actions = NULL;
-	}
 
 	for (iter = new_item_actions; iter != NULL; iter = iter->next)
 		iter->data = gtk_action_create_menu_item (iter->data);

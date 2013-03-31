@@ -3455,7 +3455,6 @@ void
 em_folder_tree_restore_state (EMFolderTree *folder_tree,
                               GKeyFile *key_file)
 {
-	EShell *shell;
 	EMFolderTreeModel *folder_tree_model;
 	EMailSession *session;
 	GtkTreeModel *tree_model;
@@ -3464,16 +3463,11 @@ em_folder_tree_restore_state (EMFolderTree *folder_tree,
 	gboolean valid;
 	gchar **groups_arr;
 	GSList *groups, *group;
-	gboolean express_mode;
 	gint ii;
 
 	/* Make sure we have a key file to restore state from. */
 	if (key_file == NULL)
 		return;
-
-	/* XXX Pass this in. */
-	shell = e_shell_get_default ();
-	express_mode = e_shell_get_express_mode (shell);
 
 	tree_view = GTK_TREE_VIEW (folder_tree);
 	tree_model = gtk_tree_view_get_model (tree_view);
@@ -3584,8 +3578,6 @@ em_folder_tree_restore_state (EMFolderTree *folder_tree,
 		CamelService *service;
 		const gchar *key = STATE_KEY_EXPANDED;
 		const gchar *uid;
-		gboolean expand_row;
-		gboolean built_in_store;
 		gchar *group_name;
 
 		gtk_tree_model_get (
@@ -3600,17 +3592,7 @@ em_folder_tree_restore_state (EMFolderTree *folder_tree,
 		group_name = g_strdup_printf ("Store %s", uid);
 
 		/* Expand stores that have no "Expanded" key. */
-		expand_row = !g_key_file_has_key (
-			key_file, group_name, key, NULL);
-
-		built_in_store =
-			(g_strcmp0 (uid, E_MAIL_SESSION_LOCAL_UID) == 0) ||
-			(g_strcmp0 (uid, E_MAIL_SESSION_VFOLDER_UID) == 0);
-
-		if (express_mode && built_in_store)
-			expand_row = FALSE;
-
-		if (expand_row) {
+		if (!g_key_file_has_key (key_file, group_name, key, NULL)) {
 			GtkTreePath *path;
 
 			path = gtk_tree_model_get_path (tree_model, &iter);

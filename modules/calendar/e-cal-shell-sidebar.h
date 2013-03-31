@@ -89,8 +89,6 @@ ECalendar *	e_cal_shell_sidebar_get_date_navigator
 					(ECalShellSidebar *cal_shell_sidebar);
 ECalClient *	e_cal_shell_sidebar_get_default_client
 					(ECalShellSidebar *cal_shell_sidebar);
-GtkWidget *	e_cal_shell_sidebar_get_new_calendar_button
-					(ECalShellSidebar *cal_shell_sidebar);
 ESourceSelector *
 		e_cal_shell_sidebar_get_selector
 					(ECalShellSidebar *cal_shell_sidebar);
