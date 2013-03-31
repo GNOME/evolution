@@ -161,7 +161,6 @@ mark-seen = /apps/evolution/mail/display/mark_seen
 mark-seen-timeout = /apps/evolution/mail/display/mark_seen_timeout
 mime-types = /apps/evolution/mail/display/mime_types
 monospace-font = /apps/evolution/mail/display/fonts/monospace
-no-folder-dots = /apps/evolution/mail/display/no_folder_dots
 paned-size = /apps/evolution/mail/display/paned_size
 photo-local = /apps/evolution/mail/display/photo_local
 prompt-check-if-default-mailer = /apps/evolution/mail/prompts/checkdefault
