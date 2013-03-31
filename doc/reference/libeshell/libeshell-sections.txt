@@ -220,7 +220,6 @@ EShellTaskbarPrivate
 <SECTION>
 <FILE>e-shell-utils</FILE>
 <TITLE>Shell Utilities</TITLE>
-e_shell_configure_ui_manager
 e_shell_run_open_dialog
 e_shell_run_save_dialog
 e_shell_utils_import_uris

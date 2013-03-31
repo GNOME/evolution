@@ -554,7 +554,6 @@ mail_browser_constructed (GObject *object)
 	shell = e_shell_backend_get_shell (shell_backend);
 
 	ui_manager = e_ui_manager_new ();
-	e_shell_configure_ui_manager (shell, E_UI_MANAGER (ui_manager));
 
 	browser->priv->ui_manager = ui_manager;
 	domain = GETTEXT_PACKAGE;

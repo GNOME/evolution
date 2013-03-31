@@ -272,7 +272,6 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 	shell = e_shell_window_get_shell (shell_window);
 
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
-	e_shell_configure_ui_manager (shell, E_UI_MANAGER (ui_manager));
 
 	/* Defer actions and menu merging until we have set express mode */
 

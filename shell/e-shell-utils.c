@@ -36,28 +36,6 @@
 #include <libedataserver/libedataserver.h>
 
 /**
- * e_shell_configure_ui_manager:
- * @shell: an #EShell
- * @ui_manager: an #EUIManager
- *
- * Adds shell integration to @ui_manager.  In particular, it keeps
- * @ui_manager's EUIManager:express-mode property synchronized with
- * @shell's EShell:express-mode property.
- **/
-void
-e_shell_configure_ui_manager (EShell *shell,
-                              EUIManager *ui_manager)
-{
-	g_return_if_fail (E_IS_SHELL (shell));
-	g_return_if_fail (E_IS_UI_MANAGER (ui_manager));
-
-	g_object_bind_property (
-		shell, "express-mode",
-		ui_manager, "express-mode",
-		G_BINDING_SYNC_CREATE);
-}
-
-/**
  * e_shell_run_open_dialog:
  * @shell: an #EShell
  * @title: file chooser dialog title
