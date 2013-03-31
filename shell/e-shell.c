@@ -1791,10 +1791,3 @@ e_shell_set_startup_view (EShell *shell,
 	shell->priv->startup_view = g_strdup (view);
 }
 
-const gchar *
-e_shell_get_startup_view (EShell *shell)
-{
-	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
-
-	return shell->priv->startup_view;
-}

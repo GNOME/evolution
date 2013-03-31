@@ -145,7 +145,6 @@ void		e_shell_cancel_quit		(EShell *shell);
 
 void		e_shell_set_startup_view	(EShell *shell,
 						 const gchar *view);
-const gchar *	e_shell_get_startup_view	(EShell *shell);
 
 G_END_DECLS
 

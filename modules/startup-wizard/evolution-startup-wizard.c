@@ -161,22 +161,12 @@ startup_wizard_weak_ref_cb (gpointer data,
 static void
 startup_wizard_run (EStartupWizard *extension)
 {
-	EShell *shell;
 	GtkWidget *window = NULL;
-	const gchar *startup_view;
-	gboolean express_mode;
 
 	/* Accounts should now be loaded if there were any to load.
 	 * Check, and proceed with the Evolution Setup Assistant. */
 
-	shell = startup_wizard_get_shell (extension);
-	express_mode = e_shell_get_express_mode (shell);
-	startup_view = e_shell_get_startup_view (shell);
-
 	if (startup_wizard_have_mail_account (extension))
-		return;
-
-	if (express_mode && g_strcmp0 (startup_view, "mail") != 0)
 		return;
 
 	if (window == NULL) {
