@@ -674,9 +674,6 @@ main (gint argc,
 		e_plugin_load_plugins ();
 	}
 
-	if (requested_view != NULL)
-		e_shell_set_startup_view (shell, requested_view);
-
 	/* Attempt migration -after- loading all modules and plugins,
 	 * as both shell backends and certain plugins hook into this. */
 	e_shell_migrate_attempt (shell);

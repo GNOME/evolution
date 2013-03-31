@@ -62,8 +62,6 @@ struct _EShellPrivate {
 	gchar *geometry;
 	gchar *module_directory;
 
-	gchar *startup_view;
-
 	guint inhibit_cookie;
 
 	gulong backend_died_handler_id;
@@ -652,11 +650,6 @@ shell_dispose (GObject *object)
 		priv->backend_died_handler_id = 0;
 	}
 
-	if (priv->startup_view != NULL) {
-		g_free (priv->startup_view);
-		priv->startup_view = NULL;
-	}
-
 	if (priv->registry != NULL) {
 		g_object_unref (priv->registry);
 		priv->registry = NULL;
@@ -1123,8 +1116,6 @@ e_shell_init (EShell *shell)
 	shell->priv->backends_by_name = backends_by_name;
 	shell->priv->backends_by_scheme = backends_by_scheme;
 	shell->priv->safe_mode = e_file_lock_exists ();
-
-	shell->priv->startup_view = NULL;
 
 	g_object_ref_sink (shell->priv->preferences_window);
 
@@ -1780,14 +1771,5 @@ e_shell_cancel_quit (EShell *shell)
 	shell->priv->quit_cancelled = TRUE;
 
 	g_signal_stop_emission (shell, signals[QUIT_REQUESTED], 0);
-}
-
-void
-e_shell_set_startup_view (EShell *shell,
-                          const gchar *view)
-{
-	g_return_if_fail (E_IS_SHELL (shell));
-
-	shell->priv->startup_view = g_strdup (view);
 }
 

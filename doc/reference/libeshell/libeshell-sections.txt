@@ -26,7 +26,6 @@ e_shell_event
 EShellQuitReason
 e_shell_quit
 e_shell_cancel_quit
-e_shell_set_startup_view
 e_shell_migrate_attempt
 <SUBSECTION Standard>
 E_SHELL

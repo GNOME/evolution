@@ -143,9 +143,6 @@ gboolean	e_shell_quit			(EShell *shell,
 						 EShellQuitReason reason);
 void		e_shell_cancel_quit		(EShell *shell);
 
-void		e_shell_set_startup_view	(EShell *shell,
-						 const gchar *view);
-
 G_END_DECLS
 
 #endif /* E_SHELL_H */
