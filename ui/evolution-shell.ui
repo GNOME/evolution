@@ -2,18 +2,14 @@
   <menubar name='main-menu'>
     <menu action='file-menu'>
       <menu action='new-menu'/>
-#if !EXPRESS
       <menuitem action='new-window'/>
-#endif
       <separator/>
       <placeholder name='mail-send-receiver'/>
       <placeholder name='file-actions'/>
       <separator/>
       <menuitem action='import'/>
-#if !EXPRESS
       <separator/>
       <menuitem action='page-setup'/>
-#endif
       <placeholder name='print-actions'/>
       <separator/>
       <placeholder name='long-running-actions'/>
@@ -45,16 +41,13 @@
         <separator/>
         <menuitem action='gal-define-views'/>
       </menu>
-#if !EXPRESS
       <menu action='window-menu'/>
-#endif
       <menu action='layout-menu'>
         <menuitem action='show-toolbar'/>
         <menuitem action='show-taskbar'/>
         <menuitem action='show-sidebar'/>
       </menu>
       <placeholder name='view-custom-menus'/>
-#if !EXPRESS
       <menu action='switcher-menu'>
         <menuitem action='switcher-style-both'/>
         <menuitem action='switcher-style-icons'/>
@@ -63,7 +56,6 @@
         <separator/>
         <menuitem action='show-switcher'/>
       </menu>
-#endif
     </menu>
     <placeholder name='custom-menus'/>
     <menu action='search-menu'>

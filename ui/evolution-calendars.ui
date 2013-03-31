@@ -6,10 +6,8 @@
         <menuitem action='event-save-as'/>
       </placeholder>
       <placeholder name='print-actions'>
-#if !EXPRESS
         <menuitem action='calendar-print-preview'/>
         <menuitem action='calendar-print'/>
-#endif
       </placeholder>
     </menu>
     <menu action='edit-menu'>
@@ -43,39 +41,23 @@
     </menu>
   </menubar>
   <toolbar name='main-toolbar'>
-#if !EXPRESS
     <toolitem action='calendar-print'/>
     <toolitem action='delete-selection'/>
     <separator/>
-#endif
     <toolitem action='calendar-go-back'/>
     <toolitem action='calendar-go-today'/>
     <toolitem action='calendar-go-forward'/>
-#if !EXPRESS
     <separator/>
     <toolitem action='calendar-jump-to'/>
-#endif
     <separator/>
     <toolitem action='calendar-view-day'/>
     <toolitem action='calendar-view-workweek'/>
-#if !EXPRESS
     <toolitem action='calendar-view-week'/>
-#endif
 
     <toolitem action='calendar-view-month'/>
-#if !EXPRESS
     <toolitem action='calendar-view-list'/>
-#endif
-#if EXPRESS
-    <separator/>
-    <toolitem action='preferences'/>
-#endif
   </toolbar>
   <toolbar name='close-toolbar'>
-#if EXPRESS
-    <separator expand="true"/>
-    <toolitem action='quit-calendar'/>
-#endif
   </toolbar>
   <popup name='calendar-popup'>
     <menuitem action='calendar-new'/>
@@ -93,15 +75,12 @@
     <menuitem action='event-new'/>
     <menuitem action='event-all-day-new'/>
     <menuitem action='event-meeting-new'/>
-#if !EXPRESS
     <menuitem action='task-new'/>
     <separator/>
     <menuitem action='event-popup-print'/>
     <separator/>
-#endif
     <menuitem action='popup-paste-clipboard'/>
     <separator/>
-#if !EXPRESS
     <menu action='gal-view-menu'>
       <menuitem action='calendar-view-day'/>
       <menuitem action='calendar-view-workweek'/>
@@ -113,31 +92,24 @@
     </menu>
     <menuitem action='calendar-popup-go-today'/>
     <menuitem action='calendar-popup-jump-to'/>
-#endif
   </popup>
   <popup name='calendar-event-popup'>
     <menuitem action='event-popup-open'/>
     <menuitem action='event-popup-save-as'/>
-#if !EXPRESS
     <menuitem action='event-popup-print'/>
-#endif
     <separator/>
     <menuitem action='popup-cut-clipboard'/>
     <menuitem action='popup-copy-clipboard'/>
     <menuitem action='popup-paste-clipboard'/>
-#if !EXPRESS
     <separator/>
     <menuitem action='event-popup-copy'/>
     <menuitem action='event-popup-move'/>
-#endif
     <menuitem action='event-popup-delegate'/>
     <menuitem action='event-popup-schedule'/>
     <menuitem action='event-popup-schedule-appointment'/>
-#if !EXPRESS
     <menuitem action='event-popup-forward'/>
     <menuitem action='event-popup-reply'/>
     <menuitem action='event-popup-reply-all'/>
-#endif
     <separator/>
     <menuitem action='event-popup-occurrence-movable'/>
     <menuitem action='event-popup-delete'/>
@@ -152,9 +124,7 @@
     <menuitem action='calendar-memopad-open'/>
     <menuitem action='calendar-memopad-open-url'/>
     <menuitem action='calendar-memopad-save-as'/>
-#if !EXPRESS
     <menuitem action='calendar-memopad-print'/>
-#endif
     <separator/>
     <menuitem action='popup-cut-clipboard'/>
     <menuitem action='popup-copy-clipboard'/>
@@ -170,9 +140,7 @@
     <menuitem action='calendar-taskpad-open'/>
     <menuitem action='calendar-taskpad-open-url'/>
     <menuitem action='calendar-taskpad-save-as'/>
-#if !EXPRESS
     <menuitem action='calendar-taskpad-print'/>
-#endif
     <separator/>
     <menuitem action='popup-cut-clipboard'/>
     <menuitem action='popup-copy-clipboard'/>

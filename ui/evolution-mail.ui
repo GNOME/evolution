@@ -17,14 +17,12 @@
     </menu>
     <menu action='view-menu'>
       <placeholder name='view-custom-menus'>
-#if !EXPRESS
         <menu action='mail-preview-menu'>
           <menuitem action='mail-preview'/>
           <separator/>
           <menuitem action='mail-view-classic'/>
           <menuitem action='mail-view-vertical'/>
         </menu>
-#endif
       </placeholder>
       <separator/>
       <placeholder name='mail-message-list-actions'>
@@ -66,20 +64,11 @@
     <placeholder name='toolbar-actions'>
       <placeholder name='mail-send-receiver'/>
       <separator/>
-#if EXPRESS
-      <toolitem action='new-addressbook-window'/>
-#endif
     </placeholder>
     <placeholder name='mail-toolbar-common'/>
-#if !EXPRESS
     <toolitem action='mail-stop'/>
-#endif
     <separator/>
     <placeholder name='mail-toolbar-navigation'/>
-#if EXPRESS
-    <separator/>
-    <toolitem action='preferences'/>
-#endif
   </toolbar>
   <popup name='mail-folder-popup'>
     <placeholder name='mail-folder-popup-actions'/>

@@ -25,10 +25,8 @@
       <separator/>
       <placeholder name='mail-message-view-actions'>
         <menuitem action='mail-load-images'/>
-#if !EXPRESS
         <menuitem action='mail-show-all-headers'/>
         <menuitem action='mail-caret-mode'/>
-#endif
         <menuitem action='mail-show-source'/>
         <menu action='mail-zoom-menu'>
           <menuitem action='mail-zoom-in'/>
@@ -135,19 +133,15 @@
         </menu>
       </toolitem>
       <separator/>
-#if !EXPRESS
       <toolitem action='mail-print'/>
-#endif
       <toolitem action='mail-delete'/>
       <toolitem action='mail-mark-junk'/>
       <toolitem action='mail-mark-notjunk'/>
     </placeholder>
     <separator/>
     <placeholder name='mail-toolbar-navigation'>
-#if !EXPRESS
       <toolitem action='mail-previous'/>
       <toolitem action='mail-next'/>
-#endif
     </placeholder>
   </toolbar>
   <popup name='mail-message-popup'>

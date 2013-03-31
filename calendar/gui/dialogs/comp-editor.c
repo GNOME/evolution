@@ -178,15 +178,9 @@ static const gchar *ui =
 "  <toolbar name='main-toolbar'>"
 "    <toolitem action='save-and-close'/>\n"
 "    <toolitem action='save'/>\n"
-"#if !EXPRESS\n"
 "    <toolitem action='print'/>\n"
-"#endif\n"
 "    <separator/>"
 "    <placeholder name='content'/>\n"
-"#if EXPRESS\n"
-"    <separator expand='true'/>\n"
-"    <toolitem action='close'/>\n"
-"#endif\n"
 "  </toolbar>"
 "</ui>";
 

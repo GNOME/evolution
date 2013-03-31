@@ -7,7 +7,6 @@
     <hook class="org.gnome.evolution.ui:1.0">
       <ui-manager id="org.gnome.evolution.mail.browser"
                   callback="mail_browser_init">
-#if !EXPRESS
         <menubar name="main-menu">
           <placeholder name="custom-menus">
             <menu action="mail-message-menu">
@@ -30,11 +29,9 @@
             <menuitem action="mail-convert-to-memo"/>
           </placeholder>
         </popup>
-#endif
       </ui-manager>
       <ui-manager id="org.gnome.evolution.mail"
                   callback="mail_shell_view_init">
-#if !EXPRESS
         <menubar name="main-menu">
           <placeholder name="custom-menus">
             <menu action="mail-message-menu">
@@ -68,7 +65,6 @@
           </placeholder>
         </popup>
       </ui-manager>
-#endif
     </hook>
 
   </e-plugin>

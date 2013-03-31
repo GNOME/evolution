@@ -7,10 +7,8 @@
         <menuitem action='address-book-save-as'/>
       </placeholder>
       <placeholder name='print-actions'>
-#if !EXPRESS
         <menuitem action='address-book-print-preview'/>
         <menuitem action='address-book-print'/>
-#endif
       </placeholder>
     </menu>
     <menu action='edit-menu'>
@@ -54,9 +52,7 @@
     </placeholder>
   </menubar>
   <toolbar name='main-toolbar'>
-#if !EXPRESS
     <toolitem action='address-book-print'/>
-#endif
     <toolitem action='delete-selection'/>
     <toolitem action='address-book-stop'/>
   </toolbar>
@@ -79,9 +75,7 @@
     <separator/>
     <menuitem action='contact-popup-open'/>
     <menuitem action='contact-popup-save-as'/>
-#if !EXPRESS
     <menuitem action='contact-popup-print'/>
-#endif
     <separator/>
     <menuitem action='popup-cut-clipboard'/>
     <menuitem action='popup-copy-clipboard'/>
