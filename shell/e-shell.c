@@ -77,7 +77,6 @@ struct _EShellPrivate {
 	guint online			: 1;
 	guint quit_cancelled		: 1;
 	guint safe_mode			: 1;
-	guint small_screen_mode		: 1;
 };
 
 enum {
@@ -85,7 +84,6 @@ enum {
 	PROP_CLIENT_CACHE,
 	PROP_EXPRESS_MODE,
 	PROP_MEEGO_MODE,
-	PROP_SMALL_SCREEN_MODE,
 	PROP_GEOMETRY,
 	PROP_MODULE_DIRECTORY,
 	PROP_NETWORK_AVAILABLE,
@@ -531,13 +529,6 @@ shell_set_meego_mode (EShell *shell,
 }
 
 static void
-shell_set_small_screen_mode (EShell *shell,
-                             gboolean small_screen)
-{
-	shell->priv->small_screen_mode = small_screen;
-}
-
-static void
 shell_set_geometry (EShell *shell,
                     const gchar *geometry)
 {
@@ -570,12 +561,6 @@ shell_set_property (GObject *object,
 
 		case PROP_MEEGO_MODE:
 			shell_set_meego_mode (
-				E_SHELL (object),
-				g_value_get_boolean (value));
-			return;
-
-		case PROP_SMALL_SCREEN_MODE:
-			shell_set_small_screen_mode (
 				E_SHELL (object),
 				g_value_get_boolean (value));
 			return;
@@ -630,12 +615,6 @@ shell_get_property (GObject *object,
 		case PROP_MEEGO_MODE:
 			g_value_set_boolean (
 				value, e_shell_get_meego_mode (
-				E_SHELL (object)));
-			return;
-
-		case PROP_SMALL_SCREEN_MODE:
-			g_value_set_boolean (
-				value, e_shell_get_small_screen_mode (
 				E_SHELL (object)));
 			return;
 
@@ -932,23 +911,6 @@ e_shell_class_init (EShellClass *class)
 			"meego-mode",
 			"Meego Mode",
 			"Whether meego mode is enabled",
-			FALSE,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
-
-	/**
-	 * EShell:small-screen
-	 *
-	 * Are we running with a small (1024x600) screen - if so, start
-	 * throwing the babies overboard to fit onto that screen size.
-	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_SMALL_SCREEN_MODE,
-		g_param_spec_boolean (
-			"small-screen-mode",
-			"Small Screen Mode",
-			"Whether we run on a rather small screen",
 			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
@@ -1635,22 +1597,6 @@ e_shell_get_meego_mode (EShell *shell)
 }
 
 /**
- * e_shell_get_small_screen_mode:
- * @shell: an #EShell
- *
- * Returns %TRUE if Evolution is in small (netbook) screen mode.
- *
- * Returns: %TRUE if Evolution is in small screen mode
- **/
-gboolean
-e_shell_get_small_screen_mode (EShell *shell)
-{
-	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
-
-	return shell->priv->small_screen_mode;
-}
-
-/**
  * e_shell_get_module_directory:
  * @shell: an #EShell
  *
@@ -1911,8 +1857,7 @@ e_shell_adapt_window_size (EShell *shell,
 	GdkWindow *gdk_window;
 	gint monitor;
 
-	if (!e_shell_get_meego_mode (shell) ||
-	    !e_shell_get_small_screen_mode (shell))
+	if (!e_shell_get_meego_mode (shell) || TRUE)
 		return;
 
 	screen = gdk_screen_get_default ();

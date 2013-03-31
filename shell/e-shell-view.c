@@ -679,28 +679,6 @@ shell_view_construct_searchbar (EShellView *shell_view)
 
 	gtk_toolbar_insert (GTK_TOOLBAR (main_toolbar), item, -1);
 
-	if (e_shell_get_small_screen_mode (shell)) {
-		GtkWidget *image;
-		GtkWidget *container;
-		GtkAction *action;
-		GtkToolItem *item;
-
-		action = e_shell_window_get_action (
-			shell_window, "close-window");
-		image = gtk_image_new_from_icon_name (
-			"window-close-hover", GTK_ICON_SIZE_DIALOG);
-		item = gtk_tool_button_new (
-			image, gtk_action_get_label (action));
-		gtk_widget_set_name (GTK_WIDGET (item), "MeeGoCloseButton");
-		gtk_activatable_set_related_action (
-			GTK_ACTIVATABLE (item), action);
-		container = e_shell_window_get_menu_bar_box (shell_window);
-		gtk_box_pack_start (
-			GTK_BOX (container),
-			GTK_WIDGET (item), FALSE, FALSE, 0);
-		gtk_widget_show_all (GTK_WIDGET (item));
-	}
-
 	return widget;
 }
 

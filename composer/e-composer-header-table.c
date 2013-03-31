@@ -160,17 +160,9 @@ static void
 composer_header_table_notify_widget (GtkWidget *widget,
                                      const gchar *property_name)
 {
-	EShell *shell;
 	GtkWidget *parent;
 
-	/* FIXME Pass this in somehow. */
-	shell = e_shell_get_default ();
-
-	if (e_shell_get_small_screen_mode (shell)) {
-		parent = gtk_widget_get_parent (widget);
-		parent = g_object_get_data (G_OBJECT (parent), "pdata");
-	} else
-		parent = gtk_widget_get_parent (widget);
+	parent = gtk_widget_get_parent (widget);
 	g_return_if_fail (E_IS_COMPOSER_HEADER_TABLE (parent));
 	g_object_notify (G_OBJECT (parent), property_name);
 }
@@ -818,7 +810,6 @@ composer_header_table_constructed (GObject *object)
 	EShell *shell;
 	guint ii;
 	gint row_padding;
-	gboolean small_screen_mode;
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_composer_header_table_parent_class)->
@@ -828,8 +819,6 @@ composer_header_table_constructed (GObject *object)
 	shell = e_composer_header_table_get_shell (table);
 	client_cache = e_shell_get_client_cache (shell);
 	registry = e_composer_header_table_get_registry (table);
-
-	small_screen_mode = e_shell_get_small_screen_mode (shell);
 
 	name_selector = e_name_selector_new (client_cache);
 	table->priv->name_selector = name_selector;
@@ -883,8 +872,7 @@ composer_header_table_constructed (GObject *object)
 	/* Use "ypadding" instead of "row-spacing" because some rows may
 	 * be invisible and we don't want spacing around them. */
 
-	/* For small screens, pack the table's rows closely together. */
-	row_padding = small_screen_mode ? 0 : 3;
+	row_padding = 3;
 
 	for (ii = 0; ii < G_N_ELEMENTS (table->priv->headers); ii++) {
 		gtk_table_attach (
@@ -916,32 +904,14 @@ composer_header_table_constructed (GObject *object)
 		G_BINDING_SYNC_CREATE);
 
 	/* Now add the signature stuff. */
-	if (!small_screen_mode) {
-		gtk_table_attach (
-			GTK_TABLE (object),
-			table->priv->signature_label,
-			2, 3, ii, ii + 1, 0, 0, 0, row_padding);
-		gtk_table_attach (
-			GTK_TABLE (object),
-			table->priv->signature_combo_box,
-			3, 4, ii, ii + 1, 0, 0, 0, row_padding);
-	} else {
-		GtkWidget *box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
-
-		gtk_box_pack_start (
-			GTK_BOX (box),
-			table->priv->signature_label,
-			FALSE, FALSE, 4);
-		gtk_box_pack_end (
-			GTK_BOX (box),
-			table->priv->signature_combo_box,
-			TRUE, TRUE, 0);
-		g_object_set_data (G_OBJECT (box), "pdata", object);
-		gtk_table_attach (
-			GTK_TABLE (object), box,
-			3, 4, ii, ii + 1, GTK_FILL, 0, 0, row_padding);
-		gtk_widget_hide (box);
-	}
+	gtk_table_attach (
+		GTK_TABLE (object),
+		table->priv->signature_label,
+		2, 3, ii, ii + 1, 0, 0, 0, row_padding);
+	gtk_table_attach (
+		GTK_TABLE (object),
+		table->priv->signature_combo_box,
+		3, 4, ii, ii + 1, 0, 0, 0, row_padding);
 
 	/* Initialize the headers. */
 	composer_header_table_from_changed_cb (table);

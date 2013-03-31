@@ -151,7 +151,6 @@ e_composer_private_constructed (EMsgComposer *composer)
 	GtkWindow *window;
 	GSettings *settings;
 	const gchar *path;
-	gboolean small_screen_mode;
 	gchar *filename, *gallery_path;
 	gint ii;
 	GError *error = NULL;
@@ -164,28 +163,6 @@ e_composer_private_constructed (EMsgComposer *composer)
 	shell = e_msg_composer_get_shell (composer);
 	registry = e_shell_get_registry (shell);
 	web_view = e_msg_composer_get_web_view (composer);
-	small_screen_mode = e_shell_get_small_screen_mode (shell);
-
-	if (small_screen_mode) {
-#if 0
-		/* In the lite composer, for small screens, we are not
-		 * ready yet to hide the menubar.  It still has useful
-		 * items like the ones to show/hide the various header
-		 * fields, plus the security options.
-		 *
-		 * When we move those options out of the menu and into
-		 * the composer's toplevel, we can probably get rid of
-		 * the menu.
-		 */
-		widget = gtkhtml_editor_get_managed_widget (editor, "/main-menu");
-		gtk_widget_hide (widget);
-#endif
-		widget = gtkhtml_editor_get_managed_widget (editor, "/main-toolbar");
-		gtk_toolbar_set_style (
-			GTK_TOOLBAR (widget), GTK_TOOLBAR_BOTH_HORIZ);
-		gtk_widget_hide (widget);
-
-	}
 
 	/* Each composer window gets its own window group. */
 	window = GTK_WINDOW (composer);
@@ -271,10 +248,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 	widget = e_composer_header_table_new (shell, registry);
 	gtk_container_set_border_width (GTK_CONTAINER (widget), 6);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	if (small_screen_mode)
-		gtk_box_reorder_child (GTK_BOX (container), widget, 1);
-	else
-		gtk_box_reorder_child (GTK_BOX (container), widget, 2);
+	gtk_box_reorder_child (GTK_BOX (container), widget, 2);
 	priv->header_table = g_object_ref (widget);
 	gtk_widget_show (widget);
 
@@ -283,12 +257,6 @@ e_composer_private_constructed (EMsgComposer *composer)
 		G_CALLBACK (composer_spell_languages_changed), NULL);
 
 	/* Construct the attachment paned. */
-
-	if (small_screen_mode) {
-		/* Short attachment bar for Anjal. */
-		e_attachment_paned_set_default_height (75);
-		e_attachment_icon_view_set_default_icon_size (GTK_ICON_SIZE_BUTTON);
-	}
 
 	widget = e_attachment_paned_new ();
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
@@ -299,61 +267,6 @@ e_composer_private_constructed (EMsgComposer *composer)
 		web_view, "editable",
 		widget, "editable",
 		G_BINDING_SYNC_CREATE);
-
-	if (small_screen_mode) {
-		GtkWidget *tmp, *tmp1, *tmp_box, *container;
-		GtkWidget *combo;
-
-		combo = e_attachment_paned_get_view_combo (
-			E_ATTACHMENT_PANED (widget));
-		gtk_widget_hide (combo);
-		container = e_attachment_paned_get_controls_container (
-			E_ATTACHMENT_PANED (widget));
-
-		tmp_box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
-
-		tmp = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
-		tmp1 = gtk_image_new_from_icon_name (
-			"mail-send", GTK_ICON_SIZE_BUTTON);
-		gtk_box_pack_start ((GtkBox *) tmp, tmp1, FALSE, FALSE, 0);
-		tmp1 = gtk_label_new_with_mnemonic (_("S_end"));
-		gtk_box_pack_start ((GtkBox *) tmp, tmp1, FALSE, FALSE, 6);
-		gtk_widget_show_all (tmp);
-		gtk_widget_reparent (send_widget, tmp_box);
-		gtk_box_set_child_packing (
-			GTK_BOX (tmp_box), send_widget,
-			FALSE, FALSE, 6, GTK_PACK_END);
-		gtk_tool_item_set_is_important (GTK_TOOL_ITEM (send_widget), TRUE);
-		send_widget = gtk_bin_get_child ((GtkBin *) send_widget);
-		gtk_container_remove (
-			GTK_CONTAINER (send_widget),
-			gtk_bin_get_child (GTK_BIN (send_widget)));
-		gtk_container_add ((GtkContainer *) send_widget, tmp);
-		gtk_button_set_relief ((GtkButton *) send_widget, GTK_RELIEF_NORMAL);
-		path = "/main-toolbar/pre-main-toolbar/save-draft";
-		send_widget = gtk_ui_manager_get_widget (ui_manager, path);
-		tmp = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
-		tmp1 = gtk_image_new_from_stock (
-			GTK_STOCK_SAVE, GTK_ICON_SIZE_BUTTON);
-		gtk_box_pack_start ((GtkBox *) tmp, tmp1, FALSE, FALSE, 0);
-		tmp1 = gtk_label_new_with_mnemonic (_("Save draft"));
-		gtk_box_pack_start ((GtkBox *) tmp, tmp1, FALSE, FALSE, 3);
-		gtk_widget_show_all (tmp);
-		gtk_widget_reparent (send_widget, tmp_box);
-		gtk_box_set_child_packing (
-			GTK_BOX (tmp_box), send_widget,
-			FALSE, FALSE, 6, GTK_PACK_END);
-		gtk_tool_item_set_is_important (GTK_TOOL_ITEM (send_widget), TRUE);
-		send_widget = gtk_bin_get_child ((GtkBin *) send_widget);
-		gtk_container_remove (
-			GTK_CONTAINER (send_widget),
-			gtk_bin_get_child (GTK_BIN (send_widget)));
-		gtk_container_add ((GtkContainer *) send_widget, tmp);
-		gtk_button_set_relief ((GtkButton *) send_widget, GTK_RELIEF_NORMAL);
-
-		gtk_widget_show (tmp_box);
-		gtk_box_pack_end (GTK_BOX (container), tmp_box, FALSE, FALSE, 3);
-	}
 
 	container = e_attachment_paned_get_content_area (
 		E_ATTACHMENT_PANED (priv->attachment_paned));

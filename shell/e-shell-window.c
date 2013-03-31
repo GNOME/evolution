@@ -399,10 +399,6 @@ shell_window_constructed (GObject *object)
 
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
 
-	if (e_shell_get_meego_mode (shell_window->priv->shell) &&
-	    e_shell_get_small_screen_mode (shell_window->priv->shell))
-		gtk_window_set_decorated (GTK_WINDOW (object), FALSE);
-
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_shell_window_parent_class)->constructed (object);
 }
@@ -415,27 +411,6 @@ shell_window_construct_menubar (EShellWindow *shell_window)
 	main_menu = e_shell_window_get_managed_widget (
 		shell_window, "/main-menu");
 	gtk_widget_show (main_menu);
-
-	if (e_shell_get_small_screen_mode (shell_window->priv->shell)) {
-		GtkWidget *parent, *child;
-
-		parent = gtk_widget_get_parent (main_menu);
-		g_object_ref (parent);
-		gtk_container_remove ((GtkContainer *) parent, main_menu);
-		child = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
-		gtk_box_pack_start ((GtkBox *) child, main_menu, TRUE, TRUE, 0);
-		gtk_widget_show (child);
-		gtk_container_add ((GtkContainer *) parent, child);
-		shell_window->priv->menubar_box = child;
-
-		g_object_bind_property (
-			main_menu, "visible",
-			child, "visible",
-			G_BINDING_BIDIRECTIONAL |
-			G_BINDING_SYNC_CREATE);
-
-		main_menu = child;
-	}
 
 	g_signal_connect (
 		shell_window, "notify::active-view",
