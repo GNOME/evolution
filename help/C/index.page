@@ -21,8 +21,8 @@
   </info>
 
 <title>
-  <media type="image" src="figures/evolutionlogo.png">
-    Evolution logo
+  <media type="image" src="figures/evolutionlogo.png" its:translate="no">
+    <span its:translate="yes">Evolution logo</span>
   </media>
   Evolution Mail and Calendar
 </title>
