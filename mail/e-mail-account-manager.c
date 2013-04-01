@@ -30,6 +30,7 @@
 	((obj), E_TYPE_MAIL_ACCOUNT_MANAGER, EMailAccountManagerPrivate))
 
 #define DEFAULT_ORDER_RESPONSE GTK_RESPONSE_APPLY
+#define OPEN_ONLINE_ACCOUNTS_RESPONSE GTK_RESPONSE_APPLY
 
 struct _EMailAccountManagerPrivate {
 	EMailAccountStore *store;
@@ -40,6 +41,12 @@ struct _EMailAccountManagerPrivate {
 	GtkWidget *edit_button;		/* not referenced */
 	GtkWidget *delete_button;	/* not referenced */
 	GtkWidget *default_button;	/* not referenced */
+	GtkWidget *goa_message;		/* not referenced */
+	GtkWidget *uoa_message;		/* not referenced */
+
+	gchar *gcc_program_path;
+	gchar *goa_account_id;
+	guint uoa_account_id;
 };
 
 enum {
@@ -59,6 +66,175 @@ G_DEFINE_TYPE (
 	EMailAccountManager,
 	e_mail_account_manager,
 	GTK_TYPE_GRID)
+
+static void
+mail_account_manager_open_goa_cb (GtkInfoBar *info_bar,
+                                  gint response_id,
+                                  EMailAccountManager *manager)
+{
+	if (response_id == OPEN_ONLINE_ACCOUNTS_RESPONSE) {
+		gchar *command_line;
+		GError *error = NULL;
+
+		g_return_if_fail (manager->priv->gcc_program_path != NULL);
+		g_return_if_fail (manager->priv->goa_account_id != NULL);
+
+		command_line = g_strjoin (
+			" ",
+			manager->priv->gcc_program_path,
+			"online-accounts",
+			manager->priv->goa_account_id,
+			NULL);
+		g_spawn_command_line_async (command_line, &error);
+		g_free (command_line);
+
+		if (error != NULL) {
+			g_warning ("%s: %s", G_STRFUNC, error->message);
+			g_error_free (error);
+		}
+	}
+}
+
+static GtkWidget *
+mail_account_manager_build_goa_message (EMailAccountManager *manager)
+{
+	GtkWidget *frame;
+	GtkWidget *widget;
+	GtkWidget *container;
+
+	frame = gtk_frame_new (NULL);
+	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_IN);
+
+	container = frame;
+
+	widget = gtk_info_bar_new ();
+	gtk_info_bar_set_message_type (
+		GTK_INFO_BAR (widget), GTK_MESSAGE_INFO);
+	if (manager->priv->gcc_program_path != NULL)
+		gtk_info_bar_add_button (
+			GTK_INFO_BAR (widget),
+			_("Open _Online Accounts"),
+			OPEN_ONLINE_ACCOUNTS_RESPONSE);
+	gtk_container_add (GTK_CONTAINER (container), widget);
+	gtk_widget_show (widget);
+
+	g_signal_connect (
+		widget, "response",
+		G_CALLBACK (mail_account_manager_open_goa_cb),
+		manager);
+
+	container = gtk_info_bar_get_content_area (GTK_INFO_BAR (widget));
+
+	/* Set spacing to 8 to match the default value
+	 * of the "content-area-border" style property. */
+	gtk_box_set_spacing (GTK_BOX (container), 8);
+
+	gtk_orientable_set_orientation (
+		GTK_ORIENTABLE (container), GTK_ORIENTATION_HORIZONTAL);
+
+	/* Icon is provided by gnome-control-center-data. */
+	widget = gtk_image_new_from_icon_name (
+		"goa-panel", GTK_ICON_SIZE_DIALOG);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	widget = gtk_label_new (
+		_("This account was created through "
+		"the Online Accounts service."));
+	gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
+	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
+	gtk_widget_show (widget);
+
+	return frame;
+}
+
+static void
+mail_account_manager_open_uoa_cb (GtkInfoBar *info_bar,
+                                  gint response_id,
+                                  EMailAccountManager *manager)
+{
+	if (response_id == OPEN_ONLINE_ACCOUNTS_RESPONSE) {
+		gchar *account_details;
+		gchar *command_line;
+		GError *error = NULL;
+
+		g_return_if_fail (manager->priv->gcc_program_path != NULL);
+		g_return_if_fail (manager->priv->uoa_account_id > 0);
+
+		account_details = g_strdup_printf (
+			"account-details=%u",
+			manager->priv->uoa_account_id);
+		command_line = g_strjoin (
+			" ",
+			manager->priv->gcc_program_path,
+			"credentials",
+			account_details,
+			NULL);
+		g_spawn_command_line_async (command_line, &error);
+		g_free (command_line);
+		g_free (account_details);
+
+		if (error != NULL) {
+			g_warning ("%s: %s", G_STRFUNC, error->message);
+			g_error_free (error);
+		}
+	}
+}
+
+static GtkWidget *
+mail_account_manager_build_uoa_message (EMailAccountManager *manager)
+{
+	GtkWidget *frame;
+	GtkWidget *widget;
+	GtkWidget *container;
+
+	frame = gtk_frame_new (NULL);
+	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_IN);
+
+	container = frame;
+
+	widget = gtk_info_bar_new ();
+	gtk_info_bar_set_message_type (
+		GTK_INFO_BAR (widget), GTK_MESSAGE_INFO);
+	if (manager->priv->gcc_program_path != NULL)
+		gtk_info_bar_add_button (
+			GTK_INFO_BAR (widget),
+			_("Open _Online Accounts"),
+			OPEN_ONLINE_ACCOUNTS_RESPONSE);
+	gtk_container_add (GTK_CONTAINER (container), widget);
+	gtk_widget_show (widget);
+
+	g_signal_connect (
+		widget, "response",
+		G_CALLBACK (mail_account_manager_open_uoa_cb),
+		manager);
+
+	container = gtk_info_bar_get_content_area (GTK_INFO_BAR (widget));
+
+	/* Set spacing to 8 to match the default value
+	 * of the "content-area-border" style property. */
+	gtk_box_set_spacing (GTK_BOX (container), 8);
+
+	gtk_orientable_set_orientation (
+		GTK_ORIENTABLE (container), GTK_ORIENTATION_HORIZONTAL);
+
+	/* Icon is provided by gnome-control-center-signon. */
+	widget = gtk_image_new_from_icon_name (
+		"credentials-preferences", GTK_ICON_SIZE_DIALOG);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	widget = gtk_label_new (
+		_("This account was created through "
+		"the Online Accounts service."));
+	gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
+	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
+	gtk_widget_show (widget);
+
+	return frame;
+}
 
 static void
 mail_account_manager_add_cb (EMailAccountManager *manager)
@@ -229,8 +405,11 @@ mail_account_manager_selection_changed_cb (EMailAccountManager *manager,
 	GtkWidget *edit_button;
 	GtkWidget *delete_button;
 	GtkWidget *default_button;
+	GtkWidget *goa_message;
+	GtkWidget *uoa_message;
 	gboolean builtin;
 	gboolean sensitive;
+	gboolean visible;
 	gboolean not_default;
 	gboolean removable;
 
@@ -238,6 +417,12 @@ mail_account_manager_selection_changed_cb (EMailAccountManager *manager,
 	edit_button = manager->priv->edit_button;
 	delete_button = manager->priv->delete_button;
 	default_button = manager->priv->default_button;
+	goa_message = manager->priv->goa_message;
+	uoa_message = manager->priv->uoa_message;
+
+	g_free (manager->priv->goa_account_id);
+	manager->priv->goa_account_id = NULL;
+	manager->priv->uoa_account_id = 0;
 
 	if (gtk_tree_selection_get_selected (selection, &tree_model, &iter)) {
 		gtk_tree_model_get (
@@ -284,6 +469,26 @@ mail_account_manager_selection_changed_cb (EMailAccountManager *manager,
 
 			removable = e_source_get_removable (source);
 
+			extension_name = E_SOURCE_EXTENSION_GOA;
+			if (e_source_has_extension (source, extension_name)) {
+				ESourceGoa *extension;
+
+				extension = e_source_get_extension (
+					source, extension_name);
+				manager->priv->goa_account_id =
+					e_source_goa_dup_account_id (extension);
+			}
+
+			extension_name = E_SOURCE_EXTENSION_UOA;
+			if (e_source_has_extension (source, extension_name)) {
+				ESourceUoa *extension;
+
+				extension = e_source_get_extension (
+					source, extension_name);
+				manager->priv->uoa_account_id =
+					e_source_uoa_get_account_id (extension);
+			}
+
 			g_object_unref (source);
 		}
 	}
@@ -296,6 +501,12 @@ mail_account_manager_selection_changed_cb (EMailAccountManager *manager,
 
 	sensitive = (service != NULL && !builtin && not_default);
 	gtk_widget_set_sensitive (default_button, sensitive);
+
+	visible = (manager->priv->goa_account_id != NULL);
+	gtk_widget_set_visible (goa_message, visible);
+
+	visible = (manager->priv->uoa_account_id > 0);
+	gtk_widget_set_visible (uoa_message, visible);
 }
 
 static void
@@ -359,6 +570,20 @@ mail_account_manager_dispose (GObject *object)
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_account_manager_parent_class)->dispose (object);
+}
+
+static void
+mail_account_manager_finalize (GObject *object)
+{
+	EMailAccountManagerPrivate *priv;
+
+	priv = E_MAIL_ACCOUNT_MANAGER_GET_PRIVATE (object);
+
+	g_free (priv->gcc_program_path);
+	g_free (priv->goa_account_id);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (e_mail_account_manager_parent_class)->finalize (object);
 }
 
 static void
@@ -440,10 +665,19 @@ mail_account_manager_constructed (GObject *object)
 
 	container = GTK_WIDGET (manager);
 
-	widget = gtk_frame_new (NULL);
-	gtk_frame_set_shadow_type (
-		GTK_FRAME (widget), GTK_SHADOW_IN);
+	widget = mail_account_manager_build_goa_message (manager);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 1, 1, 1);
+	manager->priv->goa_message = widget;  /* not referenced */
+	gtk_widget_show (widget);
+
+	widget = mail_account_manager_build_uoa_message (manager);
+	gtk_grid_attach (GTK_GRID (container), widget, 0, 2, 1, 1);
+	manager->priv->uoa_message = widget;  /* not referenced */
+	gtk_widget_show (widget);
+
+	widget = gtk_frame_new (NULL);
+	gtk_frame_set_shadow_type (GTK_FRAME (widget), GTK_SHADOW_IN);
+	gtk_grid_attach (GTK_GRID (container), widget, 0, 3, 1, 1);
 	gtk_widget_show (widget);
 
 	container = widget;
@@ -537,6 +771,7 @@ e_mail_account_manager_class_init (EMailAccountManagerClass *class)
 	object_class->set_property = mail_account_manager_set_property;
 	object_class->get_property = mail_account_manager_get_property;
 	object_class->dispose = mail_account_manager_dispose;
+	object_class->finalize = mail_account_manager_finalize;
 	object_class->constructed = mail_account_manager_constructed;
 
 	g_object_class_install_property (
@@ -575,6 +810,9 @@ static void
 e_mail_account_manager_init (EMailAccountManager *manager)
 {
 	manager->priv = E_MAIL_ACCOUNT_MANAGER_GET_PRIVATE (manager);
+
+	manager->priv->gcc_program_path =
+		g_find_program_in_path ("gnome-control-center");
 }
 
 GtkWidget *
