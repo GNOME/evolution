@@ -38,7 +38,6 @@ struct _EMailAccountStorePrivate {
 	CamelService *default_service;
 	GHashTable *service_index;
 	gchar *sort_order_filename;
-	gboolean express_mode;
 	gpointer session;  /* weak pointer */
 	guint busy_count;
 };
@@ -53,7 +52,6 @@ enum {
 	PROP_0,
 	PROP_BUSY,
 	PROP_DEFAULT_SERVICE,
-	PROP_EXPRESS_MODE,
 	PROP_SESSION
 };
 
@@ -140,31 +138,14 @@ mail_account_store_default_compare (CamelService *service_a,
 
 	/* Check for special cases first. */
 
-	if (e_mail_account_store_get_express_mode (store)) {
-		if (g_str_equal (uid_a, E_MAIL_SESSION_LOCAL_UID) &&
-		    g_str_equal (uid_b, E_MAIL_SESSION_VFOLDER_UID))
-			return -1;
-		else if (g_str_equal (uid_b, E_MAIL_SESSION_LOCAL_UID) &&
-			 g_str_equal (uid_a, E_MAIL_SESSION_VFOLDER_UID))
-			return 1;
-		else if (g_str_equal (uid_a, E_MAIL_SESSION_LOCAL_UID))
-			return 1;
-		else if (g_str_equal (uid_b, E_MAIL_SESSION_LOCAL_UID))
-			return -1;
-		else if (g_str_equal (uid_a, E_MAIL_SESSION_VFOLDER_UID))
-			return 1;
-		else if (g_str_equal (uid_a, E_MAIL_SESSION_VFOLDER_UID))
-			return -1;
-	} else {
-		if (g_str_equal (uid_a, E_MAIL_SESSION_LOCAL_UID))
-			return -1;
-		else if (g_str_equal (uid_b, E_MAIL_SESSION_LOCAL_UID))
-			return 1;
-		else if (g_str_equal (uid_a, E_MAIL_SESSION_VFOLDER_UID))
-			return 1;
-		else if (g_str_equal (uid_b, E_MAIL_SESSION_VFOLDER_UID))
-			return -1;
-	}
+	if (g_str_equal (uid_a, E_MAIL_SESSION_LOCAL_UID))
+		return -1;
+	else if (g_str_equal (uid_b, E_MAIL_SESSION_LOCAL_UID))
+		return 1;
+	else if (g_str_equal (uid_a, E_MAIL_SESSION_VFOLDER_UID))
+		return 1;
+	else if (g_str_equal (uid_b, E_MAIL_SESSION_VFOLDER_UID))
+		return -1;
 
 	/* Otherwise sort them alphabetically. */
 
@@ -347,12 +328,6 @@ mail_account_store_set_property (GObject *object,
 				g_value_get_object (value));
 			return;
 
-		case PROP_EXPRESS_MODE:
-			e_mail_account_store_set_express_mode (
-				E_MAIL_ACCOUNT_STORE (object),
-				g_value_get_boolean (value));
-			return;
-
 		case PROP_SESSION:
 			mail_account_store_set_session (
 				E_MAIL_ACCOUNT_STORE (object),
@@ -381,13 +356,6 @@ mail_account_store_get_property (GObject *object,
 			g_value_set_object (
 				value,
 				e_mail_account_store_get_default_service (
-				E_MAIL_ACCOUNT_STORE (object)));
-			return;
-
-		case PROP_EXPRESS_MODE:
-			g_value_set_boolean (
-				value,
-				e_mail_account_store_get_express_mode (
 				E_MAIL_ACCOUNT_STORE (object)));
 			return;
 
@@ -844,17 +812,6 @@ e_mail_account_store_class_init (EMailAccountStoreClass *class)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_EXPRESS_MODE,
-		g_param_spec_boolean (
-			"express-mode",
-			"Express Mode",
-			"Whether express mode is enabled",
-			FALSE,
-			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
-
-	g_object_class_install_property (
-		object_class,
 		PROP_SESSION,
 		g_param_spec_object (
 			"session",
@@ -1077,28 +1034,6 @@ e_mail_account_store_set_default_service (EMailAccountStore *store,
 	}
 
 	g_object_notify (G_OBJECT (store), "default-service");
-}
-
-gboolean
-e_mail_account_store_get_express_mode (EMailAccountStore *store)
-{
-	g_return_val_if_fail (E_IS_MAIL_ACCOUNT_STORE (store), FALSE);
-
-	return store->priv->express_mode;
-}
-
-void
-e_mail_account_store_set_express_mode (EMailAccountStore *store,
-                                       gboolean express_mode)
-{
-	g_return_if_fail (E_IS_MAIL_ACCOUNT_STORE (store));
-
-	if (store->priv->express_mode == express_mode)
-		return;
-
-	store->priv->express_mode = express_mode;
-
-	g_object_notify (G_OBJECT (store), "express-mode");
 }
 
 void

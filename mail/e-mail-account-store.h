@@ -109,11 +109,6 @@ CamelService *	e_mail_account_store_get_default_service
 void		e_mail_account_store_set_default_service
 						(EMailAccountStore *store,
 						 CamelService *service);
-gboolean	e_mail_account_store_get_express_mode
-						(EMailAccountStore *store);
-void		e_mail_account_store_set_express_mode
-						(EMailAccountStore *store,
-						 gboolean express_mode);
 void		e_mail_account_store_add_service
 						(EMailAccountStore *store,
 						 CamelService *service);
