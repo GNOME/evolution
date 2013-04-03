@@ -83,7 +83,6 @@ HELP_FILES = \
 	exporting-data-contacts.page \
 	exporting-data-mail.page \
 	exporting-data.page \
-	express-mode.page \
 	google-services.page \
 	import-apps-mozilla.page \
 	import-apps-outlook.page \
