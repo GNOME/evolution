@@ -148,7 +148,6 @@ HELP_FILES = \
 	mail-displaying-collapsible-headers.page \
 	mail-displaying-images-in-html.page \
 	mail-displaying-message.page \
-	mail-displaying-no-css.page \
 	mail-displaying-sender-photograph.page \
 	mail-display-message-source.page \
 	mail-duplicates.page \
