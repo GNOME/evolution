@@ -83,10 +83,13 @@ empe_mp_mixed_parse (EMailParserExtension *extension,
 		ct = camel_mime_part_get_content_type (subpart);
 
 		/* Display parts with CID as attachments
-		 * (unless they already are attachments). */
+		 * (unless they already are attachments).
+		 * Show also hidden attachments with CID,
+		 * because this is multipart/mixed,
+		 * not multipart/related. */
 		if (mail_part != NULL &&
-			mail_part->cid != NULL &&
-			!mail_part->is_attachment) {
+		    mail_part->cid != NULL &&
+		    (!mail_part->is_attachment || mail_part->is_hidden)) {
 
 			e_mail_parser_wrap_as_attachment (
 				parser, subpart, part_id, &work_queue);
