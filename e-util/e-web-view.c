@@ -352,17 +352,19 @@ web_view_menu_item_select_cb (EWebView *web_view,
 }
 
 static void
-replace_text (WebKitDOMNode *node,
-              const gchar *text,
-              WebKitDOMNode *replacement)
+web_view_replace_text (WebKitDOMNode *node,
+                       const gchar *text,
+                       WebKitDOMNode *replacement)
 {
+	g_return_if_fail (text != NULL);
+
 	/* NodeType 3 = TEXT_NODE */
 	if (webkit_dom_node_get_node_type (node) == 3) {
-		gint text_length = strlen (text);
+		gsize text_length = strlen (text);
 
-		while (node) {
-
-			WebKitDOMNode *current_node, *replacement_node;
+		while (node != NULL) {
+			WebKitDOMNode *current_node;
+			WebKitDOMNode *replacement_node;
 			const gchar *node_data, *offset;
 			goffset split_offset;
 			gint data_length;
@@ -394,7 +396,6 @@ replace_text (WebKitDOMNode *node,
 			data_length = webkit_dom_character_data_get_length (
 				(WebKitDOMCharacterData *) node);
 			if (split_offset < data_length) {
-
 				WebKitDOMNode *parent_node;
 
 				node = WEBKIT_DOM_NODE (
@@ -402,7 +403,8 @@ replace_text (WebKitDOMNode *node,
 						(WebKitDOMText *) node,
 						offset - node_data + text_length,
 						NULL));
-				parent_node = webkit_dom_node_get_parent_node (node);
+				parent_node =
+					webkit_dom_node_get_parent_node (node);
 				webkit_dom_node_insert_before (
 					parent_node, replacement_node,
 					node, NULL);
@@ -410,29 +412,30 @@ replace_text (WebKitDOMNode *node,
 			} else {
 				WebKitDOMNode *parent_node;
 
-				parent_node = webkit_dom_node_get_parent_node (node);
+				parent_node =
+					webkit_dom_node_get_parent_node (node);
 				webkit_dom_node_append_child (
 					parent_node,
 					replacement_node, NULL);
 			}
 
 			webkit_dom_character_data_delete_data (
-				(WebKitDOMCharacterData *) (current_node),
+				(WebKitDOMCharacterData *) current_node,
 				offset - node_data, text_length, NULL);
 		}
 
 	} else {
-		WebKitDOMNode *child, *next_child;
+		WebKitDOMNode *child;
+		WebKitDOMNode *next_child;
 
 		/* Iframe? Let's traverse inside! */
 		if (WEBKIT_DOM_IS_HTML_IFRAME_ELEMENT (node)) {
-
 			WebKitDOMDocument *frame_document;
 
 			frame_document =
 				webkit_dom_html_iframe_element_get_content_document (
 					WEBKIT_DOM_HTML_IFRAME_ELEMENT (node));
-			replace_text (
+			web_view_replace_text (
 				WEBKIT_DOM_NODE (frame_document),
 				text, replacement);
 
@@ -440,7 +443,8 @@ replace_text (WebKitDOMNode *node,
 			child = webkit_dom_node_get_first_child (node);
 			while (child != NULL) {
 				next_child = webkit_dom_node_get_next_sibling (child);
-				replace_text (child, text, replacement);
+				web_view_replace_text (
+					child, text, replacement);
 				child = next_child;
 			}
 		}
@@ -456,9 +460,9 @@ web_view_update_document_highlights (EWebView *web_view)
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (web_view));
 
 	for (iter = web_view->priv->highlights; iter; iter = iter->next) {
-
 		WebKitDOMDocumentFragment *frag;
 		WebKitDOMElement *span;
+		const gchar *text = iter->data;
 
 		span = webkit_dom_document_create_element (document, "span", NULL);
 
@@ -473,15 +477,15 @@ web_view_update_document_highlights (EWebView *web_view)
 		#endif
 
 		webkit_dom_html_element_set_inner_text (
-			WEBKIT_DOM_HTML_ELEMENT (span), iter->data, NULL);
+			WEBKIT_DOM_HTML_ELEMENT (span), text, NULL);
 
 		frag = webkit_dom_document_create_document_fragment (document);
 		webkit_dom_node_append_child (
 			WEBKIT_DOM_NODE (frag), WEBKIT_DOM_NODE (span), NULL);
 
-		replace_text (
+		web_view_replace_text (
 			WEBKIT_DOM_NODE (document),
-			iter->data, WEBKIT_DOM_NODE (frag));
+			text, WEBKIT_DOM_NODE (frag));
 	}
 }
 
