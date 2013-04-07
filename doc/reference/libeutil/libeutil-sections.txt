@@ -4549,7 +4549,6 @@ e_web_view_get_print_proxy
 e_web_view_set_print_proxy
 e_web_view_get_save_as_proxy
 e_web_view_set_save_as_proxy
-e_web_view_get_highlights
 e_web_view_add_highlight
 e_web_view_clear_highlights
 e_web_view_get_action
