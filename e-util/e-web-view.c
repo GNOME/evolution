@@ -58,7 +58,7 @@ struct _EWebViewPrivate {
 	GdkPixbufAnimation *cursor_image;
 	gchar *cursor_image_src;
 
-	GSList *highlights;
+	GQueue highlights;
 
 	GtkAction *open_proxy;
 	GtkAction *print_proxy;
@@ -455,14 +455,16 @@ static void
 web_view_update_document_highlights (EWebView *web_view)
 {
 	WebKitDOMDocument *document;
-	GSList *iter;
+	GList *head, *link;
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (web_view));
 
-	for (iter = web_view->priv->highlights; iter; iter = iter->next) {
+	head = g_queue_peek_head_link (&web_view->priv->highlights);
+
+	for (link = head; link != NULL; link = g_list_next (link)) {
 		WebKitDOMDocumentFragment *frag;
 		WebKitDOMElement *span;
-		const gchar *text = iter->data;
+		const gchar *text = link->data;
 
 		span = webkit_dom_document_create_element (document, "span", NULL);
 
@@ -801,11 +803,6 @@ web_view_dispose (GObject *object)
 		priv->cursor_image_src = NULL;
 	}
 
-	if (priv->highlights != NULL) {
-		g_slist_free_full (priv->highlights, g_free);
-		priv->highlights = NULL;
-	}
-
 	if (priv->aliasing_settings != NULL) {
 		g_signal_handlers_disconnect_matched (
 			priv->aliasing_settings, G_SIGNAL_MATCH_DATA,
@@ -838,6 +835,9 @@ web_view_finalize (GObject *object)
 		g_warning ("Finalizing EWebView with active URI requests");
 
 	g_free (priv->selected_uri);
+
+	while (!g_queue_is_empty (&priv->highlights))
+		g_free (g_queue_pop_head (&priv->highlights));
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_web_view_parent_class)->finalize (object);
@@ -1724,8 +1724,6 @@ e_web_view_init (EWebView *web_view)
 
 	web_view->priv = E_WEB_VIEW_GET_PRIVATE (web_view);
 
-	web_view->priv->highlights = NULL;
-
 	g_signal_connect (
 		web_view, "create-plugin-widget",
 		G_CALLBACK (web_view_create_plugin_widget_cb), NULL);
@@ -2432,14 +2430,6 @@ e_web_view_set_save_as_proxy (EWebView *web_view,
 	g_object_notify (G_OBJECT (web_view), "save-as-proxy");
 }
 
-GSList *
-e_web_view_get_highlights (EWebView *web_view)
-{
-	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), NULL);
-
-	return web_view->priv->highlights;
-}
-
 void
 e_web_view_add_highlight (EWebView *web_view,
                           const gchar *highlight)
@@ -2447,21 +2437,20 @@ e_web_view_add_highlight (EWebView *web_view,
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 	g_return_if_fail (highlight && *highlight);
 
-	web_view->priv->highlights = g_slist_append (
-		web_view->priv->highlights, g_strdup (highlight));
+	g_queue_push_tail (
+		&web_view->priv->highlights,
+		g_strdup (highlight));
 
 	web_view_update_document_highlights (web_view);
 }
 
-void e_web_view_clear_highlights (EWebView *web_view)
+void
+e_web_view_clear_highlights (EWebView *web_view)
 {
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
-	if (!web_view->priv->highlights)
-		return;
-
-	g_slist_free_full (web_view->priv->highlights, g_free);
-	web_view->priv->highlights = NULL;
+	while (!g_queue_is_empty (&web_view->priv->highlights))
+		g_free (g_queue_pop_head (&web_view->priv->highlights));
 
 	web_view_update_document_highlights (web_view);
 }
