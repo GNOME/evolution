@@ -1873,8 +1873,30 @@ e_mail_folder_uri_parse (CamelSession *session,
 	 * To determine which it is, you have to check the provider
 	 * flags for CAMEL_URL_FRAGMENT_IS_PATH. */
 	} else {
-		service = camel_session_ref_service_by_url (
-			session, url, CAMEL_PROVIDER_STORE);
+		gboolean local_mbox_folder;
+
+		/* In Evolution 2.x, the local mail store used mbox
+		 * format.  camel_session_ref_service_by_url() won't
+		 * match "mbox:///.../mail/local" folder URIs, since
+		 * the local mail store is now Maildir format.  Test
+		 * for this corner case and work around it.
+		 *
+		 * The folder path is kept in the fragment part of the
+		 * URL which makes it easy to test the filesystem path.
+		 * The suffix "evolution/mail/local" should match both
+		 * the current XDG-compliant location and the old "dot
+		 * folder" location (~/.evolution/mail/local). */
+		local_mbox_folder =
+			(g_strcmp0 (url->protocol, "mbox") == 0) &&
+			(url->path != NULL) &&
+			g_str_has_suffix (url->path, "evolution/mail/local");
+
+		if (local_mbox_folder) {
+			service = camel_session_ref_service (session, "local");
+		} else {
+			service = camel_session_ref_service_by_url (
+				session, url, CAMEL_PROVIDER_STORE);
+		}
 
 		if (CAMEL_IS_STORE (service)) {
 			CamelProvider *provider;
