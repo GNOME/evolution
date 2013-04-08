@@ -1215,9 +1215,12 @@ send_receive_add_to_menu (SendReceiveData *data,
                           gint position)
 {
 	GtkWidget *menu_item;
+	CamelProvider *provider;
 
 	if (send_receive_find_menu_item (data, service) != NULL)
 		return;
+
+	provider = camel_service_get_provider (service);
 
 	menu_item = gtk_menu_item_new ();
 	gtk_widget_show (menu_item);
@@ -1226,6 +1229,23 @@ send_receive_add_to_menu (SendReceiveData *data,
 		service, "display-name",
 		menu_item, "label",
 		G_BINDING_SYNC_CREATE);
+
+	if (provider && (provider->flags & CAMEL_PROVIDER_IS_REMOTE) != 0) {
+		gpointer object;
+
+		if (CAMEL_IS_OFFLINE_STORE (service) ||
+		    CAMEL_IS_DISCO_STORE (service))
+			object = g_object_ref (service);
+		else
+			object = camel_service_ref_session (service);
+
+		g_object_bind_property (
+			object, "online",
+			menu_item, "sensitive",
+			G_BINDING_SYNC_CREATE);
+
+		g_object_unref (object);
+	}
 
 	g_hash_table_insert (
 		data->menu_items, menu_item,

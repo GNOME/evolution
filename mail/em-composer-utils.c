@@ -520,7 +520,6 @@ composer_send_completed (EMailSession *session,
 	e_mail_session_send_to_finish (session, result, &error);
 
 	if (e_activity_handle_cancellation (context->activity, error)) {
-		g_error_free (error);
 		set_changed = TRUE;
 		goto exit;
 	}
@@ -537,6 +536,16 @@ composer_send_completed (EMailSession *session,
 			error->message, NULL);
 		e_shell_submit_alert (shell, alert);
 		g_object_unref (alert);
+
+	/* The destination store is offline => save to Outbox and try again later */
+	} else if (g_error_matches (error, CAMEL_SERVICE_ERROR, CAMEL_SERVICE_ERROR_UNAVAILABLE)) {
+		/* Inform the user. */
+		e_alert_run_dialog_for_args (
+			GTK_WINDOW (context->composer),
+			"mail-composer:saving-to-outbox", NULL);
+		e_msg_composer_save_to_outbox (context->composer);
+
+		goto exit;
 
 	/* All other errors are shown in the composer window. */
 	} else if (error != NULL) {
@@ -555,7 +564,6 @@ composer_send_completed (EMailSession *session,
 			e_msg_composer_send (context->composer);
 		if (response == GTK_RESPONSE_ACCEPT)  /* Save to Outbox */
 			e_msg_composer_save_to_outbox (context->composer);
-		g_error_free (error);
 		set_changed = TRUE;
 		goto exit;
 	}
@@ -569,6 +577,8 @@ composer_send_completed (EMailSession *session,
 		gtk_widget_destroy, context->composer);
 
 exit:
+	g_clear_error (&error);
+
 	if (set_changed) {
 		gtkhtml_editor_set_changed (GTKHTML_EDITOR (context->composer), TRUE);
 		gtk_window_present (GTK_WINDOW (context->composer));

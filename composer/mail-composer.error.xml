@@ -84,7 +84,7 @@
 
  <error id="saving-to-outbox" type="info">
   <_primary>Saving message to Outbox.</_primary>
-  <_secondary>Because you are working offline, the message will be saved to your local Outbox folder. When you are back online you can send the message by clicking the Send/Receive button in Evolution's toolbar.</_secondary>
+  <_secondary>The message will be saved to your local Outbox folder, because the destination service is currently unavailable. You can send the message by clicking the Send/Receive button in Evolution's toolbar.</_secondary>
  </error>
 
 </error-list>

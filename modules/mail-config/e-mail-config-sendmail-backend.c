@@ -44,6 +44,7 @@ mail_config_sendmail_backend_insert_widgets (EMailConfigServiceBackend *backend,
 	GtkWidget *custom_binary_entry;
 	GtkWidget *use_custom_args_check;
 	GtkWidget *custom_args_entry;
+	GtkWidget *send_in_offline;
 	gchar *markup;
 	PangoAttribute *attr;
 	PangoAttrList *attr_list;
@@ -124,6 +125,10 @@ mail_config_sendmail_backend_insert_widgets (EMailConfigServiceBackend *backend,
 	gtk_label_set_attributes (GTK_LABEL (widget), attr_list);
 	pango_attr_list_unref (attr_list);
 
+	widget = gtk_check_button_new_with_mnemonic (_("Send mail also when in offline _mode"));
+	gtk_grid_attach (GTK_GRID (container), widget, 0, 5, 2, 1);
+	send_in_offline = widget;
+
 	g_object_bind_property (
 		use_custom_binary_check, "active",
 		custom_binary_entry, "sensitive",
@@ -155,6 +160,12 @@ mail_config_sendmail_backend_insert_widgets (EMailConfigServiceBackend *backend,
 	g_object_bind_property (
 		settings, "custom-args",
 		custom_args_entry, "text",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+
+	g_object_bind_property (
+		settings, "send-in-offline",
+		send_in_offline, "active",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 

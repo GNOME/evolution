@@ -1951,26 +1951,6 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 		ACTION (MAIL_STOP), "sensitive",
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
-		shell, "online",
-		ACTION (MAIL_SEND_RECEIVE), "sensitive",
-		G_BINDING_SYNC_CREATE);
-
-	g_object_bind_property (
-		shell, "online",
-		ACTION (MAIL_SEND_RECEIVE_RECEIVE_ALL), "sensitive",
-		G_BINDING_SYNC_CREATE);
-
-	g_object_bind_property (
-		shell, "online",
-		ACTION (MAIL_SEND_RECEIVE_SEND_ALL), "sensitive",
-		G_BINDING_SYNC_CREATE);
-
-	g_object_bind_property (
-		shell, "online",
-		ACTION (MAIL_SEND_RECEIVE_SUBMENU), "sensitive",
-		G_BINDING_SYNC_CREATE);
-
 	/* Keep the sensitivity of "Create Search Folder from Search"
 	 * in sync with "Save Search" so that its only selectable when
 	 * showing search results. */

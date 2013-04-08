@@ -242,6 +242,7 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 	struct _filter_mail_msg *fm = (struct _filter_mail_msg *) m;
 	GObjectClass *class;
 	CamelFolder *folder = NULL;
+	CamelProvider *provider;
 	CamelService *service;
 	CamelSession *session;
 	CamelSettings *settings;
@@ -258,6 +259,11 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 
 	service = CAMEL_SERVICE (m->store);
 	session = camel_service_ref_session (service);
+	provider = camel_service_get_provider (service);
+
+	if (provider && (provider->flags & CAMEL_PROVIDER_IS_REMOTE) != 0 &&
+	    !camel_session_get_online (session))
+		goto exit;
 
 	fm->destination = e_mail_session_get_local_folder (
 		E_MAIL_SESSION (session), E_MAIL_LOCAL_FOLDER_LOCAL_INBOX);
@@ -265,9 +271,7 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 		goto exit;
 	g_object_ref (fm->destination);
 
-	service = CAMEL_SERVICE (m->store);
 	uid = camel_service_get_uid (service);
-
 	settings = camel_service_ref_settings (service);
 
 	/* XXX This is a POP3-specific setting. */
@@ -703,6 +707,12 @@ mail_send_message (struct _send_queue_msg *m,
 	}
 
 	if (camel_address_length (recipients) > 0) {
+		if (provider && (provider->flags & CAMEL_PROVIDER_IS_REMOTE) != 0 &&
+		    !camel_session_get_online (CAMEL_SESSION (m->session))) {
+			/* silently ignore */
+			goto exit;
+		}
+
 		if (!camel_service_connect_sync (
 			service, cancellable, error))
 			goto exit;

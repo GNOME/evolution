@@ -1154,6 +1154,16 @@ receive_update_got_store (CamelStore *store,
 		E_MAIL_SESSION (info->session));
 
 	if (store != NULL) {
+		CamelProvider *provider;
+
+		/* do not update remote stores in offline */
+		provider = camel_service_get_provider (CAMEL_SERVICE (store));
+		if (provider && (provider->flags & CAMEL_PROVIDER_IS_REMOTE) != 0 &&
+		    !camel_session_get_online (info->session))
+			store = NULL;
+	}
+
+	if (store != NULL) {
 		mail_folder_cache_note_store (
 			folder_cache, store, info->cancellable,
 			receive_update_got_folderinfo, info);
@@ -1213,7 +1223,7 @@ send_receive (GtkWindow *parent,
 	CamelFolder *local_outbox;
 	CamelService *transport;
 	struct _send_data *data;
-	GList *scan;
+	GList *scan, *siter;
 
 	if (send_recv_dialog != NULL) {
 		if (parent != NULL && gtk_widget_get_realized (send_recv_dialog)) {
@@ -1221,9 +1231,6 @@ send_receive (GtkWindow *parent,
 		}
 		return send_recv_dialog;
 	}
-
-	if (!camel_session_get_online (CAMEL_SESSION (session)))
-		return send_recv_dialog;
 
 	transport = ref_default_transport (session);
 
@@ -1237,8 +1244,10 @@ send_receive (GtkWindow *parent,
 	if (transport != NULL)
 		g_object_unref (transport);
 
-	for (scan = data->infos; scan != NULL; scan = scan->next) {
-		struct _send_info *info = scan->data;
+	scan = g_list_copy (data->infos);
+
+	for (siter = scan; siter != NULL; siter = siter->next) {
+		struct _send_info *info = siter->data;
 
 		if (!CAMEL_IS_SERVICE (info->service))
 			continue;
@@ -1274,6 +1283,8 @@ send_receive (GtkWindow *parent,
 			break;
 		}
 	}
+
+	g_list_free (scan);
 
 	return send_recv_dialog;
 }
