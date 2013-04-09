@@ -27,7 +27,7 @@
 
 #define EVOLUTION_COPYRIGHT \
 	"Copyright \xC2\xA9 1999 - 2008 Novell, Inc. and Others\n" \
-	"Copyright \xC2\xA9 2008 - 2012 The Evolution Team"
+	"Copyright \xC2\xA9 2008 - 2013 The Evolution Team"
 
 /* Authors and Documenters
  *
