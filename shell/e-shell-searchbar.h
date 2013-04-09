@@ -69,24 +69,9 @@ GType		e_shell_searchbar_get_type	(void);
 GtkWidget *	e_shell_searchbar_new		(EShellView *shell_view);
 EShellView *	e_shell_searchbar_get_shell_view
 						(EShellSearchbar *searchbar);
-gboolean	e_shell_searchbar_get_express_mode
-						(EShellSearchbar *searchbar);
-void		e_shell_searchbar_set_express_mode
-						(EShellSearchbar *searchbar,
-						 gboolean express_mode);
 EActionComboBox *
 		e_shell_searchbar_get_filter_combo_box
 						(EShellSearchbar *searchbar);
-gboolean	e_shell_searchbar_get_filter_visible
-						(EShellSearchbar *searchbar);
-void		e_shell_searchbar_set_filter_visible
-						(EShellSearchbar *searchbar,
-						 gboolean filter_visible);
-gboolean	e_shell_searchbar_get_labels_visible
-						(EShellSearchbar *searchbar);
-void		e_shell_searchbar_set_labels_visible
-						(EShellSearchbar *searchbar,
-						 gboolean labels_visible);
 const gchar *	e_shell_searchbar_get_search_hint
 						(EShellSearchbar *searchbar);
 void		e_shell_searchbar_set_search_hint
@@ -102,11 +87,6 @@ const gchar *	e_shell_searchbar_get_search_text
 void		e_shell_searchbar_set_search_text
 						(EShellSearchbar *searchbar,
 						 const gchar *search_text);
-gboolean	e_shell_searchbar_get_search_visible
-						(EShellSearchbar *searchbar);
-void		e_shell_searchbar_set_search_visible
-						(EShellSearchbar *searchbar,
-						 gboolean search_visible);
 GtkWidget *	e_shell_searchbar_get_search_box
 						(EShellSearchbar *searchbar);
 EActionComboBox *

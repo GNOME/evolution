@@ -73,24 +73,16 @@ struct _EShellSearchbarPrivate {
 	/* State Key File */
 	gchar *state_group;
 
-	guint express_mode   : 1;
-	guint filter_visible : 1;
-	guint labels_visible : 1;
-	guint search_visible : 1;
-	guint scope_visible  : 1;
-	guint state_dirty    : 1;
+	gboolean scope_visible;
+	gboolean state_dirty;
 };
 
 enum {
 	PROP_0,
-	PROP_EXPRESS_MODE,
 	PROP_FILTER_COMBO_BOX,
-	PROP_FILTER_VISIBLE,
-	PROP_LABELS_VISIBLE,
 	PROP_SEARCH_HINT,
 	PROP_SEARCH_OPTION,
 	PROP_SEARCH_TEXT,
-	PROP_SEARCH_VISIBLE,
 	PROP_SCOPE_COMBO_BOX,
 	PROP_SCOPE_VISIBLE,
 	PROP_SHELL_VIEW,
@@ -640,24 +632,6 @@ shell_searchbar_set_property (GObject *object,
                               GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_EXPRESS_MODE:
-			e_shell_searchbar_set_express_mode (
-				E_SHELL_SEARCHBAR (object),
-				g_value_get_boolean (value));
-			return;
-
-		case PROP_FILTER_VISIBLE:
-			e_shell_searchbar_set_filter_visible (
-				E_SHELL_SEARCHBAR (object),
-				g_value_get_boolean (value));
-			return;
-
-		case PROP_LABELS_VISIBLE:
-			e_shell_searchbar_set_labels_visible (
-				E_SHELL_SEARCHBAR (object),
-				g_value_get_boolean (value));
-			return;
-
 		case PROP_SEARCH_HINT:
 			e_shell_searchbar_set_search_hint (
 				E_SHELL_SEARCHBAR (object),
@@ -674,12 +648,6 @@ shell_searchbar_set_property (GObject *object,
 			e_shell_searchbar_set_search_text (
 				E_SHELL_SEARCHBAR (object),
 				g_value_get_string (value));
-			return;
-
-		case PROP_SEARCH_VISIBLE:
-			e_shell_searchbar_set_search_visible (
-				E_SHELL_SEARCHBAR (object),
-				g_value_get_boolean (value));
 			return;
 
 		case PROP_SCOPE_VISIBLE:
@@ -711,27 +679,9 @@ shell_searchbar_get_property (GObject *object,
                               GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_EXPRESS_MODE:
-			g_value_set_boolean (
-				value, e_shell_searchbar_get_express_mode (
-				E_SHELL_SEARCHBAR (object)));
-			return;
-
 		case PROP_FILTER_COMBO_BOX:
 			g_value_set_object (
 				value, e_shell_searchbar_get_filter_combo_box (
-				E_SHELL_SEARCHBAR (object)));
-			return;
-
-		case PROP_LABELS_VISIBLE:
-			g_value_set_boolean (
-				value, e_shell_searchbar_get_labels_visible (
-				E_SHELL_SEARCHBAR (object)));
-			return;
-
-		case PROP_FILTER_VISIBLE:
-			g_value_set_boolean (
-				value, e_shell_searchbar_get_filter_visible (
 				E_SHELL_SEARCHBAR (object)));
 			return;
 
@@ -750,12 +700,6 @@ shell_searchbar_get_property (GObject *object,
 		case PROP_SEARCH_TEXT:
 			g_value_set_string (
 				value, e_shell_searchbar_get_search_text (
-				E_SHELL_SEARCHBAR (object)));
-			return;
-
-		case PROP_SEARCH_VISIBLE:
-			g_value_set_boolean (
-				value, e_shell_searchbar_get_search_visible (
 				E_SHELL_SEARCHBAR (object)));
 			return;
 
@@ -996,17 +940,6 @@ e_shell_searchbar_class_init (EShellSearchbarClass *class)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_EXPRESS_MODE,
-		g_param_spec_boolean (
-			"express-mode",
-			NULL,
-			NULL,
-			FALSE,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
-
-	g_object_class_install_property (
-		object_class,
 		PROP_FILTER_COMBO_BOX,
 		g_param_spec_object (
 			"filter-combo-box",
@@ -1014,28 +947,6 @@ e_shell_searchbar_class_init (EShellSearchbarClass *class)
 			NULL,
 			E_TYPE_ACTION_COMBO_BOX,
 			G_PARAM_READABLE));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_LABELS_VISIBLE,
-		g_param_spec_boolean (
-			"labels-visible",
-			NULL,
-			NULL,
-			TRUE,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_FILTER_VISIBLE,
-		g_param_spec_boolean (
-			"filter-visible",
-			NULL,
-			NULL,
-			TRUE,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
 
 	g_object_class_install_property (
 		object_class,
@@ -1066,17 +977,6 @@ e_shell_searchbar_class_init (EShellSearchbarClass *class)
 			NULL,
 			NULL,
 			G_PARAM_READWRITE));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_SEARCH_VISIBLE,
-		g_param_spec_boolean (
-			"search-visible",
-			NULL,
-			NULL,
-			TRUE,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
 
 	g_object_class_install_property (
 		object_class,
@@ -1159,13 +1059,9 @@ e_shell_searchbar_init (EShellSearchbar *searchbar)
 		"valign", GTK_ALIGN_CENTER,
 		NULL);
 	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
+	gtk_widget_show (widget);
 
 	g_queue_push_tail (child_containers, g_object_ref (widget));
-
-	g_object_bind_property (
-		searchbar, "filter-visible",
-		widget, "visible",
-		G_BINDING_SYNC_CREATE);
 
 	grid = GTK_GRID (widget);
 
@@ -1176,11 +1072,6 @@ e_shell_searchbar_init (EShellSearchbar *searchbar)
 	widget = gtk_label_new_with_mnemonic (_("Sho_w:"));
 	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
 	gtk_widget_show (widget);
-
-	g_object_bind_property (
-		searchbar, "labels-visible",
-		widget, "visible",
-		G_BINDING_SYNC_CREATE);
 
 	label = GTK_LABEL (widget);
 
@@ -1204,13 +1095,9 @@ e_shell_searchbar_init (EShellSearchbar *searchbar)
 		"hexpand", TRUE,
 		NULL);
 	gtk_grid_attach (grid, widget, 1, 0, 1, 1);
+	gtk_widget_show (widget);
 
 	g_queue_push_tail (child_containers, g_object_ref (widget));
-
-	g_object_bind_property (
-		searchbar, "search-visible",
-		widget, "visible",
-		G_BINDING_SYNC_CREATE);
 
 	grid = GTK_GRID (widget);
 
@@ -1219,11 +1106,6 @@ e_shell_searchbar_init (EShellSearchbar *searchbar)
 	widget = gtk_label_new_with_mnemonic (_("Sear_ch:"));
 	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
 	gtk_widget_show (widget);
-
-	g_object_bind_property (
-		searchbar, "labels-visible",
-		widget, "visible",
-		G_BINDING_SYNC_CREATE);
 
 	label = GTK_LABEL (widget);
 
@@ -1360,92 +1242,12 @@ e_shell_searchbar_get_shell_view (EShellSearchbar *searchbar)
 	return E_SHELL_VIEW (searchbar->priv->shell_view);
 }
 
-gboolean
-e_shell_searchbar_get_express_mode (EShellSearchbar *searchbar)
-{
-	g_return_val_if_fail (E_IS_SHELL_SEARCHBAR (searchbar), FALSE);
-
-	return searchbar->priv->express_mode;
-}
-
-void
-e_shell_searchbar_set_express_mode (EShellSearchbar *searchbar,
-                                    gboolean express_mode)
-{
-	g_return_if_fail (E_IS_SHELL_SEARCHBAR (searchbar));
-
-	if (searchbar->priv->express_mode == express_mode)
-		return;
-
-	searchbar->priv->express_mode = express_mode;
-
-	/* Emit "notify" on all the properties we override. */
-	g_object_freeze_notify (G_OBJECT (searchbar));
-	g_object_notify (G_OBJECT (searchbar), "express-mode");
-	g_object_notify (G_OBJECT (searchbar), "labels-visible");
-	g_object_notify (G_OBJECT (searchbar), "filter-visible");
-	g_object_notify (G_OBJECT (searchbar), "scope-visible");
-	g_object_thaw_notify (G_OBJECT (searchbar));
-}
-
 EActionComboBox *
 e_shell_searchbar_get_filter_combo_box (EShellSearchbar *searchbar)
 {
 	g_return_val_if_fail (E_IS_SHELL_SEARCHBAR (searchbar), NULL);
 
 	return E_ACTION_COMBO_BOX (searchbar->priv->filter_combo_box);
-}
-
-gboolean
-e_shell_searchbar_get_labels_visible (EShellSearchbar *searchbar)
-{
-	g_return_val_if_fail (E_IS_SHELL_SEARCHBAR (searchbar), FALSE);
-
-	/* Express mode overrides this. */
-	if (e_shell_searchbar_get_express_mode (searchbar))
-		return FALSE;
-
-	return searchbar->priv->labels_visible;
-}
-
-void
-e_shell_searchbar_set_labels_visible (EShellSearchbar *searchbar,
-                                      gboolean labels_visible)
-{
-	g_return_if_fail (E_IS_SHELL_SEARCHBAR (searchbar));
-
-	if (searchbar->priv->labels_visible == labels_visible)
-		return;
-
-	searchbar->priv->labels_visible = labels_visible;
-
-	g_object_notify (G_OBJECT (searchbar), "labels-visible");
-}
-
-gboolean
-e_shell_searchbar_get_filter_visible (EShellSearchbar *searchbar)
-{
-	g_return_val_if_fail (E_IS_SHELL_SEARCHBAR (searchbar), FALSE);
-
-	/* Express mode overrides this. */
-	if (e_shell_searchbar_get_express_mode (searchbar))
-		return FALSE;
-
-	return searchbar->priv->filter_visible;
-}
-
-void
-e_shell_searchbar_set_filter_visible (EShellSearchbar *searchbar,
-                                      gboolean filter_visible)
-{
-	g_return_if_fail (E_IS_SHELL_SEARCHBAR (searchbar));
-
-	if (searchbar->priv->filter_visible == filter_visible)
-		return;
-
-	searchbar->priv->filter_visible = filter_visible;
-
-	g_object_notify (G_OBJECT (searchbar), "filter-visible");
 }
 
 const gchar *
@@ -1556,28 +1358,6 @@ e_shell_searchbar_set_search_text (EShellSearchbar *searchbar,
 	g_object_notify (G_OBJECT (searchbar), "search-text");
 }
 
-gboolean
-e_shell_searchbar_get_search_visible (EShellSearchbar *searchbar)
-{
-	g_return_val_if_fail (E_IS_SHELL_SEARCHBAR (searchbar), FALSE);
-
-	return searchbar->priv->search_visible;
-}
-
-void
-e_shell_searchbar_set_search_visible (EShellSearchbar *searchbar,
-                                      gboolean search_visible)
-{
-	g_return_if_fail (E_IS_SHELL_SEARCHBAR (searchbar));
-
-	if (searchbar->priv->search_visible == search_visible)
-		return;
-
-	searchbar->priv->search_visible = search_visible;
-
-	g_object_notify (G_OBJECT (searchbar), "search-visible");
-}
-
 GtkWidget *
 e_shell_searchbar_get_search_box (EShellSearchbar *searchbar)
 {
@@ -1600,10 +1380,6 @@ gboolean
 e_shell_searchbar_get_scope_visible (EShellSearchbar *searchbar)
 {
 	g_return_val_if_fail (E_IS_SHELL_SEARCHBAR (searchbar), FALSE);
-
-	/* Express mode overrides this. */
-	if (e_shell_searchbar_get_express_mode (searchbar))
-		return FALSE;
 
 	return searchbar->priv->scope_visible;
 }
@@ -1672,7 +1448,6 @@ e_shell_searchbar_load_state (EShellSearchbar *searchbar)
 	GKeyFile *key_file;
 	GtkAction *action;
 	GtkWidget *widget;
-	gboolean express_mode;
 	const gchar *search_text;
 	const gchar *state_group;
 	const gchar *key;
@@ -1688,8 +1463,6 @@ e_shell_searchbar_load_state (EShellSearchbar *searchbar)
 	key_file = e_shell_view_get_state_key_file (shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	express_mode = e_shell_searchbar_get_express_mode (searchbar);
-
 	/* Changing the combo boxes triggers searches, so block
 	 * the search action until the state is fully restored. */
 	action = E_SHELL_WINDOW_ACTION_SEARCH_QUICK (shell_window);
@@ -1701,7 +1474,7 @@ e_shell_searchbar_load_state (EShellSearchbar *searchbar)
 
 	key = STATE_KEY_SEARCH_FILTER;
 	string = g_key_file_get_string (key_file, state_group, key, NULL);
-	if (string != NULL && *string != '\0' && !express_mode)
+	if (string != NULL && *string != '\0')
 		action = e_shell_window_get_action (shell_window, string);
 	else
 		action = NULL;
@@ -1747,7 +1520,7 @@ e_shell_searchbar_load_state (EShellSearchbar *searchbar)
 
 	key = STATE_KEY_SEARCH_SCOPE;
 	string = g_key_file_get_string (key_file, state_group, key, NULL);
-	if (string != NULL && *string != '\0' && !express_mode)
+	if (string != NULL && *string != '\0')
 		action = e_shell_window_get_action (shell_window, string);
 	else
 		action = NULL;
