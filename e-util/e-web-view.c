@@ -101,6 +101,7 @@ enum {
 };
 
 static guint signals[LAST_SIGNAL];
+static GOnce disable_webkit_3rd_party_plugins_once = G_ONCE_INIT;
 
 static const gchar *ui =
 "<ui>"
@@ -1451,8 +1452,8 @@ web_view_drag_motion (GtkWidget *widget,
 	return FALSE;
 }
 
-static void
-web_view_disable_webkit_3rd_party_plugins (void)
+static gpointer
+web_view_disable_webkit_3rd_party_plugins (gpointer unused)
 {
 	WebKitWebPluginDatabase *database;
 	GSList *installed_plugins, *iterator;
@@ -1460,17 +1461,19 @@ web_view_disable_webkit_3rd_party_plugins (void)
 	database = webkit_get_web_plugin_database ();
 
 	if (!database)
-		return;
+		return NULL;
 
 	installed_plugins = webkit_web_plugin_database_get_plugins (database);
 
 	if (!installed_plugins)
-		return;
+		return NULL;
 
 	for (iterator = installed_plugins; iterator; iterator = iterator->next)
 		webkit_web_plugin_set_enabled (iterator->data, FALSE);
 
 	webkit_web_plugin_database_plugins_list_free (installed_plugins);
+
+	return NULL;
 }
 
 static void
@@ -1678,8 +1681,6 @@ e_web_view_class_init (EWebViewClass *class)
 		e_marshal_BOOLEAN__STRING,
 		G_TYPE_BOOLEAN, 1, G_TYPE_STRING);
 
-	web_view_disable_webkit_3rd_party_plugins ();
-
 	webkit_set_cache_model (WEBKIT_CACHE_MODEL_DOCUMENT_VIEWER);
 	webkit_set_default_web_database_quota (0);
 	webkit_application_cache_set_maximum_size (0);
@@ -1713,6 +1714,10 @@ e_web_view_init (EWebView *web_view)
 	const gchar *domain = GETTEXT_PACKAGE;
 	const gchar *id;
 	GError *error = NULL;
+
+	g_once (
+		&disable_webkit_3rd_party_plugins_once,
+		web_view_disable_webkit_3rd_party_plugins, NULL);
 
 	web_view->priv = E_WEB_VIEW_GET_PRIVATE (web_view);
 
