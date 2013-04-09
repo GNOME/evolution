@@ -1060,6 +1060,7 @@ e_shell_searchbar_init (EShellSearchbar *searchbar)
 	g_object_set (
 		G_OBJECT (widget),
 		"orientation", GTK_ORIENTATION_HORIZONTAL,
+		"border-width", 3,
 		"column-spacing", 3,
 		"valign", GTK_ALIGN_CENTER,
 		NULL);
