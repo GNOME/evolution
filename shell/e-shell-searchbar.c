@@ -67,7 +67,7 @@ struct _EShellSearchbarPrivate {
 	GtkWidget *scope_combo_box;
 
 	/* Child widget containers (referenced) */
-	GSList *child_containers;
+	GQueue child_containers;
 	guint resize_idle_id;
 
 	/* State Key File */
@@ -256,17 +256,21 @@ shell_searchbar_update_search_widgets (EShellSearchbar *searchbar)
 		gchar *css;
 
 		style = gtk_widget_get_style_context (widget);
-		gtk_style_context_get_background_color (style, GTK_STATE_FLAG_SELECTED, &bg);
-		gtk_style_context_get_color (style, GTK_STATE_FLAG_SELECTED, &fg);
+		gtk_style_context_get_background_color (
+			style, GTK_STATE_FLAG_SELECTED, &bg);
+		gtk_style_context_get_color (
+			style, GTK_STATE_FLAG_SELECTED, &fg);
 
-		css = g_strdup_printf ("GtkEntry#searchbar_searchentry_active { "
-					"   background:none; "
-					"   background-color:#%06x; "
-					"   color:#%06x; "
-					"}",
-					e_rgba_to_value (&bg),
-					e_rgba_to_value (&fg));
-		gtk_css_provider_load_from_data (searchbar->priv->css_provider, css, -1, NULL);
+		css = g_strdup_printf (
+			"GtkEntry#searchbar_searchentry_active { "
+			"   background:none; "
+			"   background-color:#%06x; "
+			"   color:#%06x; "
+			"}",
+			e_rgba_to_value (&bg),
+			e_rgba_to_value (&fg));
+		gtk_css_provider_load_from_data (
+			searchbar->priv->css_provider, css, -1, NULL);
 		g_free (css);
 
 		gtk_widget_set_name (widget, "searchbar_searchentry_active");
@@ -465,9 +469,9 @@ shell_searchbar_option_changed_cb (GtkRadioAction *action,
 	if (current_value != SEARCH_OPTION_ADVANCED) {
 		e_shell_view_set_search_rule (shell_view, NULL);
 		e_shell_searchbar_set_search_text (searchbar, search_text);
-		if (search_text != NULL && *search_text != '\0')
+		if (search_text != NULL && *search_text != '\0') {
 			e_shell_view_execute_search (shell_view);
-		else {
+		} else {
 			shell_searchbar_save_search_option (searchbar);
 			gtk_widget_grab_focus (searchbar->priv->search_entry);
 		}
@@ -481,21 +485,29 @@ shell_searchbar_resize_idle_cb (gpointer user_data)
 {
 	GtkWidget *widget;
 	EShellSearchbar *searchbar;
-	GSList *iter, *widths = NULL, *witer;
-	gint row, column, roww, maxw, child_left, child_top, allocated_width;
+	GQueue *child_containers;
+	GList *head, *link;
+	GArray *widths;
+	gint row = 0;
+	gint column = 0;
+	gint roww = 0;
+	gint maxw = 0;
+	gint child_left;
+	gint child_top;
+	gint allocated_width;
 	gboolean needs_reposition = FALSE;
 
-	widget = user_data;
-	searchbar = E_SHELL_SEARCHBAR (widget);
+	widget = GTK_WIDGET (user_data);
 	allocated_width = gtk_widget_get_allocated_width (widget);
 
-	row = 0;
-	column = 0;
-	roww = 0;
-	maxw = 0;
+	searchbar = E_SHELL_SEARCHBAR (widget);
+	child_containers = &searchbar->priv->child_containers;
+	head = g_queue_peek_head_link (child_containers);
 
-	for (iter = searchbar->priv->child_containers; iter != NULL; iter = iter->next) {
-		GtkWidget *child = iter->data;
+	widths = g_array_new (FALSE, FALSE, sizeof (gint));
+
+	for (link = head; link != NULL; link = g_list_next (link)) {
+		GtkWidget *child = GTK_WIDGET (link->data);
 		gint minw = -1;
 
 		if (!gtk_widget_get_visible (child))
@@ -503,7 +515,7 @@ shell_searchbar_resize_idle_cb (gpointer user_data)
 		else
 			gtk_widget_get_preferred_width (child, &minw, NULL);
 
-		widths = g_slist_append (widths, GINT_TO_POINTER (minw));
+		g_array_append_val (widths, minw);
 
 		if (roww && minw) {
 			roww += COLUMN_SPACING;
@@ -527,26 +539,37 @@ shell_searchbar_resize_idle_cb (gpointer user_data)
 			"top-attach", &child_top,
 			NULL);
 
-		needs_reposition = needs_reposition || child_left != column || child_top != row;
+		needs_reposition |=
+			(child_left != column) ||
+			(child_top != row);
 
 		if (column == 0 && row > 0 && roww < maxw) {
-			/* columns has same width, thus use the wider widget for calculations*/
+			/* Columns have the same width, so use
+			 * the wider widget for calculations. */
 			roww = maxw;
 		}
 	}
 
 	if (needs_reposition) {
+		guint ii = 0;
+
 		row = 0;
 		column = 0;
 		roww = 0;
 
-		for (iter = searchbar->priv->child_containers; iter; iter = iter->next) {
-			gtk_container_remove (GTK_CONTAINER (widget), iter->data);
-		}
+		g_warn_if_fail (child_containers->length == widths->len);
 
-		for (witer = widths, iter = searchbar->priv->child_containers; witer && iter; witer = witer->next, iter = iter->next) {
-			GtkWidget *child = iter->data;
-			gint w = GPOINTER_TO_INT (witer->data);
+		for (link = head; link != NULL; link = g_list_next (link))
+			gtk_container_remove (
+				GTK_CONTAINER (widget),
+				GTK_WIDGET (link->data));
+
+		for (link = head; link != NULL; link = g_list_next (link)) {
+			GtkWidget *child;
+			gint w;
+
+			child = GTK_WIDGET (link->data);
+			w = g_array_index (widths, gint, ii++);
 
 			if (roww && w) {
 				roww += COLUMN_SPACING;
@@ -561,17 +584,17 @@ shell_searchbar_resize_idle_cb (gpointer user_data)
 				column = 0;
 			}
 
-			gtk_grid_attach (GTK_GRID (widget), child, column, row, 1, 1);
+			gtk_grid_attach (
+				GTK_GRID (widget), child, column, row, 1, 1);
 
 			if (column == 0 && row > 0 && roww < maxw)
 				roww = maxw;
 		}
 	}
 
-	g_slist_free (widths);
+	g_array_free (widths, TRUE);
 
 	searchbar->priv->resize_idle_id = 0;
-	g_object_unref (searchbar);
 
 	return FALSE;
 }
@@ -771,14 +794,9 @@ shell_searchbar_dispose (GObject *object)
 
 	priv = E_SHELL_SEARCHBAR_GET_PRIVATE (object);
 
-	if (priv->resize_idle_id) {
+	if (priv->resize_idle_id > 0) {
 		g_source_remove (priv->resize_idle_id);
 		priv->resize_idle_id = 0;
-	}
-
-	if (priv->child_containers) {
-		g_slist_free_full (priv->child_containers, g_object_unref);
-		priv->child_containers = NULL;
 	}
 
 	if (priv->shell_view != NULL) {
@@ -791,22 +809,29 @@ shell_searchbar_dispose (GObject *object)
 		g_signal_handlers_disconnect_matched (
 			priv->search_option, G_SIGNAL_MATCH_DATA,
 			0, 0, NULL, NULL, object);
-		g_object_unref (priv->search_option);
-		priv->search_option = NULL;
+		g_clear_object (&priv->search_option);
 	}
 
-	if (priv->state_group) {
-		g_free (priv->state_group);
-		priv->state_group = NULL;
-	}
+	g_clear_object (&priv->css_provider);
 
-	if (priv->css_provider) {
-		g_object_unref (priv->css_provider);
-		priv->css_provider = NULL;
-	}
+	while (!g_queue_is_empty (&priv->child_containers))
+		g_object_unref (g_queue_pop_head (&priv->child_containers));
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_shell_searchbar_parent_class)->dispose (object);
+}
+
+static void
+shell_searchbar_finalize (GObject *object)
+{
+	EShellSearchbarPrivate *priv;
+
+	priv = E_SHELL_SEARCHBAR_GET_PRIVATE (object);
+
+	g_free (priv->state_group);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (e_shell_searchbar_parent_class)->finalize (object);
 }
 
 static void
@@ -908,14 +933,17 @@ static void
 shell_searchbar_size_allocate (GtkWidget *widget,
                                GdkRectangle *allocation)
 {
-	EShellSearchbar *searchbar;
+	EShellSearchbarPrivate *priv;
 
-	GTK_WIDGET_CLASS (e_shell_searchbar_parent_class)->size_allocate (widget, allocation);
+	priv = E_SHELL_SEARCHBAR_GET_PRIVATE (widget);
 
-	searchbar = E_SHELL_SEARCHBAR (widget);
+	/* Chain up to parent's size_allocate() method. */
+	GTK_WIDGET_CLASS (e_shell_searchbar_parent_class)->
+		size_allocate (widget, allocation);
 
-	if (!searchbar->priv->resize_idle_id)
-		searchbar->priv->resize_idle_id = g_idle_add (shell_searchbar_resize_idle_cb, g_object_ref (searchbar));
+	if (priv->resize_idle_id == 0)
+		priv->resize_idle_id = g_idle_add (
+			shell_searchbar_resize_idle_cb, widget);
 }
 
 static void
@@ -958,6 +986,7 @@ e_shell_searchbar_class_init (EShellSearchbarClass *class)
 	object_class->set_property = shell_searchbar_set_property;
 	object_class->get_property = shell_searchbar_get_property;
 	object_class->dispose = shell_searchbar_dispose;
+	object_class->finalize = shell_searchbar_finalize;
 	object_class->constructed = shell_searchbar_constructed;
 
 	widget_class = GTK_WIDGET_CLASS (class);
@@ -1109,9 +1138,11 @@ e_shell_searchbar_init (EShellSearchbar *searchbar)
 	GtkGrid *grid;
 	GtkLabel *label;
 	GtkWidget *widget;
+	GQueue *child_containers;
 
 	searchbar->priv = E_SHELL_SEARCHBAR_GET_PRIVATE (searchbar);
-	searchbar->priv->child_containers = NULL;
+
+	child_containers = &searchbar->priv->child_containers;
 
 	gtk_grid_set_column_spacing (GTK_GRID (searchbar), COLUMN_SPACING);
 	gtk_grid_set_row_spacing (GTK_GRID (searchbar), 4);
@@ -1128,8 +1159,8 @@ e_shell_searchbar_init (EShellSearchbar *searchbar)
 		"valign", GTK_ALIGN_CENTER,
 		NULL);
 	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
-	searchbar->priv->child_containers = g_slist_append (
-		searchbar->priv->child_containers, g_object_ref (widget));
+
+	g_queue_push_tail (child_containers, g_object_ref (widget));
 
 	g_object_bind_property (
 		searchbar, "filter-visible",
@@ -1173,8 +1204,8 @@ e_shell_searchbar_init (EShellSearchbar *searchbar)
 		"hexpand", TRUE,
 		NULL);
 	gtk_grid_attach (grid, widget, 1, 0, 1, 1);
-	searchbar->priv->child_containers = g_slist_append (
-		searchbar->priv->child_containers, g_object_ref (widget));
+
+	g_queue_push_tail (child_containers, g_object_ref (widget));
 
 	g_object_bind_property (
 		searchbar, "search-visible",
@@ -1259,8 +1290,8 @@ e_shell_searchbar_init (EShellSearchbar *searchbar)
 		"valign", GTK_ALIGN_CENTER,
 		NULL);
 	gtk_grid_attach (grid, widget, 2, 0, 1, 1);
-	searchbar->priv->child_containers = g_slist_append (
-		searchbar->priv->child_containers, g_object_ref (widget));
+
+	g_queue_push_tail (child_containers, g_object_ref (widget));
 
 	g_object_bind_property (
 		searchbar, "scope-visible",
