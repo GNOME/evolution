@@ -208,6 +208,7 @@ EFilterRule *	e_shell_view_get_search_rule	(EShellView *shell_view);
 void		e_shell_view_set_search_rule	(EShellView *shell_view,
 						 EFilterRule *search_rule);
 gchar *		e_shell_view_get_search_query	(EShellView *shell_view);
+GtkSizeGroup *	e_shell_view_get_size_group	(EShellView *shell_view);
 EShellBackend *	e_shell_view_get_shell_backend	(EShellView *shell_view);
 EShellContent *	e_shell_view_get_shell_content	(EShellView *shell_view);
 EShellSidebar *	e_shell_view_get_shell_sidebar	(EShellView *shell_view);

@@ -236,6 +236,7 @@ e_shell_view_get_search_name
 e_shell_view_get_search_rule
 e_shell_view_set_search_rule
 e_shell_view_get_search_query
+e_shell_view_get_size_group
 e_shell_view_get_shell_backend
 e_shell_view_get_shell_content
 e_shell_view_get_shell_sidebar

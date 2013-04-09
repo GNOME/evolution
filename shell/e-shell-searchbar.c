@@ -784,12 +784,14 @@ shell_searchbar_constructed (GObject *object)
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	EShellSearchbar *searchbar;
+	GtkSizeGroup *size_group;
 	GtkAction *action;
 	GtkWidget *widget;
 
 	searchbar = E_SHELL_SEARCHBAR (object);
 	shell_view = e_shell_searchbar_get_shell_view (searchbar);
 	shell_window = e_shell_view_get_shell_window (shell_view);
+	size_group = e_shell_view_get_size_group (shell_view);
 
 	g_signal_connect (
 		shell_view, "clear-search",
@@ -854,6 +856,9 @@ shell_searchbar_constructed (GObject *object)
 		action, "tooltip",
 		widget, "primary-icon-tooltip-text",
 		G_BINDING_SYNC_CREATE);
+
+	widget = GTK_WIDGET (searchbar);
+	gtk_size_group_add_widget (size_group, widget);
 
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
 
