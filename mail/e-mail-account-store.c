@@ -185,15 +185,51 @@ mail_account_store_update_row (EMailAccountStore *store,
 		-1);
 }
 
+struct ServiceNotifyCbData
+{
+	EMailAccountStore *store;
+	CamelService *service;
+};
+
+static void
+service_notify_cb_data_free (gpointer ptr)
+{
+	struct ServiceNotifyCbData *data = ptr;
+
+	g_clear_object (&data->store);
+	g_clear_object (&data->service);
+	g_slice_free (struct ServiceNotifyCbData, data);
+}
+
+static gboolean
+mail_account_store_service_notify_idle_cb (gpointer user_data)
+{
+	struct ServiceNotifyCbData *data = user_data;
+	GtkTreeIter iter;
+
+	g_return_val_if_fail (data != NULL, FALSE);
+
+	if (mail_account_store_get_iter (data->store, data->service, &iter))
+		mail_account_store_update_row (data->store, data->service, &iter);
+
+	return FALSE;
+}
+
 static void
 mail_account_store_service_notify_cb (CamelService *service,
                                       GParamSpec *pspec,
                                       EMailAccountStore *store)
 {
-	GtkTreeIter iter;
+	struct ServiceNotifyCbData *data;
 
-	if (mail_account_store_get_iter (store, service, &iter))
-		mail_account_store_update_row (store, service, &iter);
+	data = g_slice_new0 (struct ServiceNotifyCbData);
+	data->store = g_object_ref (store);
+	data->service = g_object_ref (service);
+
+	g_idle_add_full (G_PRIORITY_DEFAULT_IDLE,
+		mail_account_store_service_notify_idle_cb,
+		data,
+		service_notify_cb_data_free);
 }
 
 static void

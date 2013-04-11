@@ -138,17 +138,8 @@ mail_backend_prepare_for_offline_cb (EShell *shell,
 	GQueue queue = G_QUEUE_INIT;
 	gboolean synchronize = FALSE;
 
-	if (e_shell_backend_is_started (E_SHELL_BACKEND (backend))) {
-		if (!e_activity_get_cancellable (activity)) {
-			GCancellable *cancellable;
-
-			cancellable = camel_operation_new ();
-			e_activity_set_cancellable (activity, cancellable);
-			g_object_unref (cancellable);
-		}
-
+	if (e_shell_backend_is_started (E_SHELL_BACKEND (backend)))
 		e_shell_backend_add_activity (E_SHELL_BACKEND (backend), activity);
-	}
 
 	window = e_shell_get_active_window (shell);
 	session = e_mail_backend_get_session (backend);
@@ -163,6 +154,17 @@ mail_backend_prepare_for_offline_cb (EShell *shell,
 		mail_cancel_all ();
 		camel_session_set_network_available (
 			CAMEL_SESSION (session), FALSE);
+	}
+
+	/* Set the cancellable only here, because mail_cancel_all() would
+	   cancel the just added CamelOperation as well. */
+	if (e_shell_backend_is_started (E_SHELL_BACKEND (backend)) &&
+	    !e_activity_get_cancellable (activity)) {
+		GCancellable *cancellable;
+
+		cancellable = camel_operation_new ();
+		e_activity_set_cancellable (activity, cancellable);
+		g_object_unref (cancellable);
 	}
 
 	e_mail_account_store_queue_enabled_services (account_store, &queue);
