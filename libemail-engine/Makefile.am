@@ -4,11 +4,16 @@ privsolib_LTLIBRARIES = libemail-engine.la
 
 ENUM_TYPES = e-mail-enums.h
 
-e-mail-enumtypes.h: e-mail-enumtypes.h.template $(ENUM_TYPES)
-	$(AM_V_GEN) (cd $(srcdir) && $(GLIB_MKENUMS) --template e-mail-enumtypes.h.template $(ENUM_TYPES)) > $@
+e-mail-enumtypes.h: $(top_srcdir)/enumtypes.h.template $(ENUM_TYPES)
+	$(AM_V_GEN) (cd $(srcdir) && $(GLIB_MKENUMS) --template $(top_srcdir)/enumtypes.h.template \
+		--fhead "#ifndef E_MAIL_ENUMTYPES_H\n#define E_MAIL_ENUMTYPES_H\n" \
+		--ftail "#endif /* E_MAIL_ENUMTYPES_H */\n" \
+		$(ENUM_TYPES)) > $@
 
-e-mail-enumtypes.c: e-mail-enumtypes.c.template $(ENUM_TYPES)
-	$(AM_V_GEN) (cd $(srcdir) && $(GLIB_MKENUMS) --template e-mail-enumtypes.c.template $(ENUM_TYPES)) > $@
+e-mail-enumtypes.c: $(top_srcdir)/enumtypes.c.template $(ENUM_TYPES)
+	$(AM_V_GEN) (cd $(srcdir) && $(GLIB_MKENUMS) --template $(top_srcdir)/enumtypes.c.template \
+		--fhead "#include \"e-mail-enumtypes.h\"" \
+		$(ENUM_TYPES)) > $@
 
 ENUM_GENERATED = e-mail-enumtypes.h e-mail-enumtypes.c
 
@@ -85,11 +90,6 @@ BUILT_SOURCES = $(ENUM_GENERATED)
 
 CLEANFILES = $(BUILT_SOURCES)
 DISTCLEANFILES = $(pkgconfig_DATA)
-
-EXTRA_DIST = \
-	e-mail-enumtypes.h.template \
-	e-mail-enumtypes.c.template \
-	$(NULL)
 
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)

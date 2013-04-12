@@ -1,20 +1,18 @@
 /*** BEGIN file-header ***/
-#ifndef E_SHELL_ENUMTYPES_H
-#define E_SHELL_ENUMTYPES_H
+/*** END file-header ***/
+
+/*** BEGIN file-production ***/
 
 #include <glib-object.h>
 
 G_BEGIN_DECLS
 
-/*** END file-header ***/
-
-/*** BEGIN file-production ***/
 /* Enumerations from "@filename@" */
 
 /*** END file-production ***/
 
 /*** BEGIN enumeration-production ***/
-#define E_TYPE_@ENUMSHORT@	(@enum_name@_get_type())
+#define @ENUMPREFIX@_TYPE_@ENUMSHORT@	(@enum_name@_get_type())
 GType @enum_name@_get_type	(void) G_GNUC_CONST;
 
 /*** END enumeration-production ***/
@@ -22,6 +20,5 @@ GType @enum_name@_get_type	(void) G_GNUC_CONST;
 /*** BEGIN file-tail ***/
 G_END_DECLS
 
-#endif /* E_SHELL_ENUMTYPES_H */
 /*** END file-tail ***/
 
