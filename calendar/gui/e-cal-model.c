@@ -39,6 +39,8 @@
 #include "itip-utils.h"
 #include "misc.h"
 
+typedef struct _ClientData ClientData;
+
 struct _ECalModelComponentPrivate {
 	GString *categories_str;
 };
@@ -51,18 +53,18 @@ struct _ECalModelComponentPrivate {
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_CAL_MODEL_COMPONENT, ECalModelComponentPrivate))
 
-typedef struct {
+struct _ClientData {
 	ECalClient *client;
 	ECalClientView *view;
 
 	gboolean do_query;
 	GCancellable *cancellable;
-} ECalModelClient;
+};
 
 struct _ECalModelPrivate {
 	ESourceRegistry *registry;
 
-	/* Queue of ECalModelClient structs */
+	/* Queue of ClientData structs */
 	GQueue clients;
 
 	/* The default client in the list */
@@ -146,10 +148,10 @@ static gchar *ecm_value_to_string (ETableModel *etm, gint col, gconstpointer val
 
 static const gchar *ecm_get_color_for_component (ECalModel *model, ECalModelComponent *comp_data);
 
-static ECalModelClient *add_new_client (ECalModel *model, ECalClient *client, gboolean do_query);
-static ECalModelClient *find_client_data (ECalModel *model, ECalClient *client);
-static void remove_client_objects (ECalModel *model, ECalModelClient *client_data);
-static void remove_client (ECalModel *model, ECalModelClient *client_data);
+static ClientData *add_new_client (ECalModel *model, ECalClient *client, gboolean do_query);
+static ClientData *find_client_data (ECalModel *model, ECalClient *client);
+static void remove_client_objects (ECalModel *model, ClientData *client_data);
+static void remove_client (ECalModel *model, ClientData *client_data);
 static void redo_queries (ECalModel *model);
 
 enum {
@@ -539,7 +541,7 @@ cal_model_dispose (GObject *object)
 	}
 
 	while (!g_queue_is_empty (&priv->clients)) {
-		ECalModelClient *client_data;
+		ClientData *client_data;
 
 		client_data = g_queue_pop_head (&priv->clients);
 
@@ -2408,7 +2410,7 @@ ECalClient *
 e_cal_model_get_default_client (ECalModel *model)
 {
 	ECalModelPrivate *priv;
-	ECalModelClient *client_data;
+	ClientData *client_data;
 
 	g_return_val_if_fail (model != NULL, NULL);
 	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
@@ -2431,7 +2433,7 @@ e_cal_model_set_default_client (ECalModel *model,
                                 ECalClient *client)
 {
 	ECalModelPrivate *priv;
-	ECalModelClient *client_data;
+	ClientData *client_data;
 
 	g_return_if_fail (E_IS_CAL_MODEL (model));
 
@@ -2479,9 +2481,9 @@ e_cal_model_get_client_list (ECalModel *model)
 	head = g_queue_peek_head_link (&model->priv->clients);
 
 	for (link = head; link != NULL; link = g_list_next (link)) {
-		ECalModelClient *client_data;
+		ClientData *client_data;
 
-		client_data = (ECalModelClient *) link->data;
+		client_data = (ClientData *) link->data;
 		g_return_val_if_fail (client_data != NULL, NULL);
 
 		/* Exclude the default client if we're not querying it. */
@@ -2513,11 +2515,11 @@ e_cal_model_get_client_for_source (ECalModel *model,
 	head = g_queue_peek_head_link (&model->priv->clients);
 
 	for (link = head; link != NULL; link = g_list_next (link)) {
-		ECalModelClient *client_data = link->data;
+		ClientData *client_data = link->data;
 		ESource *client_source;
 		EClient *client;
 
-		client_data = (ECalModelClient *) link->data;
+		client_data = (ClientData *) link->data;
 		g_return_val_if_fail (client_data != NULL, NULL);
 
 		client = E_CLIENT (client_data->client);
@@ -2530,7 +2532,7 @@ e_cal_model_get_client_for_source (ECalModel *model,
 	return NULL;
 }
 
-static ECalModelClient *
+static ClientData *
 find_client_data (ECalModel *model,
                   ECalClient *client)
 {
@@ -2539,9 +2541,9 @@ find_client_data (ECalModel *model,
 	head = g_queue_peek_head_link (&model->priv->clients);
 
 	for (link = head; link != NULL; link = g_list_next (link)) {
-		ECalModelClient *client_data;
+		ClientData *client_data;
 
-		client_data = (ECalModelClient *) link->data;
+		client_data = (ClientData *) link->data;
 		g_return_val_if_fail (client_data != NULL, NULL);
 
 		if (client_data->client == client)
@@ -2795,7 +2797,7 @@ process_added (ECalClientView *view,
 		ensure_dates_are_in_default_zone (model, l->data);
 
 		if (e_cal_util_component_has_recurrences (l->data) && (priv->flags & E_CAL_MODEL_FLAGS_EXPAND_RECURRENCES)) {
-			ECalModelClient *client_data = find_client_data (model, client);
+			ClientData *client_data = find_client_data (model, client);
 
 			if (client_data) {
 				RecurrenceExpansionData *rdata = g_new0 (RecurrenceExpansionData, 1);
@@ -3121,7 +3123,7 @@ client_view_complete_cb (ECalClientView *view,
 struct get_view_data
 {
 	ECalModel *model; /* do not touch this, if cancelled */
-	ECalModelClient *client_data; /* do not touch this, if cancelled */
+	ClientData *client_data; /* do not touch this, if cancelled */
 	GCancellable *cancellable;
 	guint tries;
 };
@@ -3225,7 +3227,7 @@ retry_get_view_timeout_cb (gpointer user_data)
 
 static void
 update_e_cal_view_for_client (ECalModel *model,
-                              ECalModelClient *client_data)
+                              ClientData *client_data)
 {
 	ECalModelPrivate *priv;
 	struct get_view_data *gvd;
@@ -3285,13 +3287,13 @@ backend_died_cb (ECalClient *client,
 	e_cal_model_remove_client (model, client);
 }
 
-static ECalModelClient *
+static ClientData *
 add_new_client (ECalModel *model,
                 ECalClient *client,
                 gboolean do_query)
 {
 	ECalModelPrivate *priv;
-	ECalModelClient *client_data;
+	ClientData *client_data;
 
 	priv = model->priv;
 
@@ -3311,7 +3313,7 @@ add_new_client (ECalModel *model,
 		goto load;
 	}
 
-	client_data = g_new0 (ECalModelClient, 1);
+	client_data = g_new0 (ClientData, 1);
 	client_data->client = g_object_ref (client);
 	client_data->view = NULL;
 	client_data->do_query = do_query;
@@ -3343,7 +3345,7 @@ e_cal_model_add_client (ECalModel *model,
 
 static void
 remove_client_objects (ECalModel *model,
-                       ECalModelClient *client_data)
+                       ClientData *client_data)
 {
 	gint i;
 
@@ -3375,7 +3377,7 @@ remove_client_objects (ECalModel *model,
 
 static void
 remove_client (ECalModel *model,
-               ECalModelClient *client_data)
+               ClientData *client_data)
 {
 	/* FIXME We might not want to disconnect the open signal for the default client */
 	g_signal_handlers_disconnect_matched (client_data->client, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, model);
@@ -3412,7 +3414,7 @@ void
 e_cal_model_remove_client (ECalModel *model,
                            ECalClient *client)
 {
-	ECalModelClient *client_data;
+	ClientData *client_data;
 
 	g_return_if_fail (E_IS_CAL_MODEL (model));
 	g_return_if_fail (E_IS_CAL_CLIENT (client));
@@ -3431,7 +3433,7 @@ e_cal_model_remove_all_clients (ECalModel *model)
 	g_return_if_fail (E_IS_CAL_MODEL (model));
 
 	while (!g_queue_is_empty (&model->priv->clients)) {
-		ECalModelClient *client_data;
+		ClientData *client_data;
 
 		client_data = g_queue_pop_head (&model->priv->clients);
 		remove_client (model, client_data);
@@ -3564,9 +3566,9 @@ redo_queries (ECalModel *model)
 	head = g_queue_peek_head_link (&priv->clients);
 
 	for (link = head; link != NULL; link = g_list_next (link)) {
-		ECalModelClient *client_data;
+		ClientData *client_data;
 
-		client_data = (ECalModelClient *) link->data;
+		client_data = (ClientData *) link->data;
 		g_return_if_fail (client_data != NULL);
 
 		update_e_cal_view_for_client (model, client_data);
