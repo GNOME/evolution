@@ -2351,42 +2351,6 @@ e_cal_model_list_clients (ECalModel *model)
 	return g_queue_peek_head_link (&results);
 }
 
-/**
- * e_cal_model_get_client_for_source:
- * @model: an #ECalModel
- * @source: an #ESource
- */
-ECalClient *
-e_cal_model_get_client_for_source (ECalModel *model,
-                                   ESource *source)
-{
-	ECalClient *match = NULL;
-	GList *list, *link;
-
-	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
-	g_return_val_if_fail (E_IS_SOURCE (source), NULL);
-
-	list = cal_model_clients_list (model);
-
-	for (link = list; link != NULL; link = g_list_next (link)) {
-		ClientData *client_data = link->data;
-		ESource *client_source;
-		EClient *client;
-
-		client = E_CLIENT (client_data->client);
-		client_source = e_client_get_source (client);
-
-		if (e_source_equal (source, client_source)) {
-			match = client_data->client;
-			break;
-		}
-	}
-
-	g_list_free_full (list, (GDestroyNotify) client_data_unref);
-
-	return match;
-}
-
 static ECalModelComponent *
 search_by_id_and_client (ECalModelPrivate *priv,
                          ECalClient *client,

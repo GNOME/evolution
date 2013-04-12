@@ -247,9 +247,6 @@ ECalClient *	e_cal_model_get_default_client	(ECalModel *model);
 void		e_cal_model_set_default_client	(ECalModel *model,
 						 ECalClient *client);
 GList *		e_cal_model_list_clients	(ECalModel *model);
-ECalClient *	e_cal_model_get_client_for_source
-						(ECalModel *model,
-						 ESource *source);
 void		e_cal_model_add_client		(ECalModel *model,
 						 ECalClient *cal_client);
 void		e_cal_model_remove_client	(ECalModel *model,
