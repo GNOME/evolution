@@ -1432,7 +1432,7 @@ static void
 cal_iterate_searching (ECalShellView *cal_shell_view)
 {
 	ECalShellViewPrivate *priv;
-	GList *clients, *iter;
+	GList *list, *link;
 	ECalModel *model;
 	time_t new_time, range1, range2;
 	icaltimezone *timezone;
@@ -1517,9 +1517,9 @@ cal_iterate_searching (ECalShellView *cal_shell_view)
 	model = gnome_calendar_get_model (
 		e_cal_shell_content_get_calendar (
 		cal_shell_view->priv->cal_shell_content));
-	clients = e_cal_model_get_client_list (model);
+	list = e_cal_model_list_clients (model);
 
-	if (!clients) {
+	if (list == NULL) {
 		e_activity_set_state (
 			priv->searching_activity, E_ACTIVITY_COMPLETED);
 		g_object_unref (priv->searching_activity);
@@ -1560,19 +1560,18 @@ cal_iterate_searching (ECalShellView *cal_shell_view)
 	g_free (end);
 
 	cancellable = e_activity_get_cancellable (priv->searching_activity);
-	g_list_foreach (clients, (GFunc) g_object_ref, NULL);
-	priv->search_pending_count = g_list_length (clients);
+	priv->search_pending_count = g_list_length (list);
 	priv->search_time = new_time;
 
-	for (iter = clients; iter; iter = iter->next) {
-		ECalClient *client = iter->data;
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		ECalClient *client = E_CAL_CLIENT (link);
 
 		e_cal_client_get_object_list (
 			client, sexp, cancellable,
 			cal_search_get_object_list_cb, cal_shell_view);
 	}
 
-	g_list_free_full (clients, g_object_unref);
+	g_list_free_full (list, (GDestroyNotify) g_object_unref);
 	g_free (sexp);
 }
 

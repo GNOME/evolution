@@ -2621,7 +2621,7 @@ e_cal_model_set_default_client (ECalModel *model,
 }
 
 GList *
-e_cal_model_get_client_list (ECalModel *model)
+e_cal_model_list_clients (ECalModel *model)
 {
 	GQueue results = G_QUEUE_INIT;
 	GList *list, *link;
@@ -2635,14 +2635,17 @@ e_cal_model_get_client_list (ECalModel *model)
 
 	for (link = list; link != NULL; link = g_list_next (link)) {
 		ClientData *client_data = link->data;
+		ECalClient *client;
+
+		client = client_data->client;
 
 		/* Exclude the default client if we're not querying it. */
-		if (client_data->client == default_client) {
+		if (client == default_client) {
 			if (!client_data->do_query)
 				continue;
 		}
 
-		g_queue_push_tail (&results, client_data->client);
+		g_queue_push_tail (&results, g_object_ref (client));
 	}
 
 	g_list_free_full (list, (GDestroyNotify) client_data_unref);

@@ -544,7 +544,7 @@ e_task_shell_view_delete_completed (ETaskShellView *task_shell_view)
 {
 	ETaskShellContent *task_shell_content;
 	ECalModel *model;
-	GList *list, *iter;
+	GList *list, *link;
 	const gchar *sexp;
 
 	g_return_if_fail (E_IS_TASK_SHELL_VIEW (task_shell_view));
@@ -557,10 +557,10 @@ e_task_shell_view_delete_completed (ETaskShellView *task_shell_view)
 	e_task_shell_view_set_status_message (
 		task_shell_view, _("Expunging"), -1.0);
 
-	list = e_cal_model_get_client_list (model);
+	list = e_cal_model_list_clients (model);
 
-	for (iter = list; iter != NULL; iter = iter->next) {
-		ECalClient *client = E_CAL_CLIENT (iter->data);
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		ECalClient *client = E_CAL_CLIENT (link->data);
 		GSList *objects, *obj;
 		GError *error = NULL;
 
@@ -599,7 +599,7 @@ e_task_shell_view_delete_completed (ETaskShellView *task_shell_view)
 		e_cal_client_free_icalcomp_slist (objects);
 	}
 
-	g_list_free (list);
+	g_list_free_full (list, (GDestroyNotify) g_object_unref);
 
 	e_task_shell_view_set_status_message (task_shell_view, NULL, -1.0);
 }

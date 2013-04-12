@@ -1177,7 +1177,7 @@ update_query_async (struct _date_query_msg *msg)
 	GnomeCalendarPrivate *priv;
 	ECalClientView *new_view;
 	gchar *real_sexp;
-	GList *list, *iter;
+	GList *list, *link;
 
 	priv = gcal->priv;
 
@@ -1191,12 +1191,11 @@ update_query_async (struct _date_query_msg *msg)
 		return; /* No time range is set, so don't start a query */
 	}
 
-	list = e_cal_model_get_client_list (priv->model);
-	g_list_foreach (list, (GFunc) g_object_ref, NULL);
+	list = e_cal_model_list_clients (priv->model);
 
 	/* create queries for each loaded client */
-	for (iter = list; iter != NULL; iter = iter->next) {
-		ECalClient *client = E_CAL_CLIENT (iter->data);
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		ECalClient *client = E_CAL_CLIENT (link->data);
 		GError *error = NULL;
 
 		new_view = NULL;
@@ -1232,8 +1231,7 @@ update_query_async (struct _date_query_msg *msg)
 		g_mutex_unlock (&priv->dn_query_lock);
 	}
 
-	g_list_foreach (list, (GFunc) g_object_unref, NULL);
-	g_list_free (list);
+	g_list_free_full (list, (GDestroyNotify) g_object_unref);
 
 	/* free memory */
 	g_free (real_sexp);
@@ -2332,10 +2330,13 @@ void
 gnome_calendar_purge (GnomeCalendar *gcal,
                       time_t older_than)
 {
+	ECalModel *model;
 	gchar *sexp, *start, *end;
-	GList *clients, *l;
+	GList *list, *link;
 
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
+
+	model = gnome_calendar_get_model (gcal);
 
 	start = isodate_from_time_t (0);
 	end = isodate_from_time_t (older_than);
@@ -2346,9 +2347,10 @@ gnome_calendar_purge (GnomeCalendar *gcal,
 	gcal_update_status_message (gcal, _("Purging"), -1);
 
 	/* FIXME Confirm expunge */
-	clients = e_cal_model_get_client_list (gnome_calendar_get_model (gcal));
-	for (l = clients; l != NULL; l = l->next) {
-		ECalClient *client = l->data;
+	list = e_cal_model_list_clients (model);
+
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		ECalClient *client = E_CAL_CLIENT (link->data);
 		GSList *objects, *m;
 		GError *error = NULL;
 
@@ -2424,7 +2426,7 @@ gnome_calendar_purge (GnomeCalendar *gcal,
 		g_slist_free (objects);
 	}
 
-	g_list_free (clients);
+	g_list_free_full (list, (GDestroyNotify) g_object_unref);
 
 	gcal_update_status_message (gcal, NULL, -1);
 
