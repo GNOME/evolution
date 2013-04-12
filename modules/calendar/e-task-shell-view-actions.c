@@ -317,32 +317,29 @@ static void
 action_task_list_refresh_cb (GtkAction *action,
                              ETaskShellView *task_shell_view)
 {
-	ETaskShellContent *task_shell_content;
 	ETaskShellSidebar *task_shell_sidebar;
 	ESourceSelector *selector;
-	ECalClient *client;
-	ECalModel *model;
+	EClient *client = NULL;
 	ESource *source;
 	GError *error = NULL;
 
-	task_shell_content = task_shell_view->priv->task_shell_content;
 	task_shell_sidebar = task_shell_view->priv->task_shell_sidebar;
-
-	model = e_task_shell_content_get_task_model (task_shell_content);
 	selector = e_task_shell_sidebar_get_selector (task_shell_sidebar);
 
 	source = e_source_selector_ref_primary_selection (selector);
-	g_return_if_fail (source != NULL);
 
-	client = e_cal_model_get_client_for_source (model, source);
-	if (client == NULL) {
+	if (source != NULL) {
+		client = e_client_selector_ref_cached_client (
+			E_CLIENT_SELECTOR (selector), source);
 		g_object_unref (source);
-		return;
 	}
 
-	g_return_if_fail (e_client_check_refresh_supported (E_CLIENT (client)));
+	if (client == NULL)
+		return;
 
-	e_client_refresh_sync (E_CLIENT (client), NULL, &error);
+	g_return_if_fail (e_client_check_refresh_supported (client));
+
+	e_client_refresh_sync (client, NULL, &error);
 
 	if (error != NULL) {
 		g_warning (
@@ -352,7 +349,7 @@ action_task_list_refresh_cb (GtkAction *action,
 		g_error_free (error);
 	}
 
-	g_object_unref (source);
+	g_object_unref (client);
 }
 
 static void

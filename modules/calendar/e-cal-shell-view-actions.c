@@ -371,32 +371,29 @@ static void
 action_calendar_refresh_cb (GtkAction *action,
                            ECalShellView *cal_shell_view)
 {
-	ECalShellContent *cal_shell_content;
 	ECalShellSidebar *cal_shell_sidebar;
 	ESourceSelector *selector;
-	ECalClient *client;
-	ECalModel *model;
+	EClient *client = NULL;
 	ESource *source;
 	GError *error = NULL;
 
-	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	cal_shell_sidebar = cal_shell_view->priv->cal_shell_sidebar;
-
-	model = e_cal_shell_content_get_model (cal_shell_content);
 	selector = e_cal_shell_sidebar_get_selector (cal_shell_sidebar);
 
 	source = e_source_selector_ref_primary_selection (selector);
-	g_return_if_fail (source != NULL);
 
-	client = e_cal_model_get_client_for_source (model, source);
-	if (client == NULL) {
+	if (source != NULL) {
+		client = e_client_selector_ref_cached_client (
+			E_CLIENT_SELECTOR (selector), source);
 		g_object_unref (source);
-		return;
 	}
 
-	g_return_if_fail (e_client_check_refresh_supported (E_CLIENT (client)));
+	if (client == NULL)
+		return;
 
-	e_client_refresh_sync (E_CLIENT (client), NULL, &error);
+	g_return_if_fail (e_client_check_refresh_supported (client));
+
+	e_client_refresh_sync (client, NULL, &error);
 
 	if (error != NULL) {
 		g_warning (
@@ -406,7 +403,7 @@ action_calendar_refresh_cb (GtkAction *action,
 		g_error_free (error);
 	}
 
-	g_object_unref (source);
+	g_object_unref (client);
 }
 
 static void
