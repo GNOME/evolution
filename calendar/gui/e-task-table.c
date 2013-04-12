@@ -1873,7 +1873,7 @@ e_task_table_process_completed_tasks (ETaskTable *task_table,
 	if (!(hide_sexp && show_sexp))
 		show_sexp = g_strdup ("(is-completed?)");
 
-	client_list = e_cal_model_get_client_list (model);
+	client_list = e_cal_model_list_clients (model);
 
 	/* Delete rows from model */
 	if (hide_sexp) {
@@ -1889,7 +1889,7 @@ e_task_table_process_completed_tasks (ETaskTable *task_table,
 			show_completed_rows_ready, model);
 	}
 
-	g_list_free (client_list);
+	g_list_free_full (client_list, (GDestroyNotify) g_object_unref);
 
 	g_free (hide_sexp);
 	g_free (show_sexp);

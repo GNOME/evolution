@@ -246,7 +246,7 @@ void		e_cal_model_set_work_day_start_minute
 ECalClient *	e_cal_model_get_default_client	(ECalModel *model);
 void		e_cal_model_set_default_client	(ECalModel *model,
 						 ECalClient *client);
-GList *		e_cal_model_get_client_list	(ECalModel *model);
+GList *		e_cal_model_list_clients	(ECalModel *model);
 ECalClient *	e_cal_model_get_client_for_source
 						(ECalModel *model,
 						 ESource *source);
