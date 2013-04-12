@@ -353,135 +353,16 @@ web_view_menu_item_select_cb (EWebView *web_view,
 }
 
 static void
-web_view_replace_text (WebKitDOMNode *node,
-                       const gchar *text,
-                       WebKitDOMNode *replacement)
-{
-	g_return_if_fail (text != NULL);
-
-	/* NodeType 3 = TEXT_NODE */
-	if (webkit_dom_node_get_node_type (node) == 3) {
-		gsize text_length = strlen (text);
-
-		while (node != NULL) {
-			WebKitDOMNode *current_node;
-			WebKitDOMNode *replacement_node;
-			const gchar *node_data, *offset;
-			goffset split_offset;
-			gint data_length;
-
-			current_node = node;
-
-			/* Don't use the WEBKIT_DOM_CHARACTER_DATA macro for
-			 * casting. WebKit lies about type of the object and
-			 * GLib will throw runtime warning about node not being
-			 * WebKitDOMCharacterData, but the function will return
-			 * correct and valid data.
-			 * IMO it's bug in the Gtk bindings and WebKit internally
-			 * handles it by the nodeType so therefor it works
-			 * event for "invalid" objects. But really, who knows..?
-			 */
-			node_data = webkit_dom_character_data_get_data (
-				(WebKitDOMCharacterData *) node);
-
-			offset = strstr (node_data, text);
-			if (offset == NULL) {
-				node = NULL;
-				continue;
-			}
-
-			split_offset = offset - node_data + text_length;
-			replacement_node =
-				webkit_dom_node_clone_node (replacement, TRUE);
-
-			data_length = webkit_dom_character_data_get_length (
-				(WebKitDOMCharacterData *) node);
-			if (split_offset < data_length) {
-				WebKitDOMNode *parent_node;
-
-				node = WEBKIT_DOM_NODE (
-					webkit_dom_text_split_text (
-						(WebKitDOMText *) node,
-						offset - node_data + text_length,
-						NULL));
-				parent_node =
-					webkit_dom_node_get_parent_node (node);
-				webkit_dom_node_insert_before (
-					parent_node, replacement_node,
-					node, NULL);
-
-			} else {
-				WebKitDOMNode *parent_node;
-
-				parent_node =
-					webkit_dom_node_get_parent_node (node);
-				webkit_dom_node_append_child (
-					parent_node,
-					replacement_node, NULL);
-			}
-
-			webkit_dom_character_data_delete_data (
-				(WebKitDOMCharacterData *) current_node,
-				offset - node_data, text_length, NULL);
-		}
-
-	} else {
-		WebKitDOMNode *child;
-		WebKitDOMNode *next_child;
-
-		/* Iframe? Let's traverse inside! */
-		if (WEBKIT_DOM_IS_HTML_IFRAME_ELEMENT (node)) {
-			WebKitDOMDocument *frame_document;
-
-			frame_document =
-				webkit_dom_html_iframe_element_get_content_document (
-					WEBKIT_DOM_HTML_IFRAME_ELEMENT (node));
-			web_view_replace_text (
-				WEBKIT_DOM_NODE (frame_document),
-				text, replacement);
-
-		} else {
-			child = webkit_dom_node_get_first_child (node);
-			while (child != NULL) {
-				next_child = webkit_dom_node_get_next_sibling (child);
-				web_view_replace_text (
-					child, text, replacement);
-				child = next_child;
-			}
-		}
-	}
-}
-
-static void
 web_view_update_document_highlights (EWebView *web_view)
 {
-	WebKitDOMDocument *document;
 	GList *head, *link;
-
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (web_view));
 
 	head = g_queue_peek_head_link (&web_view->priv->highlights);
 
-	for (link = head; link != NULL; link = g_list_next (link)) {
-		WebKitDOMDocumentFragment *frag;
-		WebKitDOMElement *span;
-		const gchar *text = link->data;
+	for (link = head; link != NULL; link = g_list_next (link))
+		webkit_web_view_mark_text_matches (WEBKIT_WEB_VIEW (web_view), link->data, FALSE, 0);
 
-		span = webkit_dom_document_create_element (document, "span", NULL);
-
-		webkit_dom_element_set_class_name (span, "__evo-highlight");
-
-		webkit_dom_html_element_set_inner_text (
-			WEBKIT_DOM_HTML_ELEMENT (span), text, NULL);
-
-		frag = webkit_dom_document_create_document_fragment (document);
-		webkit_dom_node_append_child (
-			WEBKIT_DOM_NODE (frag), WEBKIT_DOM_NODE (span), NULL);
-
-		web_view_replace_text (
-			WEBKIT_DOM_NODE (document),
-			text, WEBKIT_DOM_NODE (frag));
-	}
+	webkit_web_view_set_highlight_text_matches (WEBKIT_WEB_VIEW (web_view), TRUE);
 }
 
 static void
@@ -2438,7 +2319,9 @@ e_web_view_add_highlight (EWebView *web_view,
 		&web_view->priv->highlights,
 		g_strdup (highlight));
 
-	web_view_update_document_highlights (web_view);
+	webkit_web_view_mark_text_matches (WEBKIT_WEB_VIEW (web_view), highlight, FALSE, 0);
+
+	webkit_web_view_set_highlight_text_matches (WEBKIT_WEB_VIEW (web_view), TRUE);
 }
 
 void
@@ -2446,10 +2329,10 @@ e_web_view_clear_highlights (EWebView *web_view)
 {
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
+	webkit_web_view_unmark_text_matches (WEBKIT_WEB_VIEW (web_view));
+
 	while (!g_queue_is_empty (&web_view->priv->highlights))
 		g_free (g_queue_pop_head (&web_view->priv->highlights));
-
-	web_view_update_document_highlights (web_view);
 }
 
 GtkAction *
