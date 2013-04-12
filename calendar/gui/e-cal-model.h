@@ -243,7 +243,7 @@ gint		e_cal_model_get_work_day_start_minute
 void		e_cal_model_set_work_day_start_minute
 						(ECalModel *model,
 						 gint work_day_start_minute);
-ECalClient *	e_cal_model_get_default_client	(ECalModel *model);
+ECalClient *	e_cal_model_ref_default_client	(ECalModel *model);
 void		e_cal_model_set_default_client	(ECalModel *model,
 						 ECalClient *client);
 GList *		e_cal_model_list_clients	(ECalModel *model);

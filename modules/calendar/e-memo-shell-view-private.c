@@ -37,11 +37,13 @@ memo_shell_view_model_row_appended_cb (EMemoShellView *memo_shell_view,
 
 	/* This is the "Click to Add" handler. */
 
-	client = e_cal_model_get_default_client (model);
+	client = e_cal_model_ref_default_client (model);
 	source = e_client_get_source (E_CLIENT (client));
 
 	memo_shell_sidebar = memo_shell_view->priv->memo_shell_sidebar;
 	e_memo_shell_sidebar_add_source (memo_shell_sidebar, source);
+
+	g_object_unref (client);
 }
 
 static void

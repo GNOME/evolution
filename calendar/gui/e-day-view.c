@@ -574,7 +574,7 @@ e_day_view_add_new_event_in_selected_range (EDayView *day_view,
 	icalcomponent *icalcomp;
 	ECalClient *client;
 	ECalModel *model;
-	ECalComponent *comp;
+	ECalComponent *comp = NULL;
 	gint day, event_num;
 	time_t dtstart, dtend;
 	ECalComponentDateTime start_dt, end_dt;
@@ -582,19 +582,20 @@ e_day_view_add_new_event_in_selected_range (EDayView *day_view,
 	const gchar *uid;
 	AddEventData add_event_data;
 	ESourceRegistry *registry;
+	gboolean success = FALSE;
 
 	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
 
 	registry = e_cal_model_get_registry (model);
-	client = e_cal_model_get_default_client (model);
+	client = e_cal_model_ref_default_client (model);
 
 	/* Check if the client is read only */
 	if (e_client_is_readonly (E_CLIENT (client)))
-		return FALSE;
+		goto exit;
 
 	icalcomp = e_cal_model_create_component_with_defaults (model, day_view->selection_in_top_canvas);
 	if (!icalcomp)
-		return FALSE;
+		goto exit;
 
 	uid = icalcomponent_get_uid (icalcomp);
 
@@ -645,14 +646,18 @@ e_day_view_add_new_event_in_selected_range (EDayView *day_view,
 
 	if (!e_day_view_find_event_from_uid (day_view, client, uid, NULL, &day, &event_num)) {
 		g_warning ("Couldn't find event to start editing.\n");
-		g_object_unref (comp);
-		return FALSE;
+		goto exit;
 	}
 
 	e_day_view_start_editing_event (day_view, day, event_num, key_event);
 
-	g_object_unref (comp);
-	return TRUE;
+	success = TRUE;
+
+exit:
+	g_clear_object (&comp);
+	g_clear_object (&client);
+
+	return success;
 }
 
 static void
@@ -4925,7 +4930,7 @@ e_day_view_add_event (ESourceRegistry *registry,
 	} else {
 		event.comp_data = g_object_new (E_TYPE_CAL_MODEL_COMPONENT, NULL);
 
-		event.comp_data->client = g_object_ref (e_cal_model_get_default_client (e_calendar_view_get_model (E_CALENDAR_VIEW (add_event_data->day_view))));
+		event.comp_data->client = e_cal_model_ref_default_client (e_calendar_view_get_model (E_CALENDAR_VIEW (add_event_data->day_view)));
 		e_cal_component_abort_sequence (comp);
 		event.comp_data->icalcomp = icalcomponent_new_clone (e_cal_component_get_icalcomponent (comp));
 	}
@@ -8214,7 +8219,6 @@ e_day_view_on_top_canvas_drag_data_received (GtkWidget *widget,
 	struct icaltimetype itt;
 	time_t dt;
 	gboolean all_day_event;
-	ECalClient *client;
 	ECalModel *model;
 	ECalendarView *cal_view;
 	gboolean drag_from_same_window;
@@ -8234,7 +8238,6 @@ e_day_view_on_top_canvas_drag_data_received (GtkWidget *widget,
 	model = e_calendar_view_get_model (cal_view);
 
 	registry = e_cal_model_get_registry (model);
-	client = e_cal_model_get_default_client (model);
 
 	/* Note that we only support DnD within the EDayView at present. */
 	if (length >= 0 && format == 8 && day_view->drag_event_day != -1) {
@@ -8246,6 +8249,7 @@ e_day_view_on_top_canvas_drag_data_received (GtkWidget *widget,
 			NULL);
 		if (pos != E_CALENDAR_VIEW_POS_OUTSIDE) {
 			CalObjModType mod = CALOBJ_MOD_ALL;
+			ECalClient *client;
 			GtkWindow *toplevel;
 
 			num_days = 1;
@@ -8385,6 +8389,8 @@ e_day_view_on_top_canvas_drag_data_received (GtkWidget *widget,
 	}
 
 	if (length >= 0 && format == 8 && !drag_from_same_window) {
+		ECalClient *client;
+
 		/* We are dragging between different window */
 
 		icalcomponent *icalcomp;
@@ -8411,6 +8417,8 @@ e_day_view_on_top_canvas_drag_data_received (GtkWidget *widget,
 			goto error;
 
 		dtstart = day_view->day_starts[day];
+
+		client = e_cal_model_ref_default_client (model);
 
 		if (kind == ICAL_VCALENDAR_COMPONENT) {
 			icalcomponent_kind child_kind;
@@ -8443,6 +8451,8 @@ e_day_view_on_top_canvas_drag_data_received (GtkWidget *widget,
 			e_calendar_view_add_event (E_CALENDAR_VIEW (day_view), client, dtstart, default_zone, icalcomp, TRUE);
 		}
 
+		g_object_unref (client);
+
 		gtk_drag_finish (context, TRUE, TRUE, time);
 		return;
 	}
@@ -8473,7 +8483,6 @@ e_day_view_on_main_canvas_drag_data_received (GtkWidget *widget,
 	ESourceRegistry *registry;
 	struct icaltimetype itt;
 	time_t dt;
-	ECalClient *client;
 	gboolean drag_from_same_window;
 	const guchar *data;
 	gint format, length;
@@ -8493,8 +8502,6 @@ e_day_view_on_main_canvas_drag_data_received (GtkWidget *widget,
 	else
 		drag_from_same_window = FALSE;
 
-	client = e_cal_model_get_default_client (e_calendar_view_get_model (E_CALENDAR_VIEW (day_view)));
-
 	gnome_canvas_get_scroll_offsets (
 		GNOME_CANVAS (widget),
 		&scroll_x, &scroll_y);
@@ -8511,6 +8518,7 @@ e_day_view_on_main_canvas_drag_data_received (GtkWidget *widget,
 			&row, NULL);
 		if (pos != E_CALENDAR_VIEW_POS_OUTSIDE) {
 			CalObjModType mod = CALOBJ_MOD_ALL;
+			ECalClient *client;
 			GtkWindow *toplevel;
 
 			num_rows = 1;
@@ -8623,6 +8631,8 @@ e_day_view_on_main_canvas_drag_data_received (GtkWidget *widget,
 	}
 
 	if (length >= 0 && format == 8 && !drag_from_same_window) {
+		ECalClient *client;
+
 		/* We are dragging between different window */
 
 		icalcomponent *icalcomp;
@@ -8649,6 +8659,8 @@ e_day_view_on_main_canvas_drag_data_received (GtkWidget *widget,
 			goto error;
 
 		dtstart = e_day_view_convert_grid_position_to_time (day_view, day, row);
+
+		client = e_cal_model_ref_default_client (model);
 
 		if (kind == ICAL_VCALENDAR_COMPONENT) {
 			icalcomponent_kind child_kind;
@@ -8680,6 +8692,8 @@ e_day_view_on_main_canvas_drag_data_received (GtkWidget *widget,
 		} else {
 			e_calendar_view_add_event (E_CALENDAR_VIEW (day_view), client, dtstart, default_zone, icalcomp, FALSE);
 		}
+
+		g_object_unref (client);
 
 		gtk_drag_finish (context, TRUE, TRUE, time);
 		return;

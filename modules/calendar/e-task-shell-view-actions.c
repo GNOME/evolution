@@ -456,12 +456,12 @@ action_task_new_cb (GtkAction *action,
 		ECalModel *model;
 
 		model = e_task_table_get_model (task_table);
-		client = e_cal_model_get_default_client (model);
+		client = e_cal_model_ref_default_client (model);
 	} else {
 		ECalModelComponent *comp_data;
 
 		comp_data = list->data;
-		client = comp_data->client;
+		client = g_object_ref (comp_data->client);
 		g_slist_free (list);
 	}
 
@@ -474,6 +474,8 @@ action_task_new_cb (GtkAction *action,
 	gtk_window_present (GTK_WINDOW (editor));
 
 	g_object_unref (comp);
+
+	g_object_unref (client);
 }
 
 static void

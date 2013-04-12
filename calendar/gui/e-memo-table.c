@@ -858,7 +858,7 @@ clipboard_get_calendar_data (EMemoTable *memo_table,
 	}
 
 	model = e_memo_table_get_model (memo_table);
-	client = e_cal_model_get_default_client (model);
+	client = e_cal_model_ref_default_client (model);
 
 	status_message = _("Updating objects");
 	memo_table_emit_status_message (memo_table, status_message, -1.0);
@@ -931,6 +931,8 @@ clipboard_get_calendar_data (EMemoTable *memo_table,
 	}
 
 	memo_table_emit_status_message (memo_table, NULL, -1.0);
+
+	g_object_unref (client);
 }
 
 static void

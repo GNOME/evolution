@@ -532,7 +532,7 @@ e_week_view_add_new_event_in_selected_range (EWeekView *week_view,
 {
 	ECalClient *client;
 	ECalModel *model;
-	ECalComponent *comp;
+	ECalComponent *comp = NULL;
 	icalcomponent *icalcomp;
 	gint event_num;
 	ECalComponentDateTime date;
@@ -542,17 +542,19 @@ e_week_view_add_new_event_in_selected_range (EWeekView *week_view,
 	AddEventData add_event_data;
 	EWeekViewEvent *wvevent;
 	EWeekViewEventSpan *span;
+	gboolean success = FALSE;
+
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
+	client = e_cal_model_ref_default_client (model);
 
 	/* Check if the client is read only */
-	model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
-	client = e_cal_model_get_default_client (model);
 	if (e_client_is_readonly (E_CLIENT (client)))
-		return FALSE;
+		goto exit;
 
 	/* Add a new event covering the selected range. */
 	icalcomp = e_cal_model_create_component_with_defaults (e_calendar_view_get_model (E_CALENDAR_VIEW (week_view)), TRUE);
 	if (!icalcomp)
-		return FALSE;
+		goto exit;
 	uid = icalcomponent_get_uid (icalcomp);
 
 	comp = e_cal_component_new ();
@@ -591,18 +593,17 @@ e_week_view_add_new_event_in_selected_range (EWeekView *week_view,
 
 	if (!e_week_view_find_event_from_uid (week_view, client, uid, NULL, &event_num)) {
 		g_warning ("Couldn't find event to start editing.\n");
-		g_object_unref (comp);
-		return FALSE;
+		goto exit;
 	}
 
 	if (!is_array_index_in_bounds (week_view->events, event_num))
-		return FALSE;
+		goto exit;
 
 	wvevent = &g_array_index (week_view->events, EWeekViewEvent,
 				  event_num);
 
 	if (!is_array_index_in_bounds (week_view->spans, wvevent->spans_index + 0))
-		return FALSE;
+		goto exit;
 
 	span = &g_array_index (week_view->spans, EWeekViewEventSpan,
 			       wvevent->spans_index + 0);
@@ -611,17 +612,19 @@ e_week_view_add_new_event_in_selected_range (EWeekView *week_view,
 	if (!span->text_item) {
 		e_week_view_foreach_event_with_uid (week_view, uid,
 				e_week_view_remove_event_cb, NULL);
-		g_object_unref (comp);
-		return FALSE;
-	} else {
-		e_week_view_start_editing_event (
-			week_view, event_num, 0,
-			(gchar *) initial_text);
+		goto exit;
 	}
 
-	g_object_unref (comp);
+	e_week_view_start_editing_event (
+		week_view, event_num, 0, (gchar *) initial_text);
 
-	return TRUE;
+	success = TRUE;
+
+exit:
+	g_clear_object (&comp);
+	g_clear_object (&client);
+
+	return success;
 }
 
 static void
@@ -2961,7 +2964,7 @@ e_week_view_add_event (ECalComponent *comp,
 	} else {
 		event.comp_data = g_object_new (E_TYPE_CAL_MODEL_COMPONENT, NULL);
 
-		event.comp_data->client = g_object_ref (e_cal_model_get_default_client (e_calendar_view_get_model (E_CALENDAR_VIEW (add_event_data->week_view))));
+		event.comp_data->client = e_cal_model_ref_default_client (e_calendar_view_get_model (E_CALENDAR_VIEW (add_event_data->week_view)));
 		e_cal_component_abort_sequence (comp);
 		event.comp_data->icalcomp = icalcomponent_new_clone (e_cal_component_get_icalcomponent (comp));
 	}
