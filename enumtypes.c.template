@@ -1,6 +1,4 @@
 /*** BEGIN file-header ***/
-#include "e-shell-enumtypes.h"
-
 /*** END file-header ***/
 
 /*** BEGIN file-production ***/
@@ -13,9 +11,9 @@
 GType
 @enum_name@_get_type (void)
 {
-	static GType the_type = 0;
-	
-	if (the_type == 0) {
+	static volatile gsize the_type__volatile = 0;
+
+	if (g_once_init_enter (&the_type__volatile)) {
 		static const G@Type@Value values[] = {
 /*** END value-header ***/
 
@@ -28,11 +26,12 @@ GType
 /*** BEGIN value-tail ***/
 			{ 0, NULL, NULL }
 		};
-		the_type = g_@type@_register_static (
+		GType the_type = g_@type@_register_static (
 			g_intern_static_string ("@EnumName@"),
 			values);
+		g_once_init_leave (&the_type__volatile, the_type);
 	}
-	return the_type;
+	return the_type__volatile;
 }
 
 /*** END value-tail ***/

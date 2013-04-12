@@ -6,11 +6,16 @@ ruledir = $(privdatadir)
 
 ENUM_TYPES = e-util-enums.h
 
-e-util-enumtypes.h: e-util-enumtypes.h.template $(ENUM_TYPES)
-	$(AM_V_GEN) (cd $(srcdir) && $(GLIB_MKENUMS) --template e-util-enumtypes.h.template $(ENUM_TYPES)) > $@
+e-util-enumtypes.h: $(top_srcdir)/enumtypes.h.template $(ENUM_TYPES)
+	$(AM_V_GEN) (cd $(srcdir) && $(GLIB_MKENUMS) --template $(top_srcdir)/enumtypes.h.template \
+		--fhead "#ifndef E_UTIL_ENUMTYPES_H\n#define E_UTIL_ENUMTYPES_H\n" \
+		--ftail "#endif /* E_UTIL_ENUMTYPES_H */\n" \
+		$(ENUM_TYPES)) > $@
 
-e-util-enumtypes.c: e-util-enumtypes.c.template $(ENUM_TYPES)
-	$(AM_V_GEN) (cd $(srcdir) && $(GLIB_MKENUMS) --template e-util-enumtypes.c.template $(ENUM_TYPES)) > $@
+e-util-enumtypes.c: $(top_srcdir)/enumtypes.c.template $(ENUM_TYPES)
+	$(AM_V_GEN) (cd $(srcdir) && $(GLIB_MKENUMS) --template $(top_srcdir)/enumtypes.c.template \
+		--fhead "#include \"e-util-enumtypes.h\"" \
+		$(ENUM_TYPES)) > $@
 
 e-marshal.h: e-marshal.list
 	$(AM_V_GEN) $(GLIB_GENMARSHAL) --header --prefix=e_marshal $^ > e-marshal.h.tmp && \
@@ -648,8 +653,6 @@ test_source_selector_SOURCES = test-source-selector.c
 test_source_selector_LDADD = $(TEST_LDADD)
 
 EXTRA_DIST = \
-	e-util-enumtypes.h.template \
-	e-util-enumtypes.c.template \
 	e-system.error.xml \
 	filter.error.xml \
 	widgets.error.xml \

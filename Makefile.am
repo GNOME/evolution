@@ -25,6 +25,8 @@ EXTRA_DIST = 			\
 	MAINTAINERS		\
 	NEWS			\
 	NEWS-1.0		\
+	enumtypes.c.template	\
+	enumtypes.h.template	\
 	marshal.mk		\
 	iconv-detect.c		\
 	plugin.mk		\
