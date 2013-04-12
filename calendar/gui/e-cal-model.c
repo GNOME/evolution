@@ -58,11 +58,17 @@ struct _ClientData {
 	GWeakRef model;
 	ECalClient *client;
 
+	GMutex view_lock;
 	gboolean do_query;
 	ECalClientView *view;
 	GCancellable *cancellable;
 
 	gulong backend_died_handler_id;
+	gulong objects_added_handler_id;
+	gulong objects_modified_handler_id;
+	gulong objects_removed_handler_id;
+	gulong progress_handler_id;
+	gulong complete_handler_id;
 };
 
 struct _ECalModelPrivate {
@@ -221,12 +227,57 @@ client_data_new (ECalModel *model,
 	client_data->client = g_object_ref (client);
 	client_data->do_query = do_query;
 
+	g_mutex_init (&client_data->view_lock);
+
 	handler_id = g_signal_connect (
 		client_data->client, "backend-died",
 		G_CALLBACK (client_data_backend_died_cb), client_data);
 	client_data->backend_died_handler_id = handler_id;
 
 	return client_data;
+}
+
+static void
+client_data_disconnect_view_handlers (ClientData *client_data)
+{
+	/* This MUST be called with the view_lock acquired. */
+
+	g_return_if_fail (client_data->view != NULL);
+
+	if (client_data->objects_added_handler_id > 0) {
+		g_signal_handler_disconnect (
+			client_data->view,
+			client_data->objects_added_handler_id);
+		client_data->objects_added_handler_id = 0;
+	}
+
+	if (client_data->objects_modified_handler_id > 0) {
+		g_signal_handler_disconnect (
+			client_data->view,
+			client_data->objects_modified_handler_id);
+		client_data->objects_modified_handler_id = 0;
+	}
+
+	if (client_data->objects_removed_handler_id > 0) {
+		g_signal_handler_disconnect (
+			client_data->view,
+			client_data->objects_removed_handler_id);
+		client_data->objects_removed_handler_id = 0;
+	}
+
+	if (client_data->progress_handler_id > 0) {
+		g_signal_handler_disconnect (
+			client_data->view,
+			client_data->progress_handler_id);
+		client_data->progress_handler_id = 0;
+	}
+
+	if (client_data->complete_handler_id > 0) {
+		g_signal_handler_disconnect (
+			client_data->view,
+			client_data->complete_handler_id);
+		client_data->complete_handler_id = 0;
+	}
 }
 
 static ClientData *
@@ -247,29 +298,46 @@ client_data_unref (ClientData *client_data)
 	g_return_if_fail (client_data->ref_count > 0);
 
 	if (g_atomic_int_dec_and_test (&client_data->ref_count)) {
-		ECalModel *model;
 
 		g_signal_handler_disconnect (
 			client_data->client,
 			client_data->backend_died_handler_id);
 
-		model = g_weak_ref_get (&client_data->model);
-		if (model != NULL) {
-			if (client_data->view != NULL)
-				g_signal_handlers_disconnect_matched (
-					client_data->view,
-					G_SIGNAL_MATCH_DATA,
-					0, 0, NULL, NULL, model);
-			g_object_unref (model);
-		}
+		if (client_data->view != NULL)
+			client_data_disconnect_view_handlers (client_data);
 
 		g_weak_ref_set (&client_data->model, NULL);
+
 		g_clear_object (&client_data->client);
 		g_clear_object (&client_data->view);
 		g_clear_object (&client_data->cancellable);
 
+		g_mutex_clear (&client_data->view_lock);
+
 		g_slice_free (ClientData, client_data);
 	}
+}
+
+/* Based on e_weak_ref_new() (new in libedataserver 3.9) */
+static GWeakRef *
+cal_model_weak_ref_new (ECalModel *model)
+{
+	GWeakRef *weak_ref;
+
+	weak_ref = g_slice_new0 (GWeakRef);
+	g_weak_ref_set (weak_ref, model);
+
+	return weak_ref;
+}
+
+/* Based on e_weak_ref_free() (new in libedataserver 3.9) */
+static void
+cal_model_weak_ref_free (GWeakRef *weak_ref)
+{
+	g_return_if_fail (weak_ref != NULL);
+
+	g_weak_ref_set (weak_ref, NULL);
+	g_slice_free (GWeakRef, weak_ref);
 }
 
 static GList *
@@ -2557,7 +2625,82 @@ place_master_object_first_cb (gconstpointer p1,
 	return res;
 }
 
-static void client_view_objects_added_cb (ECalClientView *view, const GSList *objects, ECalModel *model);
+static void
+process_event (ECalClientView *view,
+               const GSList *objects,
+               ECalModel *model,
+               void (*process_fn) (ECalClientView *view,
+                                   const GSList *objects,
+                                   ECalModel *model),
+               gboolean *in,
+               GHashTable *save_hash,
+               gpointer (*copy_fn) (gpointer data),
+               void (*free_fn) (gpointer data))
+{
+	gboolean skip = FALSE;
+	const GSList *l;
+
+	g_return_if_fail (save_hash != NULL);
+
+	g_mutex_lock (&model->priv->notify_lock);
+	if (*in) {
+		GSList *save_list = g_hash_table_lookup (save_hash, view);
+
+		skip = TRUE;
+		for (l = objects; l; l = l->next) {
+			if (l->data)
+				save_list = g_slist_append (save_list, copy_fn (l->data));
+		}
+
+		g_hash_table_insert (save_hash, g_object_ref (view), save_list);
+	} else {
+		*in = TRUE;
+	}
+
+	g_mutex_unlock (&model->priv->notify_lock);
+
+	if (skip)
+		return;
+
+	/* do it */
+	process_fn (view, objects, model);
+
+	g_mutex_lock (&model->priv->notify_lock);
+	while (g_hash_table_size (save_hash)) {
+		gpointer key = NULL, value = NULL;
+		GHashTableIter iter;
+		GSList *save_list;
+
+		g_hash_table_iter_init (&iter, save_hash);
+		if (!g_hash_table_iter_next (&iter, &key, &value)) {
+			g_debug ("%s: Failed to get first item of the save_hash", G_STRFUNC);
+			break;
+		}
+
+		save_list = value;
+		view = g_object_ref (key);
+
+		g_hash_table_remove (save_hash, view);
+
+		g_mutex_unlock (&model->priv->notify_lock);
+
+		/* do it */
+		process_fn (view, save_list, model);
+
+		for (l = save_list; l; l = l->next) {
+			if (l->data) {
+				free_fn (l->data);
+			}
+		}
+		g_slist_free (save_list);
+		g_object_unref (view);
+
+		g_mutex_lock (&model->priv->notify_lock);
+	}
+
+	*in = FALSE;
+	g_mutex_unlock (&model->priv->notify_lock);
+}
 
 static void
 process_added (ECalClientView *view,
@@ -2707,7 +2850,13 @@ process_modified (ECalClientView *view,
 		}
 	}
 
-	client_view_objects_added_cb (view, list, model);
+	process_event (
+		view, list, model, process_added,
+		&model->priv->in_added,
+		model->priv->notify_added,
+		(gpointer (*)(gpointer)) icalcomponent_new_clone,
+		(void (*)(gpointer)) icalcomponent_free);
+
 	g_slist_free (list);
 }
 
@@ -2777,229 +2926,184 @@ free_comp_id (gpointer id)
 }
 
 static void
-process_event (ECalClientView *view,
-               const GSList *objects,
-               ECalModel *model,
-               void (*process_fn) (ECalClientView *view,
-                                   const GSList *objects,
-                                   ECalModel *model),
-               gboolean *in,
-               GHashTable *save_hash,
-               gpointer (*copy_fn) (gpointer data),
-               void (*free_fn) (gpointer data))
-{
-	gboolean skip = FALSE;
-	const GSList *l;
-
-	g_return_if_fail (save_hash != NULL);
-
-	g_mutex_lock (&model->priv->notify_lock);
-	if (*in) {
-		GSList *save_list = g_hash_table_lookup (save_hash, view);
-
-		skip = TRUE;
-		for (l = objects; l; l = l->next) {
-			if (l->data)
-				save_list = g_slist_append (save_list, copy_fn (l->data));
-		}
-
-		g_hash_table_insert (save_hash, g_object_ref (view), save_list);
-	} else {
-		*in = TRUE;
-	}
-
-	g_mutex_unlock (&model->priv->notify_lock);
-
-	if (skip)
-		return;
-
-	/* do it */
-	process_fn (view, objects, model);
-
-	g_mutex_lock (&model->priv->notify_lock);
-	while (g_hash_table_size (save_hash)) {
-		gpointer key = NULL, value = NULL;
-		GHashTableIter iter;
-		GSList *save_list;
-
-		g_hash_table_iter_init (&iter, save_hash);
-		if (!g_hash_table_iter_next (&iter, &key, &value)) {
-			g_debug ("%s: Failed to get first item of the save_hash", G_STRFUNC);
-			break;
-		}
-
-		save_list = value;
-		view = g_object_ref (key);
-
-		g_hash_table_remove (save_hash, view);
-
-		g_mutex_unlock (&model->priv->notify_lock);
-
-		/* do it */
-		process_fn (view, save_list, model);
-
-		for (l = save_list; l; l = l->next) {
-			if (l->data) {
-				free_fn (l->data);
-			}
-		}
-		g_slist_free (save_list);
-		g_object_unref (view);
-
-		g_mutex_lock (&model->priv->notify_lock);
-	}
-
-	*in = FALSE;
-	g_mutex_unlock (&model->priv->notify_lock);
-}
-
-static void
 client_view_objects_added_cb (ECalClientView *view,
                               const GSList *objects,
-                              ECalModel *model)
+                              GWeakRef *weak_ref_model)
 {
-	process_event (
-		view, objects, model, process_added,
-		&model->priv->in_added,
-		model->priv->notify_added,
-		(gpointer (*)(gpointer)) icalcomponent_new_clone,
-		(void (*)(gpointer)) icalcomponent_free);
+	ECalModel *model;
+
+	model = g_weak_ref_get (weak_ref_model);
+
+	if (model != NULL) {
+		process_event (
+			view, objects, model, process_added,
+			&model->priv->in_added,
+			model->priv->notify_added,
+			(gpointer (*)(gpointer)) icalcomponent_new_clone,
+			(void (*)(gpointer)) icalcomponent_free);
+		g_object_unref (model);
+	}
 }
 
 static void
 client_view_objects_modified_cb (ECalClientView *view,
                                  const GSList *objects,
-                                 ECalModel *model)
+                                 GWeakRef *weak_ref_model)
 {
-	process_event (
-		view, objects, model, process_modified,
-		&model->priv->in_modified,
-		model->priv->notify_modified,
-		(gpointer (*)(gpointer)) icalcomponent_new_clone,
-		(void (*)(gpointer)) icalcomponent_free);
+	ECalModel *model;
+
+	model = g_weak_ref_get (weak_ref_model);
+
+	if (model != NULL) {
+		process_event (
+			view, objects, model, process_modified,
+			&model->priv->in_modified,
+			model->priv->notify_modified,
+			(gpointer (*)(gpointer)) icalcomponent_new_clone,
+			(void (*)(gpointer)) icalcomponent_free);
+		g_object_unref (model);
+	}
 }
 
 static void
 client_view_objects_removed_cb (ECalClientView *view,
                                 const GSList *ids,
-                                ECalModel *model)
+                                GWeakRef *weak_ref_model)
 {
-	process_event (
-		view, ids, model, process_removed,
-		&model->priv->in_removed,
-		model->priv->notify_removed,
-		copy_comp_id, free_comp_id);
+	ECalModel *model;
+
+	model = g_weak_ref_get (weak_ref_model);
+
+	if (model != NULL) {
+		process_event (
+			view, ids, model, process_removed,
+			&model->priv->in_removed,
+			model->priv->notify_removed,
+			copy_comp_id, free_comp_id);
+		g_object_unref (model);
+	}
 }
 
 static void
 client_view_progress_cb (ECalClientView *view,
                          gint percent,
                          const gchar *message,
-                         gpointer user_data)
+                         GWeakRef *weak_ref_model)
 {
-	ECalModel *model = (ECalModel *) user_data;
-	ECalClient *client = e_cal_client_view_get_client (view);
+	ECalModel *model;
 
-	g_return_if_fail (E_IS_CAL_MODEL (model));
+	model = g_weak_ref_get (weak_ref_model);
 
-	g_signal_emit (
-		model, signals[CAL_VIEW_PROGRESS], 0, message,
-		percent, e_cal_client_get_source_type (client));
+	if (model != NULL) {
+		ECalClient *client;
+		ECalClientSourceType source_type;
+
+		client = e_cal_client_view_get_client (view);
+		source_type = e_cal_client_get_source_type (client);
+
+		g_signal_emit (
+			model, signals[CAL_VIEW_PROGRESS], 0,
+			message, percent, source_type);
+
+		g_object_unref (model);
+	}
 }
 
 static void
 client_view_complete_cb (ECalClientView *view,
                          const GError *error,
-                         gpointer user_data)
+                         GWeakRef *weak_ref_model)
 {
-	ECalModel *model = (ECalModel *) user_data;
-	ECalClient *client = e_cal_client_view_get_client (view);
+	ECalModel *model;
 
-	g_return_if_fail (E_IS_CAL_MODEL (model));
+	model = g_weak_ref_get (weak_ref_model);
 
-	g_signal_emit (
-		model, signals[CAL_VIEW_COMPLETE], 0, error,
-		e_cal_client_get_source_type (client));
+	if (model != NULL) {
+		ECalClient *client;
+		ECalClientSourceType source_type;
+
+		client = e_cal_client_view_get_client (view);
+		source_type = e_cal_client_get_source_type (client);
+
+		g_signal_emit (
+			model, signals[CAL_VIEW_COMPLETE], 0,
+			error, source_type);
+
+		g_object_unref (model);
+	}
 }
 
-struct get_view_data
-{
-	ECalModel *model; /* do not touch this, if cancelled */
-	ClientData *client_data; /* do not touch this, if cancelled */
-	GCancellable *cancellable;
-	guint tries;
-};
-
 static void
-free_get_view_data (struct get_view_data *gvd)
+cal_model_get_view_cb (GObject *source_object,
+                       GAsyncResult *result,
+                       gpointer user_data)
 {
-	if (!gvd)
-		return;
-
-	g_object_unref (gvd->cancellable);
-	g_free (gvd);
-}
-
-static gboolean retry_get_view_timeout_cb (gpointer user_data);
-
-static void
-get_view_cb (GObject *source_object,
-             GAsyncResult *result,
-             gpointer user_data)
-{
-	struct get_view_data *gvd = user_data;
-	GError *error = NULL;
+	ClientData *client_data = user_data;
 	ECalClientView *view = NULL;
-
-	g_return_if_fail (source_object != NULL);
-	g_return_if_fail (result != NULL);
-	g_return_if_fail (gvd != NULL);
-	g_return_if_fail (gvd->model != NULL);
-	g_return_if_fail (gvd->client_data != NULL);
+	ECalModel *model = NULL;
+	GError *error = NULL;
 
 	e_cal_client_get_view_finish (
 		E_CAL_CLIENT (source_object), result, &view, &error);
 
-	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
-	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-		free_get_view_data (gvd);
+	/* Sanity check. */
+	g_return_if_fail (
+		((view != NULL) && (error == NULL)) ||
+		((view == NULL) && (error != NULL)));
+
+	/* Ignore cancellations. */
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 		g_error_free (error);
-		return;
+		goto exit;
 	}
 
-	if (error != NULL) {
-		if (gvd->tries < 10) {
-			gvd->tries++;
-			g_timeout_add (500, retry_get_view_timeout_cb, gvd);
-			g_error_free (error);
-			return;
-		}
+	model = g_weak_ref_get (&client_data->model);
 
-		g_warning (
-			"%s: Failed to get view: %s",
-			G_STRFUNC, error->message);
-		g_error_free (error);
+	if (view != NULL && model != NULL) {
+		gulong handler_id;
 
-	} else {
-		gvd->client_data->view = view;
+		g_mutex_lock (&client_data->view_lock);
 
-		g_signal_connect (
-			gvd->client_data->view, "objects-added",
-			G_CALLBACK (client_view_objects_added_cb), gvd->model);
-		g_signal_connect (
-			gvd->client_data->view, "objects-modified",
-			G_CALLBACK (client_view_objects_modified_cb), gvd->model);
-		g_signal_connect (
-			gvd->client_data->view, "objects-removed",
-			G_CALLBACK (client_view_objects_removed_cb), gvd->model);
-		g_signal_connect (
-			gvd->client_data->view, "progress",
-			G_CALLBACK (client_view_progress_cb), gvd->model);
-		g_signal_connect (
-			gvd->client_data->view, "complete",
-			G_CALLBACK (client_view_complete_cb), gvd->model);
+		client_data->view = g_object_ref (view);
 
-		e_cal_client_view_start (gvd->client_data->view, &error);
+		handler_id = g_signal_connect_data (
+			view, "objects-added",
+			G_CALLBACK (client_view_objects_added_cb),
+			cal_model_weak_ref_new (model),
+			(GClosureNotify) cal_model_weak_ref_free, 0);
+		client_data->objects_added_handler_id = handler_id;
+
+		handler_id = g_signal_connect_data (
+			view, "objects-modified",
+			G_CALLBACK (client_view_objects_modified_cb),
+			cal_model_weak_ref_new (model),
+			(GClosureNotify) cal_model_weak_ref_free, 0);
+		client_data->objects_modified_handler_id = handler_id;
+
+		handler_id = g_signal_connect_data (
+			view, "objects-removed",
+			G_CALLBACK (client_view_objects_removed_cb),
+			cal_model_weak_ref_new (model),
+			(GClosureNotify) cal_model_weak_ref_free, 0);
+		client_data->objects_removed_handler_id = handler_id;
+
+		handler_id = g_signal_connect_data (
+			view, "progress",
+			G_CALLBACK (client_view_progress_cb),
+			cal_model_weak_ref_new (model),
+			(GClosureNotify) cal_model_weak_ref_free, 0);
+		client_data->progress_handler_id = handler_id;
+
+		handler_id = g_signal_connect_data (
+			view, "complete",
+			G_CALLBACK (client_view_complete_cb),
+			cal_model_weak_ref_new (model),
+			(GClosureNotify) cal_model_weak_ref_free, 0);
+		client_data->complete_handler_id = handler_id;
+
+		g_mutex_unlock (&client_data->view_lock);
+
+		e_cal_client_view_start (view, &error);
 
 		if (error != NULL) {
 			g_warning (
@@ -3007,24 +3111,19 @@ get_view_cb (GObject *source_object,
 				G_STRFUNC, error->message);
 			g_error_free (error);
 		}
+
+	} else if (error != NULL) {
+		g_warning (
+			"%s: Failed to get view: %s",
+			G_STRFUNC, error->message);
+		g_error_free (error);
 	}
 
-	free_get_view_data (gvd);
-}
+exit:
+	g_clear_object (&model);
+	g_clear_object (&view);
 
-static gboolean
-retry_get_view_timeout_cb (gpointer user_data)
-{
-	struct get_view_data *gvd = user_data;
-
-	if (g_cancellable_is_cancelled (gvd->cancellable)) {
-		free_get_view_data (gvd);
-		return FALSE;
-	}
-
-	e_cal_client_get_view (gvd->client_data->client, gvd->model->priv->full_sexp, gvd->cancellable, get_view_cb, gvd);
-
-	return FALSE;
+	client_data_unref (client_data);
 }
 
 static void
@@ -3032,40 +3131,45 @@ update_e_cal_view_for_client (ECalModel *model,
                               ClientData *client_data)
 {
 	ECalModelPrivate *priv;
-	struct get_view_data *gvd;
+	GCancellable *cancellable;
 
 	priv = model->priv;
 
-	/* free the previous view, if any */
-	if (client_data->view) {
-		g_signal_handlers_disconnect_matched (
-			client_data->view, G_SIGNAL_MATCH_DATA,
-			0, 0, NULL, NULL, model);
-		g_object_unref (client_data->view);
-		client_data->view = NULL;
-	}
+	g_return_if_fail (model->priv->full_sexp != NULL);
 
-	/* prepare the view */
-	g_return_if_fail (priv->full_sexp != NULL);
+	/* free the previous view, if any */
+	g_mutex_lock (&client_data->view_lock);
+	if (client_data->view != NULL) {
+		client_data_disconnect_view_handlers (client_data);
+		g_clear_object (&client_data->view);
+	}
+	g_mutex_unlock (&client_data->view_lock);
 
 	/* Don't create the new query if we won't use it */
 	if (!client_data->do_query)
 		return;
 
-	if (client_data->cancellable) {
+	/* prepare the view */
+
+	cancellable = g_cancellable_new ();
+
+	g_mutex_lock (&client_data->view_lock);
+
+	if (client_data->cancellable != NULL) {
 		g_cancellable_cancel (client_data->cancellable);
-		g_object_unref (client_data->cancellable);
+		g_clear_object (&client_data->cancellable);
 	}
 
-	client_data->cancellable = g_cancellable_new ();
+	client_data->cancellable = g_object_ref (cancellable);
 
-	gvd = g_new0 (struct get_view_data, 1);
-	gvd->client_data = client_data;
-	gvd->model = model;
-	gvd->tries = 0;
-	gvd->cancellable = g_object_ref (client_data->cancellable);
+	g_mutex_unlock (&client_data->view_lock);
 
-	e_cal_client_get_view (client_data->client, priv->full_sexp, gvd->cancellable, get_view_cb, gvd);
+	e_cal_client_get_view (
+		client_data->client, priv->full_sexp,
+		cancellable, cal_model_get_view_cb,
+		client_data_ref (client_data));
+
+	g_object_unref (cancellable);
 }
 
 void
@@ -3159,9 +3263,10 @@ static void
 remove_client (ECalModel *model,
                ClientData *client_data)
 {
-	/* FIXME We might not want to disconnect the open signal for the default client */
-	if (client_data->view)
-		g_signal_handlers_disconnect_matched (client_data->view, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, model);
+	g_mutex_lock (&client_data->view_lock);
+	if (client_data->view != NULL)
+		client_data_disconnect_view_handlers (client_data);
+	g_mutex_unlock (&client_data->view_lock);
 
 	remove_client_objects (model, client_data);
 
