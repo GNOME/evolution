@@ -70,6 +70,7 @@ struct _ECalModelPrivate {
 
 	/* Queue of ClientData structs */
 	GQueue clients;
+	GMutex clients_lock;
 
 	/* The default client in the list */
 	ECalClient *default_client;
@@ -282,25 +283,90 @@ client_data_unref (ClientData *client_data)
 	}
 }
 
-static ClientData *
-cal_model_ref_client_data (ECalModel *model,
-                           ECalClient *client)
+static GList *
+cal_model_clients_list (ECalModel *model)
 {
-	GList *head, *link;
+	GList *list, *head;
+
+	g_mutex_lock (&model->priv->clients_lock);
 
 	head = g_queue_peek_head_link (&model->priv->clients);
+	list = g_list_copy_deep (head, (GCopyFunc) client_data_ref, NULL);
 
-	for (link = head; link != NULL; link = g_list_next (link)) {
-		ClientData *client_data;
+	g_mutex_unlock (&model->priv->clients_lock);
 
-		client_data = (ClientData *) link->data;
-		g_return_val_if_fail (client_data != NULL, NULL);
+	return list;
+}
 
-		if (client_data->client == client)
-			return client_data_ref (client_data);
+static ClientData *
+cal_model_clients_lookup (ECalModel *model,
+                          ECalClient *client)
+{
+	ClientData *client_data = NULL;
+	GList *list, *link;
+
+	list = cal_model_clients_list (model);
+
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		ClientData *candidate = link->data;
+
+		if (candidate->client == client) {
+			client_data = client_data_ref (candidate);
+			break;
+		}
 	}
 
-	return NULL;
+	g_list_free_full (list, (GDestroyNotify) client_data_unref);
+
+	return client_data;
+}
+
+static ClientData *
+cal_model_clients_peek (ECalModel *model)
+{
+	ClientData *client_data;
+
+	g_mutex_lock (&model->priv->clients_lock);
+
+	client_data = g_queue_peek_head (&model->priv->clients);
+	if (client_data != NULL)
+		client_data_ref (client_data);
+
+	g_mutex_unlock (&model->priv->clients_lock);
+
+	return client_data;
+}
+
+static ClientData *
+cal_model_clients_pop (ECalModel *model)
+{
+	ClientData *client_data;
+
+	g_mutex_lock (&model->priv->clients_lock);
+
+	client_data = g_queue_pop_head (&model->priv->clients);
+
+	g_mutex_unlock (&model->priv->clients_lock);
+
+	return client_data;
+}
+
+static gboolean
+cal_model_clients_remove (ECalModel *model,
+                          ClientData *client_data)
+{
+	gboolean removed = FALSE;
+
+	g_mutex_lock (&model->priv->clients_lock);
+
+	if (g_queue_remove (&model->priv->clients, client_data)) {
+		client_data_unref (client_data);
+		removed = TRUE;
+	}
+
+	g_mutex_unlock (&model->priv->clients_lock);
+
+	return removed;
 }
 
 static void
@@ -658,6 +724,8 @@ cal_model_finalize (GObject *object)
 	gint ii;
 
 	priv = E_CAL_MODEL_GET_PRIVATE (object);
+
+	g_mutex_clear (&priv->clients_lock);
 
 	g_free (priv->search_sexp);
 	g_free (priv->full_sexp);
@@ -1034,6 +1102,8 @@ static void
 e_cal_model_init (ECalModel *model)
 {
 	model->priv = E_CAL_MODEL_GET_PRIVATE (model);
+
+	g_mutex_init (&model->priv->clients_lock);
 
 	/* match none by default */
 	model->priv->start = -1;
@@ -2491,23 +2561,22 @@ e_cal_model_set_work_day_start_minute (ECalModel *model,
 ECalClient *
 e_cal_model_get_default_client (ECalModel *model)
 {
-	ECalModelPrivate *priv;
 	ClientData *client_data;
+	ECalClient *default_client = NULL;
 
 	g_return_val_if_fail (model != NULL, NULL);
 	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
 
-	priv = model->priv;
+	if (model->priv->default_client != NULL)
+		return model->priv->default_client;
 
-	/* FIXME Should we force the client to be open? */
+	client_data = cal_model_clients_peek (model);
+	if (client_data != NULL) {
+		default_client = client_data->client;
+		client_data_unref (client_data);
+	}
 
-	/* we always return a valid ECal, since we rely on it in many places */
-	if (priv->default_client)
-		return priv->default_client;
-
-	client_data = g_queue_peek_head (&priv->clients);
-
-	return client_data ? client_data->client : NULL;
+	return default_client;
 }
 
 void
@@ -2529,7 +2598,7 @@ e_cal_model_set_default_client (ECalModel *model,
 	if (priv->default_client == NULL) {
 		ClientData *client_data;
 
-		client_data = cal_model_ref_client_data (
+		client_data = cal_model_clients_lookup (
 			model, priv->default_client);
 		if (client_data != NULL) {
 			if (!client_data->do_query)
@@ -2555,20 +2624,17 @@ GList *
 e_cal_model_get_client_list (ECalModel *model)
 {
 	GQueue results = G_QUEUE_INIT;
-	GList *head, *link;
+	GList *list, *link;
 	ECalClient *default_client;
 
 	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
 
 	default_client = model->priv->default_client;
 
-	head = g_queue_peek_head_link (&model->priv->clients);
+	list = cal_model_clients_list (model);
 
-	for (link = head; link != NULL; link = g_list_next (link)) {
-		ClientData *client_data;
-
-		client_data = (ClientData *) link->data;
-		g_return_val_if_fail (client_data != NULL, NULL);
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		ClientData *client_data = link->data;
 
 		/* Exclude the default client if we're not querying it. */
 		if (client_data->client == default_client) {
@@ -2578,6 +2644,8 @@ e_cal_model_get_client_list (ECalModel *model)
 
 		g_queue_push_tail (&results, client_data->client);
 	}
+
+	g_list_free_full (list, (GDestroyNotify) client_data_unref);
 
 	return g_queue_peek_head_link (&results);
 }
@@ -2591,29 +2659,31 @@ ECalClient *
 e_cal_model_get_client_for_source (ECalModel *model,
                                    ESource *source)
 {
-	GList *head, *link;
+	ECalClient *match = NULL;
+	GList *list, *link;
 
 	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
 	g_return_val_if_fail (E_IS_SOURCE (source), NULL);
 
-	head = g_queue_peek_head_link (&model->priv->clients);
+	list = cal_model_clients_list (model);
 
-	for (link = head; link != NULL; link = g_list_next (link)) {
+	for (link = list; link != NULL; link = g_list_next (link)) {
 		ClientData *client_data = link->data;
 		ESource *client_source;
 		EClient *client;
 
-		client_data = (ClientData *) link->data;
-		g_return_val_if_fail (client_data != NULL, NULL);
-
 		client = E_CLIENT (client_data->client);
 		client_source = e_client_get_source (client);
 
-		if (e_source_equal (source, client_source))
-			return client_data->client;
+		if (e_source_equal (source, client_source)) {
+			match = client_data->client;
+			break;
+		}
 	}
 
-	return NULL;
+	g_list_free_full (list, (GDestroyNotify) client_data_unref);
+
+	return match;
 }
 
 static ECalModelComponent *
@@ -2862,7 +2932,7 @@ process_added (ECalClientView *view,
 		if (e_cal_util_component_has_recurrences (l->data) && (priv->flags & E_CAL_MODEL_FLAGS_EXPAND_RECURRENCES)) {
 			ClientData *client_data;
 
-			client_data = cal_model_ref_client_data (model, client);
+			client_data = cal_model_clients_lookup (model, client);
 
 			if (client_data != NULL) {
 				RecurrenceExpansionData *rdata = g_new0 (RecurrenceExpansionData, 1);
@@ -3352,7 +3422,7 @@ add_new_client (ECalModel *model,
 	gboolean update_view = TRUE;
 
 	/* Look to see if we already have this client */
-	client_data = cal_model_ref_client_data (model, client);
+	client_data = cal_model_clients_lookup (model, client);
 	if (client_data != NULL) {
 		if (client_data->do_query)
 			update_view = FALSE;
@@ -3362,9 +3432,11 @@ add_new_client (ECalModel *model,
 	} else {
 		client_data = client_data_new (model, client, do_query);
 
+		g_mutex_lock (&model->priv->clients_lock);
 		g_queue_push_tail (
 			&model->priv->clients,
 			client_data_ref (client_data));
+		g_mutex_unlock (&model->priv->clients_lock);
 	}
 
 	if (update_view)
@@ -3423,7 +3495,6 @@ remove_client (ECalModel *model,
                ClientData *client_data)
 {
 	/* FIXME We might not want to disconnect the open signal for the default client */
-	g_signal_handlers_disconnect_matched (client_data->client, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, model);
 	if (client_data->view)
 		g_signal_handlers_disconnect_matched (client_data->view, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, model);
 
@@ -3440,9 +3511,7 @@ remove_client (ECalModel *model,
 	if (model->priv->default_client == client_data->client)
 		model->priv->default_client = NULL;
 
-	/* Remove the client from the queue. */
-	if (g_queue_remove (&model->priv->clients, client_data))
-		client_data_unref (client_data);
+	cal_model_clients_remove (model, client_data);
 }
 
 /**
@@ -3457,7 +3526,7 @@ e_cal_model_remove_client (ECalModel *model,
 	g_return_if_fail (E_IS_CAL_MODEL (model));
 	g_return_if_fail (E_IS_CAL_CLIENT (client));
 
-	client_data = cal_model_ref_client_data (model, client);
+	client_data = cal_model_clients_lookup (model, client);
 	if (client_data != NULL) {
 		remove_client (model, client_data);
 		client_data_unref (client_data);
@@ -3470,13 +3539,13 @@ e_cal_model_remove_client (ECalModel *model,
 void
 e_cal_model_remove_all_clients (ECalModel *model)
 {
+	ClientData *client_data;
+
 	g_return_if_fail (E_IS_CAL_MODEL (model));
 
-	while (!g_queue_is_empty (&model->priv->clients)) {
-		ClientData *client_data;
-
-		client_data = g_queue_pop_head (&model->priv->clients);
+	while ((client_data = cal_model_clients_pop (model)) != NULL) {
 		remove_client (model, client_data);
+		client_data_unref (client_data);
 	}
 }
 
@@ -3547,7 +3616,7 @@ static void
 redo_queries (ECalModel *model)
 {
 	ECalModelPrivate *priv;
-	GList *head, *link;
+	GList *list, *link;
 	struct cc_data data;
 
 	priv = model->priv;
@@ -3603,16 +3672,15 @@ redo_queries (ECalModel *model)
 
 	/* update the view for all clients */
 
-	head = g_queue_peek_head_link (&priv->clients);
+	list = cal_model_clients_list (model);
 
-	for (link = head; link != NULL; link = g_list_next (link)) {
-		ClientData *client_data;
-
-		client_data = (ClientData *) link->data;
-		g_return_if_fail (client_data != NULL);
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		ClientData *client_data = link->data;
 
 		update_e_cal_view_for_client (model, client_data);
 	}
+
+	g_list_free_full (list, (GDestroyNotify) client_data_unref);
 }
 
 void
