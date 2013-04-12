@@ -31,9 +31,9 @@
 	(G_TYPE_CHECK_INSTANCE_CAST \
 	((obj), E_TYPE_WEB_INSPECTOR, EWebInspector))
 
-/* <Control>+<Alt>+I */
-#define WEB_INSPECTOR_MOD  (GDK_CONTROL_MASK | GDK_MOD1_MASK)
-#define WEB_INSPECTOR_KEY  (GDK_KEY_i)
+/* <Control>+<Shift>+I */
+#define WEB_INSPECTOR_MOD  (GDK_CONTROL_MASK | GDK_SHIFT_MASK)
+#define WEB_INSPECTOR_KEY  (GDK_KEY_I)
 
 #define WEB_INSPECTOR_SHORTCUT_SHOW(event) \
 	((((event)->state & GDK_MODIFIER_MASK) == WEB_INSPECTOR_MOD) && \
