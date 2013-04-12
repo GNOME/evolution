@@ -545,9 +545,9 @@ cal_model_get_property (GObject *object,
 			return;
 
 		case PROP_DEFAULT_CLIENT:
-			g_value_set_object (
+			g_value_take_object (
 				value,
-				e_cal_model_get_default_client (
+				e_cal_model_ref_default_client (
 				E_CAL_MODEL (object)));
 			return;
 
@@ -1736,17 +1736,19 @@ e_cal_model_test_row_editable (ECalModel *model,
 
 		comp_data = e_cal_model_get_component_at (model, row);
 
-		if (comp_data)
-			client = comp_data->client;
+		if (comp_data != NULL && comp_data->client != NULL)
+			client = g_object_ref (comp_data->client);
 
 	} else {
-		client = e_cal_model_get_default_client (model);
+		client = e_cal_model_ref_default_client (model);
 	}
 
-	readonly = client == NULL;
+	readonly = (client == NULL);
 
 	if (!readonly)
 		readonly = e_client_is_readonly (E_CLIENT (client));
+
+	g_clear_object (&client);
 
 	return !readonly;
 }
@@ -1797,11 +1799,9 @@ ecm_append_row (ETableModel *etm,
 
 	comp_data = g_object_new (E_TYPE_CAL_MODEL_COMPONENT, NULL);
 
-	comp_data->client = e_cal_model_get_default_client (model);
-	if (comp_data->client)
-		g_object_ref (comp_data->client);
+	comp_data->client = e_cal_model_ref_default_client (model);
 
-	if (!comp_data->client) {
+	if (comp_data->client == NULL) {
 		g_object_unref (comp_data);
 		return;
 	}
@@ -2559,7 +2559,7 @@ e_cal_model_set_work_day_start_minute (ECalModel *model,
 }
 
 ECalClient *
-e_cal_model_get_default_client (ECalModel *model)
+e_cal_model_ref_default_client (ECalModel *model)
 {
 	ClientData *client_data;
 	ECalClient *default_client = NULL;
@@ -2568,11 +2568,11 @@ e_cal_model_get_default_client (ECalModel *model)
 	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
 
 	if (model->priv->default_client != NULL)
-		return model->priv->default_client;
+		return g_object_ref (model->priv->default_client);
 
 	client_data = cal_model_clients_peek (model);
 	if (client_data != NULL) {
-		default_client = client_data->client;
+		default_client = g_object_ref (client_data->client);
 		client_data_unref (client_data);
 	}
 
@@ -3788,8 +3788,8 @@ e_cal_model_create_component_with_defaults (ECalModel *model,
 
 	priv = model->priv;
 
-	client = e_cal_model_get_default_client (model);
-	if (!client)
+	client = e_cal_model_ref_default_client (model);
+	if (client == NULL)
 		return icalcomponent_new (priv->kind);
 
 	switch (priv->kind) {
@@ -3809,6 +3809,8 @@ e_cal_model_create_component_with_defaults (ECalModel *model,
 	default:
 		return NULL;
 	}
+
+	g_object_unref (client);
 
 	if (!comp)
 		return icalcomponent_new (priv->kind);

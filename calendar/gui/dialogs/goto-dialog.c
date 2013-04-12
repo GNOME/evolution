@@ -96,9 +96,12 @@ ecal_date_range_changed (ECalendarItem *calitem,
 	ECalClient *client;
 
 	model = gnome_calendar_get_model (dlg->gcal);
-	client = e_cal_model_get_default_client (model);
-	if (client)
+	client = e_cal_model_ref_default_client (model);
+
+	if (client != NULL) {
 		tag_calendar_by_client (dlg->ecal, client, dlg->cancellable);
+		g_object_unref (client);
+	}
 }
 
 /* Event handler for day groups in the month item.  A button press makes

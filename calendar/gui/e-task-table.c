@@ -1156,7 +1156,7 @@ clipboard_get_calendar_data (ETaskTable *task_table,
 	}
 
 	model = e_task_table_get_model (task_table);
-	client = e_cal_model_get_default_client (model);
+	client = e_cal_model_ref_default_client (model);
 
 	status_message = _("Updating objects");
 	task_table_emit_status_message (task_table, status_message, -1.0);
@@ -1229,6 +1229,8 @@ clipboard_get_calendar_data (ETaskTable *task_table,
 	}
 
 	task_table_emit_status_message (task_table, NULL, -1.0);
+
+	g_object_unref (client);
 }
 
 static void

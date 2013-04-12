@@ -622,14 +622,14 @@ clipboard_get_calendar_data (ECalendarView *cal_view,
 	if (!icalcomp)
 		return FALSE;
 
-	default_zone = e_cal_model_get_timezone (cal_view->priv->model);
-	client = e_cal_model_get_default_client (cal_view->priv->model);
-
 	/* check the type of the component */
 	/* FIXME An error dialog if we return? */
 	kind = icalcomponent_isa (icalcomp);
 	if (kind != ICAL_VCALENDAR_COMPONENT && kind != ICAL_VEVENT_COMPONENT)
 		return FALSE;
+
+	default_zone = e_cal_model_get_timezone (cal_view->priv->model);
+	client = e_cal_model_ref_default_client (cal_view->priv->model);
 
 #if 0  /* KILL-BONOBO */
 	e_calendar_view_set_status_message (cal_view, _("Updating objects"), -1);
@@ -687,6 +687,8 @@ clipboard_get_calendar_data (ECalendarView *cal_view,
 		if (ret && copied_list)
 			*copied_list = g_slist_prepend (*copied_list, g_strdup (icalcomponent_get_uid (icalcomp)));
 	}
+
+	g_object_unref (client);
 
 	return ret;
 
@@ -1517,7 +1519,7 @@ e_calendar_view_new_appointment_for (ECalendarView *cal_view,
 
 	priv = cal_view->priv;
 
-	default_client = e_cal_model_get_default_client (priv->model);
+	default_client = e_cal_model_ref_default_client (priv->model);
 	g_return_if_fail (default_client != NULL);
 
 	dt.value = &itt;
@@ -1571,6 +1573,8 @@ e_calendar_view_new_appointment_for (ECalendarView *cal_view,
 		cal_view, default_client, icalcomp, flags);
 
 	g_object_unref (comp);
+
+	g_object_unref (default_client);
 }
 
 /**
