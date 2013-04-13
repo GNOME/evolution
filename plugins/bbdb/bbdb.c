@@ -43,12 +43,8 @@ GtkWidget *bbdb_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data
 
 /* For internal use */
 struct bbdb_stuff {
-	EABConfigTargetPrefs *target;
-
 	GtkWidget *combo_box;
 	GtkWidget *gaim_combo_box;
-	GtkWidget *check;
-	GtkWidget *check_gaim;
 };
 
 /* Static forward declarations */
@@ -112,8 +108,7 @@ bbdb_timeout (gpointer data)
 	return data == NULL;
 }
 
-typedef struct
-{
+typedef struct {
 	gchar *name;
 	gchar *email;
 } todo_struct;
@@ -128,51 +123,55 @@ free_todo_struct (todo_struct *td)
 	}
 }
 
-static GSList *todo = NULL;
+static GQueue todo = G_QUEUE_INIT;
 G_LOCK_DEFINE_STATIC (todo);
 
+static void
+todo_queue_clear (void)
+{
+	G_LOCK (todo);
+	while (!g_queue_is_empty (&todo))
+		free_todo_struct (g_queue_pop_head (&todo));
+	G_UNLOCK (todo);
+}
+
+static todo_struct *
+todo_queue_pop (void)
+{
+	todo_struct *td;
+
+	G_LOCK (todo);
+	td = g_queue_pop_head (&todo);
+	G_UNLOCK (todo);
+
+	return td;
+}
+
 static gpointer
-bbdb_do_in_thread (gpointer data)
+todo_queue_process_thread (gpointer data)
 {
 	EBookClient *client = data;
 
-	/* Open the addressbook */
-	if (client == NULL) {
-		G_LOCK (todo);
+	if (client != NULL) {
+		todo_struct *td;
 
-		g_slist_foreach (todo, (GFunc) free_todo_struct, NULL);
-		g_slist_free (todo);
-		todo = NULL;
-
-		G_UNLOCK (todo);
-		return NULL;
-	}
-
-	G_LOCK (todo);
-	while (todo) {
-		todo_struct *td = todo->data;
-
-		todo = g_slist_remove (todo, td);
-
-		G_UNLOCK (todo);
-
-		if (td) {
+		while ((td = todo_queue_pop ()) != NULL) {
 			bbdb_do_it (client, td->name, td->email);
 			free_todo_struct (td);
 		}
 
-		G_LOCK (todo);
-	}
-	G_UNLOCK (todo);
+		g_object_unref (client);
 
-	g_object_unref (client);
+	} else {
+		todo_queue_clear ();
+	}
 
 	return NULL;
 }
 
 static void
-bbdb_do_thread (const gchar *name,
-                const gchar *email)
+todo_queue_process (const gchar *name,
+                    const gchar *email)
 {
 	todo_struct *td;
 
@@ -184,68 +183,44 @@ bbdb_do_thread (const gchar *name,
 	td->email = g_strdup (email);
 
 	G_LOCK (todo);
-	if (todo) {
-		/* the list isn't empty, which means there is a thread taking
-		 * care of that, thus just add it to the queue */
-		todo = g_slist_append (todo, td);
-	} else {
+
+	g_queue_push_tail (&todo, td);
+
+	if (g_queue_get_length (&todo) == 1) {
 		GThread *thread;
-		GError *error = NULL;
-		EBookClient *client = bbdb_create_book_client (AUTOMATIC_CONTACTS_ADDRESSBOOK);
+		EBookClient *client;
 
-		/* list was empty, add item and create a thread */
-		todo = g_slist_append (todo, td);
-		thread = g_thread_try_new (NULL, bbdb_do_in_thread, client, &error);
-
-		if (error) {
-			g_warning ("%s: Creation of the thread failed with error: %s", G_STRFUNC, error->message);
-			g_error_free (error);
-
-			G_UNLOCK (todo);
-			bbdb_do_in_thread (client);
-			G_LOCK (todo);
-		} else {
-			g_thread_unref (thread);
-		}
+		client = bbdb_create_book_client (AUTOMATIC_CONTACTS_ADDRESSBOOK);
+		thread = g_thread_new (NULL, todo_queue_process_thread, client);
+		g_thread_unref (thread);
 	}
 	G_UNLOCK (todo);
 }
 
 static void
-walk_destinations_and_free (EDestination **dests)
+handle_destination (EDestination *destination)
 {
-	const gchar *name, *addr;
-	gint i;
+	g_return_if_fail (destination != NULL);
 
-	if (!dests)
-		return;
+	if (e_destination_is_evolution_list (destination)) {
+		GList *list, *link;
 
-	for (i = 0; dests[i] != NULL; i++) {
-		if (e_destination_is_evolution_list (dests[i])) {
-			const GList *members;
+		/* XXX e_destination_list_get_dests() misuses const. */
+		list = (GList *) e_destination_list_get_dests (destination);
 
-			for (members = e_destination_list_get_dests (dests[i]); members; members = members->next) {
-				const EDestination *member = members->data;
+		for (link = list; link != NULL; link = g_list_next (link))
+			handle_destination (E_DESTINATION (link->data));
 
-				if (!member)
-					continue;
+	} else {
+		const gchar *name;
+		const gchar *email;
 
-				name = e_destination_get_name (member);
-				addr = e_destination_get_email (member);
+		name = e_destination_get_name (destination);
+		email = e_destination_get_email (destination);
 
-				if (name || addr)
-					bbdb_do_thread (name, addr);
-			}
-		} else {
-			name = e_destination_get_name (dests[i]);
-			addr = e_destination_get_email (dests[i]);
-
-			if (name || addr)
-				bbdb_do_thread (name, addr);
-		}
+		if (name != NULL || email != NULL)
+			todo_queue_process (name, email);
 	}
-
-	e_destination_freev (dests);
 }
 
 void
@@ -253,6 +228,7 @@ bbdb_handle_send (EPlugin *ep,
                   EMEventTargetComposer *target)
 {
 	EComposerHeaderTable *table;
+	EDestination **destinations;
 	GSettings *settings;
 	gboolean enable;
 
@@ -264,11 +240,26 @@ bbdb_handle_send (EPlugin *ep,
 		return;
 
 	table = e_msg_composer_get_header_table (target->composer);
-	g_return_if_fail (table);
 
 	/* read information from the composer, not from a generated message */
-	walk_destinations_and_free (e_composer_header_table_get_destinations_to (table));
-	walk_destinations_and_free (e_composer_header_table_get_destinations_cc (table));
+
+	destinations = e_composer_header_table_get_destinations_to (table);
+	if (destinations != NULL) {
+		gint ii;
+
+		for (ii = 0; destinations[ii] != NULL; ii++)
+			handle_destination (destinations[ii]);
+		e_destination_freev (destinations);
+	}
+
+	destinations = e_composer_header_table_get_destinations_cc (table);
+	if (destinations != NULL) {
+		gint ii;
+
+		for (ii = 0; destinations[ii] != NULL; ii++)
+			handle_destination (destinations[ii]);
+		e_destination_freev (destinations);
+	}
 }
 
 static void
@@ -610,7 +601,6 @@ bbdb_page_factory (EPlugin *ep,
                    EConfigHookItemFactoryData *hook_data)
 {
 	struct bbdb_stuff *stuff;
-	EABConfigTargetPrefs *target = (EABConfigTargetPrefs *) hook_data->config->target;
 	GtkWidget *page;
 	GtkWidget *tab_label;
 	GtkWidget *frame;
@@ -630,7 +620,6 @@ bbdb_page_factory (EPlugin *ep,
 
 	/* A structure to pass some stuff around */
 	stuff = g_new0 (struct bbdb_stuff, 1);
-	stuff->target = target;
 
 	/* Create a new notebook page */
 	page = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
@@ -665,7 +654,6 @@ bbdb_page_factory (EPlugin *ep,
 		check, "toggled",
 		G_CALLBACK (enable_toggled_cb), stuff);
 	gtk_box_pack_start (GTK_BOX (inner_vbox), check, FALSE, FALSE, 0);
-	stuff->check = check;
 
 	label = gtk_label_new (_("Select Address book for Automatic Contacts"));
 	gtk_box_pack_start (GTK_BOX (inner_vbox), label, FALSE, FALSE, 0);
@@ -705,7 +693,6 @@ bbdb_page_factory (EPlugin *ep,
 		check_gaim, "toggled",
 		G_CALLBACK (enable_gaim_toggled_cb), stuff);
 	gtk_box_pack_start (GTK_BOX (inner_vbox), check_gaim, FALSE, FALSE, 0);
-	stuff->check_gaim = check_gaim;
 
 	gaim_label = gtk_label_new (_("Select Address book for Pidgin buddy list"));
 	gtk_box_pack_start (GTK_BOX (inner_vbox), gaim_label, FALSE, FALSE, 0);
