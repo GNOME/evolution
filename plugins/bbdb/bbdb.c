@@ -150,7 +150,11 @@ todo_queue_pop (void)
 static gpointer
 todo_queue_process_thread (gpointer data)
 {
-	EBookClient *client = data;
+	EBookClient *client;
+	GError *error = NULL;
+
+	client = bbdb_create_book_client (
+		AUTOMATIC_CONTACTS_ADDRESSBOOK, NULL, &error);
 
 	if (client != NULL) {
 		todo_struct *td;
@@ -161,8 +165,13 @@ todo_queue_process_thread (gpointer data)
 		}
 
 		g_object_unref (client);
+	}
 
-	} else {
+	if (error != NULL) {
+		g_warning (
+			"bbdb: Failed to get addressbook: %s",
+			error->message);
+		g_error_free (error);
 		todo_queue_clear ();
 	}
 
@@ -175,9 +184,6 @@ todo_queue_process (const gchar *name,
 {
 	todo_struct *td;
 
-	if (!name && !email)
-		return;
-
 	td = g_new (todo_struct, 1);
 	td->name = g_strdup (name);
 	td->email = g_strdup (email);
@@ -188,12 +194,11 @@ todo_queue_process (const gchar *name,
 
 	if (g_queue_get_length (&todo) == 1) {
 		GThread *thread;
-		EBookClient *client;
 
-		client = bbdb_create_book_client (AUTOMATIC_CONTACTS_ADDRESSBOOK);
-		thread = g_thread_new (NULL, todo_queue_process_thread, client);
+		thread = g_thread_new (NULL, todo_queue_process_thread, NULL);
 		g_thread_unref (thread);
 	}
+
 	G_UNLOCK (todo);
 }
 
@@ -356,7 +361,9 @@ bbdb_do_it (EBookClient *client,
 }
 
 EBookClient *
-bbdb_create_book_client (gint type)
+bbdb_create_book_client (gint type,
+                         GCancellable *cancellable,
+                         GError **error)
 {
 	EShell *shell;
 	ESource *source = NULL;
@@ -366,7 +373,6 @@ bbdb_create_book_client (gint type)
 	GSettings *settings;
 	gboolean enable = TRUE;
 	gchar *uid;
-	GError *error = NULL;
 
 	settings = g_settings_new (CONF_SCHEMA);
 
@@ -402,13 +408,7 @@ bbdb_create_book_client (gint type)
 	client = e_client_cache_get_client_sync (
 		client_cache, source,
 		E_SOURCE_EXTENSION_ADDRESS_BOOK,
-		NULL, &error);
-	if (client == NULL) {
-		g_warning (
-			"bbdb: Failed to get addressbook: %s\n",
-			error->message);
-		g_error_free (error);
-	}
+		cancellable, error);
 
 	g_object_unref (source);
 

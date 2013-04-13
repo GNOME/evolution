@@ -40,7 +40,9 @@
 #include <libebook/libebook.h>
 
 /* bbdb.c */
-EBookClient *	bbdb_create_book_client		(gint type);
+EBookClient *	bbdb_create_book_client		(gint type,
+						 GCancellable *cancellable,
+						 GError **error);
 gboolean	bbdb_check_gaim_enabled		(void);
 
 /* gaimbuddies.c */
