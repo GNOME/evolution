@@ -59,15 +59,26 @@ typedef struct {
 static gboolean	bbdb_merge_buddy_to_contact	(EBookClient *client,
 						 GaimBuddy *buddy,
 						 EContact *contact);
-static GList *	bbdb_get_gaim_buddy_list	(void);
+static void	bbdb_get_gaim_buddy_list	(GQueue *out_buddies);
 static gchar *	get_node_text			(xmlNodePtr node);
 static gchar *	get_buddy_icon_from_setting	(xmlNodePtr setting);
-static void	free_buddy_list			(GList *blist);
 static void	parse_buddy_group		(xmlNodePtr group,
-						 GList **buddies,
+						 GQueue *out_buddies,
 						 GSList *blocked);
 static EContactField
 		proto_to_contact_field		(const gchar *proto);
+
+static void
+free_gaim_body (GaimBuddy *gb)
+{
+	if (gb != NULL) {
+		g_free (gb->icon);
+		g_free (gb->alias);
+		g_free (gb->account_name);
+		g_free (gb->proto);
+		g_free (gb);
+	}
+}
 
 static gchar *
 get_buddy_filename (void)
@@ -185,24 +196,27 @@ store_last_sync_idle_cb (gpointer data)
 static gboolean syncing = FALSE;
 G_LOCK_DEFINE_STATIC (syncing);
 
-struct sync_thread_data
-{
-	GList *blist;
+struct sync_thread_data {
+	GQueue *buddies;
 	EBookClient *client;
 };
 
 static gpointer
 bbdb_sync_buddy_list_in_thread (gpointer data)
 {
-	GList *l;
 	struct sync_thread_data *std = data;
+	GList *head, *link;
 
 	g_return_val_if_fail (std != NULL, NULL);
 
 	printf ("bbdb: Synchronizing buddy list to contacts...\n");
+
 	/* Walk the buddy list */
-	for (l = std->blist; l != NULL; l = l->next) {
-		GaimBuddy *b = l->data;
+
+	head = g_queue_peek_head_link (std->buddies);
+
+	for (link = head; link != NULL; link = g_list_next (link)) {
+		GaimBuddy *b = link->data;
 		EBookQuery *query;
 		gchar *query_string, *uid;
 		GSList *contacts = NULL;
@@ -272,7 +286,7 @@ bbdb_sync_buddy_list_in_thread (gpointer data)
 		if (!e_book_client_add_contact_sync (std->client, c, &uid, NULL, &error)) {
 			g_warning ("bbdb: Failed to add new contact: %s", error->message);
 			g_error_free (error);
-			goto finish;
+			goto exit;
 		}
 
 		g_object_unref (c);
@@ -281,11 +295,11 @@ bbdb_sync_buddy_list_in_thread (gpointer data)
 
 	g_idle_add (store_last_sync_idle_cb, NULL);
 
- finish:
+exit:
 	printf ("bbdb: Done syncing buddy list to contacts.\n");
 
 	g_object_unref (std->client);
-	free_buddy_list (std->blist);
+	g_queue_free_full (std->buddies, (GDestroyNotify) free_gaim_body);
 	g_free (std);
 
 	G_LOCK (syncing);
@@ -298,11 +312,7 @@ bbdb_sync_buddy_list_in_thread (gpointer data)
 void
 bbdb_sync_buddy_list (void)
 {
-	GList *blist;
-	GThread *thread;
-	GError *error = NULL;
-	EBookClient *client = NULL;
-	struct sync_thread_data *std;
+	GQueue *buddies;
 
 	G_LOCK (syncing);
 	if (syncing) {
@@ -311,39 +321,33 @@ bbdb_sync_buddy_list (void)
 		return;
 	}
 
-	/* Get the Gaim buddy list */
-	blist = bbdb_get_gaim_buddy_list ();
-	if (blist == NULL) {
-		G_UNLOCK (syncing);
-		return;
-	}
+	buddies = g_queue_new ();
+	bbdb_get_gaim_buddy_list (buddies);
 
-	/* Open the addressbook */
-	client = bbdb_create_book_client (GAIM_ADDRESSBOOK);
-	if (client == NULL) {
-		free_buddy_list (blist);
-		G_UNLOCK (syncing);
-		return;
-	}
-
-	std = g_new0 (struct sync_thread_data, 1);
-	std->blist = blist;
-	std->client = client;
-
-	syncing = TRUE;
-
-	thread = g_thread_try_new (NULL, bbdb_sync_buddy_list_in_thread, std, &error);
-	if (error) {
-		g_warning (
-			"%s: Creation of the thread failed with error: %s",
-			G_STRFUNC, error->message);
-		g_error_free (error);
-
-		G_UNLOCK (syncing);
-		bbdb_sync_buddy_list_in_thread (std);
-		G_LOCK (syncing);
+	if (g_queue_is_empty (buddies)) {
+		g_queue_free (buddies);
 	} else {
-		g_thread_unref (thread);
+		GThread *thread;
+		EBookClient *client;
+
+		/* Open the addressbook */
+		client = bbdb_create_book_client (GAIM_ADDRESSBOOK);
+		if (client != NULL) {
+			struct sync_thread_data *std;
+
+			std = g_new0 (struct sync_thread_data, 1);
+			std->buddies = buddies;
+			std->client = client;
+
+			syncing = TRUE;
+
+			thread = g_thread_new (
+				NULL, bbdb_sync_buddy_list_in_thread, std);
+			g_thread_unref (thread);
+		} else {
+			g_queue_free_full (
+				buddies, (GDestroyNotify) free_gaim_body);
+		}
 	}
 
 	G_UNLOCK (syncing);
@@ -466,13 +470,12 @@ get_all_blocked (xmlNodePtr node,
 	}
 }
 
-static GList *
-bbdb_get_gaim_buddy_list (void)
+static void
+bbdb_get_gaim_buddy_list (GQueue *out_buddies)
 {
 	gchar *blist_path;
 	xmlDocPtr buddy_xml;
 	xmlNodePtr root, child, blist;
-	GList *buddies = NULL;
 	GSList *blocked = NULL;
 
 	blist_path = get_buddy_filename ();
@@ -481,14 +484,14 @@ bbdb_get_gaim_buddy_list (void)
 	g_free (blist_path);
 	if (!buddy_xml) {
 		fprintf (stderr, "bbdb: Could not open Pidgin buddy list.\n");
-		return NULL;
+		return;
 	}
 
 	root = xmlDocGetRootElement (buddy_xml);
 	if (strcmp ((const gchar *) root->name, "purple")) {
 		fprintf (stderr, "bbdb: Could not parse Pidgin buddy list.\n");
 		xmlFreeDoc (buddy_xml);
-		return NULL;
+		return;
 	}
 
 	for (child = root->children; child != NULL; child = child->next) {
@@ -510,40 +513,18 @@ bbdb_get_gaim_buddy_list (void)
 			stderr, "bbdb: Could not find 'blist' "
 			"element in Pidgin buddy list.\n");
 		xmlFreeDoc (buddy_xml);
-		return NULL;
+		return;
 	}
 
 	for (child = blist->children; child != NULL; child = child->next) {
 		if (!strcmp ((const gchar *) child->name, "group"))
-			parse_buddy_group (child, &buddies, blocked);
+			parse_buddy_group (child, out_buddies, blocked);
 	}
 
 	xmlFreeDoc (buddy_xml);
 
 	g_slist_foreach (blocked, (GFunc) g_free, NULL);
 	g_slist_free (blocked);
-
-	return buddies;
-}
-
-static void
-free_gaim_body (GaimBuddy *gb)
-{
-	if (!gb)
-		return;
-
-	g_free (gb->icon);
-	g_free (gb->alias);
-	g_free (gb->account_name);
-	g_free (gb->proto);
-	g_free (gb);
-}
-
-static void
-free_buddy_list (GList *blist)
-{
-	g_list_foreach (blist, (GFunc) free_gaim_body, NULL);
-	g_list_free (blist);
 }
 
 static gchar *
@@ -575,7 +556,7 @@ get_buddy_icon_from_setting (xmlNodePtr setting)
 
 static void
 parse_contact (xmlNodePtr contact,
-               GList **buddies,
+               GQueue *out_buddies,
                GSList *blocked)
 {
 	xmlNodePtr  child;
@@ -625,12 +606,12 @@ parse_contact (xmlNodePtr contact,
 	if (is_blocked)
 		free_gaim_body (gb);
 	else
-		*buddies = g_list_prepend (*buddies, gb);
+		g_queue_push_tail (out_buddies, gb);
 }
 
 static void
 parse_buddy_group (xmlNodePtr group,
-                   GList **buddies,
+                   GQueue *out_buddies,
                    GSList *blocked)
 {
 	xmlNodePtr child;
@@ -639,6 +620,6 @@ parse_buddy_group (xmlNodePtr group,
 		if (strcmp ((const gchar *) child->name, "contact"))
 			continue;
 
-		parse_contact (child, buddies, blocked);
+		parse_contact (child, out_buddies, blocked);
 	}
 }

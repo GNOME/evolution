@@ -40,14 +40,11 @@
 #include <libebook/libebook.h>
 
 /* bbdb.c */
-/* creates an EBookClient for a given type (gaim or contacts), but doesn't open it;
- * this function should be called in a main thread. */
-EBookClient *bbdb_create_book_client (gint type);
-
-gboolean bbdb_check_gaim_enabled (void);
+EBookClient *	bbdb_create_book_client		(gint type);
+gboolean	bbdb_check_gaim_enabled		(void);
 
 /* gaimbuddies.c */
-void bbdb_sync_buddy_list (void);
-void bbdb_sync_buddy_list_check (void);
+void		bbdb_sync_buddy_list		(void);
+void		bbdb_sync_buddy_list_check	(void);
 
 #endif /* __BBDB_H__ */
