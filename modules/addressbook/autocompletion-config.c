@@ -26,6 +26,8 @@
 
 #include <glib/gi18n.h>
 
+#include "addressbook/gui/widgets/eab-config.h"
+
 static GtkWidget *
 add_section (GtkWidget *container,
              const gchar *caption,
@@ -62,8 +64,32 @@ add_section (GtkWidget *container,
 	return widget;
 }
 
-GtkWidget *
-autocompletion_config_new (EPreferencesWindow *window)
+static GtkWidget *
+get_main_notebook (EConfig *config,
+                   EConfigItem *item,
+                   GtkWidget *parent,
+                   GtkWidget *old,
+                   gint position,
+                   gpointer user_data)
+{
+	GtkWidget *notebook;
+
+	if (old != NULL)
+		return old;
+
+	notebook = gtk_notebook_new ();
+	gtk_widget_show (notebook);
+
+	return notebook;
+}
+
+static GtkWidget *
+get_general_page (EConfig *config,
+                  EConfigItem *item,
+                  GtkWidget *parent,
+                  GtkWidget *old,
+                  gint position,
+                  gpointer user_data)
 {
 	GSettings *settings;
 	ESourceRegistry *registry;
@@ -73,18 +99,25 @@ autocompletion_config_new (EPreferencesWindow *window)
 	GtkWidget *vbox;
 	EShell *shell;
 
-	shell = e_preferences_window_get_shell (window);
+	if (old != NULL)
+		return old;
+
+	shell = E_SHELL (user_data);
 	registry = e_shell_get_registry (shell);
 
 	settings = g_settings_new ("org.gnome.evolution.addressbook");
 
 	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 12);
+	gtk_container_set_border_width (GTK_CONTAINER (vbox), 12);
+	gtk_notebook_append_page (
+		GTK_NOTEBOOK (parent), vbox,
+		gtk_label_new (_("General")));
 	gtk_widget_show (vbox);
 
 	itembox = add_section (vbox, _("Date/Time Format"), FALSE);
 
 	widget = gtk_table_new (1, 3, FALSE);
-	gtk_box_pack_start (GTK_BOX (itembox), widget, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (itembox), widget, FALSE, FALSE, 0);
 	e_datetime_format_add_setup_widget (
 		widget, 0, "addressbook", "table",
 		DTFormatKindDateTime, _("_Table column:"));
@@ -131,3 +164,62 @@ autocompletion_config_new (EPreferencesWindow *window)
 
 	return vbox;
 }
+
+static EConfigItem config_items[] = {
+	{ E_CONFIG_BOOK, (gchar *) "", (gchar *) "main-notebook", get_main_notebook },
+	{ E_CONFIG_PAGE, (gchar *) "00.general", (gchar *) "general", get_general_page }
+};
+
+static void
+config_items_free (EConfig *config,
+                   GSList *items,
+                   gpointer user_data)
+{
+	g_slist_free (items);
+}
+
+GtkWidget *
+autocompletion_config_new (EPreferencesWindow *window)
+{
+	EShell *shell;
+	EABConfig *config;
+	EABConfigTargetPrefs *target;
+	GSettings *settings;
+	GtkWidget *vbox;
+	GtkWidget *widget;
+	GSList *items = NULL;
+	gint ii;
+
+	shell = e_preferences_window_get_shell (window);
+
+	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_container_set_border_width (GTK_CONTAINER (vbox), 0);
+	gtk_widget_show (vbox);
+
+	/** @HookPoint-EABConfig: Contacts Preferences Page
+	 * @Id: org.gnome.evolution.addressbook.prefs
+	 * @Type: E_CONFIG_BOOK
+	 * @Class: org.gnome.evolution.addressbook.config:1.0
+	 * @Target: EABConfigTargetPrefs
+	 *
+	 * The main contacts preferences page.
+	 */
+	config = eab_config_new ("org.gnome.evolution.addressbook.prefs");
+
+	for (ii = 0; ii < G_N_ELEMENTS (config_items); ii++)
+		items = g_slist_prepend (items, &config_items[ii]);
+	e_config_add_items (
+		E_CONFIG (config), items, config_items_free, shell);
+
+	settings = g_settings_new ("org.gnome.evolution.addressbook");
+
+	target = eab_config_target_new_prefs (config, settings);
+	e_config_set_target (E_CONFIG (config), (EConfigTarget *) target);
+	widget = e_config_create_widget (E_CONFIG (config));
+	gtk_box_pack_start (GTK_BOX (vbox), widget, TRUE, TRUE, 0);
+
+	g_object_unref (settings);
+
+	return vbox;
+}
+
