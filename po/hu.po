@@ -4849,7 +4849,7 @@ msgstr "Feljegyzés"
 #: ../calendar/importers/icalendar-importer.c:1201
 msgctxt "iCalImp"
 msgid "has recurrences"
-msgstr "rendelkezik ismétlődésekkel"
+msgstr "vannak ismétlődései"
 
 #: ../calendar/importers/icalendar-importer.c:1206
 msgctxt "iCalImp"
@@ -4864,7 +4864,7 @@ msgstr "vannak emlékeztetői"
 #: ../calendar/importers/icalendar-importer.c:1216
 msgctxt "iCalImp"
 msgid "has attachments"
-msgstr "rendelkezik mellékletekkel"
+msgstr "vannak mellékletei"
 
 #. Translators: Appointment's classification
 #: ../calendar/importers/icalendar-importer.c:1229
