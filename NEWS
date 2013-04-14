@@ -1,3 +1,58 @@
+Evolution 3.8.1 2013-04-15
+--------------------------
+
+Bug Fixes:
+	Bug 662568 - Use-after-free in Templates plugin signal handlers
+	             (Milan Crha)
+	Bug 681837 - Make enum type registration thread safe (Milan Crha)
+	Bug 684245 - Disable 3rd-party browser plugins (Tomas Popela)
+	Bug 687412 - Crash under mail_folder_cache_service_removed()
+	             (Milan Crha)
+	Bug 696173 - Various memory leaks (Milan Crha)
+	Bug 696175 - bbdb: Blocks main thread when obtaining an EBookClient
+	             (Matthew Barnes)
+	Bug 696185 - Disable WebKit's caching (Milan Crha)
+	Bug 696715 - ESelectNamesEditable needs an EClientCache
+	             (Matthew Barnes)
+	Bug 697228 - User Docs: Remove CSS page now that we have WebKit
+	             rendering (Andre Klapper)
+	Bug 697268 - Incorrect mnemonic widget in 'Add Reminder' dialog
+	             (Matthew Barnes)
+
+Other Changes:
+	* Fix translations of keywords in .desktop files (Piotr Drąg)
+	* Fix mbox-to-Maildir conversion... again. (Matthew Barnes)
+	* Fix for typing in ITIP comments when some keys triggered actions.
+	  (Tomas Popela)
+	* Show parts with Content-ID of multipart/mixed as attachments.
+	  (Milan Crha)
+	* e_mail_folder_uri_parse: Handle local mbox folder URIs.
+	  (Matthew Barnes)
+	* Update copyright year on About dialog. (Matthew Barnes)
+	* EWebView: Disable WebKit plugins during instance initialization.
+	  (Matthew Barnes)
+	* Remove Evolution's implementation of highlighting and use WebKit
+	  highlighting. (Tomas Popela)
+	* web-inspector: Change the shortcut key to match Chrome.
+	  (Matthew Barnes)
+	* Improve thread-safety of ECalModel. (Matthew Barnes)
+	* Restore "Automatic Contacts" plugin preferences page.
+	  (Matthew Barnes)
+
+Translations:
+	Inaki Larranaga Murgoitio (eu)
+	Fran Diéguez (gl)
+	Rajesh Ranjan (hi)
+	Gabor Kelemen (hu)
+	OKANO Takayoshi (ja)
+	Shankar Prasad (kn)
+	Ani Peter (ml)
+	A S Alam (pa)
+	Yuri Myasoedov (ru)
+	Marián Čavojský (sk)
+	Krishnababu Krothapalli (te)
+
+
 Evolution 3.8.0 2013-03-25
 --------------------------
 
