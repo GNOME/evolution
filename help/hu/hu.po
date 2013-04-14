@@ -1,5 +1,5 @@
 # Hungarian translation of evolution_help
-# Copyright (C) 2011, 2012. Free Software Foundation, Inc.
+# Copyright (C) 2011, 2012, 2013. Free Software Foundation, Inc.
 # This file is distributed under the same license as the evolution package.
 #
 # Bence Lukács <lukacs.bence1 at gmail dot com>, 2011.
@@ -8780,7 +8780,7 @@ msgstr ""
 #: C/mail-localized-re-subjects.page:28(page/p)
 #: C/mail-save-as-pdf.page:30(note/p)
 msgid "You can also use the <app>dconf-editor</app> application to do this."
-msgstr "Ehhez a <gui>dconf-editor</gui> alkalmazást is használhatja."
+msgstr "Ehhez a <app>dconf-editor</app> alkalmazást is használhatja."
 
 #: C/mail-filters-not-working.page:41(page/section)
 msgid ""
