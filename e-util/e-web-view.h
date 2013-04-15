@@ -174,6 +174,7 @@ void		e_web_view_set_save_as_proxy	(EWebView *web_view,
 void		e_web_view_add_highlight	(EWebView *web_view,
 						 const gchar *highlight);
 void		e_web_view_clear_highlights	(EWebView *web_view);
+void		e_web_view_update_highlights	(EWebView *web_view);
 GtkAction *	e_web_view_get_action		(EWebView *web_view,
 						 const gchar *action_name);
 GtkActionGroup *e_web_view_get_action_group	(EWebView *web_view,

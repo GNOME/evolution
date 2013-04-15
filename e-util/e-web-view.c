@@ -2335,6 +2335,14 @@ e_web_view_clear_highlights (EWebView *web_view)
 		g_free (g_queue_pop_head (&web_view->priv->highlights));
 }
 
+void
+e_web_view_update_highlights (EWebView *web_view)
+{
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	web_view_update_document_highlights (web_view);
+}
+
 GtkAction *
 e_web_view_get_action (EWebView *web_view,
                        const gchar *action_name)
