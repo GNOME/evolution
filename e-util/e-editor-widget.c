@@ -1487,7 +1487,9 @@ e_editor_widget_set_html_mode (EEditorWidget *widget,
 		gchar *plain;
 
 		plain = e_editor_widget_get_text_plain (widget);
-		e_editor_widget_set_text_plain (widget, plain);
+
+		if (*plain)
+			e_editor_widget_set_text_plain (widget, plain);
 
 		g_free (plain);
 	}
