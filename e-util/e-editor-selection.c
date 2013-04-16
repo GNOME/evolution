@@ -41,6 +41,8 @@
 
 #define WORD_WRAP_LENGTH 71
 
+#define UNICODE_HIDDEN_SPACE "\xe2\x80\x8b"
+
 /**
  * EEditorSelection:
  *
@@ -1722,6 +1724,8 @@ e_editor_selection_set_monospaced (EEditorSelection *selection,
 	WebKitWebView *web_view;
 	WebKitDOMDocument *document;
 	WebKitDOMRange *range;
+	WebKitDOMDOMWindow *window;
+	WebKitDOMDOMSelection *window_selection;
 
 	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
 
@@ -1738,30 +1742,91 @@ e_editor_selection_set_monospaced (EEditorSelection *selection,
 	web_view = WEBKIT_WEB_VIEW (editor_widget);
 
 	document = webkit_web_view_get_dom_document (web_view);
+	window = webkit_dom_document_get_default_view (document);
+	window_selection = webkit_dom_dom_window_get_selection (window);
+
 	if (monospaced) {
-		WebKitDOMElement *wrapper;
-		gchar *html;
+		if (g_strcmp0 (e_editor_selection_get_string (selection), "") != 0) {
+			gchar *html;
+			WebKitDOMElement *wrapper;
 
-		wrapper = webkit_dom_document_create_element (
-			document, "TT", NULL);
-		webkit_dom_node_append_child (
-			WEBKIT_DOM_NODE (wrapper),
-			WEBKIT_DOM_NODE (webkit_dom_range_clone_contents (range, NULL)),
-			NULL);
+			wrapper = webkit_dom_document_create_element (document, "TT", NULL);
+			webkit_dom_node_append_child (
+				WEBKIT_DOM_NODE (wrapper),
+				WEBKIT_DOM_NODE (webkit_dom_range_clone_contents (range, NULL)),
+				NULL);
 
-		html = webkit_dom_html_element_get_outer_html (
-			WEBKIT_DOM_HTML_ELEMENT (wrapper));
-		e_editor_selection_insert_html (selection, html);
+			html = webkit_dom_html_element_get_outer_html (
+				WEBKIT_DOM_HTML_ELEMENT (wrapper));
+			e_editor_selection_insert_html (selection, html);
+
+			g_free (html);
+		} else {
+			WebKitDOMElement *tt_element;
+
+			tt_element = webkit_dom_document_create_element (document, "TT", NULL);
+			/* https://bugs.webkit.org/show_bug.cgi?id=15256 */
+			webkit_dom_html_element_set_inner_html (WEBKIT_DOM_HTML_ELEMENT (tt_element), UNICODE_HIDDEN_SPACE, NULL);
+			webkit_dom_range_insert_node (range, WEBKIT_DOM_NODE (tt_element), NULL);
+			webkit_dom_range_collapse (range, FALSE, NULL);
+
+			webkit_dom_dom_selection_remove_all_ranges (window_selection);
+			webkit_dom_dom_selection_add_range (window_selection, range);
+		}
 	} else {
-		EEditorWidgetCommand command;
+		if (g_strcmp0 (e_editor_selection_get_string (selection), "") != 0) {
+			EEditorWidgetCommand command;
 
-		/* XXX This removes _all_ formatting that the selection has.
-		 *     In theory it's possible to write a code that would
-		 *     remove the <TT> from selection using advanced DOM
-		 *     manipulation, but right now I don't really feel like
-		 *     writing it all. */
-		command = E_EDITOR_WIDGET_COMMAND_REMOVE_FORMAT;
-		e_editor_widget_exec_command (editor_widget, command, NULL);
+			/* XXX This removes _all_ formatting that the selection has.
+			 *     In theory it's possible to write a code that would
+			 *     remove the <TT> from selection using advanced DOM
+			 *     manipulation, but right now I don't really feel like
+			 *     writing it all. */
+			command = E_EDITOR_WIDGET_COMMAND_REMOVE_FORMAT;
+			e_editor_widget_exec_command (editor_widget, command, NULL);
+		} else {
+			WebKitDOMElement *tt_element;
+			WebKitDOMRange *new_range;
+			WebKitDOMNode *node;
+			gchar *outer_html, *inner_html, *new_inner_html;
+			GRegex *regex;
+
+			node = webkit_dom_range_get_end_container (range, NULL);
+			tt_element = webkit_dom_node_get_parent_element (node);
+
+			if (g_strcmp0 (webkit_dom_element_get_tag_name (tt_element), "TT") != 0)
+				return;
+
+			regex = g_regex_new (UNICODE_HIDDEN_SPACE, 0, 0, NULL);
+			if (!regex)
+				return;
+
+			webkit_dom_html_element_set_id (WEBKIT_DOM_HTML_ELEMENT (tt_element), "ev-tt");
+
+			inner_html = webkit_dom_html_element_get_inner_html (WEBKIT_DOM_HTML_ELEMENT (tt_element));
+			new_inner_html = g_regex_replace_literal (regex, inner_html, -1, 0, "", 0, NULL);
+			webkit_dom_html_element_set_inner_html (WEBKIT_DOM_HTML_ELEMENT (tt_element), new_inner_html, NULL);
+
+		        outer_html = webkit_dom_html_element_get_outer_html (WEBKIT_DOM_HTML_ELEMENT (tt_element));
+			webkit_dom_html_element_set_outer_html (WEBKIT_DOM_HTML_ELEMENT (tt_element), g_strconcat (outer_html, UNICODE_HIDDEN_SPACE, NULL), NULL);
+			/* We need to get that element again */
+			tt_element = webkit_dom_document_get_element_by_id (document, "ev-tt");
+			webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (tt_element), "id");
+
+			new_range = webkit_dom_document_create_range (document);
+			webkit_dom_range_set_start_after (new_range, WEBKIT_DOM_NODE (tt_element), NULL);
+			webkit_dom_range_set_end_after (new_range, WEBKIT_DOM_NODE (tt_element), NULL);
+
+			webkit_dom_dom_selection_remove_all_ranges (window_selection);
+			webkit_dom_dom_selection_add_range (window_selection, new_range);
+
+			webkit_dom_dom_selection_modify (window_selection, "move", "right", "character");
+
+			g_regex_unref (regex);
+			g_free (inner_html);
+			g_free (new_inner_html);
+			g_free (outer_html);
+		}
 	}
 
 	g_object_unref (editor_widget);
