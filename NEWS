@@ -1,9 +1,13 @@
-Evolution 3.9.1 2013-04-??
+Evolution 3.9.1 2013-04-29
 --------------------------
 
 * The Express Mode feature developed for MeeGo has been removed.
   The MeeGo project is long dead and the Express Mode feature has
   been unmaintained quite for some time.  It served its purpose.
+
+* Dependency change: Evolution no longer links to libgoa-1.0.
+  GNOME Online Accounts support is now contained entirely within
+  Evolution-Data-Server.
 
 
 Evolution 3.7.92 2013-03-18
