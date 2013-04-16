@@ -59,6 +59,8 @@ struct _EEditorWidgetPrivate {
 
 	EEditorSelection *selection;
 
+	WebKitDOMElement *element_under_mouse;
+
 	GSettings *font_settings;
 	GSettings *aliasing_settings;
 
@@ -299,6 +301,147 @@ static const gchar *emoticons_icon_names[] = {
 	"face-wink",
 	"face-worried"
 };
+
+static void
+editor_widget_check_magic_links (EEditorWidget *widget,
+				 WebKitDOMRange *range)
+{
+	gchar *node_text;
+	gchar **urls;
+	GRegex *regex = NULL;
+	GMatchInfo *match_info;
+	gint start_pos_url, end_pos_url, end_input;
+	WebKitDOMNode *node;
+
+	const gchar *url_pattern = "((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[\\-;:&=\\+\\$,\\w]+@)?"
+				   "[A-Za-z0-9\\.\\-]+|(?:www\\.|[\\-;:&=\\+\\$,\\w]+@)"
+				   "[A-Za-z0-9\\.\\-]+)((?:\\/[\\+~%\\/\\.\\w\\-]*)?\\?"
+				   "?(?:[\\-\\+=&;%@\\.\\w]*)#?(?:[\\.\\!\\/\\\\w]*))?)\\s";
+
+	node = webkit_dom_range_get_end_container (range, NULL);
+
+	if (!WEBKIT_DOM_IS_TEXT (node))
+		return;
+
+	node_text = webkit_dom_text_get_whole_text (WEBKIT_DOM_TEXT (node));
+	if (!node_text)
+		return;
+
+	end_input = webkit_dom_range_get_end_offset (range, NULL) - 1;
+
+	regex = g_regex_new (url_pattern, 0, 0, NULL);
+
+	if (!regex) {
+		g_free (node_text);
+		return;
+	}
+
+	g_regex_match_all (regex, node_text, G_REGEX_MATCH_NOTEMPTY, &match_info);
+	urls = g_match_info_fetch_all (match_info);
+
+	if (urls) {
+		gchar *html, *url, *final_url;
+		WebKitDOMDocument *document;
+		WebKitDOMDOMWindow *window;
+		WebKitDOMDOMSelection *selection;
+
+		g_match_info_fetch_pos (match_info, 0, &start_pos_url, &end_pos_url);
+
+		url = g_strndup (urls[0], end_input - start_pos_url);
+
+		/* Select the link and put it inside <A> */
+		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
+		window = webkit_dom_document_get_default_view (document);
+		selection = webkit_dom_dom_window_get_selection (window);
+
+		webkit_dom_dom_selection_set_base_and_extent (
+			selection, webkit_dom_range_get_end_container (range, NULL),
+			end_input, webkit_dom_range_get_end_container (range, NULL),
+			start_pos_url, NULL);
+
+		if (g_str_has_prefix (url, "www"))
+			final_url = g_strconcat ("http://", url, NULL);
+		else
+			final_url = g_strdup (url);
+
+		html = g_strdup_printf ("<a href=\"%s\">%s</a>", final_url, url);
+
+		e_editor_selection_insert_html (widget->priv->selection, html);
+
+		webkit_dom_dom_selection_modify (selection, "move", "right", "character");
+
+		g_free (html);
+		g_free (url);
+		g_free (final_url);
+	}
+	else {
+		gchar *href, *text, *url;
+		gint diff;
+		WebKitDOMElement *parent;
+
+		parent = webkit_dom_node_get_parent_element (node);
+		/* if parent is href => we're editing the link */
+		if (!WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (parent)) {
+			g_match_info_free (match_info);
+			g_regex_unref (regex);
+			g_free (node_text);
+			return;
+		}
+
+		/* edit only if href and description are the same */
+		href = webkit_dom_html_anchor_element_get_href (
+				WEBKIT_DOM_HTML_ANCHOR_ELEMENT (parent));
+		text = webkit_dom_html_element_get_inner_text (
+				WEBKIT_DOM_HTML_ELEMENT (parent));
+
+		if (strstr (href, "://") && !strstr (text, "://")) {
+			url = strstr (href, "://") + 3;
+			diff = strlen (text) - strlen (url);
+
+			if (text [strlen (text) - 1] != '/')
+				diff++;
+
+			if (g_strcmp0 (url, text) != 0 && ABS (diff) == 1) {
+				gchar *inner_html, *protocol, *new_href;
+
+				protocol = g_strndup (href, strstr (href, "://") - href + 3);
+				inner_html = webkit_dom_html_element_get_inner_html (WEBKIT_DOM_HTML_ELEMENT (parent));
+				new_href = g_strconcat (protocol, inner_html, NULL);
+
+				webkit_dom_html_anchor_element_set_href (WEBKIT_DOM_HTML_ANCHOR_ELEMENT (parent), new_href);
+
+				g_free (new_href);
+				g_free (protocol);
+				g_free (inner_html);
+			}
+		}
+		else {
+			diff = strlen (text) - strlen (href);
+			if (text [strlen (text) - 1] != '/')
+				diff++;
+
+			if (g_strcmp0 (href, text) != 0 && ABS (diff) == 1) {
+				gchar *inner_html;
+				gchar *new_href;
+
+				inner_html = webkit_dom_html_element_get_inner_html (WEBKIT_DOM_HTML_ELEMENT (parent));
+				new_href = g_strconcat (inner_html, NULL);
+
+				webkit_dom_html_anchor_element_set_href (WEBKIT_DOM_HTML_ANCHOR_ELEMENT (parent), new_href);
+
+				g_free (new_href);
+				g_free (inner_html);
+			}
+
+		}
+		g_free (text);
+		g_free (href);
+	}
+
+	g_match_info_free (match_info);
+	g_regex_unref (regex);
+	g_free (node_text);
+}
 
 static void
 editor_widget_check_magic_smileys (EEditorWidget *widget,
@@ -610,6 +753,29 @@ editor_widget_constructed (GObject *object)
 	G_OBJECT_CLASS (e_editor_widget_parent_class)->constructed (object);
 }
 
+static void
+editor_widget_save_element_under_mouse_click (GtkWidget *widget)
+{
+	gint x, y;
+	GdkDeviceManager *device_manager;
+	GdkDevice *pointer;
+	EEditorWidget *editor_widget;
+	WebKitDOMDocument *document;
+	WebKitDOMElement *element;
+
+	g_return_if_fail (E_IS_EDITOR_WIDGET (widget));
+
+	device_manager = gdk_display_get_device_manager (gtk_widget_get_display (GTK_WIDGET (widget)));
+	pointer = gdk_device_manager_get_client_pointer (device_manager);
+	gdk_window_get_device_position (gtk_widget_get_window (GTK_WIDGET (widget)), pointer, &x, &y, NULL);
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
+	element = webkit_dom_document_element_from_point (document, x, y);
+
+	editor_widget = E_EDITOR_WIDGET (widget);
+	editor_widget->priv->element_under_mouse = element;
+}
+
 static gboolean
 editor_widget_button_press_event (GtkWidget *widget,
                                   GdkEventButton *event)
@@ -619,6 +785,7 @@ editor_widget_button_press_event (GtkWidget *widget,
 	if (event->button != 3) {
 		event_handled = FALSE;
 	} else {
+		editor_widget_save_element_under_mouse_click (widget);
 		g_signal_emit (
 			widget, signals[POPUP_EVENT],
 			0, event, &event_handled);
@@ -723,6 +890,8 @@ editor_widget_key_release_event (GtkWidget *widget,
 	    editor_widget->priv->html_mode) {
 		editor_widget_check_magic_smileys (editor_widget, range);
 	}
+
+	editor_widget_check_magic_links (editor_widget, range);
 
 	if ((event->keyval == GDK_KEY_Control_L) ||
 	    (event->keyval == GDK_KEY_Control_R)) {
@@ -1864,3 +2033,10 @@ e_editor_widget_update_fonts (EEditorWidget *widget)
 	pango_font_description_free (vw);
 }
 
+WebKitDOMElement *
+e_editor_widget_get_element_under_mouse_click (EEditorWidget *widget)
+{
+	g_return_val_if_fail (E_IS_EDITOR_WIDGET (widget), NULL);
+
+	return widget->priv->element_under_mouse;
+}
