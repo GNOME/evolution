@@ -148,6 +148,11 @@ editor_link_dialog_ok (EEditorLinkDialog *dialog)
 				webkit_dom_range_get_end_container (range, NULL),
 				webkit_dom_range_get_end_offset (range, NULL),
 				NULL);
+		} else {
+			/* get element that was clicked on */
+			link = e_editor_widget_get_element_under_mouse_click (widget);
+			if (!WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (link))
+				link = NULL;
 		}
 	}
 
@@ -155,6 +160,10 @@ editor_link_dialog_ok (EEditorLinkDialog *dialog)
 		webkit_dom_html_anchor_element_set_href (
 			WEBKIT_DOM_HTML_ANCHOR_ELEMENT (link),
 			gtk_entry_get_text (GTK_ENTRY (dialog->priv->url_edit)));
+		webkit_dom_html_element_set_inner_html (
+			WEBKIT_DOM_HTML_ELEMENT (link),
+			gtk_entry_get_text (GTK_ENTRY (dialog->priv->label_edit)),
+			NULL);
 	} else {
 		gchar *text;
 
@@ -247,6 +256,11 @@ editor_link_dialog_show (GtkWidget *widget)
 			fragment = webkit_dom_range_clone_contents (range, NULL);
 			link = e_editor_dom_node_find_child_element (
 					WEBKIT_DOM_NODE (fragment), "A");
+		} else {
+			/* get element that was clicked on */
+			link = e_editor_widget_get_element_under_mouse_click (editor_widget);
+			if (!WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (link))
+				link = NULL;
 		}
 	}
 
@@ -262,7 +276,6 @@ editor_link_dialog_show (GtkWidget *widget)
 			GTK_ENTRY (dialog->priv->url_edit), href);
 		gtk_entry_set_text (
 			GTK_ENTRY (dialog->priv->label_edit), text);
-		gtk_widget_set_sensitive (dialog->priv->label_edit, FALSE);
 
 		g_free (text);
 		g_free (href);

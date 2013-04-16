@@ -2007,15 +2007,40 @@ e_editor_selection_unlink (EEditorSelection *selection)
 {
 	EEditorWidget *editor_widget;
 	EEditorWidgetCommand command;
+	WebKitDOMDocument *document;
+	WebKitDOMDOMWindow *window;
+	WebKitDOMDOMSelection *dom_selection;
+	WebKitDOMRange *range;
+	WebKitDOMElement *link;
 
 	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
 
 	editor_widget = e_editor_selection_ref_editor_widget (selection);
 	g_return_if_fail (editor_widget != NULL);
 
-	command = E_EDITOR_WIDGET_COMMAND_UNLINK;
-	e_editor_widget_exec_command (editor_widget, command, NULL);
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (editor_widget));
+	window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (window);
 
+	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
+	link = e_editor_dom_node_find_parent_element (
+			webkit_dom_range_get_start_container (range, NULL), "A");
+
+	if (!link) {
+		gchar *text;
+		/* get element that was clicked on */
+		link = e_editor_widget_get_element_under_mouse_click (editor_widget);
+		if (!WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (link))
+			link = NULL;
+
+		text = webkit_dom_html_element_get_inner_text (
+				WEBKIT_DOM_HTML_ELEMENT (link));
+		webkit_dom_html_element_set_outer_html (WEBKIT_DOM_HTML_ELEMENT (link), text, NULL);
+		g_free (text);
+	} else {
+		command = E_EDITOR_WIDGET_COMMAND_UNLINK;
+		e_editor_widget_exec_command (editor_widget, command, NULL);
+	}
 	g_object_unref (editor_widget);
 }
 
