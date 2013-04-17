@@ -2813,6 +2813,88 @@ attribution_format (CamelMimeMessage *message)
 }
 
 static void
+composer_size_allocate_cb (GtkWidget *widget,
+			   gpointer user_data)
+{
+	GtkWidget *scrolled_window;
+	GtkAdjustment *adj;
+
+	scrolled_window = gtk_widget_get_parent (GTK_WIDGET (widget));
+	adj = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (scrolled_window));
+
+	/* Scroll only when there is some size allocated */
+	if (gtk_adjustment_get_upper (adj) != 0.0) {
+		/* Scroll web view down to caret */
+		gtk_adjustment_set_value (adj, gtk_adjustment_get_upper (adj) - gtk_adjustment_get_page_size (adj));
+		gtk_scrolled_window_set_vadjustment (GTK_SCROLLED_WINDOW (scrolled_window), adj);
+		/* Disconnect because we don't want to scroll down the view on every window size change */
+		g_signal_handlers_disconnect_by_func (
+			widget, G_CALLBACK (composer_size_allocate_cb), NULL);
+	}
+}
+
+static void
+web_view_load_status_changed_cb (WebKitWebView *webkit_web_view,
+                                 GParamSpec *pspec,
+                                 gpointer user_data)
+{
+	WebKitDOMDocument *document;
+	WebKitDOMRange *new_range;
+	WebKitDOMElement *br;
+	WebKitDOMHTMLElement *body;
+	WebKitDOMNode *br_node;
+	WebKitDOMDOMWindow *window;
+	WebKitDOMDOMSelection *window_selection;
+	WebKitLoadStatus status;
+
+	status = webkit_web_view_get_load_status (webkit_web_view);
+	if (status != WEBKIT_LOAD_FINISHED)
+		return;
+
+	/* Move caret on the end of body element */
+	document = webkit_web_view_get_dom_document (webkit_web_view);
+	window = webkit_dom_document_get_default_view (document);
+	window_selection = webkit_dom_dom_window_get_selection (window);
+	body = webkit_dom_document_get_body (document);
+
+	br = webkit_dom_document_create_element (document, "BR", NULL);
+	br_node = webkit_dom_node_append_child (WEBKIT_DOM_NODE (body), WEBKIT_DOM_NODE(br), NULL);
+
+	new_range = webkit_dom_document_create_range (document);
+	webkit_dom_range_select_node_contents (new_range, WEBKIT_DOM_NODE (br_node), NULL);
+	webkit_dom_range_collapse (new_range, FALSE, NULL);
+
+	webkit_dom_dom_selection_remove_all_ranges (window_selection);
+	webkit_dom_dom_selection_add_range (window_selection, new_range);
+
+	/* Disconnect because we don't want to move caret down on every web view status change */
+	g_signal_handlers_disconnect_by_func (
+		webkit_web_view, G_CALLBACK (web_view_load_status_changed_cb), NULL);
+}
+
+static void
+composer_set_caret_on_body_end (EMsgComposer *composer)
+{
+	EEditor *editor;
+	EEditorWidget *widget;
+
+	editor = e_msg_composer_get_editor (composer);
+	widget = e_editor_get_editor_widget (editor);
+
+	/* Scroll web view down to caret - we have to wait until
+	 * GtkScrolledWindow is resized */
+	g_signal_connect (
+		widget, "size-allocate",
+		G_CALLBACK (composer_size_allocate_cb), NULL);
+
+	/* Set caret on the end of body - we have to wait until
+	 * the page is loaded */
+	g_signal_connect (
+		WEBKIT_WEB_VIEW(widget), "notify::load-status",
+		G_CALLBACK (web_view_load_status_changed_cb), NULL);
+}
+
+static void
 composer_set_body (EMsgComposer *composer,
                    CamelMimeMessage *message,
                    EMailReplyStyle style,
@@ -2847,6 +2929,9 @@ composer_set_body (EMsgComposer *composer,
 		g_free (text);
 		g_free (original);
 		emu_update_composers_security (composer, validity_found);
+
+		if (start_bottom)
+			composer_set_caret_on_body_end (composer);
 		break;
 
 	case E_MAIL_REPLY_STYLE_QUOTED:
@@ -2861,6 +2946,9 @@ composer_set_body (EMsgComposer *composer,
 		e_msg_composer_set_body_text (composer, text, TRUE);
 		g_free (text);
 		emu_update_composers_security (composer, validity_found);
+
+		if (start_bottom)
+			composer_set_caret_on_body_end (composer);
 		break;
 	}
 
