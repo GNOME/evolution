@@ -117,7 +117,6 @@ HELP_FILES = \
 	mail-change-time-format.page \
 	mail-composer-change-quotation-string.page \
 	mail-composer-custom-header-lines.page \
-	mail-composer-forward-as-attachment.page \
 	mail-composer-enable-html-format.page \
 	mail-composer-forward.page \
 	mail-composer-forward-as-attachment.page \
