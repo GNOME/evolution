@@ -310,7 +310,7 @@ editor_widget_check_magic_links (EEditorWidget *widget,
 	gchar **urls;
 	GRegex *regex = NULL;
 	GMatchInfo *match_info;
-	gint start_pos_url, end_pos_url, end_input;
+	gint start_pos_url, end_pos_url;
 	WebKitDOMNode *node;
 
 	const gchar *url_pattern = "((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[\\-;:&=\\+\\$,\\w]+@)?"
@@ -324,10 +324,8 @@ editor_widget_check_magic_links (EEditorWidget *widget,
 		return;
 
 	node_text = webkit_dom_text_get_whole_text (WEBKIT_DOM_TEXT (node));
-	if (!node_text)
+	if (!node_text || !g_utf8_validate (node_text, -1, NULL))
 		return;
-
-	end_input = webkit_dom_range_get_end_offset (range, NULL) - 1;
 
 	regex = g_regex_new (url_pattern, 0, 0, NULL);
 
@@ -341,13 +339,24 @@ editor_widget_check_magic_links (EEditorWidget *widget,
 
 	if (urls) {
 		gchar *html, *url, *final_url;
+		gchar *url_start_raw, *url_end_raw;
+		glong url_start, url_end;
 		WebKitDOMDocument *document;
 		WebKitDOMDOMWindow *window;
 		WebKitDOMDOMSelection *selection;
 
 		g_match_info_fetch_pos (match_info, 0, &start_pos_url, &end_pos_url);
 
-		url = g_strndup (urls[0], end_input - start_pos_url);
+		/* Get start and end position of url in node's text because positions
+		 * that we get from g_match_info_fetch_pos are not UTF-8 aware */
+		url_start_raw = g_strndup(node_text, start_pos_url);
+		url_start = g_utf8_strlen (url_start_raw, -1);
+
+		url_end_raw = g_strndup(node_text, end_pos_url);
+		url_end = g_utf8_strlen (url_end_raw, -1);
+
+		/* Remove space on end */
+		url = g_utf8_substring (urls[0], 0, g_utf8_strlen (urls[0], -1) - 1);
 
 		/* Select the link and put it inside <A> */
 		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
@@ -356,8 +365,8 @@ editor_widget_check_magic_links (EEditorWidget *widget,
 
 		webkit_dom_dom_selection_set_base_and_extent (
 			selection, webkit_dom_range_get_end_container (range, NULL),
-			end_input, webkit_dom_range_get_end_container (range, NULL),
-			start_pos_url, NULL);
+			url_end - 1, webkit_dom_range_get_end_container (range, NULL),
+			url_start, NULL);
 
 		if (g_str_has_prefix (url, "www"))
 			final_url = g_strconcat ("http://", url, NULL);
@@ -370,6 +379,8 @@ editor_widget_check_magic_links (EEditorWidget *widget,
 
 		webkit_dom_dom_selection_modify (selection, "move", "right", "character");
 
+		g_free (url_start_raw);
+		g_free (url_end_raw);
 		g_free (html);
 		g_free (url);
 		g_free (final_url);
