@@ -281,6 +281,13 @@ e_attachment_store_remove_all (EAttachmentStore *store)
 	if (!g_hash_table_size (store->priv->attachment_index))
 		return;
 
+	/* Clear the list store before cancelling EAttachment load/save
+	 * operations.  This will invalidate the EAttachment's tree row
+	 * reference so it won't try to update the row's icon column in
+	 * response to the cancellation.  That can create problems when
+	 * the list store is being disposed. */
+	gtk_list_store_clear (GTK_LIST_STORE (store));
+
 	g_object_freeze_notify (G_OBJECT (store));
 
 	list = e_attachment_store_get_attachments (store);
@@ -293,8 +300,6 @@ e_attachment_store_remove_all (EAttachmentStore *store)
 
 	g_list_foreach (list, (GFunc) g_object_unref, NULL);
 	g_list_free (list);
-
-	gtk_list_store_clear (GTK_LIST_STORE (store));
 
 	g_object_notify (G_OBJECT (store), "num-attachments");
 	g_object_notify (G_OBJECT (store), "total-size");
