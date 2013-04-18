@@ -82,6 +82,40 @@ static guint signals[LAST_SIGNAL];
 G_DEFINE_ABSTRACT_TYPE (EShellBackend, e_shell_backend, E_TYPE_EXTENSION)
 
 static void
+shell_backend_debug_list_activities (EShellBackend *shell_backend)
+{
+	EShellBackendClass *class;
+	GList *head, *link;
+	guint n_activities;
+
+	class = E_SHELL_BACKEND_GET_CLASS (shell_backend);
+
+	n_activities = g_queue_get_length (shell_backend->priv->activities);
+
+	if (n_activities == 0)
+		return;
+
+	g_debug (
+		"%u active '%s' %s:",
+		n_activities, class->name,
+		(n_activities == 1) ? "activity" : "activities");
+
+	head = g_queue_peek_head_link (shell_backend->priv->activities);
+
+	for (link = head; link != NULL; link = g_list_next (link)) {
+		EActivity *activity = E_ACTIVITY (link->data);
+		gchar *description;
+
+		description = e_activity_describe (activity);
+		if (description != NULL)
+			g_debug ("* %s", description);
+		else
+			g_debug ("* (no description)");
+		g_free (description);
+	}
+}
+
+static void
 shell_backend_activity_finalized_cb (EShellBackend *shell_backend,
                                      EActivity *finalized_activity)
 {
@@ -99,6 +133,8 @@ shell_backend_notify_busy_cb (EShellBackend *shell_backend,
                               GParamSpec *pspec,
                               EActivity *activity)
 {
+	shell_backend_debug_list_activities (shell_backend);
+
 	if (!e_shell_backend_is_busy (shell_backend)) {
 		/* Disconnecting this signal handler will unreference the
 		 * EActivity and allow the shell to proceed with shutdown. */
@@ -114,6 +150,8 @@ shell_backend_prepare_for_quit_cb (EShell *shell,
                                    EActivity *activity,
                                    EShellBackend *shell_backend)
 {
+	shell_backend_debug_list_activities (shell_backend);
+
 	if (e_shell_backend_is_busy (shell_backend)) {
 		gulong handler_id;
 
