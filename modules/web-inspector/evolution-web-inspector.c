@@ -36,7 +36,7 @@
 #define WEB_INSPECTOR_KEY  (GDK_KEY_I)
 
 #define WEB_INSPECTOR_SHORTCUT_SHOW(event) \
-	((((event)->state & GDK_MODIFIER_MASK) == WEB_INSPECTOR_MOD) && \
+	((((event)->state & WEB_INSPECTOR_MOD) == WEB_INSPECTOR_MOD) && \
 	((event)->keyval == WEB_INSPECTOR_KEY))
 
 typedef struct _EWebInspector EWebInspector;
