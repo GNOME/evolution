@@ -60,6 +60,9 @@ struct _EShellBackendPrivate {
 	gchar *data_dir;
 	gchar *prefer_new_item;
 
+	/* This is set to delay shutdown. */
+	gulong notify_busy_handler_id;
+
 	guint started	: 1;
 };
 
@@ -96,14 +99,13 @@ shell_backend_notify_busy_cb (EShellBackend *shell_backend,
                               GParamSpec *pspec,
                               EActivity *activity)
 {
-	/* Unreferencing the EActivity allows the shell to
-	 * proceed with shutdown. */
 	if (!e_shell_backend_is_busy (shell_backend)) {
-		g_signal_handlers_disconnect_by_func (
+		/* Disconnecting this signal handler will unreference the
+		 * EActivity and allow the shell to proceed with shutdown. */
+		g_signal_handler_disconnect (
 			shell_backend,
-			shell_backend_notify_busy_cb,
-			activity);
-		g_object_unref (activity);
+			shell_backend->priv->notify_busy_handler_id);
+		shell_backend->priv->notify_busy_handler_id = 0;
 	}
 }
 
@@ -112,13 +114,18 @@ shell_backend_prepare_for_quit_cb (EShell *shell,
                                    EActivity *activity,
                                    EShellBackend *shell_backend)
 {
-	/* Referencing the EActivity delays shutdown; the
-	 * reference count acts like a counting semaphore. */
-	if (e_shell_backend_is_busy (shell_backend))
-		g_signal_connect (
+	if (e_shell_backend_is_busy (shell_backend)) {
+		gulong handler_id;
+
+		/* Referencing the EActivity delays shutdown; the
+		 * reference count acts like a counting semaphore. */
+		handler_id = g_signal_connect_data (
 			shell_backend, "notify::busy",
 			G_CALLBACK (shell_backend_notify_busy_cb),
-			g_object_ref (activity));
+			g_object_ref (activity),
+			(GClosureNotify) g_object_unref, 0);
+		shell_backend->priv->notify_busy_handler_id = handler_id;
+	}
 }
 
 static GObject *
@@ -210,6 +217,12 @@ shell_backend_dispose (GObject *object)
 	if (priv->prefer_new_item) {
 		g_free (priv->prefer_new_item);
 		priv->prefer_new_item = NULL;
+	}
+
+	if (priv->notify_busy_handler_id > 0) {
+		g_signal_handler_disconnect (
+			object, priv->notify_busy_handler_id);
+		priv->notify_busy_handler_id = 0;
 	}
 
 	/* Chain up to parent's dispose() method. */
