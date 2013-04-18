@@ -1867,35 +1867,12 @@ mail_notification (time_t trigger,
                    CompQueuedAlarms *cqa,
                    gpointer alarm_id)
 {
-	GtkWidget *container;
-	GtkWidget *dialog;
-	GtkWidget *label;
-
-	/* FIXME */
-
-	debug (("..."));
-
 	if (!e_client_check_capability (
 		E_CLIENT (cqa->parent_client->cal_client),
 		CAL_STATIC_CAPABILITY_NO_EMAIL_ALARMS))
 		return;
 
-	dialog = gtk_dialog_new_with_buttons (
-		_("Warning"), NULL, 0,
-		GTK_STOCK_OK, GTK_RESPONSE_CANCEL,
-		NULL);
-	label = gtk_label_new (
-		_("Evolution does not support calendar reminders with\n"
-		"email notifications yet, but this reminder was\n"
-		"configured to send an email.  Evolution will display\n"
-		"a normal reminder dialog box instead."));
-	gtk_widget_show (label);
-
-	container = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
-	gtk_box_pack_start (GTK_BOX (container), label, TRUE, TRUE, 4);
-
-	gtk_dialog_run (GTK_DIALOG (dialog));
-	gtk_widget_destroy (dialog);
+	/* FIXME Implement this. */
 }
 
 /* Performs notification of a procedure alarm */
