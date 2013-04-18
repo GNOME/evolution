@@ -5,15 +5,15 @@ privsolib_LTLIBRARIES = libemail-engine.la
 ENUM_TYPES = e-mail-enums.h
 
 e-mail-enumtypes.h: $(top_srcdir)/enumtypes.h.template $(ENUM_TYPES)
-	$(AM_V_GEN) (cd $(srcdir) && $(GLIB_MKENUMS) --template $(top_srcdir)/enumtypes.h.template \
+	$(AM_V_GEN) $(GLIB_MKENUMS) --template $(top_srcdir)/enumtypes.h.template \
 		--fhead "#ifndef E_MAIL_ENUMTYPES_H\n#define E_MAIL_ENUMTYPES_H\n" \
 		--ftail "#endif /* E_MAIL_ENUMTYPES_H */\n" \
-		$(ENUM_TYPES)) > $@
+		$(addprefix $(srcdir)/,$(ENUM_TYPES)) > $@
 
 e-mail-enumtypes.c: $(top_srcdir)/enumtypes.c.template $(ENUM_TYPES)
-	$(AM_V_GEN) (cd $(srcdir) && $(GLIB_MKENUMS) --template $(top_srcdir)/enumtypes.c.template \
+	$(AM_V_GEN) $(GLIB_MKENUMS) --template $(top_srcdir)/enumtypes.c.template \
 		--fhead "#include \"e-mail-enumtypes.h\"" \
-		$(ENUM_TYPES)) > $@
+		$(addprefix $(srcdir)/,$(ENUM_TYPES)) > $@
 
 ENUM_GENERATED = e-mail-enumtypes.h e-mail-enumtypes.c
 

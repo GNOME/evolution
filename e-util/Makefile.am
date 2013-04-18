@@ -7,15 +7,15 @@ ruledir = $(privdatadir)
 ENUM_TYPES = e-util-enums.h
 
 e-util-enumtypes.h: $(top_srcdir)/enumtypes.h.template $(ENUM_TYPES)
-	$(AM_V_GEN) (cd $(srcdir) && $(GLIB_MKENUMS) --template $(top_srcdir)/enumtypes.h.template \
+	$(AM_V_GEN) $(GLIB_MKENUMS) --template $(top_srcdir)/enumtypes.h.template \
 		--fhead "#ifndef E_UTIL_ENUMTYPES_H\n#define E_UTIL_ENUMTYPES_H\n" \
 		--ftail "#endif /* E_UTIL_ENUMTYPES_H */\n" \
-		$(ENUM_TYPES)) > $@
+		$(addprefix $(srcdir)/,$(ENUM_TYPES)) > $@
 
 e-util-enumtypes.c: $(top_srcdir)/enumtypes.c.template $(ENUM_TYPES)
-	$(AM_V_GEN) (cd $(srcdir) && $(GLIB_MKENUMS) --template $(top_srcdir)/enumtypes.c.template \
+	$(AM_V_GEN) $(GLIB_MKENUMS) --template $(top_srcdir)/enumtypes.c.template \
 		--fhead "#include \"e-util-enumtypes.h\"" \
-		$(ENUM_TYPES)) > $@
+		$(addprefix $(srcdir)/,$(ENUM_TYPES)) > $@
 
 e-marshal.h: e-marshal.list
 	$(AM_V_GEN) $(GLIB_GENMARSHAL) --header --prefix=e_marshal $^ > e-marshal.h.tmp && \

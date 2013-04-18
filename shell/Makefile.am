@@ -9,15 +9,15 @@ eshellincludedir = $(privincludedir)/shell
 ENUM_TYPES = e-shell.h
 
 e-shell-enumtypes.h: $(top_srcdir)/enumtypes.h.template $(ENUM_TYPES)
-	$(AM_V_GEN) (cd $(srcdir) && $(GLIB_MKENUMS) --template $(top_srcdir)/enumtypes.h.template \
+	$(AM_V_GEN) $(GLIB_MKENUMS) --template $(top_srcdir)/enumtypes.h.template \
 		--fhead "#ifndef E_SHELL_ENUMTYPES_H\n#define E_SHELL_ENUMTYPES_H\n" \
 		--ftail "#endif /* E_SHELL_ENUMTYPES_H */\n" \
-		$(ENUM_TYPES)) > $@
+		$(addprefix $(srcdir)/,$(ENUM_TYPES)) > $@
 
 e-shell-enumtypes.c: $(top_srcdir)/enumtypes.c.template $(ENUM_TYPES)
-	$(AM_V_GEN) (cd $(srcdir) && $(GLIB_MKENUMS) --template $(top_srcdir)/enumtypes.c.template \
+	$(AM_V_GEN) $(GLIB_MKENUMS) --template $(top_srcdir)/enumtypes.c.template \
 		--fhead "#include \"e-shell-enumtypes.h\"" \
-		$(ENUM_TYPES)) > $@
+		$(addprefix $(srcdir)/,$(ENUM_TYPES)) > $@
 
 ENUM_GENERATED = e-shell-enumtypes.h e-shell-enumtypes.c
 
