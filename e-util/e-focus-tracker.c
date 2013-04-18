@@ -28,6 +28,7 @@
 
 #include "e-selectable.h"
 #include "e-widget-undo.h"
+#include "e-editor-widget.h"
 
 #define E_FOCUS_TRACKER_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -255,6 +256,42 @@ focus_tracker_text_view_update_actions (EFocusTracker *focus_tracker,
 }
 
 static void
+focus_tracker_editor_update_actions (EFocusTracker *focus_tracker,
+                                       EEditorWidget *editor,
+                                       GdkAtom *targets,
+                                       gint n_targets)
+{
+	GtkAction *action;
+	gboolean can_copy;
+	gboolean can_cut;
+	gboolean can_paste;
+
+	g_object_get (editor,
+		      "can-copy", &can_copy,
+		      "can-cut", &can_cut,
+		      "can-paste", &can_paste,
+		      NULL);
+
+	action = e_focus_tracker_get_cut_clipboard_action (focus_tracker);
+	if (action != NULL) {
+		gtk_action_set_sensitive (action, can_cut);
+		gtk_action_set_tooltip (action, _("Cut the selection"));
+	}
+
+	action = e_focus_tracker_get_copy_clipboard_action (focus_tracker);
+	if (action != NULL) {
+		gtk_action_set_sensitive (action, can_copy);
+		gtk_action_set_tooltip (action, _("Copy the selection"));
+	}
+
+	action = e_focus_tracker_get_paste_clipboard_action (focus_tracker);
+	if (action != NULL) {
+		gtk_action_set_sensitive (action, can_paste);
+		gtk_action_set_tooltip (action, _("Paste the clipboard"));
+	}
+}
+
+static void
 focus_tracker_selectable_update_actions (EFocusTracker *focus_tracker,
                                          ESelectable *selectable,
                                          GdkAtom *targets,
@@ -331,6 +368,11 @@ focus_tracker_targets_received_cb (GtkClipboard *clipboard,
 			focus_tracker, GTK_TEXT_VIEW (focus),
 			targets, n_targets);
 
+	else if (E_IS_EDITOR_WIDGET (focus))
+		focus_tracker_editor_update_actions (
+			focus_tracker, E_EDITOR_WIDGET (focus),
+			targets, n_targets);
+
 	g_object_unref (focus_tracker);
 }
 
@@ -347,6 +389,9 @@ focus_tracker_set_focus_cb (GtkWindow *window,
 			break;
 
 		if (GTK_IS_TEXT_VIEW (focus))
+			break;
+
+		if (E_IS_EDITOR_WIDGET (focus))
 			break;
 
 		focus = gtk_widget_get_parent (focus);
