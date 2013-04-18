@@ -338,9 +338,8 @@ editor_widget_check_magic_links (EEditorWidget *widget,
 	urls = g_match_info_fetch_all (match_info);
 
 	if (urls) {
-		gchar *html, *url, *final_url;
-		gchar *url_start_raw, *url_end_raw;
-		glong url_start, url_end;
+		gchar *html, *url, *final_url, *url_end_raw;
+		glong url_start, url_end, url_length;
 		WebKitDOMDocument *document;
 		WebKitDOMDOMWindow *window;
 		WebKitDOMDOMSelection *selection;
@@ -349,14 +348,14 @@ editor_widget_check_magic_links (EEditorWidget *widget,
 
 		/* Get start and end position of url in node's text because positions
 		 * that we get from g_match_info_fetch_pos are not UTF-8 aware */
-		url_start_raw = g_strndup(node_text, start_pos_url);
-		url_start = g_utf8_strlen (url_start_raw, -1);
-
 		url_end_raw = g_strndup(node_text, end_pos_url);
 		url_end = g_utf8_strlen (url_end_raw, -1);
 
+		url_length = g_utf8_strlen (urls[0], -1);
+		url_start = url_end - url_length;
+
 		/* Remove space on end */
-		url = g_utf8_substring (urls[0], 0, g_utf8_strlen (urls[0], -1) - 1);
+		url = g_utf8_substring (urls[0], 0, url_length - 1);
 
 		/* Select the link and put it inside <A> */
 		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
@@ -379,7 +378,6 @@ editor_widget_check_magic_links (EEditorWidget *widget,
 
 		webkit_dom_dom_selection_modify (selection, "move", "right", "character");
 
-		g_free (url_start_raw);
 		g_free (url_end_raw);
 		g_free (html);
 		g_free (url);
