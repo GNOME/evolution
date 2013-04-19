@@ -25,12 +25,11 @@
 <p>Mail accounts can be edited via <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Edit</gui></guiseq> or by right-clicking on the respective top-level node in the folder list and choosing <gui>Properties</gui>.</p>
 <p>The following settings are available when editing an existing account:</p>
 
-<section id="identity">
-<title>Identity</title>
-<!-- TODO:XINCLUDE: Quite ugly to copy this text into all account type's, but it's not really worth a separate topic page for it, plus it would make the intro-first-run.page even more complex. Maybe later replace this text by a single instance by doing some content sharing with xinclude and xpointer in the other mail-account-manage-*.page files and in intro-first-run.page. <include href="foo.xml" xmlns="http://www.w3.org/2001/XInclude"/> See gnome-user-docs module for example usage. Also see https://bugzilla.gnome.org/show_bug.cgi?id=638866 -->
-<p>Here you define your name and your email address.</p>
-<p>Optionally you can make this account your default account (e.g. when writing emails), set a Reply-To email address (if you want replies to messages sent to a different address), and set an organization (the company where you work, or the organization you represent when you send email from this account).</p>
-</section>
+<!-- As the "Identity" section is identical in all account pages, it is centrally in one file included 
+via XInclude. See +http://blogs.gnome.org/shaunm/2011/07/21/understanding-xinclude/ for how it works. -->
+<include href="xinclude-mail-account-identity.xml"
+ xpointer="xmlns(mal=http://projectmallard.org/1.0/)xpointer(/mal:info/mal:section)"
+ xmlns="http://www.w3.org/2001/XInclude"/>
 
 <section id="receiving-email">
 <title>Receiving Email and Receiving options</title>

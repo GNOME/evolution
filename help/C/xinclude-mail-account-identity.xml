@@ -1,0 +1,9 @@
+<info xmlns="http://projectmallard.org/1.0/">
+
+<section id="identity">
+<title>Identity</title>
+<p>Here you define your name and your email address.</p>
+<p>Optionally you can make this account your default account (e.g. when writing emails), set a Reply-To email address (if you want replies to messages sent to a different address), and set an organization (the company where you work, or the organization you represent when you send email from this account).</p>
+</section>
+
+</info>
