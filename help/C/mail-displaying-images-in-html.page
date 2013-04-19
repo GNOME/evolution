@@ -5,7 +5,6 @@
     <desc>On embedded pictures in received HTML messages.</desc>
 
     <link type="guide" xref="mail-displaying-message" />
-    <link type="seealso" xref="mail-downloading-images" />
 
     <revision pkgversion="3.1.5" version="0.4" date="2011-08-09" status="final"/>
     <credit type="author">

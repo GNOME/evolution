@@ -78,16 +78,6 @@
   </if:choose>
 </note>
 </item>
-<item><p>Microsoft Exchange: For connecting to a Microsoft Exchange 2000 or 2003 server.</p><p>Continue <link xref="mail-receiving-options-evolution-exchange">here</link> for configuration.</p>
-<note style="info package">
-  <p>This requires having the <sys>evolution-exchange</sys> package installed.</p>
-  <if:choose>
-    <if:when test="if:supports('action:install')">
-      <p><link action="install:evolution-exchange" href="http://projects.gnome.org/evolution/download" style="button">Install evolution-exchange</link></p>
-    </if:when>
-  </if:choose>
-</note>
-</item>
 </list>
 </section>
 
