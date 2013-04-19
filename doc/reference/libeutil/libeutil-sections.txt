@@ -2507,6 +2507,21 @@ EPhotoCachePrivate
 </SECTION>
 
 <SECTION>
+<FILE>e-photo-source</FILE>
+<TITLE>EPhotoSource</TITLE>
+EPhotoSource
+EPhotoSourceInterface
+e_photo_source_get_photo
+e_photo_source_get_photo_finish
+<SUBSECTION Standard>
+E_PHOTO_SOURCE
+E_IS_PHOTO_SOURCE
+E_TYPE_PHOTO_SOURCE
+E_PHOTO_SOURCE_GET_INTERFACE
+e_photo_source_get_type
+</SECTION>
+
+<SECTION>
 <FILE>e-picture-gallery</FILE>
 <TITLE>EPictureGallery</TITLE>
 EPictureGallery

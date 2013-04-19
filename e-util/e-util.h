@@ -132,6 +132,7 @@
 #include <e-util/e-paned.h>
 #include <e-util/e-passwords.h>
 #include <e-util/e-photo-cache.h>
+#include <e-util/e-photo-source.h>
 #include <e-util/e-picture-gallery.h>
 #include <e-util/e-plugin-ui.h>
 #include <e-util/e-plugin.h>

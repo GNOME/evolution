@@ -216,6 +216,7 @@ eutilinclude_HEADERS =  \
 	e-paned.h \
 	e-passwords.h \
 	e-photo-cache.h \
+	e-photo-source.h \
 	e-picture-gallery.h \
 	e-plugin-ui.h \
 	e-plugin.h \
@@ -464,6 +465,7 @@ libeutil_la_SOURCES = \
 	e-paned.c \
 	e-passwords.c \
 	e-photo-cache.c \
+	e-photo-source.c \
 	e-picture-gallery.c \
 	e-plugin-ui.c \
 	e-plugin.c \

@@ -92,6 +92,7 @@ e_name_selector_model_get_type
 e_online_button_get_type
 e_paned_get_type
 e_photo_cache_get_type
+e_photo_source_get_type
 e_picture_gallery_get_type
 e_plugin_get_type
 e_plugin_hook_get_type
