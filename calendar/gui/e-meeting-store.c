@@ -1567,6 +1567,11 @@ freebusy_async (gpointer data)
 		e_cal_client_get_free_busy_sync (
 			fbd->client, fbd->startt,
 			fbd->endt, fbd->users, NULL, NULL);
+		/* This is to workaround broken dispatch of "free-busy-data" signal,
+		   introduced in 3.8.0. This code can be removed once the below bug is
+		   properly fixed: https://bugzilla.gnome.org/show_bug.cgi?id=692361
+		*/
+		g_usleep (G_USEC_PER_SEC / 10);
 		g_signal_handler_disconnect (fbd->client, sigid);
 		priv->num_queries--;
 		g_mutex_unlock (&mutex);

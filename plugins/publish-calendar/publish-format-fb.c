@@ -117,6 +117,16 @@ write_calendar (const gchar *uid,
 	if (e_cal_client_get_free_busy_sync (E_CAL_CLIENT (client), start, end, users, NULL, error)) {
 		gchar *ical_string;
 		GSList *iter;
+		gboolean done = FALSE;
+
+		/* This is to workaround broken dispatch of "free-busy-data" signal,
+		   introduced in 3.8.0. This code can be removed once the below bug is
+		   properly fixed: https://bugzilla.gnome.org/show_bug.cgi?id=692361
+		*/
+		while (!done) {
+			g_usleep (G_USEC_PER_SEC / 10);
+			done = !g_main_context_iteration (NULL, FALSE);
+		}
 
 		for (iter = objects; iter; iter = iter->next) {
 			ECalComponent *comp = iter->data;
