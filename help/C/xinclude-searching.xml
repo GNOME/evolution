@@ -1,0 +1,34 @@
+<info xmlns="http://projectmallard.org/1.0/">
+
+<section id="advanced-search">
+<title>Advanced Search</title>
+<steps>
+<item><p>Select the <guiseq><gui>Search</gui><gui>Advanced Search</gui></guiseq> menu to open the dialog box.</p></item>
+<item><p>Click <gui style="button">Add Condition</gui> to add any number of rules.</p></item>
+<item><p>Select the condition from the dropdown list, and then type a search entry in the field.</p></item>
+<item><p>Click <gui style="button">OK</gui> to get the search results displayed.</p></item>
+</steps>
+</section>
+
+<section id="clearing-search">
+<title>Clearing the Search results</title>
+<p>To clear your search view and get back to the default view, click the <gui>Clear</gui> icon in the search string field, or choose <guiseq><gui>Search</gui><gui>Clear</gui></guiseq> from the menubar. You can also press <keyseq><key>Shift</key><key>Ctrl</key><key>Q</key></keyseq> to clear the search.</p>
+</section>
+
+<section id="saved-searches">
+<title>Saved Searches</title>
+<p>If you search for something rather often, you will prefer not to type it many times. In this case you can use saved searches.</p>
+<p>To save your search results, either click <gui>Save</gui> instead of <gui>OK</gui> in the Search dialog, or in case the search results are already displayed, select <guiseq><gui>Search</gui><gui>Save Search</gui></guiseq>. From now on this search will be directly available from the <gui>Search</gui> menu.</p>
+</section>
+
+<section id="editing-a-saved-search">
+<title>Editing a Saved Search</title>
+<steps>
+<item><p>Select <guiseq><gui>Search</gui><gui>Edit Saved Searches</gui></guiseq> from the menu bar to open the window.</p></item>
+<item><p>Click the <gui style="button">Edit</gui> button to open the <gui>Edit Rule</gui> window.</p></item>
+<item><p>Edit the title or search conditions from the dialog box.</p></item>
+<item><p>Click <gui>OK</gui>.</p></item>
+</steps>
+</section>
+
+</info>
