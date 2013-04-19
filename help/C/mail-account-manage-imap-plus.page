@@ -47,7 +47,7 @@ via XInclude. See +http://blogs.gnome.org/shaunm/2011/07/21/understanding-xinclu
 <title>Security</title>
 </section>
 
-<!-- TODO:DEVELOPERS: No "IMAP Headers" tab for IMAP+ under Edit>Prefs>MailAccounts>Edit existing. See https://bugzilla.gnome.org/show_bug.cgi?id=655519 -->
+<!-- Note: There is no "IMAP Headers" tab for IMAP+ under Edit>Prefs>MailAccounts>Edit existing as it was for IMAP. See https://bugzilla.gnome.org/show_bug.cgi?id=655519 -->
 
 </section> <!-- end "account editor" section, now list any account settings stuff related to this account type outside of it -->
 

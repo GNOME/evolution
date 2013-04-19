@@ -45,8 +45,6 @@
 <p>The most common available server types for normal users are:</p>
 <list>
 <item><p>None: If you do not plan to use Evolution for receiving email.</p><p>Continue <link xref="#sending">here</link> for configuration.</p></item>
-<item><p>IMAP: Keeps the mail on the server so you can access your mail from multiple systems.</p><p>Continue <link xref="mail-receiving-options-imap">here</link> for configuration.</p></item>
-<!-- TODO:DEVELOPERS: So what's the difference between IMAP and IMAP+, and what is recommended, dear developers? -->
 <item><p>IMAP+: Keeps the mail on the server so you can access your mail from multiple systems.</p><p>Continue <link xref="mail-receiving-options-imap-plus">here</link> for configuration.</p></item>
 <item><p>POP: Downloads your email to your hard disk.</p><p>Continue <link xref="mail-receiving-options-pop">here</link> for configuration.</p></item>
 <item><p>USENET News: Connects to a news server and downloads a list of available news digests.</p><p>Continue <link xref="mail-receiving-options-usenet-news">here</link> for configuration.</p></item>
