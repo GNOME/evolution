@@ -73,7 +73,7 @@
 <p>Checks whether the message is <link xref="mail-follow-up-flag">flagged for follow-up</link>.</p></item>
 
 <item><p>Completed On:</p></item>
-<!-- TODO: Explain usage of this option. -->
+<!-- TODO: Explain usage of this option: Completed On -->
 
 <item><p>Attachments:</p>
 <p>Checks whether there is an attachment for the email.</p></item>
@@ -85,9 +85,9 @@
 <p>(For programmers only) If you know your way around a <link href="https://secure.wikimedia.org/wikipedia/en/wiki/Regular_expression">regex</link>, or regular expression, this option allows you to search for complex patterns of letters, so that you can find, for example, all words that start with a and end with m, and are between six and fifteen letters long, or all messages that declare a particular header twice. For information about how to use regular expressions, check the man page for the <cmd>grep</cmd> command.</p></item>
 
 <item><p>Message Location:</p></item>
-<!-- TODO: Explain usage of this option. -->
+<!-- TODO: Explain usage of this option: Message Location -->
 
 <item><p>Match All:</p></item>
-<!-- TODO: Explain usage of this option. -->
+<!-- TODO: Explain usage of this option: Match All -->
 </list>
 </page>

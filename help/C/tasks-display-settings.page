@@ -22,7 +22,7 @@
 
 <title>Displaying of tasks</title>
 
-<!-- TODO:POST-3-2: Just listing the partially busted UI options (also see calendar-layout-appointment-display) here is very poor and not task-oriented, but that's it for the time being. Better ideas welcome. -->
+<!-- TODO:POST-3-8: Just listing the partially busted UI options (also see calendar-layout-appointment-display) here is very poor and not task-oriented, but that's it for the time being. Better ideas welcome. -->
 
 <p>The following task-related options are available under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Calendar and Tasks</gui><gui>Tasks</gui></guiseq>.</p>
 <!-- This is the location since 3.1.5, see bug https://bugzilla.gnome.org/show_bug.cgi?id=655666 -->

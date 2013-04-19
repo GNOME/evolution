@@ -3,7 +3,7 @@
 
   <info>
     <desc>Work with your mail while not being connected to the network.</desc>
-<!-- TODO:POST-3-2: Offline work for web calendars etc also exists => create index page for Offline working? -->
+<!-- TODO:POST-3-8: Offline work for web calendars etc also exists => create index page for Offline working? -->
     <link type="guide" xref="index#mail-basic" />
 
     <revision pkgversion="3.7.4" version="0.3" date="2013-01-22" status="final"/>

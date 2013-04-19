@@ -17,7 +17,7 @@
     <license>
       <p>Creative Commons Share Alike 3.0</p>
     </license>
-<!-- TODO:POST-3-2: Find out how to sync modern devices, e.g. Android, iPhone, Nokia N97 / N900, N9, N950, etc. Maybe SyncEvolution is the recommended (and external) way here? -->
+<!-- TODO:POST-3-8: Find out how to sync modern devices, e.g. Android, iPhone, Nokia N97 / N900, N9, N950, etc. Maybe SyncEvolution is the recommended (and external) way here? -->
   </info>
 
   <title>Synchronize <app>Evolution</app> with other devices</title>

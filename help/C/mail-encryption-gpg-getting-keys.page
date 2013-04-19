@@ -21,7 +21,7 @@
   </info>
 
   <title>Getting and using GPG public keys</title>
-<!-- TODO:POST-3-2: Update and rewrite using Seahorse. Needs a complete rewrite once https://bugzilla.gnome.org/show_bug.cgi?id=508744 is fixed. -->
+<!-- TODO:POST-3-8: Update and rewrite using Seahorse. Needs a complete rewrite once https://bugzilla.gnome.org/show_bug.cgi?id=508744 is fixed. -->
 
 <p>To send an encrypted message, you need to use the recipient's public key in combination with your private key. Evolution handles the encryption, but you need to get the public key and add it to your keyring.</p>
 

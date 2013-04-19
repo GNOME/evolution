@@ -5,7 +5,7 @@
     <desc>Keyboard shortcuts that can save you some time when reading mail.</desc>
 
     <link type="guide" xref="index#mail-basic" />
-<!-- TODO:POST-3-2: maybe introduce keyboard shortcuts guide xref covering any shortcuts in all modules, covering http://library.gnome.org/users/evolution/2.32/quickref-mail.html.en ? -->
+<!-- TODO:POST-3-8: maybe introduce keyboard shortcuts guide xref covering any shortcuts in all modules, covering http://library.gnome.org/users/evolution/2.32/quickref-mail.html.en ? -->
 
     <revision pkgversion="3.1.5" version="0.2" date="2011-07-29" status="final"/>
     <credit type="author">

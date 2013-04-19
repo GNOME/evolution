@@ -56,7 +56,7 @@
 </section>
 
 <section id="return-to-assistant-bottom-link">
-<!-- TODO:XINCLUDE: Maybe later replace this "go back" workaround by doing some content sharing with xinclude and xpointer in intro-first-run.page itself? <include href="foo.xml" xmlns="http://www.w3.org/2001/XInclude"/> See gnome-user-docs module for example usage. -->
+<!-- TODO:XINCLUDE: Replace this "go back" workaround by using xinclude and ui:expanded in intro-first-run.page itself, so content is embedded there and expandable. See http://projectmallard.org/ui/1.0/ui_expanded.html and https://help.gnome.org/users/gnome-help/3.6/keyboard-shortcuts-set.html -->
 <p>If you came to this page from the first-run wizard help page, click <link xref="intro-first-run#sending">here</link> to continue with the next step.</p>
 </section>
 </page>

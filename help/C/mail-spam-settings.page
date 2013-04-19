@@ -9,7 +9,7 @@
     <link type="guide" xref="mail-spam" />
     <link type="seealso" xref="mail-spam-marking"/>
 
-    <revision pkgversion="3.5.1" version="0.7" date="2012-04-25" status="final"/>
+    <revision pkgversion="3.8.1" version="0.8" date="2013-04-19" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -59,7 +59,7 @@
 
 <section id="preferences">
 <title>Junk Mail Preferences</title>
-<note style="tip"><p>The junk mail options discussed in this page refer only to POP and Local Delivery. For handling junk mails on IMAP, see the Evolution settings under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Edit</gui><gui>Receiving Options</gui></guiseq>.</p></note>
+<note style="tip"><p>The junk mail options discussed in this page refer only to POP and Local Delivery accounts. For handling junk mails on IMAP accounts, see the Evolution settings under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Edit</gui><gui>Receiving Options</gui></guiseq>.</p></note>
 <p>You can modify how Evolution handles junk mail by changing the Junk Mail Preferences:</p>
 <steps>
 <item><p>Click <guiseq><gui>Edit</gui><gui>Preferences</gui></guiseq> or press <keyseq><key>Shift</key><key>Ctrl</key><key>S</key></keyseq>.</p></item>

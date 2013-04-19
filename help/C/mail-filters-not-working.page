@@ -37,7 +37,9 @@
 <p>Another thing you have to keep in mind is that filters depend on the "new" flag that is set on the server when a particular email message is initially fetched from the server. If you use another email client aside from Evolution, your filters may not work automatically.</p>
 </section>
 
-<!-- TODO: This really needs testing before 3.6 and if this is correct: -->
+<!-- TODO: Filter logging currently does not work at all and needs updates and uncommenting after https://bugzilla.gnome.org/show_bug.cgi?id=669471 has been fixed: -->
+<!--
+"CAMEL_DEBUG=filter" should work and "CAMEL_DEBUG=junk" for monitoring junk mail classification?
 <section id="filter-log">
 <title>Logging Filter Actions</title>
 If it is still unclear why filters do not work as expected, you can enable logging filter actions.
@@ -55,10 +57,6 @@ If it is still unclear why filters do not work as expected, you can enable loggi
 
 <p>You can also use the <app>dconf-editor</app> application to do this.</p>
 </section>
-
-<!-- TODO: As per https://bugzilla.gnome.org/show_bug.cgi?id=669471#c2 :
-Haven't tried it, but it looks like "CAMEL_DEBUG=filter" should work.
-Similarly, there's "CAMEL_DEBUG=junk" for monitoring junk mail classification.
-But maybe not in this place... -->
+-->
 
 </page>

@@ -21,7 +21,7 @@
   </info>
 
   <title>Setting up GPG for your mail account</title>
-<!-- TODO:POST-3-2: Update and rewrite using Seahorse. Needs a complete rewrite once https://bugzilla.gnome.org/show_bug.cgi?id=508744 is fixed. -->
+<!-- TODO:POST-3-8: Update and rewrite using Seahorse. Needs a complete rewrite once https://bugzilla.gnome.org/show_bug.cgi?id=508744 is fixed. -->
 
 <note style="tip"><p>You need a GPG key to do this. If you do not have one yet, please refer to <link xref="mail-encryption-gpg-create-key">Creating a GPG key</link>.</p></note>
 

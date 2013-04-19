@@ -4,7 +4,7 @@
   <info>
     <desc>Changing the display of the window buttons in the lower left corner.</desc>
     <link type="guide" xref="index#common-other-problems" />
-<!-- TODO:POST-3-2: Create a general interface adjustment guide page that also includes mail-layout-changing.page -->
+<!-- TODO:POST-3-8: Create a general interface adjustment guide page that also includes mail-layout-changing.page -->
     <revision pkgversion="2.32.2" version="0.1" date="2011-07-21" status="stub"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>

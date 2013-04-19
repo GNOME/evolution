@@ -45,9 +45,7 @@
 
 <note style="tip"><p>If you are unsure which Microsoft Exchange server version is used, you may want to contact your system administrator for more information.</p></note>
 
-<!-- TODO:POST-3-4:
-<mbarnes> actually, a table in the docs would make it crystal clear  (Exchange version x Evolution backend)
-<seanius> also, a feature matrix of what works in the particular releases might be helpful, though maybe hard to visualize in a compact manner
+<!-- TODO:POST-3-4: <mbarnes> actually, a table in the docs would make it crystal clear  (Exchange version x Evolution backend); <seanius> also, a feature matrix of what works in the particular releases might be helpful, though maybe hard to visualize in a compact manner
 -->
 
 </page>

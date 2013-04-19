@@ -13,7 +13,7 @@
     <link type="guide" xref="mail-account-manage-unix-mbox-spool-directory#identity"/>
     <link type="guide" xref="mail-account-manage-unix-mbox-spool-file#identity"/>
     <link type="guide" xref="mail-account-manage-usenet-news#identity"/>
-    <!-- TODO:POST-3-2: Having 13 guide links here looks really ugly -->
+    <!-- TODO:POST-3-8: Having 13 guide links here looks really ugly -->
 
     <revision pkgversion="3.0.2" version="0.3" date="2012-02-19" status="final"/>
     <credit type="author">

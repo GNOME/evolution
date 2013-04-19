@@ -73,7 +73,7 @@
 <p>Checks whether the message is <link xref="mail-follow-up-flag">flagged for follow-up</link>.</p></item>
 
 <item><p>Completed On:</p></item>
-<!-- TODO: Explain usage of this option. -->
+<!-- TODO: Explain usage of this option: Completed On -->
 
 <item><p>Attachments:</p>
 <p>Checks whether there is an attachment for the email.</p></item>
@@ -94,6 +94,6 @@
 <p>Filters based on the results of the <link xref="mail-spam">junk mail</link> test.</p></item>
 
 <item><p>Match All:</p></item>
-<!-- TODO: Explain usage of this option. -->
+<!-- TODO: Explain usage of this option: Match All -->
 </list>
 </page>
