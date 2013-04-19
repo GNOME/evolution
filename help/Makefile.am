@@ -176,7 +176,6 @@ HELP_FILES = \
 	mail-received-notification.page \
 	mail-receiving-options-exchange-ews.page \
 	mail-receiving-options-exchange-mapi.page \
-	mail-receiving-options-imap.page \
 	mail-receiving-options-imap-plus.page \
 	mail-receiving-options-local-delivery.page \
 	mail-receiving-options-maildir-format-directories.page \
