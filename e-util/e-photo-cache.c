@@ -872,7 +872,7 @@ e_photo_cache_get_photo (EPhotoCache *photo_cache,
  * Finishes the operation started with e_photo_cache_get_photo().
  *
  * If a match was found, a #GInputStream from which to read image data is
- * returned through the @out_photo return location.  If no match was found,
+ * returned through the @out_stream return location.  If no match was found,
  * the @out_stream return location is set to %NULL.
  *
  * The return value indicates whether the search completed successfully,
