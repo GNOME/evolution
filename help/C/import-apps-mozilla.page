@@ -6,7 +6,7 @@
     
     <link type="guide" xref="import-data#import-from-apps" />
 
-    <revision pkgversion="2.32.2" version="0.2" date="2011-07-30" status="draft"/>
+    <revision pkgversion="3.6.4" version="0.3" date="2013-04-20" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -18,13 +18,20 @@
   </info>
 
   <title>Mozilla</title>
-<!-- TODO:DEVELOPERS: Does <guiseq><gui>File</gui><gui>Import</gui><gui>Import data and settings from older programs</gui></guiseq> recognize Outlook and Thunderbird? If yes, "Evolution searches for old mail programs and, if possible, imports the data from them." -->
-<!-- TODO: This really needs some testing in 3.1 -->
+<!-- <guiseq><gui>File</gui><gui>Import</gui><gui>Import data and settings from older programs</gui></guiseq> does NOT recognize Outlook and Thunderbird automatically in 3.8." -->
+<!-- TODO: Check https://bugzilla.gnome.org/show_bug.cgi?id=214858 occasionally (Thunderbird automatic mail import) -->
+<!-- TODO: Check https://bugzilla.gnome.org/show_bug.cgi?id=559266 occasionally (Thunderbird mailfilter importer) -->
 <steps>
 <item><p>Click <guiseq><gui>File</gui><gui>Import</gui></guiseq>.</p></item>
 <item><p>In the <gui>Importer Type</gui> tab, click <gui>Import a single file</gui>.</p></item>
-<item><p>Choose the Thunderbird files that you would like to import.</p><p>The file type will be automatically determined.</p></item>
-<item><p>Choose the destination (e.g. the folder in Evolution) for the imported data.</p></item>
+<item><p>Go to the folder in which Thunderbird stores its data. On a Linux system, Thunderbird's files are located in the hidden folder <file>$HOME/.thunderbird/12345678</file>. <file>12345678</file> will be a random string. If you cannot see the <file>.thunderbird</file> folder, make sure to <link href="help:gnome-help/files-hidden#show-hidden">show hidden files</link> in the file selector dialog.</p></item>
+<item>
+<list>
+<item><p>If you would like to import Thunderbird mail, go to <file>Mail/Local Folders</file> (for local mail accounts) or <file>ImapMail/servername</file> (for remote mail accounts). <file>servername</file> will be the address of your remote mail server. Files without a file ending include your messages (not the <file>.msf</file> files).</p></item>
+<item><p>If you would like to import Thunderbird/Lightning calendar data, you may be able to export your Thunderbird events as an <file>.ical</file>/<file>.ics</file> file first, and import these files into Evolution. This is required as Thunderbird stores its calendar data in a non-standard database format.</p></item>
+</list>
+<p>The file type will be automatically determined.</p></item>
+<item><p>Choose the destination (e.g. the folder or calendar in Evolution) for the imported data.</p></item>
 <item><p>Repeat the import steps until you have imported all your data.</p></item>
 </steps>
 </page>
