@@ -378,6 +378,7 @@ photo_cache_find_contacts (EPhotoCache *photo_cache,
 		ESource *source = E_SOURCE (link->data);
 		EClient *client;
 		GSList *contact_list = NULL;
+		GError *local_error = NULL;
 
 		/* Skip disabled sources. */
 		if (!e_source_get_enabled (source))
@@ -386,21 +387,37 @@ photo_cache_find_contacts (EPhotoCache *photo_cache,
 		client = e_client_cache_get_client_sync (
 			client_cache, source,
 			E_SOURCE_EXTENSION_ADDRESS_BOOK,
-			cancellable, error);
+			cancellable, &local_error);
 
-		if (client == NULL) {
-			success = FALSE;
+		if (local_error != NULL) {
+			g_warn_if_fail (client == NULL);
+			if (g_queue_is_empty (out_contacts)) {
+				g_propagate_error (error, local_error);
+				success = FALSE;
+			} else {
+				/* Clear the error if we already
+				 * have matching contacts queued. */
+				g_clear_error (&local_error);
+			}
 			break;
 		}
 
-		success = e_book_client_get_contacts_sync (
+		e_book_client_get_contacts_sync (
 			E_BOOK_CLIENT (client), book_query_string,
-			&contact_list, cancellable, error);
+			&contact_list, cancellable, &local_error);
 
 		g_object_unref (client);
 
-		if (!success) {
+		if (local_error != NULL) {
 			g_warn_if_fail (contact_list == NULL);
+			if (g_queue_is_empty (out_contacts)) {
+				g_propagate_error (error, local_error);
+				success = FALSE;
+			} else {
+				/* Clear the error if we already
+				 * have matching contacts queued. */
+				g_clear_error (&local_error);
+			}
 			break;
 		}
 
