@@ -6,7 +6,7 @@
 
     <link type="seealso" xref="mail-filters"/>
 
-    <revision pkgversion="3.0.2" version="0.1" date="2011-08-01" status="final"/>
+    <revision pkgversion="3.6.4" version="0.2" date="2013-04-20" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -73,7 +73,7 @@
 <p>Checks whether the message is <link xref="mail-follow-up-flag">flagged for follow-up</link>.</p></item>
 
 <item><p>Completed On:</p></item>
-<!-- TODO: Explain usage of this option: Completed On -->
+<!-- TODO: Explain usage of option "Completed On" once https://bugzilla.gnome.org/show_bug.cgi?id=698439 is fixed -->
 
 <item><p>Attachments:</p>
 <p>Checks whether there is an attachment for the email.</p></item>
@@ -94,6 +94,6 @@
 <p>Filters based on the results of the <link xref="mail-spam">junk mail</link> test.</p></item>
 
 <item><p>Match All:</p></item>
-<!-- TODO: Explain usage of this option: Match All -->
+<!-- TODO: Explain usage of option "Match All" once https://bugzilla.gnome.org/show_bug.cgi?id=698437 is fixed -->
 </list>
 </page>
