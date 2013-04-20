@@ -3473,11 +3473,12 @@ static void
 image_clicked (GtkWidget *button,
                EContactEditor *editor)
 {
-	const gchar *title = _("Please select an image for this contact");
-	const gchar *no_image = _("_No image");
-	GtkImage *preview;
-
 	if (!editor->file_selector) {
+		const gchar *title = _("Please select an image for this contact");
+		const gchar *no_image = _("_No image");
+		GtkImage *preview;
+		GtkFileFilter *filter;
+
 		editor->file_selector = gtk_file_chooser_dialog_new (
 			title, GTK_WINDOW (editor->app),
 			GTK_FILE_CHOOSER_ACTION_OPEN,
@@ -3485,6 +3486,13 @@ image_clicked (GtkWidget *button,
 			GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
 			no_image, GTK_RESPONSE_NO,
 			NULL);
+
+		filter = gtk_file_filter_new ();
+		gtk_file_filter_add_mime_type (filter, "image/*");
+		gtk_file_chooser_set_filter (
+			GTK_FILE_CHOOSER (editor->file_selector),
+			filter);
+
 		preview = GTK_IMAGE (gtk_image_new ());
 		gtk_file_chooser_set_preview_widget (
 			GTK_FILE_CHOOSER (editor->file_selector),
@@ -3492,6 +3500,7 @@ image_clicked (GtkWidget *button,
 		g_signal_connect (
 			editor->file_selector, "update-preview",
 			G_CALLBACK (update_preview_cb), preview);
+
 		gtk_dialog_set_default_response (
 			GTK_DIALOG (editor->file_selector),
 			GTK_RESPONSE_ACCEPT);
