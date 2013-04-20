@@ -239,11 +239,6 @@
       <_summary>Show photo of the sender</_summary>
       <_description>Show the photo of the sender in the message reading pane.</_description>
     </key>
-    <key name="photo-local" type="b">
-      <default>true</default>
-      <_summary>Search for the sender photo in local address books </_summary>
-      <_description>This option would help in improving the speed of fetching.</_description>
-    </key>
     <key name="mark-seen" type="b">
       <default>true</default>
       <_summary>Mark as Seen after specified timeout</_summary>

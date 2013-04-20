@@ -49,7 +49,6 @@ typedef struct _PhotoData PhotoData;
 
 struct _EPhotoCachePrivate {
 	EClientCache *client_cache;
-	gboolean local_only;
 
 	GHashTable *photo_ht;
 	GQueue photo_ht_keys;
@@ -70,8 +69,7 @@ struct _PhotoData {
 
 enum {
 	PROP_0,
-	PROP_CLIENT_CACHE,
-	PROP_LOCAL_ONLY
+	PROP_CLIENT_CACHE
 };
 
 G_DEFINE_TYPE_WITH_CODE (
@@ -325,33 +323,6 @@ photo_cache_extract_photo (EContact *contact)
 	return photo;
 }
 
-static GList *
-photo_cache_list_searchable_sources (EPhotoCache *photo_cache)
-{
-	EClientCache *client_cache;
-	ESourceRegistry *registry;
-	GList *list;
-
-	client_cache = e_photo_cache_ref_client_cache (photo_cache);
-	registry = e_client_cache_ref_registry (client_cache);
-
-	if (e_photo_cache_get_local_only (photo_cache)) {
-		ESource *source;
-
-		source = e_source_registry_ref_builtin_address_book (registry);
-		list = g_list_prepend (NULL, g_object_ref (source));
-		g_object_unref (source);
-	} else {
-		list = e_source_registry_list_sources (
-			registry, E_SOURCE_EXTENSION_ADDRESS_BOOK);
-	}
-
-	g_object_unref (client_cache);
-	g_object_unref (registry);
-
-	return list;
-}
-
 static gboolean
 photo_cache_find_contacts (EPhotoCache *photo_cache,
                            const gchar *email_address,
@@ -360,8 +331,10 @@ photo_cache_find_contacts (EPhotoCache *photo_cache,
                            GError **error)
 {
 	EClientCache *client_cache;
+	ESourceRegistry *registry;
 	EBookQuery *book_query;
 	GList *list, *link;
+	const gchar *extension_name;
 	gchar *book_query_string;
 	gboolean success = TRUE;
 
@@ -371,8 +344,10 @@ photo_cache_find_contacts (EPhotoCache *photo_cache,
 	e_book_query_unref (book_query);
 
 	client_cache = e_photo_cache_ref_client_cache (photo_cache);
+	registry = e_client_cache_ref_registry (client_cache);
 
-	list = photo_cache_list_searchable_sources (photo_cache);
+	extension_name = E_SOURCE_EXTENSION_ADDRESS_BOOK;
+	list = e_source_registry_list_enabled (registry, extension_name);
 
 	for (link = list; link != NULL; link = g_list_next (link)) {
 		ESource *source = E_SOURCE (link->data);
@@ -380,13 +355,9 @@ photo_cache_find_contacts (EPhotoCache *photo_cache,
 		GSList *contact_list = NULL;
 		GError *local_error = NULL;
 
-		/* Skip disabled sources. */
-		if (!e_source_get_enabled (source))
-			continue;
-
 		client = e_client_cache_get_client_sync (
-			client_cache, source,
-			E_SOURCE_EXTENSION_ADDRESS_BOOK,
+			client_cache,
+			source, extension_name,
 			cancellable, &local_error);
 
 		if (local_error != NULL) {
@@ -436,6 +407,7 @@ photo_cache_find_contacts (EPhotoCache *photo_cache,
 	g_list_free_full (list, (GDestroyNotify) g_object_unref);
 
 	g_object_unref (client_cache);
+	g_object_unref (registry);
 
 	g_free (book_query_string);
 
@@ -497,12 +469,6 @@ photo_cache_set_property (GObject *object,
 				E_PHOTO_CACHE (object),
 				g_value_get_object (value));
 			return;
-
-		case PROP_LOCAL_ONLY:
-			e_photo_cache_set_local_only (
-				E_PHOTO_CACHE (object),
-				g_value_get_boolean (value));
-			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -519,13 +485,6 @@ photo_cache_get_property (GObject *object,
 			g_value_take_object (
 				value,
 				e_photo_cache_ref_client_cache (
-				E_PHOTO_CACHE (object)));
-			return;
-
-		case PROP_LOCAL_ONLY:
-			g_value_set_boolean (
-				value,
-				e_photo_cache_get_local_only (
 				E_PHOTO_CACHE (object)));
 			return;
 	}
@@ -600,23 +559,6 @@ e_photo_cache_class_init (EPhotoCacheClass *class)
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
 			G_PARAM_STATIC_STRINGS));
-
-	/**
-	 * EPhotoCache:local-only:
-	 *
-	 * Whether to restrict searches to the built-in address book.
-	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_LOCAL_ONLY,
-		g_param_spec_boolean (
-			"local-only",
-			"Local Only",
-			"Whether to restruct searches "
-			"to the built-in address book",
-			FALSE,
-			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
 }
 
 static void
@@ -674,49 +616,6 @@ e_photo_cache_ref_client_cache (EPhotoCache *photo_cache)
 }
 
 /**
- * e_photo_cache_get_local_only:
- * @photo_cache: an #EPhotoCache
- *
- * Returns whether to limit photo searches to the built-in ("local")
- * address book returned by e_source_registry_ref_builtin_address_book().
- *
- * If this property is %FALSE then all enabled address books are searched.
- *
- * Returns: whether to search only the built-in address book
- **/
-gboolean
-e_photo_cache_get_local_only (EPhotoCache *photo_cache)
-{
-	g_return_val_if_fail (E_IS_PHOTO_CACHE (photo_cache), FALSE);
-
-	return photo_cache->priv->local_only;
-}
-
-/**
- * e_photo_cache_set_local_only:
- * @photo_cache: an #EPhotoCache
- * @local_only: whether to search only the built-in address book
- *
- * Sets whether to limit photo searches to the built-in ("local")
- * address book returned by e_source_registry_ref_builtin_address_book().
- *
- * If this property is %FALSE then all enabled address books are searched.
- **/
-void
-e_photo_cache_set_local_only (EPhotoCache *photo_cache,
-                              gboolean local_only)
-{
-	g_return_if_fail (E_IS_PHOTO_CACHE (photo_cache));
-
-	photo_cache->priv->local_only = local_only;
-
-	/* Reset the cache. */
-	photo_ht_remove_all (photo_cache);
-
-	g_object_notify (G_OBJECT (photo_cache), "local-only");
-}
-
-/**
  * e_photo_cache_get_photo_sync:
  * @photo_cache: an #EPhotoCache
  * @email_address: an email address
@@ -724,8 +623,8 @@ e_photo_cache_set_local_only (EPhotoCache *photo_cache,
  * @out_stream: return location for a #GInputStream, or %NULL
  * @error: return location for a #GError, or %NULL
  *
- * Searches enabled address books (subject to the #EPhotoCache:local-only
- * preference) for a contact photo or logo associated with @email_address.
+ * Searches enabled address books for a contact photo or logo associated
+ * with @email_address.
  *
  * If a match is found, a #GInputStream from which to read image data is
  * returned through the @out_stream return location.  If no match is found,
@@ -840,8 +739,7 @@ photo_cache_get_photo_thread (GSimpleAsyncResult *simple,
  * @callback: a #GAsyncReadyCallback to call when the request is satisfied
  * @user_data: data to pass to the callback function
  *
- * Asynchronously searches enabled address books (subject to the
- * #EPhotoCache:local-only preference) for a contact photo or logo
+ * Asynchronously searches enabled address books for a contact photo or logo
  * associated with @email_address.
  *
  * When the operation is finished, @callback will be called.  You can then

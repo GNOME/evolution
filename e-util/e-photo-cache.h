@@ -69,9 +69,6 @@ struct _EPhotoCacheClass {
 GType		e_photo_cache_get_type		(void) G_GNUC_CONST;
 EPhotoCache *	e_photo_cache_new		(EClientCache *client_cache);
 EClientCache *	e_photo_cache_ref_client_cache	(EPhotoCache *photo_cache);
-gboolean	e_photo_cache_get_local_only	(EPhotoCache *photo_cache);
-void		e_photo_cache_set_local_only	(EPhotoCache *photo_cache,
-						 gboolean local_only);
 gboolean	e_photo_cache_get_photo_sync	(EPhotoCache *photo_cache,
 						 const gchar *email_address,
 						 GCancellable *cancellable,

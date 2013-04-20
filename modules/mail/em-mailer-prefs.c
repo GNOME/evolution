@@ -1069,16 +1069,6 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
-	widget = e_builder_get_widget (prefs->builder, "photo_local");
-	g_settings_bind (
-		settings, "photo-local",
-		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
-	g_settings_bind (
-		settings, "show-sender-photo",
-		widget, "sensitive",
-		G_SETTINGS_BIND_GET);
-
 	/* always de-sensitised until the user types something in the entry */
 	prefs->add_header = GTK_BUTTON (e_builder_get_widget (prefs->builder, "cmdHeadersAdd"));
 	gtk_widget_set_sensitive ((GtkWidget *) prefs->add_header, FALSE);
