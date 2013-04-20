@@ -22,7 +22,11 @@
 
 <title>Photograph Message Headers</title>
 
-<p>The photograph of the sender of an email can be shown at the right side of the message preview if the sender is in one of your address books and has a photograph.</p>
+<!-- NB: This is done by "Face" and "X-Face" headers. -->
+<p>Evolution automatically displays photographs of the sender of an email at the right side of the message header if the sender already embedded a photograph in the message.</p>
+<!-- TODO: If I ever manage to find out if the "Edit > Plugins > Face" reliably works, create a topic page covering it linked under <link type="guide" xref="index#mail-composing-advanced" />, and link to it from here and vice versa. -->
+
+<p>You can also manually enable displaying the photograph of the sender of an email if the sender is in one of your address books and has a photograph stored.</p>
 
 <p>To enable this functionality, select <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>Headers</gui><gui>Show the photograph of sender in the message preview</gui></guiseq>.</p>
 
