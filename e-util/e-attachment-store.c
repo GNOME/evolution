@@ -24,6 +24,7 @@
 #endif
 
 #include "e-attachment-store.h"
+#include "e-icon-factory.h"
 
 #include <errno.h>
 #include <glib/gi18n.h>
@@ -415,6 +416,31 @@ e_attachment_store_get_total_size (EAttachmentStore *store)
 	return total_size;
 }
 
+static void
+update_preview_cb (GtkFileChooser *file_chooser,
+		   gpointer data)
+{
+	GtkWidget *preview;
+	gchar *filename = NULL;
+	GdkPixbuf *pixbuf;
+
+	gtk_file_chooser_set_preview_widget_active (file_chooser, FALSE);
+	gtk_image_clear (GTK_IMAGE (data));
+	preview = GTK_WIDGET (data);
+	filename = gtk_file_chooser_get_preview_filename (file_chooser);
+	if (filename == NULL)
+		return;
+
+	pixbuf = gdk_pixbuf_new_from_file_at_size (filename, 128, 128, NULL);
+	g_free (filename);
+	if (!pixbuf)
+		return;
+
+	gtk_file_chooser_set_preview_widget_active (file_chooser, TRUE);
+	gtk_image_set_from_pixbuf (GTK_IMAGE (preview), pixbuf);
+	g_object_unref (pixbuf);
+}
+
 void
 e_attachment_store_run_load_dialog (EAttachmentStore *store,
                                     GtkWindow *parent)
@@ -422,6 +448,7 @@ e_attachment_store_run_load_dialog (EAttachmentStore *store,
 	GtkFileChooser *file_chooser;
 	GtkWidget *dialog;
 	GtkWidget *option;
+	GtkImage *preview;
 	GSList *files, *iter;
 	const gchar *disposition;
 	gboolean active;
@@ -441,6 +468,14 @@ e_attachment_store_run_load_dialog (EAttachmentStore *store,
 	gtk_file_chooser_set_select_multiple (file_chooser, TRUE);
 	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
 	gtk_window_set_icon_name (GTK_WINDOW (dialog), "mail-attachment");
+
+	preview = GTK_IMAGE (gtk_image_new ());
+	gtk_file_chooser_set_preview_widget (
+		GTK_FILE_CHOOSER (file_chooser),
+		GTK_WIDGET (preview));
+	g_signal_connect (
+		file_chooser, "update-preview",
+		G_CALLBACK (update_preview_cb), preview);
 
 	option = gtk_check_button_new_with_mnemonic (
 		_("_Suggest automatic display of attachment"));
