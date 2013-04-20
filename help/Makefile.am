@@ -232,7 +232,9 @@ HELP_FILES = \
 	tasks-usage.page \
 	tasks-using-several-tasklists.page \
 	tasks-webdav.page \
-	using-categories.page
+	using-categories.page \
+	xinclude-mail-account-identity.xml \
+	xinclude-searching.xml
 
 HELP_LINGUAS = cs de el en_GB es eu fr gl hu mk oc ru sl sv te zh_CN
 
