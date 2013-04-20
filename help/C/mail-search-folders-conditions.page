@@ -6,7 +6,7 @@
 
     <link type="seealso" xref="mail-search-folders"/>
 
-    <revision pkgversion="3.6.4" version="0.3" date="2013-04-20" status="final"/>
+    <revision pkgversion="3.6.4" version="0.4" date="2013-04-20" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -34,6 +34,6 @@ included by XInclude. See http://blogs.gnome.org/shaunm/2011/07/21/understanding
 <p>Checks whether the message is located in a specific folder.</p><p>Note that by default, Evolution's <gui>Trash</gui> and <gui>Junk</gui> folders are <link xref="mail-search-folders">Search folders</link> so they cannot be selected here.</p></item>
 
 <item><p>Match All:</p></item>
-<!-- TODO: Explain usage of option "Match All" once https://bugzilla.gnome.org/show_bug.cgi?id=698437 is fixed -->
+<p>Applies an action always to any message, without further conditions. This could be useful at the end of the list of search folders to cover those emails that did not match any conditions for the preceding search folders in the list.</p></item>
 </list>
 </page>
