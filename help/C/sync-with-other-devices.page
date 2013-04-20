@@ -6,7 +6,7 @@
 
     <link type="guide" xref="index#data-migration-and-sync"/>
 
-    <revision pkgversion="2.30.2" version="0.5" date="2012-08-20" status="draft"/>
+    <revision pkgversion="2.30.2" version="0.6" date="2013-04-20" status="draft"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -24,9 +24,9 @@
 
 <p>There are currently no "recommended instructions" for users.</p>
 
-<p>Many distributions provide the application <app><link href="http://syncevolution.org/">SyncEvolution</link></app> that can be used in combination with devices that support <link href="https://secure.wikimedia.org/wikipedia/en/wiki/SyncML">SyncML</link>.<!-- Buteo development seems to have slowed down, hence commenting this section - AndreKlapper, 2011/05/14: Also <link href="http://wiki.meego.com/Buteo">Buteo</link> aims to provide that functionality. A technical comparison of Buteo with SyncEvolution can be found <link href="http://meego.com/sites/all/files/meego-sync-linuxcon-2010.pdf">here on slide #18</link>. --></p>
+<p>Many distributions provide the application <app><link href="http://syncevolution.org/">SyncEvolution</link></app> that can be used in combination with devices that support <link href="https://en.wikipedia.org/wiki/SyncML">SyncML</link>.<!-- Buteo development seems to have slowed down, hence commenting this section - AndreKlapper, 2011/05/14: Also <link href="http://wiki.meego.com/Buteo">Buteo</link> aims to provide that functionality. A technical comparison of Buteo with SyncEvolution can be found <link href="http://meego.com/sites/all/files/meego-sync-linuxcon-2010.pdf">here on slide #18</link>. --></p>
 
-<p>In general it is recommended to use applications and devices that both support the <link href="https://secure.wikimedia.org/wikipedia/en/wiki/ActiveSync">ActiveSync protocol</link> (such as <app>SyncEvolution</app>). A <link href="https://secure.wikimedia.org/wikipedia/en/wiki/List_of_collaborative_software">list of collaborative software</link> is available on Wikipedia.</p>
+<p>In general it is recommended to use applications and devices that both support the <link href="https://en.wikipedia.org/wiki/ActiveSync">ActiveSync protocol</link> (such as <app>SyncEvolution</app>). A <link href="https://en.wikipedia.org/wiki/List_of_collaborative_software">list of collaborative software</link> is available on Wikipedia.</p>
 
  <p>If you can provide good practices or more information on this topic feel free to file a bug report in <link href="https://bugzilla.gnome.org/enter_bug.cgi?product=evolution&amp;component=User%20Documentation">GNOME's bug tracking system</link>.</p>
 
