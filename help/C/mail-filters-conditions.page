@@ -23,66 +23,12 @@
   <title>Available Filter conditions</title>
 
 <list>
-<item><p>Sender:</p>
-<p>The sender's email address or the name of the sender.</p></item>
 
-<item><p>Recipients:</p>
-<p>The recipients of the message.</p></item>
-
-<item><p>CC:</p>
-<p>Only the CC recipients of the message.</p></item>
-
-<item><p>BCC:</p>
-<p>Only the BCC recipients of the message. Obviously this can only be applied to outgoing filters.</p></item>
-
-<item><p>Sender or Recipients:</p>
-<p>The sender's email address or the name of the sender or the recipients of the message.</p></item>
-
-<item><p>Subject:</p>
-<p>The subject line of the message.</p></item>
-
-<item><p>Specific Header:</p>
-<p>Any header including <link xref="mail-composer-custom-header-lines">custom ones</link>.</p>
-<p>If a message uses a header more than once, Evolution pays attention only to the first instance, even if the message defines the header differently the second time. For example, if a message declares the Resent-From: header as "engineering@example.com" and then restates it as "marketing@example.com", Evolution filters as though the second declaration did not occur. To filter on messages that use headers multiple times, use a regular expression.</p></item>
-
-<item><p>Message Body:</p>
-<p>Searches in the actual text of the message.</p></item>
-
-<item><p>Expression:</p>
-<p>(For programmers only) Match a message according to an expression you write in the Scheme language used to define <link xref="mail-filters">filters</link> in Evolution.</p></item>
-
-<item><p>Date sent:</p>
-<p>Filters messages according to the date on which they were sent. First, choose the conditions you want a message to meet, such as before a given time or after a given time. Then choose the time. The filter compares the message's time stamp to the system clock when the filter is run, or to a specific time and date you choose from a calendar. You can also have it look for a message within a range of time relative to the filter, such as two to four days ago.</p></item>
-
-<item><p>Date received:</p>
-<p>This works the same way as the Date Sent option, except that it compares the time you received the message with the dates you specify.</p></item>
-
-<item><p>Label:</p>
-<p>Messages can have <link xref="mail-labels">labels</link> of Important, Work, Personal, To Do, or Later. You can set labels with other filters or manually.</p></item>
-
-<item><p>Score:</p>
-<p>Sets the message score to any whole number greater than 0. You can have one filter set or change a message score, and then set up another filter to move the messages you have scored. A message score is not based on anything in particular: it is simply a number you can assign to messages so other filters can process them.</p></item>
-
-<item><p>Size (kB):</p>
-<p>Sorts based on the size of the message in kilobytes.</p></item>
-
-<item><p>Status:</p>
-<p>Filters according to the status of a message. The status can be Replied To, Draft, Important, Read, or Junk.</p></item>
-
-<item><p>Follow Up:</p>
-<p>Checks whether the message is <link xref="mail-follow-up-flag">flagged for follow-up</link>.</p></item>
-
-<item><p>Completed On:</p></item>
-<!-- TODO: Explain usage of option "Completed On" once https://bugzilla.gnome.org/show_bug.cgi?id=698439 is fixed -->
-
-<item><p>Attachments:</p>
-<p>Checks whether there is an attachment for the email.</p></item>
-
-<item><p>Mailing List</p>
-<p>Filters based on the mailing list the message came from. This filter might miss messages from some list servers, because it checks for the X-BeenThere header, which is used to identify mailing lists or other redistributors of mail. Mail from list servers that do not set X-BeenThere properly are not be caught by these filters.</p></item>
-
-<item><p>Regex Match:</p>
-<p>(For programmers only) If you know your way around a <link href="https://secure.wikimedia.org/wikipedia/en/wiki/Regular_expression">regex</link>, or regular expression, this option allows you to search for complex patterns of letters, so that you can find, for example, all words that start with a and end with m, and are between six and fifteen letters long, or all messages that declare a particular header twice. For information about how to use regular expressions, check the man page for the <cmd>grep</cmd> command.</p></item>
+<!-- As filter and search folder conditions share a fair amount of options, those ones are centrally in one file that's 
+included by XInclude. See http://blogs.gnome.org/shaunm/2011/07/21/understanding-xinclude/ for how it works. -->
+<include href="xinclude-filter-vfolder-conditions.xml"
+  xpointer="xmlns(mal=http://projectmallard.org/1.0/)xpointer(/mal:info/mal:item)"
+  xmlns="http://www.w3.org/2001/XInclude"/>
 
 <item><p>Source Account:</p>
 <p>Filters messages according the server you got them from. This is most useful if you use multiple POP mail accounts.</p></item>
