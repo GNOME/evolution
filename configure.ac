@@ -1637,6 +1637,7 @@ modules/cal-config-local/Makefile
 modules/cal-config-weather/Makefile
 modules/cal-config-webcal/Makefile
 modules/composer-autosave/Makefile
+modules/contact-photos/Makefile
 modules/mail-config/Makefile
 modules/mailto-handler/Makefile
 modules/mdn/Makefile
