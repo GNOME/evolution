@@ -6,7 +6,7 @@
 
     <link type="guide" xref="mail-displaying-message#advanced" />
 
-    <revision pkgversion="3.6.4" version="0.3" date="2013-04-20" status="final"/>
+    <revision pkgversion="3.9.1" version="0.4" date="2013-04-22" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -29,8 +29,6 @@
 <p>You can also manually enable displaying the photograph of the sender of an email if the sender is in one of your address books and has a photograph stored.</p>
 
 <p>To enable this functionality, select <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>Headers</gui><gui>Show the photograph of sender in the message preview</gui></guiseq>.</p>
-
-<p>By default only local address books are used for searching the photograph as accessing remote address books can cause delays. You can disable this by deselecting the option <gui>Search for sender photograph only in local address books</gui>.</p>
 
 <p>If there are multiple matches for a contact, the first one is always used.</p>
 
