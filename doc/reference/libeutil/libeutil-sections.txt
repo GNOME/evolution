@@ -1558,6 +1558,7 @@ EFileRequestClass
 e_file_request_get_type
 <SUBSECTION Private>
 EFileRequestPrivate
+LIBSOUP_USE_UNSTABLE_REQUEST_API
 </SECTION>
 
 <SECTION>
@@ -2469,8 +2470,6 @@ e_passwords_ask_password
 EPhotoCache
 e_photo_cache_new
 e_photo_cache_ref_client_cache
-e_photo_cache_get_local_only
-e_photo_cache_set_local_only
 e_photo_cache_get_photo_sync
 e_photo_cache_get_photo
 e_photo_cache_get_photo_finish
@@ -4551,6 +4550,7 @@ e_web_view_get_save_as_proxy
 e_web_view_set_save_as_proxy
 e_web_view_add_highlight
 e_web_view_clear_highlights
+e_web_view_update_highlights
 e_web_view_get_action
 e_web_view_get_action_group
 e_web_view_extract_uri
