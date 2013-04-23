@@ -199,7 +199,7 @@ action_mail_add_sender_cb (GtkAction *action,
 		photo_cache = e_mail_ui_session_get_photo_cache (
 			E_MAIL_UI_SESSION (session));
 		camel_internet_address_get (cia, 0, NULL, &address_only);
-		e_photo_cache_remove (photo_cache, address_only);
+		e_photo_cache_remove_photo (photo_cache, address_only);
 	}
 	g_object_unref (cia);
 
@@ -261,7 +261,7 @@ action_add_to_address_book_cb (GtkAction *action,
 	photo_cache = e_mail_ui_session_get_photo_cache (
 		E_MAIL_UI_SESSION (session));
 	camel_internet_address_get (cia, 0, NULL, &address_only);
-	e_photo_cache_remove (photo_cache, address_only);
+	e_photo_cache_remove_photo (photo_cache, address_only);
 
 	g_object_unref (cia);
 

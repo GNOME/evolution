@@ -21,12 +21,11 @@
  * @include: e-util/e-util.h
  * @short_description: Search for photos by email address
  *
- * #EPhotoCache helps search for contact photo or logo images associated
- * with an email address.
+ * #EPhotoCache finds photos associated with an email address.
  *
- * A limited internal cache is employed to speed up searches for recently
- * searched email addresses.  The exact caching semantics are private and
- * subject to change.
+ * A limited internal cache is employed to speed up frequently searched
+ * email addresses.  The exact caching semantics are private and subject
+ * to change.
  **/
 
 #include "e-photo-cache.h"
@@ -34,9 +33,15 @@
 #include <string.h>
 #include <libebackend/libebackend.h>
 
+#include <e-util/e-data-capture.h>
+
 #define E_PHOTO_CACHE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_PHOTO_CACHE, EPhotoCachePrivate))
+
+/* How long (in seconds) to hold out for a hit from the highest
+ * priority photo source, after which we settle for what we have. */
+#define ASYNC_TIMEOUT_SECONDS 3.0
 
 /* How many email addresses we track at once, regardless of whether
  * the email address has a photo.  As new cache entries are added, we
@@ -44,33 +49,66 @@
  * within the limit. */
 #define MAX_CACHE_SIZE 20
 
+#define ERROR_IS_CANCELLED(error) \
+	(g_error_matches ((error), G_IO_ERROR, G_IO_ERROR_CANCELLED))
+
 typedef struct _AsyncContext AsyncContext;
+typedef struct _AsyncSubtask AsyncSubtask;
+typedef struct _DataCaptureClosure DataCaptureClosure;
 typedef struct _PhotoData PhotoData;
 
 struct _EPhotoCachePrivate {
 	EClientCache *client_cache;
+	GMainContext *main_context;
 
 	GHashTable *photo_ht;
 	GQueue photo_ht_keys;
 	GMutex photo_ht_lock;
+
+	GHashTable *sources_ht;
+	GMutex sources_ht_lock;
 };
 
 struct _AsyncContext {
+	GMutex lock;
+	GTimer *timer;
+	GHashTable *subtasks;
+	GQueue results;
+	GInputStream *stream;
+	GConverter *data_capture;
+
+	GCancellable *cancellable;
+	gulong cancelled_handler_id;
+};
+
+struct _AsyncSubtask {
+	volatile gint ref_count;
+	EPhotoSource *photo_source;
+	GSimpleAsyncResult *simple;
+	GCancellable *cancellable;
+	GInputStream *stream;
+	gint priority;
+	GError *error;
+};
+
+struct _DataCaptureClosure {
+	GWeakRef photo_cache;
 	gchar *email_address;
-	GInputStream *input_stream;
 };
 
 struct _PhotoData {
 	volatile gint ref_count;
 	GMutex lock;
-	EContactPhoto *photo;
-	gboolean photo_is_set;
+	GBytes *bytes;
 };
 
 enum {
 	PROP_0,
 	PROP_CLIENT_CACHE
 };
+
+/* Forward Declarations */
+static void	async_context_cancel_subtasks	(AsyncContext *async_context);
 
 G_DEFINE_TYPE_WITH_CODE (
 	EPhotoCache,
@@ -79,26 +117,295 @@ G_DEFINE_TYPE_WITH_CODE (
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_EXTENSIBLE, NULL))
 
+static AsyncSubtask *
+async_subtask_new (EPhotoSource *photo_source,
+                   GSimpleAsyncResult *simple)
+{
+	AsyncSubtask *async_subtask;
+
+	async_subtask = g_slice_new0 (AsyncSubtask);
+	async_subtask->ref_count = 1;
+	async_subtask->photo_source = g_object_ref (photo_source);
+	async_subtask->simple = g_object_ref (simple);
+	async_subtask->cancellable = g_cancellable_new ();
+	async_subtask->priority = G_PRIORITY_DEFAULT;
+
+	return async_subtask;
+}
+
+static AsyncSubtask *
+async_subtask_ref (AsyncSubtask *async_subtask)
+{
+	g_return_val_if_fail (async_subtask != NULL, NULL);
+	g_return_val_if_fail (async_subtask->ref_count > 0, NULL);
+
+	g_atomic_int_inc (&async_subtask->ref_count);
+
+	return async_subtask;
+}
+
+static void
+async_subtask_unref (AsyncSubtask *async_subtask)
+{
+	g_return_if_fail (async_subtask != NULL);
+	g_return_if_fail (async_subtask->ref_count > 0);
+
+	if (g_atomic_int_dec_and_test (&async_subtask->ref_count)) {
+
+		/* Ignore cancellations. */
+		if (ERROR_IS_CANCELLED (async_subtask->error))
+			g_clear_error (&async_subtask->error);
+
+		/* Leave a breadcrumb on the console
+		 * about unpropagated subtask errors. */
+		if (async_subtask->error != NULL) {
+			g_warning (
+				"%s: Unpropagated error in %s subtask: %s",
+				__FILE__,
+				G_OBJECT_TYPE_NAME (
+				async_subtask->photo_source),
+				async_subtask->error->message);
+			g_error_free (async_subtask->error);
+		}
+
+		g_clear_object (&async_subtask->photo_source);
+		g_clear_object (&async_subtask->simple);
+		g_clear_object (&async_subtask->cancellable);
+		g_clear_object (&async_subtask->stream);
+
+		g_slice_free (AsyncSubtask, async_subtask);
+	}
+}
+
+static void
+async_subtask_cancel (AsyncSubtask *async_subtask)
+{
+	g_return_if_fail (async_subtask != NULL);
+
+	g_cancellable_cancel (async_subtask->cancellable);
+}
+
+static gint
+async_subtask_compare (gconstpointer a,
+                       gconstpointer b)
+{
+	const AsyncSubtask *subtask_a = a;
+	const AsyncSubtask *subtask_b = b;
+
+	/* Without error is always less than with error. */
+
+	if (subtask_a->error != NULL && subtask_b->error != NULL)
+		return 0;
+
+	if (subtask_a->error == NULL && subtask_b->error != NULL)
+		return -1;
+
+	if (subtask_a->error != NULL && subtask_b->error == NULL)
+		return 1;
+
+	if (subtask_a->priority == subtask_b->priority)
+		return 0;
+
+	return (subtask_a->priority < subtask_b->priority) ? -1 : 1;
+}
+
+static void
+async_subtask_complete (AsyncSubtask *async_subtask)
+{
+	GSimpleAsyncResult *simple;
+	AsyncContext *async_context;
+	gboolean cancel_subtasks = FALSE;
+	gdouble seconds_elapsed;
+
+	simple = async_subtask->simple;
+	async_context = g_simple_async_result_get_op_res_gpointer (simple);
+
+	g_mutex_lock (&async_context->lock);
+
+	seconds_elapsed = g_timer_elapsed (async_context->timer, NULL);
+
+	/* Discard successfully completed subtasks with no match found.
+	 * Keep failed subtasks around so we have a GError to propagate
+	 * if we need one, but those go on the end of the queue. */
+
+	if (async_subtask->stream != NULL) {
+		g_queue_insert_sorted (
+			&async_context->results,
+			async_subtask_ref (async_subtask),
+			(GCompareDataFunc) async_subtask_compare,
+			NULL);
+
+		/* If enough seconds have elapsed, just take the highest
+		 * priority input stream we have.  Cancel the unfinished
+		 * subtasks and let them complete with an error. */
+		if (seconds_elapsed > ASYNC_TIMEOUT_SECONDS)
+			cancel_subtasks = TRUE;
+
+	} else if (async_subtask->error != NULL) {
+		g_queue_push_tail (
+			&async_context->results,
+			async_subtask_ref (async_subtask));
+	}
+
+	g_hash_table_remove (async_context->subtasks, async_subtask);
+
+	if (g_hash_table_size (async_context->subtasks) > 0) {
+		/* Let the remaining subtasks finish. */
+		goto exit;
+	}
+
+	/* The queue should be ordered now such that subtasks
+	 * with input streams are before subtasks with errors.
+	 * So just evaluate the first subtask on the queue. */
+
+	async_subtask = g_queue_pop_head (&async_context->results);
+
+	if (async_subtask != NULL) {
+		if (async_subtask->stream != NULL) {
+			async_context->stream =
+				g_converter_input_stream_new (
+					async_subtask->stream,
+					async_context->data_capture);
+		}
+
+		if (async_subtask->error != NULL) {
+			g_simple_async_result_take_error (
+				simple, async_subtask->error);
+			async_subtask->error = NULL;
+		}
+
+		async_subtask_unref (async_subtask);
+	}
+
+	g_simple_async_result_complete_in_idle (simple);
+
+exit:
+	g_mutex_unlock (&async_context->lock);
+
+	if (cancel_subtasks) {
+		/* Call this after the mutex is unlocked. */
+		async_context_cancel_subtasks (async_context);
+	}
+}
+
+static void
+async_context_cancelled_cb (GCancellable *cancellable,
+                            AsyncContext *async_context)
+{
+	async_context_cancel_subtasks (async_context);
+}
+
+static AsyncContext *
+async_context_new (EDataCapture *data_capture,
+                   GCancellable *cancellable)
+{
+	AsyncContext *async_context;
+
+	async_context = g_slice_new0 (AsyncContext);
+	g_mutex_init (&async_context->lock);
+	async_context->timer = g_timer_new ();
+
+	async_context->subtasks = g_hash_table_new_full (
+		(GHashFunc) g_direct_hash,
+		(GEqualFunc) g_direct_equal,
+		(GDestroyNotify) async_subtask_unref,
+		(GDestroyNotify) NULL);
+
+	async_context->data_capture = g_object_ref (data_capture);
+
+	if (G_IS_CANCELLABLE (cancellable)) {
+		gulong handler_id;
+
+		async_context->cancellable = g_object_ref (cancellable);
+
+		handler_id = g_cancellable_connect (
+			async_context->cancellable,
+			G_CALLBACK (async_context_cancelled_cb),
+			async_context,
+			(GDestroyNotify) NULL);
+		async_context->cancelled_handler_id = handler_id;
+	}
+
+	return async_context;
+}
+
 static void
 async_context_free (AsyncContext *async_context)
 {
-	g_free (async_context->email_address);
+	/* Do this first so the callback won't fire
+	 * while we're dismantling the AsyncContext. */
+	if (async_context->cancelled_handler_id > 0)
+		g_cancellable_disconnect (
+			async_context->cancellable,
+			async_context->cancelled_handler_id);
 
-	if (async_context->input_stream != NULL)
-		g_object_unref (async_context->input_stream);
+	g_mutex_clear (&async_context->lock);
+	g_timer_destroy (async_context->timer);
+
+	g_hash_table_destroy (async_context->subtasks);
+
+	g_clear_object (&async_context->stream);
+	g_clear_object (&async_context->data_capture);
+	g_clear_object (&async_context->cancellable);
 
 	g_slice_free (AsyncContext, async_context);
 }
 
+static void
+async_context_cancel_subtasks (AsyncContext *async_context)
+{
+	GQueue queue;
+	AsyncSubtask *async_subtask;
+
+	/* Copy subtasks to a secondary GQueue to avoid invoking
+	 * "cancelled" signal handlers while the mutex is locked. */
+	g_mutex_lock (&async_context->lock);
+	queue.head = g_hash_table_get_keys (async_context->subtasks);
+	queue.tail = g_list_last (queue.head);
+	queue.length = g_list_length (queue.head);
+	g_queue_foreach (&queue, (GFunc) async_subtask_ref, NULL);
+	g_mutex_unlock (&async_context->lock);
+
+	/* Cancel all subtasks. */
+	while ((async_subtask = g_queue_pop_head (&queue)) != NULL) {
+		async_subtask_cancel (async_subtask);
+		async_subtask_unref (async_subtask);
+	}
+}
+
+static DataCaptureClosure *
+data_capture_closure_new (EPhotoCache *photo_cache,
+                          const gchar *email_address)
+{
+	DataCaptureClosure *closure;
+
+	closure = g_slice_new0 (DataCaptureClosure);
+	g_weak_ref_set (&closure->photo_cache, photo_cache);
+	closure->email_address = g_strdup (email_address);
+
+	return closure;
+}
+
+static void
+data_capture_closure_free (DataCaptureClosure *closure)
+{
+	g_weak_ref_set (&closure->photo_cache, NULL);
+	g_free (closure->email_address);
+
+	g_slice_free (DataCaptureClosure, closure);
+}
+
 static PhotoData *
-photo_data_new (void)
+photo_data_new (GBytes *bytes)
 {
 	PhotoData *photo_data;
 
 	photo_data = g_slice_new0 (PhotoData);
 	photo_data->ref_count = 1;
-
 	g_mutex_init (&photo_data->lock);
+
+	if (bytes != NULL)
+		photo_data->bytes = g_bytes_ref (bytes);
 
 	return photo_data;
 }
@@ -121,52 +428,41 @@ photo_data_unref (PhotoData *photo_data)
 	g_return_if_fail (photo_data->ref_count > 0);
 
 	if (g_atomic_int_dec_and_test (&photo_data->ref_count)) {
-		if (photo_data->photo != NULL)
-			e_contact_photo_free (photo_data->photo);
-
 		g_mutex_clear (&photo_data->lock);
-
+		if (photo_data->bytes != NULL)
+			g_bytes_unref (photo_data->bytes);
 		g_slice_free (PhotoData, photo_data);
 	}
 }
 
-static gboolean
-photo_data_dup_photo (PhotoData *photo_data,
-                      EContactPhoto **out_photo)
+static GBytes *
+photo_data_ref_bytes (PhotoData *photo_data)
 {
-	gboolean photo_is_set;
-
-	g_return_val_if_fail (out_photo != NULL, FALSE);
+	GBytes *bytes = NULL;
 
 	g_mutex_lock (&photo_data->lock);
 
-	if (photo_data->photo != NULL)
-		*out_photo = e_contact_photo_copy (photo_data->photo);
-	else
-		*out_photo = NULL;
-
-	photo_is_set = photo_data->photo_is_set;
+	if (photo_data->bytes != NULL)
+		bytes = g_bytes_ref (photo_data->bytes);
 
 	g_mutex_unlock (&photo_data->lock);
 
-	return photo_is_set;
+	return bytes;
 }
 
 static void
-photo_data_set_photo (PhotoData *photo_data,
-                      EContactPhoto *photo)
+photo_data_set_bytes (PhotoData *photo_data,
+                      GBytes *bytes)
 {
 	g_mutex_lock (&photo_data->lock);
 
-	if (photo_data->photo != NULL) {
-		e_contact_photo_free (photo_data->photo);
-		photo_data->photo = NULL;
+	if (photo_data->bytes != NULL) {
+		g_bytes_unref (photo_data->bytes);
+		photo_data->bytes = NULL;
 	}
 
-	if (photo != NULL)
-		photo_data->photo = e_contact_photo_copy (photo);
-
-	photo_data->photo_is_set = TRUE;
+	if (bytes != NULL)
+		photo_data->bytes = g_bytes_ref (bytes);
 
 	g_mutex_unlock (&photo_data->lock);
 }
@@ -184,16 +480,17 @@ photo_ht_normalize_key (const gchar *email_address)
 	return collation_key;
 }
 
-static PhotoData *
-photo_ht_lookup (EPhotoCache *photo_cache,
-                 const gchar *email_address)
+static void
+photo_ht_insert (EPhotoCache *photo_cache,
+                 const gchar *email_address,
+                 GBytes *bytes)
 {
 	GHashTable *photo_ht;
 	GQueue *photo_ht_keys;
 	PhotoData *photo_data;
 	gchar *key;
 
-	g_return_val_if_fail (email_address != NULL, NULL);
+	g_return_if_fail (email_address != NULL);
 
 	photo_ht = photo_cache->priv->photo_ht;
 	photo_ht_keys = &photo_cache->priv->photo_ht_keys;
@@ -207,7 +504,10 @@ photo_ht_lookup (EPhotoCache *photo_cache,
 	if (photo_data != NULL) {
 		GList *link;
 
-		photo_data_ref (photo_data);
+		/* Replace the old photo data if we have new photo
+		 * data, otherwise leave the old photo data alone. */
+		if (bytes != NULL)
+			photo_data_set_bytes (photo_data, bytes);
 
 		/* Move the key to the head of the MRU queue. */
 		link = g_queue_find_custom (
@@ -218,7 +518,7 @@ photo_ht_lookup (EPhotoCache *photo_cache,
 			g_queue_push_head_link (photo_ht_keys, link);
 		}
 	} else {
-		photo_data = photo_data_new ();
+		photo_data = photo_data_new (bytes);
 
 		g_hash_table_insert (
 			photo_ht, g_strdup (key),
@@ -235,6 +535,8 @@ photo_ht_lookup (EPhotoCache *photo_cache,
 			g_hash_table_remove (photo_ht, oldest_key);
 			g_free (oldest_key);
 		}
+
+		photo_data_unref (photo_data);
 	}
 
 	/* Hash table and queue sizes should be equal at all times. */
@@ -245,8 +547,48 @@ photo_ht_lookup (EPhotoCache *photo_cache,
 	g_mutex_unlock (&photo_cache->priv->photo_ht_lock);
 
 	g_free (key);
+}
 
-	return photo_data;
+static gboolean
+photo_ht_lookup (EPhotoCache *photo_cache,
+                 const gchar *email_address,
+                 GInputStream **out_stream)
+{
+	GHashTable *photo_ht;
+	PhotoData *photo_data;
+	gboolean found = FALSE;
+	gchar *key;
+
+	g_return_val_if_fail (email_address != NULL, FALSE);
+	g_return_val_if_fail (out_stream != NULL, FALSE);
+
+	photo_ht = photo_cache->priv->photo_ht;
+
+	key = photo_ht_normalize_key (email_address);
+
+	g_mutex_lock (&photo_cache->priv->photo_ht_lock);
+
+	photo_data = g_hash_table_lookup (photo_ht, key);
+
+	if (photo_data != NULL) {
+		GBytes *bytes;
+
+		bytes = photo_data_ref_bytes (photo_data);
+		if (bytes != NULL) {
+			*out_stream =
+				g_memory_input_stream_new_from_bytes (bytes);
+			g_bytes_unref (bytes);
+		} else {
+			*out_stream = NULL;
+		}
+		found = TRUE;
+	}
+
+	g_mutex_unlock (&photo_cache->priv->photo_ht_lock);
+
+	g_free (key);
+
+	return found;
 }
 
 static gboolean
@@ -311,140 +653,38 @@ photo_ht_remove_all (EPhotoCache *photo_cache)
 	g_mutex_unlock (&photo_cache->priv->photo_ht_lock);
 }
 
-static EContactPhoto *
-photo_cache_extract_photo (EContact *contact)
+static void
+photo_cache_data_captured_cb (EDataCapture *data_capture,
+                              GBytes *bytes,
+                              DataCaptureClosure *closure)
 {
-	EContactPhoto *photo;
+	EPhotoCache *photo_cache;
 
-	photo = e_contact_get (contact, E_CONTACT_PHOTO);
-	if (photo == NULL)
-		photo = e_contact_get (contact, E_CONTACT_LOGO);
+	photo_cache = g_weak_ref_get (&closure->photo_cache);
 
-	return photo;
+	if (photo_cache != NULL) {
+		e_photo_cache_add_photo (
+			photo_cache, closure->email_address, bytes);
+		g_object_unref (photo_cache);
+	}
 }
 
-static gboolean
-photo_cache_find_contacts (EPhotoCache *photo_cache,
-                           const gchar *email_address,
-                           GCancellable *cancellable,
-                           GQueue *out_contacts,
-                           GError **error)
+static void
+photo_cache_async_subtask_done_cb (GObject *source_object,
+                                   GAsyncResult *result,
+                                   gpointer user_data)
 {
-	EClientCache *client_cache;
-	ESourceRegistry *registry;
-	EBookQuery *book_query;
-	GList *list, *link;
-	const gchar *extension_name;
-	gchar *book_query_string;
-	gboolean success = TRUE;
+	AsyncSubtask *async_subtask = user_data;
 
-	book_query = e_book_query_field_test (
-		E_CONTACT_EMAIL, E_BOOK_QUERY_IS, email_address);
-	book_query_string = e_book_query_to_string (book_query);
-	e_book_query_unref (book_query);
+	e_photo_source_get_photo_finish (
+		E_PHOTO_SOURCE (source_object),
+		result,
+		&async_subtask->stream,
+		&async_subtask->priority,
+		&async_subtask->error);
 
-	client_cache = e_photo_cache_ref_client_cache (photo_cache);
-	registry = e_client_cache_ref_registry (client_cache);
-
-	extension_name = E_SOURCE_EXTENSION_ADDRESS_BOOK;
-	list = e_source_registry_list_enabled (registry, extension_name);
-
-	for (link = list; link != NULL; link = g_list_next (link)) {
-		ESource *source = E_SOURCE (link->data);
-		EClient *client;
-		GSList *contact_list = NULL;
-		GError *local_error = NULL;
-
-		client = e_client_cache_get_client_sync (
-			client_cache,
-			source, extension_name,
-			cancellable, &local_error);
-
-		if (local_error != NULL) {
-			g_warn_if_fail (client == NULL);
-			if (g_queue_is_empty (out_contacts)) {
-				g_propagate_error (error, local_error);
-				success = FALSE;
-			} else {
-				/* Clear the error if we already
-				 * have matching contacts queued. */
-				g_clear_error (&local_error);
-			}
-			break;
-		}
-
-		e_book_client_get_contacts_sync (
-			E_BOOK_CLIENT (client), book_query_string,
-			&contact_list, cancellable, &local_error);
-
-		g_object_unref (client);
-
-		if (local_error != NULL) {
-			g_warn_if_fail (contact_list == NULL);
-			if (g_queue_is_empty (out_contacts)) {
-				g_propagate_error (error, local_error);
-				success = FALSE;
-			} else {
-				/* Clear the error if we already
-				 * have matching contacts queued. */
-				g_clear_error (&local_error);
-			}
-			break;
-		}
-
-		while (contact_list != NULL) {
-			EContact *contact;
-
-			/* Transfer ownership to queue. */
-			contact = E_CONTACT (contact_list->data);
-			g_queue_push_tail (out_contacts, contact);
-
-			contact_list = g_slist_delete_link (
-				contact_list, contact_list);
-		}
-	}
-
-	g_list_free_full (list, (GDestroyNotify) g_object_unref);
-
-	g_object_unref (client_cache);
-	g_object_unref (registry);
-
-	g_free (book_query_string);
-
-	return success;
-}
-
-static GInputStream *
-photo_cache_new_stream_from_photo (EContactPhoto *photo,
-                                   GCancellable *cancellable,
-                                   GError **error)
-{
-	GInputStream *stream = NULL;
-
-	/* Stream takes ownership of the inlined data. */
-	if (photo->type == E_CONTACT_PHOTO_TYPE_INLINED) {
-		stream = g_memory_input_stream_new_from_data (
-			photo->data.inlined.data,
-			photo->data.inlined.length,
-			(GDestroyNotify) g_free);
-		photo->data.inlined.data = NULL;
-		photo->data.inlined.length = 0;
-
-	} else {
-		GFileInputStream *file_stream;
-		GFile *file;
-
-		file = g_file_new_for_uri (photo->data.uri);
-
-		/* XXX Return type should have been GInputStream. */
-		file_stream = g_file_read (file, cancellable, error);
-		if (file_stream != NULL)
-			stream = G_INPUT_STREAM (file_stream);
-
-		g_object_unref (file);
-	}
-
-	return stream;
+	async_subtask_complete (async_subtask);
+	async_subtask_unref (async_subtask);
 }
 
 static void
@@ -514,7 +754,12 @@ photo_cache_finalize (GObject *object)
 
 	priv = E_PHOTO_CACHE_GET_PRIVATE (object);
 
+	g_main_context_unref (priv->main_context);
+
 	g_hash_table_destroy (priv->photo_ht);
+
+	g_mutex_lock (&priv->photo_ht_lock);
+	g_mutex_lock (&priv->sources_ht_lock);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_photo_cache_parent_class)->finalize (object);
@@ -565,6 +810,7 @@ static void
 e_photo_cache_init (EPhotoCache *photo_cache)
 {
 	GHashTable *photo_ht;
+	GHashTable *sources_ht;
 
 	photo_ht = g_hash_table_new_full (
 		(GHashFunc) g_str_hash,
@@ -572,10 +818,19 @@ e_photo_cache_init (EPhotoCache *photo_cache)
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) photo_data_unref);
 
+	sources_ht = g_hash_table_new_full (
+		(GHashFunc) g_direct_hash,
+		(GEqualFunc) g_direct_equal,
+		(GDestroyNotify) g_object_unref,
+		(GDestroyNotify) NULL);
+
 	photo_cache->priv = E_PHOTO_CACHE_GET_PRIVATE (photo_cache);
+	photo_cache->priv->main_context = g_main_context_ref_thread_default ();
 	photo_cache->priv->photo_ht = photo_ht;
+	photo_cache->priv->sources_ht = sources_ht;
 
 	g_mutex_init (&photo_cache->priv->photo_ht_lock);
+	g_mutex_init (&photo_cache->priv->sources_ht_lock);
 }
 
 /**
@@ -616,6 +871,146 @@ e_photo_cache_ref_client_cache (EPhotoCache *photo_cache)
 }
 
 /**
+ * e_photo_cache_add_photo_source:
+ * @photo_cache: an #EPhotoCache
+ * @photo_source: an #EPhotoSource
+ *
+ * Adds @photo_source as a potential source of photos.
+ **/
+void
+e_photo_cache_add_photo_source (EPhotoCache *photo_cache,
+                                EPhotoSource *photo_source)
+{
+	GHashTable *sources_ht;
+
+	g_return_if_fail (E_IS_PHOTO_CACHE (photo_cache));
+	g_return_if_fail (E_IS_PHOTO_SOURCE (photo_source));
+
+	sources_ht = photo_cache->priv->sources_ht;
+
+	g_mutex_lock (&photo_cache->priv->sources_ht_lock);
+
+	g_hash_table_add (sources_ht, g_object_ref (photo_source));
+
+	g_mutex_unlock (&photo_cache->priv->sources_ht_lock);
+}
+
+/**
+ * e_photo_cache_list_photo_sources:
+ * @photo_cache: an #EPhotoCache
+ *
+ * Returns a list of photo sources for @photo_cache.
+ *
+ * The sources returned in the list are referenced for thread-safety.
+ * They must each be unreferenced with g_object_unref() when finished
+ * with them.  Free the returned list itself with g_list_free().
+ *
+ * An easy way to free the list property in one step is as follows:
+ *
+ * |[
+ *   g_list_free_full (list, g_object_unref);
+ * ]|
+ *
+ * Returns: a sorted list of photo sources
+ **/
+GList *
+e_photo_cache_list_photo_sources (EPhotoCache *photo_cache)
+{
+	GHashTable *sources_ht;
+	GList *list;
+
+	g_return_val_if_fail (E_IS_PHOTO_CACHE (photo_cache), NULL);
+
+	sources_ht = photo_cache->priv->sources_ht;
+
+	g_mutex_lock (&photo_cache->priv->sources_ht_lock);
+
+	list = g_hash_table_get_keys (sources_ht);
+	g_list_foreach (list, (GFunc) g_object_ref, NULL);
+
+	g_mutex_unlock (&photo_cache->priv->sources_ht_lock);
+
+	return list;
+}
+
+/**
+ * e_photo_cache_remove_photo_source:
+ * @photo_cache: an #EPhotoCache
+ * @photo_source: an #EPhotoSource
+ *
+ * Removes @photo_source as a potential source of photos.
+ *
+ * Returns: %TRUE if @photo_source was found and removed, %FALSE if not
+ **/
+gboolean
+e_photo_cache_remove_photo_source (EPhotoCache *photo_cache,
+                                   EPhotoSource *photo_source)
+{
+	GHashTable *sources_ht;
+	gboolean removed;
+
+	g_return_val_if_fail (E_IS_PHOTO_CACHE (photo_cache), FALSE);
+	g_return_val_if_fail (E_IS_PHOTO_SOURCE (photo_source), FALSE);
+
+	sources_ht = photo_cache->priv->sources_ht;
+
+	g_mutex_lock (&photo_cache->priv->sources_ht_lock);
+
+	removed = g_hash_table_remove (sources_ht, photo_source);
+
+	g_mutex_unlock (&photo_cache->priv->sources_ht_lock);
+
+	return removed;
+}
+
+/**
+ * e_photo_cache_add_photo:
+ * @photo_cache: an #EPhotoCache
+ * @email_address: an email address
+ * @bytes: a #GBytes containing photo data, or %NULL
+ *
+ * Adds a cache entry for @email_address, such that subsequent photo requests
+ * for @email_address will yield a #GMemoryInputStream loaded with @bytes
+ * without consulting available photo sources.
+ *
+ * The @bytes argument can also be %NULL to indicate no photo is available for
+ * @email_address.  Subsequent photo requests for @email_address will yield no
+ * input stream.
+ *
+ * The entry may be removed without notice however, subject to @photo_cache's
+ * internal caching policy.
+ **/
+void
+e_photo_cache_add_photo (EPhotoCache *photo_cache,
+                         const gchar *email_address,
+                         GBytes *bytes)
+{
+	g_return_if_fail (E_IS_PHOTO_CACHE (photo_cache));
+	g_return_if_fail (email_address != NULL);
+
+	photo_ht_insert (photo_cache, email_address, bytes);
+}
+
+/**
+ * e_photo_cache_remove_photo:
+ * @photo_cache: an #EPhotoCache
+ * @email_address: an email address
+ *
+ * Removes the cache entry for @email_address, if such an entry exists.
+ *
+ * Returns: %TRUE if a cache entry was found and removed
+ **/
+gboolean
+e_photo_cache_remove_photo (EPhotoCache *photo_cache,
+                            const gchar *email_address)
+{
+	g_return_val_if_fail (E_IS_PHOTO_CACHE (photo_cache), FALSE);
+	g_return_val_if_fail (email_address != NULL, FALSE);
+
+	return photo_ht_remove (photo_cache, email_address);
+}
+
+/**
  * e_photo_cache_get_photo_sync:
  * @photo_cache: an #EPhotoCache
  * @email_address: an email address
@@ -623,8 +1018,8 @@ e_photo_cache_ref_client_cache (EPhotoCache *photo_cache)
  * @out_stream: return location for a #GInputStream, or %NULL
  * @error: return location for a #GError, or %NULL
  *
- * Searches enabled address books for a contact photo or logo associated
- * with @email_address.
+ * Searches available photo sources for a photo associated with
+ * @email_address.
  *
  * If a match is found, a #GInputStream from which to read image data is
  * returned through the @out_stream return location.  If no match is found,
@@ -643,92 +1038,24 @@ e_photo_cache_get_photo_sync (EPhotoCache *photo_cache,
                               GInputStream **out_stream,
                               GError **error)
 {
-	EContactPhoto *photo = NULL;
-	EClientCache *client_cache;
-	GQueue queue = G_QUEUE_INIT;
-	PhotoData *photo_data;
-	gboolean success = TRUE;
+	EAsyncClosure *closure;
+	GAsyncResult *result;
+	gboolean success;
 
-	g_return_val_if_fail (E_IS_PHOTO_CACHE (photo_cache), FALSE);
-	g_return_val_if_fail (email_address != NULL, FALSE);
+	closure = e_async_closure_new ();
 
-	client_cache = e_photo_cache_ref_client_cache (photo_cache);
+	e_photo_cache_get_photo (
+		photo_cache, email_address, cancellable,
+		e_async_closure_callback, closure);
 
-	/* Try the cache first. */
-	photo_data = photo_ht_lookup (photo_cache, email_address);
-	if (photo_data_dup_photo (photo_data, &photo))
-		goto exit;
+	result = e_async_closure_wait (closure);
 
-	/* Find contacts with a matching email address. */
-	success = photo_cache_find_contacts (
-		photo_cache, email_address,
-		cancellable, &queue, error);
-	if (!success) {
-		g_warn_if_fail (g_queue_is_empty (&queue));
-		goto exit;
-	}
+	success = e_photo_cache_get_photo_finish (
+		photo_cache, result, out_stream, error);
 
-	/* Extract the first available photo from contacts. */
-	while (!g_queue_is_empty (&queue)) {
-		EContact *contact;
-
-		contact = g_queue_pop_head (&queue);
-		if (photo == NULL)
-			photo = photo_cache_extract_photo (contact);
-		g_object_unref (contact);
-	}
-
-	/* Passing a NULL photo here is fine.  We want to cache not
-	 * only the photo itself, but whether a photo was found for
-	 * this email address. */
-	photo_data_set_photo (photo_data, photo);
-
-exit:
-	photo_data_unref (photo_data);
-
-	g_object_unref (client_cache);
-
-	/* Try opening an input stream to the photo data. */
-	if (photo != NULL) {
-		GInputStream *stream;
-
-		stream = photo_cache_new_stream_from_photo (
-			photo, cancellable, error);
-
-		success = (stream != NULL);
-
-		if (stream != NULL) {
-			if (out_stream != NULL)
-				*out_stream = g_object_ref (stream);
-			g_object_unref (stream);
-		}
-
-		e_contact_photo_free (photo);
-	}
+	e_async_closure_free (closure);
 
 	return success;
-}
-
-/* Helper for e_photo_cache_get_photo() */
-static void
-photo_cache_get_photo_thread (GSimpleAsyncResult *simple,
-                              GObject *source_object,
-                              GCancellable *cancellable)
-{
-	AsyncContext *async_context;
-	GError *error = NULL;
-
-	async_context = g_simple_async_result_get_op_res_gpointer (simple);
-
-	e_photo_cache_get_photo_sync (
-		E_PHOTO_CACHE (source_object),
-		async_context->email_address,
-		cancellable,
-		&async_context->input_stream,
-		&error);
-
-	if (error != NULL)
-		g_simple_async_result_take_error (simple, error);
 }
 
 /**
@@ -739,8 +1066,8 @@ photo_cache_get_photo_thread (GSimpleAsyncResult *simple,
  * @callback: a #GAsyncReadyCallback to call when the request is satisfied
  * @user_data: data to pass to the callback function
  *
- * Asynchronously searches enabled address books for a contact photo or logo
- * associated with @email_address.
+ * Asynchronously searches available photo sources for a photo associated
+ * with @email_address.
  *
  * When the operation is finished, @callback will be called.  You can then
  * call e_photo_cache_get_photo_finish() to get the result of the operation.
@@ -754,12 +1081,24 @@ e_photo_cache_get_photo (EPhotoCache *photo_cache,
 {
 	GSimpleAsyncResult *simple;
 	AsyncContext *async_context;
+	EDataCapture *data_capture;
+	GInputStream *stream = NULL;
+	GList *list, *link;
 
 	g_return_if_fail (E_IS_PHOTO_CACHE (photo_cache));
 	g_return_if_fail (email_address != NULL);
 
-	async_context = g_slice_new0 (AsyncContext);
-	async_context->email_address = g_strdup (email_address);
+	/* This will be used to eavesdrop on the resulting input stream
+	 * for the purpose of adding the photo data to the photo cache. */
+	data_capture = e_data_capture_new (photo_cache->priv->main_context);
+
+	g_signal_connect_data (
+		data_capture, "finished",
+		G_CALLBACK (photo_cache_data_captured_cb),
+		data_capture_closure_new (photo_cache, email_address),
+		(GClosureNotify) data_capture_closure_free, 0);
+
+	async_context = async_context_new (data_capture, cancellable);
 
 	simple = g_simple_async_result_new (
 		G_OBJECT (photo_cache), callback,
@@ -770,11 +1109,54 @@ e_photo_cache_get_photo (EPhotoCache *photo_cache,
 	g_simple_async_result_set_op_res_gpointer (
 		simple, async_context, (GDestroyNotify) async_context_free);
 
-	g_simple_async_result_run_in_thread (
-		simple, photo_cache_get_photo_thread,
-		G_PRIORITY_DEFAULT, cancellable);
+	/* Check if we have this email address already cached. */
+	if (photo_ht_lookup (photo_cache, email_address, &stream)) {
+		async_context->stream = stream;  /* takes ownership */
+		g_simple_async_result_complete_in_idle (simple);
+		goto exit;
+	}
 
+	list = e_photo_cache_list_photo_sources (photo_cache);
+
+	if (list == NULL) {
+		g_simple_async_result_complete_in_idle (simple);
+		goto exit;
+	}
+
+	g_mutex_lock (&async_context->lock);
+
+	/* Dispatch a subtask for each photo source. */
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		EPhotoSource *photo_source;
+		AsyncSubtask *async_subtask;
+
+		photo_source = E_PHOTO_SOURCE (link->data);
+		async_subtask = async_subtask_new (photo_source, simple);
+
+		g_hash_table_add (
+			async_context->subtasks,
+			async_subtask_ref (async_subtask));
+
+		e_photo_source_get_photo (
+			photo_source, email_address,
+			async_subtask->cancellable,
+			photo_cache_async_subtask_done_cb,
+			async_subtask_ref (async_subtask));
+
+		async_subtask_unref (async_subtask);
+	}
+
+	g_mutex_unlock (&async_context->lock);
+
+	g_list_free_full (list, (GDestroyNotify) g_object_unref);
+
+	/* Check if we were cancelled while dispatching subtasks. */
+	if (g_cancellable_is_cancelled (cancellable))
+		async_context_cancel_subtasks (async_context);
+
+exit:
 	g_object_unref (simple);
+	g_object_unref (data_capture);
 }
 
 /**
@@ -817,27 +1199,12 @@ e_photo_cache_get_photo_finish (EPhotoCache *photo_cache,
 		return FALSE;
 
 	if (out_stream != NULL) {
-		*out_stream = async_context->input_stream;
-		async_context->input_stream = NULL;
+		if (async_context->stream != NULL)
+			*out_stream = g_object_ref (async_context->stream);
+		else
+			*out_stream = NULL;
 	}
 
 	return TRUE;
-}
-
-/**
- * e_photo_cache_remove:
- * @photo_cache: an #EPhotoCache
- * @email_address: an email address
- *
- * Removes the cache entry for @email_address, if such an entry exists.
- **/
-gboolean
-e_photo_cache_remove (EPhotoCache *photo_cache,
-                      const gchar *email_address)
-{
-	g_return_val_if_fail (E_IS_PHOTO_CACHE (photo_cache), FALSE);
-	g_return_val_if_fail (email_address != NULL, FALSE);
-
-	return photo_ht_remove (photo_cache, email_address);
 }
 

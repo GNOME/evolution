@@ -2489,10 +2489,14 @@ e_passwords_ask_password
 EPhotoCache
 e_photo_cache_new
 e_photo_cache_ref_client_cache
+e_photo_cache_add_photo_source
+e_photo_cache_list_photo_sources
+e_photo_cache_remove_photo_source
+e_photo_cache_add_photo
+e_photo_cache_remove_photo
 e_photo_cache_get_photo_sync
 e_photo_cache_get_photo
 e_photo_cache_get_photo_finish
-e_photo_cache_remove
 <SUBSECTION Standard>
 E_PHOTO_CACHE
 E_IS_PHOTO_CACHE
