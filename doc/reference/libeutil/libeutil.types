@@ -59,6 +59,7 @@ e_client_selector_get_type
 e_config_get_type
 e_config_hook_get_type
 e_contact_store_get_type
+e_data_capture_get_type
 e_date_edit_get_type
 e_destination_store_get_type
 e_event_get_type

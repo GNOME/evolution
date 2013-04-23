@@ -85,6 +85,7 @@
 #include <e-util/e-client-selector.h>
 #include <e-util/e-config.h>
 #include <e-util/e-contact-store.h>
+#include <e-util/e-data-capture.h>
 #include <e-util/e-dateedit.h>
 #include <e-util/e-datetime-format.h>
 #include <e-util/e-destination-store.h>

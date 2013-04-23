@@ -1406,6 +1406,25 @@ EContactStorePrivate
 </SECTION>
 
 <SECTION>
+<FILE>e-data-capture</FILE>
+<TITLE>EDataCapture</TITLE>
+EDataCapture
+e_data_capture_new
+e_data_capture_ref_main_context
+<SUBSECTION Standard>
+E_DATA_CAPTURE
+E_IS_DATA_CAPTURE
+E_TYPE_DATA_CAPTURE
+E_DATA_CAPTURE_CLASS
+E_IS_DATA_CAPTURE_CLASS
+E_DATA_CAPTURE_GET_CLASS
+EDataCaptureClass
+e_data_capture_get_type
+<SUBSECTION Private>
+EDataCapturePrivate
+</SECTION>
+
+<SECTION>
 <FILE>e-dateedit</FILE>
 <TITLE>EDateEdit</TITLE>
 EDateEditGetTimeCallback

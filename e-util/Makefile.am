@@ -168,6 +168,7 @@ eutilinclude_HEADERS =  \
 	e-client-selector.h \
 	e-config.h \
 	e-contact-store.h \
+	e-data-capture.h \
 	e-dateedit.h \
 	e-datetime-format.h \
 	e-destination-store.h \
@@ -415,6 +416,7 @@ libeutil_la_SOURCES = \
 	e-client-selector.c \
 	e-config.c \
 	e-contact-store.c \
+	e-data-capture.c \
 	e-dateedit.c \
 	e-datetime-format.c \
 	e-destination-store.c \
