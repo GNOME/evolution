@@ -781,58 +781,26 @@ composer_size_allocate_cb (GtkWidget *widget,
 }
 
 static void
-insert_paragraph_with_input (WebKitDOMElement *paragraph,
-                             WebKitDOMElement *body)
-{
-	WebKitDOMNode *node = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body));
-
-	if (node) {
-		webkit_dom_node_insert_before (
-			WEBKIT_DOM_NODE (body),
-			WEBKIT_DOM_NODE (paragraph),
-			node,
-			NULL);
-	} else {
-		webkit_dom_node_append_child (
-			WEBKIT_DOM_NODE (body),
-			WEBKIT_DOM_NODE (paragraph),
-			NULL);
-	}
-}
-
-static void
 composer_move_caret (EMsgComposer *composer)
 {
+	WebKitDOMHTMLElement *body;
+	WebKitDOMRange *new_range;
 	EEditor *editor;
 	EEditorWidget *editor_widget;
-	EEditorSelection *editor_selection;
-	GSettings *settings;
-	gboolean start_bottom, html_mode, top_signature;
-	gboolean has_paragraphs_in_body = TRUE;
 	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *window;
+	WebKitDOMElement *br_bottom;
 	WebKitDOMDOMSelection *dom_selection;
-	WebKitDOMElement *input_start, *element, *signature;
-	WebKitDOMHTMLElement *body;
-	WebKitDOMNodeList *list, *blockquotes;
-	WebKitDOMRange *new_range;
+	GSettings *settings;
+	gboolean start_bottom;
 
 	/* When there is an option composer-reply-start-bottom set we have
 	 * to move the caret between reply and signature. */
 	settings = g_settings_new ("org.gnome.evolution.mail");
 	start_bottom = g_settings_get_boolean (settings, "composer-reply-start-bottom");
-	g_object_unref (settings);
-
-	top_signature =
-		use_top_signature (composer) &&
-		!composer->priv->is_from_message &&
-		!composer->priv->is_from_new_message;
 
 	editor = e_msg_composer_get_editor (composer);
 	editor_widget = e_editor_get_editor_widget (editor);
-	editor_selection = e_editor_widget_get_selection (editor_widget);
-	html_mode = e_editor_widget_get_html_mode (editor_widget);
-
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (editor_widget));
 	window = webkit_dom_document_get_default_view (document);
 	dom_selection = webkit_dom_dom_window_get_selection (window);
@@ -840,91 +808,33 @@ composer_move_caret (EMsgComposer *composer)
 	body = webkit_dom_document_get_body (document);
 	new_range = webkit_dom_document_create_range (document);
 
-	element = webkit_dom_document_get_element_by_id (document, "-x-evo-caret-position");
-	/* Caret position found => composer mode changed */
-	if (element) {
-		e_editor_selection_restore_caret_position (editor_selection);
-		/* We want to force spellcheck just in case that we switched to plain
-		 * text mode (when switching to html mode, the underlined words are
-		 * preserved */
-		if (!html_mode)
-			e_editor_widget_force_spellcheck (editor_widget);
-		return;
-	}
-
-	/* If editing message as new don't handle with caret */
-	if (composer->priv->is_from_message) {
-		e_editor_selection_restore_caret_position (editor_selection);
-		if (!html_mode)
-			e_editor_widget_quote_plain_text (editor_widget);
-		e_editor_widget_force_spellcheck (editor_widget);
-
-		return;
-	}
-
-	list = webkit_dom_document_get_elements_by_class_name (document, "-x-evo-paragraph");
-	signature = webkit_dom_document_query_selector (document, ".-x-evolution-signature", NULL);
-	/* Situation when wrapped paragraph is just in signature and not in message body */
-	if (webkit_dom_node_list_get_length (list) == 1) {
-		if (signature && webkit_dom_element_query_selector (signature, ".-x-evo-paragraph", NULL))
-			has_paragraphs_in_body = FALSE;
-	}
-
-	if (webkit_dom_node_list_get_length (list) == 0)
-		has_paragraphs_in_body = FALSE;
-
-	blockquotes = webkit_dom_document_get_elements_by_tag_name (document, "blockquote");
-
-	if (!has_paragraphs_in_body) {
-		element = e_editor_selection_get_paragraph_element (
-			editor_selection, document, -1);
-		webkit_dom_element_set_id (
-			WEBKIT_DOM_ELEMENT (element), "-x-evo-input-start");
-		webkit_dom_html_element_set_inner_html (
-			WEBKIT_DOM_HTML_ELEMENT (element), UNICODE_ZERO_WIDTH_SPACE, NULL);
-	}
-
 	if (start_bottom) {
+		WebKitDOMNodeList *blockquotes;
+
+		blockquotes = webkit_dom_document_get_elements_by_tag_name (document, "blockquote");
 		if (webkit_dom_node_list_get_length (blockquotes) != 0) {
-			if (!has_paragraphs_in_body) {
-				if (!top_signature) {
-					webkit_dom_node_insert_before (
-						WEBKIT_DOM_NODE (body),
-						WEBKIT_DOM_NODE (element),
-						signature ?
-							webkit_dom_node_get_parent_node (
-								WEBKIT_DOM_NODE (signature)) :
-							webkit_dom_node_get_next_sibling (
-								webkit_dom_node_list_item (blockquotes, 0)),
-						NULL);
-				} else {
-					webkit_dom_node_append_child (
-						WEBKIT_DOM_NODE (body),
-						WEBKIT_DOM_NODE (element),
-						NULL);
-				}
-			}
-
-			e_editor_selection_restore_caret_position (editor_selection);
-			if (!html_mode)
-				e_editor_widget_quote_plain_text (editor_widget);
-			e_editor_widget_force_spellcheck (editor_widget);
-
-			input_start = webkit_dom_document_get_element_by_id (document, "-x-evo-input-start");
-			if (input_start)
-				webkit_dom_range_select_node_contents (new_range, WEBKIT_DOM_NODE (input_start), NULL);
-
-			webkit_dom_range_collapse (new_range, FALSE, NULL);
-		} else {
-			if (!has_paragraphs_in_body)
-				insert_paragraph_with_input (
-					element, WEBKIT_DOM_ELEMENT (body));
-
+			/* Move caret between reply and signature. */
+			new_range = webkit_dom_document_create_range (document);
 			webkit_dom_range_select_node_contents (new_range,
 				WEBKIT_DOM_NODE (
-					webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body))),
-				NULL);
+					webkit_dom_node_get_next_sibling (webkit_dom_node_list_item (blockquotes, 0))
+				), NULL);
 			webkit_dom_range_collapse (new_range, TRUE, NULL);
+
+		} else {
+			br_bottom = webkit_dom_document_get_element_by_id (document, "-x-evolution-br-reply");
+
+			if (!br_bottom) {
+				WebKitDOMElement *br;
+
+				br = webkit_dom_document_create_element (document, "BR", NULL);
+				webkit_dom_html_element_set_id (WEBKIT_DOM_HTML_ELEMENT (br), "-x-evolution-br-reply");
+				webkit_dom_node_append_child (WEBKIT_DOM_NODE (body), WEBKIT_DOM_NODE (br), NULL);
+				br_bottom = webkit_dom_document_get_element_by_id (document, "-x-evolution-br-reply");
+			}
+
+			webkit_dom_range_select_node_contents (new_range, WEBKIT_DOM_NODE (br_bottom), NULL);
+			webkit_dom_range_collapse (new_range, FALSE, NULL);
 		}
 
 		g_signal_connect (
@@ -932,38 +842,25 @@ composer_move_caret (EMsgComposer *composer)
 			G_CALLBACK (composer_size_allocate_cb), NULL);
 	} else {
 		/* Move caret on the beginning of message */
-		if (!has_paragraphs_in_body) {
-			insert_paragraph_with_input (
-				element, WEBKIT_DOM_ELEMENT (body));
+		if (!webkit_dom_document_get_element_by_id (document, "-x-evolution-br-reply")) {
+			WebKitDOMElement *br;
 
-			if (webkit_dom_node_list_get_length (blockquotes) != 0) {
-				if (!html_mode) {
-					WebKitDOMNode *blockquote;
-
-					blockquote = webkit_dom_node_list_item (blockquotes, 0);
-
-					/* FIXME determine when we can skip this */
-					e_editor_selection_wrap_paragraph (
-						editor_selection,
-						WEBKIT_DOM_ELEMENT (blockquote));
-
-					e_editor_selection_restore_caret_position (editor_selection);
-					e_editor_widget_quote_plain_text (editor_widget);
-					body = webkit_dom_document_get_body (document);
-				}
-				e_editor_widget_force_spellcheck (editor_widget);
-			}
+			br = webkit_dom_document_create_element (document, "BR", NULL);
+			webkit_dom_html_element_set_id (WEBKIT_DOM_HTML_ELEMENT (br), "-x-evolution-br-reply");
+			webkit_dom_node_insert_before (WEBKIT_DOM_NODE (body), WEBKIT_DOM_NODE (br), webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)), NULL);
 		}
 
 		webkit_dom_range_select_node_contents (new_range,
 			WEBKIT_DOM_NODE (
-				webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body))),
-			NULL);
+				webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body))
+			), NULL);
 		webkit_dom_range_collapse (new_range, TRUE, NULL);
 	}
 
 	webkit_dom_dom_selection_remove_all_ranges (dom_selection);
 	webkit_dom_dom_selection_add_range (dom_selection, new_range);
+
+	g_object_unref (settings);
 }
 
 static void
@@ -1081,8 +978,6 @@ insert:
 	editor_widget = e_editor_get_editor_widget (editor);
 	selection = e_editor_widget_get_selection (editor_widget);
 
-	e_editor_selection_save (selection);
-
 	/* This prevents our command before/after callbacks from
 	 * screwing around with the signature as we insert it. */
 	composer->priv->in_signature_insert = TRUE;
@@ -1143,8 +1038,7 @@ insert:
 		g_string_free (html_buffer, TRUE);
 	}
 
-	e_editor_selection_restore (selection);
-
+	composer_move_caret (composer);
 	composer->priv->in_signature_insert = FALSE;
 
 exit:
