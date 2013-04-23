@@ -923,10 +923,24 @@ exit:
 	g_object_unref (composer);
 }
 
-static gboolean
-is_null_or_none (const gchar *text)
+static void
+composer_web_view_load_status_changed_cb (WebKitWebView *webkit_web_view,
+					  GParamSpec *pspec,
+					  EMsgComposer *composer)
 {
-	return !text || g_strcmp0 (text, "none") == 0;
+	WebKitLoadStatus status;
+
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
+	status = webkit_web_view_get_load_status (webkit_web_view);
+
+	if (status != WEBKIT_LOAD_FINISHED)
+		return;
+
+	g_signal_handlers_disconnect_by_func (
+		webkit_web_view, G_CALLBACK (composer_web_view_load_status_changed_cb), NULL);
+
+	e_composer_update_signature (composer);
 }
 
 void
@@ -934,7 +948,9 @@ e_composer_update_signature (EMsgComposer *composer)
 {
 	EComposerHeaderTable *table;
 	EMailSignatureComboBox *combo_box;
-	const gchar *signature_uid;
+	EEditor *editor;
+	EEditorWidget *editor_widget;
+	WebKitLoadStatus status;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
@@ -957,6 +973,17 @@ e_composer_update_signature (EMsgComposer *composer)
 	composer->priv->selected_signature_uid = g_strdup (signature_uid);
 
 	combo_box = e_composer_header_table_get_signature_combo_box (table);
+	editor = e_msg_composer_get_editor (composer);
+	editor_widget = e_editor_get_editor_widget (editor);
+
+	status = webkit_web_view_get_load_status (WEBKIT_WEB_VIEW (editor_widget));
+	/* If document is not loaded, we will wait for him */
+	if (status != WEBKIT_LOAD_FINISHED) {
+		g_signal_connect (
+			WEBKIT_WEB_VIEW(editor_widget), "notify::load-status",
+			G_CALLBACK (composer_web_view_load_status_changed_cb), composer);
+		return;
+	}
 
 	/* XXX Signature files should be local and therefore load quickly,
 	 *     so while we do load them asynchronously we don't allow for
