@@ -516,10 +516,10 @@ emfe_headers_format (EMailFormatterExtension *extension,
 	buffer = g_string_new ("");
 
 	if (context->mode == E_MAIL_FORMATTER_MODE_PRINTING) {
-		GdkColor white = { 0, G_MAXUINT16, G_MAXUINT16, G_MAXUINT16 };
-		bg_color = e_color_to_value (&white);
+		GdkRGBA white = { 1.0, 1.0, 1.0, 1.0};
+		bg_color = e_rgba_to_value (&white);
 	} else {
-		bg_color = e_color_to_value ((GdkColor *)
+		bg_color = e_rgba_to_value (
 				e_mail_formatter_get_color (
 					formatter, E_MAIL_FORMATTER_COLOR_BODY));
 	}
@@ -531,7 +531,7 @@ emfe_headers_format (EMailFormatterExtension *extension,
 		"<tr><td valign=\"top\" width=\"16\">\n",
 		bg_color,
 		part->id,
-		e_color_to_value ((GdkColor *)
+		e_rgba_to_value (
 			e_mail_formatter_get_color (
 				formatter,
 				E_MAIL_FORMATTER_COLOR_HEADER)));

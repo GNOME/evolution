@@ -51,17 +51,17 @@ settings_mail_formatter_get_extensible (ESettingsMailFormatter *extension)
 }
 
 static gboolean
-settings_mail_formatter_map_string_to_color (GValue *value,
-                                             GVariant *variant,
-                                             gpointer user_data)
+settings_mail_formatter_map_string_to_rgba (GValue *value,
+					    GVariant *variant,
+					    gpointer user_data)
 {
-	GdkColor color;
+	GdkRGBA rgba;
 	const gchar *string;
 	gboolean success = FALSE;
 
 	string = g_variant_get_string (variant, NULL);
-	if (gdk_color_parse (string, &color)) {
-		g_value_set_boxed (value, &color);
+	if (gdk_rgba_parse (&rgba, string)) {
+		g_value_set_boxed (value, &rgba);
 		success = TRUE;
 	}
 
@@ -138,7 +138,7 @@ settings_mail_formatter_constructed (GObject *object)
 		settings, "citation-color",
 		formatter, "citation-color",
 		G_SETTINGS_BIND_GET,
-		settings_mail_formatter_map_string_to_color,
+		settings_mail_formatter_map_string_to_rgba,
 		(GSettingsBindSetMapping) NULL,
 		NULL, (GDestroyNotify) NULL);
 

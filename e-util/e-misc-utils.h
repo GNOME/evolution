@@ -108,9 +108,9 @@ gint		e_collate_compare		(gconstpointer x,
 						 gconstpointer y);
 gint		e_int_compare                   (gconstpointer x,
 						 gconstpointer y);
-guint32		e_color_to_value		(GdkColor *color);
+guint32		e_color_to_value		(const GdkColor *color);
 
-guint32		e_rgba_to_value			(GdkRGBA *rgba);
+guint32		e_rgba_to_value			(const GdkRGBA *rgba);
 
 /* This only makes a filename safe for usage as a filename.
  * It still may have shell meta-characters in it. */

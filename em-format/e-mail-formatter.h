@@ -110,7 +110,7 @@ struct _EMailFormatterClass {
 	CamelMimeFilterToHTMLFlags text_html_flags;
 
 	/* Colors should apply globally */
-	GdkColor colors[E_MAIL_FORMATTER_NUM_COLOR_TYPES];
+	GdkRGBA colors[E_MAIL_FORMATTER_NUM_COLOR_TYPES];
 
 	/* sizeof(EMailFormatterContext) or some derivative struct */
 	gsize context_size;
@@ -120,9 +120,8 @@ struct _EMailFormatterClass {
 						 CamelStream *stream,
 						 GCancellable *cancellable);
 
-	void		(*set_style)		(EMailFormatter *formatter,
-						 GtkStyle *style,
-						 GtkStateType state);
+	void		(*update_style)		(EMailFormatter *formatter,
+						 GtkStateFlags state);
 
 	/* Signals */
 	void		(*need_redraw)		(EMailFormatter *formatter);
@@ -175,15 +174,14 @@ CamelMimeFilterToHTMLFlags
 		e_mail_formatter_get_text_format_flags
 						(EMailFormatter *formatter);
 
-const GdkColor *
+const GdkRGBA *
 		e_mail_formatter_get_color	(EMailFormatter *formatter,
 						 EMailFormatterColorType type);
 void		e_mail_formatter_set_color	(EMailFormatter *efh,
 						 EMailFormatterColorType type,
-						 const GdkColor *color);
-void		e_mail_formatter_set_style	(EMailFormatter *formatter,
-						 GtkStyle *style,
-						 GtkStateType state);
+						 const GdkRGBA *color);
+void		e_mail_formatter_update_style	(EMailFormatter *formatter,
+						 GtkStateFlags state);
 
 EMailImageLoadingPolicy
 		e_mail_formatter_get_image_loading_policy

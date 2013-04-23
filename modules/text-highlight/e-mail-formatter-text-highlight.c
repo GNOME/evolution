@@ -325,10 +325,10 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 			"</iframe>"
 			"</div>",
 			part->id, part->id, uri,
-			e_color_to_value ((GdkColor *)
+			e_rgba_to_value (
 				e_mail_formatter_get_color (
 					formatter, E_MAIL_FORMATTER_COLOR_FRAME)),
-			e_color_to_value ((GdkColor *)
+			e_rgba_to_value (
 				e_mail_formatter_get_color (
 					formatter, E_MAIL_FORMATTER_COLOR_CONTENT)));
 

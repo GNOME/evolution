@@ -1149,7 +1149,7 @@ e_int_compare (gconstpointer x,
  * Returns: a 24-bit color value
  **/
 guint32
-e_color_to_value (GdkColor *color)
+e_color_to_value (const GdkColor *color)
 {
 	GdkRGBA rgba;
 
@@ -1173,7 +1173,7 @@ e_color_to_value (GdkColor *color)
  * Returns: a 24-bit color value
  **/
 guint32
-e_rgba_to_value (GdkRGBA *rgba)
+e_rgba_to_value (const GdkRGBA *rgba)
 {
 	guint16 red;
 	guint16 green;

@@ -175,22 +175,21 @@ mail_formatter_print_run (EMailFormatter *formatter,
 }
 
 static void
-mail_formatter_set_style (EMailFormatter *formatter,
-                          GtkStyle *style,
-                          GtkStateType state)
+mail_formatter_update_style (EMailFormatter *formatter,
+			     GtkStateFlags state)
 {
 	EMailFormatterClass *formatter_class;
 
 	/* White background */
-	GdkColor body_color = { 0, G_MAXUINT16, G_MAXUINT16, G_MAXUINT16 };
+	GdkRGBA body_color = { 1.0, 1.0, 1.0, 1.0 };
 	/* Black text */
-	GdkColor text_color = { 0, 0, 0, 0 };
+	GdkRGBA text_color = { 0.0, 0.0, 0.0, 0.0 };
 
 	g_object_freeze_notify (G_OBJECT (formatter));
 
 	/* Set the other colors */
 	formatter_class = E_MAIL_FORMATTER_CLASS (e_mail_formatter_print_parent_class);
-	formatter_class->set_style (formatter, style, state);
+	formatter_class->update_style (formatter, state);
 
 	e_mail_formatter_set_color (
 		formatter, E_MAIL_FORMATTER_COLOR_FRAME, &body_color);
@@ -225,7 +224,7 @@ e_mail_formatter_print_class_init (EMailFormatterPrintClass *class)
 
 	formatter_class = E_MAIL_FORMATTER_CLASS (class);
 	formatter_class->run = mail_formatter_print_run;
-	formatter_class->set_style = mail_formatter_set_style;
+	formatter_class->update_style = mail_formatter_update_style;
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = e_mail_formatter_print_finalize;

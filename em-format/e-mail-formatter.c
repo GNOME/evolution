@@ -466,34 +466,42 @@ mail_formatter_run (EMailFormatter *formatter,
 }
 
 static void
-mail_formatter_set_style (EMailFormatter *formatter,
-                          GtkStyle *style,
-                          GtkStateType state)
+mail_formatter_update_style (EMailFormatter *formatter,
+			     GtkStateFlags state)
 {
-	GdkColor *color;
-	EMailFormatterColorType type;
+	GtkStyleContext *style_context;
+	GtkWidgetPath *widget_path;
+	GdkRGBA rgba;
 
 	g_object_freeze_notify (G_OBJECT (formatter));
 
-	color = &style->bg[state];
-	type = E_MAIL_FORMATTER_COLOR_BODY;
-	e_mail_formatter_set_color (formatter, type, color);
+	/* derive colors from top-level window */
+	style_context = gtk_style_context_new ();
+	widget_path = gtk_widget_path_new ();
+	gtk_widget_path_append_type (widget_path, GTK_TYPE_WINDOW);
+	gtk_style_context_set_path (style_context, widget_path);
 
-	color = &style->base[GTK_STATE_NORMAL];
-	type = E_MAIL_FORMATTER_COLOR_CONTENT;
-	e_mail_formatter_set_color  (formatter, type, color);
+	gtk_style_context_get_background_color (style_context, state, &rgba);
+	e_mail_formatter_set_color (formatter, E_MAIL_FORMATTER_COLOR_BODY, &rgba);
 
-	color = &style->dark[state];
-	type = E_MAIL_FORMATTER_COLOR_FRAME;
-	e_mail_formatter_set_color  (formatter, type, color);
+	rgba.red *= 0.8;
+	rgba.green *= 0.8;
+	rgba.blue *= 0.8;
+	e_mail_formatter_set_color (formatter, E_MAIL_FORMATTER_COLOR_FRAME, &rgba);
 
-	color = &style->fg[state];
-	type = E_MAIL_FORMATTER_COLOR_HEADER;
-	e_mail_formatter_set_color  (formatter, type, color);
+	gtk_style_context_get_color (style_context, state, &rgba);
+	e_mail_formatter_set_color (formatter, E_MAIL_FORMATTER_COLOR_HEADER, &rgba);
 
-	color = &style->text[state];
-	type = E_MAIL_FORMATTER_COLOR_TEXT;
-	e_mail_formatter_set_color  (formatter, type, color);
+	gtk_style_context_add_class (style_context, GTK_STYLE_CLASS_ENTRY);
+
+	gtk_style_context_get_background_color (style_context, state | GTK_STATE_FLAG_FOCUSED, &rgba);
+	e_mail_formatter_set_color  (formatter, E_MAIL_FORMATTER_COLOR_CONTENT, &rgba);
+
+	gtk_style_context_get_color (style_context, state | GTK_STATE_FLAG_FOCUSED, &rgba);
+	e_mail_formatter_set_color (formatter, E_MAIL_FORMATTER_COLOR_TEXT, &rgba);
+
+	gtk_widget_path_free (widget_path);
+	g_object_unref (style_context);
 
 	g_object_thaw_notify (G_OBJECT (formatter));
 }
@@ -542,7 +550,7 @@ static void
 e_mail_formatter_class_init (EMailFormatterClass *class)
 {
 	GObjectClass *object_class;
-	GdkColor *color;
+	GdkRGBA *rgba;
 
 	e_mail_formatter_parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EMailFormatterPrivate));
@@ -555,22 +563,22 @@ e_mail_formatter_class_init (EMailFormatterClass *class)
 
 	class->context_size = sizeof (EMailFormatterContext);
 	class->run = mail_formatter_run;
-	class->set_style = mail_formatter_set_style;
+	class->update_style = mail_formatter_update_style;
 
-	color = &class->colors[E_MAIL_FORMATTER_COLOR_BODY];
-	gdk_color_parse ("#eeeeee", color);
+	rgba = &class->colors[E_MAIL_FORMATTER_COLOR_BODY];
+	gdk_rgba_parse (rgba, "#eeeeee");
 
-	color = &class->colors[E_MAIL_FORMATTER_COLOR_CONTENT];
-	gdk_color_parse ("#ffffff", color);
+	rgba = &class->colors[E_MAIL_FORMATTER_COLOR_CONTENT];
+	gdk_rgba_parse (rgba, "#ffffff");
 
-	color = &class->colors[E_MAIL_FORMATTER_COLOR_FRAME];
-	gdk_color_parse ("#3f3f3f", color);
+	rgba = &class->colors[E_MAIL_FORMATTER_COLOR_FRAME];
+	gdk_rgba_parse (rgba, "#3f3f3f");
 
-	color = &class->colors[E_MAIL_FORMATTER_COLOR_HEADER];
-	gdk_color_parse ("#eeeeee", color);
+	rgba = &class->colors[E_MAIL_FORMATTER_COLOR_HEADER];
+	gdk_rgba_parse (rgba, "#eeeeee");
 
-	color = &class->colors[E_MAIL_FORMATTER_COLOR_TEXT];
-	gdk_color_parse ("#000000", color);
+	rgba = &class->colors[E_MAIL_FORMATTER_COLOR_TEXT];
+	gdk_rgba_parse (rgba, "#000000");
 
 	g_object_class_install_property (
 		object_class,
@@ -579,7 +587,7 @@ e_mail_formatter_class_init (EMailFormatterClass *class)
 			"body-color",
 			"Body Color",
 			NULL,
-			GDK_TYPE_COLOR,
+			GDK_TYPE_RGBA,
 			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
@@ -589,7 +597,7 @@ e_mail_formatter_class_init (EMailFormatterClass *class)
 			"citation-color",
 			"Citation Color",
 			NULL,
-			GDK_TYPE_COLOR,
+			GDK_TYPE_RGBA,
 			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
@@ -599,7 +607,7 @@ e_mail_formatter_class_init (EMailFormatterClass *class)
 			"content-color",
 			"Content Color",
 			NULL,
-			GDK_TYPE_COLOR,
+			GDK_TYPE_RGBA,
 			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
@@ -609,7 +617,7 @@ e_mail_formatter_class_init (EMailFormatterClass *class)
 			"frame-color",
 			"Frame Color",
 			NULL,
-			GDK_TYPE_COLOR,
+			GDK_TYPE_RGBA,
 			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
@@ -619,7 +627,7 @@ e_mail_formatter_class_init (EMailFormatterClass *class)
 			"header-color",
 			"Header Color",
 			NULL,
-			GDK_TYPE_COLOR,
+			GDK_TYPE_RGBA,
 			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
@@ -1067,13 +1075,13 @@ e_mail_formatter_get_html_header (EMailFormatter *formatter)
 		"  table th { color: #%06x; font-weight: bold; }\n"
 		"</style>\n"
 		"</head><body bgcolor=\"#%06x\" text=\"#%06x\">",
-		e_color_to_value ((GdkColor *)
+		e_rgba_to_value (
 			e_mail_formatter_get_color (
 				formatter, E_MAIL_FORMATTER_COLOR_HEADER)),
-		e_color_to_value ((GdkColor *)
+		e_rgba_to_value (
 			e_mail_formatter_get_color (
 				formatter, E_MAIL_FORMATTER_COLOR_BODY)),
-		e_color_to_value ((GdkColor *)
+		e_rgba_to_value (
 			e_mail_formatter_get_color (
 				formatter, E_MAIL_FORMATTER_COLOR_TEXT)));
 }
@@ -1097,7 +1105,7 @@ e_mail_formatter_get_text_format_flags (EMailFormatter *formatter)
 	return E_MAIL_FORMATTER_GET_CLASS (formatter)->text_html_flags;
 }
 
-const GdkColor *
+const GdkRGBA *
 e_mail_formatter_get_color (EMailFormatter *formatter,
                             EMailFormatterColorType type)
 {
@@ -1110,9 +1118,9 @@ e_mail_formatter_get_color (EMailFormatter *formatter,
 void
 e_mail_formatter_set_color (EMailFormatter *formatter,
                             EMailFormatterColorType type,
-                            const GdkColor *color)
+                            const GdkRGBA *color)
 {
-	GdkColor *format_color;
+	GdkRGBA *format_color;
 	const gchar *property_name;
 
 	g_return_if_fail (E_IS_MAIL_FORMATTER (formatter));
@@ -1121,7 +1129,7 @@ e_mail_formatter_set_color (EMailFormatter *formatter,
 
 	format_color = &E_MAIL_FORMATTER_GET_CLASS (formatter)->colors[type];
 
-	if (gdk_color_equal (color, format_color))
+	if (gdk_rgba_equal (color, format_color))
 		return;
 
 	format_color->red   = color->red;
@@ -1155,19 +1163,17 @@ e_mail_formatter_set_color (EMailFormatter *formatter,
 }
 
 void
-e_mail_formatter_set_style (EMailFormatter *formatter,
-                            GtkStyle *style,
-                            GtkStateType state)
+e_mail_formatter_update_style (EMailFormatter *formatter,
+			       GtkStateFlags state)
 {
 	EMailFormatterClass *formatter_class;
 
 	g_return_if_fail (E_IS_MAIL_FORMATTER (formatter));
-	g_return_if_fail (GTK_IS_STYLE (style));
 
 	formatter_class = E_MAIL_FORMATTER_GET_CLASS (formatter);
-	g_return_if_fail (formatter_class->set_style != NULL);
+	g_return_if_fail (formatter_class->update_style != NULL);
 
-	formatter_class->set_style (formatter, style, state);
+	formatter_class->update_style (formatter, state);
 }
 
 EMailImageLoadingPolicy

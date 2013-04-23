@@ -195,15 +195,11 @@ mail_display_image_exists_in_cache (const gchar *image_uri)
 static void
 mail_display_update_formatter_colors (EMailDisplay *display)
 {
-	GtkStyle *style;
-	GtkStateType state;
-
 	if (display->priv->formatter == NULL)
 		return;
 
-	style = gtk_widget_get_style (GTK_WIDGET (display));
-	state = gtk_widget_get_state (GTK_WIDGET (display));
-	e_mail_formatter_set_style (display->priv->formatter, style, state);
+	e_mail_formatter_update_style (display->priv->formatter,
+		gtk_widget_get_state_flags (GTK_WIDGET (display)));
 }
 
 static void
@@ -1371,16 +1367,15 @@ mail_display_realize (GtkWidget *widget)
 }
 
 static void
-mail_display_style_set (GtkWidget *widget,
-                        GtkStyle *previous_style)
+mail_display_style_updated (GtkWidget *widget)
 {
 	EMailDisplay *display = E_MAIL_DISPLAY (widget);
 
 	mail_display_update_formatter_colors (display);
 
-	/* Chain up to parent's style_set() method. */
+	/* Chain up to parent's style_updated() method. */
 	GTK_WIDGET_CLASS (e_mail_display_parent_class)->
-		style_set (widget, previous_style);
+		style_updated (widget);
 }
 
 static gboolean
@@ -1490,7 +1485,7 @@ e_mail_display_class_init (EMailDisplayClass *class)
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->realize = mail_display_realize;
-	widget_class->style_set = mail_display_style_set;
+	widget_class->style_updated = mail_display_style_updated;
 	widget_class->button_press_event = mail_display_button_press_event;
 
 	web_view_class = E_WEB_VIEW_CLASS (class);
@@ -1971,11 +1966,11 @@ e_mail_display_set_status (EMailDisplay *display,
 		"  </table>\n"
 		"</body>\n"
 		"</html>\n",
-		e_color_to_value ((GdkColor *)
+		e_rgba_to_value (
 			e_mail_formatter_get_color (
 				display->priv->formatter,
 				E_MAIL_FORMATTER_COLOR_CONTENT)),
-		e_color_to_value ((GdkColor *)
+		e_rgba_to_value (
 			e_mail_formatter_get_color (
 				display->priv->formatter,
 				E_MAIL_FORMATTER_COLOR_TEXT)),

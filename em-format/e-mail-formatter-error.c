@@ -66,13 +66,13 @@ emfe_error_format (EMailFormatterExtension *extension,
 		"<tr valign=\"top\"><td width=50>"
 		"<img src=\"gtk-stock://%s/?size=%d\" /></td>\n"
 		"<td style=\"color: red;\">",
-		e_color_to_value ((GdkColor *)
+		e_rgba_to_value (
 			e_mail_formatter_get_color (
 				formatter, E_MAIL_FORMATTER_COLOR_FRAME)),
-		e_color_to_value ((GdkColor *)
+		e_rgba_to_value (
 			e_mail_formatter_get_color (
 				formatter, E_MAIL_FORMATTER_COLOR_BODY)),
-		e_color_to_value ((GdkColor *)
+		e_rgba_to_value (
 			e_mail_formatter_get_color (
 				formatter, E_MAIL_FORMATTER_COLOR_TEXT)),
 		GTK_STOCK_DIALOG_ERROR, GTK_ICON_SIZE_DIALOG);

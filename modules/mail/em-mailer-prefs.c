@@ -146,17 +146,17 @@ mailer_prefs_map_seconds_to_milliseconds (const GValue *value,
 }
 
 static gboolean
-mailer_prefs_map_string_to_color (GValue *value,
-                                  GVariant *variant,
-                                  gpointer user_data)
+mailer_prefs_map_string_to_rgba (GValue *value,
+				 GVariant *variant,
+				 gpointer user_data)
 {
-	GdkColor color;
+	GdkRGBA rgba;
 	const gchar *string;
 	gboolean success = FALSE;
 
 	string = g_variant_get_string (variant, NULL);
-	if (gdk_color_parse (string, &color)) {
-		g_value_set_boxed (value, &color);
+	if (gdk_rgba_parse (&rgba, string)) {
+		g_value_set_boxed (value, &rgba);
 		success = TRUE;
 	}
 
@@ -164,27 +164,25 @@ mailer_prefs_map_string_to_color (GValue *value,
 }
 
 static GVariant *
-mailer_prefs_map_color_to_string (const GValue *value,
-                                  const GVariantType *expected_type,
-                                  gpointer user_data)
+mailer_prefs_map_rgba_to_string (const GValue *value,
+				 const GVariantType *expected_type,
+				 gpointer user_data)
 {
 	GVariant *variant;
-	const GdkColor *color;
+	const GdkRGBA *rgba;
 
-	color = g_value_get_boxed (value);
-	if (color == NULL) {
+	rgba = g_value_get_boxed (value);
+	if (rgba == NULL) {
 		variant = g_variant_new_string ("");
 	} else {
 		gchar *string;
 
-		/* Encode the color manually because CSS styles expect
-		 * color codes as #rrggbb, whereas gdk_color_to_string()
-		 * returns color codes as #rrrrggggbbbb. */
+		/* Encode the color manually. */
 		string = g_strdup_printf (
 			"#%02x%02x%02x",
-			(gint) color->red * 256 / 65536,
-			(gint) color->green * 256 / 65536,
-			(gint) color->blue * 256 / 65536);
+			((gint) (rgba->red * 255)) % 255,
+			((gint) (rgba->green * 255)) % 255,
+			((gint) (rgba->blue * 255)) % 255);
 		variant = g_variant_new_string (string);
 		g_free (string);
 	}
@@ -934,10 +932,10 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	widget = e_builder_get_widget (prefs->builder, "colorButtonHighlightCitations");
 	g_settings_bind_with_mapping (
 		settings, "citation-color",
-		widget, "color",
+		widget, "rgba",
 		G_SETTINGS_BIND_DEFAULT,
-		mailer_prefs_map_string_to_color,
-		mailer_prefs_map_color_to_string,
+		mailer_prefs_map_string_to_rgba,
+		mailer_prefs_map_rgba_to_string,
 		NULL, (GDestroyNotify) NULL);
 	g_settings_bind (
 		settings, "mark-citations",

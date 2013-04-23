@@ -93,7 +93,7 @@ emfe_text_plain_format (EMailFormatterExtension *extension,
 		&& !g_ascii_strcasecmp (format, "flowed"))
 			flags |= CAMEL_MIME_FILTER_TOHTML_FORMAT_FLOWED;
 
-		rgb = e_color_to_value ((GdkColor *)
+		rgb = e_rgba_to_value (
 			e_mail_formatter_get_color (
 				formatter, E_MAIL_FORMATTER_COLOR_CITATION));
 
@@ -107,10 +107,10 @@ emfe_text_plain_format (EMailFormatterExtension *extension,
 			"<div class=\"part-container pre\" style=\""
 			"border: none; padding: 8px; margin: 0; "
 			"background-color: #%06x; color: #%06x;\">\n",
-			e_color_to_value ((GdkColor *)
+			e_rgba_to_value (
 				e_mail_formatter_get_color (
 					formatter, E_MAIL_FORMATTER_COLOR_CONTENT)),
-			e_color_to_value ((GdkColor *)
+			e_rgba_to_value (
 				e_mail_formatter_get_color (
 					formatter, E_MAIL_FORMATTER_COLOR_TEXT)));
 
@@ -164,10 +164,10 @@ emfe_text_plain_format (EMailFormatterExtension *extension,
 			"</iframe>"
 			"</div>",
 			part->id, part->id, uri,
-			e_color_to_value ((GdkColor *)
+			e_rgba_to_value (
 				e_mail_formatter_get_color (
 					formatter, E_MAIL_FORMATTER_COLOR_FRAME)),
-			e_color_to_value ((GdkColor *)
+			e_rgba_to_value (
 				e_mail_formatter_get_color (
 					formatter, E_MAIL_FORMATTER_COLOR_CONTENT)));
 

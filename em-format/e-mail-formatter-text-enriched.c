@@ -76,11 +76,11 @@ emfe_text_enriched_format (EMailFormatterExtension *extension,
 		"<div class=\"part-container\" style=\"border-color: #%06x; "
 		"background-color: #%06x; color: #%06x;\">"
 		"<div class=\"part-container-inner-margin\">\n",
-		e_color_to_value ((GdkColor *)
+		e_rgba_to_value (
 			e_mail_formatter_get_color (formatter, E_MAIL_FORMATTER_COLOR_FRAME)),
-		e_color_to_value ((GdkColor *)
+		e_rgba_to_value (
 			e_mail_formatter_get_color (formatter, E_MAIL_FORMATTER_COLOR_CONTENT)),
-		e_color_to_value ((GdkColor *)
+		e_rgba_to_value (
 			e_mail_formatter_get_color (formatter, E_MAIL_FORMATTER_COLOR_TEXT)));
 
 	camel_stream_write_string (stream, buffer->str, cancellable, NULL);

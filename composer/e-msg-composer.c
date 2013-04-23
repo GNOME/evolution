@@ -218,10 +218,9 @@ emcu_part_to_html (EMsgComposer *composer,
 
 	formatter = e_mail_formatter_quote_new (
 		NULL, E_MAIL_FORMATTER_QUOTE_FLAG_KEEP_SIG);
-	e_mail_formatter_set_style (
+	e_mail_formatter_update_style (
 		formatter,
-		gtk_widget_get_style (GTK_WIDGET (window)),
-		gtk_widget_get_state (GTK_WIDGET (window)));
+		gtk_widget_get_state_flags (GTK_WIDGET (window)));
 
 	e_mail_formatter_format_sync (
 		formatter, part_list, (CamelStream *) mem,

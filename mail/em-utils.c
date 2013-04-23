@@ -1284,9 +1284,8 @@ em_utils_message_to_html (CamelSession *session,
 	camel_stream_mem_set_byte_array (CAMEL_STREAM_MEM (mem), buf);
 
 	formatter = e_mail_formatter_quote_new (credits, flags);
-	e_mail_formatter_set_style (formatter,
-		gtk_widget_get_style (GTK_WIDGET (window)),
-		gtk_widget_get_state (GTK_WIDGET (window)));
+	e_mail_formatter_update_style (formatter,
+		gtk_widget_get_state_flags (GTK_WIDGET (window)));
 
 	if (parts_list == NULL) {
 		GSettings *settings;

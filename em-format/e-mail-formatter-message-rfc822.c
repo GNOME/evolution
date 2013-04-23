@@ -217,10 +217,10 @@ emfe_message_rfc822_format (EMailFormatterExtension *extension,
 			" id=\"%s.iframe\" "
 			" frameborder=\"0\" src=\"%s\" name=\"%s\"></iframe>"
 			"</div>",
-			e_color_to_value ((GdkColor *)
+			e_rgba_to_value (
 				e_mail_formatter_get_color (
 					formatter, E_MAIL_FORMATTER_COLOR_FRAME)),
-			e_color_to_value ((GdkColor *)
+			e_rgba_to_value (
 				e_mail_formatter_get_color (
 					formatter, E_MAIL_FORMATTER_COLOR_BODY)),
 			part->id, uri, part->id);
