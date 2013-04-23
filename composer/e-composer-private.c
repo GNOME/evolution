@@ -1202,6 +1202,21 @@ e_composer_update_signature (EMsgComposer *composer)
 			WEBKIT_WEB_VIEW(editor_widget), "notify::load-status",
 			G_CALLBACK (composer_web_view_load_status_changed_cb), composer);
 		return;
+
+	g_free (composer->priv->selected_signature_uid);
+	composer->priv->selected_signature_uid = g_strdup (signature_uid);
+
+	combo_box = e_composer_header_table_get_signature_combo_box (table);
+	editor = e_msg_composer_get_editor (composer);
+	editor_widget = e_editor_get_editor_widget (editor);
+
+	status = webkit_web_view_get_load_status (WEBKIT_WEB_VIEW (editor_widget));
+	/* If document is not loaded, we will wait for him */
+	if (status != WEBKIT_LOAD_FINISHED) {
+		g_signal_connect (
+			WEBKIT_WEB_VIEW(editor_widget), "notify::load-status",
+			G_CALLBACK (composer_web_view_load_status_changed_cb), composer);
+		return;
 	}
 
 	/* XXX Signature files should be local and therefore load quickly,
