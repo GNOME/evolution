@@ -744,6 +744,110 @@ use_top_signature (EMsgComposer *composer)
 }
 
 static void
+composer_size_allocate_cb (GtkWidget *widget,
+			   gpointer user_data)
+{
+	GtkWidget *scrolled_window;
+	GtkAdjustment *adj;
+
+	scrolled_window = gtk_widget_get_parent (GTK_WIDGET (widget));
+	adj = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (scrolled_window));
+
+	/* Scroll only when there is some size allocated */
+	if (gtk_adjustment_get_upper (adj) != 0.0) {
+		/* Scroll web view down to caret */
+		gtk_adjustment_set_value (adj, gtk_adjustment_get_upper (adj) - gtk_adjustment_get_page_size (adj));
+		gtk_scrolled_window_set_vadjustment (GTK_SCROLLED_WINDOW (scrolled_window), adj);
+		/* Disconnect because we don't want to scroll down the view on every window size change */
+		g_signal_handlers_disconnect_by_func (
+			widget, G_CALLBACK (composer_size_allocate_cb), NULL);
+	}
+}
+
+static void
+composer_move_caret (EMsgComposer *composer)
+{
+	WebKitDOMHTMLElement *body;
+	WebKitDOMRange *new_range;
+	EEditor *editor;
+	EEditorWidget *editor_widget;
+	WebKitDOMDocument *document;
+	WebKitDOMDOMWindow *window;
+	WebKitDOMElement *br_bottom;
+	WebKitDOMDOMSelection *dom_selection;
+	GSettings *settings;
+	gboolean start_bottom;
+
+	/* When there is an option composer-reply-start-bottom set we have
+	 * to move the caret between reply and signature. */
+	settings = g_settings_new ("org.gnome.evolution.mail");
+	start_bottom = g_settings_get_boolean (settings, "composer-reply-start-bottom");
+
+	editor = e_msg_composer_get_editor (composer);
+	editor_widget = e_editor_get_editor_widget (editor);
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (editor_widget));
+	window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (window);
+
+	body = webkit_dom_document_get_body (document);
+	new_range = webkit_dom_document_create_range (document);
+
+	if (start_bottom) {
+		WebKitDOMNodeList *blockquotes;
+
+		blockquotes = webkit_dom_document_get_elements_by_tag_name (document, "blockquote");
+		if (webkit_dom_node_list_get_length (blockquotes) != 0) {
+			/* Move caret between reply and signature. */
+			new_range = webkit_dom_document_create_range (document);
+			webkit_dom_range_select_node_contents (new_range,
+				WEBKIT_DOM_NODE (
+					webkit_dom_node_get_next_sibling (webkit_dom_node_list_item (blockquotes, 0))
+				), NULL);
+			webkit_dom_range_collapse (new_range, TRUE, NULL);
+
+		} else {
+			br_bottom = webkit_dom_document_get_element_by_id (document, "-x-evolution-br-reply");
+
+			if (!br_bottom) {
+				WebKitDOMElement *br;
+
+				br = webkit_dom_document_create_element (document, "BR", NULL);
+				webkit_dom_html_element_set_id (WEBKIT_DOM_HTML_ELEMENT (br), "-x-evolution-br-reply");
+				webkit_dom_node_append_child (WEBKIT_DOM_NODE (body), WEBKIT_DOM_NODE (br), NULL);
+				br_bottom = webkit_dom_document_get_element_by_id (document, "-x-evolution-br-reply");
+			}
+
+			webkit_dom_range_select_node_contents (new_range, WEBKIT_DOM_NODE (br_bottom), NULL);
+			webkit_dom_range_collapse (new_range, FALSE, NULL);
+		}
+
+		g_signal_connect (
+			editor_widget, "size-allocate",
+			G_CALLBACK (composer_size_allocate_cb), NULL);
+	} else {
+		/* Move caret on the beginning of message */
+		if (!webkit_dom_document_get_element_by_id (document, "-x-evolution-br-reply")) {
+			WebKitDOMElement *br;
+
+			br = webkit_dom_document_create_element (document, "BR", NULL);
+			webkit_dom_html_element_set_id (WEBKIT_DOM_HTML_ELEMENT (br), "-x-evolution-br-reply");
+			webkit_dom_node_insert_before (WEBKIT_DOM_NODE (body), WEBKIT_DOM_NODE (br), webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)), NULL);
+		}
+
+		webkit_dom_range_select_node_contents (new_range,
+			WEBKIT_DOM_NODE (
+				webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body))
+			), NULL);
+		webkit_dom_range_collapse (new_range, TRUE, NULL);
+	}
+
+	webkit_dom_dom_selection_remove_all_ranges (dom_selection);
+	webkit_dom_dom_selection_add_range (dom_selection, new_range);
+
+	g_object_unref (settings);
+}
+
+static void
 composer_load_signature_cb (EMailSignatureComboBox *combo_box,
                             GAsyncResult *result,
                             EMsgComposer *composer)
@@ -853,8 +957,6 @@ insert:
 	editor_widget = e_editor_get_editor_widget (editor);
 	selection = e_editor_widget_get_selection (editor_widget);
 
-	e_editor_selection_save (selection);
-
 	/* This prevents our command before/after callbacks from
 	 * screwing around with the signature as we insert it. */
 	composer->priv->in_signature_insert = TRUE;
@@ -915,8 +1017,7 @@ insert:
 		g_string_free (html_buffer, TRUE);
 	}
 
-	e_editor_selection_restore (selection);
-
+	composer_move_caret (composer);
 	composer->priv->in_signature_insert = FALSE;
 
 exit:
