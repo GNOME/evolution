@@ -2292,14 +2292,15 @@ e_editor_selection_wrap_lines (EEditorSelection *selection)
 
 	web_view = WEBKIT_WEB_VIEW (editor_widget);
 
+	/* When there is nothing selected, we select the whole document */
+	if (g_strcmp0 (e_editor_selection_get_string (selection), "") == 0) {
+		EEditorWidgetCommand command;
+		command = E_EDITOR_WIDGET_COMMAND_SELECT_ALL;
+		e_editor_widget_exec_command (editor_widget, command, NULL);
+	}
+
 	document = webkit_web_view_get_dom_document (web_view);
 	range = editor_selection_get_current_range (selection);
-
-	/* Extend the range to include entire nodes */
-	webkit_dom_range_select_node_contents (
-		range,
-		webkit_dom_range_get_common_ancestor_container (range, NULL),
-		NULL);
 
 	/* Copy the selection from DOM, wrap the lines and then paste it back
 	 * using the DOM command which will overwrite the selection, and
