@@ -1558,6 +1558,7 @@ EFileRequestClass
 e_file_request_get_type
 <SUBSECTION Private>
 EFileRequestPrivate
+LIBSOUP_USE_UNSTABLE_REQUEST_API
 </SECTION>
 
 <SECTION>

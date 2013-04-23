@@ -1977,7 +1977,7 @@ e_source_selector_ref_source_by_path (ESourceSelector *selector,
 
 /**
  * e_source_selector_queue_write:
- * @selector: an #ESourceSelecetor
+ * @selector: an #ESourceSelector
  * @source: an #ESource with changes to be written
  *
  * Queues a main loop idle callback to write changes to @source back to
