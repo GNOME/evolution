@@ -14,10 +14,19 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
- *
- * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
- *
  */
+
+/**
+ * SECTION: e-activity
+ * @include: e-util/e-util.h
+ * @short_description: Describe activities in progress
+ *
+ * #EActivity is used to track and describe application activities in
+ * progress.  An #EActivity usually manifests in a user interface as a
+ * status bar message (see #EActivityProxy) or information bar message
+ * (see #EActivityBar), with optional progress indication and a cancel
+ * button which is linked to a #GCancellable.
+ **/
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -360,12 +369,31 @@ e_activity_init (EActivity *activity)
 	activity->priv->warn_bogus_percent = TRUE;
 }
 
+/**
+ * e_activity_new:
+ *
+ * Creates a new #EActivity.
+ *
+ * Returns: an #EActivity
+ **/
 EActivity *
 e_activity_new (void)
 {
 	return g_object_new (E_TYPE_ACTIVITY, NULL);
 }
 
+/**
+ * e_activity_describe:
+ * @activity: an #EActivity
+ *
+ * Returns a description of the current state of the @activity based on
+ * the #EActivity:text, #EActivity:percent and #EActivity:state properties.
+ * Suitable for displaying in a status bar or similar widget.
+ *
+ * Free the returned string with g_free() when finished with it.
+ *
+ * Returns: a description of @activity
+ **/
 gchar *
 e_activity_describe (EActivity *activity)
 {
@@ -379,6 +407,19 @@ e_activity_describe (EActivity *activity)
 	return class->describe (activity);
 }
 
+/**
+ * e_activity_get_alert_sink:
+ * @activity: an #EActivity
+ *
+ * Returns the #EAlertSink for @activity, if one was provided.
+ *
+ * The #EActivity:alert-sink property is convenient for when the user
+ * should be alerted about a failed asynchronous operation.  Generally
+ * an #EActivity:alert-sink is set prior to dispatching the operation,
+ * and retrieved by a callback function when the operation completes.
+ *
+ * Returns: an #EAlertSink, or %NULL
+ **/
 EAlertSink *
 e_activity_get_alert_sink (EActivity *activity)
 {
@@ -387,6 +428,18 @@ e_activity_get_alert_sink (EActivity *activity)
 	return activity->priv->alert_sink;
 }
 
+/**
+ * e_activity_set_alert_sink:
+ * @activity: an #EActivity
+ * @alert_sink: an #EAlertSink, or %NULL
+ *
+ * Sets (or clears) the #EAlertSink for @activity.
+ *
+ * The #EActivity:alert-sink property is convenient for when the user
+ * should be alerted about a failed asynchronous operation.  Generally
+ * an #EActivity:alert-sink is set prior to dispatching the operation,
+ * and retrieved by a callback function when the operation completes.
+ **/
 void
 e_activity_set_alert_sink (EActivity *activity,
                            EAlertSink *alert_sink)
@@ -409,6 +462,18 @@ e_activity_set_alert_sink (EActivity *activity,
 	g_object_notify (G_OBJECT (activity), "alert-sink");
 }
 
+/**
+ * e_activity_get_cancellable:
+ * @activity: an #EActivity
+ *
+ * Returns the #GCancellable for @activity, if one was provided.
+ *
+ * Generally the @activity's #EActivity:cancellable property holds the same
+ * #GCancellable instance passed to a cancellable function, so widgets like
+ * #EActivityBar can bind the #GCancellable to a cancel button.
+ *
+ * Returns: a #GCancellable, or %NULL
+ **/
 GCancellable *
 e_activity_get_cancellable (EActivity *activity)
 {
@@ -417,6 +482,17 @@ e_activity_get_cancellable (EActivity *activity)
 	return activity->priv->cancellable;
 }
 
+/**
+ * e_activity_set_cancellable:
+ * @activity: an #EActivity
+ * @cancellable: a #GCancellable, or %NULL
+ *
+ * Sets (or clears) the #GCancellable for @activity.
+ *
+ * Generally the @activity's #EActivity:cancellable property holds the same
+ * #GCancellable instance passed to a cancellable function, so widgets like
+ * #EActivityBar can bind the #GCancellable to a cancel button.
+ **/
 void
 e_activity_set_cancellable (EActivity *activity,
                             GCancellable *cancellable)
@@ -450,6 +526,19 @@ e_activity_set_cancellable (EActivity *activity,
 	g_object_notify (G_OBJECT (activity), "cancellable");
 }
 
+/**
+ * e_activity_get_icon_name:
+ * @activity: an #EActivity
+ *
+ * Returns the themed icon name for @activity, if one was provided.
+ *
+ * Generally widgets like #EActivityBar will honor the #EActivity:icon-name
+ * property while the @activity's #EActivity:state is @E_ACTIVITY_RUNNING or
+ * @E_ACTIVITY_WAITING, but will override the icon for @E_ACTIVITY_CANCELLED
+ * and @E_ACTIVITY_COMPLETED.
+ *
+ * Returns: a themed icon name, or %NULL
+ **/
 const gchar *
 e_activity_get_icon_name (EActivity *activity)
 {
@@ -458,6 +547,18 @@ e_activity_get_icon_name (EActivity *activity)
 	return activity->priv->icon_name;
 }
 
+/**
+ * e_activity_set_icon_name:
+ * @activity: an #EActivity
+ * @icon_name: a themed icon name, or %NULL
+ *
+ * Sets (or clears) the themed icon name for @activity.
+ *
+ * Generally widgets like #EActivityBar will honor the #EActivity:icon-name
+ * property while the @activity's #EActivity:state is @E_ACTIVITY_RUNNING or
+ * @E_ACTIVITY_WAITING, but will override the icon for @E_ACTIVITY_CANCELLED
+ * and @E_ACTIVITY_COMPLETED.
+ **/
 void
 e_activity_set_icon_name (EActivity *activity,
                           const gchar *icon_name)
@@ -473,6 +574,18 @@ e_activity_set_icon_name (EActivity *activity,
 	g_object_notify (G_OBJECT (activity), "icon-name");
 }
 
+/**
+ * e_activity_get_percent:
+ * @activity: an #EActivity
+ *
+ * Returns the percent complete for @activity as a value between 0 and 100,
+ * or a negative value if the percent complete is unknown.
+ *
+ * Generally widgets like #EActivityBar will display the percent complete by
+ * way of e_activity_describe(), but only if the value is between 0 and 100.
+ *
+ * Returns: the percent complete, or a negative value if unknown
+ **/
 gdouble
 e_activity_get_percent (EActivity *activity)
 {
@@ -481,6 +594,17 @@ e_activity_get_percent (EActivity *activity)
 	return activity->priv->percent;
 }
 
+/**
+ * e_activity_set_percent:
+ * @activity: an #EActivity
+ * @percent: the percent complete, or a negative value if unknown
+ *
+ * Sets the percent complete for @activity.  The value should be between 0
+ * and 100, or negative if the percent complete is unknown.
+ *
+ * Generally widgets like #EActivityBar will display the percent complete by
+ * way of e_activity_describe(), but only if the value is between 0 and 100.
+ **/
 void
 e_activity_set_percent (EActivity *activity,
                         gdouble percent)
@@ -495,6 +619,19 @@ e_activity_set_percent (EActivity *activity,
 	g_object_notify (G_OBJECT (activity), "percent");
 }
 
+/**
+ * e_activity_get_state:
+ * @activity: an #EActivity
+ *
+ * Returns the state of @activity.
+ *
+ * Generally widgets like #EActivityBar will display the activity state by
+ * way of e_activity_describe() and possibly an icon.  The activity state is
+ * @E_ACTIVITY_RUNNING by default, and is usually only changed once when the
+ * associated operation is finished.
+ *
+ * Returns: an #EActivityState
+ **/
 EActivityState
 e_activity_get_state (EActivity *activity)
 {
@@ -503,6 +640,18 @@ e_activity_get_state (EActivity *activity)
 	return activity->priv->state;
 }
 
+/**
+ * e_activity_set_state:
+ * @activity: an #EActivity
+ * @state: an #EActivityState
+ *
+ * Sets the state of @activity.
+ *
+ * Generally widgets like #EActivityBar will display the activity state by
+ * way of e_activity_describe() and possibly an icon.  The activity state is
+ * @E_ACTIVITY_RUNNING by default, and is usually only changed once when the
+ * associated operation is finished.
+ **/
 void
 e_activity_set_state (EActivity *activity,
                       EActivityState state)
@@ -517,6 +666,17 @@ e_activity_set_state (EActivity *activity,
 	g_object_notify (G_OBJECT (activity), "state");
 }
 
+/**
+ * e_activity_get_text:
+ * @activity: an #EActivity
+ *
+ * Returns a message describing what @activity is doing.
+ *
+ * Generally widgets like #EActivityBar will display the message by way of
+ * e_activity_describe().
+ *
+ * Returns: a descriptive message
+ **/
 const gchar *
 e_activity_get_text (EActivity *activity)
 {
@@ -525,6 +685,16 @@ e_activity_get_text (EActivity *activity)
 	return activity->priv->text;
 }
 
+/**
+ * e_activity_set_text:
+ * @activity: an #EActivity
+ * @text: a descriptive message, or %NULL
+ *
+ * Sets (or clears) a message describing what @activity is doing.
+ *
+ * Generally widgets like #EActivityBar will display the message by way of
+ * e_activity_describe().
+ **/
 void
 e_activity_set_text (EActivity *activity,
                      const gchar *text)
@@ -540,6 +710,16 @@ e_activity_set_text (EActivity *activity,
 	g_object_notify (G_OBJECT (activity), "text");
 }
 
+/**
+ * e_activity_handle_cancellation:
+ * @activity: an #EActivity
+ * @error: a #GError, or %NULL
+ *
+ * Convenience function sets @activity's #EActivity:state to
+ * @E_ACTIVITY_CANCELLED if @error is @G_IO_ERROR_CANCELLED.
+ *
+ * Returns: %TRUE if @activity was set to @E_ACTIVITY_CANCELLED
+ **/
 gboolean
 e_activity_handle_cancellation (EActivity *activity,
                                 const GError *error)
