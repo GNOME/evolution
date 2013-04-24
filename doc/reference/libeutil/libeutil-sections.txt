@@ -28,6 +28,7 @@ EActionComboBoxPrivate
 <TITLE>EActivity</TITLE>
 EActivity
 e_activity_new
+e_activity_cancel
 e_activity_describe
 e_activity_get_alert_sink
 e_activity_set_alert_sink
