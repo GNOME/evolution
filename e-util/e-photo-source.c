@@ -25,7 +25,7 @@
  * #EPhotoCache.  You can add an object implementing #EPhotoSource to an
  * #EPhotoCache with e_photo_cache_add_photo_source() and remove it with
  * e_photo_cache_remove_photo_source().  When #EPhotoCache needs a photo
- * for an email addres, it will invoke e_photo_source_get_photo() on all
+ * for an email address it will invoke e_photo_source_get_photo() on all
  * available #EPhotoSource objects simultaneously and select one photo.
  **/
 
@@ -49,7 +49,7 @@ e_photo_source_default_init (EPhotoSourceInterface *interface)
  * @callback: a #GAsyncReadyCallback to call when the request is satisfied
  * @user_data: data to pass to the callback function
  *
- * Asynchronously searches for a photo or logo for @email_address.
+ * Asynchronously searches for a photo for @email_address.
  *
  * When the operation is finished, @callback will be called.  You can then
  * call e_photo_source_get_photo_finish() to get the result of the operation.
