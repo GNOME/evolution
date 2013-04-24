@@ -31,10 +31,6 @@
 #include "calendar/gui/e-calendar-selector.h"
 #include "calendar/gui/misc.h"
 
-#include "e-cal-shell-view.h"
-#include "e-cal-shell-backend.h"
-#include "e-cal-shell-content.h"
-
 #define E_CAL_SHELL_SIDEBAR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_CAL_SHELL_SIDEBAR, ECalShellSidebarPrivate))
