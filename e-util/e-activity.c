@@ -383,6 +383,33 @@ e_activity_new (void)
 }
 
 /**
+ * e_activity_cancel:
+ * @activity: an #EActivity
+ *
+ * Convenience function cancels @activity's #EActivity:cancellable.
+ *
+ * <para>
+ *   <note>
+ *     This function will not set @activity's #EActivity:state to
+ *     @E_ACTIVITY_CANCELLED.  It merely requests that the associated
+ *     operation be cancelled.  Only after the operation finishes with
+ *     a @G_IO_ERROR_CANCELLED should the @activity's #EActivity:state
+ *     be changed (see e_activity_handle_cancellation()).  During this
+ *     interim period e_activity_describe() will indicate the activity
+ *     is "cancelling".
+ *   </note>
+ * </para>
+ **/
+void
+e_activity_cancel (EActivity *activity)
+{
+	g_return_if_fail (E_IS_ACTIVITY (activity));
+
+	/* This function handles NULL gracefully. */
+	g_cancellable_cancel (activity->priv->cancellable);
+}
+
+/**
  * e_activity_describe:
  * @activity: an #EActivity
  *

@@ -70,6 +70,7 @@ struct _EActivityClass {
 
 GType		e_activity_get_type		(void) G_GNUC_CONST;
 EActivity *	e_activity_new			(void);
+void		e_activity_cancel		(EActivity *activity);
 gchar *		e_activity_describe		(EActivity *activity);
 EAlertSink *	e_activity_get_alert_sink	(EActivity *activity);
 void		e_activity_set_alert_sink	(EActivity *activity,

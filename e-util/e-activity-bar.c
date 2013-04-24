@@ -150,13 +150,11 @@ static void
 activity_bar_cancel (EActivityBar *bar)
 {
 	EActivity *activity;
-	GCancellable *cancellable;
 
 	activity = e_activity_bar_get_activity (bar);
 	g_return_if_fail (E_IS_ACTIVITY (activity));
 
-	cancellable = e_activity_get_cancellable (activity);
-	g_cancellable_cancel (cancellable);
+	e_activity_cancel (activity);
 
 	activity_bar_update (bar);
 }

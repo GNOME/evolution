@@ -619,14 +619,8 @@ e_shell_backend_cancel_all (EShellBackend *shell_backend)
 
 	list = g_queue_peek_head_link (shell_backend->priv->activities);
 
-	for (iter = list; iter != NULL; iter = g_list_next (iter)) {
-		EActivity *activity;
-		GCancellable *cancellable;
-
-		activity = E_ACTIVITY (iter->data);
-		cancellable = e_activity_get_cancellable (activity);
-		g_cancellable_cancel (cancellable);
-	}
+	for (iter = list; iter != NULL; iter = g_list_next (iter))
+		e_activity_cancel (E_ACTIVITY (iter->data));
 }
 
 /**

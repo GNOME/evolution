@@ -156,13 +156,11 @@ static void
 activity_proxy_cancel (EActivityProxy *proxy)
 {
 	EActivity *activity;
-	GCancellable *cancellable;
 
 	activity = e_activity_proxy_get_activity (proxy);
 	g_return_if_fail (E_IS_ACTIVITY (activity));
 
-	cancellable = e_activity_get_cancellable (activity);
-	g_cancellable_cancel (cancellable);
+	e_activity_cancel (activity);
 
 	activity_proxy_update (proxy);
 }
