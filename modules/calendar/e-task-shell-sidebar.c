@@ -32,10 +32,6 @@
 #include "calendar/gui/e-task-list-selector.h"
 #include "calendar/gui/misc.h"
 
-#include "e-task-shell-view.h"
-#include "e-task-shell-backend.h"
-#include "e-task-shell-content.h"
-
 #define E_TASK_SHELL_SIDEBAR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_TASK_SHELL_SIDEBAR, ETaskShellSidebarPrivate))
