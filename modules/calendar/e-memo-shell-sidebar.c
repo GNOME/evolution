@@ -32,10 +32,6 @@
 #include "calendar/gui/e-memo-list-selector.h"
 #include "calendar/gui/misc.h"
 
-#include "e-memo-shell-view.h"
-#include "e-memo-shell-backend.h"
-#include "e-memo-shell-content.h"
-
 #define E_MEMO_SHELL_SIDEBAR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MEMO_SHELL_SIDEBAR, EMemoShellSidebarPrivate))
