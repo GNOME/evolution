@@ -1620,12 +1620,8 @@ maint/Makefile
 modules/Makefile
 modules/addressbook/Makefile
 modules/audio-inline/Makefile
-modules/bogofilter/Makefile
-modules/calendar/Makefile
-modules/itip-formatter/Makefile
-modules/itip-formatter/plugin/Makefile
-modules/mail/Makefile
 modules/backup-restore/Makefile
+modules/bogofilter/Makefile
 modules/book-config-google/Makefile
 modules/book-config-ldap/Makefile
 modules/book-config-local/Makefile
@@ -1636,9 +1632,13 @@ modules/cal-config-google/Makefile
 modules/cal-config-local/Makefile
 modules/cal-config-weather/Makefile
 modules/cal-config-webcal/Makefile
+modules/calendar/Makefile
 modules/composer-autosave/Makefile
 modules/contact-photos/Makefile
+modules/itip-formatter/Makefile
+modules/itip-formatter/plugin/Makefile
 modules/mail-config/Makefile
+modules/mail/Makefile
 modules/mailto-handler/Makefile
 modules/mdn/Makefile
 modules/offline-alert/Makefile
