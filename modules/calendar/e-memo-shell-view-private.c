@@ -291,11 +291,6 @@ e_memo_shell_view_private_constructed (EMemoShellView *memo_shell_view)
 		memo_shell_view);
 
 	g_signal_connect_swapped (
-		memo_shell_sidebar, "status-message",
-		G_CALLBACK (e_memo_shell_view_set_status_message),
-		memo_shell_view);
-
-	g_signal_connect_swapped (
 		selector, "popup-event",
 		G_CALLBACK (memo_shell_view_selector_popup_event_cb),
 		memo_shell_view);
