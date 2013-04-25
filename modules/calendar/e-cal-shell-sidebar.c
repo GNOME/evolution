@@ -360,26 +360,20 @@ cal_shell_sidebar_restore_state_cb (EShellWindow *shell_window,
 {
 	ECalShellSidebarPrivate *priv;
 	EShell *shell;
-	EShellBackend *shell_backend;
 	EShellSettings *shell_settings;
 	ESourceRegistry *registry;
 	ESourceSelector *selector;
 	GSettings *settings;
 	GtkTreeModel *model;
-	GObject *object;
 
 	priv = E_CAL_SHELL_SIDEBAR_GET_PRIVATE (shell_sidebar);
 
 	shell = e_shell_window_get_shell (shell_window);
 	shell_settings = e_shell_get_shell_settings (shell);
 
-	shell_backend = e_shell_view_get_shell_backend (shell_view);
-	g_return_if_fail (E_IS_CAL_SHELL_BACKEND (shell_backend));
-
 	selector = E_SOURCE_SELECTOR (priv->selector);
+	registry = e_source_selector_get_registry (selector);
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (selector));
-
-	registry = e_shell_get_registry (shell);
 
 	g_signal_connect_swapped (
 		model, "row-changed",
@@ -391,6 +385,10 @@ cal_shell_sidebar_restore_state_cb (EShellWindow *shell_window,
 		G_CALLBACK (cal_shell_sidebar_primary_selection_changed_cb),
 		shell_sidebar);
 
+	/* Bind GObject properties to settings keys. */
+
+	settings = g_settings_new ("org.gnome.evolution.calendar");
+
 	g_object_bind_property_full (
 		shell_settings, "cal-primary-calendar",
 		selector, "primary-selection",
@@ -401,14 +399,12 @@ cal_shell_sidebar_restore_state_cb (EShellWindow *shell_window,
 		g_object_ref (registry),
 		(GDestroyNotify) g_object_unref);
 
-	/* Bind GObject properties to settings keys. */
+	g_settings_bind (
+		settings, "date-navigator-pane-position",
+		priv->paned, "vposition",
+		G_SETTINGS_BIND_DEFAULT);
 
-	settings = g_settings_new ("org.gnome.evolution.calendar");
-
-	object = G_OBJECT (priv->paned);
-	g_settings_bind (settings, "date-navigator-pane-position", object, "vposition", G_SETTINGS_BIND_DEFAULT);
-
-	g_object_unref (G_OBJECT (settings));
+	g_object_unref (settings);
 }
 
 static void
