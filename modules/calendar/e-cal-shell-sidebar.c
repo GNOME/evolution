@@ -54,12 +54,12 @@ struct _ECalShellSidebarPrivate {
 	/* Not referenced, only for pointer comparison. */
 	ESource *connecting_default_source_instance;
 
-	GCancellable *connecting_default_client;
-	GCancellable *loading_clients;
+	EActivity *connecting_default_client;
 };
 
 struct _ConnectClosure {
 	ECalShellSidebar *cal_shell_sidebar;
+	EActivity *activity;
 
 	/* For error messages. */
 	gchar *unique_display_name;
@@ -91,17 +91,45 @@ connect_closure_new (ECalShellSidebar *cal_shell_sidebar,
                      ESource *source)
 {
 	ConnectClosure *closure;
+	EAlertSink *alert_sink;
+	GCancellable *cancellable;
 	ESourceRegistry *registry;
 	ESourceSelector *selector;
+	EShellView *shell_view;
+	EShellBackend *shell_backend;
+	EShellContent *shell_content;
+	EShellSidebar *shell_sidebar;
+	gchar *text;
+
+	shell_sidebar = E_SHELL_SIDEBAR (cal_shell_sidebar);
+	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	shell_content = e_shell_view_get_shell_content (shell_view);
 
 	selector = e_cal_shell_sidebar_get_selector (cal_shell_sidebar);
 	registry = e_source_selector_get_registry (selector);
 
 	closure = g_slice_new0 (ConnectClosure);
 	closure->cal_shell_sidebar = g_object_ref (cal_shell_sidebar);
+	closure->activity = e_activity_new ();
 	closure->unique_display_name =
 		e_source_registry_dup_unique_display_name (
 		registry, source, E_SOURCE_EXTENSION_CALENDAR);
+
+	text = g_strdup_printf (
+		_("Opening calendar '%s'"),
+		closure->unique_display_name);
+	e_activity_set_text (closure->activity, text);
+	g_free (text);
+
+	alert_sink = E_ALERT_SINK (shell_content);
+	e_activity_set_alert_sink (closure->activity, alert_sink);
+
+	cancellable = g_cancellable_new ();
+	e_activity_set_cancellable (closure->activity, cancellable);
+	g_object_unref (cancellable);
+
+	e_shell_backend_add_activity (shell_backend, closure->activity);
 
 	return closure;
 }
@@ -109,7 +137,8 @@ connect_closure_new (ECalShellSidebar *cal_shell_sidebar,
 static void
 connect_closure_free (ConnectClosure *closure)
 {
-	g_object_unref (closure->cal_shell_sidebar);
+	g_clear_object (&closure->cal_shell_sidebar);
+	g_clear_object (&closure->activity);
 
 	g_free (closure->unique_display_name);
 
@@ -184,19 +213,15 @@ cal_shell_sidebar_emit_status_message (ECalShellSidebar *cal_shell_sidebar,
 }
 
 static void
-cal_shell_sidebar_handle_connect_error (ECalShellSidebar *cal_shell_sidebar,
+cal_shell_sidebar_handle_connect_error (EActivity *activity,
                                         const gchar *unique_display_name,
                                         const GError *error)
 {
-	EShellView *shell_view;
-	EShellContent *shell_content;
-	EShellSidebar *shell_sidebar;
+	EAlertSink *alert_sink;
 	gboolean cancelled = FALSE;
 	gboolean offline_error;
 
-	shell_sidebar = E_SHELL_SIDEBAR (cal_shell_sidebar);
-	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
-	shell_content = e_shell_view_get_shell_content (shell_view);
+	alert_sink = e_activity_get_alert_sink (activity);
 
 	cancelled |= g_error_matches (
 		error, G_IO_ERROR, G_IO_ERROR_CANCELLED);
@@ -206,17 +231,17 @@ cal_shell_sidebar_handle_connect_error (ECalShellSidebar *cal_shell_sidebar,
 	offline_error = g_error_matches (
 		error, E_CLIENT_ERROR, E_CLIENT_ERROR_REPOSITORY_OFFLINE);
 
-	if (cancelled) {
+	if (e_activity_handle_cancellation (activity, error)) {
 		/* do nothing */
 	} else if (offline_error) {
 		e_alert_submit (
-			E_ALERT_SINK (shell_content),
+			alert_sink,
 			"calendar:prompt-no-contents-offline-calendar",
 			unique_display_name,
 			NULL);
 	} else {
 		e_alert_submit (
-			E_ALERT_SINK (shell_content),
+			alert_sink,
 			"calendar:failed-open-calendar",
 			unique_display_name,
 			error->message,
@@ -243,12 +268,14 @@ cal_shell_sidebar_client_connect_cb (GObject *source_object,
 
 	if (error != NULL) {
 		cal_shell_sidebar_handle_connect_error (
-			closure->cal_shell_sidebar,
+			closure->activity,
 			closure->unique_display_name,
 			error);
 		g_error_free (error);
 		goto exit;
 	}
+
+	e_activity_set_state (closure->activity, E_ACTIVITY_COMPLETED);
 
 	e_cal_shell_sidebar_add_client (closure->cal_shell_sidebar, client);
 
@@ -279,19 +306,18 @@ cal_shell_sidebar_default_connect_cb (GObject *source_object,
 		((client != NULL) && (error == NULL)) ||
 		((client == NULL) && (error != NULL)));
 
-	if (priv->connecting_default_client != NULL) {
-		g_object_unref (priv->connecting_default_client);
-		priv->connecting_default_client = NULL;
-	}
+	g_clear_object (&priv->connecting_default_client);
 
 	if (error != NULL) {
 		cal_shell_sidebar_handle_connect_error (
-			closure->cal_shell_sidebar,
+			closure->activity,
 			closure->unique_display_name,
 			error);
 		g_error_free (error);
 		goto exit;
 	}
+
+	e_activity_set_state (closure->activity, E_ACTIVITY_COMPLETED);
 
 	source = e_client_get_source (client);
 
@@ -318,6 +344,7 @@ cal_shell_sidebar_set_default (ECalShellSidebar *cal_shell_sidebar,
 {
 	ECalShellSidebarPrivate *priv;
 	ESourceSelector *selector;
+	ConnectClosure *closure;
 
 	priv = cal_shell_sidebar->priv;
 
@@ -327,22 +354,23 @@ cal_shell_sidebar_set_default (ECalShellSidebar *cal_shell_sidebar,
 	if (source == priv->connecting_default_source_instance)
 		return;
 
-	/* Cancel any unfinished previous request. */
+	/* Cancel the previous request if unfinished. */
 	if (priv->connecting_default_client != NULL) {
-		g_cancellable_cancel (priv->connecting_default_client);
+		e_activity_cancel (priv->connecting_default_client);
 		g_object_unref (priv->connecting_default_client);
 		priv->connecting_default_client = NULL;
 	}
 
+	closure = connect_closure_new (cal_shell_sidebar, source);
+
 	/* it's only for pointer comparison, no need to ref it */
 	priv->connecting_default_source_instance = source;
-	priv->connecting_default_client = g_cancellable_new ();
+	priv->connecting_default_client = g_object_ref (closure->activity);
 
 	e_client_selector_get_client (
 		E_CLIENT_SELECTOR (selector), source,
-		priv->connecting_default_client,
-		cal_shell_sidebar_default_connect_cb,
-		connect_closure_new (cal_shell_sidebar, source));
+		e_activity_get_cancellable (closure->activity),
+		cal_shell_sidebar_default_connect_cb, closure);
 }
 
 static void
@@ -496,15 +524,9 @@ cal_shell_sidebar_dispose (GObject *object)
 	}
 
 	if (priv->connecting_default_client != NULL) {
-		g_cancellable_cancel (priv->connecting_default_client);
+		e_activity_cancel (priv->connecting_default_client);
 		g_object_unref (priv->connecting_default_client);
 		priv->connecting_default_client = NULL;
-	}
-
-	if (priv->loading_clients != NULL) {
-		g_cancellable_cancel (priv->loading_clients);
-		g_object_unref (priv->loading_clients);
-		priv->loading_clients = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -669,8 +691,6 @@ cal_shell_sidebar_client_removed (ECalShellSidebar *cal_shell_sidebar,
 
 	selector = e_cal_shell_sidebar_get_selector (cal_shell_sidebar);
 	e_source_selector_unselect_source (selector, source);
-
-	cal_shell_sidebar_emit_status_message (cal_shell_sidebar, NULL);
 }
 
 static void
@@ -763,8 +783,6 @@ e_cal_shell_sidebar_init (ECalShellSidebar *cal_shell_sidebar)
 	cal_shell_sidebar->priv =
 		E_CAL_SHELL_SIDEBAR_GET_PRIVATE (cal_shell_sidebar);
 
-	cal_shell_sidebar->priv->loading_clients = g_cancellable_new ();
-
 	/* Postpone widget construction until we have a shell view. */
 }
 
@@ -836,33 +854,22 @@ void
 e_cal_shell_sidebar_add_source (ECalShellSidebar *cal_shell_sidebar,
                                 ESource *source)
 {
-	ESourceRegistry *registry;
 	ESourceSelector *selector;
-	gchar *display_name;
-	gchar *message;
+	ConnectClosure *closure;
 
 	g_return_if_fail (E_IS_CAL_SHELL_SIDEBAR (cal_shell_sidebar));
 	g_return_if_fail (E_IS_SOURCE (source));
 
 	selector = e_cal_shell_sidebar_get_selector (cal_shell_sidebar);
-	registry = e_source_selector_get_registry (selector);
 
 	e_source_selector_select_source (selector, source);
 
-	display_name = e_source_registry_dup_unique_display_name (
-		registry, source, E_SOURCE_EXTENSION_CALENDAR);
-
-	message = g_strdup_printf (_("Opening calendar '%s'"), display_name);
-	cal_shell_sidebar_emit_status_message (cal_shell_sidebar, message);
-	g_free (message);
-
-	g_free (display_name);
+	closure = connect_closure_new (cal_shell_sidebar, source);
 
 	e_client_selector_get_client (
 		E_CLIENT_SELECTOR (selector), source,
-		cal_shell_sidebar->priv->loading_clients,
-		cal_shell_sidebar_client_connect_cb,
-		connect_closure_new (cal_shell_sidebar, source));
+		e_activity_get_cancellable (closure->activity),
+		cal_shell_sidebar_client_connect_cb, closure);
 }
 
 void
