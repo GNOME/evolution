@@ -357,7 +357,6 @@ memo_shell_sidebar_restore_state_cb (EShellWindow *shell_window,
 {
 	EMemoShellSidebarPrivate *priv;
 	EShell *shell;
-	EShellBackend *shell_backend;
 	EShellSettings *shell_settings;
 	ESourceRegistry *registry;
 	ESourceSelector *selector;
@@ -368,13 +367,9 @@ memo_shell_sidebar_restore_state_cb (EShellWindow *shell_window,
 	shell = e_shell_window_get_shell (shell_window);
 	shell_settings = e_shell_get_shell_settings (shell);
 
-	shell_backend = e_shell_view_get_shell_backend (shell_view);
-	g_return_if_fail (E_IS_MEMO_SHELL_BACKEND (shell_backend));
-
 	selector = E_SOURCE_SELECTOR (priv->selector);
+	registry = e_source_selector_get_registry (selector);
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (selector));
-
-	registry = e_shell_get_registry (shell);
 
 	g_signal_connect_swapped (
 		model, "row-changed",
@@ -385,6 +380,8 @@ memo_shell_sidebar_restore_state_cb (EShellWindow *shell_window,
 		selector, "primary-selection-changed",
 		G_CALLBACK (memo_shell_sidebar_primary_selection_changed_cb),
 		shell_sidebar);
+
+	/* Bind GObject properties to settings keys. */
 
 	g_object_bind_property_full (
 		shell_settings, "cal-primary-memo-list",
