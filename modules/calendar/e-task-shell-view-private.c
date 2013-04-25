@@ -348,11 +348,6 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 		task_shell_view, G_CONNECT_SWAPPED);
 
 	g_signal_connect_object (
-		task_shell_sidebar, "status-message",
-		G_CALLBACK (e_task_shell_view_set_status_message),
-		task_shell_view, G_CONNECT_SWAPPED);
-
-	g_signal_connect_object (
 		selector, "popup-event",
 		G_CALLBACK (task_shell_view_selector_popup_event_cb),
 		task_shell_view, G_CONNECT_SWAPPED);

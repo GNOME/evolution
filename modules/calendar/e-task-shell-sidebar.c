@@ -73,7 +73,6 @@ enum {
 enum {
 	CLIENT_ADDED,
 	CLIENT_REMOVED,
-	STATUS_MESSAGE,
 	LAST_SIGNAL
 };
 
@@ -159,15 +158,6 @@ task_shell_sidebar_emit_client_removed (ETaskShellSidebar *task_shell_sidebar,
 	guint signal_id = signals[CLIENT_REMOVED];
 
 	g_signal_emit (task_shell_sidebar, signal_id, 0, client);
-}
-
-static void
-task_shell_sidebar_emit_status_message (ETaskShellSidebar *task_shell_sidebar,
-                                        const gchar *status_message)
-{
-	guint signal_id = signals[STATUS_MESSAGE];
-
-	g_signal_emit (task_shell_sidebar, signal_id, 0, status_message, -1.0);
 }
 
 static void
@@ -661,17 +651,6 @@ e_task_shell_sidebar_class_init (ETaskShellSidebarClass *class)
 		g_cclosure_marshal_VOID__OBJECT,
 		G_TYPE_NONE, 1,
 		E_TYPE_CAL_CLIENT);
-
-	signals[STATUS_MESSAGE] = g_signal_new (
-		"status-message",
-		G_OBJECT_CLASS_TYPE (object_class),
-		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
-		G_STRUCT_OFFSET (ETaskShellSidebarClass, status_message),
-		NULL, NULL,
-		e_marshal_VOID__STRING_DOUBLE,
-		G_TYPE_NONE, 2,
-		G_TYPE_STRING,
-		G_TYPE_DOUBLE);
 }
 
 static void
