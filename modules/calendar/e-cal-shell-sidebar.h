@@ -76,9 +76,6 @@ struct _ECalShellSidebarClass {
 	void		(*client_removed)
 					(ECalShellSidebar *cal_shell_sidebar,
 					 ECalClient *client);
-	void		(*status_message)
-					(ECalShellSidebar *cal_shell_sidebar,
-					 const gchar *status_message);
 };
 
 GType		e_cal_shell_sidebar_get_type	(void);
