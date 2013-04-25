@@ -43,6 +43,7 @@ SUBDIRS = \
 	cal-config-webcal \
 	composer-autosave \
 	contact-photos \
+	gravatar \
 	itip-formatter \
 	mail-config \
 	mailto-handler \

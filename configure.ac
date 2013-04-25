@@ -1635,6 +1635,7 @@ modules/cal-config-webcal/Makefile
 modules/calendar/Makefile
 modules/composer-autosave/Makefile
 modules/contact-photos/Makefile
+modules/gravatar/Makefile
 modules/itip-formatter/Makefile
 modules/itip-formatter/plugin/Makefile
 modules/mail-config/Makefile
