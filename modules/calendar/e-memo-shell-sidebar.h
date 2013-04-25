@@ -76,10 +76,6 @@ struct _EMemoShellSidebarClass {
 	void		(*client_removed)
 					(EMemoShellSidebar *memo_shell_sidebar,
 					 ECalClient *client);
-	void		(*status_message)
-					(EMemoShellSidebar *memo_shell_sidebar,
-					 const gchar *status_message,
-					 gdouble percent);
 };
 
 GType		e_memo_shell_sidebar_get_type	(void);
