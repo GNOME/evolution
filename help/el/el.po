@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: el\n"
-"POT-Creation-Date: 2013-02-25 15:13+0000\n"
-"PO-Revision-Date: 2013-03-03 09:45+0300\n"
+"POT-Creation-Date: 2013-04-22 06:48+0000\n"
+"PO-Revision-Date: 2013-04-26 12:08+0300\n"
 "Last-Translator: Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>\n"
 "Language-Team: team@gnome.gr\n"
 "Language: el\n"
@@ -52,17 +52,7 @@ msgstr ""
 #. the file changes, the md5 hash will change to let you know you need to
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
-#.
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
-#.
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
-#: C/index.page:6(media) C/index.page:24(media)
+#: C/index.page:6(media)
 msgctxt "_"
 msgid ""
 "external ref='figures/evolutionlogo.png' "
@@ -132,8 +122,7 @@ msgstr "Αλληλογραφία και ημερολόγιο του evolution"
 #: C/exporting-data-calendar.page:15(license/p)
 #: C/exporting-data-contacts.page:18(license/p)
 #: C/exporting-data-mail.page:15(license/p)
-#: C/exporting-data.page:15(license/p) C/express-mode.page:15(license/p)
-#: C/google-services.page:13(license/p)
+#: C/exporting-data.page:15(license/p) C/google-services.page:13(license/p)
 #: C/import-apps-mozilla.page:15(license/p)
 #: C/import-apps-outlook.page:18(license/p) C/import-data.page:15(license/p)
 #: C/import-single-files.page:15(license/p)
@@ -163,9 +152,9 @@ msgstr "Αλληλογραφία και ημερολόγιο του evolution"
 #: C/mail-change-time-format.page:14(license/p)
 #: C/mail-composer-change-quotation-string.page:19(license/p)
 #: C/mail-composer-custom-header-lines.page:18(license/p)
-#: C/mail-composer-forward-as-attachment.page:16(license/p)
 #: C/mail-composer-enable-html-format.page:17(license/p)
 #: C/mail-composer-forward.page:18(license/p)
+#: C/mail-composer-forward-as-attachment.page:16(license/p)
 #: C/mail-composer-html-image.page:17(license/p)
 #: C/mail-composer-html-link.page:17(license/p)
 #: C/mail-composer-html.page:14(license/p)
@@ -174,7 +163,7 @@ msgstr "Αλληλογραφία και ημερολόγιο του evolution"
 #: C/mail-composer-html-text.page:17(license/p)
 #: C/mail-composer-mail-signatures-manage.page:15(license/p)
 #: C/mail-composer-mail-signatures.page:15(license/p)
-#: C/mail-composer-mail-signatures-per-account.page:25(license/p)
+#: C/mail-composer-mail-signatures-per-account.page:24(license/p)
 #: C/mail-composer-message-templates.page:18(license/p)
 #: C/mail-composer-message-templates-reply.page:18(license/p)
 #: C/mail-composer-message-templates-save.page:18(license/p)
@@ -191,9 +180,8 @@ msgstr "Αλληλογραφία και ημερολόγιο του evolution"
 #: C/mail-delete-and-undelete.page:20(license/p)
 #: C/mail-displaying-character-encodings.page:16(license/p)
 #: C/mail-displaying-collapsible-headers.page:18(license/p)
-#: C/mail-displaying-images-in-html.page:23(license/p)
+#: C/mail-displaying-images-in-html.page:22(license/p)
 #: C/mail-displaying-message.page:15(license/p)
-#: C/mail-displaying-no-css.page:16(license/p)
 #: C/mail-displaying-sender-photograph.page:18(license/p)
 #: C/mail-display-message-source.page:15(license/p)
 #: C/mail-duplicates.page:19(license/p)
@@ -202,7 +190,7 @@ msgstr "Αλληλογραφία και ημερολόγιο του evolution"
 #: C/mail-encryption-gpg-getting-keys.page:18(license/p)
 #: C/mail-encryption-gpg-set-up.page:18(license/p)
 #: C/mail-encryption-gpg-signing-encrypting.page:18(license/p)
-#: C/mail-encryption.page:26(license/p)
+#: C/mail-encryption.page:25(license/p)
 #: C/mail-encryption-s-mime-manage.page:18(license/p)
 #: C/mail-encryption-s-mime-signing-encrypting.page:18(license/p)
 #: C/mail-filters-actions.page:18(license/p)
@@ -220,7 +208,6 @@ msgstr "Αλληλογραφία και ημερολόγιο του evolution"
 #: C/mail-received-notification.page:15(license/p)
 #: C/mail-receiving-options-exchange-ews.page:15(license/p)
 #: C/mail-receiving-options-exchange-mapi.page:15(license/p)
-#: C/mail-receiving-options-imap.page:17(license/p)
 #: C/mail-receiving-options-imap-plus.page:18(license/p)
 #: C/mail-receiving-options-local-delivery.page:15(license/p)
 #: C/mail-receiving-options-maildir-format-directories.page:15(license/p)
@@ -274,13 +261,16 @@ msgstr "Αλληλογραφία και ημερολόγιο του evolution"
 msgid "Creative Commons Share Alike 3.0"
 msgstr "Creative Commons Share Alike 3.0"
 
+#: C/index.page:25(media/span)
+#| msgid "Evolution"
+msgid "Evolution logo"
+msgstr "Λογότυπος Evolution"
+
 #: C/index.page:23(page/title)
-msgid ""
-"<media type=\"image\" src=\"figures/evolutionlogo.png\"> Evolution logo </"
-"media> Evolution Mail and Calendar"
-msgstr ""
-"<media type=\"image\" src=\"figures/evolutionlogo.png\"> λογότυπος Evolution "
-"</media> Αλληλογραφία και ημερολόγιο του Evolution"
+#| msgctxt "text"
+#| msgid "Evolution Mail and Calendar"
+msgid "<_:media-1/> Evolution Mail and Calendar"
+msgstr "<_:media-1/> Αλληλογραφία και ημερολόγιο του evolution"
 
 #: C/index.page:31(section/title) C/intro-application.page:24(page/title)
 msgid "Getting Started"
@@ -748,10 +738,10 @@ msgstr ""
 "εξυπηρετητές Novell GroupWise ή Microsoft Exchange όπως κι εσείς (δηλαδή αν "
 "είναι στον ίδιο οργανισμό όπως κι εσείς), ή αν δημοσιεύουν πληροφορίες "
 "διαθεσιμότητας σε ένα URL στο οποίο έχετε πρόσβαση, και το οποίο έχετε "
-"εισάγει στην διεύθυνση ιστού για την συγκεκριμένη επαφή στον <link xref"
-"=\"contacts-usage-edit-contact\">Επεξεργαστή επαφής</link> στο "
-"<guiseq><gui>Προσωπικές πληροφορίες</gui><gui>Διευθύνσεις "
-"ιστού</gui><gui>Διαθεσιμότητα</gui></guiseq>."
+"εισάγει στην διεύθυνση ιστού για την συγκεκριμένη επαφή στον <link xref="
+"\"contacts-usage-edit-contact\">Επεξεργαστή επαφής</link> στο "
+"<guiseq><gui>Προσωπικές πληροφορίες</gui><gui>Διευθύνσεις ιστού</"
+"gui><gui>Διαθεσιμότητα</gui></guiseq>."
 
 #: C/calendar-free-busy.page:42(page/p) C/calendar-publishing.page:29(page/p)
 msgid ""
@@ -921,10 +911,6 @@ msgstr ""
 
 #: C/calendar-layout-appointment-display.page:50(section/p)
 #: C/mail-change-time-format.page:21(page/p)
-#| msgid ""
-#| "The placeholders in the format expression are strftime formats. For a "
-#| "complete list of available strftime formats, run <cmd>date --help</cmd> "
-#| "in a terminal window."
 msgid ""
 "The placeholders in the format expression are strftime formats. For a "
 "complete list of available strftime formats, run <cmd>date --help</cmd> in "
@@ -1530,7 +1516,7 @@ msgstr ""
 #. the file changes, the md5 hash will change to let you know you need to
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
-#: C/calendar-searching.page:34(media) C/contacts-searching.page:43(media)
+#: C/calendar-searching.page:34(media) C/contacts-searching.page:42(media)
 #: C/mail-searching.page:42(media) C/memos-searching.page:43(media)
 #: C/tasks-searching.page:43(media)
 msgctxt "_"
@@ -1548,7 +1534,7 @@ msgid "Searching for Calendar Items"
 msgstr "Αναζήτηση για στοιχεία ημερολογίου"
 
 #: C/calendar-searching.page:30(section/title)
-#: C/contacts-searching.page:39(section/title)
+#: C/contacts-searching.page:38(section/title)
 #: C/mail-searching.page:39(section/title)
 #: C/memos-searching.page:39(section/title)
 #: C/tasks-searching.page:39(section/title)
@@ -1568,7 +1554,7 @@ msgstr ""
 msgid "Searching by summary:"
 msgstr "Αναζήτηση ανά περίληψη:"
 
-#: C/calendar-searching.page:34(item/p) C/contacts-searching.page:43(item/p)
+#: C/calendar-searching.page:34(item/p) C/contacts-searching.page:42(item/p)
 #: C/memos-searching.page:43(item/p) C/tasks-searching.page:43(item/p)
 msgid ""
 "Click the search icon <media type=\"image\" mime=\"image/png\" src=\"figures/"
@@ -1577,20 +1563,20 @@ msgstr ""
 "Κλικ στο εικονίδιο αναζήτησης <media type=\"image\" mime=\"image/png\" src="
 "\"figures/search-icon.png\"/> για να επεκτείνετε την πτυσσόμενη λίστα."
 
-#: C/calendar-searching.page:35(item/p) C/contacts-searching.page:44(item/p)
+#: C/calendar-searching.page:35(item/p) C/contacts-searching.page:43(item/p)
 #: C/mail-searching.page:43(item/p) C/memos-searching.page:44(item/p)
 #: C/tasks-searching.page:44(item/p)
 msgid "Select the search condition from the list."
 msgstr "Επιλέξτε τα κριτήρια αναζήτησης από τη λίστα."
 
-#: C/calendar-searching.page:36(item/p) C/contacts-searching.page:45(item/p)
+#: C/calendar-searching.page:36(item/p) C/contacts-searching.page:44(item/p)
 #: C/mail-searching.page:47(item/p) C/memos-searching.page:45(item/p)
 #: C/tasks-searching.page:45(item/p)
 msgid "Enter the text you want to search for and press <key>Enter</key>."
 msgstr "Εισάγετε το επιθυμητό κείμενο αναζήτησης και πιέστε <key>Enter</key>."
 
 #: C/calendar-searching.page:37(item/p) C/calendar-searching.page:43(item/p)
-#: C/contacts-searching.page:46(item/p) C/contacts-searching.page:52(item/p)
+#: C/contacts-searching.page:45(item/p) C/contacts-searching.page:51(item/p)
 #: C/mail-searching.page:48(item/p) C/memos-searching.page:46(item/p)
 #: C/memos-searching.page:52(item/p) C/tasks-searching.page:46(item/p)
 #: C/tasks-searching.page:52(item/p)
@@ -1598,17 +1584,17 @@ msgid "Evolution displays the search results."
 msgstr "Το Evolution εμφανίζει τα αποτελέσματα αναζήτησης."
 
 #: C/calendar-searching.page:39(section/p)
-#: C/contacts-searching.page:48(section/p)
+#: C/contacts-searching.page:47(section/p)
 #: C/memos-searching.page:48(section/p) C/tasks-searching.page:48(section/p)
 msgid "Searching by category:"
 msgstr "Αναζήτηση ανά κατηγορία:"
 
-#: C/calendar-searching.page:41(item/p) C/contacts-searching.page:50(item/p)
+#: C/calendar-searching.page:41(item/p) C/contacts-searching.page:49(item/p)
 #: C/memos-searching.page:50(item/p) C/tasks-searching.page:50(item/p)
 msgid "Click the <gui>Show</gui> drop-down list."
 msgstr "Κλικ στην πτυσσόμενη λίστα <gui>προβολή</gui>."
 
-#: C/calendar-searching.page:42(item/p) C/contacts-searching.page:51(item/p)
+#: C/calendar-searching.page:42(item/p) C/contacts-searching.page:50(item/p)
 #: C/memos-searching.page:51(item/p) C/tasks-searching.page:51(item/p)
 msgid "Select the category from the list."
 msgstr "Επιλέξτε την κατηγορία από τη λίστα."
@@ -1626,7 +1612,7 @@ msgstr ""
 "κατεύθυνση, σε ένα εύρος 10 ετών από προεπιλογή."
 
 #: C/calendar-searching.page:48(section/p)
-#: C/contacts-searching.page:54(section/p) C/mail-searching.page:52(section/p)
+#: C/contacts-searching.page:53(section/p) C/mail-searching.page:52(section/p)
 #: C/memos-searching.page:54(section/p) C/tasks-searching.page:54(section/p)
 msgid ""
 "If you want to set several search conditions, you should use an Advanced "
@@ -1634,153 +1620,6 @@ msgid ""
 msgstr ""
 "Εάν θέλετε να ορίσετε αρκετά κριτήρια αναζήτησης, θα πρέπει να "
 "χρησιμοποιήσετε μια προχωρημένη αναζήτηση, που περιγράφεται παρακάτω."
-
-#: C/calendar-searching.page:52(section/title)
-#: C/contacts-searching.page:58(section/title)
-#: C/memos-searching.page:58(section/title)
-#: C/tasks-searching.page:58(section/title)
-msgid "Advanced Search"
-msgstr "Προχωρημένη αναζήτηση"
-
-#: C/calendar-searching.page:54(item/p) C/contacts-searching.page:60(item/p)
-#: C/mail-searching.page:58(item/p) C/memos-searching.page:60(item/p)
-#: C/tasks-searching.page:60(item/p)
-msgid ""
-"Select the <guiseq><gui>Search</gui><gui>Advanced Search</gui></guiseq> menu "
-"to open the dialog box."
-msgstr ""
-"Επιλέξτε το μενού <guiseq><gui>αναζήτηση</gui><gui>προχωρημένη αναζήτηση</"
-"gui></guiseq> για άνοιγμα του πλαισίου διαλόγου."
-
-#: C/calendar-searching.page:55(item/p) C/contacts-searching.page:61(item/p)
-#: C/mail-searching.page:59(item/p) C/memos-searching.page:61(item/p)
-#: C/tasks-searching.page:61(item/p)
-msgid ""
-"Click <gui style=\"button\">Add Condition</gui> to add any number of rules."
-msgstr ""
-"Κλικ στο <gui style=\"button\">προσθήκη κριτηρίου</gui> για προσθήκη "
-"οποιουδήποτε αριθμού κανόνων."
-
-#: C/calendar-searching.page:56(item/p) C/contacts-searching.page:62(item/p)
-#: C/mail-searching.page:60(item/p) C/memos-searching.page:62(item/p)
-#: C/tasks-searching.page:62(item/p)
-msgid ""
-"Select the condition from the dropdown list, and then type a search entry in "
-"the field."
-msgstr ""
-"Επιλέξτε το κριτήριο από την πτυσσόμενη λίστα και μετά πληκτρολογήστε μια "
-"καταχώριση αναζήτησης στο πεδίο."
-
-#: C/calendar-searching.page:57(item/p) C/contacts-searching.page:63(item/p)
-#: C/mail-searching.page:61(item/p) C/memos-searching.page:63(item/p)
-#: C/tasks-searching.page:63(item/p)
-msgid ""
-"Click <gui style=\"button\">OK</gui> to get the search results displayed."
-msgstr ""
-"Κλικ στο <gui style=\"button\">εντάξει</gui> για λήψη των εμφανιζόμενων "
-"αποτελεσμάτων αναζήτησης."
-
-#: C/calendar-searching.page:63(section/title)
-#: C/contacts-searching.page:69(section/title)
-#: C/mail-searching.page:67(section/title)
-#: C/memos-searching.page:69(section/title)
-#: C/tasks-searching.page:69(section/title)
-msgid "Clearing the Search results"
-msgstr "Εκκαθάριση των αποτελεσμάτων αναζήτησης"
-
-#: C/calendar-searching.page:64(section/p)
-#: C/contacts-searching.page:70(section/p) C/mail-searching.page:68(section/p)
-#: C/memos-searching.page:70(section/p) C/tasks-searching.page:70(section/p)
-msgid ""
-"To clear your search view and get back to the default view, click the "
-"<gui>Clear</gui> icon in the search string field, or choose "
-"<guiseq><gui>Search</gui><gui>Clear</gui></guiseq> from the menubar. You can "
-"also press <keyseq><key>Shift</key><key>Ctrl</key><key>Q</key></keyseq> to "
-"clear the search."
-msgstr ""
-"Για να καθαρίσετε την προβολή αναζήτησης και να επιστρέψετε στην "
-"προεπιλεγμένη προβολή, κλικ στο εικονίδιο <gui>καθαρισμός</gui> στο πεδίο "
-"αναζήτησης συμβολοσειράς, ή επιλέξτε <guiseq><gui>αναζήτηση</"
-"gui><gui>καθαρισμός</gui></guiseq> από τη γραμμή μενού. Μπορείτε επίσης να "
-"πατήσετε το <keyseq><key>Shift</key><key>Ctrl</key><key>Q</key></keyseq> για "
-"καθαρισμό της αναζήτησης."
-
-#: C/calendar-searching.page:68(section/title)
-#: C/contacts-searching.page:74(section/title)
-#: C/mail-searching.page:72(section/title)
-#: C/memos-searching.page:74(section/title)
-#: C/tasks-searching.page:74(section/title)
-msgid "Saved Searches"
-msgstr "Αποθηκευμένες αναζητήσεις"
-
-#: C/calendar-searching.page:69(section/p)
-#: C/contacts-searching.page:75(section/p) C/mail-searching.page:73(section/p)
-#: C/memos-searching.page:75(section/p) C/tasks-searching.page:75(section/p)
-msgid ""
-"If you search for something rather often, you will prefer not to type it "
-"many times. In this case you can use saved searches."
-msgstr ""
-"Εάν αναζητάτε κάτι μάλλον συχνά, θα προτιμάτε να μην το πληκτρολογείτε "
-"πολλές φορές. Σε αυτήν την περίπτωση, μπορείτε να χρησιμοποιήσετε τις "
-"αποθηκευμένες αναζητήσεις."
-
-#: C/calendar-searching.page:70(section/p)
-#: C/contacts-searching.page:76(section/p) C/mail-searching.page:74(section/p)
-#: C/memos-searching.page:76(section/p) C/tasks-searching.page:76(section/p)
-msgid ""
-"To save your search results, either click <gui>Save</gui> instead of "
-"<gui>OK</gui> in the Search dialog, or in case the search results are "
-"already displayed, select <guiseq><gui>Search</gui><gui>Save Search</gui></"
-"guiseq>. From now on this search will be directly available from the "
-"<gui>Search</gui> menu."
-msgstr ""
-"Για αποθήκευση των αποτελεσμάτων αναζήτησης, κλικ είτε στο <gui>αποθήκευση</"
-"gui> αντί για <gui>εντάξει</gui> στο διάλογο αναζήτησης, ή στην περίπτωση "
-"που τα αποτελέσματα αναζήτησης εμφανίζονται ήδη, επιλέξτε "
-"<guiseq><gui>αναζήτηση</gui><gui>αποθήκευση αναζήτησης</gui></guiseq>. Από "
-"τώρα αυτή η αναζήτηση θα είναι άμεσα διαθέσιμη από το μενού <gui>αναζήτηση</"
-"gui>."
-
-#: C/calendar-searching.page:74(section/title)
-#: C/contacts-searching.page:80(section/title)
-#: C/mail-searching.page:78(section/title)
-#: C/memos-searching.page:80(section/title)
-#: C/tasks-searching.page:80(section/title)
-msgid "Editing a Saved Search"
-msgstr "Επεξεργασία αποθηκευμένης αναζήτησης"
-
-#: C/calendar-searching.page:76(item/p) C/contacts-searching.page:82(item/p)
-#: C/mail-searching.page:80(item/p) C/memos-searching.page:82(item/p)
-#: C/tasks-searching.page:82(item/p)
-msgid ""
-"Select <guiseq><gui>Search</gui><gui>Edit Saved Searches</gui></guiseq> from "
-"the menu bar to open the window."
-msgstr ""
-"Επιλέξτε <guiseq><gui>αναζήτηση</gui><gui>επεξεργασία αποθηκευμένων "
-"αναζητήσεων</gui></guiseq> από τη γραμμή μενού για το άνοιγμα παραθύρου."
-
-#: C/calendar-searching.page:77(item/p) C/contacts-searching.page:83(item/p)
-#: C/mail-searching.page:81(item/p) C/memos-searching.page:83(item/p)
-#: C/tasks-searching.page:83(item/p)
-msgid ""
-"Click the <gui style=\"button\">Edit</gui> button to open the <gui>Edit "
-"Rule</gui> window."
-msgstr ""
-"Κλικ στο κουμπί <gui style=\"button\">επεξεργασία</gui> για άνοιγμα του "
-"παραθύρου <gui>επεξεργασία κανόνα</gui>."
-
-#: C/calendar-searching.page:78(item/p) C/contacts-searching.page:84(item/p)
-#: C/mail-searching.page:82(item/p) C/memos-searching.page:84(item/p)
-#: C/tasks-searching.page:84(item/p)
-msgid "Edit the title or search conditions from the dialog box."
-msgstr ""
-"Επεξεργαστείτε τον τίτλο ή τα κριτήρια αναζήτησης από το πλαίσιο διαλόγου."
-
-#: C/calendar-searching.page:79(item/p) C/contacts-searching.page:85(item/p)
-#: C/mail-searching.page:83(item/p) C/memos-searching.page:85(item/p)
-#: C/tasks-searching.page:85(item/p)
-msgid "Click <gui>OK</gui>."
-msgstr "Κλικ στο <gui>εντάξει</gui>."
 
 #: C/calendar-sharing-information.page:5(info/desc)
 msgid ""
@@ -2557,7 +2396,7 @@ msgstr ""
 msgid "Searching Across Contacts"
 msgstr "Αναζήτηση στις επαφές"
 
-#: C/contacts-searching.page:40(section/p)
+#: C/contacts-searching.page:39(section/p)
 msgid ""
 "In the Contacts view, you can quickly search for contacts either by category "
 "or by contact's info."
@@ -2565,7 +2404,7 @@ msgstr ""
 "Στην προβολή επαφών, μπορείτε να αναζητήσετε γρήγορα επαφές είτε ανά "
 "κατηγορία ή ανά πληροφορίες επαφής."
 
-#: C/contacts-searching.page:41(section/p)
+#: C/contacts-searching.page:40(section/p)
 msgid "Searching by contact's info:"
 msgstr "Αναζήτηση ανά πληροφορίες επαφής:"
 
@@ -3016,9 +2855,6 @@ msgid "Change which web browser websites are opened in"
 msgstr "Αλλάξτε ποιοι ιστοτόποι περιηγητή ιστού είναι ανοικτοί"
 
 #: C/default-browser.page:29(section/p)
-#| msgid ""
-#| "Please see <link href=\"help:gnome-help#net-default-browser\">the GNOME "
-#| "Desktop Help</link>."
 msgid ""
 "Please see <link href=\"help:gnome-help/net-default-browser\">the GNOME "
 "Desktop Help</link>."
@@ -3059,9 +2895,6 @@ msgstr ""
 "Αλλάξτε ποια εφαρμογή αλληλογραφίας χρησιμοποιείται για εγγραφή μηνυμάτων"
 
 #: C/default-browser.page:46(section/p)
-#| msgid ""
-#| "Please see <link href=\"help:gnome-help#net-default-email\">the GNOME "
-#| "Desktop Help</link>."
 msgid ""
 "Please see <link href=\"help:gnome-help/net-default-email\">the GNOME "
 "Desktop Help</link>."
@@ -3198,7 +3031,7 @@ msgstr ""
 "<sys>evolution-ews</sys>."
 
 #: C/exchange-connectors-overview.page:30(note/p)
-#: C/intro-first-run.page:65(when/p)
+#: C/intro-first-run.page:63(when/p)
 msgid ""
 "<link action=\"install:evolution-ews\" href=\"http://projects.gnome.org/"
 "evolution/download\" style=\"button\">Install evolution-ews</link>"
@@ -3214,15 +3047,15 @@ msgid ""
 "<sys>evolution-mapi</sys> requires installing <sys>OpenChange</sys> and "
 "<sys>Samba 4</sys>, and is not as performant as <sys>evolution-ews</sys>."
 msgstr ""
-"Για παλιότερες εκδόσεις του Microsoft Exchange, ή εάν το <sys>evolution-"
-"ews</sys> δεν δουλεύει καλά για σας, δοκιμάστε <sys>evolution-mapi</sys>. "
+"Για παλιότερες εκδόσεις του Microsoft Exchange, ή εάν το <sys>evolution-ews</"
+"sys> δεν δουλεύει καλά για σας, δοκιμάστε <sys>evolution-mapi</sys>. "
 "Χρησιμοποιεί το Messaging API της Microsoft, που χρησιμοποιείται επίσης από "
 "το Microsoft Outlook. Όμως, το <sys>evolution-mapi</sys> απαιτεί την "
 "εγκατάσταση των <sys>OpenChange</sys> και <sys>Samba 4</sys> και δεν είναι "
 "τόσο αποδοτικό όσο το <sys>evolution-ews</sys>."
 
 #: C/exchange-connectors-overview.page:41(note/p)
-#: C/intro-first-run.page:76(when/p)
+#: C/intro-first-run.page:74(when/p)
 msgid ""
 "<link action=\"install:evolution-mapi\" href=\"http://projects.gnome.org/"
 "evolution/download\" style=\"button\">Install evolution-mapi</link>"
@@ -3273,11 +3106,19 @@ msgstr ""
 "iCalendar (ICS, συνιστώμενη), τιμές χωριζόμενες με κόμμα (CSV) και μορφή RDF."
 
 #: C/exporting-data-calendar.page:23(page/p)
+#| msgid ""
+#| "If you want to export only one contact, click <guiseq><gui>File</"
+#| "gui><gui>Save as vCard</gui></guiseq> or right-click on the contact and "
+#| "click <gui>Save as vCard</gui>."
 msgid ""
-"If you want to export only one appointment, right-click on the appointment "
-"and click <gui>Save as iCalendar...</gui>."
+"If you want to export only one appointment (or task or memo), either select "
+"the appointment and select <guiseq><gui>File</gui><gui>Save as iCalendar...</"
+"gui></guiseq>, or right-click on the appointment and click <gui>Save as "
+"iCalendar...</gui>."
 msgstr ""
-"Εάν θέλετε να εξάγετε μόνο μία συνάντηση, δεξί κλικ στη συνάντηση και κλικ "
+"Εάν θέλετε να εξάγετε μόνο μια συνάντηση (ή εργασία ή υπενθύμιση), ή "
+"επιλέξτε τη συνάντηση και επιλέξτε <guiseq><gui>Αρχείο</gui><gui>Αποθήκευση "
+"ως iCalendar...</gui></guiseq> ή δεξιοπατήστε στη συνάντηση και πατήστε "
 "<gui>αποθήκευση ως iCalendar...</gui>."
 
 #: C/exporting-data-contacts.page:5(info/desc)
@@ -3322,16 +3163,22 @@ msgid "Exporting mail data"
 msgstr "Εξαγωγή δεδομένων αλληλογραφίας"
 
 #: C/exporting-data-mail.page:22(page/p)
+#| msgid ""
+#| "To save an email to a file in <link href=\"https://secure.wikimedia.org/"
+#| "wikipedia/en/wiki/Mbox\">mbox</link> format, select an email and click "
+#| "<guiseq><gui>File</gui><gui>Save as mbox...</gui></guiseq> or right-click "
+#| "on the message and click <gui>Save as mbox...</gui>."
 msgid ""
-"To save an email to a file in <link href=\"https://secure.wikimedia.org/"
-"wikipedia/en/wiki/Mbox\">mbox</link> format, select an email and click "
-"<guiseq><gui>File</gui><gui>Save as mbox...</gui></guiseq> or right-click on "
-"the message and click <gui>Save as mbox...</gui>."
+"To save an email to a file in <link href=\"https://en.wikipedia.org/wiki/Mbox"
+"\">mbox</link> format, select an email and click <guiseq><gui>File</"
+"gui><gui>Save as mbox...</gui></guiseq> or right-click on the message and "
+"click <gui>Save as mbox...</gui>."
 msgstr ""
-"Για αποθήκευση μηνύματος σε αρχείο σε μορφή <link href=\"https://secure."
-"wikimedia.org/wikipedia/en/wiki/Mbox\">mbox</link>, επιλέξτε ένα μήνυμα και "
-"κλικ <guiseq><gui>αρχείο</gui><gui>αποθήκευση ως mbox...</gui></guiseq> ή "
-"δεξί κλικ στο μήνυμα και πατήστε <gui>αποθήκευση ως mbox...</gui>."
+"Για αποθήκευση μηνύματος σε αρχείο σε μορφή <link "
+"href=\"https://en.wikipedia.org/wiki/Mbox\">mbox</link>, επιλέξτε ένα μήνυμα "
+"και πατήστε <guiseq><gui>Αρχείο</gui><gui>Αποθήκευση ως "
+"mbox...</gui></guiseq> ή δεξιοπατήστε στο μήνυμα και πατήστε <gui>Αποθήκευση "
+"ως mbox...</gui>."
 
 #: C/exporting-data-mail.page:24(page/p)
 msgid ""
@@ -3359,36 +3206,6 @@ msgstr "Πώς να εξάγετε δεδομένα από το <app>Evolution</
 msgid "Exporting data from <em>Evolution</em>"
 msgstr "Εξαγωγή δεδομένων από το <em>Evolution</em>"
 
-#: C/express-mode.page:5(info/desc)
-msgid "What to do when using a small screen or netbook."
-msgstr "Τι να κάνετε όταν χρησιμοποιείτε μια μικρή οθόνη ή φορητό."
-
-#: C/express-mode.page:20(page/title)
-msgid "Some windows are too large for small screens."
-msgstr "Μερικά παράθυρα είναι υπερβολικά μεγάλα για μικρές οθόνες."
-
-#: C/express-mode.page:22(page/p)
-msgid ""
-"This is a known problem and hard to solve for a complex application with "
-"many settings such as Evolution."
-msgstr ""
-"Αυτό είναι ένα γνωστό πρόβλημα και δυσεπίλυτο για μια σύνθετη εφαρμογή με "
-"πολλές ρυθμίσεις όπως το Evolution."
-
-#: C/express-mode.page:23(page/p)
-#| msgid ""
-#| "You can use the Express version which is targeted for mobile and small-"
-#| "screen devices. This is available from version 2.30 on and can be enabled "
-#| "by starting <code>evolution --express</code> from the terminal window."
-msgid ""
-"You can use the Express version which is targeted for mobile and small-"
-"screen devices by entering the command <code>evolution --express</code> in "
-"the <app>Terminal</app> application."
-msgstr ""
-"Μπορείτε να χρησιμοποιήσετε την έκδοση Express που είναι ο στόχος για κινητά "
-"και συσκευές μικρής οθόνης εισάγοντας την εντολή <code>evolution "
-"--express</code> στην εφαρμογή <app>τερματικός</app>."
-
 #: C/google-services.page:5(info/desc)
 msgid "Using Google services."
 msgstr "Χρήση υπηρεσιών Google."
@@ -3405,12 +3222,12 @@ msgstr "Εισαγωγή δεδομένων από Mozilla Thunderbird."
 msgid "Mozilla"
 msgstr "Mozilla"
 
-#: C/import-apps-mozilla.page:24(item/p) C/import-apps-outlook.page:60(item/p)
+#: C/import-apps-mozilla.page:25(item/p) C/import-apps-outlook.page:60(item/p)
 #: C/import-single-files.page:24(item/p)
 msgid "Click <guiseq><gui>File</gui><gui>Import</gui></guiseq>."
 msgstr "Κλικ στο <guiseq><gui>αρχείο</gui><gui>εισαγωγή</gui></guiseq>."
 
-#: C/import-apps-mozilla.page:25(item/p) C/import-apps-outlook.page:61(item/p)
+#: C/import-apps-mozilla.page:26(item/p) C/import-apps-outlook.page:61(item/p)
 #: C/import-single-files.page:25(item/p)
 msgid ""
 "In the <gui>Importer Type</gui> tab, click <gui>Import a single file</gui>."
@@ -3418,24 +3235,68 @@ msgstr ""
 "Στην καρτέλα <gui>τύπος εισαγωγέα</gui>, κλικ στο <gui>εισαγωγή μοναδικού "
 "αρχείου</gui>."
 
-#: C/import-apps-mozilla.page:26(item/p)
-msgid "Choose the Thunderbird files that you would like to import."
-msgstr "Επιλέξτε τα αρχεία Thunderbird που θέλετε να εισάγετε."
+#: C/import-apps-mozilla.page:27(item/p)
+msgid ""
+"Go to the folder in which Thunderbird stores its data. On a Linux system, "
+"Thunderbird's files are located in the hidden folder <file>$HOME/."
+"thunderbird/12345678</file>. <file>12345678</file> will be a random string. "
+"If you cannot see the <file>.thunderbird</file> folder, make sure to <link "
+"href=\"help:gnome-help/files-hidden#show-hidden\">show hidden files</link> "
+"in the file selector dialog."
+msgstr ""
+"Πηγαίνετε στον φάκελο στον οποίο το Thunderbird αποθηκεύει τα δεδομένα του. "
+"Σε ένα σύστημα Λίνουξ, τα αρχεία του Thunderbird βρίσκονται σε έναν κρυφό "
+"φάκελο <file>$HOME/.thunderbird/12345678</file>. Το <file>12345678</file> θα "
+"είναι μια τυχαία συμβολοσειρά. Αν δεν μπορείτε να δείτε τον φάκελο "
+"<file>.thunderbird</file>, βεβαιωθείτε για την <link href=\"help:gnome-help"
+"/files-hidden#show-hidden\">εμφάνιση των κρυφών αρχείων</link> στον διάλογο "
+"επιλογέα αρχείων."
 
-#: C/import-apps-mozilla.page:26(item/p) C/import-apps-outlook.page:62(item/p)
+#: C/import-apps-mozilla.page:30(item/p)
+msgid ""
+"If you would like to import Thunderbird mail, go to <file>Mail/Local "
+"Folders</file> (for local mail accounts) or <file>ImapMail/servername</file> "
+"(for remote mail accounts). <file>servername</file> will be the address of "
+"your remote mail server. Files without a file ending include your messages "
+"(not the <file>.msf</file> files)."
+msgstr ""
+"Αν θα θέλατε να εισάγετε αλληλογραφία Thunderbird, πηγαίνετε στο "
+"<file>Mail/Local Folders</file> (για τοπικούς λογαριασμούς αλληλογραφίας) ή "
+"<file>ImapMail/servername</file> (για απομακρυσμένους λογαριασμούς "
+"αλληλογραφίας). Το <file>servername</file> θα είναι η διεύθυνση του "
+"απομακρυσμένου εξυπηρετητή αλληλογραφίας. Τα αρχεία χωρίς μια κατάληξη "
+"αρχείου περιλαμβάνουν τα μηνύματά σας (όχι τα αρχεία <file>.msf</file>)."
+
+#: C/import-apps-mozilla.page:31(item/p)
+msgid ""
+"If you would like to import Thunderbird/Lightning calendar data, you may be "
+"able to export your Thunderbird events as an <file>.ical</file>/<file>.ics</"
+"file> file first, and import these files into Evolution. This is required as "
+"Thunderbird stores its calendar data in a non-standard database format."
+msgstr ""
+"Αν θα θέλατε να εισάγετε δεδομένα ημερολογίου Thunderbird/Lightning, ίσως να "
+"μπορείτε να εξάγετε τα συμβάντα Thunderbird ως ένα αρχείο "
+"<file>.ical</file>/<file>.ics</file> πρώτα και να εισάγετε αυτά τα αρχεία "
+"στο Evolution. Αυτό απαιτείται επειδή το Thunderbird αποθηκεύει τα δεδομένα "
+"ημερολογίου του σε μια άτυπη μορφή βάσης δεδομένων."
+
+#: C/import-apps-mozilla.page:33(item/p) C/import-apps-outlook.page:62(item/p)
 #: C/import-single-files.page:26(item/p)
 msgid "The file type will be automatically determined."
 msgstr "Ο τύπος αρχείου θα προσδιοριστεί αυτόματα."
 
-#: C/import-apps-mozilla.page:27(item/p) C/import-apps-outlook.page:65(item/p)
-#: C/import-single-files.page:27(item/p)
+#: C/import-apps-mozilla.page:34(item/p)
+#| msgid ""
+#| "Choose the destination (e.g. the folder in Evolution) for the imported "
+#| "data."
 msgid ""
-"Choose the destination (e.g. the folder in Evolution) for the imported data."
+"Choose the destination (e.g. the folder or calendar in Evolution) for the "
+"imported data."
 msgstr ""
-"Επιλέξτε τον προορισμό (π.χ. τον φάκελο στο Evolution) για τα εισαγόμενα "
-"δεδομένα."
+"Επιλέξτε τον προορισμό (π.χ. τον φάκελο ή ημερολόγιο στο Evolution) για τα "
+"εισαγόμενα δεδομένα."
 
-#: C/import-apps-mozilla.page:28(item/p) C/import-apps-outlook.page:66(item/p)
+#: C/import-apps-mozilla.page:35(item/p) C/import-apps-outlook.page:66(item/p)
 msgid "Repeat the import steps until you have imported all your data."
 msgstr ""
 "Επαναλάβετε τα βήματα εισαγωγής μέχρι να έχετε εισάγει όλα τα δεδομένα σας."
@@ -3564,7 +3425,6 @@ msgstr ""
 "κάποιο άλλο βολικό μέρος."
 
 #: C/import-apps-outlook.page:57(item/p)
-#: C/mail-filters-not-working.page:49(item/p)
 msgid "Start Evolution."
 msgstr "Εκκινήστε το Evolution."
 
@@ -3597,6 +3457,13 @@ msgstr ""
 "είναι διαθέσιμη στο <guiseq><gui>αρχείο</gui><gui>εισαγωγή</"
 "gui><gui>εισαγωγή μοναδικού αρχείου</gui><gui>τύπος αρχείου</gui></guiseq>, "
 "η διανομή σας μπορεί να μην έχει ενεργοποιήσει αυτήν τη λειτουργία."
+
+#: C/import-apps-outlook.page:65(item/p) C/import-single-files.page:27(item/p)
+msgid ""
+"Choose the destination (e.g. the folder in Evolution) for the imported data."
+msgstr ""
+"Επιλέξτε τον προορισμό (π.χ. τον φάκελο στο Evolution) για τα εισαγόμενα "
+"δεδομένα."
 
 #: C/import-data.page:5(info/desc)
 msgid "Importing data from another application."
@@ -3807,13 +3674,6 @@ msgid "An introduction to Evolution."
 msgstr "Μια εισαγωγή στο Evolution."
 
 #: C/intro-application.page:25(page/p)
-#| msgid ""
-#| "Evolution is a stable and versatile personal information manager for the "
-#| "GNOME project. Evolution allows you to keep your calendar, email, address "
-#| "book and tasks in one place. Evolution has the ability to <link type="
-#| "\"topic\" xref=\"mail-spam\">filter Junk/Spam Mail</link>, add your "
-#| "favorite web calenders, and <link type=\"topic\" xref=\"mail-encryption"
-#| "\">to keep your information safe and secure</link>."
 msgid ""
 "Evolution is a stable and versatile personal information manager for the "
 "GNOME project. Evolution allows you to keep your calendars, mail, address "
@@ -3821,17 +3681,9 @@ msgid ""
 msgstr ""
 "Το Evolution είναι ένας σταθερός και πολύπλευρος διαχειριστής προσωπικών "
 "πληροφοριών για το έργο GNOME. Το Evolution επιτρέπει τη διατήρηση των "
-"ημερολογίων σας, αλληλογραφίας, βιβλίου διευθύνσεων και εργασιών σε μια "
-"θέση."
+"ημερολογίων σας, αλληλογραφίας, βιβλίου διευθύνσεων και εργασιών σε μια θέση."
 
 #: C/intro-application.page:27(page/p)
-#| msgid ""
-#| "By default Evolution opens the mail client view. This is were you can "
-#| "view all your mail. You can change to other aspects of the application by "
-#| "going to the bottom of the left pane in the window (the so-called "
-#| "\"switcher\") and selecting the desired view. <link type=\"topic\" xref="
-#| "\"intro-main-window\">Click here</link> for more information on the "
-#| "elements of the window."
 msgid ""
 "By default Evolution opens the mail view. This is were you can view all your "
 "mail. You can change to other views of the application by going to the "
@@ -3843,8 +3695,8 @@ msgstr ""
 "να δείτε όλη την αλληλογραφία σας. Μπορείτε να αλλάξετε σε άλλες όψεις της "
 "εφαρμογής πηγαίνοντας στο τέλος του αριστερού πλαισίου στο παράθυρο (τον "
 "αποκαλούμενο \"εναλλάκτη\") και να επιλέξετε την επιθυμητή προβολή. <link "
-"type=\"topic\" xref=\"intro-main-window\">Πατήστε εδώ</link> για περισσότερες "
-"πληροφορίες στα στοιχεία του παραθύρου."
+"type=\"topic\" xref=\"intro-main-window\">Πατήστε εδώ</link> για "
+"περισσότερες πληροφορίες στα στοιχεία του παραθύρου."
 
 #: C/intro-application.page:29(note/p)
 msgid ""
@@ -3857,9 +3709,9 @@ msgstr ""
 "Όταν ξεκινά το Evolution, θυμάται την τελευταία προβολή που χρησιμοποιήσατε. "
 "Όμως μπορείτε επίσης ρητά να ξεκινήσετε το Evolution με μια συγκεκριμένη "
 "προβολή. Για την προβολή ημερολογίου, χρησιμοποιήστε την εντολή "
-"<cmd>evolution --component=calendar</cmd> στην εφαρμογή "
-"<app>Τερματικός</app>. Άλλες διαθέσιμες επιλογές είναι \"αλληλογραφία\", "
-"\"επαφές\", \"εργασίες\" και \"υπενθυμίσεις\"."
+"<cmd>evolution --component=calendar</cmd> στην εφαρμογή <app>Τερματικός</"
+"app>. Άλλες διαθέσιμες επιλογές είναι \"αλληλογραφία\", \"επαφές\", "
+"\"εργασίες\" και \"υπενθυμίσεις\"."
 
 #: C/intro-first-run.page:7(info/desc)
 msgid "Running Evolution for the very first time."
@@ -3881,44 +3733,17 @@ msgstr ""
 "εφαρμογές.</link>"
 
 #: C/intro-first-run.page:27(section/title)
-#: C/mail-account-manage-imap-plus.page:29(section/title)
-#: C/mail-account-manage-local-delivery.page:29(section/title)
-#: C/mail-account-manage-maildir-format-directories.page:29(section/title)
-#: C/mail-account-manage-mh-format-directories.page:29(section/title)
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:30(section/title)
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:30(section/title)
-#: C/mail-account-manage-pop.page:29(section/title)
-#: C/mail-account-manage-unix-mbox-spool-directory.page:29(section/title)
-#: C/mail-account-manage-unix-mbox-spool-file.page:29(section/title)
-#: C/mail-account-manage-usenet-news.page:29(section/title)
+#: C/xinclude-mail-account-identity.xml:4(section/title)
 msgid "Identity"
 msgstr "Ταυτότητα"
 
 #: C/intro-first-run.page:28(section/p)
-#: C/mail-account-manage-imap-plus.page:31(section/p)
-#: C/mail-account-manage-local-delivery.page:31(section/p)
-#: C/mail-account-manage-maildir-format-directories.page:31(section/p)
-#: C/mail-account-manage-mh-format-directories.page:31(section/p)
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:32(section/p)
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:32(section/p)
-#: C/mail-account-manage-pop.page:31(section/p)
-#: C/mail-account-manage-unix-mbox-spool-directory.page:31(section/p)
-#: C/mail-account-manage-unix-mbox-spool-file.page:31(section/p)
-#: C/mail-account-manage-usenet-news.page:31(section/p)
+#: C/xinclude-mail-account-identity.xml:5(section/p)
 msgid "Here you define your name and your email address."
 msgstr "Εδώ ορίζετε το όνομά σας και τη διεύθυνση αλληλογραφίας."
 
 #: C/intro-first-run.page:29(section/p)
-#: C/mail-account-manage-imap-plus.page:32(section/p)
-#: C/mail-account-manage-local-delivery.page:32(section/p)
-#: C/mail-account-manage-maildir-format-directories.page:32(section/p)
-#: C/mail-account-manage-mh-format-directories.page:32(section/p)
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:33(section/p)
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:33(section/p)
-#: C/mail-account-manage-pop.page:32(section/p)
-#: C/mail-account-manage-unix-mbox-spool-directory.page:32(section/p)
-#: C/mail-account-manage-unix-mbox-spool-file.page:32(section/p)
-#: C/mail-account-manage-usenet-news.page:32(section/p)
+#: C/xinclude-mail-account-identity.xml:6(section/p)
 msgid ""
 "Optionally you can make this account your default account (e.g. when writing "
 "emails), set a Reply-To email address (if you want replies to messages sent "
@@ -3949,7 +3774,6 @@ msgstr ""
 #: C/intro-first-run.page:38(section/title)
 #: C/mail-receiving-options-exchange-ews.page:23(section/title)
 #: C/mail-receiving-options-exchange-mapi.page:23(section/title)
-#: C/mail-receiving-options-imap.page:25(section/title)
 #: C/mail-receiving-options-imap-plus.page:26(section/title)
 #: C/mail-receiving-options-local-delivery.page:23(section/title)
 #: C/mail-receiving-options-maildir-format-directories.page:23(section/title)
@@ -3998,29 +3822,13 @@ msgstr "Συνέχεια <link xref=\"#sending\">εδώ</link> για διαμό
 
 #: C/intro-first-run.page:48(item/p)
 msgid ""
-"IMAP: Keeps the mail on the server so you can access your mail from multiple "
-"systems."
-msgstr ""
-"IMAP: Κρατάει την αλληλογραφία στο διακομιστή σας ώστε να μπορείτε να την "
-"προσπελάσετε από πολλαπλά συστήματα."
-
-#: C/intro-first-run.page:48(item/p)
-msgid ""
-"Continue <link xref=\"mail-receiving-options-imap\">here</link> for "
-"configuration."
-msgstr ""
-"Συνέχεια <link xref=\"mail-receiving-options-imap\">εδώ</link> για "
-"διαμόρφωση."
-
-#: C/intro-first-run.page:50(item/p)
-msgid ""
 "IMAP+: Keeps the mail on the server so you can access your mail from "
 "multiple systems."
 msgstr ""
 "IMAP+: Κρατάει την αλληλογραφία στο διακομιστή ώστε να μπορείτε να την "
 "προσπελάσετε από πολλαπλά συστήματα."
 
-#: C/intro-first-run.page:50(item/p)
+#: C/intro-first-run.page:48(item/p)
 msgid ""
 "Continue <link xref=\"mail-receiving-options-imap-plus\">here</link> for "
 "configuration."
@@ -4028,18 +3836,18 @@ msgstr ""
 "Συνέχεια <link xref=\"mail-receiving-options-imap-plus\">εδώ</link> για "
 "διαμόρφωση."
 
-#: C/intro-first-run.page:51(item/p)
+#: C/intro-first-run.page:49(item/p)
 msgid "POP: Downloads your email to your hard disk."
 msgstr "POP: Κατεβάζει την αλληλογραφία σας στον σκληρό σας δίσκο."
 
-#: C/intro-first-run.page:51(item/p)
+#: C/intro-first-run.page:49(item/p)
 msgid ""
 "Continue <link xref=\"mail-receiving-options-pop\">here</link> for "
 "configuration."
 msgstr ""
 "Συνέχεια <link xref=\"mail-receiving-options-pop\">εδώ</link> για διαμόρφωση."
 
-#: C/intro-first-run.page:52(item/p)
+#: C/intro-first-run.page:50(item/p)
 msgid ""
 "USENET News: Connects to a news server and downloads a list of available "
 "news digests."
@@ -4047,7 +3855,7 @@ msgstr ""
 "Ειδήσεις USENET: Συνδέεται σε ένα διακομιστή ειδήσεων και κατεβάζει μια "
 "λίστα διαθέσιμων περιλήψεων ειδήσεων."
 
-#: C/intro-first-run.page:52(item/p)
+#: C/intro-first-run.page:50(item/p)
 msgid ""
 "Continue <link xref=\"mail-receiving-options-usenet-news\">here</link> for "
 "configuration."
@@ -4055,16 +3863,16 @@ msgstr ""
 "Συνέχεια <link xref=\"mail-receiving-options-usenet-news\">εδώ</link> για "
 "διαμόρφωση."
 
-#: C/intro-first-run.page:57(section/title)
+#: C/intro-first-run.page:55(section/title)
 #: C/mail-receiving-options.page:24(section/title)
 msgid "Corporate server types"
 msgstr "Εταιρικοί τύποι εξυπηρετητή"
 
-#: C/intro-first-run.page:58(section/p)
+#: C/intro-first-run.page:56(section/p)
 msgid "Available server types for corporate users are:"
 msgstr "Διαθέσιμοι τύποι εξυπηρετητών για εταιρικούς χρήστες είναι:"
 
-#: C/intro-first-run.page:60(item/p)
+#: C/intro-first-run.page:58(item/p)
 msgid ""
 "Exchange EWS: For connecting to a Microsoft Exchange 2007/2010 or OpenChange "
 "server. Note that this is currently under development and will replace the "
@@ -4076,7 +3884,7 @@ msgstr ""
 "αντικαταστήσει τον τύπο λογαριασμού <gui>Exchange MAPI</gui> στο μέλλον. "
 "Μπορεί να μην είναι ακόμα διαθέσιμο για τη διανομή σας."
 
-#: C/intro-first-run.page:60(item/p)
+#: C/intro-first-run.page:58(item/p)
 msgid ""
 "Continue <link xref=\"mail-receiving-options-exchange-ews\">here</link> for "
 "configuration."
@@ -4084,12 +3892,12 @@ msgstr ""
 "Συνέχεια <link xref=\"mail-receiving-options-exchange-ews\">εδώ</link> για "
 "διαμόρφωση."
 
-#: C/intro-first-run.page:62(note/p)
+#: C/intro-first-run.page:60(note/p)
 msgid "This requires having the <sys>evolution-ews</sys> package installed."
 msgstr ""
 "Αυτό απαιτεί να έχετε το πακέτο <sys>evolution-ews</sys> εγκατεστημένο."
 
-#: C/intro-first-run.page:71(item/p)
+#: C/intro-first-run.page:69(item/p)
 msgid ""
 "Exchange MAPI: For connecting to a Microsoft Exchange 2007/2010 or "
 "OpenChange server."
@@ -4097,7 +3905,7 @@ msgstr ""
 "Exchange MAPI: Για σύνδεση με εξυπηρετητή Microsoft Exchange 2007/2010 ή "
 "OpenChange."
 
-#: C/intro-first-run.page:71(item/p)
+#: C/intro-first-run.page:69(item/p)
 msgid ""
 "Continue <link xref=\"mail-receiving-options-exchange-mapi\">here</link> for "
 "configuration."
@@ -4105,53 +3913,23 @@ msgstr ""
 "Συνέχεια <link xref=\"mail-receiving-options-exchange-mapi\">εδώ</link> για "
 "διαμόρφωση."
 
-#: C/intro-first-run.page:73(note/p)
+#: C/intro-first-run.page:71(note/p)
 msgid "This requires having the <sys>evolution-mapi</sys> package installed."
 msgstr ""
 "Αυτό απαιτεί να έχετε το πακέτο <sys>evolution-mapi</sys> εγκατεστημένο."
 
-#: C/intro-first-run.page:81(item/p)
-msgid ""
-"Microsoft Exchange: For connecting to a Microsoft Exchange 2000 or 2003 "
-"server."
-msgstr ""
-"Microsoft Exchange: Για σύνδεση με εξυπηρετητή Microsoft Exchange 2000 ή "
-"2003."
-
-#: C/intro-first-run.page:81(item/p)
-msgid ""
-"Continue <link xref=\"mail-receiving-options-evolution-exchange\">here</"
-"link> for configuration."
-msgstr ""
-"Συνέχεια <link xref=\"mail-receiving-options-evolution-exchange\">εδώ</link> "
-"για διαμόρφωση."
-
-#: C/intro-first-run.page:83(note/p)
-msgid ""
-"This requires having the <sys>evolution-exchange</sys> package installed."
-msgstr ""
-"Αυτό απαιτεί να έχετε το πακέτο <sys>evolution-exchange</sys> εγκατεστημένο."
-
-#: C/intro-first-run.page:86(when/p)
-msgid ""
-"<link action=\"install:evolution-exchange\" href=\"http://projects.gnome.org/"
-"evolution/download\" style=\"button\">Install evolution-exchange</link>"
-msgstr ""
-"<link action=\"install:evolution-exchange\" href=\"http://projects.gnome.org/"
-"evolution/download\" style=\"button\">Εγκατάσταση evolution-exchange</link>"
-
-#: C/intro-first-run.page:95(section/title)
+#: C/intro-first-run.page:83(section/title)
 #: C/mail-receiving-options.page:27(section/title)
 msgid "Local account server types"
 msgstr "Τοπικοί τύποι εξυπηρετητή λογαριασμού"
 
-#: C/intro-first-run.page:96(section/p)
+#: C/intro-first-run.page:84(section/p)
 msgid "Available local account server types for advanced users are:"
 msgstr ""
 "Οι τύποι τοπικού εξυπηρετητή διαθέσιμων λογαριασμών για προχωρημένους "
 "χρήστες είναι:"
 
-#: C/intro-first-run.page:98(item/p)
+#: C/intro-first-run.page:86(item/p)
 msgid ""
 "Local delivery: If you want to move email from the spool (the location where "
 "mail waits for delivery) and store it in your home directory. You need to "
@@ -4166,7 +3944,7 @@ msgstr ""
 "να αφήνετε την αλληλογραφία στα αρχεία ετεροχρονισμού του συστήματός σας, "
 "διαλέξτε την επιλογή <gui>τυπικός ετεροχρονισμός UNIX Mbox</gui>."
 
-#: C/intro-first-run.page:98(item/p)
+#: C/intro-first-run.page:86(item/p)
 msgid ""
 "Continue <link xref=\"mail-receiving-options-local-delivery\">here</link> "
 "for configuration."
@@ -4174,7 +3952,7 @@ msgstr ""
 "Συνέχεια <link xref=\"mail-receiving-options-local-delivery\">εδώ</link> για "
 "διαμόρφωση."
 
-#: C/intro-first-run.page:100(item/p)
+#: C/intro-first-run.page:88(item/p)
 msgid ""
 "MH-Format Mail Directories: For downloading email using MH or another MH-"
 "style application."
@@ -4182,13 +3960,13 @@ msgstr ""
 "Κατάλογοι αλληλογραφίας μορφής ΜΗ: Για λήψη αλληλογραφίας σας με τη χρήση MH "
 "ή άλλης εφαρμογής τύπου MH."
 
-#: C/intro-first-run.page:100(item/p) C/intro-first-run.page:102(item/p)
-#: C/intro-first-run.page:106(item/p)
+#: C/intro-first-run.page:88(item/p) C/intro-first-run.page:90(item/p)
+#: C/intro-first-run.page:94(item/p)
 msgid "You need to provide the path to the directory you want to use."
 msgstr ""
 "Πρέπει να παρέχετε τη διαδρομή στον κατάλογο που θέλετε να χρησιμοποιήσετε."
 
-#: C/intro-first-run.page:100(item/p)
+#: C/intro-first-run.page:88(item/p)
 msgid ""
 "Continue <link xref=\"mail-receiving-options-mh-format-directories\">here</"
 "link> for configuration."
@@ -4196,7 +3974,7 @@ msgstr ""
 "Συνέχεια <link xref=\"mail-receiving-options-mh-format-directories\">εδώ</"
 "link> για διαμόρφωση."
 
-#: C/intro-first-run.page:102(item/p)
+#: C/intro-first-run.page:90(item/p)
 msgid ""
 "Maildir-Format Mail Directories: For downloading your email using Qmail or "
 "another Maildir-style application."
@@ -4204,7 +3982,7 @@ msgstr ""
 "Κατάλογοι αλληλογραφίας μορφής Maildir: Για λήψη της αλληλογραφίας σας με "
 "την χρήση του Qmail ή άλλης εφαρμογής τύπου Maildir."
 
-#: C/intro-first-run.page:102(item/p)
+#: C/intro-first-run.page:90(item/p)
 msgid ""
 "Continue <link xref=\"mail-receiving-options-maildir-format-directories"
 "\">here</link> for configuration."
@@ -4212,7 +3990,7 @@ msgstr ""
 "Συνέχεια <link xref=\"mail-receiving-options-maildir-format-directories"
 "\">εδώ</link> για διαμόρφωση."
 
-#: C/intro-first-run.page:104(item/p)
+#: C/intro-first-run.page:92(item/p)
 msgid ""
 "Standard Unix mbox spool file: For reading and storing email in the mail "
 "spool file on your local system."
@@ -4220,13 +3998,13 @@ msgstr ""
 "Τυπικό αρχείο ετεροχρονισμού Unix mbox: Για ανάγνωση και αποθήκευση "
 "αλληλογραφίας στο αρχείο ετεροχρονισμού αλληλογραφίας στο τοπικό σας σύστημα."
 
-#: C/intro-first-run.page:104(item/p)
+#: C/intro-first-run.page:92(item/p)
 msgid "You need to provide the path to the mail spool file you want to use."
 msgstr ""
 "Πρέπει να δώσετε τη διαδρομή προς τον αρχείο ετεροχρονισμού αλληλογραφίας "
 "που θέλετε να χρησιμοποιήσετε."
 
-#: C/intro-first-run.page:104(item/p)
+#: C/intro-first-run.page:92(item/p)
 msgid ""
 "Continue <link xref=\"mail-receiving-options-unix-mbox-spool-file\">here</"
 "link> for configuration."
@@ -4234,7 +4012,7 @@ msgstr ""
 "Συνέχεια <link xref=\"mail-receiving-options-unix-mbox-spool-file\">εδώ</"
 "link> για διαμόρφωση."
 
-#: C/intro-first-run.page:106(item/p)
+#: C/intro-first-run.page:94(item/p)
 msgid ""
 "Standard Unix mbox spool directory: For reading and storing email in the "
 "mail spool directory on your local system."
@@ -4243,7 +4021,7 @@ msgstr ""
 "αλληλογραφίας στον κατάλογο ετεροχρονισμού αλληλογραφίας στο τοπικό σας "
 "σύστημα."
 
-#: C/intro-first-run.page:106(item/p)
+#: C/intro-first-run.page:94(item/p)
 msgid ""
 "Continue <link xref=\"mail-receiving-options-unix-mbox-spool-directory"
 "\">here</link> for configuration."
@@ -4251,7 +4029,7 @@ msgstr ""
 "Συνέχεια <link xref=\"mail-receiving-options-unix-mbox-spool-directory"
 "\">εδώ</link> για διαμόρφωση."
 
-#: C/intro-first-run.page:109(note/p)
+#: C/intro-first-run.page:97(note/p)
 msgid ""
 "Later on, if you want to change an account, or if you want to create another "
 "one, go to <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</"
@@ -4266,16 +4044,16 @@ msgstr ""
 "\">επεξεργασία</gui>. Εναλλακτικά, προσθέστε ένα νέο λογαριασμό πατώντας "
 "<gui style=\"button\">προσθήκη</gui>."
 
-#: C/intro-first-run.page:115(section/title)
+#: C/intro-first-run.page:103(section/title)
 #: C/mail-displaying-character-encodings.page:32(section/title)
 msgid "Sending mail"
 msgstr "Αποστολή μηνυμάτων"
 
-#: C/intro-first-run.page:116(section/p)
+#: C/intro-first-run.page:104(section/p)
 msgid "Available server types are:"
 msgstr "Διαθέσιμοι τύποι εξυπηρετητή είναι:"
 
-#: C/intro-first-run.page:118(item/p)
+#: C/intro-first-run.page:106(item/p)
 msgid ""
 "SMTP: Sends mail using an outbound mail server. This is the most common "
 "choice for sending mail."
@@ -4283,14 +4061,14 @@ msgstr ""
 "SMTP: Στέλνει αλληλογραφία χρησιμοποιώντας έναν εξερχόμενο εξυπηρετητή "
 "αλληλογραφίας. Αυτός είναι η πιο κοινή επιλογή για αποστολή αλληλογραφίας."
 
-#: C/intro-first-run.page:118(item/p)
+#: C/intro-first-run.page:106(item/p)
 msgid ""
 "Continue <link xref=\"mail-sending-options-smtp\">here</link> for "
 "configuration."
 msgstr ""
 "Συνέχεια <link xref=\"mail-sending-options-smtp\">εδώ</link> για διαμόρφωση."
 
-#: C/intro-first-run.page:119(item/p)
+#: C/intro-first-run.page:107(item/p)
 msgid ""
 "Sendmail: Uses the <app>Sendmail</app> application to send mail from your "
 "system. It is not easy to configure, so you should select this option only "
@@ -4301,19 +4079,19 @@ msgstr ""
 "να επιλέξετε αυτήν την επιλογή μόνο εάν ξέρετε πώς να ρυθμίσετε μια υπηρεσία "
 "Sendmail."
 
-#: C/intro-first-run.page:124(section/title)
+#: C/intro-first-run.page:112(section/title)
 msgid "Account Information"
 msgstr "Πληροφορίες λογαριασμού"
 
-#: C/intro-first-run.page:125(section/p)
+#: C/intro-first-run.page:113(section/p)
 msgid "Give the account any name you prefer."
 msgstr "Δώστε στον λογαριασμό οποιοδήποτε όνομα προτιμάτε."
 
-#: C/intro-first-run.page:129(section/title)
+#: C/intro-first-run.page:117(section/title)
 msgid "Importing Mail (Optional)"
 msgstr "Εισαγωγή αλληλογραφίας (προαιρετική)"
 
-#: C/intro-first-run.page:130(section/p)
+#: C/intro-first-run.page:118(section/p)
 msgid ""
 "Continue with <link xref=\"import-data\">Importing data from another "
 "application</link>."
@@ -4866,9 +4644,6 @@ msgid "Access a Gmail IMAP Account via Evolution"
 msgstr "Πρόσβαση λογαριασμού IMAP του Gmail μέσα από το Evolution"
 
 #: C/mail-access-gmail-imap-account.page:26(page/p)
-#| msgid ""
-#| "Please refer to the <link xref=\"mail-account-manage-imap\">IMAP mail "
-#| "account settings</link>."
 msgid ""
 "Please refer to the <link xref=\"mail-account-manage-imap-plus\">IMAP+ mail "
 "account settings</link>."
@@ -4987,8 +4762,8 @@ msgstr "Επεξεργαστής λογαριασμού"
 #: C/mail-account-manage-local-delivery.page:24(section/p)
 #: C/mail-account-manage-maildir-format-directories.page:24(section/p)
 #: C/mail-account-manage-mh-format-directories.page:24(section/p)
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:25(section/p)
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:25(section/p)
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:24(section/p)
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:24(section/p)
 #: C/mail-account-manage-pop.page:24(section/p)
 #: C/mail-account-manage-unix-mbox-spool-directory.page:24(section/p)
 #: C/mail-account-manage-unix-mbox-spool-file.page:24(section/p)
@@ -5011,8 +4786,8 @@ msgstr ""
 "εφεδρικό αρχείο."
 
 #: C/mail-account-manage-imap-plus.page:25(section/p)
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:26(section/p)
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:26(section/p)
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:25(section/p)
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:25(section/p)
 #: C/mail-account-manage-usenet-news.page:25(section/p)
 msgid ""
 "Mail accounts can be edited via <guiseq><gui>Edit</gui><gui>Preferences</"
@@ -5030,8 +4805,8 @@ msgstr ""
 #: C/mail-account-manage-local-delivery.page:26(section/p)
 #: C/mail-account-manage-maildir-format-directories.page:26(section/p)
 #: C/mail-account-manage-mh-format-directories.page:26(section/p)
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:27(section/p)
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:27(section/p)
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:26(section/p)
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:26(section/p)
 #: C/mail-account-manage-pop.page:26(section/p)
 #: C/mail-account-manage-unix-mbox-spool-directory.page:26(section/p)
 #: C/mail-account-manage-unix-mbox-spool-file.page:26(section/p)
@@ -5041,63 +4816,63 @@ msgstr ""
 "Οι παρακάτω ρυθμίσεις είναι διαθέσιμες όταν επεξεργαζόσαστε έναν υπάρχοντα "
 "λογαριασμό:"
 
-#: C/mail-account-manage-imap-plus.page:36(section/title)
-#: C/mail-account-manage-local-delivery.page:36(section/title)
-#: C/mail-account-manage-maildir-format-directories.page:36(section/title)
-#: C/mail-account-manage-mh-format-directories.page:36(section/title)
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:37(section/title)
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:37(section/title)
-#: C/mail-account-manage-pop.page:36(section/title)
-#: C/mail-account-manage-unix-mbox-spool-directory.page:36(section/title)
-#: C/mail-account-manage-unix-mbox-spool-file.page:36(section/title)
-#: C/mail-account-manage-usenet-news.page:36(section/title)
+#: C/mail-account-manage-imap-plus.page:35(section/title)
+#: C/mail-account-manage-local-delivery.page:35(section/title)
+#: C/mail-account-manage-maildir-format-directories.page:35(section/title)
+#: C/mail-account-manage-mh-format-directories.page:35(section/title)
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:35(section/title)
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:35(section/title)
+#: C/mail-account-manage-pop.page:35(section/title)
+#: C/mail-account-manage-unix-mbox-spool-directory.page:35(section/title)
+#: C/mail-account-manage-unix-mbox-spool-file.page:35(section/title)
+#: C/mail-account-manage-usenet-news.page:35(section/title)
 msgid "Receiving Email and Receiving options"
 msgstr "Επιλογές λήψης αλληλογραφίας"
 
-#: C/mail-account-manage-imap-plus.page:40(section/title)
-#: C/mail-account-manage-local-delivery.page:40(section/title)
-#: C/mail-account-manage-maildir-format-directories.page:40(section/title)
-#: C/mail-account-manage-mh-format-directories.page:40(section/title)
-#: C/mail-account-manage-pop.page:40(section/title)
-#: C/mail-account-manage-unix-mbox-spool-directory.page:40(section/title)
-#: C/mail-account-manage-unix-mbox-spool-file.page:40(section/title)
-#: C/mail-account-manage-usenet-news.page:40(section/title)
+#: C/mail-account-manage-imap-plus.page:39(section/title)
+#: C/mail-account-manage-local-delivery.page:39(section/title)
+#: C/mail-account-manage-maildir-format-directories.page:39(section/title)
+#: C/mail-account-manage-mh-format-directories.page:39(section/title)
+#: C/mail-account-manage-pop.page:39(section/title)
+#: C/mail-account-manage-unix-mbox-spool-directory.page:39(section/title)
+#: C/mail-account-manage-unix-mbox-spool-file.page:39(section/title)
+#: C/mail-account-manage-usenet-news.page:39(section/title)
 msgid "Sending Email"
 msgstr "Αποστολή μηνυμάτων"
 
-#: C/mail-account-manage-imap-plus.page:44(section/title)
-#: C/mail-account-manage-local-delivery.page:44(section/title)
-#: C/mail-account-manage-maildir-format-directories.page:44(section/title)
-#: C/mail-account-manage-mh-format-directories.page:44(section/title)
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:41(section/title)
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:41(section/title)
-#: C/mail-account-manage-pop.page:44(section/title)
-#: C/mail-account-manage-unix-mbox-spool-directory.page:44(section/title)
-#: C/mail-account-manage-unix-mbox-spool-file.page:44(section/title)
-#: C/mail-account-manage-usenet-news.page:44(section/title)
+#: C/mail-account-manage-imap-plus.page:43(section/title)
+#: C/mail-account-manage-local-delivery.page:43(section/title)
+#: C/mail-account-manage-maildir-format-directories.page:43(section/title)
+#: C/mail-account-manage-mh-format-directories.page:43(section/title)
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:39(section/title)
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:39(section/title)
+#: C/mail-account-manage-pop.page:43(section/title)
+#: C/mail-account-manage-unix-mbox-spool-directory.page:43(section/title)
+#: C/mail-account-manage-unix-mbox-spool-file.page:43(section/title)
+#: C/mail-account-manage-usenet-news.page:43(section/title)
 msgid "Defaults"
 msgstr "Προεπιλογές"
 
-#: C/mail-account-manage-imap-plus.page:48(section/title)
-#: C/mail-account-manage-local-delivery.page:48(section/title)
-#: C/mail-account-manage-maildir-format-directories.page:48(section/title)
-#: C/mail-account-manage-mh-format-directories.page:48(section/title)
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:45(section/title)
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:50(section/title)
-#: C/mail-account-manage-pop.page:48(section/title)
-#: C/mail-account-manage-unix-mbox-spool-directory.page:48(section/title)
-#: C/mail-account-manage-unix-mbox-spool-file.page:48(section/title)
-#: C/mail-account-manage-usenet-news.page:48(section/title)
+#: C/mail-account-manage-imap-plus.page:47(section/title)
+#: C/mail-account-manage-local-delivery.page:47(section/title)
+#: C/mail-account-manage-maildir-format-directories.page:47(section/title)
+#: C/mail-account-manage-mh-format-directories.page:47(section/title)
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:43(section/title)
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:48(section/title)
+#: C/mail-account-manage-pop.page:47(section/title)
+#: C/mail-account-manage-unix-mbox-spool-directory.page:47(section/title)
+#: C/mail-account-manage-unix-mbox-spool-file.page:47(section/title)
+#: C/mail-account-manage-usenet-news.page:47(section/title)
 msgid "Security"
 msgstr "Ασφάλεια"
 
-#: C/mail-account-manage-imap-plus.page:56(section/title)
-#: C/mail-account-manage-usenet-news.page:54(section/title)
+#: C/mail-account-manage-imap-plus.page:55(section/title)
+#: C/mail-account-manage-usenet-news.page:53(section/title)
 msgid "Other settings"
 msgstr "Άλλες ρυθμίσεις"
 
-#: C/mail-account-manage-imap-plus.page:57(section/p)
-#: C/mail-account-manage-usenet-news.page:55(section/p)
+#: C/mail-account-manage-imap-plus.page:56(section/p)
+#: C/mail-account-manage-usenet-news.page:54(section/p)
 msgid ""
 "Other account related settings that are not located in the <gui>Account "
 "Editor</gui>:"
@@ -5168,7 +4943,6 @@ msgid "MH Format Mail Directories account settings"
 msgstr "Ρυθμίσεις λογαριασμού καταλόγων αλληλογραφίας μορφής ΜΗ"
 
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:5(info/desc)
-#| msgid "Add and edit a Microsoft Exchange 2010 account in Evolution."
 msgid "Add and edit a Microsoft Exchange 2007 or 2010 account in Evolution."
 msgstr ""
 "Προσθήκη και επεξεργασία λογαριασμού Microsoft Exchange 2007 ή 2010 στο "
@@ -5179,7 +4953,6 @@ msgid "Exchange Web Services account settings"
 msgstr "Ρυθμίσεις λογαριασμού υπηρεσιών ιστού στο Exchange"
 
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:5(info/desc)
-#| msgid "Add and edit a Microsoft Exchange account in Evolution."
 msgid "Add and edit a Microsoft Exchange MAPI account in Evolution."
 msgstr ""
 "Προσθήκη και επεξεργασία λογαριασμού Microsoft Exchange MAPI στο Evolution."
@@ -5188,11 +4961,11 @@ msgstr ""
 msgid "Exchange MAPI account settings"
 msgstr "Ρυθμίσεις λογαριασμού ανταλλαγής MAPI"
 
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:45(section/title)
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:43(section/title)
 msgid "Exchange Settings"
 msgstr "Ρυθμίσεις Exchange"
 
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:46(section/p)
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:44(section/p)
 msgid "In this section you can view the size of all Exchange folders."
 msgstr ""
 "Σε αυτήν την ενότητα μπορείτε να δείτε το μέγεθος όλων των φακέλων Exchange."
@@ -5764,35 +5537,6 @@ msgid "Set the values for the header fields by using the dropdown list."
 msgstr ""
 "Ορίστε τις τιμές για τα πεδία κεφαλίδας χρησιμοποιώντας την πτυσσόμενη λίστα."
 
-#: C/mail-composer-forward-as-attachment.page:5(info/desc)
-msgid "How to forward a message with its attachments."
-msgstr "Πώς να προωθήσετε ένα μήνυμα με τα συνημμένα του."
-
-#: C/mail-composer-forward-as-attachment.page:21(page/title)
-msgid "Forwarding a message with its attachments"
-msgstr "Προώθηση μηνύματος με τα συνημμένα του"
-
-#: C/mail-composer-forward-as-attachment.page:23(page/p)
-msgid ""
-"Click <guiseq><gui>Message</gui><gui>Forward as...</gui></guiseq> and choose "
-"<gui>Attachment</gui>, so the forwarded email and also its attachments get "
-"attached to the email you want to send."
-msgstr ""
-"Πατήστε <guiseq><gui>μήνυμα</gui><gui>προώθηση ως...</gui></guiseq> και "
-"επιλέξτε <gui>συνημμένο</gui>, έτσι το προωθούμενο μήνυμα και επίσης τα "
-"συνημμένα του επισυνάπτονται στο μήνυμα που θέλετε να στείλετε."
-
-#: C/mail-composer-forward-as-attachment.page:26(note/p)
-msgid ""
-"If you want to have this setting by default, set <guiseq><gui>Edit</"
-"gui><gui>Preferences</gui><gui>Composer Preferences</gui><gui>Forward Style</"
-"gui></guiseq> to <gui>Attachment</gui>."
-msgstr ""
-"Εάν θέλετε να έχετε αυτήν την ρύθμιση από προεπιλογή, ορίστε "
-"<guiseq><gui>επεξεργασία</gui><gui>προτιμήσεις</gui><gui>προτιμήσεις "
-"σύνταξης</gui><gui> τεχνοτροπία προώθησης</gui></guiseq> στο <gui>συνημμένο</"
-"gui>."
-
 #: C/mail-composer-enable-html-format.page:5(info/desc)
 msgid "Enable HTML format in the mail composer."
 msgstr "Ενεργοποίηση μορφής HTML στην σύνταξη μηνύματος."
@@ -5947,6 +5691,35 @@ msgstr ""
 "στο <guiseq><gui>επεξεργασία</gui><gui>προτιμήσεις</gui><gui>προτιμήσεις "
 "σύνταξης</gui><gui>γενικά</gui><gui>απαντήσεις και προωθήσεις</"
 "gui><gui>τεχνοτροπία προώθησης</gui></guiseq>."
+
+#: C/mail-composer-forward-as-attachment.page:5(info/desc)
+msgid "How to forward a message with its attachments."
+msgstr "Πώς να προωθήσετε ένα μήνυμα με τα συνημμένα του."
+
+#: C/mail-composer-forward-as-attachment.page:21(page/title)
+msgid "Forwarding a message with its attachments"
+msgstr "Προώθηση μηνύματος με τα συνημμένα του"
+
+#: C/mail-composer-forward-as-attachment.page:23(page/p)
+msgid ""
+"Click <guiseq><gui>Message</gui><gui>Forward as...</gui></guiseq> and choose "
+"<gui>Attachment</gui>, so the forwarded email and also its attachments get "
+"attached to the email you want to send."
+msgstr ""
+"Πατήστε <guiseq><gui>μήνυμα</gui><gui>προώθηση ως...</gui></guiseq> και "
+"επιλέξτε <gui>συνημμένο</gui>, έτσι το προωθούμενο μήνυμα και επίσης τα "
+"συνημμένα του επισυνάπτονται στο μήνυμα που θέλετε να στείλετε."
+
+#: C/mail-composer-forward-as-attachment.page:26(note/p)
+msgid ""
+"If you want to have this setting by default, set <guiseq><gui>Edit</"
+"gui><gui>Preferences</gui><gui>Composer Preferences</gui><gui>Forward Style</"
+"gui></guiseq> to <gui>Attachment</gui>."
+msgstr ""
+"Εάν θέλετε να έχετε αυτήν την ρύθμιση από προεπιλογή, ορίστε "
+"<guiseq><gui>επεξεργασία</gui><gui>προτιμήσεις</gui><gui>προτιμήσεις "
+"σύνταξης</gui><gui> τεχνοτροπία προώθησης</gui></guiseq> στο <gui>συνημμένο</"
+"gui>."
 
 #. This is a reference to an external file such as an image or video. When
 #. the file changes, the md5 hash will change to let you know you need to
@@ -6446,11 +6219,11 @@ msgstr ""
 msgid "Setting a default signature for an email account."
 msgstr "Ορισμός προεπιλεγμένης υπογραφής για έναν λογαριασμό μηνύματος."
 
-#: C/mail-composer-mail-signatures-per-account.page:30(page/title)
+#: C/mail-composer-mail-signatures-per-account.page:29(page/title)
 msgid "Default account signature"
 msgstr "Προεπιλεγμένη υπογραφή λογαριασμού"
 
-#: C/mail-composer-mail-signatures-per-account.page:32(page/p)
+#: C/mail-composer-mail-signatures-per-account.page:31(page/p)
 msgid ""
 "You can define a default <link xref=\"mail-composer-mail-signatures"
 "\">signature</link> for each of your mail accounts. This can be edited under "
@@ -6464,7 +6237,7 @@ msgstr ""
 "gui><gui>λογαριασμοί αλληλογραφίας</gui><gui style=\"button\">επεξεργασία</"
 "gui><gui>ταυτότητα</gui><gui>προαιρετικές πληροφορίες</gui></guiseq>."
 
-#: C/mail-composer-mail-signatures-per-account.page:34(page/p)
+#: C/mail-composer-mail-signatures-per-account.page:33(page/p)
 msgid ""
 "If you have a signature for your account defined but exceptionally do not "
 "want to use it for one message, or want to use a different signature, you "
@@ -7041,14 +6814,19 @@ msgstr ""
 "αποφασίσει για μια συμφωνία"
 
 #: C/mail-composer-search.page:40(page/p)
+#| msgid ""
+#| "If you have a technical background you can also select the option to use "
+#| "<link href=\"https://secure.wikimedia.org/wikipedia/en/wiki/"
+#| "Regular_expression\">Regular expressions</link> for searching."
 msgid ""
 "If you have a technical background you can also select the option to use "
-"<link href=\"https://secure.wikimedia.org/wikipedia/en/wiki/"
-"Regular_expression\">Regular expressions</link> for searching."
+"<link href=\"https://en.wikipedia.org/wiki/Regular_expression\">Regular "
+"expressions</link> for searching."
 msgstr ""
 "Εάν έχετε τεχνικό υπόβαθρο μπορείτε επίσης να επιλέξετε την επιλογή της "
-"χρήσης <link href=\"https://secure.wikimedia.org/wikipedia/en/wiki/"
-"Regular_expression\">κανονικών εκφράσεων</link> για αναζήτηση."
+"χρήσης <link "
+"href=\"https://en.wikipedia.org/wiki/Regular_expression\">κανονικών "
+"εκφράσεων</link> για αναζήτηση."
 
 #: C/mail-composer-several-recipients.page:5(info/desc)
 msgid "Sending to more than one person and using CC or BCC."
@@ -7138,12 +6916,11 @@ msgid ""
 "the appropriate address columns (To:, Cc:, Bcc:)."
 msgstr ""
 "Αντί για πληκτρολόγηση των ονομάτων αποδεκτών μπορείτε επίσης να πατήσετε τα "
-"κουμπιά <gui style=\"button\">προς:</gui>, <gui "
-"style=\"button\">κοινοποίηση:</gui> ή <gui style=\"button\">κρυφή "
-"κοινοποίηση</gui> για να πάρετε μια λίστα με διευθύνσεις αλληλογραφίας από "
-"τα βιβλία διευθύνσεων. Διαλέξτε διευθύνσεις και πατήστε τα πλήκτρα βελών για "
-"να τις μετακινήσετε στις κατάλληλες στήλες διευθύνσεων (προς:, "
-"κοινοποίηση:, κρυφή κοινοποίηση:)."
+"κουμπιά <gui style=\"button\">προς:</gui>, <gui style=\"button\">κοινοποίηση:"
+"</gui> ή <gui style=\"button\">κρυφή κοινοποίηση</gui> για να πάρετε μια "
+"λίστα με διευθύνσεις αλληλογραφίας από τα βιβλία διευθύνσεων. Διαλέξτε "
+"διευθύνσεις και πατήστε τα πλήκτρα βελών για να τις μετακινήσετε στις "
+"κατάλληλες στήλες διευθύνσεων (προς:, κοινοποίηση:, κρυφή κοινοποίηση:)."
 
 #: C/mail-composer-spellcheck.page:7(info/desc)
 msgid "On spell checking your mail in the composer."
@@ -7303,7 +7080,6 @@ msgstr ""
 "gui><gui>προεπιλογές</gui></guiseq>)."
 
 #: C/mail-default-folder-locations.page:5(info/desc)
-#| msgid "Changing the location of the Draft folder and Sent folder."
 msgid "Changing the location of Draft, Sent, Trash and Junk folders."
 msgstr ""
 "Αλλαγή της θέσης των φακέλων πρόχειρο, απεσταλμένα, απορρίμματα και "
@@ -7327,10 +7103,6 @@ msgstr ""
 "\"button\">επεξεργασία</gui><gui>προεπιλογές</gui></guiseq>)."
 
 #: C/mail-default-folder-locations.page:32(page/p)
-#| msgid ""
-#| "For remote account types (accounts such as IMAP) you can also set a Trash "
-#| "folder and Junk folder on the mail server so Evolution's local virtual "
-#| "folders will not be used for it, but folders on the mail server."
 msgid ""
 "For remote account types (accounts such as IMAP) you can also use folders on "
 "the mail server for Junk and Trash by selecting the corresponding <gui>Use a "
@@ -7549,11 +7321,11 @@ msgstr ""
 msgid "On embedded pictures in received HTML messages."
 msgstr "Για ενσωματωμένες εικόνες σε λαμβανόμενα μηνύματα HTML."
 
-#: C/mail-displaying-images-in-html.page:28(page/title)
+#: C/mail-displaying-images-in-html.page:27(page/title)
 msgid "Images in HTML messages"
 msgstr "Εικόνες σε μηνύματα HTML"
 
-#: C/mail-displaying-images-in-html.page:30(page/p)
+#: C/mail-displaying-images-in-html.page:29(page/p)
 msgid ""
 "When someone sends you HTML mail that includes an image in the body of the "
 "message (for example, the welcome message in your Inbox), Evolution displays "
@@ -7563,11 +7335,11 @@ msgstr ""
 "μηνύματος (για παράδειγμα, το μήνυμα καλωσορίσματος στα εισερχόμενά σας), το "
 "Evolution εμφανίζει την εικόνα μέσα στο μήνυμα."
 
-#: C/mail-displaying-images-in-html.page:33(section/title)
+#: C/mail-displaying-images-in-html.page:32(section/title)
 msgid "Loading images"
 msgstr "Φόρτωση εικόνων"
 
-#: C/mail-displaying-images-in-html.page:34(section/p)
+#: C/mail-displaying-images-in-html.page:33(section/p)
 msgid ""
 "Some images are links in a message, rather than being part of the message. "
 "Evolution can download those images from the Internet, but does not do so "
@@ -7583,7 +7355,7 @@ msgstr ""
 "ανιχνεύσουν ποιος διαβάζει το μήνυμα. Οι μη αυτόματα φορτωμένες εικόνες θα "
 "σας βοηθήσουν να κρατήσετε την ιδιωτικότητά σας."
 
-#: C/mail-displaying-images-in-html.page:36(section/p)
+#: C/mail-displaying-images-in-html.page:35(section/p)
 msgid ""
 "To load the images for one message, click <guiseq><gui>View</gui><gui>Load "
 "Images</gui></guiseq> or press <keyseq><key>Ctrl</key><key>I</key></keyseq>."
@@ -7592,7 +7364,7 @@ msgstr ""
 "gui><gui>φόρτωση εικόνων</gui></guiseq> ή πατήστε <keyseq><key>Ctrl</"
 "key><key>Ι</key></keyseq>."
 
-#: C/mail-displaying-images-in-html.page:38(section/p)
+#: C/mail-displaying-images-in-html.page:37(section/p)
 msgid ""
 "To set the default action for loading images, go to <guiseq><gui>Edit</"
 "gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>HTML Messages</"
@@ -7603,11 +7375,11 @@ msgstr ""
 "αλληλογραφίας</gui><gui>μηνύματα HTML</gui><gui>φόρτωση εικόνων</gui></"
 "guiseq>."
 
-#: C/mail-displaying-images-in-html.page:42(section/title)
+#: C/mail-displaying-images-in-html.page:41(section/title)
 msgid "Automatically download images in emails from people you know"
 msgstr "Αυτόματο κατέβασμα εικόνων σε μηνύματα από ανθρώπους που ξέρετε"
 
-#: C/mail-displaying-images-in-html.page:44(section/p)
+#: C/mail-displaying-images-in-html.page:43(section/p)
 msgid ""
 "You can download images from emails sent by your contacts. To do this, go to "
 "<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Preferences</"
@@ -7620,7 +7392,7 @@ msgstr ""
 "HTML</gui><gui>φόρτωση εικόνων</gui></guiseq>. Ενεργοποιήστε την επιλογή "
 "<gui>φόρτωση εικόνων μόνο σε μηνύματα από επαφές</gui>."
 
-#: C/mail-displaying-images-in-html.page:46(section/p)
+#: C/mail-displaying-images-in-html.page:45(section/p)
 msgid ""
 "Next, go to <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Contacts</"
 "gui><gui>Autocompletion</gui></guiseq>. Enable autocompletion by ticking the "
@@ -7631,11 +7403,11 @@ msgstr ""
 "την αυτόματη συμπλήρωση σημειώνοντας το πλαίσιο ελέγχου <gui>προβολή πάντα "
 "της διεύθυνσης της αυτόματα συμπληρωμένης επαφής</gui>."
 
-#: C/mail-displaying-images-in-html.page:50(section/title)
+#: C/mail-displaying-images-in-html.page:49(section/title)
 msgid "Saving images"
 msgstr "Αποθήκευση εικόνων"
 
-#: C/mail-displaying-images-in-html.page:51(section/p)
+#: C/mail-displaying-images-in-html.page:50(section/p)
 msgid ""
 "To save an image that is embedded in an HTML email, right-click on the image "
 "and click <gui>Save Image...</gui>."
@@ -7655,52 +7427,6 @@ msgstr "Εμφάνιση μηνύματος"
 msgid "Advanced"
 msgstr "Προχωρημένα"
 
-#: C/mail-displaying-no-css.page:5(info/desc)
-msgid "When a received message looks weird or is hard to read."
-msgstr ""
-"Όταν ένα λαμβανόμενο μήνυμα φαίνεται περίεργο ή είναι δύσκολο να διαβαστεί."
-
-#: C/mail-displaying-no-css.page:21(page/title)
-msgid "HTML emails are not correctly displayed"
-msgstr "Τα μηνύματα HTML δεν προβάλλονται σωστά"
-
-#: C/mail-displaying-no-css.page:23(page/p)
-msgid ""
-"If an HTML message is not correctly displayed in Evolution it might be that "
-"the formatting of the message is specified as <link href=\"http://en."
-"wikipedia.org/wiki/Cascading_Style_Sheets\">CSS</link>. CSS is currently not "
-"supported by gtkhtml (the part that is used to display HTML)."
-msgstr ""
-"Εάν ένα μήνυμα HTML δεν προβάλλεται σωστά στο Evolution μπορεί να είναι η "
-"μορφοποίηση του μηνύματος που ορίζεται ως <link "
-"href=\"http://en.wikipedia.org/wiki/Cascading_Style_Sheets\">CSS</link>. Το "
-"CSS δεν υποστηρίζεται προς το παρόν από το gtkhtml (το μέρος που "
-"χρησιμοποιείται για προβολή HTML)."
-
-#: C/mail-displaying-no-css.page:24(page/p)
-msgid "This will likely be fixed in version 3.6."
-msgstr "Αυτό θα διορθωθεί πιθανόν στην έκδοση 3.6."
-
-#: C/mail-displaying-no-css.page:25(page/p)
-msgid ""
-"For developers only: In future versions, Evolution will use WebKit instead "
-"of gtkhtml for displaying HTML. There is a branch named \"<link href="
-"\"http://git.gnome.org/browse/evolution?h=webkit\">webkit</link>\" in "
-"Evolution's code repository to test."
-msgstr ""
-"Μόνο για προγραμματιστές: Σε μελλοντικές εκδόσεις, το Evolution θα "
-"χρησιμοποιεί το WebKit αντί για gtkhtml για προβολή HTML. Υπάρχει ένας "
-"κλάδος με όνομα \"<link href=\"http://git.gnome.org/browse/evolution?h=webkit"
-"\">webkit</link>\" στο αποθετήριο κώδικα στο Evolution για δοκιμή."
-
-#: C/mail-displaying-no-css.page:27(note/p)
-msgid ""
-"For missing characters in emails, see <link xref=\"mail-displaying-character-"
-"encodings\">Character Encodings and Sets</link>."
-msgstr ""
-"Για χαρακτήρες που λείπουν σε μηνύματα, δείτε <link xref=\"mail-displaying-"
-"character-encodings\">κωδικοποιήσεις χαρακτήρα και ορισμοί</link>."
-
 #: C/mail-displaying-sender-photograph.page:5(info/desc)
 msgid "Display a picture of the sender in the message header area."
 msgstr ""
@@ -7710,17 +7436,35 @@ msgstr ""
 msgid "Photograph Message Headers"
 msgstr "Κεφαλίδες μηνυμάτων φωτογραφιών"
 
-#: C/mail-displaying-sender-photograph.page:27(page/p)
+#: C/mail-displaying-sender-photograph.page:26(page/p)
+#| msgid ""
+#| "The photograph of the sender of an email can be shown at the right side "
+#| "of the message preview if the sender is in one of your address books and "
+#| "has a photograph."
 msgid ""
-"The photograph of the sender of an email can be shown at the right side of "
-"the message preview if the sender is in one of your address books and has a "
-"photograph."
+"Evolution automatically displays photographs of the sender of an email at "
+"the right side of the message header if the sender already embedded a "
+"photograph in the message."
 msgstr ""
-"Η φωτογραφία του αποστολέα ενός μηνύματος μπορεί να εμφανιστεί στα δεξιά της "
-"προεπισκόπησης μηνύματος εάν ο αποστολέας είναι σε ένα από τα βιβλία "
-"διευθύνσεων και έχει φωτογραφία."
+"Το Evolution εμφανίζει αυτόματα φωτογραφίες του αποστολέα ενός μηνύματος στα "
+"δεξιά της κεφαλίδας μηνύματος αν ο αποστολέας έχει ενσωματώσει ήδη μια "
+"φωτογραφία στο μήνυμα."
 
 #: C/mail-displaying-sender-photograph.page:29(page/p)
+#| msgid ""
+#| "The photograph of the sender of an email can be shown at the right side "
+#| "of the message preview if the sender is in one of your address books and "
+#| "has a photograph."
+msgid ""
+"You can also manually enable displaying the photograph of the sender of an "
+"email if the sender is in one of your address books and has a photograph "
+"stored."
+msgstr ""
+"Μπορείτε επίσης να ενεργοποιήσετε χειροκίνητα τη φωτογραφία του αποστολέα "
+"ενός μηνύματος, αν ο αποστολέας είναι σε ένα από τα βιβλία διευθύνσεών σας "
+"και έχει αποθηκευμένη μια φωτογραφία."
+
+#: C/mail-displaying-sender-photograph.page:31(page/p)
 msgid ""
 "To enable this functionality, select <guiseq><gui>Edit</"
 "gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>Headers</"
@@ -7730,19 +7474,6 @@ msgstr ""
 "gui><gui>προτιμήσεις</gui><gui>προτιμήσεις αλληλογραφίας</"
 "gui><gui>κεφαλίδες</gui><gui> προβολή της φωτογραφίας του αποστολέα στην "
 "προεπισκόπηση μηνύματος</gui></guiseq>."
-
-#: C/mail-displaying-sender-photograph.page:31(page/p)
-msgid ""
-"By default only local address books are used for searching the photograph as "
-"accessing remote address books can cause delays. You can disable this by "
-"deselecting the option <gui>Search for sender photograph only in local "
-"address books</gui>."
-msgstr ""
-"Από προεπιλογή χρησιμοποιούνται μόνο τοπικά βιβλία διευθύνσεων για αναζήτηση "
-"της φωτογραφίας καθώς η πρόσβαση απομακρυσμένων βιβλίων διευθύνσεων μπορεί "
-"να προκαλέσει καθυστερήσεις. Μπορείτε να το απενεργοποιήσετε αποεπιλέγοντας "
-"την επιλογή <gui>αναζήτηση για φωτογραφία αποστολέα μόνο σε τοπικά βιβλία "
-"διευθύνσεων</gui>."
 
 #: C/mail-displaying-sender-photograph.page:33(page/p)
 msgid ""
@@ -7825,15 +7556,12 @@ msgid "Evolution is having a problem with the UIDL extension."
 msgstr "Το Evolution έχει πρόβλημα με την επέκταση UIDL."
 
 #: C/mail-duplicates.page:38(item/p)
-#| msgid ""
-#| "The cache files located at <file>$HOME/.local/share/evolution/mail/pop/</"
-#| "file> are not writable."
 msgid ""
 "The cache files located at <file>$HOME/.local/share/evolution/mail/local/</"
 "file> are not writable."
 msgstr ""
-"Τα αρχεία κρυφής μνήμης που βρίσκονται στο "
-"<file>$HOME/.local/share/evolution/mail/local/</file> δεν είναι εγγράψιμα."
+"Τα αρχεία κρυφής μνήμης που βρίσκονται στο <file>$HOME/.local/share/"
+"evolution/mail/local/</file> δεν είναι εγγράψιμα."
 
 #: C/mail-encryption-gpg-create-key.page:5(info/desc)
 msgid "Signing or encrypting messages via GPG/OpenPGP that you send."
@@ -7844,10 +7572,6 @@ msgid "Creating a GPG key"
 msgstr "Δημιουργία κλειδιού GPG"
 
 #: C/mail-encryption-gpg-create-key.page:25(note/p)
-#| msgid ""
-#| "These steps are very technical. For average users we recommend using the "
-#| "<link href=\"help:seahorse#index\"><app>Seahorse</app> application</link> "
-#| "for managing GPG/OpenPGP keys."
 msgid ""
 "These steps are very technical. For average users we recommend using the "
 "<link href=\"help:seahorse/index\"><app>Seahorse</app> application</link> "
@@ -7866,12 +7590,11 @@ msgstr ""
 "χρειάζεται να δημιουργήσετε το δημόσιο και ιδιωτικό κλειδί με GPG."
 
 #: C/mail-encryption-gpg-create-key.page:30(item/p)
-#| msgid "Open a terminal window and enter <cmd>gpg --gen-key</cmd>."
 msgid ""
 "Open the <app>Terminal</app> application and enter <cmd>gpg --gen-key</cmd>."
 msgstr ""
-"Ανοίξτε την εφαρμογή <app>Τερματικός</app> και εισάγετε <cmd>gpg --gen-"
-"key</cmd>."
+"Ανοίξτε την εφαρμογή <app>Τερματικός</app> και εισάγετε <cmd>gpg --gen-key</"
+"cmd>."
 
 #: C/mail-encryption-gpg-create-key.page:31(item/p)
 msgid "Select an algorithm, then press Enter."
@@ -8145,11 +7868,6 @@ msgid "Click <gui style=\"button\">Close</gui>."
 msgstr "Κλικ στο <gui style=\"button\">κλείσιμο</gui>."
 
 #: C/mail-encryption-gpg-set-up.page:38(page/p)
-#| msgid ""
-#| "Evolution requires that you know your key ID. If you do not remember it, "
-#| "you can find it by typing <cmd>gpg --list-keys</cmd> in a terminal "
-#| "window. Your key ID is an eight-character string with random numbers and "
-#| "letters."
 msgid ""
 "Evolution requires that you know your key ID. If you do not remember it, you "
 "can find it by typing <cmd>gpg --list-keys</cmd> in the <app>Terminal</app> "
@@ -8157,10 +7875,9 @@ msgid ""
 "and letters."
 msgstr ""
 "Το Evolution απαιτεί να γνωρίζετε το αναγνωριστικό του κλειδιού σας. Εάν δεν "
-"το θυμάστε, μπορείτε να το βρείτε πληκτρολογώντας <cmd>gpg --list-"
-"keys</cmd> στην εφαρμογή <app>Τερματικός</app>. Το αναγνωριστικό του "
-"κλειδιού σας είναι μια οκταψήφια συμβολοσειρά με τυχαίους αριθμούς και "
-"γράμματα."
+"το θυμάστε, μπορείτε να το βρείτε πληκτρολογώντας <cmd>gpg --list-keys</cmd> "
+"στην εφαρμογή <app>Τερματικός</app>. Το αναγνωριστικό του κλειδιού σας είναι "
+"μια οκταψήφια συμβολοσειρά με τυχαίους αριθμούς και γράμματα."
 
 #: C/mail-encryption-gpg-signing-encrypting.page:5(info/desc)
 msgid "Signing or encrypting messages via GPG that you send."
@@ -8221,11 +7938,11 @@ msgstr ""
 msgid "Sending and receiving encrypted mail."
 msgstr "Αποστολή και λήψη κρυπτογραφημένων μηνυμάτων."
 
-#: C/mail-encryption.page:31(page/title)
+#: C/mail-encryption.page:30(page/title)
 msgid "Mail encryption and certificates"
 msgstr "Κρυπτογράφηση αλληλογραφίας και πιστοποιητικών"
 
-#: C/mail-encryption.page:33(page/p)
+#: C/mail-encryption.page:32(page/p)
 msgid ""
 "Evolution offers GPG Encryption and S/MIME Encryption for signing and "
 "encrypting email messages. S/MIME is used most often in corporate "
@@ -8235,11 +7952,11 @@ msgstr ""
 "υπογραφή και κρυπτογράφηση μηνυμάτων αλληλογραφίας. Το S/MIME "
 "χρησιμοποιείται πιο συχνά σε εταιρικά περιβάλλοντα."
 
-#: C/mail-encryption.page:36(section/title)
+#: C/mail-encryption.page:35(section/title)
 msgid "GPG"
 msgstr "GPG"
 
-#: C/mail-encryption.page:40(section/title)
+#: C/mail-encryption.page:39(section/title)
 msgid "S/MIME"
 msgstr "S/MIME"
 
@@ -8482,7 +8199,7 @@ msgid "Evolution runs an application."
 msgstr "Το Evolution εκτελεί μια εφαρμογή."
 
 #: C/mail-filters-actions.page:65(item/p)
-#: C/mail-filters-conditions.page:90(item/p)
+#: C/mail-filters-conditions.page:36(item/p)
 msgid "Pipe to Program:"
 msgstr "Σωλήνωση στο πρόγραμμα:"
 
@@ -8515,313 +8232,11 @@ msgstr "Διαθέσιμα κριτήρια για ρύθμιση φιλτραρ
 msgid "Available Filter conditions"
 msgstr "Διαθέσιμα κριτήρια φίλτρων"
 
-#: C/mail-filters-conditions.page:26(item/p)
-#: C/mail-search-folders-conditions.page:26(item/p)
-msgid "Sender:"
-msgstr "Αποστολέας:"
-
-#
-#: C/mail-filters-conditions.page:27(item/p)
-#: C/mail-search-folders-conditions.page:27(item/p)
-msgid "The sender's email address or the name of the sender."
-msgstr "Η διεύθυνση αλληλογραφίας του αποστολέα ή το όνομα του αποστολέα."
-
-#: C/mail-filters-conditions.page:29(item/p)
-#: C/mail-search-folders-conditions.page:29(item/p)
-msgid "Recipients:"
-msgstr "Παραλήπτες:"
-
-#: C/mail-filters-conditions.page:30(item/p)
-#: C/mail-search-folders-conditions.page:30(item/p)
-msgid "The recipients of the message."
-msgstr "Οι παραλήπτες του μηνύματος."
-
-#: C/mail-filters-conditions.page:32(item/p)
-#: C/mail-search-folders-conditions.page:32(item/p)
-msgid "CC:"
-msgstr "Κοινοποίηση:"
-
 #: C/mail-filters-conditions.page:33(item/p)
-#: C/mail-search-folders-conditions.page:33(item/p)
-msgid "Only the CC recipients of the message."
-msgstr "Μόνο οι αποδέκτες κοινοποίησης του μηνύματος."
-
-#: C/mail-filters-conditions.page:35(item/p)
-#: C/mail-search-folders-conditions.page:35(item/p)
-msgid "BCC:"
-msgstr "Κρυφή κοινοποίηση:"
-
-#: C/mail-filters-conditions.page:36(item/p)
-#: C/mail-search-folders-conditions.page:36(item/p)
-msgid ""
-"Only the BCC recipients of the message. Obviously this can only be applied "
-"to outgoing filters."
-msgstr ""
-"Μόνο οι αποδέκτες κρυφής κοινοποίησης του μηνύματος. Προφανώς αυτό μπορεί να "
-"εφαρμοστεί μόνο σε εξερχόμενα φίλτρα."
-
-#: C/mail-filters-conditions.page:38(item/p)
-#: C/mail-search-folders-conditions.page:38(item/p)
-msgid "Sender or Recipients:"
-msgstr "Αποστολέας ή αποδέκτες:"
-
-#
-#: C/mail-filters-conditions.page:39(item/p)
-#: C/mail-search-folders-conditions.page:39(item/p)
-msgid ""
-"The sender's email address or the name of the sender or the recipients of "
-"the message."
-msgstr ""
-"Η διεύθυνση αλληλογραφίας του αποστολέα ή το όνομα του αποστολέα ή των "
-"αποδεκτών του μηνύματος."
-
-#: C/mail-filters-conditions.page:41(item/p)
-#: C/mail-search-folders-conditions.page:41(item/p)
-msgid "Subject:"
-msgstr "Θέμα:"
-
-#: C/mail-filters-conditions.page:42(item/p)
-#: C/mail-search-folders-conditions.page:42(item/p)
-msgid "The subject line of the message."
-msgstr "Η γραμμή θέματος του μηνύματος."
-
-#: C/mail-filters-conditions.page:44(item/p)
-#: C/mail-search-folders-conditions.page:44(item/p)
-msgid "Specific Header:"
-msgstr "Συγκεκριμένη κεφαλίδα:"
-
-#: C/mail-filters-conditions.page:45(item/p)
-#: C/mail-search-folders-conditions.page:45(item/p)
-msgid ""
-"Any header including <link xref=\"mail-composer-custom-header-lines\">custom "
-"ones</link>."
-msgstr ""
-"Οποιαδήποτε κεφαλίδα συμπεριλαμβάνοντας τις <link xref=\"mail-composer-"
-"custom-header-lines\">προσαρμοσμένες</link>."
-
-#: C/mail-filters-conditions.page:46(item/p)
-#: C/mail-search-folders-conditions.page:46(item/p)
-msgid ""
-"If a message uses a header more than once, Evolution pays attention only to "
-"the first instance, even if the message defines the header differently the "
-"second time. For example, if a message declares the Resent-From: header as "
-"\"engineering@example.com\" and then restates it as \"marketing@example.com"
-"\", Evolution filters as though the second declaration did not occur. To "
-"filter on messages that use headers multiple times, use a regular expression."
-msgstr ""
-"Αν ένα μήνυμα χρησιμοποιεί μια κεφαλίδα περισσότερο από μία φορά, το "
-"Evolution δίνει σημασία μόνο στην πρώτη φορά, ακόμα και αν τη δεύτερη φορά η "
-"κεφαλίδα ορίζεται διαφορετικά. Για παράδειγμα, αν ένα μήνυμα καθορίζει την "
-"κεφαλίδα επαναποστολή από: σε \"engineering@example.com\" και μετά την "
-"ξαναορίζει ως \"marketing@example.com\", τότε το Evolution φιλτράρει σαν να "
-"μην συνάντησε το δεύτερο ορισμό. Για να φιλτράρετε μηνύματα που περιέχουν "
-"κεφαλίδες πολλαπλές φορές, χρησιμοποιήστε μια κανονική έκφραση."
-
-#: C/mail-filters-conditions.page:48(item/p)
-#: C/mail-search-folders-conditions.page:48(item/p)
-msgid "Message Body:"
-msgstr "Σώμα μηνύματος:"
-
-#: C/mail-filters-conditions.page:49(item/p)
-#: C/mail-search-folders-conditions.page:49(item/p)
-msgid "Searches in the actual text of the message."
-msgstr "Αναζητά στο κείμενο του μηνύματος."
-
-#: C/mail-filters-conditions.page:51(item/p)
-#: C/mail-search-folders-conditions.page:51(item/p)
-msgid "Expression:"
-msgstr "Έκφραση:"
-
-#: C/mail-filters-conditions.page:52(item/p)
-#: C/mail-search-folders-conditions.page:52(item/p)
-msgid ""
-"(For programmers only) Match a message according to an expression you write "
-"in the Scheme language used to define <link xref=\"mail-filters\">filters</"
-"link> in Evolution."
-msgstr ""
-"(Μόνο για προγραμματιστές) Ταίριασμα ενός μηνύματος σύμφωνα με μια έκφραση "
-"που γράφετε στη γλώσσα Scheme που χρησιμοποιείται για ορισμό <link xref="
-"\"mail-filters\">φίλτρων</link> στο Evolution."
-
-#: C/mail-filters-conditions.page:54(item/p)
-#: C/mail-search-folders-conditions.page:54(item/p)
-msgid "Date sent:"
-msgstr "Ημερομηνία αποστολής:"
-
-#: C/mail-filters-conditions.page:55(item/p)
-#: C/mail-search-folders-conditions.page:55(item/p)
-msgid ""
-"Filters messages according to the date on which they were sent. First, "
-"choose the conditions you want a message to meet, such as before a given "
-"time or after a given time. Then choose the time. The filter compares the "
-"message's time stamp to the system clock when the filter is run, or to a "
-"specific time and date you choose from a calendar. You can also have it look "
-"for a message within a range of time relative to the filter, such as two to "
-"four days ago."
-msgstr ""
-"Φιλτράρει τα μηνύματα σύμφωνα με την ημερομηνία κατά την οποία στάλθηκαν. "
-"Πρώτα, επιλέξτε τις συνθήκες τις οποίες θέλετε να πληρεί ένα μήνυμα, όπως "
-"πριν ή μετά μια συγκεκριμένη ώρα. Μετά επιλέξτε την ώρα. Το φίλτρο συγκρίνει "
-"την ώρα του μηνύματος με το ρολόι του συστήματος όταν τρέξει το φίλτρο, ή "
-"μια συγκεκριμένη ώρα και ημερομηνία που διαλέγετε από το ημερολόγιο. "
-"Μπορείτε επίσης να το κάνετε να ψάξει για ένα μήνυμα μέσα σε ένα χρονικό "
-"φάσμα σχετικό με το φίλτρο, όπως δύο ή τέσσερις μέρες πριν."
-
-#: C/mail-filters-conditions.page:57(item/p)
-#: C/mail-search-folders-conditions.page:57(item/p)
-msgid "Date received:"
-msgstr "Ημερομηνία παραλαβής:"
-
-#: C/mail-filters-conditions.page:58(item/p)
-#: C/mail-search-folders-conditions.page:58(item/p)
-msgid ""
-"This works the same way as the Date Sent option, except that it compares the "
-"time you received the message with the dates you specify."
-msgstr ""
-"Αυτό δουλεύει παρόμοια με την επιλογή ημερομηνία αποστολής, με τη διαφορά "
-"ότι συγκρίνει την ώρα που λάβατε το μήνυμα με τις ημερομηνίες που ορίζετε."
-
-#: C/mail-filters-conditions.page:60(item/p)
-#: C/mail-search-folders-conditions.page:60(item/p)
-msgid "Label:"
-msgstr "Ετικέτα:"
-
-#: C/mail-filters-conditions.page:61(item/p)
-#: C/mail-search-folders-conditions.page:61(item/p)
-msgid ""
-"Messages can have <link xref=\"mail-labels\">labels</link> of Important, "
-"Work, Personal, To Do, or Later. You can set labels with other filters or "
-"manually."
-msgstr ""
-"Τα μηνύματα μπορούν να έχουν <link xref=\"mail-labels\">ετικέτες</link> όπως "
-"σημαντικό, εργασία, προσωπικό, εκκρεμές, ή αργότερα. Μπορείτε να ορίσετε "
-"ετικέτες με άλλα φίλτρα ή χειροκίνητα."
-
-#: C/mail-filters-conditions.page:63(item/p)
-#: C/mail-search-folders-conditions.page:63(item/p)
-msgid "Score:"
-msgstr "Αποτέλεσμα:"
-
-#: C/mail-filters-conditions.page:64(item/p)
-#: C/mail-search-folders-conditions.page:64(item/p)
-msgid ""
-"Sets the message score to any whole number greater than 0. You can have one "
-"filter set or change a message score, and then set up another filter to move "
-"the messages you have scored. A message score is not based on anything in "
-"particular: it is simply a number you can assign to messages so other "
-"filters can process them."
-msgstr ""
-"Ορίζει το αποτέλεσμα του μηνύματος σε οποιοδήποτε ακέραιο αριθμό μεγαλύτερο "
-"από το 0. Μπορείτε να έχετε ένα ορισμένο φίλτρο ή να αλλάξετε το αποτέλεσμα "
-"του μηνύματος και έπειτα να εγκαταστήσετε ένα άλλο φίλτρο για μετακίνηση των "
-"μηνυμάτων που σημειώσατε. Το αποτέλεσμα ενός μηνύματος δε βασίζεται σε κάτι "
-"συγκεκριμένο: είναι απλά ένας αριθμός τον οποίο μπορείτε να αναθέσετε σε "
-"μηνύματα ώστε άλλα φίλτρα να τον επεξεργάζονται."
-
-#: C/mail-filters-conditions.page:66(item/p)
-#: C/mail-search-folders-conditions.page:66(item/p)
-msgid "Size (kB):"
-msgstr "Μέγεθος (kB):"
-
-#: C/mail-filters-conditions.page:67(item/p)
-#: C/mail-search-folders-conditions.page:67(item/p)
-msgid "Sorts based on the size of the message in kilobytes."
-msgstr "Ταξινομεί με βάση το μέγεθος του μηνύματος σε kilobytes."
-
-#: C/mail-filters-conditions.page:69(item/p)
-#: C/mail-search-folders-conditions.page:69(item/p)
-msgid "Status:"
-msgstr "Κατάσταση:"
-
-#: C/mail-filters-conditions.page:70(item/p)
-#: C/mail-search-folders-conditions.page:70(item/p)
-msgid ""
-"Filters according to the status of a message. The status can be Replied To, "
-"Draft, Important, Read, or Junk."
-msgstr ""
-"Φιλτράρει σύμφωνα με την κατάσταση του μηνύματος. Η κατάσταση μπορεί να "
-"είναι απαντημένο, πρόχειρο, σημαντικό, διαβασμένο ή ανεπιθύμητο."
-
-#: C/mail-filters-conditions.page:72(item/p)
-#: C/mail-search-folders-conditions.page:72(item/p)
-msgid "Follow Up:"
-msgstr "Παρακολούθηση:"
-
-#: C/mail-filters-conditions.page:73(item/p)
-#: C/mail-search-folders-conditions.page:73(item/p)
-msgid ""
-"Checks whether the message is <link xref=\"mail-follow-up-flag\">flagged for "
-"follow-up</link>."
-msgstr ""
-"Ελέγχει εάν το μήνυμα είναι <link xref=\"mail-follow-up-flag\">με σημαία για "
-"παρακολούθηση</link>."
-
-#: C/mail-filters-conditions.page:75(item/p)
-#: C/mail-search-folders-conditions.page:75(item/p)
-msgid "Completed On:"
-msgstr "Ολοκληρωμένο την:"
-
-#: C/mail-filters-conditions.page:78(item/p)
-#: C/mail-search-folders-conditions.page:78(item/p)
-msgid "Attachments:"
-msgstr "Συνημμένα:"
-
-#: C/mail-filters-conditions.page:79(item/p)
-#: C/mail-search-folders-conditions.page:79(item/p)
-msgid "Checks whether there is an attachment for the email."
-msgstr "Ελέγχει εάν υπάρχει συνημμένο στο μήνυμα."
-
-#: C/mail-filters-conditions.page:81(item/p)
-#: C/mail-search-folders-conditions.page:81(item/p)
-msgid "Mailing List"
-msgstr "Λίστα ταχυδρομείου"
-
-#: C/mail-filters-conditions.page:82(item/p)
-#: C/mail-search-folders-conditions.page:82(item/p)
-msgid ""
-"Filters based on the mailing list the message came from. This filter might "
-"miss messages from some list servers, because it checks for the X-BeenThere "
-"header, which is used to identify mailing lists or other redistributors of "
-"mail. Mail from list servers that do not set X-BeenThere properly are not be "
-"caught by these filters."
-msgstr ""
-"Φιλτράρει βάσει της λίστας ταχυδρομείου από την οποία έφτασε το μήνυμα. Αυτό "
-"το φίλτρο μπορεί να χάσει μερικά μηνύματα από μερικούς διακομιστές λιστών, "
-"γιατί ελέγχει για την κεφαλίδα X-BeenThere, η οποία χρησιμοποιείται για να "
-"ταυτοποιεί λίστες ταχυδρομείου ή άλλους αναδιανομής αλληλογραφίας. "
-"Αλληλογραφία από διακομιστές λιστών οι οποίοι δεν ορίζουν την κεφαλίδα X-"
-"BeenThere σωστά δε θα φιλτραριστούν από τέτοια φίλτρα."
-
-#: C/mail-filters-conditions.page:84(item/p)
-#: C/mail-search-folders-conditions.page:84(item/p)
-msgid "Regex Match:"
-msgstr "Ταίριασμα με Regex:"
-
-#: C/mail-filters-conditions.page:85(item/p)
-#: C/mail-search-folders-conditions.page:85(item/p)
-msgid ""
-"(For programmers only) If you know your way around a <link href=\"https://"
-"secure.wikimedia.org/wikipedia/en/wiki/Regular_expression\">regex</link>, or "
-"regular expression, this option allows you to search for complex patterns of "
-"letters, so that you can find, for example, all words that start with a and "
-"end with m, and are between six and fifteen letters long, or all messages "
-"that declare a particular header twice. For information about how to use "
-"regular expressions, check the man page for the <cmd>grep</cmd> command."
-msgstr ""
-"(Για προγραμματιστές μόνο) Αν γνωρίζετε το δρόμο σας με τις <link href="
-"\"https://secure.wikimedia.org/wikipedia/en/wiki/Regular_expression\">regex</"
-"link>, ή κανονικές εκφράσεις, αυτή η επιλογή σας επιτρέπει να αναζητάτε για "
-"πολύπλοκα μοτίβα γραμμάτων, ώστε να μπορείτε να βρείτε, για παράδειγμα, όλες "
-"τις λέξεις που ξεκινούν από α και τελειώνουν σε ο, και το μήκος τους είναι "
-"μεταξύ έξι και δεκαπέντε γραμμάτων, ή όλα τα μηνύματα που ορίζουν την "
-"συγκεκριμένη κεφαλίδα δύο φορές. Για πληροφορίες για τη χρήση των κανονικών "
-"εκφράσεων, ελέγξτε τη σελίδα man της εντολής <cmd>grep</cmd>."
-
-#: C/mail-filters-conditions.page:87(item/p)
 msgid "Source Account:"
 msgstr "Πηγαίος λογαριασμός:"
 
-#: C/mail-filters-conditions.page:88(item/p)
+#: C/mail-filters-conditions.page:34(item/p)
 msgid ""
 "Filters messages according the server you got them from. This is most useful "
 "if you use multiple POP mail accounts."
@@ -8830,7 +8245,7 @@ msgstr ""
 "είναι περισσότερο χρήσιμο αν χρησιμοποιείτε πολλαπλούς λογαριασμούς "
 "αλληλογραφίας POP."
 
-#: C/mail-filters-conditions.page:91(item/p)
+#: C/mail-filters-conditions.page:37(item/p)
 msgid ""
 "Evolution can use an external command to process a message, then process it "
 "based on the return value. Commands used in this way must return an integer. "
@@ -8842,11 +8257,11 @@ msgstr ""
 "επιστρέφουν έναν ακέραιο. Αυτό χρησιμοποιείται πιο συχνά για να προστεθεί "
 "ένα εξωτερικό φίλτρο ανεπιθύμητων μηνυμάτων."
 
-#: C/mail-filters-conditions.page:93(item/p)
+#: C/mail-filters-conditions.page:39(item/p)
 msgid "Junk Test:"
 msgstr "Δοκιμή ανεπιθύμητων:"
 
-#: C/mail-filters-conditions.page:94(item/p)
+#: C/mail-filters-conditions.page:40(item/p)
 msgid ""
 "Filters based on the results of the <link xref=\"mail-spam\">junk mail</"
 "link> test."
@@ -8854,10 +8269,22 @@ msgstr ""
 "Φιλτράρει με βάση τα αποτελέσματα του ελέγχου <link xref=\"mail-spam"
 "\">ανεπιθύμητης αλληλογραφίας</link>."
 
-#: C/mail-filters-conditions.page:96(item/p)
-#: C/mail-search-folders-conditions.page:90(item/p)
+#: C/mail-filters-conditions.page:42(item/p)
+#: C/mail-search-folders-conditions.page:36(item/p)
 msgid "Match All:"
 msgstr "Συμφωνία όλων:"
+
+#: C/mail-filters-conditions.page:43(item/p)
+msgid ""
+"Applies an action always to any message, without further conditions. This "
+"could be useful at the end of the list of message filters to cover those "
+"emails that did not match any conditions for the preceding filters in the "
+"list."
+msgstr ""
+"Εφαρμόζει μια ενέργεια πάντα σε κάθε μήνυμα, χωρίς παραπέρα συνθήκες. Αυτό "
+"μπορεί να είναι χρήσιμο στο τέλος της λίστας των φίλτρων μηνυμάτων για να "
+"καλύψει αυτά τα μηνύματα που δεν ταιριάζουν σε οποιαδήποτε συνθήκη για τα "
+"προηγούμενα φίλτρα στη λίστα."
 
 #: C/mail-filters-not-working.page:5(info/desc)
 msgid ""
@@ -8934,77 +8361,6 @@ msgstr ""
 "συγκεκριμένο μήνυμα αλληλογραφίας προσκομίζεται αρχικά από τον εξυπηρετητή. "
 "Εάν χρησιμοποιείτε έναν άλλον πελάτη αλληλογραφίας πέρα από το Evolution, "
 "μπορεί τα φίλτρα σας να μην δουλεύουν αυτόματα."
-
-#: C/mail-filters-not-working.page:42(section/title)
-msgid "Logging Filter Actions"
-msgstr "Καταγραφή ενεργειών φίλτρων"
-
-#: C/mail-filters-not-working.page:45(item/p)
-msgid "Close Evolution."
-msgstr "Κλείσιμο του Evolution."
-
-#: C/mail-filters-not-working.page:46(item/p)
-#: C/mail-localized-re-subjects.page:25(item/p)
-#: C/mail-save-as-pdf.page:27(item/p)
-#: C/mail-sorting-message-list.page:39(item/p)
-msgid "Open the <app>Terminal</app> application."
-msgstr "Άνοιγμα της εφαρμογής του <app>τερματικού</app>."
-
-#: C/mail-filters-not-working.page:47(item/p)
-msgid ""
-"Run the command <cmd>gsettings set org.gnome.evolution.mail filters-log-"
-"actions true</cmd>"
-msgstr ""
-"Εκτελέστε την εντολή <cmd>gsettings set org.gnome.evolution.mail filters-log-"
-"actions true</cmd>"
-
-#: C/mail-filters-not-working.page:48(item/p)
-msgid ""
-"Run the command <cmd>gsettings set org.gnome.evolution.mail filters-log-file "
-"\"~/my-filter-log\"</cmd>. This will create a text file named <file>my-"
-"filter-log</file> in your home directory."
-msgstr ""
-"Εκτέλεση της εντολής <cmd>gsettings set org.gnome.evolution.mail filters-log-"
-"file \"~/my-filter-log\"</cmd>. Αυτό θα δημιουργήσει ένα αρχείο κειμένου με "
-"όνομα <file>my-filter-log</file> στον προσωπικό σας κατάλογο."
-
-#: C/mail-filters-not-working.page:50(item/p)
-msgid "Fetch mail to apply filters."
-msgstr "Προσκόμιση αλληλογραφίας για εφαρμογή φίλτρων."
-
-#: C/mail-filters-not-working.page:51(item/p)
-msgid ""
-"Open the file <file>my-filter-log</file> with a text editor to see which "
-"filter actions have been applied."
-msgstr ""
-"Άνοιγμα του αρχείου <file>my-filter-log</file> με έναν επεξεργαστή κειμένου "
-"για να δείτε ποιες ενέργειες φίλτρου έχουν εφαρμοστεί."
-
-#: C/mail-filters-not-working.page:54(section/p)
-msgid ""
-"Note that you can disable filter logging again by using the command "
-"<cmd>gsettings set org.gnome.evolution.mail filters-log-actions false</cmd>"
-msgstr ""
-"Σημειώστε ότι μπορείτε να απενεργοποιήσετε την καταγραφή φίλτρου ξανά "
-"χρησιμοποιώντας την εντολή <cmd>gsettings set org.gnome.evolution.mail "
-"filters-log-actions false</cmd>"
-
-#: C/mail-filters-not-working.page:56(section/p)
-#: C/mail-localized-re-subjects.page:28(page/p)
-#: C/mail-save-as-pdf.page:30(note/p)
-msgid "You can also use the <app>dconf-editor</app> application to do this."
-msgstr ""
-"Μπορείτε επίσης να χρησιμοποιήσετε την εφαρμογή <app>dconf-editor</app> για "
-"να το κάνετε αυτό."
-
-#: C/mail-filters-not-working.page:41(page/section)
-msgid ""
-"<_:title-1/> If it is still unclear why filters do not work as expected, you "
-"can enable logging filter actions. <_:list-2/> <_:p-3/> <_:p-4/>"
-msgstr ""
-"<_:title-1/> Εάν είναι ακόμα ασαφές γιατί τα φίλτρα δεν δουλεύουν όπως "
-"αναμένεται, μπορείτε να ενεργοποιήσετε την καταγραφή ενεργειών φίλτρων. <_:"
-"list-2/> <_:p-3/> <_:p-4/>"
 
 #: C/mail-filters.page:5(info/desc)
 msgid "Use filter rules to sort your mail automatically into folders."
@@ -9327,9 +8683,10 @@ msgid ""
 "<guiseq><gui>Message</gui><gui>Mark as</gui><gui>Follow Up...</gui></guiseq> "
 "or by pressing <keyseq><key>Shift</key><key>Ctrl</key><key>G</key></keyseq>."
 msgstr ""
-"Μπορείτε επίσης να το κάνετε επιλέγοντας τα μηνύματα και κλικ στο <guiseq><g"
-"ui>μήνυμα</gui><gui>σημείωσηως</gui><gui>παρακολούθηση...</gui></guiseq> ή "
-"πατώντας <keyseq><key>Shift</key><key>Ctrl</key><key>G</key></keyseq>."
+"Μπορείτε επίσης να το κάνετε επιλέγοντας τα μηνύματα και κλικ στο "
+"<guiseq><gui>μήνυμα</gui><gui>σημείωσηως</gui><gui>παρακολούθηση...</gui></"
+"guiseq> ή πατώντας <keyseq><key>Shift</key><key>Ctrl</key><key>G</key></"
+"keyseq>."
 
 #: C/mail-follow-up-flag.page:33(page/p)
 msgid "A window opens to allow you to set the type of flag and the due date."
@@ -9560,6 +8917,12 @@ msgstr ""
 "<app>Evolution</app> μπορεί να αναγνωρίσει αυτούς τους όρους για να αποφύγει "
 "την επιμήκυνση των γραμμών καθώς συνεχίζεται η συζήτηση."
 
+#: C/mail-localized-re-subjects.page:25(item/p)
+#: C/mail-save-as-pdf.page:27(item/p)
+#: C/mail-sorting-message-list.page:39(item/p)
+msgid "Open the <app>Terminal</app> application."
+msgstr "Άνοιγμα της εφαρμογής του <app>τερματικού</app>."
+
 #: C/mail-localized-re-subjects.page:26(item/p)
 msgid ""
 "Run the command <cmd>gsettings set org.gnome.evolution.mail.composer-"
@@ -9569,6 +8932,13 @@ msgstr ""
 "Εκτελέστε την εντολή <cmd>gsettings set org.gnome.evolution.mail.composer-"
 "localized-re 'AW:,SV:'</cmd> (σε περίπτωση που θέλετε \"AW:\" και \"SV:\" να "
 "αναγνωρίζονται)."
+
+#: C/mail-localized-re-subjects.page:28(page/p)
+#: C/mail-save-as-pdf.page:30(note/p)
+msgid "You can also use the <app>dconf-editor</app> application to do this."
+msgstr ""
+"Μπορείτε επίσης να χρησιμοποιήσετε την εφαρμογή <app>dconf-editor</app> για "
+"να το κάνετε αυτό."
 
 #: C/mail-moving-emails.page:5(info/desc)
 msgid "Moving emails from one folder to another."
@@ -9920,7 +9290,6 @@ msgstr "Ανταλλαγή επιλογών λήψης υπηρεσιών ιστ
 
 #: C/mail-receiving-options-exchange-ews.page:25(section/p)
 #: C/mail-receiving-options-exchange-mapi.page:25(section/p)
-#: C/mail-receiving-options-imap.page:27(section/p)
 #: C/mail-receiving-options-imap-plus.page:28(section/p)
 #: C/mail-receiving-options-local-delivery.page:25(section/p)
 #: C/mail-receiving-options-maildir-format-directories.page:25(section/p)
@@ -9964,7 +9333,6 @@ msgstr ""
 
 #: C/mail-receiving-options-exchange-ews.page:31(item/p)
 #: C/mail-receiving-options-exchange-mapi.page:31(item/p)
-#: C/mail-receiving-options-imap.page:33(item/p)
 #: C/mail-receiving-options-imap-plus.page:34(item/p)
 #: C/mail-receiving-options-pop.page:38(item/p)
 #: C/mail-receiving-options-usenet-news.page:34(item/p)
@@ -9984,7 +9352,6 @@ msgstr ""
 
 #: C/mail-receiving-options-exchange-ews.page:37(section/title)
 #: C/mail-receiving-options-exchange-mapi.page:39(section/title)
-#: C/mail-receiving-options-imap.page:40(section/title)
 #: C/mail-receiving-options-imap-plus.page:41(section/title)
 #: C/mail-receiving-options-local-delivery.page:34(section/title)
 #: C/mail-receiving-options-maildir-format-directories.page:34(section/title)
@@ -9998,7 +9365,6 @@ msgstr "Επιλογές λήψης"
 
 #: C/mail-receiving-options-exchange-ews.page:39(section/p)
 #: C/mail-receiving-options-exchange-mapi.page:41(section/p)
-#: C/mail-receiving-options-imap.page:42(section/p)
 #: C/mail-receiving-options-imap-plus.page:43(section/p)
 #: C/mail-receiving-options-local-delivery.page:36(section/p)
 #: C/mail-receiving-options-maildir-format-directories.page:36(section/p)
@@ -10019,7 +9385,6 @@ msgstr ""
 
 #: C/mail-receiving-options-exchange-ews.page:42(item/p)
 #: C/mail-receiving-options-exchange-mapi.page:44(item/p)
-#: C/mail-receiving-options-imap.page:45(item/p)
 #: C/mail-receiving-options-imap-plus.page:46(item/p)
 #: C/mail-receiving-options-local-delivery.page:39(item/p)
 #: C/mail-receiving-options-maildir-format-directories.page:39(item/p)
@@ -10070,7 +9435,6 @@ msgstr ""
 
 #: C/mail-receiving-options-exchange-ews.page:52(section/p)
 #: C/mail-receiving-options-exchange-mapi.page:52(section/p)
-#: C/mail-receiving-options-imap.page:56(section/p)
 #: C/mail-receiving-options-imap-plus.page:58(section/p)
 #: C/mail-receiving-options-local-delivery.page:46(section/p)
 #: C/mail-receiving-options-maildir-format-directories.page:47(section/p)
@@ -10096,7 +9460,6 @@ msgid "Exchange MAPI receiving options"
 msgstr "Επιλογές λήψης ανταλλαγής MAPI"
 
 #: C/mail-receiving-options-exchange-mapi.page:28(item/p)
-#: C/mail-receiving-options-imap.page:30(item/p)
 #: C/mail-receiving-options-imap-plus.page:31(item/p)
 #: C/mail-receiving-options-pop.page:35(item/p)
 #: C/mail-receiving-options-usenet-news.page:31(item/p)
@@ -10113,7 +9476,6 @@ msgid "Enter the Domain name for that server."
 msgstr "Εισάγετε το όνομα τομέα του εξυπηρετητή."
 
 #: C/mail-receiving-options-exchange-mapi.page:32(item/p)
-#: C/mail-receiving-options-imap.page:31(item/p)
 #: C/mail-receiving-options-imap-plus.page:32(item/p)
 #: C/mail-receiving-options-pop.page:36(item/p)
 #: C/mail-receiving-options-usenet-news.page:32(item/p)
@@ -10125,15 +9487,14 @@ msgid "Click <gui style=\"button\">Authenticate</gui> and enter your password."
 msgstr ""
 "Κλικ <gui style=\"button\">πιστοποίηση</gui> και εισαγωγή του κωδικού σας."
 
-#: C/mail-receiving-options-imap.page:5(info/desc)
-msgid "Receiving options for IMAP accounts."
-msgstr "Λήψη επιλογών για λογαριασμούς IMAP."
+#: C/mail-receiving-options-imap-plus.page:5(info/desc)
+msgid "Receiving options for IMAP+ accounts."
+msgstr "Λήψη επιλογών για λογαριασμούς IMAP+."
 
-#: C/mail-receiving-options-imap.page:22(page/title)
-msgid "IMAP receiving options"
-msgstr "Επιλογές λήψης IMAP"
+#: C/mail-receiving-options-imap-plus.page:23(page/title)
+msgid "IMAP+ receiving options"
+msgstr "Επιλογές λήψης IMAP+"
 
-#: C/mail-receiving-options-imap.page:31(item/p)
 #: C/mail-receiving-options-imap-plus.page:32(item/p)
 #: C/mail-receiving-options-pop.page:36(item/p)
 #: C/mail-receiving-options-usenet-news.page:32(item/p)
@@ -10142,7 +9503,6 @@ msgstr ""
 "Θα πρέπει να ενεργοποιήσετε αυτή την επιλογή αν ο εξυπηρετητής σας την "
 "υποστηρίζει."
 
-#: C/mail-receiving-options-imap.page:32(note/p)
 #: C/mail-receiving-options-imap-plus.page:33(note/p)
 #: C/mail-receiving-options-pop.page:37(note/p)
 #: C/mail-receiving-options-pop.page:39(note/p)
@@ -10158,55 +9518,11 @@ msgstr ""
 "οργανισμό, μπορεί να χρειαστεί να επικοινωνήσετε με το διαχειριστή του "
 "συστήματός σας για περισσότερες πληροφορίες."
 
-#: C/mail-receiving-options-imap.page:34(item/p)
 #: C/mail-receiving-options-imap-plus.page:35(item/p)
 #: C/mail-receiving-options-pop.page:40(item/p)
 #: C/mail-receiving-options-usenet-news.page:35(item/p)
 msgid "Select if you want Evolution to remember your password."
 msgstr "Επιλέξτε αν θέλετε το Evolution να θυμάται τον κωδικό σας."
-
-#: C/mail-receiving-options-imap.page:46(item/p)
-#: C/mail-receiving-options-imap-plus.page:48(item/p)
-msgid ""
-"You can also define if Evolution checks for new messages in all folders, or "
-"only in subscribed folders."
-msgstr ""
-"Μπορείτε επίσης να ορίσετε εάν το Evolution ελέγχει για νέα μηνύματα σε "
-"όλους τους φακέλους, ή μόνο σε φακέλους συνδρομής."
-
-#: C/mail-receiving-options-imap.page:47(item/p)
-#: C/mail-receiving-options-imap-plus.page:49(item/p)
-msgid ""
-"Select if you want Evolution to use custom commands to connect to the IMAP "
-"server."
-msgstr ""
-"Επιλέξτε αν θέλετε το Evolution να χρησιμοποιεί ειδικές εντολές για να "
-"συνδέεται με το διακομιστή IMAP."
-
-#: C/mail-receiving-options-imap.page:48(item/p)
-#: C/mail-receiving-options-imap-plus.page:50(item/p)
-msgid ""
-"Select if you want Evolution to show only <link xref=\"mail-imap-"
-"subscriptions\">subscribed folders</link>."
-msgstr ""
-"Διαλέξτε αν θέλετε το Evolution να δείχνει μόνο τους <link xref=\"mail-imap-"
-"subscriptions\">φακέλους με συνδρομή</link>."
-
-#: C/mail-receiving-options-imap.page:49(item/p)
-#: C/mail-receiving-options-imap-plus.page:51(item/p)
-msgid ""
-"Select if you want Evolution to override server-supplied folder namespaces."
-msgstr ""
-"Διαλέξτε αν θέλετε το Evolution να παρακάμπτει φακέλους namespace που "
-"παρέχονται από το διακομιστή."
-
-#: C/mail-receiving-options-imap-plus.page:5(info/desc)
-msgid "Receiving options for IMAP+ accounts."
-msgstr "Λήψη επιλογών για λογαριασμούς IMAP+."
-
-#: C/mail-receiving-options-imap-plus.page:23(page/title)
-msgid "IMAP+ receiving options"
-msgstr "Επιλογές λήψης IMAP+"
 
 #: C/mail-receiving-options-imap-plus.page:47(item/p)
 msgid ""
@@ -10217,6 +9533,37 @@ msgstr ""
 "Επιλέξτε \"χρήση γρήγορου επανασυγχρονισμού\" εάν ο εξυπηρετητής IMAP "
 "υποστηρίζει <link href=\"http://tools.ietf.org/html/rfc5162\">επεκτάσεις "
 "IMAP4 για γρήγορο επανασυγχρονισμό γραμματοκιβωτίου</link>."
+
+#: C/mail-receiving-options-imap-plus.page:48(item/p)
+msgid ""
+"You can also define if Evolution checks for new messages in all folders, or "
+"only in subscribed folders."
+msgstr ""
+"Μπορείτε επίσης να ορίσετε εάν το Evolution ελέγχει για νέα μηνύματα σε "
+"όλους τους φακέλους, ή μόνο σε φακέλους συνδρομής."
+
+#: C/mail-receiving-options-imap-plus.page:49(item/p)
+msgid ""
+"Select if you want Evolution to use custom commands to connect to the IMAP "
+"server."
+msgstr ""
+"Επιλέξτε αν θέλετε το Evolution να χρησιμοποιεί ειδικές εντολές για να "
+"συνδέεται με το διακομιστή IMAP."
+
+#: C/mail-receiving-options-imap-plus.page:50(item/p)
+msgid ""
+"Select if you want Evolution to show only <link xref=\"mail-imap-"
+"subscriptions\">subscribed folders</link>."
+msgstr ""
+"Διαλέξτε αν θέλετε το Evolution να δείχνει μόνο τους <link xref=\"mail-imap-"
+"subscriptions\">φακέλους με συνδρομή</link>."
+
+#: C/mail-receiving-options-imap-plus.page:51(item/p)
+msgid ""
+"Select if you want Evolution to override server-supplied folder namespaces."
+msgstr ""
+"Διαλέξτε αν θέλετε το Evolution να παρακάμπτει φακέλους namespace που "
+"παρέχονται από το διακομιστή."
 
 #: C/mail-receiving-options-local-delivery.page:5(info/desc)
 msgid "Receiving options for Local delivery accounts."
@@ -10441,11 +9788,6 @@ msgid "Save messages as PDF"
 msgstr "Αποθήκευση μηνυμάτων ως PDF"
 
 #: C/mail-save-as-pdf.page:22(page/p)
-#| msgid ""
-#| "In order to save emails in the PDF file format, select <guiseq><gui>File</"
-#| "gui><gui>Print</gui></guiseq> and then choose <gui>Print to File</gui>. "
-#| "See <link href=\"help:gnome-help#printing\">the desktop help</link> for "
-#| "general information on printing."
 msgid ""
 "In order to save emails in the PDF file format, select <guiseq><gui>File</"
 "gui><gui>Print</gui></guiseq> and then choose <gui>Print to File</gui>. See "
@@ -10454,9 +9796,8 @@ msgid ""
 msgstr ""
 "Για να αποθηκεύσετε μηνύματα σε μορφή αρχείου PDF, επιλέξτε "
 "<guiseq><gui>Αρχείο</gui><gui>Εκτύπωση</gui></guiseq> και έπειτα επιλέξτε "
-"<gui>Εκτύπωση σε αρχείο</gui>. Δείτε <link href=\"help:gnome-"
-"help/printing\">βοήθεια επιφάνειας εργασίας</link> για γενικές πληροφορίες "
-"στην εκτύπωση."
+"<gui>Εκτύπωση σε αρχείο</gui>. Δείτε <link href=\"help:gnome-help/printing"
+"\">βοήθεια επιφάνειας εργασίας</link> για γενικές πληροφορίες στην εκτύπωση."
 
 #: C/mail-save-as-pdf.page:25(note/p)
 msgid ""
@@ -10576,9 +9917,40 @@ msgstr "Διαθέσιμα κριτήρια για ρύθμιση φακέλων
 msgid "Available Search folder conditions"
 msgstr "Διαθέσιμα κριτήρια φακέλου αναζήτησης"
 
-#: C/mail-search-folders-conditions.page:87(item/p)
+#: C/mail-search-folders-conditions.page:33(item/p)
 msgid "Message Location:"
 msgstr "Τοποθεσία μηνύματος:"
+
+#: C/mail-search-folders-conditions.page:34(item/p)
+msgid "Checks whether the message is located in a specific folder."
+msgstr "Ελέγχει αν το μήνυμα βρίσκεται σε έναν ειδικό φάκελο."
+
+#: C/mail-search-folders-conditions.page:34(item/p)
+#| msgid ""
+#| "By default, Evolution's <gui>Trash</gui> and <gui>Junk</gui> folders are "
+#| "<link xref=\"mail-search-folders\">Search folders</link>. They do not "
+#| "really exist but simply display all the messages that are marked as junk "
+#| "or for deletion in any folders of that account."
+msgid ""
+"Note that by default, Evolution's <gui>Trash</gui> and <gui>Junk</gui> "
+"folders are <link xref=\"mail-search-folders\">Search folders</link> so they "
+"cannot be selected here."
+msgstr ""
+"Από προεπιλογή, οι φάκελοι <gui>Απορρίμματα</gui> και <gui>Ανεπιθύμητα</gui> "
+"του Evolution είναι <link xref=\"mail-search-folders\">φάκελοι "
+"αναζήτησης</link>, έτσι δεν μπορούν να επιλεγούν εδώ."
+
+#: C/mail-search-folders-conditions.page:37(item/p)
+msgid ""
+"Applies an action always to any message, without further conditions. This "
+"could be useful at the end of the list of search folders to cover those "
+"emails that did not match any conditions for the preceding search folders in "
+"the list."
+msgstr ""
+"Εφαρμόζει μια ενέργεια πάντα σε κάθε μήνυμα, χωρίς παραπέρα συνθήκες. Αυτό "
+"μπορεί να είναι χρήσιμο στο τέλος της λίστας των φακέλων αναζήτησης για να "
+"καλύψει αυτά τα μηνύματα που δεν ταιριάζουν σε οποιαδήποτε συνθήκη για τους "
+"προηγούμενους φακέλους αναζήτησης στη λίστα."
 
 #: C/mail-search-folders-enable.page:5(info/desc)
 msgid "Activate search folders."
@@ -10796,10 +10168,6 @@ msgstr ""
 "να δημιουργήσετε έναν φάκελο αναζήτησης στη θέση του· δείτε τη <link xref="
 "\"mail-search-folders\">χρήση των φακέλων αναζήτησης</link> για περισσότερες "
 "λεπτομέρειες."
-
-#: C/mail-searching.page:56(section/title)
-msgid "Advanced Search:"
-msgstr "Προχωρημένη αναζήτηση:"
 
 #: C/mail-send-and-receive-automatically.page:5(info/desc)
 msgid "Check automatically and regularly for new received mail."
@@ -11448,17 +10816,24 @@ msgid "Junk Mail Preferences"
 msgstr "Προτιμήσεις ανεπιθύμητης αλληλογραφίας"
 
 #: C/mail-spam-settings.page:62(note/p)
+#| msgid ""
+#| "The junk mail options discussed in this page refer only to POP and Local "
+#| "Delivery. For handling junk mails on IMAP, see the Evolution settings "
+#| "under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</"
+#| "gui><gui style=\"button\">Edit</gui><gui>Receiving Options</gui></guiseq>."
 msgid ""
 "The junk mail options discussed in this page refer only to POP and Local "
-"Delivery. For handling junk mails on IMAP, see the Evolution settings under "
-"<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui "
-"style=\"button\">Edit</gui><gui>Receiving Options</gui></guiseq>."
+"Delivery accounts. For handling junk mails on IMAP accounts, see the "
+"Evolution settings under <guiseq><gui>Edit</gui><gui>Preferences</"
+"gui><gui>Mail Accounts</gui><gui style=\"button\">Edit</gui><gui>Receiving "
+"Options</gui></guiseq>."
 msgstr ""
 "Οι επιλογές ανεπιθύμητης αλληλογραφίας που συζητήθηκαν σε αυτήν τη σελίδα "
-"αναφέρονται μόνο σε POP και τοπική διανομή. Για χειρισμό ανεπιθύμητων "
-"μηνυμάτων στο IMAP, δείτε τις ρυθμίσεις του Evolution στο "
-"<guiseq><gui>επεξεργασία</gui><gui>προτιμήσεις</gui><gui>λογαριασμοί "
-"αλληλογραφίας</gui><gui style=\"button\">επεξεργασία</gui><gui>λήψη "
+"αναφέρονται μόνο σε POP και λογαριασμούς τοπικής διανομής. Για χειρισμό "
+"ανεπιθύμητων μηνυμάτων σε λογαριασμούς IMAP, δείτε τις ρυθμίσεις του "
+"Evolution στο "
+"<guiseq><gui>Επεξεργασία</gui><gui>Προτιμήσεις</gui><gui>Λογαριασμοί "
+"αλληλογραφίας</gui><gui style=\"button\">Επεξεργασία</gui><gui>Λήψη "
 "επιλογών</gui></guiseq>."
 
 #: C/mail-spam-settings.page:63(section/p)
@@ -11528,8 +10903,8 @@ msgstr ""
 "Για περισσότερες πληροφορίες και ιδιαίτερες ερωτήσεις διαμόρφωσης του "
 "Bogofilter ή SpamAssassin συνιστάται να ελέγξετε τις συχνές ερωτήσεις για το "
 "<link href=\"http://bogofilter.sourceforge.net/faq.shtml\">Bogofilter</link> "
-"και αντίστοιχα για το <link href=\"http://wiki.apache.org/spamassassin/Freque"
-"ntlyAskedQuestions\">SpamAssassin</link>."
+"και αντίστοιχα για το <link href=\"http://wiki.apache.org/spamassassin/"
+"FrequentlyAskedQuestions\">SpamAssassin</link>."
 
 #: C/mail-two-trash-folders.page:5(info/desc)
 msgid "How to have only one trash or junk folder per account."
@@ -11537,7 +10912,6 @@ msgstr ""
 "Πώς να έχετε μόνο έναν φάκελο απορριμμάτων ή ανεπιθύμητων ανά λογαριασμό."
 
 #: C/mail-two-trash-folders.page:25(page/title)
-#| msgid "Two Trash folders shown for the same account"
 msgid "Two Trash or Junk folders shown for the same account"
 msgstr ""
 "Δύο φάκελοι απορριμμάτων ή ανεπιθύμητων εμφανίζονται για τον ίδιο λογαριασμό"
@@ -11563,10 +10937,6 @@ msgstr ""
 "κάθε άλλος φάκελος."
 
 #: C/mail-two-trash-folders.page:30(page/p)
-#| msgid ""
-#| "Evolution's <gui>Trash</gui> folder is a <link xref=\"mail-search-folders"
-#| "\">Search folder</link>. It does not really exist but simply displays all "
-#| "the messages that are marked for deletion in any folders of that account."
 msgid ""
 "By default, Evolution's <gui>Trash</gui> and <gui>Junk</gui> folders are "
 "<link xref=\"mail-search-folders\">Search folders</link>. They do not really "
@@ -11574,18 +10944,12 @@ msgid ""
 "deletion in any folders of that account."
 msgstr ""
 "Από προεπιλογή, οι φάκελοι <gui>Απορρίμματα</gui> και <gui>Ανεπιθύμητα</gui> "
-"του Evolution είναι <link xref=\"mail-search-folders\">φάκελοι "
-"αναζήτησης</link>. Δεν υπάρχουν πράγματι αλλά απλά εμφανίζουν όλα τα "
-"μηνύματα που σημειώνονται ως ανεπιθύμητα ή για διαγραφή σε κάθε φάκελο αυτού "
-"του λογαριασμού."
+"του Evolution είναι <link xref=\"mail-search-folders\">φάκελοι αναζήτησης</"
+"link>. Δεν υπάρχουν πράγματι αλλά απλά εμφανίζουν όλα τα μηνύματα που "
+"σημειώνονται ως ανεπιθύμητα ή για διαγραφή σε κάθε φάκελο αυτού του "
+"λογαριασμού."
 
 #: C/mail-two-trash-folders.page:32(page/p)
-#| msgid ""
-#| "You can set a different place where to store messages in your Draft "
-#| "folder and Sent folder in the <gui>Defaults</gui> section of the mail "
-#| "account editor (<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail "
-#| "Accounts</gui><gui style=\"button\">Edit</gui><gui>Defaults</gui></"
-#| "guiseq>)."
 msgid ""
 "In order to only use the folders for Junk and Trash on the mail server, "
 "select the corresponding <gui>Use a Real Folder</gui> option under "
@@ -11595,12 +10959,10 @@ msgid ""
 msgstr ""
 "Για να χρησιμοποιήσετε μόνο τους φακέλους για ανεπιθύμητα και απορρίμματα "
 "στον εξυπηρετητή αλληλογραφίας, επιλέξτε την αντίστοιχη επιλογή <gui>Χρήση "
-"πραγματικού φακέλου</gui> στο "
-"<guiseq><gui>Επεξεργασία</gui><gui>Προτιμήσεις</gui><gui>Λογαριασμοί "
-"αλληλογραφίας</gui><gui "
-"style=\"button\">Επεξεργασία</gui><gui>Προεπιλογές</gui></guiseq>. Σε αυτήν "
-"την περίπτωση, οι τοπικοί εικονικοί φάκελοι του Evolution δεν θα "
-"χρησιμοποιηθούν."
+"πραγματικού φακέλου</gui> στο <guiseq><gui>Επεξεργασία</"
+"gui><gui>Προτιμήσεις</gui><gui>Λογαριασμοί αλληλογραφίας</gui><gui style="
+"\"button\">Επεξεργασία</gui><gui>Προεπιλογές</gui></guiseq>. Σε αυτήν την "
+"περίπτωση, οι τοπικοί εικονικοί φάκελοι του Evolution δεν θα χρησιμοποιηθούν."
 
 #: C/mail-usenet-subscriptions.page:5(info/desc)
 msgid "Subscribing to Usenet newsgroups."
@@ -11716,12 +11078,6 @@ msgid "Working Offline"
 msgstr "Εργασία χωρίς σύνδεση"
 
 #: C/mail-working-offline.page:25(page/p)
-#| msgid ""
-#| "Offline mode helps you communicate with remote mail storage systems like "
-#| "GroupWise, IMAP or Exchange, in situations where you are not connected to "
-#| "the network at all times. Evolution keeps a local copy of one or more "
-#| "folders to allow you to compose messages, storing them in your Outbox to "
-#| "be sent the next time you connect."
 msgid ""
 "Forced offline mode helps you communicate with remote mail storage systems "
 "like GroupWise, IMAP or Exchange, in situations where you are not connected "
@@ -11745,11 +11101,6 @@ msgstr ""
 "αλληλογραφία και δεν εφαρμόζεται στις επαφές και τα ημερολόγια."
 
 #: C/mail-working-offline.page:29(page/p)
-#| msgid ""
-#| "POP mail downloads all messages to your local system, but other "
-#| "connections usually download just the headers, and get the rest only when "
-#| "you want to read the message. Before you go offline, Evolution downloads "
-#| "the unread messages from the folders you have chosen to store."
 msgid ""
 "POP mail downloads all messages to your local system, but other connections "
 "usually download just the headers, and get the rest only when you want to "
@@ -11760,8 +11111,7 @@ msgstr ""
 "αλλά οι άλλες συνδέσεις συνήθως κάνουν λήψη μόνο των κεφαλίδων και λαμβάνουν "
 "τα υπόλοιπα μόνο όταν θέλετε να διαβάσετε το μήνυμα. Πριν αναγκάσετε το "
 "Evolution να είναι εκτός σύνδεσης, το Evolution κάνει λήψη των μη "
-"αναγνωσμένων μηνυμάτων από τους φακέλους που έχετε επιλέξει να "
-"αποθηκεύονται."
+"αναγνωσμένων μηνυμάτων από τους φακέλους που έχετε επιλέξει να αποθηκεύονται."
 
 #: C/mail-working-offline.page:32(section/title)
 msgid "Marking folders for offline usage"
@@ -11786,13 +11136,6 @@ msgid "Syncing messages for offline usage"
 msgstr "Συγχρονισμός μηνυμάτων για εργασία χωρίς σύνδεση"
 
 #: C/mail-working-offline.page:42(section/p)
-#| msgid ""
-#| "Your connection status is shown by the small icon in the lower left "
-#| "corner of the Evolution main window. When you are online, it displays two "
-#| "connected cables. When you go offline via clicking the icon or via "
-#| "<guiseq><gui>File</gui><gui>Work Offline</gui></guiseq>, the cables "
-#| "separate. You will be asked whether you want to go offline immediately or "
-#| "synchronize folders locally before you go offline."
 msgid ""
 "Your connection status is shown by the small icon in the lower left corner "
 "of the Evolution main window. When you are online, it displays two connected "
@@ -11804,10 +11147,10 @@ msgstr ""
 "Η κατάσταση της σύνδεσής σας φαίνεται από το μικρό εικονίδιο στην κάτω "
 "αριστερή γωνία του κύριου παράθυρου του Evolution. Όταν είστε συνδεδεμένοι "
 "εμφανίζει δύο συνδεδεμένα καλώδια. Όταν εξαναγκάσετε σε κατάσταση εκτός "
-"σύνδεσης πατώντας το εικονίδιο ή μέσα από "
-"<guiseq><gui>Αρχείο</gui><gui>Εργασία χωρίς σύνδεση</gui></guiseq>, τα "
-"καλώδια διαχωρίζονται. Θα σας ζητηθεί εάν θέλετε να βγείτε εκτός σύνδεσης "
-"αμέσως ή να συγχρονίσετε τους φακέλους τοπικά πριν να βγείτε εκτός σύνδεσης."
+"σύνδεσης πατώντας το εικονίδιο ή μέσα από <guiseq><gui>Αρχείο</"
+"gui><gui>Εργασία χωρίς σύνδεση</gui></guiseq>, τα καλώδια διαχωρίζονται. Θα "
+"σας ζητηθεί εάν θέλετε να βγείτε εκτός σύνδεσης αμέσως ή να συγχρονίσετε "
+"τους φακέλους τοπικά πριν να βγείτε εκτός σύνδεσης."
 
 #: C/mail-working-offline.page:43(section/p)
 msgid ""
@@ -11824,12 +11167,6 @@ msgid "Automatic Network State Handling"
 msgstr "Αυτόματος χειρισμός της κατάστασης του δικτύου"
 
 #: C/mail-working-offline.page:48(section/p)
-#| msgid ""
-#| "Evolution automatically understands the network state and acts "
-#| "accordingly. For instance, Evolution switches to offline mode when the "
-#| "network goes down and automatically switches on when the network is up "
-#| "again. Ensure that your system has Network Manager installed to enable "
-#| "this feature."
 msgid ""
 "Evolution automatically understands the network state and acts accordingly. "
 "For instance, Evolution switches to offline mode when the network goes down "
@@ -12090,36 +11427,24 @@ msgstr ""
 "3."
 
 #: C/offline.page:5(info/desc)
-#| msgid "Make Evolution be online again."
 msgid "Make Evolution mail be online again."
 msgstr "Για επανασύνδεση της αλληλογραφίας του Evolution."
 
 #: C/offline.page:23(page/title)
-#| msgid "Why is Evolution offline when my net connection is working?"
 msgid "Why is Evolution's mail offline when my net connection is working?"
 msgstr ""
 "Γιατί η αλληλογραφία του Evolution είναι εκτός σύνδεσης όταν η σύνδεση του "
 "δικτύου μου δουλεύει;"
 
 #: C/offline.page:24(page/p)
-#| msgid ""
-#| "You may have started Evolution with the <cmd>--offline</cmd> commandline "
-#| "option."
 msgid ""
 "You may have started Evolution with the <cmd>--offline</cmd> commandline "
 "option to enforce offline mode."
 msgstr ""
-"Ίσως έχετε ξεκινήσει το Evolution με την επιλογή της γραμμής εντολών "
-"<cmd>--offline</cmd> που εξαναγκάζει σε κατάσταση εκτός σύνδεσης."
+"Ίσως έχετε ξεκινήσει το Evolution με την επιλογή της γραμμής εντολών <cmd>--"
+"offline</cmd> που εξαναγκάζει σε κατάσταση εκτός σύνδεσης."
 
 #: C/offline.page:26(page/p)
-#| msgid ""
-#| "If this is not the case and Evolution normally works but has suddenly "
-#| "stopped connecting, you may have unintentionally clicked on the "
-#| "connection icon in the lower left corner. When connected, the icon "
-#| "resembles a pair of sockets joined together. If the sockets are open, "
-#| "there is no connection (and the <gui style=\"button\">Send/Receive</gui> "
-#| "button is grayed out). Click on the icon to change its state."
 msgid ""
 "If this is not the case and Evolution normally works but has suddenly "
 "stopped connecting to your mail accounts, you may have unintentionally "
@@ -12134,24 +11459,10 @@ msgstr ""
 "άθελα σας στο εικονίδιο σύνδεσης στην κάτω αριστερή γωνία. Όταν συνδέεστε, "
 "το εικονίδιο μοιάζει με ένα ζευγάρι καλτσών ενωμένων μαζί. Εάν οι κάλτσες "
 "είναι ανοικτές, δεν υπάρχει σύνδεση με τους λογαριασμούς αλληλογραφίας σας "
-"(και το κουμπί <gui style=\"button\">Αποστολή/λήψη</gui> είναι αχνό). Πατήστε "
-"στο εικονίδιο για αλλαγή της κατάστασης του."
+"(και το κουμπί <gui style=\"button\">Αποστολή/λήψη</gui> είναι αχνό). "
+"Πατήστε στο εικονίδιο για αλλαγή της κατάστασης του."
 
 #: C/offline.page:28(page/p)
-#| msgid ""
-#| "If the problem persists and you are sure you have not clicked the icon, "
-#| "but you can still reach the network from other apps on your system "
-#| "(browsers, FTP, SSH, ping etc.) it may be that NetworkManager (NM) is not "
-#| "properly configured. Many Linux distributions now use NM to manage their "
-#| "connections, and if it is installed Evolution will use it to detect if "
-#| "the network is up. However NM can be installed but not properly "
-#| "configured, leaving the network working but not detectable by Evolution. "
-#| "(Note that other GNOME-based applications may also fail for the same "
-#| "reason.) The solution is to configure NM to manage your network "
-#| "interface. This is usually easy to do but is outside the scope of this "
-#| "document. For more information please take a look at the <link href="
-#| "\"help:gnome-help#net\">Desktop help</link> or seek help from your "
-#| "distribution support forums, mailing lists etc."
 msgid ""
 "If the problem persists and you are sure you have not clicked the icon, but "
 "you can still reach the network from other apps on your system (browsers, "
@@ -12219,13 +11530,6 @@ msgid "How to get help"
 msgstr "Πώς να πάρετε βοήθεια"
 
 #: C/problems-getting-help.page:24(page/p)
-#| msgid ""
-#| "To receive help on problems you can send an email to the <link href="
-#| "\"http://mail.gnome.org/mailman/listinfo/evolution-list\">Evolution "
-#| "mailing list</link> or talk to developers and other users in the IRC chat "
-#| "channel #evolution on the server irc.gimp.net. To connect to an IRC "
-#| "server you can for example <link href=\"help:empathy#irc-manage\">use the "
-#| "internet messenger application <app>Empathy</app></link>."
 msgid ""
 "To receive help on problems you can send an email to the <link href=\"http://"
 "mail.gnome.org/mailman/listinfo/evolution-list\">Evolution mailing list</"
@@ -12237,9 +11541,9 @@ msgstr ""
 "Για να δεχτείτε βοήθεια σε προβλήματα μπορείτε να στείλετε ένα μήνυμα στη "
 "<link href=\"http://mail.gnome.org/mailman/listinfo/evolution-list\">Λίστα "
 "αλληλογραφίας του Evolution</link> ή να μιλήσετε με τους προγραμματιστές και "
-"άλλους χρήστες στο κανάλι συνομιλιών IRC του #evolution στον εξυπηρετητή "
-"irc.gimp.net. Για σύνδεση με έναν εξυπηρετητή IRC μπορείτε για παράδειγμα "
-"<link href=\"help:empathy/irc-manage\"> να χρησιμοποιήσετε την εφαρμογή "
+"άλλους χρήστες στο κανάλι συνομιλιών IRC του #evolution στον εξυπηρετητή irc."
+"gimp.net. Για σύνδεση με έναν εξυπηρετητή IRC μπορείτε για παράδειγμα <link "
+"href=\"help:empathy/irc-manage\"> να χρησιμοποιήσετε την εφαρμογή "
 "αγγελιοφόρου διαδικτύου του <app>Empathy</app></link>."
 
 #: C/problems-reporting-bugs.page:5(info/desc)
@@ -12324,32 +11628,43 @@ msgid "There are currently no \"recommended instructions\" for users."
 msgstr "Δεν υπάρχουν προς το παρόν \"συνιστώμενες οδηγίες\" για χρήστες."
 
 #: C/sync-with-other-devices.page:27(page/p)
+#| msgid ""
+#| "Many distributions provide the application <app><link href=\"http://"
+#| "syncevolution.org/\">SyncEvolution</link></app> that can be used in "
+#| "combination with devices that support <link href=\"https://secure."
+#| "wikimedia.org/wikipedia/en/wiki/SyncML\">SyncML</link>."
 msgid ""
 "Many distributions provide the application <app><link href=\"http://"
 "syncevolution.org/\">SyncEvolution</link></app> that can be used in "
-"combination with devices that support <link href=\"https://secure.wikimedia."
-"org/wikipedia/en/wiki/SyncML\">SyncML</link>."
+"combination with devices that support <link href=\"https://en.wikipedia.org/"
+"wiki/SyncML\">SyncML</link>."
 msgstr ""
-"Πολλές διανομές παρέχουν την εφαρμογή <app><link href=\"http://syncevolution."
-"org/\">SyncEvolution</link></app> που μπορεί να χρησιμοποιηθεί σε συνδυασμό "
-"με συσκευές που υποστηρίζουν το <link href=\"https://secure.wikimedia.org/"
-"wikipedia/en/wiki/SyncML\">SyncML</link>."
+"Πολλές διανομές παρέχουν την εφαρμογή <app><link "
+"href=\"http://syncevolution.org/\">SyncEvolution</link></app> που μπορεί να "
+"χρησιμοποιηθεί σε συνδυασμό με συσκευές που υποστηρίζουν το <link "
+"href=\"https://en.wikipedia.org/wiki/SyncML\">SyncML</link>."
 
 #: C/sync-with-other-devices.page:29(page/p)
+#| msgid ""
+#| "In general it is recommended to use applications and devices that both "
+#| "support the <link href=\"https://secure.wikimedia.org/wikipedia/en/wiki/"
+#| "ActiveSync\">ActiveSync protocol</link> (such as <app>SyncEvolution</"
+#| "app>). A <link href=\"https://secure.wikimedia.org/wikipedia/en/wiki/"
+#| "List_of_collaborative_software\">list of collaborative software</link> is "
+#| "available on Wikipedia."
 msgid ""
 "In general it is recommended to use applications and devices that both "
-"support the <link href=\"https://secure.wikimedia.org/wikipedia/en/wiki/"
-"ActiveSync\">ActiveSync protocol</link> (such as <app>SyncEvolution</app>). "
-"A <link href=\"https://secure.wikimedia.org/wikipedia/en/wiki/"
-"List_of_collaborative_software\">list of collaborative software</link> is "
-"available on Wikipedia."
+"support the <link href=\"https://en.wikipedia.org/wiki/ActiveSync"
+"\">ActiveSync protocol</link> (such as <app>SyncEvolution</app>). A <link "
+"href=\"https://en.wikipedia.org/wiki/List_of_collaborative_software\">list "
+"of collaborative software</link> is available on Wikipedia."
 msgstr ""
 "Γενικά συνιστάται να χρησιμοποιήσετε εφαρμογές και συσκευές που και οι δυο "
-"υποστηρίζουν το <link href=\"https://secure.wikimedia.org/wikipedia/en/wiki/"
-"ActiveSync\">πρωτόκολλο ActiveSync</link> (όπως <app>SyncEvolution</app>). "
-"Μια <link href=\"https://secure.wikimedia.org/wikipedia/en/wiki/"
-"List_of_collaborative_software\">λίστα του συνεργαζόμενου λογισμικού</link> "
-"είναι διαθέσιμη στη Wikipedia."
+"υποστηρίζουν το <link "
+"href=\"https://en.wikipedia.org/wiki/ActiveSync\">πρωτόκολλο ActiveSync</link> "
+"(όπως <app>SyncEvolution</app>). Μια <link "
+"href=\"https://en.wikipedia.org/wiki/List_of_collaborative_software\">λίστα "
+"του συνεργαζόμενου λογισμικού</link> είναι διαθέσιμη στη Wikipedia."
 
 #: C/sync-with-other-devices.page:31(page/p)
 msgid ""
@@ -12980,6 +12295,683 @@ msgstr ""
 "<gui>κατηγορίες</gui>. Πατήστε <gui style=\"button\">διαγραφή</gui> για να "
 "διαγράψετε κατηγορίες από τη λίστα."
 
+#: C/xinclude-filter-vfolder-conditions.xml:3(item/p)
+msgid "Sender:"
+msgstr "Αποστολέας:"
+
+#
+#: C/xinclude-filter-vfolder-conditions.xml:4(item/p)
+msgid "The sender's email address or the name of the sender."
+msgstr "Η διεύθυνση αλληλογραφίας του αποστολέα ή το όνομα του αποστολέα."
+
+#: C/xinclude-filter-vfolder-conditions.xml:6(item/p)
+msgid "Recipients:"
+msgstr "Παραλήπτες:"
+
+#: C/xinclude-filter-vfolder-conditions.xml:7(item/p)
+msgid "The recipients of the message."
+msgstr "Οι παραλήπτες του μηνύματος."
+
+#: C/xinclude-filter-vfolder-conditions.xml:9(item/p)
+msgid "CC:"
+msgstr "Κοινοποίηση:"
+
+#: C/xinclude-filter-vfolder-conditions.xml:10(item/p)
+msgid "Only the CC recipients of the message."
+msgstr "Μόνο οι αποδέκτες κοινοποίησης του μηνύματος."
+
+#: C/xinclude-filter-vfolder-conditions.xml:12(item/p)
+msgid "BCC:"
+msgstr "Κρυφή κοινοποίηση:"
+
+#: C/xinclude-filter-vfolder-conditions.xml:13(item/p)
+msgid ""
+"Only the BCC recipients of the message. Obviously this can only be applied "
+"to outgoing filters."
+msgstr ""
+"Μόνο οι αποδέκτες κρυφής κοινοποίησης του μηνύματος. Προφανώς αυτό μπορεί να "
+"εφαρμοστεί μόνο σε εξερχόμενα φίλτρα."
+
+#: C/xinclude-filter-vfolder-conditions.xml:15(item/p)
+msgid "Sender or Recipients:"
+msgstr "Αποστολέας ή αποδέκτες:"
+
+#
+#: C/xinclude-filter-vfolder-conditions.xml:16(item/p)
+msgid ""
+"The sender's email address or the name of the sender or the recipients of "
+"the message."
+msgstr ""
+"Η διεύθυνση αλληλογραφίας του αποστολέα ή το όνομα του αποστολέα ή των "
+"αποδεκτών του μηνύματος."
+
+#: C/xinclude-filter-vfolder-conditions.xml:18(item/p)
+msgid "Subject:"
+msgstr "Θέμα:"
+
+#: C/xinclude-filter-vfolder-conditions.xml:19(item/p)
+msgid "The subject line of the message."
+msgstr "Η γραμμή θέματος του μηνύματος."
+
+#: C/xinclude-filter-vfolder-conditions.xml:21(item/p)
+msgid "Specific Header:"
+msgstr "Συγκεκριμένη κεφαλίδα:"
+
+#: C/xinclude-filter-vfolder-conditions.xml:22(p/link)
+msgid "custom ones"
+msgstr "προσαρμοσμένες κεφαλίδες"
+
+#: C/xinclude-filter-vfolder-conditions.xml:22(item/p)
+msgid "Any header including <_:link-1/>."
+msgstr "Οποιαδήποτε κεφαλίδα που περιλαμβάνει <_:link-1/>."
+
+#: C/xinclude-filter-vfolder-conditions.xml:23(item/p)
+msgid ""
+"If a message uses a header more than once, Evolution pays attention only to "
+"the first instance, even if the message defines the header differently the "
+"second time. For example, if a message declares the Resent-From: header as "
+"\"engineering@example.com\" and then restates it as \"marketing@example.com"
+"\", Evolution filters as though the second declaration did not occur. To "
+"filter on messages that use headers multiple times, use a regular expression."
+msgstr ""
+"Αν ένα μήνυμα χρησιμοποιεί μια κεφαλίδα περισσότερο από μία φορά, το "
+"Evolution δίνει σημασία μόνο στην πρώτη φορά, ακόμα και αν τη δεύτερη φορά η "
+"κεφαλίδα ορίζεται διαφορετικά. Για παράδειγμα, αν ένα μήνυμα καθορίζει την "
+"κεφαλίδα επαναποστολή από: σε \"engineering@example.com\" και μετά την "
+"ξαναορίζει ως \"marketing@example.com\", τότε το Evolution φιλτράρει σαν να "
+"μην συνάντησε το δεύτερο ορισμό. Για να φιλτράρετε μηνύματα που περιέχουν "
+"κεφαλίδες πολλαπλές φορές, χρησιμοποιήστε μια κανονική έκφραση."
+
+#: C/xinclude-filter-vfolder-conditions.xml:25(item/p)
+msgid "Message Body:"
+msgstr "Σώμα μηνύματος:"
+
+#: C/xinclude-filter-vfolder-conditions.xml:26(item/p)
+msgid "Searches in the actual text of the message."
+msgstr "Αναζητά στο κείμενο του μηνύματος."
+
+#: C/xinclude-filter-vfolder-conditions.xml:28(item/p)
+msgid "Expression:"
+msgstr "Έκφραση:"
+
+#: C/xinclude-filter-vfolder-conditions.xml:29(p/link)
+msgid "filters"
+msgstr "φίλτρα"
+
+#: C/xinclude-filter-vfolder-conditions.xml:29(item/p)
+#| msgid ""
+#| "(For programmers only) Match a message according to an expression you "
+#| "write in the Scheme language used to define <link xref=\"mail-filters"
+#| "\">filters</link> in Evolution."
+msgid ""
+"(For programmers only) Match a message according to an expression you write "
+"in the Scheme language used to define <_:link-1/> in Evolution."
+msgstr ""
+"(Μόνο για προγραμματιστές) Ταίριασμα ενός μηνύματος σύμφωνα με μια έκφραση "
+"που γράφετε στη γλώσσα Scheme που χρησιμοποιείται για ορισμό του <_:link-1/> "
+"στο Evolution."
+
+#: C/xinclude-filter-vfolder-conditions.xml:31(item/p)
+msgid "Date sent:"
+msgstr "Ημερομηνία αποστολής:"
+
+#: C/xinclude-filter-vfolder-conditions.xml:32(item/p)
+msgid ""
+"Filters messages according to the date on which they were sent. First, "
+"choose the conditions you want a message to meet, such as before a given "
+"time or after a given time. Then choose the time. The filter compares the "
+"message's time stamp to the system clock when the filter is run, or to a "
+"specific time and date you choose from a calendar. You can also have it look "
+"for a message within a range of time relative to the filter, such as two to "
+"four days ago."
+msgstr ""
+"Φιλτράρει τα μηνύματα σύμφωνα με την ημερομηνία κατά την οποία στάλθηκαν. "
+"Πρώτα, επιλέξτε τις συνθήκες τις οποίες θέλετε να πληρεί ένα μήνυμα, όπως "
+"πριν ή μετά μια συγκεκριμένη ώρα. Μετά επιλέξτε την ώρα. Το φίλτρο συγκρίνει "
+"την ώρα του μηνύματος με το ρολόι του συστήματος όταν τρέξει το φίλτρο, ή "
+"μια συγκεκριμένη ώρα και ημερομηνία που διαλέγετε από το ημερολόγιο. "
+"Μπορείτε επίσης να το κάνετε να ψάξει για ένα μήνυμα μέσα σε ένα χρονικό "
+"φάσμα σχετικό με το φίλτρο, όπως δύο ή τέσσερις μέρες πριν."
+
+#: C/xinclude-filter-vfolder-conditions.xml:34(item/p)
+msgid "Date received:"
+msgstr "Ημερομηνία παραλαβής:"
+
+#: C/xinclude-filter-vfolder-conditions.xml:35(item/p)
+msgid ""
+"This works the same way as the Date Sent option, except that it compares the "
+"time you received the message with the dates you specify."
+msgstr ""
+"Αυτό δουλεύει παρόμοια με την επιλογή ημερομηνία αποστολής, με τη διαφορά "
+"ότι συγκρίνει την ώρα που λάβατε το μήνυμα με τις ημερομηνίες που ορίζετε."
+
+#: C/xinclude-filter-vfolder-conditions.xml:37(item/p)
+msgid "Label:"
+msgstr "Ετικέτα:"
+
+#: C/xinclude-filter-vfolder-conditions.xml:38(p/link)
+msgid "labels"
+msgstr "ετικέτες"
+
+#: C/xinclude-filter-vfolder-conditions.xml:38(item/p)
+#| msgid ""
+#| "Messages can have <link xref=\"mail-labels\">labels</link> of Important, "
+#| "Work, Personal, To Do, or Later. You can set labels with other filters or "
+#| "manually."
+msgid ""
+"Messages can have <_:link-1/> of Important, Work, Personal, To Do, or Later. "
+"You can set labels with other filters or manually."
+msgstr ""
+"Τα μηνύματα μπορούν να έχουν <_:link-1/> σημαντικό, εργασία, προσωπικό, "
+"εκκρεμές, ή αργότερα. Μπορείτε να ορίσετε ετικέτες με άλλα φίλτρα ή "
+"χειροκίνητα."
+
+#: C/xinclude-filter-vfolder-conditions.xml:40(item/p)
+msgid "Score:"
+msgstr "Αποτέλεσμα:"
+
+#: C/xinclude-filter-vfolder-conditions.xml:41(item/p)
+msgid ""
+"Sets the message score to any whole number greater than 0. You can have one "
+"filter set or change a message score, and then set up another filter to move "
+"the messages you have scored. A message score is not based on anything in "
+"particular: it is simply a number you can assign to messages so other "
+"filters can process them."
+msgstr ""
+"Ορίζει το αποτέλεσμα του μηνύματος σε οποιοδήποτε ακέραιο αριθμό μεγαλύτερο "
+"από το 0. Μπορείτε να έχετε ένα ορισμένο φίλτρο ή να αλλάξετε το αποτέλεσμα "
+"του μηνύματος και έπειτα να εγκαταστήσετε ένα άλλο φίλτρο για μετακίνηση των "
+"μηνυμάτων που σημειώσατε. Το αποτέλεσμα ενός μηνύματος δε βασίζεται σε κάτι "
+"συγκεκριμένο: είναι απλά ένας αριθμός τον οποίο μπορείτε να αναθέσετε σε "
+"μηνύματα ώστε άλλα φίλτρα να τον επεξεργάζονται."
+
+#: C/xinclude-filter-vfolder-conditions.xml:43(item/p)
+msgid "Size (kB):"
+msgstr "Μέγεθος (kB):"
+
+#: C/xinclude-filter-vfolder-conditions.xml:44(item/p)
+msgid "Sorts based on the size of the message in kilobytes."
+msgstr "Ταξινομεί με βάση το μέγεθος του μηνύματος σε kilobytes."
+
+#: C/xinclude-filter-vfolder-conditions.xml:46(item/p)
+msgid "Status:"
+msgstr "Κατάσταση:"
+
+#: C/xinclude-filter-vfolder-conditions.xml:47(item/p)
+msgid ""
+"Filters according to the status of a message. The status can be Replied To, "
+"Draft, Important, Read, or Junk."
+msgstr ""
+"Φιλτράρει σύμφωνα με την κατάσταση του μηνύματος. Η κατάσταση μπορεί να "
+"είναι απαντημένο, πρόχειρο, σημαντικό, διαβασμένο ή ανεπιθύμητο."
+
+#: C/xinclude-filter-vfolder-conditions.xml:49(item/p)
+msgid "Follow Up:"
+msgstr "Παρακολούθηση:"
+
+#: C/xinclude-filter-vfolder-conditions.xml:50(p/link)
+msgid "flagged for follow-up"
+msgstr "με σημαία για παρακολούθηση"
+
+#: C/xinclude-filter-vfolder-conditions.xml:50(item/p)
+msgid "Checks whether the message is <_:link-1/>."
+msgstr "Ελέγχει αν το μήνυμα είναι <_:link-1/>."
+
+#: C/xinclude-filter-vfolder-conditions.xml:52(item/p)
+msgid "Completed On:"
+msgstr "Ολοκληρωμένο την:"
+
+#: C/xinclude-filter-vfolder-conditions.xml:55(item/p)
+msgid "Attachments:"
+msgstr "Συνημμένα:"
+
+#: C/xinclude-filter-vfolder-conditions.xml:56(item/p)
+msgid "Checks whether there is an attachment for the email."
+msgstr "Ελέγχει εάν υπάρχει συνημμένο στο μήνυμα."
+
+#: C/xinclude-filter-vfolder-conditions.xml:58(item/p)
+msgid "Mailing List:"
+msgstr "Λίστα ταχυδρομείου:"
+
+#: C/xinclude-filter-vfolder-conditions.xml:59(item/p)
+msgid ""
+"Filters based on the mailing list the message came from. This filter might "
+"miss messages from some list servers, because it checks for the X-BeenThere "
+"header, which is used to identify mailing lists or other redistributors of "
+"mail. Mail from list servers that do not set X-BeenThere properly are not be "
+"caught by these filters."
+msgstr ""
+"Φιλτράρει βάσει της λίστας ταχυδρομείου από την οποία έφτασε το μήνυμα. Αυτό "
+"το φίλτρο μπορεί να χάσει μερικά μηνύματα από μερικούς διακομιστές λιστών, "
+"γιατί ελέγχει για την κεφαλίδα X-BeenThere, η οποία χρησιμοποιείται για να "
+"ταυτοποιεί λίστες ταχυδρομείου ή άλλους αναδιανομής αλληλογραφίας. "
+"Αλληλογραφία από διακομιστές λιστών οι οποίοι δεν ορίζουν την κεφαλίδα X-"
+"BeenThere σωστά δε θα φιλτραριστούν από τέτοια φίλτρα."
+
+#: C/xinclude-filter-vfolder-conditions.xml:61(item/p)
+msgid "Regex Match:"
+msgstr "Ταίριασμα με Regex:"
+
+#: C/xinclude-filter-vfolder-conditions.xml:62(p/link)
+msgid "regex"
+msgstr "κανονική έκφραση"
+
+#: C/xinclude-filter-vfolder-conditions.xml:62(p/cmd)
+msgid "grep"
+msgstr "grep"
+
+#: C/xinclude-filter-vfolder-conditions.xml:62(item/p)
+#| msgid ""
+#| "(For programmers only) If you know your way around a <link href=\"https://"
+#| "secure.wikimedia.org/wikipedia/en/wiki/Regular_expression\">regex</link>, "
+#| "or regular expression, this option allows you to search for complex "
+#| "patterns of letters, so that you can find, for example, all words that "
+#| "start with a and end with m, and are between six and fifteen letters "
+#| "long, or all messages that declare a particular header twice. For "
+#| "information about how to use regular expressions, check the man page for "
+#| "the <cmd>grep</cmd> command."
+msgid ""
+"(For programmers only) If you know your way around a <_:link-1/>, or regular "
+"expression, this option allows you to search for complex patterns of "
+"letters, so that you can find, for example, all words that start with a and "
+"end with m, and are between six and fifteen letters long, or all messages "
+"that declare a particular header twice. For information about how to use "
+"regular expressions, check the man page for the <_:cmd-2/> command."
+msgstr ""
+"(Για προγραμματιστές μόνο) Αν γνωρίζετε το δρόμο σας με τις <_:link-1/>, ή "
+"κανονικές εκφράσεις, αυτή η επιλογή σας επιτρέπει να αναζητάτε για πολύπλοκα "
+"μοτίβα γραμμάτων, ώστε να μπορείτε να βρείτε, για παράδειγμα, όλες τις "
+"λέξεις που ξεκινούν από α και τελειώνουν σε ο, και το μήκος τους είναι "
+"μεταξύ έξι και δεκαπέντε γραμμάτων, ή όλα τα μηνύματα που ορίζουν την "
+"συγκεκριμένη κεφαλίδα δύο φορές. Για πληροφορίες για τη χρήση των κανονικών "
+"εκφράσεων, ελέγξτε τη σελίδα man της εντολής <_:cmd-2/>."
+
+#: C/xinclude-searching.xml:4(section/title)
+#: C/xinclude-searching.xml:6(guiseq/gui)
+msgid "Advanced Search"
+msgstr "Προχωρημένη αναζήτηση"
+
+#: C/xinclude-searching.xml:6(guiseq/gui)
+#: C/xinclude-searching.xml:15(guiseq/gui)
+#: C/xinclude-searching.xml:21(guiseq/gui) C/xinclude-searching.xml:21(p/gui)
+#: C/xinclude-searching.xml:27(guiseq/gui)
+msgid "Search"
+msgstr "Αναζήτηση"
+
+#: C/xinclude-searching.xml:6(item/p)
+#| msgid ""
+#| "Select the <guiseq><gui>Search</gui><gui>Advanced Search</gui></guiseq> "
+#| "menu to open the dialog box."
+msgid "Select the <_:guiseq-1/> menu to open the dialog box."
+msgstr "Επιλέξτε το μενού <_:guiseq-1/> για άνοιγμα του πλαισίου διαλόγου."
+
+#: C/xinclude-searching.xml:7(p/gui)
+msgid "Add Condition"
+msgstr "Προσθήκη κριτηρίου"
+
+#: C/xinclude-searching.xml:7(item/p)
+#| msgid ""
+#| "Click <gui style=\"button\">Add Condition</gui> to add any number of "
+#| "rules."
+msgid "Click <_:gui-1/> to add any number of rules."
+msgstr "Πατήστε στο <_:gui-1/> για προσθήκη οποιουδήποτε αριθμού κανόνων."
+
+#: C/xinclude-searching.xml:8(item/p)
+msgid ""
+"Select the condition from the dropdown list, and then type a search entry in "
+"the field."
+msgstr ""
+"Επιλέξτε το κριτήριο από την πτυσσόμενη λίστα και μετά πληκτρολογήστε μια "
+"καταχώριση αναζήτησης στο πεδίο."
+
+#: C/xinclude-searching.xml:9(p/gui) C/xinclude-searching.xml:21(p/gui)
+#: C/xinclude-searching.xml:30(p/gui)
+msgid "OK"
+msgstr "Εντάξει"
+
+#: C/xinclude-searching.xml:9(item/p)
+#| msgid ""
+#| "Click <gui style=\"button\">OK</gui> to get the search results displayed."
+msgid "Click <_:gui-1/> to get the search results displayed."
+msgstr ""
+"Πατήστε στο <_:gui-1/> για λήψη των εμφανιζόμενων αποτελεσμάτων αναζήτησης."
+
+#: C/xinclude-searching.xml:14(section/title)
+msgid "Clearing the Search results"
+msgstr "Εκκαθάριση των αποτελεσμάτων αναζήτησης"
+
+#: C/xinclude-searching.xml:15(p/gui) C/xinclude-searching.xml:15(guiseq/gui)
+msgid "Clear"
+msgstr "Καθαρισμός"
+
+#: C/xinclude-searching.xml:15(keyseq/key)
+msgid "Shift"
+msgstr "Shift"
+
+#: C/xinclude-searching.xml:15(keyseq/key)
+msgid "Ctrl"
+msgstr "Ctrl"
+
+#: C/xinclude-searching.xml:15(keyseq/key)
+msgid "Q"
+msgstr "Q"
+
+#: C/xinclude-searching.xml:15(section/p)
+#| msgid ""
+#| "To clear your search view and get back to the default view, click the "
+#| "<gui>Clear</gui> icon in the search string field, or choose "
+#| "<guiseq><gui>Search</gui><gui>Clear</gui></guiseq> from the menubar. You "
+#| "can also press <keyseq><key>Shift</key><key>Ctrl</key><key>Q</key></"
+#| "keyseq> to clear the search."
+msgid ""
+"To clear your search view and get back to the default view, click the <_:"
+"gui-1/> icon in the search string field, or choose <_:guiseq-2/> from the "
+"menubar. You can also press <_:keyseq-3/> to clear the search."
+msgstr ""
+"Για να καθαρίσετε την προβολή αναζήτησης και να επιστρέψετε στην "
+"προεπιλεγμένη προβολή, πατήστε στο εικονίδιο <_:gui-1/> στο πεδίο αναζήτησης "
+"συμβολοσειράς, ή επιλέξτε <_:guiseq-2/> από τη γραμμή μενού. Μπορείτε "
+"επίσης να πατήσετε το <_:keyseq-3/> για καθαρισμό της αναζήτησης."
+
+#: C/xinclude-searching.xml:19(section/title)
+msgid "Saved Searches"
+msgstr "Αποθηκευμένες αναζητήσεις"
+
+#: C/xinclude-searching.xml:20(section/p)
+msgid ""
+"If you search for something rather often, you will prefer not to type it "
+"many times. In this case you can use saved searches."
+msgstr ""
+"Εάν αναζητάτε κάτι μάλλον συχνά, θα προτιμάτε να μην το πληκτρολογείτε "
+"πολλές φορές. Σε αυτήν την περίπτωση, μπορείτε να χρησιμοποιήσετε τις "
+"αποθηκευμένες αναζητήσεις."
+
+#: C/xinclude-searching.xml:21(p/gui)
+msgid "Save"
+msgstr "Αποθήκευση"
+
+#: C/xinclude-searching.xml:21(guiseq/gui)
+msgid "Save Search"
+msgstr "Αποθήκευση αναζήτησης"
+
+#: C/xinclude-searching.xml:21(section/p)
+#| msgid ""
+#| "To save your search results, either click <gui>Save</gui> instead of "
+#| "<gui>OK</gui> in the Search dialog, or in case the search results are "
+#| "already displayed, select <guiseq><gui>Search</gui><gui>Save Search</"
+#| "gui></guiseq>. From now on this search will be directly available from "
+#| "the <gui>Search</gui> menu."
+msgid ""
+"To save your search results, either click <_:gui-1/> instead of <_:gui-2/> "
+"in the Search dialog, or in case the search results are already displayed, "
+"select <_:guiseq-3/>. From now on this search will be directly available "
+"from the <_:gui-4/> menu."
+msgstr ""
+"Για αποθήκευση των αποτελεσμάτων αναζήτησης, πατήστε είτε στο <_:gui-1/> "
+"αντί για το <_:gui-2/> στον διάλογο αναζήτησης, ή στην περίπτωση που τα "
+"αποτελέσματα αναζήτησης εμφανίζονται ήδη, επιλέξτε <_:guiseq-3/>. Από τώρα "
+"αυτή η αναζήτηση θα είναι άμεσα διαθέσιμη από το μενού<_:gui-4/>."
+
+#: C/xinclude-searching.xml:25(section/title)
+msgid "Editing a Saved Search"
+msgstr "Επεξεργασία αποθηκευμένης αναζήτησης"
+
+#: C/xinclude-searching.xml:27(guiseq/gui)
+msgid "Edit Saved Searches"
+msgstr "Επεξεργασία αποθηκευμένων αναζητήσεων"
+
+#: C/xinclude-searching.xml:27(item/p)
+#| msgid ""
+#| "Select <guiseq><gui>Search</gui><gui>Edit Saved Searches</gui></guiseq> "
+#| "from the menu bar to open the window."
+msgid "Select <_:guiseq-1/> from the menu bar to open the window."
+msgstr "Επιλέξτε <_:guiseq-1/> από τη γραμμή μενού για το άνοιγμα παραθύρου."
+
+#: C/xinclude-searching.xml:28(p/gui)
+msgid "Edit"
+msgstr "Επεξεργασία"
+
+#: C/xinclude-searching.xml:28(p/gui)
+msgid "Edit Rule"
+msgstr "Επεξεργασία Κανόνα"
+
+#: C/xinclude-searching.xml:28(item/p)
+msgid "Click the <_:gui-1/> button to open the <_:gui-2/> window."
+msgstr "Πατήστε το κουμπί <_:gui-1/> για να ανοίξετε το παράθυρο <_:gui-2/>."
+
+#: C/xinclude-searching.xml:29(item/p)
+msgid "Edit the title or search conditions from the dialog box."
+msgstr ""
+"Επεξεργαστείτε τον τίτλο ή τα κριτήρια αναζήτησης από το πλαίσιο διαλόγου."
+
+#: C/xinclude-searching.xml:30(item/p)
+#| msgid "Click <gui>OK</gui>."
+msgid "Click <_:gui-1/>."
+msgstr "Πατήστε στο <_:gui-1/>."
+
+#~ msgid ""
+#~ "<media type=\"image\" src=\"figures/evolutionlogo.png\"> Evolution logo </"
+#~ "media> Evolution Mail and Calendar"
+#~ msgstr ""
+#~ "<media type=\"image\" src=\"figures/evolutionlogo.png\"> λογότυπος "
+#~ "Evolution </media> Αλληλογραφία και ημερολόγιο του Evolution"
+
+#~ msgid ""
+#~ "Click the <gui style=\"button\">Edit</gui> button to open the <gui>Edit "
+#~ "Rule</gui> window."
+#~ msgstr ""
+#~ "Κλικ στο κουμπί <gui style=\"button\">επεξεργασία</gui> για άνοιγμα του "
+#~ "παραθύρου <gui>επεξεργασία κανόνα</gui>."
+
+#~ msgid ""
+#~ "If you want to export only one appointment, right-click on the "
+#~ "appointment and click <gui>Save as iCalendar...</gui>."
+#~ msgstr ""
+#~ "Εάν θέλετε να εξάγετε μόνο μία συνάντηση, δεξί κλικ στη συνάντηση και "
+#~ "κλικ <gui>αποθήκευση ως iCalendar...</gui>."
+
+#~ msgid "What to do when using a small screen or netbook."
+#~ msgstr "Τι να κάνετε όταν χρησιμοποιείτε μια μικρή οθόνη ή φορητό."
+
+#~ msgid "Some windows are too large for small screens."
+#~ msgstr "Μερικά παράθυρα είναι υπερβολικά μεγάλα για μικρές οθόνες."
+
+#~ msgid ""
+#~ "This is a known problem and hard to solve for a complex application with "
+#~ "many settings such as Evolution."
+#~ msgstr ""
+#~ "Αυτό είναι ένα γνωστό πρόβλημα και δυσεπίλυτο για μια σύνθετη εφαρμογή με "
+#~ "πολλές ρυθμίσεις όπως το Evolution."
+
+#~| msgid ""
+#~| "You can use the Express version which is targeted for mobile and small-"
+#~| "screen devices. This is available from version 2.30 on and can be "
+#~| "enabled by starting <code>evolution --express</code> from the terminal "
+#~| "window."
+#~ msgid ""
+#~ "You can use the Express version which is targeted for mobile and small-"
+#~ "screen devices by entering the command <code>evolution --express</code> "
+#~ "in the <app>Terminal</app> application."
+#~ msgstr ""
+#~ "Μπορείτε να χρησιμοποιήσετε την έκδοση Express που είναι ο στόχος για "
+#~ "κινητά και συσκευές μικρής οθόνης εισάγοντας την εντολή <code>evolution --"
+#~ "express</code> στην εφαρμογή <app>τερματικός</app>."
+
+#~ msgid "Choose the Thunderbird files that you would like to import."
+#~ msgstr "Επιλέξτε τα αρχεία Thunderbird που θέλετε να εισάγετε."
+
+#~ msgid ""
+#~ "IMAP: Keeps the mail on the server so you can access your mail from "
+#~ "multiple systems."
+#~ msgstr ""
+#~ "IMAP: Κρατάει την αλληλογραφία στο διακομιστή σας ώστε να μπορείτε να την "
+#~ "προσπελάσετε από πολλαπλά συστήματα."
+
+#~ msgid ""
+#~ "Continue <link xref=\"mail-receiving-options-imap\">here</link> for "
+#~ "configuration."
+#~ msgstr ""
+#~ "Συνέχεια <link xref=\"mail-receiving-options-imap\">εδώ</link> για "
+#~ "διαμόρφωση."
+
+#~ msgid ""
+#~ "Microsoft Exchange: For connecting to a Microsoft Exchange 2000 or 2003 "
+#~ "server."
+#~ msgstr ""
+#~ "Microsoft Exchange: Για σύνδεση με εξυπηρετητή Microsoft Exchange 2000 ή "
+#~ "2003."
+
+#~ msgid ""
+#~ "Continue <link xref=\"mail-receiving-options-evolution-exchange\">here</"
+#~ "link> for configuration."
+#~ msgstr ""
+#~ "Συνέχεια <link xref=\"mail-receiving-options-evolution-exchange\">εδώ</"
+#~ "link> για διαμόρφωση."
+
+#~ msgid ""
+#~ "This requires having the <sys>evolution-exchange</sys> package installed."
+#~ msgstr ""
+#~ "Αυτό απαιτεί να έχετε το πακέτο <sys>evolution-exchange</sys> "
+#~ "εγκατεστημένο."
+
+#~ msgid ""
+#~ "<link action=\"install:evolution-exchange\" href=\"http://projects.gnome."
+#~ "org/evolution/download\" style=\"button\">Install evolution-exchange</"
+#~ "link>"
+#~ msgstr ""
+#~ "<link action=\"install:evolution-exchange\" href=\"http://projects.gnome."
+#~ "org/evolution/download\" style=\"button\">Εγκατάσταση evolution-exchange</"
+#~ "link>"
+
+#~ msgid "When a received message looks weird or is hard to read."
+#~ msgstr ""
+#~ "Όταν ένα λαμβανόμενο μήνυμα φαίνεται περίεργο ή είναι δύσκολο να "
+#~ "διαβαστεί."
+
+#~ msgid "HTML emails are not correctly displayed"
+#~ msgstr "Τα μηνύματα HTML δεν προβάλλονται σωστά"
+
+#~ msgid ""
+#~ "If an HTML message is not correctly displayed in Evolution it might be "
+#~ "that the formatting of the message is specified as <link href=\"http://en."
+#~ "wikipedia.org/wiki/Cascading_Style_Sheets\">CSS</link>. CSS is currently "
+#~ "not supported by gtkhtml (the part that is used to display HTML)."
+#~ msgstr ""
+#~ "Εάν ένα μήνυμα HTML δεν προβάλλεται σωστά στο Evolution μπορεί να είναι η "
+#~ "μορφοποίηση του μηνύματος που ορίζεται ως <link href=\"http://en."
+#~ "wikipedia.org/wiki/Cascading_Style_Sheets\">CSS</link>. Το CSS δεν "
+#~ "υποστηρίζεται προς το παρόν από το gtkhtml (το μέρος που χρησιμοποιείται "
+#~ "για προβολή HTML)."
+
+#~ msgid "This will likely be fixed in version 3.6."
+#~ msgstr "Αυτό θα διορθωθεί πιθανόν στην έκδοση 3.6."
+
+#~ msgid ""
+#~ "For developers only: In future versions, Evolution will use WebKit "
+#~ "instead of gtkhtml for displaying HTML. There is a branch named \"<link "
+#~ "href=\"http://git.gnome.org/browse/evolution?h=webkit\">webkit</link>\" "
+#~ "in Evolution's code repository to test."
+#~ msgstr ""
+#~ "Μόνο για προγραμματιστές: Σε μελλοντικές εκδόσεις, το Evolution θα "
+#~ "χρησιμοποιεί το WebKit αντί για gtkhtml για προβολή HTML. Υπάρχει ένας "
+#~ "κλάδος με όνομα \"<link href=\"http://git.gnome.org/browse/evolution?"
+#~ "h=webkit\">webkit</link>\" στο αποθετήριο κώδικα στο Evolution για δοκιμή."
+
+#~ msgid ""
+#~ "For missing characters in emails, see <link xref=\"mail-displaying-"
+#~ "character-encodings\">Character Encodings and Sets</link>."
+#~ msgstr ""
+#~ "Για χαρακτήρες που λείπουν σε μηνύματα, δείτε <link xref=\"mail-"
+#~ "displaying-character-encodings\">κωδικοποιήσεις χαρακτήρα και ορισμοί</"
+#~ "link>."
+
+#~ msgid ""
+#~ "By default only local address books are used for searching the photograph "
+#~ "as accessing remote address books can cause delays. You can disable this "
+#~ "by deselecting the option <gui>Search for sender photograph only in local "
+#~ "address books</gui>."
+#~ msgstr ""
+#~ "Από προεπιλογή χρησιμοποιούνται μόνο τοπικά βιβλία διευθύνσεων για "
+#~ "αναζήτηση της φωτογραφίας καθώς η πρόσβαση απομακρυσμένων βιβλίων "
+#~ "διευθύνσεων μπορεί να προκαλέσει καθυστερήσεις. Μπορείτε να το "
+#~ "απενεργοποιήσετε αποεπιλέγοντας την επιλογή <gui>αναζήτηση για φωτογραφία "
+#~ "αποστολέα μόνο σε τοπικά βιβλία διευθύνσεων</gui>."
+
+#~ msgid ""
+#~ "Any header including <link xref=\"mail-composer-custom-header-lines"
+#~ "\">custom ones</link>."
+#~ msgstr ""
+#~ "Οποιαδήποτε κεφαλίδα συμπεριλαμβάνοντας τις <link xref=\"mail-composer-"
+#~ "custom-header-lines\">προσαρμοσμένες</link>."
+
+#~ msgid ""
+#~ "Checks whether the message is <link xref=\"mail-follow-up-flag\">flagged "
+#~ "for follow-up</link>."
+#~ msgstr ""
+#~ "Ελέγχει εάν το μήνυμα είναι <link xref=\"mail-follow-up-flag\">με σημαία "
+#~ "για παρακολούθηση</link>."
+
+#~ msgid "Mailing List"
+#~ msgstr "Λίστα ταχυδρομείου"
+
+#~ msgid "Logging Filter Actions"
+#~ msgstr "Καταγραφή ενεργειών φίλτρων"
+
+#~ msgid "Close Evolution."
+#~ msgstr "Κλείσιμο του Evolution."
+
+#~ msgid ""
+#~ "Run the command <cmd>gsettings set org.gnome.evolution.mail filters-log-"
+#~ "actions true</cmd>"
+#~ msgstr ""
+#~ "Εκτελέστε την εντολή <cmd>gsettings set org.gnome.evolution.mail filters-"
+#~ "log-actions true</cmd>"
+
+#~ msgid ""
+#~ "Run the command <cmd>gsettings set org.gnome.evolution.mail filters-log-"
+#~ "file \"~/my-filter-log\"</cmd>. This will create a text file named "
+#~ "<file>my-filter-log</file> in your home directory."
+#~ msgstr ""
+#~ "Εκτέλεση της εντολής <cmd>gsettings set org.gnome.evolution.mail filters-"
+#~ "log-file \"~/my-filter-log\"</cmd>. Αυτό θα δημιουργήσει ένα αρχείο "
+#~ "κειμένου με όνομα <file>my-filter-log</file> στον προσωπικό σας κατάλογο."
+
+#~ msgid "Fetch mail to apply filters."
+#~ msgstr "Προσκόμιση αλληλογραφίας για εφαρμογή φίλτρων."
+
+#~ msgid ""
+#~ "Open the file <file>my-filter-log</file> with a text editor to see which "
+#~ "filter actions have been applied."
+#~ msgstr ""
+#~ "Άνοιγμα του αρχείου <file>my-filter-log</file> με έναν επεξεργαστή "
+#~ "κειμένου για να δείτε ποιες ενέργειες φίλτρου έχουν εφαρμοστεί."
+
+#~ msgid ""
+#~ "Note that you can disable filter logging again by using the command "
+#~ "<cmd>gsettings set org.gnome.evolution.mail filters-log-actions false</"
+#~ "cmd>"
+#~ msgstr ""
+#~ "Σημειώστε ότι μπορείτε να απενεργοποιήσετε την καταγραφή φίλτρου ξανά "
+#~ "χρησιμοποιώντας την εντολή <cmd>gsettings set org.gnome.evolution.mail "
+#~ "filters-log-actions false</cmd>"
+
+#~ msgid ""
+#~ "<_:title-1/> If it is still unclear why filters do not work as expected, "
+#~ "you can enable logging filter actions. <_:list-2/> <_:p-3/> <_:p-4/>"
+#~ msgstr ""
+#~ "<_:title-1/> Εάν είναι ακόμα ασαφές γιατί τα φίλτρα δεν δουλεύουν όπως "
+#~ "αναμένεται, μπορείτε να ενεργοποιήσετε την καταγραφή ενεργειών φίλτρων. "
+#~ "<_:list-2/> <_:p-3/> <_:p-4/>"
+
+#~ msgid "Receiving options for IMAP accounts."
+#~ msgstr "Λήψη επιλογών για λογαριασμούς IMAP."
+
+#~ msgid "IMAP receiving options"
+#~ msgstr "Επιλογές λήψης IMAP"
+
+#~ msgid "Advanced Search:"
+#~ msgstr "Προχωρημένη αναζήτηση:"
+
 #~ msgid "Novell Groupwise"
 #~ msgstr "Novell GroupWise"
 
@@ -13604,17 +13596,11 @@ msgstr ""
 #~ msgid "Install enchant"
 #~ msgstr "Εγκατάσταση enchant"
 
-#~ msgid "Ctrl"
-#~ msgstr "Ctrl"
-
 #~ msgid "R"
 #~ msgstr "R"
 
 #~ msgid "L"
 #~ msgstr "L"
-
-#~ msgid "Shift"
-#~ msgstr "Shift"
 
 #~ msgid "Creating a Message Template from an existing Message"
 #~ msgstr "Δημιουργία προτύπου μηνύματος από υφιστάμενο μήνυμα"
@@ -13710,15 +13696,9 @@ msgstr ""
 #~ msgid "Categories"
 #~ msgstr "Κατηγορίες"
 
-#~ msgid "Edit"
-#~ msgstr "Επεξεργασία"
-
 #, fuzzy
 #~ msgid "Available Categories"
 #~ msgstr "Διαθέσιμα πεδία"
-
-#~ msgid "OK"
-#~ msgstr "Εντάξει"
 
 #, fuzzy
 #~ msgid "Click <placeholder-1/>."
@@ -13763,9 +13743,6 @@ msgstr ""
 #~ msgid "Open Task"
 #~ msgstr "Ά_νοιγμα εργασίας"
 
-#~ msgid "Save"
-#~ msgstr "Αποθήκευση"
-
 #~ msgid "D"
 #~ msgstr "D"
 
@@ -13809,40 +13786,8 @@ msgstr ""
 #~ msgstr "Εμφάνιση"
 
 #, fuzzy
-#~ msgid "Search"
-#~ msgstr "Αναζήτηση:"
-
-#, fuzzy
-#~ msgid "Add Condition"
-#~ msgstr "_Προσθήκη κριτηρίου"
-
-#, fuzzy
-#~ msgid "Clear"
-#~ msgstr "_Εκκαθάριση"
-
-#~ msgid "Q"
-#~ msgstr "Q"
-
-#~ msgid "Save Search"
-#~ msgstr "Αποθήκευση αναζήτησης"
-
-#, fuzzy
-#~ msgid "Edit Saved Searches"
-#~ msgstr "Επεξεργασία αποθηκευμένων αναζητήσεων"
-
-#, fuzzy
 #~ msgid "<placeholder-1/>."
 #~ msgstr "gpg <placeholder-1/>"
-
-#~ msgid "Edit Rule"
-#~ msgstr "Επεξεργασία Κανόνα"
-
-#, fuzzy
-#~ msgid ""
-#~ "Click the <placeholder-1/> button to open the <placeholder-2/> window."
-#~ msgstr ""
-#~ "Πατήστε το κουμπί Απεσταλμένα για να ανοίξετε το παράθυρο επιλογής "
-#~ "φακέλου."
 
 #~ msgid "On This Computer"
 #~ msgstr "Σε αυτό τον υπολογιστή"
@@ -14175,10 +14120,6 @@ msgstr ""
 #~ msgstr "Ανανέωση"
 
 #, fuzzy
-#~ msgid "filters"
-#~ msgstr "φίλτρο"
-
-#, fuzzy
 #~ msgid "folder"
 #~ msgstr "Φάκελος:"
 
@@ -14187,26 +14128,6 @@ msgstr ""
 
 #~ msgid "Unmatched"
 #~ msgstr "Αταίριαστο"
-
-#, fuzzy
-#~ msgid "custom ones"
-#~ msgstr "Χρήση προσαρμοσμένης γραμματοσειράς"
-
-#, fuzzy
-#~ msgid "Any header including <placeholder-1/>."
-#~ msgstr "Οποιαδήποτε κεφαλίδα συμπεριλαμβανομένων και των προσαρμοσμένων."
-
-#, fuzzy
-#~ msgid "labels"
-#~ msgstr "Ετικέτες"
-
-#, fuzzy
-#~ msgid "flagged for follow-up"
-#~ msgstr "Σημαία στα επιλεγμένα μηνύματα για παρακολούθηση"
-
-#, fuzzy
-#~ msgid "Checks whether the message is <placeholder-1/>."
-#~ msgstr "Ελέγχει αν το μήνυμα είναι σημειωμένο για παρακολούθηση."
 
 #~ msgid "Search Folders"
 #~ msgstr "Φάκελοι αναζήτησης"
@@ -19467,9 +19388,6 @@ msgstr ""
 #~ msgstr ""
 #~ "Αντιστοίχηση ενός μηνύματος σύμφωνα με μια έκφραση που γράφετε στη γλώσσα "
 #~ "Scheme που χρησιμοποιείται για να ορίσει φίλτρα στο Evolution."
-
-#~ msgid "Mailing List:"
-#~ msgstr "Λίστα ταχυδρομείου:"
 
 #~ msgid "Match all:"
 #~ msgstr "Ταίριασμα όλων:"
