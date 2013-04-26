@@ -30,10 +30,6 @@
 
 typedef struct _AsyncContext AsyncContext;
 
-struct _EGravatarPhotoSourcePrivate {
-	SoupSession *soup_session;
-};
-
 struct _AsyncContext {
 	gchar *email_address;
 	GInputStream *stream;
@@ -66,16 +62,15 @@ gravatar_photo_source_get_photo_thread (GSimpleAsyncResult *simple,
                                         GObject *source_object,
                                         GCancellable *cancellable)
 {
-	EGravatarPhotoSourcePrivate *priv;
 	AsyncContext *async_context;
 	SoupRequester *requester;
 	SoupRequest *request;
+	SoupSession *session;
 	GInputStream *stream = NULL;
 	gchar *hash;
 	gchar *uri;
 	GError *local_error = NULL;
 
-	priv = E_GRAVATAR_PHOTO_SOURCE_GET_PRIVATE (source_object);
 	async_context = g_simple_async_result_get_op_res_gpointer (simple);
 
 	hash = e_gravatar_get_hash (async_context->email_address);
@@ -84,8 +79,10 @@ gravatar_photo_source_get_photo_thread (GSimpleAsyncResult *simple,
 	g_debug ("Requesting avatar for %s", async_context->email_address);
 	g_debug ("%s", uri);
 
-	requester = (SoupRequester *) soup_session_get_feature (
-		priv->soup_session, SOUP_TYPE_REQUESTER);
+	session = soup_session_sync_new ();
+
+	requester = soup_requester_new ();
+	soup_session_add_feature (session, SOUP_SESSION_FEATURE (requester));
 
 	/* We control the URI so there should be no error. */
 	request = soup_requester_request (requester, uri, NULL);
@@ -131,24 +128,12 @@ gravatar_photo_source_get_photo_thread (GSimpleAsyncResult *simple,
 
 	g_debug ("Request complete");
 
+	g_clear_object (&requester);
 	g_clear_object (&request);
+	g_clear_object (&session);
 
 	g_free (hash);
 	g_free (uri);
-}
-
-static void
-gravatar_photo_source_dispose (GObject *object)
-{
-	EGravatarPhotoSourcePrivate *priv;
-
-	priv = E_GRAVATAR_PHOTO_SOURCE_GET_PRIVATE (object);
-
-	g_clear_object (&priv->soup_session);
-
-	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (e_gravatar_photo_source_parent_class)->
-		dispose (object);
 }
 
 static void
@@ -215,12 +200,6 @@ gravatar_photo_source_get_photo_finish (EPhotoSource *photo_source,
 static void
 e_gravatar_photo_source_class_init (EGravatarPhotoSourceClass *class)
 {
-	GObjectClass *object_class;
-
-	g_type_class_add_private (class, sizeof (EGravatarPhotoSourcePrivate));
-
-	object_class = G_OBJECT_CLASS (class);
-	object_class->dispose = gravatar_photo_source_dispose;
 }
 
 static void
@@ -238,14 +217,6 @@ e_gravatar_photo_source_interface_init (EPhotoSourceInterface *interface)
 static void
 e_gravatar_photo_source_init (EGravatarPhotoSource *photo_source)
 {
-	photo_source->priv =
-		E_GRAVATAR_PHOTO_SOURCE_GET_PRIVATE (photo_source);
-
-	photo_source->priv->soup_session = soup_session_sync_new ();
-
-	soup_session_add_feature_by_type (
-		photo_source->priv->soup_session,
-		SOUP_TYPE_REQUESTER);
 }
 
 void
