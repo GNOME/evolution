@@ -386,6 +386,8 @@ async_context_cancel_subtasks (AsyncContext *async_context)
 
 	g_list_free (list);
 
+	g_mutex_unlock (&async_context->lock);
+
 	g_main_context_unref (main_context);
 }
 
