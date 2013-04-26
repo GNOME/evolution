@@ -4251,6 +4251,66 @@ message_list_set_selected (MessageList *ml,
 	g_ptr_array_free (paths, TRUE);
 }
 
+struct ml_sort_uids_data {
+	gchar *uid;
+	gint row;
+};
+
+static gint
+ml_sort_uids_cb (gconstpointer a,
+		 gconstpointer b)
+{
+	struct ml_sort_uids_data * const *pdataA = a;
+	struct ml_sort_uids_data * const *pdataB = b;
+
+	return (* pdataA)->row - (* pdataB)->row;
+}
+
+void
+message_list_sort_uids (MessageList *message_list,
+			GPtrArray *uids)
+{
+	struct ml_sort_uids_data *data;
+	GPtrArray *array;
+	ETreePath path;
+	ETreeTableAdapter *adapter;
+	gint ii;
+
+	g_return_if_fail (message_list != NULL);
+	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+	g_return_if_fail (uids != NULL);
+
+	if (uids->len <= 1)
+		return;
+
+	adapter = e_tree_get_table_adapter (E_TREE (message_list));
+
+	array = g_ptr_array_new_full (uids->len, g_free);
+
+	for (ii = 0; ii < uids->len; ii++) {
+		data = g_new0 (struct ml_sort_uids_data, 1);
+		data->uid = g_ptr_array_index (uids, ii);
+
+		path = g_hash_table_lookup (message_list->uid_nodemap, data->uid);
+		if (path)
+			data->row = e_tree_table_adapter_row_of_node (adapter, path);
+		else
+			data->row = ii;
+
+		g_ptr_array_add (array, data);
+	}
+
+	g_ptr_array_sort (array, ml_sort_uids_cb);
+
+	for (ii = 0; ii < uids->len; ii++) {
+		data = g_ptr_array_index (array, ii);
+
+		uids->pdata[ii] = data->uid;
+	}
+
+	g_ptr_array_free (array, TRUE);
+}
+
 struct ml_count_data {
 	MessageList *ml;
 	guint count;

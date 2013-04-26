@@ -1600,6 +1600,16 @@ e_mail_reader_save_messages (EMailReader *reader)
 
 	uids = e_mail_reader_get_selected_uids (reader);
 	g_return_if_fail (uids != NULL && uids->len > 0);
+
+	if (uids->len > 1) {
+		GtkWidget *message_list = e_mail_reader_get_message_list (reader);
+
+		g_warn_if_fail (message_list != NULL);
+
+		if (message_list)
+			message_list_sort_uids (MESSAGE_LIST (message_list), uids);
+	}
+
 	message_uid = g_ptr_array_index (uids, 0);
 
 	/* XXX Either e_mail_reader_get_selected_uids()
