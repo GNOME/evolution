@@ -177,12 +177,14 @@ async_subtask_unref (AsyncSubtask *async_subtask)
 	}
 }
 
-static void
-async_subtask_cancel (AsyncSubtask *async_subtask)
+static gboolean
+async_subtask_cancel_idle_cb (gpointer user_data)
 {
-	g_return_if_fail (async_subtask != NULL);
+	AsyncSubtask *async_subtask = user_data;
 
 	g_cancellable_cancel (async_subtask->cancellable);
+
+	return FALSE;
 }
 
 static gint
@@ -354,23 +356,37 @@ async_context_free (AsyncContext *async_context)
 static void
 async_context_cancel_subtasks (AsyncContext *async_context)
 {
-	GQueue queue;
-	AsyncSubtask *async_subtask;
+	GMainContext *main_context;
+	GList *list, *link;
 
-	/* Copy subtasks to a secondary GQueue to avoid invoking
-	 * "cancelled" signal handlers while the mutex is locked. */
+	main_context = g_main_context_ref_thread_default ();
+
 	g_mutex_lock (&async_context->lock);
-	queue.head = g_hash_table_get_keys (async_context->subtasks);
-	queue.tail = g_list_last (queue.head);
-	queue.length = g_list_length (queue.head);
-	g_queue_foreach (&queue, (GFunc) async_subtask_ref, NULL);
-	g_mutex_unlock (&async_context->lock);
 
-	/* Cancel all subtasks. */
-	while ((async_subtask = g_queue_pop_head (&queue)) != NULL) {
-		async_subtask_cancel (async_subtask);
-		async_subtask_unref (async_subtask);
+	list = g_hash_table_get_keys (async_context->subtasks);
+
+	/* XXX Cancel subtasks from idle callbacks to make sure we don't
+	 *     finalize the GSimpleAsyncResult during a "cancelled" signal
+	 *     emission from the main task's GCancellable.  That will make
+	 *     g_cancellable_disconnect() in async_context_free() deadlock. */
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		AsyncSubtask *async_subtask = link->data;
+		GSource *idle_source;
+
+		idle_source = g_idle_source_new ();
+		g_source_set_priority (idle_source, G_PRIORITY_HIGH_IDLE);
+		g_source_set_callback (
+			idle_source,
+			async_subtask_cancel_idle_cb,
+			async_subtask_ref (async_subtask),
+			(GDestroyNotify) async_subtask_unref);
+		g_source_attach (idle_source, main_context);
+		g_source_unref (idle_source);
 	}
+
+	g_list_free (list);
+
+	g_main_context_unref (main_context);
 }
 
 static DataCaptureClosure *
