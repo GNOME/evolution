@@ -130,7 +130,6 @@ composer/e-msg-composer.c
 composer/mail-composer.error.xml
 data/evolution-alarm-notify.desktop.in.in
 data/evolution.desktop.in.in
-data/evolution-settings.desktop.in.in
 data/org.gnome.evolution.addressbook.gschema.xml.in
 data/org.gnome.evolution.bogofilter.gschema.xml.in
 data/org.gnome.evolution.calendar.gschema.xml.in
