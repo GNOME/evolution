@@ -1567,7 +1567,6 @@ art/Makefile
 data/Makefile
 data/evolution.desktop.in
 data/evolution-alarm-notify.desktop.in
-data/evolution-settings.desktop.in
 data/icons/Makefile
 doc/Makefile
 doc/reference/Makefile
