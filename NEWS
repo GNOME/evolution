@@ -3,11 +3,105 @@ Evolution 3.9.1 2013-04-29
 
 * The Express Mode feature developed for MeeGo has been removed.
   The MeeGo project is long dead and the Express Mode feature has
-  been unmaintained quite for some time.  It served its purpose.
+  been unmaintained quite for some time.  It served its purpose,
+  but it's dead weight now.
 
 * Dependency change: Evolution no longer links to libgoa-1.0.
   GNOME Online Accounts support is now contained entirely within
   Evolution-Data-Server.
+
+* Evolution now queries gravatar.com in addition to address books
+  to find email sender images.
+
+Bug Fixes:
+	Bug 271262 - Allow Send/Receive of local stores in offline (Milan Crha)
+	Bug 626215 - Prefer mail saving in order by UI (Milan Crha)
+	Bug 662568 - Use-after-free in Templates plugin signal handlers
+	             (Milan Crha)
+	Bug 677300 - Add 3 px padding above and below the searchbar
+	             (Jean-François Fortin Tam)
+	Bug 681837 - Make enum type registration thread safe (Milan Crha)
+	Bug 684245 - Disable 3rd-party browser plugins (Tomas Popela)
+	Bug 687412 - Crash under mail_folder_cache_service_removed()
+	             (Milan Crha)
+	Bug 696173 - Various memory leaks (Milan Crha)
+	Bug 696175 - bbdb: Blocks main thread when obtaining an EBookClient
+	             (Matthew Barnes)
+	Bug 696185 - Disable WebKit's caching (Milan Crha)
+	Bug 696257 - Handle default values for "primary" selection settings
+	             (Matthew Barnes)
+	Bug 696663 - Save without close should update comp-editor
+	             (Fabiano Fidêncio)
+	Bug 696715 - ESelectNamesEditable needs an EClientCache (Matthew Barnes)
+	Bug 697141 - User docs: Remove express mode (Andre Klapper)
+	Bug 697228 - User Docs: Remove CSS page now that we have WebKit
+	             rendering (Andre Klapper)
+	Bug 697268 - Incorrect mnemonic widget in 'Add Reminder' dialog
+	             (Matthew Barnes)
+	Bug 697710 - Going offline doesn't disconnect remote stores
+	             (Milan Crha)
+	Bug 698042 - Crash when sending e-mail with attachment (Matthew Barnes)
+	Bug 698487 - Contact Editor's Image's file chooser must show only
+	             images files (Fabiano Fidêncio)
+	Bug 698488 - Attachment file chooser should preview attachments'
+	             content when possible (Fabiano Fidêncio)
+	Bug 699083 - X-GNOME-Bugzilla-OtherBinares missing trailing semicolon
+	             (Matthew Barnes)
+
+Other Changes:
+	* User documentation improvements. (Andre Klapper)
+	* Convert all settings usage to GSettings and remove EShellSettings.
+	  (Matthew Barnes)
+	* Fix mbox-to-Maildir conversion... again. (Matthew Barnes)
+	* Fix for typing in ITIP comments when some keys triggered actions.
+	  (Tomas Popela)
+	* EMailAccountManager: Add Online Account blurbs. (Matthew Barnes)
+	* Show parts with Content-ID of multipart/mixed as attachments
+	  (Milan Crha)
+	* e_mail_folder_uri_parse: Handle local mbox folder URIs.
+	  (Matthew Barnes)
+	* Update copyright year on About dialog. (Matthew Barnes)
+	* Remove Evolution's implementation of highlighting and use WebKit
+	  highlighting. (Tomas Popela)
+	* web-inspector: Change the shortcut key to match Chrome.
+	  (Matthew Barnes)
+	* ECalModel: Make view handling thread-safe. (Matthew Barnes)
+	* Restore "Automatic Contacts" plugin preferences page.
+	  (Matthew Barnes)
+	* Remove backward-compatibility cruft for goa-1.0 < 3.8.
+	  (Matthew Barnes)
+	* alarm-queue: Remove the "mail notifications not supported" dialog
+	  (Matthew Barnes)
+	* EShellBackend: Log outstanding activities during shutdown.
+	  (Matthew Barnes)
+	* Workaround broken Free/Busy fetching (Bug #692361) (Milan Crha)
+	* Remove "Search for sender photograph only in local address books".
+	  (Matthew Barnes)
+
+Translations:
+	Nilamdyuti Goswami (as)
+	Gil Forcada (ca)
+	Carles Ferrando (ca@valencia)
+	Jiri Eischmann (cs)
+	Flemming Christensen (da)
+	Dimitris Spingos (el)
+	Daniel Mustieles (es)
+	Inaki Larranaga Murgoitio (eu)
+	Danial Behzadi (fa)
+	Alexandre Franke (fr)
+	Fran Diéguez (gl)
+	Gabor Kelemen (hu)
+	OKANO Takayoshi (ja)
+	Shankar Prasad (kn)
+	Changwoo Ryu (ko)
+	Ani Peter (ml)
+	Anish A (ml)
+	ManojKumar Giri (or)
+	A S Alam (pa)
+	Enrico Nicoletto (pt_BR)
+	Yuri Myasoedov (ru)
+	Matej Urbančič (sl)
+	Shantha kumar (ta)
 
 
 Evolution 3.7.92 2013-03-18
