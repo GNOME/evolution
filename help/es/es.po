@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-24 17:20+0000\n"
-"PO-Revision-Date: 2013-01-28 11:33+0100\n"
+"POT-Creation-Date: 2013-04-22 06:48+0000\n"
+"PO-Revision-Date: 2013-04-29 13:54+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -38,17 +38,7 @@ msgstr ""
 #. the file changes, the md5 hash will change to let you know you need to
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
-#.
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
-#.
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
-#: C/index.page:6(media) C/index.page:24(media)
+#: C/index.page:6(media)
 msgctxt "_"
 msgid ""
 "external ref='figures/evolutionlogo.png' "
@@ -94,7 +84,6 @@ msgstr "Correo y calendario de Evolution"
 #: C/calendar-usage.page:16(license/p)
 #: C/calendar-using-several-calendars.page:18(license/p)
 #: C/calendar-weather.page:15(license/p) C/calendar-webdav.page:15(license/p)
-#: C/change-keyboard-shortcuts.page:13(license/p)
 #: C/change-switcher-appearance.page:14(license/p)
 #: C/contacts-add-automatically.page:19(license/p)
 #: C/contacts-autocompletion.page:22(license/p)
@@ -119,9 +108,7 @@ msgstr "Correo y calendario de Evolution"
 #: C/exporting-data-calendar.page:15(license/p)
 #: C/exporting-data-contacts.page:18(license/p)
 #: C/exporting-data-mail.page:15(license/p)
-#: C/exporting-data.page:15(license/p) C/express-mode.page:15(license/p)
-#: C/google-services.page:13(license/p)
-#: C/groupwise-placeholder.page:15(license/p)
+#: C/exporting-data.page:15(license/p) C/google-services.page:13(license/p)
 #: C/import-apps-mozilla.page:15(license/p)
 #: C/import-apps-outlook.page:18(license/p) C/import-data.page:15(license/p)
 #: C/import-single-files.page:15(license/p)
@@ -138,7 +125,6 @@ msgstr "Correo y calendario de Evolution"
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:15(license/p)
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:15(license/p)
 #: C/mail-account-manage-microsoft-exchange.page:16(license/p)
-#: C/mail-account-manage-novell-groupwise.page:16(license/p)
 #: C/mail-account-manage-pop.page:15(license/p)
 #: C/mail-account-manage-unix-mbox-spool-directory.page:15(license/p)
 #: C/mail-account-manage-unix-mbox-spool-file.page:15(license/p)
@@ -152,9 +138,9 @@ msgstr "Correo y calendario de Evolution"
 #: C/mail-change-time-format.page:14(license/p)
 #: C/mail-composer-change-quotation-string.page:19(license/p)
 #: C/mail-composer-custom-header-lines.page:18(license/p)
-#: C/mail-composer-forward-as-attachment.page:16(license/p)
 #: C/mail-composer-enable-html-format.page:17(license/p)
 #: C/mail-composer-forward.page:18(license/p)
+#: C/mail-composer-forward-as-attachment.page:16(license/p)
 #: C/mail-composer-html-image.page:17(license/p)
 #: C/mail-composer-html-link.page:17(license/p)
 #: C/mail-composer-html.page:14(license/p)
@@ -163,7 +149,7 @@ msgstr "Correo y calendario de Evolution"
 #: C/mail-composer-html-text.page:17(license/p)
 #: C/mail-composer-mail-signatures-manage.page:15(license/p)
 #: C/mail-composer-mail-signatures.page:15(license/p)
-#: C/mail-composer-mail-signatures-per-account.page:26(license/p)
+#: C/mail-composer-mail-signatures-per-account.page:24(license/p)
 #: C/mail-composer-message-templates.page:18(license/p)
 #: C/mail-composer-message-templates-reply.page:18(license/p)
 #: C/mail-composer-message-templates-save.page:18(license/p)
@@ -175,14 +161,13 @@ msgstr "Correo y calendario de Evolution"
 #: C/mail-composer-several-recipients.page:21(license/p)
 #: C/mail-composer-spellcheck.page:17(license/p)
 #: C/mail-composer-write-new-message.page:18(license/p)
-#: C/mail-default-CC-and-BCC.page:25(license/p)
-#: C/mail-default-folder-locations.page:25(license/p)
+#: C/mail-default-CC-and-BCC.page:24(license/p)
+#: C/mail-default-folder-locations.page:24(license/p)
 #: C/mail-delete-and-undelete.page:20(license/p)
 #: C/mail-displaying-character-encodings.page:16(license/p)
 #: C/mail-displaying-collapsible-headers.page:18(license/p)
-#: C/mail-displaying-images-in-html.page:23(license/p)
+#: C/mail-displaying-images-in-html.page:22(license/p)
 #: C/mail-displaying-message.page:15(license/p)
-#: C/mail-displaying-no-css.page:16(license/p)
 #: C/mail-displaying-sender-photograph.page:18(license/p)
 #: C/mail-display-message-source.page:15(license/p)
 #: C/mail-duplicates.page:19(license/p)
@@ -191,7 +176,7 @@ msgstr "Correo y calendario de Evolution"
 #: C/mail-encryption-gpg-getting-keys.page:18(license/p)
 #: C/mail-encryption-gpg-set-up.page:18(license/p)
 #: C/mail-encryption-gpg-signing-encrypting.page:18(license/p)
-#: C/mail-encryption.page:27(license/p)
+#: C/mail-encryption.page:25(license/p)
 #: C/mail-encryption-s-mime-manage.page:18(license/p)
 #: C/mail-encryption-s-mime-signing-encrypting.page:18(license/p)
 #: C/mail-filters-actions.page:18(license/p)
@@ -209,12 +194,10 @@ msgstr "Correo y calendario de Evolution"
 #: C/mail-received-notification.page:15(license/p)
 #: C/mail-receiving-options-exchange-ews.page:15(license/p)
 #: C/mail-receiving-options-exchange-mapi.page:15(license/p)
-#: C/mail-receiving-options-imap.page:17(license/p)
 #: C/mail-receiving-options-imap-plus.page:18(license/p)
 #: C/mail-receiving-options-local-delivery.page:15(license/p)
 #: C/mail-receiving-options-maildir-format-directories.page:15(license/p)
 #: C/mail-receiving-options-mh-format-directories.page:15(license/p)
-#: C/mail-receiving-options-novell-groupwise.page:19(license/p)
 #: C/mail-receiving-options.page:13(license/p)
 #: C/mail-receiving-options-pop.page:22(license/p)
 #: C/mail-receiving-options-unix-mbox-spool-directory.page:15(license/p)
@@ -264,13 +247,16 @@ msgstr "Correo y calendario de Evolution"
 msgid "Creative Commons Share Alike 3.0"
 msgstr "Creative Commons Compartir Igual 3.0"
 
+#: C/index.page:25(media/span)
+#| msgid "Evolution"
+msgid "Evolution logo"
+msgstr "Logo de Evolution"
+
 #: C/index.page:23(page/title)
-msgid ""
-"<media type=\"image\" src=\"figures/evolutionlogo.png\"> Evolution logo </"
-"media> Evolution Mail and Calendar"
-msgstr ""
-"<media type=\"image\" src=\"figures/evolutionlogo.png\">Logotipo de "
-"Evolution</media> Correo y calendario de Evolution"
+#| msgctxt "text"
+#| msgid "Evolution Mail and Calendar"
+msgid "<_:media-1/> Evolution Mail and Calendar"
+msgstr "<_:media-1/> Correo y calendario de Evolution"
 
 #: C/index.page:31(section/title) C/intro-application.page:24(page/title)
 msgid "Getting Started"
@@ -324,23 +310,19 @@ msgstr "Entornos corporativos"
 msgid "Microsoft Exchange"
 msgstr "Microsoft Exchange"
 
-#: C/index.page:76(section/title)
-msgid "Novell Groupwise"
-msgstr "Novell GroupWise"
-
-#: C/index.page:81(section/title)
+#: C/index.page:78(section/title)
 msgid "Tracking down Problems"
 msgstr "Localizar problemas"
 
-#: C/index.page:85(section/title)
+#: C/index.page:82(section/title)
 msgid "Common Mail Questions and Problems"
 msgstr "Preguntas y problemas comunes"
 
-#: C/index.page:89(section/title)
+#: C/index.page:86(section/title)
 msgid "Common Other Questions and Problems"
 msgstr "Otras preguntas y problemas comunes"
 
-#: C/index.page:93(section/title)
+#: C/index.page:90(section/title)
 msgid "Further reading"
 msgstr "Lecturas recomendadas"
 
@@ -1499,7 +1481,7 @@ msgstr ""
 #. the file changes, the md5 hash will change to let you know you need to
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
-#: C/calendar-searching.page:34(media) C/contacts-searching.page:43(media)
+#: C/calendar-searching.page:34(media) C/contacts-searching.page:42(media)
 #: C/mail-searching.page:42(media) C/memos-searching.page:43(media)
 #: C/tasks-searching.page:43(media)
 msgctxt "_"
@@ -1517,7 +1499,7 @@ msgid "Searching for Calendar Items"
 msgstr "Buscar elementos del calendario"
 
 #: C/calendar-searching.page:30(section/title)
-#: C/contacts-searching.page:39(section/title)
+#: C/contacts-searching.page:38(section/title)
 #: C/mail-searching.page:39(section/title)
 #: C/memos-searching.page:39(section/title)
 #: C/tasks-searching.page:39(section/title)
@@ -1537,7 +1519,7 @@ msgstr ""
 msgid "Searching by summary:"
 msgstr "Buscar por resumen:"
 
-#: C/calendar-searching.page:34(item/p) C/contacts-searching.page:43(item/p)
+#: C/calendar-searching.page:34(item/p) C/contacts-searching.page:42(item/p)
 #: C/memos-searching.page:43(item/p) C/tasks-searching.page:43(item/p)
 msgid ""
 "Click the search icon <media type=\"image\" mime=\"image/png\" src=\"figures/"
@@ -1546,20 +1528,20 @@ msgstr ""
 "Pulse el icono de búsqueda <media type=\"image\" mime=\"image/png\" src="
 "\"figures/search-icon.png\"/> para expandir la dista desplegable."
 
-#: C/calendar-searching.page:35(item/p) C/contacts-searching.page:44(item/p)
+#: C/calendar-searching.page:35(item/p) C/contacts-searching.page:43(item/p)
 #: C/mail-searching.page:43(item/p) C/memos-searching.page:44(item/p)
 #: C/tasks-searching.page:44(item/p)
 msgid "Select the search condition from the list."
 msgstr "Seleccione el criterio de búsqueda de la lista."
 
-#: C/calendar-searching.page:36(item/p) C/contacts-searching.page:45(item/p)
+#: C/calendar-searching.page:36(item/p) C/contacts-searching.page:44(item/p)
 #: C/mail-searching.page:47(item/p) C/memos-searching.page:45(item/p)
 #: C/tasks-searching.page:45(item/p)
 msgid "Enter the text you want to search for and press <key>Enter</key>."
 msgstr "Escriba el texto que quiere buscar y pulse <key>Intro</key>."
 
 #: C/calendar-searching.page:37(item/p) C/calendar-searching.page:43(item/p)
-#: C/contacts-searching.page:46(item/p) C/contacts-searching.page:52(item/p)
+#: C/contacts-searching.page:45(item/p) C/contacts-searching.page:51(item/p)
 #: C/mail-searching.page:48(item/p) C/memos-searching.page:46(item/p)
 #: C/memos-searching.page:52(item/p) C/tasks-searching.page:46(item/p)
 #: C/tasks-searching.page:52(item/p)
@@ -1567,17 +1549,17 @@ msgid "Evolution displays the search results."
 msgstr "Evolution muestra los resultados de la búsqueda."
 
 #: C/calendar-searching.page:39(section/p)
-#: C/contacts-searching.page:48(section/p)
+#: C/contacts-searching.page:47(section/p)
 #: C/memos-searching.page:48(section/p) C/tasks-searching.page:48(section/p)
 msgid "Searching by category:"
 msgstr "Buscar por categoría:"
 
-#: C/calendar-searching.page:41(item/p) C/contacts-searching.page:50(item/p)
+#: C/calendar-searching.page:41(item/p) C/contacts-searching.page:49(item/p)
 #: C/memos-searching.page:50(item/p) C/tasks-searching.page:50(item/p)
 msgid "Click the <gui>Show</gui> drop-down list."
 msgstr "Pulse la lista desplegable <gui>Mostrar</gui>."
 
-#: C/calendar-searching.page:42(item/p) C/contacts-searching.page:51(item/p)
+#: C/calendar-searching.page:42(item/p) C/contacts-searching.page:50(item/p)
 #: C/memos-searching.page:51(item/p) C/tasks-searching.page:51(item/p)
 msgid "Select the category from the list."
 msgstr "Seleccione la categoría de la lista."
@@ -1595,7 +1577,7 @@ msgstr ""
 "predeterminado de 10 años."
 
 #: C/calendar-searching.page:48(section/p)
-#: C/contacts-searching.page:54(section/p) C/mail-searching.page:52(section/p)
+#: C/contacts-searching.page:53(section/p) C/mail-searching.page:52(section/p)
 #: C/memos-searching.page:54(section/p) C/tasks-searching.page:54(section/p)
 msgid ""
 "If you want to set several search conditions, you should use an Advanced "
@@ -1603,149 +1585,6 @@ msgid ""
 msgstr ""
 "Si quiere establecer varias condiciones de búsqueda debe usar la Búsqueda "
 "avanzada, descrita debajo."
-
-#: C/calendar-searching.page:52(section/title)
-#: C/contacts-searching.page:58(section/title)
-#: C/memos-searching.page:58(section/title)
-#: C/tasks-searching.page:58(section/title)
-msgid "Advanced Search"
-msgstr "Búsqueda avanzada"
-
-#: C/calendar-searching.page:54(item/p) C/contacts-searching.page:60(item/p)
-#: C/mail-searching.page:58(item/p) C/memos-searching.page:60(item/p)
-#: C/tasks-searching.page:60(item/p)
-msgid ""
-"Select the <guiseq><gui>Search</gui><gui>Advanced Search</gui></guiseq> menu "
-"to open the dialog box."
-msgstr ""
-"Seleccione el menú <guiseq><gui>Buscar</gui><gui>Búsqueda avanzada</gui></"
-"guiseq> para abrir el cuadro de diálogo."
-
-#: C/calendar-searching.page:55(item/p) C/contacts-searching.page:61(item/p)
-#: C/mail-searching.page:59(item/p) C/memos-searching.page:61(item/p)
-#: C/tasks-searching.page:61(item/p)
-msgid ""
-"Click <gui style=\"button\">Add Condition</gui> to add any number of rules."
-msgstr ""
-"Pulse <gui style=\"button\">Añadir condición</gui> para añadir cualquier "
-"número de reglas."
-
-#: C/calendar-searching.page:56(item/p) C/contacts-searching.page:62(item/p)
-#: C/mail-searching.page:60(item/p) C/memos-searching.page:62(item/p)
-#: C/tasks-searching.page:62(item/p)
-msgid ""
-"Select the condition from the dropdown list, and then type a search entry in "
-"the field."
-msgstr ""
-"Seleccione el criterio de la lista desplegable y después escriba una entrada "
-"de búsqueda en el campo."
-
-#: C/calendar-searching.page:57(item/p) C/contacts-searching.page:63(item/p)
-#: C/mail-searching.page:61(item/p) C/memos-searching.page:63(item/p)
-#: C/tasks-searching.page:63(item/p)
-msgid ""
-"Click <gui style=\"button\">OK</gui> to get the search results displayed."
-msgstr ""
-"Pulse <gui style=\"button\">Aceptar</gui> para mostrar los resultados de la "
-"búsqueda."
-
-#: C/calendar-searching.page:63(section/title)
-#: C/contacts-searching.page:69(section/title)
-#: C/mail-searching.page:67(section/title)
-#: C/memos-searching.page:69(section/title)
-#: C/tasks-searching.page:69(section/title)
-msgid "Clearing the Search results"
-msgstr "Limpiar los resultados de la búsqueda"
-
-#: C/calendar-searching.page:64(section/p)
-#: C/contacts-searching.page:70(section/p) C/mail-searching.page:68(section/p)
-#: C/memos-searching.page:70(section/p) C/tasks-searching.page:70(section/p)
-msgid ""
-"To clear your search view and get back to the default view, click the "
-"<gui>Clear</gui> icon in the search string field, or choose "
-"<guiseq><gui>Search</gui><gui>Clear</gui></guiseq> from the menubar. You can "
-"also press <keyseq><key>Shift</key><key>Ctrl</key><key>Q</key></keyseq> to "
-"clear the search."
-msgstr ""
-"Para limpiar su búsqueda puede pulsar el botón o menú <gui>Limpiar</gui> en "
-"el campo de cadena de búsqueda, elegir <guiseq><gui>Buscar</"
-"gui><gui>Limpiar</gui></guiseq> desde la barra de menú, o introducir una "
-"búsqueda vacía. También puede pulsar <keyseq><key>Mayús</key><key>Ctrl</"
-"key><key>Q</key></keyseq> para limpiar la búsqueda."
-
-#: C/calendar-searching.page:68(section/title)
-#: C/contacts-searching.page:74(section/title)
-#: C/mail-searching.page:72(section/title)
-#: C/memos-searching.page:74(section/title)
-#: C/tasks-searching.page:74(section/title)
-msgid "Saved Searches"
-msgstr "Búsquedas guardadas"
-
-#: C/calendar-searching.page:69(section/p)
-#: C/contacts-searching.page:75(section/p) C/mail-searching.page:73(section/p)
-#: C/memos-searching.page:75(section/p) C/tasks-searching.page:75(section/p)
-msgid ""
-"If you search for something rather often, you will prefer not to type it "
-"many times. In this case you can use saved searches."
-msgstr ""
-"Si suele buscar algo con relativa frecuencia, quizá prefiera no escribirlo "
-"tantas veces. En ese caso puede usar las búsquedas guardadas."
-
-#: C/calendar-searching.page:70(section/p)
-#: C/contacts-searching.page:76(section/p) C/mail-searching.page:74(section/p)
-#: C/memos-searching.page:76(section/p) C/tasks-searching.page:76(section/p)
-msgid ""
-"To save your search results, either click <gui>Save</gui> instead of "
-"<gui>OK</gui> in the Search dialog, or in case the search results are "
-"already displayed, select <guiseq><gui>Search</gui><gui>Save Search</gui></"
-"guiseq>. From now on this search will be directly available from the "
-"<gui>Search</gui> menu."
-msgstr ""
-"Para guardar el resultado de su búsqueda pulse <gui>Guardar</gui> en lugar "
-"de <gui>Aceptar</gui> en el diálogo Buscar, o en caso de que ya se estén "
-"mostrando los resultados de la búsqueda, seleccione <guiseq><gui>Buscar</"
-"gui><gui>Guardar búsqueda</gui></guiseq>. Desde ahora, esta búsqueda estará "
-"directamente disponible desde el menú <gui>Buscar</gui>."
-
-#: C/calendar-searching.page:74(section/title)
-#: C/contacts-searching.page:80(section/title)
-#: C/mail-searching.page:78(section/title)
-#: C/memos-searching.page:80(section/title)
-#: C/tasks-searching.page:80(section/title)
-msgid "Editing a Saved Search"
-msgstr "Editar una búsqueda guardada"
-
-#: C/calendar-searching.page:76(item/p) C/contacts-searching.page:82(item/p)
-#: C/mail-searching.page:80(item/p) C/memos-searching.page:82(item/p)
-#: C/tasks-searching.page:82(item/p)
-msgid ""
-"Select <guiseq><gui>Search</gui><gui>Edit Saved Searches</gui></guiseq> from "
-"the menu bar to open the window."
-msgstr ""
-"Para abrir la ventana seleccione <guiseq><gui>Buscar</gui><gui>Editar "
-"búsquedas guardadas</gui></guiseq> de la barra de menú."
-
-#: C/calendar-searching.page:77(item/p) C/contacts-searching.page:83(item/p)
-#: C/mail-searching.page:81(item/p) C/memos-searching.page:83(item/p)
-#: C/tasks-searching.page:83(item/p)
-msgid ""
-"Click the <gui style=\"button\">Edit</gui> button to open the <gui>Edit "
-"Rule</gui> window."
-msgstr ""
-"Pulse el botón <gui style=\"button\">Editar</gui> para abrir la ventana "
-"<gui>Editar regla</gui>."
-
-#: C/calendar-searching.page:78(item/p) C/contacts-searching.page:84(item/p)
-#: C/mail-searching.page:82(item/p) C/memos-searching.page:84(item/p)
-#: C/tasks-searching.page:84(item/p)
-msgid "Edit the title or search conditions from the dialog box."
-msgstr "Edite el título o el criterio de búsqueda desde el cuadro de diálogo."
-
-#: C/calendar-searching.page:79(item/p) C/contacts-searching.page:85(item/p)
-#: C/mail-searching.page:83(item/p) C/memos-searching.page:85(item/p)
-#: C/tasks-searching.page:85(item/p)
-msgid "Click <gui>OK</gui>."
-msgstr "Pulse <gui>Aceptar</gui>."
 
 #: C/calendar-sharing-information.page:5(info/desc)
 msgid ""
@@ -2018,67 +1857,6 @@ msgstr "Seleccione el tipo <gui>En la red</gui>."
 #: C/mail-sending-options-smtp.page:35(item/p) C/tasks-webdav.page:33(item/p)
 msgid "Enter your username."
 msgstr "Introduzca su nombre de usuario."
-
-#: C/change-keyboard-shortcuts.page:5(info/desc)
-msgid "Changing keyboard shortcuts."
-msgstr "Cambiar los atajos de teclado."
-
-#: C/change-keyboard-shortcuts.page:18(page/title)
-msgid "Changing keyboard shortcuts"
-msgstr "Cambiar los atajos de teclado"
-
-#: C/change-keyboard-shortcuts.page:21(item/p)
-#: C/mail-filters-not-working.page:46(item/p)
-#: C/mail-localized-re-subjects.page:25(item/p)
-#: C/mail-save-as-pdf.page:27(item/p)
-#: C/mail-sorting-message-list.page:39(item/p)
-msgid "Open the <app>Terminal</app> application."
-msgstr "Abra la aplicación <app>Terminal</app>."
-
-#: C/change-keyboard-shortcuts.page:22(item/p)
-#: C/mail-sorting-message-list.page:40(item/p)
-msgid ""
-"Run the command <cmd>gsettings set org.gnome.desktop.interface can-change-"
-"accels true</cmd>"
-msgstr ""
-"Ejecute el comando <cmd>gsettings set org.gnome.desktop.interface can-change-"
-"accels true</cmd>"
-
-#: C/change-keyboard-shortcuts.page:23(item/p)
-#: C/import-apps-outlook.page:57(item/p)
-#: C/mail-filters-not-working.page:49(item/p)
-msgid "Start Evolution."
-msgstr "Inicie Evolution."
-
-#: C/change-keyboard-shortcuts.page:24(item/p)
-msgid ""
-"Hover your mouse cursor over the menu bar item for which you want to add or "
-"change the keyboard shortcut."
-msgstr ""
-"Pónga el cursor de su ratón se mueve sobre el elemento de la barra de menú "
-"para el que quiere añadir o cambiar la distribución de teclado."
-
-#: C/change-keyboard-shortcuts.page:25(item/p)
-msgid "Type the shortcut that you want on the keyboard."
-msgstr "Escriba el atajo que quiere en el teclado."
-
-#: C/change-keyboard-shortcuts.page:28(page/p)
-msgid ""
-"Note that this setting is desktop-wide and that you can disable it again "
-"after your changes by using the command <cmd>gsettings set org.gnome.desktop."
-"interface can-change-accels false</cmd>"
-msgstr ""
-"Tenga en cuenta que este ajuste es para todo el escritorio y que puede "
-"desactivarlo de nuevo después de cambiarlo usando el comando <cmd>gsettings "
-"set org.gnome.desktop.interface can-change-accels false</cmd>"
-
-#: C/change-keyboard-shortcuts.page:30(page/p)
-#: C/mail-filters-not-working.page:56(section/p)
-#: C/mail-localized-re-subjects.page:28(page/p)
-#: C/mail-save-as-pdf.page:30(note/p)
-msgid "You can also use the <app>dconf-editor</app> application to do this."
-msgstr ""
-"También puede usar la aplicación <gui>dconf-editor</gui> para hacer esto."
 
 #: C/change-switcher-appearance.page:5(info/desc)
 msgid "Changing the display of the window buttons in the lower left corner."
@@ -2576,7 +2354,7 @@ msgstr ""
 msgid "Searching Across Contacts"
 msgstr "Buscar entre los contactos"
 
-#: C/contacts-searching.page:40(section/p)
+#: C/contacts-searching.page:39(section/p)
 msgid ""
 "In the Contacts view, you can quickly search for contacts either by category "
 "or by contact's info."
@@ -2584,7 +2362,7 @@ msgstr ""
 "En la vista de Contactos puede buscar rápidamente los contactos tanto por "
 "categoría como por la información del contacto."
 
-#: C/contacts-searching.page:41(section/p)
+#: C/contacts-searching.page:40(section/p)
 msgid "Searching by contact's info:"
 msgstr "Buscar por la información del contacto:"
 
@@ -3211,7 +2989,7 @@ msgstr ""
 "paquete <sys>evolution-ews</sys>."
 
 #: C/exchange-connectors-overview.page:30(note/p)
-#: C/intro-first-run.page:65(when/p)
+#: C/intro-first-run.page:63(when/p)
 msgid ""
 "<link action=\"install:evolution-ews\" href=\"http://projects.gnome.org/"
 "evolution/download\" style=\"button\">Install evolution-ews</link>"
@@ -3235,7 +3013,7 @@ msgstr ""
 "sys>."
 
 #: C/exchange-connectors-overview.page:41(note/p)
-#: C/intro-first-run.page:76(when/p)
+#: C/intro-first-run.page:74(when/p)
 msgid ""
 "<link action=\"install:evolution-mapi\" href=\"http://projects.gnome.org/"
 "evolution/download\" style=\"button\">Install evolution-mapi</link>"
@@ -3287,12 +3065,20 @@ msgstr ""
 "valores separados por comas (CSV) y formato RDF."
 
 #: C/exporting-data-calendar.page:23(page/p)
+#| msgid ""
+#| "If you want to export only one contact, click <guiseq><gui>File</"
+#| "gui><gui>Save as vCard</gui></guiseq> or right-click on the contact and "
+#| "click <gui>Save as vCard</gui>."
 msgid ""
-"If you want to export only one appointment, right-click on the appointment "
-"and click <gui>Save as iCalendar...</gui>."
+"If you want to export only one appointment (or task or memo), either select "
+"the appointment and select <guiseq><gui>File</gui><gui>Save as iCalendar...</"
+"gui></guiseq>, or right-click on the appointment and click <gui>Save as "
+"iCalendar...</gui>."
 msgstr ""
-"Si sólo quiere exportar una cita, pulse con el botón derecho del ratón sobre "
-"la cita y seleccione <gui>Guardar como iCalendar...</gui>."
+"Si quiere exportar un sólo contacto (o una tarea o una nota) pulse "
+"<guiseq><gui>Archivo</gui><gui>Guardar como iCalendar...</gui></guiseq> o "
+"pulse con el botón derecho del ratón sobre el contacto y pulse <gui>Guardar "
+"como iCalendar</gui>."
 
 #: C/exporting-data-contacts.page:5(info/desc)
 msgid "How to export contacts data from <app>Evolution</app>."
@@ -3337,13 +3123,18 @@ msgid "Exporting mail data"
 msgstr "Exportar datos de correos"
 
 #: C/exporting-data-mail.page:22(page/p)
+#| msgid ""
+#| "To save an email to a file in <link href=\"https://secure.wikimedia.org/"
+#| "wikipedia/en/wiki/Mbox\">mbox</link> format, select an email and click "
+#| "<guiseq><gui>File</gui><gui>Save as mbox...</gui></guiseq> or right-click "
+#| "on the message and click <gui>Save as mbox...</gui>."
 msgid ""
-"To save an email to a file in <link href=\"https://secure.wikimedia.org/"
-"wikipedia/en/wiki/Mbox\">mbox</link> format, select an email and click "
-"<guiseq><gui>File</gui><gui>Save as mbox...</gui></guiseq> or right-click on "
-"the message and click <gui>Save as mbox...</gui>."
+"To save an email to a file in <link href=\"https://en.wikipedia.org/wiki/Mbox"
+"\">mbox</link> format, select an email and click <guiseq><gui>File</"
+"gui><gui>Save as mbox...</gui></guiseq> or right-click on the message and "
+"click <gui>Save as mbox...</gui>."
 msgstr ""
-"Para guardar un correo en un arachivo en formato <link href=\"http://es."
+"Para guardar un correo en un archivo en formato <link href=\"http://es."
 "wikipedia.org/wiki/Mbox\">mbox</link>, seleccione un correo y pulse "
 "<guiseq><gui>Archivo</gui><gui>Guardar como mbox...</gui></guiseq> o pulse "
 "con el botón derecho del ratón sobre el correo y pulse <gui>Guardar como "
@@ -3375,32 +3166,6 @@ msgstr "Cómo exportar datos de <app>Evolution</app>."
 msgid "Exporting data from <em>Evolution</em>"
 msgstr "Exportar datos de <em>Evolution</em>"
 
-#: C/express-mode.page:5(info/desc)
-msgid "What to do when using a small screen or netbook."
-msgstr "Qué hacer si se usa una pantalla pequeña o un «netbook»:"
-
-#: C/express-mode.page:20(page/title)
-msgid "Some windows are too large for small screens."
-msgstr "Algunas ventanas son demasiado grandes para las pantallas pequeñas."
-
-#: C/express-mode.page:22(page/p)
-msgid ""
-"This is a known problem and hard to solve for a complex application with "
-"many settings such as Evolution."
-msgstr ""
-"Es un problema conocido y es muy difícil solucionarlo para una aplicación "
-"complja con tantos ajustes como Evolution."
-
-#: C/express-mode.page:23(page/p)
-msgid ""
-"You can use the Express version which is targeted for mobile and small-"
-"screen devices by entering the command <code>evolution --express</code> in "
-"the <app>Terminal</app> application."
-msgstr ""
-"Puede usar la versión Express que está pensada para dispositivos móviles y "
-"con pantallas pequeñas. escribiendo el comando <code>evolution --express</"
-"code> en la ventana de la <app>Terminal</app>."
-
 #: C/google-services.page:5(info/desc)
 msgid "Using Google services."
 msgstr "Usar servicios de Google."
@@ -3408,21 +3173,6 @@ msgstr "Usar servicios de Google."
 #: C/google-services.page:18(page/title)
 msgid "Using Google services"
 msgstr "Usar servicios de Google"
-
-#: C/groupwise-placeholder.page:5(info/desc)
-#: C/groupwise-placeholder.page:20(page/title)
-msgid "Connecting to GroupWise"
-msgstr "Conexión a GroupWise"
-
-#: C/groupwise-placeholder.page:22(page/p)
-msgid ""
-"For topics not covered here please refer to the <link href=\"http://library."
-"gnome.org/users/evolution/2.32/usage-groupwise.html.en\">old Evolution "
-"manual</link>."
-msgstr ""
-"Para consultar temas no tratados aquí, diríjase al <link href=\"http://"
-"library.gnome.org/users/evolution/2.32/usage-groupwise.html.en\">antiguo "
-"manual de Evolution</link>."
 
 #: C/import-apps-mozilla.page:5(info/desc)
 msgid "Importing data from Mozilla Thunderbird."
@@ -3432,12 +3182,12 @@ msgstr "Importar datos de Mozilla Thunderbird."
 msgid "Mozilla"
 msgstr "Mozilla"
 
-#: C/import-apps-mozilla.page:24(item/p) C/import-apps-outlook.page:60(item/p)
+#: C/import-apps-mozilla.page:25(item/p) C/import-apps-outlook.page:60(item/p)
 #: C/import-single-files.page:24(item/p)
 msgid "Click <guiseq><gui>File</gui><gui>Import</gui></guiseq>."
 msgstr "Pulse <guiseq><gui>Archivo</gui><gui>Importar</gui></guiseq>."
 
-#: C/import-apps-mozilla.page:25(item/p) C/import-apps-outlook.page:61(item/p)
+#: C/import-apps-mozilla.page:26(item/p) C/import-apps-outlook.page:61(item/p)
 #: C/import-single-files.page:25(item/p)
 msgid ""
 "In the <gui>Importer Type</gui> tab, click <gui>Import a single file</gui>."
@@ -3445,23 +3195,66 @@ msgstr ""
 "En la pestaña <gui>Tipo de importador</gui> pulse <gui>Importar un único "
 "archivo</gui>."
 
-#: C/import-apps-mozilla.page:26(item/p)
-msgid "Choose the Thunderbird files that you would like to import."
-msgstr "Seleccione los archivos de Thunderbird que quiere importar."
+#: C/import-apps-mozilla.page:27(item/p)
+msgid ""
+"Go to the folder in which Thunderbird stores its data. On a Linux system, "
+"Thunderbird's files are located in the hidden folder <file>$HOME/."
+"thunderbird/12345678</file>. <file>12345678</file> will be a random string. "
+"If you cannot see the <file>.thunderbird</file> folder, make sure to <link "
+"href=\"help:gnome-help/files-hidden#show-hidden\">show hidden files</link> "
+"in the file selector dialog."
+msgstr ""
+"Vaya a la carpeta en la que Thunderbird guarda sus datos. En un sistema GNU/"
+"Linux los archivos de Thunderbirdse guardan en la carpeta oculta <file>"
+"$HOME/.thunderbird/12345678</file>. <file>12345678</file> será una cadena "
+"aleatoria. Si no puede ver la carpeta <file>.thunderbird</file>, asegúrese "
+"de que <link href=\"help:gnome-help/files-hidden#show-hidden\">muestra los "
+"archivos ocultos</link> en el diálogo del selector de archivos."
 
-#: C/import-apps-mozilla.page:26(item/p) C/import-apps-outlook.page:62(item/p)
+#: C/import-apps-mozilla.page:30(item/p)
+msgid ""
+"If you would like to import Thunderbird mail, go to <file>Mail/Local "
+"Folders</file> (for local mail accounts) or <file>ImapMail/servername</file> "
+"(for remote mail accounts). <file>servername</file> will be the address of "
+"your remote mail server. Files without a file ending include your messages "
+"(not the <file>.msf</file> files)."
+msgstr ""
+"Si quiere importar el correo de Thunderbird mail, vaya a <file>Mail/carpetas "
+"locales</file> (para cuentas de correo local) o <file>ImapMail/servidor</"
+"file> (para cuentas de correo remotas). <file>servidor</file> será la "
+"dirección del servidor de correo remoto. Los archivos con el nombre "
+"incompleto incluyen sus mensajes (no los archivos <file>.msf</file>)."
+
+#: C/import-apps-mozilla.page:31(item/p)
+msgid ""
+"If you would like to import Thunderbird/Lightning calendar data, you may be "
+"able to export your Thunderbird events as an <file>.ical</file>/<file>.ics</"
+"file> file first, and import these files into Evolution. This is required as "
+"Thunderbird stores its calendar data in a non-standard database format."
+msgstr ""
+"Si quiere importar los datos del calendario de Thunderbird/Lightning, puede "
+"que sea capaz de exportar sus eventos de Thunderbird primero como un archivo "
+"<file>.ical</file>/<file>.ics</file> y luego importar este archivo en "
+"Evolution. Esto es necesario ya que Thunderbird guardar los datos del "
+"calendario en un formato de base de datos no estándar."
+
+#: C/import-apps-mozilla.page:33(item/p) C/import-apps-outlook.page:62(item/p)
 #: C/import-single-files.page:26(item/p)
 msgid "The file type will be automatically determined."
 msgstr "Se determinará automáticamente el tipo de archivo."
 
-#: C/import-apps-mozilla.page:27(item/p) C/import-apps-outlook.page:65(item/p)
-#: C/import-single-files.page:27(item/p)
+#: C/import-apps-mozilla.page:34(item/p)
+#| msgid ""
+#| "Choose the destination (e.g. the folder in Evolution) for the imported "
+#| "data."
 msgid ""
-"Choose the destination (e.g. the folder in Evolution) for the imported data."
+"Choose the destination (e.g. the folder or calendar in Evolution) for the "
+"imported data."
 msgstr ""
-"Elija el destino (ej. la carpeta en Evolution) para los datos importados."
+"Elija el destino (ej. la carpeta o el calendario en Evolution) para los "
+"datos importados."
 
-#: C/import-apps-mozilla.page:28(item/p) C/import-apps-outlook.page:66(item/p)
+#: C/import-apps-mozilla.page:35(item/p) C/import-apps-outlook.page:66(item/p)
 msgid "Repeat the import steps until you have imported all your data."
 msgstr ""
 "Repita los pasos de importación hasta que haya importado todos sus datos."
@@ -3588,6 +3381,10 @@ msgstr ""
 "Copie todos los archivos de correo en su carpeta personal o cualquier otro "
 "lugar conveniente."
 
+#: C/import-apps-outlook.page:57(item/p)
+msgid "Start Evolution."
+msgstr "Inicie Evolution."
+
 #: C/import-apps-outlook.page:58(item/p)
 msgid ""
 "Optionally select <guiseq><gui>File</gui><gui>New</gui><gui>Mail Folder</"
@@ -3617,6 +3414,12 @@ msgstr ""
 "está disponible en <guiseq><gui>Archivo</gui><gui>Importar</"
 "gui><gui>Importar un único archivo</gui><gui>Tipo de archivo</gui></guiseq>, "
 "es posible que su distribución tenga activada esta funcionalidad."
+
+#: C/import-apps-outlook.page:65(item/p) C/import-single-files.page:27(item/p)
+msgid ""
+"Choose the destination (e.g. the folder in Evolution) for the imported data."
+msgstr ""
+"Elija el destino (ej. la carpeta en Evolution) para los datos importados."
 
 #: C/import-data.page:5(info/desc)
 msgid "Importing data from another application."
@@ -3864,47 +3667,17 @@ msgstr ""
 "<link xref=\"import-data\">importar datos de otras aplicaciones</link>."
 
 #: C/intro-first-run.page:27(section/title)
-#: C/mail-account-manage-imap-plus.page:29(section/title)
-#: C/mail-account-manage-local-delivery.page:29(section/title)
-#: C/mail-account-manage-maildir-format-directories.page:29(section/title)
-#: C/mail-account-manage-mh-format-directories.page:29(section/title)
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:30(section/title)
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:30(section/title)
-#: C/mail-account-manage-novell-groupwise.page:30(section/title)
-#: C/mail-account-manage-pop.page:29(section/title)
-#: C/mail-account-manage-unix-mbox-spool-directory.page:29(section/title)
-#: C/mail-account-manage-unix-mbox-spool-file.page:29(section/title)
-#: C/mail-account-manage-usenet-news.page:29(section/title)
+#: C/xinclude-mail-account-identity.xml:4(section/title)
 msgid "Identity"
 msgstr "Identidad"
 
 #: C/intro-first-run.page:28(section/p)
-#: C/mail-account-manage-imap-plus.page:31(section/p)
-#: C/mail-account-manage-local-delivery.page:31(section/p)
-#: C/mail-account-manage-maildir-format-directories.page:31(section/p)
-#: C/mail-account-manage-mh-format-directories.page:31(section/p)
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:32(section/p)
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:32(section/p)
-#: C/mail-account-manage-novell-groupwise.page:32(section/p)
-#: C/mail-account-manage-pop.page:31(section/p)
-#: C/mail-account-manage-unix-mbox-spool-directory.page:31(section/p)
-#: C/mail-account-manage-unix-mbox-spool-file.page:31(section/p)
-#: C/mail-account-manage-usenet-news.page:31(section/p)
+#: C/xinclude-mail-account-identity.xml:5(section/p)
 msgid "Here you define your name and your email address."
 msgstr "Introduzca aquí su nombre y su dorección de correo electrónico."
 
 #: C/intro-first-run.page:29(section/p)
-#: C/mail-account-manage-imap-plus.page:32(section/p)
-#: C/mail-account-manage-local-delivery.page:32(section/p)
-#: C/mail-account-manage-maildir-format-directories.page:32(section/p)
-#: C/mail-account-manage-mh-format-directories.page:32(section/p)
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:33(section/p)
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:33(section/p)
-#: C/mail-account-manage-novell-groupwise.page:33(section/p)
-#: C/mail-account-manage-pop.page:32(section/p)
-#: C/mail-account-manage-unix-mbox-spool-directory.page:32(section/p)
-#: C/mail-account-manage-unix-mbox-spool-file.page:32(section/p)
-#: C/mail-account-manage-usenet-news.page:32(section/p)
+#: C/xinclude-mail-account-identity.xml:6(section/p)
 msgid ""
 "Optionally you can make this account your default account (e.g. when writing "
 "emails), set a Reply-To email address (if you want replies to messages sent "
@@ -3935,12 +3708,10 @@ msgstr ""
 #: C/intro-first-run.page:38(section/title)
 #: C/mail-receiving-options-exchange-ews.page:23(section/title)
 #: C/mail-receiving-options-exchange-mapi.page:23(section/title)
-#: C/mail-receiving-options-imap.page:25(section/title)
 #: C/mail-receiving-options-imap-plus.page:26(section/title)
 #: C/mail-receiving-options-local-delivery.page:23(section/title)
 #: C/mail-receiving-options-maildir-format-directories.page:23(section/title)
 #: C/mail-receiving-options-mh-format-directories.page:23(section/title)
-#: C/mail-receiving-options-novell-groupwise.page:27(section/title)
 #: C/mail-receiving-options-pop.page:30(section/title)
 #: C/mail-receiving-options-unix-mbox-spool-directory.page:23(section/title)
 #: C/mail-receiving-options-unix-mbox-spool-file.page:23(section/title)
@@ -3982,29 +3753,13 @@ msgstr "Continúe <link xref=\"#sending\">aquí</link> para la configuración."
 
 #: C/intro-first-run.page:48(item/p)
 msgid ""
-"IMAP: Keeps the mail on the server so you can access your mail from multiple "
-"systems."
-msgstr ""
-"IMAP: conserva su correo-e en el servidor para que pueda acceder a él de "
-"diversas formas."
-
-#: C/intro-first-run.page:48(item/p)
-msgid ""
-"Continue <link xref=\"mail-receiving-options-imap\">here</link> for "
-"configuration."
-msgstr ""
-"Continue <link xref=\"mail-receiving-options-imap\">aquí</link> para la "
-"configuración."
-
-#: C/intro-first-run.page:50(item/p)
-msgid ""
 "IMAP+: Keeps the mail on the server so you can access your mail from "
 "multiple systems."
 msgstr ""
 "IMAP+: conserva su correo-e en el servidor para que pueda acceder a él de "
 "diversas formas."
 
-#: C/intro-first-run.page:50(item/p)
+#: C/intro-first-run.page:48(item/p)
 msgid ""
 "Continue <link xref=\"mail-receiving-options-imap-plus\">here</link> for "
 "configuration."
@@ -4012,11 +3767,11 @@ msgstr ""
 "Continue <link xref=\"mail-receiving-options-imap-plus\">aquí</link> para la "
 "configuración."
 
-#: C/intro-first-run.page:51(item/p)
+#: C/intro-first-run.page:49(item/p)
 msgid "POP: Downloads your email to your hard disk."
 msgstr "POP: descarga su corre-e a su disco duro"
 
-#: C/intro-first-run.page:51(item/p)
+#: C/intro-first-run.page:49(item/p)
 msgid ""
 "Continue <link xref=\"mail-receiving-options-pop\">here</link> for "
 "configuration."
@@ -4024,7 +3779,7 @@ msgstr ""
 "Continue <link xref=\"mail-receiving-options-pop\">aquí</link> para la "
 "configuración."
 
-#: C/intro-first-run.page:52(item/p)
+#: C/intro-first-run.page:50(item/p)
 msgid ""
 "USENET News: Connects to a news server and downloads a list of available "
 "news digests."
@@ -4032,7 +3787,7 @@ msgstr ""
 "Noticias USENET: conecta con un servidor de noticias y descarga una lista de "
 "los compendios de noticias disponibles."
 
-#: C/intro-first-run.page:52(item/p)
+#: C/intro-first-run.page:50(item/p)
 msgid ""
 "Continue <link xref=\"mail-receiving-options-usenet-news\">here</link> for "
 "configuration."
@@ -4040,16 +3795,16 @@ msgstr ""
 "Continue <link xref=\"mail-receiving-options-usenet-news\">aquí</link> para "
 "la configuración."
 
-#: C/intro-first-run.page:57(section/title)
+#: C/intro-first-run.page:55(section/title)
 #: C/mail-receiving-options.page:24(section/title)
 msgid "Corporate server types"
 msgstr "Tipos de servidor corporativos"
 
-#: C/intro-first-run.page:58(section/p)
+#: C/intro-first-run.page:56(section/p)
 msgid "Available server types for corporate users are:"
 msgstr "Los servidores disponibles para usuarios corporativos son:"
 
-#: C/intro-first-run.page:60(item/p)
+#: C/intro-first-run.page:58(item/p)
 msgid ""
 "Exchange EWS: For connecting to a Microsoft Exchange 2007/2010 or OpenChange "
 "server. Note that this is currently under development and will replace the "
@@ -4061,7 +3816,7 @@ msgstr ""
 "reemplazará al tipo de cuenta <gui>Exchange MAPI</gui> en el futuro. Es "
 "posible que todavía no esté disponible para su distribución."
 
-#: C/intro-first-run.page:60(item/p)
+#: C/intro-first-run.page:58(item/p)
 msgid ""
 "Continue <link xref=\"mail-receiving-options-exchange-ews\">here</link> for "
 "configuration."
@@ -4069,11 +3824,11 @@ msgstr ""
 "Continúe <link xref=\"mail-receiving-options-exchange-ews\">aquí</link> para "
 "la configuración."
 
-#: C/intro-first-run.page:62(note/p)
+#: C/intro-first-run.page:60(note/p)
 msgid "This requires having the <sys>evolution-ews</sys> package installed."
 msgstr "Esto requiere tener instalado el paquete <sys>evolution-ews</sys>."
 
-#: C/intro-first-run.page:71(item/p)
+#: C/intro-first-run.page:69(item/p)
 msgid ""
 "Exchange MAPI: For connecting to a Microsoft Exchange 2007/2010 or "
 "OpenChange server."
@@ -4081,7 +3836,7 @@ msgstr ""
 "Exchange MAPI: para conectar con servidores Microsoft Exchange 2007/2010 u "
 "OpenChange."
 
-#: C/intro-first-run.page:71(item/p)
+#: C/intro-first-run.page:69(item/p)
 msgid ""
 "Continue <link xref=\"mail-receiving-options-exchange-mapi\">here</link> for "
 "configuration."
@@ -4089,64 +3844,22 @@ msgstr ""
 "Continue <link xref=\"mail-receiving-options-exchange-mapi\">aquí</link> "
 "para la configuración."
 
-#: C/intro-first-run.page:73(note/p)
+#: C/intro-first-run.page:71(note/p)
 msgid "This requires having the <sys>evolution-mapi</sys> package installed."
 msgstr "Esto requiere tener instalado el paquete <sys>evolution-mapi</sys>."
 
-#: C/intro-first-run.page:81(item/p)
-msgid ""
-"Microsoft Exchange: For connecting to a Microsoft Exchange 2000 or 2003 "
-"server."
-msgstr ""
-"Microsoft Exchange: para conectarse con un servidor Microsoft Exchange 2000 "
-"o 2003."
-
-#: C/intro-first-run.page:81(item/p)
-msgid ""
-"Continue <link xref=\"mail-receiving-options-evolution-exchange\">here</"
-"link> for configuration."
-msgstr ""
-"Continue <link xref=\"mail-receiving-options-evolution-exchange\">aquí</"
-"link> para la configuración."
-
-#: C/intro-first-run.page:83(note/p)
-msgid ""
-"This requires having the <sys>evolution-exchange</sys> package installed."
-msgstr ""
-"Esto requiere tener instalado el paquete <sys>evolution-exchange</sys>."
-
-#: C/intro-first-run.page:86(when/p)
-msgid ""
-"<link action=\"install:evolution-exchange\" href=\"http://projects.gnome.org/"
-"evolution/download\" style=\"button\">Install evolution-exchange</link>"
-msgstr ""
-"<link action=\"install:evolution-exchange\" href=\"http://projects.gnome.org/"
-"evolution/download\" style=\"button\">Instalar evolution-exchange</link>"
-
-#: C/intro-first-run.page:91(item/p)
-msgid "Novell Groupwise: For connecting to a Novell GroupWise server."
-msgstr "Novell Groupwise: para conectarse con un servidor Novell GroupWise"
-
-#: C/intro-first-run.page:91(item/p)
-msgid ""
-"Continue <link xref=\"mail-receiving-options-novell-groupwise\">here</link> "
-"for configuration."
-msgstr ""
-"Continue <link xref=\"mail-receiving-options-novell-groupwise\">aquí</link> "
-"para la configuración."
-
-#: C/intro-first-run.page:96(section/title)
+#: C/intro-first-run.page:83(section/title)
 #: C/mail-receiving-options.page:27(section/title)
 msgid "Local account server types"
 msgstr "Tipos de servidor de cuentas locales"
 
-#: C/intro-first-run.page:97(section/p)
+#: C/intro-first-run.page:84(section/p)
 msgid "Available local account server types for advanced users are:"
 msgstr ""
 "Los tipos de servidor para cuentas locales disponibles para usuarios "
 "avanzados son:"
 
-#: C/intro-first-run.page:99(item/p)
+#: C/intro-first-run.page:86(item/p)
 msgid ""
 "Local delivery: If you want to move email from the spool (the location where "
 "mail waits for delivery) and store it in your home directory. You need to "
@@ -4159,7 +3872,7 @@ msgstr ""
 "quiere usar, Si quiere dejar el correo en los archivos de spools del "
 "sistema, elija la opción «Mbox estándar de Unix»."
 
-#: C/intro-first-run.page:99(item/p)
+#: C/intro-first-run.page:86(item/p)
 msgid ""
 "Continue <link xref=\"mail-receiving-options-local-delivery\">here</link> "
 "for configuration."
@@ -4167,7 +3880,7 @@ msgstr ""
 "Continue <link xref=\"mail-receiving-options-local-delivery\">aquí</link> "
 "para la configuración."
 
-#: C/intro-first-run.page:101(item/p)
+#: C/intro-first-run.page:88(item/p)
 msgid ""
 "MH-Format Mail Directories: For downloading email using MH or another MH-"
 "style application."
@@ -4175,12 +3888,12 @@ msgstr ""
 "Directorios de correo en formato MH: para descargar correo electrónico "
 "usando MH u otro programa de estilo MH."
 
-#: C/intro-first-run.page:101(item/p) C/intro-first-run.page:103(item/p)
-#: C/intro-first-run.page:107(item/p)
+#: C/intro-first-run.page:88(item/p) C/intro-first-run.page:90(item/p)
+#: C/intro-first-run.page:94(item/p)
 msgid "You need to provide the path to the directory you want to use."
 msgstr "Debe proporcionar la ruta a la carpeta que quiere usar."
 
-#: C/intro-first-run.page:101(item/p)
+#: C/intro-first-run.page:88(item/p)
 msgid ""
 "Continue <link xref=\"mail-receiving-options-mh-format-directories\">here</"
 "link> for configuration."
@@ -4188,7 +3901,7 @@ msgstr ""
 "Continue <link xref=\"mail-receiving-options-mh-format-directories\">aquí</"
 "link> para la configuración."
 
-#: C/intro-first-run.page:103(item/p)
+#: C/intro-first-run.page:90(item/p)
 msgid ""
 "Maildir-Format Mail Directories: For downloading your email using Qmail or "
 "another Maildir-style application."
@@ -4196,7 +3909,7 @@ msgstr ""
 "Directorios de correo en formato Maildir: para descargar correo electrónico "
 "usando Qmail u otro programa de estilo Maildir."
 
-#: C/intro-first-run.page:103(item/p)
+#: C/intro-first-run.page:90(item/p)
 msgid ""
 "Continue <link xref=\"mail-receiving-options-maildir-format-directories"
 "\">here</link> for configuration."
@@ -4204,7 +3917,7 @@ msgstr ""
 "Continue <link xref=\"mail-receiving-options-maildir-format-directories"
 "\">aquí</link> para la configuración."
 
-#: C/intro-first-run.page:105(item/p)
+#: C/intro-first-run.page:92(item/p)
 msgid ""
 "Standard Unix mbox spool file: For reading and storing email in the mail "
 "spool file on your local system."
@@ -4212,11 +3925,11 @@ msgstr ""
 "Archivo spool mbox estándar de Unix: para leer y almacenar correo en el "
 "archivo de correo spool de su sistema local."
 
-#: C/intro-first-run.page:105(item/p)
+#: C/intro-first-run.page:92(item/p)
 msgid "You need to provide the path to the mail spool file you want to use."
 msgstr "Debe proporcionar la ruta la carpeta de correo que quiere usar."
 
-#: C/intro-first-run.page:105(item/p)
+#: C/intro-first-run.page:92(item/p)
 msgid ""
 "Continue <link xref=\"mail-receiving-options-unix-mbox-spool-file\">here</"
 "link> for configuration."
@@ -4224,7 +3937,7 @@ msgstr ""
 "Continue <link xref=\"mail-receiving-options-unix-mbox-spool-file\">aquí</"
 "link> para la configuración."
 
-#: C/intro-first-run.page:107(item/p)
+#: C/intro-first-run.page:94(item/p)
 msgid ""
 "Standard Unix mbox spool directory: For reading and storing email in the "
 "mail spool directory on your local system."
@@ -4233,7 +3946,7 @@ msgstr ""
 "almacenar correo electrónico en la carpeta de correo spool en su sistema "
 "local."
 
-#: C/intro-first-run.page:107(item/p)
+#: C/intro-first-run.page:94(item/p)
 msgid ""
 "Continue <link xref=\"mail-receiving-options-unix-mbox-spool-directory"
 "\">here</link> for configuration."
@@ -4241,7 +3954,7 @@ msgstr ""
 "Continue <link xref=\"mail-receiving-options-unix-mbox-spool-directory"
 "\">aquí</link> para la configuración."
 
-#: C/intro-first-run.page:110(note/p)
+#: C/intro-first-run.page:97(note/p)
 msgid ""
 "Later on, if you want to change an account, or if you want to create another "
 "one, go to <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</"
@@ -4255,16 +3968,16 @@ msgstr ""
 "\"button\">Editar</gui>. Alternativamente, añada una cuenta nueva pulsando "
 "<gui style=\"button\">Añadir</gui>."
 
-#: C/intro-first-run.page:116(section/title)
+#: C/intro-first-run.page:103(section/title)
 #: C/mail-displaying-character-encodings.page:32(section/title)
 msgid "Sending mail"
 msgstr "Envío de correo"
 
-#: C/intro-first-run.page:117(section/p)
+#: C/intro-first-run.page:104(section/p)
 msgid "Available server types are:"
 msgstr "Los tipos de servidor disponibles son:"
 
-#: C/intro-first-run.page:119(item/p)
+#: C/intro-first-run.page:106(item/p)
 msgid ""
 "SMTP: Sends mail using an outbound mail server. This is the most common "
 "choice for sending mail."
@@ -4272,7 +3985,7 @@ msgstr ""
 "SMTP: envía correo usando un servidor de correo saliente. Esta es la opción "
 "más común para enviar correo."
 
-#: C/intro-first-run.page:119(item/p)
+#: C/intro-first-run.page:106(item/p)
 msgid ""
 "Continue <link xref=\"mail-sending-options-smtp\">here</link> for "
 "configuration."
@@ -4280,7 +3993,7 @@ msgstr ""
 "Continue <link xref=\"mail-sending-options-smtp\">aquí</link> para la "
 "configuración."
 
-#: C/intro-first-run.page:120(item/p)
+#: C/intro-first-run.page:107(item/p)
 msgid ""
 "Sendmail: Uses the <app>Sendmail</app> application to send mail from your "
 "system. It is not easy to configure, so you should select this option only "
@@ -4290,19 +4003,19 @@ msgstr ""
 "desde su sistema. No es fácil de configurar por lo que sólo debería elegir "
 "esta opción si sabe cómo poner en marcha un servicio Sendmail."
 
-#: C/intro-first-run.page:125(section/title)
+#: C/intro-first-run.page:112(section/title)
 msgid "Account Information"
 msgstr "Información de la cuenta"
 
-#: C/intro-first-run.page:126(section/p)
+#: C/intro-first-run.page:113(section/p)
 msgid "Give the account any name you prefer."
 msgstr "Dé a la cuenta el nombre que prefiera."
 
-#: C/intro-first-run.page:130(section/title)
+#: C/intro-first-run.page:117(section/title)
 msgid "Importing Mail (Optional)"
 msgstr "Importar correo (opcional)"
 
-#: C/intro-first-run.page:131(section/p)
+#: C/intro-first-run.page:118(section/p)
 msgid ""
 "Continue with <link xref=\"import-data\">Importing data from another "
 "application</link>."
@@ -4850,9 +4563,6 @@ msgid "Access a Gmail IMAP Account via Evolution"
 msgstr "Acceder a una cuenta IMAP de GMail a través de Evolution"
 
 #: C/mail-access-gmail-imap-account.page:26(page/p)
-#| msgid ""
-#| "Please refer to the <link xref=\"mail-account-manage-imap\">IMAP mail "
-#| "account settings</link>."
 msgid ""
 "Please refer to the <link xref=\"mail-account-manage-imap-plus\">IMAP+ mail "
 "account settings</link>."
@@ -4957,7 +4667,6 @@ msgstr "Configuración de cuenta de correo IMAP+"
 #: C/mail-account-manage-mh-format-directories.page:23(section/title)
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:23(section/title)
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:23(section/title)
-#: C/mail-account-manage-novell-groupwise.page:24(section/title)
 #: C/mail-account-manage-pop.page:23(section/title)
 #: C/mail-account-manage-unix-mbox-spool-directory.page:23(section/title)
 #: C/mail-account-manage-unix-mbox-spool-file.page:23(section/title)
@@ -4969,9 +4678,8 @@ msgstr "Editor de cuentas"
 #: C/mail-account-manage-local-delivery.page:24(section/p)
 #: C/mail-account-manage-maildir-format-directories.page:24(section/p)
 #: C/mail-account-manage-mh-format-directories.page:24(section/p)
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:25(section/p)
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:25(section/p)
-#: C/mail-account-manage-novell-groupwise.page:25(section/p)
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:24(section/p)
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:24(section/p)
 #: C/mail-account-manage-pop.page:24(section/p)
 #: C/mail-account-manage-unix-mbox-spool-directory.page:24(section/p)
 #: C/mail-account-manage-unix-mbox-spool-file.page:24(section/p)
@@ -4993,9 +4701,8 @@ msgstr ""
 "aplicaciones o restaurarlos desde un archivo de respaldo."
 
 #: C/mail-account-manage-imap-plus.page:25(section/p)
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:26(section/p)
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:26(section/p)
-#: C/mail-account-manage-novell-groupwise.page:26(section/p)
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:25(section/p)
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:25(section/p)
 #: C/mail-account-manage-usenet-news.page:25(section/p)
 msgid ""
 "Mail accounts can be edited via <guiseq><gui>Edit</gui><gui>Preferences</"
@@ -5013,9 +4720,8 @@ msgstr ""
 #: C/mail-account-manage-local-delivery.page:26(section/p)
 #: C/mail-account-manage-maildir-format-directories.page:26(section/p)
 #: C/mail-account-manage-mh-format-directories.page:26(section/p)
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:27(section/p)
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:27(section/p)
-#: C/mail-account-manage-novell-groupwise.page:27(section/p)
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:26(section/p)
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:26(section/p)
 #: C/mail-account-manage-pop.page:26(section/p)
 #: C/mail-account-manage-unix-mbox-spool-directory.page:26(section/p)
 #: C/mail-account-manage-unix-mbox-spool-file.page:26(section/p)
@@ -5024,66 +4730,63 @@ msgid "The following settings are available when editing an existing account:"
 msgstr ""
 "La siguiente configuración está disponible al editar una cuenta existente:"
 
-#: C/mail-account-manage-imap-plus.page:36(section/title)
-#: C/mail-account-manage-local-delivery.page:36(section/title)
-#: C/mail-account-manage-maildir-format-directories.page:36(section/title)
-#: C/mail-account-manage-mh-format-directories.page:36(section/title)
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:37(section/title)
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:37(section/title)
-#: C/mail-account-manage-novell-groupwise.page:37(section/title)
-#: C/mail-account-manage-pop.page:36(section/title)
-#: C/mail-account-manage-unix-mbox-spool-directory.page:36(section/title)
-#: C/mail-account-manage-unix-mbox-spool-file.page:36(section/title)
-#: C/mail-account-manage-usenet-news.page:36(section/title)
+#: C/mail-account-manage-imap-plus.page:35(section/title)
+#: C/mail-account-manage-local-delivery.page:35(section/title)
+#: C/mail-account-manage-maildir-format-directories.page:35(section/title)
+#: C/mail-account-manage-mh-format-directories.page:35(section/title)
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:35(section/title)
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:35(section/title)
+#: C/mail-account-manage-pop.page:35(section/title)
+#: C/mail-account-manage-unix-mbox-spool-directory.page:35(section/title)
+#: C/mail-account-manage-unix-mbox-spool-file.page:35(section/title)
+#: C/mail-account-manage-usenet-news.page:35(section/title)
 msgid "Receiving Email and Receiving options"
 msgstr "Recibir correo y opciones de recepción"
 
-#: C/mail-account-manage-imap-plus.page:40(section/title)
-#: C/mail-account-manage-local-delivery.page:40(section/title)
-#: C/mail-account-manage-maildir-format-directories.page:40(section/title)
-#: C/mail-account-manage-mh-format-directories.page:40(section/title)
-#: C/mail-account-manage-pop.page:40(section/title)
-#: C/mail-account-manage-unix-mbox-spool-directory.page:40(section/title)
-#: C/mail-account-manage-unix-mbox-spool-file.page:40(section/title)
-#: C/mail-account-manage-usenet-news.page:40(section/title)
+#: C/mail-account-manage-imap-plus.page:39(section/title)
+#: C/mail-account-manage-local-delivery.page:39(section/title)
+#: C/mail-account-manage-maildir-format-directories.page:39(section/title)
+#: C/mail-account-manage-mh-format-directories.page:39(section/title)
+#: C/mail-account-manage-pop.page:39(section/title)
+#: C/mail-account-manage-unix-mbox-spool-directory.page:39(section/title)
+#: C/mail-account-manage-unix-mbox-spool-file.page:39(section/title)
+#: C/mail-account-manage-usenet-news.page:39(section/title)
 msgid "Sending Email"
 msgstr "Envío de correo"
 
-#: C/mail-account-manage-imap-plus.page:44(section/title)
-#: C/mail-account-manage-local-delivery.page:44(section/title)
-#: C/mail-account-manage-maildir-format-directories.page:44(section/title)
-#: C/mail-account-manage-mh-format-directories.page:44(section/title)
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:41(section/title)
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:41(section/title)
-#: C/mail-account-manage-novell-groupwise.page:41(section/title)
-#: C/mail-account-manage-pop.page:44(section/title)
-#: C/mail-account-manage-unix-mbox-spool-directory.page:44(section/title)
-#: C/mail-account-manage-unix-mbox-spool-file.page:44(section/title)
-#: C/mail-account-manage-usenet-news.page:44(section/title)
+#: C/mail-account-manage-imap-plus.page:43(section/title)
+#: C/mail-account-manage-local-delivery.page:43(section/title)
+#: C/mail-account-manage-maildir-format-directories.page:43(section/title)
+#: C/mail-account-manage-mh-format-directories.page:43(section/title)
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:39(section/title)
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:39(section/title)
+#: C/mail-account-manage-pop.page:43(section/title)
+#: C/mail-account-manage-unix-mbox-spool-directory.page:43(section/title)
+#: C/mail-account-manage-unix-mbox-spool-file.page:43(section/title)
+#: C/mail-account-manage-usenet-news.page:43(section/title)
 msgid "Defaults"
 msgstr "Predeterminados"
 
-#: C/mail-account-manage-imap-plus.page:48(section/title)
-#: C/mail-account-manage-local-delivery.page:48(section/title)
-#: C/mail-account-manage-maildir-format-directories.page:48(section/title)
-#: C/mail-account-manage-mh-format-directories.page:48(section/title)
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:45(section/title)
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:50(section/title)
-#: C/mail-account-manage-novell-groupwise.page:46(section/title)
-#: C/mail-account-manage-pop.page:48(section/title)
-#: C/mail-account-manage-unix-mbox-spool-directory.page:48(section/title)
-#: C/mail-account-manage-unix-mbox-spool-file.page:48(section/title)
-#: C/mail-account-manage-usenet-news.page:48(section/title)
+#: C/mail-account-manage-imap-plus.page:47(section/title)
+#: C/mail-account-manage-local-delivery.page:47(section/title)
+#: C/mail-account-manage-maildir-format-directories.page:47(section/title)
+#: C/mail-account-manage-mh-format-directories.page:47(section/title)
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:43(section/title)
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:48(section/title)
+#: C/mail-account-manage-pop.page:47(section/title)
+#: C/mail-account-manage-unix-mbox-spool-directory.page:47(section/title)
+#: C/mail-account-manage-unix-mbox-spool-file.page:47(section/title)
+#: C/mail-account-manage-usenet-news.page:47(section/title)
 msgid "Security"
 msgstr "Seguridad"
 
-#: C/mail-account-manage-imap-plus.page:56(section/title)
-#: C/mail-account-manage-usenet-news.page:54(section/title)
+#: C/mail-account-manage-imap-plus.page:55(section/title)
+#: C/mail-account-manage-usenet-news.page:53(section/title)
 msgid "Other settings"
 msgstr "Otros ajustes"
 
-#: C/mail-account-manage-imap-plus.page:57(section/p)
-#: C/mail-account-manage-usenet-news.page:55(section/p)
+#: C/mail-account-manage-imap-plus.page:56(section/p)
+#: C/mail-account-manage-usenet-news.page:54(section/p)
 msgid ""
 "Other account related settings that are not located in the <gui>Account "
 "Editor</gui>:"
@@ -5152,7 +4855,6 @@ msgid "MH Format Mail Directories account settings"
 msgstr "Configuración de cuenta para directorios de correo en formato MH"
 
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:5(info/desc)
-#| msgid "Add and edit a Microsoft Exchange 2010 account in Evolution."
 msgid "Add and edit a Microsoft Exchange 2007 or 2010 account in Evolution."
 msgstr ""
 "Añadir y editar una cuenta de Microsoft Exchange 2007 o 2010 en Evolution."
@@ -5162,7 +4864,6 @@ msgid "Exchange Web Services account settings"
 msgstr "Configuración de cuenta para Exchange Web Services"
 
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:5(info/desc)
-#| msgid "Add and edit a Microsoft Exchange account in Evolution."
 msgid "Add and edit a Microsoft Exchange MAPI account in Evolution."
 msgstr "Añadir y editar una cuenta de Microsoft Exchange MAPI en Evolution."
 
@@ -5170,11 +4871,11 @@ msgstr "Añadir y editar una cuenta de Microsoft Exchange MAPI en Evolution."
 msgid "Exchange MAPI account settings"
 msgstr "Configuración de cuenta para Exchange MAPI"
 
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:45(section/title)
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:43(section/title)
 msgid "Exchange Settings"
 msgstr "Configuración de Exchange"
 
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:46(section/p)
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:44(section/p)
 msgid "In this section you can view the size of all Exchange folders."
 msgstr "En esta sección puede ver el tamaño de todas sus carpetas Exchange."
 
@@ -5194,22 +4895,6 @@ msgid ""
 msgstr ""
 "Lea primero <link xref=\"exchange-connectors-overview\">Elegir el conector "
 "adecuado</link> para saber el tipo de cuenta Exchange para usted."
-
-#: C/mail-account-manage-novell-groupwise.page:5(info/desc)
-msgid "Add and edit a Novell Groupwise account in Evolution."
-msgstr "Añadir y editar una cuenta de Novell Groupwise en Evolution"
-
-#: C/mail-account-manage-novell-groupwise.page:21(page/title)
-msgid "Novell Groupwise account settings"
-msgstr "Configuración de cuenta para Novell Groupwise"
-
-#: C/mail-account-manage-novell-groupwise.page:50(section/title)
-msgid "Proxy"
-msgstr "Proxy"
-
-#: C/mail-account-manage-novell-groupwise.page:51(section/p)
-msgid "Settings for having somebody else handle your account."
-msgstr "Ajustes para que otra persona gestione su cuenta."
 
 #: C/mail-account-manage-pop.page:5(info/desc)
 msgid "Add and edit a POP mail account in Evolution."
@@ -5755,34 +5440,6 @@ msgstr ""
 "Establezca los valores para los campos de cabecera usando la lista "
 "desplegable."
 
-#: C/mail-composer-forward-as-attachment.page:5(info/desc)
-msgid "How to forward a message with its attachments."
-msgstr "Cómo reenviar un mensaje con sus adjuntos."
-
-#: C/mail-composer-forward-as-attachment.page:21(page/title)
-msgid "Forwarding a message with its attachments"
-msgstr "Reenviar un mensaje con sus adjuntos"
-
-#: C/mail-composer-forward-as-attachment.page:23(page/p)
-msgid ""
-"Click <guiseq><gui>Message</gui><gui>Forward as...</gui></guiseq> and choose "
-"<gui>Attachment</gui>, so the forwarded email and also its attachments get "
-"attached to the email you want to send."
-msgstr ""
-"Pulse <guiseq><gui>Mensaje</gui><gui>Reenviar como...</gui></guiseq> y elija "
-"<gui>Adjunto</gui> para que el correo reenviado y sus adjuntos se adjunten "
-"al correo que quiere enviar."
-
-#: C/mail-composer-forward-as-attachment.page:26(note/p)
-msgid ""
-"If you want to have this setting by default, set <guiseq><gui>Edit</"
-"gui><gui>Preferences</gui><gui>Composer Preferences</gui><gui>Forward Style</"
-"gui></guiseq> to <gui>Attachment</gui>."
-msgstr ""
-"Si quiere que esta opción esté activada de forma predeterminada cambie "
-"<guiseq><gui>Editar</gui><gui>Preferencias</gui><gui>Preferencias del "
-"editor</gui><gui>Estilo de reenvío</gui></guiseq> a <gui>Adjunto</gui>."
-
 #: C/mail-composer-enable-html-format.page:5(info/desc)
 msgid "Enable HTML format in the mail composer."
 msgstr "Activar el formato HTML en el editor de correos."
@@ -5937,6 +5594,34 @@ msgstr ""
 "en <guiseq><gui>Editar</gui><gui>Preferencias</gui><gui>Preferencias del "
 "editor</gui><gui>General</gui><gui>Respuestas y reenvíos</gui><gui>Estilo de "
 "reenvío</gui></guiseq>."
+
+#: C/mail-composer-forward-as-attachment.page:5(info/desc)
+msgid "How to forward a message with its attachments."
+msgstr "Cómo reenviar un mensaje con sus adjuntos."
+
+#: C/mail-composer-forward-as-attachment.page:21(page/title)
+msgid "Forwarding a message with its attachments"
+msgstr "Reenviar un mensaje con sus adjuntos"
+
+#: C/mail-composer-forward-as-attachment.page:23(page/p)
+msgid ""
+"Click <guiseq><gui>Message</gui><gui>Forward as...</gui></guiseq> and choose "
+"<gui>Attachment</gui>, so the forwarded email and also its attachments get "
+"attached to the email you want to send."
+msgstr ""
+"Pulse <guiseq><gui>Mensaje</gui><gui>Reenviar como...</gui></guiseq> y elija "
+"<gui>Adjunto</gui> para que el correo reenviado y sus adjuntos se adjunten "
+"al correo que quiere enviar."
+
+#: C/mail-composer-forward-as-attachment.page:26(note/p)
+msgid ""
+"If you want to have this setting by default, set <guiseq><gui>Edit</"
+"gui><gui>Preferences</gui><gui>Composer Preferences</gui><gui>Forward Style</"
+"gui></guiseq> to <gui>Attachment</gui>."
+msgstr ""
+"Si quiere que esta opción esté activada de forma predeterminada cambie "
+"<guiseq><gui>Editar</gui><gui>Preferencias</gui><gui>Preferencias del "
+"editor</gui><gui>Estilo de reenvío</gui></guiseq> a <gui>Adjunto</gui>."
 
 #. This is a reference to an external file such as an image or video. When
 #. the file changes, the md5 hash will change to let you know you need to
@@ -6425,11 +6110,11 @@ msgid "Setting a default signature for an email account."
 msgstr ""
 "Configurar una firma predeterminada para una cuenta de correo electrónico."
 
-#: C/mail-composer-mail-signatures-per-account.page:31(page/title)
+#: C/mail-composer-mail-signatures-per-account.page:29(page/title)
 msgid "Default account signature"
 msgstr "Firma de la cuenta predeterminada"
 
-#: C/mail-composer-mail-signatures-per-account.page:33(page/p)
+#: C/mail-composer-mail-signatures-per-account.page:31(page/p)
 msgid ""
 "You can define a default <link xref=\"mail-composer-mail-signatures"
 "\">signature</link> for each of your mail accounts. This can be edited under "
@@ -6443,7 +6128,7 @@ msgstr ""
 "gui><gui>Editar</gui><gui>Identidad</gui><gui>Información opcional</gui></"
 "guiseq>."
 
-#: C/mail-composer-mail-signatures-per-account.page:35(page/p)
+#: C/mail-composer-mail-signatures-per-account.page:33(page/p)
 msgid ""
 "If you have a signature for your account defined but exceptionally do not "
 "want to use it for one message, or want to use a different signature, you "
@@ -7016,14 +6701,18 @@ msgstr ""
 "o no."
 
 #: C/mail-composer-search.page:40(page/p)
+#| msgid ""
+#| "If you have a technical background you can also select the option to use "
+#| "<link href=\"https://secure.wikimedia.org/wikipedia/en/wiki/"
+#| "Regular_expression\">Regular expressions</link> for searching."
 msgid ""
 "If you have a technical background you can also select the option to use "
-"<link href=\"https://secure.wikimedia.org/wikipedia/en/wiki/"
-"Regular_expression\">Regular expressions</link> for searching."
+"<link href=\"https://en.wikipedia.org/wiki/Regular_expression\">Regular "
+"expressions</link> for searching."
 msgstr ""
 "Si tiene conocimientos técnicos, puede usar la opción <link href=\"https://"
-"secure.wikimedia.org/wikipedia/en/wiki/Regular_expression\">Expresiones "
-"regulares</link> para buscar."
+"en.wikipedia.org/wiki/Regular_expression\">Expresiones regulares</link> para "
+"buscar."
 
 #: C/mail-composer-several-recipients.page:5(info/desc)
 msgid "Sending to more than one person and using CC or BCC."
@@ -7252,11 +6941,11 @@ msgstr ""
 msgid "Make somebody always receive copies of your sent mail."
 msgstr "Hacer que alguien siempre reciba copias de los correos que envía."
 
-#: C/mail-default-CC-and-BCC.page:30(page/title)
+#: C/mail-default-CC-and-BCC.page:29(page/title)
 msgid "Default CC and BCC"
 msgstr "Cc y Cco predeterminadas"
 
-#: C/mail-default-CC-and-BCC.page:32(page/p)
+#: C/mail-default-CC-and-BCC.page:31(page/p)
 msgid ""
 "You can set email addresses that should always receive copies of your sent "
 "mail (either as CC visible for all recipients, or BCC not visible for other "
@@ -7272,16 +6961,15 @@ msgstr ""
 "gui><gui style=\"button\">Editar</gui><gui>Predeterminados</gui></guiseq>)."
 
 #: C/mail-default-folder-locations.page:5(info/desc)
-#| msgid "Changing the location of the Draft folder and Sent folder."
 msgid "Changing the location of Draft, Sent, Trash and Junk folders."
 msgstr ""
 "Cambiar la ubicación de las carpetas Borradores, Enviados, Papelera y Spam."
 
-#: C/mail-default-folder-locations.page:30(page/title)
+#: C/mail-default-folder-locations.page:29(page/title)
 msgid "Mail folder locations"
 msgstr "Ubicaciones de las carpetas de correo"
 
-#: C/mail-default-folder-locations.page:32(page/p)
+#: C/mail-default-folder-locations.page:31(page/p)
 msgid ""
 "You can set a different place where to store messages in your Draft folder "
 "and Sent folder in the <gui>Defaults</gui> section of the mail account "
@@ -7294,11 +6982,7 @@ msgstr ""
 "gui><gui>Cuentas de correo</gui><gui style=\"button\">Editar</"
 "gui><gui>Predeterminados</gui></guiseq>)."
 
-#: C/mail-default-folder-locations.page:33(page/p)
-#| msgid ""
-#| "For remote account types (accounts such as IMAP) you can also set a Trash "
-#| "folder and Junk folder on the mail server so Evolution's local virtual "
-#| "folders will not be used for it, but folders on the mail server."
+#: C/mail-default-folder-locations.page:32(page/p)
 msgid ""
 "For remote account types (accounts such as IMAP) you can also use folders on "
 "the mail server for Junk and Trash by selecting the corresponding <gui>Use a "
@@ -7517,11 +7201,11 @@ msgstr ""
 msgid "On embedded pictures in received HTML messages."
 msgstr "Acerca de imágenes empotradas en correos HTML recibidos."
 
-#: C/mail-displaying-images-in-html.page:28(page/title)
+#: C/mail-displaying-images-in-html.page:27(page/title)
 msgid "Images in HTML messages"
 msgstr "Imágenes en mensajes HTML"
 
-#: C/mail-displaying-images-in-html.page:30(page/p)
+#: C/mail-displaying-images-in-html.page:29(page/p)
 msgid ""
 "When someone sends you HTML mail that includes an image in the body of the "
 "message (for example, the welcome message in your Inbox), Evolution displays "
@@ -7531,11 +7215,11 @@ msgstr ""
 "ejemplo el mensaje de bienvenida que encontrará en la Bandeja de entrada) "
 "Evolution mostrará la imagen dentro del mensaje."
 
-#: C/mail-displaying-images-in-html.page:33(section/title)
+#: C/mail-displaying-images-in-html.page:32(section/title)
 msgid "Loading images"
 msgstr "Cargar imágenes"
 
-#: C/mail-displaying-images-in-html.page:34(section/p)
+#: C/mail-displaying-images-in-html.page:33(section/p)
 msgid ""
 "Some images are links in a message, rather than being part of the message. "
 "Evolution can download those images from the Internet, but does not do so "
@@ -7551,7 +7235,7 @@ msgstr ""
 "lee los mensajes. No cargar automáticamente las imágenes ayuda a proteger su "
 "privacidad."
 
-#: C/mail-displaying-images-in-html.page:36(section/p)
+#: C/mail-displaying-images-in-html.page:35(section/p)
 msgid ""
 "To load the images for one message, click <guiseq><gui>View</gui><gui>Load "
 "Images</gui></guiseq> or press <keyseq><key>Ctrl</key><key>I</key></keyseq>."
@@ -7560,7 +7244,7 @@ msgstr ""
 "gui><gui>Cargar imágenes</gui></guiseq> o pulse <keyseq><key>Ctrl</"
 "key><key>I</key></keyseq>."
 
-#: C/mail-displaying-images-in-html.page:38(section/p)
+#: C/mail-displaying-images-in-html.page:37(section/p)
 msgid ""
 "To set the default action for loading images, go to <guiseq><gui>Edit</"
 "gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>HTML Messages</"
@@ -7570,13 +7254,13 @@ msgstr ""
 "<guiseq><gui>Editar</gui><gui>Preferencias</gui><gui>Opciones de correo</"
 "gui><gui>Mensajes HTML</gui><gui>Cargar imágenes</gui></guiseq>."
 
-#: C/mail-displaying-images-in-html.page:42(section/title)
+#: C/mail-displaying-images-in-html.page:41(section/title)
 msgid "Automatically download images in emails from people you know"
 msgstr ""
 "Automáticamente descargar imágenes en correos electrónicos de personas que "
 "conoce"
 
-#: C/mail-displaying-images-in-html.page:44(section/p)
+#: C/mail-displaying-images-in-html.page:43(section/p)
 msgid ""
 "You can download images from emails sent by your contacts. To do this, go to "
 "<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Preferences</"
@@ -7589,7 +7273,7 @@ msgstr ""
 "imágenes</gui></guiseq>. Actíve la opción <gui>Cargar imágenes en los "
 "mensajes de mis contactos</gui>."
 
-#: C/mail-displaying-images-in-html.page:46(section/p)
+#: C/mail-displaying-images-in-html.page:45(section/p)
 msgid ""
 "Next, go to <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Contacts</"
 "gui><gui>Autocompletion</gui></guiseq>. Enable autocompletion by ticking the "
@@ -7600,11 +7284,11 @@ msgstr ""
 "autocompletado marcando la casilla <gui>Siempre mostrar la dirección del "
 "contacto autocompletado</gui>."
 
-#: C/mail-displaying-images-in-html.page:50(section/title)
+#: C/mail-displaying-images-in-html.page:49(section/title)
 msgid "Saving images"
 msgstr "Guardar imágenes"
 
-#: C/mail-displaying-images-in-html.page:51(section/p)
+#: C/mail-displaying-images-in-html.page:50(section/p)
 msgid ""
 "To save an image that is embedded in an HTML email, right-click on the image "
 "and click <gui>Save Image...</gui>."
@@ -7624,51 +7308,6 @@ msgstr "Mostrar un correo"
 msgid "Advanced"
 msgstr "Avanzado"
 
-#: C/mail-displaying-no-css.page:5(info/desc)
-msgid "When a received message looks weird or is hard to read."
-msgstr "Al recibir un correo parece extraño o difícil de leer."
-
-#: C/mail-displaying-no-css.page:21(page/title)
-msgid "HTML emails are not correctly displayed"
-msgstr "Los correos en HTML no se muestran correctamente"
-
-#: C/mail-displaying-no-css.page:23(page/p)
-msgid ""
-"If an HTML message is not correctly displayed in Evolution it might be that "
-"the formatting of the message is specified as <link href=\"http://en."
-"wikipedia.org/wiki/Cascading_Style_Sheets\">CSS</link>. CSS is currently not "
-"supported by gtkhtml (the part that is used to display HTML)."
-msgstr ""
-"Si un correo HTML no se muestra correctamente en Evolution puede que el "
-"formato del correo esté especificado como <link href=\"http://es.wikipedia."
-"org/wiki/CSS\">CSS</link>. Actualmente gtkhtml (la parte que se usa para "
-"mostrar HTML) no soporta CSS."
-
-#: C/mail-displaying-no-css.page:24(page/p)
-msgid "This will likely be fixed in version 3.6."
-msgstr "Esto probablemente se solucione en la versión 3.6."
-
-#: C/mail-displaying-no-css.page:25(page/p)
-msgid ""
-"For developers only: In future versions, Evolution will use WebKit instead "
-"of gtkhtml for displaying HTML. There is a branch named \"<link href="
-"\"http://git.gnome.org/browse/evolution?h=webkit\">webkit</link>\" in "
-"Evolution's code repository to test."
-msgstr ""
-"Sólo para desarrolladores: en versiones futuras, Evolution usará WebKit en "
-"lugar de gtkhtml para mostrar HTML. Hay una rama llamada «<link href=\"http://"
-"git.gnome.org/browse/evolution?h=webkit\">webkit</link>» en el repositorio "
-"de código de Evolution para pruebas."
-
-#: C/mail-displaying-no-css.page:27(note/p)
-msgid ""
-"For missing characters in emails, see <link xref=\"mail-displaying-character-"
-"encodings\">Character Encodings and Sets</link>."
-msgstr ""
-"Consulte <link xref=\"mail-displaying-character-encodings\">Codificación y "
-"conjuntos de caracteres</link> cuando tenga problemas con caracteres que "
-"faltan."
-
 #: C/mail-displaying-sender-photograph.page:5(info/desc)
 msgid "Display a picture of the sender in the message header area."
 msgstr "Mostrar la foto del remitente en el panel de lectura de mensajes."
@@ -7677,17 +7316,35 @@ msgstr "Mostrar la foto del remitente en el panel de lectura de mensajes."
 msgid "Photograph Message Headers"
 msgstr "Cabecera de mensaje con fotografía"
 
-#: C/mail-displaying-sender-photograph.page:27(page/p)
+#: C/mail-displaying-sender-photograph.page:26(page/p)
+#| msgid ""
+#| "The photograph of the sender of an email can be shown at the right side "
+#| "of the message preview if the sender is in one of your address books and "
+#| "has a photograph."
 msgid ""
-"The photograph of the sender of an email can be shown at the right side of "
-"the message preview if the sender is in one of your address books and has a "
-"photograph."
+"Evolution automatically displays photographs of the sender of an email at "
+"the right side of the message header if the sender already embedded a "
+"photograph in the message."
 msgstr ""
-"Se puede mostrar la fotografía del remitente en la parte derecha de la vista "
-"previa del correo, si el remitente está en alguna de sus libretas de "
-"direcciones y tiene una fotografía."
+"Evolution muestra automáticamente la fotografía del remitente en la parte "
+"derecha de la vista previa del correo, si el remitente ya ha empotrado una "
+"foto en el mensaje."
 
 #: C/mail-displaying-sender-photograph.page:29(page/p)
+#| msgid ""
+#| "The photograph of the sender of an email can be shown at the right side "
+#| "of the message preview if the sender is in one of your address books and "
+#| "has a photograph."
+msgid ""
+"You can also manually enable displaying the photograph of the sender of an "
+"email if the sender is in one of your address books and has a photograph "
+"stored."
+msgstr ""
+"También puede mostrar manualmente la fotografía del remitente en la parte "
+"derecha de la vista previa del correo, si el remitente está en alguna de sus "
+"libretas de direcciones y tiene una fotografía."
+
+#: C/mail-displaying-sender-photograph.page:31(page/p)
 msgid ""
 "To enable this functionality, select <guiseq><gui>Edit</"
 "gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>Headers</"
@@ -7697,19 +7354,6 @@ msgstr ""
 "gui><gui>Preferencias</gui><gui>Opciones de correo</gui><gui>Cabeceras</"
 "gui><gui>Mostrar la foto del remitente en la vista preliminar del mensaje</"
 "gui></guiseq>."
-
-#: C/mail-displaying-sender-photograph.page:31(page/p)
-msgid ""
-"By default only local address books are used for searching the photograph as "
-"accessing remote address books can cause delays. You can disable this by "
-"deselecting the option <gui>Search for sender photograph only in local "
-"address books</gui>."
-msgstr ""
-"De forma predeterminada sólo se usan las libretas de direcciones locales "
-"para buscar las fotografías ya que acceder a libretas de direcciones remotas "
-"puede causar retrasos. Puede desactivarlo deseleccionando la opción "
-"<gui>Buscar la foto del remitente sólo en libretas de direcciones locales</"
-"gui>."
 
 #: C/mail-displaying-sender-photograph.page:33(page/p)
 msgid ""
@@ -7793,9 +7437,6 @@ msgid "Evolution is having a problem with the UIDL extension."
 msgstr "Evolution está sufriendo un problema con la extensión UIDL."
 
 #: C/mail-duplicates.page:38(item/p)
-#| msgid ""
-#| "The cache files located at <file>$HOME/.local/share/evolution/mail/pop/</"
-#| "file> are not writable."
 msgid ""
 "The cache files located at <file>$HOME/.local/share/evolution/mail/local/</"
 "file> are not writable."
@@ -8167,11 +7808,11 @@ msgstr ""
 msgid "Sending and receiving encrypted mail."
 msgstr "Enviar y recibir correo cifrado."
 
-#: C/mail-encryption.page:32(page/title)
+#: C/mail-encryption.page:30(page/title)
 msgid "Mail encryption and certificates"
 msgstr "Cifrado de correo y certificados"
 
-#: C/mail-encryption.page:34(page/p)
+#: C/mail-encryption.page:32(page/p)
 msgid ""
 "Evolution offers GPG Encryption and S/MIME Encryption for signing and "
 "encrypting email messages. S/MIME is used most often in corporate "
@@ -8180,11 +7821,11 @@ msgstr ""
 "Evolution ofrece cifrado GPG y S/MIME para firmar y cifrar mensajes de "
 "correo electrónico. En entornos corporativos S/MIME se usa más."
 
-#: C/mail-encryption.page:37(section/title)
+#: C/mail-encryption.page:35(section/title)
 msgid "GPG"
 msgstr "GPG"
 
-#: C/mail-encryption.page:41(section/title)
+#: C/mail-encryption.page:39(section/title)
 msgid "S/MIME"
 msgstr "S/MIME"
 
@@ -8424,7 +8065,7 @@ msgid "Evolution runs an application."
 msgstr "Evolution ejecutar una aplicación."
 
 #: C/mail-filters-actions.page:65(item/p)
-#: C/mail-filters-conditions.page:90(item/p)
+#: C/mail-filters-conditions.page:36(item/p)
 msgid "Pipe to Program:"
 msgstr "Encauzar al programa:"
 
@@ -8456,317 +8097,11 @@ msgstr "Condiciones disponibles para configurar un filtro."
 msgid "Available Filter conditions"
 msgstr "Condiciones disponibles para filtros"
 
-#: C/mail-filters-conditions.page:26(item/p)
-#: C/mail-search-folders-conditions.page:26(item/p)
-msgid "Sender:"
-msgstr "Remitente:"
-
-#: C/mail-filters-conditions.page:27(item/p)
-#: C/mail-search-folders-conditions.page:27(item/p)
-msgid "The sender's email address or the name of the sender."
-msgstr ""
-"La dirección de correo electrónico del remitente o el nombre del remitente."
-
-#: C/mail-filters-conditions.page:29(item/p)
-#: C/mail-search-folders-conditions.page:29(item/p)
-msgid "Recipients:"
-msgstr "Destinatarios:"
-
-# index.docbook:458, index.docbook:949
-#: C/mail-filters-conditions.page:30(item/p)
-#: C/mail-search-folders-conditions.page:30(item/p)
-msgid "The recipients of the message."
-msgstr "Los destinatarios del mensaje."
-
-#: C/mail-filters-conditions.page:32(item/p)
-#: C/mail-search-folders-conditions.page:32(item/p)
-msgid "CC:"
-msgstr "Cc:"
-
-# index.docbook:458, index.docbook:949
 #: C/mail-filters-conditions.page:33(item/p)
-#: C/mail-search-folders-conditions.page:33(item/p)
-msgid "Only the CC recipients of the message."
-msgstr "Sólo los destinatarios Cc del correo."
-
-#: C/mail-filters-conditions.page:35(item/p)
-#: C/mail-search-folders-conditions.page:35(item/p)
-msgid "BCC:"
-msgstr "Cco:"
-
-#: C/mail-filters-conditions.page:36(item/p)
-#: C/mail-search-folders-conditions.page:36(item/p)
-msgid ""
-"Only the BCC recipients of the message. Obviously this can only be applied "
-"to outgoing filters."
-msgstr ""
-"Sólo los destinatarios con Cco de este mensaje. Obviamente esto sólo se "
-"puede aplicar a filtros salientes."
-
-#: C/mail-filters-conditions.page:38(item/p)
-#: C/mail-search-folders-conditions.page:38(item/p)
-msgid "Sender or Recipients:"
-msgstr "Remitente o destinatarios:"
-
-#: C/mail-filters-conditions.page:39(item/p)
-#: C/mail-search-folders-conditions.page:39(item/p)
-msgid ""
-"The sender's email address or the name of the sender or the recipients of "
-"the message."
-msgstr ""
-"La dirección de correo electrónico del remitente, el nombre del remitente or "
-"de los destinatarios del correo."
-
-#: C/mail-filters-conditions.page:41(item/p)
-#: C/mail-search-folders-conditions.page:41(item/p)
-msgid "Subject:"
-msgstr "Asunto:"
-
-# index.docbook:458, index.docbook:949
-#: C/mail-filters-conditions.page:42(item/p)
-#: C/mail-search-folders-conditions.page:42(item/p)
-msgid "The subject line of the message."
-msgstr "La línea asunto del mensaje."
-
-#: C/mail-filters-conditions.page:44(item/p)
-#: C/mail-search-folders-conditions.page:44(item/p)
-msgid "Specific Header:"
-msgstr "Cabecera específica:"
-
-#: C/mail-filters-conditions.page:45(item/p)
-#: C/mail-search-folders-conditions.page:45(item/p)
-msgid ""
-"Any header including <link xref=\"mail-composer-custom-header-lines\">custom "
-"ones</link>."
-msgstr ""
-"Cualquier cabecera incluyendo las <link xref=\"mail-composer-custom-header-"
-"lines\">personalizadas</link>."
-
-#: C/mail-filters-conditions.page:46(item/p)
-#: C/mail-search-folders-conditions.page:46(item/p)
-msgid ""
-"If a message uses a header more than once, Evolution pays attention only to "
-"the first instance, even if the message defines the header differently the "
-"second time. For example, if a message declares the Resent-From: header as "
-"\"engineering@example.com\" and then restates it as \"marketing@example.com"
-"\", Evolution filters as though the second declaration did not occur. To "
-"filter on messages that use headers multiple times, use a regular expression."
-msgstr ""
-"Si en un mensaje aparece más de una vez la misma cabecera, Evolution sólo se "
-"fija en la primera, aunque en la segunda el contenido sea diferente. Por "
-"ejemplo, si un mensaje declara la cabecera Reenviado-De: con "
-"«ingeniero@ejemplo.es» y a continuación la redefine como «marketing@ejemplo."
-"es», Evolution aplicará el filtro como si la segunda declaración no "
-"apareciera. Para filtrar mensajes que utilizan varias cabeceras varias veces "
-"use una expresión regular."
-
-#: C/mail-filters-conditions.page:48(item/p)
-#: C/mail-search-folders-conditions.page:48(item/p)
-msgid "Message Body:"
-msgstr "Cuerpo del mensaje:"
-
-# index.docbook:458, index.docbook:949
-#: C/mail-filters-conditions.page:49(item/p)
-#: C/mail-search-folders-conditions.page:49(item/p)
-msgid "Searches in the actual text of the message."
-msgstr "Busca en el texto efectivo del mensaje."
-
-#: C/mail-filters-conditions.page:51(item/p)
-#: C/mail-search-folders-conditions.page:51(item/p)
-msgid "Expression:"
-msgstr "Expresión:"
-
-#: C/mail-filters-conditions.page:52(item/p)
-#: C/mail-search-folders-conditions.page:52(item/p)
-msgid ""
-"(For programmers only) Match a message according to an expression you write "
-"in the Scheme language used to define <link xref=\"mail-filters\">filters</"
-"link> in Evolution."
-msgstr ""
-"(Sólo para programadores) busca un mensaje que corresponda a una expresión "
-"escrita en lenguaje Scheme, usado para definir <link xref=\"mail-filters"
-"\">filtros</link> en Evolution."
-
-#: C/mail-filters-conditions.page:54(item/p)
-#: C/mail-search-folders-conditions.page:54(item/p)
-msgid "Date sent:"
-msgstr "Fecha de envío:"
-
-#: C/mail-filters-conditions.page:55(item/p)
-#: C/mail-search-folders-conditions.page:55(item/p)
-msgid ""
-"Filters messages according to the date on which they were sent. First, "
-"choose the conditions you want a message to meet, such as before a given "
-"time or after a given time. Then choose the time. The filter compares the "
-"message's time stamp to the system clock when the filter is run, or to a "
-"specific time and date you choose from a calendar. You can also have it look "
-"for a message within a range of time relative to the filter, such as two to "
-"four days ago."
-msgstr ""
-"Filtra los mensajes en función de la fecha de envío. En primer lugar, defina "
-"las condiciones que desea ver cumplidas con un mensaje, tales como antes de "
-"una hora determinada o después de de ella, etc. A continuación, especifique "
-"la fecha y hora. La fecha y hora del mensaje se compara con la hora del "
-"sistema al ejecutarse el filtro, o con una hora y fecha específica elegida "
-"en el calendario. Es posible incluso buscar mensajes dentro de un intervalo "
-"de tiempo relativo, por ejemplo, buscar mensajes en los últimos cuatro días."
-
-#: C/mail-filters-conditions.page:57(item/p)
-#: C/mail-search-folders-conditions.page:57(item/p)
-msgid "Date received:"
-msgstr "Fecha de recepción:"
-
-# index.docbook:458, index.docbook:949
-#: C/mail-filters-conditions.page:58(item/p)
-#: C/mail-search-folders-conditions.page:58(item/p)
-msgid ""
-"This works the same way as the Date Sent option, except that it compares the "
-"time you received the message with the dates you specify."
-msgstr ""
-"Funciona del mismo modo que la opción Fecha de envío, excepto que compara la "
-"fecha y hora de recepción del mensaje con las fechas especificadas."
-
-#: C/mail-filters-conditions.page:60(item/p)
-#: C/mail-search-folders-conditions.page:60(item/p)
-msgid "Label:"
-msgstr "Etiqueta:"
-
-#: C/mail-filters-conditions.page:61(item/p)
-#: C/mail-search-folders-conditions.page:61(item/p)
-msgid ""
-"Messages can have <link xref=\"mail-labels\">labels</link> of Important, "
-"Work, Personal, To Do, or Later. You can set labels with other filters or "
-"manually."
-msgstr ""
-"Los mensajes pueden tener las <link xref=\"mail-labels\">labels</link> "
-"Importante, Trabajo, personal, Tareas pendientes o Más tarde. Puede "
-"establecer etiquetas con otros filtros o manualmente."
-
-#: C/mail-filters-conditions.page:63(item/p)
-#: C/mail-search-folders-conditions.page:63(item/p)
-msgid "Score:"
-msgstr "Puntuación:"
-
-#: C/mail-filters-conditions.page:64(item/p)
-#: C/mail-search-folders-conditions.page:64(item/p)
-msgid ""
-"Sets the message score to any whole number greater than 0. You can have one "
-"filter set or change a message score, and then set up another filter to move "
-"the messages you have scored. A message score is not based on anything in "
-"particular: it is simply a number you can assign to messages so other "
-"filters can process them."
-msgstr ""
-"Establece la puntuación del mensaje con un número entero mayor que 0. Puede "
-"tener un filtro ajustado o cambiar la puntuación de un mensaje, y después "
-"configurar otro filtro par amover los mensajes que ha puntuado. La "
-"puntuación de un mensaje no está basada en nada en particular: es "
-"simplemente un número que puede asignar a mensajes para que otros filtros "
-"puedan procesarlos."
-
-#: C/mail-filters-conditions.page:66(item/p)
-#: C/mail-search-folders-conditions.page:66(item/p)
-msgid "Size (kB):"
-msgstr "Tamaño (KB):"
-
-# index.docbook:458, index.docbook:949
-#: C/mail-filters-conditions.page:67(item/p)
-#: C/mail-search-folders-conditions.page:67(item/p)
-msgid "Sorts based on the size of the message in kilobytes."
-msgstr "Ordenación basada en el tamaño del mensaje, en kilobytes."
-
-#: C/mail-filters-conditions.page:69(item/p)
-#: C/mail-search-folders-conditions.page:69(item/p)
-msgid "Status:"
-msgstr "Estado:"
-
-#: C/mail-filters-conditions.page:70(item/p)
-#: C/mail-search-folders-conditions.page:70(item/p)
-msgid ""
-"Filters according to the status of a message. The status can be Replied To, "
-"Draft, Important, Read, or Junk."
-msgstr ""
-"Filtros de acuerdo al estado de un mensaje. El estado puede ser Responder a, "
-"Borrador, Importante, Leído o SPAM."
-
-#: C/mail-filters-conditions.page:72(item/p)
-#: C/mail-search-folders-conditions.page:72(item/p)
-msgid "Follow Up:"
-msgstr "Seguimiento:"
-
-#: C/mail-filters-conditions.page:73(item/p)
-#: C/mail-search-folders-conditions.page:73(item/p)
-msgid ""
-"Checks whether the message is <link xref=\"mail-follow-up-flag\">flagged for "
-"follow-up</link>."
-msgstr ""
-"Comprueba si el mensaje está <link xref=\"mail-follow-up-flag\">marcado para "
-"su seguimiento</link>."
-
-#: C/mail-filters-conditions.page:75(item/p)
-#: C/mail-search-folders-conditions.page:75(item/p)
-msgid "Completed On:"
-msgstr "Completado en:"
-
-#: C/mail-filters-conditions.page:78(item/p)
-#: C/mail-search-folders-conditions.page:78(item/p)
-msgid "Attachments:"
-msgstr "Adjuntos:"
-
-#: C/mail-filters-conditions.page:79(item/p)
-#: C/mail-search-folders-conditions.page:79(item/p)
-msgid "Checks whether there is an attachment for the email."
-msgstr "Comprueba si existe un adjunto para el correo."
-
-#: C/mail-filters-conditions.page:81(item/p)
-#: C/mail-search-folders-conditions.page:81(item/p)
-msgid "Mailing List"
-msgstr "Lista de correo"
-
-#: C/mail-filters-conditions.page:82(item/p)
-#: C/mail-search-folders-conditions.page:82(item/p)
-msgid ""
-"Filters based on the mailing list the message came from. This filter might "
-"miss messages from some list servers, because it checks for the X-BeenThere "
-"header, which is used to identify mailing lists or other redistributors of "
-"mail. Mail from list servers that do not set X-BeenThere properly are not be "
-"caught by these filters."
-msgstr ""
-"Filtros basados en mensajes que provienen de listas de correo. Este filtro "
-"puede perder mensajes de algunos servidores de listas, porque comprueba la "
-"cabecera X-BeenThere, que se usa para identificar listas de correo u otras "
-"redistribuciones de correo. El correo proveniente de servidores de listas "
-"que no establezca adecuadamente la cabecera X-BeenThere no será filtrado."
-
-#: C/mail-filters-conditions.page:84(item/p)
-#: C/mail-search-folders-conditions.page:84(item/p)
-msgid "Regex Match:"
-msgstr "Coincide con la expresión regular:"
-
-#: C/mail-filters-conditions.page:85(item/p)
-#: C/mail-search-folders-conditions.page:85(item/p)
-msgid ""
-"(For programmers only) If you know your way around a <link href=\"https://"
-"secure.wikimedia.org/wikipedia/en/wiki/Regular_expression\">regex</link>, or "
-"regular expression, this option allows you to search for complex patterns of "
-"letters, so that you can find, for example, all words that start with a and "
-"end with m, and are between six and fifteen letters long, or all messages "
-"that declare a particular header twice. For information about how to use "
-"regular expressions, check the man page for the <cmd>grep</cmd> command."
-msgstr ""
-"(Sólo para programadores) Si sabe lo que se hace con las <link href=\"http://"
-"es.wikipedia.org/wiki/Expresi%C3%B3n_regular\">expresiones regulares</link>, "
-"esta opción le permite hacer búsquedas de patrones complejos de letras de "
-"manera que, por ejemplo, podría encontrar todas las palabras que empiezan o "
-"acaban con «m» y tienen entre seis y quince letras de longitud, o distinguir "
-"todos los mensajes que tengan duplicada una determinada cabecera. Para saber "
-"cómo usar las expresiones regulares examine la página del manual del comando "
-"<cmd>grep</cmd>."
-
-#: C/mail-filters-conditions.page:87(item/p)
 msgid "Source Account:"
 msgstr "Cuenta de origen:"
 
-#: C/mail-filters-conditions.page:88(item/p)
+#: C/mail-filters-conditions.page:34(item/p)
 msgid ""
 "Filters messages according the server you got them from. This is most useful "
 "if you use multiple POP mail accounts."
@@ -8774,7 +8109,7 @@ msgstr ""
 "Filtros de mensajes de acuerdo con el servidor de las que las recibió. Esto "
 "es útil cuando tiene múltiples cuentas de correo POP."
 
-#: C/mail-filters-conditions.page:91(item/p)
+#: C/mail-filters-conditions.page:37(item/p)
 msgid ""
 "Evolution can use an external command to process a message, then process it "
 "based on the return value. Commands used in this way must return an integer. "
@@ -8785,12 +8120,12 @@ msgstr ""
 "deben devolver un entero. Generalmente esto se suele usar para añadir un "
 "filtro de correo spam."
 
-#: C/mail-filters-conditions.page:93(item/p)
+#: C/mail-filters-conditions.page:39(item/p)
 msgid "Junk Test:"
 msgstr "Detección de spam:"
 
 # index.docbook:458, index.docbook:949
-#: C/mail-filters-conditions.page:94(item/p)
+#: C/mail-filters-conditions.page:40(item/p)
 msgid ""
 "Filters based on the results of the <link xref=\"mail-spam\">junk mail</"
 "link> test."
@@ -8798,10 +8133,22 @@ msgstr ""
 "Filtros basados en los resultados de las <link xref=\"mail-spam\">pruebas de "
 "spam</link>."
 
-#: C/mail-filters-conditions.page:96(item/p)
-#: C/mail-search-folders-conditions.page:90(item/p)
+#: C/mail-filters-conditions.page:42(item/p)
+#: C/mail-search-folders-conditions.page:36(item/p)
 msgid "Match All:"
 msgstr "Coincidir con todo:"
+
+#: C/mail-filters-conditions.page:43(item/p)
+msgid ""
+"Applies an action always to any message, without further conditions. This "
+"could be useful at the end of the list of message filters to cover those "
+"emails that did not match any conditions for the preceding filters in the "
+"list."
+msgstr ""
+"Aplica siempre una acción a cualquier mensaje, sin condiciones. Esto puede "
+"ser útil al final de la lista de filtros de mensajes para cubrir aquellos "
+"correos que no coinciden con ninguna condición para los filtros anteriores "
+"en la lista."
 
 #: C/mail-filters-not-working.page:5(info/desc)
 msgid ""
@@ -8876,62 +8223,6 @@ msgstr ""
 "que se establece cuando un correo en particular se obtiene del servidor. "
 "Puede que sus filtros no funcionen correctamente si usa otro cliente de "
 "correo además de Evolution."
-
-#: C/mail-filters-not-working.page:42(section/title)
-msgid "Logging Filter Actions"
-msgstr "Registro de las acciones de los filtros"
-
-#: C/mail-filters-not-working.page:45(item/p)
-msgid "Close Evolution."
-msgstr "Cerrar Evolution."
-
-#: C/mail-filters-not-working.page:47(item/p)
-msgid ""
-"Run the command <cmd>gsettings set org.gnome.evolution.mail filters-log-"
-"actions true</cmd>"
-msgstr ""
-"Ejecute el comando <cmd>gsettings set org.gnome.evolution.mail filters-log-"
-"actions true</cmd>"
-
-#: C/mail-filters-not-working.page:48(item/p)
-msgid ""
-"Run the command <cmd>gsettings set org.gnome.evolution.mail filters-log-file "
-"\"~/my-filter-log\"</cmd>. This will create a text file named <file>my-"
-"filter-log</file> in your home directory."
-msgstr ""
-"Ejecute el comando <cmd>ggsettings set org.gnome.evolution.mail filters-log-"
-"file \"~/registro-filtro\"</cmd>. Esto creará un archivo de texto llamado "
-"<file>registro-filtro</file> en su carpeta personal."
-
-#: C/mail-filters-not-working.page:50(item/p)
-msgid "Fetch mail to apply filters."
-msgstr "Reciba el correo para aplicar los filtros."
-
-#: C/mail-filters-not-working.page:51(item/p)
-msgid ""
-"Open the file <file>my-filter-log</file> with a text editor to see which "
-"filter actions have been applied."
-msgstr ""
-"Abra el archivo <file>registro-filtro</file> con un editor de texto para ver "
-"qué acciones de filtrado se han aplicado."
-
-#: C/mail-filters-not-working.page:54(section/p)
-msgid ""
-"Note that you can disable filter logging again by using the command "
-"<cmd>gsettings set org.gnome.evolution.mail filters-log-actions false</cmd>"
-msgstr ""
-"Tenga en cuenta que puede desactivar el registro del filtro usando el "
-"comando <cmd>gsettings set org.gnome.evolution.mail filters-log-actions "
-"false</cmd>"
-
-#: C/mail-filters-not-working.page:41(page/section)
-msgid ""
-"<_:title-1/> If it is still unclear why filters do not work as expected, you "
-"can enable logging filter actions. <_:list-2/> <_:p-3/> <_:p-4/>"
-msgstr ""
-"<_:title-1/> Si todavía no tiene claro porqué los filtros no funcionan como "
-"esperaba, puede activar el registro de las acciones de los filtros. <_:list-"
-"2/> <_:p-3/> <_:p-4/>"
 
 #: C/mail-filters.page:5(info/desc)
 msgid "Use filter rules to sort your mail automatically into folders."
@@ -9489,6 +8780,12 @@ msgstr ""
 "reconocer estos términos para evitar que el sujeto se haga muy largo a "
 "medida que avanza la conversación."
 
+#: C/mail-localized-re-subjects.page:25(item/p)
+#: C/mail-save-as-pdf.page:27(item/p)
+#: C/mail-sorting-message-list.page:39(item/p)
+msgid "Open the <app>Terminal</app> application."
+msgstr "Abra la aplicación <app>Terminal</app>."
+
 #: C/mail-localized-re-subjects.page:26(item/p)
 msgid ""
 "Run the command <cmd>gsettings set org.gnome.evolution.mail.composer-"
@@ -9498,6 +8795,12 @@ msgstr ""
 "Ejecute el comando <cmd>gsettings set org.gnome.evolution.mail.composer-"
 "localized-re 'AW:,SV:'</cmd> (en el caso de que quiera que se reconozcan "
 "«AW:» y «SV:»)"
+
+#: C/mail-localized-re-subjects.page:28(page/p)
+#: C/mail-save-as-pdf.page:30(note/p)
+msgid "You can also use the <app>dconf-editor</app> application to do this."
+msgstr ""
+"También puede usar la aplicación <gui>dconf-editor</gui> para hacer esto."
 
 #: C/mail-moving-emails.page:5(info/desc)
 msgid "Moving emails from one folder to another."
@@ -9844,12 +9147,10 @@ msgstr "Opciones de recepción Exchange Web Services"
 
 #: C/mail-receiving-options-exchange-ews.page:25(section/p)
 #: C/mail-receiving-options-exchange-mapi.page:25(section/p)
-#: C/mail-receiving-options-imap.page:27(section/p)
 #: C/mail-receiving-options-imap-plus.page:28(section/p)
 #: C/mail-receiving-options-local-delivery.page:25(section/p)
 #: C/mail-receiving-options-maildir-format-directories.page:25(section/p)
 #: C/mail-receiving-options-mh-format-directories.page:25(section/p)
-#: C/mail-receiving-options-novell-groupwise.page:29(section/p)
 #: C/mail-receiving-options-pop.page:32(section/p)
 #: C/mail-receiving-options-unix-mbox-spool-directory.page:25(section/p)
 #: C/mail-receiving-options-unix-mbox-spool-file.page:25(section/p)
@@ -9880,7 +9181,6 @@ msgstr ""
 
 #: C/mail-receiving-options-exchange-ews.page:30(note/p)
 #: C/mail-receiving-options-exchange-mapi.page:30(note/p)
-#: C/mail-receiving-options-novell-groupwise.page:34(note/p)
 msgid ""
 "If you are in an organizational environment, you may want to contact your "
 "system administrator for more information."
@@ -9890,9 +9190,7 @@ msgstr ""
 
 #: C/mail-receiving-options-exchange-ews.page:31(item/p)
 #: C/mail-receiving-options-exchange-mapi.page:31(item/p)
-#: C/mail-receiving-options-imap.page:33(item/p)
 #: C/mail-receiving-options-imap-plus.page:34(item/p)
-#: C/mail-receiving-options-novell-groupwise.page:35(item/p)
 #: C/mail-receiving-options-pop.page:38(item/p)
 #: C/mail-receiving-options-usenet-news.page:34(item/p)
 msgid ""
@@ -9910,12 +9208,10 @@ msgstr ""
 
 #: C/mail-receiving-options-exchange-ews.page:37(section/title)
 #: C/mail-receiving-options-exchange-mapi.page:39(section/title)
-#: C/mail-receiving-options-imap.page:40(section/title)
 #: C/mail-receiving-options-imap-plus.page:41(section/title)
 #: C/mail-receiving-options-local-delivery.page:34(section/title)
 #: C/mail-receiving-options-maildir-format-directories.page:34(section/title)
 #: C/mail-receiving-options-mh-format-directories.page:34(section/title)
-#: C/mail-receiving-options-novell-groupwise.page:42(section/title)
 #: C/mail-receiving-options-pop.page:46(section/title)
 #: C/mail-receiving-options-unix-mbox-spool-directory.page:34(section/title)
 #: C/mail-receiving-options-unix-mbox-spool-file.page:34(section/title)
@@ -9925,12 +9221,10 @@ msgstr "Opciones de recepción"
 
 #: C/mail-receiving-options-exchange-ews.page:39(section/p)
 #: C/mail-receiving-options-exchange-mapi.page:41(section/p)
-#: C/mail-receiving-options-imap.page:42(section/p)
 #: C/mail-receiving-options-imap-plus.page:43(section/p)
 #: C/mail-receiving-options-local-delivery.page:36(section/p)
 #: C/mail-receiving-options-maildir-format-directories.page:36(section/p)
 #: C/mail-receiving-options-mh-format-directories.page:36(section/p)
-#: C/mail-receiving-options-novell-groupwise.page:44(section/p)
 #: C/mail-receiving-options-pop.page:48(section/p)
 #: C/mail-receiving-options-unix-mbox-spool-directory.page:36(section/p)
 #: C/mail-receiving-options-unix-mbox-spool-file.page:36(section/p)
@@ -9947,12 +9241,10 @@ msgstr ""
 
 #: C/mail-receiving-options-exchange-ews.page:42(item/p)
 #: C/mail-receiving-options-exchange-mapi.page:44(item/p)
-#: C/mail-receiving-options-imap.page:45(item/p)
 #: C/mail-receiving-options-imap-plus.page:46(item/p)
 #: C/mail-receiving-options-local-delivery.page:39(item/p)
 #: C/mail-receiving-options-maildir-format-directories.page:39(item/p)
 #: C/mail-receiving-options-mh-format-directories.page:39(item/p)
-#: C/mail-receiving-options-novell-groupwise.page:47(item/p)
 #: C/mail-receiving-options-pop.page:51(item/p)
 #: C/mail-receiving-options-unix-mbox-spool-file.page:39(item/p)
 #: C/mail-receiving-options-usenet-news.page:46(item/p)
@@ -9998,12 +9290,10 @@ msgstr ""
 
 #: C/mail-receiving-options-exchange-ews.page:52(section/p)
 #: C/mail-receiving-options-exchange-mapi.page:52(section/p)
-#: C/mail-receiving-options-imap.page:56(section/p)
 #: C/mail-receiving-options-imap-plus.page:58(section/p)
 #: C/mail-receiving-options-local-delivery.page:46(section/p)
 #: C/mail-receiving-options-maildir-format-directories.page:47(section/p)
 #: C/mail-receiving-options-mh-format-directories.page:46(section/p)
-#: C/mail-receiving-options-novell-groupwise.page:56(section/p)
 #: C/mail-receiving-options-pop.page:60(section/p)
 #: C/mail-receiving-options-unix-mbox-spool-directory.page:46(section/p)
 #: C/mail-receiving-options-unix-mbox-spool-file.page:47(section/p)
@@ -10025,9 +9315,7 @@ msgid "Exchange MAPI receiving options"
 msgstr "Opciones de recepción Exchange MAPI"
 
 #: C/mail-receiving-options-exchange-mapi.page:28(item/p)
-#: C/mail-receiving-options-imap.page:30(item/p)
 #: C/mail-receiving-options-imap-plus.page:31(item/p)
-#: C/mail-receiving-options-novell-groupwise.page:32(item/p)
 #: C/mail-receiving-options-pop.page:35(item/p)
 #: C/mail-receiving-options-usenet-news.page:31(item/p)
 msgid ""
@@ -10042,9 +9330,7 @@ msgid "Enter the Domain name for that server."
 msgstr "Introduzca el nombre de dominio para ese servidor."
 
 #: C/mail-receiving-options-exchange-mapi.page:32(item/p)
-#: C/mail-receiving-options-imap.page:31(item/p)
 #: C/mail-receiving-options-imap-plus.page:32(item/p)
-#: C/mail-receiving-options-novell-groupwise.page:33(item/p)
 #: C/mail-receiving-options-pop.page:36(item/p)
 #: C/mail-receiving-options-usenet-news.page:32(item/p)
 msgid "Select if you want to use a secure connection (SSL or TLS)."
@@ -10055,23 +9341,20 @@ msgid "Click <gui style=\"button\">Authenticate</gui> and enter your password."
 msgstr ""
 "Pulse <gui style=\"button\">Autenticar</gui> e introduzca su contraseña."
 
-#: C/mail-receiving-options-imap.page:5(info/desc)
-msgid "Receiving options for IMAP accounts."
-msgstr "Opciones de recepción para cuentas IMAP."
+#: C/mail-receiving-options-imap-plus.page:5(info/desc)
+msgid "Receiving options for IMAP+ accounts."
+msgstr "Opciones de recepción para cuentas IMAP+."
 
-#: C/mail-receiving-options-imap.page:22(page/title)
-msgid "IMAP receiving options"
-msgstr "Opciones de recepción IMAP"
+#: C/mail-receiving-options-imap-plus.page:23(page/title)
+msgid "IMAP+ receiving options"
+msgstr "Opciones de recepción IMAP+"
 
-#: C/mail-receiving-options-imap.page:31(item/p)
 #: C/mail-receiving-options-imap-plus.page:32(item/p)
-#: C/mail-receiving-options-novell-groupwise.page:33(item/p)
 #: C/mail-receiving-options-pop.page:36(item/p)
 #: C/mail-receiving-options-usenet-news.page:32(item/p)
 msgid "You should enable this option if your server supports it."
 msgstr "Debería activar esta opción si su servidor la soporta."
 
-#: C/mail-receiving-options-imap.page:32(note/p)
 #: C/mail-receiving-options-imap-plus.page:33(note/p)
 #: C/mail-receiving-options-pop.page:37(note/p)
 #: C/mail-receiving-options-pop.page:39(note/p)
@@ -10087,56 +9370,11 @@ msgstr ""
 "acontecimiento organizado puede que quiera contactar con el administrador de "
 "su sistema para obtener más información."
 
-#: C/mail-receiving-options-imap.page:34(item/p)
 #: C/mail-receiving-options-imap-plus.page:35(item/p)
-#: C/mail-receiving-options-novell-groupwise.page:36(item/p)
 #: C/mail-receiving-options-pop.page:40(item/p)
 #: C/mail-receiving-options-usenet-news.page:35(item/p)
 msgid "Select if you want Evolution to remember your password."
 msgstr "Marque si quiere que Evolution recuerde su contraseña."
-
-#: C/mail-receiving-options-imap.page:46(item/p)
-#: C/mail-receiving-options-imap-plus.page:48(item/p)
-msgid ""
-"You can also define if Evolution checks for new messages in all folders, or "
-"only in subscribed folders."
-msgstr ""
-"También puede definir si Evolution debe comprobar si existe correo nuevo en "
-"todas sus carpetas o solo en las carpetas suscritas."
-
-#: C/mail-receiving-options-imap.page:47(item/p)
-#: C/mail-receiving-options-imap-plus.page:49(item/p)
-msgid ""
-"Select if you want Evolution to use custom commands to connect to the IMAP "
-"server."
-msgstr ""
-"Seleccione si quiere que Evolution use comandos personalizados para "
-"conectarse al servidor IMAP."
-
-#: C/mail-receiving-options-imap.page:48(item/p)
-#: C/mail-receiving-options-imap-plus.page:50(item/p)
-msgid ""
-"Select if you want Evolution to show only <link xref=\"mail-imap-"
-"subscriptions\">subscribed folders</link>."
-msgstr ""
-"Seleccione si quiere que Evolution sólo muestre las <link xref=\"mail-imap-"
-"subscriptions\">carpetas suscritas</link>."
-
-#: C/mail-receiving-options-imap.page:49(item/p)
-#: C/mail-receiving-options-imap-plus.page:51(item/p)
-msgid ""
-"Select if you want Evolution to override server-supplied folder namespaces."
-msgstr ""
-"Marque si quiere que Evolution no haga caso de los espacios de nombres de "
-"carpetas suministrados por el servidor."
-
-#: C/mail-receiving-options-imap-plus.page:5(info/desc)
-msgid "Receiving options for IMAP+ accounts."
-msgstr "Opciones de recepción para cuentas IMAP+."
-
-#: C/mail-receiving-options-imap-plus.page:23(page/title)
-msgid "IMAP+ receiving options"
-msgstr "Opciones de recepción IMAP+"
 
 #: C/mail-receiving-options-imap-plus.page:47(item/p)
 msgid ""
@@ -10147,6 +9385,37 @@ msgstr ""
 "Seleccione «Usar resincronización rápida si el servidor lo soporta» <link "
 "href=\"http://tools.ietf.org/html/rfc5162\">Extensiones IMAP4 para "
 "resincronización rápida de buzón de correo</link>."
+
+#: C/mail-receiving-options-imap-plus.page:48(item/p)
+msgid ""
+"You can also define if Evolution checks for new messages in all folders, or "
+"only in subscribed folders."
+msgstr ""
+"También puede definir si Evolution debe comprobar si existe correo nuevo en "
+"todas sus carpetas o solo en las carpetas suscritas."
+
+#: C/mail-receiving-options-imap-plus.page:49(item/p)
+msgid ""
+"Select if you want Evolution to use custom commands to connect to the IMAP "
+"server."
+msgstr ""
+"Seleccione si quiere que Evolution use comandos personalizados para "
+"conectarse al servidor IMAP."
+
+#: C/mail-receiving-options-imap-plus.page:50(item/p)
+msgid ""
+"Select if you want Evolution to show only <link xref=\"mail-imap-"
+"subscriptions\">subscribed folders</link>."
+msgstr ""
+"Seleccione si quiere que Evolution sólo muestre las <link xref=\"mail-imap-"
+"subscriptions\">carpetas suscritas</link>."
+
+#: C/mail-receiving-options-imap-plus.page:51(item/p)
+msgid ""
+"Select if you want Evolution to override server-supplied folder namespaces."
+msgstr ""
+"Marque si quiere que Evolution no haga caso de los espacios de nombres de "
+"carpetas suministrados por el servidor."
 
 #: C/mail-receiving-options-local-delivery.page:5(info/desc)
 msgid "Receiving options for Local delivery accounts."
@@ -10210,26 +9479,6 @@ msgstr ""
 #: C/mail-receiving-options-mh-format-directories.page:20(page/title)
 msgid "MH-format mail directories receiving options"
 msgstr "Opciones de recepción para directorios de correo en formato MH"
-
-#: C/mail-receiving-options-novell-groupwise.page:5(info/desc)
-msgid "Receiving options for Novell Groupwise accounts."
-msgstr "Opciones de recepción para cuentas Novell Groupwise."
-
-#: C/mail-receiving-options-novell-groupwise.page:24(page/title)
-msgid "Novell Groupwise receiving options"
-msgstr "Opciones de recepción para Novell Groupwise"
-
-#: C/mail-receiving-options-novell-groupwise.page:48(item/p)
-msgid "Enter the Post Office Agent SOAP port."
-msgstr "Introduzca el puerto del Agente SOAP de Oficina de correos."
-
-#: C/mail-receiving-options-novell-groupwise.page:49(item/p)
-msgid ""
-"If you are unsure what your Post Office Agent SOAP port is, contact your "
-"system administrator."
-msgstr ""
-"Si no está seguro de qué puerto es para su Agente SOAP de Oficina de "
-"Correos, contacte con su administrador de sistemas."
 
 #: C/mail-receiving-options.page:5(info/desc)
 msgid "Available mail receiving options for several server types."
@@ -10521,9 +9770,41 @@ msgstr "Condiciones disponibles para configurar carpetas de búsqueda."
 msgid "Available Search folder conditions"
 msgstr "Condiciones disponibles para las Carpetas de búsqueda"
 
-#: C/mail-search-folders-conditions.page:87(item/p)
+#: C/mail-search-folders-conditions.page:33(item/p)
 msgid "Message Location:"
 msgstr "Ubicación del mensaje:"
+
+#: C/mail-search-folders-conditions.page:34(item/p)
+msgid "Checks whether the message is located in a specific folder."
+msgstr ""
+"Comprueba si el mensaje está marcado se encuentra en una carpeta específica."
+
+#: C/mail-search-folders-conditions.page:34(item/p)
+#| msgid ""
+#| "By default, Evolution's <gui>Trash</gui> and <gui>Junk</gui> folders are "
+#| "<link xref=\"mail-search-folders\">Search folders</link>. They do not "
+#| "really exist but simply display all the messages that are marked as junk "
+#| "or for deletion in any folders of that account."
+msgid ""
+"Note that by default, Evolution's <gui>Trash</gui> and <gui>Junk</gui> "
+"folders are <link xref=\"mail-search-folders\">Search folders</link> so they "
+"cannot be selected here."
+msgstr ""
+"De manera predeterminada, las carpeta de <gui>Papelera</gui> y <gui>Spam</"
+"gui> son <link xref=\"mail-search-folders\">Carpeta de búsqueda</link> y no "
+"se pueden seleccionar aquí."
+
+#: C/mail-search-folders-conditions.page:37(item/p)
+msgid ""
+"Applies an action always to any message, without further conditions. This "
+"could be useful at the end of the list of search folders to cover those "
+"emails that did not match any conditions for the preceding search folders in "
+"the list."
+msgstr ""
+"Aplica siempre una acción a cualquier mensaje, sin condiciones. Esto puede "
+"ser útil al final de la lista de carpetas de búsqueda para cubrir aquellos "
+"correos que no coinciden con ninguna condición para las carpetas de búsqueda "
+"anteriores en la lista."
 
 #: C/mail-search-folders-enable.page:5(info/desc)
 msgid "Activate search folders."
@@ -10737,10 +10018,6 @@ msgstr ""
 "Si busca correos que, a menudo, no están en la misma carpeta puede querer "
 "crear una carpeta de búsqueda en su lugar; para obtener más detalles "
 "consulte <link xref=\"mail-search-folders\">Usar carpetas de búsqueda</link>."
-
-#: C/mail-searching.page:56(section/title)
-msgid "Advanced Search:"
-msgstr "Búsqueda avanzada:"
 
 #: C/mail-send-and-receive-automatically.page:5(info/desc)
 msgid "Check automatically and regularly for new received mail."
@@ -10981,6 +10258,14 @@ msgstr ""
 "predeterminada. Se puede cambiar iniciando la aplicación <app>Terminal</app> "
 "y ejecutando el comando <cmd>gsettings set org.gnome.evolution.mail thread-"
 "expand true</cmd>"
+
+#: C/mail-sorting-message-list.page:40(item/p)
+msgid ""
+"Run the command <cmd>gsettings set org.gnome.desktop.interface can-change-"
+"accels true</cmd>"
+msgstr ""
+"Ejecute el comando <cmd>gsettings set org.gnome.desktop.interface can-change-"
+"accels true</cmd>"
 
 #: C/mail-sorting-message-list.page:46(section/title)
 msgid "Sorting Mail with Column Headers"
@@ -11252,16 +10537,6 @@ msgstr "Cómo automatizar la gestión de correo no deseado."
 msgid "Junk and Spam Mail Handling"
 msgstr "Gestión de correo basura"
 
-#: C/mail-spam.page:22(page/p)
-msgid ""
-"Please note that Novell GroupWise accounts have <link href=\"http://library."
-"gnome.org/users/evolution/2.32/bxqwde6.html\">specific differences in Junk "
-"handling</link>."
-msgstr ""
-"Recuerde que las cuentas de Novell GroupWise tienen algunas <link href="
-"\"http://library.gnome.org/users/evolution/2.32/bxqwde6.html\">diferencias "
-"específicas en el manejo del spam</link>."
-
 #: C/mail-spam-settings.page:7(info/desc)
 msgid "How to set up handling unwanted junk/spam mail."
 msgstr "Cómo configurar la gestión de correo no deseado y SPAM."
@@ -11343,17 +10618,23 @@ msgid "Junk Mail Preferences"
 msgstr "Opciones de correo spam"
 
 #: C/mail-spam-settings.page:62(note/p)
+#| msgid ""
+#| "The junk mail options discussed in this page refer only to POP and Local "
+#| "Delivery. For handling junk mails on IMAP, see the Evolution settings "
+#| "under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</"
+#| "gui><gui style=\"button\">Edit</gui><gui>Receiving Options</gui></guiseq>."
 msgid ""
 "The junk mail options discussed in this page refer only to POP and Local "
-"Delivery. For handling junk mails on IMAP, see the Evolution settings under "
-"<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui "
-"style=\"button\">Edit</gui><gui>Receiving Options</gui></guiseq>."
+"Delivery accounts. For handling junk mails on IMAP accounts, see the "
+"Evolution settings under <guiseq><gui>Edit</gui><gui>Preferences</"
+"gui><gui>Mail Accounts</gui><gui style=\"button\">Edit</gui><gui>Receiving "
+"Options</gui></guiseq>."
 msgstr ""
-"Las opciones de SPAM comentadas en esta página sólo se refieren al correo "
-"POP y Entrega local. Para gestionar correos SPAM en cuentas IMAP consulte la "
-"configuración de Evolution en <guiseq><gui>Editar</gui><gui>Preferencias</"
-"gui><gui>Cuentas de correo</gui><gui style=\"button\">Editar</"
-"gui><gui>Opciones de recepción</gui></guiseq>."
+"Las opciones de SPAM comentadas en esta página sólo se refieren a las "
+"cuentas POP y Entrega local. Para gestionar correos SPAM en cuentas IMAP "
+"consulte la configuración de Evolution en <guiseq><gui>Editar</"
+"gui><gui>Preferencias</gui><gui>Cuentas de correo</gui><gui style=\"button"
+"\">Editar</gui><gui>Opciones de recepción</gui></guiseq>."
 
 #: C/mail-spam-settings.page:63(section/p)
 msgid ""
@@ -11430,7 +10711,6 @@ msgstr ""
 "Cómo hacer para tener una sola carpeta de Papelera o Spam para cada cuenta."
 
 #: C/mail-two-trash-folders.page:25(page/title)
-#| msgid "Two Trash folders shown for the same account"
 msgid "Two Trash or Junk folders shown for the same account"
 msgstr "Dos carpetas de Papelera o Spam mostradas para la misma cuenta"
 
@@ -11453,10 +10733,6 @@ msgstr ""
 "otra carpeta física de Papelera es igual a cualquier otra carpeta."
 
 #: C/mail-two-trash-folders.page:30(page/p)
-#| msgid ""
-#| "Evolution's <gui>Trash</gui> folder is a <link xref=\"mail-search-folders"
-#| "\">Search folder</link>. It does not really exist but simply displays all "
-#| "the messages that are marked for deletion in any folders of that account."
 msgid ""
 "By default, Evolution's <gui>Trash</gui> and <gui>Junk</gui> folders are "
 "<link xref=\"mail-search-folders\">Search folders</link>. They do not really "
@@ -11469,12 +10745,6 @@ msgstr ""
 "para seliminar en cualquier carpeta de la cuenta."
 
 #: C/mail-two-trash-folders.page:32(page/p)
-#| msgid ""
-#| "You can set a different place where to store messages in your Draft "
-#| "folder and Sent folder in the <gui>Defaults</gui> section of the mail "
-#| "account editor (<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail "
-#| "Accounts</gui><gui style=\"button\">Edit</gui><gui>Defaults</gui></"
-#| "guiseq>)."
 msgid ""
 "In order to only use the folders for Junk and Trash on the mail server, "
 "select the corresponding <gui>Use a Real Folder</gui> option under "
@@ -11602,12 +10872,6 @@ msgid "Working Offline"
 msgstr "Trabar desconectado"
 
 #: C/mail-working-offline.page:25(page/p)
-#| msgid ""
-#| "Offline mode helps you communicate with remote mail storage systems like "
-#| "GroupWise, IMAP or Exchange, in situations where you are not connected to "
-#| "the network at all times. Evolution keeps a local copy of one or more "
-#| "folders to allow you to compose messages, storing them in your Outbox to "
-#| "be sent the next time you connect."
 msgid ""
 "Forced offline mode helps you communicate with remote mail storage systems "
 "like GroupWise, IMAP or Exchange, in situations where you are not connected "
@@ -11630,11 +10894,6 @@ msgstr ""
 "los contactos ni a los calendarios."
 
 #: C/mail-working-offline.page:29(page/p)
-#| msgid ""
-#| "POP mail downloads all messages to your local system, but other "
-#| "connections usually download just the headers, and get the rest only when "
-#| "you want to read the message. Before you go offline, Evolution downloads "
-#| "the unread messages from the folders you have chosen to store."
 msgid ""
 "POP mail downloads all messages to your local system, but other connections "
 "usually download just the headers, and get the rest only when you want to "
@@ -11672,13 +10931,6 @@ msgid "Syncing messages for offline usage"
 msgstr "Sincronizar mensajes para su uso desconectado"
 
 #: C/mail-working-offline.page:42(section/p)
-#| msgid ""
-#| "Your connection status is shown by the small icon in the lower left "
-#| "corner of the Evolution main window. When you are online, it displays two "
-#| "connected cables. When you go offline via clicking the icon or via "
-#| "<guiseq><gui>File</gui><gui>Work Offline</gui></guiseq>, the cables "
-#| "separate. You will be asked whether you want to go offline immediately or "
-#| "synchronize folders locally before you go offline."
 msgid ""
 "Your connection status is shown by the small icon in the lower left corner "
 "of the Evolution main window. When you are online, it displays two connected "
@@ -11710,12 +10962,6 @@ msgid "Automatic Network State Handling"
 msgstr "Gestión automática del estado de la red"
 
 #: C/mail-working-offline.page:48(section/p)
-#| msgid ""
-#| "Evolution automatically understands the network state and acts "
-#| "accordingly. For instance, Evolution switches to offline mode when the "
-#| "network goes down and automatically switches on when the network is up "
-#| "again. Ensure that your system has Network Manager installed to enable "
-#| "this feature."
 msgid ""
 "Evolution automatically understands the network state and acts accordingly. "
 "For instance, Evolution switches to offline mode when the network goes down "
@@ -11967,19 +11213,14 @@ msgstr ""
 "tint2/\">Tint2</link>. esto ya no es posible en GNOME 3."
 
 #: C/offline.page:5(info/desc)
-#| msgid "Make Evolution be online again."
 msgid "Make Evolution mail be online again."
 msgstr "Conectar Evolution otra vez."
 
 #: C/offline.page:23(page/title)
-#| msgid "Why is Evolution offline when my net connection is working?"
 msgid "Why is Evolution's mail offline when my net connection is working?"
 msgstr "¿Por qué Evolution está desconectado si mi conexión está funcionando?"
 
 #: C/offline.page:24(page/p)
-#| msgid ""
-#| "You may have started Evolution with the <cmd>--offline</cmd> commandline "
-#| "option."
 msgid ""
 "You may have started Evolution with the <cmd>--offline</cmd> commandline "
 "option to enforce offline mode."
@@ -11988,13 +11229,6 @@ msgstr ""
 "offline</cmd> para forzar el modo desconectado."
 
 #: C/offline.page:26(page/p)
-#| msgid ""
-#| "If this is not the case and Evolution normally works but has suddenly "
-#| "stopped connecting, you may have unintentionally clicked on the "
-#| "connection icon in the lower left corner. When connected, the icon "
-#| "resembles a pair of sockets joined together. If the sockets are open, "
-#| "there is no connection (and the <gui style=\"button\">Send/Receive</gui> "
-#| "button is grayed out). Click on the icon to change its state."
 msgid ""
 "If this is not the case and Evolution normally works but has suddenly "
 "stopped connecting to your mail accounts, you may have unintentionally "
@@ -12012,20 +11246,6 @@ msgstr ""
 "Pulse en el icono para cambiar su estado."
 
 #: C/offline.page:28(page/p)
-#| msgid ""
-#| "If the problem persists and you are sure you have not clicked the icon, "
-#| "but you can still reach the network from other apps on your system "
-#| "(browsers, FTP, SSH, ping etc.) it may be that NetworkManager (NM) is not "
-#| "properly configured. Many Linux distributions now use NM to manage their "
-#| "connections, and if it is installed Evolution will use it to detect if "
-#| "the network is up. However NM can be installed but not properly "
-#| "configured, leaving the network working but not detectable by Evolution. "
-#| "(Note that other GNOME-based applications may also fail for the same "
-#| "reason.) The solution is to configure NM to manage your network "
-#| "interface. This is usually easy to do but is outside the scope of this "
-#| "document. For more information please take a look at the <link href="
-#| "\"help:gnome-help/net\">Desktop help</link> or seek help from your "
-#| "distribution support forums, mailing lists etc."
 msgid ""
 "If the problem persists and you are sure you have not clicked the icon, but "
 "you can still reach the network from other apps on your system (browsers, "
@@ -12190,32 +11410,42 @@ msgid "There are currently no \"recommended instructions\" for users."
 msgstr "Actualmente no hay unas «instrucciones recomendadas» para usuarios."
 
 #: C/sync-with-other-devices.page:27(page/p)
+#| msgid ""
+#| "Many distributions provide the application <app><link href=\"http://"
+#| "syncevolution.org/\">SyncEvolution</link></app> that can be used in "
+#| "combination with devices that support <link href=\"https://secure."
+#| "wikimedia.org/wikipedia/en/wiki/SyncML\">SyncML</link>."
 msgid ""
 "Many distributions provide the application <app><link href=\"http://"
 "syncevolution.org/\">SyncEvolution</link></app> that can be used in "
-"combination with devices that support <link href=\"https://secure.wikimedia."
-"org/wikipedia/en/wiki/SyncML\">SyncML</link>."
+"combination with devices that support <link href=\"https://en.wikipedia.org/"
+"wiki/SyncML\">SyncML</link>."
 msgstr ""
 "Muchas distribuciones proporcionan la aplicación <link href=\"http://"
 "syncevolution.org/\">SyncEvolution</link>, que se puede usar con "
-"dispositivos que soporten <link href=\"https://secure.wikimedia.org/"
-"wikipedia/en/wiki/SyncML\">SyncML</link>."
+"dispositivos que soporten <link href=\"https://en.wikipedia.org/wiki/SyncML"
+"\">SyncML</link>."
 
 #: C/sync-with-other-devices.page:29(page/p)
+#| msgid ""
+#| "In general it is recommended to use applications and devices that both "
+#| "support the <link href=\"https://secure.wikimedia.org/wikipedia/en/wiki/"
+#| "ActiveSync\">ActiveSync protocol</link> (such as <app>SyncEvolution</"
+#| "app>). A <link href=\"https://secure.wikimedia.org/wikipedia/en/wiki/"
+#| "List_of_collaborative_software\">list of collaborative software</link> is "
+#| "available on Wikipedia."
 msgid ""
 "In general it is recommended to use applications and devices that both "
-"support the <link href=\"https://secure.wikimedia.org/wikipedia/en/wiki/"
-"ActiveSync\">ActiveSync protocol</link> (such as <app>SyncEvolution</app>). "
-"A <link href=\"https://secure.wikimedia.org/wikipedia/en/wiki/"
-"List_of_collaborative_software\">list of collaborative software</link> is "
-"available on Wikipedia."
+"support the <link href=\"https://en.wikipedia.org/wiki/ActiveSync"
+"\">ActiveSync protocol</link> (such as <app>SyncEvolution</app>). A <link "
+"href=\"https://en.wikipedia.org/wiki/List_of_collaborative_software\">list "
+"of collaborative software</link> is available on Wikipedia."
 msgstr ""
 "En general, se recomienda usar aplicaciones y dispositivos que soporten el "
-"<link href=\"https://secure.wikimedia.org/wikipedia/en/wiki/ActiveSync"
-"\">protocolo ActiveSync</link> (como <app>SyncEvolution</app>). Hay "
-"disponible una <link href=\"https://secure.wikimedia.org/wikipedia/en/wiki/"
-"List_of_collaborative_software\">lista de software colaborativo</link> en la "
-"Wikipedia."
+"<link href=\"https://en.wikipedia.org/wiki/ActiveSync\">protocolo "
+"ActiveSync</link> (como <app>SyncEvolution</app>). Hay disponible una <link "
+"href=\"https://en.wikipedia.org/wiki/List_of_collaborative_software\">lista "
+"de software colaborativo</link> en la Wikipedia."
 
 #: C/sync-with-other-devices.page:31(page/p)
 msgid ""
@@ -12829,6 +12059,757 @@ msgstr ""
 "de la ventana de <gui>Categorías</gui>. Pulse el botón <gui style=\"button"
 "\">Eliminar</gui> para eliminar categorías de la lista."
 
+#: C/xinclude-filter-vfolder-conditions.xml:3(item/p)
+msgid "Sender:"
+msgstr "Remitente:"
+
+#: C/xinclude-filter-vfolder-conditions.xml:4(item/p)
+msgid "The sender's email address or the name of the sender."
+msgstr ""
+"La dirección de correo electrónico del remitente o el nombre del remitente."
+
+#: C/xinclude-filter-vfolder-conditions.xml:6(item/p)
+msgid "Recipients:"
+msgstr "Destinatarios:"
+
+# index.docbook:458, index.docbook:949
+#: C/xinclude-filter-vfolder-conditions.xml:7(item/p)
+msgid "The recipients of the message."
+msgstr "Los destinatarios del mensaje."
+
+#: C/xinclude-filter-vfolder-conditions.xml:9(item/p)
+msgid "CC:"
+msgstr "Cc:"
+
+# index.docbook:458, index.docbook:949
+#: C/xinclude-filter-vfolder-conditions.xml:10(item/p)
+msgid "Only the CC recipients of the message."
+msgstr "Sólo los destinatarios Cc del correo."
+
+#: C/xinclude-filter-vfolder-conditions.xml:12(item/p)
+msgid "BCC:"
+msgstr "Cco:"
+
+#: C/xinclude-filter-vfolder-conditions.xml:13(item/p)
+msgid ""
+"Only the BCC recipients of the message. Obviously this can only be applied "
+"to outgoing filters."
+msgstr ""
+"Sólo los destinatarios con Cco de este mensaje. Obviamente esto sólo se "
+"puede aplicar a filtros salientes."
+
+#: C/xinclude-filter-vfolder-conditions.xml:15(item/p)
+msgid "Sender or Recipients:"
+msgstr "Remitente o destinatarios:"
+
+#: C/xinclude-filter-vfolder-conditions.xml:16(item/p)
+msgid ""
+"The sender's email address or the name of the sender or the recipients of "
+"the message."
+msgstr ""
+"La dirección de correo electrónico del remitente, el nombre del remitente or "
+"de los destinatarios del correo."
+
+#: C/xinclude-filter-vfolder-conditions.xml:18(item/p)
+msgid "Subject:"
+msgstr "Asunto:"
+
+# index.docbook:458, index.docbook:949
+#: C/xinclude-filter-vfolder-conditions.xml:19(item/p)
+msgid "The subject line of the message."
+msgstr "La línea asunto del mensaje."
+
+#: C/xinclude-filter-vfolder-conditions.xml:21(item/p)
+msgid "Specific Header:"
+msgstr "Cabecera específica:"
+
+#: C/xinclude-filter-vfolder-conditions.xml:22(p/link)
+msgid "custom ones"
+msgstr "las personalizadas"
+
+#: C/xinclude-filter-vfolder-conditions.xml:22(item/p)
+msgid "Any header including <_:link-1/>."
+msgstr "Cualquier cabecera, incluyendo <_:link-1/>."
+
+#: C/xinclude-filter-vfolder-conditions.xml:23(item/p)
+msgid ""
+"If a message uses a header more than once, Evolution pays attention only to "
+"the first instance, even if the message defines the header differently the "
+"second time. For example, if a message declares the Resent-From: header as "
+"\"engineering@example.com\" and then restates it as \"marketing@example.com"
+"\", Evolution filters as though the second declaration did not occur. To "
+"filter on messages that use headers multiple times, use a regular expression."
+msgstr ""
+"Si en un mensaje aparece más de una vez la misma cabecera, Evolution sólo se "
+"fija en la primera, aunque en la segunda el contenido sea diferente. Por "
+"ejemplo, si un mensaje declara la cabecera Reenviado-De: con "
+"«ingeniero@ejemplo.es» y a continuación la redefine como «marketing@ejemplo."
+"es», Evolution aplicará el filtro como si la segunda declaración no "
+"apareciera. Para filtrar mensajes que utilizan varias cabeceras varias veces "
+"use una expresión regular."
+
+#: C/xinclude-filter-vfolder-conditions.xml:25(item/p)
+msgid "Message Body:"
+msgstr "Cuerpo del mensaje:"
+
+# index.docbook:458, index.docbook:949
+#: C/xinclude-filter-vfolder-conditions.xml:26(item/p)
+msgid "Searches in the actual text of the message."
+msgstr "Busca en el texto efectivo del mensaje."
+
+#: C/xinclude-filter-vfolder-conditions.xml:28(item/p)
+msgid "Expression:"
+msgstr "Expresión:"
+
+#: C/xinclude-filter-vfolder-conditions.xml:29(p/link)
+msgid "filters"
+msgstr "filtros"
+
+#: C/xinclude-filter-vfolder-conditions.xml:29(item/p)
+#| msgid ""
+#| "(For programmers only) Match a message according to an expression you "
+#| "write in the Scheme language used to define <link xref=\"mail-filters"
+#| "\">filters</link> in Evolution."
+msgid ""
+"(For programmers only) Match a message according to an expression you write "
+"in the Scheme language used to define <_:link-1/> in Evolution."
+msgstr ""
+"(Sólo para programadores) busca un mensaje que corresponda a una expresión "
+"escrita en lenguaje Scheme, usado para definir <_:link-1/> en Evolution."
+
+#: C/xinclude-filter-vfolder-conditions.xml:31(item/p)
+msgid "Date sent:"
+msgstr "Fecha de envío:"
+
+#: C/xinclude-filter-vfolder-conditions.xml:32(item/p)
+msgid ""
+"Filters messages according to the date on which they were sent. First, "
+"choose the conditions you want a message to meet, such as before a given "
+"time or after a given time. Then choose the time. The filter compares the "
+"message's time stamp to the system clock when the filter is run, or to a "
+"specific time and date you choose from a calendar. You can also have it look "
+"for a message within a range of time relative to the filter, such as two to "
+"four days ago."
+msgstr ""
+"Filtra los mensajes en función de la fecha de envío. En primer lugar, defina "
+"las condiciones que desea ver cumplidas con un mensaje, tales como antes de "
+"una hora determinada o después de de ella, etc. A continuación, especifique "
+"la fecha y hora. La fecha y hora del mensaje se compara con la hora del "
+"sistema al ejecutarse el filtro, o con una hora y fecha específica elegida "
+"en el calendario. Es posible incluso buscar mensajes dentro de un intervalo "
+"de tiempo relativo, por ejemplo, buscar mensajes en los últimos cuatro días."
+
+#: C/xinclude-filter-vfolder-conditions.xml:34(item/p)
+msgid "Date received:"
+msgstr "Fecha de recepción:"
+
+# index.docbook:458, index.docbook:949
+#: C/xinclude-filter-vfolder-conditions.xml:35(item/p)
+msgid ""
+"This works the same way as the Date Sent option, except that it compares the "
+"time you received the message with the dates you specify."
+msgstr ""
+"Funciona del mismo modo que la opción Fecha de envío, excepto que compara la "
+"fecha y hora de recepción del mensaje con las fechas especificadas."
+
+#: C/xinclude-filter-vfolder-conditions.xml:37(item/p)
+msgid "Label:"
+msgstr "Etiqueta:"
+
+#: C/xinclude-filter-vfolder-conditions.xml:38(p/link)
+msgid "labels"
+msgstr "etiquetas"
+
+#: C/xinclude-filter-vfolder-conditions.xml:38(item/p)
+#| msgid ""
+#| "Messages can have <link xref=\"mail-labels\">labels</link> of Important, "
+#| "Work, Personal, To Do, or Later. You can set labels with other filters or "
+#| "manually."
+msgid ""
+"Messages can have <_:link-1/> of Important, Work, Personal, To Do, or Later. "
+"You can set labels with other filters or manually."
+msgstr ""
+"Los mensajes pueden tener las <_:link-1/> Importante, Trabajo, personal, "
+"Tareas pendientes o Más tarde. Puede establecer etiquetas con otros filtros "
+"o manualmente."
+
+#: C/xinclude-filter-vfolder-conditions.xml:40(item/p)
+msgid "Score:"
+msgstr "Puntuación:"
+
+#: C/xinclude-filter-vfolder-conditions.xml:41(item/p)
+msgid ""
+"Sets the message score to any whole number greater than 0. You can have one "
+"filter set or change a message score, and then set up another filter to move "
+"the messages you have scored. A message score is not based on anything in "
+"particular: it is simply a number you can assign to messages so other "
+"filters can process them."
+msgstr ""
+"Establece la puntuación del mensaje con un número entero mayor que 0. Puede "
+"tener un filtro ajustado o cambiar la puntuación de un mensaje, y después "
+"configurar otro filtro par amover los mensajes que ha puntuado. La "
+"puntuación de un mensaje no está basada en nada en particular: es "
+"simplemente un número que puede asignar a mensajes para que otros filtros "
+"puedan procesarlos."
+
+#: C/xinclude-filter-vfolder-conditions.xml:43(item/p)
+msgid "Size (kB):"
+msgstr "Tamaño (KB):"
+
+# index.docbook:458, index.docbook:949
+#: C/xinclude-filter-vfolder-conditions.xml:44(item/p)
+msgid "Sorts based on the size of the message in kilobytes."
+msgstr "Ordenación basada en el tamaño del mensaje, en kilobytes."
+
+#: C/xinclude-filter-vfolder-conditions.xml:46(item/p)
+msgid "Status:"
+msgstr "Estado:"
+
+#: C/xinclude-filter-vfolder-conditions.xml:47(item/p)
+msgid ""
+"Filters according to the status of a message. The status can be Replied To, "
+"Draft, Important, Read, or Junk."
+msgstr ""
+"Filtros de acuerdo al estado de un mensaje. El estado puede ser Responder a, "
+"Borrador, Importante, Leído o SPAM."
+
+#: C/xinclude-filter-vfolder-conditions.xml:49(item/p)
+msgid "Follow Up:"
+msgstr "Seguimiento:"
+
+#: C/xinclude-filter-vfolder-conditions.xml:50(p/link)
+msgid "flagged for follow-up"
+msgstr "marcado para seguimiento"
+
+#: C/xinclude-filter-vfolder-conditions.xml:50(item/p)
+msgid "Checks whether the message is <_:link-1/>."
+msgstr "Comprueba si el mensaje está <_:gui-1/>."
+
+#: C/xinclude-filter-vfolder-conditions.xml:52(item/p)
+msgid "Completed On:"
+msgstr "Completado en:"
+
+#: C/xinclude-filter-vfolder-conditions.xml:55(item/p)
+msgid "Attachments:"
+msgstr "Adjuntos:"
+
+#: C/xinclude-filter-vfolder-conditions.xml:56(item/p)
+msgid "Checks whether there is an attachment for the email."
+msgstr "Comprueba si existe un adjunto para el correo."
+
+#: C/xinclude-filter-vfolder-conditions.xml:58(item/p)
+#| msgid "Mailing List"
+msgid "Mailing List:"
+msgstr "Lista de correo:"
+
+#: C/xinclude-filter-vfolder-conditions.xml:59(item/p)
+msgid ""
+"Filters based on the mailing list the message came from. This filter might "
+"miss messages from some list servers, because it checks for the X-BeenThere "
+"header, which is used to identify mailing lists or other redistributors of "
+"mail. Mail from list servers that do not set X-BeenThere properly are not be "
+"caught by these filters."
+msgstr ""
+"Filtros basados en mensajes que provienen de listas de correo. Este filtro "
+"puede perder mensajes de algunos servidores de listas, porque comprueba la "
+"cabecera X-BeenThere, que se usa para identificar listas de correo u otras "
+"redistribuciones de correo. El correo proveniente de servidores de listas "
+"que no establezca adecuadamente la cabecera X-BeenThere no será filtrado."
+
+#: C/xinclude-filter-vfolder-conditions.xml:61(item/p)
+msgid "Regex Match:"
+msgstr "Coincide con la expresión regular:"
+
+#: C/xinclude-filter-vfolder-conditions.xml:62(p/link)
+msgid "regex"
+msgstr "regex"
+
+#: C/xinclude-filter-vfolder-conditions.xml:62(p/cmd)
+msgid "grep"
+msgstr "grep"
+
+#: C/xinclude-filter-vfolder-conditions.xml:62(item/p)
+#| msgid ""
+#| "(For programmers only) If you know your way around a <link href=\"https://"
+#| "secure.wikimedia.org/wikipedia/en/wiki/Regular_expression\">regex</link>, "
+#| "or regular expression, this option allows you to search for complex "
+#| "patterns of letters, so that you can find, for example, all words that "
+#| "start with a and end with m, and are between six and fifteen letters "
+#| "long, or all messages that declare a particular header twice. For "
+#| "information about how to use regular expressions, check the man page for "
+#| "the <cmd>grep</cmd> command."
+msgid ""
+"(For programmers only) If you know your way around a <_:link-1/>, or regular "
+"expression, this option allows you to search for complex patterns of "
+"letters, so that you can find, for example, all words that start with a and "
+"end with m, and are between six and fifteen letters long, or all messages "
+"that declare a particular header twice. For information about how to use "
+"regular expressions, check the man page for the <_:cmd-2/> command."
+msgstr ""
+"(Sólo para programadores) Si sabe lo que se hace con las <_:link-1/>, esta "
+"opción le permite hacer búsquedas de patrones complejos de letras de manera "
+"que, por ejemplo, podría encontrar todas las palabras que empiezan o acaban "
+"con «m» y tienen entre seis y quince letras de longitud, o distinguir todos "
+"los mensajes que tengan duplicada una determinada cabecera. Para saber cómo "
+"usar las expresiones regulares examine la página del manual del comando <_:"
+"cmd-2/>."
+
+#: C/xinclude-searching.xml:4(section/title)
+#: C/xinclude-searching.xml:6(guiseq/gui)
+msgid "Advanced Search"
+msgstr "Búsqueda avanzada"
+
+#: C/xinclude-searching.xml:6(guiseq/gui)
+#: C/xinclude-searching.xml:15(guiseq/gui)
+#: C/xinclude-searching.xml:21(guiseq/gui) C/xinclude-searching.xml:21(p/gui)
+#: C/xinclude-searching.xml:27(guiseq/gui)
+msgid "Search"
+msgstr "Buscar"
+
+#: C/xinclude-searching.xml:6(item/p)
+#| msgid ""
+#| "Select the <guiseq><gui>Search</gui><gui>Advanced Search</gui></guiseq> "
+#| "menu to open the dialog box."
+msgid "Select the <_:guiseq-1/> menu to open the dialog box."
+msgstr "Seleccione el menú <_:guiseq-1/> para abrir el cuadro de diálogo."
+
+#: C/xinclude-searching.xml:7(p/gui)
+msgid "Add Condition"
+msgstr "Añadir condición"
+
+#: C/xinclude-searching.xml:7(item/p)
+#| msgid ""
+#| "Click <gui style=\"button\">Add Condition</gui> to add any number of "
+#| "rules."
+msgid "Click <_:gui-1/> to add any number of rules."
+msgstr "Pulse <_:gui-1/> para añadir cualquier número de reglas."
+
+#: C/xinclude-searching.xml:8(item/p)
+msgid ""
+"Select the condition from the dropdown list, and then type a search entry in "
+"the field."
+msgstr ""
+"Seleccione el criterio de la lista desplegable y después escriba una entrada "
+"de búsqueda en el campo."
+
+#: C/xinclude-searching.xml:9(p/gui) C/xinclude-searching.xml:21(p/gui)
+#: C/xinclude-searching.xml:30(p/gui)
+msgid "OK"
+msgstr "Aceptar"
+
+#: C/xinclude-searching.xml:9(item/p)
+#| msgid ""
+#| "Click <gui style=\"button\">OK</gui> to get the search results displayed."
+msgid "Click <_:gui-1/> to get the search results displayed."
+msgstr "Pulse <_:gui-1/> para mostrar los resultados de la búsqueda."
+
+#: C/xinclude-searching.xml:14(section/title)
+msgid "Clearing the Search results"
+msgstr "Limpiar los resultados de la búsqueda"
+
+# Conflicto con _Ver del menú principal
+#: C/xinclude-searching.xml:15(p/gui) C/xinclude-searching.xml:15(guiseq/gui)
+msgid "Clear"
+msgstr "Limpiar"
+
+#: C/xinclude-searching.xml:15(keyseq/key)
+msgid "Shift"
+msgstr "Mayús"
+
+#: C/xinclude-searching.xml:15(keyseq/key)
+msgid "Ctrl"
+msgstr "Ctrl"
+
+#: C/xinclude-searching.xml:15(keyseq/key)
+msgid "Q"
+msgstr "Q"
+
+#: C/xinclude-searching.xml:15(section/p)
+#| msgid ""
+#| "To clear your search view and get back to the default view, click the "
+#| "<gui>Clear</gui> icon in the search string field, or choose "
+#| "<guiseq><gui>Search</gui><gui>Clear</gui></guiseq> from the menubar. You "
+#| "can also press <keyseq><key>Shift</key><key>Ctrl</key><key>Q</key></"
+#| "keyseq> to clear the search."
+msgid ""
+"To clear your search view and get back to the default view, click the <_:gui-"
+"1/> icon in the search string field, or choose <_:guiseq-2/> from the "
+"menubar. You can also press <_:keyseq-3/> to clear the search."
+msgstr ""
+"Para limpiar su búsqueda puede pulsar el botón o menú <_:gui-1/> en el campo "
+"de cadena de búsqueda, elegir <_:guiseq-2/> desde la barra de menú, o "
+"introducir una búsqueda vacía. También puede pulsar <_:keyseq-3/> para "
+"limpiar la búsqueda."
+
+#: C/xinclude-searching.xml:19(section/title)
+msgid "Saved Searches"
+msgstr "Búsquedas guardadas"
+
+#: C/xinclude-searching.xml:20(section/p)
+msgid ""
+"If you search for something rather often, you will prefer not to type it "
+"many times. In this case you can use saved searches."
+msgstr ""
+"Si suele buscar algo con relativa frecuencia, quizá prefiera no escribirlo "
+"tantas veces. En ese caso puede usar las búsquedas guardadas."
+
+#: C/xinclude-searching.xml:21(p/gui)
+msgid "Save"
+msgstr "Guardar"
+
+#: C/xinclude-searching.xml:21(guiseq/gui)
+msgid "Save Search"
+msgstr "Guardar búsqueda"
+
+#: C/xinclude-searching.xml:21(section/p)
+#| msgid ""
+#| "To save your search results, either click <gui>Save</gui> instead of "
+#| "<gui>OK</gui> in the Search dialog, or in case the search results are "
+#| "already displayed, select <guiseq><gui>Search</gui><gui>Save Search</"
+#| "gui></guiseq>. From now on this search will be directly available from "
+#| "the <gui>Search</gui> menu."
+msgid ""
+"To save your search results, either click <_:gui-1/> instead of <_:gui-2/> "
+"in the Search dialog, or in case the search results are already displayed, "
+"select <_:guiseq-3/>. From now on this search will be directly available "
+"from the <_:gui-4/> menu."
+msgstr ""
+"Para guardar el resultado de su búsqueda pulse <_:gui-1/> en lugar de <_:gui-"
+"2/> en el diálogo Buscar, o en caso de que ya se estén mostrando los "
+"resultados de la búsqueda, seleccione <_:guiseq-3/>. Desde ahora, esta "
+"búsqueda estará directamente disponible desde el menú <_:gui-4/>."
+
+#: C/xinclude-searching.xml:25(section/title)
+msgid "Editing a Saved Search"
+msgstr "Editar una búsqueda guardada"
+
+#: C/xinclude-searching.xml:27(guiseq/gui)
+msgid "Edit Saved Searches"
+msgstr "Editar las búsquedas guardadas"
+
+#: C/xinclude-searching.xml:27(item/p)
+#| msgid ""
+#| "Select <guiseq><gui>Search</gui><gui>Edit Saved Searches</gui></guiseq> "
+#| "from the menu bar to open the window."
+msgid "Select <_:guiseq-1/> from the menu bar to open the window."
+msgstr "Para abrir la ventana seleccione <_:guiseq-1/> en la barra de menú."
+
+#: C/xinclude-searching.xml:28(p/gui)
+msgid "Edit"
+msgstr "Editar"
+
+#: C/xinclude-searching.xml:28(p/gui)
+msgid "Edit Rule"
+msgstr "Editar regla"
+
+#: C/xinclude-searching.xml:28(item/p)
+#| msgid ""
+#| "Click the <gui style=\"button\">Edit</gui> button to open the <gui>Edit "
+#| "Rule</gui> window."
+msgid "Click the <_:gui-1/> button to open the <_:gui-2/> window."
+msgstr "Pulse el botón <_:gui-1/> para abrir la ventana <_:gui-2/>."
+
+#: C/xinclude-searching.xml:29(item/p)
+msgid "Edit the title or search conditions from the dialog box."
+msgstr "Edite el título o el criterio de búsqueda desde el cuadro de diálogo."
+
+#: C/xinclude-searching.xml:30(item/p)
+#| msgid "Click <gui>OK</gui>."
+msgid "Click <_:gui-1/>."
+msgstr "Pulse <_:gui-1/>."
+
+#~ msgid ""
+#~ "<media type=\"image\" src=\"figures/evolutionlogo.png\"> Evolution logo </"
+#~ "media> Evolution Mail and Calendar"
+#~ msgstr ""
+#~ "<media type=\"image\" src=\"figures/evolutionlogo.png\">Logotipo de "
+#~ "Evolution</media> Correo y calendario de Evolution"
+
+#~ msgid "Novell Groupwise"
+#~ msgstr "Novell GroupWise"
+
+#~ msgid "Changing keyboard shortcuts."
+#~ msgstr "Cambiar los atajos de teclado."
+
+#~ msgid "Changing keyboard shortcuts"
+#~ msgstr "Cambiar los atajos de teclado"
+
+#~ msgid ""
+#~ "Hover your mouse cursor over the menu bar item for which you want to add "
+#~ "or change the keyboard shortcut."
+#~ msgstr ""
+#~ "Pónga el cursor de su ratón se mueve sobre el elemento de la barra de "
+#~ "menú para el que quiere añadir o cambiar la distribución de teclado."
+
+#~ msgid "Type the shortcut that you want on the keyboard."
+#~ msgstr "Escriba el atajo que quiere en el teclado."
+
+#~ msgid ""
+#~ "Note that this setting is desktop-wide and that you can disable it again "
+#~ "after your changes by using the command <cmd>gsettings set org.gnome."
+#~ "desktop.interface can-change-accels false</cmd>"
+#~ msgstr ""
+#~ "Tenga en cuenta que este ajuste es para todo el escritorio y que puede "
+#~ "desactivarlo de nuevo después de cambiarlo usando el comando "
+#~ "<cmd>gsettings set org.gnome.desktop.interface can-change-accels false</"
+#~ "cmd>"
+
+#~ msgid ""
+#~ "If you want to export only one appointment, right-click on the "
+#~ "appointment and click <gui>Save as iCalendar...</gui>."
+#~ msgstr ""
+#~ "Si sólo quiere exportar una cita, pulse con el botón derecho del ratón "
+#~ "sobre la cita y seleccione <gui>Guardar como iCalendar...</gui>."
+
+#~ msgid "What to do when using a small screen or netbook."
+#~ msgstr "Qué hacer si se usa una pantalla pequeña o un «netbook»:"
+
+#~ msgid "Some windows are too large for small screens."
+#~ msgstr "Algunas ventanas son demasiado grandes para las pantallas pequeñas."
+
+#~ msgid ""
+#~ "This is a known problem and hard to solve for a complex application with "
+#~ "many settings such as Evolution."
+#~ msgstr ""
+#~ "Es un problema conocido y es muy difícil solucionarlo para una aplicación "
+#~ "complja con tantos ajustes como Evolution."
+
+#~ msgid ""
+#~ "You can use the Express version which is targeted for mobile and small-"
+#~ "screen devices by entering the command <code>evolution --express</code> "
+#~ "in the <app>Terminal</app> application."
+#~ msgstr ""
+#~ "Puede usar la versión Express que está pensada para dispositivos móviles "
+#~ "y con pantallas pequeñas. escribiendo el comando <code>evolution --"
+#~ "express</code> en la ventana de la <app>Terminal</app>."
+
+#~ msgid "Connecting to GroupWise"
+#~ msgstr "Conexión a GroupWise"
+
+#~ msgid ""
+#~ "For topics not covered here please refer to the <link href=\"http://"
+#~ "library.gnome.org/users/evolution/2.32/usage-groupwise.html.en\">old "
+#~ "Evolution manual</link>."
+#~ msgstr ""
+#~ "Para consultar temas no tratados aquí, diríjase al <link href=\"http://"
+#~ "library.gnome.org/users/evolution/2.32/usage-groupwise.html.en\">antiguo "
+#~ "manual de Evolution</link>."
+
+#~ msgid "Choose the Thunderbird files that you would like to import."
+#~ msgstr "Seleccione los archivos de Thunderbird que quiere importar."
+
+#~ msgid ""
+#~ "IMAP: Keeps the mail on the server so you can access your mail from "
+#~ "multiple systems."
+#~ msgstr ""
+#~ "IMAP: conserva su correo-e en el servidor para que pueda acceder a él de "
+#~ "diversas formas."
+
+#~ msgid ""
+#~ "Continue <link xref=\"mail-receiving-options-imap\">here</link> for "
+#~ "configuration."
+#~ msgstr ""
+#~ "Continue <link xref=\"mail-receiving-options-imap\">aquí</link> para la "
+#~ "configuración."
+
+#~ msgid ""
+#~ "Microsoft Exchange: For connecting to a Microsoft Exchange 2000 or 2003 "
+#~ "server."
+#~ msgstr ""
+#~ "Microsoft Exchange: para conectarse con un servidor Microsoft Exchange "
+#~ "2000 o 2003."
+
+#~ msgid ""
+#~ "Continue <link xref=\"mail-receiving-options-evolution-exchange\">here</"
+#~ "link> for configuration."
+#~ msgstr ""
+#~ "Continue <link xref=\"mail-receiving-options-evolution-exchange\">aquí</"
+#~ "link> para la configuración."
+
+#~ msgid ""
+#~ "This requires having the <sys>evolution-exchange</sys> package installed."
+#~ msgstr ""
+#~ "Esto requiere tener instalado el paquete <sys>evolution-exchange</sys>."
+
+#~ msgid ""
+#~ "<link action=\"install:evolution-exchange\" href=\"http://projects.gnome."
+#~ "org/evolution/download\" style=\"button\">Install evolution-exchange</"
+#~ "link>"
+#~ msgstr ""
+#~ "<link action=\"install:evolution-exchange\" href=\"http://projects.gnome."
+#~ "org/evolution/download\" style=\"button\">Instalar evolution-exchange</"
+#~ "link>"
+
+#~ msgid "Novell Groupwise: For connecting to a Novell GroupWise server."
+#~ msgstr "Novell Groupwise: para conectarse con un servidor Novell GroupWise"
+
+#~ msgid ""
+#~ "Continue <link xref=\"mail-receiving-options-novell-groupwise\">here</"
+#~ "link> for configuration."
+#~ msgstr ""
+#~ "Continue <link xref=\"mail-receiving-options-novell-groupwise\">aquí</"
+#~ "link> para la configuración."
+
+#~ msgid "Add and edit a Novell Groupwise account in Evolution."
+#~ msgstr "Añadir y editar una cuenta de Novell Groupwise en Evolution"
+
+#~ msgid "Novell Groupwise account settings"
+#~ msgstr "Configuración de cuenta para Novell Groupwise"
+
+#~ msgid "Proxy"
+#~ msgstr "Proxy"
+
+#~ msgid "Settings for having somebody else handle your account."
+#~ msgstr "Ajustes para que otra persona gestione su cuenta."
+
+#~ msgid "When a received message looks weird or is hard to read."
+#~ msgstr "Al recibir un correo parece extraño o difícil de leer."
+
+#~ msgid "HTML emails are not correctly displayed"
+#~ msgstr "Los correos en HTML no se muestran correctamente"
+
+#~ msgid ""
+#~ "If an HTML message is not correctly displayed in Evolution it might be "
+#~ "that the formatting of the message is specified as <link href=\"http://en."
+#~ "wikipedia.org/wiki/Cascading_Style_Sheets\">CSS</link>. CSS is currently "
+#~ "not supported by gtkhtml (the part that is used to display HTML)."
+#~ msgstr ""
+#~ "Si un correo HTML no se muestra correctamente en Evolution puede que el "
+#~ "formato del correo esté especificado como <link href=\"http://es."
+#~ "wikipedia.org/wiki/CSS\">CSS</link>. Actualmente gtkhtml (la parte que se "
+#~ "usa para mostrar HTML) no soporta CSS."
+
+#~ msgid "This will likely be fixed in version 3.6."
+#~ msgstr "Esto probablemente se solucione en la versión 3.6."
+
+#~ msgid ""
+#~ "For developers only: In future versions, Evolution will use WebKit "
+#~ "instead of gtkhtml for displaying HTML. There is a branch named \"<link "
+#~ "href=\"http://git.gnome.org/browse/evolution?h=webkit\">webkit</link>\" "
+#~ "in Evolution's code repository to test."
+#~ msgstr ""
+#~ "Sólo para desarrolladores: en versiones futuras, Evolution usará WebKit "
+#~ "en lugar de gtkhtml para mostrar HTML. Hay una rama llamada «<link href="
+#~ "\"http://git.gnome.org/browse/evolution?h=webkit\">webkit</link>» en el "
+#~ "repositorio de código de Evolution para pruebas."
+
+#~ msgid ""
+#~ "For missing characters in emails, see <link xref=\"mail-displaying-"
+#~ "character-encodings\">Character Encodings and Sets</link>."
+#~ msgstr ""
+#~ "Consulte <link xref=\"mail-displaying-character-encodings\">Codificación "
+#~ "y conjuntos de caracteres</link> cuando tenga problemas con caracteres "
+#~ "que faltan."
+
+#~ msgid ""
+#~ "By default only local address books are used for searching the photograph "
+#~ "as accessing remote address books can cause delays. You can disable this "
+#~ "by deselecting the option <gui>Search for sender photograph only in local "
+#~ "address books</gui>."
+#~ msgstr ""
+#~ "De forma predeterminada sólo se usan las libretas de direcciones locales "
+#~ "para buscar las fotografías ya que acceder a libretas de direcciones "
+#~ "remotas puede causar retrasos. Puede desactivarlo deseleccionando la "
+#~ "opción <gui>Buscar la foto del remitente sólo en libretas de direcciones "
+#~ "locales</gui>."
+
+#~ msgid ""
+#~ "Any header including <link xref=\"mail-composer-custom-header-lines"
+#~ "\">custom ones</link>."
+#~ msgstr ""
+#~ "Cualquier cabecera incluyendo las <link xref=\"mail-composer-custom-"
+#~ "header-lines\">personalizadas</link>."
+
+#~ msgid ""
+#~ "Checks whether the message is <link xref=\"mail-follow-up-flag\">flagged "
+#~ "for follow-up</link>."
+#~ msgstr ""
+#~ "Comprueba si el mensaje está <link xref=\"mail-follow-up-flag\">marcado "
+#~ "para su seguimiento</link>."
+
+#~ msgid "Logging Filter Actions"
+#~ msgstr "Registro de las acciones de los filtros"
+
+#~ msgid "Close Evolution."
+#~ msgstr "Cerrar Evolution."
+
+#~ msgid ""
+#~ "Run the command <cmd>gsettings set org.gnome.evolution.mail filters-log-"
+#~ "actions true</cmd>"
+#~ msgstr ""
+#~ "Ejecute el comando <cmd>gsettings set org.gnome.evolution.mail filters-"
+#~ "log-actions true</cmd>"
+
+#~ msgid ""
+#~ "Run the command <cmd>gsettings set org.gnome.evolution.mail filters-log-"
+#~ "file \"~/my-filter-log\"</cmd>. This will create a text file named "
+#~ "<file>my-filter-log</file> in your home directory."
+#~ msgstr ""
+#~ "Ejecute el comando <cmd>ggsettings set org.gnome.evolution.mail filters-"
+#~ "log-file \"~/registro-filtro\"</cmd>. Esto creará un archivo de texto "
+#~ "llamado <file>registro-filtro</file> en su carpeta personal."
+
+#~ msgid "Fetch mail to apply filters."
+#~ msgstr "Reciba el correo para aplicar los filtros."
+
+#~ msgid ""
+#~ "Open the file <file>my-filter-log</file> with a text editor to see which "
+#~ "filter actions have been applied."
+#~ msgstr ""
+#~ "Abra el archivo <file>registro-filtro</file> con un editor de texto para "
+#~ "ver qué acciones de filtrado se han aplicado."
+
+#~ msgid ""
+#~ "Note that you can disable filter logging again by using the command "
+#~ "<cmd>gsettings set org.gnome.evolution.mail filters-log-actions false</"
+#~ "cmd>"
+#~ msgstr ""
+#~ "Tenga en cuenta que puede desactivar el registro del filtro usando el "
+#~ "comando <cmd>gsettings set org.gnome.evolution.mail filters-log-actions "
+#~ "false</cmd>"
+
+#~ msgid ""
+#~ "<_:title-1/> If it is still unclear why filters do not work as expected, "
+#~ "you can enable logging filter actions. <_:list-2/> <_:p-3/> <_:p-4/>"
+#~ msgstr ""
+#~ "<_:title-1/> Si todavía no tiene claro porqué los filtros no funcionan "
+#~ "como esperaba, puede activar el registro de las acciones de los filtros. "
+#~ "<_:list-2/> <_:p-3/> <_:p-4/>"
+
+#~ msgid "Receiving options for IMAP accounts."
+#~ msgstr "Opciones de recepción para cuentas IMAP."
+
+#~ msgid "IMAP receiving options"
+#~ msgstr "Opciones de recepción IMAP"
+
+#~ msgid "Receiving options for Novell Groupwise accounts."
+#~ msgstr "Opciones de recepción para cuentas Novell Groupwise."
+
+#~ msgid "Novell Groupwise receiving options"
+#~ msgstr "Opciones de recepción para Novell Groupwise"
+
+#~ msgid "Enter the Post Office Agent SOAP port."
+#~ msgstr "Introduzca el puerto del Agente SOAP de Oficina de correos."
+
+#~ msgid ""
+#~ "If you are unsure what your Post Office Agent SOAP port is, contact your "
+#~ "system administrator."
+#~ msgstr ""
+#~ "Si no está seguro de qué puerto es para su Agente SOAP de Oficina de "
+#~ "Correos, contacte con su administrador de sistemas."
+
+#~ msgid "Advanced Search:"
+#~ msgstr "Búsqueda avanzada:"
+
+#~ msgid ""
+#~ "Please note that Novell GroupWise accounts have <link href=\"http://"
+#~ "library.gnome.org/users/evolution/2.32/bxqwde6.html\">specific "
+#~ "differences in Junk handling</link>."
+#~ msgstr ""
+#~ "Recuerde que las cuentas de Novell GroupWise tienen algunas <link href="
+#~ "\"http://library.gnome.org/users/evolution/2.32/bxqwde6.html"
+#~ "\">diferencias específicas en el manejo del spam</link>."
+
 #~ msgid ""
 #~ "Only if <sys>evolution-ews</sys> does not work well for you it is "
 #~ "recommended to use the package <sys>evolution-mapi</sys>. It supports "
@@ -13366,17 +13347,11 @@ msgstr ""
 #~ msgid "Install enchant"
 #~ msgstr "Instalar «enchant»"
 
-#~ msgid "Ctrl"
-#~ msgstr "Ctrl"
-
 #~ msgid "R"
 #~ msgstr "R"
 
 #~ msgid "L"
 #~ msgstr "L"
-
-#~ msgid "Shift"
-#~ msgstr "Mayús"
 
 #~ msgid "Install dconf-editor"
 #~ msgstr "Instalar «dconf-editor»"
@@ -13745,15 +13720,9 @@ msgstr ""
 #~ msgid "Categories"
 #~ msgstr "Categorías"
 
-#~ msgid "Edit"
-#~ msgstr "Editar"
-
 #, fuzzy
 #~ msgid "Available Categories"
 #~ msgstr "Categorías _disponibles:"
-
-#~ msgid "OK"
-#~ msgstr "Aceptar"
 
 #, fuzzy
 #~ msgid "Click <placeholder-1/>."
@@ -13797,9 +13766,6 @@ msgstr ""
 #~ msgid "Open Task"
 #~ msgstr "_Abrir tarea"
 
-#~ msgid "Save"
-#~ msgstr "Guardar"
-
 #~ msgid "D"
 #~ msgstr "D"
 
@@ -13842,31 +13808,6 @@ msgstr ""
 # #En conflicto con _Mensaje
 #~ msgid "Show"
 #~ msgstr "Mostrar"
-
-#~ msgid "Search"
-#~ msgstr "Buscar"
-
-#, fuzzy
-#~ msgid "Add Condition"
-#~ msgstr "Añadir a_cción"
-
-# Conflicto con _Ver del menú principal
-#, fuzzy
-#~ msgid "Clear"
-#~ msgstr "_Vaciar"
-
-#~ msgid "Q"
-#~ msgstr "Q"
-
-#~ msgid "Save Search"
-#~ msgstr "Guardar búsqueda"
-
-#, fuzzy
-#~ msgid "Edit Saved Searches"
-#~ msgstr "Editar búsquedas guardadas:"
-
-#~ msgid "Edit Rule"
-#~ msgstr "Editar regla"
 
 #~ msgid "On This Computer"
 #~ msgstr "En este equipo"
@@ -14142,10 +14083,6 @@ msgstr ""
 #~ msgstr "Actualizar"
 
 #, fuzzy
-#~ msgid "filters"
-#~ msgstr "filtro"
-
-#, fuzzy
 #~ msgid "folder"
 #~ msgstr "Carpeta:"
 
@@ -14154,26 +14091,6 @@ msgstr ""
 
 #~ msgid "Unmatched"
 #~ msgstr "No coincidente"
-
-#, fuzzy
-#~ msgid "custom ones"
-#~ msgstr "Usar tipografía personalizada"
-
-#, fuzzy
-#~ msgid "Any header including <placeholder-1/>."
-#~ msgstr "Cualquier cabecera, incluyendo las personalizadas."
-
-#, fuzzy
-#~ msgid "labels"
-#~ msgstr "Etiquetas"
-
-#, fuzzy
-#~ msgid "flagged for follow-up"
-#~ msgstr "Marcar los mensajes seleccionados para seguimiento"
-
-#, fuzzy
-#~ msgid "Checks whether the message is <placeholder-1/>."
-#~ msgstr "Comprueba si el mensaje está marcado para seguimiento."
 
 #~ msgid "Search Folders"
 #~ msgstr "Carpetas de búsqueda"
