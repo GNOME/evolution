@@ -723,7 +723,8 @@ comp_to_list (ESourceRegistry *registry,
 			 * invite will be sent to the resources as well. */
 			if (att->cutype != ICAL_CUTYPE_INDIVIDUAL &&
 			    att->cutype != ICAL_CUTYPE_GROUP &&
-			    att->cutype != ICAL_CUTYPE_RESOURCE)
+			    att->cutype != ICAL_CUTYPE_RESOURCE &&
+			    att->cutype != ICAL_CUTYPE_UNKNOWN)
 				continue;
 			else if (users_has_attendee (users, att->value))
 				continue;
@@ -770,18 +771,37 @@ comp_to_list (ESourceRegistry *registry,
 
 			array = g_ptr_array_new ();
 
-			e_cal_component_get_organizer (comp, &organizer);
 			sender = itip_get_comp_attendee (registry, comp, NULL);
+
+			e_cal_component_get_organizer (comp, &organizer);
+			if (organizer.value && (!sender || g_ascii_strcasecmp (
+			    itip_strip_mailto (organizer.value), sender) != 0)) {
+				destination = e_destination_new ();
+				e_destination_set_email (destination,
+					itip_strip_mailto (organizer.value));
+				if (organizer.cn)
+					e_destination_set_name (destination, organizer.cn);
+				g_ptr_array_add (array, destination);
+			}
 
 			for (l = attendees; l != NULL; l = l->next) {
 				ECalComponentAttendee *att = l->data;
 
-				if (att->cutype != ICAL_CUTYPE_INDIVIDUAL &&
-				    att->cutype != ICAL_CUTYPE_GROUP)
+				if (!att->value)
+					continue;
+				else if (att->cutype != ICAL_CUTYPE_INDIVIDUAL &&
+					 att->cutype != ICAL_CUTYPE_GROUP &&
+					 att->cutype != ICAL_CUTYPE_UNKNOWN)
 					continue;
 				else if (only_attendees &&
 					!comp_editor_have_in_new_attendees_lst (
 					only_attendees, itip_strip_mailto (att->value)))
+					continue;
+				else if (organizer.value &&
+					 g_ascii_strcasecmp (att->value, organizer.value) == 0)
+					continue;
+				else if (sender && g_ascii_strcasecmp (
+					itip_strip_mailto (att->value), sender) == 0)
 					continue;
 
 				destination = e_destination_new ();
@@ -800,6 +820,8 @@ comp_to_list (ESourceRegistry *registry,
 
 			destination = e_destination_new ();
 			e_cal_component_get_organizer (comp, &organizer);
+			if (organizer.cn)
+				e_destination_set_name (destination, organizer.cn);
 			if (organizer.value)
 				e_destination_set_email (
 					destination, itip_strip_mailto (organizer.value));
@@ -836,7 +858,8 @@ comp_to_list (ESourceRegistry *registry,
 			ECalComponentAttendee *att = l->data;
 
 			if (att->cutype != ICAL_CUTYPE_INDIVIDUAL &&
-			    att->cutype != ICAL_CUTYPE_GROUP)
+			    att->cutype != ICAL_CUTYPE_GROUP &&
+			    att->cutype != ICAL_CUTYPE_UNKNOWN)
 				continue;
 
 			if (!g_ascii_strcasecmp (
