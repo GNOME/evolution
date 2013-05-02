@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2013-03-25 14:28+0000\n"
-"PO-Revision-Date: 2013-03-25 21:41+0900\n"
+"POT-Creation-Date: 2013-04-30 17:53+0000\n"
+"PO-Revision-Date: 2013-05-01 21:34+0900\n"
 "Last-Translator: OKANO Takayoshi <kano@na.rim.or.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "Language: ja\n"
@@ -369,7 +369,7 @@ msgstr "記念日(_A):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:37
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:703
-#: ../calendar/gui/e-calendar-view.c:2193
+#: ../calendar/gui/e-calendar-view.c:2197
 msgid "Anniversary"
 msgstr "記念日"
 
@@ -380,7 +380,7 @@ msgstr "記念日"
 #. * the directory components.
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:38
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:702
-#: ../calendar/gui/e-calendar-view.c:2192 ../shell/main.c:128
+#: ../calendar/gui/e-calendar-view.c:2196 ../shell/main.c:128
 msgid "Birthday"
 msgstr "誕生日"
 
@@ -438,7 +438,7 @@ msgstr "仕事"
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:192
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:70
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:379
-#: ../calendar/gui/e-cal-model.c:3466
+#: ../calendar/gui/e-cal-model.c:3660
 msgid "Other"
 msgstr "その他"
 
@@ -514,15 +514,15 @@ msgstr "連絡先を削除する際にエラーが発生しました"
 msgid "Contact Editor - %s"
 msgstr "連絡先エディター - %s"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3476
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3477
 msgid "Please select an image for this contact"
 msgstr "この連絡先の画像を選択してください"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3477
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3478
 msgid "_No image"
 msgstr "画像なし(_N)"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3810
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3819
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -530,28 +530,28 @@ msgstr ""
 "連絡先データが間違っています:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3816
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3825
 #, c-format
 msgid "'%s' has an invalid format"
 msgstr "'%s' の書式が間違っています"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3824
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3833
 #, c-format
 msgid "'%s' cannot be a future date"
 msgstr "'%s' は未来の日付になり得ません"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3832
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3841
 #, c-format
 msgid "%s'%s' has an invalid format"
 msgstr "%s'%s' の書式が間違っています"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3845
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3859
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3854
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3868
 #, c-format
 msgid "%s'%s' is empty"
 msgstr "%s'%s' は空です"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3874
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3883
 msgid "Invalid contact."
 msgstr "連絡先が正しくありません。"
 
@@ -762,9 +762,9 @@ msgstr "メールが次で始まる"
 #: ../calendar/gui/caltypes.xml.h:26 ../calendar/gui/memotypes.xml.h:19
 #: ../calendar/gui/tasktypes.xml.h:30
 #: ../modules/addressbook/e-book-shell-view-actions.c:1090
-#: ../modules/calendar/e-cal-shell-view-actions.c:1795
-#: ../modules/calendar/e-memo-shell-view-actions.c:812
-#: ../modules/calendar/e-task-shell-view-actions.c:1011
+#: ../modules/calendar/e-cal-shell-view-actions.c:1792
+#: ../modules/calendar/e-memo-shell-view-actions.c:811
+#: ../modules/calendar/e-task-shell-view-actions.c:1010
 msgid "Any field contains"
 msgstr "いずれかの項目が次を含む"
 
@@ -984,7 +984,7 @@ msgid "Title"
 msgstr "敬称 (前つけ)"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:38
-#: ../calendar/gui/e-meeting-list-view.c:663
+#: ../calendar/gui/e-meeting-list-view.c:666
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:5
 msgid "Role"
 msgstr "役割"
@@ -1142,22 +1142,22 @@ msgid "Copy _Email Address"
 msgstr "メールアドレスのコピー(_E)"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:154
-#: ../e-util/e-web-view-gtkhtml.c:428 ../e-util/e-web-view.c:295
+#: ../e-util/e-web-view-gtkhtml.c:428 ../e-util/e-web-view.c:296
 msgid "Copy the email address to the clipboard"
 msgstr "メールアドレスをクリップボードにコピー"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:159
-#: ../e-util/e-web-view-gtkhtml.c:433 ../e-util/e-web-view.c:300
+#: ../e-util/e-web-view-gtkhtml.c:433 ../e-util/e-web-view.c:301
 msgid "_Send New Message To..."
 msgstr "新しいメッセージの送信(_S)..."
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:161
-#: ../e-util/e-web-view-gtkhtml.c:435 ../e-util/e-web-view.c:302
+#: ../e-util/e-web-view-gtkhtml.c:435 ../e-util/e-web-view.c:303
 msgid "Send a mail message to this address"
 msgstr "このアドレスにメールのメッセージを送信"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:323
-#: ../e-util/e-web-view-gtkhtml.c:970 ../e-util/e-web-view.c:1084
+#: ../e-util/e-web-view-gtkhtml.c:970 ../e-util/e-web-view.c:962
 #, c-format
 msgid "Click to mail %s"
 msgstr "クリックすると %s さんにメールします"
@@ -1543,7 +1543,7 @@ msgstr "場所の情報はありません。"
 
 #: ../calendar/alarm-notify/alarm-queue.c:1636
 #: ../calendar/alarm-notify/alarm-queue.c:1737
-#: ../calendar/alarm-notify/alarm-queue.c:2099
+#: ../calendar/alarm-notify/alarm-queue.c:2076
 #, fuzzy
 #| msgid "Evolution Restore"
 msgid "Evolution Reminders"
@@ -1555,24 +1555,11 @@ msgid "You have %d reminder"
 msgid_plural "You have %d reminders"
 msgstr[0] "%d個のリマインダーがあります"
 
-#: ../calendar/alarm-notify/alarm-queue.c:1884
-#: ../calendar/alarm-notify/alarm-queue.c:1919
+#: ../calendar/alarm-notify/alarm-queue.c:1896
 msgid "Warning"
 msgstr "警告"
 
-#: ../calendar/alarm-notify/alarm-queue.c:1888
-msgid ""
-"Evolution does not support calendar reminders with\n"
-"email notifications yet, but this reminder was\n"
-"configured to send an email.  Evolution will display\n"
-"a normal reminder dialog box instead."
-msgstr ""
-"Evolution のカレンダーではメール通知式のリマインダーは\n"
-"まだサポートしていませんが、このリマインダーはメール送信\n"
-"の設定がされていました。その代わりに Evolution は\n"
-"通常のリマインダーのダイアログを表示します。"
-
-#: ../calendar/alarm-notify/alarm-queue.c:1925
+#: ../calendar/alarm-notify/alarm-queue.c:1902
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is configured to run the following program:\n"
@@ -1587,7 +1574,7 @@ msgstr ""
 "\n"
 "本当に、このプログラムを起動してもよろしいですか?"
 
-#: ../calendar/alarm-notify/alarm-queue.c:1940
+#: ../calendar/alarm-notify/alarm-queue.c:1917
 msgid "Do not ask me about this program again."
 msgstr "このメッセージを二度と表示しない"
 
@@ -2021,19 +2008,19 @@ msgid "is not"
 msgstr "が次ではない"
 
 #: ../calendar/gui/caltypes.xml.h:9 ../calendar/gui/e-cal-list-view.c:234
-#: ../calendar/gui/e-cal-model.c:841 ../calendar/gui/e-cal-model.c:848
+#: ../calendar/gui/e-cal-model.c:1060 ../calendar/gui/e-cal-model.c:1067
 #: ../calendar/gui/e-task-table.c:545 ../calendar/gui/memotypes.xml.h:10
 msgid "Public"
 msgstr "公開"
 
 #: ../calendar/gui/caltypes.xml.h:10 ../calendar/gui/e-cal-list-view.c:235
-#: ../calendar/gui/e-cal-model.c:850 ../calendar/gui/e-task-table.c:546
+#: ../calendar/gui/e-cal-model.c:1069 ../calendar/gui/e-task-table.c:546
 #: ../calendar/gui/memotypes.xml.h:11
 msgid "Private"
 msgstr "非公開"
 
 #: ../calendar/gui/caltypes.xml.h:11 ../calendar/gui/e-cal-list-view.c:236
-#: ../calendar/gui/e-cal-model.c:852 ../calendar/gui/e-task-table.c:547
+#: ../calendar/gui/e-cal-model.c:1071 ../calendar/gui/e-task-table.c:547
 #: ../calendar/gui/memotypes.xml.h:12 ../e-util/e-send-options.ui.h:7
 msgid "Confidential"
 msgstr "機密"
@@ -2331,15 +2318,15 @@ msgstr "現在のウィンドウを閉じます"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1161 ../e-util/e-focus-tracker.c:121
 #: ../e-util/e-focus-tracker.c:558 ../e-util/e-web-view-gtkhtml.c:455
-#: ../e-util/e-web-view-gtkhtml.c:1296 ../e-util/e-web-view.c:322
-#: ../e-util/e-web-view.c:1407 ../mail/e-mail-browser.c:130
+#: ../e-util/e-web-view-gtkhtml.c:1296 ../e-util/e-web-view.c:323
+#: ../e-util/e-web-view.c:1285 ../mail/e-mail-browser.c:130
 #: ../shell/e-shell-window-actions.c:876
 msgid "Copy the selection"
 msgstr "選択した連絡先/予定をコピーします"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1168 ../e-util/e-focus-tracker.c:114
 #: ../e-util/e-focus-tracker.c:553 ../e-util/e-web-view-gtkhtml.c:1290
-#: ../e-util/e-web-view.c:1401 ../mail/e-mail-browser.c:137
+#: ../e-util/e-web-view.c:1279 ../mail/e-mail-browser.c:137
 #: ../shell/e-shell-window-actions.c:883
 msgid "Cut the selection"
 msgstr "選択した連絡先/予定を切り取ります"
@@ -2355,7 +2342,7 @@ msgstr "ヘルプを表示する"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1189 ../e-util/e-focus-tracker.c:128
 #: ../e-util/e-focus-tracker.c:563 ../e-util/e-web-view-gtkhtml.c:1302
-#: ../e-util/e-web-view.c:1413 ../mail/e-mail-browser.c:144
+#: ../e-util/e-web-view.c:1291 ../mail/e-mail-browser.c:144
 #: ../shell/e-shell-window-actions.c:911
 msgid "Paste the clipboard"
 msgstr "クリップボードへ貼り付けます"
@@ -2908,7 +2895,7 @@ msgid "Select Date"
 msgstr "日付の選択"
 
 #: ../calendar/gui/dialogs/goto-dialog.ui.h:14
-#: ../modules/calendar/e-cal-shell-view-actions.c:1403
+#: ../modules/calendar/e-cal-shell-view-actions.c:1400
 msgid "Select _Today"
 msgstr "今日にする(_T)"
 
@@ -3251,7 +3238,7 @@ msgstr "高い"
 #. To Translators: This is task priority
 #: ../calendar/gui/dialogs/task-details-page.ui.h:4
 #: ../calendar/gui/e-cal-component-preview.c:350
-#: ../calendar/gui/e-cal-model.c:1681 ../calendar/gui/e-task-table.c:572
+#: ../calendar/gui/e-cal-model.c:1900 ../calendar/gui/e-task-table.c:572
 #: ../calendar/gui/tasktypes.xml.h:20 ../e-util/e-send-options.ui.h:5
 #: ../mail/message-list.c:1256
 msgid "Normal"
@@ -3320,8 +3307,8 @@ msgstr "キャンセル済み"
 #. * Status: Accepted: X   Declined: Y   ...
 #: ../calendar/gui/dialogs/task-details-page.ui.h:17
 #: ../calendar/gui/e-calendar-table.etspec.h:11
-#: ../calendar/gui/e-cal-model.c:3520
-#: ../calendar/gui/e-meeting-list-view.c:692
+#: ../calendar/gui/e-cal-model.c:3714
+#: ../calendar/gui/e-meeting-list-view.c:695
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:9
 #: ../calendar/gui/tasktypes.xml.h:8 ../mail/em-filter-i18n.h:75
 #: ../mail/message-list.etspec.h:1
@@ -3507,7 +3494,7 @@ msgstr "%Y年%B%e日 %A"
 #. * %d = day of month, %b = abbreviated month name.
 #. * You can change the order but don't change the
 #. * specifiers or add anything.
-#: ../calendar/gui/ea-gnome-calendar.c:208 ../calendar/gui/e-day-view.c:2316
+#: ../calendar/gui/ea-gnome-calendar.c:208 ../calendar/gui/e-day-view.c:2321
 #: ../calendar/gui/e-day-view-top-item.c:855
 #: ../calendar/gui/e-week-view-main-item.c:233
 #: ../modules/calendar/e-cal-shell-view-private.c:1147
@@ -3539,7 +3526,7 @@ msgstr "%Y年%B%e日"
 #. strftime format %d = day of month, %b = abbreviated
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
-#: ../calendar/gui/ea-gnome-calendar.c:244 ../calendar/gui/e-day-view.c:2332
+#: ../calendar/gui/ea-gnome-calendar.c:244 ../calendar/gui/e-day-view.c:2337
 #: ../calendar/gui/e-day-view-top-item.c:859
 #: ../calendar/gui/e-week-view-main-item.c:247
 #: ../modules/calendar/e-cal-shell-view-private.c:1183
@@ -3692,7 +3679,7 @@ msgid "Start date"
 msgstr "開始日"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:3
-#: ../calendar/gui/e-meeting-list-view.c:649
+#: ../calendar/gui/e-meeting-list-view.c:652
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:4
 #: ../calendar/gui/e-memo-table.etspec.h:3
 #: ../e-util/e-attachment-tree-view.c:586
@@ -3765,7 +3752,7 @@ msgstr "オブジェクトの更新"
 #. To Translators: It will display "Organiser: NameOfTheUser <email@ofuser.com>"
 #. To Translators: It will display
 #. * "Organizer: NameOfTheUser <email@ofuser.com>"
-#: ../calendar/gui/e-calendar-view.c:1999 ../calendar/gui/e-memo-table.c:540
+#: ../calendar/gui/e-calendar-view.c:2003 ../calendar/gui/e-memo-table.c:540
 #: ../calendar/gui/e-task-table.c:827
 #, c-format
 msgid "Organizer: %s <%s>"
@@ -3774,21 +3761,21 @@ msgstr "主催者: %s <%s>"
 #. With SunOne accouts, there may be no ':' in organiser.value
 #. With SunOne accounts, there may be no ':' in
 #. * organizer.value.
-#: ../calendar/gui/e-calendar-view.c:2003 ../calendar/gui/e-memo-table.c:545
+#: ../calendar/gui/e-calendar-view.c:2007 ../calendar/gui/e-memo-table.c:545
 #: ../calendar/gui/e-task-table.c:831
 #, c-format
 msgid "Organizer: %s"
 msgstr "主催者: %s"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
-#: ../calendar/gui/e-calendar-view.c:2019
+#: ../calendar/gui/e-calendar-view.c:2023
 #: ../calendar/gui/e-meeting-time-sel.c:2664 ../calendar/gui/print.c:3508
 #, c-format
 msgid "Location: %s"
 msgstr "場所: %s"
 
 #. To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"
-#: ../calendar/gui/e-calendar-view.c:2050
+#: ../calendar/gui/e-calendar-view.c:2054
 #, c-format
 msgid "Time: %s %s"
 msgstr "時刻: %s %s"
@@ -3802,7 +3789,8 @@ msgstr "開始日"
 msgid "End Date"
 msgstr "終了日"
 
-#: ../calendar/gui/e-cal-model.c:854 ../calendar/gui/e-meeting-list-view.c:185
+#: ../calendar/gui/e-cal-model.c:1073
+#: ../calendar/gui/e-meeting-list-view.c:185
 #: ../calendar/gui/e-meeting-list-view.c:199
 #: ../calendar/gui/e-meeting-store.c:135 ../calendar/gui/e-meeting-store.c:170
 #: ../calendar/gui/e-meeting-store.c:233 ../calendar/gui/print.c:1235
@@ -3813,56 +3801,56 @@ msgstr "終了日"
 msgid "Unknown"
 msgstr "不明"
 
-#: ../calendar/gui/e-cal-model.c:1683
+#: ../calendar/gui/e-cal-model.c:1902
 msgid "Recurring"
 msgstr "繰り返し"
 
-#: ../calendar/gui/e-cal-model.c:1685
+#: ../calendar/gui/e-cal-model.c:1904
 msgid "Assigned"
 msgstr "割当て済み"
 
-#: ../calendar/gui/e-cal-model.c:1687 ../calendar/gui/e-cal-model-tasks.c:1148
+#: ../calendar/gui/e-cal-model.c:1906 ../calendar/gui/e-cal-model-tasks.c:1148
 #: ../calendar/gui/e-meeting-list-view.c:209
 #: ../calendar/gui/e-meeting-store.c:177 ../calendar/gui/e-meeting-store.c:187
 #: ../calendar/gui/e-meeting-store.c:1024
 msgid "Yes"
 msgstr "はい"
 
-#: ../calendar/gui/e-cal-model.c:1687 ../calendar/gui/e-cal-model-tasks.c:1148
+#: ../calendar/gui/e-cal-model.c:1906 ../calendar/gui/e-cal-model-tasks.c:1148
 #: ../calendar/gui/e-meeting-list-view.c:210
 #: ../calendar/gui/e-meeting-store.c:189
 msgid "No"
 msgstr "いいえ"
 
-#: ../calendar/gui/e-cal-model.c:3461
+#: ../calendar/gui/e-cal-model.c:3655
 #: ../calendar/gui/e-meeting-list-view.c:221
 #: ../calendar/gui/e-meeting-store.c:197 ../calendar/gui/e-meeting-store.c:220
 #: ../modules/itip-formatter/itip-view.c:5983
 msgid "Accepted"
 msgstr "受諾済"
 
-#: ../calendar/gui/e-cal-model.c:3462
+#: ../calendar/gui/e-cal-model.c:3656
 #: ../calendar/gui/e-meeting-list-view.c:222
 #: ../calendar/gui/e-meeting-store.c:199 ../calendar/gui/e-meeting-store.c:222
 #: ../modules/itip-formatter/itip-view.c:5989
 msgid "Declined"
 msgstr "辞退済"
 
-#: ../calendar/gui/e-cal-model.c:3463
+#: ../calendar/gui/e-cal-model.c:3657
 #: ../calendar/gui/e-meeting-list-view.c:223
 #: ../calendar/gui/e-meeting-store.c:201 ../calendar/gui/e-meeting-store.c:224
 #: ../calendar/gui/e-meeting-time-sel.c:526
 msgid "Tentative"
 msgstr "仮承認"
 
-#: ../calendar/gui/e-cal-model.c:3464
+#: ../calendar/gui/e-cal-model.c:3658
 #: ../calendar/gui/e-meeting-list-view.c:224
 #: ../calendar/gui/e-meeting-store.c:203 ../calendar/gui/e-meeting-store.c:226
 #: ../modules/itip-formatter/itip-view.c:5992
 msgid "Delegated"
 msgstr "委任済"
 
-#: ../calendar/gui/e-cal-model.c:3465
+#: ../calendar/gui/e-cal-model.c:3659
 msgid "Needs action"
 msgstr "要アクション"
 
@@ -3912,14 +3900,14 @@ msgstr ""
 "%s"
 
 #. String to use in 12-hour time format for times in the morning.
-#: ../calendar/gui/e-day-view.c:1581 ../calendar/gui/e-week-view.c:1500
+#: ../calendar/gui/e-day-view.c:1586 ../calendar/gui/e-week-view.c:1503
 #: ../calendar/gui/print.c:1058 ../calendar/gui/print.c:1077
 #: ../calendar/gui/print.c:2608 ../calendar/gui/print.c:2628
 msgid "am"
 msgstr "午前"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: ../calendar/gui/e-day-view.c:1584 ../calendar/gui/e-week-view.c:1503
+#: ../calendar/gui/e-day-view.c:1589 ../calendar/gui/e-week-view.c:1506
 #: ../calendar/gui/print.c:1063 ../calendar/gui/print.c:1079
 #: ../calendar/gui/print.c:2613 ../calendar/gui/print.c:2630
 msgid "pm"
@@ -3931,13 +3919,13 @@ msgstr "午後"
 #. * month, %B = full month name. You can change the
 #. * order but don't change the specifiers or add
 #. * anything.
-#: ../calendar/gui/e-day-view.c:2299 ../calendar/gui/e-day-view-top-item.c:851
+#: ../calendar/gui/e-day-view.c:2304 ../calendar/gui/e-day-view-top-item.c:851
 #: ../calendar/gui/e-week-view-main-item.c:224 ../calendar/gui/print.c:2071
 msgid "%A %d %B"
 msgstr "%B%e日 %A"
 
 #. To Translators: the %d stands for a week number, it's value between 1 and 52/53
-#: ../calendar/gui/e-day-view.c:2942
+#: ../calendar/gui/e-day-view.c:2947
 #, c-format
 msgid "Week %d"
 msgstr "第%d週"
@@ -4042,11 +4030,11 @@ msgstr "不参加者"
 msgid "Needs Action"
 msgstr "要アクション"
 
-#: ../calendar/gui/e-meeting-list-view.c:623
+#: ../calendar/gui/e-meeting-list-view.c:626
 msgid "Attendee                          "
 msgstr "出席者                          "
 
-#: ../calendar/gui/e-meeting-list-view.c:678
+#: ../calendar/gui/e-meeting-list-view.c:681
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:6
 msgid "RSVP"
 msgstr "返信の有無"
@@ -4055,17 +4043,17 @@ msgstr "返信の有無"
 msgid "In Process"
 msgstr "進行中"
 
-#: ../calendar/gui/e-meeting-store.c:1905
+#: ../calendar/gui/e-meeting-store.c:1910
 #, c-format
 msgid "Enter password to access free/busy information on server %s as user %s"
 msgstr "サーバー %s にユーザー %s でスケジュール情報にアクセスするためのパスワードを入力してください"
 
-#: ../calendar/gui/e-meeting-store.c:1915
+#: ../calendar/gui/e-meeting-store.c:1920
 #, c-format
 msgid "Failure reason: %s"
 msgstr "失敗しました。原因: %s"
 
-#: ../calendar/gui/e-meeting-store.c:1920
+#: ../calendar/gui/e-meeting-store.c:1925
 #: ../plugins/publish-calendar/publish-calendar.c:341
 #: ../smime/gui/component.c:55
 msgid "Enter password"
@@ -4203,7 +4191,7 @@ msgid "Paste memos from the clipboard"
 msgstr "クリップボードからメモを貼り付けます"
 
 #: ../calendar/gui/e-memo-table.c:745
-#: ../modules/calendar/e-memo-shell-view-actions.c:610
+#: ../modules/calendar/e-memo-shell-view-actions.c:609
 msgid "Delete selected memos"
 msgstr "選択したメモを削除します"
 
@@ -4248,7 +4236,7 @@ msgid "Paste tasks from the clipboard"
 msgstr "クリップボードからタスクを貼り付けます"
 
 #: ../calendar/gui/e-task-table.c:1043
-#: ../modules/calendar/e-task-shell-view-actions.c:734
+#: ../modules/calendar/e-task-shell-view-actions.c:733
 msgid "Delete selected tasks"
 msgstr "選択したタスクを削除します"
 
@@ -4267,12 +4255,12 @@ msgstr "タイムゾーンの選択"
 msgid "%d %B"
 msgstr "%B%e日"
 
-#: ../calendar/gui/gnome-cal.c:2319
+#: ../calendar/gui/gnome-cal.c:2320
 msgid "Purging"
 msgstr "抹消中"
 
 #: ../calendar/gui/itip-utils.c:649 ../calendar/gui/itip-utils.c:707
-#: ../calendar/gui/itip-utils.c:818
+#: ../calendar/gui/itip-utils.c:840
 msgid "An organizer must be set."
 msgstr "主催者をセットしてください"
 
@@ -4280,23 +4268,23 @@ msgstr "主催者をセットしてください"
 msgid "At least one attendee is necessary"
 msgstr "最低一名の出席者が必要です"
 
-#: ../calendar/gui/itip-utils.c:905 ../calendar/gui/itip-utils.c:1066
+#: ../calendar/gui/itip-utils.c:928 ../calendar/gui/itip-utils.c:1089
 msgid "Event information"
 msgstr "イベントの情報"
 
-#: ../calendar/gui/itip-utils.c:908 ../calendar/gui/itip-utils.c:1069
+#: ../calendar/gui/itip-utils.c:931 ../calendar/gui/itip-utils.c:1092
 msgid "Task information"
 msgstr "タスクの情報"
 
-#: ../calendar/gui/itip-utils.c:911 ../calendar/gui/itip-utils.c:1072
+#: ../calendar/gui/itip-utils.c:934 ../calendar/gui/itip-utils.c:1095
 msgid "Memo information"
 msgstr "メモの情報"
 
-#: ../calendar/gui/itip-utils.c:914 ../calendar/gui/itip-utils.c:1090
+#: ../calendar/gui/itip-utils.c:937 ../calendar/gui/itip-utils.c:1113
 msgid "Free/Busy information"
 msgstr "スケジュールの情報"
 
-#: ../calendar/gui/itip-utils.c:917
+#: ../calendar/gui/itip-utils.c:940
 msgid "Calendar information"
 msgstr "カレンダーの情報"
 
@@ -4304,7 +4292,7 @@ msgstr "カレンダーの情報"
 #. * line of a meeting request or update email.
 #. * The full subject line would be:
 #. * "Accepted: Meeting Name".
-#: ../calendar/gui/itip-utils.c:954
+#: ../calendar/gui/itip-utils.c:977
 msgctxt "Meeting"
 msgid "Accepted"
 msgstr "受諾済"
@@ -4313,7 +4301,7 @@ msgstr "受諾済"
 #. * line of a meeting request or update email.
 #. * The full subject line would be:
 #. * "Tentatively Accepted: Meeting Name".
-#: ../calendar/gui/itip-utils.c:961
+#: ../calendar/gui/itip-utils.c:984
 msgctxt "Meeting"
 msgid "Tentatively Accepted"
 msgstr "(仮)受諾済"
@@ -4325,7 +4313,7 @@ msgstr "(仮)受諾済"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Declined: Meeting Name".
-#: ../calendar/gui/itip-utils.c:968 ../calendar/gui/itip-utils.c:1016
+#: ../calendar/gui/itip-utils.c:991 ../calendar/gui/itip-utils.c:1039
 msgctxt "Meeting"
 msgid "Declined"
 msgstr "辞退済"
@@ -4334,7 +4322,7 @@ msgstr "辞退済"
 #. * line of a meeting request or update email.
 #. * The full subject line would be:
 #. * "Delegated: Meeting Name".
-#: ../calendar/gui/itip-utils.c:975
+#: ../calendar/gui/itip-utils.c:998
 msgctxt "Meeting"
 msgid "Delegated"
 msgstr "委任済"
@@ -4342,7 +4330,7 @@ msgstr "委任済"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Updated: Meeting Name".
-#: ../calendar/gui/itip-utils.c:988
+#: ../calendar/gui/itip-utils.c:1011
 msgctxt "Meeting"
 msgid "Updated"
 msgstr "更新済"
@@ -4350,7 +4338,7 @@ msgstr "更新済"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Cancel: Meeting Name".
-#: ../calendar/gui/itip-utils.c:995
+#: ../calendar/gui/itip-utils.c:1018
 msgctxt "Meeting"
 msgid "Cancel"
 msgstr "キャンセル"
@@ -4358,7 +4346,7 @@ msgstr "キャンセル"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Refresh: Meeting Name".
-#: ../calendar/gui/itip-utils.c:1002
+#: ../calendar/gui/itip-utils.c:1025
 msgctxt "Meeting"
 msgid "Refresh"
 msgstr "更新"
@@ -4366,31 +4354,31 @@ msgstr "更新"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Counter-proposal: Meeting Name".
-#: ../calendar/gui/itip-utils.c:1009
+#: ../calendar/gui/itip-utils.c:1032
 msgctxt "Meeting"
 msgid "Counter-proposal"
 msgstr "反対案"
 
-#: ../calendar/gui/itip-utils.c:1087
+#: ../calendar/gui/itip-utils.c:1110
 #, c-format
 msgid "Free/Busy information (%s to %s)"
 msgstr "スケジュールの情報 (%s から %s)"
 
-#: ../calendar/gui/itip-utils.c:1095
+#: ../calendar/gui/itip-utils.c:1118
 msgid "iCalendar information"
 msgstr "iCalendar 情報"
 
-#: ../calendar/gui/itip-utils.c:1122
+#: ../calendar/gui/itip-utils.c:1145
 msgid "Unable to book a resource, the new event collides with some other."
 msgstr "リソースを予約できません。新しいイベントが他のとかちあってます。"
 
-#: ../calendar/gui/itip-utils.c:1127
+#: ../calendar/gui/itip-utils.c:1150
 #, fuzzy, c-format
 #| msgid "Unable to book a resource, error: "
 msgid "Unable to book a resource, error: %s"
 msgstr "リソースを予約できません。エラー: "
 
-#: ../calendar/gui/itip-utils.c:1304
+#: ../calendar/gui/itip-utils.c:1327
 msgid "You must be an attendee of the event."
 msgstr "イベントに出席しなければなりません。"
 
@@ -6747,14 +6735,6 @@ msgstr "メールや連絡先、予定などを管理します"
 #: ../data/evolution.desktop.in.in.h:5
 msgid "mail;calendar;contact;addressbook;task;"
 msgstr ""
-
-#: ../data/evolution-settings.desktop.in.in.h:1
-msgid "Email Settings"
-msgstr "メール設定"
-
-#: ../data/evolution-settings.desktop.in.in.h:2
-msgid "Configure email accounts"
-msgstr "メールアカウントを設定"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
 #, fuzzy
@@ -9368,42 +9348,42 @@ msgstr "ビューの種類:"
 msgid "Type of View"
 msgstr "ビューの種類"
 
-#: ../e-util/e-activity-proxy.c:313
+#: ../e-util/e-activity-proxy.c:311
 #: ../modules/mail/e-mail-shell-view-actions.c:1484
 msgid "Cancel"
 msgstr "キャンセル"
 
 #. Translators: This is a cancelled activity.
-#: ../e-util/e-activity.c:247
+#: ../e-util/e-activity.c:256
 #, c-format
 msgid "%s (cancelled)"
 msgstr "%s (キャンセルされた)"
 
 #. Translators: This is a completed activity.
-#: ../e-util/e-activity.c:250
+#: ../e-util/e-activity.c:259
 #, c-format
 msgid "%s (completed)"
 msgstr "%s (完了)"
 
 #. Translators: This is an activity waiting to run.
-#: ../e-util/e-activity.c:253
+#: ../e-util/e-activity.c:262
 #, c-format
 msgid "%s (waiting)"
 msgstr "%s (実行待ち)"
 
 #. Translators: This is a running activity which
 #. *              the user has requested to cancel.
-#: ../e-util/e-activity.c:257
+#: ../e-util/e-activity.c:266
 #, c-format
 msgid "%s (cancelling)"
 msgstr "%s (キャンセルされた)"
 
-#: ../e-util/e-activity.c:259
+#: ../e-util/e-activity.c:268
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: ../e-util/e-activity.c:264
+#: ../e-util/e-activity.c:273
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% 完了)"
@@ -9433,7 +9413,7 @@ msgstr "ファイル名(_I):"
 msgid "MIME Type:"
 msgstr "MIME 型"
 
-#: ../e-util/e-attachment-dialog.c:376 ../e-util/e-attachment-store.c:441
+#: ../e-util/e-attachment-dialog.c:376 ../e-util/e-attachment-store.c:481
 msgid "_Suggest automatic display of attachment"
 msgstr "添付ファイルを自動的に表示するか提示する(_S)"
 
@@ -9476,21 +9456,21 @@ msgstr "添付ファイルバーを隠す(_B)"
 msgid "Show Attachment _Bar"
 msgstr "添付ファイルバーを表示する(_B)"
 
-#: ../e-util/e-attachment-store.c:429
+#: ../e-util/e-attachment-store.c:461
 msgid "Add Attachment"
 msgstr "添付ファイルの追加"
 
-#: ../e-util/e-attachment-store.c:432
+#: ../e-util/e-attachment-store.c:464
 msgid "A_ttach"
 msgstr "添付する(_T)"
 
-#: ../e-util/e-attachment-store.c:495
+#: ../e-util/e-attachment-store.c:535
 msgid "Save Attachment"
 msgid_plural "Save Attachments"
 msgstr[0] "添付ファイルの保存"
 
 #. Translators: Default attachment filename.
-#: ../e-util/e-attachment-store.c:524 ../e-util/e-attachment.c:1841
+#: ../e-util/e-attachment-store.c:564 ../e-util/e-attachment.c:1841
 #: ../e-util/e-attachment.c:2477
 msgid "attachment.dat"
 msgstr "attachment.dat"
@@ -9745,7 +9725,7 @@ msgstr "今"
 
 #. strftime format of a weekday and a date.
 #: ../e-util/e-cell-date-edit.c:307 ../e-util/e-datetime-format.c:209
-#: ../modules/calendar/e-cal-shell-view-actions.c:1924
+#: ../modules/calendar/e-cal-shell-view-actions.c:1921
 #: ../modules/itip-formatter/itip-view.c:230
 msgid "Today"
 msgstr "今日"
@@ -10367,9 +10347,9 @@ msgstr "検索(_S)"
 #: ../e-util/e-name-selector-dialog.c:367
 #: ../e-util/e-name-selector-dialog.c:1256
 #: ../modules/addressbook/e-book-shell-view-actions.c:1066
-#: ../modules/calendar/e-cal-shell-view-actions.c:1757
-#: ../modules/calendar/e-memo-shell-view-actions.c:788
-#: ../modules/calendar/e-task-shell-view-actions.c:959
+#: ../modules/calendar/e-cal-shell-view-actions.c:1754
+#: ../modules/calendar/e-memo-shell-view-actions.c:787
+#: ../modules/calendar/e-task-shell-view-actions.c:958
 msgid "Any Category"
 msgstr "任意のカテゴリ"
 
@@ -10857,51 +10837,51 @@ msgstr "UTC"
 msgid "Click here to go to URL"
 msgstr "ここをクリックすると URL へジャンプします"
 
-#: ../e-util/e-web-view-gtkhtml.c:406 ../e-util/e-web-view.c:273
+#: ../e-util/e-web-view-gtkhtml.c:406 ../e-util/e-web-view.c:274
 msgid "_Copy Link Location"
 msgstr "リンク先のコピー(_C)"
 
-#: ../e-util/e-web-view-gtkhtml.c:408 ../e-util/e-web-view.c:275
+#: ../e-util/e-web-view-gtkhtml.c:408 ../e-util/e-web-view.c:276
 msgid "Copy the link to the clipboard"
 msgstr "リンク先をクリップボードにコピーします。"
 
-#: ../e-util/e-web-view-gtkhtml.c:416 ../e-util/e-web-view.c:283
+#: ../e-util/e-web-view-gtkhtml.c:416 ../e-util/e-web-view.c:284
 msgid "_Open Link in Browser"
 msgstr "リンクをブラウザーで開く(_O)"
 
-#: ../e-util/e-web-view-gtkhtml.c:418 ../e-util/e-web-view.c:285
+#: ../e-util/e-web-view-gtkhtml.c:418 ../e-util/e-web-view.c:286
 msgid "Open the link in a web browser"
 msgstr "リンクをブラウザーで開きます"
 
-#: ../e-util/e-web-view-gtkhtml.c:426 ../e-util/e-web-view.c:293
+#: ../e-util/e-web-view-gtkhtml.c:426 ../e-util/e-web-view.c:294
 msgid "_Copy Email Address"
 msgstr "メールアドレスのコピー(_C)"
 
-#: ../e-util/e-web-view-gtkhtml.c:443 ../e-util/e-web-view.c:310
+#: ../e-util/e-web-view-gtkhtml.c:443 ../e-util/e-web-view.c:311
 msgid "_Copy Image"
 msgstr "画像をコピー(_C)"
 
-#: ../e-util/e-web-view-gtkhtml.c:445 ../e-util/e-web-view.c:312
+#: ../e-util/e-web-view-gtkhtml.c:445 ../e-util/e-web-view.c:313
 msgid "Copy the image to the clipboard"
 msgstr "画像をクリップボードにコピーします。"
 
 #: ../e-util/e-web-view-gtkhtml.c:465 ../e-util/e-web-view-gtkhtml.c:1308
-#: ../e-util/e-web-view.c:332 ../e-util/e-web-view.c:1419
+#: ../e-util/e-web-view.c:333 ../e-util/e-web-view.c:1297
 msgid "Select all text and images"
 msgstr "すべてのテキストと画像を選択します"
 
 #: ../e-util/e-web-view-gtkhtml.c:972 ../e-util/e-web-view-gtkhtml.c:974
-#: ../e-util/e-web-view-gtkhtml.c:976 ../e-util/e-web-view.c:1086
-#: ../e-util/e-web-view.c:1088 ../e-util/e-web-view.c:1090
+#: ../e-util/e-web-view-gtkhtml.c:976 ../e-util/e-web-view.c:964
+#: ../e-util/e-web-view.c:966 ../e-util/e-web-view.c:968
 #, c-format
 msgid "Click to call %s"
 msgstr "クリックすると %s さんを呼び出します"
 
-#: ../e-util/e-web-view-gtkhtml.c:978 ../e-util/e-web-view.c:1092
+#: ../e-util/e-web-view-gtkhtml.c:978 ../e-util/e-web-view.c:970
 msgid "Click to hide/unhide addresses"
 msgstr "クリックするとメールアドレスの表示/非表示を切り替えます"
 
-#: ../e-util/e-web-view-gtkhtml.c:980 ../e-util/e-web-view.c:1094
+#: ../e-util/e-web-view-gtkhtml.c:980 ../e-util/e-web-view.c:972
 #, c-format
 msgid "Click to open %s"
 msgstr "クリックすると %s を開きます"
@@ -11127,7 +11107,7 @@ msgid "Saving %d message"
 msgid_plural "Saving %d messages"
 msgstr[0] "%d通のメッセージの保存中"
 
-#: ../libemail-engine/e-mail-folder-utils.c:1905 ../mail/em-folder-utils.c:610
+#: ../libemail-engine/e-mail-folder-utils.c:1927 ../mail/em-folder-utils.c:610
 #, c-format
 msgid "Invalid folder URI '%s'"
 msgstr "無効なフォルダー URI : '%s'"
@@ -11172,32 +11152,32 @@ msgstr "メッセージの送信中"
 
 #: ../libemail-engine/e-mail-session.c:120 ../mail/em-folder-properties.c:336
 #: ../mail/em-folder-tree-model.c:764
-#: ../modules/mail/e-mail-shell-view-private.c:1094
-#: ../modules/mail/e-mail-shell-view-private.c:1105
+#: ../modules/mail/e-mail-shell-view-private.c:1096
+#: ../modules/mail/e-mail-shell-view-private.c:1107
 msgid "Inbox"
 msgstr "受信箱"
 
 #. E_MAIL_LOCAL_FOLDER_INBOX
 #: ../libemail-engine/e-mail-session.c:121 ../mail/em-folder-tree-model.c:757
-#: ../modules/mail/e-mail-shell-view-private.c:1092
+#: ../modules/mail/e-mail-shell-view-private.c:1094
 msgid "Drafts"
 msgstr "草案"
 
 #. E_MAIL_LOCAL_FOLDER_DRAFTS
 #: ../libemail-engine/e-mail-session.c:122 ../mail/em-folder-tree-model.c:768
-#: ../modules/mail/e-mail-shell-view-private.c:1096
+#: ../modules/mail/e-mail-shell-view-private.c:1098
 msgid "Outbox"
 msgstr "送信トレイ"
 
 #. E_MAIL_LOCAL_FOLDER_OUTBOX
 #: ../libemail-engine/e-mail-session.c:123 ../mail/em-folder-tree-model.c:772
-#: ../modules/mail/e-mail-shell-view-private.c:1098
+#: ../modules/mail/e-mail-shell-view-private.c:1100
 msgid "Sent"
 msgstr "送信済み"
 
 #. E_MAIL_LOCAL_FOLDER_SENT
 #: ../libemail-engine/e-mail-session.c:124 ../mail/em-folder-tree-model.c:760
-#: ../modules/mail/e-mail-shell-view-private.c:1100
+#: ../modules/mail/e-mail-shell-view-private.c:1102
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:1
 #: ../plugins/templates/templates.c:1078 ../plugins/templates/templates.c:1377
 #: ../plugins/templates/templates.c:1387
@@ -11375,7 +11355,7 @@ msgstr "デフォルトに戻す(_R)"
 
 #: ../mail/e-mail-account-manager.c:473
 msgid "You can drag and drop account names to reorder them."
-msgstr "アカウント名をドラッグ&ドロップしてして並べかえることができます。"
+msgstr "アカウント名をドラッグ&ドロップして並べかえることができます。"
 
 #: ../mail/e-mail-account-manager.c:518
 msgid "De_fault"
@@ -11394,7 +11374,7 @@ msgstr "アカウント名"
 
 #: ../mail/e-mail-account-tree-view.c:136
 #: ../mail/e-mail-config-security-page.c:333
-#: ../mail/e-mail-config-security-page.c:472 ../mail/e-mail-reader.c:3707
+#: ../mail/e-mail-config-security-page.c:472 ../mail/e-mail-reader.c:3734
 #: ../mail/mail-config.ui.h:44
 msgid "Default"
 msgstr "デフォルト"
@@ -11604,6 +11584,7 @@ msgstr "メールの受信"
 
 #: ../mail/e-mail-config-security-page.c:260
 #: ../mail/em-folder-properties.c:260 ../mail/mail-config.ui.h:19
+#: ../modules/addressbook/autocompletion-config.c:114
 #: ../modules/calendar/e-calendar-preferences.ui.h:47
 #: ../modules/itip-formatter/plugin/config-ui.c:91
 #: ../plugins/publish-calendar/publish-calendar.ui.h:16
@@ -11922,7 +11903,7 @@ msgstr "メーリングリストで常に Reply-To: を無視する(_A)"
 msgid "Failed to retrieve message:"
 msgstr "メッセージの取得に失敗しました:"
 
-#: ../mail/e-mail-reader.c:1821 ../mail/e-mail-reader.c:2914
+#: ../mail/e-mail-reader.c:1821 ../mail/e-mail-reader.c:2941
 #, c-format
 msgid "Retrieving message '%s'"
 msgstr "メッセージ '%s' を取得中"
@@ -12284,7 +12265,7 @@ msgid "Checks selected messages for duplicates"
 msgstr "選択したメッセージに削除マークを付けます"
 
 #: ../mail/e-mail-reader.c:2327 ../mail/mail.error.xml.h:27
-#: ../modules/calendar/e-cal-shell-view-actions.c:1571
+#: ../modules/calendar/e-cal-shell-view-actions.c:1568
 #: ../modules/mail/e-mail-attachment-handler.c:196
 msgid "Reply to _All"
 msgstr "全員へ返信(_A)"
@@ -12466,47 +12447,47 @@ msgstr "メッセージのヘッダー情報(_H)"
 msgid "Show messages with all email headers"
 msgstr "メールヘッダーも含めてメッセージをすべて表示します"
 
-#: ../mail/e-mail-reader.c:2920
+#: ../mail/e-mail-reader.c:2947
 #, fuzzy
 msgid "Retrieving message"
 msgstr "%d通のメッセージの受信中"
 
-#: ../mail/e-mail-reader.c:3900
+#: ../mail/e-mail-reader.c:3927
 #: ../modules/mail/e-mail-attachment-handler.c:189
 msgid "_Forward"
 msgstr "転送(_F)"
 
-#: ../mail/e-mail-reader.c:3901
+#: ../mail/e-mail-reader.c:3928
 msgid "Forward the selected message to someone"
 msgstr "選択したメッセージを誰かに転送します"
 
-#: ../mail/e-mail-reader.c:3920
+#: ../mail/e-mail-reader.c:3947
 msgid "Group Reply"
 msgstr "グループに返信"
 
-#: ../mail/e-mail-reader.c:3921
+#: ../mail/e-mail-reader.c:3948
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "メーリングリスト、あるいはすべての宛先に返信します"
 
-#: ../mail/e-mail-reader.c:3987 ../mail/em-filter-i18n.h:15
+#: ../mail/e-mail-reader.c:4014 ../mail/em-filter-i18n.h:15
 msgid "Delete"
 msgstr "削除する"
 
-#: ../mail/e-mail-reader.c:4020
-#: ../modules/calendar/e-cal-shell-view-actions.c:1396
+#: ../mail/e-mail-reader.c:4047
+#: ../modules/calendar/e-cal-shell-view-actions.c:1393
 msgid "Next"
 msgstr "次へ"
 
-#: ../mail/e-mail-reader.c:4024
-#: ../modules/calendar/e-cal-shell-view-actions.c:1389
+#: ../mail/e-mail-reader.c:4051
+#: ../modules/calendar/e-cal-shell-view-actions.c:1386
 msgid "Previous"
 msgstr "前へ"
 
-#: ../mail/e-mail-reader.c:4033 ../mail/mail-dialogs.ui.h:15
+#: ../mail/e-mail-reader.c:4060 ../mail/mail-dialogs.ui.h:15
 msgid "Reply"
 msgstr "返信"
 
-#: ../mail/e-mail-reader.c:4751
+#: ../mail/e-mail-reader.c:4778
 #, c-format
 msgid "Folder '%s'"
 msgstr "フォルダー '%s'"
@@ -12528,7 +12509,7 @@ msgid "Folder '%s' contains %u duplicate message. Are you sure you want to delet
 msgid_plural "Folder '%s' contains %u duplicate messages. Are you sure you want to delete them?"
 msgstr[0] "フォルダー '%s' には %u 通の重複したメッセージがあります。これを本当に削除しますか?"
 
-#: ../mail/e-mail-reader-utils.c:1614
+#: ../mail/e-mail-reader-utils.c:1624
 msgid "Save Message"
 msgid_plural "Save Messages"
 msgstr[0] "メッセージの保存"
@@ -12538,12 +12519,12 @@ msgstr[0] "メッセージの保存"
 #. * mbox format, when the first message doesn't have a
 #. * subject.  The extension ".mbox" is appended to the
 #. * string; for example "Message.mbox".
-#: ../mail/e-mail-reader-utils.c:1635
+#: ../mail/e-mail-reader-utils.c:1645
 msgid "Message"
 msgid_plural "Messages"
 msgstr[0] "メッセージ"
 
-#: ../mail/e-mail-reader-utils.c:2089
+#: ../mail/e-mail-reader-utils.c:2099
 #, fuzzy
 msgid "Parsing message"
 msgstr "%d通のメッセージの保存中"
@@ -13581,7 +13562,7 @@ msgid "Mail Headers Table"
 msgstr "メールヘッダーの一覧"
 
 #: ../mail/mail-config.ui.h:101
-#: ../modules/addressbook/autocompletion-config.c:86
+#: ../modules/addressbook/autocompletion-config.c:117
 #: ../modules/calendar/e-calendar-preferences.ui.h:54
 msgid "Date/Time Format"
 msgstr "日付/時刻の形式"
@@ -14465,15 +14446,15 @@ msgid "Follow-up"
 msgstr "フォローアップ"
 
 #. there is some info why the message list is empty, let it be something useful
-#: ../mail/message-list.c:4638 ../mail/message-list.c:5042
+#: ../mail/message-list.c:4698 ../mail/message-list.c:5102
 msgid "Generating message list"
 msgstr "メッセージの一覧の作成中"
 
-#: ../mail/message-list.c:4872
+#: ../mail/message-list.c:4932
 msgid "No message satisfies your search criteria. Change search criteria by selecting a new Show message filter from the drop down list above or by running a new search either by clearing it with Search->Clear menu item or by changing the query above."
 msgstr ""
 
-#: ../mail/message-list.c:4877
+#: ../mail/message-list.c:4937
 msgid "There are no messages in this folder."
 msgstr "このフォルダーにメッセージはありません。"
 
@@ -14537,24 +14518,24 @@ msgid "Body contains"
 msgstr "メッセージの本文"
 
 #. To Translators: 'Table column' is a label for configurable date/time format for table columns showing a date in message list
-#: ../modules/addressbook/autocompletion-config.c:92
+#: ../modules/addressbook/autocompletion-config.c:123
 #: ../modules/mail/em-mailer-prefs.c:1139
 msgid "_Table column:"
 msgstr "表の項目(_T):"
 
-#: ../modules/addressbook/autocompletion-config.c:95
+#: ../modules/addressbook/autocompletion-config.c:126
 msgid "Address formatting"
 msgstr ""
 
-#: ../modules/addressbook/autocompletion-config.c:98
+#: ../modules/addressbook/autocompletion-config.c:129
 msgid "_Format address according to standard of its destination country"
 msgstr ""
 
-#: ../modules/addressbook/autocompletion-config.c:107
+#: ../modules/addressbook/autocompletion-config.c:137
 msgid "Autocompletion"
 msgstr "自動補完"
 
-#: ../modules/addressbook/autocompletion-config.c:110
+#: ../modules/addressbook/autocompletion-config.c:140
 msgid "Always _show address of the autocompleted contact"
 msgstr "自動補完した連絡先にメールアドレスを表示する(_S)"
 
@@ -14674,9 +14655,9 @@ msgid "Show map with all contacts from selected address book"
 msgstr "選択したアドレス帳の連絡先を別へコピーします"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:885
-#: ../modules/calendar/e-cal-shell-view-actions.c:1445
-#: ../modules/calendar/e-memo-shell-view-actions.c:664
-#: ../modules/calendar/e-task-shell-view-actions.c:788
+#: ../modules/calendar/e-cal-shell-view-actions.c:1442
+#: ../modules/calendar/e-memo-shell-view-actions.c:663
+#: ../modules/calendar/e-task-shell-view-actions.c:787
 #: ../modules/mail/e-mail-shell-view-actions.c:1377
 msgid "_Rename..."
 msgstr "名前の変更(_R)..."
@@ -14750,22 +14731,22 @@ msgid "Send a message to the selected contacts"
 msgstr "選択した連絡先へメールを送信します"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:964
-#: ../modules/calendar/e-cal-shell-view-actions.c:1601
-#: ../modules/calendar/e-task-shell-view-actions.c:846
+#: ../modules/calendar/e-cal-shell-view-actions.c:1598
+#: ../modules/calendar/e-task-shell-view-actions.c:845
 msgid "_Actions"
 msgstr "アクション(_A)"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:971
-#: ../modules/calendar/e-memo-shell-view-actions.c:701
-#: ../modules/calendar/e-task-shell-view-actions.c:853
+#: ../modules/calendar/e-memo-shell-view-actions.c:700
+#: ../modules/calendar/e-task-shell-view-actions.c:852
 #: ../modules/mail/e-mail-shell-view-actions.c:1535
 msgid "_Preview"
 msgstr "プレビュー(_P)"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:980
-#: ../modules/calendar/e-cal-shell-view-actions.c:1618
-#: ../modules/calendar/e-memo-shell-view-actions.c:714
-#: ../modules/calendar/e-task-shell-view-actions.c:866
+#: ../modules/calendar/e-cal-shell-view-actions.c:1615
+#: ../modules/calendar/e-memo-shell-view-actions.c:713
+#: ../modules/calendar/e-task-shell-view-actions.c:865
 msgid "_Delete"
 msgstr "削除(_D)"
 
@@ -14795,8 +14776,8 @@ msgid "Show maps in contact preview window"
 msgstr "連絡先プレビューウィンドウに地図を表示する"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1049
-#: ../modules/calendar/e-memo-shell-view-actions.c:771
-#: ../modules/calendar/e-task-shell-view-actions.c:935
+#: ../modules/calendar/e-memo-shell-view-actions.c:770
+#: ../modules/calendar/e-task-shell-view-actions.c:934
 #: ../modules/mail/e-mail-shell-view-actions.c:1665
 msgid "_Classic View"
 msgstr "クラッシックな表示(_C)"
@@ -14806,8 +14787,8 @@ msgid "Show contact preview below the contact list"
 msgstr "連絡先の一覧の下に連絡先のプレビューを表示します"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1056
-#: ../modules/calendar/e-memo-shell-view-actions.c:778
-#: ../modules/calendar/e-task-shell-view-actions.c:942
+#: ../modules/calendar/e-memo-shell-view-actions.c:777
+#: ../modules/calendar/e-task-shell-view-actions.c:941
 #: ../modules/mail/e-mail-shell-view-actions.c:1672
 msgid "_Vertical View"
 msgstr "縦型の表示(_V)"
@@ -14817,16 +14798,16 @@ msgid "Show contact preview alongside the contact list"
 msgstr "連絡先の一覧の横に連絡先のプレビューを表示します"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1073
-#: ../modules/calendar/e-cal-shell-view-actions.c:1778
-#: ../modules/calendar/e-memo-shell-view-actions.c:795
-#: ../modules/calendar/e-task-shell-view-actions.c:994
+#: ../modules/calendar/e-cal-shell-view-actions.c:1775
+#: ../modules/calendar/e-memo-shell-view-actions.c:794
+#: ../modules/calendar/e-task-shell-view-actions.c:993
 msgid "Unmatched"
 msgstr "該当しないもの"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1083
-#: ../modules/calendar/e-cal-shell-view-actions.c:1788
-#: ../modules/calendar/e-memo-shell-view-actions.c:805
-#: ../modules/calendar/e-task-shell-view-actions.c:1004
+#: ../modules/calendar/e-cal-shell-view-actions.c:1785
+#: ../modules/calendar/e-memo-shell-view-actions.c:804
+#: ../modules/calendar/e-task-shell-view-actions.c:1003
 #: ../modules/mail/e-mail-shell-view-actions.c:1741
 #: ../shell/e-shell-content.c:657
 msgid "Advanced Search"
@@ -15445,7 +15426,7 @@ msgid "_24 hour"
 msgstr "24 時間制(_2)"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:25
-#: ../modules/calendar/e-cal-shell-view-actions.c:1740
+#: ../modules/calendar/e-cal-shell-view-actions.c:1737
 msgid "Work Week"
 msgstr "平日"
 
@@ -15609,7 +15590,7 @@ msgid "_Appointment"
 msgstr "予定(_A)"
 
 #: ../modules/calendar/e-cal-shell-backend.c:319
-#: ../modules/calendar/e-cal-shell-view-actions.c:1545
+#: ../modules/calendar/e-cal-shell-view-actions.c:1542
 msgid "Create a new appointment"
 msgstr "新しい予定を作成します"
 
@@ -15637,7 +15618,7 @@ msgid "Cale_ndar"
 msgstr "カレンダー(_N)"
 
 #: ../modules/calendar/e-cal-shell-backend.c:343
-#: ../modules/calendar/e-cal-shell-view-actions.c:1419
+#: ../modules/calendar/e-cal-shell-view-actions.c:1416
 msgid "Create a new calendar"
 msgstr "新しいカレンダーを作成します"
 
@@ -15645,14 +15626,14 @@ msgstr "新しいカレンダーを作成します"
 msgid "Calendar and Tasks"
 msgstr "カレンダーとタスク"
 
-#: ../modules/calendar/e-cal-shell-sidebar.c:565
-msgid "Calendar Selector"
-msgstr "カレンダーの選択"
-
-#: ../modules/calendar/e-cal-shell-sidebar.c:868
+#: ../modules/calendar/e-cal-shell-sidebar.c:120
 #, fuzzy, c-format
 msgid "Opening calendar '%s'"
 msgstr "%s のカレンダーを開く"
+
+#: ../modules/calendar/e-cal-shell-sidebar.c:569
+msgid "Calendar Selector"
+msgstr "カレンダーの選択"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:291
 msgid "Calendar Properties"
@@ -15668,334 +15649,334 @@ msgstr "この操作は選択したイベントより古いイベントをすべ
 msgid "Purge events older than"
 msgstr "次より古いイベントを抹消する: "
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:588
+#: ../modules/calendar/e-cal-shell-view-actions.c:585
 msgid "Copying Items"
 msgstr "アイテムのコピー中"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:881
+#: ../modules/calendar/e-cal-shell-view-actions.c:878
 msgid "Moving Items"
 msgstr "アイテムの移動中"
 
 #. Translators: Default filename part saving an event to a file when
 #. * no summary is filed, the '.ics' extension is concatenated to it.
-#: ../modules/calendar/e-cal-shell-view-actions.c:1215
+#: ../modules/calendar/e-cal-shell-view-actions.c:1212
 msgid "event"
 msgstr "イベント"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1217
+#: ../modules/calendar/e-cal-shell-view-actions.c:1214
 #: ../modules/calendar/e-cal-shell-view-memopad.c:231
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:298
-#: ../modules/calendar/e-memo-shell-view-actions.c:548
-#: ../modules/calendar/e-task-shell-view-actions.c:665
+#: ../modules/calendar/e-memo-shell-view-actions.c:547
+#: ../modules/calendar/e-task-shell-view-actions.c:664
 msgid "Save as iCalendar"
 msgstr "iCalendar 形式で保存"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1375
-#: ../modules/calendar/e-memo-shell-view-actions.c:629
+#: ../modules/calendar/e-cal-shell-view-actions.c:1372
+#: ../modules/calendar/e-memo-shell-view-actions.c:628
 msgid "_Copy..."
 msgstr "コピー(_C)..."
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1382
+#: ../modules/calendar/e-cal-shell-view-actions.c:1379
 msgid "D_elete Calendar"
 msgstr "カレンダーの削除(_E)"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1384
+#: ../modules/calendar/e-cal-shell-view-actions.c:1381
 msgid "Delete the selected calendar"
 msgstr "選択したカレンダーを削除"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1391
+#: ../modules/calendar/e-cal-shell-view-actions.c:1388
 msgid "Go Back"
 msgstr "前へ戻る"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1398
+#: ../modules/calendar/e-cal-shell-view-actions.c:1395
 msgid "Go Forward"
 msgstr "次へ進む"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1405
+#: ../modules/calendar/e-cal-shell-view-actions.c:1402
 msgid "Select today"
 msgstr "今日に移動します"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1410
+#: ../modules/calendar/e-cal-shell-view-actions.c:1407
 msgid "Select _Date"
 msgstr "日付の選択(_D)"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1412
+#: ../modules/calendar/e-cal-shell-view-actions.c:1409
 msgid "Select a specific date"
 msgstr "指定した日に移動します"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1417
+#: ../modules/calendar/e-cal-shell-view-actions.c:1414
 msgid "_New Calendar"
 msgstr "新しいカレンダー(_N)"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1431
-#: ../modules/calendar/e-task-shell-view-actions.c:837
+#: ../modules/calendar/e-cal-shell-view-actions.c:1428
+#: ../modules/calendar/e-task-shell-view-actions.c:836
 msgid "Purg_e"
 msgstr "抹消(_E)"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1433
+#: ../modules/calendar/e-cal-shell-view-actions.c:1430
 msgid "Purge old appointments and meetings"
 msgstr "古い予定と会議を完全に削除します"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1438
-#: ../modules/calendar/e-memo-shell-view-actions.c:657
-#: ../modules/calendar/e-task-shell-view-actions.c:781
+#: ../modules/calendar/e-cal-shell-view-actions.c:1435
+#: ../modules/calendar/e-memo-shell-view-actions.c:656
+#: ../modules/calendar/e-task-shell-view-actions.c:780
 msgid "Re_fresh"
 msgstr "更新(_F)"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1440
+#: ../modules/calendar/e-cal-shell-view-actions.c:1437
 msgid "Refresh the selected calendar"
 msgstr "選択したカレンダーを更新"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1447
+#: ../modules/calendar/e-cal-shell-view-actions.c:1444
 msgid "Rename the selected calendar"
 msgstr "選択したカレンダーの名前を変更します"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1452
+#: ../modules/calendar/e-cal-shell-view-actions.c:1449
 msgid "Find _next"
 msgstr "次を検索(_N)"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1454
+#: ../modules/calendar/e-cal-shell-view-actions.c:1451
 msgid "Find next occurrence of the current search string"
 msgstr "現在検索中の文字列の次の出現位置を検索"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1459
+#: ../modules/calendar/e-cal-shell-view-actions.c:1456
 msgid "Find _previous"
 msgstr "前を検索(_P)"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1461
+#: ../modules/calendar/e-cal-shell-view-actions.c:1458
 msgid "Find previous occurrence of the current search string"
 msgstr "現在検索中の文字列の前の出現位置を検索"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1466
+#: ../modules/calendar/e-cal-shell-view-actions.c:1463
 msgid "Stop _running search"
 msgstr "実行中の検索を中止(_R)"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1468
+#: ../modules/calendar/e-cal-shell-view-actions.c:1465
 msgid "Stop currently running search"
 msgstr "現在実行中の検索を中止する"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1473
+#: ../modules/calendar/e-cal-shell-view-actions.c:1470
 msgid "Show _Only This Calendar"
 msgstr "このカレンダーだけ表示する(_O)"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1480
+#: ../modules/calendar/e-cal-shell-view-actions.c:1477
 msgid "Cop_y to Calendar..."
 msgstr "カレンダーへコピー(_Y)..."
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1487
+#: ../modules/calendar/e-cal-shell-view-actions.c:1484
 msgid "_Delegate Meeting..."
 msgstr "会議の委任(_D)..."
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1494
+#: ../modules/calendar/e-cal-shell-view-actions.c:1491
 msgid "_Delete Appointment"
 msgstr "予定を削除(_D)"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1496
+#: ../modules/calendar/e-cal-shell-view-actions.c:1493
 msgid "Delete selected appointments"
 msgstr "選択した予定を削除します"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1501
+#: ../modules/calendar/e-cal-shell-view-actions.c:1498
 msgid "Delete This _Occurrence"
 msgstr "このイベントの削除(_O)"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1503
+#: ../modules/calendar/e-cal-shell-view-actions.c:1500
 msgid "Delete this occurrence"
 msgstr "このイベントを削除します"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1508
+#: ../modules/calendar/e-cal-shell-view-actions.c:1505
 msgid "Delete All Occ_urrences"
 msgstr "すべてのイベントの削除(_U)"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1510
+#: ../modules/calendar/e-cal-shell-view-actions.c:1507
 msgid "Delete all occurrences"
 msgstr "すべてのイベントを削除します"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1515
+#: ../modules/calendar/e-cal-shell-view-actions.c:1512
 msgid "New All Day _Event..."
 msgstr "新しい終日のイベント(_E)..."
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1517
+#: ../modules/calendar/e-cal-shell-view-actions.c:1514
 msgid "Create a new all day event"
 msgstr "新しい終日の予定を作成します"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1522
+#: ../modules/calendar/e-cal-shell-view-actions.c:1519
 #: ../modules/calendar/e-cal-shell-view-memopad.c:265
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:338
-#: ../modules/calendar/e-memo-shell-view-actions.c:622
-#: ../modules/calendar/e-task-shell-view-actions.c:746
+#: ../modules/calendar/e-memo-shell-view-actions.c:621
+#: ../modules/calendar/e-task-shell-view-actions.c:745
 msgid "_Forward as iCalendar..."
 msgstr "iCalendar 形式で転送(_F)..."
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1529
+#: ../modules/calendar/e-cal-shell-view-actions.c:1526
 msgid "New _Meeting..."
 msgstr "新しい会議(_M)..."
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1531
+#: ../modules/calendar/e-cal-shell-view-actions.c:1528
 msgid "Create a new meeting"
 msgstr "新しい会議を作成します"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1536
+#: ../modules/calendar/e-cal-shell-view-actions.c:1533
 msgid "Mo_ve to Calendar..."
 msgstr "カレンダーへ移動(_V)..."
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1543
+#: ../modules/calendar/e-cal-shell-view-actions.c:1540
 msgid "New _Appointment..."
 msgstr "新しい予定(_A)..."
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1550
+#: ../modules/calendar/e-cal-shell-view-actions.c:1547
 msgid "Make this Occurrence _Movable"
 msgstr "このイベントを移動可能にする(_M)"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1557
+#: ../modules/calendar/e-cal-shell-view-actions.c:1554
 msgid "_Open Appointment"
 msgstr "予定を開く(_O)"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1559
+#: ../modules/calendar/e-cal-shell-view-actions.c:1556
 msgid "View the current appointment"
 msgstr "現在の予定の表示"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1564
+#: ../modules/calendar/e-cal-shell-view-actions.c:1561
 msgid "_Reply"
 msgstr "返信(_R)"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1578
+#: ../modules/calendar/e-cal-shell-view-actions.c:1575
 msgid "_Schedule Meeting..."
 msgstr "会議のスケジュール(_S)..."
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1580
+#: ../modules/calendar/e-cal-shell-view-actions.c:1577
 msgid "Converts an appointment to a meeting"
 msgstr "約束を会議に変更します"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1585
+#: ../modules/calendar/e-cal-shell-view-actions.c:1582
 msgid "Conv_ert to Appointment..."
 msgstr "約束へ変更(_E)..."
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1587
+#: ../modules/calendar/e-cal-shell-view-actions.c:1584
 msgid "Converts a meeting to an appointment"
 msgstr "会議を約束へ変更します"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1592
+#: ../modules/calendar/e-cal-shell-view-actions.c:1589
 msgid "Quit"
 msgstr "終了"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1712
+#: ../modules/calendar/e-cal-shell-view-actions.c:1709
 msgid "Day"
 msgstr "日"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1714
+#: ../modules/calendar/e-cal-shell-view-actions.c:1711
 msgid "Show one day"
 msgstr "1日を表示します"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1719
+#: ../modules/calendar/e-cal-shell-view-actions.c:1716
 msgid "List"
 msgstr "一覧"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1721
+#: ../modules/calendar/e-cal-shell-view-actions.c:1718
 msgid "Show as list"
 msgstr "一覧形式で表示します"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1726
+#: ../modules/calendar/e-cal-shell-view-actions.c:1723
 msgid "Month"
 msgstr "月"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1728
+#: ../modules/calendar/e-cal-shell-view-actions.c:1725
 msgid "Show one month"
 msgstr "1ヶ月を表示します"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1733
+#: ../modules/calendar/e-cal-shell-view-actions.c:1730
 msgid "Week"
 msgstr "週"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1735
+#: ../modules/calendar/e-cal-shell-view-actions.c:1732
 msgid "Show one week"
 msgstr "1週間を表示します"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1742
+#: ../modules/calendar/e-cal-shell-view-actions.c:1739
 msgid "Show one work week"
 msgstr "平日1週間を表示します"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1750
+#: ../modules/calendar/e-cal-shell-view-actions.c:1747
 msgid "Active Appointments"
 msgstr "実行中の予定"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1764
+#: ../modules/calendar/e-cal-shell-view-actions.c:1761
 msgid "Next 7 Days' Appointments"
 msgstr "次の7日間の予定"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1771
+#: ../modules/calendar/e-cal-shell-view-actions.c:1768
 #, fuzzy
 msgid "Occurs Less Than 5 Times"
 msgstr "5回以下"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1802
-#: ../modules/calendar/e-memo-shell-view-actions.c:819
-#: ../modules/calendar/e-task-shell-view-actions.c:1018
+#: ../modules/calendar/e-cal-shell-view-actions.c:1799
+#: ../modules/calendar/e-memo-shell-view-actions.c:818
+#: ../modules/calendar/e-task-shell-view-actions.c:1017
 msgid "Description contains"
 msgstr "説明が次のものを含む"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1809
-#: ../modules/calendar/e-memo-shell-view-actions.c:826
-#: ../modules/calendar/e-task-shell-view-actions.c:1025
+#: ../modules/calendar/e-cal-shell-view-actions.c:1806
+#: ../modules/calendar/e-memo-shell-view-actions.c:825
+#: ../modules/calendar/e-task-shell-view-actions.c:1024
 msgid "Summary contains"
 msgstr "サマリが次のものを含む"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1821
+#: ../modules/calendar/e-cal-shell-view-actions.c:1818
 msgid "Print this calendar"
 msgstr "このカレンダーを印刷します"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1828
+#: ../modules/calendar/e-cal-shell-view-actions.c:1825
 msgid "Preview the calendar to be printed"
 msgstr "印刷されるカレンダーのプレビューを表示します"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1850
+#: ../modules/calendar/e-cal-shell-view-actions.c:1847
 #: ../modules/calendar/e-cal-shell-view-memopad.c:306
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:393
-#: ../modules/calendar/e-memo-shell-view-actions.c:867
-#: ../modules/calendar/e-task-shell-view-actions.c:1066
+#: ../modules/calendar/e-memo-shell-view-actions.c:866
+#: ../modules/calendar/e-task-shell-view-actions.c:1065
 msgid "_Save as iCalendar..."
 msgstr "iCalendar 形式で保存(_S)..."
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1927
+#: ../modules/calendar/e-cal-shell-view-actions.c:1924
 msgid "Go To"
 msgstr "移動"
 
 #. Translators: Default filename part saving a memo to a file when
 #. * no summary is filed, the '.ics' extension is concatenated to it.
 #: ../modules/calendar/e-cal-shell-view-memopad.c:229
-#: ../modules/calendar/e-memo-shell-view-actions.c:546
+#: ../modules/calendar/e-memo-shell-view-actions.c:545
 msgid "memo"
 msgstr "メモ"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:272
-#: ../modules/calendar/e-memo-shell-view-actions.c:678
+#: ../modules/calendar/e-memo-shell-view-actions.c:677
 msgid "New _Memo"
 msgstr "新しいメモ(_M)"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:274
 #: ../modules/calendar/e-memo-shell-backend.c:219
-#: ../modules/calendar/e-memo-shell-view-actions.c:680
+#: ../modules/calendar/e-memo-shell-view-actions.c:679
 msgid "Create a new memo"
 msgstr "新しいメモを作成します"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:279
-#: ../modules/calendar/e-memo-shell-view-actions.c:685
+#: ../modules/calendar/e-memo-shell-view-actions.c:684
 msgid "_Open Memo"
 msgstr "メモを開く(_O)"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:281
-#: ../modules/calendar/e-memo-shell-view-actions.c:687
+#: ../modules/calendar/e-memo-shell-view-actions.c:686
 msgid "View the selected memo"
 msgstr "選択したメモを表示します"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:286
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:373
-#: ../modules/calendar/e-memo-shell-view-actions.c:692
-#: ../modules/calendar/e-task-shell-view-actions.c:830
+#: ../modules/calendar/e-memo-shell-view-actions.c:691
+#: ../modules/calendar/e-task-shell-view-actions.c:829
 msgid "Open _Web Page"
 msgstr "ウェブページを開く(_W)"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:298
-#: ../modules/calendar/e-memo-shell-view-actions.c:852
+#: ../modules/calendar/e-memo-shell-view-actions.c:851
 msgid "Print the selected memo"
 msgstr "選択したメモを印刷します"
 
@@ -16029,22 +16010,22 @@ msgstr ""
 #. Translators: Default filename part saving a task to a file when
 #. * no summary is filed, the '.ics' extension is concatenated to it
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:296
-#: ../modules/calendar/e-task-shell-view-actions.c:663
+#: ../modules/calendar/e-task-shell-view-actions.c:662
 msgid "task"
 msgstr "タスク"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:331
-#: ../modules/calendar/e-task-shell-view-actions.c:725
+#: ../modules/calendar/e-task-shell-view-actions.c:724
 msgid "_Assign Task"
 msgstr "タスクの割当て(_A)"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:345
-#: ../modules/calendar/e-task-shell-view-actions.c:802
+#: ../modules/calendar/e-task-shell-view-actions.c:801
 msgid "_Mark as Complete"
 msgstr "完了としてマーク(_M)"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:347
-#: ../modules/calendar/e-task-shell-view-actions.c:804
+#: ../modules/calendar/e-task-shell-view-actions.c:803
 msgid "Mark selected tasks as complete"
 msgstr "選択したタスクに完了マークを付与します"
 
@@ -16053,33 +16034,33 @@ msgid "_Mark as Incomplete"
 msgstr "未完了としてマーク(_M)"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:354
-#: ../modules/calendar/e-task-shell-view-actions.c:811
+#: ../modules/calendar/e-task-shell-view-actions.c:810
 msgid "Mark selected tasks as incomplete"
 msgstr "選択したタスクに未完とのマークを付与します"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:359
-#: ../modules/calendar/e-task-shell-view-actions.c:816
+#: ../modules/calendar/e-task-shell-view-actions.c:815
 msgid "New _Task"
 msgstr "新しいタスク(_T)"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:361
 #: ../modules/calendar/e-task-shell-backend.c:216
-#: ../modules/calendar/e-task-shell-view-actions.c:818
+#: ../modules/calendar/e-task-shell-view-actions.c:817
 msgid "Create a new task"
 msgstr "新しいタスクを作成します"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:366
-#: ../modules/calendar/e-task-shell-view-actions.c:823
+#: ../modules/calendar/e-task-shell-view-actions.c:822
 msgid "_Open Task"
 msgstr "タスクを開く(_O)"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:368
-#: ../modules/calendar/e-task-shell-view-actions.c:825
+#: ../modules/calendar/e-task-shell-view-actions.c:824
 msgid "View the selected task"
 msgstr "選択したタスクを表示します"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:385
-#: ../modules/calendar/e-task-shell-view-actions.c:1051
+#: ../modules/calendar/e-task-shell-view-actions.c:1050
 msgid "Print the selected task"
 msgstr "選択したタスクを印刷します"
 
@@ -16108,18 +16089,18 @@ msgid "Memo Li_st"
 msgstr "メモの一覧(_S)"
 
 #: ../modules/calendar/e-memo-shell-backend.c:236
-#: ../modules/calendar/e-memo-shell-view-actions.c:645
+#: ../modules/calendar/e-memo-shell-view-actions.c:644
 msgid "Create a new memo list"
 msgstr "新しいメモの一覧を作成します"
 
-#: ../modules/calendar/e-memo-shell-sidebar.c:499
-msgid "Memo List Selector"
-msgstr "メモの一覧の選択"
-
-#: ../modules/calendar/e-memo-shell-sidebar.c:755
+#: ../modules/calendar/e-memo-shell-sidebar.c:117
 #, fuzzy, c-format
 msgid "Opening memo list '%s'"
 msgstr "%s のメモを開きます"
+
+#: ../modules/calendar/e-memo-shell-sidebar.c:504
+msgid "Memo List Selector"
+msgstr "メモの一覧の選択"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:232
 #: ../modules/calendar/e-memo-shell-view-actions.c:247
@@ -16130,63 +16111,63 @@ msgstr "メモの印刷"
 msgid "Memo List Properties"
 msgstr "タスクの一覧のプロパティ"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:608
+#: ../modules/calendar/e-memo-shell-view-actions.c:607
 msgid "_Delete Memo"
 msgstr "メモの削除(_D)"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:615
+#: ../modules/calendar/e-memo-shell-view-actions.c:614
 msgid "_Find in Memo..."
 msgstr "メモから検索(_F)..."
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:617
+#: ../modules/calendar/e-memo-shell-view-actions.c:616
 msgid "Search for text in the displayed memo"
 msgstr "表示したメモに含まれる文字列を検索します"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:636
+#: ../modules/calendar/e-memo-shell-view-actions.c:635
 msgid "D_elete Memo List"
 msgstr "メモの一覧の削除(_E)"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:638
+#: ../modules/calendar/e-memo-shell-view-actions.c:637
 msgid "Delete the selected memo list"
 msgstr "選択したメモの一覧を削除します"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:643
+#: ../modules/calendar/e-memo-shell-view-actions.c:642
 msgid "_New Memo List"
 msgstr "新しいメモの一覧(_N)"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:659
+#: ../modules/calendar/e-memo-shell-view-actions.c:658
 msgid "Refresh the selected memo list"
 msgstr "選択したメモの一覧を更新"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:666
+#: ../modules/calendar/e-memo-shell-view-actions.c:665
 msgid "Rename the selected memo list"
 msgstr "選択したメモの一覧の名前を変更"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:671
+#: ../modules/calendar/e-memo-shell-view-actions.c:670
 msgid "Show _Only This Memo List"
 msgstr "このメモの一覧だけ表示(_O)"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:750
+#: ../modules/calendar/e-memo-shell-view-actions.c:749
 msgid "Memo _Preview"
 msgstr "メモのプレビュー(_P)"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:752
+#: ../modules/calendar/e-memo-shell-view-actions.c:751
 msgid "Show memo preview pane"
 msgstr "メモのプレビューペインを表示するかどうか"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:773
+#: ../modules/calendar/e-memo-shell-view-actions.c:772
 msgid "Show memo preview below the memo list"
 msgstr "メモの一覧の下にメモのプレビューを表示します"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:780
+#: ../modules/calendar/e-memo-shell-view-actions.c:779
 msgid "Show memo preview alongside the memo list"
 msgstr "メモの一覧の横にメモのプレビューを表示します"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:838
+#: ../modules/calendar/e-memo-shell-view-actions.c:837
 msgid "Print the list of memos"
 msgstr "メモの一覧を印刷します"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:845
+#: ../modules/calendar/e-memo-shell-view-actions.c:844
 msgid "Preview the list of memos to be printed"
 msgstr "印刷するメモの一覧のプレビューを表示します"
 
@@ -16198,14 +16179,14 @@ msgstr "複数のメモの削除"
 msgid "Delete Memo"
 msgstr "メモの削除"
 
-#: ../modules/calendar/e-memo-shell-view-private.c:465
+#: ../modules/calendar/e-memo-shell-view-private.c:462
 #, c-format
 msgid "%d memo"
 msgid_plural "%d memos"
 msgstr[0] "%d個のメモ"
 
-#: ../modules/calendar/e-memo-shell-view-private.c:469
-#: ../modules/calendar/e-task-shell-view-private.c:639
+#: ../modules/calendar/e-memo-shell-view-private.c:466
+#: ../modules/calendar/e-task-shell-view-private.c:636
 #, c-format
 msgid "%d selected"
 msgstr "%d個 選択済"
@@ -16235,18 +16216,18 @@ msgid "Tas_k List"
 msgstr "タスクの一覧(_K)"
 
 #: ../modules/calendar/e-task-shell-backend.c:233
-#: ../modules/calendar/e-task-shell-view-actions.c:769
+#: ../modules/calendar/e-task-shell-view-actions.c:768
 msgid "Create a new task list"
 msgstr "新しいタスクの一覧を作成します"
 
-#: ../modules/calendar/e-task-shell-sidebar.c:499
-msgid "Task List Selector"
-msgstr "タスクの一覧の選択"
-
-#: ../modules/calendar/e-task-shell-sidebar.c:755
+#: ../modules/calendar/e-task-shell-sidebar.c:117
 #, fuzzy, c-format
 msgid "Opening task list '%s'"
 msgstr "%s のタスクを開きます"
+
+#: ../modules/calendar/e-task-shell-sidebar.c:504
+msgid "Task List Selector"
+msgstr "タスクの一覧の選択"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:255
 #: ../modules/calendar/e-task-shell-view-actions.c:270
@@ -16257,7 +16238,7 @@ msgstr "タスクの印刷"
 msgid "Task List Properties"
 msgstr "タスクの一覧のプロパティ"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:607
+#: ../modules/calendar/e-task-shell-view-actions.c:606
 msgid ""
 "This operation will permanently erase all tasks marked as completed. If you continue, you will not be able to recover these tasks.\n"
 "\n"
@@ -16267,99 +16248,99 @@ msgstr ""
 "\n"
 "本当にこれらのタスクを削除しますか?"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:614
+#: ../modules/calendar/e-task-shell-view-actions.c:613
 msgid "Do not ask me again"
 msgstr "次回からこのメッセージを表示しない"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:732
+#: ../modules/calendar/e-task-shell-view-actions.c:731
 msgid "_Delete Task"
 msgstr "タスク削除(_D)"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:739
+#: ../modules/calendar/e-task-shell-view-actions.c:738
 msgid "_Find in Task..."
 msgstr "タスクから検索(_F)..."
 
-#: ../modules/calendar/e-task-shell-view-actions.c:741
+#: ../modules/calendar/e-task-shell-view-actions.c:740
 msgid "Search for text in the displayed task"
 msgstr "表示されているタスクから文字列を検索します"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:753
+#: ../modules/calendar/e-task-shell-view-actions.c:752
 msgid "Copy..."
 msgstr "コピー..."
 
-#: ../modules/calendar/e-task-shell-view-actions.c:760
+#: ../modules/calendar/e-task-shell-view-actions.c:759
 msgid "D_elete Task List"
 msgstr "タスクの一覧の削除(_E)"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:762
+#: ../modules/calendar/e-task-shell-view-actions.c:761
 msgid "Delete the selected task list"
 msgstr "選択したタスクの一覧を削除します"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:767
+#: ../modules/calendar/e-task-shell-view-actions.c:766
 msgid "_New Task List"
 msgstr "新しいタスクの一覧(_N)"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:783
+#: ../modules/calendar/e-task-shell-view-actions.c:782
 msgid "Refresh the selected task list"
 msgstr "選択したタスクの一覧を更新"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:790
+#: ../modules/calendar/e-task-shell-view-actions.c:789
 msgid "Rename the selected task list"
 msgstr "選択したタスクの一覧の名前を変更"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:795
+#: ../modules/calendar/e-task-shell-view-actions.c:794
 msgid "Show _Only This Task List"
 msgstr "このタスクの一覧だけ表示(_O)"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:809
+#: ../modules/calendar/e-task-shell-view-actions.c:808
 msgid "Mar_k as Incomplete"
 msgstr "未完了としてマーク(_K)"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:839
+#: ../modules/calendar/e-task-shell-view-actions.c:838
 msgid "Delete completed tasks"
 msgstr "完了したタスクを削除します"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:914
+#: ../modules/calendar/e-task-shell-view-actions.c:913
 msgid "Task _Preview"
 msgstr "タスクのプレビュー(_P)"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:916
+#: ../modules/calendar/e-task-shell-view-actions.c:915
 msgid "Show task preview pane"
 msgstr "タスクのプレビューペインを表示する"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:937
+#: ../modules/calendar/e-task-shell-view-actions.c:936
 msgid "Show task preview below the task list"
 msgstr "タスクの一覧の下にタスクのプレビューを表示します"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:944
+#: ../modules/calendar/e-task-shell-view-actions.c:943
 msgid "Show task preview alongside the task list"
 msgstr "タスクの一覧の横にタスクのプレビューを表示します"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:952
+#: ../modules/calendar/e-task-shell-view-actions.c:951
 msgid "Active Tasks"
 msgstr "実行中のタスク"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:966
+#: ../modules/calendar/e-task-shell-view-actions.c:965
 msgid "Completed Tasks"
 msgstr "完了したタスク"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:973
+#: ../modules/calendar/e-task-shell-view-actions.c:972
 msgid "Next 7 Days' Tasks"
 msgstr "次の7日間のタスク"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:980
+#: ../modules/calendar/e-task-shell-view-actions.c:979
 msgid "Overdue Tasks"
 msgstr "期限を過ぎたタスク"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:987
+#: ../modules/calendar/e-task-shell-view-actions.c:986
 msgid "Tasks with Attachments"
 msgstr "添付ありのタスク"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:1037
+#: ../modules/calendar/e-task-shell-view-actions.c:1036
 msgid "Print the list of tasks"
 msgstr "タスクの一覧を印刷します"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:1044
+#: ../modules/calendar/e-task-shell-view-actions.c:1043
 msgid "Preview the list of tasks to be printed"
 msgstr "タスクの一覧の印刷プレビューを表示します"
 
@@ -16371,11 +16352,11 @@ msgstr "タスクを削除"
 msgid "Delete Task"
 msgstr "タスクを委任"
 
-#: ../modules/calendar/e-task-shell-view-private.c:524
+#: ../modules/calendar/e-task-shell-view-private.c:521
 msgid "Expunging"
 msgstr "抹消"
 
-#: ../modules/calendar/e-task-shell-view-private.c:635
+#: ../modules/calendar/e-task-shell-view-private.c:632
 #, c-format
 msgid "%d task"
 msgid_plural "%d tasks"
@@ -17617,60 +17598,60 @@ msgstr "すべてのアカウントの検索"
 msgid "Account Search"
 msgstr "アカウントの検索"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1022
+#: ../modules/mail/e-mail-shell-view-private.c:1024
 #, c-format
 msgid "%d selected, "
 msgid_plural "%d selected, "
 msgstr[0] " 選択済 %d通、"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1033
+#: ../modules/mail/e-mail-shell-view-private.c:1035
 #, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
 msgstr[0] "削除済 %d通"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1039
-#: ../modules/mail/e-mail-shell-view-private.c:1046
+#: ../modules/mail/e-mail-shell-view-private.c:1041
+#: ../modules/mail/e-mail-shell-view-private.c:1048
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
 msgstr[0] "ジャンク %d通"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1052
+#: ../modules/mail/e-mail-shell-view-private.c:1054
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
 msgstr[0] "草案 %d通"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1058
+#: ../modules/mail/e-mail-shell-view-private.c:1060
 #, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
 msgstr[0] "未送信 %d通"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1064
+#: ../modules/mail/e-mail-shell-view-private.c:1066
 #, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
 msgstr[0] "送信済 %d通"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1076
+#: ../modules/mail/e-mail-shell-view-private.c:1078
 #, c-format
 msgid "%d unread, "
 msgid_plural "%d unread, "
 msgstr[0] "未読 %d通, "
 
-#: ../modules/mail/e-mail-shell-view-private.c:1079
+#: ../modules/mail/e-mail-shell-view-private.c:1081
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
 msgstr[0] "合計 %d通"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1102
+#: ../modules/mail/e-mail-shell-view-private.c:1104
 msgid "Trash"
 msgstr "ゴミ箱"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1518
+#: ../modules/mail/e-mail-shell-view-private.c:1520
 msgid "Send / Receive"
 msgstr "送信 / 受信"
 
@@ -18273,35 +18254,35 @@ msgstr "添付し忘れの防止"
 msgid "Reminds you when you forgot to add an attachment to a mail message."
 msgstr "メールのメッセージに添付し忘れた時に通知します。"
 
-#: ../plugins/bbdb/bbdb.c:638 ../plugins/bbdb/bbdb.c:647
+#: ../plugins/bbdb/bbdb.c:627 ../plugins/bbdb/bbdb.c:636
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1
 msgid "Automatic Contacts"
 msgstr "連絡先の自動生成"
 
 #. Enable BBDB checkbox
-#: ../plugins/bbdb/bbdb.c:662
+#: ../plugins/bbdb/bbdb.c:651
 msgid "Create _address book entries when sending mails"
 msgstr "メッセージを送ったらアドレス帳に登録する(_A)"
 
-#: ../plugins/bbdb/bbdb.c:670
+#: ../plugins/bbdb/bbdb.c:658
 msgid "Select Address book for Automatic Contacts"
 msgstr "連絡先の自動登録に使用するアドレス帳を選択してください:"
 
-#: ../plugins/bbdb/bbdb.c:687
+#: ../plugins/bbdb/bbdb.c:675
 msgid "Instant Messaging Contacts"
 msgstr "インスタントメッセンジャーの連絡先"
 
 #. Enable Gaim Checkbox
-#: ../plugins/bbdb/bbdb.c:702
+#: ../plugins/bbdb/bbdb.c:690
 msgid "_Synchronize contact info and images from Pidgin buddy list"
 msgstr "Pidgin の仲間リストから連絡先とその画像を同期(_S)"
 
-#: ../plugins/bbdb/bbdb.c:710
+#: ../plugins/bbdb/bbdb.c:697
 msgid "Select Address book for Pidgin buddy list"
 msgstr "Pidgin の仲間リストとして使用するアドレス帳を選択してください:"
 
 #. Synchronize now button.
-#: ../plugins/bbdb/bbdb.c:723
+#: ../plugins/bbdb/bbdb.c:710
 msgid "Synchronize with _buddy list now"
 msgstr "今すぐ仲間リストを同期する(_B)"
 
@@ -20272,6 +20253,23 @@ msgstr "期日(_D)"
 #: ../views/tasks/galview.xml.h:3
 msgid "With _Status"
 msgstr "ステータス(_S)"
+
+#~ msgid ""
+#~ "Evolution does not support calendar reminders with\n"
+#~ "email notifications yet, but this reminder was\n"
+#~ "configured to send an email.  Evolution will display\n"
+#~ "a normal reminder dialog box instead."
+#~ msgstr ""
+#~ "Evolution のカレンダーではメール通知式のリマインダーは\n"
+#~ "まだサポートしていませんが、このリマインダーはメール送信\n"
+#~ "の設定がされていました。その代わりに Evolution は\n"
+#~ "通常のリマインダーのダイアログを表示します。"
+
+#~ msgid "Email Settings"
+#~ msgstr "メール設定"
+
+#~ msgid "Configure email accounts"
+#~ msgstr "メールアカウントを設定"
 
 #~ msgid "Export in asynchronous mode"
 #~ msgstr "非同期モードでエクスポートする"
