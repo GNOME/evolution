@@ -12283,7 +12283,7 @@ msgstr "marcado para seguimiento"
 
 #: C/xinclude-filter-vfolder-conditions.xml:50(item/p)
 msgid "Checks whether the message is <_:link-1/>."
-msgstr "Comprueba si el mensaje está <_:gui-1/>."
+msgstr "Comprueba si el mensaje está <_:link-1/>."
 
 #: C/xinclude-filter-vfolder-conditions.xml:52(item/p)
 msgid "Completed On:"
