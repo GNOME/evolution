@@ -140,8 +140,6 @@ emfe_text_html_format (EMailFormatterExtension *extension,
 		return FALSE;
 
 	if (context->mode == E_MAIL_FORMATTER_MODE_RAW) {
-		/* FORMATTER FIXME: Shouldn't we have some extra method for
-		 * BASE64 and QP decoding?? */
 		e_mail_formatter_format_text (formatter, part, stream, cancellable);
 
 	} else if (context->mode == E_MAIL_FORMATTER_MODE_PRINTING) {
@@ -320,12 +318,17 @@ emfe_text_html_format (EMailFormatterExtension *extension,
 			"formatter_charset", G_TYPE_STRING, charset,
 			NULL);
 
+		/* HTML messages expect white background and black color for text.
+		   If Evolution uses a dark theme, then the dark background with
+		   a black text is hard to read, thus force white background color.
+		   The HTML content can still overwrite both colors.
+		*/
 		str = g_strdup_printf (
 			"<div class=\"part-container-nostyle\">"
 			"<iframe width=\"100%%\" height=\"10\" "
 			" frameborder=\"0\" src=\"%s\" "
 			" id=\"%s.iframe\" name=\"%s\" "
-			" style=\"border: 1px solid #%06x; background-color: #%06x;\">"
+			" style=\"border: 1px solid #%06x; background-color: #ffffff;\">"
 			"</iframe>"
 			"</div>",
 			uri,
@@ -333,10 +336,7 @@ emfe_text_html_format (EMailFormatterExtension *extension,
 			part->id,
 			e_rgba_to_value (
 				e_mail_formatter_get_color (
-					formatter, E_MAIL_FORMATTER_COLOR_FRAME)),
-			e_rgba_to_value (
-				e_mail_formatter_get_color (
-					formatter, E_MAIL_FORMATTER_COLOR_CONTENT)));
+					formatter, E_MAIL_FORMATTER_COLOR_FRAME)));
 
 		camel_stream_write_string (stream, str, cancellable, NULL);
 
