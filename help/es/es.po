@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-22 06:48+0000\n"
-"PO-Revision-Date: 2013-04-29 13:54+0200\n"
+"POT-Creation-Date: 2013-05-03 04:28+0000\n"
+"PO-Revision-Date: 2013-05-03 09:36+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -248,13 +248,10 @@ msgid "Creative Commons Share Alike 3.0"
 msgstr "Creative Commons Compartir Igual 3.0"
 
 #: C/index.page:25(media/span)
-#| msgid "Evolution"
 msgid "Evolution logo"
 msgstr "Logo de Evolution"
 
 #: C/index.page:23(page/title)
-#| msgctxt "text"
-#| msgid "Evolution Mail and Calendar"
 msgid "<_:media-1/> Evolution Mail and Calendar"
 msgstr "<_:media-1/> Correo y calendario de Evolution"
 
@@ -3065,10 +3062,6 @@ msgstr ""
 "valores separados por comas (CSV) y formato RDF."
 
 #: C/exporting-data-calendar.page:23(page/p)
-#| msgid ""
-#| "If you want to export only one contact, click <guiseq><gui>File</"
-#| "gui><gui>Save as vCard</gui></guiseq> or right-click on the contact and "
-#| "click <gui>Save as vCard</gui>."
 msgid ""
 "If you want to export only one appointment (or task or memo), either select "
 "the appointment and select <guiseq><gui>File</gui><gui>Save as iCalendar...</"
@@ -3123,11 +3116,6 @@ msgid "Exporting mail data"
 msgstr "Exportar datos de correos"
 
 #: C/exporting-data-mail.page:22(page/p)
-#| msgid ""
-#| "To save an email to a file in <link href=\"https://secure.wikimedia.org/"
-#| "wikipedia/en/wiki/Mbox\">mbox</link> format, select an email and click "
-#| "<guiseq><gui>File</gui><gui>Save as mbox...</gui></guiseq> or right-click "
-#| "on the message and click <gui>Save as mbox...</gui>."
 msgid ""
 "To save an email to a file in <link href=\"https://en.wikipedia.org/wiki/Mbox"
 "\">mbox</link> format, select an email and click <guiseq><gui>File</"
@@ -3244,9 +3232,6 @@ msgid "The file type will be automatically determined."
 msgstr "Se determinará automáticamente el tipo de archivo."
 
 #: C/import-apps-mozilla.page:34(item/p)
-#| msgid ""
-#| "Choose the destination (e.g. the folder in Evolution) for the imported "
-#| "data."
 msgid ""
 "Choose the destination (e.g. the folder or calendar in Evolution) for the "
 "imported data."
@@ -6701,10 +6686,6 @@ msgstr ""
 "o no."
 
 #: C/mail-composer-search.page:40(page/p)
-#| msgid ""
-#| "If you have a technical background you can also select the option to use "
-#| "<link href=\"https://secure.wikimedia.org/wikipedia/en/wiki/"
-#| "Regular_expression\">Regular expressions</link> for searching."
 msgid ""
 "If you have a technical background you can also select the option to use "
 "<link href=\"https://en.wikipedia.org/wiki/Regular_expression\">Regular "
@@ -7317,10 +7298,6 @@ msgid "Photograph Message Headers"
 msgstr "Cabecera de mensaje con fotografía"
 
 #: C/mail-displaying-sender-photograph.page:26(page/p)
-#| msgid ""
-#| "The photograph of the sender of an email can be shown at the right side "
-#| "of the message preview if the sender is in one of your address books and "
-#| "has a photograph."
 msgid ""
 "Evolution automatically displays photographs of the sender of an email at "
 "the right side of the message header if the sender already embedded a "
@@ -7331,10 +7308,6 @@ msgstr ""
 "foto en el mensaje."
 
 #: C/mail-displaying-sender-photograph.page:29(page/p)
-#| msgid ""
-#| "The photograph of the sender of an email can be shown at the right side "
-#| "of the message preview if the sender is in one of your address books and "
-#| "has a photograph."
 msgid ""
 "You can also manually enable displaying the photograph of the sender of an "
 "email if the sender is in one of your address books and has a photograph "
@@ -9776,15 +9749,9 @@ msgstr "Ubicación del mensaje:"
 
 #: C/mail-search-folders-conditions.page:34(item/p)
 msgid "Checks whether the message is located in a specific folder."
-msgstr ""
-"Comprueba si el mensaje está marcado se encuentra en una carpeta específica."
+msgstr "Comprueba si el mensaje se encuentra en una carpeta específica."
 
 #: C/mail-search-folders-conditions.page:34(item/p)
-#| msgid ""
-#| "By default, Evolution's <gui>Trash</gui> and <gui>Junk</gui> folders are "
-#| "<link xref=\"mail-search-folders\">Search folders</link>. They do not "
-#| "really exist but simply display all the messages that are marked as junk "
-#| "or for deletion in any folders of that account."
 msgid ""
 "Note that by default, Evolution's <gui>Trash</gui> and <gui>Junk</gui> "
 "folders are <link xref=\"mail-search-folders\">Search folders</link> so they "
@@ -10618,11 +10585,6 @@ msgid "Junk Mail Preferences"
 msgstr "Opciones de correo spam"
 
 #: C/mail-spam-settings.page:62(note/p)
-#| msgid ""
-#| "The junk mail options discussed in this page refer only to POP and Local "
-#| "Delivery. For handling junk mails on IMAP, see the Evolution settings "
-#| "under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</"
-#| "gui><gui style=\"button\">Edit</gui><gui>Receiving Options</gui></guiseq>."
 msgid ""
 "The junk mail options discussed in this page refer only to POP and Local "
 "Delivery accounts. For handling junk mails on IMAP accounts, see the "
@@ -11410,11 +11372,6 @@ msgid "There are currently no \"recommended instructions\" for users."
 msgstr "Actualmente no hay unas «instrucciones recomendadas» para usuarios."
 
 #: C/sync-with-other-devices.page:27(page/p)
-#| msgid ""
-#| "Many distributions provide the application <app><link href=\"http://"
-#| "syncevolution.org/\">SyncEvolution</link></app> that can be used in "
-#| "combination with devices that support <link href=\"https://secure."
-#| "wikimedia.org/wikipedia/en/wiki/SyncML\">SyncML</link>."
 msgid ""
 "Many distributions provide the application <app><link href=\"http://"
 "syncevolution.org/\">SyncEvolution</link></app> that can be used in "
@@ -11427,13 +11384,6 @@ msgstr ""
 "\">SyncML</link>."
 
 #: C/sync-with-other-devices.page:29(page/p)
-#| msgid ""
-#| "In general it is recommended to use applications and devices that both "
-#| "support the <link href=\"https://secure.wikimedia.org/wikipedia/en/wiki/"
-#| "ActiveSync\">ActiveSync protocol</link> (such as <app>SyncEvolution</"
-#| "app>). A <link href=\"https://secure.wikimedia.org/wikipedia/en/wiki/"
-#| "List_of_collaborative_software\">list of collaborative software</link> is "
-#| "available on Wikipedia."
 msgid ""
 "In general it is recommended to use applications and devices that both "
 "support the <link href=\"https://en.wikipedia.org/wiki/ActiveSync"
@@ -12166,10 +12116,6 @@ msgid "filters"
 msgstr "filtros"
 
 #: C/xinclude-filter-vfolder-conditions.xml:29(item/p)
-#| msgid ""
-#| "(For programmers only) Match a message according to an expression you "
-#| "write in the Scheme language used to define <link xref=\"mail-filters"
-#| "\">filters</link> in Evolution."
 msgid ""
 "(For programmers only) Match a message according to an expression you write "
 "in the Scheme language used to define <_:link-1/> in Evolution."
@@ -12221,10 +12167,6 @@ msgid "labels"
 msgstr "etiquetas"
 
 #: C/xinclude-filter-vfolder-conditions.xml:38(item/p)
-#| msgid ""
-#| "Messages can have <link xref=\"mail-labels\">labels</link> of Important, "
-#| "Work, Personal, To Do, or Later. You can set labels with other filters or "
-#| "manually."
 msgid ""
 "Messages can have <_:link-1/> of Important, Work, Personal, To Do, or Later. "
 "You can set labels with other filters or manually."
@@ -12298,7 +12240,6 @@ msgid "Checks whether there is an attachment for the email."
 msgstr "Comprueba si existe un adjunto para el correo."
 
 #: C/xinclude-filter-vfolder-conditions.xml:58(item/p)
-#| msgid "Mailing List"
 msgid "Mailing List:"
 msgstr "Lista de correo:"
 
@@ -12329,15 +12270,6 @@ msgid "grep"
 msgstr "grep"
 
 #: C/xinclude-filter-vfolder-conditions.xml:62(item/p)
-#| msgid ""
-#| "(For programmers only) If you know your way around a <link href=\"https://"
-#| "secure.wikimedia.org/wikipedia/en/wiki/Regular_expression\">regex</link>, "
-#| "or regular expression, this option allows you to search for complex "
-#| "patterns of letters, so that you can find, for example, all words that "
-#| "start with a and end with m, and are between six and fifteen letters "
-#| "long, or all messages that declare a particular header twice. For "
-#| "information about how to use regular expressions, check the man page for "
-#| "the <cmd>grep</cmd> command."
 msgid ""
 "(For programmers only) If you know your way around a <_:link-1/>, or regular "
 "expression, this option allows you to search for complex patterns of "
@@ -12367,9 +12299,6 @@ msgid "Search"
 msgstr "Buscar"
 
 #: C/xinclude-searching.xml:6(item/p)
-#| msgid ""
-#| "Select the <guiseq><gui>Search</gui><gui>Advanced Search</gui></guiseq> "
-#| "menu to open the dialog box."
 msgid "Select the <_:guiseq-1/> menu to open the dialog box."
 msgstr "Seleccione el menú <_:guiseq-1/> para abrir el cuadro de diálogo."
 
@@ -12378,9 +12307,6 @@ msgid "Add Condition"
 msgstr "Añadir condición"
 
 #: C/xinclude-searching.xml:7(item/p)
-#| msgid ""
-#| "Click <gui style=\"button\">Add Condition</gui> to add any number of "
-#| "rules."
 msgid "Click <_:gui-1/> to add any number of rules."
 msgstr "Pulse <_:gui-1/> para añadir cualquier número de reglas."
 
@@ -12398,8 +12324,6 @@ msgid "OK"
 msgstr "Aceptar"
 
 #: C/xinclude-searching.xml:9(item/p)
-#| msgid ""
-#| "Click <gui style=\"button\">OK</gui> to get the search results displayed."
 msgid "Click <_:gui-1/> to get the search results displayed."
 msgstr "Pulse <_:gui-1/> para mostrar los resultados de la búsqueda."
 
@@ -12425,12 +12349,6 @@ msgid "Q"
 msgstr "Q"
 
 #: C/xinclude-searching.xml:15(section/p)
-#| msgid ""
-#| "To clear your search view and get back to the default view, click the "
-#| "<gui>Clear</gui> icon in the search string field, or choose "
-#| "<guiseq><gui>Search</gui><gui>Clear</gui></guiseq> from the menubar. You "
-#| "can also press <keyseq><key>Shift</key><key>Ctrl</key><key>Q</key></"
-#| "keyseq> to clear the search."
 msgid ""
 "To clear your search view and get back to the default view, click the <_:gui-"
 "1/> icon in the search string field, or choose <_:guiseq-2/> from the "
@@ -12462,12 +12380,6 @@ msgid "Save Search"
 msgstr "Guardar búsqueda"
 
 #: C/xinclude-searching.xml:21(section/p)
-#| msgid ""
-#| "To save your search results, either click <gui>Save</gui> instead of "
-#| "<gui>OK</gui> in the Search dialog, or in case the search results are "
-#| "already displayed, select <guiseq><gui>Search</gui><gui>Save Search</"
-#| "gui></guiseq>. From now on this search will be directly available from "
-#| "the <gui>Search</gui> menu."
 msgid ""
 "To save your search results, either click <_:gui-1/> instead of <_:gui-2/> "
 "in the Search dialog, or in case the search results are already displayed, "
@@ -12488,9 +12400,6 @@ msgid "Edit Saved Searches"
 msgstr "Editar las búsquedas guardadas"
 
 #: C/xinclude-searching.xml:27(item/p)
-#| msgid ""
-#| "Select <guiseq><gui>Search</gui><gui>Edit Saved Searches</gui></guiseq> "
-#| "from the menu bar to open the window."
 msgid "Select <_:guiseq-1/> from the menu bar to open the window."
 msgstr "Para abrir la ventana seleccione <_:guiseq-1/> en la barra de menú."
 
@@ -12503,9 +12412,6 @@ msgid "Edit Rule"
 msgstr "Editar regla"
 
 #: C/xinclude-searching.xml:28(item/p)
-#| msgid ""
-#| "Click the <gui style=\"button\">Edit</gui> button to open the <gui>Edit "
-#| "Rule</gui> window."
 msgid "Click the <_:gui-1/> button to open the <_:gui-2/> window."
 msgstr "Pulse el botón <_:gui-1/> para abrir la ventana <_:gui-2/>."
 
@@ -12514,7 +12420,6 @@ msgid "Edit the title or search conditions from the dialog box."
 msgstr "Edite el título o el criterio de búsqueda desde el cuadro de diálogo."
 
 #: C/xinclude-searching.xml:30(item/p)
-#| msgid "Click <gui>OK</gui>."
 msgid "Click <_:gui-1/>."
 msgstr "Pulse <_:gui-1/>."
 
