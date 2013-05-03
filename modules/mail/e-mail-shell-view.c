@@ -766,7 +766,8 @@ static void
 has_unread_mail (GtkTreeModel *model,
                  GtkTreeIter *parent,
                  gboolean is_root,
-                 gboolean *has_unread)
+                 gboolean *has_unread_root,
+		 gboolean *has_unread)
 {
 	guint unread = 0;
 	GtkTreeIter iter, child;
@@ -792,8 +793,11 @@ has_unread_mail (GtkTreeModel *model,
 
 		*has_unread = *has_unread || (unread > 0 && unread != ~((guint)0));
 
-		if (*has_unread)
+		if (*has_unread) {
+			if (has_unread_root)
+				*has_unread_root = TRUE;
 			return;
+		}
 
 		if (!gtk_tree_model_iter_children (model, &iter, parent))
 			return;
@@ -809,7 +813,7 @@ has_unread_mail (GtkTreeModel *model,
 			break;
 
 		if (gtk_tree_model_iter_children (model, &child, &iter))
-			has_unread_mail (model, &child, FALSE, has_unread);
+			has_unread_mail (model, &child, FALSE, NULL, has_unread);
 
 	} while (gtk_tree_model_iter_next (model, &iter) && !*has_unread);
 }
@@ -839,6 +843,7 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	gboolean folder_is_store;
 	gboolean folder_is_trash;
 	gboolean folder_is_virtual;
+	gboolean folder_has_unread = FALSE;
 	gboolean folder_has_unread_rec = FALSE;
 	gboolean folder_tree_and_message_list_agree = TRUE;
 	gboolean store_is_builtin;
@@ -920,7 +925,7 @@ mail_shell_view_update_actions (EShellView *shell_view)
 				GTK_TREE_MODEL (model), &iter, path);
 			has_unread_mail (
 				GTK_TREE_MODEL (model), &iter,
-				TRUE, &folder_has_unread_rec);
+				TRUE, &folder_has_unread, &folder_has_unread_rec);
 			gtk_tree_path_free (path);
 		}
 
@@ -1008,8 +1013,12 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_FOLDER_MARK_ALL_AS_READ);
-	sensitive = folder_has_unread_rec && !folder_is_store;
+	sensitive = folder_has_unread && !folder_is_store;
 	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (MAIL_POPUP_FOLDER_MARK_ALL_AS_READ);
+	sensitive = folder_has_unread_rec && !folder_is_store;
+	gtk_action_set_visible (action, sensitive);
 
 	action = ACTION (MAIL_MANAGE_SUBSCRIPTIONS);
 	sensitive = folder_is_store && store_is_subscribable;

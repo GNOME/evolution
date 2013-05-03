@@ -417,25 +417,284 @@ action_mail_folder_expunge_cb (GtkAction *action,
 	g_free (selected_folder_name);
 }
 
+typedef struct _AsyncContext {
+	EActivity *activity;
+	EMailShellView *mail_shell_view;
+	gboolean can_subfolders;
+	GQueue folder_names;
+} AsyncContext;
+
 static void
-action_mail_folder_mark_all_as_read_cb (GtkAction *action,
-                                        EMailShellView *mail_shell_view)
+async_context_free (AsyncContext *context)
+{
+	if (context->activity != NULL)
+		g_object_unref (context->activity);
+
+	if (context->mail_shell_view != NULL)
+		g_object_unref (context->mail_shell_view);
+
+	/* This should be empty already, unless an error occurred... */
+	while (!g_queue_is_empty (&context->folder_names))
+		g_free (g_queue_pop_head (&context->folder_names));
+
+	g_slice_free (AsyncContext, context);
+}
+
+static void
+mark_all_read_thread (GSimpleAsyncResult *simple,
+		      GObject *object,
+		      GCancellable *cancellable)
+{
+	AsyncContext *context;
+	CamelStore *store;
+	CamelFolder *folder;
+	GPtrArray *uids;
+	gint ii;
+	GError *error = NULL;
+
+	context = g_simple_async_result_get_op_res_gpointer (simple);
+	store = CAMEL_STORE (object);
+
+	while (!g_queue_is_empty (&context->folder_names) && !error) {
+		gchar *folder_name = g_queue_pop_head (&context->folder_names);
+
+		folder = camel_store_get_folder_sync (store, folder_name, 0, cancellable, &error);
+
+		g_free (folder_name);
+
+		if (!folder)
+			break;
+
+		camel_folder_freeze (folder);
+
+		uids = camel_folder_get_uids (folder);
+
+		for (ii = 0; ii < uids->len; ii++)
+			camel_folder_set_message_flags (
+				folder, uids->pdata[ii],
+				CAMEL_MESSAGE_SEEN,
+				CAMEL_MESSAGE_SEEN);
+
+		camel_folder_thaw (folder);
+
+		camel_folder_free_uids (folder, uids);
+		g_object_unref (folder);
+	}
+
+	if (error)
+		g_simple_async_result_take_error (simple, error);
+}
+
+static void
+mark_all_read_done_cb (GObject *source,
+		       GAsyncResult *result,
+		       gpointer user_data)
+{
+	GSimpleAsyncResult *simple;
+	AsyncContext *context;
+	GError *local_error = NULL;
+
+	g_return_if_fail (
+		g_simple_async_result_is_valid (
+		result, source, mark_all_read_thread));
+
+	simple = G_SIMPLE_ASYNC_RESULT (result);
+	context = g_simple_async_result_get_op_res_gpointer (simple);
+
+	if (g_simple_async_result_propagate_error (simple, &local_error) &&
+	    local_error &&
+	    !g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		EAlertSink *alert_sink;
+
+		alert_sink = e_activity_get_alert_sink (context->activity);
+
+		e_alert_submit (
+			alert_sink, "mail:mark-all-read",
+			local_error->message, NULL);
+	}
+
+	g_clear_error (&local_error);
+
+	e_activity_set_state (context->activity, E_ACTIVITY_COMPLETED);
+}
+
+static void
+mark_all_read_collect_folder_names (GQueue *folder_names,
+				    CamelFolderInfo *folder_info)
+{
+	while (folder_info != NULL) {
+		if (folder_info->child != NULL)
+			mark_all_read_collect_folder_names (
+				folder_names, folder_info->child);
+
+		g_queue_push_tail (
+			folder_names, g_strdup (folder_info->full_name));
+
+		folder_info = folder_info->next;
+	}
+}
+
+enum {
+	MARK_ALL_READ_CANCEL,
+	MARK_ALL_READ_CURRENT_ONLY,
+	MARK_ALL_READ_WITH_SUBFOLDERS
+};
+
+static gint
+mark_all_read_prompt_user (EMailShellView *mail_shell_view,
+			   gboolean with_subfolders)
 {
 	EShellView *shell_view;
 	EShellWindow *shell_window;
-	EMailShellContent *mail_shell_content;
-	EMailReader *reader;
-	EMailView *mail_view;
-	CamelFolder *folder;
 	GtkWindow *parent;
-	GtkWidget *message_list;
-	GPtrArray *uids;
-	const gchar *key;
-	guint ii;
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	parent = GTK_WINDOW (shell_window);
+
+	if (with_subfolders) {
+		switch (e_alert_run_dialog_for_args (parent,
+			"mail:ask-mark-all-read-sub", NULL)) {
+			case GTK_RESPONSE_YES:
+				return MARK_ALL_READ_WITH_SUBFOLDERS;
+			case GTK_RESPONSE_NO:
+				return MARK_ALL_READ_CURRENT_ONLY;
+			default:
+				break;
+		}
+	} else if (em_utils_prompt_user (parent,
+			"prompt-on-mark-all-read",
+			"mail:ask-mark-all-read", NULL))
+		return MARK_ALL_READ_CURRENT_ONLY;
+
+	return MARK_ALL_READ_CANCEL;
+}
+
+static void
+mark_all_read_got_folder_info (GObject *source,
+			       GAsyncResult *result,
+			       gpointer user_data)
+{
+	CamelStore *store = CAMEL_STORE (source);
+	AsyncContext *context = user_data;
+	EAlertSink *alert_sink;
+	GCancellable *cancellable;
+	GSimpleAsyncResult *simple;
+	CamelFolderInfo *folder_info;
+	gint response;
+	GError *error = NULL;
+
+	alert_sink = e_activity_get_alert_sink (context->activity);
+	cancellable = e_activity_get_cancellable (context->activity);
+
+	folder_info = camel_store_get_folder_info_finish (
+		store, result, &error);
+
+	if (e_activity_handle_cancellation (context->activity, error)) {
+		g_warn_if_fail (folder_info == NULL);
+		async_context_free (context);
+		g_error_free (error);
+		return;
+
+	} else if (error != NULL) {
+		g_warn_if_fail (folder_info == NULL);
+		e_alert_submit (
+			alert_sink, "mail:mark-all-read",
+			error->message, NULL);
+		async_context_free (context);
+		g_error_free (error);
+		return;
+	}
+
+	g_return_if_fail (folder_info != NULL);
+
+	response = mark_all_read_prompt_user (context->mail_shell_view,
+		context->can_subfolders && folder_info->child != NULL);
+
+	if (response == MARK_ALL_READ_CURRENT_ONLY)
+		g_queue_push_tail (
+			&context->folder_names,
+			g_strdup (folder_info->full_name));
+
+	if (response == MARK_ALL_READ_WITH_SUBFOLDERS)
+		mark_all_read_collect_folder_names (&context->folder_names, folder_info);
+
+	camel_store_free_folder_info (store, folder_info);
+
+	if (g_queue_is_empty (&context->folder_names)) {
+		e_activity_set_state (context->activity, E_ACTIVITY_COMPLETED);
+		async_context_free (context);
+		return;
+	}
+
+	simple = g_simple_async_result_new (
+		source, mark_all_read_done_cb,
+		context, mark_all_read_thread);
+
+	g_simple_async_result_set_op_res_gpointer (
+		simple, context, (GDestroyNotify) async_context_free);
+
+	g_simple_async_result_run_in_thread (
+		simple, mark_all_read_thread,
+		G_PRIORITY_DEFAULT, cancellable);
+
+	g_object_unref (simple);
+}
+
+static void
+e_mail_shell_view_actions_mark_all_read (EMailShellView *mail_shell_view,
+					 CamelStore *store,
+					 const gchar *folder_name,
+					 gboolean can_subfolders)
+{
+	EShellView *shell_view;
+	EShellBackend *shell_backend;
+	EShellContent *shell_content;
+	EAlertSink *alert_sink;
+	GCancellable *cancellable;
+	AsyncContext *context;
+
+	g_return_if_fail (E_IS_MAIL_SHELL_VIEW (mail_shell_view));
+	g_return_if_fail (CAMEL_IS_STORE (store));
+	g_return_if_fail (folder_name != NULL);
+
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+
+	context = g_slice_new0 (AsyncContext);
+	context->mail_shell_view = g_object_ref (mail_shell_view);
+	context->can_subfolders = can_subfolders;
+	context->activity = e_activity_new ();
+	g_queue_init (&context->folder_names);
+
+	alert_sink = E_ALERT_SINK (shell_content);
+	e_activity_set_alert_sink (context->activity, alert_sink);
+
+	cancellable = camel_operation_new ();
+	e_activity_set_cancellable (context->activity, cancellable);
+
+	camel_operation_push_message (cancellable, _("Marking messages as read..."));
+
+	e_shell_backend_add_activity (shell_backend, context->activity);
+
+	camel_store_get_folder_info (
+		store, folder_name,
+		can_subfolders ? CAMEL_STORE_FOLDER_INFO_RECURSIVE : 0,
+		G_PRIORITY_DEFAULT, cancellable,
+		mark_all_read_got_folder_info, context);
+
+	g_object_unref (cancellable);
+}
+
+static void
+action_mail_folder_mark_all_as_read_cb (GtkAction *action,
+					EMailShellView *mail_shell_view)
+{
+	EMailShellContent *mail_shell_content;
+	EMailReader *reader;
+	EMailView *mail_view;
+	CamelFolder *folder;
 
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
 	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
@@ -445,24 +704,46 @@ action_mail_folder_mark_all_as_read_cb (GtkAction *action,
 	folder = e_mail_reader_get_folder (reader);
 	g_return_if_fail (folder != NULL);
 
-	key = "prompt-on-mark-all-read";
-
-	if (!em_utils_prompt_user (parent, key, "mail:ask-mark-all-read", NULL))
+	if (folder->summary &&
+	    camel_folder_summary_get_unread_count (folder->summary) == 0)
 		return;
 
-	message_list = e_mail_reader_get_message_list (reader);
-	g_return_if_fail (message_list != NULL);
+	e_mail_shell_view_actions_mark_all_read (
+		mail_shell_view,
+		camel_folder_get_parent_store (folder),
+		camel_folder_get_full_name (folder),
+		FALSE);
+}
 
-	uids = message_list_get_uids (MESSAGE_LIST (message_list));
+static void
+action_mail_popup_folder_mark_all_as_read_cb (GtkAction *action,
+					      EMailShellView *mail_shell_view)
+{
+	EShellSidebar *shell_sidebar;
+	EMFolderTree *folder_tree;
+	CamelStore *store;
+	gchar *folder_name;
 
-	camel_folder_freeze (folder);
-	for (ii = 0; ii < uids->len; ii++)
-		camel_folder_set_message_flags (
-			folder, uids->pdata[ii],
-			CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
-	camel_folder_thaw (folder);
+	shell_sidebar = e_shell_view_get_shell_sidebar (E_SHELL_VIEW (mail_shell_view));
 
-	em_utils_uids_free (uids);
+	g_object_get (shell_sidebar, "folder-tree", &folder_tree, NULL);
+
+	/* This action should only be activatable if a folder is selected. */
+	if (!em_folder_tree_get_selected (folder_tree, &store, &folder_name)) {
+		g_object_unref (folder_tree);
+		g_return_if_reached ();
+	}
+
+	g_object_unref (folder_tree);
+
+	e_mail_shell_view_actions_mark_all_read (
+		mail_shell_view,
+		store,
+		folder_name,
+		TRUE);
+
+	g_object_unref (store);
+	g_free (folder_name);
 }
 
 static void
@@ -1320,7 +1601,7 @@ static GtkActionEntry mail_entries[] = {
 	  G_CALLBACK (action_mail_folder_expunge_cb) },
 
 	{ "mail-folder-mark-all-as-read",
-	  "mail-read",
+	  "mail-mark-read",
 	  N_("Mar_k All Messages as Read"),
 	  "<Control>slash",
 	  N_("Mark all messages in the folder as read"),
@@ -1418,6 +1699,13 @@ static GtkActionEntry mail_entries[] = {
 	  NULL,
 	  N_("Subscribe or unsubscribe to folders on remote servers"),
 	  G_CALLBACK (action_mail_tools_subscriptions_cb) },
+
+	{ "mail-popup-folder-mark-all-as-read",
+	  "mail-mark-read",
+	  N_("Mar_k All Messages as Read"),
+	  NULL,
+	  N_("Mark all messages in the folder as read"),
+	  G_CALLBACK (action_mail_popup_folder_mark_all_as_read_cb) },
 
 	{ "mail-send-receive",
 	  "mail-send-receive",

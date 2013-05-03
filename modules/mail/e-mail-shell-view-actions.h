@@ -139,6 +139,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "mail-next-thread")
 #define E_SHELL_WINDOW_ACTION_MAIL_NEXT_UNREAD(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-next-unread")
+#define E_SHELL_WINDOW_ACTION_MAIL_POPUP_FOLDER_MARK_ALL_AS_READ(window) \
+	E_SHELL_WINDOW_ACTION ((window), "mail-popup-folder-mark-all-as-read")
 #define E_SHELL_WINDOW_ACTION_MAIL_PREVIEW(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-preview")
 #define E_SHELL_WINDOW_ACTION_MAIL_PREVIOUS(window) \

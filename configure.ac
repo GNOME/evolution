@@ -1286,7 +1286,7 @@ AC_ARG_ENABLE([plugins],
 	[enable_plugins="$enableval"],[enable_plugins=all])
 
 dnl Add any new plugins here
-plugins_base_always="mark-all-read publish-calendar"
+plugins_base_always="publish-calendar"
 
 plugins_base="$plugins_base_always"
 dist_plugins_base="$plugins_base_always"
@@ -1664,7 +1664,6 @@ plugins/image-inline/Makefile
 plugins/mail-notification/Makefile
 plugins/mail-to-task/Makefile
 plugins/mailing-list-actions/Makefile
-plugins/mark-all-read/Makefile
 plugins/pst-import/Makefile
 plugins/publish-calendar/Makefile
 plugins/save-calendar/Makefile

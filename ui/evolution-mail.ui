@@ -72,6 +72,7 @@
   </toolbar>
   <popup name='mail-folder-popup'>
     <placeholder name='mail-folder-popup-actions'/>
+    <menuitem action='mail-popup-folder-mark-all-as-read'/>
     <separator/>
     <menuitem action='mail-popup-folder-new'/>
     <menuitem action='mail-popup-folder-copy'/>
