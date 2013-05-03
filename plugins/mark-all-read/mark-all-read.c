@@ -111,7 +111,7 @@ prompt_user (gboolean has_subfolders)
 		parent = e_shell_get_active_window (shell);
 
 		return em_utils_prompt_user (
-			parent, NULL, "mail:ask-mark-all-read", NULL) ?
+			parent, "prompt-on-mark-all-read", "mail:ask-mark-all-read", NULL) ?
 			MARK_ALL_READ_CURRENT_FOLDER : MARK_ALL_READ_CANCEL;
 	}
 

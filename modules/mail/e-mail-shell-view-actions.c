@@ -423,24 +423,18 @@ action_mail_folder_mark_all_as_read_cb (GtkAction *action,
 {
 	EShellView *shell_view;
 	EShellWindow *shell_window;
-	EShellBackend *shell_backend;
 	EMailShellContent *mail_shell_content;
 	EMailReader *reader;
 	EMailView *mail_view;
 	CamelFolder *folder;
 	GtkWindow *parent;
-	EMailBackend *backend;
-	EMailSession *session;
-	MailFolderCache *cache;
 	GtkWidget *message_list;
 	GPtrArray *uids;
 	const gchar *key;
-	const gchar *prompt;
 	guint ii;
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
-	shell_backend = e_shell_view_get_shell_backend (shell_view);
 	parent = GTK_WINDOW (shell_window);
 
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
@@ -451,17 +445,9 @@ action_mail_folder_mark_all_as_read_cb (GtkAction *action,
 	folder = e_mail_reader_get_folder (reader);
 	g_return_if_fail (folder != NULL);
 
-	backend = E_MAIL_BACKEND (shell_backend);
-	session = e_mail_backend_get_session (backend);
-	cache = e_mail_session_get_folder_cache (session);
 	key = "prompt-on-mark-all-read";
 
-	if (mail_folder_cache_get_folder_has_children (cache, folder, NULL))
-		prompt = "mail:ask-mark-all-read-sub";
-	else
-		prompt = "mail:ask-mark-all-read";
-
-	if (!em_utils_prompt_user (parent, key, prompt, NULL))
+	if (!em_utils_prompt_user (parent, key, "mail:ask-mark-all-read", NULL))
 		return;
 
 	message_list = e_mail_reader_get_message_list (reader);
