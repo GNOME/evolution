@@ -12,7 +12,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2013-05-03 16:20+0000\n"
-"PO-Revision-Date: 2013-05-04 21:14+0100\n"
+"PO-Revision-Date: 2013-05-05 19:37+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: Slovenian\n"
@@ -2463,46 +2463,49 @@ msgstr "Ali naj se ohrani izvirni predmet?"
 msgid ""
 "Unable to retrieve saved component from the task list, returned error was: %s"
 msgstr ""
+"Ni mogoče pridobiti shranjenih vnosov seznama nalog. Vrnjena napaka je: %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1069
 #, c-format
 msgid ""
 "Unable to retrieve saved component from the memo list, returned error was: %s"
 msgstr ""
+"Ni mogoče pridobiti shranjenih vnosov seznama opomnikov. Vrnjena napaka je: "
+"%s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1075
 #, c-format
 msgid ""
 "Unable to retrieve saved component from the calendar, returned error was: %s"
-msgstr ""
+msgstr "Ni mogoče pridobiti shranjenih vnosov koledarja. Vrnjena napaka je: %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1084
 msgid "Unable to retrieve saved component from the task list"
-msgstr ""
+msgstr "Ni mogoče pridobiti shranjenih vnosov seznama nalog."
 
 #: ../calendar/gui/dialogs/comp-editor.c:1088
-#, fuzzy
 msgid "Unable to retrieve saved component from the memo list"
-msgstr "Ni mogoče poslati opomnika, saj ta še ni ustvarjen"
+msgstr "Ni mogoče pridobiti shranjenih vnosov seznama opomnikov."
 
 #: ../calendar/gui/dialogs/comp-editor.c:1093
 msgid "Unable to retrieve saved component from the calendar"
-msgstr ""
+msgstr "Ni mogoče pridobiti shranjenih vnosov koledarja."
 
 #: ../calendar/gui/dialogs/comp-editor.c:1114
 msgid ""
 "Unable to update the editor with the retrieved component from the task list"
-msgstr ""
+msgstr "Ni mogoče posodobiti urejevalnika s pridobljenimi vnosi seznama nalog."
 
 #: ../calendar/gui/dialogs/comp-editor.c:1118
 msgid ""
 "Unable to update the editor with the retrieved component from the memo list"
 msgstr ""
+"Ni mogoče posodobiti urejevalnika s pridobljenimi vnosi seznama opomnikov."
 
 #: ../calendar/gui/dialogs/comp-editor.c:1123
 msgid ""
 "Unable to update the editor with the retrieved component from the calendar"
-msgstr ""
+msgstr "Ni mogoče posodobiti urejevalnika s pridobljenimi vnosi koledarja."
 
 #: ../calendar/gui/dialogs/comp-editor.c:1241
 msgid "Close the current window"
@@ -6964,15 +6967,14 @@ msgid "Saving message to Outbox."
 msgstr "Shranjevanje sporočila v mapo odhodne pošte."
 
 #: ../composer/mail-composer.error.xml.h:35
-#, fuzzy
 msgid ""
 "The message will be saved to your local Outbox folder, because the "
 "destination service is currently unavailable. You can send the message by "
 "clicking the Send/Receive button in Evolution's toolbar."
 msgstr ""
-"Ker delate brez povezave, bo sporočilo shranjeno v vašo krajevno mapo "
-"odhodne pošte.  Ko se boste povezali lahko sporočilo pošljete s klikom na "
-"gumb Pošlji/Prejmni v orodni vrstici Evolution."
+"Ker ni povezave v omrežje, bo sporočilo shranjeno v krajevni mapi odhodne "
+"pošte.  Ob povezavi bo sporočilo mogoče poslati s klikom na gumb Pošlji/"
+"Prejmni v orodni vrstici programa."
 
 #: ../data/evolution-alarm-notify.desktop.in.in.h:1
 msgid "Evolution Alarm Notify"
@@ -7742,6 +7744,8 @@ msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"week-start-day-name\" instead."
 msgstr ""
+"Ključ je opuščen z različico 3.10 in ne bo več v uprabi. Uporabite možnost "
+"\"ime dneva začetka tedna\"."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:134
 msgid "(Deprecated) Work days"
@@ -7753,6 +7757,9 @@ msgid ""
 "was deprecated in version 3.10 and should no longer be used. Use the \"work-"
 "day-monday\", \"work-day-tuesday\", etc. keys instead.)"
 msgstr ""
+"Dnevi, s katerimi so opredeljene ure začetka in konca delovnika. (Ključ je "
+"opuščen z različico 3.10 in ne bo več v uprabi. Uporabite možnost \"prvi dan "
+"ponedeljek\", \"prvi dan torek\" ...)"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:1
 msgid "Previous Evolution version"
@@ -8146,9 +8153,8 @@ msgstr ""
 "uporabnikov nadležne, zato rajši vidijo običajne slike."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:59
-#, fuzzy
 msgid "Ellipsize mode for folder names in side bar"
-msgstr "Omogoči ali onemogoči elipsiranje imen map v stranski vrstici"
+msgstr "Način okrajševanja imen map v stranski vrstici"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:60
 msgid "Enable or disable type ahead search feature"
@@ -8344,7 +8350,7 @@ msgstr "Višina pladnja seznama sporočil."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:99
 msgid "Whether message headers are collapsed in the user interface"
-msgstr ""
+msgstr "Ali naj bodo glave sporočil zložene v uporabniškem vmesniku"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:100
 msgid "Width of the message-list pane"
@@ -8936,6 +8942,8 @@ msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"forward-style-name\" instead."
 msgstr ""
+"Ključ je opuščen z različico 3.10 in ne bo več v uprabi. Uporabite možnost "
+"\"ime sloga posredovanja\"."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
 msgid "(Deprecated) Default reply style"
@@ -8946,6 +8954,8 @@ msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"reply-style-name\" instead."
 msgstr ""
+"Ključ je opuščen z različico 3.10 in ne bo več v uprabi. Uporabite možnost "
+"\"ime sloga odgovora\"."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:206
 msgid "(Deprecated) Load images for HTML messages over HTTP"
@@ -8956,6 +8966,8 @@ msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"image-loading-policy\" instead."
 msgstr ""
+"Ključ je opuščen z različico 3.10 in ne bo več v uprabi. Uporabite možnost "
+"\"pravila nalaganja slik\"."
 
 #. Translators: This is the a list of words for the attach reminder plugin to look
 #. for in a message body. Please use any number of words here in your language that might
@@ -12122,10 +12134,8 @@ msgid "Open _Online Accounts"
 msgstr "Odpri _spletni račun"
 
 #: ../mail/e-mail-account-manager.c:142 ../mail/e-mail-account-manager.c:229
-#, fuzzy
 msgid "This account was created through the Online Accounts service."
-msgstr ""
-"Možnost omogoči povezavo s strežnikom preko spletne storitve GNOME računov."
+msgstr "Račun je bil ustvarjen preko storitve spletnih računov."
 
 #: ../mail/e-mail-account-manager.c:690
 msgid "_Restore Default"
@@ -18168,9 +18178,8 @@ msgstr ""
 "   %R - predstavlja naslove prejemnikov"
 
 #: ../modules/mail-config/e-mail-config-sendmail-backend.c:128
-#, fuzzy
 msgid "Send mail also when in offline _mode"
-msgstr "Začni v načinu brez povezave"
+msgstr "Sporočilo pošlji tudi v načinu _brez povezave"
 
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:123
 msgid "Ser_ver requires authentication"
