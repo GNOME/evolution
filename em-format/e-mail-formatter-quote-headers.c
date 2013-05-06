@@ -241,7 +241,7 @@ static void
 e_mail_formatter_quote_headers_class_init (EMailFormatterExtensionClass *class)
 {
 	class->mime_types = formatter_mime_types;
-	class->priority = G_PRIORITY_LOW;
+	class->priority = G_PRIORITY_HIGH;
 	class->format = emqfe_headers_format;
 }
 
