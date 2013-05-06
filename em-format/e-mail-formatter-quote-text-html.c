@@ -90,7 +90,7 @@ e_mail_formatter_quote_text_html_class_init (EMailFormatterExtensionClass *class
 	class->display_name = _("HTML");
 	class->description = _("Format part as HTML");
 	class->mime_types = formatter_mime_types;
-	class->priority = G_PRIORITY_LOW;
+	class->priority = G_PRIORITY_HIGH;
 	class->format = emqfe_text_html_format;
 }
 
