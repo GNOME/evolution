@@ -41,11 +41,13 @@ EMsgComposer *	em_utils_compose_new_message_with_mailto
 GtkWidget *	em_utils_edit_message		(EShell *shell,
 						 CamelFolder *folder,
 						 CamelMimeMessage *message,
-						 const gchar *message_uid);
+						 const gchar *message_uid,
+						 gboolean keep_signature);
 void		em_utils_edit_messages		(EMailReader *reader,
 						 CamelFolder *folder,
 						 GPtrArray *uids,
-						 gboolean replace);
+						 gboolean replace,
+						 gboolean keep_signature);
 EMsgComposer *	em_utils_forward_message	(EShell *shell,
 						 CamelSession *session,
 						 CamelMimeMessage *msg,

@@ -789,7 +789,7 @@ e_mail_reader_open_selected (EMailReader *reader)
 	if (em_utils_folder_is_drafts (registry, folder) ||
 		em_utils_folder_is_outbox (registry, folder) ||
 		em_utils_folder_is_templates (registry, folder)) {
-		em_utils_edit_messages (reader, folder, uids, TRUE);
+		em_utils_edit_messages (reader, folder, uids, TRUE, TRUE);
 		return uids->len;
 	}
 
@@ -822,7 +822,7 @@ e_mail_reader_open_selected (EMailReader *reader)
 			edits = g_ptr_array_new ();
 			g_ptr_array_add (edits, real_uid);
 			em_utils_edit_messages (
-				reader, real_folder, edits, TRUE);
+				reader, real_folder, edits, TRUE, TRUE);
 		} else {
 			g_free (real_uid);
 			g_ptr_array_add (views, g_strdup (uid));

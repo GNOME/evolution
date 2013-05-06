@@ -81,6 +81,7 @@ struct _AsyncContext {
 	gchar *folder_uri;
 	gchar *message_uid;
 	gboolean replace;
+	gboolean keep_signature;
 	GtkWidget *destroy_when_done;
 };
 
@@ -1336,7 +1337,8 @@ GtkWidget *
 em_utils_edit_message (EShell *shell,
                        CamelFolder *folder,
                        CamelMimeMessage *message,
-                       const gchar *message_uid)
+                       const gchar *message_uid,
+		       gboolean keep_signature)
 {
 	EMsgComposer *composer;
 	ESourceRegistry *registry;
@@ -1377,7 +1379,7 @@ em_utils_edit_message (EShell *shell,
 		g_slist_free (clue_list);
 	}
 
-	composer = e_msg_composer_new_with_message (shell, message, NULL);
+	composer = e_msg_composer_new_with_message (shell, message, keep_signature, NULL);
 	if (!folder_is_templates) {
 		EComposerHeaderTable *table;
 		ESource *source;
@@ -1483,7 +1485,7 @@ edit_messages_cb (CamelFolder *folder,
 
 		message = CAMEL_MIME_MESSAGE (value);
 		camel_medium_remove_header (CAMEL_MEDIUM (value), "X-Mailer");
-		em_utils_edit_message (shell, folder, message, key);
+		em_utils_edit_message (shell, folder, message, key, context->keep_signature);
 	}
 
 	g_hash_table_unref (hash_table);
@@ -1506,7 +1508,8 @@ void
 em_utils_edit_messages (EMailReader *reader,
                         CamelFolder *folder,
                         GPtrArray *uids,
-                        gboolean replace)
+                        gboolean replace,
+			gboolean keep_signature)
 {
 	EActivity *activity;
 	AsyncContext *context;
@@ -1524,6 +1527,7 @@ em_utils_edit_messages (EMailReader *reader,
 	context->reader = g_object_ref (reader);
 	context->ptr_array = g_ptr_array_ref (uids);
 	context->replace = replace;
+	context->keep_signature = keep_signature;
 
 	e_mail_folder_get_multiple_messages (
 		folder, uids, G_PRIORITY_DEFAULT,

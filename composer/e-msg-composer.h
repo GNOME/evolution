@@ -86,6 +86,7 @@ GType		e_msg_composer_get_type		(void);
 EMsgComposer *	e_msg_composer_new		(EShell *shell);
 EMsgComposer *	e_msg_composer_new_with_message	(EShell *shell,
 						 CamelMimeMessage *msg,
+						 gboolean keep_signature,
 						 GCancellable *cancellable);
 EMsgComposer *	e_msg_composer_new_from_url	(EShell *shell,
 						 const gchar *url);

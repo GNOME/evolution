@@ -928,7 +928,7 @@ create_new_message (CamelFolder *folder,
 			template, CAMEL_RECIPIENT_TYPE_BCC));
 
 	/* Create the composer */
-	composer = E_MSG_COMPOSER (em_utils_edit_message (shell, folder, new, message_uid));
+	composer = E_MSG_COMPOSER (em_utils_edit_message (shell, folder, new, message_uid, TRUE));
 	if (composer && context->source_folder_uri && context->message_uid)
 		e_msg_composer_set_source_headers (
 			composer, context->source_folder_uri,
