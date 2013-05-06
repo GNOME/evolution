@@ -732,7 +732,7 @@ e_spell_dictionary_get_suggestions (ESpellDictionary *dictionary,
 	EnchantDict *enchant_dict;
 	GList *list = NULL;
 	gchar **suggestions;
-	gsize ii, count;
+	gsize ii, count = 0;
 
 	g_return_val_if_fail (E_IS_SPELL_DICTIONARY (dictionary), NULL);
 	g_return_val_if_fail (word != NULL && *word != '\0', NULL);
