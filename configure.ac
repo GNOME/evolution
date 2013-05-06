@@ -1692,7 +1692,6 @@ fi
 echo "
 	LDAP support:		$msg_ldap
 	Contact Maps:		$enable_contact_maps
-	GNOME Online Accounts:	$enable_goa
 	Libnotify:		$HAVE_LIBNOTIFY
 	Kerberos 5:		$msg_krb5
 	SSL support:		$msg_ssl
