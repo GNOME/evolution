@@ -73,4 +73,8 @@ gboolean	e_google_chooser_populate_finish
 						 GError **error);
 gboolean	e_google_chooser_apply_selected	(EGoogleChooser *chooser);
 
+void		e_google_chooser_construct_default_uri
+						(SoupURI *soup_uri,
+						 const gchar *username);
+
 #endif /* E_GOOGLE_CHOOSER_H */
