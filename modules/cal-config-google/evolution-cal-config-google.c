@@ -123,6 +123,14 @@ cal_config_google_commit_changes (ESourceConfigBackend *backend,
 
 	soup_uri = e_source_webdav_dup_soup_uri (webdav_extension);
 
+	if (!soup_uri->path || !*soup_uri->path || g_strcmp0 (soup_uri->path, "/") == 0) {
+		ESourceAuthentication *authentication_extension
+			= e_source_get_extension (scratch_source, E_SOURCE_EXTENSION_AUTHENTICATION);
+
+		e_google_chooser_construct_default_uri (soup_uri,
+			e_source_authentication_get_user (authentication_extension));
+	}
+
 	/* The host name is fixed, obviously. */
 	soup_uri_set_host (soup_uri, "www.google.com");
 

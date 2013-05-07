@@ -122,6 +122,34 @@ google_chooser_extract_caldav_events_path (const gchar *uri)
 	return path;
 }
 
+static gchar *
+google_chooser_decode_user (const gchar *user)
+{
+	gchar *decoded_user;
+
+	if (user == NULL || *user == '\0')
+		return NULL;
+
+	/* Decode any encoded 'at' symbols ('%40' -> '@'). */
+	if (strstr (user, "%40") != NULL) {
+		gchar **segments;
+
+		segments = g_strsplit (user, "%40", 0);
+		decoded_user = g_strjoinv ("@", segments);
+		g_strfreev (segments);
+
+	/* If no domain is given, append "@gmail.com". */
+	} else if (strstr (user, "@") == NULL) {
+		decoded_user = g_strconcat (user, "@gmail.com", NULL);
+
+	/* Otherwise the user name should be fine as is. */
+	} else {
+		decoded_user = g_strdup (user);
+	}
+
+	return decoded_user;
+}
+
 static void
 google_chooser_set_source (EGoogleChooser *chooser,
                            ESource *source)
@@ -287,7 +315,6 @@ e_google_chooser_get_decoded_user (EGoogleChooser *chooser)
 	ESource *source;
 	ESourceAuthentication *authentication_extension;
 	const gchar *user;
-	gchar *decoded_user;
 
 	g_return_val_if_fail (E_IS_GOOGLE_CHOOSER (chooser), NULL);
 
@@ -297,27 +324,7 @@ e_google_chooser_get_decoded_user (EGoogleChooser *chooser)
 		source, E_SOURCE_EXTENSION_AUTHENTICATION);
 
 	user = e_source_authentication_get_user (authentication_extension);
-	if (user == NULL || *user == '\0')
-		return NULL;
-
-	/* Decode any encoded 'at' symbols ('%40' -> '@'). */
-	if (strstr (user, "%40") != NULL) {
-		gchar **segments;
-
-		segments = g_strsplit (user, "%40", 0);
-		decoded_user = g_strjoinv ("@", segments);
-		g_strfreev (segments);
-
-	/* If no domain is given, append "@gmail.com". */
-	} else if (strstr (user, "@") == NULL) {
-		decoded_user = g_strconcat (user, "@gmail.com", NULL);
-
-	/* Otherwise the user name should be fine as is. */
-	} else {
-		decoded_user = g_strdup (user);
-	}
-
-	return decoded_user;
+	return google_chooser_decode_user (user);
 }
 
 static void
@@ -616,4 +623,23 @@ e_google_chooser_apply_selected (EGoogleChooser *chooser)
 	g_free (path);
 
 	return TRUE;
+}
+
+void
+e_google_chooser_construct_default_uri (SoupURI *soup_uri,
+					const gchar *username)
+{
+	gchar *decoded_user, *path;
+
+	decoded_user = google_chooser_decode_user (username);
+	if (!decoded_user)
+		return;
+
+	path = g_strdup_printf (CALDAV_EVENTS_PATH_FORMAT, decoded_user);
+
+	soup_uri_set_user (soup_uri, decoded_user);
+	soup_uri_set_path (soup_uri, path);
+
+	g_free (decoded_user);
+	g_free (path);
 }
