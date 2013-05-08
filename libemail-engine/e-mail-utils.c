@@ -485,11 +485,11 @@ mail_account_in_recipients (ESourceRegistry *registry,
 
 ESource *
 em_utils_guess_mail_account_with_recipients_and_sort (ESourceRegistry *registry,
-						      CamelMimeMessage *message,
-						      CamelFolder *folder,
-						      const gchar *message_uid,
-						      EMailUtilsSourtSourcesFunc sort_func,
-						      gpointer sort_func_data)
+                                                      CamelMimeMessage *message,
+                                                      CamelFolder *folder,
+                                                      const gchar *message_uid,
+                                                      EMailUtilsSourtSourcesFunc sort_func,
+                                                      gpointer sort_func_data)
 {
 	ESource *source = NULL;
 	GHashTable *recipients;
@@ -584,11 +584,11 @@ exit:
 
 ESource *
 em_utils_guess_mail_identity_with_recipients_and_sort (ESourceRegistry *registry,
-						       CamelMimeMessage *message,
-						       CamelFolder *folder,
-						       const gchar *message_uid,
-						       EMailUtilsSourtSourcesFunc sort_func,
-						       gpointer sort_func_data)
+                                                       CamelMimeMessage *message,
+                                                       CamelFolder *folder,
+                                                       const gchar *message_uid,
+                                                       EMailUtilsSourtSourcesFunc sort_func,
+                                                       gpointer sort_func_data)
 {
 	ESource *source;
 	ESourceExtension *extension;

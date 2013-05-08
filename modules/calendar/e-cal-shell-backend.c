@@ -364,8 +364,8 @@ cal_shell_backend_init_importers (void)
 
 static void
 populate_g_date (GDate *date,
-		 time_t utc_time,
-		 icaltimezone *zone)
+                 time_t utc_time,
+                 icaltimezone *zone)
 {
 	struct icaltimetype icaltm;
 

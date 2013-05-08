@@ -120,8 +120,8 @@ write_calendar (const gchar *uid,
 		gboolean done = FALSE;
 
 		/* This is to workaround broken dispatch of "free-busy-data" signal,
-		   introduced in 3.8.0. This code can be removed once the below bug is
-		   properly fixed: https://bugzilla.gnome.org/show_bug.cgi?id=692361
+		 * introduced in 3.8.0. This code can be removed once the below bug is
+		 * properly fixed: https://bugzilla.gnome.org/show_bug.cgi?id=692361
 		*/
 		while (!done) {
 			g_usleep (G_USEC_PER_SEC / 10);

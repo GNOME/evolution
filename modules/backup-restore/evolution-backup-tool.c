@@ -157,7 +157,7 @@ strip_home_dir (const gchar *dir)
 
 static GString *
 replace_variables (const gchar *str,
-		   gboolean remove_dir_sep)
+                   gboolean remove_dir_sep)
 {
 	GString *res = NULL, *use;
 	const gchar *strip_datadir, *strip_configdir;

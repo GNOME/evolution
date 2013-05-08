@@ -418,7 +418,7 @@ e_attachment_store_get_total_size (EAttachmentStore *store)
 
 static void
 update_preview_cb (GtkFileChooser *file_chooser,
-		   gpointer data)
+                   gpointer data)
 {
 	GtkWidget *preview;
 	gchar *filename = NULL;
