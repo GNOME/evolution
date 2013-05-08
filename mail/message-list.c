@@ -3216,7 +3216,7 @@ static void
 build_tree (MessageList *ml,
             CamelFolderThread *thread,
             CamelFolderChangeInfo *changes,
-	    gboolean can_scroll_to_cursor)
+            gboolean can_scroll_to_cursor)
 {
 	gint row = 0;
 	ETreeModel *etm = ml->model;
@@ -4258,7 +4258,7 @@ struct ml_sort_uids_data {
 
 static gint
 ml_sort_uids_cb (gconstpointer a,
-		 gconstpointer b)
+                 gconstpointer b)
 {
 	struct ml_sort_uids_data * const *pdataA = a;
 	struct ml_sort_uids_data * const *pdataB = b;
@@ -4268,7 +4268,7 @@ ml_sort_uids_cb (gconstpointer a,
 
 void
 message_list_sort_uids (MessageList *message_list,
-			GPtrArray *uids)
+                        GPtrArray *uids)
 {
 	struct ml_sort_uids_data *data;
 	GPtrArray *array;

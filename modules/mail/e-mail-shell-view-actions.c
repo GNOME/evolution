@@ -442,8 +442,8 @@ async_context_free (AsyncContext *context)
 
 static void
 mark_all_read_thread (GSimpleAsyncResult *simple,
-		      GObject *object,
-		      GCancellable *cancellable)
+                      GObject *object,
+                      GCancellable *cancellable)
 {
 	AsyncContext *context;
 	CamelStore *store;
@@ -487,8 +487,8 @@ mark_all_read_thread (GSimpleAsyncResult *simple,
 
 static void
 mark_all_read_done_cb (GObject *source,
-		       GAsyncResult *result,
-		       gpointer user_data)
+                       GAsyncResult *result,
+                       gpointer user_data)
 {
 	GSimpleAsyncResult *simple;
 	AsyncContext *context;
@@ -520,7 +520,7 @@ mark_all_read_done_cb (GObject *source,
 
 static void
 mark_all_read_collect_folder_names (GQueue *folder_names,
-				    CamelFolderInfo *folder_info)
+                                    CamelFolderInfo *folder_info)
 {
 	while (folder_info != NULL) {
 		if (folder_info->child != NULL)
@@ -542,7 +542,7 @@ enum {
 
 static gint
 mark_all_read_prompt_user (EMailShellView *mail_shell_view,
-			   gboolean with_subfolders)
+                           gboolean with_subfolders)
 {
 	EShellView *shell_view;
 	EShellWindow *shell_window;
@@ -572,8 +572,8 @@ mark_all_read_prompt_user (EMailShellView *mail_shell_view,
 
 static void
 mark_all_read_got_folder_info (GObject *source,
-			       GAsyncResult *result,
-			       gpointer user_data)
+                               GAsyncResult *result,
+                               gpointer user_data)
 {
 	CamelStore *store = CAMEL_STORE (source);
 	AsyncContext *context = user_data;
@@ -608,7 +608,8 @@ mark_all_read_got_folder_info (GObject *source,
 
 	g_return_if_fail (folder_info != NULL);
 
-	response = mark_all_read_prompt_user (context->mail_shell_view,
+	response = mark_all_read_prompt_user (
+		context->mail_shell_view,
 		context->can_subfolders && folder_info->child != NULL);
 
 	if (response == MARK_ALL_READ_CURRENT_ONLY)
@@ -643,9 +644,9 @@ mark_all_read_got_folder_info (GObject *source,
 
 static void
 e_mail_shell_view_actions_mark_all_read (EMailShellView *mail_shell_view,
-					 CamelStore *store,
-					 const gchar *folder_name,
-					 gboolean can_subfolders)
+                                         CamelStore *store,
+                                         const gchar *folder_name,
+                                         gboolean can_subfolders)
 {
 	EShellView *shell_view;
 	EShellBackend *shell_backend;
@@ -689,7 +690,7 @@ e_mail_shell_view_actions_mark_all_read (EMailShellView *mail_shell_view,
 
 static void
 action_mail_folder_mark_all_as_read_cb (GtkAction *action,
-					EMailShellView *mail_shell_view)
+                                        EMailShellView *mail_shell_view)
 {
 	EMailShellContent *mail_shell_content;
 	EMailReader *reader;
@@ -717,7 +718,7 @@ action_mail_folder_mark_all_as_read_cb (GtkAction *action,
 
 static void
 action_mail_popup_folder_mark_all_as_read_cb (GtkAction *action,
-					      EMailShellView *mail_shell_view)
+                                              EMailShellView *mail_shell_view)
 {
 	EShellSidebar *shell_sidebar;
 	EMFolderTree *folder_tree;

@@ -147,8 +147,8 @@ mailer_prefs_map_seconds_to_milliseconds (const GValue *value,
 
 static gboolean
 mailer_prefs_map_string_to_rgba (GValue *value,
-				 GVariant *variant,
-				 gpointer user_data)
+                                 GVariant *variant,
+                                 gpointer user_data)
 {
 	GdkRGBA rgba;
 	const gchar *string;
@@ -165,8 +165,8 @@ mailer_prefs_map_string_to_rgba (GValue *value,
 
 static GVariant *
 mailer_prefs_map_rgba_to_string (const GValue *value,
-				 const GVariantType *expected_type,
-				 gpointer user_data)
+                                 const GVariantType *expected_type,
+                                 gpointer user_data)
 {
 	GVariant *variant;
 	const GdkRGBA *rgba;

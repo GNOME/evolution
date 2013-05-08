@@ -1061,19 +1061,19 @@ save_and_close_editor (CompEditor *editor,
 					switch (source_type) {
 						case (E_CAL_CLIENT_SOURCE_TYPE_TASKS):
 							msg = g_strdup_printf (
-								  _("Unable to retrieve saved component from the task list, returned error was: %s"),
-								  error->message);
+								_("Unable to retrieve saved component from the task list, returned error was: %s"),
+								error->message);
 							break;
 						case (E_CAL_CLIENT_SOURCE_TYPE_MEMOS):
 							msg = g_strdup_printf (
-								  _("Unable to retrieve saved component from the memo list, returned error was: %s"),
-								  error->message);
+								_("Unable to retrieve saved component from the memo list, returned error was: %s"),
+								error->message);
 							break;
 						case (E_CAL_CLIENT_SOURCE_TYPE_EVENTS):
 						default:
 							msg = g_strdup_printf (
-								  _("Unable to retrieve saved component from the calendar, returned error was: %s"),
-								  error->message);
+								_("Unable to retrieve saved component from the calendar, returned error was: %s"),
+								error->message);
 							break;
 					}
 					g_clear_error (&error);
@@ -1081,16 +1081,16 @@ save_and_close_editor (CompEditor *editor,
 					switch (source_type) {
 						case (E_CAL_CLIENT_SOURCE_TYPE_TASKS):
 							msg = g_strdup (
-								  _("Unable to retrieve saved component from the task list"));
+								_("Unable to retrieve saved component from the task list"));
 						break;
 						case (E_CAL_CLIENT_SOURCE_TYPE_MEMOS):
 							msg = g_strdup (
-								  _("Unable to retrieve saved component from the memo list"));
+								_("Unable to retrieve saved component from the memo list"));
 							break;
 						case (E_CAL_CLIENT_SOURCE_TYPE_EVENTS):
 						default:
 							msg = g_strdup (
-								  _("Unable to retrieve saved component from the calendar"));
+								_("Unable to retrieve saved component from the calendar"));
 							break;
 					}
 				}
@@ -1111,16 +1111,16 @@ save_and_close_editor (CompEditor *editor,
 					switch (source_type) {
 						case (E_CAL_CLIENT_SOURCE_TYPE_TASKS):
 							msg = g_strdup (
-								  _("Unable to update the editor with the retrieved component from the task list"));
+								_("Unable to update the editor with the retrieved component from the task list"));
 						break;
 						case (E_CAL_CLIENT_SOURCE_TYPE_MEMOS):
 							msg = g_strdup (
-								  _("Unable to update the editor with the retrieved component from the memo list"));
+								_("Unable to update the editor with the retrieved component from the memo list"));
 							break;
 						case (E_CAL_CLIENT_SOURCE_TYPE_EVENTS):
 						default:
 							msg = g_strdup (
-								  _("Unable to update the editor with the retrieved component from the calendar"));
+								_("Unable to update the editor with the retrieved component from the calendar"));
 							break;
 					}
 					e_notice (GTK_WINDOW (editor), GTK_MESSAGE_ERROR, "%s", msg);

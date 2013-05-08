@@ -1986,8 +1986,8 @@ em_utils_forward_messages (EMailReader *reader,
 
 static gint
 compare_sources_with_uids_order_cb (gconstpointer a,
-				    gconstpointer b,
-				    gpointer user_data)
+                                    gconstpointer b,
+                                    gpointer user_data)
 {
 	ESource *asource = (ESource *) a;
 	ESource *bsource = (ESource *) b;
@@ -2007,7 +2007,7 @@ compare_sources_with_uids_order_cb (gconstpointer a,
 
 static void
 sort_sources_by_ui (GList **psources,
-		    gpointer user_data)
+                    gpointer user_data)
 {
 	EShell *shell = user_data;
 	EShellBackend *shell_backend;

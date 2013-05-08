@@ -157,7 +157,7 @@ mail_backend_prepare_for_offline_cb (EShell *shell,
 	}
 
 	/* Set the cancellable only here, because mail_cancel_all() would
-	   cancel the just added CamelOperation as well. */
+	 * cancel the just added CamelOperation as well. */
 	if (e_shell_backend_is_started (E_SHELL_BACKEND (backend)) &&
 	    !e_activity_get_cancellable (activity)) {
 		GCancellable *cancellable;

@@ -176,7 +176,7 @@ mail_formatter_print_run (EMailFormatter *formatter,
 
 static void
 mail_formatter_update_style (EMailFormatter *formatter,
-			     GtkStateFlags state)
+                             GtkStateFlags state)
 {
 	EMailFormatterClass *formatter_class;
 

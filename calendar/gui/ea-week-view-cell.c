@@ -70,8 +70,8 @@ e_week_view_cell_class_init (EWeekViewCellClass *class)
 
 EWeekViewCell *
 e_week_view_cell_new (EWeekView *week_view,
-		      gint row,
-		      gint column)
+                      gint row,
+                      gint column)
 {
 	GObject *object;
 	EWeekViewCell *cell;
@@ -348,11 +348,11 @@ atk_component_interface_init (AtkComponentIface *iface)
 
 static void
 component_interface_get_extents (AtkComponent *component,
-				 gint *x,
-				 gint *y,
-				 gint *width,
-				 gint *height,
-				 AtkCoordType coord_type)
+                                 gint *x,
+                                 gint *y,
+                                 gint *width,
+                                 gint *height,
+                                 AtkCoordType coord_type)
 {
 	GObject *g_obj;
 	AtkObject *atk_obj;

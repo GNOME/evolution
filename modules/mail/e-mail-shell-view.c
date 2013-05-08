@@ -767,7 +767,7 @@ has_unread_mail (GtkTreeModel *model,
                  GtkTreeIter *parent,
                  gboolean is_root,
                  gboolean *has_unread_root,
-		 gboolean *has_unread)
+                 gboolean *has_unread)
 {
 	guint unread = 0;
 	GtkTreeIter iter, child;

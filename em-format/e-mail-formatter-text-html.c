@@ -319,9 +319,9 @@ emfe_text_html_format (EMailFormatterExtension *extension,
 			NULL);
 
 		/* HTML messages expect white background and black color for text.
-		   If Evolution uses a dark theme, then the dark background with
-		   a black text is hard to read, thus force white background color.
-		   The HTML content can still overwrite both colors.
+		 * If Evolution uses a dark theme, then the dark background with
+		 * a black text is hard to read, thus force white background color.
+		 * The HTML content can still overwrite both colors.
 		*/
 		str = g_strdup_printf (
 			"<div class=\"part-container-nostyle\">"

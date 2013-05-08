@@ -100,7 +100,7 @@ static gboolean plugin_enabled;
 
 static void
 disconnect_signals_on_dispose (gpointer object_with_signal,
-			       GObject *signal_data)
+                               GObject *signal_data)
 {
 	g_signal_handlers_disconnect_by_data (object_with_signal, signal_data);
 }

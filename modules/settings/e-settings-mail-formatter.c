@@ -52,8 +52,8 @@ settings_mail_formatter_get_extensible (ESettingsMailFormatter *extension)
 
 static gboolean
 settings_mail_formatter_map_string_to_rgba (GValue *value,
-					    GVariant *variant,
-					    gpointer user_data)
+                                            GVariant *variant,
+                                            gpointer user_data)
 {
 	GdkRGBA rgba;
 	const gchar *string;

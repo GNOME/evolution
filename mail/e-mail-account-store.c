@@ -226,7 +226,8 @@ mail_account_store_service_notify_cb (CamelService *service,
 	data->store = g_object_ref (store);
 	data->service = g_object_ref (service);
 
-	g_idle_add_full (G_PRIORITY_DEFAULT_IDLE,
+	g_idle_add_full (
+		G_PRIORITY_DEFAULT_IDLE,
 		mail_account_store_service_notify_idle_cb,
 		data,
 		service_notify_cb_data_free);

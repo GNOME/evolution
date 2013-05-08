@@ -467,7 +467,7 @@ mail_formatter_run (EMailFormatter *formatter,
 
 static void
 mail_formatter_update_style (EMailFormatter *formatter,
-			     GtkStateFlags state)
+                             GtkStateFlags state)
 {
 	GtkStyleContext *style_context;
 	GtkWidgetPath *widget_path;
@@ -1164,7 +1164,7 @@ e_mail_formatter_set_color (EMailFormatter *formatter,
 
 void
 e_mail_formatter_update_style (EMailFormatter *formatter,
-			       GtkStateFlags state)
+                               GtkStateFlags state)
 {
 	EMailFormatterClass *formatter_class;
 
@@ -1546,8 +1546,8 @@ e_mail_formatter_add_header_struct (EMailFormatter *formatter,
 
 void
 e_mail_formatter_remove_header (EMailFormatter *formatter,
-				const gchar *name,
-				const gchar *value)
+                                const gchar *name,
+                                const gchar *value)
 {
 	GList *iter = NULL;
 

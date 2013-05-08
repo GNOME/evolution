@@ -774,7 +774,8 @@ comp_to_list (ESourceRegistry *registry,
 			if (organizer.value && (!sender || g_ascii_strcasecmp (
 			    itip_strip_mailto (organizer.value), sender) != 0)) {
 				destination = e_destination_new ();
-				e_destination_set_email (destination,
+				e_destination_set_email (
+					destination,
 					itip_strip_mailto (organizer.value));
 				if (organizer.cn)
 					e_destination_set_name (destination, organizer.cn);
