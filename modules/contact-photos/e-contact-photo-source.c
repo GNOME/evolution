@@ -30,8 +30,10 @@ struct _EContactPhotoSourcePrivate {
 };
 
 struct _AsyncContext {
+	EBookClient *client;
 	gchar *query_string;
 	GInputStream *stream;
+	GCancellable *cancellable;
 	gint priority;
 };
 
@@ -57,8 +59,10 @@ G_DEFINE_DYNAMIC_TYPE_EXTENDED (
 static void
 async_context_free (AsyncContext *async_context)
 {
+	g_clear_object (&async_context->client);
 	g_free (async_context->query_string);
 	g_clear_object (&async_context->stream);
+	g_clear_object (&async_context->cancellable);
 
 	g_slice_free (AsyncContext, async_context);
 }
@@ -85,51 +89,22 @@ contact_photo_source_get_photo_thread (GSimpleAsyncResult *simple,
                                        GObject *source_object,
                                        GCancellable *cancellable)
 {
-	EContactPhotoSource *photo_source;
 	AsyncContext *async_context;
-	EClientCache *client_cache;
-	ESourceRegistry *registry;
-	EClient *client = NULL;
-	ESource *source;
 	GSList *slist = NULL;
 	GSList *slink;
 	GError *error = NULL;
 
-	photo_source = E_CONTACT_PHOTO_SOURCE (source_object);
 	async_context = g_simple_async_result_get_op_res_gpointer (simple);
 
-	client_cache = e_contact_photo_source_ref_client_cache (photo_source);
-	source = e_contact_photo_source_ref_source (photo_source);
-	registry = e_client_cache_ref_registry (client_cache);
-
-	/* Return no result if the source is disabled. */
-	if (!e_source_registry_check_enabled (registry, source))
-		goto exit;
-
-	client = e_client_cache_get_client_sync (
-		client_cache, source,
-		E_SOURCE_EXTENSION_ADDRESS_BOOK,
-		cancellable, &error);
-
-	/* Sanity check. */
-	g_return_if_fail (
-		((client != NULL) && (error == NULL)) ||
-		((client == NULL) && (error != NULL)));
-
-	if (error != NULL) {
-		g_simple_async_result_take_error (simple, error);
-		goto exit;
-	}
-
 	e_book_client_get_contacts_sync (
-		E_BOOK_CLIENT (client),
+		async_context->client,
 		async_context->query_string,
 		&slist, cancellable, &error);
 
 	if (error != NULL) {
 		g_warn_if_fail (slist == NULL);
 		g_simple_async_result_take_error (simple, error);
-		goto exit;
+		return;
 	}
 
 	/* See if any of the contacts have a photo. */
@@ -181,12 +156,46 @@ contact_photo_source_get_photo_thread (GSimpleAsyncResult *simple,
 	}
 
 	g_slist_free_full (slist, (GDestroyNotify) g_object_unref);
+}
 
-exit:
-	g_clear_object (&client_cache);
-	g_clear_object (&registry);
-	g_clear_object (&client);
-	g_clear_object (&source);
+static void
+contact_photo_source_get_client_cb (GObject *source_object,
+                                    GAsyncResult *result,
+                                    gpointer user_data)
+{
+	GSimpleAsyncResult *simple;
+	AsyncContext *async_context;
+	EClient *client;
+	GError *error = NULL;
+
+	simple = G_SIMPLE_ASYNC_RESULT (user_data);
+	async_context = g_simple_async_result_get_op_res_gpointer (simple);
+
+	client = e_client_cache_get_client_finish (
+		E_CLIENT_CACHE (source_object), result, &error);
+
+	/* Sanity check. */
+	g_return_if_fail (
+		((client != NULL) && (error == NULL)) ||
+		((client == NULL) && (error != NULL)));
+
+	if (client != NULL) {
+		async_context->client = g_object_ref (client);
+
+		/* The rest of the operation we can run from a
+		 * worker thread to keep the logic flow simple. */
+		g_simple_async_result_run_in_thread (
+			simple, contact_photo_source_get_photo_thread,
+			G_PRIORITY_DEFAULT, async_context->cancellable);
+
+		g_object_unref (client);
+
+	} else {
+		g_simple_async_result_take_error (simple, error);
+		g_simple_async_result_complete_in_idle (simple);
+	}
+
+	g_object_unref (simple);
 }
 
 static void
@@ -280,13 +289,19 @@ contact_photo_source_get_photo (EPhotoSource *photo_source,
 {
 	GSimpleAsyncResult *simple;
 	AsyncContext *async_context;
+	EClientCache *client_cache;
+	ESourceRegistry *registry;
 	EBookQuery *book_query;
+	ESource *source;
 
 	book_query = e_book_query_field_test (
 		E_CONTACT_EMAIL, E_BOOK_QUERY_IS, email_address);
 
 	async_context = g_slice_new0 (AsyncContext);
 	async_context->query_string = e_book_query_to_string (book_query);
+
+	if (G_IS_CANCELLABLE (cancellable))
+		async_context->cancellable = g_object_ref (cancellable);
 
 	e_book_query_unref (book_query);
 
@@ -299,9 +314,31 @@ contact_photo_source_get_photo (EPhotoSource *photo_source,
 	g_simple_async_result_set_op_res_gpointer (
 		simple, async_context, (GDestroyNotify) async_context_free);
 
-	g_simple_async_result_run_in_thread (
-		simple, contact_photo_source_get_photo_thread,
-		G_PRIORITY_DEFAULT, cancellable);
+	client_cache = e_contact_photo_source_ref_client_cache (
+		E_CONTACT_PHOTO_SOURCE (photo_source));
+	registry = e_client_cache_ref_registry (client_cache);
+
+	source = e_contact_photo_source_ref_source (
+		E_CONTACT_PHOTO_SOURCE (photo_source));
+
+	if (e_source_registry_check_enabled (registry, source)) {
+		/* Obtain the EClient asynchronously.  If an instance needs
+		 * to be created, it's more likely created in a thread with
+		 * a main loop so signal emissions can work. */
+		e_client_cache_get_client (
+			client_cache, source,
+			E_SOURCE_EXTENSION_ADDRESS_BOOK,
+			cancellable,
+			contact_photo_source_get_client_cb,
+			g_object_ref (simple));
+	} else {
+		/* Return no result if the source is disabled. */
+		g_simple_async_result_complete_in_idle (simple);
+	}
+
+	g_object_unref (client_cache);
+	g_object_unref (registry);
+	g_object_unref (source);
 
 	g_object_unref (simple);
 }
