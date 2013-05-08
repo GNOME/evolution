@@ -116,17 +116,29 @@ format_short_headers (EMailFormatter *formatter,
 
 	is_rtl = gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL;
 	if (is_rtl) {
-		g_string_append_printf (
-			buffer,
-			"<tr><td width=\"100%%\" align=\"right\">%s%s%s <strong>%s</strong></td></tr>",
-			from->len ? "(" : "", from->str, from->len ? ")" : "",
-			subject ? subject : _("(no subject)"));
+		g_string_append (
+			buffer, "<tr><td width=\"100%%\" align=\"right\">");
+		if (from->len > 0)
+			g_string_append_printf (buffer, "(%s) ", from->str);
+		g_string_append (buffer, "<strong>");
+		if (subject != NULL && *subject != '\0')
+			g_string_append (buffer, subject);
+		else
+			g_string_append (buffer, _("(no subject)"));
+		g_string_append (buffer, "</strong>");
+		g_string_append (buffer, "</td></tr>");
 	} else {
-		g_string_append_printf (
-			buffer,
-			"<tr><td><strong>%s</strong> %s%s%s</td></tr>",
-			subject ? subject : _("(no subject)"),
-			from->len ? "(" : "", from->str, from->len ? ")" : "");
+		g_string_append (
+			buffer, "<tr><td width=\"100%%\" align=\"left\">");
+		g_string_append (buffer, "<strong>");
+		if (subject != NULL && *subject != '\0')
+			g_string_append (buffer, subject);
+		else
+			g_string_append (buffer, _("(no subject)"));
+		g_string_append (buffer, "</strong>");
+		if (from->len > 0)
+			g_string_append_printf (buffer, " (%s)", from->str);
+		g_string_append (buffer, "</td></tr>");
 	}
 
 	g_string_append (buffer, "</table>");
@@ -265,7 +277,7 @@ format_full_headers (EMailFormatter *formatter,
 		flags & E_MAIL_FORMATTER_HEADER_FLAG_COLLAPSED ? "none" : "block");
 
 	header = ((CamelMimePart *) part)->headers;
-	while (header) {
+	while (header != NULL) {
 		if (!g_ascii_strcasecmp (header->name, "Sender")) {
 			struct _camel_header_address *addrs;
 			GString *html;
@@ -275,14 +287,15 @@ format_full_headers (EMailFormatter *formatter,
 
 			html = g_string_new ("");
 			name = e_mail_formatter_format_address (
-					formatter, html, addrs, header->name, FALSE,
-					~(flags & E_MAIL_FORMATTER_HEADER_FLAG_NOELIPSIZE));
+				formatter, html, addrs, header->name, FALSE,
+				~(flags & E_MAIL_FORMATTER_HEADER_FLAG_NOELIPSIZE));
 
 			header_sender = html->str;
 			camel_header_address_list_clear (&addrs);
 
 			g_string_free (html, FALSE);
 			g_free (name);
+
 		} else if (!g_ascii_strcasecmp (header->name, "From")) {
 			struct _camel_header_address *addrs;
 			GString *html;
@@ -292,14 +305,15 @@ format_full_headers (EMailFormatter *formatter,
 
 			html = g_string_new ("");
 			name = e_mail_formatter_format_address (
-					formatter, html, addrs, header->name, FALSE,
-					!(flags & E_MAIL_FORMATTER_HEADER_FLAG_NOELIPSIZE));
+				formatter, html, addrs, header->name, FALSE,
+				!(flags & E_MAIL_FORMATTER_HEADER_FLAG_NOELIPSIZE));
 
 			header_from = html->str;
 			camel_header_address_list_clear (&addrs);
 
 			g_string_free (html, FALSE);
 			g_free (name);
+
 		} else if (!g_ascii_strcasecmp (header->name, "X-Evolution-Mail-From-Delegate")) {
 			mail_from_delegate = TRUE;
 		}
@@ -349,7 +363,7 @@ format_full_headers (EMailFormatter *formatter,
 	/* dump selected headers */
 	if (mode & E_MAIL_FORMATTER_MODE_ALL_HEADERS) {
 		header = ((CamelMimePart *) part)->headers;
-		while (header) {
+		while (header != NULL) {
 			e_mail_formatter_format_header (
 				formatter, buffer, part, header,
 				E_MAIL_FORMATTER_HEADER_FLAG_NOCOLUMNS, charset);
@@ -371,7 +385,7 @@ format_full_headers (EMailFormatter *formatter,
 			mailer = !g_ascii_strcasecmp (h->name, "X-Evolution-Mailer");
 			face = !g_ascii_strcasecmp (h->name, "Face");
 
-			while (header) {
+			while (header != NULL) {
 				if (e_mail_formatter_get_show_sender_photo (formatter) &&
 					!photo_name && !g_ascii_strcasecmp (header->name, "From"))
 					photo_name = header->value;
@@ -505,7 +519,9 @@ emfe_headers_format (EMailFormatterExtension *extension,
                      GCancellable *cancellable)
 {
 	GString *buffer;
-	gint bg_color;
+	const GdkColor white = { 0, G_MAXUINT16, G_MAXUINT16, G_MAXUINT16 };
+	const GdkColor *body_color = &white;
+	const GdkColor *header_color;
 
 	if (g_cancellable_is_cancelled (cancellable))
 		return FALSE;
@@ -515,26 +531,21 @@ emfe_headers_format (EMailFormatterExtension *extension,
 
 	buffer = g_string_new ("");
 
-	if (context->mode == E_MAIL_FORMATTER_MODE_PRINTING) {
-		GdkColor white = { 0, G_MAXUINT16, G_MAXUINT16, G_MAXUINT16 };
-		bg_color = e_color_to_value (&white);
-	} else {
-		bg_color = e_color_to_value ((GdkColor *)
-				e_mail_formatter_get_color (
-					formatter, E_MAIL_FORMATTER_COLOR_BODY));
-	}
+	if (context->mode != E_MAIL_FORMATTER_MODE_PRINTING)
+		body_color = e_mail_formatter_get_color (
+			formatter, E_MAIL_FORMATTER_COLOR_BODY);
+
+	header_color = e_mail_formatter_get_color (
+		formatter, E_MAIL_FORMATTER_COLOR_HEADER);
 
 	g_string_append_printf (
 		buffer,
 		"<div class=\"headers\" style=\"background: #%06x;\" id=\"%s\">"
 		"<table border=\"0\" width=\"100%%\" style=\"color: #%06x;\">\n"
 		"<tr><td valign=\"top\" width=\"16\">\n",
-		bg_color,
+		e_color_to_value ((GdkColor *) body_color),
 		part->id,
-		e_color_to_value ((GdkColor *)
-			e_mail_formatter_get_color (
-				formatter,
-				E_MAIL_FORMATTER_COLOR_HEADER)));
+		e_color_to_value ((GdkColor *) header_color));
 
 	if (context->flags & E_MAIL_FORMATTER_HEADER_FLAG_COLLAPSABLE) {
 		g_string_append_printf (
@@ -546,12 +557,19 @@ emfe_headers_format (EMailFormatterExtension *extension,
 			(context->flags & E_MAIL_FORMATTER_HEADER_FLAG_COLLAPSED) ?
 				"plus.png" : "minus.png");
 
-		format_short_headers (formatter, buffer,
-			(CamelMedium *) part->part, context->flags, cancellable);
+		format_short_headers (
+			formatter, buffer,
+			CAMEL_MEDIUM (part->part),
+			context->flags,
+			cancellable);
 	}
 
-	format_full_headers (formatter, buffer,
-		(CamelMedium *) part->part, context->mode, context->flags, cancellable);
+	format_full_headers (
+		formatter, buffer,
+		CAMEL_MEDIUM (part->part),
+		context->mode,
+		context->flags,
+		cancellable);
 
 	g_string_append (buffer, "</td></tr></table></div>");
 

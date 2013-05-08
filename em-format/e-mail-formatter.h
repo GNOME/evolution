@@ -204,11 +204,11 @@ void		e_mail_formatter_set_show_sender_photo
 						(EMailFormatter *formatter,
 						 gboolean show_sender_photo);
 
-gboolean        e_mail_formatter_get_animate_images
-                                                (EMailFormatter *formatter);
-void            e_mail_formatter_set_animate_images
-                                                (EMailFormatter *formatter,
-                                                 gboolean animate_images);
+gboolean	e_mail_formatter_get_animate_images
+						(EMailFormatter *formatter);
+void		e_mail_formatter_set_animate_images
+						(EMailFormatter *formatter,
+						 gboolean animate_images);
 
 gboolean	e_mail_formatter_get_show_real_date
 						(EMailFormatter *formatter);
