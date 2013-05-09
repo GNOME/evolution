@@ -1007,15 +1007,15 @@ toggle_headers_visibility (WebKitDOMElement *button,
 	css_full = webkit_dom_element_get_style (full_headers);
 	css_value = webkit_dom_css_style_declaration_get_property_value (
 		css_full, "display");
-	expanded = (g_strcmp0 (css_value, "block") == 0);
+	expanded = (g_strcmp0 (css_value, "table") == 0);
 	g_free (css_value);
 
 	webkit_dom_css_style_declaration_set_property (
 		css_full, "display",
-		expanded ? "none" : "block", "", NULL);
+		expanded ? "none" : "table", "", NULL);
 	webkit_dom_css_style_declaration_set_property (
 		css_short, "display",
-		expanded ? "block" : "none", "", NULL);
+		expanded ? "table" : "none", "", NULL);
 
 	if (expanded)
 		path = "evo-file://" EVOLUTION_IMAGESDIR "/plus.png";

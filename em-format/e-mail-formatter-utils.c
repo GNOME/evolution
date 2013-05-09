@@ -45,9 +45,9 @@ e_mail_formatter_format_text_header (EMailFormatter *formatter,
                                      const gchar *value,
                                      guint32 flags)
 {
+	GtkTextDirection direction;
 	const gchar *fmt, *html;
 	gchar *mhtml = NULL;
-	gboolean is_rtl;
 
 	g_return_if_fail (E_IS_MAIL_FORMATTER (formatter));
 	g_return_if_fail (buffer != NULL);
@@ -70,31 +70,38 @@ e_mail_formatter_format_text_header (EMailFormatter *formatter,
 		html = value;
 	}
 
-	is_rtl = gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL;
+	direction = gtk_widget_get_default_direction ();
 
 	if (flags & E_MAIL_FORMATTER_HEADER_FLAG_NOCOLUMNS) {
 		if (flags & E_MAIL_FORMATTER_HEADER_FLAG_BOLD) {
-			fmt = "<tr class=\"header-item\" style=\"display: %s\"><td><b>%s:</b> %s</td></tr>";
+			fmt = "<tr style=\"display: %s\">"
+				"<td><b>%s:</b> %s</td></tr>";
 		} else {
-			fmt = "<tr class=\"header-item\" style=\"display: %s\"><td>%s: %s</td></tr>";
+			fmt = "<tr style=\"display: %s\">"
+				"<td>%s: %s</td></tr>";
 		}
 	} else if (flags & E_MAIL_FORMATTER_HEADER_FLAG_NODEC) {
-		if (is_rtl)
-			fmt = "<tr class=\"header-item rtl\" style=\"display: %s\"><td align=\"right\" valign=\"top\" width=\"100%%\">%2$s</td><th valign=top align=\"left\" nowrap>%1$s<b>&nbsp;</b></th></tr>";
+		if (direction == GTK_TEXT_DIR_RTL)
+			fmt = "<tr class=\"header\" style=\"display: %s\">"
+				"<th class=\"header rtl\">%s</th>"
+				"<td class=\"header rtl\">%s</td>"
+				"</tr>";
 		else
-			fmt = "<tr class=\"header-item\" style=\"display: %s\"><th align=\"right\" valign=\"top\" nowrap>%s<b>&nbsp;</b></th><td valign=top>%s</td></tr>";
+			fmt = "<tr class=\"header\" style=\"display: %s\">"
+				"<th class=\"header ltr\">%s</th>"
+				"<td class=\"header ltr\">%s</td>"
+				"</tr>";
 	} else {
-		if (flags & E_MAIL_FORMATTER_HEADER_FLAG_BOLD) {
-			if (is_rtl)
-				fmt = "<tr class=\"header-item rtl\" style=\"display: %s\"><td align=\"right\" valign=\"top\" width=\"100%%\">%2$s</td><th align=\"left\" nowrap>%1$s:<b>&nbsp;</b></th></tr>";
-			else
-				fmt = "<tr class=\"header-item\" style=\"display: %s\"><th align=\"right\" valign=\"top\" nowrap>%s:<b>&nbsp;</b></th><td>%s</td></tr>";
-		} else {
-			if (is_rtl)
-				fmt = "<tr class=\"header-item rtl\" style=\"display: %s\"><td align=\"right\" valign=\"top\" width=\"100%\">%2$s</td><td align=\"left\" nowrap>%1$s:<b>&nbsp;</b></td></tr>";
-			else
-				fmt = "<tr class=\"header-item\" style=\"display: %s\"><td align=\"right\" valign=\"top\" nowrap>%s:<b>&nbsp;</b></td><td>%s</td></tr>";
-		}
+		if (direction == GTK_TEXT_DIR_RTL)
+			fmt = "<tr class=\"header\" style=\"display: %s\">"
+				"<th class=\"header rtl\">%s:</th>"
+				"<td class=\"header rtl\">%s</td>"
+				"</tr>";
+		else
+			fmt = "<tr class=\"header\" style=\"display: %s\">"
+				"<th class=\"header ltr\">%s:</th>"
+				"<td class=\"header ltr\">%s</td>"
+				"</tr>";
 	}
 
 	g_string_append_printf (
