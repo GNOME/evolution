@@ -63,19 +63,12 @@
 #include "e-mail-printer.h"
 
 /* XXX This is a dirty hack on a dirty hack.  We really need
-#include <em-format/e-mail-print-formatter.h>
  *     to rework or get rid of the functions that use this. */
 extern const gchar *shell_builtin_backend;
 
 /* How many is too many? */
 /* Used in em_util_ask_open_many() */
 #define TOO_MANY 10
-
-/* drag and drop resulting file naming possibilities */
-enum {
-	DND_USE_SENT_DATE = 1, /* YYYYMMDDhhmmssms_<title> and use email sent date */
-	DND_USE_DND_DATE  = 2,  /*  YYYYMMDDhhmmssms_<title> and drag'drop date */
-};
 
 #define d(x)
 
@@ -948,7 +941,6 @@ static gchar *
 em_utils_build_export_filename (CamelFolder *folder,
                                 const gchar *uid,
                                 const gchar *exporttype,
-                                gint exportname,
                                 const gchar *tmpdir)
 {
 	CamelMessageInfo *info;
@@ -963,9 +955,6 @@ em_utils_build_export_filename (CamelFolder *folder,
 		if (camel_message_info_subject (info)) {
 			time_t reftime;
 			reftime = camel_message_info_date_sent (info);
-			if (exportname == DND_USE_DND_DATE) {
-				reftime = time (NULL);
-			}
 
 			ts = localtime (&reftime);
 			strftime (datetmp, 15, "%Y%m%d%H%M%S", ts);
@@ -1018,7 +1007,6 @@ em_utils_selection_set_urilist (GtkSelectionData *data,
 	gint fd;
 	GSettings *settings;
 	gchar *exporttype;
-	gint exportname;
 
 	tmpdir = e_mkdtemp ("drag-n-drop-XXXXXX");
 	if (tmpdir == NULL)
@@ -1030,7 +1018,6 @@ em_utils_selection_set_urilist (GtkSelectionData *data,
 		g_free (exporttype);
 		exporttype = g_strdup ("mbox");
 	}
-	exportname = g_settings_get_int (settings, "drag-and-drop-save-name-format");
 	g_object_unref (settings);
 
 	if (g_ascii_strcasecmp (exporttype, "mbox") == 0) {
@@ -1043,7 +1030,7 @@ em_utils_selection_set_urilist (GtkSelectionData *data,
 			file = g_build_filename (tmpdir, tmp, NULL);
 			g_free (tmp);
 		} else {
-			file = em_utils_build_export_filename (folder, uids->pdata[0], exporttype, exportname, tmpdir);
+			file = em_utils_build_export_filename (folder, uids->pdata[0], exporttype, tmpdir);
 		}
 
 		fd = g_open (file, O_WRONLY | O_CREAT | O_EXCL | O_BINARY, 0666);
@@ -1081,7 +1068,7 @@ em_utils_selection_set_urilist (GtkSelectionData *data,
 		filenames = g_new (gchar *, uids->len);
 		uris = g_new (gchar *, uids->len + 1);
 		for (i = 0; i < uids->len; i++) {
-			filenames[i] = em_utils_build_export_filename (folder, uids->pdata[i], exporttype, exportname, tmpdir);
+			filenames[i] = em_utils_build_export_filename (folder, uids->pdata[i], exporttype, tmpdir);
 			/* validity test */
 			fd = g_open (filenames[i], O_WRONLY | O_CREAT | O_EXCL | O_BINARY, 0666);
 			if (fd == -1) {
