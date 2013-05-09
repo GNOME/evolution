@@ -938,53 +938,41 @@ em_utils_selection_get_uidlist (GtkSelectionData *selection_data,
 }
 
 static gchar *
-em_utils_build_export_filename (CamelFolder *folder,
+em_utils_build_export_basename (CamelFolder *folder,
                                 const gchar *uid,
-                                const gchar *exporttype,
-                                const gchar *tmpdir)
+                                const gchar *extension)
 {
 	CamelMessageInfo *info;
-	gchar *file = NULL;
-	gchar *tmpfile = NULL;
-	struct tm  *ts;
+	gchar *basename;
+	const gchar *subject = NULL;
+	struct tm *ts;
+	time_t reftime;
 	gchar datetmp[15];
 
-	/* Try to get the drop filename from the message or folder */
+	reftime = time (NULL);
+
+	/* Try to get the drop filename from the message or folder. */
 	info = camel_folder_get_message_info (folder, uid);
-	if (info) {
-		if (camel_message_info_subject (info)) {
-			time_t reftime;
-			reftime = camel_message_info_date_sent (info);
+	if (info != NULL) {
+		subject = camel_message_info_subject (info);
+		reftime = camel_message_info_date_sent (info);
+	}
 
-			ts = localtime (&reftime);
-			strftime (datetmp, 15, "%Y%m%d%H%M%S", ts);
+	ts = localtime (&reftime);
+	strftime (datetmp, sizeof (datetmp), "%Y%m%d%H%M%S", ts);
 
-			if (g_ascii_strcasecmp (exporttype, "pdf") == 0)
-				file = g_strdup_printf ("%s_%s.pdf", datetmp, camel_message_info_subject (info));
-			else
-				file = g_strdup_printf ("%s_%s", datetmp, camel_message_info_subject (info));
+	if (subject == NULL || *subject == '\0')
+		subject = "Untitled Message";
 
-		}
+	if (extension == NULL)
+		extension = "";
+
+	basename = g_strdup_printf ("%s_%s%s", datetmp, subject, extension);
+
+	if (info != NULL)
 		camel_folder_free_message_info (folder, info);
-	} else {
-		time_t reftime;
-		reftime = time (NULL);
-		ts = localtime (&reftime);
-		strftime (datetmp, 15, "%Y%m%d%H%M%S", ts);
-		if (g_ascii_strcasecmp (exporttype, "pdf") == 0)
-			file = g_strdup_printf ("%s_Untitled Message.pdf", datetmp);
-		else
-			file = g_strdup_printf ("%s_Untitled Message", datetmp);
 
-	}
-
-	if (file != NULL) {
-		e_filename_make_safe (file);
-		tmpfile = g_build_filename (tmpdir, file, NULL);
-		g_free (file);
-	}
-
-	return tmpfile;
+	return basename;
 }
 
 /**
@@ -1006,110 +994,120 @@ em_utils_selection_set_urilist (GtkSelectionData *data,
 	gchar *uri;
 	gint fd;
 	GSettings *settings;
-	gchar *exporttype;
+	gchar *save_file_format;
+	gboolean save_as_mbox;
 
 	tmpdir = e_mkdtemp ("drag-n-drop-XXXXXX");
 	if (tmpdir == NULL)
 		return;
 
 	settings = g_settings_new ("org.gnome.evolution.mail");
-	exporttype = g_settings_get_string (settings, "drag-and-drop-save-file-format");
-	if (g_strcmp0 (exporttype, "mbox") != 0 && g_strcmp0 (exporttype, "pdf") != 0) {
-		g_free (exporttype);
-		exporttype = g_strdup ("mbox");
-	}
+
+	/* Save format is mbox unless pdf is explicitly requested. */
+	save_file_format = g_settings_get_string (
+		settings, "drag-and-drop-save-file-format");
+	save_as_mbox = (g_strcmp0 (save_file_format, "pdf") != 0);
+	g_free (save_file_format);
+
 	g_object_unref (settings);
 
-	if (g_ascii_strcasecmp (exporttype, "mbox") == 0) {
-		gchar * file = NULL;
+	if (save_as_mbox) {
 		CamelStream *fstream;
+		gchar *basename;
+		gchar *filename;
 
 		if (uids->len > 1) {
-			gchar * tmp = g_strdup_printf (_("Messages from %s"), camel_folder_get_display_name (folder));
-			e_filename_make_safe (tmp);
-			file = g_build_filename (tmpdir, tmp, NULL);
-			g_free (tmp);
+			basename = g_strdup_printf (
+				_("Messages from %s"),
+				camel_folder_get_display_name (folder));
 		} else {
-			file = em_utils_build_export_filename (folder, uids->pdata[0], exporttype, tmpdir);
+			basename = em_utils_build_export_basename (
+				folder, uids->pdata[0], NULL);
 		}
+		e_filename_make_safe (basename);
+		filename = g_build_filename (tmpdir, basename, NULL);
+		g_free (basename);
 
-		fd = g_open (file, O_WRONLY | O_CREAT | O_EXCL | O_BINARY, 0666);
+		fd = g_open (
+			filename,
+			O_WRONLY | O_CREAT | O_EXCL | O_BINARY, 0666);
 		if (fd == -1) {
-			g_free (file);
-			g_free (exporttype);
-			g_free (tmpdir);
-			return;
+			g_free (filename);
+			goto exit;
 		}
 
-		uri = g_filename_to_uri (file, NULL, NULL);
+		uri = g_filename_to_uri (filename, NULL, NULL);
 		fstream = camel_stream_fs_new_with_fd (fd);
-		if (fstream) {
+		if (fstream != NULL) {
 			if (em_utils_write_messages_to_stream (folder, uids, fstream) == 0) {
 				GdkAtom type;
+				gchar *uri_crlf;
+
 				/* terminate with \r\n to be compliant with the spec */
-				gchar *uri_crlf = g_strconcat (uri, "\r\n", NULL);
+				uri_crlf = g_strconcat (uri, "\r\n", NULL);
 
 				type = gtk_selection_data_get_target (data);
-				gtk_selection_data_set (data, type, 8, (guchar *) uri_crlf, strlen (uri_crlf));
+				gtk_selection_data_set (
+					data, type, 8,
+					(guchar *) uri_crlf,
+					strlen (uri_crlf));
 				g_free (uri_crlf);
 			}
 			g_object_unref (fstream);
 		} else
 			close (fd);
 
-		g_free (exporttype);
-		g_free (tmpdir);
-		g_free (file);
+		g_free (filename);
 		g_free (uri);
-	} else if (g_ascii_strcasecmp (exporttype, "pdf") == 0) {
-		gchar ** filenames, **uris;
-		gint i, uris_count = 0;
 
-		filenames = g_new (gchar *, uids->len);
-		uris = g_new (gchar *, uids->len + 1);
-		for (i = 0; i < uids->len; i++) {
-			filenames[i] = em_utils_build_export_filename (folder, uids->pdata[i], exporttype, tmpdir);
+	} else {  /* save as pdf */
+		gchar **uris;
+		guint n_uris = 0;
+		guint ii;
+
+		uris = g_new0 (gchar *, uids->len + 1);
+		for (ii = 0; ii < uids->len; ii++) {
+			gchar *basename;
+			gchar *filename;
+			gboolean success;
+
+			basename = em_utils_build_export_basename (
+				folder, uids->pdata[ii], ".pdf");
+			e_filename_make_safe (basename);
+			filename = g_build_filename (tmpdir, basename, NULL);
+			g_free (basename);
+
 			/* validity test */
-			fd = g_open (filenames[i], O_WRONLY | O_CREAT | O_EXCL | O_BINARY, 0666);
+			fd = g_open (
+				filename,
+				O_WRONLY | O_CREAT | O_EXCL | O_BINARY, 0666);
 			if (fd == -1) {
-				gint j;
-				for (j = 0; j <= i; j++) {
-					g_free (filenames[j]);
-				}
-				g_free (filenames);
-				g_free (uris);
-				g_free (tmpdir);
-				g_free (exporttype);
-				return;
+				g_strfreev (uris);
+				g_free (filename);
+				goto exit;
 			}
 			close (fd);
 
 			/* export */
-			if (em_utils_print_messages_to_file (folder, uids->pdata[i], filenames[i])) {
+			success = em_utils_print_messages_to_file (
+				folder, uids->pdata[ii], filename);
+			if (success) {
 				/* terminate with \r\n to be compliant with the spec */
-				uri = g_filename_to_uri (filenames[i], NULL, NULL);
-				uris[uris_count++] = g_strconcat (uri, "\r\n", NULL);
+				uri = g_filename_to_uri (filename, NULL, NULL);
+				uris[n_uris++] = g_strconcat (uri, "\r\n", NULL);
 				g_free (uri);
 			}
+
+			g_free (filename);
 		}
 
-		uris[uris_count] = NULL;
 		gtk_selection_data_set_uris (data, uris);
 
-		for (i = 0; i < uids->len; i++) {
-			g_free (filenames[i]);
-		}
-		g_free (filenames);
-		for (i = 0; i < uris_count; i++) {
-			g_free (uris[i]);
-		}
-		g_free (uris);
-		g_free (exporttype);
-		g_free (tmpdir);
-	} else {
-		g_free (exporttype);
-		g_free (tmpdir);
+		g_strfreev (uris);
 	}
+
+exit:
+	g_free (tmpdir);
 }
 
 /**
