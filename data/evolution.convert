@@ -133,7 +133,6 @@ composer-spell-languages = /apps/evolution/mail/composer/spell_languages
 composer-top-signature = /apps/evolution/mail/composer/top_signature
 default-account = /apps/evolution/mail/default_account
 drag-and-drop-save-file-format = /apps/evolution/mail/save_file_format
-drag-and-drop-save-name-format = /apps/evolution/mail/save_name_format
 error-level = /apps/evolution/mail/display/error_level
 error-timeout = /apps/evolution/mail/display/error_timeout
 filters-log-actions = /apps/evolution/mail/filters/log
