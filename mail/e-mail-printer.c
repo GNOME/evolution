@@ -34,21 +34,25 @@
 #include "e-mail-printer.h"
 #include "e-mail-display.h"
 
-enum {
-        BUTTON_SELECT_ALL,
-        BUTTON_SELECT_NONE,
-        BUTTON_TOP,
-        BUTTON_UP,
-        BUTTON_DOWN,
-        BUTTON_BOTTOM,
-        BUTTONS_COUNT
-};
-
 #define w(x)
 
+#define E_MAIL_PRINTER_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_MAIL_PRINTER, EMailPrinterPrivate))
+
+enum {
+	BUTTON_SELECT_ALL,
+	BUTTON_SELECT_NONE,
+	BUTTON_TOP,
+	BUTTON_UP,
+	BUTTON_DOWN,
+	BUTTON_BOTTOM,
+	BUTTONS_COUNT
+};
+
 struct _EMailPrinterPrivate {
-	EMailFormatterPrint *formatter;
-	EMailPartList *parts_list;
+	EMailFormatter *formatter;
+	EMailPartList *part_list;
 
 	gchar *export_filename;
 
@@ -62,11 +66,6 @@ struct _EMailPrinterPrivate {
 	GtkPrintOperation *operation;
 	GtkPrintOperationAction print_action;
 };
-
-G_DEFINE_TYPE (
-	EMailPrinter,
-	e_mail_printer,
-	G_TYPE_OBJECT);
 
 enum {
 	PROP_0,
@@ -88,9 +87,14 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
+G_DEFINE_TYPE (
+	EMailPrinter,
+	e_mail_printer,
+	G_TYPE_OBJECT);
+
 static gint
-emp_header_name_equal (const EMailFormatterHeader *h1,
-                       const EMailFormatterHeader *h2)
+mail_printer_header_name_equal (const EMailFormatterHeader *h1,
+                                const EMailFormatterHeader *h2)
 {
 	if ((h2->value == NULL) || (h1->value == NULL)) {
 		return g_strcmp0 (h1->name, h2->name);
@@ -104,9 +108,9 @@ emp_header_name_equal (const EMailFormatterHeader *h1,
 }
 
 static void
-emp_draw_footer (GtkPrintOperation *operation,
-                 GtkPrintContext *context,
-                 gint page_nr)
+mail_printer_draw_footer_cb (GtkPrintOperation *operation,
+                             GtkPrintContext *context,
+                             gint page_nr)
 {
 	PangoFontDescription *desc;
 	PangoLayout *layout;
@@ -141,36 +145,36 @@ emp_draw_footer (GtkPrintOperation *operation,
 }
 
 static void
-emp_printing_done (GtkPrintOperation *operation,
-                   GtkPrintOperationResult result,
-                   gpointer user_data)
+mail_printer_printing_done_cb (GtkPrintOperation *operation,
+                               GtkPrintOperationResult result,
+                               EMailPrinter *printer)
 {
-	EMailPrinter *emp = user_data;
-
-	g_signal_emit (emp, signals[SIGNAL_DONE], 0, operation, result);
+	g_signal_emit (printer, signals[SIGNAL_DONE], 0, operation, result);
 }
 
 static gboolean
-do_run_print_operation (EMailPrinter *emp)
+mail_printer_start_printing_timeout_cb (gpointer user_data)
 {
+	EMailPrinter *printer;
 	WebKitWebFrame *frame;
 
-	frame = webkit_web_view_get_main_frame (emp->priv->webview);
+	printer = E_MAIL_PRINTER (user_data);
+	frame = webkit_web_view_get_main_frame (printer->priv->webview);
 
 	webkit_web_frame_print_full (
-		frame, emp->priv->operation, emp->priv->print_action, NULL);
+		frame, printer->priv->operation,
+		printer->priv->print_action, NULL);
 
 	return FALSE;
 }
 
 static void
-emp_start_printing (GObject *object,
-                    GParamSpec *pspec,
-                    gpointer user_data)
+mail_printer_start_printing (GObject *object,
+                             GParamSpec *pspec,
+                             EMailPrinter *printer)
 {
 	WebKitWebView *web_view;
 	WebKitLoadStatus load_status;
-	EMailPrinter *emp = user_data;
 
 	web_view = WEBKIT_WEB_VIEW (object);
 	load_status = webkit_web_view_get_load_status (web_view);
@@ -182,41 +186,46 @@ emp_start_printing (GObject *object,
 	 * disconnect this handler after the first time, so that we don't start
 	 * another printing operation */
 	g_signal_handlers_disconnect_by_func (
-		object, emp_start_printing, user_data);
+		object, mail_printer_start_printing, printer);
 
-	if (emp->priv->print_action == GTK_PRINT_OPERATION_ACTION_EXPORT) {
+	if (printer->priv->print_action == GTK_PRINT_OPERATION_ACTION_EXPORT)
 		gtk_print_operation_set_export_filename (
-			emp->priv->operation, emp->priv->export_filename);
-	}
+			printer->priv->operation,
+			printer->priv->export_filename);
 
 	/* Give WebKit some time to perform layouting and rendering before
 	 * we start printing. 500ms should be enough in most cases... */
 	g_timeout_add_full (
 		G_PRIORITY_DEFAULT, 500,
-		(GSourceFunc) do_run_print_operation,
-		g_object_ref (emp), g_object_unref);
+		mail_printer_start_printing_timeout_cb,
+		g_object_ref (printer),
+		(GDestroyNotify) g_object_unref);
 }
 
 static void
-emp_run_print_operation (EMailPrinter *emp,
-                         EMailFormatter *formatter)
+mail_printer_run_print_operation (EMailPrinter *printer,
+                                  EMailFormatter *formatter)
 {
 	EMailPartList *part_list;
 	CamelFolder *folder;
 	const gchar *message_uid;
-	const gchar *default_charset, *charset;
+	const gchar *charset = NULL;
+	const gchar *default_charset = NULL;
 	gchar *mail_uri;
 
-	part_list = emp->priv->parts_list;
+	part_list = printer->priv->part_list;
 	folder = e_mail_part_list_get_folder (part_list);
 	message_uid = e_mail_part_list_get_message_uid (part_list);
-	default_charset = formatter ? e_mail_formatter_get_default_charset (formatter) : NULL;
-	charset = formatter ? e_mail_formatter_get_charset (formatter) : NULL;
 
-	if (!default_charset)
-		default_charset = "";
-	if (!charset)
+	if (formatter != NULL) {
+		charset = e_mail_formatter_get_charset (formatter);
+		default_charset = e_mail_formatter_get_default_charset (formatter);
+	}
+
+	if (charset == NULL)
 		charset = "";
+	if (default_charset == NULL)
+		default_charset = "";
 
 	mail_uri = e_mail_part_build_uri (
 		folder, message_uid,
@@ -227,26 +236,29 @@ emp_run_print_operation (EMailPrinter *emp,
 		NULL);
 
 	/* Print_layout is a special EMPart created by EMFormatHTMLPrint */
-	if (emp->priv->webview == NULL) {
+	if (printer->priv->webview == NULL) {
 		EMailFormatter *emp_formatter;
 
-		emp->priv->webview = g_object_new (
+		printer->priv->webview = g_object_new (
 			E_TYPE_MAIL_DISPLAY,
 			"mode", E_MAIL_FORMATTER_MODE_PRINTING, NULL);
-		e_web_view_set_enable_frame_flattening (E_WEB_VIEW (emp->priv->webview), FALSE);
+		e_web_view_set_enable_frame_flattening (
+			E_WEB_VIEW (printer->priv->webview), FALSE);
 		e_mail_display_set_force_load_images (
-			E_MAIL_DISPLAY (emp->priv->webview), TRUE);
+			E_MAIL_DISPLAY (printer->priv->webview), TRUE);
 
-		emp_formatter = e_mail_display_get_formatter (E_MAIL_DISPLAY (emp->priv->webview));
-		if (default_charset && *default_charset)
-			e_mail_formatter_set_default_charset (emp_formatter, default_charset);
-		if (charset && *charset)
+		emp_formatter = e_mail_display_get_formatter (
+			E_MAIL_DISPLAY (printer->priv->webview));
+		if (default_charset != NULL && *default_charset != '\0')
+			e_mail_formatter_set_default_charset (
+				emp_formatter, default_charset);
+		if (charset != NULL && *charset != '\0')
 			e_mail_formatter_set_charset (emp_formatter, charset);
 
-		g_object_ref_sink (emp->priv->webview);
+		g_object_ref_sink (printer->priv->webview);
 		g_signal_connect (
-			emp->priv->webview, "notify::load-status",
-			G_CALLBACK (emp_start_printing), emp);
+			printer->priv->webview, "notify::load-status",
+			G_CALLBACK (mail_printer_start_printing), printer);
 
 		w ({
 			GtkWidget *window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
@@ -254,13 +266,15 @@ emp_run_print_operation (EMailPrinter *emp,
 			gtk_container_add (GTK_CONTAINER (window), sw);
 			gtk_container_add (
 				GTK_CONTAINER (sw),
-				GTK_WIDGET (emp->priv->webview));
+				GTK_WIDGET (printer->priv->webview));
 			gtk_widget_show_all (window);
 		});
 	}
+
 	e_mail_display_set_parts_list (
-		E_MAIL_DISPLAY (emp->priv->webview), emp->priv->parts_list);
-	webkit_web_view_load_uri (emp->priv->webview, mail_uri);
+		E_MAIL_DISPLAY (printer->priv->webview),
+		printer->priv->part_list);
+	webkit_web_view_load_uri (printer->priv->webview, mail_uri);
 
 	g_free (mail_uri);
 }
@@ -643,8 +657,8 @@ emp_create_headers_tab (GtkPrintOperation *operation,
 }
 
 static void
-emp_set_parts_list (EMailPrinter *emp,
-                    EMailPartList *parts_list)
+mail_printer_build_model (EMailPrinter *printer,
+                          EMailPartList *part_list)
 {
 	CamelMediumHeader *header;
 	CamelMimeMessage *message;
@@ -653,22 +667,22 @@ emp_set_parts_list (EMailPrinter *emp,
 	gint i;
 	GtkTreeIter last_known = { 0 };
 
-	g_return_if_fail (parts_list);
-
-	emp->priv->parts_list = g_object_ref (parts_list);
-
-	if (emp->priv->headers)
-		g_object_unref (emp->priv->headers);
-	emp->priv->headers = gtk_list_store_new (
+	if (printer->priv->headers != NULL)
+		g_object_unref (printer->priv->headers);
+	printer->priv->headers = gtk_list_store_new (
 		5,
-		G_TYPE_BOOLEAN, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_INT);
+		G_TYPE_BOOLEAN,  /* COLUMN_ACTIVE */
+		G_TYPE_STRING,   /* COLUMN_HEADER_NAME */
+		G_TYPE_STRING,   /* COLUMN_HEADER_VALUE */
+		G_TYPE_POINTER,  /* COLUMN_HEADER_STRUCT */
+		G_TYPE_INT);     /* ??? */
 
-	message = e_mail_part_list_get_message (parts_list);
+	message = e_mail_part_list_get_message (part_list);
 	headers = camel_medium_get_headers (CAMEL_MEDIUM (message));
 	if (!headers)
 		return;
 
-	headers_queue = e_mail_formatter_dup_headers (E_MAIL_FORMATTER (emp->priv->formatter));
+	headers_queue = e_mail_formatter_dup_headers (printer->priv->formatter);
 	for (i = 0; i < headers->len; i++) {
 		GtkTreeIter iter;
 		GList *found_header;
@@ -677,46 +691,60 @@ emp_set_parts_list (EMailPrinter *emp,
 		header = &g_array_index (headers, CamelMediumHeader, i);
 		emfh = e_mail_formatter_header_new (header->name, header->value);
 
-		found_header = g_queue_find_custom (headers_queue, emfh, (GCompareFunc) emp_header_name_equal);
+		found_header = g_queue_find_custom (
+			headers_queue, emfh, (GCompareFunc)
+			mail_printer_header_name_equal);
 
 		if (!found_header) {
 			emfh->flags |= E_MAIL_FORMATTER_HEADER_FLAG_HIDDEN;
 			e_mail_formatter_add_header_struct (
-				E_MAIL_FORMATTER (emp->priv->formatter), emfh);
-			gtk_list_store_append (emp->priv->headers, &iter);
+				printer->priv->formatter, emfh);
+			gtk_list_store_append (printer->priv->headers, &iter);
 		} else {
-			if (gtk_list_store_iter_is_valid (emp->priv->headers, &last_known))
-				gtk_list_store_insert_after (emp->priv->headers, &iter, &last_known);
+			if (gtk_list_store_iter_is_valid (printer->priv->headers, &last_known))
+				gtk_list_store_insert_after (printer->priv->headers, &iter, &last_known);
 			else
-				gtk_list_store_insert_after (emp->priv->headers, &iter, NULL);
+				gtk_list_store_insert_after (printer->priv->headers, &iter, NULL);
 
 			last_known = iter;
 		}
 
 		gtk_list_store_set (
-			emp->priv->headers, &iter,
+			printer->priv->headers, &iter,
 			COLUMN_ACTIVE, (found_header != NULL),
 			COLUMN_HEADER_NAME, emfh->name,
 			COLUMN_HEADER_VALUE, emfh->value,
 			COLUMN_HEADER_STRUCT, emfh, -1);
 	}
 
-	g_queue_free_full (headers_queue, (GDestroyNotify) e_mail_formatter_header_free);
+	g_queue_free_full (
+		headers_queue,
+		(GDestroyNotify) e_mail_formatter_header_free);
+
 	camel_medium_free_headers (CAMEL_MEDIUM (message), headers);
 }
 
 static void
-emp_set_property (GObject *object,
-                  guint property_id,
-                  const GValue *value,
-                  GParamSpec *pspec)
+mail_printer_set_part_list (EMailPrinter *printer,
+                            EMailPartList *part_list)
 {
-	EMailPrinter *emp = E_MAIL_PRINTER (object);
+	g_return_if_fail (E_IS_MAIL_PART_LIST (part_list));
+	g_return_if_fail (printer->priv->part_list == NULL);
 
+	printer->priv->part_list = g_object_ref (part_list);
+}
+
+static void
+mail_printer_set_property (GObject *object,
+                           guint property_id,
+                           const GValue *value,
+                           GParamSpec *pspec)
+{
 	switch (property_id) {
-
 		case PROP_PART_LIST:
-			emp_set_parts_list (emp, g_value_get_pointer (value));
+			mail_printer_set_part_list (
+				E_MAIL_PRINTER (object),
+				g_value_get_object (value));
 			return;
 	}
 
@@ -724,17 +752,17 @@ emp_set_property (GObject *object,
 }
 
 static void
-emp_get_property (GObject *object,
-                  guint property_id,
-                  GValue *value,
-                  GParamSpec *pspec)
+mail_printer_get_property (GObject *object,
+                           guint property_id,
+                           GValue *value,
+                           GParamSpec *pspec)
 {
-	EMailPrinter *emp = E_MAIL_PRINTER (object);
-
 	switch (property_id) {
-
 		case PROP_PART_LIST:
-			g_value_set_pointer (value, emp->priv->parts_list);
+			g_value_take_object (
+				value,
+				e_mail_printer_ref_part_list (
+				E_MAIL_PRINTER (object)));
 			return;
 	}
 
@@ -742,53 +770,69 @@ emp_get_property (GObject *object,
 }
 
 static void
-emp_finalize (GObject *object)
+mail_printer_dispose (GObject *object)
 {
-	EMailPrinterPrivate *priv = E_MAIL_PRINTER (object)->priv;
+	EMailPrinterPrivate *priv;
 
-	if (priv->formatter) {
-		g_object_unref (priv->formatter);
-		priv->formatter = NULL;
-	}
+	priv = E_MAIL_PRINTER_GET_PRIVATE (object);
 
-	if (priv->headers) {
+	if (priv->headers != NULL) {
+		GtkTreeModel *model;
 		GtkTreeIter iter;
+		gboolean valid;
 
-		if (gtk_tree_model_get_iter_first (GTK_TREE_MODEL (priv->headers), &iter)) {
-			do {
-				EMailFormatterHeader *header = NULL;
-				gtk_tree_model_get (
-					GTK_TREE_MODEL (priv->headers), &iter,
-					COLUMN_HEADER_STRUCT, &header, -1);
-				e_mail_formatter_header_free (header);
-			} while (gtk_tree_model_iter_next (GTK_TREE_MODEL (priv->headers), &iter));
+		model = GTK_TREE_MODEL (priv->headers);
+
+		valid = gtk_tree_model_get_iter_first (model, &iter);
+		while (valid) {
+			EMailFormatterHeader *header = NULL;
+
+			gtk_tree_model_get (
+				model, &iter,
+				COLUMN_HEADER_STRUCT, &header, -1);
+			e_mail_formatter_header_free (header);
+
+			valid = gtk_tree_model_iter_next (model, &iter);
 		}
-		g_object_unref (priv->headers);
-		priv->headers = NULL;
 	}
 
-	if (priv->webview) {
-		g_object_unref (priv->webview);
-		priv->webview = NULL;
-	}
+	g_clear_object (&priv->formatter);
+	g_clear_object (&priv->part_list);
+	g_clear_object (&priv->headers);
+	g_clear_object (&priv->webview);
+	g_clear_object (&priv->operation);
 
-	if (priv->uri) {
-		g_free (priv->uri);
-		priv->uri = NULL;
-	}
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (e_mail_printer_parent_class)->dispose (object);
+}
 
-	if (priv->operation) {
-		g_object_unref (priv->operation);
-		priv->operation = NULL;
-	}
+static void
+mail_printer_finalize (GObject *object)
+{
+	EMailPrinterPrivate *priv;
 
-	if (priv->parts_list) {
-		g_object_unref (priv->parts_list);
-		priv->parts_list = NULL;
-	}
+	priv = E_MAIL_PRINTER_GET_PRIVATE (object);
 
-        /* Chain up to parent's finalize() method. */
+	g_free (priv->uri);
+
+	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_mail_printer_parent_class)->finalize (object);
+}
+
+static void
+mail_printer_constructed (GObject *object)
+{
+	EMailPrinter *printer;
+	EMailPartList *part_list;
+
+	printer = E_MAIL_PRINTER (object);
+
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_mail_printer_parent_class)->constructed (object);
+
+	part_list = e_mail_printer_ref_part_list (printer);
+	mail_printer_build_model (printer, part_list);
+	g_object_unref (part_list);
 }
 
 static void
@@ -799,17 +843,20 @@ e_mail_printer_class_init (EMailPrinterClass *class)
 	g_type_class_add_private (class, sizeof (EMailPrinterPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->set_property = emp_set_property;
-	object_class->get_property = emp_get_property;
-	object_class->finalize = emp_finalize;
+	object_class->set_property = mail_printer_set_property;
+	object_class->get_property = mail_printer_get_property;
+	object_class->dispose = mail_printer_dispose;
+	object_class->finalize = mail_printer_finalize;
+	object_class->constructed = mail_printer_constructed;
 
 	g_object_class_install_property (
 		object_class,
 		PROP_PART_LIST,
-		g_param_spec_pointer (
-			"parts-list",
-			"Parts List",
+		g_param_spec_object (
+			"part-list",
+			"Part List",
 			NULL,
+			E_TYPE_MAIL_PART_LIST,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
 
@@ -818,66 +865,70 @@ e_mail_printer_class_init (EMailPrinterClass *class)
 		G_TYPE_FROM_CLASS (class),
 		G_SIGNAL_RUN_FIRST,
 		G_STRUCT_OFFSET (EMailPrinterClass, done),
-		NULL, NULL,
-		e_marshal_VOID__OBJECT_INT,
+		NULL, NULL, NULL,
 		G_TYPE_NONE, 2,
-		GTK_TYPE_PRINT_OPERATION, G_TYPE_INT);
+		GTK_TYPE_PRINT_OPERATION,
+		GTK_TYPE_PRINT_OPERATION_RESULT);
 }
 
 static void
-e_mail_printer_init (EMailPrinter *emp)
+e_mail_printer_init (EMailPrinter *printer)
 {
-	emp->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		emp, E_TYPE_MAIL_PRINTER, EMailPrinterPrivate);
+	printer->priv = E_MAIL_PRINTER_GET_PRIVATE (printer);
 
-	emp->priv->formatter = (EMailFormatterPrint *) e_mail_formatter_print_new ();
-	emp->priv->headers = NULL;
-	emp->priv->webview = NULL;
+	printer->priv->formatter = e_mail_formatter_print_new ();
 }
 
 EMailPrinter *
-e_mail_printer_new (EMailPartList *source)
+e_mail_printer_new (EMailPartList *part_list)
 {
-	EMailPrinter *emp;
+	g_return_val_if_fail (E_IS_MAIL_PART_LIST (part_list), NULL);
 
-	emp = g_object_new (
+	return g_object_new (
 		E_TYPE_MAIL_PRINTER,
-		"parts-list", source, NULL);
+		"part-list", part_list, NULL);
+}
 
-	return emp;
+EMailPartList *
+e_mail_printer_ref_part_list (EMailPrinter *printer)
+{
+	g_return_val_if_fail (E_IS_MAIL_PRINTER (printer), NULL);
+
+	return g_object_ref (printer->priv->part_list);
 }
 
 void
-e_mail_printer_print (EMailPrinter *emp,
+e_mail_printer_print (EMailPrinter *printer,
                       GtkPrintOperationAction action,
                       EMailFormatter *formatter,
                       GCancellable *cancellable)
 {
-	g_return_if_fail (E_IS_MAIL_PRINTER (emp));
+	g_return_if_fail (E_IS_MAIL_PRINTER (printer));
 
-	if (emp->priv->operation)
-		g_object_unref (emp->priv->operation);
-	emp->priv->operation = e_print_operation_new ();
-	emp->priv->print_action = action;
-	gtk_print_operation_set_unit (emp->priv->operation, GTK_UNIT_PIXEL);
+	if (printer->priv->operation)
+		g_object_unref (printer->priv->operation);
+	printer->priv->operation = e_print_operation_new ();
+	printer->priv->print_action = action;
+	gtk_print_operation_set_unit (printer->priv->operation, GTK_UNIT_PIXEL);
 
-	gtk_print_operation_set_show_progress (emp->priv->operation, TRUE);
+	gtk_print_operation_set_show_progress (printer->priv->operation, TRUE);
 	g_signal_connect (
-		emp->priv->operation, "create-custom-widget",
-		G_CALLBACK (emp_create_headers_tab), emp);
+		printer->priv->operation, "create-custom-widget",
+		G_CALLBACK (emp_create_headers_tab), printer);
 	g_signal_connect (
-		emp->priv->operation, "done",
-		G_CALLBACK (emp_printing_done), emp);
+		printer->priv->operation, "done",
+		G_CALLBACK (mail_printer_printing_done_cb), printer);
 	g_signal_connect (
-		emp->priv->operation, "draw-page",
-		G_CALLBACK (emp_draw_footer), NULL);
+		printer->priv->operation, "draw-page",
+		G_CALLBACK (mail_printer_draw_footer_cb), NULL);
 
 	if (cancellable)
 		g_signal_connect_swapped (
 			cancellable, "cancelled",
-			G_CALLBACK (gtk_print_operation_cancel), emp->priv->operation);
+			G_CALLBACK (gtk_print_operation_cancel),
+			printer->priv->operation);
 
-	emp_run_print_operation (emp, formatter);
+	mail_printer_run_print_operation (printer, formatter);
 }
 
 const gchar *
@@ -894,8 +945,6 @@ e_mail_printer_set_export_filename (EMailPrinter *printer,
 {
 	g_return_if_fail (E_IS_MAIL_PRINTER (printer));
 
-	if (printer->priv->export_filename)
-	  g_free (printer->priv->export_filename);
-
+	g_free (printer->priv->export_filename);
 	printer->priv->export_filename = g_strdup (filename);
 }
