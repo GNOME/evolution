@@ -604,7 +604,7 @@ mail_printer_print_timeout_cb (gpointer user_data)
 			if (error == NULL)
 				g_warning (
 					"WebKit print operation returned "
-					"ERROR result without settings a "
+					"ERROR result without setting a "
 					"GError");
 			break;
 		case GTK_PRINT_OPERATION_RESULT_APPLY:
@@ -612,6 +612,7 @@ mail_printer_print_timeout_cb (gpointer user_data)
 				g_warning (
 					"WebKit print operation returned "
 					"APPLY result but also set a GError");
+			break;
 		case GTK_PRINT_OPERATION_RESULT_CANCEL:
 			if (error != NULL)
 				g_warning (
