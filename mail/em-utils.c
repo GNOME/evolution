@@ -592,12 +592,12 @@ do_print_msg_to_file (GObject *source,
 
 	printer = e_mail_printer_new (parts_list);
 	e_mail_printer_set_export_filename (printer, filename);
-	g_signal_connect_swapped (
-		printer, "done",
-		G_CALLBACK (g_object_unref), printer);
 
-	e_mail_printer_print (printer, GTK_PRINT_OPERATION_ACTION_EXPORT, NULL, NULL);
+	e_mail_printer_print (
+		printer, GTK_PRINT_OPERATION_ACTION_EXPORT,
+		NULL, NULL, NULL, NULL);
 
+	g_object_unref (printer);
 	g_object_unref (parser);
 }
 
