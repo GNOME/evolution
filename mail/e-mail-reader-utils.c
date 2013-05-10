@@ -864,56 +864,38 @@ e_mail_reader_open_selected (EMailReader *reader)
 	return ii;
 }
 
-static gboolean
-destroy_printing_activity (EActivity *activity)
-{
-	g_object_unref (activity);
-
-	return FALSE;
-}
-
 static void
-printing_done_cb (EMailPrinter *printer,
-                  GtkPrintOperation *operation,
-                  GtkPrintOperationResult result,
-                  gpointer user_data)
+mail_reader_print_message_done_cb (GObject *source_object,
+                                   GAsyncResult *result,
+                                   gpointer user_data)
 {
-	EActivity *activity = user_data;
+	EActivity *activity;
+	EAlertSink *alert_sink;
+	GError *error = NULL;
 
-	if (result == GTK_PRINT_OPERATION_RESULT_ERROR) {
+	activity = E_ACTIVITY (user_data);
+	alert_sink = e_activity_get_alert_sink (activity);
 
-		EAlertSink *alert_sink;
-		GError *error = NULL;
+	e_mail_printer_print_finish (
+		E_MAIL_PRINTER (source_object), result, &error);
 
-		alert_sink = e_activity_get_alert_sink (activity);
-		gtk_print_operation_get_error (operation, &error);
+	if (e_activity_handle_cancellation (activity, error)) {
+		g_error_free (error);
 
-		if (error != NULL) {
-			e_alert_submit (
-				alert_sink, "mail:printing-failed",
-				error->message, NULL);
-			g_error_free (error);
-		}
+	} else if (error != NULL) {
+		e_alert_submit (
+			alert_sink, "mail:printing-failed",
+			error->message, NULL);
+		g_error_free (error);
 
-		g_object_unref (activity);
-		g_object_unref (printer);
-		return;
+	} else {
+		/* Set activity as completed, and keep it displayed for a few
+		 * seconds so that user can actually see the the printing was
+		 * successfully finished. */
+		e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
 	}
 
-	/* Set activity as completed, and keep it displayed for a few seconds
-	 * so that user can actually see the the printing was sucesfully finished. */
-	e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
-
-	/* We can't destroy the printer and associated WebKitWebView directly from
-	 * here, because this callback is a handler of a WebKit's signal. This
-	 * will destroy the printer later, together with the activity */
-	g_object_set_data_full (
-		G_OBJECT (activity),
-		"printer", printer, (GDestroyNotify) g_object_unref);
-
-	g_timeout_add_seconds_full (
-		G_PRIORITY_DEFAULT, 3,
-		(GSourceFunc) destroy_printing_activity, activity, NULL);
+	g_object_unref (activity);
 }
 
 struct _MessagePrintingContext {
@@ -947,6 +929,7 @@ mail_reader_do_print_message (GObject *object,
 {
 	EMailReader *reader = E_MAIL_READER (object);
 	EMailDisplay *mail_display;
+	EMailFormatter *formatter;
 	EActivity *activity;
 	GCancellable *cancellable;
 	EMailPrinter *printer;
@@ -961,16 +944,17 @@ mail_reader_do_print_message (GObject *object,
 	part_list = e_mail_reader_parse_message_finish (reader, result);
 
 	printer = e_mail_printer_new (part_list);
-	g_signal_connect (
-		printer, "done",
-		G_CALLBACK (printing_done_cb), activity);
 
 	mail_display = e_mail_reader_get_mail_display (reader);
+	formatter = e_mail_display_get_formatter (mail_display);
 
 	e_mail_printer_print (
-		printer, context->action,
-		e_mail_display_get_formatter (mail_display),
-		cancellable);
+		printer, context->action, formatter, cancellable,
+		mail_reader_print_message_done_cb,
+		g_object_ref (activity));
+
+	g_object_unref (activity);
+	g_object_unref (printer);
 
 	free_message_printing_context (context);
 }

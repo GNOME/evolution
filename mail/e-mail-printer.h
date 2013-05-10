@@ -55,11 +55,6 @@ struct _EMailPrinter {
 
 struct _EMailPrinterClass {
 	GObjectClass parent_class;
-
-	void		(*done)			(EMailPrinter *printer,
-						 GtkPrintOperation *operation,
-						 GtkPrintOperationResult result,
-						 gpointer user_data);
 };
 
 GType		e_mail_printer_get_type		(void) G_GNUC_CONST;
@@ -68,7 +63,13 @@ EMailPartList *	e_mail_printer_ref_part_list	(EMailPrinter *printer);
 void		e_mail_printer_print		(EMailPrinter *printer,
 						 GtkPrintOperationAction action,
 						 EMailFormatter *formatter,
-						 GCancellable *cancellable);
+						 GCancellable *cancellable,
+						 GAsyncReadyCallback callback,
+						 gpointer user_data);
+GtkPrintOperationResult
+		e_mail_printer_print_finish	(EMailPrinter *printer,
+						 GAsyncResult *result,
+						 GError **error);
 const gchar *	e_mail_printer_get_export_filename
 						(EMailPrinter *printer);
 void		e_mail_printer_set_export_filename

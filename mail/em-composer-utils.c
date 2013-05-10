@@ -958,38 +958,27 @@ em_utils_composer_save_to_outbox_cb (EMsgComposer *composer,
 }
 
 static void
-composer_print_done_cb (EMailPrinter *emp,
-                        GtkPrintOperation *operation,
-                        GtkPrintOperationResult result,
-                        gpointer user_data)
-{
-	g_object_unref (emp);
-}
-
-static void
 em_utils_composer_print_cb (EMsgComposer *composer,
                             GtkPrintOperationAction action,
                             CamelMimeMessage *message,
                             EActivity *activity,
                             EMailSession *session)
 {
-	EMailPrinter *emp;
 	EMailParser *parser;
 	EMailPartList *parts;
+	EMailPrinter *printer;
 	const gchar *message_id;
 
 	parser = e_mail_parser_new (CAMEL_SESSION (session));
 
 	message_id = camel_mime_message_get_message_id (message);
-	parts = e_mail_parser_parse_sync (parser, NULL, g_strdup (message_id), message, NULL);
+	parts = e_mail_parser_parse_sync (
+		parser, NULL, g_strdup (message_id), message, NULL);
 
-        /* Use EMailPrinter and WebKit to print the message */
-	emp = e_mail_printer_new (parts);
-	g_signal_connect (
-		emp, "done",
-		G_CALLBACK (composer_print_done_cb), NULL);
-
-	e_mail_printer_print (emp, action, NULL, NULL);
+	/* FIXME Show an alert on error. */
+	printer = e_mail_printer_new (parts);
+	e_mail_printer_print (printer, action, NULL, NULL, NULL, NULL);
+	g_object_unref (printer);
 
 	g_object_unref (parts);
 }
