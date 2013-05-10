@@ -577,39 +577,17 @@ em_utils_write_messages_to_stream (CamelFolder *folder,
 	return res;
 }
 
-static void
-do_print_msg_to_file (GObject *source,
-                      GAsyncResult *result,
-                      gpointer user_data)
-{
-	EMailParser *parser;
-	EMailPartList *parts_list;
-	gchar *filename = user_data;
-	EMailPrinter *printer;
-
-	parser = E_MAIL_PARSER (source);
-	parts_list = e_mail_parser_parse_finish (parser, result, NULL);
-
-	printer = e_mail_printer_new (parts_list);
-	e_mail_printer_set_export_filename (printer, filename);
-
-	e_mail_printer_print (
-		printer, GTK_PRINT_OPERATION_ACTION_EXPORT,
-		NULL, NULL, NULL, NULL);
-
-	g_object_unref (printer);
-	g_object_unref (parser);
-}
-
 static gboolean
 em_utils_print_messages_to_file (CamelFolder *folder,
                                  const gchar *uid,
                                  const gchar *filename)
 {
 	EMailParser *parser;
+	EMailPartList *parts_list;
 	CamelMimeMessage *message;
 	CamelStore *parent_store;
 	CamelSession *session;
+	gboolean success = FALSE;
 
 	message = camel_folder_get_message_sync (folder, uid, NULL, NULL);
 	if (message == NULL)
@@ -620,14 +598,43 @@ em_utils_print_messages_to_file (CamelFolder *folder,
 
 	parser = e_mail_parser_new (session);
 
-	e_mail_parser_parse (
-		parser, folder, uid, message,
-		(GAsyncReadyCallback) do_print_msg_to_file,
-		NULL, g_strdup (filename));
+	/* XXX em_utils_selection_set_urilist() is synchronous,
+	 *     so this function has to be synchronous as well.
+	 *     That means potentially blocking for awhile. */
+	parts_list = e_mail_parser_parse_sync (
+		parser, folder, uid, message, NULL);
+	if (parts_list != NULL) {
+		EAsyncClosure *closure;
+		GAsyncResult *result;
+		EMailPrinter *printer;
+		GtkPrintOperationResult print_result;
 
+		printer = e_mail_printer_new (parts_list);
+		e_mail_printer_set_export_filename (printer, filename);
+
+		closure = e_async_closure_new ();
+
+		e_mail_printer_print (
+			printer, GTK_PRINT_OPERATION_ACTION_EXPORT,
+			NULL, NULL, e_async_closure_callback, closure);
+
+		result = e_async_closure_wait (closure);
+
+		print_result = e_mail_printer_print_finish (
+			printer, result, NULL);
+
+		e_async_closure_free (closure);
+
+		g_object_unref (printer);
+		g_object_unref (parts_list);
+
+		success = (print_result != GTK_PRINT_OPERATION_RESULT_ERROR);
+	}
+
+	g_object_unref (parser);
 	g_object_unref (session);
 
-	return TRUE;
+	return success;
 }
 
 /* This kind of sucks, because for various reasons most callers need to run
