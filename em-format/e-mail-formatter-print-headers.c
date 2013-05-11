@@ -31,6 +31,7 @@
 #include "e-mail-formatter-print.h"
 #include "e-mail-formatter-utils.h"
 #include "e-mail-inline-filter.h"
+#include "e-mail-part-headers.h"
 
 typedef EMailFormatterExtension EMailFormatterPrintHeaders;
 typedef EMailFormatterExtensionClass EMailFormatterPrintHeadersClass;
@@ -55,16 +56,21 @@ emfpe_headers_format (EMailFormatterExtension *extension,
                       CamelStream *stream,
                       GCancellable *cancellable)
 {
+	EMailPartHeaders *headers_part;
+	GtkTreeModel *tree_model;
+	GtkTreeIter iter;
+	gboolean iter_valid;
 	GString *str, *tmp;
 	gchar *subject;
 	const gchar *buf;
 	gint attachments_count;
 	gchar *part_id_prefix;
 	CamelMimePart *mime_part;
-	GQueue *headers_queue;
 	GQueue queue = G_QUEUE_INIT;
 	GList *head, *link;
 	const gchar *part_id;
+
+	g_return_val_if_fail (E_IS_MAIL_PART_HEADERS (part), FALSE);
 
 	mime_part = e_mail_part_ref_mime_part (part);
 
@@ -79,42 +85,39 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 		"<table border=\"0\" cellspacing=\"5\" "
 		"cellpadding=\"0\" class=\"printing-header\">\n");
 
-	headers_queue = e_mail_formatter_dup_headers (formatter);
-	for (link = headers_queue->head; link != NULL; link = g_list_next (link)) {
-		EMailFormatterHeader *header = link->data;
+	headers_part = E_MAIL_PART_HEADERS (part);
+	tree_model = e_mail_part_headers_ref_print_model (headers_part);
+	iter_valid = gtk_tree_model_get_iter_first (tree_model, &iter);
 
-		/* Skip 'Subject' header, it's already displayed. */
-		if (g_ascii_strncasecmp (header->name, "Subject", 7) == 0)
-			continue;
+	while (iter_valid) {
+		gchar *header_name = NULL;
+		gchar *header_value = NULL;
+		gboolean include = FALSE;
 
-		if (header->value && *header->value) {
+		gtk_tree_model_get (
+			tree_model, &iter,
+			E_MAIL_PART_HEADERS_PRINT_MODEL_COLUMN_INCLUDE,
+			&include,
+			E_MAIL_PART_HEADERS_PRINT_MODEL_COLUMN_HEADER_NAME,
+			&header_name,
+			E_MAIL_PART_HEADERS_PRINT_MODEL_COLUMN_HEADER_VALUE,
+			&header_value,
+			-1);
+
+		if (include)
 			e_mail_formatter_format_header (
 				formatter, str,
-				header->name,
-				header->value,
-				header->flags | E_MAIL_FORMATTER_HEADER_FLAG_NOLINKS,
+				header_name, header_value,
+				E_MAIL_FORMATTER_HEADER_FLAG_NOLINKS,
 				"UTF-8");
-		} else {
-			CamelMimeMessage *message;
-			const gchar *header_value;
 
-			message = e_mail_part_list_get_message (context->part_list);
+		g_free (header_name);
+		g_free (header_value);
 
-			header_value = camel_medium_get_header (
-				CAMEL_MEDIUM (message), header->name);
-
-			if (header_value != NULL && *header_value != '\0') {
-				e_mail_formatter_format_header (
-					formatter, str,
-					header->name,
-					header_value,
-					header->flags | E_MAIL_FORMATTER_HEADER_FLAG_NOLINKS,
-					"UTF-8");
-			}
-		}
+		iter_valid = gtk_tree_model_iter_next (tree_model, &iter);
 	}
 
-	g_queue_free_full (headers_queue, (GDestroyNotify) e_mail_formatter_header_free);
+	g_object_unref (tree_model);
 
 	/* Get prefix of this PURI */
 	part_id = e_mail_part_get_id (part);
