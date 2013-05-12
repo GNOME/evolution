@@ -1,3 +1,40 @@
+Evolution 3.8.2 2013-05-12
+--------------------------
+
+Bug Fixes:
+	Bug 626215 - Prefer mail saving in order by UI (Milan Crha)
+	Bug 690696 - [User docs] Remove last references to old IMAP backend
+	             (Andre Klapper)
+	Bug 696531 - Force white background for HTML parts (Milan Crha)
+	Bug 697632 - [mail-to-task] Invalid unref of a CamelFolder
+	             (Samarjit Adhikari)
+	Bug 698042 - Crash when sending e-mail with attachment (Matthew Barnes)
+	Bug 698487 - Contact Editor's Image's file chooser must show only
+	             images files (Fabiano Fidêncio)
+	Bug 698488 - Attachment file chooser should preview attachments'
+	             content when possible (Fabiano Fidêncio)
+	Bug 699083 - X-GNOME-Bugzilla-OtherBinares missing trailing semicolon
+	             (Matthew Barnes)
+	Bug 699334 - Calendar: reply all doesn't quite work (Milan Crha)
+	Bug 699551 - Signature is not removed on reply (Milan Crha)
+	Bug 699555 - prompt-on-mark-all-read doesn't work in context menu
+	             (Milan Crha)
+	Bug 700028 - Drag-n-drop export of a file produces 0 sized PDF file
+	             (Matthew Barnes)
+
+Other Changes:
+	* Fix stuck shutdown, or at least one common cause. (Matthew Barnes)
+	* alarm-queue: Remove the "mail notifications not supported" dialog
+	  (Matthew Barnes)
+	* Right-align mail header names. (Matthew Barnes)
+	* Remove "drag-and-drop-save-name-format" setting. (Matthew Barnes)
+
+Translations:
+	Gil Forcada (ca)
+	Carles Ferrando (ca@valencia)
+	OKANO Takayoshi (ja)
+
+
 Evolution 3.8.1 2013-04-15
 --------------------------
 
