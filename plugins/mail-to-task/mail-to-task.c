@@ -1130,7 +1130,6 @@ mail_to_event (ECalClientSourceType source_type,
 
 		if (response == GTK_RESPONSE_NO) {
 			em_utils_uids_free (uids);
-			g_object_unref (folder);
 			return;
 		}
 	}
@@ -1199,7 +1198,6 @@ mail_to_event (ECalClientSourceType source_type,
 		e_notice (NULL, GTK_MESSAGE_ERROR, _("No writable calendar is available."));
 
 		em_utils_uids_free (uids);
-		g_object_unref (folder);
 		if (error)
 			g_error_free (error);
 		goto exit;
@@ -1215,7 +1213,7 @@ mail_to_event (ECalClientSourceType source_type,
 		data = g_new0 (AsyncData, 1);
 		data->source = g_object_ref (source);
 		data->source_type = source_type;
-		data->folder = folder;
+		data->folder = g_object_ref (folder);
 		data->uids = uids;
 		data->with_attendees = with_attendees;
 
