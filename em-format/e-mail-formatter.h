@@ -253,7 +253,8 @@ void		e_mail_formatter_remove_header_struct
 EMailFormatterHeader *
 		e_mail_formatter_header_new	(const gchar *name,
 						 const gchar *value);
-
+EMailFormatterHeader *
+		e_mail_formatter_header_copy	(const EMailFormatterHeader *header);
 void		e_mail_formatter_header_free	(EMailFormatterHeader *header);
 
 G_END_DECLS

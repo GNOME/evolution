@@ -1474,25 +1474,25 @@ GQueue *
 e_mail_formatter_dup_headers (EMailFormatter *formatter)
 {
 	GQueue *header_list;
-	GList *link;
+	GList *head, *link;
 
 	g_return_val_if_fail (E_IS_MAIL_FORMATTER (formatter), NULL);
 
 	g_mutex_lock (&formatter->priv->property_lock);
 
 	header_list = g_queue_new ();
-	for (link = g_queue_peek_head_link ((GQueue *) e_mail_formatter_get_headers (formatter));
-	     link;
-	     link = g_list_next (link)) {
-		EMailFormatterHeader *h = link->data, *copy;
 
-		if (!h)
-			continue;
+	head = g_queue_peek_head_link (formatter->priv->header_list);
 
-		copy = e_mail_formatter_header_new (h->name, h->value);
-		copy->flags = h->flags;
+	for (link = head; link != NULL; link = g_list_next (link)) {
+		const EMailFormatterHeader *header = link->data;
+		EMailFormatterHeader *copy;
 
-		g_queue_push_tail (header_list, copy);
+		/* FIXME Need to guarantee this is never NULL. */
+		if (header != NULL) {
+			copy = e_mail_formatter_header_copy (header);
+			g_queue_push_tail (header_list, copy);
+		}
 	}
 
 	g_mutex_unlock (&formatter->priv->property_lock);
@@ -1565,30 +1565,35 @@ e_mail_formatter_add_header (EMailFormatter *formatter,
                              const gchar *value,
                              EMailFormatterHeaderFlags flags)
 {
-	EMailFormatterHeader *header;
+	EMailFormatterHeader header;
 
 	g_return_if_fail (E_IS_MAIL_FORMATTER (formatter));
 	g_return_if_fail (name != NULL && *name != '\0');
 
-	header = e_mail_formatter_header_new (name, value);
-	header->flags = flags;
+	header.name = (gchar *) name;
+	header.value = (gchar *) value;
+	header.flags = flags;
 
-	g_mutex_lock (&formatter->priv->property_lock);
-	g_queue_push_tail (formatter->priv->header_list, header);
-	g_mutex_unlock (&formatter->priv->property_lock);
-
-	g_signal_emit (formatter, signals[NEED_REDRAW], 0, NULL);
+	e_mail_formatter_add_header_struct (formatter, &header);
 }
 
 void
 e_mail_formatter_add_header_struct (EMailFormatter *formatter,
                                     const EMailFormatterHeader *header)
 {
+	EMailFormatterHeader *copy;
+
 	g_return_if_fail (E_IS_MAIL_FORMATTER (formatter));
 	g_return_if_fail (header != NULL);
 
-	e_mail_formatter_add_header (
-		formatter, header->name, header->value, header->flags);
+	g_mutex_lock (&formatter->priv->property_lock);
+
+	copy = e_mail_formatter_header_copy (header);
+	g_queue_push_tail (formatter->priv->header_list, copy);
+
+	g_mutex_unlock (&formatter->priv->property_lock);
+
+	g_signal_emit (formatter, signals[NEED_REDRAW], 0, NULL);
 }
 
 void
@@ -1657,6 +1662,21 @@ e_mail_formatter_header_new (const gchar *name,
 		header->value = g_strdup (value);
 
 	return header;
+}
+
+EMailFormatterHeader *
+e_mail_formatter_header_copy (const EMailFormatterHeader *header)
+{
+	EMailFormatterHeader *copy;
+
+	g_return_val_if_fail (header != NULL, NULL);
+
+	copy = g_new0 (EMailFormatterHeader, 1);
+	copy->name = g_strdup (header->name);
+	copy->value = g_strdup (header->value);
+	copy->flags = header->flags;
+
+	return copy;
 }
 
 void
