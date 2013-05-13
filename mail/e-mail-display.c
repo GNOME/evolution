@@ -44,11 +44,6 @@
 
 #define d(x)
 
-G_DEFINE_TYPE (
-	EMailDisplay,
-	e_mail_display,
-	E_TYPE_WEB_VIEW);
-
 #define E_MAIL_DISPLAY_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MAIL_DISPLAY, EMailDisplayPrivate))
@@ -60,8 +55,7 @@ struct _EMailDisplayPrivate {
 
 	gboolean headers_collapsable;
 	gboolean headers_collapsed;
-
-	gint force_image_load: 1;
+	gboolean force_image_load;
 
 	GSettings *settings;
 
@@ -156,6 +150,11 @@ static GtkActionEntry image_entries[] = {
 	  NULL /* Handled by EMailReader */ },
 };
 
+G_DEFINE_TYPE (
+	EMailDisplay,
+	e_mail_display,
+	E_TYPE_WEB_VIEW);
+
 static void
 formatter_image_loading_policy_changed_cb (GObject *object,
                                            GParamSpec *pspec,
@@ -176,18 +175,22 @@ formatter_image_loading_policy_changed_cb (GObject *object,
 static gboolean
 mail_display_image_exists_in_cache (const gchar *image_uri)
 {
-	gchar *image_filename, *uri_md5;
-	gboolean exists;
+	gchar *filename;
+	gchar *hash;
+	gboolean exists = FALSE;
 
 	g_return_val_if_fail (emd_global_http_cache != NULL, FALSE);
 
-	uri_md5 = g_compute_checksum_for_string (G_CHECKSUM_MD5, image_uri, -1);
-	image_filename = camel_data_cache_get_filename (emd_global_http_cache, "http", uri_md5);
+	hash = g_compute_checksum_for_string (G_CHECKSUM_MD5, image_uri, -1);
+	filename = camel_data_cache_get_filename (
+		emd_global_http_cache, "http", hash);
 
-	exists = image_filename && g_file_test (image_filename, G_FILE_TEST_EXISTS);
+	if (filename != NULL) {
+		exists = g_file_test (filename, G_FILE_TEST_EXISTS);
+		g_free (filename);
+	}
 
-	g_free (uri_md5);
-	g_free (image_filename);
+	g_free (hash);
 
 	return exists;
 }
@@ -195,11 +198,14 @@ mail_display_image_exists_in_cache (const gchar *image_uri)
 static void
 mail_display_update_formatter_colors (EMailDisplay *display)
 {
-	if (display->priv->formatter == NULL)
-		return;
+	EMailFormatter *formatter;
+	GtkStateFlags state_flags;
 
-	e_mail_formatter_update_style (display->priv->formatter,
-		gtk_widget_get_state_flags (GTK_WIDGET (display)));
+	formatter = display->priv->formatter;
+	state_flags = gtk_widget_get_state_flags (GTK_WIDGET (display));
+
+	if (formatter != NULL)
+		e_mail_formatter_update_style (formatter, state_flags);
 }
 
 static void
@@ -230,6 +236,8 @@ mail_display_process_mailto (EWebView *web_view,
                              const gchar *mailto_uri,
                              gpointer user_data)
 {
+	gboolean handled = FALSE;
+
 	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), FALSE);
 	g_return_val_if_fail (mailto_uri != NULL, FALSE);
 
@@ -245,10 +253,10 @@ mail_display_process_mailto (EWebView *web_view,
 		em_utils_compose_new_message_with_mailto (
 			shell, mailto_uri, folder);
 
-		return TRUE;
+		handled = TRUE;
 	}
 
-	return FALSE;
+	return handled;
 }
 
 static gboolean
@@ -331,11 +339,21 @@ mail_display_resource_requested (WebKitWebView *web_view,
 {
 	EMailDisplay *display = E_MAIL_DISPLAY (web_view);
 	EMailPartList *part_list;
-	const gchar *uri = webkit_network_request_get_uri (request);
+	gboolean uri_is_http;
+	const gchar *uri;
 
 	part_list = display->priv->part_list;
 	if (part_list == NULL)
 		return;
+
+	uri = webkit_network_request_get_uri (request);
+	g_return_if_fail (uri != NULL);
+
+	uri_is_http =
+		g_str_has_prefix (uri, "http:") ||
+		g_str_has_prefix (uri, "https:") ||
+		g_str_has_prefix (uri, "evo-http:") ||
+		g_str_has_prefix (uri, "evo-https:");
 
 	/* Redirect cid:part_id to mail://mail_id/cid:part_id */
 	if (g_str_has_prefix (uri, "cid:")) {
@@ -371,8 +389,7 @@ mail_display_resource_requested (WebKitWebView *web_view,
 
 	/* Redirect http(s) request to evo-http(s) protocol.
 	 * See EMailRequest for further details about this. */
-	} else if (g_str_has_prefix (uri, "http:") || g_str_has_prefix (uri, "https:") ||
-	    g_str_has_prefix (uri, "evo-http:") || g_str_has_prefix (uri, "evo-https:")) {
+	} else if (uri_is_http) {
 		CamelFolder *folder;
 		const gchar *message_uid;
 		gchar *new_uri, *mail_uri, *enc;
@@ -482,7 +499,8 @@ mail_display_plugin_widget_resize (GtkWidget *widget,
 	gint height, width;
 	gfloat scale;
 
-	parent_element = g_object_get_data (G_OBJECT (widget), "parent_element");
+	parent_element = g_object_get_data (
+		G_OBJECT (widget), "parent_element");
 
 	if (!WEBKIT_DOM_IS_ELEMENT (parent_element)) {
 		d (
@@ -495,12 +513,12 @@ mail_display_plugin_widget_resize (GtkWidget *widget,
 	width = gtk_widget_get_allocated_width (widget);
 	gtk_widget_get_preferred_height_for_width (widget, width, &height, NULL);
 
-	/* When zooming WebKit does not change dimensions of the elements, but
-	 * only scales them on the canvas. GtkWidget can't be scaled though
-	 * so we need to cope with the dimensions changes to keep the widgets
-	 * still the correct size. Due to inaccuracy in rounding (float -> int)
-	 * it still acts a bit funny, but at least it does not cause widgets in
-	 * WebKit to go crazy when zooming. */
+	/* When zooming WebKit does not change dimensions of the elements,
+	 * but only scales them on the canvas.  GtkWidget can't be scaled
+	 * though so we need to cope with the dimension changes to keep the
+	 * the widgets the correct size.  Due to inaccuracy in rounding
+	 * (float -> int) it still acts a bit funny, but at least it does
+	 * not cause widgets in WebKit to go crazy when zooming. */
 	height = height * (1 / scale);
 
 	/* Int -> Str */
@@ -523,23 +541,18 @@ mail_display_plugin_widget_realize_cb (GtkWidget *widget,
 		GList *children;
 
 		children = gtk_container_get_children (GTK_CONTAINER (widget));
-		if (children && children->data &&
-		    E_IS_ATTACHMENT_BAR (children->data)) {
+		if (children != NULL && E_IS_ATTACHMENT_BAR (children->data))
 			widget = children->data;
-		}
-
 		g_list_free (children);
 	}
 
 	/* First check if we are actually supposed to be visible */
 	element = g_object_get_data (G_OBJECT (widget), "parent_element");
 	if (element == NULL || !WEBKIT_DOM_IS_HTML_ELEMENT (element)) {
-		g_warning ("UAAAAA");
-	} else {
-		if (webkit_dom_html_element_get_hidden (element)) {
-			gtk_widget_hide (widget);
-			return;
-		}
+		g_warn_if_reached ();
+	} else if (webkit_dom_html_element_get_hidden (element)) {
+		gtk_widget_hide (widget);
+		return;
 	}
 
 	/* Initial resize of the <object> element when the widget
@@ -567,8 +580,8 @@ plugin_widget_set_parent_element (GtkWidget *widget,
 		return;
 	}
 
-	/* Assign the WebKitDOMElement to "parent_element" data of the GtkWidget
-	 * and the GtkWidget to "widget" data of the DOM Element */
+	/* Assign the WebKitDOMElement to "parent_element" data of the
+	 * GtkWidget and the GtkWidget to "widget" data of the DOM Element. */
 	g_object_set_data (G_OBJECT (widget), "parent_element", element);
 	g_object_set_data (G_OBJECT (element), "widget", widget);
 
@@ -606,7 +619,7 @@ toggle_widget_visibility (EAttachmentButton *button,
 		GList *children;
 
 		children = gtk_container_get_children (GTK_CONTAINER (widget));
-		if (children && children->data && E_IS_ATTACHMENT_BAR (children->data)) {
+		if (children != NULL && E_IS_ATTACHMENT_BAR (children->data)) {
 			EAttachmentStore *store;
 
 			store = e_attachment_bar_get_store (
@@ -671,7 +684,6 @@ bind_iframe_content_visibility (WebKitDOMElement *iframe,
 	/* Iterate through all <object>s and bind visibility of their widget
 	 * with expanded-state of related attachment button */
 	for (ii = 0; ii < length; ii++) {
-
 		WebKitDOMNode *node = webkit_dom_node_list_item (nodes, ii);
 
 		/* Initial sync */
@@ -770,7 +782,7 @@ mail_display_plugin_widget_requested (WebKitWebView *web_view,
 	EMailExtensionRegistry *reg;
 	EMailFormatterExtension *extension;
 	GQueue *extensions;
-	GList *iter;
+	GList *head, *link;
 	EMailPart *part = NULL;
 	GtkWidget *widget = NULL;
 	gchar *part_id, *type, *object_uri;
@@ -802,9 +814,10 @@ mail_display_plugin_widget_requested (WebKitWebView *web_view,
 		goto exit;
 
 	extension = NULL;
-	for (iter = g_queue_peek_head_link (extensions); iter; iter = iter->next) {
+	head = g_queue_peek_head_link (extensions);
+	for (link = head; link != NULL; link = g_list_next (link)) {
+		extension = link->data;
 
-		extension = iter->data;
 		if (extension == NULL)
 			continue;
 
@@ -1031,7 +1044,7 @@ toggle_headers_visibility (WebKitDOMElement *button,
 	d (printf ("Headers %s!\n", expanded ? "collapsed" : "expanded"));
 }
 
-static const gchar * addresses[] = { "to", "cc", "bcc" };
+static const gchar *addresses[] = { "to", "cc", "bcc" };
 
 static void
 toggle_address_visibility (WebKitDOMElement *button,
@@ -1091,11 +1104,10 @@ toggle_address_visibility (WebKitDOMElement *button,
 
 	webkit_dom_html_image_element_set_src (
 		WEBKIT_DOM_HTML_IMAGE_ELEMENT (button), path);
-
 }
 
 static void
-setup_DOM_bindings (GObject *object,
+setup_dom_bindings (GObject *object,
                     GParamSpec *pspec,
                     gpointer user_data)
 {
@@ -1605,7 +1617,7 @@ e_mail_display_init (EMailDisplay *display)
 	main_frame = webkit_web_view_get_main_frame (WEBKIT_WEB_VIEW (display));
 	g_signal_connect (
 		main_frame, "notify::load-status",
-		G_CALLBACK (setup_DOM_bindings), NULL);
+		G_CALLBACK (setup_dom_bindings), NULL);
 	g_signal_connect (
 		main_frame, "notify::load-status",
 		G_CALLBACK (mail_parts_bind_dom), NULL);
@@ -1951,8 +1963,10 @@ e_mail_display_set_status (EMailDisplay *display,
 	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
 
 	str = g_strdup_printf (
-		"<!DOCTYPE HTML>\n<html>\n"
-		"<head>\n<meta name=\"generator\" content=\"Evolution Mail Component\" />\n"
+		"<!DOCTYPE HTML>\n"
+		"<html>\n"
+		"<head>\n"
+		"<meta name=\"generator\" content=\"Evolution Mail\"/>\n"
 		"<title>Evolution Mail Display</title>\n"
 		"</head>\n"
 		"<body bgcolor=\"#%06x\" text=\"#%06x\">"
@@ -1991,7 +2005,7 @@ mail_display_get_frame_selection_text (WebKitDOMElement *iframe)
 	gulong ii, length;
 
 	document = webkit_dom_html_iframe_element_get_content_document (
-			WEBKIT_DOM_HTML_IFRAME_ELEMENT (iframe));
+		WEBKIT_DOM_HTML_IFRAME_ELEMENT (iframe));
 	window = webkit_dom_document_get_default_view (document);
 	selection = webkit_dom_dom_window_get_selection (window);
 	if (selection && (webkit_dom_dom_selection_get_range_count (selection) > 0)) {
