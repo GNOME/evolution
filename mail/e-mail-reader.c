@@ -390,16 +390,21 @@ action_mail_charset_cb (GtkRadioAction *action,
                         EMailReader *reader)
 {
 	EMailDisplay *display;
-	const gchar *charset;
+	EMailFormatter *formatter;
 
 	if (action != current)
 		return;
 
 	display = e_mail_reader_get_mail_display (reader);
-	charset = g_object_get_data (G_OBJECT (action), "charset");
+	formatter = e_mail_display_get_formatter (display);
 
-	/* Charset for "Default" action will be NULL. */
-	e_mail_display_set_charset (display, charset);
+	if (formatter != NULL) {
+		const gchar *charset;
+
+		/* Charset for "Default" action will be NULL. */
+		charset = g_object_get_data (G_OBJECT (action), "charset");
+		e_mail_formatter_set_charset (formatter, charset);
+	}
 }
 
 static void

@@ -94,8 +94,6 @@ void		e_mail_display_load_images	(EMailDisplay *display);
 void		e_mail_display_set_force_load_images
 						(EMailDisplay *display,
 						 gboolean force_load_images);
-void		e_mail_display_set_charset	(EMailDisplay *display,
-						 const gchar *charset);
 
 G_END_DECLS
 

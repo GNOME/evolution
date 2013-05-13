@@ -2085,14 +2085,3 @@ e_mail_display_set_force_load_images (EMailDisplay *display,
 	display->priv->force_image_load = force_load_images;
 }
 
-void
-e_mail_display_set_charset (EMailDisplay *display,
-                            const gchar *charset)
-{
-	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
-
-	if (display->priv->formatter != NULL)
-		e_mail_formatter_set_charset (
-			display->priv->formatter, charset);
-}
-
