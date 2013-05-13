@@ -133,14 +133,14 @@ EMailFormatter *
 		e_mail_formatter_new		(void);
 
 void		e_mail_formatter_format_sync	(EMailFormatter *formatter,
-						 EMailPartList *parts_list,
+						 EMailPartList *part_list,
 						 CamelStream *stream,
 						 EMailFormatterHeaderFlags flags,
 						 EMailFormatterMode mode,
 						 GCancellable *cancellable);
 
 void		e_mail_formatter_format		(EMailFormatter *formatter,
-						 EMailPartList *parts_list,
+						 EMailPartList *part_list,
 						 CamelStream *stream,
 						 EMailFormatterHeaderFlags flags,
 						 EMailFormatterMode mode,
@@ -148,10 +148,9 @@ void		e_mail_formatter_format		(EMailFormatter *formatter,
 						 GCancellable *cancellable,
 						 gpointer user_data);
 
-CamelStream *	e_mail_formatter_format_finished
-						(EMailFormatter *formatter,
+gboolean	e_mail_formatter_format_finish	(EMailFormatter *formatter,
 						 GAsyncResult *result,
-						 GError *error);
+						 GError **error);
 
 gboolean	e_mail_formatter_format_as	(EMailFormatter *formatter,
 						 EMailFormatterContext *context,
