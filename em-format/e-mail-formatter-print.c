@@ -26,6 +26,9 @@
 #include <gdk/gdk.h>
 #include <glib/gi18n.h>
 
+#define STYLESHEET_URI \
+	"evo-file://" EVOLUTION_PRIVDATADIR "/theme/webview-print.css"
+
 /* internal formatter extensions */
 GType e_mail_formatter_print_headers_get_type (void);
 
@@ -43,7 +46,7 @@ write_attachments_list (EMailFormatter *formatter,
 	GString *str;
 	GSList *link;
 
-	if (!attachments)
+	if (attachments == NULL)
 		return;
 
 	str = g_string_new (
@@ -58,28 +61,30 @@ write_attachments_list (EMailFormatter *formatter,
 	for (link = attachments; link != NULL; link = g_slist_next (link)) {
 		EMailPartAttachment *part = link->data;
 		EAttachment *attachment;
-		GFileInfo *fi;
+		GFileInfo *file_info;
 		gchar *name, *size;
+		const gchar *description;
+		const gchar *display_name;
 
-		if (!part)
+		if (part == NULL)
 			continue;
 
 		attachment = part->attachment;
-		fi = e_attachment_get_file_info (attachment);
-		if (!fi)
+		file_info = e_attachment_get_file_info (attachment);
+		if (file_info == NULL)
 			continue;
 
-		if (e_attachment_get_description (attachment) &&
-                    *e_attachment_get_description (attachment)) {
+		description = e_attachment_get_description (attachment);
+		display_name = g_file_info_get_display_name (file_info);
+
+		if (description != NULL && *description != '\0') {
 			name = g_strdup_printf (
-				"%s (%s)",
-				e_attachment_get_description (attachment),
-				g_file_info_get_display_name (fi));
+				"%s (%s)", description, display_name);
 		} else {
-			name = g_strdup (g_file_info_get_display_name (fi));
+			name = g_strdup (display_name);
 		}
 
-		size = g_format_size (g_file_info_get_size (fi));
+		size = g_format_size (g_file_info_get_size (file_info));
 
 		g_string_append_printf (
 			str, "<tr><td>%s</td><td>%s</td></tr>\n",
@@ -92,6 +97,7 @@ write_attachments_list (EMailFormatter *formatter,
 	g_string_append (str, "</table>\n");
 
 	camel_stream_write_string (stream, str->str, cancellable, NULL);
+
 	g_string_free (str, TRUE);
 }
 
@@ -109,11 +115,13 @@ mail_formatter_print_run (EMailFormatter *formatter,
 
 	camel_stream_write_string (
 		stream,
-		"<!DOCTYPE HTML>\n<html>\n"
-		"<head>\n<meta name=\"generator\" content=\"Evolution Mail Component\" />\n"
+		"<!DOCTYPE HTML>\n"
+		"<html>\n"
+		"<head>\n"
+		"<meta name=\"generator\" content=\"Evolution Mail\" />\n"
 		"<title>Evolution Mail Display</title>\n"
-		"<link type=\"text/css\" rel=\"stylesheet\" media=\"print\" "
-		"href=\"evo-file://" EVOLUTION_PRIVDATADIR "/theme/webview-print.css\" />\n"
+		"<link type=\"text/css\" rel=\"stylesheet\" "
+		"      media=\"print\" href=\"" STYLESHEET_URI "/>\n"
 		"</head>\n"
 		"<body style=\"background: #FFF; color: #000;\">",
 		cancellable, NULL);
@@ -139,7 +147,7 @@ mail_formatter_print_run (EMailFormatter *formatter,
 			continue;
 		}
 
-		if (!part->mime_type)
+		if (part->mime_type == NULL)
 			continue;
 
 		if (part->is_attachment) {
@@ -167,7 +175,8 @@ mail_formatter_print_run (EMailFormatter *formatter,
 	while (!g_queue_is_empty (&queue))
 		e_mail_part_unref (g_queue_pop_head (&queue));
 
-	write_attachments_list (formatter, context, attachments, stream, cancellable);
+	write_attachments_list (
+		formatter, context, attachments, stream, cancellable);
 
 	g_slist_free (attachments);
 
@@ -178,8 +187,6 @@ static void
 mail_formatter_update_style (EMailFormatter *formatter,
                              GtkStateFlags state)
 {
-	EMailFormatterClass *formatter_class;
-
 	/* White background */
 	GdkRGBA body_color = { 1.0, 1.0, 1.0, 1.0 };
 	/* Black text */
@@ -187,9 +194,9 @@ mail_formatter_update_style (EMailFormatter *formatter,
 
 	g_object_freeze_notify (G_OBJECT (formatter));
 
-	/* Set the other colors */
-	formatter_class = E_MAIL_FORMATTER_CLASS (e_mail_formatter_print_parent_class);
-	formatter_class->update_style (formatter, state);
+	/* Chain up to parent's update_style() method. */
+	E_MAIL_FORMATTER_CLASS (e_mail_formatter_print_parent_class)->
+		update_style (formatter, state);
 
 	e_mail_formatter_set_color (
 		formatter, E_MAIL_FORMATTER_COLOR_FRAME, &body_color);
@@ -204,20 +211,11 @@ mail_formatter_update_style (EMailFormatter *formatter,
 static void
 e_mail_formatter_print_init (EMailFormatterPrint *formatter)
 {
-
-}
-
-static void
-e_mail_formatter_print_finalize (GObject *object)
-{
-	/* Chain up to parent's finalize() */
-	G_OBJECT_CLASS (e_mail_formatter_print_parent_class)->finalize (object);
 }
 
 static void
 e_mail_formatter_print_class_init (EMailFormatterPrintClass *class)
 {
-	GObjectClass *object_class;
 	EMailFormatterClass *formatter_class;
 
 	e_mail_formatter_print_parent_class = g_type_class_peek_parent (class);
@@ -225,9 +223,6 @@ e_mail_formatter_print_class_init (EMailFormatterPrintClass *class)
 	formatter_class = E_MAIL_FORMATTER_CLASS (class);
 	formatter_class->run = mail_formatter_print_run;
 	formatter_class->update_style = mail_formatter_update_style;
-
-	object_class = G_OBJECT_CLASS (class);
-	object_class->finalize = e_mail_formatter_print_finalize;
 }
 
 static void
