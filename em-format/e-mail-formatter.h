@@ -225,7 +225,6 @@ void		e_mail_formatter_set_default_charset
 						(EMailFormatter *formatter,
 						 const gchar *charset);
 
-const GQueue *	e_mail_formatter_get_headers	(EMailFormatter *formatter);
 GQueue *	e_mail_formatter_dup_headers	(EMailFormatter *formatter);
 
 void		e_mail_formatter_clear_headers	(EMailFormatter *formatter);

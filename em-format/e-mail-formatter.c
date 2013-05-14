@@ -1445,22 +1445,6 @@ static const struct {
 };
 
 /**
- * e_mail_formatter_get_headers:
- * @formatter: an #EMailFormatter
- *
- * Returns list of currently set headers.
- *
- * Return Value: A #GQueue of headers which you should not modify or unref
- */
-const GQueue *
-e_mail_formatter_get_headers (EMailFormatter *formatter)
-{
-	g_return_val_if_fail (E_IS_MAIL_FORMATTER (formatter), NULL);
-
-	return formatter->priv->header_list;
-}
-
-/**
  * e_mail_formatter_dup_headers:
  * @formatter: an #EMailFormatter
  *
