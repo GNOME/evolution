@@ -422,6 +422,10 @@ task_shell_sidebar_restore_state_cb (EShellWindow *shell_window,
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (selector));
 
 	g_signal_connect_swapped (
+		registry, "source-removed",
+		G_CALLBACK (e_task_shell_sidebar_remove_source), shell_sidebar);
+
+	g_signal_connect_swapped (
 		model, "row-changed",
 		G_CALLBACK (task_shell_sidebar_row_changed_cb),
 		shell_sidebar);
