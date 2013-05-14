@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: as\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2013-05-12 12:38+0000\n"
-"PO-Revision-Date: 2013-05-14 17:28+0530\n"
+"POT-Creation-Date: 2013-05-14 12:28+0000\n"
+"PO-Revision-Date: 2013-05-14 18:23+0530\n"
 "Last-Translator: Nilamdyuti Goswami <ngoswami@redhat.com>\n"
 "Language-Team: Assamese <kde-i18n-doc@kde.org>\n"
 "Language: as_IN\n"
@@ -435,9 +435,9 @@ msgid "Anniversary"
 msgstr "বাৰ্ষিকী"
 
 #. XXX Allow the category icons to be referenced as named
-#. *   icons, since GtkAction does not support GdkPixbufs.
-#. Get the icon file for some default category. Doesn't matter
-#. * which, so long as it has an icon. We're just interested in
+#. *     icons, since GtkAction does not support GdkPixbufs.
+#. Get the icon file for some default category.  Doesn't matter
+#. * which, so long as it has an icon.  We're just interested in
 #. * the directory components.
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:38
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:702
@@ -792,12 +792,15 @@ msgid "_Merge"
 msgstr "একত্ৰিত কৰক (_M)"
 
 #: ../addressbook/gui/merging/eab-contact-duplicate-detected.ui.h:3
+#| msgid ""
+#| "The name or email address of this contact already exists\n"
+#| "in this folder. Would you like to add it anyway?"
 msgid ""
 "The name or email address of this contact already exists\n"
-"in this folder. Would you like to add it anyway?"
+"in this folder.  Would you like to add it anyway?"
 msgstr ""
-"এই ডাইৰেকটৰিত এই পৰিচয়ৰ নাম বা ই-মেইল ঠিকনা ইতিমধ্যেই বিদ্যমান।\n"
-"আপুনি তথাপিও যোগ কৰিব নেকি?"
+"এই পৰিচয়ৰ নাম বা ই-মেইল ঠিকনা ইতিমধ্যেই এই ফোল্ডাৰত অস্তিত্ববান।\n"
+"আপুনি তথাপিও ইয়াক যোগ কৰিব বিচাৰে নে?"
 
 #: ../addressbook/gui/merging/eab-contact-duplicate-detected.ui.h:5
 msgid "Original Contact:"
@@ -1328,24 +1331,34 @@ msgstr ""
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:137
 #, c-format
+#| msgid ""
+#| "This address book cannot be opened. Please check that the path %s exists "
+#| "and that permissions are set to access it."
 msgid ""
-"This address book cannot be opened. Please check that the path %s exists "
+"This address book cannot be opened.  Please check that the path %s exists "
 "and that permissions are set to access it."
 msgstr ""
 "এই ঠিকনা বহী খোলিব নোৱাৰি। অনুগ্ৰহ কৰি %s পথৰ উপস্থিতি আৰু ইয়াক অভিগম কৰিবলে "
 "অনুমতিসমূহৰ উপলব্ধতা পৰিক্ষা কৰক।"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:150
+#| msgid ""
+#| "This version of Evolution does not have LDAP support compiled in to it. "
+#| "To use LDAP in Evolution an LDAP-enabled Evolution package must be "
+#| "installed."
 msgid ""
-"This version of Evolution does not have LDAP support compiled in to it. To "
+"This version of Evolution does not have LDAP support compiled in to it.  To "
 "use LDAP in Evolution an LDAP-enabled Evolution package must be installed."
 msgstr ""
 "Evolution ৰ এই সংস্কৰণত LDAP সমৰ্থন কমপাইল কৰা নাই। Evolution ত LDAP ব্যৱহাৰ "
-"কৰিবলে এটা LDAP-সামৰ্থবান পেকেইজ ইনস্টল কৰিব লাগিব।"
+"কৰিবলে এটা LDAP-সামৰ্থবান Evolution পেকেইজ ইনস্টল কৰিব লাগিব।"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:159
+#| msgid ""
+#| "This address book cannot be opened. This either means that an incorrect "
+#| "URI was entered, or the server is unreachable."
 msgid ""
-"This address book cannot be opened. This either means that an incorrect URI "
+"This address book cannot be opened.  This either means that an incorrect URI "
 "was entered, or the server is unreachable."
 msgstr ""
 "এই ঠিকনা বহী খোলিব নোৱাৰি। ইয়াৰ অৰ্থ এটা ভুল URl সুমুৱা হৈছিল, অথবা চাৰ্ভাৰ "
@@ -1370,17 +1383,22 @@ msgstr ""
 "বাবে ডাইৰেকটৰি চাৰ্ভাৰ পছন্দৰ পৰা ফলাফলৰ সংখ্যা-সীমা বৃদ্ধি কৰক।"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:211
+#| msgid ""
+#| "The time to execute this query exceeded the server limit or the limit\n"
+#| "configured for this address book. Please make your search\n"
+#| "more specific or raise the time limit in the directory server\n"
+#| "preferences for this address book."
 msgid ""
 "The time to execute this query exceeded the server limit or the limit\n"
-"configured for this address book. Please make your search\n"
+"configured for this address book.  Please make your search\n"
 "more specific or raise the time limit in the directory server\n"
 "preferences for this address book."
 msgstr ""
-"চাৰ্ভাৰ বা Evolution ক যি সংখ্যক সময়ৰ বাবে বিন্যাস কৰা হৈছে, এই অনুসন্ধানৰ\n"
-"ক্ষেত্ৰত তাৰ অপেক্ষাতকৈও অধিক সময় ব্যয় হৈছে। অনুগ্ৰহ কৰি আপোনাৰ অনুসন্ধানক "
-"আৰুসুনিৰ্দিষ্ট কৰক বা এই ঠিকনা-বহীৰ বাবে ডাইৰেকটৰি চাৰ্ভাৰ পছন্দৰ "
-"পৰা "
-"অনুসন্ধানৰ\n"
+"এই প্ৰশ্ন এক্সিকিউট কৰিবলে সময় চাৰ্ভাৰ সীমা অথবা এই ঠিকনা বহিৰ বাবে সংৰূপিত "
+"সময়\n"
+"অতিক্ৰম কৰিছে। অনুগ্ৰহ কৰি আপোনাৰ অনুসন্ধানক আৰু সুনিৰ্দিষ্ট কৰক বা এই "
+"ঠিকনা-বহীৰ\n"
+"বাবে ডাইৰেকটৰি চাৰ্ভাৰ পছন্দৰ পৰা অনুসন্ধানৰ\n"
 "সময়সীমা বৃদ্ধি কৰক।"
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
@@ -1654,11 +1672,18 @@ msgstr "সতৰ্কবাণী"
 
 #: ../calendar/alarm-notify/alarm-queue.c:1902
 #, c-format
+#| msgid ""
+#| "An Evolution Calendar reminder is about to trigger. This reminder is "
+#| "configured to run the following program:\n"
+#| "\n"
+#| "    %s\n"
+#| "\n"
+#| "Are you sure you want to run this program?"
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
 "configured to run the following program:\n"
 "\n"
-"    %s\n"
+"        %s\n"
 "\n"
 "Are you sure you want to run this program?"
 msgstr ""
@@ -1666,7 +1691,7 @@ msgstr ""
 "নিম্নলিখিত "
 "প্ৰগ্ৰামটো চলোৱাৰ বাবে সংৰূপণ কৰা হৈছে:\n"
 "\n"
-"    %s\n"
+"        %s\n"
 "\n"
 "আপুনি এই প্ৰগ্ৰামটো চলাবলে নিশ্চিত নে?"
 
@@ -1794,8 +1819,7 @@ msgstr ""
 #: ../calendar/calendar.error.xml.h:17
 msgid ""
 "All information on this appointment will be deleted and can not be restored."
-msgstr ""
-"এই সাক্ষাৎকাৰ সকলো তথ্য আঁতৰুৱা হ'ব আৰু তাক উদ্ধাৰ কৰা ন'হ'ব।"
+msgstr "এই সাক্ষাৎকাৰ সকলো তথ্য আঁতৰুৱা হ'ব আৰু তাক উদ্ধাৰ কৰা ন'হ'ব।"
 
 #: ../calendar/calendar.error.xml.h:18
 msgid "Are you sure you want to delete this appointment?"
@@ -1822,8 +1846,7 @@ msgstr "আপুনি {0} সাক্ষাৎকাৰসমূহ নিশ
 msgid ""
 "All information on these appointments will be deleted and can not be "
 "restored."
-msgstr ""
-"এই সাক্ষাৎকাৰসমূহ সকলো তথ্য আঁতৰুৱা হ'ব আৰু তাক উদ্ধাৰ কৰা নাযাব।"
+msgstr "এই সাক্ষাৎকাৰসমূহ সকলো তথ্য আঁতৰুৱা হ'ব আৰু তাক উদ্ধাৰ কৰা নাযাব।"
 
 #: ../calendar/calendar.error.xml.h:24
 msgid "Are you sure you want to delete these {0} tasks?"
@@ -1883,7 +1906,8 @@ msgstr "আপুনি এই কাৰ্য্যসূচীতে কৰা
 #: ../calendar/calendar.error.xml.h:37
 msgid "You have made changes to this memo, but not yet saved them."
 msgstr ""
-"আপুনি এই কাৰ্য্যসূচীতে কিছুমান পৰিবৰ্তন কৰিছেন, কিন্তু ইয়াক এখনো সংৰক্ষণ কৰননি।"
+"আপুনি এই কাৰ্য্যসূচীতে কিছুমান পৰিবৰ্তন কৰিছেন, কিন্তু ইয়াক এখনো সংৰক্ষণ "
+"কৰননি।"
 
 #: ../calendar/calendar.error.xml.h:38
 msgid "Would you like to send meeting invitations to participants?"
@@ -1905,8 +1929,7 @@ msgstr "প্ৰেৰণ কৰক (_S)"
 
 #: ../calendar/calendar.error.xml.h:41
 msgid "Would you like to send updated meeting information to participants?"
-msgstr ""
-"আপুনি সভা তথ্য আপডেট কৰে অংশগ্ৰহনকাৰীৰকে প্ৰেৰণ কৰিবলৈ নিশ্চিত নে?"
+msgstr "আপুনি সভা তথ্য আপডেট কৰে অংশগ্ৰহনকাৰীৰকে প্ৰেৰণ কৰিবলৈ নিশ্চিত নে?"
 
 #: ../calendar/calendar.error.xml.h:42
 msgid ""
@@ -1931,16 +1954,17 @@ msgstr ""
 
 #: ../calendar/calendar.error.xml.h:45
 msgid "Download in progress. Do you want to save the task?"
-msgstr "ডাউনল'ড কাৰ্য্য বৰ্তমানে চলমান। আপুনি কাৰ্য্য সংৰক্ষণ কৰিবলৈ নিশ্চিত নে?"
+msgstr ""
+"ডাউনল'ড কাৰ্য্য বৰ্তমানে চলমান। আপুনি কাৰ্য্য সংৰক্ষণ কৰিবলৈ নিশ্চিত নে?"
 
 #: ../calendar/calendar.error.xml.h:46
 msgid ""
 "Some attachments are being downloaded. Saving the task would result in the "
 "loss of these attachments."
 msgstr ""
-"সংযুক্ত কেইটিমান বস্তু ডাউনল'ড কৰা হৈছে। কাৰ্য্য সংৰক্ষণ কৰা হলে অসমাপ্ত ডাউনল'ড "
-"হোৱা "
-"বস্তুসমূহ কাৰ্য্যতৰ সৈতে সংৰক্ষিত ন'হ'ব।"
+"সংযুক্ত কেইটিমান বস্তু ডাউনল'ড কৰা হৈছে। কাৰ্য্য সংৰক্ষণ কৰা হলে অসমাপ্ত "
+"ডাউনল'ড "
+"হোৱা বস্তুসমূহ কাৰ্য্যতৰ সৈতে সংৰক্ষিত ন'হ'ব।"
 
 #: ../calendar/calendar.error.xml.h:47 ../composer/e-composer-actions.c:297
 msgid "_Save"
@@ -1962,16 +1986,15 @@ msgstr ""
 
 #: ../calendar/calendar.error.xml.h:50
 msgid "Would you like to send updated task information to participants?"
-msgstr ""
-"আপুনি কাৰ্য্য তথ্য আপডেট কৰে অংশগ্ৰহণকাৰীৰকে প্ৰেৰণ কৰিবলৈ ইচ্ছুক "
-"নে?"
+msgstr "আপুনি কাৰ্য্য তথ্য আপডেট কৰে অংশগ্ৰহণকাৰীৰকে প্ৰেৰণ কৰিবলৈ ইচ্ছুক নে?"
 
 #: ../calendar/calendar.error.xml.h:51
 msgid ""
 "Sending updated information allows other participants to keep their task "
 "lists up to date."
 msgstr ""
-"অংশগ্ৰহণকাৰীৰকে আপডেট কৰা তথ্য প্ৰেৰণ কৰা হলে তাৰা তাৰ কাৰ্য্যতালিকাটি আপডেট কৰে "
+"অংশগ্ৰহণকাৰীৰকে আপডেট কৰা তথ্য প্ৰেৰণ কৰা হলে তাৰা তাৰ কাৰ্য্যতালিকাটি আপডেট "
+"কৰে "
 "ৰাখিব পাৰে।"
 
 #: ../calendar/calendar.error.xml.h:52
@@ -2090,7 +2113,8 @@ msgid ""
 "'{0}' is a read-only calendar and cannot be modified. Please select a "
 "different calendar that can accept appointments."
 msgstr ""
-"'{0}' বর্ষপঞ্জি কেৱল পাঠযোগ্য আৰু পৰিবর্তন কৰা সম্ভব নহয়। অনুগ্ৰহ কৰে এটা ভিন্ন "
+"'{0}' বর্ষপঞ্জি কেৱল পাঠযোগ্য আৰু পৰিবর্তন কৰা সম্ভব নহয়। অনুগ্ৰহ কৰে এটা "
+"ভিন্ন "
 "বর্ষপঞ্জি নির্বাচন কৰক যাৰ মধ্যে সাক্ষাৎকাৰ অন্তর্ভুক্ত কৰা যাব।"
 
 #: ../calendar/calendar.error.xml.h:77
@@ -2416,15 +2440,17 @@ msgstr "এই মেমোটো আঁতৰুৱা হৈছে।"
 
 #: ../calendar/gui/dialogs/changed-comp.c:78
 #, c-format
-msgid "%s You have made changes. Forget those changes and close the editor?"
+#| msgid "%s You have made changes. Forget those changes and close the editor?"
+msgid "%s  You have made changes. Forget those changes and close the editor?"
 msgstr ""
-"%s আপুনি কিছুমান পৰিবৰ্তন কৰিছে। এই পৰিবৰ্তনসমূহ বাতিল কৰি সম্পাদক বন্ধ কৰা "
+"%s  আপুনি কিছুমান পৰিবৰ্তন কৰিছে। এই পৰিবৰ্তনসমূহ বাতিল কৰি সম্পাদক বন্ধ কৰা "
 "হ'ব নে?"
 
 #: ../calendar/gui/dialogs/changed-comp.c:80
 #, c-format
-msgid "%s You have made no changes, close the editor?"
-msgstr "%s আপুনি কোনো পৰিবৰ্তন কৰা নাই, সম্পাদক বন্ধ কৰা হ'ব নে?"
+#| msgid "%s You have made no changes, close the editor?"
+msgid "%s  You have made no changes, close the editor?"
+msgstr "%s  আপুনি কোনো পৰিবৰ্তন কৰা নাই, সম্পাদক বন্ধ কৰা হ'ব নে?"
 
 #: ../calendar/gui/dialogs/changed-comp.c:85
 msgid "This event has been changed."
@@ -2440,16 +2466,19 @@ msgstr "এই মেমোটো পৰিবৰ্তন কৰা হৈছ�
 
 #: ../calendar/gui/dialogs/changed-comp.c:103
 #, c-format
-msgid "%s You have made changes. Forget those changes and update the editor?"
+#| msgid ""
+#| "%s You have made changes. Forget those changes and update the editor?"
+msgid "%s  You have made changes. Forget those changes and update the editor?"
 msgstr ""
-"%s আপুনি কিছুমান পৰিবৰ্তন কৰিছে। এই পৰিবৰ্তনসমূহ বাতিল কৰি সম্পাদক আপডেইট কৰা "
-"হ'ব "
+"%s  আপুনি কিছুমান পৰিবৰ্তন কৰিছে। এই পৰিবৰ্তনসমূহ বাতিল কৰি সম্পাদক আপডেইট "
+"কৰা হ'ব "
 "নে?"
 
 #: ../calendar/gui/dialogs/changed-comp.c:105
 #, c-format
-msgid "%s You have made no changes, update the editor?"
-msgstr "%s আপুনি কোনো পৰিবৰ্তন কৰা নাই, সম্পাদক আপডেইট কৰা হ'ব নে?"
+#| msgid "%s You have made no changes, update the editor?"
+msgid "%s  You have made no changes, update the editor?"
+msgstr "%s  আপুনি কোনো পৰিবৰ্তন কৰা নাই, সম্পাদক আপডেইট কৰা হ'ব নে?"
 
 #: ../calendar/gui/dialogs/comp-editor.c:266
 msgid "Could not save attachments"
@@ -2520,17 +2549,14 @@ msgstr ""
 "কেলেন্ডাৰৰ পৰা সংৰক্ষিত উপাদান উদ্ধাৰ কৰিবলে অক্ষম, ঘুৰাই দিয়া ত্ৰুটি হল: %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1084
-#| msgid "Unable to retrieve message from editor"
 msgid "Unable to retrieve saved component from the task list"
 msgstr "কাৰ্য্য তালিকাৰ পৰা সংৰক্ষিত উপাদান উদ্ধাৰ কৰিবলে অক্ষম"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1088
-#| msgid "Unable to retrieve message from editor"
 msgid "Unable to retrieve saved component from the memo list"
 msgstr "মেমো তালিকাৰ পৰা সংৰক্ষিত উপাদান উদ্ধাৰ কৰিবলে অক্ষম"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1093
-#| msgid "Unable to retrieve message from editor"
 msgid "Unable to retrieve saved component from the calendar"
 msgstr "কেলেন্ডাৰৰ পৰা সংৰক্ষিত উপাদান উদ্ধাৰ কৰিবলে অক্ষম"
 
@@ -3215,15 +3241,17 @@ msgstr ""
 #, c-format
 msgid "You are modifying a recurring task. What would you like to modify?"
 msgstr ""
-"পুনৰাবৃত্তিমূলক কাৰ্য্য পৰিবৰ্তনেৰ প্ৰচেষ্টা কৰা হৈছে। আপুনি কী পৰিবৰ্তন কৰিবলৈ "
-"নিশ্চিত নে?"
+"পুনৰাবৃত্তিমূলক কাৰ্য্য পৰিবৰ্তনেৰ প্ৰচেষ্টা কৰা হৈছে। আপুনি কী পৰিবৰ্তন "
+"কৰিবলৈ নিশ্চিত "
+"নে?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:63
 #, c-format
 msgid "You are modifying a recurring memo. What would you like to modify?"
 msgstr ""
 "পুনৰাবৃত্তিমূলক মেমো পৰিবৰ্তনেৰ প্ৰচেষ্টা কৰা হৈছে। আপুনি কী পৰিবৰ্তন কৰিবলৈ "
-"নিশ্চিত নে?"
+"নিশ্চিত "
+"নে?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:89
 msgid "This Instance Only"
@@ -3407,43 +3435,43 @@ msgstr "আঁতৰুৱাৰ উদ্দেশ্যে নিৰ্বা�
 msgid "Date/Time"
 msgstr "তাৰিখ/সময়"
 
-#. TRANSLATORS: Entire string is for example:   'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
+#. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:2
 msgctxt "recurrpage"
 msgid "day(s)"
 msgstr "দিন(বোৰ)"
 
-#. TRANSLATORS: Entire string is for example:   'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
+#. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:4
 msgctxt "recurrpage"
 msgid "week(s)"
 msgstr "সপ্তাহ(বোৰ)"
 
-#. TRANSLATORS: Entire string is for example:   'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
+#. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:6
 msgctxt "recurrpage"
 msgid "month(s)"
 msgstr "মাহ(সমূহ)"
 
-#. TRANSLATORS: Entire string is for example:   'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
+#. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:8
 msgctxt "recurrpage"
 msgid "year(s)"
 msgstr "বছৰ(বোৰ)"
 
-#. TRANSLATORS: Entire string is for example:   'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
+#. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:10
 msgctxt "recurrpage"
 msgid "for"
 msgstr "বাবে"
 
-#. TRANSLATORS: Entire string is for example:   'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
+#. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:12
 msgctxt "recurrpage"
 msgid "until"
 msgstr "যেতিয়ালৈকে"
 
-#. TRANSLATORS: Entire string is for example:   'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
+#. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:14
 msgctxt "recurrpage"
 msgid "forever"
@@ -3559,7 +3587,7 @@ msgid "Canceled"
 msgstr "বাতিল কৰা হৈছে"
 
 #. To Translators: 'Status' here means the state of the attendees, the resulting string will be in a form:
-#. * Status: Accepted: X  Declined: Y  ...
+#. * Status: Accepted: X   Declined: Y   ...
 #: ../calendar/gui/dialogs/task-details-page.ui.h:17
 #: ../calendar/gui/e-calendar-table.etspec.h:11
 #: ../calendar/gui/e-cal-model.c:3994
@@ -4297,8 +4325,9 @@ msgid "Needs Action"
 msgstr "কাৰ্য্য প্ৰয়েজন"
 
 #: ../calendar/gui/e-meeting-list-view.c:626
-msgid "Attendee             "
-msgstr "অংশগ্ৰহণকাৰী             "
+#| msgid "Attendee             "
+msgid "Attendee                          "
+msgstr "অংশগ্ৰহণকাৰী                          "
 
 #: ../calendar/gui/e-meeting-list-view.c:681
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:6
@@ -4586,7 +4615,7 @@ msgstr "পৰীক্ষাৰ্থে গ্ৰহণ কৰা হৈছে
 #. * The full subject line would be:
 #. * "Declined: Meeting Name".
 #. Translators: This is part of the subject line of a
-#. * meeting request or update email. The full subject
+#. * meeting request or update email.  The full subject
 #. * line would be: "Declined: Meeting Name".
 #: ../calendar/gui/itip-utils.c:989 ../calendar/gui/itip-utils.c:1037
 msgctxt "Meeting"
@@ -4605,7 +4634,7 @@ msgstr "বন্টন কৰা হৈছে"
 
 #
 #. Translators: This is part of the subject line of a
-#. * meeting request or update email. The full subject
+#. * meeting request or update email.  The full subject
 #. * line would be: "Updated: Meeting Name".
 #: ../calendar/gui/itip-utils.c:1009
 msgctxt "Meeting"
@@ -4614,7 +4643,7 @@ msgstr "আপডেট কৰা হৈছে"
 
 #
 #. Translators: This is part of the subject line of a
-#. * meeting request or update email. The full subject
+#. * meeting request or update email.  The full subject
 #. * line would be: "Cancel: Meeting Name".
 #: ../calendar/gui/itip-utils.c:1016
 msgctxt "Meeting"
@@ -4623,7 +4652,7 @@ msgstr "বাতিল কৰক"
 
 #
 #. Translators: This is part of the subject line of a
-#. * meeting request or update email. The full subject
+#. * meeting request or update email.  The full subject
 #. * line would be: "Refresh: Meeting Name".
 #: ../calendar/gui/itip-utils.c:1023
 msgctxt "Meeting"
@@ -4632,7 +4661,7 @@ msgstr "নতুন কৰে প্ৰদর্শন"
 
 #
 #. Translators: This is part of the subject line of a
-#. * meeting request or update email. The full subject
+#. * meeting request or update email.  The full subject
 #. * line would be: "Counter-proposal: Meeting Name".
 #: ../calendar/gui/itip-utils.c:1030
 msgctxt "Meeting"
@@ -5099,7 +5128,7 @@ msgstr "ধৰণ"
 #. *
 #. * This program is distributed in the hope that it will be useful,
 #. * but WITHOUT ANY WARRANTY; without even the implied warranty of
-#. * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+#. * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 #. * Lesser General Public License for more details.
 #. *
 #. * You should have received a copy of the GNU Lesser General Public
@@ -6941,8 +6970,7 @@ msgstr ""
 msgid ""
 "Are you sure you want to discard the message, titled '{0}', you are "
 "composing?"
-msgstr ""
-"আপুনি '{0}' শীৰ্ষকৰ যি বাৰ্তাটো লিখি আছে, ইয়াক আতৰাবলে কি নিশ্চিত নে?"
+msgstr "আপুনি '{0}' শীৰ্ষকৰ যি বাৰ্তাটো লিখি আছে, ইয়াক আতৰাবলে কি নিশ্চিত নে?"
 
 #: ../composer/mail-composer.error.xml.h:15
 msgid ""
@@ -7031,18 +7059,16 @@ msgid "Saving message to Outbox."
 msgstr "বাৰ্তা আউটবক্সলে সংৰক্ষণ কৰা হৈ আছে।"
 
 #: ../composer/mail-composer.error.xml.h:35
-#| msgid ""
-#| "Because you are working offline, the message will be saved to your local "
-#| "Outbox folder. When you are back online you can send the message by "
-#| "clicking the Send/Receive button in Evolution's toolbar."
 msgid ""
 "The message will be saved to your local Outbox folder, because the "
 "destination service is currently unavailable. You can send the message by "
 "clicking the Send/Receive button in Evolution's toolbar."
 msgstr ""
 "বাৰ্তাটো আপোনাৰ স্থানীয় আউটবক্স ফোল্ডাৰলে সংৰক্ষণ কৰা হব কাৰণ গন্তব্য সেৱা "
-"বৰ্তমানে উপলব্ধ নহয়।"
-"আপুনি বাৰ্তাক Evolution ৰ টুলবাৰত পঠাওক/গ্ৰহণ কৰক বুটাম ক্লিক কৰি পঠাব পাৰিব।"
+"বৰ্তমানে "
+"উপলব্ধ নহয়।আপুনি বাৰ্তাক Evolution ৰ টুলবাৰত পঠাওক/গ্ৰহণ কৰক বুটাম ক্লিক কৰি "
+"পঠাব "
+"পাৰিব।"
 
 #: ../data/evolution-alarm-notify.desktop.in.in.h:1
 msgid "Evolution Alarm Notify"
@@ -7616,8 +7642,8 @@ msgstr ""
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:90
 msgid "Show appointment end times in week and month views"
 msgstr ""
-"সাপ্তাহিক আৰু মাহ অনুসৰি প্ৰদৰ্শনক্ষেত্ৰে সাক্ষাৎ‌কাৰ সমাপ্তিৰ সময় প্ৰদৰ্শন কৰা "
-"হ'ব।"
+"সাপ্তাহিক আৰু মাহ অনুসৰি প্ৰদৰ্শনক্ষেত্ৰে সাক্ষাৎ‌কাৰ সমাপ্তিৰ সময় প্ৰদৰ্শন "
+"কৰা হ'ব।"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:91
 msgid "Whether to display the end time of events in the week and month views"
@@ -7642,7 +7668,8 @@ msgstr "যদি \"সত্য\", মূখ্য উইন্ডোত কা
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:96
 msgid "Show week numbers in Day View, Work Week View, and Date Navigator"
 msgstr ""
-"সপ্তাহ নম্বৰসমূহক দিন দৰ্শন, কাৰ্য্য সপ্তাহ দৰ্শন, আৰু তাৰিখ পথপ্ৰদৰ্শকত দেখুৱাওক"
+"সপ্তাহ নম্বৰসমূহক দিন দৰ্শন, কাৰ্য্য সপ্তাহ দৰ্শন, আৰু তাৰিখ পথপ্ৰদৰ্শকত "
+"দেখুৱাওক"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:97
 msgid "Whether to show week numbers in various places in the Calendar"
@@ -7838,8 +7865,8 @@ msgid ""
 "was deprecated in version 3.10 and should no longer be used. Use the \"work-"
 "day-monday\", \"work-day-tuesday\", etc. keys instead.)"
 msgstr ""
-"দিনবোৰ যত কাৰ্য্য সময়ৰ আৰম্ভণি আৰু অন্ত দেখুৱা হব। (এই কি' সংস্কৰণ 3.10 ত স্খলিত "
-"কৰা "
+"দিনবোৰ যত কাৰ্য্য সময়ৰ আৰম্ভণি আৰু অন্ত দেখুৱা হব। (এই কি' সংস্কৰণ 3.10 ত "
+"স্খলিত কৰা "
 "হৈছিল আৰু ব্যৱহাৰ হব নালাগে। ইয়াৰ পৰিবৰ্তে \"work-day-monday\", \"work-day-"
 "tuesday\", ইত্যাদি কি'সমূহ ব্যৱহাৰ কৰক।)"
 
@@ -8345,11 +8372,10 @@ msgid ""
 "header enabled&gt; - set enabled if the header is to be displayed in the "
 "mail view."
 msgstr ""
-"এই কী (key)তে স্বনিৰ্বাচিত হেডাৰ আৰু তাৰ প্ৰদৰ্শন তথ্য উল্লেখকাৰী "
-"XML "
-"স্ট্ৰাকচাৰেৰ তালিকা থাকা উচিত। XML স্ট্ৰাকচাৰ হলো &lt;হেডাৰ সক্ৰিয়&gt; - মেইল "
-"ভিউ-"
-"তে হেডাৰ প্ৰদৰ্শন কৰিবলৈ হলে সক্ৰিয় হিচাপে নিৰ্ধাৰণ কৰক।"
+"এই কী (key)তে স্বনিৰ্বাচিত হেডাৰ আৰু তাৰ প্ৰদৰ্শন তথ্য উল্লেখকাৰী XML "
+"স্ট্ৰাকচাৰেৰ "
+"তালিকা থাকা উচিত। XML স্ট্ৰাকচাৰ হলো &lt;হেডাৰ সক্ৰিয়&gt; - মেইল ভিউ-তে হেডাৰ "
+"প্ৰদৰ্শন কৰিবলৈ হলে সক্ৰিয় হিচাপে নিৰ্ধাৰণ কৰক।"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:79
 msgid "Show photo of the sender"
@@ -9377,8 +9403,8 @@ msgid ""
 "values specifies an XML with setup for publishing to one destination."
 msgstr ""
 "কি'য়ে কেলেন্ডাৰসমূহ প্ৰকাশ কৰাৰ গন্তব্যসমূহৰ তালিকা ধাৰ্য্য কৰে। প্ৰতিটো মানে "
-"এটা গন্তব্যলে "
-"প্ৰকাশ কৰাৰ বাবে সংস্থাপনৰ সৈতে এটা মান ধাৰ্য্য কৰে।"
+"এটা "
+"গন্তব্যলে প্ৰকাশ কৰাৰ বাবে সংস্থাপনৰ সৈতে এটা মান ধাৰ্য্য কৰে।"
 
 #: ../data/org.gnome.evolution.plugin.templates.gschema.xml.in.h:1
 msgid ""
@@ -9777,11 +9803,14 @@ msgid "Encrypted"
 msgstr "এনক্ৰিপ্ট কৰা হৈছে"
 
 #: ../em-format/e-mail-formatter-secure-button.c:65
+#| msgid ""
+#| "This message is encrypted. It would be difficult for an outsider to view "
+#| "the content of this message."
 msgid ""
-"This message is encrypted. It would be difficult for an outsider to view "
+"This message is encrypted.  It would be difficult for an outsider to view "
 "the content of this message."
 msgstr ""
-"এই বাৰ্তাটো এনক্ৰিপ্ট কৰা আছে। কোনো বহীৰাগত ব্যক্তি সহজে ইয়াৰ সমল পঢ়িব "
+"এই বাৰ্তাটো এনক্ৰিপ্ট কৰা আছে।  কোনো বহীৰাগত ব্যক্তি সহজে ইয়াৰ সমল পঢ়িব "
 "নোৱাৰিব।"
 
 #: ../em-format/e-mail-formatter-secure-button.c:66
@@ -9794,8 +9823,8 @@ msgid ""
 "very difficult for an outsider to view the content of this message in a "
 "practical amount of time."
 msgstr ""
-"এই বাৰ্তাটো দৃঢ় এনক্ৰিপশন অ্যালগোৰিদম দ্বাৰা, এনক্ৰিপ্ট কৰা হৈছে। আৰু ফলস্বৰূপ "
-"কোনো "
+"এই বাৰ্তাটো দৃঢ় এনক্ৰিপশন অ্যালগোৰিদম দ্বাৰা, এনক্ৰিপ্ট কৰা হৈছে। আৰু "
+"ফলস্বৰূপ কোনো "
 "বহীৰাগত ব্যক্তিৰ দ্বাৰা স্বাভাবিক সময়েৰ এই বাৰ্তাৰ বিষয়বস্তু পাঠ কৰা সম্ভৱ "
 "হ'ব না।"
 
@@ -10274,7 +10303,7 @@ msgid "%s (waiting)"
 msgstr "%s (অপেক্ষাৰত)"
 
 #. Translators: This is a running activity which
-#. *       the user has requested to cancel.
+#. *              the user has requested to cancel.
 #: ../e-util/e-activity.c:266
 #, c-format
 msgid "%s (cancelling)"
@@ -10788,7 +10817,7 @@ msgid "Yesterday"
 msgstr "যোৱাকালী"
 
 #. Translators: This is used for abbreviated days in the future.
-#. *     You can use strftime modifiers here too, like "Next %a", to avoid
+#. *         You can use strftime modifiers here too, like "Next %a", to avoid
 #. * repeated translation of the abbreviated day name.
 #: ../e-util/e-datetime-format.c:230
 msgctxt "DateFmt"
@@ -10796,7 +10825,7 @@ msgid "Next Mon"
 msgstr "অহা সোম"
 
 #. Translators: This is used for abbreviated days in the future.
-#. *     You can use strftime modifiers here too, like "Next %a", to avoid
+#. *         You can use strftime modifiers here too, like "Next %a", to avoid
 #. * repeated translation of the abbreviated day name.
 #: ../e-util/e-datetime-format.c:236
 msgctxt "DateFmt"
@@ -10804,7 +10833,7 @@ msgid "Next Tue"
 msgstr "অহা মঙল"
 
 #. Translators: This is used for abbreviated days in the future.
-#. *     You can use strftime modifiers here too, like "Next %a", to avoid
+#. *         You can use strftime modifiers here too, like "Next %a", to avoid
 #. * repeated translation of the abbreviated day name.
 #: ../e-util/e-datetime-format.c:242
 msgctxt "DateFmt"
@@ -10812,7 +10841,7 @@ msgid "Next Wed"
 msgstr "অহা বুধ"
 
 #. Translators: This is used for abbreviated days in the future.
-#. *     You can use strftime modifiers here too, like "Next %a", to avoid
+#. *         You can use strftime modifiers here too, like "Next %a", to avoid
 #. * repeated translation of the abbreviated day name.
 #: ../e-util/e-datetime-format.c:248
 msgctxt "DateFmt"
@@ -10820,7 +10849,7 @@ msgid "Next Thu"
 msgstr "অহা বৃহস্পতি"
 
 #. Translators: This is used for abbreviated days in the future.
-#. *     You can use strftime modifiers here too, like "Next %a", to avoid
+#. *         You can use strftime modifiers here too, like "Next %a", to avoid
 #. * repeated translation of the abbreviated day name.
 #: ../e-util/e-datetime-format.c:254
 msgctxt "DateFmt"
@@ -10828,7 +10857,7 @@ msgid "Next Fri"
 msgstr "অহা শুক্ৰ"
 
 #. Translators: This is used for abbreviated days in the future.
-#. *     You can use strftime modifiers here too, like "Next %a", to avoid
+#. *         You can use strftime modifiers here too, like "Next %a", to avoid
 #. * repeated translation of the abbreviated day name.
 #: ../e-util/e-datetime-format.c:260
 msgctxt "DateFmt"
@@ -10836,7 +10865,7 @@ msgid "Next Sat"
 msgstr "অহা শনি"
 
 #. Translators: This is used for abbreviated days in the future.
-#. *     You can use strftime modifiers here too, like "Next %a", to avoid
+#. *         You can use strftime modifiers here too, like "Next %a", to avoid
 #. * repeated translation of the abbreviated day name.
 #: ../e-util/e-datetime-format.c:266
 msgctxt "DateFmt"
@@ -11096,8 +11125,7 @@ msgstr ""
 "Evolution এ নিম্নলিখিত এপ্লিকেচনসমূহৰ পৰা সংহতিসমূহ ইমপোৰ্ট কৰিবলে নিৰীক্ষণ "
 "কৰিছে: "
 "Pine, Netscape, Elm, iCalendar। ইমপোৰ্ট কৰিব পৰা কোনো সংহতি পোৱা নগল। যদি "
-"আপুনি "
-"আকৌ চেষ্টা কৰিব বিচাৰে, অনুগ্ৰহ কৰি \"পিছলৈ\" বুটাম টিপক।"
+"আপুনি আকৌ চেষ্টা কৰিব বিচাৰে, অনুগ্ৰহ কৰি \"পিছলৈ\" বুটাম টিপক।"
 
 #: ../e-util/e-import-assistant.c:559
 #: ../modules/startup-wizard/e-mail-config-import-page.c:231
@@ -11140,7 +11168,8 @@ msgid ""
 msgstr ""
 "Evolution ইমপোৰ্ট সহায়কলৈ স্বাগতম।\n"
 "এই সহায়কৰ সৈতে আপেনাক বহিৰ্তম ফাইলসমূহ Evolution লৈ ইমপোৰ্ট কৰাৰ প্ৰক্ৰিয়াৰ "
-"সৈতে সহায় কৰা হব।"
+"সৈতে "
+"সহায় কৰা হব।"
 
 #: ../e-util/e-import-assistant.c:1327
 msgid "Importer Type"
@@ -11320,12 +11349,14 @@ msgid "_Delete %s"
 msgstr "%s মচি পেলাওক (_D)"
 
 #: ../e-util/e-online-button.c:31
-msgid "Evolution is currently online. Click this button to work offline."
-msgstr "Evolution বৰ্তমানে অনলাইন। অফলাইন কাৰ্য্য কৰিবলে এই বুটাম ক্লিক কৰক।"
+#| msgid "Evolution is currently online. Click this button to work offline."
+msgid "Evolution is currently online.  Click this button to work offline."
+msgstr "Evolution বৰ্তমানে অনলাইন।  অফলাইন কাৰ্য্য কৰিবলে এই বুটাম ক্লিক কৰক।"
 
 #: ../e-util/e-online-button.c:34
-msgid "Evolution is currently offline. Click this button to work online."
-msgstr "Evolution বৰ্তমানে অফলাইন। অনলাইন কাৰ্য্য কৰিবলে এই বুটাম ক্লিক কৰক।"
+#| msgid "Evolution is currently offline. Click this button to work online."
+msgid "Evolution is currently offline.  Click this button to work online."
+msgstr "Evolution বৰ্তমানে অফলাইন।  অনলাইন কাৰ্য্য কৰিবলে এই বুটাম ক্লিক কৰক।"
 
 #: ../e-util/e-online-button.c:37
 msgid "Evolution is currently offline because the network is unavailable."
@@ -12255,14 +12286,10 @@ msgstr[1] ""
 "\"%s\"।"
 
 #: ../mail/e-mail-account-manager.c:116 ../mail/e-mail-account-manager.c:203
-#| msgid "All Accounts"
 msgid "Open _Online Accounts"
 msgstr "অনলাইন একাওন্টসমূহ খোলক (_O)"
 
 #: ../mail/e-mail-account-manager.c:142 ../mail/e-mail-account-manager.c:229
-#| msgid ""
-#| "This option will connect to the server by way of the GNOME Online "
-#| "Accounts service"
 msgid "This account was created through the Online Accounts service."
 msgstr "এই একাওন্ট অনলাইন একাওন্টসমূহ সেৱাৰ দ্বাৰা সৃষ্টি কৰা হৈছিল।"
 
@@ -13449,7 +13476,7 @@ msgstr[1] "বাৰ্তা সংৰক্ষণ কৰক (_S)"
 #. Translators: This is part of a suggested file name
 #. * used when saving a message or multiple messages to
 #. * mbox format, when the first message doesn't have a
-#. * subject. The extension ".mbox" is appended to the
+#. * subject.  The extension ".mbox" is appended to the
 #. * string; for example "Message.mbox".
 #: ../mail/e-mail-reader-utils.c:1624
 msgid "Message"
@@ -13471,8 +13498,8 @@ msgid "Flag to Follow Up"
 msgstr "ফলো আপ কৰিবলে ফ্লেগ"
 
 #. Note to translators: this is the attribution string used
-#. * when quoting messages. Each ${Variable} gets replaced
-#. * with a value. To see a full list of available variables,
+#. * when quoting messages.  Each ${Variable} gets replaced
+#. * with a value.  To see a full list of available variables,
 #. * see mail/em-composer-utils.c:attribvars array.
 #: ../mail/em-composer-utils.c:1282
 msgid ""
@@ -13957,7 +13984,7 @@ msgid "Stop the current operation"
 msgstr "বৰ্তমান কাৰ্য্য বন্ধ কৰক"
 
 #. Translators: This message is shown only for ten or more
-#. * messages to be opened. The %d is replaced with the actual
+#. * messages to be opened.  The %d is replaced with the actual
 #. * count of messages. If you need a '%' in your text, then
 #. * write it doubled, like '%%'.
 #: ../mail/em-utils.c:90
@@ -14677,8 +14704,9 @@ msgid ""
 "HTML email:\n"
 "{0}"
 msgstr ""
-"অনুগ্ৰহ কৰি নিম্নলিখিত প্ৰাপকসকল HTML মেইল গ্ৰহণ কৰিবলৈ ইচ্ছুক আৰু সক্ষম নে"
-"সুনিশ্চিত কৰক:\n"
+"অনুগ্ৰহ কৰি নিম্নলিখিত প্ৰাপকসকল HTML মেইল গ্ৰহণ কৰিবলৈ ইচ্ছুক আৰু সক্ষম "
+"নেসুনিশ্চিত "
+"কৰক:\n"
 "{0}"
 
 #: ../mail/mail.error.xml.h:9
@@ -14690,8 +14718,9 @@ msgid ""
 "Adding a meaningful Subject line to your messages will give your recipients "
 "an idea of what your mail is about."
 msgstr ""
-"আপোনাৰ বাৰ্তাত এটা বোধগম্য বিষয় যৌগ কৰিলে প্ৰাপকসকলে ইয়াৰ সমল "
-"সম্পৰ্কে জানিবলে সক্ষম হ'ব।"
+"আপোনাৰ বাৰ্তাত এটা বোধগম্য বিষয় যৌগ কৰিলে প্ৰাপকসকলে ইয়াৰ সমল সম্পৰ্কে "
+"জানিবলে "
+"সক্ষম হ'ব।"
 
 #: ../mail/mail.error.xml.h:11
 msgid "Are you sure you want to send a message with only BCC recipients?"
@@ -14708,12 +14737,11 @@ msgid ""
 msgstr ""
 "আপুনি প্ৰেৰণ কৰা পৰিচয় তালিকা তালিকাভুক্ত প্ৰাপকসকলৰ পৰিচয় লুকাবলে সংৰূপিত।\n"
 "\n"
-"কেৱল BCC প্ৰাপকসকলৰ সৈতে বাৰ্তাসমূহৰ বাবে ভালেমান ই-মেইল ব্যৱস্থাৰ "
-"দ্বাৰা এটা Apparently-To হেডাৰ যোগ কৰা হয়। এই হেডাৰ, যদি যোগ কৰা থাকে, আপোনাৰ "
-"বাৰ্তাত "
+"কেৱল BCC প্ৰাপকসকলৰ সৈতে বাৰ্তাসমূহৰ বাবে ভালেমান ই-মেইল ব্যৱস্থাৰ দ্বাৰা এটা "
+"Apparently-To হেডাৰ যোগ কৰা হয়। এই হেডাৰ, যদি যোগ কৰা থাকে, আপোনাৰ বাৰ্তাত "
 "আপোনাৰ সকলো প্ৰাপক তালিকাভুক্ত হ'ব। ইয়াক প্ৰতিৰোধ কৰিবলে, আপুনি অন্তত এটা "
-"প্ৰতি: অথবা CC: "
-"প্ৰাপক যোগ কৰিব লাগিব। "
+"প্ৰতি: "
+"অথবা CC: প্ৰাপক যোগ কৰিব লাগিব। "
 
 #: ../mail/mail.error.xml.h:15
 msgid ""
@@ -14722,12 +14750,11 @@ msgid ""
 "your message anyway. To avoid this, you should add at least one To: or CC: "
 "recipient."
 msgstr ""
-"কেৱল BCC প্ৰাপকসকলৰ সৈতে বাৰ্তাসমূহৰ বাবে ভালেমান ই-মেইল ব্যৱস্থাৰ "
-"দ্বাৰা এটা Apparently-To হেডাৰ যোগ কৰা হয়। এই হেডাৰ, যদি যোগ কৰা থাকে, আপোনাৰ "
-"বাৰ্তাত "
+"কেৱল BCC প্ৰাপকসকলৰ সৈতে বাৰ্তাসমূহৰ বাবে ভালেমান ই-মেইল ব্যৱস্থাৰ দ্বাৰা এটা "
+"Apparently-To হেডাৰ যোগ কৰা হয়। এই হেডাৰ, যদি যোগ কৰা থাকে, আপোনাৰ বাৰ্তাত "
 "আপোনাৰ সকলো প্ৰাপক তালিকাভুক্ত হ'ব। ইয়াক প্ৰতিৰোধ কৰিবলে, আপুনি অন্তত এটা "
-"প্ৰতি: অথবা CC: "
-"প্ৰাপক যোগ কৰিব লাগিব।"
+"প্ৰতি: "
+"অথবা CC: প্ৰাপক যোগ কৰিব লাগিব।"
 
 #: ../mail/mail.error.xml.h:16
 msgid "Are you sure you want to send a message with invalid address?"
@@ -14764,8 +14791,9 @@ msgid ""
 "you sure you want to proceed?"
 msgstr ""
 "আপুনি এটা মেইলিং তালিকা দ্বাৰা প্ৰাপ্ত এটা বাৰ্তাক গোপনভাৱে উত্তৰ দি আছে, "
-"কিন্তু তালিকায়ে আপোনাৰ উত্তৰক তালিকালৈ ঘুৰাই পঠাবলৈ চেষ্টা কৰি আছে। "
-"আপুনি আগবাঢ়িবলৈ নিশ্চিত নে?"
+"কিন্তু "
+"তালিকায়ে আপোনাৰ উত্তৰক তালিকালৈ ঘুৰাই পঠাবলৈ চেষ্টা কৰি আছে। আপুনি আগবাঢ়িবলৈ "
+"নিশ্চিত নে?"
 
 #: ../mail/mail.error.xml.h:24
 msgid "Reply _Privately"
@@ -14805,8 +14833,8 @@ msgid ""
 "email addresses by clicking on the To: button next to the entry box."
 msgstr ""
 "অনুগ্ৰহ কৰি প্ৰতি: ক্ষেত্ৰত এটা বৈধ ই-মেইল ঠিকনা সুমুৱাওক। আপুনি প্ৰৱিষ্টি "
-"বাকচৰ "
-"কাষত থকা প্ৰতি: বুটাম ক্লিক কৰি ইমেইল ঠিকনাসমূহ সন্ধান কৰিব পাৰিব।"
+"বাকচৰ কাষত "
+"থকা প্ৰতি: বুটাম ক্লিক কৰি ইমেইল ঠিকনাসমূহ সন্ধান কৰিব পাৰিব।"
 
 #: ../mail/mail.error.xml.h:32
 msgid "Use default drafts folder?"
@@ -14831,8 +14859,8 @@ msgid ""
 "Are you sure you want to permanently remove all the deleted messages in "
 "folder \"{0}\"?"
 msgstr ""
-"আপুনি \"{0}\" ফোল্ডাৰত অবস্থিত মচি পেলোৱা বার্তাসমূহ স্থায়ীহিচাপে মচি "
-"পেলাবলে নিশ্চিত নে?"
+"আপুনি \"{0}\" ফোল্ডাৰত অবস্থিত মচি পেলোৱা বার্তাসমূহ স্থায়ীহিচাপে মচি পেলাবলে "
+"নিশ্চিত নে?"
 
 #: ../mail/mail.error.xml.h:36
 msgid "If you continue, you will not be able to recover these messages."
@@ -14847,8 +14875,7 @@ msgid ""
 "Are you sure you want to permanently remove all the deleted messages in all "
 "folders?"
 msgstr ""
-"আপুনি সকলো ফোল্ডাৰত অবস্থিত আঁতৰুৱা বাৰ্তাসমূহ স্থায়ীৰূপে আতৰাবলে "
-"নিশ্চিত নে?"
+"আপুনি সকলো ফোল্ডাৰত অবস্থিত আঁতৰুৱা বাৰ্তাসমূহ স্থায়ীৰূপে আতৰাবলে নিশ্চিত নে?"
 
 #: ../mail/mail.error.xml.h:39
 #: ../modules/mail/e-mail-shell-view-actions.c:1550
@@ -14964,7 +14991,8 @@ msgid ""
 "will be deleted permanently."
 msgstr ""
 "যদি আপুনি ফোল্ডাৰ মচি পেলায়, ইয়াৰ সকলো সমল আৰু উপফোল্ডাৰসমূহৰ সমল স্থানীয়ভাৱে "
-"মচি পেলোৱা হব।"
+"মচি "
+"পেলোৱা হব।"
 
 #: ../mail/mail.error.xml.h:67
 msgid "Really delete folder \"{0}\"?"
@@ -15001,7 +15029,8 @@ msgstr "\"{0}\" পৰা \"{1}\"এ নাম পৰিবর্তন কৰ�
 msgid "A folder named \"{1}\" already exists. Please use a different name."
 msgstr ""
 "\"{1}\" নামৰ এটা ফোল্ডাৰ বর্তমানে উপস্থিত আছে। অনুগ্ৰহ কৰি অন্য এটা নাম "
-"নির্বাচন কৰক।"
+"নির্বাচন "
+"কৰক।"
 
 #
 #: ../mail/mail.error.xml.h:73
@@ -15214,8 +15243,8 @@ msgid ""
 "will not be able to use this provider until you can accept its license."
 msgstr ""
 "ইনস্টলেশন জড়িত সমস্যাৰ বাবে \"{0}\" অনুজ্ঞা ফাইলটো পঢ়া সম্ভব হোৱা নাই। "
-"অনুজ্ঞা "
-"গ্ৰহণ না কৰা অবধি আপুনি এই উপলব্ধকারীৰ পৰিসেবা ব্যবহাৰ কৰিবলে সক্ষম হবন না।"
+"অনুজ্ঞা গ্ৰহণ "
+"না কৰা অবধি আপুনি এই উপলব্ধকারীৰ পৰিসেবা ব্যবহাৰ কৰিবলে সক্ষম হবন না।"
 
 #: ../mail/mail.error.xml.h:120
 msgid "Please wait."
@@ -15395,7 +15424,6 @@ msgid "Failed to retrieve messages."
 msgstr "বাৰ্তাসমূহ উদ্ধাৰ কৰিবলে ব্যৰ্থ।"
 
 #: ../mail/mail.error.xml.h:162
-#| msgid "Failed to save messages to disk."
 msgid "Failed to mark messages as read."
 msgstr "বাৰ্তাসমূহ পঢ়া হল বুলি চিহ্নিত কৰিবলে ব্যৰ্থ।"
 
@@ -16290,12 +16318,16 @@ msgid "Method:"
 msgstr "পদ্ধতি:"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:690
+#| msgid ""
+#| "This is the method Evolution will use to authenticate you. Note that "
+#| "setting this to \"Using email address\" requires anonymous access to your "
+#| "LDAP server."
 msgid ""
-"This is the method Evolution will use to authenticate you. Note that "
+"This is the method Evolution will use to authenticate you.  Note that "
 "setting this to \"Using email address\" requires anonymous access to your "
 "LDAP server."
 msgstr ""
-"এই পদ্ধতিৰ সহায়ত Evolution এ আপোনাক প্ৰমাণীত কৰিব। মন কৰিব যে ইয়াক \"ই-মেইল "
+"এই পদ্ধতিৰ সহায়ত Evolution এ আপোনাক প্ৰমাণীত কৰিব।  মন কৰিব যে ইয়াক \"ই-মেইল "
 "ঠিকনা ব্যৱহাৰ কৰি\" সংহতি কৰিবলে আপোনাৰ LDAP চাৰ্ভাৰলে বেনামী অভিগমৰ প্ৰয়োজন।"
 
 #. Page 2
@@ -16329,21 +16361,26 @@ msgid "Search Scope:"
 msgstr "সন্ধানৰ অৱকাশ:"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:783
+#| msgid ""
+#| "The search scope defines how deep you would like the search to extend "
+#| "down the directory tree. A search scope of \"Subtree\" will include all "
+#| "entries below your search base. A search scope of \"One Level\" will only "
+#| "include the entries one level beneath your search base."
 msgid ""
 "The search scope defines how deep you would like the search to extend down "
-"the directory tree. A search scope of \"Subtree\" will include all entries "
-"below your search base. A search scope of \"One Level\" will only include "
+"the directory tree.  A search scope of \"Subtree\" will include all entries "
+"below your search base.  A search scope of \"One Level\" will only include "
 "the entries one level beneath your search base."
 msgstr ""
 "অনুসন্ধানৰ ক্ষেত্ৰই অৱকাশ নিৰ্ধাৰণ কৰে, পঞ্জিকা শাখাত কিমান গভীৰ পৰ্যন্ত "
 "অনুসন্ধান "
-"চলোৱা হ'ব। অনুসন্ধানৰ ক্ষেত্ৰ যদি \"চাবট্ৰি\" হয়, তেতিয়া হ'লে আপোনাৰ "
+"চলোৱা হ'ব।  অনুসন্ধানৰ ক্ষেত্ৰ যদি \"চাবট্ৰি\" হয়, তেতিয়া হ'লে আপোনাৰ "
 "নিৰ্ধাৰিত "
-"অনুসন্ধানৰ ভিত্তিৰ অধীন সকলো পঞ্জিকাতে অনুসন্ধান চলোৱা হ'ব।আৰু অনুসন্ধানৰ "
-"ক্ষেত্ৰত "
-"যদি \"এটা স্তৰ\" হয়, তেতিয়া হ'লে আপোনাৰ নিৰ্ধাৰিত অনুসন্ধানৰ স্থানৰ পৰা অকল "
-"তলৰ "
-"পৰ্যন্ত অনুসন্ধান চলোৱা হ'ব।"
+"অনুসন্ধানৰ ভিত্তিৰ অধীন সকলো পঞ্জিকাতে অনুসন্ধান চলোৱা হ'ব।  আৰু অনুসন্ধানৰ "
+"ক্ষেত্ৰত যদি "
+"\"এটা স্তৰ\" হয়, তেতিয়া হ'লে আপোনাৰ নিৰ্ধাৰিত অনুসন্ধানৰ স্থানৰ পৰা অকল তলৰ "
+"পৰ্যন্ত "
+"অনুসন্ধান চলোৱা হ'ব।"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:792
 msgid "Search Filter:"
@@ -16779,7 +16816,7 @@ msgstr "কেলেন্ডাৰ আৰু কাৰ্যতালিকা"
 msgid "Opening calendar '%s'"
 msgstr "কেলেন্ডাৰ '%s' খোলা হৈ আছে"
 
-#: ../modules/calendar/e-cal-shell-sidebar.c:583
+#: ../modules/calendar/e-cal-shell-sidebar.c:587
 msgid "Calendar Selector"
 msgstr "কেলেন্ডাৰ নিৰ্বাচক"
 
@@ -17253,7 +17290,7 @@ msgstr "এটা নতুন কাৰ্য্যসূচীৰ তালি
 msgid "Opening memo list '%s'"
 msgstr "মেমো তালিকা '%s' খোলা নাযায়"
 
-#: ../modules/calendar/e-memo-shell-sidebar.c:543
+#: ../modules/calendar/e-memo-shell-sidebar.c:547
 msgid "Memo List Selector"
 msgstr "মেমো তালিকা নিৰ্বাচক"
 
@@ -17384,7 +17421,7 @@ msgstr "এটা নতুন কাৰ্য-তালিকা সৃষ্�
 msgid "Opening task list '%s'"
 msgstr "কাৰ্য্য তালিকা '%s' খোলা হৈছে"
 
-#: ../modules/calendar/e-task-shell-sidebar.c:543
+#: ../modules/calendar/e-task-shell-sidebar.c:547
 msgid "Task List Selector"
 msgstr "কাৰ্য্য তালিকা নিৰ্বাচক"
 
@@ -17769,8 +17806,7 @@ msgstr "%s দ্বাৰা সভা নিম্নলিখিত পৰি
 #: ../modules/itip-formatter/itip-view.c:463
 #, c-format
 msgid "%s through %s has declined the following meeting changes:"
-msgstr ""
-"%s ৰে %s দ্বাৰা সভা নিম্নলিখিত প্ৰস্তাবসমূহ প্ৰত্যাখ্যান কৰা হৈছে:"
+msgstr "%s ৰে %s দ্বাৰা সভা নিম্নলিখিত প্ৰস্তাবসমূহ প্ৰত্যাখ্যান কৰা হৈছে:"
 
 #: ../modules/itip-formatter/itip-view.c:465
 #, c-format
@@ -18041,8 +18077,9 @@ msgstr "অনুসন্ধান উল্লেখিত সময় অবধ
 
 #: ../modules/itip-formatter/itip-view.c:4575
 #, c-format
-msgid "Unable to send item to calendar '%s'. %s"
-msgstr "'%s' কেলেন্ডাৰত বস্তু প্ৰেৰণ কৰা নাযায়। %s"
+#| msgid "Unable to send item to calendar '%s'. %s"
+msgid "Unable to send item to calendar '%s'.  %s"
+msgstr "'%s' কেলেন্ডাৰত বস্তু প্ৰেৰণ কৰা নাযায়।  %s"
 
 #: ../modules/itip-formatter/itip-view.c:4591
 #, c-format
@@ -18184,8 +18221,8 @@ msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
 msgstr ""
-"সকলো চিহ্নিত বস্তুৰ ব্যৱস্থাপনাৰ বাবে ফাইলটো সংৰক্ষণ কৰে কেলেন্ডাৰটি "
-"ইম্পোৰ্ট কৰা "
+"সকলো চিহ্নিত বস্তুৰ ব্যৱস্থাপনাৰ বাবে ফাইলটো সংৰক্ষণ কৰে কেলেন্ডাৰটি ইম্পোৰ্ট "
+"কৰা "
 "আবশ্যক"
 
 #: ../modules/itip-formatter/itip-view.c:5961
@@ -18360,17 +18397,20 @@ msgid "Cus_tom arguments:"
 msgstr "স্বনিৰ্বাচিত তৰ্কসমূহ (_t):"
 
 #: ../modules/mail-config/e-mail-config-sendmail-backend.c:113
+#| msgid ""
+#| "Default arguments are '-i -f %F -- %R', where\n"
+#| "  %F - stands for the From address\n"
+#| "  %R - stands for the recipient addresses"
 msgid ""
 "Default arguments are '-i -f %F -- %R', where\n"
-"  %F - stands for the From address\n"
-"  %R - stands for the recipient addresses"
+"   %F - stands for the From address\n"
+"   %R - stands for the recipient addresses"
 msgstr ""
 "স্বনিৰ্বাচিত তৰ্কসমূহ হল '-i -f %F -- %R', যত\n"
-"  %F - ঠিকনাৰ উৎস বুজায়\n"
-"  %R - গ্ৰাহকৰ ঠিকনাসমূহ বুজায়"
+"   %F - ঠিকনাৰ উৎস বুজায়\n"
+"   %R - গ্ৰাহকৰ ঠিকনাসমূহ বুজায়"
 
 #: ../modules/mail-config/e-mail-config-sendmail-backend.c:128
-#| msgid "Not available in offline mode"
 msgid "Send mail also when in offline _mode"
 msgstr "অফলাইন অৱস্থাতো মেইল পঠাব (_m)"
 
@@ -18450,7 +18490,6 @@ msgid "None"
 msgstr "কোনো নহয়"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:678
-#| msgid "Mark all messages as read"
 msgid "Marking messages as read..."
 msgstr "বাৰ্তাসমূহ পঢ়া-হৈছে বুলি চিহ্নিত কৰা হৈছে..."
 
@@ -19451,17 +19490,23 @@ msgid "BBDB"
 msgstr "BBDB"
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:3
+#| msgid ""
+#| "Takes the gruntwork out of managing your address book.\n"
+#| "\n"
+#| "Automatically fills your address book with names and email addresses as "
+#| "you reply to messages. Also fills in IM contact information from your "
+#| "buddy lists."
 msgid ""
 "Takes the gruntwork out of managing your address book.\n"
 "\n"
 "Automatically fills your address book with names and email addresses as you "
-"reply to messages. Also fills in IM contact information from your buddy "
+"reply to messages.  Also fills in IM contact information from your buddy "
 "lists."
 msgstr ""
 "আপোনাৰ ঠিকনা বহী ব্যৱস্থাপনা কৰাৰ পৰা কঠোৰ কাৰ্য্য পৃথক কৰে।\n"
 "\n"
 "আপুনি বাৰ্তাসমূহলে উত্তৰ দিওতে আপোনাৰ ঠিকনা বহীক স্বচালিতভাৱে নাম আৰু ই-মেইল "
-"ঠিকনাৰ সৈতে পূৰ্ণ কৰে। লগতে আপোনাৰ বন্ধু তালিকাৰ পৰা IM পৰিচয় তথ্য পূৰ্ণ কৰে।"
+"ঠিকনাৰ সৈতে পূৰ্ণ কৰে।  লগতে আপোনাৰ বন্ধু তালিকাৰ পৰা IM পৰিচয় তথ্য পূৰ্ণ কৰে।"
 
 #: ../plugins/dbx-import/dbx-importer.c:282
 msgid "Importing Outlook Express data"
@@ -19753,7 +19798,8 @@ msgstr "কাৰ্য্য উপলব্ধ নহয়"
 msgid ""
 "This message does not contain the header information required for this "
 "action."
-msgstr "উল্লেখিত কাৰ্য্যতৰ বাবে প্ৰযোজ্য হেডাৰেৰ তথ্য এই বাৰ্তাৰ উপস্থিত ছিল না।"
+msgstr ""
+"উল্লেখিত কাৰ্য্যতৰ বাবে প্ৰযোজ্য হেডাৰেৰ তথ্য এই বাৰ্তাৰ উপস্থিত ছিল না।"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:3
 msgid "Posting not allowed"
@@ -19855,7 +19901,7 @@ msgid "New email in Evolution"
 msgstr "New email in Evolution"
 
 #. Translators: The '%s' is a mail
-#. * folder name. (e.g. "Show Inbox")
+#. * folder name.  (e.g. "Show Inbox")
 #: ../plugins/mail-notification/mail-notification.c:461
 #, c-format
 msgid "Show %s"
@@ -20275,7 +20321,7 @@ msgid "Edit Location"
 msgstr "অবস্থান পৰিবর্তন কৰক"
 
 #. Translators: the %F %T is the third argument for a
-#. * strftime function. It lets you define the formatting
+#. * strftime function.  It lets you define the formatting
 #. * of the date in the csv-file.
 #: ../plugins/save-calendar/csv-format.c:161
 msgid "%F %T"
@@ -20447,7 +20493,7 @@ msgid "Save Search"
 msgstr "অনুসন্ধান সংৰক্ষণ কৰক"
 
 #. Translators: The "Show:" label precedes a combo box that
-#. * allows the user to filter the current view. Examples of
+#. * allows the user to filter the current view.  Examples of
 #. * items that appear in the combo box are "Unread Messages",
 #. * "Important Messages", or "Active Appointments".
 #: ../shell/e-shell-searchbar.c:1078
@@ -20763,8 +20809,24 @@ msgstr "%s - Evolution"
 #. Preview/Alpha/Beta version warning message
 #: ../shell/main.c:184
 #, no-c-format
+#| msgid ""
+#| "Hi. Thanks for taking the time to download this preview release\n"
+#| "of the Evolution groupware suite.\n"
+#| "\n"
+#| "This version of Evolution is not yet complete. It is getting close,\n"
+#| "but some features are either unfinished or do not work properly.\n"
+#| "\n"
+#| "If you want a stable version of Evolution, we urge you to uninstall\n"
+#| "this version, and install version %s instead.\n"
+#| "\n"
+#| "If you find bugs, please report them to us at bugzilla.gnome.org.\n"
+#| "This product comes with no warranty and is not intended for\n"
+#| "individuals prone to violent fits of anger.\n"
+#| "\n"
+#| "We hope that you enjoy the results of our hard work, and we\n"
+#| "eagerly await your contributions!\n"
 msgid ""
-"Hi. Thanks for taking the time to download this preview release\n"
+"Hi.  Thanks for taking the time to download this preview release\n"
 "of the Evolution groupware suite.\n"
 "\n"
 "This version of Evolution is not yet complete. It is getting close,\n"
@@ -20780,7 +20842,7 @@ msgid ""
 "We hope that you enjoy the results of our hard work, and we\n"
 "eagerly await your contributions!\n"
 msgstr ""
-"নমস্কাৰ। Evolution groupware চুইটৰ পূৰ্ব উন্মোচন সংস্কৰণ\n"
+"নমস্কাৰ।  Evolution groupware চুইটৰ পূৰ্ব উন্মোচন সংস্কৰণ\n"
 "ডাউনল'ড কৰাৰ বাবে ধন্যবাদ।\n"
 "\n"
 "Evolution ৰ এই সংস্কৰণটো সম্পূৰ্ণ নহয়। ইয়াৰ কিছুমান বৈশিষ্ট্য সম্পন্ন কৰা\n"
@@ -20854,11 +20916,14 @@ msgstr "Request a running Evolution process to quit"
 
 #: ../shell/main.c:404
 #, c-format
+#| msgid ""
+#| "Cannot start Evolution. Another Evolution instance may be unresponsive. "
+#| "System error: %s"
 msgid ""
-"Cannot start Evolution. Another Evolution instance may be unresponsive. "
+"Cannot start Evolution.  Another Evolution instance may be unresponsive. "
 "System error: %s"
 msgstr ""
-"Evolution আৰম্ভ কৰিব নোৱাৰি। অন্য এটা Evolution ৰ ইনস্টেন্সে প্ৰতিক্ৰিয়া কৰা "
+"Evolution আৰম্ভ কৰিব নোৱাৰি।  অন্য এটা Evolution ৰ ইনস্টেন্সে প্ৰতিক্ৰিয়া কৰা "
 "নাই।\n"
 "চিস্টেম ত্ৰুটি: %s"
 
@@ -20868,21 +20933,27 @@ msgstr "- Evolution PIM আৰু Email Client"
 
 #: ../shell/main.c:572
 #, c-format
+#| msgid ""
+#| "%s: --online and --offline cannot be used together.\n"
+#| " Run '%s --help' for more information.\n"
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
-" Run '%s --help' for more information.\n"
+"  Run '%s --help' for more information.\n"
 msgstr ""
 "%s: --online আৰু --offline একেলগে ব্যৱহাৰ কৰিব নোৱাৰি।\n"
-" অধিক তথ্যৰ বাবে '%s --help' চলাওক।\n"
+"  অধিক তথ্যৰ বাবে '%s --help' চলাওক।\n"
 
 #: ../shell/main.c:578
 #, c-format
+#| msgid ""
+#| "%s: --force-online and --offline cannot be used together.\n"
+#| " Run '%s --help' for more information.\n"
 msgid ""
 "%s: --force-online and --offline cannot be used together.\n"
-" Run '%s --help' for more information.\n"
+"  Run '%s --help' for more information.\n"
 msgstr ""
 "%s: --force-online আৰু --offline একেলগে ব্যৱহাৰ কৰিব নোৱাৰি।\n"
-" অধিক তথ্যৰ বাবে '%s --help' চলাওক।\n"
+"  অধিক তথ্যৰ বাবে '%s --help' চলাওক।\n"
 
 #: ../shell/shell.error.xml.h:2
 msgid "Upgrade from previous version failed:"
@@ -21139,21 +21210,27 @@ msgstr "নতুন পাছৱাৰ্ড লিখক"
 #. FIXME: add serial no, validity date, uses
 #: ../smime/gui/e-cert-selector.c:122
 #, c-format
+#| msgid ""
+#| "Issued to:\n"
+#| " Subject: %s\n"
 msgid ""
 "Issued to:\n"
-" Subject: %s\n"
+"  Subject: %s\n"
 msgstr ""
 "প্ৰাপক:\n"
-" বিষয়: %s\n"
+"  বিষয়: %s\n"
 
 #: ../smime/gui/e-cert-selector.c:123
 #, c-format
+#| msgid ""
+#| "Issued by:\n"
+#| " Subject: %s\n"
 msgid ""
 "Issued by:\n"
-" Subject: %s\n"
+"  Subject: %s\n"
 msgstr ""
 "প্ৰেৰক:\n"
-" বিষয়: %s\n"
+"  বিষয়: %s\n"
 
 #: ../smime/gui/e-cert-selector.c:176
 msgid "Select certificate"
@@ -21391,9 +21468,9 @@ msgstr "এক্সটেনশন"
 #. * details for fields like Issuer or Subject, which
 #. * shows the field name on the left and its respective
 #. * value on the right, both as stored in the
-#. * certificate itself. You probably do not need to
+#. * certificate itself.  You probably do not need to
 #. * change this string, unless changing the order of
-#. * name and value. As a result example:
+#. * name and value.  As a result example:
 #. * "OU = VeriSign Trust Network"
 #: ../smime/lib/e-asn1-object.c:615
 #, c-format
@@ -22918,7 +22995,8 @@ msgstr "অবস্থা সহ (_S)"
 
 #~ msgid "Intervals shown in Day and Work Week views, in minutes."
 #~ msgstr ""
-#~ "দিন আৰু সাপ্তাহিক কাৰ্য্যতৰ দিন অনুযায়ী প্ৰদৰ্শনে উল্লেখিত অন্তৰাল, মিনিট অনুসৰি ব্যক্ত।"
+#~ "দিন আৰু সাপ্তাহিক কাৰ্য্যতৰ দিন অনুযায়ী প্ৰদৰ্শনে উল্লেখিত অন্তৰাল, মিনিট অনুসৰি "
+#~ "ব্যক্ত।"
 
 #~ msgid ""
 #~ "Position of the horizontal pane, between the date navigator calendar and "
@@ -22935,8 +23013,8 @@ msgstr "অবস্থা সহ (_S)"
 #~ "calendar and task list when not in the month view, in pixels."
 #~ msgstr ""
 #~ "মাহ অনুযায়ী প্ৰদৰ্শন ক্ষেত্ৰেৰ উপস্থিত না হলে পিক্সেলেৰ দ্বাৰা নিৰ্ধাৰিত অনুভূমিক "
-#~ "পেইনেৰ অবস্থান, প্ৰদৰ্শনক্ষেত্ৰ আৰু দিন ন্যাভিগেটৰ কেলেন্ডাৰ আৰু কাৰ্য্যতালিকাৰ মধ্যবৰ্তী "
-#~ "অংশে।"
+#~ "পেইনেৰ অবস্থান, প্ৰদৰ্শনক্ষেত্ৰ আৰু দিন ন্যাভিগেটৰ কেলেন্ডাৰ আৰু কাৰ্য্যতালিকাৰ "
+#~ "মধ্যবৰ্তী অংশে।"
 
 #~ msgid ""
 #~ "Position of the horizontal pane, between the view and the date navigator "
@@ -23575,8 +23653,8 @@ msgstr "অবস্থা সহ (_S)"
 #~ msgstr ""
 #~ "প্ৰক্সিৰ (যদি সক্ৰিয়) পৰিবর্তে সৰাসৰি সংযোগকারী হোস্টেৰ তালিকা এই কি দ্বাৰা "
 #~ "উল্লিখিত হৈছে। হোস্ট-নেম, ডোমেইন (প্ৰাৰম্ভিক ওয়াইল্ডকার্ডসহ যেমন *.foo.com), IP "
-#~ "হোস্ট ঠিকনা (IPv4 আৰু IPv6) আৰু নেটমাস্কসহ নেটৱাৰ্ক ঠিকনাৰ (যেমন 192.168.0.0/24) "
-#~ "মান এই ক্ষেত্ৰে অন্তর্ভুক্ত কৰা যাব।"
+#~ "হোস্ট ঠিকনা (IPv4 আৰু IPv6) আৰু নেটমাস্কসহ নেটৱাৰ্ক ঠিকনাৰ (যেমন "
+#~ "192.168.0.0/24) মান এই ক্ষেত্ৰে অন্তর্ভুক্ত কৰা যাব।"
 
 #
 #~ msgid "Automatic proxy configuration URL"
@@ -25016,8 +25094,8 @@ msgstr "অবস্থা সহ (_S)"
 #~ "Position of the vertical pane, between the task list and the task preview "
 #~ "pane, in pixels."
 #~ msgstr ""
-#~ "পিক্সেলেৰ দ্বাৰা নিৰ্ধাৰিত উলম্ব পেইনেৰ অবস্থান, কাৰ্য্যতালিকা আৰু কাৰ্য্য পূৰ্বপ্ৰদৰ্শন "
-#~ "ক্ষেত্ৰেৰ মধ্যবৰ্তী অংশে।"
+#~ "পিক্সেলেৰ দ্বাৰা নিৰ্ধাৰিত উলম্ব পেইনেৰ অবস্থান, কাৰ্য্যতালিকা আৰু কাৰ্য্য "
+#~ "পূৰ্বপ্ৰদৰ্শন ক্ষেত্ৰেৰ মধ্যবৰ্তী অংশে।"
 
 #~ msgid "Show the \"Preview\" pane."
 #~ msgstr "\"পূৰ্বপ্ৰদৰ্শন\" পেইন প্ৰদৰ্শন কৰা হ'ব।"
@@ -25148,7 +25226,8 @@ msgstr "অবস্থা সহ (_S)"
 #
 #~| msgid "Show week numbers in date navigator"
 #~ msgid "Show week n_umber in Day and Work Week View"
-#~ msgstr "দিন আৰু কর্মসপ্তাহ অনুসৰি প্ৰদর্শনেৰ মধ্যে সপ্তাহেৰ সংখ্যা প্ৰদর্শন কৰা হব (_u)"
+#~ msgstr ""
+#~ "দিন আৰু কর্মসপ্তাহ অনুসৰি প্ৰদর্শনেৰ মধ্যে সপ্তাহেৰ সংখ্যা প্ৰদর্শন কৰা হব (_u)"
 
 #~ msgid "Attached message - %s"
 #~ msgstr "সংযুক্ত বাৰ্তা - %s"
@@ -28496,7 +28575,8 @@ msgstr "অবস্থা সহ (_S)"
 #~ msgstr "সাব-ফোল্ডাৰেৰও কি এই কাৰ্য্য সঞ্চালিত হ'ব?"
 
 #~ msgid "Mark all messages in this folder and subfolders as read?"
-#~ msgstr "ফোল্ডাৰ আৰু সাব-ফোল্ডাৰেৰ সকলো বাৰ্তা পঢ়া-হৈছে হিচাপে চিহ্নিত কৰা হ'ব নে?"
+#~ msgstr ""
+#~ "ফোল্ডাৰ আৰু সাব-ফোল্ডাৰেৰ সকলো বাৰ্তা পঢ়া-হৈছে হিচাপে চিহ্নিত কৰা হ'ব নে?"
 
 #~ msgid "Only on _Current Folder"
 #~ msgstr "কেৱল বৰ্তমান ফোল্ডাৰে (_C)"
