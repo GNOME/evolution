@@ -2846,22 +2846,19 @@ e_web_view_install_request_handler (EWebView *web_view,
 {
 	SoupSession *session;
 	SoupSessionFeature *feature;
-	gboolean new;
 
 	session = webkit_get_default_session ();
 
 	feature = soup_session_get_feature (session, SOUP_TYPE_REQUESTER);
-	new = FALSE;
-	if (feature == NULL) {
+	if (feature != NULL) {
+		g_object_ref (feature);
+	} else {
 		feature = SOUP_SESSION_FEATURE (soup_requester_new ());
 		soup_session_add_feature (session, feature);
-		new = TRUE;
 	}
 
 	soup_session_feature_add_feature (feature, handler_type);
 
-	if (new) {
-		g_object_unref (feature);
-	}
+	g_object_unref (feature);
 }
 
