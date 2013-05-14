@@ -53,6 +53,8 @@ mail_part_validity_pair_free (gpointer ptr)
 static void
 mail_part_free (EMailPart *part)
 {
+	EMailPartValidityPair *pair;
+
 	if (!part)
 		return;
 
@@ -71,10 +73,8 @@ mail_part_free (EMailPart *part)
 		part->mime_type = NULL;
 	}
 
-	if (part->validities) {
-		g_slist_free_full (part->validities, mail_part_validity_pair_free);
-		part->validities = NULL;
-	}
+	while ((pair = g_queue_pop_head (&part->validities)) != NULL)
+		mail_part_validity_pair_free (pair);
 
 	if (part->priv->free_func) {
 		part->priv->free_func (part);
@@ -180,12 +180,17 @@ static EMailPartValidityPair *
 mail_part_find_validity_pair (EMailPart *part,
                               guint32 validity_type)
 {
-	GSList *lst;
+	GList *head, *link;
 
-	for (lst = part->validities; lst; lst = lst->next) {
-		EMailPartValidityPair *pair = lst->data;
+	head = g_queue_peek_head_link (&part->validities);
 
-		if (pair && (pair->validity_type & validity_type) == validity_type)
+	for (link = head; link != NULL; link = g_list_next (link)) {
+		EMailPartValidityPair *pair = link->data;
+
+		if (pair == NULL)
+			continue;
+
+		if ((pair->validity_type & validity_type) == validity_type)
 			return pair;
 	}
 
@@ -213,7 +218,7 @@ e_mail_part_update_validity (EMailPart *part,
 	g_return_if_fail (part != NULL);
 
 	pair = mail_part_find_validity_pair (part, validity_type & (E_MAIL_PART_VALIDITY_PGP | E_MAIL_PART_VALIDITY_SMIME));
-	if (pair) {
+	if (pair != NULL) {
 		pair->validity_type |= validity_type;
 		camel_cipher_validity_envelope (pair->validity, validity);
 	} else {
@@ -221,7 +226,7 @@ e_mail_part_update_validity (EMailPart *part,
 		pair->validity_type = validity_type;
 		pair->validity = camel_cipher_validity_clone (validity);
 
-		part->validities = g_slist_append (part->validities, pair);
+		g_queue_push_tail (&part->validities, pair);
 	}
 }
 

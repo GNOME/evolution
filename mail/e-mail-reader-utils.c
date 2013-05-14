@@ -1393,20 +1393,20 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 
 		while (!g_queue_is_empty (&queue)) {
 			EMailPart *part = g_queue_pop_head (&queue);
+			GList *head, *link;
 
-			if (part->validities) {
-				GSList *viter;
+			head = g_queue_peek_head_link (&part->validities);
 
-				for (viter = part->validities; viter; viter = viter->next) {
-					EMailPartValidityPair *vpair = viter->data;
+			for (link = head; link != NULL; link = g_list_next (link)) {
+				EMailPartValidityPair *vpair = link->data;
 
-					if (vpair) {
-						if ((vpair->validity_type & E_MAIL_PART_VALIDITY_PGP) != 0)
-							validity_pgp_sum |= vpair->validity_type;
-						if ((vpair->validity_type & E_MAIL_PART_VALIDITY_SMIME) != 0)
-							validity_smime_sum |= vpair->validity_type;
-					}
-				}
+				if (vpair == NULL)
+					continue;
+
+				if ((vpair->validity_type & E_MAIL_PART_VALIDITY_PGP) != 0)
+					validity_pgp_sum |= vpair->validity_type;
+				if ((vpair->validity_type & E_MAIL_PART_VALIDITY_SMIME) != 0)
+					validity_smime_sum |= vpair->validity_type;
 			}
 
 			e_mail_part_unref (part);

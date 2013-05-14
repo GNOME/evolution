@@ -126,21 +126,25 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 	if ((context->mode == E_MAIL_FORMATTER_MODE_NORMAL) ||
 	    (context->mode == E_MAIL_FORMATTER_MODE_PRINTING) ||
 	    (context->mode == E_MAIL_FORMATTER_MODE_ALL_HEADERS)) {
-		if (part->validities) {
-			GSList *lst;
+		GList *head, *link;
 
-			for (lst = part->validities; lst; lst = lst->next) {
-				EMailPartValidityPair *pair = lst->data;
+		head = g_queue_peek_head_link (&part->validities);
 
-				if (!pair)
-					continue;
+		for (link = head; link != NULL; link = g_list_next (link)) {
+			EMailPartValidityPair *pair = link->data;
 
-				if ((pair->validity_type & E_MAIL_PART_VALIDITY_SIGNED) != 0)
-					e_attachment_set_signed (empa->attachment, pair->validity->sign.status);
+			if (pair == NULL)
+				continue;
 
-				if ((pair->validity_type & E_MAIL_PART_VALIDITY_ENCRYPTED) != 0)
-					e_attachment_set_encrypted (empa->attachment, pair->validity->encrypt.status);
-			}
+			if ((pair->validity_type & E_MAIL_PART_VALIDITY_SIGNED) != 0)
+				e_attachment_set_signed (
+					empa->attachment,
+					pair->validity->sign.status);
+
+			if ((pair->validity_type & E_MAIL_PART_VALIDITY_ENCRYPTED) != 0)
+				e_attachment_set_encrypted (
+					empa->attachment,
+					pair->validity->encrypt.status);
 		}
 
 		store = find_attachment_store (context->part_list, part->id);

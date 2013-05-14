@@ -36,7 +36,7 @@ typedef struct _EMailPartPrivate EMailPartPrivate;
 typedef void	(*EMailPartDOMBindFunc)	(EMailPart *part,
 					 WebKitDOMElement *element);
 
-enum {
+typedef enum {
 	E_MAIL_PART_VALIDITY_NONE	=	0,
 	E_MAIL_PART_VALIDITY_PGP	=	1 << 0,
 	E_MAIL_PART_VALIDITY_SMIME	=	1 << 1,
@@ -47,7 +47,7 @@ enum {
 typedef struct _EMailPartValidityPair EMailPartValidityPair;
 
 struct _EMailPartValidityPair {
-	guint32 validity_type;	/* E_MAIL_PART_VALIDITY_ * flags */
+	EMailPartValidityFlags validity_type;
 	CamelCipherValidity *validity;
 };
 
@@ -61,7 +61,7 @@ struct _EMailPart {
 	gchar *cid;
 	gchar *mime_type;
 
-	GSList *validities;	/* EMailPartValidityPair pointer */
+	GQueue validities;  /* element-type: EMailPartValidityPair */
 
 	gint is_attachment: 1;
 

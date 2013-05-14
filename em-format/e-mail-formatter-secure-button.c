@@ -428,7 +428,7 @@ emfe_secure_button_get_widget (EMailFormatterExtension *extension,
                                GHashTable *params)
 {
 	GtkWidget *grid;
-	GSList *lst;
+	GList *head, *link;
 
 	g_return_val_if_fail (part != NULL, NULL);
 
@@ -440,15 +440,17 @@ emfe_secure_button_get_widget (EMailFormatterExtension *extension,
 		"hexpand", TRUE,
 		NULL);
 
-	for (lst = part->validities; lst; lst = lst->next) {
-		EMailPartValidityPair *pair = lst->data;
+	head = g_queue_peek_head_link (&part->validities);
+
+	for (link = head; link != NULL; link = g_list_next (link)) {
+		EMailPartValidityPair *pair = link->data;
 		GtkWidget *widget;
 
-		if (!pair)
+		if (pair == NULL)
 			continue;
 
 		widget = secure_button_get_widget_for_validity (pair->validity);
-		if (widget) {
+		if (widget != NULL) {
 			gtk_widget_set_halign (widget, GTK_ALIGN_FILL);
 			gtk_widget_set_hexpand (widget, TRUE);
 			gtk_container_add (GTK_CONTAINER (grid), widget);

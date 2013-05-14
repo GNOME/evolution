@@ -1304,6 +1304,7 @@ em_utils_message_to_html (CamelSession *session,
 
 	for (link = head; link != NULL; link = g_list_next (link)) {
 		EMailPart *part = link->data;
+		GList *vhead, *vlink;
 
 		/* prefer-plain can hide HTML parts, even when it's the only
 		 * text part in the email, thus show it (and hide again later) */
@@ -1315,15 +1316,15 @@ em_utils_message_to_html (CamelSession *session,
 			hidden_text_html_part = part;
 		}
 
-		if (part->validities) {
-			GSList *lst;
+		vhead = g_queue_peek_head_link (&part->validities);
 
-			for (lst = part->validities; lst; lst = lst->next) {
-				EMailPartValidityPair *pair = lst->data;
+		for (vlink = vhead; vlink != NULL; vlink = g_list_next (vlink)) {
+			EMailPartValidityPair *pair = vlink->data;
 
-				if (pair)
-					is_validity_found |= pair->validity_type;
-			}
+			if (pair == NULL)
+				continue;
+
+			is_validity_found |= pair->validity_type;
 		}
 	}
 
