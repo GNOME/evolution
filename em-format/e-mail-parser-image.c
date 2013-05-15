@@ -25,6 +25,7 @@
 #include <e-util/e-util.h>
 
 #include "e-mail-parser-extension.h"
+#include "e-mail-part-image.h"
 #include "e-mail-part-utils.h"
 
 typedef EMailParserExtension EMailParserImage;
@@ -58,12 +59,6 @@ static const gchar *parser_mime_types[] = {
 };
 
 static gboolean
-is_attachment (const gchar *disposition)
-{
-	return disposition && g_ascii_strcasecmp (disposition, "attachment") == 0;
-}
-
-static gboolean
 empe_image_parse (EMailParserExtension *extension,
                   EMailParser *parser,
                   CamelMimePart *part,
@@ -73,28 +68,12 @@ empe_image_parse (EMailParserExtension *extension,
 {
 	GQueue work_queue = G_QUEUE_INIT;
 	EMailPart *mail_part;
-	const gchar *tmp;
-	gchar *cid;
 	gint len;
-	CamelContentType *ct;
-
-	tmp = camel_mime_part_get_content_id (part);
-	if (tmp) {
-		cid = g_strdup_printf ("cid:%s", tmp);
-	} else {
-		cid = NULL;
-	}
 
 	len = part_id->len;
 	g_string_append (part_id, ".image");
 
-	ct = camel_mime_part_get_content_type (part);
-
-	mail_part = e_mail_part_new (part, part_id->str);
-	mail_part->is_attachment = TRUE;
-	mail_part->cid = cid;
-	mail_part->mime_type = ct ? camel_content_type_simple (ct) : g_strdup ("image/*");
-	mail_part->is_hidden = cid != NULL && !is_attachment (camel_mime_part_get_disposition (part));
+	mail_part = e_mail_part_image_new (part, part_id->str);
 
 	g_string_truncate (part_id, len);
 

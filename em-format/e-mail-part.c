@@ -22,8 +22,6 @@
  * The #EMailPart is a wrapper around #CamelMimePart which holds additional
  * information about the mime part, like it's ID, encryption type etc.
  *
- * #EMailPart is not GObject-based, but has a simple reference counting.
- *
  * Each #EMailPart must have a unique ID. The ID is a dot-separated
  * hierarchical description of the location of the part within the email
  * message.
@@ -33,11 +31,33 @@
 
 #include <string.h>
 
+#define E_MAIL_PART_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_MAIL_PART, EMailPartPrivate))
+
 struct _EMailPartPrivate {
-	guint ref_cnt;
-	gsize instance_size;
-	GFreeFunc free_func;
+	CamelMimePart *mime_part;
+
+	gchar *id;
+	gchar *cid;
+	gchar *mime_type;
+
+	gboolean is_attachment;
 };
+
+enum {
+	PROP_0,
+	PROP_CID,
+	PROP_ID,
+	PROP_IS_ATTACHMENT,
+	PROP_MIME_PART,
+	PROP_MIME_TYPE
+};
+
+G_DEFINE_TYPE (
+	EMailPart,
+	e_mail_part,
+	G_TYPE_OBJECT)
 
 static void
 mail_part_validity_pair_free (gpointer ptr)
@@ -52,185 +72,296 @@ mail_part_validity_pair_free (gpointer ptr)
 }
 
 static void
-mail_part_free (EMailPart *part)
+mail_part_set_id (EMailPart *part,
+                  const gchar *id)
 {
+	g_return_if_fail (part->priv->id == NULL);
+
+	part->priv->id = g_strdup (id);
+}
+
+static void
+mail_part_set_mime_part (EMailPart *part,
+                         CamelMimePart *mime_part)
+{
+	g_return_if_fail (part->priv->mime_part == NULL);
+
+	/* The CamelMimePart is optional. */
+	if (mime_part != NULL)
+		part->priv->mime_part = g_object_ref (mime_part);
+}
+
+static void
+mail_part_set_property (GObject *object,
+                        guint property_id,
+                        const GValue *value,
+                        GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_CID:
+			e_mail_part_set_cid (
+				E_MAIL_PART (object),
+				g_value_get_string (value));
+			return;
+
+		case PROP_ID:
+			mail_part_set_id (
+				E_MAIL_PART (object),
+				g_value_get_string (value));
+			return;
+
+		case PROP_IS_ATTACHMENT:
+			e_mail_part_set_is_attachment (
+				E_MAIL_PART (object),
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_MIME_PART:
+			mail_part_set_mime_part (
+				E_MAIL_PART (object),
+				g_value_get_object (value));
+			return;
+
+		case PROP_MIME_TYPE:
+			e_mail_part_set_mime_type (
+				E_MAIL_PART (object),
+				g_value_get_string (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+mail_part_get_property (GObject *object,
+                        guint property_id,
+                        GValue *value,
+                        GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_CID:
+			g_value_set_string (
+				value,
+				e_mail_part_get_cid (
+				E_MAIL_PART (object)));
+			return;
+
+		case PROP_ID:
+			g_value_set_string (
+				value,
+				e_mail_part_get_id (
+				E_MAIL_PART (object)));
+			return;
+
+		case PROP_IS_ATTACHMENT:
+			g_value_set_boolean (
+				value,
+				e_mail_part_get_is_attachment (
+				E_MAIL_PART (object)));
+			return;
+
+		case PROP_MIME_PART:
+			g_value_take_object (
+				value,
+				e_mail_part_ref_mime_part (
+				E_MAIL_PART (object)));
+			return;
+
+		case PROP_MIME_TYPE:
+			g_value_set_string (
+				value,
+				e_mail_part_get_mime_type (
+				E_MAIL_PART (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+mail_part_dispose (GObject *object)
+{
+	EMailPartPrivate *priv;
+
+	priv = E_MAIL_PART_GET_PRIVATE (object);
+
+	g_clear_object (&priv->mime_part);
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (e_mail_part_parent_class)->dispose (object);
+}
+
+static void
+mail_part_finalize (GObject *object)
+{
+	EMailPart *part = E_MAIL_PART (object);
 	EMailPartValidityPair *pair;
 
-	if (!part)
-		return;
-
-	if (part->part) {
-		g_object_unref (part->part);
-		part->part = NULL;
-	}
-
-	if (part->cid) {
-		g_free (part->cid);
-		part->cid = NULL;
-	}
-
-	if (part->mime_type) {
-		g_free (part->mime_type);
-		part->mime_type = NULL;
-	}
+	g_free (part->priv->id);
+	g_free (part->priv->cid);
+	g_free (part->priv->mime_type);
 
 	while ((pair = g_queue_pop_head (&part->validities)) != NULL)
 		mail_part_validity_pair_free (pair);
 
-	if (part->priv->free_func) {
-		part->priv->free_func (part);
-		part->priv->free_func = NULL;
-	}
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (e_mail_part_parent_class)->finalize (object);
+}
 
-	if (part->id) {
-		g_free (part->id);
-		part->id = NULL;
-	}
+static void
+e_mail_part_class_init (EMailPartClass *class)
+{
+	GObjectClass *object_class;
 
-	g_free (part->priv);
-	part->priv = NULL;
+	g_type_class_add_private (class, sizeof (EMailPartPrivate));
 
-	g_free (part);
+	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = mail_part_set_property;
+	object_class->get_property = mail_part_get_property;
+	object_class->dispose = mail_part_dispose;
+	object_class->finalize = mail_part_finalize;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_CID,
+		g_param_spec_string (
+			"cid",
+			"Content ID",
+			"The MIME Content-ID",
+			NULL,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_ID,
+		g_param_spec_string (
+			"id",
+			"Part ID",
+			"The part ID",
+			NULL,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_IS_ATTACHMENT,
+		g_param_spec_boolean (
+			"is-attachment",
+			"Is Attachment",
+			"Format the part as an attachment",
+			FALSE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_MIME_PART,
+		g_param_spec_object (
+			"mime-part",
+			"MIME Part",
+			"The MIME part",
+			CAMEL_TYPE_MIME_PART,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_MIME_TYPE,
+		g_param_spec_string (
+			"mime-type",
+			"MIME Type",
+			"The MIME type",
+			NULL,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
+}
+
+static void
+e_mail_part_init (EMailPart *part)
+{
+	part->priv = E_MAIL_PART_GET_PRIVATE (part);
 }
 
 /**
  * e_mail_part_new:
- * @part: (allow-none) a #CamelMimePart or %NULL
+ * @mime_part: (allow-none) a #CamelMimePart or %NULL
  * @id: part ID
  *
- * Creates a new #EMailPart for given mime part.
+ * Creates a new #EMailPart for the given @mime_part.
  *
  * Return value: a new #EMailPart
  */
 EMailPart *
-e_mail_part_new (CamelMimePart *part,
+e_mail_part_new (CamelMimePart *mime_part,
                  const gchar *id)
 {
-	return e_mail_part_subclass_new (part, id, sizeof (EMailPart), NULL);
-}
+	g_return_val_if_fail (id != NULL, NULL);
 
-/**
- * e_mail_part_new:
- * @part: (allow-none) a #CamelMimePart or %NULL
- * @id: part ID
- * @size: Size of the EMailPart subclass
- *
- * Allocates a @size bytes representing an #EMailPart subclass.
- *
- * Return value: a new #EMailPart-based object
- */
-EMailPart *
-e_mail_part_subclass_new (CamelMimePart *part,
-                          const gchar *id,
-                          gsize size,
-                          GFreeFunc free_func)
-{
-	EMailPart *mail_part;
-
-	g_return_val_if_fail (size >= sizeof (EMailPart), NULL);
-
-	mail_part = g_malloc0 (size);
-	mail_part->priv = g_new0 (EMailPartPrivate, 1);
-
-	mail_part->priv->ref_cnt = 1;
-	mail_part->priv->free_func = free_func;
-	mail_part->priv->instance_size = size;
-
-	if (part) {
-		mail_part->part = g_object_ref (part);
-	}
-
-	if (id) {
-		mail_part->id = g_strdup (id);
-	}
-
-	return mail_part;
-}
-
-EMailPart *
-e_mail_part_ref (EMailPart *part)
-{
-	g_return_val_if_fail (part != NULL, NULL);
-	g_return_val_if_fail (part->priv != NULL, NULL);
-
-	g_atomic_int_inc (&part->priv->ref_cnt);
-
-	return part;
-}
-
-void
-e_mail_part_unref (EMailPart *part)
-{
-	g_return_if_fail (part != NULL);
-	g_return_if_fail (part->priv != NULL);
-
-	if (g_atomic_int_dec_and_test (&part->priv->ref_cnt)) {
-		mail_part_free (part);
-	}
-}
-
-gsize
-e_mail_part_get_instance_size (EMailPart *part)
-{
-	g_return_val_if_fail (part != NULL, 0);
-
-	return part->priv->instance_size;
+	return g_object_new (
+		E_TYPE_MAIL_PART,
+		"id", id, "mime-part", mime_part, NULL);
 }
 
 const gchar *
 e_mail_part_get_id (EMailPart *part)
 {
-	g_return_val_if_fail (part != NULL, NULL);
+	g_return_val_if_fail (E_IS_MAIL_PART (part), NULL);
 
-	return part->id;
+	return part->priv->id;
 }
 
 const gchar *
 e_mail_part_get_cid (EMailPart *part)
 {
-	g_return_val_if_fail (part != NULL, NULL);
+	g_return_val_if_fail (E_IS_MAIL_PART (part), NULL);
 
-	return part->cid;
+	return part->priv->cid;
 }
 
 void
 e_mail_part_set_cid (EMailPart *part,
                      const gchar *cid)
 {
-	g_return_if_fail (part != NULL);
+	g_return_if_fail (E_IS_MAIL_PART (part));
 
-	g_free (part->cid);
-	part->cid = g_strdup (cid);
+	g_free (part->priv->cid);
+	part->priv->cid = g_strdup (cid);
+
+	g_object_notify (G_OBJECT (part), "cid");
 }
 
 gboolean
 e_mail_part_id_has_prefix (EMailPart *part,
                            const gchar *prefix)
 {
-	g_return_val_if_fail (part != NULL, FALSE);
+	g_return_val_if_fail (E_IS_MAIL_PART (part), FALSE);
 	g_return_val_if_fail (prefix != NULL, FALSE);
 
-	return g_str_has_prefix (part->id, prefix);
+	return g_str_has_prefix (part->priv->id, prefix);
 }
 
 gboolean
 e_mail_part_id_has_suffix (EMailPart *part,
                            const gchar *suffix)
 {
-	g_return_val_if_fail (part != NULL, FALSE);
+	g_return_val_if_fail (E_IS_MAIL_PART (part), FALSE);
 	g_return_val_if_fail (suffix != NULL, FALSE);
 
-	return g_str_has_suffix (part->id, suffix);
+	return g_str_has_suffix (part->priv->id, suffix);
 }
 
 gboolean
 e_mail_part_id_has_substr (EMailPart *part,
                            const gchar *substr)
 {
-	g_return_val_if_fail (part != NULL, FALSE);
+	g_return_val_if_fail (E_IS_MAIL_PART (part), FALSE);
 	g_return_val_if_fail (substr != NULL, FALSE);
 
-	return (strstr (part->id, substr) != NULL);
+	return (strstr (part->priv->id, substr) != NULL);
 }
 
 CamelMimePart *
@@ -238,10 +369,10 @@ e_mail_part_ref_mime_part (EMailPart *part)
 {
 	CamelMimePart *mime_part = NULL;
 
-	g_return_val_if_fail (part != NULL, NULL);
+	g_return_val_if_fail (E_IS_MAIL_PART (part), NULL);
 
-	if (part->part != NULL)
-		mime_part = g_object_ref (part->part);
+	if (part->priv->mime_part != NULL)
+		mime_part = g_object_ref (part->priv->mime_part);
 
 	return mime_part;
 }
@@ -249,44 +380,66 @@ e_mail_part_ref_mime_part (EMailPart *part)
 const gchar *
 e_mail_part_get_mime_type (EMailPart *part)
 {
-	g_return_val_if_fail (part != NULL, NULL);
+	g_return_val_if_fail (E_IS_MAIL_PART (part), NULL);
 
-	return part->mime_type;
+	return part->priv->mime_type;
 }
 
 void
 e_mail_part_set_mime_type (EMailPart *part,
                            const gchar *mime_type)
 {
-	g_return_if_fail (part != NULL);
+	g_return_if_fail (E_IS_MAIL_PART (part));
 
-	if (g_strcmp0 (mime_type, part->mime_type) == 0)
+	if (g_strcmp0 (mime_type, part->priv->mime_type) == 0)
 		return;
 
-	g_free (part->mime_type);
-	part->mime_type = g_strdup (mime_type);
+	g_free (part->priv->mime_type);
+	part->priv->mime_type = g_strdup (mime_type);
+
+	g_object_notify (G_OBJECT (part), "mime-type");
 }
 
 gboolean
 e_mail_part_get_is_attachment (EMailPart *part)
 {
-	g_return_val_if_fail (part != NULL, FALSE);
+	g_return_val_if_fail (E_IS_MAIL_PART (part), FALSE);
 
-	return part->is_attachment;
+	return part->priv->is_attachment;
 }
 
 void
 e_mail_part_set_is_attachment (EMailPart *part,
                                gboolean is_attachment)
 {
-	g_return_if_fail (part != NULL);
+	g_return_if_fail (E_IS_MAIL_PART (part));
 
-	part->is_attachment = is_attachment;
+	if (is_attachment == part->priv->is_attachment)
+		return;
+
+	part->priv->is_attachment = is_attachment;
+
+	g_object_notify (G_OBJECT (part), "is-attachment");
+}
+
+void
+e_mail_part_bind_dom_element (EMailPart *part,
+                              WebKitDOMElement *element)
+{
+	EMailPartClass *class;
+
+	g_return_if_fail (E_IS_MAIL_PART (part));
+	g_return_if_fail (WEBKIT_DOM_IS_ELEMENT (element));
+
+	class = E_MAIL_PART_GET_CLASS (part);
+
+	if (class->bind_dom_element != NULL)
+		class->bind_dom_element (part, element);
 }
 
 static EMailPartValidityPair *
 mail_part_find_validity_pair (EMailPart *part,
-                              guint32 validity_type)
+                              EMailPartValidityFlags validity_type)
 {
 	GList *head, *link;
 
@@ -319,13 +472,16 @@ mail_part_find_validity_pair (EMailPart *part,
 void
 e_mail_part_update_validity (EMailPart *part,
                              CamelCipherValidity *validity,
-                             guint32 validity_type)
+                             EMailPartValidityFlags validity_type)
 {
 	EMailPartValidityPair *pair;
+	EMailPartValidityFlags mask;
 
-	g_return_if_fail (part != NULL);
+	g_return_if_fail (E_IS_MAIL_PART (part));
 
-	pair = mail_part_find_validity_pair (part, validity_type & (E_MAIL_PART_VALIDITY_PGP | E_MAIL_PART_VALIDITY_SMIME));
+	mask = E_MAIL_PART_VALIDITY_PGP | E_MAIL_PART_VALIDITY_SMIME;
+
+	pair = mail_part_find_validity_pair (part, validity_type & mask);
 	if (pair != NULL) {
 		pair->validity_type |= validity_type;
 		camel_cipher_validity_envelope (pair->validity, validity);
@@ -352,21 +508,21 @@ e_mail_part_update_validity (EMailPart *part,
  */
 CamelCipherValidity *
 e_mail_part_get_validity (EMailPart *part,
-                          guint32 validity_type)
+                          EMailPartValidityFlags validity_type)
 {
 	EMailPartValidityPair *pair;
 
-	g_return_val_if_fail (part != NULL, NULL);
+	g_return_val_if_fail (E_IS_MAIL_PART (part), NULL);
 
 	pair = mail_part_find_validity_pair (part, validity_type);
 
-	return pair ? pair->validity : NULL;
+	return (pair != NULL) ? pair->validity : NULL;
 }
 
 gboolean
 e_mail_part_has_validity (EMailPart *part)
 {
-	g_return_val_if_fail (part != NULL, FALSE);
+	g_return_val_if_fail (E_IS_MAIL_PART (part), FALSE);
 
 	return !g_queue_is_empty (&part->validities);
 }
@@ -377,7 +533,7 @@ e_mail_part_get_validity_flags (EMailPart *part)
 	EMailPartValidityFlags flags = 0;
 	GList *head, *link;
 
-	g_return_val_if_fail (part != NULL, 0);
+	g_return_val_if_fail (E_IS_MAIL_PART (part), 0);
 
 	head = g_queue_peek_head_link (&part->validities);
 

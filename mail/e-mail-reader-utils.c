@@ -1410,7 +1410,7 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 					validity_smime_sum |= vpair->validity_type;
 			}
 
-			e_mail_part_unref (part);
+			g_object_unref (part);
 		}
 	}
 

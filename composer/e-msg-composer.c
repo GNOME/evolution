@@ -216,7 +216,7 @@ emcu_part_to_html (EMsgComposer *composer,
 	while (!g_queue_is_empty (&queue)) {
 		EMailPart *mail_part = g_queue_pop_head (&queue);
 		e_mail_part_list_add_part (part_list, mail_part);
-		e_mail_part_unref (mail_part);
+		g_object_unref (mail_part);
 	}
 	g_string_free (part_id, TRUE);
 	g_object_unref (parser);

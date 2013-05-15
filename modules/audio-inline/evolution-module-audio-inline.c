@@ -18,6 +18,7 @@
 
 #include "e-mail-formatter-audio.h"
 #include "e-mail-parser-audio.h"
+#include "e-mail-part-audio.h"
 
 #include <gmodule.h>
 
@@ -28,6 +29,7 @@ const gchar * g_module_check_init (GModule *module);
 G_MODULE_EXPORT void
 e_module_load (GTypeModule *type_module)
 {
+	e_mail_part_audio_type_register (type_module);
 	e_mail_parser_audio_type_register (type_module);
 	e_mail_formatter_audio_type_register (type_module);
 }

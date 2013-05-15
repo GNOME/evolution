@@ -28,16 +28,6 @@
 
 #include "e-mail-parser-extension.h"
 
-static void
-mail_part_attachment_bar_free (EMailPart *part)
-{
-	EMailPartAttachmentBar *empab = (EMailPartAttachmentBar *) part;
-
-	g_clear_object (&empab->store);
-}
-
-/******************************************************************************/
-
 typedef EMailParserExtension EMailParserAttachmentBar;
 typedef EMailParserExtensionClass EMailParserAttachmentBarClass;
 
@@ -61,19 +51,16 @@ empe_attachment_bar_parse (EMailParserExtension *extension,
                            GCancellable *cancellable,
                            GQueue *out_mail_parts)
 {
-	EMailPartAttachmentBar *empab;
+	EMailPart *mail_part;
 	gint len;
 
 	len = part_id->len;
 	g_string_append (part_id, ".attachment-bar");
-	empab = (EMailPartAttachmentBar *) e_mail_part_subclass_new (
-		part, part_id->str, sizeof (EMailPartAttachmentBar),
-		(GFreeFunc) mail_part_attachment_bar_free);
-	empab->parent.mime_type = g_strdup (parser_mime_types[0]);
-	empab->store = E_ATTACHMENT_STORE (e_attachment_store_new ());
+	mail_part = e_mail_part_attachment_bar_new (part, part_id->str);
+	e_mail_part_set_mime_type (mail_part, parser_mime_types[0]);
 	g_string_truncate (part_id, len);
 
-	g_queue_push_tail (out_mail_parts, empab);
+	g_queue_push_tail (out_mail_parts, mail_part);
 
 	return TRUE;
 }

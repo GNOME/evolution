@@ -24,17 +24,30 @@
 
 #include <e-util/e-util.h>
 
-#define E_MAIL_PART_IS(p,s_t) \
-		((p != NULL) && (e_mail_part_get_instance_size (p) == sizeof (s_t)))
-#define E_MAIL_PART(o) ((EMailPart *) o)
+/* Standard GObject macros */
+#define E_TYPE_MAIL_PART \
+	(e_mail_part_get_type ())
+#define E_MAIL_PART(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_MAIL_PART, EMailPart))
+#define E_MAIL_PART_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_MAIL_PART, EMailPartClass))
+#define E_IS_MAIL_PART(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_MAIL_PART))
+#define E_IS_MAIL_PART_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_MAIL_PART))
+#define E_MAIL_PART_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_MAIL_PART, EMailPartClass))
 
 G_BEGIN_DECLS
 
 typedef struct _EMailPart EMailPart;
+typedef struct _EMailPartClass EMailPartClass;
 typedef struct _EMailPartPrivate EMailPartPrivate;
-
-typedef void	(*EMailPartDOMBindFunc)	(EMailPart *part,
-					 WebKitDOMElement *element);
 
 typedef enum {
 	E_MAIL_PART_VALIDITY_NONE      = 0,
@@ -52,18 +65,10 @@ struct _EMailPartValidityPair {
 };
 
 struct _EMailPart {
+	GObject parent;
 	EMailPartPrivate *priv;
 
-	EMailPartDOMBindFunc bind_func;
-
-	CamelMimePart *part;
-	gchar *id;
-	gchar *cid;
-	gchar *mime_type;
-
 	GQueue validities;  /* element-type: EMailPartValidityPair */
-
-	gint is_attachment: 1;
 
 	/* Whether the part should be rendered or not.
 	 * This is used for example to prevent images
@@ -83,18 +88,16 @@ struct _EMailPart {
 	gint is_error: 1;
 };
 
-EMailPart *	e_mail_part_new			(CamelMimePart *part,
+struct _EMailPartClass {
+	GObjectClass parent_class;
+
+	void		(*bind_dom_element)	(EMailPart *part,
+						 WebKitDOMElement *element);
+};
+
+GType		e_mail_part_get_type		(void) G_GNUC_CONST;
+EMailPart *	e_mail_part_new			(CamelMimePart *mime_part,
 						 const gchar *id);
-EMailPart *	e_mail_part_subclass_new	(CamelMimePart *part,
-						 const gchar *id,
-						 gsize size,
-						 GFreeFunc free_func);
-
-EMailPart *	e_mail_part_ref			(EMailPart *part);
-void		e_mail_part_unref		(EMailPart *part);
-
-gsize		e_mail_part_get_instance_size	(EMailPart *part);
-
 const gchar *	e_mail_part_get_id		(EMailPart *part);
 const gchar *	e_mail_part_get_cid		(EMailPart *part);
 void		e_mail_part_set_cid		(EMailPart *part,
@@ -112,12 +115,14 @@ void		e_mail_part_set_mime_type	(EMailPart *part,
 gboolean	e_mail_part_get_is_attachment	(EMailPart *part);
 void		e_mail_part_set_is_attachment	(EMailPart *part,
 						 gboolean is_attachment);
+void		e_mail_part_bind_dom_element	(EMailPart *part,
+						 WebKitDOMElement *element);
 void		e_mail_part_update_validity	(EMailPart *part,
 						 CamelCipherValidity *validity,
-						 guint32 validity_type);
+						 EMailPartValidityFlags validity_type);
 CamelCipherValidity *
 		e_mail_part_get_validity	(EMailPart *part,
-						 guint32 validity_type);
+						 EMailPartValidityFlags validity_type);
 gboolean	e_mail_part_has_validity	(EMailPart *part);
 EMailPartValidityFlags
 		e_mail_part_get_validity_flags	(EMailPart *part);

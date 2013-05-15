@@ -111,7 +111,7 @@ mail_parser_run (EMailParser *parser,
 
 	mail_part = e_mail_part_new (CAMEL_MIME_PART (message), ".message");
 	e_mail_part_list_add_part (part_list, mail_part);
-	e_mail_part_unref (mail_part);
+	g_object_unref (mail_part);
 
 	for (iter = parsers->head; iter; iter = iter->next) {
 		EMailParserExtension *extension;
@@ -136,7 +136,7 @@ mail_parser_run (EMailParser *parser,
 	while (!g_queue_is_empty (&mail_part_queue)) {
 		mail_part = g_queue_pop_head (&mail_part_queue);
 		e_mail_part_list_add_part (part_list, mail_part);
-		e_mail_part_unref (mail_part);
+		g_object_unref (mail_part);
 	}
 
 	g_string_free (part_id, TRUE);
@@ -369,7 +369,7 @@ e_mail_parser_parse_sync (EMailParser *parser,
 				part->is_hidden ? 1 : 0,
 				e_mail_part_get_is_attachment (part) ? 1 : 0);
 
-			e_mail_part_unref (part);
+			g_object_unref (part);
 		}
 
 		camel_debug_end ();
@@ -473,7 +473,7 @@ e_mail_parser_parse_finish (EMailParser *parser,
 				part->is_hidden ? 1 : 0,
 				e_mail_part_get_is_attachment (part) ? 1 : 0);
 
-			e_mail_part_unref (part);
+			g_object_unref (part);
 		}
 
 		camel_debug_end ();
@@ -644,8 +644,9 @@ e_mail_parser_wrap_as_attachment (EMailParser *parser,
                                   GQueue *parts_queue)
 {
 	EMailPartAttachment *empa;
+	EAttachment *attachment;
 	EMailPart *first_part;
-	const gchar *snoop_mime_type, *cid;
+	const gchar *snoop_mime_type;
 	GQueue *extensions;
 	CamelContentType *ct;
 	gchar *mime_type;
@@ -691,30 +692,23 @@ e_mail_parser_wrap_as_attachment (EMailParser *parser,
 	part_id_len = part_id->len;
 	g_string_append (part_id, ".attachment");
 
-	empa = (EMailPartAttachment *) e_mail_part_subclass_new (
-		part, part_id->str, sizeof (EMailPartAttachment),
-		(GFreeFunc) e_mail_part_attachment_free);
-	empa->parent.mime_type = g_strdup ("application/vnd.evolution.attachment");
-	empa->parent.is_attachment = TRUE;
+	empa = e_mail_part_attachment_new (part, part_id->str);
 	empa->shown = extensions && (!g_queue_is_empty (extensions) &&
 		e_mail_part_is_inline (part, extensions));
 	empa->snoop_mime_type = snoop_mime_type;
-	empa->attachment = e_attachment_new ();
 
 	first_part = g_queue_peek_head (parts_queue);
 	if (first_part != NULL) {
-		empa->attachment_view_part_id = g_strdup (first_part->id);
+		const gchar *id = e_mail_part_get_id (first_part);
+		empa->attachment_view_part_id = g_strdup (id);
 		first_part->is_hidden = TRUE;
 	}
 
-	cid = camel_mime_part_get_content_id (part);
-	if (cid)
-		empa->parent.cid = g_strdup_printf ("cid:%s", cid);
+	attachment = e_mail_part_attachment_ref_attachment (empa);
 
-	e_attachment_set_mime_part (empa->attachment, part);
-	e_attachment_set_shown (empa->attachment, empa->shown);
+	e_attachment_set_shown (attachment, empa->shown);
 	e_attachment_set_can_show (
-		empa->attachment,
+		attachment,
 		extensions && !g_queue_is_empty (extensions));
 
 	/* Try to guess size of the attachments */
@@ -734,13 +728,13 @@ e_mail_parser_wrap_as_attachment (EMailParser *parser,
 	g_idle_add_full (
 		G_PRIORITY_HIGH_IDLE,
 		(GSourceFunc) load_attachment_idle,
-		g_object_ref (empa->attachment),
+		g_object_ref (attachment),
 		NULL);
 
 	if (size != 0) {
 		GFileInfo *fileinfo;
 
-		fileinfo = e_attachment_get_file_info (empa->attachment);
+		fileinfo = e_attachment_get_file_info (attachment);
 
 		if (!fileinfo) {
 			fileinfo = g_file_info_new ();
@@ -751,10 +745,12 @@ e_mail_parser_wrap_as_attachment (EMailParser *parser,
 		}
 
 		g_file_info_set_size (fileinfo, size);
-		e_attachment_set_file_info (empa->attachment, fileinfo);
+		e_attachment_set_file_info (attachment, fileinfo);
 
 		g_object_unref (fileinfo);
 	}
+
+	g_object_unref (attachment);
 
 	g_string_truncate (part_id, part_id_len);
 

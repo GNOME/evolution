@@ -53,22 +53,33 @@ empe_text_enriched_parse (EMailParserExtension *extension,
 {
 	GQueue work_queue = G_QUEUE_INIT;
 	EMailPart *mail_part;
-	const gchar *tmp;
+	const gchar *cid;
 	gint len;
 	CamelContentType *ct;
 
 	len = part_id->len;
 	g_string_append (part_id, ".text_enriched");
 
-	ct = camel_mime_part_get_content_type (part);
-
 	mail_part = e_mail_part_new (part, part_id->str);
-	mail_part->mime_type = ct ? camel_content_type_simple (ct) : g_strdup ("text/enriched");
-	tmp = camel_mime_part_get_content_id (part);
-	if (!tmp) {
-		mail_part->cid = NULL;
+
+	ct = camel_mime_part_get_content_type (part);
+	if (ct != NULL) {
+		gchar *mime_type;
+
+		mime_type = camel_content_type_simple (ct);
+		e_mail_part_set_mime_type (mail_part, mime_type);
+		g_free (mime_type);
 	} else {
-		mail_part->cid = g_strdup_printf ("cid:%s", tmp);
+		e_mail_part_set_mime_type (mail_part, "text/enriched");
+	}
+
+	cid = camel_mime_part_get_content_id (part);
+	if (cid != NULL) {
+		gchar *cid_uri;
+
+		cid_uri = g_strdup_printf ("cid:%s", cid);
+		e_mail_part_set_cid (mail_part, cid_uri);
+		g_free (cid_uri);
 	}
 
 	g_string_truncate (part_id, len);

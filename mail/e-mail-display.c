@@ -991,7 +991,7 @@ mail_display_plugin_widget_requested (WebKitWebView *web_view,
 
 exit:
 	if (part != NULL)
-		e_mail_part_unref (part);
+		g_object_unref (part);
 
 	return widget;
 }
@@ -1217,12 +1217,12 @@ mail_parts_bind_dom (GObject *object,
 		part_id = e_mail_part_get_id (part);
 		element = find_element_by_id (document, part_id);
 
-		if (element != NULL && part->bind_func != NULL)
-			part->bind_func (part, element);
+		if (element != NULL)
+			e_mail_part_bind_dom_element (part, element);
 	}
 
 	while (!g_queue_is_empty (&queue))
-		e_mail_part_unref (g_queue_pop_head (&queue));
+		g_object_unref (g_queue_pop_head (&queue));
 }
 
 static void

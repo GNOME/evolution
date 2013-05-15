@@ -20,6 +20,7 @@ module_itip_formatter_la_SOURCES =					\
 	e-mail-formatter-itip.h						\
 	e-mail-parser-itip.c						\
 	e-mail-parser-itip.h						\
+	e-mail-part-itip.c						\
 	e-mail-part-itip.h						\
 	e-source-conflict-search.c					\
 	e-source-conflict-search.h					\

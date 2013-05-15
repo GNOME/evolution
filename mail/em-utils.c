@@ -1341,7 +1341,7 @@ em_utils_message_to_html (CamelSession *session,
 	}
 
 	while (!g_queue_is_empty (&queue))
-		e_mail_part_unref (g_queue_pop_head (&queue));
+		g_object_unref (g_queue_pop_head (&queue));
 
 	if (validity_found != NULL)
 		*validity_found = is_validity_found;

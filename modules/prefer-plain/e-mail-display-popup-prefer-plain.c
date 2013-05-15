@@ -342,7 +342,7 @@ mail_display_popup_prefer_plain_update_actions (EMailDisplayPopupExtension *exte
 	}
 
 	while (!g_queue_is_empty (&queue))
-		e_mail_part_unref (g_queue_pop_head (&queue));
+		g_object_unref (g_queue_pop_head (&queue));
 
 	if (action_name) {
 		action = gtk_action_group_get_action (

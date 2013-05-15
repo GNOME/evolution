@@ -21,18 +21,51 @@
 
 #include <em-format/e-mail-part.h>
 
-#define E_MAIL_PART_ATTACHMENT_BAR(part) \
-	((EMailPartAttachmentBar *) part)
-#define E_IS_MAIL_PART_ATTACHMENT_BAR(part) \
-	(E_MAIL_PART_IS (part, EMailPartAttachmentBar))
+/* Standard GObject macros */
+#define E_TYPE_MAIL_PART_ATTACHMENT_BAR \
+	(e_mail_part_attachment_bar_get_type ())
+#define E_MAIL_PART_ATTACHMENT_BAR(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_MAIL_PART_ATTACHMENT_BAR, EMailPartAttachmentBar))
+#define E_MAIL_PART_ATTACHMENT_BAR_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_MAIL_PART_ATTACHMENT_BAR, EMailPartAttachmentBarClass))
+#define E_IS_MAIL_PART_ATTACHMENT_BAR(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_MAIL_PART_ATTACHMENT_BAR))
+#define E_IS_MAIL_PART_ATTACHMENT_BAR_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_MAIL_PART_ATTACHMENT_BAR))
+#define E_MAIL_PART_ATTACHMENT_BAR_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_MAIL_PART_ATTACHMENT_BAR, EMailPartAttachmentBarClass))
 
 #define E_MAIL_PART_ATTACHMENT_BAR_MIME_TYPE \
 	"application/vnd.evolution.widget.attachment-bar"
 
-typedef struct _EMailPartAttachmentBar {
-	EMailPart parent;
+G_BEGIN_DECLS
 
-	EAttachmentStore *store;
-} EMailPartAttachmentBar;
+typedef struct _EMailPartAttachmentBar EMailPartAttachmentBar;
+typedef struct _EMailPartAttachmentBarClass EMailPartAttachmentBarClass;
+typedef struct _EMailPartAttachmentBarPrivate EMailPartAttachmentBarPrivate;
+
+struct _EMailPartAttachmentBar {
+	EMailPart parent;
+	EMailPartAttachmentBarPrivate *priv;
+};
+
+struct _EMailPartAttachmentBarClass {
+	EMailPartClass parent_class;
+};
+
+GType		e_mail_part_attachment_bar_get_type
+						(void) G_GNUC_CONST;
+EMailPart *	e_mail_part_attachment_bar_new	(CamelMimePart *mime_part,
+						 const gchar *id);
+EAttachmentStore *
+		e_mail_part_attachment_bar_get_store
+						(EMailPartAttachmentBar *part);
+
+G_END_DECLS
 
 #endif /* E_MAIL_PART_ATTACHMENT_BAR_H */

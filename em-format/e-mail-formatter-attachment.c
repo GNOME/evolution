@@ -100,10 +100,11 @@ find_attachment_store (EMailPartList *part_list,
 	g_free (tmp);
 
 	if (part != NULL)
-		store = E_MAIL_PART_ATTACHMENT_BAR (part)->store;
+		store = e_mail_part_attachment_bar_get_store (
+			E_MAIL_PART_ATTACHMENT_BAR (part));
 
 	while (!g_queue_is_empty (&queue))
-		e_mail_part_unref (g_queue_pop_head (&queue));
+		g_object_unref (g_queue_pop_head (&queue));
 
 	return store;
 }
@@ -297,10 +298,8 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 				empa->attachment_view_part_id);
 
 			/* Avoid recursion. */
-			if (attachment_view_part == part) {
-				e_mail_part_unref (attachment_view_part);
-				attachment_view_part = NULL;
-			}
+			if (attachment_view_part == part)
+				g_clear_object (&attachment_view_part);
 
 			if (attachment_view_part != NULL) {
 				ok = e_mail_formatter_format_as (
@@ -308,7 +307,7 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 					attachment_view_part,
 					content_stream, NULL,
 					cancellable);
-				e_mail_part_unref (attachment_view_part);
+				g_object_unref (attachment_view_part);
 			}
 
 		} else {

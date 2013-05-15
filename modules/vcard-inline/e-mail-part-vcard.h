@@ -24,15 +24,34 @@
 #include <addressbook/gui/widgets/eab-contact-formatter.h>
 #include <webkit/webkitdom.h>
 
-#define E_IS_MAIL_PART_VCARD(part) \
-	(E_MAIL_PART_IS (part, EMailPartVCard))
+/* Standard GObject macros */
+#define E_TYPE_MAIL_PART_VCARD \
+	(e_mail_part_vcard_get_type ())
+#define E_MAIL_PART_VCARD(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_MAIL_PART_VCARD, EMailPartVCard))
+#define E_MAIL_PART_VCARD_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_MAIL_PART_VCARD, EMailPartVCardClass))
+#define E_IS_MAIL_PART_VCARD(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_MAIL_PART_VCARD))
+#define E_IS_MAIL_PART_VCARD_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_MAIL_PART_VCARD))
+#define E_MAIL_PART_VCARD_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_MAIL_PART_VCARD, EMailPartVCardClass))
 
 G_BEGIN_DECLS
 
 typedef struct _EMailPartVCard EMailPartVCard;
+typedef struct _EMailPartVCardClass EMailPartVCardClass;
+typedef struct _EMailPartVCardPrivate EMailPartVCardPrivate;
 
 struct _EMailPartVCard {
 	EMailPart parent;
+	EMailPartVCardPrivate *priv;
 
 	GSList *contact_list;
 	GtkWidget *contact_display;
@@ -46,6 +65,16 @@ struct _EMailPartVCard {
 	CamelFolder *folder;
 	gchar *message_uid;
 };
+
+struct _EMailPartVCardClass {
+	EMailPartClass parent_class;
+};
+
+GType		e_mail_part_vcard_get_type	(void) G_GNUC_CONST;
+void		e_mail_part_vcard_type_register	(GTypeModule *type_module);
+EMailPartVCard *
+		e_mail_part_vcard_new		(CamelMimePart *mime_part,
+						 const gchar *id);
 
 G_END_DECLS
 

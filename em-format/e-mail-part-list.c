@@ -161,7 +161,7 @@ mail_part_list_dispose (GObject *object)
 
 	g_mutex_lock (&priv->queue_lock);
 	while (!g_queue_is_empty (&priv->queue))
-		e_mail_part_unref (g_queue_pop_head (&priv->queue));
+		g_object_unref (g_queue_pop_head (&priv->queue));
 	g_mutex_unlock (&priv->queue_lock);
 
 	/* Chain up to parent's dispose() method. */
@@ -295,7 +295,7 @@ e_mail_part_list_add_part (EMailPartList *part_list,
 
 	g_queue_push_tail (
 		&part_list->priv->queue,
-		e_mail_part_ref (part));
+		g_object_ref (part));
 
 	g_mutex_unlock (&part_list->priv->queue_lock);
 }
@@ -327,7 +327,7 @@ e_mail_part_list_ref_part (EMailPartList *part_list,
 			candidate_id = e_mail_part_get_id (candidate);
 
 		if (g_strcmp0 (candidate_id, part_id) == 0) {
-			match = e_mail_part_ref (candidate);
+			match = g_object_ref (candidate);
 			break;
 		}
 	}
@@ -348,7 +348,7 @@ e_mail_part_list_ref_part (EMailPartList *part_list,
  * of #EMailPart instances is queued.
  *
  * Each #EMailPart is referenced for thread-safety and should be unreferenced
- * with e_mail_part_unref().
+ * with g_object_unref().
  *
  * Returns: the number of parts added to @result_queue
  **/
@@ -386,7 +386,7 @@ e_mail_part_list_queue_parts (EMailPartList *part_list,
 		if (part == NULL)
 			continue;
 
-		g_queue_push_tail (result_queue, e_mail_part_ref (part));
+		g_queue_push_tail (result_queue, g_object_ref (part));
 		parts_queued++;
 	}
 

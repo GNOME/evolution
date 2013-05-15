@@ -62,106 +62,6 @@ static const gchar *parser_mime_types[] = {
 	NULL
 };
 
-static void
-mail_part_itip_free (EMailPart *mail_part)
-{
-	EMailPartItip *pitip = (EMailPartItip *) mail_part;
-
-	g_cancellable_cancel (pitip->cancellable);
-	g_clear_object (&pitip->cancellable);
-	g_clear_object (&pitip->client_cache);
-
-	g_free (pitip->vcalendar);
-	pitip->vcalendar = NULL;
-
-	if (pitip->comp) {
-		g_object_unref (pitip->comp);
-		pitip->comp = NULL;
-	}
-
-	if (pitip->top_level) {
-		icalcomponent_free (pitip->top_level);
-		pitip->top_level = NULL;
-	}
-
-	if (pitip->main_comp) {
-		icalcomponent_free (pitip->main_comp);
-		pitip->main_comp = NULL;
-	}
-	pitip->ical_comp = NULL;
-
-	g_free (pitip->calendar_uid);
-	pitip->calendar_uid = NULL;
-
-	g_free (pitip->from_address);
-	pitip->from_address = NULL;
-	g_free (pitip->from_name);
-	pitip->from_name = NULL;
-	g_free (pitip->to_address);
-	pitip->to_address = NULL;
-	g_free (pitip->to_name);
-	pitip->to_name = NULL;
-	g_free (pitip->delegator_address);
-	pitip->delegator_address = NULL;
-	g_free (pitip->delegator_name);
-	pitip->delegator_name = NULL;
-	g_free (pitip->my_address);
-	pitip->my_address = NULL;
-	g_free (pitip->uid);
-	g_hash_table_destroy (pitip->real_comps);
-
-	g_clear_object (&pitip->view);
-}
-
-/******************************************************************************/
-
-static void
-bind_itip_view (EMailPart *part,
-                WebKitDOMElement *element)
-{
-	GString *buffer;
-	WebKitDOMDocument *document;
-	ItipView *view;
-	EMailPartItip *pitip;
-
-	if (!WEBKIT_DOM_IS_HTML_IFRAME_ELEMENT (element)) {
-
-		WebKitDOMNodeList *nodes;
-		guint length, i;
-
-		nodes = webkit_dom_element_get_elements_by_tag_name (
-				element, "iframe");
-		length = webkit_dom_node_list_get_length (nodes);
-		for (i = 0; i < length; i++) {
-
-			element = WEBKIT_DOM_ELEMENT (
-					webkit_dom_node_list_item (nodes, i));
-			break;
-		}
-
-	}
-
-	g_return_if_fail (WEBKIT_DOM_IS_HTML_IFRAME_ELEMENT (element));
-
-	buffer = g_string_new ("");
-	document = webkit_dom_html_iframe_element_get_content_document (
-			WEBKIT_DOM_HTML_IFRAME_ELEMENT (element));
-	pitip = E_MAIL_PART_ITIP (part);
-
-	view = itip_view_new (pitip, pitip->client_cache);
-	g_object_set_data_full (
-		G_OBJECT (element), "view", view,
-		(GDestroyNotify) g_object_unref);
-
-	itip_view_create_dom_bindings (
-		view, webkit_dom_document_get_document_element (document));
-
-	itip_view_init_view (view);
-	g_string_free (buffer, TRUE);
-}
-
-/*******************************************************************************/
-
 static gboolean
 empe_itip_parse (EMailParserExtension *extension,
                  EMailParser *parser,
@@ -189,13 +89,7 @@ empe_itip_parse (EMailParserExtension *extension,
 	shell = e_shell_get_default ();
 	client_cache = e_shell_get_client_cache (shell);
 
-	itip_part = (EMailPartItip *) e_mail_part_subclass_new (
-		part, part_id->str,
-		sizeof (EMailPartItip),
-		(GFreeFunc) mail_part_itip_free);
-	itip_part->parent.mime_type = g_strdup ("text/calendar");
-	itip_part->parent.bind_func = bind_itip_view;
-	itip_part->parent.force_collapse = TRUE;
+	itip_part = e_mail_part_itip_new (part, part_id->str);
 	itip_part->delete_message = g_settings_get_boolean (settings, CONF_KEY_DELETE);
 	itip_part->has_organizer = FALSE;
 	itip_part->no_reply_wanted = FALSE;

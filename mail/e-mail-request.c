@@ -169,7 +169,7 @@ handle_mail_request (GSimpleAsyncResult *res,
 					mime_type, cancellable);
 			}
 
-			e_mail_part_unref (part);
+			g_object_unref (part);
 		} else {
 			g_warning ("Failed to lookup requested part '%s' - this should not happen!", part_id);
 		}

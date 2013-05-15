@@ -76,7 +76,7 @@ emfqe_message_rfc822_format (EMailFormatterExtension *extension,
 		return FALSE;
 
 	/* Discard the first EMailPart. */
-	e_mail_part_unref (g_queue_pop_head (&queue));
+	g_object_unref (g_queue_pop_head (&queue));
 
 	head = g_queue_peek_head (&queue);
 
@@ -133,7 +133,7 @@ emfqe_message_rfc822_format (EMailFormatterExtension *extension,
 	g_free (end);
 
 	while (!g_queue_is_empty (&queue))
-		e_mail_part_unref (g_queue_pop_head (&queue));
+		g_object_unref (g_queue_pop_head (&queue));
 
 	camel_stream_write_string (stream, "</body></html>", cancellable, NULL);
 

@@ -23,7 +23,6 @@
 #include <gtk/gtk.h>
 #include <glib.h>
 #include <glib/gi18n.h>
-#include <glib/gstdio.h>
 
 #include "e-mail-parser-audio.h"
 #include "e-mail-part-audio.h"
@@ -75,33 +74,6 @@ static const gchar *parser_mime_types[] = {
 	NULL
 };
 
-static void
-mail_part_audio_free (EMailPart *mail_part)
-{
-	EMailPartAudio *ai_part = (EMailPartAudio *) mail_part;
-
-	g_clear_object (&ai_part->play_button);
-	g_clear_object (&ai_part->pause_button);
-	g_clear_object (&ai_part->stop_button);
-
-	if (ai_part->filename) {
-		g_unlink (ai_part->filename);
-		g_free (ai_part->filename);
-		ai_part->filename = NULL;
-	}
-
-	if (ai_part->bus_id) {
-		g_source_remove (ai_part->bus_id);
-		ai_part->bus_id = 0;
-	}
-
-	if (ai_part->playbin) {
-		gst_element_set_state (ai_part->playbin, GST_STATE_NULL);
-		gst_object_unref (ai_part->playbin);
-		ai_part->playbin = NULL;
-	}
-}
-
 static gint
 mail_parser_audio_parse (EMailParserExtension *extension,
                          EMailParser *parser,
@@ -110,7 +82,7 @@ mail_parser_audio_parse (EMailParserExtension *extension,
                          GCancellable *cancellable,
                          GQueue *out_mail_queue)
 {
-	EMailPartAudio *mail_part;
+	EMailPart *mail_part;
 	GQueue work_queue = G_QUEUE_INIT;
 	gint len;
 	gint n_parts_added = 0;
@@ -120,12 +92,8 @@ mail_parser_audio_parse (EMailParserExtension *extension,
 
 	d (printf ("audio formatter: format classid %s\n", part_id->str));
 
-	mail_part = (EMailPartAudio *) e_mail_part_subclass_new (
-		part, part_id->str, sizeof (EMailPartAudio),
-		(GFreeFunc) mail_part_audio_free);
-	mail_part->parent.mime_type = camel_content_type_simple (
-		camel_mime_part_get_content_type (part));
-	mail_part->parent.is_attachment = TRUE;
+	mail_part = e_mail_part_audio_new (part, part_id->str);
+
 	g_string_truncate (part_id, len);
 
 	g_queue_push_tail (&work_queue, mail_part);

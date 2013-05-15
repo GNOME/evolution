@@ -80,7 +80,8 @@ emfe_attachment_bar_get_widget (EMailFormatterExtension *extension,
 
 	g_return_val_if_fail (E_IS_MAIL_PART_ATTACHMENT_BAR (part), NULL);
 
-	store = E_MAIL_PART_ATTACHMENT_BAR (part)->store;
+	store = e_mail_part_attachment_bar_get_store (
+		E_MAIL_PART_ATTACHMENT_BAR (part));
 
 	widget = e_attachment_bar_new (store);
 	g_object_set_data (G_OBJECT (store), "attachment-bar", widget);

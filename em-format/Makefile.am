@@ -15,6 +15,8 @@ emformatinclude_HEADERS =				\
 	e-mail-part.h					\
 	e-mail-part-attachment.h			\
 	e-mail-part-attachment-bar.h			\
+	e-mail-part-headers.h				\
+	e-mail-part-image.h				\
 	e-mail-part-list.h				\
 	e-mail-part-utils.h				\
 	e-mail-stripsig-filter.h
@@ -89,6 +91,9 @@ libemformat_la_SOURCES =				\
 	e-mail-parser-text-plain.c			\
 	e-mail-part.c					\
 	e-mail-part-attachment.c			\
+	e-mail-part-attachment-bar.c			\
+	e-mail-part-headers.c				\
+	e-mail-part-image.c				\
 	e-mail-part-list.c				\
 	e-mail-part-utils.c				\
 	e-mail-stripsig-filter.c			\

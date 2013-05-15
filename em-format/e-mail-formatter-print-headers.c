@@ -211,7 +211,7 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 	}
 
 	while (!g_queue_is_empty (&queue))
-		e_mail_part_unref (g_queue_pop_head (&queue));
+		g_object_unref (g_queue_pop_head (&queue));
 
 	g_string_append (str, "</table>");
 

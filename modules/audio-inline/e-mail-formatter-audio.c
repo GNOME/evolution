@@ -287,7 +287,8 @@ mail_formatter_audio_get_widget (EMailFormatterExtension *extension,
 	GtkWidget *box;
 	EMailPartAudio *ai_part;
 
-	g_return_val_if_fail (E_MAIL_PART_IS (part, EMailPartAudio), NULL);
+	g_return_val_if_fail (E_IS_MAIL_PART_AUDIO (part), NULL);
+
 	ai_part = (EMailPartAudio *) part;
 
 	/* it is OK to call UI functions here, since we are called from UI thread */

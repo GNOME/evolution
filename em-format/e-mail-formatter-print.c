@@ -171,7 +171,7 @@ mail_formatter_print_run (EMailFormatter *formatter,
 	}
 
 	while (!g_queue_is_empty (&queue))
-		e_mail_part_unref (g_queue_pop_head (&queue));
+		g_object_unref (g_queue_pop_head (&queue));
 
 	/* This consumes the attachments queue. */
 	if (!g_queue_is_empty (&attachments))

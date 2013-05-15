@@ -27,6 +27,7 @@
 #include <libemail-engine/e-mail-utils.h>
 
 #include "e-mail-parser-extension.h"
+#include "e-mail-part-headers.h"
 
 typedef EMailParserExtension EMailParserHeaders;
 typedef EMailParserExtensionClass EMailParserHeadersClass;
@@ -39,34 +40,9 @@ G_DEFINE_TYPE (
 	E_TYPE_MAIL_PARSER_EXTENSION)
 
 static const gchar *parser_mime_types[] = {
-	"application/vnd.evolution.headers",
+	E_MAIL_PART_HEADERS_MIME_TYPE,
 	NULL
 };
-
-static void
-empe_headers_bind_dom (EMailPart *part,
-                       WebKitDOMElement *element)
-{
-	WebKitDOMDocument *document;
-	WebKitDOMElement *photo;
-	gchar *addr, *uri;
-
-	document = webkit_dom_node_get_owner_document (WEBKIT_DOM_NODE (element));
-	photo = webkit_dom_document_get_element_by_id (document, "__evo-contact-photo");
-
-	/* Contact photos disabled, the <img> tag is not there */
-	if (!photo)
-		return;
-
-	addr = webkit_dom_element_get_attribute (photo, "data-mailaddr");
-	uri = g_strdup_printf ("mail://contact-photo?mailaddr=%s", addr);
-
-	webkit_dom_html_image_element_set_src (
-		WEBKIT_DOM_HTML_IMAGE_ELEMENT (photo), uri);
-
-	g_free (addr);
-	g_free (uri);
-}
 
 static gboolean
 empe_headers_parse (EMailParserExtension *extension,
@@ -82,12 +58,10 @@ empe_headers_parse (EMailParserExtension *extension,
 	len = part_id->len;
 	g_string_append (part_id, ".headers");
 
-	mail_part = e_mail_part_new (part, part_id->str);
-	mail_part->mime_type = g_strdup ("application/vnd.evolution.headers");
-	mail_part->bind_func = empe_headers_bind_dom;
-	g_string_truncate (part_id, len);
-
+	mail_part = e_mail_part_headers_new (part, part_id->str);
 	g_queue_push_tail (out_mail_parts, mail_part);
+
+	g_string_truncate (part_id, len);
 
 	return TRUE;
 }

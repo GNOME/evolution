@@ -18,6 +18,7 @@
 
 #include "e-mail-formatter-itip.h"
 #include "e-mail-parser-itip.h"
+#include "e-mail-part-itip.h"
 
 #include <gmodule.h>
 #include <gio/gio.h>
@@ -49,6 +50,7 @@ e_module_load (GTypeModule *type_module)
 
 	}
 
+	e_mail_part_itip_type_register (type_module);
 	e_mail_parser_itip_type_register (type_module);
 	e_mail_formatter_itip_type_register (type_module);
 

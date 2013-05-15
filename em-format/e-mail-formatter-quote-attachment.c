@@ -107,7 +107,7 @@ emfqe_attachment_format (EMailFormatterExtension *extension,
 		"<DATA class=\"ClueFlow\" clear=\"orig\">-->",
 		cancellable, NULL);
 
-	e_mail_part_unref (attachment_view_part);
+	g_object_unref (attachment_view_part);
 
 	return TRUE;
 }
