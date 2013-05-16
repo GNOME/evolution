@@ -53,6 +53,10 @@ emfe_message_rfc822_format (EMailFormatterExtension *extension,
                             CamelStream *stream,
                             GCancellable *cancellable)
 {
+	const gchar *part_id;
+
+	part_id = e_mail_part_get_id (part);
+
 	if (g_cancellable_is_cancelled (cancellable))
 		return FALSE;
 
@@ -69,7 +73,7 @@ emfe_message_rfc822_format (EMailFormatterExtension *extension,
 		context->mode = E_MAIL_FORMATTER_MODE_NORMAL;
 
 		e_mail_part_list_queue_parts (
-			context->part_list, part->id, &queue);
+			context->part_list, part_id, &queue);
 
 		/* Discard the first EMailPart. */
 		if (!g_queue_is_empty (&queue))
@@ -77,19 +81,22 @@ emfe_message_rfc822_format (EMailFormatterExtension *extension,
 
 		head = g_queue_peek_head_link (&queue);
 
-		end = g_strconcat (part->id, ".end", NULL);
+		end = g_strconcat (part_id, ".end", NULL);
 
 		for (link = head; link != NULL; link = g_list_next (link)) {
 			EMailPart *p = link->data;
+			const gchar *p_id;
+
+			p_id = e_mail_part_get_id (p);
 
 			/* Check for nested rfc822 messages */
 			if (g_str_has_suffix (p->id, ".rfc822")) {
-				gchar *sub_end = g_strconcat (p->id, ".end", NULL);
+				gchar *sub_end = g_strconcat (p_id, ".end", NULL);
 
 				while (link != NULL) {
 					p = link->data;
 
-					if (g_strcmp0 (p->id, sub_end) == 0)
+					if (g_strcmp0 (p_id, sub_end) == 0)
 						break;
 
 					link = g_list_next (link);
@@ -98,7 +105,7 @@ emfe_message_rfc822_format (EMailFormatterExtension *extension,
 				continue;
 			}
 
-			if ((g_strcmp0 (p->id, end) == 0))
+			if ((g_strcmp0 (p_id, end) == 0))
 				break;
 
 			if (p->is_hidden)
@@ -125,7 +132,7 @@ emfe_message_rfc822_format (EMailFormatterExtension *extension,
 
 		/* Part is EMailPartAttachment */
 		e_mail_part_list_queue_parts (
-			context->part_list, part->id, &queue);
+			context->part_list, part_id, &queue);
 
 		/* Discard the first EMailPart. */
 		if (!g_queue_is_empty (&queue))
@@ -135,26 +142,29 @@ emfe_message_rfc822_format (EMailFormatterExtension *extension,
 			return FALSE;
 
 		part = g_queue_pop_head (&queue);
-		end = g_strconcat (part->id, ".end", NULL);
+		end = g_strconcat (part_id, ".end", NULL);
 		e_mail_part_unref (part);
 
 		head = g_queue_peek_head_link (&queue);
 
 		for (link = head; link != NULL; link = g_list_next (link)) {
 			EMailPart *p = link->data;
+			const gchar *p_id;
 
 			/* Skip attachment bar */
 			if (g_str_has_suffix (part->id, ".attachment-bar"))
 				continue;
 
+			p_id = e_mail_part_get_id (p);
+
 			/* Check for nested rfc822 messages */
 			if (g_str_has_suffix (p->id, ".rfc822")) {
-				gchar *sub_end = g_strconcat (p->id, ".end", NULL);
+				gchar *sub_end = g_strconcat (p_id, ".end", NULL);
 
 				while (link != NULL) {
 					p = link->data;
 
-					if (g_strcmp0 (p->id, sub_end) == 0)
+					if (g_strcmp0 (p_id, sub_end) == 0)
 						break;
 
 					link = g_list_next (link);
@@ -163,7 +173,7 @@ emfe_message_rfc822_format (EMailFormatterExtension *extension,
 				continue;
 			}
 
-			if ((g_strcmp0 (p->id, end) == 0))
+			if ((g_strcmp0 (p_id, end) == 0))
 				break;
 
 			if (p->is_hidden)
@@ -187,7 +197,7 @@ emfe_message_rfc822_format (EMailFormatterExtension *extension,
 		gchar *str;
 		gchar *uri;
 
-		p = e_mail_part_list_ref_part (context->part_list, part->id);
+		p = e_mail_part_list_ref_part (context->part_list, part_id);
 		if (p == NULL)
 			return FALSE;
 
@@ -203,7 +213,7 @@ emfe_message_rfc822_format (EMailFormatterExtension *extension,
 
 		uri = e_mail_part_build_uri (
 			folder, message_uid,
-			"part_id", G_TYPE_STRING, p->id,
+			"part_id", G_TYPE_STRING, e_mail_part_get_id (p),
 			"mode", G_TYPE_INT, E_MAIL_FORMATTER_MODE_RAW,
 			"headers_collapsable", G_TYPE_INT, 0,
 			"formatter_default_charset", G_TYPE_STRING, default_charset,
@@ -223,7 +233,7 @@ emfe_message_rfc822_format (EMailFormatterExtension *extension,
 			e_rgba_to_value (
 				e_mail_formatter_get_color (
 					formatter, E_MAIL_FORMATTER_COLOR_BODY)),
-			part->id, uri, part->id);
+			part_id, uri, part_id);
 
 		camel_stream_write_string (stream, str, cancellable, NULL);
 

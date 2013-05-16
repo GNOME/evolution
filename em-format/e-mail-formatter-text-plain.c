@@ -149,7 +149,7 @@ emfe_text_plain_format (EMailFormatterExtension *extension,
 
 		uri = e_mail_part_build_uri (
 			folder, message_uid,
-			"part_id", G_TYPE_STRING, part->id,
+			"part_id", G_TYPE_STRING, e_mail_part_get_id (part),
 			"mode", G_TYPE_INT, E_MAIL_FORMATTER_MODE_RAW,
 			"formatter_default_charset", G_TYPE_STRING, default_charset,
 			"formatter_charset", G_TYPE_STRING, charset,
@@ -163,7 +163,9 @@ emfe_text_plain_format (EMailFormatterExtension *extension,
 			" style=\"border: 1px solid #%06x; background-color: #%06x;\">"
 			"</iframe>"
 			"</div>",
-			part->id, part->id, uri,
+			e_mail_part_get_id (part),
+			e_mail_part_get_id (part),
+			uri,
 			e_rgba_to_value (
 				e_mail_formatter_get_color (
 					formatter, E_MAIL_FORMATTER_COLOR_FRAME)),

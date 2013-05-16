@@ -1198,6 +1198,7 @@ static gboolean
 is_only_text_part_in_this_level (GList *parts,
                                  EMailPart *text_html_part)
 {
+	const gchar *text_html_part_id;
 	const gchar *dot;
 	gint level_len;
 	GList *iter;
@@ -1205,13 +1206,16 @@ is_only_text_part_in_this_level (GList *parts,
 	g_return_val_if_fail (parts != NULL, FALSE);
 	g_return_val_if_fail (text_html_part != NULL, FALSE);
 
-	dot = strrchr (text_html_part->id, '.');
+	text_html_part_id = e_mail_part_get_id (text_html_part);
+
+	dot = strrchr (text_html_part_id, '.');
 	if (!dot)
 		return FALSE;
 
-	level_len = dot - text_html_part->id;
+	level_len = dot - text_html_part_id;
 	for (iter = parts; iter; iter = iter->next) {
 		EMailPart *part = E_MAIL_PART (iter->data);
+		const gchar *part_id;
 
 		if (part == NULL)
 			continue;
@@ -1228,9 +1232,10 @@ is_only_text_part_in_this_level (GList *parts,
 		if (part->mime_type == NULL)
 			continue;
 
-		dot = strrchr (part->id, '.');
-		if (dot - part->id != level_len ||
-		    strncmp (text_html_part->id, part->id, level_len) != 0)
+		part_id = e_mail_part_get_id (part);
+		dot = strrchr (part_id, '.');
+		if (dot - part_id != level_len ||
+		    strncmp (text_html_part_id, part_id, level_len) != 0)
 			continue;
 
 		if (g_ascii_strncasecmp (part->mime_type, "text/", 5) == 0)

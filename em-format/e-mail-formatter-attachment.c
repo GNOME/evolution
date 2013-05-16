@@ -61,7 +61,7 @@ find_attachment_store (EMailPartList *part_list,
 	EMailPart *part;
 	gchar *id;
 
-	start_id = start->id;
+	start_id = e_mail_part_get_id (start);
 
 	e_mail_part_list_queue_parts (part_list, NULL, &queue);
 
@@ -75,8 +75,11 @@ find_attachment_store (EMailPartList *part_list,
 
 		for (link = head; link != NULL; link = g_list_next (link)) {
 			EMailPart *p = link->data;
+			const gchar *p_id;
 
-			if (g_strcmp0 (p->id, id) == 0) {
+			p_id = e_mail_part_get_id (p);
+
+			if (g_strcmp0 (p_id, id) == 0) {
 				part = p;
 				break;
 			}
@@ -121,10 +124,12 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 	EMailPartAttachment *empa;
 	CamelMimeFilterToHTMLFlags flags;
 	const gchar *attachment_part_id;
+	const gchar *part_id;
 
 	g_return_val_if_fail (E_IS_MAIL_PART_ATTACHMENT (part), FALSE);
 
 	empa = (EMailPartAttachment *) part;
+	part_id = e_mail_part_get_id (part);
 
 	if ((context->mode == E_MAIL_FORMATTER_MODE_NORMAL) ||
 	    (context->mode == E_MAIL_FORMATTER_MODE_PRINTING) ||
@@ -163,7 +168,7 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 			}
 			g_list_free (attachments);
 		} else {
-			g_warning ("Failed to locate attachment-bar for %s", part->id);
+			g_warning ("Failed to locate attachment-bar for %s", part_id);
 		}
 
 		g_object_unref (attachment);
@@ -254,7 +259,7 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 	if (empa->attachment_view_part_id)
 		attachment_part_id = empa->attachment_view_part_id;
 	else
-		attachment_part_id = part->id;
+		attachment_part_id = part_id;
 
 	button_id = g_strconcat (attachment_part_id, ".attachment_button", NULL);
 
@@ -267,7 +272,7 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 		"height=\"20\" width=\"100\" data=\"%s\" id=\"%s\"></object>"
 		"</td>"
 		"<td align=\"left\">%s</td>"
-		"</tr>", part->id, button_id, html);
+		"</tr>", part_id, button_id, html);
 
 	camel_stream_write_string (stream, str, cancellable, NULL);
 	g_free (button_id);
@@ -362,17 +367,20 @@ emfe_attachment_get_widget (EMailFormatterExtension *extension,
 	EAttachmentStore *store;
 	EAttachmentView *view;
 	GtkWidget *widget;
+	const gchar *part_id;
 
 	g_return_val_if_fail (E_IS_MAIL_PART_ATTACHMENT (part), NULL);
 
 	attachment = g_object_ref (
 		E_MAIL_PART_ATTACHMENT (part)->attachment);
 
+	part_id = e_mail_part_get_id (part);
+
 	store = find_attachment_store (context, part);
 	widget = e_attachment_button_new ();
 	g_object_set_data_full (
 		G_OBJECT (widget),
-		"uri", g_strdup (part->id),
+		"uri", g_strdup (part_id),
 		(GDestroyNotify) g_free);
 	e_attachment_button_set_attachment (
 		E_ATTACHMENT_BUTTON (widget), attachment);

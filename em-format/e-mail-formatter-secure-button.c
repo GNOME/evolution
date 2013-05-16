@@ -88,7 +88,8 @@ emfe_secure_button_format (EMailFormatterExtension *extension,
 	str = g_strdup_printf (
 		"<object type=\"application/vnd.evolution.widget.secure-button\" "
 		"height=\"20\" width=\"100%%\" data=\"%s\" id=\"%s\"></object>",
-		part->id, part->id);
+		e_mail_part_get_id (part),
+		e_mail_part_get_id (part));
 
 	camel_stream_write_string (stream, str, cancellable, NULL);
 

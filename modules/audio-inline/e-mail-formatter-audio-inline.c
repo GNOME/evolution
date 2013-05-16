@@ -265,7 +265,8 @@ emfe_audio_inline_format (EMailFormatterExtension *extension,
 	str = g_strdup_printf (
 		"<object type=\"application/vnd.evolution.widget.audio-inline\" "
 			"width=\"100%%\" height=\"auto\" data=\"%s\" id=\"%s\"></object>",
-		part->id, part->id);
+		e_mail_part_get_id (part),
+		e_mail_part_get_id (part));
 
 	camel_stream_write_string (stream, str, cancellable, NULL);
 

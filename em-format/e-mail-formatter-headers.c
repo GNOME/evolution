@@ -580,7 +580,7 @@ emfe_headers_format (EMailFormatterExtension *extension,
 		"style=\"color: #%06x; direction: %s\">"
 		"<tr>",
 		e_rgba_to_value (body_rgba),
-		part->id,
+		e_mail_part_get_id (part),
 		e_rgba_to_value (header_rgba),
 		direction);
 

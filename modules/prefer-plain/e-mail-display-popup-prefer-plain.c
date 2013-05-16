@@ -316,13 +316,16 @@ mail_display_popup_prefer_plain_update_actions (EMailDisplayPopupExtension *exte
 
 		if (g_str_has_prefix (p->id, prefix) &&
 		    (strstr (p->id, "text_html") || strstr (p->id, "plain_text"))) {
+			const gchar *p_id;
 
-			pos = strstr (p->id, ".alternative-prefer-plain.");
+			p_id = e_mail_part_get_id (p);
+
+			pos = strstr (p_id, ".alternative-prefer-plain.");
 
 			if (is_text_plain) {
 				if (strstr (pos + ID_LEN, "text_html") != NULL) {
 					action_name = "show-text-html-part";
-					set_text_html_id (pp_extension, p->id);
+					set_text_html_id (pp_extension, p_id);
 					set_text_plain_id (pp_extension, NULL);
 					break;
 				}
@@ -330,7 +333,7 @@ mail_display_popup_prefer_plain_update_actions (EMailDisplayPopupExtension *exte
 				if (strstr (pos + ID_LEN, "plain_text") != NULL) {
 					action_name = "show-plain-text-part";
 					set_text_html_id (pp_extension, NULL);
-					set_text_plain_id (pp_extension, p->id);
+					set_text_plain_id (pp_extension, p_id);
 					break;
 				}
 			}

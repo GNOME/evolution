@@ -1201,21 +1201,19 @@ mail_parts_bind_dom (GObject *object,
 
 	for (link = head; link != NULL; link = g_list_next (link)) {
 		EMailPart *part = E_MAIL_PART (link->data);
+		WebKitDOMElement *element;
+		const gchar *part_id;
 
 		/* Iterate only the parts rendered in
 		 * the frame and all it's subparts. */
 		if (!g_str_has_prefix (part->id, frame_name))
 			break;
 
-		if (part->bind_func != NULL) {
-			WebKitDOMElement *element;
+		part_id = e_mail_part_get_id (part);
+		element = find_element_by_id (document, part_id);
 
-			element = find_element_by_id (document, part->id);
-			if (element != NULL) {
-				d (printf ("/*bind_func*/ for %s\n", part->id));
-				part->bind_func (part, element);
-			}
-		}
+		if (element != NULL && part->bind_func != NULL)
+			part->bind_func (part, element);
 	}
 
 	while (!g_queue_is_empty (&queue))

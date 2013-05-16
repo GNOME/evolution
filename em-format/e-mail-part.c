@@ -175,6 +175,14 @@ e_mail_part_get_instance_size (EMailPart *part)
 	return part->priv->instance_size;
 }
 
+const gchar *
+e_mail_part_get_id (EMailPart *part)
+{
+	g_return_val_if_fail (part != NULL, NULL);
+
+	return part->id;
+}
+
 static EMailPartValidityPair *
 mail_part_find_validity_pair (EMailPart *part,
                               guint32 validity_type)

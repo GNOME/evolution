@@ -470,20 +470,25 @@ e_mail_formatter_find_rfc822_end_iter (GList *rfc822_start_iter)
 {
 	GList *link = rfc822_start_iter;
 	EMailPart *part;
+	const gchar *part_id;
 	gchar *end;
 
 	g_return_val_if_fail (rfc822_start_iter != NULL, NULL);
 
 	part = E_MAIL_PART (link->data);
-	g_return_val_if_fail (part != NULL, NULL);
 
-	end = g_strconcat (part->id, ".end", NULL);
+	part_id = e_mail_part_get_id (part);
+	g_return_val_if_fail (part_id != NULL, NULL);
+
+	end = g_strconcat (part_id, ".end", NULL);
 
 	while (link != NULL) {
 		part = E_MAIL_PART (link->data);
-		g_return_val_if_fail (part != NULL, NULL);
 
-		if (g_strcmp0 (part->id, end) == 0)
+		part_id = e_mail_part_get_id (part);
+		g_return_val_if_fail (part_id != NULL, NULL);
+
+		if (g_strcmp0 (part_id, end) == 0)
 			break;
 
 		link = g_list_next (link);

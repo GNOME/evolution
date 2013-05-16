@@ -363,7 +363,7 @@ e_mail_parser_parse_sync (EMailParser *parser,
 			printf (
 				"	id: %s | cid: %s | mime_type: %s | "
 				"is_hidden: %d | is_attachment: %d\n",
-				part->id,
+				e_mail_part_get_id (part),
 				part->cid,
 				part->mime_type,
 				part->is_hidden ? 1 : 0,
@@ -467,7 +467,7 @@ e_mail_parser_parse_finish (EMailParser *parser,
 			printf (
 				"	id: %s | cid: %s | mime_type: %s | "
 				"is_hidden: %d | is_attachment: %d\n",
-				part->id,
+				e_mail_part_get_id (part),
 				part->cid,
 				part->mime_type,
 				part->is_hidden ? 1 : 0,

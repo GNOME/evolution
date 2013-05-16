@@ -59,6 +59,9 @@ emfqe_message_rfc822_format (EMailFormatterExtension *extension,
 	GList *head, *link;
 	gchar *header, *end;
 	EMailFormatterQuoteContext *qc = (EMailFormatterQuoteContext *) context;
+	const gchar *part_id;
+
+	part_id = e_mail_part_get_id (part);
 
 	if (g_cancellable_is_cancelled (cancellable))
 		return FALSE;
@@ -67,7 +70,7 @@ emfqe_message_rfc822_format (EMailFormatterExtension *extension,
 	camel_stream_write_string (stream, header, cancellable, NULL);
 	g_free (header);
 
-	e_mail_part_list_queue_parts (context->part_list, part->id, &queue);
+	e_mail_part_list_queue_parts (context->part_list, part_id, &queue);
 
 	if (g_queue_is_empty (&queue))
 		return FALSE;
@@ -77,10 +80,13 @@ emfqe_message_rfc822_format (EMailFormatterExtension *extension,
 
 	head = g_queue_peek_head (&queue);
 
-	end = g_strconcat (part->id, ".end", NULL);
+	end = g_strconcat (part_id, ".end", NULL);
 
 	for (link = head; link != NULL; link = g_list_next (link)) {
 		EMailPart *p = link->data;
+		const gchar *p_id;
+
+		p_id = e_mail_part_get_id (p);
 
 		/* Skip attachment bar */
 		if (g_str_has_suffix (p->id, ".attachment-bar"))
@@ -99,12 +105,12 @@ emfqe_message_rfc822_format (EMailFormatterExtension *extension,
 
 		/* Check for nested rfc822 messages */
 		if (g_str_has_suffix (p->id, ".rfc822")) {
-			gchar *sub_end = g_strconcat (p->id, ".end", NULL);
+			gchar *sub_end = g_strconcat (p_id, ".end", NULL);
 
 			while (link != NULL) {
 				p = link->data;
 
-				if (g_strcmp0 (p->id, sub_end) == 0)
+				if (g_strcmp0 (p_id, sub_end) == 0)
 					break;
 
 				link = g_list_next (link);
@@ -113,7 +119,7 @@ emfqe_message_rfc822_format (EMailFormatterExtension *extension,
 			continue;
 		}
 
-		if ((g_strcmp0 (p->id, end) == 0))
+		if ((g_strcmp0 (p_id, end) == 0))
 			break;
 
 		if (p->is_hidden)

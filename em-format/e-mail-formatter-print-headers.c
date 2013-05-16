@@ -64,6 +64,7 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 	GQueue *headers_queue;
 	GQueue queue = G_QUEUE_INIT;
 	GList *head, *link;
+	const gchar *part_id;
 
 	buf = camel_medium_get_header (CAMEL_MEDIUM (part->part), "subject");
 	subject = camel_header_decode_string (buf, "UTF-8");
@@ -118,7 +119,8 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 	g_queue_free_full (headers_queue, (GDestroyNotify) e_mail_formatter_header_free);
 
 	/* Get prefix of this PURI */
-	part_id_prefix = g_strndup (part->id, g_strrstr (part->id, ".") - part->id);
+	part_id = e_mail_part_get_id (part);
+	part_id_prefix = g_strndup (part_id, g_strrstr (part_id, ".") - part_id);
 
 	/* Add encryption/signature header */
 	raw_header.name = _("Security");

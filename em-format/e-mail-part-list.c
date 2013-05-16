@@ -324,7 +324,7 @@ e_mail_part_list_ref_part (EMailPartList *part_list,
 		if (by_cid)
 			candidate_id = candidate->cid;
 		else
-			candidate_id = candidate->id;
+			candidate_id = e_mail_part_get_id (candidate);
 
 		if (g_strcmp0 (candidate_id, part_id) == 0) {
 			match = e_mail_part_ref (candidate);
@@ -372,7 +372,7 @@ e_mail_part_list_queue_parts (EMailPartList *part_list,
 			EMailPart *candidate = E_MAIL_PART (link->data);
 			const gchar *candidate_id;
 
-			candidate_id = candidate->id;
+			candidate_id = e_mail_part_get_id (candidate);
 
 			if (g_strcmp0 (candidate_id, part_id) == 0)
 				break;

@@ -396,7 +396,10 @@ mail_formatter_run (EMailFormatter *formatter,
 
 	for (link = head; link != NULL; link = g_list_next (link)) {
 		EMailPart *part = link->data;
+		const gchar *part_id;
 		gboolean ok;
+
+		part_id = e_mail_part_get_id (part);
 
 		if (g_cancellable_is_cancelled (cancellable))
 			break;
@@ -451,7 +454,7 @@ mail_formatter_run (EMailFormatter *formatter,
 
 			/* .message is the entire message. There's nothing more
 			 * to be written. */
-			if (g_strcmp0 (part->id, ".message") == 0)
+			if (g_strcmp0 (part_id, ".message") == 0)
 				break;
 
 			/* If we just wrote source of a rfc822 message, then jump

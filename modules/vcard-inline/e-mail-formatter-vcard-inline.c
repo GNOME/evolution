@@ -115,7 +115,7 @@ emfe_vcard_inline_format (EMailFormatterExtension *extension,
 
 		uri = e_mail_part_build_uri (
 			folder, message_uid,
-			"part_id", G_TYPE_STRING, part->id,
+			"part_id", G_TYPE_STRING, e_mail_part_get_id (part),
 			"mode", G_TYPE_INT, E_MAIL_FORMATTER_MODE_RAW,
 			"formatter_default_charset", G_TYPE_STRING, default_charset,
 			"formatter_charset", G_TYPE_STRING, charset,
@@ -131,7 +131,8 @@ emfe_vcard_inline_format (EMailFormatterExtension *extension,
 		}
 
 		str = g_strdup_printf (
-			"<div id=\"%s\">", part->id);
+			"<div id=\"%s\">",
+			e_mail_part_get_id (part));
 		camel_stream_write_string (stream, str, cancellable, NULL);
 		g_free (str);
 
@@ -161,8 +162,9 @@ emfe_vcard_inline_format (EMailFormatterExtension *extension,
 			"<iframe width=\"100%%\" height=\"auto\" frameborder=\"0\""
 				"src=\"%s\" name=\"%s\"></iframe>"
 			"</div>",
-			part->id, access_key, html_label,
-			uri, part->id);
+			e_mail_part_get_id (part),
+			access_key, html_label, uri,
+			e_mail_part_get_id (part));
 		camel_stream_write_string (stream, str, cancellable, NULL);
 		g_free (str);
 		g_free (html_label);
