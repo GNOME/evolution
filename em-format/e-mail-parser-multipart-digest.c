@@ -88,6 +88,7 @@ empe_mp_digest_parse (EMailParserExtension *extension,
 		} else {
 			GQueue work_queue = G_QUEUE_INIT;
 			EMailPart *mail_part;
+			gboolean wrap_as_attachment;
 
 			e_mail_parser_parse_part_as (
 				parser, subpart, part_id, "message/rfc822",
@@ -95,8 +96,12 @@ empe_mp_digest_parse (EMailParserExtension *extension,
 
 			mail_part = g_queue_peek_head (&work_queue);
 
+			wrap_as_attachment =
+				(mail_part != NULL) &&
+				!mail_part->is_attachment;
+
 			/* Force the message to be collapsable */
-			if (mail_part != NULL && !mail_part->is_attachment)
+			if (wrap_as_attachment)
 				e_mail_parser_wrap_as_attachment (
 					parser, subpart, part_id, &work_queue);
 

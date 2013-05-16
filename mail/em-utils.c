@@ -1211,10 +1211,21 @@ is_only_text_part_in_this_level (GList *parts,
 
 	level_len = dot - text_html_part->id;
 	for (iter = parts; iter; iter = iter->next) {
-		EMailPart *part = iter->data;
+		EMailPart *part = E_MAIL_PART (iter->data);
 
-		if (!part || !part->mime_type || part == text_html_part ||
-		    part->is_hidden || part->is_attachment)
+		if (part == NULL)
+			continue;
+
+		if (part == text_html_part)
+			continue;
+
+		if (part->is_hidden)
+			continue;
+
+		if (part->is_attachment)
+			continue;
+
+		if (part->mime_type == NULL)
 			continue;
 
 		dot = strrchr (part->id, '.');
@@ -1253,7 +1264,7 @@ em_utils_message_to_html (CamelSession *session,
                           guint32 flags,
                           EMailPartList *parts_list,
                           const gchar *append,
-                          guint32 *validity_found)
+                          EMailPartValidityFlags *validity_found)
 {
 	EMailFormatter *formatter;
 	EMailParser *parser = NULL;
@@ -1262,7 +1273,7 @@ em_utils_message_to_html (CamelSession *session,
 	EShell *shell;
 	GtkWindow *window;
 	EMailPart *hidden_text_html_part = NULL;
-	guint32 is_validity_found = 0;
+	EMailPartValidityFlags is_validity_found = 0;
 	GQueue queue = G_QUEUE_INIT;
 	GList *head, *link;
 

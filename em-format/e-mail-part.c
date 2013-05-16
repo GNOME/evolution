@@ -16,10 +16,6 @@
  *
  */
 
-#include <camel/camel.h>
-
-#include "e-mail-part.h"
-
 /**
  * EMailPart:
  *
@@ -28,9 +24,12 @@
  *
  * #EMailPart is not GObject-based, but has a simple reference counting.
  *
- * Each #EMailPart must have a unique ID. The ID is a dot-separated hierarchical
- * description of the location of the part within the email message.
+ * Each #EMailPart must have a unique ID. The ID is a dot-separated
+ * hierarchical description of the location of the part within the email
+ * message.
  */
+
+#include "e-mail-part.h"
 
 struct _EMailPartPrivate {
 	guint ref_cnt;

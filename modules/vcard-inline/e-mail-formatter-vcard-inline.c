@@ -66,7 +66,8 @@ emfe_vcard_inline_format (EMailFormatterExtension *extension,
 {
 	EMailPartVCardInline *vcard_part;
 
-	g_return_val_if_fail (E_MAIL_PART_IS (part, EMailPartVCardInline), FALSE);
+	g_return_val_if_fail (E_IS_MAIL_PART_VCARD (part), FALSE);
+
 	vcard_part = (EMailPartVCardInline *) part;
 
 	if (context->mode == E_MAIL_FORMATTER_MODE_RAW)  {

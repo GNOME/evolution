@@ -356,12 +356,16 @@ e_mail_parser_parse_sync (EMailParser *parser,
 		e_mail_part_list_queue_parts (part_list, NULL, &queue);
 
 		while (!g_queue_is_empty (&queue)) {
-			EMailPart *part = g_queue_pop_head (&queue);
+			EMailPart *part;
+
+			part = g_queue_pop_head (&queue);
 
 			printf (
 				"	id: %s | cid: %s | mime_type: %s | "
 				"is_hidden: %d | is_attachment: %d\n",
-				part->id, part->cid, part->mime_type,
+				part->id,
+				part->cid,
+				part->mime_type,
 				part->is_hidden ? 1 : 0,
 				part->is_attachment ? 1 : 0);
 
@@ -456,12 +460,16 @@ e_mail_parser_parse_finish (EMailParser *parser,
 		e_mail_part_list_queue_parts (part_list, NULL, &queue);
 
 		while (!g_queue_is_empty (&queue)) {
-			EMailPart *part = g_queue_pop_head (&queue);
+			EMailPart *part;
+
+			part = g_queue_pop_head (&queue);
 
 			printf (
 				"	id: %s | cid: %s | mime_type: %s | "
 				"is_hidden: %d | is_attachment: %d\n",
-				part->id, part->cid, part->mime_type,
+				part->id,
+				part->cid,
+				part->mime_type,
 				part->is_hidden ? 1 : 0,
 				part->is_attachment ? 1 : 0);
 
@@ -567,6 +575,7 @@ e_mail_parser_error (EMailParser *parser,
                      const gchar *format,
                      ...)
 {
+	const gchar *mime_type = "application/vnd.evolution.error";
 	EMailPart *mail_part;
 	CamelMimePart *part;
 	gchar *errmsg;
@@ -582,9 +591,7 @@ e_mail_parser_error (EMailParser *parser,
 
 	part = camel_mime_part_new ();
 	camel_mime_part_set_content (
-		part,
-		errmsg, strlen (errmsg),
-		"application/vnd.evolution.error");
+		part, errmsg, strlen (errmsg), mime_type);
 	g_free (errmsg);
 	va_end (ap);
 
@@ -594,7 +601,7 @@ e_mail_parser_error (EMailParser *parser,
 	g_mutex_unlock (&parser->priv->mutex);
 
 	mail_part = e_mail_part_new (part, uri);
-	mail_part->mime_type = g_strdup ("application/vnd.evolution.error");
+	mail_part->mime_type = g_strdup (mime_type);
 	mail_part->is_error = TRUE;
 
 	g_free (uri);

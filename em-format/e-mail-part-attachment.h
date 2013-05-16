@@ -1,4 +1,6 @@
 /*
+ * e-mail-part-attachment.h
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -17,13 +19,15 @@
 #ifndef E_MAIL_PART_ATTACHMENT_H
 #define E_MAIL_PART_ATTACHMENT_H
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <em-format/e-mail-part.h>
 
-#define E_MAIL_PART_ATTACHMENT(p) ((EMailPartAttachment *) p)
+#define E_MAIL_PART_ATTACHMENT(part) \
+	((EMailPartAttachment *) part)
+#define E_IS_MAIL_PART_ATTACHMENT(part) \
+	(E_MAIL_PART_IS (part, EMailPartAttachment))
+
+#define E_MAIL_PART_ATTACHMENT_MIME_TYPE \
+	"application/vnd.evolution.attachment"
 
 G_BEGIN_DECLS
 

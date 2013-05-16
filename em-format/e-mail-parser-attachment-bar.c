@@ -49,7 +49,7 @@ G_DEFINE_TYPE (
 	E_TYPE_MAIL_PARSER_EXTENSION)
 
 static const gchar *parser_mime_types[] = {
-	"application/vnd.evolution.widget.attachment-bar",
+	E_MAIL_PART_ATTACHMENT_BAR_MIME_TYPE,
 	NULL
 };
 
@@ -69,7 +69,7 @@ empe_attachment_bar_parse (EMailParserExtension *extension,
 	empab = (EMailPartAttachmentBar *) e_mail_part_subclass_new (
 		part, part_id->str, sizeof (EMailPartAttachmentBar),
 		(GFreeFunc) mail_part_attachment_bar_free);
-	empab->parent.mime_type = g_strdup ("application/vnd.evolution.widget.attachment-bar");
+	empab->parent.mime_type = g_strdup (parser_mime_types[0]);
 	empab->store = E_ATTACHMENT_STORE (e_attachment_store_new ());
 	g_string_truncate (part_id, len);
 

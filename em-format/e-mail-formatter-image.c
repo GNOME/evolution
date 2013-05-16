@@ -104,8 +104,8 @@ emfe_image_format (EMailFormatterExtension *extension,
 		}
 
 	} else {
-
 		gchar *buffer;
+		const gchar *mime_type;
 
 		if (!e_mail_formatter_get_animate_images (formatter)) {
 
@@ -121,11 +121,16 @@ emfe_image_format (EMailFormatterExtension *extension,
 			content = g_base64_encode ((guchar *) ba->data, ba->len);
 		}
 
+		mime_type = part->mime_type;
+		if (mime_type == NULL)
+			mime_type = "image/*";
+
 		/* The image is already base64-encrypted so we can directly
 		 * paste it to the output */
 		buffer = g_strdup_printf (
-			"<img src=\"data:%s;base64,%s\" style=\"max-width: 100%%;\" />",
-			part->mime_type ? part->mime_type : "image/*", content);
+			"<img src=\"data:%s;base64,%s\" "
+			"     style=\"max-width: 100%%;\" />",
+			mime_type, content);
 
 		camel_stream_write_string (stream, buffer, cancellable, NULL);
 		g_free (buffer);

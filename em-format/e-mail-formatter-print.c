@@ -37,17 +37,12 @@ void e_mail_formatter_print_internal_extensions_load (EMailExtensionRegistry *er
 static gpointer e_mail_formatter_print_parent_class = 0;
 
 static void
-write_attachments_list (EMailFormatter *formatter,
-                        EMailFormatterContext *context,
-                        GSList *attachments,
-                        CamelStream *stream,
-                        GCancellable *cancellable)
+mail_formatter_print_write_attachments (EMailFormatter *formatter,
+                                        GQueue *attachments,
+                                        CamelStream *stream,
+                                        GCancellable *cancellable)
 {
 	GString *str;
-	GSList *link;
-
-	if (attachments == NULL)
-		return;
 
 	str = g_string_new (
 		"<table border=\"0\" cellspacing=\"5\" cellpadding=\"0\" "
@@ -58,21 +53,22 @@ write_attachments_list (EMailFormatter *formatter,
 		"<tr><th>%s</th><th>%s</th></tr>\n",
 		_("Attachments"), _("Name"), _("Size"));
 
-	for (link = attachments; link != NULL; link = g_slist_next (link)) {
-		EMailPartAttachment *part = link->data;
+	while (!g_queue_is_empty (attachments)) {
+		EMailPartAttachment *part;
 		EAttachment *attachment;
 		GFileInfo *file_info;
 		gchar *name, *size;
 		const gchar *description;
 		const gchar *display_name;
 
-		if (part == NULL)
-			continue;
+		part = g_queue_pop_head (attachments);
+		attachment = g_object_ref (part->attachment);
 
-		attachment = part->attachment;
 		file_info = e_attachment_get_file_info (attachment);
-		if (file_info == NULL)
+		if (file_info == NULL) {
+			g_object_unref (attachment);
 			continue;
+		}
 
 		description = e_attachment_get_description (attachment);
 		display_name = g_file_info_get_display_name (file_info);
@@ -92,6 +88,8 @@ write_attachments_list (EMailFormatter *formatter,
 
 		g_free (name);
 		g_free (size);
+
+		g_object_unref (attachment);
 	}
 
 	g_string_append (str, "</table>\n");
@@ -108,8 +106,8 @@ mail_formatter_print_run (EMailFormatter *formatter,
                           GCancellable *cancellable)
 {
 	GQueue queue = G_QUEUE_INIT;
+	GQueue attachments = G_QUEUE_INIT;
 	GList *head, *link;
-	GSList *attachments;
 
 	context->mode = E_MAIL_FORMATTER_MODE_PRINTING;
 
@@ -126,14 +124,13 @@ mail_formatter_print_run (EMailFormatter *formatter,
 		"<body style=\"background: #FFF; color: #000;\">",
 		cancellable, NULL);
 
-	attachments = NULL;
-
 	e_mail_part_list_queue_parts (context->part_list, NULL, &queue);
 
 	head = g_queue_peek_head_link (&queue);
 
 	for (link = head; link != NULL; link = g_list_next (link)) {
-		EMailPart *part = link->data;
+		EMailPart *part = E_MAIL_PART (link->data);
+		const gchar *mime_type;
 		gboolean ok;
 
 		if (g_cancellable_is_cancelled (cancellable))
@@ -147,19 +144,20 @@ mail_formatter_print_run (EMailFormatter *formatter,
 			continue;
 		}
 
-		if (part->mime_type == NULL)
+		mime_type = part->mime_type;
+		if (mime_type == NULL)
 			continue;
 
 		if (part->is_attachment) {
 			if (part->cid != NULL)
 				continue;
 
-			attachments = g_slist_append (attachments, part);
+			g_queue_push_tail (&attachments, part);
 		}
 
 		ok = e_mail_formatter_format_as (
 			formatter, context, part, stream,
-			part->mime_type, cancellable);
+			mime_type, cancellable);
 
 		/* If the written part was message/rfc822 then
 		 * jump to the end of the message, because content
@@ -175,10 +173,11 @@ mail_formatter_print_run (EMailFormatter *formatter,
 	while (!g_queue_is_empty (&queue))
 		e_mail_part_unref (g_queue_pop_head (&queue));
 
-	write_attachments_list (
-		formatter, context, attachments, stream, cancellable);
-
-	g_slist_free (attachments);
+	/* This consumes the attachments queue. */
+	if (!g_queue_is_empty (&attachments))
+		mail_formatter_print_write_attachments (
+			formatter, &attachments,
+			stream, cancellable);
 
 	camel_stream_write_string (stream, "</body></html>", cancellable, NULL);
 }

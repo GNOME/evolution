@@ -64,17 +64,8 @@ emfe_attachment_bar_format (EMailFormatterExtension *extension,
 	camel_stream_write_string (stream, str, cancellable, NULL);
 
 	g_free (str);
-	return TRUE;
-}
 
-static void
-unset_bar_from_store_data (GObject *store,
-                           EAttachmentBar *bar)
-{
-	/*
-	if (E_IS_ATTACHMENT_STORE (store))
-		g_object_set_data (store, "attachment-bar", NULL);
-	*/
+	return TRUE;
 }
 
 static GtkWidget *
@@ -83,17 +74,15 @@ emfe_attachment_bar_get_widget (EMailFormatterExtension *extension,
                                 EMailPart *part,
                                 GHashTable *params)
 {
-	EMailPartAttachmentBar *empab;
+	EAttachmentStore *store;
 	GtkWidget *widget;
 
-	g_return_val_if_fail (E_MAIL_PART_IS (part, EMailPartAttachmentBar), NULL);
+	g_return_val_if_fail (E_IS_MAIL_PART_ATTACHMENT_BAR (part), NULL);
 
-	empab = (EMailPartAttachmentBar *) part;
-	widget = e_attachment_bar_new (empab->store);
-	g_object_set_data (G_OBJECT (empab->store), "attachment-bar", widget);
-	g_object_weak_ref (
-		G_OBJECT (widget),
-		(GWeakNotify) unset_bar_from_store_data, empab->store);
+	store = E_MAIL_PART_ATTACHMENT_BAR (part)->store;
+
+	widget = e_attachment_bar_new (store);
+	g_object_set_data (G_OBJECT (store), "attachment-bar", widget);
 
 	return widget;
 }

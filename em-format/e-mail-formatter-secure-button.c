@@ -93,6 +93,7 @@ emfe_secure_button_format (EMailFormatterExtension *extension,
 	camel_stream_write_string (stream, str, cancellable, NULL);
 
 	g_free (str);
+
 	return TRUE;
 }
 

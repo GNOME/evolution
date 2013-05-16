@@ -78,7 +78,7 @@ process_part (EMailParser *parser,
               GQueue *out_mail_parts)
 {
 	CamelContentType *type;
-	EMailPart *empart;
+	EMailPart *mail_part;
 	gint s_len = part_id->len;
 
 	if (part_is_empty (part))
@@ -95,12 +95,12 @@ process_part (EMailParser *parser,
 
 		g_string_append_printf (part_id, ".plain_text.%d", part_number);
 
-		empart = e_mail_part_new (part, part_id->str);
-		empart->mime_type = camel_content_type_simple (type);
+		mail_part = e_mail_part_new (part, part_id->str);
+		mail_part->mime_type = camel_content_type_simple (type);
 
 		g_string_truncate (part_id, s_len);
 
-		g_queue_push_tail (&work_queue, empart);
+		g_queue_push_tail (&work_queue, mail_part);
 
 		if (is_attachment)
 			e_mail_parser_wrap_as_attachment (

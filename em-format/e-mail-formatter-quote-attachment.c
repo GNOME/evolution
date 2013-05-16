@@ -43,7 +43,7 @@ G_DEFINE_TYPE (
 	E_TYPE_MAIL_FORMATTER_QUOTE_EXTENSION)
 
 static const gchar *formatter_mime_types[] = {
-	"application/vnd.evolution.attachment",
+	E_MAIL_PART_ATTACHMENT_MIME_TYPE,
 	NULL
 };
 

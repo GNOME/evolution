@@ -103,7 +103,7 @@ mail_formatter_quote_run (EMailFormatter *formatter,
 	head = g_queue_peek_head_link (&queue);
 
 	for (link = head; link != NULL; link = g_list_next (link)) {
-		EMailPart *part = link->data;
+		EMailPart *part = E_MAIL_PART (link->data);
 
 		if (g_str_has_suffix (part->id, ".headers") &&
 		   !(qf_context->qf_flags & E_MAIL_FORMATTER_QUOTE_FLAG_HEADERS)) {
@@ -115,7 +115,10 @@ mail_formatter_quote_run (EMailFormatter *formatter,
 			continue;
 		}
 
-		if (part->is_hidden || part->is_attachment)
+		if (part->is_hidden)
+			continue;
+
+		if (part->is_attachment)
 			continue;
 
 		e_mail_formatter_format_as (

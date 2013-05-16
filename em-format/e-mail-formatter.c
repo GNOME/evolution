@@ -1035,16 +1035,18 @@ e_mail_formatter_format_text (EMailFormatter *formatter,
 	CamelMimeFilter *windows = NULL;
 	CamelStream *mem_stream = NULL;
 	CamelDataWrapper *dw;
+	CamelContentType *mime_type;
 
 	if (g_cancellable_is_cancelled (cancellable))
 		return;
 
 	dw = CAMEL_DATA_WRAPPER (part->part);
+	mime_type = dw->mime_type;
 
-	if (formatter->priv->charset) {
+	if (formatter->priv->charset != NULL) {
 		charset = formatter->priv->charset;
-	} else if (dw->mime_type
-		   && (charset = camel_content_type_param (dw->mime_type, "charset"))
+	} else if (mime_type != NULL
+		   && (charset = camel_content_type_param (mime_type, "charset"))
 		   && g_ascii_strncasecmp (charset, "iso-8859-", 9) == 0) {
 		CamelStream *null;
 

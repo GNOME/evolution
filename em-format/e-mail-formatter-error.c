@@ -54,7 +54,7 @@ emfe_error_format (EMailFormatterExtension *extension,
 	CamelDataWrapper *dw;
 	gchar *html;
 
-	dw = camel_medium_get_content ((CamelMedium *) part->part);
+	dw = camel_medium_get_content (CAMEL_MEDIUM (part->part));
 
 	html = g_strdup_printf (
 		"<div class=\"part-container\" style=\""

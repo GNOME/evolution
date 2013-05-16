@@ -1329,7 +1329,8 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 	gchar *mail_uri;
 	CamelObjectBag *registry;
 	EMsgComposer *composer;
-	guint32 validity_pgp_sum = 0, validity_smime_sum = 0;
+	EMailPartValidityFlags validity_pgp_sum = 0;
+	EMailPartValidityFlags validity_smime_sum = 0;
 
 	/* This handles quoting only selected text in the reply.  If
 	 * nothing is selected or only whitespace is selected, fall

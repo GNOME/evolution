@@ -474,13 +474,13 @@ e_mail_formatter_find_rfc822_end_iter (GList *rfc822_start_iter)
 
 	g_return_val_if_fail (rfc822_start_iter != NULL, NULL);
 
-	part = (EMailPart *) link->data;
+	part = E_MAIL_PART (link->data);
 	g_return_val_if_fail (part != NULL, NULL);
 
 	end = g_strconcat (part->id, ".end", NULL);
 
 	while (link != NULL) {
-		part = (EMailPart *) link->data;
+		part = E_MAIL_PART (link->data);
 		g_return_val_if_fail (part != NULL, NULL);
 
 		if (g_strcmp0 (part->id, end) == 0)

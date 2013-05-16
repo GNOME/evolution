@@ -1200,7 +1200,7 @@ mail_parts_bind_dom (GObject *object,
 	head = g_queue_peek_head_link (&queue);
 
 	for (link = head; link != NULL; link = g_list_next (link)) {
-		EMailPart *part = link->data;
+		EMailPart *part = E_MAIL_PART (link->data);
 
 		/* Iterate only the parts rendered in
 		 * the frame and all it's subparts. */

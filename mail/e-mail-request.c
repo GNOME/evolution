@@ -156,9 +156,13 @@ handle_mail_request (GSimpleAsyncResult *res,
 
 				g_object_unref (raw_content);
 			} else {
+				if (mime_type == NULL)
+					mime_type = part->mime_type;
+
 				e_mail_formatter_format_as (
-					formatter, &context, part, request->priv->output_stream,
-					mime_type ? mime_type : part->mime_type, cancellable);
+					formatter, &context, part,
+					request->priv->output_stream,
+					mime_type, cancellable);
 			}
 
 			e_mail_part_unref (part);

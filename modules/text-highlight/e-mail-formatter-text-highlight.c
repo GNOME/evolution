@@ -85,10 +85,12 @@ get_syntax (EMailPart *part,
 	    (ct != NULL &&
 	     (camel_content_type_is (ct, "application", "octet-stream") ||
 	     (camel_content_type_is (ct, "text", "plain"))))) {
-		const gchar *filename = camel_mime_part_get_filename (part->part);
-		if (filename) {
+		const gchar *filename;
+
+		filename = camel_mime_part_get_filename (part->part);
+		if (filename != NULL) {
 			gchar *ext = g_strrstr (filename, ".");
-			if (ext) {
+			if (ext != NULL) {
 				syntax = (gchar *) get_syntax_for_ext (ext + 1);
 				syntax = syntax ? g_strdup (syntax) : NULL;
 			}
@@ -111,26 +113,32 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
                             CamelStream *stream,
                             GCancellable *cancellable)
 {
+	CamelContentType *ct;
+	gboolean success = FALSE;
+
+	ct = camel_mime_part_get_content_type (part->part);
+
 	/* Don't format text/html unless it's an attachment */
-	CamelContentType *ct = camel_mime_part_get_content_type (part->part);
 	if (ct && camel_content_type_is (ct, "text", "html")) {
 		const CamelContentDisposition *disp;
+
 		disp = camel_mime_part_get_content_disposition (part->part);
 
-		if (!disp || g_strcmp0 (disp->disposition, "attachment") != 0)
-			return FALSE;
+		if (disp == NULL)
+			goto exit;
+
+		if (g_strcmp0 (disp->disposition, "attachment") != 0)
+			goto exit;
 	}
 
 	if (context->mode == E_MAIL_FORMATTER_MODE_PRINTING) {
-
 		CamelDataWrapper *dw;
 		CamelStream *filter_stream;
 		CamelMimeFilter *mime_filter;
 
 		dw = camel_medium_get_content (CAMEL_MEDIUM (part->part));
-		if (!dw) {
-			return FALSE;
-		}
+		if (dw == NULL)
+			goto exit;
 
 		camel_stream_write_string (
 			stream, "<pre><div class=\"pre\">", cancellable, NULL);
@@ -152,8 +160,6 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 		camel_stream_write_string (
 			stream, "</div></pre>", cancellable, NULL);
 
-		return TRUE;
-
 	} else if (context->mode == E_MAIL_FORMATTER_MODE_RAW) {
 		gint pipe_stdin, pipe_stdout;
 		GPid pid;
@@ -162,30 +168,29 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 		PangoFontDescription *fd;
 		GSettings *settings;
 		gchar *font = NULL;
-		gboolean success;
 
-		const gchar *argv[] = { HIGHLIGHT_COMMAND,
-					NULL,	/* --font= */
-					NULL,   /* --font-size= */
-					NULL,   /* --syntax= */
-					"--out-format=html",
-					"--include-style",
-					"--inline-css",
-					"--style=bclear",
-					"--failsafe",
-					NULL };
+		const gchar *argv[] = {
+			HIGHLIGHT_COMMAND,
+			NULL,	/* --font= */
+			NULL,   /* --font-size= */
+			NULL,   /* --syntax= */
+			"--out-format=html",
+			"--include-style",
+			"--inline-css",
+			"--style=bclear",
+			"--failsafe",
+			NULL };
 
 		dw = camel_medium_get_content (CAMEL_MEDIUM (part->part));
-		if (!dw) {
-			return FALSE;
-		}
+		if (dw == NULL)
+			goto exit;
 
 		syntax = get_syntax (part, context->uri);
 
 		/* Use the traditional text/plain formatter for plain-text */
 		if (g_strcmp0 (syntax, "txt") == 0) {
 			g_free (syntax);
-			return FALSE;
+			goto exit;
 		}
 
 		settings = g_settings_new ("org.gnome.evolution.mail");
@@ -267,8 +272,8 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 				g_free (font_size);
 				g_free ((gchar *) argv[3]);
 				pango_font_description_free (fd);
+				goto exit;
 
-				return FALSE;
 			} else {
 				/* In case of any other content, force use of
 				 * text/plain formatter, because returning FALSE
@@ -286,6 +291,7 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 		g_free (font_size);
 		g_free ((gchar *) argv[3]);
 		pango_font_description_free (fd);
+
 	} else {
 		CamelFolder *folder;
 		const gchar *message_uid;
@@ -336,10 +342,12 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 
 		g_free (str);
 		g_free (uri);
-
 	}
 
-	return TRUE;
+	success = TRUE;
+
+exit:
+	return success;
 }
 
 static void

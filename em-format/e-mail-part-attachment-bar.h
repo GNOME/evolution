@@ -1,4 +1,6 @@
 /*
+ * e-mail-part-attachment-bar.h
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -17,11 +19,15 @@
 #ifndef E_MAIL_PART_ATTACHMENT_BAR_H
 #define E_MAIL_PART_ATTACHMENT_BAR_H
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <em-format/e-mail-part.h>
+
+#define E_MAIL_PART_ATTACHMENT_BAR(part) \
+	((EMailPartAttachmentBar *) part)
+#define E_IS_MAIL_PART_ATTACHMENT_BAR(part) \
+	(E_MAIL_PART_IS (part, EMailPartAttachmentBar))
+
+#define E_MAIL_PART_ATTACHMENT_BAR_MIME_TYPE \
+	"application/vnd.evolution.widget.attachment-bar"
 
 typedef struct _EMailPartAttachmentBar {
 	EMailPart parent;

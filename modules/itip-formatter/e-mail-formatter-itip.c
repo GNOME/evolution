@@ -62,7 +62,8 @@ emfe_itip_format (EMailFormatterExtension *extension,
 	GString *buffer;
 	EMailPartItip *itip_part;
 
-	g_return_val_if_fail (E_MAIL_PART_IS (part, EMailPartItip), FALSE);
+	g_return_val_if_fail (E_IS_MAIL_PART_ITIP (part), FALSE);
+
 	itip_part = (EMailPartItip *) part;
 
 	if (context->mode == E_MAIL_FORMATTER_MODE_PRINTING) {

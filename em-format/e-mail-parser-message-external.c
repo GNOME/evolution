@@ -55,10 +55,10 @@ empe_msg_external_parse (EMailParserExtension *extension,
 	CamelMimePart *newpart;
 	CamelContentType *type;
 	const gchar *access_type;
+	const gchar *mime_type;
 	gchar *url = NULL, *desc = NULL;
 	gchar *content;
 	gint len;
-	gchar *mime_type;
 
 	newpart = camel_mime_part_new ();
 
@@ -67,8 +67,9 @@ empe_msg_external_parse (EMailParserExtension *extension,
 	access_type = camel_content_type_param (type, "access-type");
 	if (!access_type) {
 		const gchar *msg = _("Malformed external-body part");
-		mime_type = g_strdup ("text/plain");
-		camel_mime_part_set_content (newpart, msg, strlen (msg), mime_type);
+		mime_type = "text/plain";
+		camel_mime_part_set_content (
+			newpart, msg, strlen (msg), mime_type);
 		goto addPart;
 	}
 
@@ -135,9 +136,10 @@ empe_msg_external_parse (EMailParserExtension *extension,
 		goto fail;
 	}
 
-	mime_type = g_strdup ("text/html");
+	mime_type = "text/html";
 	content = g_strdup_printf ("<a href=\"%s\">%s</a>", url, desc);
-	camel_mime_part_set_content (newpart, content, strlen (content), mime_type);
+	camel_mime_part_set_content (
+		newpart, content, strlen (content), mime_type);
 	g_free (content);
 
 	g_free (url);
@@ -149,15 +151,16 @@ fail:
 	content = g_strdup_printf (
 		_("Pointer to unknown external data (\"%s\" type)"),
 		access_type);
-	mime_type = g_strdup ("text/plain");
-	camel_mime_part_set_content (newpart, content, strlen (content), mime_type);
+	mime_type = "text/plain";
+	camel_mime_part_set_content (
+		newpart, content, strlen (content), mime_type);
 	g_free (content);
 
 addPart:
 	len = part_id->len;
 	g_string_append (part_id, ".msg_external");
 	mail_part = e_mail_part_new (part, part_id->str);
-	mail_part->mime_type = mime_type;
+	mail_part->mime_type = g_strdup (mime_type);
 	g_string_truncate (part_id, len);
 
 	g_queue_push_tail (out_mail_parts, mail_part);

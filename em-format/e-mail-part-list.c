@@ -318,15 +318,16 @@ e_mail_part_list_ref_part (EMailPartList *part_list,
 	head = g_queue_peek_head_link (&part_list->priv->queue);
 
 	for (link = head; link != NULL; link = g_list_next (link)) {
-		EMailPart *part = link->data;
+		EMailPart *candidate = E_MAIL_PART (link->data);
+		const gchar *candidate_id;
 
-		if (by_cid && (g_strcmp0 (part->cid, part_id) == 0)) {
-			match = e_mail_part_ref (part);
-			break;
-		}
+		if (by_cid)
+			candidate_id = candidate->cid;
+		else
+			candidate_id = candidate->id;
 
-		if (!by_cid && (g_strcmp0 (part->id, part_id) == 0)) {
-			match = e_mail_part_ref (part);
+		if (g_strcmp0 (candidate_id, part_id) == 0) {
+			match = e_mail_part_ref (candidate);
 			break;
 		}
 	}
@@ -368,9 +369,12 @@ e_mail_part_list_queue_parts (EMailPartList *part_list,
 
 	if (part_id != NULL) {
 		for (; link != NULL; link = g_list_next (link)) {
-			EMailPart *part = link->data;
+			EMailPart *candidate = E_MAIL_PART (link->data);
+			const gchar *candidate_id;
 
-			if (g_strcmp0 (part->id, part_id) == 0)
+			candidate_id = candidate->id;
+
+			if (g_strcmp0 (candidate_id, part_id) == 0)
 				break;
 		}
 	}

@@ -87,7 +87,8 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 
 		if (header->value && *header->value) {
 			raw_header.value = header->value;
-			e_mail_formatter_format_header (formatter, str,
+			e_mail_formatter_format_header (
+				formatter, str,
 				CAMEL_MEDIUM (part->part), &raw_header,
 				header->flags | E_MAIL_FORMATTER_HEADER_FLAG_NOLINKS,
 				"UTF-8");
@@ -102,7 +103,8 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 			raw_header.value = g_strdup (header_value);
 
 			if (raw_header.value && *raw_header.value) {
-				e_mail_formatter_format_header (formatter, str,
+				e_mail_formatter_format_header (
+					formatter, str,
 					CAMEL_MEDIUM (part->part), &raw_header,
 					header->flags | E_MAIL_FORMATTER_HEADER_FLAG_NOLINKS,
 					"UTF-8");
@@ -115,7 +117,7 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 
 	g_queue_free_full (headers_queue, (GDestroyNotify) e_mail_formatter_header_free);
 
-        /* Get prefix of this PURI */
+	/* Get prefix of this PURI */
 	part_id_prefix = g_strndup (part->id, g_strrstr (part->id, ".") - part->id);
 
 	/* Add encryption/signature header */
@@ -164,7 +166,8 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 	if (tmp->len > 0) {
 		raw_header.value = tmp->str;
 		e_mail_formatter_format_header (
-			formatter, str, CAMEL_MEDIUM (part->part), &raw_header,
+			formatter, str,
+			CAMEL_MEDIUM (part->part), &raw_header,
 			E_MAIL_FORMATTER_HEADER_FLAG_BOLD |
 			E_MAIL_FORMATTER_HEADER_FLAG_NOLINKS, "UTF-8");
 	}
@@ -174,22 +177,29 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 	attachments_count = 0;
 
 	for (link = head; link != NULL; link = g_list_next (link)) {
-		EMailPart *mail_part = link->data;
+		EMailPart *mail_part = E_MAIL_PART (link->data);
 
 		if (!g_str_has_prefix (mail_part->id, part_id_prefix))
 			continue;
 
-		if (mail_part->is_attachment && !mail_part->cid &&
-		    !mail_part->is_hidden) {
-			attachments_count++;
-		}
+		if (!mail_part->is_attachment)
+			continue;
+
+		if (mail_part->is_hidden)
+			continue;
+
+		if (mail_part->cid != NULL)
+			continue;
+
+		attachments_count++;
 	}
 
 	if (attachments_count > 0) {
 		raw_header.name = _("Attachments");
 		raw_header.value = g_strdup_printf ("%d", attachments_count);
 		e_mail_formatter_format_header (
-			formatter, str, CAMEL_MEDIUM (part->part), &raw_header,
+			formatter, str,
+			CAMEL_MEDIUM (part->part), &raw_header,
 			E_MAIL_FORMATTER_HEADER_FLAG_BOLD |
 			E_MAIL_FORMATTER_HEADER_FLAG_NOLINKS, "UTF-8");
 		g_free (raw_header.value);

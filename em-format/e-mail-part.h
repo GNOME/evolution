@@ -16,8 +16,8 @@
  *
  */
 
-#ifndef E_MAIL_PART_H_
-#define E_MAIL_PART_H_
+#ifndef E_MAIL_PART_H
+#define E_MAIL_PART_H
 
 #include <camel/camel.h>
 #include <webkit/webkitdom.h>
@@ -37,11 +37,11 @@ typedef void	(*EMailPartDOMBindFunc)	(EMailPart *part,
 					 WebKitDOMElement *element);
 
 typedef enum {
-	E_MAIL_PART_VALIDITY_NONE	=	0,
-	E_MAIL_PART_VALIDITY_PGP	=	1 << 0,
-	E_MAIL_PART_VALIDITY_SMIME	=	1 << 1,
-	E_MAIL_PART_VALIDITY_SIGNED	=	1 << 2,
-	E_MAIL_PART_VALIDITY_ENCRYPTED	=	1 << 3
+	E_MAIL_PART_VALIDITY_NONE      = 0,
+	E_MAIL_PART_VALIDITY_PGP       = 1 << 0,
+	E_MAIL_PART_VALIDITY_SMIME     = 1 << 1,
+	E_MAIL_PART_VALIDITY_SIGNED    = 1 << 2,
+	E_MAIL_PART_VALIDITY_ENCRYPTED = 1 << 3
 } EMailPartValidityFlags;
 
 typedef struct _EMailPartValidityPair EMailPartValidityPair;
@@ -104,4 +104,4 @@ CamelCipherValidity *
 
 G_END_DECLS
 
-#endif /* E_MAIL_PART_H_ */
+#endif /* E_MAIL_PART_H */

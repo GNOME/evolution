@@ -219,7 +219,8 @@ emqfe_headers_format (EMailFormatterExtension *extension,
 			if (g_strcmp0 (raw_header->name, h->name) == 0) {
 
 				emfqe_format_header (
-					formatter, buffer, (CamelMedium *) part->part,
+					formatter, buffer,
+					(CamelMedium *) part->part,
 					raw_header, flags, charset);
 				break;
 			}

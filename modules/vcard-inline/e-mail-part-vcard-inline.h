@@ -24,6 +24,9 @@
 #include <addressbook/gui/widgets/eab-contact-formatter.h>
 #include <webkit/webkitdom.h>
 
+#define E_IS_MAIL_PART_VCARD(part) \
+	(E_MAIL_PART_IS (part, EMailPartVCardInline))
+
 G_BEGIN_DECLS
 
 typedef struct _EMailPartVCardInline EMailPartVCardInline;
