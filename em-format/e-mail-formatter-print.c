@@ -137,7 +137,7 @@ mail_formatter_print_run (EMailFormatter *formatter,
 			break;
 
 		if (part->is_hidden && !part->is_error) {
-			if (g_str_has_suffix (part->id, ".rfc822")) {
+			if (e_mail_part_id_has_suffix (part, ".rfc822")) {
 				link = e_mail_formatter_find_rfc822_end_iter (link);
 			}
 
@@ -163,7 +163,7 @@ mail_formatter_print_run (EMailFormatter *formatter,
 		 * jump to the end of the message, because content
 		 * of the whole message has been formatted by
 		 * message_rfc822 formatter */
-		if (ok && g_str_has_suffix (part->id, ".rfc822")) {
+		if (ok && e_mail_part_id_has_suffix (part, ".rfc822")) {
 			link = e_mail_formatter_find_rfc822_end_iter (link);
 
 			continue;

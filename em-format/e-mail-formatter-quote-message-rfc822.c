@@ -89,10 +89,10 @@ emfqe_message_rfc822_format (EMailFormatterExtension *extension,
 		p_id = e_mail_part_get_id (p);
 
 		/* Skip attachment bar */
-		if (g_str_has_suffix (p->id, ".attachment-bar"))
+		if (e_mail_part_id_has_suffix (p, ".attachment-bar"))
 			continue;
 
-		if (g_str_has_suffix (p->id, ".headers.")) {
+		if (e_mail_part_id_has_suffix (p, ".headers.")) {
 			if (qc->qf_flags & E_MAIL_FORMATTER_QUOTE_FLAG_HEADERS) {
 				e_mail_formatter_format_as (
 					formatter, context, part, stream,
@@ -104,7 +104,7 @@ emfqe_message_rfc822_format (EMailFormatterExtension *extension,
 		}
 
 		/* Check for nested rfc822 messages */
-		if (g_str_has_suffix (p->id, ".rfc822")) {
+		if (e_mail_part_id_has_suffix (p, ".rfc822")) {
 			gchar *sub_end = g_strconcat (p_id, ".end", NULL);
 
 			while (link != NULL) {

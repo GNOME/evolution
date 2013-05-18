@@ -211,6 +211,16 @@ e_mail_part_id_has_prefix (EMailPart *part,
 	return g_str_has_prefix (part->id, prefix);
 }
 
+gboolean
+e_mail_part_id_has_suffix (EMailPart *part,
+                           const gchar *suffix)
+{
+	g_return_val_if_fail (part != NULL, FALSE);
+	g_return_val_if_fail (suffix != NULL, FALSE);
+
+	return g_str_has_suffix (part->id, suffix);
+}
+
 static EMailPartValidityPair *
 mail_part_find_validity_pair (EMailPart *part,
                               guint32 validity_type)

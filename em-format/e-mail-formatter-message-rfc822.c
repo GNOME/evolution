@@ -90,7 +90,7 @@ emfe_message_rfc822_format (EMailFormatterExtension *extension,
 			p_id = e_mail_part_get_id (p);
 
 			/* Check for nested rfc822 messages */
-			if (g_str_has_suffix (p->id, ".rfc822")) {
+			if (e_mail_part_id_has_suffix (p, ".rfc822")) {
 				gchar *sub_end = g_strconcat (p_id, ".end", NULL);
 
 				while (link != NULL) {
@@ -152,13 +152,13 @@ emfe_message_rfc822_format (EMailFormatterExtension *extension,
 			const gchar *p_id;
 
 			/* Skip attachment bar */
-			if (g_str_has_suffix (part->id, ".attachment-bar"))
+			if (e_mail_part_id_has_suffix (part, ".attachment-bar"))
 				continue;
 
 			p_id = e_mail_part_get_id (p);
 
 			/* Check for nested rfc822 messages */
-			if (g_str_has_suffix (p->id, ".rfc822")) {
+			if (e_mail_part_id_has_suffix (p, ".rfc822")) {
 				gchar *sub_end = g_strconcat (p_id, ".end", NULL);
 
 				while (link != NULL) {

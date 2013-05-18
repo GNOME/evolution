@@ -405,7 +405,7 @@ mail_formatter_run (EMailFormatter *formatter,
 			break;
 
 		if (part->is_hidden && !part->is_error) {
-			if (g_str_has_suffix (part->id, ".rfc822")) {
+			if (e_mail_part_id_has_suffix (part, ".rfc822")) {
 				link = e_mail_formatter_find_rfc822_end_iter (link);
 			}
 
@@ -429,7 +429,7 @@ mail_formatter_run (EMailFormatter *formatter,
 			 * jump to the end of the message, because content
 			 * of the whole message has been formatted by
 			 * message_rfc822 formatter */
-			if (ok && g_str_has_suffix (part->id, ".rfc822")) {
+			if (ok && e_mail_part_id_has_suffix (part, ".rfc822")) {
 				link = e_mail_formatter_find_rfc822_end_iter (link);
 
 				if (link == NULL)
@@ -444,8 +444,8 @@ mail_formatter_run (EMailFormatter *formatter,
 
 		if (!ok) {
 			/* We don't want to source these */
-			if (g_str_has_suffix (part->id, ".headers") ||
-			    g_str_has_suffix (part->id, "attachment-bar"))
+			if (e_mail_part_id_has_suffix (part, ".headers") ||
+			    e_mail_part_id_has_suffix (part, "attachment-bar"))
 				continue;
 
 			e_mail_formatter_format_as (
@@ -460,11 +460,11 @@ mail_formatter_run (EMailFormatter *formatter,
 			/* If we just wrote source of a rfc822 message, then jump
 			 * behind the message (otherwise source of all parts
 			 * would be rendered twice) */
-			if (g_str_has_suffix (part->id, ".rfc822")) {
+			if (e_mail_part_id_has_suffix (part, ".rfc822")) {
 
 				do {
 					part = link->data;
-					if (g_str_has_suffix (part->id, ".rfc822.end"))
+					if (e_mail_part_id_has_suffix (part, ".rfc822.end"))
 						break;
 
 					link = g_list_next (link);

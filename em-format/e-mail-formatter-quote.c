@@ -105,12 +105,12 @@ mail_formatter_quote_run (EMailFormatter *formatter,
 	for (link = head; link != NULL; link = g_list_next (link)) {
 		EMailPart *part = E_MAIL_PART (link->data);
 
-		if (g_str_has_suffix (part->id, ".headers") &&
+		if (e_mail_part_id_has_suffix (part, ".headers") &&
 		   !(qf_context->qf_flags & E_MAIL_FORMATTER_QUOTE_FLAG_HEADERS)) {
 			continue;
 		}
 
-		if (g_str_has_suffix (part->id, ".rfc822")) {
+		if (e_mail_part_id_has_suffix (part, ".rfc822")) {
 			link = e_mail_formatter_find_rfc822_end_iter (link);
 			continue;
 		}
