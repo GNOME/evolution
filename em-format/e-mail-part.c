@@ -246,6 +246,14 @@ e_mail_part_ref_mime_part (EMailPart *part)
 	return mime_part;
 }
 
+const gchar *
+e_mail_part_get_mime_type (EMailPart *part)
+{
+	g_return_val_if_fail (part != NULL, NULL);
+
+	return part->mime_type;
+}
+
 static EMailPartValidityPair *
 mail_part_find_validity_pair (EMailPart *part,
                               guint32 validity_type)

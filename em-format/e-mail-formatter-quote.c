@@ -104,6 +104,7 @@ mail_formatter_quote_run (EMailFormatter *formatter,
 
 	for (link = head; link != NULL; link = g_list_next (link)) {
 		EMailPart *part = E_MAIL_PART (link->data);
+		const gchar *mime_type;
 
 		if (e_mail_part_id_has_suffix (part, ".headers") &&
 		   !(qf_context->qf_flags & E_MAIL_FORMATTER_QUOTE_FLAG_HEADERS)) {
@@ -121,9 +122,11 @@ mail_formatter_quote_run (EMailFormatter *formatter,
 		if (part->is_attachment)
 			continue;
 
+		mime_type = e_mail_part_get_mime_type (part);
+
 		e_mail_formatter_format_as (
 			formatter, context, part, stream,
-			part->mime_type, cancellable);
+			mime_type, cancellable);
 	}
 
 	while (!g_queue_is_empty (&queue))

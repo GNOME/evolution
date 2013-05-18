@@ -1215,6 +1215,7 @@ is_only_text_part_in_this_level (GList *parts,
 	level_len = dot - text_html_part_id;
 	for (iter = parts; iter; iter = iter->next) {
 		EMailPart *part = E_MAIL_PART (iter->data);
+		const gchar *mime_type;
 		const gchar *part_id;
 
 		if (part == NULL)
@@ -1229,7 +1230,8 @@ is_only_text_part_in_this_level (GList *parts,
 		if (part->is_attachment)
 			continue;
 
-		if (part->mime_type == NULL)
+		mime_type = e_mail_part_get_mime_type (part);
+		if (mime_type == NULL)
 			continue;
 
 		part_id = e_mail_part_get_id (part);
@@ -1238,7 +1240,7 @@ is_only_text_part_in_this_level (GList *parts,
 		    strncmp (text_html_part_id, part_id, level_len) != 0)
 			continue;
 
-		if (g_ascii_strncasecmp (part->mime_type, "text/", 5) == 0)
+		if (g_ascii_strncasecmp (mime_type, "text/", 5) == 0)
 			return FALSE;
 	}
 
@@ -1321,12 +1323,16 @@ em_utils_message_to_html (CamelSession *session,
 	for (link = head; link != NULL; link = g_list_next (link)) {
 		EMailPart *part = link->data;
 		GList *vhead, *vlink;
+		const gchar *mime_type;
+
+		mime_type = e_mail_part_get_mime_type (part);
 
 		/* prefer-plain can hide HTML parts, even when it's the only
 		 * text part in the email, thus show it (and hide again later) */
 		if (part->is_hidden && !hidden_text_html_part &&
-		    part->mime_type && !part->is_attachment &&
-		    g_ascii_strcasecmp (part->mime_type, "text/html") == 0 &&
+		    mime_type != NULL &&
+		    !part->is_attachment &&
+		    g_ascii_strcasecmp (mime_type, "text/html") == 0 &&
 		    is_only_text_part_in_this_level (head, part)) {
 			part->is_hidden = FALSE;
 			hidden_text_html_part = part;

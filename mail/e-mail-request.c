@@ -161,7 +161,7 @@ handle_mail_request (GSimpleAsyncResult *res,
 				g_object_unref (mime_part);
 			} else {
 				if (mime_type == NULL)
-					mime_type = part->mime_type;
+					mime_type = e_mail_part_get_mime_type (part);
 
 				e_mail_formatter_format_as (
 					formatter, &context, part,

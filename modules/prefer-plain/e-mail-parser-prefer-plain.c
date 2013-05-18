@@ -318,8 +318,11 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 
 		for (qiter = g_queue_peek_head_link (&work_queue); qiter; qiter = g_list_next (qiter)) {
 			EMailPart *mpart = qiter->data;
+			const gchar *mime_type;
 
-			if (mpart && mpart->is_hidden && g_strcmp0 (mpart->mime_type, "text/html") == 0) {
+			mime_type = e_mail_part_get_mime_type (mpart);
+
+			if (mpart && mpart->is_hidden && g_strcmp0 (mime_type, "text/html") == 0) {
 				mpart->is_attachment = TRUE;
 			}
 		}

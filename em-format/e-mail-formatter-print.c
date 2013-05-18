@@ -144,7 +144,7 @@ mail_formatter_print_run (EMailFormatter *formatter,
 			continue;
 		}
 
-		mime_type = part->mime_type;
+		mime_type = e_mail_part_get_mime_type (part);
 		if (mime_type == NULL)
 			continue;
 

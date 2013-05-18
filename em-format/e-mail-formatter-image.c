@@ -123,7 +123,7 @@ emfe_image_format (EMailFormatterExtension *extension,
 			content = g_base64_encode ((guchar *) ba->data, ba->len);
 		}
 
-		mime_type = part->mime_type;
+		mime_type = e_mail_part_get_mime_type (part);
 		if (mime_type == NULL)
 			mime_type = "image/*";
 

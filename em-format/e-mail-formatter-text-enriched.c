@@ -53,15 +53,17 @@ emfe_text_enriched_format (EMailFormatterExtension *extension,
 {
 	CamelStream *filtered_stream;
 	CamelMimeFilter *enriched;
+	const gchar *mime_type;
 	guint32 filter_flags = 0;
 	GString *buffer;
 
 	if (g_cancellable_is_cancelled (cancellable))
 		return FALSE;
 
-	if (!g_strcmp0 (part->mime_type, "text/richtext")) {
+	mime_type = e_mail_part_get_mime_type (part);
+
+	if (g_strcmp0 (mime_type, "text/richtext") == 0)
 		filter_flags = CAMEL_MIME_FILTER_ENRICHED_IS_RICHTEXT;
-	}
 
 	enriched = camel_mime_filter_enriched_new (filter_flags);
 	filtered_stream = camel_stream_filter_new (stream);

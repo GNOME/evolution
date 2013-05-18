@@ -78,7 +78,8 @@ emfqe_attachment_format (EMailFormatterExtension *extension,
 	mime_part = e_mail_part_ref_mime_part (part);
 	text = e_mail_part_describe (
 		mime_part,
-		empa ? empa->snoop_mime_type : part->mime_type);
+		empa ? empa->snoop_mime_type :
+		e_mail_part_get_mime_type (part));
 	g_object_unref (mime_part);
 
 	html = camel_text_to_html (

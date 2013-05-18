@@ -417,13 +417,15 @@ mail_formatter_run (EMailFormatter *formatter,
 
 		/* Force formatting as source if needed */
 		if (context->mode != E_MAIL_FORMATTER_MODE_SOURCE) {
+			const gchar *mime_type;
 
-			if (!part->mime_type)
+			mime_type = e_mail_part_get_mime_type (part);
+			if (mime_type == NULL)
 				continue;
 
 			ok = e_mail_formatter_format_as (
 				formatter, context, part, stream,
-				part->mime_type, cancellable);
+				mime_type, cancellable);
 
 			/* If the written part was message/rfc822 then
 			 * jump to the end of the message, because content
@@ -967,7 +969,7 @@ e_mail_formatter_format_as (EMailFormatter *formatter,
 	g_return_val_if_fail (CAMEL_IS_STREAM (stream), FALSE);
 
 	if (as_mime_type == NULL || *as_mime_type == '\0')
-		as_mime_type = part->mime_type;
+		as_mime_type = e_mail_part_get_mime_type (part);
 
 	if (as_mime_type == NULL || *as_mime_type == '\0')
 		return FALSE;

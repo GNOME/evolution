@@ -55,9 +55,12 @@ emqfe_text_enriched_format (EMailFormatterExtension *extension,
 {
 	CamelStream *filtered_stream;
 	CamelMimeFilter *enriched;
+	const gchar *mime_type;
 	guint32 camel_flags = 0;
 
-	if (g_strcmp0 (part->mime_type, "text/richtext") == 0) {
+	mime_type = e_mail_part_get_mime_type (part);
+
+	if (g_strcmp0 (mime_type, "text/richtext") == 0) {
 		camel_flags = CAMEL_MIME_FILTER_ENRICHED_IS_RICHTEXT;
 		camel_stream_write_string (
 			stream, "\n<!-- text/richtext -->\n",
