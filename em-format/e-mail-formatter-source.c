@@ -53,7 +53,9 @@ emfe_source_format (EMailFormatterExtension *extension,
 	GString *buffer;
 	CamelStream *filtered_stream;
 	CamelMimeFilter *filter;
-	CamelDataWrapper *dw = (CamelDataWrapper *) part->part;
+	CamelMimePart *mime_part;
+
+	mime_part = e_mail_part_ref_mime_part (part);
 
 	filtered_stream = camel_stream_filter_new (stream);
 
@@ -67,7 +69,7 @@ emfe_source_format (EMailFormatterExtension *extension,
 
 	buffer = g_string_new ("");
 
-	if (CAMEL_IS_MIME_MESSAGE (part->part)) {
+	if (CAMEL_IS_MIME_MESSAGE (mime_part)) {
 		g_string_append_printf (
 			buffer,
 			"<div class=\"part-container\" "
@@ -101,8 +103,8 @@ emfe_source_format (EMailFormatterExtension *extension,
 		stream, "<code class=\"pre\">", cancellable, NULL);
 
 	camel_data_wrapper_write_to_stream_sync (
-		dw, filtered_stream,
-		cancellable, NULL);
+		CAMEL_DATA_WRAPPER (mime_part),
+		filtered_stream, cancellable, NULL);
 	camel_stream_flush (filtered_stream, cancellable, NULL);
 	g_object_unref (filtered_stream);
 
@@ -111,11 +113,13 @@ emfe_source_format (EMailFormatterExtension *extension,
 
 	g_string_free (buffer, TRUE);
 
-	if (CAMEL_IS_MIME_MESSAGE (part->part)) {
+	if (CAMEL_IS_MIME_MESSAGE (mime_part)) {
 		camel_stream_write_string (stream, "</div>", cancellable, NULL);
 	} else {
 		camel_stream_write_string (stream, "</div></div>", cancellable, NULL);
 	}
+
+	g_object_unref (mime_part);
 
 	return TRUE;
 }

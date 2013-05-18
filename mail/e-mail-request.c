@@ -142,10 +142,12 @@ handle_mail_request (GSimpleAsyncResult *res,
 		if (part != NULL) {
 			if (context.mode == E_MAIL_FORMATTER_MODE_CID) {
 				CamelDataWrapper *dw;
+				CamelMimePart *mime_part;
 				CamelStream *raw_content;
 				GByteArray *ba;
 
-				dw = camel_medium_get_content (CAMEL_MEDIUM (part->part));
+				mime_part = e_mail_part_ref_mime_part (part);
+				dw = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
 				g_return_if_fail (dw);
 
 				raw_content = camel_stream_mem_new ();
@@ -155,6 +157,8 @@ handle_mail_request (GSimpleAsyncResult *res,
 				camel_stream_write (request->priv->output_stream, (gchar *) ba->data, ba->len, cancellable, NULL);
 
 				g_object_unref (raw_content);
+
+				g_object_unref (mime_part);
 			} else {
 				if (mime_type == NULL)
 					mime_type = part->mime_type;

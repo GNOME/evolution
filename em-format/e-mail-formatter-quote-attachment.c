@@ -59,6 +59,7 @@ emfqe_attachment_format (EMailFormatterExtension *extension,
 	EMailPartAttachment *empa;
 	EMailPart *attachment_view_part;
 	CamelMimeFilterToHTMLFlags text_format_flags;
+	CamelMimePart *mime_part;
 
 	empa = E_MAIL_PART_ATTACHMENT (part);
 
@@ -74,9 +75,11 @@ emfqe_attachment_format (EMailFormatterExtension *extension,
 
 	text_format_flags =
 		e_mail_formatter_get_text_format_flags (formatter);
+	mime_part = e_mail_part_ref_mime_part (part);
 	text = e_mail_part_describe (
-		part->part,
+		mime_part,
 		empa ? empa->snoop_mime_type : part->mime_type);
+	g_object_unref (mime_part);
 
 	html = camel_text_to_html (
 		text,

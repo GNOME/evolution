@@ -122,6 +122,7 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 	EMailExtensionRegistry *reg;
 	GQueue *extensions;
 	EMailPartAttachment *empa;
+	CamelMimePart *mime_part;
 	CamelMimeFilterToHTMLFlags flags;
 	const gchar *attachment_part_id;
 	const gchar *part_id;
@@ -250,11 +251,13 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 				reg, empa->snoop_mime_type);
 	}
 
-	text = e_mail_part_describe (part->part, empa->snoop_mime_type);
+	mime_part = e_mail_part_ref_mime_part (part);
+	text = e_mail_part_describe (mime_part, empa->snoop_mime_type);
 	flags = e_mail_formatter_get_text_format_flags (formatter);
 	html = camel_text_to_html (
 		text, flags & CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS, 0);
 	g_free (text);
+	g_object_unref (mime_part);
 
 	if (empa->attachment_view_part_id)
 		attachment_part_id = empa->attachment_view_part_id;

@@ -54,6 +54,9 @@ get_syntax (EMailPart *part,
 {
 	gchar *syntax = NULL;
 	CamelContentType *ct = NULL;
+	CamelMimePart *mime_part;
+
+	mime_part = e_mail_part_ref_mime_part (part);
 
 	if (uri) {
 		SoupURI *soup_uri = soup_uri_new (uri);
@@ -69,7 +72,7 @@ get_syntax (EMailPart *part,
 
 	/* Try to detect syntax by content-type first */
 	if (syntax == NULL) {
-		ct = camel_mime_part_get_content_type (part->part);
+		ct = camel_mime_part_get_content_type (mime_part);
 		if (ct) {
 			gchar *mime_type = camel_content_type_simple (ct);
 
@@ -87,7 +90,7 @@ get_syntax (EMailPart *part,
 	     (camel_content_type_is (ct, "text", "plain"))))) {
 		const gchar *filename;
 
-		filename = camel_mime_part_get_filename (part->part);
+		filename = camel_mime_part_get_filename (mime_part);
 		if (filename != NULL) {
 			gchar *ext = g_strrstr (filename, ".");
 			if (ext != NULL) {
@@ -102,6 +105,8 @@ get_syntax (EMailPart *part,
 		syntax = g_strdup ("txt");
 	}
 
+	g_object_unref (mime_part);
+
 	return syntax;
 }
 
@@ -113,16 +118,18 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
                             CamelStream *stream,
                             GCancellable *cancellable)
 {
+	CamelMimePart *mime_part;
 	CamelContentType *ct;
 	gboolean success = FALSE;
 
-	ct = camel_mime_part_get_content_type (part->part);
+	mime_part = e_mail_part_ref_mime_part (part);
+	ct = camel_mime_part_get_content_type (mime_part);
 
 	/* Don't format text/html unless it's an attachment */
 	if (ct && camel_content_type_is (ct, "text", "html")) {
 		const CamelContentDisposition *disp;
 
-		disp = camel_mime_part_get_content_disposition (part->part);
+		disp = camel_mime_part_get_content_disposition (mime_part);
 
 		if (disp == NULL)
 			goto exit;
@@ -136,7 +143,7 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 		CamelStream *filter_stream;
 		CamelMimeFilter *mime_filter;
 
-		dw = camel_medium_get_content (CAMEL_MEDIUM (part->part));
+		dw = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
 		if (dw == NULL)
 			goto exit;
 
@@ -181,7 +188,7 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 			"--failsafe",
 			NULL };
 
-		dw = camel_medium_get_content (CAMEL_MEDIUM (part->part));
+		dw = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
 		if (dw == NULL)
 			goto exit;
 
@@ -349,6 +356,8 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 	success = TRUE;
 
 exit:
+	g_object_unref (mime_part);
+
 	return success;
 }
 

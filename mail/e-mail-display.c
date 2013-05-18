@@ -941,6 +941,7 @@ mail_display_plugin_widget_requested (WebKitWebView *web_view,
 			e_attachment_button_set_expandable (
 				E_ATTACHMENT_BUTTON (widget), FALSE);
 		} else {
+			CamelMimePart *mime_part;
 			const CamelContentDisposition *disposition;
 
 			e_attachment_button_set_expandable (
@@ -957,11 +958,13 @@ mail_display_plugin_widget_requested (WebKitWebView *web_view,
 				G_CALLBACK (attachment_button_expanded),
 				display);
 
+			mime_part = e_mail_part_ref_mime_part (part);
+
 			/* Automatically expand attachments that have inline
 			 * disposition or the EMailParts have specific
 			 * force_inline flag set. */
 			disposition =
-				camel_mime_part_get_content_disposition (part->part);
+				camel_mime_part_get_content_disposition (mime_part);
 			if (!part->force_collapse &&
 			    (part->force_inline ||
 			    (g_strcmp0 (empa->snoop_mime_type, "message/rfc822") == 0) ||
@@ -977,6 +980,8 @@ mail_display_plugin_widget_requested (WebKitWebView *web_view,
 				attachment_button_expanded (
 					G_OBJECT (widget), NULL, display);
 			}
+
+			g_object_unref (mime_part);
 		}
 	}
 

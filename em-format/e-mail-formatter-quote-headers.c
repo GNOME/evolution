@@ -190,6 +190,7 @@ emqfe_headers_format (EMailFormatterExtension *extension,
                       GCancellable *cancellable)
 {
 	CamelContentType *ct;
+	CamelMimePart *mime_part;
 	const gchar *charset;
 	GList *iter;
 	GString *buffer;
@@ -198,7 +199,9 @@ emqfe_headers_format (EMailFormatterExtension *extension,
 	if (!part)
 		return FALSE;
 
-	ct = camel_mime_part_get_content_type ((CamelMimePart *) part->part);
+	mime_part = e_mail_part_ref_mime_part (part);
+
+	ct = camel_mime_part_get_content_type (mime_part);
 	charset = camel_content_type_param (ct, "charset");
 	charset = camel_iconv_charset_name (charset);
 
@@ -214,13 +217,13 @@ emqfe_headers_format (EMailFormatterExtension *extension,
 		flags = h->flags & ~E_MAIL_FORMATTER_HEADER_FLAG_HTML;
 		flags |= E_MAIL_FORMATTER_HEADER_FLAG_NOELIPSIZE;
 
-		for (raw_header = part->part->headers; raw_header; raw_header = raw_header->next) {
+		for (raw_header = mime_part->headers; raw_header; raw_header = raw_header->next) {
 
 			if (g_strcmp0 (raw_header->name, h->name) == 0) {
 
 				emfqe_format_header (
 					formatter, buffer,
-					(CamelMedium *) part->part,
+					CAMEL_MEDIUM (mime_part),
 					raw_header, flags, charset);
 				break;
 			}
@@ -234,6 +237,8 @@ emqfe_headers_format (EMailFormatterExtension *extension,
 	camel_stream_write_string (stream, buffer->str, cancellable, NULL);
 
 	g_string_free (buffer, TRUE);
+
+	g_object_unref (mime_part);
 
 	return TRUE;
 }

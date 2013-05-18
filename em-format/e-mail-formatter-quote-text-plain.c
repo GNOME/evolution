@@ -56,13 +56,15 @@ emqfe_text_plain_format (EMailFormatterExtension *extension,
 	CamelStream *filtered_stream;
 	CamelMimeFilter *html_filter;
 	CamelMimeFilter *sig_strip;
+	CamelMimePart *mime_part;
 	CamelContentType *type;
 	EMailFormatterQuoteContext *qf_context;
 	CamelMimeFilterToHTMLFlags text_flags;
 	const gchar *format;
 	guint32 rgb = 0x737373;
 
-	if (!part->part)
+	mime_part = e_mail_part_ref_mime_part (part);
+	if (mime_part == NULL)
 		return FALSE;
 
 	qf_context = (EMailFormatterQuoteContext *) context;
@@ -76,7 +78,7 @@ emqfe_text_plain_format (EMailFormatterExtension *extension,
 		text_flags |= CAMEL_MIME_FILTER_TOHTML_MARK_CITATION;
 
 	/* Check for RFC 2646 flowed text. */
-	type = camel_mime_part_get_content_type (part->part);
+	type = camel_mime_part_get_content_type (mime_part);
 	if (camel_content_type_is (type, "text", "plain")
 	    && (format = camel_content_type_param (type, "format"))
 	    && !g_ascii_strcasecmp (format, "flowed"))
@@ -101,6 +103,8 @@ emqfe_text_plain_format (EMailFormatterExtension *extension,
 
 	camel_stream_flush (filtered_stream, cancellable, NULL);
 	g_object_unref (filtered_stream);
+
+	g_object_unref (mime_part);
 
 	return TRUE;
 }

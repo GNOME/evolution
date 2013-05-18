@@ -51,10 +51,12 @@ emfe_error_format (EMailFormatterExtension *extension,
 {
 	CamelStream *filtered_stream;
 	CamelMimeFilter *filter;
+	CamelMimePart *mime_part;
 	CamelDataWrapper *dw;
 	gchar *html;
 
-	dw = camel_medium_get_content (CAMEL_MEDIUM (part->part));
+	mime_part = e_mail_part_ref_mime_part (part);
+	dw = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
 
 	html = g_strdup_printf (
 		"<div class=\"part-container\" style=\""
@@ -99,6 +101,8 @@ emfe_error_format (EMailFormatterExtension *extension,
 		"</div>\n"
 		"</div>",
 		cancellable, NULL);
+
+	g_object_unref (mime_part);
 
 	return TRUE;
 }

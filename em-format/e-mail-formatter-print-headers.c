@@ -61,12 +61,15 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 	const gchar *buf;
 	gint attachments_count;
 	gchar *part_id_prefix;
+	CamelMimePart *mime_part;
 	GQueue *headers_queue;
 	GQueue queue = G_QUEUE_INIT;
 	GList *head, *link;
 	const gchar *part_id;
 
-	buf = camel_medium_get_header (CAMEL_MEDIUM (part->part), "subject");
+	mime_part = e_mail_part_ref_mime_part (part);
+
+	buf = camel_medium_get_header (CAMEL_MEDIUM (mime_part), "subject");
 	subject = camel_header_decode_string (buf, "UTF-8");
 	str = g_string_new ("");
 	g_string_append_printf (str, "<h1>%s</h1>\n", subject);
@@ -90,7 +93,7 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 			raw_header.value = header->value;
 			e_mail_formatter_format_header (
 				formatter, str,
-				CAMEL_MEDIUM (part->part), &raw_header,
+				CAMEL_MEDIUM (mime_part), &raw_header,
 				header->flags | E_MAIL_FORMATTER_HEADER_FLAG_NOLINKS,
 				"UTF-8");
 		} else {
@@ -106,7 +109,7 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 			if (raw_header.value && *raw_header.value) {
 				e_mail_formatter_format_header (
 					formatter, str,
-					CAMEL_MEDIUM (part->part), &raw_header,
+					CAMEL_MEDIUM (mime_part), &raw_header,
 					header->flags | E_MAIL_FORMATTER_HEADER_FLAG_NOLINKS,
 					"UTF-8");
 			}
@@ -169,7 +172,7 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 		raw_header.value = tmp->str;
 		e_mail_formatter_format_header (
 			formatter, str,
-			CAMEL_MEDIUM (part->part), &raw_header,
+			CAMEL_MEDIUM (mime_part), &raw_header,
 			E_MAIL_FORMATTER_HEADER_FLAG_BOLD |
 			E_MAIL_FORMATTER_HEADER_FLAG_NOLINKS, "UTF-8");
 	}
@@ -201,7 +204,7 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 		raw_header.value = g_strdup_printf ("%d", attachments_count);
 		e_mail_formatter_format_header (
 			formatter, str,
-			CAMEL_MEDIUM (part->part), &raw_header,
+			CAMEL_MEDIUM (mime_part), &raw_header,
 			E_MAIL_FORMATTER_HEADER_FLAG_BOLD |
 			E_MAIL_FORMATTER_HEADER_FLAG_NOLINKS, "UTF-8");
 		g_free (raw_header.value);
@@ -215,6 +218,8 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 	camel_stream_write_string (stream, str->str, cancellable, NULL);
 	g_string_free (str, TRUE);
 	g_free (part_id_prefix);
+
+	g_object_unref (mime_part);
 
 	return TRUE;
 }

@@ -105,6 +105,7 @@ gboolean	e_mail_part_id_has_suffix	(EMailPart *part,
 						 const gchar *suffix);
 gboolean	e_mail_part_id_has_substr	(EMailPart *part,
 						 const gchar *substr);
+CamelMimePart *	e_mail_part_ref_mime_part	(EMailPart *part);
 void		e_mail_part_update_validity	(EMailPart *part,
 						 CamelCipherValidity *validity,
 						 guint32 validity_type);

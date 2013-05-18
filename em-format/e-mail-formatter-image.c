@@ -69,6 +69,7 @@ emfe_image_format (EMailFormatterExtension *extension,
                    GCancellable *cancellable)
 {
 	gchar *content;
+	CamelMimePart *mime_part;
 	CamelDataWrapper *dw;
 	GByteArray *ba;
 	CamelStream *raw_content;
@@ -76,7 +77,8 @@ emfe_image_format (EMailFormatterExtension *extension,
 	if (g_cancellable_is_cancelled (cancellable))
 		return FALSE;
 
-	dw = camel_medium_get_content (CAMEL_MEDIUM (part->part));
+	mime_part = e_mail_part_ref_mime_part (part);
+	dw = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
 	g_return_val_if_fail (dw, FALSE);
 
 	raw_content = camel_stream_mem_new ();
@@ -138,6 +140,8 @@ emfe_image_format (EMailFormatterExtension *extension,
 	}
 
 	g_object_unref (raw_content);
+
+	g_object_unref (mime_part);
 
 	return TRUE;
 }

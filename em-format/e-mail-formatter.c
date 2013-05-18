@@ -1037,14 +1037,14 @@ e_mail_formatter_format_text (EMailFormatter *formatter,
 	const gchar *charset = NULL;
 	CamelMimeFilter *windows = NULL;
 	CamelStream *mem_stream = NULL;
-	CamelDataWrapper *dw;
+	CamelMimePart *mime_part;
 	CamelContentType *mime_type;
 
 	if (g_cancellable_is_cancelled (cancellable))
 		return;
 
-	dw = CAMEL_DATA_WRAPPER (part->part);
-	mime_type = dw->mime_type;
+	mime_part = e_mail_part_ref_mime_part (part);
+	mime_type = CAMEL_DATA_WRAPPER (mime_part)->mime_type;
 
 	if (formatter->priv->charset != NULL) {
 		charset = formatter->priv->charset;
@@ -1067,7 +1067,8 @@ e_mail_formatter_format_text (EMailFormatter *formatter,
 			CAMEL_STREAM_FILTER (filter_stream), windows);
 
 		camel_data_wrapper_decode_to_stream_sync (
-			dw, filter_stream, cancellable, NULL);
+			CAMEL_DATA_WRAPPER (mime_part),
+			filter_stream, cancellable, NULL);
 		camel_stream_flush (filter_stream, cancellable, NULL);
 		g_object_unref (filter_stream);
 
@@ -1088,7 +1089,7 @@ e_mail_formatter_format_text (EMailFormatter *formatter,
 	}
 
 	camel_data_wrapper_decode_to_stream_sync (
-		camel_medium_get_content (CAMEL_MEDIUM (dw)),
+		camel_medium_get_content (CAMEL_MEDIUM (mime_part)),
 		filter_stream, cancellable, NULL);
 	camel_stream_flush (filter_stream, cancellable, NULL);
 	g_object_unref (filter_stream);
@@ -1103,6 +1104,8 @@ e_mail_formatter_format_text (EMailFormatter *formatter,
 		g_object_unref (windows);
 
 	g_object_unref (mem_stream);
+
+	g_object_unref (mime_part);
 }
 
 gchar *

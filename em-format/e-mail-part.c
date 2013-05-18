@@ -31,6 +31,8 @@
 
 #include "e-mail-part.h"
 
+#include <string.h>
+
 struct _EMailPartPrivate {
 	guint ref_cnt;
 	gsize instance_size;
@@ -219,6 +221,29 @@ e_mail_part_id_has_suffix (EMailPart *part,
 	g_return_val_if_fail (suffix != NULL, FALSE);
 
 	return g_str_has_suffix (part->id, suffix);
+}
+
+gboolean
+e_mail_part_id_has_substr (EMailPart *part,
+                           const gchar *substr)
+{
+	g_return_val_if_fail (part != NULL, FALSE);
+	g_return_val_if_fail (substr != NULL, FALSE);
+
+	return (strstr (part->id, substr) != NULL);
+}
+
+CamelMimePart *
+e_mail_part_ref_mime_part (EMailPart *part)
+{
+	CamelMimePart *mime_part = NULL;
+
+	g_return_val_if_fail (part != NULL, NULL);
+
+	if (part->part != NULL)
+		mime_part = g_object_ref (part->part);
+
+	return mime_part;
 }
 
 static EMailPartValidityPair *

@@ -532,6 +532,7 @@ emfe_headers_format (EMailFormatterExtension *extension,
                      CamelStream *stream,
                      GCancellable *cancellable)
 {
+	CamelMimePart *mime_part;
 	GString *buffer;
 	const GdkRGBA white = { 1.0, 1.0, 1.0, 1.0 };
 	const GdkRGBA *body_rgba = &white;
@@ -543,7 +544,8 @@ emfe_headers_format (EMailFormatterExtension *extension,
 	if (g_cancellable_is_cancelled (cancellable))
 		return FALSE;
 
-	if (!part->part)
+	mime_part = e_mail_part_ref_mime_part (part);
+	if (mime_part == NULL)
 		return FALSE;
 
 	switch (gtk_widget_get_default_direction ()) {
@@ -599,13 +601,13 @@ emfe_headers_format (EMailFormatterExtension *extension,
 	if (is_collapsable)
 		format_short_headers (
 			formatter, buffer,
-			CAMEL_MEDIUM (part->part),
+			CAMEL_MEDIUM (mime_part),
 			context->flags,
 			cancellable);
 
 	format_full_headers (
 		formatter, buffer,
-		CAMEL_MEDIUM (part->part),
+		CAMEL_MEDIUM (mime_part),
 		context->mode,
 		context->flags,
 		cancellable);
@@ -617,6 +619,8 @@ emfe_headers_format (EMailFormatterExtension *extension,
 	camel_stream_write_string (stream, buffer->str, cancellable, NULL);
 
 	g_string_free (buffer, TRUE);
+
+	g_object_unref (mime_part);
 
 	return TRUE;
 }
