@@ -103,6 +103,8 @@ gboolean	e_mail_part_id_has_prefix	(EMailPart *part,
 						 const gchar *prefix);
 gboolean	e_mail_part_id_has_suffix	(EMailPart *part,
 						 const gchar *suffix);
+gboolean	e_mail_part_id_has_substr	(EMailPart *part,
+						 const gchar *substr);
 void		e_mail_part_update_validity	(EMailPart *part,
 						 CamelCipherValidity *validity,
 						 guint32 validity_type);

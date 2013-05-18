@@ -275,7 +275,7 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 			for (link = head; link != NULL; link = g_list_next (link)) {
 				EMailPart *mail_part = link->data;
 
-				if (strstr (mail_part->id, ".text_html") != NULL) {
+				if (e_mail_part_id_has_substr (mail_part, ".text_html")) {
 					has_html = TRUE;
 					break;
 				}

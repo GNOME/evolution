@@ -315,7 +315,8 @@ mail_display_popup_prefer_plain_update_actions (EMailDisplayPopupExtension *exte
 		EMailPart *p = link->data;
 
 		if (e_mail_part_id_has_prefix (p, prefix) &&
-		    (strstr (p->id, "text_html") || strstr (p->id, "plain_text"))) {
+		    (e_mail_part_id_has_substr (p, "text_html") ||
+		     e_mail_part_id_has_substr (p, "plain_text"))) {
 			const gchar *p_id;
 
 			p_id = e_mail_part_get_id (p);
