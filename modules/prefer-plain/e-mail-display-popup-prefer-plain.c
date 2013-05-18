@@ -314,7 +314,7 @@ mail_display_popup_prefer_plain_update_actions (EMailDisplayPopupExtension *exte
 	for (link = head; link != NULL; link = g_list_next (link)) {
 		EMailPart *p = link->data;
 
-		if (g_str_has_prefix (p->id, prefix) &&
+		if (e_mail_part_id_has_prefix (p, prefix) &&
 		    (strstr (p->id, "text_html") || strstr (p->id, "plain_text"))) {
 			const gchar *p_id;
 

@@ -99,6 +99,8 @@ const gchar *	e_mail_part_get_id		(EMailPart *part);
 const gchar *	e_mail_part_get_cid		(EMailPart *part);
 void		e_mail_part_set_cid		(EMailPart *part,
 						 const gchar *cid);
+gboolean	e_mail_part_id_has_prefix	(EMailPart *part,
+						 const gchar *prefix);
 void		e_mail_part_update_validity	(EMailPart *part,
 						 CamelCipherValidity *validity,
 						 guint32 validity_type);

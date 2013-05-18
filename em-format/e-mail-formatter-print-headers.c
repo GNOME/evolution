@@ -137,7 +137,7 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 		if (g_queue_is_empty (&mail_part->validities))
 			continue;
 
-		if (!g_str_has_prefix (mail_part->id, part_id_prefix))
+		if (!e_mail_part_id_has_prefix (mail_part, part_id_prefix))
 			continue;
 
 		if (e_mail_part_get_validity (mail_part, E_MAIL_PART_VALIDITY_PGP | E_MAIL_PART_VALIDITY_SIGNED)) {
@@ -181,7 +181,7 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 	for (link = head; link != NULL; link = g_list_next (link)) {
 		EMailPart *mail_part = E_MAIL_PART (link->data);
 
-		if (!g_str_has_prefix (mail_part->id, part_id_prefix))
+		if (!e_mail_part_id_has_prefix (mail_part, part_id_prefix))
 			continue;
 
 		if (!mail_part->is_attachment)

@@ -201,6 +201,16 @@ e_mail_part_set_cid (EMailPart *part,
 	part->cid = g_strdup (cid);
 }
 
+gboolean
+e_mail_part_id_has_prefix (EMailPart *part,
+                           const gchar *prefix)
+{
+	g_return_val_if_fail (part != NULL, FALSE);
+	g_return_val_if_fail (prefix != NULL, FALSE);
+
+	return g_str_has_prefix (part->id, prefix);
+}
+
 static EMailPartValidityPair *
 mail_part_find_validity_pair (EMailPart *part,
                               guint32 validity_type)

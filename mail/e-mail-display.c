@@ -1206,7 +1206,7 @@ mail_parts_bind_dom (GObject *object,
 
 		/* Iterate only the parts rendered in
 		 * the frame and all it's subparts. */
-		if (!g_str_has_prefix (part->id, frame_name))
+		if (!e_mail_part_id_has_prefix (part, frame_name))
 			break;
 
 		part_id = e_mail_part_get_id (part);
