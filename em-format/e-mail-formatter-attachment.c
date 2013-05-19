@@ -138,8 +138,8 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 		EAttachment *attachment;
 		GList *head, *link;
 
-		attachment = g_object_ref (
-			E_MAIL_PART_ATTACHMENT (part)->attachment);
+		attachment = e_mail_part_attachment_ref_attachment (
+			E_MAIL_PART_ATTACHMENT (part));
 
 		head = g_queue_peek_head_link (&part->validities);
 
@@ -201,8 +201,8 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 			const gchar *description;
 			const gchar *display_name;
 
-			attachment = g_object_ref (
-				E_MAIL_PART_ATTACHMENT (part)->attachment);
+			attachment = e_mail_part_attachment_ref_attachment (
+				E_MAIL_PART_ATTACHMENT (part));
 
 			fi = e_attachment_get_file_info (attachment);
 			display_name = g_file_info_get_display_name (fi);
@@ -374,8 +374,8 @@ emfe_attachment_get_widget (EMailFormatterExtension *extension,
 
 	g_return_val_if_fail (E_IS_MAIL_PART_ATTACHMENT (part), NULL);
 
-	attachment = g_object_ref (
-		E_MAIL_PART_ATTACHMENT (part)->attachment);
+	attachment = e_mail_part_attachment_ref_attachment (
+		E_MAIL_PART_ATTACHMENT (part));
 
 	part_id = e_mail_part_get_id (part);
 

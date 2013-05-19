@@ -62,7 +62,7 @@ mail_formatter_print_write_attachments (EMailFormatter *formatter,
 		const gchar *display_name;
 
 		part = g_queue_pop_head (attachments);
-		attachment = g_object_ref (part->attachment);
+		attachment = e_mail_part_attachment_ref_attachment (part);
 
 		file_info = e_attachment_get_file_info (attachment);
 		if (file_info == NULL) {

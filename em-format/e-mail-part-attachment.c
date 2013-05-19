@@ -28,3 +28,12 @@ e_mail_part_attachment_free (EMailPartAttachment *empa)
 		empa->attachment_view_part_id = NULL;
 	}
 }
+
+EAttachment *
+e_mail_part_attachment_ref_attachment (EMailPartAttachment *part)
+{
+	g_return_val_if_fail (part != NULL, NULL);
+
+	return g_object_ref (part->attachment);
+}
+

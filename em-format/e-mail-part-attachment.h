@@ -43,6 +43,8 @@ typedef struct _EMailPartAttachment {
 } EMailPartAttachment;
 
 void		e_mail_part_attachment_free	(EMailPartAttachment *empa);
+EAttachment *	e_mail_part_attachment_ref_attachment
+						(EMailPartAttachment *part);
 
 G_END_DECLS
 
