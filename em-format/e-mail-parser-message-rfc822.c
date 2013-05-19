@@ -66,7 +66,7 @@ empe_msg_rfc822_parse (EMailParserExtension *extension,
 
 	/* Create an empty PURI that will represent start of the RFC message */
 	mail_part = e_mail_part_new (part, part_id->str);
-	mail_part->mime_type = g_strdup ("message/rfc822");
+	e_mail_part_set_mime_type (mail_part, "message/rfc822");
 	g_queue_push_tail (out_mail_parts, mail_part);
 
 	/* Sometime the actual message is encapsulated in another

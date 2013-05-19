@@ -601,7 +601,7 @@ e_mail_parser_error (EMailParser *parser,
 	g_mutex_unlock (&parser->priv->mutex);
 
 	mail_part = e_mail_part_new (part, uri);
-	mail_part->mime_type = g_strdup (mime_type);
+	e_mail_part_set_mime_type (mail_part, mime_type);
 	mail_part->is_error = TRUE;
 
 	g_free (uri);

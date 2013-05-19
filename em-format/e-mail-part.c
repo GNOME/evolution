@@ -254,6 +254,19 @@ e_mail_part_get_mime_type (EMailPart *part)
 	return part->mime_type;
 }
 
+void
+e_mail_part_set_mime_type (EMailPart *part,
+                           const gchar *mime_type)
+{
+	g_return_if_fail (part != NULL);
+
+	if (g_strcmp0 (mime_type, part->mime_type) == 0)
+		return;
+
+	g_free (part->mime_type);
+	part->mime_type = g_strdup (mime_type);
+}
+
 static EMailPartValidityPair *
 mail_part_find_validity_pair (EMailPart *part,
                               guint32 validity_type)

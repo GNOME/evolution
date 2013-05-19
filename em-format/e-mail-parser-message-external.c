@@ -160,7 +160,7 @@ addPart:
 	len = part_id->len;
 	g_string_append (part_id, ".msg_external");
 	mail_part = e_mail_part_new (part, part_id->str);
-	mail_part->mime_type = g_strdup (mime_type);
+	e_mail_part_set_mime_type (mail_part, mime_type);
 	g_string_truncate (part_id, len);
 
 	g_queue_push_tail (out_mail_parts, mail_part);

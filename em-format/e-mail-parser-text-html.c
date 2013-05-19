@@ -79,7 +79,7 @@ empe_text_html_parse (EMailParserExtension *extension,
 	g_string_append (part_id, ".text_html");
 
 	mail_part = e_mail_part_new (part, part_id->str);
-	mail_part->mime_type = g_strdup ("text/html");
+	e_mail_part_set_mime_type (mail_part, "text/html");
 	e_mail_part_set_cid (mail_part, cid);
 	g_string_truncate (part_id, len);
 

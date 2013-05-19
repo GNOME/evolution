@@ -92,11 +92,15 @@ process_part (EMailParser *parser,
 
 	} else if (!camel_content_type_is (type, "text", "calendar")) {
 		GQueue work_queue = G_QUEUE_INIT;
+		gchar *mime_type;
 
 		g_string_append_printf (part_id, ".plain_text.%d", part_number);
 
 		mail_part = e_mail_part_new (part, part_id->str);
-		mail_part->mime_type = camel_content_type_simple (type);
+
+		mime_type = camel_content_type_simple (type);
+		e_mail_part_set_mime_type (mail_part, mime_type);
+		g_free (mime_type);
 
 		g_string_truncate (part_id, s_len);
 

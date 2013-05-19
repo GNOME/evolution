@@ -58,7 +58,7 @@ empe_msg_deliverystatus_parse (EMailParserExtension *extension,
 	len = part_id->len;
 	g_string_append (part_id, ".delivery-status");
 	mail_part = e_mail_part_new (part, part_id->str);
-	mail_part->mime_type = g_strdup ("text/plain");
+	e_mail_part_set_mime_type (mail_part, "text/plain");
 
 	g_string_truncate (part_id, len);
 
