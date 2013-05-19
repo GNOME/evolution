@@ -1,5 +1,5 @@
 /*
- * e-mail-parser-audio-inline.c
+ * e-mail-parser-audio.c
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -25,7 +25,7 @@
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 
-#include "e-mail-parser-audio-inline.h"
+#include "e-mail-parser-audio.h"
 #include "e-mail-part-audio.h"
 
 #include <camel/camel.h>
@@ -38,17 +38,17 @@
 
 #define d(x)
 
-typedef EMailParserExtension EMailParserAudioInline;
-typedef EMailParserExtensionClass EMailParserAudioInlineClass;
+typedef EMailParserExtension EMailParserAudio;
+typedef EMailParserExtensionClass EMailParserAudioClass;
 
-typedef EExtension EMailParserAudioInlineLoader;
-typedef EExtensionClass EMailParserAudioInlineLoaderClass;
+typedef EExtension EMailParserAudioLoader;
+typedef EExtensionClass EMailParserAudioLoaderClass;
 
-GType e_mail_parser_audio_inline_get_type (void);
+GType e_mail_parser_audio_get_type (void);
 
 G_DEFINE_DYNAMIC_TYPE (
-	EMailParserAudioInline,
-	e_mail_parser_audio_inline,
+	EMailParserAudio,
+	e_mail_parser_audio,
 	E_TYPE_MAIL_PARSER_EXTENSION)
 
 static const gchar *parser_mime_types[] = {
@@ -76,7 +76,7 @@ static const gchar *parser_mime_types[] = {
 };
 
 static void
-mail_part_audio_inline_free (EMailPart *mail_part)
+mail_part_audio_free (EMailPart *mail_part)
 {
 	EMailPartAudio *ai_part = (EMailPartAudio *) mail_part;
 
@@ -103,7 +103,7 @@ mail_part_audio_inline_free (EMailPart *mail_part)
 }
 
 static gint
-empe_audio_inline_parse (EMailParserExtension *extension,
+mail_parser_audio_parse (EMailParserExtension *extension,
                          EMailParser *parser,
                          CamelMimePart *part,
                          GString *part_id,
@@ -116,13 +116,13 @@ empe_audio_inline_parse (EMailParserExtension *extension,
 	gint n_parts_added = 0;
 
 	len = part_id->len;
-	g_string_append (part_id, ".org-gnome-audio-inline-button-panel");
+	g_string_append (part_id, ".org-gnome-audio-button-panel");
 
-	d (printf ("audio inline formatter: format classid %s\n", part_id->str));
+	d (printf ("audio formatter: format classid %s\n", part_id->str));
 
 	mail_part = (EMailPartAudio *) e_mail_part_subclass_new (
 		part, part_id->str, sizeof (EMailPartAudio),
-		(GFreeFunc) mail_part_audio_inline_free);
+		(GFreeFunc) mail_part_audio_free);
 	mail_part->parent.mime_type = camel_content_type_simple (
 		camel_mime_part_get_content_type (part));
 	mail_part->parent.is_attachment = TRUE;
@@ -140,27 +140,27 @@ empe_audio_inline_parse (EMailParserExtension *extension,
 }
 
 static void
-e_mail_parser_audio_inline_class_init (EMailParserExtensionClass *class)
+e_mail_parser_audio_class_init (EMailParserExtensionClass *class)
 {
 	class->mime_types = parser_mime_types;
 	class->flags = E_MAIL_PARSER_EXTENSION_INLINE_DISPOSITION;
-	class->parse = empe_audio_inline_parse;
+	class->parse = mail_parser_audio_parse;
 }
 
 static void
-e_mail_parser_audio_inline_class_finalize (EMailParserExtensionClass *class)
+e_mail_parser_audio_class_finalize (EMailParserExtensionClass *class)
 {
 
 }
 
 static void
-e_mail_parser_audio_inline_init (EMailParserExtension *extension)
+e_mail_parser_audio_init (EMailParserExtension *extension)
 {
 }
 
 void
-e_mail_parser_audio_inline_type_register (GTypeModule *type_module)
+e_mail_parser_audio_type_register (GTypeModule *type_module)
 {
-	e_mail_parser_audio_inline_register_type (type_module);
+	e_mail_parser_audio_register_type (type_module);
 }
 
