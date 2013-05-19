@@ -10,8 +10,8 @@ module_vcard_inline_la_CPPFLAGS =				\
 	$(GTKHTML_CFLAGS)
 
 module_vcard_inline_la_SOURCES =				\
-	e-mail-formatter-vcard-inline.c					\
-	e-mail-formatter-vcard-inline.h					\
+	e-mail-formatter-vcard.c					\
+	e-mail-formatter-vcard.h					\
 	e-mail-parser-vcard.c						\
 	e-mail-parser-vcard.h						\
 	e-mail-part-vcard.h						\

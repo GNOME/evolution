@@ -1,5 +1,5 @@
 /*
- * e-mail-formatter-vcard-inline.c
+ * e-mail-formatter-vcard.c
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,7 +20,7 @@
 #include <config.h>
 #endif
 
-#include "e-mail-formatter-vcard-inline.h"
+#include "e-mail-formatter-vcard.h"
 #include "e-mail-part-vcard.h"
 
 #include <glib/gi18n-lib.h>
@@ -36,17 +36,17 @@
 
 #define d(x)
 
-typedef EMailFormatterExtension EMailFormatterVCardInline;
-typedef EMailFormatterExtensionClass EMailFormatterVCardInlineClass;
+typedef EMailFormatterExtension EMailFormatterVCard;
+typedef EMailFormatterExtensionClass EMailFormatterVCardClass;
 
-typedef EExtension EMailFormatterVCardInlineLoader;
-typedef EExtensionClass EMailFormatterVCardInlineLoaderClass;
+typedef EExtension EMailFormatterVCardLoader;
+typedef EExtensionClass EMailFormatterVCardLoaderClass;
 
-GType e_mail_formatter_vcard_inline_get_type (void);
+GType e_mail_formatter_vcard_get_type (void);
 
 G_DEFINE_DYNAMIC_TYPE (
-	EMailFormatterVCardInline,
-	e_mail_formatter_vcard_inline,
+	EMailFormatterVCard,
+	e_mail_formatter_vcard,
 	E_TYPE_MAIL_FORMATTER_EXTENSION)
 
 static const gchar *formatter_mime_types[] = {
@@ -57,12 +57,12 @@ static const gchar *formatter_mime_types[] = {
 };
 
 static gboolean
-emfe_vcard_inline_format (EMailFormatterExtension *extension,
-                          EMailFormatter *formatter,
-                          EMailFormatterContext *context,
-                          EMailPart *part,
-                          CamelStream *stream,
-                          GCancellable *cancellable)
+mail_formatter_vcard_format (EMailFormatterExtension *extension,
+                             EMailFormatter *formatter,
+                             EMailFormatterContext *context,
+                             EMailPart *part,
+                             CamelStream *stream,
+                             GCancellable *cancellable)
 {
 	EMailPartVCard *vcard_part;
 
@@ -141,7 +141,7 @@ emfe_vcard_inline_format (EMailFormatterExtension *extension,
 		str = g_strdup_printf (
 			"<button type=\"button\" "
 				"name=\"set-display-mode\" "
-				"class=\"org-gnome-vcard-inline-display-mode-button\" "
+				"class=\"org-gnome-vcard-display-mode-button\" "
 				"value=\"%d\" "
 				"accesskey=\"%s\">%s</button>",
 			mode, access_key, html_label);
@@ -156,7 +156,7 @@ emfe_vcard_inline_format (EMailFormatterExtension *extension,
 		str = g_strdup_printf (
 			"<button type=\"button\" "
 				"name=\"save-to-addressbook\" "
-				"class=\"org-gnome-vcard-inline-save-button\" "
+				"class=\"org-gnome-vcard-save-button\" "
 				"value=\"%s\" "
 				"accesskey=\"%s\">%s</button><br>"
 			"<iframe width=\"100%%\" height=\"auto\" frameborder=\"0\""
@@ -202,27 +202,27 @@ emfe_vcard_inline_format (EMailFormatterExtension *extension,
 }
 
 static void
-e_mail_formatter_vcard_inline_class_init (EMailFormatterExtensionClass *class)
+e_mail_formatter_vcard_class_init (EMailFormatterExtensionClass *class)
 {
 	class->display_name = _("Addressbook Contact");
 	class->description = _("Display the part as an addressbook contact");
 	class->mime_types = formatter_mime_types;
-	class->format = emfe_vcard_inline_format;
+	class->format = mail_formatter_vcard_format;
 }
 
 static void
-e_mail_formatter_vcard_inline_class_finalize (EMailFormatterExtensionClass *class)
+e_mail_formatter_vcard_class_finalize (EMailFormatterExtensionClass *class)
 {
 }
 
 static void
-e_mail_formatter_vcard_inline_init (EMailFormatterExtension *extension)
+e_mail_formatter_vcard_init (EMailFormatterExtension *extension)
 {
 }
 
 void
-e_mail_formatter_vcard_inline_type_register (GTypeModule *type_module)
+e_mail_formatter_vcard_type_register (GTypeModule *type_module)
 {
-	e_mail_formatter_vcard_inline_register_type (type_module);
+	e_mail_formatter_vcard_register_type (type_module);
 }
 
