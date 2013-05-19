@@ -149,7 +149,7 @@ mail_formatter_print_run (EMailFormatter *formatter,
 			continue;
 
 		if (part->is_attachment) {
-			if (part->cid != NULL)
+			if (e_mail_part_get_cid (part) != NULL)
 				continue;
 
 			g_queue_push_tail (&attachments, part);

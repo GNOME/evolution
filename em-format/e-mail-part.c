@@ -183,6 +183,14 @@ e_mail_part_get_id (EMailPart *part)
 	return part->id;
 }
 
+const gchar *
+e_mail_part_get_cid (EMailPart *part)
+{
+	g_return_val_if_fail (part != NULL, NULL);
+
+	return part->cid;
+}
+
 static EMailPartValidityPair *
 mail_part_find_validity_pair (EMailPart *part,
                               guint32 validity_type)

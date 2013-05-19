@@ -190,7 +190,7 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 		if (mail_part->is_hidden)
 			continue;
 
-		if (mail_part->cid != NULL)
+		if (e_mail_part_get_cid (mail_part) != NULL)
 			continue;
 
 		attachments_count++;

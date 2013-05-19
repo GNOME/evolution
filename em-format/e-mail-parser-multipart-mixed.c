@@ -88,7 +88,7 @@ empe_mp_mixed_parse (EMailParserExtension *extension,
 		 * because this is multipart/mixed,
 		 * not multipart/related. */
 		if (mail_part != NULL &&
-		    mail_part->cid != NULL &&
+		    e_mail_part_get_cid (mail_part) != NULL &&
 		    (!mail_part->is_attachment ||
 		     mail_part->is_hidden)) {
 

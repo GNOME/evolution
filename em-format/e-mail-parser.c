@@ -364,7 +364,7 @@ e_mail_parser_parse_sync (EMailParser *parser,
 				"	id: %s | cid: %s | mime_type: %s | "
 				"is_hidden: %d | is_attachment: %d\n",
 				e_mail_part_get_id (part),
-				part->cid,
+				e_mail_part_get_cid (part),
 				part->mime_type,
 				part->is_hidden ? 1 : 0,
 				part->is_attachment ? 1 : 0);
@@ -468,7 +468,7 @@ e_mail_parser_parse_finish (EMailParser *parser,
 				"	id: %s | cid: %s | mime_type: %s | "
 				"is_hidden: %d | is_attachment: %d\n",
 				e_mail_part_get_id (part),
-				part->cid,
+				e_mail_part_get_cid (part),
 				part->mime_type,
 				part->is_hidden ? 1 : 0,
 				part->is_attachment ? 1 : 0);

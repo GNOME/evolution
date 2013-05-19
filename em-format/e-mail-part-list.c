@@ -322,7 +322,7 @@ e_mail_part_list_ref_part (EMailPartList *part_list,
 		const gchar *candidate_id;
 
 		if (by_cid)
-			candidate_id = candidate->cid;
+			candidate_id = e_mail_part_get_cid (candidate);
 		else
 			candidate_id = e_mail_part_get_id (candidate);
 

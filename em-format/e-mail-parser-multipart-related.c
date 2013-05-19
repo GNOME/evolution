@@ -124,9 +124,12 @@ empe_mp_related_parse (EMailParserExtension *extension,
 
 		for (link = head; link != NULL; link = g_list_next (link)) {
 			EMailPart *mail_part = link->data;
+			const gchar *cid;
+
+			cid = e_mail_part_get_cid (mail_part);
 
 			/* Don't render the part on its own! */
-			if (e_mail_part_utils_body_refers (html_body, mail_part->cid))
+			if (e_mail_part_utils_body_refers (html_body, cid))
 				mail_part->is_hidden = TRUE;
 		}
 
