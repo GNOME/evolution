@@ -17,7 +17,7 @@
  */
 
 #include "e-mail-formatter-vcard-inline.h"
-#include "e-mail-parser-vcard-inline.h"
+#include "e-mail-parser-vcard.h"
 
 #include <gmodule.h>
 
@@ -29,7 +29,7 @@ G_MODULE_EXPORT void
 e_module_load (GTypeModule *type_module)
 {
 	e_mail_formatter_vcard_inline_type_register (type_module);
-	e_mail_parser_vcard_inline_type_register (type_module);
+	e_mail_parser_vcard_type_register (type_module);
 }
 
 G_MODULE_EXPORT void

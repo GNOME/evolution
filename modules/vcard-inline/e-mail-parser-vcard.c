@@ -1,5 +1,5 @@
 /*
- * e-mail-parser-vcard-inline.c
+ * e-mail-parser-vcard.c
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -25,7 +25,7 @@
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 
-#include "e-mail-parser-vcard-inline.h"
+#include "e-mail-parser-vcard.h"
 #include "e-mail-part-vcard.h"
 
 #include <camel/camel.h>
@@ -47,17 +47,17 @@
 
 #define d(x)
 
-typedef EMailParserExtension EMailParserVCardInline;
-typedef EMailParserExtensionClass EMailParserVCardInlineClass;
+typedef EMailParserExtension EMailParserVCard;
+typedef EMailParserExtensionClass EMailParserVCardClass;
 
-typedef EExtension EMailParserVCardInlineLoader;
-typedef EExtensionClass EMailParserVCardInlineLoaderClass;
+typedef EExtension EMailParserVCardLoader;
+typedef EExtensionClass EMailParserVCardLoaderClass;
 
-GType e_mail_parser_vcard_inline_get_type (void);
+GType e_mail_parser_vcard_get_type (void);
 
 G_DEFINE_DYNAMIC_TYPE (
-	EMailParserVCardInline,
-	e_mail_parser_vcard_inline,
+	EMailParserVCard,
+	e_mail_parser_vcard,
 	E_TYPE_MAIL_PARSER_EXTENSION)
 
 static const gchar *parser_mime_types[] = {
@@ -68,7 +68,7 @@ static const gchar *parser_mime_types[] = {
 };
 
 static void
-mail_part_vcard_inline_free (EMailPart *mail_part)
+mail_part_vcard_free (EMailPart *mail_part)
 {
 	EMailPartVCard *vi_part = (EMailPartVCard *) mail_part;
 
@@ -255,7 +255,7 @@ bind_dom (EMailPartVCard *vcard_part,
 
 	/* TOGGLE DISPLAY MODE BUTTON */
 	list = webkit_dom_element_get_elements_by_class_name (
-		attachment, "org-gnome-vcard-inline-display-mode-button");
+		attachment, "org-gnome-vcard-display-mode-button");
 	if (webkit_dom_node_list_get_length (list) != 1)
 		return;
 	toggle_button = WEBKIT_DOM_ELEMENT (webkit_dom_node_list_item (list, 0));
@@ -265,7 +265,7 @@ bind_dom (EMailPartVCard *vcard_part,
 
 	/* SAVE TO ADDRESSBOOK BUTTON */
 	list = webkit_dom_element_get_elements_by_class_name (
-		attachment, "org-gnome-vcard-inline-save-button");
+		attachment, "org-gnome-vcard-save-button");
 	if (webkit_dom_node_list_get_length (list) != 1)
 		return;
 	save_button = WEBKIT_DOM_ELEMENT (webkit_dom_node_list_item (list, 0));
@@ -322,7 +322,7 @@ decode_vcard (EMailPartVCard *vcard_part,
 }
 
 static gboolean
-empe_vcard_inline_parse (EMailParserExtension *extension,
+empe_vcard_parse (EMailParserExtension *extension,
                          EMailParser *parser,
                          CamelMimePart *part,
                          GString *part_id,
@@ -334,11 +334,11 @@ empe_vcard_inline_parse (EMailParserExtension *extension,
 	gint len;
 
 	len = part_id->len;
-	g_string_append (part_id, ".org-gnome-vcard-inline-display");
+	g_string_append (part_id, ".org-gnome-vcard-display");
 
 	vcard_part = (EMailPartVCard *) e_mail_part_subclass_new (
 		part, part_id->str, sizeof (EMailPartVCard),
-		(GFreeFunc) mail_part_vcard_inline_free);
+		(GFreeFunc) mail_part_vcard_free);
 	vcard_part->parent.mime_type = camel_content_type_simple (
 		camel_mime_part_get_content_type (part));
 	vcard_part->parent.bind_func = (EMailPartDOMBindFunc) bind_dom;
@@ -364,26 +364,26 @@ empe_vcard_inline_parse (EMailParserExtension *extension,
 }
 
 static void
-e_mail_parser_vcard_inline_class_init (EMailParserExtensionClass *class)
+e_mail_parser_vcard_class_init (EMailParserExtensionClass *class)
 {
 	class->mime_types = parser_mime_types;
 	class->flags = E_MAIL_PARSER_EXTENSION_INLINE_DISPOSITION;
-	class->parse = empe_vcard_inline_parse;
+	class->parse = empe_vcard_parse;
 }
 
 static void
-e_mail_parser_vcard_inline_class_finalize (EMailParserExtensionClass *class)
+e_mail_parser_vcard_class_finalize (EMailParserExtensionClass *class)
 {
 }
 
 static void
-e_mail_parser_vcard_inline_init (EMailParserExtension *extension)
+e_mail_parser_vcard_init (EMailParserExtension *extension)
 {
 }
 
 void
-e_mail_parser_vcard_inline_type_register (GTypeModule *type_module)
+e_mail_parser_vcard_type_register (GTypeModule *type_module)
 {
-	e_mail_parser_vcard_inline_register_type (type_module);
+	e_mail_parser_vcard_register_type (type_module);
 }
 

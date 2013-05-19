@@ -12,8 +12,8 @@ module_vcard_inline_la_CPPFLAGS =				\
 module_vcard_inline_la_SOURCES =				\
 	e-mail-formatter-vcard-inline.c					\
 	e-mail-formatter-vcard-inline.h					\
-	e-mail-parser-vcard-inline.c					\
-	e-mail-parser-vcard-inline.h					\
+	e-mail-parser-vcard.c						\
+	e-mail-parser-vcard.h						\
 	e-mail-part-vcard.h						\
 	evolution-module-vcard-inline.c
 
