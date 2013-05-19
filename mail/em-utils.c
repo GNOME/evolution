@@ -1322,7 +1322,6 @@ em_utils_message_to_html (CamelSession *session,
 
 	for (link = head; link != NULL; link = g_list_next (link)) {
 		EMailPart *part = link->data;
-		GList *vhead, *vlink;
 		const gchar *mime_type;
 
 		mime_type = e_mail_part_get_mime_type (part);
@@ -1338,16 +1337,7 @@ em_utils_message_to_html (CamelSession *session,
 			hidden_text_html_part = part;
 		}
 
-		vhead = g_queue_peek_head_link (&part->validities);
-
-		for (vlink = vhead; vlink != NULL; vlink = g_list_next (vlink)) {
-			EMailPartValidityPair *pair = vlink->data;
-
-			if (pair == NULL)
-				continue;
-
-			is_validity_found |= pair->validity_type;
-		}
+		is_validity_found |= e_mail_part_get_validity_flags (part);
 	}
 
 	while (!g_queue_is_empty (&queue))

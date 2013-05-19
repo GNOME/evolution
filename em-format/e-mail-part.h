@@ -119,6 +119,8 @@ CamelCipherValidity *
 		e_mail_part_get_validity	(EMailPart *part,
 						 guint32 validity_type);
 gboolean	e_mail_part_has_validity	(EMailPart *part);
+EMailPartValidityFlags
+		e_mail_part_get_validity_flags	(EMailPart *part);
 
 G_END_DECLS
 

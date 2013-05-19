@@ -371,3 +371,23 @@ e_mail_part_has_validity (EMailPart *part)
 	return !g_queue_is_empty (&part->validities);
 }
 
+EMailPartValidityFlags
+e_mail_part_get_validity_flags (EMailPart *part)
+{
+	EMailPartValidityFlags flags = 0;
+	GList *head, *link;
+
+	g_return_val_if_fail (part != NULL, 0);
+
+	head = g_queue_peek_head_link (&part->validities);
+
+	for (link = head; link != NULL; link = g_list_next (link)) {
+		EMailPartValidityPair *pair = link->data;
+
+		if (pair != NULL)
+			flags |= pair->validity_type;
+	}
+
+	return flags;
+}
+
