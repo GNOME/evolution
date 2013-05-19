@@ -1,5 +1,5 @@
 /*
- * e-mail-formatter-audio-inline.c
+ * e-mail-formatter-audio.c
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,7 +16,7 @@
  *
  */
 
-#include "e-mail-formatter-audio-inline.h"
+#include "e-mail-formatter-audio.h"
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -36,21 +36,21 @@
 
 #define d(x)
 
-typedef EMailFormatterExtension EMailFormatterAudioInline;
-typedef EMailFormatterExtensionClass EMailFormatterAudioInlineClass;
+typedef EMailFormatterExtension EMailFormatterAudio;
+typedef EMailFormatterExtensionClass EMailFormatterAudioClass;
 
-typedef EExtension EMailFormatterAudioInlineLoader;
-typedef EExtensionClass EMailFormatterAudioInlineLoaderClass;
+typedef EExtension EMailFormatterAudioLoader;
+typedef EExtensionClass EMailFormatterAudioLoaderClass;
 
-GType e_mail_formatter_audio_inline_get_type (void);
+GType e_mail_formatter_audio_get_type (void);
 
 G_DEFINE_DYNAMIC_TYPE (
-	EMailFormatterAudioInline,
-	e_mail_formatter_audio_inline,
+	EMailFormatterAudio,
+	e_mail_formatter_audio,
 	E_TYPE_MAIL_FORMATTER_EXTENSION)
 
 static const gchar *formatter_mime_types[] = {
-	"application/vnd.evolution.widget.audio-inline",
+	"application/vnd.evolution.widget.audio",
 	"audio/ac3",
 	"audio/x-ac3",
 	"audio/basic",
@@ -171,7 +171,7 @@ play_clicked (GtkWidget *button,
 {
 	GstState cur_state;
 
-	d (printf ("audio inline formatter: play\n"));
+	d (printf ("audio formatter: play\n"));
 
 	if (!part->filename) {
 		CamelStream *stream;
@@ -179,12 +179,12 @@ play_clicked (GtkWidget *button,
 		CamelMimePart *mime_part;
 		GError *error = NULL;
 		gint argc = 1;
-		const gchar *argv[] = { "org_gnome_audio_inline", NULL };
+		const gchar *argv[] = { "org_gnome_audio", NULL };
 
 		/* FIXME this is ugly, we should stream this directly to gstreamer */
-		part->filename = e_mktemp ("org-gnome-audio-inline-file-XXXXXX");
+		part->filename = e_mktemp ("org-gnome-audio-file-XXXXXX");
 
-		d (printf ("audio inline formatter: write to temp file %s\n", po->filename));
+		d (printf ("audio formatter: write to temp file %s\n", po->filename));
 
 		stream = camel_stream_fs_new_with_name (
 			part->filename, O_RDWR | O_CREAT | O_TRUNC, 0600, NULL);
@@ -195,7 +195,7 @@ play_clicked (GtkWidget *button,
 		g_object_unref (mime_part);
 		g_object_unref (stream);
 
-		d (printf ("audio inline formatter: init gst playbin\n"));
+		d (printf ("audio formatter: init gst playbin\n"));
 
 		if (gst_init_check (&argc, (gchar ***) &argv, &error)) {
 			gchar *uri;
@@ -256,17 +256,17 @@ add_button (GtkWidget *box,
 }
 
 static gboolean
-emfe_audio_inline_format (EMailFormatterExtension *extension,
-                          EMailFormatter *formatter,
-                          EMailFormatterContext *context,
-                          EMailPart *part,
-                          CamelStream *stream,
-                          GCancellable *cancellable)
+mail_formatter_audio_format (EMailFormatterExtension *extension,
+                             EMailFormatter *formatter,
+                             EMailFormatterContext *context,
+                             EMailPart *part,
+                             CamelStream *stream,
+                             GCancellable *cancellable)
 {
 	gchar *str;
 
 	str = g_strdup_printf (
-		"<object type=\"application/vnd.evolution.widget.audio-inline\" "
+		"<object type=\"application/vnd.evolution.widget.audio\" "
 			"width=\"100%%\" height=\"auto\" data=\"%s\" id=\"%s\"></object>",
 		e_mail_part_get_id (part),
 		e_mail_part_get_id (part));
@@ -279,10 +279,10 @@ emfe_audio_inline_format (EMailFormatterExtension *extension,
 }
 
 static GtkWidget *
-emfe_audio_inline_get_widget (EMailFormatterExtension *extension,
-                              EMailPartList *context,
-                              EMailPart *part,
-                              GHashTable *params)
+mail_formatter_audio_get_widget (EMailFormatterExtension *extension,
+                                 EMailPartList *context,
+                                 EMailPart *part,
+                                 GHashTable *params)
 {
 	GtkWidget *box;
 	EMailPartAudio *ai_part;
@@ -308,28 +308,28 @@ emfe_audio_inline_get_widget (EMailFormatterExtension *extension,
 }
 
 static void
-e_mail_formatter_audio_inline_class_init (EMailFormatterExtensionClass *class)
+e_mail_formatter_audio_class_init (EMailFormatterExtensionClass *class)
 {
 	class->display_name = _("Audio Player");
 	class->description = _("Play the attachment in embedded audio player");
 	class->mime_types = formatter_mime_types;
-	class->format = emfe_audio_inline_format;
-	class->get_widget = emfe_audio_inline_get_widget;
+	class->format = mail_formatter_audio_format;
+	class->get_widget = mail_formatter_audio_get_widget;
 }
 
 static void
-e_mail_formatter_audio_inline_class_finalize (EMailFormatterExtensionClass *class)
+e_mail_formatter_audio_class_finalize (EMailFormatterExtensionClass *class)
 {
 }
 
 static void
-e_mail_formatter_audio_inline_init (EMailFormatterExtension *extension)
+e_mail_formatter_audio_init (EMailFormatterExtension *extension)
 {
 }
 
 void
-e_mail_formatter_audio_inline_type_register (GTypeModule *type_module)
+e_mail_formatter_audio_type_register (GTypeModule *type_module)
 {
-	e_mail_formatter_audio_inline_register_type (type_module);
+	e_mail_formatter_audio_register_type (type_module);
 }
 

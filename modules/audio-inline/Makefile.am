@@ -11,8 +11,8 @@ module_audio_inline_la_CPPFLAGS =				\
 	$(GSTREAMER_CFLAGS)
 
 module_audio_inline_la_SOURCES =				\
-	e-mail-formatter-audio-inline.c					\
-	e-mail-formatter-audio-inline.h					\
+	e-mail-formatter-audio.c					\
+	e-mail-formatter-audio.h					\
 	e-mail-parser-audio.c						\
 	e-mail-parser-audio.h						\
 	e-mail-part-audio.h						\

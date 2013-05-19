@@ -16,7 +16,7 @@
  *
  */
 
-#include "e-mail-formatter-audio-inline.h"
+#include "e-mail-formatter-audio.h"
 #include "e-mail-parser-audio.h"
 
 #include <gmodule.h>
@@ -29,7 +29,7 @@ G_MODULE_EXPORT void
 e_module_load (GTypeModule *type_module)
 {
 	e_mail_parser_audio_type_register (type_module);
-	e_mail_formatter_audio_inline_type_register (type_module);
+	e_mail_formatter_audio_type_register (type_module);
 }
 
 G_MODULE_EXPORT void

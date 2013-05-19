@@ -1,5 +1,5 @@
 /*
- * e-mail-formatter-audio-inline.h
+ * e-mail-formatter-audio.h
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,15 +16,15 @@
  *
  */
 
-#ifndef E_MAIL_FORMATTER_AUDIO_INLINE_H
-#define E_MAIL_FORMATTER_AUDIO_INLINE_H
+#ifndef E_MAIL_FORMATTER_AUDIO_H
+#define E_MAIL_FORMATTER_AUDIO_H
 
 #include <glib-object.h>
 
 G_BEGIN_DECLS
 
-void e_mail_formatter_audio_inline_type_register (GTypeModule *type_module);
+void e_mail_formatter_audio_type_register (GTypeModule *type_module);
 
 G_END_DECLS
 
-#endif /* E_MAIL_FORMATTER_AUDIO_INLINE_H */
+#endif /* E_MAIL_FORMATTER_AUDIO_H */
