@@ -362,3 +362,12 @@ e_mail_part_get_validity (EMailPart *part,
 
 	return pair ? pair->validity : NULL;
 }
+
+gboolean
+e_mail_part_has_validity (EMailPart *part)
+{
+	g_return_val_if_fail (part != NULL, FALSE);
+
+	return !g_queue_is_empty (&part->validities);
+}
+

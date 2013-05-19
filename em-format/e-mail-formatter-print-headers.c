@@ -137,7 +137,7 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 	for (link = head; link != NULL; link = g_list_next (link)) {
 		EMailPart *mail_part = link->data;
 
-		if (g_queue_is_empty (&mail_part->validities))
+		if (!e_mail_part_has_validity (mail_part))
 			continue;
 
 		if (!e_mail_part_id_has_prefix (mail_part, part_id_prefix))
