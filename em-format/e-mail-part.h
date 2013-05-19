@@ -97,6 +97,8 @@ gsize		e_mail_part_get_instance_size	(EMailPart *part);
 
 const gchar *	e_mail_part_get_id		(EMailPart *part);
 const gchar *	e_mail_part_get_cid		(EMailPart *part);
+void		e_mail_part_set_cid		(EMailPart *part,
+						 const gchar *cid);
 void		e_mail_part_update_validity	(EMailPart *part,
 						 CamelCipherValidity *validity,
 						 guint32 validity_type);

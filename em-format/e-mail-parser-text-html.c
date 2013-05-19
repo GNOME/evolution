@@ -80,7 +80,7 @@ empe_text_html_parse (EMailParserExtension *extension,
 
 	mail_part = e_mail_part_new (part, part_id->str);
 	mail_part->mime_type = g_strdup ("text/html");
-	mail_part->cid = cid;
+	e_mail_part_set_cid (mail_part, cid);
 	g_string_truncate (part_id, len);
 
 	g_queue_push_head (&work_queue, mail_part);
@@ -90,6 +90,8 @@ empe_text_html_parse (EMailParserExtension *extension,
 			parser, part, part_id, &work_queue);
 
 	e_queue_transfer (&work_queue, out_mail_parts);
+
+	g_free (cid);
 
 	return TRUE;
 }

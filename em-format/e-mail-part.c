@@ -191,6 +191,16 @@ e_mail_part_get_cid (EMailPart *part)
 	return part->cid;
 }
 
+void
+e_mail_part_set_cid (EMailPart *part,
+                     const gchar *cid)
+{
+	g_return_if_fail (part != NULL);
+
+	g_free (part->cid);
+	part->cid = g_strdup (cid);
+}
+
 static EMailPartValidityPair *
 mail_part_find_validity_pair (EMailPart *part,
                               guint32 validity_type)
