@@ -275,6 +275,15 @@ e_mail_part_get_is_attachment (EMailPart *part)
 	return part->is_attachment;
 }
 
+void
+e_mail_part_set_is_attachment (EMailPart *part,
+                               gboolean is_attachment)
+{
+	g_return_if_fail (part != NULL);
+
+	part->is_attachment = is_attachment;
+}
+
 static EMailPartValidityPair *
 mail_part_find_validity_pair (EMailPart *part,
                               guint32 validity_type)

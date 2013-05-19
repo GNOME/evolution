@@ -323,7 +323,7 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 			mime_type = e_mail_part_get_mime_type (mpart);
 
 			if (mpart && mpart->is_hidden && g_strcmp0 (mime_type, "text/html") == 0) {
-				mpart->is_attachment = TRUE;
+				e_mail_part_set_is_attachment (mpart, TRUE);
 			}
 		}
 	}
