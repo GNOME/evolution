@@ -26,7 +26,7 @@
 #include <glib/gstdio.h>
 
 #include "e-mail-parser-audio-inline.h"
-#include "e-mail-part-audio-inline.h"
+#include "e-mail-part-audio.h"
 
 #include <camel/camel.h>
 
@@ -78,7 +78,7 @@ static const gchar *parser_mime_types[] = {
 static void
 mail_part_audio_inline_free (EMailPart *mail_part)
 {
-	EMailPartAudioInline *ai_part = (EMailPartAudioInline *) mail_part;
+	EMailPartAudio *ai_part = (EMailPartAudio *) mail_part;
 
 	g_clear_object (&ai_part->play_button);
 	g_clear_object (&ai_part->pause_button);
@@ -110,7 +110,7 @@ empe_audio_inline_parse (EMailParserExtension *extension,
                          GCancellable *cancellable,
                          GQueue *out_mail_queue)
 {
-	EMailPartAudioInline *mail_part;
+	EMailPartAudio *mail_part;
 	GQueue work_queue = G_QUEUE_INIT;
 	gint len;
 	gint n_parts_added = 0;
@@ -120,8 +120,8 @@ empe_audio_inline_parse (EMailParserExtension *extension,
 
 	d (printf ("audio inline formatter: format classid %s\n", part_id->str));
 
-	mail_part = (EMailPartAudioInline *) e_mail_part_subclass_new (
-		part, part_id->str, sizeof (EMailPartAudioInline),
+	mail_part = (EMailPartAudio *) e_mail_part_subclass_new (
+		part, part_id->str, sizeof (EMailPartAudio),
 		(GFreeFunc) mail_part_audio_inline_free);
 	mail_part->parent.mime_type = camel_content_type_simple (
 		camel_mime_part_get_content_type (part));

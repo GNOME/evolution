@@ -1,5 +1,5 @@
 /*
- * e-mail-part-audio-inline.h
+ * e-mail-part-audio.h
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,8 +16,8 @@
  *
  */
 
-#ifndef E_MAIL_PART_AUDIO_INLINE_H
-#define E_MAIL_PART_AUDIO_INLINE_H
+#ifndef E_MAIL_PART_AUDIO_H
+#define E_MAIL_PART_AUDIO_H
 
 #include <glib-object.h>
 
@@ -26,9 +26,9 @@
 
 G_BEGIN_DECLS
 
-typedef struct _EMailPartAudioInline EMailPartAudioInline;
+typedef struct _EMailPartAudio EMailPartAudio;
 
-struct _EMailPartAudioInline {
+struct _EMailPartAudio {
 	EMailPart parent;
 
 	gchar *filename;
@@ -42,5 +42,5 @@ struct _EMailPartAudioInline {
 
 G_END_DECLS
 
-#endif /* E_MAIL_PART_AUDIO_INLINE_H */
+#endif /* E_MAIL_PART_AUDIO_H */
 

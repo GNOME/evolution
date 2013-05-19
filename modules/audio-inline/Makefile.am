@@ -15,7 +15,7 @@ module_audio_inline_la_SOURCES =				\
 	e-mail-formatter-audio-inline.h					\
 	e-mail-parser-audio-inline.c					\
 	e-mail-parser-audio-inline.h					\
-	e-mail-part-audio-inline.h					\
+	e-mail-part-audio.h						\
 	evolution-module-audio-inline.c
 
 module_audio_inline_la_LIBADD =				\

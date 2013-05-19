@@ -32,7 +32,7 @@
 #include <em-format/e-mail-formatter-extension.h>
 #include <em-format/e-mail-formatter.h>
 
-#include "e-mail-part-audio-inline.h"
+#include "e-mail-part-audio.h"
 
 #define d(x)
 
@@ -76,7 +76,7 @@ static const gchar *formatter_mime_types[] = {
 
 static void
 pause_clicked (GtkWidget *button,
-               EMailPartAudioInline *part)
+               EMailPartAudio *part)
 {
 	if (part->playbin) {
 		/* pause playing */
@@ -86,7 +86,7 @@ pause_clicked (GtkWidget *button,
 
 static void
 stop_clicked (GtkWidget *button,
-              EMailPartAudioInline *part)
+              EMailPartAudio *part)
 {
 	if (part->playbin) {
 		/* ready to play */
@@ -116,7 +116,7 @@ gst_callback (GstBus *bus,
               GstMessage *message,
               gpointer data)
 {
-	EMailPartAudioInline *part = data;
+	EMailPartAudio *part = data;
 	GstMessageType msg_type;
 
 	g_return_val_if_fail (part != NULL, TRUE);
@@ -167,7 +167,7 @@ gst_callback (GstBus *bus,
 
 static void
 play_clicked (GtkWidget *button,
-              EMailPartAudioInline *part)
+              EMailPartAudio *part)
 {
 	GstState cur_state;
 
@@ -285,10 +285,10 @@ emfe_audio_inline_get_widget (EMailFormatterExtension *extension,
                               GHashTable *params)
 {
 	GtkWidget *box;
-	EMailPartAudioInline *ai_part;
+	EMailPartAudio *ai_part;
 
-	g_return_val_if_fail (E_MAIL_PART_IS (part, EMailPartAudioInline), NULL);
-	ai_part = (EMailPartAudioInline *) part;
+	g_return_val_if_fail (E_MAIL_PART_IS (part, EMailPartAudio), NULL);
+	ai_part = (EMailPartAudio *) part;
 
 	/* it is OK to call UI functions here, since we are called from UI thread */
 	box = gtk_button_box_new (GTK_ORIENTATION_HORIZONTAL);
