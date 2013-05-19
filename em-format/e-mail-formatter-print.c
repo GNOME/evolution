@@ -148,7 +148,7 @@ mail_formatter_print_run (EMailFormatter *formatter,
 		if (mime_type == NULL)
 			continue;
 
-		if (part->is_attachment) {
+		if (e_mail_part_get_is_attachment (part)) {
 			if (e_mail_part_get_cid (part) != NULL)
 				continue;
 

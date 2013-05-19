@@ -267,6 +267,14 @@ e_mail_part_set_mime_type (EMailPart *part,
 	part->mime_type = g_strdup (mime_type);
 }
 
+gboolean
+e_mail_part_get_is_attachment (EMailPart *part)
+{
+	g_return_val_if_fail (part != NULL, FALSE);
+
+	return part->is_attachment;
+}
+
 static EMailPartValidityPair *
 mail_part_find_validity_pair (EMailPart *part,
                               guint32 validity_type)

@@ -119,7 +119,7 @@ mail_formatter_quote_run (EMailFormatter *formatter,
 		if (part->is_hidden)
 			continue;
 
-		if (part->is_attachment)
+		if (e_mail_part_get_is_attachment (part))
 			continue;
 
 		mime_type = e_mail_part_get_mime_type (part);

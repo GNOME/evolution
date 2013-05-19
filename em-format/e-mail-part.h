@@ -109,6 +109,7 @@ CamelMimePart *	e_mail_part_ref_mime_part	(EMailPart *part);
 const gchar *	e_mail_part_get_mime_type	(EMailPart *part);
 void		e_mail_part_set_mime_type	(EMailPart *part,
 						 const gchar *mime_type);
+gboolean	e_mail_part_get_is_attachment	(EMailPart *part);
 void		e_mail_part_update_validity	(EMailPart *part,
 						 CamelCipherValidity *validity,
 						 guint32 validity_type);

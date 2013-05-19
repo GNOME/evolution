@@ -98,7 +98,7 @@ empe_mp_digest_parse (EMailParserExtension *extension,
 
 			wrap_as_attachment =
 				(mail_part != NULL) &&
-				!mail_part->is_attachment;
+				!e_mail_part_get_is_attachment (mail_part);
 
 			/* Force the message to be collapsable */
 			if (wrap_as_attachment)

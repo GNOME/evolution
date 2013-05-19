@@ -1227,7 +1227,7 @@ is_only_text_part_in_this_level (GList *parts,
 		if (part->is_hidden)
 			continue;
 
-		if (part->is_attachment)
+		if (e_mail_part_get_is_attachment (part))
 			continue;
 
 		mime_type = e_mail_part_get_mime_type (part);
@@ -1331,7 +1331,7 @@ em_utils_message_to_html (CamelSession *session,
 		 * text part in the email, thus show it (and hide again later) */
 		if (part->is_hidden && !hidden_text_html_part &&
 		    mime_type != NULL &&
-		    !part->is_attachment &&
+		    !e_mail_part_get_is_attachment (part) &&
 		    g_ascii_strcasecmp (mime_type, "text/html") == 0 &&
 		    is_only_text_part_in_this_level (head, part)) {
 			part->is_hidden = FALSE;

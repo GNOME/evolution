@@ -89,7 +89,7 @@ empe_mp_mixed_parse (EMailParserExtension *extension,
 		 * not multipart/related. */
 		if (mail_part != NULL &&
 		    e_mail_part_get_cid (mail_part) != NULL &&
-		    (!mail_part->is_attachment ||
+		    (!e_mail_part_get_is_attachment (mail_part) ||
 		     mail_part->is_hidden)) {
 
 			e_mail_parser_wrap_as_attachment (
@@ -99,7 +99,7 @@ empe_mp_mixed_parse (EMailParserExtension *extension,
 		} else if (mail_part == NULL ||
 		    (camel_content_type_is (ct, "message", "rfc822") &&
 		     mail_part != NULL &&
-		     !mail_part->is_attachment)) {
+		     !e_mail_part_get_is_attachment (mail_part))) {
 
 			e_mail_parser_wrap_as_attachment (
 				parser, subpart, part_id, &work_queue);

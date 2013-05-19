@@ -367,7 +367,7 @@ e_mail_parser_parse_sync (EMailParser *parser,
 				e_mail_part_get_cid (part),
 				e_mail_part_get_mime_type (part),
 				part->is_hidden ? 1 : 0,
-				part->is_attachment ? 1 : 0);
+				e_mail_part_get_is_attachment (part) ? 1 : 0);
 
 			e_mail_part_unref (part);
 		}
@@ -471,7 +471,7 @@ e_mail_parser_parse_finish (EMailParser *parser,
 				e_mail_part_get_cid (part),
 				e_mail_part_get_mime_type (part),
 				part->is_hidden ? 1 : 0,
-				part->is_attachment ? 1 : 0);
+				e_mail_part_get_is_attachment (part) ? 1 : 0);
 
 			e_mail_part_unref (part);
 		}
