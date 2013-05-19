@@ -1,5 +1,5 @@
 /*
- * e-mail-part-vcard-inline.h
+ * e-mail-part-vcard.h
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,8 +16,8 @@
  *
  */
 
-#ifndef E_MAIL_PART_VCARD_INLINE_H
-#define E_MAIL_PART_VCARD_INLINE_H
+#ifndef E_MAIL_PART_VCARD_H
+#define E_MAIL_PART_VCARD_H
 
 #include <em-format/e-mail-part.h>
 
@@ -25,13 +25,13 @@
 #include <webkit/webkitdom.h>
 
 #define E_IS_MAIL_PART_VCARD(part) \
-	(E_MAIL_PART_IS (part, EMailPartVCardInline))
+	(E_MAIL_PART_IS (part, EMailPartVCard))
 
 G_BEGIN_DECLS
 
-typedef struct _EMailPartVCardInline EMailPartVCardInline;
+typedef struct _EMailPartVCard EMailPartVCard;
 
-struct _EMailPartVCardInline {
+struct _EMailPartVCard {
 	EMailPart parent;
 
 	GSList *contact_list;
@@ -49,5 +49,5 @@ struct _EMailPartVCardInline {
 
 G_END_DECLS
 
-#endif /* E_MAIL_PART_VCARD_INLINE_H */
+#endif /* E_MAIL_PART_VCARD_H */
 

@@ -26,7 +26,7 @@
 #include <glib/gstdio.h>
 
 #include "e-mail-parser-vcard-inline.h"
-#include "e-mail-part-vcard-inline.h"
+#include "e-mail-part-vcard.h"
 
 #include <camel/camel.h>
 
@@ -70,7 +70,7 @@ static const gchar *parser_mime_types[] = {
 static void
 mail_part_vcard_inline_free (EMailPart *mail_part)
 {
-	EMailPartVCardInline *vi_part = (EMailPartVCardInline *) mail_part;
+	EMailPartVCard *vi_part = (EMailPartVCard *) mail_part;
 
 	g_clear_object (&vi_part->contact_display);
 	g_clear_object (&vi_part->message_label);
@@ -134,7 +134,7 @@ client_connect_cb (GObject *source_object,
 static void
 save_vcard_cb (WebKitDOMEventTarget *button,
                WebKitDOMEvent *event,
-               EMailPartVCardInline *vcard_part)
+               EMailPartVCard *vcard_part)
 {
 	EShell *shell;
 	ESource *source;
@@ -180,7 +180,7 @@ save_vcard_cb (WebKitDOMEventTarget *button,
 static void
 display_mode_toggle_cb (WebKitDOMEventTarget *button,
                         WebKitDOMEvent *event,
-                        EMailPartVCardInline *vcard_part)
+                        EMailPartVCard *vcard_part)
 {
 	EABContactDisplayMode mode;
 	gchar *uri;
@@ -238,7 +238,7 @@ display_mode_toggle_cb (WebKitDOMEventTarget *button,
 }
 
 static void
-bind_dom (EMailPartVCardInline *vcard_part,
+bind_dom (EMailPartVCard *vcard_part,
           WebKitDOMElement *attachment)
 {
 	WebKitDOMNodeList *list;
@@ -290,7 +290,7 @@ bind_dom (EMailPartVCardInline *vcard_part,
 }
 
 static void
-decode_vcard (EMailPartVCardInline *vcard_part,
+decode_vcard (EMailPartVCard *vcard_part,
               CamelMimePart *mime_part)
 {
 	CamelDataWrapper *data_wrapper;
@@ -329,15 +329,15 @@ empe_vcard_inline_parse (EMailParserExtension *extension,
                          GCancellable *cancellable,
                          GQueue *out_mail_parts)
 {
-	EMailPartVCardInline *vcard_part;
+	EMailPartVCard *vcard_part;
 	GQueue work_queue = G_QUEUE_INIT;
 	gint len;
 
 	len = part_id->len;
 	g_string_append (part_id, ".org-gnome-vcard-inline-display");
 
-	vcard_part = (EMailPartVCardInline *) e_mail_part_subclass_new (
-		part, part_id->str, sizeof (EMailPartVCardInline),
+	vcard_part = (EMailPartVCard *) e_mail_part_subclass_new (
+		part, part_id->str, sizeof (EMailPartVCard),
 		(GFreeFunc) mail_part_vcard_inline_free);
 	vcard_part->parent.mime_type = camel_content_type_simple (
 		camel_mime_part_get_content_type (part));

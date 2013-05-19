@@ -14,7 +14,7 @@ module_vcard_inline_la_SOURCES =				\
 	e-mail-formatter-vcard-inline.h					\
 	e-mail-parser-vcard-inline.c					\
 	e-mail-parser-vcard-inline.h					\
-	e-mail-part-vcard-inline.h					\
+	e-mail-part-vcard.h						\
 	evolution-module-vcard-inline.c
 
 module_vcard_inline_la_LIBADD =				\

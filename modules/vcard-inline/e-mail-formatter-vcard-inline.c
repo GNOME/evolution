@@ -21,7 +21,7 @@
 #endif
 
 #include "e-mail-formatter-vcard-inline.h"
-#include "e-mail-part-vcard-inline.h"
+#include "e-mail-part-vcard.h"
 
 #include <glib/gi18n-lib.h>
 
@@ -64,11 +64,11 @@ emfe_vcard_inline_format (EMailFormatterExtension *extension,
                           CamelStream *stream,
                           GCancellable *cancellable)
 {
-	EMailPartVCardInline *vcard_part;
+	EMailPartVCard *vcard_part;
 
 	g_return_val_if_fail (E_IS_MAIL_PART_VCARD (part), FALSE);
 
-	vcard_part = (EMailPartVCardInline *) part;
+	vcard_part = (EMailPartVCard *) part;
 
 	if (context->mode == E_MAIL_FORMATTER_MODE_RAW)  {
 
