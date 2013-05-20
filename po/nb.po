@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 3.8.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-16 14:48+0200\n"
-"PO-Revision-Date: 2013-05-16 14:54+0200\n"
+"POT-Creation-Date: 2013-05-20 14:02+0200\n"
+"PO-Revision-Date: 2013-05-20 14:03+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: Norsk bokmål\n"
@@ -2165,8 +2165,8 @@ msgid "Category"
 msgstr "Kategori"
 
 #: ../calendar/gui/caltypes.xml.h:16 ../calendar/gui/memotypes.xml.h:14
-#: ../calendar/gui/tasktypes.xml.h:15 ../em-format/e-mail-formatter-print.c:59
-#: ../em-format/e-mail-formatter-print-headers.c:189
+#: ../calendar/gui/tasktypes.xml.h:15 ../em-format/e-mail-formatter-print.c:54
+#: ../em-format/e-mail-formatter-print-headers.c:203
 #: ../mail/em-filter-i18n.h:6
 msgid "Attachments"
 msgstr "Vedlegg"
@@ -2433,13 +2433,15 @@ msgstr "Behold opprinnelig oppføring?"
 #, c-format
 msgid ""
 "Unable to retrieve saved component from the task list, returned error was: %s"
-msgstr "Kan ikke hente lagret komponent fra oppgavelisten. Returnert feil var: %s"
+msgstr ""
+"Kan ikke hente lagret komponent fra oppgavelisten. Returnert feil var: %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1069
 #, c-format
 msgid ""
 "Unable to retrieve saved component from the memo list, returned error was: %s"
-msgstr "Kan ikke hente lagret komponent fra notatlisten. Returnert feil var: %s"
+msgstr ""
+"Kan ikke hente lagret komponent fra notatlisten. Returnert feil var: %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1075
 #, c-format
@@ -3085,7 +3087,7 @@ msgid "Memo cannot be fully edited, because you are not the organizer"
 msgstr "Notatet kan ikke redigeres i sin helhet fordi du ikke er organisator"
 
 #: ../calendar/gui/dialogs/memo-page.c:1161
-#: ../em-format/e-mail-formatter.c:1438
+#: ../em-format/e-mail-formatter.c:1448
 #: ../em-format/e-mail-formatter-utils.c:201
 #: ../em-format/e-mail-formatter-utils.c:225 ../mail/em-filter-i18n.h:78
 #: ../mail/message-list.etspec.h:9 ../modules/mail/em-mailer-prefs.c:63
@@ -6923,7 +6925,10 @@ msgid ""
 "The message will be saved to your local Outbox folder, because the "
 "destination service is currently unavailable. You can send the message by "
 "clicking the Send/Receive button in Evolution's toolbar."
-msgstr "Meldingen vil bli lagret til din lokale utboks fordi måltjenesten ikke er tilgjengelig. Du kan sende meldingen ved å klikke på Send/Motta-knappen på verktøylinjen i Evolution."
+msgstr ""
+"Meldingen vil bli lagret til din lokale utboks fordi måltjenesten ikke er "
+"tilgjengelig. Du kan sende meldingen ved å klikke på Send/Motta-knappen på "
+"verktøylinjen i Evolution."
 
 #: ../data/evolution-alarm-notify.desktop.in.in.h:1
 msgid "Evolution Alarm Notify"
@@ -7670,9 +7675,8 @@ msgid "Sunday is a work day"
 msgstr "Søndag er en arbeidsdag"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:132
-#, fuzzy
 msgid "(Deprecated) First day of the week, from Sunday (0) to Saturday (6)"
-msgstr "Ukedag uken starter på. Fra søndag (0) til lørdag (6)"
+msgstr "(Utfaset) Ukedag uken starter på. Fra søndag (0) til lørdag (6)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:133
 msgid ""
@@ -9201,7 +9205,7 @@ msgstr "Bruk SpamAssassin tjener og klient"
 msgid "Use spamc and spamd programs, if available."
 msgstr "Bruk programmene spamc og spamd hvis tilgjengelig."
 
-#: ../em-format/e-mail-formatter-attachment.c:370
+#: ../em-format/e-mail-formatter-attachment.c:406
 #: ../e-util/e-attachment-bar.c:101 ../e-util/e-attachment-bar.c:106
 #: ../e-util/e-attachment-paned.c:176 ../e-util/e-attachment-paned.c:181
 #: ../mail/message-list.etspec.h:4
@@ -9210,35 +9214,35 @@ msgid_plural "Attachments"
 msgstr[0] "Vedlegg"
 msgstr[1] "Vedlegg"
 
-#: ../em-format/e-mail-formatter-attachment.c:371
+#: ../em-format/e-mail-formatter-attachment.c:407
 msgid "Display as attachment"
 msgstr "Vis som vedlegg"
 
-#: ../em-format/e-mail-formatter.c:1436
+#: ../em-format/e-mail-formatter.c:1446
 #: ../em-format/e-mail-formatter-headers.c:104 ../mail/e-mail-tag-editor.c:272
 #: ../mail/message-list.etspec.h:5 ../modules/mail/em-mailer-prefs.c:61
 msgid "From"
 msgstr "Fra"
 
-#: ../em-format/e-mail-formatter.c:1437 ../modules/mail/em-mailer-prefs.c:62
+#: ../em-format/e-mail-formatter.c:1447 ../modules/mail/em-mailer-prefs.c:62
 msgid "Reply-To"
 msgstr "Svar-til"
 
-#: ../em-format/e-mail-formatter.c:1439
+#: ../em-format/e-mail-formatter.c:1449
 #: ../em-format/e-mail-formatter-utils.c:203
 #: ../em-format/e-mail-formatter-utils.c:227
 #: ../modules/mail/em-mailer-prefs.c:64
 msgid "Cc"
 msgstr "Cc"
 
-#: ../em-format/e-mail-formatter.c:1440
+#: ../em-format/e-mail-formatter.c:1450
 #: ../em-format/e-mail-formatter-utils.c:205
 #: ../em-format/e-mail-formatter-utils.c:229
 #: ../modules/mail/em-mailer-prefs.c:65
 msgid "Bcc"
 msgstr "Bcc"
 
-#: ../em-format/e-mail-formatter.c:1441
+#: ../em-format/e-mail-formatter.c:1451
 #: ../em-format/e-mail-formatter-quote-headers.c:154
 #: ../mail/e-mail-tag-editor.c:277 ../mail/em-filter-i18n.h:77
 #: ../mail/message-list.etspec.h:6 ../modules/mail/em-mailer-prefs.c:66
@@ -9246,17 +9250,17 @@ msgstr "Bcc"
 msgid "Subject"
 msgstr "Emne"
 
-#: ../em-format/e-mail-formatter.c:1442 ../e-util/e-dateedit.c:550
+#: ../em-format/e-mail-formatter.c:1452 ../e-util/e-dateedit.c:550
 #: ../e-util/e-dateedit.c:573 ../mail/message-list.etspec.h:7
 #: ../modules/mail/em-mailer-prefs.c:67
 msgid "Date"
 msgstr "Dato"
 
-#: ../em-format/e-mail-formatter.c:1443 ../modules/mail/em-mailer-prefs.c:68
+#: ../em-format/e-mail-formatter.c:1453 ../modules/mail/em-mailer-prefs.c:68
 msgid "Newsgroups"
 msgstr "Nyhetsgrupper"
 
-#: ../em-format/e-mail-formatter.c:1444 ../modules/mail/em-mailer-prefs.c:69
+#: ../em-format/e-mail-formatter.c:1454 ../modules/mail/em-mailer-prefs.c:69
 #: ../plugins/face/org-gnome-face.eplug.xml.h:1
 msgid "Face"
 msgstr "Ansikt"
@@ -9270,23 +9274,23 @@ msgstr "(uten emne)"
 msgid "This message was sent by %s on behalf of %s"
 msgstr "Denne meldingen ble sendt av %s på vegne av %s"
 
-#: ../em-format/e-mail-formatter-image.c:143
+#: ../em-format/e-mail-formatter-image.c:152
 msgid "Regular Image"
 msgstr "Vanlig bilde"
 
-#: ../em-format/e-mail-formatter-image.c:144
+#: ../em-format/e-mail-formatter-image.c:153
 msgid "Display part as an image"
 msgstr "Vis del som et bilde"
 
-#: ../em-format/e-mail-formatter-message-rfc822.c:242
+#: ../em-format/e-mail-formatter-message-rfc822.c:252
 msgid "RFC822 message"
 msgstr "RFC822-melding"
 
-#: ../em-format/e-mail-formatter-message-rfc822.c:243
+#: ../em-format/e-mail-formatter-message-rfc822.c:253
 msgid "Format part as an RFC822 message"
 msgstr "Formater del som en RFC822-melding"
 
-#: ../em-format/e-mail-formatter-print.c:59
+#: ../em-format/e-mail-formatter-print.c:54
 #: ../e-util/gal-define-views-dialog.c:361
 #: ../e-util/gal-view-instance-save-as-dialog.c:95
 #: ../mail/e-mail-label-tree-view.c:99
@@ -9296,32 +9300,32 @@ msgstr "Formater del som en RFC822-melding"
 msgid "Name"
 msgstr "Navn"
 
-#: ../em-format/e-mail-formatter-print.c:59
+#: ../em-format/e-mail-formatter-print.c:54
 #: ../e-util/e-attachment-tree-view.c:574 ../mail/message-list.etspec.h:10
 msgid "Size"
 msgstr "Størrelse"
 
 #. Add encryption/signature header
-#: ../em-format/e-mail-formatter-print-headers.c:122
+#: ../em-format/e-mail-formatter-print-headers.c:129
 #: ../mail/e-mail-config-security-page.c:642
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:195
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:129
 msgid "Security"
 msgstr "Sikkerhet"
 
-#: ../em-format/e-mail-formatter-print-headers.c:140
+#: ../em-format/e-mail-formatter-print-headers.c:147
 msgid "GPG signed"
 msgstr "GPG-signert"
 
-#: ../em-format/e-mail-formatter-print-headers.c:146
+#: ../em-format/e-mail-formatter-print-headers.c:153
 msgid "GPG encrpyted"
 msgstr "GPG-kryptert"
 
-#: ../em-format/e-mail-formatter-print-headers.c:152
+#: ../em-format/e-mail-formatter-print-headers.c:159
 msgid "S/MIME signed"
 msgstr "Signert med S/MIME"
 
-#: ../em-format/e-mail-formatter-print-headers.c:158
+#: ../em-format/e-mail-formatter-print-headers.c:165
 msgid "S/MIME encrpyted"
 msgstr "Kryptert med S/MIME"
 
@@ -9332,13 +9336,13 @@ msgstr "Kryptert med S/MIME"
 msgid "Mailer"
 msgstr "E-postprogram"
 
-#: ../em-format/e-mail-formatter-quote-text-enriched.c:88
-#: ../em-format/e-mail-formatter-text-enriched.c:102
+#: ../em-format/e-mail-formatter-quote-text-enriched.c:91
+#: ../em-format/e-mail-formatter-text-enriched.c:104
 msgid "Richtext"
 msgstr "Rik tekst"
 
-#: ../em-format/e-mail-formatter-quote-text-enriched.c:89
-#: ../em-format/e-mail-formatter-text-enriched.c:103
+#: ../em-format/e-mail-formatter-quote-text-enriched.c:92
+#: ../em-format/e-mail-formatter-text-enriched.c:105
 msgid "Display part as enriched text"
 msgstr "Vis del som rik tekst"
 
@@ -9352,13 +9356,13 @@ msgstr "HTML"
 msgid "Format part as HTML"
 msgstr "Formater del som HTML"
 
-#: ../em-format/e-mail-formatter-quote-text-plain.c:111
-#: ../em-format/e-mail-formatter-text-plain.c:186
+#: ../em-format/e-mail-formatter-quote-text-plain.c:115
+#: ../em-format/e-mail-formatter-text-plain.c:194
 msgid "Plain Text"
 msgstr "Ren tekst"
 
-#: ../em-format/e-mail-formatter-quote-text-plain.c:112
-#: ../em-format/e-mail-formatter-text-plain.c:187
+#: ../em-format/e-mail-formatter-quote-text-plain.c:116
+#: ../em-format/e-mail-formatter-text-plain.c:195
 msgid "Format part as plain text"
 msgstr "Formater del som ren tekst"
 
@@ -9473,20 +9477,20 @@ msgstr ""
 "Denne meldingen er kryptert med en sterk algoritme. Det vil være meget "
 "vanskelig for en utenforstående å se innholdet i denne meldingen på kort tid."
 
-#: ../em-format/e-mail-formatter-secure-button.c:180
+#: ../em-format/e-mail-formatter-secure-button.c:182
 #: ../smime/gui/smime-ui.ui.h:20
 msgid "_View Certificate"
 msgstr "_Vis sertifikat"
 
-#: ../em-format/e-mail-formatter-secure-button.c:195
+#: ../em-format/e-mail-formatter-secure-button.c:197
 msgid "This certificate is not viewable"
 msgstr "Dette sertifikatet kan ikke vises"
 
-#: ../em-format/e-mail-formatter-source.c:126
+#: ../em-format/e-mail-formatter-source.c:130
 msgid "Source"
 msgstr "Kilde"
 
-#: ../em-format/e-mail-formatter-source.c:127
+#: ../em-format/e-mail-formatter-source.c:131
 msgid "Display source of a MIME part"
 msgstr "Vis kilde av en MIME-del"
 
@@ -9515,27 +9519,27 @@ msgstr "Feil under verifisering av signatur: %s"
 msgid "Malformed external-body part"
 msgstr "Feilutformet del for ekstern kropp"
 
-#: ../em-format/e-mail-parser-message-external.c:101
+#: ../em-format/e-mail-parser-message-external.c:102
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Peker til FTP-tjener (%s)"
 
-#: ../em-format/e-mail-parser-message-external.c:112
+#: ../em-format/e-mail-parser-message-external.c:113
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Peker til lokal fil (%s) gyldig på nettsted «%s»"
 
-#: ../em-format/e-mail-parser-message-external.c:114
+#: ../em-format/e-mail-parser-message-external.c:115
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Peker til lokal fil (%s)"
 
-#: ../em-format/e-mail-parser-message-external.c:133
+#: ../em-format/e-mail-parser-message-external.c:134
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Peker til eksterne data (%s)"
 
-#: ../em-format/e-mail-parser-message-external.c:150
+#: ../em-format/e-mail-parser-message-external.c:152
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Peker til ukjente eksterne data («%s»-type)"
@@ -13083,7 +13087,7 @@ msgstr[1] ""
 "Mappen «%s» inneholder %u duplikatmeldinger. Er du sikker på at du vil "
 "slette dem?"
 
-#: ../mail/e-mail-reader-utils.c:1603
+#: ../mail/e-mail-reader-utils.c:1604
 msgid "Save Message"
 msgid_plural "Save Messages"
 msgstr[0] "Lagre melding"
@@ -13094,17 +13098,17 @@ msgstr[1] "Lagre meldinger"
 #. * mbox format, when the first message doesn't have a
 #. * subject.  The extension ".mbox" is appended to the
 #. * string; for example "Message.mbox".
-#: ../mail/e-mail-reader-utils.c:1624
+#: ../mail/e-mail-reader-utils.c:1625
 msgid "Message"
 msgid_plural "Messages"
 msgstr[0] "Melding"
 msgstr[1] "Meldinger"
 
-#: ../mail/e-mail-reader-utils.c:2078
+#: ../mail/e-mail-reader-utils.c:2079
 msgid "Parsing message"
 msgstr "Leser melding"
 
-#: ../mail/e-mail-request.c:181
+#: ../mail/e-mail-request.c:189
 #, c-format
 msgid "Failed to load part '%s'"
 msgstr "Klarte ikke å laste del «%s»"
@@ -15557,11 +15561,11 @@ msgstr "_Send melding til liste"
 msgid "_Send Message to Contact"
 msgstr "_Send melding til kontakt"
 
-#: ../modules/audio-inline/e-mail-formatter-audio-inline.c:309
+#: ../modules/audio-inline/e-mail-formatter-audio.c:314
 msgid "Audio Player"
 msgstr "Lydavspiller"
 
-#: ../modules/audio-inline/e-mail-formatter-audio-inline.c:310
+#: ../modules/audio-inline/e-mail-formatter-audio.c:315
 msgid "Play the attachment in embedded audio player"
 msgstr "Spill av vedlegg i innebygget lydavspiller"
 
@@ -17074,11 +17078,11 @@ msgid_plural "%d tasks"
 msgstr[0] "%d oppgave"
 msgstr[1] "%d oppgaver"
 
-#: ../modules/itip-formatter/e-mail-formatter-itip.c:146
+#: ../modules/itip-formatter/e-mail-formatter-itip.c:149
 msgid "ITIP"
 msgstr "ITIP"
 
-#: ../modules/itip-formatter/e-mail-formatter-itip.c:147
+#: ../modules/itip-formatter/e-mail-formatter-itip.c:150
 msgid "Display part as an invitation"
 msgstr "Vis del som en invitasjon"
 
@@ -18646,11 +18650,11 @@ msgstr "_Formater som …"
 msgid "_Other languages"
 msgstr "_Andre språk"
 
-#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:348
+#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:367
 msgid "Text Highlight"
 msgstr "Tekstutheving"
 
-#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:349
+#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:368
 msgid "Syntax highlighting of mail parts"
 msgstr "Syntaksutheving for e-postdeler"
 
@@ -18871,36 +18875,36 @@ msgstr "_TCSH"
 msgid "_VHDL"
 msgstr "_VHDL"
 
-#: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:126
-#: ../modules/vcard-inline/e-mail-parser-vcard-inline.c:194
+#: ../modules/vcard-inline/e-mail-formatter-vcard.c:127
+#: ../modules/vcard-inline/e-mail-part-vcard.c:152
 msgid "Show F_ull vCard"
 msgstr "Vis f_ullstendig vCard"
 
-#: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:129
-#: ../modules/vcard-inline/e-mail-parser-vcard-inline.c:212
+#: ../modules/vcard-inline/e-mail-formatter-vcard.c:130
+#: ../modules/vcard-inline/e-mail-part-vcard.c:170
 msgid "Show Com_pact vCard"
 msgstr "Vis kom_pakt vCard"
 
-#: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:153
+#: ../modules/vcard-inline/e-mail-formatter-vcard.c:155
 msgid "Save _To Addressbook"
 msgstr "Lagre _til adressebok"
 
-#: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:173
+#: ../modules/vcard-inline/e-mail-formatter-vcard.c:176
 msgid "There is one other contact."
 msgstr "Det finnes en annen kontakt."
 
-#: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:179
+#: ../modules/vcard-inline/e-mail-formatter-vcard.c:182
 #, c-format
 msgid "There is %d other contact."
 msgid_plural "There are %d other contacts."
 msgstr[0] "Det finnes %d annen kontakt."
 msgstr[1] "Det finnes %d andre kontakter."
 
-#: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:204
+#: ../modules/vcard-inline/e-mail-formatter-vcard.c:207
 msgid "Addressbook Contact"
 msgstr "Kontakt i adressebok"
 
-#: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:205
+#: ../modules/vcard-inline/e-mail-formatter-vcard.c:208
 msgid "Display the part as an addressbook contact"
 msgstr "Vis del som en adressebokkontakt"
 
@@ -21019,117 +21023,3 @@ msgstr "Med fer_dig-dato"
 #: ../views/tasks/galview.xml.h:3
 msgid "With _Status"
 msgstr "Med _status"
-
-#~ msgid "Export in asynchronous mode"
-#~ msgstr "Eksporter i asynkron modus"
-
-#~ msgid ""
-#~ "The number of cards in one output file in asynchronous mode, default size "
-#~ "100."
-#~ msgstr ""
-#~ "Antall kontakter i en utdatafil i asynkron modus. Forvalgt størrelse er "
-#~ "100."
-
-#~ msgid "NUMBER"
-#~ msgstr "ANTALL"
-
-#~ msgid "In async mode, output must be file."
-#~ msgstr "I asynkron modus må utdata være en fil."
-
-#~ msgid "In normal mode, there is no need for the size option."
-#~ msgstr "I normalt modus er ikke størrelsesflagget nødvendig."
-
-#~ msgid ""
-#~ "Evolution does not support calendar reminders with\n"
-#~ "email notifications yet, but this reminder was\n"
-#~ "configured to send an email.  Evolution will display\n"
-#~ "a normal reminder dialog box instead."
-#~ msgstr ""
-#~ "Evolution støtter ikke kalenderpåminnelser med\n"
-#~ "varsling via e-post ennå, men denne påminnelsen\n"
-#~ "er konfigurert til å sende e-post. Evolution vil vise\n"
-#~ "en vanlig dialog med påminnelsen i stedet."
-
-#~ msgid "Save draft"
-#~ msgstr "Lagre utkast"
-
-#~ msgid "Email Settings"
-#~ msgstr "Innstillinger for e-post"
-
-#~ msgid "Configure email accounts"
-#~ msgstr "Konfigurer e-postkonti"
-
-#~ msgid "Week start"
-#~ msgstr "Ukestart"
-
-#~ msgid "Work days"
-#~ msgstr "Arbeidsdager"
-
-#~ msgid "Days on which the start and end of work hours should be indicated"
-#~ msgstr "Dager som starten og slutten på arbeidstid skal være indikert"
-
-#~ msgid "Save name format for drag-and-drop operation"
-#~ msgstr "Format for lagring av navn ved dra-og-slipp operasjon"
-
-#~ msgid "Whether disable ellipsizing feature of folder names in side bar."
-#~ msgstr "Slå av eller på bruk av ellipse for mappenavn i sidelinjen."
-
-#~ msgid ""
-#~ "Load images for HTML messages over HTTP(S). Possible values are: \"0\" - "
-#~ "Never load images off the net. \"1\" - Load images in messages from "
-#~ "contacts. \"2\" - Always load images off the net."
-#~ msgstr ""
-#~ "Last bilder for HTML e-poster over HTTP(S). Mulige verdier er: «0» - "
-#~ "Aldri last bilder fra nettet «1» - Last bilder i e-poster fra kontakter "
-#~ "«2» - Alltid last bilder fra nettet."
-
-#~ msgid "Search for the sender photo in local address books"
-#~ msgstr "Søk etter bilde av avsender i lokale adressebøker"
-
-#~ msgid "This option would help in improving the speed of fetching."
-#~ msgstr "Dette valget vil øke hastigheten ved henting."
-
-#~ msgid "List of MIME types to check for Bonobo component viewers"
-#~ msgstr "Liste over MIME-typer som skal se etter bonobo-komponentvisere"
-
-#~ msgid ""
-#~ "If there isn't a builtin viewer for a particular MIME type inside "
-#~ "Evolution, any MIME types appearing in this list which map to a Bonobo "
-#~ "component viewer in GNOME's MIME type database may be used for displaying "
-#~ "content."
-#~ msgstr ""
-#~ "Hvis det ikke finnes et innebygd program for visning av en bestemt MIME-"
-#~ "type i Evolution kan du bruke GNOME's MIME-type database til å vise "
-#~ "innhold for enhver MIME-type i denne listen som har en tilsvarende Bonobo-"
-#~ "komponent for visnin."
-
-#~ msgid "State of message headers in paned view"
-#~ msgstr "Tilstand for meldingshoder i vertikal visning"
-
-#~ msgid "S_earch for sender photograph only in local address books"
-#~ msgstr "Kun søk etter bilde av avs_ender i lokale adressebøker"
-
-#~ msgid ""
-#~ "This will mark all messages as read in the selected folder and its "
-#~ "subfolders."
-#~ msgstr ""
-#~ "Dette vil merke alle meldinger i valgt mappe med undermapper som lest."
-
-#~ msgid ""
-#~ "Cannot find a corresponding account in the org.gnome.OnlineAccounts "
-#~ "service from which to obtain an authentication token."
-#~ msgstr ""
-#~ "Kan ikke finne en passende konto å hente autentiseringsinformasjon for "
-#~ "fra org.gnome.OnlineAccounts-tjenesten."
-
-#~ msgid "OAuth"
-#~ msgstr "OAuth"
-
-#~ msgid "Mark All Read"
-#~ msgstr "Merk alle som lest"
-
-#~ msgid "Mark all messages in a folder as read."
-#~ msgstr "Merk alle meldinger i en mappe som lest."
-
-#~ msgid "Start in \"express\" mode"
-#~ msgstr "Start i «ekspress»-modus"
