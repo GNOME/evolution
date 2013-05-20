@@ -377,7 +377,7 @@ modules/addressbook/e-book-shell-migrate.c
 modules/addressbook/e-book-shell-sidebar.c
 modules/addressbook/e-book-shell-view-actions.c
 modules/addressbook/e-book-shell-view.c
-modules/audio-inline/e-mail-formatter-audio-inline.c
+modules/audio-inline/e-mail-formatter-audio.c
 modules/backup-restore/e-mail-config-restore-page.c
 modules/backup-restore/e-mail-config-restore-ready-page.c
 modules/backup-restore/evolution-backup-restore.c
@@ -461,8 +461,9 @@ modules/startup-wizard/evolution-startup-wizard.c
 modules/text-highlight/e-mail-display-popup-text-highlight.c
 modules/text-highlight/e-mail-formatter-text-highlight.c
 modules/text-highlight/languages.c
-modules/vcard-inline/e-mail-formatter-vcard-inline.c
-modules/vcard-inline/e-mail-parser-vcard-inline.c
+modules/vcard-inline/e-mail-formatter-vcard.c
+modules/vcard-inline/e-mail-parser-vcard.c
+modules/vcard-inline/e-mail-part-vcard.c
 modules/web-inspector/evolution-web-inspector.c
 plugins/attachment-reminder/attachment-reminder.c
 plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml
