@@ -60,14 +60,7 @@ struct _EABContactFormatterClass {
 
 GType		eab_contact_formatter_get_type	(void) G_GNUC_CONST;
 EABContactFormatter *
-		eab_contact_formatter_new	(EABContactDisplayMode mode,
-						 gboolean render_maps);
-GtkStyle *	eab_contact_formatter_get_style	(EABContactFormatter *formatter);
-void		eab_contact_formatter_set_style	(EABContactFormatter *formatter,
-						 GtkStyle *context);
-GtkStateType	eab_contact_formatter_get_state	(EABContactFormatter *formatter);
-void		eab_contact_formatter_set_state	(EABContactFormatter *formatter,
-						 GtkStateType state);
+		eab_contact_formatter_new	(void);
 gboolean	eab_contact_formatter_get_render_maps
 						(EABContactFormatter *formatter);
 void		eab_contact_formatter_set_render_maps
@@ -79,17 +72,10 @@ EABContactDisplayMode
 void		eab_contact_formatter_set_display_mode
 						(EABContactFormatter *formatter,
 						 EABContactDisplayMode mode);
-void		eab_contact_formatter_format_contact_sync
+void		eab_contact_formatter_format_contact
 						(EABContactFormatter *formatter,
 						 EContact *contact,
-						 CamelStream *stream,
-						 GCancellable *cancellable);
-void            eab_contact_formatter_format_contact_async
-						(EABContactFormatter *formatter,
-						 EContact *contact,
-						 GCancellable *cancellable,
-						 GAsyncReadyCallback callback,
-						 gpointer user_data);
+						 GString *output_buffer);
 void		eab_contact_formatter_bind_dom	(WebKitDOMDocument *document);
 
 G_END_DECLS
