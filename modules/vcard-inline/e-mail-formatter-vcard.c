@@ -69,18 +69,22 @@ mail_formatter_vcard_format (EMailFormatterExtension *extension,
 	g_return_val_if_fail (E_IS_MAIL_PART_VCARD (part), FALSE);
 
 	vcard_part = (EMailPartVCard *) part;
+	g_return_val_if_fail (vcard_part->contact_list != NULL, FALSE);
 
 	if (context->mode == E_MAIL_FORMATTER_MODE_RAW)  {
-
 		EContact *contact;
+		GString *buffer;
 
-		if (vcard_part->contact_list != NULL)
-			contact = E_CONTACT (vcard_part->contact_list->data);
-		else
-			contact = NULL;
+		contact = E_CONTACT (vcard_part->contact_list->data);
 
-		eab_contact_formatter_format_contact_sync (
-			vcard_part->formatter, contact, stream, cancellable);
+		buffer = g_string_sized_new (1024);
+
+		eab_contact_formatter_format_contact (
+			vcard_part->formatter, contact, buffer);
+		camel_stream_write_string (
+			stream, buffer->str, cancellable, NULL);
+
+		g_string_free (buffer, TRUE);
 
 	} else {
 		CamelFolder *folder;
@@ -94,8 +98,6 @@ mail_formatter_vcard_format (EMailFormatterExtension *extension,
 		gchar *html_label, *access_key;
 
 		length = g_slist_length (vcard_part->contact_list);
-		if (length < 1)
-			return FALSE;
 
 		folder = e_mail_part_list_get_folder (context->part_list);
 		message_uid = e_mail_part_list_get_message_uid (context->part_list);

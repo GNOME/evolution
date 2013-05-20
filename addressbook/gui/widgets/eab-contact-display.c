@@ -47,8 +47,6 @@ struct _EABContactDisplayPrivate {
 
 	EABContactDisplayMode mode;
 	gboolean show_maps;
-
-	GCancellable *formatter_cancellable;
 };
 
 enum {
@@ -163,62 +161,32 @@ static GtkActionEntry internal_mailto_entries[] = {
 };
 
 static void
-contact_formatting_finished (GObject *object,
-                             GSimpleAsyncResult *result,
-                             gpointer user_data)
-{
-	EABContactDisplay *display = user_data;
-	CamelStreamMem *stream;
-	gchar *html;
-	GByteArray *ba;
-
-	stream = g_simple_async_result_get_op_res_gpointer (result);
-	/* The operation was probably cancelled */
-	if (!stream)
-		return;
-
-	ba = camel_stream_mem_get_byte_array (stream);
-
-	html = g_strndup ((gchar *) ba->data, ba->len);
-	e_web_view_load_string (E_WEB_VIEW (display), html);
-
-	g_free (html);
-	g_object_unref (stream);
-	g_object_unref (object);
-	g_clear_object (&display->priv->formatter_cancellable);
-}
-
-static void
 load_contact (EABContactDisplay *display)
 {
 	EABContactFormatter *formatter;
-
-	if (display->priv->formatter_cancellable) {
-		g_cancellable_cancel (display->priv->formatter_cancellable);
-		g_clear_object (&display->priv->formatter_cancellable);
-	}
+	GString *buffer;
 
 	if (!display->priv->contact) {
 		e_web_view_clear (E_WEB_VIEW (display));
 		return;
 	}
 
-	formatter = eab_contact_formatter_new (
-			display->priv->mode,
-			display->priv->show_maps);
+	formatter = eab_contact_formatter_new ();
 	g_object_set (
 		G_OBJECT (formatter),
-		"style", gtk_widget_get_style (GTK_WIDGET (display)),
-		"state", gtk_widget_get_state (GTK_WIDGET (display)),
+		"display-mode", display->priv->mode,
+		"render-maps", display->priv->show_maps,
 		NULL);
 
-	display->priv->formatter_cancellable = g_cancellable_new ();
+	buffer = g_string_sized_new (1024);
 
-	eab_contact_formatter_format_contact_async (
-		formatter, display->priv->contact,
-		display->priv->formatter_cancellable,
-		(GAsyncReadyCallback) contact_formatting_finished,
-		display);
+	eab_contact_formatter_format_contact (
+		formatter, display->priv->contact, buffer);
+	e_web_view_load_string (E_WEB_VIEW (display), buffer->str);
+
+	g_string_free (buffer, TRUE);
+
+	g_object_unref (formatter);
 }
 
 static void

@@ -63,21 +63,14 @@
 "</head>\n"
 
 struct _EABContactFormatterPrivate {
-	EContact *contact;
-
 	EABContactDisplayMode mode;
 	gboolean render_maps;
-
-	GtkStyle *style;
-	GtkStateType state;
 };
 
 enum {
 	PROP_0,
 	PROP_DISPLAY_MODE,
-	PROP_RENDER_MAPS,
-	PROP_STYLE,
-	PROP_STATE
+	PROP_RENDER_MAPS
 };
 
 static struct {
@@ -377,14 +370,12 @@ get_email_location (EVCardAttribute *attr)
 
 static void
 render_title_block (EABContactFormatter *formatter,
+                    EContact *contact,
                     GString *buffer)
 {
 	const gchar *str;
 	gchar *html;
 	EContactPhoto *photo;
-	EContact *contact;
-
-	contact = formatter->priv->contact;
 
 	g_string_append_printf (
 		buffer,
@@ -520,19 +511,17 @@ render_contact_list_row (EABContactFormatter *formatter,
 
 static void
 render_contact_list (EABContactFormatter *formatter,
+                     EContact *contact,
                      GString *buffer)
 {
-	EContact *contact;
 	EDestination *destination;
 	const GList *dest, *dests;
-
-	contact = formatter->priv->contact;
 
 	destination = e_destination_new ();
 	e_destination_set_contact (destination, contact, 0);
 	dests = e_destination_list_get_root_dests (destination);
 
-	render_title_block (formatter, buffer);
+	render_title_block (formatter, contact, buffer);
 
 	g_string_append_printf (
 		buffer,
@@ -552,15 +541,14 @@ render_contact_list (EABContactFormatter *formatter,
 
 static void
 render_contact_column (EABContactFormatter *formatter,
+                       EContact *contact,
                        GString *buffer)
 {
-	EContact *contact;
 	GString *accum, *email;
 	GList *email_list, *l, *email_attr_list, *al;
 	gint email_num = 0;
 	const gchar *nl;
 
-	contact = formatter->priv->contact;
 	email = g_string_new ("");
 	nl = "";
 
@@ -649,9 +637,9 @@ accum_address_map (GString *buffer,
 
 static void
 render_work_column (EABContactFormatter *formatter,
+                    EContact *contact,
                     GString *buffer)
 {
-	EContact *contact = formatter->priv->contact;
 	GString *accum = g_string_new ("");
 
 	accum_attribute (accum, contact, _("Company"), E_CONTACT_ORG, NULL, 0);
@@ -683,9 +671,9 @@ render_work_column (EABContactFormatter *formatter,
 
 static void
 render_personal_column (EABContactFormatter *formatter,
+                        EContact *contact,
                         GString *buffer)
 {
-	EContact *contact = formatter->priv->contact;
 	GString *accum = g_string_new ("");
 
 	accum_attribute (accum, contact, _("Home Page"), E_CONTACT_HOMEPAGE_URL, NULL, E_TEXT_TO_HTML_CONVERT_URLS);
@@ -713,12 +701,10 @@ render_personal_column (EABContactFormatter *formatter,
 
 static void
 render_footer (EABContactFormatter *formatter,
+               EContact *contact,
                GString *buffer)
 {
-	EContact *contact;
 	const gchar *str;
-
-	contact = formatter->priv->contact;
 
 	str = e_contact_get_const (contact, E_CONTACT_NOTE);
 	if (!str || !*str)
@@ -741,38 +727,33 @@ render_footer (EABContactFormatter *formatter,
 
 static void
 render_contact (EABContactFormatter *formatter,
+                EContact *contact,
                 GString *buffer)
 {
-	render_title_block (formatter, buffer);
+	render_title_block (formatter, contact, buffer);
 
 	g_string_append (buffer, "<div id=\"columns\">");
-	render_contact_column (formatter, buffer);
-	render_work_column (formatter, buffer);
-	render_personal_column (formatter, buffer);
+	render_contact_column (formatter, contact, buffer);
+	render_work_column (formatter, contact, buffer);
+	render_personal_column (formatter, contact, buffer);
 	g_string_append (buffer, "</div>");
 
-	render_footer (formatter, buffer);
+	render_footer (formatter, contact, buffer);
 }
 
 static void
 render_normal (EABContactFormatter *formatter,
+               EContact *contact,
                GString *buffer)
 {
-	EContact *contact = formatter->priv->contact;
-
 	g_string_append (buffer, HTML_HEADER);
-	g_string_append_printf (
-		buffer, "<body bgcolor=\"#%06x\" text=\"#%06x\">",
-		e_color_to_value (
-			&formatter->priv->style->base[formatter->priv->state]),
-		e_color_to_value (
-			&formatter->priv->style->text[formatter->priv->state]));
+	g_string_append (buffer, "<body bgcolor=\"white\">");
 
 	if (contact != NULL) {
 		if (e_contact_get (contact, E_CONTACT_IS_LIST))
-			render_contact_list (formatter, buffer);
+			render_contact_list (formatter, contact, buffer);
 		else
-			render_contact (formatter, buffer);
+			render_contact (formatter, contact, buffer);
 	}
 
 	g_string_append (buffer, "</body></html>\n");
@@ -780,9 +761,9 @@ render_normal (EABContactFormatter *formatter,
 
 static void
 render_compact (EABContactFormatter *formatter,
+                EContact *contact,
                 GString *buffer)
 {
-	EContact *contact = formatter->priv->contact;
 	const gchar *str;
 	gchar *html;
 	EContactPhoto *photo;
@@ -1003,43 +984,6 @@ render_compact (EABContactFormatter *formatter,
 	g_string_append (buffer, "</body></html>\n");
 }
 
-static CamelStream *
-format_contact (EABContactFormatter *formatter,
-                GCancellable *cancellable)
-{
-	GString *buffer;
-	CamelStream *stream;
-
-	buffer = g_string_new ("");
-
-	if (formatter->priv->mode == EAB_CONTACT_DISPLAY_RENDER_NORMAL)
-		render_normal (formatter, buffer);
-	else
-		render_compact (formatter, buffer);
-
-	stream = camel_stream_mem_new ();
-	camel_stream_write_string (stream, buffer->str, cancellable, NULL);
-
-	g_string_free (buffer, TRUE);
-
-	return stream;
-}
-
-static void
-do_start_async_formatter (GSimpleAsyncResult *result,
-                          GObject *object,
-                          GCancellable *cancellable)
-{
-	EABContactFormatter *formatter;
-	CamelStream *stream;
-
-	formatter = EAB_CONTACT_FORMATTER (object);
-
-	stream = format_contact (formatter, cancellable);
-
-	g_simple_async_result_set_op_res_gpointer (result, stream, NULL);
-}
-
 static void
 eab_contact_formatter_set_property (GObject *object,
                                     guint property_id,
@@ -1057,18 +1001,6 @@ eab_contact_formatter_set_property (GObject *object,
 			eab_contact_formatter_set_render_maps (
 				EAB_CONTACT_FORMATTER (object),
 				g_value_get_boolean (value));
-			return;
-
-		case PROP_STYLE:
-			eab_contact_formatter_set_style (
-				EAB_CONTACT_FORMATTER (object),
-				g_value_get_object (value));
-			return;
-
-		case PROP_STATE:
-			eab_contact_formatter_set_state (
-				EAB_CONTACT_FORMATTER (object),
-				g_value_get_uint (value));
 			return;
 	}
 
@@ -1095,37 +1027,9 @@ eab_contact_formatter_get_property (GObject *object,
 				eab_contact_formatter_get_render_maps (
 				EAB_CONTACT_FORMATTER (object)));
 			return;
-
-		case PROP_STYLE:
-			g_value_set_object (
-				value,
-				eab_contact_formatter_get_style (
-				EAB_CONTACT_FORMATTER (object)));
-			return;
-
-		case PROP_STATE:
-			g_value_set_uint (
-				value,
-				eab_contact_formatter_get_state (
-				EAB_CONTACT_FORMATTER (object)));
-			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-}
-
-static void
-eab_contact_formatter_dispose (GObject *object)
-{
-	EABContactFormatterPrivate *priv;
-
-	priv = EAB_CONTACT_FORMATTER_GET_PRIVATE (object);
-
-	g_clear_object (&priv->contact);
-	g_clear_object (&priv->style);
-
-	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (eab_contact_formatter_parent_class)->dispose (object);
 }
 
 static void
@@ -1138,7 +1042,6 @@ eab_contact_formatter_class_init (EABContactFormatterClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = eab_contact_formatter_set_property;
 	object_class->get_property = eab_contact_formatter_get_property;
-	object_class->dispose = eab_contact_formatter_dispose;
 
 	g_object_class_install_property (
 		object_class,
@@ -1151,6 +1054,7 @@ eab_contact_formatter_class_init (EABContactFormatterClass *class)
 			EAB_CONTACT_DISPLAY_RENDER_COMPACT,
 			EAB_CONTACT_DISPLAY_RENDER_NORMAL,
 			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
 			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_install_property (
@@ -1162,31 +1066,6 @@ eab_contact_formatter_class_init (EABContactFormatterClass *class)
 			NULL,
 			FALSE,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_STYLE,
-		g_param_spec_object (
-			"style",
-			"Style",
-			NULL,
-			GTK_TYPE_STYLE,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_STATE,
-		g_param_spec_uint (
-			"state",
-			"State",
-			NULL,
-			0,
-			G_MAXUINT,
-			0,
-			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
 			G_PARAM_STATIC_STRINGS));
 }
@@ -1196,67 +1075,14 @@ eab_contact_formatter_init (EABContactFormatter *formatter)
 {
 	formatter->priv = EAB_CONTACT_FORMATTER_GET_PRIVATE (formatter);
 
-	formatter->priv->contact = NULL;
 	formatter->priv->mode = EAB_CONTACT_DISPLAY_RENDER_NORMAL;
 	formatter->priv->render_maps = FALSE;
 }
 
 EABContactFormatter *
-eab_contact_formatter_new (EABContactDisplayMode mode,
-                           gboolean render_maps)
+eab_contact_formatter_new (void)
 {
-	return g_object_new (
-		EAB_TYPE_CONTACT_FORMATTER,
-		"display-mode", mode,
-		"render-maps", render_maps,
-		NULL);
-}
-
-GtkStyle *
-eab_contact_formatter_get_style (EABContactFormatter *formatter)
-{
-	g_return_val_if_fail (EAB_IS_CONTACT_FORMATTER (formatter), NULL);
-
-	return formatter->priv->style;
-}
-
-void
-eab_contact_formatter_set_style (EABContactFormatter *formatter,
-                                 GtkStyle *style)
-{
-	g_return_if_fail (EAB_IS_CONTACT_FORMATTER (formatter));
-
-	if (formatter->priv->style == style)
-		return;
-
-	g_clear_object (&formatter->priv->style);
-
-	if (style != NULL)
-		formatter->priv->style = g_object_ref (style);
-
-	g_object_notify (G_OBJECT (formatter), "style");
-}
-
-GtkStateType
-eab_contact_formatter_get_state (EABContactFormatter *formatter)
-{
-	g_return_val_if_fail (EAB_IS_CONTACT_FORMATTER (formatter), 0);
-
-	return formatter->priv->state;
-}
-
-void
-eab_contact_formatter_set_state (EABContactFormatter *formatter,
-                                 GtkStateType state)
-{
-	g_return_if_fail (EAB_IS_CONTACT_FORMATTER (formatter));
-
-	if (formatter->priv->state == state)
-		return;
-
-	formatter->priv->state = state;
-
-	g_object_notify (G_OBJECT (formatter), "state");
+	return g_object_new (EAB_TYPE_CONTACT_FORMATTER, NULL);
 }
 
 gboolean
@@ -1306,60 +1132,18 @@ eab_contact_formatter_set_display_mode (EABContactFormatter *formatter,
 }
 
 void
-eab_contact_formatter_format_contact_sync (EABContactFormatter *formatter,
-                                           EContact *contact,
-                                           CamelStream *stream,
-                                           GCancellable *cancellable)
+eab_contact_formatter_format_contact (EABContactFormatter *formatter,
+                                      EContact *contact,
+                                      GString *output_buffer)
 {
-	CamelStream *out;
-
 	g_return_if_fail (EAB_IS_CONTACT_FORMATTER (formatter));
 	g_return_if_fail (E_IS_CONTACT (contact));
+	g_return_if_fail (output_buffer != NULL);
 
-	g_object_ref (contact);
-
-	if (formatter->priv->contact)
-		g_object_unref (formatter->priv->contact);
-
-	formatter->priv->contact = contact;
-
-	out = format_contact (formatter, cancellable);
-
-	g_seekable_seek (G_SEEKABLE (out), 0, G_SEEK_SET, cancellable, NULL);
-	camel_stream_write_to_stream (out, stream, cancellable, NULL);
-
-	g_object_unref (out);
-}
-
-void
-eab_contact_formatter_format_contact_async (EABContactFormatter *formatter,
-                                            EContact *contact,
-                                            GCancellable *cancellable,
-                                            GAsyncReadyCallback callback,
-                                            gpointer user_data)
-{
-	GSimpleAsyncResult *simple;
-
-	g_return_if_fail (EAB_IS_CONTACT_FORMATTER (formatter));
-	g_return_if_fail (E_IS_CONTACT (contact));
-	g_return_if_fail (callback != NULL);
-
-	g_object_ref (contact);
-
-	g_clear_object (&formatter->priv->contact);
-	formatter->priv->contact = contact;
-
-	simple = g_simple_async_result_new (
-		G_OBJECT (formatter), callback, user_data,
-		eab_contact_formatter_format_contact_async);
-
-	g_simple_async_result_set_check_cancellable (simple, cancellable);
-
-	g_simple_async_result_run_in_thread (
-		simple, do_start_async_formatter,
-		G_PRIORITY_DEFAULT, cancellable);
-
-	g_object_unref (simple);
+	if (formatter->priv->mode == EAB_CONTACT_DISPLAY_RENDER_NORMAL)
+		render_normal (formatter, contact, output_buffer);
+	else
+		render_compact (formatter, contact, output_buffer);
 }
 
 static void
