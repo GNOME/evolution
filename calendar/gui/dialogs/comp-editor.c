@@ -1041,7 +1041,6 @@ save_and_close_editor (CompEditor *editor,
 			ECalClientSourceType source_type;
 			icalcomponent *icalcomp = NULL;
 			const gchar *uid = NULL;
-			gchar *msg;
 			gchar *rid = NULL;
 			GError *error = NULL;
 
@@ -1060,42 +1059,35 @@ save_and_close_editor (CompEditor *editor,
 				if (error != NULL) {
 					switch (source_type) {
 						case (E_CAL_CLIENT_SOURCE_TYPE_TASKS):
-							msg = g_strdup_printf (
-								_("Unable to retrieve saved component from the task list, returned error was: %s"),
-								error->message);
+							g_warning ("Unable to retrieve saved component from the task list, returned error was: %s", error->message);
 							break;
 						case (E_CAL_CLIENT_SOURCE_TYPE_MEMOS):
-							msg = g_strdup_printf (
-								_("Unable to retrieve saved component from the memo list, returned error was: %s"),
-								error->message);
+							g_warning ("Unable to retrieve saved component from the memo list, returned error was: %s", error->message);
 							break;
 						case (E_CAL_CLIENT_SOURCE_TYPE_EVENTS):
 						default:
-							msg = g_strdup_printf (
-								_("Unable to retrieve saved component from the calendar, returned error was: %s"),
-								error->message);
+							g_warning ("Unable to retrieve saved component from the calendar, returned error was: %s", error->message);
 							break;
 					}
 					g_clear_error (&error);
 				} else {
 					switch (source_type) {
 						case (E_CAL_CLIENT_SOURCE_TYPE_TASKS):
-							msg = g_strdup (
-								_("Unable to retrieve saved component from the task list"));
+							g_warning ("Unable to retrieve saved component from the task list");
 						break;
 						case (E_CAL_CLIENT_SOURCE_TYPE_MEMOS):
-							msg = g_strdup (
-								_("Unable to retrieve saved component from the memo list"));
+							g_warning ("Unable to retrieve saved component from the memo list");
 							break;
 						case (E_CAL_CLIENT_SOURCE_TYPE_EVENTS):
 						default:
-							msg = g_strdup (
-								_("Unable to retrieve saved component from the calendar"));
+							g_warning ("Unable to retrieve saved component from the calendar");
 							break;
 					}
 				}
-				e_notice (GTK_WINDOW (editor), GTK_MESSAGE_ERROR, "%s", msg);
-				g_free (msg);
+				e_notice (
+					GTK_WINDOW (editor),
+					GTK_MESSAGE_ERROR,
+					_("Unable to synchronize with the server"));
 			} else {
 				comp = e_cal_component_new ();
 				if (e_cal_component_set_icalcomponent (comp, icalcomp)) {
@@ -1110,21 +1102,20 @@ save_and_close_editor (CompEditor *editor,
 				} else {
 					switch (source_type) {
 						case (E_CAL_CLIENT_SOURCE_TYPE_TASKS):
-							msg = g_strdup (
-								_("Unable to update the editor with the retrieved component from the task list"));
+							g_warning ("Unable to update the editor with the retrieved component from the task list");
 						break;
 						case (E_CAL_CLIENT_SOURCE_TYPE_MEMOS):
-							msg = g_strdup (
-								_("Unable to update the editor with the retrieved component from the memo list"));
+							g_warning ("Unable to update the editor with the retrieved component from the memo list");
 							break;
 						case (E_CAL_CLIENT_SOURCE_TYPE_EVENTS):
 						default:
-							msg = g_strdup (
-								_("Unable to update the editor with the retrieved component from the calendar"));
+							g_warning ("Unable to update the editor with the retrieved component from the calendar");
 							break;
 					}
-					e_notice (GTK_WINDOW (editor), GTK_MESSAGE_ERROR, "%s", msg);
-					g_free (msg);
+					e_notice (
+						GTK_WINDOW (editor),
+						GTK_MESSAGE_ERROR,
+						_("Unable to synchronize with the server"));
 					icalcomponent_free (icalcomp);
 				}
 				g_object_unref (comp);
