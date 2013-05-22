@@ -79,7 +79,7 @@ attachment_handler_get_component (EAttachment *attachment)
 	    e_attachment_get_saving (attachment))
 		return NULL;
 
-	mime_part = e_attachment_get_mime_part (attachment);
+	mime_part = e_attachment_ref_mime_part (attachment);
 	if (mime_part == NULL)
 		return NULL;
 
@@ -89,6 +89,8 @@ attachment_handler_get_component (EAttachment *attachment)
 	wrapper = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
 	camel_data_wrapper_decode_to_stream_sync (wrapper, stream, NULL, NULL);
 	g_object_unref (stream);
+
+	g_object_unref (mime_part);
 
 	if (buffer->len > 0) {
 		const gchar *str;

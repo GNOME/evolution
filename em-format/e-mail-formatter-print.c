@@ -57,20 +57,21 @@ mail_formatter_print_write_attachments (EMailFormatter *formatter,
 		EMailPartAttachment *part;
 		EAttachment *attachment;
 		GFileInfo *file_info;
-		gchar *name, *size;
-		const gchar *description;
 		const gchar *display_name;
+		gchar *description;
+		gchar *name;
+		gchar *size;
 
 		part = g_queue_pop_head (attachments);
 		attachment = e_mail_part_attachment_ref_attachment (part);
 
-		file_info = e_attachment_get_file_info (attachment);
+		file_info = e_attachment_ref_file_info (attachment);
 		if (file_info == NULL) {
 			g_object_unref (attachment);
 			continue;
 		}
 
-		description = e_attachment_get_description (attachment);
+		description = e_attachment_dup_description (attachment);
 		display_name = g_file_info_get_display_name (file_info);
 
 		if (description != NULL && *description != '\0') {
@@ -86,10 +87,12 @@ mail_formatter_print_write_attachments (EMailFormatter *formatter,
 			str, "<tr><td>%s</td><td>%s</td></tr>\n",
 			name, size);
 
+		g_free (description);
 		g_free (name);
 		g_free (size);
 
 		g_object_unref (attachment);
+		g_object_unref (file_info);
 	}
 
 	g_string_append (str, "</table>\n");

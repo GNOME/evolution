@@ -198,17 +198,17 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 		if (context->mode == E_MAIL_FORMATTER_MODE_PRINTING) {
 			gchar *name;
 			EAttachment *attachment;
-			GFileInfo *fi;
-			const gchar *description;
+			GFileInfo *file_info;
 			const gchar *display_name;
+			gchar *description;
 
 			attachment = e_mail_part_attachment_ref_attachment (
 				E_MAIL_PART_ATTACHMENT (part));
 
-			fi = e_attachment_get_file_info (attachment);
-			display_name = g_file_info_get_display_name (fi);
+			file_info = e_attachment_ref_file_info (attachment);
+			display_name = g_file_info_get_display_name (file_info);
 
-			description = e_attachment_get_description (attachment);
+			description = e_attachment_dup_description (attachment);
 			if (description != NULL && *description != '\0') {
 				name = g_strdup_printf (
 					"<h2>Attachment: %s (%s)</h2>\n",
@@ -222,9 +222,11 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 			camel_stream_write_string (
 				stream, name, cancellable, NULL);
 
+			g_free (description);
 			g_free (name);
 
 			g_object_unref (attachment);
+			g_object_unref (file_info);
 		}
 
 		for (iter = g_queue_peek_head_link (extensions); iter; iter = iter->next) {

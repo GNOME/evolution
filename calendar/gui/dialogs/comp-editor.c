@@ -3208,7 +3208,7 @@ attachment_loaded_cb (EAttachment *attachment,
 	 * So this is a lazy migration from the old form to the new.
 	 */
 
-	file_info = e_attachment_get_file_info (attachment);
+	file_info = e_attachment_ref_file_info (attachment);
 	if (file_info == NULL) {
 		/* failed to load an attachment file */
 		e_attachment_load_handle_error (attachment, result, parent);
@@ -3224,6 +3224,8 @@ attachment_loaded_cb (EAttachment *attachment,
 		g_object_notify (G_OBJECT (attachment), "file-info");
 		g_free (new_name);
 	}
+
+	g_object_unref (file_info);
 
 	e_attachment_load_handle_error (attachment, result, parent);
 }
@@ -3703,7 +3705,7 @@ comp_editor_get_mime_attach_list (CompEditor *editor)
 
 		column_id = E_ATTACHMENT_STORE_COLUMN_ATTACHMENT;
 		gtk_tree_model_get (model, &iter, column_id, &attachment, -1);
-		mime_part = e_attachment_get_mime_part (attachment);
+		mime_part = e_attachment_ref_mime_part (attachment);
 		g_object_unref (attachment);
 
 		valid = gtk_tree_model_iter_next (model, &iter);
@@ -3743,6 +3745,7 @@ comp_editor_get_mime_attach_list (CompEditor *editor)
 
 		attach_list = g_slist_append (attach_list, cal_mime_attach);
 
+		g_object_unref (mime_part);
 		g_object_unref (stream);
 
 	}

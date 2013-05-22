@@ -57,8 +57,8 @@ attachment_dialog_update (EAttachmentDialog *dialog)
 	GtkWidget *widget;
 	const gchar *content_type;
 	const gchar *display_name;
-	const gchar *description;
-	const gchar *disposition;
+	gchar *description;
+	gchar *disposition;
 	gchar *type_description = NULL;
 	gboolean sensitive;
 	gboolean active;
@@ -66,9 +66,9 @@ attachment_dialog_update (EAttachmentDialog *dialog)
 	attachment = e_attachment_dialog_get_attachment (dialog);
 
 	if (attachment != NULL) {
-		file_info = e_attachment_get_file_info (attachment);
-		description = e_attachment_get_description (attachment);
-		disposition = e_attachment_get_disposition (attachment);
+		file_info = e_attachment_ref_file_info (attachment);
+		description = e_attachment_dup_description (attachment);
+		disposition = e_attachment_dup_disposition (attachment);
 	} else {
 		file_info = NULL;
 		description = NULL;
@@ -120,7 +120,11 @@ attachment_dialog_update (EAttachmentDialog *dialog)
 	gtk_widget_set_sensitive (widget, sensitive);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), active);
 
+	g_free (description);
+	g_free (disposition);
 	g_free (type_description);
+
+	g_clear_object (&file_info);
 }
 
 static void
@@ -231,10 +235,10 @@ attachment_dialog_response (GtkDialog *dialog,
 	g_return_if_fail (E_IS_ATTACHMENT (priv->attachment));
 	attachment = priv->attachment;
 
-	file_info = e_attachment_get_file_info (attachment);
+	file_info = e_attachment_ref_file_info (attachment);
 	g_return_if_fail (G_IS_FILE_INFO (file_info));
 
-	mime_part = e_attachment_get_mime_part (attachment);
+	mime_part = e_attachment_ref_mime_part (attachment);
 
 	attribute = G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME;
 	text = gtk_entry_get_text (GTK_ENTRY (priv->display_name_entry));
@@ -257,6 +261,9 @@ attachment_dialog_response (GtkDialog *dialog,
 
 	if (mime_part != NULL)
 		camel_mime_part_set_disposition (mime_part, text);
+
+	g_clear_object (&file_info);
+	g_clear_object (&mime_part);
 
 	g_object_notify (G_OBJECT (attachment), "file-info");
 }
