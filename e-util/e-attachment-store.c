@@ -727,18 +727,18 @@ e_attachment_store_get_uris_async (EAttachmentStore *store,
 	for (iter = attachment_list; iter != NULL; iter = iter->next) {
 		EAttachment *attachment = iter->data;
 		GFile *file;
-		gchar *uri;
 
 		file = e_attachment_get_file (attachment);
-		if (file == NULL)
-			continue;
+		if (file != NULL) {
+			gchar *uri;
 
-		uri = g_file_get_uri (file);
-		uri_context->uris[uri_context->index++] = uri;
+			uri = g_file_get_uri (file);
+			uri_context->uris[uri_context->index++] = uri;
 
-		/* Mark the list node for deletion. */
-		trash = g_list_prepend (trash, iter);
-		g_object_unref (attachment);
+			/* Mark the list node for deletion. */
+			trash = g_list_prepend (trash, iter);
+			g_object_unref (attachment);
+		}
 	}
 
 	/* Expunge the list. */

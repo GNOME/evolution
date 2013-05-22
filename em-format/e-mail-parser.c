@@ -732,22 +732,22 @@ e_mail_parser_wrap_as_attachment (EMailParser *parser,
 		NULL);
 
 	if (size != 0) {
-		GFileInfo *fileinfo;
+		GFileInfo *file_info;
 
-		fileinfo = e_attachment_get_file_info (attachment);
+		file_info = e_attachment_get_file_info (attachment);
 
-		if (!fileinfo) {
-			fileinfo = g_file_info_new ();
+		if (file_info == NULL) {
+			file_info = g_file_info_new ();
 			g_file_info_set_content_type (
-				fileinfo, empa->snoop_mime_type);
+				file_info, empa->snoop_mime_type);
 		} else {
-			g_object_ref (fileinfo);
+			g_object_ref (file_info);
 		}
 
-		g_file_info_set_size (fileinfo, size);
-		e_attachment_set_file_info (attachment, fileinfo);
+		g_file_info_set_size (file_info, size);
+		e_attachment_set_file_info (attachment, file_info);
 
-		g_object_unref (fileinfo);
+		g_object_unref (file_info);
 	}
 
 	g_object_unref (attachment);

@@ -209,7 +209,7 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 			display_name = g_file_info_get_display_name (fi);
 
 			description = e_attachment_get_description (attachment);
-			if (description && *description) {
+			if (description != NULL && *description != '\0') {
 				name = g_strdup_printf (
 					"<h2>Attachment: %s (%s)</h2>\n",
 					description, display_name);
@@ -219,7 +219,9 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 					display_name);
 			}
 
-			camel_stream_write_string (stream, name, cancellable, NULL);
+			camel_stream_write_string (
+				stream, name, cancellable, NULL);
+
 			g_free (name);
 
 			g_object_unref (attachment);

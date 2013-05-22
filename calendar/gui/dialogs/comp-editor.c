@@ -3209,7 +3209,7 @@ attachment_loaded_cb (EAttachment *attachment,
 	 */
 
 	file_info = e_attachment_get_file_info (attachment);
-	if (!file_info) {
+	if (file_info == NULL) {
 		/* failed to load an attachment file */
 		e_attachment_load_handle_error (attachment, result, parent);
 		return;
@@ -3697,7 +3697,8 @@ comp_editor_get_mime_attach_list (CompEditor *editor)
 		CamelStream *stream;
 		GByteArray *byte_array;
 		guchar *buffer = NULL;
-		const gchar *desc, *disp;
+		const gchar *description;
+		const gchar *disposition;
 		gint column_id;
 
 		column_id = E_ATTACHMENT_STORE_COLUMN_ATTACHMENT;
@@ -3726,18 +3727,19 @@ comp_editor_get_mime_attach_list (CompEditor *editor)
 		cal_mime_attach->length = byte_array->len;
 		cal_mime_attach->filename =
 			g_strdup (camel_mime_part_get_filename (mime_part));
-		desc = camel_mime_part_get_description (mime_part);
-		if (!desc || *desc == '\0')
-			desc = _("attachment");
-		cal_mime_attach->description = g_strdup (desc);
+		description = camel_mime_part_get_description (mime_part);
+		if (description == NULL || *description == '\0')
+			description = _("attachment");
+		cal_mime_attach->description = g_strdup (description);
 		cal_mime_attach->content_type = g_strdup (
 			camel_data_wrapper_get_mime_type (wrapper));
 		cal_mime_attach->content_id = g_strdup (
 			camel_mime_part_get_content_id (mime_part));
 
-		disp = camel_mime_part_get_disposition (mime_part);
-		if (disp && !g_ascii_strcasecmp (disp, "inline"))
-			cal_mime_attach->disposition = TRUE;
+		disposition = camel_mime_part_get_disposition (mime_part);
+		cal_mime_attach->disposition =
+			(disposition != NULL) &&
+			(g_ascii_strcasecmp (disposition, "inline") == 0);
 
 		attach_list = g_slist_append (attach_list, cal_mime_attach);
 

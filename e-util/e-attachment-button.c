@@ -271,58 +271,57 @@ attachment_button_expand_drag_data_get_cb (EAttachmentButton *button,
                                            guint time)
 {
 	EAttachmentView *view;
+	EAttachment *attachment;
+	gchar *mime_type = NULL;
 
-	if (button->priv->attachment) {
-		gchar *mime_type;
+	attachment = e_attachment_button_get_attachment (button);
 
-		mime_type = e_attachment_get_mime_type (
-			button->priv->attachment);
+	if (attachment != NULL)
+		mime_type = e_attachment_get_mime_type (attachment);
 
-		if (mime_type) {
-			gboolean processed = FALSE;
-			GdkAtom atom;
-			gchar *atom_name;
+	if (mime_type != NULL) {
+		gboolean processed = FALSE;
+		GdkAtom atom;
+		gchar *atom_name;
 
-			atom = gtk_selection_data_get_target (selection);
-			atom_name = gdk_atom_name (atom);
+		atom = gtk_selection_data_get_target (selection);
+		atom_name = gdk_atom_name (atom);
 
-			if (g_strcmp0 (atom_name, mime_type) == 0) {
-				CamelMimePart *mime_part;
+		if (g_strcmp0 (atom_name, mime_type) == 0) {
+			CamelMimePart *mime_part;
 
-				mime_part = e_attachment_get_mime_part (
-					button->priv->attachment);
+			mime_part = e_attachment_get_mime_part (attachment);
 
-				if (CAMEL_IS_MIME_PART (mime_part)) {
-					CamelDataWrapper *wrapper;
-					CamelStream *stream;
-					GByteArray *buffer;
+			if (mime_part != NULL) {
+				CamelDataWrapper *wrapper;
+				CamelStream *stream;
+				GByteArray *buffer;
 
-					buffer = g_byte_array_new ();
-					stream = camel_stream_mem_new ();
-					camel_stream_mem_set_byte_array (
-						CAMEL_STREAM_MEM (stream),
-						buffer);
-					wrapper = camel_medium_get_content (
-						CAMEL_MEDIUM (mime_part));
-					camel_data_wrapper_decode_to_stream_sync (
-						wrapper, stream, NULL, NULL);
-					g_object_unref (stream);
+				buffer = g_byte_array_new ();
+				stream = camel_stream_mem_new ();
+				camel_stream_mem_set_byte_array (
+					CAMEL_STREAM_MEM (stream),
+					buffer);
+				wrapper = camel_medium_get_content (
+					CAMEL_MEDIUM (mime_part));
+				camel_data_wrapper_decode_to_stream_sync (
+					wrapper, stream, NULL, NULL);
+				g_object_unref (stream);
 
-					gtk_selection_data_set (
-						selection, atom, 8,
-						buffer->data, buffer->len);
-					processed = TRUE;
+				gtk_selection_data_set (
+					selection, atom, 8,
+					buffer->data, buffer->len);
+				processed = TRUE;
 
-					g_byte_array_free (buffer, TRUE);
-				}
+				g_byte_array_free (buffer, TRUE);
 			}
-
-			g_free (atom_name);
-			g_free (mime_type);
-
-			if (processed)
-				return;
 		}
+
+		g_free (atom_name);
+		g_free (mime_type);
+
+		if (processed)
+			return;
 	}
 
 	view = e_attachment_button_get_view (button);
@@ -787,11 +786,11 @@ e_attachment_button_set_attachment (EAttachmentButton *button,
 	list = gtk_target_list_new (NULL, 0);
 	gtk_target_list_add_uri_targets (list, 0);
 
-	if (attachment) {
+	if (attachment != NULL) {
 		gchar *simple_type;
 
 		simple_type = e_attachment_get_mime_type (attachment);
-		if (simple_type) {
+		if (simple_type != NULL) {
 			GtkTargetEntry attach_entry[] = { { NULL, 0, 2 } };
 
 			attach_entry[0].target = simple_type;
