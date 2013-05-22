@@ -173,7 +173,7 @@ attachment_handler_image_update_actions_cb (EAttachmentView *view,
 	if (e_attachment_get_saving (attachment))
 		goto exit;
 
-	mime_type = e_attachment_get_mime_type (attachment);
+	mime_type = e_attachment_dup_mime_type (attachment);
 	visible =
 		(mime_type != NULL) &&
 		(g_ascii_strncasecmp (mime_type, "image/", 6) == 0);

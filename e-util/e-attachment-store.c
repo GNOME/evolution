@@ -405,9 +405,11 @@ e_attachment_store_get_total_size (EAttachmentStore *store)
 		EAttachment *attachment = iter->data;
 		GFileInfo *file_info;
 
-		file_info = e_attachment_get_file_info (attachment);
-		if (file_info != NULL)
+		file_info = e_attachment_ref_file_info (attachment);
+		if (file_info != NULL) {
 			total_size += g_file_info_get_size (file_info);
+			g_object_unref (file_info);
+		}
 	}
 
 	g_list_foreach (list, (GFunc) g_object_unref, NULL);
@@ -556,13 +558,18 @@ e_attachment_store_run_save_dialog (EAttachmentStore *store,
 		const gchar *name = NULL;
 
 		attachment = attachment_list->data;
-		file_info = e_attachment_get_file_info (attachment);
+		file_info = e_attachment_ref_file_info (attachment);
+
 		if (file_info != NULL)
 			name = g_file_info_get_display_name (file_info);
+
 		if (name == NULL)
 			/* Translators: Default attachment filename. */
 			name = _("attachment.dat");
+
 		gtk_file_chooser_set_current_name (file_chooser, name);
+
+		g_clear_object (&file_info);
 	}
 
 	response = gtk_dialog_run (GTK_DIALOG (dialog));
@@ -728,7 +735,7 @@ e_attachment_store_get_uris_async (EAttachmentStore *store,
 		EAttachment *attachment = iter->data;
 		GFile *file;
 
-		file = e_attachment_get_file (attachment);
+		file = e_attachment_ref_file (attachment);
 		if (file != NULL) {
 			gchar *uri;
 
@@ -738,6 +745,8 @@ e_attachment_store_get_uris_async (EAttachmentStore *store,
 			/* Mark the list node for deletion. */
 			trash = g_list_prepend (trash, iter);
 			g_object_unref (attachment);
+
+			g_object_unref (file);
 		}
 	}
 

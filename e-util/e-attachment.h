@@ -76,18 +76,19 @@ gboolean	e_attachment_get_can_show	(EAttachment *attachment);
 void		e_attachment_set_can_show	(EAttachment *attachment,
 						 gboolean can_show);
 const gchar *	e_attachment_get_disposition	(EAttachment *attachment);
+gchar *		e_attachment_dup_disposition	(EAttachment *attachment);
 void		e_attachment_set_disposition	(EAttachment *attachment,
 						 const gchar *disposition);
-GFile *		e_attachment_get_file		(EAttachment *attachment);
+GFile *		e_attachment_ref_file		(EAttachment *attachment);
 void		e_attachment_set_file		(EAttachment *attachment,
 						 GFile *file);
-GFileInfo *	e_attachment_get_file_info	(EAttachment *attachment);
+GFileInfo *	e_attachment_ref_file_info	(EAttachment *attachment);
 void		e_attachment_set_file_info	(EAttachment *attachment,
 						 GFileInfo *file_info);
-gchar *		e_attachment_get_mime_type	(EAttachment *attachment);
-GIcon *		e_attachment_get_icon		(EAttachment *attachment);
+gchar *		e_attachment_dup_mime_type	(EAttachment *attachment);
+GIcon *		e_attachment_ref_icon		(EAttachment *attachment);
 gboolean	e_attachment_get_loading	(EAttachment *attachment);
-CamelMimePart *	e_attachment_get_mime_part	(EAttachment *attachment);
+CamelMimePart *	e_attachment_ref_mime_part	(EAttachment *attachment);
 void		e_attachment_set_mime_part	(EAttachment *attachment,
 						 CamelMimePart *mime_part);
 gint		e_attachment_get_percent	(EAttachment *attachment);
@@ -107,8 +108,8 @@ camel_cipher_validity_sign_t
 		e_attachment_get_signed		(EAttachment *attachment);
 void		e_attachment_set_signed		(EAttachment *attachment,
 						 camel_cipher_validity_sign_t signed_);
-const gchar *	e_attachment_get_description	(EAttachment *attachment);
-const gchar *	e_attachment_get_thumbnail_path	(EAttachment *attachment);
+gchar *		e_attachment_dup_description	(EAttachment *attachment);
+gchar *		e_attachment_dup_thumbnail_path	(EAttachment *attachment);
 gboolean	e_attachment_is_rfc822		(EAttachment *attachment);
 GList *		e_attachment_list_apps		(EAttachment *attachment);
 

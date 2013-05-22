@@ -277,7 +277,7 @@ attachment_button_expand_drag_data_get_cb (EAttachmentButton *button,
 	attachment = e_attachment_button_get_attachment (button);
 
 	if (attachment != NULL)
-		mime_type = e_attachment_get_mime_type (attachment);
+		mime_type = e_attachment_dup_mime_type (attachment);
 
 	if (mime_type != NULL) {
 		gboolean processed = FALSE;
@@ -290,7 +290,7 @@ attachment_button_expand_drag_data_get_cb (EAttachmentButton *button,
 		if (g_strcmp0 (atom_name, mime_type) == 0) {
 			CamelMimePart *mime_part;
 
-			mime_part = e_attachment_get_mime_part (attachment);
+			mime_part = e_attachment_ref_mime_part (attachment);
 
 			if (mime_part != NULL) {
 				CamelDataWrapper *wrapper;
@@ -314,6 +314,8 @@ attachment_button_expand_drag_data_get_cb (EAttachmentButton *button,
 				processed = TRUE;
 
 				g_byte_array_free (buffer, TRUE);
+
+				g_object_unref (mime_part);
 			}
 		}
 
@@ -789,7 +791,7 @@ e_attachment_button_set_attachment (EAttachmentButton *button,
 	if (attachment != NULL) {
 		gchar *simple_type;
 
-		simple_type = e_attachment_get_mime_type (attachment);
+		simple_type = e_attachment_dup_mime_type (attachment);
 		if (simple_type != NULL) {
 			GtkTargetEntry attach_entry[] = { { NULL, 0, 2 } };
 

@@ -733,14 +733,12 @@ e_mail_parser_wrap_as_attachment (EMailParser *parser,
 	if (size != 0) {
 		GFileInfo *file_info;
 
-		file_info = e_attachment_get_file_info (empa->attachment);
+		file_info = e_attachment_ref_file_info (empa->attachment);
 
 		if (file_info == NULL) {
 			file_info = g_file_info_new ();
 			g_file_info_set_content_type (
 				file_info, empa->snoop_mime_type);
-		} else {
-			g_object_ref (file_info);
 		}
 
 		g_file_info_set_size (file_info, size);

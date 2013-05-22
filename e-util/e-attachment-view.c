@@ -175,7 +175,7 @@ action_open_with_cb (GtkAction *action,
 		E_ATTACHMENT_STORE_COLUMN_ATTACHMENT, &attachment, -1);
 	g_return_if_fail (E_IS_ATTACHMENT (attachment));
 
-	file_info = e_attachment_get_file_info (attachment);
+	file_info = e_attachment_ref_file_info (attachment);
 	g_return_if_fail (file_info != NULL);
 
 	content_type = g_file_info_get_content_type (file_info);
@@ -192,6 +192,8 @@ action_open_with_cb (GtkAction *action,
 		e_attachment_view_open_path (view, path, app_info);
 		g_object_unref (app_info);
 	}
+
+	g_object_unref (file_info);
 
 	g_list_foreach (list, (GFunc) gtk_tree_path_free, NULL);
 	g_list_free (list);
@@ -1561,7 +1563,7 @@ e_attachment_view_drag_begin (EAttachmentView *view,
 		gint width, height;
 
 		attachment = E_ATTACHMENT (priv->selected->data);
-		icon = e_attachment_get_icon (attachment);
+		icon = e_attachment_ref_icon (attachment);
 		g_return_if_fail (icon != NULL);
 
 		icon_theme = gtk_icon_theme_get_default ();
@@ -1588,6 +1590,8 @@ e_attachment_view_drag_begin (EAttachmentView *view,
 
 			gtk_icon_info_free (icon_info);
 		}
+
+		g_object_unref (icon);
 	}
 }
 

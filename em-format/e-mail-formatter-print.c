@@ -59,8 +59,8 @@ write_attachments_list (EMailFormatter *formatter,
 		EMailPartAttachment *part = link->data;
 		EAttachment *attachment;
 		GFileInfo *file_info;
-		const gchar *description;
 		const gchar *display_name;
+		gchar *description;
 		gchar *name;
 		gchar *size;
 
@@ -68,12 +68,12 @@ write_attachments_list (EMailFormatter *formatter,
 			continue;
 
 		attachment = part->attachment;
-		file_info = e_attachment_get_file_info (attachment);
+		file_info = e_attachment_ref_file_info (attachment);
 		if (file_info == NULL)
 			continue;
 
 		display_name = g_file_info_get_display_name (file_info);
-		description = e_attachment_get_description (attachment);
+		description = e_attachment_dup_description (attachment);
 
 		if (description != NULL && *description != '\0') {
 			name = g_strdup_printf (
@@ -89,8 +89,11 @@ write_attachments_list (EMailFormatter *formatter,
 			str, "<tr><td>%s</td><td>%s</td></tr>\n",
 			name, size);
 
+		g_free (description);
 		g_free (name);
 		g_free (size);
+
+		g_object_unref (file_info);
 	}
 
 	g_string_append (str, "</table>\n");

@@ -79,7 +79,7 @@ mail_attachment_handler_get_selected_message (EAttachmentHandler *handler)
 	g_return_val_if_fail (g_list_length (selected) == 1, NULL);
 
 	attachment = E_ATTACHMENT (selected->data);
-	mime_part = e_attachment_get_mime_part (attachment);
+	mime_part = e_attachment_ref_mime_part (attachment);
 
 	outer_wrapper =
 		camel_medium_get_content (CAMEL_MEDIUM (mime_part));
@@ -127,6 +127,8 @@ mail_attachment_handler_get_selected_message (EAttachmentHandler *handler)
 exit:
 	if (message == NULL)
 		message = g_object_ref (outer_wrapper);
+
+	g_clear_object (&mime_part);
 
 	g_list_free_full (selected, (GDestroyNotify) g_object_unref);
 
@@ -479,7 +481,7 @@ mail_attachment_handler_update_actions (EAttachmentView *view,
 	    e_attachment_get_saving (attachment))
 		goto exit;
 
-	mime_part = e_attachment_get_mime_part (attachment);
+	mime_part = e_attachment_ref_mime_part (attachment);
 
 	if (mime_part != NULL) {
 		CamelMedium *medium;
@@ -488,6 +490,8 @@ mail_attachment_handler_update_actions (EAttachmentView *view,
 		medium = CAMEL_MEDIUM (mime_part);
 		content = camel_medium_get_content (medium);
 		visible = CAMEL_IS_MIME_MESSAGE (content);
+
+		g_object_unref (mime_part);
 	}
 
 exit:
