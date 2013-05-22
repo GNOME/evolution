@@ -178,24 +178,28 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 		if (context->mode == E_MAIL_FORMATTER_MODE_PRINTING) {
 			gchar *name;
 			EAttachment *attachment;
-			GFileInfo *fi;
+			GFileInfo *file_info;
 			const gchar *description;
+			const gchar *display_name;
 
 			attachment = empa->attachment;
-			fi = e_attachment_get_file_info (attachment);
+			file_info = e_attachment_get_file_info (attachment);
+			display_name = g_file_info_get_display_name (file_info);
 
 			description = e_attachment_get_description (attachment);
-			if (description && *description) {
+			if (description != NULL && *description != '\0') {
 				name = g_strdup_printf (
 					"<h2>Attachment: %s (%s)</h2>\n",
-					description, g_file_info_get_display_name (fi));
+					description, display_name);
 			} else {
 				name = g_strdup_printf (
 					"<h2>Attachment: %s</h2>\n",
-					g_file_info_get_display_name (fi));
+					display_name);
 			}
 
-			camel_stream_write_string (stream, name, cancellable, NULL);
+			camel_stream_write_string (
+				stream, name, cancellable, NULL);
+
 			g_free (name);
 		}
 

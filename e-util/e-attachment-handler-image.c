@@ -155,9 +155,7 @@ attachment_handler_image_update_actions_cb (EAttachmentView *view,
                                             EAttachmentHandler *handler)
 {
 	EAttachment *attachment;
-	GFileInfo *file_info;
 	GtkActionGroup *action_group;
-	const gchar *content_type;
 	gchar *mime_type;
 	GList *selected;
 	gboolean visible = FALSE;
@@ -168,10 +166,6 @@ attachment_handler_image_update_actions_cb (EAttachmentView *view,
 		goto exit;
 
 	attachment = E_ATTACHMENT (selected->data);
-	file_info = e_attachment_get_file_info (attachment);
-
-	if (file_info == NULL)
-		goto exit;
 
 	if (e_attachment_get_loading (attachment))
 		goto exit;
@@ -179,10 +173,10 @@ attachment_handler_image_update_actions_cb (EAttachmentView *view,
 	if (e_attachment_get_saving (attachment))
 		goto exit;
 
-	content_type = g_file_info_get_content_type (file_info);
-
-	mime_type = g_content_type_get_mime_type (content_type);
-	visible = (g_ascii_strncasecmp (mime_type, "image/", 6) == 0);
+	mime_type = e_attachment_get_mime_type (attachment);
+	visible =
+		(mime_type != NULL) &&
+		(g_ascii_strncasecmp (mime_type, "image/", 6) == 0);
 	g_free (mime_type);
 
 exit:

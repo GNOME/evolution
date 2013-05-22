@@ -65,10 +65,13 @@ mail_attachment_handler_get_selected_message (EAttachmentHandler *handler)
 	EAttachment *attachment;
 	EAttachmentView *view;
 	CamelMimePart *mime_part;
-	CamelDataWrapper *wrapper;
 	CamelMimeMessage *message = NULL;
-	CamelContentType *content_type;
+	CamelDataWrapper *outer_wrapper;
+	CamelContentType *outer_content_type;
+	CamelDataWrapper *inner_wrapper;
+	CamelContentType *inner_content_type;
 	GList *selected;
+	gboolean inner_and_outer_content_types_match;
 
 	view = e_attachment_handler_get_view (handler);
 
@@ -77,41 +80,55 @@ mail_attachment_handler_get_selected_message (EAttachmentHandler *handler)
 
 	attachment = E_ATTACHMENT (selected->data);
 	mime_part = e_attachment_get_mime_part (attachment);
-	wrapper = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
 
-	content_type = camel_data_wrapper_get_mime_type_field (wrapper);
-	if (content_type && camel_content_type_is (content_type, "message", "rfc822")) {
-		CamelDataWrapper *inner;
-		CamelContentType *inner_content_type;
+	outer_wrapper =
+		camel_medium_get_content (CAMEL_MEDIUM (mime_part));
+	outer_content_type =
+		camel_data_wrapper_get_mime_type_field (outer_wrapper);
 
-		inner = camel_medium_get_content (CAMEL_MEDIUM (wrapper));
-		inner_content_type = camel_data_wrapper_get_mime_type_field (inner);
-		if (!camel_content_type_is (inner_content_type, content_type->type, content_type->subtype)) {
-			CamelStream *mem;
+	if (!camel_content_type_is (outer_content_type, "message", "rfc822"))
+		goto exit;
 
-			/* Create a message copy in case the inner content-type doesn't match
-			 * the mime_part's content type, which can happen for multipart/digest,
-			 * where it confuses the formatter on reply, which skips all rfc822 subparts.
-			*/
-			mem = camel_stream_mem_new ();
-			camel_data_wrapper_write_to_stream_sync (CAMEL_DATA_WRAPPER (wrapper), mem, NULL, NULL);
+	inner_wrapper =
+		camel_medium_get_content (CAMEL_MEDIUM (outer_wrapper));
+	inner_content_type =
+		camel_data_wrapper_get_mime_type_field (inner_wrapper);
 
-			g_seekable_seek (G_SEEKABLE (mem), 0, G_SEEK_SET, NULL, NULL);
-			message = camel_mime_message_new ();
-			if (!camel_data_wrapper_construct_from_stream_sync (CAMEL_DATA_WRAPPER (message), mem, NULL, NULL)) {
-				g_object_unref (message);
-				message = NULL;
-			}
+	inner_and_outer_content_types_match =
+		camel_content_type_is (
+			inner_content_type,
+			outer_content_type->type,
+			outer_content_type->subtype);
 
-			g_object_unref (mem);
-		}
+	if (!inner_and_outer_content_types_match) {
+		CamelStream *mem;
+		gboolean success;
+
+		/* Create a message copy in case the inner content
+		 * type doesn't match the mime_part's content type,
+		 * which can happen for multipart/digest, where it
+		 * confuses the formatter on reply, which skips all
+		 * rfc822 subparts. */
+		mem = camel_stream_mem_new ();
+		camel_data_wrapper_write_to_stream_sync (
+			CAMEL_DATA_WRAPPER (outer_wrapper), mem, NULL, NULL);
+
+		g_seekable_seek (
+			G_SEEKABLE (mem), 0, G_SEEK_SET, NULL, NULL);
+		message = camel_mime_message_new ();
+		success = camel_data_wrapper_construct_from_stream_sync (
+			CAMEL_DATA_WRAPPER (message), mem, NULL, NULL);
+		if (!success)
+			g_clear_object (&message);
+
+		g_object_unref (mem);
 	}
 
-	if (!message)
-		message = g_object_ref (wrapper);
+exit:
+	if (message == NULL)
+		message = g_object_ref (outer_wrapper);
 
-	g_list_foreach (selected, (GFunc) g_object_unref, NULL);
-	g_list_free (selected);
+	g_list_free_full (selected, (GDestroyNotify) g_object_unref);
 
 	return message;
 }
@@ -447,7 +464,6 @@ mail_attachment_handler_update_actions (EAttachmentView *view,
 {
 	EAttachment *attachment;
 	CamelMimePart *mime_part;
-	CamelDataWrapper *wrapper;
 	GtkActionGroup *action_group;
 	GList *selected;
 	gboolean visible = FALSE;
@@ -465,12 +481,14 @@ mail_attachment_handler_update_actions (EAttachmentView *view,
 
 	mime_part = e_attachment_get_mime_part (attachment);
 
-	if (!CAMEL_IS_MIME_PART (mime_part))
-		goto exit;
+	if (mime_part != NULL) {
+		CamelMedium *medium;
+		CamelDataWrapper *content;
 
-	wrapper = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
-
-	visible = CAMEL_IS_MIME_MESSAGE (wrapper);
+		medium = CAMEL_MEDIUM (mime_part);
+		content = camel_medium_get_content (medium);
+		visible = CAMEL_IS_MIME_MESSAGE (content);
+	}
 
 exit:
 	action_group = e_attachment_view_get_action_group (view, "mail");

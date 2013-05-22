@@ -80,7 +80,7 @@ attachment_handler_get_component (EAttachment *attachment)
 		return NULL;
 
 	mime_part = e_attachment_get_mime_part (attachment);
-	if (!CAMEL_IS_MIME_PART (mime_part))
+	if (mime_part == NULL)
 		return NULL;
 
 	buffer = g_byte_array_new ();
