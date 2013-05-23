@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: as\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2013-05-14 12:28+0000\n"
-"PO-Revision-Date: 2013-05-15 18:11+0530\n"
+"POT-Creation-Date: 2013-05-22 15:32+0000\n"
+"PO-Revision-Date: 2013-05-23 12:02+0530\n"
 "Last-Translator: Nilamdyuti Goswami <ngoswami@redhat.com>\n"
 "Language-Team: Assamese <kde-i18n-doc@kde.org>\n"
 "Language: as_IN\n"
@@ -34,8 +34,9 @@ msgid ""
 "This address book server might be unreachable or the server name may be "
 "misspelled or your network connection could be down."
 msgstr ""
-"সম্ভবত এই ঠিকনা বহীৰ চাৰ্ভাৰটো অপ্ৰাপ্য অথবা চাৰ্ভাৰৰ নাম সঠিকভাবে লিখা"
-"হোৱা নাই অথবা আপোনাৰ নেটৱাৰ্ক সংযোগ ব্যবস্থা সক্ৰিয় নাই।"
+"সম্ভবত এই ঠিকনা বহীৰ চাৰ্ভাৰটো অপ্ৰাপ্য অথবা চাৰ্ভাৰৰ নাম সঠিকভাবে লিখাহোৱা "
+"নাই "
+"অথবা আপোনাৰ নেটৱাৰ্ক সংযোগ ব্যবস্থা সক্ৰিয় নাই।"
 
 #: ../addressbook/addressbook.error.xml.h:3
 msgid "Failed to authenticate with LDAP server."
@@ -67,9 +68,9 @@ msgid ""
 msgstr ""
 "এই LDAP চাৰ্ভাৰে সম্ভৱত LDAP ৰ কোনো পূৰ্ববৰ্তী সংস্কৰণ ব্যৱহাৰ কৰিছে, যি এই "
 "বৈশিষ্ট্য "
-"সমৰ্থন নকৰে বা চাৰ্ভাৰ সঠিকৰূপে বিন্যাস কৰা হোৱা নাই। সমৰ্থিত সন্ধানৰ "
-"স্থান "
-"সম্পৰ্কে জানিবলৈ আপোনাৰ ব্যৱস্থাপকৰ সৈতে যোগাযোগ কৰক।"
+"সমৰ্থন নকৰে বা চাৰ্ভাৰ সঠিকৰূপে বিন্যাস কৰা হোৱা নাই। সমৰ্থিত সন্ধানৰ স্থান "
+"সম্পৰ্কে "
+"জানিবলৈ আপোনাৰ ব্যৱস্থাপকৰ সৈতে যোগাযোগ কৰক।"
 
 #: ../addressbook/addressbook.error.xml.h:7
 msgid "This server does not support LDAPv3 schema information."
@@ -310,8 +311,8 @@ msgstr "HTML মেইল প্ৰাপ্ত কৰিবলৈ ইচ্ছ�
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:9
 #: ../addressbook/gui/merging/eab-contact-merging.c:396
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:6
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:606
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:971
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:590
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:942
 #: ../smime/lib/e-asn1-object.c:395
 msgid "Email"
 msgstr "ই-মেইল"
@@ -428,7 +429,7 @@ msgid "_Anniversary:"
 msgstr "বাৰ্ষিকী:(_A)"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:37
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:703
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:685
 #: ../calendar/gui/e-calendar-view.c:2197
 msgid "Anniversary"
 msgstr "বাৰ্ষিকী"
@@ -439,7 +440,7 @@ msgstr "বাৰ্ষিকী"
 #. * which, so long as it has an icon.  We're just interested in
 #. * the directory components.
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:38
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:702
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:684
 #: ../calendar/gui/e-calendar-view.c:2196 ../shell/main.c:129
 msgid "Birthday"
 msgstr "জন্মদিন"
@@ -480,24 +481,24 @@ msgstr "ঠিকনা: (_A)"
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:47
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:191
 #: ../addressbook/gui/widgets/e-contact-map.c:308
-#: ../addressbook/gui/widgets/eab-contact-display.c:389
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:69
+#: ../addressbook/gui/widgets/eab-contact-display.c:357
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:81
 msgid "Home"
 msgstr "ঘৰ"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:48
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:190
 #: ../addressbook/gui/widgets/e-contact-map.c:316
-#: ../addressbook/gui/widgets/eab-contact-display.c:386
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:68
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:684
+#: ../addressbook/gui/widgets/eab-contact-display.c:354
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:80
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:666
 msgid "Work"
 msgstr "কাৰ্য্য"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:49
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:192
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:70
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:379
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:82
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:368
 #: ../calendar/gui/e-cal-model.c:3940
 msgid "Other"
 msgstr "অন্যান্য"
@@ -511,48 +512,48 @@ msgid "Notes"
 msgstr "নোট"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:170
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:609
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:593
 msgid "AIM"
 msgstr "AIM"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:171
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:612
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:596
 msgid "Jabber"
 msgstr "জ্যাবাৰ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:172
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:614
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:598
 msgid "Yahoo"
 msgstr "Yahoo"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:173
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:615
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:599
 msgid "Gadu-Gadu"
 msgstr "Gadu-Gadu"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:174
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:613
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:597
 msgid "MSN"
 msgstr "MSN"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:175
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:611
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:595
 msgid "ICQ"
 msgstr "ICQ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:176
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:610
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:594
 msgid "GroupWise"
 msgstr "দলবদ্ধভাৱে"
 
 #
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:177
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:616
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:600
 msgid "Skype"
 msgstr "Skype"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:178
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:617
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:601
 msgid "Twitter"
 msgstr "Twitter"
 
@@ -791,9 +792,6 @@ msgid "_Merge"
 msgstr "একত্ৰিত কৰক (_M)"
 
 #: ../addressbook/gui/merging/eab-contact-duplicate-detected.ui.h:3
-#| msgid ""
-#| "The name or email address of this contact already exists\n"
-#| "in this folder. Would you like to add it anyway?"
 msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder.  Would you like to add it anyway?"
@@ -941,7 +939,7 @@ msgid "Family Name"
 msgstr "পাৰিবাৰিক নাম"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:5
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:608
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:592
 msgid "Nickname"
 msgstr "চমুনাম"
 
@@ -998,7 +996,7 @@ msgid "ISDN Phone"
 msgstr "ISDN ফোন"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:20
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:700
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:682
 msgid "Mobile Phone"
 msgstr "মোবাইল ফোন"
 
@@ -1037,7 +1035,7 @@ msgid "TTYTDD"
 msgstr "TTYTDD"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:34
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:663
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:645
 msgid "Company"
 msgstr "কোম্পানি"
 
@@ -1060,12 +1058,12 @@ msgid "Role"
 msgstr "ভূমিকা"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:39
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:667
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:649
 msgid "Manager"
 msgstr "ম্যানেজাৰ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:40
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:668
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:650
 msgid "Assistant"
 msgstr "সহকাৰী"
 
@@ -1086,12 +1084,12 @@ msgid "Categories"
 msgstr "শ্ৰেণীবিভাগ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:44
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:704
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:686
 msgid "Spouse"
 msgstr "স্বামী/স্ত্ৰী"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:45
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:738
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:718
 msgid "Note"
 msgstr "নোট"
 
@@ -1208,56 +1206,56 @@ msgstr "পৰিচয়: "
 msgid "evolution minicard"
 msgstr "Evolution মিনিকাৰ্ড"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:152
+#: ../addressbook/gui/widgets/eab-contact-display.c:150
 msgid "Copy _Email Address"
 msgstr "ই-মেইল ঠিকনা নকল কৰক (_E)"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:154
+#: ../addressbook/gui/widgets/eab-contact-display.c:152
 #: ../e-util/e-web-view-gtkhtml.c:428 ../e-util/e-web-view.c:296
 msgid "Copy the email address to the clipboard"
 msgstr "ই-মেইল ঠিকনাক ক্লিপবৰ্ডলে কপি কৰক"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:159
+#: ../addressbook/gui/widgets/eab-contact-display.c:157
 #: ../e-util/e-web-view-gtkhtml.c:433 ../e-util/e-web-view.c:301
 msgid "_Send New Message To..."
 msgstr "নতুন বাৰ্তা পথাওক (_S)..."
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:161
+#: ../addressbook/gui/widgets/eab-contact-display.c:159
 #: ../e-util/e-web-view-gtkhtml.c:435 ../e-util/e-web-view.c:303
 msgid "Send a mail message to this address"
 msgstr "এই ঠিকনালে এটা মেইল বাৰ্তা পঠাওক"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:323
+#: ../addressbook/gui/widgets/eab-contact-display.c:291
 #: ../e-util/e-web-view-gtkhtml.c:970 ../e-util/e-web-view.c:962
 #, c-format
 msgid "Click to mail %s"
 msgstr "%s কে মেইল কৰিবলৈ হলে ক্লিক কৰক"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:148
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:137
 msgid "Open map"
 msgstr "মানচিত্ৰ খোলক"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:544
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:529
 msgid "List Members:"
 msgstr "সদস্যসমূহ তালিকাভুক্ত কৰক:"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:664
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:646
 msgid "Department"
 msgstr "বিভাগ"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:665
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:647
 msgid "Profession"
 msgstr "জীৱিকা"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:666
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:648
 msgid "Position"
 msgstr "স্থান"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:669
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:651
 msgid "Video Chat"
 msgstr "ভিডিও চেট"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:670
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:652
 #: ../e-util/e-send-options.c:546
 #: ../modules/calendar/e-cal-shell-view-actions.c:216
 #: ../modules/calendar/e-cal-shell-view-actions.c:245
@@ -1266,52 +1264,52 @@ msgstr "ভিডিও চেট"
 msgid "Calendar"
 msgstr "কেলেন্ডাৰ"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:671
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:653
 #: ../calendar/gui/dialogs/event-editor.c:116
 #: ../calendar/gui/dialogs/event-editor.c:343
 #: ../plugins/publish-calendar/publish-calendar.ui.h:2
 msgid "Free/Busy"
 msgstr "মুক্ত/ব্যস্ত"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:672
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:699
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:654
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:681
 msgid "Phone"
 msgstr "ফোন"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:673
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:655
 msgid "Fax"
 msgstr "ফ্যাক্স"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:674
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:701
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:656
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:683
 msgid "Address"
 msgstr "ঠিকনা"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:697
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:679
 msgid "Home Page"
 msgstr "হোম পৃষ্ঠা"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:698
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:680
 msgid "Web Log"
 msgstr "ৱেব লগ"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:714
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:696
 msgid "Personal"
 msgstr "ব্যক্তিগত"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:935
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:906
 msgid "List Members"
 msgstr "তালিকাসৰ সদস্যবৃন্দ"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:956
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:927
 msgid "Job Title"
 msgstr "কামৰ শীৰ্ষক"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:997
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:968
 msgid "Home page"
 msgstr "হোম পৃষ্ঠা"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:1007
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:978
 msgid "Blog"
 msgstr "ব্লগ"
 
@@ -1330,9 +1328,6 @@ msgstr ""
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:137
 #, c-format
-#| msgid ""
-#| "This address book cannot be opened. Please check that the path %s exists "
-#| "and that permissions are set to access it."
 msgid ""
 "This address book cannot be opened.  Please check that the path %s exists "
 "and that permissions are set to access it."
@@ -1341,10 +1336,6 @@ msgstr ""
 "অনুমতিসমূহৰ উপলব্ধতা পৰিক্ষা কৰক।"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:150
-#| msgid ""
-#| "This version of Evolution does not have LDAP support compiled in to it. "
-#| "To use LDAP in Evolution an LDAP-enabled Evolution package must be "
-#| "installed."
 msgid ""
 "This version of Evolution does not have LDAP support compiled in to it.  To "
 "use LDAP in Evolution an LDAP-enabled Evolution package must be installed."
@@ -1353,9 +1344,6 @@ msgstr ""
 "কৰিবলে এটা LDAP-সামৰ্থবান Evolution পেকেইজ ইনস্টল কৰিব লাগিব।"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:159
-#| msgid ""
-#| "This address book cannot be opened. This either means that an incorrect "
-#| "URI was entered, or the server is unreachable."
 msgid ""
 "This address book cannot be opened.  This either means that an incorrect URI "
 "was entered, or the server is unreachable."
@@ -1377,16 +1365,10 @@ msgid ""
 msgstr ""
 "চাৰ্ভাৰ বা Evolution ক যি সংখ্যক ফলাফলৰ বাবে বিন্যাস কৰা \n"
 " হৈছে, এই ক্ষেত্ৰৰ ফলাফলত অপেক্ষাতকৈও অধিক\n"
-"সংখ্যক কাৰ্ড পোৱা গৈছে। আপোনাৰ সন্ধানক আৰু সুনিৰ্দিষ্ট কৰক বা এই "
-"ঠিকনা-বহীৰ\n"
+"সংখ্যক কাৰ্ড পোৱা গৈছে। আপোনাৰ সন্ধানক আৰু সুনিৰ্দিষ্ট কৰক বা এই ঠিকনা-বহীৰ\n"
 "বাবে ডাইৰেকটৰি চাৰ্ভাৰ পছন্দৰ পৰা ফলাফলৰ সংখ্যা-সীমা বৃদ্ধি কৰক।"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:211
-#| msgid ""
-#| "The time to execute this query exceeded the server limit or the limit\n"
-#| "configured for this address book. Please make your search\n"
-#| "more specific or raise the time limit in the directory server\n"
-#| "preferences for this address book."
 msgid ""
 "The time to execute this query exceeded the server limit or the limit\n"
 "configured for this address book.  Please make your search\n"
@@ -1671,13 +1653,6 @@ msgstr "সতৰ্কবাণী"
 
 #: ../calendar/alarm-notify/alarm-queue.c:1902
 #, c-format
-#| msgid ""
-#| "An Evolution Calendar reminder is about to trigger. This reminder is "
-#| "configured to run the following program:\n"
-#| "\n"
-#| "    %s\n"
-#| "\n"
-#| "Are you sure you want to run this program?"
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
 "configured to run the following program:\n"
@@ -1769,7 +1744,7 @@ msgid ""
 "the task has been deleted."
 msgstr ""
 "অন্যান্য অংশগ্ৰহণকাৰীৰ কাছে বিলোপনেৰ কোনো সূচনা আপুনি প্ৰেৰণ না কৰিলে এই "
-"কাৰ্য্যটি "
+"কাৰ্য্য "
 "আঁতৰুৱাৰ খবৰ অজ্ঞাত থাকবে।"
 
 #: ../calendar/calendar.error.xml.h:9
@@ -1940,14 +1915,14 @@ msgstr ""
 
 #: ../calendar/calendar.error.xml.h:43
 msgid "Would you like to send this task to participants?"
-msgstr "আপুনি এই কাৰ্য্যটি অংশগ্ৰহণকাৰীৰকে প্ৰেৰণ কৰিবলৈ নিশ্চিত নে?"
+msgstr "আপুনি এই কাৰ্য্য অংশগ্ৰহণকাৰীৰকে প্ৰেৰণ কৰিবলৈ নিশ্চিত নে?"
 
 #: ../calendar/calendar.error.xml.h:44
 msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this task."
 msgstr ""
-"সকলো অংশগ্ৰহণকাৰীৰকে ই-মেইল আমন্ত্ৰনপত্ৰ প্ৰেৰণ কৰা হ'ব আৰু তাৰা ঐ কাৰ্য্যটি "
+"সকলো অংশগ্ৰহণকাৰীৰকে ই-মেইল আমন্ত্ৰনপত্ৰ প্ৰেৰণ কৰা হ'ব আৰু তাৰা ঐ কাৰ্য্য "
 "গ্ৰহণ "
 "কৰিবলৈ পাৰিব।"
 
@@ -2252,8 +2227,8 @@ msgid "Category"
 msgstr "শ্ৰেণী"
 
 #: ../calendar/gui/caltypes.xml.h:16 ../calendar/gui/memotypes.xml.h:14
-#: ../calendar/gui/tasktypes.xml.h:15 ../em-format/e-mail-formatter-print.c:56
-#: ../em-format/e-mail-formatter-print-headers.c:189
+#: ../calendar/gui/tasktypes.xml.h:15 ../em-format/e-mail-formatter-print.c:54
+#: ../em-format/e-mail-formatter-print-headers.c:203
 #: ../mail/em-filter-i18n.h:6
 msgid "Attachments"
 msgstr "সংযুক্ত বস্তু"
@@ -2431,7 +2406,7 @@ msgstr "এই ঘটনাটি আঁতৰুৱা হৈছে।"
 
 #: ../calendar/gui/dialogs/changed-comp.c:64
 msgid "This task has been deleted."
-msgstr "এই কাৰ্য্যটি আঁতৰুৱা হৈছে।"
+msgstr "এই কাৰ্য্য আঁতৰুৱা হৈছে।"
 
 #: ../calendar/gui/dialogs/changed-comp.c:68
 msgid "This memo has been deleted."
@@ -2439,7 +2414,6 @@ msgstr "এই মেমোটো আঁতৰুৱা হৈছে।"
 
 #: ../calendar/gui/dialogs/changed-comp.c:78
 #, c-format
-#| msgid "%s You have made changes. Forget those changes and close the editor?"
 msgid "%s  You have made changes. Forget those changes and close the editor?"
 msgstr ""
 "%s  আপুনি কিছুমান পৰিবৰ্তন কৰিছে। এই পৰিবৰ্তনসমূহ বাতিল কৰি সম্পাদক বন্ধ কৰা "
@@ -2447,7 +2421,6 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/changed-comp.c:80
 #, c-format
-#| msgid "%s You have made no changes, close the editor?"
 msgid "%s  You have made no changes, close the editor?"
 msgstr "%s  আপুনি কোনো পৰিবৰ্তন কৰা নাই, সম্পাদক বন্ধ কৰা হ'ব নে?"
 
@@ -2457,7 +2430,7 @@ msgstr "এই ঘটনাটি পৰিবৰ্তন কৰা হৈছ�
 
 #: ../calendar/gui/dialogs/changed-comp.c:89
 msgid "This task has been changed."
-msgstr "এই কাৰ্য্যটি পৰিবৰ্তন কৰা হৈছে।"
+msgstr "এই কাৰ্য্য পৰিবৰ্তন কৰা হৈছে।"
 
 #: ../calendar/gui/dialogs/changed-comp.c:93
 msgid "This memo has been changed."
@@ -2465,8 +2438,6 @@ msgstr "এই মেমোটো পৰিবৰ্তন কৰা হৈছ�
 
 #: ../calendar/gui/dialogs/changed-comp.c:103
 #, c-format
-#| msgid ""
-#| "%s You have made changes. Forget those changes and update the editor?"
 msgid "%s  You have made changes. Forget those changes and update the editor?"
 msgstr ""
 "%s  আপুনি কিছুমান পৰিবৰ্তন কৰিছে। এই পৰিবৰ্তনসমূহ বাতিল কৰি সম্পাদক আপডেইট "
@@ -2475,7 +2446,6 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/changed-comp.c:105
 #, c-format
-#| msgid "%s You have made no changes, update the editor?"
 msgid "%s  You have made no changes, update the editor?"
 msgstr "%s  আপুনি কোনো পৰিবৰ্তন কৰা নাই, সম্পাদক আপডেইট কৰা হ'ব নে?"
 
@@ -2523,62 +2493,19 @@ msgstr "সাৰাংশহীন"
 
 #: ../calendar/gui/dialogs/comp-editor.c:911
 msgid "Keep original item?"
-msgstr "মূল বস্তুটি ৰাখা হব কি?"
+msgstr "মূল বস্তু ৰখা হ'ব নে?"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1064
-#, c-format
-msgid ""
-"Unable to retrieve saved component from the task list, returned error was: %s"
-msgstr ""
-"কাৰ্য্য তালিকাৰ পৰা সংৰক্ষিত উপাদান উদ্ধাৰ কৰিবলে অক্ষম, ঘুৰাই দিয়া ত্ৰুটি "
-"হল: %s"
-
-#: ../calendar/gui/dialogs/comp-editor.c:1069
-#, c-format
-msgid ""
-"Unable to retrieve saved component from the memo list, returned error was: %s"
-msgstr ""
-"মেমো তালিকাৰ পৰা সংৰক্ষিত উপাদান উদ্ধাৰ কৰিবলে অক্ষম, ঘুৰাই দিয়া ত্ৰুটি হল: %s"
-
-#: ../calendar/gui/dialogs/comp-editor.c:1075
-#, c-format
-msgid ""
-"Unable to retrieve saved component from the calendar, returned error was: %s"
-msgstr ""
-"কেলেন্ডাৰৰ পৰা সংৰক্ষিত উপাদান উদ্ধাৰ কৰিবলে অক্ষম, ঘুৰাই দিয়া ত্ৰুটি হল: %s"
-
-#: ../calendar/gui/dialogs/comp-editor.c:1084
-msgid "Unable to retrieve saved component from the task list"
-msgstr "কাৰ্য্য তালিকাৰ পৰা সংৰক্ষিত উপাদান উদ্ধাৰ কৰিবলে অক্ষম"
-
-#: ../calendar/gui/dialogs/comp-editor.c:1088
-msgid "Unable to retrieve saved component from the memo list"
-msgstr "মেমো তালিকাৰ পৰা সংৰক্ষিত উপাদান উদ্ধাৰ কৰিবলে অক্ষম"
-
-#: ../calendar/gui/dialogs/comp-editor.c:1093
-msgid "Unable to retrieve saved component from the calendar"
-msgstr "কেলেন্ডাৰৰ পৰা সংৰক্ষিত উপাদান উদ্ধাৰ কৰিবলে অক্ষম"
-
-#: ../calendar/gui/dialogs/comp-editor.c:1114
-msgid ""
-"Unable to update the editor with the retrieved component from the task list"
-msgstr "কাৰ্য্য তালিকাৰ পৰা সংৰক্ষিত উপাদানৰ সৈতে সম্পাদকক আপডেইট কৰিবলে অক্ষম"
-
+#: ../calendar/gui/dialogs/comp-editor.c:1090
 #: ../calendar/gui/dialogs/comp-editor.c:1118
-msgid ""
-"Unable to update the editor with the retrieved component from the memo list"
-msgstr "মেমো তালিকাৰ পৰা সংৰক্ষিত উপাদানৰ সৈতে সম্পাদকক আপডেইট কৰিবলে অক্ষম"
+#| msgid "Unable to connect to the GroupWise server."
+msgid "Unable to synchronize with the server"
+msgstr "চাৰ্ভাৰৰ সৈতে সংমিহলি কৰিবলৈ ব্যৰ্থ"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1123
-msgid ""
-"Unable to update the editor with the retrieved component from the calendar"
-msgstr "কেলেন্ডাৰৰ পৰা সংৰক্ষিত উপাদানৰ সৈতে সম্পাদকক আপডেইট কৰিবলে অক্ষম"
-
-#: ../calendar/gui/dialogs/comp-editor.c:1241
+#: ../calendar/gui/dialogs/comp-editor.c:1232
 msgid "Close the current window"
 msgstr "বৰ্তমান উইন্ডো বন্ধ কৰক"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1248 ../e-util/e-focus-tracker.c:121
+#: ../calendar/gui/dialogs/comp-editor.c:1239 ../e-util/e-focus-tracker.c:121
 #: ../e-util/e-focus-tracker.c:558 ../e-util/e-web-view-gtkhtml.c:455
 #: ../e-util/e-web-view-gtkhtml.c:1296 ../e-util/e-web-view.c:323
 #: ../e-util/e-web-view.c:1285 ../mail/e-mail-browser.c:129
@@ -2586,53 +2513,53 @@ msgstr "বৰ্তমান উইন্ডো বন্ধ কৰক"
 msgid "Copy the selection"
 msgstr "নিৰ্বাচিত বস্তু কপি কৰক"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1255 ../e-util/e-focus-tracker.c:114
+#: ../calendar/gui/dialogs/comp-editor.c:1246 ../e-util/e-focus-tracker.c:114
 #: ../e-util/e-focus-tracker.c:553 ../e-util/e-web-view-gtkhtml.c:1290
 #: ../e-util/e-web-view.c:1279 ../mail/e-mail-browser.c:136
 #: ../shell/e-shell-window-actions.c:877
 msgid "Cut the selection"
 msgstr "নিৰ্বাচিত বস্তু কাট কৰক"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1262 ../e-util/e-focus-tracker.c:135
+#: ../calendar/gui/dialogs/comp-editor.c:1253 ../e-util/e-focus-tracker.c:135
 #: ../e-util/e-focus-tracker.c:568 ../shell/e-shell-window-actions.c:884
 msgid "Delete the selection"
 msgstr "নিৰ্বাচিত বস্তু মচি পেলাওক"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1269
+#: ../calendar/gui/dialogs/comp-editor.c:1260
 msgid "View help"
 msgstr "সহায় দৰ্শন কৰক"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1276 ../e-util/e-focus-tracker.c:128
+#: ../calendar/gui/dialogs/comp-editor.c:1267 ../e-util/e-focus-tracker.c:128
 #: ../e-util/e-focus-tracker.c:563 ../e-util/e-web-view-gtkhtml.c:1302
 #: ../e-util/e-web-view.c:1291 ../mail/e-mail-browser.c:143
 #: ../shell/e-shell-window-actions.c:905
 msgid "Paste the clipboard"
 msgstr "ক্লিপবোৰ্ডেৰ বস্তু পেস্ট কৰক"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1297
+#: ../calendar/gui/dialogs/comp-editor.c:1288
 msgid "Save current changes"
 msgstr "বৰ্তমান পৰিৱৰ্তনসমূহ সংৰক্ষণ কৰক"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1302
+#: ../calendar/gui/dialogs/comp-editor.c:1293
 #: ../e-util/e-mail-signature-editor.c:312
 msgid "Save and Close"
 msgstr "সংৰক্ষণ কৰি বন্ধ কৰক"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1304
+#: ../calendar/gui/dialogs/comp-editor.c:1295
 msgid "Save current changes and close editor"
 msgstr "বৰ্তমান পৰিবৰ্তনসমূহ সংৰক্ষণ কৰি সম্পাদক বন্ধ কৰক"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1311 ../e-util/e-focus-tracker.c:142
+#: ../calendar/gui/dialogs/comp-editor.c:1302 ../e-util/e-focus-tracker.c:142
 #: ../e-util/e-focus-tracker.c:573 ../mail/e-mail-browser.c:150
 #: ../shell/e-shell-window-actions.c:982
 msgid "Select all text"
 msgstr "সকলো টেক্সট বাছক"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1318
+#: ../calendar/gui/dialogs/comp-editor.c:1309
 msgid "_Classification"
 msgstr "শ্ৰেণীবিভাগ (_C)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1325
+#: ../calendar/gui/dialogs/comp-editor.c:1316
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:19 ../e-util/filter.ui.h:16
 #: ../e-util/gal-define-views.ui.h:5 ../mail/e-mail-browser.c:164
 #: ../plugins/publish-calendar/publish-calendar.ui.h:32
@@ -2640,134 +2567,134 @@ msgstr "শ্ৰেণীবিভাগ (_C)"
 msgid "_Edit"
 msgstr "সম্পাদনা (_E)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1332
+#: ../calendar/gui/dialogs/comp-editor.c:1323
 #: ../e-util/e-mail-signature-editor.c:317 ../mail/e-mail-browser.c:157
 #: ../shell/e-shell-window-actions.c:1017
 msgid "_File"
 msgstr "ফাইল (_F)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1339
+#: ../calendar/gui/dialogs/comp-editor.c:1330
 #: ../shell/e-shell-window-actions.c:1024
 msgid "_Help"
 msgstr "সহায়তা (_H)"
 
 #
-#: ../calendar/gui/dialogs/comp-editor.c:1346
+#: ../calendar/gui/dialogs/comp-editor.c:1337
 msgid "_Insert"
 msgstr "সন্নিবেশ কৰক (_I)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1353
+#: ../calendar/gui/dialogs/comp-editor.c:1344
 #: ../composer/e-composer-actions.c:320
 msgid "_Options"
 msgstr "বিকল্প (_O)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1360 ../mail/e-mail-browser.c:171
+#: ../calendar/gui/dialogs/comp-editor.c:1351 ../mail/e-mail-browser.c:171
 #: ../shell/e-shell-window-actions.c:1059 ../smime/gui/smime-ui.ui.h:5
 msgid "_View"
 msgstr "প্ৰদৰ্শণ (_V)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1370
+#: ../calendar/gui/dialogs/comp-editor.c:1361
 #: ../composer/e-composer-actions.c:269
 msgid "_Attachment..."
 msgstr "সংযুক্ত বস্তু(_A)..."
 
-#: ../calendar/gui/dialogs/comp-editor.c:1372
+#: ../calendar/gui/dialogs/comp-editor.c:1363
 #: ../composer/e-composer-actions.c:271 ../e-util/e-attachment-view.c:412
 msgid "Attach a file"
 msgstr "এটা ফাইল সংযুক্ত কৰক"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1380
+#: ../calendar/gui/dialogs/comp-editor.c:1371
 msgid "_Categories"
 msgstr "শ্ৰেণীবিভাগ(_C)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1382
+#: ../calendar/gui/dialogs/comp-editor.c:1373
 msgid "Toggles whether to display categories"
 msgstr "শ্ৰেণী প্ৰদৰ্শিত হ'ব নে ইয়াক টগল কৰে"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1388
+#: ../calendar/gui/dialogs/comp-editor.c:1379
 msgid "Time _Zone"
 msgstr "সময়-অঞ্চল (_Z)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1390
+#: ../calendar/gui/dialogs/comp-editor.c:1381
 msgid "Toggles whether the time zone is displayed"
 msgstr "সময়অঞ্চল প্ৰদৰ্শিত হ'ব নে ইয়াক টগল কৰে"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1399
+#: ../calendar/gui/dialogs/comp-editor.c:1390
 msgid "Pu_blic"
 msgstr "সাৰ্বজনীন (_b)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1401
+#: ../calendar/gui/dialogs/comp-editor.c:1392
 msgid "Classify as public"
 msgstr "সাৰ্বজনীন ৰূপে চিহ্নিত কৰা হ'ব"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1406
+#: ../calendar/gui/dialogs/comp-editor.c:1397
 msgid "_Private"
 msgstr "ব্যক্তিগত(_P)"
 
 #
-#: ../calendar/gui/dialogs/comp-editor.c:1408
+#: ../calendar/gui/dialogs/comp-editor.c:1399
 msgid "Classify as private"
 msgstr "ব্যক্তিগত হিচাপে চিহ্নিত"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1413
+#: ../calendar/gui/dialogs/comp-editor.c:1404
 msgid "_Confidential"
 msgstr "গোপনীয়(_C)"
 
 #
-#: ../calendar/gui/dialogs/comp-editor.c:1415
+#: ../calendar/gui/dialogs/comp-editor.c:1406
 msgid "Classify as confidential"
 msgstr "গোপনীয় হিচাপে চিহ্নিত"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1423
+#: ../calendar/gui/dialogs/comp-editor.c:1414
 msgid "R_ole Field"
 msgstr "ভূমিকা ক্ষেত্ৰ (_o)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1425
+#: ../calendar/gui/dialogs/comp-editor.c:1416
 msgid "Toggles whether the Role field is displayed"
 msgstr "ভূমিকা ক্ষেত্ৰ প্ৰদৰ্শন কৰা হয় নে ট'গল কৰে"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1431
+#: ../calendar/gui/dialogs/comp-editor.c:1422
 msgid "_RSVP"
 msgstr "RSVP (_R)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1433
+#: ../calendar/gui/dialogs/comp-editor.c:1424
 msgid "Toggles whether the RSVP field is displayed"
 msgstr "RSVP ক্ষেত্ৰ প্ৰদৰ্শন কৰা হয় নে ট'গল কৰে"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1439
+#: ../calendar/gui/dialogs/comp-editor.c:1430
 msgid "_Status Field"
 msgstr "অবস্থাৰ ক্ষেত্ৰ (_S)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1441
+#: ../calendar/gui/dialogs/comp-editor.c:1432
 msgid "Toggles whether the Status field is displayed"
 msgstr "অবস্থাৰ ক্ষেত্ৰটি প্ৰদৰ্শিত হ'ব নে ইয়াক টগল কৰে"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1447
+#: ../calendar/gui/dialogs/comp-editor.c:1438
 msgid "_Type Field"
 msgstr "ধৰণৰ ক্ষেত্ৰ (_T)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1449
+#: ../calendar/gui/dialogs/comp-editor.c:1440
 msgid "Toggles whether the Attendee Type is displayed"
 msgstr "অংশগ্ৰহণকাৰী নামৰ ক্ষেত্ৰটি প্ৰদৰ্শিত হ'ব নে ইয়াক টগল কৰে"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2230
+#: ../calendar/gui/dialogs/comp-editor.c:2221
 #: ../composer/e-composer-actions.c:488
 msgid "Attach"
 msgstr "সংযুক্ত কৰক"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2560
-#: ../calendar/gui/dialogs/comp-editor.c:2770
-#: ../calendar/gui/dialogs/comp-editor.c:3776
+#: ../calendar/gui/dialogs/comp-editor.c:2551
+#: ../calendar/gui/dialogs/comp-editor.c:2761
+#: ../calendar/gui/dialogs/comp-editor.c:3767
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 "কোনো আপডেটেৰ আবিৰ্ভাব ঘটলে ইয়াত যেসব পৰিবৰ্তন কৰা হৈছে ইয়াক বাতিল কৰা হতে পাৰে"
 
-#: ../calendar/gui/dialogs/comp-editor.c:3740
+#: ../calendar/gui/dialogs/comp-editor.c:3731
 #: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:115
 msgid "attachment"
 msgstr "সংযুক্ত বস্তু"
 
-#: ../calendar/gui/dialogs/comp-editor.c:3808
+#: ../calendar/gui/dialogs/comp-editor.c:3799
 msgid "Unable to use current version!"
 msgstr "বৰ্তমান সংস্কৰণ ব্যৱহাৰ কৰা সম্ভৱ হোৱা নাই!"
 
@@ -2838,7 +2765,7 @@ msgstr "অনুমতিৰ অভাবে এই মেমোটো আঁ�
 
 #: ../calendar/gui/dialogs/delete-error.c:83
 msgid "The item could not be deleted because permission was denied"
-msgstr "অনুমতিৰ অভাবে এই বস্তুটি আঁতৰুৱা নাযায়"
+msgstr "অনুমতিৰ অভাবে এই বস্তু আঁতৰুৱা নাযায়"
 
 #. Translators: The '%s' is replaced with a detailed error message
 #: ../calendar/gui/dialogs/delete-error.c:91
@@ -3188,7 +3115,7 @@ msgid "Memo cannot be fully edited, because you are not the organizer"
 msgstr "মেমোক সম্পূৰ্ণভাৱে সম্পাদনা কৰিব নোৱাৰি, কাৰণ আপুনি সংঘটক নহয়"
 
 #: ../calendar/gui/dialogs/memo-page.c:1161
-#: ../em-format/e-mail-formatter.c:1393
+#: ../em-format/e-mail-formatter.c:1448
 #: ../em-format/e-mail-formatter-utils.c:201
 #: ../em-format/e-mail-formatter-utils.c:225 ../mail/em-filter-i18n.h:78
 #: ../mail/message-list.etspec.h:9 ../modules/mail/em-mailer-prefs.c:63
@@ -4324,7 +4251,6 @@ msgid "Needs Action"
 msgstr "কাৰ্য্য প্ৰয়েজন"
 
 #: ../calendar/gui/e-meeting-list-view.c:626
-#| msgid "Attendee             "
 msgid "Attendee                          "
 msgstr "অংশগ্ৰহণকাৰী                          "
 
@@ -7377,8 +7303,7 @@ msgstr "ভূমিকা"
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:36
 msgid "Whether to show role field in the event/task/meeting editor"
 msgstr ""
-"অনুষ্ঠান/কৰ্ম/সাক্ষাৎকাৰ সম্পাদকত ভূমিকা শীৰ্ষক ক্ষেত্ৰ প্ৰদৰ্শন কৰা "
-"হব নে"
+"অনুষ্ঠান/কৰ্ম/সাক্ষাৎকাৰ সম্পাদকত ভূমিকা শীৰ্ষক ক্ষেত্ৰ প্ৰদৰ্শন কৰা হব নে"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:37
 msgid "Show RSVP field in the event/task/meeting editor"
@@ -7396,8 +7321,7 @@ msgstr ""
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:40
 msgid "Whether to show status field in the event/task/meeting editor"
 msgstr ""
-"অনুষ্ঠান/কৰ্ম/সাক্ষাৎকাৰ সম্পাদকত অবস্থা শীৰ্ষক ক্ষেত্ৰ প্ৰদৰ্শন কৰা "
-"হব নে"
+"অনুষ্ঠান/কৰ্ম/সাক্ষাৎকাৰ সম্পাদকত অবস্থা শীৰ্ষক ক্ষেত্ৰ প্ৰদৰ্শন কৰা হব নে"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:41
 msgid "Show timezone field in the event/meeting editor"
@@ -7406,8 +7330,7 @@ msgstr "অনুষ্ঠান/কৰ্ম/সাক্ষাৎকাৰ স
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:42
 msgid "Whether to show timezone field in the event/meeting editor"
 msgstr ""
-"অনুষ্ঠান/কৰ্ম/সাক্ষাৎকাৰ সম্পাদকত সময়অঞ্চল শীৰ্ষক ক্ষেত্ৰ প্ৰদৰ্শন "
-"কৰা হব নে"
+"অনুষ্ঠান/কৰ্ম/সাক্ষাৎকাৰ সম্পাদকত সময়অঞ্চল শীৰ্ষক ক্ষেত্ৰ প্ৰদৰ্শন কৰা হব নে"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:43
 msgid "Show type field in the event/task/meeting editor"
@@ -8373,7 +8296,8 @@ msgid ""
 msgstr ""
 "এই কী (key)তে স্বনিৰ্বাচিত হেডাৰ আৰু তাৰ প্ৰদৰ্শন তথ্য উল্লেখকাৰী XML "
 "স্ট্ৰাকচাৰেৰ "
-"তালিকা থাকা উচিত। XML স্ট্ৰাকচাৰ হলো &lt;হেডাৰ সক্ৰিয়&gt; - মেইল দৰ্শন-তে হেডাৰ "
+"তালিকা থাকা উচিত। XML স্ট্ৰাকচাৰ হলো &lt;হেডাৰ সক্ৰিয়&gt; - মেইল দৰ্শন-তে "
+"হেডাৰ "
 "প্ৰদৰ্শন কৰিবলৈ হলে সক্ৰিয় হিচাপে নিৰ্ধাৰণ কৰক।"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:79
@@ -8437,8 +8361,7 @@ msgstr "বাৰ্তাতলিকায় মচি-পেলোৱা বা
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:90
 msgid "Show deleted messages (with a strike-through) in the message-list."
-msgstr ""
-"আঁতৰুৱা বাৰ্তাসমূহকে বাৰ্তা-তালিকায় (মাঝে ৰেখাঙ্কন কৰে) দেখুৱাওক।"
+msgstr "আঁতৰুৱা বাৰ্তাসমূহকে বাৰ্তা-তালিকায় (মাঝে ৰেখাঙ্কন কৰে) দেখুৱাওক।"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:91
 msgid "Enable Unmatched search folder"
@@ -8716,9 +8639,8 @@ msgstr ""
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:140
 msgid "Prompt when user tries to open 10 or more messages at once"
 msgstr ""
-"এক সময় ১০ অথবা অধিক সংখ্যক বাৰ্তা পঢ়াৰ প্ৰচেষ্টা কৰা হলে সতৰ্কবাৰ্তা "
-"প্ৰদৰ্শন কৰা "
-"হ'ব"
+"এক সময় ১০ অথবা অধিক সংখ্যক বাৰ্তা পঢ়াৰ প্ৰচেষ্টা কৰা হলে সতৰ্কবাৰ্তা প্ৰদৰ্শন "
+"কৰা হ'ব"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:141
 msgid ""
@@ -8974,9 +8896,8 @@ msgstr ""
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:181
 msgid "Determines whether to lookup in address book for sender email"
 msgstr ""
-"বাৰ্তা প্ৰেৰকেৰ ই-মেইল ঠিকনা, ঠিকনা বহীৰ মাজত সন্ধান কৰা হব নে ইয়াক "
-"ধাৰ্য "
-"কৰা হয়"
+"বাৰ্তা প্ৰেৰকেৰ ই-মেইল ঠিকনা, ঠিকনা বহীৰ মাজত সন্ধান কৰা হব নে ইয়াক ধাৰ্য কৰা "
+"হয়"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:182
 msgid ""
@@ -8998,8 +8919,8 @@ msgid ""
 "book only"
 msgstr ""
 "অবাঞ্ছিত বাৰ্তা সনাক্তকৰণেৰ উদ্দেশ্যে কেৱল স্থানীয় ঠিকনা বহীৰ মাজত ঠিকনা "
-"সন্ধান "
-"কৰা হব নে ইয়াক ধাৰ্য কৰা হয়"
+"সন্ধান কৰা "
+"হব নে ইয়াক ধাৰ্য কৰা হয়"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:184
 msgid ""
@@ -9488,8 +9409,7 @@ msgid ""
 msgstr ""
 "উইন্ডোৰ অবস্থিত বাটনেৰ বিন্যাস। সম্ভাব্য মান \"টেক্সট\", \"আইকন\", \"উভয়\", "
 "\"টুলবাৰ"
-"\"। \"টুলবাৰ\" নিৰ্ধাৰণ কৰা হলে GNOME টুলবাৰতৰ বৈশিষ্ট্য অনুসৰি "
-"বাটনেৰবিন্যাস "
+"\"। \"টুলবাৰ\" নিৰ্ধাৰণ কৰা হলে GNOME টুলবাৰতৰ বৈশিষ্ট্য অনুসৰি বাটনেৰবিন্যাস "
 "নিৰ্দিষ্ট কৰা হয়।"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:17
@@ -9548,7 +9468,7 @@ msgstr "Spamassassin ডেমন আৰু ক্লায়েন্ট ব্�
 msgid "Use spamc and spamd programs, if available."
 msgstr "spamc আৰু spamd প্ৰগ্ৰামসমূহ ব্যৱহাৰ কৰক, যদি উপলব্ধ।"
 
-#: ../em-format/e-mail-formatter-attachment.c:370
+#: ../em-format/e-mail-formatter-attachment.c:406
 #: ../e-util/e-attachment-bar.c:101 ../e-util/e-attachment-bar.c:106
 #: ../e-util/e-attachment-paned.c:176 ../e-util/e-attachment-paned.c:181
 #: ../mail/message-list.etspec.h:4
@@ -9557,35 +9477,35 @@ msgid_plural "Attachments"
 msgstr[0] "সংযুক্ত বস্তু"
 msgstr[1] "সংযুক্ত বস্তু"
 
-#: ../em-format/e-mail-formatter-attachment.c:371
+#: ../em-format/e-mail-formatter-attachment.c:407
 msgid "Display as attachment"
 msgstr "এটাচমেন্ট হিচাপে প্ৰদৰ্শন কৰক"
 
-#: ../em-format/e-mail-formatter.c:1391
+#: ../em-format/e-mail-formatter.c:1446
 #: ../em-format/e-mail-formatter-headers.c:104 ../mail/e-mail-tag-editor.c:272
 #: ../mail/message-list.etspec.h:5 ../modules/mail/em-mailer-prefs.c:61
 msgid "From"
 msgstr "প্ৰেৰক"
 
-#: ../em-format/e-mail-formatter.c:1392 ../modules/mail/em-mailer-prefs.c:62
+#: ../em-format/e-mail-formatter.c:1447 ../modules/mail/em-mailer-prefs.c:62
 msgid "Reply-To"
 msgstr "উত্তৰ - প্ৰাপক"
 
-#: ../em-format/e-mail-formatter.c:1394
+#: ../em-format/e-mail-formatter.c:1449
 #: ../em-format/e-mail-formatter-utils.c:203
 #: ../em-format/e-mail-formatter-utils.c:227
 #: ../modules/mail/em-mailer-prefs.c:64
 msgid "Cc"
 msgstr "কপি প্ৰাপক"
 
-#: ../em-format/e-mail-formatter.c:1395
+#: ../em-format/e-mail-formatter.c:1450
 #: ../em-format/e-mail-formatter-utils.c:205
 #: ../em-format/e-mail-formatter-utils.c:229
 #: ../modules/mail/em-mailer-prefs.c:65
 msgid "Bcc"
 msgstr "অপ্ৰকাশিত কপি প্ৰাপক"
 
-#: ../em-format/e-mail-formatter.c:1396
+#: ../em-format/e-mail-formatter.c:1451
 #: ../em-format/e-mail-formatter-quote-headers.c:154
 #: ../mail/e-mail-tag-editor.c:277 ../mail/em-filter-i18n.h:77
 #: ../mail/message-list.etspec.h:6 ../modules/mail/em-mailer-prefs.c:66
@@ -9593,17 +9513,17 @@ msgstr "অপ্ৰকাশিত কপি প্ৰাপক"
 msgid "Subject"
 msgstr "বিষয়"
 
-#: ../em-format/e-mail-formatter.c:1397 ../e-util/e-dateedit.c:550
+#: ../em-format/e-mail-formatter.c:1452 ../e-util/e-dateedit.c:550
 #: ../e-util/e-dateedit.c:573 ../mail/message-list.etspec.h:7
 #: ../modules/mail/em-mailer-prefs.c:67
 msgid "Date"
 msgstr "তাৰিখ"
 
-#: ../em-format/e-mail-formatter.c:1398 ../modules/mail/em-mailer-prefs.c:68
+#: ../em-format/e-mail-formatter.c:1453 ../modules/mail/em-mailer-prefs.c:68
 msgid "Newsgroups"
 msgstr "নিউজগ্ৰুপ"
 
-#: ../em-format/e-mail-formatter.c:1399 ../modules/mail/em-mailer-prefs.c:69
+#: ../em-format/e-mail-formatter.c:1454 ../modules/mail/em-mailer-prefs.c:69
 #: ../plugins/face/org-gnome-face.eplug.xml.h:1
 msgid "Face"
 msgstr "ফেইচ"
@@ -9617,23 +9537,23 @@ msgstr "(কোনো বিষয় নাই)"
 msgid "This message was sent by %s on behalf of %s"
 msgstr "এই বাৰ্তা %s ৰ বাবে %s দ্বাৰা পঠোৱা হৈছিল"
 
-#: ../em-format/e-mail-formatter-image.c:143
+#: ../em-format/e-mail-formatter-image.c:152
 msgid "Regular Image"
 msgstr "সাধাৰণ ছবি"
 
-#: ../em-format/e-mail-formatter-image.c:144
+#: ../em-format/e-mail-formatter-image.c:153
 msgid "Display part as an image"
 msgstr "অংশক এটা ছবি হিচাপে প্ৰদৰ্শন কৰক"
 
-#: ../em-format/e-mail-formatter-message-rfc822.c:242
+#: ../em-format/e-mail-formatter-message-rfc822.c:252
 msgid "RFC822 message"
 msgstr "RFC822 বাৰ্তা"
 
-#: ../em-format/e-mail-formatter-message-rfc822.c:243
+#: ../em-format/e-mail-formatter-message-rfc822.c:253
 msgid "Format part as an RFC822 message"
 msgstr "অংশক এটা RFC822 বাৰ্তা হিচাপে বিন্যাস কৰক"
 
-#: ../em-format/e-mail-formatter-print.c:56
+#: ../em-format/e-mail-formatter-print.c:54
 #: ../e-util/gal-define-views-dialog.c:361
 #: ../e-util/gal-view-instance-save-as-dialog.c:95
 #: ../mail/e-mail-label-tree-view.c:99
@@ -9643,32 +9563,32 @@ msgstr "অংশক এটা RFC822 বাৰ্তা হিচাপে ব�
 msgid "Name"
 msgstr "নাম"
 
-#: ../em-format/e-mail-formatter-print.c:56
+#: ../em-format/e-mail-formatter-print.c:54
 #: ../e-util/e-attachment-tree-view.c:574 ../mail/message-list.etspec.h:10
 msgid "Size"
 msgstr "মাপ"
 
 #. Add encryption/signature header
-#: ../em-format/e-mail-formatter-print-headers.c:122
+#: ../em-format/e-mail-formatter-print-headers.c:129
 #: ../mail/e-mail-config-security-page.c:642
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:195
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:129
 msgid "Security"
 msgstr "নিৰাপত্তা"
 
-#: ../em-format/e-mail-formatter-print-headers.c:140
+#: ../em-format/e-mail-formatter-print-headers.c:147
 msgid "GPG signed"
 msgstr "GPG স্বাক্ষৰিত"
 
-#: ../em-format/e-mail-formatter-print-headers.c:146
+#: ../em-format/e-mail-formatter-print-headers.c:153
 msgid "GPG encrpyted"
 msgstr "GPG ইনক্ৰিপ্ট কৰা"
 
-#: ../em-format/e-mail-formatter-print-headers.c:152
+#: ../em-format/e-mail-formatter-print-headers.c:159
 msgid "S/MIME signed"
 msgstr "S/MIME স্বাক্ষৰিত"
 
-#: ../em-format/e-mail-formatter-print-headers.c:158
+#: ../em-format/e-mail-formatter-print-headers.c:165
 msgid "S/MIME encrpyted"
 msgstr "S/MIME ইনক্ৰিপ্ট কৰা"
 
@@ -9679,13 +9599,13 @@ msgstr "S/MIME ইনক্ৰিপ্ট কৰা"
 msgid "Mailer"
 msgstr "মেইলাৰ"
 
-#: ../em-format/e-mail-formatter-quote-text-enriched.c:88
-#: ../em-format/e-mail-formatter-text-enriched.c:102
+#: ../em-format/e-mail-formatter-quote-text-enriched.c:91
+#: ../em-format/e-mail-formatter-text-enriched.c:104
 msgid "Richtext"
 msgstr "Richtext"
 
-#: ../em-format/e-mail-formatter-quote-text-enriched.c:89
-#: ../em-format/e-mail-formatter-text-enriched.c:103
+#: ../em-format/e-mail-formatter-quote-text-enriched.c:92
+#: ../em-format/e-mail-formatter-text-enriched.c:105
 msgid "Display part as enriched text"
 msgstr "অংশক ধনী লিখনীৰ এটা অংশ হিচাপে প্ৰদৰ্শন কৰক"
 
@@ -9699,13 +9619,13 @@ msgstr "HTML"
 msgid "Format part as HTML"
 msgstr "অংশক HTML হিচাপে বিন্যাস কৰক"
 
-#: ../em-format/e-mail-formatter-quote-text-plain.c:111
-#: ../em-format/e-mail-formatter-text-plain.c:186
+#: ../em-format/e-mail-formatter-quote-text-plain.c:115
+#: ../em-format/e-mail-formatter-text-plain.c:194
 msgid "Plain Text"
 msgstr "প্লেইন টেক্সট"
 
-#: ../em-format/e-mail-formatter-quote-text-plain.c:112
-#: ../em-format/e-mail-formatter-text-plain.c:187
+#: ../em-format/e-mail-formatter-quote-text-plain.c:116
+#: ../em-format/e-mail-formatter-text-plain.c:195
 msgid "Format part as plain text"
 msgstr "অংশক প্লেইন টেক্সট হিচাপে বিন্যাস কৰক"
 
@@ -9791,8 +9711,7 @@ msgid ""
 "difficult, but not impossible for an outsider to view the content of this "
 "message in a practical amount of time."
 msgstr ""
-"এই বাৰ্তাটো এটা দুৰ্বল এনক্ৰিপশন অ্যালগোৰিদমেৰ দ্বাৰা এনক্ৰিপ্ট কৰা হৈছে। "
-"এজন "
+"এই বাৰ্তাটো এটা দুৰ্বল এনক্ৰিপশন অ্যালগোৰিদমেৰ দ্বাৰা এনক্ৰিপ্ট কৰা হৈছে। এজন "
 "বহীৰাগত ব্যক্তি সহজে না হলেও, কিছুমান সময় ব্যয় কৰিলে এতে অন্তৰ্ভুক্ত বস্তু "
 "পঢ়িবলৈ সক্ষম "
 "হতে পাৰে।"
@@ -9802,9 +9721,6 @@ msgid "Encrypted"
 msgstr "এনক্ৰিপ্ট কৰা হৈছে"
 
 #: ../em-format/e-mail-formatter-secure-button.c:65
-#| msgid ""
-#| "This message is encrypted. It would be difficult for an outsider to view "
-#| "the content of this message."
 msgid ""
 "This message is encrypted.  It would be difficult for an outsider to view "
 "the content of this message."
@@ -9824,23 +9740,23 @@ msgid ""
 msgstr ""
 "এই বাৰ্তাটো দৃঢ় এনক্ৰিপশন অ্যালগোৰিদম দ্বাৰা, এনক্ৰিপ্ট কৰা হৈছে। আৰু "
 "ফলস্বৰূপ কোনো "
-"বহীৰাগত ব্যক্তিৰ দ্বাৰা স্বাভাবিক সময়ৰ এই বাৰ্তাৰ বিষয়বস্তু পাঠ কৰা সম্ভৱ "
-"হ'ব না।"
+"বহীৰাগত ব্যক্তিৰ দ্বাৰা স্বাভাবিক সময়ৰ এই বাৰ্তাৰ বিষয়বস্তু পাঠ কৰা সম্ভৱ হ'ব "
+"না।"
 
-#: ../em-format/e-mail-formatter-secure-button.c:180
+#: ../em-format/e-mail-formatter-secure-button.c:182
 #: ../smime/gui/smime-ui.ui.h:20
 msgid "_View Certificate"
 msgstr "প্ৰমাণপত্ৰ প্ৰত্যক্ষ কৰক (_V)"
 
-#: ../em-format/e-mail-formatter-secure-button.c:195
+#: ../em-format/e-mail-formatter-secure-button.c:197
 msgid "This certificate is not viewable"
 msgstr "প্ৰমাণপত্ৰ প্ৰদৰ্শনযোগ্য নহয়"
 
-#: ../em-format/e-mail-formatter-source.c:126
+#: ../em-format/e-mail-formatter-source.c:130
 msgid "Source"
 msgstr "উৎস"
 
-#: ../em-format/e-mail-formatter-source.c:127
+#: ../em-format/e-mail-formatter-source.c:131
 msgid "Display source of a MIME part"
 msgstr "এটা MIME অংশৰ উৎস প্ৰদৰ্শন কৰক"
 
@@ -9869,27 +9785,27 @@ msgstr "স্বাক্ষৰ সতা সত্য নিৰূপণ ক�
 msgid "Malformed external-body part"
 msgstr "ক্ষতিগ্ৰস্থ বহীৰ্তম-শৰীৰৰ অংশ"
 
-#: ../em-format/e-mail-parser-message-external.c:101
+#: ../em-format/e-mail-parser-message-external.c:102
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "এফটিপি সাইটেৰ নিৰ্দেশচিহ্ন (%s)"
 
-#: ../em-format/e-mail-parser-message-external.c:112
+#: ../em-format/e-mail-parser-message-external.c:113
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "স্থানীয় ফাইলৰ (%s) নিৰ্দেশচিহ্ন \"%s\" স্থানত বৈধ"
 
-#: ../em-format/e-mail-parser-message-external.c:114
+#: ../em-format/e-mail-parser-message-external.c:115
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "স্থানীয় ফাইলৰ নিৰ্দেশচিহ্ন (%s)"
 
-#: ../em-format/e-mail-parser-message-external.c:133
+#: ../em-format/e-mail-parser-message-external.c:134
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "দূৰবৰ্তী ডাটাকে নিৰ্দেশকাৰী চিহ্ন (%s)"
 
-#: ../em-format/e-mail-parser-message-external.c:150
+#: ../em-format/e-mail-parser-message-external.c:152
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "অজ্ঞাত বহীস্থ ডাটা (\"%s\" ধৰণৰ)কে নিৰ্দেশকাৰী চিহ্ন"
@@ -11096,7 +11012,7 @@ msgstr "ফাইলৰ ধৰণ (_t):"
 
 #: ../e-util/e-import-assistant.c:340 ../e-util/e-import-assistant.c:921
 msgid "Choose the destination for this import"
-msgstr "এই ইম্পোৰ্ট কাৰ্য্যটিৰ বাবে এটা গন্তব্য বাছক"
+msgstr "এই ইম্পোৰ্ট কাৰ্য্যৰ বাবে এটা গন্তব্য বাছক"
 
 #: ../e-util/e-import-assistant.c:365
 msgid "Choose the type of importer to run:"
@@ -11348,12 +11264,10 @@ msgid "_Delete %s"
 msgstr "%s মচি পেলাওক (_D)"
 
 #: ../e-util/e-online-button.c:31
-#| msgid "Evolution is currently online. Click this button to work offline."
 msgid "Evolution is currently online.  Click this button to work offline."
 msgstr "Evolution বৰ্তমানে অনলাইন।  অফলাইন কাৰ্য্য কৰিবলে এই বুটাম ক্লিক কৰক।"
 
 #: ../e-util/e-online-button.c:34
-#| msgid "Evolution is currently offline. Click this button to work online."
 msgid "Evolution is currently offline.  Click this button to work online."
 msgstr "Evolution বৰ্তমানে অফলাইন।  অনলাইন কাৰ্য্য কৰিবলে এই বুটাম ক্লিক কৰক।"
 
@@ -12317,7 +12231,7 @@ msgstr "একাওন্ট নাম"
 
 #: ../mail/e-mail-account-tree-view.c:136
 #: ../mail/e-mail-config-security-page.c:333
-#: ../mail/e-mail-config-security-page.c:472 ../mail/e-mail-reader.c:3730
+#: ../mail/e-mail-config-security-page.c:472 ../mail/e-mail-reader.c:3735
 #: ../mail/mail-config.ui.h:49
 msgid "Default"
 msgstr "অবিকল্পিত"
@@ -12702,35 +12616,35 @@ msgstr "স্বাগতম"
 msgid "Account Editor"
 msgstr "একাওন্ট সম্পাদক"
 
-#: ../mail/e-mail-display.c:113
+#: ../mail/e-mail-display.c:107
 msgid "_Add to Address Book..."
 msgstr "ঠিকনা বহীলে যোগ কৰক (_A)..."
 
-#: ../mail/e-mail-display.c:120
+#: ../mail/e-mail-display.c:114
 msgid "_To This Address"
 msgstr "এই ঠিকনালে (_T)"
 
-#: ../mail/e-mail-display.c:127
+#: ../mail/e-mail-display.c:121
 msgid "_From This Address"
 msgstr "এই ঠিকনাৰ পৰা (_F)"
 
-#: ../mail/e-mail-display.c:134
+#: ../mail/e-mail-display.c:128
 msgid "Send _Reply To..."
 msgstr "লে উত্তৰ পঠাওক (_R)..."
 
-#: ../mail/e-mail-display.c:136
+#: ../mail/e-mail-display.c:130
 msgid "Send a reply message to this address"
 msgstr "এই ঠিকনালে এটা উত্তৰ বাৰ্তা পঠাওক"
 
-#: ../mail/e-mail-display.c:143
+#: ../mail/e-mail-display.c:137
 msgid "Create Search _Folder"
 msgstr "সন্ধান ফোল্ডাৰ সৃষ্টি কৰক (_F)"
 
-#: ../mail/e-mail-display.c:153
+#: ../mail/e-mail-display.c:147
 msgid "Save _Image..."
 msgstr "ছবি সংৰক্ষণ কৰক (_I)..."
 
-#: ../mail/e-mail-display.c:155
+#: ../mail/e-mail-display.c:149
 msgid "Save the image to a file"
 msgstr "ছবিক এটা ফাইললে সংৰক্ষণ কৰক"
 
@@ -12820,621 +12734,620 @@ msgstr "হেডাৰ"
 msgid "Save Image"
 msgstr "ছবি সংৰক্ষণ কৰক"
 
-#: ../mail/e-mail-reader.c:452 ../mail/em-filter-i18n.h:12
+#: ../mail/e-mail-reader.c:457 ../mail/em-filter-i18n.h:12
 msgid "Copy to Folder"
 msgstr "ফোল্ডাৰে কপি কৰক"
 
-#: ../mail/e-mail-reader.c:452 ../mail/em-folder-utils.c:489
+#: ../mail/e-mail-reader.c:457 ../mail/em-folder-utils.c:489
 msgid "C_opy"
 msgstr "কপি কৰক (_o)"
 
-#: ../mail/e-mail-reader.c:986 ../mail/em-filter-i18n.h:54
+#: ../mail/e-mail-reader.c:991 ../mail/em-filter-i18n.h:54
 msgid "Move to Folder"
 msgstr "এই ফোল্ডাৰে সৰাও"
 
-#: ../mail/e-mail-reader.c:986 ../mail/em-folder-utils.c:489
+#: ../mail/e-mail-reader.c:991 ../mail/em-folder-utils.c:489
 msgid "_Move"
 msgstr "স্থানান্তৰ কৰক (_M)"
 
-#: ../mail/e-mail-reader.c:1334 ../mail/e-mail-reader.c:1534
-#: ../mail/e-mail-reader.c:1574
+#: ../mail/e-mail-reader.c:1339 ../mail/e-mail-reader.c:1539
+#: ../mail/e-mail-reader.c:1579
 msgid "_Do not ask me again."
 msgstr "মোক আকৌ নুশুধিব (_D)।"
 
-#: ../mail/e-mail-reader.c:1580
+#: ../mail/e-mail-reader.c:1585
 msgid "_Always ignore Reply-To: for mailing lists."
 msgstr "মেইলিং তালিকাসমূহৰ বাবে Reply-To: ক সদায় উপেক্ষা কৰিব (_A)।"
 
-#: ../mail/e-mail-reader.c:1775
+#: ../mail/e-mail-reader.c:1780
 msgid "Failed to retrieve message:"
 msgstr "বাৰ্তা উদ্ধাৰ কৰিবলে ব্যৰ্থ:"
 
-#: ../mail/e-mail-reader.c:1821 ../mail/e-mail-reader.c:2937
+#: ../mail/e-mail-reader.c:1826 ../mail/e-mail-reader.c:2942
 #, c-format
 msgid "Retrieving message '%s'"
 msgstr "বাৰ্তা '%s' উদ্ধাৰ কৰা হৈ আছে"
 
-#: ../mail/e-mail-reader.c:1998
+#: ../mail/e-mail-reader.c:2003
 msgid "A_dd Sender to Address Book"
 msgstr "প্ৰেৰকেৰ নাম ঠিকনা বহীয়ে যোগ কৰক (_d)"
 
-#: ../mail/e-mail-reader.c:2000
+#: ../mail/e-mail-reader.c:2005
 msgid "Add sender to address book"
 msgstr "পঠাওতাক ঠিকনা বহীলে যোগ কৰক"
 
-#: ../mail/e-mail-reader.c:2005
+#: ../mail/e-mail-reader.c:2010
 msgid "Check for _Junk"
 msgstr "আবৰ্জনা বাৰ্তা পৰীক্ষা কৰা হৈছে (_J)"
 
-#: ../mail/e-mail-reader.c:2007
+#: ../mail/e-mail-reader.c:2012
 msgid "Filter the selected messages for junk status"
 msgstr ""
-"নিৰ্বাচিত বাৰ্তাসমূহত আবৰ্জনা অবস্থা সন্ধান কৰাৰ বাবে ফিল্টাৰ প্ৰয়োগ "
-"কৰা হ'ব"
+"নিৰ্বাচিত বাৰ্তাসমূহত আবৰ্জনা অবস্থা সন্ধান কৰাৰ বাবে ফিল্টাৰ প্ৰয়োগ কৰা হ'ব"
 
-#: ../mail/e-mail-reader.c:2012
+#: ../mail/e-mail-reader.c:2017
 msgid "_Copy to Folder..."
 msgstr "এই ফোল্ডাৰে কপি কৰক ... (_C)"
 
-#: ../mail/e-mail-reader.c:2014
+#: ../mail/e-mail-reader.c:2019
 msgid "Copy selected messages to another folder"
 msgstr "নিৰ্বাচিত বাৰ্তাসমূহ অন্য এটা ফোল্ডাৰে কপি কৰক"
 
-#: ../mail/e-mail-reader.c:2019
+#: ../mail/e-mail-reader.c:2024
 msgid "_Delete Message"
 msgstr "বাৰ্তা মচি পেলাওক (_D)"
 
-#: ../mail/e-mail-reader.c:2021
+#: ../mail/e-mail-reader.c:2026
 msgid "Mark the selected messages for deletion"
 msgstr "নিৰ্বাচিত বাৰ্তাসমূহ আঁতৰুৱাৰ বাবে চিহ্নিত কৰক"
 
-#: ../mail/e-mail-reader.c:2026
+#: ../mail/e-mail-reader.c:2031
 msgid "Create a Filter Rule for Mailing _List..."
 msgstr "মেইলিং লিস্ট অনুসৰি ফিল্টাৰ (_L)..."
 
-#: ../mail/e-mail-reader.c:2028
+#: ../mail/e-mail-reader.c:2033
 msgid "Create a rule to filter messages to this mailing list"
 msgstr "এই মেইলিং লিস্টে প্ৰেৰিত বাৰ্তা ফিল্টাৰ কৰাৰ বাবে এটা নিয়ম সৃষ্টি কৰক"
 
-#: ../mail/e-mail-reader.c:2033
+#: ../mail/e-mail-reader.c:2038
 msgid "Create a Filter Rule for _Recipients..."
 msgstr "প্ৰাপক অনুসৰি ফিল্টাৰ (_R)..."
 
-#: ../mail/e-mail-reader.c:2035
+#: ../mail/e-mail-reader.c:2040
 msgid "Create a rule to filter messages to these recipients"
 msgstr "এই প্ৰাপৰকে প্ৰেৰিত বাৰ্তা ফিল্টাৰ কৰাৰ বাবে এটা নিয়ম সৃষ্টি কৰক"
 
-#: ../mail/e-mail-reader.c:2040
+#: ../mail/e-mail-reader.c:2045
 msgid "Create a Filter Rule for Se_nder..."
 msgstr "প্ৰেৰক অনুসৰি ফিল্টাৰ (_n)..."
 
-#: ../mail/e-mail-reader.c:2042
+#: ../mail/e-mail-reader.c:2047
 msgid "Create a rule to filter messages from this sender"
 msgstr "এই প্ৰেৰকেৰ পৰা প্ৰাপ্ত বাৰ্তা ফিল্টাৰ কৰাৰ বাবে এটা নিয়ম সৃষ্টি কৰক"
 
-#: ../mail/e-mail-reader.c:2047
+#: ../mail/e-mail-reader.c:2052
 msgid "Create a Filter Rule for _Subject..."
 msgstr "বিষয় অনুসৰি ফিল্টাৰ (_S)..."
 
-#: ../mail/e-mail-reader.c:2049
+#: ../mail/e-mail-reader.c:2054
 msgid "Create a rule to filter messages with this subject"
 msgstr "এই বিষয় উল্লেখিত বাৰ্তাসমূহ ফিল্টাৰ কৰাৰ বাবে এটা নিয়ম সৃষ্টি কৰক"
 
-#: ../mail/e-mail-reader.c:2054
+#: ../mail/e-mail-reader.c:2059
 msgid "A_pply Filters"
 msgstr "ফিল্টাৰ প্ৰয়োগ কৰক (_p)"
 
-#: ../mail/e-mail-reader.c:2056
+#: ../mail/e-mail-reader.c:2061
 msgid "Apply filter rules to the selected messages"
 msgstr "নিৰ্বাচিত বাৰ্তাসমূহত ফিল্টাৰ প্ৰয়োগ কৰক"
 
-#: ../mail/e-mail-reader.c:2061
+#: ../mail/e-mail-reader.c:2066
 msgid "_Find in Message..."
 msgstr "বাৰ্তাৰ সন্ধান কৰক (_F)..."
 
-#: ../mail/e-mail-reader.c:2063
+#: ../mail/e-mail-reader.c:2068
 msgid "Search for text in the body of the displayed message"
 msgstr "প্ৰদৰ্শিত বাৰ্তাৰ মূল অংশে টেক্সটটি সন্ধান কৰক"
 
-#: ../mail/e-mail-reader.c:2068
+#: ../mail/e-mail-reader.c:2073
 msgid "_Clear Flag"
 msgstr "ফ্ল্যাগ মচি পেলাওক (_C)"
 
-#: ../mail/e-mail-reader.c:2070
+#: ../mail/e-mail-reader.c:2075
 msgid "Remove the follow-up flag from the selected messages"
 msgstr "নিৰ্বাচিত বাৰ্তাসমূহৰ পৰা ফলো-আপ ফ্লেগ আতৰাওক"
 
-#: ../mail/e-mail-reader.c:2075
+#: ../mail/e-mail-reader.c:2080
 msgid "_Flag Completed"
 msgstr "কাৰ্য্য সমাপ্তিৰ ফ্ল্যাগ (_F)"
 
-#: ../mail/e-mail-reader.c:2077
+#: ../mail/e-mail-reader.c:2082
 msgid "Set the follow-up flag to completed on the selected messages"
 msgstr "নিৰ্বাচিত বাৰ্তাত সম্পূৰ্ণ হব লগিয়া ফলো-আপ ফ্লেগ সংহতি কৰক"
 
-#: ../mail/e-mail-reader.c:2082
+#: ../mail/e-mail-reader.c:2087
 msgid "Follow _Up..."
 msgstr "ফলো আপ (_U)..."
 
-#: ../mail/e-mail-reader.c:2084
+#: ../mail/e-mail-reader.c:2089
 msgid "Flag the selected messages for follow-up"
 msgstr "নিৰ্বাচিত বাৰ্তাসমূহক ফলো আপৰ বাবে ফ্লেগ কৰক"
 
-#: ../mail/e-mail-reader.c:2089
+#: ../mail/e-mail-reader.c:2094
 msgid "_Attached"
 msgstr "সংযুক্ত (_A)"
 
-#: ../mail/e-mail-reader.c:2091 ../mail/e-mail-reader.c:2098
+#: ../mail/e-mail-reader.c:2096 ../mail/e-mail-reader.c:2103
 msgid "Forward the selected message to someone as an attachment"
 msgstr "নিৰ্বাচিত বাৰ্তাটো সংযুক্ত বস্তু হিচাপে কাউকে ফৰওয়াৰ্ড কৰক"
 
-#: ../mail/e-mail-reader.c:2096
+#: ../mail/e-mail-reader.c:2101
 msgid "Forward As _Attached"
 msgstr "সংলঘ্ন হিচাপে আগবঢ়াওক (_A)"
 
-#: ../mail/e-mail-reader.c:2103
+#: ../mail/e-mail-reader.c:2108
 msgid "_Inline"
 msgstr "ইনলাইন(_I)"
 
-#: ../mail/e-mail-reader.c:2105 ../mail/e-mail-reader.c:2112
+#: ../mail/e-mail-reader.c:2110 ../mail/e-mail-reader.c:2117
 msgid "Forward the selected message in the body of a new message"
 msgstr "নিৰ্বাচিত বাৰ্তাটো নতুন বাৰ্তাৰ মূল অংশে অন্তৰ্ভুক্ত কৰে ফৰওয়াৰ্ড কৰক"
 
-#: ../mail/e-mail-reader.c:2110
+#: ../mail/e-mail-reader.c:2115
 msgid "Forward As _Inline"
 msgstr "ইনলাইন হিচাপে আগবঢ়াওক (_I)"
 
-#: ../mail/e-mail-reader.c:2117
+#: ../mail/e-mail-reader.c:2122
 msgid "_Quoted"
 msgstr "উদ্ধৃত(_Q)"
 
-#: ../mail/e-mail-reader.c:2119 ../mail/e-mail-reader.c:2126
+#: ../mail/e-mail-reader.c:2124 ../mail/e-mail-reader.c:2131
 msgid "Forward the selected message quoted like a reply"
 msgstr "নিৰ্বাচিত বাৰ্তাটো এটা প্ৰত্যুত্তৰ হিচাপে উদ্ধৃত কৰে ফৰওয়াৰ্ড কৰা হ'ব"
 
-#: ../mail/e-mail-reader.c:2124
+#: ../mail/e-mail-reader.c:2129
 msgid "Forward As _Quoted"
 msgstr "কৌটেড হিচাপে আগবঢ়াওক (_Q)"
 
-#: ../mail/e-mail-reader.c:2131
+#: ../mail/e-mail-reader.c:2136
 msgid "_Load Images"
 msgstr "ছবি ল'ড কৰা হ'ব (_L)"
 
-#: ../mail/e-mail-reader.c:2133
+#: ../mail/e-mail-reader.c:2138
 msgid "Force images in HTML mail to be loaded"
 msgstr "HTML মেইল অন্তৰ্ভুক্ত ছবিসমূহ ল'ড কৰিবলৈ বাধ্য কৰা হ'ব"
 
-#: ../mail/e-mail-reader.c:2138
+#: ../mail/e-mail-reader.c:2143
 msgid "_Important"
 msgstr "গুৰুত্বপূৰ্ণ(_I)"
 
-#: ../mail/e-mail-reader.c:2140
+#: ../mail/e-mail-reader.c:2145
 msgid "Mark the selected messages as important"
 msgstr "নিৰ্বাচিত বাৰ্তাসমূহকে গুৰুত্বপূৰ্ণ হিচাপে চিহ্নিত কৰক"
 
-#: ../mail/e-mail-reader.c:2145
+#: ../mail/e-mail-reader.c:2150
 msgid "_Junk"
 msgstr "আবৰ্জনা(_J)"
 
-#: ../mail/e-mail-reader.c:2147
+#: ../mail/e-mail-reader.c:2152
 msgid "Mark the selected messages as junk"
 msgstr "নিৰ্বাচিত বাৰ্তাসমূহকে আবৰ্জনা হিচাপে চিহ্নিত কৰক"
 
-#: ../mail/e-mail-reader.c:2152
+#: ../mail/e-mail-reader.c:2157
 msgid "_Not Junk"
 msgstr "আবৰ্জনা নহয়(_N)"
 
-#: ../mail/e-mail-reader.c:2154
+#: ../mail/e-mail-reader.c:2159
 msgid "Mark the selected messages as not being junk"
 msgstr "নিৰ্বাচিত বাৰ্তাসমূহকে আবৰ্জনা-নহয় হিচাপে চিহ্নিত কৰক"
 
-#: ../mail/e-mail-reader.c:2159
+#: ../mail/e-mail-reader.c:2164
 msgid "_Read"
 msgstr "পঢ়ক (_R)"
 
-#: ../mail/e-mail-reader.c:2161
+#: ../mail/e-mail-reader.c:2166
 msgid "Mark the selected messages as having been read"
 msgstr "নিৰ্বাচিত বাৰ্তাসমূহকে পঢ়া-হৈছে হিচাপে চিহ্নিত কৰক"
 
-#: ../mail/e-mail-reader.c:2166
+#: ../mail/e-mail-reader.c:2171
 msgid "Uni_mportant"
 msgstr "অপ্ৰয়োজনীয়(_m)"
 
-#: ../mail/e-mail-reader.c:2168
+#: ../mail/e-mail-reader.c:2173
 msgid "Mark the selected messages as unimportant"
 msgstr "নিৰ্বাচিত বাৰ্তাসমূহকে অপ্ৰয়োজনীয় হিচাপে চিহ্নিত কৰক"
 
-#: ../mail/e-mail-reader.c:2173
+#: ../mail/e-mail-reader.c:2178
 msgid "_Unread"
 msgstr "পঢ়া হোৱা নাই(_U)"
 
-#: ../mail/e-mail-reader.c:2175
+#: ../mail/e-mail-reader.c:2180
 msgid "Mark the selected messages as not having been read"
 msgstr "নিৰ্বাচিত বাৰ্তাসমূহকে পঢ়া-হোৱা নাই হিচাপে চিহ্নিত কৰক"
 
-#: ../mail/e-mail-reader.c:2180
+#: ../mail/e-mail-reader.c:2185
 msgid "_Edit as New Message..."
 msgstr "নতুন বাৰ্তা হিচাপে সম্পাদন কৰক (_E)..."
 
-#: ../mail/e-mail-reader.c:2182
+#: ../mail/e-mail-reader.c:2187
 msgid "Open the selected messages in the composer for editing"
 msgstr "নিৰ্বাচিত বাৰ্তাসমূহ কম্পোজাৰে খুলে সম্পাদন কৰক"
 
-#: ../mail/e-mail-reader.c:2187
+#: ../mail/e-mail-reader.c:2192
 msgid "Compose _New Message"
 msgstr "নতুন বাৰ্তা লেখো (_N)"
 
-#: ../mail/e-mail-reader.c:2189
+#: ../mail/e-mail-reader.c:2194
 msgid "Open a window for composing a mail message"
 msgstr "মেইল বাৰ্তা লিখাৰ বাবে এটা উইন্ডো খোলো"
 
-#: ../mail/e-mail-reader.c:2194
+#: ../mail/e-mail-reader.c:2199
 msgid "_Open in New Window"
 msgstr "নতুন উইন্ডোতে খোলক(_O)"
 
-#: ../mail/e-mail-reader.c:2196
+#: ../mail/e-mail-reader.c:2201
 msgid "Open the selected messages in a new window"
 msgstr "নিৰ্বাচিত বাৰ্তাসমূহ এটা নতুন উইন্ডোতে দেখুৱাওক"
 
-#: ../mail/e-mail-reader.c:2201
+#: ../mail/e-mail-reader.c:2206
 msgid "_Move to Folder..."
 msgstr "এই ফোল্ডাৰে আতৰাই পেলাওক (_M)..."
 
-#: ../mail/e-mail-reader.c:2203
+#: ../mail/e-mail-reader.c:2208
 msgid "Move selected messages to another folder"
 msgstr "নিৰ্বাচিত বাৰ্তাসমূহ অন্য এটা ফোল্ডাৰে আতৰাই নিন"
 
-#: ../mail/e-mail-reader.c:2208
+#: ../mail/e-mail-reader.c:2213
 msgid "_Switch to Folder"
 msgstr "ফোল্ডাৰলে যাওক (_S)"
 
-#: ../mail/e-mail-reader.c:2210
+#: ../mail/e-mail-reader.c:2215
 msgid "Display the parent folder"
 msgstr "উপধায়ক ফোল্ডাৰ প্ৰদৰ্শন কৰক"
 
-#: ../mail/e-mail-reader.c:2215
+#: ../mail/e-mail-reader.c:2220
 msgid "Switch to _next tab"
 msgstr "পৰৱৰ্তী টেবলে যাওক (_n)"
 
-#: ../mail/e-mail-reader.c:2217
+#: ../mail/e-mail-reader.c:2222
 msgid "Switch to the next tab"
 msgstr "পৰৱৰ্তী টেবলে যাওক"
 
-#: ../mail/e-mail-reader.c:2222
+#: ../mail/e-mail-reader.c:2227
 msgid "Switch to _previous tab"
 msgstr "পূৰ্বৱৰ্তী টেবলে যাওক (_p)"
 
-#: ../mail/e-mail-reader.c:2224
+#: ../mail/e-mail-reader.c:2229
 msgid "Switch to the previous tab"
 msgstr "পূৰ্বৱৰ্তী টেবলে যাওক"
 
-#: ../mail/e-mail-reader.c:2229
+#: ../mail/e-mail-reader.c:2234
 msgid "Cl_ose current tab"
 msgstr "বৰ্তমান টেব বন্ধ কৰক (_o)"
 
-#: ../mail/e-mail-reader.c:2231
+#: ../mail/e-mail-reader.c:2236
 msgid "Close current tab"
 msgstr "বৰ্তমান টেব বন্ধ কৰক"
 
-#: ../mail/e-mail-reader.c:2236
+#: ../mail/e-mail-reader.c:2241
 msgid "_Next Message"
 msgstr "পৰবৰ্তী বাৰ্তা (_N)"
 
-#: ../mail/e-mail-reader.c:2238
+#: ../mail/e-mail-reader.c:2243
 msgid "Display the next message"
 msgstr "পৰবৰ্তী বাৰ্তা দেখুৱাওক"
 
-#: ../mail/e-mail-reader.c:2243
+#: ../mail/e-mail-reader.c:2248
 msgid "Next _Important Message"
 msgstr "পৰবৰ্তী গুৰুত্বপূৰ্ণ বাৰ্তা (_I)"
 
-#: ../mail/e-mail-reader.c:2245
+#: ../mail/e-mail-reader.c:2250
 msgid "Display the next important message"
 msgstr "পৰবৰ্তী গুৰুত্বপূৰ্ণ বাৰ্তা দেখুৱাওক"
 
-#: ../mail/e-mail-reader.c:2250
+#: ../mail/e-mail-reader.c:2255
 msgid "Next _Thread"
 msgstr "পৰবৰ্তী থ্ৰেড (_T)"
 
-#: ../mail/e-mail-reader.c:2252
+#: ../mail/e-mail-reader.c:2257
 msgid "Display the next thread"
 msgstr "পৰবৰ্তী থ্ৰেড দেখুৱাওক"
 
-#: ../mail/e-mail-reader.c:2257
+#: ../mail/e-mail-reader.c:2262
 msgid "Next _Unread Message"
 msgstr "পৰবৰ্তী না-পঢ়া বাৰ্তা (_U)"
 
-#: ../mail/e-mail-reader.c:2259
+#: ../mail/e-mail-reader.c:2264
 msgid "Display the next unread message"
 msgstr "পৰবৰ্তী না-পঢ়া বাৰ্তা দেখুৱাওক"
 
-#: ../mail/e-mail-reader.c:2264
+#: ../mail/e-mail-reader.c:2269
 msgid "_Previous Message"
 msgstr "পূৰ্ববৰ্তী বাৰ্তা (_P)"
 
-#: ../mail/e-mail-reader.c:2266
+#: ../mail/e-mail-reader.c:2271
 msgid "Display the previous message"
 msgstr "পূৰ্ববৰ্তী বাৰ্তা দেখুৱাওক"
 
-#: ../mail/e-mail-reader.c:2271
+#: ../mail/e-mail-reader.c:2276
 msgid "Pr_evious Important Message"
 msgstr "পূৰ্ববৰ্তী গুৰুত্বপূৰ্ণ বাৰ্তা (_e)"
 
-#: ../mail/e-mail-reader.c:2273
+#: ../mail/e-mail-reader.c:2278
 msgid "Display the previous important message"
 msgstr "পূৰ্ববৰ্তী গুৰুত্বপূৰ্ণ বাৰ্তা দেখুৱাওক"
 
-#: ../mail/e-mail-reader.c:2278
+#: ../mail/e-mail-reader.c:2283
 msgid "Previous T_hread"
 msgstr "পূৰ্ব থ্ৰেড (_h)"
 
-#: ../mail/e-mail-reader.c:2280
+#: ../mail/e-mail-reader.c:2285
 msgid "Display the previous thread"
 msgstr "পূৰ্বৱৰ্তী থ্ৰেড প্ৰদৰ্শন কৰক"
 
-#: ../mail/e-mail-reader.c:2285
+#: ../mail/e-mail-reader.c:2290
 msgid "P_revious Unread Message"
 msgstr "পূৰ্ববৰ্তী না-পঢ়া বাৰ্তা (_r)"
 
-#: ../mail/e-mail-reader.c:2287
+#: ../mail/e-mail-reader.c:2292
 msgid "Display the previous unread message"
 msgstr "পূৰ্ববৰ্তী না-পঢ়া বাৰ্তা দেখুৱাওক"
 
-#: ../mail/e-mail-reader.c:2294
+#: ../mail/e-mail-reader.c:2299
 msgid "Print this message"
 msgstr "এই বাৰ্তাটো প্ৰিন্ট কৰক"
 
-#: ../mail/e-mail-reader.c:2301
+#: ../mail/e-mail-reader.c:2306
 msgid "Preview the message to be printed"
 msgstr "যে বাৰ্তাটো প্ৰিন্ট কৰা হ'ব তাৰ পূৰ্বপ্ৰদৰ্শন কৰক"
 
-#: ../mail/e-mail-reader.c:2306
+#: ../mail/e-mail-reader.c:2311
 msgid "Re_direct"
 msgstr "ৰি-ডাইৰেক্ট কৰক (_d)"
 
-#: ../mail/e-mail-reader.c:2308
+#: ../mail/e-mail-reader.c:2313
 msgid "Redirect (bounce) the selected message to someone"
 msgstr "বাৰ্তা"
 
-#: ../mail/e-mail-reader.c:2313
+#: ../mail/e-mail-reader.c:2318
 msgid "Remo_ve Attachments"
 msgstr "এটাচমেন্টসমূহ আতৰাওক (_v)"
 
-#: ../mail/e-mail-reader.c:2315
+#: ../mail/e-mail-reader.c:2320
 msgid "Remove attachments"
 msgstr "এটাচমেন্টসমূহ আতৰাওক"
 
-#: ../mail/e-mail-reader.c:2320
+#: ../mail/e-mail-reader.c:2325
 msgid "Remove Du_plicate Messages"
 msgstr "প্ৰতিলিপিত বাৰ্তাসমূহ আতৰাওক (_p)"
 
-#: ../mail/e-mail-reader.c:2322
+#: ../mail/e-mail-reader.c:2327
 msgid "Checks selected messages for duplicates"
 msgstr "নিৰ্বাচিত বাৰ্তাসমূহক প্ৰতিলিপিতসমূহৰ বাবে নিৰীক্ষণ কৰক"
 
-#: ../mail/e-mail-reader.c:2327 ../mail/mail.error.xml.h:27
+#: ../mail/e-mail-reader.c:2332 ../mail/mail.error.xml.h:27
 #: ../modules/calendar/e-cal-shell-view-actions.c:1568
 #: ../modules/mail/e-mail-attachment-handler.c:194
 msgid "Reply to _All"
 msgstr "সকলোেৰ প্ৰতি উত্তৰ (_A)"
 
-#: ../mail/e-mail-reader.c:2329
+#: ../mail/e-mail-reader.c:2334
 msgid "Compose a reply to all the recipients of the selected message"
 msgstr "নিৰ্বাচিত বাৰ্তাৰ সকলো গ্ৰহণকাৰীৰ বাবে এটা উত্তৰ ৰচনা কৰক"
 
-#: ../mail/e-mail-reader.c:2334 ../mail/mail.error.xml.h:25
+#: ../mail/e-mail-reader.c:2339 ../mail/mail.error.xml.h:25
 msgid "Reply to _List"
 msgstr "লিস্টে উত্তৰ(_L)"
 
-#: ../mail/e-mail-reader.c:2336
+#: ../mail/e-mail-reader.c:2341
 msgid "Compose a reply to the mailing list of the selected message"
 msgstr "নিৰ্বাচিত বাৰ্তাৰ মেইলিং লিস্টেৰ বাবে এটা প্ৰত্যুত্তৰ লেখো"
 
-#: ../mail/e-mail-reader.c:2341
+#: ../mail/e-mail-reader.c:2346
 #: ../modules/mail/e-mail-attachment-handler.c:201
 msgid "_Reply to Sender"
 msgstr "প্ৰেৰকেৰ প্ৰতি উত্তৰ (_R)"
 
-#: ../mail/e-mail-reader.c:2343
+#: ../mail/e-mail-reader.c:2348
 msgid "Compose a reply to the sender of the selected message"
 msgstr "নিৰ্বাচিত বাৰ্তাৰ প্ৰেৰকেৰ বাবে এটা প্ৰত্যুত্তৰ লেখো"
 
-#: ../mail/e-mail-reader.c:2348
+#: ../mail/e-mail-reader.c:2353
 msgid "_Save as mbox..."
 msgstr "mbox হিচাপে সংৰক্ষণ কৰক (_S)..."
 
-#: ../mail/e-mail-reader.c:2350
+#: ../mail/e-mail-reader.c:2355
 msgid "Save selected messages as an mbox file"
 msgstr "নিৰ্বাচিত বাৰ্তাসমূহক এটা mbox ফাইল হিচাপে সংৰক্ষণ কৰক"
 
-#: ../mail/e-mail-reader.c:2355
+#: ../mail/e-mail-reader.c:2360
 msgid "_Message Source"
 msgstr "বাৰ্তাৰ উৎস(_M)"
 
-#: ../mail/e-mail-reader.c:2357
+#: ../mail/e-mail-reader.c:2362
 msgid "Show the raw email source of the message"
 msgstr "এই বাৰ্তাটোৰ ই-মেইল উৎস প্ৰদৰ্শন কৰক"
 
-#: ../mail/e-mail-reader.c:2369
+#: ../mail/e-mail-reader.c:2374
 msgid "_Undelete Message"
 msgstr "আঁতৰুৱা বাৰ্তা পুনৰুদ্ধাৰ (_U)"
 
-#: ../mail/e-mail-reader.c:2371
+#: ../mail/e-mail-reader.c:2376
 msgid "Undelete the selected messages"
 msgstr "নিৰ্বাচিত বাৰ্তাসমূহ মচি না ফেলে, উদ্ধাৰ কৰক"
 
-#: ../mail/e-mail-reader.c:2376
+#: ../mail/e-mail-reader.c:2381
 msgid "_Normal Size"
 msgstr "স্বাভাবিক মাপ (_N)"
 
-#: ../mail/e-mail-reader.c:2378
+#: ../mail/e-mail-reader.c:2383
 msgid "Reset the text to its original size"
 msgstr "টেক্সটকে তাৰ প্ৰাথমিক মাপে পুনৰায় স্থাপন কৰক"
 
-#: ../mail/e-mail-reader.c:2383
+#: ../mail/e-mail-reader.c:2388
 msgid "_Zoom In"
 msgstr "জুম ইন (_Z)"
 
-#: ../mail/e-mail-reader.c:2385
+#: ../mail/e-mail-reader.c:2390
 msgid "Increase the text size"
 msgstr "লিখনী আকাৰ বৃদ্ধি কৰক"
 
-#: ../mail/e-mail-reader.c:2390
+#: ../mail/e-mail-reader.c:2395
 msgid "Zoom _Out"
 msgstr "জুম আউট (_O)"
 
-#: ../mail/e-mail-reader.c:2392
+#: ../mail/e-mail-reader.c:2397
 msgid "Decrease the text size"
 msgstr "লিখনী আকাৰ সৰু কৰক"
 
-#: ../mail/e-mail-reader.c:2399
+#: ../mail/e-mail-reader.c:2404
 msgid "Cre_ate"
 msgstr "সৃষ্টি কৰক (_a)"
 
-#: ../mail/e-mail-reader.c:2406
+#: ../mail/e-mail-reader.c:2411
 msgid "Ch_aracter Encoding"
 msgstr "আখৰ এনকোডিং (_a)"
 
-#: ../mail/e-mail-reader.c:2413
+#: ../mail/e-mail-reader.c:2418
 msgid "F_orward As"
 msgstr "এই ধৰণে আগবঢ়াওক (_o)"
 
-#: ../mail/e-mail-reader.c:2420
+#: ../mail/e-mail-reader.c:2425
 msgid "_Group Reply"
 msgstr "দল উত্তৰ (_G)"
 
-#: ../mail/e-mail-reader.c:2427
+#: ../mail/e-mail-reader.c:2432
 msgid "_Go To"
 msgstr "ইয়াত যাও (_G)"
 
-#: ../mail/e-mail-reader.c:2434
+#: ../mail/e-mail-reader.c:2439
 msgid "Mar_k As"
 msgstr "এই ধৰণে চিহ্নিত কৰক (_k)"
 
-#: ../mail/e-mail-reader.c:2441
+#: ../mail/e-mail-reader.c:2446
 msgid "_Message"
 msgstr "বাৰ্তা (_M)"
 
-#: ../mail/e-mail-reader.c:2448
+#: ../mail/e-mail-reader.c:2453
 msgid "_Zoom"
 msgstr "জুম (_Z)"
 
-#: ../mail/e-mail-reader.c:2458
+#: ../mail/e-mail-reader.c:2463
 msgid "Create a Search Folder from Mailing _List..."
 msgstr "মেইলিং লিস্ট ব্যৱহাৰ কৰি সন্ধান ফোল্ডাৰ নিৰ্মাণ কৰক (_L)..."
 
-#: ../mail/e-mail-reader.c:2460
+#: ../mail/e-mail-reader.c:2465
 msgid "Create a search folder for this mailing list"
 msgstr "এই মেইলিং তালিকাৰ বাবে এটা সন্ধান ফোল্ডাৰ সৃষ্টি কৰক"
 
-#: ../mail/e-mail-reader.c:2465
+#: ../mail/e-mail-reader.c:2470
 msgid "Create a Search Folder from Recipien_ts..."
 msgstr "প্ৰাপকৰ তথ্য ব্যৱহাৰ কৰি সন্ধান ফোল্ডাৰ নিৰ্মাণ কৰক...(_t)"
 
-#: ../mail/e-mail-reader.c:2467
+#: ../mail/e-mail-reader.c:2472
 msgid "Create a search folder for these recipients"
 msgstr "এইসমূহ গ্ৰহণকাৰীৰ বাবে এটা সন্ধান ফোল্ডাৰ সৃষ্টি কৰক"
 
-#: ../mail/e-mail-reader.c:2472
+#: ../mail/e-mail-reader.c:2477
 msgid "Create a Search Folder from Sen_der..."
 msgstr "প্ৰেৰকৰ তথ্য ব্যৱহাৰ কৰি সন্ধান ফোল্ডাৰ নিৰ্মাণ কৰক (_d)..."
 
-#: ../mail/e-mail-reader.c:2474
+#: ../mail/e-mail-reader.c:2479
 msgid "Create a search folder for this sender"
 msgstr "এইজন পঠাওতাৰ বাবে এটা সন্ধান ফোল্ডাৰ সৃষ্টি কৰক"
 
-#: ../mail/e-mail-reader.c:2479
+#: ../mail/e-mail-reader.c:2484
 msgid "Create a Search Folder from S_ubject..."
 msgstr "বিষয় ব্যৱহাৰ কৰি সন্ধান ফোল্ডাৰ নিৰ্মাণ কৰক (_u)..."
 
-#: ../mail/e-mail-reader.c:2481
+#: ../mail/e-mail-reader.c:2486
 msgid "Create a search folder for this subject"
 msgstr "এই বিষয়ৰ বাবে এটা সন্ধান ফোল্ডাৰ সৃষ্টি কৰক"
 
-#: ../mail/e-mail-reader.c:2504
+#: ../mail/e-mail-reader.c:2509
 msgid "Mark for Follo_w Up..."
 msgstr "উল্লেখিত সময় অবধি."
 
-#: ../mail/e-mail-reader.c:2512
+#: ../mail/e-mail-reader.c:2517
 msgid "Mark as _Important"
 msgstr "প্ৰয়োজনীয় হিচাপে চিহ্নিত কৰক (_I)"
 
-#: ../mail/e-mail-reader.c:2516
+#: ../mail/e-mail-reader.c:2521
 msgid "Mark as _Junk"
 msgstr "অনাকঙ্ক্ষিত হিচাপে চিহ্নিত কৰক (_J)"
 
-#: ../mail/e-mail-reader.c:2520
+#: ../mail/e-mail-reader.c:2525
 msgid "Mark as _Not Junk"
 msgstr "আবৰ্জনা নহয় হিচাপে চিহ্নিত কৰক (_N)"
 
-#: ../mail/e-mail-reader.c:2524
+#: ../mail/e-mail-reader.c:2529
 msgid "Mar_k as Read"
 msgstr "পঢ়া হৈছে হিচাপে চিহ্নিত কৰক (_k)"
 
-#: ../mail/e-mail-reader.c:2528
+#: ../mail/e-mail-reader.c:2533
 msgid "Mark as Uni_mportant"
 msgstr "গুৰুত্বহীন হিচাপে চিহ্নিত কৰক (_m)"
 
-#: ../mail/e-mail-reader.c:2532
+#: ../mail/e-mail-reader.c:2537
 msgid "Mark as _Unread"
 msgstr "পঢ়া-হোৱা নাই হিচাপে চিহ্নিত কৰা হ'ব(_U)"
 
-#: ../mail/e-mail-reader.c:2576
+#: ../mail/e-mail-reader.c:2581
 msgid "_Caret Mode"
 msgstr "ক্যাৰেট অৱস্থা (_C)"
 
-#: ../mail/e-mail-reader.c:2578
+#: ../mail/e-mail-reader.c:2583
 msgid "Show a blinking cursor in the body of displayed messages"
 msgstr "প্ৰদৰ্শিত বাৰ্তাৰ মূল অংশেৰ মাঝে ঝলকানিসহ এটা কাৰ্সাৰ প্ৰদৰ্শন কৰক"
 
-#: ../mail/e-mail-reader.c:2584
+#: ../mail/e-mail-reader.c:2589
 msgid "All Message _Headers"
 msgstr "সকলো বাৰ্তাৰ হেডাৰ (_H)"
 
-#: ../mail/e-mail-reader.c:2586
+#: ../mail/e-mail-reader.c:2591
 msgid "Show messages with all email headers"
 msgstr "সকলো ই-মেইল হেডাৰসহ বাৰ্তা প্ৰদৰ্শন কৰক"
 
-#: ../mail/e-mail-reader.c:2943
+#: ../mail/e-mail-reader.c:2948
 msgid "Retrieving message"
 msgstr "বাৰ্তা উদ্ধাৰ কৰা হৈ আছে"
 
-#: ../mail/e-mail-reader.c:3923
+#: ../mail/e-mail-reader.c:3928
 #: ../modules/mail/e-mail-attachment-handler.c:187
 msgid "_Forward"
 msgstr "ফৰওয়াৰ্ড (_F)"
 
-#: ../mail/e-mail-reader.c:3924
+#: ../mail/e-mail-reader.c:3929
 msgid "Forward the selected message to someone"
 msgstr "নিৰ্বাচিত বাৰ্তাটো কাউকে ফৰওয়াৰ্ড কৰক"
 
-#: ../mail/e-mail-reader.c:3943
+#: ../mail/e-mail-reader.c:3948
 msgid "Group Reply"
 msgstr "দল উত্তৰ"
 
-#: ../mail/e-mail-reader.c:3944
+#: ../mail/e-mail-reader.c:3949
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "মেইলিং তালিকাক উত্তৰ দিয়ক, অতাব সকলো গ্ৰহণকাৰীলে"
 
-#: ../mail/e-mail-reader.c:4010 ../mail/em-filter-i18n.h:15
+#: ../mail/e-mail-reader.c:4015 ../mail/em-filter-i18n.h:15
 msgid "Delete"
 msgstr "মচি পেলাওক"
 
-#: ../mail/e-mail-reader.c:4043
+#: ../mail/e-mail-reader.c:4048
 #: ../modules/calendar/e-cal-shell-view-actions.c:1393
 msgid "Next"
 msgstr "পৰবৰ্তী"
 
-#: ../mail/e-mail-reader.c:4047
+#: ../mail/e-mail-reader.c:4052
 #: ../modules/calendar/e-cal-shell-view-actions.c:1386
 msgid "Previous"
 msgstr "পূৰ্বাবস্থা"
 
-#: ../mail/e-mail-reader.c:4056 ../mail/mail-dialogs.ui.h:15
+#: ../mail/e-mail-reader.c:4061 ../mail/mail-dialogs.ui.h:15
 msgid "Reply"
 msgstr "প্ৰত্যুত্তৰ"
 
-#: ../mail/e-mail-reader.c:4774
+#: ../mail/e-mail-reader.c:4779
 #, c-format
 msgid "Folder '%s'"
 msgstr "ফোল্ডাৰ '%s'"
@@ -13466,7 +13379,7 @@ msgstr[1] ""
 "পেলাবলে "
 "নিশ্চিত নে?"
 
-#: ../mail/e-mail-reader-utils.c:1603
+#: ../mail/e-mail-reader-utils.c:1604
 msgid "Save Message"
 msgid_plural "Save Messages"
 msgstr[0] "বাৰ্তাক সঞ্চয় কৰক"
@@ -13477,17 +13390,17 @@ msgstr[1] "বাৰ্তা সংৰক্ষণ কৰক (_S)"
 #. * mbox format, when the first message doesn't have a
 #. * subject.  The extension ".mbox" is appended to the
 #. * string; for example "Message.mbox".
-#: ../mail/e-mail-reader-utils.c:1624
+#: ../mail/e-mail-reader-utils.c:1625
 msgid "Message"
 msgid_plural "Messages"
 msgstr[0] "বাৰ্তা"
 msgstr[1] "বাৰ্তাসমূহ"
 
-#: ../mail/e-mail-reader-utils.c:2078
+#: ../mail/e-mail-reader-utils.c:2079
 msgid "Parsing message"
 msgstr "বাৰ্তা বিশ্লেষণ কৰা"
 
-#: ../mail/e-mail-request.c:181
+#: ../mail/e-mail-request.c:189
 #, c-format
 msgid "Failed to load part '%s'"
 msgstr "কেলেন্ডাৰ '%s' ল'ড কৰিবলে ব্যৰ্থ"
@@ -14690,8 +14603,7 @@ msgid ""
 msgstr ""
 "আপোনাৰ পাছৱাৰ্ড সঠিকভাবে লিখা আছে নে অনুগ্ৰহ কৰে ইয়াক পৰীক্ষা কৰক। কিছুমান "
 "পাছৱাৰ্ড ডাঙৰ আৰু সৰু হাতেৰ অক্ষৰ সম্পৰ্কে সচেতন থাকে; আপোনাৰ ক্যাপসলক "
-"বুটামটি "
-"সক্ৰিয় "
+"বুটামটি সক্ৰিয় "
 "থাকতে পাৰে।"
 
 #: ../mail/mail.error.xml.h:5
@@ -15223,10 +15135,10 @@ msgstr ""
 "বিচাৰে নে?\n"
 "\n"
 "পুৰনি mbox ফোল্ডাৰসমূহ সংৰক্ষণ কৰিবলে এটা mbox একাওন্ট সৃষ্টি কৰা হব।  তথ্য "
-"সুৰক্ষিতভাৱে "
-"প্ৰব্ৰজন কৰিছে সুনিশ্চিত কৰি আপুনি একাওন্ট মচি পেলাব পাৰিব।  যদি আপুনি এতিয়া "
-"প্ৰব্ৰজন কৰিব "
-"বিচাৰে অনুগ্ৰহ কৰি সুনিশ্চিত কৰক যে পৰ্যাপ্ত ডিস্ক স্থান উপলব্ধ আছে।"
+"সুৰক্ষিতভাৱে প্ৰব্ৰজন কৰিছে সুনিশ্চিত কৰি আপুনি একাওন্ট মচি পেলাব পাৰিব।  যদি "
+"আপুনি "
+"এতিয়া প্ৰব্ৰজন কৰিব বিচাৰে অনুগ্ৰহ কৰি সুনিশ্চিত কৰক যে পৰ্যাপ্ত ডিস্ক স্থান "
+"উপলব্ধ আছে।"
 
 #: ../mail/mail.error.xml.h:116
 msgid "_Exit Evolution"
@@ -15294,7 +15206,7 @@ msgstr "ই সকলো বাৰ্তাক নিৰ্বাচিত ফ�
 #
 #: ../mail/mail.error.xml.h:129
 msgid "Also mark messages in subfolders?"
-msgstr "সাবফোল্ডাৰে উপস্থিত বাৰ্তাসমূহও চিহ্নিত কৰা হব কি?"
+msgstr "সাবফোল্ডাৰে উপস্থিত বাৰ্তাসমূহও চিহ্নিত কৰা হ'ব নে?"
 
 #
 #: ../mail/mail.error.xml.h:130
@@ -15453,7 +15365,8 @@ msgid ""
 "Please review it before sending."
 msgstr ""
 "{0} নামৰ এটাচমেন্ট এটা লুকুৱা ফাইল আৰু সংবেদ্য তথ্য অন্তৰ্ভুক্ত কৰিব পাৰে। "
-"অনুগ্ৰহ কৰি ইয়াক পঠোৱাৰ আগত পুনৰদৰ্শন কৰক।"
+"অনুগ্ৰহ কৰি "
+"ইয়াক পঠোৱাৰ আগত পুনৰদৰ্শন কৰক।"
 
 #: ../mail/mail.error.xml.h:168
 msgid "Printing failed."
@@ -15597,11 +15510,11 @@ msgid ""
 "by changing the query above."
 msgstr ""
 "আপোনাৰ সন্ধানৰ মাপকাঠী কোনো বাৰ্তায় সন্তুষ্ট কৰিব নোৱাৰিলে। ওপৰৰ ড্ৰপ ডাউন "
-"তালিকাৰ পৰা "
-"এটা নতুন বাৰ্তা ফিল্টাৰ দেখুৱাওক নিৰ্বাচন কৰি অথবা সন্ধান->পৰিষ্কাৰ কৰক মেনু "
-"বস্তুৰ সহায়ত ইয়াক "
-"পৰিষ্কাৰ কৰি অথবা ওপৰৰ প্ৰশ্ন সলনি কৰি এটা নতুন সন্ধান চলাই সন্ধানৰ মাপকাঠী "
-"সলনি কৰক।"
+"তালিকাৰ "
+"পৰা এটা নতুন বাৰ্তা ফিল্টাৰ দেখুৱাওক নিৰ্বাচন কৰি অথবা সন্ধান->পৰিষ্কাৰ কৰক "
+"মেনু "
+"বস্তুৰ সহায়ত ইয়াক পৰিষ্কাৰ কৰি অথবা ওপৰৰ প্ৰশ্ন সলনি কৰি এটা নতুন সন্ধান চলাই "
+"সন্ধানৰ মাপকাঠী সলনি কৰক।"
 
 #
 #: ../mail/message-list.c:4936
@@ -16014,11 +15927,11 @@ msgstr "বাৰ্তাক তালিকালে পঠাওক (_S)"
 msgid "_Send Message to Contact"
 msgstr "বাৰ্তাক পৰিচয়লে পঠাওক (_S)"
 
-#: ../modules/audio-inline/e-mail-formatter-audio-inline.c:309
+#: ../modules/audio-inline/e-mail-formatter-audio.c:314
 msgid "Audio Player"
 msgstr "অডিঅ' প্লেয়াৰ"
 
-#: ../modules/audio-inline/e-mail-formatter-audio-inline.c:310
+#: ../modules/audio-inline/e-mail-formatter-audio.c:315
 msgid "Play the attachment in embedded audio player"
 msgstr "এটাচমেন্টক অন্তৰ্ভুক্ত অডিঅ' প্লেয়াৰত বজাওক"
 
@@ -16225,8 +16138,9 @@ msgstr ""
 "আপোনাৰ তথ্য আৰু সংহতিসমূহ পুনৰুদ্ধাৰ কৰিবলে, আপুনি প্ৰথমতে Evolution বন্ধ "
 "কৰিব লাগিব। "
 "অনুগ্ৰহ কৰি আগবঢ়াৰ আগত কোনো অসংৰক্ষিত তথ্য সংৰক্ষণ কৰাটো সুনিশ্চিত কৰক। ই "
-"আপোনাৰ সকলো "
-"বৰ্তমান Evolution তথ্য আৰু সংহতিসমূহ মচি পেলাব আৰু আপোনাৰ বেকআপৰ পৰা সিহতক "
+"আপোনাৰ "
+"সকলো বৰ্তমান Evolution তথ্য আৰু সংহতিসমূহ মচি পেলাব আৰু আপোনাৰ বেকআপৰ পৰা "
+"সিহতক "
 "পুনৰুদ্ধাৰ কৰিব।"
 
 #: ../modules/backup-restore/org-gnome-backup-restore.error.xml.h:8
@@ -16326,10 +16240,6 @@ msgid "Method:"
 msgstr "পদ্ধতি:"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:690
-#| msgid ""
-#| "This is the method Evolution will use to authenticate you. Note that "
-#| "setting this to \"Using email address\" requires anonymous access to your "
-#| "LDAP server."
 msgid ""
 "This is the method Evolution will use to authenticate you.  Note that "
 "setting this to \"Using email address\" requires anonymous access to your "
@@ -16369,26 +16279,21 @@ msgid "Search Scope:"
 msgstr "সন্ধানৰ অৱকাশ:"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:783
-#| msgid ""
-#| "The search scope defines how deep you would like the search to extend "
-#| "down the directory tree. A search scope of \"Subtree\" will include all "
-#| "entries below your search base. A search scope of \"One Level\" will only "
-#| "include the entries one level beneath your search base."
 msgid ""
 "The search scope defines how deep you would like the search to extend down "
 "the directory tree.  A search scope of \"Subtree\" will include all entries "
 "below your search base.  A search scope of \"One Level\" will only include "
 "the entries one level beneath your search base."
 msgstr ""
-"সন্ধানৰ ক্ষেত্ৰই অৱকাশ নিৰ্ধাৰণ কৰে, পঞ্জিকা শাখাত কিমান গভীৰ পৰ্যন্ত "
-"সন্ধান "
-"চলোৱা হ'ব।  সন্ধানৰ ক্ষেত্ৰ যদি \"চাবট্ৰি\" হয়, তেতিয়া হ'লে আপোনাৰ "
-"নিৰ্ধাৰিত "
-"সন্ধানৰ ভিত্তিৰ অধীন সকলো পঞ্জিকাতে সন্ধান চলোৱা হ'ব।  আৰু সন্ধানৰ "
-"ক্ষেত্ৰত যদি "
-"\"এটা স্তৰ\" হয়, তেতিয়া হ'লে আপোনাৰ নিৰ্ধাৰিত সন্ধানৰ স্থানৰ পৰা অকল তলৰ "
-"পৰ্যন্ত "
-"সন্ধান চলোৱা হ'ব।"
+"সন্ধানৰ ক্ষেত্ৰই অৱকাশ নিৰ্ধাৰণ কৰে, পঞ্জিকা শাখাত কিমান গভীৰ পৰ্যন্ত সন্ধান "
+"চলোৱা "
+"হ'ব।  সন্ধানৰ ক্ষেত্ৰ যদি \"চাবট্ৰি\" হয়, তেতিয়া হ'লে আপোনাৰ নিৰ্ধাৰিত "
+"সন্ধানৰ "
+"ভিত্তিৰ অধীন সকলো পঞ্জিকাতে সন্ধান চলোৱা হ'ব।  আৰু সন্ধানৰ ক্ষেত্ৰত যদি \"এটা "
+"স্তৰ\" "
+"হয়, তেতিয়া হ'লে আপোনাৰ নিৰ্ধাৰিত সন্ধানৰ স্থানৰ পৰা অকল তলৰ পৰ্যন্ত সন্ধান "
+"চলোৱা "
+"হ'ব।"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:792
 msgid "Search Filter:"
@@ -17256,7 +17161,7 @@ msgstr "কাৰ্য্য খোলক (_O)"
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:368
 #: ../modules/calendar/e-task-shell-view-actions.c:824
 msgid "View the selected task"
-msgstr "নিৰ্বাচিত কাৰ্য্যটি প্ৰদৰ্শন কৰক"
+msgstr "নিৰ্বাচিত কাৰ্য্য প্ৰদৰ্শন কৰক"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:385
 #: ../modules/calendar/e-task-shell-view-actions.c:1050
@@ -17570,11 +17475,11 @@ msgid_plural "%d tasks"
 msgstr[0] "%d টি কাৰ্য্য"
 msgstr[1] "%d টি কাৰ্য্য"
 
-#: ../modules/itip-formatter/e-mail-formatter-itip.c:146
+#: ../modules/itip-formatter/e-mail-formatter-itip.c:149
 msgid "ITIP"
 msgstr "ITIP"
 
-#: ../modules/itip-formatter/e-mail-formatter-itip.c:147
+#: ../modules/itip-formatter/e-mail-formatter-itip.c:150
 msgid "Display part as an invitation"
 msgstr "অংশক এটা আমন্ত্ৰণ হিচাপে প্ৰদৰ্শন কৰক"
 
@@ -18082,7 +17987,6 @@ msgstr "সন্ধান উল্লেখিত সময় অবধি"
 
 #: ../modules/itip-formatter/itip-view.c:4575
 #, c-format
-#| msgid "Unable to send item to calendar '%s'. %s"
 msgid "Unable to send item to calendar '%s'.  %s"
 msgstr "'%s' কেলেন্ডাৰত বস্তু প্ৰেৰণ কৰা নাযায়।  %s"
 
@@ -18150,7 +18054,7 @@ msgstr "অবৈধ মান হোৱাৰ বাবে অংশগ্ৰ�
 #: ../modules/itip-formatter/itip-view.c:5153
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
-"অংশগ্ৰহণকাৰীৰ অবস্থা আপডেট কৰা সম্ভৱ হোৱা নাই কাৰন বস্তুটিৰ আৰ অস্তিত্ব নাই"
+"অংশগ্ৰহণকাৰীৰ অবস্থা আপডেট কৰা সম্ভৱ হোৱা নাই কাৰন বস্তুৰ আৰ অস্তিত্ব নাই"
 
 #: ../modules/itip-formatter/itip-view.c:5216
 msgid "Meeting information sent"
@@ -18402,10 +18306,6 @@ msgid "Cus_tom arguments:"
 msgstr "স্বনিৰ্বাচিত তৰ্কসমূহ (_t):"
 
 #: ../modules/mail-config/e-mail-config-sendmail-backend.c:113
-#| msgid ""
-#| "Default arguments are '-i -f %F -- %R', where\n"
-#| "  %F - stands for the From address\n"
-#| "  %R - stands for the recipient addresses"
 msgid ""
 "Default arguments are '-i -f %F -- %R', where\n"
 "   %F - stands for the From address\n"
@@ -19042,8 +18942,8 @@ msgid ""
 "part to show."
 msgstr ""
 "যদি উপস্থিত, প্লেইন টেক্সট দেখুৱাওক, নহলে Evolution ক প্ৰদৰ্শন কৰিবলে উত্তম "
-"অংশ নিৰ্বাচন "
-"কৰিব দিওক।"
+"অংশ "
+"নিৰ্বাচন কৰিব দিওক।"
 
 #: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:87
 #: ../modules/prefer-plain/plugin/config-ui.c:53
@@ -19056,7 +18956,8 @@ msgid ""
 "Always show plain text part and make attachments from other parts, if "
 "requested."
 msgstr ""
-"সদায় প্লেইন টেক্সট দেখুৱাব আৰু অন্য অংশৰ পৰা এটাচমেন্ট কৰিব, যদি অনুৰোধ কৰা হয়।"
+"সদায় প্লেইন টেক্সট দেখুৱাব আৰু অন্য অংশৰ পৰা এটাচমেন্ট কৰিব, যদি অনুৰোধ কৰা "
+"হয়।"
 
 #: ../modules/prefer-plain/plugin/config-ui.c:105
 msgid "Show s_uppressed HTML parts as attachments"
@@ -19145,8 +19046,9 @@ msgid ""
 msgstr ""
 "Evolution লৈ স্বাগতম।\n"
 "\n"
-"পৰৱৰ্তী কিছুমান পৰ্দায় Evolution ক আপোনাৰ ইমেইল একাওন্টৰ সৈতে সংযোগ কৰাৰ, "
-"আৰু অন্য এপ্লিকেচনসমূহৰ পৰা ফাইলসমূহ ইমপোৰ্ট কৰাৰ অনুমতি দিব।"
+"পৰৱৰ্তী কিছুমান পৰ্দায় Evolution ক আপোনাৰ ইমেইল একাওন্টৰ সৈতে সংযোগ কৰাৰ, আৰু "
+"অন্য "
+"এপ্লিকেচনসমূহৰ পৰা ফাইলসমূহ ইমপোৰ্ট কৰাৰ অনুমতি দিব।"
 
 #: ../modules/startup-wizard/evolution-startup-wizard.c:229
 msgid "Loading accounts..."
@@ -19160,11 +19062,11 @@ msgstr "এই ধৰণে ফৰমেট কৰক (_F)..."
 msgid "_Other languages"
 msgstr "অন্য ভাষা (_O)"
 
-#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:348
+#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:367
 msgid "Text Highlight"
 msgstr "লিখনী উজ্জ্বলকৰণ"
 
-#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:349
+#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:368
 msgid "Syntax highlighting of mail parts"
 msgstr "মেইল অংশবোৰৰ বাক্যবিন্যাস উজ্জ্বলকৰণ"
 
@@ -19384,36 +19286,36 @@ msgstr "TCSH (_T)"
 msgid "_VHDL"
 msgstr "VHDL (_V)"
 
-#: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:126
-#: ../modules/vcard-inline/e-mail-parser-vcard-inline.c:194
+#: ../modules/vcard-inline/e-mail-formatter-vcard.c:129
+#: ../modules/vcard-inline/e-mail-part-vcard.c:152
 msgid "Show F_ull vCard"
 msgstr "সম্পূৰ্ণ vCard দেখুৱাওক (_u)"
 
-#: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:129
-#: ../modules/vcard-inline/e-mail-parser-vcard-inline.c:212
+#: ../modules/vcard-inline/e-mail-formatter-vcard.c:132
+#: ../modules/vcard-inline/e-mail-part-vcard.c:170
 msgid "Show Com_pact vCard"
 msgstr "কমপেক্ট vCard দেখুৱাওক (_p)"
 
-#: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:153
+#: ../modules/vcard-inline/e-mail-formatter-vcard.c:157
 msgid "Save _To Addressbook"
 msgstr "ঠিকনাবহীলৈ সংৰক্ষণ কৰক (_T)"
 
-#: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:173
+#: ../modules/vcard-inline/e-mail-formatter-vcard.c:178
 msgid "There is one other contact."
 msgstr "আৰু এটা পৰিচয় আছে।"
 
-#: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:179
+#: ../modules/vcard-inline/e-mail-formatter-vcard.c:184
 #, c-format
 msgid "There is %d other contact."
 msgid_plural "There are %d other contacts."
 msgstr[0] "আৰু %d অন্য পৰিচয় আছে।"
 msgstr[1] "আৰু %d অন্য পৰিচয়সমূহ আছে।"
 
-#: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:204
+#: ../modules/vcard-inline/e-mail-formatter-vcard.c:209
 msgid "Addressbook Contact"
 msgstr "ঠিকনাবহী পৰিচয়"
 
-#: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:205
+#: ../modules/vcard-inline/e-mail-formatter-vcard.c:210
 msgid "Display the part as an addressbook contact"
 msgstr "অংশক এটা ঠিকনাবহী পৰিচয় হিচাপে প্ৰদৰ্শন কৰক"
 
@@ -19497,12 +19399,6 @@ msgid "BBDB"
 msgstr "BBDB"
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:3
-#| msgid ""
-#| "Takes the gruntwork out of managing your address book.\n"
-#| "\n"
-#| "Automatically fills your address book with names and email addresses as "
-#| "you reply to messages. Also fills in IM contact information from your "
-#| "buddy lists."
 msgid ""
 "Takes the gruntwork out of managing your address book.\n"
 "\n"
@@ -19964,8 +19860,8 @@ msgid ""
 "old event?"
 msgstr ""
 "নিৰ্বাচিত কেলেন্ডাৰে ঘটনা '%s' ইতিমধ্যে অন্তৰ্ভুক্ত কৰে। আপুনি পুৰনি ঘটনা "
-"সম্পাদন কৰিব বিচাৰে "
-"নে?"
+"সম্পাদন কৰিব "
+"বিচাৰে নে?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:620
 #, c-format
@@ -19974,7 +19870,8 @@ msgid ""
 "old task?"
 msgstr ""
 "নিৰ্বাচিত কাৰ্য্য তালিকায় কাৰ্য্য '%s' ইতিমধ্যে অন্তৰ্ভুক্ত কৰে। আপুনি পুৰনি "
-"কাৰ্য্য সম্পাদন কৰিব বিচাৰে নে?"
+"কাৰ্য্য "
+"সম্পাদন কৰিব বিচাৰে নে?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:623
 #, c-format
@@ -19983,7 +19880,8 @@ msgid ""
 "old memo?"
 msgstr ""
 "নিৰ্বাচিত মেমো তালিকায় মেমো '%s' ইতিমধ্যে অন্তৰ্ভুক্ত কৰে। আপুনি পুৰনি মেমো "
-"সম্পাদন কৰিব বিচাৰে নে?"
+"সম্পাদন "
+"কৰিব বিচাৰে নে?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:643
 #, c-format
@@ -19999,8 +19897,8 @@ msgstr[0] ""
 "যোগ কৰিব বিচাৰে নে?"
 msgstr[1] ""
 "আপুনি %d মেইলসমূহক ঘটনাসমূহলৈ পৰিবৰ্তন কৰিবলে নিৰ্বাচন কৰিছে। আপুনি সঁচাকৈ "
-"সিহত সকলোকে "
-"যোগ কৰিব বিচাৰে নে?"
+"সিহত "
+"সকলোকে যোগ কৰিব বিচাৰে নে?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:650
 #, c-format
@@ -20012,12 +19910,12 @@ msgid_plural ""
 "add them all?"
 msgstr[0] ""
 "আপুনি %d মেইলসমূহক কাৰ্য্যসমূহলৈ পৰিবৰ্তন কৰিবলে নিৰ্বাচন কৰিছে। আপুনি সঁচাকৈ "
-"সিহত সকলোকে "
-"যোগ কৰিব বিচাৰে নে?"
+"সিহত "
+"সকলোকে যোগ কৰিব বিচাৰে নে?"
 msgstr[1] ""
 "আপুনি %d মেইলসমূহক কাৰ্য্যসমূহলৈ পৰিবৰ্তন কৰিবলে নিৰ্বাচন কৰিছে। আপুনি সঁচাকৈ "
-"সিহত সকলোকে "
-"যোগ কৰিব বিচাৰে নে?"
+"সিহত "
+"সকলোকে যোগ কৰিব বিচাৰে নে?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:657
 #, c-format
@@ -20029,12 +19927,12 @@ msgid_plural ""
 "add them all?"
 msgstr[0] ""
 "আপুনি %d মেইলসমূহক মেমোসমূহলৈ পৰিবৰ্তন কৰিবলে নিৰ্বাচন কৰিছে। আপুনি সঁচাকৈ "
-"সিহত সকলোকে "
-"যোগ কৰিব বিচাৰে নে?"
+"সিহত "
+"সকলোকে যোগ কৰিব বিচাৰে নে?"
 msgstr[1] ""
 "আপুনি %d মেইলসমূহক মেমোসমূহলৈ পৰিবৰ্তন কৰিবলে নিৰ্বাচন কৰিছে। আপুনি সঁচাকৈ "
-"সিহত সকলোকে "
-"যোগ কৰিব বিচাৰে নে?"
+"সিহত "
+"সকলোকে যোগ কৰিব বিচাৰে নে?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:678
 msgid "Do you wish to continue converting remaining mails?"
@@ -20466,10 +20364,9 @@ msgid ""
 "an email you are replying to."
 msgstr ""
 "খচৰা ভিত্তিয় টেমপ্লেইট প্লাগিন। আপুনি $ORIG[subject], $ORIG[from], $ORIG[to] "
-"অথবা "
-"$ORIG[body] ৰ নিচিনা চলকসমূহ ব্যৱহাৰ কৰিব পাৰিব, যি আপুনি উত্তৰ দি থকা এটা "
-"ইমেইলৰ "
-"পৰা মানসমূহৰ সৈতে প্ৰতিস্থাপন কৰা হব।"
+"অথবা $ORIG[body] ৰ নিচিনা চলকসমূহ ব্যৱহাৰ কৰিব পাৰিব, যি আপুনি উত্তৰ দি থকা "
+"এটা "
+"ইমেইলৰ পৰা মানসমূহৰ সৈতে প্ৰতিস্থাপন কৰা হব।"
 
 #: ../plugins/templates/templates.c:1144
 msgid "No Title"
@@ -20548,7 +20445,8 @@ msgstr "ব্যৱহাৰকাৰী আন্তঃপৃষ্ঠ অৱ�
 msgid "translator-credits"
 msgstr ""
 "অমিতাক্ষ ফুকন (aphukan@fedoraproject.org), নীলমদ্যুতি গোস্বামী "
-"(ngoswami@redhat.com)"
+"(ngoswami@redhat."
+"com)"
 
 #: ../shell/e-shell-window-actions.c:85
 msgid "Evolution Website"
@@ -20826,22 +20724,6 @@ msgstr "%s - Evolution"
 #. Preview/Alpha/Beta version warning message
 #: ../shell/main.c:184
 #, no-c-format
-#| msgid ""
-#| "Hi. Thanks for taking the time to download this preview release\n"
-#| "of the Evolution groupware suite.\n"
-#| "\n"
-#| "This version of Evolution is not yet complete. It is getting close,\n"
-#| "but some features are either unfinished or do not work properly.\n"
-#| "\n"
-#| "If you want a stable version of Evolution, we urge you to uninstall\n"
-#| "this version, and install version %s instead.\n"
-#| "\n"
-#| "If you find bugs, please report them to us at bugzilla.gnome.org.\n"
-#| "This product comes with no warranty and is not intended for\n"
-#| "individuals prone to violent fits of anger.\n"
-#| "\n"
-#| "We hope that you enjoy the results of our hard work, and we\n"
-#| "eagerly await your contributions!\n"
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
 "of the Evolution groupware suite.\n"
@@ -20896,8 +20778,8 @@ msgid ""
 "Start Evolution showing the specified component. Available options are "
 "'mail', 'calendar', 'contacts', 'tasks', and 'memos'"
 msgstr ""
-"Evolution ক ধাৰ্য্যত উপাদান দেখুৱাকৈ আৰম্ভ কৰক। উপলব্ধ বিকল্পসমূহ হল "
-"'মেইল', 'কেলেন্ডাৰ', 'পৰিচয়সমূহ', 'কাৰ্য্যসমূহ', আৰু 'মেমোসমূহ'"
+"Evolution ক ধাৰ্য্যত উপাদান দেখুৱাকৈ আৰম্ভ কৰক। উপলব্ধ বিকল্পসমূহ হল 'মেইল', "
+"'কেলেন্ডাৰ', 'পৰিচয়সমূহ', 'কাৰ্য্যসমূহ', আৰু 'মেমোসমূহ'"
 
 #: ../shell/main.c:307
 msgid "Apply the given geometry to the main window"
@@ -20933,9 +20815,6 @@ msgstr "এটা চলি থকা Evolution প্ৰক্ৰিয়াক �
 
 #: ../shell/main.c:404
 #, c-format
-#| msgid ""
-#| "Cannot start Evolution. Another Evolution instance may be unresponsive. "
-#| "System error: %s"
 msgid ""
 "Cannot start Evolution.  Another Evolution instance may be unresponsive. "
 "System error: %s"
@@ -20950,9 +20829,6 @@ msgstr "- Evolution PIM আৰু ইমেইল ক্লাএন্ট"
 
 #: ../shell/main.c:572
 #, c-format
-#| msgid ""
-#| "%s: --online and --offline cannot be used together.\n"
-#| " Run '%s --help' for more information.\n"
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
 "  Run '%s --help' for more information.\n"
@@ -20962,9 +20838,6 @@ msgstr ""
 
 #: ../shell/main.c:578
 #, c-format
-#| msgid ""
-#| "%s: --force-online and --offline cannot be used together.\n"
-#| " Run '%s --help' for more information.\n"
 msgid ""
 "%s: --force-online and --offline cannot be used together.\n"
 "  Run '%s --help' for more information.\n"
@@ -21007,9 +20880,10 @@ msgid ""
 "upgrading to Evolution 3."
 msgstr ""
 "Evolution এ সংস্কৰণ {0} ৰ প্ৰত্যক্ষভাৱে উন্নত কৰাটো আৰু সমৰ্থন নকৰে। যি কি "
-"নহওক "
-"এটা সমাধান হিচাপে আপুনি প্ৰথমতে Evolution 2 লৈ উন্নত কৰাৰ, আৰু তাৰ পিছত "
-"Evolution 3 লৈ উন্নত কৰাৰ চেষ্টা কৰিব পাৰে।"
+"নহওক এটা "
+"সমাধান হিচাপে আপুনি প্ৰথমতে Evolution 2 লৈ উন্নত কৰাৰ, আৰু তাৰ পিছত Evolution "
+"3 "
+"লৈ উন্নত কৰাৰ চেষ্টা কৰিব পাৰে।"
 
 #: ../smime/gui/ca-trust-dialog.c:109
 #, c-format
@@ -21197,8 +21071,8 @@ msgid ""
 "indicated here"
 msgstr ""
 "আপুনি যিহেতু এই প্ৰমাণপত্ৰ প্ৰেৰণ কৰা কতৃপক্ষক বিশ্বাস কৰে, সেইকাৰণে অন্য "
-"কোনো "
-"কাৰণ নাথাকিলে, আপুনি এই প্ৰমাণপত্ৰৰ সত্যতা ভৰসা কৰিব পাৰিব"
+"কোনো কাৰণ "
+"নাথাকিলে, আপুনি এই প্ৰমাণপত্ৰৰ সত্যতা ভৰসা কৰিব পাৰিব"
 
 #: ../smime/gui/cert-trust-dialog.c:158
 msgid ""
@@ -21207,8 +21081,8 @@ msgid ""
 "unless otherwise indicated here"
 msgstr ""
 "আপুনি যিহেতু এই প্ৰমাণপত্ৰ প্ৰেৰণ কৰা কতৃপক্ষক বিশ্বাস নকৰে, সেইকাৰণে অন্য "
-"কোনো "
-"কাৰণ নাথাকিলে, আপুনি এই প্ৰমাণপত্ৰৰ সত্যতা ভৰসা কৰিব নোৱাৰিব"
+"কোনো কাৰণ "
+"নাথাকিলে, আপুনি এই প্ৰমাণপত্ৰৰ সত্যতা ভৰসা কৰিব নোৱাৰিব"
 
 #: ../smime/gui/component.c:51
 #, c-format
@@ -21227,9 +21101,6 @@ msgstr "নতুন পাছৱাৰ্ড লিখক"
 #. FIXME: add serial no, validity date, uses
 #: ../smime/gui/e-cert-selector.c:122
 #, c-format
-#| msgid ""
-#| "Issued to:\n"
-#| " Subject: %s\n"
 msgid ""
 "Issued to:\n"
 "  Subject: %s\n"
@@ -21239,9 +21110,6 @@ msgstr ""
 
 #: ../smime/gui/e-cert-selector.c:123
 #, c-format
-#| msgid ""
-#| "Issued by:\n"
-#| " Subject: %s\n"
 msgid ""
 "Issued by:\n"
 "  Subject: %s\n"
@@ -21614,6 +21482,47 @@ msgstr "দেয় তাৰিখৰ সৈতে (_D)"
 #: ../views/tasks/galview.xml.h:3
 msgid "With _Status"
 msgstr "অবস্থাৰ সৈতে (_S)"
+
+#~ msgid ""
+#~ "Unable to retrieve saved component from the task list, returned error "
+#~ "was: %s"
+#~ msgstr ""
+#~ "কাৰ্য্য তালিকাৰ পৰা সংৰক্ষিত উপাদান উদ্ধাৰ কৰিবলে অক্ষম, ঘুৰাই দিয়া ত্ৰুটি হল: %s"
+
+#~ msgid ""
+#~ "Unable to retrieve saved component from the memo list, returned error "
+#~ "was: %s"
+#~ msgstr ""
+#~ "মেমো তালিকাৰ পৰা সংৰক্ষিত উপাদান উদ্ধাৰ কৰিবলে অক্ষম, ঘুৰাই দিয়া ত্ৰুটি হল: %s"
+
+#~ msgid ""
+#~ "Unable to retrieve saved component from the calendar, returned error was: "
+#~ "%s"
+#~ msgstr ""
+#~ "কেলেন্ডাৰৰ পৰা সংৰক্ষিত উপাদান উদ্ধাৰ কৰিবলে অক্ষম, ঘুৰাই দিয়া ত্ৰুটি হল: %s"
+
+#~ msgid "Unable to retrieve saved component from the task list"
+#~ msgstr "কাৰ্য্য তালিকাৰ পৰা সংৰক্ষিত উপাদান উদ্ধাৰ কৰিবলে অক্ষম"
+
+#~ msgid "Unable to retrieve saved component from the memo list"
+#~ msgstr "মেমো তালিকাৰ পৰা সংৰক্ষিত উপাদান উদ্ধাৰ কৰিবলে অক্ষম"
+
+#~ msgid "Unable to retrieve saved component from the calendar"
+#~ msgstr "কেলেন্ডাৰৰ পৰা সংৰক্ষিত উপাদান উদ্ধাৰ কৰিবলে অক্ষম"
+
+#~ msgid ""
+#~ "Unable to update the editor with the retrieved component from the task "
+#~ "list"
+#~ msgstr "কাৰ্য্য তালিকাৰ পৰা সংৰক্ষিত উপাদানৰ সৈতে সম্পাদকক আপডেইট কৰিবলে অক্ষম"
+
+#~ msgid ""
+#~ "Unable to update the editor with the retrieved component from the memo "
+#~ "list"
+#~ msgstr "মেমো তালিকাৰ পৰা সংৰক্ষিত উপাদানৰ সৈতে সম্পাদকক আপডেইট কৰিবলে অক্ষম"
+
+#~ msgid ""
+#~ "Unable to update the editor with the retrieved component from the calendar"
+#~ msgstr "কেলেন্ডাৰৰ পৰা সংৰক্ষিত উপাদানৰ সৈতে সম্পাদকক আপডেইট কৰিবলে অক্ষম"
 
 #~ msgid ""
 #~ "Evolution does not support calendar reminders with\n"
@@ -22914,9 +22823,6 @@ msgstr "অবস্থাৰ সৈতে (_S)"
 #~ msgid "The script file must exist and be executable."
 #~ msgstr "স্ক্ৰিপ্ট ফাইলটো উপস্থিত আৰু কাৰ্য্যকৰী হোৱা আবশ্যক।"
 
-#~ msgid "Unable to connect to the GroupWise server."
-#~ msgstr "GroupWise সাৰ্ভাৰেৰ সৈতে সংযোগ স্থাপন কৰিবলৈ ব্যৰ্থ।"
-
 #~ msgid "Please check your account settings and try again."
 #~ msgstr "অনুগ্ৰহ কৰে আপোনাৰ একাওন্টৰ বৈশিষ্ট্য পৰীক্ষা কৰে পুনৰায় চেষ্টা কৰক।"
 
@@ -22978,8 +22884,8 @@ msgstr "অবস্থাৰ সৈতে (_S)"
 #~ "untranslated Olsen timezone database location like \"America/New York\"."
 #~ msgstr ""
 #~ "কেলেন্ডাৰৰ তাৰিখ আৰু সময় উল্লেখ কৰিবলৈ অবিকল্পিতৰূপে ব্যৱহৃত প্ৰাদেশিক সময়, "
-#~ "অননুবাদিত Olsen সময়অঞ্চলৰ ডাটাবেসেৰ অঞ্চল যেমন \"America/New York\" "
-#~ "হিচাপে নিৰ্ধাৰিত।"
+#~ "অননুবাদিত Olsen সময়অঞ্চলৰ ডাটাবেসেৰ অঞ্চল যেমন \"America/New York\" হিচাপে "
+#~ "নিৰ্ধাৰিত।"
 
 #~ msgid ""
 #~ "Use the system timezone instead of the timezone selected in Evolution."
@@ -23001,8 +22907,7 @@ msgstr "অবস্থাৰ সৈতে (_S)"
 
 #~ msgid ""
 #~ "Whether to show times in twenty four hour format instead of using am/pm."
-#~ msgstr ""
-#~ "সময় পূৰ্বাহ্ণ/অপৰাহ্ণ ফৰমাৰ পৰিবৰ্তে ২৪-ঘন্টাৰ ফৰমায় দেখুৱা হব নে।"
+#~ msgstr "সময় পূৰ্বাহ্ণ/অপৰাহ্ণ ফৰমাৰ পৰিবৰ্তে ২৪-ঘন্টাৰ ফৰমায় দেখুৱা হব নে।"
 
 #~ msgid "Weekday the week starts on, from Sunday (0) to Saturday (6)."
 #~ msgstr "সপ্তাহেৰ যে দিনে সপ্তাহ আৰম্ভ হ'ব, ৰবিবাৰ (০) পৰা শনিবাৰতৰ (৬)।"
@@ -23073,8 +22978,8 @@ msgstr "অবস্থাৰ সৈতে (_S)"
 #~ "Whether to compress weekends in the month view, which puts Saturday and "
 #~ "Sunday in the space of one weekday."
 #~ msgstr ""
-#~ "মাহ অনুসৰি প্ৰদৰ্শন ক্ষেত্ৰেৰ সপ্তান্তেৰ দিন একসৈতে দেখুৱা হব নে। আৰু "
-#~ "ফলস্বৰূপ শনিবাৰ আৰু ৰবিবাৰ এটা সাপ্তাহিক কাৰ্য্যতৰ দিনেৰ স্থানত স্থাপন কৰা হ'ব।"
+#~ "মাহ অনুসৰি প্ৰদৰ্শন ক্ষেত্ৰেৰ সপ্তান্তেৰ দিন একসৈতে দেখুৱা হব নে। আৰু ফলস্বৰূপ "
+#~ "শনিবাৰ আৰু ৰবিবাৰ এটা সাপ্তাহিক কাৰ্য্যতৰ দিনেৰ স্থানত স্থাপন কৰা হ'ব।"
 
 #~ msgid ""
 #~ "Whether to display the end time of events in the week and month views."
@@ -23682,7 +23587,7 @@ msgstr "অবস্থাৰ সৈতে (_S)"
 #~ msgstr "প্ৰক্সি কনফিগাৰেশনেৰ মান উপলব্ধকাৰী URL।"
 
 #~ msgid "_Forget Passwords"
-#~ msgstr "পাছৱাৰ্ড মনে ৰাখা ন'হ'ব (_F)"
+#~ msgstr "পাছৱাৰ্ড মনে ৰখা ন'হ'ব (_F)"
 
 #, fuzzy
 #~| msgid "Are you sure you want to forget all remembered passwords?"
@@ -25290,7 +25195,7 @@ msgstr "অবস্থাৰ সৈতে (_S)"
 #~ msgstr "এটা কোৰবা (Corba) ত্ৰুটিৰ কাৰণে এই মেমোটো আঁতৰুৱা নাযায়"
 
 #~ msgid "The item could not be deleted due to a corba error"
-#~ msgstr "এটা কোৰবা (Corba) ত্ৰুটিৰ কাৰণে এই বস্তুটি আঁতৰুৱা নাযায়"
+#~ msgstr "এটা কোৰবা (Corba) ত্ৰুটিৰ কাৰণে এই বস্তু আঁতৰুৱা নাযায়"
 
 #~ msgid "_Alarms"
 #~ msgstr "সতৰ্কধ্বনি (_A)"
@@ -25736,7 +25641,7 @@ msgstr "অবস্থাৰ সৈতে (_S)"
 #~ msgstr "`%s' কেলেন্ডাৰটি মাইগ্ৰেট কৰা সম্ভৱ হোৱা নাই"
 
 #~ msgid "Unable to migrate tasks `%s'"
-#~ msgstr "`%s' কাৰ্য্যটি মাইগ্ৰেট কৰা সম্ভৱ হোৱা নাই"
+#~ msgstr "`%s' কাৰ্য্য মাইগ্ৰেট কৰা সম্ভৱ হোৱা নাই"
 
 #~ msgid "Failed upgrading tasks."
 #~ msgstr "কাৰ্য্য আপগ্ৰেড কৰিবলৈ ব্যৰ্থ।"
@@ -26164,8 +26069,8 @@ msgstr "অবস্থাৰ সৈতে (_S)"
 #~ "Unable to read settings from previous Evolution install, `evolution/"
 #~ "config.xmldb' does not exist or is corrupt."
 #~ msgstr ""
-#~ "পূৰ্ববৰ্তী Evolution ইনস্টলেশনেৰ বৈশিষ্ট্য পঢ়া সম্ভৱ হোৱা নাই, `evolution/"
-#~ "config.xmldb' সম্ভৱত উপস্থিত নাই অথবা ক্ষতিগ্ৰস্থ হৈছে।"
+#~ "পূৰ্ববৰ্তী Evolution ইনস্টলেশনেৰ বৈশিষ্ট্য পঢ়া সম্ভৱ হোৱা নাই, `evolution/config."
+#~ "xmldb' সম্ভৱত উপস্থিত নাই অথবা ক্ষতিগ্ৰস্থ হৈছে।"
 
 #~ msgid "_Reply to sender"
 #~ msgstr "প্ৰেৰকেৰ প্ৰতি উত্তৰ (_R)"
@@ -26239,34 +26144,34 @@ msgstr "অবস্থাৰ সৈতে (_S)"
 #~ msgstr "বাৰ্তা তালিকা থ্ৰেড কৰা হ'ব"
 
 #~ msgid "View/Bcc menu item is checked"
-#~ msgstr "দৰ্শন/অপ্ৰকাশিত কপিপ্ৰাপক মেনুৰ বস্তুটি চিহ্নিত আছে"
+#~ msgstr "দৰ্শন/অপ্ৰকাশিত কপিপ্ৰাপক মেনুৰ বস্তু চিহ্নিত আছে"
 
 #~ msgid "View/Bcc menu item is checked."
-#~ msgstr "দৰ্শন/অপ্ৰকাশিত কপিপ্ৰাপক মেনুৰ বস্তুটি চিহ্নিত আছে।"
+#~ msgstr "দৰ্শন/অপ্ৰকাশিত কপিপ্ৰাপক মেনুৰ বস্তু চিহ্নিত আছে।"
 
 #~ msgid "View/Cc menu item is checked"
-#~ msgstr "দৰ্শন/কপিপ্ৰাপক মেনুৰ বস্তুটি চিহ্নিত আছে"
+#~ msgstr "দৰ্শন/কপিপ্ৰাপক মেনুৰ বস্তু চিহ্নিত আছে"
 
 #~ msgid "View/Cc menu item is checked."
-#~ msgstr "দৰ্শন/অনুলীপিপ্ৰাপক মেনুৰ বস্তুটি চিহ্নিত আছে।"
+#~ msgstr "দৰ্শন/অনুলীপিপ্ৰাপক মেনুৰ বস্তু চিহ্নিত আছে।"
 
 #~ msgid "View/From menu item is checked"
-#~ msgstr "দৰ্শন/প্ৰেৰক মেনুৰ বস্তুটি চিহ্নিত আছে"
+#~ msgstr "দৰ্শন/প্ৰেৰক মেনুৰ বস্তু চিহ্নিত আছে"
 
 #~ msgid "View/From menu item is checked."
-#~ msgstr "দৰ্শন/প্ৰেৰক মেনুৰ বস্তুটি চিহ্নিত আছে।"
+#~ msgstr "দৰ্শন/প্ৰেৰক মেনুৰ বস্তু চিহ্নিত আছে।"
 
 #~ msgid "View/PostTo menu item is checked"
-#~ msgstr "প্ৰদৰ্শন/এইস্থানত পোস্ট কৰক মেনুৰ বস্তুটি চিহ্নিত আছে"
+#~ msgstr "প্ৰদৰ্শন/এইস্থানত পোস্ট কৰক মেনুৰ বস্তু চিহ্নিত আছে"
 
 #~ msgid "View/PostTo menu item is checked."
-#~ msgstr "প্ৰদৰ্শন/এইস্থানত পোস্ট কৰক মেনুৰ বস্তুটি চিহ্নিত আছে।"
+#~ msgstr "প্ৰদৰ্শন/এইস্থানত পোস্ট কৰক মেনুৰ বস্তু চিহ্নিত আছে।"
 
 #~ msgid "View/ReplyTo menu item is checked"
-#~ msgstr "দৰ্শন/প্ৰত্যুত্তৰ মেনুৰ বস্তুটি চিহ্নিত আছে"
+#~ msgstr "দৰ্শন/প্ৰত্যুত্তৰ মেনুৰ বস্তু চিহ্নিত আছে"
 
 #~ msgid "View/ReplyTo menu item is checked."
-#~ msgstr "দৰ্শন/প্ৰত্যুত্তৰ মেনুৰ বস্তুটি চিহ্নিত আছে।"
+#~ msgstr "দৰ্শন/প্ৰত্যুত্তৰ মেনুৰ বস্তু চিহ্নিত আছে।"
 
 #~ msgid "New Mail Message"
 #~ msgstr "নতুন মেইল বাৰ্তা"
@@ -26506,7 +26411,7 @@ msgstr "অবস্থাৰ সৈতে (_S)"
 #~ "receipt notification to {0}?"
 #~ msgstr ""
 #~ "\"{1}\"ৰ বাবে মেইল প্ৰাপ্তিস্বীকাৰেৰ অনুৰোধ কৰা হৈছে। প্ৰাপ্তি স্বীকাৰেৰ সূচনা {0}"
-#~ "এ প্ৰেৰিত হব কি?"
+#~ "এ প্ৰেৰিত হ'ব নে?"
 
 #
 #~| msgid "Because &quot;{0}&quot;."
@@ -26526,7 +26431,7 @@ msgstr "অবস্থাৰ সৈতে (_S)"
 #
 #~| msgid "Delete messages in Search Folder?"
 #~ msgid "Delete messages in Search Folder \"{0}\"?"
-#~ msgstr "\"{0}\" অনুসন্ধানেৰ ফোল্ডাৰেৰ বাৰ্তা মচি পেলোৱা হব কি?"
+#~ msgstr "\"{0}\" অনুসন্ধানেৰ ফোল্ডাৰেৰ বাৰ্তা মচি পেলোৱা হ'ব নে?"
 
 #~ msgid "Delete messages in Search Folder?"
 #~ msgstr "মচি পেলাওক ফোল্ডাৰ?"
@@ -26698,8 +26603,8 @@ msgstr "অবস্থাৰ সৈতে (_S)"
 #~ "Provides functionality for marking a calendar or an address book as the "
 #~ "default one."
 #~ msgstr ""
-#~ "অবিকল্পিত বৰ্ষপঞ্জি অথবা ঠিকনা বহী নিৰ্ধাৰণেৰ বাবে মৌলিক কাৰ্য্যকাৰিতা উপলব্ধ কৰা "
-#~ "হয়।"
+#~ "অবিকল্পিত বৰ্ষপঞ্জি অথবা ঠিকনা বহী নিৰ্ধাৰণেৰ বাবে মৌলিক কাৰ্য্যকাৰিতা উপলব্ধ "
+#~ "কৰা হয়।"
 
 #~ msgid "_Folder Name:"
 #~ msgstr "ফোল্ডাৰেৰ নাম (_F):"
@@ -28150,7 +28055,7 @@ msgstr "অবস্থাৰ সৈতে (_S)"
 #~ msgstr "Evolution"
 
 #~ msgid "Forget remembered passwords so you will be prompted for them again"
-#~ msgstr "মনে ৰাখা পাছৱাৰ্ডসমূহ ভুলে যাও, তাহলে সেসমূহ পুনৰায় লিখিব বলা হ'ব"
+#~ msgstr "মনে ৰখা পাছৱাৰ্ডসমূহ ভুলে যাও, তাহলে সেসমূহ পুনৰায় লিখিব বলা হ'ব"
 
 #~ msgid "Hide window buttons"
 #~ msgstr "উইন্ডো বুটাম লুকুৱাওক"
@@ -28638,13 +28543,13 @@ msgstr "অবস্থাৰ সৈতে (_S)"
 #~ msgstr "কোনো ফোল্ডাৰেৰ নাম উল্লেখ কৰা হোৱা নাই।"
 
 #~ msgid "Folder name cannot contain the Return character."
-#~ msgstr "ফোল্ডাৰেৰ নামৰ মাঝে ৰিটাৰ্নেৰ অক্ষৰটি ৰাখা ন'হ'ব।"
+#~ msgstr "ফোল্ডাৰেৰ নামৰ মাঝে ৰিটাৰ্নেৰ অক্ষৰটি ৰখা ন'হ'ব।"
 
 #~ msgid "Folder name cannot contain the character \"/\"."
-#~ msgstr "ফোল্ডাৰেৰ নামৰ মাঝে \"/\" অক্ষৰটি ৰাখা ন'হ'ব।"
+#~ msgstr "ফোল্ডাৰেৰ নামৰ মাঝে \"/\" অক্ষৰটি ৰখা ন'হ'ব।"
 
 #~ msgid "Folder name cannot contain the character \"#\"."
-#~ msgstr "ফোল্ডাৰেৰ নামৰ মাঝে \"#\" অক্ষৰটি ৰাখা ন'হ'ব।"
+#~ msgstr "ফোল্ডাৰেৰ নামৰ মাঝে \"#\" অক্ষৰটি ৰখা ন'হ'ব।"
 
 #~ msgid "'.' and '..' are reserved folder names."
 #~ msgstr "'.' আৰু '..' ফোল্ডাৰেৰ নামসমূহ সংৰক্ষিত।"
