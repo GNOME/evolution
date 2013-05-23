@@ -82,6 +82,13 @@ struct _EAttachmentPrivate {
 	 * If we are removed from the store, we lazily free the
 	 * reference when it is found to be to be invalid. */
 	GtkTreeRowReference *reference;
+
+	/* These are IDs for idle callbacks,
+	 * protected by the idle_lock mutex. */
+	GMutex idle_lock;
+	guint update_icon_column_idle_id;
+	guint update_progress_columns_idle_id;
+	guint update_file_info_columns_idle_id;
 };
 
 enum {
@@ -105,6 +112,28 @@ G_DEFINE_TYPE (
 	EAttachment,
 	e_attachment,
 	G_TYPE_OBJECT)
+
+/* Based on e_weak_ref_new() (new in libedataserver 3.9) */
+static GWeakRef *
+attachment_weak_ref_new (EAttachment *attachment)
+{
+	GWeakRef *weak_ref;
+
+	weak_ref = g_slice_new0 (GWeakRef);
+	g_weak_ref_set (weak_ref, attachment);
+
+	return weak_ref;
+}
+
+/* Based on e_weak_ref_free() (new in libedataserver 3.9) */
+static void
+attachment_weak_ref_free (GWeakRef *weak_ref)
+{
+	g_return_if_fail (weak_ref != NULL);
+
+	g_weak_ref_set (weak_ref, NULL);
+	g_slice_free (GWeakRef, weak_ref);
+}
 
 static gboolean
 create_system_thumbnail (EAttachment *attachment,
@@ -195,9 +224,10 @@ attachment_get_default_charset (void)
 	return charset;
 }
 
-static void
-attachment_update_file_info_columns (EAttachment *attachment)
+static gboolean
+attachment_update_file_info_columns_idle_cb (gpointer weak_ref)
 {
+	EAttachment *attachment;
 	GtkTreeRowReference *reference;
 	GtkTreeModel *model;
 	GtkTreePath *path;
@@ -211,13 +241,21 @@ attachment_update_file_info_columns (EAttachment *attachment)
 	gchar *caption;
 	goffset size;
 
+	attachment = g_weak_ref_get (weak_ref);
+	if (attachment == NULL)
+		goto exit;
+
+	g_mutex_lock (&attachment->priv->idle_lock);
+	attachment->priv->update_file_info_columns_idle_id = 0;
+	g_mutex_unlock (&attachment->priv->idle_lock);
+
 	reference = e_attachment_get_reference (attachment);
 	if (!gtk_tree_row_reference_valid (reference))
-		return;
+		goto exit;
 
 	file_info = e_attachment_ref_file_info (attachment);
 	if (file_info == NULL)
-		return;
+		goto exit;
 
 	model = gtk_tree_row_reference_get_model (reference);
 	path = gtk_tree_row_reference_get_path (reference);
@@ -257,11 +295,36 @@ attachment_update_file_info_columns (EAttachment *attachment)
 	g_free (caption);
 
 	g_clear_object (&file_info);
+
+exit:
+	g_clear_object (&attachment);
+
+	return FALSE;
 }
 
 static void
-attachment_update_icon_column (EAttachment *attachment)
+attachment_update_file_info_columns (EAttachment *attachment)
 {
+	g_mutex_lock (&attachment->priv->idle_lock);
+
+	if (attachment->priv->update_file_info_columns_idle_id == 0) {
+		guint idle_id;
+
+		idle_id = g_idle_add_full (
+			G_PRIORITY_HIGH_IDLE,
+			attachment_update_file_info_columns_idle_cb,
+			attachment_weak_ref_new (attachment),
+			(GDestroyNotify) attachment_weak_ref_free);
+		attachment->priv->update_file_info_columns_idle_id = idle_id;
+	}
+
+	g_mutex_unlock (&attachment->priv->idle_lock);
+}
+
+static gboolean
+attachment_update_icon_column_idle_cb (gpointer weak_ref)
+{
+	EAttachment *attachment;
 	GtkTreeRowReference *reference;
 	GtkTreeModel *model;
 	GtkTreePath *path;
@@ -272,9 +335,17 @@ attachment_update_icon_column (EAttachment *attachment)
 	const gchar *emblem_name = NULL;
 	const gchar *thumbnail_path = NULL;
 
+	attachment = g_weak_ref_get (weak_ref);
+	if (attachment == NULL)
+		goto exit;
+
+	g_mutex_lock (&attachment->priv->idle_lock);
+	attachment->priv->update_icon_column_idle_id = 0;
+	g_mutex_unlock (&attachment->priv->idle_lock);
+
 	reference = e_attachment_get_reference (attachment);
 	if (!gtk_tree_row_reference_valid (reference))
-		return;
+		goto exit;
 
 	model = gtk_tree_row_reference_get_model (reference);
 	path = gtk_tree_row_reference_get_path (reference);
@@ -387,11 +458,36 @@ attachment_update_icon_column (EAttachment *attachment)
 	g_object_notify (G_OBJECT (attachment), "icon");
 
 	g_clear_object (&file_info);
+
+exit:
+	g_clear_object (&attachment);
+
+	return FALSE;
 }
 
 static void
-attachment_update_progress_columns (EAttachment *attachment)
+attachment_update_icon_column (EAttachment *attachment)
 {
+	g_mutex_lock (&attachment->priv->idle_lock);
+
+	if (attachment->priv->update_icon_column_idle_id == 0) {
+		guint idle_id;
+
+		idle_id = g_idle_add_full (
+			G_PRIORITY_HIGH_IDLE,
+			attachment_update_icon_column_idle_cb,
+			attachment_weak_ref_new (attachment),
+			(GDestroyNotify) attachment_weak_ref_free);
+		attachment->priv->update_icon_column_idle_id = idle_id;
+	}
+
+	g_mutex_unlock (&attachment->priv->idle_lock);
+}
+
+static gboolean
+attachment_update_progress_columns_idle_cb (gpointer weak_ref)
+{
+	EAttachment *attachment;
 	GtkTreeRowReference *reference;
 	GtkTreeModel *model;
 	GtkTreePath *path;
@@ -400,9 +496,17 @@ attachment_update_progress_columns (EAttachment *attachment)
 	gboolean saving;
 	gint percent;
 
+	attachment = g_weak_ref_get (weak_ref);
+	if (attachment == NULL)
+		goto exit;
+
+	g_mutex_lock (&attachment->priv->idle_lock);
+	attachment->priv->update_progress_columns_idle_id = 0;
+	g_mutex_unlock (&attachment->priv->idle_lock);
+
 	reference = e_attachment_get_reference (attachment);
 	if (!gtk_tree_row_reference_valid (reference))
-		return;
+		goto exit;
 
 	model = gtk_tree_row_reference_get_model (reference);
 	path = gtk_tree_row_reference_get_path (reference);
@@ -420,6 +524,30 @@ attachment_update_progress_columns (EAttachment *attachment)
 		E_ATTACHMENT_STORE_COLUMN_PERCENT, percent,
 		E_ATTACHMENT_STORE_COLUMN_SAVING, saving,
 		-1);
+
+exit:
+	g_clear_object (&attachment);
+
+	return FALSE;
+}
+
+static void
+attachment_update_progress_columns (EAttachment *attachment)
+{
+	g_mutex_lock (&attachment->priv->idle_lock);
+
+	if (attachment->priv->update_progress_columns_idle_id == 0) {
+		guint idle_id;
+
+		idle_id = g_idle_add_full (
+			G_PRIORITY_HIGH_IDLE,
+			attachment_update_progress_columns_idle_cb,
+			attachment_weak_ref_new (attachment),
+			(GDestroyNotify) attachment_weak_ref_free);
+		attachment->priv->update_progress_columns_idle_id = idle_id;
+	}
+
+	g_mutex_unlock (&attachment->priv->idle_lock);
 }
 
 static void
@@ -706,7 +834,17 @@ attachment_finalize (GObject *object)
 
 	priv = E_ATTACHMENT_GET_PRIVATE (object);
 
+	if (priv->update_icon_column_idle_id > 0)
+		g_source_remove (priv->update_icon_column_idle_id);
+
+	if (priv->update_progress_columns_idle_id > 0)
+		g_source_remove (priv->update_progress_columns_idle_id);
+
+	if (priv->update_file_info_columns_idle_id > 0)
+		g_source_remove (priv->update_file_info_columns_idle_id);
+
 	g_mutex_clear (&priv->property_lock);
+	g_mutex_clear (&priv->idle_lock);
 
 	g_free (priv->disposition);
 
@@ -881,6 +1019,7 @@ e_attachment_init (EAttachment *attachment)
 	attachment->priv->signed_ = CAMEL_CIPHER_VALIDITY_SIGN_NONE;
 
 	g_mutex_init (&attachment->priv->property_lock);
+	g_mutex_init (&attachment->priv->idle_lock);
 
 	g_signal_connect (
 		attachment, "notify::encrypted",
