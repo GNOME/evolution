@@ -2464,10 +2464,8 @@ msgstr "Zachovat původní položku?"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1090
 #: ../calendar/gui/dialogs/comp-editor.c:1118
-#, fuzzy
-#| msgid "Failed to authenticate with LDAP server."
 msgid "Unable to synchronize with the server"
-msgstr "Ověření totožnosti u serveru LDAP selhalo."
+msgstr "Nelze synchronizovat se serverem"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1232
 msgid "Close the current window"
@@ -7660,51 +7658,51 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:124
 msgid "First day of the week"
-msgstr ""
+msgstr "První den týdne"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:125
 msgid "Monday is a work day"
-msgstr ""
+msgstr "Pondělí je pracovní den"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:126
 msgid "Tuesday is a work day"
-msgstr ""
+msgstr "Úterý je pracovní den"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:127
 msgid "Wednesday is a work day"
-msgstr ""
+msgstr "Středa je pracovní den"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:128
 msgid "Thursday is a work day"
-msgstr ""
+msgstr "Čtvrtek je pracovní den"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:129
 msgid "Friday is a work day"
-msgstr ""
+msgstr "Pátek je pracovní den"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:130
 msgid "Saturday is a work day"
-msgstr ""
+msgstr "Sobota je pracovní den"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:131
 msgid "Sunday is a work day"
-msgstr ""
+msgstr "Neděle je pracovní den"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:132
-#, fuzzy
-#| msgid "Weekday the week starts on, from Sunday (0) to Saturday (6)"
 msgid "(Deprecated) First day of the week, from Sunday (0) to Saturday (6)"
-msgstr "Den týdne, kdy týden začíná, od neděle (0) do soboty (6)"
+msgstr "(zavržené) Den týdne, kdy týden začíná, od neděle (0) do soboty (6)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:133
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"week-start-day-name\" instead."
 msgstr ""
+"Tento klíč byl zavržen ve verzi 3.10 a nadále by neměl být používán. Místo "
+"něj použijte „week-start-day-name“."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:134
 msgid "(Deprecated) Work days"
-msgstr ""
+msgstr "(zavržené) Pracovní dny"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:135
 msgid ""
@@ -8171,10 +8169,8 @@ msgid "Default charset in which to display messages."
 msgstr "Výchozí znaková sada, ve které zobrazovat zprávy."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:72
-#, fuzzy
-#| msgid "Load images for HTML messages over HTTP"
 msgid "Automatically load images for HTML messages over HTTP"
-msgstr "Načítat obrázky pro zprávy v HTML přes HTTP"
+msgstr "Automaticky přes HTTP načítat obrázky pro zprávy v HTML"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:73
 msgid "Show Animations"
@@ -8461,10 +8457,8 @@ msgid "Default forward style"
 msgstr "Výchozí styl přeposílání"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:127
-#, fuzzy
-#| msgid "Default forward style"
 msgid "Default reply style"
-msgstr "Výchozí styl přeposílání"
+msgstr "Výchozí styl odpovědi"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:128
 msgid "Prompt on empty subject"
@@ -8888,38 +8882,40 @@ msgstr ""
 "serverem. Interval musí být aspoň 30 sekund."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:200
-#, fuzzy
-#| msgid "Default forward style"
 msgid "(Deprecated) Default forward style"
-msgstr "Výchozí styl přeposílání"
+msgstr "(zavržené) Výchozí styl přeposílání"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:201
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"forward-style-name\" instead."
 msgstr ""
+"Tento klíč byl zavržen ve verzi 3.10 a nadále by neměl být používán. Místo "
+"něj použijte „forward-style-name“."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:202
 msgid "(Deprecated) Default reply style"
-msgstr ""
+msgstr "(zavržené) Výchozí styl odpovědi"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"reply-style-name\" instead."
 msgstr ""
+"Tento klíč byl zavržen ve verzi 3.10 a nadále by neměl být používán. Místo "
+"něj použijte „reply-style-name“."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
-#, fuzzy
-#| msgid "Load images for HTML messages over HTTP"
 msgid "(Deprecated) Load images for HTML messages over HTTP"
-msgstr "Načítat obrázky pro zprávy v HTML přes HTTP"
+msgstr "(zavržené) Načítat přes HTTP obrázky pro zprávy v HTML"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:205
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"image-loading-policy\" instead."
 msgstr ""
+"Tento klíč byl zavržen ve verzi 3.10 a nadále by neměl být používán. Místo "
+"něj použijte „image-loading-policy“."
 
 #. Translators: This is the a list of words for the attach reminder plugin to look
 #. for in a message body. Please use any number of words here in your language that might
@@ -12043,18 +12039,12 @@ msgstr[2] ""
 "„%s“."
 
 #: ../mail/e-mail-account-manager.c:116 ../mail/e-mail-account-manager.c:203
-#, fuzzy
-#| msgid "All Accounts"
 msgid "Open _Online Accounts"
-msgstr "Všechny účty"
+msgstr "Otevřít Účty _on-line"
 
 #: ../mail/e-mail-account-manager.c:142 ../mail/e-mail-account-manager.c:229
-#, fuzzy
-#| msgid ""
-#| "This option will connect to the server by way of the GNOME Online "
-#| "Accounts service"
 msgid "This account was created through the Online Accounts service."
-msgstr "Touto volbou se spojí se serverem pomocí služby GNOME Online Accounts"
+msgstr "Tento účet byl vytvořen pomocí služby Účty on-line."
 
 #: ../mail/e-mail-account-manager.c:690
 msgid "_Restore Default"
@@ -14025,9 +14015,6 @@ msgid "Quoted"
 msgstr "Citované"
 
 #: ../mail/mail-config.ui.h:22
-#, fuzzy
-#| msgctxt "ReplyForward"
-#| msgid "Do not quote"
 msgctxt "ReplyForward"
 msgid "Do Not Quote"
 msgstr "Necitovat"
@@ -15142,10 +15129,8 @@ msgid "Failed to retrieve messages."
 msgstr "Selhalo načtení zpráv."
 
 #: ../mail/mail.error.xml.h:162
-#, fuzzy
-#| msgid "Failed to save messages to disk."
 msgid "Failed to mark messages as read."
-msgstr "Selhalo uložení zpráv na disk."
+msgstr "Selhalo označení zprávy jako přečtené."
 
 #: ../mail/mail.error.xml.h:163
 msgid "Failed to remove attachments from messages."
@@ -18161,10 +18146,8 @@ msgid "None"
 msgstr "Žádný"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:678
-#, fuzzy
-#| msgid "Mark Me_ssages as Read"
 msgid "Marking messages as read..."
-msgstr "Označit zprávy _jako přečtené"
+msgstr "Označují se zprávy jako přečtené…"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1543
 msgid "_Disable Account"
@@ -21211,100 +21194,3 @@ msgstr "S _termínem dokončení"
 #: ../views/tasks/galview.xml.h:3
 msgid "With _Status"
 msgstr "Se _stavem"
-
-#~ msgid ""
-#~ "Evolution does not support calendar reminders with\n"
-#~ "email notifications yet, but this reminder was\n"
-#~ "configured to send an email.  Evolution will display\n"
-#~ "a normal reminder dialog box instead."
-#~ msgstr ""
-#~ "Evolution zatím nepodporuje připomínky\n"
-#~ "s oznámením e-mailem. Tato připomínka však byla\n"
-#~ "vytvořena k poslání e-mailu. Evolution namísto toho\n"
-#~ "zobrazí dialogové okno pro běžnou připomínku."
-
-#~ msgid "Save draft"
-#~ msgstr "Uložit koncept"
-
-#~ msgid "Email Settings"
-#~ msgstr "Nastavení pošty"
-
-#~ msgid "Configure email accounts"
-#~ msgstr "Nastavit poštovní účty"
-
-#~ msgid "Week start"
-#~ msgstr "Začátek týdne"
-
-#~ msgid "Work days"
-#~ msgstr "Pracovní dny"
-
-#~ msgid "Days on which the start and end of work hours should be indicated"
-#~ msgstr "Dny, u kterých má být vyznačen začátek a konec pracovní doby"
-
-#~ msgid "Save name format for drag-and-drop operation"
-#~ msgstr "Uložit formát názvu pro operaci „táhni a pusť“"
-
-#~ msgid ""
-#~ "Can be either 2 to use current date and time or any other value for sent "
-#~ "date of the message. This has a meaning only when dropping just one "
-#~ "message."
-#~ msgstr ""
-#~ "Může být buď 2, chcete-li použít aktuální datum a čas, nebo jakákoliv "
-#~ "jiná hodnota pro datum odeslání zprávy. Toto má význam pouze, pokud se "
-#~ "pouští pouze jedna zpráva."
-
-#~ msgid "Whether disable ellipsizing feature of folder names in side bar."
-#~ msgstr "Zdali zakázat funkci zkracování názvů adresářů v postranním panelu."
-
-#~ msgid ""
-#~ "Load images for HTML messages over HTTP(S). Possible values are: \"0\" - "
-#~ "Never load images off the net. \"1\" - Load images in messages from "
-#~ "contacts. \"2\" - Always load images off the net."
-#~ msgstr ""
-#~ "Načítat obrázky pro zprávy v HTML přes HTTP(S). Možné hodnoty jsou: „0“ – "
-#~ "Nikdy nenačítat obrázky ze sítě, „1“ – Načítat obrázky ve zprávách od "
-#~ "kontaktů, „2“ – Vždy načítat obrázky ze sítě."
-
-#~ msgid "Search for the sender photo in local address books"
-#~ msgstr "Hledat fotografii odesílatele v místním adresáři"
-
-#~ msgid "This option would help in improving the speed of fetching."
-#~ msgstr "Tato volba pomůže zrychlit stahování."
-
-#~ msgid "State of message headers in paned view"
-#~ msgstr "Stav hlaviček zprávy v zobrazení panelu"
-
-#~ msgid ""
-#~ "Describes whether message headers in paned view should be collapsed or "
-#~ "expanded by default. \"0\" = expanded and \"1\" = collapsed"
-#~ msgstr ""
-#~ "Popisuje, zda mají být hlavičky zprávy v panelu náhledu ve výchozím "
-#~ "nastavení sbalené nebo rozbalené. „0“ = rozbalené „1“ = sbalené"
-
-#~ msgid "S_earch for sender photograph only in local address books"
-#~ msgstr "V_yhledávat fotografii odesílatele pouze v místních adresářích"
-
-#~ msgid ""
-#~ "This will mark all messages as read in the selected folder and its "
-#~ "subfolders."
-#~ msgstr ""
-#~ "Označí všechny zprávy ve vybrané složce i v podsložkách jako přečtené."
-
-#~ msgid ""
-#~ "Cannot find a corresponding account in the org.gnome.OnlineAccounts "
-#~ "service from which to obtain an authentication token."
-#~ msgstr ""
-#~ "Nelze nalézt odpovídající účet ve službě org.gnome.OnlineAccounts, z "
-#~ "kterého by se měl získat autentizační token."
-
-#~ msgid "OAuth"
-#~ msgstr "OAuth"
-
-#~ msgid "Mark All Read"
-#~ msgstr "Označit vše jako přečtené"
-
-#~ msgid "Mark all messages in a folder as read."
-#~ msgstr "Označuje všechny zprávy ve složce jako přečtené."
-
-#~ msgid "Start in \"express\" mode"
-#~ msgstr "Spustit v „expresním“ režimu"
