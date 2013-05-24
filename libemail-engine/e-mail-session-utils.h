@@ -97,6 +97,29 @@ void		e_mail_session_send_to		(EMailSession *session,
 gboolean	e_mail_session_send_to_finish	(EMailSession *session,
 						 GAsyncResult *result,
 						 GError **error);
+CamelFolder *	e_mail_session_get_fcc_for_message_sync
+						(EMailSession *session,
+						 CamelMimeMessage *message,
+						 GCancellable *cancellable,
+						 GError **error);
+void		e_mail_session_get_fcc_for_message
+						(EMailSession *session,
+						 CamelMimeMessage *message,
+						 gint io_priority,
+						 GCancellable *cancellable,
+						 GAsyncReadyCallback callback,
+						 gpointer user_data);
+CamelFolder *	e_mail_session_get_fcc_for_message_finish
+						(EMailSession *session,
+						 GAsyncResult *result,
+						 GError **error);
+CamelService *	e_mail_session_ref_transport	(EMailSession *session,
+						 const gchar *transport_uid);
+CamelService *	e_mail_session_ref_default_transport
+						(EMailSession *session);
+CamelService *	e_mail_session_ref_transport_for_message
+						(EMailSession *session,
+						 CamelMimeMessage *message);
 
 G_END_DECLS
 
