@@ -76,30 +76,19 @@ struct _AsyncContext {
 };
 
 static void
-async_context_free (AsyncContext *context)
+async_context_free (AsyncContext *async_context)
 {
-	if (context->activity != NULL)
-		g_object_unref (context->activity);
+	g_clear_object (&async_context->activity);
+	g_clear_object (&async_context->folder);
+	g_clear_object (&async_context->message);
+	g_clear_object (&async_context->part_list);
+	g_clear_object (&async_context->reader);
+	g_clear_object (&async_context->address);
 
-	if (context->folder != NULL)
-		g_object_unref (context->folder);
+	g_free (async_context->folder_name);
+	g_free (async_context->message_uid);
 
-	if (context->message != NULL)
-		g_object_unref (context->message);
-
-	if (context->part_list != NULL)
-		g_object_unref (context->part_list);
-
-	if (context->reader != NULL)
-		g_object_unref (context->reader);
-
-	if (context->address != NULL)
-		g_object_unref (context->address);
-
-	g_free (context->folder_name);
-	g_free (context->message_uid);
-
-	g_slice_free (AsyncContext, context);
+	g_slice_free (AsyncContext, async_context);
 }
 
 static gboolean
@@ -173,33 +162,39 @@ exit:
 }
 
 static void
-mail_reader_delete_folder_cb (CamelFolder *folder,
+mail_reader_delete_folder_cb (GObject *source_object,
                               GAsyncResult *result,
-                              AsyncContext *context)
+                              gpointer user_data)
 {
+	CamelFolder *folder;
+	EActivity *activity;
 	EAlertSink *alert_sink;
-	GError *error = NULL;
+	AsyncContext *async_context;
+	GError *local_error = NULL;
 
-	alert_sink = e_activity_get_alert_sink (context->activity);
+	folder = CAMEL_FOLDER (source_object);
+	async_context = (AsyncContext *) user_data;
 
-	e_mail_folder_remove_finish (folder, result, &error);
+	activity = async_context->activity;
+	alert_sink = e_activity_get_alert_sink (activity);
 
-	if (e_activity_handle_cancellation (context->activity, error)) {
-		g_error_free (error);
+	e_mail_folder_remove_finish (folder, result, &local_error);
 
-	} else if (error != NULL) {
+	if (e_activity_handle_cancellation (activity, local_error)) {
+		g_error_free (local_error);
+
+	} else if (local_error != NULL) {
 		e_alert_submit (
 			alert_sink, "mail:no-delete-folder",
 			camel_folder_get_full_name (folder),
-			error->message, NULL);
-		g_error_free (error);
+			local_error->message, NULL);
+		g_error_free (local_error);
 
 	} else {
-		e_activity_set_state (
-			context->activity, E_ACTIVITY_COMPLETED);
+		e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
 	}
 
-	async_context_free (context);
+	async_context_free (async_context);
 }
 
 void
@@ -287,15 +282,15 @@ e_mail_reader_delete_folder (EMailReader *reader,
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
 		EActivity *activity;
-		AsyncContext *context;
 		GCancellable *cancellable;
+		AsyncContext *async_context;
 
 		activity = e_mail_reader_new_activity (reader);
 		cancellable = e_activity_get_cancellable (activity);
 
-		context = g_slice_new0 (AsyncContext);
-		context->activity = activity;
-		context->reader = g_object_ref (reader);
+		async_context = g_slice_new0 (AsyncContext);
+		async_context->activity = g_object_ref (activity);
+		async_context->reader = g_object_ref (reader);
 
 		/* Disable the dialog until the activity finishes. */
 		gtk_widget_set_sensitive (dialog, FALSE);
@@ -306,11 +301,16 @@ e_mail_reader_delete_folder (EMailReader *reader,
 			dialog, (GDestroyNotify) gtk_widget_destroy);
 
 		e_mail_folder_remove (
-			folder, G_PRIORITY_DEFAULT,
-			cancellable, (GAsyncReadyCallback)
-			mail_reader_delete_folder_cb, context);
-	} else
+			folder,
+			G_PRIORITY_DEFAULT,
+			cancellable,
+			mail_reader_delete_folder_cb,
+			async_context);
+
+		g_object_unref (activity);
+	} else {
 		gtk_widget_destroy (dialog);
+	}
 }
 
 static void
@@ -318,36 +318,42 @@ mail_reader_delete_folder_name_cb (GObject *source_object,
                                    GAsyncResult *result,
                                    gpointer user_data)
 {
-	CamelStore *store;
 	CamelFolder *folder;
-	AsyncContext *context;
+	EActivity *activity;
 	EAlertSink *alert_sink;
-	GError *error = NULL;
+	AsyncContext *async_context;
+	GError *local_error = NULL;
 
-	store = CAMEL_STORE (source_object);
-	context = (AsyncContext *) user_data;
+	async_context = (AsyncContext *) user_data;
 
-	alert_sink = e_activity_get_alert_sink (context->activity);
+	activity = async_context->activity;
+	alert_sink = e_activity_get_alert_sink (activity);
 
 	/* XXX The returned CamelFolder is a borrowed reference. */
-	folder = camel_store_get_folder_finish (store, result, &error);
+	folder = camel_store_get_folder_finish (
+		CAMEL_STORE (source_object), result, &local_error);
 
-	if (e_activity_handle_cancellation (context->activity, error)) {
-		g_error_free (error);
+	/* Sanity check. */
+	g_return_if_fail (
+		((folder != NULL) && (local_error == NULL)) ||
+		((folder == NULL) && (local_error != NULL)));
 
-	} else if (error != NULL) {
+	if (e_activity_handle_cancellation (activity, local_error)) {
+		g_error_free (local_error);
+
+	} else if (local_error != NULL) {
 		e_alert_submit (
 			alert_sink, "mail:no-delete-folder",
-			context->folder_name, error->message, NULL);
-		g_error_free (error);
+			async_context->folder_name,
+			local_error->message, NULL);
+		g_error_free (local_error);
 
 	} else {
-		e_activity_set_state (
-			context->activity, E_ACTIVITY_COMPLETED);
-		e_mail_reader_delete_folder (context->reader, folder);
+		e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
+		e_mail_reader_delete_folder (async_context->reader, folder);
 	}
 
-	async_context_free (context);
+	async_context_free (async_context);
 }
 
 void
@@ -356,8 +362,8 @@ e_mail_reader_delete_folder_name (EMailReader *reader,
                                   const gchar *folder_name)
 {
 	EActivity *activity;
-	AsyncContext *context;
 	GCancellable *cancellable;
+	AsyncContext *async_context;
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 	g_return_if_fail (CAMEL_IS_STORE (store));
@@ -366,17 +372,19 @@ e_mail_reader_delete_folder_name (EMailReader *reader,
 	activity = e_mail_reader_new_activity (reader);
 	cancellable = e_activity_get_cancellable (activity);
 
-	context = g_slice_new0 (AsyncContext);
-	context->activity = activity;
-	context->reader = g_object_ref (reader);
-	context->folder_name = g_strdup (folder_name);
+	async_context = g_slice_new0 (AsyncContext);
+	async_context->activity = g_object_ref (activity);
+	async_context->reader = g_object_ref (reader);
+	async_context->folder_name = g_strdup (folder_name);
 
 	camel_store_get_folder (
 		store, folder_name,
 		CAMEL_STORE_FOLDER_INFO_FAST,
 		G_PRIORITY_DEFAULT, cancellable,
 		mail_reader_delete_folder_name_cb,
-		context);
+		async_context);
+
+	g_object_unref (activity);
 }
 
 /* Helper for e_mail_reader_expunge_folder() */
@@ -386,31 +394,34 @@ mail_reader_expunge_folder_cb (GObject *source_object,
                                gpointer user_data)
 {
 	CamelFolder *folder;
-	AsyncContext *context;
+	EActivity *activity;
 	EAlertSink *alert_sink;
-	GError *error = NULL;
+	AsyncContext *async_context;
+	GError *local_error = NULL;
 
 	folder = CAMEL_FOLDER (source_object);
-	context = (AsyncContext *) user_data;
+	async_context = (AsyncContext *) user_data;
 
-	alert_sink = e_activity_get_alert_sink (context->activity);
+	activity = async_context->activity;
+	alert_sink = e_activity_get_alert_sink (activity);
 
-	if (e_activity_handle_cancellation (context->activity, error)) {
-		g_error_free (error);
+	e_mail_folder_expunge_finish (folder, result, &local_error);
 
-	} else if (error != NULL) {
+	if (e_activity_handle_cancellation (activity, local_error)) {
+		g_error_free (local_error);
+
+	} else if (local_error != NULL) {
 		e_alert_submit (
 			alert_sink, "mail:no-expunge-folder",
 			camel_folder_get_display_name (folder),
-			error->message, NULL);
-		g_error_free (error);
+			local_error->message, NULL);
+		g_error_free (local_error);
 
 	} else {
-		e_activity_set_state (
-			context->activity, E_ACTIVITY_COMPLETED);
+		e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
 	}
 
-	async_context_free (context);
+	async_context_free (async_context);
 }
 
 void
@@ -433,19 +444,23 @@ e_mail_reader_expunge_folder (EMailReader *reader,
 
 	if (proceed) {
 		EActivity *activity;
-		AsyncContext *context;
 		GCancellable *cancellable;
+		AsyncContext *async_context;
 
 		activity = e_mail_reader_new_activity (reader);
 		cancellable = e_activity_get_cancellable (activity);
 
-		context = g_slice_new0 (AsyncContext);
-		context->activity = activity;
-		context->reader = g_object_ref (reader);
+		async_context = g_slice_new0 (AsyncContext);
+		async_context->activity = g_object_ref (activity);
+		async_context->reader = g_object_ref (reader);
 
 		e_mail_folder_expunge (
-			folder, G_PRIORITY_DEFAULT, cancellable,
-			mail_reader_expunge_folder_cb, context);
+			folder,
+			G_PRIORITY_DEFAULT, cancellable,
+			mail_reader_expunge_folder_cb,
+			async_context);
+
+		g_object_unref (activity);
 	}
 }
 
@@ -455,36 +470,37 @@ mail_reader_expunge_folder_name_cb (GObject *source_object,
                                     GAsyncResult *result,
                                     gpointer user_data)
 {
-	CamelStore *store;
 	CamelFolder *folder;
-	AsyncContext *context;
+	EActivity *activity;
 	EAlertSink *alert_sink;
-	GError *error = NULL;
+	AsyncContext *async_context;
+	GError *local_error = NULL;
 
-	store = CAMEL_STORE (source_object);
-	context = (AsyncContext *) user_data;
+	async_context = (AsyncContext *) user_data;
 
-	alert_sink = e_activity_get_alert_sink (context->activity);
+	activity = async_context->activity;
+	alert_sink = e_activity_get_alert_sink (activity);
 
 	/* XXX The returned CamelFolder is a borrowed reference. */
-	folder = camel_store_get_folder_finish (store, result, &error);
+	folder = camel_store_get_folder_finish (
+		CAMEL_STORE (source_object), result, &local_error);
 
-	if (e_activity_handle_cancellation (context->activity, error)) {
-		g_error_free (error);
+	if (e_activity_handle_cancellation (activity, local_error)) {
+		g_error_free (local_error);
 
-	} else if (error != NULL) {
+	} else if (local_error != NULL) {
 		e_alert_submit (
 			alert_sink, "mail:no-expunge-folder",
-			context->folder_name, error->message, NULL);
-		g_error_free (error);
+			async_context->folder_name,
+			local_error->message, NULL);
+		g_error_free (local_error);
 
 	} else {
-		e_activity_set_state (
-			context->activity, E_ACTIVITY_COMPLETED);
-		e_mail_reader_expunge_folder (context->reader, folder);
+		e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
+		e_mail_reader_expunge_folder (async_context->reader, folder);
 	}
 
-	async_context_free (context);
+	async_context_free (async_context);
 }
 
 void
@@ -493,8 +509,8 @@ e_mail_reader_expunge_folder_name (EMailReader *reader,
                                    const gchar *folder_name)
 {
 	EActivity *activity;
-	AsyncContext *context;
 	GCancellable *cancellable;
+	AsyncContext *async_context;
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 	g_return_if_fail (CAMEL_IS_STORE (store));
@@ -503,17 +519,19 @@ e_mail_reader_expunge_folder_name (EMailReader *reader,
 	activity = e_mail_reader_new_activity (reader);
 	cancellable = e_activity_get_cancellable (activity);
 
-	context = g_slice_new0 (AsyncContext);
-	context->activity = activity;
-	context->reader = g_object_ref (reader);
-	context->folder_name = g_strdup (folder_name);
+	async_context = g_slice_new0 (AsyncContext);
+	async_context->activity = g_object_ref (activity);
+	async_context->reader = g_object_ref (reader);
+	async_context->folder_name = g_strdup (folder_name);
 
 	camel_store_get_folder (
 		store, folder_name,
 		CAMEL_STORE_FOLDER_INFO_FAST,
 		G_PRIORITY_DEFAULT, cancellable,
 		mail_reader_expunge_folder_name_cb,
-		context);
+		async_context);
+
+	g_object_unref (activity);
 }
 
 /* Helper for e_mail_reader_refresh_folder() */
@@ -523,31 +541,32 @@ mail_reader_refresh_folder_cb (GObject *source_object,
                                gpointer user_data)
 {
 	CamelFolder *folder;
-	AsyncContext *context;
+	EActivity *activity;
 	EAlertSink *alert_sink;
-	GError *error = NULL;
+	AsyncContext *async_context;
+	GError *local_error = NULL;
 
 	folder = CAMEL_FOLDER (source_object);
-	context = (AsyncContext *) user_data;
+	async_context = (AsyncContext *) user_data;
 
-	alert_sink = e_activity_get_alert_sink (context->activity);
+	activity = async_context->activity;
+	alert_sink = e_activity_get_alert_sink (activity);
 
-	if (e_activity_handle_cancellation (context->activity, error)) {
-		g_error_free (error);
+	if (e_activity_handle_cancellation (activity, local_error)) {
+		g_error_free (local_error);
 
-	} else if (error != NULL) {
+	} else if (local_error != NULL) {
 		e_alert_submit (
 			alert_sink, "mail:no-refresh-folder",
 			camel_folder_get_display_name (folder),
-			error->message, NULL);
-		g_error_free (error);
+			local_error->message, NULL);
+		g_error_free (local_error);
 
 	} else {
-		e_activity_set_state (
-			context->activity, E_ACTIVITY_COMPLETED);
+		e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
 	}
 
-	async_context_free (context);
+	async_context_free (async_context);
 }
 
 void
@@ -555,8 +574,8 @@ e_mail_reader_refresh_folder (EMailReader *reader,
                               CamelFolder *folder)
 {
 	EActivity *activity;
-	AsyncContext *context;
 	GCancellable *cancellable;
+	AsyncContext *async_context;
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
@@ -564,13 +583,17 @@ e_mail_reader_refresh_folder (EMailReader *reader,
 	activity = e_mail_reader_new_activity (reader);
 	cancellable = e_activity_get_cancellable (activity);
 
-	context = g_slice_new0 (AsyncContext);
-	context->activity = activity;
-	context->reader = g_object_ref (reader);
+	async_context = g_slice_new0 (AsyncContext);
+	async_context->activity = g_object_ref (activity);
+	async_context->reader = g_object_ref (reader);
 
 	camel_folder_refresh_info (
-		folder, G_PRIORITY_DEFAULT, cancellable,
-		mail_reader_refresh_folder_cb, context);
+		folder,
+		G_PRIORITY_DEFAULT, cancellable,
+		mail_reader_refresh_folder_cb,
+		async_context);
+
+	g_object_unref (activity);
 }
 
 /* Helper for e_mail_reader_refresh_folder_name() */
@@ -579,36 +602,37 @@ mail_reader_refresh_folder_name_cb (GObject *source_object,
                                     GAsyncResult *result,
                                     gpointer user_data)
 {
-	CamelStore *store;
 	CamelFolder *folder;
-	AsyncContext *context;
+	EActivity *activity;
 	EAlertSink *alert_sink;
-	GError *error = NULL;
+	AsyncContext *async_context;
+	GError *local_error = NULL;
 
-	store = CAMEL_STORE (source_object);
-	context = (AsyncContext *) user_data;
+	async_context = (AsyncContext *) user_data;
 
-	alert_sink = e_activity_get_alert_sink (context->activity);
+	activity = async_context->activity;
+	alert_sink = e_activity_get_alert_sink (activity);
 
 	/* XXX The returned CamelFolder is a borrowed reference. */
-	folder = camel_store_get_folder_finish (store, result, &error);
+	folder = camel_store_get_folder_finish (
+		CAMEL_STORE (source_object), result, &local_error);
 
-	if (e_activity_handle_cancellation (context->activity, error)) {
-		g_error_free (error);
+	if (e_activity_handle_cancellation (activity, local_error)) {
+		g_error_free (local_error);
 
-	} else if (error != NULL) {
+	} else if (local_error != NULL) {
 		e_alert_submit (
 			alert_sink, "mail:no-refresh-folder",
-			context->folder_name, error->message, NULL);
-		g_error_free (error);
+			async_context->folder_name,
+			local_error->message, NULL);
+		g_error_free (local_error);
 
 	} else {
-		e_activity_set_state (
-			context->activity, E_ACTIVITY_COMPLETED);
-		e_mail_reader_refresh_folder (context->reader, folder);
+		e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
+		e_mail_reader_refresh_folder (async_context->reader, folder);
 	}
 
-	async_context_free (context);
+	async_context_free (async_context);
 }
 
 void
@@ -617,8 +641,8 @@ e_mail_reader_refresh_folder_name (EMailReader *reader,
                                    const gchar *folder_name)
 {
 	EActivity *activity;
-	AsyncContext *context;
 	GCancellable *cancellable;
+	AsyncContext *async_context;
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 	g_return_if_fail (CAMEL_IS_STORE (store));
@@ -627,17 +651,19 @@ e_mail_reader_refresh_folder_name (EMailReader *reader,
 	activity = e_mail_reader_new_activity (reader);
 	cancellable = e_activity_get_cancellable (activity);
 
-	context = g_slice_new0 (AsyncContext);
-	context->activity = activity;
-	context->reader = g_object_ref (reader);
-	context->folder_name = g_strdup (folder_name);
+	async_context = g_slice_new0 (AsyncContext);
+	async_context->activity = g_object_ref (activity);
+	async_context->reader = g_object_ref (reader);
+	async_context->folder_name = g_strdup (folder_name);
 
 	camel_store_get_folder (
 		store, folder_name,
 		CAMEL_STORE_FOLDER_INFO_FAST,
 		G_PRIORITY_DEFAULT, cancellable,
 		mail_reader_refresh_folder_name_cb,
-		context);
+		async_context);
+
+	g_object_unref (async_context);
 }
 
 /* Helper for e_mail_reader_unsubscribe_folder_name() */
@@ -646,34 +672,34 @@ mail_reader_unsubscribe_folder_name_cb (GObject *source_object,
                                         GAsyncResult *result,
                                         gpointer user_data)
 {
-	CamelSubscribable *subscribable;
-	AsyncContext *context;
+	EActivity *activity;
 	EAlertSink *alert_sink;
-	GError *error = NULL;
+	AsyncContext *async_context;
+	GError *local_error = NULL;
 
-	subscribable = CAMEL_SUBSCRIBABLE (source_object);
-	context = (AsyncContext *) user_data;
+	async_context = (AsyncContext *) user_data;
 
-	alert_sink = e_activity_get_alert_sink (context->activity);
+	activity = async_context->activity;
+	alert_sink = e_activity_get_alert_sink (activity);
 
 	camel_subscribable_unsubscribe_folder_finish (
-		subscribable, result, &error);
+		CAMEL_SUBSCRIBABLE (source_object), result, &local_error);
 
-	if (e_activity_handle_cancellation (context->activity, error)) {
-		g_error_free (error);
+	if (e_activity_handle_cancellation (activity, local_error)) {
+		g_error_free (local_error);
 
-	} else if (error != NULL) {
+	} else if (local_error != NULL) {
 		e_alert_submit (
 			alert_sink, "mail:folder-unsubscribe",
-			context->folder_name, error->message, NULL);
-		g_error_free (error);
+			async_context->folder_name,
+			local_error->message, NULL);
+		g_error_free (local_error);
 
 	} else {
-		e_activity_set_state (
-			context->activity, E_ACTIVITY_COMPLETED);
+		e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
 	}
 
-	async_context_free (context);
+	async_context_free (async_context);
 }
 
 void
@@ -682,8 +708,8 @@ e_mail_reader_unsubscribe_folder_name (EMailReader *reader,
                                        const gchar *folder_name)
 {
 	EActivity *activity;
-	AsyncContext *context;
 	GCancellable *cancellable;
+	AsyncContext *async_context;
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 	g_return_if_fail (CAMEL_IS_SUBSCRIBABLE (store));
@@ -692,16 +718,18 @@ e_mail_reader_unsubscribe_folder_name (EMailReader *reader,
 	activity = e_mail_reader_new_activity (reader);
 	cancellable = e_activity_get_cancellable (activity);
 
-	context = g_slice_new0 (AsyncContext);
-	context->activity = activity;
-	context->reader = g_object_ref (reader);
-	context->folder_name = g_strdup (folder_name);
+	async_context = g_slice_new0 (AsyncContext);
+	async_context->activity = g_object_ref (activity);
+	async_context->reader = g_object_ref (reader);
+	async_context->folder_name = g_strdup (folder_name);
 
 	camel_subscribable_unsubscribe_folder (
 		CAMEL_SUBSCRIBABLE (store), folder_name,
 		G_PRIORITY_DEFAULT, cancellable,
 		mail_reader_unsubscribe_folder_name_cb,
-		context);
+		async_context);
+
+	g_object_unref (activity);
 }
 
 guint
@@ -865,28 +893,31 @@ e_mail_reader_open_selected (EMailReader *reader)
 }
 
 static void
-mail_reader_print_message_done_cb (GObject *source_object,
-                                   GAsyncResult *result,
-                                   gpointer user_data)
+mail_reader_print_message_cb (GObject *source_object,
+                              GAsyncResult *result,
+                              gpointer user_data)
 {
 	EActivity *activity;
 	EAlertSink *alert_sink;
-	GError *error = NULL;
+	AsyncContext *async_context;
+	GError *local_error = NULL;
 
-	activity = E_ACTIVITY (user_data);
+	async_context = (AsyncContext *) user_data;
+
+	activity = async_context->activity;
 	alert_sink = e_activity_get_alert_sink (activity);
 
 	e_mail_printer_print_finish (
-		E_MAIL_PRINTER (source_object), result, &error);
+		E_MAIL_PRINTER (source_object), result, &local_error);
 
-	if (e_activity_handle_cancellation (activity, error)) {
-		g_error_free (error);
+	if (e_activity_handle_cancellation (activity, local_error)) {
+		g_error_free (local_error);
 
-	} else if (error != NULL) {
+	} else if (local_error != NULL) {
 		e_alert_submit (
 			alert_sink, "mail:printing-failed",
-			error->message, NULL);
-		g_error_free (error);
+			local_error->message, NULL);
+		g_error_free (local_error);
 
 	} else {
 		/* Set activity as completed, and keep it displayed for a few
@@ -895,50 +926,27 @@ mail_reader_print_message_done_cb (GObject *source_object,
 		e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
 	}
 
-	g_object_unref (activity);
+	async_context_free (async_context);
 }
 
-struct _MessagePrintingContext {
+static void
+mail_reader_print_parse_message_cb (GObject *source_object,
+                                    GAsyncResult *result,
+                                    gpointer user_data)
+{
 	EMailReader *reader;
-	CamelFolder *folder;
-	gchar *message_uid;
-	GtkPrintOperationAction action;
-
-	EActivity *activity;
-};
-
-static void
-free_message_printing_context (struct _MessagePrintingContext *context)
-{
-	g_return_if_fail (context != NULL);
-
-	g_clear_object (&context->reader);
-	g_clear_object (&context->folder);
-	g_clear_object (&context->activity);
-
-	if (context->message_uid)
-		g_free (context->message_uid);
-
-	g_free (context);
-}
-
-static void
-mail_reader_do_print_message (GObject *object,
-                              GAsyncResult *result,
-                              gpointer user_data)
-{
-	EMailReader *reader = E_MAIL_READER (object);
 	EMailDisplay *mail_display;
 	EMailFormatter *formatter;
 	EActivity *activity;
 	GCancellable *cancellable;
 	EMailPrinter *printer;
 	EMailPartList *part_list;
-	struct _MessagePrintingContext *context = user_data;
+	AsyncContext *async_context;
 
-	activity = e_mail_reader_new_activity (context->reader);
-	e_activity_set_text (activity, _("Printing"));
-	e_activity_set_state (activity, E_ACTIVITY_RUNNING);
+	reader = E_MAIL_READER (source_object);
+	async_context = (AsyncContext *) user_data;
+
+	activity = async_context->activity;
 	cancellable = e_activity_get_cancellable (activity);
 
 	part_list = e_mail_reader_parse_message_finish (reader, result);
@@ -948,95 +956,145 @@ mail_reader_do_print_message (GObject *object,
 	mail_display = e_mail_reader_get_mail_display (reader);
 	formatter = e_mail_display_get_formatter (mail_display);
 
+	e_activity_set_text (activity, _("Printing"));
+
 	e_mail_printer_print (
-		printer, context->action, formatter, cancellable,
-		mail_reader_print_message_done_cb,
-		g_object_ref (activity));
+		printer,
+		async_context->print_action,
+		formatter,
+		cancellable,
+		mail_reader_print_message_cb,
+		async_context);
 
-	g_object_unref (activity);
 	g_object_unref (printer);
-
-	free_message_printing_context (context);
 }
 
 static void
-mail_reader_get_message_to_print_ready_cb (GObject *object,
-                                           GAsyncResult *result,
-                                           gpointer user_data)
+mail_reader_print_get_message_cb (GObject *source_object,
+                                  GAsyncResult *result,
+                                  gpointer user_data)
 {
+	EActivity *activity;
+	EAlertSink *alert_sink;
 	CamelMimeMessage *message;
-	struct _MessagePrintingContext *context = user_data;
+	GCancellable *cancellable;
+	AsyncContext *async_context;
+	GError *local_error = NULL;
 
-	message = camel_folder_get_message_finish (CAMEL_FOLDER (object), result, NULL);
-	if (!CAMEL_IS_MIME_MESSAGE (message)) {
-		free_message_printing_context (context);
+	async_context = (AsyncContext *) user_data;
+
+	activity = async_context->activity;
+	alert_sink = e_activity_get_alert_sink (activity);
+	cancellable = e_activity_get_cancellable (activity);
+
+	message = camel_folder_get_message_finish (
+		CAMEL_FOLDER (source_object), result, &local_error);
+
+	/* Sanity check. */
+	g_return_if_fail (
+		((message != NULL) && (local_error == NULL)) ||
+		((message == NULL) && (local_error != NULL)));
+
+	if (e_activity_handle_cancellation (activity, local_error)) {
+		async_context_free (async_context);
+		g_error_free (local_error);
+		return;
+
+	} else if (local_error != NULL) {
+		e_alert_submit (
+			alert_sink, "mail:no-retrieve-message",
+			local_error->message, NULL);
+		async_context_free (async_context);
+		g_error_free (local_error);
 		return;
 	}
 
-	/* "Retrieving message" activity (or NULL) */
-	g_clear_object (&context->activity);
+	e_activity_set_text (activity, "");
 
 	e_mail_reader_parse_message (
-		context->reader, context->folder, context->message_uid,
-		message, NULL, mail_reader_do_print_message, context);
+		async_context->reader,
+		async_context->folder,
+		async_context->message_uid,
+		message,
+		cancellable,
+		mail_reader_print_parse_message_cb,
+		async_context);
+
+	g_object_unref (message);
 }
 
 void
 e_mail_reader_print (EMailReader *reader,
                      GtkPrintOperationAction action)
 {
-	struct _MessagePrintingContext *context;
+	EActivity *activity;
+	CamelFolder *folder;
+	GCancellable *cancellable;
 	MessageList *message_list;
-
-	context = g_new0 (struct _MessagePrintingContext, 1);
-
-	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
-	context->reader = g_object_ref (reader);
-	context->message_uid = g_strdup (message_list->cursor_uid);
-	context->folder = g_object_ref (e_mail_reader_get_folder (reader));
-	context->activity = e_mail_reader_new_activity (reader);
-	context->action = action;
+	AsyncContext *async_context;
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
+	folder = e_mail_reader_get_folder (reader);
+	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
+
+	activity = e_mail_reader_new_activity (reader);
+	cancellable = e_activity_get_cancellable (activity);
+
+	async_context = g_slice_new0 (AsyncContext);
+	async_context->activity = g_object_ref (activity);
+	async_context->folder = g_object_ref (folder);
+	async_context->reader = g_object_ref (reader);
+	async_context->message_uid = g_strdup (message_list->cursor_uid);
+	async_context->print_action = action;
+
 	camel_folder_get_message (
-		context->folder, context->message_uid,
-		G_PRIORITY_DEFAULT, e_activity_get_cancellable (context->activity),
-		(GAsyncReadyCallback) mail_reader_get_message_to_print_ready_cb,
-		context);
+		async_context->folder,
+		async_context->message_uid,
+		G_PRIORITY_DEFAULT, cancellable,
+		mail_reader_print_get_message_cb,
+		async_context);
+
+	g_object_unref (activity);
 }
 
 static void
-mail_reader_remove_attachments_cb (CamelFolder *folder,
+mail_reader_remove_attachments_cb (GObject *source_object,
                                    GAsyncResult *result,
-                                   AsyncContext *context)
+                                   gpointer user_data)
 {
+	EActivity *activity;
 	EAlertSink *alert_sink;
-	GError *error = NULL;
+	AsyncContext *async_context;
+	GError *local_error = NULL;
 
-	alert_sink = e_mail_reader_get_alert_sink (context->reader);
+	async_context = (AsyncContext *) user_data;
 
-	e_mail_folder_remove_attachments_finish (folder, result, &error);
+	activity = async_context->activity;
+	alert_sink = e_activity_get_alert_sink (activity);
 
-	if (e_activity_handle_cancellation (context->activity, error)) {
-		g_error_free (error);
+	e_mail_folder_remove_attachments_finish (
+		CAMEL_FOLDER (source_object), result, &local_error);
 
-	} else if (error != NULL) {
+	if (e_activity_handle_cancellation (activity, local_error)) {
+		g_error_free (local_error);
+
+	} else if (local_error != NULL) {
 		e_alert_submit (
 			alert_sink,
 			"mail:remove-attachments",
-			error->message, NULL);
-		g_error_free (error);
+			local_error->message, NULL);
+		g_error_free (local_error);
 	}
 
-	async_context_free (context);
+	async_context_free (async_context);
 }
 
 void
 e_mail_reader_remove_attachments (EMailReader *reader)
 {
 	EActivity *activity;
-	AsyncContext *context;
+	AsyncContext *async_context;
 	GCancellable *cancellable;
 	CamelFolder *folder;
 	GPtrArray *uids;
@@ -1056,60 +1114,71 @@ e_mail_reader_remove_attachments (EMailReader *reader)
 	activity = e_mail_reader_new_activity (reader);
 	cancellable = e_activity_get_cancellable (activity);
 
-	context = g_slice_new0 (AsyncContext);
-	context->activity = activity;
-	context->reader = g_object_ref (reader);
+	async_context = g_slice_new0 (AsyncContext);
+	async_context->activity = g_object_ref (activity);
+	async_context->reader = g_object_ref (reader);
 
 	e_mail_folder_remove_attachments (
-		folder, uids, G_PRIORITY_DEFAULT,
-		cancellable, (GAsyncReadyCallback)
+		folder, uids,
+		G_PRIORITY_DEFAULT,
+		cancellable,
 		mail_reader_remove_attachments_cb,
-		context);
+		async_context);
+
+	g_object_unref (activity);
 
 	g_ptr_array_unref (uids);
 }
 
 static void
-mail_reader_remove_duplicates_cb (CamelFolder *folder,
+mail_reader_remove_duplicates_cb (GObject *source_object,
                                   GAsyncResult *result,
-                                  AsyncContext *context)
+                                  gpointer user_data)
 {
+	EActivity *activity;
 	EAlertSink *alert_sink;
+	CamelFolder *folder;
 	GHashTable *duplicates;
 	GtkWindow *parent_window;
 	guint n_duplicates;
-	GError *error = NULL;
+	AsyncContext *async_context;
+	GError *local_error = NULL;
 
-	alert_sink = e_mail_reader_get_alert_sink (context->reader);
-	parent_window = e_mail_reader_get_window (context->reader);
+	folder = CAMEL_FOLDER (source_object);
+	async_context = (AsyncContext *) user_data;
+
+	activity = async_context->activity;
+	alert_sink = e_activity_get_alert_sink (activity);
+
+	parent_window = e_mail_reader_get_window (async_context->reader);
 
 	duplicates = e_mail_folder_find_duplicate_messages_finish (
-		folder, result, &error);
+		folder, result, &local_error);
 
-	if (e_activity_handle_cancellation (context->activity, error)) {
-		g_warn_if_fail (duplicates == NULL);
-		async_context_free (context);
-		g_error_free (error);
+	/* Sanity check. */
+	g_return_if_fail (
+		((duplicates != NULL) && (local_error == NULL)) ||
+		((duplicates == NULL) && (local_error != NULL)));
+
+	if (e_activity_handle_cancellation (activity, local_error)) {
+		async_context_free (async_context);
+		g_error_free (local_error);
 		return;
 
-	} else if (error != NULL) {
-		g_warn_if_fail (duplicates == NULL);
+	} else if (local_error != NULL) {
 		e_alert_submit (
 			alert_sink,
 			"mail:find-duplicate-messages",
-			error->message, NULL);
-		async_context_free (context);
-		g_error_free (error);
+			local_error->message, NULL);
+		async_context_free (async_context);
+		g_error_free (local_error);
 		return;
 	}
 
-	g_return_if_fail (duplicates != NULL);
-
 	/* Finalize the activity here so we don't leave a message in
 	 * the task bar while prompting the user for confirmation. */
-	e_activity_set_state (context->activity, E_ACTIVITY_COMPLETED);
-	g_object_unref (context->activity);
-	context->activity = NULL;
+	e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
+	g_clear_object (&async_context->activity);
 
 	n_duplicates = g_hash_table_size (duplicates);
 
@@ -1158,15 +1227,15 @@ mail_reader_remove_duplicates_cb (CamelFolder *folder,
 
 	g_hash_table_destroy (duplicates);
 
-	async_context_free (context);
+	async_context_free (async_context);
 }
 
 void
 e_mail_reader_remove_duplicates (EMailReader *reader)
 {
 	EActivity *activity;
-	AsyncContext *context;
 	GCancellable *cancellable;
+	AsyncContext *async_context;
 	CamelFolder *folder;
 	GPtrArray *uids;
 
@@ -1185,15 +1254,18 @@ e_mail_reader_remove_duplicates (EMailReader *reader)
 	activity = e_mail_reader_new_activity (reader);
 	cancellable = e_activity_get_cancellable (activity);
 
-	context = g_slice_new0 (AsyncContext);
-	context->activity = activity;
-	context->reader = g_object_ref (reader);
+	async_context = g_slice_new0 (AsyncContext);
+	async_context->activity = g_object_ref (activity);
+	async_context->reader = g_object_ref (reader);
 
 	e_mail_folder_find_duplicate_messages (
-		folder, uids, G_PRIORITY_DEFAULT,
-		cancellable, (GAsyncReadyCallback)
+		folder, uids,
+		G_PRIORITY_DEFAULT,
+		cancellable,
 		mail_reader_remove_duplicates_cb,
-		context);
+		async_context);
+
+	g_object_unref (activity);
 
 	g_ptr_array_unref (uids);
 }
@@ -1251,59 +1323,80 @@ mail_reader_reply_message_parsed (GObject *object,
 	EMailReader *reader = E_MAIL_READER (object);
 	EMailPartList *part_list;
 	CamelMimeMessage *message;
-	AsyncContext *context = user_data;
+	AsyncContext *async_context;
+
+	async_context = (AsyncContext *) user_data;
 
 	part_list = e_mail_reader_parse_message_finish (reader, result);
 	message = e_mail_part_list_get_message (part_list);
 
-	backend = e_mail_reader_get_backend (context->reader);
+	backend = e_mail_reader_get_backend (async_context->reader);
 	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
 
 	em_utils_reply_to_message (
 		shell, message,
-		context->folder, context->message_uid,
-		context->reply_type, context->reply_style,
-		part_list, context->address);
+		async_context->folder,
+		async_context->message_uid,
+		async_context->reply_type,
+		async_context->reply_style,
+		part_list,
+		async_context->address);
 
 	g_object_unref (part_list);
-	async_context_free (context);
+
+	async_context_free (async_context);
 }
 
 static void
-mail_reader_get_message_ready_cb (CamelFolder *folder,
+mail_reader_get_message_ready_cb (GObject *source_object,
                                   GAsyncResult *result,
-                                  AsyncContext *context)
+                                  gpointer user_data)
 {
+	EActivity *activity;
 	EAlertSink *alert_sink;
+	GCancellable *cancellable;
 	CamelMimeMessage *message;
-	GError *error = NULL;
+	AsyncContext *async_context;
+	GError *local_error = NULL;
 
-	alert_sink = e_mail_reader_get_alert_sink (context->reader);
+	async_context = (AsyncContext *) user_data;
 
-	message = camel_folder_get_message_finish (folder, result, &error);
+	activity = async_context->activity;
+	alert_sink = e_activity_get_alert_sink (activity);
+	cancellable = e_activity_get_cancellable (activity);
 
-	if (e_activity_handle_cancellation (context->activity, error)) {
-		g_warn_if_fail (message == NULL);
-		async_context_free (context);
-		g_error_free (error);
+	message = camel_folder_get_message_finish (
+		CAMEL_FOLDER (source_object), result, &local_error);
+
+	/* Sanity check. */
+	g_return_if_fail (
+		((message != NULL) && (local_error == NULL)) ||
+		((message == NULL) && (local_error != NULL)));
+
+	if (e_activity_handle_cancellation (activity, local_error)) {
+		async_context_free (async_context);
+		g_error_free (local_error);
 		return;
 
-	} else if (error != NULL) {
-		g_warn_if_fail (message == NULL);
+	} else if (local_error != NULL) {
 		e_alert_submit (
 			alert_sink, "mail:no-retrieve-message",
-			error->message, NULL);
-		async_context_free (context);
-		g_error_free (error);
+			local_error->message, NULL);
+		async_context_free (async_context);
+		g_error_free (local_error);
 		return;
 	}
 
-	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
-
 	e_mail_reader_parse_message (
-		context->reader, context->folder,
-		context->message_uid, message, NULL,
-		mail_reader_reply_message_parsed, context);
+		async_context->reader,
+		async_context->folder,
+		async_context->message_uid,
+		message,
+		cancellable,
+		mail_reader_reply_message_parsed,
+		async_context);
+
+	g_object_unref (message);
 }
 
 void
@@ -1505,62 +1598,72 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 whole_message:
 	if (src_message == NULL) {
 		EActivity *activity;
-		AsyncContext *context;
 		GCancellable *cancellable;
+		AsyncContext *async_context;
 
 		activity = e_mail_reader_new_activity (reader);
 		cancellable = e_activity_get_cancellable (activity);
 
-		context = g_slice_new0 (AsyncContext);
-		context->activity = activity;
-		context->folder = g_object_ref (folder);
-		context->reader = g_object_ref (reader);
-		context->address = address; /* takes ownership of it, if set */
-		context->message_uid = g_strdup (uid);
-		context->reply_type = reply_type;
-		context->reply_style = reply_style;
+		async_context = g_slice_new0 (AsyncContext);
+		async_context->activity = g_object_ref (activity);
+		async_context->folder = g_object_ref (folder);
+		async_context->reader = g_object_ref (reader);
+		async_context->message_uid = g_strdup (uid);
+		async_context->reply_type = reply_type;
+		async_context->reply_style = reply_style;
+
+		if (address != NULL)
+			async_context->address = g_object_ref (address);
 
 		camel_folder_get_message (
-			context->folder, context->message_uid,
-			G_PRIORITY_DEFAULT, cancellable,
-			(GAsyncReadyCallback) mail_reader_get_message_ready_cb,
-			context);
+			async_context->folder,
+			async_context->message_uid,
+			G_PRIORITY_DEFAULT,
+			cancellable,
+			mail_reader_get_message_ready_cb,
+			async_context);
 
-		return;
+		g_object_unref (activity);
+
+	} else {
+		em_utils_reply_to_message (
+			shell, src_message, folder, uid,
+			reply_type, reply_style, part_list, address);
 	}
 
-	em_utils_reply_to_message (
-		shell, src_message, folder, uid,
-		reply_type, reply_style, part_list, address);
-
-	if (address)
-		g_object_unref (address);
+	g_clear_object (&address);
 }
 
 static void
-mail_reader_save_messages_cb (CamelFolder *folder,
+mail_reader_save_messages_cb (GObject *source_object,
                               GAsyncResult *result,
-                              AsyncContext *context)
+                              gpointer user_data)
 {
+	EActivity *activity;
 	EAlertSink *alert_sink;
-	GError *error = NULL;
+	AsyncContext *async_context;
+	GError *local_error = NULL;
 
-	alert_sink = e_mail_reader_get_alert_sink (context->reader);
+	async_context = (AsyncContext *) user_data;
 
-	e_mail_folder_save_messages_finish (folder, result, &error);
+	activity = async_context->activity;
+	alert_sink = e_activity_get_alert_sink (activity);
 
-	if (e_activity_handle_cancellation (context->activity, error)) {
-		g_error_free (error);
+	e_mail_folder_save_messages_finish (
+		CAMEL_FOLDER (source_object), result, &local_error);
 
-	} else if (error != NULL) {
+	if (e_activity_handle_cancellation (activity, local_error)) {
+		g_error_free (local_error);
+
+	} else if (local_error != NULL) {
 		e_alert_submit (
 			alert_sink,
 			"mail:save-messages",
-			error->message, NULL);
-		g_error_free (error);
+			local_error->message, NULL);
+		g_error_free (local_error);
 	}
 
-	async_context_free (context);
+	async_context_free (async_context);
 }
 
 void
@@ -1568,9 +1671,9 @@ e_mail_reader_save_messages (EMailReader *reader)
 {
 	EShell *shell;
 	EActivity *activity;
-	AsyncContext *context;
 	EMailBackend *backend;
 	GCancellable *cancellable;
+	AsyncContext *async_context;
 	EShellBackend *shell_backend;
 	CamelMessageInfo *info;
 	CamelFolder *folder;
@@ -1587,12 +1690,10 @@ e_mail_reader_save_messages (EMailReader *reader)
 	g_return_if_fail (uids != NULL && uids->len > 0);
 
 	if (uids->len > 1) {
-		GtkWidget *message_list = e_mail_reader_get_message_list (reader);
+		GtkWidget *message_list;
 
-		g_warn_if_fail (message_list != NULL);
-
-		if (message_list)
-			message_list_sort_uids (MESSAGE_LIST (message_list), uids);
+		message_list = e_mail_reader_get_message_list (reader);
+		message_list_sort_uids (MESSAGE_LIST (message_list), uids);
 	}
 
 	message_uid = g_ptr_array_index (uids, 0);
@@ -1643,15 +1744,19 @@ e_mail_reader_save_messages (EMailReader *reader)
 	activity = e_mail_reader_new_activity (reader);
 	cancellable = e_activity_get_cancellable (activity);
 
-	context = g_slice_new0 (AsyncContext);
-	context->activity = activity;
-	context->reader = g_object_ref (reader);
+	async_context = g_slice_new0 (AsyncContext);
+	async_context->activity = g_object_ref (activity);
+	async_context->reader = g_object_ref (reader);
 
 	e_mail_folder_save_messages (
 		folder, uids,
-		destination, G_PRIORITY_DEFAULT,
-		cancellable, (GAsyncReadyCallback)
-		mail_reader_save_messages_cb, context);
+		destination,
+		G_PRIORITY_DEFAULT,
+		cancellable,
+		mail_reader_save_messages_cb,
+		async_context);
+
+	g_object_unref (activity);
 
 	g_object_unref (destination);
 	g_ptr_array_unref (uids);
@@ -1682,60 +1787,66 @@ e_mail_reader_select_next_message (EMailReader *reader,
 
 /* Helper for e_mail_reader_create_filter_from_selected() */
 static void
-mail_reader_create_filter_cb (CamelFolder *folder,
+mail_reader_create_filter_cb (GObject *source_object,
                               GAsyncResult *result,
-                              AsyncContext *context)
+                              gpointer user_data)
 {
+	EActivity *activity;
 	EMailBackend *backend;
 	EMailSession *session;
 	EAlertSink *alert_sink;
 	CamelMimeMessage *message;
-	GError *error = NULL;
+	AsyncContext *async_context;
+	GError *local_error = NULL;
 
-	alert_sink = e_activity_get_alert_sink (context->activity);
+	async_context = (AsyncContext *) user_data;
 
-	message = camel_folder_get_message_finish (folder, result, &error);
+	activity = async_context->activity;
+	alert_sink = e_activity_get_alert_sink (activity);
 
-	if (e_activity_handle_cancellation (context->activity, error)) {
-		g_warn_if_fail (message == NULL);
-		async_context_free (context);
-		g_error_free (error);
+	message = camel_folder_get_message_finish (
+		CAMEL_FOLDER (source_object), result, &local_error);
+
+	/* Sanity check. */
+	g_return_if_fail (
+		((message != NULL) && (local_error == NULL)) ||
+		((message == NULL) && (local_error != NULL)));
+
+	if (e_activity_handle_cancellation (activity, local_error)) {
+		async_context_free (async_context);
+		g_error_free (local_error);
 		return;
 
-	} else if (error != NULL) {
-		g_warn_if_fail (message == NULL);
+	} else if (local_error != NULL) {
 		e_alert_submit (
 			alert_sink, "mail:no-retrieve-message",
-			error->message, NULL);
-		async_context_free (context);
-		g_error_free (error);
+			local_error->message, NULL);
+		async_context_free (async_context);
+		g_error_free (local_error);
 		return;
 	}
 
-	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
-
 	/* Finalize the activity here so we don't leave a message
 	 * in the task bar while displaying the filter editor. */
-	e_activity_set_state (context->activity, E_ACTIVITY_COMPLETED);
-	g_object_unref (context->activity);
-	context->activity = NULL;
+	e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
+	g_clear_object (&async_context->activity);
 
-	backend = e_mail_reader_get_backend (context->reader);
+	backend = e_mail_reader_get_backend (async_context->reader);
 	session = e_mail_backend_get_session (backend);
 
 	/* Switch to Incoming filter in case the message contains a Received header */
-	if (g_str_equal (context->filter_source, E_FILTER_SOURCE_OUTGOING) &&
+	if (g_str_equal (async_context->filter_source, E_FILTER_SOURCE_OUTGOING) &&
 	    camel_medium_get_header (CAMEL_MEDIUM (message), "received"))
-		context->filter_source = E_FILTER_SOURCE_INCOMING;
+		async_context->filter_source = E_FILTER_SOURCE_INCOMING;
 
 	filter_gui_add_from_message (
 		session, message,
-		context->filter_source,
-		context->filter_type);
+		async_context->filter_source,
+		async_context->filter_type);
 
 	g_object_unref (message);
 
-	async_context_free (context);
+	async_context_free (async_context);
 }
 
 void
@@ -1745,7 +1856,7 @@ e_mail_reader_create_filter_from_selected (EMailReader *reader,
 	EShell *shell;
 	EActivity *activity;
 	EMailBackend *backend;
-	AsyncContext *context;
+	AsyncContext *async_context;
 	GCancellable *cancellable;
 	ESourceRegistry *registry;
 	CamelFolder *folder;
@@ -1775,65 +1886,75 @@ e_mail_reader_create_filter_from_selected (EMailReader *reader,
 	activity = e_mail_reader_new_activity (reader);
 	cancellable = e_activity_get_cancellable (activity);
 
-	context = g_slice_new0 (AsyncContext);
-	context->activity = activity;
-	context->reader = g_object_ref (reader);
-	context->filter_source = filter_source;
-	context->filter_type = filter_type;
+	async_context = g_slice_new0 (AsyncContext);
+	async_context->activity = g_object_ref (activity);
+	async_context->reader = g_object_ref (reader);
+	async_context->filter_source = filter_source;
+	async_context->filter_type = filter_type;
 
 	camel_folder_get_message (
-		folder, message_uid, G_PRIORITY_DEFAULT,
-		cancellable, (GAsyncReadyCallback)
-		mail_reader_create_filter_cb, context);
+		folder, message_uid,
+		G_PRIORITY_DEFAULT,
+		cancellable,
+		mail_reader_create_filter_cb,
+		async_context);
+
+	g_object_unref (activity);
 
 	em_utils_uids_free (uids);
 }
 
 /* Helper for e_mail_reader_create_vfolder_from_selected() */
 static void
-mail_reader_create_vfolder_cb (CamelFolder *folder,
+mail_reader_create_vfolder_cb (GObject *source_object,
                                GAsyncResult *result,
-                               AsyncContext *context)
+                               gpointer user_data)
 {
+	EActivity *activity;
 	EMailBackend *backend;
 	EMailSession *session;
 	EAlertSink *alert_sink;
 	CamelMimeMessage *message;
 	CamelFolder *use_folder;
-	GError *error = NULL;
+	AsyncContext *async_context;
+	GError *local_error = NULL;
 
-	alert_sink = e_activity_get_alert_sink (context->activity);
+	async_context = (AsyncContext *) user_data;
 
-	message = camel_folder_get_message_finish (folder, result, &error);
+	activity = async_context->activity;
+	alert_sink = e_activity_get_alert_sink (activity);
 
-	if (e_activity_handle_cancellation (context->activity, error)) {
-		g_warn_if_fail (message == NULL);
-		async_context_free (context);
-		g_error_free (error);
+	message = camel_folder_get_message_finish (
+		CAMEL_FOLDER (source_object), result, &local_error);
+
+	/* Sanity check. */
+	g_return_if_fail (
+		((message != NULL) && (local_error == NULL)) ||
+		((message == NULL) && (local_error != NULL)));
+
+	if (e_activity_handle_cancellation (activity, local_error)) {
+		async_context_free (async_context);
+		g_error_free (local_error);
 		return;
 
-	} else if (error != NULL) {
-		g_warn_if_fail (message == NULL);
+	} else if (local_error != NULL) {
 		e_alert_submit (
 			alert_sink, "mail:no-retrieve-message",
-			error->message, NULL);
-		async_context_free (context);
-		g_error_free (error);
+			local_error->message, NULL);
+		async_context_free (async_context);
+		g_error_free (local_error);
 		return;
 	}
 
-	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
-
 	/* Finalize the activity here so we don't leave a message
 	 * in the task bar while displaying the vfolder editor. */
-	e_activity_set_state (context->activity, E_ACTIVITY_COMPLETED);
-	g_object_unref (context->activity);
-	context->activity = NULL;
+	e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
+	g_clear_object (&async_context->activity);
 
-	backend = e_mail_reader_get_backend (context->reader);
+	backend = e_mail_reader_get_backend (async_context->reader);
 	session = e_mail_backend_get_session (backend);
 
-	use_folder = context->folder;
+	use_folder = async_context->folder;
 	if (CAMEL_IS_VEE_FOLDER (use_folder)) {
 		CamelStore *parent_store;
 		CamelVeeFolder *vfolder;
@@ -1845,18 +1966,18 @@ mail_reader_create_vfolder_cb (CamelFolder *folder,
 		    vfolder == camel_vee_store_get_unmatched_folder (CAMEL_VEE_STORE (parent_store))) {
 			/* use source folder instead of the Unmatched folder */
 			use_folder = camel_vee_folder_get_vee_uid_folder (
-				vfolder, context->message_uid);
+				vfolder, async_context->message_uid);
 		}
 	}
 
 	vfolder_gui_add_from_message (
 		session, message,
-		context->filter_type,
+		async_context->filter_type,
 		use_folder);
 
 	g_object_unref (message);
 
-	async_context_free (context);
+	async_context_free (async_context);
 }
 
 void
@@ -1864,8 +1985,8 @@ e_mail_reader_create_vfolder_from_selected (EMailReader *reader,
                                             gint vfolder_type)
 {
 	EActivity *activity;
-	AsyncContext *context;
 	GCancellable *cancellable;
+	AsyncContext *async_context;
 	CamelFolder *folder;
 	GPtrArray *uids;
 	const gchar *message_uid;
@@ -1882,17 +2003,21 @@ e_mail_reader_create_vfolder_from_selected (EMailReader *reader,
 	activity = e_mail_reader_new_activity (reader);
 	cancellable = e_activity_get_cancellable (activity);
 
-	context = g_slice_new0 (AsyncContext);
-	context->activity = activity;
-	context->folder = g_object_ref (folder);
-	context->reader = g_object_ref (reader);
-	context->message_uid = g_strdup (message_uid);
-	context->filter_type = vfolder_type;
+	async_context = g_slice_new0 (AsyncContext);
+	async_context->activity = g_object_ref (activity);
+	async_context->folder = g_object_ref (folder);
+	async_context->reader = g_object_ref (reader);
+	async_context->message_uid = g_strdup (message_uid);
+	async_context->filter_type = vfolder_type;
 
 	camel_folder_get_message (
-		folder, message_uid, G_PRIORITY_DEFAULT,
-		cancellable, (GAsyncReadyCallback)
-		mail_reader_create_vfolder_cb, context);
+		folder, message_uid,
+		G_PRIORITY_DEFAULT,
+		cancellable,
+		mail_reader_create_vfolder_cb,
+		async_context);
+
+	g_object_unref (activity);
 
 	em_utils_uids_free (uids);
 }
@@ -2079,7 +2204,7 @@ e_mail_reader_parse_message (EMailReader *reader,
 	e_activity_set_text (activity, _("Parsing message"));
 
 	async_context = g_slice_new0 (AsyncContext);
-	async_context->activity = activity;  /* takes ownership */
+	async_context->activity = g_object_ref (activity);
 	async_context->folder = g_object_ref (folder);
 	async_context->message_uid = g_strdup (message_uid);
 	async_context->message = g_object_ref (message);
@@ -2098,6 +2223,7 @@ e_mail_reader_parse_message (EMailReader *reader,
 		G_PRIORITY_DEFAULT, cancellable);
 
 	g_object_unref (simple);
+	g_object_unref (activity);
 }
 
 EMailPartList *
