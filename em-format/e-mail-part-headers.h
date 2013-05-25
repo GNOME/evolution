@@ -32,10 +32,10 @@
 	((cls), E_TYPE_MAIL_PART_HEADERS, EMailPartHeadersClass))
 #define E_IS_MAIL_PART_HEADERS(obj) \
 	(G_TYPE_CHECK_INSTANCE_TYPE \
-	((cls), E_TYPE_MAIL_PART_HEADERS))
+	((obj), E_TYPE_MAIL_PART_HEADERS))
 #define E_IS_MAIL_PART_HEADERS_CLASS(cls) \
 	(G_TYPE_CHECK_CLASS_TYPE \
-	((obj), E_TYPE_MAIL_PART_HEADERS))
+	((cls), E_TYPE_MAIL_PART_HEADERS))
 #define E_MAIL_PART_HEADERS_GET_CLASS(obj) \
 	(G_TYPE_INSTANCE_GET_CLASS \
 	((obj), E_TYPE_MAIL_PART_HEADERS, EMailPartHeadersClass))
@@ -61,6 +61,11 @@ struct _EMailPartHeadersClass {
 GType		e_mail_part_headers_get_type	(void) G_GNUC_CONST;
 EMailPart *	e_mail_part_headers_new		(CamelMimePart *mime_part,
 						 const gchar *id);
+gchar **	e_mail_part_headers_dup_default_headers
+						(EMailPartHeaders *part);
+void		e_mail_part_headers_set_default_headers
+						(EMailPartHeaders *part,
+						 const gchar * const *default_headers);
 
 G_END_DECLS
 

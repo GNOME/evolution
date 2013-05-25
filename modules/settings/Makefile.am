@@ -31,6 +31,8 @@ module_settings_la_SOURCES = \
 	e-settings-mail-browser.h \
 	e-settings-mail-formatter.c \
 	e-settings-mail-formatter.h \
+	e-settings-mail-part-headers.c \
+	e-settings-mail-part-headers.h \
 	e-settings-mail-reader.c \
 	e-settings-mail-reader.h \
 	e-settings-meeting-store.c \

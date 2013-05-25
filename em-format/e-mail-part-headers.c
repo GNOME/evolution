@@ -18,10 +18,90 @@
 
 #include "e-mail-part-headers.h"
 
+#include <config.h>
+#include <glib/gi18n-lib.h>
+
+#define E_MAIL_PART_HEADERS_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_MAIL_PART_HEADERS, EMailPartHeadersPrivate))
+
+struct _EMailPartHeadersPrivate {
+	GMutex property_lock;
+	gchar **default_headers;
+};
+
+enum {
+	PROP_0,
+	PROP_DEFAULT_HEADERS
+};
+
 G_DEFINE_TYPE (
 	EMailPartHeaders,
 	e_mail_part_headers,
 	E_TYPE_MAIL_PART)
+
+static const gchar *basic_headers[] = {
+	N_("From"),
+	N_("Reply-To"),
+	N_("To"),
+	N_("Cc"),
+	N_("Bcc"),
+	N_("Subject"),
+	N_("Date"),
+	N_("Newsgroups"),
+	N_("Face"),
+	NULL
+};
+
+static void
+mail_part_headers_set_property (GObject *object,
+                                guint property_id,
+                                const GValue *value,
+                                GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_DEFAULT_HEADERS:
+			e_mail_part_headers_set_default_headers (
+				E_MAIL_PART_HEADERS (object),
+				g_value_get_boxed (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+mail_part_headers_get_property (GObject *object,
+                                guint property_id,
+                                GValue *value,
+                                GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_DEFAULT_HEADERS:
+			g_value_take_boxed (
+				value,
+				e_mail_part_headers_dup_default_headers (
+				E_MAIL_PART_HEADERS (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+mail_part_headers_finalize (GObject *object)
+{
+	EMailPartHeadersPrivate *priv;
+
+	priv = E_MAIL_PART_HEADERS_GET_PRIVATE (object);
+
+	g_mutex_clear (&priv->property_lock);
+
+	g_strfreev (priv->default_headers);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (e_mail_part_headers_parent_class)->finalize (object);
+}
 
 static void
 mail_part_headers_constructed (GObject *object)
@@ -70,16 +150,36 @@ e_mail_part_headers_class_init (EMailPartHeadersClass *class)
 	GObjectClass *object_class;
 	EMailPartClass *mail_part_class;
 
+	g_type_class_add_private (class, sizeof (EMailPartHeadersPrivate));
+
 	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = mail_part_headers_set_property;
+	object_class->get_property = mail_part_headers_get_property;
+	object_class->finalize = mail_part_headers_finalize;
 	object_class->constructed = mail_part_headers_constructed;
 
 	mail_part_class = E_MAIL_PART_CLASS (class);
 	mail_part_class->bind_dom_element = mail_part_headers_bind_dom_element;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_DEFAULT_HEADERS,
+		g_param_spec_boxed (
+			"default-headers",
+			"Default Headers",
+			"Headers to display by default",
+			G_TYPE_STRV,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
 }
 
 static void
 e_mail_part_headers_init (EMailPartHeaders *part)
 {
+	part->priv = E_MAIL_PART_HEADERS_GET_PRIVATE (part);
+
+	g_mutex_init (&part->priv->property_lock);
 }
 
 EMailPart *
@@ -91,5 +191,40 @@ e_mail_part_headers_new (CamelMimePart *mime_part,
 	return g_object_new (
 		E_TYPE_MAIL_PART_HEADERS,
 		"id", id, "mime-part", mime_part, NULL);
+}
+
+gchar **
+e_mail_part_headers_dup_default_headers (EMailPartHeaders *part)
+{
+	gchar **default_headers;
+
+	g_return_val_if_fail (E_IS_MAIL_PART_HEADERS (part), NULL);
+
+	g_mutex_lock (&part->priv->property_lock);
+
+	default_headers = g_strdupv (part->priv->default_headers);
+
+	g_mutex_unlock (&part->priv->property_lock);
+
+	return default_headers;
+}
+
+void
+e_mail_part_headers_set_default_headers (EMailPartHeaders *part,
+                                         const gchar * const *default_headers)
+{
+	g_return_if_fail (E_IS_MAIL_PART_HEADERS (part));
+
+	if (default_headers == NULL)
+		default_headers = basic_headers;
+
+	g_mutex_lock (&part->priv->property_lock);
+
+	g_strfreev (part->priv->default_headers);
+	part->priv->default_headers = g_strdupv ((gchar **) default_headers);
+
+	g_mutex_unlock (&part->priv->property_lock);
+
+	g_object_notify (G_OBJECT (part), "default-headers");
 }
 

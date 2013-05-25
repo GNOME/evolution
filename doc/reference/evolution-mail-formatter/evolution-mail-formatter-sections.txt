@@ -327,6 +327,8 @@ EMailPartAttachmentBarPrivate
 E_MAIL_PART_HEADERS_MIME_TYPE
 EMailPartHeaders
 e_mail_part_headers_new
+e_mail_part_headers_dup_default_headers
+e_mail_part_headers_set_default_headers
 <SUBSECTION Standard>
 E_MAIL_PART_HEADERS
 E_IS_MAIL_PART_HEADERS

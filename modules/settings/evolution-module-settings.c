@@ -25,6 +25,7 @@
 #include "e-settings-deprecated.h"
 #include "e-settings-mail-browser.h"
 #include "e-settings-mail-formatter.h"
+#include "e-settings-mail-part-headers.h"
 #include "e-settings-mail-reader.h"
 #include "e-settings-meeting-store.h"
 #include "e-settings-meeting-time-selector.h"
@@ -50,6 +51,7 @@ e_module_load (GTypeModule *type_module)
 	e_settings_deprecated_type_register (type_module);
 	e_settings_mail_browser_type_register (type_module);
 	e_settings_mail_formatter_type_register (type_module);
+	e_settings_mail_part_headers_type_register (type_module);
 	e_settings_mail_reader_type_register (type_module);
 	e_settings_meeting_store_type_register (type_module);
 	e_settings_meeting_time_selector_type_register (type_module);
