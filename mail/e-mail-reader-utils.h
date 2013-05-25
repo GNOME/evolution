@@ -87,8 +87,7 @@ EMailReaderHeader *
 gchar *		e_mail_reader_header_to_xml	(EMailReaderHeader *header);
 void		e_mail_reader_header_free	(EMailReaderHeader *header);
 
-void		e_mail_reader_parse_message
-						(EMailReader *reader,
+void		e_mail_reader_parse_message	(EMailReader *reader,
 						 CamelFolder *folder,
 						 const gchar *message_uid,
 						 CamelMimeMessage *message,
