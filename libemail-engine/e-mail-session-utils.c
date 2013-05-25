@@ -48,6 +48,8 @@ struct _AsyncContext {
 
 	CamelFilterDriver *driver;
 
+	CamelService *transport;
+
 	GCancellable *cancellable;
 	gint io_priority;
 
@@ -60,8 +62,6 @@ struct _AsyncContext {
 
 	gchar *folder_uri;
 	gchar *message_uid;
-	gchar *transport_uid;
-	gchar *sent_folder_uri;
 };
 
 static void
@@ -85,6 +85,9 @@ async_context_free (AsyncContext *context)
 	if (context->driver != NULL)
 		g_object_unref (context->driver);
 
+	if (context->transport != NULL)
+		g_object_unref (context->transport);
+
 	if (context->cancellable != NULL) {
 		camel_operation_pop_message (context->cancellable);
 		g_object_unref (context->cancellable);
@@ -101,8 +104,6 @@ async_context_free (AsyncContext *context)
 
 	g_free (context->folder_uri);
 	g_free (context->message_uid);
-	g_free (context->transport_uid);
-	g_free (context->sent_folder_uri);
 
 	g_slice_free (AsyncContext, context);
 }
@@ -515,85 +516,44 @@ mail_session_send_to_thread (GSimpleAsyncResult *simple,
                              GCancellable *cancellable)
 {
 	AsyncContext *context;
+	CamelProvider *provider;
+	CamelFolder *folder = NULL;
 	CamelFolder *local_sent_folder;
 	CamelServiceConnectionStatus status;
 	GString *error_messages;
 	gboolean copy_to_sent = TRUE;
+	gboolean did_connect = FALSE;
 	guint ii;
 	GError *error = NULL;
 
 	context = g_simple_async_result_get_op_res_gpointer (simple);
 
+	if (camel_address_length (context->recipients) == 0)
+		goto skip_send;
+
 	/* Send the message to all recipients. */
-	if (camel_address_length (context->recipients) > 0) {
-		CamelProvider *provider;
-		CamelService *service;
-		gboolean did_connect = FALSE;
 
-		service = camel_session_ref_service (
-			CAMEL_SESSION (session), context->transport_uid);
+	if (context->transport == NULL) {
+		g_simple_async_result_set_error (
+			simple, CAMEL_SERVICE_ERROR,
+			CAMEL_SERVICE_ERROR_UNAVAILABLE,
+			_("No mail transport service available"));
+		return;
+	}
 
-		if (service == NULL) {
-			g_simple_async_result_set_error (
-				simple, CAMEL_SERVICE_ERROR,
-				CAMEL_SERVICE_ERROR_URL_INVALID,
-				_("No mail service found with UID '%s'"),
-				context->transport_uid);
-			return;
-		}
+	provider = camel_service_get_provider (context->transport);
+	if ((provider->flags & CAMEL_PROVIDER_IS_REMOTE) != 0 &&
+	    !camel_session_get_online (CAMEL_SESSION (session))) {
+		/* silently ignore */
+		return;
+	}
 
-		if (!CAMEL_IS_TRANSPORT (service)) {
-			g_simple_async_result_set_error (
-				simple, CAMEL_SERVICE_ERROR,
-				CAMEL_SERVICE_ERROR_URL_INVALID,
-				_("UID '%s' is not a mail transport"),
-				context->transport_uid);
-			g_object_unref (service);
-			return;
-		}
+	status = camel_service_get_connection_status (context->transport);
+	if (status != CAMEL_SERVICE_CONNECTED) {
+		did_connect = TRUE;
 
-		provider = camel_service_get_provider (service);
-		if ((provider->flags & CAMEL_PROVIDER_IS_REMOTE) != 0 &&
-		    !camel_session_get_online (CAMEL_SESSION (session))) {
-			/* silently ignore */
-			g_object_unref (service);
-			return;
-		}
-
-		status = camel_service_get_connection_status (service);
-		if (status != CAMEL_SERVICE_CONNECTED) {
-			did_connect = TRUE;
-
-			camel_service_connect_sync (
-				service, cancellable, &error);
-
-			if (error != NULL) {
-				g_simple_async_result_take_error (simple, error);
-				g_object_unref (service);
-				return;
-			}
-		}
-
-		if (provider->flags & CAMEL_PROVIDER_DISABLE_SENT_FOLDER)
-			copy_to_sent = FALSE;
-
-		camel_transport_send_to_sync (
-			CAMEL_TRANSPORT (service),
-			context->message, context->from,
-			context->recipients, cancellable, &error);
-
-		if (did_connect) {
-			/* if the cancellable is cancelled, then the disconnect will not run,
-			 * thus reset it to ensure the service will be properly disconnected */
-			if (cancellable)
-				g_cancellable_reset (cancellable);
-
-			camel_service_disconnect_sync (
-				service, error == NULL,
-				cancellable, error ? NULL : &error);
-		}
-
-		g_object_unref (service);
+		camel_service_connect_sync (
+			context->transport, cancellable, &error);
 
 		if (error != NULL) {
 			g_simple_async_result_take_error (simple, error);
@@ -601,6 +561,36 @@ mail_session_send_to_thread (GSimpleAsyncResult *simple,
 		}
 	}
 
+	if (provider->flags & CAMEL_PROVIDER_DISABLE_SENT_FOLDER)
+		copy_to_sent = FALSE;
+
+	camel_transport_send_to_sync (
+		CAMEL_TRANSPORT (context->transport),
+		context->message, context->from,
+		context->recipients, cancellable, &error);
+
+	if (did_connect) {
+		/* Disconnect regardless of error or cancellation,
+		 * but be mindful of these conditions when calling
+		 * camel_service_disconnect_sync(). */
+		if (g_cancellable_is_cancelled (cancellable)) {
+			camel_service_disconnect_sync (
+				context->transport, FALSE, NULL, NULL);
+		} else if (error != NULL) {
+			camel_service_disconnect_sync (
+				context->transport, FALSE, cancellable, NULL);
+		} else {
+			camel_service_disconnect_sync (
+				context->transport, TRUE, cancellable, &error);
+		}
+
+		if (error != NULL) {
+			g_simple_async_result_take_error (simple, error);
+			return;
+		}
+	}
+
+skip_send:
 	/* Post the message to requested folders. */
 	for (ii = 0; ii < context->post_to_uris->len; ii++) {
 		CamelFolder *folder;
@@ -668,32 +658,19 @@ mail_session_send_to_thread (GSimpleAsyncResult *simple,
 		e_mail_session_get_local_folder (
 		session, E_MAIL_LOCAL_FOLDER_SENT);
 
-	/* Try to extract a CamelFolder from the Sent folder URI. */
-	if (context->sent_folder_uri != NULL) {
-		context->folder = e_mail_session_uri_to_folder_sync (
-			session, context->sent_folder_uri, 0,
-			cancellable, &error);
-		if (error != NULL) {
-			g_warn_if_fail (context->folder == NULL);
-			if (error_messages->len > 0)
-				g_string_append (error_messages, "\n\n");
-			g_string_append_printf (
-				error_messages,
-				_("Failed to append to %s: %s\n"
-				"Appending to local 'Sent' folder instead."),
-				context->sent_folder_uri, error->message);
-			g_clear_error (&error);
-		}
-	}
+	folder = e_mail_session_get_fcc_for_message_sync (
+		session, context->message, cancellable, &error);
 
-	/* Fall back to the local Sent folder. */
-	if (context->folder == NULL)
-		context->folder = g_object_ref (local_sent_folder);
+	/* Sanity check. */
+	g_return_if_fail (
+		((folder != NULL) && (error == NULL)) ||
+		((folder == NULL) && (error != NULL)));
 
 	/* Append the message. */
-	camel_folder_append_message_sync (
-		context->folder, context->message,
-		context->info, NULL, cancellable, &error);
+	if (folder != NULL)
+		camel_folder_append_message_sync (
+			folder, context->message,
+			context->info, NULL, cancellable, &error);
 
 	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
 		goto exit;
@@ -701,12 +678,10 @@ mail_session_send_to_thread (GSimpleAsyncResult *simple,
 	if (error == NULL)
 		goto cleanup;
 
-	/* If appending to a remote Sent folder failed,
-	 * try appending to the local Sent folder. */
-	if (context->folder != local_sent_folder) {
+	if (folder != NULL && folder != local_sent_folder) {
 		const gchar *description;
 
-		description = camel_folder_get_description (context->folder);
+		description = camel_folder_get_description (folder);
 
 		if (error_messages->len > 0)
 			g_string_append (error_messages, "\n\n");
@@ -715,6 +690,12 @@ mail_session_send_to_thread (GSimpleAsyncResult *simple,
 			_("Failed to append to %s: %s\n"
 			"Appending to local 'Sent' folder instead."),
 			description, error->message);
+	}
+
+	/* If appending to a remote Sent folder failed,
+	 * try appending to the local Sent folder. */
+	if (folder != local_sent_folder) {
+
 		g_clear_error (&error);
 
 		camel_folder_append_message_sync (
@@ -775,9 +756,11 @@ exit:
 	}
 
 	/* Synchronize the Sent folder. */
-	if (context->folder != NULL)
+	if (folder != NULL) {
 		camel_folder_synchronize_sync (
-			context->folder, FALSE, cancellable, NULL);
+			folder, FALSE, cancellable, NULL);
+		g_object_unref (folder);
+	}
 
 	g_string_free (error_messages, TRUE);
 }
@@ -786,17 +769,16 @@ static guint32
 get_message_size (CamelMimeMessage *message,
                   GCancellable *cancellable)
 {
-	guint32 res = 0;
 	CamelStream *null;
-
-	g_return_val_if_fail (message != NULL, 0);
+	guint32 size;
 
 	null = camel_stream_null_new ();
-	camel_data_wrapper_write_to_stream_sync (CAMEL_DATA_WRAPPER (message), null, cancellable, NULL);
-	res = CAMEL_STREAM_NULL (null)->written;
+	camel_data_wrapper_write_to_stream_sync (
+		CAMEL_DATA_WRAPPER (message), null, cancellable, NULL);
+	size = CAMEL_STREAM_NULL (null)->written;
 	g_object_unref (null);
 
-	return res;
+	return size;
 }
 
 void
@@ -815,74 +797,27 @@ e_mail_session_send_to (EMailSession *session,
 	CamelAddress *recipients;
 	CamelMedium *medium;
 	CamelMessageInfo *info;
-	ESourceRegistry *registry;
-	ESource *source = NULL;
+	CamelService *transport;
 	GPtrArray *post_to_uris;
 	struct _camel_header_raw *xev;
 	struct _camel_header_raw *header;
-	const gchar *string;
 	const gchar *resent_from;
-	gchar *transport_uid = NULL;
-	gchar *sent_folder_uri = NULL;
-	gboolean replies_to_origin_folder = FALSE;
 	GError *error = NULL;
 
 	g_return_if_fail (E_IS_MAIL_SESSION (session));
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
 
-	registry = e_mail_session_get_registry (session);
-
 	medium = CAMEL_MEDIUM (message);
 
 	camel_medium_set_header (medium, "X-Mailer", X_MAILER);
 
+	/* Do this before removing "X-Evolution" headers. */
+	transport = e_mail_session_ref_transport_for_message (
+		session, message);
+
 	xev = mail_tool_remove_xevolution_headers (message);
 
 	/* Extract directives from X-Evolution headers. */
-
-	string = camel_header_raw_find (&xev, "X-Evolution-Identity", NULL);
-	if (string != NULL) {
-		gchar *uid = g_strstrip (g_strdup (string));
-		source = e_source_registry_ref_source (registry, uid);
-		g_free (uid);
-	}
-
-	if (E_IS_SOURCE (source)) {
-		ESourceMailSubmission *extension;
-		const gchar *extension_name;
-
-		extension_name = E_SOURCE_EXTENSION_MAIL_SUBMISSION;
-		extension = e_source_get_extension (source, extension_name);
-
-		string = e_source_mail_submission_get_sent_folder (extension);
-		sent_folder_uri = g_strdup (string);
-
-		string = e_source_mail_submission_get_transport_uid (extension);
-		transport_uid = g_strdup (string);
-
-		replies_to_origin_folder = e_source_mail_submission_get_replies_to_origin_folder (extension);
-
-		g_object_unref (source);
-	}
-
-	string = camel_header_raw_find (&xev, "X-Evolution-Fcc", NULL);
-	if (sent_folder_uri == NULL && string != NULL)
-		sent_folder_uri = g_strstrip (g_strdup (string));
-
-	string = camel_header_raw_find (&xev, "X-Evolution-Transport", NULL);
-	if (transport_uid == NULL && string != NULL)
-		transport_uid = g_strstrip (g_strdup (string));
-
-	if (replies_to_origin_folder) {
-		string = camel_header_raw_find (&xev, "X-Evolution-Source-Flags", NULL);
-		if (string != NULL && strstr (string, "FORWARDED") == NULL) {
-			string = camel_header_raw_find (&xev, "X-Evolution-Source-Folder", NULL);
-			if (string != NULL && camel_header_raw_find (&xev, "X-Evolution-Source-Message", NULL) != NULL) {
-				g_free (sent_folder_uri);
-				sent_folder_uri = g_strstrip (g_strdup (string));
-			}
-		}
-	}
 
 	post_to_uris = g_ptr_array_new ();
 	for (header = xev; header != NULL; header = header->next) {
@@ -941,8 +876,10 @@ e_mail_session_send_to (EMailSession *session,
 
 	/* Miscellaneous preparations. */
 
-	info = camel_message_info_new_from_header (NULL, ((CamelMimePart *) message)->headers);
-	((CamelMessageInfoBase *) info)->size = get_message_size (message, cancellable);
+	info = camel_message_info_new_from_header (
+		NULL, CAMEL_MIME_PART (message)->headers);
+	((CamelMessageInfoBase *) info)->size =
+		get_message_size (message, cancellable);
 	camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN, ~0);
 
 	/* The rest of the processing happens in a thread. */
@@ -955,8 +892,7 @@ e_mail_session_send_to (EMailSession *session,
 	context->info = info;
 	context->xev = xev;
 	context->post_to_uris = post_to_uris;
-	context->transport_uid = transport_uid;
-	context->sent_folder_uri = sent_folder_uri;
+	context->transport = transport;
 
 	if (G_IS_CANCELLABLE (cancellable))
 		context->cancellable = g_object_ref (cancellable);

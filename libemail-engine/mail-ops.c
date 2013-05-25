@@ -564,49 +564,6 @@ static void	report_status		(struct _send_queue_msg *m,
 					 const gchar *desc,
 					 ...);
 
-static gboolean
-get_submission_details_from_identity (EMailSession *session,
-                                      const gchar *identity_uid,
-                                      gchar **out_transport_uid,
-                                      gchar **out_sent_folder_uri,
-                                      gboolean *out_replies_to_origin_folder)
-{
-	ESource *source;
-	ESourceRegistry *registry;
-	ESourceExtension *extension;
-	const gchar *extension_name;
-
-	registry = e_mail_session_get_registry (session);
-	extension_name = E_SOURCE_EXTENSION_MAIL_SUBMISSION;
-	source = e_source_registry_ref_source (registry, identity_uid);
-
-	if (source == NULL)
-		return FALSE;
-
-	if (!e_source_has_extension (source, extension_name)) {
-		g_object_unref (source);
-		return FALSE;
-	}
-
-	extension = e_source_get_extension (source, extension_name);
-
-	*out_sent_folder_uri =
-		e_source_mail_submission_dup_sent_folder (
-		E_SOURCE_MAIL_SUBMISSION (extension));
-
-	*out_transport_uid =
-		e_source_mail_submission_dup_transport_uid (
-		E_SOURCE_MAIL_SUBMISSION (extension));
-
-	*out_replies_to_origin_folder =
-		e_source_mail_submission_get_replies_to_origin_folder (
-		E_SOURCE_MAIL_SUBMISSION (extension));
-
-	g_object_unref (source);
-
-	return TRUE;
-}
-
 /* send 1 message to a specific transport */
 static void
 mail_send_message (struct _send_queue_msg *m,
@@ -622,10 +579,7 @@ mail_send_message (struct _send_queue_msg *m,
 	CamelAddress *from, *recipients;
 	CamelMessageInfo *info = NULL;
 	CamelProvider *provider = NULL;
-	gchar *transport_uid = NULL;
-	gchar *sent_folder_uri = NULL;
-	const gchar *resent_from, *tmp;
-	gboolean replies_to_origin_folder = FALSE;
+	const gchar *resent_from;
 	CamelFolder *folder = NULL;
 	GString *err = NULL;
 	struct _camel_header_raw *xev, *header;
@@ -640,44 +594,14 @@ mail_send_message (struct _send_queue_msg *m,
 
 	camel_medium_set_header (CAMEL_MEDIUM (message), "X-Mailer", x_mailer);
 
-	err = g_string_new ("");
-	xev = mail_tool_remove_xevolution_headers (message);
-
-	tmp = camel_header_raw_find (&xev, "X-Evolution-Identity", NULL);
-	if (tmp != NULL) {
-		gchar *identity_uid;
-
-		identity_uid = g_strstrip (g_strdup (tmp));
-		get_submission_details_from_identity (
-			m->session, identity_uid,
-			&transport_uid, &sent_folder_uri,
-			&replies_to_origin_folder);
-		g_free (identity_uid);
-	}
-
-	tmp = camel_header_raw_find (&xev, "X-Evolution-Transport", NULL);
-	if (transport_uid == NULL && tmp != NULL)
-		transport_uid = g_strstrip (g_strdup (tmp));
-
-	tmp = camel_header_raw_find (&xev, "X-Evolution-Fcc", NULL);
-	if (sent_folder_uri == NULL && tmp != NULL)
-		sent_folder_uri = g_strstrip (g_strdup (tmp));
-
-	if (replies_to_origin_folder) {
-		tmp = camel_header_raw_find (&xev, "X-Evolution-Source-Flags", NULL);
-		if (tmp != NULL && strstr (tmp, "FORWARDED") == NULL) {
-			tmp = camel_header_raw_find (&xev, "X-Evolution-Source-Folder", NULL);
-			if (tmp != NULL && camel_header_raw_find (&xev, "X-Evolution-Source-Message", NULL) != NULL) {
-				g_free (sent_folder_uri);
-				sent_folder_uri = g_strstrip (g_strdup (tmp));
-			}
-		}
-	}
-
-	service = camel_session_ref_service (
-		CAMEL_SESSION (m->session), transport_uid);
+	/* Do this before removing "X-Evolution" headers. */
+	service = e_mail_session_ref_transport_for_message (
+		m->session, message);
 	if (service != NULL)
 		provider = camel_service_get_provider (service);
+
+	err = g_string_new ("");
+	xev = mail_tool_remove_xevolution_headers (message);
 
 	if (CAMEL_IS_TRANSPORT (service)) {
 		const gchar *tuid;
@@ -689,8 +613,9 @@ mail_send_message (struct _send_queue_msg *m,
 
 	/* Check for email sending */
 	from = (CamelAddress *) camel_internet_address_new ();
-	resent_from = camel_medium_get_header (CAMEL_MEDIUM (message), "Resent-From");
-	if (resent_from) {
+	resent_from = camel_medium_get_header (
+		CAMEL_MEDIUM (message), "Resent-From");
+	if (resent_from != NULL) {
 		camel_address_decode (from, resent_from);
 	} else {
 		iaddr = camel_mime_message_get_from (message);
@@ -701,7 +626,10 @@ mail_send_message (struct _send_queue_msg *m,
 	for (i = 0; i < 3; i++) {
 		const gchar *type;
 
-		type = resent_from ? resent_recipients[i] : normal_recipients[i];
+		if (resent_from != NULL)
+			type = resent_recipients[i];
+		else
+			type = normal_recipients[i];
 		iaddr = camel_mime_message_get_recipients (message, type);
 		camel_address_cat (recipients, CAMEL_ADDRESS (iaddr));
 	}
@@ -739,7 +667,7 @@ mail_send_message (struct _send_queue_msg *m,
 		/* FIXME Not passing a GCancellable or GError here. */
 		folder = e_mail_session_uri_to_folder_sync (
 			m->session, uri, 0, NULL, NULL);
-		if (folder) {
+		if (folder != NULL) {
 			/* FIXME Not passing a GCancellable or GError here. */
 			camel_folder_append_message_sync (
 				folder, message, info, NULL, NULL, NULL);
@@ -782,71 +710,65 @@ mail_send_message (struct _send_queue_msg *m,
 
 	if (provider == NULL
 	    || !(provider->flags & CAMEL_PROVIDER_DISABLE_SENT_FOLDER)) {
+		CamelFolder *local_sent_folder;
 		GError *local_error = NULL;
 
-		if (sent_folder_uri) {
-			folder = e_mail_session_uri_to_folder_sync (
-				m->session, sent_folder_uri, 0,
+		local_sent_folder = e_mail_session_get_local_folder (
+			m->session, E_MAIL_LOCAL_FOLDER_SENT);
+
+		folder = e_mail_session_get_fcc_for_message_sync (
+			m->session, message, cancellable, &local_error);
+
+		/* Sanity check. */
+		g_return_if_fail (
+			((folder == NULL) && (local_error != NULL)) ||
+			((folder != NULL) && (local_error == NULL)));
+
+		if (local_error == NULL)
+			camel_folder_append_message_sync (
+				folder, message, info, NULL,
 				cancellable, &local_error);
 
-			if (local_error != NULL) {
-				g_string_append_printf (
-					err, _("Failed to append to %s: %s\n"
-					"Appending to local 'Sent' folder instead."),
-					sent_folder_uri,
-					local_error->message);
-				g_clear_error (&local_error);
-			}
-		}
+		if (g_error_matches (
+			local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+			goto exit;
 
-		if (!folder) {
-			folder = e_mail_session_get_local_folder (
-				m->session, E_MAIL_LOCAL_FOLDER_SENT);
-			g_object_ref (folder);
-		}
+		if (local_error != NULL && folder != local_sent_folder) {
 
-		if (!camel_folder_append_message_sync (
-			folder, message, info,
-			NULL, cancellable, &local_error)) {
-
-			CamelFolder *sent_folder;
-
-			if (g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-				goto exit;
-
-			sent_folder = e_mail_session_get_local_folder (
-				m->session, E_MAIL_LOCAL_FOLDER_SENT);
-
-			if (folder != sent_folder) {
+			if (folder != NULL) {
 				const gchar *description;
 
-				description = camel_folder_get_description (folder);
-				if (err->len)
+				description =
+					camel_folder_get_description (folder);
+				if (err->len > 0)
 					g_string_append (err, "\n\n");
 				g_string_append_printf (
-					err, _("Failed to append to %s: %s\n"
+					err,
+					_("Failed to append to %s: %s\n"
 					"Appending to local 'Sent' folder instead."),
-					description, local_error->message);
-				g_object_ref (sent_folder);
-				g_object_unref (folder);
-				folder = sent_folder;
+					description,
+					local_error->message);
 
-				g_clear_error (&local_error);
-				camel_folder_append_message_sync (
-					folder, message, info,
-					NULL, cancellable, &local_error);
+				g_object_unref (folder);
 			}
 
-			if (local_error != NULL) {
-				if (g_error_matches (
-					local_error, G_IO_ERROR,
-					G_IO_ERROR_CANCELLED))
-					goto exit;
+			g_clear_error (&local_error);
+			folder = g_object_ref (local_sent_folder);
 
-				if (err->len)
+			camel_folder_append_message_sync (
+				folder, message, info, NULL,
+				cancellable, &local_error);
+
+			if (g_error_matches (
+				local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+				goto exit;
+
+			if (local_error != NULL) {
+				if (err->len > 0)
 					g_string_append (err, "\n\n");
 				g_string_append_printf (
-					err, _("Failed to append to "
+					err,
+					_("Failed to append to "
 					"local 'Sent' folder: %s"),
 					local_error->message);
 			}
@@ -887,7 +809,7 @@ mail_send_message (struct _send_queue_msg *m,
 		camel_folder_synchronize_sync (queue, FALSE, NULL, NULL);
 	}
 
-	if (err->len) {
+	if (err->len > 0) {
 		/* set the culmulative exception report */
 		g_set_error (
 			&local_error, CAMEL_ERROR,
@@ -899,11 +821,12 @@ exit:
 		g_propagate_error (error, local_error);
 
 	/* FIXME Not passing a GCancellable or GError here. */
-	if (folder) {
+	if (folder != NULL) {
 		camel_folder_synchronize_sync (folder, FALSE, NULL, NULL);
 		g_object_unref (folder);
 	}
-	if (info)
+
+	if (info != NULL)
 		camel_message_info_free (info);
 
 	if (service != NULL)
@@ -911,8 +834,6 @@ exit:
 
 	g_object_unref (recipients);
 	g_object_unref (from);
-	g_free (sent_folder_uri);
-	g_free (transport_uid);
 	camel_header_raw_clear (&xev);
 	g_string_free (err, TRUE);
 	g_object_unref (message);
