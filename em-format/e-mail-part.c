@@ -58,10 +58,12 @@ enum {
 	PROP_PART_LIST
 };
 
-G_DEFINE_TYPE (
+G_DEFINE_TYPE_WITH_CODE (
 	EMailPart,
 	e_mail_part,
-	G_TYPE_OBJECT)
+	G_TYPE_OBJECT,
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_EXTENSIBLE, NULL))
 
 static void
 mail_part_validity_pair_free (gpointer ptr)
@@ -228,6 +230,15 @@ mail_part_finalize (GObject *object)
 }
 
 static void
+mail_part_constructed (GObject *object)
+{
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_mail_part_parent_class)->constructed (object);
+
+	e_extensible_load_extensions (E_EXTENSIBLE (object));
+}
+
+static void
 e_mail_part_class_init (EMailPartClass *class)
 {
 	GObjectClass *object_class;
@@ -239,6 +250,7 @@ e_mail_part_class_init (EMailPartClass *class)
 	object_class->get_property = mail_part_get_property;
 	object_class->dispose = mail_part_dispose;
 	object_class->finalize = mail_part_finalize;
+	object_class->constructed = mail_part_constructed;
 
 	g_object_class_install_property (
 		object_class,
