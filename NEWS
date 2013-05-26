@@ -1,3 +1,48 @@
+Evolution 3.9.2 2013-05-27
+--------------------------
+
+Bug Fixes:
+	Bug 301323 - "Edit as new message" doesn't strip signature properly
+	             (Milan Crha)
+	Bug 696531 - Force white background for HTML parts (Milan Crha)
+	Bug 697632 - [mail-to-task] Invalid unref of a CamelFolder
+	             (Samarjit Adhikari)
+	Bug 699334 - Calendar: reply all doesn't quite work (Milan Crha)
+	Bug 699551 - Signature is not removed on reply (Milan Crha)
+	Bug 699555 - prompt-on-mark-all-read doesn't work in context menu
+	             (Milan Crha)
+	Bug 699980 - Calendar delete does not remove events from view
+	             (Milan Crha)
+	Bug 700028 - Drag-n-drop export of a file produces 0 sized PDF file
+	             (Matthew Barnes)
+
+Other Changes:
+	* Make sure EAddressbookModel has a fresh EBookClient. (Matthew Barnes)
+	* Merge [mark-all-read] plugin into core code (Milan Crha)
+	* contact-photos: Obtain an EClient asynchronously. (Matthew Barnes)
+	* Right-align mail header names. (Matthew Barnes)
+	* Improve mail header layout in right-to-left locales. (Matthew Barnes)
+	* Remove "drag-and-drop-save-name-format" setting. (Matthew Barnes)
+	* Convert EMailPart to a GObject. (Matthew Barnes)
+	* Use an user-friendlier message when update comp-editor fails
+	  (Fabiano Fidêncio)
+	* Make EAttachment a little more thread-safe. (Matthew Barnes)
+	* EMailSession: Add helper functions for sending messages.
+	  (Matthew Barnes)
+
+Translations:
+	Nilamdyuti Goswami (as)
+	Marek Černocký (cs)
+	Daniel Mustieles (es)
+	Sweta Kothari (gu)
+	OKANO Takayoshi (ja)
+	Kjartan Maraas (nb)
+	ManojKumar Giri (or)
+	Piotr Drąg (pl)
+	Yuri Myasoedov (ru)
+	Matej Urbančič (sl)
+
+
 Evolution 3.9.1 2013-04-29
 --------------------------
 
