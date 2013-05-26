@@ -13,7 +13,7 @@ module_offline_alert_la_SOURCES = \
 
 module_offline_alert_la_LIBADD = \
 	$(top_builddir)/e-util/libevolution-util.la		\
-	$(top_builddir)/shell/libeshell.la			\
+	$(top_builddir)/shell/libevolution-shell.la		\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
 	$(GTKHTML_LIBS)

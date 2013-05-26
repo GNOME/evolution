@@ -15,7 +15,7 @@ module_mdn_la_LIBADD = \
 	$(top_builddir)/libemail-engine/libemail-engine.la	\
 	$(top_builddir)/mail/libevolution-mail.la		\
 	$(top_builddir)/e-util/libevolution-util.la		\
-	$(top_builddir)/shell/libeshell.la			\
+	$(top_builddir)/shell/libevolution-shell.la		\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
 	$(GTKHTML_LIBS)

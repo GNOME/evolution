@@ -17,7 +17,7 @@ liborg_gnome_mail_to_task_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 
 liborg_gnome_mail_to_task_la_LIBADD =	\
 	$(top_builddir)/e-util/libevolution-util.la			\
-	$(top_builddir)/shell/libeshell.la				\
+	$(top_builddir)/shell/libevolution-shell.la			\
 	$(top_builddir)/em-format/libemformat.la			\
 	$(top_builddir)/calendar/gui/libevolution-calendar.la		\
 	$(top_builddir)/mail/libevolution-mail.la			\

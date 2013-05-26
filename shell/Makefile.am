@@ -2,9 +2,9 @@
 bin_PROGRAMS = evolution
 
 # Shell library
-privsolib_LTLIBRARIES = libeshell.la
+privsolib_LTLIBRARIES = libevolution-shell.la
 
-eshellincludedir = $(privincludedir)/shell
+evolution_shell_includedir = $(privincludedir)/shell
 
 ENUM_TYPES = e-shell.h
 
@@ -21,7 +21,7 @@ e-shell-enumtypes.c: $(top_srcdir)/enumtypes.c.template $(ENUM_TYPES)
 
 ENUM_GENERATED = e-shell-enumtypes.h e-shell-enumtypes.c
 
-eshellinclude_HEADERS = 			\
+evolution_shell_include_HEADERS =		\
 	e-shell.h				\
 	e-shell-backend.h			\
 	e-shell-common.h			\
@@ -37,7 +37,7 @@ eshellinclude_HEADERS = 			\
 	e-shell-window-actions.h		\
 	es-event.h
 
-libeshell_la_CPPFLAGS =						\
+libevolution_shell_la_CPPFLAGS =				\
 	$(AM_CPPFLAGS)						\
 	$(NM_CPPFLAGS)						\
 	-I$(top_srcdir)						\
@@ -64,8 +64,8 @@ libeshell_la_CPPFLAGS =						\
 	$(GTKHTML_CFLAGS)					\
 	$(CLUTTER_GTK_CFLAGS)
 
-libeshell_la_SOURCES =				\
-	$(eshellinclude_HEADERS)		\
+libevolution_shell_la_SOURCES =			\
+	$(evolution_shell_include_HEADERS)	\
 	e-shell.c				\
 	e-shell-backend.c			\
 	e-shell-content.c			\
@@ -85,9 +85,9 @@ libeshell_la_SOURCES =				\
 	evo-version.h				\
 	es-event.c
 
-libeshell_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
+libevolution_shell_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 
-libeshell_la_LIBADD =					\
+libevolution_shell_la_LIBADD =				\
 	$(top_builddir)/e-util/libevolution-util.la	\
 	$(EVOLUTION_DATA_SERVER_LIBS)			\
 	$(GNOME_PLATFORM_LIBS)				\
@@ -130,7 +130,7 @@ evolution_SOURCES =				\
 	e-migrate-base-dirs.c
 
 evolution_LDADD =							\
-	libeshell.la							\
+	libevolution-shell.la						\
 	$(top_builddir)/e-util/libevolution-util.la			\
 	$(EVOLUTION_DATA_SERVER_LIBS)					\
 	$(GNOME_PLATFORM_LIBS)						\

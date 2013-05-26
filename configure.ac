@@ -1429,7 +1429,7 @@ data/evolution-alarm-notify.desktop.in
 data/icons/Makefile
 doc/Makefile
 doc/reference/Makefile
-doc/reference/libeshell/Makefile
+doc/reference/evolution-shell/Makefile
 doc/reference/evolution-util/Makefile
 e-util/Makefile
 em-format/Makefile

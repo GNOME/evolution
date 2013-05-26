@@ -25,7 +25,7 @@ liborg_gnome_itip_formatter_la_LIBADD =				\
 	$(top_builddir)/e-util/libevolution-util.la		\
 	$(top_builddir)/calendar/gui/libevolution-calendar.la	\
 	$(top_builddir)/mail/libevolution-mail.la		\
-	$(top_builddir)/shell/libeshell.la			\
+	$(top_builddir)/shell/libevolution-shell.la		\
 	$(top_builddir)/em-format/libemformat.la		\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\

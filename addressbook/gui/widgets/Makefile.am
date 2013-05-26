@@ -73,7 +73,7 @@ libeabwidgets_la_SOURCES =			\
 	ea-addressbook.h
 
 libeabwidgets_la_LIBADD =					\
-	$(top_builddir)/shell/libeshell.la			\
+	$(top_builddir)/shell/libevolution-shell.la		\
 	$(top_builddir)/e-util/libevolution-util.la		\
 	$(top_builddir)/addressbook/util/libeabutil.la		\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\

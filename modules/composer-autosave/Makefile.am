@@ -16,7 +16,7 @@ module_composer_autosave_la_SOURCES = \
 	e-composer-registry.c
 
 module_composer_autosave_la_LIBADD = \
-	$(top_builddir)/shell/libeshell.la			\
+	$(top_builddir)/shell/libevolution-shell.la		\
 	$(top_builddir)/composer/libcomposer.la			\
 	$(top_builddir)/e-util/libevolution-util.la		\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\

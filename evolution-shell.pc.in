@@ -19,5 +19,5 @@ Description: libraries needed for Evolution shell components
 Version: @VERSION@
 Requires: gtk+-3.0 libebackend-1.2 webkitgtk-3.0 libgtkhtml-4.0 gtkhtml-editor-4.0
 Requires.private: gnome-desktop-3.0
-Libs: -L${privlibdir} -leshell -levolution-util -Wl,-R${privlibdir}
+Libs: -L${privlibdir} -levolution-shell -levolution-util -Wl,-R${privlibdir}
 Cflags: -I${privincludedir}

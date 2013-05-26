@@ -67,7 +67,7 @@ module_calendar_la_SOURCES = \
 	e-task-shell-view-private.h
 
 module_calendar_la_LIBADD = \
-	$(top_builddir)/shell/libeshell.la		\
+	$(top_builddir)/shell/libevolution-shell.la		\
 	$(top_builddir)/calendar/gui/libevolution-calendar.la	\
 	$(top_builddir)/calendar/importers/libevolution-calendar-importers.la	\
 	$(top_builddir)/mail/libevolution-mail.la \

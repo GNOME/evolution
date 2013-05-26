@@ -1,12 +1,15 @@
 <?xml version="1.0"?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
-               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
-<book id="index" xmlns:xi="http://www.w3.org/2003/XInclude">
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+               "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"
+[
+  <!ENTITY % local.common.attrib "xmlns:xi  CDATA  #FIXED 'http://www.w3.org/2003/XInclude'">
+]>
+<book id="index">
   <bookinfo>
     <title>Evolution Shell Reference Manual</title>
     <releaseinfo>
       The latest version of this documentation can be found on-line at
-      <ulink role="online-location" url="http://library.gnome.org/devel/libeshell/">http://library.gnome.org/devel/libeshell/</ulink>.
+      <ulink role="online-location" url="http://developer.gnome.org/evolution-shell/">http://developer.gnome.org/evolution-shell/</ulink>.
     </releaseinfo>
   </bookinfo>
 
@@ -30,7 +33,7 @@
     <xi:include href="xml/action-groups.xml"/>
   </chapter>
 
-  <chapter>
+  <chapter id="object-tree">
     <title>Object Hierarchy</title>
     <xi:include href="xml/tree_index.sgml"/>
   </chapter>

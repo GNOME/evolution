@@ -203,7 +203,7 @@ libevolution_calendar_la_LIBADD =					\
 	$(top_builddir)/composer/libcomposer.la				\
 	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la \
 	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la \
-	$(top_builddir)/shell/libeshell.la				\
+	$(top_builddir)/shell/libevolution-shell.la			\
 	$(top_builddir)/calendar/gui/dialogs/libcal-dialogs.la		\
 	$(top_builddir)/calendar/importers/libevolution-calendar-importers.la \
 	$(top_builddir)/e-util/libevolution-util.la			\

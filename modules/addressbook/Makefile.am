@@ -54,7 +54,7 @@ module_addressbook_la_LIBADD = \
 	$(top_builddir)/e-util/libevolution-util.la		\
 	$(top_builddir)/composer/libcomposer.la			\
 	$(top_builddir)/addressbook/printing/libecontactprint.la \
-	$(top_builddir)/shell/libeshell.la			\
+	$(top_builddir)/shell/libevolution-shell.la		\
 	$(top_builddir)/addressbook/gui/merging/libeabbookmerging.la \
 	$(top_builddir)/addressbook/gui/widgets/libeabwidgets.la \
 	$(top_builddir)/addressbook/util/libeabutil.la		\

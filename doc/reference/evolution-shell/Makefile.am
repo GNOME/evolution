@@ -1,5 +1,5 @@
 # The name of the module.
-DOC_MODULE=libeshell
+DOC_MODULE=evolution-shell
 
 # The top-level SGML file.
 DOC_MAIN_SGML_FILE=$(DOC_MODULE)-docs.sgml
@@ -28,7 +28,7 @@ GTKDOC_CFLAGS= \
 
 GTKDOC_LIBS=								\
 	$(top_builddir)/libemail-engine/libemail-engine.la		\
-	$(top_builddir)/shell/libeshell.la				\
+	$(top_builddir)/shell/libevolution-shell.la			\
 	$(top_builddir)/e-util/libevolution-util.la			\
 	$(EVOLUTION_DATA_SERVER_LIBS)					\
 	$(GNOME_PLATFORM_LIBS)						\
