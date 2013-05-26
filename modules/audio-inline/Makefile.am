@@ -22,7 +22,7 @@ module_audio_inline_la_SOURCES =				\
 module_audio_inline_la_LIBADD =				\
 	$(top_builddir)/e-util/libevolution-util.la			\
 	$(top_builddir)/mail/libevolution-mail.la			\
-	$(top_builddir)/em-format/libemformat.la			\
+	$(top_builddir)/em-format/libevolution-mail-formatter.la	\
 	$(EVOLUTION_DATA_SERVER_LIBS)					\
 	$(GNOME_PLATFORM_LIBS)						\
 	$(GTKHTML_LIBS)							\

@@ -40,7 +40,6 @@ e_mail_parser_extension_init (EMailParserExtension *extension)
  * @parser: a #EMailParser
  * @mime_part: (allow-none) a #CamelMimePart to parse
  * @part_id: a #GString to which parser will append ID of the parsed part.
- * @flags: #EMailParserFlags
  * @cancellable: (allow-none) A #GCancellable
  * @out_mail_parts: a #GQueue to deposit #EMailPart instances
  *

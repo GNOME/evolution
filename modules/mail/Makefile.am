@@ -43,7 +43,7 @@ module_mail_la_SOURCES = \
 module_mail_la_LIBADD = \
 	$(top_builddir)/libemail-engine/libemail-engine.la		\
 	$(top_builddir)/e-util/libevolution-util.la			\
-	$(top_builddir)/em-format/libemformat.la			\
+	$(top_builddir)/em-format/libevolution-mail-formatter.la	\
 	$(top_builddir)/shell/libevolution-shell.la			\
 	$(top_builddir)/composer/libcomposer.la				\
 	$(top_builddir)/mail/libevolution-mail.la			\

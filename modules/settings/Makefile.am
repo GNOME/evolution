@@ -49,7 +49,7 @@ module_settings_la_SOURCES = \
 
 module_settings_la_LIBADD = \
 	$(top_builddir)/e-util/libevolution-util.la \
-	$(top_builddir)/em-format/libemformat.la \
+	$(top_builddir)/em-format/libevolution-mail-formatter.la \
 	$(top_builddir)/shell/libevolution-shell.la \
 	$(top_builddir)/mail/libevolution-mail.la \
 	$(top_builddir)/calendar/gui/libevolution-calendar.la \

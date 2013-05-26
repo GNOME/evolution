@@ -35,7 +35,7 @@
 #define d(x)
 
 /**
- * e_mail_parst_is_secured:
+ * e_mail_part_is_secured:
  * @part: a #CamelMimePart
  *
  * Whether @part is signed or encrypted or not.
@@ -56,7 +56,7 @@ e_mail_part_is_secured (CamelMimePart *part)
 }
 
 /**
- * e_mail_partr_snoop_type:
+ * e_mail_part_snoop_type:
  * @part: a #CamelMimePart
  *
  * Tries to snoop the mime type of a part.
@@ -476,7 +476,7 @@ e_mail_part_build_uri (CamelFolder *folder,
 /**
  * e_mail_part_describe:
  * @part: a #CamelMimePart
- * @mimetype: mimetype of the content
+ * @mime_type: MIME type of the content
  *
  * Generate a simple textual description of a part, @mime_type represents
  * the content.

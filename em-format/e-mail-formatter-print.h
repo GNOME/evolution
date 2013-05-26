@@ -45,7 +45,6 @@ G_BEGIN_DECLS;
 
 typedef struct _EMailFormatterPrint EMailFormatterPrint;
 typedef struct _EMailFormatterPrintClass EMailFormatterPrintClass;
-typedef struct _EMailFormatterPrintContext EMailFormatterPrintContext;
 
 struct _EMailFormatterPrint {
 	EMailFormatter parent;

@@ -20,7 +20,7 @@ module_vcard_inline_la_SOURCES =				\
 
 module_vcard_inline_la_LIBADD =				\
 	$(top_builddir)/mail/libevolution-mail.la			\
-	$(top_builddir)/em-format/libemformat.la			\
+	$(top_builddir)/em-format/libevolution-mail-formatter.la	\
 	$(top_builddir)/addressbook/util/libeabutil.la			\
 	$(top_builddir)/addressbook/gui/widgets/libeabwidgets.la	\
 	$(top_builddir)/addressbook/gui/merging/libeabbookmerging.la	\

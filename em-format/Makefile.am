@@ -1,8 +1,8 @@
-emformatincludedir = $(privincludedir)/em-format
+evolution_mail_formatter_includedir = $(privincludedir)/em-format
 
-privsolib_LTLIBRARIES = libemformat.la
+privsolib_LTLIBRARIES = libevolution-mail-formatter.la
 
-emformatinclude_HEADERS =				\
+evolution_mail_formatter_include_HEADERS =		\
 	e-mail-extension-registry.h			\
 	e-mail-formatter-extension.h			\
 	e-mail-formatter.h				\
@@ -21,7 +21,7 @@ emformatinclude_HEADERS =				\
 	e-mail-part-utils.h				\
 	e-mail-stripsig-filter.h
 
-libemformat_la_CPPFLAGS =				\
+libevolution_mail_formatter_la_CPPFLAGS =		\
 	$(AM_CPPFLAGS)					\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/em-format			\
@@ -38,8 +38,8 @@ if ENABLE_SMIME
 SMIME_EXTENSIONS = e-mail-parser-application-smime.c
 endif
 
-libemformat_la_SOURCES =				\
-	$(emformatinclude_HEADERS)			\
+libevolution_mail_formatter_la_SOURCES =		\
+	$(evolution_mail_formatter_include_HEADERS)	\
 	e-mail-extension-registry.c			\
 	e-mail-inline-filter.c				\
 	e-mail-formatter.c				\
@@ -99,7 +99,7 @@ libemformat_la_SOURCES =				\
 	e-mail-stripsig-filter.c			\
 	$(SMIME_EXTENSIONS)
 
-libemformat_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
+libevolution_mail_formatter_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 
 
 if ENABLE_SMIME
@@ -108,7 +108,7 @@ SMIME_LIBS =						\
 	$(top_builddir)/smime/gui/libevolution-smime.la
 endif
 
-libemformat_la_LIBADD =					\
+libevolution_mail_formatter_la_LIBADD =			\
 	$(top_builddir)/e-util/libevolution-util.la	\
 	$(top_builddir)/shell/libevolution-shell.la	\
 	$(top_builddir)/libemail-engine/libemail-engine.la \

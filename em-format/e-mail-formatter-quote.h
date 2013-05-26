@@ -62,7 +62,6 @@ struct _EMailFormatterQuoteContext {
 
 struct _EMailFormatterQuote {
 	EMailFormatter parent;
-
 	EMailFormatterQuotePrivate *priv;
 };
 

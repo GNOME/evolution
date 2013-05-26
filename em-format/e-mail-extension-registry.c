@@ -142,7 +142,7 @@ e_mail_extension_registry_init (EMailExtensionRegistry *registry)
 
 /**
  * e_mail_extension_registry_get_for_mime_type:
- * @regstry: An #EMailExtensionRegistry
+ * @registry: An #EMailExtensionRegistry
  * @mime_type: A string with mime-type to look up
  *
  * Tries to lookup list of #EMailExtension<!-//>s that has registryed themselves
