@@ -1,7 +1,7 @@
 if OS_WIN32
 NO_UNDEFINED_REQUIRED_LIBS = \
 	$(GNOME_PLATFORM_LIBS) \
-	$(top_builddir)/e-util/libeutil.la \
+	$(top_builddir)/e-util/libevoluiton-util.la \
 	$(top_builddir)/mail/libevolution-mail.la
 endif
 
@@ -36,7 +36,7 @@ liborg_gnome_external_editor_la_SOURCES = 		\
 liborg_gnome_external_editor_la_LDFLAGS = \
 	-module -avoid-version $(NO_UNDEFINED)
 liborg_gnome_external_editor_la_LIBADD = 			\
-	$(top_builddir)/e-util/libeutil.la 			\
+	$(top_builddir)/e-util/libevolution-util.la		\
 	$(top_builddir)/composer/libcomposer.la 		\
 	$(top_builddir)/shell/libeshell.la			\
 	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la 		\

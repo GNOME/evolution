@@ -1,6 +1,8 @@
 NULL =
 
-eutilincludedir = $(privincludedir)/e-util
+privsolib_LTLIBRARIES = libevolution-util.la
+
+evolution_util_includedir = $(privincludedir)/e-util
 ecpsdir = $(privdatadir)/ecps
 ruledir = $(privdatadir)
 
@@ -56,8 +58,6 @@ xpm_icons = \
 	tree-unexpanded.xpm \
 	$(NULL)
 
-privsolib_LTLIBRARIES = libeutil.la
-
 noinst_PROGRAMS = \
 	evolution-source-viewer \
 	test-calendar \
@@ -72,7 +72,7 @@ noinst_PROGRAMS = \
 	test-source-selector \
 	$(NULL)
 
-libeutil_la_CPPFLAGS = \
+libevolution_util_la_CPPFLAGS = \
 	$(AM_CPPFLAGS) \
 	-I$(top_srcdir) \
 	-I$(top_builddir) \
@@ -97,14 +97,14 @@ libeutil_la_CPPFLAGS = \
 	-DEVOLUTION_TOOLSDIR=\""$(privlibexecdir)"\" \
 	-DEVOLUTION_UIDIR=\""$(uidir)"\" \
 	-DEVOLUTION_RULEDIR=\"$(ruledir)\" \
-	-DG_LOG_DOMAIN=\"libeutil\" \
+	-DG_LOG_DOMAIN=\"evolution-util\" \
 	$(EVOLUTION_DATA_SERVER_CFLAGS) \
 	$(GNOME_PLATFORM_CFLAGS) \
 	$(GEO_CFLAGS) \
 	$(GTKHTML_CFLAGS) \
 	$(NULL)
 
-eutilinclude_HEADERS =  \
+evolution_util_include_HEADERS =  \
 	e-util.h \
 	e-action-combo-box.h \
 	e-activity-bar.h \
@@ -353,8 +353,8 @@ PLATFORM_SOURCES = \
 	$(NULL)
 endif
 
-libeutil_la_SOURCES = \
-	$(eutilinclude_HEADERS) \
+libevolution_util_la_SOURCES = \
+	$(evolution_util_include_HEADERS) \
 	e-action-combo-box.c \
 	e-activity-bar.c \
 	e-activity-proxy.c \
@@ -590,9 +590,9 @@ libeutil_la_SOURCES = \
 	$(PLATFORM_SOURCES) \
 	$(NULL)
 
-libeutil_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
+libevolution_util_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 
-libeutil_la_LIBADD =  \
+libevolution_util_la_LIBADD =  \
 	$(top_builddir)/libgnomecanvas/libgnomecanvas.la \
 	$(ICONV_LIBS) \
 	$(EVOLUTION_DATA_SERVER_LIBS) \
@@ -604,12 +604,12 @@ libeutil_la_LIBADD =  \
 	$(NULL)
 
 TEST_CPPFLAGS = \
-	$(libeutil_la_CPPFLAGS) \
+	$(libevolution_util_la_CPPFLAGS) \
 	$(NULL)
 
 TEST_LDADD = \
-	libeutil.la \
-	$(libeutil_la_LIBADD) \
+	libevolution-util.la \
+	$(libevolution_util_la_LIBADD) \
 	$(NULL)
 
 evolution_source_viewer_CPPFLAGS = $(TEST_CPPFLAGS)

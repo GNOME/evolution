@@ -1,8 +1,8 @@
 # The name of the module.
-DOC_MODULE = libeutil
+DOC_MODULE = evolution-util
 
 # The top-level SGML file.
-DOC_MAIN_SGML_FILE = libeutil-docs.sgml
+DOC_MAIN_SGML_FILE = evolution-util-docs.sgml
 
 # Extra options to supply to gtkdoc-scan.
 SCAN_OPTIONS = --deprecated-guards="EDS_DISABLE_DEPRECATED"
@@ -56,7 +56,7 @@ GTKDOC_CFLAGS  =					\
 	$(NULL)
 
 GTKDOC_LIBS = 						\
-	$(top_builddir)/e-util/libeutil.la		\
+	$(top_builddir)/e-util/libevolution-util.la	\
 	$(EVOLUTION_DATA_SERVER_LIBS)			\
 	$(GNOME_PLATFORM_LIBS)				\
 	$(GTKHTML_LIBS)					\

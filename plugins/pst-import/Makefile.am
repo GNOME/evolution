@@ -1,7 +1,7 @@
 if OS_WIN32
 NO_UNDEFINED_REQUIRED_LIBS =				\
 	$(top_builddir)/mail/libevolution-mail.la	\
-	$(top_builddir)/e-util/libeutil.la		\
+	$(top_builddir)/e-util/libevolution-util.la	\
 	$(EVOLUTION_MAIL_LIBS)
 endif
 
@@ -27,7 +27,7 @@ liborg_gnome_pst_import_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 liborg_gnome_pst_import_la_LIBADD =				\
 	$(top_builddir)/shell/libeshell.la			\
 	$(top_builddir)/mail/libevolution-mail.la		\
-	$(top_builddir)/e-util/libeutil.la			\
+	$(top_builddir)/e-util/libevolution-util.la		\
 	$(top_builddir)/libemail-engine/libemail-engine.la	\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\

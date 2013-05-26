@@ -12,7 +12,7 @@ module_spamassassin_la_SOURCES = \
 	evolution-spamassassin.c
 
 module_spamassassin_la_LIBADD = \
-	$(top_builddir)/e-util/libeutil.la			\
+	$(top_builddir)/e-util/libevolution-util.la		\
 	$(top_builddir)/mail/libevolution-mail.la		\
 	$(top_builddir)/shell/libeshell.la			\
 	$(top_builddir)/libemail-engine/libemail-engine.la \

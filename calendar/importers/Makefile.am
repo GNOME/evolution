@@ -18,7 +18,7 @@ libevolution_calendar_importers_la_SOURCES = \
 libevolution_calendar_importers_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 
 libevolution_calendar_importers_la_LIBADD =			\
-	$(top_builddir)/e-util/libeutil.la 			\
+	$(top_builddir)/e-util/libevolution-util.la		\
 	$(top_builddir)/shell/libeshell.la			\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\

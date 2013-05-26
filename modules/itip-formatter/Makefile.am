@@ -29,7 +29,7 @@ module_itip_formatter_la_SOURCES =					\
 	evolution-module-itip-formatter.c
 
 module_itip_formatter_la_LIBADD =					\
-	$(top_builddir)/e-util/libeutil.la				\
+	$(top_builddir)/e-util/libevolution-util.la			\
 	$(top_builddir)/calendar/gui/libevolution-calendar.la		\
 	$(top_builddir)/mail/libevolution-mail.la			\
 	$(top_builddir)/shell/libeshell.la				\

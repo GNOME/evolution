@@ -18,7 +18,7 @@ module_gravatar_la_SOURCES = \
 	$(NULL)
 
 module_gravatar_la_LIBADD = \
-	$(top_builddir)/e-util/libeutil.la			\
+	$(top_builddir)/e-util/libevolution-util.la		\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
 	$(GTKHTML_LIBS)						\

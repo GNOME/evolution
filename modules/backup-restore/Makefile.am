@@ -26,7 +26,7 @@ module_backup_restore_la_SOURCES = \
 	$(NULL)
 
 module_backup_restore_la_LIBADD = \
-	$(top_builddir)/e-util/libeutil.la			\
+	$(top_builddir)/e-util/libevolution-util.la		\
 	$(top_builddir)/shell/libeshell.la			\
 	$(top_builddir)/mail/libevolution-mail.la		\
 	$(top_builddir)/libemail-engine/libemail-engine.la	\
@@ -60,7 +60,7 @@ evolution_backup_SOURCES =					\
 	$(NULL)
 
 evolution_backup_LDADD =					\
-	$(top_builddir)/e-util/libeutil.la			\
+	$(top_builddir)/e-util/libevolution-util.la		\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
 	$(GTKHTML_LIBS)						\

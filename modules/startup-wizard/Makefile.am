@@ -22,7 +22,7 @@ module_startup_wizard_la_SOURCES = \
 	$(NULL)
 
 module_startup_wizard_la_LIBADD = \
-	$(top_builddir)/e-util/libeutil.la			\
+	$(top_builddir)/e-util/libevolution-util.la		\
 	$(top_builddir)/shell/libeshell.la			\
 	$(top_builddir)/calendar/gui/libevolution-calendar.la	\
 	$(top_builddir)/mail/libevolution-mail.la		\

@@ -30,7 +30,7 @@ libessmime_la_SOURCES = 	\
 	e-pkcs12.h
 
 libessmime_la_LIBADD =				\
-	$(top_builddir)/e-util/libeutil.la	\
+	$(top_builddir)/e-util/libevolution-util.la \
 	$(EVOLUTION_DATA_SERVER_LIBS)		\
 	$(GNOME_PLATFORM_LIBS)			\
 	$(GTKHTML_LIBS)				\

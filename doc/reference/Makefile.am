@@ -1,3 +1,3 @@
-SUBDIRS = libeutil libeshell
+SUBDIRS = evolution-util libeshell
 
 -include $(top_srcdir)/git.mk

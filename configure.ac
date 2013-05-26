@@ -1430,7 +1430,7 @@ data/icons/Makefile
 doc/Makefile
 doc/reference/Makefile
 doc/reference/libeshell/Makefile
-doc/reference/libeutil/Makefile
+doc/reference/evolution-util/Makefile
 e-util/Makefile
 em-format/Makefile
 help/Makefile

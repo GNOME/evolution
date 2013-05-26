@@ -12,7 +12,7 @@ module_mailto_handler_la_SOURCES = \
 	evolution-mailto-handler.c
 
 module_mailto_handler_la_LIBADD = \
-	$(top_builddir)/e-util/libeutil.la			\
+	$(top_builddir)/e-util/libevolution-util.la		\
 	$(top_builddir)/shell/libeshell.la			\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\

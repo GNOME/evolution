@@ -1,6 +1,6 @@
 if OS_WIN32
 NO_UNDEFINED_REQUIRED_LIBS = 				\
-	$(top_builddir)/e-util/libeutil.la		\
+	$(top_builddir)/e-util/libevolution-util.la	\
 	$(top_builddir)/mail/libevolution-mail.la
 endif
 
@@ -22,7 +22,7 @@ module_tnef_attachment_la_SOURCES =			\
 	evolution-module-tnef-attachment.c
 
 module_tnef_attachment_la_LIBADD =				\
-	$(top_builddir)/e-util/libeutil.la				\
+	$(top_builddir)/e-util/libevolution-util.la			\
 	$(top_builddir)/em-format/libemformat.la			\
 	$(EVOLUTION_DATA_SERVER_LIBS)					\
 	$(GNOME_PLATFORM_LIBS)						\

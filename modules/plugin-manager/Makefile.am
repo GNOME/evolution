@@ -12,7 +12,7 @@ module_plugin_manager_la_SOURCES = \
 	evolution-plugin-manager.c
 
 module_plugin_manager_la_LIBADD = \
-	$(top_builddir)/e-util/libeutil.la			\
+	$(top_builddir)/e-util/libevolution-util.la		\
 	$(top_builddir)/shell/libeshell.la			\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\

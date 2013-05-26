@@ -19,7 +19,7 @@ liborg_gnome_email_custom_header_la_SOURCES = 		\
 	email-custom-header.h
 
 liborg_gnome_email_custom_header_la_LIBADD = 			\
-	$(top_builddir)/e-util/libeutil.la 			\
+	$(top_builddir)/e-util/libevolution-util.la		\
 	$(top_builddir)/composer/libcomposer.la 		\
 	$(top_builddir)/mail/libevolution-mail.la 		\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\

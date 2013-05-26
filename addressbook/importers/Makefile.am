@@ -21,7 +21,7 @@ libevolution_addressbook_importers_la_SOURCES = \
 libevolution_addressbook_importers_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 
 libevolution_addressbook_importers_la_LIBADD = \
-	$(top_builddir)/e-util/libeutil.la 				\
+	$(top_builddir)/e-util/libevolution-util.la 			\
 	$(top_builddir)/shell/libeshell.la				\
 	$(top_builddir)/addressbook/util/libeabutil.la			\
 	$(EVOLUTION_DATA_SERVER_LIBS)					\

@@ -1,7 +1,7 @@
 if OS_WIN32
 NO_UNDEFINED_REQUIRED_LIBS =				\
 	$(top_builddir)/mail/libevolution-mail.la	\
-	$(top_builddir)/e-util/libeutil.la		\
+	$(top_builddir)/e-util/libevolution-util.la	\
 	$(GNOME_PLATFORM_LIBS)
 endif
 
@@ -25,7 +25,7 @@ liborg_gnome_mail_notification_la_SOURCES = mail-notification.c
 liborg_gnome_mail_notification_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 
 liborg_gnome_mail_notification_la_LIBADD = 			\
-	$(top_builddir)/e-util/libeutil.la 			\
+	$(top_builddir)/e-util/libevolution-util.la		\
 	$(top_builddir)/mail/libevolution-mail.la		\
 	$(top_builddir)/shell/libeshell.la			\
 	$(top_builddir)/libemail-engine/libemail-engine.la	\

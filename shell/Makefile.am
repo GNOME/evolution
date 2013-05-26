@@ -88,7 +88,7 @@ libeshell_la_SOURCES =				\
 libeshell_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 
 libeshell_la_LIBADD =					\
-	$(top_builddir)/e-util/libeutil.la		\
+	$(top_builddir)/e-util/libevolution-util.la	\
 	$(EVOLUTION_DATA_SERVER_LIBS)			\
 	$(GNOME_PLATFORM_LIBS)				\
 	$(CLUTTER_GTK_LIBS)
@@ -131,7 +131,7 @@ evolution_SOURCES =				\
 
 evolution_LDADD =							\
 	libeshell.la							\
-	$(top_builddir)/e-util/libeutil.la				\
+	$(top_builddir)/e-util/libevolution-util.la			\
 	$(EVOLUTION_DATA_SERVER_LIBS)					\
 	$(GNOME_PLATFORM_LIBS)						\
 	$(CLUTTER_GTK_LIBS)						\

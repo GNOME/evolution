@@ -29,7 +29,7 @@ GTKDOC_CFLAGS= \
 GTKDOC_LIBS=								\
 	$(top_builddir)/libemail-engine/libemail-engine.la		\
 	$(top_builddir)/shell/libeshell.la				\
-	$(top_builddir)/e-util/libeutil.la				\
+	$(top_builddir)/e-util/libevolution-util.la			\
 	$(EVOLUTION_DATA_SERVER_LIBS)					\
 	$(GNOME_PLATFORM_LIBS)						\
 	$(GTKHTML_LIBS)							\

@@ -22,7 +22,7 @@ libeabutil_la_SOURCES =					\
 libeabutil_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 
 libeabutil_la_LIBADD =					\
-	$(top_builddir)/e-util/libeutil.la		\
+	$(top_builddir)/e-util/libevolution-util.la	\
 	$(top_builddir)/shell/libeshell.la		\
 	$(CAMEL_LIBS)					\
 	$(EVOLUTION_DATA_SERVER_LIBS)			\

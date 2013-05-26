@@ -21,7 +21,7 @@ module_text_highlight_la_SOURCES =					\
 	languages.h
 
 module_text_highlight_la_LIBADD =					\
-	$(top_builddir)/e-util/libeutil.la				\
+	$(top_builddir)/e-util/libevolution-util.la			\
 	$(top_builddir)/mail/libevolution-mail.la			\
 	$(top_builddir)/em-format/libemformat.la			\
 	$(top_builddir)/shell/libeshell.la				\

@@ -12,7 +12,7 @@ module_cal_config_webcal_la_SOURCES = \
 	evolution-cal-config-webcal.c
 
 module_cal_config_webcal_la_LIBADD = \
-	$(top_builddir)/e-util/libeutil.la			\
+	$(top_builddir)/e-util/libevolution-util.la		\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
 	$(GTKHTML_LIBS)

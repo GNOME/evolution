@@ -19,7 +19,7 @@ module_prefer_plain_la_SOURCES =				\
 	evolution-module-prefer-plain.c
 
 module_prefer_plain_la_LIBADD =				\
-	$(top_builddir)/e-util/libeutil.la				\
+	$(top_builddir)/e-util/libevolution-util.la			\
 	$(top_builddir)/mail/libevolution-mail.la			\
 	$(top_builddir)/em-format/libemformat.la			\
 	$(top_builddir)/shell/libeshell.la				\

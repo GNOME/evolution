@@ -55,7 +55,7 @@ libcomposer_la_SOURCES = 			\
 libcomposer_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 
 libcomposer_la_LIBADD =					\
-	$(top_builddir)/e-util/libeutil.la		\
+	$(top_builddir)/e-util/libevolution-util.la	\
 	$(top_builddir)/shell/libeshell.la		\
 	$(top_builddir)/em-format/libemformat.la	\
 	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la		\

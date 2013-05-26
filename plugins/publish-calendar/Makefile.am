@@ -33,7 +33,7 @@ liborg_gnome_publish_calendar_la_SOURCES =	\
 liborg_gnome_publish_calendar_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 
 liborg_gnome_publish_calendar_la_LIBADD =			\
-	$(top_builddir)/e-util/libeutil.la			\
+	$(top_builddir)/e-util/libevolution-util.la		\
 	$(top_builddir)/shell/libeshell.la			\
 	$(top_builddir)/calendar/gui/libevolution-calendar.la	\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\

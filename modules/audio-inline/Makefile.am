@@ -20,7 +20,7 @@ module_audio_inline_la_SOURCES =				\
 	evolution-module-audio-inline.c
 
 module_audio_inline_la_LIBADD =				\
-	$(top_builddir)/e-util/libeutil.la				\
+	$(top_builddir)/e-util/libevolution-util.la			\
 	$(top_builddir)/mail/libevolution-mail.la			\
 	$(top_builddir)/em-format/libemformat.la			\
 	$(EVOLUTION_DATA_SERVER_LIBS)					\

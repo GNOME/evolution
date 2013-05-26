@@ -23,7 +23,7 @@ libecontactprint_la_SOURCES = 			\
 	e-contact-print.h
 
 libecontactprint_la_LIBADD =					\
-	$(top_builddir)/e-util/libeutil.la			\
+	$(top_builddir)/e-util/libevolution-util.la		\
 	$(top_builddir)/addressbook/util/libeabutil.la		\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
@@ -46,7 +46,7 @@ contact_print_test_LDADD =	\
 	libecontactprint.la					\
 	$(top_builddir)/addressbook/util/libeabutil.la		\
 	$(top_builddir)/shell/libeshell.la			\
-	$(top_builddir)/e-util/libeutil.la			\
+	$(top_builddir)/e-util/libevolution-util.la		\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)
 

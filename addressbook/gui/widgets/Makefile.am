@@ -74,7 +74,7 @@ libeabwidgets_la_SOURCES =			\
 
 libeabwidgets_la_LIBADD =					\
 	$(top_builddir)/shell/libeshell.la			\
-	$(top_builddir)/e-util/libeutil.la			\
+	$(top_builddir)/e-util/libevolution-util.la		\
 	$(top_builddir)/addressbook/util/libeabutil.la		\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\

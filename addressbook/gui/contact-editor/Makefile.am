@@ -26,7 +26,7 @@ libecontacteditor_la_SOURCES = 			\
 libecontacteditor_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 
 libecontacteditor_la_LIBADD =						\
-	$(top_builddir)/e-util/libeutil.la				\
+	$(top_builddir)/e-util/libevolution-util.la			\
 	$(top_builddir)/addressbook/util/libeabutil.la			\
 	$(top_builddir)/addressbook/gui/widgets/libeabwidgets.la	\
 	$(top_builddir)/addressbook/gui/merging/libeabbookmerging.la	\
