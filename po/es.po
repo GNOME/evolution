@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2013-05-24 07:23+0000\n"
-"PO-Revision-Date: 2013-05-24 11:40+0200\n"
+"POT-Creation-Date: 2013-05-27 08:03+0000\n"
+"PO-Revision-Date: 2013-05-27 13:24+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -2461,7 +2461,6 @@ msgstr "¿Mantener el elemento original?"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1090
 #: ../calendar/gui/dialogs/comp-editor.c:1118
-#| msgid "Unable to connect to the GroupWise server."
 msgid "Unable to synchronize with the server"
 msgstr "No se pudo sincronizar con el servidor"
 
@@ -11896,24 +11895,18 @@ msgid "Invalid folder URI '%s'"
 msgstr "URI « %s» de la carpeta no válida"
 
 #: ../libemail-engine/e-mail-session-utils.c:540
-#, c-format
-msgid "No mail service found with UID '%s'"
-msgstr "No se han encontrado ningún servicio con UID «%s»"
+#| msgid "No HTML stream available"
+msgid "No mail transport service available"
+msgstr "No hay un servicio de transporte de correo disponible"
 
-#: ../libemail-engine/e-mail-session-utils.c:549
-#, c-format
-msgid "UID '%s' is not a mail transport"
-msgstr "el UDI «%s» no es un transporte de correo"
-
-#: ../libemail-engine/e-mail-session-utils.c:653
-#: ../libemail-engine/mail-ops.c:775
+#: ../libemail-engine/e-mail-session-utils.c:643
+#: ../libemail-engine/mail-ops.c:703
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
 msgstr "No se pudieron aplicar los filtros al correo saliente: %s"
 
-#: ../libemail-engine/e-mail-session-utils.c:682
-#: ../libemail-engine/e-mail-session-utils.c:716
-#: ../libemail-engine/mail-ops.c:794 ../libemail-engine/mail-ops.c:827
+#: ../libemail-engine/e-mail-session-utils.c:690
+#: ../libemail-engine/mail-ops.c:747
 #, c-format
 msgid ""
 "Failed to append to %s: %s\n"
@@ -11922,14 +11915,14 @@ msgstr ""
 "Falló al anexar a %s: %s\n"
 "En su lugar se anexará a la carpeta local «Correo enviado»."
 
-#: ../libemail-engine/e-mail-session-utils.c:736
-#: ../libemail-engine/mail-ops.c:849
+#: ../libemail-engine/e-mail-session-utils.c:716
+#: ../libemail-engine/mail-ops.c:771
 #, c-format
 msgid "Failed to append to local 'Sent' folder: %s"
 msgstr "Falló anexar a la carpeta local «Correo enviado»: %s"
 
-#: ../libemail-engine/e-mail-session-utils.c:979
-#: ../libemail-engine/mail-ops.c:981 ../libemail-engine/mail-ops.c:1083
+#: ../libemail-engine/e-mail-session-utils.c:914
+#: ../libemail-engine/mail-ops.c:902 ../libemail-engine/mail-ops.c:1004
 msgid "Sending message"
 msgstr "Enviando mensaje"
 
@@ -12039,7 +12032,7 @@ msgstr ""
 msgid "Fetching mail from '%s'"
 msgstr "Obteniendo correo de «%s»"
 
-#: ../libemail-engine/mail-ops.c:769
+#: ../libemail-engine/mail-ops.c:697
 #, c-format
 msgid ""
 "Failed to apply outgoing filters. One reason can be that folder location set "
@@ -12052,52 +12045,52 @@ msgstr ""
 "Compruebe sus filtros en Editar->Filtros de mensajes.\n"
 "El error original fue: %s"
 
-#: ../libemail-engine/mail-ops.c:992
+#: ../libemail-engine/mail-ops.c:913
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "Enviando mensaje %d de %d"
 
-#: ../libemail-engine/mail-ops.c:1044
+#: ../libemail-engine/mail-ops.c:965
 #, c-format
 msgid "Failed to send a message"
 msgid_plural "Failed to send %d of %d messages"
 msgstr[0] "Falló al enviar un mensaje"
 msgstr[1] "Falló al enviar %d de %d mensajes"
 
-#: ../libemail-engine/mail-ops.c:1050
+#: ../libemail-engine/mail-ops.c:971
 msgid "Canceled."
 msgstr "Cancelado."
 
-#: ../libemail-engine/mail-ops.c:1052
+#: ../libemail-engine/mail-ops.c:973
 msgid "Complete."
 msgstr "Completado."
 
-#: ../libemail-engine/mail-ops.c:1164
+#: ../libemail-engine/mail-ops.c:1085
 #, c-format
 msgid "Moving messages to '%s'"
 msgstr "Moviendo mensajes a «%s»"
 
-#: ../libemail-engine/mail-ops.c:1165
+#: ../libemail-engine/mail-ops.c:1086
 #, c-format
 msgid "Copying messages to '%s'"
 msgstr "Copiando mensajes a «%s»"
 
-#: ../libemail-engine/mail-ops.c:1284
+#: ../libemail-engine/mail-ops.c:1205
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "Guardando carpeta «%s»"
 
-#: ../libemail-engine/mail-ops.c:1412
+#: ../libemail-engine/mail-ops.c:1333
 #, c-format
 msgid "Expunging and storing account '%s'"
 msgstr "Compactando y almacenando cuenta «%s»"
 
-#: ../libemail-engine/mail-ops.c:1413
+#: ../libemail-engine/mail-ops.c:1334
 #, c-format
 msgid "Storing account '%s'"
 msgstr "Almacenando cuenta «%s»"
 
-#: ../libemail-engine/mail-ops.c:1487
+#: ../libemail-engine/mail-ops.c:1408
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "Vaciando papelera en «%s»"
@@ -13309,17 +13302,17 @@ msgstr "Responder"
 msgid "Folder '%s'"
 msgstr "Carpeta «%s»"
 
-#: ../mail/e-mail-reader-utils.c:155
+#: ../mail/e-mail-reader-utils.c:144
 msgid "Do not warn me again"
 msgstr "No advertirme de nuevo"
 
-#: ../mail/e-mail-reader-utils.c:940
+#: ../mail/e-mail-reader-utils.c:959
 msgid "Printing"
 msgstr "Imprimiendo"
 
 #. Translators: %s is replaced with a folder
 #. * name %u with count of duplicate messages.
-#: ../mail/e-mail-reader-utils.c:1128
+#: ../mail/e-mail-reader-utils.c:1197
 #, c-format
 msgid ""
 "Folder '%s' contains %u duplicate message. Are you sure you want to delete "
@@ -13334,7 +13327,7 @@ msgstr[1] ""
 "La carpeta «%s» contiene %u correos duplicados. ¿Está seguro de que quiere "
 "eliminarlos?"
 
-#: ../mail/e-mail-reader-utils.c:1604
+#: ../mail/e-mail-reader-utils.c:1705
 msgid "Save Message"
 msgid_plural "Save Messages"
 msgstr[0] "Guardar mensaje"
@@ -13345,13 +13338,13 @@ msgstr[1] "Guardar mensajes"
 #. * mbox format, when the first message doesn't have a
 #. * subject.  The extension ".mbox" is appended to the
 #. * string; for example "Message.mbox".
-#: ../mail/e-mail-reader-utils.c:1625
+#: ../mail/e-mail-reader-utils.c:1726
 msgid "Message"
 msgid_plural "Messages"
 msgstr[0] "Mensaje"
 msgstr[1] "Mensajes"
 
-#: ../mail/e-mail-reader-utils.c:2079
+#: ../mail/e-mail-reader-utils.c:2204
 msgid "Parsing message"
 msgstr "Analizando mensaje"
 
@@ -21338,6 +21331,12 @@ msgstr "Con fecha de _vencimiento"
 msgid "With _Status"
 msgstr "Con _estado"
 
+#~ msgid "No mail service found with UID '%s'"
+#~ msgstr "No se han encontrado ningún servicio con UID «%s»"
+
+#~ msgid "UID '%s' is not a mail transport"
+#~ msgstr "el UDI «%s» no es un transporte de correo"
+
 #~ msgid ""
 #~ "Unable to retrieve saved component from the task list, returned error "
 #~ "was: %s"
@@ -23624,9 +23623,6 @@ msgstr "Con _estado"
 
 #~ msgid "Unknown external-body part."
 #~ msgstr "Parte externa al cuerpo del mensaje desconocida."
-
-#~ msgid "No HTML stream available"
-#~ msgstr "No hay un flujo HTML disponible"
 
 #~ msgid "FIXME"
 #~ msgstr "ARREGLAR"
