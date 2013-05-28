@@ -21,39 +21,10 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>
-
-/* This isn't as portable as, say, the stuff in GNU coreutils.
- * But I care not for OSF1. */
-#ifdef HAVE_STATVFS
-# ifdef HAVE_SYS_STATVFS_H
-#  include <sys/statvfs.h>
-# endif
-#else
-#ifdef HAVE_STATFS
-# ifdef HAVE_SYS_PARAM_H
-#  include <sys/param.h>	/* bsd interface */
-# endif
-# ifdef HAVE_SYS_MOUNT_H
-#  include <sys/mount.h>
-# endif
-#endif
-#endif
-
-#include <errno.h>
-#include <string.h>
-
-#include <glib/gstdio.h>
-#include <glib/gi18n-lib.h>
-
-#include "e-activity.h"
 #include "e-file-utils.h"
+
+#include <config.h>
+#include <glib/gi18n-lib.h>
 
 typedef struct _AsyncContext AsyncContext;
 
