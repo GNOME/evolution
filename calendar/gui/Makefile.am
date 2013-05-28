@@ -200,7 +200,7 @@ libevolution_calendar_la_SOURCES = \
 	ea-gnome-calendar.h
 
 libevolution_calendar_la_LIBADD =					\
-	$(top_builddir)/composer/libcomposer.la				\
+	$(top_builddir)/composer/libevolution-mail-composer.la		\
 	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la \
 	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la \
 	$(top_builddir)/shell/libevolution-shell.la			\

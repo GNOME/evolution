@@ -57,7 +57,8 @@ struct _EComposerNameHeaderClass {
 };
 
 GType		e_composer_name_header_get_type	(void);
-EComposerHeader * e_composer_name_header_new	(ESourceRegistry *registry,
+EComposerHeader *
+		e_composer_name_header_new	(ESourceRegistry *registry,
 						 const gchar *label,
 						 ENameSelector *name_selector);
 ENameSelector *	e_composer_name_header_get_name_selector

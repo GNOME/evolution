@@ -17,7 +17,7 @@ liborg_gnome_mailing_list_actions_la_LDFLAGS = -module -avoid-version $(NO_UNDEF
 
 liborg_gnome_mailing_list_actions_la_LIBADD =		\
 	$(top_builddir)/e-util/libevolution-util.la	\
-	$(top_builddir)/composer/libcomposer.la		\
+	$(top_builddir)/composer/libevolution-mail-composer.la \
 	$(top_builddir)/mail/libevolution-mail.la	\
 	$(top_builddir)/shell/libevolution-shell.la	\
 	$(top_builddir)/libemail-engine/libemail-engine.la \

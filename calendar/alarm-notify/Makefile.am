@@ -43,7 +43,7 @@ evolution_alarm_notify_SOURCES =	\
 
 evolution_alarm_notify_LDADD =						\
 	$(top_builddir)/e-util/libevolution-util.la			\
-	$(top_builddir)/composer/libcomposer.la				\
+	$(top_builddir)/composer/libevolution-mail-composer.la		\
 	$(top_builddir)/calendar/gui/libevolution-calendar.la		\
 	$(top_builddir)/calendar/importers/libevolution-calendar-importers.la \
 	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la \

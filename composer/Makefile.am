@@ -4,11 +4,11 @@ errordir = $(privdatadir)/errors
 # provides error rule
 @EVO_PLUGIN_RULE@
 
-privsolib_LTLIBRARIES = libcomposer.la
+privsolib_LTLIBRARIES = libevolution-mail-composer.la
 
-libcomposerincludedir = $(privincludedir)/composer
+evolution_mail_composer_includedir = $(privincludedir)/composer
 
-libcomposerinclude_HEADERS = 			\
+evolution_mail_composer_include_HEADERS = 	\
 	e-composer-actions.h			\
 	e-composer-activity.h			\
 	e-composer-common.h			\
@@ -22,7 +22,7 @@ libcomposerinclude_HEADERS = 			\
 	e-composer-text-header.h		\
 	e-msg-composer.h
 
-libcomposer_la_CPPFLAGS =						\
+libevolution_mail_composer_la_CPPFLAGS =				\
 	$(AM_CPPFLAGS)							\
 	-I$(top_srcdir)							\
 	-I$(top_builddir)						\
@@ -38,8 +38,8 @@ libcomposer_la_CPPFLAGS =						\
 	$(GNOME_PLATFORM_CFLAGS)					\
 	$(GTKHTML_CFLAGS)
 
-libcomposer_la_SOURCES = 			\
-	$(libcomposerinclude_HEADERS)		\
+libevolution_mail_composer_la_SOURCES =		\
+	$(evolution_mail_composer_include_HEADERS) \
 	e-composer-actions.c			\
 	e-composer-activity.c			\
 	e-composer-from-header.c		\
@@ -52,9 +52,9 @@ libcomposer_la_SOURCES = 			\
 	e-composer-text-header.c		\
 	e-msg-composer.c
 
-libcomposer_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
+libevolution_mail_composer_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 
-libcomposer_la_LIBADD =					\
+libevolution_mail_composer_la_LIBADD =			\
 	$(top_builddir)/e-util/libevolution-util.la	\
 	$(top_builddir)/shell/libevolution-shell.la	\
 	$(top_builddir)/em-format/libevolution-mail-formatter.la \

@@ -52,7 +52,7 @@ endif
 module_addressbook_la_LIBADD = \
 	$(SMIME_LIB)						\
 	$(top_builddir)/e-util/libevolution-util.la		\
-	$(top_builddir)/composer/libcomposer.la			\
+	$(top_builddir)/composer/libevolution-mail-composer.la	\
 	$(top_builddir)/addressbook/printing/libecontactprint.la \
 	$(top_builddir)/shell/libevolution-shell.la		\
 	$(top_builddir)/addressbook/gui/merging/libeabbookmerging.la \

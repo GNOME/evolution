@@ -1429,6 +1429,7 @@ data/evolution-alarm-notify.desktop.in
 data/icons/Makefile
 doc/Makefile
 doc/reference/Makefile
+doc/reference/evolution-mail-composer/Makefile
 doc/reference/evolution-mail-formatter/Makefile
 doc/reference/evolution-shell/Makefile
 doc/reference/evolution-util/Makefile

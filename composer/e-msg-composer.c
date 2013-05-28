@@ -3055,6 +3055,7 @@ composer_add_auto_recipients (ESource *source,
  * @shell: an #EShell
  * @message: The message to use as the source
  * @keep_signature: Keep message signature, if any
+ * @cancellable: optional #GCancellable object, or %NULL
  *
  * Create a new message composer widget.
  *
@@ -3065,7 +3066,7 @@ composer_add_auto_recipients (ESource *source,
 EMsgComposer *
 e_msg_composer_new_with_message (EShell *shell,
                                  CamelMimeMessage *message,
-				 gboolean keep_signature,
+                                 gboolean keep_signature,
                                  GCancellable *cancellable)
 {
 	CamelInternetAddress *to, *cc, *bcc;

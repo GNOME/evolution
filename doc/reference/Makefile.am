@@ -1,6 +1,7 @@
 NULL =
 
 SUBDIRS = \
+	evolution-mail-composer \
 	evolution-mail-formatter \
 	evolution-shell \
 	evolution-util \
