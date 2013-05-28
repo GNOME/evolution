@@ -1309,9 +1309,9 @@ dnl The following plugins have additional library dependencies.
 dnl They must be explicitly disabled if the libraries are not present.
 dnl ******************************************************************
 
-dnl *******************************************
-dnl audio-inline plugin requires gstreamer-0.10
-dnl *******************************************
+dnl **************************************************
+dnl audio-inline plugin requires gstreamer-1.0 or 0.10
+dnl **************************************************
 AC_ARG_ENABLE([audio-inline],
 	[AS_HELP_STRING([--enable-audio-inline],
 	[Enable audio-inline plugin @<:@default=yes@:>@])],
