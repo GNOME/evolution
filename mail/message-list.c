@@ -1919,13 +1919,6 @@ filter_date (time_t date)
 			e_utf8_strftime_fix_am_pm (buf, 26, _("%b %d %Y"), &then);
 		}
 	}
-#if 0
-#ifdef CTIME_R_THREE_ARGS
-	ctime_r (&date, buf, 26);
-#else
-	ctime_r (&date, buf);
-#endif
-#endif
 
 	return g_strdup (buf);
 }
