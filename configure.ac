@@ -292,16 +292,6 @@ PKG_CHECK_MODULES([GNOME_PLATFORM],
 AC_SUBST(GNOME_PLATFORM_CFLAGS)
 AC_SUBST(GNOME_PLATFORM_LIBS)
 
-dnl Blacklist WebKitGTK+ 1.9.90.
-if $PKG_CONFIG --exact-version "1.9.90" webkitgtk-3.0; then
-	AC_MSG_ERROR([
-
-	WebKitGTK+ 1.9.90 includes an unintentional API change
-	and is not usable with Evolution. Any other WebKitGTK+
-	release >= webkitgtk_minimum_version should work.
-])
-fi
-
 PKG_CHECK_MODULES([EVOLUTION_DATA_SERVER],
 	[camel-1.2 >= eds_minimum_version
 	 libebook-1.2 >= eds_minimum_version
