@@ -580,15 +580,6 @@ AM_CONDITIONAL(SUNLDAP, [test x$with_sunldap != xno])
 
 AC_DEFINE(HANDLE_LIBICAL_MEMORY, 1, [Define it once memory returned by libical is free'ed properly])
 
-dnl ************
-dnl regex check
-dnl ************
-AC_CHECK_FUNCS(regexec,,[AC_CHECK_LIB(regex,regexec,
-			[REGEX_LIBS=-lregex
-			AC_DEFINE(HAVE_REGEXEC,1,[Define to 1 if you have the regexec function.])],
-			[AC_MSG_ERROR([No regex library found])])])
-AC_SUBST(REGEX_LIBS)
-
 dnl *************************
 dnl GTKHTML check
 dnl XXX Drop the version from the package name?
