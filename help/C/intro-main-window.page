@@ -8,7 +8,7 @@
     <link type="seealso" xref="calendar-layout"/>
     <link type="seealso" xref="mail-layout-changing"/>
 
-    <revision pkgversion="3.1.5" version="0.5" date="2012-02-18" status="final"/>
+    <revision pkgversion="3.9.3" version="0.6" date="2013-05-29" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -75,7 +75,7 @@
 <item>
 <title>Switcher</title>
 <p>The switcher at the bottom of the side bar lets you switch between the Evolution tools:  Mail, Contacts, Calendars, Memos and Tasks.</p><p>For more information see <link xref="change-switcher-appearance">Changing the Switcher appearance</link>.</p>
-<note style="tip"><p>You can disable the folder list and the switcher side bar by toggling <guiseq><gui>View</gui><gui>Layout</gui><gui>Show Side Bar</gui></guiseq>.</p></note>
+<note style="tip"><p>You can disable the folder list and the switcher side bar by toggling <guiseq><gui>View</gui><gui>Layout</gui><gui>Show Side Bar</gui></guiseq> or pressing <key>F9</key>.</p></note>
 </item>
 <item>
 <title>Preview Pane</title>
