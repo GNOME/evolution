@@ -293,10 +293,15 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 		}
 
 		if (success) {
+			gchar *wrapper_element_id;
+
+			wrapper_element_id = g_strconcat (
+				attachment_part_id, ".wrapper", NULL);
+
 			str = g_strdup_printf (
 				"<tr><td colspan=\"2\">"
 				"<div class=\"attachment-wrapper\" id=\"%s\">",
-				attachment_part_id);
+				wrapper_element_id);
 
 			camel_stream_write_string (
 				stream, str, cancellable, NULL);
@@ -310,6 +315,7 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 			camel_stream_write_string (
 				stream, "</div></td></tr>", cancellable, NULL);
 
+			g_free (wrapper_element_id);
 			g_free (str);
 		}
 
