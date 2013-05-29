@@ -74,7 +74,7 @@ static const gchar *parser_mime_types[] = {
 	NULL
 };
 
-static gint
+static gboolean
 mail_parser_audio_parse (EMailParserExtension *extension,
                          EMailParser *parser,
                          CamelMimePart *part,
@@ -85,7 +85,6 @@ mail_parser_audio_parse (EMailParserExtension *extension,
 	EMailPart *mail_part;
 	GQueue work_queue = G_QUEUE_INIT;
 	gint len;
-	gint n_parts_added = 0;
 
 	len = part_id->len;
 	g_string_append (part_id, ".org-gnome-audio-button-panel");
@@ -97,7 +96,6 @@ mail_parser_audio_parse (EMailParserExtension *extension,
 	g_string_truncate (part_id, len);
 
 	g_queue_push_tail (&work_queue, mail_part);
-	n_parts_added++;
 
 	e_mail_parser_wrap_as_attachment (
 		parser, part, part_id, &work_queue);
