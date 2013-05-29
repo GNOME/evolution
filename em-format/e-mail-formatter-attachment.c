@@ -113,7 +113,7 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 	gchar *str, *text, *html;
 	gchar *button_id;
 	EAttachmentStore *store;
-	EMailExtensionRegistry *reg;
+	EMailExtensionRegistry *registry;
 	GQueue *extensions;
 	EMailPartAttachment *empa;
 	CamelMimeFilterToHTMLFlags flags;
@@ -156,23 +156,22 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 		}
 	}
 
-        /* If the attachment is requested as RAW, then call the handler directly
-         * and do not append any other code. */
+	registry = e_mail_formatter_get_extension_registry (formatter);
+
+	extensions = e_mail_extension_registry_get_for_mime_type (
+		registry, empa->snoop_mime_type);
+	if (extensions == NULL)
+		extensions = e_mail_extension_registry_get_fallback (
+			registry, empa->snoop_mime_type);
+
+	/* If the attachment is requested as RAW, then call the
+	 * handler directly and do not append any other code. */
 	if ((context->mode == E_MAIL_FORMATTER_MODE_RAW) ||
 	    (context->mode == E_MAIL_FORMATTER_MODE_PRINTING)) {
-		EMailExtensionRegistry *reg;
-		GQueue *extensions;
-		GList *iter;
-		reg = e_mail_formatter_get_extension_registry (formatter);
+		GList *head, *link;
+		gboolean success = FALSE;
 
-		extensions = e_mail_extension_registry_get_for_mime_type (
-					reg, empa->snoop_mime_type);
-		if (!extensions) {
-			extensions = e_mail_extension_registry_get_fallback (
-					reg, empa->snoop_mime_type);
-		}
-
-		if (!extensions)
+		if (extensions == NULL)
 			return FALSE;
 
 		if (context->mode == E_MAIL_FORMATTER_MODE_PRINTING) {
@@ -206,32 +205,20 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 			g_object_unref (file_info);
 		}
 
-		for (iter = g_queue_peek_head_link (extensions); iter; iter = iter->next) {
+		head = g_queue_peek_head_link (extensions);
 
-			EMailFormatterExtension *ext;
-			ext = iter->data;
-			if (!ext)
-				continue;
-
-			if (e_mail_formatter_extension_format (ext, formatter,
-				context, part, stream, cancellable)) {
-				return TRUE;
-			}
+		for (link = head; link != NULL; link = g_list_next (link)) {
+			success = e_mail_formatter_extension_format (
+				E_MAIL_FORMATTER_EXTENSION (link->data),
+				formatter, context, part, stream, cancellable);
+			if (success)
+				break;
 		}
 
-		return FALSE;
+		return success;
 	}
 
 	/* E_MAIL_FORMATTER_MODE_NORMAL: */
-
-	reg = e_mail_formatter_get_extension_registry (formatter);
-	extensions = e_mail_extension_registry_get_for_mime_type (
-				reg, empa->snoop_mime_type);
-
-	if (!extensions) {
-		extensions = e_mail_extension_registry_get_fallback (
-				reg, empa->snoop_mime_type);
-	}
 
 	text = e_mail_part_describe (part->part, empa->snoop_mime_type);
 	flags = e_mail_formatter_get_text_format_flags (formatter);
@@ -262,13 +249,11 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 	g_free (str);
 	g_free (html);
 
-	if (extensions) {
-		GList *iter;
+	if (extensions != NULL) {
 		CamelStream *content_stream;
-		gboolean ok;
+		gboolean success = FALSE;
 
 		content_stream = camel_stream_mem_new ();
-		ok = FALSE;
 		if (empa->attachment_view_part_id != NULL) {
 			EMailPart *attachment_view_part;
 
@@ -283,7 +268,7 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 			}
 
 			if (attachment_view_part != NULL) {
-				ok = e_mail_formatter_format_as (
+				success = e_mail_formatter_format_as (
 					formatter, context,
 					attachment_view_part,
 					content_stream, NULL,
@@ -292,26 +277,22 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 			}
 
 		} else {
+			GList *head, *link;
 
-			for (iter = g_queue_peek_head_link (extensions); iter; iter = iter->next) {
+			head = g_queue_peek_head_link (extensions);
 
-				EMailFormatterExtension *ext;
-
-				ext = iter->data;
-				if (!ext)
-					continue;
-
-				if (e_mail_formatter_extension_format (
-						ext, formatter, context,
-						part, content_stream,
-						cancellable)) {
-					ok = TRUE;
+			for (link = head; link != NULL; link = g_list_next (link)) {
+				success = e_mail_formatter_extension_format (
+					E_MAIL_FORMATTER_EXTENSION (link->data),
+					formatter, context,
+					part, content_stream,
+					cancellable);
+				if (success)
 					break;
-				}
 			}
 		}
 
-		if (ok) {
+		if (success) {
 			str = g_strdup_printf (
 				"<tr><td colspan=\"2\">"
 				"<div class=\"attachment-wrapper\" id=\"%s\">",
@@ -319,17 +300,17 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 
 			camel_stream_write_string (
 				stream, str, cancellable, NULL);
-			g_free (str);
 
 			g_seekable_seek (
 				G_SEEKABLE (content_stream), 0,
 				G_SEEK_SET, cancellable, NULL);
 			camel_stream_write_to_stream (
-					content_stream, stream,
-					cancellable, NULL);
+				content_stream, stream, cancellable, NULL);
 
 			camel_stream_write_string (
 				stream, "</div></td></tr>", cancellable, NULL);
+
+			g_free (str);
 		}
 
 		g_object_unref (content_stream);
