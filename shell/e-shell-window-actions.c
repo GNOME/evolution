@@ -1093,7 +1093,7 @@ static GtkToggleActionEntry shell_toggle_entries[] = {
 	{ "show-sidebar",
 	  NULL,
 	  N_("Show Side _Bar"),
-	  NULL,
+	  "F9",
 	  N_("Show the side bar"),
 	  NULL,
 	  TRUE },

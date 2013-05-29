@@ -1711,7 +1711,7 @@ static GtkActionEntry mail_entries[] = {
 	{ "mail-send-receive",
 	  "mail-send-receive",
 	  N_("Send / _Receive"),
-	  "F9",
+	  "F12",
 	  N_("Send queued items and retrieve new items"),
 	  G_CALLBACK (action_mail_send_receive_cb) },
 
