@@ -125,8 +125,6 @@ alert_dialog_constructed (GObject *object)
 	GList *actions;
 	const gchar *primary, *secondary;
 	gint default_response;
-	gint min_width = -1, prefer_width = -1;
-	gint height;
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_alert_dialog_parent_class)->constructed (object);
@@ -137,6 +135,11 @@ alert_dialog_constructed (GObject *object)
 	default_response = e_alert_get_default_response (alert);
 
 	gtk_window_set_title (GTK_WINDOW (dialog), " ");
+
+	/* XXX Making the window non-resizable is the only way at
+	 *     present for GTK+ to pick a reasonable default size.
+	 *     See https://bugzilla.gnome.org/681937 for details. */
+	gtk_window_set_resizable (GTK_WINDOW (dialog), FALSE);
 
 	action_area = gtk_dialog_get_action_area (GTK_DIALOG (dialog));
 	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
@@ -250,17 +253,6 @@ alert_dialog_constructed (GObject *object)
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_set_can_focus (widget, FALSE);
 	gtk_widget_show (widget);
-
-	widget = GTK_WIDGET (dialog);
-
-	height = gtk_widget_get_allocated_height (widget);
-	gtk_widget_get_preferred_width_for_height (
-		widget, height, &min_width, &prefer_width);
-	if (min_width < prefer_width)
-		gtk_window_set_default_size (
-			GTK_WINDOW (dialog), MIN (
-			(min_width + prefer_width) / 2,
-			min_width * 5 / 4), -1);
 
 	pango_attr_list_unref (list);
 }
