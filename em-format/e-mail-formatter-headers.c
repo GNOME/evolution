@@ -199,36 +199,6 @@ write_contact_picture (CamelMimePart *part,
 	g_free (content_type);
 }
 
-static CamelMimePart *
-load_picture_from_file (const gchar *mime_type,
-                         const gchar *filename,
-                         GCancellable *cancellable)
-{
-	CamelMimePart *part;
-	CamelStream *stream;
-	CamelDataWrapper *dw;
-	gchar *basename;
-
-	stream = camel_stream_fs_new_with_name (filename, O_RDONLY, 0, NULL);
-	if (stream == NULL)
-		return NULL;
-
-	dw = camel_data_wrapper_new ();
-	camel_data_wrapper_construct_from_stream_sync (
-		dw, stream, cancellable, NULL);
-	g_object_unref (stream);
-	if (mime_type)
-		camel_data_wrapper_set_mime_type (dw, mime_type);
-	part = camel_mime_part_new ();
-	camel_medium_set_content ((CamelMedium *) part, dw);
-	g_object_unref (dw);
-	basename = g_path_get_basename (filename);
-	camel_mime_part_set_filename (part, basename);
-	g_free (basename);
-
-	return part;
-}
-
 static void
 format_full_headers (EMailFormatter *formatter,
                      GString *buffer,
@@ -240,7 +210,6 @@ format_full_headers (EMailFormatter *formatter,
 	const gchar *charset;
 	CamelContentType *ct;
 	struct _camel_header_raw *header;
-	gboolean have_icon = FALSE;
 	const gchar *photo_name = NULL;
 	gboolean face_decoded  = FALSE, contact_has_photo = FALSE;
 	guchar *face_header_value = NULL;
@@ -426,8 +395,6 @@ format_full_headers (EMailFormatter *formatter,
 					e_mail_formatter_format_header (
 						formatter, buffer, part,
 						&xmailer, h->flags, charset);
-					if (strstr (use_header->value, "Evolution"))
-						have_icon = TRUE;
 				} else if (!face_decoded && face && !g_ascii_strcasecmp (header->name, "Face")) {
 					gchar *cp = header->value;
 
@@ -494,31 +461,6 @@ format_full_headers (EMailFormatter *formatter,
 
 		g_object_unref (part);
 		g_free (face_header_value);
-	}
-
-	if (have_icon) {
-		GtkIconInfo *icon_info;
-		CamelMimePart *iconpart = NULL;
-
-		icon_info = gtk_icon_theme_lookup_icon (
-			gtk_icon_theme_get_default (),
-			"evolution", 16, GTK_ICON_LOOKUP_NO_SVG);
-		if (icon_info != NULL) {
-			iconpart = load_picture_from_file (
-				"image/png",
-				gtk_icon_info_get_filename (icon_info),
-				cancellable);
-			gtk_icon_info_free (icon_info);
-		}
-		if (iconpart != NULL) {
-			g_string_append (
-				buffer,
-				"<td align=\"right\" valign=\"top\">");
-			write_contact_picture (iconpart, 16, buffer);
-			g_string_append (buffer, "</td>");
-
-			g_object_unref (iconpart);
-		}
 	}
 
 	g_string_append (buffer, "</tr></table>");
