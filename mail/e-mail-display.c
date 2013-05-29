@@ -702,8 +702,9 @@ attachment_button_expanded (GObject *object,
 	WebKitDOMDocument *document;
 	WebKitDOMElement *element;
 	WebKitDOMCSSStyleDeclaration *css;
+	const gchar *attachment_part_id;
+	gchar *element_id;
 	gboolean expanded;
-	gchar *id;
 
 	d (
 		printf ("Attachment button %s has been %s!\n",
@@ -715,8 +716,11 @@ attachment_button_expanded (GObject *object,
 		gtk_widget_get_visible (GTK_WIDGET (button));
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (display));
-	element = find_element_by_id (
-		document, g_object_get_data (object, "attachment_id"));
+	attachment_part_id = g_object_get_data (object, "attachment_id");
+
+	element_id = g_strconcat (attachment_part_id, ".wrapper", NULL);
+	element = find_element_by_id (document, element_id);
+	g_free (element_id);
 
 	if (!WEBKIT_DOM_IS_ELEMENT (element)) {
 		d (
@@ -731,16 +735,12 @@ attachment_button_expanded (GObject *object,
 	webkit_dom_css_style_declaration_set_property (
 		css, "display", expanded ? "block" : "none", "", NULL);
 
-	id = g_strconcat (
-		g_object_get_data (object, "attachment_id"),
-		".iframe", NULL);
-	element = find_element_by_id (document, id);
-	g_free (id);
+	element_id = g_strconcat (attachment_part_id, ".iframe", NULL);
+	element = find_element_by_id (document, element_id);
+	g_free (element_id);
 
 	if (!WEBKIT_DOM_IS_HTML_IFRAME_ELEMENT (element)) {
-		d (
-			printf ("%s: No <iframe> found\n",
-			(gchar *) g_object_get_data (object, "attachment_id")));
+		d (printf ("%s: No <iframe> found\n", attachment_part_id));
 		return;
 	}
 	bind_iframe_content_visibility (element, display, button);
@@ -924,6 +924,7 @@ mail_display_plugin_widget_requested (WebKitWebView *web_view,
 		WebKitDOMDocument *document;
 		EMailPartAttachment *empa = (EMailPartAttachment *) part;
 		gchar *attachment_part_id;
+		gchar *wrapper_element_id;
 
 		if (empa->attachment_view_part_id)
 			attachment_part_id = empa->attachment_view_part_id;
@@ -934,7 +935,10 @@ mail_display_plugin_widget_requested (WebKitWebView *web_view,
 		 * the content of the attachment (iframe). */
 		document = webkit_web_view_get_dom_document (
 			WEBKIT_WEB_VIEW (display));
-		attachment = find_element_by_id (document, attachment_part_id);
+		wrapper_element_id = g_strconcat (
+			attachment_part_id, ".wrapper", NULL);
+		attachment = find_element_by_id (document, wrapper_element_id);
+		g_free (wrapper_element_id);
 
 		/* None found? Attachment cannot be expanded */
 		if (attachment == NULL) {
