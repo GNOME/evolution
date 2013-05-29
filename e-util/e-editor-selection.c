@@ -39,8 +39,6 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_EDITOR_SELECTION, EEditorSelectionPrivate))
 
-#define WORD_WRAP_LENGTH 71
-
 #define UNICODE_HIDDEN_SPACE "\xe2\x80\x8b"
 
 /**
@@ -62,6 +60,8 @@ struct _EEditorSelectionPrivate {
 	gchar *font_family;
 
 	gulong selection_offset;
+
+	gint word_wrap_length;
 };
 
 enum {
@@ -792,7 +792,14 @@ e_editor_selection_class_init (EEditorSelectionClass *class)
 static void
 e_editor_selection_init (EEditorSelection *selection)
 {
+	GSettings *g_settings;
+
 	selection->priv = E_EDITOR_SELECTION_GET_PRIVATE (selection);
+
+	g_settings = g_settings_new ("org.gnome.evolution.mail");
+	selection->priv->word_wrap_length = g_settings_get_int (g_settings, "composer-word-wrap-length");
+	g_object_unref (g_settings);
+
 }
 
 /**
@@ -2222,15 +2229,136 @@ e_editor_selection_insert_image (EEditorSelection *selection,
 	g_object_unref (editor_widget);
 }
 
+static void
+clear_caret_position_marker (EEditorSelection *selection)
+{
+	EEditorWidget *widget;
+	WebKitDOMDocument *document;
+	WebKitDOMElement *element;
+
+	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+
+	widget = e_editor_selection_ref_editor_widget (selection);
+	g_return_if_fail (widget != NULL);
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
+
+	element = webkit_dom_document_get_element_by_id (document, "-x-evo-caret-position");
+
+	if (element) {
+		webkit_dom_node_remove_child (
+			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
+			WEBKIT_DOM_NODE (element),
+			NULL);
+	}
+
+	g_object_unref (widget);
+}
+
+static void
+save_caret_position (EEditorSelection *selection)
+{
+	EEditorWidget *widget;
+	WebKitDOMDocument *document;
+	WebKitDOMElement *element;
+	WebKitDOMNode *split_node;
+	WebKitDOMNode *start_offset_node;
+	WebKitDOMRange *range;
+	gulong start_offset;
+
+	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+
+	widget = e_editor_selection_ref_editor_widget (selection);
+	g_return_if_fail (widget != NULL);
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
+	clear_caret_position_marker (selection);
+
+	range = editor_selection_get_current_range (selection);
+
+	start_offset = webkit_dom_range_get_start_offset (range, NULL);
+	start_offset_node = webkit_dom_range_get_end_container (range, NULL);
+
+	element	= webkit_dom_document_create_element (document, "SPAN", NULL);
+	webkit_dom_html_element_set_id (WEBKIT_DOM_HTML_ELEMENT (element), "-x-evo-caret-position");
+	webkit_dom_html_element_set_inner_html (WEBKIT_DOM_HTML_ELEMENT (element), "*", NULL);
+
+	if (WEBKIT_DOM_IS_TEXT (start_offset_node)) {
+		WebKitDOMText *split_text;
+
+		split_text = webkit_dom_text_split_text (
+				WEBKIT_DOM_TEXT (start_offset_node),
+				start_offset, NULL);
+		split_node = WEBKIT_DOM_NODE (split_text);
+	} else {
+		split_node = start_offset_node;
+	}
+
+	webkit_dom_node_insert_before (
+		webkit_dom_node_get_parent_node (start_offset_node),
+		WEBKIT_DOM_NODE (element),
+		split_node,
+		NULL);
+
+	g_object_unref (widget);
+}
+
+static void
+restore_caret_position (EEditorSelection *selection)
+{
+	EEditorWidget *widget;
+	WebKitDOMDocument *document;
+	WebKitDOMDOMWindow *window;
+	WebKitDOMDOMSelection *window_selection;
+	WebKitDOMElement *element;
+
+	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+
+	widget = e_editor_selection_ref_editor_widget (selection);
+	g_return_if_fail (widget != NULL);
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
+	window = webkit_dom_document_get_default_view (document);
+	window_selection = webkit_dom_dom_window_get_selection (window);
+	element = webkit_dom_document_get_element_by_id (document, "-x-evo-caret-position");
+
+	if (element) {
+		WebKitDOMRange *new_range;
+
+		window = webkit_dom_document_get_default_view (document);
+		window_selection = webkit_dom_dom_window_get_selection (window);
+		new_range = webkit_dom_document_create_range (document);
+
+		webkit_dom_range_select_node_contents (
+			new_range, WEBKIT_DOM_NODE (element), NULL);
+		webkit_dom_range_collapse (new_range, FALSE, NULL);
+		webkit_dom_dom_selection_remove_all_ranges (window_selection);
+		webkit_dom_dom_selection_add_range (window_selection, new_range);
+
+		webkit_dom_node_remove_child (
+			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
+			WEBKIT_DOM_NODE (element),
+			NULL);
+	}
+
+	g_object_unref (widget);
+}
+
 static gint
 find_where_to_break_line (WebKitDOMNode *node,
-                          gint max_len)
+                          gint max_len,
+			  gint word_wrap_length)
 {
 	gchar *str, *text_start;
 	gunichar uc;
-	gint pos, last_space;
+	gint pos;
+	gint last_space = 0;
+	gint length;
+	gint ret_val = 0;
+	gchar* position;
 
-	text_start = webkit_dom_text_get_whole_text ((WebKitDOMText *) node);
+	text_start =  webkit_dom_character_data_get_data (WEBKIT_DOM_CHARACTER_DATA (node));
+	length = g_utf8_strlen (text_start, -1);
 
 	pos = 0;
 	last_space = 0;
@@ -2247,9 +2375,21 @@ find_where_to_break_line (WebKitDOMNode *node,
 		}
 
 		/* If last_space is zero then the word is longer than
-		 * WORD_WRAP_LENGTH characters, so continue untill we find
+		 * word_wrap_length characters, so continue untill we find
 		 * a space */
 		if ((pos > max_len) && (last_space > 0)) {
+			if (last_space > word_wrap_length) {
+				g_free (text_start);
+				return last_space;
+			}
+			if (last_space > max_len) {
+				if (g_unichar_isspace (g_utf8_get_char (text_start)))
+					ret_val = 1;
+
+				g_free (text_start);
+
+				return ret_val;
+			}
 			g_free (text_start);
 			return last_space;
 		}
@@ -2262,57 +2402,124 @@ find_where_to_break_line (WebKitDOMNode *node,
 		str = g_utf8_next_char (str);
 	} while (*str);
 
+	position = g_utf8_offset_to_pointer (text_start, max_len);
+
+	if (g_unichar_isspace (g_utf8_get_char (position))) {
+		ret_val = max_len + 1;
+	} else {
+		if (last_space < max_len) {
+			ret_val = last_space;
+		} else {
+			if (length > word_wrap_length)
+				ret_val = last_space;
+			else
+				ret_val = 0;
+		}
+	}
+
 	g_free (text_start);
-	return max_len;
+
+	return ret_val;
 }
 
-/**
- * e_editor_selection_wrap_lines:
- * @selection: an #EEditorSelection
- *
- * Wraps all lines in current selection to be 71 characters long.
- */
-void
-e_editor_selection_wrap_lines (EEditorSelection *selection)
+static void
+wrap_lines (EEditorSelection *selection,
+	    WebKitWebView *web_view,
+	    gboolean jump_to_previous_line,
+	    gboolean remove_all_br,
+	    gint word_wrap_length)
 {
-	EEditorWidget *editor_widget;
-	WebKitWebView *web_view;
-	WebKitDOMRange *range;
+	WebKitDOMDocumentFragment *fragment;
 	WebKitDOMNode *node, *start_node;
 	WebKitDOMDocument *document;
 	WebKitDOMElement *element;
-	WebKitDOMDocumentFragment *fragment;
-	gint len;
+	WebKitDOMNodeList *wrap_br;
+	gint len, ii, br_count;
 	gchar *html;
-
-	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
-
-	editor_widget = e_editor_selection_ref_editor_widget (selection);
-	g_return_if_fail (editor_widget != NULL);
-
-	web_view = WEBKIT_WEB_VIEW (editor_widget);
-
-	/* When there is nothing selected, we select the whole document */
-	if (g_strcmp0 (e_editor_selection_get_string (selection), "") == 0) {
-		EEditorWidgetCommand command;
-		command = E_EDITOR_WIDGET_COMMAND_SELECT_ALL;
-		e_editor_widget_exec_command (editor_widget, command, NULL);
-	}
+	gulong length_left;
 
 	document = webkit_web_view_get_dom_document (web_view);
-	range = editor_selection_get_current_range (selection);
 
-	/* Copy the selection from DOM, wrap the lines and then paste it back
-	 * using the DOM command which will overwrite the selection, and
-	 * record it as an undoable action */
-	fragment = webkit_dom_range_clone_contents (range, NULL);
+	fragment = webkit_dom_range_clone_contents (
+			editor_selection_get_current_range (selection),
+			NULL);
+
+	/* Select all BR elements or just ours that are used for wrapping.
+	 * We are not removing user BR elements when this function is activated
+	 * from Format->Wrap Lines action */
+	wrap_br = webkit_dom_document_fragment_query_selector_all (
+			fragment,
+			(remove_all_br) ? "br" : "br.-x-evo-wrap-br",
+			NULL);
+
+	/* And remove them */
+	br_count = webkit_dom_node_list_get_length (wrap_br);
+	for (ii = br_count; ii > 0; ii--) {
+		WebKitDOMNode *br = webkit_dom_node_list_item (wrap_br, ii);
+		webkit_dom_node_remove_child (
+				webkit_dom_node_get_parent_node (br), br, NULL);
+	}
+
 	node = WEBKIT_DOM_NODE (fragment);
 
 	start_node = node;
 	len = 0;
 	while (node) {
-		/* Find nearest text node */
-		if (webkit_dom_node_get_node_type (node) != 3) {
+		if (WEBKIT_DOM_IS_TEXT (node)) {
+			if (jump_to_previous_line) {
+				/* If we need to jump to the previous line (e.g. Backspace pressed
+				 * on the beginning of line we need to remove last character on
+				 * the line that is above that line */
+				WebKitDOMNode *next_sibling = webkit_dom_node_get_next_sibling (node);
+
+				if (WEBKIT_DOM_IS_HTML_ELEMENT (next_sibling) &&
+					(g_strcmp0 (webkit_dom_html_element_get_id (WEBKIT_DOM_HTML_ELEMENT (next_sibling)),
+						    "-x-evo-caret-position")) == 0) {
+
+					webkit_dom_character_data_delete_data (
+						WEBKIT_DOM_CHARACTER_DATA (node),
+						webkit_dom_character_data_get_length (WEBKIT_DOM_CHARACTER_DATA (node)) - 1,
+						1, NULL);
+				}
+			}
+
+			/* If there is temporary hidden space we remove it */
+			if (strstr (webkit_dom_node_get_text_content (node), UNICODE_HIDDEN_SPACE))
+				webkit_dom_character_data_delete_data (
+					WEBKIT_DOM_CHARACTER_DATA (node), 0, 1, NULL);
+		} else {
+			/* If element is ANCHOR we wrap it separately */
+			if (WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (node)) {
+				glong anchor_length;
+
+				anchor_length = g_utf8_strlen (webkit_dom_node_get_text_content (node), -1);
+				if (len + anchor_length > word_wrap_length) {
+					element = webkit_dom_document_create_element (
+							document, "BR", NULL);
+					webkit_dom_element_set_class_name (element, "-x-evo-wrap-br");
+					webkit_dom_node_insert_before (
+							webkit_dom_node_get_parent_node (node),
+							WEBKIT_DOM_NODE (element),
+							node,
+							NULL);
+					len = anchor_length;
+				} else
+					len += anchor_length;
+
+				node = webkit_dom_node_get_next_sibling (node);
+				continue;
+			}
+			/* When we are not removing user-entered BR elements (lines wrapped by user),
+			 * we need to skip those elements */
+			if (!remove_all_br && g_strcmp0 (webkit_dom_node_get_local_name (node), "br") == 0) {
+				if (!g_strcmp0 (webkit_dom_element_get_class_name (WEBKIT_DOM_ELEMENT (node)), "-x-evo-wrap-br") == 0) {
+					len = 0;
+					node = webkit_dom_node_get_next_sibling (node);
+					continue;
+				}
+			}
+
+			/* Find nearest text node */
 			if (webkit_dom_node_has_child_nodes (node)) {
 				node = webkit_dom_node_get_first_child (node);
 			} else if (webkit_dom_node_get_next_sibling (node)) {
@@ -2331,47 +2538,76 @@ e_editor_selection_wrap_lines (EEditorSelection *selection)
 		}
 
 		/* If length of this node + what we already have is still less
-		 * then 71 characters, then just join it and continue to next
+		 * then word_wrap_length characters, then just join it and continue to next
 		 * node */
-		if ((webkit_dom_character_data_get_length (
-			(WebKitDOMCharacterData *) node) + len) < WORD_WRAP_LENGTH) {
+		length_left = webkit_dom_character_data_get_length (WEBKIT_DOM_CHARACTER_DATA (node));
 
-			len += webkit_dom_character_data_get_length (
-				(WebKitDOMCharacterData *) node);
-
+		if ((length_left + len) < word_wrap_length) {
+			len += length_left;
 		} else {
-			gint offset;
+			gint offset = 0;
 
-			/* Find where we can line-break the node so that it
-			 * effectively fills the rest of current row */
-			offset = find_where_to_break_line (node, WORD_WRAP_LENGTH - len);
+			/* wrap until we have something */
+			while ((length_left + len) > word_wrap_length) {
+				/* Find where we can line-break the node so that it
+				 * effectively fills the rest of current row */
+				offset = find_where_to_break_line (node, word_wrap_length - len, word_wrap_length);
 
-			if (offset > 0) {
-				/* Split the node and append <BR> tag to it */
-				webkit_dom_text_split_text (
-					(WebKitDOMText *) node, len + offset, NULL);
+				element = webkit_dom_document_create_element (document, "BR", NULL);
+				webkit_dom_element_set_class_name (element, "-x-evo-wrap-br");
 
-				element = webkit_dom_document_create_element (
-					document, "BR", NULL);
-
-				/* WebKit throws warning when ref_child is NULL */
-				if (webkit_dom_node_get_next_sibling (node)) {
+				if (offset > 0 && offset <= word_wrap_length) {
+					if (offset != length_left) {
+						webkit_dom_text_split_text (
+								WEBKIT_DOM_TEXT (node), offset, NULL);
+					}
+					if (webkit_dom_node_get_next_sibling (node)) {
+						WebKitDOMNode *nd = webkit_dom_node_get_next_sibling (node);
+						nd = webkit_dom_node_get_next_sibling (node);
+						webkit_dom_node_insert_before (
+							webkit_dom_node_get_parent_node (node),
+							WEBKIT_DOM_NODE (element),
+							nd,
+							NULL);
+					} else {
+						webkit_dom_node_append_child (
+							webkit_dom_node_get_parent_node (node),
+							WEBKIT_DOM_NODE (element),
+							NULL);
+					}
+				} else if (offset > word_wrap_length) {
+					if (offset != length_left) {
+						webkit_dom_text_split_text (
+								WEBKIT_DOM_TEXT (node), offset + 1, NULL);
+					}
+					if (webkit_dom_node_get_next_sibling (node)) {
+						WebKitDOMNode *nd = webkit_dom_node_get_next_sibling (node);
+						nd = webkit_dom_node_get_next_sibling (node);
+						webkit_dom_node_insert_before (
+							webkit_dom_node_get_parent_node (node),
+							WEBKIT_DOM_NODE (element),
+							nd,
+							NULL);
+					} else {
+						webkit_dom_node_append_child (
+							webkit_dom_node_get_parent_node (node),
+							WEBKIT_DOM_NODE (element),
+							NULL);
+					}
+					len = 0;
+					break;
+				} else {
 					webkit_dom_node_insert_before (
 						webkit_dom_node_get_parent_node (node),
 						WEBKIT_DOM_NODE (element),
-						webkit_dom_node_get_next_sibling (node),
-						NULL);
-				} else {
-					webkit_dom_node_append_child (
-						webkit_dom_node_get_parent_node (node),
-						WEBKIT_DOM_NODE (element),
+						node,
 						NULL);
 				}
-
+				length_left = webkit_dom_character_data_get_length (WEBKIT_DOM_CHARACTER_DATA (node));
 				len = 0;
 			}
+			len += length_left - offset;
 		}
-
 		/* Skip to next node */
 		if (webkit_dom_node_get_next_sibling (node)) {
 			node = webkit_dom_node_get_next_sibling (node);
@@ -2390,17 +2626,240 @@ e_editor_selection_wrap_lines (EEditorSelection *selection)
 	/* Create a wrapper DIV and put the processed content into it */
 	element = webkit_dom_document_create_element (document, "DIV", NULL);
 	webkit_dom_node_append_child (
-		WEBKIT_DOM_NODE (element), WEBKIT_DOM_NODE (start_node), NULL);
+		WEBKIT_DOM_NODE (element),
+		WEBKIT_DOM_NODE (start_node),
+		NULL);
 
 	/* Get HTML code of the processed content */
 	html = webkit_dom_html_element_get_inner_html (
-		WEBKIT_DOM_HTML_ELEMENT (element));
+			WEBKIT_DOM_HTML_ELEMENT (element));
 
 	/* Overwrite the current selection be the processed content, so that
 	 * "UNDO" and "REDO" buttons work as expected */
 	e_editor_selection_insert_html (selection, html);
 
 	g_free (html);
+}
+
+static gboolean
+check_if_previously_wrapped (WebKitDOMDocument *document)
+{
+	WebKitDOMNode *sibling;
+	sibling = WEBKIT_DOM_NODE (webkit_dom_document_get_element_by_id (document, "-x-evo-caret-position"));
+
+	while (sibling) {
+		if (sibling && WEBKIT_DOM_IS_ELEMENT (sibling)) {
+			if (g_strcmp0 (webkit_dom_element_get_class_name (WEBKIT_DOM_ELEMENT (sibling)), "-x-evo-wrap-br") == 0) {
+				return TRUE;
+			}
+		}
+		sibling = webkit_dom_node_get_next_sibling (sibling);
+	}
+	return FALSE;
+}
+
+/**
+ * e_editor_selection_wrap_lines:
+ * @selection: an #EEditorSelection
+ * @while_typing: If true this function is capable to wrap while typing
+ * @event: GdkEventKey of pressed key - can be NULL
+ *
+ * Wraps all lines in current selection to be 71 characters long.
+ */
+void
+e_editor_selection_wrap_lines (EEditorSelection *selection,
+			       gboolean while_typing,
+			       GdkEventKey *event)
+{
+	EEditorWidget *editor_widget;
+	WebKitWebView *web_view;
+	WebKitDOMRange *range;
+	WebKitDOMDocument *document;
+	WebKitDOMDOMWindow *window;
+	WebKitDOMDOMSelection *window_selection;
+	gboolean adding = FALSE;
+	gboolean return_pressed = FALSE;
+	gboolean jump_to_previous_line = FALSE;
+	gboolean previously_wrapped = FALSE;
+
+	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+
+	editor_widget = e_editor_selection_ref_editor_widget (selection);
+	g_return_if_fail (editor_widget != NULL);
+
+	if (event != NULL) {
+		if ((event->keyval == GDK_KEY_Return) ||
+		    (event->keyval == GDK_KEY_Linefeed) ||
+		    (event->keyval == GDK_KEY_KP_Enter)) {
+
+			return_pressed = TRUE;
+		}
+
+		if (return_pressed || (event->keyval == GDK_KEY_space))
+			adding = TRUE;
+	}
+
+	web_view = WEBKIT_WEB_VIEW (editor_widget);
+	document = webkit_web_view_get_dom_document (web_view);
+	window = webkit_dom_document_get_default_view (document);
+
+	if (while_typing) {
+		WebKitDOMNode *end_container;
+		WebKitDOMNode *parent;
+		gulong start_offset;
+
+		/* We need to save caret position and restore it after
+		 * wrapping the selection, but we need to save it before we
+		 * start to modify selection */
+		range = editor_selection_get_current_range (selection);
+		save_caret_position (selection);
+
+		start_offset = webkit_dom_range_get_start_offset (range, NULL);
+		/* Extend the range to include entire nodes */
+		webkit_dom_range_select_node_contents (
+				range,
+				webkit_dom_range_get_common_ancestor_container (range, NULL),
+				NULL);
+
+		window_selection = webkit_dom_dom_window_get_selection (window);
+
+		end_container = webkit_dom_range_get_end_container (range, NULL);
+
+		previously_wrapped = check_if_previously_wrapped (document);
+
+		/* Wrap only text surrounded in DIV and P tags */
+		parent = webkit_dom_node_get_parent_node(end_container);
+		if (WEBKIT_DOM_IS_HTML_DIV_ELEMENT (parent) || WEBKIT_DOM_IS_HTML_PARAGRAPH_ELEMENT (parent)) {
+			webkit_dom_element_set_class_name (WEBKIT_DOM_ELEMENT (parent), "-x-evo-paragraph");
+		} else {
+			/* If Return is pressed we need to select element above caret */
+			if (return_pressed) {
+				WebKitDOMNode *position = WEBKIT_DOM_NODE (webkit_dom_document_get_element_by_id (document, "-x-evo-caret-position"));
+				end_container = webkit_dom_node_get_previous_sibling (position);
+			}
+			else {
+				/* When some weird element is selected, return */
+				clear_caret_position_marker (selection);
+				return;
+			}
+		}
+
+		if (previously_wrapped) {
+			/* Modifying previously wrapped line */
+
+			/* If we are on the beginning of line we need to remember it */
+			if (!adding && start_offset > selection->priv->word_wrap_length)
+				jump_to_previous_line = TRUE;
+
+			webkit_dom_dom_selection_select_all_children (
+				window_selection,
+				webkit_dom_node_get_parent_node (end_container),
+				NULL);
+
+			webkit_dom_range_select_node_contents (
+				range,
+				webkit_dom_node_get_parent_node (end_container),
+				NULL);
+		} else {
+			if (adding && return_pressed) {
+				/* If return is pressed end_container is already set
+				 * to parent (DIV or P) */
+				webkit_dom_dom_selection_select_all_children (
+					window_selection,
+					end_container,
+					NULL);
+			} else {
+				webkit_dom_dom_selection_select_all_children (
+					window_selection,
+					webkit_dom_node_get_parent_node (end_container),
+					NULL);
+			}
+
+			/* If there is less than word_wrap_length characters do nothing */
+			if (g_utf8_strlen (e_editor_selection_get_string (selection), -1) < selection->priv->word_wrap_length) {
+				if (return_pressed) {
+					webkit_dom_dom_selection_collapse_to_end (window_selection, NULL);
+					clear_caret_position_marker (selection);
+					webkit_dom_dom_selection_modify (window_selection, "move", "forward", "character");
+				} else {
+					restore_caret_position (selection);
+				}
+				return;
+			}
+
+			if (return_pressed)
+				/* If return is pressed end_container is already set
+				 * to parent (DIV or P) */
+				webkit_dom_range_select_node_contents (
+					range,
+					end_container,
+					NULL);
+			else
+				webkit_dom_range_select_node_contents (
+					range,
+					webkit_dom_node_get_parent_node (end_container),
+					NULL);
+
+			if (!adding && start_offset > selection->priv->word_wrap_length)
+				jump_to_previous_line = TRUE;
+		}
+
+		wrap_lines (selection, web_view, jump_to_previous_line,
+			    FALSE, selection->priv->word_wrap_length);
+	} else {
+		/* When there is nothing selected, we select and wrap everything
+		 * that is not containing signature */
+		if (g_strcmp0 (e_editor_selection_get_string (selection), "") == 0) {
+			WebKitDOMNodeList *list;
+			WebKitDOMNode *signature = NULL;
+			gint ii;
+
+			window_selection = webkit_dom_dom_window_get_selection (window);
+
+			/* Check if signature is presented in editor */
+			list = webkit_dom_document_get_elements_by_class_name (document, "-x-evolution-signature");
+			if (webkit_dom_node_list_get_length (list) > 0)
+				signature = webkit_dom_node_list_item (list, 0);
+
+			if (signature) {
+				list = webkit_dom_document_query_selector_all (document, "div, pre, p", NULL);
+
+				for (ii = 0; ii < webkit_dom_node_list_get_length (list); ii++) {
+					WebKitDOMNode *node;
+					node = webkit_dom_node_list_item (list, ii);
+
+					/* Select elements that actualy have some text content */
+					if (g_utf8_strlen (webkit_dom_node_get_text_content (node), -1) == 0)
+						continue;
+
+					if (!webkit_dom_node_contains (node, signature)
+						&& !webkit_dom_node_contains (signature, node)) {
+						webkit_dom_dom_selection_select_all_children (
+							window_selection,
+							node,
+							NULL);
+						wrap_lines (selection, web_view, jump_to_previous_line,
+							    FALSE, selection->priv->word_wrap_length);
+					}
+				}
+			} else {
+				/* Select all */
+				EEditorWidgetCommand command;
+				command = E_EDITOR_WIDGET_COMMAND_SELECT_ALL;
+				e_editor_widget_exec_command (editor_widget, command, NULL);
+				wrap_lines (selection, web_view, jump_to_previous_line,
+					    FALSE, selection->priv->word_wrap_length);
+			}
+		}
+	}
+
+	/* We have to move caret on position where it was before modifying the text */
+	if (return_pressed) {
+		clear_caret_position_marker (selection);
+		/* If Return is pressed we need to move the caret again below the text */
+		webkit_dom_dom_selection_modify (window_selection, "move", "forward", "character");
+	} else
+		restore_caret_position (selection);
 
 	g_object_unref (editor_widget);
 }

@@ -160,6 +160,11 @@
       <_summary>Enable developer mode</_summary>
       <_description>Enables some hidden actions and tools aimed for development and debugging.</_description>
     </key>
+    <key name="composer-word-wrap-length" type="i">
+      <default>71</default>
+      <_summary>Number of characters for wrapping</_summary>
+      <_description>Will autowrap lines after given number of characters.</_description>
+    </key>
     <key name="drag-and-drop-save-file-format" type="s">
       <default>'mbox'</default>
       <_summary>Save file format for drag-and-drop operation</_summary>

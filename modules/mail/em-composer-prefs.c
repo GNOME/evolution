@@ -1085,6 +1085,12 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
+	widget = e_builder_get_widget (prefs->builder, "spinWordWrapLength");
+	g_settings_bind (
+		settings, "composer-word-wrap-length",
+		widget, "value",
+		G_SETTINGS_BIND_DEFAULT);
+
 	widget = e_builder_get_widget (prefs->builder, "chkOutlookFilenames");
 	g_settings_bind (
 		settings, "composer-outlook-filenames",

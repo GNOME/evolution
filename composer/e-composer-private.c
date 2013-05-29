@@ -27,6 +27,8 @@
 /* Initial height of the picture gallery. */
 #define GALLERY_INITIAL_HEIGHT 150
 
+#define UNICODE_HIDDEN_SPACE "\xe2\x80\x8b"
+
 static void
 composer_setup_charset_menu (EMsgComposer *composer)
 {
@@ -602,6 +604,13 @@ e_composer_paste_text (EMsgComposer *composer,
 	editor_selection = e_editor_widget_get_selection (editor_widget);
 	e_editor_selection_insert_text (editor_selection, text);
 
+	e_editor_widget_check_magic_links (editor_widget, FALSE);
+
+	if (e_editor_selection_get_block_format (editor_selection) ==
+			E_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH) {
+		e_editor_selection_wrap_lines (editor_selection, TRUE, NULL);
+	}
+
 	g_free (text);
 
 	return TRUE;
@@ -773,8 +782,11 @@ composer_move_caret (EMsgComposer *composer)
 	EEditorWidget *editor_widget;
 	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *window;
-	WebKitDOMElement *br_bottom;
 	WebKitDOMDOMSelection *dom_selection;
+	WebKitDOMElement *input_start;
+	WebKitDOMNodeList *list;
+	WebKitDOMNodeList *blockquotes;
+	WebKitDOMElement *element;
 	GSettings *settings;
 	gboolean start_bottom;
 
@@ -792,33 +804,74 @@ composer_move_caret (EMsgComposer *composer)
 	body = webkit_dom_document_get_body (document);
 	new_range = webkit_dom_document_create_range (document);
 
-	if (start_bottom) {
-		WebKitDOMNodeList *blockquotes;
+	/* If we were just changing composer mode we don't want to insert
+	 * new div and we want to set caret to the beginning */
+	element = webkit_dom_document_get_element_by_id (document, "-x-evo-changing-mode");
+	if (element) {
+		webkit_dom_node_remove_child (
+			WEBKIT_DOM_NODE (body),
+			WEBKIT_DOM_NODE (element),
+			NULL);
 
-		blockquotes = webkit_dom_document_get_elements_by_tag_name (document, "blockquote");
-		if (webkit_dom_node_list_get_length (blockquotes) != 0) {
-			/* Move caret between reply and signature. */
-			new_range = webkit_dom_document_create_range (document);
+		if (webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body))) {
 			webkit_dom_range_select_node_contents (new_range,
 				WEBKIT_DOM_NODE (
-					webkit_dom_node_get_next_sibling (webkit_dom_node_list_item (blockquotes, 0))
-				), NULL);
+					webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body))),
+				NULL);
 			webkit_dom_range_collapse (new_range, TRUE, NULL);
 
+			webkit_dom_dom_selection_remove_all_ranges (dom_selection);
+			webkit_dom_dom_selection_add_range (dom_selection, new_range);
+		}
+		return;
+	}
+
+	list = webkit_dom_document_get_elements_by_class_name (document, "-x-evo-paragraph");
+	blockquotes = webkit_dom_document_get_elements_by_tag_name (document, "blockquote");
+
+	if (webkit_dom_node_list_get_length (list) == 0) {
+		element = webkit_dom_document_create_element (document, "DIV", NULL);
+		webkit_dom_element_set_class_name (WEBKIT_DOM_ELEMENT (element), "-x-evo-paragraph");
+		webkit_dom_html_element_set_id (WEBKIT_DOM_HTML_ELEMENT (element), "-x-evo-input-start");
+		webkit_dom_html_element_set_inner_html (WEBKIT_DOM_HTML_ELEMENT (element), UNICODE_HIDDEN_SPACE, NULL);
+	}
+
+	if (start_bottom) {
+		if (webkit_dom_node_list_get_length (blockquotes) != 0) {
+			if (webkit_dom_node_list_get_length (list) == 0) {
+				webkit_dom_node_insert_before (
+					WEBKIT_DOM_NODE (body),
+					WEBKIT_DOM_NODE (element),
+					webkit_dom_node_get_next_sibling (
+						webkit_dom_node_list_item (blockquotes, 0)),
+					NULL);
+			}
+			input_start = webkit_dom_document_get_element_by_id (document, "-x-evo-input-start");
+
+			/* Move caret between reply and signature. */
+			if (input_start)
+				webkit_dom_range_select_node_contents (new_range, WEBKIT_DOM_NODE (input_start), NULL);
+			webkit_dom_range_collapse (new_range, FALSE, NULL);
 		} else {
-			br_bottom = webkit_dom_document_get_element_by_id (document, "-x-evolution-br-reply");
-
-			if (!br_bottom) {
-				WebKitDOMElement *br;
-
-				br = webkit_dom_document_create_element (document, "BR", NULL);
-				webkit_dom_html_element_set_id (WEBKIT_DOM_HTML_ELEMENT (br), "-x-evolution-br-reply");
-				webkit_dom_node_append_child (WEBKIT_DOM_NODE (body), WEBKIT_DOM_NODE (br), NULL);
-				br_bottom = webkit_dom_document_get_element_by_id (document, "-x-evolution-br-reply");
+			if (webkit_dom_node_list_get_length (list) == 0) {
+				if (webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)))
+					webkit_dom_node_insert_before (
+						WEBKIT_DOM_NODE (body),
+						WEBKIT_DOM_NODE (element),
+						webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)),
+						NULL);
+				else
+					webkit_dom_node_append_child (
+						WEBKIT_DOM_NODE (body),
+						WEBKIT_DOM_NODE (element),
+						NULL);
 			}
 
-			webkit_dom_range_select_node_contents (new_range, WEBKIT_DOM_NODE (br_bottom), NULL);
-			webkit_dom_range_collapse (new_range, FALSE, NULL);
+			webkit_dom_range_select_node_contents (new_range,
+					WEBKIT_DOM_NODE (
+						webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body))),
+					NULL);
+			webkit_dom_range_collapse (new_range, TRUE, NULL);
 		}
 
 		g_signal_connect (
@@ -826,18 +879,29 @@ composer_move_caret (EMsgComposer *composer)
 			G_CALLBACK (composer_size_allocate_cb), NULL);
 	} else {
 		/* Move caret on the beginning of message */
-		if (!webkit_dom_document_get_element_by_id (document, "-x-evolution-br-reply")) {
-			WebKitDOMElement *br;
+		if (webkit_dom_node_list_get_length (list) == 0) {
+			webkit_dom_node_insert_before (
+				WEBKIT_DOM_NODE (body),
+				WEBKIT_DOM_NODE (element),
+				webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)),
+			        NULL);
 
-			br = webkit_dom_document_create_element (document, "BR", NULL);
-			webkit_dom_html_element_set_id (WEBKIT_DOM_HTML_ELEMENT (br), "-x-evolution-br-reply");
-			webkit_dom_node_insert_before (WEBKIT_DOM_NODE (body), WEBKIT_DOM_NODE (br), webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)), NULL);
+			if (webkit_dom_node_list_get_length (blockquotes) != 0) {
+				WebKitDOMElement *br = webkit_dom_document_create_element (document, "BR", NULL);
+
+				webkit_dom_node_insert_before (
+					WEBKIT_DOM_NODE (body),
+					WEBKIT_DOM_NODE (br),
+					webkit_dom_node_get_next_sibling (
+						webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body))),
+					NULL);
+			}
 		}
 
 		webkit_dom_range_select_node_contents (new_range,
 			WEBKIT_DOM_NODE (
-				webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body))
-			), NULL);
+				webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body))),
+			NULL);
 		webkit_dom_range_collapse (new_range, TRUE, NULL);
 	}
 
@@ -957,10 +1021,6 @@ insert:
 	editor_widget = e_editor_get_editor_widget (editor);
 	selection = e_editor_widget_get_selection (editor_widget);
 
-	/* This prevents our command before/after callbacks from
-	 * screwing around with the signature as we insert it. */
-	composer->priv->in_signature_insert = TRUE;
-
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (editor_widget));
 	window = webkit_dom_document_get_default_view (document);
 	dom_selection = webkit_dom_dom_window_get_selection (window);
@@ -1018,7 +1078,6 @@ insert:
 	}
 
 	composer_move_caret (composer);
-	composer->priv->in_signature_insert = FALSE;
 
 exit:
 	g_object_unref (composer);

@@ -35,6 +35,16 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_EDITOR_WIDGET, EEditorWidgetPrivate))
 
+#define UNICODE_HIDDEN_SPACE "\xe2\x80\x8b"
+
+#define URL_PATTERN \
+	"((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[\\-;:&=\\+\\$,\\w]+@)?" \
+	"[A-Za-z0-9\\.\\-]+|(?:www\\.|[\\-;:&=\\+\\$,\\w]+@)" \
+	"[A-Za-z0-9\\.\\-]+)((?:\\/[\\+~%\\/\\.\\w\\-]*)?\\?" \
+	"?(?:[\\-\\+=&;%@\\.\\w]*)#?(?:[\\.\\!\\/\\\\w]*))?)"
+
+#define URL_PATTERN_SPACE URL_PATTERN "\\s"
+
 /**
  * EEditorWidget:
  *
@@ -304,7 +314,8 @@ static const gchar *emoticons_icon_names[] = {
 
 static void
 editor_widget_check_magic_links (EEditorWidget *widget,
-				 WebKitDOMRange *range)
+				 WebKitDOMRange *range,
+				 gboolean include_space)
 {
 	gchar *node_text;
 	gchar **urls;
@@ -312,11 +323,6 @@ editor_widget_check_magic_links (EEditorWidget *widget,
 	GMatchInfo *match_info;
 	gint start_pos_url, end_pos_url;
 	WebKitDOMNode *node;
-
-	const gchar *url_pattern = "((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[\\-;:&=\\+\\$,\\w]+@)?"
-				   "[A-Za-z0-9\\.\\-]+|(?:www\\.|[\\-;:&=\\+\\$,\\w]+@)"
-				   "[A-Za-z0-9\\.\\-]+)((?:\\/[\\+~%\\/\\.\\w\\-]*)?\\?"
-				   "?(?:[\\-\\+=&;%@\\.\\w]*)#?(?:[\\.\\!\\/\\\\w]*))?)\\s";
 
 	node = webkit_dom_range_get_end_container (range, NULL);
 
@@ -327,7 +333,7 @@ editor_widget_check_magic_links (EEditorWidget *widget,
 	if (!node_text || !g_utf8_validate (node_text, -1, NULL))
 		return;
 
-	regex = g_regex_new (url_pattern, 0, 0, NULL);
+	regex = g_regex_new (include_space ? URL_PATTERN_SPACE : URL_PATTERN, 0, 0, NULL);
 
 	if (!regex) {
 		g_free (node_text);
@@ -355,7 +361,7 @@ editor_widget_check_magic_links (EEditorWidget *widget,
 		url_start = url_end - url_length;
 
 		/* Remove space on end */
-		url = g_utf8_substring (urls[0], 0, url_length - 1);
+		url = g_utf8_substring (urls[0], 0, include_space ? url_length - 1 : url_length);
 
 		/* Select the link and put it inside <A> */
 		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
@@ -364,7 +370,7 @@ editor_widget_check_magic_links (EEditorWidget *widget,
 
 		webkit_dom_dom_selection_set_base_and_extent (
 			selection, webkit_dom_range_get_end_container (range, NULL),
-			url_end - 1, webkit_dom_range_get_end_container (range, NULL),
+			include_space ? url_end - 1 : url_end, webkit_dom_range_get_end_container (range, NULL),
 			url_start, NULL);
 
 		if (g_str_has_prefix (url, "www"))
@@ -900,7 +906,16 @@ editor_widget_key_release_event (GtkWidget *widget,
 		editor_widget_check_magic_smileys (editor_widget, range);
 	}
 
-	editor_widget_check_magic_links (editor_widget, range);
+	if (event->keyval == GDK_KEY_space) {
+		editor_widget_check_magic_links (editor_widget, range, TRUE);
+	}
+
+	if ((event->keyval == GDK_KEY_Return) ||
+	    (event->keyval == GDK_KEY_Linefeed) ||
+	    (event->keyval == GDK_KEY_KP_Enter)) {
+
+		editor_widget_check_magic_links (editor_widget, range, FALSE);
+	}
 
 	if ((event->keyval == GDK_KEY_Control_L) ||
 	    (event->keyval == GDK_KEY_Control_R)) {
@@ -908,6 +923,18 @@ editor_widget_key_release_event (GtkWidget *widget,
 		editor_widget_set_links_active (editor_widget, FALSE);
 	}
 
+	if ((event->keyval == GDK_KEY_space) ||
+	    (event->keyval == GDK_KEY_Delete) ||
+	    (event->keyval == GDK_KEY_Return) ||
+	    (event->keyval == GDK_KEY_Linefeed) ||
+	    (event->keyval == GDK_KEY_KP_Enter) ||
+	    (event->keyval == GDK_KEY_BackSpace)) {
+
+		EEditorSelection *selection;
+		selection = e_editor_widget_get_selection (editor_widget);
+		if (e_editor_selection_get_block_format (selection) == E_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH)
+			e_editor_selection_wrap_lines (selection, TRUE, event);
+	}
 	/* Chain up to parent's key_release_event() method. */
 	return GTK_WIDGET_CLASS (e_editor_widget_parent_class)->
 		key_release_event (widget, event);
@@ -1429,6 +1456,8 @@ void
 e_editor_widget_set_html_mode (EEditorWidget *widget,
                                gboolean html_mode)
 {
+	gboolean changing = FALSE;
+
 	g_return_if_fail (E_IS_EDITOR_WIDGET (widget));
 
 	/* If toggling from HTML to plain text mode, ask user first */
@@ -1459,10 +1488,15 @@ e_editor_widget_set_html_mode (EEditorWidget *widget,
 			/* Nothing has changed, but notify anyway */
 			g_object_notify (G_OBJECT (widget), "html-mode");
 			return;
+		} else {
+			changing = TRUE;
 		}
 
 		gtk_widget_destroy (dialog);
 	}
+
+	if (html_mode)
+		changing = TRUE;
 
 	if (html_mode == widget->priv->html_mode)
 		return;
@@ -1488,6 +1522,13 @@ e_editor_widget_set_html_mode (EEditorWidget *widget,
 			CAMEL_MIME_FILTER_TOHTML_FORMAT_FLOWED,
 			0);
 
+		if (changing) {
+			gchar *tmp;
+			tmp = g_strconcat (html, "<span id=\"-x-evo-changing-mode\"></span>", NULL);
+			g_free (html);
+			html = tmp;
+		}
+
 		e_editor_widget_set_text_html (widget, html);
 
 		g_free (plain_text);
@@ -1497,8 +1538,16 @@ e_editor_widget_set_html_mode (EEditorWidget *widget,
 
 		plain = e_editor_widget_get_text_plain (widget);
 
-		if (*plain)
+		if (*plain) {
+			if (changing) {
+				gchar *tmp;
+				tmp = g_strconcat (plain, UNICODE_HIDDEN_SPACE, NULL);
+				g_free (plain);
+				plain = tmp;
+			}
+
 			e_editor_widget_set_text_plain (widget, plain);
+		}
 
 		g_free (plain);
 	}
@@ -1666,7 +1715,7 @@ process_elements (WebKitDOMNode *node,
 	WebKitDOMCSSStyleDeclaration *style;
 	gchar *display, *tagname;
 	gulong ii, length;
-	GRegex *regex;
+	GRegex *regex, *regex_hidden_space;
 
 	document = webkit_dom_node_get_owner_document (node);
 	window = webkit_dom_document_get_default_view (document);
@@ -1702,9 +1751,14 @@ process_elements (WebKitDOMNode *node,
 		}
 	}
 
+	/* Skip signature */
+	if (g_strcmp0 (webkit_dom_element_get_class_name (WEBKIT_DOM_ELEMENT (node)), "-x-evolution-signature") == 0)
+		return;
+
 	nodes = webkit_dom_node_get_child_nodes (node);
 	length = webkit_dom_node_list_get_length (nodes);
 	regex = g_regex_new ("\x9", 0, 0, NULL);
+	regex_hidden_space = g_regex_new (UNICODE_HIDDEN_SPACE, 0, 0, NULL);
 
 	for (ii = 0; ii < length; ii++) {
 		WebKitDOMNode *child;
@@ -1718,12 +1772,19 @@ process_elements (WebKitDOMNode *node,
 			/* Replace tabs with 4 whitespaces, otherwise they got
 			 * replaced by single whitespace */
 			content = g_regex_replace (
-				regex, tmp, -1, 0, "    ",
-				0, NULL);
+					regex, tmp, -1, 0, "    ",
+					0, NULL);
+
+			content = g_regex_replace (
+					regex_hidden_space, content, -1, 0, "", 0, NULL);
 
 			g_string_append (buffer, content);
 			g_free (tmp);
 			g_free (content);
+		} else {
+			if (g_strcmp0 (webkit_dom_node_get_local_name (child), "br") == 0) {
+				g_string_append (buffer, "\n");
+			}
 		}
 
 		if (webkit_dom_node_has_child_nodes (child)) {
@@ -1731,12 +1792,9 @@ process_elements (WebKitDOMNode *node,
 		}
 	}
 
-	if (g_strcmp0 (display, "block") == 0 && g_strcmp0 (tagname, "BODY") != 0) {
-		g_string_append (buffer, "\n");
-	}
-
 	g_free (display);
 	g_regex_unref (regex);
+	g_regex_unref (regex_hidden_space);
 }
 
 /**
@@ -1757,7 +1815,7 @@ e_editor_widget_get_text_plain (EEditorWidget *widget)
 	GString *plain_text;
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
-	body = (WebKitDOMNode *) webkit_dom_document_get_body (document);
+	body = WEBKIT_DOM_NODE (webkit_dom_document_get_body (document));
 
 	plain_text = g_string_sized_new (1024);
 	process_elements (body, plain_text);
@@ -1787,8 +1845,39 @@ static void
 do_set_text_plain (EEditorWidget *widget,
                    gpointer data)
 {
+	gboolean changing = FALSE;
+	const gchar *ptr;
+	gchar *data_copy = NULL;
+
+	if (strstr (data, UNICODE_HIDDEN_SPACE)) {
+		g_utf8_strncpy (data_copy, data, g_utf8_strlen (data, -1) - 1);
+		ptr = data_copy;
+		changing = TRUE;
+	} else {
+		ptr = data;
+	}
+
 	e_editor_widget_exec_command (
-		widget, E_EDITOR_WIDGET_COMMAND_INSERT_TEXT, data);
+		widget, E_EDITOR_WIDGET_COMMAND_INSERT_TEXT, ptr);
+
+	if (changing) {
+		WebKitDOMDocument *document;
+		WebKitDOMNode *body;
+		WebKitDOMElement *element;
+
+		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
+		body = WEBKIT_DOM_NODE (webkit_dom_document_get_body (document));
+
+		element = webkit_dom_document_create_element (document, "SPAN", NULL);
+		webkit_dom_html_element_set_id (WEBKIT_DOM_HTML_ELEMENT (element), "-x-evo-changing-mode");
+
+		webkit_dom_node_append_child (
+			body,
+			WEBKIT_DOM_NODE (element),
+			NULL);
+
+		g_free (data_copy);
+	}
 }
 
 /**
@@ -2044,6 +2133,14 @@ e_editor_widget_update_fonts (EEditorWidget *widget)
 	pango_font_description_free (vw);
 }
 
+/**
+ * e_editor_widget_get_element_under_mouse_click:
+ * @widget: an #EEditorWidget
+ *
+ * Returns DOM element, that was clicked on.
+ *
+ * Returns: DOM element on that was clicked.
+ */
 WebKitDOMElement *
 e_editor_widget_get_element_under_mouse_click (EEditorWidget *widget)
 {
@@ -2051,3 +2148,24 @@ e_editor_widget_get_element_under_mouse_click (EEditorWidget *widget)
 
 	return widget->priv->element_under_mouse;
 }
+
+/**
+ * e_editor_widget_check_magic_links
+ * @widget: an #EEditorWidget
+ * @include_space: If TRUE the pattern for link expects space on end
+ *
+ * Check if actual selection in given editor is link. If so, it is surrounded
+ * with ANCHOR element.
+ */
+void
+e_editor_widget_check_magic_links (EEditorWidget *widget,
+				   gboolean include_space)
+{
+	WebKitDOMRange *range;
+
+	g_return_if_fail (E_IS_EDITOR_WIDGET (widget));
+
+	range = editor_widget_get_dom_range (widget);
+	editor_widget_check_magic_links (widget, range, include_space);
+}
+
