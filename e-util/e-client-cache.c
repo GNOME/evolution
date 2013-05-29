@@ -100,6 +100,28 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
+/* Based on e_weak_ref_new() (new in libedataserver 3.9) */
+static GWeakRef *
+client_cache_weak_ref_new (EClientCache *client_cache)
+{
+	GWeakRef *weak_ref;
+
+	weak_ref = g_slice_new0 (GWeakRef);
+	g_weak_ref_set (weak_ref, client_cache);
+
+	return weak_ref;
+}
+
+/* Based on e_weak_ref_free() (new in libedataserver 3.9) */
+static void
+client_cache_weak_ref_free (GWeakRef *weak_ref)
+{
+	g_return_if_fail (weak_ref != NULL);
+
+	g_weak_ref_set (weak_ref, NULL);
+	g_slice_free (GWeakRef, weak_ref);
+}
+
 static ClientData *
 client_data_new (EClientCache *client_cache)
 {
@@ -793,15 +815,15 @@ client_cache_constructed (GObject *object)
 	handler_id = g_signal_connect_data (
 		registry, "source-removed",
 		G_CALLBACK (client_cache_source_removed_cb),
-		e_weak_ref_new (client_cache),
-		(GClosureNotify) e_weak_ref_free, 0);
+		client_cache_weak_ref_new (client_cache),
+		(GClosureNotify) client_cache_weak_ref_free, 0);
 	client_cache->priv->source_removed_handler_id = handler_id;
 
 	handler_id = g_signal_connect_data (
 		registry, "source-disabled",
 		G_CALLBACK (client_cache_source_disabled_cb),
-		e_weak_ref_new (client_cache),
-		(GClosureNotify) e_weak_ref_free, 0);
+		client_cache_weak_ref_new (client_cache),
+		(GClosureNotify) client_cache_weak_ref_free, 0);
 	client_cache->priv->source_disabled_handler_id = handler_id;
 
 	g_object_unref (registry);
