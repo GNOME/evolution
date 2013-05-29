@@ -881,7 +881,7 @@ static void
 action_wrap_lines_cb (GtkAction *action,
                       EEditor *editor)
 {
-	e_editor_selection_wrap_lines (editor->priv->selection);
+	e_editor_selection_wrap_lines (editor->priv->selection, FALSE, NULL);
 }
 
 static void
