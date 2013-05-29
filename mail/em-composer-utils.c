@@ -515,6 +515,7 @@ composer_send_completed (EMailSession *session,
                          AsyncContext *context)
 {
 	GError *error = NULL;
+	gboolean service_unavailable;
 	gboolean set_changed = FALSE;
 
 	e_mail_session_send_to_finish (session, result, &error);
@@ -522,6 +523,23 @@ composer_send_completed (EMailSession *session,
 	if (e_activity_handle_cancellation (context->activity, error)) {
 		g_error_free (error);
 		set_changed = TRUE;
+		goto exit;
+	}
+
+	/* Check for error codes which may indicate we're offline
+	 * or name resolution failed or connection attempt failed. */
+	service_unavailable =
+		g_error_matches (
+			error, CAMEL_SERVICE_ERROR,
+			CAMEL_SERVICE_ERROR_UNAVAILABLE) ||
+		/* XXX camel_getaddrinfo() sets this, unfortunately. */
+		g_error_matches (error, CAMEL_ERROR, CAMEL_ERROR_GENERIC);
+	if (service_unavailable) {
+		/* Inform the user. */
+		e_alert_run_dialog_for_args (
+			GTK_WINDOW (context->composer),
+			"mail-composer:saving-to-outbox", NULL);
+		e_msg_composer_save_to_outbox (context->composer);
 		goto exit;
 	}
 

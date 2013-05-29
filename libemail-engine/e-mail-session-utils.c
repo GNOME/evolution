@@ -544,13 +544,6 @@ mail_session_send_to_thread (GSimpleAsyncResult *simple,
 		return;
 	}
 
-	provider = camel_service_get_provider (context->transport);
-	if ((provider->flags & CAMEL_PROVIDER_IS_REMOTE) != 0 &&
-	    !camel_session_get_online (CAMEL_SESSION (session))) {
-		/* silently ignore */
-		return;
-	}
-
 	status = camel_service_get_connection_status (context->transport);
 	if (status != CAMEL_SERVICE_CONNECTED) {
 		did_connect = TRUE;
@@ -563,6 +556,8 @@ mail_session_send_to_thread (GSimpleAsyncResult *simple,
 			return;
 		}
 	}
+
+	provider = camel_service_get_provider (context->transport);
 
 	if (provider->flags & CAMEL_PROVIDER_DISABLE_SENT_FOLDER)
 		copy_to_sent = FALSE;
