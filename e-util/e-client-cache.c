@@ -49,6 +49,8 @@ typedef struct _SignalClosure SignalClosure;
 
 struct _EClientCachePrivate {
 	ESourceRegistry *registry;
+	gulong source_removed_handler_id;
+	gulong source_disabled_handler_id;
 
 	GHashTable *client_ht;
 	GMutex client_ht_lock;
@@ -223,6 +225,31 @@ client_ht_lookup (EClientCache *client_cache,
 	g_mutex_unlock (&client_cache->priv->client_ht_lock);
 
 	return client_data;
+}
+
+static gboolean
+client_ht_remove (EClientCache *client_cache,
+                  ESource *source)
+{
+	GHashTable *client_ht;
+	GHashTableIter client_ht_iter;
+	gpointer inner_ht;
+	gboolean removed = FALSE;
+
+	g_return_val_if_fail (E_IS_SOURCE (source), FALSE);
+
+	client_ht = client_cache->priv->client_ht;
+
+	g_mutex_lock (&client_cache->priv->client_ht_lock);
+
+	g_hash_table_iter_init (&client_ht_iter, client_ht);
+
+	while (g_hash_table_iter_next (&client_ht_iter, NULL, &inner_ht))
+		removed |= g_hash_table_remove (inner_ht, source);
+
+	g_mutex_unlock (&client_cache->priv->client_ht_lock);
+
+	return removed;
 }
 
 static gboolean
@@ -627,6 +654,36 @@ client_cache_cal_connect_cb (GObject *source_object,
 }
 
 static void
+client_cache_source_removed_cb (ESourceRegistry *registry,
+                                ESource *source,
+                                GWeakRef *weak_ref)
+{
+	EClientCache *client_cache;
+
+	client_cache = g_weak_ref_get (weak_ref);
+
+	if (client_cache != NULL) {
+		client_ht_remove (client_cache, source);
+		g_object_unref (client_cache);
+	}
+}
+
+static void
+client_cache_source_disabled_cb (ESourceRegistry *registry,
+                                 ESource *source,
+                                 GWeakRef *weak_ref)
+{
+	EClientCache *client_cache;
+
+	client_cache = g_weak_ref_get (weak_ref);
+
+	if (client_cache != NULL) {
+		client_ht_remove (client_cache, source);
+		g_object_unref (client_cache);
+	}
+}
+
+static void
 client_cache_set_registry (EClientCache *client_cache,
                            ESourceRegistry *registry)
 {
@@ -678,6 +735,20 @@ client_cache_dispose (GObject *object)
 
 	priv = E_CLIENT_CACHE_GET_PRIVATE (object);
 
+	if (priv->source_removed_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->registry,
+			priv->source_removed_handler_id);
+		priv->source_removed_handler_id = 0;
+	}
+
+	if (priv->source_disabled_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->registry,
+			priv->source_disabled_handler_id);
+		priv->source_disabled_handler_id = 0;
+	}
+
 	g_clear_object (&priv->registry);
 
 	g_hash_table_remove_all (priv->client_ht);
@@ -708,8 +779,32 @@ client_cache_finalize (GObject *object)
 static void
 client_cache_constructed (GObject *object)
 {
+	EClientCache *client_cache;
+	ESourceRegistry *registry;
+	gulong handler_id;
+
+	client_cache = E_CLIENT_CACHE (object);
+
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_client_cache_parent_class)->constructed (object);
+
+	registry = e_client_cache_ref_registry (client_cache);
+
+	handler_id = g_signal_connect_data (
+		registry, "source-removed",
+		G_CALLBACK (client_cache_source_removed_cb),
+		e_weak_ref_new (client_cache),
+		(GClosureNotify) e_weak_ref_free, 0);
+	client_cache->priv->source_removed_handler_id = handler_id;
+
+	handler_id = g_signal_connect_data (
+		registry, "source-disabled",
+		G_CALLBACK (client_cache_source_disabled_cb),
+		e_weak_ref_new (client_cache),
+		(GClosureNotify) e_weak_ref_free, 0);
+	client_cache->priv->source_disabled_handler_id = handler_id;
+
+	g_object_unref (registry);
 
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
 }
