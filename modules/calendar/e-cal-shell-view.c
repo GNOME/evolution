@@ -47,6 +47,18 @@ cal_shell_view_finalize (GObject *object)
 }
 
 static void
+cal_shell_view_prepare_for_quit_cb (EShell *shell,
+				    EActivity *activity,
+				    ECalShellView *cal_shell_view)
+{
+	g_return_if_fail (E_IS_CAL_SHELL_VIEW (cal_shell_view));
+
+	/* stop running searches, if any; the activity tight
+	   on the search prevents application to quit */
+	e_cal_shell_view_search_stop (cal_shell_view);
+}
+
+static void
 cal_shell_view_add_action_button (GtkBox *box,
                                   GtkAction *action)
 {
@@ -83,6 +95,8 @@ cal_shell_view_add_action_button (GtkBox *box,
 static void
 cal_shell_view_constructed (GObject *object)
 {
+	EShell *shell;
+	EShellView *shell_view;
 	EShellContent *shell_content;
 	EShellWindow *shell_window;
 	EShellSearchbar *searchbar;
@@ -91,10 +105,12 @@ cal_shell_view_constructed (GObject *object)
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (parent_class)->constructed (object);
 
-	e_cal_shell_view_private_constructed (E_CAL_SHELL_VIEW (object));
+	shell_view = E_SHELL_VIEW (object);
 
-	shell_window = e_shell_view_get_shell_window (E_SHELL_VIEW (object));
-	shell_content = e_shell_view_get_shell_content (E_SHELL_VIEW (object));
+	e_cal_shell_view_private_constructed (E_CAL_SHELL_VIEW (shell_view));
+
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell_content = e_shell_view_get_shell_content (shell_view);
 	searchbar = e_cal_shell_content_get_searchbar (E_CAL_SHELL_CONTENT (shell_content));
 
 	box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
@@ -106,6 +122,13 @@ cal_shell_view_constructed (GObject *object)
 	gtk_widget_show_all (box);
 
 	gtk_container_add (GTK_CONTAINER (e_shell_searchbar_get_search_box (searchbar)), box);
+
+	shell = e_shell_backend_get_shell (e_shell_view_get_shell_backend (shell_view));
+
+	g_signal_connect (
+		shell, "prepare-for-quit",
+		G_CALLBACK (cal_shell_view_prepare_for_quit_cb),
+		object);
 }
 
 static void

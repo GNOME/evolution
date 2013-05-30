@@ -1458,6 +1458,8 @@ cal_iterate_searching (ECalShellView *cal_shell_view)
 			priv->searching_activity = NULL;
 		}
 
+		e_shell_view_update_actions (E_SHELL_VIEW (cal_shell_view));
+
 		return;
 	}
 
@@ -1564,7 +1566,7 @@ cal_iterate_searching (ECalShellView *cal_shell_view)
 	priv->search_time = new_time;
 
 	for (link = list; link != NULL; link = g_list_next (link)) {
-		ECalClient *client = E_CAL_CLIENT (link);
+		ECalClient *client = E_CAL_CLIENT (link->data);
 
 		e_cal_client_get_object_list (
 			client, sexp, cancellable,
@@ -1573,6 +1575,8 @@ cal_iterate_searching (ECalShellView *cal_shell_view)
 
 	g_list_free_full (list, (GDestroyNotify) g_object_unref);
 	g_free (sexp);
+
+	e_shell_view_update_actions (E_SHELL_VIEW (cal_shell_view));
 }
 
 void
@@ -1621,8 +1625,10 @@ e_cal_shell_view_search_events (ECalShellView *cal_shell_view,
 
 	priv->search_direction = search_forward ? +30 : -30;
 
-	if (cal_searching_check_candidates (cal_shell_view))
+	if (cal_searching_check_candidates (cal_shell_view)) {
+		e_shell_view_update_actions (E_SHELL_VIEW (cal_shell_view));
 		return;
+	}
 
 	range_years = cal_searching_get_search_range_years (cal_shell_view);
 
