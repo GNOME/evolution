@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2013-05-15 16:21+0000\n"
-"PO-Revision-Date: 2013-05-17 18:22+0530\n"
+"PO-Revision-Date: 2013-05-30 18:30+0530\n"
 "Last-Translator: Manoj Kumar Giri <mgiri@redhat.com>\n"
 "Language-Team: Oriya <oriya-it@googlegroups.com>\n"
 "Language: or\n"
@@ -8508,10 +8508,9 @@ msgid ""
 msgstr "ବିନା ବିଷୟରେ ସନ୍ଦେଶ ପଠାଇବା ପାଇଁ ଚେଷ୍ଟାକରିବା ପୂର୍ବରୁ ଚାଳକଙ୍କୁ ପଚାରନ୍ତୁ।"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:134
-#, fuzzy
 #| msgid "Pr_ompt when sending messages with only Bcc recipients defined"
 msgid "Prompt when emptying the trash"
-msgstr "କେବଳ Bcc ଗ୍ରହଣକର୍ତ୍ତା ସହିତ ସନ୍ଦେଶ ପଠାଇବା ସମୟରେ ପଚାରନ୍ତୁ (_o)"
+msgstr "ଆବର୍ଜନା ପାତ୍ରକୁ ଖାଲି କରିବା ସମୟରେ ପଚାରନ୍ତୁ"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:135
 msgid "Prompt the user when he or she tries to empty the trash."
@@ -8921,7 +8920,7 @@ msgstr ""
 #. indicate that an attachment should have been attached to the message.
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:4
 msgid "['attachment','attaching','attached','enclosed']"
-msgstr ""
+msgstr "['ସଂଲଗ୍ନକ','ସଂଲଗ୍ନ କରୁଅଛି','ସଂଲଗ୍ନ ହୋଇଛି','ଭର୍ତ୍ତି ହୋଇଛି']"
 
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:5
 msgid ""
@@ -9094,10 +9093,9 @@ msgid ""
 msgstr ""
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:11
-#, fuzzy
 #| msgid "Whether to show the preview pane."
 msgid "Whether to emit a beep."
-msgstr "ପୂର୍ବାଲୋକନ ଫଳକକୁ ଦେଖାଯିବକି ନାହିଁ।"
+msgstr ""
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:12
 msgid "Whether to emit a beep when new messages arrive."
@@ -9137,10 +9135,9 @@ msgstr ""
 "ନୂତନ ସନ୍ଦେଶ ଆସିବା ସମୟରେ ଚଲାଇବାକୁ ଥିବା ଧ୍ୱନି ପ୍ରସଙ୍ଗ, ଯଦି ଦପଦପ ଅବସ୍ଥାରେ ନାହିଁ।"
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:1
-#, fuzzy
 #| msgid "Use custom fonts for displaying mail."
 msgid "Mode to use when displaying mails"
-msgstr "ମେଲ ଦର୍ଶାଇବା ପାଇଁ ଇଚ୍ଛାରୂପଣ ଅକ୍ଷରରୂପ ବ୍ୟବହାର କରନ୍ତୁ।"
+msgstr "ମେଲଗୁଡ଼ିକୁ ଦର୍ଶାଇବା ସମୟରେ ବ୍ୟବହାର କରିବା ଧାରା"
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:2
 msgid ""
@@ -9150,10 +9147,9 @@ msgid ""
 msgstr ""
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:3
-#, fuzzy
 #| msgid "Whether to show the preview pane."
 msgid "Whether to show suppressed HTML output"
-msgstr "ପୂର୍ବାଲୋକନ ଫଳକକୁ ଦେଖାଯିବକି ନାହିଁ।"
+msgstr "ଦବା ଯାଇଥିବା HTML ଫଳାଫଳକୁ ଦର୍ଶାଯିବ କି ନାହିଁ"
 
 #: ../data/org.gnome.evolution.plugin.publish-calendar.gschema.xml.in.h:1
 #, fuzzy
@@ -9300,10 +9296,9 @@ msgid "Use only the local spam tests (no DNS)."
 msgstr "କେବଳ ସ୍ଥାନୀୟ ସ୍ପାମ ପରୀକ୍ଷଣ ବ୍ୟବହାର କରନ୍ତୁ (DNS ନାହିଁ)।"
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:3
-#, fuzzy
 #| msgid "SpamAssassin Options"
 msgid "Socket path for SpamAssassin"
-msgstr "SpamAssassin ବିକଳ୍ପଗୁଡିକ"
+msgstr "SpamAssassin ପାଇଁ ସକେଟ ପଥ"
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:4
 msgid "Use SpamAssassin daemon and client"
@@ -18384,7 +18379,6 @@ msgid "_Download Messages for Offline Usage"
 msgstr "ଅଫଲାଇନ ବ୍ୟବହାର ବିଧି ପାଇଁ ଆହରଣ କରନ୍ତୁ (_D)"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1295
-#, fuzzy
 #| msgid "Download messages of accounts/folders marked for offline"
 msgid "Download messages of accounts and folders marked for offline usage"
 msgstr "ଅଫଲାଇନ ପାଇଁ ଚିହ୍ନିତ ଖାତା/ଫୋଲଡରଗୁଡ଼ିକର ସନ୍ଦେଶଗୁଡ଼ିକୁ ଆହରଣ କରନ୍ତୁ"
