@@ -371,7 +371,14 @@ shell_ready_for_quit (EShell *shell,
 	/* Finalize the activity. */
 	g_object_unref (activity);
 
-	gtk_application_uninhibit (application, shell->priv->inhibit_cookie);
+	/* XXX Inhibiting session manager actions currently only
+	 *     works on GNOME, so check that we obtained a valid
+	 *     inhibit cookie before attempting to uninhibit. */
+	if (shell->priv->inhibit_cookie > 0) {
+		gtk_application_uninhibit (
+			application, shell->priv->inhibit_cookie);
+		shell->priv->inhibit_cookie = 0;
+	}
 
 	/* Destroy all watched windows.  Note, we iterate over a -copy-
 	 * of the watched windows list because the act of destroying a
