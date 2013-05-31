@@ -6351,7 +6351,7 @@ msgstr "太平洋/ヤップ"
 
 #: ../composer/e-composer-actions.c:207
 msgid "Save as..."
-msgstr "別名で保存..."
+msgstr "名前を付けて保存..."
 
 #: ../composer/e-composer-actions.c:294
 #: ../e-util/e-mail-signature-editor.c:303
@@ -6380,11 +6380,11 @@ msgstr "現在のファイルを保存します"
 
 #: ../composer/e-composer-actions.c:322
 msgid "Save _As..."
-msgstr "別名で保存(_A)..."
+msgstr "名前を付けて保存(_A)..."
 
 #: ../composer/e-composer-actions.c:324
 msgid "Save the current file with a different name"
-msgstr "現在のファイルを別名で保存します"
+msgstr "名前を付けて現在のファイルを保存します"
 
 #: ../composer/e-composer-actions.c:331
 msgid "Character _Encoding"
