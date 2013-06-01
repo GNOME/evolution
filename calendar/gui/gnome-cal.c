@@ -1395,71 +1395,79 @@ gnome_calendar_set_search_query (GnomeCalendar *gcal,
 static void
 update_task_and_memo_views (GnomeCalendar *gcal)
 {
-	ECalModel *memo_model;
-	ECalModel *task_model;
-	ECalModel *view_model;
-	EMemoTable *memo_table;
-	ETaskTable *task_table;
-	time_t start = -1, end = -1;
-	gchar *hide_completed_tasks_sexp;
+	if (gcal->priv->task_table != NULL) {
+		ECalModel *task_model;
+		ETaskTable *task_table;
+		gchar *hide_completed_tasks_sexp;
 
-	/* Set the query on the task pad. */
+		/* Set the query on the task pad. */
 
-	task_table = E_TASK_TABLE (gcal->priv->task_table);
-	task_model = e_task_table_get_model (task_table);
+		task_table = E_TASK_TABLE (gcal->priv->task_table);
+		task_model = e_task_table_get_model (task_table);
 
-	hide_completed_tasks_sexp =
-		calendar_config_get_hide_completed_tasks_sexp (FALSE);
+		hide_completed_tasks_sexp =
+			calendar_config_get_hide_completed_tasks_sexp (FALSE);
 
-	if (hide_completed_tasks_sexp != NULL) {
-		if (gcal->priv->sexp != NULL) {
-			gchar *sexp;
+		if (hide_completed_tasks_sexp != NULL) {
+			if (gcal->priv->sexp != NULL) {
+				gchar *search_query;
 
-			sexp = g_strdup_printf (
-				"(and %s %s)",
-				hide_completed_tasks_sexp,
-				gcal->priv->sexp);
-			e_cal_model_set_search_query (task_model, sexp);
-			g_free (sexp);
+				search_query = g_strdup_printf (
+					"(and %s %s)",
+					hide_completed_tasks_sexp,
+					gcal->priv->sexp);
+				e_cal_model_set_search_query (
+					task_model, search_query);
+				g_free (search_query);
+			} else {
+				e_cal_model_set_search_query (
+					task_model, hide_completed_tasks_sexp);
+			}
 		} else {
 			e_cal_model_set_search_query (
-				task_model, hide_completed_tasks_sexp);
+				task_model, gcal->priv->sexp);
 		}
-	} else {
-		e_cal_model_set_search_query (task_model, gcal->priv->sexp);
+
+		g_free (hide_completed_tasks_sexp);
 	}
 
-	g_free (hide_completed_tasks_sexp);
+	if (gcal->priv->memo_table != NULL) {
+		ECalModel *memo_model;
+		ECalModel *view_model;
+		EMemoTable *memo_table;
+		time_t start = -1, end = -1;
 
-	/* Set the query on the memo pad. */
+		/* Set the query on the memo pad. */
 
-	memo_table = E_MEMO_TABLE (gcal->priv->memo_table);
-	memo_model = e_memo_table_get_model (memo_table);
+		memo_table = E_MEMO_TABLE (gcal->priv->memo_table);
+		memo_model = e_memo_table_get_model (memo_table);
 
-	view_model = gnome_calendar_get_model (gcal);
-	e_cal_model_get_time_range (view_model, &start, &end);
+		view_model = gnome_calendar_get_model (gcal);
+		e_cal_model_get_time_range (view_model, &start, &end);
 
-	if (start != -1 && end != -1) {
-		gchar *iso_start;
-		gchar *iso_end;
-		gchar *sexp;
+		if (start != -1 && end != -1) {
+			gchar *search_query;
+			gchar *iso_start;
+			gchar *iso_end;
 
-		iso_start = isodate_from_time_t (start);
-		iso_end = isodate_from_time_t (end);
+			iso_start = isodate_from_time_t (start);
+			iso_end = isodate_from_time_t (end);
 
-		sexp = g_strdup_printf (
-			"(and (or (not (has-start?)) "
-			"(occur-in-time-range? (make-time \"%s\") "
-			"(make-time \"%s\") \"%s\")) %s)",
-			iso_start, iso_end,
-			gcal_get_default_tzloc (gcal),
-			gcal->priv->sexp ? gcal->priv->sexp : "");
+			search_query = g_strdup_printf (
+				"(and (or (not (has-start?)) "
+				"(occur-in-time-range? (make-time \"%s\") "
+				"(make-time \"%s\") \"%s\")) %s)",
+				iso_start, iso_end,
+				gcal_get_default_tzloc (gcal),
+				gcal->priv->sexp ? gcal->priv->sexp : "");
 
-		e_cal_model_set_search_query (memo_model, sexp);
+			e_cal_model_set_search_query (
+				memo_model, search_query);
 
-		g_free (iso_start);
-		g_free (iso_end);
-		g_free (sexp);
+			g_free (search_query);
+			g_free (iso_start);
+			g_free (iso_end);
+		}
 	}
 }
 
