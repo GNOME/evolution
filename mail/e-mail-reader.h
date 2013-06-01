@@ -179,7 +179,8 @@ void		e_mail_reader_enable_show_folder
 void		e_mail_reader_avoid_next_mark_as_seen
 						(EMailReader *reader);
 
-EMailFormatter *	e_mail_reader_get_formatter	(EMailReader *reader);
+EMailFormatter *
+		e_mail_reader_get_formatter	(EMailReader *reader);
 void		e_mail_reader_set_formatter	(EMailReader *reader,
 						 EMailFormatter *formatter);
 
