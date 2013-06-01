@@ -1288,10 +1288,9 @@ gnome_cal_get_client_view_cb (GObject *source_object,
 			g_warning ("%s: %s", G_STRFUNC, local_error->message);
 			g_error_free (local_error);
 		}
-
-		g_object_unref (gcal);
 	}
 
+	g_clear_object (&gcal);
 	g_clear_object (&client_view);
 
 	view_data_unref (view_data);
