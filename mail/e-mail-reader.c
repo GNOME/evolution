@@ -204,7 +204,7 @@ action_mail_add_sender_cb (GtkAction *action,
 	g_object_unref (cia);
 
 exit:
-	if (info)
+	if (info != NULL)
 		camel_folder_free_message_info (folder, info);
 	em_utils_uids_free (uids);
 }
@@ -215,6 +215,7 @@ action_add_to_address_book_cb (GtkAction *action,
 {
 	EShell *shell;
 	EMailBackend *backend;
+	EMailDisplay *display;
 	EMailSession *session;
 	EShellBackend *shell_backend;
 	CamelInternetAddress *cia;
@@ -230,10 +231,11 @@ action_add_to_address_book_cb (GtkAction *action,
 	backend = e_mail_reader_get_backend (reader);
 	session = e_mail_backend_get_session (backend);
 
-	web_view = E_WEB_VIEW (e_mail_reader_get_mail_display (reader));
-	if (!web_view)
+	display = e_mail_reader_get_mail_display (reader);
+	if (display == NULL)
 		return;
 
+	web_view = E_WEB_VIEW (display);
 	uri = e_web_view_get_selected_uri (web_view);
 	g_return_if_fail (uri != NULL);
 
@@ -293,6 +295,8 @@ static void
 action_mail_image_save_cb (GtkAction *action,
                            EMailReader *reader)
 {
+	EShell *shell;
+	EMailBackend *backend;
 	EMailDisplay *display;
 	EWebView *web_view;
 	EMailPartList *parts;
@@ -302,14 +306,16 @@ action_mail_image_save_cb (GtkAction *action,
 	EAttachment *attachment;
 	GFile *file;
 
-	display = e_mail_reader_get_mail_display (reader);
-	web_view = E_WEB_VIEW (display);
+	backend = e_mail_reader_get_backend (reader);
+	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
 
-	if (!E_IS_WEB_VIEW (web_view))
+	display = e_mail_reader_get_mail_display (reader);
+	if (display == NULL)
 		return;
 
+	web_view = E_WEB_VIEW (display);
 	image_src = e_web_view_get_cursor_image_src (web_view);
-	if (!image_src)
+	if (image_src == NULL)
 		return;
 
 	parts = e_mail_display_get_parts_list (display);
@@ -331,23 +337,26 @@ action_mail_image_save_cb (GtkAction *action,
 		const gchar *filename;
 		const gchar *user_cache_dir;
 
-                /* Open cache and find the file there */
+		/* Open cache and find the file there */
 		user_cache_dir = e_get_user_cache_dir ();
 		cache = camel_data_cache_new (user_cache_dir, NULL);
-		image_stream = camel_data_cache_get (cache, "http", image_src, NULL);
-		if (!image_stream) {
+		image_stream = camel_data_cache_get (
+			cache, "http", image_src, NULL);
+		if (image_stream == NULL) {
 			g_object_unref (cache);
 			return;
 		}
 
 		filename = strrchr (image_src, '/');
-		if (filename && strchr (filename, '?'))
-			filename = NULL;
-		else if (filename)
-			filename = filename + 1;
+		if (filename != NULL) {
+			if (strchr (filename, '?') == NULL)
+				filename++;
+			else
+				filename = NULL;
+		}
 
 		part = camel_mime_part_new ();
-		if (filename)
+		if (filename != NULL)
 			camel_mime_part_set_filename (part, filename);
 
 		dw = camel_data_wrapper_new ();
@@ -366,8 +375,8 @@ action_mail_image_save_cb (GtkAction *action,
 	}
 
 	file = e_shell_run_save_dialog (
-		e_shell_get_default (),
-		_("Save Image"), camel_mime_part_get_filename (part),
+		shell, _("Save Image"),
+		camel_mime_part_get_filename (part),
 		NULL, NULL, NULL);
 	if (file == NULL) {
 		g_object_unref (part);
@@ -634,7 +643,7 @@ get_close_browser_reader (EMailReader *reader)
 	GSettings *settings;
 	const gchar *key;
 	gchar *value;
-	gboolean close_it = FALSE;
+	gboolean close_it;
 
 	/* only allow closing of a mail browser and nothing else */
 	if (!E_IS_MAIL_BROWSER (reader))
@@ -645,9 +654,11 @@ get_close_browser_reader (EMailReader *reader)
 	key = "prompt-on-reply-close-browser";
 	value = g_settings_get_string (settings, key);
 
-	if (value && g_str_equal (value, "always")) {
+	if (g_strcmp0 (value, "always") == 0) {
 		close_it = TRUE;
-	} else if (!value || !g_str_equal (value, "never")) {
+	} else if (g_strcmp0 (value, "never") == 0) {
+		close_it = FALSE;
+	} else {
 		GtkWidget *dialog;
 		GtkWindow *parent;
 		gint response;
@@ -661,7 +672,7 @@ get_close_browser_reader (EMailReader *reader)
 		shell = e_shell_backend_get_shell (shell_backend);
 
 		parent = e_shell_get_active_window (shell);
-		if (!parent)
+		if (parent == NULL)
 			parent = e_mail_reader_get_window (reader);
 
 		dialog = e_alert_dialog_new_for_args (
@@ -669,7 +680,9 @@ get_close_browser_reader (EMailReader *reader)
 		response = gtk_dialog_run (GTK_DIALOG (dialog));
 		gtk_widget_destroy (dialog);
 
-		close_it = response == GTK_RESPONSE_YES || response == GTK_RESPONSE_OK;
+		close_it =
+			(response == GTK_RESPONSE_YES) ||
+			(response == GTK_RESPONSE_OK);
 
 		if (response == GTK_RESPONSE_OK)
 			g_settings_set_string (settings, key, "always");
@@ -830,16 +843,24 @@ is_junk_folder_selected (EMailReader *reader)
 
 	folder = e_mail_reader_get_folder (reader);
 
-	return folder && (folder->folder_flags & CAMEL_FOLDER_IS_JUNK) != 0;
+	if (folder == NULL)
+		return FALSE;
+
+	return (folder->folder_flags & CAMEL_FOLDER_IS_JUNK) != 0;
 }
 
 static void
 action_mail_mark_junk_cb (GtkAction *action,
                           EMailReader *reader)
 {
-	guint32 mask = CAMEL_MESSAGE_SEEN | CAMEL_MESSAGE_JUNK |
-		CAMEL_MESSAGE_NOTJUNK | CAMEL_MESSAGE_JUNK_LEARN;
-	guint32 set  = CAMEL_MESSAGE_SEEN | CAMEL_MESSAGE_JUNK |
+	guint32 mask =
+		CAMEL_MESSAGE_SEEN |
+		CAMEL_MESSAGE_JUNK |
+		CAMEL_MESSAGE_NOTJUNK |
+		CAMEL_MESSAGE_JUNK_LEARN;
+	guint32 set =
+		CAMEL_MESSAGE_SEEN |
+		CAMEL_MESSAGE_JUNK |
 		CAMEL_MESSAGE_JUNK_LEARN;
 
 	if (e_mail_reader_mark_selected (reader, mask, set) == 1 &&
@@ -851,9 +872,13 @@ static void
 action_mail_mark_notjunk_cb (GtkAction *action,
                              EMailReader *reader)
 {
-	guint32 mask = CAMEL_MESSAGE_JUNK | CAMEL_MESSAGE_NOTJUNK |
+	guint32 mask =
+		CAMEL_MESSAGE_JUNK |
+		CAMEL_MESSAGE_NOTJUNK |
 		CAMEL_MESSAGE_JUNK_LEARN;
-	guint32 set  = CAMEL_MESSAGE_NOTJUNK | CAMEL_MESSAGE_JUNK_LEARN;
+	guint32 set  =
+		CAMEL_MESSAGE_NOTJUNK |
+		CAMEL_MESSAGE_JUNK_LEARN;
 
 	if (e_mail_reader_mark_selected (reader, mask, set) == 1 &&
 	    is_junk_folder_selected (reader))
@@ -1156,7 +1181,7 @@ action_mail_previous_important_cb (GtkAction *action,
 
 static void
 action_mail_previous_thread_cb (GtkAction *action,
-                            EMailReader *reader)
+                                EMailReader *reader)
 {
 	GtkWidget *message_list;
 
@@ -1345,9 +1370,13 @@ action_mail_reply_all_check (CamelFolder *folder,
 
 		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check))) {
 			GSettings *settings;
+			const gchar *key;
 
 			settings = g_settings_new ("org.gnome.evolution.mail");
-			g_settings_set_boolean (settings, "prompt-on-reply-many-recips", FALSE);
+
+			key = "prompt-on-reply-many-recips";
+			g_settings_set_boolean (settings, key, FALSE);
+
 			g_object_unref (settings);
 		}
 
@@ -1386,8 +1415,10 @@ action_mail_reply_all_cb (GtkAction *action,
 	state = e_mail_reader_check_state (reader);
 
 	settings = g_settings_new ("org.gnome.evolution.mail");
+
 	key = "prompt-on-reply-many-recips";
 	ask = g_settings_get_boolean (settings, key);
+
 	g_object_unref (settings);
 
 	if (ask && !(state & E_MAIL_READER_SELECTION_IS_MAILING_LIST)) {
@@ -1431,11 +1462,15 @@ action_mail_reply_group_cb (GtkAction *action,
 	GSettings *settings;
 	gboolean reply_list;
 	guint32 state;
+	const gchar *key;
 
 	state = e_mail_reader_check_state (reader);
 
 	settings = g_settings_new ("org.gnome.evolution.mail");
-	reply_list = g_settings_get_boolean (settings, "composer-group-reply-to-list");
+
+	key = "composer-group-reply-to-list";
+	reply_list = g_settings_get_boolean (settings, key);
+
 	g_object_unref (settings);
 
 	if (reply_list && (state & E_MAIL_READER_SELECTION_IS_MAILING_LIST)) {
@@ -1459,8 +1494,9 @@ message_is_list_administrative (CamelMimeMessage *message)
 {
 	const gchar *header;
 
-	header = camel_medium_get_header ((CamelMedium *) message, "X-List-Administrivia");
-	if (!header)
+	header = camel_medium_get_header (
+		CAMEL_MEDIUM (message), "X-List-Administrivia");
+	if (header == NULL)
 		return FALSE;
 
 	while (*header == ' ' || *header == '\t')
@@ -1482,6 +1518,7 @@ action_mail_reply_sender_check (CamelFolder *folder,
 	gboolean ask_list_reply_to;
 	gboolean munged_list_message;
 	gboolean active;
+	const gchar *key;
 	GError *error = NULL;
 
 	alert_sink = e_activity_get_alert_sink (closure->activity);
@@ -1508,20 +1545,21 @@ action_mail_reply_sender_check (CamelFolder *folder,
 
 	settings = g_settings_new ("org.gnome.evolution.mail");
 
-	ask_ignore_list_reply_to = g_settings_get_boolean (
-		settings, "composer-ignore-list-reply-to");
-	ask_list_reply_to = g_settings_get_boolean (
-		settings, "prompt-on-list-reply-to");
+	key = "composer-ignore-list-reply-to";
+	ask_ignore_list_reply_to = g_settings_get_boolean (settings, key);
+
+	key = "prompt-on-list-reply-to";
+	ask_list_reply_to = g_settings_get_boolean (settings, key);
 
 	munged_list_message = em_utils_is_munged_list_message (message);
 
 	if (message_is_list_administrative (message)) {
-		/* Do not ask for messages which are list administrative, like
-		 * list confirmation messages */
+		/* Do not ask for messages which are list administrative,
+		 * like list confirmation messages. */
 	} else if (ask_ignore_list_reply_to || !munged_list_message) {
-		/* Don't do the "Are you sure you want to reply in private?" pop-up
-		 * if it's a Reply-To: munged list message... unless we're ignoring
-		 * munging. */
+		/* Don't do the "Are you sure you want to reply in private?"
+		 * pop-up if it's a Reply-To: munged list message... unless
+		 * we're ignoring munging. */
 		GtkWidget *dialog;
 		GtkWidget *check;
 		GtkWidget *container;
@@ -1546,8 +1584,8 @@ action_mail_reply_sender_check (CamelFolder *folder,
 		active = gtk_toggle_button_get_active (
 			GTK_TOGGLE_BUTTON (check));
 		if (active) {
-			g_settings_set_boolean (
-				settings, "prompt-on-private-list-reply", FALSE);
+			key = "prompt-on-private-list-reply";
+			g_settings_set_boolean (settings, key, FALSE);
 		}
 
 		gtk_widget_destroy (dialog);
@@ -1593,14 +1631,14 @@ action_mail_reply_sender_check (CamelFolder *folder,
 		active = gtk_toggle_button_get_active (
 			GTK_TOGGLE_BUTTON (check_again));
 		if (active) {
-			g_settings_set_boolean (
-				settings, "prompt-on-list-reply-to", FALSE);
+			key = "prompt-on-list-reply-to";
+			g_settings_set_boolean (settings, key, FALSE);
 		}
 
+		key = "composer-ignore-list-reply-to";
 		active = gtk_toggle_button_get_active (
 			GTK_TOGGLE_BUTTON (check_always_ignore));
-		g_settings_set_boolean (
-			settings, "composer-ignore-list-reply-to", active);
+		g_settings_set_boolean (settings, key, active);
 
 		gtk_widget_destroy (dialog);
 
@@ -1638,14 +1676,18 @@ action_mail_reply_sender_cb (GtkAction *action,
 	gboolean ask_private_list_reply;
 	gboolean ask;
 	guint32 state;
+	const gchar *key;
 
 	state = e_mail_reader_check_state (reader);
 
 	settings = g_settings_new ("org.gnome.evolution.mail");
-	ask_list_reply_to = g_settings_get_boolean (
-		settings, "prompt-on-list-reply-to");
-	ask_private_list_reply = g_settings_get_boolean (
-		settings, "prompt-on-private-list-reply");
+
+	key = "prompt-on-list-reply-to";
+	ask_list_reply_to = g_settings_get_boolean (settings, key);
+
+	key = "prompt-on-private-list-reply";
+	ask_private_list_reply = g_settings_get_boolean (settings, key);
+
 	g_object_unref (settings);
 
 	ask = (ask_private_list_reply || ask_list_reply_to);
@@ -1732,69 +1774,67 @@ action_mail_show_all_headers_cb (GtkToggleAction *action,
                                  EMailReader *reader)
 {
 	EMailDisplay *display;
+	EMailFormatterMode mode;
 
 	display = e_mail_reader_get_mail_display (reader);
 
-	/* mode change when viewing message source is ignored */
-	if (e_mail_display_get_mode (display) == E_MAIL_FORMATTER_MODE_SOURCE ||
-	    e_mail_display_get_mode (display) == E_MAIL_FORMATTER_MODE_RAW)
+	/* Ignore action when viewing message source. */
+	mode = e_mail_display_get_mode (display);
+	if (mode == E_MAIL_FORMATTER_MODE_SOURCE)
+		return;
+	if (mode == E_MAIL_FORMATTER_MODE_RAW)
 		return;
 
 	if (gtk_toggle_action_get_active (action))
-		e_mail_display_set_mode (display, E_MAIL_FORMATTER_MODE_ALL_HEADERS);
+		mode = E_MAIL_FORMATTER_MODE_ALL_HEADERS;
 	else
-		e_mail_display_set_mode (display, E_MAIL_FORMATTER_MODE_NORMAL);
+		mode = E_MAIL_FORMATTER_MODE_NORMAL;
+
+	e_mail_display_set_mode (display, mode);
 }
 
-struct _source_retrieval_closure {
-	EMailReader *browser;
-	EActivity *activity;
-	gchar *message_uid;
-};
-
 static void
-mail_source_retrieved (GObject *object,
+mail_source_retrieved (GObject *source_object,
                        GAsyncResult *result,
                        gpointer user_data)
 {
+	EMailReaderClosure *closure;
 	CamelMimeMessage *message;
 	EMailDisplay *display;
 	GError *error = NULL;
-	struct _source_retrieval_closure *data;
 
-	data = user_data;
-	display = e_mail_reader_get_mail_display (data->browser);
+	closure = (EMailReaderClosure *) user_data;
+	display = e_mail_reader_get_mail_display (closure->reader);
 
 	message = camel_folder_get_message_finish (
-		CAMEL_FOLDER (object), result, &error);
+		CAMEL_FOLDER (source_object), result, &error);
 
 	/* Sanity check. */
 	g_return_if_fail (
 		((message != NULL) && (error == NULL)) ||
 		((message == NULL) && (error != NULL)));
 
-	if (error != NULL) {
+	if (message != NULL) {
+		mail_reader_set_display_formatter_for_message (
+			closure->reader, display,
+			closure->message_uid, message,
+			CAMEL_FOLDER (source_object));
+	} else {
 		gchar *status;
+
 		status = g_strdup_printf (
 			"%s<br>%s",
 			_("Failed to retrieve message:"),
 			error->message);
 		e_mail_display_set_status (display, status);
-		g_error_free (error);
 		g_free (status);
-		goto free_data;
+
+		g_error_free (error);
 	}
 
-	mail_reader_set_display_formatter_for_message (
-		data->browser, display, data->message_uid,
-		message, CAMEL_FOLDER (object));
+	e_activity_set_state (closure->activity, E_ACTIVITY_COMPLETED);
 
- free_data:
-	e_activity_set_state (data->activity, E_ACTIVITY_COMPLETED);
-	g_object_unref (data->browser);
-	g_object_unref (data->activity);
-	g_free (data->message_uid);
-	g_free (data);
+	mail_reader_closure_free (closure);
 }
 
 static void
@@ -1810,7 +1850,7 @@ action_mail_show_source_cb (GtkAction *action,
 	gchar *string;
 	EActivity *activity;
 	GCancellable *cancellable;
-	struct _source_retrieval_closure *closure;
+	EMailReaderClosure *closure;
 
 	backend = e_mail_reader_get_backend (reader);
 	folder = e_mail_reader_get_folder (reader);
@@ -1818,7 +1858,8 @@ action_mail_show_source_cb (GtkAction *action,
 	g_return_if_fail (uids != NULL && uids->len == 1);
 	message_uid = g_ptr_array_index (uids, 0);
 
-	browser = e_mail_browser_new (backend, NULL, NULL, E_MAIL_FORMATTER_MODE_SOURCE);
+	browser = e_mail_browser_new (
+		backend, NULL, NULL, E_MAIL_FORMATTER_MODE_SOURCE);
 	e_mail_reader_set_folder (E_MAIL_READER (browser), folder);
 	e_mail_reader_set_message (E_MAIL_READER (browser), message_uid);
 	display = e_mail_reader_get_mail_display (E_MAIL_READER (browser));
@@ -1833,14 +1874,16 @@ action_mail_show_source_cb (GtkAction *action,
 	cancellable = e_activity_get_cancellable (activity);
 	g_free (string);
 
-	closure = g_new0 (struct _source_retrieval_closure, 1);
-	closure->browser = g_object_ref (E_MAIL_READER (browser));
-	closure->activity = activity;
+	closure = g_slice_new0 (EMailReaderClosure);
+	closure->reader = g_object_ref (browser);
+	closure->activity = g_object_ref (activity);
 	closure->message_uid = g_strdup (message_uid);
+
 	camel_folder_get_message (
 		folder, message_uid, G_PRIORITY_DEFAULT,
-		cancellable, mail_source_retrieved,
-		closure);
+		cancellable, mail_source_retrieved, closure);
+
+	g_object_unref (activity);
 
 	em_utils_uids_free (uids);
 }
@@ -2627,16 +2670,19 @@ mail_reader_key_press_event_cb (EMailReader *reader,
 		display = e_mail_reader_get_mail_display (reader);
 		frame = webkit_web_view_get_focused_frame (WEBKIT_WEB_VIEW (display));
 
-		if (frame) {
+		if (frame != NULL) {
 			dom = webkit_web_frame_get_dom_document (frame);
 			/* intentionally used "static_cast" */
 			element = webkit_dom_html_document_get_active_element ((WebKitDOMHTMLDocument *) dom);
 
-			if (element)
+			if (element != NULL)
 				name = webkit_dom_node_get_node_name (WEBKIT_DOM_NODE (element));
 
-			/* if INPUT or TEXTAREA has focus, then any key press should go there */
-			if (name && (g_ascii_strcasecmp (name, "INPUT") == 0 || g_ascii_strcasecmp (name, "TEXTAREA") == 0)) {
+			/* If INPUT or TEXTAREA has focus,
+			 * then any key press should go there. */
+			if (name != NULL &&
+			    (g_ascii_strcasecmp (name, "INPUT") == 0 ||
+			     g_ascii_strcasecmp (name, "TEXTAREA") == 0)) {
 				g_free (name);
 				return FALSE;
 			}
@@ -2748,7 +2794,7 @@ mail_reader_message_seen_cb (EMailReaderClosure *closure)
 	current_uid = MESSAGE_LIST (message_list)->cursor_uid;
 	uid_is_current &= (g_strcmp0 (current_uid, message_uid) == 0);
 
-	if (parts)
+	if (parts != NULL)
 		message = e_mail_part_list_get_message (parts);
 	else
 		message = NULL;
@@ -2846,7 +2892,8 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 
 	/* If the private struct is NULL, the EMailReader was destroyed
 	 * while we were loading the message and we're likely holding the
-	 * last reference.  Nothing to do but drop the reference. */
+	 * last reference.  Nothing to do but drop the reference.
+	 * FIXME Use a GWeakRef instead of this hack. */
 	if (priv == NULL) {
 		mail_reader_closure_free (closure);
 		return;
@@ -2863,9 +2910,9 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 
 	message_list = e_mail_reader_get_message_list (reader);
 
-	if (!message_list) {
-		/* for cases where message fetching took so long that
-		 * user closed the message window before this was called */
+	if (message_list == NULL) {
+		/* For cases where message fetching took so long that
+		 * user closed the message window before this was called. */
 		goto exit;
 	}
 
@@ -2876,7 +2923,8 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 
 exit:
 	priv->restoring_message_selection = FALSE;
-	if (error) {
+
+	if (error != NULL) {
 		EPreviewPane *preview_pane;
 		EWebView *web_view;
 
@@ -2893,8 +2941,7 @@ exit:
 
 	mail_reader_closure_free (closure);
 
-	if (message)
-		g_object_unref (message);
+	g_clear_object (&message);
 }
 
 static gboolean
@@ -2939,7 +2986,8 @@ mail_reader_message_selected_timeout_cb (EMailReader *reader)
 			EActivity *activity;
 			gchar *string;
 
-			string = g_strdup_printf (_("Retrieving message '%s'"), cursor_uid);
+			string = g_strdup_printf (
+				_("Retrieving message '%s'"), cursor_uid);
 			e_mail_display_set_parts_list (display, NULL);
 			e_mail_display_set_status (display, string);
 			g_free (string);
@@ -2986,7 +3034,7 @@ mail_reader_message_selected_cb (EMailReader *reader,
 
 	/* Cancel the seen timer. */
 	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
-	if (message_list && message_list->seen_id) {
+	if (message_list != NULL && message_list->seen_id) {
 		g_source_remove (message_list->seen_id);
 		message_list->seen_id = 0;
 	}
@@ -3004,8 +3052,9 @@ mail_reader_message_selected_cb (EMailReader *reader,
 	priv->folder_was_just_selected = FALSE;
 
 	if (message_list_selected_count (message_list) != 1) {
-		EMailDisplay *display = e_mail_reader_get_mail_display (reader);
+		EMailDisplay *display;
 
+		display = e_mail_reader_get_mail_display (reader);
 		e_mail_display_set_parts_list (display, NULL);
 		e_web_view_clear (E_WEB_VIEW (display));
 	} else if (priv->restoring_message_selection) {
@@ -3142,9 +3191,9 @@ mail_reader_set_folder (EMailReader *reader,
 
 	priv->folder_was_just_selected = (folder != NULL);
 
-	/* this is to make sure any post-poned changes in Search Folders
-	 * will be propagated on folder selection */
-	if (folder && CAMEL_IS_VEE_FOLDER (folder))
+	/* This is to make sure any post-poned changes in Search
+	 * Folders will be propagated on folder selection. */
+	if (CAMEL_IS_VEE_FOLDER (folder))
 		mail_sync_folder (folder, FALSE, NULL, NULL);
 
 	message_list_set_folder (
@@ -3174,12 +3223,6 @@ mail_reader_folder_loaded (EMailReader *reader)
 	e_mail_reader_update_actions (reader, state);
 }
 
-struct format_parser_async_closure_ {
-	struct _formatter_weak_ref_closure *weak_ref_closure;
-        EMailDisplay *display;
-        EActivity *activity;
-};
-
 static void
 set_mail_display_part_list (GObject *object,
                             GAsyncResult *result,
@@ -3197,8 +3240,8 @@ set_mail_display_part_list (GObject *object,
 	e_mail_display_set_parts_list (display, part_list);
 	e_mail_display_load (display, NULL);
 
-        /* Remove the reference added when parts list was created,
-         * so that only owners are EMailDisplays */
+	/* Remove the reference added when parts list was
+	 * created, so that only owners are EMailDisplays. */
 	g_object_unref (part_list);
 }
 
@@ -3221,12 +3264,10 @@ mail_reader_set_display_formatter_for_message (EMailReader *reader,
 	g_free (mail_uri);
 
 	if (parts == NULL) {
-
 		e_mail_reader_parse_message (
 			reader, folder, message_uid, message,
 			priv->retrieving_message,
 			set_mail_display_part_list, NULL);
-
 	} else {
 		e_mail_display_set_parts_list (display, parts);
 		e_mail_display_load (display, NULL);
@@ -3940,10 +3981,10 @@ e_mail_reader_init (EMailReader *reader,
 
 	/* Likewise the "mail-reply-group" action. */
 
-        /* For Translators: "Group Reply" will reply either to a mailing list
-	   (if possible and if that configuration option is enabled), or else
-	   it will reply to all. The word "Group" was chosen because it covers
-	   either of those, without too strongly implying one or the other. */
+	/* For Translators: "Group Reply" will reply either to a mailing list
+	 * (if possible and if that configuration option is enabled), or else
+	 * it will reply to all. The word "Group" was chosen because it covers
+	 * either of those, without too strongly implying one or the other. */
 	menu_tool_action = e_menu_tool_action_new (
 		"mail-reply-group", _("Group Reply"),
 		_("Reply to the mailing list, or to all recipients"), NULL);
@@ -3999,7 +4040,7 @@ e_mail_reader_init (EMailReader *reader,
 		settings, "show-all-headers",
 		action, "active", G_SETTINGS_BIND_DEFAULT);
 
-	/* mode change when viewing message source is ignored */
+	/* Mode change when viewing message source is ignored. */
 	if (e_mail_display_get_mode (display) == E_MAIL_FORMATTER_MODE_SOURCE ||
 	    e_mail_display_get_mode (display) == E_MAIL_FORMATTER_MODE_RAW) {
 		gtk_action_set_sensitive (action, FALSE);
@@ -4231,7 +4272,8 @@ e_mail_reader_check_state (EMailReader *reader)
 	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
 	registry = e_shell_get_registry (shell);
 	mail_session = e_mail_backend_get_session (backend);
-	account_store = e_mail_ui_session_get_account_store (E_MAIL_UI_SESSION (mail_session));
+	account_store = e_mail_ui_session_get_account_store (
+		E_MAIL_UI_SESSION (mail_session));
 
 	folder = e_mail_reader_get_folder (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
@@ -4328,7 +4370,9 @@ e_mail_reader_check_state (EMailReader *reader)
 		camel_folder_free_message_info (folder, info);
 	}
 
-	have_enabled_account = e_mail_account_store_have_enabled_service (account_store, CAMEL_TYPE_STORE);
+	have_enabled_account =
+		e_mail_account_store_have_enabled_service (
+		account_store, CAMEL_TYPE_STORE);
 
 	if (have_enabled_account)
 		state |= E_MAIL_READER_HAVE_ENABLED_ACCOUNT;
