@@ -532,6 +532,7 @@ build_message_headers (EMsgComposer *composer,
 {
 	EComposerHeaderTable *table;
 	EComposerHeader *header;
+	EClientCache *client_cache;
 	ESourceRegistry *registry;
 	ESource *source;
 	const gchar *subject;
@@ -543,7 +544,9 @@ build_message_headers (EMsgComposer *composer,
 
 	table = e_msg_composer_get_header_table (composer);
 
-	registry = e_composer_header_table_get_registry (table);
+	client_cache = e_composer_header_table_ref_client_cache (table);
+	registry = e_client_cache_ref_registry (client_cache);
+
 	uid = e_composer_header_table_get_identity_uid (table);
 	source = e_source_registry_ref_source (registry, uid);
 
@@ -657,6 +660,9 @@ build_message_headers (EMsgComposer *composer,
 		}
 		g_list_free (list);
 	}
+
+	g_object_unref (client_cache);
+	g_object_unref (registry);
 }
 
 static CamelCipherHash
@@ -1080,6 +1086,7 @@ composer_build_message (EMsgComposer *composer,
 	EComposerHeaderTable *table;
 	CamelDataWrapper *html;
 	ESourceMailIdentity *mi;
+	EClientCache *client_cache;
 	ESourceRegistry *registry;
 	const gchar *extension_name;
 	const gchar *iconv_charset = NULL;
@@ -1101,9 +1108,15 @@ composer_build_message (EMsgComposer *composer,
 	view = e_msg_composer_get_attachment_view (composer);
 	store = e_attachment_view_get_store (view);
 
-	registry = e_composer_header_table_get_registry (table);
+	client_cache = e_composer_header_table_ref_client_cache (table);
+	registry = e_client_cache_ref_registry (client_cache);
+
 	identity_uid = e_composer_header_table_get_identity_uid (table);
 	source = e_source_registry_ref_source (registry, identity_uid);
+
+	g_clear_object (&client_cache);
+	g_clear_object (&registry);
+
 	g_return_if_fail (source != NULL);
 
 	/* Do all the non-blocking work here, and defer
@@ -1568,6 +1581,7 @@ msg_composer_mail_identity_changed_cb (EMsgComposer *composer)
 {
 	EMsgComposerPrivate *p = composer->priv;
 	EMailSignatureComboBox *combo_box;
+	EClientCache *client_cache;
 	ESourceRegistry *registry;
 	ESourceMailComposition *mc;
 	ESourceOpenPGP *pgp;
@@ -1583,14 +1597,18 @@ msg_composer_mail_identity_changed_cb (EMsgComposer *composer)
 	const gchar *uid;
 
 	table = e_msg_composer_get_header_table (composer);
-	registry = e_composer_header_table_get_registry (table);
 	uid = e_composer_header_table_get_identity_uid (table);
 
 	/* Silently return if no identity is selected. */
 	if (uid == NULL)
 		return;
 
+	client_cache = e_composer_header_table_ref_client_cache (table);
+	registry = e_client_cache_ref_registry (client_cache);
 	source = e_source_registry_ref_source (registry, uid);
+	g_clear_object (&client_cache);
+	g_clear_object (&registry);
+
 	g_return_if_fail (source != NULL);
 
 	extension_name = E_SOURCE_EXTENSION_MAIL_COMPOSITION;
@@ -3080,6 +3098,7 @@ e_msg_composer_new_with_message (EShell *shell,
 	EMsgComposer *composer;
 	EMsgComposerPrivate *priv;
 	EComposerHeaderTable *table;
+	EClientCache *client_cache;
 	ESourceRegistry *registry;
 	ESource *source = NULL;
 	GtkToggleAction *action;
@@ -3104,7 +3123,6 @@ e_msg_composer_new_with_message (EShell *shell,
 	composer = e_msg_composer_new (shell);
 	priv = E_MSG_COMPOSER_GET_PRIVATE (composer);
 	table = e_msg_composer_get_header_table (composer);
-	registry = e_composer_header_table_get_registry (table);
 
 	if (postto) {
 		e_composer_header_table_set_post_to_list (table, postto);
@@ -3112,6 +3130,9 @@ e_msg_composer_new_with_message (EShell *shell,
 		g_list_free (postto);
 		postto = NULL;
 	}
+
+	client_cache = e_composer_header_table_ref_client_cache (table);
+	registry = e_client_cache_ref_registry (client_cache);
 
 	/* Restore the mail identity preference. */
 	identity_uid = (gchar *) camel_medium_get_header (
@@ -3125,6 +3146,9 @@ e_msg_composer_new_with_message (EShell *shell,
 		identity_uid = g_strstrip (g_strdup (identity_uid));
 		source = e_source_registry_ref_source (registry, identity_uid);
 	}
+
+	g_clear_object (&client_cache);
+	g_clear_object (&registry);
 
 	if (postto == NULL) {
 		auto_cc = g_hash_table_new_full (
@@ -4204,6 +4228,7 @@ e_msg_composer_set_body (EMsgComposer *composer,
 	EMsgComposerPrivate *priv = composer->priv;
 	EComposerHeaderTable *table;
 	EWebViewGtkHTML *web_view;
+	EClientCache *client_cache;
 	ESourceRegistry *registry;
 	ESource *source;
 	const gchar *identity_uid;
@@ -4212,10 +4237,15 @@ e_msg_composer_set_body (EMsgComposer *composer,
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
 	table = e_msg_composer_get_header_table (composer);
-	registry = e_composer_header_table_get_registry (table);
+
+	client_cache = e_composer_header_table_ref_client_cache (table);
+	registry = e_client_cache_ref_registry (client_cache);
 
 	identity_uid = e_composer_header_table_get_identity_uid (table);
 	source = e_source_registry_ref_source (registry, identity_uid);
+
+	g_clear_object (&client_cache);
+	g_clear_object (&registry);
 
 	buff = g_markup_printf_escaped (
 		"<b>%s</b>",
@@ -4759,6 +4789,7 @@ e_msg_composer_get_from (EMsgComposer *composer)
 	CamelInternetAddress *inet_address = NULL;
 	ESourceMailIdentity *mail_identity;
 	EComposerHeaderTable *table;
+	EClientCache *client_cache;
 	ESourceRegistry *registry;
 	ESource *source;
 	const gchar *extension_name;
@@ -4770,9 +4801,15 @@ e_msg_composer_get_from (EMsgComposer *composer)
 
 	table = e_msg_composer_get_header_table (composer);
 
-	registry = e_composer_header_table_get_registry (table);
+	client_cache = e_composer_header_table_ref_client_cache (table);
+	registry = e_client_cache_ref_registry (client_cache);
+
 	uid = e_composer_header_table_get_identity_uid (table);
 	source = e_source_registry_ref_source (registry, uid);
+
+	g_clear_object (&client_cache);
+	g_clear_object (&registry);
+
 	g_return_val_if_fail (source != NULL, NULL);
 
 	extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;

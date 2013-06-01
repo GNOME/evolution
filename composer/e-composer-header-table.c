@@ -52,18 +52,18 @@ struct _EComposerHeaderTablePrivate {
 	GtkWidget *signature_label;
 	GtkWidget *signature_combo_box;
 	ENameSelector *name_selector;
-	ESourceRegistry *registry;
+	EClientCache *client_cache;
 	EShell *shell;
 };
 
 enum {
 	PROP_0,
+	PROP_CLIENT_CACHE,
 	PROP_DESTINATIONS_BCC,
 	PROP_DESTINATIONS_CC,
 	PROP_DESTINATIONS_TO,
 	PROP_IDENTITY_UID,
 	PROP_POST_TO,
-	PROP_REGISTRY,
 	PROP_REPLY_TO,
 	PROP_SHELL,
 	PROP_SIGNATURE_COMBO_BOX,
@@ -399,13 +399,16 @@ composer_header_table_setup_post_headers (EComposerHeaderTable *table)
 static gboolean
 composer_header_table_show_post_headers (EComposerHeaderTable *table)
 {
+	EClientCache *client_cache;
 	ESourceRegistry *registry;
 	GList *list, *link;
 	const gchar *extension_name;
 	const gchar *target_uid;
 	gboolean show_post_headers = FALSE;
 
-	registry = e_composer_header_table_get_registry (table);
+	client_cache = e_composer_header_table_ref_client_cache (table);
+	registry = e_client_cache_ref_registry (client_cache);
+
 	target_uid = e_composer_header_table_get_identity_uid (table);
 
 	extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
@@ -444,6 +447,9 @@ composer_header_table_show_post_headers (EComposerHeaderTable *table)
 
 	g_list_free_full (list, (GDestroyNotify) g_object_unref);
 
+	g_object_unref (client_cache);
+	g_object_unref (registry);
+
 	return show_post_headers;
 }
 
@@ -452,6 +458,7 @@ composer_header_table_from_changed_cb (EComposerHeaderTable *table)
 {
 	ESource *source = NULL;
 	ESource *mail_account = NULL;
+	EClientCache *client_cache;
 	ESourceRegistry *registry;
 	EComposerHeader *header;
 	EComposerHeaderType type;
@@ -466,9 +473,10 @@ composer_header_table_from_changed_cb (EComposerHeaderTable *table)
 
 	/* Keep "Post-To" and "Reply-To" synchronized with "From" */
 
-	registry = e_composer_header_table_get_registry (table);
-	uid = e_composer_header_table_get_identity_uid (table);
+	client_cache = e_composer_header_table_ref_client_cache (table);
+	registry = e_client_cache_ref_registry (client_cache);
 
+	uid = e_composer_header_table_get_identity_uid (table);
 	if (uid != NULL)
 		source = e_source_registry_ref_source (registry, uid);
 
@@ -535,16 +543,19 @@ composer_header_table_from_changed_cb (EComposerHeaderTable *table)
 		composer_header_table_setup_post_headers (table);
 	else
 		composer_header_table_setup_mail_headers (table);
+
+	g_object_unref (client_cache);
+	g_object_unref (registry);
 }
 
 static void
-composer_header_table_set_registry (EComposerHeaderTable *table,
-                                    ESourceRegistry *registry)
+composer_header_table_set_client_cache (EComposerHeaderTable *table,
+                                        EClientCache *client_cache)
 {
-	g_return_if_fail (E_IS_SOURCE_REGISTRY (registry));
-	g_return_if_fail (table->priv->registry == NULL);
+	g_return_if_fail (E_IS_CLIENT_CACHE (client_cache));
+	g_return_if_fail (table->priv->client_cache == NULL);
 
-	table->priv->registry = g_object_ref (registry);
+	table->priv->client_cache = g_object_ref (client_cache);
 }
 
 static void
@@ -567,6 +578,12 @@ composer_header_table_set_property (GObject *object,
 	GList *list;
 
 	switch (property_id) {
+		case PROP_CLIENT_CACHE:
+			composer_header_table_set_client_cache (
+				E_COMPOSER_HEADER_TABLE (object),
+				g_value_get_object (value));
+			return;
+
 		case PROP_DESTINATIONS_BCC:
 			destinations = g_value_dup_destinations (value);
 			e_composer_header_table_set_destinations_bcc (
@@ -603,12 +620,6 @@ composer_header_table_set_property (GObject *object,
 				E_COMPOSER_HEADER_TABLE (object), list);
 			g_list_foreach (list, (GFunc) g_free, NULL);
 			g_list_free (list);
-			return;
-
-		case PROP_REGISTRY:
-			composer_header_table_set_registry (
-				E_COMPOSER_HEADER_TABLE (object),
-				g_value_get_object (value));
 			return;
 
 		case PROP_REPLY_TO:
@@ -649,6 +660,13 @@ composer_header_table_get_property (GObject *object,
 	GList *list;
 
 	switch (property_id) {
+		case PROP_CLIENT_CACHE:
+			g_value_take_object (
+				value,
+				e_composer_header_table_ref_client_cache (
+				E_COMPOSER_HEADER_TABLE (object)));
+			return;
+
 		case PROP_DESTINATIONS_BCC:
 			destinations =
 				e_composer_header_table_get_destinations_bcc (
@@ -686,13 +704,6 @@ composer_header_table_get_property (GObject *object,
 			g_value_set_string_list (value, list);
 			g_list_foreach (list, (GFunc) g_free, NULL);
 			g_list_free (list);
-			return;
-
-		case PROP_REGISTRY:
-			g_value_set_object (
-				value,
-				e_composer_header_table_get_registry (
-				E_COMPOSER_HEADER_TABLE (object)));
 			return;
 
 		case PROP_REPLY_TO:
@@ -760,9 +771,9 @@ composer_header_table_dispose (GObject *object)
 		priv->name_selector = NULL;
 	}
 
-	if (priv->registry != NULL) {
-		g_object_unref (priv->registry);
-		priv->registry = NULL;
+	if (priv->client_cache != NULL) {
+		g_object_unref (priv->client_cache);
+		priv->client_cache = NULL;
 	}
 
 	if (priv->shell != NULL) {
@@ -783,7 +794,6 @@ composer_header_table_constructed (GObject *object)
 	ESourceRegistry *registry;
 	EComposerHeader *header;
 	GtkWidget *widget;
-	EShell *shell;
 	guint ii;
 	gint row_padding;
 
@@ -792,9 +802,9 @@ composer_header_table_constructed (GObject *object)
 		constructed (object);
 
 	table = E_COMPOSER_HEADER_TABLE (object);
-	shell = e_composer_header_table_get_shell (table);
-	client_cache = e_shell_get_client_cache (shell);
-	registry = e_composer_header_table_get_registry (table);
+
+	client_cache = e_composer_header_table_ref_client_cache (table);
+	registry = e_client_cache_ref_registry (client_cache);
 
 	name_selector = e_name_selector_new (client_cache);
 	table->priv->name_selector = name_selector;
@@ -891,6 +901,9 @@ composer_header_table_constructed (GObject *object)
 
 	/* Initialize the headers. */
 	composer_header_table_from_changed_cb (table);
+
+	g_object_unref (client_cache);
+	g_object_unref (registry);
 }
 
 static void
@@ -905,6 +918,23 @@ e_composer_header_table_class_init (EComposerHeaderTableClass *class)
 	object_class->get_property = composer_header_table_get_property;
 	object_class->dispose = composer_header_table_dispose;
 	object_class->constructed = composer_header_table_constructed;
+
+	/**
+	 * EComposerHeaderTable:client-cache:
+	 *
+	 * Cache of shared #EClient instances.
+	 **/
+	g_object_class_install_property (
+		object_class,
+		PROP_CLIENT_CACHE,
+		g_param_spec_object (
+			"client-cache",
+			"Client Cache",
+			"Cache of shared EClient instances",
+			E_TYPE_CLIENT_CACHE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_install_property (
 		object_class,
@@ -959,18 +989,6 @@ e_composer_header_table_class_init (EComposerHeaderTableClass *class)
 			NULL,
 			G_TYPE_PTR_ARRAY,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_REGISTRY,
-		g_param_spec_object (
-			"registry",
-			NULL,
-			NULL,
-			E_TYPE_SOURCE_REGISTRY,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY |
 			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_install_property (
@@ -1062,14 +1080,14 @@ e_composer_header_table_init (EComposerHeaderTable *table)
 
 GtkWidget *
 e_composer_header_table_new (EShell *shell,
-                             ESourceRegistry *registry)
+                             EClientCache *client_cache)
 {
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
-	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
+	g_return_val_if_fail (E_IS_CLIENT_CACHE (client_cache), NULL);
 
 	return g_object_new (
 		E_TYPE_COMPOSER_HEADER_TABLE,
-		"shell", shell, "registry", registry, NULL);
+		"shell", shell, "client-cache", client_cache, NULL);
 }
 
 EShell *
@@ -1080,12 +1098,12 @@ e_composer_header_table_get_shell (EComposerHeaderTable *table)
 	return table->priv->shell;
 }
 
-ESourceRegistry *
-e_composer_header_table_get_registry (EComposerHeaderTable *table)
+EClientCache *
+e_composer_header_table_ref_client_cache (EComposerHeaderTable *table)
 {
 	g_return_val_if_fail (E_IS_COMPOSER_HEADER_TABLE (table), NULL);
 
-	return table->priv->registry;
+	return g_object_ref (table->priv->client_cache);
 }
 
 EComposerHeader *

@@ -141,7 +141,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 	EFocusTracker *focus_tracker;
 	EShell *shell;
 	EWebViewGtkHTML *web_view;
-	ESourceRegistry *registry;
+	EClientCache *client_cache;
 	GtkhtmlEditor *editor;
 	GtkUIManager *ui_manager;
 	GtkAction *action;
@@ -161,7 +161,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 	settings = g_settings_new ("org.gnome.evolution.mail");
 
 	shell = e_msg_composer_get_shell (composer);
-	registry = e_shell_get_registry (shell);
+	client_cache = e_shell_get_client_cache (shell);
 	web_view = e_msg_composer_get_web_view (composer);
 
 	/* Each composer window gets its own window group. */
@@ -245,7 +245,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 
 	/* Construct the header table. */
 
-	widget = e_composer_header_table_new (shell, registry);
+	widget = e_composer_header_table_new (shell, client_cache);
 	gtk_container_set_border_width (GTK_CONTAINER (widget), 6);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_box_reorder_child (GTK_BOX (container), widget, 2);

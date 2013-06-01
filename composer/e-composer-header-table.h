@@ -71,11 +71,10 @@ struct _EComposerHeaderTableClass {
 
 GType		e_composer_header_table_get_type (void);
 GtkWidget *	e_composer_header_table_new	(EShell *shell,
-						 ESourceRegistry *registry);
+						 EClientCache *client_cache);
 EShell *	e_composer_header_table_get_shell
 						(EComposerHeaderTable *table);
-ESourceRegistry *
-		e_composer_header_table_get_registry
+EClientCache *	e_composer_header_table_ref_client_cache
 						(EComposerHeaderTable *table);
 EComposerHeader *
 		e_composer_header_table_get_header

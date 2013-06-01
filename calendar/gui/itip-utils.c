@@ -1630,10 +1630,12 @@ setup_from (ECalComponentItipMethod method,
             ECalClient *cal_client,
             EComposerHeaderTable *table)
 {
+	EClientCache *client_cache;
 	ESourceRegistry *registry;
 	ESource *source = NULL;
 
-	registry = e_composer_header_table_get_registry (table);
+	client_cache = e_composer_header_table_ref_client_cache (table);
+	registry = e_client_cache_ref_registry (client_cache);
 
 	/* always use organizer's email when user is an organizer */
 	if (itip_organizer_is_user (registry, comp, cal_client)) {
@@ -1663,6 +1665,9 @@ setup_from (ECalComponentItipMethod method,
 
 		g_object_unref (source);
 	}
+
+	g_object_unref (client_cache);
+	g_object_unref (registry);
 }
 
 gboolean

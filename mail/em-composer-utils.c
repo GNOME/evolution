@@ -366,13 +366,17 @@ composer_presend_check_identity (EMsgComposer *composer,
                                  EMailSession *session)
 {
 	EComposerHeaderTable *table;
+	EClientCache *client_cache;
 	ESourceRegistry *registry;
 	ESource *source;
 	const gchar *uid;
 	gboolean success = TRUE;
 
 	table = e_msg_composer_get_header_table (composer);
-	registry = e_composer_header_table_get_registry (table);
+
+	client_cache = e_composer_header_table_ref_client_cache (table);
+	registry = e_client_cache_ref_registry (client_cache);
+
 	uid = e_composer_header_table_get_identity_uid (table);
 	source = e_source_registry_ref_source (registry, uid);
 	g_return_val_if_fail (source != NULL, FALSE);
@@ -384,6 +388,8 @@ composer_presend_check_identity (EMsgComposer *composer,
 		success = FALSE;
 	}
 
+	g_object_unref (client_cache);
+	g_object_unref (registry);
 	g_object_unref (source);
 
 	return success;
@@ -837,6 +843,7 @@ em_utils_composer_save_to_drafts_cb (EMsgComposer *composer,
 {
 	AsyncContext *context;
 	EComposerHeaderTable *table;
+	EClientCache *client_cache;
 	ESourceRegistry *registry;
 	ESource *source;
 	const gchar *local_drafts_folder_uri;
@@ -851,9 +858,14 @@ em_utils_composer_save_to_drafts_cb (EMsgComposer *composer,
 
 	table = e_msg_composer_get_header_table (composer);
 
-	registry = e_composer_header_table_get_registry (table);
+	client_cache = e_composer_header_table_ref_client_cache (table);
+	registry = e_client_cache_ref_registry (client_cache);
+
 	identity_uid = e_composer_header_table_get_identity_uid (table);
 	source = e_source_registry_ref_source (registry, identity_uid);
+
+	g_clear_object (&client_cache);
+	g_clear_object (&registry);
 
 	/* Get the selected identity's preferred Drafts folder. */
 	if (source != NULL) {
@@ -999,6 +1011,7 @@ create_new_composer (EShell *shell,
                      CamelFolder *folder)
 {
 	EMsgComposer *composer;
+	EClientCache *client_cache;
 	ESourceRegistry *registry;
 	EComposerHeaderTable *table;
 	ESource *source = NULL;
@@ -1007,7 +1020,9 @@ create_new_composer (EShell *shell,
 	composer = e_msg_composer_new (shell);
 
 	table = e_msg_composer_get_header_table (composer);
-	registry = e_composer_header_table_get_registry (table);
+
+	client_cache = e_composer_header_table_ref_client_cache (table);
+	registry = e_client_cache_ref_registry (client_cache);
 
 	if (folder != NULL) {
 		CamelStore *store;
@@ -1035,6 +1050,9 @@ create_new_composer (EShell *shell,
 	e_composer_header_table_set_identity_uid (table, identity);
 
 	g_free (identity);
+
+	g_object_unref (client_cache);
+	g_object_unref (registry);
 
 	return composer;
 }
@@ -1080,8 +1098,9 @@ em_utils_compose_new_message_with_mailto (EShell *shell,
                                           CamelFolder *folder)
 {
 	EMsgComposer *composer;
-	ESourceRegistry *registry;
 	EComposerHeaderTable *table;
+	EClientCache *client_cache;
+	ESourceRegistry *registry;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
@@ -1094,7 +1113,9 @@ em_utils_compose_new_message_with_mailto (EShell *shell,
 		composer = e_msg_composer_new (shell);
 
 	table = e_msg_composer_get_header_table (composer);
-	registry = e_composer_header_table_get_registry (table);
+
+	client_cache = e_composer_header_table_ref_client_cache (table);
+	registry = e_client_cache_ref_registry (client_cache);
 
 	composer_set_no_change (composer);
 
@@ -1116,6 +1137,9 @@ em_utils_compose_new_message_with_mailto (EShell *shell,
 			g_object_unref (source);
 		}
 	}
+
+	g_object_unref (client_cache);
+	g_object_unref (registry);
 
 	return composer;
 }
