@@ -40,7 +40,6 @@ e_composer_from_header_get_type
 <TITLE>EComposerHeaderTable</TITLE>
 EComposerHeaderTable
 e_composer_header_table_new
-e_composer_header_table_get_shell
 e_composer_header_table_ref_client_cache
 EComposerHeaderType
 e_composer_header_table_get_header

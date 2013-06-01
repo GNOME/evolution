@@ -20,7 +20,6 @@
 
 #include <libebook/libebook.h>
 
-#include <shell/e-shell.h>
 #include <composer/e-composer-header.h>
 
 /* Standard GObject macros */
@@ -70,10 +69,7 @@ struct _EComposerHeaderTableClass {
 };
 
 GType		e_composer_header_table_get_type (void);
-GtkWidget *	e_composer_header_table_new	(EShell *shell,
-						 EClientCache *client_cache);
-EShell *	e_composer_header_table_get_shell
-						(EComposerHeaderTable *table);
+GtkWidget *	e_composer_header_table_new	(EClientCache *client_cache);
 EClientCache *	e_composer_header_table_ref_client_cache
 						(EComposerHeaderTable *table);
 EComposerHeader *

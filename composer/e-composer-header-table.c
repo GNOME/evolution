@@ -23,8 +23,6 @@
 
 #include <glib/gi18n-lib.h>
 
-#include <shell/e-shell.h>
-
 #include "e-msg-composer.h"
 #include "e-composer-private.h"
 #include "e-composer-from-header.h"
@@ -53,7 +51,6 @@ struct _EComposerHeaderTablePrivate {
 	GtkWidget *signature_combo_box;
 	ENameSelector *name_selector;
 	EClientCache *client_cache;
-	EShell *shell;
 };
 
 enum {
@@ -65,7 +62,6 @@ enum {
 	PROP_IDENTITY_UID,
 	PROP_POST_TO,
 	PROP_REPLY_TO,
-	PROP_SHELL,
 	PROP_SIGNATURE_COMBO_BOX,
 	PROP_SIGNATURE_UID,
 	PROP_SUBJECT
@@ -559,16 +555,6 @@ composer_header_table_set_client_cache (EComposerHeaderTable *table,
 }
 
 static void
-composer_header_table_set_shell (EComposerHeaderTable *table,
-                                 EShell *shell)
-{
-	g_return_if_fail (E_IS_SHELL (shell));
-	g_return_if_fail (table->priv->shell == NULL);
-
-	table->priv->shell = g_object_ref (shell);
-}
-
-static void
 composer_header_table_set_property (GObject *object,
                                     guint property_id,
                                     const GValue *value,
@@ -626,12 +612,6 @@ composer_header_table_set_property (GObject *object,
 			e_composer_header_table_set_reply_to (
 				E_COMPOSER_HEADER_TABLE (object),
 				g_value_get_string (value));
-			return;
-
-		case PROP_SHELL:
-			composer_header_table_set_shell (
-				E_COMPOSER_HEADER_TABLE (object),
-				g_value_get_object (value));
 			return;
 
 		case PROP_SIGNATURE_UID:
@@ -713,13 +693,6 @@ composer_header_table_get_property (GObject *object,
 				E_COMPOSER_HEADER_TABLE (object)));
 			return;
 
-		case PROP_SHELL:
-			g_value_set_object (
-				value,
-				e_composer_header_table_get_shell (
-				E_COMPOSER_HEADER_TABLE (object)));
-			return;
-
 		case PROP_SIGNATURE_COMBO_BOX:
 			g_value_set_object (
 				value,
@@ -774,11 +747,6 @@ composer_header_table_dispose (GObject *object)
 	if (priv->client_cache != NULL) {
 		g_object_unref (priv->client_cache);
 		priv->client_cache = NULL;
-	}
-
-	if (priv->shell != NULL) {
-		g_object_unref (priv->shell);
-		priv->shell = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -1004,18 +972,6 @@ e_composer_header_table_class_init (EComposerHeaderTableClass *class)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_SHELL,
-		g_param_spec_object (
-			"shell",
-			NULL,
-			NULL,
-			E_TYPE_SHELL,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
-
-	g_object_class_install_property (
-		object_class,
 		PROP_SIGNATURE_COMBO_BOX,
 		g_param_spec_string (
 			"signature-combo-box",
@@ -1079,23 +1035,13 @@ e_composer_header_table_init (EComposerHeaderTable *table)
 }
 
 GtkWidget *
-e_composer_header_table_new (EShell *shell,
-                             EClientCache *client_cache)
+e_composer_header_table_new (EClientCache *client_cache)
 {
-	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 	g_return_val_if_fail (E_IS_CLIENT_CACHE (client_cache), NULL);
 
 	return g_object_new (
 		E_TYPE_COMPOSER_HEADER_TABLE,
-		"shell", shell, "client-cache", client_cache, NULL);
-}
-
-EShell *
-e_composer_header_table_get_shell (EComposerHeaderTable *table)
-{
-	g_return_val_if_fail (E_IS_COMPOSER_HEADER_TABLE (table), NULL);
-
-	return table->priv->shell;
+		"client-cache", client_cache, NULL);
 }
 
 EClientCache *

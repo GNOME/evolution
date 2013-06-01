@@ -245,7 +245,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 
 	/* Construct the header table. */
 
-	widget = e_composer_header_table_new (shell, client_cache);
+	widget = e_composer_header_table_new (client_cache);
 	gtk_container_set_border_width (GTK_CONTAINER (widget), 6);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_box_reorder_child (GTK_BOX (container), widget, 2);
