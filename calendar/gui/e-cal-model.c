@@ -3578,21 +3578,34 @@ remove_client (ECalModel *model,
 
 /**
  * e_cal_model_remove_client
+ * @model: an #ECalModel
+ * @client: an #ECalClient
+ *
+ * Removes @client from @model along with its internal #ECalClientView.
+ *
+ * If @model does not have @client then the function does nothing and
+ * returns %FALSE.
+ *
+ * Returns: %TRUE is @client was remove, %FALSE if @model did not have it
  */
-void
+gboolean
 e_cal_model_remove_client (ECalModel *model,
                            ECalClient *client)
 {
 	ClientData *client_data;
+	gboolean removed = FALSE;
 
-	g_return_if_fail (E_IS_CAL_MODEL (model));
-	g_return_if_fail (E_IS_CAL_CLIENT (client));
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), FALSE);
+	g_return_val_if_fail (E_IS_CAL_CLIENT (client), FALSE);
 
 	client_data = cal_model_clients_lookup (model, client);
 	if (client_data != NULL) {
 		remove_client (model, client_data);
 		client_data_unref (client_data);
+		removed = TRUE;
 	}
+
+	return removed;
 }
 
 /**
