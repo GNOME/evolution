@@ -376,18 +376,14 @@ cal_shell_view_taskpad_popup_event_cb (EShellView *shell_view,
 
 static void
 cal_shell_view_user_created_cb (ECalShellView *cal_shell_view,
-                                ECalClient *where_was_created,
+                                ECalClient *client,
                                 ECalendarView *calendar_view)
 {
 	ECalShellSidebar *cal_shell_sidebar;
-	ESource *source;
-
-	g_return_if_fail (where_was_created != NULL);
-
-	source = e_client_get_source (E_CLIENT (where_was_created));
 
 	cal_shell_sidebar = cal_shell_view->priv->cal_shell_sidebar;
-	e_cal_shell_sidebar_add_source (cal_shell_sidebar, source);
+
+	e_cal_shell_sidebar_add_client (cal_shell_sidebar, E_CLIENT (client));
 }
 
 static void
