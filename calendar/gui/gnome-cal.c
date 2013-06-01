@@ -66,6 +66,8 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), GNOME_TYPE_CALENDAR, GnomeCalendarPrivate))
 
+typedef struct _ViewData ViewData;
+
 /* Private part of the GnomeCalendar structure */
 struct _GnomeCalendarPrivate {
 	ESourceRegistry *registry;
@@ -86,12 +88,10 @@ struct _GnomeCalendarPrivate {
 	GtkWidget   *memo_table; /* EMemoTable, but can be NULL */
 	GtkWidget   *task_table; /* ETaskTable, but can be NULL */
 
-	/* Calendar query for the date navigator */
-	GMutex       dn_query_lock;
-	GList       *dn_queries; /* list of CalQueries */
+	GHashTable *date_nav_view_data;  /* set of ViewData */
+	GMutex date_nav_view_data_lock;
+
 	gchar        *sexp;
-	gchar        *todo_sexp;
-	gchar        *memo_sexp;
 	guint        update_timeout;
 	guint        update_marcus_bains_line_timeout;
 
@@ -124,11 +124,18 @@ struct _GnomeCalendarPrivate {
 	 * else it uses the date range set in search bar. */
 	gboolean lview_select_daten_range;
 
-	/* Used in update_todo_view, to prevent interleaving when
-	 * called in separate thread. */
-	GMutex todo_update_lock;
-
 	GCancellable *cancellable;
+};
+
+struct _ViewData {
+	volatile gint ref_count;
+	GWeakRef gcal_weak_ref;
+	GCancellable *cancellable;
+	ECalClientView *client_view;
+	gulong objects_added_handler_id;
+	gulong objects_modified_handler_id;
+	gulong objects_removed_handler_id;
+	gulong complete_handler_id;
 };
 
 enum {
@@ -159,46 +166,120 @@ static void gnome_calendar_goto_date (GnomeCalendar *gcal,
 
 static void gnome_calendar_update_date_navigator (GnomeCalendar *gcal);
 
-static void update_todo_view (GnomeCalendar *gcal);
-static void update_memo_view (GnomeCalendar *gcal);
-
-/* Simple asynchronous message dispatcher */
-typedef struct _Message Message;
-typedef void (*MessageFunc) (Message *msg);
-
-struct _Message {
-	MessageFunc func;
-	GSourceFunc done;
-};
-
-static void
-message_proxy (Message *msg)
-{
-	g_return_if_fail (msg->func != NULL);
-
-	msg->func (msg);
-	if (msg->done)
-		g_idle_add (msg->done, msg);
-}
-
-static gpointer
-create_thread_pool (void)
-{
-	/* once created, run forever */
-	return g_thread_pool_new ((GFunc) message_proxy, NULL, 1, FALSE, NULL);
-}
-
-static void
-message_push (Message *msg)
-{
-	static GOnce once = G_ONCE_INIT;
-
-	g_once (&once, (GThreadFunc) create_thread_pool, NULL);
-
-	g_thread_pool_push ((GThreadPool *) once.retval, msg, NULL);
-}
+static void update_task_and_memo_views (GnomeCalendar *gcal);
 
 G_DEFINE_TYPE (GnomeCalendar, gnome_calendar, G_TYPE_OBJECT)
+
+static ViewData *
+view_data_new (GnomeCalendar *gcal)
+{
+	ViewData *view_data;
+
+	view_data = g_slice_new0 (ViewData);
+	view_data->ref_count = 1;
+	view_data->cancellable = g_cancellable_new ();
+
+	g_weak_ref_set (&view_data->gcal_weak_ref, gcal);
+
+	return view_data;
+}
+
+static ViewData *
+view_data_ref (ViewData *view_data)
+{
+	g_return_val_if_fail (view_data != NULL, NULL);
+	g_return_val_if_fail (view_data->ref_count > 0, NULL);
+
+	g_atomic_int_inc (&view_data->ref_count);
+
+	return view_data;
+}
+
+static void
+view_data_unref (ViewData *view_data)
+{
+	g_return_if_fail (view_data != NULL);
+	g_return_if_fail (view_data->ref_count > 0);
+
+	if (g_atomic_int_dec_and_test (&view_data->ref_count)) {
+
+		if (view_data->objects_added_handler_id > 0)
+			g_signal_handler_disconnect (
+				view_data->client_view,
+				view_data->objects_added_handler_id);
+
+		if (view_data->objects_modified_handler_id > 0)
+			g_signal_handler_disconnect (
+				view_data->client_view,
+				view_data->objects_modified_handler_id);
+
+		if (view_data->objects_removed_handler_id > 0)
+			g_signal_handler_disconnect (
+				view_data->client_view,
+				view_data->objects_removed_handler_id);
+
+		if (view_data->complete_handler_id > 0)
+			g_signal_handler_disconnect (
+				view_data->client_view,
+				view_data->complete_handler_id);
+
+		g_weak_ref_set (&view_data->gcal_weak_ref, NULL);
+
+		g_cancellable_cancel (view_data->cancellable);
+
+		g_clear_object (&view_data->cancellable);
+		g_clear_object (&view_data->client_view);
+
+		g_slice_free (ViewData, view_data);
+	}
+}
+
+static void
+date_nav_view_data_insert (GnomeCalendar *gcal,
+                           ViewData *view_data)
+{
+	g_return_if_fail (view_data != NULL);
+
+	g_mutex_lock (&gcal->priv->date_nav_view_data_lock);
+
+	g_hash_table_add (
+		gcal->priv->date_nav_view_data,
+		view_data_ref (view_data));
+
+	g_mutex_unlock (&gcal->priv->date_nav_view_data_lock);
+}
+
+static void
+date_nav_view_data_remove_all (GnomeCalendar *gcal)
+{
+	g_mutex_lock (&gcal->priv->date_nav_view_data_lock);
+
+	g_hash_table_remove_all (gcal->priv->date_nav_view_data);
+
+	g_mutex_unlock (&gcal->priv->date_nav_view_data_lock);
+}
+
+/* Based on e_weak_ref_new() (new in libedataserver 3.9) */
+static GWeakRef *
+gcal_weak_ref_new (GnomeCalendar *gcal)
+{
+	GWeakRef *weak_ref;
+
+	weak_ref = g_slice_new0 (GWeakRef);
+	g_weak_ref_set (weak_ref, gcal);
+
+	return weak_ref;
+}
+
+/* Based on e_weak_ref_free() (new in libedataserver 3.9) */
+static void
+gcal_weak_ref_free (GWeakRef *weak_ref)
+{
+	g_return_if_fail (weak_ref != NULL);
+
+	g_weak_ref_set (weak_ref, NULL);
+	g_slice_free (GWeakRef, weak_ref);
+}
 
 static void
 gcal_update_status_message (GnomeCalendar *gcal,
@@ -807,70 +888,81 @@ ensure_dates_are_in_default_zone (GnomeCalendar *gcal,
 
 /* Callback used when the calendar query reports of an updated object */
 static void
-dn_client_view_objects_added_cb (ECalClientView *view,
-                                 const GSList *objects,
-                                 gpointer data)
+gnome_cal_objects_added_cb (ECalClientView *view,
+                            const GSList *list,
+                            GWeakRef *weak_ref)
 {
 	GnomeCalendar *gcal;
-	GnomeCalendarPrivate *priv;
-	const GSList *l;
 
-	gcal = GNOME_CALENDAR (data);
-	priv = gcal->priv;
+	gcal = g_weak_ref_get (weak_ref);
 
-	for (l = objects; l; l = l->next) {
-		ECalComponent *comp = NULL;
+	if (gcal != NULL) {
+		const GSList *link;
 
-		ensure_dates_are_in_default_zone (gcal, l->data);
-		comp = e_cal_component_new ();
-		if (!e_cal_component_set_icalcomponent (
-			comp, icalcomponent_new_clone (l->data))) {
+		for (link = list; link != NULL; link = g_slist_next (link)) {
+			ECalComponent *comp = NULL;
+			icalcomponent *icalcomp = link->data;
+
+			ensure_dates_are_in_default_zone (gcal, icalcomp);
+			comp = e_cal_component_new ();
+			if (!e_cal_component_set_icalcomponent (
+				comp, icalcomponent_new_clone (icalcomp))) {
+				g_object_unref (comp);
+				continue;
+			}
+
+			tag_calendar_by_comp (
+				gcal->priv->date_navigator, comp,
+				e_cal_client_view_get_client (view),
+				NULL, FALSE, TRUE, TRUE,
+				gcal->priv->cancellable);
 			g_object_unref (comp);
-			continue;
 		}
 
-		tag_calendar_by_comp (
-			priv->date_navigator, comp,
-			e_cal_client_view_get_client (view),
-			NULL, FALSE, TRUE, TRUE, priv->cancellable);
-		g_object_unref (comp);
+		g_object_unref (gcal);
 	}
 }
 
 static void
-dn_client_view_objects_modified_cb (ECalClientView *view,
-                                    const GSList *objects,
-                                    gpointer data)
+gnome_cal_objects_modified_cb (ECalClientView *view,
+                               const GSList *objects,
+                               GWeakRef *weak_ref)
 {
 	GnomeCalendar *gcal;
 
-	gcal = GNOME_CALENDAR (data);
+	gcal = g_weak_ref_get (weak_ref);
 
-	/* We have to retag the whole thing: an event may change dates
-	 * and the tag_calendar_by_comp() below would not know how to
-	 * untag the old dates. */
-	gnome_calendar_update_query (gcal);
+	if (gcal != NULL) {
+		/* We have to retag the whole thing: an event may change dates
+		 * and the tag_calendar_by_comp() below would not know how to
+		 * untag the old dates. */
+		gnome_calendar_update_query (gcal);
+		g_object_unref (gcal);
+	}
 }
 
 /* Callback used when the calendar query reports of a removed object */
 static void
-dn_client_view_objects_removed_cb (ECalClientView *view,
-                                   const GSList *ids,
-                                   gpointer data)
+gnome_cal_objects_removed_cb (ECalClientView *view,
+                              const GSList *ids,
+                              GWeakRef *weak_ref)
 {
 	GnomeCalendar *gcal;
 
-	gcal = GNOME_CALENDAR (data);
+	gcal = g_weak_ref_get (weak_ref);
 
-	/* Just retag the whole thing */
-	gnome_calendar_update_query (gcal);
+	if (gcal != NULL) {
+		/* Just retag the whole thing */
+		gnome_calendar_update_query (gcal);
+		g_object_unref (gcal);
+	}
 }
 
 /* Callback used when the calendar query is done */
 static void
-dn_client_view_complete_cb (ECalClientView *query,
+gnome_cal_view_complete_cb (ECalClientView *query,
                             const GError *error,
-                            gpointer data)
+                            GWeakRef *weak_ref)
 {
 	/* FIXME Better error reporting */
 	if (error != NULL)
@@ -1119,128 +1211,137 @@ adjust_client_view_sexp (GnomeCalendar *gcal,
 	return new_sexp;
 }
 
-struct _date_query_msg {
-	Message header;
+static void
+gnome_cal_get_client_view_cb (GObject *source_object,
+                              GAsyncResult *result,
+                              gpointer user_data)
+{
+	ECalClient *client;
+	ECalClientView *client_view = NULL;
 	GnomeCalendar *gcal;
-};
+	ViewData *view_data;
+	GError *local_error = NULL;
 
-static void
-free_dn_queries (GnomeCalendar *gcal)
-{
-	GList *l;
-	GnomeCalendarPrivate *priv;
+	client = E_CAL_CLIENT (source_object);
+	view_data = (ViewData *) user_data;
 
-	priv = gcal->priv;
+	e_cal_client_get_view_finish (
+		client, result, &client_view, &local_error);
 
-	g_mutex_lock (&priv->dn_query_lock);
+	/* Sanity check. */
+	g_return_if_fail (
+		((client_view != NULL) && (local_error == NULL)) ||
+		((client_view == NULL) && (local_error != NULL)));
 
-	for (l = priv->dn_queries; l != NULL; l = l->next) {
-		if (!l->data)
-			continue;
-		g_signal_handlers_disconnect_matched (
-			l->data, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, gcal);
-		g_object_unref (l->data);
-	}
+	gcal = g_weak_ref_get (&view_data->gcal_weak_ref);
 
-	g_list_free (priv->dn_queries);
-	priv->dn_queries = NULL;
+	if (g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		g_error_free (local_error);
 
-	g_mutex_unlock (&priv->dn_query_lock);
-}
+	} else if (local_error != NULL) {
+		/* FIXME This should be displayed as an EAlert. */
+		g_warning ("%s: %s", G_STRFUNC, local_error->message);
+		g_error_free (local_error);
 
-static void
-update_query_async (struct _date_query_msg *msg)
-{
-	GnomeCalendar *gcal = msg->gcal;
-	GnomeCalendarPrivate *priv;
-	ECalClientView *new_view;
-	gchar *real_sexp;
-	GList *list, *link;
+	} else if (gcal != NULL) {
+		gulong handler_id;
 
-	priv = gcal->priv;
+		/* The ViewData struct is only modified from a single
+		 * thread, so no locking is necessary when populating
+		 * the struct members. */
 
-	/* free the previous queries */
-	free_dn_queries (gcal);
+		view_data->client_view = g_object_ref (client_view);
 
-	g_return_if_fail (priv->sexp != NULL);
+		handler_id = g_signal_connect_data (
+			client_view, "objects-added",
+			G_CALLBACK (gnome_cal_objects_added_cb),
+			gcal_weak_ref_new (gcal),
+			(GClosureNotify) gcal_weak_ref_free, 0);
+		view_data->objects_added_handler_id = handler_id;
 
-	real_sexp = adjust_client_view_sexp (gcal, priv->sexp);
-	if (!real_sexp) {
-		return; /* No time range is set, so don't start a query */
-	}
+		handler_id = g_signal_connect_data (
+			client_view, "objects-modified",
+			G_CALLBACK (gnome_cal_objects_modified_cb),
+			gcal_weak_ref_new (gcal),
+			(GClosureNotify) gcal_weak_ref_free, 0);
+		view_data->objects_modified_handler_id = handler_id;
 
-	list = e_cal_model_list_clients (priv->model);
+		handler_id = g_signal_connect_data (
+			client_view, "objects-removed",
+			G_CALLBACK (gnome_cal_objects_removed_cb),
+			gcal_weak_ref_new (gcal),
+			(GClosureNotify) gcal_weak_ref_free, 0);
+		view_data->objects_removed_handler_id = handler_id;
 
-	/* create queries for each loaded client */
-	for (link = list; link != NULL; link = g_list_next (link)) {
-		ECalClient *client = E_CAL_CLIENT (link->data);
-		GError *error = NULL;
+		handler_id = g_signal_connect_data (
+			client_view, "complete",
+			G_CALLBACK (gnome_cal_view_complete_cb),
+			gcal_weak_ref_new (gcal),
+			(GClosureNotify) gcal_weak_ref_free, 0);
+		view_data->complete_handler_id = handler_id;
 
-		new_view = NULL;
-		if (!e_cal_client_get_view_sync (client, real_sexp, &new_view, NULL, &error)) {
-			g_warning (G_STRLOC ": Could not create the view: %s ", error->message);
-			g_clear_error (&error);
+		/* XXX This call blocks with no way to cancel.  But the
+		 *     ECalClientView API does not provide a proper way. */
+		e_cal_client_view_start (client_view, &local_error);
 
-			continue;
+		if (local_error != NULL) {
+			g_warning ("%s: %s", G_STRFUNC, local_error->message);
+			g_error_free (local_error);
 		}
 
-		g_signal_connect (
-			new_view, "objects-added",
-			G_CALLBACK (dn_client_view_objects_added_cb), gcal);
-		g_signal_connect (
-			new_view, "objects-modified",
-			G_CALLBACK (dn_client_view_objects_modified_cb), gcal);
-		g_signal_connect (
-			new_view, "objects-removed",
-			G_CALLBACK (dn_client_view_objects_removed_cb), gcal);
-		g_signal_connect (
-			new_view, "complete",
-			G_CALLBACK (dn_client_view_complete_cb), gcal);
-
-		g_mutex_lock (&priv->dn_query_lock);
-		priv->dn_queries = g_list_append (priv->dn_queries, new_view);
-		e_cal_client_view_start (new_view, &error);
-		if (error != NULL) {
-			g_warning (
-				"%s: Failed to start view: %s",
-				G_STRFUNC, error->message);
-			g_clear_error (&error);
-		}
-		g_mutex_unlock (&priv->dn_query_lock);
+		g_object_unref (gcal);
 	}
 
-	g_list_free_full (list, (GDestroyNotify) g_object_unref);
+	g_clear_object (&client_view);
 
-	/* free memory */
-	g_free (real_sexp);
-	update_todo_view (gcal);
-}
-
-static gboolean
-update_query_done (struct _date_query_msg *msg)
-{
-	g_object_unref (msg->gcal);
-	g_slice_free (struct _date_query_msg, msg);
-
-	return FALSE;
+	view_data_unref (view_data);
 }
 
 /* Restarts a query for the date navigator in the calendar */
 void
 gnome_calendar_update_query (GnomeCalendar *gcal)
 {
-	struct _date_query_msg *msg;
+	GList *list, *link;
+	gchar *real_sexp;
 
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 
 	e_calendar_item_clear_marks (gcal->priv->date_navigator->calitem);
 
-	msg = g_slice_new0 (struct _date_query_msg);
-	msg->header.func = (MessageFunc) update_query_async;
-	msg->header.done = (GSourceFunc) update_query_done;
-	msg->gcal = g_object_ref (gcal);
+	/* This cancels any previous view requests still in progress. */
+	date_nav_view_data_remove_all (gcal);
 
-	message_push ((Message *) msg);
+	g_return_if_fail (gcal->priv->sexp != NULL);
+
+	/* Don't start a query unless a time range is set. */
+	real_sexp = adjust_client_view_sexp (gcal, gcal->priv->sexp);
+	if (real_sexp == NULL)
+		return;
+
+	list = e_cal_model_list_clients (gcal->priv->model);
+
+	/* create queries for each loaded client */
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		ECalClient *client = E_CAL_CLIENT (link->data);
+		ViewData *view_data;
+
+		view_data = view_data_new (gcal);
+		date_nav_view_data_insert (gcal, view_data);
+
+		e_cal_client_get_view (
+			client, real_sexp,
+			view_data->cancellable,
+			gnome_cal_get_client_view_cb,
+			view_data_ref (view_data));
+
+		view_data_unref (view_data);
+	}
+
+	g_list_free_full (list, (GDestroyNotify) g_object_unref);
+
+	g_free (real_sexp);
+
+	update_task_and_memo_views (gcal);
 }
 
 void
@@ -1291,141 +1392,74 @@ gnome_calendar_set_search_query (GnomeCalendar *gcal,
 		e_cal_model_set_search_query (model, sexp);
 }
 
-struct _mupdate_todo_msg {
-	Message header;
-	GnomeCalendar *gcal;
-};
-
 static void
-update_todo_view_async (struct _mupdate_todo_msg *msg)
+update_task_and_memo_views (GnomeCalendar *gcal)
 {
-	GnomeCalendar *gcal;
-	GnomeCalendarPrivate *priv;
-	ECalModel *model;
-	gchar *sexp = NULL;
-
-	g_return_if_fail (msg != NULL);
-
-	gcal = msg->gcal;
-	priv = gcal->priv;
-
-	g_return_if_fail (priv->task_table != NULL);
-
-	g_mutex_lock (&priv->todo_update_lock);
-
-	/* Set the query on the task pad */
-	if (priv->todo_sexp) {
-		g_free (priv->todo_sexp);
-		priv->todo_sexp = NULL;
-	}
-
-	model = e_task_table_get_model (E_TASK_TABLE (priv->task_table));
-
-	if ((sexp = calendar_config_get_hide_completed_tasks_sexp (FALSE)) != NULL) {
-		priv->todo_sexp = g_strdup_printf (
-			"(and %s %s)", sexp,
-			priv->sexp ? priv->sexp : "");
-		e_cal_model_set_search_query (model, priv->todo_sexp);
-		g_free (sexp);
-	} else {
-		priv->todo_sexp = g_strdup (priv->sexp);
-		e_cal_model_set_search_query (model, priv->todo_sexp);
-	}
-
-	update_memo_view (msg->gcal);
-
-	g_mutex_unlock (&priv->todo_update_lock);
-}
-
-static gboolean
-update_todo_view_done (struct _mupdate_todo_msg *msg)
-{
+	ECalModel *memo_model;
+	ECalModel *task_model;
+	ECalModel *view_model;
 	EMemoTable *memo_table;
 	ETaskTable *task_table;
-	EShellView *shell_view;
-	GnomeCalendar *gcal;
-
-	g_return_val_if_fail (msg != NULL, FALSE);
-
-	gcal = msg->gcal;
-
-	g_return_val_if_fail (gcal->priv->task_table != NULL, FALSE);
-	g_return_val_if_fail (gcal->priv->memo_table != NULL, FALSE);
-
-	task_table = E_TASK_TABLE (gcal->priv->task_table);
-	shell_view = e_task_table_get_shell_view (task_table);
-	e_shell_view_unblock_update_actions (shell_view);
-
-	memo_table = E_MEMO_TABLE (gcal->priv->memo_table);
-	shell_view = e_memo_table_get_shell_view (memo_table);
-	e_shell_view_unblock_update_actions (shell_view);
-
-	g_object_unref (msg->gcal);
-	g_slice_free (struct _mupdate_todo_msg, msg);
-
-	return FALSE;
-}
-
-static void
-update_todo_view (GnomeCalendar *gcal)
-{
-	EMemoTable *memo_table;
-	ETaskTable *task_table;
-	EShellView *shell_view;
-	struct _mupdate_todo_msg *msg;
-
-	/* they are both or none anyway */
-	if (!gcal->priv->task_table || !gcal->priv->memo_table)
-		return;
-
-	msg = g_slice_new0 (struct _mupdate_todo_msg);
-	msg->header.func = (MessageFunc) update_todo_view_async;
-	msg->header.done = (GSourceFunc) update_todo_view_done;
-	msg->gcal = g_object_ref (gcal);
-
-	task_table = E_TASK_TABLE (gcal->priv->task_table);
-	shell_view = e_task_table_get_shell_view (task_table);
-	e_shell_view_block_update_actions (shell_view);
-
-	memo_table = E_MEMO_TABLE (gcal->priv->memo_table);
-	shell_view = e_memo_table_get_shell_view (memo_table);
-	e_shell_view_block_update_actions (shell_view);
-
-	message_push ((Message *) msg);
-}
-
-static void
-update_memo_view (GnomeCalendar *gcal)
-{
-	GnomeCalendarPrivate *priv;
-	ECalModel *model, *view_model;
 	time_t start = -1, end = -1;
-	gchar *iso_start, *iso_end;
+	gchar *hide_completed_tasks_sexp;
 
-	priv = gcal->priv;
-	if (!priv->memo_table)
-		return;
+	/* Set the query on the task pad. */
 
-	/* Set the query on the memo pad*/
-	model = e_memo_table_get_model (E_MEMO_TABLE (priv->memo_table));
+	task_table = E_TASK_TABLE (gcal->priv->task_table);
+	task_model = e_task_table_get_model (task_table);
+
+	hide_completed_tasks_sexp =
+		calendar_config_get_hide_completed_tasks_sexp (FALSE);
+
+	if (hide_completed_tasks_sexp != NULL) {
+		if (gcal->priv->sexp != NULL) {
+			gchar *sexp;
+
+			sexp = g_strdup_printf (
+				"(and %s %s)",
+				hide_completed_tasks_sexp,
+				gcal->priv->sexp);
+			e_cal_model_set_search_query (task_model, sexp);
+			g_free (sexp);
+		} else {
+			e_cal_model_set_search_query (
+				task_model, hide_completed_tasks_sexp);
+		}
+	} else {
+		e_cal_model_set_search_query (task_model, gcal->priv->sexp);
+	}
+
+	g_free (hide_completed_tasks_sexp);
+
+	/* Set the query on the memo pad. */
+
+	memo_table = E_MEMO_TABLE (gcal->priv->memo_table);
+	memo_model = e_memo_table_get_model (memo_table);
+
 	view_model = gnome_calendar_get_model (gcal);
 	e_cal_model_get_time_range (view_model, &start, &end);
 
 	if (start != -1 && end != -1) {
+		gchar *iso_start;
+		gchar *iso_end;
+		gchar *sexp;
+
 		iso_start = isodate_from_time_t (start);
 		iso_end = isodate_from_time_t (end);
 
-		g_free (priv->memo_sexp);
+		sexp = g_strdup_printf (
+			"(and (or (not (has-start?)) "
+			"(occur-in-time-range? (make-time \"%s\") "
+			"(make-time \"%s\") \"%s\")) %s)",
+			iso_start, iso_end,
+			gcal_get_default_tzloc (gcal),
+			gcal->priv->sexp ? gcal->priv->sexp : "");
 
-		priv->memo_sexp = g_strdup_printf (
-			"(and (or (not (has-start?)) (occur-in-time-range? (make-time \"%s\") (make-time \"%s\") \"%s\")) %s)",
-			iso_start, iso_end, gcal_get_default_tzloc (gcal),
-			priv->sexp ? priv->sexp : "");
-
-		e_cal_model_set_search_query (model, priv->memo_sexp);
+		e_cal_model_set_search_query (memo_model, sexp);
 
 		g_free (iso_start);
 		g_free (iso_end);
+		g_free (sexp);
 	}
 }
 
@@ -1468,13 +1502,13 @@ setup_widgets (GnomeCalendar *gcal)
 
 	priv = gcal->priv;
 
-	/* update_todo_view (gcal); */
+	/* update_task_and_memo_views (gcal); */
 
 	/* Timeout check to hide completed items */
 #if 0 /* KILL-BONOBO */
 	priv->update_timeout = g_timeout_add_full (
 		G_PRIORITY_LOW, 60000, (GSourceFunc)
-		update_todo_view_cb, gcal, NULL);
+		update_task_and_memo_views_cb, gcal, NULL);
 #endif
 
 	/* The Marcus Bains line */
@@ -1489,10 +1523,17 @@ setup_widgets (GnomeCalendar *gcal)
 static void
 gnome_calendar_init (GnomeCalendar *gcal)
 {
+	GHashTable *date_nav_view_data;
+
+	date_nav_view_data = g_hash_table_new_full (
+		(GHashFunc) g_direct_hash,
+		(GEqualFunc) g_direct_equal,
+		(GDestroyNotify) view_data_unref,
+		(GDestroyNotify) NULL);
+
 	gcal->priv = GNOME_CALENDAR_GET_PRIVATE (gcal);
 
-	g_mutex_init (&gcal->priv->todo_update_lock);
-	g_mutex_init (&gcal->priv->dn_query_lock);
+	g_mutex_init (&gcal->priv->date_nav_view_data_lock);
 
 	gcal->priv->current_view_type = GNOME_CAL_WORK_WEEK_VIEW;
 	gcal->priv->range_selected = FALSE;
@@ -1500,10 +1541,9 @@ gnome_calendar_init (GnomeCalendar *gcal)
 
 	setup_widgets (gcal);
 
-	gcal->priv->dn_queries = NULL;
+	gcal->priv->date_nav_view_data = date_nav_view_data;
+
 	gcal->priv->sexp = g_strdup ("#t"); /* Match all */
-	gcal->priv->todo_sexp = g_strdup ("#t");
-	gcal->priv->memo_sexp = g_strdup ("#t");
 
 	gcal->priv->visible_start = -1;
 	gcal->priv->visible_end = -1;
@@ -1541,7 +1581,7 @@ gnome_calendar_do_dispose (GObject *object)
 		}
 	}
 
-	free_dn_queries (GNOME_CALENDAR (object));
+	g_hash_table_remove_all (priv->date_nav_view_data);
 
 	if (priv->sexp) {
 		g_free (priv->sexp);
@@ -1575,8 +1615,9 @@ gnome_calendar_finalize (GObject *object)
 
 	priv = GNOME_CALENDAR_GET_PRIVATE (object);
 
-	g_mutex_clear (&priv->todo_update_lock);
-	g_mutex_clear (&priv->dn_query_lock);
+	g_mutex_clear (&priv->date_nav_view_data_lock);
+
+	g_hash_table_destroy (priv->date_nav_view_data);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (gnome_calendar_parent_class)->finalize (object);
@@ -2256,7 +2297,7 @@ gnome_calendar_notify_dates_shown_changed (GnomeCalendar *gcal)
 		gtk_widget_queue_draw (GTK_WIDGET (calendar_view));
 		g_signal_emit (gcal, signals[DATES_SHOWN_CHANGED], 0);
 	}
-	update_todo_view (gcal);
+	update_task_and_memo_views (gcal);
 }
 
 /* Returns the number of selected events (0 or 1 at present). */

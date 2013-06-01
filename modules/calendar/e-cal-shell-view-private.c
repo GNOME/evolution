@@ -610,10 +610,8 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 
 	/* Give GnomeCalendar a handle to the date navigator, memo and task table. */
 	gnome_calendar_set_date_navigator (calendar, date_navigator);
-	gnome_calendar_set_memo_table (
-		calendar, memo_table ? GTK_WIDGET (memo_table) : NULL);
-	gnome_calendar_set_task_table (
-		calendar, task_table ? GTK_WIDGET (task_table) : NULL);
+	gnome_calendar_set_memo_table (calendar, GTK_WIDGET (memo_table));
+	gnome_calendar_set_task_table (calendar, GTK_WIDGET (task_table));
 
 	e_calendar_item_set_get_time_callback (
 		date_navigator->calitem, (ECalendarItemGetTimeCallback)
