@@ -66,6 +66,7 @@ e_composer_header_table_set_signature_uid
 e_composer_header_table_get_subject
 e_composer_header_table_set_subject
 e_composer_header_table_set_header_visible
+e_composer_header_table_ref_source
 <SUBSECTION Standard>
 E_COMPOSER_HEADER_TABLE
 E_IS_COMPOSER_HEADER_TABLE

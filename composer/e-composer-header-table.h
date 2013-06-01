@@ -138,6 +138,9 @@ void		e_composer_header_table_set_header_visible
 						(EComposerHeaderTable *table,
 						 EComposerHeaderType type,
 						 gboolean visible);
+ESource *	e_composer_header_table_ref_source
+						(EComposerHeaderTable *table,
+						 const gchar *uid);
 
 G_END_DECLS
 

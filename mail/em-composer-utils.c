@@ -374,12 +374,12 @@ composer_presend_check_identity (EMsgComposer *composer,
 
 	table = e_msg_composer_get_header_table (composer);
 
+	uid = e_composer_header_table_get_identity_uid (table);
+	source = e_composer_header_table_ref_source (table, uid);
+	g_return_val_if_fail (source != NULL, FALSE);
+
 	client_cache = e_composer_header_table_ref_client_cache (table);
 	registry = e_client_cache_ref_registry (client_cache);
-
-	uid = e_composer_header_table_get_identity_uid (table);
-	source = e_source_registry_ref_source (registry, uid);
-	g_return_val_if_fail (source != NULL, FALSE);
 
 	if (!e_source_registry_check_enabled (registry, source)) {
 		e_alert_submit (
@@ -843,8 +843,6 @@ em_utils_composer_save_to_drafts_cb (EMsgComposer *composer,
 {
 	AsyncContext *context;
 	EComposerHeaderTable *table;
-	EClientCache *client_cache;
-	ESourceRegistry *registry;
 	ESource *source;
 	const gchar *local_drafts_folder_uri;
 	const gchar *identity_uid;
@@ -858,14 +856,8 @@ em_utils_composer_save_to_drafts_cb (EMsgComposer *composer,
 
 	table = e_msg_composer_get_header_table (composer);
 
-	client_cache = e_composer_header_table_ref_client_cache (table);
-	registry = e_client_cache_ref_registry (client_cache);
-
 	identity_uid = e_composer_header_table_get_identity_uid (table);
-	source = e_source_registry_ref_source (registry, identity_uid);
-
-	g_clear_object (&client_cache);
-	g_clear_object (&registry);
+	source = e_composer_header_table_ref_source (table, identity_uid);
 
 	/* Get the selected identity's preferred Drafts folder. */
 	if (source != NULL) {

@@ -454,8 +454,6 @@ composer_header_table_from_changed_cb (EComposerHeaderTable *table)
 {
 	ESource *source = NULL;
 	ESource *mail_account = NULL;
-	EClientCache *client_cache;
-	ESourceRegistry *registry;
 	EComposerHeader *header;
 	EComposerHeaderType type;
 	EComposerPostHeader *post_header;
@@ -469,12 +467,9 @@ composer_header_table_from_changed_cb (EComposerHeaderTable *table)
 
 	/* Keep "Post-To" and "Reply-To" synchronized with "From" */
 
-	client_cache = e_composer_header_table_ref_client_cache (table);
-	registry = e_client_cache_ref_registry (client_cache);
-
 	uid = e_composer_header_table_get_identity_uid (table);
 	if (uid != NULL)
-		source = e_source_registry_ref_source (registry, uid);
+		source = e_composer_header_table_ref_source (table, uid);
 
 	/* Make sure this is really a mail identity source. */
 	if (source != NULL) {
@@ -539,9 +534,6 @@ composer_header_table_from_changed_cb (EComposerHeaderTable *table)
 		composer_header_table_setup_post_headers (table);
 	else
 		composer_header_table_setup_mail_headers (table);
-
-	g_object_unref (client_cache);
-	g_object_unref (registry);
 }
 
 static void
@@ -1471,3 +1463,39 @@ e_composer_header_table_set_header_visible (EComposerHeaderTable *table,
 		}
 	}
 }
+
+/**
+ * e_composer_header_table_ref_source:
+ * @table: an #EComposerHeaderTable
+ * @uid: a unique identifier string
+ *
+ * Convenience function that works just like e_source_registry_ref_source(),
+ * but spares the caller from digging out the #ESourceRegistry from @table.
+ *
+ * The returned #ESource is referenced for thread-safety and must be
+ * unreferenced with g_object_unref() when finished with it.
+ *
+ * Returns: an #ESource, or %NULL if no match was found
+ **/
+ESource *
+e_composer_header_table_ref_source (EComposerHeaderTable *table,
+                                    const gchar *uid)
+{
+	EClientCache *client_cache;
+	ESourceRegistry *registry;
+	ESource *source;
+
+	g_return_val_if_fail (E_IS_COMPOSER_HEADER_TABLE (table), NULL);
+	g_return_val_if_fail (uid != NULL, NULL);
+
+	client_cache = e_composer_header_table_ref_client_cache (table);
+	registry = e_client_cache_ref_registry (client_cache);
+
+	source = e_source_registry_ref_source (registry, uid);
+
+	g_object_unref (client_cache);
+	g_object_unref (registry);
+
+	return source;
+}
+
