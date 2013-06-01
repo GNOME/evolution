@@ -254,7 +254,7 @@ ECalClient *	e_cal_model_ref_default_client	(ECalModel *model);
 void		e_cal_model_set_default_client	(ECalModel *model,
 						 ECalClient *client);
 GList *		e_cal_model_list_clients	(ECalModel *model);
-void		e_cal_model_add_client		(ECalModel *model,
+gboolean	e_cal_model_add_client		(ECalModel *model,
 						 ECalClient *cal_client);
 void		e_cal_model_remove_client	(ECalModel *model,
 						 ECalClient *cal_client);

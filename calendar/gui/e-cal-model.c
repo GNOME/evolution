@@ -159,7 +159,7 @@ static gchar *ecm_value_to_string (ETableModel *etm, gint col, gconstpointer val
 
 static const gchar *ecm_get_color_for_component (ECalModel *model, ECalModelComponent *comp_data);
 
-static void add_new_client (ECalModel *model, ECalClient *client, gboolean do_query);
+static gboolean add_new_client (ECalModel *model, ECalClient *client, gboolean do_query);
 static void remove_client_objects (ECalModel *model, ClientData *client_data);
 static void remove_client (ECalModel *model, ClientData *client_data);
 static void redo_queries (ECalModel *model);
@@ -3462,7 +3462,7 @@ e_cal_model_update_status_message (ECalModel *model,
 	g_signal_emit (model, signals[STATUS_MESSAGE], 0, message, percent);
 }
 
-static void
+static gboolean
 add_new_client (ECalModel *model,
                 ECalClient *client,
                 gboolean do_query)
@@ -3492,19 +3492,31 @@ add_new_client (ECalModel *model,
 		update_e_cal_view_for_client (model, client_data);
 
 	client_data_unref (client_data);
+
+	return update_view;
 }
 
 /**
- * e_cal_model_add_client
+ * e_cal_model_add_client:
+ * @model: an #ECalModel
+ * @client: an #ECalClient
+ *
+ * Adds @client to @model and creates an internal #ECalClientView for it.
+ *
+ * If @model already has @client from a previous e_cal_model_add_client()
+ * call (in other words, excluding e_cal_model_set_default_client()), then
+ * the function does nothing and returns %FALSE.
+ *
+ * Returns: %TRUE if @client was added, %FALSE if @model already had it
  */
-void
+gboolean
 e_cal_model_add_client (ECalModel *model,
                         ECalClient *client)
 {
-	g_return_if_fail (E_IS_CAL_MODEL (model));
-	g_return_if_fail (E_IS_CAL_CLIENT (client));
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), FALSE);
+	g_return_val_if_fail (E_IS_CAL_CLIENT (client), FALSE);
 
-	add_new_client (model, client, TRUE);
+	return add_new_client (model, client, TRUE);
 }
 
 static void

@@ -335,9 +335,8 @@ cal_shell_view_selector_client_added_cb (ECalShellView *cal_shell_view,
 	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
 	model = gnome_calendar_get_model (calendar);
 
-	e_cal_model_add_client (model, client);
-
-	gnome_calendar_update_query (calendar);
+	if (e_cal_model_add_client (model, client))
+		gnome_calendar_update_query (calendar);
 }
 
 static void
