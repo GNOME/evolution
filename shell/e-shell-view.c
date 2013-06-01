@@ -68,9 +68,6 @@ struct _EShellViewPrivate {
 	EFilterRule *search_rule;
 	guint execute_search_blocked;
 
-	guint update_actions_blocked;
-	gboolean update_actions_called;
-
 	GtkWidget *preferences_window;
 	gulong preferences_hide_id;
 };
@@ -719,7 +716,6 @@ shell_view_update_actions (EShellView *shell_view)
 	EShellWindow *shell_window;
 	EFocusTracker *focus_tracker;
 
-	g_return_if_fail (!shell_view->priv->update_actions_blocked);
 	g_return_if_fail (e_shell_view_is_active (shell_view));
 
 	shell_window = e_shell_view_get_shell_window (shell_view);
@@ -1685,67 +1681,14 @@ e_shell_view_is_execute_search_blocked (EShellView *shell_view)
  * #EShellView::update-actions signal is typically emitted just before
  * showing a popup menu or just after the user selects an item in the
  * shell view.
- *
- * Emission can be blocked by e_shell_view_block_update_actions().
  **/
 void
 e_shell_view_update_actions (EShellView *shell_view)
 {
 	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
 
-	if (!e_shell_view_is_active (shell_view))
-		return;
-
-	if (shell_view->priv->update_actions_blocked > 0) {
-		shell_view->priv->update_actions_called = TRUE;
-	} else {
-		shell_view->priv->update_actions_called = FALSE;
+	if (e_shell_view_is_active (shell_view))
 		g_signal_emit (shell_view, signals[UPDATE_ACTIONS], 0);
-	}
-}
-
-/**
- * e_shell_view_block_update_actions:
- * @shell_view: an #EShellView
- *
- * Block emission of #EShellView::update-actions signal through
- * e_shell_view_update_actions(). The emission si blocked until
- * e_shell_view_unblock_update_actions() is called same times as
- * this function.
- **/
-void
-e_shell_view_block_update_actions (EShellView *shell_view)
-{
-	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
-	g_return_if_fail (shell_view->priv->update_actions_blocked + 1 != 0);
-
-	shell_view->priv->update_actions_blocked++;
-	if (shell_view->priv->update_actions_blocked == 1)
-		shell_view->priv->update_actions_called = FALSE;
-}
-
-/**
- * e_shell_view_unblock_update_actions:
- * @shell_view: an #EShellView
- *
- * Unblock emission of #EShellView::update-actions signal through
- * e_shell_view_update_actions(), previously blocked by function
- * e_shell_view_block_update_actions().
- **/
-void
-e_shell_view_unblock_update_actions (EShellView *shell_view)
-{
-	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
-	g_return_if_fail (shell_view->priv->update_actions_blocked > 0);
-
-	shell_view->priv->update_actions_blocked--;
-
-	if (!shell_view->priv->update_actions_blocked &&
-		shell_view->priv->update_actions_called) {
-
-		shell_view->priv->update_actions_called = FALSE;
-		e_shell_view_update_actions (shell_view);
-	}
 }
 
 /**
