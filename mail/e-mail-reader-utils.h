@@ -72,6 +72,10 @@ void		e_mail_reader_edit_messages	(EMailReader *reader,
 						 CamelFolder *folder,
 						 GPtrArray *uids,
 						 gboolean replace);
+void		e_mail_reader_forward_messages	(EMailReader *reader,
+						 CamelFolder *folder,
+						 GPtrArray *uids,
+						 EMailForwardStyle style);
 void		e_mail_reader_reply_to_message	(EMailReader *reader,
 						 CamelMimeMessage *message,
 						 EMailReplyType reply_type);

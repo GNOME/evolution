@@ -26,8 +26,8 @@
 
 #include <em-format/e-mail-part.h>
 #include <mail/e-mail-backend.h>
-#include <mail/e-mail-reader.h>
 #include <composer/e-msg-composer.h>
+#include <em-format/e-mail-part-list.h>
 #include <libemail-engine/e-mail-enums.h>
 
 G_BEGIN_DECLS
@@ -47,10 +47,11 @@ EMsgComposer *	em_utils_forward_message	(EMailBackend *backend,
 						 EMailForwardStyle style,
 						 CamelFolder *folder,
 						 const gchar *uid);
-void		em_utils_forward_messages	(EMailReader *reader,
+EMsgComposer *	em_utils_forward_attachment	(EMailBackend *backend,
+						 CamelMimePart *part,
+						 const gchar *subject,
 						 CamelFolder *folder,
-						 GPtrArray *uids,
-						 EMailForwardStyle style);
+						 GPtrArray *uids);
 EMsgComposer *	em_utils_redirect_message	(EShell *shell,
 						 CamelMimeMessage *message);
 gchar *		em_utils_construct_composer_text
