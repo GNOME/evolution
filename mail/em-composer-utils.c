@@ -1087,22 +1087,26 @@ create_new_composer (EShell *shell,
  *
  * Opens a new composer window as a child window of @parent's toplevel
  * window.
+ *
+ * Returns: the resulting #EMsgComposer
  **/
-void
+EMsgComposer *
 em_utils_compose_new_message (EShell *shell,
                               CamelFolder *folder)
 {
 	EMsgComposer *composer;
 
-	g_return_if_fail (E_IS_SHELL (shell));
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
 	if (folder != NULL)
-		g_return_if_fail (CAMEL_IS_FOLDER (folder));
+		g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
 
 	composer = create_new_composer (shell, "", folder);
 	composer_set_no_change (composer);
 
 	gtk_widget_show (GTK_WIDGET (composer));
+
+	return composer;
 }
 
 /**

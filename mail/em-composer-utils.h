@@ -32,7 +32,7 @@
 
 G_BEGIN_DECLS
 
-void		em_utils_compose_new_message	(EShell *shell,
+EMsgComposer *	em_utils_compose_new_message	(EShell *shell,
 						 CamelFolder *folder);
 EMsgComposer *	em_utils_compose_new_message_with_mailto
 						(EShell *shell,
