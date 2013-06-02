@@ -92,33 +92,24 @@ struct _ForwardData {
 };
 
 static void
-async_context_free (AsyncContext *context)
+async_context_free (AsyncContext *async_context)
 {
-	if (context->message != NULL)
-		g_object_unref (context->message);
+	g_clear_object (&async_context->message);
+	g_clear_object (&async_context->session);
+	g_clear_object (&async_context->composer);
+	g_clear_object (&async_context->activity);
+	g_clear_object (&async_context->reader);
 
-	if (context->session != NULL)
-		g_object_unref (context->session);
+	if (async_context->ptr_array != NULL)
+		g_ptr_array_unref (async_context->ptr_array);
 
-	if (context->composer != NULL)
-		g_object_unref (context->composer);
+	if (async_context->destroy_when_done != NULL)
+		gtk_widget_destroy (async_context->destroy_when_done);
 
-	if (context->activity != NULL)
-		g_object_unref (context->activity);
+	g_free (async_context->folder_uri);
+	g_free (async_context->message_uid);
 
-	if (context->reader != NULL)
-		g_object_unref (context->reader);
-
-	if (context->ptr_array != NULL)
-		g_ptr_array_unref (context->ptr_array);
-
-	if (context->destroy_when_done != NULL)
-		gtk_widget_destroy (context->destroy_when_done);
-
-	g_free (context->folder_uri);
-	g_free (context->message_uid);
-
-	g_slice_free (AsyncContext, context);
+	g_slice_free (AsyncContext, async_context);
 }
 
 static void
@@ -510,18 +501,24 @@ composer_presend_check_unwanted_html (EMsgComposer *composer,
 }
 
 static void
-composer_send_completed (EMailSession *session,
+composer_send_completed (GObject *source_object,
                          GAsyncResult *result,
-                         AsyncContext *context)
+                         gpointer user_data)
 {
-	GError *error = NULL;
+	EActivity *activity;
 	gboolean service_unavailable;
 	gboolean set_changed = FALSE;
+	AsyncContext *async_context;
+	GError *local_error = NULL;
 
-	e_mail_session_send_to_finish (session, result, &error);
+	async_context = (AsyncContext *) user_data;
 
-	if (e_activity_handle_cancellation (context->activity, error)) {
-		g_error_free (error);
+	activity = async_context->activity;
+
+	e_mail_session_send_to_finish (
+		E_MAIL_SESSION (source_object), result, &local_error);
+
+	if (e_activity_handle_cancellation (activity, local_error)) {
 		set_changed = TRUE;
 		goto exit;
 	}
@@ -530,69 +527,74 @@ composer_send_completed (EMailSession *session,
 	 * or name resolution failed or connection attempt failed. */
 	service_unavailable =
 		g_error_matches (
-			error, CAMEL_SERVICE_ERROR,
+			local_error, CAMEL_SERVICE_ERROR,
 			CAMEL_SERVICE_ERROR_UNAVAILABLE) ||
 		/* XXX camel_getaddrinfo() sets this, unfortunately. */
-		g_error_matches (error, CAMEL_ERROR, CAMEL_ERROR_GENERIC);
+		g_error_matches (
+			local_error, CAMEL_ERROR, CAMEL_ERROR_GENERIC);
 	if (service_unavailable) {
 		/* Inform the user. */
 		e_alert_run_dialog_for_args (
-			GTK_WINDOW (context->composer),
+			GTK_WINDOW (async_context->composer),
 			"mail-composer:saving-to-outbox", NULL);
-		e_msg_composer_save_to_outbox (context->composer);
+		e_msg_composer_save_to_outbox (async_context->composer);
 		goto exit;
 	}
 
 	/* Post-processing errors are shown in the shell window. */
-	if (g_error_matches (error, E_MAIL_ERROR, E_MAIL_ERROR_POST_PROCESSING)) {
+	if (g_error_matches (
+		local_error, E_MAIL_ERROR,
+		E_MAIL_ERROR_POST_PROCESSING)) {
 		EAlert *alert;
 		EShell *shell;
 
-		shell = e_msg_composer_get_shell (context->composer);
+		shell = e_msg_composer_get_shell (async_context->composer);
 
 		alert = e_alert_new (
 			"mail-composer:send-post-processing-error",
-			error->message, NULL);
+			local_error->message, NULL);
 		e_shell_submit_alert (shell, alert);
 		g_object_unref (alert);
 
 	/* All other errors are shown in the composer window. */
-	} else if (error != NULL) {
+	} else if (local_error != NULL) {
 		gint response;
 
 		/* Clear the activity bar before
 		 * presenting the error dialog. */
-		g_object_unref (context->activity);
-		context->activity = NULL;
+		g_clear_object (&async_context->activity);
+		activity = async_context->activity;
 
 		response = e_alert_run_dialog_for_args (
-			GTK_WINDOW (context->composer),
+			GTK_WINDOW (async_context->composer),
 			"mail-composer:send-error",
-			error->message, NULL);
+			local_error->message, NULL);
 		if (response == GTK_RESPONSE_OK)  /* Try Again */
-			e_msg_composer_send (context->composer);
+			e_msg_composer_send (async_context->composer);
 		if (response == GTK_RESPONSE_ACCEPT)  /* Save to Outbox */
-			e_msg_composer_save_to_outbox (context->composer);
-		g_error_free (error);
+			e_msg_composer_save_to_outbox (async_context->composer);
 		set_changed = TRUE;
 		goto exit;
 	}
 
-	e_activity_set_state (context->activity, E_ACTIVITY_COMPLETED);
+	e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
 
 	/* Wait for the EActivity's completion message to
 	 * time out and then destroy the composer window. */
 	g_object_weak_ref (
-		G_OBJECT (context->activity), (GWeakNotify)
-		gtk_widget_destroy, context->composer);
+		G_OBJECT (activity), (GWeakNotify)
+		gtk_widget_destroy, async_context->composer);
 
 exit:
+	g_clear_error (&local_error);
+
 	if (set_changed) {
-		gtkhtml_editor_set_changed (GTKHTML_EDITOR (context->composer), TRUE);
-		gtk_window_present (GTK_WINDOW (context->composer));
+		gtkhtml_editor_set_changed (
+			GTKHTML_EDITOR (async_context->composer), TRUE);
+		gtk_window_present (GTK_WINDOW (async_context->composer));
 	}
 
-	async_context_free (context);
+	async_context_free (async_context);
 }
 
 static void
@@ -601,21 +603,22 @@ em_utils_composer_send_cb (EMsgComposer *composer,
                            EActivity *activity,
                            EMailSession *session)
 {
-	AsyncContext *context;
+	AsyncContext *async_context;
 	GCancellable *cancellable;
 
-	context = g_slice_new0 (AsyncContext);
-	context->message = g_object_ref (message);
-	context->composer = g_object_ref (composer);
-	context->activity = g_object_ref (activity);
+	async_context = g_slice_new0 (AsyncContext);
+	async_context->message = g_object_ref (message);
+	async_context->composer = g_object_ref (composer);
+	async_context->activity = g_object_ref (activity);
 
 	cancellable = e_activity_get_cancellable (activity);
 
 	e_mail_session_send_to (
 		session, message,
-		G_PRIORITY_DEFAULT, cancellable, NULL, NULL,
-		(GAsyncReadyCallback) composer_send_completed,
-		context);
+		G_PRIORITY_DEFAULT,
+		cancellable, NULL, NULL,
+		composer_send_completed,
+		async_context);
 }
 
 static void
@@ -667,87 +670,108 @@ manage_x_evolution_replace_outbox (EMsgComposer *composer,
 }
 
 static void
-composer_save_to_drafts_complete (EMailSession *session,
+composer_save_to_drafts_complete (GObject *source_object,
                                   GAsyncResult *result,
-                                  AsyncContext *context)
+                                  gpointer user_data)
 {
-	GError *error = NULL;
+	EActivity *activity;
+	AsyncContext *async_context;
+	GError *local_error = NULL;
 
 	/* We don't really care if this failed.  If something other than
 	 * cancellation happened, emit a runtime warning so the error is
 	 * not completely lost. */
 
-	e_mail_session_handle_draft_headers_finish (session, result, &error);
+	async_context = (AsyncContext *) user_data;
 
-	if (e_activity_handle_cancellation (context->activity, error)) {
-		gtkhtml_editor_set_changed (GTKHTML_EDITOR (context->composer), TRUE);
-		g_error_free (error);
+	activity = async_context->activity;
 
-	} else if (error != NULL) {
-		gtkhtml_editor_set_changed (GTKHTML_EDITOR (context->composer), TRUE);
-		g_warning ("%s", error->message);
-		g_error_free (error);
+	e_mail_session_handle_draft_headers_finish (
+		E_MAIL_SESSION (source_object), result, &local_error);
+
+	if (e_activity_handle_cancellation (activity, local_error)) {
+		gtkhtml_editor_set_changed (
+			GTKHTML_EDITOR (async_context->composer), TRUE);
+		g_error_free (local_error);
+
+	} else if (local_error != NULL) {
+		gtkhtml_editor_set_changed (
+			GTKHTML_EDITOR (async_context->composer), TRUE);
+		g_warning ("%s", local_error->message);
+		g_error_free (local_error);
 
 	} else
-		e_activity_set_state (context->activity, E_ACTIVITY_COMPLETED);
+		e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
 
 	/* Encode the draft message we just saved into the EMsgComposer
 	 * as X-Evolution-Draft headers.  The message will be marked for
 	 * deletion if the user saves a newer draft message or sends the
 	 * composed message. */
 	e_msg_composer_set_draft_headers (
-		context->composer, context->folder_uri,
-		context->message_uid);
+		async_context->composer,
+		async_context->folder_uri,
+		async_context->message_uid);
 
-	async_context_free (context);
+	async_context_free (async_context);
 }
 
 static void
-composer_save_to_drafts_cleanup (CamelFolder *drafts_folder,
+composer_save_to_drafts_cleanup (GObject *source_object,
                                  GAsyncResult *result,
-                                 AsyncContext *context)
+                                 gpointer user_data)
 {
 	CamelSession *session;
+	EActivity *activity;
 	EAlertSink *alert_sink;
 	GCancellable *cancellable;
-	GError *error = NULL;
+	AsyncContext *async_context;
+	GError *local_error = NULL;
 
-	session = e_msg_composer_get_session (context->composer);
-	alert_sink = e_activity_get_alert_sink (context->activity);
-	cancellable = e_activity_get_cancellable (context->activity);
+	async_context = (AsyncContext *) user_data;
+
+	activity = async_context->activity;
+	alert_sink = e_activity_get_alert_sink (activity);
+	cancellable = e_activity_get_cancellable (activity);
 
 	e_mail_folder_append_message_finish (
-		drafts_folder, result, &context->message_uid, &error);
+		CAMEL_FOLDER (source_object), result,
+		&async_context->message_uid, &local_error);
 
-	if (e_activity_handle_cancellation (context->activity, error)) {
-		g_warn_if_fail (context->message_uid == NULL);
-		gtkhtml_editor_set_changed (GTKHTML_EDITOR (context->composer), TRUE);
-		async_context_free (context);
-		g_error_free (error);
+	if (e_activity_handle_cancellation (activity, local_error)) {
+		g_warn_if_fail (async_context->message_uid == NULL);
+		gtkhtml_editor_set_changed (
+			GTKHTML_EDITOR (async_context->composer), TRUE);
+		async_context_free (async_context);
+		g_error_free (local_error);
 		return;
 
-	} else if (error != NULL) {
-		g_warn_if_fail (context->message_uid == NULL);
+	} else if (local_error != NULL) {
+		g_warn_if_fail (async_context->message_uid == NULL);
 		e_alert_submit (
 			alert_sink,
 			"mail-composer:save-to-drafts-error",
-			error->message, NULL);
-		gtkhtml_editor_set_changed (GTKHTML_EDITOR (context->composer), TRUE);
-		async_context_free (context);
-		g_error_free (error);
+			local_error->message, NULL);
+		gtkhtml_editor_set_changed (
+			GTKHTML_EDITOR (async_context->composer), TRUE);
+		async_context_free (async_context);
+		g_error_free (local_error);
 		return;
 	}
+
+	session = e_msg_composer_get_session (async_context->composer);
 
 	/* Mark the previously saved draft message for deletion.
 	 * Note: This is just a nice-to-have; ignore failures. */
 	e_mail_session_handle_draft_headers (
-		E_MAIL_SESSION (session), context->message,
-		G_PRIORITY_DEFAULT, cancellable, (GAsyncReadyCallback)
-		composer_save_to_drafts_complete, context);
+		E_MAIL_SESSION (session),
+		async_context->message,
+		G_PRIORITY_DEFAULT, cancellable,
+		composer_save_to_drafts_complete,
+		async_context);
 }
 
 static void
-composer_save_to_drafts_append_mail (AsyncContext *context,
+composer_save_to_drafts_append_mail (AsyncContext *async_context,
                                      CamelFolder *drafts_folder)
 {
 	CamelFolder *local_drafts_folder;
@@ -756,12 +780,12 @@ composer_save_to_drafts_append_mail (AsyncContext *context,
 
 	local_drafts_folder =
 		e_mail_session_get_local_folder (
-		context->session, E_MAIL_LOCAL_FOLDER_DRAFTS);
+		async_context->session, E_MAIL_LOCAL_FOLDER_DRAFTS);
 
 	if (drafts_folder == NULL)
 		drafts_folder = g_object_ref (local_drafts_folder);
 
-	cancellable = e_activity_get_cancellable (context->activity);
+	cancellable = e_activity_get_cancellable (async_context->activity);
 
 	info = camel_message_info_new (NULL);
 
@@ -769,14 +793,14 @@ composer_save_to_drafts_append_mail (AsyncContext *context,
 		info, CAMEL_MESSAGE_DRAFT | CAMEL_MESSAGE_SEEN, ~0);
 
 	camel_medium_remove_header (
-		CAMEL_MEDIUM (context->message),
+		CAMEL_MEDIUM (async_context->message),
 		"X-Evolution-Replace-Outbox-UID");
 
 	e_mail_folder_append_message (
-		drafts_folder, context->message,
+		drafts_folder, async_context->message,
 		info, G_PRIORITY_DEFAULT, cancellable,
-		(GAsyncReadyCallback) composer_save_to_drafts_cleanup,
-		context);
+		composer_save_to_drafts_cleanup,
+		async_context);
 
 	camel_message_info_free (info);
 
@@ -784,45 +808,55 @@ composer_save_to_drafts_append_mail (AsyncContext *context,
 }
 
 static void
-composer_save_to_drafts_got_folder (EMailSession *session,
+composer_save_to_drafts_got_folder (GObject *source_object,
                                     GAsyncResult *result,
-                                    AsyncContext *context)
+                                    gpointer user_data)
 {
+	EActivity *activity;
 	CamelFolder *drafts_folder;
-	GError *error = NULL;
+	AsyncContext *async_context;
+	GError *local_error = NULL;
+
+	async_context = (AsyncContext *) user_data;
+
+	activity = async_context->activity;
 
 	drafts_folder = e_mail_session_uri_to_folder_finish (
-		session, result, &error);
+		E_MAIL_SESSION (source_object), result, &local_error);
 
-	if (e_activity_handle_cancellation (context->activity, error)) {
-		g_warn_if_fail (drafts_folder == NULL);
-		gtkhtml_editor_set_changed (GTKHTML_EDITOR (context->composer), TRUE);
-		async_context_free (context);
-		g_error_free (error);
+	/* Sanity check. */
+	g_return_if_fail (
+		((drafts_folder != NULL) && (local_error == NULL)) ||
+		((drafts_folder == NULL) && (local_error != NULL)));
+
+	if (e_activity_handle_cancellation (activity, local_error)) {
+		gtkhtml_editor_set_changed (
+			GTKHTML_EDITOR (async_context->composer), TRUE);
+		async_context_free (async_context);
+		g_error_free (local_error);
 		return;
 
-	} else if (error != NULL) {
+	} else if (local_error != NULL) {
 		gint response;
 
-		g_warn_if_fail (drafts_folder == NULL);
-
 		/* XXX Not showing the error message in the dialog? */
-		g_error_free (error);
+		g_error_free (local_error);
 
 		/* If we can't retrieve the Drafts folder for the
 		 * selected account, ask the user if he wants to
 		 * save to the local Drafts folder instead. */
 		response = e_alert_run_dialog_for_args (
-			GTK_WINDOW (context->composer),
+			GTK_WINDOW (async_context->composer),
 			"mail:ask-default-drafts", NULL);
 		if (response != GTK_RESPONSE_YES) {
-			gtkhtml_editor_set_changed (GTKHTML_EDITOR (context->composer), TRUE);
-			async_context_free (context);
+			gtkhtml_editor_set_changed (
+				GTKHTML_EDITOR (async_context->composer), TRUE);
+			async_context_free (async_context);
 			return;
 		}
 	}
 
-	composer_save_to_drafts_append_mail (context, drafts_folder);
+	composer_save_to_drafts_append_mail (async_context, drafts_folder);
 }
 
 static void
@@ -831,7 +865,7 @@ em_utils_composer_save_to_drafts_cb (EMsgComposer *composer,
                                      EActivity *activity,
                                      EMailSession *session)
 {
-	AsyncContext *context;
+	AsyncContext *async_context;
 	EComposerHeaderTable *table;
 	ESourceRegistry *registry;
 	ESource *source;
@@ -839,11 +873,11 @@ em_utils_composer_save_to_drafts_cb (EMsgComposer *composer,
 	const gchar *identity_uid;
 	gchar *drafts_folder_uri = NULL;
 
-	context = g_slice_new0 (AsyncContext);
-	context->message = g_object_ref (message);
-	context->session = g_object_ref (session);
-	context->composer = g_object_ref (composer);
-	context->activity = g_object_ref (activity);
+	async_context = g_slice_new0 (AsyncContext);
+	async_context->message = g_object_ref (message);
+	async_context->session = g_object_ref (session);
+	async_context->composer = g_object_ref (composer);
+	async_context->activity = g_object_ref (activity);
 
 	table = e_msg_composer_get_header_table (composer);
 
@@ -871,65 +905,76 @@ em_utils_composer_save_to_drafts_cb (EMsgComposer *composer,
 		session, E_MAIL_LOCAL_FOLDER_DRAFTS);
 
 	if (drafts_folder_uri == NULL) {
-		composer_save_to_drafts_append_mail (context, NULL);
-		context->folder_uri = g_strdup (local_drafts_folder_uri);
+		composer_save_to_drafts_append_mail (async_context, NULL);
+		async_context->folder_uri = g_strdup (local_drafts_folder_uri);
 	} else {
 		GCancellable *cancellable;
 
 		cancellable = e_activity_get_cancellable (activity);
-		context->folder_uri = g_strdup (drafts_folder_uri);
+		async_context->folder_uri = g_strdup (drafts_folder_uri);
 
 		e_mail_session_uri_to_folder (
 			session, drafts_folder_uri, 0,
 			G_PRIORITY_DEFAULT, cancellable,
-			(GAsyncReadyCallback)
-			composer_save_to_drafts_got_folder, context);
+			composer_save_to_drafts_got_folder,
+			async_context);
 
 		g_free (drafts_folder_uri);
 	}
 }
 
 static void
-composer_save_to_outbox_completed (EMailSession *session,
+composer_save_to_outbox_completed (GObject *source_object,
                                    GAsyncResult *result,
-                                   AsyncContext *context)
+                                   gpointer user_data)
 {
+	EMailSession *session;
+	EActivity *activity;
 	EAlertSink *alert_sink;
-	GError *error = NULL;
+	GCancellable *cancellable;
+	AsyncContext *async_context;
+	GError *local_error = NULL;
 
-	alert_sink = e_activity_get_alert_sink (context->activity);
+	session = E_MAIL_SESSION (source_object);
+	async_context = (AsyncContext *) user_data;
+
+	activity = async_context->activity;
+	alert_sink = e_activity_get_alert_sink (activity);
+	cancellable = e_activity_get_cancellable (activity);
 
 	e_mail_session_append_to_local_folder_finish (
-		session, result, NULL, &error);
+		session, result, NULL, &local_error);
 
-	if (e_activity_handle_cancellation (context->activity, error)) {
-		g_error_free (error);
+	if (e_activity_handle_cancellation (activity, local_error)) {
+		g_error_free (local_error);
 		goto exit;
 
-	} else if (error != NULL) {
+	} else if (local_error != NULL) {
 		e_alert_submit (
 			alert_sink,
 			"mail-composer:append-to-outbox-error",
-			error->message, NULL);
-		g_error_free (error);
+			local_error->message, NULL);
+		g_error_free (local_error);
 		goto exit;
 	}
 
 	/* special processing for Outbox folder */
 	manage_x_evolution_replace_outbox (
-		context->composer, session, context->message,
-		e_activity_get_cancellable (context->activity));
+		async_context->composer,
+		session,
+		async_context->message,
+		cancellable);
 
-	e_activity_set_state (context->activity, E_ACTIVITY_COMPLETED);
+	e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
 
 	/* Wait for the EActivity's completion message to
 	 * time out and then destroy the composer window. */
 	g_object_weak_ref (
-		G_OBJECT (context->activity), (GWeakNotify)
-		gtk_widget_destroy, context->composer);
+		G_OBJECT (activity), (GWeakNotify)
+		gtk_widget_destroy, async_context->composer);
 
 exit:
-	async_context_free (context);
+	async_context_free (async_context);
 }
 
 static void
@@ -938,14 +983,14 @@ em_utils_composer_save_to_outbox_cb (EMsgComposer *composer,
                                      EActivity *activity,
                                      EMailSession *session)
 {
-	AsyncContext *context;
+	AsyncContext *async_context;
 	CamelMessageInfo *info;
 	GCancellable *cancellable;
 
-	context = g_slice_new0 (AsyncContext);
-	context->message = g_object_ref (message);
-	context->composer = g_object_ref (composer);
-	context->activity = g_object_ref (activity);
+	async_context = g_slice_new0 (AsyncContext);
+	async_context->message = g_object_ref (message);
+	async_context->composer = g_object_ref (composer);
+	async_context->activity = g_object_ref (activity);
 
 	cancellable = e_activity_get_cancellable (activity);
 
@@ -955,8 +1000,8 @@ em_utils_composer_save_to_outbox_cb (EMsgComposer *composer,
 	e_mail_session_append_to_local_folder (
 		session, E_MAIL_LOCAL_FOLDER_OUTBOX,
 		message, info, G_PRIORITY_DEFAULT, cancellable,
-		(GAsyncReadyCallback) composer_save_to_outbox_completed,
-		context);
+		composer_save_to_outbox_completed,
+		async_context);
 
 	camel_message_info_free (info);
 }
@@ -1426,43 +1471,49 @@ em_utils_edit_message (EShell *shell,
 }
 
 static void
-edit_messages_cb (CamelFolder *folder,
+edit_messages_cb (GObject *source_object,
                   GAsyncResult *result,
-                  AsyncContext *context)
+                  gpointer user_data)
 {
+	CamelFolder *folder;
 	EShell *shell;
 	EMailBackend *backend;
+	EActivity *activity;
 	EAlertSink *alert_sink;
 	GHashTable *hash_table;
 	GHashTableIter iter;
 	gpointer key, value;
-	GError *error = NULL;
+	AsyncContext *async_context;
+	GError *local_error = NULL;
 
-	alert_sink = e_mail_reader_get_alert_sink (context->reader);
+	folder = CAMEL_FOLDER (source_object);
+	async_context = (AsyncContext *) user_data;
+
+	activity = async_context->activity;
+	alert_sink = e_activity_get_alert_sink (activity);
 
 	hash_table = e_mail_folder_get_multiple_messages_finish (
-		folder, result, &error);
+		folder, result, &local_error);
 
-	if (e_activity_handle_cancellation (context->activity, error)) {
-		g_warn_if_fail (hash_table == NULL);
-		async_context_free (context);
-		g_error_free (error);
-		return;
+	/* Sanity check. */
+	g_return_if_fail (
+		((hash_table != NULL) && (local_error == NULL)) ||
+		((hash_table == NULL) && (local_error != NULL)));
 
-	} else if (error != NULL) {
-		g_warn_if_fail (hash_table == NULL);
+	if (e_activity_handle_cancellation (activity, local_error)) {
+		g_error_free (local_error);
+		goto exit;
+
+	} else if (local_error != NULL) {
 		e_alert_submit (
 			alert_sink,
 			"mail:get-multiple-messages",
-			error->message, NULL);
-		async_context_free (context);
-		g_error_free (error);
-		return;
+			local_error->message, NULL);
+		g_error_free (local_error);
+		goto exit;
 	}
 
-	g_return_if_fail (hash_table != NULL);
-
-	backend = e_mail_reader_get_backend (context->reader);
+	backend = e_mail_reader_get_backend (async_context->reader);
 	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
 
 	/* Open each message in its own composer window. */
@@ -1471,20 +1522,25 @@ edit_messages_cb (CamelFolder *folder,
 
 	while (g_hash_table_iter_next (&iter, &key, &value)) {
 		CamelMimeMessage *message;
+		const gchar *message_uid;
 
-		if (!context->replace)
+		if (!async_context->replace)
 			key = NULL;
 
+		message_uid = (const gchar *) key;
 		message = CAMEL_MIME_MESSAGE (value);
+
 		camel_medium_remove_header (CAMEL_MEDIUM (value), "X-Mailer");
-		em_utils_edit_message (shell, folder, message, key);
+
+		em_utils_edit_message (shell, folder, message, message_uid);
 	}
 
 	g_hash_table_unref (hash_table);
 
-	e_activity_set_state (context->activity, E_ACTIVITY_COMPLETED);
+	e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
 
-	async_context_free (context);
+exit:
+	async_context_free (async_context);
 }
 
 /**
@@ -1503,7 +1559,7 @@ em_utils_edit_messages (EMailReader *reader,
                         gboolean replace)
 {
 	EActivity *activity;
-	AsyncContext *context;
+	AsyncContext *async_context;
 	GCancellable *cancellable;
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
@@ -1513,16 +1569,16 @@ em_utils_edit_messages (EMailReader *reader,
 	activity = e_mail_reader_new_activity (reader);
 	cancellable = e_activity_get_cancellable (activity);
 
-	context = g_slice_new0 (AsyncContext);
-	context->activity = activity;
-	context->reader = g_object_ref (reader);
-	context->ptr_array = g_ptr_array_ref (uids);
-	context->replace = replace;
+	async_context = g_slice_new0 (AsyncContext);
+	async_context->activity = activity;
+	async_context->reader = g_object_ref (reader);
+	async_context->ptr_array = g_ptr_array_ref (uids);
+	async_context->replace = replace;
 
 	e_mail_folder_get_multiple_messages (
 		folder, uids, G_PRIORITY_DEFAULT,
-		cancellable, (GAsyncReadyCallback)
-		edit_messages_cb, context);
+		cancellable, edit_messages_cb,
+		async_context);
 }
 
 static void
@@ -1678,54 +1734,62 @@ forward_attached (EShell *shell,
 }
 
 static void
-forward_attached_cb (CamelFolder *folder,
+forward_attached_cb (GObject *source_object,
                      GAsyncResult *result,
-                     AsyncContext *context)
+                     gpointer user_data)
 {
+	CamelFolder *folder;
 	EShell *shell;
 	EMailBackend *backend;
+	EActivity *activity;
 	EAlertSink *alert_sink;
 	CamelMimePart *part;
 	gchar *subject = NULL;
-	GError *error = NULL;
+	AsyncContext *async_context;
+	GError *local_error = NULL;
 
-	alert_sink = e_mail_reader_get_alert_sink (context->reader);
+	folder = CAMEL_FOLDER (source_object);
+	async_context = (AsyncContext *) user_data;
+
+	activity = async_context->activity;
+	alert_sink = e_activity_get_alert_sink (activity);
 
 	part = e_mail_folder_build_attachment_finish (
-		folder, result, &subject, &error);
+		folder, result, &subject, &local_error);
 
-	if (e_activity_handle_cancellation (context->activity, error)) {
-		g_warn_if_fail (part == NULL);
+	/* Sanity check. */
+	g_return_if_fail (
+		((part != NULL) && (local_error == NULL)) ||
+		((part == NULL) && (local_error != NULL)));
+
+	if (e_activity_handle_cancellation (activity, local_error)) {
 		g_warn_if_fail (subject == NULL);
-		async_context_free (context);
-		g_error_free (error);
-		return;
+		g_error_free (local_error);
+		goto exit;
 
-	} else if (error != NULL) {
-		g_warn_if_fail (part == NULL);
+	} else if (local_error != NULL) {
 		g_warn_if_fail (subject == NULL);
 		e_alert_submit (
 			alert_sink,
 			"mail:get-multiple-messages",
-			error->message, NULL);
-		async_context_free (context);
-		g_error_free (error);
-		return;
+			local_error->message, NULL);
+		g_error_free (local_error);
+		goto exit;
 	}
 
-	g_return_if_fail (CAMEL_IS_MIME_PART (part));
-
-	backend = e_mail_reader_get_backend (context->reader);
+	backend = e_mail_reader_get_backend (async_context->reader);
 	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
 
-	forward_attached (shell, folder, context->ptr_array, part, subject);
+	forward_attached (
+		shell, folder, async_context->ptr_array, part, subject);
 
-	e_activity_set_state (context->activity, E_ACTIVITY_COMPLETED);
+	e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
 
 	g_object_unref (part);
 	g_free (subject);
 
-	async_context_free (context);
+exit:
+	async_context_free (async_context);
 }
 
 static EMsgComposer *
@@ -1741,7 +1805,8 @@ forward_non_attached (EShell *shell,
 	guint32 validity_found = 0;
 	guint32 flags;
 
-	flags = E_MAIL_FORMATTER_QUOTE_FLAG_HEADERS | E_MAIL_FORMATTER_QUOTE_FLAG_KEEP_SIG;
+	flags = E_MAIL_FORMATTER_QUOTE_FLAG_HEADERS |
+		E_MAIL_FORMATTER_QUOTE_FLAG_KEEP_SIG;
 	if (style == E_MAIL_FORWARD_STYLE_QUOTED)
 		flags |= E_MAIL_FORMATTER_QUOTE_FLAG_CITE;
 
@@ -1768,7 +1833,8 @@ forward_non_attached (EShell *shell,
 		if (uid != NULL) {
 			gchar *folder_uri = NULL, *tmp_message_uid = NULL;
 
-			em_utils_get_real_folder_uri_and_message_uid (folder, uid, &folder_uri, &tmp_message_uid);
+			em_utils_get_real_folder_uri_and_message_uid (
+				folder, uid, &folder_uri, &tmp_message_uid);
 
 			e_msg_composer_set_source_headers (
 				composer, folder_uri, tmp_message_uid,
@@ -1843,46 +1909,52 @@ em_utils_forward_message (EShell *shell,
 }
 
 static void
-forward_got_messages_cb (CamelFolder *folder,
+forward_got_messages_cb (GObject *source_object,
                          GAsyncResult *result,
-                         AsyncContext *context)
+                         gpointer user_data)
 {
+	CamelFolder *folder;
 	EShell *shell;
 	EMailBackend *backend;
 	EMailSession *session;
+	EActivity *activity;
 	EAlertSink *alert_sink;
 	GHashTable *hash_table;
 	GHashTableIter iter;
 	gpointer key, value;
-	GError *error = NULL;
+	AsyncContext *async_context;
+	GError *local_error = NULL;
 
-	alert_sink = e_mail_reader_get_alert_sink (context->reader);
+	folder = CAMEL_FOLDER (source_object);
+	async_context = (AsyncContext *) user_data;
+
+	activity = async_context->activity;
+	alert_sink = e_activity_get_alert_sink (activity);
 
 	hash_table = e_mail_folder_get_multiple_messages_finish (
-		folder, result, &error);
+		folder, result, &local_error);
 
-	if (e_activity_handle_cancellation (context->activity, error)) {
-		g_warn_if_fail (hash_table == NULL);
-		context->destroy_when_done = NULL;
-		async_context_free (context);
-		g_error_free (error);
-		return;
+	/* Sanity check. */
+	g_return_if_fail (
+		((hash_table != NULL) && (local_error == NULL)) ||
+		((hash_table == NULL) && (local_error != NULL)));
 
-	} else if (error != NULL) {
-		g_warn_if_fail (hash_table == NULL);
+	if (e_activity_handle_cancellation (activity, local_error)) {
+		async_context->destroy_when_done = NULL;
+		g_error_free (local_error);
+		goto exit;
+
+	} else if (local_error != NULL) {
 		e_alert_submit (
 			alert_sink,
 			"mail:get-multiple-messages",
-			error->message, NULL);
-		context->destroy_when_done = NULL;
-		async_context_free (context);
-		g_error_free (error);
-		return;
+			local_error->message, NULL);
+		async_context->destroy_when_done = NULL;
+		g_error_free (local_error);
+		goto exit;
 	}
 
-	g_return_if_fail (hash_table != NULL);
-
-	backend = e_mail_reader_get_backend (context->reader);
+	backend = e_mail_reader_get_backend (async_context->reader);
 	session = e_mail_backend_get_session (backend);
 	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
 
@@ -1890,16 +1962,25 @@ forward_got_messages_cb (CamelFolder *folder,
 
 	g_hash_table_iter_init (&iter, hash_table);
 
-	while (g_hash_table_iter_next (&iter, &key, &value))
+	while (g_hash_table_iter_next (&iter, &key, &value)) {
+		CamelMimeMessage *message;
+		const gchar *message_uid;
+
+		message_uid = (const gchar *) key;
+		message = CAMEL_MIME_MESSAGE (value);
+
 		em_utils_forward_message (
 			shell, CAMEL_SESSION (session),
-			value, context->style, folder, key);
+			message, async_context->style,
+			folder, message_uid);
+	}
 
 	g_hash_table_unref (hash_table);
 
-	e_activity_set_state (context->activity, E_ACTIVITY_COMPLETED);
+	e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
 
-	async_context_free (context);
+exit:
+	async_context_free (async_context);
 }
 
 /**
@@ -1935,7 +2016,7 @@ em_utils_forward_messages (EMailReader *reader,
                            GtkWidget *destroy_when_done)
 {
 	EActivity *activity;
-	AsyncContext *context;
+	AsyncContext *async_context;
 	GCancellable *cancellable;
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
@@ -1945,27 +2026,27 @@ em_utils_forward_messages (EMailReader *reader,
 	activity = e_mail_reader_new_activity (reader);
 	cancellable = e_activity_get_cancellable (activity);
 
-	context = g_slice_new0 (AsyncContext);
-	context->activity = activity;
-	context->reader = g_object_ref (reader);
-	context->ptr_array = g_ptr_array_ref (uids);
-	context->style = style;
-	context->destroy_when_done = destroy_when_done;
+	async_context = g_slice_new0 (AsyncContext);
+	async_context->activity = activity;
+	async_context->reader = g_object_ref (reader);
+	async_context->ptr_array = g_ptr_array_ref (uids);
+	async_context->style = style;
+	async_context->destroy_when_done = destroy_when_done;
 
 	switch (style) {
 		case E_MAIL_FORWARD_STYLE_ATTACHED:
 			e_mail_folder_build_attachment (
 				folder, uids, G_PRIORITY_DEFAULT,
-				cancellable, (GAsyncReadyCallback)
-				forward_attached_cb, context);
+				cancellable, forward_attached_cb,
+				async_context);
 			break;
 
 		case E_MAIL_FORWARD_STYLE_INLINE:
 		case E_MAIL_FORWARD_STYLE_QUOTED:
 			e_mail_folder_get_multiple_messages (
 				folder, uids, G_PRIORITY_DEFAULT,
-				cancellable, (GAsyncReadyCallback)
-				forward_got_messages_cb, context);
+				cancellable, forward_got_messages_cb,
+				async_context);
 			break;
 
 		default:
