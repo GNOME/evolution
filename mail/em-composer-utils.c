@@ -82,7 +82,6 @@ struct _AsyncContext {
 	gchar *message_uid;
 	gboolean replace;
 	gboolean keep_signature;
-	GtkWidget *destroy_when_done;
 };
 
 struct _ForwardData {
@@ -103,9 +102,6 @@ async_context_free (AsyncContext *async_context)
 
 	if (async_context->ptr_array != NULL)
 		g_ptr_array_unref (async_context->ptr_array);
-
-	if (async_context->destroy_when_done != NULL)
-		gtk_widget_destroy (async_context->destroy_when_done);
 
 	g_free (async_context->folder_uri);
 	g_free (async_context->message_uid);
@@ -1997,7 +1993,6 @@ forward_got_messages_cb (GObject *source_object,
 		((hash_table == NULL) && (local_error != NULL)));
 
 	if (e_activity_handle_cancellation (activity, local_error)) {
-		async_context->destroy_when_done = NULL;
 		g_error_free (local_error);
 		goto exit;
 
@@ -2006,7 +2001,6 @@ forward_got_messages_cb (GObject *source_object,
 			alert_sink,
 			"mail:get-multiple-messages",
 			local_error->message, NULL);
-		async_context->destroy_when_done = NULL;
 		g_error_free (local_error);
 		goto exit;
 	}
@@ -2045,8 +2039,6 @@ exit:
  * @folder: folder containing messages to forward
  * @uids: uids of messages to forward
  * @style: the forward style to use
- * @destroy_when_done: a #GtkWidget to destroy with gtk_widget_destroy()
- * when done; can be NULL
  *
  * Forwards a group of messages in the given style.
  *
@@ -2068,8 +2060,7 @@ void
 em_utils_forward_messages (EMailReader *reader,
                            CamelFolder *folder,
                            GPtrArray *uids,
-                           EMailForwardStyle style,
-                           GtkWidget *destroy_when_done)
+                           EMailForwardStyle style)
 {
 	EActivity *activity;
 	AsyncContext *async_context;
@@ -2087,7 +2078,6 @@ em_utils_forward_messages (EMailReader *reader,
 	async_context->reader = g_object_ref (reader);
 	async_context->ptr_array = g_ptr_array_ref (uids);
 	async_context->style = style;
-	async_context->destroy_when_done = destroy_when_done;
 
 	switch (style) {
 		case E_MAIL_FORWARD_STYLE_ATTACHED:
