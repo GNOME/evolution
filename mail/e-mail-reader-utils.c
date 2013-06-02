@@ -65,11 +65,13 @@ struct _AsyncContext {
 	EMailPartList *part_list;
 	EMailReader *reader;
 	CamelInternetAddress *address;
+	GPtrArray *uids;
 	gchar *folder_name;
 	gchar *message_uid;
 
 	EMailReplyType reply_type;
 	EMailReplyStyle reply_style;
+	EMailForwardStyle forward_style;
 	GtkPrintOperationAction print_action;
 	const gchar *filter_source;
 	gint filter_type;
@@ -86,6 +88,9 @@ async_context_free (AsyncContext *async_context)
 	g_clear_object (&async_context->part_list);
 	g_clear_object (&async_context->reader);
 	g_clear_object (&async_context->address);
+
+	if (async_context->uids != NULL)
+		g_ptr_array_unref (async_context->uids);
 
 	g_free (async_context->folder_name);
 	g_free (async_context->message_uid);
@@ -1381,6 +1386,207 @@ e_mail_reader_edit_messages (EMailReader *reader,
 		cancellable,
 		mail_reader_edit_messages_cb,
 		async_context);
+
+	g_object_unref (activity);
+}
+
+static void
+mail_reader_forward_attachment_cb (GObject *source_object,
+                                   GAsyncResult *result,
+                                   gpointer user_data)
+{
+	CamelFolder *folder;
+	EMailBackend *backend;
+	EActivity *activity;
+	EAlertSink *alert_sink;
+	CamelMimePart *part;
+	CamelDataWrapper *content;
+	EMsgComposer *composer;
+	gchar *subject = NULL;
+	AsyncContext *async_context;
+	GError *local_error = NULL;
+
+	folder = CAMEL_FOLDER (source_object);
+	async_context = (AsyncContext *) user_data;
+
+	activity = async_context->activity;
+	alert_sink = e_activity_get_alert_sink (activity);
+
+	part = e_mail_folder_build_attachment_finish (
+		folder, result, &subject, &local_error);
+
+	/* Sanity check. */
+	g_return_if_fail (
+		((part != NULL) && (local_error == NULL)) ||
+		((part == NULL) && (local_error != NULL)));
+
+	if (e_activity_handle_cancellation (activity, local_error)) {
+		g_warn_if_fail (subject == NULL);
+		g_error_free (local_error);
+		goto exit;
+
+	} else if (local_error != NULL) {
+		g_warn_if_fail (subject == NULL);
+		e_alert_submit (
+			alert_sink,
+			"mail:get-multiple-messages",
+			local_error->message, NULL);
+		g_error_free (local_error);
+		goto exit;
+	}
+
+	backend = e_mail_reader_get_backend (async_context->reader);
+
+	composer = em_utils_forward_attachment (
+		backend, part, subject, folder, async_context->uids);
+
+	content = camel_medium_get_content (CAMEL_MEDIUM (part));
+	if (CAMEL_IS_MIME_MESSAGE (content)) {
+		e_mail_reader_composer_created (
+			async_context->reader, composer,
+			CAMEL_MIME_MESSAGE (content));
+	} else {
+		/* XXX What to do for the multipart/digest case?
+		 *     Extract the first message from the digest, or
+		 *     change the argument type to CamelMimePart and
+		 *     just pass the whole digest through?
+		 *
+		 *     This signal is primarily serving EMailBrowser,
+		 *     which can only forward one message at a time.
+		 *     So for the moment it doesn't matter, but still
+		 *     something to consider. */
+		e_mail_reader_composer_created (
+			async_context->reader, composer, NULL);
+	}
+
+	e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
+
+	g_object_unref (part);
+	g_free (subject);
+
+exit:
+	async_context_free (async_context);
+}
+
+static void
+mail_reader_forward_messages_cb (GObject *source_object,
+                                 GAsyncResult *result,
+                                 gpointer user_data)
+{
+	CamelFolder *folder;
+	EMailBackend *backend;
+	EActivity *activity;
+	EAlertSink *alert_sink;
+	GHashTable *hash_table;
+	GHashTableIter iter;
+	gpointer key, value;
+	AsyncContext *async_context;
+	GError *local_error = NULL;
+
+	folder = CAMEL_FOLDER (source_object);
+	async_context = (AsyncContext *) user_data;
+
+	activity = async_context->activity;
+	alert_sink = e_activity_get_alert_sink (activity);
+
+	backend = e_mail_reader_get_backend (async_context->reader);
+
+	hash_table = e_mail_folder_get_multiple_messages_finish (
+		folder, result, &local_error);
+
+	/* Sanity check. */
+	g_return_if_fail (
+		((hash_table != NULL) && (local_error == NULL)) ||
+		((hash_table == NULL) && (local_error != NULL)));
+
+	if (e_activity_handle_cancellation (activity, local_error)) {
+		g_error_free (local_error);
+		goto exit;
+
+	} else if (local_error != NULL) {
+		e_alert_submit (
+			alert_sink,
+			"mail:get-multiple-messages",
+			local_error->message, NULL);
+		g_error_free (local_error);
+		goto exit;
+	}
+
+	/* Create a new composer window for each message. */
+
+	g_hash_table_iter_init (&iter, hash_table);
+
+	while (g_hash_table_iter_next (&iter, &key, &value)) {
+		EMsgComposer *composer;
+		CamelMimeMessage *message;
+		const gchar *message_uid;
+
+		message_uid = (const gchar *) key;
+		message = CAMEL_MIME_MESSAGE (value);
+
+		composer = em_utils_forward_message (
+			backend, message,
+			async_context->forward_style,
+			folder, message_uid);
+
+		e_mail_reader_composer_created (
+			async_context->reader, composer, message);
+	}
+
+	g_hash_table_unref (hash_table);
+
+	e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
+
+exit:
+	async_context_free (async_context);
+}
+
+void
+e_mail_reader_forward_messages (EMailReader *reader,
+                                CamelFolder *folder,
+                                GPtrArray *uids,
+                                EMailForwardStyle style)
+{
+	EActivity *activity;
+	GCancellable *cancellable;
+	AsyncContext *async_context;
+
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+	g_return_if_fail (CAMEL_IS_FOLDER (folder));
+	g_return_if_fail (uids != NULL);
+
+	activity = e_mail_reader_new_activity (reader);
+	cancellable = e_activity_get_cancellable (activity);
+
+	async_context = g_slice_new0 (AsyncContext);
+	async_context->activity = g_object_ref (activity);
+	async_context->reader = g_object_ref (reader);
+	async_context->uids = g_ptr_array_ref (uids);
+	async_context->forward_style = style;
+
+	switch (style) {
+		case E_MAIL_FORWARD_STYLE_ATTACHED:
+			e_mail_folder_build_attachment (
+				folder, uids,
+				G_PRIORITY_DEFAULT,
+				cancellable,
+				mail_reader_forward_attachment_cb,
+				async_context);
+			break;
+
+		case E_MAIL_FORWARD_STYLE_INLINE:
+		case E_MAIL_FORWARD_STYLE_QUOTED:
+			e_mail_folder_get_multiple_messages (
+				folder, uids,
+				G_PRIORITY_DEFAULT,
+				cancellable,
+				mail_reader_forward_messages_cb,
+				async_context);
+			break;
+
+		default:
+			g_warn_if_reached ();
+	}
 
 	g_object_unref (activity);
 }

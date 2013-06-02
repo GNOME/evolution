@@ -656,7 +656,7 @@ action_mail_forward_cb (GtkAction *action,
 	g_ptr_array_set_free_func (uids, (GDestroyNotify) g_free);
 
 	if (em_utils_ask_open_many (window, uids->len))
-		em_utils_forward_messages (
+		e_mail_reader_forward_messages (
 			reader, folder, uids,
 			e_mail_reader_get_forward_style (reader));
 
@@ -681,7 +681,7 @@ action_mail_forward_attached_cb (GtkAction *action,
 	g_ptr_array_set_free_func (uids, (GDestroyNotify) g_free);
 
 	if (em_utils_ask_open_many (window, uids->len))
-		em_utils_forward_messages (
+		e_mail_reader_forward_messages (
 			reader, folder, uids,
 			E_MAIL_FORWARD_STYLE_ATTACHED);
 
@@ -706,7 +706,7 @@ action_mail_forward_inline_cb (GtkAction *action,
 	g_ptr_array_set_free_func (uids, (GDestroyNotify) g_free);
 
 	if (em_utils_ask_open_many (window, uids->len))
-		em_utils_forward_messages (
+		e_mail_reader_forward_messages (
 			reader, folder, uids,
 			E_MAIL_FORWARD_STYLE_INLINE);
 
@@ -731,7 +731,7 @@ action_mail_forward_quoted_cb (GtkAction *action,
 	g_ptr_array_set_free_func (uids, (GDestroyNotify) g_free);
 
 	if (em_utils_ask_open_many (window, uids->len))
-		em_utils_forward_messages (
+		e_mail_reader_forward_messages (
 			reader, folder, uids,
 			E_MAIL_FORWARD_STYLE_QUOTED);
 
