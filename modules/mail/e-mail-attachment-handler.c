@@ -35,8 +35,7 @@
 	((obj), E_TYPE_MAIL_ATTACHMENT_HANDLER, EMailAttachmentHandlerPrivate))
 
 struct _EMailAttachmentHandlerPrivate {
-	EShell *shell;
-	EMailSession *session;
+	EMailBackend *backend;
 };
 
 static gpointer parent_class;
@@ -143,6 +142,8 @@ mail_attachment_handler_forward (GtkAction *action,
 	EShellSettings *shell_settings;
 	EMailForwardStyle style;
 	CamelMimeMessage *message;
+	EShellBackend *shell_backend;
+	EShell *shell;
 	const gchar *property_name;
 
 	priv = E_MAIL_ATTACHMENT_HANDLER_GET_PRIVATE (handler);
@@ -150,13 +151,14 @@ mail_attachment_handler_forward (GtkAction *action,
 	message = mail_attachment_handler_get_selected_message (handler);
 	g_return_if_fail (message != NULL);
 
+	shell_backend = E_SHELL_BACKEND (priv->backend);
+	shell = e_shell_backend_get_shell (shell_backend);
+
 	property_name = "mail-forward-style";
-	shell_settings = e_shell_get_shell_settings (priv->shell);
+	shell_settings = e_shell_get_shell_settings (shell);
 	style = e_shell_settings_get_int (shell_settings, property_name);
 
-	em_utils_forward_message (
-		priv->shell, CAMEL_SESSION (priv->session),
-		message, style, NULL, NULL);
+	em_utils_forward_message (priv->backend, message, style, NULL, NULL);
 
 	g_object_unref (message);
 }
@@ -169,6 +171,8 @@ mail_attachment_handler_reply (EAttachmentHandler *handler,
 	EShellSettings *shell_settings;
 	EMailReplyStyle style;
 	CamelMimeMessage *message;
+	EShellBackend *shell_backend;
+	EShell *shell;
 	const gchar *property_name;
 
 	priv = E_MAIL_ATTACHMENT_HANDLER_GET_PRIVATE (handler);
@@ -176,13 +180,15 @@ mail_attachment_handler_reply (EAttachmentHandler *handler,
 	message = mail_attachment_handler_get_selected_message (handler);
 	g_return_if_fail (message != NULL);
 
+	shell_backend = E_SHELL_BACKEND (priv->backend);
+	shell = e_shell_backend_get_shell (shell_backend);
+
 	property_name = "mail-reply-style";
-	shell_settings = e_shell_get_shell_settings (priv->shell);
+	shell_settings = e_shell_get_shell_settings (shell);
 	style = e_shell_settings_get_int (shell_settings, property_name);
 
 	em_utils_reply_to_message (
-		priv->shell, message,
-		NULL, NULL, reply_type, style, NULL, NULL);
+		shell, message, NULL, NULL, reply_type, style, NULL, NULL);
 
 	g_object_unref (message);
 }
@@ -308,6 +314,7 @@ mail_attachment_handler_x_uid_list (EAttachmentView *view,
 	CamelFolder *folder = NULL;
 	EAttachment *attachment;
 	EAttachmentStore *store;
+	EMailSession *session;
 	GPtrArray *uids;
 	const gchar *data;
 	const gchar *cp, *end;
@@ -356,10 +363,12 @@ mail_attachment_handler_x_uid_list (EAttachmentView *view,
 	if (uids->len == 0)
 		goto exit;
 
+	session = e_mail_backend_get_session (priv->backend);
+
 	/* The first string is the folder URI. */
 	/* FIXME Not passing a GCancellable here. */
 	folder = e_mail_session_uri_to_folder_sync (
-		priv->session, data, 0, NULL, &local_error);
+		session, data, 0, NULL, &local_error);
 	if (folder == NULL)
 		goto exit;
 
@@ -509,15 +518,7 @@ mail_attachment_handler_dispose (GObject *object)
 
 	priv = E_MAIL_ATTACHMENT_HANDLER_GET_PRIVATE (object);
 
-	if (priv->shell != NULL) {
-		g_object_unref (priv->shell);
-		priv->shell = NULL;
-	}
-
-	if (priv->session != NULL) {
-		g_object_unref (priv->session);
-		priv->session = NULL;
-	}
+	g_clear_object (&priv->backend);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (parent_class)->dispose (object);
@@ -531,7 +532,6 @@ mail_attachment_handler_constructed (GObject *object)
 	EShellBackend *shell_backend;
 	EAttachmentHandler *handler;
 	EAttachmentView *view;
-	EMailSession *session;
 	GtkActionGroup *action_group;
 	GtkUIManager *ui_manager;
 	GError *error = NULL;
@@ -544,10 +544,7 @@ mail_attachment_handler_constructed (GObject *object)
 
 	shell = e_shell_get_default ();
 	shell_backend = e_shell_get_backend_by_name (shell, "mail");
-	session = e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend));
-
-	priv->shell = g_object_ref (shell);
-	priv->session = g_object_ref (session);
+	priv->backend = g_object_ref (shell_backend);
 
 	view = e_attachment_handler_get_view (handler);
 
