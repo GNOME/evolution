@@ -32,7 +32,6 @@
 #include <libemail-engine/mail-ops.h>
 
 #include <mail/e-mail-paned-view.h>
-#include <mail/e-mail-notebook-view.h>
 #include <mail/e-mail-reader.h>
 #include <mail/e-mail-reader-utils.h>
 #include <mail/em-utils.h>

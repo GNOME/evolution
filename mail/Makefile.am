@@ -74,7 +74,6 @@ mailinclude_HEADERS =					\
 	e-mail-label-tree-view.h			\
 	e-mail-message-pane.h				\
 	e-mail-migrate.h				\
-	e-mail-notebook-view.h				\
 	e-mail-paned-view.h				\
 	e-mail-printer.h				\
 	e-mail-reader-utils.h				\
@@ -148,7 +147,6 @@ libevolution_mail_la_SOURCES =				\
 	e-mail-label-tree-view.c			\
 	e-mail-message-pane.c				\
 	e-mail-migrate.c				\
-	e-mail-notebook-view.c				\
 	e-mail-paned-view.c				\
 	e-mail-printer.c				\
 	e-mail-reader-utils.c				\
