@@ -88,15 +88,9 @@ e_mail_message_pane_init (EMailMessagePane *message_pane)
 EMailView *
 e_mail_message_pane_new (EShellView *shell_view)
 {
-	EMailView *widget;
-
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
-	widget = g_object_new (
+	return g_object_new (
 		E_TYPE_MAIL_MESSAGE_PANE,
 		"shell-view", shell_view, NULL);
-
-	e_mail_paned_view_set_enable_show_folder (E_MAIL_PANED_VIEW (widget), TRUE);
-
-	return widget;
 }

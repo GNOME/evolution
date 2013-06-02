@@ -103,10 +103,6 @@ enum {
 	MESSAGE_SEEN,
 	SHOW_SEARCH_BAR,
 	UPDATE_ACTIONS,
-	SHOW_FOLDER,
-	SHOW_PREVTAB,
-	SHOW_NEXTTAB,
-	CLOSE_TAB,
 	LAST_SIGNAL
 };
 
@@ -974,34 +970,6 @@ exit:
 		em_utils_uids_free (uids);
 
 	gtk_widget_destroy (dialog);
-}
-
-static void
-action_mail_folder_cb (GtkAction *action,
-                       EMailReader *reader)
-{
-	g_signal_emit (reader, signals[SHOW_FOLDER], 0);
-}
-
-static void
-action_mail_nexttab_cb (GtkAction *action,
-                     EMailReader *reader)
-{
-	g_signal_emit (reader, signals[SHOW_NEXTTAB], 0);
-}
-
-static void
-action_mail_prevtab_cb (GtkAction *action,
-                     EMailReader *reader)
-{
-	g_signal_emit (reader, signals[SHOW_PREVTAB], 0);
-}
-
-static void
-action_mail_closetab_cb (GtkAction *action,
-                     EMailReader *reader)
-{
-	g_signal_emit (reader, signals[CLOSE_TAB], 0);
 }
 
 static void
@@ -2172,34 +2140,6 @@ static GtkActionEntry mail_reader_entries[] = {
 	  N_("Move selected messages to another folder"),
 	  G_CALLBACK (action_mail_move_cb) },
 
-	{ "mail-goto-folder",
-	  NULL,
-	  N_("_Switch to Folder"),
-	  "<Control>Up",
-	  N_("Display the parent folder"),
-	  G_CALLBACK (action_mail_folder_cb) },
-
-	{ "mail-goto-nexttab",
-	  NULL,
-	  N_("Switch to _next tab"),
-	  "<Shift><Control>Down",
-	  N_("Switch to the next tab"),
-	  G_CALLBACK (action_mail_nexttab_cb) },
-
-	{ "mail-goto-prevtab",
-	  NULL,
-	  N_("Switch to _previous tab"),
-	  "<Shift><Control>Up",
-	  N_("Switch to the previous tab"),
-	  G_CALLBACK (action_mail_prevtab_cb) },
-
-	{ "mail-close-tab",
-	  NULL,
-	  N_("Cl_ose current tab"),
-	  "<Shift><Control>w",
-	  N_("Close current tab"),
-	  G_CALLBACK (action_mail_closetab_cb) },
-
 	{ "mail-next",
 	  GTK_STOCK_GO_FORWARD,
 	  N_("_Next Message"),
@@ -3059,12 +2999,6 @@ mail_reader_get_folder (EMailReader *reader)
 	return MESSAGE_LIST (message_list)->folder;
 }
 
-static gboolean
-mail_reader_get_enable_show_folder (EMailReader *reader)
-{
-	return FALSE;
-}
-
 static void
 mail_reader_set_folder (EMailReader *reader,
                         CamelFolder *folder)
@@ -3533,27 +3467,6 @@ mail_reader_update_actions (EMailReader *reader,
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-goto-folder";
-	sensitive = e_mail_reader_get_enable_show_folder (reader);
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
-	gtk_action_set_visible (action, sensitive);
-
-	action_name = "mail-goto-nexttab";
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, TRUE);
-	gtk_action_set_visible (action, FALSE);
-
-	action_name = "mail-goto-prevtab";
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, TRUE);
-	gtk_action_set_visible (action, FALSE);
-
-	action_name = "mail-close-tab";
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, TRUE);
-	gtk_action_set_visible (action, FALSE);
-
 	action_name = "mail-move";
 	sensitive = any_messages_selected;
 	action = e_mail_reader_get_action (reader, action_name);
@@ -3716,7 +3629,6 @@ e_mail_reader_default_init (EMailReaderInterface *interface)
 	interface->get_alert_sink = mail_reader_get_alert_sink;
 	interface->get_selected_uids = mail_reader_get_selected_uids;
 	interface->get_folder = mail_reader_get_folder;
-	interface->enable_show_folder = mail_reader_get_enable_show_folder;
 	interface->set_folder = mail_reader_set_folder;
 	interface->set_message = mail_reader_set_message;
 	interface->open_selected_mail = e_mail_reader_open_selected;
@@ -3813,42 +3725,6 @@ e_mail_reader_default_init (EMailReaderInterface *interface)
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
 
-	signals[SHOW_FOLDER] = g_signal_new (
-		"show-folder",
-		G_OBJECT_CLASS_TYPE (interface),
-		G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
-		0,
-		NULL, NULL,
-		g_cclosure_marshal_VOID__VOID,
-		G_TYPE_NONE, 0);
-
-	signals[SHOW_NEXTTAB] = g_signal_new (
-		"show-next-tab",
-		G_OBJECT_CLASS_TYPE (interface),
-		G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
-		0,
-		NULL, NULL,
-		g_cclosure_marshal_VOID__VOID,
-		G_TYPE_NONE, 0);
-
-	signals[SHOW_PREVTAB] = g_signal_new (
-		"show-previous-tab",
-		G_OBJECT_CLASS_TYPE (interface),
-		G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
-		0,
-		NULL, NULL,
-		g_cclosure_marshal_VOID__VOID,
-		G_TYPE_NONE, 0);
-
-	signals[CLOSE_TAB] = g_signal_new (
-		"close-tab",
-		G_OBJECT_CLASS_TYPE (interface),
-		G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
-		0,
-		NULL, NULL,
-		g_cclosure_marshal_VOID__VOID,
-		G_TYPE_NONE, 0);
-
 	signals[UPDATE_ACTIONS] = g_signal_new (
 		"update-actions",
 		G_OBJECT_CLASS_TYPE (interface),
@@ -3869,7 +3745,6 @@ e_mail_reader_init (EMailReader *reader,
 	GtkActionGroup *action_group;
 	GtkWidget *message_list;
 	GtkAction *action;
-	gboolean sensitive;
 	const gchar *action_name;
 	EMailDisplay *display;
 	GSettings *settings;
@@ -3993,27 +3868,6 @@ e_mail_reader_init (EMailReader *reader,
 	action_name = "mail-reply-group";
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_is_important (action, TRUE);
-
-	action_name = "mail-goto-folder";
-	action = e_mail_reader_get_action (reader, action_name);
-	sensitive = e_mail_reader_get_enable_show_folder (reader);
-	gtk_action_set_sensitive (action, sensitive);
-	gtk_action_set_visible (action, FALSE);
-
-	action_name = "mail-goto-nexttab";
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, TRUE);
-	gtk_action_set_visible (action, FALSE);
-
-	action_name = "mail-goto-prevtab";
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, TRUE);
-	gtk_action_set_visible (action, FALSE);
-
-	action_name = "mail-close-tab";
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, TRUE);
-	gtk_action_set_visible (action, FALSE);
 
 	action_name = "mail-next";
 	action = e_mail_reader_get_action (reader, action_name);
@@ -4734,46 +4588,6 @@ e_mail_reader_show_search_bar (EMailReader *reader)
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
 	g_signal_emit (reader, signals[SHOW_SEARCH_BAR], 0);
-}
-
-void
-e_mail_reader_enable_show_folder (EMailReader *reader)
-{
-	CamelFolder *folder;
-	GtkAction *action;
-	const gchar *action_name;
-	const gchar *full_name;
-	gboolean sensitive;
-	gchar *label;
-
-	g_return_if_fail (E_IS_MAIL_READER (reader));
-
-	folder = e_mail_reader_get_folder (reader);
-
-	full_name = camel_folder_get_full_name (folder);
-	label = g_strdup_printf (_("Folder '%s'"), full_name);
-
-	action_name = "mail-goto-folder";
-	action = e_mail_reader_get_action (reader, action_name);
-	sensitive = e_mail_reader_get_enable_show_folder (reader);
-	gtk_action_set_label (action, label);
-	gtk_action_set_visible (action, TRUE);
-	gtk_action_set_sensitive (action, sensitive);
-
-	g_free (label);
-}
-
-gboolean
-e_mail_reader_get_enable_show_folder (EMailReader *reader)
-{
-	EMailReaderInterface *interface;
-
-	g_return_val_if_fail (E_IS_MAIL_READER (reader), FALSE);
-
-	interface = E_MAIL_READER_GET_INTERFACE (reader);
-	g_return_val_if_fail (interface->enable_show_folder != NULL, FALSE);
-
-	return interface->enable_show_folder (reader);
 }
 
 void

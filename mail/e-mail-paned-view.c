@@ -63,7 +63,6 @@ struct _EMailPanedViewPrivate {
 
 	/* Signal handler IDs */
 	guint message_list_built_id;
-	guint enable_show_folder : 1;
 };
 
 enum {
@@ -612,16 +611,6 @@ mail_paned_view_reader_open_selected_mail (EMailReader *reader)
 	return class->open_selected_mail (paned_view);
 }
 
-static gboolean
-mail_paned_view_enable_show_folder (EMailReader *reader)
-{
-	EMailPanedView *paned_view;
-
-	paned_view = E_MAIL_PANED_VIEW (reader);
-
-	return paned_view->priv->enable_show_folder;
-}
-
 static void
 mail_paned_view_constructed (GObject *object)
 {
@@ -1056,14 +1045,12 @@ e_mail_paned_view_reader_init (EMailReaderInterface *interface)
 	interface->get_window = mail_paned_view_get_window;
 	interface->set_folder = mail_paned_view_set_folder;
 	interface->open_selected_mail = mail_paned_view_reader_open_selected_mail;
-	interface->enable_show_folder = mail_paned_view_enable_show_folder;
 }
 
 static void
 e_mail_paned_view_init (EMailPanedView *view)
 {
 	view->priv = E_MAIL_PANED_VIEW_GET_PRIVATE (view);
-	view->priv->enable_show_folder = FALSE;
 
 	g_signal_connect (
 		view, "notify::group-by-threads",
@@ -1101,9 +1088,3 @@ e_mail_paned_view_get_preview (EMailPanedView *view)
 	return GTK_WIDGET (mail_paned_view_get_mail_display (E_MAIL_READER (view)));
 }
 
-void
-e_mail_paned_view_set_enable_show_folder (EMailPanedView *view,
-                                          gboolean set)
-{
-	view->priv->enable_show_folder = set;
-}

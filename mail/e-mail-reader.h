@@ -111,7 +111,6 @@ struct _EMailReaderInterface {
 	void		(*set_message)		(EMailReader *reader,
 						 const gchar *message_uid);
 	guint		(*open_selected_mail)	(EMailReader *reader);
-	gboolean	(*enable_show_folder)	(EMailReader *reader);
 
 	/* Signals */
 	void		(*composer_created)	(EMailReader *reader,
@@ -176,10 +175,6 @@ void		e_mail_reader_create_charset_menu
 						 GtkUIManager *ui_manager,
 						 guint merge_id);
 void		e_mail_reader_show_search_bar	(EMailReader *reader);
-gboolean	e_mail_reader_get_enable_show_folder
-						(EMailReader *reader);
-void		e_mail_reader_enable_show_folder
-						(EMailReader *reader);
 void		e_mail_reader_avoid_next_mark_as_seen
 						(EMailReader *reader);
 void		e_mail_reader_composer_created	(EMailReader *reader,
