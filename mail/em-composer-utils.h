@@ -43,11 +43,6 @@ EMsgComposer *	em_utils_edit_message		(EShell *shell,
 						 CamelMimeMessage *message,
 						 const gchar *message_uid,
 						 gboolean keep_signature);
-void		em_utils_edit_messages		(EMailReader *reader,
-						 CamelFolder *folder,
-						 GPtrArray *uids,
-						 gboolean replace,
-						 gboolean keep_signature);
 EMsgComposer *	em_utils_forward_message	(EMailBackend *backend,
 						 CamelMimeMessage *message,
 						 EMailForwardStyle style,

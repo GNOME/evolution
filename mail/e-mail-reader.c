@@ -879,7 +879,7 @@ action_mail_message_edit_cb (GtkAction *action,
 	g_ptr_array_set_free_func (uids, (GDestroyNotify) g_free);
 
 	replace = em_utils_folder_is_drafts (registry, folder);
-	em_utils_edit_messages (reader, folder, uids, replace, replace);
+	e_mail_reader_edit_messages (reader, folder, uids, replace, replace);
 
 	g_ptr_array_unref (uids);
 }
