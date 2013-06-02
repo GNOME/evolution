@@ -48,9 +48,8 @@ void		em_utils_edit_messages		(EMailReader *reader,
 						 GPtrArray *uids,
 						 gboolean replace,
 						 gboolean keep_signature);
-EMsgComposer *	em_utils_forward_message	(EShell *shell,
-						 CamelSession *session,
-						 CamelMimeMessage *msg,
+EMsgComposer *	em_utils_forward_message	(EMailBackend *backend,
+						 CamelMimeMessage *message,
 						 EMailForwardStyle style,
 						 CamelFolder *folder,
 						 const gchar *uid);

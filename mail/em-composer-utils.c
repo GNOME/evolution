@@ -1736,13 +1736,16 @@ setup_forward_attached_callbacks (EMsgComposer *composer,
 }
 
 static EMsgComposer *
-forward_attached (EShell *shell,
+forward_attached (EMailBackend *backend,
                   CamelFolder *folder,
                   GPtrArray *uids,
                   CamelMimePart *part,
                   gchar *subject)
 {
+	EShell *shell;
 	EMsgComposer *composer;
+
+	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
 
 	composer = create_new_composer (shell, subject, folder);
 
@@ -1764,7 +1767,6 @@ forward_attached_cb (GObject *source_object,
                      gpointer user_data)
 {
 	CamelFolder *folder;
-	EShell *shell;
 	EMailBackend *backend;
 	EActivity *activity;
 	EAlertSink *alert_sink;
@@ -1803,10 +1805,9 @@ forward_attached_cb (GObject *source_object,
 	}
 
 	backend = e_mail_reader_get_backend (async_context->reader);
-	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
 
 	forward_attached (
-		shell, folder, async_context->ptr_array, part, subject);
+		backend, folder, async_context->ptr_array, part, subject);
 
 	e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
 
@@ -1818,14 +1819,15 @@ exit:
 }
 
 static EMsgComposer *
-forward_non_attached (EShell *shell,
-                      CamelSession *session,
+forward_non_attached (EMailBackend *backend,
                       CamelFolder *folder,
                       const gchar *uid,
                       CamelMimeMessage *message,
                       EMailForwardStyle style)
 {
 	EMsgComposer *composer = NULL;
+	EMailSession *session;
+	EShell *shell;
 	gchar *text, *forward;
 	guint32 validity_found = 0;
 	guint32 flags;
@@ -1835,9 +1837,13 @@ forward_non_attached (EShell *shell,
 	if (style == E_MAIL_FORWARD_STYLE_QUOTED)
 		flags |= E_MAIL_FORMATTER_QUOTE_FLAG_CITE;
 
+	session = e_mail_backend_get_session (backend);
+	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
+
 	forward = quoting_text (QUOTING_FORWARD);
 	text = em_utils_message_to_html (
-		session, message, forward, flags, NULL, NULL, &validity_found);
+		CAMEL_SESSION (session), message,
+		forward, flags, NULL, NULL, &validity_found);
 
 	if (text != NULL) {
 		CamelDataWrapper *content;
@@ -1884,8 +1890,7 @@ forward_non_attached (EShell *shell,
 
 /**
  * em_utils_forward_message:
- * @shell: an #EShell
- * @session: a #CamelSession
+ * @backend: an #EMailBackend
  * @message: a #CamelMimeMessage to forward
  * @style: the forward style to use
  * @folder: a #CamelFolder, or %NULL
@@ -1895,8 +1900,7 @@ forward_non_attached (EShell *shell,
  * for more details about forwarding styles.
  **/
 EMsgComposer *
-em_utils_forward_message (EShell *shell,
-                          CamelSession *session,
+em_utils_forward_message (EMailBackend *backend,
                           CamelMimeMessage *message,
                           EMailForwardStyle style,
                           CamelFolder *folder,
@@ -1906,8 +1910,7 @@ em_utils_forward_message (EShell *shell,
 	gchar *subject;
 	EMsgComposer *composer = NULL;
 
-	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
-	g_return_val_if_fail (CAMEL_IS_SESSION (session), NULL);
+	g_return_val_if_fail (E_IS_MAIL_BACKEND (backend), NULL);
 	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
 
 	switch (style) {
@@ -1917,7 +1920,7 @@ em_utils_forward_message (EShell *shell,
 			subject = mail_tool_generate_forward_subject (message);
 
 			composer = forward_attached (
-				shell, NULL, NULL, part, subject);
+				backend, NULL, NULL, part, subject);
 
 			g_object_unref (part);
 			g_free (subject);
@@ -1926,7 +1929,7 @@ em_utils_forward_message (EShell *shell,
 		case E_MAIL_FORWARD_STYLE_INLINE:
 		case E_MAIL_FORWARD_STYLE_QUOTED:
 			composer = forward_non_attached (
-				shell, session, folder, uid, message, style);
+				backend, folder, uid, message, style);
 			break;
 	}
 
@@ -1939,9 +1942,7 @@ forward_got_messages_cb (GObject *source_object,
                          gpointer user_data)
 {
 	CamelFolder *folder;
-	EShell *shell;
 	EMailBackend *backend;
-	EMailSession *session;
 	EActivity *activity;
 	EAlertSink *alert_sink;
 	GHashTable *hash_table;
@@ -1955,6 +1956,8 @@ forward_got_messages_cb (GObject *source_object,
 
 	activity = async_context->activity;
 	alert_sink = e_activity_get_alert_sink (activity);
+
+	backend = e_mail_reader_get_backend (async_context->reader);
 
 	hash_table = e_mail_folder_get_multiple_messages_finish (
 		folder, result, &local_error);
@@ -1979,10 +1982,6 @@ forward_got_messages_cb (GObject *source_object,
 		goto exit;
 	}
 
-	backend = e_mail_reader_get_backend (async_context->reader);
-	session = e_mail_backend_get_session (backend);
-	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
-
 	/* Create a new composer window for each message. */
 
 	g_hash_table_iter_init (&iter, hash_table);
@@ -1995,8 +1994,7 @@ forward_got_messages_cb (GObject *source_object,
 		message = CAMEL_MIME_MESSAGE (value);
 
 		em_utils_forward_message (
-			shell, CAMEL_SESSION (session),
-			message, async_context->style,
+			backend, message, async_context->style,
 			folder, message_uid);
 	}
 
