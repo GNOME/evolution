@@ -1394,7 +1394,7 @@ quoting_text (QuotingTextEnum type)
  * Opens a composer filled in with the headers/mime-parts/etc of
  * @message.
  **/
-GtkWidget *
+EMsgComposer *
 em_utils_edit_message (EShell *shell,
                        CamelFolder *folder,
                        CamelMimeMessage *message,
@@ -1491,7 +1491,7 @@ em_utils_edit_message (EShell *shell,
 
 	gtk_widget_show (GTK_WIDGET (composer));
 
-	return GTK_WIDGET (composer);
+	return composer;
 }
 
 static void
