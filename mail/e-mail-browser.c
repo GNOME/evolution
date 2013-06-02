@@ -832,6 +832,70 @@ mail_browser_set_message (EMailReader *reader,
 }
 
 static void
+mail_browser_composer_created (EMailReader *reader,
+                               EMsgComposer *composer,
+                               CamelMimeMessage *message)
+{
+	GSettings *settings;
+	const gchar *key;
+	gchar *value;
+	gboolean close_browser;
+
+	/* Do not prompt if there is no source message.  It means
+	 * the user wants to start a brand new message, presumably
+	 * unrelated to the message shown in the browser window. */
+	if (message == NULL)
+		return;
+
+	settings = g_settings_new ("org.gnome.evolution.mail");
+
+	key = "prompt-on-reply-close-browser";
+	value = g_settings_get_string (settings, key);
+
+	if (g_strcmp0 (value, "always") == 0) {
+		close_browser = TRUE;
+	} else if (g_strcmp0 (value, "never") == 0) {
+		close_browser = FALSE;
+	} else {
+		GtkWidget *dialog;
+		GtkWindow *parent;
+		EShell *shell;
+		EMailBackend *backend;
+		EShellBackend *shell_backend;
+		gint response;
+
+		backend = e_mail_reader_get_backend (reader);
+
+		shell_backend = E_SHELL_BACKEND (backend);
+		shell = e_shell_backend_get_shell (shell_backend);
+
+		parent = e_shell_get_active_window (shell);
+		if (parent == NULL)
+			parent = e_mail_reader_get_window (reader);
+
+		dialog = e_alert_dialog_new_for_args (
+			parent, "mail:ask-reply-close-browser", NULL);
+		response = gtk_dialog_run (GTK_DIALOG (dialog));
+		gtk_widget_destroy (dialog);
+
+		close_browser =
+			(response == GTK_RESPONSE_YES) ||
+			(response == GTK_RESPONSE_OK);
+
+		if (response == GTK_RESPONSE_OK)
+			g_settings_set_string (settings, key, "always");
+		else if (response == GTK_RESPONSE_CANCEL)
+			g_settings_set_string (settings, key, "never");
+	}
+
+	g_free (value);
+	g_object_unref (settings);
+
+	if (close_browser)
+		e_mail_browser_close (E_MAIL_BROWSER (reader));
+}
+
+static void
 e_mail_browser_class_init (EMailBrowserClass *class)
 {
 	GObjectClass *object_class;
@@ -922,6 +986,7 @@ e_mail_browser_reader_init (EMailReaderInterface *interface)
 	interface->get_preview_pane = mail_browser_get_preview_pane;
 	interface->get_window = mail_browser_get_window;
 	interface->set_message = mail_browser_set_message;
+	interface->composer_created = mail_browser_composer_created;
 }
 
 static void

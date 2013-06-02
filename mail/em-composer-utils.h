@@ -54,8 +54,7 @@ EMsgComposer *	em_utils_forward_message	(EMailBackend *backend,
 void		em_utils_forward_messages	(EMailReader *reader,
 						 CamelFolder *folder,
 						 GPtrArray *uids,
-						 EMailForwardStyle style,
-						 GtkWidget *destroy_when_done);
+						 EMailForwardStyle style);
 EMsgComposer *	em_utils_redirect_message	(EShell *shell,
 						 CamelMimeMessage *message);
 gchar *		em_utils_construct_composer_text

@@ -633,72 +633,6 @@ action_mail_flag_for_followup_cb (GtkAction *action,
 	em_utils_flag_for_followup (reader, folder, uids);
 }
 
-static gboolean
-get_close_browser_reader (EMailReader *reader)
-{
-	GSettings *settings;
-	const gchar *key;
-	gchar *value;
-	gboolean close_it;
-
-	/* only allow closing of a mail browser and nothing else */
-	if (!E_IS_MAIL_BROWSER (reader))
-		return FALSE;
-
-	settings = g_settings_new ("org.gnome.evolution.mail");
-
-	key = "prompt-on-reply-close-browser";
-	value = g_settings_get_string (settings, key);
-
-	if (g_strcmp0 (value, "always") == 0) {
-		close_it = TRUE;
-	} else if (g_strcmp0 (value, "never") == 0) {
-		close_it = FALSE;
-	} else {
-		GtkWidget *dialog;
-		GtkWindow *parent;
-		gint response;
-		EShell *shell;
-		EMailBackend *backend;
-		EShellBackend *shell_backend;
-
-		backend = e_mail_reader_get_backend (reader);
-
-		shell_backend = E_SHELL_BACKEND (backend);
-		shell = e_shell_backend_get_shell (shell_backend);
-
-		parent = e_shell_get_active_window (shell);
-		if (parent == NULL)
-			parent = e_mail_reader_get_window (reader);
-
-		dialog = e_alert_dialog_new_for_args (
-			parent, "mail:ask-reply-close-browser", NULL);
-		response = gtk_dialog_run (GTK_DIALOG (dialog));
-		gtk_widget_destroy (dialog);
-
-		close_it =
-			(response == GTK_RESPONSE_YES) ||
-			(response == GTK_RESPONSE_OK);
-
-		if (response == GTK_RESPONSE_OK)
-			g_settings_set_string (settings, key, "always");
-		else if (response == GTK_RESPONSE_CANCEL)
-			g_settings_set_string (settings, key, "never");
-	}
-
-	g_free (value);
-	g_object_unref (settings);
-
-	return close_it;
-}
-
-static void
-check_close_browser_reader (EMailReader *reader)
-{
-	if (get_close_browser_reader (reader))
-		gtk_widget_destroy (GTK_WIDGET (reader));
-}
-
 static void
 action_mail_forward_cb (GtkAction *action,
                         EMailReader *reader)
@@ -706,13 +640,11 @@ action_mail_forward_cb (GtkAction *action,
 	CamelFolder *folder;
 	GtkWindow *window;
 	GPtrArray *uids;
-	gboolean close_reader;
 
 	folder = e_mail_reader_get_folder (reader);
 	window = e_mail_reader_get_window (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
 	g_return_if_fail (uids != NULL);
-	close_reader = get_close_browser_reader (reader);
 
 	/* XXX Either e_mail_reader_get_selected_uids()
 	 *     or MessageList should do this itself. */
@@ -721,8 +653,7 @@ action_mail_forward_cb (GtkAction *action,
 	if (em_utils_ask_open_many (window, uids->len))
 		em_utils_forward_messages (
 			reader, folder, uids,
-			e_mail_reader_get_forward_style (reader),
-			close_reader ? GTK_WIDGET (reader) : NULL);
+			e_mail_reader_get_forward_style (reader));
 
 	g_ptr_array_unref (uids);
 }
@@ -734,13 +665,11 @@ action_mail_forward_attached_cb (GtkAction *action,
 	CamelFolder *folder;
 	GtkWindow *window;
 	GPtrArray *uids;
-	gboolean close_reader;
 
 	folder = e_mail_reader_get_folder (reader);
 	window = e_mail_reader_get_window (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
 	g_return_if_fail (uids != NULL);
-	close_reader = get_close_browser_reader (reader);
 
 	/* XXX Either e_mail_reader_get_selected_uids()
 	 *     or MessageList should do this itself. */
@@ -749,8 +678,7 @@ action_mail_forward_attached_cb (GtkAction *action,
 	if (em_utils_ask_open_many (window, uids->len))
 		em_utils_forward_messages (
 			reader, folder, uids,
-			E_MAIL_FORWARD_STYLE_ATTACHED,
-			close_reader ? GTK_WIDGET (reader) : NULL);
+			E_MAIL_FORWARD_STYLE_ATTACHED);
 
 	g_ptr_array_unref (uids);
 }
@@ -762,13 +690,11 @@ action_mail_forward_inline_cb (GtkAction *action,
 	CamelFolder *folder;
 	GtkWindow *window;
 	GPtrArray *uids;
-	gboolean close_reader;
 
 	folder = e_mail_reader_get_folder (reader);
 	window = e_mail_reader_get_window (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
 	g_return_if_fail (uids != NULL);
-	close_reader = get_close_browser_reader (reader);
 
 	/* XXX Either e_mail_reader_get_selected_uids()
 	 *     or MessageList should do this itself. */
@@ -777,8 +703,7 @@ action_mail_forward_inline_cb (GtkAction *action,
 	if (em_utils_ask_open_many (window, uids->len))
 		em_utils_forward_messages (
 			reader, folder, uids,
-			E_MAIL_FORWARD_STYLE_INLINE,
-			close_reader ? GTK_WIDGET (reader) : NULL);
+			E_MAIL_FORWARD_STYLE_INLINE);
 
 	g_ptr_array_unref (uids);
 }
@@ -790,13 +715,11 @@ action_mail_forward_quoted_cb (GtkAction *action,
 	CamelFolder *folder;
 	GtkWindow *window;
 	GPtrArray *uids;
-	gboolean close_reader;
 
 	folder = e_mail_reader_get_folder (reader);
 	window = e_mail_reader_get_window (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
 	g_return_if_fail (uids != NULL);
-	close_reader = get_close_browser_reader (reader);
 
 	/* XXX Either e_mail_reader_get_selected_uids()
 	 *     or MessageList should do this itself. */
@@ -805,8 +728,7 @@ action_mail_forward_quoted_cb (GtkAction *action,
 	if (em_utils_ask_open_many (window, uids->len))
 		em_utils_forward_messages (
 			reader, folder, uids,
-			E_MAIL_FORWARD_STYLE_QUOTED,
-			close_reader ? GTK_WIDGET (reader) : NULL);
+			E_MAIL_FORWARD_STYLE_QUOTED);
 
 	g_ptr_array_unref (uids);
 }
@@ -1265,7 +1187,6 @@ mail_reader_redirect_cb (CamelFolder *folder,
 	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
 
 	composer = em_utils_redirect_message (shell, message);
-	check_close_browser_reader (closure->reader);
 
 	e_mail_reader_composer_created (closure->reader, composer, message);
 
@@ -1397,7 +1318,6 @@ action_mail_reply_all_check (CamelFolder *folder,
 	}
 
 	e_mail_reader_reply_to_message (closure->reader, message, type);
-	check_close_browser_reader (closure->reader);
 
 exit:
 	g_object_unref (message);
@@ -1454,7 +1374,6 @@ action_mail_reply_all_cb (GtkAction *action,
 	}
 
 	e_mail_reader_reply_to_message (reader, NULL, E_MAIL_REPLY_TO_ALL);
-	check_close_browser_reader (reader);
 }
 
 static void
@@ -1478,7 +1397,6 @@ action_mail_reply_group_cb (GtkAction *action,
 	if (reply_list && (state & E_MAIL_READER_SELECTION_IS_MAILING_LIST)) {
 		e_mail_reader_reply_to_message (
 			reader, NULL, E_MAIL_REPLY_TO_LIST);
-		check_close_browser_reader (reader);
 	} else
 		action_mail_reply_all_cb (action, reader);
 }
@@ -1488,7 +1406,6 @@ action_mail_reply_list_cb (GtkAction *action,
                            EMailReader *reader)
 {
 	e_mail_reader_reply_to_message (reader, NULL, E_MAIL_REPLY_TO_LIST);
-	check_close_browser_reader (reader);
 }
 
 static gboolean
@@ -1660,7 +1577,6 @@ action_mail_reply_sender_check (CamelFolder *folder,
 	}
 
 	e_mail_reader_reply_to_message (closure->reader, message, type);
-	check_close_browser_reader (closure->reader);
 
 exit:
 	g_object_unref (settings);
@@ -1725,7 +1641,6 @@ action_mail_reply_sender_cb (GtkAction *action,
 	}
 
 	e_mail_reader_reply_to_message (reader, NULL, E_MAIL_REPLY_TO_SENDER);
-	check_close_browser_reader (reader);
 }
 
 static void
@@ -1733,7 +1648,6 @@ action_mail_reply_recipient_cb (GtkAction *action,
                                 EMailReader *reader)
 {
 	e_mail_reader_reply_to_message (reader, NULL, E_MAIL_REPLY_TO_RECIPIENT);
-	check_close_browser_reader (reader);
 }
 
 static void
