@@ -30,6 +30,7 @@
 #include <gtk/gtk.h>
 #include <camel/camel.h>
 #include <e-util/e-util.h>
+#include <composer/e-msg-composer.h>
 
 #include <mail/e-mail-backend.h>
 #include <mail/e-mail-display.h>
@@ -113,6 +114,9 @@ struct _EMailReaderInterface {
 	gboolean	(*enable_show_folder)	(EMailReader *reader);
 
 	/* Signals */
+	void		(*composer_created)	(EMailReader *reader,
+						 EMsgComposer *composer,
+						 CamelMimeMessage *source);
 	void		(*folder_loaded)	(EMailReader *reader);
 	void		(*message_loaded)	(EMailReader *reader,
 						 const gchar *message_uid,
@@ -178,6 +182,9 @@ void		e_mail_reader_enable_show_folder
 						(EMailReader *reader);
 void		e_mail_reader_avoid_next_mark_as_seen
 						(EMailReader *reader);
+void		e_mail_reader_composer_created	(EMailReader *reader,
+						 EMsgComposer *composer,
+						 CamelMimeMessage *message);
 
 G_END_DECLS
 

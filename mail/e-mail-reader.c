@@ -97,6 +97,7 @@ struct _EMailReaderPrivate {
 
 enum {
 	CHANGED,
+	COMPOSER_CREATED,
 	FOLDER_LOADED,
 	MESSAGE_LOADED,
 	MESSAGE_SEEN,
@@ -969,6 +970,7 @@ action_mail_message_new_cb (GtkAction *action,
 	EMailBackend *backend;
 	EShellBackend *shell_backend;
 	CamelFolder *folder;
+	EMsgComposer *composer;
 
 	folder = e_mail_reader_get_folder (reader);
 	backend = e_mail_reader_get_backend (reader);
@@ -976,7 +978,9 @@ action_mail_message_new_cb (GtkAction *action,
 	shell_backend = E_SHELL_BACKEND (backend);
 	shell = e_shell_backend_get_shell (shell_backend);
 
-	em_utils_compose_new_message (shell, folder);
+	composer = em_utils_compose_new_message (shell, folder);
+
+	e_mail_reader_composer_created (reader, composer, NULL);
 }
 
 static void
@@ -1237,6 +1241,7 @@ mail_reader_redirect_cb (CamelFolder *folder,
 	EMailBackend *backend;
 	EAlertSink *alert_sink;
 	CamelMimeMessage *message;
+	EMsgComposer *composer;
 	GError *error = NULL;
 
 	alert_sink = e_activity_get_alert_sink (closure->activity);
@@ -1264,8 +1269,10 @@ mail_reader_redirect_cb (CamelFolder *folder,
 	backend = e_mail_reader_get_backend (closure->reader);
 	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
 
-	em_utils_redirect_message (shell, message);
+	composer = em_utils_redirect_message (shell, message);
 	check_close_browser_reader (closure->reader);
+
+	e_mail_reader_composer_created (closure->reader, composer, message);
 
 	g_object_unref (message);
 
@@ -3842,6 +3849,16 @@ e_mail_reader_default_init (EMailReaderInterface *interface)
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
 
+	signals[COMPOSER_CREATED] = g_signal_new (
+		"composer-created",
+		G_OBJECT_CLASS_TYPE (interface),
+		G_SIGNAL_RUN_FIRST,
+		G_STRUCT_OFFSET (EMailReaderInterface, composer_created),
+		NULL, NULL, NULL,
+		G_TYPE_NONE, 2,
+		E_TYPE_MSG_COMPOSER,
+		CAMEL_TYPE_MIME_MESSAGE);
+
 	signals[FOLDER_LOADED] = g_signal_new (
 		"folder-loaded",
 		G_OBJECT_CLASS_TYPE (interface),
@@ -4861,3 +4878,31 @@ e_mail_reader_avoid_next_mark_as_seen (EMailReader *reader)
 
 	priv->avoid_next_mark_as_seen = TRUE;
 }
+
+/**
+ * e_mail_reader_composer_created:
+ * @reader: an #EMailReader
+ * @composer: an #EMsgComposer
+ * @message: the source #CamelMimeMessage, or %NULL
+ *
+ * Emits a #EMailReader::composer-created signal to indicate the @composer
+ * window was created in response to a user action on @reader.  Examples of
+ * such actions include replying, forwarding, and composing a new message.
+ * If applicable, the source @message (i.e. the message being replied to or
+ * forwarded) should be included.
+ **/
+void
+e_mail_reader_composer_created (EMailReader *reader,
+                                EMsgComposer *composer,
+                                CamelMimeMessage *message)
+{
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
+	if (message != NULL)
+		g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
+
+	g_signal_emit (
+		reader, signals[COMPOSER_CREATED], 0, composer, message);
+}
+
