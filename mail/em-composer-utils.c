@@ -1525,6 +1525,7 @@ edit_messages_cb (GObject *source_object,
 	g_hash_table_iter_init (&iter, hash_table);
 
 	while (g_hash_table_iter_next (&iter, &key, &value)) {
+		EMsgComposer *composer;
 		CamelMimeMessage *message;
 		const gchar *message_uid;
 
@@ -1536,7 +1537,11 @@ edit_messages_cb (GObject *source_object,
 
 		camel_medium_remove_header (CAMEL_MEDIUM (value), "X-Mailer");
 
-		em_utils_edit_message (shell, folder, message, message_uid);
+		composer = em_utils_edit_message (
+			shell, folder, message, message_uid);
+
+		e_mail_reader_composer_created (
+			async_context->reader, composer, message);
 	}
 
 	g_hash_table_unref (hash_table);
@@ -1750,6 +1755,8 @@ forward_attached_cb (GObject *source_object,
 	EActivity *activity;
 	EAlertSink *alert_sink;
 	CamelMimePart *part;
+	CamelDataWrapper *content;
+	EMsgComposer *composer;
 	gchar *subject = NULL;
 	AsyncContext *async_context;
 	GError *local_error = NULL;
@@ -1785,8 +1792,27 @@ forward_attached_cb (GObject *source_object,
 
 	backend = e_mail_reader_get_backend (async_context->reader);
 
-	forward_attached (
+	composer = forward_attached (
 		backend, folder, async_context->ptr_array, part, subject);
+
+	content = camel_medium_get_content (CAMEL_MEDIUM (part));
+	if (CAMEL_IS_MIME_MESSAGE (content)) {
+		e_mail_reader_composer_created (
+			async_context->reader, composer,
+			CAMEL_MIME_MESSAGE (content));
+	} else {
+		/* XXX What to do for the multipart/digest case?
+		 *     Extract the first message from the digest, or
+		 *     change the argument type to CamelMimePart and
+		 *     just pass the whole digest through?
+		 *
+		 *     This signal is primarily serving EMailBrowser,
+		 *     which can only forward one message at a time.
+		 *     So for the moment it doesn't matter, but still
+		 *     something to consider. */
+		e_mail_reader_composer_created (
+			async_context->reader, composer, NULL);
+	}
 
 	e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
 
@@ -1966,15 +1992,19 @@ forward_got_messages_cb (GObject *source_object,
 	g_hash_table_iter_init (&iter, hash_table);
 
 	while (g_hash_table_iter_next (&iter, &key, &value)) {
+		EMsgComposer *composer;
 		CamelMimeMessage *message;
 		const gchar *message_uid;
 
 		message_uid = (const gchar *) key;
 		message = CAMEL_MIME_MESSAGE (value);
 
-		em_utils_forward_message (
+		composer = em_utils_forward_message (
 			backend, message, async_context->style,
 			folder, message_uid);
+
+		e_mail_reader_composer_created (
+			async_context->reader, composer, message);
 	}
 
 	g_hash_table_unref (hash_table);

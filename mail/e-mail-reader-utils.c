@@ -1327,6 +1327,7 @@ mail_reader_reply_message_parsed (GObject *object,
 	EMailBackend *backend;
 	EMailReader *reader = E_MAIL_READER (object);
 	EMailPartList *part_list;
+	EMsgComposer *composer;
 	CamelMimeMessage *message;
 	AsyncContext *async_context;
 
@@ -1338,7 +1339,7 @@ mail_reader_reply_message_parsed (GObject *object,
 	backend = e_mail_reader_get_backend (async_context->reader);
 	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
 
-	em_utils_reply_to_message (
+	composer = em_utils_reply_to_message (
 		shell, message,
 		async_context->folder,
 		async_context->message_uid,
@@ -1346,6 +1347,8 @@ mail_reader_reply_message_parsed (GObject *object,
 		async_context->reply_style,
 		part_list,
 		async_context->address);
+
+	e_mail_reader_composer_created (reader, composer, message);
 
 	g_object_unref (part_list);
 
@@ -1562,7 +1565,7 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 	composer = em_utils_reply_to_message (
 		shell, new_message, folder, uid,
 		reply_type, reply_style, NULL, address);
-	if (composer && (validity_pgp_sum != 0 || validity_smime_sum != 0)) {
+	if (validity_pgp_sum != 0 || validity_smime_sum != 0) {
 		GtkToggleAction *action;
 
 		if ((validity_pgp_sum & E_MAIL_PART_VALIDITY_PGP) != 0) {
@@ -1589,6 +1592,8 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 			}
 		}
 	}
+
+	e_mail_reader_composer_created (reader, composer, new_message);
 
 	if (address)
 		g_object_unref (address);
@@ -1630,9 +1635,11 @@ whole_message:
 		g_object_unref (activity);
 
 	} else {
-		em_utils_reply_to_message (
+		composer = em_utils_reply_to_message (
 			shell, src_message, folder, uid,
 			reply_type, reply_style, part_list, address);
+
+		e_mail_reader_composer_created (reader, composer, src_message);
 	}
 
 	g_clear_object (&address);
