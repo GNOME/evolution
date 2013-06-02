@@ -68,6 +68,10 @@ void		e_mail_reader_print		(EMailReader *reader,
 void		e_mail_reader_remove_attachments
 						(EMailReader *reader);
 void		e_mail_reader_remove_duplicates	(EMailReader *reader);
+void		e_mail_reader_edit_messages	(EMailReader *reader,
+						 CamelFolder *folder,
+						 GPtrArray *uids,
+						 gboolean replace);
 void		e_mail_reader_reply_to_message	(EMailReader *reader,
 						 CamelMimeMessage *message,
 						 EMailReplyType reply_type);

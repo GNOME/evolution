@@ -80,7 +80,6 @@ struct _AsyncContext {
 	EMailForwardStyle style;
 	gchar *folder_uri;
 	gchar *message_uid;
-	gboolean replace;
 };
 
 struct _ForwardData {
@@ -1468,122 +1467,6 @@ em_utils_edit_message (EShell *shell,
 	gtk_widget_show (GTK_WIDGET (composer));
 
 	return composer;
-}
-
-static void
-edit_messages_cb (GObject *source_object,
-                  GAsyncResult *result,
-                  gpointer user_data)
-{
-	CamelFolder *folder;
-	EShell *shell;
-	EMailBackend *backend;
-	EActivity *activity;
-	EAlertSink *alert_sink;
-	GHashTable *hash_table;
-	GHashTableIter iter;
-	gpointer key, value;
-	AsyncContext *async_context;
-	GError *local_error = NULL;
-
-	folder = CAMEL_FOLDER (source_object);
-	async_context = (AsyncContext *) user_data;
-
-	activity = async_context->activity;
-	alert_sink = e_activity_get_alert_sink (activity);
-
-	hash_table = e_mail_folder_get_multiple_messages_finish (
-		folder, result, &local_error);
-
-	/* Sanity check. */
-	g_return_if_fail (
-		((hash_table != NULL) && (local_error == NULL)) ||
-		((hash_table == NULL) && (local_error != NULL)));
-
-	if (e_activity_handle_cancellation (activity, local_error)) {
-		g_error_free (local_error);
-		goto exit;
-
-	} else if (local_error != NULL) {
-		e_alert_submit (
-			alert_sink,
-			"mail:get-multiple-messages",
-			local_error->message, NULL);
-		g_error_free (local_error);
-		goto exit;
-	}
-
-	backend = e_mail_reader_get_backend (async_context->reader);
-	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
-
-	/* Open each message in its own composer window. */
-
-	g_hash_table_iter_init (&iter, hash_table);
-
-	while (g_hash_table_iter_next (&iter, &key, &value)) {
-		EMsgComposer *composer;
-		CamelMimeMessage *message;
-		const gchar *message_uid;
-
-		if (!async_context->replace)
-			key = NULL;
-
-		message_uid = (const gchar *) key;
-		message = CAMEL_MIME_MESSAGE (value);
-
-		camel_medium_remove_header (CAMEL_MEDIUM (value), "X-Mailer");
-
-		composer = em_utils_edit_message (
-			shell, folder, message, message_uid);
-
-		e_mail_reader_composer_created (
-			async_context->reader, composer, message);
-	}
-
-	g_hash_table_unref (hash_table);
-
-	e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
-
-exit:
-	async_context_free (async_context);
-}
-
-/**
- * em_utils_edit_messages:
- * @reader: an #EMailReader
- * @folder: folder containing messages to edit
- * @uids: uids of messages to edit
- * @replace: replace the existing message(s) when sent or saved.
- *
- * Opens a composer for each message to be edited.
- **/
-void
-em_utils_edit_messages (EMailReader *reader,
-                        CamelFolder *folder,
-                        GPtrArray *uids,
-                        gboolean replace)
-{
-	EActivity *activity;
-	AsyncContext *async_context;
-	GCancellable *cancellable;
-
-	g_return_if_fail (E_IS_MAIL_READER (reader));
-	g_return_if_fail (CAMEL_IS_FOLDER (folder));
-	g_return_if_fail (uids != NULL);
-
-	activity = e_mail_reader_new_activity (reader);
-	cancellable = e_activity_get_cancellable (activity);
-
-	async_context = g_slice_new0 (AsyncContext);
-	async_context->activity = activity;
-	async_context->reader = g_object_ref (reader);
-	async_context->ptr_array = g_ptr_array_ref (uids);
-	async_context->replace = replace;
-
-	e_mail_folder_get_multiple_messages (
-		folder, uids, G_PRIORITY_DEFAULT,
-		cancellable, edit_messages_cb,
-		async_context);
 }
 
 static void
