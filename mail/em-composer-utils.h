@@ -56,7 +56,7 @@ void		em_utils_forward_messages	(EMailReader *reader,
 						 GPtrArray *uids,
 						 EMailForwardStyle style,
 						 GtkWidget *destroy_when_done);
-void		em_utils_redirect_message	(EShell *shell,
+EMsgComposer *	em_utils_redirect_message	(EShell *shell,
 						 CamelMimeMessage *message);
 gchar *		em_utils_construct_composer_text
 						(CamelSession *session,

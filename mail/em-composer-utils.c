@@ -2181,21 +2181,25 @@ redirect_get_composer (EShell *shell,
  *
  * Opens a composer to redirect @message (Note: only headers will be
  * editable). Adds Resent-From/Resent-To/etc headers.
+ *
+ * Returns: the resulting #EMsgComposer
  **/
-void
+EMsgComposer *
 em_utils_redirect_message (EShell *shell,
                            CamelMimeMessage *message)
 {
 	EMsgComposer *composer;
 
-	g_return_if_fail (E_IS_SHELL (shell));
-	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
+	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
 
 	composer = redirect_get_composer (shell, message);
 
 	gtk_widget_show (GTK_WIDGET (composer));
 
 	composer_set_no_change (composer);
+
+	return composer;
 }
 
 /* Replying to messages... */
