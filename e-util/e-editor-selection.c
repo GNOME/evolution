@@ -2449,12 +2449,12 @@ wrap_lines (EEditorSelection *selection,
 	 * from Format->Wrap Lines action */
 	wrap_br = webkit_dom_document_fragment_query_selector_all (
 			fragment,
-			(remove_all_br) ? "br" : "br.-x-evo-wrap-br",
+			remove_all_br ? "br" : "br.-x-evo-wrap-br",
 			NULL);
 
 	/* And remove them */
 	br_count = webkit_dom_node_list_get_length (wrap_br);
-	for (ii = br_count; ii > 0; ii--) {
+	for (ii = br_count - 1; ii >= 0; ii--) {
 		WebKitDOMNode *br = webkit_dom_node_list_item (wrap_br, ii);
 		webkit_dom_node_remove_child (
 				webkit_dom_node_get_parent_node (br), br, NULL);
