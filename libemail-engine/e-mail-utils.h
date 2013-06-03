@@ -74,4 +74,6 @@ void		em_utils_uids_free		(GPtrArray *uids);
 gboolean	em_utils_is_local_delivery_mbox_file
 						(CamelURL *url);
 
+void		em_utils_expand_groups		(CamelInternetAddress *addresses);
+
 #endif /* E_MAIL_UTILS_H */

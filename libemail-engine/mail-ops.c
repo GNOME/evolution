@@ -635,6 +635,9 @@ mail_send_message (struct _send_queue_msg *m,
 			service, cancellable, error))
 			goto exit;
 
+		/* expand, or remove empty, group addresses */
+		em_utils_expand_groups (CAMEL_INTERNET_ADDRESS (recipients));
+
 		if (!camel_transport_send_to_sync (
 			CAMEL_TRANSPORT (service), message,
 			from, recipients, cancellable, error))
