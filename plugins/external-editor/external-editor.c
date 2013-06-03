@@ -53,7 +53,6 @@ static void	ee_editor_command_changed
 						(GtkWidget *textbox);
 static void	ee_editor_immediate_launch_changed
 						(GtkWidget *checkbox);
-static void	async_external_editor		(EMsgComposer *composer);
 static gboolean	editor_running			(void);
 static gboolean	key_press_cb			(GtkWidget *widget,
 						 GdkEventKey *event,
@@ -291,9 +290,13 @@ get_caret_position (EEditorWidget *widget)
 	return webkit_dom_range_get_start_offset (range, NULL) + range_count;
 }
 
-void
-async_external_editor (EMsgComposer *composer)
+static gboolean external_editor_running = FALSE;
+static GMutex external_editor_running_lock;
+
+static gpointer
+external_editor_thread (gpointer user_data)
 {
+	EMsgComposer *composer = user_data;
 	gchar *filename = NULL;
 	gint status = 0;
 	GSettings *settings;
@@ -325,7 +328,8 @@ async_external_editor (EMsgComposer *composer)
 
 		/* run_error_dialog also calls enable_composer */
 		g_idle_add ((GSourceFunc) run_error_dialog, data);
-		return;
+
+		goto finished;
 	}
 
 	settings = g_settings_new ("org.gnome.evolution.plugin.external-editor");
@@ -381,7 +385,7 @@ async_external_editor (EMsgComposer *composer)
 		g_free (filename);
 		g_free (editor_cmd_line);
 		g_free (editor_cmd);
-		return;
+		goto finished;
 	}
 	g_free (editor_cmd_line);
 	g_free (editor_cmd);
@@ -393,7 +397,7 @@ async_external_editor (EMsgComposer *composer)
 #endif
 		d (printf ("\n\nsome problem here with external editor\n\n"));
 		g_idle_add ((GSourceFunc) enable_composer, composer);
-		return;
+		goto finished;
 	} else {
 		gchar *buf;
 
@@ -420,6 +424,13 @@ async_external_editor (EMsgComposer *composer)
 			g_free (filename);
 		}
 	}
+
+finished:
+	g_mutex_lock (&external_editor_running_lock);
+	external_editor_running = FALSE;
+	g_mutex_unlock (&external_editor_running_lock);
+
+	return NULL;
 }
 
 static void launch_editor (GtkAction *action, EMsgComposer *composer)
@@ -433,8 +444,13 @@ static void launch_editor (GtkAction *action, EMsgComposer *composer)
 
 	disable_composer (composer);
 
-	editor_thread = g_thread_create (
-		(GThreadFunc) async_external_editor, composer, FALSE, NULL);
+	g_mutex_lock (&external_editor_running_lock);
+	external_editor_running = TRUE;
+	g_mutex_unlock (&external_editor_running_lock);
+
+	editor_thread = g_thread_new (
+		NULL, external_editor_thread, composer);
+	g_thread_unref (editor_thread);
 }
 
 static GtkActionEntry entries[] = {
@@ -478,21 +494,14 @@ key_press_cb (GtkWidget *widget,
 	return TRUE;
 }
 
-static void
-editor_running_thread_func (GThread *thread,
-                            gpointer running)
-{
-	if (thread == editor_thread)
-		*(gboolean*)running = TRUE;
-}
-
-/* Racy? */
 static gboolean
 editor_running (void)
 {
-	gboolean running = FALSE;
+	gboolean running;
 
-	g_thread_foreach ((GFunc) editor_running_thread_func, &running);
+	g_mutex_lock (&external_editor_running_lock);
+	running = external_editor_running;
+	g_mutex_unlock (&external_editor_running_lock);
 
 	return running;
 }
