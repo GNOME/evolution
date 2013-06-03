@@ -877,6 +877,9 @@ e_mail_session_send_to (EMailSession *session,
 		get_message_size (message, cancellable);
 	camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN, ~0);
 
+	/* expand, or remove empty, group addresses */
+	em_utils_expand_groups (CAMEL_INTERNET_ADDRESS (recipients));
+
 	/* The rest of the processing happens in a thread. */
 
 	context = g_slice_new0 (AsyncContext);

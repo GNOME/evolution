@@ -705,3 +705,44 @@ em_utils_is_local_delivery_mbox_file (CamelURL *url)
 		!g_file_test (url->path, G_FILE_TEST_IS_DIR);
 }
 
+/* Expands groups to individual addresses, or removes empty groups completely.
+   Usual email addresses are left untouched.
+*/
+void
+em_utils_expand_groups (CamelInternetAddress *addresses)
+{
+	gint ii, len;
+	const gchar *addr;
+	CamelAddress *addrs;
+
+	g_return_if_fail (CAMEL_IS_INTERNET_ADDRESS (addresses));
+
+	addrs = CAMEL_ADDRESS (addresses);
+	len = camel_address_length (addrs);
+	for (ii = len - 1; ii >= 0; ii--) {
+		addr = NULL;
+
+		if (!camel_internet_address_get (addresses, ii, NULL, &addr)) {
+			camel_address_remove (addrs, ii);
+		} else if (addr) {
+			gchar *encoded = camel_internet_address_encode_address (NULL, NULL, addr);
+
+			if (encoded) {
+				CamelInternetAddress *iaddr = camel_internet_address_new ();
+				gint decoded;
+
+				/* decode expands respective groups */
+				decoded = camel_address_decode (CAMEL_ADDRESS (iaddr), encoded);
+				if (decoded <= 0 || decoded > 1) {
+					camel_address_remove (addrs, ii);
+
+					if (decoded > 1)
+						camel_address_cat (addrs, CAMEL_ADDRESS (iaddr));
+				}
+
+				g_object_unref (iaddr);
+				g_free (encoded);
+			}
+		}
+	}
+}
