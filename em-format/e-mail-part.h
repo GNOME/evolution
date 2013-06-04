@@ -24,6 +24,8 @@
 
 #include <e-util/e-util.h>
 
+#include <em-format/e-mail-formatter-enums.h>
+
 #define E_MAIL_PART_IS(p,s_t) \
 		((p != NULL) && (e_mail_part_get_instance_size (p) == sizeof (s_t)))
 #define E_MAIL_PART(o) ((EMailPart *) o)
@@ -35,14 +37,6 @@ typedef struct _EMailPartPrivate EMailPartPrivate;
 
 typedef void	(*EMailPartDOMBindFunc)	(EMailPart *part,
 					 WebKitDOMElement *element);
-
-enum {
-	E_MAIL_PART_VALIDITY_NONE	=	0,
-	E_MAIL_PART_VALIDITY_PGP	=	1 << 0,
-	E_MAIL_PART_VALIDITY_SMIME	=	1 << 1,
-	E_MAIL_PART_VALIDITY_SIGNED	=	1 << 2,
-	E_MAIL_PART_VALIDITY_ENCRYPTED	=	1 << 3
-} EMailPartValidityFlags;
 
 typedef struct _EMailPartValidityPair EMailPartValidityPair;
 
