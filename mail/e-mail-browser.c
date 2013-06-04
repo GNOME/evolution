@@ -59,6 +59,9 @@ struct _EMailBrowserPrivate {
 	GtkWidget *preview_pane;
 	GtkWidget *statusbar;
 
+	EAlert *close_on_reply_alert;
+	gulong close_on_reply_response_handler_id;
+
 	guint show_deleted : 1;
 };
 
@@ -359,6 +362,30 @@ mail_browser_status_message_cb (EMailBrowser *browser,
 }
 
 static void
+mail_browser_close_on_reply_response_cb (EAlert *alert,
+                                         gint response_id,
+                                         EMailBrowser *browser)
+{
+	/* Disconnect the signal handler, but leave the EAlert
+	 * itself in place so we know it's already been presented. */
+	g_signal_handler_disconnect (
+		browser->priv->close_on_reply_alert,
+		browser->priv->close_on_reply_response_handler_id);
+	browser->priv->close_on_reply_response_handler_id = 0;
+
+	if (response_id == GTK_RESPONSE_YES) {
+		e_mail_browser_set_close_on_reply_policy (
+			browser, E_AUTOMATIC_ACTION_POLICY_ALWAYS);
+		e_mail_browser_close (browser);
+	}
+
+	if (response_id == GTK_RESPONSE_NO) {
+		e_mail_browser_set_close_on_reply_policy (
+			browser, E_AUTOMATIC_ACTION_POLICY_NEVER);
+	}
+}
+
+static void
 mail_browser_set_backend (EMailBrowser *browser,
                           EMailBackend *backend)
 {
@@ -509,6 +536,13 @@ mail_browser_dispose (GObject *object)
 
 	priv = E_MAIL_BROWSER_GET_PRIVATE (object);
 
+	if (priv->close_on_reply_response_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->close_on_reply_alert,
+			priv->close_on_reply_response_handler_id);
+		priv->close_on_reply_response_handler_id = 0;
+	}
+
 	g_clear_object (&priv->backend);
 	g_clear_object (&priv->ui_manager);
 	g_clear_object (&priv->focus_tracker);
@@ -516,6 +550,7 @@ mail_browser_dispose (GObject *object)
 	g_clear_object (&priv->main_toolbar);
 	g_clear_object (&priv->preview_pane);
 	g_clear_object (&priv->statusbar);
+	g_clear_object (&priv->close_on_reply_alert);
 
 	if (priv->message_list != NULL) {
 		/* This will cancel a regen operation. */
@@ -801,15 +836,18 @@ mail_browser_set_message (EMailReader *reader,
                           const gchar *uid)
 {
 	EMailReaderInterface *interface;
+	EMailBrowser *browser;
 	CamelMessageInfo *info;
 	CamelFolder *folder;
+
+	browser = E_MAIL_BROWSER (reader);
 
 	/* Chain up to parent's set_message() method. */
 	interface = g_type_default_interface_peek (E_TYPE_MAIL_READER);
 	interface->set_message (reader, uid);
 
 	if (uid == NULL) {
-		e_mail_browser_close (E_MAIL_BROWSER (reader));
+		e_mail_browser_close (browser);
 		return;
 	}
 
@@ -831,7 +869,6 @@ mail_browser_composer_created (EMailReader *reader,
 {
 	EMailBrowser *browser;
 	EAutomaticActionPolicy policy;
-	gboolean close_browser;
 
 	/* Do not prompt if there is no source message.  It means
 	 * the user wants to start a brand new message, presumably
@@ -842,46 +879,19 @@ mail_browser_composer_created (EMailReader *reader,
 	browser = E_MAIL_BROWSER (reader);
 	policy = e_mail_browser_get_close_on_reply_policy (browser);
 
-	if (policy == E_AUTOMATIC_ACTION_POLICY_ALWAYS) {
-		close_browser = TRUE;
-	} else if (policy == E_AUTOMATIC_ACTION_POLICY_NEVER) {
-		close_browser = FALSE;
-	} else {
-		GtkWidget *dialog;
-		GtkWindow *parent;
-		EShell *shell;
-		EMailBackend *backend;
-		EShellBackend *shell_backend;
-		gint response;
+	switch (policy) {
+		case E_AUTOMATIC_ACTION_POLICY_ALWAYS:
+			e_mail_browser_close (browser);
+			break;
 
-		backend = e_mail_reader_get_backend (reader);
+		case E_AUTOMATIC_ACTION_POLICY_NEVER:
+			/* do nothing */
+			break;
 
-		shell_backend = E_SHELL_BACKEND (backend);
-		shell = e_shell_backend_get_shell (shell_backend);
-
-		parent = e_shell_get_active_window (shell);
-		if (parent == NULL)
-			parent = e_mail_reader_get_window (reader);
-
-		dialog = e_alert_dialog_new_for_args (
-			parent, "mail:ask-reply-close-browser", NULL);
-		response = gtk_dialog_run (GTK_DIALOG (dialog));
-		gtk_widget_destroy (dialog);
-
-		close_browser =
-			(response == GTK_RESPONSE_YES) ||
-			(response == GTK_RESPONSE_OK);
-
-		if (response == GTK_RESPONSE_OK)
-			e_mail_browser_set_close_on_reply_policy (
-				browser, E_AUTOMATIC_ACTION_POLICY_ALWAYS);
-		else if (response == GTK_RESPONSE_CANCEL)
-			e_mail_browser_set_close_on_reply_policy (
-				browser, E_AUTOMATIC_ACTION_POLICY_NEVER);
+		case E_AUTOMATIC_ACTION_POLICY_ASK:
+			e_mail_browser_ask_close_on_reply (browser);
+			break;
 	}
-
-	if (close_browser)
-		e_mail_browser_close (E_MAIL_BROWSER (reader));
 }
 
 static void
@@ -1043,6 +1053,37 @@ e_mail_browser_close (EMailBrowser *browser)
 	g_return_if_fail (E_IS_MAIL_BROWSER (browser));
 
 	gtk_widget_destroy (GTK_WIDGET (browser));
+}
+
+void
+e_mail_browser_ask_close_on_reply (EMailBrowser *browser)
+{
+	EAlertSink *alert_sink;
+	EAlert *alert;
+	gulong handler_id;
+
+	g_return_if_fail (E_IS_MAIL_BROWSER (browser));
+
+	/* Do nothing if the question has already been presented, even if
+	 * the user dismissed it without answering.  We only present the
+	 * question once per browser window, lest it become annoying. */
+	if (browser->priv->close_on_reply_alert != NULL)
+		return;
+
+	alert = e_alert_new ("mail:browser-close-on-reply", NULL);
+
+	handler_id = g_signal_connect (
+		alert, "response",
+		G_CALLBACK (mail_browser_close_on_reply_response_cb),
+		browser);
+
+	browser->priv->close_on_reply_alert = g_object_ref (alert);
+	browser->priv->close_on_reply_response_handler_id = handler_id;
+
+	alert_sink = e_mail_reader_get_alert_sink (E_MAIL_READER (browser));
+	e_alert_sink_submit_alert (alert_sink, alert);
+
+	g_object_unref (alert);
 }
 
 EAutomaticActionPolicy

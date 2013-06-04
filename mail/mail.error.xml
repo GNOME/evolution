@@ -393,13 +393,10 @@ An mbox account will be created to preserve the old mbox folders. You can delete
     <button _label="In Current _Folder Only" response="GTK_RESPONSE_NO"/>
   </error>
 
-  <error id="ask-reply-close-browser" type="question" default="GTK_RESPONSE_NO">
-    <_primary>Close message window.</_primary>
-    <_secondary xml:space="preserve">Would you like to close the message window?</_secondary>
-    <button _label="_Yes" response="GTK_RESPONSE_YES"/>
-    <button _label="_No" response="GTK_RESPONSE_NO"/>
-    <button _label="_Always" response="GTK_RESPONSE_OK"/>
-    <button _label="N_ever" response="GTK_RESPONSE_CANCEL"/>
+  <error id="browser-close-on-reply" type="question" default="GTK_RESPONSE_NO">
+    <_secondary>Should Evolution close this window when replying or forwarding?</_secondary>
+    <button _label="_Yes, Always" response="GTK_RESPONSE_YES"/>
+    <button _label="_No, Never" response="GTK_RESPONSE_NO"/>
   </error>
 
   <error id="ask-folder-drop-copy" type="question" default="GTK_RESPONSE_YES">
