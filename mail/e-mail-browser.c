@@ -51,6 +51,7 @@ struct _EMailBrowserPrivate {
 	EFocusTracker *focus_tracker;
 
 	EMailFormatterMode display_mode;
+	EAutomaticActionPolicy close_on_reply_policy;
 
 	GtkWidget *main_menu;
 	GtkWidget *main_toolbar;
@@ -64,6 +65,7 @@ struct _EMailBrowserPrivate {
 enum {
 	PROP_0,
 	PROP_BACKEND,
+	PROP_CLOSE_ON_REPLY_POLICY,
 	PROP_DISPLAY_MODE,
 	PROP_FOCUS_TRACKER,
 	PROP_FORWARD_STYLE,
@@ -386,6 +388,12 @@ mail_browser_set_property (GObject *object,
 				g_value_get_object (value));
 			return;
 
+		case PROP_CLOSE_ON_REPLY_POLICY:
+			e_mail_browser_set_close_on_reply_policy (
+				E_MAIL_BROWSER (object),
+				g_value_get_enum (value));
+			return;
+
 		case PROP_DISPLAY_MODE:
 			mail_browser_set_display_mode (
 				E_MAIL_BROWSER (object),
@@ -432,6 +440,13 @@ mail_browser_get_property (GObject *object,
 				value,
 				e_mail_reader_get_backend (
 				E_MAIL_READER (object)));
+			return;
+
+		case PROP_CLOSE_ON_REPLY_POLICY:
+			g_value_set_enum (
+				value,
+				e_mail_browser_get_close_on_reply_policy (
+				E_MAIL_BROWSER (object)));
 			return;
 
 		case PROP_DISPLAY_MODE:
@@ -522,7 +537,6 @@ mail_browser_constructed (GObject *object)
 	EShellBackend *shell_backend;
 	EShell *shell;
 	EFocusTracker *focus_tracker;
-	GSettings *settings;
 	GtkAccelGroup *accel_group;
 	GtkActionGroup *action_group;
 	GtkAction *action;
@@ -668,17 +682,6 @@ mail_browser_constructed (GObject *object)
 		GTK_BOX (container),
 		browser->priv->preview_pane,
 		TRUE, TRUE, 0);
-
-	/* Bind GObject properties to GSettings keys. */
-
-	settings = g_settings_new ("org.gnome.evolution.mail");
-
-	g_settings_bind (
-		settings, "show-deleted",
-		reader, "show-deleted",
-		G_SETTINGS_BIND_DEFAULT);
-
-	g_object_unref (settings);
 
 	id = "org.gnome.evolution.mail.browser";
 	e_plugin_ui_register_manager (ui_manager, id, object);
@@ -826,9 +829,8 @@ mail_browser_composer_created (EMailReader *reader,
                                EMsgComposer *composer,
                                CamelMimeMessage *message)
 {
-	GSettings *settings;
-	const gchar *key;
-	gchar *value;
+	EMailBrowser *browser;
+	EAutomaticActionPolicy policy;
 	gboolean close_browser;
 
 	/* Do not prompt if there is no source message.  It means
@@ -837,14 +839,12 @@ mail_browser_composer_created (EMailReader *reader,
 	if (message == NULL)
 		return;
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	browser = E_MAIL_BROWSER (reader);
+	policy = e_mail_browser_get_close_on_reply_policy (browser);
 
-	key = "prompt-on-reply-close-browser";
-	value = g_settings_get_string (settings, key);
-
-	if (g_strcmp0 (value, "always") == 0) {
+	if (policy == E_AUTOMATIC_ACTION_POLICY_ALWAYS) {
 		close_browser = TRUE;
-	} else if (g_strcmp0 (value, "never") == 0) {
+	} else if (policy == E_AUTOMATIC_ACTION_POLICY_NEVER) {
 		close_browser = FALSE;
 	} else {
 		GtkWidget *dialog;
@@ -873,13 +873,12 @@ mail_browser_composer_created (EMailReader *reader,
 			(response == GTK_RESPONSE_OK);
 
 		if (response == GTK_RESPONSE_OK)
-			g_settings_set_string (settings, key, "always");
+			e_mail_browser_set_close_on_reply_policy (
+				browser, E_AUTOMATIC_ACTION_POLICY_ALWAYS);
 		else if (response == GTK_RESPONSE_CANCEL)
-			g_settings_set_string (settings, key, "never");
+			e_mail_browser_set_close_on_reply_policy (
+				browser, E_AUTOMATIC_ACTION_POLICY_NEVER);
 	}
-
-	g_free (value);
-	g_object_unref (settings);
 
 	if (close_browser)
 		e_mail_browser_close (E_MAIL_BROWSER (reader));
@@ -912,6 +911,21 @@ e_mail_browser_class_init (EMailBrowserClass *class)
 			E_TYPE_MAIL_BACKEND,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_CLOSE_ON_REPLY_POLICY,
+		g_param_spec_enum (
+			"close-on-reply-policy",
+			"Close on Reply Policy",
+			"Policy for automatically closing the message "
+			"browser window when forwarding or replying to "
+			"the displayed message",
+			E_TYPE_AUTOMATIC_ACTION_POLICY,
+			E_AUTOMATIC_ACTION_POLICY_ASK,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
 			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_install_property (
@@ -1029,6 +1043,30 @@ e_mail_browser_close (EMailBrowser *browser)
 	g_return_if_fail (E_IS_MAIL_BROWSER (browser));
 
 	gtk_widget_destroy (GTK_WIDGET (browser));
+}
+
+EAutomaticActionPolicy
+e_mail_browser_get_close_on_reply_policy (EMailBrowser *browser)
+{
+	g_return_val_if_fail (
+		E_IS_MAIL_BROWSER (browser),
+		E_AUTOMATIC_ACTION_POLICY_ASK);
+
+	return browser->priv->close_on_reply_policy;
+}
+
+void
+e_mail_browser_set_close_on_reply_policy (EMailBrowser *browser,
+                                          EAutomaticActionPolicy policy)
+{
+	g_return_if_fail (E_IS_MAIL_BROWSER (browser));
+
+	if (policy == browser->priv->close_on_reply_policy)
+		return;
+
+	browser->priv->close_on_reply_policy = policy;
+
+	g_object_notify (G_OBJECT (browser), "close-on-reply-policy");
 }
 
 EMailFormatterMode

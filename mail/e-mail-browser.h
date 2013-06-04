@@ -66,6 +66,12 @@ GtkWidget *	e_mail_browser_new		(EMailBackend *backend,
 						 const gchar *message_uid,
 						 EMailFormatterMode display_mode);
 void		e_mail_browser_close		(EMailBrowser *browser);
+EAutomaticActionPolicy
+		e_mail_browser_get_close_on_reply_policy
+						(EMailBrowser *browser);
+void		e_mail_browser_set_close_on_reply_policy
+						(EMailBrowser *browser,
+						 EAutomaticActionPolicy policy);
 EMailFormatterMode
 		e_mail_browser_get_display_mode	(EMailBrowser *browser);
 EFocusTracker *	e_mail_browser_get_focus_tracker

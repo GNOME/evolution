@@ -1,5 +1,12 @@
 <schemalist>
 
+  <!-- Keep this synchronized with EAutomaticActionPolicy. -->
+  <enum id="org.gnome.evolution.mail.AutomaticActionPolicy">
+    <value nick='ask'    value='0'/>
+    <value nick='always' value='1'/>
+    <value nick='never'  value='2'/>
+  </enum>
+
   <!-- Keep this synchronized with EMailForwardStyle. -->
   <enum id="org.gnome.evolution.mail.ForwardStyle">
     <value nick='attached' value='0'/>
@@ -426,10 +433,9 @@
       <_summary>Prompt when replying to many recipients</_summary>
       <_description>It disables/enables the repeated prompts to warn that you are sending a reply to many people.</_description>
     </key>
-    <key name="prompt-on-reply-close-browser" type="s">
+    <key name="browser-close-on-reply-policy" enum="org.gnome.evolution.mail.AutomaticActionPolicy">
       <default>'ask'</default>
-      <_summary>Asks whether to close the message window when the user forwards or replies to the message shown in the window</_summary>
-      <_description>Possible values are: 'never' - to never close browser window, 'always' - to always close browser window or 'ask' - (or any other value) will ask user.</_description>
+      <_summary>Policy for automatically closing the message browser window when forwarding or replying to the displayed message.</_summary>
     </key>
     <key name="trash-empty-on-exit" type="b">
       <default>false</default>
@@ -564,6 +570,11 @@
       <default>0</default>
       <_summary>(Deprecated) Load images for HTML messages over HTTP</_summary>
       <_description>This key was deprecated in version 3.10 and should no longer be used.  Use "image-loading-policy" instead.</_description>
+    </key>
+    <key name="prompt-on-reply-close-browser" type="s">
+      <default>'ask'</default>
+      <_summary>(Deprecated) Asks whether to close the message window when the user forwards or replies to the message shown in the window</_summary>
+      <_description>This key was deprecated in version 3.10 and should no longer be used.  Use "browser-close-on-reply-policy" instead.</_description>
     </key>
 
   </schema>

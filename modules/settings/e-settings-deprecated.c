@@ -42,6 +42,7 @@ struct _ESettingsDeprecatedPrivate {
 	gulong work_day_sunday_handler_id;
 
 	GSettings *mail_settings;
+	gulong browser_close_on_reply_policy_handler_id;
 	gulong forward_style_name_handler_id;
 	gulong reply_style_name_handler_id;
 	gulong image_loading_policy_handler_id;
@@ -174,6 +175,28 @@ settings_deprecated_work_day_sunday_cb (GSettings *settings,
 }
 
 static void
+settings_deprecated_browser_close_on_reply_policy_cb (GSettings *settings,
+                                                      const gchar *key)
+{
+	const gchar *deprecated_key = "prompt-on-reply-close-browser";
+
+	switch (g_settings_get_enum (settings, key)) {
+		case E_AUTOMATIC_ACTION_POLICY_ALWAYS:
+			g_settings_set_string (
+				settings, deprecated_key, "always");
+			break;
+		case E_AUTOMATIC_ACTION_POLICY_NEVER:
+			g_settings_set_string (
+				settings, deprecated_key, "never");
+			break;
+		default:
+			g_settings_set_string (
+				settings, deprecated_key, "ask");
+			break;
+	}
+}
+
+static void
 settings_deprecated_forward_style_name_cb (GSettings *settings,
                                            const gchar *key)
 {
@@ -280,6 +303,13 @@ settings_deprecated_dispose (GObject *object)
 		priv->work_day_sunday_handler_id = 0;
 	}
 
+	if (priv->browser_close_on_reply_policy_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->mail_settings,
+			priv->browser_close_on_reply_policy_handler_id);
+		priv->browser_close_on_reply_policy_handler_id = 0;
+	}
+
 	if (priv->forward_style_name_handler_id > 0) {
 		g_signal_handler_disconnect (
 			priv->mail_settings,
@@ -313,6 +343,7 @@ settings_deprecated_constructed (GObject *object)
 {
 	ESettingsDeprecatedPrivate *priv;
 	gulong handler_id;
+	gchar *string_value;
 	gint int_value;
 
 	priv = E_SETTINGS_DEPRECATED_GET_PRIVATE (object);
@@ -352,6 +383,26 @@ settings_deprecated_constructed (GObject *object)
 	g_settings_set_boolean (
 		priv->calendar_settings, "work-day-sunday",
 		(int_value & DEPRECATED_WORKING_DAYS_SUNDAY) != 0);
+
+	string_value = g_settings_get_string (
+		priv->mail_settings, "prompt-on-reply-close-browser");
+	if (g_strcmp0 (string_value, "always") == 0) {
+		g_settings_set_enum (
+			priv->mail_settings,
+			"browser-close-on-reply-policy",
+			E_AUTOMATIC_ACTION_POLICY_ALWAYS);
+	} else if (g_strcmp0 (string_value, "never") == 0) {
+		g_settings_set_enum (
+			priv->mail_settings,
+			"browser-close-on-reply-policy",
+			E_AUTOMATIC_ACTION_POLICY_NEVER);
+	} else {
+		g_settings_set_enum (
+			priv->mail_settings,
+			"browser-close-on-reply-policy",
+			E_AUTOMATIC_ACTION_POLICY_ASK);
+	}
+	g_free (string_value);
 
 	int_value = g_settings_get_int (
 		priv->mail_settings, "forward-style");
@@ -436,6 +487,11 @@ settings_deprecated_constructed (GObject *object)
 		priv->calendar_settings, "changed::work-day-sunday",
 		G_CALLBACK (settings_deprecated_work_day_sunday_cb), NULL);
 	priv->work_day_sunday_handler_id = handler_id;
+
+	handler_id = g_signal_connect (
+		priv->mail_settings, "changed::browser-close-on-reply-policy",
+		G_CALLBACK (settings_deprecated_browser_close_on_reply_policy_cb), NULL);
+	priv->browser_close_on_reply_policy_handler_id = handler_id;
 
 	handler_id = g_signal_connect (
 		priv->mail_settings, "changed::forward-style-name",
