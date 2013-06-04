@@ -61,7 +61,8 @@ struct _EMailDisplayClass {
 
 };
 
-GType		e_mail_display_get_type		(void);
+GType		e_mail_display_get_type		(void) G_GNUC_CONST;
+GtkWidget *	e_mail_display_new		(void);
 EMailFormatterMode
 		e_mail_display_get_mode		(EMailDisplay *display);
 void		e_mail_display_set_mode		(EMailDisplay *display,
