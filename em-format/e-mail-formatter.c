@@ -1158,7 +1158,7 @@ e_mail_formatter_get_text_format_flags (EMailFormatter *formatter)
 
 const GdkRGBA *
 e_mail_formatter_get_color (EMailFormatter *formatter,
-                            EMailFormatterColorType type)
+                            EMailFormatterColor type)
 {
 	g_return_val_if_fail (E_IS_MAIL_FORMATTER (formatter), NULL);
 	g_return_val_if_fail (type < E_MAIL_FORMATTER_NUM_COLOR_TYPES, NULL);
@@ -1168,7 +1168,7 @@ e_mail_formatter_get_color (EMailFormatter *formatter,
 
 void
 e_mail_formatter_set_color (EMailFormatter *formatter,
-                            EMailFormatterColorType type,
+                            EMailFormatterColor type,
                             const GdkRGBA *color)
 {
 	GdkRGBA *format_color;

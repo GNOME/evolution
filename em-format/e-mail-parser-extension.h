@@ -21,6 +21,7 @@
 
 #include <camel/camel.h>
 #include <em-format/e-mail-parser.h>
+#include <em-format/e-mail-formatter-enums.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_PARSER_EXTENSION \
@@ -46,21 +47,6 @@ G_BEGIN_DECLS
 typedef struct _EMailParserExtension EMailParserExtension;
 typedef struct _EMailParserExtensionClass EMailParserExtensionClass;
 typedef struct _EMailParserExtensionPrivate EMailParserExtensionPrivate;
-
-/**
- * EMailParserExtensionFlags:
- * @E_MAIL_PARSER_EXTENSION_INLINE:
- *    Don't parse as attachment.
- * @E_MAIL_PARSER_EXTENSION_INLINE_DISPOSITION:
- *    Always expand.
- * @E_MAIL_PARSER_EXTENSION_COMPOUND_TYPE:
- *    Always check what's inside.
- **/
-typedef enum {
-	E_MAIL_PARSER_EXTENSION_INLINE			= 1 << 0,
-	E_MAIL_PARSER_EXTENSION_INLINE_DISPOSITION	= 1 << 1,
-	E_MAIL_PARSER_EXTENSION_COMPOUND_TYPE		= 1 << 2
-} EMailParserExtensionFlags;
 
 /**
  * EMailParserExtension:

@@ -13,6 +13,7 @@ CFILE_GLOB=$(top_srcdir)/em-format/*.c
 
 # Header files to ignore when scanning.
 IGNORE_HFILES= \
+	e-mail-formatter-enumtypes.h \
 	$(NULL)
 
 GTKDOC_CFLAGS= \

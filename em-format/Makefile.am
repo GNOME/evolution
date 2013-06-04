@@ -1,11 +1,31 @@
+privsolib_LTLIBRARIES = libevolution-mail-formatter.la
+
 evolution_mail_formatter_includedir = $(privincludedir)/em-format
 
-privsolib_LTLIBRARIES = libevolution-mail-formatter.la
+ENUM_TYPES = e-mail-formatter-enums.h
+
+e-mail-formatter-enumtypes.h: $(top_srcdir)/enumtypes.h.template $(ENUM_TYPES)
+	$(AM_V_GEN) $(GLIB_MKENUMS) --template $(top_srcdir)/enumtypes.h.template \
+		--fhead "#ifndef E_MAIL_FORMATTER_ENUMTYPES_H\n#define E_MAIL_FORMATTER_ENUMTYPES_H\n" \
+		--ftail "#endif /* E_MAIL_FORMATTER_ENUMTYPES_H */\n" \
+		$(addprefix $(srcdir)/,$(ENUM_TYPES)) > $@
+
+e-mail-formatter-enumtypes.c: $(top_srcdir)/enumtypes.c.template $(ENUM_TYPES)
+	$(AM_V_GEN) $(GLIB_MKENUMS) --template $(top_srcdir)/enumtypes.c.template \
+		--fhead "#include \"e-mail-formatter-enumtypes.h\"" \
+		$(addprefix $(srcdir)/,$(ENUM_TYPES)) > $@
+
+ENUM_GENERATED = \
+	e-mail-formatter-enumtypes.c \
+	e-mail-formatter-enumtypes.h \
+	$(NULL)
 
 evolution_mail_formatter_include_HEADERS =		\
 	e-mail-extension-registry.h			\
 	e-mail-formatter-extension.h			\
 	e-mail-formatter.h				\
+	e-mail-formatter-enums.h			\
+	e-mail-formatter-enumtypes.h			\
 	e-mail-formatter-print.h			\
 	e-mail-formatter-quote.h			\
 	e-mail-formatter-utils.h			\
@@ -48,6 +68,7 @@ libevolution_mail_formatter_la_SOURCES =		\
 	e-mail-formatter-utils.c			\
 	e-mail-formatter-attachment.c			\
 	e-mail-formatter-attachment-bar.c		\
+	e-mail-formatter-enumtypes.c			\
 	e-mail-formatter-error.c			\
 	e-mail-formatter-extension.c			\
 	e-mail-formatter-headers.c			\
@@ -101,7 +122,6 @@ libevolution_mail_formatter_la_SOURCES =		\
 
 libevolution_mail_formatter_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 
-
 if ENABLE_SMIME
 SMIME_LIBS =						\
 	$(top_builddir)/smime/lib/libessmime.la		\
@@ -117,5 +137,11 @@ libevolution_mail_formatter_la_LIBADD =			\
 	$(GTKHTML_LIBS)					\
 	$(LIBSOUP_LIBS)					\
 	$(SMIME_LIBS)
+
+BUILT_SOURCES = \
+	$(ENUM_GENERATED) \
+	$(NULL)
+
+CLEANFILES = $(BUILT_SOURCES)
 
 -include $(top_srcdir)/git.mk

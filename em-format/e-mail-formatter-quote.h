@@ -48,12 +48,6 @@ typedef struct _EMailFormatterQuoteClass EMailFormatterQuoteClass;
 typedef struct _EMailFormatterQuotePrivate EMailFormatterQuotePrivate;
 typedef struct _EMailFormatterQuoteContext EMailFormatterQuoteContext;
 
-typedef enum {
-	E_MAIL_FORMATTER_QUOTE_FLAG_CITE	= 1 << 0,
-	E_MAIL_FORMATTER_QUOTE_FLAG_HEADERS	= 1 << 1,
-	E_MAIL_FORMATTER_QUOTE_FLAG_KEEP_SIG	= 1 << 2  /* do not strip signature */
-} EMailFormatterQuoteFlags;
-
 struct _EMailFormatterQuoteContext {
 	EMailFormatterContext parent;
 

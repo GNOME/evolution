@@ -24,6 +24,8 @@
 
 #include <e-util/e-util.h>
 
+#include <em-format/e-mail-formatter-enums.h>
+
 /* Standard GObject macros */
 #define E_TYPE_MAIL_PART \
 	(e_mail_part_get_type ())
@@ -48,14 +50,6 @@ G_BEGIN_DECLS
 typedef struct _EMailPart EMailPart;
 typedef struct _EMailPartClass EMailPartClass;
 typedef struct _EMailPartPrivate EMailPartPrivate;
-
-typedef enum {
-	E_MAIL_PART_VALIDITY_NONE      = 0,
-	E_MAIL_PART_VALIDITY_PGP       = 1 << 0,
-	E_MAIL_PART_VALIDITY_SMIME     = 1 << 1,
-	E_MAIL_PART_VALIDITY_SIGNED    = 1 << 2,
-	E_MAIL_PART_VALIDITY_ENCRYPTED = 1 << 3
-} EMailPartValidityFlags;
 
 typedef struct _EMailPartValidityPair EMailPartValidityPair;
 

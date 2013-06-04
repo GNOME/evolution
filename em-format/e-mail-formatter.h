@@ -23,6 +23,7 @@
 #include <libemail-engine/e-mail-enums.h>
 
 #include <em-format/e-mail-extension-registry.h>
+#include <em-format/e-mail-formatter-enums.h>
 #include <em-format/e-mail-part-list.h>
 
 /* Standard GObject macros */
@@ -45,38 +46,6 @@
 	((obj), E_TYPE_MAIL_FORMATTER, EMailFormatterClass))
 
 G_BEGIN_DECLS;
-
-typedef enum {
-	E_MAIL_FORMATTER_MODE_INVALID			= -1,
-	E_MAIL_FORMATTER_MODE_NORMAL			= 0,
-	E_MAIL_FORMATTER_MODE_SOURCE,
-	E_MAIL_FORMATTER_MODE_RAW,
-	E_MAIL_FORMATTER_MODE_CID,
-	E_MAIL_FORMATTER_MODE_PRINTING,
-	E_MAIL_FORMATTER_MODE_ALL_HEADERS
-} EMailFormatterMode;
-
-typedef enum {
-	E_MAIL_FORMATTER_HEADER_FLAG_COLLAPSABLE	= 1 << 0,
-	E_MAIL_FORMATTER_HEADER_FLAG_COLLAPSED		= 1 << 1,
-	E_MAIL_FORMATTER_HEADER_FLAG_HTML		= 1 << 2,
-	E_MAIL_FORMATTER_HEADER_FLAG_NOCOLUMNS		= 1 << 3,
-	E_MAIL_FORMATTER_HEADER_FLAG_BOLD		= 1 << 4,
-	E_MAIL_FORMATTER_HEADER_FLAG_NODEC		= 1 << 5,
-	E_MAIL_FORMATTER_HEADER_FLAG_HIDDEN		= 1 << 6,
-	E_MAIL_FORMATTER_HEADER_FLAG_NOLINKS		= 1 << 7,
-	E_MAIL_FORMATTER_HEADER_FLAG_NOELIPSIZE		= 1 << 8
-} EMailFormatterHeaderFlags;
-
-typedef enum {
-	E_MAIL_FORMATTER_COLOR_BODY,		/* header area background */
-	E_MAIL_FORMATTER_COLOR_CITATION,	/* citation font color */
-	E_MAIL_FORMATTER_COLOR_CONTENT,		/* message area background */
-	E_MAIL_FORMATTER_COLOR_FRAME,		/* frame around message area */
-	E_MAIL_FORMATTER_COLOR_HEADER,		/* header font color */
-	E_MAIL_FORMATTER_COLOR_TEXT,		/* message font color */
-	E_MAIL_FORMATTER_NUM_COLOR_TYPES
-} EMailFormatterColorType;
 
 typedef struct _EMailFormatter EMailFormatter;
 typedef struct _EMailFormatterClass EMailFormatterClass;
@@ -174,9 +143,9 @@ CamelMimeFilterToHTMLFlags
 						(EMailFormatter *formatter);
 
 const GdkRGBA *	e_mail_formatter_get_color	(EMailFormatter *formatter,
-						 EMailFormatterColorType type);
-void		e_mail_formatter_set_color	(EMailFormatter *efh,
-						 EMailFormatterColorType type,
+						 EMailFormatterColor type);
+void		e_mail_formatter_set_color	(EMailFormatter *formatter,
+						 EMailFormatterColor type,
 						 const GdkRGBA *color);
 void		e_mail_formatter_update_style	(EMailFormatter *formatter,
 						 GtkStateFlags state);
