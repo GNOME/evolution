@@ -64,12 +64,15 @@ GType		e_mail_browser_get_type		(void);
 GtkWidget *	e_mail_browser_new		(EMailBackend *backend,
 						 CamelFolder *folder,
 						 const gchar *message_uid,
-						 EMailFormatterMode mode);
+						 EMailFormatterMode display_mode);
 void		e_mail_browser_close		(EMailBrowser *browser);
+EMailFormatterMode
+		e_mail_browser_get_display_mode	(EMailBrowser *browser);
+EFocusTracker *	e_mail_browser_get_focus_tracker
+						(EMailBrowser *browser);
 gboolean	e_mail_browser_get_show_deleted	(EMailBrowser *browser);
 void		e_mail_browser_set_show_deleted (EMailBrowser *browser,
 						 gboolean show_deleted);
-EFocusTracker *	e_mail_browser_get_focus_tracker (EMailBrowser *browser);
 GtkUIManager *	e_mail_browser_get_ui_manager	(EMailBrowser *browser);
 
 G_END_DECLS
