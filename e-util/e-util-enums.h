@@ -48,6 +48,26 @@ typedef enum {
 } EActivityState;
 
 /**
+ * EAutomaticActionPolicy:
+ * @E_AUTOMATIC_ACTION_POLICY_ASK:
+ *   Ask the user whether to perform the action.
+ * @E_AUTOMATIC_ACTION_POLICY_ALWAYS:
+ *   Perform the action without interrupting the user.
+ * @E_AUTOMATIC_ACTION_POLICY_NEVER:
+ *   Do not perform the action and do not interrupt the user.
+ *
+ * Used for automatable actions based on the user's preference.  The user
+ * is initially asked whether to perform the action automatically, and is
+ * given either-or choices like "Yes, Always" or "No, Never".  The user's
+ * response is then remembered for future sessions.
+ **/
+typedef enum {
+	E_AUTOMATIC_ACTION_POLICY_ASK,
+	E_AUTOMATIC_ACTION_POLICY_ALWAYS,
+	E_AUTOMATIC_ACTION_POLICY_NEVER
+} EAutomaticActionPolicy;
+
+/**
  * EDateWeekday:
  * @E_DATE_BAD_WEEKDAY:
  *   Invalid value

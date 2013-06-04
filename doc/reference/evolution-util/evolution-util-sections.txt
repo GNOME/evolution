@@ -2239,6 +2239,7 @@ EMenuToolButtonPrivate
 <SECTION>
 <FILE>e-misc-utils</FILE>
 <TITLE>Miscellaneous Utilities</TITLE>
+EAutomaticActionPolicy
 EDateWeekday
 EForeachFunc
 e_get_accels_filename
