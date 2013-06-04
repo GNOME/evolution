@@ -520,7 +520,6 @@ mail_browser_constructed (GObject *object)
 	EMailReader *reader;
 	EMailBackend *backend;
 	EMailSession *session;
-	EMailDisplay *display;
 	EShellBackend *shell_backend;
 	EShell *shell;
 	EFocusTracker *focus_tracker;
@@ -530,6 +529,7 @@ mail_browser_constructed (GObject *object)
 	GtkAction *action;
 	GtkUIManager *ui_manager;
 	GtkWidget *container;
+	GtkWidget *display;
 	GtkWidget *widget;
 	const gchar *domain;
 	const gchar *id;
@@ -569,9 +569,11 @@ mail_browser_constructed (GObject *object)
 		browser->priv->message_list, "message-list-built",
 		G_CALLBACK (mail_browser_message_list_built_cb), object);
 
-	display = g_object_new (
-		E_TYPE_MAIL_DISPLAY,
-		"display-mode", browser->priv->display_mode, NULL);
+	display = e_mail_display_new ();
+
+	e_mail_display_set_mode (
+		E_MAIL_DISPLAY (display),
+		browser->priv->display_mode);
 
 	g_signal_connect_swapped (
 		display, "popup-event",

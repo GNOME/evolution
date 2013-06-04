@@ -19,22 +19,20 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include "e-mail-display.h"
 
+#include <config.h>
 #include <glib/gi18n.h>
-#include <gdk/gdk.h>
 
+#include <gdk/gdk.h>
 #include <camel/camel.h>
 
-#include "em-format/e-mail-part-utils.h"
-#include "em-format/e-mail-formatter-extension.h"
-#include "em-format/e-mail-extension-registry.h"
-#include "em-format/e-mail-part-attachment.h"
-#include "em-format/e-mail-formatter-print.h"
+#include <em-format/e-mail-extension-registry.h>
+#include <em-format/e-mail-formatter-enumtypes.h>
+#include <em-format/e-mail-formatter-extension.h>
+#include <em-format/e-mail-formatter-print.h>
+#include <em-format/e-mail-part-attachment.h>
+#include <em-format/e-mail-part-utils.h>
 
 #include "e-http-request.h"
 #include "e-mail-display-popup-extension.h"
@@ -72,11 +70,11 @@ struct _EMailDisplayPrivate {
 
 enum {
 	PROP_0,
-	PROP_MODE,
-	PROP_PART_LIST,
+	PROP_FORMATTER,
 	PROP_HEADERS_COLLAPSABLE,
 	PROP_HEADERS_COLLAPSED,
-	PROP_FORMATTER
+	PROP_MODE,
+	PROP_PART_LIST
 };
 
 static CamelDataCache *emd_global_http_cache = NULL;
@@ -1259,25 +1257,28 @@ mail_display_set_property (GObject *object,
                            GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_PART_LIST:
-			e_mail_display_set_parts_list (
-				E_MAIL_DISPLAY (object),
-				g_value_get_pointer (value));
-			return;
-		case PROP_MODE:
-			e_mail_display_set_mode (
-				E_MAIL_DISPLAY (object),
-				g_value_get_int (value));
-			return;
 		case PROP_HEADERS_COLLAPSABLE:
 			e_mail_display_set_headers_collapsable (
 				E_MAIL_DISPLAY (object),
 				g_value_get_boolean (value));
 			return;
+
 		case PROP_HEADERS_COLLAPSED:
 			e_mail_display_set_headers_collapsed (
 				E_MAIL_DISPLAY (object),
 				g_value_get_boolean (value));
+			return;
+
+		case PROP_MODE:
+			e_mail_display_set_mode (
+				E_MAIL_DISPLAY (object),
+				g_value_get_enum (value));
+			return;
+
+		case PROP_PART_LIST:
+			e_mail_display_set_parts_list (
+				E_MAIL_DISPLAY (object),
+				g_value_get_pointer (value));
 			return;
 	}
 
@@ -1293,27 +1294,36 @@ mail_display_get_property (GObject *object,
 	switch (property_id) {
 		case PROP_FORMATTER:
 			g_value_set_object (
-				value, e_mail_display_get_formatter (
+				value,
+				e_mail_display_get_formatter (
 				E_MAIL_DISPLAY (object)));
 			return;
-		case PROP_PART_LIST:
-			g_value_set_pointer (
-				value, e_mail_display_get_parts_list (
-				E_MAIL_DISPLAY (object)));
-			return;
-		case PROP_MODE:
-			g_value_set_int (
-				value, e_mail_display_get_mode (
-				E_MAIL_DISPLAY (object)));
-			return;
+
 		case PROP_HEADERS_COLLAPSABLE:
 			g_value_set_boolean (
-				value, e_mail_display_get_headers_collapsable (
+				value,
+				e_mail_display_get_headers_collapsable (
 				E_MAIL_DISPLAY (object)));
 			return;
+
 		case PROP_HEADERS_COLLAPSED:
 			g_value_set_boolean (
-				value, e_mail_display_get_headers_collapsed (
+				value,
+				e_mail_display_get_headers_collapsed (
+				E_MAIL_DISPLAY (object)));
+			return;
+
+		case PROP_MODE:
+			g_value_set_enum (
+				value,
+				e_mail_display_get_mode (
+				E_MAIL_DISPLAY (object)));
+			return;
+
+		case PROP_PART_LIST:
+			g_value_set_pointer (
+				value,
+				e_mail_display_get_parts_list (
 				E_MAIL_DISPLAY (object)));
 			return;
 	}
@@ -1341,16 +1351,14 @@ mail_display_dispose (GObject *object)
 		priv->widgets = NULL;
 	}
 
-	if (priv->settings != NULL) {
+	if (priv->settings != NULL)
 		g_signal_handlers_disconnect_matched (
 			priv->settings, G_SIGNAL_MATCH_DATA,
 			0, 0, NULL, NULL, object);
-		g_object_unref (priv->settings);
-		priv->settings = NULL;
-	}
 
 	g_clear_object (&priv->part_list);
 	g_clear_object (&priv->formatter);
+	g_clear_object (&priv->settings);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_display_parent_class)->dispose (object);
@@ -1512,29 +1520,6 @@ e_mail_display_class_init (EMailDisplayClass *class)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_PART_LIST,
-		g_param_spec_pointer (
-			"part-list",
-			"Part List",
-			NULL,
-			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_MODE,
-		g_param_spec_int (
-			"mode",
-			"Display Mode",
-			NULL,
-			E_MAIL_FORMATTER_MODE_INVALID,
-			G_MAXINT,
-			E_MAIL_FORMATTER_MODE_NORMAL,
-			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
-
-	g_object_class_install_property (
-		object_class,
 		PROP_HEADERS_COLLAPSABLE,
 		g_param_spec_boolean (
 			"headers-collapsable",
@@ -1552,6 +1537,28 @@ e_mail_display_class_init (EMailDisplayClass *class)
 			"Headers Collapsed",
 			NULL,
 			FALSE,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_MODE,
+		g_param_spec_enum (
+			"mode",
+			"Mode",
+			NULL,
+			E_TYPE_MAIL_FORMATTER_MODE,
+			E_MAIL_FORMATTER_MODE_NORMAL,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_PART_LIST,
+		g_param_spec_pointer (
+			"part-list",
+			"Part List",
+			NULL,
 			G_PARAM_READWRITE |
 			G_PARAM_STATIC_STRINGS));
 }
@@ -1653,12 +1660,18 @@ e_mail_display_init (EMailDisplay *display)
 	}
 }
 
+GtkWidget *
+e_mail_display_new (void)
+{
+	return g_object_new (E_TYPE_MAIL_DISPLAY, NULL);
+}
+
 EMailFormatterMode
 e_mail_display_get_mode (EMailDisplay *display)
 {
 	g_return_val_if_fail (
 		E_IS_MAIL_DISPLAY (display),
-		E_MAIL_FORMATTER_MODE_NORMAL);
+		E_MAIL_FORMATTER_MODE_INVALID);
 
 	return display->priv->mode;
 }
