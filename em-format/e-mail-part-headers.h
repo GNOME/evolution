@@ -58,6 +58,13 @@ struct _EMailPartHeadersClass {
 	EMailPartClass parent_class;
 };
 
+typedef enum {
+	E_MAIL_PART_HEADERS_PRINT_MODEL_COLUMN_INCLUDE,
+	E_MAIL_PART_HEADERS_PRINT_MODEL_COLUMN_HEADER_NAME,
+	E_MAIL_PART_HEADERS_PRINT_MODEL_COLUMN_HEADER_VALUE,
+	E_MAIL_PART_HEADERS_PRINT_MODEL_NUM_COLUMNS
+} EMailPartHeadersPrintModelColumns;
+
 GType		e_mail_part_headers_get_type	(void) G_GNUC_CONST;
 EMailPart *	e_mail_part_headers_new		(CamelMimePart *mime_part,
 						 const gchar *id);
@@ -66,6 +73,10 @@ gchar **	e_mail_part_headers_dup_default_headers
 void		e_mail_part_headers_set_default_headers
 						(EMailPartHeaders *part,
 						 const gchar * const *default_headers);
+gboolean	e_mail_part_headers_is_default	(EMailPartHeaders *part,
+						 const gchar *header_name);
+GtkTreeModel *	e_mail_part_headers_ref_print_model
+						(EMailPartHeaders *part);
 
 G_END_DECLS
 
