@@ -231,10 +231,10 @@
       <_summary>Show all message headers</_summary>
       <_description>Show all the headers when viewing a messages.</_description>
     </key>
-    <key name="headers" type="as">
+    <key name="show-headers" type="a(sb)">
       <default>[]</default>
-      <_summary>List of custom headers and whether they are enabled.</_summary>
-      <_description>This key should contain a list of XML structures specifying custom headers, and whether they are to be displayed. The format of the XML structure is &lt;header enabled&gt; - set enabled if the header is to be displayed in the mail view.</_description>
+      <_summary>List of headers to show when viewing a message.</_summary>
+      <_description>Each header is represented as a pair: the header name, and a boolean indicating whether the header is enabled.  Disabled headers are not shown when viewing a message, but are still listed in Preferences.</_description>
     </key>
     <key name="show-sender-photo" type="b">
       <default>false</default>
@@ -565,6 +565,11 @@
       <default>0</default>
       <_summary>(Deprecated) Default reply style</_summary>
       <_description>This key was deprecated in version 3.10 and should no longer be used.  Use "reply-style-name" instead.</_description>
+    </key>
+    <key name="headers" type="as">
+      <default>[]</default>
+      <_summary>(Deprecated) List of custom headers and whether they are enabled.</_summary>
+      <_description>This key was deprecated in version 3.10 and should no longer be used.  Use "show-headers" instead.</_description>
     </key>
     <key name="load-http-images" type="i">
       <default>0</default>

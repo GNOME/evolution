@@ -74,31 +74,30 @@ settings_mail_formatter_headers_changed_cb (GSettings *settings,
                                             ESettingsMailFormatter *extension)
 {
 	EMailFormatter *formatter;
-	gchar **headers;
-	gint ii;
+	GVariant *variant;
+	gsize ii, n_children;
 
 	formatter = settings_mail_formatter_get_extensible (extension);
-
-	headers = g_settings_get_strv (settings, "headers");
-
 	e_mail_formatter_clear_headers (formatter);
-	for (ii = 0; headers && headers[ii]; ii++) {
-		EMailReaderHeader *h;
-		const gchar *xml = headers[ii];
 
-		h = e_mail_reader_header_from_xml (xml);
-		if (h && h->enabled)
+	variant = g_settings_get_value (settings, "show-headers");
+	n_children = g_variant_n_children (variant);
+
+	for (ii = 0; ii < n_children; ii++) {
+		const gchar *name = NULL;
+		gboolean enabled = FALSE;
+
+		g_variant_get_child (variant, ii, "(&sb)", &name, &enabled);
+		if (name != NULL && enabled)
 			e_mail_formatter_add_header (
-				formatter, h->name, NULL,
+				formatter, name, NULL,
 				E_MAIL_FORMATTER_HEADER_FLAG_BOLD);
-
-		e_mail_reader_header_free (h);
 	}
 
-	if (!headers || !headers[0])
+	if (n_children == 0)
 		e_mail_formatter_set_default_headers (formatter);
 
-	g_strfreev (headers);
+	g_variant_unref (variant);
 }
 
 static void

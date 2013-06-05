@@ -56,6 +56,8 @@ static GType col_types[] = {
 	G_TYPE_STRING
 };
 
+#define EM_FORMAT_HEADER_XMAILER "x-evolution-mailer"
+
 /* temporarily copied from em-format.c */
 static const gchar *default_headers[] = {
 	N_("From"),
@@ -67,10 +69,8 @@ static const gchar *default_headers[] = {
 	N_("Date"),
 	N_("Newsgroups"),
 	N_("Face"),
-	"x-evolution-mailer", /* DO NOT translate */
+	EM_FORMAT_HEADER_XMAILER /* DO NOT translate */
 };
-
-#define EM_FORMAT_HEADER_XMAILER "x-evolution-mailer"
 
 /* for empty trash on exit frequency */
 static const struct {
@@ -443,40 +443,38 @@ emmp_header_add_sensitivity (EMMailerPrefs *prefs)
 static void
 emmp_save_headers (EMMailerPrefs *prefs)
 {
-	GPtrArray *headers;
+	GVariantBuilder builder;
+	GtkTreeModel *model;
+	GVariant *variant;
 	GtkTreeIter iter;
 	gboolean valid;
 
-	/* Headers */
-	headers = g_ptr_array_new_full (3, g_free);
-	valid = gtk_tree_model_get_iter_first (GTK_TREE_MODEL (prefs->header_list_store), &iter);
-	while (valid) {
-		struct _EMailReaderHeader h;
-		gboolean enabled;
-		gchar *xml;
+	g_variant_builder_init (&builder, G_VARIANT_TYPE ("a(sb)"));
 
-		h.name = NULL;
+	model = GTK_TREE_MODEL (prefs->header_list_store);
+	valid = gtk_tree_model_get_iter_first (model, &iter);
+
+	while (valid) {
+		gchar *name = NULL;
+		gboolean enabled = TRUE;
 
 		gtk_tree_model_get (
-			GTK_TREE_MODEL (prefs->header_list_store), &iter,
-			HEADER_LIST_HEADER_COLUMN, &h.name,
+			model, &iter,
+			HEADER_LIST_HEADER_COLUMN, &name,
 			HEADER_LIST_ENABLED_COLUMN, &enabled,
 			-1);
-		h.enabled = enabled;
 
-		if ((xml = e_mail_reader_header_to_xml (&h)))
-			g_ptr_array_add (headers, xml);
+		if (name != NULL) {
+			g_variant_builder_add (
+				&builder, "(sb)", name, enabled);
+			g_free (name);
+		}
 
-		g_free (h.name);
-
-		valid = gtk_tree_model_iter_next (GTK_TREE_MODEL (prefs->header_list_store), &iter);
+		valid = gtk_tree_model_iter_next (model, &iter);
 	}
 
-	g_ptr_array_add (headers, NULL);
-
-	g_settings_set_strv (prefs->settings, "headers", (const gchar * const *) headers->pdata);
-
-	g_ptr_array_free (headers, TRUE);
+	variant = g_variant_builder_end (&builder);
+	g_settings_set_value (prefs->settings, "show-headers", variant);
 }
 
 static void
@@ -822,17 +820,17 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
                            EMailSession *session,
                            EShell *shell)
 {
-	GSList *header_add_list, *p;
-	gchar **headers_config;
 	GSettings *settings;
 	GHashTable *default_header_hash;
 	GtkWidget *toplevel;
 	GtkWidget *container;
 	GtkWidget *table;
 	GtkWidget *widget;
+	GtkTreeModel *tree_model;
 	GtkTreeSelection *selection;
 	GtkCellRenderer *renderer;
-	GtkTreeIter iter;
+	GVariant *variant;
+	gsize ii, n_children;
 	gboolean locked;
 	gboolean writable;
 	gint val, i;
@@ -1118,72 +1116,95 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		"text", HEADER_LIST_NAME_COLUMN,
 		NULL);
 
-	/* populated the listview with entries; firstly we add all the default headers, and then
-	 * we add read header configuration out of settings. If a header in settings is a default header,
-	 * we update the enabled flag accordingly
-	*/
-	header_add_list = NULL;
-	default_header_hash = g_hash_table_new (g_str_hash, g_str_equal);
-	for (i = 0; i < G_N_ELEMENTS (default_headers); i++) {
-		EMailReaderHeader *h;
+	/* Populate the list store with entries.  Firstly we add all the
+	 * default headers, and then we add read header configuration out of
+	 * settings. If a header in settings is a default header, we update
+	 * the enabled flag accordingly. */
 
-		h = g_malloc (sizeof (EMailReaderHeader));
-		h->is_default = TRUE;
-		h->name = g_strdup (default_headers[i]);
-		h->enabled = strcmp ((gchar *) default_headers[i], "x-evolution-mailer") != 0;
-		g_hash_table_insert (default_header_hash, (gpointer) default_headers[i], h);
-		header_add_list = g_slist_append (header_add_list, h);
-	}
+	/* FIXME Split the headers section into a separate widget to
+	 *       better isolate its functionality.  There's too much
+	 *       complexity to just embed it like this. */
 
-	/* read stored headers from settings */
-	headers_config = g_settings_get_strv (prefs->settings, "headers");
-	if (headers_config) {
-		for (i = 0; headers_config[i]; i++) {
-			EMailReaderHeader *h, *def;
-			const gchar *xml = headers_config[i];
+	default_header_hash = g_hash_table_new_full (
+		(GHashFunc) g_str_hash,
+		(GEqualFunc) g_str_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) gtk_tree_path_free);
 
-			h = e_mail_reader_header_from_xml (xml);
-			if (h) {
-				def = g_hash_table_lookup (default_header_hash, h->name);
-				if (def) {
-					def->enabled = h->enabled;
-					e_mail_reader_header_free (h);
-				} else {
-					h->is_default = FALSE;
-					header_add_list = g_slist_append (header_add_list, h);
-				}
-			}
+	tree_model = GTK_TREE_MODEL (prefs->header_list_store);
+
+	for (ii = 0; ii < G_N_ELEMENTS (default_headers); ii++) {
+		GtkTreeIter iter;
+		const gchar *display_name;
+		const gchar *header_name;
+		gboolean enabled;
+
+		header_name = default_headers[ii];
+		if (g_strcmp0 (header_name, EM_FORMAT_HEADER_XMAILER) == 0) {
+			display_name = _("Mailer");
+			enabled = FALSE;
+		} else {
+			display_name = _(header_name);
+			enabled = TRUE;
 		}
 
-		g_strfreev (headers_config);
-	}
+		gtk_list_store_append (
+			GTK_LIST_STORE (tree_model), &iter);
 
-	g_hash_table_destroy (default_header_hash);
-
-	p = header_add_list;
-	while (p) {
-		struct _EMailReaderHeader *h = (struct _EMailReaderHeader *) p->data;
-		const gchar *name;
-
-		if (g_ascii_strcasecmp (h->name, EM_FORMAT_HEADER_XMAILER) == 0)
-			name = _("Mailer");
-		else
-			name = _(h->name);
-
-		gtk_list_store_append (prefs->header_list_store, &iter);
 		gtk_list_store_set (
-			prefs->header_list_store, &iter,
-			HEADER_LIST_NAME_COLUMN, name,
-			HEADER_LIST_ENABLED_COLUMN, h->enabled,
-			HEADER_LIST_IS_DEFAULT_COLUMN, h->is_default,
-			HEADER_LIST_HEADER_COLUMN, h->name,
+			GTK_LIST_STORE (tree_model), &iter,
+			HEADER_LIST_NAME_COLUMN, display_name,
+			HEADER_LIST_ENABLED_COLUMN, enabled,
+			HEADER_LIST_IS_DEFAULT_COLUMN, TRUE,
+			HEADER_LIST_HEADER_COLUMN, header_name,
 			-1);
 
-		e_mail_reader_header_free (h);
-		p = p->next;
+		g_hash_table_insert (
+			default_header_hash, g_strdup (header_name),
+			gtk_tree_model_get_path (tree_model, &iter));
 	}
 
-	g_slist_free (header_add_list);
+	variant = g_settings_get_value (prefs->settings, "show-headers");
+	n_children = g_variant_n_children (variant);
+
+	for (ii = 0; ii < n_children; ii++) {
+		GtkTreeIter iter;
+		GtkTreePath *path;
+		const gchar *header_name = NULL;
+		gboolean enabled = FALSE;
+
+		g_variant_get_child (
+			variant, ii, "(&sb)", &header_name, &enabled);
+
+		if (header_name == NULL) {
+			g_warn_if_reached ();
+			continue;
+		}
+
+		path = g_hash_table_lookup (default_header_hash, header_name);
+		if (path != NULL) {
+			gtk_tree_model_get_iter (tree_model, &iter, path);
+			gtk_list_store_set (
+				GTK_LIST_STORE (tree_model), &iter,
+				HEADER_LIST_ENABLED_COLUMN, enabled,
+				-1);
+		} else {
+			gtk_list_store_append (
+				GTK_LIST_STORE (tree_model), &iter);
+
+			gtk_list_store_set (
+				GTK_LIST_STORE (tree_model), &iter,
+				HEADER_LIST_NAME_COLUMN, _(header_name),
+				HEADER_LIST_ENABLED_COLUMN, enabled,
+				HEADER_LIST_IS_DEFAULT_COLUMN, FALSE,
+				HEADER_LIST_HEADER_COLUMN, header_name,
+				-1);
+		}
+	}
+
+	g_variant_unref (variant);
+
+	g_hash_table_destroy (default_header_hash);
 
 	/* date/time format */
 	table = e_builder_get_widget (prefs->builder, "datetime-format-table");

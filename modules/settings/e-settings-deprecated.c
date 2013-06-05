@@ -46,6 +46,7 @@ struct _ESettingsDeprecatedPrivate {
 	gulong forward_style_name_handler_id;
 	gulong reply_style_name_handler_id;
 	gulong image_loading_policy_handler_id;
+	gulong show_headers_handler_id;
 };
 
 /* Flag values used in the "working-days" key. */
@@ -63,6 +64,69 @@ G_DEFINE_DYNAMIC_TYPE (
 	ESettingsDeprecated,
 	e_settings_deprecated,
 	E_TYPE_EXTENSION)
+
+static void
+settings_deprecated_header_start_element (GMarkupParseContext *context,
+                                          const gchar *element_name,
+                                          const gchar **attribute_names,
+                                          const gchar **attribute_values,
+                                          gpointer user_data,
+                                          GError **error)
+{
+	GVariantBuilder *builder = user_data;
+	const gchar *name = NULL;
+	const gchar *enabled = NULL;
+
+	/* The enabled flag is determined by the presence of an "enabled"
+	 * attribute, but the actual value of the "enabled" attribute, if
+	 * present, is just an empty string.  It's pretty convoluted. */
+	g_markup_collect_attributes (
+		element_name,
+		attribute_names,
+		attribute_values,
+		error,
+		G_MARKUP_COLLECT_STRING,
+		"name", &name,
+		G_MARKUP_COLLECT_STRING |
+		G_MARKUP_COLLECT_OPTIONAL,
+		"enabled", &enabled,
+		G_MARKUP_COLLECT_INVALID);
+
+	if (name != NULL)
+		g_variant_builder_add (
+			builder, "(sb)", name, (enabled != NULL));
+}
+
+static void
+settings_deprecated_header_parse_xml (const gchar *xml,
+                                      GVariantBuilder *builder)
+{
+	static GMarkupParser parser = {
+		settings_deprecated_header_start_element, };
+
+	GMarkupParseContext *context;
+
+	context = g_markup_parse_context_new (&parser, 0, builder, NULL);
+	g_markup_parse_context_parse (context, xml, -1, NULL);
+	g_markup_parse_context_end_parse (context, NULL);
+	g_markup_parse_context_free (context);
+}
+
+static GVariant *
+settings_deprecated_header_strv_to_variant (gchar **strv)
+{
+	GVariantBuilder builder;
+	guint ii, length;
+
+	length = g_strv_length (strv);
+
+	g_variant_builder_init (&builder, G_VARIANT_TYPE ("a(sb)"));
+
+	for (ii = 0; ii < length; ii++)
+		settings_deprecated_header_parse_xml (strv[ii], &builder);
+
+	return g_variant_builder_end (&builder);
+}
 
 static void
 settings_deprecated_week_start_day_name_cb (GSettings *settings,
@@ -241,6 +305,41 @@ settings_deprecated_image_loading_policy_cb (GSettings *settings,
 }
 
 static void
+settings_deprecated_show_headers_cb (GSettings *settings,
+                                     const gchar *key)
+{
+	GVariant *variant;
+	gsize ii, n_children;
+	gchar **strv = NULL;
+
+	variant = g_settings_get_value (settings, key);
+	n_children = g_variant_n_children (variant);
+
+	strv = g_new0 (gchar *, n_children + 1);
+
+	for (ii = 0; ii < n_children; ii++) {
+		const gchar *name = NULL;
+		gboolean enabled = FALSE;
+
+		g_variant_get_child (
+			variant, ii, "(&sb)", &name, &enabled);
+
+		strv[ii] = g_strdup_printf (
+			"<?xml version=\"1.0\"?>\n"
+			"<header name=\"%s\"%s/>\n",
+			name, enabled ? " enabled=\"\"" : "");
+	}
+
+	g_settings_set_strv (
+		settings, "headers",
+		(const gchar * const *) strv);
+
+	g_strfreev (strv);
+
+	g_variant_unref (variant);
+}
+
+static void
 settings_deprecated_dispose (GObject *object)
 {
 	ESettingsDeprecatedPrivate *priv;
@@ -331,6 +430,13 @@ settings_deprecated_dispose (GObject *object)
 		priv->image_loading_policy_handler_id = 0;
 	}
 
+	if (priv->show_headers_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->mail_settings,
+			priv->show_headers_handler_id);
+		priv->show_headers_handler_id = 0;
+	}
+
 	g_clear_object (&priv->calendar_settings);
 	g_clear_object (&priv->mail_settings);
 
@@ -342,8 +448,10 @@ static void
 settings_deprecated_constructed (GObject *object)
 {
 	ESettingsDeprecatedPrivate *priv;
+	GVariant *variant;
 	gulong handler_id;
 	gchar *string_value;
+	gchar **strv_value;
 	gint int_value;
 
 	priv = E_SETTINGS_DEPRECATED_GET_PRIVATE (object);
@@ -408,6 +516,11 @@ settings_deprecated_constructed (GObject *object)
 		priv->mail_settings, "forward-style");
 	g_settings_set_enum (
 		priv->mail_settings, "forward-style-name", int_value);
+
+	strv_value = g_settings_get_strv (priv->mail_settings, "headers");
+	variant = settings_deprecated_header_strv_to_variant (strv_value);
+	g_settings_set_value (priv->mail_settings, "show-headers", variant);
+	g_strfreev (strv_value);
 
 	/* XXX The "reply-style" key uses a completely different
 	 *     numbering than the EMailReplyStyle enum.  *sigh* */
@@ -507,6 +620,11 @@ settings_deprecated_constructed (GObject *object)
 		priv->mail_settings, "changed::image-loading-policy",
 		G_CALLBACK (settings_deprecated_image_loading_policy_cb), NULL);
 	priv->image_loading_policy_handler_id = handler_id;
+
+	handler_id = g_signal_connect (
+		priv->mail_settings, "changed::show-headers",
+		G_CALLBACK (settings_deprecated_show_headers_cb), NULL);
+	priv->show_headers_handler_id = handler_id;
 }
 
 static void
