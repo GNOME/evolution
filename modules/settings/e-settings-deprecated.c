@@ -506,6 +506,7 @@ settings_deprecated_constructed (GObject *object)
 	handler_id = g_signal_connect (
 		priv->mail_settings, "changed::image-loading-policy",
 		G_CALLBACK (settings_deprecated_image_loading_policy_cb), NULL);
+	priv->image_loading_policy_handler_id = handler_id;
 }
 
 static void
