@@ -28,14 +28,6 @@
 
 G_BEGIN_DECLS
 
-typedef struct _EMailReaderHeader EMailReaderHeader;
-
-struct _EMailReaderHeader {
-	gchar *name;
-	guint enabled : 1;
-	guint is_default : 1;
-};
-
 gboolean	e_mail_reader_confirm_delete	(EMailReader *reader);
 void		e_mail_reader_delete_folder	(EMailReader *reader,
 						 CamelFolder *folder);
@@ -90,11 +82,6 @@ void		e_mail_reader_create_filter_from_selected
 void		e_mail_reader_create_vfolder_from_selected
 						(EMailReader *reader,
 						 gint filter_type);
-
-EMailReaderHeader *
-		e_mail_reader_header_from_xml	(const gchar *xml);
-gchar *		e_mail_reader_header_to_xml	(EMailReaderHeader *header);
-void		e_mail_reader_header_free	(EMailReaderHeader *header);
 
 void		e_mail_reader_parse_message	(EMailReader *reader,
 						 CamelFolder *folder,
