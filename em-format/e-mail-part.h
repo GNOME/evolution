@@ -47,6 +47,8 @@
 
 G_BEGIN_DECLS
 
+struct _EMailPartList;
+
 typedef struct _EMailPart EMailPart;
 typedef struct _EMailPartClass EMailPartClass;
 typedef struct _EMailPartPrivate EMailPartPrivate;
@@ -106,6 +108,10 @@ CamelMimePart *	e_mail_part_ref_mime_part	(EMailPart *part);
 const gchar *	e_mail_part_get_mime_type	(EMailPart *part);
 void		e_mail_part_set_mime_type	(EMailPart *part,
 						 const gchar *mime_type);
+struct _EMailPartList *
+		e_mail_part_ref_part_list	(EMailPart *part);
+void		e_mail_part_set_part_list	(EMailPart *part,
+						 struct _EMailPartList *part_list);
 gboolean	e_mail_part_get_is_attachment	(EMailPart *part);
 void		e_mail_part_set_is_attachment	(EMailPart *part,
 						 gboolean is_attachment);

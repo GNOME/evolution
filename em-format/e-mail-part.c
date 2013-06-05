@@ -31,11 +31,14 @@
 
 #include <string.h>
 
+#include "e-mail-part-list.h"
+
 #define E_MAIL_PART_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MAIL_PART, EMailPartPrivate))
 
 struct _EMailPartPrivate {
+	GWeakRef part_list;
 	CamelMimePart *mime_part;
 
 	gchar *id;
@@ -51,7 +54,8 @@ enum {
 	PROP_ID,
 	PROP_IS_ATTACHMENT,
 	PROP_MIME_PART,
-	PROP_MIME_TYPE
+	PROP_MIME_TYPE,
+	PROP_PART_LIST
 };
 
 G_DEFINE_TYPE (
@@ -127,6 +131,12 @@ mail_part_set_property (GObject *object,
 				E_MAIL_PART (object),
 				g_value_get_string (value));
 			return;
+
+		case PROP_PART_LIST:
+			e_mail_part_set_part_list (
+				E_MAIL_PART (object),
+				g_value_get_object (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -173,6 +183,13 @@ mail_part_get_property (GObject *object,
 				e_mail_part_get_mime_type (
 				E_MAIL_PART (object)));
 			return;
+
+		case PROP_PART_LIST:
+			g_value_take_object (
+				value,
+				e_mail_part_ref_part_list (
+				E_MAIL_PART (object)));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -184,6 +201,8 @@ mail_part_dispose (GObject *object)
 	EMailPartPrivate *priv;
 
 	priv = E_MAIL_PART_GET_PRIVATE (object);
+
+	g_weak_ref_set (&priv->part_list, NULL);
 
 	g_clear_object (&priv->mime_part);
 
@@ -276,6 +295,17 @@ e_mail_part_class_init (EMailPartClass *class)
 			"MIME Type",
 			"The MIME type",
 			NULL,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_PART_LIST,
+		g_param_spec_object (
+			"part-list",
+			"Part List",
+			"The part list that owns the part",
+			E_TYPE_MAIL_PART_LIST,
 			G_PARAM_READWRITE |
 			G_PARAM_STATIC_STRINGS));
 }
@@ -398,6 +428,28 @@ e_mail_part_set_mime_type (EMailPart *part,
 	part->priv->mime_type = g_strdup (mime_type);
 
 	g_object_notify (G_OBJECT (part), "mime-type");
+}
+
+EMailPartList *
+e_mail_part_ref_part_list (EMailPart *part)
+{
+	g_return_val_if_fail (E_IS_MAIL_PART (part), NULL);
+
+	return g_weak_ref_get (&part->priv->part_list);
+}
+
+void
+e_mail_part_set_part_list (EMailPart *part,
+                           EMailPartList *part_list)
+{
+	g_return_if_fail (E_IS_MAIL_PART (part));
+
+	if (part_list != NULL)
+		g_return_if_fail (E_IS_MAIL_PART_LIST (part_list));
+
+	g_weak_ref_set (&part->priv->part_list, part_list);
+
+	g_object_notify (G_OBJECT (part), "part-list");
 }
 
 gboolean

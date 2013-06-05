@@ -289,7 +289,7 @@ e_mail_part_list_add_part (EMailPartList *part_list,
                            EMailPart *part)
 {
 	g_return_if_fail (E_IS_MAIL_PART_LIST (part_list));
-	g_return_if_fail (part != NULL);
+	g_return_if_fail (E_IS_MAIL_PART (part));
 
 	g_mutex_lock (&part_list->priv->queue_lock);
 
@@ -298,6 +298,8 @@ e_mail_part_list_add_part (EMailPartList *part_list,
 		g_object_ref (part));
 
 	g_mutex_unlock (&part_list->priv->queue_lock);
+
+	e_mail_part_set_part_list (part, part_list);
 }
 
 EMailPart *
