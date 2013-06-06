@@ -342,7 +342,9 @@ format_full_headers (EMailFormatter *formatter,
 		header = ((CamelMimePart *) part)->headers;
 		while (header != NULL) {
 			e_mail_formatter_format_header (
-				formatter, buffer, header,
+				formatter, buffer,
+				header->name,
+				header->value,
 				E_MAIL_FORMATTER_HEADER_FLAG_NOCOLUMNS, charset);
 			header = header->next;
 		}
@@ -372,7 +374,7 @@ format_full_headers (EMailFormatter *formatter,
 				    !g_ascii_strcasecmp (header->name, "User-Agent") ||
 				    !g_ascii_strcasecmp (header->name, "X-Newsreader") ||
 				    !g_ascii_strcasecmp (header->name, "X-MimeOLE"))) {
-					struct _camel_header_raw xmailer, *use_header = NULL;
+					struct _camel_header_raw *use_header = NULL;
 
 					if (!g_ascii_strcasecmp (header->name, "X-MimeOLE")) {
 						for (use_header = header->next; use_header; use_header = use_header->next) {
@@ -385,16 +387,16 @@ format_full_headers (EMailFormatter *formatter,
 						}
 					}
 
-					if (!use_header)
+					if (use_header == NULL)
 						use_header = header;
 
-					xmailer.name = (gchar *) "X-Evolution-Mailer";
-					xmailer.value = use_header->value;
 					mailer_shown = TRUE;
 
 					e_mail_formatter_format_header (
 						formatter, buffer,
-						&xmailer, h->flags, charset);
+						"X-Evolution-Mailer",
+						use_header->value,
+						h->flags, charset);
 				} else if (!face_decoded && face && !g_ascii_strcasecmp (header->name, "Face")) {
 					gchar *cp = header->value;
 
@@ -413,7 +415,9 @@ format_full_headers (EMailFormatter *formatter,
 				} else if (!g_ascii_strcasecmp (header->name, h->name) && !face) {
 					e_mail_formatter_format_header (
 						formatter, buffer,
-						header, h->flags, charset);
+						header->name,
+						header->value,
+						h->flags, charset);
 				}
 
 				header = header->next;

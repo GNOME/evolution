@@ -55,7 +55,6 @@ emfpe_headers_format (EMailFormatterExtension *extension,
                       CamelStream *stream,
                       GCancellable *cancellable)
 {
-	struct _camel_header_raw raw_header;
 	GString *str, *tmp;
 	gchar *subject;
 	const gchar *buf;
@@ -83,16 +82,16 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 	headers_queue = e_mail_formatter_dup_headers (formatter);
 	for (link = headers_queue->head; link != NULL; link = g_list_next (link)) {
 		EMailFormatterHeader *header = link->data;
-		raw_header.name = header->name;
 
 		/* Skip 'Subject' header, it's already displayed. */
 		if (g_ascii_strncasecmp (header->name, "Subject", 7) == 0)
 			continue;
 
 		if (header->value && *header->value) {
-			raw_header.value = header->value;
 			e_mail_formatter_format_header (
-				formatter, str, &raw_header,
+				formatter, str,
+				header->name,
+				header->value,
 				header->flags | E_MAIL_FORMATTER_HEADER_FLAG_NOLINKS,
 				"UTF-8");
 		} else {
@@ -103,17 +102,15 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 
 			header_value = camel_medium_get_header (
 				CAMEL_MEDIUM (message), header->name);
-			raw_header.value = g_strdup (header_value);
 
-			if (raw_header.value && *raw_header.value) {
+			if (header_value != NULL && *header_value != '\0') {
 				e_mail_formatter_format_header (
-					formatter, str, &raw_header,
+					formatter, str,
+					header->name,
+					header_value,
 					header->flags | E_MAIL_FORMATTER_HEADER_FLAG_NOLINKS,
 					"UTF-8");
 			}
-
-			if (raw_header.value)
-				g_free (raw_header.value);
 		}
 	}
 
@@ -124,7 +121,6 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 	part_id_prefix = g_strndup (part_id, g_strrstr (part_id, ".") - part_id);
 
 	/* Add encryption/signature header */
-	raw_header.name = _("Security");
 	tmp = g_string_new ("");
 
 	e_mail_part_list_queue_parts (context->part_list, NULL, &queue);
@@ -167,9 +163,9 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 	}
 
 	if (tmp->len > 0) {
-		raw_header.value = tmp->str;
 		e_mail_formatter_format_header (
-			formatter, str, &raw_header,
+			formatter, str,
+			_("Security"), tmp->str,
 			E_MAIL_FORMATTER_HEADER_FLAG_BOLD |
 			E_MAIL_FORMATTER_HEADER_FLAG_NOLINKS, "UTF-8");
 	}
@@ -197,13 +193,15 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 	}
 
 	if (attachments_count > 0) {
-		raw_header.name = _("Attachments");
-		raw_header.value = g_strdup_printf ("%d", attachments_count);
+		gchar *header_value;
+
+		header_value = g_strdup_printf ("%d", attachments_count);
 		e_mail_formatter_format_header (
-			formatter, str, &raw_header,
+			formatter, str,
+			_("Attachments"), header_value,
 			E_MAIL_FORMATTER_HEADER_FLAG_BOLD |
 			E_MAIL_FORMATTER_HEADER_FLAG_NOLINKS, "UTF-8");
-		g_free (raw_header.value);
+		g_free (header_value);
 	}
 
 	while (!g_queue_is_empty (&queue))
