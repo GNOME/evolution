@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2013-06-05 09:41+0000\n"
-"PO-Revision-Date: 2013-06-06 10:33+0200\n"
+"POT-Creation-Date: 2013-06-06 08:40+0000\n"
+"PO-Revision-Date: 2013-06-06 10:51+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -3080,7 +3080,7 @@ msgstr "La nota no se puede editar completamente porque no es el organizador"
 #: ../em-format/e-mail-formatter.c:1448
 #: ../em-format/e-mail-formatter-utils.c:201
 #: ../em-format/e-mail-formatter-utils.c:225 ../mail/em-filter-i18n.h:78
-#: ../mail/message-list.etspec.h:9 ../modules/mail/em-mailer-prefs.c:63
+#: ../mail/message-list.etspec.h:9 ../modules/mail/em-mailer-prefs.c:65
 msgid "To"
 msgstr "Para"
 
@@ -8255,20 +8255,20 @@ msgid "Show all the headers when viewing a messages."
 msgstr "Mostrar todas las cabeceras al ver mensajes."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:77
-msgid "List of custom headers and whether they are enabled."
-msgstr "Lista de cabeceras personalizadas y si están activadas."
+#| msgid "Show all the headers when viewing a messages."
+msgid "List of headers to show when viewing a message."
+msgstr "Lista de cabeceras que mostrar al ver un mensaje."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:78
 msgid ""
-"This key should contain a list of XML structures specifying custom headers, "
-"and whether they are to be displayed. The format of the XML structure is &lt;"
-"header enabled&gt; - set enabled if the header is to be displayed in the "
-"mail view."
+"Each header is represented as a pair: the header name, and a boolean "
+"indicating whether the header is enabled. Disabled headers are not shown "
+"when viewing a message, but are still listed in Preferences."
 msgstr ""
-"Esta clave debería contener una lista de estructuras XML especificando "
-"cabeceras personalizadas, e indicando si deben mostrarse. El formato de la "
-"estructura XML es &lt;header enabled&gt;: poner a activado si la cabecera se "
-"debe mostrar en la vista de correo."
+"Cada cabecera se representa como una pareja: el nombre de la cabecera, y un "
+"valor booleano que indica si la cabecera está activada. Las cabeceras "
+"desactivadas no se muestran al ver un mensaje, pero se siguen listando en "
+"las Preferencias."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:79
 msgid "Show photo of the sender"
@@ -8984,10 +8984,26 @@ msgstr ""
 "usarse. Use «reply-style-name» en su lugar."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
+#| msgid "List of custom headers and whether they are enabled."
+msgid "(Deprecated) List of custom headers and whether they are enabled."
+msgstr "(Obsoleto) Lista de cabeceras personalizadas y si están activadas."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
+#| msgid ""
+#| "This key was deprecated in version 3.10 and should no longer be used. Use "
+#| "\"forward-style-name\" instead."
+msgid ""
+"This key was deprecated in version 3.10 and should no longer be used. Use "
+"\"show-headers\" instead."
+msgstr ""
+"Esta clave se ha marcado como obsoleta en la versión 3.10 y no debería "
+"usarse. Use «show-headers» en su lugar."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:205
 msgid "(Deprecated) Load images for HTML messages over HTTP"
 msgstr "(Obsoleto) Cargar imágenes para mensajes HTML sobre HTTP"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:206
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"image-loading-policy\" instead."
@@ -8995,10 +9011,7 @@ msgstr ""
 "Esta clave se ha marcado como obsoleta en la versión 3.10 y no debería "
 "usarse. Use «image-loading-policy» en su lugar."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:205
-#| msgid ""
-#| "Asks whether to close the message window when the user forwards or "
-#| "replies to the message shown in the window"
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:207
 msgid ""
 "(Deprecated) Asks whether to close the message window when the user forwards "
 "or replies to the message shown in the window"
@@ -9006,10 +9019,7 @@ msgstr ""
 "(Obsoleto) Preguntar si cerrar la ventana del mensaje cuando el usuario "
 "reenvía o responde al mensaje mostrado en la ventana"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:206
-#| msgid ""
-#| "This key was deprecated in version 3.10 and should no longer be used. Use "
-#| "\"image-loading-policy\" instead."
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:208
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"browser-close-on-reply-policy\" instead."
@@ -9448,47 +9458,47 @@ msgstr "Mostrar como adjunto"
 
 #: ../em-format/e-mail-formatter.c:1446
 #: ../em-format/e-mail-formatter-headers.c:104 ../mail/e-mail-tag-editor.c:272
-#: ../mail/message-list.etspec.h:5 ../modules/mail/em-mailer-prefs.c:61
+#: ../mail/message-list.etspec.h:5 ../modules/mail/em-mailer-prefs.c:63
 msgid "From"
 msgstr "De"
 
-#: ../em-format/e-mail-formatter.c:1447 ../modules/mail/em-mailer-prefs.c:62
+#: ../em-format/e-mail-formatter.c:1447 ../modules/mail/em-mailer-prefs.c:64
 msgid "Reply-To"
 msgstr "Responder a"
 
 #: ../em-format/e-mail-formatter.c:1449
 #: ../em-format/e-mail-formatter-utils.c:203
 #: ../em-format/e-mail-formatter-utils.c:227
-#: ../modules/mail/em-mailer-prefs.c:64
+#: ../modules/mail/em-mailer-prefs.c:66
 msgid "Cc"
 msgstr "Cc"
 
 #: ../em-format/e-mail-formatter.c:1450
 #: ../em-format/e-mail-formatter-utils.c:205
 #: ../em-format/e-mail-formatter-utils.c:229
-#: ../modules/mail/em-mailer-prefs.c:65
+#: ../modules/mail/em-mailer-prefs.c:67
 msgid "Bcc"
 msgstr "Cco"
 
 #: ../em-format/e-mail-formatter.c:1451
 #: ../em-format/e-mail-formatter-quote-headers.c:154
 #: ../mail/e-mail-tag-editor.c:277 ../mail/em-filter-i18n.h:77
-#: ../mail/message-list.etspec.h:6 ../modules/mail/em-mailer-prefs.c:66
+#: ../mail/message-list.etspec.h:6 ../modules/mail/em-mailer-prefs.c:68
 #: ../smime/lib/e-asn1-object.c:712
 msgid "Subject"
 msgstr "Asunto"
 
 #: ../em-format/e-mail-formatter.c:1452 ../e-util/e-dateedit.c:550
 #: ../e-util/e-dateedit.c:573 ../mail/message-list.etspec.h:7
-#: ../modules/mail/em-mailer-prefs.c:67
+#: ../modules/mail/em-mailer-prefs.c:69
 msgid "Date"
 msgstr "Fecha"
 
-#: ../em-format/e-mail-formatter.c:1453 ../modules/mail/em-mailer-prefs.c:68
+#: ../em-format/e-mail-formatter.c:1453 ../modules/mail/em-mailer-prefs.c:70
 msgid "Newsgroups"
 msgstr "Grupos de noticias"
 
-#: ../em-format/e-mail-formatter.c:1454 ../modules/mail/em-mailer-prefs.c:69
+#: ../em-format/e-mail-formatter.c:1454 ../modules/mail/em-mailer-prefs.c:71
 #: ../plugins/face/org-gnome-face.eplug.xml.h:1
 msgid "Face"
 msgstr "Cara"
@@ -9560,7 +9570,7 @@ msgstr "Cifrado con S/MIME"
 #. pseudo-header
 #: ../em-format/e-mail-formatter-quote-headers.c:165
 #: ../em-format/e-mail-formatter-utils.c:355
-#: ../modules/mail/em-mailer-prefs.c:1169
+#: ../modules/mail/em-mailer-prefs.c:1144
 msgid "Mailer"
 msgstr "Transporte"
 
@@ -13315,7 +13325,7 @@ msgid_plural "Messages"
 msgstr[0] "Mensaje"
 msgstr[1] "Mensajes"
 
-#: ../mail/e-mail-reader-utils.c:2532
+#: ../mail/e-mail-reader-utils.c:2423
 msgid "Parsing message"
 msgstr "Analizando mensaje"
 
@@ -15105,12 +15115,10 @@ msgid "Should Evolution close this window when replying or forwarding?"
 msgstr "¿Debe Evolution cerrar esta ventana al responder o reenviar?"
 
 #: ../mail/mail.error.xml.h:134
-#| msgid "_Always"
 msgid "_Yes, Always"
 msgstr "_Sí, siempre"
 
 #: ../mail/mail.error.xml.h:135
-#| msgid "Never"
 msgid "_No, Never"
 msgstr "_No, nunca"
 
@@ -15455,7 +15463,7 @@ msgstr "El cuerpo contiene"
 
 #. To Translators: 'Table column' is a label for configurable date/time format for table columns showing a date in message list
 #: ../modules/addressbook/autocompletion-config.c:123
-#: ../modules/mail/em-mailer-prefs.c:1191
+#: ../modules/mail/em-mailer-prefs.c:1212
 msgid "_Table column:"
 msgstr "Columna de _tabla:"
 
@@ -18666,11 +18674,11 @@ msgid "Contains Value"
 msgstr "Contiene el valor"
 
 #. To Translators: 'Date header' is a label for configurable date/time format for 'Date' header in mail message window/preview
-#: ../modules/mail/em-mailer-prefs.c:1193
+#: ../modules/mail/em-mailer-prefs.c:1214
 msgid "_Date header:"
 msgstr "Cabecera de _fecha:"
 
-#: ../modules/mail/em-mailer-prefs.c:1194
+#: ../modules/mail/em-mailer-prefs.c:1215
 msgid "Show _original header value"
 msgstr "Mostrar el valor _original de la cabecera"
 
@@ -21312,6 +21320,17 @@ msgstr "Con fecha de _vencimiento"
 #: ../views/tasks/galview.xml.h:3
 msgid "With _Status"
 msgstr "Con _estado"
+
+#~ msgid ""
+#~ "This key should contain a list of XML structures specifying custom "
+#~ "headers, and whether they are to be displayed. The format of the XML "
+#~ "structure is &lt;header enabled&gt; - set enabled if the header is to be "
+#~ "displayed in the mail view."
+#~ msgstr ""
+#~ "Esta clave debería contener una lista de estructuras XML especificando "
+#~ "cabeceras personalizadas, e indicando si deben mostrarse. El formato de "
+#~ "la estructura XML es &lt;header enabled&gt;: poner a activado si la "
+#~ "cabecera se debe mostrar en la vista de correo."
 
 #~ msgid ""
 #~ "Possible values are: 'never' - to never close browser window, 'always' - "
