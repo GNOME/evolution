@@ -33,7 +33,6 @@
 #include <glib/gi18n.h>
 
 #include "task-page.h"
-#include "task-details-page.h"
 #include "cancel-comp.h"
 #include "task-editor.h"
 
@@ -43,8 +42,6 @@
 
 struct _TaskEditorPrivate {
 	TaskPage *task_page;
-	TaskDetailsPage *task_details_page;
-	GtkWidget *task_details_window;
 
 	EMeetingStore *model;
 	gboolean assignment_shown;
@@ -67,19 +64,10 @@ static const gchar *ui =
 "    <menu action='insert-menu'>"
 "      <menuitem action='send-options'/>"
 "    </menu>"
-"    <menu action='options-menu'>"
-"      <menu action='classification-menu'>"
-"        <menuitem action='classify-public'/>"
-"        <menuitem action='classify-private'/>"
-"        <menuitem action='classify-confidential'/>"
-"      </menu>"
-"      <menuitem action='option-status'/>"
-"    </menu>"
 "  </menubar>"
 "  <toolbar name='main-toolbar'>"
 "    <placeholder name='content'>"
 "      <toolitem action='view-time-zone'/>"
-"      <toolitem action='option-status'/>"
 "    </placeholder>"
 "  </toolbar>"
 "</ui>";
@@ -93,28 +81,11 @@ static gboolean	task_editor_send_comp		(CompEditor *editor,
 G_DEFINE_TYPE (TaskEditor, task_editor, TYPE_COMP_EDITOR)
 
 static void
-action_option_status_cb (GtkAction *action,
-                         TaskEditor *editor)
-{
-	gtk_widget_show (editor->priv->task_details_window);
-}
-
-static void
 action_send_options_cb (GtkAction *action,
                         TaskEditor *editor)
 {
 	task_page_send_options_clicked_cb (editor->priv->task_page);
 }
-
-static GtkActionEntry task_entries[] = {
-
-	{ "option-status",
-	  "stock_view-details",
-	  N_("_Status Details"),
-	  "<Control>t",
-	  N_("Click to change or view the status details of the task"),
-	  G_CALLBACK (action_option_status_cb) }
-};
 
 static GtkActionEntry assigned_task_entries[] = {
 
@@ -145,11 +116,6 @@ task_editor_dispose (GObject *object)
 	if (priv->task_page) {
 		g_object_unref (priv->task_page);
 		priv->task_page = NULL;
-	}
-
-	if (priv->task_details_page) {
-		g_object_unref (priv->task_details_page);
-		priv->task_details_page = NULL;
 	}
 
 	if (priv->model) {
@@ -290,7 +256,6 @@ task_editor_init (TaskEditor *te)
 	CompEditor *editor = COMP_EDITOR (te);
 	GtkUIManager *ui_manager;
 	GtkActionGroup *action_group;
-	GtkWidget *content_area;
 	GtkAction *action;
 	const gchar *id;
 	GError *error = NULL;
@@ -299,33 +264,6 @@ task_editor_init (TaskEditor *te)
 	te->priv->model = E_MEETING_STORE (e_meeting_store_new ());
 	te->priv->assignment_shown = TRUE;
 	te->priv->updating = FALSE;
-
-	te->priv->task_details_window = gtk_dialog_new_with_buttons (
-		_("Task Details"), GTK_WINDOW (te), GTK_DIALOG_MODAL,
-		GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE, NULL);
-	g_signal_connect (
-		te->priv->task_details_window, "response",
-		G_CALLBACK (gtk_widget_hide), NULL);
-	g_signal_connect (
-		te->priv->task_details_window, "delete-event",
-		G_CALLBACK (gtk_widget_hide), NULL);
-
-	te->priv->task_details_page = task_details_page_new (editor);
-	content_area = gtk_dialog_get_content_area (
-		GTK_DIALOG (te->priv->task_details_window));
-	gtk_container_add (
-		GTK_CONTAINER (content_area),
-		comp_editor_page_get_widget (
-		(CompEditorPage *) te->priv->task_details_page));
-	gtk_widget_show_all (
-		gtk_bin_get_child (GTK_BIN (te->priv->task_details_window)));
-	comp_editor_append_page (
-		editor, COMP_EDITOR_PAGE (te->priv->task_details_page), NULL, FALSE);
-
-	action_group = comp_editor_get_action_group (editor, "individual");
-	gtk_action_group_add_actions (
-		action_group, task_entries,
-		G_N_ELEMENTS (task_entries), te);
 
 	action_group = comp_editor_get_action_group (editor, "coordinated");
 	gtk_action_group_add_actions (

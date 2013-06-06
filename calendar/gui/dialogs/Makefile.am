@@ -43,7 +43,6 @@ ecalendarinclude_HEADERS =		\
 	select-source-dialog.h		\
 	send-comp.h			\
 	task-editor.h			\
-	task-details-page.h		\
 	task-page.h
 
 libcal_dialogs_la_LIBADD =					\
@@ -101,8 +100,6 @@ libcal_dialogs_la_SOURCES =		\
 	send-comp.h			\
 	task-editor.c			\
 	task-editor.h			\
-	task-details-page.c		\
-	task-details-page.h		\
 	task-page.c			\
 	task-page.h		
 
@@ -115,7 +112,6 @@ ui_DATA =				\
 	memo-page.ui			\
 	recurrence-page.ui		\
 	schedule-page.ui		\
-	task-details-page.ui		\
 	task-page.ui
 
 CLEANFILES = $(BUILT_SOURCES)

@@ -75,8 +75,6 @@ calendar/gui/dialogs/schedule-page.c
 [type: gettext/glade]calendar/gui/dialogs/schedule-page.ui
 calendar/gui/dialogs/select-source-dialog.c
 calendar/gui/dialogs/send-comp.c
-calendar/gui/dialogs/task-details-page.c
-[type: gettext/glade]calendar/gui/dialogs/task-details-page.ui
 calendar/gui/dialogs/task-editor.c
 calendar/gui/dialogs/task-page.c
 [type: gettext/glade]calendar/gui/dialogs/task-page.ui
