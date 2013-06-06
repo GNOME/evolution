@@ -92,8 +92,7 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 		if (header->value && *header->value) {
 			raw_header.value = header->value;
 			e_mail_formatter_format_header (
-				formatter, str,
-				CAMEL_MEDIUM (mime_part), &raw_header,
+				formatter, str, &raw_header,
 				header->flags | E_MAIL_FORMATTER_HEADER_FLAG_NOLINKS,
 				"UTF-8");
 		} else {
@@ -108,8 +107,7 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 
 			if (raw_header.value && *raw_header.value) {
 				e_mail_formatter_format_header (
-					formatter, str,
-					CAMEL_MEDIUM (mime_part), &raw_header,
+					formatter, str, &raw_header,
 					header->flags | E_MAIL_FORMATTER_HEADER_FLAG_NOLINKS,
 					"UTF-8");
 			}
@@ -171,8 +169,7 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 	if (tmp->len > 0) {
 		raw_header.value = tmp->str;
 		e_mail_formatter_format_header (
-			formatter, str,
-			CAMEL_MEDIUM (mime_part), &raw_header,
+			formatter, str, &raw_header,
 			E_MAIL_FORMATTER_HEADER_FLAG_BOLD |
 			E_MAIL_FORMATTER_HEADER_FLAG_NOLINKS, "UTF-8");
 	}
@@ -203,8 +200,7 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 		raw_header.name = _("Attachments");
 		raw_header.value = g_strdup_printf ("%d", attachments_count);
 		e_mail_formatter_format_header (
-			formatter, str,
-			CAMEL_MEDIUM (mime_part), &raw_header,
+			formatter, str, &raw_header,
 			E_MAIL_FORMATTER_HEADER_FLAG_BOLD |
 			E_MAIL_FORMATTER_HEADER_FLAG_NOLINKS, "UTF-8");
 		g_free (raw_header.value);

@@ -26,7 +26,6 @@ G_BEGIN_DECLS
 
 void		e_mail_formatter_format_header (EMailFormatter *formatter,
 						GString *buffer,
-						CamelMedium *part,
 						struct _camel_header_raw *header,
 						guint32 flags,
 						const gchar *charset);

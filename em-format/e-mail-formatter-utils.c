@@ -273,7 +273,6 @@ e_mail_formatter_canon_header_name (gchar *name)
 void
 e_mail_formatter_format_header (EMailFormatter *formatter,
                                 GString *buffer,
-                                CamelMedium *part,
                                 struct _camel_header_raw *header,
                                 guint32 flags,
                                 const gchar *charset)
@@ -284,9 +283,8 @@ e_mail_formatter_format_header (EMailFormatter *formatter,
 	gchar *str_field = NULL;
 	gint i;
 
-	/* XXX Not sure if buffer or part can be NULL.
-	 *     They're just passthrough parameters anyway. */
 	g_return_if_fail (E_IS_MAIL_FORMATTER (formatter));
+	g_return_if_fail (buffer != NULL);
 	g_return_if_fail (header != NULL);
 
 	name = g_alloca (strlen (header->name) + 1);

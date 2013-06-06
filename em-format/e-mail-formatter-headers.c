@@ -342,7 +342,7 @@ format_full_headers (EMailFormatter *formatter,
 		header = ((CamelMimePart *) part)->headers;
 		while (header != NULL) {
 			e_mail_formatter_format_header (
-				formatter, buffer, part, header,
+				formatter, buffer, header,
 				E_MAIL_FORMATTER_HEADER_FLAG_NOCOLUMNS, charset);
 			header = header->next;
 		}
@@ -393,7 +393,7 @@ format_full_headers (EMailFormatter *formatter,
 					mailer_shown = TRUE;
 
 					e_mail_formatter_format_header (
-						formatter, buffer, part,
+						formatter, buffer,
 						&xmailer, h->flags, charset);
 				} else if (!face_decoded && face && !g_ascii_strcasecmp (header->name, "Face")) {
 					gchar *cp = header->value;
@@ -412,7 +412,7 @@ format_full_headers (EMailFormatter *formatter,
 				/* Showing an encoded "Face" header makes little sense */
 				} else if (!g_ascii_strcasecmp (header->name, h->name) && !face) {
 					e_mail_formatter_format_header (
-						formatter, buffer, part,
+						formatter, buffer,
 						header, h->flags, charset);
 				}
 
