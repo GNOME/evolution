@@ -26,15 +26,6 @@
 #include <em-format/e-mail-formatter.h>
 #include <mail/e-mail-reader-utils.h>
 
-#define E_SETTINGS_MAIL_FORMATTER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_SETTINGS_MAIL_FORMATTER, ESettingsMailFormatterPrivate))
-
-struct _ESettingsMailFormatterPrivate {
-	GSettings *settings;
-	gulong headers_changed_id;
-};
-
 G_DEFINE_DYNAMIC_TYPE (
 	ESettingsMailFormatter,
 	e_settings_mail_formatter,
@@ -69,59 +60,6 @@ settings_mail_formatter_map_string_to_rgba (GValue *value,
 }
 
 static void
-settings_mail_formatter_headers_changed_cb (GSettings *settings,
-                                            const gchar *key,
-                                            ESettingsMailFormatter *extension)
-{
-	EMailFormatter *formatter;
-	GVariant *variant;
-	gsize ii, n_children;
-
-	formatter = settings_mail_formatter_get_extensible (extension);
-	e_mail_formatter_clear_headers (formatter);
-
-	variant = g_settings_get_value (settings, "show-headers");
-	n_children = g_variant_n_children (variant);
-
-	for (ii = 0; ii < n_children; ii++) {
-		const gchar *name = NULL;
-		gboolean enabled = FALSE;
-
-		g_variant_get_child (variant, ii, "(&sb)", &name, &enabled);
-		if (name != NULL && enabled)
-			e_mail_formatter_add_header (
-				formatter, name, NULL,
-				E_MAIL_FORMATTER_HEADER_FLAG_BOLD);
-	}
-
-	if (n_children == 0)
-		e_mail_formatter_set_default_headers (formatter);
-
-	g_variant_unref (variant);
-}
-
-static void
-settings_mail_formatter_dispose (GObject *object)
-{
-	ESettingsMailFormatterPrivate *priv;
-
-	priv = E_SETTINGS_MAIL_FORMATTER_GET_PRIVATE (object);
-
-	if (priv->headers_changed_id > 0) {
-		g_signal_handler_disconnect (
-			priv->settings,
-			priv->headers_changed_id);
-		priv->headers_changed_id = 0;
-	}
-
-	g_clear_object (&priv->settings);
-
-	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (e_settings_mail_formatter_parent_class)->
-		dispose (object);
-}
-
-static void
 settings_mail_formatter_constructed (GObject *object)
 {
 	ESettingsMailFormatter *extension;
@@ -131,7 +69,7 @@ settings_mail_formatter_constructed (GObject *object)
 	extension = E_SETTINGS_MAIL_FORMATTER (object);
 	formatter = settings_mail_formatter_get_extensible (extension);
 
-	settings = extension->priv->settings;
+	settings = g_settings_new ("org.gnome.evolution.mail");
 
 	g_settings_bind_with_mapping (
 		settings, "citation-color",
@@ -166,14 +104,7 @@ settings_mail_formatter_constructed (GObject *object)
 		formatter, "animate-images",
 		G_SETTINGS_BIND_GET);
 
-	extension->priv->headers_changed_id = g_signal_connect (
-		extension->priv->settings, "changed::headers",
-		G_CALLBACK (settings_mail_formatter_headers_changed_cb),
-		extension);
-
-	/* Initial synchronization */
-	settings_mail_formatter_headers_changed_cb (
-		extension->priv->settings, NULL, extension);
+	g_object_unref (settings);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_settings_mail_formatter_parent_class)->
@@ -186,11 +117,7 @@ e_settings_mail_formatter_class_init (ESettingsMailFormatterClass *class)
 	GObjectClass *object_class;
 	EExtensionClass *extension_class;
 
-	g_type_class_add_private (
-		class, sizeof (ESettingsMailFormatterPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
-	object_class->dispose = settings_mail_formatter_dispose;
 	object_class->constructed = settings_mail_formatter_constructed;
 
 	extension_class = E_EXTENSION_CLASS (class);
@@ -205,12 +132,6 @@ e_settings_mail_formatter_class_finalize (ESettingsMailFormatterClass *class)
 static void
 e_settings_mail_formatter_init (ESettingsMailFormatter *extension)
 {
-	GSettings *settings;
-
-	extension->priv = E_SETTINGS_MAIL_FORMATTER_GET_PRIVATE (extension);
-
-	settings = g_settings_new ("org.gnome.evolution.mail");
-	extension->priv->settings = settings;
 }
 
 void

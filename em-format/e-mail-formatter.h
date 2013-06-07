@@ -50,14 +50,7 @@ G_BEGIN_DECLS;
 typedef struct _EMailFormatter EMailFormatter;
 typedef struct _EMailFormatterClass EMailFormatterClass;
 typedef struct _EMailFormatterPrivate EMailFormatterPrivate;
-typedef struct _EMailFormatterHeader EMailFormatterHeader;
 typedef struct _EMailFormatterContext EMailFormatterContext;
-
-struct _EMailFormatterHeader {
-	EMailFormatterHeaderFlags flags;
-	gchar *name;
-	gchar *value;
-};
 
 struct _EMailFormatterContext {
 	EMailPartList *part_list;
@@ -193,37 +186,6 @@ gchar *		e_mail_formatter_dup_default_charset
 void		e_mail_formatter_set_default_charset
 						(EMailFormatter *formatter,
 						 const gchar *charset);
-
-GQueue *	e_mail_formatter_dup_headers	(EMailFormatter *formatter);
-
-void		e_mail_formatter_clear_headers	(EMailFormatter *formatter);
-
-void		e_mail_formatter_set_default_headers
-						(EMailFormatter *formatter);
-
-void		e_mail_formatter_add_header	(EMailFormatter *formatter,
-						 const gchar *name,
-						 const gchar *value,
-						 EMailFormatterHeaderFlags flags);
-
-void		e_mail_formatter_add_header_struct
-						(EMailFormatter *formatter,
-						 const EMailFormatterHeader *header);
-
-void		e_mail_formatter_remove_header	(EMailFormatter *formatter,
-						 const gchar *name,
-						 const gchar *value);
-
-void		e_mail_formatter_remove_header_struct
-						(EMailFormatter *formatter,
-						 const EMailFormatterHeader *header);
-
-EMailFormatterHeader *
-		e_mail_formatter_header_new	(const gchar *name,
-						 const gchar *value);
-EMailFormatterHeader *
-		e_mail_formatter_header_copy	(const EMailFormatterHeader *header);
-void		e_mail_formatter_header_free	(EMailFormatterHeader *header);
 
 G_END_DECLS
 
