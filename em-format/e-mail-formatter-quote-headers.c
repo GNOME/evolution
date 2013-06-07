@@ -89,41 +89,48 @@ static const gchar *addrspec_hdrs[] = {
 static void
 emfqe_format_header (EMailFormatter *formatter,
                      GString *buffer,
-                     CamelMedium *part,
+                     EMailPart *part,
                      struct _camel_header_raw *header,
                      guint32 flags,
                      const gchar *charset)
 {
-	CamelMimeMessage *msg = (CamelMimeMessage *) part;
-	gchar *name, *buf, *value = NULL;
+	CamelMimePart *mime_part;
+	gchar *canon_name, *buf, *value = NULL;
 	const gchar *txt, *label;
 	gboolean addrspec = FALSE;
 	gint is_html = FALSE;
 	gint i;
 
-	name = g_alloca (strlen (header->name) + 1);
-	strcpy (name, header->name);
-	e_mail_formatter_canon_header_name (name);
+	canon_name = g_alloca (strlen (header->name) + 1);
+	strcpy (canon_name, header->name);
+	e_mail_formatter_canon_header_name (canon_name);
 
-	/* Never quote Bcc headers */
-	if (g_str_equal (name, "Bcc") || g_str_equal (name, "Resent-Bcc"))
+	/* Never quote Bcc/Resent-Bcc headers. */
+	if (g_str_equal (canon_name, "Bcc"))
+		return;
+	if (g_str_equal (canon_name, "Resent-Bcc"))
 		return;
 
+	mime_part = e_mail_part_ref_mime_part (part);
+
 	for (i = 0; addrspec_hdrs[i]; i++) {
-		if (!strcmp (name, addrspec_hdrs[i])) {
+		if (g_str_equal (canon_name, addrspec_hdrs[i])) {
 			addrspec = TRUE;
 			break;
 		}
 	}
 
-	label = _(name);
+	label = _(canon_name);
 
 	if (addrspec) {
+		CamelMedium *medium;
 		struct _camel_header_address *addrs;
 		GString *html;
 		gchar *charset;
 
-		if (!(txt = camel_medium_get_header (part, name)))
+		medium = CAMEL_MEDIUM (mime_part);
+		txt = camel_medium_get_header (medium, canon_name);
+		if (txt == NULL)
 			return;
 
 		charset = e_mail_formatter_dup_charset (formatter);
@@ -143,34 +150,56 @@ emfqe_format_header (EMailFormatter *formatter,
 
 		html = g_string_new ("");
 		e_mail_formatter_format_address (formatter, html,
-			addrs, name, FALSE, FALSE);
+			addrs, canon_name, FALSE, FALSE);
 		camel_header_address_unref (addrs);
 		txt = value = html->str;
 		g_string_free (html, FALSE);
 		flags |= E_MAIL_FORMATTER_HEADER_FLAG_BOLD;
 		is_html = TRUE;
-	} else if (!strcmp (name, "Subject")) {
-		txt = camel_mime_message_get_subject (msg);
+
+	} else if (g_str_equal (canon_name, "Subject")) {
+		CamelMimeMessage *message;
+
+		message = CAMEL_MIME_MESSAGE (mime_part);
+		txt = camel_mime_message_get_subject (message);
 		label = _("Subject");
 		flags |= E_MAIL_FORMATTER_HEADER_FLAG_BOLD;
-	} else if (!strcmp (name, "X-Evolution-Mailer")) { /* pseudo-header */
-		if (!(txt = camel_medium_get_header (part, "x-mailer")))
-			if (!(txt = camel_medium_get_header (part, "user-agent")))
-				if (!(txt = camel_medium_get_header (part, "x-newsreader")))
-					if (!(txt = camel_medium_get_header (part, "x-mimeole")))
-						return;
+
+	} else if (g_str_equal (canon_name, "X-Evolution-Mailer")) {
+		CamelMedium *medium;
+
+		medium = CAMEL_MEDIUM (mime_part);
+		txt = camel_medium_get_header (medium, "x-mailer");
+		if (txt == NULL)
+			txt = camel_medium_get_header (medium, "user-agent");
+		if (txt == NULL)
+			txt = camel_medium_get_header (medium, "x-newsreader");
+		if (txt == NULL)
+			txt = camel_medium_get_header (medium, "x-mimeole");
+		if (txt == NULL)
+			return;
 
 		txt = value = camel_header_format_ctext (txt, charset);
 
 		label = _("Mailer");
 		flags |= E_MAIL_FORMATTER_HEADER_FLAG_BOLD;
-	} else if (!strcmp (name, "Date") || !strcmp (name, "Resent-Date")) {
-		if (!(txt = camel_medium_get_header (part, name)))
+
+	} else if (g_str_equal (canon_name, "Date") ||
+		   g_str_equal (canon_name, "Resent-Date")) {
+		CamelMedium *medium;
+
+		medium = CAMEL_MEDIUM (mime_part);
+		txt = camel_medium_get_header (medium, canon_name);
+		if (txt == NULL)
 			return;
 
 		flags |= E_MAIL_FORMATTER_HEADER_FLAG_BOLD;
+
 	} else {
-		txt = camel_medium_get_header (part, name);
+		CamelMedium *medium;
+
+		medium = CAMEL_MEDIUM (mime_part);
+		txt = camel_medium_get_header (medium, canon_name);
 		buf = camel_header_unfold (txt);
 		txt = value = camel_header_decode_string (txt, charset);
 		g_free (buf);
@@ -179,6 +208,8 @@ emfqe_format_header (EMailFormatter *formatter,
 	emfqe_format_text_header (formatter, buffer, label, txt, flags, is_html);
 
 	g_free (value);
+
+	g_object_unref (mime_part);
 }
 
 static gboolean
@@ -196,7 +227,7 @@ emqfe_headers_format (EMailFormatterExtension *extension,
 	GString *buffer;
 	GQueue *headers_queue;
 
-	if (!part)
+	if (part == NULL)
 		return FALSE;
 
 	mime_part = e_mail_part_ref_mime_part (part);
@@ -207,7 +238,7 @@ emqfe_headers_format (EMailFormatterExtension *extension,
 
 	buffer = g_string_new ("");
 
-        /* dump selected headers */
+	/* dump selected headers */
 	headers_queue = e_mail_formatter_dup_headers (formatter);
 	for (iter = headers_queue->head; iter; iter = iter->next) {
 		struct _camel_header_raw *raw_header;
@@ -222,8 +253,7 @@ emqfe_headers_format (EMailFormatterExtension *extension,
 			if (g_strcmp0 (raw_header->name, h->name) == 0) {
 
 				emfqe_format_header (
-					formatter, buffer,
-					CAMEL_MEDIUM (mime_part),
+					formatter, buffer, part,
 					raw_header, flags, charset);
 				break;
 			}
