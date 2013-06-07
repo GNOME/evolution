@@ -47,6 +47,7 @@ e_mail_formatter_format_text_header (EMailFormatter *formatter,
 {
 	GtkTextDirection direction;
 	const gchar *fmt, *html;
+	const gchar *display;
 	gchar *mhtml = NULL;
 
 	g_return_if_fail (E_IS_MAIL_FORMATTER (formatter));
@@ -104,9 +105,12 @@ e_mail_formatter_format_text_header (EMailFormatter *formatter,
 				"</tr>";
 	}
 
-	g_string_append_printf (
-		buffer, fmt,
-		(flags & E_MAIL_FORMATTER_HEADER_FLAG_HIDDEN ? "none" : "table-row"), label, html);
+	if (flags & E_MAIL_FORMATTER_HEADER_FLAG_HIDDEN)
+		display = "none";
+	else
+		display = "table-row";
+
+	g_string_append_printf (buffer, fmt, display, label, html);
 
 	g_free (mhtml);
 }
@@ -278,7 +282,7 @@ e_mail_formatter_format_header (EMailFormatter *formatter,
                                 guint32 flags,
                                 const gchar *charset)
 {
-	gchar *name, *buf, *value = NULL;
+	gchar *canon_name, *buf, *value = NULL;
 	const gchar *label, *txt;
 	gboolean addrspec = FALSE;
 	gchar *str_field = NULL;
@@ -289,18 +293,18 @@ e_mail_formatter_format_header (EMailFormatter *formatter,
 	g_return_if_fail (header_name != NULL);
 	g_return_if_fail (header_value != NULL);
 
-	name = g_alloca (strlen (header_name) + 1);
-	strcpy (name, header_name);
-	e_mail_formatter_canon_header_name (name);
+	canon_name = g_alloca (strlen (header_name) + 1);
+	strcpy (canon_name, header_name);
+	e_mail_formatter_canon_header_name (canon_name);
 
 	for (i = 0; addrspec_hdrs[i]; i++) {
-		if (g_str_equal (name, addrspec_hdrs[i])) {
+		if (g_str_equal (canon_name, addrspec_hdrs[i])) {
 			addrspec = TRUE;
 			break;
 		}
 	}
 
-	label = _(name);
+	label = _(canon_name);
 
 	if (addrspec) {
 		struct _camel_header_address *addrs;
@@ -343,20 +347,21 @@ e_mail_formatter_format_header (EMailFormatter *formatter,
 		flags |= E_MAIL_FORMATTER_HEADER_FLAG_HTML;
 		flags |= E_MAIL_FORMATTER_HEADER_FLAG_BOLD;
 
-	} else if (g_str_equal (name, "Subject")) {
+	} else if (g_str_equal (canon_name, "Subject")) {
 		buf = camel_header_unfold (header_value);
 		txt = value = camel_header_decode_string (buf, charset);
 		g_free (buf);
 
 		flags |= E_MAIL_FORMATTER_HEADER_FLAG_BOLD;
 
-	} else if (g_str_equal (name, "X-evolution-mailer")) {
+	} else if (g_str_equal (canon_name, "X-Evolution-Mailer")) {
 		/* pseudo-header */
 		label = _("Mailer");
 		txt = value = camel_header_format_ctext (header_value, charset);
 		flags |= E_MAIL_FORMATTER_HEADER_FLAG_BOLD;
 
-	} else if (g_str_equal (name, "Date") || g_str_equal (name, "Resent-Date")) {
+	} else if (g_str_equal (canon_name, "Date") ||
+		   g_str_equal (canon_name, "Resent-Date")) {
 		CamelMimeFilterToHTMLFlags text_format_flags;
 		gint msg_offset, local_tz;
 		time_t msg_date;
@@ -411,7 +416,7 @@ e_mail_formatter_format_header (EMailFormatter *formatter,
 		flags |= E_MAIL_FORMATTER_HEADER_FLAG_HTML;
 		flags |= E_MAIL_FORMATTER_HEADER_FLAG_BOLD;
 
-	} else if (g_str_equal (name, "Newsgroups")) {
+	} else if (g_str_equal (canon_name, "Newsgroups")) {
 		struct _camel_header_newsgroup *ng, *scan;
 		GString *html;
 
@@ -447,7 +452,8 @@ e_mail_formatter_format_header (EMailFormatter *formatter,
 		flags |= E_MAIL_FORMATTER_HEADER_FLAG_HTML;
 		flags |= E_MAIL_FORMATTER_HEADER_FLAG_BOLD;
 
-	} else if (g_str_equal (name, "Received") || g_str_has_prefix (name, "X-")) {
+	} else if (g_str_equal (canon_name, "Received") ||
+		   g_str_has_prefix (canon_name, "X-")) {
 		/* don't unfold Received nor extension headers */
 		txt = value = camel_header_decode_string (header_value, charset);
 

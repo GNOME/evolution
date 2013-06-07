@@ -50,10 +50,11 @@ static const gchar *formatter_mime_types[] = {
 static void
 format_short_headers (EMailFormatter *formatter,
                       GString *buffer,
-                      CamelMedium *part,
+                      EMailPart *part,
                       guint32 flags,
                       GCancellable *cancellable)
 {
+	CamelMimePart *mime_part;
 	GtkTextDirection direction;
 	const gchar *charset;
 	CamelContentType *ct;
@@ -67,9 +68,10 @@ format_short_headers (EMailFormatter *formatter,
 	if (g_cancellable_is_cancelled (cancellable))
 		return;
 
+	mime_part = e_mail_part_ref_mime_part (part);
 	direction = gtk_widget_get_default_direction ();
 
-	ct = camel_mime_part_get_content_type ((CamelMimePart *) part);
+	ct = camel_mime_part_get_content_type (mime_part);
 	charset = camel_content_type_param (ct, "charset");
 	charset = camel_iconv_charset_name (charset);
 	hdr_charset = e_mail_formatter_dup_charset (formatter);
@@ -85,7 +87,7 @@ format_short_headers (EMailFormatter *formatter,
 		"id=\"__evo-short-headers\" style=\"display: %s\">",
 		flags & E_MAIL_FORMATTER_HEADER_FLAG_COLLAPSED ? "table" : "none");
 
-	header = ((CamelMimePart *) part)->headers;
+	header = mime_part->headers;
 	while (header) {
 		if (!g_ascii_strcasecmp (header->name, "From")) {
 			GString *tmp;
@@ -141,38 +143,40 @@ format_short_headers (EMailFormatter *formatter,
 
 	g_string_free (from, TRUE);
 	g_free (evolution_imagesdir);
+
+	g_object_unref (mime_part);
 }
 
 static void
-write_contact_picture (CamelMimePart *part,
+write_contact_picture (CamelMimePart *mime_part,
                        gint size,
                        GString *buffer)
 {
 	gchar *b64, *content_type;
 	CamelDataWrapper *dw;
 	CamelContentType *ct;
-	GByteArray *ba;
+	GByteArray *ba = NULL;
 
-	ba = NULL;
-	dw = camel_medium_get_content (CAMEL_MEDIUM (part));
-	if (dw) {
+	dw = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
+	if (dw != NULL)
 		ba = camel_data_wrapper_get_byte_array (dw);
-	}
 
-	if (!ba || ba->len == 0) {
+	if (ba == NULL || ba->len == 0) {
+		const gchar *filename;
 
-		if (camel_mime_part_get_filename (part)) {
+		filename = camel_mime_part_get_filename (mime_part);
 
+		if (filename != NULL) {
 			if (size >= 0) {
 				g_string_append_printf (
 					buffer,
 					"<img width=\"%d\" src=\"evo-file://%s\" />",
-					size, camel_mime_part_get_filename (part));
+					size, filename);
 			} else {
 				g_string_append_printf (
 					buffer,
 					"<img src=\"evo-file://%s\" />",
-					camel_mime_part_get_filename (part));
+					filename);
 			}
 		}
 
@@ -180,7 +184,7 @@ write_contact_picture (CamelMimePart *part,
 	}
 
 	b64 = g_base64_encode (ba->data, ba->len);
-	ct = camel_mime_part_get_content_type (part);
+	ct = camel_mime_part_get_content_type (mime_part);
 	content_type = camel_content_type_simple (ct);
 
 	if (size >= 0) {
@@ -202,11 +206,12 @@ write_contact_picture (CamelMimePart *part,
 static void
 format_full_headers (EMailFormatter *formatter,
                      GString *buffer,
-                     CamelMedium *part,
+                     EMailPart *part,
                      guint32 mode,
                      guint32 flags,
                      GCancellable *cancellable)
 {
+	CamelMimePart *mime_part;
 	const gchar *charset;
 	CamelContentType *ct;
 	struct _camel_header_raw *header;
@@ -223,6 +228,8 @@ format_full_headers (EMailFormatter *formatter,
 	if (g_cancellable_is_cancelled (cancellable))
 		return;
 
+	mime_part = e_mail_part_ref_mime_part (part);
+
 	switch (gtk_widget_get_default_direction ()) {
 		case GTK_TEXT_DIR_RTL:
 			direction = "rtl";
@@ -235,7 +242,7 @@ format_full_headers (EMailFormatter *formatter,
 			break;
 	}
 
-	ct = camel_mime_part_get_content_type ((CamelMimePart *) part);
+	ct = camel_mime_part_get_content_type (mime_part);
 	charset = camel_content_type_param (ct, "charset");
 	charset = camel_iconv_charset_name (charset);
 	hdr_charset = e_mail_formatter_dup_charset (formatter);
@@ -253,7 +260,7 @@ format_full_headers (EMailFormatter *formatter,
 		flags & E_MAIL_FORMATTER_HEADER_FLAG_COLLAPSED ? "none" : "table",
 		direction);
 
-	header = ((CamelMimePart *) part)->headers;
+	header = mime_part->headers;
 	while (header != NULL) {
 		if (!g_ascii_strcasecmp (header->name, "Sender")) {
 			struct _camel_header_address *addrs;
@@ -339,7 +346,7 @@ format_full_headers (EMailFormatter *formatter,
 
 	/* dump selected headers */
 	if (mode & E_MAIL_FORMATTER_MODE_ALL_HEADERS) {
-		header = ((CamelMimePart *) part)->headers;
+		header = mime_part->headers;
 		while (header != NULL) {
 			e_mail_formatter_format_header (
 				formatter, buffer,
@@ -360,7 +367,7 @@ format_full_headers (EMailFormatter *formatter,
 			EMailFormatterHeader *h = link->data;
 			gint mailer, face;
 
-			header = ((CamelMimePart *) part)->headers;
+			header = mime_part->headers;
 			mailer = !g_ascii_strcasecmp (h->name, "X-Evolution-Mailer");
 			face = !g_ascii_strcasecmp (h->name, "Face");
 
@@ -431,7 +438,7 @@ format_full_headers (EMailFormatter *formatter,
 
 	g_string_append (buffer, "</table></td>");
 
-	if (photo_name) {
+	if (photo_name != NULL) {
 		gchar *name;
 
 		name = g_uri_escape_string (photo_name, NULL, FALSE);
@@ -449,25 +456,27 @@ format_full_headers (EMailFormatter *formatter,
 	}
 
 	if (!contact_has_photo && face_decoded) {
-		CamelMimePart *part;
+		CamelMimePart *image_part;
 
-		part = camel_mime_part_new ();
+		image_part = camel_mime_part_new ();
 		camel_mime_part_set_content (
-			(CamelMimePart *) part,
+			image_part,
 			(const gchar *) face_header_value,
 			face_header_len, "image/png");
 
 		g_string_append (
 			buffer,
 			"<td align=\"right\" valign=\"top\">");
-		write_contact_picture (part, 48, buffer);
+		write_contact_picture (image_part, 48, buffer);
 		g_string_append (buffer, "</td>");
 
-		g_object_unref (part);
+		g_object_unref (image_part);
 		g_free (face_header_value);
 	}
 
 	g_string_append (buffer, "</tr></table>");
+
+	g_object_unref (mime_part);
 }
 
 static gboolean
@@ -546,14 +555,14 @@ emfe_headers_format (EMailFormatterExtension *extension,
 
 	if (is_collapsable)
 		format_short_headers (
-			formatter, buffer,
-			CAMEL_MEDIUM (mime_part),
+			formatter,
+			buffer, part,
 			context->flags,
 			cancellable);
 
 	format_full_headers (
-		formatter, buffer,
-		CAMEL_MEDIUM (mime_part),
+		formatter,
+		buffer, part,
 		context->mode,
 		context->flags,
 		cancellable);
