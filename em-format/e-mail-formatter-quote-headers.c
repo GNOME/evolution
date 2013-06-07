@@ -31,6 +31,7 @@
 #include "e-mail-formatter-quote.h"
 #include "e-mail-formatter-utils.h"
 #include "e-mail-inline-filter.h"
+#include "e-mail-part-headers.h"
 
 typedef EMailFormatterExtension EMailFormatterQuoteHeaders;
 typedef EMailFormatterExtensionClass EMailFormatterQuoteHeadersClass;
@@ -90,19 +91,21 @@ static void
 emfqe_format_header (EMailFormatter *formatter,
                      GString *buffer,
                      EMailPart *part,
-                     struct _camel_header_raw *header,
-                     guint32 flags,
+                     const gchar *header_name,
                      const gchar *charset)
 {
 	CamelMimePart *mime_part;
+	EMailFormatterHeaderFlags flags;
 	gchar *canon_name, *buf, *value = NULL;
 	const gchar *txt, *label;
 	gboolean addrspec = FALSE;
 	gint is_html = FALSE;
 	gint i;
 
-	canon_name = g_alloca (strlen (header->name) + 1);
-	strcpy (canon_name, header->name);
+	flags = E_MAIL_FORMATTER_HEADER_FLAG_NOELIPSIZE;
+
+	canon_name = g_alloca (strlen (header_name) + 1);
+	strcpy (canon_name, header_name);
 	e_mail_formatter_canon_header_name (canon_name);
 
 	/* Never quote Bcc/Resent-Bcc headers. */
@@ -223,12 +226,11 @@ emqfe_headers_format (EMailFormatterExtension *extension,
 	CamelContentType *ct;
 	CamelMimePart *mime_part;
 	const gchar *charset;
-	GList *iter;
 	GString *buffer;
-	GQueue *headers_queue;
+	gchar **default_headers;
+	guint ii, length = 0;
 
-	if (part == NULL)
-		return FALSE;
+	g_return_val_if_fail (E_IS_MAIL_PART_HEADERS (part), FALSE);
 
 	mime_part = e_mail_part_ref_mime_part (part);
 
@@ -239,28 +241,18 @@ emqfe_headers_format (EMailFormatterExtension *extension,
 	buffer = g_string_new ("");
 
 	/* dump selected headers */
-	headers_queue = e_mail_formatter_dup_headers (formatter);
-	for (iter = headers_queue->head; iter; iter = iter->next) {
-		struct _camel_header_raw *raw_header;
-		EMailFormatterHeader *h = iter->data;
-		guint32 flags;
 
-		flags = h->flags & ~E_MAIL_FORMATTER_HEADER_FLAG_HTML;
-		flags |= E_MAIL_FORMATTER_HEADER_FLAG_NOELIPSIZE;
+	default_headers = e_mail_part_headers_dup_default_headers (
+		E_MAIL_PART_HEADERS (part));
+	if (default_headers != NULL)
+		length = g_strv_length (default_headers);
 
-		for (raw_header = mime_part->headers; raw_header; raw_header = raw_header->next) {
+	for (ii = 0; ii < length; ii++)
+		emfqe_format_header (
+			formatter, buffer, part,
+			default_headers[ii], charset);
 
-			if (g_strcmp0 (raw_header->name, h->name) == 0) {
-
-				emfqe_format_header (
-					formatter, buffer, part,
-					raw_header, flags, charset);
-				break;
-			}
-		}
-	}
-
-	g_queue_free_full (headers_queue, (GDestroyNotify) e_mail_formatter_header_free);
+	g_strfreev (default_headers);
 
 	g_string_append (buffer, "<br>\n");
 
