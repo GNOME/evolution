@@ -31,6 +31,7 @@
 #include "e-mail-formatter-extension.h"
 #include "e-mail-formatter-utils.h"
 #include "e-mail-inline-filter.h"
+#include "e-mail-part-headers.h"
 
 typedef EMailFormatterExtension EMailFormatterHeaders;
 typedef EMailFormatterExtensionClass EMailFormatterHeadersClass;
@@ -216,14 +217,16 @@ format_full_headers (EMailFormatter *formatter,
 	CamelContentType *ct;
 	struct _camel_header_raw *header;
 	const gchar *photo_name = NULL;
-	gboolean face_decoded  = FALSE, contact_has_photo = FALSE;
 	guchar *face_header_value = NULL;
 	gsize face_header_len = 0;
 	gchar *header_sender = NULL, *header_from = NULL, *name;
 	gboolean mail_from_delegate = FALSE;
+	gboolean show_sender_photo;
 	gchar *hdr_charset;
 	gchar *evolution_imagesdir;
 	const gchar *direction;
+
+	g_return_if_fail (E_IS_MAIL_PART_HEADERS (part));
 
 	if (g_cancellable_is_cancelled (cancellable))
 		return;
@@ -356,56 +359,56 @@ format_full_headers (EMailFormatter *formatter,
 			header = header->next;
 		}
 	} else {
-		GQueue *headers_queue;
-		GList *link;
-		gint mailer_shown = FALSE;
+		CamelMedium *medium;
+		gchar **default_headers;
+		guint ii, length = 0;
 
-		headers_queue = e_mail_formatter_dup_headers (formatter);
-		link = g_queue_peek_head_link (headers_queue);
+		medium = CAMEL_MEDIUM (mime_part);
 
-		while (link != NULL) {
-			EMailFormatterHeader *h = link->data;
-			gint mailer, face;
+		default_headers =
+			e_mail_part_headers_dup_default_headers (
+			E_MAIL_PART_HEADERS (part));
+		if (default_headers != NULL)
+			length = g_strv_length (default_headers);
 
-			header = mime_part->headers;
-			mailer = !g_ascii_strcasecmp (h->name, "X-Evolution-Mailer");
-			face = !g_ascii_strcasecmp (h->name, "Face");
+		for (ii = 0; ii < length; ii++) {
+			const gchar *header_name;
+			const gchar *header_value = NULL;
 
-			while (header != NULL) {
-				if (e_mail_formatter_get_show_sender_photo (formatter) &&
-					!photo_name && !g_ascii_strcasecmp (header->name, "From"))
-					photo_name = header->value;
+			header_name = default_headers[ii];
 
-				if (!mailer_shown && mailer && (
-				    !g_ascii_strcasecmp (header->name, "X-Mailer") ||
-				    !g_ascii_strcasecmp (header->name, "User-Agent") ||
-				    !g_ascii_strcasecmp (header->name, "X-Newsreader") ||
-				    !g_ascii_strcasecmp (header->name, "X-MimeOLE"))) {
-					struct _camel_header_raw *use_header = NULL;
+			/* X-Evolution-Mailer is a pseudo-header and
+			 * requires special treatment to extract the
+			 * real header value. */
+			if (g_ascii_strcasecmp (header_name, "X-Evolution-Mailer") == 0) {
+				/* Check for "X-MimeOLE" last,
+				 * as it's the least preferred. */
+				if (header_value == NULL)
+					header_value = camel_medium_get_header (
+						medium, "X-Mailer");
+				if (header_value == NULL)
+					header_value = camel_medium_get_header (
+						medium, "User-Agent");
+				if (header_value == NULL)
+					header_value = camel_medium_get_header (
+						medium, "X-Newsreader");
+				if (header_value == NULL)
+					header_value = camel_medium_get_header (
+						medium, "X-MimeOLE");
+			} else {
+				header_value = camel_medium_get_header (
+					medium, header_name);
+			}
 
-					if (!g_ascii_strcasecmp (header->name, "X-MimeOLE")) {
-						for (use_header = header->next; use_header; use_header = use_header->next) {
-							if (!g_ascii_strcasecmp (use_header->name, "X-Mailer") ||
-							    !g_ascii_strcasecmp (use_header->name, "User-Agent") ||
-							    !g_ascii_strcasecmp (use_header->name, "X-Newsreader")) {
-								/* even we have X-MimeOLE, then use rather the standard one, when available */
-								break;
-							}
-						}
-					}
+			if (header_value == NULL)
+				continue;
 
-					if (use_header == NULL)
-						use_header = header;
+			if (g_ascii_strcasecmp (header_name, "From") == 0)
+				photo_name = header_value;
 
-					mailer_shown = TRUE;
-
-					e_mail_formatter_format_header (
-						formatter, buffer,
-						"X-Evolution-Mailer",
-						use_header->value,
-						h->flags, charset);
-				} else if (!face_decoded && face && !g_ascii_strcasecmp (header->name, "Face")) {
-					gchar *cp = header->value;
+			if (g_ascii_strcasecmp (header_name, "Face") == 0) {
+				if (face_header_value == NULL) {
+					const gchar *cp = header_value;
 
 					/* Skip over spaces */
 					while (*cp == ' ')
@@ -417,28 +420,27 @@ format_full_headers (EMailFormatter *formatter,
 						face_header_value,
 						face_header_len + 1);
 					face_header_value[face_header_len] = 0;
-					face_decoded = TRUE;
-				/* Showing an encoded "Face" header makes little sense */
-				} else if (!g_ascii_strcasecmp (header->name, h->name) && !face) {
-					e_mail_formatter_format_header (
-						formatter, buffer,
-						header->name,
-						header->value,
-						h->flags, charset);
 				}
-
-				header = header->next;
+				continue;
 			}
 
-			link = g_list_next (link);
+			e_mail_formatter_format_header (
+				formatter, buffer,
+				header_name,
+				header_value,
+				0, charset);
 		}
 
-		g_queue_free_full (headers_queue, (GDestroyNotify) e_mail_formatter_header_free);
+		g_strfreev (default_headers);
 	}
 
 	g_string_append (buffer, "</table></td>");
 
-	if (photo_name != NULL) {
+	show_sender_photo =
+		e_mail_formatter_get_show_sender_photo (formatter);
+
+	/* Prefer contact photos over archaic "Face" headers. */
+	if (show_sender_photo && photo_name != NULL) {
 		gchar *name;
 
 		name = g_uri_escape_string (photo_name, NULL, FALSE);
@@ -453,9 +455,8 @@ format_full_headers (EMailFormatter *formatter,
 		g_string_append (buffer, "</td>");
 
 		g_free (name);
-	}
 
-	if (!contact_has_photo && face_decoded) {
+	} else if (face_header_value != NULL) {
 		CamelMimePart *image_part;
 
 		image_part = camel_mime_part_new ();
