@@ -103,7 +103,11 @@ make_part_attachment (EMailParser *parser,
                       GCancellable *cancellable,
                       GQueue *out_mail_parts)
 {
-	if (camel_content_type_is (camel_mime_part_get_content_type (part), "text", "html")) {
+	CamelContentType *ct;
+
+	ct = camel_mime_part_get_content_type (part);
+
+	if (camel_content_type_is (ct, "text", "html")) {
 		GQueue work_queue = G_QUEUE_INIT;
 		EMailPart *mail_part;
 		gint len;
@@ -111,10 +115,12 @@ make_part_attachment (EMailParser *parser,
 		/* always show HTML as attachments and not inline */
 		camel_mime_part_set_disposition (part, "attachment");
 
-		if (!camel_mime_part_get_filename (part)) {
-			gchar *str = g_strdup_printf ("%s.html", _("attachment"));
-			camel_mime_part_set_filename (part, str);
-			g_free (str);
+		if (camel_mime_part_get_filename (part) == NULL) {
+			gchar *filename;
+
+			filename = g_strdup_printf ("%s.html", _("attachment"));
+			camel_mime_part_set_filename (part, filename);
+			g_free (filename);
 		}
 
 		len = part_id->len;
@@ -131,8 +137,8 @@ make_part_attachment (EMailParser *parser,
 		e_queue_transfer (&work_queue, out_mail_parts);
 
 	} else if (force_html && CAMEL_IS_MIME_MESSAGE (part)) {
-		/* message was asked to be formatted as text/html;
-		 * might be for cases where message itself is a text/html part */
+		/* Note, the message was asked to be formatted as
+		 * text/html; but the message may already be text/html. */
 		CamelMimePart *new_part;
 		CamelDataWrapper *content;
 
@@ -180,27 +186,29 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 	gint i, nparts, partidlen;
 	CamelContentType *ct;
 	gboolean has_calendar = FALSE;
+	gboolean prefer_html;
 	GQueue plain_text_parts = G_QUEUE_INIT;
 	GQueue work_queue = G_QUEUE_INIT;
 
 	emp_pp = (EMailParserPreferPlain *) extension;
+	prefer_html = (emp_pp->mode == PREFER_HTML);
 
 	ct = camel_mime_part_get_content_type (part);
 
-	/* We can actually parse HTML, but just to discard it when
-	 * "Only ever show plain text" mode is set */
+	/* We can actually parse HTML, but just discard it
+	 * when "Only ever show plain text" mode is set. */
 	if (camel_content_type_is (ct, "text", "html")) {
 
 		/* Prevent recursion, fall back to next (real text/html) parser */
 		if (strstr (part_id->str, ".alternative-prefer-plain.") != NULL)
 			return FALSE;
 
-		/* Not enforcing text/plain, so use real parser */
+		/* Not enforcing text/plain, so use real parser. */
 		if (emp_pp->mode != ONLY_PLAIN)
 			return FALSE;
 
-		/* Enforcing text/plain, but got only HTML part, so add it
-		 * as attachment, to not show empty message preview, which
+		/* Enforcing text/plain but got only HTML part, so add it
+		 * as attachment to not show empty message preview, which
 		 * is confusing. */
 		make_part_attachment (
 			parser, part, part_id, FALSE,
@@ -230,15 +238,13 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 		g_string_append_printf (part_id, ".alternative-prefer-plain.%d", i);
 
 		if (camel_content_type_is (ct, "text", "html")) {
-			if (emp_pp->mode != PREFER_HTML) {
-				if (emp_pp->show_suppressed) {
-					make_part_attachment (
-						parser, sp, part_id, FALSE,
-						cancellable, &work_queue);
-				}
-			} else {
+			if (prefer_html) {
 				e_mail_parser_parse_part (
 					parser, sp, part_id,
+					cancellable, &work_queue);
+			} else if (emp_pp->show_suppressed) {
+				make_part_attachment (
+					parser, sp, part_id, FALSE,
 					cancellable, &work_queue);
 			}
 
@@ -249,7 +255,7 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 
 		/* Always show calendar part! */
 		} else if (camel_content_type_is (ct, "text", "calendar") ||
-		    camel_content_type_is (ct, "text", "x-calendar")) {
+			   camel_content_type_is (ct, "text", "x-calendar")) {
 
 			/* Hide everything else, displaying
 			 * native calendar part only. */
@@ -260,11 +266,12 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 
 			has_calendar = TRUE;
 
-		/* Multiparts can represent a text/html with inline images or so */
+		/* Multiparts can represent a text/html message
+		 * with other things like embedded images, etc. */
 		} else if (camel_content_type_is (ct, "multipart", "*")) {
 			GQueue inner_queue = G_QUEUE_INIT;
 			GList *head, *link;
-			gboolean has_html = FALSE;
+			gboolean multipart_has_html = FALSE;
 
 			e_mail_parser_parse_part (
 				parser, sp, part_id, cancellable, &inner_queue);
@@ -276,12 +283,12 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 				EMailPart *mail_part = link->data;
 
 				if (strstr (mail_part->id, ".text_html") != NULL) {
-					has_html = TRUE;
+					multipart_has_html = TRUE;
 					break;
 				}
 			}
 
-			if (has_html && (emp_pp->mode != PREFER_HTML)) {
+			if (multipart_has_html && !prefer_html) {
 				if (emp_pp->show_suppressed) {
 					e_mail_parser_wrap_as_attachment (
 						parser, sp, part_id,
