@@ -186,6 +186,7 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 	gint i, nparts, partidlen;
 	CamelContentType *ct;
 	gboolean has_calendar = FALSE;
+	gboolean has_html = FALSE;
 	gboolean prefer_html;
 	GQueue plain_text_parts = G_QUEUE_INIT;
 	GQueue work_queue = G_QUEUE_INIT;
@@ -248,6 +249,8 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 					cancellable, &work_queue);
 			}
 
+			has_html = TRUE;
+
 		} else if (camel_content_type_is (ct, "text", "plain")) {
 			e_mail_parser_parse_part (
 				parser, sp, part_id,
@@ -300,6 +303,8 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 
 			e_queue_transfer (&inner_queue, &work_queue);
 
+			has_html |= multipart_has_html;
+
 		/* Parse everything else as an attachment */
 		} else {
 			GQueue inner_queue = G_QUEUE_INIT;
@@ -315,10 +320,10 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 	}
 
 	/* Don't hide the plain text if there's nothing else to display */
-	if (has_calendar || (nparts > 1 && emp_pp->mode == PREFER_HTML))
+	if (has_calendar || (has_html && prefer_html))
 		hide_parts (&plain_text_parts);
 
-	if (!g_queue_is_empty (&plain_text_parts) && !g_queue_is_empty (&work_queue) && nparts > 1) {
+	if (!g_queue_is_empty (&plain_text_parts) && !g_queue_is_empty (&work_queue) && has_html) {
 		/* a text/html part is hidden, but not marked as attachment,
 		 * thus do that now, when there exists a text/plain part */
 		GList *qiter;
