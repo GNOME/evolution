@@ -1,3 +1,51 @@
+Evolution 3.8.3 2013-06-10
+--------------------------
+
+Bug Fixes:
+	Bug 250046 - Empty group address as recipient prevents message send
+	             (Milan Crha)
+	Bug 696663 - Save without close should update comp-editor
+	             (Fabiano Fidêncio)
+	Bug 699980 - Calendar delete does not remove events from view
+	             (Milan Crha)
+	Bug 700277 - EClientCache allocates memory ad infinity (Matthew Barnes)
+	Bug 700812 - Search in Calendar view is broken (Milan Crha)
+	Bug 701669 - Bad assumption in prefer-plain module (Matthew Barnes)
+
+Other Changes:
+	* Make EAttachment a little more thread-safe. (Matthew Barnes)
+	* e_mail_session_send_to(): Don't silently ignore if we can't send.
+	  (Matthew Barnes)
+	* Make EAlertDialog non-resizable. (Matthew Barnes)
+	* EShell: Check cookie before calling gtk_application_uninhibit().
+	  (Matthew Barnes)
+	* GnomeCalendar: Get rid of the async message dispatcher.
+	  (Matthew Barnes)
+	* Move "ask-reply-close-browser" prompt to EMailBrowser.
+	  (Matthew Barnes)
+	* Add e_mail_reader_edit_messages(). (Matthew Barnes)
+	* Add e_mail_reader_forward_messages(). (Matthew Barnes)
+	* Define GEnumClass types for mail formatter/parser enums.
+	  (Matthew Barnes)
+
+Translations:
+	Nilamdyuti Goswami (as)
+	Gil Forcada (ca)
+	Marek Černocký (cs)
+	Daniel Mustieles (es)
+	Fran Diéguez (gl)
+	Sweta Kothari (gu)
+	Shankar Prasad (kn)
+	Aurimas Černius (lt)
+	Sandeep Sheshrao Shedmake (mr)
+	Kjartan Maraas (nb)
+	ManojKumar Giri (or)
+	Piotr Drąg (pl)
+	Rafael Ferreira (pt_BR)
+	Matej Urbančič (sl)
+	Shantha kumar (ta)
+
+
 Evolution 3.8.2 2013-05-12
 --------------------------
 
