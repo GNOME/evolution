@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-master-po-gl-53747.merged\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-06 11:20+0200\n"
-"PO-Revision-Date: 2013-06-06 11:23+0200\n"
+"POT-Creation-Date: 2013-06-10 10:20+0200\n"
+"PO-Revision-Date: 2013-06-10 10:22+0200\n"
 "Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
 "Language-Team: gnome-l10n-gl@gnome.org\n"
 "Language: gl\n"
@@ -279,7 +279,7 @@ msgstr "_Onde:"
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:6
 #: ../calendar/gui/dialogs/event-page.ui.h:16
 #: ../calendar/gui/dialogs/memo-page.ui.h:1
-#: ../calendar/gui/dialogs/task-page.ui.h:5
+#: ../calendar/gui/dialogs/task-page.ui.h:27
 msgid "Ca_tegories..."
 msgstr "Ca_tegorías…"
 
@@ -429,7 +429,6 @@ msgid "Birthday"
 msgstr "Aniversario"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:39
-#: ../calendar/gui/dialogs/task-details-page.ui.h:22
 msgid "Miscellaneous"
 msgstr "Varios"
 
@@ -2154,21 +2153,26 @@ msgstr "é"
 msgid "is not"
 msgstr "non é"
 
-#: ../calendar/gui/caltypes.xml.h:9 ../calendar/gui/e-cal-list-view.c:234
-#: ../calendar/gui/e-cal-model.c:1231 ../calendar/gui/e-cal-model.c:1238
-#: ../calendar/gui/e-task-table.c:545 ../calendar/gui/memotypes.xml.h:10
+#. To Translators: This is task classification
+#: ../calendar/gui/caltypes.xml.h:9 ../calendar/gui/dialogs/task-page.ui.h:2
+#: ../calendar/gui/e-cal-list-view.c:234 ../calendar/gui/e-cal-model.c:1231
+#: ../calendar/gui/e-cal-model.c:1238 ../calendar/gui/e-task-table.c:545
+#: ../calendar/gui/memotypes.xml.h:10
 msgid "Public"
 msgstr "Público"
 
-#: ../calendar/gui/caltypes.xml.h:10 ../calendar/gui/e-cal-list-view.c:235
-#: ../calendar/gui/e-cal-model.c:1240 ../calendar/gui/e-task-table.c:546
-#: ../calendar/gui/memotypes.xml.h:11
+#. To Translators: This is task classification
+#: ../calendar/gui/caltypes.xml.h:10 ../calendar/gui/dialogs/task-page.ui.h:4
+#: ../calendar/gui/e-cal-list-view.c:235 ../calendar/gui/e-cal-model.c:1240
+#: ../calendar/gui/e-task-table.c:546 ../calendar/gui/memotypes.xml.h:11
 msgid "Private"
 msgstr "Privado"
 
-#: ../calendar/gui/caltypes.xml.h:11 ../calendar/gui/e-cal-list-view.c:236
-#: ../calendar/gui/e-cal-model.c:1242 ../calendar/gui/e-task-table.c:547
-#: ../calendar/gui/memotypes.xml.h:12 ../e-util/e-send-options.ui.h:7
+#. To Translators: This is task classification
+#: ../calendar/gui/caltypes.xml.h:11 ../calendar/gui/dialogs/task-page.ui.h:6
+#: ../calendar/gui/e-cal-list-view.c:236 ../calendar/gui/e-cal-model.c:1242
+#: ../calendar/gui/e-task-table.c:547 ../calendar/gui/memotypes.xml.h:12
+#: ../e-util/e-send-options.ui.h:7
 msgid "Confidential"
 msgstr "Confidencial"
 
@@ -2198,7 +2202,7 @@ msgstr "Categoría"
 
 #: ../calendar/gui/caltypes.xml.h:16 ../calendar/gui/memotypes.xml.h:14
 #: ../calendar/gui/tasktypes.xml.h:15 ../em-format/e-mail-formatter-print.c:54
-#: ../em-format/e-mail-formatter-print-headers.c:203
+#: ../em-format/e-mail-formatter-print-headers.c:204
 #: ../mail/em-filter-i18n.h:6
 msgid "Attachments"
 msgstr "Anexos"
@@ -2655,7 +2659,7 @@ msgstr ""
 "actualización"
 
 #: ../calendar/gui/dialogs/comp-editor.c:3734
-#: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:115
+#: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:121
 msgid "attachment"
 msgstr "anexo"
 
@@ -2798,7 +2802,7 @@ msgid "Send Options"
 msgstr "Opcións de envío"
 
 #: ../calendar/gui/dialogs/event-editor.c:235
-#: ../calendar/gui/dialogs/task-editor.c:125
+#: ../calendar/gui/dialogs/task-editor.c:96
 msgid "Insert advanced send options"
 msgstr "Inserir opcións avanzadas de envío"
 
@@ -2868,7 +2872,7 @@ msgstr "Actividade sen data de finalización"
 
 #: ../calendar/gui/dialogs/event-page.c:1475
 #: ../calendar/gui/dialogs/memo-page.c:726
-#: ../calendar/gui/dialogs/task-page.c:853
+#: ../calendar/gui/dialogs/task-page.c:1027
 msgid "Start date is wrong"
 msgstr "A data de inicio é incorrecta"
 
@@ -2886,12 +2890,12 @@ msgstr "A hora de finalización é incorrecta"
 
 #: ../calendar/gui/dialogs/event-page.c:1682
 #: ../calendar/gui/dialogs/memo-page.c:765
-#: ../calendar/gui/dialogs/task-page.c:907
+#: ../calendar/gui/dialogs/task-page.c:1081
 msgid "An organizer is required."
 msgstr "Requírese un organizador."
 
 #: ../calendar/gui/dialogs/event-page.c:1717
-#: ../calendar/gui/dialogs/task-page.c:942
+#: ../calendar/gui/dialogs/task-page.c:1116
 msgid "At least one attendee is required."
 msgstr "Requírese polo menos un participante."
 
@@ -2970,7 +2974,7 @@ msgstr "_Localización:"
 
 #: ../calendar/gui/dialogs/event-page.ui.h:12
 #: ../calendar/gui/dialogs/memo-page.ui.h:2
-#: ../calendar/gui/dialogs/task-page.ui.h:7
+#: ../calendar/gui/dialogs/task-page.ui.h:29
 #: ../e-util/e-attachment-dialog.c:357
 msgid "_Description:"
 msgstr "_Descrición:"
@@ -2993,7 +2997,7 @@ msgid "Event Description"
 msgstr "Descrición da actividade"
 
 #: ../calendar/gui/dialogs/event-page.ui.h:23
-#: ../calendar/gui/dialogs/task-page.ui.h:8
+#: ../calendar/gui/dialogs/task-page.ui.h:30
 #: ../calendar/gui/e-meeting-time-sel.c:547
 msgid "Atte_ndees..."
 msgstr "Participa_ntes…"
@@ -3088,22 +3092,22 @@ msgstr ""
 "organizador"
 
 #: ../calendar/gui/dialogs/memo-page.c:1161
-#: ../em-format/e-mail-formatter.c:1448
-#: ../em-format/e-mail-formatter-utils.c:201
-#: ../em-format/e-mail-formatter-utils.c:225 ../mail/em-filter-i18n.h:78
+#: ../em-format/e-mail-formatter-utils.c:205
+#: ../em-format/e-mail-formatter-utils.c:229
+#: ../em-format/e-mail-part-headers.c:49 ../mail/em-filter-i18n.h:78
 #: ../mail/message-list.etspec.h:9 ../modules/mail/em-mailer-prefs.c:65
 msgid "To"
 msgstr "Para"
 
 #: ../calendar/gui/dialogs/memo-page.ui.h:3
-#: ../calendar/gui/dialogs/task-page.c:336
-#: ../calendar/gui/dialogs/task-page.ui.h:9
+#: ../calendar/gui/dialogs/task-page.c:429
+#: ../calendar/gui/dialogs/task-page.ui.h:31
 msgid "_List:"
 msgstr "_Lista:"
 
 #: ../calendar/gui/dialogs/memo-page.ui.h:4
-#: ../calendar/gui/dialogs/task-page.c:344
-#: ../calendar/gui/dialogs/task-page.ui.h:2
+#: ../calendar/gui/dialogs/task-page.c:437
+#: ../calendar/gui/dialogs/task-page.ui.h:24
 msgid "Organi_zer:"
 msgstr "Organi_zador:"
 
@@ -3112,12 +3116,12 @@ msgid "T_o:"
 msgstr "_Para:"
 
 #: ../calendar/gui/dialogs/memo-page.ui.h:6
-#: ../calendar/gui/dialogs/task-page.ui.h:4
+#: ../calendar/gui/dialogs/task-page.ui.h:26
 msgid "Sta_rt date:"
 msgstr "Data de _inicio:"
 
 #: ../calendar/gui/dialogs/memo-page.ui.h:7
-#: ../calendar/gui/dialogs/task-page.ui.h:1
+#: ../calendar/gui/dialogs/task-page.ui.h:23
 msgid "Su_mmary:"
 msgstr "Resu_mo:"
 
@@ -3387,17 +3391,58 @@ msgstr "Enviar os meus recordatorios con esta actividade"
 msgid "Notify new attendees _only"
 msgstr "Notificar só aos participantes n_ovos"
 
-#: ../calendar/gui/dialogs/task-details-page.c:352
-#: ../calendar/gui/dialogs/task-details-page.c:377
+#: ../calendar/gui/dialogs/task-editor.c:94
+msgid "_Send Options"
+msgstr "Opción_s de envío"
+
+#: ../calendar/gui/dialogs/task-editor.c:149 ../calendar/gui/print.c:3507
+#: ../e-util/e-send-options.c:553
+msgid "Task"
+msgstr "Tarefa"
+
+#: ../calendar/gui/dialogs/task-editor.c:286
+msgid "Print this task"
+msgstr "Imprimir esta tarefa"
+
+#: ../calendar/gui/dialogs/task-page.c:332
+msgid "Task's start date is in the past"
+msgstr "A data de inicio da tarefa xa pasou"
+
+#: ../calendar/gui/dialogs/task-page.c:333
+msgid "Task's due date is in the past"
+msgstr "A data de vencemento da tarefa xa pasou"
+
+#: ../calendar/gui/dialogs/task-page.c:367
+msgid "Task cannot be edited, because the selected task list is read only"
+msgstr ""
+"Non é posíbel editar a tarefa porque a lista de tarefas seleccionada é de só "
+"lectura"
+
+#: ../calendar/gui/dialogs/task-page.c:371
+msgid "Task cannot be fully edited, because you are not the organizer"
+msgstr ""
+"Non é posíbel editar a tarefa na súa totalidade porque vostede non é o "
+"organizador"
+
+#: ../calendar/gui/dialogs/task-page.c:375
+msgid ""
+"Task cannot be edited, because the selected task list does not support "
+"assigned tasks"
+msgstr ""
+"Non é posíbel editar a tarefa porque a lista de tarefas seleccionada non "
+"admite asignación de tarefas"
+
+#: ../calendar/gui/dialogs/task-page.c:1008
+msgid "Due date is wrong"
+msgstr "A data de vencemento é incorrecta"
+
+#: ../calendar/gui/dialogs/task-page.c:1176
+#: ../calendar/gui/dialogs/task-page.c:1201
 msgid "Completed date is wrong"
 msgstr "A data de conclusión é incorrecta"
 
-#: ../calendar/gui/dialogs/task-details-page.c:490
-msgid "Web Page"
-msgstr "Páxina web"
-
 #. To Translators: This is task priority
-#: ../calendar/gui/dialogs/task-details-page.ui.h:2
+#: ../calendar/gui/dialogs/task-page.ui.h:8
 #: ../calendar/gui/e-cal-component-preview.c:348
 #: ../calendar/gui/e-task-table.c:571 ../calendar/gui/tasktypes.xml.h:19
 #: ../e-util/e-send-options.ui.h:2 ../mail/message-list.c:1256
@@ -3405,7 +3450,7 @@ msgid "High"
 msgstr "Alta"
 
 #. To Translators: This is task priority
-#: ../calendar/gui/dialogs/task-details-page.ui.h:4
+#: ../calendar/gui/dialogs/task-page.ui.h:10
 #: ../calendar/gui/e-cal-component-preview.c:350
 #: ../calendar/gui/e-cal-model.c:2071 ../calendar/gui/e-task-table.c:572
 #: ../calendar/gui/tasktypes.xml.h:20 ../e-util/e-send-options.ui.h:5
@@ -3414,7 +3459,7 @@ msgid "Normal"
 msgstr "Normal"
 
 #. To Translators: This is task priority
-#: ../calendar/gui/dialogs/task-details-page.ui.h:6
+#: ../calendar/gui/dialogs/task-page.ui.h:12
 #: ../calendar/gui/e-cal-component-preview.c:352
 #: ../calendar/gui/e-task-table.c:573 ../calendar/gui/tasktypes.xml.h:21
 #: ../e-util/e-send-options.ui.h:4 ../mail/message-list.c:1254
@@ -3422,14 +3467,14 @@ msgid "Low"
 msgstr "Baixa"
 
 #. To Translators: This is task priority
-#: ../calendar/gui/dialogs/task-details-page.ui.h:8
+#: ../calendar/gui/dialogs/task-page.ui.h:14
 #: ../calendar/gui/e-task-table.c:574 ../calendar/gui/tasktypes.xml.h:22
 #: ../e-util/e-send-options.ui.h:1
 msgid "Undefined"
 msgstr "Sen definir"
 
 #. To Translators: This is task status
-#: ../calendar/gui/dialogs/task-details-page.ui.h:10
+#: ../calendar/gui/dialogs/task-page.ui.h:16
 #: ../calendar/gui/e-cal-component-preview.c:333
 #: ../calendar/gui/e-cal-model-tasks.c:491
 #: ../calendar/gui/e-cal-model-tasks.c:777 ../calendar/gui/e-task-table.c:214
@@ -3439,7 +3484,7 @@ msgid "Not Started"
 msgstr "Non iniciada"
 
 #. To Translators: This is task status
-#: ../calendar/gui/dialogs/task-details-page.ui.h:12
+#: ../calendar/gui/dialogs/task-page.ui.h:18
 #: ../calendar/gui/e-cal-component-preview.c:323
 #: ../calendar/gui/e-cal-model-tasks.c:493
 #: ../calendar/gui/e-cal-model-tasks.c:779
@@ -3450,7 +3495,7 @@ msgid "In Progress"
 msgstr "En progreso"
 
 #. To Translators: This is task status
-#: ../calendar/gui/dialogs/task-details-page.ui.h:14
+#: ../calendar/gui/dialogs/task-page.ui.h:20
 #: ../calendar/gui/e-cal-component-preview.c:326
 #: ../calendar/gui/e-cal-model-tasks.c:495
 #: ../calendar/gui/e-cal-model-tasks.c:781
@@ -3463,7 +3508,7 @@ msgid "Completed"
 msgstr "Completada"
 
 #. To Translators: This is task status
-#: ../calendar/gui/dialogs/task-details-page.ui.h:16
+#: ../calendar/gui/dialogs/task-page.ui.h:22
 #: ../calendar/gui/e-cal-component-preview.c:329
 #: ../calendar/gui/e-cal-model-tasks.c:497
 #: ../calendar/gui/e-cal-model-tasks.c:783 ../calendar/gui/e-task-table.c:220
@@ -3472,103 +3517,37 @@ msgstr "Completada"
 msgid "Canceled"
 msgstr "Cancelada"
 
-#. To Translators: 'Status' here means the state of the attendees, the resulting string will be in a form:
-#. * Status: Accepted: X   Declined: Y   ...
-#: ../calendar/gui/dialogs/task-details-page.ui.h:17
-#: ../calendar/gui/e-calendar-table.etspec.h:11
-#: ../calendar/gui/e-cal-model.c:4019
-#: ../calendar/gui/e-meeting-list-view.c:695
-#: ../calendar/gui/e-meeting-time-sel.etspec.h:9
-#: ../calendar/gui/tasktypes.xml.h:8 ../mail/em-filter-i18n.h:75
-#: ../mail/message-list.etspec.h:1
-msgid "Status"
-msgstr "Estado"
-
-#: ../calendar/gui/dialogs/task-details-page.ui.h:18
-msgid "Stat_us:"
-msgstr "Esta_do:"
-
-#: ../calendar/gui/dialogs/task-details-page.ui.h:19
-msgid "P_ercent complete:"
-msgstr "Porc_entaxe completada:"
-
-#: ../calendar/gui/dialogs/task-details-page.ui.h:20
-#: ../e-util/e-send-options.ui.h:26
-msgid "_Priority:"
-msgstr "_Prioridade:"
-
-#: ../calendar/gui/dialogs/task-details-page.ui.h:21
-msgid "_Date completed:"
-msgstr "_Data completada:"
-
-#: ../calendar/gui/dialogs/task-details-page.ui.h:23
-msgid "_Web Page:"
-msgstr "Páxina _Web:"
-
-#: ../calendar/gui/dialogs/task-editor.c:113
-msgid "_Status Details"
-msgstr "Información do e_stado"
-
-#: ../calendar/gui/dialogs/task-editor.c:115
-msgid "Click to change or view the status details of the task"
-msgstr "Prema para cambiar ou ver a información do estado da tarefa"
-
-#: ../calendar/gui/dialogs/task-editor.c:123
-msgid "_Send Options"
-msgstr "Opción_s de envío"
-
-#: ../calendar/gui/dialogs/task-editor.c:183 ../calendar/gui/print.c:3507
-#: ../e-util/e-send-options.c:553
-msgid "Task"
-msgstr "Tarefa"
-
-#: ../calendar/gui/dialogs/task-editor.c:304
-msgid "Task Details"
-msgstr "Información da tarefa"
-
-#: ../calendar/gui/dialogs/task-editor.c:348
-msgid "Print this task"
-msgstr "Imprimir esta tarefa"
-
-#: ../calendar/gui/dialogs/task-page.c:249
-msgid "Task's start date is in the past"
-msgstr "A data de inicio da tarefa xa pasou"
-
-#: ../calendar/gui/dialogs/task-page.c:250
-msgid "Task's due date is in the past"
-msgstr "A data de vencemento da tarefa xa pasou"
-
-#: ../calendar/gui/dialogs/task-page.c:283
-msgid "Task cannot be edited, because the selected task list is read only"
-msgstr ""
-"Non é posíbel editar a tarefa porque a lista de tarefas seleccionada é de só "
-"lectura"
-
-#: ../calendar/gui/dialogs/task-page.c:287
-msgid "Task cannot be fully edited, because you are not the organizer"
-msgstr ""
-"Non é posíbel editar a tarefa na súa totalidade porque vostede non é o "
-"organizador"
-
-#: ../calendar/gui/dialogs/task-page.c:291
-msgid ""
-"Task cannot be edited, because the selected task list does not support "
-"assigned tasks"
-msgstr ""
-"Non é posíbel editar a tarefa porque a lista de tarefas seleccionada non "
-"admite asignación de tarefas"
-
-#: ../calendar/gui/dialogs/task-page.c:834
-msgid "Due date is wrong"
-msgstr "A data de vencemento é incorrecta"
-
-#: ../calendar/gui/dialogs/task-page.ui.h:3
+#: ../calendar/gui/dialogs/task-page.ui.h:25
 msgid "D_ue date:"
 msgstr "D_ata de vencemento:"
 
-#: ../calendar/gui/dialogs/task-page.ui.h:6
+#: ../calendar/gui/dialogs/task-page.ui.h:28
 msgid "Time zone:"
 msgstr "Fuso horario:"
+
+#: ../calendar/gui/dialogs/task-page.ui.h:32
+msgid "_Status:"
+msgstr "_Estado:"
+
+#: ../calendar/gui/dialogs/task-page.ui.h:33
+msgid "Date _completed:"
+msgstr "Data _completada:"
+
+#: ../calendar/gui/dialogs/task-page.ui.h:34
+msgid "_Percent complete:"
+msgstr "_Porcentaxe completada:"
+
+#: ../calendar/gui/dialogs/task-page.ui.h:35
+msgid "Priorit_y:"
+msgstr "Priorida_de:"
+
+#: ../calendar/gui/dialogs/task-page.ui.h:36
+msgid "C_lassification:"
+msgstr "C_lasificación:"
+
+#: ../calendar/gui/dialogs/task-page.ui.h:37
+msgid "_Web Page:"
+msgstr "Páxina _Web:"
 
 #: ../calendar/gui/ea-cal-view.c:324
 msgid "New Appointment"
@@ -3888,6 +3867,17 @@ msgstr "% completado"
 #: ../plugins/save-calendar/csv-format.c:387
 msgid "Priority"
 msgstr "Prioridade"
+
+#. To Translators: 'Status' here means the state of the attendees, the resulting string will be in a form:
+#. * Status: Accepted: X   Declined: Y   ...
+#: ../calendar/gui/e-calendar-table.etspec.h:11
+#: ../calendar/gui/e-cal-model.c:4019
+#: ../calendar/gui/e-meeting-list-view.c:695
+#: ../calendar/gui/e-meeting-time-sel.etspec.h:9
+#: ../calendar/gui/tasktypes.xml.h:8 ../mail/em-filter-i18n.h:75
+#: ../mail/message-list.etspec.h:1
+msgid "Status"
+msgstr "Estado"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:13
 #: ../calendar/gui/e-cal-list-view.etspec.h:7
@@ -9441,58 +9431,17 @@ msgstr[1] "Anexos"
 msgid "Display as attachment"
 msgstr "Mostrar como anexo"
 
-#: ../em-format/e-mail-formatter.c:1446
-#: ../em-format/e-mail-formatter-headers.c:104 ../mail/e-mail-tag-editor.c:272
+#: ../em-format/e-mail-formatter-headers.c:107
+#: ../em-format/e-mail-part-headers.c:47 ../mail/e-mail-tag-editor.c:272
 #: ../mail/message-list.etspec.h:5 ../modules/mail/em-mailer-prefs.c:63
 msgid "From"
 msgstr "De"
 
-#: ../em-format/e-mail-formatter.c:1447 ../modules/mail/em-mailer-prefs.c:64
-msgid "Reply-To"
-msgstr "Responder a"
-
-#: ../em-format/e-mail-formatter.c:1449
-#: ../em-format/e-mail-formatter-utils.c:203
-#: ../em-format/e-mail-formatter-utils.c:227
-#: ../modules/mail/em-mailer-prefs.c:66
-msgid "Cc"
-msgstr "Cc"
-
-#: ../em-format/e-mail-formatter.c:1450
-#: ../em-format/e-mail-formatter-utils.c:205
-#: ../em-format/e-mail-formatter-utils.c:229
-#: ../modules/mail/em-mailer-prefs.c:67
-msgid "Bcc"
-msgstr "Cco"
-
-#: ../em-format/e-mail-formatter.c:1451
-#: ../em-format/e-mail-formatter-quote-headers.c:154
-#: ../mail/e-mail-tag-editor.c:277 ../mail/em-filter-i18n.h:77
-#: ../mail/message-list.etspec.h:6 ../modules/mail/em-mailer-prefs.c:68
-#: ../smime/lib/e-asn1-object.c:712
-msgid "Subject"
-msgstr "Titular"
-
-#: ../em-format/e-mail-formatter.c:1452 ../e-util/e-dateedit.c:550
-#: ../e-util/e-dateedit.c:573 ../mail/message-list.etspec.h:7
-#: ../modules/mail/em-mailer-prefs.c:69
-msgid "Date"
-msgstr "Data"
-
-#: ../em-format/e-mail-formatter.c:1453 ../modules/mail/em-mailer-prefs.c:70
-msgid "Newsgroups"
-msgstr "Grupos de discusión"
-
-#: ../em-format/e-mail-formatter.c:1454 ../modules/mail/em-mailer-prefs.c:71
-#: ../plugins/face/org-gnome-face.eplug.xml.h:1
-msgid "Face"
-msgstr "Cara"
-
-#: ../em-format/e-mail-formatter-headers.c:130
+#: ../em-format/e-mail-formatter-headers.c:133
 msgid "(no subject)"
 msgstr "(Sen asunto)"
 
-#: ../em-format/e-mail-formatter-headers.c:323
+#: ../em-format/e-mail-formatter-headers.c:333
 #, c-format
 msgid "This message was sent by %s on behalf of %s"
 msgstr "Esta mensaxe enviouse por %s no nome de %s"
@@ -9528,33 +9477,39 @@ msgstr "Nome"
 msgid "Size"
 msgstr "Tamaño"
 
-#. Add encryption/signature header
-#: ../em-format/e-mail-formatter-print-headers.c:129
+#: ../em-format/e-mail-formatter-print-headers.c:144
+msgid "GPG signed"
+msgstr "Asinado con GPG"
+
+#: ../em-format/e-mail-formatter-print-headers.c:150
+msgid "GPG encrpyted"
+msgstr "Cifrado GPG"
+
+#: ../em-format/e-mail-formatter-print-headers.c:156
+msgid "S/MIME signed"
+msgstr "Cifrado S/MIME"
+
+#: ../em-format/e-mail-formatter-print-headers.c:162
+msgid "S/MIME encrpyted"
+msgstr "Cifrado con S/MIME"
+
+#: ../em-format/e-mail-formatter-print-headers.c:171
 #: ../mail/e-mail-config-security-page.c:642
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:195
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:129
 msgid "Security"
 msgstr "Seguranza"
 
-#: ../em-format/e-mail-formatter-print-headers.c:147
-msgid "GPG signed"
-msgstr "Asinado con GPG"
-
-#: ../em-format/e-mail-formatter-print-headers.c:153
-msgid "GPG encrpyted"
-msgstr "Cifrado GPG"
-
-#: ../em-format/e-mail-formatter-print-headers.c:159
-msgid "S/MIME signed"
-msgstr "Cifrado S/MIME"
-
-#: ../em-format/e-mail-formatter-print-headers.c:165
-msgid "S/MIME encrpyted"
-msgstr "Cifrado con S/MIME"
+#: ../em-format/e-mail-formatter-quote-headers.c:168
+#: ../em-format/e-mail-part-headers.c:52 ../mail/e-mail-tag-editor.c:277
+#: ../mail/em-filter-i18n.h:77 ../mail/message-list.etspec.h:6
+#: ../modules/mail/em-mailer-prefs.c:68 ../smime/lib/e-asn1-object.c:712
+msgid "Subject"
+msgstr "Titular"
 
 #. pseudo-header
-#: ../em-format/e-mail-formatter-quote-headers.c:165
-#: ../em-format/e-mail-formatter-utils.c:355
+#: ../em-format/e-mail-formatter-quote-headers.c:187
+#: ../em-format/e-mail-formatter-utils.c:359
 #: ../modules/mail/em-mailer-prefs.c:1144
 msgid "Mailer"
 msgstr "Aplicativo de correo"
@@ -9717,6 +9672,18 @@ msgstr "Fonte"
 msgid "Display source of a MIME part"
 msgstr "Mostrar fonte como parte MIME"
 
+#: ../em-format/e-mail-formatter-utils.c:207
+#: ../em-format/e-mail-formatter-utils.c:231
+#: ../em-format/e-mail-part-headers.c:50 ../modules/mail/em-mailer-prefs.c:66
+msgid "Cc"
+msgstr "Cc"
+
+#: ../em-format/e-mail-formatter-utils.c:209
+#: ../em-format/e-mail-formatter-utils.c:233
+#: ../em-format/e-mail-part-headers.c:51 ../modules/mail/em-mailer-prefs.c:67
+msgid "Bcc"
+msgstr "Cco"
+
 #: ../em-format/e-mail-parser-application-mbox.c:88
 #, c-format
 msgid "Error parsing MBOX part: %s"
@@ -9784,6 +9751,25 @@ msgstr "Non foi posíbel analizar a mensaxe PGP/MIME: %s"
 #: ../em-format/e-mail-parser-multipart-signed.c:114
 msgid "Unsupported signature format"
 msgstr "O formato da sinatura non é compatíbel"
+
+#: ../em-format/e-mail-part-headers.c:48 ../modules/mail/em-mailer-prefs.c:64
+msgid "Reply-To"
+msgstr "Responder a"
+
+#: ../em-format/e-mail-part-headers.c:53 ../e-util/e-dateedit.c:550
+#: ../e-util/e-dateedit.c:573 ../mail/message-list.etspec.h:7
+#: ../modules/mail/em-mailer-prefs.c:69
+msgid "Date"
+msgstr "Data"
+
+#: ../em-format/e-mail-part-headers.c:54 ../modules/mail/em-mailer-prefs.c:70
+msgid "Newsgroups"
+msgstr "Grupos de discusión"
+
+#: ../em-format/e-mail-part-headers.c:55 ../modules/mail/em-mailer-prefs.c:71
+#: ../plugins/face/org-gnome-face.eplug.xml.h:1
+msgid "Face"
+msgstr "Cara"
 
 #: ../em-format/e-mail-part-utils.c:500
 #, c-format
@@ -9868,6 +9854,10 @@ msgstr "_Até"
 #: ../e-util/e-send-options.ui.h:25
 msgid "Delivery Options"
 msgstr "Opcións de entrega"
+
+#: ../e-util/e-send-options.ui.h:26
+msgid "_Priority:"
+msgstr "_Prioridade:"
 
 #: ../e-util/e-send-options.ui.h:27
 msgid "_Classification:"
@@ -12674,28 +12664,46 @@ msgstr ""
 msgid "Color"
 msgstr "Cor"
 
-#: ../mail/e-mail-printer.c:149
-#, c-format
-msgid "Page %d of %d"
-msgstr "Páxina %d de %d"
+#: ../mail/e-mail-print-config-headers.c:479
+msgid "Move selection to top"
+msgstr "Mover selección á cima"
 
-#: ../mail/e-mail-printer.c:474
-#: ../modules/calendar/e-cal-shell-view-actions.c:216
-#: ../modules/calendar/e-cal-shell-view-actions.c:245
-msgid "Print"
-msgstr "Imprimir"
+#: ../mail/e-mail-print-config-headers.c:493
+msgid "Move selection up one row"
+msgstr "Mover selección unha fila arriba"
 
-#: ../mail/e-mail-printer.c:480
+#: ../mail/e-mail-print-config-headers.c:507
+msgid "Move selection down one row"
+msgstr "Mover selección unha fila abaixo"
+
+#: ../mail/e-mail-print-config-headers.c:521
+msgid "Move selection to bottom"
+msgstr "Mover selección ao fondo"
+
+#: ../mail/e-mail-print-config-headers.c:535
+msgid "Select all headers"
+msgstr "Seleccionar todas as cabeceiras"
+
+#: ../mail/e-mail-print-config-headers.c:549
+msgid "Unselect all headers"
+msgstr "Deseleccionar todas as cabeceiras"
+
+#: ../mail/e-mail-print-config-headers.c:570
 msgid "Header Name"
 msgstr "Nome da cabeceira:"
 
-#: ../mail/e-mail-printer.c:486
+#: ../mail/e-mail-print-config-headers.c:579
 msgid "Header Value"
 msgstr "Valor da cabecera"
 
-#: ../mail/e-mail-printer.c:540 ../mail/mail-config.ui.h:101
+#: ../mail/e-mail-printer.c:125 ../mail/mail-config.ui.h:101
 msgid "Headers"
 msgstr "Cabeceiras"
+
+#: ../mail/e-mail-printer.c:167
+#, c-format
+msgid "Page %d of %d"
+msgstr "Páxina %d de %d"
 
 #: ../mail/e-mail-reader.c:375
 msgid "Save Image"
@@ -16606,6 +16614,11 @@ msgstr "Abrindo o calendario «%s»"
 #: ../modules/calendar/e-cal-shell-sidebar.c:587
 msgid "Calendar Selector"
 msgstr "Selector de calendario"
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:216
+#: ../modules/calendar/e-cal-shell-view-actions.c:245
+msgid "Print"
+msgstr "Imprimir"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:291
 msgid "Calendar Properties"
@@ -21332,6 +21345,21 @@ msgstr "Con _data de vencemento"
 #: ../views/tasks/galview.xml.h:3
 msgid "With _Status"
 msgstr "Con e_stado"
+
+#~ msgid "Web Page"
+#~ msgstr "Páxina web"
+
+#~ msgid "Stat_us:"
+#~ msgstr "Esta_do:"
+
+#~ msgid "_Status Details"
+#~ msgstr "Información do e_stado"
+
+#~ msgid "Click to change or view the status details of the task"
+#~ msgstr "Prema para cambiar ou ver a información do estado da tarefa"
+
+#~ msgid "Task Details"
+#~ msgstr "Información da tarefa"
 
 #~ msgid ""
 #~ "This key should contain a list of XML structures specifying custom "
