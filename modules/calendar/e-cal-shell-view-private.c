@@ -734,6 +734,13 @@ e_cal_shell_view_private_dispose (ECalShellView *cal_shell_view)
 	if (priv->cal_shell_content != NULL)
 		e_cal_shell_content_save_state (priv->cal_shell_content);
 
+	if (priv->prepare_for_quit_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->shell,
+			priv->prepare_for_quit_handler_id);
+		priv->prepare_for_quit_handler_id = 0;
+	}
+
 	if (priv->backend_error_handler_id > 0) {
 		g_signal_handler_disconnect (
 			priv->client_cache,
@@ -745,6 +752,7 @@ e_cal_shell_view_private_dispose (ECalShellView *cal_shell_view)
 	g_clear_object (&priv->cal_shell_content);
 	g_clear_object (&priv->cal_shell_sidebar);
 
+	g_clear_object (&priv->shell);
 	g_clear_object (&priv->client_cache);
 
 	if (priv->calendar_activity != NULL) {

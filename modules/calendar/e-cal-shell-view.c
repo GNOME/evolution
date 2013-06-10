@@ -101,6 +101,7 @@ cal_shell_view_constructed (GObject *object)
 	ECalShellContent *cal_shell_content;
 	GtkWidget *container;
 	GtkWidget *widget;
+	gulong handler_id;
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (parent_class)->constructed (object);
@@ -126,10 +127,13 @@ cal_shell_view_constructed (GObject *object)
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);
 
-	g_signal_connect (
+	handler_id = g_signal_connect (
 		shell, "prepare-for-quit",
 		G_CALLBACK (cal_shell_view_prepare_for_quit_cb),
 		cal_shell_view);
+
+	cal_shell_view->priv->shell = g_object_ref (shell);
+	cal_shell_view->priv->prepare_for_quit_handler_id = handler_id;
 }
 
 static void
