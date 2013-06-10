@@ -399,6 +399,12 @@ memo_shell_sidebar_restore_state_cb (EShellWindow *shell_window,
 		G_CALLBACK (memo_shell_sidebar_primary_selection_changed_cb),
 		shell_sidebar);
 
+	/* This will trigger our "row-changed" signal handler for each
+	 * memo list source, so the appropriate ECalClients get added to
+	 * the ECalModel, which will then create view objects to display
+	 * the memo list content.  This all happens asynchronously. */
+	e_source_selector_update_all_rows (selector);
+
 	/* Bind GObject properties to settings keys. */
 
 	g_object_bind_property_full (
