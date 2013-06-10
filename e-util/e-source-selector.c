@@ -2132,3 +2132,34 @@ e_source_selector_update_row (ESourceSelector *selector,
 	}
 }
 
+/**
+ * e_source_selector_update_all_rows:
+ * @selector: an #ESourceSelector
+ *
+ * Calls e_source_selector_update_row() for each #ESource being shown by
+ * @selector, according to the #ESourceSelector:extension_name property.
+ *
+ * Since: 3.10
+ **/
+void
+e_source_selector_update_all_rows (ESourceSelector *selector)
+{
+	ESourceRegistry *registry;
+	GList *list, *link;
+	const gchar *extension_name;
+
+	g_return_if_fail (E_IS_SOURCE_SELECTOR (selector));
+
+	registry = e_source_selector_get_registry (selector);
+	extension_name = e_source_selector_get_extension_name (selector);
+
+	list = e_source_registry_list_sources (registry, extension_name);
+
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		ESource *source = E_SOURCE (link->data);
+		e_source_selector_update_row (selector, source);
+	}
+
+	g_list_free_full (list, (GDestroyNotify) g_object_unref);
+}
+
