@@ -217,6 +217,7 @@ action_event_new_cb (GtkAction *action,
 	 * the view. */
 	shell_view = e_shell_window_peek_shell_view (shell_window, "calendar");
 	if (shell_view != NULL) {
+		EShellWindow *shell_window;
 		EShellContent *shell_content;
 		GnomeCalendar *gcal;
 		GnomeCalendarViewType view_type;
@@ -224,6 +225,16 @@ action_event_new_cb (GtkAction *action,
 
 		shell_backend = e_shell_view_get_shell_backend (shell_view);
 		shell_content = e_shell_view_get_shell_content (shell_view);
+		shell_window = e_shell_view_get_shell_window (shell_view);
+
+		e_shell_backend_set_prefer_new_item (
+			shell_backend, action_name);
+
+		/* This forces the shell window to update the "New" toolbar
+		 * button menu, and the toolbar button will then update its
+		 * button image to reflect the "preferred new item" we just
+		 * set on the shell backend. */
+		g_object_notify (G_OBJECT (shell_window), "active-view");
 
 		gcal = e_cal_shell_content_get_calendar (
 			E_CAL_SHELL_CONTENT (shell_content));
@@ -231,11 +242,7 @@ action_event_new_cb (GtkAction *action,
 		view_type = gnome_calendar_get_view (gcal);
 		view = gnome_calendar_get_calendar_view (gcal, view_type);
 
-		if (view) {
-			g_object_set (
-				G_OBJECT (shell_backend),
-				"prefer-new-item", action_name, NULL);
-
+		if (view != NULL) {
 			e_calendar_view_new_appointment_full (
 				view,
 				g_str_equal (action_name, "event-all-day-new"),
@@ -252,7 +259,7 @@ action_event_new_cb (GtkAction *action,
 	source = e_source_registry_ref_default_calendar (registry);
 
 	shell_backend = e_shell_get_backend_by_name (shell, "calendar");
-	g_object_set (G_OBJECT (shell_backend), "prefer-new-item", action_name, NULL);
+	e_shell_backend_set_prefer_new_item (shell_backend, action_name);
 
 	/* Use a callback function appropriate for the action. */
 	if (strcmp (action_name, "event-all-day-new") == 0)

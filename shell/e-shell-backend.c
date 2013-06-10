@@ -252,11 +252,6 @@ shell_backend_dispose (GObject *object)
 		priv->shell_view_class = NULL;
 	}
 
-	if (priv->prefer_new_item) {
-		g_free (priv->prefer_new_item);
-		priv->prefer_new_item = NULL;
-	}
-
 	if (priv->notify_busy_handler_id > 0) {
 		g_signal_handler_disconnect (
 			object, priv->notify_busy_handler_id);
@@ -279,6 +274,7 @@ shell_backend_finalize (GObject *object)
 
 	g_free (priv->config_dir);
 	g_free (priv->data_dir);
+	g_free (priv->prefer_new_item);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_shell_backend_parent_class)->finalize (object);
