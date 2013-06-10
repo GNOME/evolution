@@ -29,48 +29,16 @@ static gpointer parent_class;
 static GType cal_shell_view_type;
 
 static void
-cal_shell_view_dispose (GObject *object)
-{
-	e_cal_shell_view_private_dispose (E_CAL_SHELL_VIEW (object));
-
-	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
-}
-
-static void
-cal_shell_view_finalize (GObject *object)
-{
-	e_cal_shell_view_private_finalize (E_CAL_SHELL_VIEW (object));
-
-	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
-}
-
-static void
-cal_shell_view_prepare_for_quit_cb (EShell *shell,
-				    EActivity *activity,
-				    ECalShellView *cal_shell_view)
-{
-	g_return_if_fail (E_IS_CAL_SHELL_VIEW (cal_shell_view));
-
-	/* stop running searches, if any; the activity tight
-	   on the search prevents application to quit */
-	e_cal_shell_view_search_stop (cal_shell_view);
-}
-
-static void
 cal_shell_view_add_action_button (GtkBox *box,
                                   GtkAction *action)
 {
 	GtkWidget *button, *icon;
 
-	g_return_if_fail (box != NULL);
-	g_return_if_fail (action != NULL);
-
-	icon = gtk_action_create_icon (action, GTK_ICON_SIZE_BUTTON);
 	button = gtk_button_new ();
+	icon = gtk_action_create_icon (action, GTK_ICON_SIZE_BUTTON);
 	gtk_button_set_image (GTK_BUTTON (button), icon);
-	gtk_box_pack_start (GTK_BOX (box), button, FALSE, FALSE, 0);
+	gtk_box_pack_start (box, button, FALSE, FALSE, 0);
+	gtk_widget_show (button);
 
 	g_object_bind_property (
 		action, "visible",
@@ -93,46 +61,79 @@ cal_shell_view_add_action_button (GtkBox *box,
 }
 
 static void
+cal_shell_view_prepare_for_quit_cb (EShell *shell,
+                                    EActivity *activity,
+                                    ECalShellView *cal_shell_view)
+{
+	g_return_if_fail (E_IS_CAL_SHELL_VIEW (cal_shell_view));
+
+	/* Stop running searches, if any; the activity tight
+	 * on the search prevents application from quitting. */
+	e_cal_shell_view_search_stop (cal_shell_view);
+}
+
+static void
+cal_shell_view_dispose (GObject *object)
+{
+	e_cal_shell_view_private_dispose (E_CAL_SHELL_VIEW (object));
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (parent_class)->dispose (object);
+}
+
+static void
+cal_shell_view_finalize (GObject *object)
+{
+	e_cal_shell_view_private_finalize (E_CAL_SHELL_VIEW (object));
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (parent_class)->finalize (object);
+}
+
+static void
 cal_shell_view_constructed (GObject *object)
 {
 	EShell *shell;
 	EShellView *shell_view;
-	EShellContent *shell_content;
 	EShellWindow *shell_window;
 	EShellSearchbar *searchbar;
-	GtkWidget *box;
+	ECalShellView *cal_shell_view;
+	ECalShellContent *cal_shell_content;
+	GtkWidget *container;
+	GtkWidget *widget;
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (parent_class)->constructed (object);
 
-	shell_view = E_SHELL_VIEW (object);
+	cal_shell_view = E_CAL_SHELL_VIEW (object);
+	e_cal_shell_view_private_constructed (cal_shell_view);
 
-	e_cal_shell_view_private_constructed (E_CAL_SHELL_VIEW (shell_view));
+	shell_view = E_SHELL_VIEW (cal_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell = e_shell_window_get_shell (shell_window);
 
 	/* no search bar in express mode */
-	if (e_shell_get_express_mode (e_shell_get_default ()))
+	if (e_shell_get_express_mode (shell))
 		return;
 
-	shell_window = e_shell_view_get_shell_window (shell_view);
-	shell_content = e_shell_view_get_shell_content (shell_view);
-	searchbar = e_cal_shell_content_get_searchbar (E_CAL_SHELL_CONTENT (shell_content));
+	cal_shell_content = cal_shell_view->priv->cal_shell_content;
+	searchbar = e_cal_shell_content_get_searchbar (cal_shell_content);
+	container = e_shell_searchbar_get_search_box (searchbar);
 
-	box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
-
-	cal_shell_view_add_action_button (GTK_BOX (box), ACTION (CALENDAR_SEARCH_PREV));
-	cal_shell_view_add_action_button (GTK_BOX (box), ACTION (CALENDAR_SEARCH_NEXT));
-	cal_shell_view_add_action_button (GTK_BOX (box), ACTION (CALENDAR_SEARCH_STOP));
-
-	gtk_widget_show_all (box);
-
-	gtk_container_add (GTK_CONTAINER (e_shell_searchbar_get_search_box (searchbar)), box);
-
-	shell = e_shell_backend_get_shell (e_shell_view_get_shell_backend (shell_view));
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	cal_shell_view_add_action_button (
+		GTK_BOX (widget), ACTION (CALENDAR_SEARCH_PREV));
+	cal_shell_view_add_action_button (
+		GTK_BOX (widget), ACTION (CALENDAR_SEARCH_NEXT));
+	cal_shell_view_add_action_button (
+		GTK_BOX (widget), ACTION (CALENDAR_SEARCH_STOP));
+	gtk_container_add (GTK_CONTAINER (container), widget);
+	gtk_widget_show (widget);
 
 	g_signal_connect (
 		shell, "prepare-for-quit",
 		G_CALLBACK (cal_shell_view_prepare_for_quit_cb),
-		object);
+		cal_shell_view);
 }
 
 static void
@@ -322,7 +323,8 @@ cal_shell_view_execute_search (EShellView *shell_view)
 		calendar, query, range_search, start_range, end_range);
 	g_free (query);
 
-	/* update also actions, thus Find Prev/Next/Stop will be sensitive as expected */
+	/* Update actions so Find Prev/Next/Stop
+	 * buttons will be sensitive as expected. */
 	e_shell_view_update_actions (shell_view);
 }
 
