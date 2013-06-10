@@ -93,6 +93,9 @@ struct _ECalShellViewPrivate {
 	ECalShellContent *cal_shell_content;
 	ECalShellSidebar *cal_shell_sidebar;
 
+	EShell *shell;
+	gulong prepare_for_quit_handler_id;
+
 	EClientCache *client_cache;
 	gulong backend_error_handler_id;
 
