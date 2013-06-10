@@ -3194,6 +3194,7 @@ e_source_selector_ref_source_by_iter
 e_source_selector_ref_source_by_path
 e_source_selector_queue_write
 e_source_selector_update_row
+e_source_selector_update_all_rows
 <SUBSECTION Standard>
 E_SOURCE_SELECTOR
 E_IS_SOURCE_SELECTOR

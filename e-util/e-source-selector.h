@@ -140,6 +140,8 @@ void		e_source_selector_queue_write	(ESourceSelector *selector,
 						 ESource *source);
 void		e_source_selector_update_row	(ESourceSelector *selector,
 						 ESource *source);
+void		e_source_selector_update_all_rows
+						(ESourceSelector *selector);
 
 G_END_DECLS
 
