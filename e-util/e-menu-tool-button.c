@@ -80,26 +80,33 @@ menu_tool_button_get_prefer_menu_item (GtkMenuToolButton *menu_tool_button)
 		E_MENU_TOOL_BUTTON (menu_tool_button));
 	if (prefer_item != NULL && *prefer_item != '\0') {
 		GtkAction *action;
-		GList *iter;
+		GList *link;
 
-		for (iter = children; iter != NULL; iter = iter->next) {
-			item = GTK_MENU_ITEM (iter->data);
+		for (link = children; link != NULL; link = g_list_next (link)) {
+			GtkWidget *child;
+			const gchar *name;
 
-			if (!item)
+			child = GTK_WIDGET (link->data);
+
+			if (!GTK_IS_MENU_ITEM (child))
 				continue;
 
 			action = gtk_activatable_get_related_action (
-				GTK_ACTIVATABLE (item));
-			if (action && g_strcmp0 (gtk_action_get_name (action), prefer_item) == 0)
-				break;
-			else if (!action && g_strcmp0 (gtk_widget_get_name (GTK_WIDGET (item)), prefer_item) == 0)
-				break;
+				GTK_ACTIVATABLE (child));
 
-			item = NULL;
+			if (action != NULL)
+				name = gtk_action_get_name (action);
+			else
+				name = gtk_widget_get_name (child);
+
+			if (g_strcmp0 (name, prefer_item) == 0) {
+				item = GTK_MENU_ITEM (child);
+				break;
+			}
 		}
 	}
 
-	if (!item)
+	if (item == NULL)
 		item = GTK_MENU_ITEM (children->data);
 
 	g_list_free (children);
@@ -189,19 +196,16 @@ menu_tool_button_get_property (GObject *object,
 }
 
 static void
-menu_tool_button_dispose (GObject *object)
+menu_tool_button_finalize (GObject *object)
 {
 	EMenuToolButtonPrivate *priv;
 
 	priv = E_MENU_TOOL_BUTTON_GET_PRIVATE (object);
 
-	if (priv->prefer_item) {
-		g_free (priv->prefer_item);
-		priv->prefer_item = NULL;
-	}
+	g_free (priv->prefer_item);
 
-	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (e_menu_tool_button_parent_class)->dispose (object);
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (e_menu_tool_button_parent_class)->finalize (object);
 }
 
 static void
@@ -215,7 +219,7 @@ e_menu_tool_button_class_init (EMenuToolButtonClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = menu_tool_button_set_property;
 	object_class->get_property = menu_tool_button_get_property;
-	object_class->dispose = menu_tool_button_dispose;
+	object_class->finalize = menu_tool_button_finalize;
 
 	tool_button_class = GTK_TOOL_BUTTON_CLASS (class);
 	tool_button_class->clicked = menu_tool_button_clicked;
@@ -249,11 +253,18 @@ e_menu_tool_button_new (const gchar *label)
 	return g_object_new (E_TYPE_MENU_TOOL_BUTTON, "label", label, NULL);
 }
 
+const gchar *
+e_menu_tool_button_get_prefer_item (EMenuToolButton *button)
+{
+	g_return_val_if_fail (E_IS_MENU_TOOL_BUTTON (button), NULL);
+
+	return button->priv->prefer_item;
+}
+
 void
 e_menu_tool_button_set_prefer_item (EMenuToolButton *button,
                                     const gchar *prefer_item)
 {
-	g_return_if_fail (button != NULL);
 	g_return_if_fail (E_IS_MENU_TOOL_BUTTON (button));
 
 	if (g_strcmp0 (button->priv->prefer_item, prefer_item) == 0)
@@ -265,11 +276,3 @@ e_menu_tool_button_set_prefer_item (EMenuToolButton *button,
 	g_object_notify (G_OBJECT (button), "prefer-item");
 }
 
-const gchar *
-e_menu_tool_button_get_prefer_item (EMenuToolButton *button)
-{
-	g_return_val_if_fail (button != NULL, NULL);
-	g_return_val_if_fail (E_IS_MENU_TOOL_BUTTON (button), NULL);
-
-	return button->priv->prefer_item;
-}
