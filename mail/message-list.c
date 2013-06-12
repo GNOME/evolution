@@ -77,6 +77,12 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), MESSAGE_LIST_TYPE, MessageListPrivate))
 
+/* Common search expression segments. */
+#define EXCLUDE_DELETED_MESSAGES_EXPR	"(not (system-flag \"deleted\"))"
+#define EXCLUDE_JUNK_MESSAGES_EXPR	"(not (system-flag \"junk\"))"
+
+typedef struct _RegenData RegenData;
+
 struct _MLSelection {
 	GPtrArray *uids;
 	CamelFolder *folder;
@@ -87,13 +93,10 @@ struct _MessageListPrivate {
 
 	EMailSession *session;
 
-	/* Outstanding regeneration requests. */
-	GList *regen;
+	/* For message list regeneration. */
 	GMutex regen_lock;
-	gchar *pending_select_uid;
-	gboolean pending_select_fallback;
+	RegenData *regen_data;
 	guint regen_timeout_id;
-	gpointer regen_timeout_msg;
 
 	struct _MLSelection clipboard;
 	gboolean destroyed;
@@ -109,6 +112,40 @@ struct _MessageListPrivate {
 	const gchar *newest_read_uid;
 	time_t oldest_unread_date;
 	const gchar *oldest_unread_uid;
+};
+
+struct _RegenData {
+	volatile gint ref_count;
+
+	EActivity *activity;
+	MessageList *message_list;
+
+	gchar *search;
+
+	gboolean threaded;
+	gboolean hide_deleted;
+	gboolean hide_junk;
+	gboolean thread_subject;
+	CamelFolderThread *tree;
+
+	/* This indicates we're regenerating the message list because
+	 * we received a "folder-changed" signal from our CamelFolder. */
+	gboolean folder_changed;
+
+	CamelFolder *folder;
+	GPtrArray *summary;
+
+	gint last_row; /* last selected (cursor) row */
+
+	xmlDoc *expand_state; /* expanded state to be restored */
+
+	/* These may be set during a regen operation.  Use the
+	 * select_lock to ensure consistency and thread-safety.
+	 * These are applied after the operation is finished. */
+	GMutex select_lock;
+	gchar *select_uid;
+	gboolean select_all;
+	gboolean select_use_fallback;
 };
 
 enum {
@@ -196,7 +233,7 @@ static gint on_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent 
 static gchar *filter_date (time_t date);
 static gchar *filter_size (gint size);
 
-static void mail_regen_list (MessageList *ml, const gchar *search, const gchar *hideexpr, CamelFolderChangeInfo *changes, gboolean scroll_to_cursor);
+static void mail_regen_list (MessageList *ml, const gchar *search, gboolean folder_changed);
 static void mail_regen_cancel (MessageList *ml);
 
 static void clear_info (gchar *key, ETreePath *node, MessageList *ml);
@@ -248,6 +285,115 @@ static const gchar *followup_icons[] = {
 	"stock_mail-flag-for-followup",
 	"stock_mail-flag-for-followup-done"
 };
+
+static RegenData *
+regen_data_new (MessageList *message_list,
+                GCancellable *cancellable)
+{
+	RegenData *regen_data;
+	EActivity *activity;
+	EMailSession *session;
+	GSettings *settings;
+	gboolean thread_subject;
+
+	/* FIXME This should be a MessageList property. */
+	settings = g_settings_new ("org.gnome.evolution.mail");
+	thread_subject = g_settings_get_boolean (settings, "thread-subject");
+	g_object_unref (settings);
+
+	activity = e_activity_new ();
+	e_activity_set_cancellable (activity, cancellable);
+	e_activity_set_text (activity, _("Generating message list"));
+
+	regen_data = g_slice_new0 (RegenData);
+	regen_data->ref_count = 1;
+	regen_data->activity = g_object_ref (activity);
+	regen_data->message_list = g_object_ref (message_list);
+	regen_data->last_row = -1;
+
+	/* Capture MessageList state to use for this regen. */
+	regen_data->folder = g_object_ref (message_list->folder);
+	regen_data->threaded = message_list->threaded;
+	regen_data->hide_deleted = message_list->hidedeleted;
+	regen_data->hide_junk = message_list->hidejunk;
+	regen_data->thread_subject = thread_subject;
+
+	g_mutex_init (&regen_data->select_lock);
+
+	session = message_list_get_session (message_list);
+	e_mail_ui_session_add_activity (E_MAIL_UI_SESSION (session), activity);
+
+	g_object_unref (activity);
+
+	return regen_data;
+}
+
+static RegenData *
+regen_data_ref (RegenData *regen_data)
+{
+	g_return_val_if_fail (regen_data != NULL, NULL);
+	g_return_val_if_fail (regen_data->ref_count > 0, NULL);
+
+	g_atomic_int_inc (&regen_data->ref_count);
+
+	return regen_data;
+}
+
+static void
+regen_data_unref (RegenData *regen_data)
+{
+	g_return_if_fail (regen_data != NULL);
+	g_return_if_fail (regen_data->ref_count > 0);
+
+	if (g_atomic_int_dec_and_test (&regen_data->ref_count)) {
+
+		g_clear_object (&regen_data->activity);
+		g_clear_object (&regen_data->message_list);
+
+		g_free (regen_data->search);
+
+		if (regen_data->tree != NULL)
+			camel_folder_thread_messages_unref (regen_data->tree);
+
+		if (regen_data->summary != NULL) {
+			guint ii, length;
+
+			length = regen_data->summary->len;
+
+			for (ii = 0; ii < length; ii++)
+				camel_folder_free_message_info (
+					regen_data->folder,
+					regen_data->summary->pdata[ii]);
+
+			g_ptr_array_free (regen_data->summary, TRUE);
+		}
+
+		g_clear_object (&regen_data->folder);
+
+		if (regen_data->expand_state != NULL)
+			xmlFreeDoc (regen_data->expand_state);
+
+		g_mutex_clear (&regen_data->select_lock);
+		g_free (regen_data->select_uid);
+
+		g_slice_free (RegenData, regen_data);
+	}
+}
+
+static RegenData *
+message_list_ref_regen_data (MessageList *message_list)
+{
+	RegenData *regen_data = NULL;
+
+	g_mutex_lock (&message_list->priv->regen_lock);
+
+	if (message_list->priv->regen_data != NULL)
+		regen_data = regen_data_ref (message_list->priv->regen_data);
+
+	g_mutex_unlock (&message_list->priv->regen_lock);
+
+	return regen_data;
+}
 
 static gint
 address_compare (gconstpointer address1,
@@ -585,7 +731,7 @@ message_list_select_uid (MessageList *message_list,
 	MessageListPrivate *priv;
 	GHashTable *uid_nodemap;
 	ETreePath node = NULL;
-	gboolean regen_in_progress;
+	RegenData *regen_data = NULL;
 
 	g_return_if_fail (IS_MESSAGE_LIST (message_list));
 
@@ -599,9 +745,7 @@ message_list_select_uid (MessageList *message_list,
 	if (uid != NULL)
 		node = g_hash_table_lookup (uid_nodemap, uid);
 
-	regen_in_progress =
-		(message_list->priv->regen != NULL) &&
-		(message_list->priv->regen_timeout_id > 0);
+	regen_data = message_list_ref_regen_data (message_list);
 
 	/* If we're busy or waiting to regenerate the message list, cache
 	 * the UID so we can try again when we're done.  Otherwise if the
@@ -611,10 +755,15 @@ message_list_select_uid (MessageList *message_list,
 	 * 1) Oldest unread message in the list, by date received.
 	 * 2) Newest read message in the list, by date received.
 	 */
-	if (regen_in_progress) {
-		g_free (message_list->priv->pending_select_uid);
-		message_list->priv->pending_select_uid = g_strdup (uid);
-		message_list->priv->pending_select_fallback = with_fallback;
+	if (regen_data != NULL) {
+		g_mutex_lock (&regen_data->select_lock);
+		g_free (regen_data->select_uid);
+		regen_data->select_uid = g_strdup (uid);
+		regen_data->select_use_fallback = with_fallback;
+		g_mutex_unlock (&regen_data->select_lock);
+
+		regen_data_unref (regen_data);
+
 	} else if (with_fallback) {
 		if (node == NULL && priv->oldest_unread_uid != NULL)
 			node = g_hash_table_lookup (
@@ -715,18 +864,6 @@ message_list_select_prev_thread (MessageList *ml)
 	}
 }
 
-static gboolean
-message_list_select_all_timeout_cb (MessageList *message_list)
-{
-	ESelectionModel *etsm;
-
-	etsm = e_tree_get_selection_model (E_TREE (message_list));
-
-	e_selection_model_select_all (etsm);
-
-	return FALSE;
-}
-
 /**
  * message_list_select_all:
  * @message_list: Message List widget
@@ -736,25 +873,25 @@ message_list_select_all_timeout_cb (MessageList *message_list)
 void
 message_list_select_all (MessageList *message_list)
 {
-	gboolean regen_pending;
+	RegenData *regen_data = NULL;
 
 	g_return_if_fail (IS_MESSAGE_LIST (message_list));
 
-	regen_pending = (message_list->priv->regen_timeout_id > 0);
+	regen_data = message_list_ref_regen_data (message_list);
 
-	if (message_list->threaded && regen_pending) {
-		/* XXX The timeout below is added so that the execution
-		 *     thread to expand all conversation threads would
-		 *     have completed.  The timeout 505 is just to ensure
-		 *     that the value is a small delta more than the
-		 *     timeout value in mail_regen_list(). */
-		g_timeout_add (
-			55, (GSourceFunc)
-			message_list_select_all_timeout_cb,
-			message_list);
-	} else
-		/* If there is no threading, just select all immediately. */
-		message_list_select_all_timeout_cb (message_list);
+	if (message_list->threaded && regen_data != NULL) {
+		regen_data->select_all = TRUE;
+	} else {
+		ETree *tree;
+		ESelectionModel *selection_model;
+
+		tree = E_TREE (message_list);
+		selection_model = e_tree_get_selection_model (tree);
+		e_selection_model_select_all (selection_model);
+	}
+
+	if (regen_data != NULL)
+		regen_data_unref (regen_data);
 }
 
 typedef struct thread_select_info {
@@ -2406,7 +2543,7 @@ ml_tree_sorting_changed (ETreeTableAdapter *adapter,
 			ml->thread_tree = NULL;
 		}
 
-		mail_regen_list (ml, ml->search, NULL, NULL, TRUE);
+		mail_regen_list (ml, ml->search, FALSE);
 
 		return TRUE;
 	}
@@ -2437,9 +2574,6 @@ message_list_init (MessageList *message_list)
 		g_str_hash, g_str_equal,
 		(GDestroyNotify) NULL,
 		(GDestroyNotify) e_poolv_destroy);
-
-	message_list->search = NULL;
-	message_list->ensure_uid = NULL;
 
 	message_list->uid_nodemap = g_hash_table_new (g_str_hash, g_str_equal);
 
@@ -2600,11 +2734,6 @@ message_list_finalize (GObject *object)
 	MessageList *message_list = MESSAGE_LIST (object);
 
 	g_hash_table_destroy (message_list->normalised_hash);
-
-	if (message_list->ensure_uid) {
-		g_free (message_list->ensure_uid);
-		message_list->ensure_uid = NULL;
-	}
 
 	if (message_list->thread_tree)
 		camel_folder_thread_messages_unref (message_list->thread_tree);
@@ -3099,8 +3228,7 @@ static void build_subtree_diff (MessageList *ml, ETreePath parent, ETreePath pat
 static void
 build_tree (MessageList *ml,
             CamelFolderThread *thread,
-            CamelFolderChangeInfo *changes,
-            gboolean can_scroll_to_cursor)
+            gboolean folder_changed)
 {
 	gint row = 0;
 	ETreeModel *etm = ml->model;
@@ -3135,7 +3263,9 @@ build_tree (MessageList *ml,
 
 		build_subtree (ml, ml->tree_root, thread->tree, &row);
 
-		if (!can_scroll_to_cursor && table_item)
+		/* Show the cursor unless we're responding to a
+		 * "folder-changed" signal from our CamelFolder. */
+		if (folder_changed && table_item != NULL)
 			table_item->queue_show_cursor = FALSE;
 
 		e_tree_memory_thaw (E_TREE_MEMORY (etm));
@@ -3146,7 +3276,9 @@ build_tree (MessageList *ml,
 		message_list_set_selected (ml, selected);
 		em_utils_uids_free (selected);
 
-		if (!can_scroll_to_cursor && table_item)
+		/* Show the cursor unless we're responding to a
+		 * "folder-changed" signal from our CamelFolder. */
+		if (folder_changed && table_item != NULL)
 			table_item->queue_show_cursor = FALSE;
 
 		e_tree_memory_thaw (E_TREE_MEMORY (etm));
@@ -3176,7 +3308,9 @@ build_tree (MessageList *ml,
 
 			e_tree_set_cursor (E_TREE (ml), node);
 
-			if (!can_scroll_to_cursor && table_item)
+			/* Show the cursor unless we're responding to a
+			 * "folder-changed" signal from our CamelFolder. */
+			if (folder_changed && table_item != NULL)
 				table_item->queue_show_cursor = FALSE;
 
 			e_tree_memory_thaw (E_TREE_MEMORY (etm));
@@ -3398,8 +3532,7 @@ build_subtree_diff (MessageList *ml,
 
 static void
 build_flat (MessageList *ml,
-            GPtrArray *summary,
-            CamelFolderChangeInfo *changes)
+            GPtrArray *summary)
 {
 	ETreeModel *etm = ml->model;
 	gchar *saveuid = NULL;
@@ -3523,13 +3656,14 @@ folder_changed (CamelFolder *folder,
                 MessageList *ml)
 {
 	CamelFolderChangeInfo *altered_changes = NULL;
+	gboolean need_list_regen = TRUE;
 	gint i;
 
 	if (ml->priv->destroyed)
 		return;
 
 	d (printf ("folder changed event, changes = %p\n", changes));
-	if (changes) {
+	if (changes != NULL) {
 		for (i = 0; i < changes->uid_removed->len; i++)
 			g_hash_table_remove (
 				ml->normalised_hash,
@@ -3557,15 +3691,17 @@ folder_changed (CamelFolder *folder,
 				}
 			}
 
-			camel_folder_change_info_free (altered_changes);
-
 			g_signal_emit (ml, message_list_signals[MESSAGE_LIST_BUILT], 0);
-			return;
+
+			need_list_regen = FALSE;
 		}
 	}
 
-	/* XXX This apparently eats the ChangeFolderChangeInfo. */
-	mail_regen_list (ml, ml->search, NULL, altered_changes, FALSE);
+	if (need_list_regen)
+		mail_regen_list (ml, ml->search, TRUE);
+
+	if (altered_changes != NULL)
+		camel_folder_change_info_free (altered_changes);
 }
 
 /**
@@ -3700,7 +3836,7 @@ message_list_set_folder (MessageList *message_list,
 			!(folder->folder_flags & CAMEL_FOLDER_IS_TRASH);
 
 		if (message_list->frozen == 0)
-			mail_regen_list (message_list, message_list->search, NULL, NULL, TRUE);
+			mail_regen_list (message_list, message_list->search, FALSE);
 	}
 }
 
@@ -4097,7 +4233,15 @@ message_list_thaw (MessageList *ml)
 
 	ml->frozen--;
 	if (ml->frozen == 0) {
-		mail_regen_list (ml, ml->frozen_search ? ml->frozen_search : ml->search, NULL, NULL, TRUE);
+		const gchar *search;
+
+		if (ml->frozen_search != NULL)
+			search = ml->frozen_search;
+		else
+			search = ml->search;
+
+		mail_regen_list (ml, search, FALSE);
+
 		g_free (ml->frozen_search);
 		ml->frozen_search = NULL;
 	}
@@ -4111,7 +4255,7 @@ message_list_set_threaded_expand_all (MessageList *ml)
 		ml->expand_all = 1;
 
 		if (ml->frozen == 0)
-			mail_regen_list (ml, ml->search, NULL, NULL, TRUE);
+			mail_regen_list (ml, ml->search, FALSE);
 	}
 }
 
@@ -4122,7 +4266,7 @@ message_list_set_threaded_collapse_all (MessageList *ml)
 		ml->collapse_all = 1;
 
 		if (ml->frozen == 0)
-			mail_regen_list (ml, ml->search, NULL, NULL, TRUE);
+			mail_regen_list (ml, ml->search, FALSE);
 	}
 }
 
@@ -4134,7 +4278,7 @@ message_list_set_threaded (MessageList *ml,
 		ml->threaded = threaded;
 
 		if (ml->frozen == 0)
-			mail_regen_list (ml, ml->search, NULL, NULL, TRUE);
+			mail_regen_list (ml, ml->search, FALSE);
 	}
 }
 
@@ -4146,7 +4290,7 @@ message_list_set_hidedeleted (MessageList *ml,
 		ml->hidedeleted = hidedeleted;
 
 		if (ml->frozen == 0)
-			mail_regen_list (ml, ml->search, NULL, NULL, TRUE);
+			mail_regen_list (ml, ml->search, FALSE);
 	}
 }
 
@@ -4167,7 +4311,7 @@ message_list_set_search (MessageList *ml,
 	}
 
 	if (ml->frozen == 0)
-		mail_regen_list (ml, search, NULL, NULL, TRUE);
+		mail_regen_list (ml, search, FALSE);
 	else {
 		g_free (ml->frozen_search);
 		ml->frozen_search = g_strdup (search);
@@ -4380,456 +4524,566 @@ ml_sort_uids_by_tree (MessageList *ml,
 	g_object_unref (sort_data.folder);
 }
 
-/* ** REGENERATE MESSAGELIST ********************************************** */
-struct _regen_list_msg {
-	MailMsg base;
-
-	gint complete;
-
-	MessageList *ml;
-	gchar *search;
-	gchar *hideexpr;
-	CamelFolderChangeInfo *changes;
-	gboolean dotree;	/* we are building a tree */
-	gboolean hidedel;	/* we want to/dont want to show deleted messages */
-	gboolean hidejunk;	/* we want to/dont want to show junk messages */
-	gboolean thread_subject;
-	gboolean scroll_to_cursor; /* whether ensure scrolling to the cursor after rebuild */
-	CamelFolderThread *tree;
-
-	CamelFolder *folder;
-	GPtrArray *summary;
-
-	gint last_row; /* last selected (cursor) row */
-
-	xmlDoc *expand_state; /* stored expanded state of the previous view */
-};
-
-/*
- * maintain copy of summary
- *
- * any new messages added
- * any removed removed, etc.
- *
- * use vfolder to implement searches ???
- */
-
-static gchar *
-regen_list_desc (struct _regen_list_msg *m)
+static void
+message_list_regen_tweak_search_results (MessageList *message_list,
+                                         GPtrArray *search_results,
+                                         CamelFolder *folder,
+                                         gboolean folder_changed,
+                                         gboolean show_deleted,
+                                         gboolean show_junk)
 {
-	return g_strdup (_("Generating message list"));
+	CamelMessageInfo *info;
+	CamelMessageFlags flags;
+	const gchar *uid;
+	gboolean needs_tweaking;
+	gboolean uid_is_deleted;
+	gboolean uid_is_junk;
+	gboolean add_uid;
+	guint ii;
+
+	/* If we're responding to a "folder-changed" signal, then the
+	 * displayed message may not be included in the search results.
+	 * Include the displayed message anyway so it doesn't suddenly
+	 * disappear while the user is reading it. */
+	needs_tweaking =
+		(message_list->ensure_uid != NULL) ||
+		(folder_changed && message_list->cursor_uid != NULL);
+
+	if (!needs_tweaking)
+		return;
+
+	if (message_list->ensure_uid != NULL)
+		uid = message_list->ensure_uid;
+	else
+		uid = message_list->cursor_uid;
+
+	g_return_if_fail (uid != NULL);
+
+	/* Scan the search results for a particular UID.
+	 * If found then the results don't need tweaked. */
+	for (ii = 0; ii < search_results->len; ii++) {
+		if (g_str_equal (uid, search_results->pdata[ii]))
+			return;
+	}
+
+	info = camel_folder_get_message_info (folder, uid);
+
+	/* XXX Should we emit a runtime warning here? */
+	if (info == NULL)
+		return;
+
+	flags = camel_message_info_flags (info);
+	uid_is_deleted = ((flags & CAMEL_MESSAGE_DELETED) != 0);
+	uid_is_junk = ((flags & CAMEL_MESSAGE_JUNK) != 0);
+
+	if (!folder_store_supports_vjunk_folder (folder))
+		uid_is_junk = FALSE;
+
+	add_uid =
+		(!uid_is_junk || show_junk) &&
+		(!uid_is_deleted || show_deleted);
+
+	if (add_uid)
+		g_ptr_array_add (
+			search_results,
+			(gpointer) camel_pstring_strdup (uid));
+
+	camel_folder_free_message_info (folder, info);
 }
 
 static void
-regen_list_exec (struct _regen_list_msg *m,
-                 GCancellable *cancellable,
-                 GError **error)
+message_list_regen_thread (GSimpleAsyncResult *simple,
+                           GObject *source_object,
+                           GCancellable *cancellable)
 {
+	MessageList *message_list;
+	RegenData *regen_data;
 	GPtrArray *uids, *searchuids = NULL;
 	CamelMessageInfo *info;
 	ETreePath cursor;
 	ETree *tree;
-	gint i;
-	gchar *expr = NULL;
+	GString *expr;
 	GError *local_error = NULL;
 
-	if (m->folder != m->ml->folder)
-		return;
-
-	tree = E_TREE (m->ml);
-	cursor = e_tree_get_cursor (tree);
-	if (cursor)
-		m->last_row = e_tree_table_adapter_row_of_node (e_tree_get_table_adapter (tree), cursor);
-
-	/* if we have hidedeleted on, use a search to find it out, merge with existing search if set */
-	if (m->hidedel) {
-		if (m->hidejunk) {
-			if (m->search) {
-				expr = g_alloca (strlen (m->search) + 92);
-				sprintf (expr, "(and (match-all (and (not (system-flag \"deleted\")) (not (system-flag \"junk\"))))\n %s)", m->search);
-			} else
-				expr = (gchar *) "(match-all (and (not (system-flag \"deleted\")) (not (system-flag \"junk\"))))";
-		} else {
-			if (m->search) {
-				expr = g_alloca (strlen (m->search) + 64);
-				sprintf (expr, "(and (match-all (not (system-flag \"deleted\")))\n %s)", m->search);
-			} else
-				expr = (gchar *) "(match-all (not (system-flag \"deleted\")))";
-		}
-	} else {
-		if (m->hidejunk) {
-			if (m->search) {
-				expr = g_alloca (strlen (m->search) + 64);
-				sprintf (expr, "(and (match-all (not (system-flag \"junk\")))\n %s)", m->search);
-			} else
-				expr = (gchar *) "(match-all (not (system-flag \"junk\")))";
-		} else {
-			expr = m->search;
-		}
-	}
-
-	if (expr == NULL) {
-		uids = camel_folder_get_uids (m->folder);
-	} else {
-		gboolean store_has_vjunk = folder_store_supports_vjunk_folder (m->folder);
-
-		searchuids = uids = camel_folder_search_by_expression (
-			m->folder, expr, cancellable, &local_error);
-		/* If m->changes is not NULL, then it means we are called from folder_changed event,
-		 * thus we will keep the selected message to be sure it doesn't disappear because
-		 * it no longer belong to our search filter. */
-		if (uids && ((m->changes && m->ml->cursor_uid) || m->ml->ensure_uid)) {
-			const gchar *looking_for = m->ml->cursor_uid;
-			/* ensure_uid has precedence of cursor_uid */
-			if (m->ml->ensure_uid)
-				looking_for = m->ml->ensure_uid;
-
-			for (i = 0; i < uids->len; i++) {
-				if (g_str_equal (looking_for, uids->pdata[i]))
-					break;
-			}
-
-			/* cursor_uid has been filtered out */
-			if (i == uids->len) {
-				CamelMessageInfo *looking_info = camel_folder_get_message_info (m->folder, looking_for);
-
-				if (looking_info) {
-					gboolean is_deleted = (camel_message_info_flags (looking_info) & CAMEL_MESSAGE_DELETED) != 0;
-					gboolean is_junk = store_has_vjunk && (camel_message_info_flags (looking_info) & CAMEL_MESSAGE_JUNK) != 0;
-
-					/* I would really like to check for CAMEL_MESSAGE_FOLDER_FLAGGED on a message,
-					 * so I would know whether it was changed locally, and then just check the changes
-					 * struct whether change came from the server, but with periodical save it doesn't
-					 * matter. So here just check whether the file was deleted and we show it based
-					 * on the flag whether we can view deleted messages or not. */
-
-					if ((!is_deleted || (is_deleted && !m->hidedel)) && (!is_junk || (is_junk && !m->hidejunk)))
-						g_ptr_array_add (uids, (gpointer) camel_pstring_strdup (looking_for));
-
-					camel_folder_free_message_info (m->folder, looking_info);
-				}
-			}
-		}
-	}
-
-	if (local_error != NULL) {
-		g_propagate_error (error, local_error);
-		return;
-	}
-
-	/* camel_folder_summary_prepare_fetch_all (m->folder->summary, NULL); */
-	if (!g_cancellable_is_cancelled (cancellable) && uids) {
-		/* update/build a new tree */
-		if (m->dotree) {
-			ml_sort_uids_by_tree (m->ml, uids, cancellable);
-
-			if (m->tree)
-				camel_folder_thread_messages_apply (m->tree, uids);
-			else
-				m->tree = camel_folder_thread_messages_new (m->folder, uids, m->thread_subject);
-		} else {
-			camel_folder_sort_uids (m->ml->folder, uids);
-			m->summary = g_ptr_array_new ();
-
-			camel_folder_summary_prepare_fetch_all (
-				m->folder->summary, NULL);
-
-			for (i = 0; i < uids->len; i++) {
-				info = camel_folder_get_message_info (m->folder, uids->pdata[i]);
-				if (info)
-					g_ptr_array_add (m->summary, info);
-			}
-		}
-
-		m->complete = TRUE;
-	}
-
-	if (searchuids)
-		camel_folder_search_free (m->folder, searchuids);
-	else
-		camel_folder_free_uids (m->folder, uids);
-}
-
-static void
-regen_list_done (struct _regen_list_msg *m)
-{
-	ETree *tree;
-	GCancellable *cancellable;
-	gboolean searching;
-
-	cancellable = m->base.cancellable;
-
-	if (m->ml->priv->destroyed)
-		return;
-
-	if (!m->complete)
-		return;
+	message_list = MESSAGE_LIST (source_object);
+	regen_data = g_simple_async_result_get_op_res_gpointer (simple);
 
 	if (g_cancellable_is_cancelled (cancellable))
 		return;
 
-	if (m->ml->folder != m->folder)
-		return;
+	tree = E_TREE (message_list);
+	cursor = e_tree_get_cursor (tree);
+	if (cursor != NULL)
+		regen_data->last_row =
+			e_tree_table_adapter_row_of_node (
+			e_tree_get_table_adapter (tree), cursor);
 
-	tree = E_TREE (m->ml);
+	/* Construct the search expression. */
 
-	if (m->scroll_to_cursor)
-		e_tree_show_cursor_after_reflow (tree);
+	expr = g_string_new ("");
 
-	g_signal_handlers_block_by_func (e_tree_get_table_adapter (tree), ml_tree_sorting_changed, m->ml);
+	if (regen_data->hide_deleted && regen_data->hide_junk) {
+		g_string_append_printf (
+			expr, "(match-all (and %s %s))",
+			EXCLUDE_DELETED_MESSAGES_EXPR,
+			EXCLUDE_JUNK_MESSAGES_EXPR);
+	} else if (regen_data->hide_deleted) {
+		g_string_append_printf (
+			expr, "(match-all %s)",
+			EXCLUDE_DELETED_MESSAGES_EXPR);
+	} else if (regen_data->hide_junk) {
+		g_string_append_printf (
+			expr, "(match-all %s)",
+			EXCLUDE_JUNK_MESSAGES_EXPR);
+	}
 
-	if (m->ml->search && m->ml->search != m->search)
-		g_free (m->ml->search);
-	m->ml->search = m->search;
-	m->search = NULL;
-
-	searching = m->ml->search && *m->ml->search;
-
-	if (m->dotree) {
-		gboolean forcing_expand_state = m->ml->expand_all || m->ml->collapse_all;
-
-		if (m->ml->just_set_folder) {
-			m->ml->just_set_folder = FALSE;
-			if (m->expand_state) {
-				/* rather load state from disk than use the memory data when changing folders */
-				xmlFreeDoc (m->expand_state);
-				m->expand_state = NULL;
-			}
-		}
-
-		if (forcing_expand_state || searching)
-			e_tree_force_expanded_state (tree, (m->ml->expand_all || searching) ? 1 : -1);
-
-		build_tree (m->ml, m->tree, m->changes, m->scroll_to_cursor);
-		if (m->ml->thread_tree)
-			camel_folder_thread_messages_unref (m->ml->thread_tree);
-		m->ml->thread_tree = m->tree;
-		m->tree = NULL;
-
-		if (forcing_expand_state || searching) {
-			if (m->ml->folder != NULL && tree != NULL && !searching)
-				save_tree_state (m->ml);
-			/* do not forget to set this back to use the default value... */
-			e_tree_force_expanded_state (tree, 0);
-		} else
-			load_tree_state (m->ml, m->expand_state);
-
-		m->ml->expand_all = 0;
-		m->ml->collapse_all = 0;
-	} else
-		build_flat (m->ml, m->summary, m->changes);
-
-	g_mutex_lock (&m->ml->priv->regen_lock);
-	m->ml->priv->regen = g_list_remove (m->ml->priv->regen, m);
-	g_mutex_unlock (&m->ml->priv->regen_lock);
-
-	if (m->ml->priv->regen == NULL && m->ml->priv->pending_select_uid != NULL) {
-		gchar *uid;
-		gboolean with_fallback;
-
-		uid = m->ml->priv->pending_select_uid;
-		m->ml->priv->pending_select_uid = NULL;
-		with_fallback = m->ml->priv->pending_select_fallback;
-		message_list_select_uid (m->ml, uid, with_fallback);
-		g_free (uid);
-	} else if (m->ml->priv->regen == NULL && m->ml->cursor_uid == NULL && m->last_row != -1) {
-		ETreeTableAdapter *etta = e_tree_get_table_adapter (tree);
-
-		if (m->last_row >= e_table_model_row_count (E_TABLE_MODEL (etta)))
-			m->last_row = e_table_model_row_count (E_TABLE_MODEL (etta)) - 1;
-
-		if (m->last_row >= 0) {
-			ETreePath path;
-
-			path = e_tree_table_adapter_node_at_row (etta, m->last_row);
-			if (path)
-				select_path (m->ml, path);
+	if (regen_data->search != NULL) {
+		if (expr->len == 0) {
+			g_string_assign (expr, regen_data->search);
+		} else {
+			g_string_prepend (expr, "(and ");
+			g_string_append_c (expr, ' ');
+			g_string_append (expr, regen_data->search);
+			g_string_append_c (expr, ')');
 		}
 	}
 
-	if (gtk_widget_get_visible (GTK_WIDGET (m->ml))) {
-		if (e_tree_row_count (E_TREE (m->ml)) <= 0) {
-			/* space is used to indicate no search too */
-			if (m->ml->search && *m->ml->search && strcmp (m->ml->search, " ") != 0)
-				e_tree_set_info_message (tree, _("No message satisfies your search criteria. "
-					"Change search criteria by selecting a new Show message filter from "
-					"the drop down list above or by running a new search either by clearing "
-					"it with Search->Clear menu item or by changing the query above."));
-			else
-				e_tree_set_info_message (tree, _("There are no messages in this folder."));
-		} else
-			e_tree_set_info_message (tree, NULL);
+	/* Execute the search. */
+
+	if (expr->len == 0) {
+		uids = camel_folder_get_uids (regen_data->folder);
+	} else {
+		uids = camel_folder_search_by_expression (
+			regen_data->folder, expr->str,
+			cancellable, &local_error);
+
+		/* XXX This indicates we need to use a different
+		 *     "free UID" function for some dumb reason. */
+		searchuids = uids;
+
+		if (uids != NULL)
+			message_list_regen_tweak_search_results (
+				message_list, uids,
+				regen_data->folder,
+				regen_data->folder_changed,
+				!regen_data->hide_deleted,
+				!regen_data->hide_junk);
 	}
 
-	g_signal_handlers_unblock_by_func (e_tree_get_table_adapter (tree), ml_tree_sorting_changed, m->ml);
+	g_string_free (expr, TRUE);
 
-	g_signal_emit (m->ml, message_list_signals[MESSAGE_LIST_BUILT], 0);
-	m->ml->priv->any_row_changed = FALSE;
+	/* Handle search error or cancellation. */
+
+	if (local_error == NULL)
+		g_cancellable_set_error_if_cancelled (
+			cancellable, &local_error);
+
+	if (local_error != NULL) {
+		g_simple_async_result_take_error (simple, local_error);
+		goto exit;
+	}
+
+	/* XXX This check might not be necessary.  A successfully completed
+	 *     search with no results should return an empty UID array, but
+	 *     still need to verify that. */
+	if (uids == NULL)
+		goto exit;
+
+	/* update/build a new tree */
+	if (regen_data->threaded) {
+		ml_sort_uids_by_tree (message_list, uids, cancellable);
+
+		if (regen_data->tree != NULL)
+			camel_folder_thread_messages_apply (
+				regen_data->tree, uids);
+		else
+			regen_data->tree = camel_folder_thread_messages_new (
+				regen_data->folder, uids,
+				regen_data->thread_subject);
+	} else {
+		guint ii;
+
+		camel_folder_sort_uids (regen_data->folder, uids);
+		regen_data->summary = g_ptr_array_new ();
+
+		camel_folder_summary_prepare_fetch_all (
+			regen_data->folder->summary, NULL);
+
+		for (ii = 0; ii < uids->len; ii++) {
+			info = camel_folder_get_message_info (
+				regen_data->folder, uids->pdata[ii]);
+			if (info != NULL)
+				g_ptr_array_add (regen_data->summary, info);
+		}
+	}
+
+exit:
+	if (searchuids != NULL)
+		camel_folder_search_free (regen_data->folder, searchuids);
+	else if (uids != NULL)
+		camel_folder_free_uids (regen_data->folder, uids);
 }
 
 static void
-regen_list_free (struct _regen_list_msg *m)
+message_list_regen_done_cb (GObject *source_object,
+                            GAsyncResult *result,
+                            gpointer user_data)
 {
-	gint i;
+	MessageList *message_list;
+	GSimpleAsyncResult *simple;
+	RegenData *regen_data;
+	EActivity *activity;
+	ETree *tree;
+	ETreeTableAdapter *adapter;
+	gboolean searching;
+	GError *local_error = NULL;
 
-	if (m->summary) {
-		for (i = 0; i < m->summary->len; i++)
-			camel_folder_free_message_info (m->folder, m->summary->pdata[i]);
-		g_ptr_array_free (m->summary, TRUE);
+	message_list = MESSAGE_LIST (source_object);
+	simple = G_SIMPLE_ASYNC_RESULT (result);
+
+	/* Steal the MessageList's RegenData pointer.
+	 * We should have exclusive access to it now. */
+	g_mutex_lock (&message_list->priv->regen_lock);
+	regen_data = message_list->priv->regen_data;
+	message_list->priv->regen_data = NULL;
+	g_mutex_unlock (&message_list->priv->regen_lock);
+
+	g_return_if_fail (regen_data != NULL);
+
+	activity = regen_data->activity;
+
+	g_simple_async_result_propagate_error (simple, &local_error);
+
+	if (e_activity_handle_cancellation (activity, local_error)) {
+		g_error_free (local_error);
+		goto exit;
+
+	/* FIXME This should be handed off to an EAlertSink. */
+	} else if (local_error != NULL) {
+		g_warning ("%s: %s", G_STRFUNC, local_error->message);
+		g_error_free (local_error);
+		goto exit;
 	}
 
-	if (m->tree)
-		camel_folder_thread_messages_unref (m->tree);
+	e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
 
-	g_free (m->search);
-	g_free (m->hideexpr);
+	tree = E_TREE (message_list);
+	adapter = e_tree_get_table_adapter (tree);
 
-	g_object_unref (m->folder);
+	/* Show the cursor unless we're responding to a
+	 * "folder-changed" signal from our CamelFolder. */
+	if (!regen_data->folder_changed)
+		e_tree_show_cursor_after_reflow (tree);
 
-	if (m->changes)
-		camel_folder_change_info_free (m->changes);
+	g_signal_handlers_block_by_func (
+		adapter, ml_tree_sorting_changed, message_list);
 
-	/* we have to poke this here as well since we might've been cancelled and regened wont get called */
-	g_mutex_lock (&m->ml->priv->regen_lock);
-	m->ml->priv->regen = g_list_remove (m->ml->priv->regen, m);
-	g_mutex_unlock (&m->ml->priv->regen_lock);
+	g_free (message_list->search);
+	message_list->search = g_strdup (regen_data->search);
 
-	if (m->expand_state)
-		xmlFreeDoc (m->expand_state);
+	searching =
+		(message_list->search != NULL) &&
+		(*message_list->search != '\0');
 
-	g_object_unref (m->ml);
+	if (regen_data->threaded) {
+		gboolean forcing_expand_state;
+
+		forcing_expand_state =
+			message_list->expand_all ||
+			message_list->collapse_all;
+
+		if (message_list->just_set_folder) {
+			message_list->just_set_folder = FALSE;
+			if (regen_data->expand_state != NULL) {
+				/* Load state from disk rather than use
+				 * the memory data when changing folders. */
+				xmlFreeDoc (regen_data->expand_state);
+				regen_data->expand_state = NULL;
+			}
+		}
+
+		if (forcing_expand_state || searching) {
+			if (message_list->expand_all || searching)
+				e_tree_force_expanded_state (tree, 1);
+			else
+				e_tree_force_expanded_state (tree, -1);
+		}
+
+		/* Show the cursor unless we're responding to a
+		 * "folder-changed" signal from our CamelFolder. */
+		build_tree (
+			message_list,
+			regen_data->tree,
+			regen_data->folder_changed);
+
+		if (message_list->thread_tree != NULL)
+			camel_folder_thread_messages_unref (
+				message_list->thread_tree);
+		message_list->thread_tree = regen_data->tree;
+		regen_data->tree = NULL;
+
+		if (forcing_expand_state || searching) {
+			if (message_list->folder != NULL && tree != NULL && !searching)
+				save_tree_state (message_list);
+			/* do not forget to set this back to use the default value... */
+			e_tree_force_expanded_state (tree, 0);
+		} else {
+			load_tree_state (
+				message_list, regen_data->expand_state);
+		}
+
+		message_list->expand_all = 0;
+		message_list->collapse_all = 0;
+	} else {
+		build_flat (
+			message_list,
+			regen_data->summary);
+	}
+
+	if (regen_data->select_all) {
+		message_list_select_all (message_list);
+
+	} else if (regen_data->select_uid != NULL) {
+		message_list_select_uid (
+			message_list,
+			regen_data->select_uid,
+			regen_data->select_use_fallback);
+
+	} else if (message_list->cursor_uid == NULL && regen_data->last_row != -1) {
+		gint row_count;
+
+		row_count = e_table_model_row_count (E_TABLE_MODEL (adapter));
+
+		if (regen_data->last_row >= row_count)
+			regen_data->last_row = row_count;
+
+		if (regen_data->last_row >= 0) {
+			ETreePath path;
+
+			path = e_tree_table_adapter_node_at_row (
+				adapter, regen_data->last_row);
+			if (path != NULL)
+				select_path (message_list, path);
+		}
+	}
+
+	if (gtk_widget_get_visible (GTK_WIDGET (message_list))) {
+		const gchar *info_message;
+		gboolean have_search_expr;
+
+		/* space is used to indicate no search too */
+		have_search_expr =
+			(message_list->search != NULL) &&
+			(*message_list->search != '\0') &&
+			(strcmp (message_list->search, " ") != 0);
+
+		if (e_tree_row_count (E_TREE (tree)) > 0) {
+			info_message = NULL;
+		} else if (have_search_expr) {
+			info_message =
+				_("No message satisfies your search criteria. "
+				"Change search criteria by selecting a new "
+				"Show message filter from the drop down list "
+				"above or by running a new search either by "
+				"clearing it with Search->Clear menu item or "
+				"by changing the query above.");
+		} else {
+			info_message =
+				_("There are no messages in this folder.");
+		}
+
+		e_tree_set_info_message (tree, info_message);
+	}
+
+	g_signal_handlers_unblock_by_func (
+		adapter, ml_tree_sorting_changed, message_list);
+
+	g_signal_emit (
+		message_list,
+		message_list_signals[MESSAGE_LIST_BUILT], 0);
+
+	message_list->priv->any_row_changed = FALSE;
+
+exit:
+	regen_data_unref (regen_data);
 }
 
-static MailMsgInfo regen_list_info = {
-	sizeof (struct _regen_list_msg),
-	(MailMsgDescFunc) regen_list_desc,
-	(MailMsgExecFunc) regen_list_exec,
-	(MailMsgDoneFunc) regen_list_done,
-	(MailMsgFreeFunc) regen_list_free
-};
-
 static gboolean
-ml_regen_timeout (struct _regen_list_msg *m)
+message_list_regen_timeout_cb (gpointer user_data)
 {
-	g_mutex_lock (&m->ml->priv->regen_lock);
-	m->ml->priv->regen = g_list_prepend (m->ml->priv->regen, m);
-	g_mutex_unlock (&m->ml->priv->regen_lock);
-	/* TODO: we should manage our own thread stuff, would make cancelling outstanding stuff easier */
-	mail_msg_fast_ordered_push (m);
+	GSimpleAsyncResult *simple;
+	RegenData *regen_data;
+	GCancellable *cancellable;
 
-	m->ml->priv->regen_timeout_msg = NULL;
-	m->ml->priv->regen_timeout_id = 0;
+	simple = G_SIMPLE_ASYNC_RESULT (user_data);
+	regen_data = g_simple_async_result_get_op_res_gpointer (simple);
+	cancellable = e_activity_get_cancellable (regen_data->activity);
+
+	g_mutex_lock (&regen_data->message_list->priv->regen_lock);
+	regen_data->message_list->priv->regen_timeout_id = 0;
+	g_mutex_unlock (&regen_data->message_list->priv->regen_lock);
+
+	if (g_cancellable_is_cancelled (cancellable)) {
+		g_simple_async_result_complete (simple);
+	} else {
+		g_simple_async_result_run_in_thread (
+			simple,
+			message_list_regen_thread,
+			G_PRIORITY_DEFAULT,
+			cancellable);
+	}
 
 	return FALSE;
 }
 
 static void
-mail_regen_cancel (MessageList *ml)
+mail_regen_cancel (MessageList *message_list)
 {
-	/* cancel any outstanding regeneration requests, not we don't clear, they clear themselves */
-	if (ml->priv->regen != NULL) {
-		GList *link;
+	RegenData *regen_data = NULL;
 
-		g_mutex_lock (&ml->priv->regen_lock);
+	g_mutex_lock (&message_list->priv->regen_lock);
 
-		for (link = ml->priv->regen; link != NULL; link = link->next) {
-			MailMsg *mm = link->data;
-			GCancellable *cancellable;
+	if (message_list->priv->regen_data != NULL)
+		regen_data = regen_data_ref (message_list->priv->regen_data);
 
-			cancellable = mm->cancellable;
-			g_cancellable_cancel (cancellable);
-		}
-
-		g_mutex_unlock (&ml->priv->regen_lock);
+	if (message_list->priv->regen_timeout_id > 0) {
+		g_source_remove (message_list->priv->regen_timeout_id);
+		message_list->priv->regen_timeout_id = 0;
 	}
 
-	/* including unqueued ones */
-	if (ml->priv->regen_timeout_id) {
-		g_source_remove (ml->priv->regen_timeout_id);
-		ml->priv->regen_timeout_id = 0;
-		mail_msg_unref (ml->priv->regen_timeout_msg);
-		ml->priv->regen_timeout_msg = NULL;
+	g_mutex_unlock (&message_list->priv->regen_lock);
+
+	/* Cancel outside the lock, since this will emit a signal. */
+	if (regen_data != NULL) {
+		e_activity_cancel (regen_data->activity);
+		regen_data_unref (regen_data);
 	}
 }
 
 static void
-mail_regen_list (MessageList *ml,
+mail_regen_list (MessageList *message_list,
                  const gchar *search,
-                 const gchar *hideexpr,
-                 CamelFolderChangeInfo *changes,
-                 gboolean scroll_to_cursor)
+                 gboolean folder_changed)
 {
-	struct _regen_list_msg *m;
-	GSettings *settings;
-	gboolean thread_subject;
+	GSimpleAsyncResult *simple;
+	GCancellable *cancellable;
+	RegenData *new_regen_data;
+	RegenData *old_regen_data;
 	gboolean searching;
 
-	/* report empty search as NULL, not as one/two-space string */
+	/* Report empty search as NULL, not as one/two-space string. */
 	if (search && (strcmp (search, " ") == 0 || strcmp (search, "  ") == 0))
 		search = NULL;
 
-	if (ml->folder == NULL) {
-		if (ml->search != search) {
-			g_free (ml->search);
-			ml->search = g_strdup (search);
-		}
+	/* Can't list messages in a folder until we have a folder. */
+	if (message_list->folder == NULL) {
+		g_free (message_list->search);
+		message_list->search = g_strdup (search);
 		return;
 	}
 
-	mail_regen_cancel (ml);
+	cancellable = g_cancellable_new ();
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
-	thread_subject = g_settings_get_boolean (settings, "thread-subject");
-	g_object_unref (settings);
+	new_regen_data = regen_data_new (message_list, cancellable);
+	new_regen_data->search = g_strdup (search);
+	new_regen_data->folder_changed = folder_changed;
 
-	m = mail_msg_new (&regen_list_info);
-	m->ml = g_object_ref (ml);
-	m->search = g_strdup (search);
-	m->hideexpr = g_strdup (hideexpr);
-	m->changes = changes;
-	m->dotree = ml->threaded;
-	m->hidedel = ml->hidedeleted;
-	m->hidejunk = ml->hidejunk;
-	m->thread_subject = thread_subject;
-	m->scroll_to_cursor = scroll_to_cursor;
-	m->folder = g_object_ref (ml->folder);
-	m->last_row = -1;
-	m->expand_state = NULL;
+	if (message_list->thread_tree != NULL) {
+		CamelFolderThread *thread_tree;
 
-	if ((!m->hidedel || !m->dotree) && ml->thread_tree) {
-		camel_folder_thread_messages_unref (ml->thread_tree);
-		ml->thread_tree = NULL;
-	} else if (ml->thread_tree) {
-		m->tree = ml->thread_tree;
-		camel_folder_thread_messages_ref (m->tree);
+		thread_tree = message_list->thread_tree;
+
+		if (message_list->threaded && message_list->hidedeleted) {
+			new_regen_data->tree = thread_tree;
+			camel_folder_thread_messages_ref (thread_tree);
+		} else {
+			camel_folder_thread_messages_unref (thread_tree);
+			message_list->thread_tree = NULL;
+		}
 	}
 
-	searching = ml->search && *ml->search && !g_str_equal (ml->search, " ");
+	searching = (g_strcmp0 (message_list->search, " ") != 0);
 
-	if (e_tree_row_count (E_TREE (ml)) <= 0) {
-		if (gtk_widget_get_visible (GTK_WIDGET (ml))) {
-			/* there is some info why the message list is empty, let it be something useful */
-			gchar *txt = g_strconcat (_("Generating message list"), "..." , NULL);
+	if (e_tree_row_count (E_TREE (message_list)) <= 0) {
+		if (gtk_widget_get_visible (GTK_WIDGET (message_list))) {
+			gchar *txt;
 
-			e_tree_set_info_message (E_TREE (m->ml), txt);
-
+			txt = g_strdup_printf (
+				"%s...", _("Generating message list"));
+			e_tree_set_info_message (E_TREE (message_list), txt);
 			g_free (txt);
 		}
-	} else if (ml->priv->any_row_changed && m->dotree && !ml->just_set_folder && !searching) {
-		/* there has been some change on any row, if it was an expand state change,
-		 * then let it save; if not, then nothing happen. */
-		message_list_save_state (ml);
-	} else if (m->dotree && !ml->just_set_folder && !searching) {
-		/* remember actual expand state and restore it after regen */
-		m->expand_state = e_tree_save_expanded_state_xml (E_TREE (ml));
+	} else if (message_list->priv->any_row_changed &&
+		   message_list->threaded &&
+		   !message_list->just_set_folder &&
+		   !searching) {
+		/* Something changed.  If it was an expand
+		 * state change, then save the expand state. */
+		message_list_save_state (message_list);
+	} else if (message_list->threaded &&
+		   !message_list->just_set_folder &&
+		   !searching) {
+		/* Remember the expand state and restore it after regen. */
+		new_regen_data->expand_state =
+			e_tree_save_expanded_state_xml (E_TREE (message_list));
 	}
 
-	/* if we're busy already kick off timeout processing, so normal updates are immediate */
-	if (ml->priv->regen == NULL)
-		ml_regen_timeout (m);
-	else {
-		ml->priv->regen_timeout_msg = m;
-		ml->priv->regen_timeout_id = g_timeout_add (
-			50, (GSourceFunc) ml_regen_timeout, m);
+	/* We generate the message list content in a worker thread, and
+	 * then supply our own GAsyncReadyCallback to redraw the widget. */
+
+	simple = g_simple_async_result_new (
+		G_OBJECT (message_list),
+		message_list_regen_done_cb,
+		NULL, mail_regen_list);
+
+	g_simple_async_result_set_check_cancellable (simple, cancellable);
+
+	g_simple_async_result_set_op_res_gpointer (
+		simple,
+		regen_data_ref (new_regen_data),
+		(GDestroyNotify) regen_data_unref);
+
+	/* Swap the old regen data (if present) for the new regen data. */
+
+	g_mutex_lock (&message_list->priv->regen_lock);
+
+	old_regen_data = message_list->priv->regen_data;
+	message_list->priv->regen_data = regen_data_ref (new_regen_data);
+
+	if (message_list->priv->regen_timeout_id > 0) {
+		g_source_remove (message_list->priv->regen_timeout_id);
+		message_list->priv->regen_timeout_id = 0;
 	}
+
+	/* Start the regen after a short timeout, so normal updates
+	 * are immediate.  XXX Do we still need to do this timeout?
+	 * What are "normal" updates? */
+	if (old_regen_data != NULL) {
+		message_list->priv->regen_timeout_id =
+			g_timeout_add_full (
+				G_PRIORITY_DEFAULT, 50,
+				message_list_regen_timeout_cb,
+				g_object_ref (simple),
+				(GDestroyNotify) g_object_unref);
+	} else {
+		g_simple_async_result_run_in_thread (
+			simple,
+			message_list_regen_thread,
+			G_PRIORITY_DEFAULT,
+			cancellable);
+	}
+
+	g_mutex_unlock (&message_list->priv->regen_lock);
+
+	/* Cancel outside the lock, since this will emit a signal. */
+	if (old_regen_data != NULL) {
+		e_activity_cancel (old_regen_data->activity);
+		regen_data_unref (old_regen_data);
+	}
+
+	g_object_unref (simple);
+
+	regen_data_unref (new_regen_data);
+
+	g_object_unref (cancellable);
 }
