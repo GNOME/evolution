@@ -87,6 +87,14 @@ struct _MessageListPrivate {
 
 	EMailSession *session;
 
+	/* Outstanding regeneration requests. */
+	GList *regen;
+	GMutex regen_lock;
+	gchar *pending_select_uid;
+	gboolean pending_select_fallback;
+	guint regen_timeout_id;
+	gpointer regen_timeout_msg;
+
 	struct _MLSelection clipboard;
 	gboolean destroyed;
 
@@ -577,6 +585,7 @@ message_list_select_uid (MessageList *message_list,
 	MessageListPrivate *priv;
 	GHashTable *uid_nodemap;
 	ETreePath node = NULL;
+	gboolean regen_in_progress;
 
 	g_return_if_fail (IS_MESSAGE_LIST (message_list));
 
@@ -590,6 +599,10 @@ message_list_select_uid (MessageList *message_list,
 	if (uid != NULL)
 		node = g_hash_table_lookup (uid_nodemap, uid);
 
+	regen_in_progress =
+		(message_list->priv->regen != NULL) &&
+		(message_list->priv->regen_timeout_id > 0);
+
 	/* If we're busy or waiting to regenerate the message list, cache
 	 * the UID so we can try again when we're done.  Otherwise if the
 	 * requested message UID was not found and 'with_fallback' is set,
@@ -598,10 +611,10 @@ message_list_select_uid (MessageList *message_list,
 	 * 1) Oldest unread message in the list, by date received.
 	 * 2) Newest read message in the list, by date received.
 	 */
-	if (message_list->regen || message_list->regen_timeout_id) {
-		g_free (message_list->pending_select_uid);
-		message_list->pending_select_uid = g_strdup (uid);
-		message_list->pending_select_fallback = with_fallback;
+	if (regen_in_progress) {
+		g_free (message_list->priv->pending_select_uid);
+		message_list->priv->pending_select_uid = g_strdup (uid);
+		message_list->priv->pending_select_fallback = with_fallback;
 	} else if (with_fallback) {
 		if (node == NULL && priv->oldest_unread_uid != NULL)
 			node = g_hash_table_lookup (
@@ -723,9 +736,13 @@ message_list_select_all_timeout_cb (MessageList *message_list)
 void
 message_list_select_all (MessageList *message_list)
 {
+	gboolean regen_pending;
+
 	g_return_if_fail (IS_MESSAGE_LIST (message_list));
 
-	if (message_list->threaded && message_list->regen_timeout_id) {
+	regen_pending = (message_list->priv->regen_timeout_id > 0);
+
+	if (message_list->threaded && regen_pending) {
 		/* XXX The timeout below is added so that the execution
 		 *     thread to expand all conversation threads would
 		 *     have completed.  The timeout 505 is just to ensure
@@ -2429,7 +2446,7 @@ message_list_init (MessageList *message_list)
 	message_list->cursor_uid = NULL;
 	message_list->last_sel_single = FALSE;
 
-	g_mutex_init (&message_list->regen_lock);
+	g_mutex_init (&message_list->priv->regen_lock);
 
 	/* TODO: Should this only get the selection if we're realised? */
 	p = message_list->priv;
@@ -2581,7 +2598,6 @@ static void
 message_list_finalize (GObject *object)
 {
 	MessageList *message_list = MESSAGE_LIST (object);
-	MessageListPrivate *priv = message_list->priv;
 
 	g_hash_table_destroy (message_list->normalised_hash);
 
@@ -2598,9 +2614,9 @@ message_list_finalize (GObject *object)
 	g_free (message_list->frozen_search);
 	g_free (message_list->cursor_uid);
 
-	g_mutex_clear (&message_list->regen_lock);
+	g_mutex_clear (&message_list->priv->regen_lock);
 
-	clear_selection (message_list, &priv->clipboard);
+	clear_selection (message_list, &message_list->priv->clipboard);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (message_list_parent_class)->finalize (object);
@@ -4603,20 +4619,20 @@ regen_list_done (struct _regen_list_msg *m)
 	} else
 		build_flat (m->ml, m->summary, m->changes);
 
-	g_mutex_lock (&m->ml->regen_lock);
-	m->ml->regen = g_list_remove (m->ml->regen, m);
-	g_mutex_unlock (&m->ml->regen_lock);
+	g_mutex_lock (&m->ml->priv->regen_lock);
+	m->ml->priv->regen = g_list_remove (m->ml->priv->regen, m);
+	g_mutex_unlock (&m->ml->priv->regen_lock);
 
-	if (m->ml->regen == NULL && m->ml->pending_select_uid) {
+	if (m->ml->priv->regen == NULL && m->ml->priv->pending_select_uid != NULL) {
 		gchar *uid;
 		gboolean with_fallback;
 
-		uid = m->ml->pending_select_uid;
-		m->ml->pending_select_uid = NULL;
-		with_fallback = m->ml->pending_select_fallback;
+		uid = m->ml->priv->pending_select_uid;
+		m->ml->priv->pending_select_uid = NULL;
+		with_fallback = m->ml->priv->pending_select_fallback;
 		message_list_select_uid (m->ml, uid, with_fallback);
 		g_free (uid);
-	} else if (m->ml->regen == NULL && m->ml->cursor_uid == NULL && m->last_row != -1) {
+	} else if (m->ml->priv->regen == NULL && m->ml->cursor_uid == NULL && m->last_row != -1) {
 		ETreeTableAdapter *etta = e_tree_get_table_adapter (tree);
 
 		if (m->last_row >= e_table_model_row_count (E_TABLE_MODEL (etta)))
@@ -4674,9 +4690,9 @@ regen_list_free (struct _regen_list_msg *m)
 		camel_folder_change_info_free (m->changes);
 
 	/* we have to poke this here as well since we might've been cancelled and regened wont get called */
-	g_mutex_lock (&m->ml->regen_lock);
-	m->ml->regen = g_list_remove (m->ml->regen, m);
-	g_mutex_unlock (&m->ml->regen_lock);
+	g_mutex_lock (&m->ml->priv->regen_lock);
+	m->ml->priv->regen = g_list_remove (m->ml->priv->regen, m);
+	g_mutex_unlock (&m->ml->priv->regen_lock);
 
 	if (m->expand_state)
 		xmlFreeDoc (m->expand_state);
@@ -4695,14 +4711,14 @@ static MailMsgInfo regen_list_info = {
 static gboolean
 ml_regen_timeout (struct _regen_list_msg *m)
 {
-	g_mutex_lock (&m->ml->regen_lock);
-	m->ml->regen = g_list_prepend (m->ml->regen, m);
-	g_mutex_unlock (&m->ml->regen_lock);
+	g_mutex_lock (&m->ml->priv->regen_lock);
+	m->ml->priv->regen = g_list_prepend (m->ml->priv->regen, m);
+	g_mutex_unlock (&m->ml->priv->regen_lock);
 	/* TODO: we should manage our own thread stuff, would make cancelling outstanding stuff easier */
 	mail_msg_fast_ordered_push (m);
 
-	m->ml->regen_timeout_msg = NULL;
-	m->ml->regen_timeout_id = 0;
+	m->ml->priv->regen_timeout_msg = NULL;
+	m->ml->priv->regen_timeout_id = 0;
 
 	return FALSE;
 }
@@ -4711,12 +4727,12 @@ static void
 mail_regen_cancel (MessageList *ml)
 {
 	/* cancel any outstanding regeneration requests, not we don't clear, they clear themselves */
-	if (ml->regen) {
+	if (ml->priv->regen != NULL) {
 		GList *link;
 
-		g_mutex_lock (&ml->regen_lock);
+		g_mutex_lock (&ml->priv->regen_lock);
 
-		for (link = ml->regen; link != NULL; link = link->next) {
+		for (link = ml->priv->regen; link != NULL; link = link->next) {
 			MailMsg *mm = link->data;
 			GCancellable *cancellable;
 
@@ -4724,15 +4740,15 @@ mail_regen_cancel (MessageList *ml)
 			g_cancellable_cancel (cancellable);
 		}
 
-		g_mutex_unlock (&ml->regen_lock);
+		g_mutex_unlock (&ml->priv->regen_lock);
 	}
 
 	/* including unqueued ones */
-	if (ml->regen_timeout_id) {
-		g_source_remove (ml->regen_timeout_id);
-		ml->regen_timeout_id = 0;
-		mail_msg_unref (ml->regen_timeout_msg);
-		ml->regen_timeout_msg = NULL;
+	if (ml->priv->regen_timeout_id) {
+		g_source_remove (ml->priv->regen_timeout_id);
+		ml->priv->regen_timeout_id = 0;
+		mail_msg_unref (ml->priv->regen_timeout_msg);
+		ml->priv->regen_timeout_msg = NULL;
 	}
 }
 
@@ -4809,10 +4825,11 @@ mail_regen_list (MessageList *ml,
 	}
 
 	/* if we're busy already kick off timeout processing, so normal updates are immediate */
-	if (ml->regen == NULL)
+	if (ml->priv->regen == NULL)
 		ml_regen_timeout (m);
 	else {
-		ml->regen_timeout_msg = m;
-		ml->regen_timeout_id = g_timeout_add (50, (GSourceFunc) ml_regen_timeout, m);
+		ml->priv->regen_timeout_msg = m;
+		ml->priv->regen_timeout_id = g_timeout_add (
+			50, (GSourceFunc) ml_regen_timeout, m);
 	}
 }

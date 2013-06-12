@@ -146,15 +146,6 @@ struct _MessageList {
 	/* Row-selection and seen-marking timers */
 	guint idle_id, seen_id;
 
-	/* list of outstanding regeneration requests */
-	GList *regen;
-	GMutex regen_lock; /* when writing to the regen, guard with this lock too */
-	gchar *pending_select_uid;	/* set if we were busy regnerating
-					 * while we had a select come in */
-	gboolean pending_select_fallback;
-	guint regen_timeout_id;
-	gpointer regen_timeout_msg;
-
 	gchar *frozen_search;	/* to save search took place while we were frozen */
 
 	/* the current camel folder thread tree, if any */
