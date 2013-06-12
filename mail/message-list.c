@@ -2739,7 +2739,6 @@ message_list_finalize (GObject *object)
 		camel_folder_thread_messages_unref (message_list->thread_tree);
 
 	g_free (message_list->search);
-	g_free (message_list->ensure_uid);
 	g_free (message_list->frozen_search);
 	g_free (message_list->cursor_uid);
 
@@ -4318,17 +4317,6 @@ message_list_set_search (MessageList *ml,
 	}
 }
 
-/* will ensure that the message with UID uid will be in the message list after the next rebuild */
-void
-message_list_ensure_message (MessageList *ml,
-                             const gchar *uid)
-{
-	g_return_if_fail (ml != NULL);
-
-	g_free (ml->ensure_uid);
-	ml->ensure_uid = g_strdup (uid);
-}
-
 struct sort_column_data {
 	ETableCol *col;
 	gboolean ascending;
@@ -4546,18 +4534,12 @@ message_list_regen_tweak_search_results (MessageList *message_list,
 	 * Include the displayed message anyway so it doesn't suddenly
 	 * disappear while the user is reading it. */
 	needs_tweaking =
-		(message_list->ensure_uid != NULL) ||
 		(folder_changed && message_list->cursor_uid != NULL);
 
 	if (!needs_tweaking)
 		return;
 
-	if (message_list->ensure_uid != NULL)
-		uid = message_list->ensure_uid;
-	else
-		uid = message_list->cursor_uid;
-
-	g_return_if_fail (uid != NULL);
+	uid = message_list->cursor_uid;
 
 	/* Scan the search results for a particular UID.
 	 * If found then the results don't need tweaked. */
