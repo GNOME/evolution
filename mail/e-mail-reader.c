@@ -3006,11 +3006,9 @@ mail_reader_set_folder (EMailReader *reader,
 	EMailReaderPrivate *priv;
 	EMailDisplay *display;
 	CamelFolder *previous_folder;
-	ESourceRegistry *registry;
 	GtkWidget *message_list;
 	EMailBackend *backend;
 	EShell *shell;
-	gboolean outgoing;
 	gboolean sync_folder;
 
 	priv = E_MAIL_READER_GET_PRIVATE (reader);
@@ -3023,7 +3021,6 @@ mail_reader_set_folder (EMailReader *reader,
 
 	backend = e_mail_reader_get_backend (reader);
 	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
-	registry = e_shell_get_registry (shell);
 
 	/* Only synchronize the real folder if we're online. */
 	sync_folder =
@@ -3037,11 +3034,6 @@ mail_reader_set_folder (EMailReader *reader,
 	if (folder == previous_folder)
 		return;
 
-	outgoing = folder != NULL && (
-		em_utils_folder_is_drafts (registry, folder) ||
-		em_utils_folder_is_outbox (registry, folder) ||
-		em_utils_folder_is_sent (registry, folder));
-
 	e_web_view_clear (E_WEB_VIEW (display));
 
 	priv->folder_was_just_selected = (folder != NULL);
@@ -3051,8 +3043,7 @@ mail_reader_set_folder (EMailReader *reader,
 	if (CAMEL_IS_VEE_FOLDER (folder))
 		mail_sync_folder (folder, FALSE, NULL, NULL);
 
-	message_list_set_folder (
-		MESSAGE_LIST (message_list), folder, outgoing);
+	message_list_set_folder (MESSAGE_LIST (message_list), folder);
 
 	mail_reader_emit_folder_loaded (reader);
 }

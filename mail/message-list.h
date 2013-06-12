@@ -168,8 +168,7 @@ GType		message_list_get_type		(void);
 GtkWidget *	message_list_new		(EMailSession *session);
 EMailSession *	message_list_get_session	(MessageList *message_list);
 void		message_list_set_folder		(MessageList *message_list,
-						 CamelFolder *folder,
-						 gboolean outgoing);
+						 CamelFolder *folder);
 GtkTargetList *	message_list_get_copy_target_list
 						(MessageList *message_list);
 GtkTargetList *	message_list_get_paste_target_list

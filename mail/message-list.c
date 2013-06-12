@@ -2165,8 +2165,7 @@ message_list_save_state (MessageList *ml)
 }
 
 static void
-message_list_setup_etree (MessageList *message_list,
-                          gboolean outgoing)
+message_list_setup_etree (MessageList *message_list)
 {
 	/* build the spec based on the folder, and possibly from a saved file */
 	/* otherwise, leave default */
@@ -3707,16 +3706,12 @@ folder_changed (CamelFolder *folder,
  * message_list_set_folder:
  * @message_list: Message List widget
  * @folder: folder backend to be set
- * @outgoing: whether this is an outgoing folder
  *
- * Sets @folder to be the backend folder for @message_list. If
- * @outgoing is %TRUE, then the message-list UI changes to default to
- * the "Outgoing folder" column view.
+ * Sets @folder to be the backend folder for @message_list.
  **/
 void
 message_list_set_folder (MessageList *message_list,
-                         CamelFolder *folder,
-                         gboolean outgoing)
+                         CamelFolder *folder)
 {
 	ETreeModel *etm = message_list->model;
 	gboolean hide_deleted;
@@ -3817,7 +3812,7 @@ message_list_set_folder (MessageList *message_list,
 		composite_cell_set_strike_col (cell, strikeout_col);
 
 		/* Build the etree suitable for this folder */
-		message_list_setup_etree (message_list, outgoing);
+		message_list_setup_etree (message_list);
 
 		g_signal_connect (
 			folder, "changed",
