@@ -217,9 +217,6 @@ void		message_list_save_state		(MessageList *message_list);
 void		message_list_sort_uids		(MessageList *message_list,
 						 GPtrArray *uids);
 
-#define MESSAGE_LIST_LOCK(m, l) g_mutex_lock(((MessageList *)m)->l)
-#define MESSAGE_LIST_UNLOCK(m, l) g_mutex_unlock(((MessageList *)m)->l)
-
 G_END_DECLS
 
 #endif /* _MESSAGE_LIST_H_ */
