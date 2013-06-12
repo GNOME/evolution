@@ -182,25 +182,12 @@ enum {
 	NORMALISED_LAST
 };
 
-/* #define SMART_ADDRESS_COMPARE */
-
-#ifdef SMART_ADDRESS_COMPARE
-struct _EMailAddress {
-	ENameWestern *wname;
-	gchar *address;
-};
-
-typedef struct _EMailAddress EMailAddress;
-#endif /* SMART_ADDRESS_COMPARE */
-
 static void on_cursor_activated_cmd (ETree *tree, gint row, ETreePath path, gpointer user_data);
 static void on_selection_changed_cmd (ETree *tree, MessageList *ml);
 static gint on_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event, MessageList *list);
 static gchar *filter_date (time_t date);
 static gchar *filter_size (gint size);
 
-/* note: @changes is owned/freed by the caller */
-/*static void mail_do_regenerate_messagelist (MessageList *list, const gchar *search, const gchar *hideexpr, CamelFolderChangeInfo *changes);*/
 static void mail_regen_list (MessageList *ml, const gchar *search, const gchar *hideexpr, CamelFolderChangeInfo *changes, gboolean scroll_to_cursor);
 static void mail_regen_cancel (MessageList *ml);
 
@@ -254,127 +241,17 @@ static const gchar *followup_icons[] = {
 	"stock_mail-flag-for-followup-done"
 };
 
-#ifdef SMART_ADDRESS_COMPARE
-static EMailAddress *
-e_mail_address_new (const gchar *address)
-{
-	CamelInternetAddress *cia;
-	EMailAddress *new;
-	const gchar *name = NULL, *addr = NULL;
-
-	cia = camel_internet_address_new ();
-	if (camel_address_unformat (CAMEL_ADDRESS (cia), address) == -1) {
-		g_object_unref (cia);
-		return NULL;
-	}
-	camel_internet_address_get (cia, 0, &name, &addr);
-
-	new = g_new (EMailAddress, 1);
-	new->address = g_strdup (addr);
-	if (name && *name) {
-		new->wname = e_name_western_parse (name);
-	} else {
-		new->wname = NULL;
-	}
-
-	g_object_unref (cia);
-
-	return new;
-}
-
-static void
-e_mail_address_free (EMailAddress *addr)
-{
-	g_return_if_fail (addr != NULL);
-
-	g_free (addr->address);
-	if (addr->wname)
-		e_name_western_free (addr->wname);
-	g_free (addr);
-}
-
-static gint
-e_mail_address_compare (gconstpointer address1,
-                        gconstpointer address2)
-{
-	const EMailAddress *addr1 = address1;
-	const EMailAddress *addr2 = address2;
-	gint retval;
-
-	g_return_val_if_fail (addr1 != NULL, 1);
-	g_return_val_if_fail (addr2 != NULL, -1);
-
-	if (!addr1->wname && !addr2->wname) {
-		/* have to compare addresses, one or both don't have names */
-		g_return_val_if_fail (addr1->address != NULL, 1);
-		g_return_val_if_fail (addr2->address != NULL, -1);
-
-		return g_ascii_strcasecmp (addr1->address, addr2->address);
-	}
-
-	if (!addr1->wname)
-		return -1;
-	if (!addr2->wname)
-		return 1;
-
-	if (!addr1->wname->last && !addr2->wname->last) {
-		/* neither has a last name - default to address? */
-		/* FIXME: what do we compare next? */
-		g_return_val_if_fail (addr1->address != NULL, 1);
-		g_return_val_if_fail (addr2->address != NULL, -1);
-
-		return g_ascii_strcasecmp (addr1->address, addr2->address);
-	}
-
-	if (!addr1->wname->last)
-		return -1;
-	if (!addr2->wname->last)
-		return 1;
-
-	retval = g_ascii_strcasecmp (addr1->wname->last, addr2->wname->last);
-	if (retval)
-		return retval;
-
-	/* last names are identical - compare first names */
-
-	if (!addr1->wname->first && !addr2->wname->first)
-		return g_ascii_strcasecmp (addr1->address, addr2->address);
-
-	if (!addr1->wname->first)
-		return -1;
-	if (!addr2->wname->first)
-		return 1;
-
-	retval = g_ascii_strcasecmp (addr1->wname->first, addr2->wname->first);
-	if (retval)
-		return retval;
-
-	return g_ascii_strcasecmp (addr1->address, addr2->address);
-}
-#endif /* SMART_ADDRESS_COMPARE */
-
 static gint
 address_compare (gconstpointer address1,
                  gconstpointer address2,
                  gpointer cmp_cache)
 {
-#ifdef SMART_ADDRESS_COMPARE
-	EMailAddress *addr1, *addr2;
-#endif /* SMART_ADDRESS_COMPARE */
 	gint retval;
 
 	g_return_val_if_fail (address1 != NULL, 1);
 	g_return_val_if_fail (address2 != NULL, -1);
 
-#ifdef SMART_ADDRESS_COMPARE
-	addr1 = e_mail_address_new (address1);
-	addr2 = e_mail_address_new (address2);
-	retval = e_mail_address_compare (addr1, addr2);
-	e_mail_address_free (addr1);
-	e_mail_address_free (addr2);
-#else
 	retval = g_ascii_strcasecmp ((gchar *) address1, (gchar *) address2);
-#endif /* SMART_ADDRESS_COMPARE */
 
 	return retval;
 }
@@ -3199,8 +3076,6 @@ ml_uid_nodemap_remove (MessageList *message_list,
 /* only call if we have a tree model */
 /* builds the tree structure */
 
-#define BROKEN_ETREE	/* avoid some broken code in etree(?) by not using the incremental update */
-
 static void build_subtree (MessageList *ml, ETreePath parent, CamelFolderThreadNode *c, gint *row);
 
 static void build_subtree_diff (MessageList *ml, ETreePath parent, ETreePath path, CamelFolderThreadNode *c, gint *row);
@@ -3214,13 +3089,8 @@ build_tree (MessageList *ml,
 	gint row = 0;
 	ETreeModel *etm = ml->model;
 	ETableItem *table_item = e_tree_get_item (E_TREE (ml));
-#ifndef BROKEN_ETREE
-	ETreePath *top;
-#endif
 	gchar *saveuid = NULL;
-#ifdef BROKEN_ETREE
 	GPtrArray *selected;
-#endif
 #ifdef TIMEIT
 	struct timeval start, end;
 	gulong diff;
@@ -3243,12 +3113,7 @@ build_tree (MessageList *ml,
 	if (ml->cursor_uid)
 		saveuid = find_next_selectable (ml);
 
-#ifndef BROKEN_ETREE
-	top = e_tree_model_node_get_first_child (etm, ml->tree_root);
-	if (top == NULL || changes == NULL) {
-#else
 		selected = message_list_get_selected (ml);
-#endif
 		e_tree_memory_freeze (E_TREE_MEMORY (etm));
 		clear_tree (ml, FALSE);
 
@@ -3258,7 +3123,6 @@ build_tree (MessageList *ml,
 			table_item->queue_show_cursor = FALSE;
 
 		e_tree_memory_thaw (E_TREE_MEMORY (etm));
-#ifdef BROKEN_ETREE
 
 		/* it's required to thaw & freeze, to propagate changes */
 		e_tree_memory_freeze (E_TREE_MEMORY (etm));
@@ -3270,15 +3134,6 @@ build_tree (MessageList *ml,
 			table_item->queue_show_cursor = FALSE;
 
 		e_tree_memory_thaw (E_TREE_MEMORY (etm));
-#else
-	} else {
-		static gint tree_equal (ETreeModel *etm, ETreePath ap, CamelFolderThreadNode *bp);
-
-		build_subtree_diff (ml, ml->tree_root, top,  thread->tree, &row);
-		top = e_tree_model_node_get_first_child (etm, ml->tree_root);
-		tree_equal (ml->model, top, thread->tree);
-	}
-#endif
 	if (!saveuid && ml->cursor_uid && g_hash_table_lookup (ml->uid_nodemap, ml->cursor_uid)) {
 		/* this makes sure a visible node is selected, like when
 		 * collapsing all nodes and a children had been selected
@@ -3372,49 +3227,6 @@ node_equal (ETreeModel *etm,
 	return 0;
 }
 
-#ifndef BROKEN_ETREE
-/* debug function - compare the two trees to see if they are the same */
-static gint
-tree_equal (ETreeModel *etm,
-            ETreePath ap,
-            CamelFolderThreadNode *bp)
-{
-	CamelMessageInfo *info;
-
-	while (ap && bp) {
-		if (!node_equal (etm, ap, bp)) {
-			g_warning ("Nodes in tree differ");
-			info = e_tree_memory_node_get_data (E_TREE_MEMORY (etm), ap);
-			printf ("table uid = %s\n", camel_message_info_uid (info));
-			printf ("camel uid = %s\n", camel_message_info_uid (bp->message));
-			return FALSE;
-		} else {
-			if (!tree_equal (etm, e_tree_model_node_get_first_child (etm, ap), bp->child))
-				return FALSE;
-		}
-		bp = bp->next;
-		ap = e_tree_model_node_get_next (etm, ap);
-	}
-
-	if (ap || bp) {
-		g_warning ("Tree differs, out of nodes in one branch");
-		if (ap) {
-			info = e_tree_memory_node_get_data (E_TREE_MEMORY (etm), ap);
-			if (info)
-				printf ("table uid = %s\n", camel_message_info_uid (info));
-			else
-				printf ("info is empty?\n");
-		}
-		if (bp) {
-			printf ("camel uid = %s\n", camel_message_info_uid (bp->message));
-			return FALSE;
-		}
-		return FALSE;
-	}
-	return TRUE;
-}
-#endif
-
 /* adds a single node, retains save state, and handles adding children if required */
 static void
 add_node_diff (MessageList *ml,
@@ -3505,21 +3317,6 @@ build_subtree_diff (MessageList *ml,
 			remove_node_diff (ml, ap, 0);
 			ap = tmp;
 		} else if (node_equal (etm, ap, bp)) {
-			/*t(printf("nodes match, verify\n"));*/
-			/* matching nodes, verify details/children */
-#if 0
-			if (bp->message) {
-				gpointer olduid, oldrow;
-				/* if this is a message row, check/update the row id map */
-				if (g_hash_table_lookup_extended (ml->uid_rowmap, camel_message_info_uid (bp->message), &olduid, &oldrow)) {
-					if ((gint) oldrow != (*row)) {
-						g_hash_table_insert (ml->uid_rowmap, olduid, (gpointer)(*row));
-					}
-				} else {
-					g_warning ("Cannot find uid %s in table?", camel_message_info_uid (bp->message));
-				}
-			}
-#endif
 			*row = (*row)+1;
 			myrow++;
 			tmp = e_tree_model_node_get_first_child (etm, ap);
@@ -3577,20 +3374,11 @@ build_subtree_diff (MessageList *ml,
 					add_node_diff (ml, parent, NULL, bp, row, myrow);
 					myrow++;
 					bp = bp->next;
-#if 0
-					tmp = e_tree_model_node_get_next (etm, ap);
-					remove_node_diff (etm, ap, 0);
-					ap = tmp;
-#endif
 				}
 			}
 		}
 	}
 }
-
-#ifndef BROKEN_ETREE
-static void build_flat_diff (MessageList *ml, CamelFolderChangeInfo *changes);
-#endif
 
 static void
 build_flat (MessageList *ml,
@@ -3600,9 +3388,7 @@ build_flat (MessageList *ml,
 	ETreeModel *etm = ml->model;
 	gchar *saveuid = NULL;
 	gint i;
-#ifdef BROKEN_ETREE
 	GPtrArray *selected;
-#endif
 #ifdef TIMEIT
 	struct timeval start, end;
 	gulong diff;
@@ -3614,27 +3400,17 @@ build_flat (MessageList *ml,
 	if (ml->cursor_uid)
 		saveuid = find_next_selectable (ml);
 
-#ifndef BROKEN_ETREE
-	if (changes) {
-		build_flat_diff (ml, changes);
-	} else {
-#else
-		selected = message_list_get_selected (ml);
-#endif
-		e_tree_memory_freeze (E_TREE_MEMORY (etm));
-		clear_tree (ml, FALSE);
-		for (i = 0; i < summary->len; i++) {
-			CamelMessageInfo *info = summary->pdata[i];
+	selected = message_list_get_selected (ml);
+	e_tree_memory_freeze (E_TREE_MEMORY (etm));
+	clear_tree (ml, FALSE);
+	for (i = 0; i < summary->len; i++) {
+		CamelMessageInfo *info = summary->pdata[i];
 
-			ml_uid_nodemap_insert (ml, info, NULL, -1);
-		}
-		e_tree_memory_thaw (E_TREE_MEMORY (etm));
-#ifdef BROKEN_ETREE
-		message_list_set_selected (ml, selected);
-		em_utils_uids_free (selected);
-#else
+		ml_uid_nodemap_insert (ml, info, NULL, -1);
 	}
-#endif
+	e_tree_memory_thaw (E_TREE_MEMORY (etm));
+	message_list_set_selected (ml, selected);
+	em_utils_uids_free (selected);
 
 	if (saveuid) {
 		ETreePath node = g_hash_table_lookup (ml->uid_nodemap, saveuid);
@@ -3673,68 +3449,6 @@ message_list_change_first_visible_parent (MessageList *ml,
 		e_tree_model_node_data_changed (ml->model, first_visible);
 	}
 }
-
-#ifndef BROKEN_ETREE
-
-static void
-build_flat_diff (MessageList *ml,
-                 CamelFolderChangeInfo *changes)
-{
-	gint i;
-	ETreePath node;
-	CamelMessageInfo *info;
-
-#ifdef TIMEIT
-	struct timeval start, end;
-	gulong diff;
-
-	gettimeofday (&start, NULL);
-#endif
-
-	d (printf ("updating changes to display\n"));
-
-	/* remove individual nodes? */
-	d (printf ("Removing messages from view:\n"));
-	for (i = 0; i < changes->uid_removed->len; i++) {
-		node = g_hash_table_lookup (ml->uid_nodemap, changes->uid_removed->pdata[i]);
-		if (node) {
-			info = e_tree_memory_node_get_data (E_TREE_MEMORY (ml->model), node);
-			e_tree_memory_node_remove (E_TREE_MEMORY (ml->model), node);
-			ml_uid_nodemap_remove (ml, info);
-		}
-	}
-
-	/* add new nodes? - just append to the end */
-	d (printf ("Adding messages to view:\n"));
-	for (i = 0; i < changes->uid_added->len; i++) {
-		info = camel_folder_get_message_info (ml->folder, changes->uid_added->pdata[i]);
-		if (info) {
-			d (printf (" %s\n", (gchar *) changes->uid_added->pdata[i]));
-			ml_uid_nodemap_insert (ml, info, NULL, -1);
-		}
-	}
-
-	/* and update changes too */
-	d (printf ("Changing messages to view:\n"));
-	for (i = 0; i < changes->uid_changed->len; i++) {
-		ETreePath *node = g_hash_table_lookup (ml->uid_nodemap, changes->uid_changed->pdata[i]);
-		if (node) {
-			e_tree_model_pre_change (ml->model);
-			e_tree_model_node_data_changed (ml->model, node);
-
-			message_list_change_first_visible_parent (ml, node);
-		}
-	}
-
-#ifdef TIMEIT
-	gettimeofday (&end, NULL);
-	diff = end.tv_sec * 1000 + end.tv_usec / 1000;
-	diff -= start.tv_sec * 1000 + start.tv_usec / 1000;
-	printf ("Inserting changes took %ld.%03ld seconds\n", diff / 1000, diff % 1000);
-#endif
-
-}
-#endif /* BROKEN_ETREE */
 
 static CamelFolderChangeInfo *
 mail_folder_hide_by_flag (CamelFolder *folder,
@@ -5051,18 +4765,6 @@ mail_regen_list (MessageList *ml,
 	settings = g_settings_new ("org.gnome.evolution.mail");
 	thread_subject = g_settings_get_boolean (settings, "thread-subject");
 	g_object_unref (settings);
-
-#ifndef BROKEN_ETREE
-	/* this can sometimes crash,so ... */
-
-	/* see if we need to goto the child thread at all anyway */
-	/* currently the only case is the flat view with updates and no search */
-	if (hideexpr == NULL && search == NULL && changes != NULL && !ml->threaded) {
-		build_flat_diff (ml, changes);
-		camel_folder_change_info_free (changes);
-		return;
-	}
-#endif
 
 	m = mail_msg_new (&regen_list_info);
 	m->ml = g_object_ref (ml);
