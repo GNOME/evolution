@@ -38,8 +38,6 @@
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 
-#include "shell/e-shell.h"
-
 #include "libemail-engine/e-mail-utils.h"
 #include "libemail-engine/mail-config.h"
 #include "libemail-engine/mail-mt.h"
@@ -503,14 +501,14 @@ get_normalised_string (MessageList *message_list,
 	}
 
 	if (col == COL_SUBJECT_NORM) {
-		EShell *shell = e_shell_get_default ();
 		gint skip_len;
-		const guchar *subject;
+		const gchar *subject;
 		gboolean found_re = TRUE;
 
-		subject = (const guchar *) string;
+		subject = string;
 		while (found_re) {
-			found_re = em_utils_is_re_in_subject (shell, (const gchar *) subject, &skip_len) && skip_len > 0;
+			found_re = em_utils_is_re_in_subject (
+				subject, &skip_len) && skip_len > 0;
 			if (found_re)
 				subject += skip_len;
 
@@ -523,7 +521,7 @@ get_normalised_string (MessageList *message_list,
 		while (*subject && isspace ((gint) *subject))
 			subject++;
 
-		string = (const gchar *) subject;
+		string = subject;
 		normalised = g_utf8_collate_key (string, -1);
 	} else {
 		/* because addresses require strings, not collate keys */
@@ -1540,7 +1538,6 @@ get_trimmed_subject (CamelMessageInfo *info)
 	}
 
 	do {
-		EShell *shell = e_shell_get_default ();
 		gint skip_len;
 		gboolean found_re = TRUE;
 
@@ -1549,7 +1546,8 @@ get_trimmed_subject (CamelMessageInfo *info)
 		while (found_re) {
 			found_re = FALSE;
 
-			found_re = em_utils_is_re_in_subject (shell, (const gchar *) subject, &skip_len) && skip_len > 0;
+			found_re = em_utils_is_re_in_subject (
+				subject, &skip_len) && skip_len > 0;
 			if (found_re)
 				subject += skip_len;
 

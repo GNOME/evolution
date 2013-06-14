@@ -1519,8 +1519,7 @@ check_prefix (const gchar *subject,
 }
 
 gboolean
-em_utils_is_re_in_subject (EShell *shell,
-                           const gchar *subject,
+em_utils_is_re_in_subject (const gchar *subject,
                            gint *skip_len)
 {
 	GSettings *settings;
@@ -1528,7 +1527,6 @@ em_utils_is_re_in_subject (EShell *shell,
 	gboolean res;
 	gint ii;
 
-	g_return_val_if_fail (shell != NULL, FALSE);
 	g_return_val_if_fail (subject != NULL, FALSE);
 	g_return_val_if_fail (skip_len != NULL, FALSE);
 

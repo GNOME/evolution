@@ -36,7 +36,6 @@
 G_BEGIN_DECLS
 
 struct _EMailPartList;
-struct _EShell;
 
 gboolean em_utils_ask_open_many (GtkWindow *parent, gint how_many);
 gboolean em_utils_prompt_user (GtkWindow *parent, const gchar *promptkey, const gchar *tag, ...);
@@ -82,9 +81,8 @@ gchar *em_utils_url_unescape_amp (const gchar *url);
 
 void emu_restore_folder_tree_state (EMFolderTree *folder_tree);
 
-gboolean em_utils_is_re_in_subject (struct _EShell *shell,
-				    const gchar *subject,
-				    gint *skip_len);
+gboolean	em_utils_is_re_in_subject	(const gchar *subject,
+						 gint *skip_len);
 
 G_END_DECLS
 
