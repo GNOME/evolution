@@ -152,6 +152,7 @@ enum {
 	PROP_COPY_TARGET_LIST,
 	PROP_PASTE_TARGET_LIST,
 	PROP_SESSION,
+	PROP_THREAD_LATEST,
 	PROP_THREAD_SUBJECT
 };
 
@@ -2645,6 +2646,12 @@ message_list_set_property (GObject *object,
 				g_value_get_object (value));
 			return;
 
+		case PROP_THREAD_LATEST:
+			message_list_set_thread_latest (
+				MESSAGE_LIST (object),
+				g_value_get_boolean (value));
+			return;
+
 		case PROP_THREAD_SUBJECT:
 			message_list_set_thread_subject (
 				MESSAGE_LIST (object),
@@ -2680,6 +2687,13 @@ message_list_get_property (GObject *object,
 			g_value_set_object (
 				value,
 				message_list_get_session (
+				MESSAGE_LIST (object)));
+			return;
+
+		case PROP_THREAD_LATEST:
+			g_value_set_boolean (
+				value,
+				message_list_get_thread_latest (
 				MESSAGE_LIST (object)));
 			return;
 
@@ -2862,6 +2876,18 @@ message_list_class_init (MessageListClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_THREAD_LATEST,
+		g_param_spec_boolean (
+			"thread-latest",
+			"Thread Latest",
+			"Sort threads by latest message",
+			TRUE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_THREAD_SUBJECT,
 		g_param_spec_boolean (
 			"thread-subject",
@@ -2907,12 +2933,6 @@ message_list_construct (MessageList *message_list)
 	AtkObject *a11y;
 	gboolean constructed;
 	gchar *etspecfile;
-	GSettings *settings;
-
-	settings = g_settings_new ("org.gnome.evolution.mail");
-	message_list->priv->thread_latest =
-		g_settings_get_boolean (settings, "thread-latest");
-	g_object_unref (settings);
 
 	/*
 	 * The etree
@@ -3880,6 +3900,28 @@ message_list_get_paste_target_list (MessageList *message_list)
 	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), NULL);
 
 	return message_list->priv->paste_target_list;
+}
+
+gboolean
+message_list_get_thread_latest (MessageList *message_list)
+{
+	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), FALSE);
+
+	return message_list->priv->thread_latest;
+}
+
+void
+message_list_set_thread_latest (MessageList *message_list,
+                                gboolean thread_latest)
+{
+	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+
+	if (thread_latest == message_list->priv->thread_latest)
+		return;
+
+	message_list->priv->thread_latest = thread_latest;
+
+	g_object_notify (G_OBJECT (message_list), "thread-latest");
 }
 
 gboolean
