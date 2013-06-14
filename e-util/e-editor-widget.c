@@ -1850,6 +1850,7 @@ do_set_text_plain (EEditorWidget *widget,
 	gchar *data_copy = NULL;
 
 	if (strstr (data, UNICODE_HIDDEN_SPACE)) {
+		data_copy = g_new (gchar, strlen (data));
 		g_utf8_strncpy (data_copy, data, g_utf8_strlen (data, -1) - 1);
 		ptr = data_copy;
 		changing = TRUE;
