@@ -1198,26 +1198,6 @@ action_mail_send_receive_send_all_cb (GtkAction *action,
 }
 
 static void
-action_mail_show_deleted_cb (GtkToggleAction *action,
-                             EMailShellView *mail_shell_view)
-{
-	EMailShellContent *mail_shell_content;
-	GtkWidget *message_list;
-	EMailReader *reader;
-	EMailView *mail_view;
-	gboolean active;
-
-	mail_shell_content = mail_shell_view->priv->mail_shell_content;
-	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
-
-	reader = E_MAIL_READER (mail_view);
-	message_list = e_mail_reader_get_message_list (reader);
-
-	active = gtk_toggle_action_get_active (action);
-	message_list_set_hidedeleted (MESSAGE_LIST (message_list), !active);
-}
-
-static void
 action_mail_smart_backward_cb (GtkAction *action,
                                EMailShellView *mail_shell_view)
 {
@@ -1900,7 +1880,7 @@ static GtkToggleActionEntry mail_toggle_entries[] = {
 	  N_("Show _Deleted Messages"),
 	  NULL,
 	  N_("Show deleted messages with a line through them"),
-	  G_CALLBACK (action_mail_show_deleted_cb),
+	  NULL,  /* Handled by property bindings */
 	  FALSE },
 
 	{ "mail-threads-group-by",

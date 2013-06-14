@@ -126,8 +126,6 @@ struct _RegenData {
 	gchar *search;
 
 	gboolean threaded;
-	gboolean hide_deleted;
-	gboolean hide_junk;
 	gboolean thread_subject;
 	CamelFolderThread *tree;
 
@@ -312,8 +310,6 @@ regen_data_new (MessageList *message_list,
 	/* Capture MessageList state to use for this regen. */
 	regen_data->folder = message_list_ref_folder (message_list);
 	regen_data->threaded = message_list->threaded;
-	regen_data->hide_deleted = message_list->hidedeleted;
-	regen_data->hide_junk = message_list->hidejunk;
 	regen_data->thread_subject =
 		message_list_get_thread_subject (message_list);
 
@@ -3189,10 +3185,61 @@ folder_store_supports_vjunk_folder (CamelFolder *folder)
 	g_return_val_if_fail (folder != NULL, FALSE);
 
 	store = camel_folder_get_parent_store (folder);
-	if (!store)
+	if (store == NULL)
 		return FALSE;
 
-	return (store->flags & (CAMEL_STORE_VJUNK | CAMEL_STORE_REAL_JUNK_FOLDER)) != 0 || CAMEL_IS_VEE_FOLDER (folder);
+	if (CAMEL_IS_VEE_FOLDER (folder))
+		return TRUE;
+
+	if (store->flags & CAMEL_STORE_VJUNK)
+		return TRUE;
+
+	if (store->flags & CAMEL_STORE_REAL_JUNK_FOLDER)
+		return TRUE;
+
+	return FALSE;
+}
+
+static gboolean
+message_list_get_hide_junk (MessageList *message_list,
+                            CamelFolder *folder)
+{
+	if (folder == NULL)
+		return FALSE;
+
+	if (!folder_store_supports_vjunk_folder (folder))
+		return FALSE;
+
+	if (folder->folder_flags & CAMEL_FOLDER_IS_JUNK)
+		return FALSE;
+
+	if (folder->folder_flags & CAMEL_FOLDER_IS_TRASH)
+		return FALSE;
+
+	return TRUE;
+}
+
+static gboolean
+message_list_get_hide_deleted (MessageList *message_list,
+                               CamelFolder *folder)
+{
+	CamelStore *store;
+	gboolean non_trash_folder;
+
+	if (folder == NULL)
+		return FALSE;
+
+	if (message_list_get_show_deleted (message_list))
+		return FALSE;
+
+	store = camel_folder_get_parent_store (folder);
+	g_return_val_if_fail (store != NULL, FALSE);
+
+	non_trash_folder =
+		((store->flags & CAMEL_STORE_VTRASH) == 0) ||
+		((folder->folder_flags & CAMEL_FOLDER_IS_TRASH) == 0);
+
+	return non_trash_folder;
 }
 
 /* Check if the given node is selectable in the current message list,
@@ -3207,6 +3254,8 @@ is_node_selectable (MessageList *ml,
 	guint32 flags;
 	gboolean flag_junk;
 	gboolean flag_deleted;
+	gboolean hide_junk;
+	gboolean hide_deleted;
 	gboolean store_has_vjunk;
 
 	g_return_val_if_fail (info != NULL, FALSE);
@@ -3222,6 +3271,9 @@ is_node_selectable (MessageList *ml,
 		(folder->folder_flags & CAMEL_FOLDER_IS_JUNK) != 0;
 	is_trash_folder = folder->folder_flags & CAMEL_FOLDER_IS_TRASH;
 
+	hide_junk = message_list_get_hide_junk (ml, folder);
+	hide_deleted = message_list_get_hide_deleted (ml, folder);
+
 	g_object_unref (folder);
 
 	/* check flags set on current message */
@@ -3233,8 +3285,8 @@ is_node_selectable (MessageList *ml,
 	if (is_junk_folder) {
 		/* messages in a junk folder are selectable only if
 		 * the message is marked as junk and if not deleted
-		 * when hidedeleted is set */
-		if (flag_junk && !(flag_deleted && ml->hidedeleted))
+		 * when hide_deleted is set */
+		if (flag_junk && !(flag_deleted && hide_deleted))
 			return TRUE;
 
 	} else if (is_trash_folder) {
@@ -3243,10 +3295,10 @@ is_node_selectable (MessageList *ml,
 		if (flag_deleted)
 			return TRUE;
 	} else {
-		/* in normal folders it depends on hidedeleted,
-		 * hidejunk and the message flags */
-		if (!(flag_junk && ml->hidejunk)
-		    && !(flag_deleted && ml->hidedeleted))
+		/* in normal folders it depends on hide_deleted,
+		 * hide_junk and the message flags */
+		if (!(flag_junk && hide_junk)
+		    && !(flag_deleted && hide_deleted))
 			return TRUE;
 	}
 
@@ -3823,10 +3875,15 @@ message_list_folder_changed (CamelFolder *folder,
 {
 	CamelFolderChangeInfo *altered_changes = NULL;
 	gboolean need_list_regen = TRUE;
+	gboolean hide_junk;
+	gboolean hide_deleted;
 	gint i;
 
 	if (ml->priv->destroyed)
 		return;
+
+	hide_junk = message_list_get_hide_junk (ml, folder);
+	hide_deleted = message_list_get_hide_deleted (ml, folder);
 
 	d (printf ("folder changed event, changes = %p\n", changes));
 	if (changes != NULL) {
@@ -3835,12 +3892,13 @@ message_list_folder_changed (CamelFolder *folder,
 				ml->normalised_hash,
 				changes->uid_removed->pdata[i]);
 
-		/* check if the hidden state has changed, if so modify accordingly, then regenerate */
-		if (ml->hidejunk || ml->hidedeleted)
+		/* Check if the hidden state has changed.
+		 * If so, modify accordingly and regenerate. */
+		if (hide_junk || hide_deleted)
 			altered_changes = mail_folder_hide_by_flag (
 				folder, ml, changes,
-				(ml->hidejunk ? CAMEL_MESSAGE_JUNK : 0) |
-				(ml->hidedeleted ? CAMEL_MESSAGE_DELETED : 0));
+				(hide_junk ? CAMEL_MESSAGE_JUNK : 0) |
+				(hide_deleted ? CAMEL_MESSAGE_DELETED : 0));
 		else {
 			altered_changes = camel_folder_change_info_new ();
 			camel_folder_change_info_cat (altered_changes, changes);
@@ -3897,8 +3955,6 @@ message_list_set_folder (MessageList *message_list,
                          CamelFolder *folder)
 {
 	ETreeModel *etm = message_list->model;
-	gboolean hide_deleted;
-	GSettings *settings;
 
 	/* XXX Do we need a property lock to guard this? */
 
@@ -4011,17 +4067,6 @@ message_list_set_folder (MessageList *message_list,
 			G_CALLBACK (message_list_folder_changed),
 			message_list);
 		message_list->priv->folder_changed_handler_id = handler_id;
-
-		settings = g_settings_new ("org.gnome.evolution.mail");
-		hide_deleted = !g_settings_get_boolean (settings, "show-deleted");
-		g_object_unref (settings);
-
-		message_list->hidedeleted =
-			hide_deleted && non_trash_folder;
-		message_list->hidejunk =
-			folder_store_supports_vjunk_folder (folder) &&
-			!(folder->folder_flags & CAMEL_FOLDER_IS_JUNK) &&
-			!(folder->folder_flags & CAMEL_FOLDER_IS_TRASH);
 
 		if (message_list->frozen == 0)
 			mail_regen_list (message_list, message_list->search, FALSE);
@@ -4558,18 +4603,6 @@ message_list_set_threaded (MessageList *ml,
 }
 
 void
-message_list_set_hidedeleted (MessageList *ml,
-                              gboolean hidedeleted)
-{
-	if (ml->hidedeleted != hidedeleted) {
-		ml->hidedeleted = hidedeleted;
-
-		if (ml->frozen == 0)
-			mail_regen_list (ml, ml->search, FALSE);
-	}
-}
-
-void
 message_list_set_search (MessageList *ml,
                          const gchar *search)
 {
@@ -4872,6 +4905,8 @@ message_list_regen_thread (GSimpleAsyncResult *simple,
 	ETreePath cursor;
 	ETree *tree;
 	GString *expr;
+	gboolean hide_deleted;
+	gboolean hide_junk;
 	GError *local_error = NULL;
 
 	message_list = MESSAGE_LIST (source_object);
@@ -4879,6 +4914,11 @@ message_list_regen_thread (GSimpleAsyncResult *simple,
 
 	if (g_cancellable_is_cancelled (cancellable))
 		return;
+
+	hide_junk = message_list_get_hide_junk (
+		message_list, regen_data->folder);
+	hide_deleted = message_list_get_hide_deleted (
+		message_list, regen_data->folder);
 
 	tree = E_TREE (message_list);
 	cursor = e_tree_get_cursor (tree);
@@ -4891,16 +4931,16 @@ message_list_regen_thread (GSimpleAsyncResult *simple,
 
 	expr = g_string_new ("");
 
-	if (regen_data->hide_deleted && regen_data->hide_junk) {
+	if (hide_deleted && hide_junk) {
 		g_string_append_printf (
 			expr, "(match-all (and %s %s))",
 			EXCLUDE_DELETED_MESSAGES_EXPR,
 			EXCLUDE_JUNK_MESSAGES_EXPR);
-	} else if (regen_data->hide_deleted) {
+	} else if (hide_deleted) {
 		g_string_append_printf (
 			expr, "(match-all %s)",
 			EXCLUDE_DELETED_MESSAGES_EXPR);
-	} else if (regen_data->hide_junk) {
+	} else if (hide_junk) {
 		g_string_append_printf (
 			expr, "(match-all %s)",
 			EXCLUDE_JUNK_MESSAGES_EXPR);
@@ -4935,8 +4975,8 @@ message_list_regen_thread (GSimpleAsyncResult *simple,
 				message_list, uids,
 				regen_data->folder,
 				regen_data->folder_changed,
-				!regen_data->hide_deleted,
-				!regen_data->hide_junk);
+				!hide_deleted,
+				!hide_junk);
 	}
 
 	g_string_free (expr, TRUE);
@@ -5262,10 +5302,13 @@ mail_regen_list (MessageList *message_list,
 
 	if (message_list->thread_tree != NULL) {
 		CamelFolderThread *thread_tree;
+		gboolean hide_deleted;
 
 		thread_tree = message_list->thread_tree;
+		hide_deleted = message_list_get_hide_deleted (
+			message_list, new_regen_data->folder);
 
-		if (message_list->threaded && message_list->hidedeleted) {
+		if (message_list->threaded && hide_deleted) {
 			new_regen_data->tree = thread_tree;
 			camel_folder_thread_messages_ref (thread_tree);
 		} else {

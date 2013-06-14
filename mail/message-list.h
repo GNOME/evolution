@@ -121,12 +121,6 @@ struct _MessageList {
 	guint expand_all :1;
 	guint collapse_all :1;
 
-	/* do we automatically hide deleted messages? */
-	guint hidedeleted : 1;
-
-	/* do we automatically hide junk messages? */
-	guint hidejunk : 1;
-
 	/* frozen count */
 	guint frozen : 16;
 
@@ -214,8 +208,6 @@ void		message_list_set_threaded_expand_all
 						(MessageList *message_list);
 void		message_list_set_threaded_collapse_all
 						(MessageList *message_list);
-void		message_list_set_hidedeleted	(MessageList *message_list,
-						 gboolean hidedeleted);
 void		message_list_set_search		(MessageList *message_list,
 						 const gchar *search);
 void		message_list_save_state		(MessageList *message_list);
