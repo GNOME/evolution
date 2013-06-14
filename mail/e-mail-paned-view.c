@@ -126,9 +126,12 @@ mail_paned_view_message_list_built_cb (EMailView *view,
 	EMailPanedViewPrivate *priv;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
+	CamelFolder *folder;
 	GKeyFile *key_file;
 
 	priv = E_MAIL_PANED_VIEW_GET_PRIVATE (view);
+
+	folder = message_list_ref_folder (message_list);
 
 	g_signal_handler_disconnect (
 		message_list, priv->message_list_built_id);
@@ -142,20 +145,18 @@ mail_paned_view_message_list_built_cb (EMailView *view,
 	if (message_list->cursor_uid != NULL)
 		;  /* do nothing */
 
-	else if (message_list->folder == NULL)
+	else if (folder == NULL)
 		;  /* do nothing */
 
 	else if (e_shell_window_get_safe_mode (shell_window))
 		e_shell_window_set_safe_mode (shell_window, FALSE);
 
 	else {
-		CamelFolder *folder;
 		const gchar *key;
 		gchar *folder_uri;
 		gchar *group_name;
 		gchar *uid;
 
-		folder = message_list->folder;
 		folder_uri = e_mail_folder_uri_from_folder (folder);
 
 		key = STATE_KEY_SELECTED_MESSAGE;
@@ -170,6 +171,8 @@ mail_paned_view_message_list_built_cb (EMailView *view,
 
 		g_free (uid);
 	}
+
+	g_clear_object (&folder);
 }
 
 static void
@@ -184,7 +187,7 @@ mail_paned_view_message_selected_cb (EMailView *view,
 	gchar *folder_uri;
 	gchar *group_name;
 
-	folder = message_list->folder;
+	folder = message_list_ref_folder (message_list);
 
 	/* This also gets triggered when selecting a store name on
 	 * the sidebar such as "On This Computer", in which case
@@ -208,6 +211,8 @@ mail_paned_view_message_selected_cb (EMailView *view,
 
 	g_free (group_name);
 	g_free (folder_uri);
+
+	g_object_unref (folder);
 }
 
 static void

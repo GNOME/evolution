@@ -104,9 +104,6 @@ struct _MessageList {
 	ETreePath     tree_root;
 	ETableExtras *extras;
 
-	/* The folder being shown. */
-	CamelFolder *folder;
-
 	GHashTable *uid_nodemap; /* uid (from info) -> tree node mapping */
 
 	GHashTable *normalised_hash;
@@ -167,6 +164,7 @@ typedef enum {
 GType		message_list_get_type		(void);
 GtkWidget *	message_list_new		(EMailSession *session);
 EMailSession *	message_list_get_session	(MessageList *message_list);
+CamelFolder *	message_list_ref_folder		(MessageList *message_list);
 void		message_list_set_folder		(MessageList *message_list,
 						 CamelFolder *folder);
 GtkTargetList *	message_list_get_copy_target_list

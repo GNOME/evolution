@@ -200,7 +200,7 @@ mail_shell_view_folder_tree_selection_done_cb (EMailShellView *mail_shell_view,
 	EMailReader *reader;
 	EMailView *mail_view;
 	CamelFolder *folder;
-	gchar *list_uri;
+	gchar *list_uri = NULL;
 	gchar *tree_uri;
 
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
@@ -216,16 +216,17 @@ mail_shell_view_folder_tree_selection_done_cb (EMailShellView *mail_shell_view,
 	 * method gets the folder from the message list is supposed to be
 	 * a hidden implementation detail, and we want to explicitly get
 	 * the folder URI from the message list here. */
-	folder = MESSAGE_LIST (message_list)->folder;
-	if (folder)
+	folder = message_list_ref_folder (MESSAGE_LIST (message_list));
+	if (folder != NULL) {
 		list_uri = e_mail_folder_uri_from_folder (folder);
-	else
-		list_uri = NULL;
+		g_object_unref (folder);
+	}
+
 	tree_uri = em_folder_tree_get_selected_uri (folder_tree);
 
 	/* If the folder tree and message list disagree on the current
 	 * folder, reset the folder tree to match the message list. */
-	if (list_uri && g_strcmp0 (tree_uri, list_uri) != 0)
+	if (list_uri != NULL && g_strcmp0 (tree_uri, list_uri) != 0)
 		em_folder_tree_set_selected (folder_tree, list_uri, FALSE);
 
 	g_free (list_uri);

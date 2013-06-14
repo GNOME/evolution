@@ -2993,10 +2993,18 @@ static CamelFolder *
 mail_reader_get_folder (EMailReader *reader)
 {
 	GtkWidget *message_list;
+	CamelFolder *folder;
 
 	message_list = e_mail_reader_get_message_list (reader);
 
-	return MESSAGE_LIST (message_list)->folder;
+	/* FIXME This is dangerous.  EMailReader should return a
+	 *       new CamelFolder reference and rename this method
+	 *       to "ref_folder()" instead of "get_folder()". */
+	folder = message_list_ref_folder (MESSAGE_LIST (message_list));
+	if (folder != NULL)
+		g_object_unref (folder);
+
+	return folder;
 }
 
 static void
