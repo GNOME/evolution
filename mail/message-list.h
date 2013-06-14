@@ -171,6 +171,9 @@ GtkTargetList *	message_list_get_copy_target_list
 						(MessageList *message_list);
 GtkTargetList *	message_list_get_paste_target_list
 						(MessageList *message_list);
+gboolean	message_list_get_show_deleted	(MessageList *message_list);
+void		message_list_set_show_deleted	(MessageList *message_list,
+						 gboolean show_deleted);
 gboolean	message_list_get_thread_latest	(MessageList *message_list);
 void		message_list_set_thread_latest	(MessageList *message_list,
 						 gboolean thread_latest);

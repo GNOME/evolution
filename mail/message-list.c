@@ -102,6 +102,7 @@ struct _MessageListPrivate {
 	struct _MLSelection clipboard;
 	gboolean destroyed;
 
+	gboolean show_deleted;
 	gboolean thread_latest;
 	gboolean thread_subject;
 	gboolean any_row_changed; /* save state before regen list when this is set to true */
@@ -156,6 +157,7 @@ enum {
 	PROP_FOLDER,
 	PROP_PASTE_TARGET_LIST,
 	PROP_SESSION,
+	PROP_SHOW_DELETED,
 	PROP_THREAD_LATEST,
 	PROP_THREAD_SUBJECT
 };
@@ -2691,6 +2693,12 @@ message_list_set_property (GObject *object,
 				g_value_get_object (value));
 			return;
 
+		case PROP_SHOW_DELETED:
+			message_list_set_show_deleted (
+				MESSAGE_LIST (object),
+				g_value_get_boolean (value));
+			return;
+
 		case PROP_THREAD_LATEST:
 			message_list_set_thread_latest (
 				MESSAGE_LIST (object),
@@ -2739,6 +2747,13 @@ message_list_get_property (GObject *object,
 			g_value_set_object (
 				value,
 				message_list_get_session (
+				MESSAGE_LIST (object)));
+			return;
+
+		case PROP_SHOW_DELETED:
+			g_value_set_boolean (
+				value,
+				message_list_get_show_deleted (
 				MESSAGE_LIST (object)));
 			return;
 
@@ -2940,6 +2955,18 @@ message_list_class_init (MessageListClass *class)
 			E_TYPE_MAIL_SESSION,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SHOW_DELETED,
+		g_param_spec_boolean (
+			"show-deleted",
+			"Show Deleted",
+			"Show messages marked for deletion",
+			FALSE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
 			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_install_property (
@@ -4015,6 +4042,32 @@ message_list_get_paste_target_list (MessageList *message_list)
 	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), NULL);
 
 	return message_list->priv->paste_target_list;
+}
+
+gboolean
+message_list_get_show_deleted (MessageList *message_list)
+{
+	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), FALSE);
+
+	return message_list->priv->show_deleted;
+}
+
+void
+message_list_set_show_deleted (MessageList *message_list,
+                               gboolean show_deleted)
+{
+	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+
+	if (show_deleted == message_list->priv->show_deleted)
+		return;
+
+	message_list->priv->show_deleted = show_deleted;
+
+	g_object_notify (G_OBJECT (message_list), "show-deleted");
+
+	/* Changing this property triggers a message list regen. */
+	if (message_list->frozen == 0)
+		mail_regen_list (message_list, message_list->search, FALSE);
 }
 
 gboolean
