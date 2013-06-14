@@ -39,6 +39,8 @@ module_settings_la_SOURCES = \
 	e-settings-meeting-store.h \
 	e-settings-meeting-time-selector.c \
 	e-settings-meeting-time-selector.h \
+	e-settings-message-list.c \
+	e-settings-message-list.h \
 	e-settings-name-selector-entry.c \
 	e-settings-name-selector-entry.h \
 	e-settings-spell-entry.c \

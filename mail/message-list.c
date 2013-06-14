@@ -162,6 +162,8 @@ G_DEFINE_TYPE_WITH_CODE (
 	message_list,
 	E_TYPE_TREE,
 	G_IMPLEMENT_INTERFACE (
+		E_TYPE_EXTENSIBLE, NULL)
+	G_IMPLEMENT_INTERFACE (
 		E_TYPE_SELECTABLE,
 		message_list_selectable_init))
 
@@ -2748,6 +2750,15 @@ message_list_finalize (GObject *object)
 }
 
 static void
+message_list_constructed (GObject *object)
+{
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (message_list_parent_class)->constructed (object);
+
+	e_extensible_load_extensions (E_EXTENSIBLE (object));
+}
+
+static void
 message_list_selectable_update_actions (ESelectable *selectable,
                                         EFocusTracker *focus_tracker,
                                         GdkAtom *clipboard_targets,
@@ -2784,6 +2795,7 @@ message_list_class_init (MessageListClass *class)
 	object_class->get_property = message_list_get_property;
 	object_class->dispose = message_list_dispose;
 	object_class->finalize = message_list_finalize;
+	object_class->constructed = message_list_constructed;
 
 	class->message_list_built = NULL;
 
