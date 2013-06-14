@@ -115,9 +115,6 @@ struct _MessageList {
 	 * was just called? */
 	guint just_set_folder : 1;
 
-	/* Are we displaying threaded view? */
-	guint threaded : 1;
-
 	guint expand_all :1;
 	guint collapse_all :1;
 
@@ -165,6 +162,11 @@ GtkTargetList *	message_list_get_copy_target_list
 						(MessageList *message_list);
 GtkTargetList *	message_list_get_paste_target_list
 						(MessageList *message_list);
+gboolean	message_list_get_group_by_threads
+						(MessageList *message_list);
+void		message_list_set_group_by_threads
+						(MessageList *message_list,
+						 gboolean group_by_threads);
 gboolean	message_list_get_show_deleted	(MessageList *message_list);
 void		message_list_set_show_deleted	(MessageList *message_list,
 						 gboolean show_deleted);
@@ -202,8 +204,6 @@ void		message_list_copy		(MessageList *message_list,
 void		message_list_paste		(MessageList *message_list);
 guint		message_list_count		(MessageList *message_list);
 guint		message_list_selected_count	(MessageList *message_list);
-void		message_list_set_threaded	(MessageList *message_list,
-						 gboolean threaded);
 void		message_list_set_threaded_expand_all
 						(MessageList *message_list);
 void		message_list_set_threaded_collapse_all

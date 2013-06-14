@@ -3759,6 +3759,11 @@ e_mail_reader_init (EMailReader *reader,
 		g_slice_new0 (EMailReaderPrivate),
 		(GDestroyNotify) mail_reader_private_free);
 
+	g_object_bind_property (
+		reader, "group-by-threads",
+		message_list, "group-by-threads",
+		G_BINDING_SYNC_CREATE);
+
 	if (!init_actions)
 		goto connect_signals;
 
@@ -4493,7 +4498,6 @@ e_mail_reader_set_group_by_threads (EMailReader *reader,
                                     gboolean group_by_threads)
 {
 	EMailReaderPrivate *priv;
-	GtkWidget *message_list;
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
@@ -4503,11 +4507,6 @@ e_mail_reader_set_group_by_threads (EMailReader *reader,
 		return;
 
 	priv->group_by_threads = group_by_threads;
-
-	/* XXX MessageList should define a property for this. */
-	message_list = e_mail_reader_get_message_list (reader);
-	message_list_set_threaded (
-		MESSAGE_LIST (message_list), group_by_threads);
 
 	g_object_notify (G_OBJECT (reader), "group-by-threads");
 }

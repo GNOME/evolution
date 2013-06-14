@@ -102,6 +102,7 @@ struct _MessageListPrivate {
 	struct _MLSelection clipboard;
 	gboolean destroyed;
 
+	gboolean group_by_threads;
 	gboolean show_deleted;
 	gboolean thread_latest;
 	gboolean thread_subject;
@@ -125,7 +126,7 @@ struct _RegenData {
 
 	gchar *search;
 
-	gboolean threaded;
+	gboolean group_by_threads;
 	gboolean thread_subject;
 	CamelFolderThread *tree;
 
@@ -153,6 +154,7 @@ enum {
 	PROP_0,
 	PROP_COPY_TARGET_LIST,
 	PROP_FOLDER,
+	PROP_GROUP_BY_THREADS,
 	PROP_PASTE_TARGET_LIST,
 	PROP_SESSION,
 	PROP_SHOW_DELETED,
@@ -309,7 +311,8 @@ regen_data_new (MessageList *message_list,
 
 	/* Capture MessageList state to use for this regen. */
 	regen_data->folder = message_list_ref_folder (message_list);
-	regen_data->threaded = message_list->threaded;
+	regen_data->group_by_threads =
+		message_list_get_group_by_threads (message_list);
 	regen_data->thread_subject =
 		message_list_get_thread_subject (message_list);
 
@@ -874,7 +877,7 @@ message_list_select_all (MessageList *message_list)
 
 	regen_data = message_list_ref_regen_data (message_list);
 
-	if (message_list->threaded && regen_data != NULL) {
+	if (regen_data != NULL && regen_data->group_by_threads) {
 		regen_data->select_all = TRUE;
 	} else {
 		ETree *tree;
@@ -2565,18 +2568,23 @@ on_model_row_changed (ETableModel *model,
 
 static gboolean
 ml_tree_sorting_changed (ETreeTableAdapter *adapter,
-                         MessageList *ml)
+                         MessageList *message_list)
 {
-	g_return_val_if_fail (ml != NULL, FALSE);
+	gboolean group_by_threads;
 
-	if (ml->threaded && ml->frozen == 0) {
-		if (ml->thread_tree) {
+	g_return_val_if_fail (message_list != NULL, FALSE);
+
+	group_by_threads = message_list_get_group_by_threads (message_list);
+
+	if (group_by_threads && message_list->frozen == 0) {
+		if (message_list->thread_tree != NULL) {
 			/* free the previous thread_tree to recreate it fully */
-			camel_folder_thread_messages_unref (ml->thread_tree);
-			ml->thread_tree = NULL;
+			camel_folder_thread_messages_unref (
+				message_list->thread_tree);
+			message_list->thread_tree = NULL;
 		}
 
-		mail_regen_list (ml, ml->search, FALSE);
+		mail_regen_list (message_list, message_list->search, FALSE);
 
 		return TRUE;
 	}
@@ -2683,6 +2691,12 @@ message_list_set_property (GObject *object,
 				g_value_get_object (value));
 			return;
 
+		case PROP_GROUP_BY_THREADS:
+			message_list_set_group_by_threads (
+				MESSAGE_LIST (object),
+				g_value_get_boolean (value));
+			return;
+
 		case PROP_SESSION:
 			message_list_set_session (
 				MESSAGE_LIST (object),
@@ -2729,6 +2743,13 @@ message_list_get_property (GObject *object,
 			g_value_take_object (
 				value,
 				message_list_ref_folder (
+				MESSAGE_LIST (object)));
+			return;
+
+		case PROP_GROUP_BY_THREADS:
+			g_value_set_boolean (
+				value,
+				message_list_get_group_by_threads (
 				MESSAGE_LIST (object)));
 			return;
 
@@ -2933,6 +2954,18 @@ message_list_class_init (MessageListClass *class)
 			"The source folder",
 			CAMEL_TYPE_FOLDER,
 			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_GROUP_BY_THREADS,
+		g_param_spec_boolean (
+			"group-by-threads",
+			"Group By Threads",
+			"Group messages into conversation threads",
+			FALSE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
 			G_PARAM_STATIC_STRINGS));
 
 	/* Inherited from ESelectableInterface */
@@ -4090,6 +4123,32 @@ message_list_get_paste_target_list (MessageList *message_list)
 }
 
 gboolean
+message_list_get_group_by_threads (MessageList *message_list)
+{
+	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), FALSE);
+
+	return message_list->priv->group_by_threads;
+}
+
+void
+message_list_set_group_by_threads (MessageList *message_list,
+                                   gboolean group_by_threads)
+{
+	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+
+	if (group_by_threads == message_list->priv->group_by_threads)
+		return;
+
+	message_list->priv->group_by_threads = group_by_threads;
+
+	g_object_notify (G_OBJECT (message_list), "group-by-threads");
+
+	/* Changing this property triggers a message list regen. */
+	if (message_list->frozen == 0)
+		mail_regen_list (message_list, message_list->search, FALSE);
+}
+
+gboolean
 message_list_get_show_deleted (MessageList *message_list)
 {
 	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), FALSE);
@@ -4569,36 +4628,30 @@ message_list_thaw (MessageList *ml)
 
 /* set whether we are in threaded view or flat view */
 void
-message_list_set_threaded_expand_all (MessageList *ml)
+message_list_set_threaded_expand_all (MessageList *message_list)
 {
-	if (ml->threaded) {
-		ml->expand_all = 1;
+	g_return_if_fail (IS_MESSAGE_LIST (message_list));
 
-		if (ml->frozen == 0)
-			mail_regen_list (ml, ml->search, FALSE);
+	if (message_list_get_group_by_threads (message_list)) {
+		message_list->expand_all = 1;
+
+		if (message_list->frozen == 0)
+			mail_regen_list (
+				message_list, message_list->search, FALSE);
 	}
 }
 
 void
-message_list_set_threaded_collapse_all (MessageList *ml)
+message_list_set_threaded_collapse_all (MessageList *message_list)
 {
-	if (ml->threaded) {
-		ml->collapse_all = 1;
+	g_return_if_fail (IS_MESSAGE_LIST (message_list));
 
-		if (ml->frozen == 0)
-			mail_regen_list (ml, ml->search, FALSE);
-	}
-}
+	if (message_list_get_group_by_threads (message_list)) {
+		message_list->collapse_all = 1;
 
-void
-message_list_set_threaded (MessageList *ml,
-                           gboolean threaded)
-{
-	if (ml->threaded != threaded) {
-		ml->threaded = threaded;
-
-		if (ml->frozen == 0)
-			mail_regen_list (ml, ml->search, FALSE);
+		if (message_list->frozen == 0)
+			mail_regen_list (
+				message_list, message_list->search, FALSE);
 	}
 }
 
@@ -4999,7 +5052,7 @@ message_list_regen_thread (GSimpleAsyncResult *simple,
 		goto exit;
 
 	/* update/build a new tree */
-	if (regen_data->threaded) {
+	if (regen_data->group_by_threads) {
 		ml_sort_uids_by_tree (message_list, uids, cancellable);
 
 		if (regen_data->tree != NULL)
@@ -5095,7 +5148,7 @@ message_list_regen_done_cb (GObject *source_object,
 		(message_list->search != NULL) &&
 		(*message_list->search != '\0');
 
-	if (regen_data->threaded) {
+	if (regen_data->group_by_threads) {
 		gboolean forcing_expand_state;
 
 		forcing_expand_state =
@@ -5308,7 +5361,7 @@ mail_regen_list (MessageList *message_list,
 		hide_deleted = message_list_get_hide_deleted (
 			message_list, new_regen_data->folder);
 
-		if (message_list->threaded && hide_deleted) {
+		if (new_regen_data->group_by_threads && hide_deleted) {
 			new_regen_data->tree = thread_tree;
 			camel_folder_thread_messages_ref (thread_tree);
 		} else {
@@ -5329,13 +5382,13 @@ mail_regen_list (MessageList *message_list,
 			g_free (txt);
 		}
 	} else if (message_list->priv->any_row_changed &&
-		   message_list->threaded &&
+		   new_regen_data->group_by_threads &&
 		   !message_list->just_set_folder &&
 		   !searching) {
 		/* Something changed.  If it was an expand
 		 * state change, then save the expand state. */
 		message_list_save_state (message_list);
-	} else if (message_list->threaded &&
+	} else if (new_regen_data->group_by_threads &&
 		   !message_list->just_set_folder &&
 		   !searching) {
 		/* Remember the expand state and restore it after regen. */
