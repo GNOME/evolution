@@ -100,6 +100,7 @@ struct _MessageListPrivate {
 	gboolean destroyed;
 
 	gboolean thread_latest;
+	gboolean thread_subject;
 	gboolean any_row_changed; /* save state before regen list when this is set to true */
 
 	GtkTargetList *copy_target_list;
@@ -150,7 +151,8 @@ enum {
 	PROP_0,
 	PROP_COPY_TARGET_LIST,
 	PROP_PASTE_TARGET_LIST,
-	PROP_SESSION
+	PROP_SESSION,
+	PROP_THREAD_SUBJECT
 };
 
 /* Forward Declarations */
@@ -293,13 +295,6 @@ regen_data_new (MessageList *message_list,
 	RegenData *regen_data;
 	EActivity *activity;
 	EMailSession *session;
-	GSettings *settings;
-	gboolean thread_subject;
-
-	/* FIXME This should be a MessageList property. */
-	settings = g_settings_new ("org.gnome.evolution.mail");
-	thread_subject = g_settings_get_boolean (settings, "thread-subject");
-	g_object_unref (settings);
 
 	activity = e_activity_new ();
 	e_activity_set_cancellable (activity, cancellable);
@@ -316,7 +311,8 @@ regen_data_new (MessageList *message_list,
 	regen_data->threaded = message_list->threaded;
 	regen_data->hide_deleted = message_list->hidedeleted;
 	regen_data->hide_junk = message_list->hidejunk;
-	regen_data->thread_subject = thread_subject;
+	regen_data->thread_subject =
+		message_list_get_thread_subject (message_list);
 
 	g_mutex_init (&regen_data->select_lock);
 
@@ -2623,6 +2619,12 @@ message_list_set_property (GObject *object,
 				MESSAGE_LIST (object),
 				g_value_get_object (value));
 			return;
+
+		case PROP_THREAD_SUBJECT:
+			message_list_set_thread_subject (
+				MESSAGE_LIST (object),
+				g_value_get_boolean (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -2637,19 +2639,29 @@ message_list_get_property (GObject *object,
 	switch (property_id) {
 		case PROP_COPY_TARGET_LIST:
 			g_value_set_boxed (
-				value, message_list_get_copy_target_list (
+				value,
+				message_list_get_copy_target_list (
 				MESSAGE_LIST (object)));
 			return;
 
 		case PROP_PASTE_TARGET_LIST:
 			g_value_set_boxed (
-				value, message_list_get_paste_target_list (
+				value,
+				message_list_get_paste_target_list (
 				MESSAGE_LIST (object)));
 			return;
 
 		case PROP_SESSION:
 			g_value_set_object (
-				value, message_list_get_session (
+				value,
+				message_list_get_session (
+				MESSAGE_LIST (object)));
+			return;
+
+		case PROP_THREAD_SUBJECT:
+			g_value_set_boolean (
+				value,
+				message_list_get_thread_subject (
 				MESSAGE_LIST (object)));
 			return;
 	}
@@ -2820,7 +2832,20 @@ message_list_class_init (MessageListClass *class)
 			"The mail session",
 			E_TYPE_MAIL_SESSION,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_THREAD_SUBJECT,
+		g_param_spec_boolean (
+			"thread-subject",
+			"Thread Subject",
+			"Thread messages by Subject headers",
+			FALSE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
 
 	message_list_signals[MESSAGE_SELECTED] = g_signal_new (
 		"message_selected",
@@ -3858,6 +3883,28 @@ message_list_get_paste_target_list (MessageList *message_list)
 	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), NULL);
 
 	return message_list->priv->paste_target_list;
+}
+
+gboolean
+message_list_get_thread_subject (MessageList *message_list)
+{
+	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), FALSE);
+
+	return message_list->priv->thread_subject;
+}
+
+void
+message_list_set_thread_subject (MessageList *message_list,
+                                 gboolean thread_subject)
+{
+	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+
+	if (thread_subject == message_list->priv->thread_subject)
+		return;
+
+	message_list->priv->thread_subject = thread_subject;
+
+	g_object_notify (G_OBJECT (message_list), "thread-subject");
 }
 
 static gboolean

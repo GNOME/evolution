@@ -173,6 +173,9 @@ GtkTargetList *	message_list_get_copy_target_list
 						(MessageList *message_list);
 GtkTargetList *	message_list_get_paste_target_list
 						(MessageList *message_list);
+gboolean	message_list_get_thread_subject	(MessageList *message_list);
+void		message_list_set_thread_subject	(MessageList *message_list,
+						 gboolean thread_subject);
 void		message_list_freeze		(MessageList *message_list);
 void		message_list_thaw		(MessageList *message_list);
 GPtrArray *	message_list_get_uids		(MessageList *message_list);

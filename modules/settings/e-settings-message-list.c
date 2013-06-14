@@ -47,7 +47,10 @@ settings_message_list_constructed (GObject *object)
 
 	settings = g_settings_new ("org.gnome.evolution.mail");
 
-	/* FIXME Bind stuff here... */
+	g_settings_bind (
+		settings, "thread-subject",
+		message_list, "thread-subject",
+		G_SETTINGS_BIND_GET);
 
 	g_object_unref (settings);
 
