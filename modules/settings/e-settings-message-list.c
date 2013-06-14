@@ -52,6 +52,12 @@ settings_message_list_constructed (GObject *object)
 		message_list, "thread-subject",
 		G_SETTINGS_BIND_GET);
 
+	/* This setting only controls the initial message list
+	 * state when in threaded mode, so just apply it here. */
+	e_tree_memory_set_expanded_default (
+		E_TREE_MEMORY (message_list->model),
+		g_settings_get_boolean (settings, "thread-expand"));
+
 	g_object_unref (settings);
 
 	/* Chain up to parent's constructed() method. */

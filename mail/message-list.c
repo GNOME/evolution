@@ -2565,6 +2565,31 @@ message_list_init (MessageList *message_list)
 
 	message_list->priv = MESSAGE_LIST_GET_PRIVATE (message_list);
 
+	/* FIXME This should be a GTypeInterface. */
+	message_list->model = e_tree_memory_callbacks_new (
+		ml_tree_icon_at,
+
+		ml_column_count,
+
+		ml_has_save_id,
+		ml_get_save_id,
+
+		ml_has_get_node_by_id,
+		ml_get_node_by_id,
+
+		ml_tree_sort_value_at,
+		ml_tree_value_at,
+		ml_tree_set_value_at,
+		ml_tree_is_cell_editable,
+
+		ml_duplicate_value,
+		ml_free_value,
+		ml_initialize_value,
+		ml_value_is_empty,
+		ml_value_to_string,
+
+		message_list);
+
 	message_list->normalised_hash = g_hash_table_new_full (
 		g_str_hash, g_str_equal,
 		(GDestroyNotify) NULL,
@@ -2884,35 +2909,7 @@ message_list_construct (MessageList *message_list)
 	gchar *etspecfile;
 	GSettings *settings;
 
-	message_list->model =
-		e_tree_memory_callbacks_new (
-			ml_tree_icon_at,
-
-			ml_column_count,
-
-			ml_has_save_id,
-			ml_get_save_id,
-
-			ml_has_get_node_by_id,
-			ml_get_node_by_id,
-
-			ml_tree_sort_value_at,
-			ml_tree_value_at,
-			ml_tree_set_value_at,
-			ml_tree_is_cell_editable,
-
-			ml_duplicate_value,
-			ml_free_value,
-			ml_initialize_value,
-			ml_value_is_empty,
-			ml_value_to_string,
-
-			message_list);
-
 	settings = g_settings_new ("org.gnome.evolution.mail");
-	e_tree_memory_set_expanded_default (
-		E_TREE_MEMORY (message_list->model),
-		g_settings_get_boolean (settings, "thread-expand"));
 	message_list->priv->thread_latest =
 		g_settings_get_boolean (settings, "thread-latest");
 	g_object_unref (settings);
