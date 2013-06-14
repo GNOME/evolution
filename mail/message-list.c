@@ -4717,15 +4717,16 @@ message_list_regen_done_cb (GObject *source_object,
 
 	message_list = MESSAGE_LIST (source_object);
 	simple = G_SIMPLE_ASYNC_RESULT (result);
+	regen_data = g_simple_async_result_get_op_res_gpointer (simple);
 
-	/* Steal the MessageList's RegenData pointer.
-	 * We should have exclusive access to it now. */
+	/* Withdraw our RegenData from the private struct, if it hasn't
+	 * already been replaced.  We have exclusive access to it now. */
 	g_mutex_lock (&message_list->priv->regen_lock);
-	regen_data = message_list->priv->regen_data;
-	message_list->priv->regen_data = NULL;
+	if (message_list->priv->regen_data == regen_data) {
+		regen_data_unref (message_list->priv->regen_data);
+		message_list->priv->regen_data = NULL;
+	}
 	g_mutex_unlock (&message_list->priv->regen_lock);
-
-	g_return_if_fail (regen_data != NULL);
 
 	activity = regen_data->activity;
 
@@ -4733,13 +4734,13 @@ message_list_regen_done_cb (GObject *source_object,
 
 	if (e_activity_handle_cancellation (activity, local_error)) {
 		g_error_free (local_error);
-		goto exit;
+		return;
 
 	/* FIXME This should be handed off to an EAlertSink. */
 	} else if (local_error != NULL) {
 		g_warning ("%s: %s", G_STRFUNC, local_error->message);
 		g_error_free (local_error);
-		goto exit;
+		return;
 	}
 
 	e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
@@ -4880,9 +4881,6 @@ message_list_regen_done_cb (GObject *source_object,
 		message_list_signals[MESSAGE_LIST_BUILT], 0);
 
 	message_list->priv->any_row_changed = FALSE;
-
-exit:
-	regen_data_unref (regen_data);
 }
 
 static gboolean
