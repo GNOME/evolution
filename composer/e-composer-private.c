@@ -826,18 +826,6 @@ composer_move_caret (EMsgComposer *composer)
 			WEBKIT_DOM_NODE (body),
 			WEBKIT_DOM_NODE (element),
 			NULL);
-
-		if (webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body))) {
-			webkit_dom_range_select_node_contents (new_range,
-				WEBKIT_DOM_NODE (
-					webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body))),
-				NULL);
-			webkit_dom_range_collapse (new_range, TRUE, NULL);
-
-			webkit_dom_dom_selection_remove_all_ranges (dom_selection);
-			webkit_dom_dom_selection_add_range (dom_selection, new_range);
-		}
-		return;
 	}
 
 	list = webkit_dom_document_get_elements_by_class_name (document, "-x-evo-paragraph");
@@ -894,11 +882,19 @@ composer_move_caret (EMsgComposer *composer)
 	} else {
 		/* Move caret on the beginning of message */
 		if (webkit_dom_node_list_get_length (list) == 0) {
-			webkit_dom_node_insert_before (
-				WEBKIT_DOM_NODE (body),
-				WEBKIT_DOM_NODE (element),
-				webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)),
-			        NULL);
+
+			if (webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body))) {
+				webkit_dom_node_insert_before (
+					WEBKIT_DOM_NODE (body),
+					WEBKIT_DOM_NODE (element),
+					webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)),
+					NULL);
+			} else {
+				webkit_dom_node_append_child (
+					WEBKIT_DOM_NODE (body),
+					WEBKIT_DOM_NODE (element),
+					NULL);
+			}
 
 			if (webkit_dom_node_list_get_length (blockquotes) != 0) {
 				WebKitDOMElement *br = webkit_dom_document_create_element (document, "BR", NULL);
@@ -1054,10 +1050,18 @@ insert:
 		node = webkit_dom_node_list_item (signatures, ii);
 		id = webkit_dom_html_element_get_id (WEBKIT_DOM_HTML_ELEMENT (node));
 
+		/* When we are editing a message with signature we need to set active
+		 * signature id in signature combo box otherwise no signature will be added */
+		if (composer->priv->is_from_message) {
+			const gchar *name =  webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (node), "name");
+			gtk_combo_box_set_active_id (GTK_COMBO_BOX (combo_box), name);
+		}
+
 		if (id && (strlen (id) == 1) && (*id == '1')) {
 			webkit_dom_node_remove_child (
+				webkit_dom_node_get_parent_node (webkit_dom_node_get_parent_node (node)),
 				webkit_dom_node_get_parent_node (node),
-				node, NULL);
+				NULL);
 			g_free (id);
 			break;
 		}
@@ -1086,11 +1090,14 @@ insert:
 
 	if (html_buffer != NULL) {
 		if (*html_buffer->str) {
-			webkit_dom_document_exec_command (
-				document, "insertParagraph", FALSE, "");
-			e_editor_selection_insert_html (selection, html_buffer->str);
-			webkit_dom_document_exec_command (
-				document, "insertParagraph", FALSE, "");
+			WebKitDOMElement *element;
+			WebKitDOMHTMLElement *body;
+
+			body = webkit_dom_document_get_body (document);
+			element = webkit_dom_document_create_element (document, "DIV", NULL);
+
+			webkit_dom_html_element_set_inner_html (WEBKIT_DOM_HTML_ELEMENT (element), html_buffer->str, NULL);
+			webkit_dom_node_append_child (WEBKIT_DOM_NODE (body), WEBKIT_DOM_NODE (element), NULL);
 		}
 
 		g_string_free (html_buffer, TRUE);
