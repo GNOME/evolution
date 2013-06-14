@@ -62,10 +62,6 @@
 #include "em-utils.h"
 #include "e-mail-printer.h"
 
-/* XXX This is a dirty hack on a dirty hack.  We really need
- *     to rework or get rid of the functions that use this. */
-extern const gchar *shell_builtin_backend;
-
 /* How many is too many? */
 /* Used in em_util_ask_open_many() */
 #define TOO_MANY 10

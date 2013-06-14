@@ -104,8 +104,6 @@ void mail_cancel_all (void);
 gchar *mail_get_password (CamelService *service, const gchar *prompt,
 			 gboolean secret, gboolean *cache);
 
-void mail_mt_set_backend (gchar *backend);
-
 /* Call a function in the GUI thread, wait for it to return, type is
  * the marshaller to use.  FIXME This thing is horrible, please put
  * it out of its misery. */

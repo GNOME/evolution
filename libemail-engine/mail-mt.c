@@ -33,10 +33,6 @@
 /*#define MALLOC_CHECK*/
 #define d(x)
 
-/* XXX This is a dirty hack on a dirty hack.  We really need
- *     to rework or get rid of the functions that use this. */
-const gchar *shell_builtin_backend = "mail";
-
 static guint mail_msg_seq; /* sequence number of each message */
 
 /* Table of active messages.  Must hold mail_msg_lock to access. */
@@ -660,11 +656,5 @@ mail_call_main (mail_call_t type,
 	mail_msg_unref (m);
 
 	return ret;
-}
-
-void
-mail_mt_set_backend (gchar *backend)
-{
-	shell_builtin_backend = backend;
 }
 
