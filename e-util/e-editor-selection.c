@@ -1223,6 +1223,7 @@ e_editor_selection_set_block_format (EEditorSelection *selection,
 	EEditorSelectionBlockFormat current_format;
 	EEditorWidgetCommand command;
 	const gchar *value;
+	gboolean inserting_ordered_list = FALSE;
 
 	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
 
@@ -1275,8 +1276,7 @@ e_editor_selection_set_block_format (EEditorSelection *selection,
 		case E_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST:
 		case E_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ALPHA:
 		case E_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ROMAN:
-			command = E_EDITOR_WIDGET_COMMAND_INSERT_ORDERED_LIST;
-			value = NULL;
+			inserting_ordered_list = TRUE;
 			break;
 		case E_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST:
 			command = E_EDITOR_WIDGET_COMMAND_INSERT_UNORDERED_LIST;
@@ -1305,7 +1305,71 @@ e_editor_selection_set_block_format (EEditorSelection *selection,
 			E_EDITOR_WIDGET_COMMAND_INSERT_ORDERED_LIST, NULL);
 	}
 
-	e_editor_widget_exec_command (editor_widget, command, value);
+	if (!inserting_ordered_list)
+		e_editor_widget_exec_command (editor_widget, command, value);
+	else {
+		/* Ordered list have to be handled separately (not directly in WebKit),
+		 * because all variant or ordered list are treated as one in WebKit.
+		 * When list is inserted after existing one, it is not inserted as new,
+		 * but it will start to continuing in previous one */
+		WebKitDOMRange *range, *new_range;
+		WebKitDOMElement *element;
+		WebKitDOMNode *node;
+		WebKitWebView *web_view;
+		WebKitDOMDocument *document;
+		WebKitDOMDOMSelection *window_selection;
+		WebKitDOMDOMWindow *window;
+		WebKitDOMNodeList *list;
+		gint paragraph_count, ii;
+
+		web_view = WEBKIT_WEB_VIEW (editor_widget);
+		document = webkit_web_view_get_dom_document (web_view);
+
+		range = editor_selection_get_current_range (selection);
+
+		list = webkit_dom_document_get_elements_by_class_name (document, "-x-evo-paragraph");
+
+		paragraph_count = webkit_dom_node_list_get_length (list);
+		for (ii = paragraph_count - 1; ii >= 0; ii--) {
+		WebKitDOMNode *br = webkit_dom_node_list_item (list, ii);
+			if (g_strcmp0 (webkit_dom_node_get_text_content (br), UNICODE_HIDDEN_SPACE) == 0) {
+				webkit_dom_node_set_text_content (br, "", NULL);
+			}
+		}
+
+		/* Create list elements */
+		element = webkit_dom_document_create_element (document, "OL", NULL);
+
+		/* We have to use again the hidden space to move caret into newly
+		 * inserted list */
+		webkit_dom_html_element_set_inner_html (
+			WEBKIT_DOM_HTML_ELEMENT (element),
+			g_strconcat ("<li>", UNICODE_HIDDEN_SPACE, "</li>", NULL),
+			NULL);
+
+		if (format != E_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST) {
+			webkit_dom_element_set_attribute (
+				element, "type",
+				(format == E_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ALPHA) ?
+					"A" : "I", NULL);
+		}
+		webkit_dom_range_insert_node (range, WEBKIT_DOM_NODE (element), NULL);
+
+		/* Move caret into newly inserted list */
+		window = webkit_dom_document_get_default_view (document);
+		window_selection = webkit_dom_dom_window_get_selection (window);
+		new_range = webkit_dom_document_create_range (document);
+
+		webkit_dom_range_select_node_contents (
+			new_range, WEBKIT_DOM_NODE (element), NULL);
+		webkit_dom_range_collapse (new_range, FALSE, NULL);
+		webkit_dom_dom_selection_remove_all_ranges (window_selection);
+		webkit_dom_dom_selection_add_range (window_selection, new_range);
+
+		/* Remove hidden space character */
+		node = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (element));
+		webkit_dom_html_element_set_inner_text (WEBKIT_DOM_HTML_ELEMENT (node), "", NULL);
+	}
 
 	/* Fine tuning - set the specific marker type for ordered lists */
 	if ((format == E_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ALPHA) ||
