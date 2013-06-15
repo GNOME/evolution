@@ -567,10 +567,10 @@ mdn_message_loaded_cb (EMailReader *reader,
 	g_object_unref (source);
 
 exit:
-	g_clear_object (&folder);
-
 	if (info != NULL)
 		camel_folder_free_message_info (folder, info);
+
+	g_clear_object (&folder);
 	g_free (notify_to);
 }
 
@@ -627,10 +627,10 @@ mdn_message_seen_cb (EMailReader *reader,
 	g_object_unref (source);
 
 exit:
-	g_clear_object (&folder);
-
 	if (info != NULL)
 		camel_folder_free_message_info (folder, info);
+
+	g_clear_object (&folder);
 	g_free (notify_to);
 }
 
