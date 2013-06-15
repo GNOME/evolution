@@ -160,31 +160,6 @@ em_utils_prompt_user (GtkWindow *parent,
 }
 
 /**
- * em_utils_uids_copy:
- * @uids: array of uids
- *
- * Duplicates the array of uids held by @uids into a new
- * GPtrArray. Use em_utils_uids_free() to free the resultant uid
- * array.
- *
- * Returns a duplicate copy of @uids.
- **/
-GPtrArray *
-em_utils_uids_copy (GPtrArray *uids)
-{
-	GPtrArray *copy;
-	gint i;
-
-	copy = g_ptr_array_new ();
-	g_ptr_array_set_size (copy, uids->len);
-
-	for (i = 0; i < uids->len; i++)
-		copy->pdata[i] = g_strdup (uids->pdata[i]);
-
-	return copy;
-}
-
-/**
  * em_utils_uids_free:
  * @uids: array of uids
  *
