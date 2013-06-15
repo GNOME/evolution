@@ -407,19 +407,6 @@ e_tree_memory_init (ETreeMemory *tree_memory)
 }
 
 /**
- * e_tree_memory_new
- *
- * XXX docs here.
- *
- * return values: a newly constructed ETreeMemory.
- */
-ETreeMemory *
-e_tree_memory_new (void)
-{
-	return g_object_new (E_TYPE_TREE_MEMORY, NULL);
-}
-
-/**
  * e_tree_memory_set_expanded_default
  *
  * Sets the state of nodes to be append to a thread.

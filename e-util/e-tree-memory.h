@@ -72,7 +72,6 @@ struct _ETreeMemoryClass {
 };
 
 GType		e_tree_memory_get_type		(void) G_GNUC_CONST;
-ETreeMemory *	e_tree_memory_new		(void);
 
 /* node operations */
 ETreePath	e_tree_memory_node_insert	(ETreeMemory *tree_memory,
