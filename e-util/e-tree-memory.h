@@ -26,10 +26,8 @@
 #error "Only <e-util/e-util.h> should be included directly."
 #endif
 
-#ifndef _E_TREE_MEMORY_H_
-#define _E_TREE_MEMORY_H_
-
-#include <gdk-pixbuf/gdk-pixbuf.h>
+#ifndef E_TREE_MEMORY_H
+#define E_TREE_MEMORY_H
 
 #include <e-util/e-tree-model.h>
 
@@ -75,7 +73,7 @@ ETreePath	e_tree_memory_node_insert	(ETreeMemory *tree_memory,
 						 gint position,
 						 gpointer node_data);
 gpointer	e_tree_memory_node_remove	(ETreeMemory *tree_memory,
-						 ETreePath path);
+						 ETreePath node);
 
 /* Freeze and thaw */
 void		e_tree_memory_freeze		(ETreeMemory *tree_memory);
@@ -91,5 +89,5 @@ void		e_tree_memory_node_set_data	(ETreeMemory *tree_memory,
 
 G_END_DECLS
 
-#endif /* _E_TREE_MEMORY_H */
+#endif /* E_TREE_MEMORY_H */
 

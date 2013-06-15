@@ -47,7 +47,7 @@ G_DEFINE_TYPE (ETreeMemory, e_tree_memory, E_TYPE_TREE_MODEL)
 typedef struct ETreeMemoryPath ETreeMemoryPath;
 
 struct ETreeMemoryPath {
-	gpointer         node_data;
+	gpointer node_data;
 
 	/* parent/child/sibling pointers */
 	ETreeMemoryPath *parent;
@@ -56,7 +56,7 @@ struct ETreeMemoryPath {
 	ETreeMemoryPath *first_child;
 	ETreeMemoryPath *last_child;
 
-	gint             num_children;
+	gint num_children;
 };
 
 struct _ETreeMemoryPrivate {
@@ -64,9 +64,9 @@ struct _ETreeMemoryPrivate {
 
 	/* whether nodes are created expanded
 	 * or collapsed by default */
-	gboolean         expanded_default;
+	gboolean expanded_default;
 
-	gint             frozen;
+	gint frozen;
 };
 
 /* ETreeMemoryPath functions */
@@ -80,6 +80,7 @@ e_tree_memory_path_depth (ETreeMemoryPath *path)
 
 	for (path = path->parent; path; path = path->parent)
 		depth++;
+
 	return depth;
 }
 
@@ -149,47 +150,6 @@ e_tree_path_unlink (ETreeMemoryPath *path)
 	path->prev_sibling = NULL;
 }
 
-/**
- * e_tree_memory_freeze:
- * @tree_memory: the ETreeModel to freeze.
- *
- * This function prepares an ETreeModel for a period of much change.
- * All signals regarding changes to the tree are deferred until we
- * thaw the tree.
- *
- **/
-void
-e_tree_memory_freeze (ETreeMemory *tree_memory)
-{
-	ETreeMemoryPrivate *priv = tree_memory->priv;
-
-	if (priv->frozen == 0)
-		e_tree_model_pre_change (E_TREE_MODEL (tree_memory));
-
-	priv->frozen++;
-}
-
-/**
- * e_tree_memory_thaw:
- * @tree_memory: the ETreeMemory to thaw.
- *
- * This function thaws an ETreeMemory.  All the defered signals can add
- * up to a lot, we don't know - so we just emit a model_changed
- * signal.
- *
- **/
-void
-e_tree_memory_thaw (ETreeMemory *tree_memory)
-{
-	ETreeMemoryPrivate *priv = tree_memory->priv;
-
-	if (priv->frozen > 0)
-		priv->frozen--;
-	if (priv->frozen == 0) {
-		e_tree_model_node_changed (E_TREE_MODEL (tree_memory), priv->root);
-	}
-}
-
 /* virtual methods */
 
 static void
@@ -210,20 +170,22 @@ static ETreePath
 tree_memory_get_root (ETreeModel *etm)
 {
 	ETreeMemoryPrivate *priv = E_TREE_MEMORY (etm)->priv;
+
 	return priv->root;
 }
 
 static ETreePath
 tree_memory_get_parent (ETreeModel *etm,
-                 ETreePath node)
+                        ETreePath node)
 {
 	ETreeMemoryPath *path = node;
+
 	return path->parent;
 }
 
 static ETreePath
 tree_memory_get_first_child (ETreeModel *etm,
-                      ETreePath node)
+                             ETreePath node)
 {
 	ETreeMemoryPath *path = node;
 
@@ -232,7 +194,7 @@ tree_memory_get_first_child (ETreeModel *etm,
 
 static ETreePath
 tree_memory_get_last_child (ETreeModel *etm,
-                     ETreePath node)
+                            ETreePath node)
 {
 	ETreeMemoryPath *path = node;
 
@@ -241,31 +203,34 @@ tree_memory_get_last_child (ETreeModel *etm,
 
 static ETreePath
 tree_memory_get_next (ETreeModel *etm,
-               ETreePath node)
+                      ETreePath node)
 {
 	ETreeMemoryPath *path = node;
+
 	return path->next_sibling;
 }
 
 static ETreePath
 tree_memory_get_prev (ETreeModel *etm,
-               ETreePath node)
+                      ETreePath node)
 {
 	ETreeMemoryPath *path = node;
+
 	return path->prev_sibling;
 }
 
 static gboolean
 tree_memory_is_root (ETreeModel *etm,
-              ETreePath node)
+                     ETreePath node)
 {
 	ETreeMemoryPath *path = node;
+
 	return e_tree_memory_path_depth (path) == 0;
 }
 
 static gboolean
 tree_memory_is_expandable (ETreeModel *etm,
-                    ETreePath node)
+                           ETreePath node)
 {
 	ETreeMemoryPath *path = node;
 
@@ -274,8 +239,8 @@ tree_memory_is_expandable (ETreeModel *etm,
 
 static guint
 tree_memory_get_children (ETreeModel *etm,
-                   ETreePath node,
-                   ETreePath **nodes)
+                          ETreePath node,
+                          ETreePath **nodes)
 {
 	ETreeMemoryPath *path = node;
 	guint n_children;
@@ -297,7 +262,7 @@ tree_memory_get_children (ETreeModel *etm,
 
 static guint
 tree_memory_depth (ETreeModel *etm,
-            ETreePath path)
+                   ETreePath path)
 {
 	return e_tree_memory_path_depth (path);
 }
@@ -306,9 +271,8 @@ static gboolean
 tree_memory_get_expanded_default (ETreeModel *etm)
 {
 	ETreeMemory *tree_memory = E_TREE_MEMORY (etm);
-	ETreeMemoryPrivate *priv = tree_memory->priv;
 
-	return priv->expanded_default;
+	return tree_memory->priv->expanded_default;
 }
 
 static void
@@ -344,62 +308,6 @@ e_tree_memory_init (ETreeMemory *tree_memory)
 }
 
 /**
- * e_tree_memory_set_expanded_default
- *
- * Sets the state of nodes to be append to a thread.
- * They will either be expanded or collapsed, according to
- * the value of @expanded.
- */
-void
-e_tree_memory_set_expanded_default (ETreeMemory *tree_memory,
-                                    gboolean expanded)
-{
-	g_return_if_fail (tree_memory != NULL);
-
-	tree_memory->priv->expanded_default = expanded;
-}
-
-/**
- * e_tree_memory_node_get_data:
- * @tree_memory:
- * @node:
- *
- *
- *
- * Return value:
- **/
-gpointer
-e_tree_memory_node_get_data (ETreeMemory *tree_memory,
-                             ETreePath node)
-{
-	ETreeMemoryPath *path = node;
-
-	g_return_val_if_fail (path, NULL);
-
-	return path->node_data;
-}
-
-/**
- * e_tree_memory_node_set_data:
- * @tree_memory:
- * @node:
- * @node_data:
- *
- *
- **/
-void
-e_tree_memory_node_set_data (ETreeMemory *tree_memory,
-                             ETreePath node,
-                             gpointer node_data)
-{
-	ETreeMemoryPath *path = node;
-
-	g_return_if_fail (path);
-
-	path->node_data = node_data;
-}
-
-/**
  * e_tree_memory_node_insert:
  * @tree_memory:
  * @parent_node:
@@ -408,7 +316,7 @@ e_tree_memory_node_set_data (ETreeMemory *tree_memory,
  *
  *
  *
- * Return value:
+ * Returns:
  **/
 ETreePath
 e_tree_memory_node_insert (ETreeMemory *tree_memory,
@@ -416,17 +324,13 @@ e_tree_memory_node_insert (ETreeMemory *tree_memory,
                            gint position,
                            gpointer node_data)
 {
-	ETreeMemoryPrivate *priv;
 	ETreeMemoryPath *new_path;
 	ETreeMemoryPath *parent_path = parent_node;
 
-	g_return_val_if_fail (tree_memory != NULL, NULL);
+	g_return_val_if_fail (E_IS_TREE_MEMORY (tree_memory), NULL);
 
-	priv = tree_memory->priv;
-
-	g_return_val_if_fail (parent_path != NULL || priv->root == NULL, NULL);
-
-	priv = tree_memory->priv;
+	g_return_val_if_fail (
+		parent_path != NULL || tree_memory->priv->root == NULL, NULL);
 
 	if (!tree_memory->priv->frozen)
 		e_tree_model_pre_change (E_TREE_MODEL (tree_memory));
@@ -442,7 +346,7 @@ e_tree_memory_node_insert (ETreeMemory *tree_memory,
 				E_TREE_MODEL (tree_memory),
 				parent_path, new_path);
 	} else {
-		priv->root = new_path;
+		tree_memory->priv->root = new_path;
 		if (!tree_memory->priv->frozen)
 			e_tree_model_node_changed (
 				E_TREE_MODEL (tree_memory), new_path);
@@ -471,11 +375,11 @@ child_free (ETreeMemory *tree_memory,
 /**
  * e_tree_memory_node_remove:
  * @tree_memory:
- * @path:
+ * @node:
  *
  *
  *
- * Return value:
+ * Returns:
  **/
 gpointer
 e_tree_memory_node_remove (ETreeMemory *tree_memory,
@@ -487,7 +391,7 @@ e_tree_memory_node_remove (ETreeMemory *tree_memory,
 	gpointer ret = path->node_data;
 	gint old_position = 0;
 
-	g_return_val_if_fail (tree_memory != NULL, NULL);
+	g_return_val_if_fail (E_IS_TREE_MEMORY (tree_memory), NULL);
 
 	if (!tree_memory->priv->frozen) {
 		e_tree_model_pre_change (E_TREE_MODEL (tree_memory));
@@ -498,13 +402,15 @@ e_tree_memory_node_remove (ETreeMemory *tree_memory,
 		old_position--;
 	}
 
-	/* unlink this node - we only have to unlink the root node being removed,
-	 * since the others are only references from this node */
+	/* unlink this node - we only have to unlink the root node being
+	 * removed, since the others are only references from this node */
 	e_tree_path_unlink (path);
 
 	/*printf("removing %d nodes from position %d\n", visible, base);*/
 	if (!tree_memory->priv->frozen)
-		e_tree_model_node_removed (E_TREE_MODEL (tree_memory), parent, path, old_position);
+		e_tree_model_node_removed (
+			E_TREE_MODEL (tree_memory),
+			parent, path, old_position);
 
 	child_free (tree_memory, path);
 
@@ -515,5 +421,104 @@ e_tree_memory_node_remove (ETreeMemory *tree_memory,
 		e_tree_model_node_deleted (E_TREE_MODEL (tree_memory), path);
 
 	return ret;
+}
+
+/**
+ * e_tree_memory_freeze:
+ * @tree_memory: the ETreeModel to freeze.
+ *
+ * This function prepares an ETreeModel for a period of much change.
+ * All signals regarding changes to the tree are deferred until we
+ * thaw the tree.
+ *
+ **/
+void
+e_tree_memory_freeze (ETreeMemory *tree_memory)
+{
+	g_return_if_fail (E_IS_TREE_MEMORY (tree_memory));
+
+	if (tree_memory->priv->frozen == 0)
+		e_tree_model_pre_change (E_TREE_MODEL (tree_memory));
+
+	tree_memory->priv->frozen++;
+}
+
+/**
+ * e_tree_memory_thaw:
+ * @tree_memory: the ETreeMemory to thaw.
+ *
+ * This function thaws an ETreeMemory.  All the defered signals can add
+ * up to a lot, we don't know - so we just emit a model_changed
+ * signal.
+ *
+ **/
+void
+e_tree_memory_thaw (ETreeMemory *tree_memory)
+{
+	g_return_if_fail (E_IS_TREE_MEMORY (tree_memory));
+
+	if (tree_memory->priv->frozen > 0)
+		tree_memory->priv->frozen--;
+
+	if (tree_memory->priv->frozen == 0)
+		e_tree_model_node_changed (
+			E_TREE_MODEL (tree_memory),
+			tree_memory->priv->root);
+}
+
+/**
+ * e_tree_memory_set_expanded_default
+ *
+ * Sets the state of nodes to be append to a thread.
+ * They will either be expanded or collapsed, according to
+ * the value of @expanded.
+ */
+void
+e_tree_memory_set_expanded_default (ETreeMemory *tree_memory,
+                                    gboolean expanded)
+{
+	g_return_if_fail (E_IS_TREE_MEMORY (tree_memory));
+
+	tree_memory->priv->expanded_default = expanded;
+}
+
+/**
+ * e_tree_memory_node_get_data:
+ * @tree_memory:
+ * @node:
+ *
+ *
+ *
+ * Return value:
+ **/
+gpointer
+e_tree_memory_node_get_data (ETreeMemory *tree_memory,
+                             ETreePath node)
+{
+	ETreeMemoryPath *path = node;
+
+	g_return_val_if_fail (path != NULL, NULL);
+
+	return path->node_data;
+}
+
+/**
+ * e_tree_memory_node_set_data:
+ * @tree_memory:
+ * @node:
+ * @node_data:
+ *
+ *
+ **/
+void
+e_tree_memory_node_set_data (ETreeMemory *tree_memory,
+                             ETreePath node,
+                             gpointer node_data)
+{
+	ETreeMemoryPath *path = node;
+
+	g_return_if_fail (path != NULL);
+
+	path->node_data = node_data;
 }
 
