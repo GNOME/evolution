@@ -70,9 +70,6 @@ struct _ETreeModelInterface {
 	guint		(*depth)		(ETreeModel *tree_model,
 						 ETreePath path);
 
-	GdkPixbuf *	(*icon_at)		(ETreeModel *tree_model,
-						 ETreePath path);
-
 	gboolean	(*get_expanded_default)	(ETreeModel *tree_model);
 	gint		(*column_count)		(ETreeModel *tree_model);
 
@@ -163,8 +160,6 @@ guint		e_tree_model_node_get_n_children
 						(ETreeModel *tree_model,
 						 ETreePath path);
 guint		e_tree_model_node_depth		(ETreeModel *tree_model,
-						 ETreePath path);
-GdkPixbuf *	e_tree_model_icon_at		(ETreeModel *tree_model,
 						 ETreePath path);
 gboolean	e_tree_model_get_expanded_default
 						(ETreeModel *tree_model);

@@ -2665,13 +2665,6 @@ message_list_depth (ETreeModel *tree_model,
 	return g_node_depth ((GNode *) path);
 }
 
-static GdkPixbuf *
-message_list_icon_at (ETreeModel *tree_model,
-                      ETreePath path)
-{
-	return NULL;
-}
-
 static gboolean
 message_list_get_expanded_default (ETreeModel *tree_model)
 {
@@ -3140,7 +3133,6 @@ message_list_tree_model_init (ETreeModelInterface *interface)
 	interface->is_expandable = message_list_is_expandable;
 	interface->get_n_children = message_list_get_n_children;
 	interface->depth = message_list_depth;
-	interface->icon_at = message_list_icon_at;
 	interface->get_expanded_default = message_list_get_expanded_default;
 	interface->column_count = message_list_column_count;
 	interface->has_save_id = message_list_has_save_id;

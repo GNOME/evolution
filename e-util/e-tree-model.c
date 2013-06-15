@@ -396,29 +396,6 @@ e_tree_model_node_depth (ETreeModel *tree_model,
 }
 
 /**
- * e_tree_model_icon_at
- * @tree_model: The ETreeModel.
- * @path: The ETreePath to the node we're getting the icon of.
- *
- * XXX docs here.
- *
- * return values: the GdkPixbuf associated with this node.
- */
-GdkPixbuf *
-e_tree_model_icon_at (ETreeModel *tree_model,
-                      ETreePath path)
-{
-	ETreeModelInterface *interface;
-
-	g_return_val_if_fail (E_IS_TREE_MODEL (tree_model), NULL);
-
-	interface = E_TREE_MODEL_GET_INTERFACE (tree_model);
-	g_return_val_if_fail (interface->icon_at != NULL, NULL);
-
-	return interface->icon_at (tree_model, path);
-}
-
-/**
  * e_tree_model_get_expanded_default
  * @tree_model: The ETreeModel.
  *

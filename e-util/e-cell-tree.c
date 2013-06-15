@@ -275,9 +275,6 @@ ect_draw (ECellView *ecell_view,
 
 	/* only draw the tree effects if we're the active sort */
 	if (/* XXX */ TRUE) {
-		GdkPixbuf *node_image;
-		gint node_image_width = 0, node_image_height = 0;
-
 		tree_view->prelit = FALSE;
 
 		node = e_cell_tree_get_node (ecell_view->e_table_model, row);
@@ -285,19 +282,12 @@ ect_draw (ECellView *ecell_view,
 		offset = offset_of_node (ecell_view->e_table_model, row);
 		subcell_offset = offset;
 
-		node_image = e_tree_model_icon_at (tree_model, node);
-
-		if (node_image) {
-			node_image_width = gdk_pixbuf_get_width (node_image);
-			node_image_height = gdk_pixbuf_get_height (node_image);
-		}
-
 		/*
 		 * Be a nice citizen: clip to the region we are supposed to draw on
 		 */
 		rect.x = x1;
 		rect.y = y1;
-		rect.width = subcell_offset + node_image_width;
+		rect.width = subcell_offset;
 		rect.height = y2 - y1;
 
 		/* now draw our icon if we're expandable */
@@ -306,18 +296,8 @@ ect_draw (ECellView *ecell_view,
 			GdkRectangle r;
 
 			r = rect;
-			r.width -= node_image_width + 2;
+			r.width -= 2;
 			draw_expander (tree_view, cr, expanded ? GTK_EXPANDER_EXPANDED : GTK_EXPANDER_COLLAPSED, GTK_STATE_NORMAL, &r);
-		}
-
-		if (node_image) {
-			gdk_cairo_set_source_pixbuf (
-				cr, node_image,
-				x1 + subcell_offset,
-				y1 + (y2 - y1) / 2 - node_image_height / 2);
-			cairo_paint (cr);
-
-			subcell_offset += node_image_width;
 		}
 	}
 
@@ -577,29 +557,16 @@ ect_max_width (ECellView *ecell_view,
 		subcell_max_width = e_cell_max_width (tree_view->subcell_view, model_col, view_col);
 
 	for (row = 0; row < number_of_rows; row++) {
-		ETreeModel *tree_model = e_cell_tree_get_tree_model (ecell_view->e_table_model, row);
-		ETreePath node;
-		GdkPixbuf *node_image;
-		gint node_image_width = 0;
-
 		gint offset, subcell_offset;
 #if 0
 		gboolean expanded, expandable;
 		ETreeTableAdapter *tree_table_adapter = e_cell_tree_get_tree_table_adapter (ecell_view->e_table_model, row);
 #endif
 
-		node = e_cell_tree_get_node (ecell_view->e_table_model, row);
-
 		offset = offset_of_node (ecell_view->e_table_model, row);
 		subcell_offset = offset;
 
-		node_image = e_tree_model_icon_at (tree_model, node);
-
-		if (node_image) {
-			node_image_width = gdk_pixbuf_get_width (node_image);
-		}
-
-		width = subcell_offset + node_image_width;
+		width = subcell_offset;
 
 		if (per_row)
 			width += e_cell_max_width_by_row (tree_view->subcell_view, model_col, view_col, row);
