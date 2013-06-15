@@ -4293,8 +4293,6 @@ e_tree_memory_thaw
 e_tree_memory_set_expanded_default
 e_tree_memory_node_get_data
 e_tree_memory_node_set_data
-ETreeMemorySortCallback
-e_tree_memory_sort_node
 e_tree_memory_set_node_destroy_func
 <SUBSECTION Standard>
 E_TREE_MEMORY

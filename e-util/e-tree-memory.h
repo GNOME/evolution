@@ -58,11 +58,6 @@ typedef struct _ETreeMemory ETreeMemory;
 typedef struct _ETreeMemoryClass ETreeMemoryClass;
 typedef struct _ETreeMemoryPrivate ETreeMemoryPrivate;
 
-typedef gint	(*ETreeMemorySortCallback)	(ETreeMemory *tree_memory,
-						 ETreePath path1,
-						 ETreePath path2,
-						 gpointer closure);
-
 struct _ETreeMemory {
 	ETreeModel parent;
 	ETreeMemoryPrivate *priv;
@@ -99,10 +94,6 @@ gpointer	e_tree_memory_node_get_data	(ETreeMemory *tree_memory,
 void		e_tree_memory_node_set_data	(ETreeMemory *tree_memory,
 						 ETreePath node,
 						 gpointer node_data);
-void		e_tree_memory_sort_node		(ETreeMemory *tree_memory,
-						 ETreePath node,
-						 ETreeMemorySortCallback callback,
-						 gpointer user_data);
 void		e_tree_memory_set_node_destroy_func
 						(ETreeMemory *tree_memory,
 						 GFunc destroy_func,
