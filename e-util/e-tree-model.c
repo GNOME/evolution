@@ -306,19 +306,6 @@ e_tree_model_node_deleted (ETreeModel *tree_model,
 }
 
 /**
- * e_tree_model_new
- *
- * XXX docs here.
- *
- * return values: a newly constructed ETreeModel.
- */
-ETreeModel *
-e_tree_model_new (void)
-{
-	return g_object_new (E_TYPE_TREE_MODEL, NULL);
-}
-
-/**
  * e_tree_model_get_root
  * @tree_model: the ETreeModel of which we want the root node.
  *

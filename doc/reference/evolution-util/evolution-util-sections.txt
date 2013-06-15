@@ -4338,7 +4338,6 @@ e_tree_memory_callbacks_get_type
 <FILE>e-tree-model</FILE>
 <TITLE>ETreeModel</TITLE>
 ETreeModel
-e_tree_model_new
 ETreePath
 e_tree_model_get_root
 e_tree_model_node_get_parent

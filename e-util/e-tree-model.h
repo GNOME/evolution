@@ -165,7 +165,6 @@ struct _ETreeModelClass {
 };
 
 GType		e_tree_model_get_type		(void) G_GNUC_CONST;
-ETreeModel *	e_tree_model_new		(void);
 
 /* tree traversal operations */
 ETreePath	e_tree_model_get_root		(ETreeModel *tree_model);
