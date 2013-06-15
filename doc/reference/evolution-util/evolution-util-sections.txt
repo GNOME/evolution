@@ -4287,7 +4287,6 @@ ETreeMemory
 e_tree_memory_construct
 e_tree_memory_new
 e_tree_memory_node_insert
-e_tree_memory_node_insert_before
 e_tree_memory_node_remove
 e_tree_memory_freeze
 e_tree_memory_thaw

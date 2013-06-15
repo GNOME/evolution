@@ -541,41 +541,6 @@ e_tree_memory_node_insert (ETreeMemory *tree_memory,
 	return new_path;
 }
 
-/**
- * e_tree_memory_node_insert_before:
- * @tree_memory:
- * @parent:
- * @sibling:
- * @node_data:
- *
- *
- *
- * Return value:
- **/
-ETreePath
-e_tree_memory_node_insert_before (ETreeMemory *tree_memory,
-                                  ETreePath parent,
-                                  ETreePath sibling,
-                                  gpointer node_data)
-{
-	ETreeMemoryPath *child;
-	ETreeMemoryPath *parent_path = parent;
-	ETreeMemoryPath *sibling_path = sibling;
-	gint position = 0;
-
-	g_return_val_if_fail (tree_memory != NULL, NULL);
-
-	if (sibling != NULL) {
-		for (child = parent_path->first_child; child; child = child->next_sibling) {
-			if (child == sibling_path)
-				break;
-			position++;
-		}
-	} else
-		position = parent_path->num_children;
-	return e_tree_memory_node_insert (tree_memory, parent, position, node_data);
-}
-
 /* just blows away child data, doesn't take into account unlinking/etc */
 static void
 child_free (ETreeMemory *tree_memory,
