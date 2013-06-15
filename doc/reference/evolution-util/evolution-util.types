@@ -158,7 +158,6 @@ e_tree_memory_get_type
 e_tree_model_generator_get_type
 e_tree_model_get_type
 e_tree_selection_model_get_type
-e_tree_sorted_get_type
 e_tree_table_adapter_get_type
 e_url_entry_get_type
 e_web_view_get_type

@@ -298,7 +298,6 @@ evolution_util_include_HEADERS =  \
 	e-tree-model-generator.h \
 	e-tree-model.h \
 	e-tree-selection-model.h \
-	e-tree-sorted.h \
 	e-tree-table-adapter.h \
 	e-tree.h \
 	e-unicode.h \
@@ -544,7 +543,6 @@ libevolution_util_la_SOURCES = \
 	e-tree-model-generator.c \
 	e-tree-model.c \
 	e-tree-selection-model.c \
-	e-tree-sorted.c \
 	e-tree-table-adapter.c \
 	e-tree.c \
 	e-unicode.c \

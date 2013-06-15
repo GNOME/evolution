@@ -214,7 +214,6 @@
 #include <e-util/e-tree-model-generator.h>
 #include <e-util/e-tree-model.h>
 #include <e-util/e-tree-selection-model.h>
-#include <e-util/e-tree-sorted.h>
 #include <e-util/e-tree-table-adapter.h>
 #include <e-util/e-tree.h>
 #include <e-util/e-unicode.h>

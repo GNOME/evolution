@@ -4452,32 +4452,6 @@ ETreeSelectionModelPrivate
 </SECTION>
 
 <SECTION>
-<FILE>e-tree-sorted</FILE>
-<TITLE>ETreeSorted</TITLE>
-ETreeSorted
-e_tree_sorted_construct
-e_tree_sorted_new
-e_tree_sorted_view_to_model_path
-e_tree_sorted_model_to_view_path
-e_tree_sorted_orig_position
-e_tree_sorted_node_num_children
-e_tree_sorted_node_resorted
-e_tree_sorted_get_sort_info
-e_tree_sorted_set_sort_info
-<SUBSECTION Standard>
-E_TREE_SORTED
-E_IS_TREE_SORTED
-E_TYPE_TREE_SORTED
-E_TREE_SORTED_CLASS
-E_IS_TREE_SORTED_CLASS
-E_TREE_SORTED_GET_CLASS
-ETreeSortedClass
-e_tree_sorted_get_type
-<SUBSECTION Private>
-ETreeSortedPrivate
-</SECTION>
-
-<SECTION>
 <FILE>e-tree-table-adapter</FILE>
 <TITLE>ETreeTableAdapter</TITLE>
 ETreeTableAdapter

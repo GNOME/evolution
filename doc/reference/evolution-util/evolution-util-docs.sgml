@@ -149,7 +149,6 @@
     <xi:include href="xml/e-tree-memory.xml"/>
     <xi:include href="xml/e-tree-model.xml"/>
     <xi:include href="xml/e-tree-selection-model.xml"/>
-    <xi:include href="xml/e-tree-sorted.xml"/>
     <xi:include href="xml/e-tree-table-adapter.xml"/>
     <xi:include href="xml/e-cell.xml"/>
     <xi:include href="xml/e-cell-checkbox.xml"/>
