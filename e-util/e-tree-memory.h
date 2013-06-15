@@ -94,10 +94,6 @@ gpointer	e_tree_memory_node_get_data	(ETreeMemory *tree_memory,
 void		e_tree_memory_node_set_data	(ETreeMemory *tree_memory,
 						 ETreePath node,
 						 gpointer node_data);
-void		e_tree_memory_set_node_destroy_func
-						(ETreeMemory *tree_memory,
-						 GFunc destroy_func,
-						 gpointer user_data);
 
 G_END_DECLS
 

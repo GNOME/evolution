@@ -76,8 +76,6 @@ struct _ETreeMemoryPrivate {
 	gboolean         expanded_default;
 
 	gint             frozen;
-	GFunc            destroy_func;
-	gpointer         destroy_user_data;
 };
 
 /* ETreeMemoryPath functions */
@@ -555,10 +553,6 @@ child_free (ETreeMemory *tree_memory,
 		child = next;
 	}
 
-	if (tree_memory->priv->destroy_func) {
-		tree_memory->priv->destroy_func (node->node_data, tree_memory->priv->destroy_user_data);
-	}
-
 	g_slice_free (ETreeMemoryPath, node);
 }
 
@@ -611,11 +605,3 @@ e_tree_memory_node_remove (ETreeMemory *tree_memory,
 	return ret;
 }
 
-void
-e_tree_memory_set_node_destroy_func (ETreeMemory *tree_memory,
-                                     GFunc destroy_func,
-                                     gpointer user_data)
-{
-	tree_memory->priv->destroy_func = destroy_func;
-	tree_memory->priv->destroy_user_data = user_data;
-}
