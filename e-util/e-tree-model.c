@@ -49,7 +49,6 @@ enum {
 	PRE_CHANGE,
 	NODE_CHANGED,
 	NODE_DATA_CHANGED,
-	NODE_COL_CHANGED,
 	NODE_INSERTED,
 	NODE_REMOVED,
 	NODE_DELETED,
@@ -102,17 +101,6 @@ e_tree_model_class_init (ETreeModelClass *class)
 		g_cclosure_marshal_VOID__POINTER,
 		G_TYPE_NONE, 1,
 		G_TYPE_POINTER);
-
-	signals[NODE_COL_CHANGED] = g_signal_new (
-		"node_col_changed",
-		G_TYPE_FROM_CLASS (object_class),
-		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (ETreeModelClass, node_col_changed),
-		(GSignalAccumulator) NULL, NULL,
-		e_marshal_VOID__POINTER_INT,
-		G_TYPE_NONE, 2,
-		G_TYPE_POINTER,
-		G_TYPE_INT);
 
 	signals[NODE_INSERTED] = g_signal_new (
 		"node_inserted",
@@ -195,7 +183,6 @@ e_tree_model_class_init (ETreeModelClass *class)
 	class->rebuilt		     = NULL;
 	class->node_changed          = NULL;
 	class->node_data_changed     = NULL;
-	class->node_col_changed      = NULL;
 	class->node_inserted         = NULL;
 	class->node_removed          = NULL;
 	class->node_deleted          = NULL;
@@ -271,25 +258,6 @@ e_tree_model_node_data_changed (ETreeModel *tree_model,
 	g_return_if_fail (E_IS_TREE_MODEL (tree_model));
 
 	g_signal_emit (tree_model, signals[NODE_DATA_CHANGED], 0, path);
-}
-
-/**
- * e_tree_model_node_col_changed:
- * @tree_model:
- * @path:
- *
- *
- *
- * Return value:
- **/
-void
-e_tree_model_node_col_changed (ETreeModel *tree_model,
-                               ETreePath path,
-                               gint col)
-{
-	g_return_if_fail (E_IS_TREE_MODEL (tree_model));
-
-	g_signal_emit (tree_model, signals[NODE_COL_CHANGED], 0, path, col);
 }
 
 /**

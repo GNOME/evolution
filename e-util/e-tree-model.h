@@ -152,9 +152,6 @@ struct _ETreeModelClass {
 						 ETreePath path);
 	void		(*node_data_changed)	(ETreeModel *tree_model,
 						 ETreePath path);
-	void		(*node_col_changed)	(ETreeModel *tree_model,
-						 ETreePath path,
-						 gint col);
 	void		(*node_inserted)	(ETreeModel *tree_model,
 						 ETreePath parent,
 						 ETreePath inserted_path);
@@ -257,9 +254,6 @@ void		e_tree_model_node_changed	(ETreeModel *tree_model,
 						 ETreePath path);
 void		e_tree_model_node_data_changed	(ETreeModel *tree_model,
 						 ETreePath path);
-void		e_tree_model_node_col_changed	(ETreeModel *tree_model,
-						 ETreePath path,
-						 gint col);
 void		e_tree_model_node_inserted	(ETreeModel *tree_model,
 						 ETreePath parent_path,
 						 ETreePath inserted_path);

@@ -59,7 +59,6 @@ struct _ETreeSelectionModelPrivate {
 	gint tree_model_pre_change_id;
 	gint tree_model_node_changed_id;
 	gint tree_model_node_data_changed_id;
-	gint tree_model_node_col_changed_id;
 	gint tree_model_node_inserted_id;
 	gint tree_model_node_removed_id;
 	gint tree_model_node_deleted_id;
@@ -199,15 +198,6 @@ etsm_node_data_changed (ETreeModel *etm,
 }
 
 static void
-etsm_node_col_changed (ETreeModel *etm,
-                       ETreePath node,
-                       gint col,
-                       ETreeSelectionModel *etsm)
-{
-	free_id (etsm);
-}
-
-static void
 etsm_node_inserted (ETreeModel *etm,
                     ETreePath parent,
                     ETreePath child,
@@ -259,10 +249,6 @@ add_model (ETreeSelectionModel *etsm,
 		priv->model, "node_data_changed",
 		G_CALLBACK (etsm_node_data_changed), etsm);
 
-	priv->tree_model_node_col_changed_id = g_signal_connect_after (
-		priv->model, "node_col_changed",
-		G_CALLBACK (etsm_node_col_changed), etsm);
-
 	priv->tree_model_node_inserted_id = g_signal_connect_after (
 		priv->model, "node_inserted",
 		G_CALLBACK (etsm_node_inserted), etsm);
@@ -291,8 +277,6 @@ drop_model (ETreeSelectionModel *etsm)
 	g_signal_handler_disconnect (
 		priv->model, priv->tree_model_node_data_changed_id);
 	g_signal_handler_disconnect (
-		priv->model, priv->tree_model_node_col_changed_id);
-	g_signal_handler_disconnect (
 		priv->model, priv->tree_model_node_inserted_id);
 	g_signal_handler_disconnect (
 		priv->model, priv->tree_model_node_removed_id);
@@ -305,7 +289,6 @@ drop_model (ETreeSelectionModel *etsm)
 	priv->tree_model_pre_change_id = 0;
 	priv->tree_model_node_changed_id = 0;
 	priv->tree_model_node_data_changed_id = 0;
-	priv->tree_model_node_col_changed_id = 0;
 	priv->tree_model_node_inserted_id = 0;
 	priv->tree_model_node_removed_id = 0;
 	priv->tree_model_node_deleted_id = 0;

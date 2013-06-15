@@ -89,7 +89,6 @@ struct _ETreeTableAdapterPrivate {
 	gint	     rebuilt_id;
 	gint          node_changed_id;
 	gint          node_data_changed_id;
-	gint          node_col_changed_id;
 	gint          node_inserted_id;
 	gint          node_removed_id;
 	gint          node_request_collapse_id;
@@ -589,8 +588,6 @@ etta_dispose (GObject *object)
 		g_signal_handler_disconnect (
 			priv->source, priv->node_data_changed_id);
 		g_signal_handler_disconnect (
-			priv->source, priv->node_col_changed_id);
-		g_signal_handler_disconnect (
 			priv->source, priv->node_inserted_id);
 		g_signal_handler_disconnect (
 			priv->source, priv->node_removed_id);
@@ -855,22 +852,6 @@ etta_proxy_node_data_changed (ETreeModel *etm,
 }
 
 static void
-etta_proxy_node_col_changed (ETreeModel *etm,
-                             ETreePath path,
-                             gint col,
-                             ETreeTableAdapter *etta)
-{
-	gint row = get_row (etta, path);
-
-	if (row == -1) {
-		e_table_model_no_change (E_TABLE_MODEL (etta));
-		return;
-	}
-
-	e_table_model_cell_changed (E_TABLE_MODEL (etta), col, row);
-}
-
-static void
 etta_proxy_node_inserted (ETreeModel *etm,
                           ETreePath parent,
                           ETreePath child,
@@ -969,9 +950,6 @@ e_tree_table_adapter_construct (ETreeTableAdapter *etta,
 	etta->priv->node_data_changed_id = g_signal_connect (
 		source, "node_data_changed",
 		G_CALLBACK (etta_proxy_node_data_changed), etta);
-	etta->priv->node_col_changed_id = g_signal_connect (
-		source, "node_col_changed",
-		G_CALLBACK (etta_proxy_node_col_changed), etta);
 	etta->priv->node_inserted_id = g_signal_connect (
 		source, "node_inserted",
 		G_CALLBACK (etta_proxy_node_inserted), etta);
