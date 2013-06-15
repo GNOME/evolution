@@ -171,7 +171,6 @@ e_tree_model_class_init (ETreeModelClass *class)
 
 	class->get_parent            = NULL;
 	class->get_first_child       = NULL;
-	class->get_last_child        = NULL;
 	class->get_next              = NULL;
 	class->get_prev              = NULL;
 
@@ -462,27 +461,6 @@ e_tree_model_node_get_first_child (ETreeModel *tree_model,
 
 	if (ETM_CLASS (tree_model)->get_first_child)
 		return ETM_CLASS (tree_model)->get_first_child (tree_model, path);
-	else
-		return NULL;
-}
-
-/**
- * e_tree_model_node_get_last_child:
- * @tree_model:
- * @path:
- *
- *
- *
- * Return value:
- **/
-ETreePath
-e_tree_model_node_get_last_child (ETreeModel *tree_model,
-                                  ETreePath path)
-{
-	g_return_val_if_fail (E_IS_TREE_MODEL (tree_model), NULL);
-
-	if (ETM_CLASS (tree_model)->get_last_child)
-		return ETM_CLASS (tree_model)->get_last_child (tree_model, path);
 	else
 		return NULL;
 }

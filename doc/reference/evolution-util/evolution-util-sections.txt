@@ -4343,7 +4343,6 @@ ETreePath
 e_tree_model_get_root
 e_tree_model_node_get_parent
 e_tree_model_node_get_first_child
-e_tree_model_node_get_last_child
 e_tree_model_node_get_next
 e_tree_model_node_get_prev
 e_tree_model_node_is_root
