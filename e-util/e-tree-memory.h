@@ -71,7 +71,7 @@ GType		e_tree_memory_get_type		(void) G_GNUC_CONST;
 ETreePath	e_tree_memory_node_insert	(ETreeMemory *tree_memory,
 						 ETreePath parent_node,
 						 gint position,
-						 gpointer node_data);
+						 gpointer data);
 gpointer	e_tree_memory_node_remove	(ETreeMemory *tree_memory,
 						 ETreePath node);
 
@@ -82,10 +82,10 @@ void		e_tree_memory_set_expanded_default
 						(ETreeMemory *tree_memory,
 						 gboolean expanded);
 gpointer	e_tree_memory_node_get_data	(ETreeMemory *tree_memory,
-						 ETreePath node);
+						 ETreePath path);
 void		e_tree_memory_node_set_data	(ETreeMemory *tree_memory,
-						 ETreePath node,
-						 gpointer node_data);
+						 ETreePath path,
+						 gpointer data);
 
 G_END_DECLS
 
