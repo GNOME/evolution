@@ -4367,7 +4367,6 @@ e_tree_model_value_is_empty
 e_tree_model_value_to_string
 ETreePathFunc
 e_tree_model_node_traverse
-e_tree_model_node_traverse_preorder
 e_tree_model_node_find
 e_tree_model_pre_change
 e_tree_model_no_change

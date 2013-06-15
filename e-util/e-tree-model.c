@@ -962,41 +962,6 @@ e_tree_model_node_traverse (ETreeModel *tree_model,
 	}
 }
 
-/**
- * e_tree_model_node_traverse_preorder:
- * @tree_model:
- * @path:
- * @func:
- * @data:
- *
- *
- **/
-void
-e_tree_model_node_traverse_preorder (ETreeModel *tree_model,
-                                     ETreePath path,
-                                     ETreePathFunc func,
-                                     gpointer data)
-{
-	ETreePath child;
-
-	g_return_if_fail (E_IS_TREE_MODEL (tree_model));
-	g_return_if_fail (path != NULL);
-
-	child = e_tree_model_node_get_first_child (tree_model, path);
-
-	while (child) {
-		ETreePath next_child;
-
-		if (func (tree_model, child, data))
-			return;
-
-		next_child = e_tree_model_node_get_next (tree_model, child);
-		e_tree_model_node_traverse_preorder (tree_model, child, func, data);
-
-		child = next_child;
-	}
-}
-
 static ETreePath
 e_tree_model_node_real_traverse (ETreeModel *model,
                                  ETreePath path,

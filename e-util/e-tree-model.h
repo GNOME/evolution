@@ -243,11 +243,6 @@ void		e_tree_model_node_traverse	(ETreeModel *tree_model,
 						 ETreePath path,
 						 ETreePathFunc func,
 						 gpointer data);
-void		e_tree_model_node_traverse_preorder
-						(ETreeModel *tree_model,
-						 ETreePath path,
-						 ETreePathFunc func,
-						 gpointer data);
 ETreePath	e_tree_model_node_find		(ETreeModel *tree_model,
 						 ETreePath path,
 						 ETreePath end_path,
