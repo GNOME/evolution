@@ -26,8 +26,8 @@
 #error "Only <e-util/e-util.h> should be included directly."
 #endif
 
-#ifndef _E_TREE_MODEL_H_
-#define _E_TREE_MODEL_H_
+#ifndef E_TREE_MODEL_H
+#define E_TREE_MODEL_H
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
@@ -258,4 +258,4 @@ void		e_tree_model_node_deleted	(ETreeModel *tree_model,
 
 G_END_DECLS
 
-#endif /* _E_TREE_MODEL_H */
+#endif /* E_TREE_MODEL_H */
