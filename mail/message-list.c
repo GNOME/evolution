@@ -550,14 +550,12 @@ static void
 clear_selection (MessageList *message_list,
                  struct _MLSelection *selection)
 {
-	if (selection->uids) {
-		em_utils_uids_free (selection->uids);
+	if (selection->uids != NULL) {
+		g_ptr_array_unref (selection->uids);
 		selection->uids = NULL;
 	}
-	if (selection->folder) {
-		g_object_unref (selection->folder);
-		selection->folder = NULL;
-	}
+
+	g_clear_object (&selection->folder);
 }
 
 static ETreePath
@@ -1052,18 +1050,20 @@ message_list_copy (MessageList *message_list,
 			g_object_unref (folder);
 		}
 
-		p->clipboard.uids = uids;
+		p->clipboard.uids = g_ptr_array_ref (uids);
 		p->clipboard.folder = message_list_ref_folder (message_list);
+
 		gtk_selection_owner_set (
 			p->invisible,
 			GDK_SELECTION_CLIPBOARD,
 			gtk_get_current_event_time ());
 	} else {
-		em_utils_uids_free (uids);
 		gtk_selection_owner_set (
 			NULL, GDK_SELECTION_CLIPBOARD,
 			gtk_get_current_event_time ());
 	}
+
+	g_ptr_array_unref (uids);
 }
 
 void
@@ -2328,7 +2328,7 @@ ml_tree_drag_data_get (ETree *tree,
 	}
 
 	g_clear_object (&folder);
-	em_utils_uids_free (uids);
+	g_ptr_array_unref (uids);
 }
 
 /* TODO: merge this with the folder tree stuff via empopup targets */
@@ -3533,7 +3533,9 @@ build_tree (MessageList *message_list,
 		saveuid = find_next_selectable (message_list);
 
 		selected = message_list_get_selected (message_list);
+
 		e_tree_memory_freeze (E_TREE_MEMORY (etm));
+
 		clear_tree (message_list, FALSE);
 
 		build_subtree (
@@ -3552,7 +3554,8 @@ build_tree (MessageList *message_list,
 		e_tree_memory_freeze (E_TREE_MEMORY (etm));
 
 		message_list_set_selected (message_list, selected);
-		em_utils_uids_free (selected);
+
+		g_ptr_array_unref (selected);
 
 		/* Show the cursor unless we're responding to a
 		 * "folder-changed" signal from our CamelFolder. */
@@ -3841,16 +3844,22 @@ build_flat (MessageList *message_list,
 		saveuid = find_next_selectable (message_list);
 
 	selected = message_list_get_selected (message_list);
+
 	e_tree_memory_freeze (E_TREE_MEMORY (etm));
+
 	clear_tree (message_list, FALSE);
+
 	for (i = 0; i < summary->len; i++) {
 		CamelMessageInfo *info = summary->pdata[i];
 
 		ml_uid_nodemap_insert (message_list, info, NULL, -1);
 	}
+
 	e_tree_memory_thaw (E_TREE_MEMORY (etm));
+
 	message_list_set_selected (message_list, selected);
-	em_utils_uids_free (selected);
+
+	g_ptr_array_unref (selected);
 
 	if (saveuid) {
 		ETreePath node;
@@ -4343,6 +4352,7 @@ on_selection_changed_cmd (ETree *tree,
 	/* not sure if we could just ignore this for the cursor, i think sometimes you
 	 * only get a selection changed when you should also get a cursor activated? */
 	uids = message_list_get_selected (message_list);
+
 	if (uids->len == 1)
 		newuid = g_ptr_array_index (uids, 0);
 	else if ((cursor = e_tree_get_cursor (tree)))
@@ -4368,7 +4378,7 @@ on_selection_changed_cmd (ETree *tree,
 
 	message_list->last_sel_single = uids->len == 1;
 
-	em_utils_uids_free (uids);
+	g_ptr_array_unref (uids);
 }
 
 static gint
@@ -4495,6 +4505,8 @@ message_list_get_selected (MessageList *message_list)
 		message_list,
 		g_ptr_array_new ()
 	};
+
+	g_ptr_array_set_free_func (data.uids, (GDestroyNotify) g_free);
 
 	e_tree_selected_path_foreach (
 		E_TREE (message_list), ml_getselected_cb, &data);

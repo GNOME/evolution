@@ -1086,7 +1086,7 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 			num_visible), num_visible);
 	}
 
-	em_utils_uids_free (uids);
+	g_ptr_array_unref (uids);
 
 	uid = camel_service_get_uid (CAMEL_SERVICE (parent_store));
 	store_is_local = (g_strcmp0 (uid, E_MAIL_SESSION_LOCAL_UID) == 0);

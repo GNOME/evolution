@@ -316,7 +316,7 @@ emla_list_action (EMailReader *reader,
 
 	g_clear_object (&folder);
 
-	em_utils_uids_free (uids);
+	g_ptr_array_unref (uids);
 }
 
 static void

@@ -764,7 +764,7 @@ e_mail_reader_mark_selected (EMailReader *reader,
 			camel_folder_set_message_flags (
 				folder, uids->pdata[ii], mask, set);
 
-		em_utils_uids_free (uids);
+		g_ptr_array_unref (uids);
 
 		camel_folder_thaw (folder);
 
@@ -829,12 +829,11 @@ e_mail_reader_open_selected (EMailReader *reader)
 		em_utils_folder_is_outbox (registry, folder) ||
 		em_utils_folder_is_templates (registry, folder)) {
 
-		/* FIXME This is leaking the UID array.  Give
-		 *       the array a "free func" and unref it. */
 		e_mail_reader_edit_messages (reader, folder, uids, TRUE, TRUE);
-		g_clear_object (&folder);
 
-		return uids->len;
+		ii = uids->len;
+
+		goto exit;
 	}
 
 	views = g_ptr_array_new ();
@@ -906,7 +905,7 @@ e_mail_reader_open_selected (EMailReader *reader)
 
 exit:
 	g_clear_object (&folder);
-	em_utils_uids_free (uids);
+	g_ptr_array_unref (uids);
 
 	return ii;
 }
@@ -1121,10 +1120,6 @@ e_mail_reader_remove_attachments (EMailReader *reader)
 	uids = e_mail_reader_get_selected_uids (reader);
 	g_return_if_fail (uids != NULL);
 
-	/* XXX Either e_mail_reader_get_selected_uids()
-	 *     or MessageList should do this itself. */
-	g_ptr_array_set_free_func (uids, (GDestroyNotify) g_free);
-
 	/* Remove attachments asynchronously. */
 
 	activity = e_mail_reader_new_activity (reader);
@@ -1263,10 +1258,6 @@ e_mail_reader_remove_duplicates (EMailReader *reader)
 
 	uids = e_mail_reader_get_selected_uids (reader);
 	g_return_if_fail (uids != NULL);
-
-	/* XXX Either e_mail_reader_get_selected_uids()
-	 *     or MessageList should do this itself. */
-	g_ptr_array_set_free_func (uids, (GDestroyNotify) g_free);
 
 	/* Find duplicate messages asynchronously. */
 
@@ -2042,10 +2033,6 @@ e_mail_reader_save_messages (EMailReader *reader)
 
 	message_uid = g_ptr_array_index (uids, 0);
 
-	/* XXX Either e_mail_reader_get_selected_uids()
-	 *     or MessageList should do this itself. */
-	g_ptr_array_set_free_func (uids, (GDestroyNotify) g_free);
-
 	title = ngettext ("Save Message", "Save Messages", uids->len);
 
 	/* Suggest as a filename the subject of the first message. */
@@ -2246,7 +2233,7 @@ e_mail_reader_create_filter_from_selected (EMailReader *reader,
 
 	g_object_unref (activity);
 
-	em_utils_uids_free (uids);
+	g_ptr_array_unref (uids);
 
 	g_object_unref (folder);
 }
@@ -2363,7 +2350,7 @@ e_mail_reader_create_vfolder_from_selected (EMailReader *reader,
 
 	g_object_unref (activity);
 
-	em_utils_uids_free (uids);
+	g_ptr_array_unref (uids);
 }
 
 static void

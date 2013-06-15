@@ -177,7 +177,7 @@ em_filter_folder_element_free (struct _filter_mail_msg *m)
 		g_object_unref (m->source_folder);
 
 	if (m->source_uids)
-		em_utils_uids_free (m->source_uids);
+		g_ptr_array_unref (m->source_uids);
 
 	if (m->destination)
 		g_object_unref (m->destination);
@@ -206,7 +206,7 @@ mail_filter_folder (EMailSession *session,
 	m = mail_msg_new (&em_filter_folder_element_info);
 	m->session = g_object_ref (session);
 	m->source_folder = g_object_ref (source_folder);
-	m->source_uids = uids;
+	m->source_uids = g_ptr_array_ref (uids);
 	m->cache = NULL;
 	m->delete = FALSE;
 
@@ -1149,7 +1149,7 @@ transfer_messages_free (struct _transfer_msg *m)
 	g_object_unref (m->session);
 	g_object_unref (m->source);
 	g_free (m->dest_uri);
-	em_utils_uids_free (m->uids);
+	g_ptr_array_unref (m->uids);
 }
 
 static MailMsgInfo transfer_messages_info = {
@@ -1180,7 +1180,7 @@ mail_transfer_messages (EMailSession *session,
 	m = mail_msg_new (&transfer_messages_info);
 	m->session = g_object_ref (session);
 	m->source = g_object_ref (source);
-	m->uids = uids;
+	m->uids = g_ptr_array_ref (uids);
 	m->delete = delete_from_source;
 	m->dest_uri = g_strdup (dest_uri);
 	m->dest_flags = dest_flags;

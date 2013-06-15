@@ -431,9 +431,6 @@ em_utils_flag_for_followup (EMailReader *reader,
 	e_mail_display_reload (display);
 
 exit:
-	/* XXX We shouldn't be freeing this. */
-	em_utils_uids_free (uids);
-
 	gtk_widget_destroy (GTK_WIDGET (editor));
 }
 
@@ -470,8 +467,6 @@ em_utils_flag_for_followup_clear (GtkWindow *parent,
 	}
 
 	camel_folder_thaw (folder);
-
-	em_utils_uids_free (uids);
 }
 
 /**
@@ -514,8 +509,6 @@ em_utils_flag_for_followup_completed (GtkWindow *parent,
 	camel_folder_thaw (folder);
 
 	g_free (now);
-
-	em_utils_uids_free (uids);
 }
 
 /* This kind of sucks, because for various reasons most callers need to run

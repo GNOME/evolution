@@ -1040,7 +1040,7 @@ action_reply_with_template_cb (GtkAction *action,
 
 	g_clear_object (&folder);
 
-	em_utils_uids_free (uids);
+	g_ptr_array_unref (uids);
 }
 
 static void

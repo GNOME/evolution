@@ -203,7 +203,7 @@ action_mail_add_sender_cb (GtkAction *action,
 exit:
 	if (info != NULL)
 		camel_folder_free_message_info (folder, info);
-	em_utils_uids_free (uids);
+	g_ptr_array_unref (uids);
 
 	g_clear_object (&folder);
 }
@@ -435,6 +435,7 @@ action_mail_check_for_junk_cb (GtkAction *action,
 		E_FILTER_SOURCE_JUNKTEST, FALSE);
 
 	g_clear_object (&folder);
+	g_ptr_array_unref (uids);
 }
 
 static void
@@ -487,20 +488,16 @@ action_mail_copy_cb (GtkAction *action,
 	g_free (default_xfer_messages_uri);
 	default_xfer_messages_uri = g_strdup (uri);
 
-	if (uri != NULL) {
+	if (uri != NULL)
 		mail_transfer_messages (
 			session, folder, uids,
 			FALSE, uri, 0, NULL, NULL);
-		uids = NULL;
-	}
 
 exit:
-	if (uids != NULL)
-		em_utils_uids_free (uids);
-
 	gtk_widget_destroy (dialog);
 
 	g_clear_object (&folder);
+	g_ptr_array_unref (uids);
 }
 
 static void
@@ -568,6 +565,7 @@ action_mail_filters_apply_cb (GtkAction *action,
 		E_FILTER_SOURCE_DEMAND, FALSE);
 
 	g_clear_object (&folder);
+	g_ptr_array_unref (uids);
 }
 
 static void
@@ -610,6 +608,7 @@ action_mail_flag_clear_cb (GtkAction *action,
 	e_mail_display_reload (display);
 
 	g_clear_object (&folder);
+	g_ptr_array_unref (uids);
 }
 
 static void
@@ -631,6 +630,7 @@ action_mail_flag_completed_cb (GtkAction *action,
 	e_mail_display_reload (display);
 
 	g_clear_object (&folder);
+	g_ptr_array_unref (uids);
 }
 
 static void
@@ -646,6 +646,7 @@ action_mail_flag_for_followup_cb (GtkAction *action,
 	em_utils_flag_for_followup (reader, folder, uids);
 
 	g_clear_object (&folder);
+	g_ptr_array_unref (uids);
 }
 
 static void
@@ -658,10 +659,6 @@ action_mail_forward_cb (GtkAction *action,
 	window = e_mail_reader_get_window (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
 	g_return_if_fail (uids != NULL);
-
-	/* XXX Either e_mail_reader_get_selected_uids()
-	 *     or MessageList should do this itself. */
-	g_ptr_array_set_free_func (uids, (GDestroyNotify) g_free);
 
 	if (em_utils_ask_open_many (window, uids->len)) {
 		CamelFolder *folder;
@@ -689,10 +686,6 @@ action_mail_forward_attached_cb (GtkAction *action,
 	uids = e_mail_reader_get_selected_uids (reader);
 	g_return_if_fail (uids != NULL);
 
-	/* XXX Either e_mail_reader_get_selected_uids()
-	 *     or MessageList should do this itself. */
-	g_ptr_array_set_free_func (uids, (GDestroyNotify) g_free);
-
 	if (em_utils_ask_open_many (window, uids->len)) {
 		CamelFolder *folder;
 
@@ -719,10 +712,6 @@ action_mail_forward_inline_cb (GtkAction *action,
 	uids = e_mail_reader_get_selected_uids (reader);
 	g_return_if_fail (uids != NULL);
 
-	/* XXX Either e_mail_reader_get_selected_uids()
-	 *     or MessageList should do this itself. */
-	g_ptr_array_set_free_func (uids, (GDestroyNotify) g_free);
-
 	if (em_utils_ask_open_many (window, uids->len)) {
 		CamelFolder *folder;
 
@@ -748,10 +737,6 @@ action_mail_forward_quoted_cb (GtkAction *action,
 	window = e_mail_reader_get_window (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
 	g_return_if_fail (uids != NULL);
-
-	/* XXX Either e_mail_reader_get_selected_uids()
-	 *     or MessageList should do this itself. */
-	g_ptr_array_set_free_func (uids, (GDestroyNotify) g_free);
 
 	if (em_utils_ask_open_many (window, uids->len)) {
 		CamelFolder *folder;
@@ -915,10 +900,6 @@ action_mail_message_edit_cb (GtkAction *action,
 	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
 	registry = e_shell_get_registry (shell);
 
-	/* XXX Either e_mail_reader_get_selected_uids()
-	 *     or MessageList should do this itself. */
-	g_ptr_array_set_free_func (uids, (GDestroyNotify) g_free);
-
 	folder = e_mail_reader_ref_folder (reader);
 	replace = em_utils_folder_is_drafts (registry, folder);
 	e_mail_reader_edit_messages (reader, folder, uids, replace, replace);
@@ -1016,7 +997,7 @@ action_mail_move_cb (GtkAction *action,
 
 exit:
 	if (uids != NULL)
-		em_utils_uids_free (uids);
+		g_ptr_array_unref (uids);
 
 	gtk_widget_destroy (dialog);
 
@@ -1829,7 +1810,7 @@ action_mail_show_source_cb (GtkAction *action,
 
 	g_object_unref (activity);
 
-	em_utils_uids_free (uids);
+	g_ptr_array_unref (uids);
 
 	g_clear_object (&folder);
 }
@@ -1864,7 +1845,7 @@ action_mail_toggle_important_cb (GtkAction *action,
 	camel_folder_thaw (folder);
 
 	g_clear_object (&folder);
-	em_utils_uids_free (uids);
+	g_ptr_array_unref (uids);
 }
 
 static void
@@ -4263,7 +4244,7 @@ e_mail_reader_check_state (EMailReader *reader)
 		state |= E_MAIL_READER_FOLDER_IS_JUNK;
 
 	g_clear_object (&folder);
-	em_utils_uids_free (uids);
+	g_ptr_array_unref (uids);
 
 	return state;
 }

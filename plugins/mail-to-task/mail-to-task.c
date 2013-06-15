@@ -1035,7 +1035,7 @@ do_mail_to_event (AsyncData *data)
 	/* free memory */
 	if (client != NULL)
 		g_object_unref (client);
-	em_utils_uids_free (uids);
+	g_ptr_array_unref (uids);
 	g_object_unref (folder);
 
 	g_object_unref (data->source);
@@ -1127,7 +1127,7 @@ mail_to_event (ECalClientSourceType source_type,
 		g_free (question);
 
 		if (response == GTK_RESPONSE_NO) {
-			em_utils_uids_free (uids);
+			g_ptr_array_unref (uids);
 			return;
 		}
 	}
@@ -1195,7 +1195,6 @@ mail_to_event (ECalClientSourceType source_type,
 	} else if (!source) {
 		e_notice (NULL, GTK_MESSAGE_ERROR, _("No writable calendar is available."));
 
-		em_utils_uids_free (uids);
 		if (error)
 			g_error_free (error);
 		goto exit;
@@ -1212,7 +1211,7 @@ mail_to_event (ECalClientSourceType source_type,
 		data->source = g_object_ref (source);
 		data->source_type = source_type;
 		data->folder = e_mail_reader_ref_folder (reader);
-		data->uids = uids;
+		data->uids = g_ptr_array_ref (uids);
 		data->with_attendees = with_attendees;
 
 		if (uids->len == 1)
@@ -1232,6 +1231,7 @@ mail_to_event (ECalClientSourceType source_type,
 
 exit:
 	g_object_unref (default_source);
+	g_ptr_array_unref (uids);
 }
 
 static void

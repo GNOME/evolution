@@ -1007,7 +1007,7 @@ action_mail_label_cb (GtkToggleAction *action,
 	camel_folder_thaw (folder);
 
 	g_clear_object (&folder);
-	em_utils_uids_free (uids);
+	g_ptr_array_unref (uids);
 }
 
 static void
@@ -1080,7 +1080,7 @@ action_mail_label_new_cb (GtkAction *action,
 			folder, uids->pdata[ii], label_tag, TRUE);
 
 	g_clear_object (&folder);
-	em_utils_uids_free (uids);
+	g_ptr_array_unref (uids);
 
 	g_free (label_tag);
 
@@ -1143,7 +1143,7 @@ action_mail_label_none_cb (GtkAction *action,
 	}
 
 	g_clear_object (&folder);
-	em_utils_uids_free (uids);
+	g_ptr_array_unref (uids);
 }
 
 static void
@@ -2390,7 +2390,7 @@ e_mail_shell_view_update_popup_labels (EMailShellView *mail_shell_view)
 		ii++;
 	}
 
-	em_utils_uids_free (uids);
+	g_ptr_array_unref (uids);
 }
 
 void

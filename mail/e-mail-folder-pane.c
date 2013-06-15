@@ -88,10 +88,6 @@ mail_paned_view_open_selected_mail (EMailPanedView *view)
 	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
 	registry = e_shell_get_registry (shell);
 
-	/* XXX Either e_mail_reader_get_selected_uids()
-	 *     or MessageList should do this itself. */
-	g_ptr_array_set_free_func (uids, (GDestroyNotify) g_free);
-
 	if (!em_utils_ask_open_many (window, uids->len))
 		goto exit;
 
