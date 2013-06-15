@@ -4426,28 +4426,6 @@ ml_getselected_cb (ETreePath path,
 }
 
 GPtrArray *
-message_list_get_uids (MessageList *ml)
-{
-	CamelFolder *folder;
-
-	struct _ml_selected_data data = {
-		ml,
-		g_ptr_array_new ()
-	};
-
-	e_tree_path_foreach (E_TREE (ml), ml_getselected_cb, &data);
-
-	folder = message_list_ref_folder (ml);
-
-	if (folder != NULL && data.uids->len > 0)
-		camel_folder_sort_uids (folder, data.uids);
-
-	g_clear_object (&folder);
-
-	return data.uids;
-}
-
-GPtrArray *
 message_list_get_selected (MessageList *ml)
 {
 	CamelFolder *folder;
