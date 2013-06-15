@@ -869,6 +869,7 @@ em_utils_selection_get_uidlist (GtkSelectionData *selection_data,
 		return;
 
 	items = g_ptr_array_new ();
+	g_ptr_array_set_free_func (items, (GDestroyNotify) g_free);
 
 	inptr = (gchar *) data;
 	inend = (gchar *) (data + length);
@@ -884,7 +885,7 @@ em_utils_selection_get_uidlist (GtkSelectionData *selection_data,
 	}
 
 	if (items->len == 0) {
-		g_ptr_array_free (items, TRUE);
+		g_ptr_array_unref (items);
 		return;
 	}
 
@@ -927,7 +928,7 @@ em_utils_selection_get_uidlist (GtkSelectionData *selection_data,
 	}
 
 	g_hash_table_destroy (uids_by_uri);
-	em_utils_uids_free (items);
+	g_ptr_array_unref (items);
 
 	if (local_error)
 		g_propagate_error (error, local_error);

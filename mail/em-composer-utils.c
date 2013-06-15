@@ -110,7 +110,7 @@ forward_data_free (ForwardData *data)
 		g_object_unref (data->folder);
 
 	if (data->uids != NULL)
-		em_utils_uids_free (data->uids);
+		g_ptr_array_unref (data->uids);
 
 	g_slice_free (ForwardData, data);
 }
@@ -1597,7 +1597,7 @@ setup_forward_attached_callbacks (EMsgComposer *composer,
 
 	data = g_slice_new0 (ForwardData);
 	data->folder = g_object_ref (folder);
-	data->uids = em_utils_uids_copy (uids);
+	data->uids = g_ptr_array_ref (uids);
 
 	g_signal_connect (
 		composer, "send",
