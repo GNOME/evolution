@@ -994,7 +994,8 @@ action_reply_with_template_cb (GtkAction *action,
 	EActivity *activity;
 	AsyncContext *context;
 	GCancellable *cancellable;
-	CamelFolder *folder, *template_folder;
+	CamelFolder *folder;
+	CamelFolder *template_folder;
 	EShellContent *shell_content;
 	EMailReader *reader;
 	GPtrArray *uids;
@@ -1003,9 +1004,6 @@ action_reply_with_template_cb (GtkAction *action,
 
 	shell_content = e_shell_view_get_shell_content (shell_view);
 	reader = E_MAIL_READER (shell_content);
-
-	folder = e_mail_reader_get_folder (reader);
-	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 
 	uids = e_mail_reader_get_selected_uids (reader);
 	g_return_if_fail (uids != NULL && uids->len == 1);
@@ -1025,17 +1023,22 @@ action_reply_with_template_cb (GtkAction *action,
 	context->template_folder = g_object_ref (template_folder);
 	context->template_message_uid = g_strdup (template_message_uid);
 
+	folder = e_mail_reader_ref_folder (reader);
+
 	em_utils_get_real_folder_uri_and_message_uid (
 		folder, message_uid,
-		&context->source_folder_uri, &context->message_uid);
+		&context->source_folder_uri,
+		&context->message_uid);
 
-	if (!context->message_uid)
+	if (context->message_uid == NULL)
 		context->message_uid = g_strdup (message_uid);
 
 	camel_folder_get_message (
 		folder, message_uid, G_PRIORITY_DEFAULT,
 		cancellable, (GAsyncReadyCallback)
 		template_got_source_message, context);
+
+	g_clear_object (&folder);
 
 	em_utils_uids_free (uids);
 }

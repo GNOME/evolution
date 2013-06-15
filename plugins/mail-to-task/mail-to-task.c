@@ -1105,7 +1105,6 @@ mail_to_event (ECalClientSourceType source_type,
 	EShell *shell;
 	EMailBackend *backend;
 	ESourceRegistry *registry;
-	CamelFolder *folder;
 	GPtrArray *uids;
 	ESource *source = NULL;
 	ESource *default_source;
@@ -1114,7 +1113,6 @@ mail_to_event (ECalClientSourceType source_type,
 	const gchar *extension_name;
 	GError *error = NULL;
 
-	folder = e_mail_reader_get_folder (reader);
 	parent = e_mail_reader_get_window (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
 
@@ -1213,7 +1211,7 @@ mail_to_event (ECalClientSourceType source_type,
 		data = g_new0 (AsyncData, 1);
 		data->source = g_object_ref (source);
 		data->source_type = source_type;
-		data->folder = g_object_ref (folder);
+		data->folder = e_mail_reader_ref_folder (reader);
 		data->uids = uids;
 		data->with_attendees = with_attendees;
 

@@ -210,9 +210,6 @@ action_mail_create_search_folder_cb (GtkAction *action,
 	if (search_text == NULL || *search_text == '\0')
 		search_text = "''";
 
-	reader = E_MAIL_READER (mail_view);
-	folder = e_mail_reader_get_folder (reader);
-
 	backend = E_MAIL_BACKEND (shell_backend);
 	session = e_mail_backend_get_session (backend);
 
@@ -224,12 +221,15 @@ action_mail_create_search_folder_cb (GtkAction *action,
 	e_filter_rule_set_name (search_rule, rule_name);
 	g_free (rule_name);
 
+	reader = E_MAIL_READER (mail_view);
+	folder = e_mail_reader_ref_folder (reader);
 	folder_uri = e_mail_folder_uri_from_folder (folder);
 
 	vfolder_rule = EM_VFOLDER_RULE (search_rule);
 	em_vfolder_rule_add_source (vfolder_rule, folder_uri);
 	vfolder_gui_add_rule (vfolder_rule);
 
+	g_clear_object (&folder);
 	g_free (folder_uri);
 }
 
@@ -702,18 +702,22 @@ action_mail_folder_mark_all_as_read_cb (GtkAction *action,
 
 	reader = E_MAIL_READER (mail_view);
 
-	folder = e_mail_reader_get_folder (reader);
+	folder = e_mail_reader_ref_folder (reader);
 	g_return_if_fail (folder != NULL);
 
-	if (folder->summary &&
-	    camel_folder_summary_get_unread_count (folder->summary) == 0)
+	if (folder->summary != NULL &&
+	    camel_folder_summary_get_unread_count (folder->summary) == 0) {
+		g_object_unref (folder);
 		return;
+	}
 
 	e_mail_shell_view_actions_mark_all_read (
 		mail_shell_view,
 		camel_folder_get_parent_store (folder),
 		camel_folder_get_full_name (folder),
 		FALSE);
+
+	g_object_unref (folder);
 }
 
 static void
@@ -985,7 +989,7 @@ action_mail_label_cb (GtkToggleAction *action,
 	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
 
 	reader = E_MAIL_READER (mail_view);
-	folder = e_mail_reader_get_folder (reader);
+	folder = e_mail_reader_ref_folder (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
 
 	camel_folder_freeze (folder);
@@ -1002,6 +1006,7 @@ action_mail_label_cb (GtkToggleAction *action,
 	}
 	camel_folder_thaw (folder);
 
+	g_clear_object (&folder);
 	em_utils_uids_free (uids);
 }
 
@@ -1067,13 +1072,14 @@ action_mail_label_new_cb (GtkAction *action,
 	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
 
 	reader = E_MAIL_READER (mail_view);
-	folder = e_mail_reader_get_folder (reader);
+	folder = e_mail_reader_ref_folder (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
 
 	for (ii = 0; ii < uids->len; ii++)
 		camel_folder_set_message_user_flag (
 			folder, uids->pdata[ii], label_tag, TRUE);
 
+	g_clear_object (&folder);
 	em_utils_uids_free (uids);
 
 	g_free (label_tag);
@@ -1112,7 +1118,7 @@ action_mail_label_none_cb (GtkAction *action,
 	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
 
 	reader = E_MAIL_READER (mail_view);
-	folder = e_mail_reader_get_folder (reader);
+	folder = e_mail_reader_ref_folder (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
 
 	valid = gtk_tree_model_get_iter_first (
@@ -1136,6 +1142,7 @@ action_mail_label_none_cb (GtkAction *action,
 			GTK_TREE_MODEL (label_store), &iter);
 	}
 
+	g_clear_object (&folder);
 	em_utils_uids_free (uids);
 }
 
@@ -2237,7 +2244,7 @@ mail_shell_view_update_label_action (GtkToggleAction *action,
 	gboolean sensitive;
 	guint ii;
 
-	folder = e_mail_reader_get_folder (reader);
+	folder = e_mail_reader_ref_folder (reader);
 
 	/* Figure out the proper label action state for the selected
 	 * messages.  If all the selected messages have the given label,
@@ -2277,6 +2284,8 @@ mail_shell_view_update_label_action (GtkToggleAction *action,
 	sensitive = !(exists && not_exists);
 	gtk_toggle_action_set_active (action, exists);
 	gtk_action_set_sensitive (GTK_ACTION (action), sensitive);
+
+	g_clear_object (&folder);
 }
 
 void

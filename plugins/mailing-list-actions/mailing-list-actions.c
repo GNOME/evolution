@@ -295,9 +295,6 @@ emla_list_action (EMailReader *reader,
 	GPtrArray *uids;
 	const gchar *message_uid;
 
-	folder = e_mail_reader_get_folder (reader);
-	g_return_if_fail (CAMEL_IS_FOLDER (folder));
-
 	uids = e_mail_reader_get_selected_uids (reader);
 	g_return_if_fail (uids != NULL && uids->len == 1);
 	message_uid = g_ptr_array_index (uids, 0);
@@ -310,10 +307,14 @@ emla_list_action (EMailReader *reader,
 	context->reader = g_object_ref (reader);
 	context->action = action;
 
+	folder = e_mail_reader_ref_folder (reader);
+
 	camel_folder_get_message (
 		folder, message_uid, G_PRIORITY_DEFAULT,
 		cancellable, (GAsyncReadyCallback)
 		emla_list_action_cb, context);
+
+	g_clear_object (&folder);
 
 	em_utils_uids_free (uids);
 }

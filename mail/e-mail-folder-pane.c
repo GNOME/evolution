@@ -76,10 +76,10 @@ mail_paned_view_open_selected_mail (EMailPanedView *view)
 	GtkWindow *window;
 	CamelFolder *folder;
 	GPtrArray *views;
-	guint n_views, ii;
+	guint ii, n_views = 0;
 
 	reader = E_MAIL_READER (view);
-	folder = e_mail_reader_get_folder (reader);
+	folder = e_mail_reader_ref_folder (reader);
 	window = e_mail_reader_get_window (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
 	g_return_val_if_fail (uids != NULL, 0);
@@ -92,17 +92,22 @@ mail_paned_view_open_selected_mail (EMailPanedView *view)
 	 *     or MessageList should do this itself. */
 	g_ptr_array_set_free_func (uids, (GDestroyNotify) g_free);
 
-	if (!em_utils_ask_open_many (window, uids->len)) {
-		g_ptr_array_unref (uids);
-		return 0;
+	if (!em_utils_ask_open_many (window, uids->len))
+		goto exit;
+
+	if (em_utils_folder_is_drafts (registry, folder)) {
+		e_mail_reader_edit_messages (reader, folder, uids, TRUE, TRUE);
+		goto exit;
 	}
 
-	if (em_utils_folder_is_drafts (registry, folder) ||
-		em_utils_folder_is_outbox (registry, folder) ||
-		em_utils_folder_is_templates (registry, folder)) {
+	if (em_utils_folder_is_outbox (registry, folder)) {
 		e_mail_reader_edit_messages (reader, folder, uids, TRUE, TRUE);
-		g_ptr_array_unref (uids);
-		return 0;
+		goto exit;
+	}
+
+	if (em_utils_folder_is_templates (registry, folder)) {
+		e_mail_reader_edit_messages (reader, folder, uids, TRUE, TRUE);
+		goto exit;
 	}
 
 	views = g_ptr_array_new_with_free_func ((GDestroyNotify) g_free);
@@ -151,6 +156,9 @@ mail_paned_view_open_selected_mail (EMailPanedView *view)
 		g_signal_emit_by_name (view, "open-mail", views->pdata[i]);
 
 	g_ptr_array_unref (views);
+
+exit:
+	g_clear_object (&folder);
 	g_ptr_array_unref (uids);
 
 	return n_views;

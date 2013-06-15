@@ -92,31 +92,34 @@ mail_paned_view_save_boolean (EMailView *view,
                               const gchar *key,
                               gboolean value)
 {
-	EShellView *shell_view;
 	EMailReader *reader;
 	CamelFolder *folder;
-	GKeyFile *key_file;
-	gchar *folder_uri;
-	gchar *group_name;
-
-	shell_view = e_mail_view_get_shell_view (view);
-	key_file = e_shell_view_get_state_key_file (shell_view);
 
 	reader = E_MAIL_READER (view);
-	folder = e_mail_reader_get_folder (reader);
+	folder = e_mail_reader_ref_folder (reader);
 
-	if (folder == NULL)
-		return;
+	if (folder != NULL) {
+		EShellView *shell_view;
+		GKeyFile *key_file;
+		gchar *folder_uri;
+		gchar *group_name;
 
-	folder_uri = e_mail_folder_uri_from_folder (folder);
-	group_name = g_strdup_printf ("Folder %s", folder_uri);
-	g_key_file_set_boolean (key_file, group_name, key, value);
-	g_free (group_name);
-	g_free (folder_uri);
+		shell_view = e_mail_view_get_shell_view (view);
+		key_file = e_shell_view_get_state_key_file (shell_view);
 
-	g_key_file_set_boolean (key_file, STATE_GROUP_GLOBAL_FOLDER, key, value);
+		folder_uri = e_mail_folder_uri_from_folder (folder);
+		group_name = g_strdup_printf ("Folder %s", folder_uri);
+		g_key_file_set_boolean (key_file, group_name, key, value);
+		g_free (group_name);
+		g_free (folder_uri);
 
-	e_shell_view_set_state_dirty (shell_view);
+		g_key_file_set_boolean (
+			key_file, STATE_GROUP_GLOBAL_FOLDER, key, value);
+
+		e_shell_view_set_state_dirty (shell_view);
+
+		g_object_unref (folder);
+	}
 }
 
 static void
@@ -828,7 +831,7 @@ mail_paned_view_update_view_instance (EMailView *view)
 	registry = e_shell_get_registry (shell);
 
 	reader = E_MAIL_READER (view);
-	folder = e_mail_reader_get_folder (reader);
+	folder = e_mail_reader_ref_folder (reader);
 
 	/* If no folder is selected, return silently. */
 	if (folder == NULL)
@@ -852,12 +855,18 @@ mail_paned_view_update_view_instance (EMailView *view)
 		settings, "global-view-setting");
 	g_object_unref (settings);
 
-	if (global_view_setting)
+	if (global_view_setting) {
+		if (outgoing_folder) {
+			view_instance = e_shell_view_new_view_instance (
+				shell_view, "global_view_sent_setting");
+		} else {
+			view_instance = e_shell_view_new_view_instance (
+				shell_view, "global_view_setting");
+		}
+	} else {
 		view_instance = e_shell_view_new_view_instance (
-			shell_view, outgoing_folder ?
-			"global_view_sent_setting" : "global_view_setting");
-	else
-		view_instance = e_shell_view_new_view_instance (shell_view, view_id);
+			shell_view, view_id);
+	}
 
 	priv->view_instance = view_instance;
 
@@ -869,29 +878,23 @@ mail_paned_view_update_view_instance (EMailView *view)
 
 	if (show_vertical_view) {
 		gchar *filename;
-		gchar *safe_view_id;
 
 		/* Force the view instance into vertical view. */
 
 		g_free (view_instance->custom_filename);
 		g_free (view_instance->current_view_filename);
 
-		safe_view_id = g_strdup (view_id);
-		e_filename_make_safe (safe_view_id);
-
 		filename = g_strdup_printf (
-			"custom_wide_view-%s.xml", safe_view_id);
+			"custom_wide_view-%s.xml", view_id);
 		view_instance->custom_filename = g_build_filename (
 			view_collection->local_dir, filename, NULL);
 		g_free (filename);
 
 		filename = g_strdup_printf (
-			"current_wide_view-%s.xml", safe_view_id);
+			"current_wide_view-%s.xml", view_id);
 		view_instance->current_view_filename = g_build_filename (
 			view_collection->local_dir, filename, NULL);
 		g_free (filename);
-
-		g_free (safe_view_id);
 	}
 
 	g_free (view_id);
@@ -955,6 +958,8 @@ mail_paned_view_update_view_instance (EMailView *view)
 
 	mail_paned_display_view_cb (
 		view, gal_view_instance_get_current_view (view_instance));
+
+	g_clear_object (&folder);
 }
 
 static void

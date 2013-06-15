@@ -262,8 +262,6 @@ mail_browser_message_selected_cb (EMailBrowser *browser,
 	CamelMessageInfo *info;
 	CamelFolder *folder;
 	EMailReader *reader;
-	EMailDisplay *display;
-	const gchar *title;
 	guint32 state;
 
 	reader = E_MAIL_READER (browser);
@@ -273,24 +271,30 @@ mail_browser_message_selected_cb (EMailBrowser *browser,
 	if (uid == NULL)
 		return;
 
-	folder = e_mail_reader_get_folder (reader);
-	display = e_mail_reader_get_mail_display (reader);
+	folder = e_mail_reader_ref_folder (reader);
 
 	info = camel_folder_get_message_info (folder, uid);
 
-	if (info == NULL)
-		return;
+	if (info != NULL) {
+		EMailDisplay *display;
+		const gchar *title;
 
-	title = camel_message_info_subject (info);
-	if (title == NULL || *title == '\0')
-		title = _("(No Subject)");
+		display = e_mail_reader_get_mail_display (reader);
 
-	gtk_window_set_title (GTK_WINDOW (browser), title);
-	gtk_widget_grab_focus (GTK_WIDGET (display));
+		title = camel_message_info_subject (info);
+		if (title == NULL || *title == '\0')
+			title = _("(No Subject)");
 
-	camel_message_info_set_flags (
-		info, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
-	camel_folder_free_message_info (folder, info);
+		gtk_window_set_title (GTK_WINDOW (browser), title);
+		gtk_widget_grab_focus (GTK_WIDGET (display));
+
+		camel_message_info_set_flags (
+			info, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
+
+		camel_folder_free_message_info (folder, info);
+	}
+
+	g_clear_object (&folder);
 }
 
 static gboolean
@@ -851,7 +855,8 @@ mail_browser_set_message (EMailReader *reader,
 		return;
 	}
 
-	folder = e_mail_reader_get_folder (reader);
+	folder = e_mail_reader_ref_folder (reader);
+
 	info = camel_folder_get_message_info (folder, uid);
 
 	if (info != NULL) {
@@ -860,6 +865,8 @@ mail_browser_set_message (EMailReader *reader,
 			camel_message_info_subject (info));
 		camel_folder_free_message_info (folder, info);
 	}
+
+	g_clear_object (&folder);
 }
 
 static void

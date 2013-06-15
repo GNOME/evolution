@@ -212,7 +212,7 @@ mail_shell_view_folder_tree_selection_done_cb (EMailShellView *mail_shell_view,
 	reader = E_MAIL_READER (mail_view);
 	message_list = e_mail_reader_get_message_list (reader);
 
-	/* Don't use e_mail_reader_get_folder() here.  The fact that the
+	/* Don't use e_mail_reader_ref_folder() here.  The fact that the
 	 * method gets the folder from the message list is supposed to be
 	 * a hidden implementation detail, and we want to explicitly get
 	 * the folder URI from the message list here. */
@@ -523,18 +523,18 @@ mail_shell_view_prepare_for_quit_cb (EMailShellView *mail_shell_view,
 	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
 
 	reader = E_MAIL_READER (mail_view);
-	folder = e_mail_reader_get_folder (reader);
+	folder = e_mail_reader_ref_folder (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
 	message_list_save_state (MESSAGE_LIST (message_list));
 
-	if (folder == NULL)
-		return;
-
-	mail_sync_folder (
-		folder, TRUE,
-		mail_shell_view_prepare_for_quit_done_cb,
-		g_object_ref (activity));
+	if (folder != NULL) {
+		mail_sync_folder (
+			folder, TRUE,
+			mail_shell_view_prepare_for_quit_done_cb,
+			g_object_ref (activity));
+		g_object_unref (folder);
+	}
 }
 
 static void
@@ -914,7 +914,7 @@ e_mail_shell_view_restore_state (EMailShellView *mail_shell_view)
 	searchbar = e_mail_shell_content_get_searchbar (mail_shell_content);
 
 	reader = E_MAIL_READER (mail_view);
-	folder = e_mail_reader_get_folder (reader);
+	folder = e_mail_reader_ref_folder (reader);
 
 	if (folder == NULL) {
 		if (e_shell_searchbar_get_state_group (searchbar)) {
@@ -930,11 +930,11 @@ e_mail_shell_view_restore_state (EMailShellView *mail_shell_view)
 
 	vee_folder = mail_shell_view->priv->search_account_all;
 	if (vee_folder != NULL && folder == CAMEL_FOLDER (vee_folder))
-		return;
+		goto exit;
 
 	vee_folder = mail_shell_view->priv->search_account_current;
 	if (vee_folder != NULL && folder == CAMEL_FOLDER (vee_folder))
-		return;
+		goto exit;
 
 	folder_uri = e_mail_folder_uri_from_folder (folder);
 	new_state_group = g_strdup_printf ("Folder %s", folder_uri);
@@ -948,6 +948,9 @@ e_mail_shell_view_restore_state (EMailShellView *mail_shell_view)
 	}
 
 	g_free (new_state_group);
+
+exit:
+	g_clear_object (&folder);
 }
 
 void
@@ -989,7 +992,7 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 	registry = e_shell_get_registry (shell);
 
 	reader = E_MAIL_READER (mail_view);
-	folder = e_mail_reader_get_folder (reader);
+	folder = e_mail_reader_ref_folder (reader);
 
 	/* If no folder is selected, reset the sidebar banners
 	 * to their default values and stop. */
@@ -1113,6 +1116,8 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 	g_free (title);
 
 	g_string_free (buffer, TRUE);
+
+	g_clear_object (&folder);
 }
 
 typedef struct {

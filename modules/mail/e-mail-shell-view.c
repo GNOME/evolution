@@ -327,7 +327,7 @@ mail_shell_view_execute_search (EShellView *shell_view)
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
 
 	reader = E_MAIL_READER (mail_view);
-	folder = e_mail_reader_get_folder (reader);
+	folder = e_mail_reader_ref_folder (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
 	registry = e_mail_session_get_registry (session);
@@ -613,14 +613,17 @@ all_accounts:
 	camel_service_connect_sync (service, NULL, NULL);
 
 	search_folder = (CamelVeeFolder *) camel_vee_folder_new (
-		CAMEL_STORE (service), _("All Account Search"), CAMEL_STORE_FOLDER_PRIVATE);
+		CAMEL_STORE (service),
+		_("All Account Search"),
+		CAMEL_STORE_FOLDER_PRIVATE);
 	priv->search_account_all = search_folder;
 
 	g_object_unref (service);
 
 	camel_vee_folder_set_expression (search_folder, query);
 
- all_accounts_setup:
+all_accounts_setup:
+
 	list = em_folder_tree_model_list_stores (EM_FOLDER_TREE_MODEL (
 		gtk_tree_view_get_model (GTK_TREE_VIEW (folder_tree))));
 	g_list_foreach (list, (GFunc) g_object_ref, NULL);
@@ -714,14 +717,16 @@ current_account:
 	camel_service_connect_sync (service, NULL, NULL);
 
 	search_folder = (CamelVeeFolder *) camel_vee_folder_new (
-		CAMEL_STORE (service), _("Account Search"), CAMEL_STORE_FOLDER_PRIVATE);
+		CAMEL_STORE (service),
+		_("Account Search"),
+		CAMEL_STORE_FOLDER_PRIVATE);
 	priv->search_account_current = search_folder;
 
 	g_object_unref (service);
 
 	camel_vee_folder_set_expression (search_folder, query);
 
- current_accout_setup:
+current_accout_setup:
 
 	if (folder != NULL && folder != CAMEL_FOLDER (search_folder)) {
 		store = camel_folder_get_parent_store (folder);
@@ -760,6 +765,8 @@ execute:
 	g_slist_free (search_strings);
 
 	g_free (query);
+
+	g_clear_object (&folder);
 }
 
 static void
@@ -897,7 +904,7 @@ mail_shell_view_update_actions (EShellView *shell_view)
 		GtkTreeRowReference *reference;
 		CamelFolder *folder;
 
-		folder = e_mail_reader_get_folder (reader);
+		folder = e_mail_reader_ref_folder (reader);
 
 		/* XXX If the user right-clicks on a folder other than what
 		 *     the message list is showing, disable folder rename.
@@ -906,13 +913,15 @@ mail_shell_view_update_actions (EShellView *shell_view)
 		 *     back to where it was to avoid cancelling the inline
 		 *     folder tree editing, it's just too hairy to try to
 		 *     get right.  So we're punting. */
-		if (CAMEL_IS_FOLDER (folder)) {
+		if (folder != NULL) {
 			gchar *folder_uri;
 
 			folder_uri = e_mail_folder_uri_from_folder (folder);
 			folder_tree_and_message_list_agree =
 				(g_strcmp0 (uri, folder_uri) == 0);
 			g_free (folder_uri);
+
+			g_object_unref (folder);
 		}
 
 		reference = em_folder_tree_model_lookup_uri (model, uri);

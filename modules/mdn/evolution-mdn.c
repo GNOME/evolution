@@ -481,13 +481,13 @@ mdn_message_loaded_cb (EMailReader *reader,
 	session = e_mail_backend_get_session (backend);
 	registry = e_mail_session_get_registry (session);
 
-	folder = e_mail_reader_get_folder (reader);
+	folder = e_mail_reader_ref_folder (reader);
 
 	mdn_remove_alert (mdn);
 
 	info = camel_folder_get_message_info (folder, message_uid);
 	if (info == NULL)
-		return;
+		goto exit;
 
 	if (camel_message_info_user_flag (info, MDN_USER_FLAG)) {
 		alert = e_alert_new ("mdn:sender-notified", NULL);
@@ -500,11 +500,18 @@ mdn_message_loaded_cb (EMailReader *reader,
 	if (notify_to == NULL)
 		goto exit;
 
-	/* do not show the notice in special folders */
-	if (em_utils_folder_is_drafts (registry, folder) ||
-	    em_utils_folder_is_templates (registry, folder) ||
-	    em_utils_folder_is_sent (registry, folder) ||
-	    em_utils_folder_is_outbox (registry, folder))
+	/* Do not show the notice in special folders. */
+
+	if (em_utils_folder_is_drafts (registry, folder))
+		goto exit;
+
+	if (em_utils_folder_is_templates (registry, folder))
+		goto exit;
+
+	if (em_utils_folder_is_sent (registry, folder))
+		goto exit;
+
+	if (em_utils_folder_is_outbox (registry, folder))
 		goto exit;
 
 	/* This returns a new ESource reference. */
@@ -560,7 +567,10 @@ mdn_message_loaded_cb (EMailReader *reader,
 	g_object_unref (source);
 
 exit:
-	camel_folder_free_message_info (folder, info);
+	g_clear_object (&folder);
+
+	if (info != NULL)
+		camel_folder_free_message_info (folder, info);
 	g_free (notify_to);
 }
 
@@ -584,11 +594,11 @@ mdn_message_seen_cb (EMailReader *reader,
 	session = e_mail_backend_get_session (backend);
 	registry = e_mail_session_get_registry (session);
 
-	folder = e_mail_reader_get_folder (reader);
+	folder = e_mail_reader_ref_folder (reader);
 
 	info = camel_folder_get_message_info (folder, message_uid);
 	if (info == NULL)
-		return;
+		goto exit;
 
 	if (camel_message_info_user_flag (info, MDN_USER_FLAG))
 		goto exit;
@@ -617,7 +627,10 @@ mdn_message_seen_cb (EMailReader *reader,
 	g_object_unref (source);
 
 exit:
-	camel_folder_free_message_info (folder, info);
+	g_clear_object (&folder);
+
+	if (info != NULL)
+		camel_folder_free_message_info (folder, info);
 	g_free (notify_to);
 }
 
