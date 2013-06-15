@@ -1045,7 +1045,6 @@ static ETreePath
 e_tree_model_node_real_traverse (ETreeModel *model,
                                  ETreePath path,
                                  ETreePath end_path,
-                                 gboolean forward_direction,
                                  ETreePathFunc func,
                                  gpointer data)
 {
@@ -1054,30 +1053,21 @@ e_tree_model_node_real_traverse (ETreeModel *model,
 	g_return_val_if_fail (E_IS_TREE_MODEL (model), NULL);
 	g_return_val_if_fail (path != NULL, NULL);
 
-	if (forward_direction)
-		child = e_tree_model_node_get_first_child (model, path);
-	else
-		child = e_tree_model_node_get_last_child (model, path);
+	child = e_tree_model_node_get_first_child (model, path);
 
 	while (child) {
 		ETreePath result;
 
-		if (forward_direction && (child == end_path || func (model, child, data)))
+		if (child == end_path || func (model, child, data))
 			return child;
 
 		if ((result = e_tree_model_node_real_traverse (
-			model, child, end_path,
-			forward_direction, func, data)))
+			model, child, end_path, func, data)))
 			return result;
 
-		if (!forward_direction && (child == end_path || func (model, child, data)))
-			return child;
-
-		if (forward_direction)
-			child = e_tree_model_node_get_next (model, child);
-		else
-			child = e_tree_model_node_get_prev (model, child);
+		child = e_tree_model_node_get_next (model, child);
 	}
+
 	return NULL;
 }
 
@@ -1086,7 +1076,6 @@ e_tree_model_node_real_traverse (ETreeModel *model,
  * @tree_model:
  * @path:
  * @end_path:
- * @forward_direction:
  * @func:
  * @data:
  *
@@ -1096,7 +1085,6 @@ ETreePath
 e_tree_model_node_find (ETreeModel *tree_model,
                         ETreePath path,
                         ETreePath end_path,
-                        gboolean forward_direction,
                         ETreePathFunc func,
                         gpointer data)
 {
@@ -1110,35 +1098,23 @@ e_tree_model_node_find (ETreeModel *tree_model,
 		ETreePath root;
 		root = e_tree_model_get_root (tree_model);
 
-		if (forward_direction && (end_path == root || func (tree_model, root, data)))
+		if (end_path == root || func (tree_model, root, data))
 			return root;
 
 		result = e_tree_model_node_real_traverse (
-			tree_model, root, end_path, forward_direction, func, data);
+			tree_model, root, end_path, func, data);
 		if (result)
 			return result;
-
-		if (!forward_direction && (end_path == root || func (tree_model, root, data)))
-			return root;
 
 		return NULL;
 	}
 
 	while (1) {
 
-		if (forward_direction) {
-			if ((result = e_tree_model_node_real_traverse (
-				tree_model, path, end_path,
-				forward_direction, func, data)))
-				return result;
-			next = e_tree_model_node_get_next (tree_model, path);
-		} else {
-			next = e_tree_model_node_get_prev (tree_model, path);
-			if (next && (result = e_tree_model_node_real_traverse (
-				tree_model, next, end_path,
-				forward_direction, func, data)))
-				return result;
-		}
+		if ((result = e_tree_model_node_real_traverse (
+			tree_model, path, end_path, func, data)))
+			return result;
+		next = e_tree_model_node_get_next (tree_model, path);
 
 		while (next == NULL) {
 			path = e_tree_model_node_get_parent (tree_model, path);
@@ -1146,10 +1122,7 @@ e_tree_model_node_find (ETreeModel *tree_model,
 			if (path == NULL)
 				return NULL;
 
-			if (forward_direction)
-				next = e_tree_model_node_get_next (tree_model, path);
-			else
-				next = path;
+			next = e_tree_model_node_get_next (tree_model, path);
 		}
 
 		if (end_path == next || func (tree_model, next, data))

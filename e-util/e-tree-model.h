@@ -260,7 +260,6 @@ void		e_tree_model_node_traverse_preorder
 ETreePath	e_tree_model_node_find		(ETreeModel *tree_model,
 						 ETreePath path,
 						 ETreePath end_path,
-						 gboolean forward_direction,
 						 ETreePathFunc func,
 						 gpointer data);
 

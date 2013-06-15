@@ -557,13 +557,11 @@ et_search_search (ETableSearch *search,
 	}
 
 	found = e_tree_model_node_find (
-			et->priv->model, cursor, NULL,
-			E_TREE_FIND_NEXT_FORWARD,
-			search_search_callback, &cb_data);
+		et->priv->model, cursor, NULL,
+		search_search_callback, &cb_data);
 	if (found == NULL)
 		found = e_tree_model_node_find (
 			et->priv->model, NULL, cursor,
-			E_TREE_FIND_NEXT_FORWARD,
 			search_search_callback, &cb_data);
 
 	if (found && found != cursor) {
