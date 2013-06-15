@@ -4375,7 +4375,6 @@ e_tree_model_node_data_changed
 e_tree_model_node_inserted
 e_tree_model_node_removed
 e_tree_model_node_deleted
-e_tree_model_node_request_collapse
 <SUBSECTION Standard>
 E_TREE_MODEL
 E_IS_TREE_MODEL

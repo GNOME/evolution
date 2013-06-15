@@ -91,7 +91,6 @@ struct _ETreeTableAdapterPrivate {
 	gint          node_data_changed_id;
 	gint          node_inserted_id;
 	gint          node_removed_id;
-	gint          node_request_collapse_id;
 	gint          sort_info_changed_id;
 
 	guint        resort_idle_id;
@@ -591,8 +590,6 @@ etta_dispose (GObject *object)
 			priv->source, priv->node_inserted_id);
 		g_signal_handler_disconnect (
 			priv->source, priv->node_removed_id);
-		g_signal_handler_disconnect (
-			priv->source, priv->node_request_collapse_id);
 
 		g_object_unref (priv->source);
 		priv->source = NULL;
@@ -877,14 +874,6 @@ etta_proxy_node_removed (ETreeModel *etm,
 }
 
 static void
-etta_proxy_node_request_collapse (ETreeModel *etm,
-                                  ETreePath node,
-                                  ETreeTableAdapter *etta)
-{
-	e_tree_table_adapter_node_set_expanded (etta, node, FALSE);
-}
-
-static void
 etta_sort_info_changed (ETableSortInfo *sort_info,
                         ETreeTableAdapter *etta)
 {
@@ -956,9 +945,6 @@ e_tree_table_adapter_construct (ETreeTableAdapter *etta,
 	etta->priv->node_removed_id = g_signal_connect (
 		source, "node_removed",
 		G_CALLBACK (etta_proxy_node_removed), etta);
-	etta->priv->node_request_collapse_id = g_signal_connect (
-		source, "node_request_collapse",
-		G_CALLBACK (etta_proxy_node_request_collapse), etta);
 
 	return E_TABLE_MODEL (etta);
 }

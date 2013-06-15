@@ -162,13 +162,6 @@ struct _ETreeModelClass {
 	void		(*node_deleted)		(ETreeModel *tree_model,
 						 ETreePath deleted_path);
 	void		(*rebuilt)		(ETreeModel *tree_model);
-
-	/* This signal requests that any viewers of the tree that
-	 * collapse and expand nodes collapse this node.
-	 */
-	void		(*node_request_collapse)
-						(ETreeModel *tree_model,
-						 ETreePath path);
 };
 
 GType		e_tree_model_get_type		(void) G_GNUC_CONST;
@@ -263,9 +256,6 @@ void		e_tree_model_node_removed	(ETreeModel *tree_model,
 						 gint old_position);
 void		e_tree_model_node_deleted	(ETreeModel *tree_model,
 						 ETreePath deleted_path);
-void		e_tree_model_node_request_collapse
-						(ETreeModel *tree_model,
-						 ETreePath collapsed_path);
 
 G_END_DECLS
 

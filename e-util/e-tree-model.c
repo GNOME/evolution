@@ -52,7 +52,6 @@ enum {
 	NODE_INSERTED,
 	NODE_REMOVED,
 	NODE_DELETED,
-	NODE_REQUEST_COLLAPSE,
 	REBUILT,
 	LAST_SIGNAL
 };
@@ -135,16 +134,6 @@ e_tree_model_class_init (ETreeModelClass *class)
 		G_TYPE_NONE, 1,
 		G_TYPE_POINTER);
 
-	signals[NODE_REQUEST_COLLAPSE] = g_signal_new (
-		"node_request_collapse",
-		G_TYPE_FROM_CLASS (object_class),
-		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (ETreeModelClass, node_request_collapse),
-		(GSignalAccumulator) NULL, NULL,
-		g_cclosure_marshal_VOID__POINTER,
-		G_TYPE_NONE, 1,
-		G_TYPE_POINTER);
-
 	class->get_root              = NULL;
 
 	class->get_parent            = NULL;
@@ -186,7 +175,6 @@ e_tree_model_class_init (ETreeModelClass *class)
 	class->node_inserted         = NULL;
 	class->node_removed          = NULL;
 	class->node_deleted          = NULL;
-	class->node_request_collapse = NULL;
 }
 
 static void
@@ -315,22 +303,6 @@ e_tree_model_node_deleted (ETreeModel *tree_model,
 	g_return_if_fail (E_IS_TREE_MODEL (tree_model));
 
 	g_signal_emit (tree_model, signals[NODE_DELETED], 0, deleted_path);
-}
-
-/**
- * e_tree_model_node_request_collapse:
- * @tree_model:
- * @collapsed_path:
- *
- *
- **/
-void
-e_tree_model_node_request_collapse (ETreeModel *tree_model,
-                                    ETreePath collapsed_path)
-{
-	g_return_if_fail (E_IS_TREE_MODEL (tree_model));
-
-	g_signal_emit (tree_model, signals[NODE_REQUEST_COLLAPSE], 0, collapsed_path);
 }
 
 /**
