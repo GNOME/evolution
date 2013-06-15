@@ -86,7 +86,6 @@ struct _ETreeTableAdapterPrivate {
 	gint          last_access;
 
 	gint          pre_change_id;
-	gint          no_change_id;
 	gint	     rebuilt_id;
 	gint          node_changed_id;
 	gint          node_data_changed_id;
@@ -584,8 +583,6 @@ etta_dispose (GObject *object)
 		g_signal_handler_disconnect (
 			priv->source, priv->pre_change_id);
 		g_signal_handler_disconnect (
-			priv->source, priv->no_change_id);
-		g_signal_handler_disconnect (
 			priv->source, priv->rebuilt_id);
 		g_signal_handler_disconnect (
 			priv->source, priv->node_changed_id);
@@ -808,13 +805,6 @@ etta_proxy_pre_change (ETreeModel *etm,
 }
 
 static void
-etta_proxy_no_change (ETreeModel *etm,
-                      ETreeTableAdapter *etta)
-{
-	e_table_model_no_change (E_TABLE_MODEL (etta));
-}
-
-static void
 etta_proxy_rebuilt (ETreeModel *etm,
                     ETreeTableAdapter *etta)
 {
@@ -970,9 +960,6 @@ e_tree_table_adapter_construct (ETreeTableAdapter *etta,
 	etta->priv->pre_change_id = g_signal_connect (
 		source, "pre_change",
 		G_CALLBACK (etta_proxy_pre_change), etta);
-	etta->priv->no_change_id = g_signal_connect (
-		source, "no_change",
-		G_CALLBACK (etta_proxy_no_change), etta);
 	etta->priv->rebuilt_id = g_signal_connect (
 		source, "rebuilt",
 		G_CALLBACK (etta_proxy_rebuilt), etta);

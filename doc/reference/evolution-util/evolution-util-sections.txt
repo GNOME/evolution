@@ -4369,7 +4369,6 @@ ETreePathFunc
 e_tree_model_node_traverse
 e_tree_model_node_find
 e_tree_model_pre_change
-e_tree_model_no_change
 e_tree_model_rebuilt
 e_tree_model_node_changed
 e_tree_model_node_data_changed

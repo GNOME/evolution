@@ -148,7 +148,6 @@ struct _ETreeModelClass {
 	 */
 
 	void		(*pre_change)		(ETreeModel *tree_model);
-	void		(*no_change)		(ETreeModel *tree_model);
 	void		(*node_changed)		(ETreeModel *tree_model,
 						 ETreePath path);
 	void		(*node_data_changed)	(ETreeModel *tree_model,
@@ -253,7 +252,6 @@ ETreePath	e_tree_model_node_find		(ETreeModel *tree_model,
 ** Routines for emitting signals on the ETreeModel
 */
 void		e_tree_model_pre_change		(ETreeModel *tree_model);
-void		e_tree_model_no_change		(ETreeModel *tree_model);
 void		e_tree_model_rebuilt		(ETreeModel *tree_model);
 void		e_tree_model_node_changed	(ETreeModel *tree_model,
 						 ETreePath path);

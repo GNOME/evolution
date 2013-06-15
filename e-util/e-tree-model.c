@@ -47,7 +47,6 @@ G_DEFINE_TYPE (ETreeModel, e_tree_model, G_TYPE_OBJECT)
 
 enum {
 	PRE_CHANGE,
-	NO_CHANGE,
 	NODE_CHANGED,
 	NODE_DATA_CHANGED,
 	NODE_COL_CHANGED,
@@ -71,15 +70,6 @@ e_tree_model_class_init (ETreeModelClass *class)
 		G_TYPE_FROM_CLASS (object_class),
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (ETreeModelClass, pre_change),
-		(GSignalAccumulator) NULL, NULL,
-		g_cclosure_marshal_VOID__VOID,
-		G_TYPE_NONE, 0);
-
-	signals[NO_CHANGE] = g_signal_new (
-		"no_change",
-		G_TYPE_FROM_CLASS (object_class),
-		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (ETreeModelClass, no_change),
 		(GSignalAccumulator) NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
@@ -202,7 +192,6 @@ e_tree_model_class_init (ETreeModelClass *class)
 	class->value_to_string       = NULL;
 
 	class->pre_change            = NULL;
-	class->no_change             = NULL;
 	class->rebuilt		     = NULL;
 	class->node_changed          = NULL;
 	class->node_data_changed     = NULL;
@@ -233,20 +222,6 @@ e_tree_model_pre_change (ETreeModel *tree_model)
 	g_return_if_fail (E_IS_TREE_MODEL (tree_model));
 
 	g_signal_emit (tree_model, signals[PRE_CHANGE], 0);
-}
-
-/**
- * e_tree_model_no_change:
- * @tree_model:
- *
- * Return value:
- **/
-void
-e_tree_model_no_change (ETreeModel *tree_model)
-{
-	g_return_if_fail (E_IS_TREE_MODEL (tree_model));
-
-	g_signal_emit (tree_model, signals[NO_CHANGE], 0);
 }
 
 /**
