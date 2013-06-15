@@ -85,11 +85,6 @@ ETreePath	e_tree_memory_node_insert	(ETreeMemory *tree_memory,
 						 ETreePath parent_node,
 						 gint position,
 						 gpointer node_data);
-ETreePath	e_tree_memory_node_insert_id	(ETreeMemory *tree_memory,
-						 ETreePath parent,
-						 gint position,
-						 gpointer node_data,
-						 gchar *id);
 ETreePath	e_tree_memory_node_insert_before
 						(ETreeMemory *tree_memory,
 						 ETreePath parent,

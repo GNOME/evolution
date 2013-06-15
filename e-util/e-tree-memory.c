@@ -541,16 +541,6 @@ e_tree_memory_node_insert (ETreeMemory *tree_memory,
 	return new_path;
 }
 
-ETreePath
-e_tree_memory_node_insert_id (ETreeMemory *tree_memory,
-                              ETreePath parent,
-                              gint position,
-                              gpointer node_data,
-                              gchar *id)
-{
-	return e_tree_memory_node_insert (tree_memory, parent, position, node_data);
-}
-
 /**
  * e_tree_memory_node_insert_before:
  * @tree_memory:
