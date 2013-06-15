@@ -4284,7 +4284,6 @@ ETreePrivate
 <FILE>e-tree-memory</FILE>
 <TITLE>ETreeMemory</TITLE>
 ETreeMemory
-e_tree_memory_construct
 e_tree_memory_new
 e_tree_memory_node_insert
 e_tree_memory_node_remove

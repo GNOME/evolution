@@ -407,17 +407,6 @@ e_tree_memory_init (ETreeMemory *tree_memory)
 }
 
 /**
- * e_tree_memory_construct:
- * @tree_memory:
- *
- *
- **/
-void
-e_tree_memory_construct (ETreeMemory *tree_memory)
-{
-}
-
-/**
  * e_tree_memory_new
  *
  * XXX docs here.
