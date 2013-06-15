@@ -65,10 +65,6 @@ struct _ETreeMemory {
 
 struct _ETreeMemoryClass {
 	ETreeModelClass parent_class;
-
-	/* Signals */
-	void		(*fill_in_children)	(ETreeMemory *model,
-						 ETreePath node);
 };
 
 GType		e_tree_memory_get_type		(void) G_GNUC_CONST;

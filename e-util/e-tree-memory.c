@@ -44,19 +44,10 @@
 
 G_DEFINE_TYPE (ETreeMemory, e_tree_memory, E_TYPE_TREE_MODEL)
 
-enum {
-	FILL_IN_CHILDREN,
-	LAST_SIGNAL
-};
-
-static guint signals[LAST_SIGNAL] = { 0, };
-
 typedef struct ETreeMemoryPath ETreeMemoryPath;
 
 struct ETreeMemoryPath {
 	gpointer         node_data;
-
-	guint            children_computed : 1;
 
 	/* parent/child/sibling pointers */
 	ETreeMemoryPath *parent;
@@ -79,17 +70,6 @@ struct _ETreeMemoryPrivate {
 };
 
 /* ETreeMemoryPath functions */
-
-static inline void
-check_children (ETreeMemory *memory,
-                ETreePath node)
-{
-	ETreeMemoryPath *path = node;
-	if (!path->children_computed) {
-		g_signal_emit (memory, signals[FILL_IN_CHILDREN], 0, node);
-		path->children_computed = TRUE;
-	}
-}
 
 static gint
 e_tree_memory_path_depth (ETreeMemoryPath *path)
@@ -247,7 +227,6 @@ tree_memory_get_first_child (ETreeModel *etm,
 {
 	ETreeMemoryPath *path = node;
 
-	check_children (E_TREE_MEMORY (etm), node);
 	return path->first_child;
 }
 
@@ -257,7 +236,6 @@ tree_memory_get_last_child (ETreeModel *etm,
 {
 	ETreeMemoryPath *path = node;
 
-	check_children (E_TREE_MEMORY (etm), node);
 	return path->last_child;
 }
 
@@ -291,7 +269,6 @@ tree_memory_is_expandable (ETreeModel *etm,
 {
 	ETreeMemoryPath *path = node;
 
-	check_children (E_TREE_MEMORY (etm), node);
 	return path->first_child != NULL;
 }
 
@@ -302,8 +279,6 @@ tree_memory_get_children (ETreeModel *etm,
 {
 	ETreeMemoryPath *path = node;
 	guint n_children;
-
-	check_children (E_TREE_MEMORY (etm), node);
 
 	n_children = path->num_children;
 
@@ -337,30 +312,6 @@ tree_memory_get_expanded_default (ETreeModel *etm)
 }
 
 static void
-tree_memory_clear_children_computed (ETreeMemoryPath *path)
-{
-	for (path = path->first_child; path; path = path->next_sibling) {
-		path->children_computed = FALSE;
-		tree_memory_clear_children_computed (path);
-	}
-}
-
-static void
-tree_memory_node_request_collapse (ETreeModel *etm,
-                            ETreePath node)
-{
-	ETreeModelClass *parent_class;
-
-	if (node)
-		tree_memory_clear_children_computed (node);
-
-	parent_class = E_TREE_MODEL_CLASS (e_tree_memory_parent_class);
-
-	if (parent_class->node_request_collapse != NULL)
-		parent_class->node_request_collapse (etm, node);
-}
-
-static void
 e_tree_memory_class_init (ETreeMemoryClass *class)
 {
 	GObjectClass *object_class;
@@ -384,20 +335,6 @@ e_tree_memory_class_init (ETreeMemoryClass *class)
 	tree_model_class->get_children = tree_memory_get_children;
 	tree_model_class->depth = tree_memory_depth;
 	tree_model_class->get_expanded_default = tree_memory_get_expanded_default;
-
-	tree_model_class->node_request_collapse = tree_memory_node_request_collapse;
-
-	class->fill_in_children = NULL;
-
-	signals[FILL_IN_CHILDREN] = g_signal_new (
-		"fill_in_children",
-		G_TYPE_FROM_CLASS (object_class),
-		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (ETreeMemoryClass, fill_in_children),
-		(GSignalAccumulator) NULL, NULL,
-		g_cclosure_marshal_VOID__POINTER,
-		G_TYPE_NONE, 1,
-		G_TYPE_POINTER);
 }
 
 static void
@@ -497,7 +434,6 @@ e_tree_memory_node_insert (ETreeMemory *tree_memory,
 	new_path = g_slice_new0 (ETreeMemoryPath);
 
 	new_path->node_data = node_data;
-	new_path->children_computed = FALSE;
 
 	if (parent_path != NULL) {
 		e_tree_memory_path_insert (parent_path, position, new_path);
