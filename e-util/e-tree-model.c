@@ -399,18 +399,17 @@ e_tree_model_node_is_expandable (ETreeModel *tree_model,
 }
 
 guint
-e_tree_model_node_get_children (ETreeModel *tree_model,
-                                ETreePath path,
-                                ETreePath **paths)
+e_tree_model_node_get_n_children (ETreeModel *tree_model,
+                                  ETreePath path)
 {
 	ETreeModelClass *class;
 
 	g_return_val_if_fail (E_IS_TREE_MODEL (tree_model), 0);
 
 	class = E_TREE_MODEL_GET_CLASS (tree_model);
-	g_return_val_if_fail (class->get_children != NULL, 0);
+	g_return_val_if_fail (class->get_n_children != NULL, 0);
 
-	return class->get_children (tree_model, path, paths);
+	return class->get_n_children (tree_model, path);
 }
 
 /**

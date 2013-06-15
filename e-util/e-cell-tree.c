@@ -701,7 +701,7 @@ ect_print (ECellView *ecell_view,
 			gint depth;
 
 			if (!e_tree_model_node_is_root (tree_model, node)
-			    || e_tree_model_node_get_children (tree_model, node, NULL) > 0) {
+			    || e_tree_model_node_get_n_children (tree_model, node) > 0) {
 				cairo_move_to (
 					cr,
 					offset - INDENT_AMOUNT / 2,

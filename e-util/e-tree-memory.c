@@ -111,28 +111,10 @@ tree_memory_is_expandable (ETreeModel *etm,
 }
 
 static guint
-tree_memory_get_children (ETreeModel *etm,
-                          ETreePath path,
-                          ETreePath **nodes)
+tree_memory_get_n_children (ETreeModel *etm,
+                            ETreePath path)
 {
-	guint n_children;
-
-	n_children = g_node_n_children ((GNode *) path);
-
-	if (nodes != NULL) {
-		GNode *child;
-		gint ii = 0;
-
-		(*nodes) = g_new (ETreePath, n_children);
-
-		child = g_node_first_child ((GNode *) path);
-		while (child != NULL) {
-			(*nodes)[ii++] = child;
-			child = g_node_next_sibling (child);
-		}
-	}
-
-	return n_children;
+	return g_node_n_children ((GNode *) path);
 }
 
 static guint
@@ -169,7 +151,7 @@ e_tree_memory_class_init (ETreeMemoryClass *class)
 
 	tree_model_class->is_root = tree_memory_is_root;
 	tree_model_class->is_expandable = tree_memory_is_expandable;
-	tree_model_class->get_children = tree_memory_get_children;
+	tree_model_class->get_n_children = tree_memory_get_n_children;
 	tree_model_class->depth = tree_memory_depth;
 	tree_model_class->get_expanded_default = tree_memory_get_expanded_default;
 }
