@@ -4281,60 +4281,6 @@ ETreePrivate
 </SECTION>
 
 <SECTION>
-<FILE>e-tree-memory</FILE>
-<TITLE>ETreeMemory</TITLE>
-ETreeMemory
-e_tree_memory_node_insert
-e_tree_memory_node_remove
-e_tree_memory_freeze
-e_tree_memory_thaw
-e_tree_memory_set_expanded_default
-e_tree_memory_node_get_data
-e_tree_memory_node_set_data
-<SUBSECTION Standard>
-E_TREE_MEMORY
-E_IS_TREE_MEMORY
-E_TYPE_TREE_MEMORY
-E_TREE_MEMORY_CLASS
-E_IS_TREE_MEMORY_CLASS
-E_TREE_MEMORY_GET_CLASS
-ETreeMemoryClass
-e_tree_memory_get_type
-<SUBSECTION Private>
-ETreeMemoryPrivate
-</SECTION>
-
-<SECTION>
-<FILE>e-tree-memory-callbacks</FILE>
-<TITLE>ETreeMemoryCallbacks</TITLE>
-ETreeMemoryCallbacks
-ETreeMemoryCallbacksIconAtFn
-ETreeMemoryCallbacksColumnCountFn
-ETreeMemoryCallbacksHasSaveIdFn
-ETreeMemoryCallbacksGetSaveIdFn
-ETreeMemoryCallbacksHasGetNodeByIdFn
-ETreeMemoryCallbacksGetNodeByIdFn
-ETreeMemoryCallbacksValueAtFn
-ETreeMemoryCallbacksSetValueAtFn
-ETreeMemoryCallbacksIsEditableFn
-ETreeMemoryCallbacksDuplicateValueFn
-ETreeMemoryCallbacksFreeValueFn
-ETreeMemoryCallbacksInitializeValueFn
-ETreeMemoryCallbacksValueIsEmptyFn
-ETreeMemoryCallbacksValueToStringFn
-e_tree_memory_callbacks_new
-<SUBSECTION Standard>
-E_TREE_MEMORY_CALLBACKS
-E_IS_TREE_MEMORY_CALLBACKS
-E_TYPE_TREE_MEMORY_CALLBACKS
-E_TREE_MEMORY_CALLBACKS_CLASS
-E_IS_TREE_MEMORY_CALLBACKS_CLASS
-E_TREE_MEMORY_CALLBACKS_GET_CLASS
-ETreeMemoryCallbacksClass
-e_tree_memory_callbacks_get_type
-</SECTION>
-
-<SECTION>
 <FILE>e-tree-model</FILE>
 <TITLE>ETreeModel</TITLE>
 ETreeModel
@@ -4377,10 +4323,8 @@ e_tree_model_node_deleted
 E_TREE_MODEL
 E_IS_TREE_MODEL
 E_TYPE_TREE_MODEL
-E_TREE_MODEL_CLASS
-E_IS_TREE_MODEL_CLASS
-E_TREE_MODEL_GET_CLASS
-ETreeModelClass
+E_TREE_MODEL_GET_INTERFACE
+ETreeModelInterface
 e_tree_model_get_type
 </SECTION>
 

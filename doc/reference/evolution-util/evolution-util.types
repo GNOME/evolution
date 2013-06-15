@@ -154,7 +154,6 @@ e_text_get_type
 e_text_model_get_type
 e_timezone_dialog_get_type
 e_tree_get_type
-e_tree_memory_get_type
 e_tree_model_generator_get_type
 e_tree_model_get_type
 e_tree_selection_model_get_type

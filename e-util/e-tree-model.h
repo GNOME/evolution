@@ -1,4 +1,5 @@
 /*
+ * e-tree-model.h
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -12,13 +13,6 @@
  *
  * You should have received a copy of the GNU Lesser General Public
  * License along with the program; if not, see <http://www.gnu.org/licenses/>
- *
- *
- * Authors:
- *		Chris Lahey <clahey@ximian.com>
- *		Chris Toshok <toshok@ximian.com>
- *
- * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  */
 
@@ -37,40 +31,27 @@
 #define E_TREE_MODEL(obj) \
 	(G_TYPE_CHECK_INSTANCE_CAST \
 	((obj), E_TYPE_TREE_MODEL, ETreeModel))
-#define E_TREE_MODEL_CLASS(cls) \
-	(G_TYPE_CHECK_CLASS_CAST \
-	((cls), E_TYPE_TREE_MODEL, ETreeModelClass))
 #define E_IS_TREE_MODEL(obj) \
 	(G_TYPE_CHECK_INSTANCE_TYPE \
 	((obj), E_TYPE_TREE_MODEL))
-#define E_IS_TREE_MODEL_CLASS(cls) \
-	(G_TYPE_CHECK_CLASS_TYPE \
-	((cls), E_TYPE_TREE_MODEL))
-#define E_TREE_MODEL_GET_CLASS(obj) \
-	(G_TYPE_INSTANCE_GET_CLASS \
-	((obj), E_TYPE_TREE_MODEL, ETreeModelClass))
+#define E_TREE_MODEL_GET_INTERFACE(obj) \
+	(G_TYPE_INSTANCE_GET_INTERFACE \
+	((obj), E_TYPE_TREE_MODEL, ETreeModelInterface))
 
 G_BEGIN_DECLS
 
 typedef gpointer ETreePath;
 
 typedef struct _ETreeModel ETreeModel;
-typedef struct _ETreeModelClass ETreeModelClass;
+typedef struct _ETreeModelInterface ETreeModelInterface;
 
 typedef gboolean	(*ETreePathFunc)	(ETreeModel *tree_model,
 						 ETreePath path,
 						 gpointer data);
 
-struct _ETreeModel {
-	GObject parent;
-};
+struct _ETreeModelInterface {
+	GTypeInterface parent_class;
 
-struct _ETreeModelClass {
-	GObjectClass parent_class;
-
-	/*
-	 * Virtual methods
-	 */
 	ETreePath	(*get_root)		(ETreeModel *tree_model);
 
 	ETreePath	(*get_parent)		(ETreeModel *tree_model,

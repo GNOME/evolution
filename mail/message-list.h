@@ -100,8 +100,6 @@ struct _MessageList {
 	MessageListPrivate *priv;
 
 	/* The table */
-	ETreeModel   *model;
-	ETreePath     tree_root;
 	ETableExtras *extras;
 
 	GHashTable *uid_nodemap; /* uid (from info) -> tree node mapping */
@@ -162,6 +160,9 @@ GtkTargetList *	message_list_get_copy_target_list
 						(MessageList *message_list);
 GtkTargetList *	message_list_get_paste_target_list
 						(MessageList *message_list);
+void		message_list_set_expanded_default
+						(MessageList *message_list,
+						 gboolean expanded_default);
 gboolean	message_list_get_group_by_threads
 						(MessageList *message_list);
 void		message_list_set_group_by_threads

@@ -209,8 +209,6 @@
 #include <e-util/e-text-model.h>
 #include <e-util/e-text.h>
 #include <e-util/e-timezone-dialog.h>
-#include <e-util/e-tree-memory-callbacks.h>
-#include <e-util/e-tree-memory.h>
 #include <e-util/e-tree-model-generator.h>
 #include <e-util/e-tree-model.h>
 #include <e-util/e-tree-selection-model.h>

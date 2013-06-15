@@ -293,8 +293,6 @@ evolution_util_include_HEADERS =  \
 	e-text-model.h \
 	e-text.h \
 	e-timezone-dialog.h \
-	e-tree-memory-callbacks.h \
-	e-tree-memory.h \
 	e-tree-model-generator.h \
 	e-tree-model.h \
 	e-tree-selection-model.h \
@@ -538,8 +536,6 @@ libevolution_util_la_SOURCES = \
 	e-text-model.c \
 	e-text.c \
 	e-timezone-dialog.c \
-	e-tree-memory-callbacks.c \
-	e-tree-memory.c \
 	e-tree-model-generator.c \
 	e-tree-model.c \
 	e-tree-selection-model.c \
