@@ -676,23 +676,6 @@ em_utils_ref_mail_identity_for_store (ESourceRegistry *registry,
 	return source;
 }
 
-/**
- * em_utils_uids_free:
- * @uids: array of uids
- *
- * Frees the array of uids pointed to by @uids back to the system.
- **/
-void
-em_utils_uids_free (GPtrArray *uids)
-{
-	gint i;
-
-	for (i = 0; i < uids->len; i++)
-		g_free (uids->pdata[i]);
-
-	g_ptr_array_free (uids, TRUE);
-}
-
 /* Returns TRUE if CamelURL points to a local mbox file. */
 gboolean
 em_utils_is_local_delivery_mbox_file (CamelURL *url)

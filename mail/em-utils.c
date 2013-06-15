@@ -159,23 +159,6 @@ em_utils_prompt_user (GtkWindow *parent,
 	return button == GTK_RESPONSE_YES;
 }
 
-/**
- * em_utils_uids_free:
- * @uids: array of uids
- *
- * Frees the array of uids pointed to by @uids back to the system.
- **/
-void
-em_utils_uids_free (GPtrArray *uids)
-{
-	gint i;
-
-	for (i = 0; i < uids->len; i++)
-		g_free (uids->pdata[i]);
-
-	g_ptr_array_free (uids, TRUE);
-}
-
 /* Editing Filters/Search Folders... */
 
 static GtkWidget *filter_editor = NULL;
