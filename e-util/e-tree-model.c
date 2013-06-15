@@ -593,27 +593,6 @@ e_tree_model_get_node_by_id (ETreeModel *tree_model,
 }
 
 /**
- * e_tree_model_has_change_pending
- * @tree_model: The ETreeModel.
- *
- * XXX docs here.
- *
- * return values: Whether this tree has valid save id data.
- */
-gboolean
-e_tree_model_has_change_pending (ETreeModel *tree_model)
-{
-	ETreeModelClass *class;
-
-	g_return_val_if_fail (E_IS_TREE_MODEL (tree_model), FALSE);
-
-	class = E_TREE_MODEL_GET_CLASS (tree_model);
-	g_return_val_if_fail (class->has_change_pending != NULL, FALSE);
-
-	return class->has_change_pending (tree_model);
-}
-
-/**
  * e_tree_model_sort_value_at:
  * @tree_model: The ETreeModel.
  * @path: The ETreePath to the node we're getting the data from.

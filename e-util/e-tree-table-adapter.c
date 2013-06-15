@@ -624,14 +624,6 @@ etta_get_save_id (ETableModel *etm,
 	return e_tree_model_get_save_id (etta->priv->source, get_path (etta, row));
 }
 
-static gboolean
-etta_has_change_pending (ETableModel *etm)
-{
-	ETreeTableAdapter *etta = (ETreeTableAdapter *) etm;
-
-	return e_tree_model_has_change_pending (etta->priv->source);
-}
-
 static gint
 etta_row_count (ETableModel *etm)
 {
@@ -762,7 +754,6 @@ etta_class_init (ETreeTableAdapterClass *class)
 	table_model_class->has_save_id = etta_has_save_id;
 	table_model_class->get_save_id = etta_get_save_id;
 
-	table_model_class->has_change_pending = etta_has_change_pending;
 	table_model_class->duplicate_value = etta_duplicate_value;
 	table_model_class->free_value = etta_free_value;
 	table_model_class->initialize_value = etta_initialize_value;

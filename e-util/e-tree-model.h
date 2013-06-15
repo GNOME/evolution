@@ -104,8 +104,6 @@ struct _ETreeModelClass {
 	ETreePath	(*get_node_by_id)	(ETreeModel *tree_model,
 						 const gchar *save_id);
 
-	gboolean	(*has_change_pending)	(ETreeModel *tree_model);
-
 	/*
 	 * ETable analogs
 	 */
@@ -197,7 +195,6 @@ gchar *		e_tree_model_get_save_id	(ETreeModel *tree_model,
 gboolean	e_tree_model_has_get_node_by_id	(ETreeModel *tree_model);
 ETreePath	e_tree_model_get_node_by_id	(ETreeModel *tree_model,
 						 const gchar *save_id);
-gboolean	e_tree_model_has_change_pending	(ETreeModel *tree_model);
 gpointer	e_tree_model_sort_value_at	(ETreeModel *tree_model,
 						 ETreePath path,
 						 gint col);

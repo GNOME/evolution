@@ -4354,7 +4354,6 @@ e_tree_model_has_save_id
 e_tree_model_get_save_id
 e_tree_model_has_get_node_by_id
 e_tree_model_get_node_by_id
-e_tree_model_has_change_pending
 e_tree_model_sort_value_at
 e_tree_model_value_at
 e_tree_model_set_value_at
