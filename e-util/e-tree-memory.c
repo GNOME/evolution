@@ -201,15 +201,6 @@ tree_memory_get_next (ETreeModel *etm,
 	return path->next_sibling;
 }
 
-static ETreePath
-tree_memory_get_prev (ETreeModel *etm,
-                      ETreePath node)
-{
-	ETreeMemoryPath *path = node;
-
-	return path->prev_sibling;
-}
-
 static gboolean
 tree_memory_is_root (ETreeModel *etm,
                      ETreePath node)
@@ -279,7 +270,6 @@ e_tree_memory_class_init (ETreeMemoryClass *class)
 
 	tree_model_class = E_TREE_MODEL_CLASS (class);
 	tree_model_class->get_root = tree_memory_get_root;
-	tree_model_class->get_prev = tree_memory_get_prev;
 	tree_model_class->get_next = tree_memory_get_next;
 	tree_model_class->get_first_child = tree_memory_get_first_child;
 	tree_model_class->get_parent = tree_memory_get_parent;

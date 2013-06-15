@@ -79,8 +79,6 @@ struct _ETreeModelClass {
 						 ETreePath path);
 	ETreePath	(*get_next)		(ETreeModel *tree_model,
 						 ETreePath path);
-	ETreePath	(*get_prev)		(ETreeModel *tree_model,
-						 ETreePath path);
 
 	gboolean	(*is_root)		(ETreeModel *tree_model,
 						 ETreePath path);
@@ -188,8 +186,6 @@ ETreePath	e_tree_model_node_get_first_child
 						(ETreeModel *tree_model,
 						 ETreePath path);
 ETreePath	e_tree_model_node_get_next	(ETreeModel *tree_model,
-						 ETreePath path);
-ETreePath	e_tree_model_node_get_prev	(ETreeModel *tree_model,
 						 ETreePath path);
 
 /* node accessors */
