@@ -1,3 +1,46 @@
+Evolution 3.9.3 2013-06-17
+--------------------------
+
+Bug Fixes:
+	Bug 250046 - Empty group address as recipient prevents message send
+	             (Milan Crha)
+	Bug 555130 - Redesign task editor (Milan Crha)
+	Bug 684302 - Prompt to close message window on reply should be inline
+	             (Matthew Barnes)
+	Bug 700277 - EClientCache allocates memory ad infinity (Matthew Barnes)
+	Bug 700812 - Search in Calendar view is broken (Milan Crha)
+	Bug 701669 - Bad assumption in prefer-plain module (Matthew Barnes)
+
+Other Changes:
+	* Rename some base libraries to libevolution-$FOO. (Matthew Barnes)
+	* Use F9 to toggle sidebar visibility. (Matthew Barnes)
+	* Update Quick Reference Card to show F12 shortcut. (Matthew Barnes)
+	* Remove Evolution icon from header section. (Matthew Barnes)
+	* Make EAlertDialog non-resizable. (Matthew Barnes)
+	* Ask for a Smart Card password with a token name too (Milan Crha)
+	* GnomeCalendar: Get rid of the async message dispatcher.
+	  (Matthew Barnes)
+	* Make the "Headers" print dialog tab actually work. (Matthew Barnes)
+	* Reimplement the main toolbar's prefer-item feature. (Matthew Barnes)
+	* Fix various causes for crashes after closing a 2nd Evolution window.
+	  (Matthew Barnes)
+	* Heavily refactor MessageList and ETreeModel. (Matthew Barnes)
+	* Remove lots of unused legacy APIs. (Matthew Barnes)
+
+Translations:
+	Jorge Pérez Pérez (an)
+	Dimitris Spingos (el)
+	Daniel Mustieles (es)
+	Fran Diéguez (gl)
+	Jiro Matsuzawa (ja)
+	Aurimas Černius (lt)
+	Sandeep Sheshrao Shedmake (mr)
+	Kjartan Maraas (nb)
+	ManojKumar Giri (or)
+	Matej Urbančič (sl)
+	Shantha kumar (ta)
+
+
 Evolution 3.9.2 2013-05-27
 --------------------------
 
