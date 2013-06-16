@@ -2697,12 +2697,6 @@ message_list_get_save_id (ETreeModel *tree_model,
 	return g_strdup (camel_message_info_uid (info));
 }
 
-static gboolean
-message_list_has_get_node_by_id (ETreeModel *tree_model)
-{
-	return TRUE;
-}
-
 static ETreePath
 message_list_get_node_by_id (ETreeModel *tree_model,
                              const gchar *save_id)
@@ -3130,7 +3124,6 @@ message_list_tree_model_init (ETreeModelInterface *interface)
 	interface->get_expanded_default = message_list_get_expanded_default;
 	interface->column_count = message_list_column_count;
 	interface->get_save_id = message_list_get_save_id;
-	interface->has_get_node_by_id = message_list_has_get_node_by_id;
 	interface->get_node_by_id = message_list_get_node_by_id;
 	interface->sort_value_at = message_list_sort_value_at;
 	interface->value_at = message_list_value_at;

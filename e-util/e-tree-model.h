@@ -76,7 +76,6 @@ struct _ETreeModelInterface {
 	gchar *		(*get_save_id)		(ETreeModel *tree_model,
 						 ETreePath path);
 
-	gboolean	(*has_get_node_by_id)	(ETreeModel *tree_model);
 	ETreePath	(*get_node_by_id)	(ETreeModel *tree_model,
 						 const gchar *save_id);
 
@@ -165,7 +164,6 @@ gboolean	e_tree_model_get_expanded_default
 gint		e_tree_model_column_count	(ETreeModel *tree_model);
 gchar *		e_tree_model_get_save_id	(ETreeModel *tree_model,
 						 ETreePath path);
-gboolean	e_tree_model_has_get_node_by_id	(ETreeModel *tree_model);
 ETreePath	e_tree_model_get_node_by_id	(ETreeModel *tree_model,
 						 const gchar *save_id);
 gpointer	e_tree_model_sort_value_at	(ETreeModel *tree_model,

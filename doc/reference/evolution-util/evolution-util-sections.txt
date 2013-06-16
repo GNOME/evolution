@@ -4296,7 +4296,6 @@ e_tree_model_node_depth
 e_tree_model_get_expanded_default
 e_tree_model_column_count
 e_tree_model_get_save_id
-e_tree_model_has_get_node_by_id
 e_tree_model_get_node_by_id
 e_tree_model_sort_value_at
 e_tree_model_value_at

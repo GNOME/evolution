@@ -461,27 +461,6 @@ e_tree_model_get_save_id (ETreeModel *tree_model,
 }
 
 /**
- * e_tree_model_has_get_node_by_id
- * @tree_model: The ETreeModel.
- *
- * XXX docs here.
- *
- * return values: Whether this tree can quickly get a node from its save id.
- */
-gboolean
-e_tree_model_has_get_node_by_id (ETreeModel *tree_model)
-{
-	ETreeModelInterface *interface;
-
-	g_return_val_if_fail (E_IS_TREE_MODEL (tree_model), FALSE);
-
-	interface = E_TREE_MODEL_GET_INTERFACE (tree_model);
-	g_return_val_if_fail (interface->has_get_node_by_id != NULL, FALSE);
-
-	return interface->has_get_node_by_id (tree_model);
-}
-
-/**
  * e_tree_model_get_node_by_id
  * @tree_model: The ETreeModel.
  * @save_id:

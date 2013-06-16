@@ -3175,11 +3175,10 @@ hover_timeout (gpointer data)
 	path = e_tree_table_adapter_node_at_row (et->priv->etta, row);
 	if (path && e_tree_model_node_is_expandable (et->priv->model, path)) {
 		if (!e_tree_table_adapter_node_is_expanded (et->priv->etta, path)) {
-			if (e_tree_model_has_get_node_by_id (et->priv->model))
-				et->priv->expanded_list = g_list_prepend (
-					et->priv->expanded_list,
-					e_tree_model_get_save_id (
-					et->priv->model, path));
+			et->priv->expanded_list = g_list_prepend (
+				et->priv->expanded_list,
+				e_tree_model_get_save_id (
+				et->priv->model, path));
 
 			e_tree_table_adapter_node_set_expanded (
 				et->priv->etta, path, TRUE);
