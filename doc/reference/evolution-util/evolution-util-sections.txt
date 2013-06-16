@@ -4299,7 +4299,6 @@ e_tree_model_get_save_id
 e_tree_model_get_node_by_id
 e_tree_model_sort_value_at
 e_tree_model_value_at
-e_tree_model_set_value_at
 e_tree_model_node_is_editable
 e_tree_model_duplicate_value
 e_tree_model_free_value

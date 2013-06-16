@@ -555,22 +555,6 @@ e_tree_model_value_at (ETreeModel *tree_model,
 	return interface->value_at (tree_model, path, col);
 }
 
-void
-e_tree_model_set_value_at (ETreeModel *tree_model,
-                           ETreePath path,
-                           gint col,
-                           gconstpointer val)
-{
-	ETreeModelInterface *interface;
-
-	g_return_if_fail (E_IS_TREE_MODEL (tree_model));
-
-	interface = E_TREE_MODEL_GET_INTERFACE (tree_model);
-	g_return_if_fail (interface->set_value_at != NULL);
-
-	interface->set_value_at (tree_model, path, col, val);
-}
-
 /**
  * e_tree_model_node_is_editable:
  * @tree_model:

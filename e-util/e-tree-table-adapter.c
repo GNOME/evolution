@@ -657,9 +657,7 @@ etta_set_value_at (ETableModel *etm,
                    gint row,
                    gconstpointer val)
 {
-	ETreeTableAdapter *etta = (ETreeTableAdapter *) etm;
-
-	e_tree_model_set_value_at (etta->priv->source, get_path (etta, row), col, val);
+	g_warn_if_reached ();
 }
 
 static gboolean

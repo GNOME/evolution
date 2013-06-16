@@ -88,10 +88,6 @@ struct _ETreeModelInterface {
 	gpointer	(*value_at)		(ETreeModel *tree_model,
 						 ETreePath path,
 						 gint col);
-	void		(*set_value_at)		(ETreeModel *tree_model,
-						 ETreePath path,
-						 gint col,
-						 gconstpointer val);
 	gboolean	(*is_editable)		(ETreeModel *tree_model,
 						 ETreePath path,
 						 gint col);
@@ -172,10 +168,6 @@ gpointer	e_tree_model_sort_value_at	(ETreeModel *tree_model,
 gpointer	e_tree_model_value_at		(ETreeModel *tree_model,
 						 ETreePath path,
 						 gint col);
-void		e_tree_model_set_value_at	(ETreeModel *tree_model,
-						 ETreePath path,
-						 gint col,
-						 gconstpointer val);
 gboolean	e_tree_model_node_is_editable	(ETreeModel *tree_model,
 						 ETreePath path,
 						 gint col);
