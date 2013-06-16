@@ -556,30 +556,6 @@ e_tree_model_value_at (ETreeModel *tree_model,
 }
 
 /**
- * e_tree_model_node_is_editable:
- * @tree_model:
- * @path:
- *
- *
- *
- * Return value:
- **/
-gboolean
-e_tree_model_node_is_editable (ETreeModel *tree_model,
-                               ETreePath path,
-                               gint col)
-{
-	ETreeModelInterface *interface;
-
-	g_return_val_if_fail (E_IS_TREE_MODEL (tree_model), FALSE);
-
-	interface = E_TREE_MODEL_GET_INTERFACE (tree_model);
-	g_return_val_if_fail (interface->is_editable != NULL, FALSE);
-
-	return interface->is_editable (tree_model, path, col);
-}
-
-/**
  * e_tree_model_duplicate_value:
  * @tree_model:
  * @col:

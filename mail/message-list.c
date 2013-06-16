@@ -2758,14 +2758,6 @@ message_list_value_at (ETreeModel *tree_model,
 	return ml_tree_value_at_ex (tree_model, path, col, msg_info, message_list);
 }
 
-static gboolean
-message_list_is_editable (ETreeModel *tree_model,
-                          ETreePath path,
-                          gint col)
-{
-	return FALSE;
-}
-
 static gpointer
 message_list_duplicate_value (ETreeModel *tree_model,
                               gint col,
@@ -3118,7 +3110,6 @@ message_list_tree_model_init (ETreeModelInterface *interface)
 	interface->get_node_by_id = message_list_get_node_by_id;
 	interface->sort_value_at = message_list_sort_value_at;
 	interface->value_at = message_list_value_at;
-	interface->is_editable = message_list_is_editable;
 	interface->duplicate_value = message_list_duplicate_value;
 	interface->free_value = message_list_free_value;
 	interface->initialize_value = message_list_initialize_value;

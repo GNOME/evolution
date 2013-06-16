@@ -665,9 +665,7 @@ etta_is_cell_editable (ETableModel *etm,
                        gint col,
                        gint row)
 {
-	ETreeTableAdapter *etta = (ETreeTableAdapter *) etm;
-
-	return e_tree_model_node_is_editable (etta->priv->source, get_path (etta, row), col);
+	return FALSE;
 }
 
 static void

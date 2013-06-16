@@ -88,9 +88,6 @@ struct _ETreeModelInterface {
 	gpointer	(*value_at)		(ETreeModel *tree_model,
 						 ETreePath path,
 						 gint col);
-	gboolean	(*is_editable)		(ETreeModel *tree_model,
-						 ETreePath path,
-						 gint col);
 
 	gpointer	(*duplicate_value)	(ETreeModel *tree_model,
 						 gint col,
@@ -166,9 +163,6 @@ gpointer	e_tree_model_sort_value_at	(ETreeModel *tree_model,
 						 ETreePath path,
 						 gint col);
 gpointer	e_tree_model_value_at		(ETreeModel *tree_model,
-						 ETreePath path,
-						 gint col);
-gboolean	e_tree_model_node_is_editable	(ETreeModel *tree_model,
 						 ETreePath path,
 						 gint col);
 gpointer	e_tree_model_duplicate_value	(ETreeModel *tree_model,
