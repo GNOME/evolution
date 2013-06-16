@@ -73,7 +73,6 @@ struct _ETreeModelInterface {
 	gboolean	(*get_expanded_default)	(ETreeModel *tree_model);
 	gint		(*column_count)		(ETreeModel *tree_model);
 
-	gboolean	(*has_save_id)		(ETreeModel *tree_model);
 	gchar *		(*get_save_id)		(ETreeModel *tree_model,
 						 ETreePath path);
 
@@ -164,7 +163,6 @@ guint		e_tree_model_node_depth		(ETreeModel *tree_model,
 gboolean	e_tree_model_get_expanded_default
 						(ETreeModel *tree_model);
 gint		e_tree_model_column_count	(ETreeModel *tree_model);
-gboolean	e_tree_model_has_save_id	(ETreeModel *tree_model);
 gchar *		e_tree_model_get_save_id	(ETreeModel *tree_model,
 						 ETreePath path);
 gboolean	e_tree_model_has_get_node_by_id	(ETreeModel *tree_model);

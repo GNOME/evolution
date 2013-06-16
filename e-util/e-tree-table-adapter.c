@@ -610,9 +610,7 @@ etta_column_count (ETableModel *etm)
 static gboolean
 etta_has_save_id (ETableModel *etm)
 {
-	ETreeTableAdapter *etta = (ETreeTableAdapter *) etm;
-
-	return e_tree_model_has_save_id (etta->priv->source);
+	return TRUE;
 }
 
 static gchar *

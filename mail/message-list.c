@@ -2679,12 +2679,6 @@ message_list_column_count (ETreeModel *tree_model)
 	return COL_LAST;
 }
 
-static gboolean
-message_list_has_save_id (ETreeModel *tree_model)
-{
-	return TRUE;
-}
-
 static gchar *
 message_list_get_save_id (ETreeModel *tree_model,
                           ETreePath path)
@@ -3135,7 +3129,6 @@ message_list_tree_model_init (ETreeModelInterface *interface)
 	interface->depth = message_list_depth;
 	interface->get_expanded_default = message_list_get_expanded_default;
 	interface->column_count = message_list_column_count;
-	interface->has_save_id = message_list_has_save_id;
 	interface->get_save_id = message_list_get_save_id;
 	interface->has_get_node_by_id = message_list_has_get_node_by_id;
 	interface->get_node_by_id = message_list_get_node_by_id;

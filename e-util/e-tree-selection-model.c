@@ -174,7 +174,6 @@ etsm_pre_change (ETreeModel *etm,
 	etsm->priv->cursor_save_id = NULL;
 
 	if (e_tree_model_has_get_node_by_id (etm) &&
-	    e_tree_model_has_save_id (etm) &&
 	    etsm->priv->cursor_path) {
 		etsm->priv->cursor_save_id = e_tree_model_get_save_id (
 			etm, etsm->priv->cursor_path);

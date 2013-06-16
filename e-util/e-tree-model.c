@@ -438,27 +438,6 @@ e_tree_model_column_count (ETreeModel *tree_model)
 }
 
 /**
- * e_tree_model_has_save_id
- * @tree_model: The ETreeModel.
- *
- * XXX docs here.
- *
- * return values: Whether this tree has valid save id data.
- */
-gboolean
-e_tree_model_has_save_id (ETreeModel *tree_model)
-{
-	ETreeModelInterface *interface;
-
-	g_return_val_if_fail (E_IS_TREE_MODEL (tree_model), FALSE);
-
-	interface = E_TREE_MODEL_GET_INTERFACE (tree_model);
-	g_return_val_if_fail (interface->has_save_id != NULL, FALSE);
-
-	return interface->has_save_id (tree_model);
-}
-
-/**
  * e_tree_model_get_save_id
  * @tree_model: The ETreeModel.
  * @path: The ETreePath.
