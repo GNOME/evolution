@@ -77,8 +77,7 @@ get_cursor_row (ETreeSelectionModel *etsm)
 static void
 clear_selection (ETreeSelectionModel *etsm)
 {
-	g_hash_table_destroy (etsm->priv->paths);
-	etsm->priv->paths = g_hash_table_new (NULL, NULL);
+	g_hash_table_remove_all (etsm->priv->paths);
 }
 
 static void
@@ -86,12 +85,12 @@ change_one_path (ETreeSelectionModel *etsm,
                  ETreePath path,
                  gboolean grow)
 {
-	if (!path)
+	if (path == NULL)
 		return;
 
 	if (grow)
-		g_hash_table_insert (etsm->priv->paths, path, path);
-	else if (g_hash_table_lookup (etsm->priv->paths, path))
+		g_hash_table_add (etsm->priv->paths, path);
+	else
 		g_hash_table_remove (etsm->priv->paths, path);
 }
 
@@ -120,8 +119,8 @@ select_range (ETreeSelectionModel *etsm,
 
 	for (i = start; i <= end; i++) {
 		ETreePath path = e_tree_table_adapter_node_at_row (etsm->priv->etta, i);
-		if (path)
-			g_hash_table_insert (etsm->priv->paths, path, path);
+		if (path != NULL)
+			g_hash_table_add (etsm->priv->paths, path);
 	}
 }
 
@@ -381,10 +380,10 @@ static gboolean
 etsm_is_path_selected (ETreeSelectionModel *etsm,
                        ETreePath path)
 {
-	if (path && g_hash_table_lookup (etsm->priv->paths, path))
-		return TRUE;
+	if (path == NULL)
+		return FALSE;
 
-	return FALSE;
+	return g_hash_table_contains (etsm->priv->paths, path);
 }
 
 static gboolean
@@ -404,38 +403,26 @@ etsm_is_row_selected (ESelectionModel *selection,
 	return etsm_is_path_selected (etsm, path);
 }
 
-typedef struct {
-	ETreeSelectionModel *etsm;
-	EForeachFunc callback;
-	gpointer closure;
-} ModelAndCallback;
-
-static void
-etsm_row_foreach_cb (gpointer key,
-                     gpointer value,
-                     gpointer user_data)
-{
-	ETreePath path = key;
-	ModelAndCallback *mac = user_data;
-	gint row = e_tree_table_adapter_row_of_node (
-		mac->etsm->priv->etta, path);
-	if (row >= 0)
-		mac->callback (row, mac->closure);
-}
-
 static void
 etsm_foreach (ESelectionModel *selection,
               EForeachFunc callback,
               gpointer closure)
 {
 	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL (selection);
-	ModelAndCallback mac;
+	GList *list, *link;
 
-	mac.etsm = etsm;
-	mac.callback = callback;
-	mac.closure = closure;
+	list = g_hash_table_get_keys (etsm->priv->paths);
 
-	g_hash_table_foreach (etsm->priv->paths, etsm_row_foreach_cb, &mac);
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		gint row;
+
+		row = e_tree_table_adapter_row_of_node (
+			etsm->priv->etta, (ETreePath) link->data);
+		if (row >= 0)
+			callback (row, closure);
+	}
+
+	g_list_free (list);
 }
 
 static void
@@ -476,6 +463,7 @@ etsm_select_all (ESelectionModel *selection)
 		return;
 
 	clear_selection (etsm);
+
 	select_range (etsm, 0, etsm_row_count (selection) - 1);
 
 	if (etsm->priv->cursor_path == NULL)
@@ -500,12 +488,13 @@ etsm_invert_selection (ESelectionModel *selection)
 		ETreePath path;
 
 		path = e_tree_table_adapter_node_at_row (etsm->priv->etta, i);
-		if (!path)
+		if (path == NULL)
 			continue;
-		if (g_hash_table_lookup (etsm->priv->paths, path))
+
+		if (g_hash_table_contains (etsm->priv->paths, path))
 			g_hash_table_remove (etsm->priv->paths, path);
 		else
-			g_hash_table_insert (etsm->priv->paths, path, path);
+			g_hash_table_add (etsm->priv->paths, path);
 	}
 
 	etsm->priv->cursor_col = -1;
@@ -628,10 +617,10 @@ etsm_toggle_single_row (ESelectionModel *selection,
 	path = e_tree_table_adapter_node_at_row (etsm->priv->etta, row);
 	g_return_if_fail (path);
 
-	if (g_hash_table_lookup (etsm->priv->paths, path))
+	if (g_hash_table_contains (etsm->priv->paths, path))
 		g_hash_table_remove (etsm->priv->paths, path);
 	else
-		g_hash_table_insert (etsm->priv->paths, path, path);
+		g_hash_table_add (etsm->priv->paths, path);
 
 	etsm->priv->start_path = NULL;
 
@@ -680,33 +669,19 @@ etsm_set_selection_end (ESelectionModel *selection,
 	e_selection_model_selection_changed (E_SELECTION_MODEL (etsm));
 }
 
-struct foreach_path_t {
-	ETreeForeachFunc callback;
-	gpointer closure;
-};
-
-static void
-foreach_path (gpointer key,
-              gpointer value,
-              gpointer data)
-{
-	ETreePath path = key;
-	struct foreach_path_t *c = data;
-	c->callback (path, c->closure);
-}
-
 void
 e_tree_selection_model_foreach (ETreeSelectionModel *etsm,
                                 ETreeForeachFunc callback,
                                 gpointer closure)
 {
-	if (etsm->priv->paths) {
-		struct foreach_path_t c;
-		c.callback = callback;
-		c.closure = closure;
-		g_hash_table_foreach (etsm->priv->paths, foreach_path, &c);
-		return;
-	}
+	GList *list, *link;
+
+	list = g_hash_table_get_keys (etsm->priv->paths);
+
+	for (link = list; link != NULL; link = g_list_next (link))
+		callback ((ETreePath) link->data, closure);
+
+	g_list_free (list);
 }
 
 void
