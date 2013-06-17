@@ -97,7 +97,7 @@ struct _MessageListPrivate {
 	/* For message list regeneration. */
 	GMutex regen_lock;
 	RegenData *regen_data;
-	guint regen_timeout_id;
+	guint regen_idle_id;
 
 	struct _MLSelection clipboard;
 	gboolean destroyed;
@@ -5499,7 +5499,7 @@ message_list_regen_done_cb (GObject *source_object,
 }
 
 static gboolean
-message_list_regen_timeout_cb (gpointer user_data)
+message_list_regen_idle_cb (gpointer user_data)
 {
 	GSimpleAsyncResult *simple;
 	RegenData *regen_data;
@@ -5510,7 +5510,7 @@ message_list_regen_timeout_cb (gpointer user_data)
 	cancellable = e_activity_get_cancellable (regen_data->activity);
 
 	g_mutex_lock (&regen_data->message_list->priv->regen_lock);
-	regen_data->message_list->priv->regen_timeout_id = 0;
+	regen_data->message_list->priv->regen_idle_id = 0;
 	g_mutex_unlock (&regen_data->message_list->priv->regen_lock);
 
 	if (g_cancellable_is_cancelled (cancellable)) {
@@ -5536,9 +5536,9 @@ mail_regen_cancel (MessageList *message_list)
 	if (message_list->priv->regen_data != NULL)
 		regen_data = regen_data_ref (message_list->priv->regen_data);
 
-	if (message_list->priv->regen_timeout_id > 0) {
-		g_source_remove (message_list->priv->regen_timeout_id);
-		message_list->priv->regen_timeout_id = 0;
+	if (message_list->priv->regen_idle_id > 0) {
+		g_source_remove (message_list->priv->regen_idle_id);
+		message_list->priv->regen_idle_id = 0;
 	}
 
 	g_mutex_unlock (&message_list->priv->regen_lock);
@@ -5571,6 +5571,28 @@ mail_regen_list (MessageList *message_list,
 		return;
 	}
 
+	g_mutex_lock (&message_list->priv->regen_lock);
+
+	old_regen_data = message_list->priv->regen_data;
+
+	/* If a regen is scheduled but not yet started, just
+	 * apply the argument values without cancelling it. */
+	if (message_list->priv->regen_idle_id > 0) {
+		g_return_if_fail (old_regen_data != NULL);
+
+		if (g_strcmp0 (search, old_regen_data->search) != 0) {
+			g_free (old_regen_data->search);
+			old_regen_data->search = g_strdup (search);
+		}
+
+		old_regen_data->folder_changed = folder_changed;
+
+		/* Avoid cancelling on the way out. */
+		old_regen_data = NULL;
+
+		goto exit;
+	}
+
 	cancellable = g_cancellable_new ();
 
 	new_regen_data = regen_data_new (message_list, cancellable);
@@ -5592,36 +5614,27 @@ mail_regen_list (MessageList *message_list,
 		regen_data_ref (new_regen_data),
 		(GDestroyNotify) regen_data_unref);
 
-	/* Swap the old regen data (if present) for the new regen data. */
+	/* Set the RegenData immediately, but start the actual regen
+	 * operation from an idle callback.  That way the caller has
+	 * the remainder of this main loop iteration to make further
+	 * MessageList changes without triggering additional regens. */
 
-	g_mutex_lock (&message_list->priv->regen_lock);
-
-	old_regen_data = message_list->priv->regen_data;
 	message_list->priv->regen_data = regen_data_ref (new_regen_data);
 
-	if (message_list->priv->regen_timeout_id > 0) {
-		g_source_remove (message_list->priv->regen_timeout_id);
-		message_list->priv->regen_timeout_id = 0;
-	}
+	message_list->priv->regen_idle_id =
+		g_idle_add_full (
+			G_PRIORITY_DEFAULT_IDLE,
+			message_list_regen_idle_cb,
+			g_object_ref (simple),
+			(GDestroyNotify) g_object_unref);
 
-	/* Start the regen after a short timeout, so normal updates
-	 * are immediate.  XXX Do we still need to do this timeout?
-	 * What are "normal" updates? */
-	if (old_regen_data != NULL) {
-		message_list->priv->regen_timeout_id =
-			g_timeout_add_full (
-				G_PRIORITY_DEFAULT, 50,
-				message_list_regen_timeout_cb,
-				g_object_ref (simple),
-				(GDestroyNotify) g_object_unref);
-	} else {
-		g_simple_async_result_run_in_thread (
-			simple,
-			message_list_regen_thread,
-			G_PRIORITY_DEFAULT,
-			cancellable);
-	}
+	g_object_unref (simple);
 
+	regen_data_unref (new_regen_data);
+
+	g_object_unref (cancellable);
+
+exit:
 	g_mutex_unlock (&message_list->priv->regen_lock);
 
 	/* Cancel outside the lock, since this will emit a signal. */
@@ -5629,10 +5642,4 @@ mail_regen_list (MessageList *message_list,
 		e_activity_cancel (old_regen_data->activity);
 		regen_data_unref (old_regen_data);
 	}
-
-	g_object_unref (simple);
-
-	regen_data_unref (new_regen_data);
-
-	g_object_unref (cancellable);
 }
