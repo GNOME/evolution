@@ -291,62 +291,10 @@ drop_model (ETreeSelectionModel *etsm)
 }
 
 static void
-etsm_dispose (GObject *object)
-{
-	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL (object);
-
-	drop_model (etsm);
-
-	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (e_tree_selection_model_parent_class)->dispose (object);
-}
-
-static void
-etsm_finalize (GObject *object)
-{
-	ETreeSelectionModelPrivate *priv;
-
-	priv = E_TREE_SELECTION_MODEL_GET_PRIVATE (object);
-
-	clear_selection (E_TREE_SELECTION_MODEL (object));
-	g_hash_table_destroy (priv->paths);
-
-	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (e_tree_selection_model_parent_class)->finalize (object);
-}
-
-static void
-etsm_get_property (GObject *object,
-                   guint property_id,
-                   GValue *value,
-                   GParamSpec *pspec)
-{
-	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL (object);
-
-	switch (property_id) {
-	case PROP_CURSOR_ROW:
-		g_value_set_int (value, get_cursor_row (etsm));
-		break;
-
-	case PROP_CURSOR_COL:
-		g_value_set_int (value, etsm->priv->cursor_col);
-		break;
-
-	case PROP_MODEL:
-		g_value_set_object (value, etsm->priv->model);
-		break;
-
-	case PROP_ETTA:
-		g_value_set_object (value, etsm->priv->etta);
-		break;
-	}
-}
-
-static void
-etsm_set_property (GObject *object,
-                   guint property_id,
-                   const GValue *value,
-                   GParamSpec *pspec)
+tree_selection_model_set_property (GObject *object,
+                                   guint property_id,
+                                   const GValue *value,
+                                   GParamSpec *pspec)
 {
 	ESelectionModel *esm = E_SELECTION_MODEL (object);
 	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL (object);
@@ -376,19 +324,61 @@ etsm_set_property (GObject *object,
 	}
 }
 
-static gboolean
-etsm_is_path_selected (ETreeSelectionModel *etsm,
-                       ETreePath path)
+static void
+tree_selection_model_get_property (GObject *object,
+                                   guint property_id,
+                                   GValue *value,
+                                   GParamSpec *pspec)
 {
-	if (path == NULL)
-		return FALSE;
+	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL (object);
 
-	return g_hash_table_contains (etsm->priv->paths, path);
+	switch (property_id) {
+	case PROP_CURSOR_ROW:
+		g_value_set_int (value, get_cursor_row (etsm));
+		break;
+
+	case PROP_CURSOR_COL:
+		g_value_set_int (value, etsm->priv->cursor_col);
+		break;
+
+	case PROP_MODEL:
+		g_value_set_object (value, etsm->priv->model);
+		break;
+
+	case PROP_ETTA:
+		g_value_set_object (value, etsm->priv->etta);
+		break;
+	}
+}
+
+static void
+tree_selection_model_dispose (GObject *object)
+{
+	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL (object);
+
+	drop_model (etsm);
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (e_tree_selection_model_parent_class)->dispose (object);
+}
+
+static void
+tree_selection_model_finalize (GObject *object)
+{
+	ETreeSelectionModelPrivate *priv;
+
+	priv = E_TREE_SELECTION_MODEL_GET_PRIVATE (object);
+
+	clear_selection (E_TREE_SELECTION_MODEL (object));
+	g_hash_table_destroy (priv->paths);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (e_tree_selection_model_parent_class)->finalize (object);
 }
 
 static gboolean
-etsm_is_row_selected (ESelectionModel *selection,
-                      gint row)
+tree_selection_model_is_row_selected (ESelectionModel *selection,
+                                      gint row)
 {
 	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL (selection);
 	ETreePath path;
@@ -400,13 +390,17 @@ etsm_is_row_selected (ESelectionModel *selection,
 	g_return_val_if_fail (etsm != NULL, FALSE);
 
 	path = e_tree_table_adapter_node_at_row (etsm->priv->etta, row);
-	return etsm_is_path_selected (etsm, path);
+
+	if (path == NULL)
+		return FALSE;
+
+	return g_hash_table_contains (etsm->priv->paths, path);
 }
 
 static void
-etsm_foreach (ESelectionModel *selection,
-              EForeachFunc callback,
-              gpointer closure)
+tree_selection_model_foreach (ESelectionModel *selection,
+                              EForeachFunc callback,
+                              gpointer closure)
 {
 	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL (selection);
 	GList *list, *link;
@@ -426,7 +420,7 @@ etsm_foreach (ESelectionModel *selection,
 }
 
 static void
-etsm_clear (ESelectionModel *selection)
+tree_selection_model_clear (ESelectionModel *selection)
 {
 	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL (selection);
 
@@ -438,25 +432,19 @@ etsm_clear (ESelectionModel *selection)
 }
 
 static gint
-etsm_selected_count (ESelectionModel *selection)
+tree_selection_model_selected_count (ESelectionModel *selection)
 {
 	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL (selection);
 
 	return g_hash_table_size (etsm->priv->paths);
 }
 
-static gint
-etsm_row_count (ESelectionModel *selection)
-{
-	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL (selection);
-	return e_table_model_row_count (E_TABLE_MODEL (etsm->priv->etta));
-}
-
 static void
-etsm_select_all (ESelectionModel *selection)
+tree_selection_model_select_all (ESelectionModel *selection)
 {
 	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL (selection);
 	ETreePath root;
+	gint count;
 
 	root = e_tree_model_get_root (etsm->priv->model);
 	if (root == NULL)
@@ -464,7 +452,8 @@ etsm_select_all (ESelectionModel *selection)
 
 	clear_selection (etsm);
 
-	select_range (etsm, 0, etsm_row_count (selection) - 1);
+	count = e_selection_model_row_count (selection);
+	select_range (etsm, 0, count - 1);
 
 	if (etsm->priv->cursor_path == NULL)
 		etsm->priv->cursor_path = e_tree_table_adapter_node_at_row (
@@ -478,11 +467,13 @@ etsm_select_all (ESelectionModel *selection)
 }
 
 static void
-etsm_invert_selection (ESelectionModel *selection)
+tree_selection_model_invert_selection (ESelectionModel *selection)
 {
 	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL (selection);
-	gint count = etsm_row_count (selection);
+	gint count;
 	gint i;
+
+	count = e_selection_model_row_count (selection);
 
 	for (i = 0; i < count; i++) {
 		ETreePath path;
@@ -504,10 +495,18 @@ etsm_invert_selection (ESelectionModel *selection)
 	e_selection_model_cursor_changed (E_SELECTION_MODEL (etsm), -1, -1);
 }
 
+static gint
+tree_selection_model_row_count (ESelectionModel *selection)
+{
+	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL (selection);
+
+	return e_table_model_row_count (E_TABLE_MODEL (etsm->priv->etta));
+}
+
 static void
-etsm_change_one_row (ESelectionModel *selection,
-                     gint row,
-                     gboolean grow)
+tree_selection_model_change_one_row (ESelectionModel *selection,
+                                     gint row,
+                                     gboolean grow)
 {
 	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL (selection);
 	ETreePath path;
@@ -527,9 +526,9 @@ etsm_change_one_row (ESelectionModel *selection,
 }
 
 static void
-etsm_change_cursor (ESelectionModel *selection,
-                    gint row,
-                    gint col)
+tree_selection_model_change_cursor (ESelectionModel *selection,
+                                    gint row,
+                                    gint col)
 {
 	ETreeSelectionModel *etsm;
 
@@ -549,15 +548,16 @@ etsm_change_cursor (ESelectionModel *selection,
 }
 
 static gint
-etsm_cursor_row (ESelectionModel *selection)
+tree_selection_model_cursor_row (ESelectionModel *selection)
 {
 	return get_cursor_row (E_TREE_SELECTION_MODEL (selection));
 }
 
 static gint
-etsm_cursor_col (ESelectionModel *selection)
+tree_selection_model_cursor_col (ESelectionModel *selection)
 {
 	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL (selection);
+
 	return etsm->priv->cursor_col;
 }
 
@@ -572,8 +572,8 @@ etsm_get_rows (gint row,
 }
 
 static void
-etsm_select_single_row (ESelectionModel *selection,
-                        gint row)
+tree_selection_model_select_single_row (ESelectionModel *selection,
+                                        gint row)
 {
 	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL (selection);
 	ETreePath path;
@@ -587,7 +587,7 @@ etsm_select_single_row (ESelectionModel *selection,
 	size = g_hash_table_size (etsm->priv->paths);
 	if (size > 0 && size <= 5) {
 		rowp = rows;
-		etsm_foreach (selection, etsm_get_rows, &rowp);
+		tree_selection_model_foreach (selection, etsm_get_rows, &rowp);
 	}
 
 	select_single_path (etsm, path);
@@ -608,8 +608,8 @@ etsm_select_single_row (ESelectionModel *selection,
 }
 
 static void
-etsm_toggle_single_row (ESelectionModel *selection,
-                        gint row)
+tree_selection_model_toggle_single_row (ESelectionModel *selection,
+                                        gint row)
 {
 	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL (selection);
 	ETreePath path;
@@ -644,8 +644,8 @@ etsm_real_move_selection_end (ETreeSelectionModel *etsm,
 }
 
 static void
-etsm_move_selection_end (ESelectionModel *selection,
-                         gint row)
+tree_selection_model_move_selection_end (ESelectionModel *selection,
+                                         gint row)
 {
 	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL (selection);
 
@@ -656,8 +656,8 @@ etsm_move_selection_end (ESelectionModel *selection,
 }
 
 static void
-etsm_set_selection_end (ESelectionModel *selection,
-                        gint row)
+tree_selection_model_set_selection_end (ESelectionModel *selection,
+                                        gint row)
 {
 	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL (selection);
 
@@ -669,87 +669,6 @@ etsm_set_selection_end (ESelectionModel *selection,
 	e_selection_model_selection_changed (E_SELECTION_MODEL (etsm));
 }
 
-void
-e_tree_selection_model_foreach (ETreeSelectionModel *etsm,
-                                ETreeForeachFunc callback,
-                                gpointer closure)
-{
-	GList *list, *link;
-
-	list = g_hash_table_get_keys (etsm->priv->paths);
-
-	for (link = list; link != NULL; link = g_list_next (link))
-		callback ((ETreePath) link->data, closure);
-
-	g_list_free (list);
-}
-
-void
-e_tree_selection_model_select_single_path (ETreeSelectionModel *etsm,
-                                           ETreePath path)
-{
-	select_single_path (etsm, path);
-
-	e_selection_model_selection_changed (E_SELECTION_MODEL (etsm));
-}
-
-void
-e_tree_selection_model_select_paths (ETreeSelectionModel *etsm,
-                                     GPtrArray *paths)
-{
-	ETreePath path;
-	gint i;
-
-	for (i = 0; i < paths->len; i++) {
-		path = paths->pdata[i];
-		change_one_path (etsm, path, TRUE);
-	}
-
-	e_selection_model_selection_changed (E_SELECTION_MODEL (etsm));
-}
-
-void
-e_tree_selection_model_add_to_selection (ETreeSelectionModel *etsm,
-                                         ETreePath path)
-{
-	change_one_path (etsm, path, TRUE);
-
-	e_selection_model_selection_changed (E_SELECTION_MODEL (etsm));
-}
-
-void
-e_tree_selection_model_change_cursor (ETreeSelectionModel *etsm,
-                                      ETreePath path)
-{
-	gint row;
-
-	etsm->priv->cursor_path = path;
-
-	row = get_cursor_row (etsm);
-
-	E_SELECTION_MODEL (etsm)->old_selection = -1;
-
-	e_selection_model_cursor_changed (
-		E_SELECTION_MODEL (etsm), row, etsm->priv->cursor_col);
-	e_selection_model_cursor_activated (
-		E_SELECTION_MODEL (etsm), row, etsm->priv->cursor_col);
-}
-
-ETreePath
-e_tree_selection_model_get_cursor (ETreeSelectionModel *etsm)
-{
-	return etsm->priv->cursor_path;
-}
-
-static void
-e_tree_selection_model_init (ETreeSelectionModel *etsm)
-{
-	etsm->priv = E_TREE_SELECTION_MODEL_GET_PRIVATE (etsm);
-
-	etsm->priv->paths = g_hash_table_new (NULL, NULL);
-	etsm->priv->cursor_col = -1;
-}
-
 static void
 e_tree_selection_model_class_init (ETreeSelectionModelClass *class)
 {
@@ -759,29 +678,29 @@ e_tree_selection_model_class_init (ETreeSelectionModelClass *class)
 	g_type_class_add_private (class, sizeof (ETreeSelectionModelPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->dispose = etsm_dispose;
-	object_class->finalize = etsm_finalize;
-	object_class->get_property = etsm_get_property;
-	object_class->set_property = etsm_set_property;
+	object_class->set_property = tree_selection_model_set_property;
+	object_class->get_property = tree_selection_model_get_property;
+	object_class->dispose = tree_selection_model_dispose;
+	object_class->finalize = tree_selection_model_finalize;
 
 	esm_class = E_SELECTION_MODEL_CLASS (class);
-	esm_class->is_row_selected = etsm_is_row_selected;
-	esm_class->foreach = etsm_foreach;
-	esm_class->clear = etsm_clear;
-	esm_class->selected_count = etsm_selected_count;
-	esm_class->select_all = etsm_select_all;
-	esm_class->invert_selection = etsm_invert_selection;
-	esm_class->row_count = etsm_row_count;
+	esm_class->is_row_selected = tree_selection_model_is_row_selected;
+	esm_class->foreach = tree_selection_model_foreach;
+	esm_class->clear = tree_selection_model_clear;
+	esm_class->selected_count = tree_selection_model_selected_count;
+	esm_class->select_all = tree_selection_model_select_all;
+	esm_class->invert_selection = tree_selection_model_invert_selection;
+	esm_class->row_count = tree_selection_model_row_count;
 
-	esm_class->change_one_row = etsm_change_one_row;
-	esm_class->change_cursor = etsm_change_cursor;
-	esm_class->cursor_row = etsm_cursor_row;
-	esm_class->cursor_col = etsm_cursor_col;
+	esm_class->change_one_row = tree_selection_model_change_one_row;
+	esm_class->change_cursor = tree_selection_model_change_cursor;
+	esm_class->cursor_row = tree_selection_model_cursor_row;
+	esm_class->cursor_col = tree_selection_model_cursor_col;
 
-	esm_class->select_single_row = etsm_select_single_row;
-	esm_class->toggle_single_row = etsm_toggle_single_row;
-	esm_class->move_selection_end = etsm_move_selection_end;
-	esm_class->set_selection_end = etsm_set_selection_end;
+	esm_class->select_single_row = tree_selection_model_select_single_row;
+	esm_class->toggle_single_row = tree_selection_model_toggle_single_row;
+	esm_class->move_selection_end = tree_selection_model_move_selection_end;
+	esm_class->set_selection_end = tree_selection_model_set_selection_end;
 
 	g_object_class_install_property (
 		object_class,
@@ -822,12 +741,109 @@ e_tree_selection_model_class_init (ETreeSelectionModelClass *class)
 			NULL,
 			E_TYPE_TREE_TABLE_ADAPTER,
 			G_PARAM_READWRITE));
+}
 
+static void
+e_tree_selection_model_init (ETreeSelectionModel *etsm)
+{
+	etsm->priv = E_TREE_SELECTION_MODEL_GET_PRIVATE (etsm);
+
+	etsm->priv->paths = g_hash_table_new (NULL, NULL);
+	etsm->priv->cursor_col = -1;
 }
 
 ESelectionModel *
 e_tree_selection_model_new (void)
 {
 	return g_object_new (E_TYPE_TREE_SELECTION_MODEL, NULL);
+}
+
+void
+e_tree_selection_model_foreach (ETreeSelectionModel *etsm,
+                                ETreeForeachFunc callback,
+                                gpointer closure)
+{
+	GList *list, *link;
+
+	g_return_if_fail (E_IS_TREE_SELECTION_MODEL (etsm));
+	g_return_if_fail (callback != NULL);
+
+	list = g_hash_table_get_keys (etsm->priv->paths);
+
+	for (link = list; link != NULL; link = g_list_next (link))
+		callback ((ETreePath) link->data, closure);
+
+	g_list_free (list);
+}
+
+void
+e_tree_selection_model_select_single_path (ETreeSelectionModel *etsm,
+                                           ETreePath path)
+{
+	g_return_if_fail (E_IS_TREE_SELECTION_MODEL (etsm));
+	g_return_if_fail (path != NULL);
+
+	select_single_path (etsm, path);
+
+	e_selection_model_selection_changed (E_SELECTION_MODEL (etsm));
+}
+
+void
+e_tree_selection_model_select_paths (ETreeSelectionModel *etsm,
+                                     GPtrArray *paths)
+{
+	ETreePath path;
+	gint i;
+
+	g_return_if_fail (E_IS_TREE_SELECTION_MODEL (etsm));
+	g_return_if_fail (paths != NULL);
+
+	for (i = 0; i < paths->len; i++) {
+		path = paths->pdata[i];
+		change_one_path (etsm, path, TRUE);
+	}
+
+	e_selection_model_selection_changed (E_SELECTION_MODEL (etsm));
+}
+
+void
+e_tree_selection_model_add_to_selection (ETreeSelectionModel *etsm,
+                                         ETreePath path)
+{
+	g_return_if_fail (E_IS_TREE_SELECTION_MODEL (etsm));
+	g_return_if_fail (path != NULL);
+
+	change_one_path (etsm, path, TRUE);
+
+	e_selection_model_selection_changed (E_SELECTION_MODEL (etsm));
+}
+
+void
+e_tree_selection_model_change_cursor (ETreeSelectionModel *etsm,
+                                      ETreePath path)
+{
+	gint row;
+
+	g_return_if_fail (E_IS_TREE_SELECTION_MODEL (etsm));
+	/* XXX Not sure if path can be NULL here. */
+
+	etsm->priv->cursor_path = path;
+
+	row = get_cursor_row (etsm);
+
+	E_SELECTION_MODEL (etsm)->old_selection = -1;
+
+	e_selection_model_cursor_changed (
+		E_SELECTION_MODEL (etsm), row, etsm->priv->cursor_col);
+	e_selection_model_cursor_activated (
+		E_SELECTION_MODEL (etsm), row, etsm->priv->cursor_col);
+}
+
+ETreePath
+e_tree_selection_model_get_cursor (ETreeSelectionModel *etsm)
+{
+	g_return_val_if_fail (E_IS_TREE_SELECTION_MODEL (etsm), NULL);
+
+	return etsm->priv->cursor_path;
 }
 
