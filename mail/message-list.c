@@ -174,6 +174,9 @@ static void	message_list_selectable_init
 					(ESelectableInterface *interface);
 static void	message_list_tree_model_init
 					(ETreeModelInterface *interface);
+static gboolean	message_list_get_hide_deleted
+					(MessageList *message_list,
+					 CamelFolder *folder);
 
 G_DEFINE_TYPE_WITH_CODE (
 	MessageList,
@@ -340,6 +343,7 @@ regen_data_new (MessageList *message_list,
 	RegenData *regen_data;
 	EActivity *activity;
 	EMailSession *session;
+	gboolean searching;
 
 	activity = e_activity_new ();
 	e_activity_set_cancellable (activity, cancellable);
@@ -352,11 +356,59 @@ regen_data_new (MessageList *message_list,
 	regen_data->last_row = -1;
 
 	/* Capture MessageList state to use for this regen. */
-	regen_data->folder = message_list_ref_folder (message_list);
+
+	regen_data->folder =
+		message_list_ref_folder (message_list);
 	regen_data->group_by_threads =
 		message_list_get_group_by_threads (message_list);
 	regen_data->thread_subject =
 		message_list_get_thread_subject (message_list);
+
+	if (message_list->thread_tree != NULL) {
+		CamelFolderThread *thread_tree;
+		gboolean hide_deleted;
+
+		thread_tree = message_list->thread_tree;
+		hide_deleted = message_list_get_hide_deleted (
+			message_list, regen_data->folder);
+
+		if (regen_data->group_by_threads && hide_deleted) {
+			regen_data->tree = thread_tree;
+			camel_folder_thread_messages_ref (thread_tree);
+		} else {
+			camel_folder_thread_messages_unref (thread_tree);
+			message_list->thread_tree = NULL;
+		}
+	}
+
+	searching = (g_strcmp0 (message_list->search, " ") != 0);
+
+	if (e_tree_row_count (E_TREE (message_list)) <= 0) {
+		if (gtk_widget_get_visible (GTK_WIDGET (message_list))) {
+			gchar *txt;
+
+			txt = g_strdup_printf (
+				"%s...", _("Generating message list"));
+			e_tree_set_info_message (E_TREE (message_list), txt);
+			g_free (txt);
+		}
+
+	} else if (regen_data->group_by_threads &&
+		   !message_list->just_set_folder &&
+		   !searching) {
+
+		if (message_list->priv->any_row_changed) {
+			/* Something changed.  If it was an expand
+			 * state change, then save the expand state. */
+			message_list_save_state (message_list);
+		} else {
+			/* Remember the expand state and restore it
+			 * after regen. */
+			regen_data->expand_state =
+				e_tree_save_expanded_state_xml (
+				E_TREE (message_list));
+		}
+	}
 
 	g_mutex_init (&regen_data->select_lock);
 
@@ -5507,7 +5559,6 @@ mail_regen_list (MessageList *message_list,
 	GCancellable *cancellable;
 	RegenData *new_regen_data;
 	RegenData *old_regen_data;
-	gboolean searching;
 
 	/* Report empty search as NULL, not as one/two-space string. */
 	if (search && (strcmp (search, " ") == 0 || strcmp (search, "  ") == 0))
@@ -5525,49 +5576,6 @@ mail_regen_list (MessageList *message_list,
 	new_regen_data = regen_data_new (message_list, cancellable);
 	new_regen_data->search = g_strdup (search);
 	new_regen_data->folder_changed = folder_changed;
-
-	if (message_list->thread_tree != NULL) {
-		CamelFolderThread *thread_tree;
-		gboolean hide_deleted;
-
-		thread_tree = message_list->thread_tree;
-		hide_deleted = message_list_get_hide_deleted (
-			message_list, new_regen_data->folder);
-
-		if (new_regen_data->group_by_threads && hide_deleted) {
-			new_regen_data->tree = thread_tree;
-			camel_folder_thread_messages_ref (thread_tree);
-		} else {
-			camel_folder_thread_messages_unref (thread_tree);
-			message_list->thread_tree = NULL;
-		}
-	}
-
-	searching = (g_strcmp0 (message_list->search, " ") != 0);
-
-	if (e_tree_row_count (E_TREE (message_list)) <= 0) {
-		if (gtk_widget_get_visible (GTK_WIDGET (message_list))) {
-			gchar *txt;
-
-			txt = g_strdup_printf (
-				"%s...", _("Generating message list"));
-			e_tree_set_info_message (E_TREE (message_list), txt);
-			g_free (txt);
-		}
-	} else if (message_list->priv->any_row_changed &&
-		   new_regen_data->group_by_threads &&
-		   !message_list->just_set_folder &&
-		   !searching) {
-		/* Something changed.  If it was an expand
-		 * state change, then save the expand state. */
-		message_list_save_state (message_list);
-	} else if (new_regen_data->group_by_threads &&
-		   !message_list->just_set_folder &&
-		   !searching) {
-		/* Remember the expand state and restore it after regen. */
-		new_regen_data->expand_state =
-			e_tree_save_expanded_state_xml (E_TREE (message_list));
-	}
 
 	/* We generate the message list content in a worker thread, and
 	 * then supply our own GAsyncReadyCallback to redraw the widget. */
