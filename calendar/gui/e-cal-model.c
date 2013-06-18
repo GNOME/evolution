@@ -193,11 +193,21 @@ enum {
 	LAST_SIGNAL
 };
 
+/* Forward Declarations */
+static void	e_cal_model_table_model_init
+					(ETableModelInterface *interface);
+
 static guint signals[LAST_SIGNAL];
 
 G_DEFINE_TYPE_WITH_CODE (
-	ECalModel, e_cal_model, E_TYPE_TABLE_MODEL,
-	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
+	ECalModel,
+	e_cal_model,
+	G_TYPE_OBJECT,
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_EXTENSIBLE, NULL)
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_TABLE_MODEL,
+		e_cal_model_table_model_init))
 
 G_DEFINE_TYPE (
 	ECalModelComponent,
@@ -1672,7 +1682,6 @@ static void
 e_cal_model_class_init (ECalModelClass *class)
 {
 	GObjectClass *object_class;
-	ETableModelClass *etm_class;
 
 	g_type_class_add_private (class, sizeof (ECalModelPrivate));
 
@@ -1685,19 +1694,6 @@ e_cal_model_class_init (ECalModelClass *class)
 
 	class->get_color_for_component = cal_model_get_color_for_component;
 	class->fill_component_from_model = NULL;
-
-	etm_class = E_TABLE_MODEL_CLASS (class);
-	etm_class->column_count = cal_model_column_count;
-	etm_class->row_count = cal_model_row_count;
-	etm_class->append_row = cal_model_append_row;
-	etm_class->value_at = cal_model_value_at;
-	etm_class->set_value_at = cal_model_set_value_at;
-	etm_class->is_cell_editable = cal_model_is_cell_editable;
-	etm_class->duplicate_value = cal_model_duplicate_value;
-	etm_class->free_value = cal_model_free_value;
-	etm_class->initialize_value = cal_model_initialize_value;
-	etm_class->value_is_empty = cal_model_value_is_empty;
-	etm_class->value_to_string = cal_model_value_to_string;
 
 	g_object_class_install_property (
 		object_class,
@@ -2010,6 +2006,24 @@ e_cal_model_class_init (ECalModelClass *class)
 		G_TYPE_NONE, 2,
 		G_TYPE_POINTER,
 		G_TYPE_POINTER);
+}
+
+static void
+e_cal_model_table_model_init (ETableModelInterface *interface)
+{
+	interface->column_count = cal_model_column_count;
+	interface->row_count = cal_model_row_count;
+	interface->append_row = cal_model_append_row;
+
+	interface->value_at = cal_model_value_at;
+	interface->set_value_at = cal_model_set_value_at;
+	interface->is_cell_editable = cal_model_is_cell_editable;
+
+	interface->duplicate_value = cal_model_duplicate_value;
+	interface->free_value = cal_model_free_value;
+	interface->initialize_value = cal_model_initialize_value;
+	interface->value_is_empty = cal_model_value_is_empty;
+	interface->value_to_string = cal_model_value_to_string;
 }
 
 static void

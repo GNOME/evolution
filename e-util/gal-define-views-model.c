@@ -38,10 +38,17 @@ enum {
 	PROP_COLLECTION
 };
 
-G_DEFINE_TYPE (
+/* Forward Declarations */
+static void	gal_define_views_model_table_model_init
+					(ETableModelInterface *interface);
+
+G_DEFINE_TYPE_WITH_CODE (
 	GalDefineViewsModel,
 	gal_define_views_model,
-	E_TYPE_TABLE_MODEL)
+	G_TYPE_OBJECT,
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_TABLE_MODEL,
+		gal_define_views_model_table_model_init))
 
 static void
 gal_define_views_model_set_property (GObject *object,
@@ -240,12 +247,12 @@ gal_define_views_model_append (GalDefineViewsModel *model,
 static void
 gal_define_views_model_class_init (GalDefineViewsModelClass *class)
 {
-	ETableModelClass *model_class = E_TABLE_MODEL_CLASS (class);
-	GObjectClass *object_class = G_OBJECT_CLASS (class);
+	GObjectClass *object_class;
 
-	object_class->dispose        = gdvm_dispose;
-	object_class->set_property   = gal_define_views_model_set_property;
-	object_class->get_property   = gal_define_views_model_get_property;
+	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = gal_define_views_model_set_property;
+	object_class->get_property = gal_define_views_model_get_property;
+	object_class->dispose = gdvm_dispose;
 
 	g_object_class_install_property (
 		object_class,
@@ -266,18 +273,24 @@ gal_define_views_model_class_init (GalDefineViewsModelClass *class)
 			NULL,
 			GAL_TYPE_VIEW_COLLECTION,
 			G_PARAM_READWRITE));
+}
 
-	model_class->column_count     = gdvm_col_count;
-	model_class->row_count        = gdvm_row_count;
-	model_class->value_at         = gdvm_value_at;
-	model_class->set_value_at     = gdvm_set_value_at;
-	model_class->is_cell_editable = gdvm_is_cell_editable;
-	model_class->append_row       = gdvm_append_row;
-	model_class->duplicate_value  = gdvm_duplicate_value;
-	model_class->free_value       = gdvm_free_value;
-	model_class->initialize_value = gdvm_initialize_value;
-	model_class->value_is_empty   = gdvm_value_is_empty;
-	model_class->value_to_string  = gdvm_value_to_string;
+static void
+gal_define_views_model_table_model_init (ETableModelInterface *interface)
+{
+	interface->column_count = gdvm_col_count;
+	interface->row_count = gdvm_row_count;
+	interface->append_row = gdvm_append_row;
+
+	interface->value_at = gdvm_value_at;
+	interface->set_value_at = gdvm_set_value_at;
+	interface->is_cell_editable = gdvm_is_cell_editable;
+
+	interface->duplicate_value = gdvm_duplicate_value;
+	interface->free_value = gdvm_free_value;
+	interface->initialize_value = gdvm_initialize_value;
+	interface->value_is_empty = gdvm_value_is_empty;
+	interface->value_to_string = gdvm_value_to_string;
 }
 
 static void

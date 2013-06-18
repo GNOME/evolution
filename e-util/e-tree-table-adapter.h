@@ -61,12 +61,12 @@ typedef struct _ETreeTableAdapterClass ETreeTableAdapterClass;
 typedef struct _ETreeTableAdapterPrivate ETreeTableAdapterPrivate;
 
 struct _ETreeTableAdapter {
-	ETableModel parent;
+	GObject parent;
 	ETreeTableAdapterPrivate *priv;
 };
 
 struct _ETreeTableAdapterClass {
-	ETableModelClass parent_class;
+	GObjectClass parent_class;
 
 	/* Signals */
 	gboolean	(*sorting_changed)	(ETreeTableAdapter *etta);

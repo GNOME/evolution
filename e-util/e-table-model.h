@@ -31,30 +31,20 @@
 #define E_TABLE_MODEL(obj) \
 	(G_TYPE_CHECK_INSTANCE_CAST \
 	((obj), E_TYPE_TABLE_MODEL, ETableModel))
-#define E_TABLE_MODEL_CLASS(cls) \
-	(G_TYPE_CHECK_CLASS_CAST \
-	((cls), E_TYPE_TABLE_MODEL, ETableModelClass))
 #define E_IS_TABLE_MODEL(obj) \
 	(G_TYPE_CHECK_INSTANCE_TYPE \
 	((obj), E_TYPE_TABLE_MODEL))
-#define E_IS_TABLE_MODEL_CLASS(cls) \
-	(G_TYPE_CHECK_CLASS_TYPE \
-	((cls), E_TYPE_TABLE_MODEL))
-#define E_TABLE_MODEL_GET_CLASS(obj) \
-	(G_TYPE_INSTANCE_GET_CLASS \
-	((obj), E_TYPE_TABLE_MODEL, ETableModelClass))
+#define E_TABLE_MODEL_GET_INTERFACE(obj) \
+	(G_TYPE_INSTANCE_GET_INTERFACE \
+	((obj), E_TYPE_TABLE_MODEL, ETableModelInterface))
 
 G_BEGIN_DECLS
 
 typedef struct _ETableModel ETableModel;
-typedef struct _ETableModelClass ETableModelClass;
+typedef struct _ETableModelInterface ETableModelInterface;
 
-struct _ETableModel {
-	GObject parent;
-};
-
-struct _ETableModelClass {
-	GObjectClass parent_class;
+struct _ETableModelInterface {
+	GTypeInterface parent_interface;
 
 	gint		(*column_count)		(ETableModel *table_model);
 	gint		(*row_count)		(ETableModel *table_model);

@@ -57,7 +57,7 @@ typedef struct _GalDefineViewsModel GalDefineViewsModel;
 typedef struct _GalDefineViewsModelClass GalDefineViewsModelClass;
 
 struct _GalDefineViewsModel {
-	ETableModel parent;
+	GObject parent;
 
 	/* item specific fields */
 	GalViewCollection *collection;
@@ -66,7 +66,7 @@ struct _GalDefineViewsModel {
 };
 
 struct _GalDefineViewsModelClass {
-	ETableModelClass parent_class;
+	GObjectClass parent_class;
 };
 
 GType		gal_define_views_model_get_type	(void) G_GNUC_CONST;

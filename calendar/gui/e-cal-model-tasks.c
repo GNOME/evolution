@@ -55,10 +55,19 @@ enum {
 	PROP_COLOR_OVERDUE
 };
 
-G_DEFINE_TYPE (
+/* Forward Declarations */
+static void	e_cal_model_tasks_table_model_init
+					(ETableModelInterface *interface);
+
+static ETableModelInterface *table_model_parent_interface;
+
+G_DEFINE_TYPE_WITH_CODE (
 	ECalModelTasks,
 	e_cal_model_tasks,
-	E_TYPE_CAL_MODEL)
+	E_TYPE_CAL_MODEL,
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_TABLE_MODEL,
+		e_cal_model_tasks_table_model_init))
 
 /* This makes sure a task is marked as complete.
  * It makes sure the "Date Completed" property is set. If the completed_date
@@ -878,7 +887,7 @@ cal_model_tasks_value_at (ETableModel *etm,
 	g_return_val_if_fail (row >= 0 && row < e_table_model_row_count (etm), NULL);
 
 	if (col < E_CAL_MODEL_FIELD_LAST)
-		return E_TABLE_MODEL_CLASS (e_cal_model_tasks_parent_class)->value_at (etm, col, row);
+		return table_model_parent_interface->value_at (etm, col, row);
 
 	comp_data = e_cal_model_get_component_at (E_CAL_MODEL (model), row);
 	if (!comp_data)
@@ -925,7 +934,7 @@ cal_model_tasks_set_value_at (ETableModel *etm,
 	g_return_if_fail (row >= 0 && row < e_table_model_row_count (etm));
 
 	if (col < E_CAL_MODEL_FIELD_LAST) {
-		E_TABLE_MODEL_CLASS (e_cal_model_tasks_parent_class)->set_value_at (etm, col, row, value);
+		table_model_parent_interface->set_value_at (etm, col, row, value);
 		return;
 	}
 
@@ -976,7 +985,7 @@ cal_model_tasks_is_cell_editable (ETableModel *etm,
 	g_return_val_if_fail (row >= -1 || (row >= 0 && row < e_table_model_row_count (etm)), FALSE);
 
 	if (col < E_CAL_MODEL_FIELD_LAST)
-		return E_TABLE_MODEL_CLASS (e_cal_model_tasks_parent_class)->is_cell_editable (etm, col, row);
+		return table_model_parent_interface->is_cell_editable (etm, col, row);
 
 	if (!e_cal_model_test_row_editable (E_CAL_MODEL (etm), row))
 		return FALSE;
@@ -1004,7 +1013,7 @@ cal_model_tasks_duplicate_value (ETableModel *etm,
 	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_TASKS_FIELD_LAST, NULL);
 
 	if (col < E_CAL_MODEL_FIELD_LAST)
-		return E_TABLE_MODEL_CLASS (e_cal_model_tasks_parent_class)->duplicate_value (etm, col, value);
+		return table_model_parent_interface->duplicate_value (etm, col, value);
 
 	switch (col) {
 	case E_CAL_MODEL_TASKS_FIELD_GEO :
@@ -1042,7 +1051,7 @@ cal_model_tasks_free_value (ETableModel *etm,
 	g_return_if_fail (col >= 0 && col < E_CAL_MODEL_TASKS_FIELD_LAST);
 
 	if (col < E_CAL_MODEL_FIELD_LAST) {
-		E_TABLE_MODEL_CLASS (e_cal_model_tasks_parent_class)->free_value (etm, col, value);
+		table_model_parent_interface->free_value (etm, col, value);
 		return;
 	}
 
@@ -1073,7 +1082,7 @@ cal_model_tasks_initialize_value (ETableModel *etm,
 	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_TASKS_FIELD_LAST, NULL);
 
 	if (col < E_CAL_MODEL_FIELD_LAST)
-		return E_TABLE_MODEL_CLASS (e_cal_model_tasks_parent_class)->initialize_value (etm, col);
+		return table_model_parent_interface->initialize_value (etm, col);
 
 	switch (col) {
 	case E_CAL_MODEL_TASKS_FIELD_GEO :
@@ -1104,7 +1113,7 @@ cal_model_tasks_value_is_empty (ETableModel *etm,
 	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_TASKS_FIELD_LAST, TRUE);
 
 	if (col < E_CAL_MODEL_FIELD_LAST)
-		return E_TABLE_MODEL_CLASS (e_cal_model_tasks_parent_class)->value_is_empty (etm, col, value);
+		return table_model_parent_interface->value_is_empty (etm, col, value);
 
 	switch (col) {
 	case E_CAL_MODEL_TASKS_FIELD_GEO :
@@ -1136,7 +1145,7 @@ cal_model_tasks_value_to_string (ETableModel *etm,
 	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_TASKS_FIELD_LAST, g_strdup (""));
 
 	if (col < E_CAL_MODEL_FIELD_LAST)
-		return E_TABLE_MODEL_CLASS (e_cal_model_tasks_parent_class)->value_to_string (etm, col, value);
+		return table_model_parent_interface->value_to_string (etm, col, value);
 
 	switch (col) {
 	case E_CAL_MODEL_TASKS_FIELD_GEO :
@@ -1165,7 +1174,6 @@ e_cal_model_tasks_class_init (ECalModelTasksClass *class)
 {
 	GObjectClass *object_class;
 	ECalModelClass *cal_model_class;
-	ETableModelClass *table_model_class;
 
 	g_type_class_add_private (class, sizeof (ECalModelTasksPrivate));
 
@@ -1177,17 +1185,6 @@ e_cal_model_tasks_class_init (ECalModelTasksClass *class)
 	cal_model_class = E_CAL_MODEL_CLASS (class);
 	cal_model_class->get_color_for_component = cal_model_tasks_get_color_for_component;
 	cal_model_class->fill_component_from_model = cal_model_tasks_fill_component_from_model;
-
-	table_model_class = E_TABLE_MODEL_CLASS (class);
-	table_model_class->column_count = cal_model_tasks_column_count;
-	table_model_class->value_at = cal_model_tasks_value_at;
-	table_model_class->set_value_at = cal_model_tasks_set_value_at;
-	table_model_class->is_cell_editable = cal_model_tasks_is_cell_editable;
-	table_model_class->duplicate_value = cal_model_tasks_duplicate_value;
-	table_model_class->free_value = cal_model_tasks_free_value;
-	table_model_class->initialize_value = cal_model_tasks_initialize_value;
-	table_model_class->value_is_empty = cal_model_tasks_value_is_empty;
-	table_model_class->value_to_string = cal_model_tasks_value_to_string;
 
 	g_object_class_install_property (
 		object_class,
@@ -1228,6 +1225,25 @@ e_cal_model_tasks_class_init (ECalModelTasksClass *class)
 			NULL,
 			"#ff0000",
 			G_PARAM_READWRITE));
+}
+
+static void
+e_cal_model_tasks_table_model_init (ETableModelInterface *interface)
+{
+	table_model_parent_interface =
+		g_type_interface_peek_parent (interface);
+
+	interface->column_count = cal_model_tasks_column_count;
+
+	interface->value_at = cal_model_tasks_value_at;
+	interface->set_value_at = cal_model_tasks_set_value_at;
+	interface->is_cell_editable = cal_model_tasks_is_cell_editable;
+
+	interface->duplicate_value = cal_model_tasks_duplicate_value;
+	interface->free_value = cal_model_tasks_free_value;
+	interface->initialize_value = cal_model_tasks_initialize_value;
+	interface->value_is_empty = cal_model_tasks_value_is_empty;
+	interface->value_to_string = cal_model_tasks_value_to_string;
 }
 
 static void

@@ -97,12 +97,19 @@ enum {
 	LAST_SIGNAL
 };
 
+/* Forward Declarations */
+static void	e_tree_table_adapter_table_model_init
+					(ETableModelInterface *interface);
+
 static guint signals[LAST_SIGNAL];
 
-G_DEFINE_TYPE (
+G_DEFINE_TYPE_WITH_CODE (
 	ETreeTableAdapter,
 	e_tree_table_adapter,
-	E_TYPE_TABLE_MODEL)
+	G_TYPE_OBJECT,
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_TABLE_MODEL,
+		e_tree_table_adapter_table_model_init))
 
 static GNode *
 lookup_gnode (ETreeTableAdapter *etta,
@@ -732,33 +739,12 @@ static void
 e_tree_table_adapter_class_init (ETreeTableAdapterClass *class)
 {
 	GObjectClass *object_class;
-	ETableModelClass *table_model_class;
 
 	g_type_class_add_private (class, sizeof (ETreeTableAdapterPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = tree_table_adapter_dispose;
 	object_class->finalize = tree_table_adapter_finalize;
-
-	table_model_class = E_TABLE_MODEL_CLASS (class);
-	table_model_class->column_count = tree_table_adapter_column_count;
-	table_model_class->row_count = tree_table_adapter_row_count;
-	table_model_class->append_row = tree_table_adapter_append_row;
-
-	table_model_class->value_at = tree_table_adapter_value_at;
-	table_model_class->set_value_at = tree_table_adapter_set_value_at;
-	table_model_class->is_cell_editable = tree_table_adapter_is_cell_editable;
-
-	table_model_class->has_save_id = tree_table_adapter_has_save_id;
-	table_model_class->get_save_id = tree_table_adapter_get_save_id;
-
-	table_model_class->duplicate_value = tree_table_adapter_duplicate_value;
-	table_model_class->free_value = tree_table_adapter_free_value;
-	table_model_class->initialize_value = tree_table_adapter_initialize_value;
-	table_model_class->value_is_empty = tree_table_adapter_value_is_empty;
-	table_model_class->value_to_string = tree_table_adapter_value_to_string;
-
-	class->sorting_changed = NULL;
 
 	signals[SORTING_CHANGED] = g_signal_new (
 		"sorting_changed",
@@ -769,6 +755,27 @@ e_tree_table_adapter_class_init (ETreeTableAdapterClass *class)
 		e_marshal_BOOLEAN__NONE,
 		G_TYPE_BOOLEAN, 0,
 		G_TYPE_NONE);
+}
+
+static void
+e_tree_table_adapter_table_model_init (ETableModelInterface *interface)
+{
+	interface->column_count = tree_table_adapter_column_count;
+	interface->row_count = tree_table_adapter_row_count;
+	interface->append_row = tree_table_adapter_append_row;
+
+	interface->value_at = tree_table_adapter_value_at;
+	interface->set_value_at = tree_table_adapter_set_value_at;
+	interface->is_cell_editable = tree_table_adapter_is_cell_editable;
+
+	interface->has_save_id = tree_table_adapter_has_save_id;
+	interface->get_save_id = tree_table_adapter_get_save_id;
+
+	interface->duplicate_value = tree_table_adapter_duplicate_value;
+	interface->free_value = tree_table_adapter_free_value;
+	interface->initialize_value = tree_table_adapter_initialize_value;
+	interface->value_is_empty = tree_table_adapter_value_is_empty;
+	interface->value_to_string = tree_table_adapter_value_to_string;
 }
 
 static void

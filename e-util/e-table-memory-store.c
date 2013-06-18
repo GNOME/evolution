@@ -36,10 +36,17 @@ struct _ETableMemoryStorePrivate {
 	gpointer *store;
 };
 
-G_DEFINE_TYPE (
+/* Forward Declarations */
+static void	e_table_memory_store_table_model_init
+					(ETableModelInterface *interface);
+
+G_DEFINE_TYPE_WITH_CODE (
 	ETableMemoryStore,
 	e_table_memory_store,
-	E_TYPE_TABLE_MEMORY)
+	E_TYPE_TABLE_MEMORY,
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_TABLE_MODEL,
+		e_table_memory_store_table_model_init))
 
 static gpointer
 duplicate_value (ETableMemoryStore *etms,
@@ -235,24 +242,28 @@ static void
 e_table_memory_store_class_init (ETableMemoryStoreClass *class)
 {
 	GObjectClass *object_class;
-	ETableModelClass *model_class;
 
 	g_type_class_add_private (class, sizeof (ETableMemoryStorePrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = table_memory_store_finalize;
+}
 
-	model_class = E_TABLE_MODEL_CLASS (class);
-	model_class->column_count = table_memory_store_column_count;
-	model_class->append_row = table_memory_store_append_row;
-	model_class->value_at = table_memory_store_value_at;
-	model_class->set_value_at = table_memory_store_set_value_at;
-	model_class->is_cell_editable = table_memory_store_is_cell_editable;
-	model_class->duplicate_value = table_memory_store_duplicate_value;
-	model_class->free_value = table_memory_store_free_value;
-	model_class->initialize_value = table_memory_store_initialize_value;
-	model_class->value_is_empty = table_memory_store_value_is_empty;
-	model_class->value_to_string = table_memory_store_value_to_string;
+static void
+e_table_memory_store_table_model_init (ETableModelInterface *interface)
+{
+	interface->column_count = table_memory_store_column_count;
+	interface->append_row = table_memory_store_append_row;
+
+	interface->value_at = table_memory_store_value_at;
+	interface->set_value_at = table_memory_store_set_value_at;
+	interface->is_cell_editable = table_memory_store_is_cell_editable;
+
+	interface->duplicate_value = table_memory_store_duplicate_value;
+	interface->free_value = table_memory_store_free_value;
+	interface->initialize_value = table_memory_store_initialize_value;
+	interface->value_is_empty = table_memory_store_value_is_empty;
+	interface->value_to_string = table_memory_store_value_to_string;
 }
 
 static void

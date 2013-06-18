@@ -54,7 +54,17 @@ struct _ETableSubsetPrivate {
 	gint last_access;
 };
 
-G_DEFINE_TYPE (ETableSubset, e_table_subset, E_TYPE_TABLE_MODEL)
+/* Forward Declarations */
+static void	e_table_subset_table_model_init
+					(ETableModelInterface *interface);
+
+G_DEFINE_TYPE_WITH_CODE (
+	ETableSubset,
+	e_table_subset,
+	G_TYPE_OBJECT,
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_TABLE_MODEL,
+		e_table_subset_table_model_init))
 
 static gint
 table_subset_get_view_row (ETableSubset *table_subset,
@@ -390,28 +400,12 @@ static void
 e_table_subset_class_init (ETableSubsetClass *class)
 {
 	GObjectClass *object_class;
-	ETableModelClass *table_class;
 
 	g_type_class_add_private (class, sizeof (ETableSubsetPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = table_subset_dispose;
 	object_class->finalize = table_subset_finalize;
-
-	table_class = E_TABLE_MODEL_CLASS (class);
-	table_class->column_count = table_subset_column_count;
-	table_class->row_count = table_subset_row_count;
-	table_class->append_row = table_subset_append_row;
-	table_class->value_at = table_subset_value_at;
-	table_class->set_value_at = table_subset_set_value_at;
-	table_class->is_cell_editable = table_subset_is_cell_editable;
-	table_class->has_save_id = table_subset_has_save_id;
-	table_class->get_save_id = table_subset_get_save_id;
-	table_class->duplicate_value = table_subset_duplicate_value;
-	table_class->free_value = table_subset_free_value;
-	table_class->initialize_value = table_subset_initialize_value;
-	table_class->value_is_empty = table_subset_value_is_empty;
-	table_class->value_to_string = table_subset_value_to_string;
 
 	class->proxy_model_pre_change = table_subset_proxy_model_pre_change_real;
 	class->proxy_model_no_change = table_subset_proxy_model_no_change_real;
@@ -420,6 +414,27 @@ e_table_subset_class_init (ETableSubsetClass *class)
 	class->proxy_model_cell_changed = table_subset_proxy_model_cell_changed_real;
 	class->proxy_model_rows_inserted = table_subset_proxy_model_rows_inserted_real;
 	class->proxy_model_rows_deleted = table_subset_proxy_model_rows_deleted_real;
+}
+
+static void
+e_table_subset_table_model_init (ETableModelInterface *interface)
+{
+	interface->column_count = table_subset_column_count;
+	interface->row_count = table_subset_row_count;
+	interface->append_row = table_subset_append_row;
+
+	interface->value_at = table_subset_value_at;
+	interface->set_value_at = table_subset_set_value_at;
+	interface->is_cell_editable = table_subset_is_cell_editable;
+
+	interface->has_save_id = table_subset_has_save_id;
+	interface->get_save_id = table_subset_get_save_id;
+
+	interface->duplicate_value = table_subset_duplicate_value;
+	interface->free_value = table_subset_free_value;
+	interface->initialize_value = table_subset_initialize_value;
+	interface->value_is_empty = table_subset_value_is_empty;
+	interface->value_to_string = table_subset_value_to_string;
 }
 
 static void

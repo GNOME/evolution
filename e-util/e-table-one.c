@@ -27,10 +27,17 @@
 
 #include "e-table-one.h"
 
-G_DEFINE_TYPE (
+/* Forward Declarations */
+static void	e_table_one_table_model_init
+					(ETableModelInterface *interface);
+
+G_DEFINE_TYPE_WITH_CODE (
 	ETableOne,
 	e_table_one,
-	E_TYPE_TABLE_MODEL)
+	G_TYPE_OBJECT,
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_TABLE_MODEL,
+		e_table_one_table_model_init))
 
 static void
 table_one_dispose (GObject *object)
@@ -182,22 +189,26 @@ static void
 e_table_one_class_init (ETableOneClass *class)
 {
 	GObjectClass *object_class;
-	ETableModelClass *model_class;
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = table_one_dispose;
+}
 
-	model_class = E_TABLE_MODEL_CLASS (class);
-	model_class->column_count = table_one_column_count;
-	model_class->row_count = table_one_row_count;
-	model_class->value_at = table_one_value_at;
-	model_class->set_value_at = table_one_set_value_at;
-	model_class->is_cell_editable = table_one_is_cell_editable;
-	model_class->duplicate_value = table_one_duplicate_value;
-	model_class->free_value = table_one_free_value;
-	model_class->initialize_value = table_one_initialize_value;
-	model_class->value_is_empty = table_one_value_is_empty;
-	model_class->value_to_string = table_one_value_to_string;
+static void
+e_table_one_table_model_init (ETableModelInterface *interface)
+{
+	interface->column_count = table_one_column_count;
+	interface->row_count = table_one_row_count;
+
+	interface->value_at = table_one_value_at;
+	interface->set_value_at = table_one_set_value_at;
+	interface->is_cell_editable = table_one_is_cell_editable;
+
+	interface->duplicate_value = table_one_duplicate_value;
+	interface->free_value = table_one_free_value;
+	interface->initialize_value = table_one_initialize_value;
+	interface->value_is_empty = table_one_value_is_empty;
+	interface->value_to_string = table_one_value_to_string;
 }
 
 static void

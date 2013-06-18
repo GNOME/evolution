@@ -54,14 +54,14 @@ typedef struct _ETableOne ETableOne;
 typedef struct _ETableOneClass ETableOneClass;
 
 struct _ETableOne {
-	ETableModel parent;
+	GObject parent;
 
 	ETableModel  *source;
 	gpointer *data;
 };
 
 struct _ETableOneClass {
-	ETableModelClass parent_class;
+	GObjectClass parent_class;
 };
 
 GType		e_table_one_get_type		(void) G_GNUC_CONST;

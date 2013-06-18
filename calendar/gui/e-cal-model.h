@@ -134,12 +134,12 @@ typedef struct {
 } ECalModelGenerateInstancesData;
 
 struct _ECalModel {
-	ETableModel model;
+	GObject parent;
 	ECalModelPrivate *priv;
 };
 
 struct _ECalModelClass {
-	ETableModelClass parent_class;
+	GObjectClass parent_class;
 
 	/* virtual methods */
 	const gchar *	(*get_color_for_component)

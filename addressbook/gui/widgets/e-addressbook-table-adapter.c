@@ -49,10 +49,17 @@ struct _EAddressbookTableAdapterPrivate {
 	GHashTable *emails;
 };
 
-G_DEFINE_TYPE (
+/* Forward Declarations */
+static void	e_addressbook_table_adapter_table_model_init
+					(ETableModelInterface *interface);
+
+G_DEFINE_TYPE_WITH_CODE (
 	EAddressbookTableAdapter,
 	e_addressbook_table_adapter,
-	E_TYPE_TABLE_MODEL)
+	G_TYPE_OBJECT,
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_TABLE_MODEL,
+		e_addressbook_table_adapter_table_model_init))
 
 static void
 unlink_model (EAddressbookTableAdapter *adapter)
@@ -308,26 +315,30 @@ static void
 e_addressbook_table_adapter_class_init (EAddressbookTableAdapterClass *class)
 {
 	GObjectClass *object_class;
-	ETableModelClass *model_class;
 
 	g_type_class_add_private (
 		class, sizeof (EAddressbookTableAdapterPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = addressbook_finalize;
+}
 
-	model_class = E_TABLE_MODEL_CLASS (class);
-	model_class->column_count = addressbook_col_count;
-	model_class->row_count = addressbook_row_count;
-	model_class->append_row = addressbook_append_row;
-	model_class->value_at = addressbook_value_at;
-	model_class->set_value_at = addressbook_set_value_at;
-	model_class->is_cell_editable = addressbook_is_cell_editable;
-	model_class->duplicate_value = addressbook_duplicate_value;
-	model_class->free_value = addressbook_free_value;
-	model_class->initialize_value = addressbook_initialize_value;
-	model_class->value_is_empty = addressbook_value_is_empty;
-	model_class->value_to_string = addressbook_value_to_string;
+static void
+e_addressbook_table_adapter_table_model_init (ETableModelInterface *interface)
+{
+	interface->column_count = addressbook_col_count;
+	interface->row_count = addressbook_row_count;
+	interface->append_row = addressbook_append_row;
+
+	interface->value_at = addressbook_value_at;
+	interface->set_value_at = addressbook_set_value_at;
+	interface->is_cell_editable = addressbook_is_cell_editable;
+
+	interface->duplicate_value = addressbook_duplicate_value;
+	interface->free_value = addressbook_free_value;
+	interface->initialize_value = addressbook_initialize_value;
+	interface->value_is_empty = addressbook_value_is_empty;
+	interface->value_to_string = addressbook_value_to_string;
 }
 
 static void

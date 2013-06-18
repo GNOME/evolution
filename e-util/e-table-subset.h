@@ -57,7 +57,7 @@ typedef struct _ETableSubsetClass ETableSubsetClass;
 typedef struct _ETableSubsetPrivate ETableSubsetPrivate;
 
 struct _ETableSubset {
-	ETableModel parent;
+	GObject parent;
 	ETableSubsetPrivate *priv;
 
 	/* protected - subclasses modify this directly */
@@ -66,7 +66,7 @@ struct _ETableSubset {
 };
 
 struct _ETableSubsetClass {
-	ETableModelClass parent_class;
+	GObjectClass parent_class;
 
 	void		(*proxy_model_pre_change)
 						(ETableSubset *table_subset,

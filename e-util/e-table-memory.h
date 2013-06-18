@@ -57,12 +57,12 @@ typedef struct _ETableMemoryClass ETableMemoryClass;
 typedef struct _ETableMemoryPrivate ETableMemoryPrivate;
 
 struct _ETableMemory {
-	ETableModel parent;
+	GObject parent;
 	ETableMemoryPrivate *priv;
 };
 
 struct _ETableMemoryClass {
-	ETableModelClass parent_class;
+	GObjectClass parent_class;
 };
 
 GType		e_table_memory_get_type		(void) G_GNUC_CONST;

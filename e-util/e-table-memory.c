@@ -37,10 +37,17 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_TABLE_MEMORY, ETableMemoryPrivate))
 
-G_DEFINE_TYPE (
+/* Forward Declarations */
+static void	e_table_memory_table_model_init
+					(ETableModelInterface *interface);
+
+G_DEFINE_TYPE_WITH_CODE (
 	ETableMemory,
 	e_table_memory,
-	E_TYPE_TABLE_MODEL)
+	G_TYPE_OBJECT,
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_TABLE_MODEL,
+		e_table_memory_table_model_init))
 
 struct _ETableMemoryPrivate {
 	gpointer *data;
@@ -73,15 +80,17 @@ static void
 e_table_memory_class_init (ETableMemoryClass *class)
 {
 	GObjectClass *object_class;
-	ETableModelClass *table_model_class;
 
 	g_type_class_add_private (class, sizeof (ETableMemoryPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = table_memory_finalize;
+}
 
-	table_model_class = E_TABLE_MODEL_CLASS (class);
-	table_model_class->row_count = table_memory_row_count;
+static void
+e_table_memory_table_model_init (ETableModelInterface *interface)
+{
+	interface->row_count = table_memory_row_count;
 }
 
 static void

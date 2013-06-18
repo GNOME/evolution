@@ -49,12 +49,12 @@ typedef struct _EAddressbookTableAdapterClass EAddressbookTableAdapterClass;
 typedef struct _EAddressbookTableAdapterPrivate EAddressbookTableAdapterPrivate;
 
 struct _EAddressbookTableAdapter {
-	ETableModel parent;
+	GObject parent;
 	EAddressbookTableAdapterPrivate *priv;
 };
 
 struct _EAddressbookTableAdapterClass {
-	ETableModelClass parent_class;
+	GObjectClass parent_class;
 };
 
 GType		e_addressbook_table_adapter_get_type

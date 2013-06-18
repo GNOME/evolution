@@ -22,7 +22,7 @@
 
 d (static gint depth = 0;)
 
-G_DEFINE_TYPE (ETableModel, e_table_model, G_TYPE_OBJECT)
+G_DEFINE_INTERFACE (ETableModel, e_table_model, G_TYPE_OBJECT)
 
 enum {
 	MODEL_NO_CHANGE,
@@ -49,48 +49,46 @@ table_model_is_frozen (ETableModel *table_model)
 }
 
 static void
-e_table_model_class_init (ETableModelClass *class)
+e_table_model_default_init (ETableModelInterface *interface)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (class);
-
 	signals[MODEL_NO_CHANGE] = g_signal_new (
 		"model_no_change",
-		G_TYPE_FROM_CLASS (object_class),
+		G_TYPE_FROM_INTERFACE (interface),
 		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (ETableModelClass, model_no_change),
+		G_STRUCT_OFFSET (ETableModelInterface, model_no_change),
 		NULL, NULL, NULL,
 		G_TYPE_NONE, 0);
 
 	signals[MODEL_CHANGED] = g_signal_new (
 		"model_changed",
-		G_TYPE_FROM_CLASS (object_class),
+		G_TYPE_FROM_INTERFACE (interface),
 		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (ETableModelClass, model_changed),
+		G_STRUCT_OFFSET (ETableModelInterface, model_changed),
 		NULL, NULL, NULL,
 		G_TYPE_NONE, 0);
 
 	signals[MODEL_PRE_CHANGE] = g_signal_new (
 		"model_pre_change",
-		G_TYPE_FROM_CLASS (object_class),
+		G_TYPE_FROM_INTERFACE (interface),
 		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (ETableModelClass, model_pre_change),
+		G_STRUCT_OFFSET (ETableModelInterface, model_pre_change),
 		NULL, NULL, NULL,
 		G_TYPE_NONE, 0);
 
 	signals[MODEL_ROW_CHANGED] = g_signal_new (
 		"model_row_changed",
-		G_TYPE_FROM_CLASS (object_class),
+		G_TYPE_FROM_INTERFACE (interface),
 		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (ETableModelClass, model_row_changed),
+		G_STRUCT_OFFSET (ETableModelInterface, model_row_changed),
 		NULL, NULL, NULL,
 		G_TYPE_NONE, 1,
 		G_TYPE_INT);
 
 	signals[MODEL_CELL_CHANGED] = g_signal_new (
 		"model_cell_changed",
-		G_TYPE_FROM_CLASS (object_class),
+		G_TYPE_FROM_INTERFACE (interface),
 		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (ETableModelClass, model_cell_changed),
+		G_STRUCT_OFFSET (ETableModelInterface, model_cell_changed),
 		NULL, NULL, NULL,
 		G_TYPE_NONE, 2,
 		G_TYPE_INT,
@@ -98,9 +96,9 @@ e_table_model_class_init (ETableModelClass *class)
 
 	signals[MODEL_ROWS_INSERTED] = g_signal_new (
 		"model_rows_inserted",
-		G_TYPE_FROM_CLASS (object_class),
+		G_TYPE_FROM_INTERFACE (interface),
 		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (ETableModelClass, model_rows_inserted),
+		G_STRUCT_OFFSET (ETableModelInterface, model_rows_inserted),
 		NULL, NULL, NULL,
 		G_TYPE_NONE, 2,
 		G_TYPE_INT,
@@ -108,18 +106,13 @@ e_table_model_class_init (ETableModelClass *class)
 
 	signals[MODEL_ROWS_DELETED] = g_signal_new (
 		"model_rows_deleted",
-		G_TYPE_FROM_CLASS (object_class),
+		G_TYPE_FROM_INTERFACE (interface),
 		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (ETableModelClass, model_rows_deleted),
+		G_STRUCT_OFFSET (ETableModelInterface, model_rows_deleted),
 		NULL, NULL, NULL,
 		G_TYPE_NONE, 2,
 		G_TYPE_INT,
 		G_TYPE_INT);
-}
-
-static void
-e_table_model_init (ETableModel *table_model)
-{
 }
 
 /**
@@ -131,14 +124,14 @@ e_table_model_init (ETableModel *table_model)
 gint
 e_table_model_column_count (ETableModel *table_model)
 {
-	ETableModelClass *class;
+	ETableModelInterface *interface;
 
 	g_return_val_if_fail (E_IS_TABLE_MODEL (table_model), 0);
 
-	class = E_TABLE_MODEL_GET_CLASS (table_model);
-	g_return_val_if_fail (class->column_count != NULL, 0);
+	interface = E_TABLE_MODEL_GET_INTERFACE (table_model);
+	g_return_val_if_fail (interface->column_count != NULL, 0);
 
-	return class->column_count (table_model);
+	return interface->column_count (table_model);
 }
 
 /**
@@ -150,14 +143,14 @@ e_table_model_column_count (ETableModel *table_model)
 gint
 e_table_model_row_count (ETableModel *table_model)
 {
-	ETableModelClass *class;
+	ETableModelInterface *interface;
 
 	g_return_val_if_fail (E_IS_TABLE_MODEL (table_model), 0);
 
-	class = E_TABLE_MODEL_GET_CLASS (table_model);
-	g_return_val_if_fail (class->row_count != NULL, 0);
+	interface = E_TABLE_MODEL_GET_INTERFACE (table_model);
+	g_return_val_if_fail (interface->row_count != NULL, 0);
 
-	return class->row_count (table_model);
+	return interface->row_count (table_model);
 }
 
 /**
@@ -172,14 +165,14 @@ e_table_model_append_row (ETableModel *table_model,
                           ETableModel *source,
                           gint row)
 {
-	ETableModelClass *class;
+	ETableModelInterface *interface;
 
 	g_return_if_fail (E_IS_TABLE_MODEL (table_model));
 
-	class = E_TABLE_MODEL_GET_CLASS (table_model);
+	interface = E_TABLE_MODEL_GET_INTERFACE (table_model);
 
-	if (class->append_row != NULL)
-		class->append_row (table_model, source, row);
+	if (interface->append_row != NULL)
+		interface->append_row (table_model, source, row);
 }
 
 /**
@@ -206,14 +199,14 @@ e_table_model_value_at (ETableModel *table_model,
                         gint col,
                         gint row)
 {
-	ETableModelClass *class;
+	ETableModelInterface *interface;
 
 	g_return_val_if_fail (E_IS_TABLE_MODEL (table_model), NULL);
 
-	class = E_TABLE_MODEL_GET_CLASS (table_model);
-	g_return_val_if_fail (class->value_at != NULL, NULL);
+	interface = E_TABLE_MODEL_GET_INTERFACE (table_model);
+	g_return_val_if_fail (interface->value_at != NULL, NULL);
 
-	return class->value_at (table_model, col, row);
+	return interface->value_at (table_model, col, row);
 }
 
 /**
@@ -237,14 +230,14 @@ e_table_model_set_value_at (ETableModel *table_model,
                             gint row,
                             gconstpointer value)
 {
-	ETableModelClass *class;
+	ETableModelInterface *interface;
 
 	g_return_if_fail (E_IS_TABLE_MODEL (table_model));
 
-	class = E_TABLE_MODEL_GET_CLASS (table_model);
-	g_return_if_fail (class->set_value_at != NULL);
+	interface = E_TABLE_MODEL_GET_INTERFACE (table_model);
+	g_return_if_fail (interface->set_value_at != NULL);
 
-	class->set_value_at (table_model, col, row, value);
+	interface->set_value_at (table_model, col, row, value);
 }
 
 /**
@@ -261,14 +254,14 @@ e_table_model_is_cell_editable (ETableModel *table_model,
                                 gint col,
                                 gint row)
 {
-	ETableModelClass *class;
+	ETableModelInterface *interface;
 
 	g_return_val_if_fail (E_IS_TABLE_MODEL (table_model), FALSE);
 
-	class = E_TABLE_MODEL_GET_CLASS (table_model);
-	g_return_val_if_fail (class->is_cell_editable != NULL, FALSE);
+	interface = E_TABLE_MODEL_GET_INTERFACE (table_model);
+	g_return_val_if_fail (interface->is_cell_editable != NULL, FALSE);
 
-	return class->is_cell_editable (table_model, col, row);
+	return interface->is_cell_editable (table_model, col, row);
 }
 
 gpointer
@@ -276,16 +269,16 @@ e_table_model_duplicate_value (ETableModel *table_model,
                                gint col,
                                gconstpointer value)
 {
-	ETableModelClass *class;
+	ETableModelInterface *interface;
 
 	g_return_val_if_fail (E_IS_TABLE_MODEL (table_model), NULL);
 
-	class = E_TABLE_MODEL_GET_CLASS (table_model);
+	interface = E_TABLE_MODEL_GET_INTERFACE (table_model);
 
-	if (class->duplicate_value == NULL)
+	if (interface->duplicate_value == NULL)
 		return NULL;
 
-	return class->duplicate_value (table_model, col, value);
+	return interface->duplicate_value (table_model, col, value);
 }
 
 void
@@ -293,76 +286,76 @@ e_table_model_free_value (ETableModel *table_model,
                           gint col,
                           gpointer value)
 {
-	ETableModelClass *class;
+	ETableModelInterface *interface;
 
 	g_return_if_fail (E_IS_TABLE_MODEL (table_model));
 
-	class = E_TABLE_MODEL_GET_CLASS (table_model);
+	interface = E_TABLE_MODEL_GET_INTERFACE (table_model);
 
-	if (class->free_value != NULL)
-		class->free_value (table_model, col, value);
+	if (interface->free_value != NULL)
+		interface->free_value (table_model, col, value);
 }
 
 gboolean
 e_table_model_has_save_id (ETableModel *table_model)
 {
-	ETableModelClass *class;
+	ETableModelInterface *interface;
 
 	g_return_val_if_fail (E_IS_TABLE_MODEL (table_model), FALSE);
 
-	class = E_TABLE_MODEL_GET_CLASS (table_model);
+	interface = E_TABLE_MODEL_GET_INTERFACE (table_model);
 
-	if (class->has_save_id == NULL)
+	if (interface->has_save_id == NULL)
 		return FALSE;
 
-	return class->has_save_id (table_model);
+	return interface->has_save_id (table_model);
 }
 
 gchar *
 e_table_model_get_save_id (ETableModel *table_model,
                            gint row)
 {
-	ETableModelClass *class;
+	ETableModelInterface *interface;
 
 	g_return_val_if_fail (E_IS_TABLE_MODEL (table_model), NULL);
 
-	class = E_TABLE_MODEL_GET_CLASS (table_model);
+	interface = E_TABLE_MODEL_GET_INTERFACE (table_model);
 
-	if (class->get_save_id == NULL)
+	if (interface->get_save_id == NULL)
 		return NULL;
 
-	return class->get_save_id (table_model, row);
+	return interface->get_save_id (table_model, row);
 }
 
 gboolean
 e_table_model_has_change_pending (ETableModel *table_model)
 {
-	ETableModelClass *class;
+	ETableModelInterface *interface;
 
 	g_return_val_if_fail (E_IS_TABLE_MODEL (table_model), FALSE);
 
-	class = E_TABLE_MODEL_GET_CLASS (table_model);
+	interface = E_TABLE_MODEL_GET_INTERFACE (table_model);
 
-	if (class->has_change_pending == NULL)
+	if (interface->has_change_pending == NULL)
 		return FALSE;
 
-	return class->has_change_pending (table_model);
+	return interface->has_change_pending (table_model);
 }
 
 gpointer
 e_table_model_initialize_value (ETableModel *table_model,
                                 gint col)
 {
-	ETableModelClass *class;
+	ETableModelInterface *interface;
 
 	g_return_val_if_fail (E_IS_TABLE_MODEL (table_model), NULL);
 
-	class = E_TABLE_MODEL_GET_CLASS (table_model);
+	interface = E_TABLE_MODEL_GET_INTERFACE (table_model);
 
-	if (class->initialize_value == NULL)
+	if (interface->initialize_value == NULL)
 		return NULL;
 
-	return class->initialize_value (table_model, col);
+	return interface->initialize_value (table_model, col);
 }
 
 gboolean
@@ -370,16 +363,16 @@ e_table_model_value_is_empty (ETableModel *table_model,
                               gint col,
                               gconstpointer value)
 {
-	ETableModelClass *class;
+	ETableModelInterface *interface;
 
 	g_return_val_if_fail (E_IS_TABLE_MODEL (table_model), FALSE);
 
-	class = E_TABLE_MODEL_GET_CLASS (table_model);
+	interface = E_TABLE_MODEL_GET_INTERFACE (table_model);
 
-	if (class->value_is_empty == NULL)
+	if (interface->value_is_empty == NULL)
 		return FALSE;
 
-	return class->value_is_empty (table_model, col, value);
+	return interface->value_is_empty (table_model, col, value);
 }
 
 gchar *
@@ -387,16 +380,16 @@ e_table_model_value_to_string (ETableModel *table_model,
                                gint col,
                                gconstpointer value)
 {
-	ETableModelClass *class;
+	ETableModelInterface *interface;
 
 	g_return_val_if_fail (E_IS_TABLE_MODEL (table_model), NULL);
 
-	class = E_TABLE_MODEL_GET_CLASS (table_model);
+	interface = E_TABLE_MODEL_GET_INTERFACE (table_model);
 
-	if (class->value_to_string == NULL)
+	if (interface->value_to_string == NULL)
 		return g_strdup ("");
 
-	return class->value_to_string (table_model, col, value);
+	return interface->value_to_string (table_model, col, value);
 }
 
 #if d(!)0
