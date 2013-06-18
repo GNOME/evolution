@@ -60,25 +60,16 @@ typedef enum {
 } ETableMemoryStoreColumnType;
 
 typedef struct {
-	ETableMemoryCallbacksDuplicateValueFn duplicate_value;
-	ETableMemoryCallbacksFreeValueFn free_value;
-	ETableMemoryCallbacksInitializeValueFn initialize_value;
-	ETableMemoryCallbacksValueIsEmptyFn value_is_empty;
-	ETableMemoryCallbacksValueToStringFn value_to_string;
-} ETableMemoryStoreCustomColumn;
-
-typedef struct {
 	ETableMemoryStoreColumnType type;
-	ETableMemoryStoreCustomColumn custom;
 	guint editable : 1;
 } ETableMemoryStoreColumnInfo;
 
 #define E_TABLE_MEMORY_STORE_TERMINATOR \
-	{ E_TABLE_MEMORY_STORE_COLUMN_TYPE_TERMINATOR, { NULL }, FALSE }
+	{ E_TABLE_MEMORY_STORE_COLUMN_TYPE_TERMINATOR, FALSE }
 #define E_TABLE_MEMORY_STORE_INTEGER \
-	{ E_TABLE_MEMORY_STORE_COLUMN_TYPE_INTEGER, { NULL }, FALSE }
+	{ E_TABLE_MEMORY_STORE_COLUMN_TYPE_INTEGER, FALSE }
 #define E_TABLE_MEMORY_STORE_STRING \
-	{ E_TABLE_MEMORY_STORE_COLUMN_TYPE_STRING, { NULL }, FALSE }
+	{ E_TABLE_MEMORY_STORE_COLUMN_TYPE_STRING, FALSE }
 
 typedef struct _ETableMemoryStore ETableMemoryStore;
 typedef struct _ETableMemoryStoreClass ETableMemoryStoreClass;

@@ -3725,7 +3725,6 @@ e_table_memory_callbacks_get_type
 <TITLE>ETableMemoryStore</TITLE>
 ETableMemoryStore
 ETableMemoryStoreColumnType
-ETableMemoryStoreCustomColumn
 ETableMemoryStoreColumnInfo
 E_TABLE_MEMORY_STORE_TERMINATOR
 E_TABLE_MEMORY_STORE_INTEGER
