@@ -31,9 +31,10 @@
 
 #define ETSSV_CLASS(e) (E_TABLE_SUBSET_VARIABLE_GET_CLASS (e))
 
-/* workaround for avoiding API breakage */
-#define etssv_get_type e_table_subset_variable_get_type
-G_DEFINE_TYPE (ETableSubsetVariable, etssv, E_TYPE_TABLE_SUBSET)
+G_DEFINE_TYPE (
+	ETableSubsetVariable,
+	e_table_subset_variable,
+	E_TYPE_TABLE_SUBSET)
 
 #define INCREMENT_AMOUNT 10
 
@@ -86,12 +87,15 @@ etssv_add_all (ETableSubsetVariable *etssv)
 {
 	ETableModel *etm = E_TABLE_MODEL (etssv);
 	ETableSubset *etss = E_TABLE_SUBSET (etssv);
+	ETableModel *source_model;
 	gint rows;
 	gint i;
 
 	e_table_model_pre_change (etm);
 
-	rows = e_table_model_row_count (etss->source);
+	source_model = e_table_subset_get_source_model (etss);
+	rows = e_table_model_row_count (source_model);
+
 	if (etss->n_map + rows > etssv->n_vals_allocated) {
 		etssv->n_vals_allocated += MAX (INCREMENT_AMOUNT, rows);
 		etss->map_table = g_realloc (
@@ -129,7 +133,7 @@ etssv_remove (ETableSubsetVariable *etssv,
 }
 
 static void
-etssv_class_init (ETableSubsetVariableClass *class)
+e_table_subset_variable_class_init (ETableSubsetVariableClass *class)
 {
 	class->add     = etssv_add;
 	class->add_array = etssv_add_array;
@@ -138,7 +142,7 @@ etssv_class_init (ETableSubsetVariableClass *class)
 }
 
 static void
-etssv_init (ETableSubsetVariable *etssv)
+e_table_subset_variable_init (ETableSubsetVariable *etssv)
 {
 	/* nothing to do */
 }

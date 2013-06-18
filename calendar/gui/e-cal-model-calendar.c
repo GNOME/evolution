@@ -35,52 +35,10 @@
 #include "dialogs/recur-comp.h"
 #include "dialogs/send-comp.h"
 
-static gint ecmc_column_count (ETableModel *etm);
-static gpointer ecmc_value_at (ETableModel *etm, gint col, gint row);
-static void ecmc_set_value_at (ETableModel *etm, gint col, gint row, gconstpointer value);
-static gboolean ecmc_is_cell_editable (ETableModel *etm, gint col, gint row);
-static gpointer ecmc_duplicate_value (ETableModel *etm, gint col, gconstpointer value);
-static void ecmc_free_value (ETableModel *etm, gint col, gpointer value);
-static gpointer ecmc_initialize_value (ETableModel *etm, gint col);
-static gboolean ecmc_value_is_empty (ETableModel *etm, gint col, gconstpointer value);
-static gchar *ecmc_value_to_string (ETableModel *etm, gint col, gconstpointer value);
-
-static void ecmc_fill_component_from_model (ECalModel *model, ECalModelComponent *comp_data,
-					    ETableModel *source_model, gint row);
-
-G_DEFINE_TYPE (ECalModelCalendar, e_cal_model_calendar, E_TYPE_CAL_MODEL)
-
-static void
-e_cal_model_calendar_class_init (ECalModelCalendarClass *class)
-{
-	ETableModelClass *etm_class = E_TABLE_MODEL_CLASS (class);
-	ECalModelClass *model_class = E_CAL_MODEL_CLASS (class);
-
-	etm_class->column_count = ecmc_column_count;
-	etm_class->value_at = ecmc_value_at;
-	etm_class->set_value_at = ecmc_set_value_at;
-	etm_class->is_cell_editable = ecmc_is_cell_editable;
-	etm_class->duplicate_value = ecmc_duplicate_value;
-	etm_class->free_value = ecmc_free_value;
-	etm_class->initialize_value = ecmc_initialize_value;
-	etm_class->value_is_empty = ecmc_value_is_empty;
-	etm_class->value_to_string = ecmc_value_to_string;
-
-	model_class->fill_component_from_model = ecmc_fill_component_from_model;
-}
-
-static void
-e_cal_model_calendar_init (ECalModelCalendar *model)
-{
-	e_cal_model_set_component_kind (E_CAL_MODEL (model), ICAL_VEVENT_COMPONENT);
-}
-
-/* ETableModel methods */
-static gint
-ecmc_column_count (ETableModel *etm)
-{
-	return E_CAL_MODEL_CALENDAR_FIELD_LAST;
-}
+G_DEFINE_TYPE (
+	ECalModelCalendar,
+	e_cal_model_calendar,
+	E_TYPE_CAL_MODEL)
 
 static ECellDateEditValue *
 get_dtend (ECalModelCalendar *model,
@@ -164,38 +122,6 @@ get_transparency (ECalModelComponent *comp_data)
 	return NULL;
 }
 
-static gpointer
-ecmc_value_at (ETableModel *etm,
-               gint col,
-               gint row)
-{
-	ECalModelComponent *comp_data;
-	ECalModelCalendar *model = (ECalModelCalendar *) etm;
-
-	g_return_val_if_fail (E_IS_CAL_MODEL_CALENDAR (model), NULL);
-
-	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_CALENDAR_FIELD_LAST, NULL);
-	g_return_val_if_fail (row >= 0 && row < e_table_model_row_count (etm), NULL);
-
-	if (col < E_CAL_MODEL_FIELD_LAST)
-		return E_TABLE_MODEL_CLASS (e_cal_model_calendar_parent_class)->value_at (etm, col, row);
-
-	comp_data = e_cal_model_get_component_at (E_CAL_MODEL (model), row);
-	if (!comp_data)
-		return (gpointer) "";
-
-	switch (col) {
-	case E_CAL_MODEL_CALENDAR_FIELD_DTEND :
-		return get_dtend (model, comp_data);
-	case E_CAL_MODEL_CALENDAR_FIELD_LOCATION :
-		return get_location (comp_data);
-	case E_CAL_MODEL_CALENDAR_FIELD_TRANSPARENCY :
-		return get_transparency (comp_data);
-	}
-
-	return (gpointer) "";
-}
-
 static void
 set_dtend (ECalModel *model,
            ECalModelComponent *comp_data,
@@ -266,10 +192,69 @@ set_transparency (ECalModelComponent *comp_data,
 }
 
 static void
-ecmc_set_value_at (ETableModel *etm,
-                   gint col,
-                   gint row,
-                   gconstpointer value)
+cal_model_calendar_fill_component_from_model (ECalModel *model,
+                                              ECalModelComponent *comp_data,
+                                              ETableModel *source_model,
+                                              gint row)
+{
+	g_return_if_fail (E_IS_CAL_MODEL_CALENDAR (model));
+	g_return_if_fail (comp_data != NULL);
+	g_return_if_fail (E_IS_TABLE_MODEL (source_model));
+
+	set_dtend (
+		model, comp_data,
+		e_table_model_value_at (source_model, E_CAL_MODEL_CALENDAR_FIELD_DTEND, row));
+	set_location (
+		comp_data,
+		e_table_model_value_at (source_model, E_CAL_MODEL_CALENDAR_FIELD_LOCATION, row));
+	set_transparency (
+		comp_data,
+		e_table_model_value_at (source_model, E_CAL_MODEL_CALENDAR_FIELD_TRANSPARENCY, row));
+}
+
+static gint
+cal_model_calendar_column_count (ETableModel *etm)
+{
+	return E_CAL_MODEL_CALENDAR_FIELD_LAST;
+}
+
+static gpointer
+cal_model_calendar_value_at (ETableModel *etm,
+                             gint col,
+                             gint row)
+{
+	ECalModelComponent *comp_data;
+	ECalModelCalendar *model = (ECalModelCalendar *) etm;
+
+	g_return_val_if_fail (E_IS_CAL_MODEL_CALENDAR (model), NULL);
+
+	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_CALENDAR_FIELD_LAST, NULL);
+	g_return_val_if_fail (row >= 0 && row < e_table_model_row_count (etm), NULL);
+
+	if (col < E_CAL_MODEL_FIELD_LAST)
+		return E_TABLE_MODEL_CLASS (e_cal_model_calendar_parent_class)->value_at (etm, col, row);
+
+	comp_data = e_cal_model_get_component_at (E_CAL_MODEL (model), row);
+	if (!comp_data)
+		return (gpointer) "";
+
+	switch (col) {
+	case E_CAL_MODEL_CALENDAR_FIELD_DTEND :
+		return get_dtend (model, comp_data);
+	case E_CAL_MODEL_CALENDAR_FIELD_LOCATION :
+		return get_location (comp_data);
+	case E_CAL_MODEL_CALENDAR_FIELD_TRANSPARENCY :
+		return get_transparency (comp_data);
+	}
+
+	return (gpointer) "";
+}
+
+static void
+cal_model_calendar_set_value_at (ETableModel *etm,
+                                 gint col,
+                                 gint row,
+                                 gconstpointer value)
 {
 	ECalModelComponent *comp_data;
 	CalObjModType mod = CALOBJ_MOD_ALL;
@@ -366,9 +351,9 @@ ecmc_set_value_at (ETableModel *etm,
 }
 
 static gboolean
-ecmc_is_cell_editable (ETableModel *etm,
-                       gint col,
-                       gint row)
+cal_model_calendar_is_cell_editable (ETableModel *etm,
+                                     gint col,
+                                     gint row)
 {
 	ECalModelCalendar *model = (ECalModelCalendar *) etm;
 
@@ -393,9 +378,9 @@ ecmc_is_cell_editable (ETableModel *etm,
 }
 
 static gpointer
-ecmc_duplicate_value (ETableModel *etm,
-                      gint col,
-                      gconstpointer value)
+cal_model_calendar_duplicate_value (ETableModel *etm,
+                                    gint col,
+                                    gconstpointer value)
 {
 	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_CALENDAR_FIELD_LAST, NULL);
 
@@ -423,9 +408,9 @@ ecmc_duplicate_value (ETableModel *etm,
 }
 
 static void
-ecmc_free_value (ETableModel *etm,
-                 gint col,
-                 gpointer value)
+cal_model_calendar_free_value (ETableModel *etm,
+                               gint col,
+                               gpointer value)
 {
 	g_return_if_fail (col >= 0 && col < E_CAL_MODEL_CALENDAR_FIELD_LAST);
 
@@ -445,8 +430,8 @@ ecmc_free_value (ETableModel *etm,
 }
 
 static gpointer
-ecmc_initialize_value (ETableModel *etm,
-                       gint col)
+cal_model_calendar_initialize_value (ETableModel *etm,
+                                     gint col)
 {
 	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_CALENDAR_FIELD_LAST, NULL);
 
@@ -465,9 +450,9 @@ ecmc_initialize_value (ETableModel *etm,
 }
 
 static gboolean
-ecmc_value_is_empty (ETableModel *etm,
-                     gint col,
-                     gconstpointer value)
+cal_model_calendar_value_is_empty (ETableModel *etm,
+                                   gint col,
+                                   gconstpointer value)
 {
 	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_CALENDAR_FIELD_LAST, TRUE);
 
@@ -486,9 +471,9 @@ ecmc_value_is_empty (ETableModel *etm,
 }
 
 static gchar *
-ecmc_value_to_string (ETableModel *etm,
-                      gint col,
-                      gconstpointer value)
+cal_model_calendar_value_to_string (ETableModel *etm,
+                                    gint col,
+                                    gconstpointer value)
 {
 	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_CALENDAR_FIELD_LAST, g_strdup (""));
 
@@ -506,32 +491,34 @@ ecmc_value_to_string (ETableModel *etm,
 	return g_strdup ("");
 }
 
-/* ECalModel class methods */
-
 static void
-ecmc_fill_component_from_model (ECalModel *model,
-                                ECalModelComponent *comp_data,
-                                ETableModel *source_model,
-                                gint row)
+e_cal_model_calendar_class_init (ECalModelCalendarClass *class)
 {
-	g_return_if_fail (E_IS_CAL_MODEL_CALENDAR (model));
-	g_return_if_fail (comp_data != NULL);
-	g_return_if_fail (E_IS_TABLE_MODEL (source_model));
+	ECalModelClass *model_class;
+	ETableModelClass *etm_class;
 
-	set_dtend (
-		model, comp_data,
-		e_table_model_value_at (source_model, E_CAL_MODEL_CALENDAR_FIELD_DTEND, row));
-	set_location (
-		comp_data,
-		e_table_model_value_at (source_model, E_CAL_MODEL_CALENDAR_FIELD_LOCATION, row));
-	set_transparency (
-		comp_data,
-		e_table_model_value_at (source_model, E_CAL_MODEL_CALENDAR_FIELD_TRANSPARENCY, row));
+	model_class = E_CAL_MODEL_CLASS (class);
+	model_class->fill_component_from_model = cal_model_calendar_fill_component_from_model;
+
+	etm_class = E_TABLE_MODEL_CLASS (class);
+	etm_class->column_count = cal_model_calendar_column_count;
+	etm_class->value_at = cal_model_calendar_value_at;
+	etm_class->set_value_at = cal_model_calendar_set_value_at;
+	etm_class->is_cell_editable = cal_model_calendar_is_cell_editable;
+	etm_class->duplicate_value = cal_model_calendar_duplicate_value;
+	etm_class->free_value = cal_model_calendar_free_value;
+	etm_class->initialize_value = cal_model_calendar_initialize_value;
+	etm_class->value_is_empty = cal_model_calendar_value_is_empty;
+	etm_class->value_to_string = cal_model_calendar_value_to_string;
 }
 
-/**
- * e_cal_model_calendar_new
- */
+static void
+e_cal_model_calendar_init (ECalModelCalendar *model)
+{
+	e_cal_model_set_component_kind (
+		E_CAL_MODEL (model), ICAL_VEVENT_COMPONENT);
+}
+
 ECalModel *
 e_cal_model_calendar_new (ESourceRegistry *registry)
 {

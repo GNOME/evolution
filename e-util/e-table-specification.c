@@ -37,9 +37,10 @@
 
 #include "e-xml-utils.h"
 
-/* workaround for avoiding API breakage */
-#define etsp_get_type e_table_specification_get_type
-G_DEFINE_TYPE (ETableSpecification, etsp, G_TYPE_OBJECT)
+G_DEFINE_TYPE (
+	ETableSpecification,
+	e_table_specification,
+	G_TYPE_OBJECT)
 
 static void
 etsp_finalize (GObject *object)
@@ -65,11 +66,11 @@ etsp_finalize (GObject *object)
 	g_free (etsp->domain);
 	etsp->domain		   = NULL;
 
-	G_OBJECT_CLASS (etsp_parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_table_specification_parent_class)->finalize (object);
 }
 
 static void
-etsp_class_init (ETableSpecificationClass *class)
+e_table_specification_class_init (ETableSpecificationClass *class)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
@@ -77,7 +78,7 @@ etsp_class_init (ETableSpecificationClass *class)
 }
 
 static void
-etsp_init (ETableSpecification *etsp)
+e_table_specification_init (ETableSpecification *etsp)
 {
 	etsp->columns                = NULL;
 	etsp->state                  = NULL;

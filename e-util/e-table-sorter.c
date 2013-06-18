@@ -39,9 +39,7 @@ enum {
 	PROP_SORT_INFO
 };
 
-/* workaround for avoiding API breakage */
-#define ets_get_type e_table_sorter_get_type
-G_DEFINE_TYPE (ETableSorter, ets, E_TYPE_SORTER)
+G_DEFINE_TYPE (ETableSorter, e_table_sorter, E_TYPE_SORTER)
 
 #define INCREMENT_AMOUNT 100
 
@@ -116,7 +114,7 @@ ets_dispose (GObject *object)
 		g_object_unref (ets->source);
 	ets->source = NULL;
 
-	G_OBJECT_CLASS (ets_parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_table_sorter_parent_class)->dispose (object);
 }
 
 static void
@@ -168,7 +166,7 @@ ets_get_property (GObject *object,
 }
 
 static void
-ets_class_init (ETableSorterClass *class)
+e_table_sorter_class_init (ETableSorterClass *class)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
 	ESorterClass *sorter_class = E_SORTER_CLASS (class);
@@ -195,7 +193,7 @@ ets_class_init (ETableSorterClass *class)
 }
 
 static void
-ets_init (ETableSorter *ets)
+e_table_sorter_init (ETableSorter *ets)
 {
 	ets->full_header = NULL;
 	ets->sort_info = NULL;

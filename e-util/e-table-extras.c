@@ -52,9 +52,10 @@ struct _ETableExtrasPrivate {
 	GHashTable *searches;
 };
 
-/* workaround for avoiding API breakage */
-#define ete_get_type e_table_extras_get_type
-G_DEFINE_TYPE (ETableExtras, ete, G_TYPE_OBJECT)
+G_DEFINE_TYPE (
+	ETableExtras,
+	e_table_extras,
+	G_TYPE_OBJECT)
 
 static void
 ete_finalize (GObject *object)
@@ -83,11 +84,11 @@ ete_finalize (GObject *object)
 		priv->icon_names = NULL;
 	}
 
-	G_OBJECT_CLASS (ete_parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_table_extras_parent_class)->finalize (object);
 }
 
 static void
-ete_class_init (ETableExtrasClass *class)
+e_table_extras_class_init (ETableExtrasClass *class)
 {
 	GObjectClass *object_class;
 
@@ -235,7 +236,7 @@ safe_unref (gpointer object)
 }
 
 static void
-ete_init (ETableExtras *extras)
+e_table_extras_init (ETableExtras *extras)
 {
 	ECell *cell, *sub_cell;
 

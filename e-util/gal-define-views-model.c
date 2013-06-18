@@ -32,16 +32,16 @@
 
 #include "gal-define-views-model.h"
 
-G_DEFINE_TYPE (
-	GalDefineViewsModel,
-	gal_define_views_model,
-	E_TYPE_TABLE_MODEL)
-
 enum {
 	PROP_0,
 	PROP_EDITABLE,
 	PROP_COLLECTION
 };
+
+G_DEFINE_TYPE (
+	GalDefineViewsModel,
+	gal_define_views_model,
+	E_TYPE_TABLE_MODEL)
 
 static void
 gal_define_views_model_set_property (GObject *object,
@@ -126,6 +126,13 @@ gdvm_row_count (ETableModel *etc)
 		return 0;
 }
 
+static void
+gdvm_append_row (ETableModel *etm,
+                 ETableModel *source,
+                 gint row)
+{
+}
+
 /* This function returns the value at a particular point in our ETableModel. */
 static gpointer
 gdvm_value_at (ETableModel *etc,
@@ -168,13 +175,6 @@ gdvm_is_cell_editable (ETableModel *etc,
                        gint row)
 {
 	return GAL_DEFINE_VIEWS_MODEL (etc)->editable;
-}
-
-static void
-gdvm_append_row (ETableModel *etm,
-                 ETableModel *source,
-                 gint row)
-{
 }
 
 /* This function duplicates the value passed to it. */

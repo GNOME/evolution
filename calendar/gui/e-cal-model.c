@@ -145,19 +145,12 @@ struct _ECalModelPrivate {
 	GCancellable *loading_clients;
 };
 
-static gint ecm_column_count (ETableModel *etm);
-static gint ecm_row_count (ETableModel *etm);
-static gpointer ecm_value_at (ETableModel *etm, gint col, gint row);
-static void ecm_set_value_at (ETableModel *etm, gint col, gint row, gconstpointer value);
-static gboolean ecm_is_cell_editable (ETableModel *etm, gint col, gint row);
-static void ecm_append_row (ETableModel *etm, ETableModel *source, gint row);
-static gpointer ecm_duplicate_value (ETableModel *etm, gint col, gconstpointer value);
-static void ecm_free_value (ETableModel *etm, gint col, gpointer value);
-static gpointer ecm_initialize_value (ETableModel *etm, gint col);
-static gboolean ecm_value_is_empty (ETableModel *etm, gint col, gconstpointer value);
-static gchar *ecm_value_to_string (ETableModel *etm, gint col, gconstpointer value);
+typedef struct {
+	const gchar *color;
+	GList *uids;
+} AssignedColorData;
 
-static const gchar *ecm_get_color_for_component (ECalModel *model, ECalModelComponent *comp_data);
+static const gchar *cal_model_get_color_for_component (ECalModel *model, ECalModelComponent *comp_data);
 
 static gboolean add_new_client (ECalModel *model, ECalClient *client, gboolean do_query);
 static void remove_client_objects (ECalModel *model, ClientData *client_data);
@@ -413,6 +406,349 @@ cal_model_clients_remove (ECalModel *model,
 	g_mutex_unlock (&model->priv->clients_lock);
 
 	return removed;
+}
+
+static gpointer
+get_categories (ECalModelComponent *comp_data)
+{
+	if (!comp_data->priv->categories_str) {
+		icalproperty *prop;
+
+		comp_data->priv->categories_str = g_string_new ("");
+
+		for (prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_CATEGORIES_PROPERTY);
+		     prop;
+		     prop = icalcomponent_get_next_property (comp_data->icalcomp, ICAL_CATEGORIES_PROPERTY)) {
+			const gchar *categories = icalproperty_get_categories (prop);
+			if (!categories)
+				continue;
+
+			if (comp_data->priv->categories_str->len)
+				g_string_append_c (comp_data->priv->categories_str, ',');
+			g_string_append (comp_data->priv->categories_str, categories);
+		}
+	}
+
+	return comp_data->priv->categories_str->str;
+}
+
+static gchar *
+get_classification (ECalModelComponent *comp_data)
+{
+	icalproperty *prop;
+	icalproperty_class class;
+
+	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_CLASS_PROPERTY);
+
+	if (!prop)
+		return _("Public");
+
+	class = icalproperty_get_class (prop);
+
+	switch (class)
+	{
+	case ICAL_CLASS_PUBLIC:
+		return _("Public");
+	case ICAL_CLASS_PRIVATE:
+		return _("Private");
+	case ICAL_CLASS_CONFIDENTIAL:
+		return _("Confidential");
+	default:
+		return _("Unknown");
+	}
+}
+
+static const gchar *
+get_color (ECalModel *model,
+           ECalModelComponent *comp_data)
+{
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
+
+	return e_cal_model_get_color_for_component (model, comp_data);
+}
+
+static gpointer
+get_description (ECalModelComponent *comp_data)
+{
+	icalproperty *prop;
+	static GString *str = NULL;
+
+	if (str) {
+		g_string_free (str, TRUE);
+		str = NULL;
+	}
+
+	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_DESCRIPTION_PROPERTY);
+	if (prop) {
+		str = g_string_new (NULL);
+		do {
+			str = g_string_append (str, icalproperty_get_description (prop));
+		} while ((prop = icalcomponent_get_next_property (comp_data->icalcomp, ICAL_DESCRIPTION_PROPERTY)));
+
+		return str->str;
+	}
+
+	return (gpointer) "";
+}
+
+static ECellDateEditValue *
+get_dtstart (ECalModel *model,
+             ECalModelComponent *comp_data)
+{
+	ECalModelPrivate *priv;
+	struct icaltimetype tt_start;
+
+	priv = model->priv;
+
+	if (!comp_data->dtstart) {
+		icalproperty *prop;
+		icaltimezone *zone;
+		gboolean got_zone = FALSE;
+
+		prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_DTSTART_PROPERTY);
+		if (!prop)
+			return NULL;
+
+		tt_start = icalproperty_get_dtstart (prop);
+
+		if (icaltime_get_tzid (tt_start)
+		    && e_cal_client_get_timezone_sync (comp_data->client, icaltime_get_tzid (tt_start), &zone, NULL, NULL))
+			got_zone = TRUE;
+
+		if (e_cal_model_get_flags (model) & E_CAL_MODEL_FLAGS_EXPAND_RECURRENCES) {
+			if (got_zone) {
+				tt_start = icaltime_from_timet_with_zone (comp_data->instance_start, tt_start.is_date, zone);
+				if (priv->zone)
+					icaltimezone_convert_time (&tt_start, zone, priv->zone);
+			} else
+				if (priv->zone)
+					tt_start = icaltime_from_timet_with_zone (comp_data->instance_start, tt_start.is_date, priv->zone);
+		}
+
+		if (!icaltime_is_valid_time (tt_start) || icaltime_is_null_time (tt_start))
+			return NULL;
+
+		comp_data->dtstart = g_new0 (ECellDateEditValue, 1);
+		comp_data->dtstart->tt = tt_start;
+
+		if (got_zone)
+			comp_data->dtstart->zone = zone;
+		else
+			comp_data->dtstart->zone = NULL;
+	}
+
+	return comp_data->dtstart;
+}
+
+static ECellDateEditValue *
+get_datetime_from_utc (ECalModel *model,
+                       ECalModelComponent *comp_data,
+                       icalproperty_kind propkind,
+                       struct icaltimetype (*get_value) (const icalproperty *prop),
+                                                         ECellDateEditValue **buffer)
+{
+	ECalModelPrivate *priv;
+	struct icaltimetype tt_value;
+	icalproperty *prop;
+	ECellDateEditValue *res;
+
+	g_return_val_if_fail (buffer!= NULL, NULL);
+
+	if (*buffer)
+		return *buffer;
+
+	priv = model->priv;
+
+	prop = icalcomponent_get_first_property (comp_data->icalcomp, propkind);
+	if (!prop)
+		return NULL;
+
+	tt_value = get_value (prop);
+
+	/* these are always in UTC, thus convert to default zone, if any and done */
+	if (priv->zone)
+		icaltimezone_convert_time (&tt_value, icaltimezone_get_utc_timezone (), priv->zone);
+
+	if (!icaltime_is_valid_time (tt_value) || icaltime_is_null_time (tt_value))
+		return NULL;
+
+	res = g_new0 (ECellDateEditValue, 1);
+	res->tt = tt_value;
+	res->zone = NULL;
+
+	*buffer = res;
+
+	return res;
+}
+
+static gpointer
+get_summary (ECalModelComponent *comp_data)
+{
+	icalproperty *prop;
+
+	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_SUMMARY_PROPERTY);
+	if (prop)
+		return (gpointer) icalproperty_get_summary (prop);
+
+	return (gpointer) "";
+}
+
+static gchar *
+get_uid (ECalModelComponent *comp_data)
+{
+	return (gchar *) icalcomponent_get_uid (comp_data->icalcomp);
+}
+
+static void
+set_categories (ECalModelComponent *comp_data,
+                const gchar *value)
+{
+	icalproperty *prop;
+
+	/* remove all categories first */
+	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_CATEGORIES_PROPERTY);
+	while (prop) {
+		icalproperty *to_remove = prop;
+		prop = icalcomponent_get_next_property (comp_data->icalcomp, ICAL_CATEGORIES_PROPERTY);
+
+		icalcomponent_remove_property (comp_data->icalcomp, to_remove);
+		icalproperty_free (to_remove);
+	}
+
+	if (comp_data->priv->categories_str)
+		g_string_free (comp_data->priv->categories_str, TRUE);
+	comp_data->priv->categories_str = NULL;
+
+	/* then set a new value; no need to populate categories_str,
+	 * it'll be populated on demand (in the get_categories() function)
+	*/
+	if (value && *value) {
+		prop = icalproperty_new_categories (value);
+		icalcomponent_add_property (comp_data->icalcomp, prop);
+	}
+}
+
+static void
+set_classification (ECalModelComponent *comp_data,
+                    const gchar *value)
+{
+	icalproperty *prop;
+
+	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_CLASS_PROPERTY);
+	if (!value || !(*value)) {
+		if (prop) {
+			icalcomponent_remove_property (comp_data->icalcomp, prop);
+			icalproperty_free (prop);
+		}
+	} else {
+	  icalproperty_class ical_class;
+
+	  if (!g_ascii_strcasecmp (value, "PUBLIC"))
+	    ical_class = ICAL_CLASS_PUBLIC;
+	  else if (!g_ascii_strcasecmp (value, "PRIVATE"))
+	    ical_class = ICAL_CLASS_PRIVATE;
+	  else if (!g_ascii_strcasecmp (value, "CONFIDENTIAL"))
+	    ical_class = ICAL_CLASS_CONFIDENTIAL;
+	  else
+	    ical_class = ICAL_CLASS_NONE;
+
+		if (!prop) {
+			prop = icalproperty_new_class (ical_class);
+			icalcomponent_add_property (comp_data->icalcomp, prop);
+		} else
+			icalproperty_set_class (prop, ical_class);
+	}
+}
+
+static void
+set_description (ECalModelComponent *comp_data,
+                 const gchar *value)
+{
+	icalproperty *prop;
+
+	/* remove old description(s) */
+	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_DESCRIPTION_PROPERTY);
+	while (prop) {
+		icalproperty *next;
+
+		next = icalcomponent_get_next_property (comp_data->icalcomp, ICAL_DESCRIPTION_PROPERTY);
+
+		icalcomponent_remove_property (comp_data->icalcomp, prop);
+		icalproperty_free (prop);
+
+		prop = next;
+	}
+
+	/* now add the new description */
+	if (!value || !(*value))
+		return;
+
+	prop = icalproperty_new_description (value);
+	icalcomponent_add_property (comp_data->icalcomp, prop);
+}
+
+static void
+set_dtstart (ECalModel *model,
+             ECalModelComponent *comp_data,
+             gconstpointer value)
+{
+	e_cal_model_update_comp_time (
+		model, comp_data, value,
+		ICAL_DTSTART_PROPERTY,
+		icalproperty_set_dtstart,
+		icalproperty_new_dtstart);
+}
+
+static void
+set_summary (ECalModelComponent *comp_data,
+             const gchar *value)
+{
+	icalproperty *prop;
+
+	prop = icalcomponent_get_first_property (
+		comp_data->icalcomp, ICAL_SUMMARY_PROPERTY);
+
+	if (string_is_empty (value)) {
+		if (prop) {
+			icalcomponent_remove_property (comp_data->icalcomp, prop);
+			icalproperty_free (prop);
+		}
+	} else {
+		if (prop)
+			icalproperty_set_summary (prop, value);
+		else {
+			prop = icalproperty_new_summary (value);
+			icalcomponent_add_property (comp_data->icalcomp, prop);
+		}
+	}
+}
+
+static void
+datetime_to_zone (ECalClient *client,
+                  struct icaltimetype *tt,
+                  icaltimezone *tt_zone,
+                  const gchar *tzid)
+{
+	icaltimezone *from, *to;
+	const gchar *tt_tzid = NULL;
+
+	g_return_if_fail (tt != NULL);
+
+	if (tt_zone)
+		tt_tzid = icaltimezone_get_tzid (tt_zone);
+
+	if (tt_tzid == NULL || tzid == NULL ||
+	    tt_tzid == tzid || g_str_equal (tt_tzid, tzid))
+		return;
+
+	from = tt_zone;
+	to = icaltimezone_get_builtin_timezone_from_tzid (tzid);
+	if (!to) {
+		/* do not check failure here, maybe the zone is not available there */
+		e_cal_client_get_timezone_sync (client, tzid, &to, NULL, NULL);
+	}
+
+	icaltimezone_convert_time (tt, from, to);
 }
 
 static void
@@ -800,6 +1136,538 @@ cal_model_finalize (GObject *object)
 	G_OBJECT_CLASS (e_cal_model_parent_class)->finalize (object);
 }
 
+static const gchar *
+cal_model_get_color_for_component (ECalModel *model,
+                                   ECalModelComponent *comp_data)
+{
+	ESource *source;
+	ESourceSelectable *extension;
+	const gchar *color_spec;
+	const gchar *extension_name;
+	const gchar *uid;
+	gint i, first_empty = 0;
+
+	static AssignedColorData assigned_colors[] = {
+		{ "#BECEDD", NULL }, /* 190 206 221     Blue */
+		{ "#E2F0EF", NULL }, /* 226 240 239     Light Blue */
+		{ "#C6E2B7", NULL }, /* 198 226 183     Green */
+		{ "#E2F0D3", NULL }, /* 226 240 211     Light Green */
+		{ "#E2D4B7", NULL }, /* 226 212 183     Khaki */
+		{ "#EAEAC1", NULL }, /* 234 234 193     Light Khaki */
+		{ "#F0B8B7", NULL }, /* 240 184 183     Pink */
+		{ "#FED4D3", NULL }, /* 254 212 211     Light Pink */
+		{ "#E2C6E1", NULL }, /* 226 198 225     Purple */
+		{ "#F0E2EF", NULL }  /* 240 226 239     Light Purple */
+	};
+
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
+
+	switch (e_cal_client_get_source_type (comp_data->client)) {
+		case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
+			extension_name = E_SOURCE_EXTENSION_CALENDAR;
+			break;
+		case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
+			extension_name = E_SOURCE_EXTENSION_TASK_LIST;
+			break;
+		case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
+			extension_name = E_SOURCE_EXTENSION_MEMO_LIST;
+			break;
+		default:
+			g_return_val_if_reached (NULL);
+	}
+
+	source = e_client_get_source (E_CLIENT (comp_data->client));
+	extension = e_source_get_extension (source, extension_name);
+	color_spec = e_source_selectable_get_color (extension);
+
+	if (color_spec != NULL) {
+		g_free (comp_data->color);
+		comp_data->color = g_strdup (color_spec);
+		return comp_data->color;
+	}
+
+	uid = e_source_get_uid (source);
+
+	for (i = 0; i < G_N_ELEMENTS (assigned_colors); i++) {
+		GList *l;
+
+		if (assigned_colors[i].uids == NULL) {
+			first_empty = i;
+			continue;
+		}
+
+		for (l = assigned_colors[i].uids; l != NULL; l = l->next)
+			if (g_strcmp0 (l->data, uid) == 0)
+				return assigned_colors[i].color;
+	}
+
+	/* return the first unused color */
+	assigned_colors[first_empty].uids = g_list_append (
+		assigned_colors[first_empty].uids, g_strdup (uid));
+
+	return assigned_colors[first_empty].color;
+}
+
+static gint
+cal_model_column_count (ETableModel *etm)
+{
+	return E_CAL_MODEL_FIELD_LAST;
+}
+
+static gint
+cal_model_row_count (ETableModel *etm)
+{
+	ECalModelPrivate *priv;
+	ECalModel *model = (ECalModel *) etm;
+
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), -1);
+
+	priv = model->priv;
+
+	return priv->objects->len;
+}
+
+static void
+cal_model_append_row (ETableModel *etm,
+                      ETableModel *source,
+                      gint row)
+{
+	ECalModelClass *model_class;
+	ECalModelComponent *comp_data;
+	ECalModel *model = (ECalModel *) etm;
+	gchar *uid = NULL;
+	GError *error = NULL;
+
+	g_return_if_fail (E_IS_CAL_MODEL (model));
+	g_return_if_fail (E_IS_TABLE_MODEL (source));
+
+	comp_data = g_object_new (E_TYPE_CAL_MODEL_COMPONENT, NULL);
+
+	comp_data->client = e_cal_model_ref_default_client (model);
+
+	if (comp_data->client == NULL) {
+		g_object_unref (comp_data);
+		return;
+	}
+
+	comp_data->icalcomp = e_cal_model_create_component_with_defaults (model, FALSE);
+
+	/* set values for our fields */
+	set_categories (comp_data, e_table_model_value_at (source, E_CAL_MODEL_FIELD_CATEGORIES, row));
+	set_classification (comp_data, e_table_model_value_at (source, E_CAL_MODEL_FIELD_CLASSIFICATION, row));
+	set_description (comp_data, e_table_model_value_at (source, E_CAL_MODEL_FIELD_DESCRIPTION, row));
+	set_summary (comp_data, e_table_model_value_at (source, E_CAL_MODEL_FIELD_SUMMARY, row));
+
+	if (e_table_model_value_at (source, E_CAL_MODEL_FIELD_DTSTART, row)) {
+		set_dtstart (model, comp_data, e_table_model_value_at (source, E_CAL_MODEL_FIELD_DTSTART, row));
+	} else if (model->priv->get_default_time) {
+		time_t tt = model->priv->get_default_time (model, model->priv->get_default_time_user_data);
+
+		if (tt > 0) {
+			struct icaltimetype itt = icaltime_from_timet_with_zone (tt, FALSE, e_cal_model_get_timezone (model));
+			icalproperty *prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_DTSTART_PROPERTY);
+
+			if (prop) {
+				icalproperty_set_dtstart (prop, itt);
+			} else {
+				prop = icalproperty_new_dtstart (itt);
+				icalcomponent_add_property (comp_data->icalcomp, prop);
+			}
+		}
+	}
+
+	/* call the class' method for filling the component */
+	model_class = (ECalModelClass *) G_OBJECT_GET_CLASS (model);
+	if (model_class->fill_component_from_model != NULL) {
+		model_class->fill_component_from_model (model, comp_data, source, row);
+	}
+
+	e_cal_client_create_object_sync (
+		comp_data->client, comp_data->icalcomp, &uid, NULL, &error);
+
+	if (error != NULL) {
+		g_warning (
+			G_STRLOC ": Could not create the object! %s",
+			error->message);
+
+		/* FIXME: show error dialog */
+		g_error_free (error);
+	} else {
+		if (uid)
+			icalcomponent_set_uid (comp_data->icalcomp, uid);
+
+		g_signal_emit (model, signals[ROW_APPENDED], 0);
+	}
+
+	g_free (uid);
+	g_object_unref (comp_data);
+}
+
+static gpointer
+cal_model_value_at (ETableModel *etm,
+                    gint col,
+                    gint row)
+{
+	ECalModelPrivate *priv;
+	ECalModelComponent *comp_data;
+	ECalModel *model = (ECalModel *) etm;
+	ESourceRegistry *registry;
+
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
+
+	priv = model->priv;
+
+	registry = e_cal_model_get_registry (model);
+
+	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_FIELD_LAST, NULL);
+	g_return_val_if_fail (row >= 0 && row < priv->objects->len, NULL);
+
+	comp_data = g_ptr_array_index (priv->objects, row);
+	g_return_val_if_fail (comp_data != NULL, NULL);
+	g_return_val_if_fail (comp_data->icalcomp != NULL, NULL);
+
+	switch (col) {
+	case E_CAL_MODEL_FIELD_CATEGORIES :
+		return get_categories (comp_data);
+	case E_CAL_MODEL_FIELD_CLASSIFICATION :
+		return get_classification (comp_data);
+	case E_CAL_MODEL_FIELD_COLOR :
+		return (gpointer) get_color (model, comp_data);
+	case E_CAL_MODEL_FIELD_COMPONENT :
+		return comp_data->icalcomp;
+	case E_CAL_MODEL_FIELD_DESCRIPTION :
+		return get_description (comp_data);
+	case E_CAL_MODEL_FIELD_DTSTART :
+		return (gpointer) get_dtstart (model, comp_data);
+	case E_CAL_MODEL_FIELD_CREATED :
+		return (gpointer) get_datetime_from_utc (
+			model, comp_data, ICAL_CREATED_PROPERTY,
+			icalproperty_get_created, &comp_data->created);
+	case E_CAL_MODEL_FIELD_LASTMODIFIED :
+		return (gpointer) get_datetime_from_utc (
+			model, comp_data, ICAL_LASTMODIFIED_PROPERTY,
+			icalproperty_get_lastmodified, &comp_data->lastmodified);
+	case E_CAL_MODEL_FIELD_HAS_ALARMS :
+		return GINT_TO_POINTER (
+			icalcomponent_get_first_component (
+				comp_data->icalcomp,
+				ICAL_VALARM_COMPONENT) != NULL);
+	case E_CAL_MODEL_FIELD_ICON :
+	{
+		ECalComponent *comp;
+		icalcomponent *icalcomp;
+		gint retval = 0;
+
+		comp = e_cal_component_new ();
+		icalcomp = icalcomponent_new_clone (comp_data->icalcomp);
+		if (e_cal_component_set_icalcomponent (comp, icalcomp)) {
+			if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_JOURNAL) {
+				g_object_unref (comp);
+				return GINT_TO_POINTER (retval);
+			}
+
+			if (e_cal_component_has_recurrences (comp))
+				retval = 1;
+			else if (itip_organizer_is_user (registry, comp, comp_data->client))
+				retval = 3;
+			else {
+				GSList *attendees = NULL, *sl;
+
+				e_cal_component_get_attendee_list (comp, &attendees);
+				for (sl = attendees; sl != NULL; sl = sl->next) {
+					ECalComponentAttendee *ca = sl->data;
+					const gchar *text;
+
+					text = itip_strip_mailto (ca->value);
+					if (itip_address_is_user (registry, text)) {
+						if (ca->delto != NULL)
+							retval = 3;
+						else
+							retval = 2;
+						break;
+					}
+				}
+
+				e_cal_component_free_attendee_list (attendees);
+			}
+		} else
+			icalcomponent_free (icalcomp);
+
+		g_object_unref (comp);
+
+		return GINT_TO_POINTER (retval);
+	}
+	case E_CAL_MODEL_FIELD_SUMMARY :
+		return get_summary (comp_data);
+	case E_CAL_MODEL_FIELD_UID :
+		return get_uid (comp_data);
+	}
+
+	return (gpointer) "";
+}
+
+static void
+cal_model_set_value_at (ETableModel *etm,
+                        gint col,
+                        gint row,
+                        gconstpointer value)
+{
+	ECalModelPrivate *priv;
+	ECalModelComponent *comp_data;
+	ECalModel *model = (ECalModel *) etm;
+	GError *error = NULL;
+
+	g_return_if_fail (E_IS_CAL_MODEL (model));
+
+	priv = model->priv;
+
+	g_return_if_fail (col >= 0 && col < E_CAL_MODEL_FIELD_LAST);
+	g_return_if_fail (row >= 0 && row < priv->objects->len);
+
+	comp_data = g_ptr_array_index (priv->objects, row);
+	g_return_if_fail (comp_data != NULL);
+
+	switch (col) {
+	case E_CAL_MODEL_FIELD_CATEGORIES :
+		set_categories (comp_data, value);
+		break;
+	case E_CAL_MODEL_FIELD_CLASSIFICATION :
+		set_classification (comp_data, value);
+		break;
+	case E_CAL_MODEL_FIELD_DESCRIPTION :
+		set_description (comp_data, value);
+		break;
+	case E_CAL_MODEL_FIELD_DTSTART :
+		set_dtstart (model, comp_data, value);
+		break;
+	case E_CAL_MODEL_FIELD_SUMMARY :
+		set_summary (comp_data, value);
+		break;
+	}
+
+	/* FIXME ask about mod type */
+	e_cal_client_modify_object_sync (
+		comp_data->client, comp_data->icalcomp,
+		CALOBJ_MOD_ALL, NULL, &error);
+
+	if (error != NULL) {
+		g_warning (
+			G_STRLOC ": Could not modify the object! %s",
+			error->message);
+
+		/* FIXME Show error dialog */
+		g_error_free (error);
+	}
+}
+
+static gboolean
+cal_model_is_cell_editable (ETableModel *etm,
+                            gint col,
+                            gint row)
+{
+	ECalModelPrivate *priv;
+	ECalModel *model = (ECalModel *) etm;
+
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), FALSE);
+
+	priv = model->priv;
+
+	g_return_val_if_fail (col >= 0 && col <= E_CAL_MODEL_FIELD_LAST, FALSE);
+	g_return_val_if_fail (row >= -1 || (row >= 0 && row < priv->objects->len), FALSE);
+
+	if (!e_cal_model_test_row_editable (E_CAL_MODEL (etm), row))
+		return FALSE;
+
+	switch (col) {
+	case E_CAL_MODEL_FIELD_CATEGORIES :
+	case E_CAL_MODEL_FIELD_CLASSIFICATION :
+	case E_CAL_MODEL_FIELD_DESCRIPTION :
+	case E_CAL_MODEL_FIELD_DTSTART :
+	case E_CAL_MODEL_FIELD_SUMMARY :
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+static gpointer
+cal_model_duplicate_value (ETableModel *etm,
+                           gint col,
+                           gconstpointer value)
+{
+	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_FIELD_LAST, NULL);
+
+	switch (col) {
+	case E_CAL_MODEL_FIELD_CATEGORIES :
+	case E_CAL_MODEL_FIELD_CLASSIFICATION :
+	case E_CAL_MODEL_FIELD_DESCRIPTION :
+	case E_CAL_MODEL_FIELD_SUMMARY :
+		return g_strdup (value);
+	case E_CAL_MODEL_FIELD_HAS_ALARMS :
+	case E_CAL_MODEL_FIELD_ICON :
+	case E_CAL_MODEL_FIELD_COLOR :
+		return (gpointer) value;
+	case E_CAL_MODEL_FIELD_COMPONENT :
+		return icalcomponent_new_clone ((icalcomponent *) value);
+	case E_CAL_MODEL_FIELD_DTSTART :
+	case E_CAL_MODEL_FIELD_CREATED :
+	case E_CAL_MODEL_FIELD_LASTMODIFIED :
+		if (value) {
+			ECellDateEditValue *dv, *orig_dv;
+
+			orig_dv = (ECellDateEditValue *) value;
+			dv = g_new0 (ECellDateEditValue, 1);
+			*dv = *orig_dv;
+
+			return dv;
+		}
+		break;
+	}
+
+	return NULL;
+}
+
+static void
+cal_model_free_value (ETableModel *etm,
+                      gint col,
+                      gpointer value)
+{
+	g_return_if_fail (col >= 0 && col < E_CAL_MODEL_FIELD_LAST);
+
+	switch (col) {
+	case E_CAL_MODEL_FIELD_CATEGORIES :
+	case E_CAL_MODEL_FIELD_DESCRIPTION :
+	case E_CAL_MODEL_FIELD_SUMMARY :
+		if (value)
+			g_free (value);
+		break;
+	case E_CAL_MODEL_FIELD_CLASSIFICATION :
+	case E_CAL_MODEL_FIELD_HAS_ALARMS :
+	case E_CAL_MODEL_FIELD_ICON :
+	case E_CAL_MODEL_FIELD_COLOR :
+		break;
+	case E_CAL_MODEL_FIELD_DTSTART :
+	case E_CAL_MODEL_FIELD_CREATED :
+	case E_CAL_MODEL_FIELD_LASTMODIFIED :
+		if (value)
+			g_free (value);
+		break;
+	case E_CAL_MODEL_FIELD_COMPONENT :
+		if (value)
+			icalcomponent_free ((icalcomponent *) value);
+		break;
+	}
+}
+
+static gpointer
+cal_model_initialize_value (ETableModel *etm,
+                            gint col)
+{
+	ECalModelPrivate *priv;
+	ECalModel *model = (ECalModel *) etm;
+
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
+	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_FIELD_LAST, NULL);
+
+	priv = model->priv;
+
+	switch (col) {
+	case E_CAL_MODEL_FIELD_CATEGORIES :
+		return g_strdup (priv->default_category ? priv->default_category:"");
+	case E_CAL_MODEL_FIELD_CLASSIFICATION :
+	case E_CAL_MODEL_FIELD_DESCRIPTION :
+	case E_CAL_MODEL_FIELD_SUMMARY :
+		return g_strdup ("");
+	case E_CAL_MODEL_FIELD_DTSTART :
+	case E_CAL_MODEL_FIELD_CREATED :
+	case E_CAL_MODEL_FIELD_LASTMODIFIED :
+	case E_CAL_MODEL_FIELD_HAS_ALARMS :
+	case E_CAL_MODEL_FIELD_ICON :
+	case E_CAL_MODEL_FIELD_COLOR :
+	case E_CAL_MODEL_FIELD_COMPONENT :
+		return NULL;
+	}
+
+	return NULL;
+}
+
+static gboolean
+cal_model_value_is_empty (ETableModel *etm,
+                          gint col,
+                          gconstpointer value)
+{
+	ECalModelPrivate *priv;
+	ECalModel *model = (ECalModel *) etm;
+
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), TRUE);
+	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_FIELD_LAST, TRUE);
+
+	priv = model->priv;
+
+	switch (col) {
+	case E_CAL_MODEL_FIELD_CATEGORIES :
+		/* This could be a hack or not.  If the categories field only
+		 * contains the default category, then it possibly means that
+		 * the user has not entered anything at all in the click-to-add;
+		 * the category is in the value because we put it there in
+		 * ecm_initialize_value().
+		 */
+		if (priv->default_category && value && strcmp (priv->default_category, value) == 0)
+			return TRUE;
+		else
+			return string_is_empty (value);
+	case E_CAL_MODEL_FIELD_CLASSIFICATION :
+	case E_CAL_MODEL_FIELD_DESCRIPTION :
+	case E_CAL_MODEL_FIELD_SUMMARY :
+		return string_is_empty (value);
+	case E_CAL_MODEL_FIELD_DTSTART :
+	case E_CAL_MODEL_FIELD_CREATED :
+	case E_CAL_MODEL_FIELD_LASTMODIFIED :
+		return value ? FALSE : TRUE;
+	case E_CAL_MODEL_FIELD_HAS_ALARMS :
+	case E_CAL_MODEL_FIELD_ICON :
+	case E_CAL_MODEL_FIELD_COLOR :
+	case E_CAL_MODEL_FIELD_COMPONENT :
+		return TRUE;
+	}
+
+	return TRUE;
+}
+
+static gchar *
+cal_model_value_to_string (ETableModel *etm,
+                           gint col,
+                           gconstpointer value)
+{
+	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_FIELD_LAST, g_strdup (""));
+
+	switch (col) {
+	case E_CAL_MODEL_FIELD_CATEGORIES :
+	case E_CAL_MODEL_FIELD_CLASSIFICATION :
+	case E_CAL_MODEL_FIELD_DESCRIPTION :
+	case E_CAL_MODEL_FIELD_SUMMARY :
+		return g_strdup (value);
+	case E_CAL_MODEL_FIELD_DTSTART :
+	case E_CAL_MODEL_FIELD_CREATED :
+	case E_CAL_MODEL_FIELD_LASTMODIFIED :
+		return e_cal_model_date_value_to_string (E_CAL_MODEL (etm), value);
+	case E_CAL_MODEL_FIELD_ICON :
+		if (GPOINTER_TO_INT (value) == 0)
+			return g_strdup (_("Normal"));
+		else if (GPOINTER_TO_INT (value) == 1)
+			return g_strdup (_("Recurring"));
+		else
+			return g_strdup (_("Assigned"));
+	case E_CAL_MODEL_FIELD_HAS_ALARMS :
+		return g_strdup (value ? _("Yes") : _("No"));
+	case E_CAL_MODEL_FIELD_COLOR :
+	case E_CAL_MODEL_FIELD_COMPONENT :
+		return g_strdup ("");
+	}
+
+	return g_strdup ("");
+}
+
 static void
 e_cal_model_class_init (ECalModelClass *class)
 {
@@ -815,21 +1683,21 @@ e_cal_model_class_init (ECalModelClass *class)
 	object_class->dispose = cal_model_dispose;
 	object_class->finalize = cal_model_finalize;
 
-	etm_class = E_TABLE_MODEL_CLASS (class);
-	etm_class->column_count = ecm_column_count;
-	etm_class->row_count = ecm_row_count;
-	etm_class->value_at = ecm_value_at;
-	etm_class->set_value_at = ecm_set_value_at;
-	etm_class->is_cell_editable = ecm_is_cell_editable;
-	etm_class->append_row = ecm_append_row;
-	etm_class->duplicate_value = ecm_duplicate_value;
-	etm_class->free_value = ecm_free_value;
-	etm_class->initialize_value = ecm_initialize_value;
-	etm_class->value_is_empty = ecm_value_is_empty;
-	etm_class->value_to_string = ecm_value_to_string;
-
-	class->get_color_for_component = ecm_get_color_for_component;
+	class->get_color_for_component = cal_model_get_color_for_component;
 	class->fill_component_from_model = NULL;
+
+	etm_class = E_TABLE_MODEL_CLASS (class);
+	etm_class->column_count = cal_model_column_count;
+	etm_class->row_count = cal_model_row_count;
+	etm_class->append_row = cal_model_append_row;
+	etm_class->value_at = cal_model_value_at;
+	etm_class->set_value_at = cal_model_set_value_at;
+	etm_class->is_cell_editable = cal_model_is_cell_editable;
+	etm_class->duplicate_value = cal_model_duplicate_value;
+	etm_class->free_value = cal_model_free_value;
+	etm_class->initialize_value = cal_model_initialize_value;
+	etm_class->value_is_empty = cal_model_value_is_empty;
+	etm_class->value_to_string = cal_model_value_to_string;
 
 	g_object_class_install_property (
 		object_class,
@@ -1174,437 +2042,6 @@ e_cal_model_init (ECalModel *model)
 	model->priv->loading_clients = g_cancellable_new ();
 }
 
-/* ETableModel methods */
-
-static gint
-ecm_column_count (ETableModel *etm)
-{
-	return E_CAL_MODEL_FIELD_LAST;
-}
-
-static gint
-ecm_row_count (ETableModel *etm)
-{
-	ECalModelPrivate *priv;
-	ECalModel *model = (ECalModel *) etm;
-
-	g_return_val_if_fail (E_IS_CAL_MODEL (model), -1);
-
-	priv = model->priv;
-
-	return priv->objects->len;
-}
-
-static gpointer
-get_categories (ECalModelComponent *comp_data)
-{
-	if (!comp_data->priv->categories_str) {
-		icalproperty *prop;
-
-		comp_data->priv->categories_str = g_string_new ("");
-
-		for (prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_CATEGORIES_PROPERTY);
-		     prop;
-		     prop = icalcomponent_get_next_property (comp_data->icalcomp, ICAL_CATEGORIES_PROPERTY)) {
-			const gchar *categories = icalproperty_get_categories (prop);
-			if (!categories)
-				continue;
-
-			if (comp_data->priv->categories_str->len)
-				g_string_append_c (comp_data->priv->categories_str, ',');
-			g_string_append (comp_data->priv->categories_str, categories);
-		}
-	}
-
-	return comp_data->priv->categories_str->str;
-}
-
-static gchar *
-get_classification (ECalModelComponent *comp_data)
-{
-	icalproperty *prop;
-	icalproperty_class class;
-
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_CLASS_PROPERTY);
-
-	if (!prop)
-		return _("Public");
-
-	class = icalproperty_get_class (prop);
-
-	switch (class)
-	{
-	case ICAL_CLASS_PUBLIC:
-		return _("Public");
-	case ICAL_CLASS_PRIVATE:
-		return _("Private");
-	case ICAL_CLASS_CONFIDENTIAL:
-		return _("Confidential");
-	default:
-		return _("Unknown");
-	}
-}
-
-static const gchar *
-get_color (ECalModel *model,
-           ECalModelComponent *comp_data)
-{
-	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
-
-	return e_cal_model_get_color_for_component (model, comp_data);
-}
-
-static gpointer
-get_description (ECalModelComponent *comp_data)
-{
-	icalproperty *prop;
-	static GString *str = NULL;
-
-	if (str) {
-		g_string_free (str, TRUE);
-		str = NULL;
-	}
-
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_DESCRIPTION_PROPERTY);
-	if (prop) {
-		str = g_string_new (NULL);
-		do {
-			str = g_string_append (str, icalproperty_get_description (prop));
-		} while ((prop = icalcomponent_get_next_property (comp_data->icalcomp, ICAL_DESCRIPTION_PROPERTY)));
-
-		return str->str;
-	}
-
-	return (gpointer) "";
-}
-
-static ECellDateEditValue *
-get_dtstart (ECalModel *model,
-             ECalModelComponent *comp_data)
-{
-	ECalModelPrivate *priv;
-	struct icaltimetype tt_start;
-
-	priv = model->priv;
-
-	if (!comp_data->dtstart) {
-		icalproperty *prop;
-		icaltimezone *zone;
-		gboolean got_zone = FALSE;
-
-		prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_DTSTART_PROPERTY);
-		if (!prop)
-			return NULL;
-
-		tt_start = icalproperty_get_dtstart (prop);
-
-		if (icaltime_get_tzid (tt_start)
-		    && e_cal_client_get_timezone_sync (comp_data->client, icaltime_get_tzid (tt_start), &zone, NULL, NULL))
-			got_zone = TRUE;
-
-		if (e_cal_model_get_flags (model) & E_CAL_MODEL_FLAGS_EXPAND_RECURRENCES) {
-			if (got_zone) {
-				tt_start = icaltime_from_timet_with_zone (comp_data->instance_start, tt_start.is_date, zone);
-				if (priv->zone)
-					icaltimezone_convert_time (&tt_start, zone, priv->zone);
-			} else
-				if (priv->zone)
-					tt_start = icaltime_from_timet_with_zone (comp_data->instance_start, tt_start.is_date, priv->zone);
-		}
-
-		if (!icaltime_is_valid_time (tt_start) || icaltime_is_null_time (tt_start))
-			return NULL;
-
-		comp_data->dtstart = g_new0 (ECellDateEditValue, 1);
-		comp_data->dtstart->tt = tt_start;
-
-		if (got_zone)
-			comp_data->dtstart->zone = zone;
-		else
-			comp_data->dtstart->zone = NULL;
-	}
-
-	return comp_data->dtstart;
-}
-
-static ECellDateEditValue *
-get_datetime_from_utc (ECalModel *model,
-                       ECalModelComponent *comp_data,
-                       icalproperty_kind propkind,
-                       struct icaltimetype (*get_value) (const icalproperty *prop),
-                                                         ECellDateEditValue **buffer)
-{
-	ECalModelPrivate *priv;
-	struct icaltimetype tt_value;
-	icalproperty *prop;
-	ECellDateEditValue *res;
-
-	g_return_val_if_fail (buffer!= NULL, NULL);
-
-	if (*buffer)
-		return *buffer;
-
-	priv = model->priv;
-
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, propkind);
-	if (!prop)
-		return NULL;
-
-	tt_value = get_value (prop);
-
-	/* these are always in UTC, thus convert to default zone, if any and done */
-	if (priv->zone)
-		icaltimezone_convert_time (&tt_value, icaltimezone_get_utc_timezone (), priv->zone);
-
-	if (!icaltime_is_valid_time (tt_value) || icaltime_is_null_time (tt_value))
-		return NULL;
-
-	res = g_new0 (ECellDateEditValue, 1);
-	res->tt = tt_value;
-	res->zone = NULL;
-
-	*buffer = res;
-
-	return res;
-}
-
-static gpointer
-get_summary (ECalModelComponent *comp_data)
-{
-	icalproperty *prop;
-
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_SUMMARY_PROPERTY);
-	if (prop)
-		return (gpointer) icalproperty_get_summary (prop);
-
-	return (gpointer) "";
-}
-
-static gchar *
-get_uid (ECalModelComponent *comp_data)
-{
-	return (gchar *) icalcomponent_get_uid (comp_data->icalcomp);
-}
-
-static gpointer
-ecm_value_at (ETableModel *etm,
-              gint col,
-              gint row)
-{
-	ECalModelPrivate *priv;
-	ECalModelComponent *comp_data;
-	ECalModel *model = (ECalModel *) etm;
-	ESourceRegistry *registry;
-
-	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
-
-	priv = model->priv;
-
-	registry = e_cal_model_get_registry (model);
-
-	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_FIELD_LAST, NULL);
-	g_return_val_if_fail (row >= 0 && row < priv->objects->len, NULL);
-
-	comp_data = g_ptr_array_index (priv->objects, row);
-	g_return_val_if_fail (comp_data != NULL, NULL);
-	g_return_val_if_fail (comp_data->icalcomp != NULL, NULL);
-
-	switch (col) {
-	case E_CAL_MODEL_FIELD_CATEGORIES :
-		return get_categories (comp_data);
-	case E_CAL_MODEL_FIELD_CLASSIFICATION :
-		return get_classification (comp_data);
-	case E_CAL_MODEL_FIELD_COLOR :
-		return (gpointer) get_color (model, comp_data);
-	case E_CAL_MODEL_FIELD_COMPONENT :
-		return comp_data->icalcomp;
-	case E_CAL_MODEL_FIELD_DESCRIPTION :
-		return get_description (comp_data);
-	case E_CAL_MODEL_FIELD_DTSTART :
-		return (gpointer) get_dtstart (model, comp_data);
-	case E_CAL_MODEL_FIELD_CREATED :
-		return (gpointer) get_datetime_from_utc (
-			model, comp_data, ICAL_CREATED_PROPERTY,
-			icalproperty_get_created, &comp_data->created);
-	case E_CAL_MODEL_FIELD_LASTMODIFIED :
-		return (gpointer) get_datetime_from_utc (
-			model, comp_data, ICAL_LASTMODIFIED_PROPERTY,
-			icalproperty_get_lastmodified, &comp_data->lastmodified);
-	case E_CAL_MODEL_FIELD_HAS_ALARMS :
-		return GINT_TO_POINTER (
-			icalcomponent_get_first_component (
-				comp_data->icalcomp,
-				ICAL_VALARM_COMPONENT) != NULL);
-	case E_CAL_MODEL_FIELD_ICON :
-	{
-		ECalComponent *comp;
-		icalcomponent *icalcomp;
-		gint retval = 0;
-
-		comp = e_cal_component_new ();
-		icalcomp = icalcomponent_new_clone (comp_data->icalcomp);
-		if (e_cal_component_set_icalcomponent (comp, icalcomp)) {
-			if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_JOURNAL) {
-				g_object_unref (comp);
-				return GINT_TO_POINTER (retval);
-			}
-
-			if (e_cal_component_has_recurrences (comp))
-				retval = 1;
-			else if (itip_organizer_is_user (registry, comp, comp_data->client))
-				retval = 3;
-			else {
-				GSList *attendees = NULL, *sl;
-
-				e_cal_component_get_attendee_list (comp, &attendees);
-				for (sl = attendees; sl != NULL; sl = sl->next) {
-					ECalComponentAttendee *ca = sl->data;
-					const gchar *text;
-
-					text = itip_strip_mailto (ca->value);
-					if (itip_address_is_user (registry, text)) {
-						if (ca->delto != NULL)
-							retval = 3;
-						else
-							retval = 2;
-						break;
-					}
-				}
-
-				e_cal_component_free_attendee_list (attendees);
-			}
-		} else
-			icalcomponent_free (icalcomp);
-
-		g_object_unref (comp);
-
-		return GINT_TO_POINTER (retval);
-	}
-	case E_CAL_MODEL_FIELD_SUMMARY :
-		return get_summary (comp_data);
-	case E_CAL_MODEL_FIELD_UID :
-		return get_uid (comp_data);
-	}
-
-	return (gpointer) "";
-}
-
-static void
-set_categories (ECalModelComponent *comp_data,
-                const gchar *value)
-{
-	icalproperty *prop;
-
-	/* remove all categories first */
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_CATEGORIES_PROPERTY);
-	while (prop) {
-		icalproperty *to_remove = prop;
-		prop = icalcomponent_get_next_property (comp_data->icalcomp, ICAL_CATEGORIES_PROPERTY);
-
-		icalcomponent_remove_property (comp_data->icalcomp, to_remove);
-		icalproperty_free (to_remove);
-	}
-
-	if (comp_data->priv->categories_str)
-		g_string_free (comp_data->priv->categories_str, TRUE);
-	comp_data->priv->categories_str = NULL;
-
-	/* then set a new value; no need to populate categories_str,
-	 * it'll be populated on demand (in the get_categories() function)
-	*/
-	if (value && *value) {
-		prop = icalproperty_new_categories (value);
-		icalcomponent_add_property (comp_data->icalcomp, prop);
-	}
-}
-
-static void
-set_classification (ECalModelComponent *comp_data,
-                    const gchar *value)
-{
-	icalproperty *prop;
-
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_CLASS_PROPERTY);
-	if (!value || !(*value)) {
-		if (prop) {
-			icalcomponent_remove_property (comp_data->icalcomp, prop);
-			icalproperty_free (prop);
-		}
-	} else {
-	  icalproperty_class ical_class;
-
-	  if (!g_ascii_strcasecmp (value, "PUBLIC"))
-	    ical_class = ICAL_CLASS_PUBLIC;
-	  else if (!g_ascii_strcasecmp (value, "PRIVATE"))
-	    ical_class = ICAL_CLASS_PRIVATE;
-	  else if (!g_ascii_strcasecmp (value, "CONFIDENTIAL"))
-	    ical_class = ICAL_CLASS_CONFIDENTIAL;
-	  else
-	    ical_class = ICAL_CLASS_NONE;
-
-		if (!prop) {
-			prop = icalproperty_new_class (ical_class);
-			icalcomponent_add_property (comp_data->icalcomp, prop);
-		} else
-			icalproperty_set_class (prop, ical_class);
-	}
-}
-
-static void
-set_description (ECalModelComponent *comp_data,
-                 const gchar *value)
-{
-	icalproperty *prop;
-
-	/* remove old description(s) */
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_DESCRIPTION_PROPERTY);
-	while (prop) {
-		icalproperty *next;
-
-		next = icalcomponent_get_next_property (comp_data->icalcomp, ICAL_DESCRIPTION_PROPERTY);
-
-		icalcomponent_remove_property (comp_data->icalcomp, prop);
-		icalproperty_free (prop);
-
-		prop = next;
-	}
-
-	/* now add the new description */
-	if (!value || !(*value))
-		return;
-
-	prop = icalproperty_new_description (value);
-	icalcomponent_add_property (comp_data->icalcomp, prop);
-}
-
-static void
-datetime_to_zone (ECalClient *client,
-                  struct icaltimetype *tt,
-                  icaltimezone *tt_zone,
-                  const gchar *tzid)
-{
-	icaltimezone *from, *to;
-	const gchar *tt_tzid = NULL;
-
-	g_return_if_fail (tt != NULL);
-
-	if (tt_zone)
-		tt_tzid = icaltimezone_get_tzid (tt_zone);
-
-	if (tt_tzid == NULL || tzid == NULL ||
-	    tt_tzid == tzid || g_str_equal (tt_tzid, tzid))
-		return;
-
-	from = tt_zone;
-	to = icaltimezone_get_builtin_timezone_from_tzid (tzid);
-	if (!to) {
-		/* do not check failure here, maybe the zone is not available there */
-		e_cal_client_get_timezone_sync (client, tzid, &to, NULL, NULL);
-	}
-
-	icaltimezone_convert_time (tt, from, to);
-}
-
 /* updates time in a component, and keeps the timezone used in it, if exists */
 void
 e_cal_model_update_comp_time (ECalModel *model,
@@ -1669,96 +2106,6 @@ e_cal_model_update_comp_time (ECalModel *model,
 	}
 }
 
-static void
-set_dtstart (ECalModel *model,
-             ECalModelComponent *comp_data,
-             gconstpointer value)
-{
-	e_cal_model_update_comp_time (
-		model, comp_data, value,
-		ICAL_DTSTART_PROPERTY,
-		icalproperty_set_dtstart,
-		icalproperty_new_dtstart);
-}
-
-static void
-set_summary (ECalModelComponent *comp_data,
-             const gchar *value)
-{
-	icalproperty *prop;
-
-	prop = icalcomponent_get_first_property (
-		comp_data->icalcomp, ICAL_SUMMARY_PROPERTY);
-
-	if (string_is_empty (value)) {
-		if (prop) {
-			icalcomponent_remove_property (comp_data->icalcomp, prop);
-			icalproperty_free (prop);
-		}
-	} else {
-		if (prop)
-			icalproperty_set_summary (prop, value);
-		else {
-			prop = icalproperty_new_summary (value);
-			icalcomponent_add_property (comp_data->icalcomp, prop);
-		}
-	}
-}
-
-static void
-ecm_set_value_at (ETableModel *etm,
-                  gint col,
-                  gint row,
-                  gconstpointer value)
-{
-	ECalModelPrivate *priv;
-	ECalModelComponent *comp_data;
-	ECalModel *model = (ECalModel *) etm;
-	GError *error = NULL;
-
-	g_return_if_fail (E_IS_CAL_MODEL (model));
-
-	priv = model->priv;
-
-	g_return_if_fail (col >= 0 && col < E_CAL_MODEL_FIELD_LAST);
-	g_return_if_fail (row >= 0 && row < priv->objects->len);
-
-	comp_data = g_ptr_array_index (priv->objects, row);
-	g_return_if_fail (comp_data != NULL);
-
-	switch (col) {
-	case E_CAL_MODEL_FIELD_CATEGORIES :
-		set_categories (comp_data, value);
-		break;
-	case E_CAL_MODEL_FIELD_CLASSIFICATION :
-		set_classification (comp_data, value);
-		break;
-	case E_CAL_MODEL_FIELD_DESCRIPTION :
-		set_description (comp_data, value);
-		break;
-	case E_CAL_MODEL_FIELD_DTSTART :
-		set_dtstart (model, comp_data, value);
-		break;
-	case E_CAL_MODEL_FIELD_SUMMARY :
-		set_summary (comp_data, value);
-		break;
-	}
-
-	/* FIXME ask about mod type */
-	e_cal_client_modify_object_sync (
-		comp_data->client, comp_data->icalcomp,
-		CALOBJ_MOD_ALL, NULL, &error);
-
-	if (error != NULL) {
-		g_warning (
-			G_STRLOC ": Could not modify the object! %s",
-			error->message);
-
-		/* FIXME Show error dialog */
-		g_error_free (error);
-	}
-}
-
 /**
  * e_cal_model_test_row_editable
  * @model: an #ECalModel
@@ -1797,369 +2144,6 @@ e_cal_model_test_row_editable (ECalModel *model,
 	g_clear_object (&client);
 
 	return !readonly;
-}
-
-static gboolean
-ecm_is_cell_editable (ETableModel *etm,
-                      gint col,
-                      gint row)
-{
-	ECalModelPrivate *priv;
-	ECalModel *model = (ECalModel *) etm;
-
-	g_return_val_if_fail (E_IS_CAL_MODEL (model), FALSE);
-
-	priv = model->priv;
-
-	g_return_val_if_fail (col >= 0 && col <= E_CAL_MODEL_FIELD_LAST, FALSE);
-	g_return_val_if_fail (row >= -1 || (row >= 0 && row < priv->objects->len), FALSE);
-
-	if (!e_cal_model_test_row_editable (E_CAL_MODEL (etm), row))
-		return FALSE;
-
-	switch (col) {
-	case E_CAL_MODEL_FIELD_CATEGORIES :
-	case E_CAL_MODEL_FIELD_CLASSIFICATION :
-	case E_CAL_MODEL_FIELD_DESCRIPTION :
-	case E_CAL_MODEL_FIELD_DTSTART :
-	case E_CAL_MODEL_FIELD_SUMMARY :
-		return TRUE;
-	}
-
-	return FALSE;
-}
-
-static void
-ecm_append_row (ETableModel *etm,
-                ETableModel *source,
-                gint row)
-{
-	ECalModelClass *model_class;
-	ECalModelComponent *comp_data;
-	ECalModel *model = (ECalModel *) etm;
-	gchar *uid = NULL;
-	GError *error = NULL;
-
-	g_return_if_fail (E_IS_CAL_MODEL (model));
-	g_return_if_fail (E_IS_TABLE_MODEL (source));
-
-	comp_data = g_object_new (E_TYPE_CAL_MODEL_COMPONENT, NULL);
-
-	comp_data->client = e_cal_model_ref_default_client (model);
-
-	if (comp_data->client == NULL) {
-		g_object_unref (comp_data);
-		return;
-	}
-
-	comp_data->icalcomp = e_cal_model_create_component_with_defaults (model, FALSE);
-
-	/* set values for our fields */
-	set_categories (comp_data, e_table_model_value_at (source, E_CAL_MODEL_FIELD_CATEGORIES, row));
-	set_classification (comp_data, e_table_model_value_at (source, E_CAL_MODEL_FIELD_CLASSIFICATION, row));
-	set_description (comp_data, e_table_model_value_at (source, E_CAL_MODEL_FIELD_DESCRIPTION, row));
-	set_summary (comp_data, e_table_model_value_at (source, E_CAL_MODEL_FIELD_SUMMARY, row));
-
-	if (e_table_model_value_at (source, E_CAL_MODEL_FIELD_DTSTART, row)) {
-		set_dtstart (model, comp_data, e_table_model_value_at (source, E_CAL_MODEL_FIELD_DTSTART, row));
-	} else if (model->priv->get_default_time) {
-		time_t tt = model->priv->get_default_time (model, model->priv->get_default_time_user_data);
-
-		if (tt > 0) {
-			struct icaltimetype itt = icaltime_from_timet_with_zone (tt, FALSE, e_cal_model_get_timezone (model));
-			icalproperty *prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_DTSTART_PROPERTY);
-
-			if (prop) {
-				icalproperty_set_dtstart (prop, itt);
-			} else {
-				prop = icalproperty_new_dtstart (itt);
-				icalcomponent_add_property (comp_data->icalcomp, prop);
-			}
-		}
-	}
-
-	/* call the class' method for filling the component */
-	model_class = (ECalModelClass *) G_OBJECT_GET_CLASS (model);
-	if (model_class->fill_component_from_model != NULL) {
-		model_class->fill_component_from_model (model, comp_data, source, row);
-	}
-
-	e_cal_client_create_object_sync (
-		comp_data->client, comp_data->icalcomp, &uid, NULL, &error);
-
-	if (error != NULL) {
-		g_warning (
-			G_STRLOC ": Could not create the object! %s",
-			error->message);
-
-		/* FIXME: show error dialog */
-		g_error_free (error);
-	} else {
-		if (uid)
-			icalcomponent_set_uid (comp_data->icalcomp, uid);
-
-		g_signal_emit (model, signals[ROW_APPENDED], 0);
-	}
-
-	g_free (uid);
-	g_object_unref (comp_data);
-}
-
-static gpointer
-ecm_duplicate_value (ETableModel *etm,
-                     gint col,
-                     gconstpointer value)
-{
-	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_FIELD_LAST, NULL);
-
-	switch (col) {
-	case E_CAL_MODEL_FIELD_CATEGORIES :
-	case E_CAL_MODEL_FIELD_CLASSIFICATION :
-	case E_CAL_MODEL_FIELD_DESCRIPTION :
-	case E_CAL_MODEL_FIELD_SUMMARY :
-		return g_strdup (value);
-	case E_CAL_MODEL_FIELD_HAS_ALARMS :
-	case E_CAL_MODEL_FIELD_ICON :
-	case E_CAL_MODEL_FIELD_COLOR :
-		return (gpointer) value;
-	case E_CAL_MODEL_FIELD_COMPONENT :
-		return icalcomponent_new_clone ((icalcomponent *) value);
-	case E_CAL_MODEL_FIELD_DTSTART :
-	case E_CAL_MODEL_FIELD_CREATED :
-	case E_CAL_MODEL_FIELD_LASTMODIFIED :
-		if (value) {
-			ECellDateEditValue *dv, *orig_dv;
-
-			orig_dv = (ECellDateEditValue *) value;
-			dv = g_new0 (ECellDateEditValue, 1);
-			*dv = *orig_dv;
-
-			return dv;
-		}
-		break;
-	}
-
-	return NULL;
-}
-
-static void
-ecm_free_value (ETableModel *etm,
-                gint col,
-                gpointer value)
-{
-	g_return_if_fail (col >= 0 && col < E_CAL_MODEL_FIELD_LAST);
-
-	switch (col) {
-	case E_CAL_MODEL_FIELD_CATEGORIES :
-	case E_CAL_MODEL_FIELD_DESCRIPTION :
-	case E_CAL_MODEL_FIELD_SUMMARY :
-		if (value)
-			g_free (value);
-		break;
-	case E_CAL_MODEL_FIELD_CLASSIFICATION :
-	case E_CAL_MODEL_FIELD_HAS_ALARMS :
-	case E_CAL_MODEL_FIELD_ICON :
-	case E_CAL_MODEL_FIELD_COLOR :
-		break;
-	case E_CAL_MODEL_FIELD_DTSTART :
-	case E_CAL_MODEL_FIELD_CREATED :
-	case E_CAL_MODEL_FIELD_LASTMODIFIED :
-		if (value)
-			g_free (value);
-		break;
-	case E_CAL_MODEL_FIELD_COMPONENT :
-		if (value)
-			icalcomponent_free ((icalcomponent *) value);
-		break;
-	}
-}
-
-static gpointer
-ecm_initialize_value (ETableModel *etm,
-                      gint col)
-{
-	ECalModelPrivate *priv;
-	ECalModel *model = (ECalModel *) etm;
-
-	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
-	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_FIELD_LAST, NULL);
-
-	priv = model->priv;
-
-	switch (col) {
-	case E_CAL_MODEL_FIELD_CATEGORIES :
-		return g_strdup (priv->default_category ? priv->default_category:"");
-	case E_CAL_MODEL_FIELD_CLASSIFICATION :
-	case E_CAL_MODEL_FIELD_DESCRIPTION :
-	case E_CAL_MODEL_FIELD_SUMMARY :
-		return g_strdup ("");
-	case E_CAL_MODEL_FIELD_DTSTART :
-	case E_CAL_MODEL_FIELD_CREATED :
-	case E_CAL_MODEL_FIELD_LASTMODIFIED :
-	case E_CAL_MODEL_FIELD_HAS_ALARMS :
-	case E_CAL_MODEL_FIELD_ICON :
-	case E_CAL_MODEL_FIELD_COLOR :
-	case E_CAL_MODEL_FIELD_COMPONENT :
-		return NULL;
-	}
-
-	return NULL;
-}
-
-static gboolean
-ecm_value_is_empty (ETableModel *etm,
-                    gint col,
-                    gconstpointer value)
-{
-	ECalModelPrivate *priv;
-	ECalModel *model = (ECalModel *) etm;
-
-	g_return_val_if_fail (E_IS_CAL_MODEL (model), TRUE);
-	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_FIELD_LAST, TRUE);
-
-	priv = model->priv;
-
-	switch (col) {
-	case E_CAL_MODEL_FIELD_CATEGORIES :
-		/* This could be a hack or not.  If the categories field only
-		 * contains the default category, then it possibly means that
-		 * the user has not entered anything at all in the click-to-add;
-		 * the category is in the value because we put it there in
-		 * ecm_initialize_value().
-		 */
-		if (priv->default_category && value && strcmp (priv->default_category, value) == 0)
-			return TRUE;
-		else
-			return string_is_empty (value);
-	case E_CAL_MODEL_FIELD_CLASSIFICATION :
-	case E_CAL_MODEL_FIELD_DESCRIPTION :
-	case E_CAL_MODEL_FIELD_SUMMARY :
-		return string_is_empty (value);
-	case E_CAL_MODEL_FIELD_DTSTART :
-	case E_CAL_MODEL_FIELD_CREATED :
-	case E_CAL_MODEL_FIELD_LASTMODIFIED :
-		return value ? FALSE : TRUE;
-	case E_CAL_MODEL_FIELD_HAS_ALARMS :
-	case E_CAL_MODEL_FIELD_ICON :
-	case E_CAL_MODEL_FIELD_COLOR :
-	case E_CAL_MODEL_FIELD_COMPONENT :
-		return TRUE;
-	}
-
-	return TRUE;
-}
-
-static gchar *
-ecm_value_to_string (ETableModel *etm,
-                     gint col,
-                     gconstpointer value)
-{
-	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_FIELD_LAST, g_strdup (""));
-
-	switch (col) {
-	case E_CAL_MODEL_FIELD_CATEGORIES :
-	case E_CAL_MODEL_FIELD_CLASSIFICATION :
-	case E_CAL_MODEL_FIELD_DESCRIPTION :
-	case E_CAL_MODEL_FIELD_SUMMARY :
-		return g_strdup (value);
-	case E_CAL_MODEL_FIELD_DTSTART :
-	case E_CAL_MODEL_FIELD_CREATED :
-	case E_CAL_MODEL_FIELD_LASTMODIFIED :
-		return e_cal_model_date_value_to_string (E_CAL_MODEL (etm), value);
-	case E_CAL_MODEL_FIELD_ICON :
-		if (GPOINTER_TO_INT (value) == 0)
-			return g_strdup (_("Normal"));
-		else if (GPOINTER_TO_INT (value) == 1)
-			return g_strdup (_("Recurring"));
-		else
-			return g_strdup (_("Assigned"));
-	case E_CAL_MODEL_FIELD_HAS_ALARMS :
-		return g_strdup (value ? _("Yes") : _("No"));
-	case E_CAL_MODEL_FIELD_COLOR :
-	case E_CAL_MODEL_FIELD_COMPONENT :
-		return g_strdup ("");
-	}
-
-	return g_strdup ("");
-}
-
-/* ECalModel class methods */
-
-typedef struct {
-	const gchar *color;
-	GList *uids;
-} AssignedColorData;
-
-static const gchar *
-ecm_get_color_for_component (ECalModel *model,
-                             ECalModelComponent *comp_data)
-{
-	ESource *source;
-	ESourceSelectable *extension;
-	const gchar *color_spec;
-	const gchar *extension_name;
-	const gchar *uid;
-	gint i, first_empty = 0;
-
-	static AssignedColorData assigned_colors[] = {
-		{ "#BECEDD", NULL }, /* 190 206 221     Blue */
-		{ "#E2F0EF", NULL }, /* 226 240 239     Light Blue */
-		{ "#C6E2B7", NULL }, /* 198 226 183     Green */
-		{ "#E2F0D3", NULL }, /* 226 240 211     Light Green */
-		{ "#E2D4B7", NULL }, /* 226 212 183     Khaki */
-		{ "#EAEAC1", NULL }, /* 234 234 193     Light Khaki */
-		{ "#F0B8B7", NULL }, /* 240 184 183     Pink */
-		{ "#FED4D3", NULL }, /* 254 212 211     Light Pink */
-		{ "#E2C6E1", NULL }, /* 226 198 225     Purple */
-		{ "#F0E2EF", NULL }  /* 240 226 239     Light Purple */
-	};
-
-	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
-
-	switch (e_cal_client_get_source_type (comp_data->client)) {
-		case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
-			extension_name = E_SOURCE_EXTENSION_CALENDAR;
-			break;
-		case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
-			extension_name = E_SOURCE_EXTENSION_TASK_LIST;
-			break;
-		case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
-			extension_name = E_SOURCE_EXTENSION_MEMO_LIST;
-			break;
-		default:
-			g_return_val_if_reached (NULL);
-	}
-
-	source = e_client_get_source (E_CLIENT (comp_data->client));
-	extension = e_source_get_extension (source, extension_name);
-	color_spec = e_source_selectable_get_color (extension);
-
-	if (color_spec != NULL) {
-		g_free (comp_data->color);
-		comp_data->color = g_strdup (color_spec);
-		return comp_data->color;
-	}
-
-	uid = e_source_get_uid (source);
-
-	for (i = 0; i < G_N_ELEMENTS (assigned_colors); i++) {
-		GList *l;
-
-		if (assigned_colors[i].uids == NULL) {
-			first_empty = i;
-			continue;
-		}
-
-		for (l = assigned_colors[i].uids; l != NULL; l = l->next)
-			if (g_strcmp0 (l->data, uid) == 0)
-				return assigned_colors[i].color;
-	}
-
-	/* return the first unused color */
-	assigned_colors[first_empty].uids = g_list_append (
-		assigned_colors[first_empty].uids, g_strdup (uid));
-
-	return assigned_colors[first_empty].color;
 }
 
 gboolean
@@ -4045,7 +4029,7 @@ e_cal_model_get_color_for_component (ECalModel *model,
 		color = model_class->get_color_for_component (model, comp_data);
 
 	if (!color)
-		color = ecm_get_color_for_component (model, comp_data);
+		color = cal_model_get_color_for_component (model, comp_data);
 
 	return color;
 }

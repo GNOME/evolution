@@ -37,9 +37,10 @@
 /* maximum insertions between an idle event that we will do without scheduling an idle sort */
 #define ETSV_INSERT_MAX (4)
 
-/* workaround for avoiding API breakage */
-#define etsv_get_type e_table_sorted_variable_get_type
-G_DEFINE_TYPE (ETableSortedVariable, etsv, E_TYPE_TABLE_SUBSET_VARIABLE)
+G_DEFINE_TYPE (
+	ETableSortedVariable,
+	e_table_sorted_variable,
+	E_TYPE_TABLE_SUBSET_VARIABLE)
 
 static void etsv_sort_info_changed        (ETableSortInfo *info, ETableSortedVariable *etsv);
 static void etsv_sort                     (ETableSortedVariable *etsv);
@@ -74,11 +75,11 @@ etsv_dispose (GObject *object)
 		g_object_unref (etsv->full_header);
 	etsv->full_header = NULL;
 
-	G_OBJECT_CLASS (etsv_parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_table_sorted_variable_parent_class)->dispose (object);
 }
 
 static void
-etsv_class_init (ETableSortedVariableClass *class)
+e_table_sorted_variable_class_init (ETableSortedVariableClass *class)
 {
 	ETableSubsetVariableClass *etssv_class = E_TABLE_SUBSET_VARIABLE_CLASS (class);
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
@@ -90,7 +91,7 @@ etsv_class_init (ETableSortedVariableClass *class)
 }
 
 static void
-etsv_init (ETableSortedVariable *etsv)
+e_table_sorted_variable_init (ETableSortedVariable *etsv)
 {
 	etsv->full_header = NULL;
 	etsv->sort_info = NULL;
@@ -127,7 +128,10 @@ etsv_add (ETableSubsetVariable *etssv,
 	ETableModel *etm = E_TABLE_MODEL (etssv);
 	ETableSubset *etss = E_TABLE_SUBSET (etssv);
 	ETableSortedVariable *etsv = E_TABLE_SORTED_VARIABLE (etssv);
+	ETableModel *source_model;
 	gint i;
+
+	source_model = e_table_subset_get_source_model (etss);
 
 	e_table_model_pre_change (etm);
 
@@ -148,7 +152,7 @@ etsv_add (ETableSubsetVariable *etssv,
 			if (etsv->insert_idle_id == 0) {
 				etsv->insert_idle_id = g_idle_add_full (40, (GSourceFunc) etsv_insert_idle, etsv, NULL);
 			}
-			i = e_table_sorting_utils_insert (etss->source, etsv->sort_info, etsv->full_header, etss->map_table, etss->n_map, row);
+			i = e_table_sorting_utils_insert (source_model, etsv->sort_info, etsv->full_header, etss->map_table, etss->n_map, row);
 			memmove (etss->map_table + i + 1, etss->map_table + i, (etss->n_map - i) * sizeof (gint));
 		}
 	}
@@ -164,12 +168,14 @@ etsv_add_all (ETableSubsetVariable *etssv)
 	ETableModel *etm = E_TABLE_MODEL (etssv);
 	ETableSubset *etss = E_TABLE_SUBSET (etssv);
 	ETableSortedVariable *etsv = E_TABLE_SORTED_VARIABLE (etssv);
+	ETableModel *source_model;
 	gint rows;
 	gint i;
 
 	e_table_model_pre_change (etm);
 
-	rows = e_table_model_row_count (etss->source);
+	source_model = e_table_subset_get_source_model (etss);
+	rows = e_table_model_row_count (source_model);
 
 	if (etss->n_map + rows > etssv->n_vals_allocated) {
 		etssv->n_vals_allocated += MAX (INCREMENT_AMOUNT, rows);
@@ -221,14 +227,17 @@ static void
 etsv_sort (ETableSortedVariable *etsv)
 {
 	ETableSubset *etss = E_TABLE_SUBSET (etsv);
+	ETableModel *source_model;
 	static gint reentering = 0;
+
 	if (reentering)
 		return;
 	reentering = 1;
 
 	e_table_model_pre_change (E_TABLE_MODEL (etsv));
 
-	e_table_sorting_utils_sort (etss->source, etsv->sort_info, etsv->full_header, etss->map_table, etss->n_map);
+	source_model = e_table_subset_get_source_model (etss);
+	e_table_sorting_utils_sort (source_model, etsv->sort_info, etsv->full_header, etss->map_table, etss->n_map);
 
 	e_table_model_changed (E_TABLE_MODEL (etsv));
 	reentering = 0;

@@ -42,9 +42,10 @@
 
 #define TITLE_HEIGHT         16
 
-/* workaround for avoiding API breakage */
-#define etgc_get_type e_table_group_container_get_type
-G_DEFINE_TYPE (ETableGroupContainer, etgc, E_TYPE_TABLE_GROUP)
+G_DEFINE_TYPE (
+	ETableGroupContainer,
+	e_table_group_container,
+	E_TYPE_TABLE_GROUP)
 
 enum {
 	PROP_0,
@@ -124,7 +125,7 @@ etgc_dispose (GObject *object)
 		g_object_run_dispose (G_OBJECT (etgc->rect));
 	etgc->rect = NULL;
 
-	G_OBJECT_CLASS (etgc_parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_table_group_container_parent_class)->dispose (object);
 }
 
 /**
@@ -315,8 +316,8 @@ etgc_event (GnomeCanvasItem *item,
 		break;
 	}
 	if (return_val == FALSE) {
-		if (GNOME_CANVAS_ITEM_CLASS (etgc_parent_class)->event)
-			return GNOME_CANVAS_ITEM_CLASS (etgc_parent_class)->event (item, event);
+		if (GNOME_CANVAS_ITEM_CLASS (e_table_group_container_parent_class)->event)
+			return GNOME_CANVAS_ITEM_CLASS (e_table_group_container_parent_class)->event (item, event);
 	}
 	return return_val;
 
@@ -328,8 +329,8 @@ etgc_realize (GnomeCanvasItem *item)
 {
 	ETableGroupContainer *etgc;
 
-	if (GNOME_CANVAS_ITEM_CLASS (etgc_parent_class)->realize)
-		(* GNOME_CANVAS_ITEM_CLASS (etgc_parent_class)->realize) (item);
+	if (GNOME_CANVAS_ITEM_CLASS (e_table_group_container_parent_class)->realize)
+		(* GNOME_CANVAS_ITEM_CLASS (e_table_group_container_parent_class)->realize) (item);
 
 	etgc = E_TABLE_GROUP_CONTAINER (item);
 
@@ -340,8 +341,8 @@ etgc_realize (GnomeCanvasItem *item)
 static void
 etgc_unrealize (GnomeCanvasItem *item)
 {
-	if (GNOME_CANVAS_ITEM_CLASS (etgc_parent_class)->unrealize)
-		(* GNOME_CANVAS_ITEM_CLASS (etgc_parent_class)->unrealize) (item);
+	if (GNOME_CANVAS_ITEM_CLASS (e_table_group_container_parent_class)->unrealize)
+		(* GNOME_CANVAS_ITEM_CLASS (e_table_group_container_parent_class)->unrealize) (item);
 }
 
 static void
@@ -998,7 +999,7 @@ etgc_get_property (GObject *object,
 }
 
 static void
-etgc_class_init (ETableGroupContainerClass *class)
+e_table_group_container_class_init (ETableGroupContainerClass *class)
 {
 	GnomeCanvasItemClass *item_class = GNOME_CANVAS_ITEM_CLASS (class);
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
@@ -1247,7 +1248,7 @@ etgc_reflow (GnomeCanvasItem *item,
 }
 
 static void
-etgc_init (ETableGroupContainer *container)
+e_table_group_container_init (ETableGroupContainer *container)
 {
 	container->children = NULL;
 

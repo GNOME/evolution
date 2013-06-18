@@ -35,57 +35,39 @@
 
 #define d(x) (x)
 
-static gint ecmm_column_count (ETableModel *etm);
-static gpointer ecmm_value_at (ETableModel *etm, gint col, gint row);
-static void ecmm_set_value_at (ETableModel *etm, gint col, gint row, gconstpointer value);
-static gboolean ecmm_is_cell_editable (ETableModel *etm, gint col, gint row);
-static gpointer ecmm_duplicate_value (ETableModel *etm, gint col, gconstpointer value);
-static void ecmm_free_value (ETableModel *etm, gint col, gpointer value);
-static gpointer ecmm_initialize_value (ETableModel *etm, gint col);
-static gboolean ecmm_value_is_empty (ETableModel *etm, gint col, gconstpointer value);
-static gchar *ecmm_value_to_string (ETableModel *etm, gint col, gconstpointer value);
-
-static void ecmm_fill_component_from_model (ECalModel *model, ECalModelComponent *comp_data,
-					    ETableModel *source_model, gint row);
-
-G_DEFINE_TYPE (ECalModelMemos, e_cal_model_memos, E_TYPE_CAL_MODEL)
+G_DEFINE_TYPE (
+	ECalModelMemos,
+	e_cal_model_memos,
+	E_TYPE_CAL_MODEL)
 
 static void
-e_cal_model_memos_class_init (ECalModelMemosClass *class)
+cal_model_memos_fill_component_from_model (ECalModel *model,
+                                           ECalModelComponent *comp_data,
+                                           ETableModel *source_model,
+                                           gint row)
 {
-	ETableModelClass *etm_class = E_TABLE_MODEL_CLASS (class);
-	ECalModelClass *model_class = E_CAL_MODEL_CLASS (class);
+	icaltimetype start;
+	g_return_if_fail (E_IS_CAL_MODEL_MEMOS (model));
+	g_return_if_fail (comp_data != NULL);
+	g_return_if_fail (E_IS_TABLE_MODEL (source_model));
 
-	etm_class->column_count = ecmm_column_count;
-	etm_class->value_at = ecmm_value_at;
-	etm_class->set_value_at = ecmm_set_value_at;
-	etm_class->is_cell_editable = ecmm_is_cell_editable;
-	etm_class->duplicate_value = ecmm_duplicate_value;
-	etm_class->free_value = ecmm_free_value;
-	etm_class->initialize_value = ecmm_initialize_value;
-	etm_class->value_is_empty = ecmm_value_is_empty;
-	etm_class->value_to_string = ecmm_value_to_string;
-
-	model_class->fill_component_from_model = ecmm_fill_component_from_model;
+	start = icalcomponent_get_dtstart (comp_data->icalcomp);
+	if (icaltime_compare_date_only (start, icaltime_null_time ()) == 0) {
+		start = icaltime_today ();
+		icalcomponent_set_dtstart (comp_data->icalcomp, start);
+	}
 }
 
-static void
-e_cal_model_memos_init (ECalModelMemos *model)
-{
-	e_cal_model_set_component_kind (E_CAL_MODEL (model), ICAL_VJOURNAL_COMPONENT);
-}
-
-/* ETableModel methods */
 static gint
-ecmm_column_count (ETableModel *etm)
+cal_model_memos_column_count (ETableModel *etm)
 {
 	return E_CAL_MODEL_MEMOS_FIELD_LAST;
 }
 
 static gpointer
-ecmm_value_at (ETableModel *etm,
-               gint col,
-               gint row)
+cal_model_memos_value_at (ETableModel *etm,
+                          gint col,
+                          gint row)
 {
 	ECalModelComponent *comp_data;
 	ECalModelMemos *model = (ECalModelMemos *) etm;
@@ -106,10 +88,10 @@ ecmm_value_at (ETableModel *etm,
 }
 
 static void
-ecmm_set_value_at (ETableModel *etm,
-                   gint col,
-                   gint row,
-                   gconstpointer value)
+cal_model_memos_set_value_at (ETableModel *etm,
+                              gint col,
+                              gint row,
+                              gconstpointer value)
 {
 	ECalModelComponent *comp_data;
 	ECalModelMemos *model = (ECalModelMemos *) etm;
@@ -146,9 +128,9 @@ ecmm_set_value_at (ETableModel *etm,
 }
 
 static gboolean
-ecmm_is_cell_editable (ETableModel *etm,
-                       gint col,
-                       gint row)
+cal_model_memos_is_cell_editable (ETableModel *etm,
+                                  gint col,
+                                  gint row)
 {
 	ECalModelMemos *model = (ECalModelMemos *) etm;
 	gboolean retval = FALSE;
@@ -167,9 +149,9 @@ ecmm_is_cell_editable (ETableModel *etm,
 }
 
 static gpointer
-ecmm_duplicate_value (ETableModel *etm,
-                      gint col,
-                      gconstpointer value)
+cal_model_memos_duplicate_value (ETableModel *etm,
+                                 gint col,
+                                 gconstpointer value)
 {
 	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_MEMOS_FIELD_LAST, NULL);
 
@@ -180,9 +162,9 @@ ecmm_duplicate_value (ETableModel *etm,
 }
 
 static void
-ecmm_free_value (ETableModel *etm,
-                 gint col,
-                 gpointer value)
+cal_model_memos_free_value (ETableModel *etm,
+                            gint col,
+                            gpointer value)
 {
 	g_return_if_fail (col >= 0 && col < E_CAL_MODEL_MEMOS_FIELD_LAST);
 
@@ -193,8 +175,8 @@ ecmm_free_value (ETableModel *etm,
 }
 
 static gpointer
-ecmm_initialize_value (ETableModel *etm,
-                       gint col)
+cal_model_memos_initialize_value (ETableModel *etm,
+                                  gint col)
 {
 	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_MEMOS_FIELD_LAST, NULL);
 
@@ -205,9 +187,9 @@ ecmm_initialize_value (ETableModel *etm,
 }
 
 static gboolean
-ecmm_value_is_empty (ETableModel *etm,
-                     gint col,
-                     gconstpointer value)
+cal_model_memos_value_is_empty (ETableModel *etm,
+                                gint col,
+                                gconstpointer value)
 {
 	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_MEMOS_FIELD_LAST, TRUE);
 
@@ -218,9 +200,9 @@ ecmm_value_is_empty (ETableModel *etm,
 }
 
 static gchar *
-ecmm_value_to_string (ETableModel *etm,
-                      gint col,
-                      gconstpointer value)
+cal_model_memos_value_to_string (ETableModel *etm,
+                                 gint col,
+                                 gconstpointer value)
 {
 	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_MEMOS_FIELD_LAST, g_strdup (""));
 
@@ -230,30 +212,34 @@ ecmm_value_to_string (ETableModel *etm,
 	return g_strdup ("");
 }
 
-/* ECalModel class methods */
-
 static void
-ecmm_fill_component_from_model (ECalModel *model,
-                                ECalModelComponent *comp_data,
-                                ETableModel *source_model,
-                                gint row)
+e_cal_model_memos_class_init (ECalModelMemosClass *class)
 {
-	icaltimetype start;
-	g_return_if_fail (E_IS_CAL_MODEL_MEMOS (model));
-	g_return_if_fail (comp_data != NULL);
-	g_return_if_fail (E_IS_TABLE_MODEL (source_model));
+	ECalModelClass *model_class;
+	ETableModelClass *etm_class;
 
-	start = icalcomponent_get_dtstart (comp_data->icalcomp);
-	if (icaltime_compare_date_only (start, icaltime_null_time ()) == 0) {
-		start = icaltime_today ();
-		icalcomponent_set_dtstart (comp_data->icalcomp, start);
-	}
+	model_class = E_CAL_MODEL_CLASS (class);
+	model_class->fill_component_from_model = cal_model_memos_fill_component_from_model;
 
+	etm_class = E_TABLE_MODEL_CLASS (class);
+	etm_class->column_count = cal_model_memos_column_count;
+	etm_class->value_at = cal_model_memos_value_at;
+	etm_class->set_value_at = cal_model_memos_set_value_at;
+	etm_class->is_cell_editable = cal_model_memos_is_cell_editable;
+	etm_class->duplicate_value = cal_model_memos_duplicate_value;
+	etm_class->free_value = cal_model_memos_free_value;
+	etm_class->initialize_value = cal_model_memos_initialize_value;
+	etm_class->value_is_empty = cal_model_memos_value_is_empty;
+	etm_class->value_to_string = cal_model_memos_value_to_string;
 }
 
-/**
- * e_cal_model_memos_new
- */
+static void
+e_cal_model_memos_init (ECalModelMemos *model)
+{
+	e_cal_model_set_component_kind (
+		E_CAL_MODEL (model), ICAL_VJOURNAL_COMPONENT);
+}
+
 ECalModel *
 e_cal_model_memos_new (ESourceRegistry *registry)
 {

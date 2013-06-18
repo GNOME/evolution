@@ -45,19 +45,9 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_TREE_TABLE_ADAPTER, ETreeTableAdapterPrivate))
 
-/* workaround for avoiding API breakage */
-#define etta_get_type e_tree_table_adapter_get_type
-G_DEFINE_TYPE (ETreeTableAdapter, etta, E_TYPE_TABLE_MODEL)
 #define d(x)
 
 #define INCREMENT_AMOUNT 100
-
-enum {
-	SORTING_CHANGED,
-	LAST_SIGNAL
-};
-
-static guint signals[LAST_SIGNAL] = { 0, };
 
 typedef struct {
 	ETreePath path;
@@ -98,7 +88,21 @@ struct _ETreeTableAdapterPrivate {
 	gint          force_expanded_state; /* use this instead of model's default if not 0; <0 ... collapse, >0 ... expand */
 };
 
-static void etta_sort_info_changed (ETableSortInfo *sort_info, ETreeTableAdapter *etta);
+static void	tree_table_adapter_sort_info_changed
+						(ETableSortInfo *sort_info,
+						 ETreeTableAdapter *etta);
+
+enum {
+	SORTING_CHANGED,
+	LAST_SIGNAL
+};
+
+static guint signals[LAST_SIGNAL];
+
+G_DEFINE_TYPE (
+	ETreeTableAdapter,
+	e_tree_table_adapter,
+	E_TYPE_TABLE_MODEL)
 
 static GNode *
 lookup_gnode (ETreeTableAdapter *etta,
@@ -534,32 +538,7 @@ update_node (ETreeTableAdapter *etta,
 }
 
 static void
-etta_finalize (GObject *object)
-{
-	ETreeTableAdapterPrivate *priv;
-
-	priv = E_TREE_TABLE_ADAPTER_GET_PRIVATE (object);
-
-	if (priv->resort_idle_id) {
-		g_source_remove (priv->resort_idle_id);
-		priv->resort_idle_id = 0;
-	}
-
-	if (priv->root) {
-		kill_gnode (priv->root, E_TREE_TABLE_ADAPTER (object));
-		priv->root = NULL;
-	}
-
-	g_hash_table_destroy (priv->nodes);
-
-	g_free (priv->map_table);
-
-	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (etta_parent_class)->finalize (object);
-}
-
-static void
-etta_dispose (GObject *object)
+tree_table_adapter_dispose (GObject *object)
 {
 	ETreeTableAdapterPrivate *priv;
 
@@ -596,11 +575,36 @@ etta_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (etta_parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_tree_table_adapter_parent_class)->dispose (object);
+}
+
+static void
+tree_table_adapter_finalize (GObject *object)
+{
+	ETreeTableAdapterPrivate *priv;
+
+	priv = E_TREE_TABLE_ADAPTER_GET_PRIVATE (object);
+
+	if (priv->resort_idle_id) {
+		g_source_remove (priv->resort_idle_id);
+		priv->resort_idle_id = 0;
+	}
+
+	if (priv->root) {
+		kill_gnode (priv->root, E_TREE_TABLE_ADAPTER (object));
+		priv->root = NULL;
+	}
+
+	g_hash_table_destroy (priv->nodes);
+
+	g_free (priv->map_table);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (e_tree_table_adapter_parent_class)->finalize (object);
 }
 
 static gint
-etta_column_count (ETableModel *etm)
+tree_table_adapter_column_count (ETableModel *etm)
 {
 	ETreeTableAdapter *etta = (ETreeTableAdapter *) etm;
 
@@ -608,14 +612,14 @@ etta_column_count (ETableModel *etm)
 }
 
 static gboolean
-etta_has_save_id (ETableModel *etm)
+tree_table_adapter_has_save_id (ETableModel *etm)
 {
 	return TRUE;
 }
 
 static gchar *
-etta_get_save_id (ETableModel *etm,
-                  gint row)
+tree_table_adapter_get_save_id (ETableModel *etm,
+                                gint row)
 {
 	ETreeTableAdapter *etta = (ETreeTableAdapter *) etm;
 
@@ -623,7 +627,7 @@ etta_get_save_id (ETableModel *etm,
 }
 
 static gint
-etta_row_count (ETableModel *etm)
+tree_table_adapter_row_count (ETableModel *etm)
 {
 	ETreeTableAdapter *etta = (ETreeTableAdapter *) etm;
 
@@ -631,9 +635,9 @@ etta_row_count (ETableModel *etm)
 }
 
 static gpointer
-etta_value_at (ETableModel *etm,
-               gint col,
-               gint row)
+tree_table_adapter_value_at (ETableModel *etm,
+                             gint col,
+                             gint row)
 {
 	ETreeTableAdapter *etta = (ETreeTableAdapter *) etm;
 
@@ -652,33 +656,33 @@ etta_value_at (ETableModel *etm,
 }
 
 static void
-etta_set_value_at (ETableModel *etm,
-                   gint col,
-                   gint row,
-                   gconstpointer val)
+tree_table_adapter_set_value_at (ETableModel *etm,
+                                 gint col,
+                                 gint row,
+                                 gconstpointer val)
 {
 	g_warn_if_reached ();
 }
 
 static gboolean
-etta_is_cell_editable (ETableModel *etm,
-                       gint col,
-                       gint row)
+tree_table_adapter_is_cell_editable (ETableModel *etm,
+                                     gint col,
+                                     gint row)
 {
 	return FALSE;
 }
 
 static void
-etta_append_row (ETableModel *etm,
-                 ETableModel *source,
-                 gint row)
+tree_table_adapter_append_row (ETableModel *etm,
+                               ETableModel *source,
+                               gint row)
 {
 }
 
 static gpointer
-etta_duplicate_value (ETableModel *etm,
-                      gint col,
-                      gconstpointer value)
+tree_table_adapter_duplicate_value (ETableModel *etm,
+                                    gint col,
+                                    gconstpointer value)
 {
 	ETreeTableAdapter *etta = (ETreeTableAdapter *) etm;
 
@@ -686,9 +690,9 @@ etta_duplicate_value (ETableModel *etm,
 }
 
 static void
-etta_free_value (ETableModel *etm,
-                 gint col,
-                 gpointer value)
+tree_table_adapter_free_value (ETableModel *etm,
+                               gint col,
+                               gpointer value)
 {
 	ETreeTableAdapter *etta = (ETreeTableAdapter *) etm;
 
@@ -696,8 +700,8 @@ etta_free_value (ETableModel *etm,
 }
 
 static gpointer
-etta_initialize_value (ETableModel *etm,
-                       gint col)
+tree_table_adapter_initialize_value (ETableModel *etm,
+                                     gint col)
 {
 	ETreeTableAdapter *etta = (ETreeTableAdapter *) etm;
 
@@ -705,9 +709,9 @@ etta_initialize_value (ETableModel *etm,
 }
 
 static gboolean
-etta_value_is_empty (ETableModel *etm,
-                     gint col,
-                     gconstpointer value)
+tree_table_adapter_value_is_empty (ETableModel *etm,
+                                   gint col,
+                                   gconstpointer value)
 {
 	ETreeTableAdapter *etta = (ETreeTableAdapter *) etm;
 
@@ -715,9 +719,9 @@ etta_value_is_empty (ETableModel *etm,
 }
 
 static gchar *
-etta_value_to_string (ETableModel *etm,
-                      gint col,
-                      gconstpointer value)
+tree_table_adapter_value_to_string (ETableModel *etm,
+                                    gint col,
+                                    gconstpointer value)
 {
 	ETreeTableAdapter *etta = (ETreeTableAdapter *) etm;
 
@@ -725,7 +729,7 @@ etta_value_to_string (ETableModel *etm,
 }
 
 static void
-etta_class_init (ETreeTableAdapterClass *class)
+e_tree_table_adapter_class_init (ETreeTableAdapterClass *class)
 {
 	GObjectClass *object_class;
 	ETableModelClass *table_model_class;
@@ -733,26 +737,26 @@ etta_class_init (ETreeTableAdapterClass *class)
 	g_type_class_add_private (class, sizeof (ETreeTableAdapterPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->dispose = etta_dispose;
-	object_class->finalize = etta_finalize;
+	object_class->dispose = tree_table_adapter_dispose;
+	object_class->finalize = tree_table_adapter_finalize;
 
 	table_model_class = E_TABLE_MODEL_CLASS (class);
-	table_model_class->column_count = etta_column_count;
-	table_model_class->row_count = etta_row_count;
-	table_model_class->append_row = etta_append_row;
+	table_model_class->column_count = tree_table_adapter_column_count;
+	table_model_class->row_count = tree_table_adapter_row_count;
+	table_model_class->append_row = tree_table_adapter_append_row;
 
-	table_model_class->value_at = etta_value_at;
-	table_model_class->set_value_at = etta_set_value_at;
-	table_model_class->is_cell_editable = etta_is_cell_editable;
+	table_model_class->value_at = tree_table_adapter_value_at;
+	table_model_class->set_value_at = tree_table_adapter_set_value_at;
+	table_model_class->is_cell_editable = tree_table_adapter_is_cell_editable;
 
-	table_model_class->has_save_id = etta_has_save_id;
-	table_model_class->get_save_id = etta_get_save_id;
+	table_model_class->has_save_id = tree_table_adapter_has_save_id;
+	table_model_class->get_save_id = tree_table_adapter_get_save_id;
 
-	table_model_class->duplicate_value = etta_duplicate_value;
-	table_model_class->free_value = etta_free_value;
-	table_model_class->initialize_value = etta_initialize_value;
-	table_model_class->value_is_empty = etta_value_is_empty;
-	table_model_class->value_to_string = etta_value_to_string;
+	table_model_class->duplicate_value = tree_table_adapter_duplicate_value;
+	table_model_class->free_value = tree_table_adapter_free_value;
+	table_model_class->initialize_value = tree_table_adapter_initialize_value;
+	table_model_class->value_is_empty = tree_table_adapter_value_is_empty;
+	table_model_class->value_to_string = tree_table_adapter_value_to_string;
 
 	class->sorting_changed = NULL;
 
@@ -768,7 +772,7 @@ etta_class_init (ETreeTableAdapterClass *class)
 }
 
 static void
-etta_init (ETreeTableAdapter *etta)
+e_tree_table_adapter_init (ETreeTableAdapter *etta)
 {
 	etta->priv = E_TREE_TABLE_ADAPTER_GET_PRIVATE (etta);
 
@@ -777,15 +781,15 @@ etta_init (ETreeTableAdapter *etta)
 }
 
 static void
-etta_proxy_pre_change (ETreeModel *etm,
-                       ETreeTableAdapter *etta)
+tree_table_adapter_proxy_pre_change (ETreeModel *etm,
+                                     ETreeTableAdapter *etta)
 {
 	e_table_model_pre_change (E_TABLE_MODEL (etta));
 }
 
 static void
-etta_proxy_rebuilt (ETreeModel *etm,
-                    ETreeTableAdapter *etta)
+tree_table_adapter_proxy_rebuilt (ETreeModel *etm,
+                                  ETreeTableAdapter *etta)
 {
 	if (!etta->priv->root)
 		return;
@@ -798,15 +802,15 @@ etta_proxy_rebuilt (ETreeModel *etm,
 static gboolean
 resort_model (ETreeTableAdapter *etta)
 {
-	etta_sort_info_changed (NULL, etta);
+	tree_table_adapter_sort_info_changed (NULL, etta);
 	etta->priv->resort_idle_id = 0;
 	return FALSE;
 }
 
 static void
-etta_proxy_node_changed (ETreeModel *etm,
-                         ETreePath path,
-                         ETreeTableAdapter *etta)
+tree_table_adapter_proxy_node_changed (ETreeModel *etm,
+                                       ETreePath path,
+                                       ETreeTableAdapter *etta)
 {
 	update_node (etta, path);
 	e_table_model_changed (E_TABLE_MODEL (etta));
@@ -819,9 +823,9 @@ etta_proxy_node_changed (ETreeModel *etm,
 }
 
 static void
-etta_proxy_node_data_changed (ETreeModel *etm,
-                              ETreePath path,
-                              ETreeTableAdapter *etta)
+tree_table_adapter_proxy_node_data_changed (ETreeModel *etm,
+                                            ETreePath path,
+                                            ETreeTableAdapter *etta)
 {
 	gint row = get_row (etta, path);
 
@@ -834,10 +838,10 @@ etta_proxy_node_data_changed (ETreeModel *etm,
 }
 
 static void
-etta_proxy_node_inserted (ETreeModel *etm,
-                          ETreePath parent,
-                          ETreePath child,
-                          ETreeTableAdapter *etta)
+tree_table_adapter_proxy_node_inserted (ETreeModel *etm,
+                                        ETreePath parent,
+                                        ETreePath child,
+                                        ETreeTableAdapter *etta)
 {
 	if (e_tree_model_node_is_root (etm, child))
 		generate_tree (etta, child);
@@ -848,19 +852,19 @@ etta_proxy_node_inserted (ETreeModel *etm,
 }
 
 static void
-etta_proxy_node_removed (ETreeModel *etm,
-                         ETreePath parent,
-                         ETreePath child,
-                         gint old_position,
-                         ETreeTableAdapter *etta)
+tree_table_adapter_proxy_node_removed (ETreeModel *etm,
+                                       ETreePath parent,
+                                       ETreePath child,
+                                       gint old_position,
+                                       ETreeTableAdapter *etta)
 {
 	delete_node (etta, parent, child);
 	e_table_model_changed (E_TABLE_MODEL (etta));
 }
 
 static void
-etta_sort_info_changed (ETableSortInfo *sort_info,
-                        ETreeTableAdapter *etta)
+tree_table_adapter_sort_info_changed (ETableSortInfo *sort_info,
+                                      ETreeTableAdapter *etta)
 {
 	if (!etta->priv->root)
 		return;
@@ -898,7 +902,8 @@ e_tree_table_adapter_construct (ETreeTableAdapter *etta,
 		g_object_ref (sort_info);
 		etta->priv->sort_info_changed_id = g_signal_connect (
 			sort_info, "sort_info_changed",
-			G_CALLBACK (etta_sort_info_changed), etta);
+			G_CALLBACK (tree_table_adapter_sort_info_changed),
+			etta);
 	}
 
 	etta->priv->header = header;
@@ -914,22 +919,22 @@ e_tree_table_adapter_construct (ETreeTableAdapter *etta,
 
 	etta->priv->pre_change_id = g_signal_connect (
 		source, "pre_change",
-		G_CALLBACK (etta_proxy_pre_change), etta);
+		G_CALLBACK (tree_table_adapter_proxy_pre_change), etta);
 	etta->priv->rebuilt_id = g_signal_connect (
 		source, "rebuilt",
-		G_CALLBACK (etta_proxy_rebuilt), etta);
+		G_CALLBACK (tree_table_adapter_proxy_rebuilt), etta);
 	etta->priv->node_changed_id = g_signal_connect (
 		source, "node_changed",
-		G_CALLBACK (etta_proxy_node_changed), etta);
+		G_CALLBACK (tree_table_adapter_proxy_node_changed), etta);
 	etta->priv->node_data_changed_id = g_signal_connect (
 		source, "node_data_changed",
-		G_CALLBACK (etta_proxy_node_data_changed), etta);
+		G_CALLBACK (tree_table_adapter_proxy_node_data_changed), etta);
 	etta->priv->node_inserted_id = g_signal_connect (
 		source, "node_inserted",
-		G_CALLBACK (etta_proxy_node_inserted), etta);
+		G_CALLBACK (tree_table_adapter_proxy_node_inserted), etta);
 	etta->priv->node_removed_id = g_signal_connect (
 		source, "node_removed",
-		G_CALLBACK (etta_proxy_node_removed), etta);
+		G_CALLBACK (tree_table_adapter_proxy_node_removed), etta);
 
 	return E_TABLE_MODEL (etta);
 }
@@ -1309,7 +1314,8 @@ e_tree_table_adapter_set_sort_info (ETreeTableAdapter *etta,
 		g_object_ref (sort_info);
 		etta->priv->sort_info_changed_id = g_signal_connect (
 			sort_info, "sort_info_changed",
-			G_CALLBACK (etta_sort_info_changed), etta);
+			G_CALLBACK (tree_table_adapter_sort_info_changed),
+			etta);
 	}
 
 	if (!etta->priv->root)

@@ -23,7 +23,7 @@
 #ifndef E_TREE_MODEL_H
 #define E_TREE_MODEL_H
 
-#include <gdk-pixbuf/gdk-pixbuf.h>
+#include <glib-object.h>
 
 /* Standard GObject macros */
 #define E_TYPE_TREE_MODEL \
@@ -50,7 +50,7 @@ typedef gboolean	(*ETreePathFunc)	(ETreeModel *tree_model,
 						 gpointer data);
 
 struct _ETreeModelInterface {
-	GTypeInterface parent_class;
+	GTypeInterface parent_interface;
 
 	ETreePath	(*get_root)		(ETreeModel *tree_model);
 

@@ -20,10 +20,6 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <stdio.h>
 #include <errno.h>
 #include <stdlib.h>
@@ -41,7 +37,10 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_TABLE_MEMORY, ETableMemoryPrivate))
 
-G_DEFINE_TYPE (ETableMemory, e_table_memory, E_TYPE_TABLE_MODEL)
+G_DEFINE_TYPE (
+	ETableMemory,
+	e_table_memory,
+	E_TYPE_TABLE_MODEL)
 
 struct _ETableMemoryPrivate {
 	gpointer *data;
@@ -63,9 +62,9 @@ table_memory_finalize (GObject *object)
 }
 
 static gint
-table_memory_row_count (ETableModel *etm)
+table_memory_row_count (ETableModel *table_model)
 {
-	ETableMemory *table_memory = E_TABLE_MEMORY (etm);
+	ETableMemory *table_memory = E_TABLE_MEMORY (table_model);
 
 	return table_memory->priv->num_rows;
 }

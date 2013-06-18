@@ -49,9 +49,10 @@
 #include "gal-a11y-e-table-item-factory.h"
 #include "gal-a11y-e-table-item.h"
 
-/* workaround for avoiding API breakage */
-#define eti_get_type e_table_item_get_type
-G_DEFINE_TYPE (ETableItem, eti, GNOME_TYPE_CANVAS_ITEM)
+G_DEFINE_TYPE (
+	ETableItem,
+	e_table_item,
+	GNOME_TYPE_CANVAS_ITEM)
 
 #define FOCUSED_BORDER 2
 
@@ -168,21 +169,18 @@ inline static gint
 model_to_view_row (ETableItem *eti,
                    gint row)
 {
-	gint i;
 	if (row == -1)
 		return -1;
 	if (eti->uses_source_model) {
-		ETableSubset *etss = E_TABLE_SUBSET (eti->table_model);
-		if (eti->row_guess >= 0 && eti->row_guess < etss->n_map) {
-			if (etss->map_table[eti->row_guess] == row) {
-				return eti->row_guess;
-			}
-		}
-		for (i = 0; i < etss->n_map; i++) {
-			if (etss->map_table[i] == row)
-				return i;
-		}
-		return -1;
+		gint model_row;
+
+		model_row = e_table_subset_view_to_model_row (
+			E_TABLE_SUBSET (eti->table_model), eti->row_guess);
+		if (model_row >= 0 && model_row == row)
+			return eti->row_guess;
+
+		return e_table_subset_model_to_view_row (
+			E_TABLE_SUBSET (eti->table_model), row);
 	} else
 		return row;
 }
@@ -192,12 +190,15 @@ view_to_model_row (ETableItem *eti,
                    gint row)
 {
 	if (eti->uses_source_model) {
-		ETableSubset *etss = E_TABLE_SUBSET (eti->table_model);
-		if (row >= 0 && row < etss->n_map) {
+		gint model_row;
+
+		model_row = e_table_subset_view_to_model_row (
+			E_TABLE_SUBSET (eti->table_model), row);
+
+		if (model_row >= 0)
 			eti->row_guess = row;
-			return etss->map_table[row];
-		} else
-			return -1;
+
+		return model_row;
 	} else
 		return row;
 }
@@ -559,8 +560,8 @@ eti_update (GnomeCanvasItem *item,
 	ETableItem *eti = E_TABLE_ITEM (item);
 	gdouble x1, x2, y1, y2;
 
-	if (GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->update)
-		(*GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->update)(item, i2c, flags);
+	if (GNOME_CANVAS_ITEM_CLASS (e_table_item_parent_class)->update)
+		(*GNOME_CANVAS_ITEM_CLASS (e_table_item_parent_class)->update)(item, i2c, flags);
 
 	x1 = item->x1;
 	y1 = item->y1;
@@ -1432,7 +1433,8 @@ eti_add_table_model (ETableItem *eti,
 
 	if (E_IS_TABLE_SUBSET (table_model)) {
 		eti->uses_source_model = 1;
-		eti->source_model = E_TABLE_SUBSET (table_model)->source;
+		eti->source_model = e_table_subset_get_source_model (
+			E_TABLE_SUBSET (table_model));
 		if (eti->source_model)
 			g_object_ref (eti->source_model);
 	}
@@ -1576,7 +1578,7 @@ eti_dispose (GObject *object)
 	eti->height_cache = NULL;
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (eti_parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_table_item_parent_class)->dispose (object);
 }
 
 static void
@@ -1704,7 +1706,7 @@ eti_get_property (GObject *object,
 }
 
 static void
-eti_init (ETableItem *eti)
+e_table_item_init (ETableItem *eti)
 {
 	eti->motion_row	       = -1;
 	eti->motion_col	       = -1;
@@ -1795,8 +1797,8 @@ eti_realize (GnomeCanvasItem *item)
 {
 	ETableItem *eti = E_TABLE_ITEM (item);
 
-	if (GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->realize)
-		(*GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->realize)(item);
+	if (GNOME_CANVAS_ITEM_CLASS (e_table_item_parent_class)->realize)
+		(*GNOME_CANVAS_ITEM_CLASS (e_table_item_parent_class)->realize)(item);
 
 	eti->rows = e_table_model_row_count (eti->table_model);
 
@@ -1857,8 +1859,8 @@ eti_unrealize (GnomeCanvasItem *item)
 
 	eti->height = 0;
 
-	if (GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->unrealize)
-		(*GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->unrealize)(item);
+	if (GNOME_CANVAS_ITEM_CLASS (e_table_item_parent_class)->unrealize)
+		(*GNOME_CANVAS_ITEM_CLASS (e_table_item_parent_class)->unrealize)(item);
 }
 
 static void
@@ -3104,7 +3106,7 @@ eti_style_set (ETableItem *eti,
 }
 
 static void
-eti_class_init (ETableItemClass *class)
+e_table_item_class_init (ETableItemClass *class)
 {
 	GnomeCanvasItemClass *item_class = GNOME_CANVAS_ITEM_CLASS (class);
 	GObjectClass *object_class = G_OBJECT_CLASS (class);

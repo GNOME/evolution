@@ -47,23 +47,6 @@ struct _ECalModelTasksPrivate {
 	gchar *color_overdue;
 };
 
-static gint ecmt_column_count (ETableModel *etm);
-static gpointer ecmt_value_at (ETableModel *etm, gint col, gint row);
-static void ecmt_set_value_at (ETableModel *etm, gint col, gint row, gconstpointer value);
-static gboolean ecmt_is_cell_editable (ETableModel *etm, gint col, gint row);
-static gpointer ecmt_duplicate_value (ETableModel *etm, gint col, gconstpointer value);
-static void ecmt_free_value (ETableModel *etm, gint col, gpointer value);
-static gpointer ecmt_initialize_value (ETableModel *etm, gint col);
-static gboolean ecmt_value_is_empty (ETableModel *etm, gint col, gconstpointer value);
-static gchar *ecmt_value_to_string (ETableModel *etm, gint col, gconstpointer value);
-
-static const gchar *ecmt_get_color_for_component (ECalModel *model, ECalModelComponent *comp_data);
-static void ecmt_fill_component_from_model (ECalModel *model, ECalModelComponent *comp_data,
-					    ETableModel *source_model, gint row);
-static void commit_component_changes (ECalModelComponent *comp_data);
-
-G_DEFINE_TYPE (ECalModelTasks, e_cal_model_tasks, E_TYPE_CAL_MODEL)
-
 enum {
 	PROP_0,
 	PROP_HIGHLIGHT_DUE_TODAY,
@@ -72,182 +55,10 @@ enum {
 	PROP_COLOR_OVERDUE
 };
 
-static void
-cal_model_tasks_set_property (GObject *object,
-                              guint property_id,
-                              const GValue *value,
-                              GParamSpec *pspec)
-{
-	switch (property_id) {
-		case PROP_HIGHLIGHT_DUE_TODAY:
-			e_cal_model_tasks_set_highlight_due_today (
-				E_CAL_MODEL_TASKS (object),
-				g_value_get_boolean (value));
-			return;
-
-		case PROP_COLOR_DUE_TODAY:
-			e_cal_model_tasks_set_color_due_today (
-				E_CAL_MODEL_TASKS (object),
-				g_value_get_string (value));
-			return;
-
-		case PROP_HIGHLIGHT_OVERDUE:
-			e_cal_model_tasks_set_highlight_overdue (
-				E_CAL_MODEL_TASKS (object),
-				g_value_get_boolean (value));
-			return;
-
-		case PROP_COLOR_OVERDUE:
-			e_cal_model_tasks_set_color_overdue (
-				E_CAL_MODEL_TASKS (object),
-				g_value_get_string (value));
-			return;
-	}
-
-	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-}
-
-static void
-cal_model_tasks_get_property (GObject *object,
-                              guint property_id,
-                              GValue *value,
-                              GParamSpec *pspec)
-{
-	switch (property_id) {
-		case PROP_HIGHLIGHT_DUE_TODAY:
-			g_value_set_boolean (
-				value,
-				e_cal_model_tasks_get_highlight_due_today (
-				E_CAL_MODEL_TASKS (object)));
-			return;
-
-		case PROP_COLOR_DUE_TODAY:
-			g_value_set_string (
-				value,
-				e_cal_model_tasks_get_color_due_today (
-				E_CAL_MODEL_TASKS (object)));
-			return;
-
-		case PROP_HIGHLIGHT_OVERDUE:
-			g_value_set_boolean (
-				value,
-				e_cal_model_tasks_get_highlight_overdue (
-				E_CAL_MODEL_TASKS (object)));
-			return;
-
-		case PROP_COLOR_OVERDUE:
-			g_value_set_string (
-				value,
-				e_cal_model_tasks_get_color_overdue (
-				E_CAL_MODEL_TASKS (object)));
-			return;
-	}
-
-	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-}
-
-static void
-cal_model_tasks_finalize (GObject *object)
-{
-	ECalModelTasksPrivate *priv;
-
-	priv = E_CAL_MODEL_TASKS_GET_PRIVATE (object);
-
-	g_free (priv->color_due_today);
-	g_free (priv->color_overdue);
-
-	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (e_cal_model_tasks_parent_class)->finalize (object);
-}
-
-static void
-e_cal_model_tasks_class_init (ECalModelTasksClass *class)
-{
-	GObjectClass *object_class;
-	ETableModelClass *table_model_class;
-	ECalModelClass *cal_model_class;
-
-	g_type_class_add_private (class, sizeof (ECalModelTasksPrivate));
-
-	object_class = G_OBJECT_CLASS (class);
-	object_class->set_property = cal_model_tasks_set_property;
-	object_class->get_property = cal_model_tasks_get_property;
-	object_class->finalize = cal_model_tasks_finalize;
-
-	table_model_class = E_TABLE_MODEL_CLASS (class);
-	table_model_class->column_count = ecmt_column_count;
-	table_model_class->value_at = ecmt_value_at;
-	table_model_class->set_value_at = ecmt_set_value_at;
-	table_model_class->is_cell_editable = ecmt_is_cell_editable;
-	table_model_class->duplicate_value = ecmt_duplicate_value;
-	table_model_class->free_value = ecmt_free_value;
-	table_model_class->initialize_value = ecmt_initialize_value;
-	table_model_class->value_is_empty = ecmt_value_is_empty;
-	table_model_class->value_to_string = ecmt_value_to_string;
-
-	cal_model_class = E_CAL_MODEL_CLASS (class);
-	cal_model_class->get_color_for_component = ecmt_get_color_for_component;
-	cal_model_class->fill_component_from_model = ecmt_fill_component_from_model;
-
-	g_object_class_install_property (
-		object_class,
-		PROP_HIGHLIGHT_DUE_TODAY,
-		g_param_spec_boolean (
-			"highlight-due-today",
-			"Highlight Due Today",
-			NULL,
-			TRUE,
-			G_PARAM_READWRITE));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_COLOR_DUE_TODAY,
-		g_param_spec_string (
-			"color-due-today",
-			"Color Due Today",
-			NULL,
-			"#1e90ff",
-			G_PARAM_READWRITE));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_HIGHLIGHT_OVERDUE,
-		g_param_spec_boolean (
-			"highlight-overdue",
-			"Highlight Overdue",
-			NULL,
-			TRUE,
-			G_PARAM_READWRITE));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_COLOR_OVERDUE,
-		g_param_spec_string (
-			"color-overdue",
-			"Color Overdue",
-			NULL,
-			"#ff0000",
-			G_PARAM_READWRITE));
-}
-
-static void
-e_cal_model_tasks_init (ECalModelTasks *model)
-{
-	model->priv = E_CAL_MODEL_TASKS_GET_PRIVATE (model);
-
-	model->priv->highlight_due_today = TRUE;
-	model->priv->highlight_overdue = TRUE;
-
-	e_cal_model_set_component_kind (
-		E_CAL_MODEL (model), ICAL_VTODO_COMPONENT);
-}
-
-/* ETableModel methods */
-static gint
-ecmt_column_count (ETableModel *etm)
-{
-	return E_CAL_MODEL_TASKS_FIELD_LAST;
-}
+G_DEFINE_TYPE (
+	ECalModelTasks,
+	e_cal_model_tasks,
+	E_TYPE_CAL_MODEL)
 
 /* This makes sure a task is marked as complete.
  * It makes sure the "Date Completed" property is set. If the completed_date
@@ -617,52 +428,6 @@ is_overdue (ECalModelTasks *model,
 	return FALSE;
 }
 
-static gpointer
-ecmt_value_at (ETableModel *etm,
-               gint col,
-               gint row)
-{
-	ECalModelComponent *comp_data;
-	ECalModelTasks *model = (ECalModelTasks *) etm;
-
-	g_return_val_if_fail (E_IS_CAL_MODEL_TASKS (model), NULL);
-
-	g_return_val_if_fail (col >= 0 && (col < E_CAL_MODEL_TASKS_FIELD_LAST || col == E_CAL_MODEL_TASKS_FIELD_STRIKEOUT), NULL);
-	g_return_val_if_fail (row >= 0 && row < e_table_model_row_count (etm), NULL);
-
-	if (col < E_CAL_MODEL_FIELD_LAST)
-		return E_TABLE_MODEL_CLASS (e_cal_model_tasks_parent_class)->value_at (etm, col, row);
-
-	comp_data = e_cal_model_get_component_at (E_CAL_MODEL (model), row);
-	if (!comp_data)
-		return (gpointer) "";
-
-	switch (col) {
-	case E_CAL_MODEL_TASKS_FIELD_COMPLETED :
-		return get_completed (comp_data);
-	case E_CAL_MODEL_TASKS_FIELD_STRIKEOUT :
-		return GINT_TO_POINTER (is_status_canceled (comp_data) || is_complete (comp_data));
-	case E_CAL_MODEL_TASKS_FIELD_COMPLETE :
-		return GINT_TO_POINTER (is_complete (comp_data));
-	case E_CAL_MODEL_TASKS_FIELD_DUE :
-		return get_due (comp_data);
-	case E_CAL_MODEL_TASKS_FIELD_GEO :
-		return get_geo (comp_data);
-	case E_CAL_MODEL_TASKS_FIELD_OVERDUE :
-		return GINT_TO_POINTER (is_overdue (model, comp_data));
-	case E_CAL_MODEL_TASKS_FIELD_PERCENT :
-		return GINT_TO_POINTER (get_percent (comp_data));
-	case E_CAL_MODEL_TASKS_FIELD_PRIORITY :
-		return get_priority (comp_data);
-	case E_CAL_MODEL_TASKS_FIELD_STATUS :
-		return get_status (comp_data);
-	case E_CAL_MODEL_TASKS_FIELD_URL :
-		return get_url (comp_data);
-	}
-
-	return (gpointer) "";
-}
-
 static void
 set_completed (ECalModelTasks *model,
                ECalModelComponent *comp_data,
@@ -906,11 +671,250 @@ set_url (ECalModelComponent *comp_data,
 	}
 }
 
+/**
+ * commit_component_changes
+ * @comp_data: Component of our interest, which has been changed.
+ *
+ * Commits changes to the backend calendar of the component.
+ **/
 static void
-ecmt_set_value_at (ETableModel *etm,
-                   gint col,
-                   gint row,
-                   gconstpointer value)
+commit_component_changes (ECalModelComponent *comp_data)
+{
+	GError *error = NULL;
+
+	g_return_if_fail (comp_data != NULL);
+
+	/* FIXME ask about mod type */
+	e_cal_client_modify_object_sync (
+		comp_data->client, comp_data->icalcomp,
+		CALOBJ_MOD_ALL, NULL, &error);
+
+	if (error != NULL) {
+		g_warning (
+			G_STRLOC ": Could not modify the object! %s",
+			error->message);
+
+		/* FIXME Show error dialog */
+		g_error_free (error);
+	}
+}
+
+static void
+cal_model_tasks_set_property (GObject *object,
+                              guint property_id,
+                              const GValue *value,
+                              GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_HIGHLIGHT_DUE_TODAY:
+			e_cal_model_tasks_set_highlight_due_today (
+				E_CAL_MODEL_TASKS (object),
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_COLOR_DUE_TODAY:
+			e_cal_model_tasks_set_color_due_today (
+				E_CAL_MODEL_TASKS (object),
+				g_value_get_string (value));
+			return;
+
+		case PROP_HIGHLIGHT_OVERDUE:
+			e_cal_model_tasks_set_highlight_overdue (
+				E_CAL_MODEL_TASKS (object),
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_COLOR_OVERDUE:
+			e_cal_model_tasks_set_color_overdue (
+				E_CAL_MODEL_TASKS (object),
+				g_value_get_string (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+cal_model_tasks_get_property (GObject *object,
+                              guint property_id,
+                              GValue *value,
+                              GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_HIGHLIGHT_DUE_TODAY:
+			g_value_set_boolean (
+				value,
+				e_cal_model_tasks_get_highlight_due_today (
+				E_CAL_MODEL_TASKS (object)));
+			return;
+
+		case PROP_COLOR_DUE_TODAY:
+			g_value_set_string (
+				value,
+				e_cal_model_tasks_get_color_due_today (
+				E_CAL_MODEL_TASKS (object)));
+			return;
+
+		case PROP_HIGHLIGHT_OVERDUE:
+			g_value_set_boolean (
+				value,
+				e_cal_model_tasks_get_highlight_overdue (
+				E_CAL_MODEL_TASKS (object)));
+			return;
+
+		case PROP_COLOR_OVERDUE:
+			g_value_set_string (
+				value,
+				e_cal_model_tasks_get_color_overdue (
+				E_CAL_MODEL_TASKS (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+cal_model_tasks_finalize (GObject *object)
+{
+	ECalModelTasksPrivate *priv;
+
+	priv = E_CAL_MODEL_TASKS_GET_PRIVATE (object);
+
+	g_free (priv->color_due_today);
+	g_free (priv->color_overdue);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (e_cal_model_tasks_parent_class)->finalize (object);
+}
+
+static const gchar *
+cal_model_tasks_get_color_for_component (ECalModel *model,
+                                         ECalModelComponent *comp_data)
+{
+	ECalModelTasks *tasks;
+
+	g_return_val_if_fail (E_IS_CAL_MODEL_TASKS (model), NULL);
+	g_return_val_if_fail (comp_data != NULL, NULL);
+
+	tasks = E_CAL_MODEL_TASKS (model);
+
+	/* XXX ECalModel's get_color_for_component() method should really
+	 *     get a GdkColor instead of a color specification string. */
+
+	switch (get_due_status (tasks, comp_data)) {
+	case E_CAL_MODEL_TASKS_DUE_TODAY:
+		if (!e_cal_model_tasks_get_highlight_due_today (tasks))
+			break;
+		return e_cal_model_tasks_get_color_due_today (tasks);
+	case E_CAL_MODEL_TASKS_DUE_OVERDUE:
+		if (!e_cal_model_tasks_get_highlight_overdue (tasks))
+			break;
+		return e_cal_model_tasks_get_color_overdue (tasks);
+	case E_CAL_MODEL_TASKS_DUE_NEVER:
+	case E_CAL_MODEL_TASKS_DUE_FUTURE:
+	case E_CAL_MODEL_TASKS_DUE_COMPLETE:
+		break;
+	}
+
+	return E_CAL_MODEL_CLASS (e_cal_model_tasks_parent_class)->
+		get_color_for_component (model, comp_data);
+}
+
+static void
+cal_model_tasks_fill_component_from_model (ECalModel *model,
+                                           ECalModelComponent *comp_data,
+                                           ETableModel *source_model,
+                                           gint row)
+{
+	gpointer value;
+
+	g_return_if_fail (E_IS_CAL_MODEL_TASKS (model));
+	g_return_if_fail (comp_data != NULL);
+	g_return_if_fail (E_IS_TABLE_MODEL (source_model));
+
+	/* This just makes sure if anything indicates completion, all
+	 * three fields do or if percent is 0, status is sane */
+
+	value = e_table_model_value_at (source_model, E_CAL_MODEL_TASKS_FIELD_COMPLETED, row);
+	set_completed ((ECalModelTasks *) model, comp_data, value);
+	if (!value) {
+		value = e_table_model_value_at (source_model, E_CAL_MODEL_TASKS_FIELD_PERCENT, row);
+		set_percent (comp_data, value);
+		if (GPOINTER_TO_INT (value) != 100 && GPOINTER_TO_INT (value) != 0)
+			set_status (comp_data, e_table_model_value_at (source_model, E_CAL_MODEL_TASKS_FIELD_STATUS, row));
+	}
+
+	set_due (
+		model, comp_data,
+		e_table_model_value_at (source_model, E_CAL_MODEL_TASKS_FIELD_DUE, row));
+	set_geo (
+		comp_data,
+		e_table_model_value_at (source_model, E_CAL_MODEL_TASKS_FIELD_GEO, row));
+	set_priority (
+		comp_data,
+		e_table_model_value_at (source_model, E_CAL_MODEL_TASKS_FIELD_PRIORITY, row));
+	set_url (
+		comp_data,
+		e_table_model_value_at (source_model, E_CAL_MODEL_TASKS_FIELD_URL, row));
+}
+
+static gint
+cal_model_tasks_column_count (ETableModel *etm)
+{
+	return E_CAL_MODEL_TASKS_FIELD_LAST;
+}
+
+static gpointer
+cal_model_tasks_value_at (ETableModel *etm,
+                          gint col,
+                          gint row)
+{
+	ECalModelComponent *comp_data;
+	ECalModelTasks *model = (ECalModelTasks *) etm;
+
+	g_return_val_if_fail (E_IS_CAL_MODEL_TASKS (model), NULL);
+
+	g_return_val_if_fail (col >= 0 && (col < E_CAL_MODEL_TASKS_FIELD_LAST || col == E_CAL_MODEL_TASKS_FIELD_STRIKEOUT), NULL);
+	g_return_val_if_fail (row >= 0 && row < e_table_model_row_count (etm), NULL);
+
+	if (col < E_CAL_MODEL_FIELD_LAST)
+		return E_TABLE_MODEL_CLASS (e_cal_model_tasks_parent_class)->value_at (etm, col, row);
+
+	comp_data = e_cal_model_get_component_at (E_CAL_MODEL (model), row);
+	if (!comp_data)
+		return (gpointer) "";
+
+	switch (col) {
+	case E_CAL_MODEL_TASKS_FIELD_COMPLETED :
+		return get_completed (comp_data);
+	case E_CAL_MODEL_TASKS_FIELD_STRIKEOUT :
+		return GINT_TO_POINTER (is_status_canceled (comp_data) || is_complete (comp_data));
+	case E_CAL_MODEL_TASKS_FIELD_COMPLETE :
+		return GINT_TO_POINTER (is_complete (comp_data));
+	case E_CAL_MODEL_TASKS_FIELD_DUE :
+		return get_due (comp_data);
+	case E_CAL_MODEL_TASKS_FIELD_GEO :
+		return get_geo (comp_data);
+	case E_CAL_MODEL_TASKS_FIELD_OVERDUE :
+		return GINT_TO_POINTER (is_overdue (model, comp_data));
+	case E_CAL_MODEL_TASKS_FIELD_PERCENT :
+		return GINT_TO_POINTER (get_percent (comp_data));
+	case E_CAL_MODEL_TASKS_FIELD_PRIORITY :
+		return get_priority (comp_data);
+	case E_CAL_MODEL_TASKS_FIELD_STATUS :
+		return get_status (comp_data);
+	case E_CAL_MODEL_TASKS_FIELD_URL :
+		return get_url (comp_data);
+	}
+
+	return (gpointer) "";
+}
+
+static void
+cal_model_tasks_set_value_at (ETableModel *etm,
+                              gint col,
+                              gint row,
+                              gconstpointer value)
 {
 	ECalModelComponent *comp_data;
 	ECalModelTasks *model = (ECalModelTasks *) etm;
@@ -960,9 +964,9 @@ ecmt_set_value_at (ETableModel *etm,
 }
 
 static gboolean
-ecmt_is_cell_editable (ETableModel *etm,
-                       gint col,
-                       gint row)
+cal_model_tasks_is_cell_editable (ETableModel *etm,
+                                  gint col,
+                                  gint row)
 {
 	ECalModelTasks *model = (ECalModelTasks *) etm;
 
@@ -993,9 +997,9 @@ ecmt_is_cell_editable (ETableModel *etm,
 }
 
 static gpointer
-ecmt_duplicate_value (ETableModel *etm,
-                      gint col,
-                      gconstpointer value)
+cal_model_tasks_duplicate_value (ETableModel *etm,
+                                 gint col,
+                                 gconstpointer value)
 {
 	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_TASKS_FIELD_LAST, NULL);
 
@@ -1031,9 +1035,9 @@ ecmt_duplicate_value (ETableModel *etm,
 }
 
 static void
-ecmt_free_value (ETableModel *etm,
-                 gint col,
-                 gpointer value)
+cal_model_tasks_free_value (ETableModel *etm,
+                            gint col,
+                            gpointer value)
 {
 	g_return_if_fail (col >= 0 && col < E_CAL_MODEL_TASKS_FIELD_LAST);
 
@@ -1060,8 +1064,8 @@ ecmt_free_value (ETableModel *etm,
 }
 
 static gpointer
-ecmt_initialize_value (ETableModel *etm,
-                       gint col)
+cal_model_tasks_initialize_value (ETableModel *etm,
+                                  gint col)
 {
 	ECalModelTasks *model = (ECalModelTasks *) etm;
 
@@ -1090,9 +1094,9 @@ ecmt_initialize_value (ETableModel *etm,
 }
 
 static gboolean
-ecmt_value_is_empty (ETableModel *etm,
-                     gint col,
-                     gconstpointer value)
+cal_model_tasks_value_is_empty (ETableModel *etm,
+                                gint col,
+                                gconstpointer value)
 {
 	ECalModelTasks *model = (ECalModelTasks *) etm;
 
@@ -1122,9 +1126,9 @@ ecmt_value_is_empty (ETableModel *etm,
 }
 
 static gchar *
-ecmt_value_to_string (ETableModel *etm,
-                      gint col,
-                      gconstpointer value)
+cal_model_tasks_value_to_string (ETableModel *etm,
+                                 gint col,
+                                 gconstpointer value)
 {
 	ECalModelTasks *model = (ECalModelTasks *) etm;
 
@@ -1156,77 +1160,86 @@ ecmt_value_to_string (ETableModel *etm,
 	return g_strdup ("");
 }
 
-/* ECalModel class methods */
-
-static const gchar *
-ecmt_get_color_for_component (ECalModel *model,
-                              ECalModelComponent *comp_data)
+static void
+e_cal_model_tasks_class_init (ECalModelTasksClass *class)
 {
-	ECalModelTasks *tasks;
+	GObjectClass *object_class;
+	ECalModelClass *cal_model_class;
+	ETableModelClass *table_model_class;
 
-	g_return_val_if_fail (E_IS_CAL_MODEL_TASKS (model), NULL);
-	g_return_val_if_fail (comp_data != NULL, NULL);
+	g_type_class_add_private (class, sizeof (ECalModelTasksPrivate));
 
-	tasks = E_CAL_MODEL_TASKS (model);
+	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = cal_model_tasks_set_property;
+	object_class->get_property = cal_model_tasks_get_property;
+	object_class->finalize = cal_model_tasks_finalize;
 
-	/* XXX ECalModel's get_color_for_component() method should really
-	 *     get a GdkColor instead of a color specification string. */
+	cal_model_class = E_CAL_MODEL_CLASS (class);
+	cal_model_class->get_color_for_component = cal_model_tasks_get_color_for_component;
+	cal_model_class->fill_component_from_model = cal_model_tasks_fill_component_from_model;
 
-	switch (get_due_status (tasks, comp_data)) {
-	case E_CAL_MODEL_TASKS_DUE_TODAY:
-		if (!e_cal_model_tasks_get_highlight_due_today (tasks))
-			break;
-		return e_cal_model_tasks_get_color_due_today (tasks);
-	case E_CAL_MODEL_TASKS_DUE_OVERDUE:
-		if (!e_cal_model_tasks_get_highlight_overdue (tasks))
-			break;
-		return e_cal_model_tasks_get_color_overdue (tasks);
-	case E_CAL_MODEL_TASKS_DUE_NEVER:
-	case E_CAL_MODEL_TASKS_DUE_FUTURE:
-	case E_CAL_MODEL_TASKS_DUE_COMPLETE:
-		break;
-	}
+	table_model_class = E_TABLE_MODEL_CLASS (class);
+	table_model_class->column_count = cal_model_tasks_column_count;
+	table_model_class->value_at = cal_model_tasks_value_at;
+	table_model_class->set_value_at = cal_model_tasks_set_value_at;
+	table_model_class->is_cell_editable = cal_model_tasks_is_cell_editable;
+	table_model_class->duplicate_value = cal_model_tasks_duplicate_value;
+	table_model_class->free_value = cal_model_tasks_free_value;
+	table_model_class->initialize_value = cal_model_tasks_initialize_value;
+	table_model_class->value_is_empty = cal_model_tasks_value_is_empty;
+	table_model_class->value_to_string = cal_model_tasks_value_to_string;
 
-	return E_CAL_MODEL_CLASS (e_cal_model_tasks_parent_class)->
-		get_color_for_component (model, comp_data);
+	g_object_class_install_property (
+		object_class,
+		PROP_HIGHLIGHT_DUE_TODAY,
+		g_param_spec_boolean (
+			"highlight-due-today",
+			"Highlight Due Today",
+			NULL,
+			TRUE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_COLOR_DUE_TODAY,
+		g_param_spec_string (
+			"color-due-today",
+			"Color Due Today",
+			NULL,
+			"#1e90ff",
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_HIGHLIGHT_OVERDUE,
+		g_param_spec_boolean (
+			"highlight-overdue",
+			"Highlight Overdue",
+			NULL,
+			TRUE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_COLOR_OVERDUE,
+		g_param_spec_string (
+			"color-overdue",
+			"Color Overdue",
+			NULL,
+			"#ff0000",
+			G_PARAM_READWRITE));
 }
 
 static void
-ecmt_fill_component_from_model (ECalModel *model,
-                                ECalModelComponent *comp_data,
-                                ETableModel *source_model,
-                                gint row)
+e_cal_model_tasks_init (ECalModelTasks *model)
 {
-	gpointer value;
+	model->priv = E_CAL_MODEL_TASKS_GET_PRIVATE (model);
 
-	g_return_if_fail (E_IS_CAL_MODEL_TASKS (model));
-	g_return_if_fail (comp_data != NULL);
-	g_return_if_fail (E_IS_TABLE_MODEL (source_model));
+	model->priv->highlight_due_today = TRUE;
+	model->priv->highlight_overdue = TRUE;
 
-	/* This just makes sure if anything indicates completion, all
-	 * three fields do or if percent is 0, status is sane */
-
-	value = e_table_model_value_at (source_model, E_CAL_MODEL_TASKS_FIELD_COMPLETED, row);
-	set_completed ((ECalModelTasks *) model, comp_data, value);
-	if (!value) {
-		value = e_table_model_value_at (source_model, E_CAL_MODEL_TASKS_FIELD_PERCENT, row);
-		set_percent (comp_data, value);
-		if (GPOINTER_TO_INT (value) != 100 && GPOINTER_TO_INT (value) != 0)
-			set_status (comp_data, e_table_model_value_at (source_model, E_CAL_MODEL_TASKS_FIELD_STATUS, row));
-	}
-
-	set_due (
-		model, comp_data,
-		e_table_model_value_at (source_model, E_CAL_MODEL_TASKS_FIELD_DUE, row));
-	set_geo (
-		comp_data,
-		e_table_model_value_at (source_model, E_CAL_MODEL_TASKS_FIELD_GEO, row));
-	set_priority (
-		comp_data,
-		e_table_model_value_at (source_model, E_CAL_MODEL_TASKS_FIELD_PRIORITY, row));
-	set_url (
-		comp_data,
-		e_table_model_value_at (source_model, E_CAL_MODEL_TASKS_FIELD_URL, row));
+	e_cal_model_set_component_kind (
+		E_CAL_MODEL (model), ICAL_VTODO_COMPONENT);
 }
 
 ECalModel *
@@ -1338,7 +1351,9 @@ e_cal_model_tasks_set_color_overdue (ECalModelTasks *model,
  *
  * Marks component as complete and commits changes to the calendar backend.
  **/
-void e_cal_model_tasks_mark_comp_complete (ECalModelTasks *model, ECalModelComponent *comp_data)
+void
+e_cal_model_tasks_mark_comp_complete (ECalModelTasks *model,
+                                      ECalModelComponent *comp_data)
 {
 	g_return_if_fail (model != NULL);
 	g_return_if_fail (comp_data != NULL);
@@ -1360,7 +1375,9 @@ void e_cal_model_tasks_mark_comp_complete (ECalModelTasks *model, ECalModelCompo
  *
  * Marks component as incomplete and commits changes to the calendar backend.
  **/
-void e_cal_model_tasks_mark_comp_incomplete (ECalModelTasks *model, ECalModelComponent *comp_data)
+void
+e_cal_model_tasks_mark_comp_incomplete (ECalModelTasks *model,
+                                        ECalModelComponent *comp_data)
 {
 	icalproperty *prop,*prop1;
 
@@ -1396,37 +1413,6 @@ void e_cal_model_tasks_mark_comp_incomplete (ECalModelTasks *model, ECalModelCom
 	commit_component_changes (comp_data);
 }
 
-/**
- * commit_component_changes
- * @comp_data: Component of our interest, which has been changed.
- *
- * Commits changes to the backend calendar of the component.
- **/
-static void
-commit_component_changes (ECalModelComponent *comp_data)
-{
-	GError *error = NULL;
-
-	g_return_if_fail (comp_data != NULL);
-
-	/* FIXME ask about mod type */
-	e_cal_client_modify_object_sync (
-		comp_data->client, comp_data->icalcomp,
-		CALOBJ_MOD_ALL, NULL, &error);
-
-	if (error != NULL) {
-		g_warning (
-			G_STRLOC ": Could not modify the object! %s",
-			error->message);
-
-		/* FIXME Show error dialog */
-		g_error_free (error);
-	}
-}
-
-/**
- * e_cal_model_tasks_update_due_tasks
- */
 void
 e_cal_model_tasks_update_due_tasks (ECalModelTasks *model)
 {

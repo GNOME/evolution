@@ -35,9 +35,10 @@
 
 #include "e-xml-utils.h"
 
-/* workaround for avoiding API breakage */
-#define etcs_get_type e_table_column_specification_get_type
-G_DEFINE_TYPE (ETableColumnSpecification, etcs, G_TYPE_OBJECT)
+G_DEFINE_TYPE (
+	ETableColumnSpecification,
+	e_table_column_specification,
+	G_TYPE_OBJECT)
 
 static void
 free_strings (ETableColumnSpecification *etcs)
@@ -63,11 +64,11 @@ etcs_finalize (GObject *object)
 
 	free_strings (etcs);
 
-	G_OBJECT_CLASS (etcs_parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_table_column_specification_parent_class)->finalize (object);
 }
 
 static void
-etcs_class_init (ETableColumnSpecificationClass *class)
+e_table_column_specification_class_init (ETableColumnSpecificationClass *class)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
@@ -75,7 +76,7 @@ etcs_class_init (ETableColumnSpecificationClass *class)
 }
 
 static void
-etcs_init (ETableColumnSpecification *specification)
+e_table_column_specification_init (ETableColumnSpecification *specification)
 {
 	specification->model_col     = 0;
 	specification->compare_col   = 0;

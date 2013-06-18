@@ -24,8 +24,8 @@
 #error "Only <e-util/e-util.h> should be included directly."
 #endif
 
-#ifndef _E_TABLE_MEMORY_H_
-#define _E_TABLE_MEMORY_H_
+#ifndef E_TABLE_MEMORY_H
+#define E_TABLE_MEMORY_H
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
@@ -88,4 +88,4 @@ void		e_table_memory_set_data		(ETableMemory *table_memory,
 
 G_END_DECLS
 
-#endif /* _E_TABLE_MEMORY_H */
+#endif /* E_TABLE_MEMORY_H */

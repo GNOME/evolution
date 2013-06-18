@@ -34,9 +34,7 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_TABLE_WITHOUT, ETableWithoutPrivate))
 
-/* workaround for avoiding API breakage */
-#define etw_get_type e_table_without_get_type
-G_DEFINE_TYPE (ETableWithout, etw, E_TYPE_TABLE_SUBSET)
+G_DEFINE_TYPE (ETableWithout, e_table_without, E_TYPE_TABLE_SUBSET)
 
 #define INCREMENT_AMOUNT 10
 
@@ -61,9 +59,13 @@ check (ETableWithout *etw,
 	gboolean ret_val;
 	gpointer key;
 	ETableSubset *etss = E_TABLE_SUBSET (etw);
+	ETableModel *source_model;
+
+	source_model = e_table_subset_get_source_model (etss);
 
 	if (etw->priv->get_key_func)
-		key = etw->priv->get_key_func (etss->source, model_row, etw->priv->closure);
+		key = etw->priv->get_key_func (
+			source_model, model_row, etw->priv->closure);
 	else
 		key = GINT_TO_POINTER (model_row);
 	ret_val = (g_hash_table_lookup (etw->priv->hash, key) != NULL);
@@ -80,9 +82,13 @@ check_with_key (ETableWithout *etw,
 	gboolean ret_val;
 	gpointer key2;
 	ETableSubset *etss = E_TABLE_SUBSET (etw);
+	ETableModel *source_model;
+
+	source_model = e_table_subset_get_source_model (etss);
 
 	if (etw->priv->get_key_func)
-		key2 = etw->priv->get_key_func (etss->source, model_row, etw->priv->closure);
+		key2 = etw->priv->get_key_func (
+			source_model, model_row, etw->priv->closure);
 	else
 		key2 = GINT_TO_POINTER (model_row);
 	if (etw->priv->compare_func)
@@ -156,7 +162,7 @@ etw_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (etw_parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_table_without_parent_class)->dispose (object);
 }
 
 static void
@@ -236,12 +242,12 @@ etw_proxy_model_changed (ETableSubset *etss,
 	}
 	etss->n_map = j;
 
-	if (E_TABLE_SUBSET_CLASS (etw_parent_class)->proxy_model_changed)
-		E_TABLE_SUBSET_CLASS (etw_parent_class)->proxy_model_changed (etss, etm);
+	if (E_TABLE_SUBSET_CLASS (e_table_without_parent_class)->proxy_model_changed)
+		E_TABLE_SUBSET_CLASS (e_table_without_parent_class)->proxy_model_changed (etss, etm);
 }
 
 static void
-etw_class_init (ETableWithoutClass *class)
+e_table_without_class_init (ETableWithoutClass *class)
 {
 	GObjectClass *object_class;
 	ETableSubsetClass *etss_class;
@@ -258,7 +264,7 @@ etw_class_init (ETableWithoutClass *class)
 }
 
 static void
-etw_init (ETableWithout *etw)
+e_table_without_init (ETableWithout *etw)
 {
 	etw->priv = E_TABLE_WITHOUT_GET_PRIVATE (etw);
 }
@@ -363,10 +369,12 @@ e_table_without_show (ETableWithout *etw,
 {
 	gint i; /* Model row */
 	ETableSubset *etss = E_TABLE_SUBSET (etw);
+	ETableModel *source_model;
 	gint count;
 	gpointer old_key;
 
-	count = e_table_model_row_count (etss->source);
+	source_model = e_table_subset_get_source_model (etss);
+	count = e_table_model_row_count (source_model);
 
 	for (i = 0; i < count; i++) {
 		if (check_with_key (etw, key, i)) {
@@ -388,6 +396,7 @@ e_table_without_show_all (ETableWithout *etw)
 	gint i; /* Model row */
 	gint row_count;
 	ETableSubset *etss = E_TABLE_SUBSET (etw);
+	ETableModel *source_model;
 
 	e_table_model_pre_change (E_TABLE_MODEL (etw));
 
@@ -399,7 +408,9 @@ e_table_without_show_all (ETableWithout *etw)
 	etw->priv->hash = g_hash_table_new (
 		etw->priv->hash_func, etw->priv->compare_func);
 
-	row_count = e_table_model_row_count (E_TABLE_MODEL (etss->source));
+	source_model = e_table_subset_get_source_model (etss);
+	row_count = e_table_model_row_count (source_model);
+
 	g_free (etss->map_table);
 	etss->map_table = g_new (int, row_count);
 

@@ -45,7 +45,10 @@ enum {
 	PROP_DND_CODE
 };
 
-G_DEFINE_TYPE (ETableFieldChooser, e_table_field_chooser, GTK_TYPE_VBOX)
+G_DEFINE_TYPE (
+	ETableFieldChooser,
+	e_table_field_chooser,
+	GTK_TYPE_VBOX)
 
 static void
 e_table_field_chooser_class_init (ETableFieldChooserClass *class)

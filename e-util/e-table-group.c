@@ -32,9 +32,10 @@
 #include "e-table-group-leaf.h"
 #include "e-table-item.h"
 
-/* workaround for avoiding API breakage*/
-#define etg_get_type e_table_group_get_type
-G_DEFINE_TYPE (ETableGroup, etg, GNOME_TYPE_CANVAS_GROUP)
+G_DEFINE_TYPE (
+	ETableGroup,
+	e_table_group,
+	GNOME_TYPE_CANVAS_GROUP)
 
 #define ETG_CLASS(e) (E_TABLE_GROUP_CLASS(G_OBJECT_GET_CLASS(e)))
 
@@ -74,7 +75,7 @@ etg_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (etg_parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_table_group_parent_class)->dispose (object);
 }
 
 /**
@@ -619,8 +620,8 @@ etg_event (GnomeCanvasItem *item,
 		return_val = FALSE;
 	}
 	if (return_val == FALSE) {
-		if (GNOME_CANVAS_ITEM_CLASS (etg_parent_class)->event)
-			return GNOME_CANVAS_ITEM_CLASS (etg_parent_class)->event (item, event);
+		if (GNOME_CANVAS_ITEM_CLASS (e_table_group_parent_class)->event)
+			return GNOME_CANVAS_ITEM_CLASS (e_table_group_parent_class)->event (item, event);
 	}
 	return return_val;
 
@@ -633,7 +634,7 @@ etg_get_focus (ETableGroup *table_group)
 }
 
 static void
-etg_class_init (ETableGroupClass *class)
+e_table_group_class_init (ETableGroupClass *class)
 {
 	GnomeCanvasItemClass *item_class = GNOME_CANVAS_ITEM_CLASS (class);
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
@@ -746,7 +747,7 @@ etg_class_init (ETableGroupClass *class)
 }
 
 static void
-etg_init (ETableGroup *table_group)
+e_table_group_init (ETableGroup *table_group)
 {
 	/* nothing to do */
 }

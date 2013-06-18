@@ -26,8 +26,8 @@
 #error "Only <e-util/e-util.h> should be included directly."
 #endif
 
-#ifndef _E_TABLE_SUBSET_H_
-#define _E_TABLE_SUBSET_H_
+#ifndef E_TABLE_SUBSET_H
+#define E_TABLE_SUBSET_H
 
 #include <e-util/e-table-model.h>
 
@@ -54,67 +54,66 @@ G_BEGIN_DECLS
 
 typedef struct _ETableSubset ETableSubset;
 typedef struct _ETableSubsetClass ETableSubsetClass;
+typedef struct _ETableSubsetPrivate ETableSubsetPrivate;
 
 struct _ETableSubset {
 	ETableModel parent;
+	ETableSubsetPrivate *priv;
 
-	ETableModel *source;
+	/* protected - subclasses modify this directly */
 	gint n_map;
 	gint *map_table;
-
-	gint last_access;
-
-	gint table_model_pre_change_id;
-	gint table_model_no_change_id;
-	gint table_model_changed_id;
-	gint table_model_row_changed_id;
-	gint table_model_cell_changed_id;
-	gint table_model_rows_inserted_id;
-	gint table_model_rows_deleted_id;
 };
 
 struct _ETableSubsetClass {
 	ETableModelClass parent_class;
 
-	void		(*proxy_model_pre_change)	(ETableSubset *etss,
-							 ETableModel *etm);
-	void		(*proxy_model_no_change)	(ETableSubset *etss,
-							 ETableModel *etm);
-	void		(*proxy_model_changed)		(ETableSubset *etss,
-							 ETableModel *etm);
-	void		(*proxy_model_row_changed)	(ETableSubset *etss,
-							 ETableModel *etm,
-							 gint row);
-	void		(*proxy_model_cell_changed)	(ETableSubset *etss,
-							 ETableModel *etm,
-							 gint col,
-							 gint row);
-	void		(*proxy_model_rows_inserted)	(ETableSubset *etss,
-							 ETableModel *etm,
-							 gint row,
-							 gint count);
-	void		(*proxy_model_rows_deleted)	(ETableSubset *etss,
-							 ETableModel *etm,
-							 gint row,
-							 gint count);
+	void		(*proxy_model_pre_change)
+						(ETableSubset *table_subset,
+						 ETableModel *source_model);
+	void		(*proxy_model_no_change)
+						(ETableSubset *table_subset,
+						 ETableModel *source_model);
+	void		(*proxy_model_changed)	(ETableSubset *table_subset,
+						 ETableModel *source_model);
+	void		(*proxy_model_row_changed)
+						(ETableSubset *table_subset,
+						 ETableModel *source_model,
+						 gint row);
+	void		(*proxy_model_cell_changed)
+						(ETableSubset *table_subset,
+						 ETableModel *source_model,
+						 gint col,
+						 gint row);
+	void		(*proxy_model_rows_inserted)
+						(ETableSubset *table_subset,
+						 ETableModel *source_model,
+						 gint row,
+						 gint count);
+	void		(*proxy_model_rows_deleted)
+						(ETableSubset *table_subset,
+						 ETableModel *source_model,
+						 gint row,
+						 gint count);
 };
 
 GType		e_table_subset_get_type		(void) G_GNUC_CONST;
-ETableModel *	e_table_subset_new		(ETableModel  *etm,
+ETableModel *	e_table_subset_new		(ETableModel *source_model,
 						 gint n_vals);
-ETableModel *	e_table_subset_construct	(ETableSubset *ets,
-						 ETableModel *source,
+ETableModel *	e_table_subset_construct	(ETableSubset *table_subset,
+						 ETableModel *source_model,
 						 gint nvals);
+ETableModel *	e_table_subset_get_source_model	(ETableSubset *table_subset);
 gint		e_table_subset_model_to_view_row
-						(ETableSubset *ets,
+						(ETableSubset *table_subset,
 						 gint model_row);
 gint		e_table_subset_view_to_model_row
-						(ETableSubset *ets,
+						(ETableSubset *table_subset,
 						 gint view_row);
-ETableModel *	e_table_subset_get_toplevel	(ETableSubset *table_model);
-void		e_table_subset_print_debugging	(ETableSubset *table_model);
+ETableModel *	e_table_subset_get_toplevel	(ETableSubset *table_subset);
+void		e_table_subset_print_debugging	(ETableSubset *table_subset);
 
 G_END_DECLS
 
-#endif /* _E_TABLE_SUBSET_H_ */
+#endif /* E_TABLE_SUBSET_H */
 

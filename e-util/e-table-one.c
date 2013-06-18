@@ -27,136 +27,13 @@
 
 #include "e-table-one.h"
 
-G_DEFINE_TYPE (ETableOne, e_table_one, E_TYPE_TABLE_MODEL)
-
-static gint
-one_column_count (ETableModel *etm)
-{
-	ETableOne *one = E_TABLE_ONE (etm);
-
-	if (one->source)
-		return e_table_model_column_count (one->source);
-	else
-		return 0;
-}
-
-static gint
-one_row_count (ETableModel *etm)
-{
-	return 1;
-}
-
-static gpointer
-one_value_at (ETableModel *etm,
-              gint col,
-              gint row)
-{
-	ETableOne *one = E_TABLE_ONE (etm);
-
-	if (one->data)
-		return one->data[col];
-	else
-		return NULL;
-}
+G_DEFINE_TYPE (
+	ETableOne,
+	e_table_one,
+	E_TYPE_TABLE_MODEL)
 
 static void
-one_set_value_at (ETableModel *etm,
-                  gint col,
-                  gint row,
-                  gconstpointer val)
-{
-	ETableOne *one = E_TABLE_ONE (etm);
-
-	if (one->data && one->source) {
-		e_table_model_free_value (one->source, col, one->data[col]);
-		one->data[col] = e_table_model_duplicate_value (one->source, col, val);
-	}
-}
-
-static gboolean
-one_is_cell_editable (ETableModel *etm,
-                      gint col,
-                      gint row)
-{
-	ETableOne *one = E_TABLE_ONE (etm);
-
-	if (one->source)
-		return e_table_model_is_cell_editable (one->source, col, -1);
-	else
-		return FALSE;
-}
-
-/* The default for one_duplicate_value is to return the raw value. */
-static gpointer
-one_duplicate_value (ETableModel *etm,
-                     gint col,
-                     gconstpointer value)
-{
-	ETableOne *one = E_TABLE_ONE (etm);
-
-	if (one->source)
-		return e_table_model_duplicate_value (one->source, col, value);
-	else
-		return (gpointer) value;
-}
-
-static void
-one_free_value (ETableModel *etm,
-                gint col,
-                gpointer value)
-{
-	ETableOne *one = E_TABLE_ONE (etm);
-
-	if (one->source)
-		e_table_model_free_value (one->source, col, value);
-}
-
-static gpointer
-one_initialize_value (ETableModel *etm,
-                      gint col)
-{
-	ETableOne *one = E_TABLE_ONE (etm);
-
-	if (one->source)
-		return e_table_model_initialize_value (one->source, col);
-	else
-		return NULL;
-}
-
-static gboolean
-one_value_is_empty (ETableModel *etm,
-                    gint col,
-                    gconstpointer value)
-{
-	ETableOne *one = E_TABLE_ONE (etm);
-
-	if (one->source)
-		return e_table_model_value_is_empty (one->source, col, value);
-	else
-		return FALSE;
-}
-
-static gchar *
-one_value_to_string (ETableModel *etm,
-                     gint col,
-                     gconstpointer value)
-{
-	ETableOne *one = E_TABLE_ONE (etm);
-
-	if (one->source)
-		return e_table_model_value_to_string (one->source, col, value);
-	else
-		return g_strdup ("");
-}
-
-static void
-one_finalize (GObject *object)
-{
-	G_OBJECT_CLASS (e_table_one_parent_class)->finalize (object);
-}
-
-static void
-one_dispose (GObject *object)
+table_one_dispose (GObject *object)
 {
 	ETableOne *one = E_TABLE_ONE (object);
 
@@ -175,39 +52,157 @@ one_dispose (GObject *object)
 	}
 	one->data = NULL;
 
-	if (one->source)
-		g_object_unref (one->source);
-	one->source = NULL;
+	g_clear_object (&one->source);
 
+	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_table_one_parent_class)->dispose (object);
+}
+
+static gint
+table_one_column_count (ETableModel *etm)
+{
+	ETableOne *one = E_TABLE_ONE (etm);
+
+	if (one->source)
+		return e_table_model_column_count (one->source);
+	else
+		return 0;
+}
+
+static gint
+table_one_row_count (ETableModel *etm)
+{
+	return 1;
+}
+
+static gpointer
+table_one_value_at (ETableModel *etm,
+                    gint col,
+                    gint row)
+{
+	ETableOne *one = E_TABLE_ONE (etm);
+
+	if (one->data)
+		return one->data[col];
+	else
+		return NULL;
+}
+
+static void
+table_one_set_value_at (ETableModel *etm,
+                        gint col,
+                        gint row,
+                        gconstpointer val)
+{
+	ETableOne *one = E_TABLE_ONE (etm);
+
+	if (one->data && one->source) {
+		e_table_model_free_value (one->source, col, one->data[col]);
+		one->data[col] = e_table_model_duplicate_value (one->source, col, val);
+	}
+}
+
+static gboolean
+table_one_is_cell_editable (ETableModel *etm,
+                            gint col,
+                            gint row)
+{
+	ETableOne *one = E_TABLE_ONE (etm);
+
+	if (one->source)
+		return e_table_model_is_cell_editable (one->source, col, -1);
+	else
+		return FALSE;
+}
+
+/* The default for one_duplicate_value is to return the raw value. */
+static gpointer
+table_one_duplicate_value (ETableModel *etm,
+                           gint col,
+                           gconstpointer value)
+{
+	ETableOne *one = E_TABLE_ONE (etm);
+
+	if (one->source)
+		return e_table_model_duplicate_value (one->source, col, value);
+	else
+		return (gpointer) value;
+}
+
+static void
+table_one_free_value (ETableModel *etm,
+                      gint col,
+                      gpointer value)
+{
+	ETableOne *one = E_TABLE_ONE (etm);
+
+	if (one->source)
+		e_table_model_free_value (one->source, col, value);
+}
+
+static gpointer
+table_one_initialize_value (ETableModel *etm,
+                            gint col)
+{
+	ETableOne *one = E_TABLE_ONE (etm);
+
+	if (one->source)
+		return e_table_model_initialize_value (one->source, col);
+	else
+		return NULL;
+}
+
+static gboolean
+table_one_value_is_empty (ETableModel *etm,
+                          gint col,
+                          gconstpointer value)
+{
+	ETableOne *one = E_TABLE_ONE (etm);
+
+	if (one->source)
+		return e_table_model_value_is_empty (one->source, col, value);
+	else
+		return FALSE;
+}
+
+static gchar *
+table_one_value_to_string (ETableModel *etm,
+                           gint col,
+                           gconstpointer value)
+{
+	ETableOne *one = E_TABLE_ONE (etm);
+
+	if (one->source)
+		return e_table_model_value_to_string (one->source, col, value);
+	else
+		return g_strdup ("");
 }
 
 static void
 e_table_one_class_init (ETableOneClass *class)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (class);
-	ETableModelClass *model_class = E_TABLE_MODEL_CLASS (class);
+	GObjectClass *object_class;
+	ETableModelClass *model_class;
 
-	model_class->column_count = one_column_count;
-	model_class->row_count = one_row_count;
-	model_class->value_at = one_value_at;
-	model_class->set_value_at = one_set_value_at;
-	model_class->is_cell_editable = one_is_cell_editable;
-	model_class->duplicate_value = one_duplicate_value;
-	model_class->free_value = one_free_value;
-	model_class->initialize_value = one_initialize_value;
-	model_class->value_is_empty = one_value_is_empty;
-	model_class->value_to_string = one_value_to_string;
+	object_class = G_OBJECT_CLASS (class);
+	object_class->dispose = table_one_dispose;
 
-	object_class->dispose = one_dispose;
-	object_class->finalize = one_finalize;
+	model_class = E_TABLE_MODEL_CLASS (class);
+	model_class->column_count = table_one_column_count;
+	model_class->row_count = table_one_row_count;
+	model_class->value_at = table_one_value_at;
+	model_class->set_value_at = table_one_set_value_at;
+	model_class->is_cell_editable = table_one_is_cell_editable;
+	model_class->duplicate_value = table_one_duplicate_value;
+	model_class->free_value = table_one_free_value;
+	model_class->initialize_value = table_one_initialize_value;
+	model_class->value_is_empty = table_one_value_is_empty;
+	model_class->value_to_string = table_one_value_to_string;
 }
 
 static void
 e_table_one_init (ETableOne *one)
 {
-	one->source = NULL;
-	one->data = NULL;
 }
 
 ETableModel *

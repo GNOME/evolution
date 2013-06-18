@@ -49,9 +49,10 @@ enum {
 
 static guint etcta_signals[LAST_SIGNAL] = { 0 };
 
-/* workaround for avoiding APi breakage */
-#define etcta_get_type e_table_click_to_add_get_type
-G_DEFINE_TYPE (ETableClickToAdd, etcta, GNOME_TYPE_CANVAS_GROUP)
+G_DEFINE_TYPE (
+	ETableClickToAdd,
+	e_table_click_to_add,
+	GNOME_TYPE_CANVAS_GROUP)
 
 enum {
 	PROP_0,
@@ -199,7 +200,7 @@ etcta_dispose (GObject *object)
 	etcta->selection = NULL;
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (etcta_parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_table_click_to_add_parent_class)->dispose (object);
 }
 
 static void
@@ -324,8 +325,8 @@ etcta_realize (GnomeCanvasItem *item)
 	create_rect_and_text (etcta);
 	e_canvas_item_move_absolute (etcta->text, 2, 2);
 
-	if (GNOME_CANVAS_ITEM_CLASS (etcta_parent_class)->realize)
-		(*GNOME_CANVAS_ITEM_CLASS (etcta_parent_class)->realize)(item);
+	if (GNOME_CANVAS_ITEM_CLASS (e_table_click_to_add_parent_class)->realize)
+		(*GNOME_CANVAS_ITEM_CLASS (e_table_click_to_add_parent_class)->realize)(item);
 
 	e_canvas_item_request_reflow (item);
 }
@@ -333,8 +334,8 @@ etcta_realize (GnomeCanvasItem *item)
 static void
 etcta_unrealize (GnomeCanvasItem *item)
 {
-	if (GNOME_CANVAS_ITEM_CLASS (etcta_parent_class)->unrealize)
-		(*GNOME_CANVAS_ITEM_CLASS (etcta_parent_class)->unrealize)(item);
+	if (GNOME_CANVAS_ITEM_CLASS (e_table_click_to_add_parent_class)->unrealize)
+		(*GNOME_CANVAS_ITEM_CLASS (e_table_click_to_add_parent_class)->unrealize)(item);
 }
 
 static void finish_editing (ETableClickToAdd *etcta);
@@ -519,7 +520,7 @@ etcta_reflow (GnomeCanvasItem *item,
 }
 
 static void
-etcta_class_init (ETableClickToAddClass *class)
+e_table_click_to_add_class_init (ETableClickToAddClass *class)
 {
 	GnomeCanvasItemClass *item_class = GNOME_CANVAS_ITEM_CLASS (class);
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
@@ -612,7 +613,7 @@ etcta_class_init (ETableClickToAddClass *class)
 }
 
 static void
-etcta_init (ETableClickToAdd *etcta)
+e_table_click_to_add_init (ETableClickToAdd *etcta)
 {
 	AtkObject *a11y;
 

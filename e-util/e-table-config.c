@@ -788,7 +788,8 @@ get_source_model_col_index (ETableConfig *config,
 	gint visible_index;
 	ETableModel *src_model;
 
-	src_model = E_TABLE_SUBSET (config->available_model)->source;
+	src_model = e_table_subset_get_source_model (
+		E_TABLE_SUBSET (config->available_model));
 
 	visible_index = e_table_subset_view_to_model_row (
 		E_TABLE_SUBSET (config->available_model), idx);

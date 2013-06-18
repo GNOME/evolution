@@ -20,10 +20,6 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <string.h>
 
 #include "e-table-memory-store.h"
@@ -40,7 +36,10 @@ struct _ETableMemoryStorePrivate {
 	gpointer *store;
 };
 
-G_DEFINE_TYPE (ETableMemoryStore, e_table_memory_store, E_TYPE_TABLE_MEMORY)
+G_DEFINE_TYPE (
+	ETableMemoryStore,
+	e_table_memory_store,
+	E_TYPE_TABLE_MEMORY)
 
 static gpointer
 duplicate_value (ETableMemoryStore *etms,
@@ -78,127 +77,34 @@ free_value (ETableMemoryStore *etms,
 	}
 }
 
+static void
+table_memory_store_finalize (GObject *object)
+{
+	ETableMemoryStorePrivate *priv;
+
+	priv = E_TABLE_MEMORY_STORE_GET_PRIVATE (object);
+
+	e_table_memory_store_clear (E_TABLE_MEMORY_STORE (object));
+
+	g_free (priv->columns);
+	g_free (priv->store);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (e_table_memory_store_parent_class)->finalize (object);
+}
+
 static gint
-etms_column_count (ETableModel *etm)
+table_memory_store_column_count (ETableModel *etm)
 {
 	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE (etm);
 
 	return etms->priv->col_count;
 }
 
-static gpointer
-etms_value_at (ETableModel *etm,
-               gint col,
-               gint row)
-{
-	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE (etm);
-
-	return STORE_LOCATOR (etms, col, row);
-}
-
 static void
-etms_set_value_at (ETableModel *etm,
-                   gint col,
-                   gint row,
-                   gconstpointer val)
-{
-	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE (etm);
-
-	e_table_model_pre_change (etm);
-
-	STORE_LOCATOR (etms, col, row) = duplicate_value (etms, col, val);
-
-	e_table_model_cell_changed (etm, col, row);
-}
-
-static gboolean
-etms_is_cell_editable (ETableModel *etm,
-                       gint col,
-                       gint row)
-{
-	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE (etm);
-
-	return etms->priv->columns[col].editable;
-}
-
-/* The default for etms_duplicate_value is to return the raw value. */
-static gpointer
-etms_duplicate_value (ETableModel *etm,
-                      gint col,
-                      gconstpointer value)
-{
-	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE (etm);
-
-	return duplicate_value (etms, col, value);
-}
-
-static void
-etms_free_value (ETableModel *etm,
-                 gint col,
-                 gpointer value)
-{
-	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE (etm);
-
-	free_value (etms, col, value);
-}
-
-static gpointer
-etms_initialize_value (ETableModel *etm,
-                       gint col)
-{
-	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE (etm);
-
-	switch (etms->priv->columns[col].type) {
-	case E_TABLE_MEMORY_STORE_COLUMN_TYPE_STRING:
-		return g_strdup ("");
-	case E_TABLE_MEMORY_STORE_COLUMN_TYPE_PIXBUF:
-		return NULL;
-	default:
-		break;
-	}
-	return NULL;
-}
-
-static gboolean
-etms_value_is_empty (ETableModel *etm,
-                     gint col,
-                     gconstpointer value)
-{
-	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE (etm);
-
-	switch (etms->priv->columns[col].type) {
-	case E_TABLE_MEMORY_STORE_COLUMN_TYPE_STRING:
-		return !(value && *(gchar *) value);
-	case E_TABLE_MEMORY_STORE_COLUMN_TYPE_PIXBUF:
-		return value == NULL;
-	default:
-		break;
-	}
-	return value == NULL;
-}
-
-static gchar *
-etms_value_to_string (ETableModel *etm,
-                      gint col,
-                      gconstpointer value)
-{
-	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE (etm);
-
-	switch (etms->priv->columns[col].type) {
-	case E_TABLE_MEMORY_STORE_COLUMN_TYPE_STRING:
-		return g_strdup (value);
-	case E_TABLE_MEMORY_STORE_COLUMN_TYPE_PIXBUF:
-		return g_strdup ("");
-	default:
-		break;
-	}
-	return g_strdup_printf ("%d", GPOINTER_TO_INT (value));
-}
-
-static void
-etms_append_row (ETableModel *etm,
-                 ETableModel *source,
-                 gint row)
+table_memory_store_append_row (ETableModel *etm,
+                               ETableModel *source,
+                               gint row)
 {
 	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE (etm);
 	gpointer *new_data;
@@ -216,26 +122,113 @@ etms_append_row (ETableModel *etm,
 	e_table_memory_store_insert_array (etms, row_count, new_data, NULL);
 }
 
-static void
-etms_finalize (GObject *object)
+static gpointer
+table_memory_store_value_at (ETableModel *etm,
+                             gint col,
+                             gint row)
 {
-	ETableMemoryStorePrivate *priv;
+	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE (etm);
 
-	priv = E_TABLE_MEMORY_STORE_GET_PRIVATE (object);
-
-	e_table_memory_store_clear (E_TABLE_MEMORY_STORE (object));
-
-	g_free (priv->columns);
-	g_free (priv->store);
-
-	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (e_table_memory_store_parent_class)->finalize (object);
+	return STORE_LOCATOR (etms, col, row);
 }
 
 static void
-e_table_memory_store_init (ETableMemoryStore *etms)
+table_memory_store_set_value_at (ETableModel *etm,
+                                 gint col,
+                                 gint row,
+                                 gconstpointer val)
 {
-	etms->priv = E_TABLE_MEMORY_STORE_GET_PRIVATE (etms);
+	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE (etm);
+
+	e_table_model_pre_change (etm);
+
+	STORE_LOCATOR (etms, col, row) = duplicate_value (etms, col, val);
+
+	e_table_model_cell_changed (etm, col, row);
+}
+
+static gboolean
+table_memory_store_is_cell_editable (ETableModel *etm,
+                                     gint col,
+                                     gint row)
+{
+	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE (etm);
+
+	return etms->priv->columns[col].editable;
+}
+
+/* The default for duplicate_value() is to return the raw value. */
+static gpointer
+table_memory_store_duplicate_value (ETableModel *etm,
+                                    gint col,
+                                    gconstpointer value)
+{
+	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE (etm);
+
+	return duplicate_value (etms, col, value);
+}
+
+static void
+table_memory_store_free_value (ETableModel *etm,
+                               gint col,
+                               gpointer value)
+{
+	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE (etm);
+
+	free_value (etms, col, value);
+}
+
+static gpointer
+table_memory_store_initialize_value (ETableModel *etm,
+                                     gint col)
+{
+	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE (etm);
+
+	switch (etms->priv->columns[col].type) {
+		case E_TABLE_MEMORY_STORE_COLUMN_TYPE_STRING:
+			return g_strdup ("");
+		case E_TABLE_MEMORY_STORE_COLUMN_TYPE_PIXBUF:
+			return NULL;
+		default:
+			break;
+	}
+	return NULL;
+}
+
+static gboolean
+table_memory_store_value_is_empty (ETableModel *etm,
+                                   gint col,
+                                   gconstpointer value)
+{
+	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE (etm);
+
+	switch (etms->priv->columns[col].type) {
+		case E_TABLE_MEMORY_STORE_COLUMN_TYPE_STRING:
+			return !(value && *(gchar *) value);
+		case E_TABLE_MEMORY_STORE_COLUMN_TYPE_PIXBUF:
+			return value == NULL;
+		default:
+			break;
+	}
+	return value == NULL;
+}
+
+static gchar *
+table_memory_store_value_to_string (ETableModel *etm,
+                                    gint col,
+                                    gconstpointer value)
+{
+	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE (etm);
+
+	switch (etms->priv->columns[col].type) {
+		case E_TABLE_MEMORY_STORE_COLUMN_TYPE_STRING:
+			return g_strdup (value);
+		case E_TABLE_MEMORY_STORE_COLUMN_TYPE_PIXBUF:
+			return g_strdup ("");
+		default:
+			break;
+	}
+	return g_strdup_printf ("%d", GPOINTER_TO_INT (value));
 }
 
 static void
@@ -247,19 +240,25 @@ e_table_memory_store_class_init (ETableMemoryStoreClass *class)
 	g_type_class_add_private (class, sizeof (ETableMemoryStorePrivate));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->finalize = etms_finalize;
+	object_class->finalize = table_memory_store_finalize;
 
 	model_class = E_TABLE_MODEL_CLASS (class);
-	model_class->column_count = etms_column_count;
-	model_class->value_at = etms_value_at;
-	model_class->set_value_at = etms_set_value_at;
-	model_class->is_cell_editable = etms_is_cell_editable;
-	model_class->duplicate_value = etms_duplicate_value;
-	model_class->free_value = etms_free_value;
-	model_class->initialize_value = etms_initialize_value;
-	model_class->value_is_empty = etms_value_is_empty;
-	model_class->value_to_string = etms_value_to_string;
-	model_class->append_row = etms_append_row;
+	model_class->column_count = table_memory_store_column_count;
+	model_class->append_row = table_memory_store_append_row;
+	model_class->value_at = table_memory_store_value_at;
+	model_class->set_value_at = table_memory_store_set_value_at;
+	model_class->is_cell_editable = table_memory_store_is_cell_editable;
+	model_class->duplicate_value = table_memory_store_duplicate_value;
+	model_class->free_value = table_memory_store_free_value;
+	model_class->initialize_value = table_memory_store_initialize_value;
+	model_class->value_is_empty = table_memory_store_value_is_empty;
+	model_class->value_to_string = table_memory_store_value_to_string;
+}
+
+static void
+e_table_memory_store_init (ETableMemoryStore *etms)
+{
+	etms->priv = E_TABLE_MEMORY_STORE_GET_PRIVATE (etms);
 }
 
 /**

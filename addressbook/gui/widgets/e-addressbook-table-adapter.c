@@ -49,8 +49,6 @@ struct _EAddressbookTableAdapterPrivate {
 	GHashTable *emails;
 };
 
-#define COLS (E_CONTACT_FIELD_LAST)
-
 G_DEFINE_TYPE (
 	EAddressbookTableAdapter,
 	e_addressbook_table_adapter,
@@ -95,7 +93,7 @@ addressbook_finalize (GObject *object)
 static gint
 addressbook_col_count (ETableModel *etc)
 {
-	return COLS;
+	return E_CONTACT_FIELD_LAST;
 }
 
 /* This function returns the number of rows in our ETableModel. */
@@ -106,6 +104,40 @@ addressbook_row_count (ETableModel *etc)
 	EAddressbookTableAdapterPrivate *priv = adapter->priv;
 
 	return e_addressbook_model_contact_count (priv->model);
+}
+
+static void
+addressbook_append_row (ETableModel *etm,
+                        ETableModel *source,
+                        gint row)
+{
+	EAddressbookTableAdapter *adapter = E_ADDRESSBOOK_TABLE_ADAPTER (etm);
+	EAddressbookTableAdapterPrivate *priv = adapter->priv;
+	EClientCache *client_cache;
+	ESourceRegistry *registry;
+	EBookClient *book_client;
+	EContact *contact;
+	gint col;
+
+	contact = e_contact_new ();
+
+	for (col = 1; col < E_CONTACT_LAST_SIMPLE_STRING; col++) {
+		gconstpointer val = e_table_model_value_at (source, col, row);
+		e_contact_set (contact, col, (gpointer) val);
+	}
+
+	client_cache =
+		e_addressbook_model_get_client_cache (priv->model);
+	book_client = e_addressbook_model_get_client (priv->model);
+
+	registry = e_client_cache_ref_registry (client_cache);
+
+	eab_merging_book_add_contact (
+		registry, book_client, contact, NULL, NULL);
+
+	g_object_unref (registry);
+
+	g_object_unref (contact);
 }
 
 /* This function returns the value at a particular point in our ETableModel. */
@@ -119,7 +151,10 @@ addressbook_value_at (ETableModel *etc,
 	EContact *contact;
 	const gchar *value;
 
-	if (col >= COLS || row >= e_addressbook_model_contact_count (priv->model))
+	if (col >= E_CONTACT_FIELD_LAST)
+		return NULL;
+
+	if (row >= e_addressbook_model_contact_count (priv->model))
 		return NULL;
 
 	contact = e_addressbook_model_contact_at (priv->model, row);
@@ -176,7 +211,10 @@ addressbook_set_value_at (ETableModel *etc,
 		EBookClient *book_client;
 		EContact *contact;
 
-		if (col >= COLS || row >= e_addressbook_model_contact_count (priv->model))
+		if (col >= E_CONTACT_FIELD_LAST)
+			return;
+
+		if (row >= e_addressbook_model_contact_count (priv->model))
 			return;
 
 		contact = e_addressbook_model_get_contact (priv->model, row);
@@ -223,40 +261,6 @@ addressbook_is_cell_editable (ETableModel *etc,
                               gint row)
 {
 	return FALSE;
-}
-
-static void
-addressbook_append_row (ETableModel *etm,
-                        ETableModel *source,
-                        gint row)
-{
-	EAddressbookTableAdapter *adapter = E_ADDRESSBOOK_TABLE_ADAPTER (etm);
-	EAddressbookTableAdapterPrivate *priv = adapter->priv;
-	EClientCache *client_cache;
-	ESourceRegistry *registry;
-	EBookClient *book_client;
-	EContact *contact;
-	gint col;
-
-	contact = e_contact_new ();
-
-	for (col = 1; col < E_CONTACT_LAST_SIMPLE_STRING; col++) {
-		gconstpointer val = e_table_model_value_at (source, col, row);
-		e_contact_set (contact, col, (gpointer) val);
-	}
-
-	client_cache =
-		e_addressbook_model_get_client_cache (priv->model);
-	book_client = e_addressbook_model_get_client (priv->model);
-
-	registry = e_client_cache_ref_registry (client_cache);
-
-	eab_merging_book_add_contact (
-		registry, book_client, contact, NULL, NULL);
-
-	g_object_unref (registry);
-
-	g_object_unref (contact);
 }
 
 /* This function duplicates the value passed to it. */
@@ -315,10 +319,10 @@ e_addressbook_table_adapter_class_init (EAddressbookTableAdapterClass *class)
 	model_class = E_TABLE_MODEL_CLASS (class);
 	model_class->column_count = addressbook_col_count;
 	model_class->row_count = addressbook_row_count;
+	model_class->append_row = addressbook_append_row;
 	model_class->value_at = addressbook_value_at;
 	model_class->set_value_at = addressbook_set_value_at;
 	model_class->is_cell_editable = addressbook_is_cell_editable;
-	model_class->append_row = addressbook_append_row;
 	model_class->duplicate_value = addressbook_duplicate_value;
 	model_class->free_value = addressbook_free_value;
 	model_class->initialize_value = addressbook_initialize_value;

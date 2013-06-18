@@ -72,7 +72,7 @@ struct _ETableGroupLeaf {
 
 	gint length_threshold;
 
-	ETableSubset *ets;
+	ETableModel *ets;
 	guint is_grouped : 1;
 
 	guint alternating_row_colors : 1;
