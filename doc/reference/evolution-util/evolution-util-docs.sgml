@@ -126,7 +126,6 @@
     <xi:include href="xml/e-table-header-item.xml"/>
     <xi:include href="xml/e-table-header.xml"/>
     <xi:include href="xml/e-table-item.xml"/>
-    <xi:include href="xml/e-table-memory-callbacks.xml"/>
     <xi:include href="xml/e-table-memory-store.xml"/>
     <xi:include href="xml/e-table-memory.xml"/>
     <xi:include href="xml/e-table-model.xml"/>

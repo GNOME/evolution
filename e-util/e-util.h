@@ -183,7 +183,6 @@
 #include <e-util/e-table-header-utils.h>
 #include <e-util/e-table-header.h>
 #include <e-util/e-table-item.h>
-#include <e-util/e-table-memory-callbacks.h>
 #include <e-util/e-table-memory-store.h>
 #include <e-util/e-table-memory.h>
 #include <e-util/e-table-model.h>

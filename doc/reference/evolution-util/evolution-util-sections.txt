@@ -3695,32 +3695,6 @@ ETableMemoryPrivate
 </SECTION>
 
 <SECTION>
-<FILE>e-table-memory-callbacks</FILE>
-<TITLE>ETableMemoryCallbacks</TITLE>
-ETableMemoryCallbacks
-ETableMemoryCallbacksColumnCountFn
-ETableMemoryCallbacksAppendRowFn
-ETableMemoryCallbacksValueAtFn
-ETableMemoryCallbacksSetValueAtFn
-ETableMemoryCallbacksIsCellEditableFn
-ETableMemoryCallbacksDuplicateValueFn
-ETableMemoryCallbacksFreeValueFn
-ETableMemoryCallbacksInitializeValueFn
-ETableMemoryCallbacksValueIsEmptyFn
-ETableMemoryCallbacksValueToStringFn
-e_table_memory_callbacks_new
-<SUBSECTION Standard>
-E_TABLE_MEMORY_CALLBACKS
-E_IS_TABLE_MEMORY_CALLBACKS
-E_TYPE_TABLE_MEMORY_CALLBACKS
-E_TABLE_MEMORY_CALLBACKS_CLASS
-E_IS_TABLE_MEMORY_CALLBACKS_CLASS
-E_TABLE_MEMORY_CALLBACKS_GET_CLASS
-ETableMemoryCallbacksClass
-e_table_memory_callbacks_get_type
-</SECTION>
-
-<SECTION>
 <FILE>e-table-memory-store</FILE>
 <TITLE>ETableMemoryStore</TITLE>
 ETableMemoryStore

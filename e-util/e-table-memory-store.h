@@ -29,7 +29,6 @@
 #define _E_TABLE_MEMORY_STORE_H_
 
 #include <e-util/e-table-memory.h>
-#include <e-util/e-table-memory-callbacks.h>
 
 /* Standard GObject macros */
 #define E_TYPE_TABLE_MEMORY_STORE \
@@ -58,6 +57,31 @@ typedef enum {
 	E_TABLE_MEMORY_STORE_COLUMN_TYPE_STRING,
 	E_TABLE_MEMORY_STORE_COLUMN_TYPE_PIXBUF
 } ETableMemoryStoreColumnType;
+
+typedef gpointer	(*ETableMemoryCallbacksDuplicateValueFn)
+							(ETableModel *etm,
+							 gint col,
+							 gconstpointer val,
+							 gpointer data);
+typedef void		(*ETableMemoryCallbacksFreeValueFn)
+							(ETableModel *etm,
+							 gint col,
+							 gpointer val,
+							 gpointer data);
+typedef gpointer	(*ETableMemoryCallbacksInitializeValueFn)
+							(ETableModel *etm,
+							 gint col,
+							 gpointer data);
+typedef gboolean	(*ETableMemoryCallbacksValueIsEmptyFn)
+							(ETableModel *etm,
+							 gint col,
+							 gconstpointer val,
+							 gpointer data);
+typedef gchar *		(*ETableMemoryCallbacksValueToStringFn)
+							(ETableModel *etm,
+							 gint col,
+							 gconstpointer val,
+							 gpointer data);
 
 typedef struct {
 	ETableMemoryStoreColumnType type;

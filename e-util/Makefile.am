@@ -267,7 +267,6 @@ evolution_util_include_HEADERS =  \
 	e-table-header-utils.h \
 	e-table-header.h \
 	e-table-item.h \
-	e-table-memory-callbacks.h \
 	e-table-memory-store.h \
 	e-table-memory.h \
 	e-table-model.h \
@@ -511,7 +510,6 @@ libevolution_util_la_SOURCES = \
 	e-table-header-utils.c \
 	e-table-header.c \
 	e-table-item.c \
-	e-table-memory-callbacks.c \
 	e-table-memory-store.c \
 	e-table-memory.c \
 	e-table-model.c \
