@@ -3763,10 +3763,8 @@ e_table_model_thaw
 E_TABLE_MODEL
 E_IS_TABLE_MODEL
 E_TYPE_TABLE_MODEL
-E_TABLE_MODEL_CLASS
-E_IS_TABLE_MODEL_CLASS
-E_TABLE_MODEL_GET_CLASS
-ETableModelClass
+E_TABLE_MODEL_GET_INTERFACE
+ETableModelInterface
 e_table_model_get_type
 </SECTION>
 
@@ -4012,6 +4010,8 @@ E_IS_TABLE_SUBSET_VARIABLE_CLASS
 E_TABLE_SUBSET_VARIABLE_GET_CLASS
 ETableSubsetVariableClass
 e_table_subset_variable_get_type
+<SUBSECTION Private>
+ETableSubsetPrivate
 </SECTION>
 
 <SECTION>
