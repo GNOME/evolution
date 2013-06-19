@@ -75,7 +75,6 @@ void		e_bit_array_foreach		(EBitArray *bit_array,
 						 gpointer closure);
 gint		e_bit_array_selected_count	(EBitArray *bit_array);
 void		e_bit_array_select_all		(EBitArray *bit_array);
-void		e_bit_array_invert_selection	(EBitArray *bit_array);
 gint		e_bit_array_bit_count		(EBitArray *bit_array);
 void		e_bit_array_change_one_row	(EBitArray *bit_array,
 						 gint row,

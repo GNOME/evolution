@@ -594,7 +594,6 @@ e_bit_array_value_at
 e_bit_array_foreach
 e_bit_array_selected_count
 e_bit_array_select_all
-e_bit_array_invert_selection
 e_bit_array_bit_count
 e_bit_array_change_one_row
 e_bit_array_change_range

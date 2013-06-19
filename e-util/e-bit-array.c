@@ -296,26 +296,6 @@ e_bit_array_select_all (EBitArray *bit_array)
 	}
 }
 
-/**
- * e_bit_array_invert_selection
- * @bit_array: #EBitArray to invert
- *
- * This routine inverts all the rows in the given
- * #EBitArray.
- */
-void
-e_bit_array_invert_selection (EBitArray *bit_array)
-{
-	gint i;
-
-	if (!bit_array->data)
-		bit_array->data = g_new0 (guint32, (bit_array->bit_count + 31) / 32);
-
-	for (i = 0; i < (bit_array->bit_count + 31) / 32; i++) {
-		bit_array->data[i] = ~bit_array->data[i];
-	}
-}
-
 gint
 e_bit_array_bit_count (EBitArray *bit_array)
 {
