@@ -1578,6 +1578,34 @@ tray_list_add_new (TrayIconData *data)
 	message_push ((Message *) msg);
 }
 
+static void
+alarm_queue_get_alarm_summary (ECalComponent *comp,
+			       const ECalComponentAlarmInstance *instance,
+			       ECalComponentText *text,
+			       ECalComponentAlarm **palarm)
+{
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (instance != NULL);
+	g_return_if_fail (instance->auid != NULL);
+	g_return_if_fail (text != NULL);
+	g_return_if_fail (palarm != NULL);
+
+	text->value = NULL;
+
+	*palarm = e_cal_component_get_alarm (comp, instance->auid);
+	if (*palarm) {
+		e_cal_component_alarm_get_description (*palarm, text);
+		if (!text->value || !*text->value) {
+			text->value = NULL;
+			e_cal_component_alarm_free (*palarm);
+			*palarm = NULL;
+		}
+	}
+
+	if (!text->value)
+		e_cal_component_get_summary (comp, text);
+}
+
 /* Performs notification of a display alarm */
 static void
 display_notification (time_t trigger,
@@ -1587,6 +1615,7 @@ display_notification (time_t trigger,
 {
 	QueuedAlarm *qa;
 	ECalComponent *comp;
+	ECalComponentAlarm *comp_alarm = NULL;
 	const gchar *summary, *description, *location;
 	TrayIconData *tray_data;
 	ECalComponentText text;
@@ -1603,7 +1632,7 @@ display_notification (time_t trigger,
 		return;
 
 	/* get a sensible description for the event */
-	e_cal_component_get_summary (comp, &text);
+	alarm_queue_get_alarm_summary (comp, qa->instance, &text, &comp_alarm);
 	e_cal_component_get_organizer (comp, &organiser);
 
 	if (text.value)
@@ -1685,6 +1714,8 @@ display_notification (time_t trigger,
 		gtk_status_icon_set_tooltip_text (tray_icon, str);
 	}
 
+	if (comp_alarm)
+		e_cal_component_alarm_free (comp_alarm);
 	g_free (start_str);
 	g_free (end_str);
 	g_free (alarm_str);
@@ -1719,6 +1750,7 @@ popup_notification (time_t trigger,
 {
 	QueuedAlarm *qa;
 	ECalComponent *comp;
+	ECalComponentAlarm *comp_alarm = NULL;
 	const gchar *summary, *location;
 	ECalComponentText text;
 	gchar *str, *start_str, *end_str, *alarm_str, *time_str;
@@ -1737,7 +1769,7 @@ popup_notification (time_t trigger,
 		notify_init (_("Evolution Reminders"));
 
 	/* get a sensible description for the event */
-	e_cal_component_get_summary (comp, &text);
+	alarm_queue_get_alarm_summary (comp, qa->instance, &text, &comp_alarm);
 	e_cal_component_get_organizer (comp, &organiser);
 
 	if (text.value)
@@ -1792,6 +1824,8 @@ popup_notification (time_t trigger,
 	if (!notify_notification_show (notify, NULL))
 		g_warning ("Could not send notification to daemon\n");
 
+	if (comp_alarm)
+		e_cal_component_alarm_free (comp_alarm);
 	/* create the private structure */
 	g_free (start_str);
 	g_free (end_str);
