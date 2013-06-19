@@ -198,7 +198,6 @@ void		message_list_select_prev_thread	(MessageList *message_list);
 void		message_list_select_all		(MessageList *message_list);
 void		message_list_select_thread	(MessageList *message_list);
 void		message_list_select_subthread	(MessageList *message_list);
-void		message_list_invert_selection	(MessageList *message_list);
 void		message_list_copy		(MessageList *message_list,
 						 gboolean cut);
 void		message_list_paste		(MessageList *message_list);

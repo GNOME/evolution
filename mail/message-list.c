@@ -1171,22 +1171,6 @@ message_list_select_subthread (MessageList *message_list)
 	select_thread (message_list, subthread_select_foreach);
 }
 
-/**
- * message_list_invert_selection:
- * @message_list: Message List widget
- *
- * Invert the current selection in the message-list.
- **/
-void
-message_list_invert_selection (MessageList *message_list)
-{
-	ESelectionModel *etsm;
-
-	etsm = e_tree_get_selection_model (E_TREE (message_list));
-
-	e_selection_model_invert_selection (etsm);
-}
-
 void
 message_list_copy (MessageList *message_list,
                    gboolean cut)
