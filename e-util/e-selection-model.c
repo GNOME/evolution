@@ -341,26 +341,6 @@ e_selection_model_select_all (ESelectionModel *model)
 	class->select_all (model);
 }
 
-/**
- * e_selection_model_invert_selection
- * @model: #ESelectionModel to invert
- *
- * This routine inverts all the rows in the given
- * #ESelectionModel.
- */
-void
-e_selection_model_invert_selection (ESelectionModel *model)
-{
-	ESelectionModelClass *class;
-
-	g_return_if_fail (E_IS_SELECTION_MODEL (model));
-
-	class = E_SELECTION_MODEL_GET_CLASS (model);
-	g_return_if_fail (class->invert_selection != NULL);
-
-	class->invert_selection (model);
-}
-
 gint
 e_selection_model_row_count (ESelectionModel *model)
 {

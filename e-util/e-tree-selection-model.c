@@ -484,35 +484,6 @@ tree_selection_model_select_all (ESelectionModel *selection)
 		get_cursor_row (etsm), etsm->priv->cursor_col);
 }
 
-static void
-tree_selection_model_invert_selection (ESelectionModel *selection)
-{
-	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL (selection);
-	gint count;
-	gint i;
-
-	count = e_selection_model_row_count (selection);
-
-	for (i = 0; i < count; i++) {
-		ETreePath path;
-
-		path = e_tree_table_adapter_node_at_row (etsm->priv->etta, i);
-		if (path == NULL)
-			continue;
-
-		if (g_hash_table_contains (etsm->priv->paths, path))
-			g_hash_table_remove (etsm->priv->paths, path);
-		else
-			g_hash_table_add (etsm->priv->paths, path);
-	}
-
-	etsm->priv->cursor_col = -1;
-	etsm->priv->cursor_path = NULL;
-	etsm->priv->start_path = NULL;
-	e_selection_model_selection_changed (E_SELECTION_MODEL (etsm));
-	e_selection_model_cursor_changed (E_SELECTION_MODEL (etsm), -1, -1);
-}
-
 static gint
 tree_selection_model_row_count (ESelectionModel *selection)
 {
@@ -712,7 +683,6 @@ e_tree_selection_model_class_init (ETreeSelectionModelClass *class)
 	esm_class->clear = tree_selection_model_clear;
 	esm_class->selected_count = tree_selection_model_selected_count;
 	esm_class->select_all = tree_selection_model_select_all;
-	esm_class->invert_selection = tree_selection_model_invert_selection;
 	esm_class->row_count = tree_selection_model_row_count;
 
 	esm_class->change_one_row = tree_selection_model_change_one_row;

@@ -310,25 +310,6 @@ esma_select_all (ESelectionModel *selection)
 	e_selection_model_cursor_changed (E_SELECTION_MODEL (esma), 0, 0);
 }
 
-static void
-esma_invert_selection (ESelectionModel *selection)
-{
-	ESelectionModelArray *esma = E_SELECTION_MODEL_ARRAY (selection);
-
-	e_selection_model_array_confirm_row_count (esma);
-
-	e_bit_array_invert_selection (esma->eba);
-
-	esma->cursor_col = -1;
-	esma->cursor_row = -1;
-	esma->cursor_row_sorted = -1;
-	esma->selection_start_row = 0;
-	esma->selected_row = -1;
-	esma->selected_range_end = -1;
-	e_selection_model_selection_changed (E_SELECTION_MODEL (esma));
-	e_selection_model_cursor_changed (E_SELECTION_MODEL (esma), -1, -1);
-}
-
 static gint
 esma_row_count (ESelectionModel *selection)
 {
@@ -562,7 +543,6 @@ e_selection_model_array_class_init (ESelectionModelArrayClass *class)
 	esm_class->clear              = esma_clear;
 	esm_class->selected_count     = esma_selected_count;
 	esm_class->select_all         = esma_select_all;
-	esm_class->invert_selection   = esma_invert_selection;
 	esm_class->row_count          = esma_row_count;
 
 	esm_class->change_one_row     = esma_change_one_row;

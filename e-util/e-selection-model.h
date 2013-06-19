@@ -86,7 +86,6 @@ struct _ESelectionModelClass {
 	void		(*clear)		(ESelectionModel *model);
 	gint		(*selected_count)	(ESelectionModel *model);
 	void		(*select_all)		(ESelectionModel *model);
-	void		(*invert_selection)	(ESelectionModel *model);
 	gint		(*row_count)		(ESelectionModel *model);
 
 	/* Protected virtual methods. */
@@ -156,8 +155,6 @@ void		e_selection_model_clear		(ESelectionModel *model);
 gint		e_selection_model_selected_count
 						(ESelectionModel *model);
 void		e_selection_model_select_all	(ESelectionModel *model);
-void		e_selection_model_invert_selection
-						(ESelectionModel *model);
 gint		e_selection_model_row_count	(ESelectionModel *model);
 
 /* Private virtual Functions */
