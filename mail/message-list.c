@@ -3693,37 +3693,38 @@ build_tree (MessageList *message_list,
 	if (message_list->cursor_uid != NULL)
 		saveuid = find_next_selectable (message_list);
 
-		selected = message_list_get_selected (message_list);
+	selected = message_list_get_selected (message_list);
 
-		message_list_tree_model_freeze (message_list);
+	message_list_tree_model_freeze (message_list);
 
-		clear_tree (message_list, FALSE);
+	clear_tree (message_list, FALSE);
 
-		build_subtree (
-			message_list,
-			message_list->priv->tree_model_root,
-			thread->tree, &row);
+	build_subtree (
+		message_list,
+		message_list->priv->tree_model_root,
+		thread->tree, &row);
 
-		/* Show the cursor unless we're responding to a
-		 * "folder-changed" signal from our CamelFolder. */
-		if (folder_changed && table_item != NULL)
-			table_item->queue_show_cursor = FALSE;
+	/* Show the cursor unless we're responding to a
+	 * "folder-changed" signal from our CamelFolder. */
+	if (folder_changed && table_item != NULL)
+		table_item->queue_show_cursor = FALSE;
 
-		message_list_tree_model_thaw (message_list);
+	message_list_tree_model_thaw (message_list);
 
-		/* it's required to thaw & freeze, to propagate changes */
-		message_list_tree_model_freeze (message_list);
+	/* it's required to thaw & freeze, to propagate changes */
+	message_list_tree_model_freeze (message_list);
 
-		message_list_set_selected (message_list, selected);
+	message_list_set_selected (message_list, selected);
 
-		g_ptr_array_unref (selected);
+	g_ptr_array_unref (selected);
 
-		/* Show the cursor unless we're responding to a
-		 * "folder-changed" signal from our CamelFolder. */
-		if (folder_changed && table_item != NULL)
-			table_item->queue_show_cursor = FALSE;
+	/* Show the cursor unless we're responding to a
+	 * "folder-changed" signal from our CamelFolder. */
+	if (folder_changed && table_item != NULL)
+		table_item->queue_show_cursor = FALSE;
 
-		message_list_tree_model_thaw (message_list);
+	message_list_tree_model_thaw (message_list);
+
 	if (!saveuid && message_list->cursor_uid && g_hash_table_lookup (message_list->uid_nodemap, message_list->cursor_uid)) {
 		/* this makes sure a visible node is selected, like when
 		 * collapsing all nodes and a children had been selected
