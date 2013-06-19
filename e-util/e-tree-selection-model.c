@@ -384,8 +384,7 @@ tree_selection_model_is_row_selected (ESelectionModel *selection,
 	ETreePath path;
 
 	g_return_val_if_fail (
-		row < e_table_model_row_count (
-		E_TABLE_MODEL (etsm->priv->etta)), FALSE);
+		row < e_selection_model_row_count (selection), FALSE);
 	g_return_val_if_fail (row >= 0, FALSE);
 	g_return_val_if_fail (etsm != NULL, FALSE);
 
@@ -439,12 +438,25 @@ tree_selection_model_selected_count (ESelectionModel *selection)
 	return g_hash_table_size (etsm->priv->paths);
 }
 
+/* Helper for tree_selection_model_select_all() */
+static gboolean
+tree_selection_model_traverse_cb (ETreeModel *tree_model,
+                                  ETreePath path,
+                                  gpointer user_data)
+{
+	ETreeSelectionModel *etsm;
+
+	etsm = E_TREE_SELECTION_MODEL (user_data);
+	g_hash_table_add (etsm->priv->paths, path);
+
+	return FALSE;
+}
+
 static void
 tree_selection_model_select_all (ESelectionModel *selection)
 {
 	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL (selection);
 	ETreePath root;
-	gint count;
 
 	root = e_tree_model_get_root (etsm->priv->model);
 	if (root == NULL)
@@ -452,8 +464,14 @@ tree_selection_model_select_all (ESelectionModel *selection)
 
 	clear_selection (etsm);
 
-	count = e_selection_model_row_count (selection);
-	select_range (etsm, 0, count - 1);
+	/* We want to select ALL rows regardless of expanded state.
+	 * ETreeTableAdapter pretends that collapsed rows don't exist,
+	 * so instead we need to iterate over the ETreeModel directly. */
+
+	e_tree_model_node_traverse (
+		etsm->priv->model, root,
+		tree_selection_model_traverse_cb,
+		selection);
 
 	if (etsm->priv->cursor_path == NULL)
 		etsm->priv->cursor_path = e_tree_table_adapter_node_at_row (
@@ -500,7 +518,12 @@ tree_selection_model_row_count (ESelectionModel *selection)
 {
 	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL (selection);
 
-	return e_table_model_row_count (E_TABLE_MODEL (etsm->priv->etta));
+	/* We want to return the true row count, including collapsed rows.
+	 * ETreeTableAdapter pretends that collapsed rows don't exist and
+	 * will return a false count (for our purpose), so instead we ask
+	 * the ETreeModel directly. */
+
+	return e_tree_model_node_get_n_nodes (etsm->priv->model);
 }
 
 static void
