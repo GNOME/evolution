@@ -359,6 +359,19 @@ e_tree_model_node_is_expandable (ETreeModel *tree_model,
 }
 
 guint
+e_tree_model_node_get_n_nodes (ETreeModel *tree_model)
+{
+	ETreeModelInterface *interface;
+
+	g_return_val_if_fail (E_IS_TREE_MODEL (tree_model), 0);
+
+	interface = E_TREE_MODEL_GET_INTERFACE (tree_model);
+	g_return_val_if_fail (interface->get_n_nodes != NULL, 0);
+
+	return interface->get_n_nodes (tree_model);
+}
+
+guint
 e_tree_model_node_get_n_children (ETreeModel *tree_model,
                                   ETreePath path)
 {

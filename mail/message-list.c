@@ -2704,6 +2704,23 @@ message_list_is_expandable (ETreeModel *tree_model,
 }
 
 static guint
+message_list_get_n_nodes (ETreeModel *tree_model)
+{
+	ETreePath root;
+	guint n_nodes = 0;
+
+	root = e_tree_model_get_root (tree_model);
+
+	if (root == NULL)
+		return 0;
+
+	/* The root node is an empty placeholder, so
+	 * subtract one from the count to exclude it. */
+
+	return g_node_n_nodes ((GNode *) root, G_TRAVERSE_ALL) - 1;
+}
+
+static guint
 message_list_get_n_children (ETreeModel *tree_model,
                              ETreePath path)
 {
@@ -3154,6 +3171,7 @@ message_list_tree_model_init (ETreeModelInterface *interface)
 	interface->get_next = message_list_get_next;
 	interface->is_root = message_list_is_root;
 	interface->is_expandable = message_list_is_expandable;
+	interface->get_n_nodes = message_list_get_n_nodes;
 	interface->get_n_children = message_list_get_n_children;
 	interface->depth = message_list_depth;
 	interface->get_expanded_default = message_list_get_expanded_default;

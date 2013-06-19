@@ -65,6 +65,7 @@ struct _ETreeModelInterface {
 						 ETreePath path);
 	gboolean	(*is_expandable)	(ETreeModel *tree_model,
 						 ETreePath path);
+	guint		(*get_n_nodes)		(ETreeModel *tree_model);
 	guint		(*get_n_children)	(ETreeModel *tree_model,
 						 ETreePath path);
 	guint		(*depth)		(ETreeModel *tree_model,
@@ -147,6 +148,7 @@ gboolean	e_tree_model_node_is_root	(ETreeModel *tree_model,
 						 ETreePath path);
 gboolean	e_tree_model_node_is_expandable	(ETreeModel *tree_model,
 						 ETreePath path);
+guint		e_tree_model_node_get_n_nodes	(ETreeModel *tree_model);
 guint		e_tree_model_node_get_n_children
 						(ETreeModel *tree_model,
 						 ETreePath path);
