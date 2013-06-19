@@ -2707,7 +2707,6 @@ static guint
 message_list_get_n_nodes (ETreeModel *tree_model)
 {
 	ETreePath root;
-	guint n_nodes = 0;
 
 	root = e_tree_model_get_root (tree_model);
 
