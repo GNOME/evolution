@@ -3351,7 +3351,6 @@ e_table_drag_source_set
 e_table_drag_source_unset
 e_table_drag_begin
 e_table_select_all
-e_table_invert_selection
 e_table_right_click_up
 e_table_commit_click_to_add
 e_table_freeze_state_change

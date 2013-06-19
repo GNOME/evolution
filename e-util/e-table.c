@@ -2157,20 +2157,6 @@ e_table_select_all (ETable *table)
 }
 
 /**
- * e_table_invert_selection:
- * @table: The #ETable to modify
- *
- * Inverts the selection in @table.
- **/
-void
-e_table_invert_selection (ETable *table)
-{
-	g_return_if_fail (E_IS_TABLE (table));
-
-	e_selection_model_invert_selection (E_SELECTION_MODEL (table->selection));
-}
-
-/**
  * e_table_get_printable:
  * @e_table: #ETable to query
  *

@@ -387,7 +387,6 @@ GdkDragContext *e_table_drag_begin		(ETable *table,
 
 /* selection stuff */
 void		e_table_select_all		(ETable *table);
-void		e_table_invert_selection	(ETable *table);
 
 /* This function is only needed in single_selection_mode. */
 void		e_table_right_click_up		(ETable *table);
