@@ -25,8 +25,8 @@
 #error "Only <e-util/e-util.h> should be included directly."
 #endif
 
-#ifndef _E_TREE_TABLE_ADAPTER_H_
-#define _E_TREE_TABLE_ADAPTER_H_
+#ifndef E_TREE_TABLE_ADAPTER_H
+#define E_TREE_TABLE_ADAPTER_H
 
 #include <libxml/tree.h>
 
@@ -73,13 +73,17 @@ struct _ETreeTableAdapterClass {
 };
 
 GType		e_tree_table_adapter_get_type	(void) G_GNUC_CONST;
-ETableModel *	e_tree_table_adapter_new	(ETreeModel *source,
+ETableModel *	e_tree_table_adapter_new	(ETreeModel *source_model,
 						 ETableSortInfo *sort_info,
 						 ETableHeader *header);
-ETableModel *	e_tree_table_adapter_construct	(ETreeTableAdapter *ets,
-						 ETreeModel *source,
-						 ETableSortInfo *sort_info,
-						 ETableHeader	*header);
+ETableHeader *	e_tree_table_adapter_get_header	(ETreeTableAdapter *etta);
+ETableSortInfo *e_tree_table_adapter_get_sort_info
+						(ETreeTableAdapter *etta);
+void		e_tree_table_adapter_set_sort_info
+						(ETreeTableAdapter *etta,
+						 ETableSortInfo *sort_info);
+ETreeModel *	e_tree_table_adapter_get_source_model
+						(ETreeTableAdapter *etta);
 
 ETreePath	e_tree_table_adapter_node_get_next
 						(ETreeTableAdapter *etta,
@@ -126,13 +130,6 @@ void		e_tree_table_adapter_load_expanded_state_xml
 						(ETreeTableAdapter *etta,
 						 xmlDoc *doc);
 
-void		e_tree_table_adapter_set_sort_info
-						(ETreeTableAdapter *etta,
-						 ETableSortInfo *sort_info);
-ETableSortInfo *e_tree_table_adapter_get_sort_info
-						 (ETreeTableAdapter *etta);
-ETableHeader *	e_tree_table_adapter_get_header	 (ETreeTableAdapter *etta);
-
 G_END_DECLS
 
-#endif /* _E_TREE_TABLE_ADAPTER_H_ */
+#endif /* E_TREE_TABLE_ADAPTER_H */
