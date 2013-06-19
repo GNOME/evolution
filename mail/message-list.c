@@ -3468,6 +3468,7 @@ is_node_selectable (MessageList *message_list,
 	gboolean hide_junk;
 	gboolean hide_deleted;
 	gboolean store_has_vjunk;
+	gboolean selectable = FALSE;
 
 	g_return_val_if_fail (info != NULL, FALSE);
 
@@ -3498,22 +3499,22 @@ is_node_selectable (MessageList *message_list,
 		 * the message is marked as junk and if not deleted
 		 * when hide_deleted is set */
 		if (flag_junk && !(flag_deleted && hide_deleted))
-			return TRUE;
+			selectable = TRUE;
 
 	} else if (is_trash_folder) {
 		/* messages in a trash folder are selectable unless
 		 * not deleted any more */
 		if (flag_deleted)
-			return TRUE;
+			selectable = TRUE;
 	} else {
 		/* in normal folders it depends on hide_deleted,
 		 * hide_junk and the message flags */
 		if (!(flag_junk && hide_junk)
 		    && !(flag_deleted && hide_deleted))
-			return TRUE;
+			selectable = TRUE;
 	}
 
-	return FALSE;
+	return selectable;
 }
 
 /* We try and find something that is selectable in our tree.  There is
