@@ -5421,10 +5421,15 @@ message_list_regen_done_cb (GObject *source_object,
 		}
 
 		if (forcing_expand_state || searching) {
+			gint state;
+
 			if (message_list->expand_all || searching)
-				e_tree_force_expanded_state (tree, 1);
+				state = 1;  /* force expand */
 			else
-				e_tree_force_expanded_state (tree, -1);
+				state = -1; /* force collapse */
+
+			e_tree_table_adapter_force_expanded_state (
+				adapter, state);
 		}
 
 		/* Show the cursor unless we're responding to a
@@ -5446,8 +5451,8 @@ message_list_regen_done_cb (GObject *source_object,
 				save_tree_state (
 					message_list,
 					regen_data->folder);
-			/* do not forget to set this back to use the default value... */
-			e_tree_force_expanded_state (tree, 0);
+			/* Disable forced expand/collapse state. */
+			e_tree_table_adapter_force_expanded_state (adapter, 0);
 		} else {
 			load_tree_state (
 				message_list,

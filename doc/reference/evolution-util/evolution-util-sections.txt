@@ -4209,7 +4209,6 @@ e_tree_drag_begin
 e_tree_is_dragging
 e_tree_row_count
 e_tree_get_tooltip
-e_tree_force_expanded_state
 ETreeFindNextParams
 e_tree_find_next
 e_tree_get_item

@@ -2196,18 +2196,6 @@ e_tree_view_to_model_row (ETree *tree,
 		return view_row;
 }
 
-/* state: <0 ... collapse; 0 ... no force - use default; >0 ... expand;
- * when using this, be sure to reset to 0 once no forcing is required
- * anymore, aka the build of the tree is done */
-void
-e_tree_force_expanded_state (ETree *tree,
-                             gint state)
-{
-	g_return_if_fail (E_IS_TREE (tree));
-
-	e_tree_table_adapter_force_expanded_state (tree->priv->etta, state);
-}
-
 gint
 e_tree_row_count (ETree *tree)
 {
