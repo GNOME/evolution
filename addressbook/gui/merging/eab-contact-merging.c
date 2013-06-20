@@ -36,6 +36,8 @@
 #include "e-util/e-util-private.h"
 #include <glib/gi18n.h>
 
+#include <camel/camel.h>
+
 typedef struct dropdown_data dropdown_data;
 typedef enum {
 	E_CONTACT_MERGING_ADD,
@@ -61,6 +63,10 @@ typedef struct {
 struct dropdown_data {
 	EContact *match;
 	EContactField field;
+
+	/* for E_CONTACT_EMAIL field */
+	GList *email_attr_list_item;
+	EVCardAttribute *email_attr;
 };
 static void match_query_callback (EContact *contact, EContact *match, EABContactMatchType type, gpointer closure);
 
@@ -270,14 +276,28 @@ static void
 dropdown_changed (GtkWidget *dropdown,
                   dropdown_data *data)
 {
-	gchar *str;
-	str = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (dropdown));
+	gchar *str = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (dropdown));
 
-	if (g_ascii_strcasecmp (str, ""))
+	if (str && *str)
 		e_contact_set (data->match, data->field, str);
 	else
 		e_contact_set (data->match, data->field, NULL);
-	return;
+
+	g_free (str);
+}
+
+static void
+email_dropdown_changed (GtkWidget *dropdown,
+			dropdown_data *data)
+{
+	gchar *str = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (dropdown));
+
+	if (str && *str)
+		data->email_attr_list_item->data = data->email_attr;
+	else
+		data->email_attr_list_item->data = NULL;
+
+	g_free (str);
 }
 
 static void
@@ -314,9 +334,9 @@ mergeit (EContactMergingLookup *lookup)
 	GtkWidget *dialog;
 	GtkTable *table;
 	EContactField field;
-	gchar *str = NULL, *string = NULL, *string1 = NULL;
-	gint num_of_email;
-	GList *email_attr_list;
+	gchar *string = NULL, *string1 = NULL;
+	GList *match_email_attr_list, *contact_email_attr_list, *miter, *citer, *use_email_attr_list;
+	GHashTable *match_emails; /* emails in the 'match' contact */
 	gint row = -1;
 	gint value = 0, result;
 
@@ -342,8 +362,25 @@ mergeit (EContactMergingLookup *lookup)
 		_("_Merge"), GTK_RESPONSE_OK,
 		NULL);
 
-	email_attr_list = e_contact_get_attributes (lookup->match, E_CONTACT_EMAIL);
-	num_of_email = g_list_length (email_attr_list);
+	match_emails = g_hash_table_new_full (camel_strcase_hash, camel_strcase_equal, g_free, NULL);
+	match_email_attr_list = e_contact_get_attributes (lookup->match, E_CONTACT_EMAIL);
+	contact_email_attr_list = e_contact_get_attributes (lookup->contact, E_CONTACT_EMAIL);
+	use_email_attr_list = NULL;
+
+	for (miter = match_email_attr_list; miter; miter = g_list_next (miter)) {
+		EVCardAttribute *attr = miter->data;
+		gchar *email;
+
+		email = e_vcard_attribute_get_value (attr);
+		if (email && *email) {
+			g_hash_table_insert (match_emails, email, attr);
+			use_email_attr_list = g_list_prepend (use_email_attr_list, attr);
+		} else {
+			g_free (email);
+		}
+	}
+
+	use_email_attr_list = g_list_reverse (use_email_attr_list);
 
 	/*we match all the string fields of the already existing contact and the new contact.*/
 	for (field = E_CONTACT_FULL_NAME; field != (E_CONTACT_LAST_SIMPLE_STRING -1); field++) {
@@ -353,72 +390,59 @@ mergeit (EContactMergingLookup *lookup)
 
 		/*the field must exist in the new as well as the duplicate contact*/
 		if (string && *string) {
-			/*Four email id's present, should be compared with all email id's in duplicate contact */
-			/*Merge only if number of email id's in existing contact is less than 4 */
-			if ((field == E_CONTACT_EMAIL_1 || field == E_CONTACT_EMAIL_2
-			    || field == E_CONTACT_EMAIL_3 || field == E_CONTACT_EMAIL_4) && (num_of_email < 4)) {
-				EContactField use_field = field;
-				row++;
-				str = (gchar *) e_contact_get_const (lookup->contact, use_field);
-				switch (num_of_email)
-				{
-				case 0:
-					use_field = E_CONTACT_EMAIL_1;
-					break;
-				case 1:
-					/*New contact has email that is NOT equal to email in duplicate contact*/
-					if ((str && *str) && (g_ascii_strcasecmp (e_contact_get_const (lookup->match, E_CONTACT_EMAIL_1),str))) {
-						use_field = E_CONTACT_EMAIL_2;
-						break;
+			if (field == E_CONTACT_EMAIL_1) {
+				for (citer = contact_email_attr_list; citer; citer = g_list_next (citer)) {
+					EVCardAttribute *attr = citer->data;
+					gchar *email;
+
+					email = e_vcard_attribute_get_value (attr);
+					if (email && *email) {
+						if (!g_hash_table_lookup (match_emails, email)) {
+							dropdown_data *data;
+
+							/* the email is not set in both contacts */
+							use_email_attr_list = g_list_append (use_email_attr_list, attr);
+
+							row++;
+							label = gtk_label_new (_("Email"));
+							hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+							gtk_box_pack_start (GTK_BOX (hbox), (GtkWidget *) label, FALSE, FALSE, 0);
+							gtk_table_attach_defaults (table, (GtkWidget *) hbox, 0, 1, row, row + 1);
+
+							dropdown = gtk_combo_box_text_new ();
+							gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (dropdown), email);
+
+							data = g_new0 (dropdown_data, 1);
+
+							gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (dropdown), "");
+
+							gtk_combo_box_set_active (GTK_COMBO_BOX (dropdown), 0);
+							data->field = E_CONTACT_EMAIL;
+							data->match = lookup->match;
+							data->email_attr_list_item = g_list_last (use_email_attr_list);
+							data->email_attr = attr;
+
+							g_signal_connect (
+								dropdown, "changed",
+								G_CALLBACK (email_dropdown_changed), data);
+							g_object_set_data_full (G_OBJECT (dropdown), "eab-contact-merging::dropdown-data", data, g_free);
+
+							hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+							gtk_box_pack_start (GTK_BOX (hbox), (GtkWidget *) dropdown, FALSE, FALSE, 0);
+							gtk_table_attach_defaults (table, (GtkWidget *) hbox, 1, 2, row, row + 1);
+							gtk_widget_show ((GtkWidget *) dropdown);
+						}
 					}
-					else/*Either the new contact has no email OR the email already exist in the duplicate contact */
-						continue;
-				case 2:
-					/*New contact has email and it is equal to neither of the 2 emails in the duplicate contact*/
-					if ((str && *str) &&
-							(g_ascii_strcasecmp (str,e_contact_get_const (lookup->match, E_CONTACT_EMAIL_1))) &&
-							(g_ascii_strcasecmp (e_contact_get_const (lookup->match, E_CONTACT_EMAIL_2),str))) {
-						use_field = E_CONTACT_EMAIL_3;
-						break;
-					}
-					else
-						continue;
-				case 3:
-					/*New contact has email and it is equal to none of the 3 emails in the duplicate contact*/
-					if ((str && *str) &&
-							(g_ascii_strcasecmp (e_contact_get_const (lookup->match, E_CONTACT_EMAIL_1),str)) &&
-							(g_ascii_strcasecmp (e_contact_get_const (lookup->match, E_CONTACT_EMAIL_2),str)) &&
-							(g_ascii_strcasecmp (e_contact_get_const (lookup->match, E_CONTACT_EMAIL_3),str)))
-						use_field = E_CONTACT_EMAIL_4;
-					else
-						continue;
+					g_free (email);
 				}
-				label = gtk_label_new (_("Email"));
-				hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
-				gtk_box_pack_start (GTK_BOX (hbox), (GtkWidget *) label, FALSE, FALSE, 0);
-				gtk_table_attach_defaults (table, (GtkWidget *) hbox, 0, 1, row, row + 1);
-
-				dropdown = gtk_combo_box_text_new ();
-				gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (dropdown), string);
-
-				data = g_new0 (dropdown_data, 1);
-
-				gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (dropdown), "");
-
-				gtk_combo_box_set_active (GTK_COMBO_BOX (dropdown), 0);
-				data->field = use_field;
-				data->match = lookup->match;
-				e_contact_set (lookup->match, use_field, string);
-				g_signal_connect (
-					dropdown, "changed",
-					G_CALLBACK (dropdown_changed), data);
-
-				hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
-				gtk_box_pack_start (GTK_BOX (hbox), (GtkWidget *) dropdown, FALSE, FALSE, 0);
-				gtk_table_attach_defaults (table, (GtkWidget *) hbox, 1, 2, row, row + 1);
-				gtk_widget_show ((GtkWidget *) dropdown);
 				continue;
 			}
+
+			if (field == E_CONTACT_EMAIL_2 || field == E_CONTACT_EMAIL_3 || field == E_CONTACT_EMAIL_4) {
+				/* emails are compared above */
+				continue;
+			}
+
 			if (((field == E_CONTACT_FULL_NAME) && (!g_ascii_strcasecmp (string, string1)))) {
 				row++;
 				label = gtk_label_new (e_contact_pretty_name (field));
@@ -460,6 +484,7 @@ mergeit (EContactMergingLookup *lookup)
 				g_signal_connect (
 					dropdown, "changed",
 					G_CALLBACK (dropdown_changed), data);
+				g_object_set_data_full (G_OBJECT (dropdown), "eab-contact-merging::dropdown-data", data, g_free);
 
 				hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 				gtk_box_pack_start (GTK_BOX (hbox), (GtkWidget *) dropdown, FALSE, FALSE, 0);
@@ -481,6 +506,15 @@ mergeit (EContactMergingLookup *lookup)
 
 	switch (result) {
 	case GTK_RESPONSE_OK:
+		citer = NULL;
+		for (miter = use_email_attr_list; miter; miter = g_list_next (miter)) {
+			if (miter->data)
+				citer = g_list_prepend (citer, miter->data);
+		}
+		citer = g_list_reverse (citer);
+		e_contact_set_attributes (lookup->match, E_CONTACT_EMAIL, citer);
+		g_list_free (citer);
+
 		g_object_unref (lookup->contact);
 		lookup->contact = g_object_ref (lookup->match);
 		e_book_client_remove_contact (
@@ -495,7 +529,11 @@ mergeit (EContactMergingLookup *lookup)
 		break;
 	}
 	gtk_widget_destroy (dialog);
-	g_list_free_full (email_attr_list, (GDestroyNotify) e_vcard_attribute_free);
+	g_list_free_full (match_email_attr_list, (GDestroyNotify) e_vcard_attribute_free);
+	g_list_free_full (contact_email_attr_list, (GDestroyNotify) e_vcard_attribute_free);
+	g_list_free (use_email_attr_list);
+	g_hash_table_destroy (match_emails);
+
 	return value;
 }
 
@@ -622,7 +660,6 @@ match_query_callback (EContact *contact,
 		GtkWidget *merge_button;
 		GtkWidget *widget;
 
-		/* XXX I think we're leaking the GtkBuilder. */
 		builder = gtk_builder_new ();
 
 		lookup->match = g_object_ref (match);
@@ -640,6 +677,7 @@ match_query_callback (EContact *contact,
 				builder, "eab-contact-commit-duplicate-detected.ui");
 		} else {
 			doit (lookup, FALSE);
+			g_object_unref (builder);
 			return;
 		}
 
@@ -672,6 +710,8 @@ match_query_callback (EContact *contact,
 			G_CALLBACK (response), lookup);
 
 		gtk_widget_show_all (widget);
+
+		g_object_unref (builder);
 	}
 }
 
