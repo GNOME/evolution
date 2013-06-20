@@ -972,7 +972,6 @@ item_key_press (ETableItem *eti,
 			row_local = e_table_model_row_count (
 				E_TABLE_MODEL (tree->priv->etta)) - 1;
 
-		row_local = e_tree_view_to_model_row (tree, row_local);
 		col_local = e_selection_model_cursor_col (
 			E_SELECTION_MODEL (tree->priv->selection));
 		e_selection_model_select_as_key_press (
@@ -991,7 +990,6 @@ item_key_press (ETableItem *eti,
 			row_local = e_table_model_row_count (
 				E_TABLE_MODEL (tree->priv->etta)) - 1;
 
-		row_local = e_tree_view_to_model_row (tree, row_local);
 		col_local = e_selection_model_cursor_col (
 			E_SELECTION_MODEL (tree->priv->selection));
 		e_selection_model_select_as_key_press (
@@ -2040,15 +2038,6 @@ et_set_property (GObject *object,
 				"vscroll-policy", value);
 		break;
 	}
-}
-
-gint
-e_tree_view_to_model_row (ETree *tree,
-                          gint view_row)
-{
-	g_return_val_if_fail (E_IS_TREE (tree), -1);
-
-	return view_row;
 }
 
 /**
