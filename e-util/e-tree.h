@@ -251,9 +251,6 @@ ETreeTableAdapter *
 
 /* Drag & drop stuff. */
 /* Target */
-void		e_tree_drag_highlight		(ETree *tree,
-						 gint row,
-						 gint col); /* col == -1 to highlight entire row. */
 void		e_tree_drag_unhighlight		(ETree *tree);
 
 /* Source side */

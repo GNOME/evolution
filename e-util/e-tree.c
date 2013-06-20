@@ -2546,68 +2546,6 @@ struct _GtkDragSourceInfo
 
 /* Drag & drop stuff. */
 
-/**
- * e_tree_drag_highlight:
- * @tree:
- * @row:
- * @col:
- *
- * Set col to -1 to highlight the entire row.
- * Set row to -1 to turn off the highlight.
- */
-void
-e_tree_drag_highlight (ETree *tree,
-                       gint row,
-                       gint col)
-{
-	GtkAllocation allocation;
-	GtkAdjustment *adjustment;
-	GtkScrollable *scrollable;
-	GtkStyle *style;
-
-	g_return_if_fail (E_IS_TREE (tree));
-
-	scrollable = GTK_SCROLLABLE (tree->priv->table_canvas);
-	style = gtk_widget_get_style (GTK_WIDGET (tree));
-	gtk_widget_get_allocation (GTK_WIDGET (scrollable), &allocation);
-
-	if (row != -1) {
-		gint x, y, width, height;
-		if (col == -1) {
-			e_tree_get_cell_geometry (tree, row, 0, &x, &y, &width, &height);
-			x = 0;
-			width = allocation.width;
-		} else {
-			e_tree_get_cell_geometry (tree, row, col, &x, &y, &width, &height);
-			adjustment = gtk_scrollable_get_hadjustment (scrollable);
-			x += gtk_adjustment_get_value (adjustment);
-		}
-
-		adjustment = gtk_scrollable_get_vadjustment (scrollable);
-		y += gtk_adjustment_get_value (adjustment);
-
-		if (tree->priv->drop_highlight == NULL) {
-			tree->priv->drop_highlight = gnome_canvas_item_new (
-				gnome_canvas_root (tree->priv->table_canvas),
-				gnome_canvas_rect_get_type (),
-				"fill_color", NULL,
-				"outline_color_gdk", &style->fg[GTK_STATE_NORMAL],
-				NULL);
-		}
-
-		gnome_canvas_item_set (
-			tree->priv->drop_highlight,
-			"x1", (gdouble) x,
-			"x2", (gdouble) x + width - 1,
-			"y1", (gdouble) y,
-			"y2", (gdouble) y + height - 1,
-			NULL);
-	} else {
-		g_object_run_dispose (G_OBJECT (tree->priv->drop_highlight));
-		tree->priv->drop_highlight = NULL;
-	}
-}
-
 void
 e_tree_drag_unhighlight (ETree *tree)
 {
