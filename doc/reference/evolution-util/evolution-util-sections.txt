@@ -4207,7 +4207,6 @@ e_tree_drag_source_set
 e_tree_drag_source_unset
 e_tree_drag_begin
 e_tree_is_dragging
-e_tree_load_expanded_state
 e_tree_save_expanded_state_xml
 e_tree_load_expanded_state_xml
 e_tree_row_count
