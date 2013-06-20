@@ -4192,7 +4192,6 @@ e_tree_load_state
 e_tree_show_cursor_after_reflow
 e_tree_set_cursor
 e_tree_get_cursor
-e_tree_selected_row_foreach
 e_tree_selected_path_foreach
 e_tree_path_foreach
 e_tree_get_printable

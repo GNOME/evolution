@@ -1910,18 +1910,6 @@ e_tree_get_cursor (ETree *tree)
 }
 
 void
-e_tree_selected_row_foreach (ETree *tree,
-                             EForeachFunc callback,
-                             gpointer closure)
-{
-	g_return_if_fail (E_IS_TREE (tree));
-
-	e_selection_model_foreach (tree->priv->selection,
-				  callback,
-				  closure);
-}
-
-void
 e_tree_selected_path_foreach (ETree *tree,
                               ETreeForeachFunc callback,
                               gpointer closure)

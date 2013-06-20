@@ -217,9 +217,6 @@ void		e_tree_set_cursor		(ETree *tree,
 
 /* NULL means we don't have the cursor. */
 ETreePath	e_tree_get_cursor		(ETree *tree);
-void		e_tree_selected_row_foreach	(ETree *tree,
-						 EForeachFunc callback,
-						 gpointer closure);
 void		e_tree_selected_path_foreach	(ETree *tree,
 						 ETreeForeachFunc callback,
 						 gpointer closure);

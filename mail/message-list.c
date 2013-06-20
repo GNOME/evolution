@@ -4817,12 +4817,13 @@ ml_getselcount_cb (gint model_row,
 guint
 message_list_selected_count (MessageList *message_list)
 {
+	ESelectionModel *selection;
 	struct ml_count_data data = { message_list, 0 };
 
 	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), 0);
 
-	e_tree_selected_row_foreach (
-		E_TREE (message_list), ml_getselcount_cb, &data);
+	selection = e_tree_get_selection_model (E_TREE (message_list));
+	e_selection_model_foreach (selection, ml_getselcount_cb, &data);
 
 	return data.count;
 }
