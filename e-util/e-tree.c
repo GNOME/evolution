@@ -2638,19 +2638,6 @@ e_tree_drag_unhighlight (ETree *tree)
 	}
 }
 
-/*
- * There probably should be functions for setting the targets
- * as a GtkTargetList
- */
-
-void
-e_tree_drag_dest_unset (GtkWidget *widget)
-{
-	g_return_if_fail (E_IS_TREE (widget));
-
-	gtk_drag_dest_unset (widget);
-}
-
 /* Source side */
 
 static gint

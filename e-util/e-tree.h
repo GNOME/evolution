@@ -262,11 +262,6 @@ void		e_tree_drag_highlight		(ETree *tree,
 						 gint col); /* col == -1 to highlight entire row. */
 void		e_tree_drag_unhighlight		(ETree *tree);
 
-/* There probably should be functions for setting the targets
- * as a GtkTargetList
- */
-void		e_tree_drag_dest_unset		(GtkWidget *widget);
-
 /* Source side */
 void		e_tree_drag_source_set		(ETree *tree,
 						 GdkModifierType start_button_mask,
