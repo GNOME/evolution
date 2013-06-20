@@ -1,4 +1,6 @@
 /*
+ * e-table-sorter.h
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -12,20 +14,14 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
- *
- * Authors:
- *		Chris Lahey <clahey@ximian.com>
- *
- * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
- *
  */
 
 #if !defined (__E_UTIL_H_INSIDE__) && !defined (LIBEUTIL_COMPILATION)
 #error "Only <e-util/e-util.h> should be included directly."
 #endif
 
-#ifndef _E_TABLE_SORTER_H_
-#define _E_TABLE_SORTER_H_
+#ifndef E_TABLE_SORTER_H
+#define E_TABLE_SORTER_H
 
 #include <e-util/e-sorter.h>
 #include <e-util/e-table-header.h>
@@ -71,13 +67,13 @@ struct _ETableSorter {
 	gint *sorted;
 	gint *backsorted;
 
-	gint table_model_changed_id;
-	gint table_model_row_changed_id;
-	gint table_model_cell_changed_id;
-	gint table_model_rows_inserted_id;
-	gint table_model_rows_deleted_id;
-	gint sort_info_changed_id;
-	gint group_info_changed_id;
+	gulong table_model_changed_id;
+	gulong table_model_row_changed_id;
+	gulong table_model_cell_changed_id;
+	gulong table_model_rows_inserted_id;
+	gulong table_model_rows_deleted_id;
+	gulong sort_info_changed_id;
+	gulong group_info_changed_id;
 };
 
 struct _ETableSorterClass {
@@ -91,4 +87,4 @@ ETableSorter *	e_table_sorter_new		(ETableModel *etm,
 
 G_END_DECLS
 
-#endif /* _E_TABLE_SORTER_H_ */
+#endif /* E_TABLE_SORTER_H */
