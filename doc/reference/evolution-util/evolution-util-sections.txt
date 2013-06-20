@@ -4190,7 +4190,6 @@ e_tree_show_cursor_after_reflow
 e_tree_set_cursor
 e_tree_get_cursor
 e_tree_path_foreach
-e_tree_model_to_view_row
 e_tree_view_to_model_row
 e_tree_get_cell_at
 e_tree_get_cell_geometry

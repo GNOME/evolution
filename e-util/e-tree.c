@@ -2052,18 +2052,6 @@ et_set_property (GObject *object,
 }
 
 gint
-e_tree_model_to_view_row (ETree *tree,
-                          gint model_row)
-{
-	g_return_val_if_fail (E_IS_TREE (tree), -1);
-
-	if (tree->priv->sorter)
-		return e_sorter_model_to_sorted (E_SORTER (tree->priv->sorter), model_row);
-	else
-		return model_row;
-}
-
-gint
 e_tree_view_to_model_row (ETree *tree,
                           gint view_row)
 {
