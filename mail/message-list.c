@@ -3550,7 +3550,7 @@ find_next_selectable (MessageList *message_list)
 	last = e_tree_row_count (et);
 
 	/* model_to_view_row etc simply dont work for sorted views.  Sigh. */
-	vrow_orig = e_tree_row_of_node (et, node);
+	vrow_orig = e_tree_table_adapter_row_of_node (adapter, node);
 
 	/* We already checked this node. */
 	vrow = vrow_orig + 1;

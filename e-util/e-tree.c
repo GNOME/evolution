@@ -769,9 +769,13 @@ scroll_to_cursor (ETree *tree)
 	path = e_tree_get_cursor (tree);
 	x = y = w = h = 0;
 
-	if (path) {
-		gint row = e_tree_row_of_node (tree, path);
+	if (path != NULL) {
+		ETreeTableAdapter *adapter;
+		gint row;
 		gint col = 0;
+
+		adapter = e_tree_get_table_adapter (tree);
+		row = e_tree_table_adapter_row_of_node (adapter, path);
 
 		if (row >= 0)
 			e_table_item_get_cell_geometry (
@@ -2190,15 +2194,6 @@ e_tree_view_to_model_row (ETree *tree,
 		return e_sorter_sorted_to_model (E_SORTER (tree->priv->sorter), view_row);
 	else
 		return view_row;
-}
-
-gint
-e_tree_row_of_node (ETree *tree,
-                    ETreePath path)
-{
-	g_return_val_if_fail (E_IS_TREE (tree), -1);
-
-	return e_tree_table_adapter_row_of_node (tree->priv->etta, path);
 }
 
 gboolean
