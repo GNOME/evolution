@@ -1979,9 +1979,9 @@ load_tree_state (MessageList *message_list,
 
 	adapter = e_tree_get_table_adapter (E_TREE (message_list));
 
-	if (expand_state) {
-		e_tree_load_expanded_state_xml (
-			E_TREE (message_list), expand_state);
+	if (expand_state != NULL) {
+		e_tree_table_adapter_load_expanded_state_xml (
+			adapter, expand_state);
 	} else if (!message_list->search || !*message_list->search) {
 		/* only when not searching */
 		gchar *filename;

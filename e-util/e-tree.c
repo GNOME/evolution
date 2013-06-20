@@ -2196,16 +2196,6 @@ e_tree_view_to_model_row (ETree *tree,
 		return view_row;
 }
 
-void
-e_tree_load_expanded_state_xml (ETree *tree,
-                                xmlDoc *doc)
-{
-	g_return_if_fail (E_IS_TREE (tree));
-	g_return_if_fail (doc != NULL);
-
-	e_tree_table_adapter_load_expanded_state_xml (tree->priv->etta, doc);
-}
-
 /* state: <0 ... collapse; 0 ... no force - use default; >0 ... expand;
  * when using this, be sure to reset to 0 once no forcing is required
  * anymore, aka the build of the tree is done */

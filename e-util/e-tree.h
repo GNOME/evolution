@@ -272,10 +272,6 @@ GdkDragContext *e_tree_drag_begin		(ETree *tree,
 
 gboolean	e_tree_is_dragging		(ETree *tree);
 
-/* Adapter functions */
-void		e_tree_load_expanded_state_xml	(ETree *tree,
-						 xmlDoc *doc);
-
 gint		e_tree_row_count		(ETree *tree);
 GtkWidget *	e_tree_get_tooltip		(ETree *tree);
 void		e_tree_force_expanded_state	(ETree *tree,
