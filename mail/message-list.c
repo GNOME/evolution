@@ -1945,6 +1945,7 @@ static void
 save_tree_state (MessageList *message_list,
                  CamelFolder *folder)
 {
+	ETreeTableAdapter *adapter;
 	gchar *filename;
 
 	if (folder == NULL)
@@ -1953,8 +1954,10 @@ save_tree_state (MessageList *message_list,
 	if (message_list->search != NULL && *message_list->search != '\0')
 		return;
 
+	adapter = e_tree_get_table_adapter (E_TREE (message_list));
+
 	filename = mail_config_folder_to_cachename (folder, "et-expanded-");
-	e_tree_save_expanded_state (E_TREE (message_list), filename);
+	e_tree_table_adapter_save_expanded_state (adapter, filename);
 	g_free (filename);
 
 	message_list->priv->any_row_changed = FALSE;

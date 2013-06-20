@@ -2197,15 +2197,6 @@ e_tree_view_to_model_row (ETree *tree,
 }
 
 void
-e_tree_save_expanded_state (ETree *tree,
-                            gchar *filename)
-{
-	g_return_if_fail (E_IS_TREE (tree));
-
-	e_tree_table_adapter_save_expanded_state (tree->priv->etta, filename);
-}
-
-void
 e_tree_load_expanded_state (ETree *tree,
                             gchar *filename)
 {
