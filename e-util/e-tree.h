@@ -259,17 +259,6 @@ GdkDragContext *e_tree_drag_begin		(ETree *tree,
 
 gboolean	e_tree_is_dragging		(ETree *tree);
 
-typedef enum {
-	E_TREE_FIND_NEXT_BACKWARD = 0,
-	E_TREE_FIND_NEXT_FORWARD = 1 << 0,
-	E_TREE_FIND_NEXT_WRAP = 1 << 1
-} ETreeFindNextParams;
-
-gboolean	e_tree_find_next		(ETree *tree,
-						 ETreeFindNextParams params,
-						 ETreePathFunc func,
-						 gpointer data);
-
 ETableItem *	e_tree_get_item			(ETree *tree);
 
 GnomeCanvasItem *

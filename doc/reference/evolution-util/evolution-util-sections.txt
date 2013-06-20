@@ -4200,8 +4200,6 @@ e_tree_drag_source_set
 e_tree_drag_source_unset
 e_tree_drag_begin
 e_tree_is_dragging
-ETreeFindNextParams
-e_tree_find_next
 e_tree_get_item
 e_tree_get_header_item
 e_tree_set_info_message
