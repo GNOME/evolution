@@ -4207,7 +4207,6 @@ e_tree_drag_source_set
 e_tree_drag_source_unset
 e_tree_drag_begin
 e_tree_is_dragging
-e_tree_node_set_expanded
 e_tree_node_set_expanded_recurse
 e_tree_root_node_set_visible
 e_tree_node_at_row

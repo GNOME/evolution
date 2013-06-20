@@ -2191,16 +2191,6 @@ e_tree_view_to_model_row (ETree *tree,
 }
 
 void
-e_tree_node_set_expanded (ETree *tree,
-                          ETreePath path,
-                          gboolean expanded)
-{
-	g_return_if_fail (E_IS_TREE (tree));
-
-	e_tree_table_adapter_node_set_expanded (tree->priv->etta, path, expanded);
-}
-
-void
 e_tree_node_set_expanded_recurse (ETree *tree,
                                   ETreePath path,
                                   gboolean expanded)
