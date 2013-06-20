@@ -1532,6 +1532,7 @@ et_table_rows_deleted (ETableModel *table_model,
                        gint count,
                        ETree *tree)
 {
+	ETreeTableAdapter *adapter;
 	ETreePath * node, * prev_node;
 
 	/* If the cursor is still valid after this deletion, we're done */
@@ -1539,7 +1540,8 @@ et_table_rows_deleted (ETableModel *table_model,
 			|| row == 0)
 		return;
 
-	prev_node = e_tree_node_at_row (tree, row - 1);
+	adapter = e_tree_get_table_adapter (tree);
+	prev_node = e_tree_table_adapter_node_at_row (adapter, row - 1);
 	node = e_tree_get_cursor (tree);
 
 	/* Check if the cursor is a child of the node directly before the
@@ -2188,19 +2190,6 @@ e_tree_view_to_model_row (ETree *tree,
 		return e_sorter_sorted_to_model (E_SORTER (tree->priv->sorter), view_row);
 	else
 		return view_row;
-}
-
-ETreePath
-e_tree_node_at_row (ETree *tree,
-                    gint row)
-{
-	ETreePath path = { 0 };
-
-	g_return_val_if_fail (E_IS_TREE (tree), path);
-
-	path = e_tree_table_adapter_node_at_row (tree->priv->etta, row);
-
-	return path;
 }
 
 gint

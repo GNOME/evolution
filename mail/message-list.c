@@ -3528,12 +3528,15 @@ is_node_selectable (MessageList *message_list,
 static gchar *
 find_next_selectable (MessageList *message_list)
 {
+	ETreeTableAdapter *adapter;
 	GNode *node;
 	gint last;
 	gint vrow_orig;
 	gint vrow;
 	ETree *et = E_TREE (message_list);
 	CamelMessageInfo *info;
+
+	adapter = e_tree_get_table_adapter (E_TREE (message_list));
 
 	node = g_hash_table_lookup (
 		message_list->uid_nodemap, message_list->cursor_uid);
@@ -3553,7 +3556,7 @@ find_next_selectable (MessageList *message_list)
 	vrow = vrow_orig + 1;
 
 	while (vrow < last) {
-		node = e_tree_node_at_row (et, vrow);
+		node = e_tree_table_adapter_node_at_row (adapter, vrow);
 		info = get_message_info (message_list, node);
 		if (info && is_node_selectable (message_list, info))
 			return g_strdup (camel_message_info_uid (info));
@@ -3565,7 +3568,7 @@ find_next_selectable (MessageList *message_list)
 	vrow = vrow_orig - 1;
 
 	while (vrow >= 0) {
-		node = e_tree_node_at_row (et, vrow);
+		node = e_tree_table_adapter_node_at_row (adapter, vrow);
 		info = get_message_info (message_list, node);
 		if (info && is_node_selectable (message_list, info))
 			return g_strdup (camel_message_info_uid (info));
