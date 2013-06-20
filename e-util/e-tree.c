@@ -2409,12 +2409,6 @@ e_tree_find_next (ETree *tree,
 	return FALSE;
 }
 
-void
-e_tree_right_click_up (ETree *tree)
-{
-	e_selection_model_right_click_up (tree->priv->selection);
-}
-
 /**
  * e_tree_get_model:
  * @et: the ETree

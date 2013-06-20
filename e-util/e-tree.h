@@ -316,9 +316,6 @@ gboolean	e_tree_find_next		(ETree *tree,
 						 ETreePathFunc func,
 						 gpointer data);
 
-/* This function is only needed in single_selection_mode. */
-void		e_tree_right_click_up		(ETree *tree);
-
 ETableItem *	e_tree_get_item			(ETree *tree);
 
 GnomeCanvasItem *
