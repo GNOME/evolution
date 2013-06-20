@@ -2052,33 +2052,6 @@ et_set_property (GObject *object,
 }
 
 gint
-e_tree_get_next_row (ETree *tree,
-                     gint model_row)
-{
-	g_return_val_if_fail (E_IS_TREE (tree), -1);
-
-	if (tree->priv->sorter) {
-		gint i;
-		i = e_sorter_model_to_sorted (E_SORTER (tree->priv->sorter), model_row);
-		i++;
-		if (i < e_table_model_row_count (E_TABLE_MODEL (tree->priv->etta))) {
-			return e_sorter_sorted_to_model (E_SORTER (tree->priv->sorter), i);
-		} else
-			return -1;
-	} else {
-		gint row_count;
-
-		row_count = e_table_model_row_count (
-			E_TABLE_MODEL (tree->priv->etta));
-
-		if (model_row < row_count - 1)
-			return model_row + 1;
-		else
-			return -1;
-	}
-}
-
-gint
 e_tree_get_prev_row (ETree *tree,
                      gint model_row)
 {

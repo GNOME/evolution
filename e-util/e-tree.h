@@ -214,8 +214,6 @@ ETreePath	e_tree_get_cursor		(ETree *tree);
 void		e_tree_path_foreach		(ETree *tree,
 						 ETreeForeachFunc callback,
 						 gpointer closure);
-gint		e_tree_get_next_row		(ETree *tree,
-						 gint model_row);
 gint		e_tree_get_prev_row		(ETree *tree,
 						 gint model_row);
 gint		e_tree_model_to_view_row	(ETree *tree,
