@@ -273,7 +273,6 @@ GdkDragContext *e_tree_drag_begin		(ETree *tree,
 gboolean	e_tree_is_dragging		(ETree *tree);
 
 /* Adapter functions */
-gboolean	e_tree_root_node_is_visible	(ETree *tree);
 void		e_tree_show_node		(ETree *tree,
 						 ETreePath path);
 void		e_tree_save_expanded_state	(ETree *tree,

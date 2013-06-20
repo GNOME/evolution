@@ -2196,14 +2196,6 @@ e_tree_view_to_model_row (ETree *tree,
 		return view_row;
 }
 
-gboolean
-e_tree_root_node_is_visible (ETree *tree)
-{
-	g_return_val_if_fail (E_IS_TREE (tree), FALSE);
-
-	return e_tree_table_adapter_root_node_is_visible (tree->priv->etta);
-}
-
 void
 e_tree_show_node (ETree *tree,
                   ETreePath path)
