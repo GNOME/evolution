@@ -1882,14 +1882,6 @@ e_tree_path_foreach (ETree *tree,
 				    closure);
 }
 
-EPrintable *
-e_tree_get_printable (ETree *tree)
-{
-	g_return_val_if_fail (E_IS_TREE (tree), NULL);
-
-	return e_table_item_get_printable (E_TABLE_ITEM (tree->priv->item));
-}
-
 static void
 et_get_property (GObject *object,
                  guint property_id,
