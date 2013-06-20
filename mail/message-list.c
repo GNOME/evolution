@@ -1238,17 +1238,18 @@ for_node_and_subtree_if_collapsed (MessageList *message_list,
                                    gpointer data)
 {
 	ETreeModel *tree_model;
-	GNode *child;
+	ETreeTableAdapter *adapter;
+	GNode *child = NULL;
 
 	tree_model = E_TREE_MODEL (message_list);
+	adapter = e_tree_get_table_adapter (E_TREE (message_list));
 
 	func (NULL, (ETreePath) mi, data);
 
-	if (!node)
-		return;
+	if (node != NULL)
+		child = g_node_first_child (node);
 
-	child = g_node_first_child (node);
-	if (child && !e_tree_node_is_expanded (E_TREE (message_list), node))
+	if (child && !e_tree_table_adapter_node_is_expanded (adapter, node))
 		e_tree_model_node_traverse (tree_model, node, func, data);
 }
 
@@ -3672,6 +3673,7 @@ build_tree (MessageList *message_list,
 {
 	gint row = 0;
 	ETableItem *table_item = e_tree_get_item (E_TREE (message_list));
+	ETreeTableAdapter *adapter;
 	gchar *saveuid = NULL;
 	GPtrArray *selected;
 #ifdef TIMEIT
@@ -3688,6 +3690,8 @@ build_tree (MessageList *message_list,
 	diff -= start.tv_sec * 1000 + start.tv_usec / 1000;
 	printf ("Loading tree state took %ld.%03ld seconds\n", diff / 1000, diff % 1000);
 #endif
+
+	adapter = e_tree_get_table_adapter (E_TREE (message_list));
 
 	if (message_list->priv->tree_model_root == NULL) {
 		message_list_tree_model_insert (message_list, NULL, 0, NULL);
@@ -3748,11 +3752,10 @@ build_tree (MessageList *message_list,
 				message_list,
 				signals[MESSAGE_SELECTED], 0, NULL);
 		} else {
-			ETree *tree = E_TREE (message_list);
 			GNode *parent = node;
 
 			while ((parent = parent->parent) != NULL) {
-				if (!e_tree_node_is_expanded (tree, parent))
+				if (!e_tree_table_adapter_node_is_expanded (adapter, parent))
 					node = parent;
 			}
 
@@ -4055,12 +4058,14 @@ message_list_change_first_visible_parent (MessageList *message_list,
                                           GNode *node)
 {
 	ETreeModel *tree_model;
+	ETreeTableAdapter *adapter;
 	GNode *first_visible = NULL;
 
 	tree_model = E_TREE_MODEL (message_list);
+	adapter = e_tree_get_table_adapter (E_TREE (message_list));
 
 	while (node != NULL && (node = node->parent) != NULL) {
-		if (!e_tree_node_is_expanded (E_TREE (message_list), node))
+		if (!e_tree_table_adapter_node_is_expanded (adapter, node))
 			first_visible = node;
 	}
 

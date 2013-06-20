@@ -2190,15 +2190,6 @@ e_tree_view_to_model_row (ETree *tree,
 		return view_row;
 }
 
-gboolean
-e_tree_node_is_expanded (ETree *tree,
-                         ETreePath path)
-{
-	g_return_val_if_fail (path, FALSE);
-
-	return e_tree_table_adapter_node_is_expanded (tree->priv->etta, path);
-}
-
 void
 e_tree_node_set_expanded (ETree *tree,
                           ETreePath path,
