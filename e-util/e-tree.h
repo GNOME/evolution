@@ -273,7 +273,6 @@ GdkDragContext *e_tree_drag_begin		(ETree *tree,
 gboolean	e_tree_is_dragging		(ETree *tree);
 
 /* Adapter functions */
-xmlDoc *	e_tree_save_expanded_state_xml	(ETree *tree);
 void		e_tree_load_expanded_state_xml	(ETree *tree,
 						 xmlDoc *doc);
 

@@ -397,6 +397,10 @@ regen_data_new (MessageList *message_list,
 		   !message_list->just_set_folder &&
 		   !searching) {
 
+		ETreeTableAdapter *adapter;
+
+		adapter = e_tree_get_table_adapter (E_TREE (message_list));
+
 		if (message_list->priv->any_row_changed) {
 			/* Something changed.  If it was an expand
 			 * state change, then save the expand state. */
@@ -405,8 +409,8 @@ regen_data_new (MessageList *message_list,
 			/* Remember the expand state and restore it
 			 * after regen. */
 			regen_data->expand_state =
-				e_tree_save_expanded_state_xml (
-				E_TREE (message_list));
+				e_tree_table_adapter_save_expanded_state_xml (
+				adapter);
 		}
 	}
 

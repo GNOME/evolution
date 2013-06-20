@@ -2196,14 +2196,6 @@ e_tree_view_to_model_row (ETree *tree,
 		return view_row;
 }
 
-xmlDoc *
-e_tree_save_expanded_state_xml (ETree *tree)
-{
-	g_return_val_if_fail (E_IS_TREE (tree), NULL);
-
-	return e_tree_table_adapter_save_expanded_state_xml (tree->priv->etta);
-}
-
 void
 e_tree_load_expanded_state_xml (ETree *tree,
                                 xmlDoc *doc)
