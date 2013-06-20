@@ -1326,7 +1326,7 @@ e_tree_set_state_object (ETree *tree,
 
 /**
  * e_tree_set_state:
- * @e_tree: #ETree object that will be modified
+ * @tree: #ETree object that will be modified
  * @state_str: a string with the XML representation of the #ETableState.
  *
  * This routine sets the state (as described by #ETableState) of the
@@ -1352,7 +1352,7 @@ e_tree_set_state (ETree *tree,
 
 /**
  * e_tree_get_state_object:
- * @e_tree: #ETree object to act on
+ * @tree: #ETree object to act on
  *
  * Builds an #ETableState corresponding to the current state of the
  * #ETree.
@@ -1393,7 +1393,7 @@ e_tree_get_state_object (ETree *tree)
 
 /**
  * e_tree_get_state:
- * @e_tree: The #ETree to act on
+ * @tree: The #ETree to act on
  *
  * Builds a state object based on the current state and returns the
  * string corresponding to that state.
@@ -1415,7 +1415,7 @@ e_tree_get_state (ETree *tree)
 
 /**
  * e_tree_get_spec:
- * @e_tree: The #ETree to query
+ * @tree: The #ETree to query
  *
  * Returns the specification object.
  *
@@ -1600,7 +1600,7 @@ et_real_construct (ETree *tree,
 
 /**
  * e_tree_construct:
- * @e_tree: The newly created #ETree object.
+ * @tree: The newly created #ETree object.
  * @etm: The model for this table.
  * @ete: An optional #ETableExtras.  (%NULL is valid.)
  * @spec_str: The spec.
@@ -1660,7 +1660,7 @@ e_tree_construct (ETree *tree,
 
 /**
  * e_tree_construct_from_spec_file:
- * @e_tree: The newly created #ETree object.
+ * @tree: The newly created #ETree object.
  * @etm: The model for this tree
  * @ete: An optional #ETableExtras  (%NULL is valid.)
  * @spec_fn: The filename of the spec
@@ -2042,7 +2042,7 @@ et_set_property (GObject *object,
 
 /**
  * e_tree_get_model:
- * @et: the ETree
+ * @tree: the ETree
  *
  * Returns the model upon which this ETree is based.
  *
@@ -2058,7 +2058,7 @@ e_tree_get_model (ETree *tree)
 
 /**
  * e_tree_get_selection_model:
- * @et: the ETree
+ * @tree: the ETree
  *
  * Returns the selection model of this ETree.
  *
@@ -2074,7 +2074,7 @@ e_tree_get_selection_model (ETree *tree)
 
 /**
  * e_tree_get_table_adapter:
- * @et: the ETree
+ * @tree: the ETree
  *
  * Returns the table adapter this ETree uses.
  *
