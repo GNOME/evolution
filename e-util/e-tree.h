@@ -261,10 +261,6 @@ void		e_tree_drag_highlight		(ETree *tree,
 						 gint row,
 						 gint col); /* col == -1 to highlight entire row. */
 void		e_tree_drag_unhighlight		(ETree *tree);
-void		e_tree_drag_dest_set_proxy	(ETree *tree,
-						 GdkWindow *proxy_window,
-						 GdkDragProtocol protocol,
-						 gboolean use_coordinates);
 
 /* There probably should be functions for setting the targets
  * as a GtkTargetList

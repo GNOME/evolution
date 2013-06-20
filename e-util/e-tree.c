@@ -2638,21 +2638,6 @@ e_tree_drag_unhighlight (ETree *tree)
 	}
 }
 
-void
-e_tree_drag_dest_set_proxy (ETree *tree,
-                            GdkWindow *proxy_window,
-                            GdkDragProtocol protocol,
-                            gboolean use_coordinates)
-{
-	g_return_if_fail (E_IS_TREE (tree));
-
-	gtk_drag_dest_set_proxy (
-		GTK_WIDGET (tree),
-		proxy_window,
-		protocol,
-		use_coordinates);
-}
-
 /*
  * There probably should be functions for setting the targets
  * as a GtkTargetList
