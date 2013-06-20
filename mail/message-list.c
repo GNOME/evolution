@@ -1104,7 +1104,7 @@ select_thread (MessageList *message_list,
 	tree = E_TREE (message_list);
 	etsm = (ETreeSelectionModel *) e_tree_get_selection_model (tree);
 
-	e_tree_selected_path_foreach (tree, selector, &tsi);
+	e_tree_selection_model_foreach (etsm, selector, &tsi);
 
 	e_tree_selection_model_select_paths (etsm, tsi.paths);
 
@@ -4672,6 +4672,7 @@ GPtrArray *
 message_list_get_selected (MessageList *message_list)
 {
 	CamelFolder *folder;
+	ESelectionModel *selection;
 
 	struct _ml_selected_data data = {
 		message_list,
@@ -4680,8 +4681,10 @@ message_list_get_selected (MessageList *message_list)
 
 	g_ptr_array_set_free_func (data.uids, (GDestroyNotify) g_free);
 
-	e_tree_selected_path_foreach (
-		E_TREE (message_list),
+	selection = e_tree_get_selection_model (E_TREE (message_list));
+
+	e_tree_selection_model_foreach (
+		E_TREE_SELECTION_MODEL (selection),
 		(ETreeForeachFunc) ml_getselected_cb, &data);
 
 	folder = message_list_ref_folder (message_list);
