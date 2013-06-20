@@ -2639,23 +2639,6 @@ e_tree_drag_unhighlight (ETree *tree)
 }
 
 void
-e_tree_drag_dest_set (ETree *tree,
-                      GtkDestDefaults flags,
-                      const GtkTargetEntry *targets,
-                      gint n_targets,
-                      GdkDragAction actions)
-{
-	g_return_if_fail (E_IS_TREE (tree));
-
-	gtk_drag_dest_set (
-		GTK_WIDGET (tree),
-		flags,
-		targets,
-		n_targets,
-		actions);
-}
-
-void
 e_tree_drag_dest_set_proxy (ETree *tree,
                             GdkWindow *proxy_window,
                             GdkDragProtocol protocol,

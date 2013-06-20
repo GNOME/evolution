@@ -4206,7 +4206,6 @@ e_tree_get_table_adapter
 e_tree_drag_get_data
 e_tree_drag_highlight
 e_tree_drag_unhighlight
-e_tree_drag_dest_set
 e_tree_drag_dest_set_proxy
 e_tree_drag_dest_unset
 e_tree_drag_source_set

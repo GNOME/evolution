@@ -3274,10 +3274,13 @@ message_list_construct (MessageList *message_list)
 		message_list, "tree_drag_data_get",
 		G_CALLBACK (ml_tree_drag_data_get), message_list);
 
-	e_tree_drag_dest_set (
-		E_TREE (message_list), GTK_DEST_DEFAULT_ALL,
-		ml_drop_types, G_N_ELEMENTS (ml_drop_types),
-		GDK_ACTION_MOVE | GDK_ACTION_COPY);
+	gtk_drag_dest_set (
+		GTK_WIDGET (message_list),
+		GTK_DEST_DEFAULT_ALL,
+		ml_drop_types,
+		G_N_ELEMENTS (ml_drop_types),
+		GDK_ACTION_MOVE |
+		GDK_ACTION_COPY);
 
 	g_signal_connect (
 		message_list, "tree_drag_data_received",
