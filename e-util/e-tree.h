@@ -251,12 +251,6 @@ ETreeTableAdapter *
 
 /* Drag & drop stuff. */
 /* Target */
-void		e_tree_drag_get_data		(ETree *tree,
-						 gint row,
-						 gint col,
-						 GdkDragContext *context,
-						 GdkAtom target,
-						 guint32 time);
 void		e_tree_drag_highlight		(ETree *tree,
 						 gint row,
 						 gint col); /* col == -1 to highlight entire row. */

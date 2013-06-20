@@ -2545,25 +2545,6 @@ struct _GtkDragSourceInfo
 };
 
 /* Drag & drop stuff. */
-/* Target */
-
-void
-e_tree_drag_get_data (ETree *tree,
-                      gint row,
-                      gint col,
-                      GdkDragContext *context,
-                      GdkAtom target,
-                      guint32 time)
-{
-	g_return_if_fail (E_IS_TREE (tree));
-
-	gtk_drag_get_data (
-		GTK_WIDGET (tree),
-		context,
-		target,
-		time);
-
-}
 
 /**
  * e_tree_drag_highlight:
