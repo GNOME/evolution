@@ -1359,32 +1359,6 @@ e_tree_set_state (ETree *tree,
 }
 
 /**
- * e_tree_load_state:
- * @e_tree: #ETree object that will be modified
- * @filename: name of the file containing the state to be loaded into the #ETree
- *
- * An #ETableState will be loaded form the file pointed by @filename into the
- * @e_tree object.
- */
-void
-e_tree_load_state (ETree *tree,
-                   const gchar *filename)
-{
-	ETableState *state;
-
-	g_return_if_fail (E_IS_TREE (tree));
-	g_return_if_fail (filename != NULL);
-
-	state = e_table_state_new ();
-	e_table_state_load_from_file (state, filename);
-
-	if (state->col_count > 0)
-		e_tree_set_state_object (tree, state);
-
-	g_object_unref (state);
-}
-
-/**
  * e_tree_get_state_object:
  * @e_tree: #ETree object to act on
  *
