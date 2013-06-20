@@ -75,7 +75,7 @@ struct _ESorterClass {
 						 gint **array,
 						 gint *count);
 
-	gboolean	(*needs_sorting)	(ESorter    *sorter);
+	gboolean	(*needs_sorting)	(ESorter *sorter);
 };
 
 GType		e_sorter_get_type		(void) G_GNUC_CONST;

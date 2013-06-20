@@ -20,142 +20,135 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
-#include <stdlib.h>
-#include <string.h>
-
 #include "e-sorter.h"
 
-#define d(x)
+G_DEFINE_TYPE (ESorter, e_sorter, G_TYPE_OBJECT)
 
-#define PARENT_TYPE G_TYPE_OBJECT
+static gint
+sorter_model_to_sorted (ESorter *sorter,
+                        gint row)
+{
+	return row;
+}
 
-G_DEFINE_TYPE (
-	ESorter,
-	e_sorter,
-	G_TYPE_OBJECT)
+static gint
+sorter_sorted_to_model (ESorter *sorter,
+                        gint row)
+{
+	return row;
+}
 
-static gint es_model_to_sorted (ESorter *es, gint row);
-static gint es_sorted_to_model (ESorter *es, gint row);
-static void es_get_model_to_sorted_array (ESorter *es, gint **array, gint *count);
-static void es_get_sorted_to_model_array (ESorter *es, gint **array, gint *count);
-static gboolean es_needs_sorting (ESorter *es);
+static void
+sorter_get_model_to_sorted_array (ESorter *sorter,
+                                  gint **array,
+                                  gint *count)
+{
+}
+
+static void
+sorter_get_sorted_to_model_array (ESorter *sorter,
+                                  gint **array,
+                                  gint *count)
+{
+}
+
+static gboolean
+sorter_needs_sorting (ESorter *sorter)
+{
+	return FALSE;
+}
 
 static void
 e_sorter_class_init (ESorterClass *class)
 {
-	class->model_to_sorted           = es_model_to_sorted;
-	class->sorted_to_model           = es_sorted_to_model;
-	class->get_model_to_sorted_array = es_get_model_to_sorted_array;
-	class->get_sorted_to_model_array = es_get_sorted_to_model_array;
-	class->needs_sorting             = es_needs_sorting;
+	class->model_to_sorted = sorter_model_to_sorted;
+	class->sorted_to_model = sorter_sorted_to_model;
+	class->get_model_to_sorted_array = sorter_get_model_to_sorted_array;
+	class->get_sorted_to_model_array = sorter_get_sorted_to_model_array;
+	class->needs_sorting = sorter_needs_sorting;
 }
 
 static void
-e_sorter_init (ESorter *es)
+e_sorter_init (ESorter *sorter)
 {
 }
 
 ESorter *
 e_sorter_new (void)
 {
-	ESorter *es = g_object_new (E_TYPE_SORTER, NULL);
-
-	return es;
-}
-
-static gint
-es_model_to_sorted (ESorter *es,
-                    gint row)
-{
-	return row;
-}
-
-static gint
-es_sorted_to_model (ESorter *es,
-                    gint row)
-{
-	return row;
-}
-
-static void
-es_get_model_to_sorted_array (ESorter *es,
-                              gint **array,
-                              gint *count)
-{
-}
-
-static void
-es_get_sorted_to_model_array (ESorter *es,
-                              gint **array,
-                              gint *count)
-{
-}
-
-static gboolean
-es_needs_sorting (ESorter *es)
-{
-	return FALSE;
+	return g_object_new (E_TYPE_SORTER, NULL);
 }
 
 gint
-e_sorter_model_to_sorted (ESorter *es,
+e_sorter_model_to_sorted (ESorter *sorter,
                           gint row)
 {
-	g_return_val_if_fail (es != NULL, -1);
+	ESorterClass *class;
+
+	g_return_val_if_fail (E_IS_SORTER (sorter), -1);
 	g_return_val_if_fail (row >= 0, -1);
 
-	if (E_SORTER_GET_CLASS (es)->model_to_sorted)
-		return E_SORTER_GET_CLASS (es)->model_to_sorted (es, row);
-	else
-		return -1;
+	class = E_SORTER_GET_CLASS (sorter);
+	g_return_val_if_fail (class->model_to_sorted != NULL, -1);
+
+	return class->model_to_sorted (sorter, row);
 }
 
 gint
-e_sorter_sorted_to_model (ESorter *es,
+e_sorter_sorted_to_model (ESorter *sorter,
                           gint row)
 {
-	g_return_val_if_fail (es != NULL, -1);
+	ESorterClass *class;
+
+	g_return_val_if_fail (E_IS_SORTER (sorter), -1);
 	g_return_val_if_fail (row >= 0, -1);
 
-	if (E_SORTER_GET_CLASS (es)->sorted_to_model)
-		return E_SORTER_GET_CLASS (es)->sorted_to_model (es, row);
-	else
-		return -1;
+	class = E_SORTER_GET_CLASS (sorter);
+	g_return_val_if_fail (class->sorted_to_model != NULL, -1);
+
+	return class->sorted_to_model (sorter, row);
 }
 
 void
-e_sorter_get_model_to_sorted_array (ESorter *es,
+e_sorter_get_model_to_sorted_array (ESorter *sorter,
                                     gint **array,
                                     gint *count)
 {
-	g_return_if_fail (es != NULL);
+	ESorterClass *class;
 
-	if (E_SORTER_GET_CLASS (es)->get_model_to_sorted_array)
-		E_SORTER_GET_CLASS (es)->get_model_to_sorted_array (es, array, count);
+	g_return_if_fail (E_IS_SORTER (sorter));
+
+	class = E_SORTER_GET_CLASS (sorter);
+	g_return_if_fail (class->get_model_to_sorted_array != NULL);
+
+	class->get_model_to_sorted_array (sorter, array, count);
 }
 
 void
-e_sorter_get_sorted_to_model_array (ESorter *es,
+e_sorter_get_sorted_to_model_array (ESorter *sorter,
                                     gint **array,
                                     gint *count)
 {
-	g_return_if_fail (es != NULL);
+	ESorterClass *class;
 
-	if (E_SORTER_GET_CLASS (es)->get_sorted_to_model_array)
-		E_SORTER_GET_CLASS (es)->get_sorted_to_model_array (es, array, count);
+	g_return_if_fail (E_IS_SORTER (sorter));
+
+	class = E_SORTER_GET_CLASS (sorter);
+	g_return_if_fail (class->get_sorted_to_model_array != NULL);
+
+	class->get_sorted_to_model_array (sorter, array, count);
 }
 
 gboolean
-e_sorter_needs_sorting (ESorter *es)
+e_sorter_needs_sorting (ESorter *sorter)
 {
-	g_return_val_if_fail (es != NULL, FALSE);
+	ESorterClass *class;
 
-	if (E_SORTER_GET_CLASS (es)->needs_sorting)
-		return E_SORTER_GET_CLASS (es)->needs_sorting (es);
-	else
-		return FALSE;
+	g_return_val_if_fail (E_IS_SORTER (sorter), FALSE);
+
+	class = E_SORTER_GET_CLASS (sorter);
+	g_return_val_if_fail (class->needs_sorting != NULL, FALSE);
+
+	return class->needs_sorting (sorter);
 }
+
