@@ -195,8 +195,6 @@ GtkWidget *	e_tree_new_from_spec_file	(ETreeModel *etm,
 
 /* To save the state */
 gchar *		e_tree_get_state		(ETree *tree);
-void		e_tree_save_state		(ETree *tree,
-						 const gchar *filename);
 ETableState *	e_tree_get_state_object		(ETree *tree);
 ETableSpecification *
 		e_tree_get_spec			(ETree *tree);

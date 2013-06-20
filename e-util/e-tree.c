@@ -1471,25 +1471,6 @@ e_tree_get_state (ETree *tree)
 }
 
 /**
- * e_tree_save_state:
- * @e_tree: The #ETree to act on
- * @filename: name of the file to save to
- *
- * Saves the state of the @e_tree object into the file pointed by
- * @filename.
- **/
-void
-e_tree_save_state (ETree *tree,
-                   const gchar *filename)
-{
-	ETableState *state;
-
-	state = e_tree_get_state_object (tree);
-	e_table_state_save_to_file (state, filename);
-	g_object_unref (state);
-}
-
-/**
  * e_tree_get_spec:
  * @e_tree: The #ETree to query
  *

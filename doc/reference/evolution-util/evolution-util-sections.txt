@@ -4182,7 +4182,6 @@ e_tree_new
 e_tree_construct_from_spec_file
 e_tree_new_from_spec_file
 e_tree_get_state
-e_tree_save_state
 e_tree_get_state_object
 e_tree_get_spec
 e_tree_set_search_column
