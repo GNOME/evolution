@@ -259,8 +259,6 @@ GdkDragContext *e_tree_drag_begin		(ETree *tree,
 
 gboolean	e_tree_is_dragging		(ETree *tree);
 
-GtkWidget *	e_tree_get_tooltip		(ETree *tree);
-
 typedef enum {
 	E_TREE_FIND_NEXT_BACKWARD = 0,
 	E_TREE_FIND_NEXT_FORWARD = 1 << 0,

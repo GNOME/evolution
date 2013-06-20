@@ -2063,14 +2063,6 @@ e_tree_view_to_model_row (ETree *tree,
 		return view_row;
 }
 
-GtkWidget *
-e_tree_get_tooltip (ETree *tree)
-{
-	g_return_val_if_fail (E_IS_TREE (tree), NULL);
-
-	return E_CANVAS (tree->priv->table_canvas)->tooltip_window;
-}
-
 static ETreePath
 find_next_in_range (ETree *tree,
                     gint start,
