@@ -250,8 +250,6 @@ ETreeTableAdapter *
 		e_tree_get_table_adapter	(ETree *tree);
 
 /* Drag & drop stuff. */
-/* Target */
-void		e_tree_drag_unhighlight		(ETree *tree);
 
 /* Source side */
 void		e_tree_drag_source_set		(ETree *tree,

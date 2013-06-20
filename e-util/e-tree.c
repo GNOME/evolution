@@ -2546,17 +2546,6 @@ struct _GtkDragSourceInfo
 
 /* Drag & drop stuff. */
 
-void
-e_tree_drag_unhighlight (ETree *tree)
-{
-	g_return_if_fail (E_IS_TREE (tree));
-
-	if (tree->priv->drop_highlight) {
-		g_object_run_dispose (G_OBJECT (tree->priv->drop_highlight));
-		tree->priv->drop_highlight = NULL;
-	}
-}
-
 /* Source side */
 
 static gint
