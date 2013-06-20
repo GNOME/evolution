@@ -3084,7 +3084,6 @@ e_sorter_get_type
 ESorterArray
 ECreateCmpCacheFunc
 ECompareRowsFunc
-e_sorter_array_construct
 e_sorter_array_new
 e_sorter_array_clean
 e_sorter_array_set_count

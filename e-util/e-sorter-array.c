@@ -1,4 +1,6 @@
 /*
+ * e-sorter-array.c
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -12,31 +14,13 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
- *
- * Authors:
- *		Chris Lahey <clahey@ximian.com>
- *
- * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
- *
  */
-
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
-#include <stdlib.h>
-#include <string.h>
 
 #include "e-sorter-array.h"
 
+#include <string.h>
+
 #include "e-misc-utils.h"
-
-#define d(x)
-
-#define INCREMENT_AMOUNT 100
-
-static void	esa_sort			(ESorterArray *esa);
-static void	esa_backsort			(ESorterArray *esa);
 
 /* Forward Declarations */
 static void	e_sorter_array_interface_init	(ESorterInterface *interface);
@@ -54,14 +38,17 @@ esort_callback (gconstpointer data1,
                 gconstpointer data2,
                 gpointer user_data)
 {
-	ESorterArray *esa = user_data;
+	ESorterArray *sorter_array = user_data;
 	gint ret_val;
 	gint int1, int2;
 
 	int1 = *(gint *) data1;
 	int2 = *(gint *) data2;
 
-	ret_val = esa->compare (int1, int2, esa->cmp_cache, esa->closure);
+	ret_val = sorter_array->compare (
+		int1, int2,
+		sorter_array->cmp_cache,
+		sorter_array->closure);
 	if (ret_val != 0)
 		return ret_val;
 
@@ -73,216 +60,151 @@ esort_callback (gconstpointer data1,
 }
 
 static void
-esa_sort (ESorterArray *esa)
+sorter_array_sort (ESorterArray *sorter_array)
 {
 	gint rows;
 	gint i;
 
-	if (esa->sorted)
+	if (sorter_array->sorted)
 		return;
 
-	rows = esa->rows;
+	rows = sorter_array->rows;
 
-	esa->sorted = g_new (int, rows);
+	sorter_array->sorted = g_new (gint, rows);
 	for (i = 0; i < rows; i++)
-		esa->sorted[i] = i;
+		sorter_array->sorted[i] = i;
 
-	if (esa->compare) {
-		if (esa->create_cmp_cache)
-			esa->cmp_cache = esa->create_cmp_cache (esa->closure);
+	if (sorter_array->compare) {
+		if (sorter_array->create_cmp_cache)
+			sorter_array->cmp_cache =
+				sorter_array->create_cmp_cache (
+				sorter_array->closure);
 
 		g_qsort_with_data (
-			esa->sorted, rows, sizeof (gint),
-			esort_callback, esa);
+			sorter_array->sorted, rows, sizeof (gint),
+			esort_callback, sorter_array);
 
-		if (esa->cmp_cache) {
-			g_hash_table_destroy (esa->cmp_cache);
-			esa->cmp_cache = NULL;
+		if (sorter_array->cmp_cache) {
+			g_hash_table_destroy (sorter_array->cmp_cache);
+			sorter_array->cmp_cache = NULL;
 		}
 	}
 }
 
 static void
-esa_backsort (ESorterArray *esa)
+sorter_array_backsort (ESorterArray *sorter_array)
 {
 	gint i, rows;
 
-	if (esa->backsorted)
+	if (sorter_array->backsorted)
 		return;
 
-	esa_sort (esa);
+	sorter_array_sort (sorter_array);
 
-	rows = esa->rows;
+	rows = sorter_array->rows;
 
-	esa->backsorted = g_new0 (int, rows);
+	sorter_array->backsorted = g_new0 (gint, rows);
 
-	for (i = 0; i < rows; i++) {
-		esa->backsorted[esa->sorted[i]] = i;
-	}
-}
-
-void
-e_sorter_array_clean (ESorterArray *esa)
-{
-	g_free (esa->sorted);
-	esa->sorted = NULL;
-
-	g_free (esa->backsorted);
-	esa->backsorted = NULL;
-}
-
-void
-e_sorter_array_set_count (ESorterArray *esa,
-                          gint count)
-{
-	e_sorter_array_clean (esa);
-	esa->rows = count;
-}
-
-void
-e_sorter_array_append (ESorterArray *esa,
-                       gint count)
-{
-	gint i;
-	g_free (esa->backsorted);
-	esa->backsorted = NULL;
-
-	if (esa->sorted) {
-		esa->sorted = g_renew (int, esa->sorted, esa->rows + count);
-		for (i = 0; i < count; i++) {
-			gint value = esa->rows;
-			gsize pos;
-
-			e_bsearch (
-				&value, esa->sorted, esa->rows,
-				sizeof (gint), esort_callback, esa, &pos, NULL);
-			memmove (
-				esa->sorted + pos + 1,
-				esa->sorted + pos,
-				sizeof (gint) * (esa->rows - pos));
-			esa->sorted[pos] = value;
-			esa->rows++;
-		}
-	} else {
-		esa->rows += count;
-	}
+	for (i = 0; i < rows; i++)
+		sorter_array->backsorted[sorter_array->sorted[i]] = i;
 }
 
 static void
-esa_finalize (GObject *object)
+sorter_array_finalize (GObject *object)
 {
-	ESorterArray *esa = E_SORTER_ARRAY (object);
+	ESorterArray *sorter_array = E_SORTER_ARRAY (object);
 
-	if (esa)
-		e_sorter_array_clean (esa);
+	e_sorter_array_clean (sorter_array);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_sorter_array_parent_class)->finalize (object);
 }
 
-ESorterArray *
-e_sorter_array_construct (ESorterArray *esa,
-                          ECreateCmpCacheFunc create_cmp_cache,
-                          ECompareRowsFunc compare,
-                          gpointer closure)
-{
-	esa->create_cmp_cache = create_cmp_cache;
-	esa->compare = compare;
-	esa->closure = closure;
-	return esa;
-}
-
-ESorterArray *
-e_sorter_array_new (ECreateCmpCacheFunc create_cmp_cache,
-                    ECompareRowsFunc compare,
-                    gpointer closure)
-{
-	ESorterArray *esa = g_object_new (E_TYPE_SORTER_ARRAY, NULL);
-
-	return e_sorter_array_construct (esa, create_cmp_cache, compare, closure);
-}
-
 static gint
-sorter_array_model_to_sorted (ESorter *es,
+sorter_array_model_to_sorted (ESorter *sorter,
                               gint row)
 {
-	ESorterArray *esa = E_SORTER_ARRAY (es);
+	ESorterArray *sorter_array = E_SORTER_ARRAY (sorter);
 
 	g_return_val_if_fail (row >= 0, -1);
-	g_return_val_if_fail (row < esa->rows, -1);
+	g_return_val_if_fail (row < sorter_array->rows, -1);
 
-	if (e_sorter_needs_sorting (es))
-		esa_backsort (esa);
+	if (e_sorter_needs_sorting (sorter))
+		sorter_array_backsort (sorter_array);
 
-	if (esa->backsorted)
-		return esa->backsorted[row];
+	if (sorter_array->backsorted)
+		return sorter_array->backsorted[row];
 	else
 		return row;
 }
 
 static gint
-sorter_array_sorted_to_model (ESorter *es,
+sorter_array_sorted_to_model (ESorter *sorter,
                               gint row)
 {
-	ESorterArray *esa = (ESorterArray *) es;
+	ESorterArray *sorter_array = E_SORTER_ARRAY (sorter);
 
 	g_return_val_if_fail (row >= 0, -1);
-	g_return_val_if_fail (row < esa->rows, -1);
+	g_return_val_if_fail (row < sorter_array->rows, -1);
 
-	if (e_sorter_needs_sorting (es))
-		esa_sort (esa);
+	if (e_sorter_needs_sorting (sorter))
+		sorter_array_sort (sorter_array);
 
-	if (esa->sorted)
-		return esa->sorted[row];
+	if (sorter_array->sorted)
+		return sorter_array->sorted[row];
 	else
 		return row;
 }
 
 static void
-sorter_array_get_model_to_sorted_array (ESorter *es,
+sorter_array_get_model_to_sorted_array (ESorter *sorter,
                                         gint **array,
                                         gint *count)
 {
-	ESorterArray *esa = E_SORTER_ARRAY (es);
+	ESorterArray *sorter_array = E_SORTER_ARRAY (sorter);
+
 	if (array || count) {
-		esa_backsort (esa);
+		sorter_array_backsort (sorter_array);
 
 		if (array)
-			*array = esa->backsorted;
+			*array = sorter_array->backsorted;
 		if (count)
-			*count = esa->rows;
+			*count = sorter_array->rows;
 	}
 }
 
 static void
-sorter_array_get_sorted_to_model_array (ESorter *es,
+sorter_array_get_sorted_to_model_array (ESorter *sorter,
                                         gint **array,
                                         gint *count)
 {
-	ESorterArray *esa = E_SORTER_ARRAY (es);
+	ESorterArray *sorter_array = E_SORTER_ARRAY (sorter);
+
 	if (array || count) {
-		esa_sort (esa);
+		sorter_array_sort (sorter_array);
 
 		if (array)
-			*array = esa->sorted;
+			*array = sorter_array->sorted;
 		if (count)
-			*count = esa->rows;
+			*count = sorter_array->rows;
 	}
 }
 
 static gboolean
-sorter_array_needs_sorting (ESorter *es)
+sorter_array_needs_sorting (ESorter *sorter)
 {
-	ESorterArray *esa = E_SORTER_ARRAY (es);
-	return esa->compare != NULL;
+	ESorterArray *sorter_array = E_SORTER_ARRAY (sorter);
+
+	return sorter_array->compare != NULL;
 }
 
 static void
 e_sorter_array_class_init (ESorterArrayClass *class)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (class);
+	GObjectClass *object_class;
 
-	object_class->finalize = esa_finalize;
+	object_class = G_OBJECT_CLASS (class);
+	object_class->finalize = sorter_array_finalize;
 }
 
 static void
@@ -296,14 +218,83 @@ e_sorter_array_interface_init (ESorterInterface *interface)
 }
 
 static void
-e_sorter_array_init (ESorterArray *esa)
+e_sorter_array_init (ESorterArray *sorter_array)
 {
-	esa->rows       = 0;
-	esa->cmp_cache  = NULL;
-	esa->create_cmp_cache = NULL;
-	esa->compare    = NULL;
-	esa->closure    = NULL;
-	esa->sorted     = NULL;
-	esa->backsorted = NULL;
+}
+
+ESorterArray *
+e_sorter_array_new (ECreateCmpCacheFunc create_cmp_cache,
+                    ECompareRowsFunc compare,
+                    gpointer closure)
+{
+	ESorterArray *sorter_array;
+
+	sorter_array = g_object_new (E_TYPE_SORTER_ARRAY, NULL);
+	sorter_array->create_cmp_cache = create_cmp_cache;
+	sorter_array->compare = compare;
+	sorter_array->closure = closure;
+
+	return sorter_array;
+}
+
+void
+e_sorter_array_clean (ESorterArray *sorter_array)
+{
+	g_return_if_fail (E_IS_SORTER_ARRAY (sorter_array));
+
+	g_free (sorter_array->sorted);
+	sorter_array->sorted = NULL;
+
+	g_free (sorter_array->backsorted);
+	sorter_array->backsorted = NULL;
+}
+
+void
+e_sorter_array_set_count (ESorterArray *sorter_array,
+                          gint count)
+{
+	g_return_if_fail (E_IS_SORTER_ARRAY (sorter_array));
+
+	e_sorter_array_clean (sorter_array);
+	sorter_array->rows = count;
+}
+
+void
+e_sorter_array_append (ESorterArray *sorter_array,
+                       gint count)
+{
+	gint i;
+
+	g_return_if_fail (E_IS_SORTER_ARRAY (sorter_array));
+
+	g_free (sorter_array->backsorted);
+	sorter_array->backsorted = NULL;
+
+	if (sorter_array->sorted) {
+		sorter_array->sorted = g_renew (
+			gint, sorter_array->sorted,
+			sorter_array->rows + count);
+		for (i = 0; i < count; i++) {
+			gint value = sorter_array->rows;
+			gsize pos;
+
+			e_bsearch (
+				&value,
+				sorter_array->sorted,
+				sorter_array->rows,
+				sizeof (gint),
+				esort_callback,
+				sorter_array,
+				&pos, NULL);
+			memmove (
+				sorter_array->sorted + pos + 1,
+				sorter_array->sorted + pos,
+				sizeof (gint) * (sorter_array->rows - pos));
+			sorter_array->sorted[pos] = value;
+			sorter_array->rows++;
+		}
+	} else {
+		sorter_array->rows += count;
+	}
 }
 
