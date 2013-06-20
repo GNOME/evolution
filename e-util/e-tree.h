@@ -272,7 +272,6 @@ GdkDragContext *e_tree_drag_begin		(ETree *tree,
 
 gboolean	e_tree_is_dragging		(ETree *tree);
 
-gint		e_tree_row_count		(ETree *tree);
 GtkWidget *	e_tree_get_tooltip		(ETree *tree);
 
 typedef enum {

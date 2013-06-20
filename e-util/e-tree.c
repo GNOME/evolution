@@ -2196,14 +2196,6 @@ e_tree_view_to_model_row (ETree *tree,
 		return view_row;
 }
 
-gint
-e_tree_row_count (ETree *tree)
-{
-	g_return_val_if_fail (E_IS_TREE (tree), -1);
-
-	return e_table_model_row_count (E_TABLE_MODEL (tree->priv->etta));
-}
-
 GtkWidget *
 e_tree_get_tooltip (ETree *tree)
 {

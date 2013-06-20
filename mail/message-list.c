@@ -343,7 +343,9 @@ regen_data_new (MessageList *message_list,
 	RegenData *regen_data;
 	EActivity *activity;
 	EMailSession *session;
+	ETreeTableAdapter *adapter;
 	gboolean searching;
+	gint row_count;
 
 	activity = e_activity_new ();
 	e_activity_set_cancellable (activity, cancellable);
@@ -383,7 +385,10 @@ regen_data_new (MessageList *message_list,
 
 	searching = (g_strcmp0 (message_list->search, " ") != 0);
 
-	if (e_tree_row_count (E_TREE (message_list)) <= 0) {
+	adapter = e_tree_get_table_adapter (E_TREE (message_list));
+	row_count = e_table_model_row_count (E_TABLE_MODEL (adapter));
+
+	if (row_count <= 0) {
 		if (gtk_widget_get_visible (GTK_WIDGET (message_list))) {
 			gchar *txt;
 
@@ -396,11 +401,6 @@ regen_data_new (MessageList *message_list,
 	} else if (regen_data->group_by_threads &&
 		   !message_list->just_set_folder &&
 		   !searching) {
-
-		ETreeTableAdapter *adapter;
-
-		adapter = e_tree_get_table_adapter (E_TREE (message_list));
-
 		if (message_list->priv->any_row_changed) {
 			/* Something changed.  If it was an expand
 			 * state change, then save the expand state. */
@@ -782,24 +782,30 @@ ml_search_path (MessageList *message_list,
                 guint32 flags,
                 guint32 mask)
 {
+	ETreeTableAdapter *adapter;
 	GNode *node;
-	gint row, count;
-	ETreeTableAdapter *etta;
+	gint row_count;
+	gint row;
 
-	etta = e_tree_get_table_adapter (E_TREE (message_list));
-
-	if (message_list->cursor_uid == NULL
-	    || (node = g_hash_table_lookup (message_list->uid_nodemap, message_list->cursor_uid)) == NULL)
+	if (message_list->cursor_uid == NULL)
 		return NULL;
 
-	row = e_tree_table_adapter_row_of_node (etta, node);
+	node = g_hash_table_lookup (
+		message_list->uid_nodemap,
+		message_list->cursor_uid);
+	if (node == NULL)
+		return NULL;
+
+	adapter = e_tree_get_table_adapter (E_TREE (message_list));
+	row_count = e_table_model_row_count (E_TABLE_MODEL (adapter));
+
+	row = e_tree_table_adapter_row_of_node (adapter, node);
 	if (row == -1)
 		return NULL;
-	count = e_table_model_row_count ((ETableModel *) etta);
 
 	if ((direction & MESSAGE_LIST_SELECT_DIRECTION) == MESSAGE_LIST_SELECT_NEXT)
 		node = ml_search_forward (
-			message_list, row + 1, count - 1, flags, mask);
+			message_list, row + 1, row_count - 1, flags, mask);
 	else
 		node = ml_search_backward (
 			message_list, row - 1, 0, flags, mask);
@@ -810,7 +816,7 @@ ml_search_path (MessageList *message_list,
 				message_list, 0, row, flags, mask);
 		else
 			node = ml_search_backward (
-				message_list, count - 1, row, flags, mask);
+				message_list, row_count - 1, row, flags, mask);
 	}
 
 	return node;
@@ -982,26 +988,33 @@ message_list_select_uid (MessageList *message_list,
 void
 message_list_select_next_thread (MessageList *message_list)
 {
+	ETreeTableAdapter *adapter;
 	GNode *node;
-	ETreeTableAdapter *etta;
-	gint i, count, row;
+	gint row_count;
+	gint row;
+	gint ii;
 
 	g_return_if_fail (IS_MESSAGE_LIST (message_list));
 
-	etta = e_tree_get_table_adapter (E_TREE (message_list));
-
-	if (!message_list->cursor_uid
-	    || (node = g_hash_table_lookup (message_list->uid_nodemap, message_list->cursor_uid)) == NULL)
+	if (message_list->cursor_uid == NULL)
 		return;
 
-	row = e_tree_table_adapter_row_of_node (etta, node);
+	node = g_hash_table_lookup (
+		message_list->uid_nodemap,
+		message_list->cursor_uid);
+	if (node == NULL)
+		return;
+
+	adapter = e_tree_get_table_adapter (E_TREE (message_list));
+	row_count = e_table_model_row_count ((ETableModel *) adapter);
+
+	row = e_tree_table_adapter_row_of_node (adapter, node);
 	if (row == -1)
 		return;
-	count = e_table_model_row_count ((ETableModel *) etta);
 
 	/* find the next node which has a root parent (i.e. toplevel node) */
-	for (i = row + 1; i < count - 1; i++) {
-		node = e_tree_table_adapter_node_at_row (etta, i);
+	for (ii = row + 1; ii < row_count - 1; ii++) {
+		node = e_tree_table_adapter_node_at_row (adapter, ii);
 		if (node != NULL && G_NODE_IS_ROOT (node->parent)) {
 			select_node (message_list, node);
 			return;
@@ -1012,20 +1025,26 @@ message_list_select_next_thread (MessageList *message_list)
 void
 message_list_select_prev_thread (MessageList *message_list)
 {
+	ETreeTableAdapter *adapter;
 	GNode *node;
-	ETreeTableAdapter *etta;
-	gint i, row;
 	gboolean skip_first;
+	gint row;
+	gint ii;
 
 	g_return_if_fail (IS_MESSAGE_LIST (message_list));
 
-	etta = e_tree_get_table_adapter (E_TREE (message_list));
-
-	if (!message_list->cursor_uid
-	    || (node = g_hash_table_lookup (message_list->uid_nodemap, message_list->cursor_uid)) == NULL)
+	if (message_list->cursor_uid == NULL)
 		return;
 
-	row = e_tree_table_adapter_row_of_node (etta, node);
+	node = g_hash_table_lookup (
+		message_list->uid_nodemap,
+		message_list->cursor_uid);
+	if (node == NULL)
+		return;
+
+	adapter = e_tree_get_table_adapter (E_TREE (message_list));
+
+	row = e_tree_table_adapter_row_of_node (adapter, node);
 	if (row == -1)
 		return;
 
@@ -1033,8 +1052,8 @@ message_list_select_prev_thread (MessageList *message_list)
 	skip_first = !G_NODE_IS_ROOT (node->parent);
 
 	/* find the previous node which has a root parent (i.e. toplevel node) */
-	for (i = row - 1; i >= 0; i--) {
-		node = e_tree_table_adapter_node_at_row (etta, i);
+	for (ii = row - 1; ii >= 0; ii--) {
+		node = e_tree_table_adapter_node_at_row (adapter, ii);
 		if (node != NULL && G_NODE_IS_ROOT (node->parent)) {
 			if (skip_first) {
 				skip_first = FALSE;
@@ -2641,13 +2660,16 @@ message_list_selectable_update_actions (ESelectable *selectable,
                                         GdkAtom *clipboard_targets,
                                         gint n_clipboard_targets)
 {
+	ETreeTableAdapter *adapter;
 	GtkAction *action;
-	gboolean sensitive;
+	gint row_count;
+
+	adapter = e_tree_get_table_adapter (E_TREE (selectable));
+	row_count = e_table_model_row_count (E_TABLE_MODEL (adapter));
 
 	action = e_focus_tracker_get_select_all_action (focus_tracker);
-	sensitive = (e_tree_row_count (E_TREE (selectable)) > 0);
 	gtk_action_set_tooltip (action, _("Select all visible messages"));
-	gtk_action_set_sensitive (action, sensitive);
+	gtk_action_set_sensitive (action, row_count > 0);
 }
 
 static void
@@ -3541,16 +3563,14 @@ find_next_selectable (MessageList *message_list)
 {
 	ETreeTableAdapter *adapter;
 	GNode *node;
-	gint last;
 	gint vrow_orig;
 	gint vrow;
-	ETree *et = E_TREE (message_list);
+	gint row_count;
 	CamelMessageInfo *info;
 
-	adapter = e_tree_get_table_adapter (E_TREE (message_list));
-
 	node = g_hash_table_lookup (
-		message_list->uid_nodemap, message_list->cursor_uid);
+		message_list->uid_nodemap,
+		message_list->cursor_uid);
 	if (node == NULL)
 		return NULL;
 
@@ -3558,7 +3578,8 @@ find_next_selectable (MessageList *message_list)
 	if (info && is_node_selectable (message_list, info))
 		return NULL;
 
-	last = e_tree_row_count (et);
+	adapter = e_tree_get_table_adapter (E_TREE (message_list));
+	row_count = e_table_model_row_count (E_TABLE_MODEL (adapter));
 
 	/* model_to_view_row etc simply dont work for sorted views.  Sigh. */
 	vrow_orig = e_tree_table_adapter_row_of_node (adapter, node);
@@ -3566,7 +3587,7 @@ find_next_selectable (MessageList *message_list)
 	/* We already checked this node. */
 	vrow = vrow_orig + 1;
 
-	while (vrow < last) {
+	while (vrow < row_count) {
 		node = e_tree_table_adapter_node_at_row (adapter, vrow);
 		info = get_message_info (message_list, node);
 		if (info && is_node_selectable (message_list, info))
@@ -5353,6 +5374,7 @@ message_list_regen_done_cb (GObject *source_object,
 	ETree *tree;
 	ETreeTableAdapter *adapter;
 	gboolean searching;
+	gint row_count;
 	GError *local_error = NULL;
 
 	message_list = MESSAGE_LIST (source_object);
@@ -5468,6 +5490,8 @@ message_list_regen_done_cb (GObject *source_object,
 			regen_data->summary);
 	}
 
+	row_count = e_table_model_row_count (E_TABLE_MODEL (adapter));
+
 	if (regen_data->select_all) {
 		message_list_select_all (message_list);
 
@@ -5478,10 +5502,6 @@ message_list_regen_done_cb (GObject *source_object,
 			regen_data->select_use_fallback);
 
 	} else if (message_list->cursor_uid == NULL && regen_data->last_row != -1) {
-		gint row_count;
-
-		row_count = e_table_model_row_count (E_TABLE_MODEL (adapter));
-
 		if (regen_data->last_row >= row_count)
 			regen_data->last_row = row_count;
 
@@ -5505,7 +5525,7 @@ message_list_regen_done_cb (GObject *source_object,
 			(*message_list->search != '\0') &&
 			(strcmp (message_list->search, " ") != 0);
 
-		if (e_tree_row_count (E_TREE (tree)) > 0) {
+		if (row_count > 0) {
 			info_message = NULL;
 		} else if (have_search_expr) {
 			info_message =
