@@ -58,7 +58,7 @@ typedef struct _ETableSorter ETableSorter;
 typedef struct _ETableSorterClass ETableSorterClass;
 
 struct _ETableSorter {
-	ESorter parent;
+	GObject parent;
 
 	ETableModel *source;
 	ETableHeader *full_header;
@@ -81,7 +81,7 @@ struct _ETableSorter {
 };
 
 struct _ETableSorterClass {
-	ESorterClass parent_class;
+	GObjectClass parent_class;
 };
 
 GType		e_table_sorter_get_type		(void) G_GNUC_CONST;

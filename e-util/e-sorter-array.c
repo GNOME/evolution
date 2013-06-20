@@ -35,25 +35,19 @@
 
 #define INCREMENT_AMOUNT 100
 
-G_DEFINE_TYPE (
-	ESorterArray,
-	e_sorter_array,
-	E_TYPE_SORTER)
-
 static void	esa_sort			(ESorterArray *esa);
 static void	esa_backsort			(ESorterArray *esa);
 
-static gint	esa_model_to_sorted		(ESorter *sorter, gint row);
-static gint	esa_sorted_to_model		(ESorter *sorter, gint row);
-static void	esa_get_model_to_sorted_array	(ESorter *sorter,
-						 gint **array,
-						 gint *count);
-static void	esa_get_sorted_to_model_array	(ESorter *sorter,
-						 gint **array,
-						 gint *count);
-static gboolean	esa_needs_sorting		(ESorter *esa);
+/* Forward Declarations */
+static void	e_sorter_array_interface_init	(ESorterInterface *interface);
 
-#define ESA_NEEDS_SORTING(esa) (((ESorterArray *) (esa))->compare != NULL)
+G_DEFINE_TYPE_WITH_CODE (
+	ESorterArray,
+	e_sorter_array,
+	G_TYPE_OBJECT,
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_SORTER,
+		e_sorter_array_interface_init))
 
 static gint
 esort_callback (gconstpointer data1,
@@ -125,81 +119,6 @@ esa_backsort (ESorterArray *esa)
 	for (i = 0; i < rows; i++) {
 		esa->backsorted[esa->sorted[i]] = i;
 	}
-}
-
-static gint
-esa_model_to_sorted (ESorter *es,
-                     gint row)
-{
-	ESorterArray *esa = E_SORTER_ARRAY (es);
-
-	g_return_val_if_fail (row >= 0, -1);
-	g_return_val_if_fail (row < esa->rows, -1);
-
-	if (ESA_NEEDS_SORTING (es))
-		esa_backsort (esa);
-
-	if (esa->backsorted)
-		return esa->backsorted[row];
-	else
-		return row;
-}
-
-static gint
-esa_sorted_to_model (ESorter *es,
-                     gint row)
-{
-	ESorterArray *esa = (ESorterArray *) es;
-
-	g_return_val_if_fail (row >= 0, -1);
-	g_return_val_if_fail (row < esa->rows, -1);
-
-	if (ESA_NEEDS_SORTING (es))
-		esa_sort (esa);
-
-	if (esa->sorted)
-		return esa->sorted[row];
-	else
-		return row;
-}
-
-static void
-esa_get_model_to_sorted_array (ESorter *es,
-                               gint **array,
-                               gint *count)
-{
-	ESorterArray *esa = E_SORTER_ARRAY (es);
-	if (array || count) {
-		esa_backsort (esa);
-
-		if (array)
-			*array = esa->backsorted;
-		if (count)
-			*count = esa->rows;
-	}
-}
-
-static void
-esa_get_sorted_to_model_array (ESorter *es,
-                               gint **array,
-                               gint *count)
-{
-	ESorterArray *esa = E_SORTER_ARRAY (es);
-	if (array || count) {
-		esa_sort (esa);
-
-		if (array)
-			*array = esa->sorted;
-		if (count)
-			*count = esa->rows;
-	}
-}
-
-static gboolean
-esa_needs_sorting (ESorter *es)
-{
-	ESorterArray *esa = E_SORTER_ARRAY (es);
-	return esa->compare != NULL;
 }
 
 void
@@ -283,19 +202,97 @@ e_sorter_array_new (ECreateCmpCacheFunc create_cmp_cache,
 	return e_sorter_array_construct (esa, create_cmp_cache, compare, closure);
 }
 
+static gint
+sorter_array_model_to_sorted (ESorter *es,
+                              gint row)
+{
+	ESorterArray *esa = E_SORTER_ARRAY (es);
+
+	g_return_val_if_fail (row >= 0, -1);
+	g_return_val_if_fail (row < esa->rows, -1);
+
+	if (e_sorter_needs_sorting (es))
+		esa_backsort (esa);
+
+	if (esa->backsorted)
+		return esa->backsorted[row];
+	else
+		return row;
+}
+
+static gint
+sorter_array_sorted_to_model (ESorter *es,
+                              gint row)
+{
+	ESorterArray *esa = (ESorterArray *) es;
+
+	g_return_val_if_fail (row >= 0, -1);
+	g_return_val_if_fail (row < esa->rows, -1);
+
+	if (e_sorter_needs_sorting (es))
+		esa_sort (esa);
+
+	if (esa->sorted)
+		return esa->sorted[row];
+	else
+		return row;
+}
+
+static void
+sorter_array_get_model_to_sorted_array (ESorter *es,
+                                        gint **array,
+                                        gint *count)
+{
+	ESorterArray *esa = E_SORTER_ARRAY (es);
+	if (array || count) {
+		esa_backsort (esa);
+
+		if (array)
+			*array = esa->backsorted;
+		if (count)
+			*count = esa->rows;
+	}
+}
+
+static void
+sorter_array_get_sorted_to_model_array (ESorter *es,
+                                        gint **array,
+                                        gint *count)
+{
+	ESorterArray *esa = E_SORTER_ARRAY (es);
+	if (array || count) {
+		esa_sort (esa);
+
+		if (array)
+			*array = esa->sorted;
+		if (count)
+			*count = esa->rows;
+	}
+}
+
+static gboolean
+sorter_array_needs_sorting (ESorter *es)
+{
+	ESorterArray *esa = E_SORTER_ARRAY (es);
+	return esa->compare != NULL;
+}
+
 static void
 e_sorter_array_class_init (ESorterArrayClass *class)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
-	ESorterClass *sorter_class = E_SORTER_CLASS (class);
 
 	object_class->finalize = esa_finalize;
+}
 
-	sorter_class->model_to_sorted           = esa_model_to_sorted;
-	sorter_class->sorted_to_model           = esa_sorted_to_model;
-	sorter_class->get_model_to_sorted_array = esa_get_model_to_sorted_array;
-	sorter_class->get_sorted_to_model_array = esa_get_sorted_to_model_array;
-	sorter_class->needs_sorting             = esa_needs_sorting;
+static void
+e_sorter_array_interface_init (ESorterInterface *interface)
+{
+	interface->model_to_sorted = sorter_array_model_to_sorted;
+	interface->sorted_to_model = sorter_array_sorted_to_model;
+	interface->get_model_to_sorted_array = sorter_array_get_model_to_sorted_array;
+	interface->get_sorted_to_model_array = sorter_array_get_sorted_to_model_array;
+	interface->needs_sorting = sorter_array_needs_sorting;
 }
 
 static void

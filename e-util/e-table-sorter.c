@@ -39,8 +39,6 @@ enum {
 	PROP_SORT_INFO
 };
 
-G_DEFINE_TYPE (ETableSorter, e_table_sorter, E_TYPE_SORTER)
-
 #define INCREMENT_AMOUNT 100
 
 static void	ets_model_changed      (ETableModel *etm, ETableSorter *ets);
@@ -53,11 +51,16 @@ static void	ets_clean              (ETableSorter *ets);
 static void	ets_sort               (ETableSorter *ets);
 static void	ets_backsort           (ETableSorter *ets);
 
-static gint	ets_model_to_sorted           (ESorter *sorter, gint row);
-static gint	ets_sorted_to_model           (ESorter *sorter, gint row);
-static void	ets_get_model_to_sorted_array (ESorter *sorter, gint **array, gint *count);
-static void	ets_get_sorted_to_model_array (ESorter *sorter, gint **array, gint *count);
-static gboolean ets_needs_sorting             (ESorter *ets);
+/* Forward Declarations */
+static void	e_table_sorter_interface_init	(ESorterInterface *interface);
+
+G_DEFINE_TYPE_WITH_CODE (
+	ETableSorter,
+	e_table_sorter,
+	G_TYPE_OBJECT,
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_SORTER,
+		e_table_sorter_interface_init))
 
 static void
 ets_dispose (GObject *object)
@@ -165,21 +168,96 @@ ets_get_property (GObject *object,
 	}
 }
 
+static gint
+table_sorter_model_to_sorted (ESorter *es,
+                              gint row)
+{
+	ETableSorter *ets = E_TABLE_SORTER (es);
+	gint rows = e_table_model_row_count (ets->source);
+
+	g_return_val_if_fail (row >= 0, -1);
+	g_return_val_if_fail (row < rows, -1);
+
+	if (e_sorter_needs_sorting (es))
+		ets_backsort (ets);
+
+	if (ets->backsorted)
+		return ets->backsorted[row];
+	else
+		return row;
+}
+
+static gint
+table_sorter_sorted_to_model (ESorter *es,
+                              gint row)
+{
+	ETableSorter *ets = E_TABLE_SORTER (es);
+	gint rows = e_table_model_row_count (ets->source);
+
+	g_return_val_if_fail (row >= 0, -1);
+	g_return_val_if_fail (row < rows, -1);
+
+	if (e_sorter_needs_sorting (es))
+		ets_sort (ets);
+
+	if (ets->sorted)
+		return ets->sorted[row];
+	else
+		return row;
+}
+
+static void
+table_sorter_get_model_to_sorted_array (ESorter *es,
+                                        gint **array,
+                                        gint *count)
+{
+	ETableSorter *ets = E_TABLE_SORTER (es);
+	if (array || count) {
+		ets_backsort (ets);
+
+		if (array)
+			*array = ets->backsorted;
+		if (count)
+			*count = e_table_model_row_count(ets->source);
+	}
+}
+
+static void
+table_sorter_get_sorted_to_model_array (ESorter *es,
+                                        gint **array,
+                                        gint *count)
+{
+	ETableSorter *ets = E_TABLE_SORTER (es);
+	if (array || count) {
+		ets_sort (ets);
+
+		if (array)
+			*array = ets->sorted;
+		if (count)
+			*count = e_table_model_row_count(ets->source);
+	}
+}
+
+static gboolean
+table_sorter_needs_sorting (ESorter *es)
+{
+	ETableSorter *ets = E_TABLE_SORTER (es);
+	if (ets->needs_sorting < 0) {
+		if (e_table_sort_info_sorting_get_count (ets->sort_info) + e_table_sort_info_grouping_get_count (ets->sort_info))
+			ets->needs_sorting = 1;
+		else
+			ets->needs_sorting = 0;
+	}
+	return ets->needs_sorting;
+}
 static void
 e_table_sorter_class_init (ETableSorterClass *class)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
-	ESorterClass *sorter_class = E_SORTER_CLASS (class);
 
 	object_class->dispose                   = ets_dispose;
 	object_class->set_property              = ets_set_property;
 	object_class->get_property              = ets_get_property;
-
-	sorter_class->model_to_sorted           = ets_model_to_sorted;
-	sorter_class->sorted_to_model           = ets_sorted_to_model;
-	sorter_class->get_model_to_sorted_array = ets_get_model_to_sorted_array;
-	sorter_class->get_sorted_to_model_array = ets_get_sorted_to_model_array;
-	sorter_class->needs_sorting             = ets_needs_sorting;
 
 	g_object_class_install_property (
 		object_class,
@@ -190,6 +268,16 @@ e_table_sorter_class_init (ETableSorterClass *class)
 			NULL,
 			E_TYPE_TABLE_SORT_INFO,
 			G_PARAM_READWRITE));
+}
+
+static void
+e_table_sorter_interface_init (ESorterInterface *interface)
+{
+	interface->model_to_sorted = table_sorter_model_to_sorted;
+	interface->sorted_to_model = table_sorter_sorted_to_model;
+	interface->get_model_to_sorted_array = table_sorter_get_model_to_sorted_array;
+	interface->get_sorted_to_model_array = table_sorter_get_sorted_to_model_array;
+	interface->needs_sorting = table_sorter_needs_sorting;
 }
 
 static void
@@ -433,85 +521,3 @@ ets_backsort (ETableSorter *ets)
 	}
 }
 
-static gint
-ets_model_to_sorted (ESorter *es,
-                     gint row)
-{
-	ETableSorter *ets = E_TABLE_SORTER (es);
-	gint rows = e_table_model_row_count (ets->source);
-
-	g_return_val_if_fail (row >= 0, -1);
-	g_return_val_if_fail (row < rows, -1);
-
-	if (ets_needs_sorting (es))
-		ets_backsort (ets);
-
-	if (ets->backsorted)
-		return ets->backsorted[row];
-	else
-		return row;
-}
-
-static gint
-ets_sorted_to_model (ESorter *es,
-                     gint row)
-{
-	ETableSorter *ets = E_TABLE_SORTER (es);
-	gint rows = e_table_model_row_count (ets->source);
-
-	g_return_val_if_fail (row >= 0, -1);
-	g_return_val_if_fail (row < rows, -1);
-
-	if (ets_needs_sorting (es))
-		ets_sort (ets);
-
-	if (ets->sorted)
-		return ets->sorted[row];
-	else
-		return row;
-}
-
-static void
-ets_get_model_to_sorted_array (ESorter *es,
-                               gint **array,
-                               gint *count)
-{
-	ETableSorter *ets = E_TABLE_SORTER (es);
-	if (array || count) {
-		ets_backsort (ets);
-
-		if (array)
-			*array = ets->backsorted;
-		if (count)
-			*count = e_table_model_row_count(ets->source);
-	}
-}
-
-static void
-ets_get_sorted_to_model_array (ESorter *es,
-                               gint **array,
-                               gint *count)
-{
-	ETableSorter *ets = E_TABLE_SORTER (es);
-	if (array || count) {
-		ets_sort (ets);
-
-		if (array)
-			*array = ets->sorted;
-		if (count)
-			*count = e_table_model_row_count(ets->source);
-	}
-}
-
-static gboolean
-ets_needs_sorting (ESorter *es)
-{
-	ETableSorter *ets = E_TABLE_SORTER (es);
-	if (ets->needs_sorting < 0) {
-		if (e_table_sort_info_sorting_get_count (ets->sort_info) + e_table_sort_info_grouping_get_count (ets->sort_info))
-			ets->needs_sorting = 1;
-		else
-			ets->needs_sorting = 0;
-	}
-	return ets->needs_sorting;
-}

@@ -1,4 +1,5 @@
 /*
+ * e-sorter.h
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -12,12 +13,6 @@
  *
  * You should have received a copy of the GNU Lesser General Public
  * License along with the program; if not, see <http://www.gnu.org/licenses/>
- *
- *
- * Authors:
- *		Chris Lahey <clahey@ximian.com>
- *
- * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  */
 
@@ -36,30 +31,20 @@
 #define E_SORTER(obj) \
 	(G_TYPE_CHECK_INSTANCE_CAST \
 	((obj), E_TYPE_SORTER, ESorter))
-#define E_SORTER_CLASS(cls) \
-	(G_TYPE_CHECK_CLASS_CAST \
-	((cls), E_TYPE_SORTER, ESorterClass))
 #define E_IS_SORTER(obj) \
 	(G_TYPE_CHECK_INSTANCE_TYPE \
 	((obj), E_TYPE_SORTER))
-#define E_IS_SORTER_CLASS(cls) \
-	(G_TYPE_CHECK_CLASS_TYPE \
-	((cls), E_TYPE_SORTER))
-#define E_SORTER_GET_CLASS(obj) \
-	(G_TYPE_INSTANCE_GET_CLASS \
-	((obj), E_TYPE_SORTER, ESorterClass))
+#define E_SORTER_GET_INTERFACE(obj) \
+	(G_TYPE_INSTANCE_GET_INTERFACE \
+	((obj), E_TYPE_SORTER, ESorterInterface))
 
 G_BEGIN_DECLS
 
 typedef struct _ESorter ESorter;
-typedef struct _ESorterClass ESorterClass;
+typedef struct _ESorterInterface ESorterInterface;
 
-struct _ESorter {
-	GObject parent;
-};
-
-struct _ESorterClass {
-	GObjectClass parent_class;
+struct _ESorterInterface {
+	GTypeInterface parent_interface;
 
 	gint		(*model_to_sorted)	(ESorter *sorter,
 						 gint row);

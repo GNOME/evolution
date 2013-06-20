@@ -61,7 +61,7 @@ typedef gint (*ECompareRowsFunc) (gint row1,
 typedef GHashTable * (*ECreateCmpCacheFunc) (gpointer closure);
 
 struct _ESorterArray {
-	ESorter parent;
+	GObject parent;
 
 	GHashTable *cmp_cache;
 	ECreateCmpCacheFunc create_cmp_cache;
@@ -77,7 +77,7 @@ struct _ESorterArray {
 };
 
 struct _ESorterArrayClass {
-	ESorterClass parent_class;
+	GObjectClass parent_class;
 };
 
 GType		e_sorter_array_get_type	(void) G_GNUC_CONST;

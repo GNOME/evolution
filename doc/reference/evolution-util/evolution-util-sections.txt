@@ -3073,10 +3073,8 @@ e_sorter_needs_sorting
 E_SORTER
 E_IS_SORTER
 E_TYPE_SORTER
-E_SORTER_CLASS
-E_IS_SORTER_CLASS
-E_SORTER_GET_CLASS
-ESorterClass
+E_SORTER_GET_INTERFACE
+ESorterInterface
 e_sorter_get_type
 </SECTION>
 
