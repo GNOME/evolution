@@ -2190,15 +2190,6 @@ e_tree_view_to_model_row (ETree *tree,
 		return view_row;
 }
 
-void
-e_tree_root_node_set_visible (ETree *tree,
-                              gboolean visible)
-{
-	g_return_if_fail (E_IS_TREE (tree));
-
-	e_tree_table_adapter_root_node_set_visible (tree->priv->etta, visible);
-}
-
 ETreePath
 e_tree_node_at_row (ETree *tree,
                     gint row)

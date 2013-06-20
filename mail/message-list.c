@@ -3225,6 +3225,7 @@ message_list_init (MessageList *message_list)
 static void
 message_list_construct (MessageList *message_list)
 {
+	ETreeTableAdapter *adapter;
 	AtkObject *a11y;
 	gboolean constructed;
 	gchar *etspecfile;
@@ -3241,8 +3242,10 @@ message_list_construct (MessageList *message_list)
 		message_list->extras, etspecfile, NULL);
 	g_free (etspecfile);
 
+	adapter = e_tree_get_table_adapter (E_TREE (message_list));
+
 	if (constructed)
-		e_tree_root_node_set_visible (E_TREE (message_list), FALSE);
+		e_tree_table_adapter_root_node_set_visible (adapter, FALSE);
 
 	if (atk_get_root () != NULL) {
 		a11y = gtk_widget_get_accessible (GTK_WIDGET (message_list));
@@ -3250,8 +3253,7 @@ message_list_construct (MessageList *message_list)
 	}
 
 	g_signal_connect (
-		e_tree_get_table_adapter (E_TREE (message_list)),
-		"model_row_changed",
+		adapter, "model_row_changed",
 		G_CALLBACK (on_model_row_changed), message_list);
 
 	g_signal_connect (
@@ -3292,8 +3294,7 @@ message_list_construct (MessageList *message_list)
 		G_CALLBACK (ml_tree_drag_motion), message_list);
 
 	g_signal_connect (
-		e_tree_get_table_adapter (E_TREE (message_list)),
-		"sorting_changed",
+		adapter, "sorting_changed",
 		G_CALLBACK (ml_tree_sorting_changed), message_list);
 }
 
