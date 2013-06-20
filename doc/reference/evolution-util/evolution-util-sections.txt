@@ -3064,7 +3064,6 @@ ESendOptionsDialogPrivate
 <FILE>e-sorter</FILE>
 <TITLE>ESorter</TITLE>
 ESorter
-e_sorter_new
 e_sorter_model_to_sorted
 e_sorter_sorted_to_model
 e_sorter_get_model_to_sorted_array

@@ -79,7 +79,6 @@ struct _ESorterClass {
 };
 
 GType		e_sorter_get_type		(void) G_GNUC_CONST;
-ESorter *	e_sorter_new			(void);
 gint		e_sorter_model_to_sorted	(ESorter *sorter,
 						 gint row);
 gint		e_sorter_sorted_to_model	(ESorter *sorter,

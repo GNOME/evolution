@@ -120,7 +120,6 @@ struct _ETreePrivate {
 	guint structure_change_id, expansion_change_id;
 
 	ETableSortInfo *sort_info;
-	ESorter   *sorter;
 
 	guint sort_info_change_id, group_info_change_id;
 
@@ -457,11 +456,6 @@ et_dispose (GObject *object)
 	if (priv->spec != NULL) {
 		g_object_unref (priv->spec);
 		priv->spec = NULL;
-	}
-
-	if (priv->sorter != NULL) {
-		g_object_unref (priv->sorter);
-		priv->sorter = NULL;
 	}
 
 	if (priv->header_canvas != NULL) {
@@ -1552,11 +1546,8 @@ et_real_construct (ETree *tree,
 
 	et_connect_to_etta (tree);
 
-	tree->priv->sorter = e_sorter_new ();
-
 	g_object_set (
 		tree->priv->selection,
-		"sorter", tree->priv->sorter,
 		"model", tree->priv->model,
 		"etta", tree->priv->etta,
 		"selection_mode", specification->selection_mode,
@@ -2057,10 +2048,7 @@ e_tree_view_to_model_row (ETree *tree,
 {
 	g_return_val_if_fail (E_IS_TREE (tree), -1);
 
-	if (tree->priv->sorter)
-		return e_sorter_sorted_to_model (E_SORTER (tree->priv->sorter), view_row);
-	else
-		return view_row;
+	return view_row;
 }
 
 /**

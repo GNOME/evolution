@@ -73,12 +73,6 @@ e_sorter_init (ESorter *sorter)
 {
 }
 
-ESorter *
-e_sorter_new (void)
-{
-	return g_object_new (E_TYPE_SORTER, NULL);
-}
-
 gint
 e_sorter_model_to_sorted (ESorter *sorter,
                           gint row)
