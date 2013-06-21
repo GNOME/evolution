@@ -1,6 +1,7 @@
 <page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
       xmlns:e="http://projectmallard.org/experimental/"
       xmlns:if="http://projectmallard.org/experimental/if/"
+      xmlns:ui="http://projectmallard.org/ui/1.0/"
       type="topic" id="intro-first-run">
 
   <info>
@@ -8,7 +9,7 @@
 
     <link type="guide" xref="index#getting-started"/>
 
-    <revision pkgversion="3.8.2" version="0.5" date="2013-06-20" status="stub"/>
+    <revision pkgversion="3.8.2" version="0.6" date="2013-06-20" status="stub"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -29,9 +30,18 @@
 
 <section id="restore">
 <title>Restore from backup</title>
-<p>You will be asked whether to restore from a backup of a previous version. If you have such a backup, continue <link xref="backup-restore#restore">here</link>. Otherwise, go to the next page.</p>
-</section>
+<p>You will be asked whether to restore from a backup of a previous version. If you do not have a backup, go to the next page.</p>
 
+ <section id="restore-howto" ui:expanded="false">
+  <info>
+    <title type="ui:collapsed">Show how to restore from a backup</title>
+  </info>
+  <title>Restoring</title>
+  <include href="backup-restore.page"
+   xpointer="xmlns(mal=http://projectmallard.org/1.0/)xpointer(/mal:page/mal:section[@id='restore']/mal:list)"
+   xmlns="http://www.w3.org/2001/XInclude"/>
+ </section>
+</section>
 <section id="receiving">
 <title>Receiving Email</title>
 <p>First, choose the server type from the <gui>Server Type</gui> drop-down list.</p>
