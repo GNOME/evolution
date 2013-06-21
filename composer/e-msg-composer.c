@@ -100,6 +100,24 @@ enum {
 	LAST_SIGNAL
 };
 
+enum DndTargetType {
+	DND_TARGET_TYPE_TEXT_URI_LIST,
+	DND_TARGET_TYPE_MOZILLA_URL,
+	DND_TARGET_TYPE_TEXT_HTML,
+	DND_TARGET_TYPE_UTF8_STRING,
+	DND_TARGET_TYPE_TEXT_PLAIN,
+	DND_TARGET_TYPE_STRING
+};
+
+static GtkTargetEntry drag_dest_targets[] = {
+	{ (gchar *) "text/uri-list", 0, DND_TARGET_TYPE_TEXT_URI_LIST },
+	{ (gchar *) "_NETSCAPE_URL", 0, DND_TARGET_TYPE_MOZILLA_URL },
+	{ (gchar *) "text/html", 0, DND_TARGET_TYPE_TEXT_HTML },
+	{ (gchar *) "UTF8_STRING", 0, DND_TARGET_TYPE_UTF8_STRING },
+	{ (gchar *) "text/plain", 0, DND_TARGET_TYPE_TEXT_PLAIN },
+	{ (gchar *) "STRING", 0, DND_TARGET_TYPE_STRING },
+};
+
 static guint signals[LAST_SIGNAL];
 
 /* used by e_msg_composer_add_message_attachments () */
@@ -1699,39 +1717,6 @@ msg_composer_paste_clipboard_cb (EEditorWidget *web_view,
 	g_signal_stop_emission_by_name (web_view, "paste-clipboard");
 }
 
-/* FIXME WEBKIT Is this still valid problem? */
-static void
-msg_composer_realize_gtkhtml_cb (GtkWidget *widget,
-                                 EMsgComposer *composer)
-{
-	EAttachmentView *view;
-	GtkTargetList *target_list;
-	GtkTargetEntry *targets;
-	gint n_targets;
-
-	/* XXX GtkHTML doesn't set itself up as a drag destination until
-	 *     it's realized, and we need to amend to its target list so
-	 *     it will accept the same drag targets as the attachment bar.
-	 *     Do this any earlier and GtkHTML will just overwrite us. */
-
-	/* When redirecting a message, the message body is not
-	 * editable and therefore cannot be a drag destination. */
-	/*
-	if (!e_web_view_gtkhtml_get_editable (E_WEB_VIEW_GTKHTML (widget)))
-		return;
-	*/
-
-	view = e_msg_composer_get_attachment_view (composer);
-
-	target_list = e_attachment_view_get_target_list (view);
-	targets = gtk_target_table_new_from_list (target_list, &n_targets);
-
-	target_list = gtk_drag_dest_get_target_list (widget);
-	gtk_target_list_add_table (target_list, targets, n_targets);
-
-	gtk_target_table_free (targets, n_targets);
-}
-
 static gboolean
 msg_composer_drag_motion_cb (GtkWidget *widget,
                              GdkDragContext *context,
@@ -1748,6 +1733,31 @@ msg_composer_drag_motion_cb (GtkWidget *widget,
 	g_signal_stop_emission_by_name (widget, "drag-motion");
 
 	return e_attachment_view_drag_motion (view, context, x, y, time);
+}
+
+static gchar *
+next_uri (guchar **uri_list,
+          gint *len,
+          gint *list_len)
+{
+	guchar *uri, *begin;
+
+	begin = *uri_list;
+	*len = 0;
+	while (**uri_list && **uri_list != '\n' && **uri_list != '\r' && *list_len) {
+		(*uri_list) ++;
+		(*len) ++;
+		(*list_len) --;
+	}
+
+	uri = (guchar *) g_strndup ((gchar *) begin, *len);
+
+	while ((!**uri_list || **uri_list == '\n' || **uri_list == '\r') && *list_len) {
+		(*uri_list) ++;
+		(*list_len) --;
+	}
+
+	return (gchar *) uri;
 }
 
 static void
@@ -1769,17 +1779,35 @@ msg_composer_drag_data_received_cb (GtkWidget *widget,
 
 	/* HTML mode has a few special cases for drops... */
 	if (e_editor_widget_get_html_mode (editor_widget)) {
-
 		/* If we're receiving an image, we want the image to be
 		 * inserted in the message body.  Let GtkHtml handle it. */
+		/* FIXME WebKit - how to reproduce this?
 		if (gtk_selection_data_targets_include_image (selection, TRUE))
 			return;
-
+		 */
 		/* If we're receiving URIs and -all- the URIs point to
 		 * image files, we want the image(s) to be inserted in
-		 * the message body.  Let GtkHtml handle it. */
-		if (e_composer_selection_is_image_uris (composer, selection))
-			return;
+		 * the message body. */
+		if (e_composer_selection_is_image_uris (composer, selection)) {
+			const guchar *data;
+			gint length;
+			gint list_len, len;
+			gchar *uri;
+
+			data = gtk_selection_data_get_data (selection);
+			length = gtk_selection_data_get_length (selection);
+
+			if (!data || length < 0)
+				return;
+
+			list_len = length;
+			do {
+				uri = next_uri ((guchar **) &data, &len, &list_len);
+				e_editor_widget_exec_command (editor_widget, E_EDITOR_WIDGET_COMMAND_INSERT_IMAGE, uri);
+			} while (list_len);
+		}
+
+		/* FIXME CID images */
 	}
 
 	view = e_msg_composer_get_attachment_view (composer);
@@ -1792,7 +1820,7 @@ msg_composer_drag_data_received_cb (GtkWidget *widget,
 		E_ATTACHMENT_PANED (view),
 		context, x, y, selection, info, time);
 
-	/* Stop the signal from propagating to GtkHtml. */
+	/* Stop the signal from propagating */
 	g_signal_stop_emission_by_name (widget, "drag-data-received");
 }
 
@@ -2035,10 +2063,6 @@ msg_composer_constructed (GObject *object)
 	/* Drag-and-Drop Support */
 
 	g_signal_connect (
-		editor_widget, "realize",
-		G_CALLBACK (msg_composer_realize_gtkhtml_cb), composer);
-
-	g_signal_connect (
 		editor_widget, "drag-motion",
 		G_CALLBACK (msg_composer_drag_motion_cb), composer);
 
@@ -2093,6 +2117,12 @@ msg_composer_constructed (GObject *object)
 
 	/* Initialization may have tripped the "changed" state. */
 	e_editor_widget_set_changed (editor_widget, FALSE);
+
+	gtk_drag_dest_set (
+		GTK_WIDGET (editor_widget),
+		GTK_DEST_DEFAULT_HIGHLIGHT | GTK_DEST_DEFAULT_DROP,
+		drag_dest_targets, G_N_ELEMENTS (drag_dest_targets),
+		GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_LINK);
 
 	id = "org.gnome.evolution.composer";
 	e_plugin_ui_register_manager (ui_manager, id, composer);
