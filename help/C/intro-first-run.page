@@ -8,7 +8,7 @@
 
     <link type="guide" xref="index#getting-started"/>
 
-    <revision pkgversion="3.3.91" version="0.4" date="2012-03-07" status="stub"/>
+    <revision pkgversion="3.8.2" version="0.5" date="2013-06-20" status="stub"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -85,13 +85,17 @@
 <list>
 <item><p>Local delivery: If you want to move email from the spool (the location where mail waits for delivery) and store it in your home directory. You need to provide the path to the mail spool you want to use. If you want to leave email in your system's spool files, choose the <gui>Standard Unix Mbox Spool</gui> option instead.</p><p>Continue <link xref="mail-receiving-options-local-delivery">here</link> for configuration.</p></item>
 
-<item><p>MH-Format Mail Directories: For downloading email using MH or another MH-style application.</p><p>You need to provide the path to the directory you want to use.</p><p>Continue <link xref="mail-receiving-options-mh-format-directories">here</link> for configuration.</p></item>
+<item><p>MH-Format Mail Directories: For downloading email using MH or another MH-style application.</p>
+<p>Continue <link xref="mail-receiving-options-mh-format-directories">here</link> for configuration.</p></item>
 
-<item><p>Maildir-Format Mail Directories: For downloading your email using Qmail or another Maildir-style application.</p><p>You need to provide the path to the directory you want to use.</p><p>Continue <link xref="mail-receiving-options-maildir-format-directories">here</link> for configuration.</p></item>
+<item><p>Maildir-Format Mail Directories: For downloading your email using Qmail or another Maildir-style application.</p>
+<p>Continue <link xref="mail-receiving-options-maildir-format-directories">here</link> for configuration.</p></item>
 
-<item><p>Standard Unix mbox spool file: For reading and storing email in the mail spool file on your local system.</p><p>You need to provide the path to the mail spool file you want to use.</p><p>Continue <link xref="mail-receiving-options-unix-mbox-spool-file">here</link> for configuration.</p></item>
+<item><p>Standard Unix mbox spool file: For reading and storing email in the mail spool file on your local system.</p>
+<p>Continue <link xref="mail-receiving-options-unix-mbox-spool-file">here</link> for configuration.</p></item>
 
-<item><p>Standard Unix mbox spool directory: For reading and storing email in the mail spool directory on your local system.</p><p>You need to provide the path to the directory you want to use.</p><p>Continue <link xref="mail-receiving-options-unix-mbox-spool-directory">here</link> for configuration.</p></item>
+<item><p>Standard Unix mbox spool directory: For reading and storing email in the mail spool directory on your local system.</p>
+<p>Continue <link xref="mail-receiving-options-unix-mbox-spool-directory">here</link> for configuration.</p></item>
 </list>
 
 <note style="tip"><p>Later on, if you want to change an account, or if you want to create another one, go to <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui></guiseq>. Select the account you want to change, then click <gui style="button">Edit</gui>. Alternately, add a new account by clicking <gui style="button">Add</gui>.</p></note>
