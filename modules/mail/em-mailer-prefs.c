@@ -58,7 +58,8 @@ static GType col_types[] = {
 
 #define EM_FORMAT_HEADER_XMAILER "x-evolution-mailer"
 
-/* temporarily copied from em-format.c */
+/* Keep this synchronized with the "show-headers" key
+ * in the "org.gnome.evolution.mail" GSettings schema. */
 static const gchar *default_headers[] = {
 	N_("From"),
 	N_("Reply-To"),

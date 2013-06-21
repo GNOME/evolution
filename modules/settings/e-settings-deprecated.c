@@ -120,6 +120,10 @@ settings_deprecated_header_strv_to_variant (gchar **strv)
 
 	length = g_strv_length (strv);
 
+	/* Disregard an empty list. */
+	if (length == 0)
+		return NULL;
+
 	g_variant_builder_init (&builder, G_VARIANT_TYPE ("a(sb)"));
 
 	for (ii = 0; ii < length; ii++)
@@ -519,7 +523,9 @@ settings_deprecated_constructed (GObject *object)
 
 	strv_value = g_settings_get_strv (priv->mail_settings, "headers");
 	variant = settings_deprecated_header_strv_to_variant (strv_value);
-	g_settings_set_value (priv->mail_settings, "show-headers", variant);
+	if (variant != NULL)
+		g_settings_set_value (
+			priv->mail_settings, "show-headers", variant);
 	g_strfreev (strv_value);
 
 	/* XXX The "reply-style" key uses a completely different

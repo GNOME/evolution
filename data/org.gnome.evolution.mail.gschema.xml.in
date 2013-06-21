@@ -232,7 +232,7 @@
       <_description>Show all the headers when viewing a messages.</_description>
     </key>
     <key name="show-headers" type="a(sb)">
-      <default>[]</default>
+      <default>[('From', true), ('Reply-To', true), ('To', true), ('Cc', true), ('Bcc' true), ('Subject', true), ('Date', true), ('Newsgroups', true), ('Face', true), ('x-evolution-mailer', false)]</default>
       <_summary>List of headers to show when viewing a message.</_summary>
       <_description>Each header is represented as a pair: the header name, and a boolean indicating whether the header is enabled.  Disabled headers are not shown when viewing a message, but are still listed in Preferences.</_description>
     </key>
