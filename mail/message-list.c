@@ -144,7 +144,8 @@ struct _RegenData {
 
 	gboolean group_by_threads;
 	gboolean thread_subject;
-	CamelFolderThread *tree;
+
+	CamelFolderThread *thread_tree;
 
 	/* This indicates we're regenerating the message list because
 	 * we received a "folder-changed" signal from our CamelFolder. */
@@ -488,7 +489,7 @@ regen_data_new (MessageList *message_list,
 			message_list, regen_data->folder);
 
 		if (regen_data->group_by_threads && hide_deleted) {
-			regen_data->tree = thread_tree;
+			regen_data->thread_tree = thread_tree;
 			camel_folder_thread_messages_ref (thread_tree);
 		} else {
 			camel_folder_thread_messages_unref (thread_tree);
@@ -561,8 +562,9 @@ regen_data_unref (RegenData *regen_data)
 
 		g_free (regen_data->search);
 
-		if (regen_data->tree != NULL)
-			camel_folder_thread_messages_unref (regen_data->tree);
+		if (regen_data->thread_tree != NULL)
+			camel_folder_thread_messages_unref (
+				regen_data->thread_tree);
 
 		if (regen_data->summary != NULL) {
 			guint ii, length;
@@ -2740,7 +2742,7 @@ message_list_finalize (GObject *object)
 
 	g_hash_table_destroy (message_list->normalised_hash);
 
-	if (message_list->thread_tree)
+	if (message_list->thread_tree != NULL)
 		camel_folder_thread_messages_unref (message_list->thread_tree);
 
 	g_free (message_list->search);
@@ -5344,6 +5346,7 @@ message_list_regen_thread (GSimpleAsyncResult *simple,
 	RegenData *regen_data;
 	GPtrArray *uids, *searchuids = NULL;
 	CamelMessageInfo *info;
+	CamelFolder *folder;
 	GNode *cursor;
 	ETree *tree;
 	GString *expr;
@@ -5357,10 +5360,11 @@ message_list_regen_thread (GSimpleAsyncResult *simple,
 	if (g_cancellable_is_cancelled (cancellable))
 		return;
 
-	hide_junk = message_list_get_hide_junk (
-		message_list, regen_data->folder);
-	hide_deleted = message_list_get_hide_deleted (
-		message_list, regen_data->folder);
+	/* Just for convenience. */
+	folder = g_object_ref (regen_data->folder);
+
+	hide_junk = message_list_get_hide_junk (message_list, folder);
+	hide_deleted = message_list_get_hide_deleted (message_list, folder);
 
 	tree = E_TREE (message_list);
 	cursor = e_tree_get_cursor (tree);
@@ -5402,11 +5406,10 @@ message_list_regen_thread (GSimpleAsyncResult *simple,
 	/* Execute the search. */
 
 	if (expr->len == 0) {
-		uids = camel_folder_get_uids (regen_data->folder);
+		uids = camel_folder_get_uids (folder);
 	} else {
 		uids = camel_folder_search_by_expression (
-			regen_data->folder, expr->str,
-			cancellable, &local_error);
+			folder, expr->str, cancellable, &local_error);
 
 		/* XXX This indicates we need to use a different
 		 *     "free UID" function for some dumb reason. */
@@ -5414,8 +5417,8 @@ message_list_regen_thread (GSimpleAsyncResult *simple,
 
 		if (uids != NULL)
 			message_list_regen_tweak_search_results (
-				message_list, uids,
-				regen_data->folder,
+				message_list,
+				uids, folder,
 				regen_data->folder_changed,
 				!hide_deleted,
 				!hide_junk);
@@ -5444,25 +5447,27 @@ message_list_regen_thread (GSimpleAsyncResult *simple,
 	if (regen_data->group_by_threads) {
 		ml_sort_uids_by_tree (message_list, uids, cancellable);
 
-		if (regen_data->tree != NULL)
+		if (regen_data->thread_tree != NULL)
 			camel_folder_thread_messages_apply (
-				regen_data->tree, uids);
+				regen_data->thread_tree, uids);
 		else
-			regen_data->tree = camel_folder_thread_messages_new (
-				regen_data->folder, uids,
-				regen_data->thread_subject);
+			regen_data->thread_tree =
+				camel_folder_thread_messages_new (
+					folder, uids,
+					regen_data->thread_subject);
 	} else {
 		guint ii;
 
-		camel_folder_sort_uids (regen_data->folder, uids);
+		camel_folder_sort_uids (folder, uids);
 		regen_data->summary = g_ptr_array_new ();
 
-		camel_folder_summary_prepare_fetch_all (
-			regen_data->folder->summary, NULL);
+		camel_folder_summary_prepare_fetch_all (folder->summary, NULL);
 
 		for (ii = 0; ii < uids->len; ii++) {
-			info = camel_folder_get_message_info (
-				regen_data->folder, uids->pdata[ii]);
+			const gchar *uid;
+
+			uid = g_ptr_array_index (uids, ii);
+			info = camel_folder_get_message_info (folder, uid);
 			if (info != NULL)
 				g_ptr_array_add (regen_data->summary, info);
 		}
@@ -5470,9 +5475,11 @@ message_list_regen_thread (GSimpleAsyncResult *simple,
 
 exit:
 	if (searchuids != NULL)
-		camel_folder_search_free (regen_data->folder, searchuids);
+		camel_folder_search_free (folder, searchuids);
 	else if (uids != NULL)
-		camel_folder_free_uids (regen_data->folder, uids);
+		camel_folder_free_uids (folder, uids);
+
+	g_object_unref (folder);
 }
 
 static void
@@ -5571,14 +5578,14 @@ message_list_regen_done_cb (GObject *source_object,
 		 * "folder-changed" signal from our CamelFolder. */
 		build_tree (
 			message_list,
-			regen_data->tree,
+			regen_data->thread_tree,
 			regen_data->folder_changed);
 
 		if (message_list->thread_tree != NULL)
 			camel_folder_thread_messages_unref (
 				message_list->thread_tree);
-		message_list->thread_tree = regen_data->tree;
-		regen_data->tree = NULL;
+		message_list->thread_tree = regen_data->thread_tree;
+		regen_data->thread_tree = NULL;
 
 		if (forcing_expand_state || searching) {
 			if (message_list->priv->folder != NULL &&
