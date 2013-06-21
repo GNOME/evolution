@@ -55,6 +55,13 @@ struct _EEditorSelectionPrivate {
 	gulong selection_changed_handler_id;
 
 	gchar *text;
+
+	gboolean is_bold;
+	gboolean is_italic;
+	gboolean is_underline;
+	gboolean is_monospaced;
+	gboolean is_strike_through;
+
 	gchar *background_color;
 	gchar *font_color;
 	gchar *font_family;
@@ -62,6 +69,9 @@ struct _EEditorSelectionPrivate {
 	gulong selection_offset;
 
 	gint word_wrap_length;
+	guint font_size;
+
+	EEditorSelectionAlignment alignment;
 };
 
 enum {
@@ -109,7 +119,7 @@ editor_selection_get_current_range (EEditorSelection *selection)
 
 	document = webkit_web_view_get_dom_document (web_view);
 	window = webkit_dom_document_get_default_view (document);
-	if (window == NULL)
+	if (!window)
 		goto exit;
 
 	dom_selection = webkit_dom_dom_window_get_selection (window);
@@ -135,7 +145,7 @@ get_has_style (EEditorSelection *selection,
 	gint tag_len;
 
 	range = editor_selection_get_current_range (selection);
-	if (range == NULL)
+	if (!range)
 		return FALSE;
 
 	node = webkit_dom_range_get_start_container (range, NULL);
@@ -197,12 +207,12 @@ get_font_property (EEditorSelection *selection,
 	gchar *value;
 
 	range = editor_selection_get_current_range (selection);
-	if (range == NULL)
+	if (!range)
 		return NULL;
 
 	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
 	element = e_editor_dom_node_find_parent_element (node, "FONT");
-	if (element == NULL)
+	if (!element)
 		return NULL;
 
 	g_object_get (G_OBJECT (element), font_property, &value, NULL);
@@ -500,6 +510,9 @@ editor_selection_finalize (GObject *object)
 	EEditorSelection *selection = E_EDITOR_SELECTION (object);
 
 	g_free (selection->priv->text);
+	g_free (selection->priv->background_color);
+	g_free (selection->priv->font_color);
+	g_free (selection->priv->font_family);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_editor_selection_parent_class)->finalize (object);
@@ -799,7 +812,6 @@ e_editor_selection_init (EEditorSelection *selection)
 	g_settings = g_settings_new ("org.gnome.evolution.mail");
 	selection->priv->word_wrap_length = g_settings_get_int (g_settings, "composer-word-wrap-length");
 	g_object_unref (g_settings);
-
 }
 
 /**
@@ -943,6 +955,10 @@ e_editor_selection_get_string(EEditorSelection *selection)
 {
 	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), NULL);
 
+	range = editor_selection_get_current_range (selection);
+	if (!range)
+		return NULL;
+
 	g_free (selection->priv->text);
 	selection->priv->text = webkit_dom_range_get_text (selection->priv->range);
 
@@ -998,11 +1014,11 @@ e_editor_selection_get_alignment (EEditorSelection *selection)
 		E_EDITOR_SELECTION_ALIGNMENT_LEFT);
 
 	range = editor_selection_get_current_range (selection);
-	if (range == NULL)
+	if (!range)
 		return E_EDITOR_SELECTION_ALIGNMENT_LEFT;
 
 	node = webkit_dom_range_get_start_container (range, NULL);
-	if (node == NULL)
+	if (!node)
 		return E_EDITOR_SELECTION_ALIGNMENT_LEFT;
 
 	if (WEBKIT_DOM_IS_ELEMENT (node))
@@ -1062,6 +1078,8 @@ e_editor_selection_set_alignment (EEditorSelection *selection,
 			command = E_EDITOR_WIDGET_COMMAND_JUSTIFY_RIGHT;
 			break;
 	}
+
+	selection->priv->alignment = alignment;
 
 	editor_widget = e_editor_selection_ref_editor_widget (selection);
 	g_return_if_fail (editor_widget != NULL);
@@ -1151,7 +1169,7 @@ e_editor_selection_get_block_format (EEditorSelection *selection)
 		E_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH);
 
 	range = editor_selection_get_current_range (selection);
-	if (range == NULL)
+	if (!range)
 		return E_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
 
 	node = webkit_dom_range_get_start_container (range, NULL);
@@ -1283,6 +1301,10 @@ e_editor_selection_set_block_format (EEditorSelection *selection,
 			break;
 	}
 
+	/* H1 - H6 have bold font by default */
+	if (format >= E_EDITOR_SELECTION_BLOCK_FORMAT_H1 && format <= E_EDITOR_SELECTION_BLOCK_FORMAT_H6)
+		selection->priv->is_bold = TRUE;
+
 	editor_widget = e_editor_selection_ref_editor_widget (selection);
 	g_return_if_fail (editor_widget != NULL);
 
@@ -1377,10 +1399,10 @@ e_editor_selection_set_block_format (EEditorSelection *selection,
 		node = webkit_dom_range_get_start_container (range, NULL);
 
 		list = e_editor_dom_node_find_child_element (node, "OL");
-		if (list == NULL)
+		if (!list)
 			list = e_editor_dom_node_find_parent_element (node, "OL");
 
-		if (list != NULL) {
+		if (list) {
 			webkit_dom_element_set_attribute (
 				list, "type",
 				(format == E_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ALPHA) ?
@@ -1398,15 +1420,19 @@ e_editor_selection_set_block_format (EEditorSelection *selection,
 		node = webkit_dom_range_get_start_container (range, NULL);
 
 		paragraph = e_editor_dom_node_find_child_element (node, "P");
-		if (paragraph == NULL)
+		if (!paragraph)
 			paragraph = e_editor_dom_node_find_parent_element (node, "P");
 
-		if (paragraph != NULL) {
-			webkit_dom_element_set_class_name (WEBKIT_DOM_ELEMENT (paragraph), "-x-evo-paragraph");
+		if (paragraph) {
+			webkit_dom_element_set_class_name (WEBKIT_DOM_ELEMENT (paragraph),
+							   "-x-evo-paragraph");
 		}
 	}
 
 	g_object_unref (editor_widget);
+
+	/* When changing the format we need to re-set the alignment */
+	e_editor_selection_set_alignment (selection, selection->priv->alignment);
 
 	g_object_notify (G_OBJECT (selection), "block-format");
 }
@@ -1426,10 +1452,14 @@ e_editor_selection_get_font_color (EEditorSelection *selection,
 	gchar *color;
 	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
 
-	color = get_font_property (selection, "color");
-	if (!color) {
-		*rgba = black;
-		return;
+	if (g_strcmp0 (e_editor_selection_get_string (selection), "") == 0) {
+		color = g_strdup (selection->priv->font_color);
+	} else {
+		color = get_font_property (selection, "color");
+		if (!color) {
+			*rgba = black;
+			return;
+		}
 	}
 
 	gdk_rgba_parse (rgba, color);
@@ -1455,7 +1485,7 @@ e_editor_selection_set_font_color (EEditorSelection *selection,
 
 	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
 
-	if (rgba == NULL)
+	if (!rgba)
 		rgba = &black;
 
 	rgba_value = e_rgba_to_value ((GdkRGBA *) rgba);
@@ -1465,6 +1495,7 @@ e_editor_selection_set_font_color (EEditorSelection *selection,
 
 	command = E_EDITOR_WIDGET_COMMAND_FORE_COLOR;
 	color = g_strdup_printf ("#%06x", rgba_value);
+	selection->priv->font_color = g_strdup (color);
 	e_editor_widget_exec_command (editor_widget, command, color);
 	g_free (color);
 
@@ -1539,24 +1570,26 @@ e_editor_selection_set_font_name (EEditorSelection *selection,
  guint
 e_editor_selection_get_font_size (EEditorSelection *selection)
 {
-	gchar *size;
-	gint size_int;
+	guint size_int;
 
 	g_return_val_if_fail (
 		E_IS_EDITOR_SELECTION (selection),
 		E_EDITOR_SELECTION_FONT_SIZE_NORMAL);
 
-	size = get_font_property (selection, "size");
-	if (!size) {
-		return E_EDITOR_SELECTION_FONT_SIZE_NORMAL;
+	if (g_strcmp0 (e_editor_selection_get_string (selection), "") == 0) {
+		size_int = selection->priv->font_size;
+	} else {
+		gchar *size = get_font_property (selection, "size");
+		if (!size) {
+			return E_EDITOR_SELECTION_FONT_SIZE_NORMAL;
+		}
+
+		size_int = atoi (size);
+		g_free (size);
 	}
 
-	size_int = atoi (size);
-	g_free (size);
-
-	if (size_int == 0) {
+	if (size_int == 0)
 		return E_EDITOR_SELECTION_FONT_SIZE_NORMAL;
-	}
 
 	return size_int;
 }
@@ -1582,6 +1615,7 @@ e_editor_selection_set_font_size (EEditorSelection *selection,
 	editor_widget = e_editor_selection_ref_editor_widget (selection);
 	g_return_if_fail (editor_widget != NULL);
 
+	selection->priv->font_size = font_size;
 	command = E_EDITOR_WIDGET_COMMAND_FONT_SIZE;
 	size_str = g_strdup_printf ("%d", font_size);
 	e_editor_widget_exec_command (editor_widget, command, size_str);
@@ -1690,9 +1724,44 @@ e_editor_selection_unindent (EEditorSelection *selection)
 gboolean
 e_editor_selection_is_bold (EEditorSelection *selection)
 {
+	gboolean ret_val;
+	gchar *value;
+	EEditorWidget *editor_widget;
+	WebKitDOMCSSStyleDeclaration *style;
+	WebKitDOMDocument *document;
+	WebKitDOMDOMWindow *window;
+	WebKitDOMNode *node;
+	WebKitDOMRange *range;
+
 	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), FALSE);
 
-	return get_has_style (selection, "b");
+	editor_widget = e_editor_selection_ref_editor_widget (selection);
+	g_return_val_if_fail (editor_widget != NULL, FALSE);
+
+	range = editor_selection_get_current_range (selection);
+	if (!range)
+		return FALSE;
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (editor_widget));
+	window = webkit_dom_document_get_default_view (document);
+
+	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
+	/* If we are changing the format of block we have to re-set bold property,
+	 * otherwise it will be turned off because of no text in composer */
+	if (g_strcmp0 (webkit_dom_node_get_text_content (node), "") == 0)
+		return selection->priv->is_bold;
+
+	style = webkit_dom_dom_window_get_computed_style (
+			window, webkit_dom_node_get_parent_element (node), NULL);
+	value = webkit_dom_css_style_declaration_get_property_value (style, "font-weight");
+
+	if (g_strstr_len (value, -1, "normal"))
+		ret_val = FALSE;
+	else
+		ret_val = TRUE;
+
+	g_free (value);
+	return ret_val;
 }
 
 /**
@@ -1714,6 +1783,8 @@ e_editor_selection_set_bold (EEditorSelection *selection,
 
 	if (e_editor_selection_is_bold (selection) == bold)
 		return;
+
+	selection->priv->is_bold = bold;
 
 	editor_widget = e_editor_selection_ref_editor_widget (selection);
 	g_return_if_fail (editor_widget != NULL);
@@ -1738,9 +1809,44 @@ e_editor_selection_set_bold (EEditorSelection *selection,
 gboolean
 e_editor_selection_is_italic (EEditorSelection *selection)
 {
+	gboolean ret_val;
+	gchar *value;
+	EEditorWidget *editor_widget;
+	WebKitDOMCSSStyleDeclaration *style;
+	WebKitDOMDocument *document;
+	WebKitDOMDOMWindow *window;
+	WebKitDOMNode *node;
+	WebKitDOMRange *range;
+
 	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), FALSE);
 
-	return get_has_style (selection, "i");
+	editor_widget = e_editor_selection_ref_editor_widget (selection);
+	g_return_val_if_fail (editor_widget != NULL, FALSE);
+
+	range = editor_selection_get_current_range (selection);
+	if (!range)
+		return FALSE;
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (editor_widget));
+	window = webkit_dom_document_get_default_view (document);
+
+	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
+	/* If we are changing the format of block we have to re-set italic property,
+	 * otherwise it will be turned off because of no text in composer */
+	if (g_strcmp0 (webkit_dom_node_get_text_content (node), "") == 0)
+		return selection->priv->is_italic;
+
+	style = webkit_dom_dom_window_get_computed_style (
+			window, webkit_dom_node_get_parent_element (node), NULL);
+	value = webkit_dom_css_style_declaration_get_property_value (style, "font-style");
+
+	if (g_strstr_len (value, -1, "italic"))
+		ret_val = TRUE;
+	else
+		ret_val = FALSE;
+
+	g_free (value);
+	return ret_val;
 }
 
 /**
@@ -1762,6 +1868,8 @@ e_editor_selection_set_italic (EEditorSelection *selection,
 
 	if (e_editor_selection_is_italic (selection) == italic)
 		return;
+
+	selection->priv->is_italic = italic;
 
 	editor_widget = e_editor_selection_ref_editor_widget (selection);
 	g_return_if_fail (editor_widget != NULL);
@@ -1786,7 +1894,20 @@ e_editor_selection_set_italic (EEditorSelection *selection,
 gboolean
 e_editor_selection_is_monospaced (EEditorSelection *selection)
 {
+	WebKitDOMRange *range;
+	WebKitDOMNode *node;
+
 	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), FALSE);
+
+	range = editor_selection_get_current_range (selection);
+	if (!range)
+		return FALSE;
+
+	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
+	/* If we are changing the format of block we have to re-set monospaced property,
+	 * otherwise it will be turned off because of no text in composer */
+	if (g_strcmp0 (webkit_dom_node_get_text_content (node), "") == 0)
+		return selection->priv->is_monospaced;
 
 	return get_has_style (selection, "tt");
 }
@@ -1815,8 +1936,10 @@ e_editor_selection_set_monospaced (EEditorSelection *selection,
 	if (e_editor_selection_is_monospaced (selection) == monospaced)
 		return;
 
+	selection->priv->is_monospaced = monospaced;
+
 	range = editor_selection_get_current_range (selection);
-	if (range == NULL)
+	if (!range)
 		return;
 
 	editor_widget = e_editor_selection_ref_editor_widget (selection);
@@ -1929,9 +2052,44 @@ e_editor_selection_set_monospaced (EEditorSelection *selection,
 gboolean
 e_editor_selection_is_strike_through (EEditorSelection *selection)
 {
+	gboolean ret_val;
+	gchar *value;
+	EEditorWidget *editor_widget;
+	WebKitDOMCSSStyleDeclaration *style;
+	WebKitDOMDocument *document;
+	WebKitDOMDOMWindow *window;
+	WebKitDOMNode *node;
+	WebKitDOMRange *range;
+
 	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), FALSE);
 
-	return get_has_style (selection, "strike");
+	editor_widget = e_editor_selection_ref_editor_widget (selection);
+	g_return_val_if_fail (editor_widget != NULL, FALSE);
+
+	range = editor_selection_get_current_range (selection);
+	if (!range)
+		return FALSE;
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (editor_widget));
+	window = webkit_dom_document_get_default_view (document);
+
+	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
+	/* If we are changing the format of block we have to re-set strike-through property,
+	 * otherwise it will be turned off because of no text in composer */
+	if (g_strcmp0 (webkit_dom_node_get_text_content (node), "") == 0)
+		return selection->priv->is_strike_through;
+
+	style = webkit_dom_dom_window_get_computed_style (
+			window, webkit_dom_node_get_parent_element (node), NULL);
+	value = webkit_dom_css_style_declaration_get_property_value (style, "text-decoration");
+
+	if (g_strstr_len (value, -1, "line-through"))
+		ret_val = TRUE;
+	else
+		ret_val = get_has_style (selection, "strike");
+
+	g_free (value);
+	return ret_val;
 }
 
 /**
@@ -1953,6 +2111,8 @@ e_editor_selection_set_strike_through (EEditorSelection *selection,
 
 	if (e_editor_selection_is_strike_through (selection) == strike_through)
 		return;
+
+	selection->priv->is_strike_through = strike_through;
 
 	editor_widget = e_editor_selection_ref_editor_widget (selection);
 	g_return_if_fail (editor_widget != NULL);
@@ -2113,9 +2273,44 @@ e_editor_selection_set_superscript (EEditorSelection *selection,
 gboolean
 e_editor_selection_is_underline (EEditorSelection *selection)
 {
+	gboolean ret_val;
+	gchar *value;
+	EEditorWidget *editor_widget;
+	WebKitDOMCSSStyleDeclaration *style;
+	WebKitDOMDocument *document;
+	WebKitDOMDOMWindow *window;
+	WebKitDOMNode *node;
+	WebKitDOMRange *range;
+
 	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), FALSE);
 
-	return get_has_style (selection, "u");
+	editor_widget = e_editor_selection_ref_editor_widget (selection);
+	g_return_val_if_fail (editor_widget != NULL, FALSE);
+
+	range = editor_selection_get_current_range (selection);
+	if (!range)
+		return FALSE;
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (editor_widget));
+	window = webkit_dom_document_get_default_view (document);
+
+	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
+	/* If we are changing the format of block we have to re-set underline property,
+	 * otherwise it will be turned off because of no text in composer */
+	if (g_strcmp0 (webkit_dom_node_get_text_content (node), "") == 0)
+		return selection->priv->is_underline;
+
+	style = webkit_dom_dom_window_get_computed_style (
+			window, webkit_dom_node_get_parent_element (node), NULL);
+	value = webkit_dom_css_style_declaration_get_property_value (style, "text-decoration");
+
+	if (g_strstr_len (value, -1, "underline"))
+		ret_val = TRUE;
+	else
+		ret_val = get_has_style (selection, "u");
+
+	g_free (value);
+	return ret_val;
 }
 
 /**
@@ -2137,6 +2332,8 @@ e_editor_selection_set_underline (EEditorSelection *selection,
 
 	if (e_editor_selection_is_underline (selection) == underline)
 		return;
+
+	selection->priv->is_underline = underline;
 
 	editor_widget = e_editor_selection_ref_editor_widget (selection);
 	g_return_if_fail (editor_widget != NULL);
