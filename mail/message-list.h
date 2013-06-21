@@ -129,9 +129,6 @@ struct _MessageList {
 	guint idle_id, seen_id;
 
 	gchar *frozen_search;	/* to save search took place while we were frozen */
-
-	/* the current camel folder thread tree, if any */
-	CamelFolderThread *thread_tree;
 };
 
 struct _MessageListClass {
