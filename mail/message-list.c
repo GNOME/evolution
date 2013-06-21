@@ -415,6 +415,7 @@ extended_g_node_insert_before (GNode *parent,
 
 	/* This is where tracking the last child pays off. */
 	if (sibling == NULL && ext_parent->last_child != NULL) {
+		node->parent = parent;
 		node->prev = ext_parent->last_child;
 		ext_parent->last_child->next = node;
 	} else {
