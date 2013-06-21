@@ -48,6 +48,11 @@
 #include "calendar-config.h"
 #include "misc.h"
 
+enum {
+	PROP_0,
+	PROP_IS_EDITING
+};
+
 static void      e_cal_list_view_dispose                (GObject *object);
 
 static GList    *e_cal_list_view_get_selected_events    (ECalendarView *cal_view);
@@ -68,6 +73,24 @@ static void e_cal_list_view_cursor_change_cb (ETable *etable, gint row, gpointer
 G_DEFINE_TYPE (ECalListView, e_cal_list_view, E_TYPE_CALENDAR_VIEW)
 
 static void
+e_cal_list_view_get_property (GObject *object,
+			      guint property_id,
+			      GValue *value,
+			      GParamSpec *pspec)
+{
+	ECalListView *eclv = E_CAL_LIST_VIEW (object);
+
+	switch (property_id) {
+	case PROP_IS_EDITING:
+		g_value_set_boolean (value, e_cal_list_view_is_editing (eclv));
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
 e_cal_list_view_class_init (ECalListViewClass *class)
 {
 	GObjectClass *object_class;
@@ -80,12 +103,18 @@ e_cal_list_view_class_init (ECalListViewClass *class)
 
 	/* Method override */
 	object_class->dispose		= e_cal_list_view_dispose;
+	object_class->get_property	= e_cal_list_view_get_property;
 
 	widget_class->popup_menu = e_cal_list_view_popup_menu;
 
 	view_class->get_selected_events = e_cal_list_view_get_selected_events;
 	view_class->get_selected_time_range = e_cal_list_view_get_selected_time_range;
 	view_class->get_visible_time_range = e_cal_list_view_get_visible_time_range;
+
+	g_object_class_override_property (
+		object_class,
+		PROP_IS_EDITING,
+		"is-editing");
 }
 
 static void
@@ -144,6 +173,16 @@ e_cal_list_view_save_state (ECalListView *cal_list_view,
 	g_return_if_fail (filename != NULL);
 
 	e_table_save_state (cal_list_view->table, filename);
+}
+
+static void
+e_cal_list_view_table_editing_changed_cb (ETable *table,
+					  GParamSpec *param,
+					  ECalListView *eclv)
+{
+	g_return_if_fail (E_IS_CAL_LIST_VIEW (eclv));
+
+	g_object_notify (G_OBJECT (eclv), "is-editing");
 }
 
 static void
@@ -299,6 +338,10 @@ setup_e_table (ECalListView *cal_list_view)
 	g_signal_connect_after (
 		cal_list_view->table, "cursor_change",
 		G_CALLBACK (e_cal_list_view_cursor_change_cb),
+		cal_list_view);
+	g_signal_connect_after (
+		cal_list_view->table, "notify::is-editing",
+		G_CALLBACK (e_cal_list_view_table_editing_changed_cb),
 		cal_list_view);
 }
 
@@ -562,4 +605,12 @@ e_cal_list_view_get_range_shown (ECalListView *cal_list_view,
 
 	*days_shown = g_date_days_between (start_date, &end_date);
 	return TRUE;
+}
+
+gboolean
+e_cal_list_view_is_editing (ECalListView *eclv)
+{
+	g_return_val_if_fail (E_IS_CAL_LIST_VIEW (eclv), FALSE);
+
+	return eclv->table && e_table_is_editing (eclv->table);
 }

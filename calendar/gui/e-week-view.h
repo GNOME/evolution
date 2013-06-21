@@ -462,6 +462,8 @@ void		e_week_view_jump_to_button_item	(EWeekView *week_view,
 void		e_week_view_scroll_a_step	(EWeekView *week_view,
 						 ECalViewMoveDirection direction);
 
+gboolean	e_week_view_is_editing		(EWeekView *week_view);
+
 G_END_DECLS
 
 #endif /* E_WEEK_VIEW_H */

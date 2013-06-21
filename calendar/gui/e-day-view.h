@@ -599,6 +599,8 @@ void		e_day_view_ensure_rows_visible	(EDayView *day_view,
 						 gint start_row,
 						 gint end_row);
 
+gboolean	e_day_view_is_editing		(EDayView *day_view);
+
 G_END_DECLS
 
 #endif /* E_DAY_VIEW_H */

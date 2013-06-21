@@ -300,6 +300,16 @@ memo_shell_content_restore_state_cb (EShellWindow *shell_window,
 		G_SETTINGS_BIND_DEFAULT);
 }
 
+static void
+memo_shell_content_is_editing_changed_cb (EMemoTable *memo_table,
+					  GParamSpec *param,
+					  EShellView *shell_view)
+{
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+
+	e_shell_view_update_actions (shell_view);
+}
+
 static GtkOrientation
 memo_shell_content_get_orientation (EMemoShellContent *memo_shell_content)
 {
@@ -541,6 +551,9 @@ memo_shell_content_constructed (GObject *object)
 		priv->memo_table, "selection-change",
 		G_CALLBACK (memo_shell_content_selection_change_cb),
 		object);
+
+	g_signal_connect (priv->memo_table, "notify::is-editing",
+		G_CALLBACK (memo_shell_content_is_editing_changed_cb), shell_view);
 
 	g_signal_connect_swapped (
 		priv->memo_model, "model-row-changed",

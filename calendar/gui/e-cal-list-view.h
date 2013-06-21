@@ -91,6 +91,8 @@ void e_cal_list_view_save_state (ECalListView *cal_list_view, gchar *filename);
 gboolean   e_cal_list_view_get_range_shown      (ECalListView *cal_list_view, GDate *start_date,
 						 gint *days_shown);
 
+gboolean	e_cal_list_view_is_editing	(ECalListView *eclv);
+
 G_END_DECLS
 
 #endif /* _E_CAL_LIST_VIEW_H_ */

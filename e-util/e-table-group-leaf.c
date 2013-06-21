@@ -54,8 +54,19 @@ enum {
 	PROP_CURSOR_MODE,
 	PROP_LENGTH_THRESHOLD,
 	PROP_SELECTION_MODEL,
-	PROP_UNIFORM_ROW_HEIGHT
+	PROP_UNIFORM_ROW_HEIGHT,
+	PROP_IS_EDITING
 };
+
+static void
+etgl_item_is_editing_changed_cb (ETableItem *item,
+				 GParamSpec *param,
+				 ETableGroupLeaf *etgl)
+{
+	g_return_if_fail (E_IS_TABLE_GROUP_LEAF (etgl));
+
+	g_object_notify (G_OBJECT (etgl), "is-editing");
+}
 
 static void
 etgl_dispose (GObject *object)
@@ -96,6 +107,9 @@ etgl_dispose (GObject *object)
 			g_signal_handler_disconnect (
 				etgl->item,
 				etgl->etgl_start_drag_id);
+
+		g_signal_handlers_disconnect_by_func (etgl->item,
+			etgl_item_is_editing_changed_cb, etgl);
 
 		etgl->etgl_cursor_change_id = 0;
 		etgl->etgl_cursor_activated_id = 0;
@@ -330,6 +344,9 @@ etgl_realize (GnomeCanvasItem *item)
 	etgl->etgl_start_drag_id = g_signal_connect (
 		etgl->item, "start_drag",
 		G_CALLBACK (etgl_start_drag), etgl);
+
+	g_signal_connect (etgl->item, "notify::is-editing",
+		G_CALLBACK (etgl_item_is_editing_changed_cb), etgl);
 
 	e_canvas_item_request_reflow (item);
 }
@@ -627,6 +644,10 @@ etgl_get_property (GObject *object,
 		break;
 	case PROP_UNIFORM_ROW_HEIGHT:
 		g_value_set_boolean (value, etgl->uniform_row_height);
+		break;
+	case PROP_IS_EDITING:
+		g_value_set_boolean (value, e_table_group_leaf_is_editing (etgl));
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -781,6 +802,11 @@ etgl_class_init (ETableGroupLeafClass *class)
 			"Uniform row height",
 			FALSE,
 			G_PARAM_READWRITE));
+
+	g_object_class_override_property (
+		object_class,
+		PROP_IS_EDITING,
+		"is-editing");
 }
 
 static void
@@ -814,3 +840,10 @@ etgl_init (ETableGroupLeaf *etgl)
 	e_canvas_item_set_reflow_callback (GNOME_CANVAS_ITEM (etgl), etgl_reflow);
 }
 
+gboolean
+e_table_group_leaf_is_editing (ETableGroupLeaf *etgl)
+{
+	g_return_val_if_fail (E_IS_TABLE_GROUP_LEAF (etgl), FALSE);
+
+	return etgl->item && e_table_item_is_editing (etgl->item);
+}

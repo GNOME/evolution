@@ -105,7 +105,8 @@ enum {
 	PROP_HADJUSTMENT,
 	PROP_VADJUSTMENT,
 	PROP_HSCROLL_POLICY,
-	PROP_VSCROLL_POLICY
+	PROP_VSCROLL_POLICY,
+	PROP_IS_EDITING
 };
 
 enum {
@@ -1067,6 +1068,16 @@ et_table_rows_deleted (ETableModel *table_model,
 }
 
 static void
+group_is_editing_changed_cb (ETableClickToAdd *etcta,
+			     GParamSpec *param,
+			     ETable *table)
+{
+	g_return_if_fail (E_IS_TABLE (table));
+
+	g_object_notify (G_OBJECT (table), "is-editing");
+}
+
+static void
 et_build_groups (ETable *et)
 {
 	gboolean was_grouped = et->is_grouped;
@@ -1123,6 +1134,9 @@ et_build_groups (ETable *et)
 	g_signal_connect (
 		et->group, "start_drag",
 		G_CALLBACK (group_start_drag), et);
+	g_signal_connect (
+		et->group, "notify::is-editing",
+		G_CALLBACK (group_is_editing_changed_cb), et);
 
 	if (!(et->is_grouped) && was_grouped)
 		et_disconnect_model (et);
@@ -1352,6 +1366,16 @@ canvas_vbox_event (ECanvasVbox *vbox,
 	return TRUE;
 }
 
+static void
+click_to_add_is_editing_changed_cb (ETableClickToAdd *etcta,
+				    GParamSpec *param,
+				    ETable *table)
+{
+	g_return_if_fail (E_IS_TABLE (table));
+
+	g_object_notify (G_OBJECT (table), "is-editing");
+}
+
 static gboolean
 click_to_add_event (ETableClickToAdd *etcta,
                     GdkEventKey *key,
@@ -1492,6 +1516,9 @@ e_table_setup_table (ETable *e_table,
 		g_signal_connect (
 			e_table->click_to_add, "cursor_change",
 			G_CALLBACK (click_to_add_cursor_change), e_table);
+		g_signal_connect (
+			e_table->click_to_add, "notify::is-editing",
+			G_CALLBACK (click_to_add_is_editing_changed_cb), e_table);
 	}
 }
 
@@ -2268,6 +2295,9 @@ et_get_property (GObject *object,
 		else
 			g_value_set_enum (value, 0);
 		break;
+	case PROP_IS_EDITING:
+		g_value_set_boolean (value, e_table_is_editing (etable));
+		break;
 	default:
 		break;
 	}
@@ -2340,9 +2370,15 @@ et_set_property (GObject *object,
 					etable->click_to_add);
 
 			g_signal_connect (
+				etable->click_to_add, "event",
+				G_CALLBACK (click_to_add_event), etable);
+			g_signal_connect (
 				etable->click_to_add, "cursor_change",
 				G_CALLBACK (click_to_add_cursor_change),
 				etable);
+			g_signal_connect (
+				etable->click_to_add, "notify::is-editing",
+				G_CALLBACK (click_to_add_is_editing_changed_cb), etable);
 		} else {
 			g_object_run_dispose (G_OBJECT (etable->click_to_add));
 			etable->click_to_add = NULL;
@@ -3576,6 +3612,16 @@ e_table_class_init (ETableClass *class)
 			E_TYPE_TABLE_MODEL,
 			G_PARAM_READABLE));
 
+	g_object_class_install_property (
+		object_class,
+		PROP_IS_EDITING,
+		g_param_spec_boolean (
+			"is-editing",
+			"Whether is in an editing mode",
+			"Whether is in an editing mode",
+			FALSE,
+			G_PARAM_READABLE));
+
 	gtk_widget_class_install_style_property (
 		widget_class,
 		g_param_spec_int (
@@ -3623,4 +3669,13 @@ e_table_thaw_state_change (ETable *table)
 		table->state_changed = FALSE;
 		e_table_state_change (table);
 	}
+}
+
+gboolean
+e_table_is_editing (ETable *table)
+{
+	g_return_val_if_fail (E_IS_TABLE (table), FALSE);
+
+	return (table->click_to_add && e_table_click_to_add_is_editing (E_TABLE_CLICK_TO_ADD (table->click_to_add))) ||
+	       (table->group && e_table_group_is_editing (table->group));
 }

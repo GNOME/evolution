@@ -361,6 +361,8 @@ void		e_tree_set_info_message		(ETree *tree,
 void		e_tree_freeze_state_change	(ETree *table);
 void		e_tree_thaw_state_change	(ETree *table);
 
+gboolean	e_tree_is_editing		(ETree *tree);
+
 G_END_DECLS
 
 #endif /* _E_TREE_H_ */

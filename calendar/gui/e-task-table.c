@@ -998,6 +998,7 @@ task_table_update_actions (ESelectable *selectable,
 	GSList *list, *iter;
 	gboolean can_paste = FALSE;
 	gboolean sources_are_editable = TRUE;
+	gboolean is_editing;
 	gboolean sensitive;
 	const gchar *tooltip;
 	gint n_selected;
@@ -1005,6 +1006,7 @@ task_table_update_actions (ESelectable *selectable,
 
 	task_table = E_TASK_TABLE (selectable);
 	n_selected = e_table_selected_count (E_TABLE (task_table));
+	is_editing = e_table_is_editing (E_TABLE (task_table));
 
 	list = e_task_table_get_selected (task_table);
 	for (iter = list; iter != NULL && sources_are_editable; iter = iter->next) {
@@ -1021,25 +1023,25 @@ task_table_update_actions (ESelectable *selectable,
 			target_list, clipboard_targets[ii], NULL);
 
 	action = e_focus_tracker_get_cut_clipboard_action (focus_tracker);
-	sensitive = (n_selected > 0) && sources_are_editable;
+	sensitive = (n_selected > 0) && sources_are_editable && !is_editing;
 	tooltip = _("Cut selected tasks to the clipboard");
 	gtk_action_set_sensitive (action, sensitive);
 	gtk_action_set_tooltip (action, tooltip);
 
 	action = e_focus_tracker_get_copy_clipboard_action (focus_tracker);
-	sensitive = (n_selected > 0);
+	sensitive = (n_selected > 0) && !is_editing;
 	tooltip = _("Copy selected tasks to the clipboard");
 	gtk_action_set_sensitive (action, sensitive);
 	gtk_action_set_tooltip (action, tooltip);
 
 	action = e_focus_tracker_get_paste_clipboard_action (focus_tracker);
-	sensitive = sources_are_editable && can_paste;
+	sensitive = sources_are_editable && can_paste && !is_editing;
 	tooltip = _("Paste tasks from the clipboard");
 	gtk_action_set_sensitive (action, sensitive);
 	gtk_action_set_tooltip (action, tooltip);
 
 	action = e_focus_tracker_get_delete_selection_action (focus_tracker);
-	sensitive = (n_selected > 0) && sources_are_editable;
+	sensitive = (n_selected > 0) && sources_are_editable && !is_editing;
 	tooltip = _("Delete selected tasks");
 	gtk_action_set_sensitive (action, sensitive);
 	gtk_action_set_tooltip (action, tooltip);

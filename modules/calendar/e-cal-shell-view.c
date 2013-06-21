@@ -344,6 +344,9 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	ESource *source;
 	ESourceRegistry *registry;
 	GnomeCalendar *calendar;
+	ECalendarView *cal_view;
+	EMemoTable *memo_table;
+	ETaskTable *task_table;
 	ECalModel *model;
 	GtkAction *action;
 	const gchar *model_sexp;
@@ -402,6 +405,9 @@ cal_shell_view_update_actions (EShellView *shell_view)
 
 	cal_shell_content = priv->cal_shell_content;
 	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
+	cal_view = gnome_calendar_get_calendar_view (calendar, gnome_calendar_get_view (calendar));
+	memo_table = e_cal_shell_content_get_memo_table (cal_shell_content);
+	task_table = e_cal_shell_content_get_task_table (cal_shell_content);
 	model = gnome_calendar_get_model (calendar);
 	model_sexp = e_cal_model_get_search_query (model);
 	is_searching = model_sexp && *model_sexp &&
@@ -556,6 +562,31 @@ cal_shell_view_update_actions (EShellView *shell_view)
 
 	action = ACTION (EVENT_MEETING_NEW);
 	gtk_action_set_visible (action, has_mail_identity);
+
+	if ((cal_view && e_calendar_view_is_editing (cal_view)) ||
+	    e_table_is_editing (E_TABLE (memo_table)) ||
+	    e_table_is_editing (E_TABLE (task_table))) {
+		EFocusTracker *focus_tracker;
+
+		/* disable all clipboard actions, if any of the views is in editing mode */
+		focus_tracker = e_shell_window_get_focus_tracker (shell_window);
+
+		action = e_focus_tracker_get_cut_clipboard_action (focus_tracker);
+		if (action)
+			gtk_action_set_sensitive (action, FALSE);
+
+		action = e_focus_tracker_get_copy_clipboard_action (focus_tracker);
+		if (action)
+			gtk_action_set_sensitive (action, FALSE);
+
+		action = e_focus_tracker_get_paste_clipboard_action (focus_tracker);
+		if (action)
+			gtk_action_set_sensitive (action, FALSE);
+
+		action = e_focus_tracker_get_delete_selection_action (focus_tracker);
+		if (action)
+			gtk_action_set_sensitive (action, FALSE);
+	}
 }
 
 static void

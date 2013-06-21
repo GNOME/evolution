@@ -59,7 +59,8 @@ enum {
 	PROP_CURSOR_MODE,
 	PROP_SELECTION_MODEL,
 	PROP_LENGTH_THRESHOLD,
-	PROP_UNIFORM_ROW_HEIGHT
+	PROP_UNIFORM_ROW_HEIGHT,
+	PROP_IS_EDITING
 };
 
 static EPrintable *
@@ -991,6 +992,9 @@ etgc_get_property (GObject *object,
 	case PROP_UNIFORM_ROW_HEIGHT:
 		g_value_set_boolean (value, etgc->uniform_row_height);
 		break;
+	case PROP_IS_EDITING:
+		g_value_set_boolean (value, e_table_group_container_is_editing (etgc));
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -1147,6 +1151,11 @@ etgc_class_init (ETableGroupContainerClass *class)
 			"Minimum Width",
 			0.0, G_MAXDOUBLE, 0.0,
 			G_PARAM_READWRITE));
+
+	g_object_class_override_property (
+		object_class,
+		PROP_IS_EDITING,
+		"is-editing");
 }
 
 static void
@@ -1664,4 +1673,22 @@ etgc_get_printable (ETableGroup *etg)
 		groupcontext);
 
 	return printable;
+}
+
+gboolean
+e_table_group_container_is_editing (ETableGroupContainer *etgc)
+{
+	GList *list;
+
+	g_return_val_if_fail (E_IS_TABLE_GROUP_CONTAINER (etgc), FALSE);
+
+	for (list = etgc->children; list; list = g_list_next (list)) {
+		ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *) list->data;
+
+		if (e_table_group_is_editing (child_node->child)) {
+			return TRUE;
+		}
+	}
+
+	return FALSE;
 }

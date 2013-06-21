@@ -175,7 +175,8 @@ G_DEFINE_TYPE (EWeekView, e_week_view, E_TYPE_CALENDAR_VIEW)
 enum {
 	PROP_0,
 	PROP_COMPRESS_WEEKEND,
-	PROP_SHOW_EVENT_END_TIMES
+	PROP_SHOW_EVENT_END_TIMES,
+	PROP_IS_EDITING
 };
 
 static gint map_left[] = {0, 1, 2, 0, 1, 2, 2};
@@ -670,6 +671,10 @@ week_view_get_property (GObject *object,
 				e_week_view_get_show_event_end_times (
 				E_WEEK_VIEW (object)));
 			return;
+
+		case PROP_IS_EDITING:
+			g_value_set_boolean (value, e_week_view_is_editing (E_WEEK_VIEW (object)));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -1158,8 +1163,11 @@ week_view_get_selected_events (ECalendarView *cal_view)
 	g_return_val_if_fail (E_IS_WEEK_VIEW (week_view), NULL);
 
 	if (week_view->editing_event_num != -1) {
-		if (!is_array_index_in_bounds (week_view->events, week_view->editing_event_num))
+		if (!is_array_index_in_bounds (week_view->events, week_view->editing_event_num)) {
+			week_view->editing_event_num = -1;
+			g_object_notify (G_OBJECT (week_view), "is-editing");
 			return NULL;
+		}
 
 		event = &g_array_index (week_view->events, EWeekViewEvent,
 					week_view->editing_event_num);
@@ -1436,6 +1444,11 @@ e_week_view_class_init (EWeekViewClass *class)
 			TRUE,
 			G_PARAM_READWRITE |
 			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_override_property (
+		object_class,
+		PROP_IS_EDITING,
+		"is-editing");
 
 	/* init the accessibility support for e_week_view */
 	e_week_view_a11y_init ();
@@ -2386,8 +2399,10 @@ e_week_view_remove_event_cb (EWeekView *week_view,
 
 	/* If we were editing this event, set editing_event_num to -1 so
 	 * on_editing_stopped doesn't try to update the event. */
-	if (week_view->editing_event_num == event_num)
+	if (week_view->editing_event_num == event_num) {
 		week_view->editing_event_num = -1;
+		g_object_notify (G_OBJECT (week_view), "is-editing");
+	}
 
 	if (week_view->popup_event_num == event_num)
 		week_view->popup_event_num = -1;
@@ -2876,6 +2891,7 @@ e_week_view_free_events (EWeekView *week_view)
 	EWeekViewEvent *event;
 	EWeekViewEventSpan *span;
 	gint event_num, span_num, num_days, day;
+	gboolean did_editing = week_view->editing_event_num != -1;
 
 	/* Reset all our indices. */
 	week_view->pressed_event_num = -1;
@@ -2919,6 +2935,9 @@ e_week_view_free_events (EWeekView *week_view)
 	for (day = 0; day < E_WEEK_VIEW_MAX_WEEKS * 7; day++) {
 		gnome_canvas_item_hide (week_view->jump_buttons[day]);
 	}
+
+	if (did_editing)
+		g_object_notify (G_OBJECT (week_view), "is-editing");
 }
 
 /* This adds one event to the view, adding it to the appropriate array. */
@@ -4171,6 +4190,8 @@ e_week_view_on_editing_started (EWeekView *week_view,
 	}
 
 	g_signal_emit_by_name (week_view, "selection_changed");
+
+	g_object_notify (G_OBJECT (week_view), "is-editing");
 }
 
 static void
@@ -4216,8 +4237,10 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 
 	/* Check that the event is still valid. */
 	uid = icalcomponent_get_uid (event->comp_data->icalcomp);
-	if (!uid)
+	if (!uid) {
+		g_object_notify (G_OBJECT (week_view), "is-editing");
 		return;
+	}
 
 	text = NULL;
 	g_object_set (span->text_item, "handle_popup", FALSE, NULL);
@@ -4369,6 +4392,8 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 	g_object_unref (comp);
 
 	g_signal_emit_by_name (week_view, "selection_changed");
+
+	g_object_notify (G_OBJECT (week_view), "is-editing");
 }
 
 gboolean
@@ -4869,3 +4894,10 @@ e_week_view_is_jump_button_visible (EWeekView *week_view,
 	return FALSE;
 }
 
+gboolean
+e_week_view_is_editing (EWeekView *week_view)
+{
+	g_return_val_if_fail (E_IS_WEEK_VIEW (week_view), FALSE);
+
+	return week_view->editing_event_num != -1;
+}
