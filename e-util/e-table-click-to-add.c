@@ -60,7 +60,8 @@ enum {
 	PROP_MODEL,
 	PROP_MESSAGE,
 	PROP_WIDTH,
-	PROP_HEIGHT
+	PROP_HEIGHT,
+	PROP_IS_EDITING
 };
 
 static void
@@ -311,6 +312,9 @@ etcta_get_property (GObject *object,
 	case PROP_HEIGHT:
 		g_value_set_double (value, etcta->height);
 		break;
+	case PROP_IS_EDITING:
+		g_value_set_boolean (value, e_table_click_to_add_is_editing (etcta));
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -368,6 +372,16 @@ set_initial_selection (ETableClickToAdd *etcta)
 }
 
 static void
+table_click_to_add_row_is_editing_changed_cb (ETableItem *item,
+					      GParamSpec *param,
+					      ETableClickToAdd *etcta)
+{
+	g_return_if_fail (E_IS_TABLE_CLICK_TO_ADD (etcta));
+
+	g_object_notify (G_OBJECT (etcta), "is-editing");
+}
+
+static void
 finish_editing (ETableClickToAdd *etcta)
 {
 	if (etcta->row) {
@@ -401,7 +415,13 @@ finish_editing (ETableClickToAdd *etcta)
 			etcta->row, "key_press",
 			G_CALLBACK (item_key_press), etcta);
 
+		g_signal_connect (
+			etcta->row, "notify::is-editing",
+			G_CALLBACK (table_click_to_add_row_is_editing_changed_cb), etcta);
+
 		set_initial_selection (etcta);
+
+		g_object_notify (G_OBJECT (etcta), "is-editing");
 	}
 }
 
@@ -452,9 +472,15 @@ etcta_event (GnomeCanvasItem *item,
 				etcta->row, "key_press",
 				G_CALLBACK (item_key_press), etcta);
 
+			g_signal_connect (
+				etcta->row, "notify::is-editing",
+				G_CALLBACK (table_click_to_add_row_is_editing_changed_cb), etcta);
+
 			e_canvas_item_grab_focus (GNOME_CANVAS_ITEM (etcta->row), TRUE);
 
 			set_initial_selection (etcta);
+
+			g_object_notify (G_OBJECT (etcta), "is-editing");
 		}
 		break;
 
@@ -588,6 +614,16 @@ e_table_click_to_add_class_init (ETableClickToAddClass *class)
 			G_PARAM_READABLE |
 			G_PARAM_LAX_VALIDATION));
 
+	g_object_class_install_property (
+		object_class,
+		PROP_IS_EDITING,
+		g_param_spec_boolean (
+			"is-editing",
+			"Whether is in an editing mode",
+			"Whether is in an editing mode",
+			FALSE,
+			G_PARAM_READABLE));
+
 	etcta_signals[CURSOR_CHANGE] = g_signal_new (
 		"cursor_change",
 		G_OBJECT_CLASS_TYPE (object_class),
@@ -664,4 +700,12 @@ e_table_click_to_add_commit (ETableClickToAdd *etcta)
 	}
 	create_rect_and_text (etcta);
 	e_canvas_item_move_absolute (etcta->text, 3, 3);
+}
+
+gboolean
+e_table_click_to_add_is_editing (ETableClickToAdd *etcta)
+{
+	g_return_val_if_fail (E_IS_TABLE_CLICK_TO_ADD (etcta), FALSE);
+
+	return etcta->row && e_table_item_is_editing (E_TABLE_ITEM (etcta->row));
 }

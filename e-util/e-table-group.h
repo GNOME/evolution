@@ -237,6 +237,8 @@ void		e_table_group_apply_to_leafs	(ETableGroup *table_group,
 						 ETableGroupLeafFn fn,
 						 gpointer closure);
 
+gboolean	e_table_group_is_editing	(ETableGroup *table_group);
+
 G_END_DECLS
 
 #endif /* _E_TABLE_GROUP_H_ */

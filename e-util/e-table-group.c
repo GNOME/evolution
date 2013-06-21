@@ -50,6 +50,11 @@ enum {
 	LAST_SIGNAL
 };
 
+enum {
+	PROP_0,
+	PROP_IS_EDITING
+};
+
 static guint etg_signals[LAST_SIGNAL] = { 0, };
 
 static gboolean etg_get_focus (ETableGroup *table_group);
@@ -76,6 +81,24 @@ etg_dispose (GObject *object)
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_table_group_parent_class)->dispose (object);
+}
+
+static void
+etg_get_property (GObject *object,
+		  guint property_id,
+		  GValue *value,
+		  GParamSpec *pspec)
+{
+	ETableGroup *etg = E_TABLE_GROUP (object);
+
+	switch (property_id) {
+	case PROP_IS_EDITING:
+		g_value_set_boolean (value, e_table_group_is_editing (etg));
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
 }
 
 /**
@@ -640,6 +663,7 @@ e_table_group_class_init (ETableGroupClass *class)
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
 	object_class->dispose = etg_dispose;
+	object_class->get_property = etg_get_property;
 
 	item_class->event = etg_event;
 
@@ -664,6 +688,16 @@ e_table_group_class_init (ETableGroupClass *class)
 	class->compute_location = NULL;
 	class->get_mouse_over = NULL;
 	class->get_cell_geometry = NULL;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_IS_EDITING,
+		g_param_spec_boolean (
+			"is-editing",
+			"Whether is in an editing mode",
+			"Whether is in an editing mode",
+			FALSE,
+			G_PARAM_READABLE));
 
 	etg_signals[CURSOR_CHANGE] = g_signal_new (
 		"cursor_change",
@@ -750,4 +784,29 @@ static void
 e_table_group_init (ETableGroup *table_group)
 {
 	/* nothing to do */
+}
+
+gboolean
+e_table_group_is_editing (ETableGroup *table_group)
+{
+	static gboolean in = FALSE;
+	gboolean is_editing = FALSE;
+
+	g_return_val_if_fail (E_IS_TABLE_GROUP (table_group), FALSE);
+
+	/* this should be called from the main thread only,
+	   and each descendant overrides the property,
+	   thus might cause no call recursion */
+	if (in) {
+		g_warn_if_reached ();
+		return FALSE;
+	}
+
+	in = TRUE;
+
+	g_object_get (G_OBJECT (table_group), "is-editing", &is_editing, NULL);
+
+	in = FALSE;
+
+	return is_editing;
 }

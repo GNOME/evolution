@@ -434,7 +434,8 @@ enum {
 	PROP_0,
 	PROP_MARCUS_BAINS_SHOW_LINE,
 	PROP_MARCUS_BAINS_DAY_VIEW_COLOR,
-	PROP_MARCUS_BAINS_TIME_BAR_COLOR
+	PROP_MARCUS_BAINS_TIME_BAR_COLOR,
+	PROP_IS_EDITING
 };
 
 G_DEFINE_TYPE (EDayView, e_day_view, E_TYPE_CALENDAR_VIEW)
@@ -754,6 +755,10 @@ day_view_get_property (GObject *object,
 				value,
 				e_day_view_marcus_bains_get_time_bar_color (
 				E_DAY_VIEW (object)));
+			return;
+
+		case PROP_IS_EDITING:
+			g_value_set_boolean (value, e_day_view_is_editing (E_DAY_VIEW (object)));
 			return;
 	}
 
@@ -1594,6 +1599,11 @@ e_day_view_class_init (EDayViewClass *class)
 			NULL,
 			G_PARAM_READWRITE |
 			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_override_property (
+		object_class,
+		PROP_IS_EDITING,
+		"is-editing");
 
 	/* init the accessibility support for e_day_view */
 	e_day_view_a11y_init ();
@@ -2570,6 +2580,7 @@ e_day_view_remove_event_cb (EDayView *day_view,
 	if (day_view->editing_event_num == event_num && day_view->editing_event_day == day) {
 		day_view->editing_event_num = -1;
 		day_view->editing_event_day = -1;
+		g_object_notify (G_OBJECT (day_view), "is-editing");
 	}
 
 	if (day_view->popup_event_num == event_num && day_view->popup_event_day == day) {
@@ -4920,6 +4931,7 @@ static void
 e_day_view_free_events (EDayView *day_view)
 {
 	gint day;
+	gboolean did_editing = day_view->editing_event_day != -1;
 
 	/* Reset all our indices. */
 	day_view->editing_event_day = -1;
@@ -4935,6 +4947,9 @@ e_day_view_free_events (EDayView *day_view)
 
 	for (day = 0; day < E_DAY_VIEW_MAX_DAYS; day++)
 		e_day_view_free_event_array (day_view, day_view->events[day]);
+
+	if (did_editing)
+		g_object_notify (G_OBJECT (day_view), "is-editing");
 }
 
 static void
@@ -7066,6 +7081,8 @@ e_day_view_on_editing_started (EDayView *day_view,
 	}
 
 	g_signal_emit_by_name (day_view, "selection_changed");
+
+	g_object_notify (G_OBJECT (day_view), "is-editing");
 }
 
 static void
@@ -7259,6 +7276,8 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 	g_free (text);
 
 	g_signal_emit_by_name (day_view, "selection_changed");
+
+	g_object_notify (G_OBJECT (day_view), "is-editing");
 }
 
 /* FIXME: It is possible that we may produce an invalid time due to daylight
@@ -8894,3 +8913,10 @@ e_day_view_get_num_events_selected (EDayView *day_view)
 	return (day_view->editing_event_day != -1) ? 1 : 0;
 }
 
+gboolean
+e_day_view_is_editing (EDayView *day_view)
+{
+	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), FALSE);
+
+	return day_view->editing_event_day != -1;
+}

@@ -79,7 +79,8 @@ enum {
 	PROP_COPY_TARGET_LIST,
 	PROP_MODEL,
 	PROP_PASTE_TARGET_LIST,
-	PROP_TIME_DIVISIONS
+	PROP_TIME_DIVISIONS,
+	PROP_IS_EDITING
 };
 
 /* FIXME Why are we emitting these event signals here? Can't the model just be listened to? */
@@ -313,6 +314,10 @@ calendar_view_get_property (GObject *object,
 				value, e_calendar_view_get_time_divisions (
 				E_CALENDAR_VIEW (object)));
 			return;
+
+		case PROP_IS_EDITING:
+			g_value_set_boolean (value, e_calendar_view_is_editing (E_CALENDAR_VIEW (object)));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -398,12 +403,14 @@ calendar_view_update_actions (ESelectable *selectable,
 	gboolean can_paste = FALSE;
 	gboolean sources_are_editable = TRUE;
 	gboolean recurring = FALSE;
+	gboolean is_editing;
 	gboolean sensitive;
 	const gchar *tooltip;
 	gint n_selected;
 	gint ii;
 
 	view = E_CALENDAR_VIEW (selectable);
+	is_editing = e_calendar_view_is_editing (view);
 
 	list = e_calendar_view_get_selected_events (view);
 	n_selected = g_list_length (list);
@@ -434,25 +441,25 @@ calendar_view_update_actions (ESelectable *selectable,
 			target_list, clipboard_targets[ii], NULL);
 
 	action = e_focus_tracker_get_cut_clipboard_action (focus_tracker);
-	sensitive = (n_selected > 0) && sources_are_editable;
+	sensitive = (n_selected > 0) && sources_are_editable && !is_editing;
 	tooltip = _("Cut selected events to the clipboard");
 	gtk_action_set_sensitive (action, sensitive);
 	gtk_action_set_tooltip (action, tooltip);
 
 	action = e_focus_tracker_get_copy_clipboard_action (focus_tracker);
-	sensitive = (n_selected > 0);
+	sensitive = (n_selected > 0) && !is_editing;
 	tooltip = _("Copy selected events to the clipboard");
 	gtk_action_set_sensitive (action, sensitive);
 	gtk_action_set_tooltip (action, tooltip);
 
 	action = e_focus_tracker_get_paste_clipboard_action (focus_tracker);
-	sensitive = sources_are_editable && can_paste;
+	sensitive = sources_are_editable && can_paste && !is_editing;
 	tooltip = _("Paste events from the clipboard");
 	gtk_action_set_sensitive (action, sensitive);
 	gtk_action_set_tooltip (action, tooltip);
 
 	action = e_focus_tracker_get_delete_selection_action (focus_tracker);
-	sensitive = (n_selected > 0) && sources_are_editable && !recurring;
+	sensitive = (n_selected > 0) && sources_are_editable && !recurring && !is_editing;
 	tooltip = _("Delete selected events");
 	gtk_action_set_sensitive (action, sensitive);
 	gtk_action_set_tooltip (action, tooltip);
@@ -883,6 +890,16 @@ e_calendar_view_class_init (ECalendarViewClass *class)
 			G_MAXINT,
 			30,
 			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_IS_EDITING,
+		g_param_spec_boolean (
+			"is-editing",
+			"Whether is in an editing mode",
+			"Whether is in an editing mode",
+			FALSE,
+			G_PARAM_READABLE));
 
 	signals[POPUP_EVENT] = g_signal_new (
 		"popup-event",
@@ -2347,4 +2364,29 @@ is_array_index_in_bounds_func (GArray *array,
 	}
 
 	return TRUE;
+}
+
+gboolean
+e_calendar_view_is_editing (ECalendarView *cal_view)
+{
+	static gboolean in = FALSE;
+	gboolean is_editing = FALSE;
+
+	g_return_val_if_fail (E_IS_CALENDAR_VIEW (cal_view), FALSE);
+
+	/* this should be called from the main thread only,
+	   and each descendant overrides the property,
+	   thus might cause no call recursion */
+	if (in) {
+		g_warn_if_reached ();
+		return FALSE;
+	}
+
+	in = TRUE;
+
+	g_object_get (G_OBJECT (cal_view), "is-editing", &is_editing, NULL);
+
+	in = FALSE;
+
+	return is_editing;
 }

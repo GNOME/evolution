@@ -100,6 +100,7 @@ enum {
 	PROP_LENGTH_THRESHOLD,
 	PROP_CURSOR_ROW,
 	PROP_UNIFORM_ROW_HEIGHT,
+	PROP_IS_EDITING,
 
 	PROP_MINIMUM_WIDTH,
 	PROP_WIDTH,
@@ -1699,6 +1700,9 @@ eti_get_property (GObject *object,
 	case PROP_UNIFORM_ROW_HEIGHT:
 		g_value_set_boolean (value, eti->uniform_row_height);
 		break;
+	case PROP_IS_EDITING:
+		g_value_set_boolean (value, e_table_item_is_editing (eti));
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -3275,6 +3279,16 @@ e_table_item_class_init (ETableItemClass *class)
 			FALSE,
 			G_PARAM_READWRITE));
 
+	g_object_class_install_property (
+		object_class,
+		PROP_IS_EDITING,
+		g_param_spec_boolean (
+			"is-editing",
+			"Whether is in an editing mode",
+			"Whether is in an editing mode",
+			FALSE,
+			G_PARAM_READABLE));
+
 	eti_signals[CURSOR_CHANGE] = g_signal_new (
 		"cursor_change",
 		G_OBJECT_CLASS_TYPE (object_class),
@@ -3584,6 +3598,8 @@ e_table_item_enter_edit (ETableItem *eti,
 	eti->editing_row = row;
 
 	eti->edit_ctx = e_cell_enter_edit (eti->cell_views[col], view_to_model_col (eti, col), col, row);
+
+	g_object_notify (G_OBJECT (eti), "is-editing");
 }
 
 /**
@@ -3618,6 +3634,8 @@ e_table_item_leave_edit (ETableItem *eti)
 		eti->cell_views[col],
 		view_to_model_col (eti, col),
 		col, row, edit_ctx);
+
+	g_object_notify (G_OBJECT (eti), "is-editing");
 }
 
 /**
@@ -4040,4 +4058,18 @@ e_table_item_get_printable (ETableItem *item)
 		e_table_item_printable_destroy, itemcontext);
 
 	return printable;
+}
+
+/**
+ * e_table_item_is_editing:
+ * @eti: an %ETableItem 
+ *
+ * Returns: Whether the table item is currently editing cell content.
+ **/
+gboolean
+e_table_item_is_editing (ETableItem *eti)
+{
+	g_return_val_if_fail (E_IS_TABLE_ITEM (eti), FALSE);
+
+	return eti_editing (eti);
 }

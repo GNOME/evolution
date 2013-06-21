@@ -256,6 +256,8 @@ gint		e_table_item_row_diff		(ETableItem *eti,
 						 gint start_row,
 						 gint end_row);
 
+gboolean	e_table_item_is_editing		(ETableItem *eti);
+
 G_END_DECLS
 
 #endif /* _E_TABLE_ITEM_H_ */

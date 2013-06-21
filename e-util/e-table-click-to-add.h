@@ -93,6 +93,7 @@ struct _ETableClickToAddClass {
 
 GType		e_table_click_to_add_get_type	(void) G_GNUC_CONST;
 void		e_table_click_to_add_commit	(ETableClickToAdd *etcta);
+gboolean	e_table_click_to_add_is_editing	(ETableClickToAdd *etcta);
 
 G_END_DECLS
 

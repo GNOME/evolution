@@ -133,6 +133,8 @@ void		e_table_group_container_construct
 						 ETableSortInfo *sort_info,
 						 gint n);
 
+gboolean	e_table_group_container_is_editing (ETableGroupContainer *etgc);
+
 G_END_DECLS
 
 #endif /* _E_TABLE_GROUP_CONTAINER_H_ */

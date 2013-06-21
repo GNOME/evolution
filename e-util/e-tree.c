@@ -97,6 +97,7 @@ enum {
 	PROP_DRAW_FOCUS,
 	PROP_ETTA,
 	PROP_UNIFORM_ROW_HEIGHT,
+	PROP_IS_EDITING,
 	PROP_ALWAYS_SEARCH,
 	PROP_HADJUSTMENT,
 	PROP_VADJUSTMENT,
@@ -257,6 +258,16 @@ static void context_destroyed (gpointer data, GObject *ctx);
 
 G_DEFINE_TYPE_WITH_CODE (ETree, e_tree, GTK_TYPE_TABLE,
 			 G_IMPLEMENT_INTERFACE (GTK_TYPE_SCROLLABLE, NULL))
+
+static void
+tree_item_is_editing_changed_cb (ETableItem *item,
+				 GParamSpec *param,
+				 ETree *tree)
+{
+	g_return_if_fail (E_IS_TREE (tree));
+
+	g_object_notify (G_OBJECT (tree), "is-editing");
+}
 
 static void
 et_disconnect_from_etta (ETree *tree)
@@ -1131,6 +1142,9 @@ et_build_item (ETree *tree)
 	g_signal_connect (
 		tree->priv->item, "start_drag",
 		G_CALLBACK (item_start_drag), tree);
+	g_signal_connect (
+		tree->priv->item, "notify::is-editing",
+		G_CALLBACK (tree_item_is_editing_changed_cb), tree);
 }
 
 static void
@@ -1886,6 +1900,10 @@ et_get_property (GObject *object,
 
 	case PROP_UNIFORM_ROW_HEIGHT:
 		g_value_set_boolean (value, tree->priv->uniform_row_height);
+		break;
+
+	case PROP_IS_EDITING:
+		g_value_set_boolean (value, e_tree_is_editing (tree));
 		break;
 
 	case PROP_ALWAYS_SEARCH:
@@ -3198,6 +3216,16 @@ e_tree_class_init (ETreeClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_IS_EDITING,
+		g_param_spec_boolean (
+			"is-editing",
+			"Whether is in an editing mode",
+			"Whether is in an editing mode",
+			FALSE,
+			G_PARAM_READABLE));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_ALWAYS_SEARCH,
 		g_param_spec_boolean (
 			"always_search",
@@ -3335,4 +3363,12 @@ e_tree_thaw_state_change (ETree *tree)
 		tree->priv->state_changed = FALSE;
 		e_tree_state_change (tree);
 	}
+}
+
+gboolean
+e_tree_is_editing (ETree *tree)
+{
+	g_return_val_if_fail (E_IS_TREE (tree), FALSE);
+
+	return tree->priv->item && e_table_item_is_editing (E_TABLE_ITEM (tree->priv->item));
 }
