@@ -79,6 +79,7 @@
 #define EXCLUDE_DELETED_MESSAGES_EXPR	"(not (system-flag \"deleted\"))"
 #define EXCLUDE_JUNK_MESSAGES_EXPR	"(not (system-flag \"junk\"))"
 
+typedef struct _ExtendedGNode ExtendedGNode;
 typedef struct _RegenData RegenData;
 
 struct _MLSelection {
@@ -123,6 +124,14 @@ struct _MessageListPrivate {
 	const gchar *newest_read_uid;
 	time_t oldest_unread_date;
 	const gchar *oldest_unread_uid;
+};
+
+/* XXX Plain GNode suffers from O(N) tail insertions, and that won't
+ *     do for large mail folders.  This structure extends GNode with
+ *     a pointer to its last child, so we get O(1) tail insertions. */
+struct _ExtendedGNode {
+	GNode gnode;
+	GNode *last_child;
 };
 
 struct _RegenData {
@@ -336,6 +345,109 @@ static const gchar *followup_icons[] = {
 	"stock_mail-flag-for-followup-done"
 };
 
+static GNode *
+extended_g_node_new (gpointer data)
+{
+	GNode *node;
+
+	node = (GNode *) g_slice_new0 (ExtendedGNode);
+	node->data = data;
+
+	return node;
+}
+
+static void
+extended_g_node_unlink (GNode *node)
+{
+	g_return_if_fail (node != NULL);
+
+	/* Update the last_child pointer before we unlink. */
+	if (node->parent != NULL) {
+		ExtendedGNode *ext_parent;
+
+		ext_parent = (ExtendedGNode *) node->parent;
+		if (ext_parent->last_child == node) {
+			g_warn_if_fail (node->next == NULL);
+			ext_parent->last_child = node->prev;
+		}
+	}
+
+	g_node_unlink (node);
+}
+
+static void
+extended_g_nodes_free (GNode *node)
+{
+	while (node != NULL) {
+		GNode *next = node->next;
+		if (node->children != NULL)
+			extended_g_nodes_free (node->children);
+		g_slice_free (ExtendedGNode, (ExtendedGNode *) node);
+		node = next;
+	}
+}
+
+static void
+extended_g_node_destroy (GNode *root)
+{
+	g_return_if_fail (root != NULL);
+
+	if (!G_NODE_IS_ROOT (root))
+		extended_g_node_unlink (root);
+
+	extended_g_nodes_free (root);
+}
+
+static GNode *
+extended_g_node_insert_before (GNode *parent,
+                               GNode *sibling,
+                               GNode *node)
+{
+	ExtendedGNode *ext_parent;
+
+	g_return_val_if_fail (parent != NULL, node);
+	g_return_val_if_fail (node != NULL, node);
+	g_return_val_if_fail (G_NODE_IS_ROOT (node), node);
+	if (sibling != NULL)
+		g_return_val_if_fail (sibling->parent == parent, node);
+
+	ext_parent = (ExtendedGNode *) parent;
+
+	/* This is where tracking the last child pays off. */
+	if (sibling == NULL && ext_parent->last_child != NULL) {
+		node->prev = ext_parent->last_child;
+		ext_parent->last_child->next = node;
+	} else {
+		g_node_insert_before (parent, sibling, node);
+	}
+
+	if (sibling == NULL)
+		ext_parent->last_child = node;
+
+	return node;
+}
+
+static GNode *
+extended_g_node_insert (GNode *parent,
+                        gint position,
+                        GNode *node)
+{
+	GNode *sibling;
+
+	g_return_val_if_fail (parent != NULL, node);
+	g_return_val_if_fail (node != NULL, node);
+	g_return_val_if_fail (G_NODE_IS_ROOT (node), node);
+
+	if (position > 0)
+		sibling = g_node_nth_child (parent, position);
+	else if (position == 0)
+		sibling = parent->children;
+	else /* if (position < 0) */
+		sibling = NULL;
+
+	return extended_g_node_insert_before (parent, sibling, node);
+}
+
 static RegenData *
 regen_data_new (MessageList *message_list,
                 GCancellable *cancellable)
@@ -532,10 +644,10 @@ message_list_tree_model_insert (MessageList *message_list,
 	if (!tree_model_frozen)
 		e_tree_model_pre_change (tree_model);
 
-	node = g_node_new (data);
+	node = extended_g_node_new (data);
 
 	if (parent != NULL) {
-		g_node_insert (parent, position, node);
+		extended_g_node_insert (parent, position, node);
 		if (!tree_model_frozen)
 			e_tree_model_node_inserted (tree_model, parent, node);
 	} else {
@@ -566,13 +678,13 @@ message_list_tree_model_remove (MessageList *message_list,
 		old_position = g_node_child_position (parent, node);
 	}
 
-	g_node_unlink (node);
+	extended_g_node_unlink (node);
 
 	if (!tree_model_frozen)
 		e_tree_model_node_removed (
 			tree_model, parent, node, old_position);
 
-	g_node_destroy (node);
+	extended_g_node_destroy (node);
 
 	if (node == message_list->priv->tree_model_root)
 		message_list->priv->tree_model_root = NULL;
@@ -2639,7 +2751,7 @@ message_list_finalize (GObject *object)
 	clear_selection (message_list, &message_list->priv->clipboard);
 
 	if (message_list->priv->tree_model_root != NULL)
-		g_node_destroy (message_list->priv->tree_model_root);
+		extended_g_node_destroy (message_list->priv->tree_model_root);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (message_list_parent_class)->finalize (object);
