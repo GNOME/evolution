@@ -2,11 +2,11 @@
       type="guide" id="contacts-using-several-addressbooks">
 
   <info>
-    <desc>Adding and using more than one address book and different types.</desc>
+    <desc>Adding different types of address books and using more than one address book.</desc>
 
     <link type="guide" xref="contacts-organizing" />
 
-    <revision pkgversion="3.1.5" version="0.3" date="2011-07-28" status="final"/>
+    <revision pkgversion="3.8.2" version="0.4" date="2013-06-20" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -17,7 +17,7 @@
 
   </info>
 
-<title>Using several address books</title>
+<title>Adding and creating address books</title>
 
 <p>You can have multiple address books. For example, you might have one address book for work related contacts and one for private contacts. The side bar lists those address books, and you can select which address book is shown.</p>
 
