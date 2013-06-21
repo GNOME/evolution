@@ -539,7 +539,7 @@ color_combo_dispose (GObject *object)
 		priv->default_color = NULL;
 	}
 
-	g_list_free_full (priv->palette, (GDestroyNotify) gdk_color_free);
+	g_list_free_full (priv->palette, (GDestroyNotify) gdk_rgba_free);
 	priv->palette = NULL;
 
 	/* Chain up to parent's dispose() method. */
@@ -954,7 +954,7 @@ e_color_combo_set_palette (EColorCombo *combo,
 	colors_per_line = (count % 10 == 0) ? 10 : 9;
 
 	colors = g_malloc_n (count, sizeof (GdkRGBA));
-	g_list_free_full (combo->priv->palette, (GDestroyNotify) gdk_color_free);
+	g_list_free_full (combo->priv->palette, (GDestroyNotify) gdk_rgba_free);
 	ii = 0;
 	combo->priv->palette = NULL;
 	for (iter = palette; iter; iter = g_list_next (iter)) {
