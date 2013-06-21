@@ -654,7 +654,7 @@ move_selection (ESelectionModel *model,
 	gint row_count;
 
 	/* there is no selected row when row is -1 */
-	if (row != -1)
+	if (row != -1 && model->sorter != NULL)
 		row = e_sorter_model_to_sorted (model->sorter, row);
 
 	if (up)
@@ -666,7 +666,8 @@ move_selection (ESelectionModel *model,
 	row_count = e_selection_model_row_count (model);
 	if (row >= row_count)
 		row = row_count - 1;
-	row = e_sorter_sorted_to_model (model->sorter, row);
+	if (model->sorter != NULL)
+		row = e_sorter_sorted_to_model (model->sorter, row);
 
 	e_selection_model_select_as_key_press (model, row, col, state);
 	return TRUE;
@@ -733,7 +734,9 @@ e_selection_model_key_press (ESelectionModel *model,
 			gint row = 0;
 			gint cursor_col = e_selection_model_cursor_col (model);
 
-			row = e_sorter_sorted_to_model (model->sorter, row);
+			if (model->sorter != NULL)
+				row = e_sorter_sorted_to_model (
+					model->sorter, row);
 			e_selection_model_select_as_key_press (
 				model, row, cursor_col, key->state);
 			return TRUE;
@@ -745,7 +748,9 @@ e_selection_model_key_press (ESelectionModel *model,
 			gint row = e_selection_model_row_count (model) - 1;
 			gint cursor_col = e_selection_model_cursor_col (model);
 
-			row = e_sorter_sorted_to_model (model->sorter, row);
+			if (model->sorter != NULL)
+				row = e_sorter_sorted_to_model (
+					model->sorter, row);
 			e_selection_model_select_as_key_press (
 				model, row, cursor_col, key->state);
 			return TRUE;
