@@ -1748,39 +1748,6 @@ msg_composer_paste_clipboard_cb (EEditorWidget *web_view,
 	g_signal_stop_emission_by_name (web_view, "paste-clipboard");
 }
 
-/* FIXME WEBKIT Is this still valid problem? */
-static void
-msg_composer_realize_gtkhtml_cb (GtkWidget *widget,
-                                 EMsgComposer *composer)
-{
-	EAttachmentView *view;
-	GtkTargetList *target_list;
-	GtkTargetEntry *targets;
-	gint n_targets;
-
-	/* XXX GtkHTML doesn't set itself up as a drag destination until
-	 *     it's realized, and we need to amend to its target list so
-	 *     it will accept the same drag targets as the attachment bar.
-	 *     Do this any earlier and GtkHTML will just overwrite us. */
-
-	/* When redirecting a message, the message body is not
-	 * editable and therefore cannot be a drag destination. */
-	/*
-	if (!e_web_view_gtkhtml_get_editable (E_WEB_VIEW_GTKHTML (widget)))
-		return;
-	*/
-
-	view = e_msg_composer_get_attachment_view (composer);
-
-	target_list = e_attachment_view_get_target_list (view);
-	targets = gtk_target_table_new_from_list (target_list, &n_targets);
-
-	target_list = gtk_drag_dest_get_target_list (widget);
-	gtk_target_list_add_table (target_list, targets, n_targets);
-
-	gtk_target_table_free (targets, n_targets);
-}
-
 static gboolean
 msg_composer_drag_motion_cb (GtkWidget *widget,
                              GdkDragContext *context,
@@ -1843,22 +1810,16 @@ msg_composer_drag_data_received_cb (GtkWidget *widget,
 
 	/* HTML mode has a few special cases for drops... */
 	if (e_editor_widget_get_html_mode (editor_widget)) {
-
-	/* HTML mode has a few special cases for drops... */
-	if (e_editor_widget_get_html_mode (editor_widget)) {
 		/* If we're receiving an image, we want the image to be
 		 * inserted in the message body.  Let GtkHtml handle it. */
+		/* FIXME WebKit - how to reproduce this?
 		if (gtk_selection_data_targets_include_image (selection, TRUE))
 			return;
-
+		 */
 		/* If we're receiving URIs and -all- the URIs point to
 		 * image files, we want the image(s) to be inserted in
-		 * the message body.  Let GtkHtml handle it. */
-		if (e_composer_selection_is_image_uris (composer, selection))
-			return;
-	}
-
-		if (e_composer_selection_is_base64_uris (composer, selection)) {
+		 * the message body. */
+		if (e_composer_selection_is_image_uris (composer, selection)) {
 			const guchar *data;
 			gint length;
 			gint list_len, len;
@@ -1873,21 +1834,22 @@ msg_composer_drag_data_received_cb (GtkWidget *widget,
 			list_len = length;
 			do {
 				uri = next_uri ((guchar **) &data, &len, &list_len);
-
-				e_editor_selection_insert_image (editor_selection, uri);
+				e_editor_widget_exec_command (editor_widget, E_EDITOR_WIDGET_COMMAND_INSERT_IMAGE, uri);
 			} while (list_len);
 		}
-	} else {
-		view = e_msg_composer_get_attachment_view (composer);
 
-		/* Forward the data to the attachment view.  Note that calling
-		 * e_attachment_view_drag_data_received() will not work because
-		 * that function only handles the case where all the other drag
-		 * handlers have failed. */
-		e_attachment_paned_drag_data_received (
-			E_ATTACHMENT_PANED (view),
-			context, x, y, selection, info, time);
+		/* FIXME CID images */
 	}
+
+		if (e_composer_selection_is_base64_uris (composer, selection)) {
+			const guchar *data;
+			gint length;
+			gint list_len, len;
+			gchar *uri;
+
+			data = gtk_selection_data_get_data (selection);
+			length = gtk_selection_data_get_length (selection);
+
 	/* Stop the signal from propagating */
 	g_signal_stop_emission_by_name (widget, "drag-data-received");
 }
@@ -2131,10 +2093,6 @@ msg_composer_constructed (GObject *object)
 	/* Drag-and-Drop Support */
 
 	g_signal_connect (
-		editor_widget, "realize",
-		G_CALLBACK (msg_composer_realize_gtkhtml_cb), composer);
-
-	g_signal_connect (
 		editor_widget, "drag-motion",
 		G_CALLBACK (msg_composer_drag_motion_cb), composer);
 
@@ -2189,6 +2147,12 @@ msg_composer_constructed (GObject *object)
 
 	/* Initialization may have tripped the "changed" state. */
 	e_editor_widget_set_changed (editor_widget, FALSE);
+
+	gtk_drag_dest_set (
+		GTK_WIDGET (editor_widget),
+		GTK_DEST_DEFAULT_HIGHLIGHT | GTK_DEST_DEFAULT_DROP,
+		drag_dest_targets, G_N_ELEMENTS (drag_dest_targets),
+		GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_LINK);
 
 	id = "org.gnome.evolution.composer";
 	e_plugin_ui_register_manager (ui_manager, id, composer);
