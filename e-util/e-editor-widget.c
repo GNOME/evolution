@@ -755,6 +755,22 @@ editor_widget_dispose (GObject *object)
 
 	g_clear_object (&priv->selection);
 
+	if (priv->aliasing_settings != NULL) {
+		g_signal_handlers_disconnect_matched (
+			priv->aliasing_settings, G_SIGNAL_MATCH_DATA,
+			0, 0, NULL, NULL, object);
+		g_object_unref (priv->aliasing_settings);
+		priv->aliasing_settings = NULL;
+	}
+
+	if (priv->font_settings != NULL) {
+		g_signal_handlers_disconnect_matched (
+			priv->font_settings, G_SIGNAL_MATCH_DATA,
+			0, 0, NULL, NULL, object);
+		g_object_unref (priv->font_settings);
+		priv->font_settings = NULL;
+	}
+
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_editor_widget_parent_class)->dispose (object);
 }
