@@ -921,7 +921,6 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 	GError *error = NULL;
 	EEditor *editor;
 	EEditorWidget *editor_widget;
-	EEditorSelection *selection;
 	WebKitDOMDocument *document;
 	WebKitDOMNodeList *signatures;
 	WebKitDOMDOMWindow *window;
@@ -1015,7 +1014,6 @@ insert:
 
 	editor = e_msg_composer_get_editor (composer);
 	editor_widget = e_editor_get_editor_widget (editor);
-	selection = e_editor_widget_get_selection (editor_widget);
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (editor_widget));
 	window = webkit_dom_document_get_default_view (document);
