@@ -6,7 +6,7 @@
 
     <link type="guide" xref="mail-account-manage-microsoft-exchange"/>
 
-    <revision pkgversion="3.7" version="0.6" date="2013-01-22" status="candidate"/>
+    <revision pkgversion="3.7" version="0.7" date="2013-06-22" status="candidate"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -32,10 +32,16 @@ via XInclude. See +http://blogs.gnome.org/shaunm/2011/07/21/understanding-xinclu
  xmlns="http://www.w3.org/2001/XInclude"/>
 
 <section id="receiving-email">
+<info>
+  <title type="link">Receiving Email and Receiving options (Exchange MAPI accounts)</title>
+</info>
 <title>Receiving Email and Receiving options</title>
 </section>
 
 <section id="defaults">
+<info>
+  <title type="link">Defaults (Exchange MAPI accounts)</title>
+</info>
 <title>Defaults</title>
 </section>
 
@@ -45,12 +51,18 @@ via XInclude. See +http://blogs.gnome.org/shaunm/2011/07/21/understanding-xinclu
 </section>
 
 <section id="security">
+<info>
+  <title type="link">Security (Exchange MAPI accounts)</title>
+</info>
 <title>Security</title>
 </section>
 
 </section> <!-- end "account editor" section, now list any account settings stuff related to this account type outside of it -->
 
 <!-- <section id="other-settings">
+<info>
+  <title type="link">Other settings (Exchange MAPI accounts)</title>
+</info>
 <title>Other settings</title>
 <p>Other account related settings that are not located in the <gui>Account Editor</gui>:</p>
 </section> -->
