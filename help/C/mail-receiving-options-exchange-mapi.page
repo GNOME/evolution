@@ -19,7 +19,7 @@
 
   <title>Exchange MAPI receiving options</title>
 
-<section id="receiving-email">
+<section id="receiving-email-exchange-mapi">
 <title>Receiving Email</title>
 
 <p>On the <gui>Receiving Email</gui> page (accessible via <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Edit</gui><gui>Receiving Email</gui></guiseq>):</p>
@@ -35,7 +35,7 @@
 
 </section>
 
-<section id="receiving-options">
+<section id="receiving-options-exchange-mapi">
 <title>Receiving Options</title>
 
 <p>On the <gui>Receiving Options</gui> page (accessible via <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Edit</gui><gui>Receiving Options</gui></guiseq>):</p>
