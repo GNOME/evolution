@@ -7,7 +7,7 @@
     <link type="guide" xref="mail-organizing"/>
     <link type="guide" xref="mail-layout-changing"/>
 
-    <revision pkgversion="3.3.91" version="0.1" date="2012-03-07" status="draft"/>
+    <revision pkgversion="3.3.91" version="0.2" date="2013-06-22" status="draft"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -24,7 +24,7 @@
 <title>Default sort order</title>
 <p>By default the <link xref="intro-main-window#e-mail">mail folder list</link> in the left pane contains top-level nodes in the following order:</p>
 <list>
-<item><p><gui>On This Computer</gui> - contains all mail for <link>local account types</link> (if configured)</p></item>
+<item><p><gui>On This Computer</gui> - contains all mail for local account types (if configured)</p></item>
 <item><p>One or more remote email account types (if configured)</p></item>
 <item><p><gui><link xref="mail-search-folders">Search Folders</link></gui> (if enabled)</p></item>
 </list>
