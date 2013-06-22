@@ -27,9 +27,4 @@
 <item><p>Offline status. Evolution may be offline. Check on the <gui style="button">Send and Receive</gui> button; if it is greyed out, then you are offline. To go online, go to <guiseq><gui>File</gui><gui>Work online</gui></guiseq>. You should now be able to use the <gui style="button">Send and Receive</gui> button.</p></item>
 </list>
 
-
 </page>
-
- 
-
-
