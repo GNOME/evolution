@@ -50,11 +50,11 @@
 
 <note style="tip"><p>Later on, if you want to change an account, or if you want to create another one, go to <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui></guiseq>. Select the account you want to change, then click <gui style="button">Edit</gui>. Alternately, add a new account by clicking <gui style="button">Add</gui>.</p></note>
 
-<section id="server-type-imap+">
+<section id="server-type-imap-plus">
 <title>IMAP+</title>
 <p>Keeps the mail on the server so you can access your mail from multiple systems.</p>
 
- <section id="configure-sending-imap+" ui:expanded="false">
+ <section id="configure-sending-imap-plus" ui:expanded="false">
   <info>
     <title type="ui:collapsed">Show how to configure this account type</title>
   </info>
