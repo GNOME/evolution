@@ -9,7 +9,7 @@
     <link type="guide" xref="mail-spam" />
     <link type="seealso" xref="mail-spam-marking"/>
 
-    <revision pkgversion="3.8.1" version="0.8" date="2013-04-19" status="final"/>
+    <revision pkgversion="3.8.1" version="0.9" date="2013-06-22" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -35,7 +35,7 @@
 
 <title>Junk Mail Settings</title>
 
-<section id="junk-folder">
+<section id="junk-tools">
 <title>Tools</title>
 <p><app>Evolution</app> lets you check for unwanted junk or spam emails by using the <app>Bogofilter</app> or <app>SpamAssassin</app> tools. To use these tools, you need to make sure that they are installed via the software management tool of your distribution.</p>
 
