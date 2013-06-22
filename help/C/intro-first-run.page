@@ -9,7 +9,7 @@
 
     <link type="guide" xref="index#getting-started"/>
 
-    <revision pkgversion="3.8.2" version="0.6" date="2013-06-20" status="stub"/>
+    <revision pkgversion="3.8.2" version="0.7" date="2013-06-22" status="stub"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -54,7 +54,7 @@
 <title>IMAP+</title>
 <p>Keeps the mail on the server so you can access your mail from multiple systems.</p>
 
- <section id="restore-howto" ui:expanded="false">
+ <section id="configure-sending-imap+" ui:expanded="false">
   <info>
     <title type="ui:collapsed">Show how to configure this account type</title>
   </info>
@@ -70,7 +70,7 @@
 <title>POP</title>
 <p>Downloads your email to your hard disk.</p>
 
- <section id="restore-howto" ui:expanded="false">
+ <section id="configure-sending-pop" ui:expanded="false">
   <info>
     <title type="ui:collapsed">Show how to configure this account type</title>
   </info>
@@ -86,7 +86,7 @@
 <title>USENET News</title>
 <p>Connects to a news server and downloads a list of available news digests.</p>
 
- <section id="restore-howto" ui:expanded="false">
+ <section id="configure-sending-usenet" ui:expanded="false">
   <info>
     <title type="ui:collapsed">Show how to configure this account type</title>
   </info>
@@ -110,7 +110,7 @@
   </if:choose>
 </note>
 
- <section id="restore-howto" ui:expanded="false">
+ <section id="configure-sending-exchange-ews" ui:expanded="false">
   <info>
     <title type="ui:collapsed">Show how to configure this account type</title>
   </info>
@@ -134,7 +134,7 @@
   </if:choose>
 </note>
 
- <section id="restore-howto" ui:expanded="false">
+ <section id="configure-sending-exchange-mapi" ui:expanded="false">
   <info>
     <title type="ui:collapsed">Show how to configure this account type</title>
   </info>
@@ -150,7 +150,7 @@
 <title>Local delivery</title>
 <p>Local delivery: If you want to move email from the spool (the location where mail waits for delivery) and store it in your home directory. You need to provide the path to the mail spool you want to use. If you want to leave email in your system's spool files, choose the <gui>Standard Unix Mbox Spool</gui> option instead.</p>
 
- <section id="restore-howto" ui:expanded="false">
+ <section id="configure-sending-local-delivery" ui:expanded="false">
   <info>
     <title type="ui:collapsed">Show how to configure this account type</title>
   </info>
@@ -166,7 +166,7 @@
 <title>MH-Format Mail Directories</title>
 <p>For downloading email using MH or another MH-style application.</p>
 
- <section id="restore-howto" ui:expanded="false">
+ <section id="configure-sending-mh-format-directories" ui:expanded="false">
   <info>
     <title type="ui:collapsed">Show how to configure this account type</title>
   </info>
@@ -182,7 +182,7 @@
 <title>Maildir-Format Mail Directories</title>
 <p>Maildir-Format Mail Directories: For downloading your email using Qmail or another Maildir-style application.</p>
 
- <section id="restore-howto" ui:expanded="false">
+ <section id="configure-sending-maildir-format-directories" ui:expanded="false">
   <info>
     <title type="ui:collapsed">Show how to configure this account type</title>
   </info>
@@ -198,7 +198,7 @@
 <title>Standard Unix mbox spool file</title>
 <p>Standard Unix mbox spool file: For reading and storing email in the mail spool file on your local system.</p>
 
- <section id="restore-howto" ui:expanded="false">
+ <section id="configure-sending-unix-mbox-spool-file" ui:expanded="false">
   <info>
     <title type="ui:collapsed">Show how to configure this account type</title>
   </info>
@@ -214,7 +214,7 @@
 <title>Standard Unix mbox spool directory</title>
 <p>Standard Unix mbox spool directory: For reading and storing email in the mail spool directory on your local system.</p>
 
- <section id="restore-howto" ui:expanded="false">
+ <section id="configure-sending-unix-mbox-spool-directory" ui:expanded="false">
   <info>
     <title type="ui:collapsed">Show how to configure this account type</title>
   </info>
@@ -241,7 +241,7 @@
 <title>SMTP</title>
 <p>Sends mail using an outbound mail server. This is the most common choice for sending mail.</p>
 
- <section id="restore-howto" ui:expanded="false">
+ <section id="configure-sending-smtp" ui:expanded="false">
   <info>
     <title type="ui:collapsed">Show how to configure this account type</title>
   </info>
