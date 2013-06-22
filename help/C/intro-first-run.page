@@ -253,7 +253,7 @@
 
 </section>
 
-<section id="server-type=sendmail">
+<section id="server-type-sendmail">
 <title>Sendmail</title>
 <p>Uses the <app>Sendmail</app> application to send mail from your system. It is not easy to configure, so you should select this option only if you know how to set up a Sendmail service.</p>
 </section>
