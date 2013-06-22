@@ -108,6 +108,11 @@ store_info_free (EMFolderTreeModelStoreInfo *si)
 			si->store,
 			si->folder_renamed_handler_id);
 
+	if (si->folder_info_stale_handler_id > 0)
+		g_signal_handler_disconnect (
+			si->store,
+			si->folder_info_stale_handler_id);
+
 	if (si->folder_subscribed_handler_id > 0)
 		g_signal_handler_disconnect (
 			si->store,
@@ -1066,6 +1071,15 @@ folder_tree_model_folder_renamed_cb (CamelStore *store,
 	em_folder_tree_model_set_folder_info (model, &iter, si, info, TRUE);
 }
 
+static void
+folder_tree_model_folder_info_stale_cb (CamelStore *store,
+                                        EMFolderTreeModel *model)
+{
+	/* Re-add the store.  The EMFolderTreeModelStoreInfo will
+	 * be discarded and the folder tree will be reconstructed. */
+	em_folder_tree_model_add_store (model, store);
+}
+
 void
 em_folder_tree_model_add_store (EMFolderTreeModel *model,
                                 CamelStore *store)
@@ -1167,6 +1181,11 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model,
 		store, "folder-renamed",
 		G_CALLBACK (folder_tree_model_folder_renamed_cb), model);
 	si->folder_renamed_handler_id = handler_id;
+
+	handler_id = g_signal_connect (
+		store, "folder-info-stale",
+		G_CALLBACK (folder_tree_model_folder_info_stale_cb), model);
+	si->folder_info_stale_handler_id = handler_id;
 
 	if (CAMEL_IS_SUBSCRIBABLE (store)) {
 		handler_id = g_signal_connect (

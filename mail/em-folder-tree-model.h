@@ -84,6 +84,7 @@ struct _EMFolderTreeModelStoreInfo {
 	gulong folder_created_handler_id;
 	gulong folder_deleted_handler_id;
 	gulong folder_renamed_handler_id;
+	gulong folder_info_stale_handler_id;
 	gulong folder_subscribed_handler_id;
 	gulong folder_unsubscribed_handler_id;
 };
