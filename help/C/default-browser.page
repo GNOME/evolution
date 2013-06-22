@@ -8,7 +8,7 @@
     
     <link type="guide" xref="index#common-other-problems" />
 
-    <revision pkgversion="3.5.4" version="0.6" date="2012-08-01" status="final"/>
+    <revision pkgversion="3.5.4" version="0.7" date="2013-06-22" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -23,7 +23,7 @@
 
 <!-- For GNOME2 the steps are to define the gconf keys /desktop/gnome/url-handlers/http and /https -->
 
-<section id="urls-in-emails">
+<section id="browser-to-use">
 <title>Change which web browser websites are opened in</title>
 
 <p>Please see <link href="help:gnome-help/net-default-browser">the GNOME Desktop Help</link>.</p>
@@ -40,7 +40,7 @@
 </note>
 </section>
 
-<section id="urls-in-emails">
+<section id="email-application-to-use">
 <title>Change which mail application is used to write emails</title>
 
 <p>Please see <link href="help:gnome-help/net-default-email">the GNOME Desktop Help</link>.</p>
