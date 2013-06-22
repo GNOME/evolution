@@ -14,9 +14,9 @@
     <credit type="author">
       <name its:translate="no">Novell, Inc</name> <!-- Content partially from http://library.gnome.org/users/evolution/2.32/config-sync.html.en -->
     </credit>
-    <license>
-      <p>Creative Commons Share Alike 3.0</p>
-    </license>
+    
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+    
 <!-- TODO:POST-3-8: Find out how to sync modern devices, e.g. Android, iPhone, Nokia N97 / N900, N9, N950, etc. Maybe SyncEvolution is the recommended (and external) way here? -->
   </info>
 

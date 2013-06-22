@@ -14,9 +14,9 @@
     <credit type="author">
       <name its:translate="no">Novell, Inc</name> <!-- Content partially from http://library.gnome.org/users/evolution/2.32/config-prefs-cal.html.en#bshpskx -->
     </credit>
-    <license>
-      <p>Creative Commons Share Alike 3.0</p>
-    </license>
+    
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+    
 
 <!-- TODO:POST-3-8: Just listing the partially busted UI options (also see calendar-layout-appointment-display) here is very poor and not task-oriented, but that's it for the time being. Better ideas welcome. -->
 

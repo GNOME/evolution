@@ -15,9 +15,9 @@
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
     </credit>
-    <license>
-      <p>Creative Commons Share Alike 3.0</p>
-    </license>
+    
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+    
 
   </info>
 

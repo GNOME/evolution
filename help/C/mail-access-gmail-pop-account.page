@@ -13,9 +13,9 @@
       <name its:translate="no">April Gonzales</name>
       <email its:translate="no">loonycookie@gmail.com</email>
     </credit>
-    <license>
-      <p>Creative Commons Share Alike 3.0</p>
-    </license>
+    
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+    
 
   </info>
 

@@ -19,9 +19,9 @@
     <credit type="author">
       <name its:translate="no">Novell, Inc</name> <!-- Content partially from http://library.gnome.org/users/evolution/2.32/usage-mail-organize-folders.html.en -->
     </credit>
-    <license>
-      <p>Creative Commons Share Alike 3.0</p>
-    </license>    
+    
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+        
     
   </info>
 
