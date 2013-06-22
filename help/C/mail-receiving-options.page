@@ -18,13 +18,13 @@
 <title>Mail Receiving Options</title>
 <!-- Please keep sorting and categorization in sync with intro-first-run.page! -->
   <section id="common-server-types" style="2column">
-    <title>Common server types</title>
+    <title>Mail receiving options for common server types</title>
   </section>
   <section id="corporate-server-types" style="2column">
-    <title>Corporate server types</title>
+    <title>Mail receiving options for corporate server types</title>
   </section>
   <section id="local-account-server-types" style="2column">
-    <title>Local account server types</title>
+    <title>Mail receiving options for local account server types</title>
   </section>
 
 
