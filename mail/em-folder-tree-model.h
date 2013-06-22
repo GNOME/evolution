@@ -80,11 +80,12 @@ struct _EMFolderTreeModelStoreInfo {
 	/* CamelFolderInfo::full_name -> GtkTreeRowReference */
 	GHashTable *full_hash;
 
-	guint created_id;
-	guint deleted_id;
-	guint renamed_id;
-	guint subscribed_id;
-	guint unsubscribed_id;
+	/* CamelStore signal handler IDs */
+	gulong folder_created_handler_id;
+	gulong folder_deleted_handler_id;
+	gulong folder_renamed_handler_id;
+	gulong folder_subscribed_handler_id;
+	gulong folder_unsubscribed_handler_id;
 };
 
 struct _EMFolderTreeModel {

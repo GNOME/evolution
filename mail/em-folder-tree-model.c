@@ -93,14 +93,30 @@ G_DEFINE_TYPE (EMFolderTreeModel, em_folder_tree_model, GTK_TYPE_TREE_STORE)
 static void
 store_info_free (EMFolderTreeModelStoreInfo *si)
 {
-	g_signal_handler_disconnect (si->store, si->created_id);
-	g_signal_handler_disconnect (si->store, si->deleted_id);
-	g_signal_handler_disconnect (si->store, si->renamed_id);
+	if (si->folder_created_handler_id > 0)
+		g_signal_handler_disconnect (
+			si->store,
+			si->folder_created_handler_id);
 
-	if (si->subscribed_id > 0)
-		g_signal_handler_disconnect (si->store, si->subscribed_id);
-	if (si->unsubscribed_id > 0)
-		g_signal_handler_disconnect (si->store, si->unsubscribed_id);
+	if (si->folder_deleted_handler_id > 0)
+		g_signal_handler_disconnect (
+			si->store,
+			si->folder_deleted_handler_id);
+
+	if (si->folder_renamed_handler_id > 0)
+		g_signal_handler_disconnect (
+			si->store,
+			si->folder_renamed_handler_id);
+
+	if (si->folder_subscribed_handler_id > 0)
+		g_signal_handler_disconnect (
+			si->store,
+			si->folder_subscribed_handler_id);
+
+	if (si->folder_unsubscribed_handler_id > 0)
+		g_signal_handler_disconnect (
+			si->store,
+			si->folder_unsubscribed_handler_id);
 
 	g_object_unref (si->store);
 	gtk_tree_row_reference_free (si->row);
@@ -893,9 +909,9 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 }
 
 static void
-folder_subscribed_cb (CamelStore *store,
-                      CamelFolderInfo *fi,
-                      EMFolderTreeModel *model)
+folder_tree_model_folder_subscribed_cb (CamelStore *store,
+                                        CamelFolderInfo *fi,
+                                        EMFolderTreeModel *model)
 {
 	EMFolderTreeModelStoreInfo *si;
 	GtkTreeRowReference *reference;
@@ -944,9 +960,9 @@ folder_subscribed_cb (CamelStore *store,
 }
 
 static void
-folder_unsubscribed_cb (CamelStore *store,
-                        CamelFolderInfo *fi,
-                        EMFolderTreeModel *model)
+folder_tree_model_folder_unsubscribed_cb (CamelStore *store,
+                                          CamelFolderInfo *fi,
+                                          EMFolderTreeModel *model)
 {
 	EMFolderTreeModelStoreInfo *si;
 	GtkTreeRowReference *reference;
@@ -969,9 +985,9 @@ folder_unsubscribed_cb (CamelStore *store,
 }
 
 static void
-folder_created_cb (CamelStore *store,
-                   CamelFolderInfo *fi,
-                   EMFolderTreeModel *model)
+folder_tree_model_folder_created_cb (CamelStore *store,
+                                     CamelFolderInfo *fi,
+                                     EMFolderTreeModel *model)
 {
 	EMFolderTreeModelStoreInfo *si;
 
@@ -985,32 +1001,27 @@ folder_created_cb (CamelStore *store,
 	if (si == NULL || g_hash_table_size (si->full_hash) == 0)
 		return;
 
-	folder_subscribed_cb (store, fi, model);
+	folder_tree_model_folder_subscribed_cb (store, fi, model);
 }
 
 static void
-folder_deleted_cb (CamelStore *store,
-                   CamelFolderInfo *fi,
-                   EMFolderTreeModel *model)
+folder_tree_model_folder_deleted_cb (CamelStore *store,
+                                     CamelFolderInfo *fi,
+                                     EMFolderTreeModel *model)
 {
 	/* We only want deleted events to do more
 	 * work if we don't support subscriptions. */
 	if (CAMEL_IS_SUBSCRIBABLE (store))
 		return;
 
-	folder_unsubscribed_cb (store, fi, model);
+	folder_tree_model_folder_unsubscribed_cb (store, fi, model);
 }
 
-typedef struct {
-	gchar *old_base;
-	CamelFolderInfo *new;
-} RenameInfo;
-
 static void
-folder_renamed_cb (CamelStore *store,
-                   const gchar *old_name,
-                   CamelFolderInfo *info,
-                   EMFolderTreeModel *model)
+folder_tree_model_folder_renamed_cb (CamelStore *store,
+                                     const gchar *old_name,
+                                     CamelFolderInfo *info,
+                                     EMFolderTreeModel *model)
 {
 	EMFolderTreeModelStoreInfo *si;
 	GtkTreeRowReference *reference;
@@ -1068,6 +1079,7 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model,
 	CamelProvider *provider;
 	CamelURL *service_url;
 	const gchar *display_name;
+	gulong handler_id;
 	gchar *uri;
 
 	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
@@ -1141,23 +1153,33 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model,
 		COL_BOOL_IS_DRAFT, FALSE,
 		-1);
 
-	/* Listen to store events. */
-	si->created_id = g_signal_connect (
+	handler_id = g_signal_connect (
 		store, "folder-created",
-		G_CALLBACK (folder_created_cb), model);
-	si->deleted_id = g_signal_connect (
+		G_CALLBACK (folder_tree_model_folder_created_cb), model);
+	si->folder_created_handler_id = handler_id;
+
+	handler_id = g_signal_connect (
 		store, "folder-deleted",
-		G_CALLBACK (folder_deleted_cb), model);
-	si->renamed_id = g_signal_connect (
-		store, "folder_renamed",
-		G_CALLBACK (folder_renamed_cb), model);
+		G_CALLBACK (folder_tree_model_folder_deleted_cb), model);
+	si->folder_deleted_handler_id = handler_id;
+
+	handler_id = g_signal_connect (
+		store, "folder-renamed",
+		G_CALLBACK (folder_tree_model_folder_renamed_cb), model);
+	si->folder_renamed_handler_id = handler_id;
+
 	if (CAMEL_IS_SUBSCRIBABLE (store)) {
-		si->subscribed_id = g_signal_connect (
-			store, "folder_subscribed",
-			G_CALLBACK (folder_subscribed_cb), model);
-		si->unsubscribed_id = g_signal_connect (
-			store, "folder_unsubscribed",
-			G_CALLBACK (folder_unsubscribed_cb), model);
+		handler_id = g_signal_connect (
+			store, "folder-subscribed",
+			G_CALLBACK (folder_tree_model_folder_subscribed_cb),
+			model);
+		si->folder_subscribed_handler_id = handler_id;
+
+		handler_id = g_signal_connect (
+			store, "folder-unsubscribed",
+			G_CALLBACK (folder_tree_model_folder_unsubscribed_cb),
+			model);
+		si->folder_unsubscribed_handler_id = handler_id;
 	}
 
 	g_signal_emit (model, signals[LOADED_ROW], 0, path, &root);
