@@ -6,7 +6,7 @@
 
     <link type="guide" xref="mail-receiving-options#common-server-types"/>
     <link type="guide" xref="mail-account-manage-pop#receiving-email"/>
-    <revision pkgversion="3.1.5" version="0.4" date="2011-08-24" status="final"/>
+    <revision pkgversion="3.1.5" version="0.5" date="2013-06-22" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -35,8 +35,7 @@
 <item><p>Enter the address of the email server in the <gui>Server</gui> field and enter your username for that server.</p></item>
 <item><p>Select if you want to use a secure connection (SSL or TLS).</p><p>You should enable this option if your server supports it.</p>
 <note style="tip"><p>Free webmail providers often supply information about which of these options can be used. If you are in an organizational environment, you may want to contact your system administrator for more information.</p></note></item>
-<item><p>Select your authentication type in the Authentication list, or click <gui style="button">Check for Supported Types</gui> to have Evolution check for supported authentication mechanisms. Some servers do not announce the authentication mechanisms they support, so clicking this button is not a guarantee that available mechanisms actually work.</p>
-<note style="tip"><p>Free webmail providers often supply information about which of these options can be used. If you are in an organizational environment, you may want to contact your system administrator for more information.</p></note></item>
+<item><p>Select your authentication type in the Authentication list, or click <gui style="button">Check for Supported Types</gui> to have Evolution check for supported authentication mechanisms. Some servers do not announce the authentication mechanisms they support, so clicking this button is not a guarantee that available mechanisms actually work.</p></item>
 <item><p>Select if you want Evolution to remember your password.</p></item>
 </list>
 
