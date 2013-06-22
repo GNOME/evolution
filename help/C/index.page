@@ -5,7 +5,7 @@
     <desc>Evolution</desc>
     <title type='link' role="trail"><media type="image" src="figures/evolutionlogo.png"/></title>
     <title type='text'>Evolution Mail and Calendar</title>
-    <revision pkgversion="3.2.0" version="0.5" date="2011-08-24" status="final"/>
+    <revision pkgversion="3.8.2" version="0.6" date="2013-06-22" status="final"/>
     <credit type="author">
       <name its:translate="no">Phil Bull</name>
       <email its:translate="no">philbull@gmail.com</email>
@@ -36,6 +36,9 @@
       <section id="mail-advanced" style="2column">
         <title>Advanced Mail Management</title>
           <section id="mail-advanced-imap" style="2column">
+            <info>
+              <title type="link">Advanced Mail Management (IMAP accounts)</title>
+            </info>
             <title>IMAP</title>
           </section>
       </section>
