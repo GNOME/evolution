@@ -93,6 +93,7 @@ HELP_FILES = \
 	intro-application.page \
 	intro-first-run.page \
 	intro-main-window.page \
+	legal.xml \
 	mail-access-gmail-imap-account.page \
 	mail-access-gmail-pop-account.page \
 	mail-account-manage-imap-plus.page \
