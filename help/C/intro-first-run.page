@@ -42,28 +42,65 @@
    xmlns="http://www.w3.org/2001/XInclude"/>
  </section>
 </section>
+
 <section id="receiving">
 <title>Receiving Email</title>
 <p>First, choose the server type from the <gui>Server Type</gui> drop-down list.</p>
 <p>If you are unsure about the type of server to choose, ask your system administrator or Internet Service Provider.</p>
 
+<note style="tip"><p>Later on, if you want to change an account, or if you want to create another one, go to <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui></guiseq>. Select the account you want to change, then click <gui style="button">Edit</gui>. Alternately, add a new account by clicking <gui style="button">Add</gui>.</p></note>
 
-<section id="common-server-types">
-<title>Common server types</title>
-<p>The most common available server types for normal users are:</p>
-<list>
-<item><p>None: If you do not plan to use Evolution for receiving email.</p><p>Continue <link xref="#sending">here</link> for configuration.</p></item>
-<item><p>IMAP+: Keeps the mail on the server so you can access your mail from multiple systems.</p><p>Continue <link xref="mail-receiving-options-imap-plus">here</link> for configuration.</p></item>
-<item><p>POP: Downloads your email to your hard disk.</p><p>Continue <link xref="mail-receiving-options-pop">here</link> for configuration.</p></item>
-<item><p>USENET News: Connects to a news server and downloads a list of available news digests.</p><p>Continue <link xref="mail-receiving-options-usenet-news">here</link> for configuration.</p></item>
-</list>
+<section id="server-type-imap+">
+<title>IMAP+</title>
+<p>Keeps the mail on the server so you can access your mail from multiple systems.</p>
+
+ <section id="restore-howto" ui:expanded="false">
+  <info>
+    <title type="ui:collapsed">Show how to configure this account type</title>
+  </info>
+  <title>IMAP+ receiving options</title>
+  <include href="mail-receiving-options-imap-plus.page"
+   xpointer="xmlns(mal=http://projectmallard.org/1.0/)xpointer(/mal:page/mal:section)"
+   xmlns="http://www.w3.org/2001/XInclude"/>
+ </section>
+
 </section>
 
-<section id="corporate-server-types">
-<title>Corporate server types</title>
-<p>Available server types for corporate users are:</p>
-<list>
-<item><p>Exchange EWS: For connecting to a Microsoft Exchange 2007/2010 or OpenChange server. Note that this is currently under development and will replace the <gui>Exchange MAPI</gui> account type in the future. It might not be available yet for your distribution.</p><p>Continue <link xref="mail-receiving-options-exchange-ews">here</link> for configuration.</p>
+<section id="server-type-pop">
+<title>POP</title>
+<p>Downloads your email to your hard disk.</p>
+
+ <section id="restore-howto" ui:expanded="false">
+  <info>
+    <title type="ui:collapsed">Show how to configure this account type</title>
+  </info>
+  <title>POP receiving options</title>
+  <include href="mail-receiving-options-pop.page"
+   xpointer="xmlns(mal=http://projectmallard.org/1.0/)xpointer(/mal:page/mal:section)"
+   xmlns="http://www.w3.org/2001/XInclude"/>
+ </section>
+
+</section>
+
+<section id="server-type-usenet">
+<title>USENET News</title>
+<p>Connects to a news server and downloads a list of available news digests.</p>
+
+ <section id="restore-howto" ui:expanded="false">
+  <info>
+    <title type="ui:collapsed">Show how to configure this account type</title>
+  </info>
+  <title>Usenet news receiving options</title>
+  <include href="mail-receiving-options-usenet-news.page"
+   xpointer="xmlns(mal=http://projectmallard.org/1.0/)xpointer(/mal:page/mal:section)"
+   xmlns="http://www.w3.org/2001/XInclude"/>
+ </section>
+
+</section>
+
+<section id="server-type-exchange-ews">
+<title>Exchange EWS</title>
+<p>For connecting to a Microsoft Exchange 2007/2010 or OpenChange server. Note that this is currently under development and will replace the <gui>Exchange MAPI</gui> account type in the future. It might not be available yet for your distribution.</p>
 <note style="info package">
   <p>This requires having the <sys>evolution-ews</sys> package installed.</p>
   <if:choose>
@@ -72,9 +109,22 @@
     </if:when>
   </if:choose>
 </note>
-</item>
 
-<item><p>Exchange MAPI: For connecting to a Microsoft Exchange 2007/2010 or OpenChange server.</p><p>Continue <link xref="mail-receiving-options-exchange-mapi">here</link> for configuration.</p>
+ <section id="restore-howto" ui:expanded="false">
+  <info>
+    <title type="ui:collapsed">Show how to configure this account type</title>
+  </info>
+  <title>Exchange Web Services receiving options</title>
+  <include href="mail-receiving-options-exchange-ews.page"
+   xpointer="xmlns(mal=http://projectmallard.org/1.0/)xpointer(/mal:page/mal:section)"
+   xmlns="http://www.w3.org/2001/XInclude"/>
+ </section>
+
+</section>
+
+<section id="server-type-exchange-mapi">
+<title>Exchange MAPI</title>
+<p>For connecting to a Microsoft Exchange 2007/2010 or OpenChange server.</p>
 <note style="info package">
   <p>This requires having the <sys>evolution-mapi</sys> package installed.</p>
   <if:choose>
@@ -83,30 +133,102 @@
     </if:when>
   </if:choose>
 </note>
-</item>
-</list>
+
+ <section id="restore-howto" ui:expanded="false">
+  <info>
+    <title type="ui:collapsed">Show how to configure this account type</title>
+  </info>
+  <title>Exchange MAPI receiving options</title>
+  <include href="mail-receiving-options-exchange-mapi.page"
+   xpointer="xmlns(mal=http://projectmallard.org/1.0/)xpointer(/mal:page/mal:section)"
+   xmlns="http://www.w3.org/2001/XInclude"/>
+ </section>
+
 </section>
 
-<section id="local-account-server-types">
-<title>Local account server types</title>
-<p>Available local account server types for advanced users are:</p>
-<list>
-<item><p>Local delivery: If you want to move email from the spool (the location where mail waits for delivery) and store it in your home directory. You need to provide the path to the mail spool you want to use. If you want to leave email in your system's spool files, choose the <gui>Standard Unix Mbox Spool</gui> option instead.</p><p>Continue <link xref="mail-receiving-options-local-delivery">here</link> for configuration.</p></item>
+<section id="server-type-local-delivery">
+<title>Local delivery</title>
+<p>Local delivery: If you want to move email from the spool (the location where mail waits for delivery) and store it in your home directory. You need to provide the path to the mail spool you want to use. If you want to leave email in your system's spool files, choose the <gui>Standard Unix Mbox Spool</gui> option instead.</p>
 
-<item><p>MH-Format Mail Directories: For downloading email using MH or another MH-style application.</p>
-<p>Continue <link xref="mail-receiving-options-mh-format-directories">here</link> for configuration.</p></item>
+ <section id="restore-howto" ui:expanded="false">
+  <info>
+    <title type="ui:collapsed">Show how to configure this account type</title>
+  </info>
+  <title>Local delivery receiving options</title>
+  <include href="mail-receiving-options-local-delivery.page"
+   xpointer="xmlns(mal=http://projectmallard.org/1.0/)xpointer(/mal:page/mal:section)"
+   xmlns="http://www.w3.org/2001/XInclude"/>
+ </section>
 
-<item><p>Maildir-Format Mail Directories: For downloading your email using Qmail or another Maildir-style application.</p>
-<p>Continue <link xref="mail-receiving-options-maildir-format-directories">here</link> for configuration.</p></item>
+</section>
 
-<item><p>Standard Unix mbox spool file: For reading and storing email in the mail spool file on your local system.</p>
-<p>Continue <link xref="mail-receiving-options-unix-mbox-spool-file">here</link> for configuration.</p></item>
+<section id="server-type-mh-format-directories">
+<title>MH-Format Mail Directories</title>
+<p>For downloading email using MH or another MH-style application.</p>
 
-<item><p>Standard Unix mbox spool directory: For reading and storing email in the mail spool directory on your local system.</p>
-<p>Continue <link xref="mail-receiving-options-unix-mbox-spool-directory">here</link> for configuration.</p></item>
-</list>
+ <section id="restore-howto" ui:expanded="false">
+  <info>
+    <title type="ui:collapsed">Show how to configure this account type</title>
+  </info>
+  <title>MH-format mail directories receiving options</title>
+  <include href="mail-receiving-options-mh-format-directories.page"
+   xpointer="xmlns(mal=http://projectmallard.org/1.0/)xpointer(/mal:page/mal:section)"
+   xmlns="http://www.w3.org/2001/XInclude"/>
+ </section>
 
-<note style="tip"><p>Later on, if you want to change an account, or if you want to create another one, go to <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui></guiseq>. Select the account you want to change, then click <gui style="button">Edit</gui>. Alternately, add a new account by clicking <gui style="button">Add</gui>.</p></note>
+</section>
+
+<section id="server-type-maildir-format-directories">
+<title>Maildir-Format Mail Directories</title>
+<p>Maildir-Format Mail Directories: For downloading your email using Qmail or another Maildir-style application.</p>
+
+ <section id="restore-howto" ui:expanded="false">
+  <info>
+    <title type="ui:collapsed">Show how to configure this account type</title>
+  </info>
+  <title>Maildir-format mail directories receiving options</title>
+  <include href="mail-receiving-options-maildir-format-directories.page"
+   xpointer="xmlns(mal=http://projectmallard.org/1.0/)xpointer(/mal:page/mal:section)"
+   xmlns="http://www.w3.org/2001/XInclude"/>
+ </section>
+
+</section>
+
+<section id="server-type-unix-mbox-spool-file">
+<title>Standard Unix mbox spool file</title>
+<p>Standard Unix mbox spool file: For reading and storing email in the mail spool file on your local system.</p>
+
+ <section id="restore-howto" ui:expanded="false">
+  <info>
+    <title type="ui:collapsed">Show how to configure this account type</title>
+  </info>
+  <title>Standard Unix mbox spool file receiving options</title>
+  <include href="mail-receiving-options-unix-mbox-spool-file.page"
+   xpointer="xmlns(mal=http://projectmallard.org/1.0/)xpointer(/mal:page/mal:section)"
+   xmlns="http://www.w3.org/2001/XInclude"/>
+ </section>
+
+</section>
+
+<section id="server-type-unix-mbox-spool-directory">
+<title>Standard Unix mbox spool directory</title>
+<p>Standard Unix mbox spool directory: For reading and storing email in the mail spool directory on your local system.</p>
+
+ <section id="restore-howto" ui:expanded="false">
+  <info>
+    <title type="ui:collapsed">Show how to configure this account type</title>
+  </info>
+  <title>Standard Unix mbox spool directory receiving options</title>
+  <include href="mail-receiving-options-unix-mbox-spool-directory.page"
+   xpointer="xmlns(mal=http://projectmallard.org/1.0/)xpointer(/mal:page/mal:section)"
+   xmlns="http://www.w3.org/2001/XInclude"/>
+ </section>
+
+</section>
+
+<section id="server-type-none">
+<title>None</title>
+<p>If you do not plan to use Evolution for receiving email.</p>
 </section>
 
 </section>
@@ -114,10 +236,28 @@
 <section id="sending"> <!-- Do not rename, we link to it from the subpages -->
 <title>Sending mail</title>
 <p>Available server types are:</p>
-<list>
-<item><p>SMTP: Sends mail using an outbound mail server. This is the most common choice for sending mail.</p><p>Continue <link xref="mail-sending-options-smtp">here</link> for configuration.</p></item>
-<item><p>Sendmail: Uses the <app>Sendmail</app> application to send mail from your system. It is not easy to configure, so you should select this option only if you know how to set up a Sendmail service.</p></item>
-</list>
+
+<section id="server-type-smtp">
+<title>SMTP</title>
+<p>Sends mail using an outbound mail server. This is the most common choice for sending mail.</p>
+
+ <section id="restore-howto" ui:expanded="false">
+  <info>
+    <title type="ui:collapsed">Show how to configure this account type</title>
+  </info>
+  <title>SMTP sending options</title>
+  <include href="mail-sending-options-smtp.page"
+   xpointer="xmlns(mal=http://projectmallard.org/1.0/)xpointer(/mal:page/mal:list)"
+   xmlns="http://www.w3.org/2001/XInclude"/>
+ </section>
+
+</section>
+
+<section id="server-type=sendmail">
+<title>Sendmail</title>
+<p>Uses the <app>Sendmail</app> application to send mail from your system. It is not easy to configure, so you should select this option only if you know how to set up a Sendmail service.</p>
+</section>
+
 </section>
 
 <section id="account-information">

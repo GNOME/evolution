@@ -47,9 +47,4 @@
 
 </section>
 
-<section id="return-to-assistant-bottom-link">
-<!-- TODO:XINCLUDE: Replace this "go back" workaround by using xinclude and ui:expanded in intro-first-run.page itself, so content is embedded there and expandable. See http://projectmallard.org/ui/1.0/ui_expanded.html and https://help.gnome.org/users/gnome-help/3.6/keyboard-shortcuts-set.html -->
-<p>If you came to this page from the first-run wizard help page, click <link xref="intro-first-run#sending">here</link> to continue with the next step.</p>
-</section>
-
 </page>
