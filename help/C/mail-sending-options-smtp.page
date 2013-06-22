@@ -12,7 +12,7 @@
     <link type="guide" xref="mail-account-manage-unix-mbox-spool-directory#sending-email"/>
     <link type="guide" xref="mail-account-manage-unix-mbox-spool-file#sending-email"/>
     <link type="guide" xref="mail-account-manage-usenet-news#sending-email"/>
-    <revision pkgversion="3.0.2" version="0.2" date="2011-07-30" status="final"/>
+    <revision pkgversion="3.0.2" version="0.3" date="2013-06-22" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -25,18 +25,18 @@
 
   <title>SMTP sending options</title>
 
-<steps>
+<list>
 <item><p>Enter the address of your mail server for sending mail in the <gui>Server</gui> field and select if the server requires authentication (entering a username and a password).</p>
 <note style="tip"><p>Free webmail providers often supply information about which of these options can be used. If you are in an organizational environment, you may want to contact your system administrator for more information.</p></note>
 </item>
 <item><p>If the server requires authentication, you need to provide the following information:</p>
-<steps>
+<list>
   <item><p>Select the authentication type in the Authentication list, or click <gui>Check for Supported Types</gui> to have Evolution check. Some servers do not support this, so clicking this button is not a guarantee that available mechanisms actually work.</p></item>
   <item><p>Enter your username.</p></item>
-</steps>
+</list>
 </item>
 <item><p>Choose <gui>Use secure connection</gui> if you want to connect securely.</p></item>
-</steps>
+</list>
 
 <!-- TODO:XINCLUDE: Replace this "go back" workaround by using xinclude and ui:expanded in intro-first-run.page itself, so content is embedded there and expandable. See http://projectmallard.org/ui/1.0/ui_expanded.html and https://help.gnome.org/users/gnome-help/3.6/keyboard-shortcuts-set.html -->
 <p>If you came to this page from the first-run wizard help page, click <link xref="intro-first-run#account-information">here</link> to continue with the next step.</p>
