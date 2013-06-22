@@ -40,7 +40,10 @@ via XInclude. See +http://blogs.gnome.org/shaunm/2011/07/21/understanding-xinclu
 </section>
 
 <section id="defaults">
-<title>Defaults</title>
+  <info>
+    <title type="link">IMAP+ defaults</title>
+  </info>
+  <title>Defaults</title>
 </section>
 
 <section id="security">
