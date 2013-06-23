@@ -45,10 +45,22 @@ url_entry_text_to_sensitive (GBinding *binding,
                              gpointer user_data)
 {
 	const gchar *text;
-	gboolean sensitive;
+	gboolean sensitive = FALSE;
 
 	text = g_value_get_string (source_value);
-	sensitive = (text != NULL && *text != '\0');
+
+	if (text != NULL) {
+		gchar *scheme;
+
+		/* Skip leading whitespace. */
+		while (g_ascii_isspace (*text))
+			text++;
+
+		scheme = g_uri_parse_scheme (text);
+		sensitive = (scheme != NULL);
+		g_free (scheme);
+	}
+
 	g_value_set_boolean (target_value, sensitive);
 
 	return TRUE;
@@ -69,6 +81,10 @@ url_entry_icon_release_cb (GtkEntry *entry,
 
 		text = gtk_entry_get_text (entry);
 		g_return_if_fail (text != NULL);
+
+		/* Skip leading whitespace. */
+		while (g_ascii_isspace (*text))
+			text++;
 
 		e_show_uri (toplevel, text);
 	}
