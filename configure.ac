@@ -310,10 +310,18 @@ AC_ARG_ENABLE([canberra],
 	[enable_canberra="$enableval"], [enable_canberra=yes])
 
 if test $enable_canberra = yes; then
-	PKG_CHECK_MODULES([CANBERRA],[libcanberra-gtk3 >= libcanberra_gtk_minimum_version],,
-	[AC_MSG_ERROR([libcanberra-gtk3 not found (or version < libcanberra_gtk_minimum_version),
+	PKG_CHECK_MODULES(
+		[CANBERRA],
+		[libcanberra-gtk3 >= libcanberra_gtk_minimum_version],,
+		[AC_MSG_ERROR([
+
+	libcanberra-gtk3 not found (or version < libcanberra_gtk_minimum_version)
+
 	If you want to disable support for event sounds,
-	please append --disable-canberra to configure.])])
+	please append --disable-canberra to configure.
+
+	])])
+
 	AC_DEFINE(HAVE_CANBERRA, 1, [Define if using Canberra and Canberra-GTK for sound])
 fi
 AC_SUBST(CANBERRA_CFLAGS)
@@ -964,7 +972,9 @@ if test "x$enable_bogofilter" = "xyes"; then
 	Bogofilter spam filtering program not found.
 
 	If you want to disable spam filtering using Bogofilter,
-	please append --disable-bogofilter to configure.])
+	please append --disable-bogofilter to configure.
+
+	])
 	fi
 	AC_DEFINE_UNQUOTED(
 		BOGOFILTER_COMMAND, "$BOGOFILTER",
@@ -992,7 +1002,9 @@ if test "x$enable_spamassassin" = "xyes"; then
 	SpamAssassin spam filtering program not found.
 
 	If you want to disable spam filtering using SpamAssassin,
-	please append --disable-spamassassin to configure.])
+	please append --disable-spamassassin to configure.
+
+	])
 	fi
 	AC_DEFINE_UNQUOTED(
 		SPAMASSASSIN_COMMAND, "$SPAMASSASSIN",
@@ -1006,7 +1018,9 @@ if test "x$enable_spamassassin" = "xyes"; then
 	SpamAssassin training program (sa-learn) not found.
 
 	If you want to disable spam filtering using SpamAssassin,
-	please append --disable-spamassassin to configure.])
+	please append --disable-spamassassin to configure.
+
+	])
 	fi
 	AC_DEFINE_UNQUOTED(
 		SA_LEARN_COMMAND, "$SA_LEARN",
@@ -1196,7 +1210,14 @@ if test "x$enable_audio_inline" = "xyes"; then
 	if test "x$have_gst" = "xyes"; then
 		AC_DEFINE(ENABLE_AUDIO_INLINE, 1, [Define to add support for inlining audio attachments])
 	else
-		AC_MSG_ERROR([gstreamer-1.0 or 0.10 is required for the audio-inline plugin.  Use --disable-audio-inline to exclude the plugin.])
+		AC_MSG_ERROR([
+
+	gstreamer-1.0 or 0.10 not found.
+
+	If you want to disable support for playing audio attachments,
+	please append --disable-audio-inline to configure.
+
+	])
 	fi
 fi
 
@@ -1220,8 +1241,10 @@ if test "x$enable_text_highlight" = "xyes"; then
 
 	Highlight utility not found.
 
-	If you want to disable text-highlight plugin,
-	please append --disable-text-highlight to configure.])
+	If you want to disable syntax highlighting in emails,
+	please append --disable-text-highlight to configure.
+
+	])
 	fi
 	AC_DEFINE_UNQUOTED(
 		HIGHLIGHT_COMMAND, "$HIGHLIGHT",
@@ -1240,14 +1263,16 @@ AC_ARG_ENABLE([weather],
 	[enable_weather="$enableval"],[enable_weather=yes])
 
 if test "x$enable_weather" != "xno"; then
-	PKG_CHECK_MODULES([GWEATHER], gweather-3.0 >= gweather_minimum_version,
-	have_weather="yes", have_weather="no")
-	AC_SUBST(GWEATHER_CFLAGS)
-	AC_SUBST(GWEATHER_LIBS)
+	PKG_CHECK_MODULES(
+		[GWEATHER], [gweather-3.0 >= gweather_minimum_version],,
+		[AC_MSG_ERROR([
 
-	if test "x$have_weather" = "xno"; then
-		AC_MSG_ERROR([gweather-3.0 >= gweather_minimum_version is required for configuring weather calendars.  Use --disable-weather to disable this feature.])
-	fi
+	gweather-3.0 not found (or version < gweather_minimum_version)
+
+	If you want to disable weather calendar support,
+	please append --disable-weather to configure.
+
+	])])
 fi
 AM_CONDITIONAL(ENABLE_WEATHER, [test "x$enable_weather" != "xno"])
 
@@ -1260,54 +1285,44 @@ AC_ARG_ENABLE([contact-maps],
 	[enable_contact_maps="$enableval"], [enable_contact_maps="no"])
 
 if test "x$enable_contact_maps" = "xyes"; then
-	PKG_CHECK_MODULES([CHAMPLAIN],
-		[champlain-gtk-0.12 >= champlain_minimum_version],
-		[have_champlain=yes], [have_champlain=no])
-	AC_SUBST(CHAMPLAIN_CFLAGS)
-	AC_SUBST(CHAMPLAIN_LIBS)
+	PKG_CHECK_MODULES(
+		[CHAMPLAIN],
+		[champlain-gtk-0.12 >= champlain_minimum_version],,
+		[AC_MSG_ERROR([
 
-	if test "x$have_champlain" = "xno"; then
-		AC_MSG_ERROR([
-
-	champlain-gtk-0.12 is required for contact maps.
+	champlain-gtk-0.12 not found.
 
 	If you want to disable the contact maps feature,
 	please append --disable-contact-maps to configure.
-	])
-	fi
+
+	])])
 
 	dnl Restrict geocode-glib dependency to 0.99.0 so
 	dnl we don't have to chase subsequent API changes.
-	PKG_CHECK_MODULES([GEO],
+	PKG_CHECK_MODULES(
+		[GEO],
 		[geoclue >= geoclue_minimum_version
-		 geocode-glib = 0.99.0],
-		[have_geo=yes], [have_geo=no])
-	AC_SUBST(GEO_CFLAGS)
-	AC_SUBST(GEO_LIBS)
+		 geocode-glib = 0.99.0],,
+		[AC_MSG_ERROR([
 
-	if test "x$have_geo" = "xno"; then
-		AC_MSG_ERROR([
-
-	geoclue and geocode-glib are required for contact maps.
+	geoclue and/or geocode-glib not found.
 
 	If you want to disable the contact maps feature,
 	please append --disable-contact-maps to configure.
-	])
-	fi
 
-	PKG_CHECK_MODULES([CLUTTER_GTK],
-		[clutter-gtk-1.0 >= clutter_gtk_minimum_version],
-		[have_clutter_gtk="yes"], [have_clutter_gtk="no"])
+	])])
 
-	if test "x$have_clutter_gtk" = "xno"; then
-		AC_MSG_ERROR([
+	PKG_CHECK_MODULES(
+		[CLUTTER_GTK],
+		[clutter-gtk-1.0 >= clutter_gtk_minimum_version],,
+		[AC_MSG_ERROR([
 
-	clutter-gtk-1.0 is required for contact maps.
+	clutter-gtk-1.0 not found (or version < clutter_gtk_minimum_version)
 
 	If you want to disable the contact maps feature,
 	please append --disable-contact-maps to configure.
-	])
-	fi
+
+	])])
 
 	AC_DEFINE(WITH_CONTACT_MAPS, 1, [When defined contacts preview will contain maps])
 fi
@@ -1328,7 +1343,14 @@ if test "x$enable_image_inline" = "xyes"; then
 	if test "x$have_imageview" = "xyes"; then
 		plugins_standard="$plugins_standard image-inline"
 	else
-		AC_MSG_ERROR([gtkimageview >= gtkimageview_minimum_version is required for the image-inline plugin.  Use --disable-image-inline to exclude the plugin.])
+		AC_MSG_ERROR([
+
+	gtkimageview not found (or version < gtkimageview_minimum_version)
+
+	If you want to disable the image-inline plugin,
+	please append --disable-image-inline to configure.
+
+	])
 	fi
 fi
 
@@ -1348,7 +1370,14 @@ if test "x$enable_pst" = "xyes"; then
 	if test "x$have_pst" = "xyes"; then
 		plugins_standard="$plugins_standard pst-import"
 	else
-		AC_MSG_ERROR([libpst >= libpst_minimum_version is required for the pst-import plugin.  Use --disable-pst-import to exclude the plugin.])
+		AC_MSG_ERROR([
+
+	libpst not found (or version < libpst_minimum_version)
+
+	If you want to disable PST importing support,
+	please append --disable-pst-import to configure.
+
+	])
 	fi
 fi
 
