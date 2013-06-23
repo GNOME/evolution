@@ -1,4 +1,6 @@
 /*
+ * e-url-entry.c
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -11,12 +13,6 @@
  *
  * You should have received a copy of the GNU Lesser General Public
  * License along with the program; if not, see <http://www.gnu.org/licenses/>
- *
- *
- * Authors:
- *		JP Rosevear <jpr@novell.com>
- *
- * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  */
 
@@ -40,15 +36,52 @@ struct _EUrlEntryPrivate {
 	GtkWidget *button;
 };
 
-static void button_clicked_cb (GtkWidget *widget, gpointer data);
-static void entry_changed_cb (GtkEditable *editable, gpointer data);
-
-static gboolean mnemonic_activate (GtkWidget *widget, gboolean group_cycling);
-
 G_DEFINE_TYPE (
 	EUrlEntry,
 	e_url_entry,
 	GTK_TYPE_HBOX)
+
+static gboolean
+url_entry_text_to_sensitive (GBinding *binding,
+                             const GValue *source_value,
+                             GValue *target_value,
+                             gpointer user_data)
+{
+	const gchar *text;
+	gboolean sensitive;
+
+	text = g_value_get_string (source_value);
+	sensitive = (text != NULL && *text != '\0');
+	g_value_set_boolean (target_value, sensitive);
+
+	return TRUE;
+}
+
+static void
+url_entry_button_clicked_cb (GtkButton *button,
+                             EUrlEntry *url_entry)
+{
+	const gchar *text;
+	gpointer toplevel;
+
+	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (url_entry));
+	toplevel = gtk_widget_is_toplevel (toplevel) ? toplevel : NULL;
+
+	text = gtk_entry_get_text (GTK_ENTRY (url_entry->priv->entry));
+
+	e_show_uri (toplevel, text);
+}
+
+static gboolean
+url_entry_mnemonic_activate (GtkWidget *widget,
+                             gboolean group_cycling)
+{
+	GtkWidget *entry;
+
+	entry = e_url_entry_get_entry (E_URL_ENTRY (widget));
+
+	return gtk_widget_mnemonic_activate (entry, group_cycling);
+}
 
 static void
 e_url_entry_class_init (EUrlEntryClass *class)
@@ -58,53 +91,46 @@ e_url_entry_class_init (EUrlEntryClass *class)
 	g_type_class_add_private (class, sizeof (EUrlEntryPrivate));
 
 	widget_class = GTK_WIDGET_CLASS (class);
-	widget_class->mnemonic_activate = mnemonic_activate;
+	widget_class->mnemonic_activate = url_entry_mnemonic_activate;
 }
 
 static void
 e_url_entry_init (EUrlEntry *url_entry)
 {
-	GtkWidget *pixmap;
+	GtkWidget *widget;
 
 	url_entry->priv = E_URL_ENTRY_GET_PRIVATE (url_entry);
 
-	url_entry->priv->entry = gtk_entry_new ();
-	gtk_box_pack_start (
-		GTK_BOX (url_entry), url_entry->priv->entry, TRUE, TRUE, 0);
-	url_entry->priv->button = gtk_button_new ();
-	gtk_widget_set_sensitive (url_entry->priv->button, FALSE);
-	gtk_box_pack_start (
-		GTK_BOX (url_entry), url_entry->priv->button, FALSE, FALSE, 0);
-	atk_object_set_name (
-		gtk_widget_get_accessible (url_entry->priv->button),
-		_("Click here to go to URL"));
-	pixmap = gtk_image_new_from_icon_name ("go-jump", GTK_ICON_SIZE_BUTTON);
-	gtk_container_add (GTK_CONTAINER (url_entry->priv->button), pixmap);
-	gtk_widget_show (pixmap);
+	widget = gtk_entry_new ();
+	gtk_entry_set_placeholder_text (
+		GTK_ENTRY (widget), _("Enter a URL here"));
+	gtk_box_pack_start (GTK_BOX (url_entry), widget, TRUE, TRUE, 0);
+	url_entry->priv->entry = widget;  /* do not reference */
+	gtk_widget_show (widget);
 
-	gtk_widget_show (url_entry->priv->button);
-	gtk_widget_show (url_entry->priv->entry);
+	widget = gtk_button_new ();
+	gtk_container_add (
+		GTK_CONTAINER (widget),
+		gtk_image_new_from_stock (
+			GTK_STOCK_JUMP_TO,
+			GTK_ICON_SIZE_BUTTON));
+	gtk_widget_set_tooltip_text (
+		widget, _("Click here to open the URL"));
+	gtk_box_pack_start (GTK_BOX (url_entry), widget, FALSE, FALSE, 0);
+	url_entry->priv->button = widget;  /* do not reference */
+	gtk_widget_show_all (widget);
 
 	g_signal_connect (
-		url_entry->priv->button, "clicked",
-		G_CALLBACK (button_clicked_cb), url_entry);
-	g_signal_connect (
-		url_entry->priv->entry, "changed",
-		G_CALLBACK (entry_changed_cb), url_entry);
-}
+		widget, "clicked",
+		G_CALLBACK (url_entry_button_clicked_cb), url_entry);
 
-/* GtkWidget::mnemonic_activate() handler for the EUrlEntry */
-static gboolean
-mnemonic_activate (GtkWidget *widget,
-                   gboolean group_cycling)
-{
-	EUrlEntry *url_entry;
-	EUrlEntryPrivate *priv;
-
-	url_entry = E_URL_ENTRY (widget);
-	priv = url_entry->priv;
-
-	return gtk_widget_mnemonic_activate (priv->entry, group_cycling);
+	g_object_bind_property_full (
+		url_entry->priv->entry, "text",
+		url_entry->priv->button, "sensitive",
+		G_BINDING_SYNC_CREATE,
+		url_entry_text_to_sensitive,
+		(GBindingTransformFunc) NULL,
+		NULL, (GDestroyNotify) NULL);
 }
 
 GtkWidget *
@@ -116,44 +142,8 @@ e_url_entry_new (void)
 GtkWidget *
 e_url_entry_get_entry (EUrlEntry *url_entry)
 {
-	EUrlEntryPrivate *priv;
-
-	g_return_val_if_fail (url_entry != NULL, NULL);
 	g_return_val_if_fail (E_IS_URL_ENTRY (url_entry), NULL);
 
-	priv = url_entry->priv;
-
-	return priv->entry;
+	return url_entry->priv->entry;
 }
 
-static void
-button_clicked_cb (GtkWidget *widget,
-                   gpointer data)
-{
-	EUrlEntry *url_entry;
-	EUrlEntryPrivate *priv;
-	const gchar *uri;
-
-	url_entry = E_URL_ENTRY (data);
-	priv = url_entry->priv;
-
-	uri = gtk_entry_get_text (GTK_ENTRY (priv->entry));
-
-	/* FIXME Pass a parent window. */
-	e_show_uri (NULL, uri);
-}
-
-static void
-entry_changed_cb (GtkEditable *editable,
-                  gpointer data)
-{
-	EUrlEntry *url_entry;
-	EUrlEntryPrivate *priv;
-	const gchar *url;
-
-	url_entry = E_URL_ENTRY (data);
-	priv = url_entry->priv;
-
-	url = gtk_entry_get_text (GTK_ENTRY (priv->entry));
-	gtk_widget_set_sensitive (priv->button, url != NULL && *url != '\0');
-}
