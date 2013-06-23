@@ -51,17 +51,16 @@ typedef struct _EUrlEntryClass EUrlEntryClass;
 typedef struct _EUrlEntryPrivate EUrlEntryPrivate;
 
 struct _EUrlEntry {
-	GtkBox parent;
+	GtkEntry parent;
 	EUrlEntryPrivate *priv;
 };
 
 struct _EUrlEntryClass {
-	GtkBoxClass parent_class;
+	GtkEntryClass parent_class;
 };
 
 GType		e_url_entry_get_type		(void) G_GNUC_CONST;
 GtkWidget *	e_url_entry_new			(void);
-GtkWidget *	e_url_entry_get_entry		(EUrlEntry *url_entry);
 
 G_END_DECLS
 

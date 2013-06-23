@@ -268,7 +268,6 @@ clear_widgets (TaskPage *tpage)
 {
 	TaskPagePrivate *priv = tpage->priv;
 	CompEditor *editor;
-	GtkWidget *entry;
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (tpage));
 
@@ -292,8 +291,7 @@ clear_widgets (TaskPage *tpage)
 	e_dialog_combo_box_set (priv->priority_combo, PRIORITY_UNDEFINED, priority_map);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (priv->percent_complete), 0);
 
-	entry = e_url_entry_get_entry (E_URL_ENTRY (priv->web_page_entry));
-	gtk_entry_set_text (GTK_ENTRY (entry), "");
+	gtk_entry_set_text (GTK_ENTRY (priv->web_page_entry), "");
 }
 
 static gboolean
@@ -349,7 +347,6 @@ sensitize_widgets (TaskPage *tpage)
 	ECalClient *client;
 	GtkActionGroup *action_group;
 	GtkAction *action;
-	GtkWidget *entry;
 	gboolean read_only, sens = TRUE, sensitize;
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (tpage));
@@ -400,8 +397,8 @@ sensitize_widgets (TaskPage *tpage)
 	gtk_widget_set_sensitive (priv->percent_complete, !read_only);
 	gtk_widget_set_sensitive (priv->classification_combo, !read_only);
 
-	entry = e_url_entry_get_entry (E_URL_ENTRY (priv->web_page_entry));
-	gtk_editable_set_editable (GTK_EDITABLE (entry), !read_only);
+	gtk_editable_set_editable (
+		GTK_EDITABLE (priv->web_page_entry), !read_only);
 
 	gtk_widget_set_sensitive (priv->organizer, !read_only);
 	gtk_widget_set_sensitive (priv->add, (!read_only &&  sens));
@@ -918,7 +915,7 @@ task_page_fill_widgets (CompEditorPage *page,
 
 	/* URL */
 	e_cal_component_get_url (comp, &url);
-	gtk_entry_set_text (GTK_ENTRY (e_url_entry_get_entry (E_URL_ENTRY (priv->web_page_entry))), url ? url : "");
+	gtk_entry_set_text (GTK_ENTRY (priv->web_page_entry), url ? url : "");
 
 	sensitize_widgets (tpage);
 
@@ -1218,7 +1215,7 @@ task_page_fill_component (CompEditorPage *page,
 	}
 
 	/* URL. */
-	text = gtk_entry_get_text (GTK_ENTRY (e_url_entry_get_entry (E_URL_ENTRY (priv->web_page_entry))));
+	text = gtk_entry_get_text (GTK_ENTRY (priv->web_page_entry));
 	e_cal_component_set_url (comp, text);
 
 	return TRUE;
@@ -2554,7 +2551,7 @@ init_widgets (TaskPage *tpage)
 
 	/* URL */
 	g_signal_connect_swapped (
-		e_url_entry_get_entry (E_URL_ENTRY (priv->web_page_entry)), "changed",
+		priv->web_page_entry, "changed",
 		G_CALLBACK (comp_editor_page_changed), tpage);
 
 	action = comp_editor_get_action (editor, "view-time-zone");

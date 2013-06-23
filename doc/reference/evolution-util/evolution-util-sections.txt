@@ -4364,7 +4364,6 @@ e_xml_get_translated_utf8_string_prop_by_name
 <TITLE>EUrlEntry</TITLE>
 EUrlEntry
 e_url_entry_new
-e_url_entry_get_entry
 <SUBSECTION Standard>
 E_URL_ENTRY
 E_IS_URL_ENTRY

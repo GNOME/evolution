@@ -31,15 +31,12 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_URL_ENTRY, EUrlEntryPrivate))
 
-struct _EUrlEntryPrivate {
-	GtkWidget *entry;
-	GtkWidget *button;
-};
+#define ICON_POSITION GTK_ENTRY_ICON_SECONDARY
 
 G_DEFINE_TYPE (
 	EUrlEntry,
 	e_url_entry,
-	GTK_TYPE_HBOX)
+	GTK_TYPE_ENTRY)
 
 static gboolean
 url_entry_text_to_sensitive (GBinding *binding,
@@ -58,75 +55,54 @@ url_entry_text_to_sensitive (GBinding *binding,
 }
 
 static void
-url_entry_button_clicked_cb (GtkButton *button,
-                             EUrlEntry *url_entry)
+url_entry_icon_release_cb (GtkEntry *entry,
+                           GtkEntryIconPosition icon_position,
+                           GdkEvent *event)
 {
-	const gchar *text;
 	gpointer toplevel;
 
-	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (url_entry));
+	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (entry));
 	toplevel = gtk_widget_is_toplevel (toplevel) ? toplevel : NULL;
 
-	text = gtk_entry_get_text (GTK_ENTRY (url_entry->priv->entry));
+	if (icon_position == ICON_POSITION) {
+		const gchar *text;
 
-	e_show_uri (toplevel, text);
-}
+		text = gtk_entry_get_text (entry);
+		g_return_if_fail (text != NULL);
 
-static gboolean
-url_entry_mnemonic_activate (GtkWidget *widget,
-                             gboolean group_cycling)
-{
-	GtkWidget *entry;
-
-	entry = e_url_entry_get_entry (E_URL_ENTRY (widget));
-
-	return gtk_widget_mnemonic_activate (entry, group_cycling);
+		e_show_uri (toplevel, text);
+	}
 }
 
 static void
 e_url_entry_class_init (EUrlEntryClass *class)
 {
-	GtkWidgetClass *widget_class;
-
-	g_type_class_add_private (class, sizeof (EUrlEntryPrivate));
-
-	widget_class = GTK_WIDGET_CLASS (class);
-	widget_class->mnemonic_activate = url_entry_mnemonic_activate;
 }
 
 static void
 e_url_entry_init (EUrlEntry *url_entry)
 {
-	GtkWidget *widget;
+	GtkEntry *entry;
 
-	url_entry->priv = E_URL_ENTRY_GET_PRIVATE (url_entry);
+	entry = GTK_ENTRY (url_entry);
 
-	widget = gtk_entry_new ();
-	gtk_entry_set_placeholder_text (
-		GTK_ENTRY (widget), _("Enter a URL here"));
-	gtk_box_pack_start (GTK_BOX (url_entry), widget, TRUE, TRUE, 0);
-	url_entry->priv->entry = widget;  /* do not reference */
-	gtk_widget_show (widget);
+	gtk_entry_set_icon_from_stock (
+		entry, ICON_POSITION, GTK_STOCK_JUMP_TO);
 
-	widget = gtk_button_new ();
-	gtk_container_add (
-		GTK_CONTAINER (widget),
-		gtk_image_new_from_stock (
-			GTK_STOCK_JUMP_TO,
-			GTK_ICON_SIZE_BUTTON));
-	gtk_widget_set_tooltip_text (
-		widget, _("Click here to open the URL"));
-	gtk_box_pack_start (GTK_BOX (url_entry), widget, FALSE, FALSE, 0);
-	url_entry->priv->button = widget;  /* do not reference */
-	gtk_widget_show_all (widget);
+	gtk_entry_set_icon_tooltip_text (
+		entry, ICON_POSITION, _("Click here to open the URL"));
 
+	gtk_entry_set_placeholder_text (entry, _("Enter a URL here"));
+
+	/* XXX GtkEntryClass has no "icon_release" method pointer to
+	 *     override, so instead we have to connect to the signal. */
 	g_signal_connect (
-		widget, "clicked",
-		G_CALLBACK (url_entry_button_clicked_cb), url_entry);
+		url_entry, "icon-release",
+		G_CALLBACK (url_entry_icon_release_cb), NULL);
 
 	g_object_bind_property_full (
-		url_entry->priv->entry, "text",
-		url_entry->priv->button, "sensitive",
+		url_entry, "text",
+		url_entry, "secondary-icon-sensitive",
 		G_BINDING_SYNC_CREATE,
 		url_entry_text_to_sensitive,
 		(GBindingTransformFunc) NULL,
@@ -137,13 +113,5 @@ GtkWidget *
 e_url_entry_new (void)
 {
 	return g_object_new (E_TYPE_URL_ENTRY, NULL);
-}
-
-GtkWidget *
-e_url_entry_get_entry (EUrlEntry *url_entry)
-{
-	g_return_val_if_fail (E_IS_URL_ENTRY (url_entry), NULL);
-
-	return url_entry->priv->entry;
 }
 

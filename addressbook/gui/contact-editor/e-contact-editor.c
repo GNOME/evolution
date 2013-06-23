@@ -2549,8 +2549,7 @@ init_simple_field (EContactEditor *editor,
 			gtk_text_view_get_buffer (GTK_TEXT_VIEW (widget)));
 
 	} else if (E_IS_URL_ENTRY (widget)) {
-		changed_object = G_OBJECT (
-			e_url_entry_get_entry (E_URL_ENTRY (widget)));
+		changed_object = G_OBJECT (widget);
 		g_signal_connect_swapped (
 			changed_object, "activate",
 			G_CALLBACK (entry_activated), editor);
@@ -2607,9 +2606,9 @@ fill_in_simple_field (EContactEditor *editor,
 		g_free (text);
 
 	} else if (E_IS_URL_ENTRY (widget)) {
-		GtkWidget *entry = e_url_entry_get_entry (E_URL_ENTRY (widget));
-		gchar     *text  = e_contact_get (contact, field_id);
-		gtk_entry_set_text (GTK_ENTRY (entry), STRING_MAKE_NON_NULL (text));
+		gchar *text = e_contact_get (contact, field_id);
+		gtk_entry_set_text (
+			GTK_ENTRY (widget), STRING_MAKE_NON_NULL (text));
 		g_free (text);
 
 	} else if (E_IS_DATE_EDIT (widget)) {
@@ -2737,8 +2736,7 @@ extract_simple_field (EContactEditor *editor,
 		g_free (text);
 
 	} else if (E_IS_URL_ENTRY (widget)) {
-		GtkWidget   *entry = e_url_entry_get_entry (E_URL_ENTRY (widget));
-		const gchar *text  = gtk_entry_get_text (GTK_ENTRY (entry));
+		const gchar *text  = gtk_entry_get_text (GTK_ENTRY (widget));
 		e_contact_set (contact, field_id, (gchar *) text);
 
 	} else if (E_IS_DATE_EDIT (widget)) {
@@ -2854,10 +2852,6 @@ sensitize_simple_field (GtkWidget *widget,
 		gtk_editable_set_editable (GTK_EDITABLE (widget), enabled);
 	else if (GTK_IS_TEXT_VIEW (widget))
 		gtk_text_view_set_editable (GTK_TEXT_VIEW (widget), enabled);
-	else if (E_IS_URL_ENTRY (widget)) {
-		GtkWidget *entry = e_url_entry_get_entry (E_URL_ENTRY (widget));
-		gtk_editable_set_editable (GTK_EDITABLE (entry), enabled);
-	}
 	else if (E_IS_DATE_EDIT (widget))
 		e_date_edit_set_editable (E_DATE_EDIT (widget), enabled);
 	else
