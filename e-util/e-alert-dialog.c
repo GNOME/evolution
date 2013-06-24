@@ -322,17 +322,43 @@ e_alert_dialog_new_for_args (GtkWindow *parent,
 	return dialog;
 }
 
+static gboolean
+dialog_focus_in_event_cb (GtkWindow *dialog,
+			  GdkEvent *event,
+			  GtkWindow *parent)
+{
+	gtk_window_set_urgency_hint (parent, FALSE);
+
+	return FALSE;
+}
+
 gint
 e_alert_run_dialog (GtkWindow *parent,
                     EAlert *alert)
 {
 	GtkWidget *dialog;
 	gint response;
+	gulong signal_id = 0;
 
 	g_return_val_if_fail (E_IS_ALERT (alert), 0);
 
 	dialog = e_alert_dialog_new (parent, alert);
+
+	if (parent) {
+		gtk_window_set_urgency_hint (parent, TRUE);
+		signal_id = g_signal_connect (dialog, "focus-in-event", G_CALLBACK (dialog_focus_in_event_cb), parent);
+	} else {
+		gtk_window_set_urgency_hint (GTK_WINDOW (dialog), TRUE);
+	}
+
 	response = gtk_dialog_run (GTK_DIALOG (dialog));
+
+	if (parent) {
+		gtk_window_set_urgency_hint (parent, FALSE);
+		if (signal_id)
+			g_signal_handler_disconnect (dialog, signal_id);
+	}
+
 	gtk_widget_destroy (dialog);
 
 	return response;
