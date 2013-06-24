@@ -70,6 +70,7 @@ noinst_PROGRAMS = \
 	test-source-combo-box \
 	test-source-config \
 	test-source-selector \
+	test-tree-view-frame \
 	$(NULL)
 
 libevolution_util_la_CPPFLAGS = \
@@ -296,6 +297,7 @@ evolution_util_include_HEADERS =  \
 	e-tree-model.h \
 	e-tree-selection-model.h \
 	e-tree-table-adapter.h \
+	e-tree-view-frame.h \
 	e-tree.h \
 	e-unicode.h \
 	e-url-entry.h \
@@ -538,6 +540,7 @@ libevolution_util_la_SOURCES = \
 	e-tree-model.c \
 	e-tree-selection-model.c \
 	e-tree-table-adapter.c \
+	e-tree-view-frame.c \
 	e-tree.c \
 	e-unicode.c \
 	e-url-entry.c \
@@ -647,6 +650,10 @@ test_source_config_LDADD = $(TEST_LDADD)
 test_source_selector_CPPFLAGS = $(TEST_CPPFLAGS)
 test_source_selector_SOURCES = test-source-selector.c
 test_source_selector_LDADD = $(TEST_LDADD)
+
+test_tree_view_frame_CPPFLAGS = $(TEST_CPPFLAGS)
+test_tree_view_frame_SOURCES = test-tree-view-frame.c
+test_tree_view_frame_LDADD = $(TEST_LDADD)
 
 EXTRA_DIST = \
 	e-system.error.xml \

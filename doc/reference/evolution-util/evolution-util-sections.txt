@@ -4346,6 +4346,42 @@ ETreeTableAdapterPrivate
 </SECTION>
 
 <SECTION>
+<FILE>e-tree-view-frame</FILE>
+<TITLE>ETreeViewFrame</TITLE>
+ETreeViewFrame
+e_tree_view_frame_new
+e_tree_view_frame_get_tree_view
+e_tree_view_frame_set_tree_view
+e_tree_view_frame_get_toolbar_visible
+e_tree_view_frame_set_toolbar_visible
+e_tree_view_frame_get_hscrollbar_policy
+e_tree_view_frame_set_hscrollbar_policy
+e_tree_view_frame_get_vscrollbar_policy
+e_tree_view_frame_set_vscrollbar_policy
+e_tree_view_frame_insert_toolbar_action
+E_TREE_VIEW_FRAME_ACTION_ADD
+E_TREE_VIEW_FRAME_ACTION_REMOVE
+E_TREE_VIEW_FRAME_ACTION_MOVE_TOP
+E_TREE_VIEW_FRAME_ACTION_MOVE_UP
+E_TREE_VIEW_FRAME_ACTION_MOVE_DOWN
+E_TREE_VIEW_FRAME_ACTION_MOVE_BOTTOM
+E_TREE_VIEW_FRAME_ACTION_SELECT_ALL
+e_tree_view_frame_lookup_toolbar_action
+e_tree_view_frame_update_toolbar_actions
+<SUBSECTION Standard>
+E_TREE_VIEW_FRAME
+E_IS_TREE_VIEW_FRAME
+E_TYPE_TREE_VIEW_FRAME
+E_TREE_VIEW_FRAME_CLASS
+E_IS_TREE_VIEW_FRAME_CLASS
+E_TREE_VIEW_FRAME_GET_CLASS
+ETreeViewFrameClass
+e_tree_view_frame_get_type
+<SUBSECTION Private>
+ETreeViewFramePrivate
+</SECTION>
+
+<SECTION>
 <FILE>e-unicode</FILE>
 <TITLE>Unicode Utilities</TITLE>
 e_utf8_from_gtk_event_key
