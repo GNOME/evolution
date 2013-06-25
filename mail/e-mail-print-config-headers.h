@@ -19,6 +19,7 @@
 #ifndef E_MAIL_PRINT_CONFIG_HEADERS_H
 #define E_MAIL_PRINT_CONFIG_HEADERS_H
 
+#include <e-util/e-util.h>
 #include <em-format/e-mail-part-headers.h>
 
 /* Standard GObject macros */
@@ -47,12 +48,12 @@ typedef struct _EMailPrintConfigHeadersClass EMailPrintConfigHeadersClass;
 typedef struct _EMailPrintConfigHeadersPrivate EMailPrintConfigHeadersPrivate;
 
 struct _EMailPrintConfigHeaders {
-	GtkBox parent;
+	ETreeViewFrame parent;
 	EMailPrintConfigHeadersPrivate *priv;
 };
 
 struct _EMailPrintConfigHeadersClass {
-	GtkBoxClass parent_class;
+	ETreeViewFrameClass parent_class;
 };
 
 GType		e_mail_print_config_headers_get_type
