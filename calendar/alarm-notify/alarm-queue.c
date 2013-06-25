@@ -684,6 +684,9 @@ remove_alarms (CompQueuedAlarms *cqa,
 	GSList *l;
 
 	debug (("Removing for %p", cqa));
+
+	tray_list_remove_cqa (cqa);
+
 	for (l = cqa->queued_alarms; l;) {
 		QueuedAlarm *qa;
 
@@ -1077,6 +1080,7 @@ typedef struct {
 	ECalClientView *view;
 	GdkPixbuf *image;
 	GtkTreeIter iter;
+	gboolean is_in_tree;
 } TrayIconData;
 
 static void
@@ -1194,10 +1198,11 @@ tray_list_remove_cqa_async (struct _tray_cqa_msg *msg)
 		if (tray_data->cqa == cqa) {
 			debug (("Found"));
 			tray_icons_list = g_list_delete_link (tray_icons_list, tmp);
-			if (alarm_notifications_dialog) {
+			if (alarm_notifications_dialog && tray_data->is_in_tree) {
 				model = gtk_tree_view_get_model (
 					GTK_TREE_VIEW (alarm_notifications_dialog->treeview));
 				gtk_list_store_remove (GTK_LIST_STORE (model), &(tray_data->iter));
+				tray_data->is_in_tree = FALSE;
 			}
 			free_tray_icon_data (tray_data);
 		}
@@ -1217,10 +1222,11 @@ tray_list_remove_cqa_async (struct _tray_cqa_msg *msg)
 
 			model = gtk_tree_view_get_model (
 				GTK_TREE_VIEW (alarm_notifications_dialog->treeview));
-			gtk_tree_model_get_iter_first (model, &iter);
-			sel = gtk_tree_view_get_selection (
-				GTK_TREE_VIEW (alarm_notifications_dialog->treeview));
-			gtk_tree_selection_select_iter (sel, &iter);
+			if (gtk_tree_model_get_iter_first (model, &iter)) {
+				sel = gtk_tree_view_get_selection (
+					GTK_TREE_VIEW (alarm_notifications_dialog->treeview));
+				gtk_tree_selection_select_iter (sel, &iter);
+			}
 		}
 	}
 
@@ -1255,6 +1261,11 @@ tray_list_remove_async (Message *msg)
 			gboolean status;
 
 			tray_icons_list = g_list_remove_link (tray_icons_list, list);
+			if (alarm_notifications_dialog && tray_data->is_in_tree) {
+				GtkTreeModel *model = gtk_tree_view_get_model (GTK_TREE_VIEW (alarm_notifications_dialog->treeview));
+				gtk_list_store_remove (GTK_LIST_STORE (model), &tray_data->iter);
+				tray_data->is_in_tree = FALSE;
+			}
 			status = remove_queued_alarm (
 				tray_data->cqa,
 				tray_data->alarm_id, FALSE, TRUE);
@@ -1350,6 +1361,7 @@ notify_dialog_cb (AlarmNotifyResult result,
 			/* We can also use tray_data->iter */
 			if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
 				gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
+				tray_data->is_in_tree = FALSE;
 				if (!gtk_tree_model_get_iter_first (model, &iter)) {
 					/* We removed the last one */
 					gtk_widget_destroy (alarm_notifications_dialog->dialog);
@@ -1376,12 +1388,13 @@ notify_dialog_cb (AlarmNotifyResult result,
 		break;
 
 	case ALARM_NOTIFY_DISMISS:
-		if (alarm_notifications_dialog) {
+		if (alarm_notifications_dialog && tray_data->is_in_tree) {
 			GtkTreeModel *model;
 
 			model = gtk_tree_view_get_model (
 				GTK_TREE_VIEW (alarm_notifications_dialog->treeview));
 			gtk_list_store_remove (GTK_LIST_STORE (model), &tray_data->iter);
+			tray_data->is_in_tree = FALSE;
 		}
 		break;
 
@@ -1461,6 +1474,8 @@ open_alarm_dialog (TrayIconData *tray_data)
 				tray_data->description,
 				tray_data->location,
 				notify_dialog_cb, tray_data);
+
+			tray_data->is_in_tree = TRUE;
 
 			gtk_tree_selection_select_iter (
 				selection, &tray_data->iter);
@@ -1691,11 +1706,12 @@ display_notification (time_t trigger,
 	tray_data->trigger = trigger;
 	tray_data->cqa = cqa;
 	tray_data->alarm_id = alarm_id;
-	tray_data->comp = g_object_ref (e_cal_component_clone (comp));
+	tray_data->comp = e_cal_component_clone (comp);
 	tray_data->cal_client = cqa->parent_client->cal_client;
 	tray_data->view = g_object_ref (cqa->parent_client->view);
 	tray_data->blink_state = FALSE;
 	tray_data->snooze_set = FALSE;
+	tray_data->is_in_tree = FALSE;
 	g_object_ref (tray_data->cal_client);
 
 	/* Task to add tray_data to the global tray_icon_list */
