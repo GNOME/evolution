@@ -95,9 +95,6 @@ void		e_table_specification_load_from_node
 						(ETableSpecification *specification,
 						 const xmlNode *node);
 
-gint		e_table_specification_save_to_file
-						(ETableSpecification *specification,
-						 const gchar *filename);
 gchar *		e_table_specification_save_to_string
 						(ETableSpecification *specification);
 xmlNode *	e_table_specification_save_to_node

@@ -278,38 +278,6 @@ e_table_specification_load_from_node (ETableSpecification *specification,
 }
 
 /**
- * e_table_specification_save_to_file:
- * @specification: an #ETableSpecification
- * @filename: the name of the file to save to
- *
- * Dumps the contents of @specification to @filename.
- *
- * Returns: 0 on success or -1 on error.
- */
-gint
-e_table_specification_save_to_file (ETableSpecification *specification,
-                                    const gchar *filename)
-{
-	xmlDoc *doc;
-	xmlNode *node;
-	gint ret;
-
-	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (specification), -1);
-	g_return_val_if_fail (filename != NULL, -1);
-
-	doc = xmlNewDoc ((const guchar *) "1.0");
-	if (doc == NULL)
-		return -1;
-
-	node = e_table_specification_save_to_node (specification);
-	xmlDocSetRootElement (doc, node);
-	ret = e_xml_save_file (filename, doc);
-	xmlFreeDoc (doc);
-
-	return ret;
-}
-
-/**
  * e_table_specification_save_to_string:
  * @specification: an #ETableSpecification
  *
