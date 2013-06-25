@@ -3921,7 +3921,6 @@ e_table_specification_load_from_string
 e_table_specification_load_from_node
 e_table_specification_save_to_string
 e_table_specification_save_to_node
-e_table_specification_duplicate
 <SUBSECTION Standard>
 E_TABLE_SPECIFICATION
 E_IS_TABLE_SPECIFICATION

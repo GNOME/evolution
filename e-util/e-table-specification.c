@@ -372,30 +372,3 @@ e_table_specification_save_to_node (ETableSpecification *specification)
 	return node;
 }
 
-/**
- * e_table_specification_duplicate:
- * @specification: an #ETableSpecification
- *
- * Clones an #ETableSpecification instance from @specification.
- *
- * Returns: a new #ETableSpecification
- */
-ETableSpecification *
-e_table_specification_duplicate (ETableSpecification *specification)
-{
-	ETableSpecification *new_spec;
-	gchar *spec_str;
-
-	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (specification), NULL);
-
-	new_spec = e_table_specification_new ();
-	spec_str = e_table_specification_save_to_string (specification);
-	if (!e_table_specification_load_from_string (new_spec, spec_str)) {
-		g_warning ("Unable to duplicate ETable specification");
-		g_object_unref (new_spec);
-		new_spec = NULL;
-	}
-	g_free (spec_str);
-
-	return new_spec;
-}

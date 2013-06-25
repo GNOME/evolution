@@ -99,8 +99,6 @@ gchar *		e_table_specification_save_to_string
 						(ETableSpecification *specification);
 xmlNode *	e_table_specification_save_to_node
 						(ETableSpecification *specification);
-ETableSpecification *
-		e_table_specification_duplicate	(ETableSpecification *specification);
 
 G_END_DECLS
 
