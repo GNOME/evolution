@@ -1,4 +1,6 @@
 /*
+ * e-table-specification.c
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -12,17 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
- *
- * Authors:
- *		Chris Lahey <clahey@ximian.com>
- *
- * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
- *
  */
-
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
 
 #include "e-table-specification.h"
 
@@ -43,87 +35,88 @@ G_DEFINE_TYPE (
 	G_TYPE_OBJECT)
 
 static void
-etsp_finalize (GObject *object)
+table_specification_dispose (GObject *object)
 {
-	ETableSpecification *etsp = E_TABLE_SPECIFICATION (object);
-	gint i;
+	ETableSpecification *specification;
+	gint ii;
 
-	if (etsp->columns) {
-		for (i = 0; etsp->columns[i]; i++) {
-			g_object_unref (etsp->columns[i]);
-		}
-		g_free (etsp->columns);
-		etsp->columns = NULL;
+	specification = E_TABLE_SPECIFICATION (object);
+
+	if (specification->columns != NULL) {
+		for (ii = 0; specification->columns[ii] != NULL; ii++)
+			g_object_unref (specification->columns[ii]);
+		g_free (specification->columns);
+		specification->columns = NULL;
 	}
 
-	if (etsp->state)
-		g_object_unref (etsp->state);
-	etsp->state                = NULL;
+	g_clear_object (&specification->state);
 
-	g_free (etsp->click_to_add_message);
-	etsp->click_to_add_message = NULL;
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (e_table_specification_parent_class)->dispose (object);
+}
 
-	g_free (etsp->domain);
-	etsp->domain		   = NULL;
+static void
+table_specification_finalize (GObject *object)
+{
+	ETableSpecification *specification;
 
+	specification = E_TABLE_SPECIFICATION (object);
+
+	g_free (specification->click_to_add_message);
+	g_free (specification->domain);
+
+	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_table_specification_parent_class)->finalize (object);
 }
 
 static void
 e_table_specification_class_init (ETableSpecificationClass *class)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (class);
+	GObjectClass *object_class;
 
-	object_class->finalize = etsp_finalize;
+	object_class = G_OBJECT_CLASS (class);
+	object_class->dispose = table_specification_dispose;
+	object_class->finalize = table_specification_finalize;
 }
 
 static void
-e_table_specification_init (ETableSpecification *etsp)
+e_table_specification_init (ETableSpecification *specification)
 {
-	etsp->columns                = NULL;
-	etsp->state                  = NULL;
+	specification->alternating_row_colors = TRUE;
+	specification->no_headers             = FALSE;
+	specification->click_to_add           = FALSE;
+	specification->click_to_add_end       = FALSE;
+	specification->horizontal_draw_grid   = FALSE;
+	specification->vertical_draw_grid     = FALSE;
+	specification->draw_focus             = TRUE;
+	specification->horizontal_scrolling   = FALSE;
+	specification->horizontal_resize      = FALSE;
+	specification->allow_grouping         = TRUE;
 
-	etsp->alternating_row_colors = TRUE;
-	etsp->no_headers             = FALSE;
-	etsp->click_to_add           = FALSE;
-	etsp->click_to_add_end       = FALSE;
-	etsp->horizontal_draw_grid   = FALSE;
-	etsp->vertical_draw_grid     = FALSE;
-	etsp->draw_focus             = TRUE;
-	etsp->horizontal_scrolling   = FALSE;
-	etsp->horizontal_resize      = FALSE;
-	etsp->allow_grouping         = TRUE;
-
-	etsp->cursor_mode            = E_CURSOR_SIMPLE;
-	etsp->selection_mode         = GTK_SELECTION_MULTIPLE;
-
-	etsp->click_to_add_message   = NULL;
-	etsp->domain                 = NULL;
+	specification->cursor_mode            = E_CURSOR_SIMPLE;
+	specification->selection_mode         = GTK_SELECTION_MULTIPLE;
 }
 
 /**
  * e_table_specification_new:
  *
- * Creates a new %ETableSpecification object.   This object is used to hold the
- * information about the rendering information for ETable.
+ * Creates a new #ETableSpecification.  This holds the rendering information
+ * for an #ETable.
  *
- * Returns: a newly created %ETableSpecification object.
+ * Returns: an #ETableSpecification
  */
 ETableSpecification *
 e_table_specification_new (void)
 {
-	ETableSpecification *etsp = g_object_new (E_TYPE_TABLE_SPECIFICATION, NULL);
-
-	return (ETableSpecification *) etsp;
+	return g_object_new (E_TYPE_TABLE_SPECIFICATION, NULL);
 }
 
 /**
  * e_table_specification_load_from_file:
- * @specification: An ETableSpecification that you want to modify
- * @filename: a filename that contains an ETableSpecification
+ * @specification: an #ETableSpecification
+ * @filename: the name of a file containing an #ETable specification
  *
- * This routine modifies @specification to reflect the state described
- * by the file @filename.
+ * Parses the contents of @filename and configures @specification.
  *
  * Returns: TRUE on success, FALSE on failure.
  */
@@ -132,51 +125,61 @@ e_table_specification_load_from_file (ETableSpecification *specification,
                                       const gchar *filename)
 {
 	xmlDoc *doc;
+	gboolean success = FALSE;
+
+	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (specification), FALSE);
+	g_return_val_if_fail (filename != NULL, FALSE);
 
 	doc = e_xml_parse_file (filename);
-	if (doc) {
+	if (doc != NULL) {
 		xmlNode *node = xmlDocGetRootElement (doc);
 		e_table_specification_load_from_node (specification, node);
 		xmlFreeDoc (doc);
-		return TRUE;
+		success = TRUE;
 	}
-	return FALSE;
+
+	return success;
 }
 
 /**
  * e_table_specification_load_from_string:
- * @specification: An ETableSpecification that you want to modify
- * @xml: a stringified representation of an ETableSpecification description.
+ * @specification: an #ETableSpecification
+ * @xml: a string containing an #ETable specification
  *
- * This routine modifies @specification to reflect the state described
- * by @xml.  @xml is typically returned by e_table_specification_save_to_string
+ * Parses the contents of @xml and configures @specification.
+ *
+ * @xml is typically returned by e_table_specification_save_to_string()
  * or it can be embedded in your source code.
  *
- * Returns: TRUE on success, FALSE on failure.
+ * Returns: %TRUE on success, %FALSE on failure
  */
 gboolean
 e_table_specification_load_from_string (ETableSpecification *specification,
                                         const gchar *xml)
 {
 	xmlDoc *doc;
+	gboolean success = FALSE;
+
+	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (specification), FALSE);
+	g_return_val_if_fail (xml != NULL, FALSE);
+
 	doc = xmlParseMemory ((gchar *) xml, strlen (xml));
-	if (doc) {
+	if (doc != NULL) {
 		xmlNode *node = xmlDocGetRootElement (doc);
 		e_table_specification_load_from_node (specification, node);
 		xmlFreeDoc (doc);
-		return TRUE;
+		success = TRUE;
 	}
 
-	return FALSE;
+	return success;
 }
 
 /**
  * e_table_specification_load_from_node:
- * @specification: An ETableSpecification that you want to modify
- * @node: an xmlNode with an XML ETableSpecification description.
+ * @specification: an #ETableSpecification
+ * @node: an #xmlNode containing an #ETable specification
  *
- * This routine modifies @specification to reflect the state described
- * by @node.
+ * Parses the contents of @node and configures @specification.
  */
 void
 e_table_specification_load_from_node (ETableSpecification *specification,
@@ -276,10 +279,10 @@ e_table_specification_load_from_node (ETableSpecification *specification,
 
 /**
  * e_table_specification_save_to_file:
- * @specification: An %ETableSpecification that you want to save
- * @filename: a file name to store the specification.
+ * @specification: an #ETableSpecification
+ * @filename: the name of the file to save to
  *
- * This routine stores the @specification into @filename.
+ * Dumps the contents of @specification to @filename.
  *
  * Returns: 0 on success or -1 on error.
  */
@@ -288,18 +291,19 @@ e_table_specification_save_to_file (ETableSpecification *specification,
                                     const gchar *filename)
 {
 	xmlDoc *doc;
+	xmlNode *node;
 	gint ret;
 
 	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (specification), -1);
 	g_return_val_if_fail (filename != NULL, -1);
 
-	if ((doc = xmlNewDoc ((const guchar *)"1.0")) == NULL)
+	doc = xmlNewDoc ((const guchar *) "1.0");
+	if (doc == NULL)
 		return -1;
 
-	xmlDocSetRootElement (doc, e_table_specification_save_to_node (specification, doc));
-
+	node = e_table_specification_save_to_node (specification);
+	xmlDocSetRootElement (doc, node);
 	ret = e_xml_save_file (filename, doc);
-
 	xmlFreeDoc (doc);
 
 	return ret;
@@ -307,13 +311,12 @@ e_table_specification_save_to_file (ETableSpecification *specification,
 
 /**
  * e_table_specification_save_to_string:
- * @specification: An %ETableSpecification that you want to stringify
+ * @specification: an #ETableSpecification
  *
- * Saves the state of @specification to a string.
+ * Dumps the contents of @specification to a string.  Free the returned
+ * string with g_free().
  *
- * Returns: an g_alloc() allocated string containing the stringified
- * representation of @specification.  This stringified representation
- * uses XML as a convenience.
+ * Returns: a newly-allocated string
  */
 gchar *
 e_table_specification_save_to_string (ETableSpecification *specification)
@@ -322,38 +325,36 @@ e_table_specification_save_to_string (ETableSpecification *specification)
 	xmlChar *string;
 	gint length;
 	xmlDoc *doc;
+	xmlNode *node;
 
 	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (specification), NULL);
 
 	doc = xmlNewDoc ((const guchar *)"1.0");
-	xmlDocSetRootElement (doc, e_table_specification_save_to_node (specification, doc));
-	xmlDocDumpMemory (doc, &string, &length);
+	node = e_table_specification_save_to_node (specification);
+	xmlDocSetRootElement (doc, node);
 
+	xmlDocDumpMemory (doc, &string, &length);
 	ret_val = g_strdup ((gchar *) string);
 	xmlFree (string);
+
 	return ret_val;
 }
 
 /**
  * e_table_specification_save_to_node:
- * @specification: An ETableSpecification that you want to store.
- * @doc: Node where the specification is saved
+ * @specification: an #ETableSpecification
  *
- * This routine saves the %ETableSpecification state in the object @specification
- * into the xmlDoc represented by @doc.
+ * Dumps the contents of @specification to an #xmlNode.
  *
- * Returns: The node that has been attached to @doc with the contents
- * of the ETableSpecification.
+ * Returns: a newly-created #xmlNode
  */
 xmlNode *
-e_table_specification_save_to_node (ETableSpecification *specification,
-                                    xmlDoc *doc)
+e_table_specification_save_to_node (ETableSpecification *specification)
 {
 	xmlNode *node;
 	const gchar *s;
 
 	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (specification), NULL);
-	g_return_val_if_fail (doc != NULL, NULL);
 
 	node = xmlNewNode (NULL, (const guchar *)"ETableSpecification");
 	e_xml_set_bool_prop_by_name (node, (const guchar *)"no-headers", specification->no_headers);
@@ -405,11 +406,11 @@ e_table_specification_save_to_node (ETableSpecification *specification,
 
 /**
  * e_table_specification_duplicate:
- * @specification: specification to duplicate
+ * @specification: an #ETableSpecification
  *
- * This creates a copy of the %ETableSpecification @specification.
+ * Clones an #ETableSpecification instance from @specification.
  *
- * Returns: The duplicated %ETableSpecification.
+ * Returns: a new #ETableSpecification
  */
 ETableSpecification *
 e_table_specification_duplicate (ETableSpecification *specification)
