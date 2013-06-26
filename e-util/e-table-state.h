@@ -1,4 +1,6 @@
 /*
+ * e-table-state.h
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -12,20 +14,14 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
- *
- * Authors:
- *		Chris Lahey <clahey@ximian.com>
- *
- * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
- *
  */
 
 #if !defined (__E_UTIL_H_INSIDE__) && !defined (LIBEUTIL_COMPILATION)
 #error "Only <e-util/e-util.h> should be included directly."
 #endif
 
-#ifndef _E_TABLE_STATE_H_
-#define _E_TABLE_STATE_H_
+#ifndef E_TABLE_STATE_H
+#define E_TABLE_STATE_H
 
 #include <libxml/tree.h>
 
@@ -86,4 +82,4 @@ ETableState *	e_table_state_duplicate		(ETableState *state);
 
 G_END_DECLS
 
-#endif /* _E_TABLE_STATE_H_ */
+#endif /* E_TABLE_STATE_H */

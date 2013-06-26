@@ -1,4 +1,6 @@
 /*
+ * e-table-state.c
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -12,17 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
- *
- * Authors:
- *		Chris Lahey <clahey@ximian.com>
- *
- * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
- *
  */
-
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
 
 #include "e-table-state.h"
 
@@ -41,33 +33,25 @@
 G_DEFINE_TYPE (ETableState, e_table_state, G_TYPE_OBJECT)
 
 static void
-etst_dispose (GObject *object)
+table_state_dispose (GObject *object)
 {
-	ETableState *etst = E_TABLE_STATE (object);
+	ETableState *state = E_TABLE_STATE (object);
 
-	if (etst->sort_info) {
-		g_object_unref (etst->sort_info);
-		etst->sort_info = NULL;
-	}
+	g_clear_object (&state->sort_info);
 
+	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_table_state_parent_class)->dispose (object);
 }
 
 static void
-etst_finalize (GObject *object)
+table_state_finalize (GObject *object)
 {
-	ETableState *etst = E_TABLE_STATE (object);
+	ETableState *state = E_TABLE_STATE (object);
 
-	if (etst->columns) {
-		g_free (etst->columns);
-		etst->columns = NULL;
-	}
+	g_free (state->columns);
+	g_free (state->expansions);
 
-	if (etst->expansions) {
-		g_free (etst->expansions);
-		etst->expansions = NULL;
-	}
-
+	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_table_state_parent_class)->finalize (object);
 }
 
@@ -76,15 +60,13 @@ e_table_state_class_init (ETableStateClass *class)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
-	object_class->dispose = etst_dispose;
-	object_class->finalize = etst_finalize;
+	object_class->dispose = table_state_dispose;
+	object_class->finalize = table_state_finalize;
 }
 
 static void
 e_table_state_init (ETableState *state)
 {
-	state->columns = NULL;
-	state->expansions = NULL;
 	state->sort_info = e_table_sort_info_new ();
 }
 
@@ -119,18 +101,20 @@ e_table_state_load_from_file (ETableState *state,
                               const gchar *filename)
 {
 	xmlDoc *doc;
+	gboolean success = FALSE;
 
 	g_return_val_if_fail (E_IS_TABLE_STATE (state), FALSE);
 	g_return_val_if_fail (filename != NULL, FALSE);
 
 	doc = e_xml_parse_file (filename);
-	if (doc) {
+	if (doc != NULL) {
 		xmlNode *node = xmlDocGetRootElement (doc);
 		e_table_state_load_from_node (state, node);
 		xmlFreeDoc (doc);
-		return TRUE;
+		success = TRUE;
 	}
-	return FALSE;
+
+	return success;
 }
 
 void
@@ -143,7 +127,7 @@ e_table_state_load_from_string (ETableState *state,
 	g_return_if_fail (xml != NULL);
 
 	doc = xmlParseMemory ((gchar *) xml, strlen (xml));
-	if (doc) {
+	if (doc != NULL) {
 		xmlNode *node = xmlDocGetRootElement (doc);
 		e_table_state_load_from_node (state, node);
 		xmlFreeDoc (doc);
@@ -222,11 +206,12 @@ e_table_state_save_to_file (ETableState *state,
                             const gchar *filename)
 {
 	xmlDoc *doc;
+	xmlNode *node;
 
-	if ((doc = xmlNewDoc ((const guchar *)"1.0")) == NULL)
-		return;
+	doc = xmlNewDoc ((const guchar *)"1.0");
 
-	xmlDocSetRootElement (doc, e_table_state_save_to_node (state, NULL));
+	node = e_table_state_save_to_node (state, NULL);
+	xmlDocSetRootElement (doc, node);
 
 	e_xml_save_file (filename, doc);
 
@@ -240,16 +225,21 @@ e_table_state_save_to_string (ETableState *state)
 	xmlChar *string;
 	gint length;
 	xmlDoc *doc;
+	xmlNode *node;
 
 	g_return_val_if_fail (E_IS_TABLE_STATE (state), NULL);
 
 	doc = xmlNewDoc ((const guchar *)"1.0");
-	xmlDocSetRootElement (doc, e_table_state_save_to_node (state, NULL));
-	xmlDocDumpMemory (doc, &string, &length);
-	xmlFreeDoc (doc);
 
+	node = e_table_state_save_to_node (state, NULL);
+	xmlDocSetRootElement (doc, node);
+
+	xmlDocDumpMemory (doc, &string, &length);
 	ret_val = g_strdup ((gchar *) string);
 	xmlFree (string);
+
+	xmlFreeDoc (doc);
+
 	return ret_val;
 }
 
@@ -293,11 +283,11 @@ e_table_state_save_to_node (ETableState *state,
 
 /**
  * e_table_state_duplicate:
- * @state: The ETableState to duplicate
+ * @state: an #ETableState
  *
- * This creates a copy of the %ETableState @state
+ * Creates a new #ETableState cloned from @state.
  *
- * Returns: The duplicated %ETableState.
+ * Returns: a new #ETableState
  */
 ETableState *
 e_table_state_duplicate (ETableState *state)
@@ -308,6 +298,7 @@ e_table_state_duplicate (ETableState *state)
 	g_return_val_if_fail (E_IS_TABLE_STATE (state), NULL);
 
 	new_state = e_table_state_new ();
+
 	copy = e_table_state_save_to_string (state);
 	e_table_state_load_from_string (new_state, copy);
 	g_free (copy);
