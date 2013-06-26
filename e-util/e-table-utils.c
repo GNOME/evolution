@@ -148,22 +148,30 @@ e_table_spec_to_full_header (ETableSpecification *spec,
                              ETableExtras *ete)
 {
 	ETableHeader *nh;
-	gint column;
+	GPtrArray *columns;
+	guint ii;
 
 	g_return_val_if_fail (spec, NULL);
 	g_return_val_if_fail (ete, NULL);
 
 	nh = e_table_header_new ();
 
-	for (column = 0; spec->columns[column]; column++) {
-		ETableCol *col = et_col_spec_to_col (
-			spec->columns[column], ete, spec->domain);
+	columns = e_table_specification_ref_columns (spec);
 
-		if (col) {
+	for (ii = 0; ii < columns->len; ii++) {
+		ETableColumnSpecification *col_spec;
+		ETableCol *col;
+
+		col_spec = g_ptr_array_index (columns, ii);
+		col = et_col_spec_to_col (col_spec, ete, spec->domain);
+
+		if (col != NULL) {
 			e_table_header_add_column (nh, col, -1);
 			g_object_unref (col);
 		}
 	}
+
+	g_ptr_array_unref (columns);
 
 	return nh;
 }

@@ -34,7 +34,7 @@
 	((obj), E_TYPE_TABLE_SPECIFICATION, ETableSpecificationPrivate))
 
 struct _ETableSpecificationPrivate {
-	gint placeholder;
+	GPtrArray *columns;
 };
 
 G_DEFINE_TYPE (
@@ -46,18 +46,12 @@ static void
 table_specification_dispose (GObject *object)
 {
 	ETableSpecification *specification;
-	gint ii;
 
 	specification = E_TABLE_SPECIFICATION (object);
 
-	if (specification->columns != NULL) {
-		for (ii = 0; specification->columns[ii] != NULL; ii++)
-			g_object_unref (specification->columns[ii]);
-		g_free (specification->columns);
-		specification->columns = NULL;
-	}
-
 	g_clear_object (&specification->state);
+
+	g_ptr_array_set_size (specification->priv->columns, 0);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_table_specification_parent_class)->dispose (object);
@@ -72,6 +66,8 @@ table_specification_finalize (GObject *object)
 
 	g_free (specification->click_to_add_message);
 	g_free (specification->domain);
+
+	g_ptr_array_unref (specification->priv->columns);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_table_specification_parent_class)->finalize (object);
@@ -94,6 +90,9 @@ e_table_specification_init (ETableSpecification *specification)
 {
 	specification->priv =
 		E_TABLE_SPECIFICATION_GET_PRIVATE (specification);
+	specification->priv->columns =
+		g_ptr_array_new_with_free_func (
+		(GDestroyNotify) g_object_unref);
 
 	specification->alternating_row_colors = TRUE;
 	specification->no_headers             = FALSE;
@@ -138,18 +137,9 @@ e_table_specification_new (void)
 GPtrArray *
 e_table_specification_ref_columns (ETableSpecification *specification)
 {
-	GPtrArray *array;
-	guint ii;
-
 	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (specification), NULL);
-	g_return_val_if_fail (specification->columns != NULL, NULL);
 
-	array = g_ptr_array_new ();
-
-	for (ii = 0; specification->columns[ii] != NULL; ii++)
-		g_ptr_array_add (array, specification->columns[ii]);
-
-	return array;
+	return g_ptr_array_ref (specification->priv->columns);
 }
 
 /**
@@ -228,8 +218,6 @@ e_table_specification_load_from_node (ETableSpecification *specification,
 {
 	gchar *temp;
 	xmlNode *children;
-	GQueue columns = G_QUEUE_INIT;
-	guint ii = 0;
 
 	specification->no_headers = e_xml_get_bool_prop_by_name (node, (const guchar *)"no-headers");
 	specification->click_to_add = e_xml_get_bool_prop_by_name (node, (const guchar *)"click-to-add");
@@ -284,20 +272,15 @@ e_table_specification_load_from_node (ETableSpecification *specification,
 	if (specification->state)
 		g_object_unref (specification->state);
 	specification->state = NULL;
-	if (specification->columns) {
-		for (ii = 0; specification->columns[ii] != NULL; ii++) {
-			g_object_unref (specification->columns[ii]);
-		}
-		g_free (specification->columns);
-	}
-	specification->columns = NULL;
+
+	g_ptr_array_set_size (specification->priv->columns, 0);
 
 	for (children = node->xmlChildrenNode; children; children = children->next) {
 		if (!strcmp ((gchar *) children->name, "ETableColumn")) {
 			ETableColumnSpecification *col_spec = e_table_column_specification_new ();
 
 			e_table_column_specification_load_from_node (col_spec, children);
-			g_queue_push_tail (&columns, col_spec);
+			g_ptr_array_add (specification->priv->columns, col_spec);
 		} else if (specification->state == NULL && !strcmp ((gchar *) children->name, "ETableState")) {
 			specification->state = e_table_state_new (specification);
 			e_table_state_load_from_node (specification->state, children);
@@ -305,14 +288,6 @@ e_table_specification_load_from_node (ETableSpecification *specification,
 		}
 	}
 
-	ii = 0;
-	specification->columns = g_new0 (
-		ETableColumnSpecification *,
-		g_queue_get_length (&columns) + 1);
-	while (!g_queue_is_empty (&columns))
-		specification->columns[ii++] = g_queue_pop_head (&columns);
-
-	/* e_table_state_vanilla() uses the columns array we just created. */
 	if (specification->state == NULL)
 		specification->state = e_table_state_vanilla (specification);
 }

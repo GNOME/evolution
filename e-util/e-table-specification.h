@@ -59,7 +59,6 @@ struct _ETableSpecification {
 	GObject parent;
 	ETableSpecificationPrivate *priv;
 
-	ETableColumnSpecification **columns;
 	ETableState *state;
 
 	guint alternating_row_colors : 1;

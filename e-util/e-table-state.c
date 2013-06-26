@@ -173,17 +173,21 @@ ETableState *
 e_table_state_vanilla (ETableSpecification *specification)
 {
 	ETableState *state;
+	GPtrArray *columns;
 	GString *str;
-	gint ii;
+	guint ii;
 
 	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (specification), NULL);
-	g_return_val_if_fail (specification->columns != NULL, NULL);
+
+	columns = e_table_specification_ref_columns (specification);
 
 	str = g_string_new ("<ETableState>\n");
-	for (ii = 0; specification->columns[ii] != NULL; ii++)
+	for (ii = 0; ii < columns->len; ii++)
 		g_string_append_printf (str, "  <column source=\"%d\"/>\n", ii);
 	g_string_append (str, "  <grouping></grouping>\n");
 	g_string_append (str, "</ETableState>\n");
+
+	g_ptr_array_unref (columns);
 
 	state = e_table_state_new (specification);
 	e_table_state_load_from_string (state, str->str);

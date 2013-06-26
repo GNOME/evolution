@@ -241,34 +241,58 @@ static ETableColumnSpecification *
 find_column_in_spec (ETableSpecification *spec,
                      gint model_col)
 {
-	ETableColumnSpecification **column;
+	ETableColumnSpecification *column = NULL;
+	GPtrArray *array;
+	guint ii;
 
-	for (column = spec->columns; *column; column++) {
-		if ((*column)->disabled)
-			continue;
-		if ((*column)->model_col != model_col)
+	array = e_table_specification_ref_columns (spec);
+
+	for (ii = 0; ii < array->len; ii++) {
+		ETableColumnSpecification *candidate;
+
+		candidate = g_ptr_array_index (array, ii);
+
+		if (candidate->disabled)
 			continue;
 
-		return *column;
+		if (candidate->model_col == model_col) {
+			column = candidate;
+			break;
+		}
 	}
 
-	return NULL;
+	g_ptr_array_unref (array);
+
+	return column;
 }
 
 static gint
 find_model_column_by_name (ETableSpecification *spec,
                            const gchar *s)
 {
-	ETableColumnSpecification **column;
+	GPtrArray *array;
+	gint model_col = -1;
+	guint ii;
 
-	for (column = spec->columns; *column; column++) {
+	array = e_table_specification_ref_columns (spec);
 
-		if ((*column)->disabled)
+	for (ii = 0; ii < array->len; ii++) {
+		ETableColumnSpecification *candidate;
+
+		candidate = g_ptr_array_index (array, ii);
+
+		if (candidate->disabled)
 			continue;
-		if (g_ascii_strcasecmp ((*column)->title, s) == 0)
-			return (*column)->model_col;
+
+		if (g_ascii_strcasecmp (candidate->title, s) == 0) {
+			model_col = candidate->model_col;
+			break;
+		}
 	}
-	return -1;
+
+	g_ptr_array_unref (array);
+
+	return model_col;
 }
 
 static void
@@ -451,6 +475,7 @@ config_group_info_update (ETableConfig *config)
 static void
 setup_fields (ETableConfig *config)
 {
+	GPtrArray *array;
 	gint i;
 
 	e_table_model_freeze ((ETableModel *) config->available_model);
@@ -458,17 +483,27 @@ setup_fields (ETableConfig *config)
 	e_table_without_show_all (config->available_model);
 	e_table_subset_variable_clear (config->shown_model);
 
+	array = e_table_specification_ref_columns (config->source_spec);
+
 	if (config->temp_state) {
 		for (i = 0; i < config->temp_state->col_count; i++) {
 			gint j, idx;
-			for (j = 0, idx = 0; j < config->temp_state->columns[i]; j++)
-				if (!config->source_spec->columns[j]->disabled)
+			for (j = 0, idx = 0; j < config->temp_state->columns[i]; j++) {
+				ETableColumnSpecification *column;
+
+				column = g_ptr_array_index (array, j);
+
+				if (!column->disabled)
 					idx++;
+			}
 
 			e_table_subset_variable_add (config->shown_model, idx);
 			e_table_without_hide (config->available_model, GINT_TO_POINTER (idx));
 		}
 	}
+
+	g_ptr_array_unref (array);
+
 	e_table_model_thaw ((ETableModel *) config->available_model);
 	e_table_model_thaw ((ETableModel *) config->shown_model);
 }
@@ -476,26 +511,36 @@ setup_fields (ETableConfig *config)
 static void
 config_fields_info_update (ETableConfig *config)
 {
-	ETableColumnSpecification **column;
 	GString *res = g_string_new ("");
+	GPtrArray *array;
 	gint i, j;
 
-	for (i = 0; i < config->state->col_count; i++) {
-		for (j = 0, column = config->source_spec->columns; *column; column++, j++) {
+	array = e_table_specification_ref_columns (config->source_spec);
 
-			if ((*column)->disabled)
+	for (i = 0; i < config->state->col_count; i++) {
+		for (j = 0; j < array->len; j++) {
+			ETableColumnSpecification *column;
+			const gchar *title;
+
+			column = g_ptr_array_index (array, j);
+
+			if (column->disabled)
 				continue;
 
 			if (config->state->columns[i] != j)
 				continue;
 
-			g_string_append (res, dgettext (config->domain, (*column)->title));
+			title = dgettext (config->domain, column->title);
+			g_string_append (res, title);
+
 			if (i + 1 < config->state->col_count)
 				g_string_append (res, ", ");
 
 			break;
 		}
 	}
+
+	g_ptr_array_unref (array);
 
 	gtk_label_set_text (GTK_LABEL (config->fields_label), res->str);
 	g_string_free (res, TRUE);
@@ -623,23 +668,29 @@ static ETableMemoryStoreColumnInfo store_columns[] = {
 static ETableModel *
 create_store (ETableConfig *config)
 {
-	gint i;
 	ETableModel *store;
+	GPtrArray *array;
+	guint ii;
 
 	store = e_table_memory_store_new (store_columns);
-	for (i = 0; config->source_spec->columns[i]; i++) {
 
+	array = e_table_specification_ref_columns (config->source_spec);
+
+	for (ii = 0; ii < array->len; ii++) {
+		ETableColumnSpecification *column;
 		gchar *text;
 
-		if (config->source_spec->columns[i]->disabled)
+		column = g_ptr_array_index (array, ii);
+
+		if (column->disabled)
 			continue;
 
-		text = g_strdup (dgettext (
-			config->domain,
-			config->source_spec->columns[i]->title));
+		text = g_strdup (dgettext (config->domain, column->title));
 		e_table_memory_store_insert_adopt (
-			E_TABLE_MEMORY_STORE (store), -1, NULL, text, i);
+			E_TABLE_MEMORY_STORE (store), -1, NULL, text, ii);
 	}
+
+	g_ptr_array_unref (array);
 
 	return store;
 }
@@ -1061,6 +1112,7 @@ static void
 config_button_add (GtkWidget *widget,
                    ETableConfig *config)
 {
+	GPtrArray *array;
 	GList *columns = NULL;
 	GList *column;
 	gint count;
@@ -1071,6 +1123,8 @@ config_button_add (GtkWidget *widget,
 
 	count = g_list_length (columns);
 
+	array = e_table_specification_ref_columns (config->source_spec);
+
 	config->temp_state->columns = g_renew (
 		int, config->temp_state->columns,
 		config->temp_state->col_count + count);
@@ -1079,15 +1133,21 @@ config_button_add (GtkWidget *widget,
 		config->temp_state->col_count + count);
 	i = config->temp_state->col_count;
 	for (column = columns; column; column = column->next) {
+		ETableColumnSpecification *col_spec;
+
 		config->temp_state->columns[i] =
 			get_source_model_col_index (
 			config, GPOINTER_TO_INT (column->data));
-		config->temp_state->expansions[i] =
-			config->source_spec->columns
-			[config->temp_state->columns[i]]->expansion;
+
+		col_spec = g_ptr_array_index (
+			array, config->temp_state->columns[i]);
+		config->temp_state->expansions[i] = col_spec->expansion;
+
 		i++;
 	}
 	config->temp_state->col_count += count;
+
+	g_ptr_array_unref (array);
 
 	g_list_free (columns);
 
@@ -1382,7 +1442,8 @@ e_table_config_construct (ETableConfig *config,
                           ETableState *state,
                           GtkWindow *parent_window)
 {
-	ETableColumnSpecification **column;
+	GPtrArray *array;
+	guint ii;
 
 	g_return_val_if_fail (config != NULL, NULL);
 	g_return_val_if_fail (header != NULL, NULL);
@@ -1400,15 +1461,21 @@ e_table_config_construct (ETableConfig *config,
 
 	config->domain = g_strdup (spec->domain);
 
-	for (column = config->source_spec->columns; *column; column++) {
-		gchar *label = (*column)->title;
+	array = e_table_specification_ref_columns (spec);
 
-		if ((*column)->disabled)
+	for (ii = 0; ii < array->len; ii++) {
+		ETableColumnSpecification *column;
+
+		column = g_ptr_array_index (array, ii);
+
+		if (column->disabled)
 			continue;
 
 		config->column_names = g_slist_append (
-			config->column_names, label);
+			config->column_names, column->title);
 	}
+
+	g_ptr_array_unref (array);
 
 	setup_gui (config);
 
