@@ -126,33 +126,3 @@ e_table_column_specification_load_from_node (ETableColumnSpecification *etcs,
 		etcs->title = g_strdup ("");
 }
 
-xmlNode *
-e_table_column_specification_save_to_node (ETableColumnSpecification *specification,
-                                           xmlNode *parent)
-{
-	xmlNode *node;
-	if (parent)
-		node = xmlNewChild (parent, NULL, (const guchar *)"ETableColumn", NULL);
-	else
-		node = xmlNewNode (NULL, (const guchar *)"ETableColumn");
-
-	e_xml_set_integer_prop_by_name (node, (const guchar *)"model_col", specification->model_col);
-	if (specification->compare_col != specification->model_col)
-		e_xml_set_integer_prop_by_name (node, (const guchar *)"compare_col", specification->compare_col);
-	e_xml_set_string_prop_by_name (node, (const guchar *)"_title", specification->title);
-	e_xml_set_string_prop_by_name (node, (const guchar *)"pixbuf", specification->pixbuf);
-
-	e_xml_set_double_prop_by_name (node, (const guchar *)"expansion", specification->expansion);
-	e_xml_set_integer_prop_by_name (node, (const guchar *)"minimum_width", specification->minimum_width);
-	e_xml_set_bool_prop_by_name (node, (const guchar *)"resizable", specification->resizable);
-	e_xml_set_bool_prop_by_name (node, (const guchar *)"disabled", specification->disabled);
-
-	e_xml_set_string_prop_by_name (node, (const guchar *)"cell", specification->cell);
-	e_xml_set_string_prop_by_name (node, (const guchar *)"compare", specification->compare);
-	e_xml_set_string_prop_by_name (node, (const guchar *)"search", specification->search);
-	if (specification->priority != 0)
-		e_xml_set_integer_prop_by_name (node, (const guchar *)"priority", specification->priority);
-
-	return node;
-}
-

@@ -3398,7 +3398,6 @@ e_table_col_get_type
 ETableColumnSpecification
 e_table_column_specification_new
 e_table_column_specification_load_from_node
-e_table_column_specification_save_to_node
 <SUBSECTION Standard>
 E_TABLE_COLUMN_SPECIFICATION
 E_IS_TABLE_COLUMN_SPECIFICATION

@@ -84,9 +84,6 @@ ETableColumnSpecification *
 void		e_table_column_specification_load_from_node
 					(ETableColumnSpecification *state,
 					 const xmlNode *node);
-xmlNode *	e_table_column_specification_save_to_node
-					(ETableColumnSpecification *state,
-					 xmlNode *parent);
 
 G_END_DECLS
 
