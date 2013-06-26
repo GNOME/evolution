@@ -182,6 +182,34 @@ clear_widgets (Dialog *dialog)
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (dialog->option_notebook), 0);
 }
 
+static void
+populate_relative_time_combobox_widget (GtkWidget *combobox,
+					ECalClient *cal_client,
+					const gint *map,
+					gint prop)
+{
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	gboolean valid;
+	gboolean alarm_after_start;
+	gint i;
+
+	alarm_after_start = !e_client_check_capability (
+			E_CLIENT (cal_client), CAL_STATIC_CAPABILITY_NO_ALARM_AFTER_START);
+	model = gtk_combo_box_get_model (GTK_COMBO_BOX (combobox));
+	valid = gtk_tree_model_get_iter_first (model, &iter);
+
+	for (i = 0; valid && map[i] != -1; i++) {
+		gtk_list_store_set (
+				GTK_LIST_STORE (model),
+				&iter,
+				1,
+				alarm_after_start ? TRUE : (map[i] == prop ? FALSE : TRUE),
+				-1);
+		valid = gtk_tree_model_iter_next (model, &iter);
+	}
+}
+
 /* fill_widgets handler for the alarm page */
 static void
 alarm_to_dialog (Dialog *dialog)
@@ -205,9 +233,12 @@ alarm_to_dialog (Dialog *dialog)
 			GTK_LIST_STORE (model), &iter,
 			1, !e_client_check_capability (E_CLIENT (dialog->cal_client), action_map_cap[i]),
 			-1);
-
 		valid = gtk_tree_model_iter_next (model, &iter);
 	}
+
+	populate_relative_time_combobox_widget (dialog->relative_combo, dialog->cal_client, relative_map, AFTER);
+	populate_relative_time_combobox_widget (
+			dialog->time_combo, dialog->cal_client, time_map, E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_END);
 
 	/* Set a default address if possible */
 	if (!e_client_check_capability (E_CLIENT (dialog->cal_client), CAL_STATIC_CAPABILITY_NO_EMAIL_ALARMS)
@@ -775,6 +806,44 @@ dialog_to_alarm (Dialog *dialog)
 	}
 }
 
+static void
+build_combobox_widget (GtkWidget *combobox,
+		       const gchar *actions[])
+{
+	GtkComboBox *combo = GTK_COMBO_BOX (combobox);
+	GtkCellRenderer *cell;
+	GtkListStore *store;
+	gint i;
+
+	g_return_val_if_fail (combo != NULL, FALSE);
+	g_return_val_if_fail (GTK_IS_COMBO_BOX (combo), FALSE);
+
+	store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_BOOLEAN);
+	gtk_combo_box_set_model (combo, GTK_TREE_MODEL (store));
+	g_object_unref (store);
+
+	gtk_cell_layout_clear (GTK_CELL_LAYOUT (combo));
+
+	cell = gtk_cell_renderer_text_new ();
+	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo), cell, TRUE);
+	gtk_cell_layout_set_attributes (
+		GTK_CELL_LAYOUT (combo), cell,
+		"text", 0,
+		"sensitive", 1,
+		NULL);
+
+	for (i = 0; actions[i] != NULL; i++) {
+		GtkTreeIter iter;
+
+		gtk_list_store_append (store, &iter);
+		gtk_list_store_set (
+			store, &iter,
+			0, _(actions[i]),
+			1, TRUE,
+			-1);
+	}
+}
+
 /* Gets the widgets from the XML file and returns TRUE if they are all available. */
 static gboolean
 get_widgets (Dialog *dialog)
@@ -820,41 +889,31 @@ get_widgets (Dialog *dialog)
 			N_("Pop up an alert"),
 			N_("Play a sound"),
 			N_("Run a program"),
-			N_("Send an email")
+			N_("Send an email"),
+			NULL
 		};
 
-		GtkComboBox *combo = (GtkComboBox *) dialog->action_combo;
-		GtkCellRenderer *cell;
-		GtkListStore *store;
-		gint i;
+		build_combobox_widget (dialog->action_combo, actions);
+	}
 
-		g_return_val_if_fail (combo != NULL, FALSE);
-		g_return_val_if_fail (GTK_IS_COMBO_BOX (combo), FALSE);
+	if (dialog->relative_combo) {
+		const gchar *actions[] = {
+			N_("before"),
+			N_("after"),
+			NULL
+		};
 
-		store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_BOOLEAN);
-		gtk_combo_box_set_model (combo, GTK_TREE_MODEL (store));
-		g_object_unref (store);
+		build_combobox_widget (dialog->relative_combo, actions);
+	}
 
-		gtk_cell_layout_clear (GTK_CELL_LAYOUT (combo));
+	if (dialog->time_combo) {
+		const gchar *actions[] = {
+			N_("start of appointmenet"),
+			N_("end of appointment"),
+			NULL
+		};
 
-		cell = gtk_cell_renderer_text_new ();
-		gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo), cell, TRUE);
-		gtk_cell_layout_set_attributes (
-			GTK_CELL_LAYOUT (combo), cell,
-			"text", 0,
-			"sensitive", 1,
-			NULL);
-
-		for (i = 0; i < G_N_ELEMENTS (actions); i++) {
-			GtkTreeIter iter;
-
-			gtk_list_store_append (store, &iter);
-			gtk_list_store_set (
-				store, &iter,
-				0, _(actions[i]),
-				1, TRUE,
-				-1);
-		}
+		build_combobox_widget (dialog->time_combo, actions);
 	}
 
 	return (dialog->action_combo
