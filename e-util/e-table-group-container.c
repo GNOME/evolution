@@ -76,7 +76,7 @@ e_table_group_container_child_node_free (ETableGroupContainer *etgc,
 
 	g_object_run_dispose (G_OBJECT (child));
 	e_table_model_free_value (
-		etg->model, etgc->ecol->col_idx,
+		etg->model, etgc->ecol->spec->model_col,
 		child_node->key);
 	g_free (child_node->string);
 	g_object_run_dispose (G_OBJECT (child_node->text));
@@ -515,9 +515,9 @@ create_child_node (ETableGroupContainer *etgc,
 		G_CALLBACK (child_start_drag), etgc);
 	child_node->child = child;
 	child_node->key = e_table_model_duplicate_value (
-		etg->model, etgc->ecol->col_idx, val);
+		etg->model, etgc->ecol->spec->model_col, val);
 	child_node->string = e_table_model_value_to_string (
-		etg->model, etgc->ecol->col_idx, val);
+		etg->model, etgc->ecol->spec->model_col, val);
 	child_node->count = 0;
 
 	return child_node;
@@ -536,7 +536,8 @@ etgc_add (ETableGroup *etg,
 	gpointer val;
 	gint i = 0;
 
-	val = e_table_model_value_at (etg->model, etgc->ecol->col_idx, row);
+	val = e_table_model_value_at (
+		etg->model, etgc->ecol->spec->model_col, row);
 
 	for (; list; list = g_list_next (list), i++) {
 		gint comp_val;
@@ -592,14 +593,14 @@ etgc_add_array (ETableGroup *etg,
 	cmp_cache = e_table_sorting_utils_create_cmp_cache ();
 
 	lastval = e_table_model_value_at (
-		etg->model, etgc->ecol->col_idx, array[0]);
+		etg->model, etgc->ecol->spec->model_col, array[0]);
 
 	for (i = 1; i < count; i++) {
 		gpointer val;
 		gint comp_val;
 
 		val = e_table_model_value_at (
-			etg->model, etgc->ecol->col_idx, array[i]);
+			etg->model, etgc->ecol->spec->model_col, array[i]);
 
 		comp_val = (*comp)(lastval, val, cmp_cache);
 		if (comp_val != 0) {

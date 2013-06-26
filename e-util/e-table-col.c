@@ -30,11 +30,6 @@
 
 G_DEFINE_TYPE (ETableCol, e_table_col, G_TYPE_OBJECT)
 
-enum {
-	PROP_0,
-	PROP_COMPARE_COL
-};
-
 static void
 etc_load_icon (ETableCol *etc)
 {
@@ -61,6 +56,8 @@ etc_dispose (GObject *object)
 {
 	ETableCol *etc = E_TABLE_COL (object);
 
+	g_clear_object (&etc->spec);
+
 	if (etc->ecell)
 		g_object_unref (etc->ecell);
 	etc->ecell = NULL;
@@ -80,81 +77,27 @@ etc_dispose (GObject *object)
 }
 
 static void
-etc_set_property (GObject *object,
-                  guint property_id,
-                  const GValue *value,
-                  GParamSpec *pspec)
-{
-	ETableCol *etc = E_TABLE_COL (object);
-
-	switch (property_id) {
-	case PROP_COMPARE_COL:
-		etc->compare_col = g_value_get_int (value);
-		break;
-	default:
-		break;
-	}
-}
-
-static void
-etc_get_property (GObject *object,
-                  guint property_id,
-                  GValue *value,
-                  GParamSpec *pspec)
-{
-	ETableCol *etc = E_TABLE_COL (object);
-
-	switch (property_id) {
-	case PROP_COMPARE_COL:
-		g_value_set_int (value, etc->compare_col);
-		break;
-	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-		break;
-	}
-}
-
-static void
 e_table_col_class_init (ETableColClass *class)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
 	object_class->dispose = etc_dispose;
-	object_class->set_property = etc_set_property;
-	object_class->get_property = etc_get_property;
-
-	g_object_class_install_property (
-		object_class,
-		PROP_COMPARE_COL,
-		g_param_spec_int (
-			"compare_col",
-			"Width",
-			"Width",
-			0, G_MAXINT, 0,
-			G_PARAM_READWRITE));
 }
 
 static void
 e_table_col_init (ETableCol *etc)
 {
 	etc->width = 0;
-	etc->sortable = 1;
-	etc->groupable = 1;
 	etc->justification = GTK_JUSTIFY_LEFT;
-	etc->priority = 0;
 }
 
 /**
  * e_table_col_new:
- * @col_idx: the column we represent in the model
+ * @spec: an #ETableColumnSpecification
  * @text: a title for this column
  * @icon_name: name of the icon to be used for the header, or %NULL
- * @expansion: FIXME
- * @min_width: minimum width in pixels for this column
  * @ecell: the renderer to be used for this column
  * @compare: comparision function for the elements stored in this column
- * @resizable: whether the column can be resized interactively by the user
- * @priority: FIXME
  *
  * The ETableCol represents a column to be used inside an ETable.  The
  * ETableCol objects are inserted inside an ETableHeader (which is just a
@@ -177,43 +120,31 @@ e_table_col_init (ETableCol *etc)
  * Returns: the newly created ETableCol object.
  */
 ETableCol *
-e_table_col_new (gint col_idx,
+e_table_col_new (ETableColumnSpecification *spec,
                  const gchar *text,
                  const gchar *icon_name,
-                 gdouble expansion,
-                 gint min_width,
                  ECell *ecell,
-                 GCompareDataFunc compare,
-                 gboolean resizable,
-                 gboolean disabled,
-                 gint priority)
+                 GCompareDataFunc compare)
 {
 	ETableCol *etc;
 
-	g_return_val_if_fail (expansion >= 0, NULL);
-	g_return_val_if_fail (min_width >= 0, NULL);
+	g_return_val_if_fail (E_IS_TABLE_COLUMN_SPECIFICATION (spec), NULL);
 	g_return_val_if_fail (ecell != NULL, NULL);
 	g_return_val_if_fail (compare != NULL, NULL);
 	g_return_val_if_fail (text != NULL, NULL);
 
 	etc = g_object_new (E_TYPE_TABLE_COL, NULL);
 
-	etc->col_idx = col_idx;
-	etc->compare_col = col_idx;
+	etc->spec = g_object_ref (spec);
 	etc->text = g_strdup (text);
 	etc->icon_name = g_strdup (icon_name);
 	etc->pixbuf = NULL;
-	etc->expansion = expansion;
-	etc->min_width = min_width;
-	etc->ecell = ecell;
+	etc->min_width = spec->minimum_width;
+	etc->expansion = spec->expansion;
+	etc->ecell = g_object_ref (ecell);
 	etc->compare = compare;
-	etc->disabled = disabled;
-	etc->priority = priority;
 
 	etc->selected = 0;
-	etc->resizable = resizable;
-
-	g_object_ref (etc->ecell);
 
 	if (etc->icon_name != NULL)
 		etc_load_icon (etc);

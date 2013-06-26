@@ -206,14 +206,14 @@ view_to_model_row (ETableItem *eti,
 
 inline static gint
 model_to_view_col (ETableItem *eti,
-                   gint col)
+                   gint model_col)
 {
 	gint i;
-	if (col == -1)
+	if (model_col == -1)
 		return -1;
 	for (i = 0; i < eti->cols; i++) {
 		ETableCol *ecol = e_table_header_get_column (eti->header, i);
-		if (ecol->col_idx == col)
+		if (ecol->spec->model_col == model_col)
 			return i;
 	}
 	return -1;
@@ -221,10 +221,11 @@ model_to_view_col (ETableItem *eti,
 
 inline static gint
 view_to_model_col (ETableItem *eti,
-                   gint col)
+                   gint view_col)
 {
-	ETableCol *ecol = e_table_header_get_column (eti->header, col);
-	return ecol ? ecol->col_idx : -1;
+	ETableCol *ecol = e_table_header_get_column (eti->header, view_col);
+
+	return (ecol != NULL) ? ecol->spec->model_col : -1;
 }
 
 static void
@@ -2038,7 +2039,7 @@ eti_draw (GnomeCanvasItem *item,
 			switch (eti->cursor_mode) {
 			case E_CURSOR_SIMPLE:
 			case E_CURSOR_SPREADSHEET:
-				if (cursor_col == ecol->col_idx && cursor_row == view_to_model_row (eti, row)) {
+				if (cursor_col == ecol->spec->model_col && cursor_row == view_to_model_row (eti, row)) {
 					col_selected = !col_selected;
 					cursor = TRUE;
 				}
@@ -2122,8 +2123,11 @@ eti_draw (GnomeCanvasItem *item,
 			}
 
 			e_cell_draw (
-				ecell_view, cr, ecol->col_idx, col, row, flags,
-				xd, yd, xd + ecol->width, yd + height);
+				ecell_view, cr,
+				ecol->spec->model_col,
+				col, row, flags,
+				xd, yd,
+				xd + ecol->width, yd + height);
 
 			if (!f_found && !selected) {
 				switch (eti->cursor_mode) {
@@ -3747,13 +3751,13 @@ e_table_item_calculate_print_widths (ETableHeader *eth,
 	expansion = 0;
 	for (i = 0; i < eth->col_count; i++) {
 		extra -= eth->columns[i]->min_width * scale;
-		if (eth->columns[i]->resizable && eth->columns[i]->expansion > 0)
+		if (eth->columns[i]->spec->resizable && eth->columns[i]->expansion > 0)
 			last_resizable = i;
-		expansion += eth->columns[i]->resizable ? eth->columns[i]->expansion : 0;
+		expansion += eth->columns[i]->spec->resizable ? eth->columns[i]->expansion : 0;
 		widths[i] = eth->columns[i]->min_width * scale;
 	}
 	for (i = 0; i <= last_resizable; i++) {
-		widths[i] += extra * (eth->columns[i]->resizable ? eth->columns[i]->expansion : 0) / expansion;
+		widths[i] += extra * (eth->columns[i]->spec->resizable ? eth->columns[i]->expansion : 0) / expansion;
 	}
 
 	return widths;

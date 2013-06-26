@@ -561,26 +561,6 @@ ethi_remove_destroy_marker (ETableHeaderItem *ethi)
 	ethi->remove_item = NULL;
 }
 
-#if 0
-static gboolean
-moved (ETableHeaderItem *ethi,
-       guint col,
-       guint model_col)
-{
-	if (col == -1)
-		return TRUE;
-	ecol = e_table_header_get_column (ethi->eth, col);
-	if (ecol->col_idx == model_col)
-		return FALSE;
-	if (col > 0) {
-		ecol = e_table_header_get_column (ethi->eth, col - 1);
-		if (ecol->col_idx == model_col)
-			return FALSE;
-	}
-	return TRUE;
-}
-#endif
-
 static void
 do_drag_motion (ETableHeaderItem *ethi,
                 GdkDragContext *context,
@@ -823,7 +803,7 @@ ethi_drag_data_received (GtkWidget *canvas,
 		if (column >= 0) {
 			for (i = 0; i < count; i++) {
 				ETableCol *ecol = e_table_header_get_column (ethi->eth, i);
-				if (ecol->col_idx == column) {
+				if (ecol->spec->model_col == column) {
 					e_table_header_move (ethi->eth, i, drop_col);
 					found = TRUE;
 					break;
@@ -837,7 +817,7 @@ ethi_drag_data_received (GtkWidget *canvas,
 					ecol  = e_table_header_get_column (
 						ethi->full_header, i);
 
-					if (ecol->col_idx == column) {
+					if (ecol->spec->model_col == column) {
 						e_table_header_add_column (
 							ethi->eth, ecol,
 							drop_col);
@@ -862,7 +842,7 @@ ethi_drag_data_get (GtkWidget *canvas,
 	if (ethi->drag_col != -1) {
 		ETableCol *ecol = e_table_header_get_column (ethi->eth, ethi->drag_col);
 
-		gchar *string = g_strdup_printf ("%d", ecol->col_idx);
+		gchar *string = g_strdup_printf ("%d", ecol->spec->model_col);
 		gtk_selection_data_set (
 			selection_data,
 			GDK_SELECTION_TYPE_STRING,
@@ -1092,7 +1072,7 @@ ethi_draw (GnomeCanvasItem *item,
 			x1 - x, -y, width, height,
 			x2 - x1, ethi->height,
 			(ETableColArrow) g_hash_table_lookup (
-			arrows, GINT_TO_POINTER (ecol->col_idx)));
+			arrows, GINT_TO_POINTER (ecol->spec->model_col)));
 
 		gtk_style_context_restore (context);
 	}
@@ -1176,7 +1156,7 @@ set_cursor (ETableHeaderItem *ethi,
 		ETableCol *ecol = e_table_header_get_column (ethi->eth, col);
 
 		/* Last column is not resizable */
-		if (ecol->resizable && col != last_col) {
+		if (ecol->spec->resizable && col != last_col) {
 			gint c = col + 1;
 
 			/* Column is not resizable if all columns after it
@@ -1185,7 +1165,7 @@ set_cursor (ETableHeaderItem *ethi,
 				ETableCol *ecol2;
 
 				ecol2 = e_table_header_get_column (ethi->eth, c);
-				if (ecol2->resizable) {
+				if (ecol2->spec->resizable) {
 					resizable = TRUE;
 					break;
 				}
@@ -1307,7 +1287,7 @@ ethi_start_drag (ETableHeaderItem *ethi,
 		col_width, ethi->height,
 		col_width, ethi->height,
 		(ETableColArrow) g_hash_table_lookup (
-			arrows, GINT_TO_POINTER (ecol->col_idx)));
+			arrows, GINT_TO_POINTER (ecol->spec->model_col)));
 	gtk_drag_set_icon_surface (context, s);
 	cairo_surface_destroy (s);
 
@@ -1332,8 +1312,8 @@ ethi_popup_sort_ascending (GtkWidget *widget,
 	ETableHeaderItem *ethi = info->ethi;
 
 	col = e_table_header_get_column (ethi->eth, info->col);
-	if (col->sortable)
-		model_col = col->col_idx;
+	if (col->spec->sortable)
+		model_col = col->spec->model_col;
 
 	length = e_table_sort_info_grouping_get_count (ethi->sort_info);
 	for (i = 0; i < length; i++) {
@@ -1388,8 +1368,8 @@ ethi_popup_sort_descending (GtkWidget *widget,
 	ETableHeaderItem *ethi = info->ethi;
 
 	col = e_table_header_get_column (ethi->eth, info->col);
-	if (col->sortable)
-		model_col = col->col_idx;
+	if (col->spec->sortable)
+		model_col = col->spec->model_col;
 
 	length = e_table_sort_info_grouping_get_count (ethi->sort_info);
 	for (i = 0; i < length; i++) {
@@ -1452,7 +1432,7 @@ ethi_popup_group_field (GtkWidget *widget,
 	ETableSortColumn column;
 
 	col = e_table_header_get_column (ethi->eth, info->col);
-	model_col = col->col_idx;
+	model_col = col->spec->model_col;
 
 	column.column = model_col;
 	column.ascending = 1;
@@ -1655,7 +1635,7 @@ sort_by_id (GtkWidget *menu_item,
 		ETableSortColumn column;
 
 		column = e_table_sort_info_sorting_get_nth (ethi->sort_info, 0);
-		clearfirst = ecol->sortable && ecol->col_idx != column.column;
+		clearfirst = ecol->spec->sortable && ecol->spec->model_col != column.column;
 	}
 
 	if (clearfirst)
@@ -1740,8 +1720,8 @@ ethi_header_context_menu (ETableHeaderItem *ethi,
 	{
 		gchar *text = NULL;
 
-		if (!ethi->full_header->columns[ncol]->sortable ||
-		    ethi->full_header->columns[ncol]->disabled)
+		if (!ethi->full_header->columns[ncol]->spec->sortable ||
+		    ethi->full_header->columns[ncol]->spec->disabled)
 			continue;
 
 		if (ncol == sort_col) {
@@ -1801,8 +1781,8 @@ ethi_change_sort_state (ETableHeaderItem *ethi,
 	if (col == NULL)
 		return;
 
-	if (col->sortable)
-		model_col = col->col_idx;
+	if (col->spec->sortable)
+		model_col = col->spec->model_col;
 
 	length = e_table_sort_info_grouping_get_count (ethi->sort_info);
 	for (i = 0; i < length; i++) {
@@ -1965,7 +1945,7 @@ ethi_event (GnomeCanvasItem *item,
 				 */
 			ecol = e_table_header_get_column (ethi->eth, col);
 
-			if (!ecol->resizable)
+			if (!ecol->spec->resizable)
 				break;
 			ethi->resize_col = col;
 			ethi->resize_start_pos = start - ecol->width;
@@ -2047,7 +2027,7 @@ ethi_event (GnomeCanvasItem *item,
 			popup = e_popup_menu_create_with_domain (
 				ethi_context_menu,
 				1 +
-				(ecol->sortable ? 0 : 2) +
+				(ecol->spec->sortable ? 0 : 2) +
 				((ethi->table || ethi->tree) ? 0 : 4) +
 				((e_table_header_count (ethi->eth) > 1) ? 0 : 8),
 				((e_table_sort_info_get_can_group (

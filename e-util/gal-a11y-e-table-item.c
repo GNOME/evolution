@@ -134,10 +134,11 @@ view_to_model_row (ETableItem *eti,
 
 inline static gint
 view_to_model_col (ETableItem *eti,
-                   gint col)
+                   gint view_col)
 {
-	ETableCol *ecol = e_table_header_get_column (eti->header, col);
-	return ecol ? ecol->col_idx : -1;
+	ETableCol *ecol = e_table_header_get_column (eti->header, view_col);
+
+	return (ecol != NULL) ? ecol->spec->model_col : -1;
 }
 
 inline static gint
@@ -165,14 +166,14 @@ model_to_view_row (ETableItem *eti,
 
 inline static gint
 model_to_view_col (ETableItem *eti,
-                   gint col)
+                   gint model_col)
 {
 	gint i;
-	if (col == -1)
+	if (model_col == -1)
 		return -1;
 	for (i = 0; i < eti->cols; i++) {
 		ETableCol *ecol = e_table_header_get_column (eti->header, i);
-		if (ecol->col_idx == col)
+		if (ecol->spec->model_col == model_col)
 			return i;
 	}
 	return -1;
@@ -405,7 +406,7 @@ eti_ref_at (AtkTable *table,
 			item,
 			cell_view,
 			ATK_OBJECT (table),
-			ecol->col_idx,
+			ecol->spec->model_col,
 			column,
 			row);
 		if (ATK_IS_OBJECT (ret)) {

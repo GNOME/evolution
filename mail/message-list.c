@@ -5103,14 +5103,20 @@ cmp_array_uids (gconstpointer a,
 		struct sort_column_data *scol = g_ptr_array_index (sort_data->sort_columns, i);
 
 		if (md1->values->len <= i) {
-			v1 = ml_tree_value_at_ex (NULL, NULL, scol->col->compare_col, md1->mi, sort_data->message_list);
+			v1 = ml_tree_value_at_ex (
+				NULL, NULL,
+				scol->col->spec->compare_col,
+				md1->mi, sort_data->message_list);
 			g_ptr_array_add (md1->values, v1);
 		} else {
 			v1 = g_ptr_array_index (md1->values, i);
 		}
 
 		if (md2->values->len <= i) {
-			v2 = ml_tree_value_at_ex (NULL, NULL, scol->col->compare_col, md2->mi, sort_data->message_list);
+			v2 = ml_tree_value_at_ex (
+				NULL, NULL,
+				scol->col->spec->compare_col,
+				md2->mi, sort_data->message_list);
 			g_ptr_array_add (md2->values, v2);
 		} else {
 			v2 = g_ptr_array_index (md2->values, i);

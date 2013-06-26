@@ -59,9 +59,9 @@ etsu_compare (ETableModel *source,
 
 		comp_val = (*col->compare) (
 			e_table_model_value_at (
-				source, col->compare_col, row1),
+				source, col->spec->compare_col, row1),
 			e_table_model_value_at (
-				source, col->compare_col, row2),
+				source, col->spec->compare_col, row2),
 			cmp_cache);
 		if (column.ascending)
 			sort_type = GTK_SORT_ASCENDING;
@@ -173,7 +173,7 @@ e_table_sorting_utils_sort (ETableModel *source,
 		}
 
 		for (i = 0; i < rows; i++) {
-			closure.vals[map_table[i] * cols + j] = e_table_model_value_at (source, col->compare_col, map_table[i]);
+			closure.vals[map_table[i] * cols + j] = e_table_model_value_at (source, col->spec->compare_col, map_table[i]);
 		}
 		closure.compare[j] = col->compare;
 		if (column.ascending)
@@ -214,7 +214,7 @@ e_table_sorting_utils_affects_sort (ETableSortInfo *sort_info,
 			col = e_table_header_get_column (full_header, last);
 		}
 
-		if (compare_col == col->compare_col)
+		if (compare_col == col->spec->compare_col)
 			return TRUE;
 	}
 
@@ -302,9 +302,9 @@ etsu_tree_compare (ETreeModel *source,
 
 		comp_val = (*col->compare) (
 			e_tree_model_value_at (
-				source, path1, col->compare_col),
+				source, path1, col->spec->compare_col),
 			e_tree_model_value_at (
-				source, path2, col->compare_col),
+				source, path2, col->spec->compare_col),
 			cmp_cache);
 		if (column.ascending)
 			sort_type = GTK_SORT_ASCENDING;
@@ -368,7 +368,7 @@ e_table_sorting_utils_tree_sort (ETreeModel *source,
 		}
 
 		for (i = 0; i < count; i++) {
-			closure.vals[i * cols + j] = e_tree_model_sort_value_at (source, map_table[i], col->compare_col);
+			closure.vals[i * cols + j] = e_tree_model_sort_value_at (source, map_table[i], col->spec->compare_col);
 		}
 		closure.compare[j] = col->compare;
 		if (column.ascending)

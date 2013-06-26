@@ -377,7 +377,7 @@ e_cell_combo_select_matching_item (ECellCombo *ecc)
 	ecol = e_table_header_get_column (eti->header, ecp->popup_view_col);
 	cell_text = e_cell_text_get_text (
 		ecell_text, ecv->e_table_model,
-		ecol->col_idx, ecp->popup_row);
+		ecol->spec->model_col, ecp->popup_row);
 
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (ecc->popup_tree_view));
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (ecc->popup_tree_view));
@@ -811,13 +811,13 @@ e_cell_combo_update_cell (ECellCombo *ecc)
 
 	old_text = e_cell_text_get_text (
 		ecell_text, ecv->e_table_model,
-		ecol->col_idx, ecp->popup_row);
+		ecol->spec->model_col, ecp->popup_row);
 
 	/* If they are different, update the cell contents. */
 	if (old_text && strcmp (old_text, text)) {
 		e_cell_text_set_value (
 			ecell_text, ecv->e_table_model,
-			ecol->col_idx, ecp->popup_row, text);
+			ecol->spec->model_col, ecp->popup_row, text);
 	}
 
 	e_cell_text_free_text (ecell_text, old_text);

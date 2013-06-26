@@ -149,7 +149,7 @@ table_sorter_sort (ETableSorter *table_sorter)
 			col = e_table_header_get_column (table_sorter->full_header, e_table_header_count (table_sorter->full_header) - 1);
 
 		for (i = 0; i < rows; i++) {
-			qd.vals[i * cols + j] = e_table_model_value_at (table_sorter->source, col->col_idx, i);
+			qd.vals[i * cols + j] = e_table_model_value_at (table_sorter->source, col->spec->model_col, i);
 		}
 
 		qd.compare[j] = col->compare;

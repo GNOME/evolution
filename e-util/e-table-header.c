@@ -483,7 +483,7 @@ e_table_header_get_column_by_col_idx (ETableHeader *eth,
 	g_return_val_if_fail (E_IS_TABLE_HEADER (eth), NULL);
 
 	for (i = 0; i < eth->col_count; i++) {
-		if (eth->columns[i]->col_idx == col_idx) {
+		if (eth->columns[i]->spec->model_col == col_idx) {
 			return eth->columns[i];
 		}
 	}
@@ -526,7 +526,7 @@ e_table_header_index (ETableHeader *eth,
 	g_return_val_if_fail (E_IS_TABLE_HEADER (eth), -1);
 	g_return_val_if_fail (col >= 0 && col < eth->col_count, -1);
 
-	return eth->columns[col]->col_idx;
+	return eth->columns[col]->spec->model_col;
 }
 
 /**
@@ -746,7 +746,7 @@ eth_set_size (ETableHeader *eth,
 	g_return_if_fail (idx < eth->col_count);
 
 	/* If this column is not resizable, don't do anything. */
-	if (!eth->columns[idx]->resizable)
+	if (!eth->columns[idx]->spec->resizable)
 		return;
 
 	expansion = 0;
@@ -770,7 +770,7 @@ eth_set_size (ETableHeader *eth,
 	 */
 	for (; i < eth->col_count; i++) {
 		min_width += eth->columns[i]->min_width + eth->width_extras;
-		if (eth->columns[i]->resizable) {
+		if (eth->columns[i]->spec->resizable) {
 			expansion += eth->columns[i]->expansion;
 			expandable_count++;
 		}
@@ -837,7 +837,7 @@ eth_set_size (ETableHeader *eth,
 	 */
 	if (old_expansion == 0) {
 		for (i = idx + 1; i < eth->col_count; i++) {
-			if (eth->columns[idx]->resizable) {
+			if (eth->columns[idx]->spec->resizable) {
 				/* expandable_count != 0 by (1) */
 				eth->columns[i]->expansion = expansion / expandable_count;
 			}
@@ -847,7 +847,7 @@ eth_set_size (ETableHeader *eth,
 	}
 
 	for (i = idx + 1; i < eth->col_count; i++) {
-		if (eth->columns[idx]->resizable) {
+		if (eth->columns[idx]->spec->resizable) {
 			/* old_expansion != 0 by (2) */
 			eth->columns[i]->expansion *= expansion / old_expansion;
 		}
@@ -910,9 +910,9 @@ eth_calc_widths (ETableHeader *eth)
 	expansion = 0;
 	for (i = 0; i < eth->col_count; i++) {
 		extra -= eth->columns[i]->min_width + eth->width_extras;
-		if (eth->columns[i]->resizable && eth->columns[i]->expansion > 0)
+		if (eth->columns[i]->spec->resizable && eth->columns[i]->expansion > 0)
 			last_resizable = i;
-		expansion += eth->columns[i]->resizable ? eth->columns[i]->expansion : 0;
+		expansion += eth->columns[i]->spec->resizable ? eth->columns[i]->expansion : 0;
 		widths[i] = eth->columns[i]->min_width + eth->width_extras;
 	}
 	if (eth->sort_info)
@@ -921,7 +921,7 @@ eth_calc_widths (ETableHeader *eth)
 	if (expansion != 0 && extra > 0) {
 		for (i = 0; i < last_resizable; i++) {
 			next_position +=
-				extra * (eth->columns[i]->resizable ?
+				extra * (eth->columns[i]->spec->resizable ?
 				eth->columns[i]->expansion : 0) / expansion;
 			widths[i] += next_position - last_position;
 			last_position = next_position;
@@ -974,13 +974,13 @@ e_table_header_prioritized_column (ETableHeader *eth)
 	count = e_table_header_count (eth);
 	if (count == 0)
 		return -1;
-	best_priority = e_table_header_get_column (eth, 0)->priority;
-	best_model_col = e_table_header_get_column (eth, 0)->col_idx;
+	best_priority = e_table_header_get_column (eth, 0)->spec->priority;
+	best_model_col = e_table_header_get_column (eth, 0)->spec->model_col;
 	for (i = 1; i < count; i++) {
-		gint priority = e_table_header_get_column (eth, i)->priority;
+		gint priority = e_table_header_get_column (eth, i)->spec->priority;
 		if (priority > best_priority) {
 			best_priority = priority;
-			best_model_col = e_table_header_get_column (eth, i)->col_idx;
+			best_model_col = e_table_header_get_column (eth, i)->spec->model_col;
 		}
 	}
 	return best_model_col;
@@ -1002,9 +1002,9 @@ e_table_header_prioritized_column_selected (ETableHeader *eth,
 	for (i = 1; i < count; i++) {
 		ETableCol *col = e_table_header_get_column (eth, i);
 		if (col) {
-			if ((best_col == NULL || col->priority > best_priority)
+			if ((best_col == NULL || col->spec->priority > best_priority)
 			   && check_func (col, user_data)) {
-				best_priority = col->priority;
+				best_priority = col->spec->priority;
 				best_col = col;
 			}
 		}

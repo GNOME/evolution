@@ -100,7 +100,7 @@ etfci_find_button (ETableFieldChooserItem *etfci,
 		ETableCol *ecol;
 
 		ecol = e_table_header_get_column (etfci->combined_header, i);
-		if (ecol->disabled)
+		if (ecol->spec->disabled)
 			continue;
 		height += e_table_header_compute_height (
 			ecol, GTK_WIDGET (GNOME_CANVAS_ITEM (etfci)->canvas));
@@ -127,9 +127,10 @@ etfci_rebuild_combined (ETableFieldChooserItem *etfci)
 	count = e_table_header_count (etfci->header);
 	for (i = 0; i < count; i++) {
 		ETableCol *ecol = e_table_header_get_column (etfci->header, i);
-		if (ecol->disabled)
+		if (ecol->spec->disabled)
 			continue;
-		g_hash_table_add (hash, GINT_TO_POINTER (ecol->col_idx));
+		g_hash_table_add (
+			hash, GINT_TO_POINTER (ecol->spec->model_col));
 	}
 
 	count = e_table_header_count (etfci->full_header);
@@ -138,9 +139,9 @@ etfci_rebuild_combined (ETableFieldChooserItem *etfci)
 		gpointer key;
 
 		ecol = e_table_header_get_column (etfci->full_header, i);
-		key = GINT_TO_POINTER (ecol->col_idx);
+		key = GINT_TO_POINTER (ecol->spec->model_col);
 
-		if (ecol->disabled)
+		if (ecol->spec->disabled)
 			continue;
 
 		if (!g_hash_table_contains (hash, key))
@@ -170,7 +171,7 @@ etfci_reflow (GnomeCanvasItem *item,
 		ETableCol *ecol;
 
 		ecol = e_table_header_get_column (etfci->combined_header, i);
-		if (ecol->disabled)
+		if (ecol->spec->disabled)
 			continue;
 		height += e_table_header_compute_height (
 			ecol, GTK_WIDGET (GNOME_CANVAS_ITEM (etfci)->canvas));
@@ -509,7 +510,7 @@ etfci_draw (GnomeCanvasItem *item,
 
 		ecol = e_table_header_get_column (etfci->combined_header, row);
 
-		if (ecol->disabled)
+		if (ecol->spec->disabled)
 			continue;
 
 		y2 += e_table_header_compute_height (ecol, GTK_WIDGET (canvas));
@@ -588,10 +589,10 @@ etfci_start_drag (ETableFieldChooserItem *etfci,
 
 	ecol = e_table_header_get_column (etfci->combined_header, drag_col);
 
-	if (ecol->disabled)
+	if (ecol->spec->disabled)
 		return;
 
-	etfci->drag_col = ecol->col_idx;
+	etfci->drag_col = ecol->spec->model_col;
 
 	etfci_drag_types[0].target = g_strdup_printf (
 		"%s-%s", etfci_drag_types[0].target, etfci->dnd_code);

@@ -518,7 +518,7 @@ e_cell_date_edit_set_popup_values (ECellDateEdit *ecde)
 
 	cell_text = e_cell_text_get_text (
 		ecell_text, ecv->e_table_model,
-		ecol->col_idx, ecp->popup_row);
+		ecol->spec->model_col, ecp->popup_row);
 
 	/* Try to parse just a date first. If the value is only a date, we
 	 * use a DATE value. */
@@ -952,16 +952,16 @@ e_cell_date_edit_update_cell (ECellDateEdit *ecde,
 
 	old_text = e_cell_text_get_text (
 		ecell_text, ecv->e_table_model,
-		ecol->col_idx, ecp->popup_row);
+		ecol->spec->model_col, ecp->popup_row);
 
 	/* If they are different, update the cell contents. */
 	if (strcmp (old_text, text)) {
 		e_cell_text_set_value (
 			ecell_text, ecv->e_table_model,
-			ecol->col_idx, ecp->popup_row, text);
+			ecol->spec->model_col, ecp->popup_row, text);
 		e_cell_leave_edit (
 			ecv, ecp->popup_view_col,
-			ecol->col_idx, ecp->popup_row, NULL);
+			ecol->spec->model_col, ecp->popup_row, NULL);
 	}
 
 	e_cell_text_free_text (ecell_text, old_text);

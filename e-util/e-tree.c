@@ -527,7 +527,8 @@ search_search_callback (ETreeModel *model,
 	ETableCol *col = current_search_col (cb_data->tree);
 
 	value = e_tree_model_value_at (
-		model, path, cb_data->tree->priv->current_search_col->col_idx);
+		model, path,
+		cb_data->tree->priv->current_search_col->spec->model_col);
 
 	return col->search (value, cb_data->string);
 }
@@ -554,7 +555,8 @@ et_search_search (ETableSearch *search,
 	if (cursor && (flags & E_TABLE_SEARCH_FLAGS_CHECK_CURSOR_FIRST)) {
 		gconstpointer value;
 
-		value = e_tree_model_value_at (tree->priv->model, cursor, col->col_idx);
+		value = e_tree_model_value_at (
+			tree->priv->model, cursor, col->spec->model_col);
 
 		if (col->search (value, string)) {
 			return TRUE;
@@ -577,12 +579,14 @@ et_search_search (ETableSearch *search,
 
 		e_selection_model_select_as_key_press (
 			E_SELECTION_MODEL (tree->priv->selection),
-			model_row, col->col_idx, GDK_CONTROL_MASK);
+			model_row, col->spec->model_col,
+			GDK_CONTROL_MASK);
 		return TRUE;
 	} else if (cursor && !(flags & E_TABLE_SEARCH_FLAGS_CHECK_CURSOR_FIRST)) {
 		gconstpointer value;
 
-		value = e_tree_model_value_at (tree->priv->model, cursor, col->col_idx);
+		value = e_tree_model_value_at (
+			tree->priv->model, cursor, col->spec->model_col);
 
 		return col->search (value, string);
 	} else
@@ -603,7 +607,7 @@ et_search_accept (ETableSearch *search,
 
 	e_selection_model_select_as_key_press (
 		E_SELECTION_MODEL (tree->priv->selection),
-		cursor, col->col_idx, 0);
+		cursor, col->spec->model_col, 0);
 }
 
 static void
@@ -1394,7 +1398,7 @@ e_tree_get_state_object (ETree *tree)
 		ETableCol *col = e_table_header_get_column (tree->priv->header, i);
 		state->columns[i] = -1;
 		for (j = 0; j < full_col_count; j++) {
-			if (col->col_idx == e_table_header_index (tree->priv->full_header, j)) {
+			if (col->spec->model_col == e_table_header_index (tree->priv->full_header, j)) {
 				state->columns[i] = j;
 				break;
 			}

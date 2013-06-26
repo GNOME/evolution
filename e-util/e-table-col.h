@@ -31,6 +31,7 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
 #include <e-util/e-cell.h>
+#include <e-util/e-table-column-specification.h>
 
 /* Standard GObject macros */
 #define E_TYPE_TABLE_COL \
@@ -68,6 +69,8 @@ typedef struct _ETableColClass ETableColClass;
 struct _ETableCol {
 	GObject parent;
 
+	ETableColumnSpecification *spec;
+
 	gchar *text;
 	gchar *icon_name;
 	GdkPixbuf *pixbuf;
@@ -78,15 +81,7 @@ struct _ETableCol {
 	GCompareDataFunc compare;
 	ETableSearchFunc search;
 
-	guint selected : 1;
-	guint resizable : 1;
-	guint disabled : 1;
-	guint sortable : 1;
-	guint groupable : 1;
-
-	gint col_idx;
-	gint compare_col;
-	gint priority;
+	gboolean selected;
 
 	GtkJustification justification;
 
@@ -97,17 +92,12 @@ struct _ETableColClass {
 	GObjectClass parent_class;
 };
 
-GType		e_table_col_get_type		(void) G_GNUC_CONST;
-ETableCol *	e_table_col_new			(gint col_idx,
-						 const gchar *text,
-						 const gchar *icon_name,
-						 gdouble expansion,
-						 gint min_width,
-						 ECell *ecell,
-						 GCompareDataFunc compare,
-						 gboolean resizable,
-						 gboolean disabled,
-						 gint priority);
+GType		e_table_col_get_type	(void) G_GNUC_CONST;
+ETableCol *	e_table_col_new		(ETableColumnSpecification *spec,
+					 const gchar *text,
+					 const gchar *icon_name,
+					 ECell *ecell,
+					 GCompareDataFunc compare);
 
 G_END_DECLS
 

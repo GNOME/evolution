@@ -480,27 +480,29 @@ et_search_search (ETableSearch *search,
 
 	if ((flags & E_TABLE_SEARCH_FLAGS_CHECK_CURSOR_FIRST) &&
 		cursor < rows && cursor >= 0 &&
-		check_row (et, cursor, col->col_idx, col->search, string))
+		check_row (et, cursor, col->spec->model_col, col->search, string))
 		return TRUE;
 
 	cursor = e_sorter_model_to_sorted (E_SORTER (et->sorter), cursor);
 
 	for (i = cursor + 1; i < rows; i++) {
 		gint model_row = e_sorter_sorted_to_model (E_SORTER (et->sorter), i);
-		if (check_row (et, model_row, col->col_idx, col->search, string)) {
+		if (check_row (et, model_row, col->spec->model_col, col->search, string)) {
 			e_selection_model_select_as_key_press (
 				E_SELECTION_MODEL (et->selection),
-				model_row, col->col_idx, GDK_CONTROL_MASK);
+				model_row, col->spec->model_col,
+				GDK_CONTROL_MASK);
 			return TRUE;
 		}
 	}
 
 	for (i = 0; i < cursor; i++) {
 		gint model_row = e_sorter_sorted_to_model (E_SORTER (et->sorter), i);
-		if (check_row (et, model_row, col->col_idx, col->search, string)) {
+		if (check_row (et, model_row, col->spec->model_col, col->search, string)) {
 			e_selection_model_select_as_key_press (
 				E_SELECTION_MODEL (et->selection),
-				model_row, col->col_idx, GDK_CONTROL_MASK);
+				model_row, col->spec->model_col,
+				GDK_CONTROL_MASK);
 			return TRUE;
 		}
 	}
@@ -510,7 +512,7 @@ et_search_search (ETableSearch *search,
 	/* Check if the cursor row is the only matching row. */
 	return (!(flags & E_TABLE_SEARCH_FLAGS_CHECK_CURSOR_FIRST) &&
 		cursor < rows && cursor >= 0 &&
-		check_row (et, cursor, col->col_idx, col->search, string));
+		check_row (et, cursor, col->spec->model_col, col->search, string));
 }
 
 static void
@@ -526,7 +528,8 @@ et_search_accept (ETableSearch *search,
 	g_object_get (et->selection, "cursor_row", &cursor, NULL);
 
 	e_selection_model_select_as_key_press (
-		E_SELECTION_MODEL (et->selection), cursor, col->col_idx, 0);
+		E_SELECTION_MODEL (et->selection),
+		cursor, col->spec->model_col, 0);
 }
 
 static void
@@ -1691,7 +1694,7 @@ e_table_get_state_object (ETable *e_table)
 		ETableCol *col = e_table_header_get_column (e_table->header, i);
 		state->columns[i] = -1;
 		for (j = 0; j < full_col_count; j++) {
-			if (col->col_idx == e_table_header_index (e_table->full_header, j)) {
+			if (col->spec->model_col == e_table_header_index (e_table->full_header, j)) {
 				state->columns[i] = j;
 				break;
 			}

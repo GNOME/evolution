@@ -104,39 +104,25 @@ et_col_spec_to_col (ETableColumnSpecification *col_spec,
 				ete, col_spec->pixbuf);
 			if (icon_name != NULL) {
 				col = e_table_col_new (
-					col_spec->model_col,
+					col_spec,
 					title, icon_name,
-					col_spec->expansion,
-					col_spec->minimum_width,
-					cell, compare,
-					col_spec->resizable,
-					col_spec->disabled,
-					col_spec->priority);
+					cell, compare);
 			}
 		}
 
 		if (col == NULL && col_spec->title && *col_spec->title) {
 			col = e_table_col_new (
-				col_spec->model_col, title, NULL,
-				col_spec->expansion,
-				col_spec->minimum_width,
-				cell, compare,
-				col_spec->resizable,
-				col_spec->disabled,
-				col_spec->priority);
+				col_spec,
+				title, NULL,
+				cell, compare);
 		}
 
-		if (col) {
+		if (col != NULL)
 			col->search = search;
-			col->sortable = col_spec->sortable;
-		}
+
 		g_free (title);
 	}
-	if (col && col_spec->compare_col != col_spec->model_col)
-		g_object_set (
-			col,
-			"compare_col", col_spec->compare_col,
-			NULL);
+
 	return col;
 }
 
