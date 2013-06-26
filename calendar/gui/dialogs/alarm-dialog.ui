@@ -47,32 +47,6 @@
     </columns>
     <data>
       <row>
-        <col id="0" translatable="yes">before</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">after</col>
-      </row>
-    </data>
-  </object>
-  <object class="GtkListStore" id="model3">
-    <columns>
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes">start of appointment</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">end of appointment</col>
-      </row>
-    </data>
-  </object>
-  <object class="GtkListStore" id="model4">
-    <columns>
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
         <col id="0" translatable="yes">minutes</col>
       </row>
       <row>
@@ -256,13 +230,6 @@
                         <property name="visible">True</property>
                         <property name="add_tearoffs">False</property>
                         <property name="focus_on_click">True</property>
-                        <property name="model">model2</property>
-                        <child>
-                          <object class="GtkCellRendererText" id="renderer2"/>
-                          <attributes>
-                            <attribute name="text">0</attribute>
-                          </attributes>
-                        </child>
                       </object>
                       <packing>
                         <property name="padding">0</property>
@@ -275,13 +242,6 @@
                         <property name="visible">True</property>
                         <property name="add_tearoffs">False</property>
                         <property name="focus_on_click">True</property>
-                        <property name="model">model3</property>
-                        <child>
-                          <object class="GtkCellRendererText" id="renderer3"/>
-                          <attributes>
-                            <attribute name="text">0</attribute>
-                          </attributes>
-                        </child>
                       </object>
                       <packing>
                         <property name="padding">0</property>
@@ -449,7 +409,7 @@
                             <property name="visible">True</property>
                             <property name="add_tearoffs">False</property>
                             <property name="focus_on_click">True</property>
-                            <property name="model">model4</property>
+                            <property name="model">model2</property>
                             <child>
                               <object class="GtkCellRendererText" id="renderer4"/>
                               <attributes>
