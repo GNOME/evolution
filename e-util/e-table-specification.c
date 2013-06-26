@@ -29,6 +29,14 @@
 
 #include "e-xml-utils.h"
 
+#define E_TABLE_SPECIFICATION_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_TABLE_SPECIFICATION, ETableSpecificationPrivate))
+
+struct _ETableSpecificationPrivate {
+	gint placeholder;
+};
+
 G_DEFINE_TYPE (
 	ETableSpecification,
 	e_table_specification,
@@ -74,6 +82,8 @@ e_table_specification_class_init (ETableSpecificationClass *class)
 {
 	GObjectClass *object_class;
 
+	g_type_class_add_private (class, sizeof (ETableSpecificationPrivate));
+
 	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = table_specification_dispose;
 	object_class->finalize = table_specification_finalize;
@@ -82,6 +92,9 @@ e_table_specification_class_init (ETableSpecificationClass *class)
 static void
 e_table_specification_init (ETableSpecification *specification)
 {
+	specification->priv =
+		E_TABLE_SPECIFICATION_GET_PRIVATE (specification);
+
 	specification->alternating_row_colors = TRUE;
 	specification->no_headers             = FALSE;
 	specification->click_to_add           = FALSE;

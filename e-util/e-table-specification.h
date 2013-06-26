@@ -53,9 +53,11 @@ G_BEGIN_DECLS
 
 typedef struct _ETableSpecification ETableSpecification;
 typedef struct _ETableSpecificationClass ETableSpecificationClass;
+typedef struct _ETableSpecificationPrivate ETableSpecificationPrivate;
 
 struct _ETableSpecification {
 	GObject parent;
+	ETableSpecificationPrivate *priv;
 
 	ETableColumnSpecification **columns;
 	ETableState *state;

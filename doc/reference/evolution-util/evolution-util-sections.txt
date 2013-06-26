@@ -3926,6 +3926,8 @@ E_IS_TABLE_SPECIFICATION_CLASS
 E_TABLE_SPECIFICATION_GET_CLASS
 ETableSpecificationClass
 e_table_specification_get_type
+<SUBSECTION Private>
+ETableSpecificationPrivate
 </SECTION>
 
 <SECTION>
