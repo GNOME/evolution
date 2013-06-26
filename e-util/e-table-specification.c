@@ -278,37 +278,6 @@ e_table_specification_load_from_node (ETableSpecification *specification,
 }
 
 /**
- * e_table_specification_save_to_string:
- * @specification: an #ETableSpecification
- *
- * Dumps the contents of @specification to a string.  Free the returned
- * string with g_free().
- *
- * Returns: a newly-allocated string
- */
-gchar *
-e_table_specification_save_to_string (ETableSpecification *specification)
-{
-	gchar *ret_val;
-	xmlChar *string;
-	gint length;
-	xmlDoc *doc;
-	xmlNode *node;
-
-	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (specification), NULL);
-
-	doc = xmlNewDoc ((const guchar *)"1.0");
-	node = e_table_specification_save_to_node (specification);
-	xmlDocSetRootElement (doc, node);
-
-	xmlDocDumpMemory (doc, &string, &length);
-	ret_val = g_strdup ((gchar *) string);
-	xmlFree (string);
-
-	return ret_val;
-}
-
-/**
  * e_table_specification_save_to_node:
  * @specification: an #ETableSpecification
  *
