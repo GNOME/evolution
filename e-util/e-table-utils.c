@@ -39,8 +39,7 @@ e_table_state_to_header (GtkWidget *widget,
                          ETableState *state)
 {
 	ETableHeader *nh;
-	const gint max_cols = e_table_header_count (full_header);
-	gint column;
+	gint ii;
 	GValue *val = g_new0 (GValue, 1);
 
 	g_return_val_if_fail (widget, NULL);
@@ -53,21 +52,17 @@ e_table_state_to_header (GtkWidget *widget,
 	g_object_set_property (G_OBJECT (nh), "width_extras", val);
 	g_free (val);
 
-	for (column = 0; column < state->col_count; column++) {
-		gint col;
-		gdouble expansion;
+	for (ii = 0; ii < state->col_count; ii++) {
 		ETableCol *table_col;
 
-		col = state->columns[column];
-		expansion = state->expansions[column];
+		table_col = e_table_header_get_column_by_spec (
+			full_header, state->column_specs[ii]);
 
-		if (col >= max_cols)
+		if (table_col == NULL)
 			continue;
 
-		table_col = e_table_header_get_column (full_header, col);
-
-		if (expansion >= -1)
-			table_col->expansion = expansion;
+		if (state->expansions[ii] >= -1)
+			table_col->expansion = state->expansions[ii];
 
 		e_table_header_add_column (nh, table_col, -1);
 	}

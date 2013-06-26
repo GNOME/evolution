@@ -1677,30 +1677,38 @@ ETableState *
 e_table_get_state_object (ETable *e_table)
 {
 	ETableState *state;
+	GPtrArray *columns;
 	gint full_col_count;
 	gint i, j;
 
+	columns = e_table_specification_ref_columns (e_table->spec);
+
 	state = e_table_state_new (e_table->spec);
-	if (state->sort_info)
-		g_object_unref (state->sort_info);
-	state->sort_info = e_table->sort_info;
-	g_object_ref (state->sort_info);
+
+	g_clear_object (&state->sort_info);
+	state->sort_info = g_object_ref (e_table->sort_info);
 
 	state->col_count = e_table_header_count (e_table->header);
 	full_col_count = e_table_header_count (e_table->full_header);
-	state->columns = g_new (int, state->col_count);
-	state->expansions = g_new (double, state->col_count);
+
+	state->column_specs = g_new (
+		ETableColumnSpecification *, state->col_count);
+	state->expansions = g_new (gdouble, state->col_count);
+
 	for (i = 0; i < state->col_count; i++) {
 		ETableCol *col = e_table_header_get_column (e_table->header, i);
-		state->columns[i] = -1;
+		state->column_specs[i] = NULL;
 		for (j = 0; j < full_col_count; j++) {
 			if (col->spec->model_col == e_table_header_index (e_table->full_header, j)) {
-				state->columns[i] = j;
+				state->column_specs[i] =
+					g_object_ref (columns->pdata[j]);
 				break;
 			}
 		}
 		state->expansions[i] = col->expansion;
 	}
+
+	g_ptr_array_unref (columns);
 
 	return state;
 }

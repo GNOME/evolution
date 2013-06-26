@@ -487,11 +487,18 @@ setup_fields (ETableConfig *config)
 
 	if (config->temp_state) {
 		for (i = 0; i < config->temp_state->col_count; i++) {
-			gint j, idx;
-			for (j = 0, idx = 0; j < config->temp_state->columns[i]; j++) {
+			ETableColumnSpecification *target_column;
+			gint idx = 0;
+			guint jj;
+
+			target_column = config->temp_state->column_specs[i];
+
+			for (jj = 0; jj < array->len; jj++) {
 				ETableColumnSpecification *column;
 
-				column = g_ptr_array_index (array, j);
+				column = g_ptr_array_index (array, jj);
+				if (column == target_column)
+					break;
 
 				if (!column->disabled)
 					idx++;
@@ -512,35 +519,23 @@ static void
 config_fields_info_update (ETableConfig *config)
 {
 	GString *res = g_string_new ("");
-	GPtrArray *array;
-	gint i, j;
+	gint ii;
 
-	array = e_table_specification_ref_columns (config->source_spec);
+	for (ii = 0; ii < config->state->col_count; ii++) {
+		ETableColumnSpecification *column;
+		const gchar *title;
 
-	for (i = 0; i < config->state->col_count; i++) {
-		for (j = 0; j < array->len; j++) {
-			ETableColumnSpecification *column;
-			const gchar *title;
+		column = config->state->column_specs[ii];
 
-			column = g_ptr_array_index (array, j);
+		if (column->disabled)
+			continue;
 
-			if (column->disabled)
-				continue;
+		title = dgettext (config->domain, column->title);
+		g_string_append (res, title);
 
-			if (config->state->columns[i] != j)
-				continue;
-
-			title = dgettext (config->domain, column->title);
-			g_string_append (res, title);
-
-			if (i + 1 < config->state->col_count)
-				g_string_append (res, ", ");
-
-			break;
-		}
+		if (ii + 1 < config->state->col_count)
+			g_string_append (res, ", ");
 	}
-
-	g_ptr_array_unref (array);
 
 	gtk_label_set_text (GTK_LABEL (config->fields_label), res->str);
 	g_string_free (res, TRUE);
@@ -1113,34 +1108,36 @@ config_button_add (GtkWidget *widget,
                    ETableConfig *config)
 {
 	GPtrArray *array;
-	GList *columns = NULL;
-	GList *column;
+	GList *list = NULL;
+	GList *link;
 	gint count;
 	gint i;
 
-	e_table_selected_row_foreach (config->available, add_column, &columns);
-	columns = g_list_reverse (columns);
+	e_table_selected_row_foreach (config->available, add_column, &list);
+	list = g_list_reverse (list);
 
-	count = g_list_length (columns);
+	count = g_list_length (list);
 
 	array = e_table_specification_ref_columns (config->source_spec);
 
-	config->temp_state->columns = g_renew (
-		int, config->temp_state->columns,
+	config->temp_state->column_specs = g_renew (
+		ETableColumnSpecification *,
+		config->temp_state->column_specs,
 		config->temp_state->col_count + count);
 	config->temp_state->expansions = g_renew (
-		gdouble, config->temp_state->expansions,
+		gdouble,
+		config->temp_state->expansions,
 		config->temp_state->col_count + count);
 	i = config->temp_state->col_count;
-	for (column = columns; column; column = column->next) {
+	for (link = list; link != NULL; link = g_list_next (link)) {
 		ETableColumnSpecification *col_spec;
+		gint index;
 
-		config->temp_state->columns[i] =
-			get_source_model_col_index (
-			config, GPOINTER_TO_INT (column->data));
+		index = get_source_model_col_index (
+			config, GPOINTER_TO_INT (link->data));
+		col_spec = g_ptr_array_index (array, index);
 
-		col_spec = g_ptr_array_index (
-			array, config->temp_state->columns[i]);
+		config->temp_state->column_specs[i] = g_object_ref (col_spec);
 		config->temp_state->expansions[i] = col_spec->expansion;
 
 		i++;
@@ -1149,7 +1146,7 @@ config_button_add (GtkWidget *widget,
 
 	g_ptr_array_unref (array);
 
-	g_list_free (columns);
+	g_list_free (list);
 
 	setup_fields (config);
 }
@@ -1158,32 +1155,34 @@ static void
 config_button_remove (GtkWidget *widget,
                       ETableConfig *config)
 {
-	GList *columns = NULL;
-	GList *column;
+	GList *list = NULL;
+	GList *link;
 
-	e_table_selected_row_foreach (config->shown, add_column, &columns);
+	e_table_selected_row_foreach (config->shown, add_column, &list);
 
-	for (column = columns; column; column = column->next) {
-		gint row = GPOINTER_TO_INT (column->data);
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		gint row = GPOINTER_TO_INT (link->data);
 
 		memmove (
-			config->temp_state->columns + row,
-			config->temp_state->columns + row + 1,
-			sizeof (gint) * (config->temp_state->col_count - row - 1));
+			config->temp_state->column_specs + row,
+			config->temp_state->column_specs + row + 1,
+			sizeof (gpointer) * (config->temp_state->col_count - row - 1));
 		memmove (
 			config->temp_state->expansions + row,
 			config->temp_state->expansions + row + 1,
 			sizeof (gdouble) * (config->temp_state->col_count - row - 1));
 		config->temp_state->col_count--;
 	}
-	config->temp_state->columns = g_renew (
-		int, config->temp_state->columns,
+	config->temp_state->column_specs = g_renew (
+		ETableColumnSpecification *,
+		config->temp_state->column_specs,
 		config->temp_state->col_count);
 	config->temp_state->expansions = g_renew (
-		gdouble, config->temp_state->expansions,
+		gdouble,
+		config->temp_state->expansions,
 		config->temp_state->col_count);
 
-	g_list_free (columns);
+	g_list_free (list);
 
 	setup_fields (config);
 }
@@ -1194,9 +1193,9 @@ config_button_up (GtkWidget *widget,
 {
 	GList *columns = NULL;
 	GList *column;
-	gint *new_shown;
+	ETableColumnSpecification **new_column_specs;
 	gdouble *new_expansions;
-	gint next_col;
+	ETableColumnSpecification *next_col;
 	gdouble next_expansion;
 	gint i;
 
@@ -1208,35 +1207,38 @@ config_button_up (GtkWidget *widget,
 
 	columns = g_list_reverse (columns);
 
-	new_shown = g_new (int, config->temp_state->col_count);
-	new_expansions = g_new (double, config->temp_state->col_count);
+	new_column_specs = g_new (
+		ETableColumnSpecification *, config->temp_state->col_count);
+	new_expansions = g_new (gdouble, config->temp_state->col_count);
 
 	column = columns;
 
-	next_col = config->temp_state->columns[0];
+	next_col = config->temp_state->column_specs[0];
 	next_expansion = config->temp_state->expansions[0];
 
 	for (i = 1; i < config->temp_state->col_count; i++) {
 		if (column && (GPOINTER_TO_INT (column->data) == i)) {
-			new_expansions[i - 1] = config->temp_state->expansions[i];
-			new_shown[i - 1] = config->temp_state->columns[i];
+			new_expansions[i - 1] =
+				config->temp_state->expansions[i];
+			new_column_specs[i - 1] =
+				config->temp_state->column_specs[i];
 			column = column->next;
 		} else {
-			new_shown[i - 1] = next_col;
-			next_col = config->temp_state->columns[i];
+			new_column_specs[i - 1] = next_col;
+			next_col = config->temp_state->column_specs[i];
 
 			new_expansions[i - 1] = next_expansion;
 			next_expansion = config->temp_state->expansions[i];
 		}
 	}
 
-	new_shown[i - 1] = next_col;
+	new_column_specs[i - 1] = next_col;
 	new_expansions[i - 1] = next_expansion;
 
-	g_free (config->temp_state->columns);
+	g_free (config->temp_state->column_specs);
 	g_free (config->temp_state->expansions);
 
-	config->temp_state->columns = new_shown;
+	config->temp_state->column_specs = new_column_specs;
 	config->temp_state->expansions = new_expansions;
 
 	g_list_free (columns);
@@ -1250,9 +1252,9 @@ config_button_down (GtkWidget *widget,
 {
 	GList *columns = NULL;
 	GList *column;
-	gint *new_shown;
+	ETableColumnSpecification **new_column_specs;
 	gdouble *new_expansions;
-	gint next_col;
+	ETableColumnSpecification *next_col;
 	gdouble next_expansion;
 	gint i;
 
@@ -1262,37 +1264,40 @@ config_button_down (GtkWidget *widget,
 	if (columns == NULL)
 		return;
 
-	new_shown = g_new (gint, config->temp_state->col_count);
+	new_column_specs = g_new (
+		ETableColumnSpecification *, config->temp_state->col_count);
 	new_expansions = g_new (gdouble, config->temp_state->col_count);
 
 	column = columns;
 
 	next_col =
-		config->temp_state->columns[config->temp_state->col_count - 1];
+		config->temp_state->column_specs[config->temp_state->col_count - 1];
 	next_expansion =
 		config->temp_state->expansions[config->temp_state->col_count - 1];
 
 	for (i = config->temp_state->col_count - 1; i > 0; i--) {
 		if (column && (GPOINTER_TO_INT (column->data) == i - 1)) {
-			new_expansions[i] = config->temp_state->expansions[i - 1];
-			new_shown[i] = config->temp_state->columns[i - 1];
+			new_expansions[i] =
+				config->temp_state->expansions[i - 1];
+			new_column_specs[i] =
+				config->temp_state->column_specs[i - 1];
 			column = column->next;
 		} else {
-			new_shown[i] = next_col;
-			next_col = config->temp_state->columns[i - 1];
+			new_column_specs[i] = next_col;
+			next_col = config->temp_state->column_specs[i - 1];
 
 			new_expansions[i] = next_expansion;
 			next_expansion = config->temp_state->expansions[i - 1];
 		}
 	}
 
-	new_shown[0] = next_col;
+	new_column_specs[0] = next_col;
 	new_expansions[0] = next_expansion;
 
-	g_free (config->temp_state->columns);
+	g_free (config->temp_state->column_specs);
 	g_free (config->temp_state->expansions);
 
-	config->temp_state->columns = new_shown;
+	config->temp_state->column_specs = new_column_specs;
 	config->temp_state->expansions = new_expansions;
 
 	g_list_free (columns);

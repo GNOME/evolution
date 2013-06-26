@@ -94,6 +94,11 @@ static void
 table_state_dispose (GObject *object)
 {
 	ETableState *state = E_TABLE_STATE (object);
+	gint ii;
+
+	for (ii = 0; ii < state->col_count; ii++)
+		g_clear_object (&state->column_specs[ii]);
+	state->col_count = 0;
 
 	g_clear_object (&state->sort_info);
 	g_weak_ref_set (&state->priv->specification, NULL);
@@ -107,7 +112,7 @@ table_state_finalize (GObject *object)
 {
 	ETableState *state = E_TABLE_STATE (object);
 
-	g_free (state->columns);
+	g_free (state->column_specs);
 	g_free (state->expansions);
 
 	/* Chain up to parent's finalize() method. */
@@ -263,14 +268,19 @@ void
 e_table_state_load_from_node (ETableState *state,
                               const xmlNode *node)
 {
+	ETableSpecification *specification;
 	xmlNode *children;
 	GList *list = NULL, *iterator;
+	GPtrArray *columns;
 	gdouble state_version;
 	gint i;
 	gboolean can_group = TRUE;
 
 	g_return_if_fail (E_IS_TABLE_STATE (state));
 	g_return_if_fail (node != NULL);
+
+	specification = e_table_state_ref_specification (state);
+	columns = e_table_specification_ref_columns (specification);
 
 	state_version = e_xml_get_double_prop_by_name_with_default (
 		node, (const guchar *)"state-version", STATE_VERSION);
@@ -300,10 +310,15 @@ e_table_state_load_from_node (ETableState *state,
 				state->sort_info, children, state_version);
 		}
 	}
-	g_free (state->columns);
+
+	for (i = 0; i < state->col_count; i++)
+		g_clear_object (&state->column_specs[i]);
+	g_free (state->column_specs);
 	g_free (state->expansions);
+
 	state->col_count = g_list_length (list);
-	state->columns = g_new (int, state->col_count);
+	state->column_specs = g_new (
+		ETableColumnSpecification *, state->col_count);
 	state->expansions = g_new (double, state->col_count);
 
 	if (!state->sort_info)
@@ -311,14 +326,22 @@ e_table_state_load_from_node (ETableState *state,
 	e_table_sort_info_set_can_group (state->sort_info, can_group);
 
 	for (iterator = list, i = 0; iterator; i++) {
+		ETableColumnSpecification *column_spec;
 		int_and_double *column_info = iterator->data;
 
-		state->columns[i] = column_info->column;
+		column_spec = columns->pdata[column_info->column];
+
+		state->column_specs[i] = g_object_ref (column_spec);
 		state->expansions[i] = column_info->expansion;
+
 		g_free (column_info);
+
 		iterator = g_list_next (iterator);
 	}
 	g_list_free (list);
+
+	g_object_unref (specification);
+	g_ptr_array_unref (columns);
 }
 
 void
@@ -367,10 +390,13 @@ xmlNode *
 e_table_state_save_to_node (ETableState *state,
                             xmlNode *parent)
 {
-	gint i;
+	ETableSpecification *specification;
 	xmlNode *node;
+	gint ii;
 
 	g_return_val_if_fail (E_IS_TABLE_STATE (state), NULL);
+
+	specification = e_table_state_ref_specification (state);
 
 	if (parent)
 		node = xmlNewChild (
@@ -379,24 +405,33 @@ e_table_state_save_to_node (ETableState *state,
 		node = xmlNewNode (NULL, (const guchar *) "ETableState");
 
 	e_xml_set_double_prop_by_name (
-		node, (const guchar *)"state-version", STATE_VERSION);
+		node, (const guchar *) "state-version", STATE_VERSION);
 
-	for (i = 0; i < state->col_count; i++) {
-		gint column = state->columns[i];
-		gdouble expansion = state->expansions[i];
+	for (ii = 0; ii < state->col_count; ii++) {
 		xmlNode *new_node;
+		gint index;
+
+		index = e_table_specification_get_column_index (
+			specification, state->column_specs[ii]);
+
+		if (index < 0) {
+			g_warn_if_reached ();
+			continue;
+		}
 
 		new_node = xmlNewChild (
 			node, NULL, (const guchar *) "column", NULL);
 		e_xml_set_integer_prop_by_name (
-			new_node, (const guchar *) "source", column);
-		if (expansion >= -1)
+			new_node, (const guchar *) "source", index);
+		if (state->expansions[ii] >= -1)
 			e_xml_set_double_prop_by_name (
 				new_node, (const guchar *)
-				"expansion", expansion);
+				"expansion", state->expansions[ii]);
 	}
 
 	e_table_sort_info_save_to_node (state->sort_info, node);
+
+	g_object_unref (specification);
 
 	return node;
 }

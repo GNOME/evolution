@@ -26,6 +26,7 @@
 #include <libxml/tree.h>
 
 #include <e-util/e-table-sort-info.h>
+#include <e-util/e-table-column-specification.h>
 
 /* Standard GObject macros */
 #define E_TYPE_TABLE_STATE \
@@ -61,7 +62,7 @@ struct _ETableState {
 
 	ETableSortInfo *sort_info;
 	gint col_count;
-	gint *columns;
+	ETableColumnSpecification **column_specs;
 	gdouble *expansions;
 };
 
