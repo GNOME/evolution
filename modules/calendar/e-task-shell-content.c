@@ -37,16 +37,6 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_TASK_SHELL_CONTENT, ETaskShellContentPrivate))
 
-#define E_TASK_TABLE_DEFAULT_STATE \
-	"<?xml version=\"1.0\"?>" \
-	"<ETableState>" \
-	"  <column source=\"13\"/>" \
-	"  <column source=\"14\"/>" \
-	"  <column source=\"9\"/>" \
-	"  <column source=\"5\"/>" \
-	"  <grouping/>" \
-	"</ETableState>"
-
 struct _ETaskShellContentPrivate {
 	GtkWidget *paned;
 	GtkWidget *task_table;
@@ -514,11 +504,6 @@ task_shell_content_constructed (GObject *object)
 		object, "preview-visible",
 		widget, "visible",
 		G_BINDING_SYNC_CREATE);
-
-	/* Configure the task table. */
-
-	e_table_set_state (
-		E_TABLE (priv->task_table), E_TASK_TABLE_DEFAULT_STATE);
 
 	target_list = gtk_target_list_new (NULL, 0);
 	e_target_list_add_calendar_targets (target_list, 0);
