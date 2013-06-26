@@ -3913,6 +3913,7 @@ e_table_sorting_utils_lookup_cmp_cache
 <TITLE>ETableSpecification</TITLE>
 ETableSpecification
 e_table_specification_new
+e_table_specification_ref_columns
 e_table_specification_load_from_file
 e_table_specification_load_from_string
 e_table_specification_load_from_node

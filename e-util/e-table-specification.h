@@ -84,7 +84,8 @@ struct _ETableSpecificationClass {
 GType		e_table_specification_get_type	(void) G_GNUC_CONST;
 ETableSpecification *
 		e_table_specification_new	(void);
-
+GPtrArray *	e_table_specification_ref_columns
+						(ETableSpecification *specification);
 gboolean	e_table_specification_load_from_file
 						(ETableSpecification *specification,
 						 const gchar *filename);

@@ -112,6 +112,34 @@ e_table_specification_new (void)
 }
 
 /**
+ * e_table_specification_ref_columns:
+ * @specification: an #ETableSpecification
+ *
+ * Returns a #GPtrArray containing #ETableColumnSpecification instances for
+ * all columns defined by @specification.  The array contents are owned by
+ * the @specification and should not be modified.  Unreference the array
+ * with g_ptr_array_unref() when finished with it.
+ *
+ * Returns: a #GPtrArray of #ETableColumnSpecification instances
+ **/
+GPtrArray *
+e_table_specification_ref_columns (ETableSpecification *specification)
+{
+	GPtrArray *array;
+	guint ii;
+
+	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (specification), NULL);
+	g_return_val_if_fail (specification->columns != NULL, NULL);
+
+	array = g_ptr_array_new ();
+
+	for (ii = 0; specification->columns[ii] != NULL; ii++)
+		g_ptr_array_add (array, specification->columns[ii]);
+
+	return array;
+}
+
+/**
  * e_table_specification_load_from_file:
  * @specification: an #ETableSpecification
  * @filename: the name of a file containing an #ETable specification
