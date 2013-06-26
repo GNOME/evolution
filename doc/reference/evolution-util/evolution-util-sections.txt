@@ -3919,7 +3919,6 @@ e_table_specification_new
 e_table_specification_load_from_file
 e_table_specification_load_from_string
 e_table_specification_load_from_node
-e_table_specification_save_to_node
 <SUBSECTION Standard>
 E_TABLE_SPECIFICATION
 E_IS_TABLE_SPECIFICATION
