@@ -38,15 +38,6 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MEMO_SHELL_CONTENT, EMemoShellContentPrivate))
 
-#define E_MEMO_TABLE_DEFAULT_STATE \
-	"<?xml version=\"1.0\"?>" \
-	"<ETableState>" \
-	"  <column source=\"1\"/>" \
-	"  <column source=\"0\"/>" \
-	"  <column source=\"2\"/>" \
-	"  <grouping/>" \
-	"</ETableState>"
-
 struct _EMemoShellContentPrivate {
 	GtkWidget *paned;
 	GtkWidget *memo_table;
@@ -514,11 +505,6 @@ memo_shell_content_constructed (GObject *object)
 		object, "preview-visible",
 		widget, "visible",
 		G_BINDING_SYNC_CREATE);
-
-	/* Configure the memo table. */
-
-	e_table_set_state (
-		E_TABLE (priv->memo_table), E_MEMO_TABLE_DEFAULT_STATE);
 
 	target_list = gtk_target_list_new (NULL, 0);
 	e_target_list_add_calendar_targets (target_list, 0);
