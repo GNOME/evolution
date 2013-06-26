@@ -1355,7 +1355,7 @@ e_tree_set_state (ETree *tree,
 	g_return_if_fail (E_IS_TREE (tree));
 	g_return_if_fail (state_str != NULL);
 
-	state = e_table_state_new ();
+	state = e_table_state_new (tree->priv->spec);
 	e_table_state_load_from_string (state, state_str);
 
 	if (state->col_count > 0)
@@ -1381,7 +1381,7 @@ e_tree_get_state_object (ETree *tree)
 	gint full_col_count;
 	gint i, j;
 
-	state = e_table_state_new ();
+	state = e_table_state_new (tree->priv->spec);
 	state->sort_info = tree->priv->sort_info;
 	if (state->sort_info)
 		g_object_ref (state->sort_info);
@@ -1646,7 +1646,7 @@ e_tree_construct (ETree *tree,
 		return FALSE;
 	}
 	if (state_str) {
-		state = e_table_state_new ();
+		state = e_table_state_new (specification);
 		e_table_state_load_from_string (state, state_str);
 		if (state->col_count <= 0) {
 			g_object_unref (state);
@@ -1707,7 +1707,7 @@ e_tree_construct_from_spec_file (ETree *tree,
 		return FALSE;
 	}
 	if (state_fn) {
-		state = e_table_state_new ();
+		state = e_table_state_new (specification);
 		if (!e_table_state_load_from_file (state, state_fn)) {
 			g_object_unref (state);
 			state = specification->state;

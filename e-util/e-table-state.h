@@ -48,6 +48,9 @@
 
 G_BEGIN_DECLS
 
+/* Avoid a circular dependency. */
+struct _ETableSpecification;
+
 typedef struct _ETableState ETableState;
 typedef struct _ETableStateClass ETableStateClass;
 typedef struct _ETableStatePrivate ETableStatePrivate;
@@ -67,8 +70,10 @@ struct _ETableStateClass {
 };
 
 GType		e_table_state_get_type		(void) G_GNUC_CONST;
-ETableState *	e_table_state_new		(void);
-ETableState *	e_table_state_vanilla		(gint col_count);
+ETableState *	e_table_state_new		(struct _ETableSpecification *specification);
+ETableState *	e_table_state_vanilla		(struct _ETableSpecification *specification);
+struct _ETableSpecification *
+		e_table_state_ref_specification	(ETableState *state);
 gboolean	e_table_state_load_from_file	(ETableState *state,
 						 const gchar *filename);
 void		e_table_state_load_from_string	(ETableState *state,

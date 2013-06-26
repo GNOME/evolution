@@ -187,8 +187,8 @@ e_table_specification_load_from_node (ETableSpecification *specification,
 {
 	gchar *temp;
 	xmlNode *children;
-	GList *list = NULL, *list2;
-	gint i;
+	GQueue columns = G_QUEUE_INIT;
+	guint ii = 0;
 
 	specification->no_headers = e_xml_get_bool_prop_by_name (node, (const guchar *)"no-headers");
 	specification->click_to_add = e_xml_get_bool_prop_by_name (node, (const guchar *)"click-to-add");
@@ -244,8 +244,8 @@ e_table_specification_load_from_node (ETableSpecification *specification,
 		g_object_unref (specification->state);
 	specification->state = NULL;
 	if (specification->columns) {
-		for (i = 0; specification->columns[i]; i++) {
-			g_object_unref (specification->columns[i]);
+		for (ii = 0; specification->columns[ii] != NULL; ii++) {
+			g_object_unref (specification->columns[ii]);
 		}
 		g_free (specification->columns);
 	}
@@ -256,24 +256,23 @@ e_table_specification_load_from_node (ETableSpecification *specification,
 			ETableColumnSpecification *col_spec = e_table_column_specification_new ();
 
 			e_table_column_specification_load_from_node (col_spec, children);
-			list = g_list_append (list, col_spec);
+			g_queue_push_tail (&columns, col_spec);
 		} else if (specification->state == NULL && !strcmp ((gchar *) children->name, "ETableState")) {
-			specification->state = e_table_state_new ();
+			specification->state = e_table_state_new (specification);
 			e_table_state_load_from_node (specification->state, children);
 			e_table_sort_info_set_can_group (specification->state->sort_info, specification->allow_grouping);
 		}
 	}
 
-	if (specification->state == NULL) {
-		/* Make the default state.  */
-		specification->state = e_table_state_vanilla (g_list_length (list));
-	}
+	ii = 0;
+	specification->columns = g_new0 (
+		ETableColumnSpecification *,
+		g_queue_get_length (&columns) + 1);
+	while (!g_queue_is_empty (&columns))
+		specification->columns[ii++] = g_queue_pop_head (&columns);
 
-	specification->columns = g_new (ETableColumnSpecification *, g_list_length (list) + 1);
-	for (list2 = list, i = 0; list2; list2 = g_list_next (list2), i++) {
-		specification->columns[i] = list2->data;
-	}
-	specification->columns[i] = NULL;
-	g_list_free (list);
+	/* e_table_state_vanilla() uses the columns array we just created. */
+	if (specification->state == NULL)
+		specification->state = e_table_state_vanilla (specification);
 }
 

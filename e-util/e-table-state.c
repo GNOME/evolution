@@ -26,6 +26,7 @@
 
 #include <libedataserver/libedataserver.h>
 
+#include "e-table-specification.h"
 #include "e-xml-utils.h"
 
 #define E_TABLE_STATE_GET_PRIVATE(obj) \
@@ -35,10 +36,59 @@
 #define STATE_VERSION 0.1
 
 struct _ETableStatePrivate {
-	gint placeholder;
+	GWeakRef specification;
+};
+
+enum {
+	PROP_0,
+	PROP_SPECIFICATION
 };
 
 G_DEFINE_TYPE (ETableState, e_table_state, G_TYPE_OBJECT)
+
+static void
+table_state_set_specification (ETableState *state,
+                               ETableSpecification *specification)
+{
+	g_return_if_fail (E_IS_TABLE_SPECIFICATION (specification));
+
+	g_weak_ref_set (&state->priv->specification, specification);
+}
+
+static void
+table_state_set_property (GObject *object,
+                          guint property_id,
+                          const GValue *value,
+                          GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_SPECIFICATION:
+			table_state_set_specification (
+				E_TABLE_STATE (object),
+				g_value_get_object (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+table_state_get_property (GObject *object,
+                          guint property_id,
+                          GValue *value,
+                          GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_SPECIFICATION:
+			g_value_take_object (
+				value,
+				e_table_state_ref_specification (
+				E_TABLE_STATE (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
 
 static void
 table_state_dispose (GObject *object)
@@ -46,6 +96,7 @@ table_state_dispose (GObject *object)
 	ETableState *state = E_TABLE_STATE (object);
 
 	g_clear_object (&state->sort_info);
+	g_weak_ref_set (&state->priv->specification, NULL);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_table_state_parent_class)->dispose (object);
@@ -83,9 +134,23 @@ e_table_state_class_init (ETableStateClass *class)
 	g_type_class_add_private (class, sizeof (ETableStatePrivate));
 
 	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = table_state_set_property;
+	object_class->get_property = table_state_get_property;
 	object_class->dispose = table_state_dispose;
 	object_class->finalize = table_state_finalize;
 	object_class->constructed = table_state_constructed;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SPECIFICATION,
+		g_param_spec_object (
+			"specification",
+			"Table Specification",
+			"Specification for the table state",
+			E_TYPE_TABLE_SPECIFICATION,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
 }
 
 static void
@@ -95,29 +160,56 @@ e_table_state_init (ETableState *state)
 }
 
 ETableState *
-e_table_state_new (void)
+e_table_state_new (ETableSpecification *specification)
 {
-	return g_object_new (E_TYPE_TABLE_STATE, NULL);
+	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (specification), NULL);
+
+	return g_object_new (
+		E_TYPE_TABLE_STATE,
+		"specification", specification, NULL);
 }
 
 ETableState *
-e_table_state_vanilla (gint col_count)
+e_table_state_vanilla (ETableSpecification *specification)
 {
+	ETableState *state;
 	GString *str;
-	gint i;
-	ETableState *res;
+	gint ii;
+
+	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (specification), NULL);
+	g_return_val_if_fail (specification->columns != NULL, NULL);
 
 	str = g_string_new ("<ETableState>\n");
-	for (i = 0; i < col_count; i++)
-		g_string_append_printf (str, "  <column source=\"%d\"/>\n", i);
+	for (ii = 0; specification->columns[ii] != NULL; ii++)
+		g_string_append_printf (str, "  <column source=\"%d\"/>\n", ii);
 	g_string_append (str, "  <grouping></grouping>\n");
 	g_string_append (str, "</ETableState>\n");
 
-	res = e_table_state_new ();
-	e_table_state_load_from_string (res, str->str);
+	state = e_table_state_new (specification);
+	e_table_state_load_from_string (state, str->str);
 
 	g_string_free (str, TRUE);
-	return res;
+
+	return state;
+}
+
+/**
+ * e_table_state_ref_specification:
+ * @state: an #ETableState
+ *
+ * Returns the #ETableSpecification passed to e_table_state_new().
+ *
+ * The returned #ETableSpecification is referenced for thread-safety and must
+ * be unreferenced with g_object_unref() when finished with it.
+ *
+ * Returns: an #ETableSpecification
+ **/
+ETableSpecification *
+e_table_state_ref_specification (ETableState *state)
+{
+	g_return_val_if_fail (E_IS_TABLE_STATE (state), NULL);
+
+	return g_weak_ref_get (&state->priv->specification);
 }
 
 gboolean
@@ -317,19 +409,22 @@ ETableState *
 e_table_state_duplicate (ETableState *state)
 {
 	ETableState *new_state;
+	ETableSpecification *specification;
+	gboolean can_group;
 	gchar *copy;
 
 	g_return_val_if_fail (E_IS_TABLE_STATE (state), NULL);
 
-	new_state = e_table_state_new ();
+	specification = e_table_state_ref_specification (state);
+	new_state = e_table_state_new (specification);
+	g_object_unref (specification);
 
 	copy = e_table_state_save_to_string (state);
 	e_table_state_load_from_string (new_state, copy);
 	g_free (copy);
 
-	e_table_sort_info_set_can_group
-		(new_state->sort_info,
-		 e_table_sort_info_get_can_group (state->sort_info));
+	can_group = e_table_sort_info_get_can_group (state->sort_info);
+	e_table_sort_info_set_can_group (new_state->sort_info, can_group);
 
 	return new_state;
 }

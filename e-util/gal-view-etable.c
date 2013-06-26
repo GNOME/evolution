@@ -137,12 +137,9 @@ gal_view_etable_clone (GalView *view)
 	gve = GAL_VIEW_ETABLE (view);
 
 	new = g_object_new (GAL_TYPE_VIEW_ETABLE, NULL);
-	new->spec  = gve->spec;
+	new->spec = g_object_ref (gve->spec);
 	new->title = g_strdup (gve->title);
-	g_object_unref (new->state);
 	new->state = e_table_state_duplicate (gve->state);
-
-	g_object_ref (new->spec);
 
 	return GAL_VIEW (new);
 }
@@ -189,9 +186,6 @@ gal_view_etable_class_init (GalViewEtableClass *class)
 static void
 gal_view_etable_init (GalViewEtable *gve)
 {
-	gve->spec  = NULL;
-	gve->state = e_table_state_new ();
-	gve->title = NULL;
 }
 
 /**
@@ -237,6 +231,7 @@ gal_view_etable_construct (GalViewEtable *view,
 	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (spec), NULL);
 
 	view->spec = g_object_ref (spec);
+	view->state = e_table_state_new (spec);
 
 	if (view->state)
 		g_object_unref (view->state);

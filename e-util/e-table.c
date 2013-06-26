@@ -1625,7 +1625,7 @@ e_table_set_state (ETable *e_table,
 	g_return_if_fail (E_IS_TABLE (e_table));
 	g_return_if_fail (state_str != NULL);
 
-	state = e_table_state_new ();
+	state = e_table_state_new (e_table->spec);
 	e_table_state_load_from_string (state, state_str);
 
 	if (state->col_count > 0)
@@ -1651,7 +1651,7 @@ e_table_load_state (ETable *e_table,
 	g_return_if_fail (E_IS_TABLE (e_table));
 	g_return_if_fail (filename != NULL);
 
-	state = e_table_state_new ();
+	state = e_table_state_new (e_table->spec);
 	e_table_state_load_from_file (state, filename);
 
 	if (state->col_count > 0)
@@ -1677,7 +1677,7 @@ e_table_get_state_object (ETable *e_table)
 	gint full_col_count;
 	gint i, j;
 
-	state = e_table_state_new ();
+	state = e_table_state_new (e_table->spec);
 	if (state->sort_info)
 		g_object_unref (state->sort_info);
 	state->sort_info = e_table->sort_info;
@@ -1924,7 +1924,7 @@ e_table_construct (ETable *e_table,
 	}
 
 	if (state_str) {
-		state = e_table_state_new ();
+		state = e_table_state_new (specification);
 		g_object_ref (state);
 		e_table_state_load_from_string (state, state_str);
 		if (state->col_count <= 0) {
@@ -1982,7 +1982,7 @@ e_table_construct_from_spec_file (ETable *e_table,
 	}
 
 	if (state_fn) {
-		state = e_table_state_new ();
+		state = e_table_state_new (specification);
 		if (!e_table_state_load_from_file (state, state_fn)) {
 			g_object_unref (state);
 			state = specification->state;

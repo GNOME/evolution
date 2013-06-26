@@ -3933,6 +3933,7 @@ e_table_specification_get_type
 ETableState
 e_table_state_new
 e_table_state_vanilla
+e_table_state_ref_specification
 e_table_state_load_from_file
 e_table_state_load_from_string
 e_table_state_load_from_node

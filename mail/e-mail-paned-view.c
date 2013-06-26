@@ -934,7 +934,7 @@ mail_paned_view_update_view_instance (EMailView *view)
 				spec, spec_filename);
 			g_free (spec_filename);
 
-			state = e_table_state_new ();
+			state = e_table_state_new (spec);
 			view = gal_view_etable_new (spec, "");
 
 			e_table_state_load_from_file (
