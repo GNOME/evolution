@@ -3866,8 +3866,6 @@ e_table_sorter_get_type
 <FILE>e-table-sort-info</FILE>
 <TITLE>ETableSortInfo</TITLE>
 ETableSortInfo
-e_table_sort_info_freeze
-e_table_sort_info_thaw
 e_table_sort_info_grouping_get_count
 e_table_sort_info_grouping_truncate
 ETableSortColumn

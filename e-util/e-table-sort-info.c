@@ -65,7 +65,6 @@ e_table_sort_info_init (ETableSortInfo *info)
 	info->groupings = NULL;
 	info->sort_count = 0;
 	info->sortings = NULL;
-	info->frozen = 0;
 	info->sort_info_changed = 0;
 	info->group_info_changed = 0;
 	info->can_group = 1;
@@ -106,11 +105,7 @@ e_table_sort_info_sort_info_changed (ETableSortInfo *info)
 	g_return_if_fail (info != NULL);
 	g_return_if_fail (E_IS_TABLE_SORT_INFO (info));
 
-	if (info->frozen) {
-		info->sort_info_changed = 1;
-	} else {
-		g_signal_emit (info, e_table_sort_info_signals[SORT_INFO_CHANGED], 0);
-	}
+	g_signal_emit (info, e_table_sort_info_signals[SORT_INFO_CHANGED], 0);
 }
 
 static void
@@ -119,56 +114,7 @@ e_table_sort_info_group_info_changed (ETableSortInfo *info)
 	g_return_if_fail (info != NULL);
 	g_return_if_fail (E_IS_TABLE_SORT_INFO (info));
 
-	if (info->frozen) {
-		info->group_info_changed = 1;
-	} else {
-		g_signal_emit (info, e_table_sort_info_signals[GROUP_INFO_CHANGED], 0);
-	}
-}
-
-/**
- * e_table_sort_info_freeze:
- * @info: The ETableSortInfo object
- *
- * This functions allows the programmer to cluster various changes to the
- * ETableSortInfo (grouping and sorting) without having the object emit
- * "group_info_changed" or "sort_info_changed" signals on each change.
- *
- * To thaw, invoke the e_table_sort_info_thaw() function, which will
- * trigger any signals that might have been queued.
- */
-void
-e_table_sort_info_freeze (ETableSortInfo *info)
-{
-	info->frozen++;
-}
-
-/**
- * e_table_sort_info_thaw:
- * @info: The ETableSortInfo object
- *
- * This functions allows the programmer to cluster various changes to the
- * ETableSortInfo (grouping and sorting) without having the object emit
- * "group_info_changed" or "sort_info_changed" signals on each change.
- *
- * This function will flush any pending signals that might be emited by
- * this object.
- */
-void
-e_table_sort_info_thaw (ETableSortInfo *info)
-{
-	info->frozen--;
-	if (info->frozen != 0)
-		return;
-
-	if (info->sort_info_changed) {
-		info->sort_info_changed = 0;
-		e_table_sort_info_sort_info_changed (info);
-	}
-	if (info->group_info_changed) {
-		info->group_info_changed = 0;
-		e_table_sort_info_group_info_changed (info);
-	}
+	g_signal_emit (info, e_table_sort_info_signals[GROUP_INFO_CHANGED], 0);
 }
 
 /**

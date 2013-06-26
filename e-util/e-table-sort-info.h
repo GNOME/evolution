@@ -68,7 +68,6 @@ struct _ETableSortInfo {
 	gint sort_count;
 	ETableSortColumn *sortings;
 
-	guint frozen : 1;
 	guint sort_info_changed : 1;
 	guint group_info_changed : 1;
 
@@ -84,9 +83,6 @@ struct _ETableSortInfoClass {
 };
 
 GType		e_table_sort_info_get_type	(void) G_GNUC_CONST;
-
-void		e_table_sort_info_freeze	(ETableSortInfo *info);
-void		e_table_sort_info_thaw		(ETableSortInfo *info);
 
 guint		e_table_sort_info_grouping_get_count
 						(ETableSortInfo *info);
