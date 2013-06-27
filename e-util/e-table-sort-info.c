@@ -29,6 +29,7 @@
 
 struct _ETableSortInfoPrivate {
 	GWeakRef specification;
+	gboolean can_group;
 };
 
 enum {
@@ -164,7 +165,7 @@ e_table_sort_info_init (ETableSortInfo *sort_info)
 {
 	sort_info->priv = E_TABLE_SORT_INFO_GET_PRIVATE (sort_info);
 
-	sort_info->can_group = TRUE;
+	sort_info->priv->can_group = TRUE;
 }
 
 /**
@@ -212,7 +213,7 @@ e_table_sort_info_get_can_group (ETableSortInfo *sort_info)
 {
 	g_return_val_if_fail (E_IS_TABLE_SORT_INFO (sort_info), FALSE);
 
-	return sort_info->can_group;
+	return sort_info->priv->can_group;
 }
 
 void
@@ -221,7 +222,7 @@ e_table_sort_info_set_can_group (ETableSortInfo *sort_info,
 {
 	g_return_if_fail (E_IS_TABLE_SORT_INFO (sort_info));
 
-	sort_info->can_group = can_group;
+	sort_info->priv->can_group = can_group;
 }
 
 /**
@@ -233,9 +234,14 @@ e_table_sort_info_set_can_group (ETableSortInfo *sort_info,
 guint
 e_table_sort_info_grouping_get_count (ETableSortInfo *sort_info)
 {
+	guint count = 0;
+
 	g_return_val_if_fail (E_IS_TABLE_SORT_INFO (sort_info), 0);
 
-	return (sort_info->can_group) ? sort_info->group_count : 0;
+	if (e_table_sort_info_get_can_group (sort_info))
+		count = sort_info->group_count;
+
+	return count;
 }
 
 static void
@@ -287,10 +293,13 @@ e_table_sort_info_grouping_get_nth (ETableSortInfo *sort_info,
 
 	g_return_val_if_fail (E_IS_TABLE_SORT_INFO (sort_info), fake);
 
-	if (sort_info->can_group && n < sort_info->group_count)
-		return sort_info->groupings[n];
+	if (!e_table_sort_info_get_can_group (sort_info))
+		return fake;
 
-	return fake;
+	if (n >= e_table_sort_info_grouping_get_count (sort_info))
+		return fake;
+
+	return sort_info->groupings[n];
 }
 
 /**
@@ -545,7 +554,7 @@ e_table_sort_info_duplicate (ETableSortInfo *sort_info)
 		sort_info->sortings,
 		sizeof (ETableSortColumn) * new_info->sort_count);
 
-	new_info->can_group = sort_info->can_group;
+	new_info->priv->can_group = sort_info->priv->can_group;
 
 	return new_info;
 }

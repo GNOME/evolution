@@ -69,8 +69,6 @@ struct _ETableSortInfo {
 	ETableSortColumn *groupings;
 	gint sort_count;
 	ETableSortColumn *sortings;
-
-	gboolean can_group;
 };
 
 struct _ETableSortInfoClass {
