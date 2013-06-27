@@ -20,6 +20,7 @@
 
 #include <string.h>
 
+#include "e-table-specification.h"
 #include "e-xml-utils.h"
 
 #define E_TABLE_SORT_INFO_GET_PRIVATE(obj) \
@@ -27,7 +28,12 @@
 	((obj), E_TYPE_TABLE_SORT_INFO, ETableSortInfoPrivate))
 
 struct _ETableSortInfoPrivate {
-	gint placeholder;
+	GWeakRef specification;
+};
+
+enum {
+	PROP_0,
+	PROP_SPECIFICATION
 };
 
 enum {
@@ -39,6 +45,63 @@ enum {
 static guint signals[LAST_SIGNAL];
 
 G_DEFINE_TYPE (ETableSortInfo , e_table_sort_info, G_TYPE_OBJECT)
+
+static void
+table_sort_info_set_specification (ETableSortInfo *sort_info,
+                                   ETableSpecification *specification)
+{
+	g_return_if_fail (E_IS_TABLE_SPECIFICATION (specification));
+
+	g_weak_ref_set (&sort_info->priv->specification, specification);
+}
+
+static void
+table_sort_info_set_property (GObject *object,
+                              guint property_id,
+                              const GValue *value,
+                              GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_SPECIFICATION:
+			table_sort_info_set_specification (
+				E_TABLE_SORT_INFO (object),
+				g_value_get_object (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+table_sort_info_get_property (GObject *object,
+                              guint property_id,
+                              GValue *value,
+                              GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_SPECIFICATION:
+			g_value_take_object (
+				value,
+				e_table_sort_info_ref_specification (
+				E_TABLE_SORT_INFO (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+table_sort_info_dispose (GObject *object)
+{
+	ETableSortInfoPrivate *priv;
+
+	priv = E_TABLE_SORT_INFO_GET_PRIVATE (object);
+
+	g_weak_ref_set (&priv->specification, NULL);
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (e_table_sort_info_parent_class)->dispose (object);
+}
 
 static void
 table_sort_info_finalize (GObject *object)
@@ -60,7 +123,22 @@ e_table_sort_info_class_init (ETableSortInfoClass *class)
 	g_type_class_add_private (class, sizeof (ETableSortInfoPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = table_sort_info_set_property;
+	object_class->get_property = table_sort_info_get_property;
+	object_class->dispose = table_sort_info_dispose;
 	object_class->finalize = table_sort_info_finalize;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SPECIFICATION,
+		g_param_spec_object (
+			"specification",
+			"Table Specification",
+			"Specification for the table state",
+			E_TYPE_TABLE_SPECIFICATION,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
 
 	signals[SORT_INFO_CHANGED] = g_signal_new (
 		"sort_info_changed",
@@ -91,6 +169,7 @@ e_table_sort_info_init (ETableSortInfo *sort_info)
 
 /**
  * e_table_sort_info_new:
+ * @specification: an #ETableSpecification
  *
  * This creates a new #ETableSortInfo object that contains no
  * grouping and no sorting defined as of yet.  This object is used
@@ -100,9 +179,32 @@ e_table_sort_info_init (ETableSortInfo *sort_info)
  * Returns: A new #ETableSortInfo object
  */
 ETableSortInfo *
-e_table_sort_info_new (void)
+e_table_sort_info_new (ETableSpecification *specification)
 {
-	return g_object_new (E_TYPE_TABLE_SORT_INFO, NULL);
+	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (specification), NULL);
+
+	return g_object_new (
+		E_TYPE_TABLE_SORT_INFO,
+		"specification", specification, NULL);
+}
+
+/**
+ * e_table_sort_info_ref_specification:
+ * @sort_info: an #ETableSortInfo
+ *
+ * Returns the #ETableSpecification passed to e_table_sort_info_new().
+ *
+ * The returned #ETableSpecification is referenced for thread-safety and must
+ * be unreferenced with g_object_unref() when finished with it.
+ *
+ * Returns: an #ETableSpecification
+ **/
+ETableSpecification *
+e_table_sort_info_ref_specification (ETableSortInfo *sort_info)
+{
+	g_return_val_if_fail (E_IS_TABLE_SORT_INFO (sort_info), NULL);
+
+	return g_weak_ref_get (&sort_info->priv->specification);
 }
 
 gboolean
@@ -420,11 +522,14 @@ e_table_sort_info_save_to_node (ETableSortInfo *sort_info,
 ETableSortInfo *
 e_table_sort_info_duplicate (ETableSortInfo *sort_info)
 {
+	ETableSpecification *specification;
 	ETableSortInfo *new_info;
 
 	g_return_val_if_fail (E_IS_TABLE_SORT_INFO (sort_info), NULL);
 
-	new_info = e_table_sort_info_new ();
+	specification = e_table_sort_info_ref_specification (sort_info);
+	new_info = e_table_sort_info_new (specification);
+	g_object_unref (specification);
 
 	new_info->group_count = sort_info->group_count;
 	new_info->groupings = g_new (ETableSortColumn, new_info->group_count);

@@ -123,9 +123,13 @@ static void
 table_state_constructed (GObject *object)
 {
 	ETableState *state;
+	ETableSpecification *specification;
 
 	state = E_TABLE_STATE (object);
-	state->sort_info = e_table_sort_info_new ();
+
+	specification = e_table_state_ref_specification (state);
+	state->sort_info = e_table_sort_info_new (specification);
+	g_object_unref (specification);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_table_state_parent_class)->constructed (object);
@@ -305,7 +309,8 @@ e_table_state_load_from_node (ETableState *state,
 			list = g_list_append (list, column_info);
 		} else if (state->sort_info == NULL &&
 			   !strcmp ((gchar *) children->name, "grouping")) {
-			state->sort_info = e_table_sort_info_new ();
+			state->sort_info =
+				e_table_sort_info_new (specification);
 			e_table_sort_info_load_from_node (
 				state->sort_info, children, state_version);
 		}
@@ -321,8 +326,8 @@ e_table_state_load_from_node (ETableState *state,
 		ETableColumnSpecification *, state->col_count);
 	state->expansions = g_new (double, state->col_count);
 
-	if (!state->sort_info)
-		state->sort_info = e_table_sort_info_new ();
+	if (state->sort_info == NULL)
+		state->sort_info = e_table_sort_info_new (specification);
 	e_table_sort_info_set_can_group (state->sort_info, can_group);
 
 	for (iterator = list, i = 0; iterator; i++) {

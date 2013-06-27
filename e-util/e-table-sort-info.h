@@ -47,6 +47,9 @@
 
 G_BEGIN_DECLS
 
+/* Avoid a circular dependency. */
+struct _ETableSpecification;
+
 typedef struct _ETableSortColumn ETableSortColumn;
 
 typedef struct _ETableSortInfo ETableSortInfo;
@@ -82,7 +85,10 @@ struct _ETableSortInfoClass {
 };
 
 GType		e_table_sort_info_get_type	(void) G_GNUC_CONST;
-ETableSortInfo *e_table_sort_info_new		(void);
+ETableSortInfo *e_table_sort_info_new		(struct _ETableSpecification *specification);
+struct _ETableSpecification *
+		e_table_sort_info_ref_specification
+						(ETableSortInfo *sort_info);
 gboolean	e_table_sort_info_get_can_group (ETableSortInfo *sort_info);
 void		e_table_sort_info_set_can_group	(ETableSortInfo *sort_info,
 						 gboolean can_group);
