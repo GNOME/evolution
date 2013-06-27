@@ -28,7 +28,15 @@
 
 #include "e-xml-utils.h"
 
+#define E_TABLE_STATE_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_TABLE_STATE, ETableStatePrivate))
+
 #define STATE_VERSION 0.1
+
+struct _ETableStatePrivate {
+	gint placeholder;
+};
 
 G_DEFINE_TYPE (ETableState, e_table_state, G_TYPE_OBJECT)
 
@@ -56,18 +64,34 @@ table_state_finalize (GObject *object)
 }
 
 static void
+table_state_constructed (GObject *object)
+{
+	ETableState *state;
+
+	state = E_TABLE_STATE (object);
+	state->sort_info = e_table_sort_info_new ();
+
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_table_state_parent_class)->constructed (object);
+}
+
+static void
 e_table_state_class_init (ETableStateClass *class)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (class);
+	GObjectClass *object_class;
 
+	g_type_class_add_private (class, sizeof (ETableStatePrivate));
+
+	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = table_state_dispose;
 	object_class->finalize = table_state_finalize;
+	object_class->constructed = table_state_constructed;
 }
 
 static void
 e_table_state_init (ETableState *state)
 {
-	state->sort_info = e_table_sort_info_new ();
+	state->priv = E_TABLE_STATE_GET_PRIVATE (state);
 }
 
 ETableState *

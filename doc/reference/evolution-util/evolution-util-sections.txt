@@ -3949,6 +3949,8 @@ E_IS_TABLE_STATE_CLASS
 E_TABLE_STATE_GET_CLASS
 ETableStateClass
 e_table_state_get_type
+<SUBSECTION Private>
+ETableStatePrivate
 </SECTION>
 
 <SECTION>

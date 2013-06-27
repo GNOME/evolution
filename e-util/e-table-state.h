@@ -50,9 +50,11 @@ G_BEGIN_DECLS
 
 typedef struct _ETableState ETableState;
 typedef struct _ETableStateClass ETableStateClass;
+typedef struct _ETableStatePrivate ETableStatePrivate;
 
 struct _ETableState {
 	GObject parent;
+	ETableStatePrivate *priv;
 
 	ETableSortInfo *sort_info;
 	gint col_count;
