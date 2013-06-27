@@ -1473,6 +1473,7 @@ e_editor_widget_set_html_mode (EEditorWidget *widget,
                                gboolean html_mode)
 {
 	gboolean changing = FALSE;
+	gint result;
 
 	g_return_if_fail (E_IS_EDITOR_WIDGET (widget));
 
@@ -1499,13 +1500,15 @@ e_editor_widget_set_html_mode (EEditorWidget *widget,
 			_("_Lose formatting"), GTK_RESPONSE_OK,
 			NULL);
 
-		if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_CANCEL) {
+		result = gtk_dialog_run (GTK_DIALOG (dialog));
+
+		if (result == GTK_RESPONSE_OK) {
+			changing = TRUE;
+		} else {
 			gtk_widget_destroy (dialog);
 			/* Nothing has changed, but notify anyway */
 			g_object_notify (G_OBJECT (widget), "html-mode");
 			return;
-		} else {
-			changing = TRUE;
 		}
 
 		gtk_widget_destroy (dialog);
