@@ -491,6 +491,10 @@ mail_formatter_update_style (EMailFormatter *formatter,
 	widget_path = gtk_widget_path_new ();
 	gtk_widget_path_append_type (widget_path, GTK_TYPE_WINDOW);
 	gtk_style_context_set_path (style_context, widget_path);
+	gtk_style_context_invalidate (style_context);
+
+	gtk_style_context_save (style_context);
+	gtk_style_context_add_class (style_context, GTK_STYLE_CLASS_TOOLBAR);
 
 	gtk_style_context_get_background_color (style_context, state, &rgba);
 	e_mail_formatter_set_color (
@@ -502,11 +506,12 @@ mail_formatter_update_style (EMailFormatter *formatter,
 	e_mail_formatter_set_color (
 		formatter, E_MAIL_FORMATTER_COLOR_FRAME, &rgba);
 
+	gtk_style_context_restore (style_context);
+	gtk_style_context_add_class (style_context, GTK_STYLE_CLASS_ENTRY);
+
 	gtk_style_context_get_color (style_context, state, &rgba);
 	e_mail_formatter_set_color (
 		formatter, E_MAIL_FORMATTER_COLOR_HEADER, &rgba);
-
-	gtk_style_context_add_class (style_context, GTK_STYLE_CLASS_ENTRY);
 
 	gtk_style_context_get_background_color (
 		style_context, state | GTK_STATE_FLAG_FOCUSED, &rgba);
