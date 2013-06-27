@@ -3041,6 +3041,9 @@ e_editor_selection_wrap_lines (EEditorSelection *selection,
 		 * wrapping the selection, but we need to save it before we
 		 * start to modify selection */
 		range = editor_selection_get_current_range (selection);
+		if (!range)
+			return;
+
 		save_caret_position (selection);
 
 		start_offset = webkit_dom_range_get_start_offset (range, NULL);
@@ -3067,10 +3070,24 @@ e_editor_selection_wrap_lines (EEditorSelection *selection,
 			if (parent_div && g_strcmp0 (webkit_dom_element_get_class_name (parent_div), "-x-evo-paragraph") == 0) {
 				paragraph = WEBKIT_DOM_NODE (parent_div);
 			} else {
-				/* If Return is pressed we need to select element above caret */
-				if (return_pressed) {
-					WebKitDOMNode *position = WEBKIT_DOM_NODE (webkit_dom_document_get_element_by_id (document, "-x-evo-caret-position"));
-					paragraph = webkit_dom_node_get_previous_sibling (position);
+				WebKitDOMNode *position = WEBKIT_DOM_NODE (webkit_dom_document_get_element_by_id (document, "-x-evo-caret-position"));
+				if (!position)
+					return;
+
+				/* We try to select previous sibling */
+				paragraph = webkit_dom_node_get_previous_sibling (position);
+				if (paragraph) {
+					/* When there is just text without container we have to surround it with paragraph div */
+					if (WEBKIT_DOM_IS_TEXT (paragraph)) {
+						WebKitDOMRange *new_range = webkit_dom_document_create_range (document);
+						WebKitDOMNode *container = WEBKIT_DOM_NODE (webkit_dom_document_create_element (document, "DIV", NULL));
+						webkit_dom_element_set_class_name (WEBKIT_DOM_ELEMENT (container), "-x-evo-paragraph");
+						webkit_dom_range_select_node (new_range, paragraph, NULL);
+						webkit_dom_range_surround_contents (new_range, container, NULL);
+						/* We have to move caret position inside this container */
+						webkit_dom_node_append_child (container, position, NULL);
+						paragraph = container;
+					}
 				} else {
 					/* When some weird element is selected, return */
 					clear_caret_position_marker (selection);
@@ -3078,6 +3095,9 @@ e_editor_selection_wrap_lines (EEditorSelection *selection,
 				}
 			}
 		}
+
+		if (!paragraph)
+			return;
 
 		webkit_dom_html_element_set_id (WEBKIT_DOM_HTML_ELEMENT (paragraph), "-x-evo-active-paragraph");
 
