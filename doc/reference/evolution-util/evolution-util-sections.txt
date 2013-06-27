@@ -3892,6 +3892,8 @@ E_IS_TABLE_SORT_INFO_CLASS
 E_TABLE_SORT_INFO_GET_CLASS
 ETableSortInfoClass
 e_table_sort_info_get_type
+<SUBSECTION Private>
+ETableSortInfoPrivate
 </SECTION>
 
 <SECTION>

@@ -51,6 +51,7 @@ typedef struct _ETableSortColumn ETableSortColumn;
 
 typedef struct _ETableSortInfo ETableSortInfo;
 typedef struct _ETableSortInfoClass ETableSortInfoClass;
+typedef struct _ETableSortInfoPrivate ETableSortInfoPrivate;
 
 struct _ETableSortColumn {
 	guint column : 31;
@@ -59,6 +60,7 @@ struct _ETableSortColumn {
 
 struct _ETableSortInfo {
 	GObject parent;
+	ETableSortInfoPrivate *priv;
 
 	gint group_count;
 	ETableSortColumn *groupings;

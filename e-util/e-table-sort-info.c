@@ -22,6 +22,14 @@
 
 #include "e-xml-utils.h"
 
+#define E_TABLE_SORT_INFO_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_TABLE_SORT_INFO, ETableSortInfoPrivate))
+
+struct _ETableSortInfoPrivate {
+	gint placeholder;
+};
+
 enum {
 	SORT_INFO_CHANGED,
 	GROUP_INFO_CHANGED,
@@ -49,6 +57,8 @@ e_table_sort_info_class_init (ETableSortInfoClass *class)
 {
 	GObjectClass * object_class;
 
+	g_type_class_add_private (class, sizeof (ETableSortInfoPrivate));
+
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = table_sort_info_finalize;
 
@@ -74,6 +84,8 @@ e_table_sort_info_class_init (ETableSortInfoClass *class)
 static void
 e_table_sort_info_init (ETableSortInfo *sort_info)
 {
+	sort_info->priv = E_TABLE_SORT_INFO_GET_PRIVATE (sort_info);
+
 	sort_info->can_group = TRUE;
 }
 
