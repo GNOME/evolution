@@ -53,8 +53,6 @@ free_strings (ETableColumnSpecification *etcs)
 	etcs->compare = NULL;
 	g_free (etcs->search);
 	etcs->search = NULL;
-	g_free (etcs->sortable);
-	etcs->sortable = NULL;
 }
 
 static void
@@ -119,7 +117,7 @@ e_table_column_specification_load_from_node (ETableColumnSpecification *etcs,
 	etcs->cell          = e_xml_get_string_prop_by_name (node, (const guchar *)"cell");
 	etcs->compare       = e_xml_get_string_prop_by_name (node, (const guchar *)"compare");
 	etcs->search        = e_xml_get_string_prop_by_name (node, (const guchar *)"search");
-	etcs->sortable	    = e_xml_get_string_prop_by_name (node, (const guchar *)"sortable");
+	etcs->sortable      = e_xml_get_bool_prop_by_name_with_default (node, (const guchar *)"sortable", TRUE);
 	etcs->priority      = e_xml_get_integer_prop_by_name_with_default (node, (const guchar *)"priority", 0);
 
 	if (etcs->title == NULL)

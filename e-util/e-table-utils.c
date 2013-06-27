@@ -128,10 +128,7 @@ et_col_spec_to_col (ETableColumnSpecification *col_spec,
 
 		if (col) {
 			col->search = search;
-			if (col_spec->sortable && !strcmp (col_spec->sortable, "false"))
-				col->sortable = FALSE;
-			else
-				col->sortable = TRUE;
+			col->sortable = col_spec->sortable;
 		}
 		g_free (title);
 	}

@@ -64,13 +64,13 @@ struct _ETableColumnSpecification {
 
 	gdouble expansion;
 	gint minimum_width;
-	guint resizable : 1;
-	guint disabled : 1;
+	gboolean resizable;
+	gboolean disabled;
+	gboolean sortable;
 
 	gchar *cell;
 	gchar *compare;
 	gchar *search;
-	gchar *sortable;
 	gint priority;
 };
 
