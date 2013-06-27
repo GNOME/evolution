@@ -3868,6 +3868,9 @@ e_table_sorter_get_type
 <FILE>e-table-sort-info</FILE>
 <TITLE>ETableSortInfo</TITLE>
 ETableSortInfo
+e_table_sort_info_new
+e_table_sort_info_get_can_group
+e_table_sort_info_set_can_group
 e_table_sort_info_grouping_get_count
 e_table_sort_info_grouping_truncate
 ETableSortColumn
@@ -3877,12 +3880,9 @@ e_table_sort_info_sorting_get_count
 e_table_sort_info_sorting_truncate
 e_table_sort_info_sorting_get_nth
 e_table_sort_info_sorting_set_nth
-e_table_sort_info_new
 e_table_sort_info_load_from_node
 e_table_sort_info_save_to_node
 e_table_sort_info_duplicate
-e_table_sort_info_set_can_group
-e_table_sort_info_get_can_group
 <SUBSECTION Standard>
 E_TABLE_SORT_INFO
 E_IS_TABLE_SORT_INFO
