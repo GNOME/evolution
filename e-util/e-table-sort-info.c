@@ -30,6 +30,7 @@
 struct _ETableSortInfoPrivate {
 	GWeakRef specification;
 	guint group_count;
+	guint sort_count;
 	gboolean can_group;
 };
 
@@ -338,21 +339,21 @@ e_table_sort_info_sorting_get_count (ETableSortInfo *sort_info)
 {
 	g_return_val_if_fail (E_IS_TABLE_SORT_INFO (sort_info), 0);
 
-	return sort_info->sort_count;
+	return sort_info->priv->sort_count;
 }
 
 static void
 table_sort_info_sorting_real_truncate (ETableSortInfo *sort_info,
                                        gint length)
 {
-	if (length < sort_info->sort_count)
-		sort_info->sort_count = length;
+	if (length < sort_info->priv->sort_count)
+		sort_info->priv->sort_count = length;
 
-	if (length > sort_info->sort_count) {
+	if (length > sort_info->priv->sort_count) {
 		sort_info->sortings = g_realloc (
 			sort_info->sortings,
 			length * sizeof (ETableSortColumn));
-		sort_info->sort_count = length;
+		sort_info->priv->sort_count = length;
 	}
 }
 
@@ -390,10 +391,10 @@ e_table_sort_info_sorting_get_nth (ETableSortInfo *sort_info,
 
 	g_return_val_if_fail (E_IS_TABLE_SORT_INFO (sort_info), fake);
 
-	if (n < sort_info->sort_count)
-		return sort_info->sortings[n];
+	if (n >= e_table_sort_info_sorting_get_count (sort_info))
+		return fake;
 
-	return fake;
+	return sort_info->sortings[n];
 }
 
 /**
@@ -412,7 +413,7 @@ e_table_sort_info_sorting_set_nth (ETableSortInfo *sort_info,
 {
 	g_return_if_fail (E_IS_TABLE_SORT_INFO (sort_info));
 
-	if (n >= sort_info->sort_count)
+	if (n >= sort_info->priv->sort_count)
 		table_sort_info_sorting_real_truncate (sort_info, n + 1);
 
 	sort_info->sortings[n] = column;
@@ -549,12 +550,13 @@ e_table_sort_info_duplicate (ETableSortInfo *sort_info)
 		sort_info->groupings,
 		sizeof (ETableSortColumn) * new_info->priv->group_count);
 
-	new_info->sort_count = sort_info->sort_count;
-	new_info->sortings = g_new (ETableSortColumn, new_info->sort_count);
+	new_info->priv->sort_count = sort_info->priv->sort_count;
+	new_info->sortings = g_new (
+		ETableSortColumn, new_info->priv->sort_count);
 	memmove (
 		new_info->sortings,
 		sort_info->sortings,
-		sizeof (ETableSortColumn) * new_info->sort_count);
+		sizeof (ETableSortColumn) * new_info->priv->sort_count);
 
 	new_info->priv->can_group = sort_info->priv->can_group;
 

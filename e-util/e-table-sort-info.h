@@ -66,7 +66,6 @@ struct _ETableSortInfo {
 	ETableSortInfoPrivate *priv;
 
 	ETableSortColumn *groupings;
-	gint sort_count;
 	ETableSortColumn *sortings;
 };
 
