@@ -99,6 +99,9 @@ void		e_table_header_add_column	(ETableHeader *eth,
 						 gint pos);
 ETableCol *	e_table_header_get_column	(ETableHeader *eth,
 						 gint column);
+ETableCol *	e_table_header_get_column_by_spec
+						(ETableHeader *eth,
+						 ETableColumnSpecification *spec);
 ETableCol *	e_table_header_get_column_by_col_idx
 						(ETableHeader *eth,
 						 gint col_idx);

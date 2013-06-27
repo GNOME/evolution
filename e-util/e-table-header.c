@@ -468,6 +468,38 @@ e_table_header_get_column (ETableHeader *eth,
 }
 
 /**
+ * e_table_header_get_column_by_spec:
+ * @eth: the ETableHeader to query
+ * @spec: an #ETableColumnSpecification
+ *
+ * Returns the #ETableCol having @spec as the column specification, or
+ * %NULL if there is no matching #ETableCol.
+ *
+ * Returns: an #ETableCol, or %NULL
+ **/
+ETableCol *
+e_table_header_get_column_by_spec (ETableHeader *eth,
+                                   ETableColumnSpecification *spec)
+{
+	gint ii;
+
+	g_return_val_if_fail (E_IS_TABLE_HEADER (eth), NULL);
+	g_return_val_if_fail (E_IS_TABLE_COLUMN_SPECIFICATION (spec), NULL);
+
+	for (ii = 0; ii < eth->col_count; ii++) {
+		gboolean column_specs_equal;
+
+		column_specs_equal = e_table_column_specification_equal (
+			spec, eth->columns[ii]->spec);
+
+		if (column_specs_equal)
+			return eth->columns[ii];
+	}
+
+	return NULL;
+}
+
+/**
  * e_table_header_get_column_by_col_id:
  * @eth: the ETableHeader to query
  * @col_id: the col_id to search for.

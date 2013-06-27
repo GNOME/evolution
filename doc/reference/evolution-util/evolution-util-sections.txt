@@ -3586,6 +3586,7 @@ ETableHeader
 e_table_header_new
 e_table_header_add_column
 e_table_header_get_column
+e_table_header_get_column_by_spec
 e_table_header_get_column_by_col_idx
 e_table_header_count
 e_table_header_index
