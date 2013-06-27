@@ -1505,6 +1505,7 @@ mail_session_authenticate_sync (CamelSession *session,
 	CamelAuthenticationResult result;
 	const gchar *uid;
 	gboolean authenticated;
+	gboolean try_empty_password = FALSE;
 	GError *local_error = NULL;
 
 	/* Do not chain up.  Camel's default method is only an example for
@@ -1541,23 +1542,28 @@ mail_session_authenticate_sync (CamelSession *session,
 		CamelProvider *provider;
 		CamelSasl *sasl;
 		const gchar *service_name;
-		gboolean success = FALSE;
 
 		provider = camel_service_get_provider (service);
 		service_name = provider->protocol;
 
 		/* XXX Would be nice if camel_sasl_try_empty_password_sync()
-		 *     returned CamelAuthenticationResult so it's easier to
-		 *     detect errors. */
+		 *     returned the result in an "out" parameter so it's
+		 *     easier to distinguish errors from a "no" answer.
+		 * YYY There are precisely two states. Either we appear to
+		 *     have credentials (although we don't yet know if the
+		 *     server would *accept* them, of course). Or we don't
+		 *     have any credentials, and we can't even try. There
+		 *     is no middle ground.
+		 *     N.B. For 'have credentials', read 'the ntlm_auth
+		 *          helper exists and at first glance seems to
+		 *          be responding sanely'. */
 		sasl = camel_sasl_new (service_name, mechanism, service);
 		if (sasl != NULL) {
-			success = camel_sasl_try_empty_password_sync (
+			try_empty_password =
+				camel_sasl_try_empty_password_sync (
 				sasl, cancellable, &local_error);
 			g_object_unref (sasl);
 		}
-
-		if (success)
-			return TRUE;
 	}
 
 	/* Abort authentication if we got cancelled.
@@ -1581,9 +1587,21 @@ mail_session_authenticate_sync (CamelSession *session,
 
 	auth = e_mail_authenticator_new (service, mechanism);
 
-	authenticated = e_source_registry_authenticate_sync (
-		registry, source, auth, cancellable, error);
+	result = CAMEL_AUTHENTICATION_REJECTED;
 
+	if (try_empty_password) {
+		result = camel_service_authenticate_sync (
+			service, mechanism, cancellable, error);
+	}
+
+	if (result == CAMEL_AUTHENTICATION_REJECTED) {
+		/* We need a password, preferrably one cached in
+		 * the keyring or else by interactive user prompt. */
+		authenticated = e_source_registry_authenticate_sync (
+			registry, source, auth, cancellable, error);
+	} else {
+		authenticated = (result == CAMEL_AUTHENTICATION_ACCEPTED);
+	}
 	g_object_unref (auth);
 
 	g_object_unref (source);
