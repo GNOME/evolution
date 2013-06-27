@@ -29,8 +29,8 @@
 
 struct _ETableSortInfoPrivate {
 	GWeakRef specification;
-	guint group_count;
-	guint sort_count;
+	GArray *groupings;
+	GArray *sortings;
 	gboolean can_group;
 };
 
@@ -102,6 +102,9 @@ table_sort_info_dispose (GObject *object)
 
 	g_weak_ref_set (&priv->specification, NULL);
 
+	g_array_set_size (priv->groupings, 0);
+	g_array_set_size (priv->sortings, 0);
+
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_table_sort_info_parent_class)->dispose (object);
 }
@@ -109,10 +112,12 @@ table_sort_info_dispose (GObject *object)
 static void
 table_sort_info_finalize (GObject *object)
 {
-	ETableSortInfo *sort_info = E_TABLE_SORT_INFO (object);
+	ETableSortInfoPrivate *priv;
 
-	g_free (sort_info->groupings);
-	g_free (sort_info->sortings);
+	priv = E_TABLE_SORT_INFO_GET_PRIVATE (object);
+
+	g_array_free (priv->groupings, TRUE);
+	g_array_free (priv->sortings, TRUE);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_table_sort_info_parent_class)->finalize (object);
@@ -166,6 +171,11 @@ static void
 e_table_sort_info_init (ETableSortInfo *sort_info)
 {
 	sort_info->priv = E_TABLE_SORT_INFO_GET_PRIVATE (sort_info);
+
+	sort_info->priv->groupings = g_array_new (
+		FALSE, TRUE, sizeof (ETableSortColumn));
+	sort_info->priv->sortings = g_array_new (
+		FALSE, TRUE, sizeof (ETableSortColumn));
 
 	sort_info->priv->can_group = TRUE;
 }
@@ -241,24 +251,9 @@ e_table_sort_info_grouping_get_count (ETableSortInfo *sort_info)
 	g_return_val_if_fail (E_IS_TABLE_SORT_INFO (sort_info), 0);
 
 	if (e_table_sort_info_get_can_group (sort_info))
-		count = sort_info->priv->group_count;
+		count = sort_info->priv->groupings->len;
 
 	return count;
-}
-
-static void
-table_sort_info_grouping_real_truncate (ETableSortInfo *sort_info,
-                                        guint length)
-{
-	if (length < sort_info->priv->group_count)
-		sort_info->priv->group_count = length;
-
-	if (length > sort_info->priv->group_count) {
-		sort_info->groupings = g_realloc (
-			sort_info->groupings,
-			length * sizeof (ETableSortColumn));
-		sort_info->priv->group_count = length;
-	}
 }
 
 /**
@@ -275,7 +270,7 @@ e_table_sort_info_grouping_truncate (ETableSortInfo *sort_info,
 {
 	g_return_if_fail (E_IS_TABLE_SORT_INFO (sort_info));
 
-	table_sort_info_grouping_real_truncate (sort_info, length);
+	g_array_set_size (sort_info->priv->groupings, length);
 
 	g_signal_emit (sort_info, signals[GROUP_INFO_CHANGED], 0);
 }
@@ -291,17 +286,20 @@ ETableSortColumn
 e_table_sort_info_grouping_get_nth (ETableSortInfo *sort_info,
                                     guint n)
 {
-	ETableSortColumn fake = {0, 0};
+	ETableSortColumn column = { 0, 0 };
+	GArray *array;
 
-	g_return_val_if_fail (E_IS_TABLE_SORT_INFO (sort_info), fake);
+	g_return_val_if_fail (E_IS_TABLE_SORT_INFO (sort_info), column);
+
+	array = sort_info->priv->groupings;
 
 	if (!e_table_sort_info_get_can_group (sort_info))
-		return fake;
+		return column;
 
-	if (n >= e_table_sort_info_grouping_get_count (sort_info))
-		return fake;
+	if (n < array->len)
+		column = g_array_index (array, ETableSortColumn, n);
 
-	return sort_info->groupings[n];
+	return column;
 }
 
 /**
@@ -318,12 +316,16 @@ e_table_sort_info_grouping_set_nth (ETableSortInfo *sort_info,
                                     guint n,
                                     ETableSortColumn column)
 {
+	ETableSortColumn *array_element;
+	GArray *array;
+
 	g_return_if_fail (E_IS_TABLE_SORT_INFO (sort_info));
 
-	if (n >= sort_info->priv->group_count)
-		table_sort_info_grouping_real_truncate (sort_info, n + 1);
+	array = sort_info->priv->groupings;
+	g_array_set_size (array, MAX (n + 1, array->len));
 
-	sort_info->groupings[n] = column;
+	array_element = &g_array_index (array, ETableSortColumn, n);
+	*array_element = column;
 
 	g_signal_emit (sort_info, signals[GROUP_INFO_CHANGED], 0);
 }
@@ -339,22 +341,7 @@ e_table_sort_info_sorting_get_count (ETableSortInfo *sort_info)
 {
 	g_return_val_if_fail (E_IS_TABLE_SORT_INFO (sort_info), 0);
 
-	return sort_info->priv->sort_count;
-}
-
-static void
-table_sort_info_sorting_real_truncate (ETableSortInfo *sort_info,
-                                       guint length)
-{
-	if (length < sort_info->priv->sort_count)
-		sort_info->priv->sort_count = length;
-
-	if (length > sort_info->priv->sort_count) {
-		sort_info->sortings = g_realloc (
-			sort_info->sortings,
-			length * sizeof (ETableSortColumn));
-		sort_info->priv->sort_count = length;
-	}
+	return sort_info->priv->sortings->len;
 }
 
 /**
@@ -371,7 +358,7 @@ e_table_sort_info_sorting_truncate (ETableSortInfo *sort_info,
 {
 	g_return_if_fail (E_IS_TABLE_SORT_INFO (sort_info));
 
-	table_sort_info_sorting_real_truncate  (sort_info, length);
+	g_array_set_size (sort_info->priv->sortings, length);
 
 	g_signal_emit (sort_info, signals[SORT_INFO_CHANGED], 0);
 }
@@ -387,14 +374,17 @@ ETableSortColumn
 e_table_sort_info_sorting_get_nth (ETableSortInfo *sort_info,
                                    guint n)
 {
-	ETableSortColumn fake = {0, 0};
+	ETableSortColumn column = { 0, 0 };
+	GArray *array;
 
-	g_return_val_if_fail (E_IS_TABLE_SORT_INFO (sort_info), fake);
+	g_return_val_if_fail (E_IS_TABLE_SORT_INFO (sort_info), column);
 
-	if (n >= e_table_sort_info_sorting_get_count (sort_info))
-		return fake;
+	array = sort_info->priv->sortings;
 
-	return sort_info->sortings[n];
+	if (n < array->len)
+		column = g_array_index (array, ETableSortColumn, n);
+
+	return column;
 }
 
 /**
@@ -411,12 +401,16 @@ e_table_sort_info_sorting_set_nth (ETableSortInfo *sort_info,
                                    guint n,
                                    ETableSortColumn column)
 {
+	ETableSortColumn *array_element;
+	GArray *array;
+
 	g_return_if_fail (E_IS_TABLE_SORT_INFO (sort_info));
 
-	if (n >= sort_info->priv->sort_count)
-		table_sort_info_sorting_real_truncate (sort_info, n + 1);
+	array = sort_info->priv->sortings;
+	g_array_set_size (array, MAX (n + 1, array->len));
 
-	sort_info->sortings[n] = column;
+	array_element = &g_array_index (array, ETableSortColumn, n);
+	*array_element = column;
 
 	g_signal_emit (sort_info, signals[SORT_INFO_CHANGED], 0);
 }
@@ -542,21 +536,23 @@ e_table_sort_info_duplicate (ETableSortInfo *sort_info)
 	new_info = e_table_sort_info_new (specification);
 	g_object_unref (specification);
 
-	new_info->priv->group_count = sort_info->priv->group_count;
-	new_info->groupings = g_new (
-		ETableSortColumn, new_info->priv->group_count);
+	g_array_set_size (
+		new_info->priv->groupings,
+		sort_info->priv->groupings->len);
 	memmove (
-		new_info->groupings,
-		sort_info->groupings,
-		sizeof (ETableSortColumn) * new_info->priv->group_count);
+		new_info->priv->groupings->data,
+		sort_info->priv->groupings->data,
+		sort_info->priv->groupings->len *
+		g_array_get_element_size (sort_info->priv->groupings));
 
-	new_info->priv->sort_count = sort_info->priv->sort_count;
-	new_info->sortings = g_new (
-		ETableSortColumn, new_info->priv->sort_count);
+	g_array_set_size (
+		new_info->priv->sortings,
+		sort_info->priv->sortings->len);
 	memmove (
-		new_info->sortings,
-		sort_info->sortings,
-		sizeof (ETableSortColumn) * new_info->priv->sort_count);
+		new_info->priv->sortings->data,
+		sort_info->priv->sortings->data,
+		sort_info->priv->sortings->len *
+		g_array_get_element_size (sort_info->priv->sortings));
 
 	new_info->priv->can_group = sort_info->priv->can_group;
 

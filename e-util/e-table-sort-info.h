@@ -64,9 +64,6 @@ struct _ETableSortColumn {
 struct _ETableSortInfo {
 	GObject parent;
 	ETableSortInfoPrivate *priv;
-
-	ETableSortColumn *groupings;
-	ETableSortColumn *sortings;
 };
 
 struct _ETableSortInfoClass {
