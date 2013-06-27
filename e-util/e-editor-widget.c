@@ -874,6 +874,18 @@ editor_widget_button_release_event (GtkWidget *widget,
 }
 
 static gboolean
+is_something_to_remove (EEditorWidget *widget)
+{
+	WebKitDOMDocument *document;
+	WebKitDOMHTMLElement *body;
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
+	body = webkit_dom_document_get_body (document);
+
+	return (g_utf8_strlen (webkit_dom_node_get_text_content (WEBKIT_DOM_NODE (body)), -1) > 0);
+}
+
+static gboolean
 editor_widget_key_press_event (GtkWidget *widget,
                                GdkEventKey *event)
 {
@@ -883,6 +895,11 @@ editor_widget_key_press_event (GtkWidget *widget,
 	    (event->keyval == GDK_KEY_Control_R)) {
 
 		editor_widget_set_links_active (editor, TRUE);
+	}
+
+    	if (event->keyval == GDK_KEY_BackSpace) {
+		if (!is_something_to_remove (editor))
+			return FALSE;
 	}
 
 	if ((event->keyval == GDK_KEY_Return) ||
