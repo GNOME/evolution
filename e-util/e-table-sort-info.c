@@ -29,6 +29,7 @@
 
 struct _ETableSortInfoPrivate {
 	GWeakRef specification;
+	guint group_count;
 	gboolean can_group;
 };
 
@@ -239,7 +240,7 @@ e_table_sort_info_grouping_get_count (ETableSortInfo *sort_info)
 	g_return_val_if_fail (E_IS_TABLE_SORT_INFO (sort_info), 0);
 
 	if (e_table_sort_info_get_can_group (sort_info))
-		count = sort_info->group_count;
+		count = sort_info->priv->group_count;
 
 	return count;
 }
@@ -248,14 +249,14 @@ static void
 table_sort_info_grouping_real_truncate (ETableSortInfo *sort_info,
                                         gint length)
 {
-	if (length < sort_info->group_count)
-		sort_info->group_count = length;
+	if (length < sort_info->priv->group_count)
+		sort_info->priv->group_count = length;
 
-	if (length > sort_info->group_count) {
+	if (length > sort_info->priv->group_count) {
 		sort_info->groupings = g_realloc (
 			sort_info->groupings,
 			length * sizeof (ETableSortColumn));
-		sort_info->group_count = length;
+		sort_info->priv->group_count = length;
 	}
 }
 
@@ -318,7 +319,7 @@ e_table_sort_info_grouping_set_nth (ETableSortInfo *sort_info,
 {
 	g_return_if_fail (E_IS_TABLE_SORT_INFO (sort_info));
 
-	if (n >= sort_info->group_count)
+	if (n >= sort_info->priv->group_count)
 		table_sort_info_grouping_real_truncate (sort_info, n + 1);
 
 	sort_info->groupings[n] = column;
@@ -540,12 +541,13 @@ e_table_sort_info_duplicate (ETableSortInfo *sort_info)
 	new_info = e_table_sort_info_new (specification);
 	g_object_unref (specification);
 
-	new_info->group_count = sort_info->group_count;
-	new_info->groupings = g_new (ETableSortColumn, new_info->group_count);
+	new_info->priv->group_count = sort_info->priv->group_count;
+	new_info->groupings = g_new (
+		ETableSortColumn, new_info->priv->group_count);
 	memmove (
 		new_info->groupings,
 		sort_info->groupings,
-		sizeof (ETableSortColumn) * new_info->group_count);
+		sizeof (ETableSortColumn) * new_info->priv->group_count);
 
 	new_info->sort_count = sort_info->sort_count;
 	new_info->sortings = g_new (ETableSortColumn, new_info->sort_count);
