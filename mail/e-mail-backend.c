@@ -208,6 +208,7 @@ mail_backend_prepare_for_online_cb (EShell *shell,
 	session = e_mail_backend_get_session (backend);
 	account_store = e_mail_ui_session_get_account_store (E_MAIL_UI_SESSION (session));
 
+	camel_session_set_network_available (CAMEL_SESSION (session), TRUE);
 	camel_session_set_online (CAMEL_SESSION (session), TRUE);
 
 	e_mail_account_store_queue_enabled_services (account_store, &queue);
