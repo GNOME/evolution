@@ -70,9 +70,6 @@ struct _ETableSortInfo {
 	gint sort_count;
 	ETableSortColumn *sortings;
 
-	gboolean sort_info_changed;
-	gboolean group_info_changed;
-
 	gboolean can_group;
 };
 
