@@ -89,28 +89,28 @@ guint		e_table_sort_info_grouping_get_count
 						(ETableSortInfo *sort_info);
 void		e_table_sort_info_grouping_truncate
 						(ETableSortInfo *sort_info,
-						 gint length);
+						 guint length);
 ETableSortColumn
 		e_table_sort_info_grouping_get_nth
 						(ETableSortInfo *sort_info,
-						 gint n);
+						 guint n);
 void		e_table_sort_info_grouping_set_nth
 						(ETableSortInfo *sort_info,
-						 gint n,
+						 guint n,
 						 ETableSortColumn column);
 
 guint		e_table_sort_info_sorting_get_count
 						(ETableSortInfo *sort_info);
 void		e_table_sort_info_sorting_truncate
 						(ETableSortInfo *sort_info,
-						 gint length);
+						 guint length);
 ETableSortColumn
 		e_table_sort_info_sorting_get_nth
 						(ETableSortInfo *sort_info,
-						 gint n);
+						 guint n);
 void		e_table_sort_info_sorting_set_nth
 						(ETableSortInfo *sort_info,
-						 gint n,
+						 guint n,
 						 ETableSortColumn column);
 void		e_table_sort_info_load_from_node
 						(ETableSortInfo *sort_info,

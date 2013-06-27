@@ -248,7 +248,7 @@ e_table_sort_info_grouping_get_count (ETableSortInfo *sort_info)
 
 static void
 table_sort_info_grouping_real_truncate (ETableSortInfo *sort_info,
-                                        gint length)
+                                        guint length)
 {
 	if (length < sort_info->priv->group_count)
 		sort_info->priv->group_count = length;
@@ -271,7 +271,7 @@ table_sort_info_grouping_real_truncate (ETableSortInfo *sort_info,
  */
 void
 e_table_sort_info_grouping_truncate (ETableSortInfo *sort_info,
-                                     gint length)
+                                     guint length)
 {
 	g_return_if_fail (E_IS_TABLE_SORT_INFO (sort_info));
 
@@ -289,7 +289,7 @@ e_table_sort_info_grouping_truncate (ETableSortInfo *sort_info,
  */
 ETableSortColumn
 e_table_sort_info_grouping_get_nth (ETableSortInfo *sort_info,
-                                    gint n)
+                                    guint n)
 {
 	ETableSortColumn fake = {0, 0};
 
@@ -315,7 +315,7 @@ e_table_sort_info_grouping_get_nth (ETableSortInfo *sort_info,
  */
 void
 e_table_sort_info_grouping_set_nth (ETableSortInfo *sort_info,
-                                    gint n,
+                                    guint n,
                                     ETableSortColumn column)
 {
 	g_return_if_fail (E_IS_TABLE_SORT_INFO (sort_info));
@@ -344,7 +344,7 @@ e_table_sort_info_sorting_get_count (ETableSortInfo *sort_info)
 
 static void
 table_sort_info_sorting_real_truncate (ETableSortInfo *sort_info,
-                                       gint length)
+                                       guint length)
 {
 	if (length < sort_info->priv->sort_count)
 		sort_info->priv->sort_count = length;
@@ -367,7 +367,7 @@ table_sort_info_sorting_real_truncate (ETableSortInfo *sort_info,
  */
 void
 e_table_sort_info_sorting_truncate (ETableSortInfo *sort_info,
-                                    gint length)
+                                    guint length)
 {
 	g_return_if_fail (E_IS_TABLE_SORT_INFO (sort_info));
 
@@ -385,7 +385,7 @@ e_table_sort_info_sorting_truncate (ETableSortInfo *sort_info,
  */
 ETableSortColumn
 e_table_sort_info_sorting_get_nth (ETableSortInfo *sort_info,
-                                   gint n)
+                                   guint n)
 {
 	ETableSortColumn fake = {0, 0};
 
@@ -408,7 +408,7 @@ e_table_sort_info_sorting_get_nth (ETableSortInfo *sort_info,
  */
 void
 e_table_sort_info_sorting_set_nth (ETableSortInfo *sort_info,
-                                   gint n,
+                                   guint n,
                                    ETableSortColumn column)
 {
 	g_return_if_fail (E_IS_TABLE_SORT_INFO (sort_info));
@@ -435,7 +435,7 @@ e_table_sort_info_load_from_node (ETableSortInfo *sort_info,
                                   xmlNode *node,
                                   gdouble state_version)
 {
-	gint i;
+	guint i;
 	xmlNode *grouping;
 
 	g_return_if_fail (E_IS_TABLE_SORT_INFO (sort_info));
@@ -457,8 +457,8 @@ e_table_sort_info_load_from_node (ETableSortInfo *sort_info,
 			e_table_sort_info_sorting_set_nth (sort_info, i++, column);
 		}
 	} else {
-		gint gcnt = 0;
-		gint scnt = 0;
+		guint gcnt = 0;
+		guint scnt = 0;
 		for (grouping = node->children; grouping; grouping = grouping->next) {
 			ETableSortColumn column;
 
@@ -494,9 +494,9 @@ e_table_sort_info_save_to_node (ETableSortInfo *sort_info,
                                 xmlNode *parent)
 {
 	xmlNode *grouping;
-	gint sort_count;
-	gint group_count;
-	gint i;
+	guint sort_count;
+	guint group_count;
+	guint i;
 
 	g_return_val_if_fail (E_IS_TABLE_SORT_INFO (sort_info), NULL);
 
