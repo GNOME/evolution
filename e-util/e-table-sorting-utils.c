@@ -45,36 +45,49 @@ etsu_compare (ETableModel *source,
 	gint j;
 	gint sort_count = e_table_sort_info_sorting_get_count (sort_info);
 	gint comp_val = 0;
-	gint ascending = 1;
+	GtkSortType sort_type = GTK_SORT_ASCENDING;
 
 	for (j = 0; j < sort_count; j++) {
 		ETableSortColumn column = e_table_sort_info_sorting_get_nth (sort_info, j);
 		ETableCol *col;
+
 		col = e_table_header_get_column_by_col_idx (full_header, column.column);
-		if (col == NULL)
-			col = e_table_header_get_column (full_header, e_table_header_count (full_header) - 1);
-		comp_val = (*col->compare)(e_table_model_value_at (source, col->compare_col, row1),
-					   e_table_model_value_at (source, col->compare_col, row2),
-					   cmp_cache);
-		ascending = column.ascending;
+		if (col == NULL) {
+			gint last = e_table_header_count (full_header) - 1;
+			col = e_table_header_get_column (full_header, last);
+		}
+
+		comp_val = (*col->compare) (
+			e_table_model_value_at (
+				source, col->compare_col, row1),
+			e_table_model_value_at (
+				source, col->compare_col, row2),
+			cmp_cache);
+		if (column.ascending)
+			sort_type = GTK_SORT_ASCENDING;
+		else
+			sort_type = GTK_SORT_DESCENDING;
 		if (comp_val != 0)
 			break;
 	}
+
 	if (comp_val == 0) {
 		if (row1 < row2)
 			comp_val = -1;
 		if (row1 > row2)
 			comp_val = 1;
 	}
-	if (!ascending)
+
+	if (sort_type == GTK_SORT_DESCENDING)
 		comp_val = -comp_val;
+
 	return comp_val;
 }
 
 typedef struct {
 	gint cols;
 	gpointer *vals;
-	gint *ascending;
+	GtkSortType *sort_type;
 	GCompareDataFunc *compare;
 	gpointer cmp_cache;
 } ETableSortClosure;
@@ -99,10 +112,14 @@ e_sort_callback (gconstpointer data1,
 	gint j;
 	gint sort_count = closure->cols;
 	gint comp_val = 0;
-	gint ascending = 1;
+	GtkSortType sort_type = GTK_SORT_ASCENDING;
+
 	for (j = 0; j < sort_count; j++) {
-		comp_val = (*(closure->compare[j]))(closure->vals[closure->cols * row1 + j], closure->vals[closure->cols * row2 + j], closure->cmp_cache);
-		ascending = closure->ascending[j];
+		comp_val = (*(closure->compare[j])) (
+			closure->vals[closure->cols * row1 + j],
+			closure->vals[closure->cols * row2 + j],
+			closure->cmp_cache);
+		sort_type = closure->sort_type[j];
 		if (comp_val != 0)
 			break;
 	}
@@ -112,8 +129,10 @@ e_sort_callback (gconstpointer data1,
 		if (row1 > row2)
 			comp_val = 1;
 	}
-	if (!ascending)
+
+	if (sort_type == GTK_SORT_DESCENDING)
 		comp_val = -comp_val;
+
 	return comp_val;
 }
 
@@ -130,40 +149,44 @@ e_table_sorting_utils_sort (ETableModel *source,
 	gint cols;
 	ETableSortClosure closure;
 
-	g_return_if_fail (source != NULL);
 	g_return_if_fail (E_IS_TABLE_MODEL (source));
-	g_return_if_fail (sort_info != NULL);
 	g_return_if_fail (E_IS_TABLE_SORT_INFO (sort_info));
-	g_return_if_fail (full_header != NULL);
 	g_return_if_fail (E_IS_TABLE_HEADER (full_header));
 
 	total_rows = e_table_model_row_count (source);
 	cols = e_table_sort_info_sorting_get_count (sort_info);
 	closure.cols = cols;
 
-	closure.vals = g_new (gpointer , total_rows * cols);
-	closure.ascending = g_new (int, cols);
+	closure.vals = g_new (gpointer, total_rows * cols);
+	closure.sort_type = g_new (GtkSortType, cols);
 	closure.compare = g_new (GCompareDataFunc, cols);
 	closure.cmp_cache = e_table_sorting_utils_create_cmp_cache ();
 
 	for (j = 0; j < cols; j++) {
 		ETableSortColumn column = e_table_sort_info_sorting_get_nth (sort_info, j);
 		ETableCol *col;
+
 		col = e_table_header_get_column_by_col_idx (full_header, column.column);
-		if (col == NULL)
-			col = e_table_header_get_column (full_header, e_table_header_count (full_header) - 1);
+		if (col == NULL) {
+			gint last = e_table_header_count (full_header) - 1;
+			col = e_table_header_get_column (full_header, last);
+		}
+
 		for (i = 0; i < rows; i++) {
 			closure.vals[map_table[i] * cols + j] = e_table_model_value_at (source, col->compare_col, map_table[i]);
 		}
 		closure.compare[j] = col->compare;
-		closure.ascending[j] = column.ascending;
+		if (column.ascending)
+			closure.sort_type[j] = GTK_SORT_ASCENDING;
+		else
+			closure.sort_type[j] = GTK_SORT_DESCENDING;
 	}
 
 	g_qsort_with_data (
 		map_table, rows, sizeof (gint), e_sort_callback, &closure);
 
 	g_free (closure.vals);
-	g_free (closure.ascending);
+	g_free (closure.sort_type);
 	g_free (closure.compare);
 	e_table_sorting_utils_free_cmp_cache (closure.cmp_cache);
 }
@@ -171,27 +194,30 @@ e_table_sorting_utils_sort (ETableModel *source,
 gboolean
 e_table_sorting_utils_affects_sort (ETableSortInfo *sort_info,
                                     ETableHeader *full_header,
-                                    gint col)
+                                    gint compare_col)
 {
 	gint j;
 	gint cols;
 
-	g_return_val_if_fail (sort_info != NULL, TRUE);
 	g_return_val_if_fail (E_IS_TABLE_SORT_INFO (sort_info), TRUE);
-	g_return_val_if_fail (full_header != NULL, TRUE);
 	g_return_val_if_fail (E_IS_TABLE_HEADER (full_header), TRUE);
 
 	cols = e_table_sort_info_sorting_get_count (sort_info);
 
 	for (j = 0; j < cols; j++) {
 		ETableSortColumn column = e_table_sort_info_sorting_get_nth (sort_info, j);
-		ETableCol *tablecol;
-		tablecol = e_table_header_get_column_by_col_idx (full_header, column.column);
-		if (tablecol == NULL)
-			tablecol = e_table_header_get_column (full_header, e_table_header_count (full_header) - 1);
-		if (col == tablecol->compare_col)
+		ETableCol *col;
+
+		col = e_table_header_get_column_by_col_idx (full_header, column.column);
+		if (col == NULL) {
+			gint last = e_table_header_count (full_header) - 1;
+			col = e_table_header_get_column (full_header, last);
+		}
+
+		if (compare_col == col->compare_col)
 			return TRUE;
 	}
+
 	return FALSE;
 }
 
@@ -262,23 +288,35 @@ etsu_tree_compare (ETreeModel *source,
 	gint j;
 	gint sort_count = e_table_sort_info_sorting_get_count (sort_info);
 	gint comp_val = 0;
-	gint ascending = 1;
+	GtkSortType sort_type = GTK_SORT_ASCENDING;
 
 	for (j = 0; j < sort_count; j++) {
 		ETableSortColumn column = e_table_sort_info_sorting_get_nth (sort_info, j);
 		ETableCol *col;
+
 		col = e_table_header_get_column_by_col_idx (full_header, column.column);
-		if (col == NULL)
-			col = e_table_header_get_column (full_header, e_table_header_count (full_header) - 1);
-		comp_val = (*col->compare)(e_tree_model_value_at (source, path1, col->compare_col),
-					   e_tree_model_value_at (source, path2, col->compare_col),
-					   cmp_cache);
-		ascending = column.ascending;
+		if (col == NULL) {
+			gint last = e_table_header_count (full_header) - 1;
+			col = e_table_header_get_column (full_header, last);
+		}
+
+		comp_val = (*col->compare) (
+			e_tree_model_value_at (
+				source, path1, col->compare_col),
+			e_tree_model_value_at (
+				source, path2, col->compare_col),
+			cmp_cache);
+		if (column.ascending)
+			sort_type = GTK_SORT_ASCENDING;
+		else
+			sort_type = GTK_SORT_DESCENDING;
 		if (comp_val != 0)
 			break;
 	}
-	if (!ascending)
+
+	if (sort_type == GTK_SORT_DESCENDING)
 		comp_val = -comp_val;
+
 	return comp_val;
 }
 
@@ -306,18 +344,16 @@ e_table_sorting_utils_tree_sort (ETreeModel *source,
 	gint i, j;
 	gint *map;
 	ETreePath *map_copy;
-	g_return_if_fail (source != NULL);
+
 	g_return_if_fail (E_IS_TREE_MODEL (source));
-	g_return_if_fail (sort_info != NULL);
 	g_return_if_fail (E_IS_TABLE_SORT_INFO (sort_info));
-	g_return_if_fail (full_header != NULL);
 	g_return_if_fail (E_IS_TABLE_HEADER (full_header));
 
 	cols = e_table_sort_info_sorting_get_count (sort_info);
 	closure.cols = cols;
 
 	closure.vals = g_new (gpointer , count * cols);
-	closure.ascending = g_new (int, cols);
+	closure.sort_type = g_new (GtkSortType, cols);
 	closure.compare = g_new (GCompareDataFunc, cols);
 	closure.cmp_cache = e_table_sorting_utils_create_cmp_cache ();
 
@@ -326,14 +362,19 @@ e_table_sorting_utils_tree_sort (ETreeModel *source,
 		ETableCol *col;
 
 		col = e_table_header_get_column_by_col_idx (full_header, column.column);
-		if (col == NULL)
-			col = e_table_header_get_column (full_header, e_table_header_count (full_header) - 1);
+		if (col == NULL) {
+			gint last = e_table_header_count (full_header) - 1;
+			col = e_table_header_get_column (full_header, last);
+		}
 
 		for (i = 0; i < count; i++) {
 			closure.vals[i * cols + j] = e_tree_model_sort_value_at (source, map_table[i], col->compare_col);
 		}
-		closure.ascending[j] = column.ascending;
 		closure.compare[j] = col->compare;
+		if (column.ascending)
+			closure.sort_type[j] = GTK_SORT_ASCENDING;
+		else
+			closure.sort_type[j] = GTK_SORT_DESCENDING;
 	}
 
 	map = g_new (int, count);
@@ -356,7 +397,7 @@ e_table_sorting_utils_tree_sort (ETreeModel *source,
 	g_free (map_copy);
 
 	g_free (closure.vals);
-	g_free (closure.ascending);
+	g_free (closure.sort_type);
 	g_free (closure.compare);
 	e_table_sorting_utils_free_cmp_cache (closure.cmp_cache);
 }
@@ -410,7 +451,9 @@ e_table_sorting_utils_tree_insert (ETreeModel *source,
 	closure.full_header = full_header;
 	closure.cmp_cache = e_table_sorting_utils_create_cmp_cache ();
 
-	e_bsearch (&path, map_table, count, sizeof (ETreePath), e_sort_tree_callback, &closure, &start, &end);
+	e_bsearch (
+		&path, map_table, count, sizeof (ETreePath),
+		e_sort_tree_callback, &closure, &start, &end);
 
 	e_table_sorting_utils_free_cmp_cache (closure.cmp_cache);
 
@@ -431,7 +474,11 @@ e_table_sorting_utils_tree_insert (ETreeModel *source,
 gpointer
 e_table_sorting_utils_create_cmp_cache (void)
 {
-	return g_hash_table_new_full (g_str_hash, g_str_equal, (GDestroyNotify) camel_pstring_free, g_free);
+	return g_hash_table_new_full (
+		(GHashFunc) g_str_hash,
+		(GEqualFunc) g_str_equal,
+		(GDestroyNotify) camel_pstring_free,
+		(GDestroyNotify) g_free);
 }
 
 /**
@@ -467,7 +514,8 @@ e_table_sorting_utils_add_to_cmp_cache (gpointer cmp_cache,
 	g_return_if_fail (cmp_cache != NULL);
 	g_return_if_fail (key != NULL);
 
-	g_hash_table_insert (cmp_cache, (gchar *) camel_pstring_strdup (key), value);
+	g_hash_table_insert (
+		cmp_cache, (gchar *) camel_pstring_strdup (key), value);
 }
 
 /**
@@ -475,9 +523,8 @@ e_table_sorting_utils_add_to_cmp_cache (gpointer cmp_cache,
  * @cmp_cache: a compare cache
  * @key: unique key to a cache
  *
- * Lookups for a key in a compare cache, which is passed in GCompareDataFunc as 'data'.
- * Returns %NULL when not found or the cache wasn't provided, otherwise value stored
- * with a key.
+ * Looks ups @key in @cmp_cache, which is passed in GCompareDataFunc as 'data'.
+ * Returns %NULL when not found or the cache wasn't provided.
  **/
 const gchar *
 e_table_sorting_utils_lookup_cmp_cache (gpointer cmp_cache,
@@ -485,7 +532,7 @@ e_table_sorting_utils_lookup_cmp_cache (gpointer cmp_cache,
 {
 	g_return_val_if_fail (key != NULL, NULL);
 
-	if (!cmp_cache)
+	if (cmp_cache == NULL)
 		return NULL;
 
 	return g_hash_table_lookup (cmp_cache, key);

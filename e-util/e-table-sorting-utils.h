@@ -37,7 +37,7 @@ G_BEGIN_DECLS
 gboolean	e_table_sorting_utils_affects_sort
 						(ETableSortInfo *sort_info,
 						 ETableHeader *full_header,
-						 gint col);
+						 gint compare_col);
 
 void		e_table_sorting_utils_sort	(ETableModel *source,
 						 ETableSortInfo *sort_info,
