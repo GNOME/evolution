@@ -156,14 +156,15 @@ e_table_group_container_construct (GnomeCanvasGroup *parent,
 	GtkStyle *style;
 
 	col = e_table_header_get_column_by_col_idx (full_header, column.column);
-	if (col == NULL)
-		col = e_table_header_get_column (full_header, e_table_header_count (full_header) - 1);
+	if (col == NULL) {
+		gint last = e_table_header_count (full_header) - 1;
+		col = e_table_header_get_column (full_header, last);
+	}
 
-	e_table_group_construct (parent, E_TABLE_GROUP (etgc), full_header, header, model);
-	etgc->ecol = col;
-	g_object_ref (etgc->ecol);
-	etgc->sort_info = sort_info;
-	g_object_ref (etgc->sort_info);
+	e_table_group_construct (
+		parent, E_TABLE_GROUP (etgc), full_header, header, model);
+	etgc->ecol = g_object_ref (col);
+	etgc->sort_info = g_object_ref (sort_info);
 	etgc->n = n;
 	etgc->ascending = column.ascending;
 
@@ -513,8 +514,10 @@ create_child_node (ETableGroupContainer *etgc,
 		child, "start_drag",
 		G_CALLBACK (child_start_drag), etgc);
 	child_node->child = child;
-	child_node->key = e_table_model_duplicate_value (etg->model, etgc->ecol->col_idx, val);
-	child_node->string = e_table_model_value_to_string (etg->model, etgc->ecol->col_idx, val);
+	child_node->key = e_table_model_duplicate_value (
+		etg->model, etgc->ecol->col_idx, val);
+	child_node->string = e_table_model_value_to_string (
+		etg->model, etgc->ecol->col_idx, val);
 	child_node->count = 0;
 
 	return child_node;
@@ -525,13 +528,15 @@ etgc_add (ETableGroup *etg,
           gint row)
 {
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (etg);
-	gpointer val = e_table_model_value_at (etg->model, etgc->ecol->col_idx, row);
 	GCompareDataFunc comp = etgc->ecol->compare;
 	gpointer cmp_cache = e_table_sorting_utils_create_cmp_cache ();
 	GList *list = etgc->children;
 	ETableGroup *child;
 	ETableGroupContainerChildNode *child_node;
+	gpointer val;
 	gint i = 0;
+
+	val = e_table_model_value_at (etg->model, etgc->ecol->col_idx, row);
 
 	for (; list; list = g_list_next (list), i++) {
 		gint comp_val;
@@ -586,11 +591,15 @@ etgc_add_array (ETableGroup *etg,
 	etgc->children = NULL;
 	cmp_cache = e_table_sorting_utils_create_cmp_cache ();
 
-	lastval = e_table_model_value_at (etg->model, etgc->ecol->col_idx, array[0]);
+	lastval = e_table_model_value_at (
+		etg->model, etgc->ecol->col_idx, array[0]);
 
 	for (i = 1; i < count; i++) {
-		gpointer val = e_table_model_value_at (etg->model, etgc->ecol->col_idx, array[i]);
+		gpointer val;
 		gint comp_val;
+
+		val = e_table_model_value_at (
+			etg->model, etgc->ecol->col_idx, array[i]);
 
 		comp_val = (*comp)(lastval, val, cmp_cache);
 		if (comp_val != 0) {
