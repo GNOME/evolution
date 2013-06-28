@@ -87,6 +87,9 @@ ETableSpecification *
 		e_table_specification_new	(void);
 GPtrArray *	e_table_specification_ref_columns
 						(ETableSpecification *specification);
+gint		e_table_specification_get_column_index
+						(ETableSpecification *specification,
+						 ETableColumnSpecification *column_spec);
 gboolean	e_table_specification_load_from_file
 						(ETableSpecification *specification,
 						 const gchar *filename);

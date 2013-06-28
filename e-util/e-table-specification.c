@@ -143,6 +143,47 @@ e_table_specification_ref_columns (ETableSpecification *specification)
 }
 
 /**
+ * e_table_specification_get_column_index:
+ * @specification: an #ETableSpecification
+ * @column_spec: an #ETableColumnSpecification
+ *
+ * Returns the zero-based index of @column_spec within @specification,
+ * or a negative value if @column_spec is not defined by @specification.
+ *
+ * Returns: the column index of @column_spec, or a negative value
+ **/
+gint
+e_table_specification_get_column_index (ETableSpecification *specification,
+                                        ETableColumnSpecification *column_spec)
+{
+	GPtrArray *columns;
+	gint column_index = -1;
+	guint ii;
+
+	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (specification), -1);
+	g_return_val_if_fail (E_IS_TABLE_COLUMN_SPECIFICATION (column_spec), -1);
+
+	columns = e_table_specification_ref_columns (specification);
+
+	for (ii = 0; ii < columns->len; ii++) {
+		gboolean column_specs_equal;
+
+		column_specs_equal =
+			e_table_column_specification_equal (
+			column_spec, columns->pdata[ii]);
+
+		if (column_specs_equal) {
+			column_index = (gint) ii;
+			break;
+		}
+	}
+
+	g_ptr_array_unref (columns);
+
+	return column_index;
+}
+
+/**
  * e_table_specification_load_from_file:
  * @specification: an #ETableSpecification
  * @filename: the name of a file containing an #ETable specification
