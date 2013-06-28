@@ -1818,16 +1818,8 @@ ethi_change_sort_state (ETableHeaderItem *ethi,
 					 * This means the user has clicked twice
 					 * already, lets kill sorting of this column now.
 					 */
-					gint j;
-
-					for (j = i + 1; j < length; j++)
-						e_table_sort_info_sorting_set_nth (
-							ethi->sort_info, j - 1,
-							e_table_sort_info_sorting_get_nth (
-								ethi->sort_info, j));
-
-					e_table_sort_info_sorting_truncate (
-						ethi->sort_info, length - 1);
+					e_table_sort_info_sorting_remove (
+						ethi->sort_info, i);
 					length--;
 					i--;
 				} else {

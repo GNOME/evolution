@@ -98,6 +98,9 @@ void		e_table_sort_info_grouping_set_nth
 
 guint		e_table_sort_info_sorting_get_count
 						(ETableSortInfo *sort_info);
+void		e_table_sort_info_sorting_remove
+						(ETableSortInfo *sort_info,
+						 guint n);
 void		e_table_sort_info_sorting_truncate
 						(ETableSortInfo *sort_info,
 						 guint length);

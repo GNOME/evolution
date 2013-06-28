@@ -345,6 +345,25 @@ e_table_sort_info_sorting_get_count (ETableSortInfo *sort_info)
 }
 
 /**
+ * e_table_sort_info_sorting_remove:
+ * @sort_info: an #ETableSortInfo
+ * @n: the index of the element to remove
+ *
+ * Removes the sorting element at the given index.  The following sorting
+ * elements are moved down one place.
+ **/
+void
+e_table_sort_info_sorting_remove (ETableSortInfo *sort_info,
+                                  guint n)
+{
+	g_return_if_fail (E_IS_TABLE_SORT_INFO (sort_info));
+
+	g_array_remove_index (sort_info->priv->sortings, n);
+
+	g_signal_emit (sort_info, signals[SORT_INFO_CHANGED], 0);
+}
+
+/**
  * e_table_sort_info_sorting_truncate:
  * @sort_info: an #ETableSortInfo
  * @length: position where the truncation happens.
