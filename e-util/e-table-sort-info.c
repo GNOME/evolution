@@ -27,11 +27,18 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_TABLE_SORT_INFO, ETableSortInfoPrivate))
 
+typedef struct _ColumnData ColumnData;
+
 struct _ETableSortInfoPrivate {
 	GWeakRef specification;
 	GArray *groupings;
 	GArray *sortings;
 	gboolean can_group;
+};
+
+struct _ColumnData {
+	ETableColumnSpecification *column_spec;
+	GtkSortType sort_type;
 };
 
 enum {
@@ -48,6 +55,12 @@ enum {
 static guint signals[LAST_SIGNAL];
 
 G_DEFINE_TYPE (ETableSortInfo , e_table_sort_info, G_TYPE_OBJECT)
+
+static void
+column_data_clear (ColumnData *data)
+{
+	g_clear_object (&data->column_spec);
+}
 
 static void
 table_sort_info_set_specification (ETableSortInfo *sort_info,
@@ -173,9 +186,16 @@ e_table_sort_info_init (ETableSortInfo *sort_info)
 	sort_info->priv = E_TABLE_SORT_INFO_GET_PRIVATE (sort_info);
 
 	sort_info->priv->groupings = g_array_new (
-		FALSE, TRUE, sizeof (ETableSortColumn));
+		FALSE, TRUE, sizeof (ColumnData));
+	g_array_set_clear_func (
+		sort_info->priv->groupings,
+		(GDestroyNotify) column_data_clear);
+
 	sort_info->priv->sortings = g_array_new (
-		FALSE, TRUE, sizeof (ETableSortColumn));
+		FALSE, TRUE, sizeof (ColumnData));
+	g_array_set_clear_func (
+		sort_info->priv->sortings,
+		(GDestroyNotify) column_data_clear);
 
 	sort_info->priv->can_group = TRUE;
 }
@@ -279,53 +299,67 @@ e_table_sort_info_grouping_truncate (ETableSortInfo *sort_info,
  * e_table_sort_info_grouping_get_nth:
  * @sort_info: an #ETableSortInfo
  * @n: Item information to fetch.
+ * @out_sort_type: return location for a #GtkSortType value, or %NULL
  *
  * Returns: the description of the @n-th grouping criteria in the @info object.
  */
-ETableSortColumn
+ETableColumnSpecification *
 e_table_sort_info_grouping_get_nth (ETableSortInfo *sort_info,
-                                    guint n)
+                                    guint n,
+                                    GtkSortType *out_sort_type)
 {
-	ETableSortColumn column = { 0, 0 };
+	ETableColumnSpecification *column_spec = NULL;
 	GArray *array;
+	gboolean can_group;
 
-	g_return_val_if_fail (E_IS_TABLE_SORT_INFO (sort_info), column);
+	g_return_val_if_fail (E_IS_TABLE_SORT_INFO (sort_info), NULL);
 
 	array = sort_info->priv->groupings;
+	can_group = e_table_sort_info_get_can_group (sort_info);
 
-	if (!e_table_sort_info_get_can_group (sort_info))
-		return column;
+	if (can_group && n < array->len) {
+		ColumnData *column_data;
 
-	if (n < array->len)
-		column = g_array_index (array, ETableSortColumn, n);
+		column_data = &g_array_index (array, ColumnData, n);
 
-	return column;
+		if (out_sort_type != NULL)
+			*out_sort_type = column_data->sort_type;
+
+		column_spec = column_data->column_spec;
+	}
+
+	return column_spec;
 }
 
 /**
  * e_table_sort_info_grouping_set_nth:
  * @sort_info: an #ETableSortInfo
  * @n: Item information to fetch.
- * @column: new values for the grouping
+ * @spec: an #ETableColumnSpecification
+ * @sort_type: a #GtkSortType
  *
- * Sets the grouping criteria for index @n to be given by @column
- * (a column number and whether it is ascending or descending).
+ * Sets the grouping criteria for index @n to @spec and @sort_type.
  */
 void
 e_table_sort_info_grouping_set_nth (ETableSortInfo *sort_info,
                                     guint n,
-                                    ETableSortColumn column)
+                                    ETableColumnSpecification *spec,
+                                    GtkSortType sort_type)
 {
-	ETableSortColumn *array_element;
 	GArray *array;
+	ColumnData *column_data;
 
 	g_return_if_fail (E_IS_TABLE_SORT_INFO (sort_info));
+	g_return_if_fail (E_IS_TABLE_COLUMN_SPECIFICATION (spec));
 
 	array = sort_info->priv->groupings;
 	g_array_set_size (array, MAX (n + 1, array->len));
+	column_data = &g_array_index (array, ColumnData, n);
 
-	array_element = &g_array_index (array, ETableSortColumn, n);
-	*array_element = column;
+	column_data_clear (column_data);
+
+	column_data->column_spec = g_object_ref (spec);
+	column_data->sort_type = sort_type;
 
 	g_signal_emit (sort_info, signals[GROUP_INFO_CHANGED], 0);
 }
@@ -386,50 +420,65 @@ e_table_sort_info_sorting_truncate (ETableSortInfo *sort_info,
  * e_table_sort_info_sorting_get_nth:
  * @sort_info: an #ETableSortInfo
  * @n: Item information to fetch.
+ * @out_sort_type: return location for a #GtkSortType value, or %NULL
  *
  * Returns: the description of the @n-th grouping criteria in the @info object.
  */
-ETableSortColumn
+ETableColumnSpecification *
 e_table_sort_info_sorting_get_nth (ETableSortInfo *sort_info,
-                                   guint n)
+                                   guint n,
+                                   GtkSortType *out_sort_type)
 {
-	ETableSortColumn column = { 0, 0 };
+	ETableColumnSpecification *column_spec = NULL;
 	GArray *array;
 
-	g_return_val_if_fail (E_IS_TABLE_SORT_INFO (sort_info), column);
+	g_return_val_if_fail (E_IS_TABLE_SORT_INFO (sort_info), NULL);
 
 	array = sort_info->priv->sortings;
 
-	if (n < array->len)
-		column = g_array_index (array, ETableSortColumn, n);
+	if (n < array->len) {
+		ColumnData *column_data;
 
-	return column;
+		column_data = &g_array_index (array, ColumnData, n);
+
+		if (out_sort_type != NULL)
+			*out_sort_type = column_data->sort_type;
+
+		column_spec = column_data->column_spec;
+	}
+
+	return column_spec;
 }
 
 /**
  * e_table_sort_info_sorting_set_nth:
  * @sort_info: an #ETableSortInfo
  * @n: Item information to fetch.
- * @column: new values for the sorting
+ * @spec: an #ETableColumnSpecification
+ * @sort_type: a #GtkSortType
  *
- * Sets the sorting criteria for index @n to be given by @column (a
- * column number and whether it is ascending or descending).
+ * Sets the sorting criteria for index @n to @spec and @sort_type.
  */
 void
 e_table_sort_info_sorting_set_nth (ETableSortInfo *sort_info,
                                    guint n,
-                                   ETableSortColumn column)
+                                   ETableColumnSpecification *spec,
+                                   GtkSortType sort_type)
 {
-	ETableSortColumn *array_element;
 	GArray *array;
+	ColumnData *column_data;
 
 	g_return_if_fail (E_IS_TABLE_SORT_INFO (sort_info));
+	g_return_if_fail (E_IS_TABLE_COLUMN_SPECIFICATION (spec));
 
 	array = sort_info->priv->sortings;
 	g_array_set_size (array, MAX (n + 1, array->len));
+	column_data = &g_array_index (array, ColumnData, n);
 
-	array_element = &g_array_index (array, ETableSortColumn, n);
-	*array_element = column;
+	column_data_clear (column_data);
+
+	column_data->column_spec = g_object_ref (spec);
+	column_data->sort_type = sort_type;
 
 	g_signal_emit (sort_info, signals[SORT_INFO_CHANGED], 0);
 }
@@ -448,47 +497,71 @@ e_table_sort_info_load_from_node (ETableSortInfo *sort_info,
                                   xmlNode *node,
                                   gdouble state_version)
 {
-	guint i;
+	ETableSpecification *specification;
+	GPtrArray *columns;
 	xmlNode *grouping;
+	guint gcnt = 0;
+	guint scnt = 0;
 
 	g_return_if_fail (E_IS_TABLE_SORT_INFO (sort_info));
 	g_return_if_fail (node != NULL);
 
-	if (state_version <= 0.05) {
-		i = 0;
-		for (grouping = node->xmlChildrenNode; grouping && !strcmp ((gchar *) grouping->name, "group"); grouping = grouping->xmlChildrenNode) {
-			ETableSortColumn column;
-			column.column = e_xml_get_integer_prop_by_name (grouping, (const guchar *)"column");
-			column.ascending = e_xml_get_bool_prop_by_name (grouping, (const guchar *)"ascending");
-			e_table_sort_info_grouping_set_nth (sort_info, i++, column);
-		}
-		i = 0;
-		for (; grouping && !strcmp ((gchar *) grouping->name, "leaf"); grouping = grouping->xmlChildrenNode) {
-			ETableSortColumn column;
-			column.column = e_xml_get_integer_prop_by_name (grouping, (const guchar *)"column");
-			column.ascending = e_xml_get_bool_prop_by_name (grouping, (const guchar *)"ascending");
-			e_table_sort_info_sorting_set_nth (sort_info, i++, column);
-		}
-	} else {
-		guint gcnt = 0;
-		guint scnt = 0;
-		for (grouping = node->children; grouping; grouping = grouping->next) {
-			ETableSortColumn column;
+	specification = e_table_sort_info_ref_specification (sort_info);
+	columns = e_table_specification_ref_columns (specification);
 
-			if (grouping->type != XML_ELEMENT_NODE)
-				continue;
+	for (grouping = node->children; grouping; grouping = grouping->next) {
 
-			if (!strcmp ((gchar *) grouping->name, "group")) {
-				column.column = e_xml_get_integer_prop_by_name (grouping, (const guchar *)"column");
-				column.ascending = e_xml_get_bool_prop_by_name (grouping, (const guchar *)"ascending");
-				e_table_sort_info_grouping_set_nth (sort_info, gcnt++, column);
-			} else if (!strcmp ((gchar *) grouping->name, "leaf")) {
-				column.column = e_xml_get_integer_prop_by_name (grouping, (const guchar *)"column");
-				column.ascending = e_xml_get_bool_prop_by_name (grouping, (const guchar *)"ascending");
-				e_table_sort_info_sorting_set_nth (sort_info, scnt++, column);
-			}
+		if (grouping->type != XML_ELEMENT_NODE)
+			continue;
+
+		if (g_str_equal ((gchar *) grouping->name, "group")) {
+			GtkSortType sort_type;
+			gboolean ascending;
+			guint index;
+
+			index = e_xml_get_integer_prop_by_name (
+				grouping, (guchar *) "column");
+			ascending = e_xml_get_bool_prop_by_name (
+				grouping, (guchar *) "ascending");
+
+			if (ascending)
+				sort_type = GTK_SORT_ASCENDING;
+			else
+				sort_type = GTK_SORT_DESCENDING;
+
+			if (index < columns->len)
+				e_table_sort_info_grouping_set_nth (
+					sort_info, gcnt++,
+					columns->pdata[index],
+					sort_type);
+		}
+
+		if (g_str_equal ((gchar *) grouping->name, "leaf")) {
+			GtkSortType sort_type;
+			gboolean ascending;
+			gint index;;
+
+			index = e_xml_get_integer_prop_by_name (
+				grouping, (guchar *) "column");
+			ascending = e_xml_get_bool_prop_by_name (
+				grouping, (guchar *) "ascending");
+
+			if (ascending)
+				sort_type = GTK_SORT_ASCENDING;
+			else
+				sort_type = GTK_SORT_DESCENDING;
+
+			if (index < columns->len)
+				e_table_sort_info_sorting_set_nth (
+					sort_info, scnt++,
+					columns->pdata[index],
+				sort_type);
 		}
 	}
+
+	g_object_unref (specification);
+	g_ptr_array_unref (columns);
+
 	g_signal_emit (sort_info, signals[SORT_INFO_CHANGED], 0);
 }
 
@@ -506,39 +579,76 @@ xmlNode *
 e_table_sort_info_save_to_node (ETableSortInfo *sort_info,
                                 xmlNode *parent)
 {
+	ETableSpecification *specification;
 	xmlNode *grouping;
 	guint sort_count;
 	guint group_count;
-	guint i;
+	guint ii;
 
 	g_return_val_if_fail (E_IS_TABLE_SORT_INFO (sort_info), NULL);
 
 	sort_count = e_table_sort_info_sorting_get_count (sort_info);
 	group_count = e_table_sort_info_grouping_get_count (sort_info);
 
-	grouping = xmlNewChild (parent, NULL, (const guchar *)"grouping", NULL);
+	grouping = xmlNewChild (parent, NULL, (guchar *) "grouping", NULL);
 
-	for (i = 0; i < group_count; i++) {
-		ETableSortColumn column;
+	specification = e_table_sort_info_ref_specification (sort_info);
+
+	for (ii = 0; ii < group_count; ii++) {
+		ETableColumnSpecification *column_spec;
+		GtkSortType sort_type;
 		xmlNode *new_node;
+		gint index;
 
-		column = e_table_sort_info_grouping_get_nth (sort_info, i);
-		new_node = xmlNewChild (grouping, NULL, (const guchar *)"group", NULL);
+		column_spec = e_table_sort_info_grouping_get_nth (
+			sort_info, ii, &sort_type);
 
-		e_xml_set_integer_prop_by_name (new_node, (const guchar *)"column", column.column);
-		e_xml_set_bool_prop_by_name (new_node, (const guchar *)"ascending", column.ascending);
+		index = e_table_specification_get_column_index (
+			specification, column_spec);
+
+		if (index < 0) {
+			g_warn_if_reached ();
+			continue;
+		}
+
+		new_node = xmlNewChild (
+			grouping, NULL, (guchar *) "group", NULL);
+
+		e_xml_set_integer_prop_by_name (
+			new_node, (guchar *) "column", index);
+		e_xml_set_bool_prop_by_name (
+			new_node, (guchar *) "ascending",
+			(sort_type == GTK_SORT_ASCENDING));
 	}
 
-	for (i = 0; i < sort_count; i++) {
-		ETableSortColumn column;
+	for (ii = 0; ii < sort_count; ii++) {
+		ETableColumnSpecification *column_spec;
+		GtkSortType sort_type;
 		xmlNode *new_node;
+		gint index;
 
-		column = e_table_sort_info_sorting_get_nth (sort_info, i);
-		new_node = xmlNewChild (grouping, NULL, (const guchar *)"leaf", NULL);
+		column_spec = e_table_sort_info_sorting_get_nth (
+			sort_info, ii, &sort_type);
 
-		e_xml_set_integer_prop_by_name (new_node, (const guchar *)"column", column.column);
-		e_xml_set_bool_prop_by_name (new_node, (const guchar *)"ascending", column.ascending);
+		index = e_table_specification_get_column_index (
+			specification, column_spec);
+
+		if (index < 0) {
+			g_warn_if_reached ();
+			continue;
+		}
+
+		new_node = xmlNewChild (
+			grouping, NULL, (guchar *) "leaf", NULL);
+
+		e_xml_set_integer_prop_by_name (
+			new_node, (guchar *) "column", index);
+		e_xml_set_bool_prop_by_name (
+			new_node, (guchar *) "ascending",
+			(sort_type == GTK_SORT_ASCENDING));
 	}
+
+	g_object_unref (specification);
 
 	return grouping;
 }

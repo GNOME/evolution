@@ -5053,7 +5053,7 @@ message_list_set_search (MessageList *message_list,
 
 struct sort_column_data {
 	ETableCol *col;
-	gboolean ascending;
+	GtkSortType sort_type;
 };
 
 struct sort_message_info_data {
@@ -5128,7 +5128,7 @@ cmp_array_uids (gconstpointer a,
 			res = v1 == NULL ? -1 : 1;
 		}
 
-		if (!scol->ascending)
+		if (scol->sort_type == GTK_SORT_DESCENDING)
 			res = res * (-1);
 	}
 
@@ -5198,15 +5198,19 @@ ml_sort_uids_by_tree (MessageList *message_list,
 	     i < len
 	     && !g_cancellable_is_cancelled (cancellable);
 	     i++) {
-		ETableSortColumn scol;
-		struct sort_column_data *data = g_new0 (struct sort_column_data, 1);
+		ETableColumnSpecification *spec;
+		struct sort_column_data *data;
 
-		scol = e_table_sort_info_sorting_get_nth (sort_info, i);
+		data = g_new0 (struct sort_column_data, 1);
 
-		data->ascending = scol.ascending;
-		data->col = e_table_header_get_column_by_col_idx (full_header, scol.column);
-		if (data->col == NULL)
-			data->col = e_table_header_get_column (full_header, e_table_header_count (full_header) - 1);
+		spec = e_table_sort_info_sorting_get_nth (
+			sort_info, i, &data->sort_type);
+
+		data->col = e_table_header_get_column_by_spec (full_header, spec);
+		if (data->col == NULL) {
+			gint last = e_table_header_count (full_header) - 1;
+			data->col = e_table_header_get_column (full_header, last);
+		}
 
 		g_ptr_array_add (sort_data.sort_columns, data);
 	}

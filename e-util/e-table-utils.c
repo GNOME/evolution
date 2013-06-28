@@ -174,37 +174,33 @@ e_table_util_calculate_current_search_col (ETableHeader *header,
 	count = e_table_sort_info_grouping_get_count (sort_info);
 
 	for (i = 0; i < count; i++) {
-		ETableSortColumn column;
+		ETableColumnSpecification *spec;
 
-		column = e_table_sort_info_grouping_get_nth (sort_info, i);
+		spec = e_table_sort_info_grouping_get_nth (sort_info, i, NULL);
+		col = e_table_header_get_column_by_spec (full_header, spec);
 
-		col = e_table_header_get_column (full_header, column.column);
-
-		if (col && col->search)
-			break;
+		if (col != NULL && col->search)
+			return col;
 
 		col = NULL;
 	}
 
-	if (col == NULL) {
-		count = e_table_sort_info_sorting_get_count (sort_info);
-		for (i = 0; i < count; i++) {
-			ETableSortColumn column;
+	count = e_table_sort_info_sorting_get_count (sort_info);
+	for (i = 0; i < count; i++) {
+		ETableColumnSpecification *spec;
 
-			column = e_table_sort_info_sorting_get_nth (sort_info, i);
+		spec = e_table_sort_info_sorting_get_nth (sort_info, i, NULL);
+		col = e_table_header_get_column_by_spec (full_header, spec);
 
-			col = e_table_header_get_column (full_header, column.column);
+		if (col != NULL && col->search)
+			return col;
 
-			if (col && col->search)
-				break;
-
-			col = NULL;
-		}
+		col = NULL;
 	}
 
-	if (col == NULL && always_search) {
-		col = e_table_header_prioritized_column_selected (header, check_col, NULL);
-	}
+	if (always_search)
+		col = e_table_header_prioritized_column_selected (
+			header, check_col, NULL);
 
 	return col;
 }

@@ -48,10 +48,13 @@ etsu_compare (ETableModel *source,
 	GtkSortType sort_type = GTK_SORT_ASCENDING;
 
 	for (j = 0; j < sort_count; j++) {
-		ETableSortColumn column = e_table_sort_info_sorting_get_nth (sort_info, j);
+		ETableColumnSpecification *spec;
 		ETableCol *col;
 
-		col = e_table_header_get_column_by_col_idx (full_header, column.column);
+		spec = e_table_sort_info_sorting_get_nth (
+			sort_info, j, &sort_type);
+
+		col = e_table_header_get_column_by_spec (full_header, spec);
 		if (col == NULL) {
 			gint last = e_table_header_count (full_header) - 1;
 			col = e_table_header_get_column (full_header, last);
@@ -63,10 +66,6 @@ etsu_compare (ETableModel *source,
 			e_table_model_value_at (
 				source, col->spec->compare_col, row2),
 			cmp_cache);
-		if (column.ascending)
-			sort_type = GTK_SORT_ASCENDING;
-		else
-			sort_type = GTK_SORT_DESCENDING;
 		if (comp_val != 0)
 			break;
 	}
@@ -163,10 +162,13 @@ e_table_sorting_utils_sort (ETableModel *source,
 	closure.cmp_cache = e_table_sorting_utils_create_cmp_cache ();
 
 	for (j = 0; j < cols; j++) {
-		ETableSortColumn column = e_table_sort_info_sorting_get_nth (sort_info, j);
+		ETableColumnSpecification *spec;
 		ETableCol *col;
 
-		col = e_table_header_get_column_by_col_idx (full_header, column.column);
+		spec = e_table_sort_info_sorting_get_nth (
+			sort_info, j, &closure.sort_type[j]);
+
+		col = e_table_header_get_column_by_spec (full_header, spec);
 		if (col == NULL) {
 			gint last = e_table_header_count (full_header) - 1;
 			col = e_table_header_get_column (full_header, last);
@@ -176,10 +178,6 @@ e_table_sorting_utils_sort (ETableModel *source,
 			closure.vals[map_table[i] * cols + j] = e_table_model_value_at (source, col->spec->compare_col, map_table[i]);
 		}
 		closure.compare[j] = col->compare;
-		if (column.ascending)
-			closure.sort_type[j] = GTK_SORT_ASCENDING;
-		else
-			closure.sort_type[j] = GTK_SORT_DESCENDING;
 	}
 
 	g_qsort_with_data (
@@ -205,10 +203,13 @@ e_table_sorting_utils_affects_sort (ETableSortInfo *sort_info,
 	cols = e_table_sort_info_sorting_get_count (sort_info);
 
 	for (j = 0; j < cols; j++) {
-		ETableSortColumn column = e_table_sort_info_sorting_get_nth (sort_info, j);
+		ETableColumnSpecification *spec;
 		ETableCol *col;
 
-		col = e_table_header_get_column_by_col_idx (full_header, column.column);
+		spec = e_table_sort_info_sorting_get_nth (
+			sort_info, j, NULL);
+
+		col = e_table_header_get_column_by_spec (full_header, spec);
 		if (col == NULL) {
 			gint last = e_table_header_count (full_header) - 1;
 			col = e_table_header_get_column (full_header, last);
@@ -291,10 +292,13 @@ etsu_tree_compare (ETreeModel *source,
 	GtkSortType sort_type = GTK_SORT_ASCENDING;
 
 	for (j = 0; j < sort_count; j++) {
-		ETableSortColumn column = e_table_sort_info_sorting_get_nth (sort_info, j);
+		ETableColumnSpecification *spec;
 		ETableCol *col;
 
-		col = e_table_header_get_column_by_col_idx (full_header, column.column);
+		spec = e_table_sort_info_sorting_get_nth (
+			sort_info, j, &sort_type);
+
+		col = e_table_header_get_column_by_spec (full_header, spec);
 		if (col == NULL) {
 			gint last = e_table_header_count (full_header) - 1;
 			col = e_table_header_get_column (full_header, last);
@@ -306,10 +310,6 @@ etsu_tree_compare (ETreeModel *source,
 			e_tree_model_value_at (
 				source, path2, col->spec->compare_col),
 			cmp_cache);
-		if (column.ascending)
-			sort_type = GTK_SORT_ASCENDING;
-		else
-			sort_type = GTK_SORT_DESCENDING;
 		if (comp_val != 0)
 			break;
 	}
@@ -358,10 +358,13 @@ e_table_sorting_utils_tree_sort (ETreeModel *source,
 	closure.cmp_cache = e_table_sorting_utils_create_cmp_cache ();
 
 	for (j = 0; j < cols; j++) {
-		ETableSortColumn column = e_table_sort_info_sorting_get_nth (sort_info, j);
+		ETableColumnSpecification *spec;
 		ETableCol *col;
 
-		col = e_table_header_get_column_by_col_idx (full_header, column.column);
+		spec = e_table_sort_info_sorting_get_nth (
+			sort_info, j, &closure.sort_type[j]);
+
+		col = e_table_header_get_column_by_spec (full_header, spec);
 		if (col == NULL) {
 			gint last = e_table_header_count (full_header) - 1;
 			col = e_table_header_get_column (full_header, last);
@@ -371,10 +374,6 @@ e_table_sorting_utils_tree_sort (ETreeModel *source,
 			closure.vals[i * cols + j] = e_tree_model_sort_value_at (source, map_table[i], col->spec->compare_col);
 		}
 		closure.compare[j] = col->compare;
-		if (column.ascending)
-			closure.sort_type[j] = GTK_SORT_ASCENDING;
-		else
-			closure.sort_type[j] = GTK_SORT_DESCENDING;
 	}
 
 	map = g_new (int, count);

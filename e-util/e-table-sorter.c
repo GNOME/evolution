@@ -136,24 +136,36 @@ table_sorter_sort (ETableSorter *table_sorter)
 	qd.cmp_cache = e_table_sorting_utils_create_cmp_cache ();
 
 	for (j = 0; j < cols; j++) {
-		ETableSortColumn column;
+		ETableColumnSpecification *spec;
 		ETableCol *col;
+		GtkSortType sort_type;
 
 		if (j < group_cols)
-			column = e_table_sort_info_grouping_get_nth (table_sorter->sort_info, j);
+			spec = e_table_sort_info_grouping_get_nth (
+				table_sorter->sort_info,
+				j, &sort_type);
 		else
-			column = e_table_sort_info_sorting_get_nth (table_sorter->sort_info, j - group_cols);
+			spec = e_table_sort_info_sorting_get_nth (
+				table_sorter->sort_info,
+				j - group_cols, &sort_type);
 
-		col = e_table_header_get_column_by_col_idx (table_sorter->full_header, column.column);
-		if (col == NULL)
-			col = e_table_header_get_column (table_sorter->full_header, e_table_header_count (table_sorter->full_header) - 1);
+		col = e_table_header_get_column_by_spec (
+			table_sorter->full_header, spec);
+		if (col == NULL) {
+			gint last = e_table_header_count (
+				table_sorter->full_header) - 1;
+			col = e_table_header_get_column (
+				table_sorter->full_header, last);
+		}
 
 		for (i = 0; i < rows; i++) {
-			qd.vals[i * cols + j] = e_table_model_value_at (table_sorter->source, col->spec->model_col, i);
+			qd.vals[i * cols + j] = e_table_model_value_at (
+				table_sorter->source,
+				col->spec->model_col, i);
 		}
 
 		qd.compare[j] = col->compare;
-		qd.ascending[j] = column.ascending;
+		qd.ascending[j] = (sort_type == GTK_SORT_ASCENDING);
 	}
 
 	g_qsort_with_data (table_sorter->sorted, rows, sizeof (gint), qsort_callback, &qd);

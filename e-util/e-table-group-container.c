@@ -150,12 +150,15 @@ e_table_group_container_construct (GnomeCanvasGroup *parent,
                                    ETableSortInfo *sort_info,
                                    gint n)
 {
+	ETableColumnSpecification *spec;
 	ETableCol *col;
-	ETableSortColumn column = e_table_sort_info_grouping_get_nth (sort_info, n);
 	GtkWidget *widget;
 	GtkStyle *style;
+	GtkSortType sort_type;
 
-	col = e_table_header_get_column_by_col_idx (full_header, column.column);
+	spec = e_table_sort_info_grouping_get_nth (sort_info, n, &sort_type);
+	col = e_table_header_get_column_by_spec (full_header, spec);
+
 	if (col == NULL) {
 		gint last = e_table_header_count (full_header) - 1;
 		col = e_table_header_get_column (full_header, last);
@@ -166,7 +169,7 @@ e_table_group_container_construct (GnomeCanvasGroup *parent,
 	etgc->ecol = g_object_ref (col);
 	etgc->sort_info = g_object_ref (sort_info);
 	etgc->n = n;
-	etgc->ascending = column.ascending;
+	etgc->ascending = (sort_type == GTK_SORT_ASCENDING);
 
 	widget = GTK_WIDGET (GNOME_CANVAS_ITEM (etgc)->canvas);
 	style = gtk_widget_get_style (widget);

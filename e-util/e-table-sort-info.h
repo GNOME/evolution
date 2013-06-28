@@ -23,8 +23,10 @@
 #ifndef E_TABLE_SORT_INFO_H
 #define E_TABLE_SORT_INFO_H
 
-#include <glib-object.h>
+#include <gtk/gtk.h>
 #include <libxml/tree.h>
+
+#include <e-util/e-table-column-specification.h>
 
 /* Standard GObject macros */
 #define E_TYPE_TABLE_SORT_INFO \
@@ -50,16 +52,9 @@ G_BEGIN_DECLS
 /* Avoid a circular dependency. */
 struct _ETableSpecification;
 
-typedef struct _ETableSortColumn ETableSortColumn;
-
 typedef struct _ETableSortInfo ETableSortInfo;
 typedef struct _ETableSortInfoClass ETableSortInfoClass;
 typedef struct _ETableSortInfoPrivate ETableSortInfoPrivate;
-
-struct _ETableSortColumn {
-	guint column : 31;
-	guint ascending : 1;
-};
 
 struct _ETableSortInfo {
 	GObject parent;
@@ -74,51 +69,60 @@ struct _ETableSortInfoClass {
 	void		(*group_info_changed)	(ETableSortInfo *sort_info);
 };
 
-GType		e_table_sort_info_get_type	(void) G_GNUC_CONST;
-ETableSortInfo *e_table_sort_info_new		(struct _ETableSpecification *specification);
+GType		e_table_sort_info_get_type
+					(void) G_GNUC_CONST;
+ETableSortInfo *e_table_sort_info_new	(struct _ETableSpecification *specification);
 struct _ETableSpecification *
 		e_table_sort_info_ref_specification
-						(ETableSortInfo *sort_info);
-gboolean	e_table_sort_info_get_can_group (ETableSortInfo *sort_info);
-void		e_table_sort_info_set_can_group	(ETableSortInfo *sort_info,
-						 gboolean can_group);
+					(ETableSortInfo *sort_info);
+gboolean	e_table_sort_info_get_can_group
+					(ETableSortInfo *sort_info);
+void		e_table_sort_info_set_can_group
+					(ETableSortInfo *sort_info,
+					 gboolean can_group);
 guint		e_table_sort_info_grouping_get_count
-						(ETableSortInfo *sort_info);
+					(ETableSortInfo *sort_info);
 void		e_table_sort_info_grouping_truncate
-						(ETableSortInfo *sort_info,
-						 guint length);
-ETableSortColumn
+					(ETableSortInfo *sort_info,
+					 guint length);
+ETableColumnSpecification *
 		e_table_sort_info_grouping_get_nth
-						(ETableSortInfo *sort_info,
-						 guint n);
+					(ETableSortInfo *sort_info,
+					 guint n,
+					 GtkSortType *out_sort_type);
 void		e_table_sort_info_grouping_set_nth
-						(ETableSortInfo *sort_info,
-						 guint n,
-						 ETableSortColumn column);
+					(ETableSortInfo *sort_info,
+					 guint n,
+					 ETableColumnSpecification *spec,
+					 GtkSortType sort_type);
 
 guint		e_table_sort_info_sorting_get_count
-						(ETableSortInfo *sort_info);
+					(ETableSortInfo *sort_info);
 void		e_table_sort_info_sorting_remove
-						(ETableSortInfo *sort_info,
-						 guint n);
+					(ETableSortInfo *sort_info,
+					 guint n);
 void		e_table_sort_info_sorting_truncate
-						(ETableSortInfo *sort_info,
-						 guint length);
-ETableSortColumn
+					(ETableSortInfo *sort_info,
+					 guint length);
+ETableColumnSpecification *
 		e_table_sort_info_sorting_get_nth
-						(ETableSortInfo *sort_info,
-						 guint n);
+					(ETableSortInfo *sort_info,
+					 guint n,
+					 GtkSortType *out_sort_type);
 void		e_table_sort_info_sorting_set_nth
-						(ETableSortInfo *sort_info,
-						 guint n,
-						 ETableSortColumn column);
+					(ETableSortInfo *sort_info,
+					 guint n,
+					 ETableColumnSpecification *spec,
+					 GtkSortType sort_type);
 void		e_table_sort_info_load_from_node
-						(ETableSortInfo *sort_info,
-						 xmlNode *node,
-						 gdouble state_version);
-xmlNode *	e_table_sort_info_save_to_node	(ETableSortInfo *sort_info,
-						 xmlNode *parent);
-ETableSortInfo *e_table_sort_info_duplicate	(ETableSortInfo *sort_info);
+					(ETableSortInfo *sort_info,
+					 xmlNode *node,
+					 gdouble state_version);
+xmlNode *	e_table_sort_info_save_to_node
+					(ETableSortInfo *sort_info,
+					 xmlNode *parent);
+ETableSortInfo *e_table_sort_info_duplicate
+					(ETableSortInfo *sort_info);
 
 G_END_DECLS
 

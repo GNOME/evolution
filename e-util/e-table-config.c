@@ -238,40 +238,11 @@ configure_combo_box_set_active (GtkComboBox *combo_box,
 }
 
 static ETableColumnSpecification *
-find_column_in_spec (ETableSpecification *spec,
-                     gint model_col)
+find_column_spec_by_name (ETableSpecification *spec,
+                          const gchar *s)
 {
-	ETableColumnSpecification *column = NULL;
+	ETableColumnSpecification *column;
 	GPtrArray *array;
-	guint ii;
-
-	array = e_table_specification_ref_columns (spec);
-
-	for (ii = 0; ii < array->len; ii++) {
-		ETableColumnSpecification *candidate;
-
-		candidate = g_ptr_array_index (array, ii);
-
-		if (candidate->disabled)
-			continue;
-
-		if (candidate->model_col == model_col) {
-			column = candidate;
-			break;
-		}
-	}
-
-	g_ptr_array_unref (array);
-
-	return column;
-}
-
-static gint
-find_model_column_by_name (ETableSpecification *spec,
-                           const gchar *s)
-{
-	GPtrArray *array;
-	gint model_col = -1;
 	guint ii;
 
 	array = e_table_specification_ref_columns (spec);
@@ -285,14 +256,14 @@ find_model_column_by_name (ETableSpecification *spec,
 			continue;
 
 		if (g_ascii_strcasecmp (candidate->title, s) == 0) {
-			model_col = candidate->model_col;
+			column = candidate;
 			break;
 		}
 	}
 
 	g_ptr_array_unref (array);
 
-	return model_col;
+	return column;
 }
 
 static void
@@ -329,20 +300,20 @@ update_sort_and_group_config_dialog (ETableConfig *config,
 			widgets[i].changed_id);
 
 		if (i < count) {
-			GtkToggleButton *a, *d;
-			ETableSortColumn col =
-				is_sort
-				? e_table_sort_info_sorting_get_nth (
-					config->temp_state->sort_info,
-					i)
-				:  e_table_sort_info_grouping_get_nth (
-					config->temp_state->sort_info,
-					i);
+			GtkWidget *toggle_button;
+			ETableColumnSpecification *column;
+			GtkSortType sort_type;
 
-			ETableColumnSpecification *column =
-				find_column_in_spec (config->source_spec, col.column);
+			if (is_sort)
+				column = e_table_sort_info_sorting_get_nth (
+					config->temp_state->sort_info, i,
+					&sort_type);
+			else
+				column = e_table_sort_info_grouping_get_nth (
+					config->temp_state->sort_info, i,
+					&sort_type);
 
-			if (!column) {
+			if (column == NULL) {
 				/*
 				 * This is a bug in the programmer
 				 * stuff, but by the time we arrive
@@ -357,12 +328,15 @@ update_sort_and_group_config_dialog (ETableConfig *config,
 			/*
 			 * Update radio buttons
 			 */
-			a = GTK_TOGGLE_BUTTON (
-				widgets[i].radio_ascending);
-			d = GTK_TOGGLE_BUTTON (
-				widgets[i].radio_descending);
 
-			gtk_toggle_button_set_active (col.ascending ? a : d, 1);
+			if (sort_type == GTK_SORT_ASCENDING)
+				toggle_button = widgets[i].radio_ascending;
+			else
+				toggle_button = widgets[i].radio_descending;
+
+			gtk_toggle_button_set_active (
+				GTK_TOGGLE_BUTTON (toggle_button), TRUE);
+
 		} else {
 			GtkToggleButton *t;
 
@@ -396,19 +370,23 @@ update_sort_and_group_config_dialog (ETableConfig *config,
 static void
 config_sort_info_update (ETableConfig *config)
 {
-	ETableSortInfo *info = config->state->sort_info;
+	ETableSortInfo *sort_info;
 	GString *res;
 	gint count, i;
 
-	count = e_table_sort_info_sorting_get_count (info);
+	sort_info = config->state->sort_info;
+
+	count = e_table_sort_info_sorting_get_count (sort_info);
 	res = g_string_new ("");
 
 	for (i = 0; i < count; i++) {
-		ETableSortColumn col = e_table_sort_info_sorting_get_nth (info, i);
 		ETableColumnSpecification *column;
+		GtkSortType sort_type;
 
-		column = find_column_in_spec (config->source_spec, col.column);
-		if (!column) {
+		column = e_table_sort_info_sorting_get_nth (
+			sort_info, i, &sort_type);
+
+		if (column == NULL) {
 			g_warning ("Could not find column model in specification");
 			continue;
 		}
@@ -417,7 +395,7 @@ config_sort_info_update (ETableConfig *config)
 		g_string_append_c (res, ' ');
 		g_string_append (
 			res,
-			col.ascending ?
+			(sort_type == GTK_SORT_ASCENDING) ?
 			_("(Ascending)") : _("(Descending)"));
 
 		if ((i + 1) != count)
@@ -435,22 +413,26 @@ config_sort_info_update (ETableConfig *config)
 static void
 config_group_info_update (ETableConfig *config)
 {
-	ETableSortInfo *info = config->state->sort_info;
+	ETableSortInfo *sort_info;
 	GString *res;
 	gint count, i;
 
-	if (!e_table_sort_info_get_can_group (info))
+	sort_info = config->state->sort_info;
+
+	if (!e_table_sort_info_get_can_group (sort_info))
 		return;
 
-	count = e_table_sort_info_grouping_get_count (info);
+	count = e_table_sort_info_grouping_get_count (sort_info);
 	res = g_string_new ("");
 
 	for (i = 0; i < count; i++) {
-		ETableSortColumn col = e_table_sort_info_grouping_get_nth (info, i);
 		ETableColumnSpecification *column;
+		GtkSortType sort_type;
 
-		column = find_column_in_spec (config->source_spec, col.column);
-		if (!column) {
+		column = e_table_sort_info_grouping_get_nth (
+			sort_info, i, &sort_type);
+
+		if (column == NULL) {
 			g_warning ("Could not find model column in specification");
 			continue;
 		}
@@ -459,7 +441,7 @@ config_group_info_update (ETableConfig *config)
 		g_string_append_c (res, ' ');
 		g_string_append (
 			res,
-			col.ascending ?
+			(sort_type == GTK_SORT_ASCENDING) ?
 			_("(Ascending)") : _("(Descending)"));
 
 		if ((i + 1) != count)
@@ -850,18 +832,18 @@ sort_combo_changed (GtkComboBox *combo_box,
 	ETableConfig *config = sort->e_table_config;
 	ETableSortInfo *sort_info = config->temp_state->sort_info;
 	ETableConfigSortWidgets *base = &config->sort[0];
-	GtkToggleButton *toggle_button;
 	gint idx = sort - base;
 	gchar *s;
 
 	s = configure_combo_box_get_active (combo_box);
 
 	if (s != NULL) {
-		ETableSortColumn c;
-		gint col;
+		ETableColumnSpecification *column;
+		GtkToggleButton *toggle_button;
+		GtkSortType sort_type;
 
-		col = find_model_column_by_name (config->source_spec, s);
-		if (col == -1) {
+		column = find_column_spec_by_name (config->source_spec, s);
+		if (column == NULL) {
 			g_warning ("sort: This should not happen (%s)", s);
 			g_free (s);
 			return;
@@ -869,9 +851,13 @@ sort_combo_changed (GtkComboBox *combo_box,
 
 		toggle_button = GTK_TOGGLE_BUTTON (
 			config->sort[idx].radio_ascending);
-		c.ascending = gtk_toggle_button_get_active (toggle_button);
-		c.column = col;
-		e_table_sort_info_sorting_set_nth (sort_info, idx, c);
+		if (gtk_toggle_button_get_active (toggle_button))
+			sort_type = GTK_SORT_ASCENDING;
+		else
+			sort_type = GTK_SORT_DESCENDING;
+
+		e_table_sort_info_sorting_set_nth (
+			sort_info, idx, column, sort_type);
 
 		update_sort_and_group_config_dialog (config, TRUE);
 	}  else {
@@ -883,18 +869,23 @@ sort_combo_changed (GtkComboBox *combo_box,
 }
 
 static void
-sort_ascending_toggled (GtkToggleButton *t,
+sort_ascending_toggled (GtkToggleButton *toggle_button,
                         ETableConfigSortWidgets *sort)
 {
 	ETableConfig *config = sort->e_table_config;
 	ETableSortInfo *si = config->temp_state->sort_info;
 	ETableConfigSortWidgets *base = &config->sort[0];
+	ETableColumnSpecification *column;
+	GtkSortType sort_type;
 	gint idx = sort - base;
-	ETableSortColumn c;
 
-	c = e_table_sort_info_sorting_get_nth (si, idx);
-	c.ascending = gtk_toggle_button_get_active (t);
-	e_table_sort_info_sorting_set_nth (si, idx, c);
+	if (gtk_toggle_button_get_active (toggle_button))
+		sort_type = GTK_SORT_ASCENDING;
+	else
+		sort_type = GTK_SORT_DESCENDING;
+
+	column = e_table_sort_info_sorting_get_nth (si, idx, NULL);
+	e_table_sort_info_sorting_set_nth (si, idx, column, sort_type);
 }
 
 static void
@@ -982,12 +973,12 @@ group_combo_changed (GtkComboBox *combo_box,
 	s = configure_combo_box_get_active (combo_box);
 
 	if (s != NULL) {
+		ETableColumnSpecification *column;
 		GtkToggleButton *toggle_button;
-		ETableSortColumn c;
-		gint col;
+		GtkSortType sort_type;
 
-		col = find_model_column_by_name (config->source_spec, s);
-		if (col == -1) {
+		column = find_column_spec_by_name (config->source_spec, s);
+		if (column == NULL) {
 			g_warning ("grouping: this should not happen, %s", s);
 			g_free (s);
 			return;
@@ -995,9 +986,13 @@ group_combo_changed (GtkComboBox *combo_box,
 
 		toggle_button = GTK_TOGGLE_BUTTON (
 			config->group[idx].radio_ascending);
-		c.ascending = gtk_toggle_button_get_active (toggle_button);
-		c.column = col;
-		e_table_sort_info_grouping_set_nth (sort_info, idx, c);
+		if (gtk_toggle_button_get_active (toggle_button))
+			sort_type = GTK_SORT_ASCENDING;
+		else
+			sort_type = GTK_SORT_DESCENDING;
+
+		e_table_sort_info_grouping_set_nth (
+			sort_info, idx, column, sort_type);
 
 		update_sort_and_group_config_dialog (config, FALSE);
 	}  else {
@@ -1009,18 +1004,23 @@ group_combo_changed (GtkComboBox *combo_box,
 }
 
 static void
-group_ascending_toggled (GtkToggleButton *t,
+group_ascending_toggled (GtkToggleButton *toggle_button,
                          ETableConfigSortWidgets *group)
 {
 	ETableConfig *config = group->e_table_config;
 	ETableSortInfo *si = config->temp_state->sort_info;
 	ETableConfigSortWidgets *base = &config->group[0];
+	ETableColumnSpecification *column;
+	GtkSortType sort_type;
 	gint idx = group - base;
-	ETableSortColumn c;
 
-	c = e_table_sort_info_grouping_get_nth (si, idx);
-	c.ascending = gtk_toggle_button_get_active (t);
-	e_table_sort_info_grouping_set_nth (si, idx, c);
+	if (gtk_toggle_button_get_active (toggle_button))
+		sort_type = GTK_SORT_ASCENDING;
+	else
+		sort_type = GTK_SORT_DESCENDING;
+
+	column = e_table_sort_info_grouping_get_nth (si, idx, NULL);
+	e_table_sort_info_grouping_set_nth (si, idx, column, sort_type);
 }
 
 static void

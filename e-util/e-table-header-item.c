@@ -997,32 +997,34 @@ ethi_draw (GnomeCanvasItem *item,
 
 		length = e_table_sort_info_grouping_get_count (ethi->sort_info);
 		for (i = 0; i < length; i++) {
-			ETableSortColumn column;
+			ETableColumnSpecification *spec;
+			GtkSortType sort_type;
 
-			column = e_table_sort_info_grouping_get_nth (
-				ethi->sort_info, i);
+			spec = e_table_sort_info_grouping_get_nth (
+				ethi->sort_info, i, &sort_type);
 
 			g_hash_table_insert (
 				arrows,
-				GINT_TO_POINTER ((gint) column.column),
+				GINT_TO_POINTER (spec->model_col),
 				GINT_TO_POINTER (
-					column.ascending ?
+					(sort_type == GTK_SORT_ASCENDING) ?
 					E_TABLE_COL_ARROW_DOWN :
 					E_TABLE_COL_ARROW_UP));
 		}
 
 		length = e_table_sort_info_sorting_get_count (ethi->sort_info);
 		for (i = 0; i < length; i++) {
-			ETableSortColumn column;
+			ETableColumnSpecification *spec;
+			GtkSortType sort_type;
 
-			column = e_table_sort_info_sorting_get_nth (
-				ethi->sort_info, i);
+			spec = e_table_sort_info_sorting_get_nth (
+				ethi->sort_info, i, &sort_type);
 
 			g_hash_table_insert (
 				arrows,
-				GINT_TO_POINTER ((gint) column.column),
+				GINT_TO_POINTER (spec->model_col),
 				GINT_TO_POINTER (
-					column.ascending ?
+					(sort_type == GTK_SORT_ASCENDING) ?
 					E_TABLE_COL_ARROW_DOWN :
 					E_TABLE_COL_ARROW_UP));
 		}
@@ -1241,29 +1243,35 @@ ethi_start_drag (ETableHeaderItem *ethi,
 		gint length = e_table_sort_info_grouping_get_count (ethi->sort_info);
 		gint i;
 		for (i = 0; i < length; i++) {
-			ETableSortColumn column =
-				e_table_sort_info_grouping_get_nth (
-					ethi->sort_info, i);
+			ETableColumnSpecification *spec;
+			GtkSortType sort_type;
+
 			group_indent++;
+
+			spec = e_table_sort_info_grouping_get_nth (
+				ethi->sort_info, i, &sort_type);
+
 			g_hash_table_insert (
 				arrows,
-				GINT_TO_POINTER ((gint) column.column),
+				GINT_TO_POINTER (spec->model_col),
 				GINT_TO_POINTER (
-					column.ascending ?
+					(sort_type == GTK_SORT_ASCENDING) ?
 					E_TABLE_COL_ARROW_DOWN :
 					E_TABLE_COL_ARROW_UP));
 		}
 		length = e_table_sort_info_sorting_get_count (ethi->sort_info);
 		for (i = 0; i < length; i++) {
-			ETableSortColumn column =
-				e_table_sort_info_sorting_get_nth (
-					ethi->sort_info, i);
+			ETableColumnSpecification *spec;
+			GtkSortType sort_type;
+
+			spec = e_table_sort_info_sorting_get_nth (
+				ethi->sort_info, i, &sort_type);
 
 			g_hash_table_insert (
 				arrows,
-				GINT_TO_POINTER ((gint) column.column),
+				GINT_TO_POINTER (spec->model_col),
 				GINT_TO_POINTER (
-					column.ascending ?
+					(sort_type == GTK_SORT_ASCENDING) ?
 					E_TABLE_COL_ARROW_DOWN :
 					E_TABLE_COL_ARROW_UP));
 		}
@@ -1304,8 +1312,8 @@ static void
 ethi_popup_sort_ascending (GtkWidget *widget,
                            EthiHeaderInfo *info)
 {
+	ETableColumnSpecification *col_spec = NULL;
 	ETableCol *col;
-	gint model_col = -1;
 	gint length;
 	gint i;
 	gint found = FALSE;
@@ -1313,46 +1321,49 @@ ethi_popup_sort_ascending (GtkWidget *widget,
 
 	col = e_table_header_get_column (ethi->eth, info->col);
 	if (col->spec->sortable)
-		model_col = col->spec->model_col;
+		col_spec = col->spec;
 
 	length = e_table_sort_info_grouping_get_count (ethi->sort_info);
 	for (i = 0; i < length; i++) {
-		ETableSortColumn column = e_table_sort_info_grouping_get_nth (
-			ethi->sort_info, i);
+		ETableColumnSpecification *spec;
 
-		if (model_col == column.column) {
-			column.ascending = 1;
+		spec = e_table_sort_info_grouping_get_nth (
+			ethi->sort_info, i, NULL);
+
+		if (e_table_column_specification_equal (col_spec, spec)) {
 			e_table_sort_info_grouping_set_nth (
-				ethi->sort_info, i, column);
-			found = 1;
-			break;
+				ethi->sort_info, i, spec,
+				GTK_SORT_ASCENDING);
+			return;
 		}
 	}
-	if (!found) {
-		length = e_table_sort_info_sorting_get_count (
-			ethi->sort_info);
-		for (i = 0; i < length; i++) {
-			ETableSortColumn column =
-				e_table_sort_info_sorting_get_nth (
-					ethi->sort_info, i);
-			if (model_col == column.column || model_col == -1) {
-				column.ascending = 1;
-				e_table_sort_info_sorting_set_nth (
-					ethi->sort_info, i, column);
-				found = 1;
-				if (model_col != -1)
-					break;
-			}
+
+	length = e_table_sort_info_sorting_get_count (ethi->sort_info);
+	for (i = 0; i < length; i++) {
+		ETableColumnSpecification *spec;
+
+		spec = e_table_sort_info_sorting_get_nth (
+			ethi->sort_info, i, NULL);
+
+		if (col_spec == NULL ||
+		    e_table_column_specification_equal (col_spec, spec)) {
+			e_table_sort_info_sorting_set_nth (
+				ethi->sort_info, i, spec,
+				GTK_SORT_ASCENDING);
+			found = TRUE;
+			if (col_spec != NULL)
+				return;
 		}
 	}
+
 	if (!found) {
-		ETableSortColumn column;
-		column.column = model_col;
-		column.ascending =  1;
 		length = e_table_sort_info_sorting_get_count (ethi->sort_info);
 		if (length == 0)
 			length++;
-		e_table_sort_info_sorting_set_nth (ethi->sort_info, length - 1, column);
+
+		e_table_sort_info_sorting_set_nth (
+			ethi->sort_info, length - 1,
+			col_spec, GTK_SORT_ASCENDING);
 	}
 }
 
@@ -1360,8 +1371,8 @@ static void
 ethi_popup_sort_descending (GtkWidget *widget,
                             EthiHeaderInfo *info)
 {
+	ETableColumnSpecification *col_spec = NULL;
 	ETableCol *col;
-	gint model_col=-1;
 	gint length;
 	gint i;
 	gint found = FALSE;
@@ -1369,46 +1380,50 @@ ethi_popup_sort_descending (GtkWidget *widget,
 
 	col = e_table_header_get_column (ethi->eth, info->col);
 	if (col->spec->sortable)
-		model_col = col->spec->model_col;
+		col_spec = col->spec;
 
 	length = e_table_sort_info_grouping_get_count (ethi->sort_info);
 	for (i = 0; i < length; i++) {
-		ETableSortColumn column = e_table_sort_info_grouping_get_nth (
-			ethi->sort_info, i);
-		if (model_col == column.column) {
-			column.ascending = 0;
-			e_table_sort_info_grouping_set_nth (
-				ethi->sort_info, i, column);
-			found = 1;
-			break;
-		}
-	}
-	if (!found) {
-		length = e_table_sort_info_sorting_get_count (ethi->sort_info);
-		for (i = 0; i < length; i++) {
-			ETableSortColumn column =
-				e_table_sort_info_sorting_get_nth (
-					ethi->sort_info, i);
+		ETableColumnSpecification *spec;
+		GtkSortType sort_type;
 
-			if (model_col == column.column || model_col == -1) {
-				column.ascending = 0;
-				e_table_sort_info_sorting_set_nth (
-					ethi->sort_info, i, column);
-				found = 1;
-				if (model_col != -1)
-					break;
-			}
+		spec = e_table_sort_info_grouping_get_nth (
+			ethi->sort_info, i, &sort_type);
+
+		if (e_table_column_specification_equal (col_spec, spec)) {
+			e_table_sort_info_grouping_set_nth (
+				ethi->sort_info, i, spec,
+				GTK_SORT_DESCENDING);
+			return;
 		}
 	}
+
+	length = e_table_sort_info_sorting_get_count (ethi->sort_info);
+	for (i = 0; i < length; i++) {
+		ETableColumnSpecification *spec;
+
+		spec = e_table_sort_info_sorting_get_nth (
+			ethi->sort_info, i, NULL);
+
+		if (col_spec == NULL ||
+		    e_table_column_specification_equal (col_spec, spec)) {
+			e_table_sort_info_sorting_set_nth (
+				ethi->sort_info, i, spec,
+				GTK_SORT_DESCENDING);
+			found = TRUE;
+			if (col_spec != NULL)
+				break;
+		}
+	}
+
 	if (!found) {
-		ETableSortColumn column;
-		column.column = model_col;
-		column.ascending = 0;
 		length = e_table_sort_info_sorting_get_count (ethi->sort_info);
 		if (length == 0)
 			length++;
+
 		e_table_sort_info_sorting_set_nth (
-			ethi->sort_info, length - 1, column);
+			ethi->sort_info, length - 1,
+			col_spec, GTK_SORT_DESCENDING);
 	}
 }
 
@@ -1427,17 +1442,13 @@ ethi_popup_group_field (GtkWidget *widget,
                         EthiHeaderInfo *info)
 {
 	ETableCol *col;
-	gint model_col;
-	ETableHeaderItem *ethi = info->ethi;
-	ETableSortColumn column;
 
-	col = e_table_header_get_column (ethi->eth, info->col);
-	model_col = col->spec->model_col;
+	col = e_table_header_get_column (info->ethi->eth, info->col);
 
-	column.column = model_col;
-	column.ascending = 1;
-	e_table_sort_info_grouping_set_nth (ethi->sort_info, 0, column);
-	e_table_sort_info_grouping_truncate (ethi->sort_info, 1);
+	e_table_sort_info_grouping_set_nth (
+		info->ethi->sort_info, 0,
+		col->spec, GTK_SORT_ASCENDING);
+	e_table_sort_info_grouping_truncate (info->ethi->sort_info, 1);
 }
 
 static void
@@ -1632,10 +1643,11 @@ sort_by_id (GtkWidget *menu_item,
 
 	if (!clearfirst && ecol &&
 		e_table_sort_info_sorting_get_count (ethi->sort_info) == 1) {
-		ETableSortColumn column;
+		ETableColumnSpecification *spec;
 
-		column = e_table_sort_info_sorting_get_nth (ethi->sort_info, 0);
-		clearfirst = ecol->spec->sortable && ecol->spec->model_col != column.column;
+		spec = e_table_sort_info_sorting_get_nth (
+			ethi->sort_info, 0, NULL);
+		clearfirst = ecol->spec->sortable && ecol->spec != spec;
 	}
 
 	if (clearfirst)
@@ -1659,7 +1671,6 @@ ethi_header_context_menu (ETableHeaderItem *ethi,
 	GtkMenu *popup;
 	gint ncol, sort_count, sort_col;
 	GtkWidget *menu_item, *sub_menu;
-	ETableSortColumn column;
 	gboolean ascending = TRUE;
 	gdouble event_x_win = 0;
 	gdouble event_y_win = 0;
@@ -1695,9 +1706,14 @@ ethi_header_context_menu (ETableHeaderItem *ethi,
 	if (sort_count > 1 || sort_count < 1)
 		sort_col = -1; /* Custom sorting */
 	else {
-		column = e_table_sort_info_sorting_get_nth (ethi->sort_info, 0);
-		sort_col = column.column;
-		ascending = column.ascending;
+		ETableColumnSpecification *spec;
+		GtkSortType sort_type;
+
+		spec = e_table_sort_info_sorting_get_nth (
+			ethi->sort_info, 0, &sort_type);
+
+		sort_col = spec->model_col;
+		ascending = (sort_type == GTK_SORT_ASCENDING);
 	}
 
 	/* Custom */
@@ -1773,7 +1789,7 @@ void
 ethi_change_sort_state (ETableHeaderItem *ethi,
                         ETableCol *col)
 {
-	gint model_col = -1;
+	ETableColumnSpecification *col_spec = NULL;
 	gint length;
 	gint i;
 	gboolean found = FALSE;
@@ -1782,22 +1798,28 @@ ethi_change_sort_state (ETableHeaderItem *ethi,
 		return;
 
 	if (col->spec->sortable)
-		model_col = col->spec->model_col;
+		col_spec = col->spec;
 
 	length = e_table_sort_info_grouping_get_count (ethi->sort_info);
 	for (i = 0; i < length; i++) {
-		ETableSortColumn column;
+		ETableColumnSpecification *spec;
+		GtkSortType sort_type;
 
-		column = e_table_sort_info_grouping_get_nth (
-			ethi->sort_info, i);
+		spec = e_table_sort_info_grouping_get_nth (
+			ethi->sort_info, i, &sort_type);
 
-		if (model_col == column.column || model_col == -1) {
-			gint ascending = column.ascending;
-			ascending = !ascending;
-			column.ascending = ascending;
-			e_table_sort_info_grouping_set_nth (ethi->sort_info, i, column);
+		/* Invert the sort type. */
+		if (sort_type == GTK_SORT_ASCENDING)
+			sort_type = GTK_SORT_DESCENDING;
+		else
+			sort_type = GTK_SORT_ASCENDING;
+
+		if (col_spec == NULL ||
+		    e_table_column_specification_equal (col_spec, spec)) {
+			e_table_sort_info_grouping_set_nth (
+				ethi->sort_info, i, spec, sort_type);
 			found = TRUE;
-			if (model_col != -1)
+			if (col_spec != NULL)
 				break;
 		}
 	}
@@ -1805,15 +1827,15 @@ ethi_change_sort_state (ETableHeaderItem *ethi,
 	if (!found) {
 		length = e_table_sort_info_sorting_get_count (ethi->sort_info);
 		for (i = 0; i < length; i++) {
-			ETableSortColumn column;
+			ETableColumnSpecification *spec;
+			GtkSortType sort_type;
 
-			column = e_table_sort_info_sorting_get_nth (
-				ethi->sort_info, i);
+			spec = e_table_sort_info_sorting_get_nth (
+				ethi->sort_info, i, &sort_type);
 
-			if (model_col == column.column || model_col == -1) {
-				gint ascending = column.ascending;
-
-				if (ascending == 0 && model_col != -1) {
+			if (col_spec == NULL ||
+			    e_table_column_specification_equal (col_spec, spec)) {
+				if (sort_type == GTK_SORT_DESCENDING && col_spec != NULL) {
 					/*
 					 * This means the user has clicked twice
 					 * already, lets kill sorting of this column now.
@@ -1823,24 +1845,28 @@ ethi_change_sort_state (ETableHeaderItem *ethi,
 					length--;
 					i--;
 				} else {
-					ascending = !ascending;
-					column.ascending = ascending;
+					/* Invert the sort type. */
+					if (sort_type == GTK_SORT_ASCENDING)
+						sort_type = GTK_SORT_DESCENDING;
+					else
+						sort_type = GTK_SORT_ASCENDING;
+
 					e_table_sort_info_sorting_set_nth (
-						ethi->sort_info, i, column);
+						ethi->sort_info, i, spec, sort_type);
 				}
 				found = TRUE;
-				if (model_col != -1)
+				if (col_spec != NULL)
 					break;
 			}
 		}
 	}
 
-	if (!found && model_col != -1) {
-		ETableSortColumn column;
-		column.column = model_col;
-		column.ascending = 1;
+	if (!found && col_spec != NULL) {
 		e_table_sort_info_sorting_truncate (ethi->sort_info, 0);
-		e_table_sort_info_sorting_set_nth (ethi->sort_info, 0, column);
+
+		e_table_sort_info_sorting_set_nth (
+			ethi->sort_info, 0,
+			col_spec, GTK_SORT_ASCENDING);
 	}
 }
 
