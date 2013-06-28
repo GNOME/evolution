@@ -98,6 +98,34 @@ e_table_column_specification_new (void)
 	return g_object_new (E_TYPE_TABLE_COLUMN_SPECIFICATION, NULL);
 }
 
+/**
+ * e_table_column_specification_equal:
+ * @spec_a: an #ETableColumnSpecification
+ * @spec_b: another #ETableColumnSpecification
+ *
+ * Convenience function compares @spec_a and @spec_b for equality, which
+ * simply means they share the same model column number.
+ *
+ * <note>
+ *   <para>
+ *     We should strive to get rid of this function by ensuring only one
+ *     #ETableSpecification instance exists per table specification file.
+ *     Then we could compare for equality by simply comparing pointers.
+ *   </para>
+ * </note>
+ *
+ * Returns: %TRUE if @spec_a and @spec_b describe the same column
+ **/
+gboolean
+e_table_column_specification_equal (ETableColumnSpecification *spec_a,
+                                    ETableColumnSpecification *spec_b)
+{
+	g_return_val_if_fail (E_IS_TABLE_COLUMN_SPECIFICATION (spec_a), FALSE);
+	g_return_val_if_fail (E_IS_TABLE_COLUMN_SPECIFICATION (spec_b), FALSE);
+
+	return (spec_a->model_col == spec_b->model_col);
+}
+
 void
 e_table_column_specification_load_from_node (ETableColumnSpecification *etcs,
                                              const xmlNode *node)

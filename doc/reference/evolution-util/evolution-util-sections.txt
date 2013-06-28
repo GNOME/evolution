@@ -3397,6 +3397,7 @@ e_table_col_get_type
 <TITLE>ETableColumnSpecification</TITLE>
 ETableColumnSpecification
 e_table_column_specification_new
+e_table_column_specification_equal
 e_table_column_specification_load_from_node
 <SUBSECTION Standard>
 E_TABLE_COLUMN_SPECIFICATION

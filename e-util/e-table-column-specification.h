@@ -81,6 +81,9 @@ struct _ETableColumnSpecificationClass {
 GType		e_table_column_specification_get_type	(void) G_GNUC_CONST;
 ETableColumnSpecification *
 		e_table_column_specification_new	(void);
+gboolean	e_table_column_specification_equal
+					(ETableColumnSpecification *spec_a,
+					 ETableColumnSpecification *spec_b);
 void		e_table_column_specification_load_from_node
 					(ETableColumnSpecification *state,
 					 const xmlNode *node);
