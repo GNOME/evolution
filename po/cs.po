@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: evolution gnome-3-8\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2013-06-28 12:17+0000\n"
+"POT-Creation-Date: 2013-06-29 13:11+0000\n"
 "PO-Revision-Date: 2013-03-10 22:15+0100\n"
 "Last-Translator: Jiri Eischmann <jiri@eischmann.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
@@ -2282,7 +2282,6 @@ msgid "after"
 msgstr "po"
 
 #: ../calendar/gui/dialogs/alarm-dialog.c:911
-msgid "start of appointmenet"
 msgstr "začátek události"
 
 #: ../calendar/gui/dialogs/alarm-dialog.c:912
