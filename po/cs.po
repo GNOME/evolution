@@ -2282,6 +2282,7 @@ msgid "after"
 msgstr "po"
 
 #: ../calendar/gui/dialogs/alarm-dialog.c:911
+msgid "start of appointment"
 msgstr "začátek události"
 
 #: ../calendar/gui/dialogs/alarm-dialog.c:912
