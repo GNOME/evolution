@@ -908,7 +908,7 @@ get_widgets (Dialog *dialog)
 
 	if (dialog->time_combo) {
 		const gchar *actions[] = {
-			N_("start of appointmenet"),
+			N_("start of appointment"),
 			N_("end of appointment"),
 			NULL
 		};
