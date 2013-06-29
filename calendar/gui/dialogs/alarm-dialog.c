@@ -240,6 +240,15 @@ alarm_to_dialog (Dialog *dialog)
 	populate_relative_time_combobox_widget (
 			dialog->time_combo, dialog->cal_client, time_map, E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_END);
 
+	/*
+	 * If the client doesn't support set alarm description, disable the related widgets
+	 */
+	if (e_client_check_capability (E_CLIENT (dialog->cal_client), CAL_STATIC_CAPABILITY_NO_ALARM_DESCRIPTION)) {
+		gtk_widget_hide (dialog->dalarm_group);
+		gtk_widget_hide (dialog->dalarm_message);
+		gtk_widget_hide (dialog->dalarm_description);
+	}
+
 	/* Set a default address if possible */
 	if (!e_client_check_capability (E_CLIENT (dialog->cal_client), CAL_STATIC_CAPABILITY_NO_EMAIL_ALARMS)
 	    && !e_cal_component_alarm_has_attendees (dialog->alarm)
