@@ -63,6 +63,166 @@ column_data_clear (ColumnData *data)
 }
 
 static void
+table_sort_info_parser_start_group (GMarkupParseContext *context,
+                                    const gchar *element_name,
+                                    const gchar **attribute_names,
+                                    const gchar **attribute_values,
+                                    ETableSortInfo *sort_info,
+                                    GPtrArray *columns,
+                                    GError **error)
+{
+	const gchar *index_str;
+	gboolean ascending;
+	gboolean success;
+
+	success = g_markup_collect_attributes (
+		element_name,
+		attribute_names,
+		attribute_values,
+		error,
+
+		G_MARKUP_COLLECT_STRING,
+		"column",
+		&index_str,
+
+		G_MARKUP_COLLECT_BOOLEAN |
+		G_MARKUP_COLLECT_OPTIONAL,
+		"ascending",
+		&ascending,
+
+		G_MARKUP_COLLECT_INVALID);
+
+	if (success) {
+		ETableColumnSpecification *column_spec;
+		ColumnData column_data;
+		gint64 index;
+
+		g_return_if_fail (index_str != NULL);
+		index = g_ascii_strtoll (index_str, NULL, 10);
+
+		g_return_if_fail (index < columns->len);
+		column_spec = g_ptr_array_index (columns, index);
+
+		column_data.column_spec = g_object_ref (column_spec);
+
+		if (ascending)
+			column_data.sort_type = GTK_SORT_ASCENDING;
+		else
+			column_data.sort_type = GTK_SORT_DESCENDING;
+
+		g_array_append_val (sort_info->priv->groupings, column_data);
+	}
+}
+
+static void
+table_sort_info_parser_start_leaf (GMarkupParseContext *context,
+                                   const gchar *element_name,
+                                   const gchar **attribute_names,
+                                   const gchar **attribute_values,
+                                   ETableSortInfo *sort_info,
+                                   GPtrArray *columns,
+                                   GError **error)
+{
+	const gchar *index_str;
+	gboolean ascending;
+	gboolean success;
+
+	success = g_markup_collect_attributes (
+		element_name,
+		attribute_names,
+		attribute_values,
+		error,
+
+		G_MARKUP_COLLECT_STRING,
+		"column",
+		&index_str,
+
+		G_MARKUP_COLLECT_BOOLEAN |
+		G_MARKUP_COLLECT_OPTIONAL,
+		"ascending",
+		&ascending,
+
+		G_MARKUP_COLLECT_INVALID);
+
+	if (success) {
+		ETableColumnSpecification *column_spec;
+		ColumnData column_data;
+		gint64 index;
+
+		g_return_if_fail (index_str != NULL);
+		index = g_ascii_strtoll (index_str, NULL, 10);
+
+		g_return_if_fail (index < columns->len);
+		column_spec = g_ptr_array_index (columns, index);
+
+		column_data.column_spec = g_object_ref (column_spec);
+
+		if (ascending)
+			column_data.sort_type = GTK_SORT_ASCENDING;
+		else
+			column_data.sort_type = GTK_SORT_DESCENDING;
+
+		g_array_append_val (sort_info->priv->sortings, column_data);
+	}
+}
+
+static void
+table_sort_info_parser_start_element (GMarkupParseContext *context,
+                                      const gchar *element_name,
+                                      const gchar **attribute_names,
+                                      const gchar **attribute_values,
+                                      gpointer user_data,
+                                      GError **error)
+{
+	ETableSpecification *specification;
+	ETableSortInfo *sort_info;
+	GPtrArray *columns;
+
+	sort_info = E_TABLE_SORT_INFO (user_data);
+	specification = e_table_sort_info_ref_specification (sort_info);
+	columns = e_table_specification_ref_columns (specification);
+
+	if (g_str_equal (element_name, "group"))
+		table_sort_info_parser_start_group (
+			context,
+			element_name,
+			attribute_names,
+			attribute_values,
+			sort_info,
+			columns,
+			error);
+
+	if (g_str_equal (element_name, "leaf"))
+		table_sort_info_parser_start_leaf (
+			context,
+			element_name,
+			attribute_names,
+			attribute_values,
+			sort_info,
+			columns,
+			error);
+
+	g_object_unref (specification);
+	g_ptr_array_unref (columns);
+}
+
+static void
+table_sort_info_parser_error (GMarkupParseContext *context,
+                              GError *error,
+                              gpointer user_data)
+{
+	g_object_unref (E_TABLE_SORT_INFO (user_data));
+}
+
+static const GMarkupParser table_sort_info_parser = {
+	table_sort_info_parser_start_element,
+	NULL,
+	NULL,
+	NULL,
+	table_sort_info_parser_error
+};
+
+static void
 table_sort_info_set_specification (ETableSortInfo *sort_info,
                                    ETableSpecification *specification)
 {
@@ -219,6 +379,56 @@ e_table_sort_info_new (ETableSpecification *specification)
 	return g_object_new (
 		E_TYPE_TABLE_SORT_INFO,
 		"specification", specification, NULL);
+}
+
+/**
+ * e_table_sort_info_parse_context_push:
+ * @context: a #GMarkupParseContext
+ * @specification: an #ETableSpecification
+ *
+ * Creates a new #ETableSortInfo from a segment of XML data being fed to
+ * @context.  Call this function for the appropriate opening tag from the
+ * <structfield>start_element</structfield> callback of a #GMarkupParser,
+ * then call e_table_sort_info_parse_context_pop() for the corresponding
+ * closing tag from the <structfield>end_element</structfield> callback.
+ **/
+void
+e_table_sort_info_parse_context_push (GMarkupParseContext *context,
+                                      ETableSpecification *specification)
+{
+	g_return_if_fail (context != NULL);
+	g_return_if_fail (E_IS_TABLE_SPECIFICATION (specification));
+
+	g_markup_parse_context_push (
+		context, &table_sort_info_parser,
+		e_table_sort_info_new (specification));
+}
+
+/**
+ * e_table_sort_info_parse_context_pop:
+ * @context: a #GMarkupParseContext
+ *
+ * Creates a new #ETableSortInfo from a segment of XML data being fed to
+ * @context.  Call e_table_sort_info_parse_context_push() for the appropriate
+ * opening tag from the <structfield>start_element</structfield> callback of a
+ * #GMarkupParser, then call this function for the corresponding closing tag
+ * from the <structfield>end_element</structfield> callback.
+ *
+ * Unreference the newly-created #ETableSortInfo with g_object_unref() when
+ * finished with it.
+ *
+ * Returns: an #ETableSortInfo
+ **/
+ETableSortInfo *
+e_table_sort_info_parse_context_pop (GMarkupParseContext *context)
+{
+	gpointer user_data;
+
+	g_return_val_if_fail (context != NULL, NULL);
+
+	user_data = g_markup_parse_context_pop (context);
+
+	return E_TABLE_SORT_INFO (user_data);
 }
 
 /**

@@ -72,6 +72,12 @@ struct _ETableSortInfoClass {
 GType		e_table_sort_info_get_type
 					(void) G_GNUC_CONST;
 ETableSortInfo *e_table_sort_info_new	(struct _ETableSpecification *specification);
+void		e_table_sort_info_parse_context_push
+					(GMarkupParseContext *context,
+					 struct _ETableSpecification *specification);
+ETableSortInfo *
+		e_table_sort_info_parse_context_pop
+					(GMarkupParseContext *context);
 struct _ETableSpecification *
 		e_table_sort_info_ref_specification
 					(ETableSortInfo *sort_info);

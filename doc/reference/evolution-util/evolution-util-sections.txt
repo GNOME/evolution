@@ -3869,6 +3869,8 @@ e_table_sorter_get_type
 <TITLE>ETableSortInfo</TITLE>
 ETableSortInfo
 e_table_sort_info_new
+e_table_sort_info_parse_context_push
+e_table_sort_info_parse_context_pop
 e_table_sort_info_ref_specification
 e_table_sort_info_get_can_group
 e_table_sort_info_set_can_group
