@@ -558,19 +558,20 @@ gboolean
 e_table_specification_load_from_file (ETableSpecification *specification,
                                       const gchar *filename)
 {
-	xmlDoc *doc;
+	gchar *contents = NULL;
 	gboolean success = FALSE;
 
 	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (specification), FALSE);
 	g_return_val_if_fail (filename != NULL, FALSE);
 
-	doc = e_xml_parse_file (filename);
-	if (doc != NULL) {
-		xmlNode *node = xmlDocGetRootElement (doc);
-		e_table_specification_load_from_node (specification, node);
-		xmlFreeDoc (doc);
-		success = TRUE;
+	if (g_file_get_contents (filename, &contents, NULL, NULL)) {
+		success = e_table_specification_load_from_string (
+			specification, contents);
+		g_free (contents);
+		contents = NULL;
 	}
+
+	g_warn_if_fail (contents == NULL);
 
 	return success;
 }
