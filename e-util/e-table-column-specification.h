@@ -28,7 +28,6 @@
 #define _E_TABLE_COLUMN_SPECIFICATION_H_
 
 #include <glib-object.h>
-#include <libxml/tree.h>
 
 /* Standard GObject macros */
 #define E_TYPE_TABLE_COLUMN_SPECIFICATION \
@@ -84,9 +83,6 @@ ETableColumnSpecification *
 gboolean	e_table_column_specification_equal
 					(ETableColumnSpecification *spec_a,
 					 ETableColumnSpecification *spec_b);
-void		e_table_column_specification_load_from_node
-					(ETableColumnSpecification *state,
-					 const xmlNode *node);
 
 G_END_DECLS
 

@@ -30,11 +30,6 @@
 
 #include <stdlib.h>
 
-#include <libxml/parser.h>
-#include <libxml/xmlmemory.h>
-
-#include "e-xml-utils.h"
-
 G_DEFINE_TYPE (
 	ETableColumnSpecification,
 	e_table_column_specification,
@@ -124,31 +119,5 @@ e_table_column_specification_equal (ETableColumnSpecification *spec_a,
 	g_return_val_if_fail (E_IS_TABLE_COLUMN_SPECIFICATION (spec_b), FALSE);
 
 	return (spec_a->model_col == spec_b->model_col);
-}
-
-void
-e_table_column_specification_load_from_node (ETableColumnSpecification *etcs,
-                                             const xmlNode *node)
-{
-	free_strings (etcs);
-
-	etcs->model_col     = e_xml_get_integer_prop_by_name (node, (const guchar *)"model_col");
-	etcs->compare_col   = e_xml_get_integer_prop_by_name_with_default (node, (const guchar *)"compare_col", etcs->model_col);
-	etcs->title         = e_xml_get_string_prop_by_name (node, (const guchar *)"_title");
-	etcs->pixbuf        = e_xml_get_string_prop_by_name (node, (const guchar *)"pixbuf");
-
-	etcs->expansion     = e_xml_get_double_prop_by_name (node, (const guchar *)"expansion");
-	etcs->minimum_width = e_xml_get_integer_prop_by_name (node, (const guchar *)"minimum_width");
-	etcs->resizable     = e_xml_get_bool_prop_by_name (node, (const guchar *)"resizable");
-	etcs->disabled      = e_xml_get_bool_prop_by_name (node, (const guchar *)"disabled");
-
-	etcs->cell          = e_xml_get_string_prop_by_name (node, (const guchar *)"cell");
-	etcs->compare       = e_xml_get_string_prop_by_name (node, (const guchar *)"compare");
-	etcs->search        = e_xml_get_string_prop_by_name (node, (const guchar *)"search");
-	etcs->sortable      = e_xml_get_bool_prop_by_name_with_default (node, (const guchar *)"sortable", TRUE);
-	etcs->priority      = e_xml_get_integer_prop_by_name_with_default (node, (const guchar *)"priority", 0);
-
-	if (etcs->title == NULL)
-		etcs->title = g_strdup ("");
 }
 
