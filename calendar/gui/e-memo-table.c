@@ -408,8 +408,9 @@ memo_table_constructed (GObject *object)
 	etspecfile = g_build_filename (
 		EVOLUTION_ETSPECDIR, "e-memo-table.etspec", NULL);
 	e_table_construct_from_spec_file (
-		E_TABLE (memo_table), E_TABLE_MODEL (model),
-		extras, etspecfile, NULL);
+		E_TABLE (memo_table),
+		E_TABLE_MODEL (model),
+		extras, etspecfile);
 	g_free (etspecfile);
 
 	gtk_widget_set_has_tooltip (GTK_WIDGET (memo_table), TRUE);

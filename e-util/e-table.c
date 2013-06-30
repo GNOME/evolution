@@ -1948,7 +1948,6 @@ e_table_construct (ETable *e_table,
  * @etm: The model for this table.
  * @ete: An optional #ETableExtras.  (%NULL is valid.)
  * @spec_fn: The filename of the spec.
- * @state_fn: An optional state file.  (%NULL is valid.)
  *
  * This is the internal implementation of e_table_new_from_spec_file()
  * for use by subclasses or language bindings.  See
@@ -1961,8 +1960,7 @@ ETable *
 e_table_construct_from_spec_file (ETable *e_table,
                                   ETableModel *etm,
                                   ETableExtras *ete,
-                                  const gchar *spec_fn,
-                                  const gchar *state_fn)
+                                  const gchar *spec_fn)
 {
 	ETableSpecification *specification;
 	ETableState *state;
@@ -1978,22 +1976,7 @@ e_table_construct_from_spec_file (ETable *e_table,
 		return NULL;
 	}
 
-	if (state_fn) {
-		state = e_table_state_new (specification);
-		if (!e_table_state_load_from_file (state, state_fn)) {
-			g_object_unref (state);
-			state = specification->state;
-			g_object_ref (state);
-		}
-		if (state->col_count <= 0) {
-			g_object_unref (state);
-			state = specification->state;
-			g_object_ref (state);
-		}
-	} else {
-		state = specification->state;
-		g_object_ref (state);
-	}
+	state = g_object_ref (specification->state);
 
 	e_table = et_real_construct (e_table, etm, ete, specification, state);
 
@@ -2046,7 +2029,6 @@ e_table_new (ETableModel *etm,
  * @etm: The model for this table.
  * @ete: An optional #ETableExtras.  (%NULL is valid.)
  * @spec_fn: The filename of the spec.
- * @state_fn: An optional state file.  (%NULL is valid.)
  *
  * This is very similar to e_table_new(), except instead of passing in
  * strings you pass in the file names of the spec and state to load.
@@ -2054,18 +2036,13 @@ e_table_new (ETableModel *etm,
  * @spec_fn is the filename of the spec to load.  If this file doesn't
  * exist, e_table_new_from_spec_file will return %NULL.
  *
- * @state_fn is the filename of the initial state to load.  If this is
- * %NULL or if the specified file doesn't exist, the default state
- * from the spec file is used.
- *
  * Return value:
  * The newly created #ETable or %NULL if there's an error.
  **/
 GtkWidget *
 e_table_new_from_spec_file (ETableModel *etm,
                             ETableExtras *ete,
-                            const gchar *spec_fn,
-                            const gchar *state_fn)
+                            const gchar *spec_fn)
 {
 	ETable *e_table;
 
@@ -2075,7 +2052,7 @@ e_table_new_from_spec_file (ETableModel *etm,
 
 	e_table = g_object_new (E_TYPE_TABLE, NULL);
 
-	e_table = e_table_construct_from_spec_file (e_table, etm, ete, spec_fn, state_fn);
+	e_table = e_table_construct_from_spec_file (e_table, etm, ete, spec_fn);
 
 	return GTK_WIDGET (e_table);
 }

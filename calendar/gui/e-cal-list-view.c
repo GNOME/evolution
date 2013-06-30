@@ -311,7 +311,7 @@ setup_e_table (ECalListView *cal_list_view)
 	etspecfile = g_build_filename (
 		EVOLUTION_ETSPECDIR, "e-cal-list-view.etspec", NULL);
 	widget = e_table_new_from_spec_file (
-		E_TABLE_MODEL (model), extras, etspecfile, NULL);
+		E_TABLE_MODEL (model), extras, etspecfile);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	cal_list_view->table = E_TABLE (widget);
 	gtk_widget_show (widget);

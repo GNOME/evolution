@@ -280,12 +280,10 @@ ETable *	e_table_construct_from_spec_file
 						(ETable *e_table,
 						 ETableModel *etm,
 						 ETableExtras *ete,
-						 const gchar *spec_fn,
-						 const gchar *state_fn);
+						 const gchar *spec_fn);
 GtkWidget *	e_table_new_from_spec_file	(ETableModel *etm,
 						 ETableExtras *ete,
-						 const gchar *spec_fn,
-						 const gchar *state_fn);
+						 const gchar *spec_fn);
 
 /* To save the state */
 gchar *		e_table_get_state		(ETable *e_table);
