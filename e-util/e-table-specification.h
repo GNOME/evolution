@@ -61,16 +61,16 @@ struct _ETableSpecification {
 
 	ETableState *state;
 
-	guint alternating_row_colors : 1;
-	guint no_headers : 1;
-	guint click_to_add : 1;
-	guint click_to_add_end : 1;
-	guint horizontal_draw_grid : 1;
-	guint vertical_draw_grid : 1;
-	guint draw_focus : 1;
-	guint horizontal_scrolling : 1;
-	guint horizontal_resize : 1;
-	guint allow_grouping : 1;
+	gboolean alternating_row_colors;
+	gboolean no_headers;
+	gboolean click_to_add;
+	gboolean click_to_add_end;
+	gboolean horizontal_draw_grid;
+	gboolean vertical_draw_grid;
+	gboolean draw_focus;
+	gboolean horizontal_scrolling;
+	gboolean horizontal_resize;
+	gboolean allow_grouping;
 	GtkSelectionMode selection_mode;
 	ECursorMode cursor_mode;
 
