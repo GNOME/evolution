@@ -1680,7 +1680,6 @@ e_tree_construct (ETree *tree,
  * @etm: The model for this tree
  * @ete: An optional #ETableExtras  (%NULL is valid.)
  * @spec_fn: The filename of the spec
- * @state_fn: An optional state file  (%NULL is valid.)
  *
  * This is the internal implementation of e_tree_new_from_spec_file()
  * for use by subclasses or language bindings.  See
@@ -1692,8 +1691,7 @@ gboolean
 e_tree_construct_from_spec_file (ETree *tree,
                                  ETreeModel *etm,
                                  ETableExtras *ete,
-                                 const gchar *spec_fn,
-                                 const gchar *state_fn)
+                                 const gchar *spec_fn)
 {
 	ETableSpecification *specification;
 	ETableState *state;
@@ -1708,22 +1706,8 @@ e_tree_construct_from_spec_file (ETree *tree,
 		g_object_unref (specification);
 		return FALSE;
 	}
-	if (state_fn) {
-		state = e_table_state_new (specification);
-		if (!e_table_state_load_from_file (state, state_fn)) {
-			g_object_unref (state);
-			state = specification->state;
-			g_object_ref (state);
-		}
-		if (state->col_count <= 0) {
-			g_object_unref (state);
-			state = specification->state;
-			g_object_ref (state);
-		}
-	} else {
-		state = specification->state;
-		g_object_ref (state);
-	}
+
+	state = g_object_ref (specification->state);
 
 	if (!et_real_construct (tree, etm, ete, specification, state)) {
 		g_object_unref (specification);
@@ -1785,7 +1769,6 @@ e_tree_new (ETreeModel *etm,
  * @etm: The model for this tree.
  * @ete: An optional #ETableExtras.  (%NULL is valid.)
  * @spec_fn: The filename of the spec.
- * @state_fn: An optional state file.  (%NULL is valid.)
  *
  * This is very similar to e_tree_new(), except instead of passing in
  * strings you pass in the file names of the spec and state to load.
@@ -1793,18 +1776,13 @@ e_tree_new (ETreeModel *etm,
  * @spec_fn is the filename of the spec to load.  If this file doesn't
  * exist, e_tree_new_from_spec_file will return %NULL.
  *
- * @state_fn is the filename of the initial state to load.  If this is
- * %NULL or if the specified file doesn't exist, the default state
- * from the spec file is used.
- *
  * Return value:
  * The newly created #ETree or %NULL if there's an error.
  **/
 GtkWidget *
 e_tree_new_from_spec_file (ETreeModel *etm,
                            ETableExtras *ete,
-                           const gchar *spec_fn,
-                           const gchar *state_fn)
+                           const gchar *spec_fn)
 {
 	ETree *tree;
 
@@ -1814,7 +1792,7 @@ e_tree_new_from_spec_file (ETreeModel *etm,
 
 	tree = g_object_new (E_TYPE_TREE, NULL);
 
-	if (!e_tree_construct_from_spec_file (tree, etm, ete, spec_fn, state_fn)) {
+	if (!e_tree_construct_from_spec_file (tree, etm, ete, spec_fn)) {
 		g_object_unref (tree);
 		return NULL;
 	}

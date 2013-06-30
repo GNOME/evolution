@@ -3369,7 +3369,7 @@ message_list_construct (MessageList *message_list)
 	constructed = e_tree_construct_from_spec_file (
 		E_TREE (message_list),
 		E_TREE_MODEL (message_list),
-		message_list->extras, etspecfile, NULL);
+		message_list->extras, etspecfile);
 	g_free (etspecfile);
 
 	adapter = e_tree_get_table_adapter (E_TREE (message_list));

@@ -184,12 +184,10 @@ GtkWidget *	e_tree_new			(ETreeModel *etm,
 gboolean	e_tree_construct_from_spec_file	(ETree *tree,
 						 ETreeModel *etm,
 						 ETableExtras *ete,
-						 const gchar *spec_fn,
-						 const gchar *state_fn);
+						 const gchar *spec_fn);
 GtkWidget *	e_tree_new_from_spec_file	(ETreeModel *etm,
 						 ETableExtras *ete,
-						 const gchar *spec_fn,
-						 const gchar *state_fn);
+						 const gchar *spec_fn);
 
 /* To save the state */
 gchar *		e_tree_get_state		(ETree *tree);
