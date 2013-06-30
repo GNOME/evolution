@@ -3944,6 +3944,8 @@ ETableSpecificationPrivate
 ETableState
 e_table_state_new
 e_table_state_vanilla
+e_table_state_parse_context_push
+e_table_state_parse_context_pop
 e_table_state_ref_specification
 e_table_state_load_from_file
 e_table_state_load_from_string

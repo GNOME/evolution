@@ -35,6 +35,8 @@
 
 #define STATE_VERSION 0.1
 
+typedef struct _ParseData ParseData;
+
 struct _ETableStatePrivate {
 	GWeakRef specification;
 };
@@ -44,7 +46,145 @@ enum {
 	PROP_SPECIFICATION
 };
 
+struct _ParseData {
+	ETableState *state;
+	GVariantBuilder *column_info;
+};
+
 G_DEFINE_TYPE (ETableState, e_table_state, G_TYPE_OBJECT)
+
+static ParseData *
+parse_data_new (ETableSpecification *specification)
+{
+	ParseData *parse_data;
+	const GVariantType *type;
+
+	type = G_VARIANT_TYPE ("a(xd)");
+
+	parse_data = g_slice_new0 (ParseData);
+	parse_data->state = e_table_state_new (specification);
+	parse_data->column_info = g_variant_builder_new (type);
+
+	return parse_data;
+}
+
+static void
+parse_data_free (ParseData *parse_data)
+{
+	g_object_unref (parse_data->state);
+	g_variant_builder_unref (parse_data->column_info);
+	g_slice_free (ParseData, parse_data);
+}
+
+static void
+table_state_parser_start_column (GMarkupParseContext *context,
+                                 const gchar *element_name,
+                                 const gchar **attribute_names,
+                                 const gchar **attribute_values,
+                                 GVariantBuilder *column_info,
+                                 GError **error)
+{
+	const gchar *index_str;
+	const gchar *expansion_str;
+	gboolean success;
+
+	success = g_markup_collect_attributes (
+		element_name,
+		attribute_names,
+		attribute_values,
+		error,
+
+		G_MARKUP_COLLECT_STRING,
+		"source",
+		&index_str,
+
+		G_MARKUP_COLLECT_STRING |
+		G_MARKUP_COLLECT_OPTIONAL,
+		"expansion",
+		&expansion_str,
+
+		G_MARKUP_COLLECT_INVALID);
+
+	if (success) {
+		gint64 index;
+		gdouble expansion = 1.0;
+
+		g_return_if_fail (index_str != NULL);
+		index = g_ascii_strtoll (index_str, NULL, 10);
+
+		if (expansion_str !=  NULL)
+			expansion = g_ascii_strtod (expansion_str, NULL);
+
+		g_variant_builder_add (
+			column_info, "(xd)", index, expansion);
+	}
+}
+
+static void
+table_state_parser_start_element (GMarkupParseContext *context,
+                                  const gchar *element_name,
+                                  const gchar **attribute_names,
+                                  const gchar **attribute_values,
+                                  gpointer user_data,
+                                  GError **error)
+{
+	ParseData *parse_data = user_data;
+	ETableSpecification *specification;
+
+	specification = e_table_state_ref_specification (parse_data->state);
+
+	if (g_str_equal (element_name, "column"))
+		table_state_parser_start_column (
+			context,
+			element_name,
+			attribute_names,
+			attribute_values,
+			parse_data->column_info,
+			error);
+
+	if (g_str_equal (element_name, "grouping"))
+		e_table_sort_info_parse_context_push (
+			context, specification);
+
+	g_object_unref (specification);
+}
+
+static void
+table_state_parser_end_element (GMarkupParseContext *context,
+                                const gchar *element_name,
+                                gpointer user_data,
+                                GError **error)
+{
+	ParseData *parse_data = user_data;
+
+	if (g_str_equal (element_name, "grouping")) {
+		ETableSortInfo *sort_info;
+
+		sort_info = e_table_sort_info_parse_context_pop (context);
+		g_return_if_fail (E_IS_TABLE_SORT_INFO (sort_info));
+
+		g_clear_object (&parse_data->state->sort_info);
+		parse_data->state->sort_info = g_object_ref (sort_info);
+
+		g_object_unref (sort_info);
+	}
+}
+
+static void
+table_state_parser_error (GMarkupParseContext *context,
+                          GError *error,
+                          gpointer user_data)
+{
+	parse_data_free ((ParseData *) user_data);
+}
+
+static const GMarkupParser table_state_parser = {
+	table_state_parser_start_element,
+	table_state_parser_end_element,
+	NULL,
+	NULL,
+	table_state_parser_error
+};
 
 static void
 table_state_set_specification (ETableState *state,
@@ -202,6 +342,96 @@ e_table_state_vanilla (ETableSpecification *specification)
 	e_table_state_load_from_string (state, str->str);
 
 	g_string_free (str, TRUE);
+
+	return state;
+}
+
+/**
+ * e_table_state_parse_context_push:
+ * @context: a #GMarkupParseContext
+ * @specification: an #ETableSpecification
+ *
+ * Creates a new #ETableState from a segment of XML data being fed to
+ * @context.  Call this function for the appropriate opening tag from the
+ * <structfield>start_element</structfield> callback of a #GMarkupParser,
+ * then call e_table_state_parse_context_pop() for the corresponding
+ * closing tag from the <structfield>end_element</structfield> callback.
+ **/
+void
+e_table_state_parse_context_push (GMarkupParseContext *context,
+                                  ETableSpecification *specification)
+{
+	g_return_if_fail (context != NULL);
+	g_return_if_fail (E_IS_TABLE_SPECIFICATION (specification));
+
+	g_markup_parse_context_push (
+		context, &table_state_parser,
+		parse_data_new (specification));
+}
+
+/**
+ * e_table_state_parse_context_pop:
+ * @context: a #GMarkupParseContext
+ *
+ * Creates a new #ETableState from a segment of XML data being fed to
+ * @context.  Call e_table_state_parse_context_push() for the appropriate
+ * opening tag from the <structfield>start_element</structfield> callback of
+ * a #GMarkupParser, then call this function for the corresponding closing
+ * tag from the <structfield>end_element</structfield> callback.
+ *
+ * Unreference the newly-created #ETableState with g_object_unref() when
+ * finished with it.
+ *
+ * Returns: an #ETableState
+ **/
+ETableState *
+e_table_state_parse_context_pop (GMarkupParseContext *context)
+{
+	ETableSpecification *specification;
+	ParseData *parse_data;
+	GPtrArray *columns;
+	ETableState *state;
+	GVariant *variant;
+	GVariantIter iter;
+	gint64 index;
+	gdouble expansion;
+	gsize length, ii = 0;
+
+	g_return_val_if_fail (context != NULL, NULL);
+
+	parse_data = g_markup_parse_context_pop (context);
+	g_return_val_if_fail (parse_data != NULL, NULL);
+
+	state = g_object_ref (parse_data->state);
+
+	specification = e_table_state_ref_specification (state);
+	columns = e_table_specification_ref_columns (specification);
+
+	variant = g_variant_builder_end (parse_data->column_info);
+	length = g_variant_iter_init (&iter, variant);
+
+	state->column_specs = g_new0 (ETableColumnSpecification *, length);
+	state->expansions = g_new0 (gdouble, length);
+	state->col_count = length;
+
+	while (g_variant_iter_next (&iter, "(xd)", &index, &expansion)) {
+		if (index < columns->len) {
+			ETableColumnSpecification *column_spec;
+
+			column_spec = g_ptr_array_index (columns, index);
+			state->column_specs[ii] = g_object_ref (column_spec);
+			state->expansions[ii] = expansion;
+
+			ii++;
+		}
+	}
+
+	g_variant_unref (variant);
+
+	g_object_unref (specification);
+	g_ptr_array_unref (columns);
+
+	parse_data_free (parse_data);
 
 	return state;
 }

@@ -73,6 +73,10 @@ struct _ETableStateClass {
 GType		e_table_state_get_type		(void) G_GNUC_CONST;
 ETableState *	e_table_state_new		(struct _ETableSpecification *specification);
 ETableState *	e_table_state_vanilla		(struct _ETableSpecification *specification);
+void		e_table_state_parse_context_push
+						(GMarkupParseContext *context,
+						 struct _ETableSpecification *specification);
+ETableState *	e_table_state_parse_context_pop	(GMarkupParseContext *context);
 struct _ETableSpecification *
 		e_table_state_ref_specification	(ETableState *state);
 gboolean	e_table_state_load_from_file	(ETableState *state,
