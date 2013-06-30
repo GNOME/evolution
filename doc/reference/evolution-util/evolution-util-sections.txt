@@ -3924,7 +3924,6 @@ e_table_specification_ref_columns
 e_table_specification_get_column_index
 e_table_specification_load_from_file
 e_table_specification_load_from_string
-e_table_specification_load_from_node
 <SUBSECTION Standard>
 E_TABLE_SPECIFICATION
 E_IS_TABLE_SPECIFICATION

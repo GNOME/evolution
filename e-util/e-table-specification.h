@@ -23,8 +23,6 @@
 #ifndef E_TABLE_SPECIFICATION_H
 #define E_TABLE_SPECIFICATION_H
 
-#include <libxml/tree.h>
-
 #include <e-util/e-selection-model.h>
 #include <e-util/e-table-column-specification.h>
 #include <e-util/e-table-defines.h>
@@ -96,9 +94,6 @@ gboolean	e_table_specification_load_from_file
 gboolean	e_table_specification_load_from_string
 						(ETableSpecification *specification,
 						 const gchar *xml);
-void		e_table_specification_load_from_node
-						(ETableSpecification *specification,
-						 const xmlNode *node);
 
 G_END_DECLS
 
