@@ -1632,7 +1632,6 @@ et_real_construct (ETree *tree,
  * @etm: The model for this table.
  * @ete: An optional #ETableExtras.  (%NULL is valid.)
  * @spec_str: The spec.
- * @state_str: An optional state.  (%NULL is valid.)
  *
  * This is the internal implementation of e_tree_new() for use by
  * subclasses or language bindings.  See e_tree_new() for details.
@@ -1643,8 +1642,7 @@ gboolean
 e_tree_construct (ETree *tree,
                   ETreeModel *etm,
                   ETableExtras *ete,
-                  const gchar *spec_str,
-                  const gchar *state_str)
+                  const gchar *spec_str)
 {
 	ETableSpecification *specification;
 	ETableState *state;
@@ -1659,18 +1657,8 @@ e_tree_construct (ETree *tree,
 		g_object_unref (specification);
 		return FALSE;
 	}
-	if (state_str) {
-		state = e_table_state_new (specification);
-		e_table_state_load_from_string (state, state_str);
-		if (state->col_count <= 0) {
-			g_object_unref (state);
-			state = specification->state;
-			g_object_ref (state);
-		}
-	} else {
-		state = specification->state;
-		g_object_ref (state);
-	}
+
+	state = g_object_ref (specification->state);
 
 	if (!et_real_construct (tree, etm, ete, specification, state)) {
 		g_object_unref (specification);
@@ -1756,7 +1744,6 @@ e_tree_construct_from_spec_file (ETree *tree,
  * @etm: The model for this tree
  * @ete: An optional #ETableExtras  (%NULL is valid.)
  * @spec_str: The spec
- * @state_str: An optional state  (%NULL is valid.)
  *
  * This function creates an #ETree from the given parameters.  The
  * #ETreeModel is a tree model to be represented.  The #ETableExtras
@@ -1775,8 +1762,7 @@ e_tree_construct_from_spec_file (ETree *tree,
 GtkWidget *
 e_tree_new (ETreeModel *etm,
             ETableExtras *ete,
-            const gchar *spec_str,
-            const gchar *state_str)
+            const gchar *spec_str)
 {
 	ETree *tree;
 
@@ -1786,7 +1772,7 @@ e_tree_new (ETreeModel *etm,
 
 	tree = g_object_new (E_TYPE_TREE, NULL);
 
-	if (!e_tree_construct (tree, etm, ete, spec_str, state_str)) {
+	if (!e_tree_construct (tree, etm, ete, spec_str)) {
 		g_object_unref (tree);
 		return NULL;
 	}

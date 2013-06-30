@@ -175,12 +175,10 @@ GType		e_tree_get_type			(void) G_GNUC_CONST;
 gboolean	e_tree_construct		(ETree *tree,
 						 ETreeModel *etm,
 						 ETableExtras *ete,
-						 const gchar *spec_str,
-						 const gchar *state_str);
+						 const gchar *spec_str);
 GtkWidget *	e_tree_new			(ETreeModel *etm,
 						 ETableExtras *ete,
-						 const gchar *spec_str,
-						 const gchar *state_str);
+						 const gchar *spec_str);
 
 /* Create an ETree using files. */
 gboolean	e_tree_construct_from_spec_file	(ETree *tree,
