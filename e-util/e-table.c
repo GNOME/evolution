@@ -1902,7 +1902,6 @@ et_real_construct (ETable *e_table,
  * @etm: The model for this table.
  * @ete: An optional #ETableExtras.  (%NULL is valid.)
  * @spec_str: The spec.
- * @state_str: An optional state.  (%NULL is valid.)
  *
  * This is the internal implementation of e_table_new() for use by
  * subclasses or language bindings.  See e_table_new() for details.
@@ -1914,8 +1913,7 @@ ETable *
 e_table_construct (ETable *e_table,
                    ETableModel *etm,
                    ETableExtras *ete,
-                   const gchar *spec_str,
-                   const gchar *state_str)
+                   const gchar *spec_str)
 {
 	ETableSpecification *specification;
 	ETableState *state;
@@ -1934,19 +1932,7 @@ e_table_construct (ETable *e_table,
 		return NULL;
 	}
 
-	if (state_str) {
-		state = e_table_state_new (specification);
-		g_object_ref (state);
-		e_table_state_load_from_string (state, state_str);
-		if (state->col_count <= 0) {
-			g_object_unref (state);
-			state = specification->state;
-			g_object_ref (state);
-		}
-	} else {
-		state = specification->state;
-		g_object_ref (state);
-	}
+	state = g_object_ref (specification->state);
 
 	e_table = et_real_construct (e_table, etm, ete, specification, state);
 
@@ -2022,7 +2008,6 @@ e_table_construct_from_spec_file (ETable *e_table,
  * @etm: The model for this table.
  * @ete: An optional #ETableExtras.  (%NULL is valid.)
  * @spec_str: The spec.
- * @state_str: An optional state.  (%NULL is valid.)
  *
  * This function creates an #ETable from the given parameters.  The
  * #ETableModel is a table model to be represented.  The #ETableExtras
@@ -2041,8 +2026,7 @@ e_table_construct_from_spec_file (ETable *e_table,
 GtkWidget *
 e_table_new (ETableModel *etm,
              ETableExtras *ete,
-             const gchar *spec_str,
-             const gchar *state_str)
+             const gchar *spec_str)
 {
 	ETable *e_table;
 
@@ -2052,7 +2036,7 @@ e_table_new (ETableModel *etm,
 
 	e_table = g_object_new (E_TYPE_TABLE, NULL);
 
-	e_table = e_table_construct (e_table, etm, ete, spec_str, state_str);
+	e_table = e_table_construct (e_table, etm, ete, spec_str);
 
 	return GTK_WIDGET (e_table);
 }

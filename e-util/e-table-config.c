@@ -691,7 +691,7 @@ e_table_proxy_etable_shown_new (ETableModel *store)
 
 	model = e_table_subset_variable_new (store);
 
-	widget = e_table_new (model, NULL, spec, NULL);
+	widget = e_table_new (model, NULL, spec);
 
 	atk_object_set_name (
 		gtk_widget_get_accessible (widget),
@@ -711,7 +711,7 @@ e_table_proxy_etable_available_new (ETableModel *store)
 
 	e_table_without_show_all (E_TABLE_WITHOUT (model));
 
-	widget = e_table_new (model, NULL, spec, NULL);
+	widget = e_table_new (model, NULL, spec);
 
 	atk_object_set_name (
 		gtk_widget_get_accessible (widget),
