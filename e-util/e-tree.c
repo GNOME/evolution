@@ -1664,55 +1664,6 @@ e_tree_construct (ETree *tree,
 }
 
 /**
- * e_tree_construct_from_spec_file:
- * @tree: The newly created #ETree object.
- * @etm: The model for this tree
- * @ete: An optional #ETableExtras  (%NULL is valid.)
- * @spec_fn: The filename of the spec
- *
- * This is the internal implementation of e_tree_new_from_spec_file()
- * for use by subclasses or language bindings.  See
- * e_tree_new_from_spec_file() for details.
- *
- * Return value: %TRUE on success, %FALSE if an error occurred
- **/
-gboolean
-e_tree_construct_from_spec_file (ETree *tree,
-                                 ETreeModel *etm,
-                                 ETableExtras *ete,
-                                 const gchar *spec_fn)
-{
-	ETableSpecification *specification;
-	ETableState *state;
-
-	g_return_val_if_fail (E_IS_TREE (tree), FALSE);
-	g_return_val_if_fail (E_IS_TREE_MODEL (etm), FALSE);
-	g_return_val_if_fail (ete == NULL || E_IS_TABLE_EXTRAS (ete), FALSE);
-	g_return_val_if_fail (spec_fn != NULL, FALSE);
-
-	specification = e_table_specification_new ();
-	if (!e_table_specification_load_from_file (specification, spec_fn)) {
-		g_object_unref (specification);
-		return FALSE;
-	}
-
-	state = g_object_ref (specification->state);
-
-	if (!et_real_construct (tree, etm, ete, specification, state)) {
-		g_object_unref (specification);
-		g_object_unref (state);
-		return FALSE;
-	}
-
-	tree->priv->spec = specification;
-	tree->priv->spec->allow_grouping = FALSE;
-
-	g_object_unref (state);
-
-	return TRUE;
-}
-
-/**
  * e_tree_new:
  * @etm: The model for this tree
  * @ete: An optional #ETableExtras  (%NULL is valid.)
@@ -1750,42 +1701,6 @@ e_tree_new (ETreeModel *etm,
 	}
 
 	return GTK_WIDGET (tree);
-}
-
-/**
- * e_tree_new_from_spec_file:
- * @etm: The model for this tree.
- * @ete: An optional #ETableExtras.  (%NULL is valid.)
- * @spec_fn: The filename of the spec.
- *
- * This is very similar to e_tree_new(), except instead of passing in
- * strings you pass in the file names of the spec and state to load.
- *
- * @spec_fn is the filename of the spec to load.  If this file doesn't
- * exist, e_tree_new_from_spec_file will return %NULL.
- *
- * Return value:
- * The newly created #ETree or %NULL if there's an error.
- **/
-GtkWidget *
-e_tree_new_from_spec_file (ETreeModel *etm,
-                           ETableExtras *ete,
-                           const gchar *spec_fn)
-{
-	ETree *tree;
-
-	g_return_val_if_fail (E_IS_TREE_MODEL (etm), NULL);
-	g_return_val_if_fail (ete == NULL || E_IS_TABLE_EXTRAS (ete), NULL);
-	g_return_val_if_fail (spec_fn != NULL, NULL);
-
-	tree = g_object_new (E_TYPE_TREE, NULL);
-
-	if (!e_tree_construct_from_spec_file (tree, etm, ete, spec_fn)) {
-		g_object_unref (tree);
-		return NULL;
-	}
-
-	return (GtkWidget *) tree;
 }
 
 void

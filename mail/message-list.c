@@ -3356,6 +3356,7 @@ static void
 message_list_construct (MessageList *message_list)
 {
 	ETreeTableAdapter *adapter;
+	ETableSpecification *specification;
 	AtkObject *a11y;
 	gboolean constructed;
 	gchar *etspecfile;
@@ -3365,11 +3366,15 @@ message_list_construct (MessageList *message_list)
 	 */
 	message_list->extras = message_list_create_extras ();
 
-	etspecfile = g_build_filename (EVOLUTION_ETSPECDIR, "message-list.etspec", NULL);
-	constructed = e_tree_construct_from_spec_file (
+	etspecfile = g_build_filename (
+		EVOLUTION_ETSPECDIR, "message-list.etspec", NULL);
+	specification = e_table_specification_new ();
+	e_table_specification_load_from_file (specification, etspecfile);
+	constructed = e_tree_construct (
 		E_TREE (message_list),
 		E_TREE_MODEL (message_list),
-		message_list->extras, etspecfile);
+		message_list->extras, specification);
+	g_object_unref (specification);
 	g_free (etspecfile);
 
 	adapter = e_tree_get_table_adapter (E_TREE (message_list));

@@ -180,15 +180,6 @@ GtkWidget *	e_tree_new			(ETreeModel *etm,
 						 ETableExtras *ete,
 						 ETableSpecification *specification);
 
-/* Create an ETree using files. */
-gboolean	e_tree_construct_from_spec_file	(ETree *tree,
-						 ETreeModel *etm,
-						 ETableExtras *ete,
-						 const gchar *spec_fn);
-GtkWidget *	e_tree_new_from_spec_file	(ETreeModel *etm,
-						 ETableExtras *ete,
-						 const gchar *spec_fn);
-
 /* To save the state */
 gchar *		e_tree_get_state		(ETree *tree);
 ETableState *	e_tree_get_state_object		(ETree *tree);
