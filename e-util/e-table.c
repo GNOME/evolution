@@ -1901,7 +1901,7 @@ et_real_construct (ETable *e_table,
  * @e_table: The newly created #ETable object.
  * @etm: The model for this table.
  * @ete: An optional #ETableExtras.  (%NULL is valid.)
- * @spec_str: The spec.
+ * @specification: an #ETableSpecification
  *
  * This is the internal implementation of e_table_new() for use by
  * subclasses or language bindings.  See e_table_new() for details.
@@ -1913,30 +1913,22 @@ ETable *
 e_table_construct (ETable *e_table,
                    ETableModel *etm,
                    ETableExtras *ete,
-                   const gchar *spec_str)
+                   ETableSpecification *specification)
 {
-	ETableSpecification *specification;
 	ETableState *state;
 
 	g_return_val_if_fail (E_IS_TABLE (e_table), NULL);
 	g_return_val_if_fail (E_IS_TABLE_MODEL (etm), NULL);
 	g_return_val_if_fail (ete == NULL || E_IS_TABLE_EXTRAS (ete), NULL);
-	g_return_val_if_fail (spec_str != NULL, NULL);
+	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (specification), NULL);
 
 	g_object_ref (etm);
-
-	specification = e_table_specification_new ();
-	g_object_ref (specification);
-	if (!e_table_specification_load_from_string (specification, spec_str)) {
-		g_object_unref (specification);
-		return NULL;
-	}
 
 	state = g_object_ref (specification->state);
 
 	e_table = et_real_construct (e_table, etm, ete, specification, state);
 
-	e_table->spec = specification;
+	e_table->spec = g_object_ref (specification);
 	g_object_unref (state);
 
 	return e_table;
@@ -1990,7 +1982,7 @@ e_table_construct_from_spec_file (ETable *e_table,
  * e_table_new:
  * @etm: The model for this table.
  * @ete: An optional #ETableExtras.  (%NULL is valid.)
- * @spec_str: The spec.
+ * @specification: an #ETableSpecification
  *
  * This function creates an #ETable from the given parameters.  The
  * #ETableModel is a table model to be represented.  The #ETableExtras
@@ -1998,10 +1990,9 @@ e_table_construct_from_spec_file (ETable *e_table,
  * used when interpreting the spec.  If you pass in %NULL it uses the
  * default #ETableExtras.  (See e_table_extras_new()).
  *
- * @spec is the specification of the set of viewable columns and the
- * default sorting state and such.  @state is an optional string
- * specifying the current sorting state and such.  If @state is NULL,
- * then the default state from the spec will be used.
+ * @specification is the specification of the set of viewable columns and the
+ * default sorting state and such.  @state is an optional string specifying
+ * the current sorting state and such.
  *
  * Return value:
  * The newly created #ETable or %NULL if there's an error.
@@ -2009,17 +2000,17 @@ e_table_construct_from_spec_file (ETable *e_table,
 GtkWidget *
 e_table_new (ETableModel *etm,
              ETableExtras *ete,
-             const gchar *spec_str)
+             ETableSpecification *specification)
 {
 	ETable *e_table;
 
 	g_return_val_if_fail (E_IS_TABLE_MODEL (etm), NULL);
 	g_return_val_if_fail (ete == NULL || E_IS_TABLE_EXTRAS (ete), NULL);
-	g_return_val_if_fail (spec_str != NULL, NULL);
+	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (specification), NULL);
 
 	e_table = g_object_new (E_TYPE_TABLE, NULL);
 
-	e_table = e_table_construct (e_table, etm, ete, spec_str);
+	e_table = e_table_construct (e_table, etm, ete, specification);
 
 	return GTK_WIDGET (e_table);
 }

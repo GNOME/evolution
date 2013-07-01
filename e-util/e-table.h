@@ -270,10 +270,10 @@ GType		e_table_get_type		(void) G_GNUC_CONST;
 ETable *	e_table_construct		(ETable *e_table,
 						 ETableModel *etm,
 						 ETableExtras *ete,
-						 const gchar *spec_str);
+						 ETableSpecification *specification);
 GtkWidget *	e_table_new			(ETableModel *etm,
 						 ETableExtras *ete,
-						 const gchar *spec_str);
+						 ETableSpecification *specification);
 
 /* Create an ETable using files. */
 ETable *	e_table_construct_from_spec_file
