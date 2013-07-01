@@ -184,7 +184,6 @@
 #include <e-util/e-table-header-utils.h>
 #include <e-util/e-table-header.h>
 #include <e-util/e-table-item.h>
-#include <e-util/e-table-memory.h>
 #include <e-util/e-table-model.h>
 #include <e-util/e-table-one.h>
 #include <e-util/e-table-search.h>

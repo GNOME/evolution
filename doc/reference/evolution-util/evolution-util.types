@@ -136,7 +136,6 @@ e_table_group_leaf_get_type
 e_table_header_get_type
 e_table_header_item_get_type
 e_table_item_get_type
-e_table_memory_get_type
 e_table_model_get_type
 e_table_one_get_type
 e_table_search_get_type

@@ -3682,32 +3682,6 @@ e_table_item_get_type
 </SECTION>
 
 <SECTION>
-<FILE>e-table-memory</FILE>
-<TITLE>ETableMemory</TITLE>
-ETableMemory
-e_table_memory_new
-e_table_memory_construct
-e_table_memory_insert
-e_table_memory_remove
-e_table_memory_clear
-e_table_memory_freeze
-e_table_memory_thaw
-e_table_memory_get_data
-e_table_memory_set_data
-<SUBSECTION Standard>
-E_TABLE_MEMORY
-E_IS_TABLE_MEMORY
-E_TYPE_TABLE_MEMORY
-E_TABLE_MEMORY_CLASS
-E_IS_TABLE_MEMORY_CLASS
-E_TABLE_MEMORY_GET_CLASS
-ETableMemoryClass
-e_table_memory_get_type
-<SUBSECTION Private>
-ETableMemoryPrivate
-</SECTION>
-
-<SECTION>
 <FILE>e-table-model</FILE>
 <TITLE>ETableModel</TITLE>
 ETableModel
