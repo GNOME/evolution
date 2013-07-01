@@ -554,45 +554,17 @@ gboolean
 e_table_specification_load_from_file (ETableSpecification *specification,
                                       const gchar *filename)
 {
+	GMarkupParseContext *context;
 	gchar *contents = NULL;
 	gboolean success = FALSE;
 
 	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (specification), FALSE);
 	g_return_val_if_fail (filename != NULL, FALSE);
 
-	if (g_file_get_contents (filename, &contents, NULL, NULL)) {
-		success = e_table_specification_load_from_string (
-			specification, contents);
-		g_free (contents);
-		contents = NULL;
+	if (!g_file_get_contents (filename, &contents, NULL, NULL)) {
+		g_warn_if_fail (contents == NULL);
+		return FALSE;
 	}
-
-	g_warn_if_fail (contents == NULL);
-
-	return success;
-}
-
-/**
- * e_table_specification_load_from_string:
- * @specification: an #ETableSpecification
- * @xml: a string containing an #ETable specification
- *
- * Parses the contents of @xml and configures @specification.
- *
- * @xml is typically returned by e_table_specification_save_to_string()
- * or it can be embedded in your source code.
- *
- * Returns: %TRUE on success, %FALSE on failure
- */
-gboolean
-e_table_specification_load_from_string (ETableSpecification *specification,
-                                        const gchar *xml)
-{
-	GMarkupParseContext *context;
-	gboolean success = FALSE;
-
-	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (specification), FALSE);
-	g_return_val_if_fail (xml != NULL, FALSE);
 
 	g_ptr_array_set_size (specification->priv->columns, 0);
 	g_clear_object (&specification->state);
@@ -602,7 +574,7 @@ e_table_specification_load_from_string (ETableSpecification *specification,
 		g_object_ref (specification),
 		(GDestroyNotify) g_object_unref);
 
-	if (g_markup_parse_context_parse (context, xml, -1, NULL))
+	if (g_markup_parse_context_parse (context, contents, -1, NULL))
 		success = g_markup_parse_context_end_parse (context, NULL);
 
 	g_markup_parse_context_free (context);
@@ -613,6 +585,8 @@ e_table_specification_load_from_string (ETableSpecification *specification,
 	e_table_sort_info_set_can_group (
 		specification->state->sort_info,
 		specification->allow_grouping);
+
+	g_free (contents);
 
 	return success;
 }

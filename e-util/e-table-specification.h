@@ -91,9 +91,6 @@ gint		e_table_specification_get_column_index
 gboolean	e_table_specification_load_from_file
 						(ETableSpecification *specification,
 						 const gchar *filename);
-gboolean	e_table_specification_load_from_string
-						(ETableSpecification *specification,
-						 const gchar *xml);
 
 G_END_DECLS
 
