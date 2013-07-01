@@ -276,7 +276,6 @@ GtkWidget *	e_table_new			(ETableModel *etm,
 						 ETableSpecification *specification);
 
 /* To save the state */
-gchar *		e_table_get_state		(ETable *e_table);
 void		e_table_save_state		(ETable *e_table,
 						 const gchar *filename);
 ETableState *	e_table_get_state_object	(ETable *e_table);

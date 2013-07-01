@@ -1714,27 +1714,6 @@ e_table_get_state_object (ETable *e_table)
 }
 
 /**
- * e_table_get_state:
- * @e_table: The #ETable to act on.
- *
- * Builds a state object based on the current state and returns the
- * string corresponding to that state.
- *
- * Return value:
- * A string describing the current state of the #ETable.
- **/
-gchar          *e_table_get_state                 (ETable               *e_table)
-{
-	ETableState *state;
-	gchar *string;
-
-	state = e_table_get_state_object (e_table);
-	string = e_table_state_save_to_string (state);
-	g_object_unref (state);
-	return string;
-}
-
-/**
  * e_table_save_state:
  * @e_table: The #ETable to act on
  * @filename: name of the file to save to
