@@ -59,6 +59,7 @@
   <popup name='address-book-popup'>
     <menuitem action='address-book-new'/>
     <menuitem action='address-book-popup-rename'/>
+    <menuitem action='address-book-popup-refresh'/>
     <menuitem action='address-book-popup-save-as'/>
     <separator/>
     <menuitem action='address-book-popup-delete'/>
