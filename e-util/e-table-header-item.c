@@ -1533,13 +1533,16 @@ static void
 apply_changes (ETableConfig *config,
                ETableHeaderItem *ethi)
 {
-	gchar *state = e_table_state_save_to_string (config->state);
+	ETableState *state;
 
-	if (ethi->table)
-		e_table_set_state (ethi->table, state);
-	if (ethi->tree)
-		e_tree_set_state (ethi->tree, state);
-	g_free (state);
+	state = e_table_state_duplicate (config->state);
+
+	if (ethi->table != NULL)
+		e_table_set_state_object (ethi->table, state);
+	if (ethi->tree != NULL)
+		e_tree_set_state_object (ethi->tree, state);
+
+	g_object_unref (state);
 
 	gtk_dialog_set_response_sensitive (
 		GTK_DIALOG (config->dialog_toplevel),
