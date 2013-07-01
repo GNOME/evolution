@@ -1631,7 +1631,7 @@ et_real_construct (ETree *tree,
  * @tree: The newly created #ETree object.
  * @etm: The model for this table.
  * @ete: An optional #ETableExtras.  (%NULL is valid.)
- * @spec_str: The spec.
+ * @specification: an #ETableSpecification
  *
  * This is the internal implementation of e_tree_new() for use by
  * subclasses or language bindings.  See e_tree_new() for details.
@@ -1642,31 +1642,20 @@ gboolean
 e_tree_construct (ETree *tree,
                   ETreeModel *etm,
                   ETableExtras *ete,
-                  const gchar *spec_str)
+                  ETableSpecification *specification)
 {
-	ETableSpecification *specification;
 	ETableState *state;
 
 	g_return_val_if_fail (E_IS_TREE (tree), FALSE);
 	g_return_val_if_fail (E_IS_TREE_MODEL (etm), FALSE);
 	g_return_val_if_fail (ete == NULL || E_IS_TABLE_EXTRAS (ete), FALSE);
-	g_return_val_if_fail (spec_str != NULL, FALSE);
-
-	specification = e_table_specification_new ();
-	if (!e_table_specification_load_from_string (specification, spec_str)) {
-		g_object_unref (specification);
-		return FALSE;
-	}
+	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (specification), FALSE);
 
 	state = g_object_ref (specification->state);
 
-	if (!et_real_construct (tree, etm, ete, specification, state)) {
-		g_object_unref (specification);
-		g_object_unref (state);
-		return FALSE;
-	}
+	et_real_construct (tree, etm, ete, specification, state);
 
-	tree->priv->spec = specification;
+	tree->priv->spec = g_object_ref (specification);
 	tree->priv->spec->allow_grouping = FALSE;
 
 	g_object_unref (state);
@@ -1727,7 +1716,7 @@ e_tree_construct_from_spec_file (ETree *tree,
  * e_tree_new:
  * @etm: The model for this tree
  * @ete: An optional #ETableExtras  (%NULL is valid.)
- * @spec_str: The spec
+ * @specification: an #ETableSpecification
  *
  * This function creates an #ETree from the given parameters.  The
  * #ETreeModel is a tree model to be represented.  The #ETableExtras
@@ -1735,10 +1724,9 @@ e_tree_construct_from_spec_file (ETree *tree,
  * used when interpreting the spec.  If you pass in %NULL it uses the
  * default #ETableExtras.  (See e_table_extras_new()).
  *
- * @spec is the specification of the set of viewable columns and the
- * default sorting state and such.  @state is an optional string
- * specifying the current sorting state and such.  If @state is NULL,
- * then the default state from the spec will be used.
+ * @specification is the specification of the set of viewable columns and the
+ * default sorting state and such.  @state is an optional string specifying
+ * the current sorting state and such.
  *
  * Return value:
  * The newly created #ETree or %NULL if there's an error.
@@ -1746,22 +1734,22 @@ e_tree_construct_from_spec_file (ETree *tree,
 GtkWidget *
 e_tree_new (ETreeModel *etm,
             ETableExtras *ete,
-            const gchar *spec_str)
+            ETableSpecification *specification)
 {
 	ETree *tree;
 
 	g_return_val_if_fail (E_IS_TREE_MODEL (etm), NULL);
 	g_return_val_if_fail (ete == NULL || E_IS_TABLE_EXTRAS (ete), NULL);
-	g_return_val_if_fail (spec_str != NULL, NULL);
+	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (specification), NULL);
 
 	tree = g_object_new (E_TYPE_TREE, NULL);
 
-	if (!e_tree_construct (tree, etm, ete, spec_str)) {
+	if (!e_tree_construct (tree, etm, ete, specification)) {
 		g_object_unref (tree);
 		return NULL;
 	}
 
-	return (GtkWidget *) tree;
+	return GTK_WIDGET (tree);
 }
 
 /**
