@@ -150,17 +150,6 @@ get_current_time_cb (ECellDateEdit *ecde,
 	return tmp_tm;
 }
 
-void
-e_cal_list_view_save_state (ECalListView *cal_list_view,
-                            gchar *filename)
-{
-	g_return_if_fail (cal_list_view != NULL);
-	g_return_if_fail (E_IS_CAL_LIST_VIEW (cal_list_view));
-	g_return_if_fail (filename != NULL);
-
-	e_table_save_state (cal_list_view->table, filename);
-}
-
 static void
 e_cal_list_view_table_editing_changed_cb (ETable *table,
 					  GParamSpec *param,

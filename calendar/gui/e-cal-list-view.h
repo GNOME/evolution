@@ -85,7 +85,6 @@ struct _ECalListViewClass {
 
 GType		   e_cal_list_view_get_type		(void);
 ECalendarView *e_cal_list_view_new			(ECalModel *cal_model);
-void e_cal_list_view_save_state (ECalListView *cal_list_view, gchar *filename);
 
 gboolean   e_cal_list_view_get_range_shown      (ECalListView *cal_list_view, GDate *start_date,
 						 gint *days_shown);
