@@ -1935,50 +1935,6 @@ e_table_construct (ETable *e_table,
 }
 
 /**
- * e_table_construct_from_spec_file:
- * @e_table: The newly created #ETable object.
- * @etm: The model for this table.
- * @ete: An optional #ETableExtras.  (%NULL is valid.)
- * @spec_fn: The filename of the spec.
- *
- * This is the internal implementation of e_table_new_from_spec_file()
- * for use by subclasses or language bindings.  See
- * e_table_new_from_spec_file() for details.
- *
- * Return value:
- * The passed in value @e_table or %NULL if there's an error.
- **/
-ETable *
-e_table_construct_from_spec_file (ETable *e_table,
-                                  ETableModel *etm,
-                                  ETableExtras *ete,
-                                  const gchar *spec_fn)
-{
-	ETableSpecification *specification;
-	ETableState *state;
-
-	g_return_val_if_fail (E_IS_TABLE (e_table), NULL);
-	g_return_val_if_fail (E_IS_TABLE_MODEL (etm), NULL);
-	g_return_val_if_fail (ete == NULL || E_IS_TABLE_EXTRAS (ete), NULL);
-	g_return_val_if_fail (spec_fn != NULL, NULL);
-
-	specification = e_table_specification_new ();
-	if (!e_table_specification_load_from_file (specification, spec_fn)) {
-		g_object_unref (specification);
-		return NULL;
-	}
-
-	state = g_object_ref (specification->state);
-
-	e_table = et_real_construct (e_table, etm, ete, specification, state);
-
-	e_table->spec = specification;
-	g_object_unref (state);
-
-	return e_table;
-}
-
-/**
  * e_table_new:
  * @etm: The model for this table.
  * @ete: An optional #ETableExtras.  (%NULL is valid.)
@@ -2011,39 +1967,6 @@ e_table_new (ETableModel *etm,
 	e_table = g_object_new (E_TYPE_TABLE, NULL);
 
 	e_table = e_table_construct (e_table, etm, ete, specification);
-
-	return GTK_WIDGET (e_table);
-}
-
-/**
- * e_table_new_from_spec_file:
- * @etm: The model for this table.
- * @ete: An optional #ETableExtras.  (%NULL is valid.)
- * @spec_fn: The filename of the spec.
- *
- * This is very similar to e_table_new(), except instead of passing in
- * strings you pass in the file names of the spec and state to load.
- *
- * @spec_fn is the filename of the spec to load.  If this file doesn't
- * exist, e_table_new_from_spec_file will return %NULL.
- *
- * Return value:
- * The newly created #ETable or %NULL if there's an error.
- **/
-GtkWidget *
-e_table_new_from_spec_file (ETableModel *etm,
-                            ETableExtras *ete,
-                            const gchar *spec_fn)
-{
-	ETable *e_table;
-
-	g_return_val_if_fail (E_IS_TABLE_MODEL (etm), NULL);
-	g_return_val_if_fail (ete == NULL || E_IS_TABLE_EXTRAS (ete), NULL);
-	g_return_val_if_fail (spec_fn != NULL, NULL);
-
-	e_table = g_object_new (E_TYPE_TABLE, NULL);
-
-	e_table = e_table_construct_from_spec_file (e_table, etm, ete, spec_fn);
 
 	return GTK_WIDGET (e_table);
 }

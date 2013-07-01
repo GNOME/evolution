@@ -288,6 +288,7 @@ addressbook_view_create_table_view (EAddressbookView *view,
 {
 	ETableModel *adapter;
 	ETableExtras *extras;
+	ETableSpecification *specification;
 	ECell *cell;
 	GtkWidget *widget;
 	gchar *etspecfile;
@@ -305,8 +306,13 @@ addressbook_view_create_table_view (EAddressbookView *view,
 	 * initial layout.  It does the rest.  */
 	etspecfile = g_build_filename (
 		EVOLUTION_ETSPECDIR, "e-addressbook-view.etspec", NULL);
-	widget = e_table_new_from_spec_file (adapter, extras, etspecfile);
+	specification = e_table_specification_new ();
+	e_table_specification_load_from_file (specification, etspecfile);
+
+	widget = e_table_new (adapter, extras, specification);
 	gtk_container_add (GTK_CONTAINER (view), widget);
+
+	g_object_unref (specification);
 	g_free (etspecfile);
 
 	view->priv->object = G_OBJECT (adapter);

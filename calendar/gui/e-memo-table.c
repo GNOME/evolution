@@ -329,6 +329,7 @@ memo_table_constructed (GObject *object)
 	ECalModel *model;
 	ECell *cell, *popup_cell;
 	ETableExtras *extras;
+	ETableSpecification *specification;
 	AtkObject *a11y;
 	gchar *etspecfile;
 
@@ -407,10 +408,13 @@ memo_table_constructed (GObject *object)
 
 	etspecfile = g_build_filename (
 		EVOLUTION_ETSPECDIR, "e-memo-table.etspec", NULL);
-	e_table_construct_from_spec_file (
+	specification = e_table_specification_new ();
+	e_table_specification_load_from_file (specification, etspecfile);
+	e_table_construct (
 		E_TABLE (memo_table),
 		E_TABLE_MODEL (model),
-		extras, etspecfile);
+		extras, specification);
+	g_object_unref (specification);
 	g_free (etspecfile);
 
 	gtk_widget_set_has_tooltip (GTK_WIDGET (memo_table), TRUE);

@@ -190,6 +190,7 @@ setup_e_table (ECalListView *cal_list_view)
 {
 	ECalModel *model;
 	ETableExtras *extras;
+	ETableSpecification *specification;
 	GList *strings;
 	ECell *cell, *popup_cell;
 	GnomeCanvas *canvas;
@@ -310,11 +311,15 @@ setup_e_table (ECalListView *cal_list_view)
 
 	etspecfile = g_build_filename (
 		EVOLUTION_ETSPECDIR, "e-cal-list-view.etspec", NULL);
-	widget = e_table_new_from_spec_file (
-		E_TABLE_MODEL (model), extras, etspecfile);
+	specification = e_table_specification_new ();
+	e_table_specification_load_from_file (specification, etspecfile);
+
+	widget = e_table_new (E_TABLE_MODEL (model), extras, specification);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	cal_list_view->table = E_TABLE (widget);
 	gtk_widget_show (widget);
+
+	g_object_unref (specification);
 	g_free (etspecfile);
 
 	/* Make sure text is readable on top of our color coding */
