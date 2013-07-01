@@ -779,7 +779,7 @@ copy_tree_state (EMailReader *src_reader,
                  EMailReader *des_reader)
 {
 	GtkWidget *src_mlist, *des_mlist;
-	gchar *state;
+	ETableState *state;
 
 	g_return_if_fail (src_reader != NULL);
 	g_return_if_fail (des_reader != NULL);
@@ -792,10 +792,9 @@ copy_tree_state (EMailReader *src_reader,
 	if (!des_mlist)
 		return;
 
-	state = e_tree_get_state (E_TREE (src_mlist));
-	if (state)
-		e_tree_set_state (E_TREE (des_mlist), state);
-	g_free (state);
+	state = e_tree_get_state_object (E_TREE (src_mlist));
+	e_tree_set_state_object (E_TREE (des_mlist), state);
+	g_object_unref (state);
 
 	message_list_set_search (MESSAGE_LIST (des_mlist), MESSAGE_LIST (src_mlist)->search);
 }
