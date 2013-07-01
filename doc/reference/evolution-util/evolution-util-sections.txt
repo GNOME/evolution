@@ -3708,41 +3708,6 @@ ETableMemoryPrivate
 </SECTION>
 
 <SECTION>
-<FILE>e-table-memory-store</FILE>
-<TITLE>ETableMemoryStore</TITLE>
-ETableMemoryStore
-ETableMemoryStoreColumnType
-ETableMemoryStoreColumnInfo
-E_TABLE_MEMORY_STORE_TERMINATOR
-E_TABLE_MEMORY_STORE_INTEGER
-E_TABLE_MEMORY_STORE_STRING
-e_table_memory_store_new
-e_table_memory_store_construct
-e_table_memory_store_adopt_value_at
-e_table_memory_store_insert_array
-e_table_memory_store_insert
-e_table_memory_store_insert_adopt
-e_table_memory_store_insert_adopt_array
-e_table_memory_store_change_array
-e_table_memory_store_change
-e_table_memory_store_change_adopt
-e_table_memory_store_change_adopt_array
-e_table_memory_store_remove
-e_table_memory_store_clear
-<SUBSECTION Standard>
-E_TABLE_MEMORY_STORE
-E_IS_TABLE_MEMORY_STORE
-E_TYPE_TABLE_MEMORY_STORE
-E_TABLE_MEMORY_STORE_CLASS
-E_IS_TABLE_MEMORY_STORE_CLASS
-E_TABLE_MEMORY_STORE_GET_CLASS
-ETableMemoryStoreClass
-e_table_memory_store_get_type
-<SUBSECTION Private>
-ETableMemoryStorePrivate
-</SECTION>
-
-<SECTION>
 <FILE>e-table-model</FILE>
 <TITLE>ETableModel</TITLE>
 ETableModel
