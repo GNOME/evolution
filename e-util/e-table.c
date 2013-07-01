@@ -1612,32 +1612,6 @@ e_table_set_state_object (ETable *e_table,
 }
 
 /**
- * e_table_set_state:
- * @e_table: The #ETable object to modify
- * @state_str: a string representing an #ETableState
- *
- * This routine sets the state of the #ETable from a string.
- *
- **/
-void
-e_table_set_state (ETable *e_table,
-                   const gchar *state_str)
-{
-	ETableState *state;
-
-	g_return_if_fail (E_IS_TABLE (e_table));
-	g_return_if_fail (state_str != NULL);
-
-	state = e_table_state_new (e_table->spec);
-	e_table_state_load_from_string (state, state_str);
-
-	if (state->col_count > 0)
-		e_table_set_state_object (e_table, state);
-
-	g_object_unref (state);
-}
-
-/**
  * e_table_load_state:
  * @e_table: The #ETable object to modify
  * @filename: name of the file to use

@@ -3316,7 +3316,6 @@ e_table_construct
 e_table_new
 e_table_save_state
 e_table_get_state_object
-e_table_set_state
 e_table_set_state_object
 e_table_load_state
 e_table_set_cursor_row
