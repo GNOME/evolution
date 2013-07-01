@@ -27,22 +27,12 @@
  *    Make Clear all work.
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include "e-table-config.h"
 
-#include <stdlib.h>
-#include <string.h>
-
-#include <gtk/gtk.h>
+#include <config.h>
 #include <glib/gi18n.h>
 
-#include "e-table-memory-store.h"
-#include "e-table-without.h"
-#include "e-unicode.h"
-#include "e-util-private.h"
+#include "e-table-column-selector.h"
 
 G_DEFINE_TYPE (ETableConfig, e_table_config, G_TYPE_OBJECT)
 
@@ -455,49 +445,6 @@ config_group_info_update (ETableConfig *config)
 }
 
 static void
-setup_fields (ETableConfig *config)
-{
-	GPtrArray *array;
-	gint i;
-
-	e_table_model_freeze ((ETableModel *) config->available_model);
-	e_table_model_freeze ((ETableModel *) config->shown_model);
-	e_table_without_show_all (config->available_model);
-	e_table_subset_variable_clear (config->shown_model);
-
-	array = e_table_specification_ref_columns (config->source_spec);
-
-	if (config->temp_state) {
-		for (i = 0; i < config->temp_state->col_count; i++) {
-			ETableColumnSpecification *target_column;
-			gint idx = 0;
-			guint jj;
-
-			target_column = config->temp_state->column_specs[i];
-
-			for (jj = 0; jj < array->len; jj++) {
-				ETableColumnSpecification *column;
-
-				column = g_ptr_array_index (array, jj);
-				if (column == target_column)
-					break;
-
-				if (!column->disabled)
-					idx++;
-			}
-
-			e_table_subset_variable_add (config->shown_model, idx);
-			e_table_without_hide (config->available_model, GINT_TO_POINTER (idx));
-		}
-	}
-
-	g_ptr_array_unref (array);
-
-	e_table_model_thaw ((ETableModel *) config->available_model);
-	e_table_model_thaw ((ETableModel *) config->shown_model);
-}
-
-static void
 config_fields_info_update (ETableConfig *config)
 {
 	GString *res = g_string_new ("");
@@ -589,135 +536,60 @@ do_sort_and_group_config_dialog (ETableConfig *config,
 static void
 do_fields_config_dialog (ETableConfig *config)
 {
-	GtkDialog *dialog;
-	GtkWidget *widget;
+	GtkWidget *dialog;
+	GtkWidget *content_area;
+	GtkWidget *selector;
+	GtkWidget *label;
 	gint response, running = 1;
 
-	dialog = GTK_DIALOG (config->dialog_show_fields);
+	dialog = gtk_dialog_new_with_buttons (
+		_("Show Fields"),
+		GTK_WINDOW (config->dialog_toplevel),
+		0, /* no flags */
+		GTK_STOCK_CANCEL,
+		GTK_RESPONSE_CANCEL,
+		GTK_STOCK_OK,
+		GTK_RESPONSE_OK,
+		NULL);
 
-	gtk_widget_ensure_style (config->dialog_show_fields);
+	gtk_container_set_border_width (GTK_CONTAINER (dialog), 5);
+	gtk_window_set_default_size (GTK_WINDOW (dialog), 300, 400);
 
-	widget = gtk_dialog_get_content_area (dialog);
-	gtk_container_set_border_width (GTK_CONTAINER (widget), 0);
+	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+	gtk_box_set_spacing (GTK_BOX (content_area), 6);
 
-	widget = gtk_dialog_get_action_area (dialog);
-	gtk_container_set_border_width (GTK_CONTAINER (widget), 12);
+	label = gtk_label_new (
+		_("Choose the order of information "
+		"to appear in the message list."));
+	gtk_box_pack_start (GTK_BOX (content_area), label, FALSE, FALSE, 0);
+	gtk_widget_show (label);
 
-	config->temp_state = e_table_state_duplicate (config->state);
-
-	setup_fields (config);
-
-	gtk_window_set_transient_for (
-		GTK_WINDOW (config->dialog_show_fields),
-		GTK_WINDOW (config->dialog_toplevel));
+	selector = e_table_column_selector_new (config->state);
+	gtk_container_set_border_width (GTK_CONTAINER (selector), 5);
+	gtk_box_pack_start (GTK_BOX (content_area), selector, TRUE, TRUE, 0);
+	gtk_widget_show (selector);
 
 	do {
-		response = gtk_dialog_run (GTK_DIALOG (config->dialog_show_fields));
+		response = gtk_dialog_run (GTK_DIALOG (dialog));
 		switch (response) {
 		case GTK_RESPONSE_OK:
-			g_object_unref (config->state);
-			config->state = config->temp_state;
-			config->temp_state = NULL;
+			e_table_column_selector_apply (
+				E_TABLE_COLUMN_SELECTOR (selector));
 			running = 0;
 			config_dialog_changed (config);
 			break;
 
 		case GTK_RESPONSE_DELETE_EVENT:
 		case GTK_RESPONSE_CANCEL:
-			g_object_unref (config->temp_state);
-			config->temp_state = NULL;
 			running = 0;
 			break;
 		}
 
 	} while (running);
-	gtk_widget_hide (GTK_WIDGET (config->dialog_show_fields));
+
+	gtk_widget_destroy (dialog);
 
 	config_fields_info_update (config);
-}
-
-static ETableMemoryStoreColumnInfo store_columns[] = {
-	E_TABLE_MEMORY_STORE_STRING,
-	E_TABLE_MEMORY_STORE_INTEGER,
-	E_TABLE_MEMORY_STORE_TERMINATOR
-};
-
-static ETableModel *
-create_store (ETableConfig *config)
-{
-	ETableModel *store;
-	GPtrArray *array;
-	guint ii;
-
-	store = e_table_memory_store_new (store_columns);
-
-	array = e_table_specification_ref_columns (config->source_spec);
-
-	for (ii = 0; ii < array->len; ii++) {
-		ETableColumnSpecification *column;
-		gchar *text;
-
-		column = g_ptr_array_index (array, ii);
-
-		if (column->disabled)
-			continue;
-
-		text = g_strdup (dgettext (config->domain, column->title));
-		e_table_memory_store_insert_adopt (
-			E_TABLE_MEMORY_STORE (store), -1, NULL, text, ii);
-	}
-
-	g_ptr_array_unref (array);
-
-	return store;
-}
-
-static const gchar *spec =
-"<ETableSpecification gettext-domain=\"" GETTEXT_PACKAGE "\""
-" no-headers=\"true\" cursor-mode=\"line\" draw-grid=\"false\" "
-" draw-focus=\"true\" selection-mode=\"browse\">"
-"<ETableColumn model_col= \"0\" _title=\"Name\" minimum_width=\"30\""
-" resizable=\"true\" cell=\"string\" compare=\"string\"/>"
-"<ETableState> <column source=\"0\"/>"
-"<grouping/>"
-"</ETableState>"
-"</ETableSpecification>";
-
-static GtkWidget *
-e_table_proxy_etable_shown_new (ETableModel *store)
-{
-	ETableModel *model = NULL;
-	GtkWidget *widget;
-
-	model = e_table_subset_variable_new (store);
-
-	widget = e_table_new (model, NULL, spec);
-
-	atk_object_set_name (
-		gtk_widget_get_accessible (widget),
-		_("Show Fields"));
-
-	return widget;
-}
-
-static GtkWidget *
-e_table_proxy_etable_available_new (ETableModel *store)
-{
-	ETableModel *model;
-	GtkWidget *widget;
-
-	model = e_table_without_new (
-		store, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-
-	e_table_without_show_all (E_TABLE_WITHOUT (model));
-
-	widget = e_table_new (model, NULL, spec);
-
-	atk_object_set_name (
-		gtk_widget_get_accessible (widget),
-		_("Available Fields"));
-
-	return widget;
 }
 
 static void
@@ -807,22 +679,6 @@ connect_button (ETableConfig *config,
 
 	if (button)
 		g_signal_connect (button, "clicked", cback, config);
-}
-
-static gint
-get_source_model_col_index (ETableConfig *config,
-                            gint idx)
-{
-	gint visible_index;
-	ETableModel *src_model;
-
-	src_model = e_table_subset_get_source_model (
-		E_TABLE_SUBSET (config->available_model));
-
-	visible_index = e_table_subset_view_to_model_row (
-		E_TABLE_SUBSET (config->available_model), idx);
-
-	return GPOINTER_TO_INT (e_table_model_value_at (src_model, 1, visible_index));
 }
 
 static void
@@ -1096,272 +952,6 @@ configure_group_dialog (ETableConfig *config,
 }
 
 static void
-add_column (gint model_row,
-            gpointer closure)
-{
-	GList **columns = closure;
-	*columns = g_list_prepend (*columns, GINT_TO_POINTER (model_row));
-}
-
-static void
-config_button_add (GtkWidget *widget,
-                   ETableConfig *config)
-{
-	GPtrArray *array;
-	GList *list = NULL;
-	GList *link;
-	gint count;
-	gint i;
-
-	e_table_selected_row_foreach (config->available, add_column, &list);
-	list = g_list_reverse (list);
-
-	count = g_list_length (list);
-
-	array = e_table_specification_ref_columns (config->source_spec);
-
-	config->temp_state->column_specs = g_renew (
-		ETableColumnSpecification *,
-		config->temp_state->column_specs,
-		config->temp_state->col_count + count);
-	config->temp_state->expansions = g_renew (
-		gdouble,
-		config->temp_state->expansions,
-		config->temp_state->col_count + count);
-	i = config->temp_state->col_count;
-	for (link = list; link != NULL; link = g_list_next (link)) {
-		ETableColumnSpecification *col_spec;
-		gint index;
-
-		index = get_source_model_col_index (
-			config, GPOINTER_TO_INT (link->data));
-		col_spec = g_ptr_array_index (array, index);
-
-		config->temp_state->column_specs[i] = g_object_ref (col_spec);
-		config->temp_state->expansions[i] = col_spec->expansion;
-
-		i++;
-	}
-	config->temp_state->col_count += count;
-
-	g_ptr_array_unref (array);
-
-	g_list_free (list);
-
-	setup_fields (config);
-}
-
-static void
-config_button_remove (GtkWidget *widget,
-                      ETableConfig *config)
-{
-	GList *list = NULL;
-	GList *link;
-
-	e_table_selected_row_foreach (config->shown, add_column, &list);
-
-	for (link = list; link != NULL; link = g_list_next (link)) {
-		gint row = GPOINTER_TO_INT (link->data);
-
-		memmove (
-			config->temp_state->column_specs + row,
-			config->temp_state->column_specs + row + 1,
-			sizeof (gpointer) * (config->temp_state->col_count - row - 1));
-		memmove (
-			config->temp_state->expansions + row,
-			config->temp_state->expansions + row + 1,
-			sizeof (gdouble) * (config->temp_state->col_count - row - 1));
-		config->temp_state->col_count--;
-	}
-	config->temp_state->column_specs = g_renew (
-		ETableColumnSpecification *,
-		config->temp_state->column_specs,
-		config->temp_state->col_count);
-	config->temp_state->expansions = g_renew (
-		gdouble,
-		config->temp_state->expansions,
-		config->temp_state->col_count);
-
-	g_list_free (list);
-
-	setup_fields (config);
-}
-
-static void
-config_button_up (GtkWidget *widget,
-                  ETableConfig *config)
-{
-	GList *columns = NULL;
-	GList *column;
-	ETableColumnSpecification **new_column_specs;
-	gdouble *new_expansions;
-	ETableColumnSpecification *next_col;
-	gdouble next_expansion;
-	gint i;
-
-	e_table_selected_row_foreach (config->shown, add_column, &columns);
-
-	/* if no columns left, just return */
-	if (columns == NULL)
-		return;
-
-	columns = g_list_reverse (columns);
-
-	new_column_specs = g_new (
-		ETableColumnSpecification *, config->temp_state->col_count);
-	new_expansions = g_new (gdouble, config->temp_state->col_count);
-
-	column = columns;
-
-	next_col = config->temp_state->column_specs[0];
-	next_expansion = config->temp_state->expansions[0];
-
-	for (i = 1; i < config->temp_state->col_count; i++) {
-		if (column && (GPOINTER_TO_INT (column->data) == i)) {
-			new_expansions[i - 1] =
-				config->temp_state->expansions[i];
-			new_column_specs[i - 1] =
-				config->temp_state->column_specs[i];
-			column = column->next;
-		} else {
-			new_column_specs[i - 1] = next_col;
-			next_col = config->temp_state->column_specs[i];
-
-			new_expansions[i - 1] = next_expansion;
-			next_expansion = config->temp_state->expansions[i];
-		}
-	}
-
-	new_column_specs[i - 1] = next_col;
-	new_expansions[i - 1] = next_expansion;
-
-	g_free (config->temp_state->column_specs);
-	g_free (config->temp_state->expansions);
-
-	config->temp_state->column_specs = new_column_specs;
-	config->temp_state->expansions = new_expansions;
-
-	g_list_free (columns);
-
-	setup_fields (config);
-}
-
-static void
-config_button_down (GtkWidget *widget,
-                    ETableConfig *config)
-{
-	GList *columns = NULL;
-	GList *column;
-	ETableColumnSpecification **new_column_specs;
-	gdouble *new_expansions;
-	ETableColumnSpecification *next_col;
-	gdouble next_expansion;
-	gint i;
-
-	e_table_selected_row_foreach (config->shown, add_column, &columns);
-
-	/* if no columns left, just return */
-	if (columns == NULL)
-		return;
-
-	new_column_specs = g_new (
-		ETableColumnSpecification *, config->temp_state->col_count);
-	new_expansions = g_new (gdouble, config->temp_state->col_count);
-
-	column = columns;
-
-	next_col =
-		config->temp_state->column_specs[config->temp_state->col_count - 1];
-	next_expansion =
-		config->temp_state->expansions[config->temp_state->col_count - 1];
-
-	for (i = config->temp_state->col_count - 1; i > 0; i--) {
-		if (column && (GPOINTER_TO_INT (column->data) == i - 1)) {
-			new_expansions[i] =
-				config->temp_state->expansions[i - 1];
-			new_column_specs[i] =
-				config->temp_state->column_specs[i - 1];
-			column = column->next;
-		} else {
-			new_column_specs[i] = next_col;
-			next_col = config->temp_state->column_specs[i - 1];
-
-			new_expansions[i] = next_expansion;
-			next_expansion = config->temp_state->expansions[i - 1];
-		}
-	}
-
-	new_column_specs[0] = next_col;
-	new_expansions[0] = next_expansion;
-
-	g_free (config->temp_state->column_specs);
-	g_free (config->temp_state->expansions);
-
-	config->temp_state->column_specs = new_column_specs;
-	config->temp_state->expansions = new_expansions;
-
-	g_list_free (columns);
-
-	setup_fields (config);
-}
-
-static void
-configure_fields_dialog (ETableConfig *config,
-                         GtkBuilder *builder)
-{
-	GtkWidget *scrolled;
-	GtkWidget *etable;
-	ETableModel *store = create_store (config);
-
-	/* "custom-available" widget */
-	etable = e_table_proxy_etable_available_new (store);
-	gtk_widget_show (etable);
-	scrolled = e_builder_get_widget (builder, "available-scrolled");
-	gtk_container_add (GTK_CONTAINER (scrolled), etable);
-	config->available = E_TABLE (etable);
-	g_object_get (
-		config->available,
-		"model", &config->available_model,
-		NULL);
-	gtk_widget_show_all (etable);
-	gtk_label_set_mnemonic_widget (
-		GTK_LABEL (e_builder_get_widget (
-		builder, "label-available")), etable);
-
-	/* "custom-shown" widget */
-	etable = e_table_proxy_etable_shown_new (store);
-	gtk_widget_show (etable);
-	scrolled = e_builder_get_widget (builder, "shown-scrolled");
-	gtk_container_add (GTK_CONTAINER (scrolled), etable);
-	config->shown = E_TABLE (etable);
-	g_object_get (
-		config->shown,
-		"model", &config->shown_model,
-		NULL);
-	gtk_widget_show_all (etable);
-	gtk_label_set_mnemonic_widget (
-		GTK_LABEL (e_builder_get_widget (
-		builder, "label-displayed")), etable);
-
-	connect_button (
-		config, builder, "button-add",
-		G_CALLBACK (config_button_add));
-	connect_button (
-		config, builder, "button-remove",
-		G_CALLBACK (config_button_remove));
-	connect_button (
-		config, builder, "button-up",
-		G_CALLBACK (config_button_up));
-	connect_button (
-		config, builder, "button-down",
-		G_CALLBACK (config_button_down));
-
-	setup_fields (config);
-
-	g_object_unref (store);
-}
-
-static void
 setup_gui (ETableConfig *config)
 {
 	GtkBuilder *builder;
@@ -1379,8 +969,6 @@ setup_gui (ETableConfig *config)
 			GTK_WINDOW (config->dialog_toplevel),
 			config->header);
 
-	config->dialog_show_fields = e_builder_get_widget (
-		builder, "dialog-show-fields");
 	config->dialog_group_by =  e_builder_get_widget (
 		builder, "dialog-group-by");
 	config->dialog_sort = e_builder_get_widget (
@@ -1421,7 +1009,6 @@ setup_gui (ETableConfig *config)
 
 	configure_sort_dialog (config, builder);
 	configure_group_dialog (config, builder);
-	configure_fields_dialog (config, builder);
 
 	g_object_weak_ref (
 		G_OBJECT (config->dialog_toplevel),

@@ -28,13 +28,7 @@
 #ifndef _E_TABLE_CONFIG_H_
 #define _E_TABLE_CONFIG_H_
 
-#include <gtk/gtk.h>
-
-#include <e-util/e-table-sort-info.h>
 #include <e-util/e-table-specification.h>
-#include <e-util/e-table-subset-variable.h>
-#include <e-util/e-table-without.h>
-#include <e-util/e-table.h>
 
 /* Standard GObject macros */
 #define E_TYPE_TABLE_CONFIG \
@@ -81,7 +75,6 @@ struct _ETableConfig {
 	 * Our various dialog boxes
 	 */
 	GtkWidget *dialog_toplevel;
-	GtkWidget *dialog_show_fields;
 	GtkWidget *dialog_group_by;
 	GtkWidget *dialog_sort;
 
@@ -98,10 +91,6 @@ struct _ETableConfig {
 	ETableConfigSortWidgets sort[4];
 	ETableConfigSortWidgets group[4];
 
-	ETable               *available;
-	ETableWithout        *available_model;
-	ETable               *shown;
-	ETableSubsetVariable *shown_model;
 	gchar *domain;
 
 	/*
