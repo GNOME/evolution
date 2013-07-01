@@ -157,10 +157,6 @@ tree_view_frame_append_action (ETreeViewFrame *tree_view_frame,
 static void
 tree_view_frame_dispose_tree_view (ETreeViewFramePrivate *priv)
 {
-	GtkTreeSelection *selection;
-
-	selection = gtk_tree_view_get_selection (priv->tree_view);
-
 	if (priv->notify_reorderable_handler_id > 0) {
 		g_signal_handler_disconnect (
 			priv->tree_view,
@@ -170,14 +166,14 @@ tree_view_frame_dispose_tree_view (ETreeViewFramePrivate *priv)
 
 	if (priv->notify_select_mode_handler_id > 0) {
 		g_signal_handler_disconnect (
-			selection,
+			gtk_tree_view_get_selection (priv->tree_view),
 			priv->notify_select_mode_handler_id);
 		priv->notify_select_mode_handler_id = 0;
 	}
 
 	if (priv->selection_changed_handler_id > 0) {
 		g_signal_handler_disconnect (
-			selection,
+			gtk_tree_view_get_selection (priv->tree_view),
 			priv->selection_changed_handler_id);
 		priv->selection_changed_handler_id = 0;
 	}
