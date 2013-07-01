@@ -151,20 +151,6 @@ get_current_time_cb (ECellDateEdit *ecde,
 }
 
 void
-e_cal_list_view_load_state (ECalListView *cal_list_view,
-                            gchar *filename)
-{
-	struct stat st;
-
-	g_return_if_fail (cal_list_view != NULL);
-	g_return_if_fail (E_IS_CAL_LIST_VIEW (cal_list_view));
-	g_return_if_fail (filename != NULL);
-
-	if (g_stat (filename, &st) == 0 && st.st_size > 0 && S_ISREG (st.st_mode))
-		e_table_load_state (cal_list_view->table, filename);
-}
-
-void
 e_cal_list_view_save_state (ECalListView *cal_list_view,
                             gchar *filename)
 {
