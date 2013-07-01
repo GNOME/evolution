@@ -201,8 +201,18 @@ mail_shell_view_show_search_results_folder (EMailShellView *mail_shell_view,
 	e_mail_reader_set_folder (reader, folder);
 	view_instance = e_mail_view_get_view_instance (mail_view);
 
-	if (!view_instance || !gal_view_instance_exists (view_instance))
-		e_tree_set_state (E_TREE (message_list), SEARCH_RESULTS_STATE);
+	if (!view_instance || !gal_view_instance_exists (view_instance)) {
+		ETree *tree;
+		ETableState *state;
+		ETableSpecification *specification;
+
+		tree = E_TREE (message_list);
+		specification = e_tree_get_spec (tree);
+		state = e_table_state_new (specification);
+		e_table_state_load_from_string (state, SEARCH_RESULTS_STATE);
+		e_tree_set_state_object (tree, state);
+		g_object_unref (state);
+	}
 
 	message_list_thaw (MESSAGE_LIST (message_list));
 }
