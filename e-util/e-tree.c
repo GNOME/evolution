@@ -1420,28 +1420,6 @@ e_tree_get_state_object (ETree *tree)
 }
 
 /**
- * e_tree_get_state:
- * @tree: The #ETree to act on
- *
- * Builds a state object based on the current state and returns the
- * string corresponding to that state.
- *
- * Return value:
- * A string describing the current state of the #ETree.
- **/
-gchar *
-e_tree_get_state (ETree *tree)
-{
-	ETableState *state;
-	gchar *string;
-
-	state = e_tree_get_state_object (tree);
-	string = e_table_state_save_to_string (state);
-	g_object_unref (state);
-	return string;
-}
-
-/**
  * e_tree_get_spec:
  * @tree: The #ETree to query
  *

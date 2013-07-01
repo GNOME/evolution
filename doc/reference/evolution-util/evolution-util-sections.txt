@@ -4110,7 +4110,6 @@ ETimezoneDialogPrivate
 ETree
 e_tree_construct
 e_tree_new
-e_tree_get_state
 e_tree_get_state_object
 e_tree_get_spec
 e_tree_set_state
