@@ -153,6 +153,7 @@ book_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 	gboolean is_remote_deletable = FALSE;
 	gboolean in_collection = FALSE;
 	gboolean has_primary_source = FALSE;
+	gboolean refresh_supported = FALSE;
 	guint32 state = 0;
 
 	book_shell_sidebar = E_BOOK_SHELL_SIDEBAR (shell_sidebar);
@@ -161,6 +162,7 @@ book_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 	registry = e_source_selector_get_registry (selector);
 
 	if (source != NULL) {
+		EClient *client;
 		ESource *collection;
 
 		has_primary_source = TRUE;
@@ -174,6 +176,15 @@ book_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 		if (collection != NULL) {
 			in_collection = TRUE;
 			g_object_unref (collection);
+		}
+
+		client = e_client_selector_ref_cached_client (
+			E_CLIENT_SELECTOR (selector), source);
+
+		if (client != NULL) {
+			refresh_supported =
+				e_client_check_refresh_supported (client);
+			g_object_unref (client);
 		}
 
 		g_object_unref (source);
@@ -191,6 +202,8 @@ book_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 		state |= E_BOOK_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_REMOTE_DELETABLE;
 	if (in_collection)
 		state |= E_BOOK_SHELL_SIDEBAR_PRIMARY_SOURCE_IN_COLLECTION;
+	if (refresh_supported)
+		state |= E_BOOK_SHELL_SIDEBAR_SOURCE_SUPPORTS_REFRESH;
 
 	return state;
 }

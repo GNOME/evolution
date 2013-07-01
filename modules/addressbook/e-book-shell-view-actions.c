@@ -200,6 +200,62 @@ action_address_book_properties_cb (GtkAction *action,
 	gtk_widget_show (dialog);
 }
 
+static void
+address_book_refresh_done_cb (GObject *source_object,
+			      GAsyncResult *result,
+			      gpointer user_data)
+{
+	EClient *client;
+	GError *error = NULL;
+
+	g_return_if_fail (E_IS_CLIENT (source_object));
+
+	client = E_CLIENT (source_object);
+
+	if (!e_client_refresh_finish (client, result, &error)) {
+		ESource *source = e_client_get_source (client);
+
+		if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED) &&
+		    !g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED))
+			g_warning (
+				"%s: Failed to refresh '%s', %s",
+				G_STRFUNC, e_source_get_display_name (source),
+				error ? error->message : "Unknown error");
+
+		g_clear_error (&error);
+	}
+}
+
+static void
+action_address_book_refresh_cb (GtkAction *action,
+				EBookShellView *book_shell_view)
+{
+	EBookShellSidebar *book_shell_sidebar;
+	ESourceSelector *selector;
+	EClient *client = NULL;
+	ESource *source;
+
+	book_shell_sidebar = book_shell_view->priv->book_shell_sidebar;
+	selector = e_book_shell_sidebar_get_selector (book_shell_sidebar);
+
+	source = e_source_selector_ref_primary_selection (selector);
+
+	if (source != NULL) {
+		client = e_client_selector_ref_cached_client (
+			E_CLIENT_SELECTOR (selector), source);
+		g_object_unref (source);
+	}
+
+	if (client == NULL)
+		return;
+
+	g_return_if_fail (e_client_check_refresh_supported (client));
+
+	e_client_refresh (client, NULL, address_book_refresh_done_cb, book_shell_view);
+
+	g_object_unref (client);
+}
+
 #ifdef WITH_CONTACT_MAPS
 static void
 contact_editor_contact_modified_cb (EABEditor *editor,
@@ -873,6 +929,13 @@ static GtkActionEntry contact_entries[] = {
 	  N_("Show properties of the selected address book"),
 	  G_CALLBACK (action_address_book_properties_cb) },
 
+	{ "address-book-refresh",
+	  GTK_STOCK_REFRESH,
+	  N_("Re_fresh"),
+	  NULL,
+	  NULL, /* N_("Refresh the selected address book"), */
+	  G_CALLBACK (action_address_book_refresh_cb) },
+
 	{ "address-book-map",
 	  NULL,
 	  N_("Address Book _Map"),
@@ -983,6 +1046,10 @@ static EPopupActionEntry contact_popup_entries[] = {
 	{ "address-book-popup-properties",
 	  N_("_Properties"),
 	  "address-book-properties" },
+
+	{ "address-book-popup-refresh",
+	  NULL,
+	  "address-book-refresh" },
 
 	{ "address-book-popup-map",
 	  N_("Address Book Map"),
