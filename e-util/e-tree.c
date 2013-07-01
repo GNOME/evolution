@@ -1343,32 +1343,6 @@ e_tree_set_state_object (ETree *tree,
 }
 
 /**
- * e_tree_set_state:
- * @tree: #ETree object that will be modified
- * @state_str: a string with the XML representation of the #ETableState.
- *
- * This routine sets the state (as described by #ETableState) of the
- * #ETree object.
- */
-void
-e_tree_set_state (ETree *tree,
-                  const gchar *state_str)
-{
-	ETableState *state;
-
-	g_return_if_fail (E_IS_TREE (tree));
-	g_return_if_fail (state_str != NULL);
-
-	state = e_table_state_new (tree->priv->spec);
-	e_table_state_load_from_string (state, state_str);
-
-	if (state->col_count > 0)
-		e_tree_set_state_object (tree, state);
-
-	g_object_unref (state);
-}
-
-/**
  * e_tree_get_state_object:
  * @tree: #ETree object to act on
  *
