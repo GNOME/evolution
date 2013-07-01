@@ -123,6 +123,7 @@ e_spell_entry_get_type
 e_stock_request_get_type
 e_table_click_to_add_get_type
 e_table_col_get_type
+e_table_column_selector_get_type
 e_table_column_specification_get_type
 e_table_config_get_type
 e_table_extras_get_type

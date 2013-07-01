@@ -254,6 +254,7 @@ evolution_util_include_HEADERS =  \
 	e-table-click-to-add.h \
 	e-table-col-dnd.h \
 	e-table-col.h \
+	e-table-column-selector.h \
 	e-table-column-specification.h \
 	e-table-config.h \
 	e-table-defines.h \
@@ -499,6 +500,7 @@ libevolution_util_la_SOURCES = \
 	e-stock-request.c \
 	e-table-click-to-add.c \
 	e-table-col.c \
+	e-table-column-selector.c \
 	e-table-column-specification.c \
 	e-table-config.c \
 	e-table-extras.c \

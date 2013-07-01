@@ -114,6 +114,7 @@
     <xi:include href="xml/e-table.xml"/>
     <xi:include href="xml/e-table-click-to-add.xml"/>
     <xi:include href="xml/e-table-col.xml"/>
+    <xi:include href="xml/e-table-column-selector.xml"/>
     <xi:include href="xml/e-table-column-specification.xml"/>
     <xi:include href="xml/e-table-config.xml"/>
     <xi:include href="xml/e-table-extras.xml"/>

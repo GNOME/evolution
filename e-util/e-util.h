@@ -169,6 +169,7 @@
 #include <e-util/e-table-click-to-add.h>
 #include <e-util/e-table-col-dnd.h>
 #include <e-util/e-table-col.h>
+#include <e-util/e-table-column-selector.h>
 #include <e-util/e-table-column-specification.h>
 #include <e-util/e-table-config.h>
 #include <e-util/e-table-defines.h>

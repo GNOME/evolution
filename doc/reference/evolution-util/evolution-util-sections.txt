@@ -3393,6 +3393,26 @@ e_table_col_get_type
 </SECTION>
 
 <SECTION>
+<FILE>e-table-column-selector</FILE>
+<TITLE>ETableColumnSelector</TITLE>
+ETableColumnSelector
+e_table_column_selector_new
+e_table_column_selector_get_state
+e_table_column_selector_apply
+<SUBSECTION Standard>
+E_TABLE_COLUMN_SELECTOR
+E_IS_TABLE_COLUMN_SELECTOR
+E_TYPE_TABLE_COLUMN_SELECTOR
+E_TABLE_COLUMN_SELECTOR_CLASS
+E_IS_TABLE_COLUMN_SELECTOR_CLASS
+E_TABLE_COLUMN_SELECTOR_GET_CLASS
+ETableColumnSelectorClass
+e_table_column_selector_get_type
+<SUBSECTION Private>
+ETableColumnSelectorPrivate
+</SECTION>
+
+<SECTION>
 <FILE>e-table-column-specification</FILE>
 <TITLE>ETableColumnSpecification</TITLE>
 ETableColumnSpecification
