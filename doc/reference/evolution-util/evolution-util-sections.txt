@@ -3982,32 +3982,6 @@ e_table_util_calculate_current_search_col
 </SECTION>
 
 <SECTION>
-<FILE>e-table-without</FILE>
-<TITLE>ETableWithout</TITLE>
-ETableWithout
-ETableWithoutGetKeyFunc
-ETableWithoutDuplicateKeyFunc
-ETableWithoutFreeKeyFunc
-e_table_without_new
-e_table_without_construct
-e_table_without_hide
-e_table_without_hide_adopt
-e_table_without_show
-e_table_without_show_all
-<SUBSECTION Standard>
-E_TABLE_WITHOUT
-E_IS_TABLE_WITHOUT
-E_TYPE_TABLE_WITHOUT
-E_TABLE_WITHOUT_CLASS
-E_IS_TABLE_WITHOUT_CLASS
-E_TABLE_WITHOUT_GET_CLASS
-ETableWithoutClass
-e_table_without_get_type
-<SUBSECTION Private>
-ETableWithoutPrivate
-</SECTION>
-
-<SECTION>
 <FILE>e-text</FILE>
 <TITLE>EText</TITLE>
 EText

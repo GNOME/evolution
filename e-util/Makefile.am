@@ -283,7 +283,6 @@ evolution_util_include_HEADERS =  \
 	e-table-subset-variable.h \
 	e-table-subset.h \
 	e-table-utils.h \
-	e-table-without.h \
 	e-table.h \
 	e-text-event-processor-emacs-like.h \
 	e-text-event-processor-types.h \
@@ -526,7 +525,6 @@ libevolution_util_la_SOURCES = \
 	e-table-subset-variable.c \
 	e-table-subset.c \
 	e-table-utils.c \
-	e-table-without.c \
 	e-table.c \
 	e-text-event-processor-emacs-like.c \
 	e-text-event-processor.c \

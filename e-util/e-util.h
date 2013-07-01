@@ -198,7 +198,6 @@
 #include <e-util/e-table-subset-variable.h>
 #include <e-util/e-table-subset.h>
 #include <e-util/e-table-utils.h>
-#include <e-util/e-table-without.h>
 #include <e-util/e-table.h>
 #include <e-util/e-text-event-processor-emacs-like.h>
 #include <e-util/e-text-event-processor-types.h>

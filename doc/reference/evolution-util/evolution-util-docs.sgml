@@ -141,7 +141,6 @@
     <xi:include href="xml/e-table-subset-variable.xml"/>
     <xi:include href="xml/e-table-subset.xml"/>
     <xi:include href="xml/e-table-utils.xml"/>
-    <xi:include href="xml/e-table-without.xml"/>
     <xi:include href="xml/e-tree.xml"/>
     <xi:include href="xml/e-tree-model.xml"/>
     <xi:include href="xml/e-tree-selection-model.xml"/>

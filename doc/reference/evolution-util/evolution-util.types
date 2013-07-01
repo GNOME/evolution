@@ -146,7 +146,6 @@ e_table_sorter_get_type
 e_table_specification_get_type
 e_table_state_get_type
 e_table_subset_get_type
-e_table_without_get_type
 e_text_event_processor_emacs_like_get_type
 e_text_event_processor_get_type
 e_text_get_type
