@@ -3320,6 +3320,7 @@ e_table_right_click_up
 e_table_commit_click_to_add
 e_table_freeze_state_change
 e_table_thaw_state_change
+e_table_is_editing
 <SUBSECTION Standard>
 E_TABLE
 E_IS_TABLE
@@ -3336,6 +3337,7 @@ e_table_get_type
 <TITLE>ETableClickToAdd</TITLE>
 ETableClickToAdd
 e_table_click_to_add_commit
+e_table_click_to_add_is_editing
 <SUBSECTION Standard>
 E_TABLE_CLICK_TO_ADD
 E_IS_TABLE_CLICK_TO_ADD
@@ -3505,6 +3507,7 @@ e_table_group_key_press
 e_table_group_start_drag
 ETableGroupLeafFn
 e_table_group_apply_to_leafs
+e_table_group_is_editing
 <SUBSECTION Standard>
 E_TABLE_GROUP
 E_IS_TABLE_GROUP
@@ -3523,6 +3526,7 @@ ETableGroupContainerChildNode
 ETableGroupContainer
 e_table_group_container_new
 e_table_group_container_construct
+e_table_group_container_is_editing
 <SUBSECTION Standard>
 E_TABLE_GROUP_CONTAINER
 E_IS_TABLE_GROUP_CONTAINER
@@ -3539,6 +3543,7 @@ e_table_group_container_get_type
 <TITLE>ETableGroupLeaf</TITLE>
 ETableGroupLeaf
 e_table_group_leaf_new
+e_table_group_leaf_is_editing
 <SUBSECTION Standard>
 E_TABLE_GROUP_LEAF
 E_IS_TABLE_GROUP_LEAF
@@ -3621,6 +3626,7 @@ e_table_item_compute_location
 e_table_item_compute_mouse_over
 e_table_item_get_cell_geometry
 e_table_item_row_diff
+e_table_item_is_editing
 <SUBSECTION Standard>
 E_TABLE_ITEM
 E_IS_TABLE_ITEM
@@ -4231,6 +4237,7 @@ e_tree_get_header_item
 e_tree_set_info_message
 e_tree_freeze_state_change
 e_tree_thaw_state_change
+e_tree_is_editing
 <SUBSECTION Standard>
 E_TREE
 E_IS_TREE
