@@ -51,6 +51,7 @@ gal_view_factory_etable_class_init (GalViewFactoryEtableClass *class)
 	GalViewFactoryClass *view_factory_class;
 
 	view_factory_class = GAL_VIEW_FACTORY_CLASS (class);
+	view_factory_class->gal_view_type = GAL_TYPE_VIEW_ETABLE;
 	view_factory_class->get_type_code = view_factory_etable_get_type_code;
 	view_factory_class->new_view = view_factory_etable_new_view;
 }

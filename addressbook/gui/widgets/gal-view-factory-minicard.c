@@ -51,6 +51,7 @@ gal_view_factory_minicard_class_init (GalViewFactoryMinicardClass *minicard_clas
 	GalViewFactoryClass *view_factory_class;
 
 	view_factory_class = GAL_VIEW_FACTORY_CLASS (minicard_class);
+	view_factory_class->gal_view_type = GAL_TYPE_VIEW_MINICARD;
 	view_factory_class->get_type_code = gal_view_factory_minicard_get_type_code;
 	view_factory_class->new_view = gal_view_factory_minicard_new_view;
 }

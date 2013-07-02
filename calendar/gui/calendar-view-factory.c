@@ -61,6 +61,7 @@ gal_view_factory_calendar_day_new_view (GalViewFactory *factory,
 static void
 gal_view_factory_calendar_day_class_init (GalViewFactoryClass *class)
 {
+	class->gal_view_type = GAL_TYPE_VIEW_CALENDAR_DAY;
 	class->get_type_code = gal_view_factory_calendar_day_get_type_code;
 	class->new_view = gal_view_factory_calendar_day_new_view;
 }
@@ -88,6 +89,7 @@ gal_view_factory_calendar_work_week_new_view (GalViewFactory *factory,
 static void
 gal_view_factory_calendar_work_week_class_init (GalViewFactoryClass *class)
 {
+	class->gal_view_type = GAL_TYPE_VIEW_CALENDAR_WORK_WEEK;
 	class->get_type_code = gal_view_factory_calendar_work_week_get_type_code;
 	class->new_view = gal_view_factory_calendar_work_week_new_view;
 }
@@ -115,6 +117,7 @@ gal_view_factory_calendar_week_new_view (GalViewFactory *factory,
 static void
 gal_view_factory_calendar_week_class_init (GalViewFactoryClass *class)
 {
+	class->gal_view_type = GAL_TYPE_VIEW_CALENDAR_WEEK;
 	class->get_type_code = gal_view_factory_calendar_week_get_type_code;
 	class->new_view = gal_view_factory_calendar_week_new_view;
 }
@@ -142,6 +145,7 @@ gal_view_factory_calendar_month_new_view (GalViewFactory *factory,
 static void
 gal_view_factory_calendar_month_class_init (GalViewFactoryClass *class)
 {
+	class->gal_view_type = GAL_TYPE_VIEW_CALENDAR_MONTH;
 	class->get_type_code = gal_view_factory_calendar_month_get_type_code;
 	class->new_view = gal_view_factory_calendar_month_new_view;
 }
