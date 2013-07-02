@@ -1543,32 +1543,7 @@ e_editor_widget_set_html_mode (EEditorWidget *widget,
 	e_editor_widget_update_fonts (widget);
 
 	if (widget->priv->html_mode) {
-		gchar *plain_text, *html;
-
-		plain_text = e_editor_widget_get_text_plain (widget);
-
-		/* FIXME WEBKIT: This does not process smileys! */
-		html = camel_text_to_html (
-			plain_text,
-			CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
-			CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
-			CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
-			CAMEL_MIME_FILTER_TOHTML_MARK_CITATION |
-			CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES |
-			CAMEL_MIME_FILTER_TOHTML_FORMAT_FLOWED,
-			0);
-
-		if (changing) {
-			gchar *tmp;
-			tmp = g_strconcat (html, "<span id=\"-x-evo-changing-mode\"></span>", NULL);
-			g_free (html);
-			html = tmp;
-		}
-
-		e_editor_widget_set_text_html (widget, html);
-
-		g_free (plain_text);
-		g_free (html);
+		/* FIXME WEBKIT: Process smileys! */
 	} else {
 		gchar *plain;
 
@@ -1745,27 +1720,12 @@ static void
 process_elements (WebKitDOMNode *node,
                   GString *buffer)
 {
-	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *window;
 	WebKitDOMNodeList *nodes;
-	WebKitDOMCSSStyleDeclaration *style;
-	gchar *display, *tagname;
 	gulong ii, length;
 	GRegex *regex, *regex_hidden_space;
 
-	document = webkit_dom_node_get_owner_document (node);
-	window = webkit_dom_document_get_default_view (document);
-
-	/* Is this a block element? */
-	style = webkit_dom_dom_window_get_computed_style (
-		window, WEBKIT_DOM_ELEMENT (node), "");
-	display = webkit_dom_css_style_declaration_get_property_value (
-		style, "display");
-
-	tagname = webkit_dom_element_get_tag_name (WEBKIT_DOM_ELEMENT (node));
-
 	/* Replace images with smileys by their text representation */
-	if (g_ascii_strncasecmp (tagname, "IMG", 3) == 0) {
+	if (WEBKIT_DOM_IS_HTML_IMAGE_ELEMENT (node)) {
 		if (webkit_dom_element_has_attribute (
 				WEBKIT_DOM_ELEMENT (node), "x-evo-smiley")) {
 
@@ -1780,7 +1740,6 @@ process_elements (WebKitDOMNode *node,
 					buffer, " %s ", emoticon->text_face);
 
 			g_free (smiley_name);
-			g_free (display);
 
 			/* IMG can't have child elements, so we return now */
 			return;
@@ -1788,8 +1747,10 @@ process_elements (WebKitDOMNode *node,
 	}
 
 	/* Skip signature */
-	if (g_strcmp0 (webkit_dom_element_get_class_name (WEBKIT_DOM_ELEMENT (node)), "-x-evolution-signature") == 0)
+	if (g_strcmp0 (webkit_dom_element_get_class_name (WEBKIT_DOM_ELEMENT (node)),
+		       "-x-evolution-signature") == 0) {
 		return;
+	}
 
 	nodes = webkit_dom_node_get_child_nodes (node);
 	length = webkit_dom_node_list_get_length (nodes);
@@ -1798,37 +1759,53 @@ process_elements (WebKitDOMNode *node,
 
 	for (ii = 0; ii < length; ii++) {
 		WebKitDOMNode *child;
+		gboolean caret_position_node= FALSE;
 
 		child = webkit_dom_node_list_item (nodes, ii);
-		if (webkit_dom_node_get_node_type (child) == 3) {
+		if (WEBKIT_DOM_IS_TEXT (child)) {
 			gchar *content, *tmp;
 
-			tmp = webkit_dom_node_get_text_content (child);
+			content = webkit_dom_node_get_text_content (child);
 
 			/* Replace tabs with 4 whitespaces, otherwise they got
 			 * replaced by single whitespace */
-			content = g_regex_replace (
-					regex, tmp, -1, 0, "    ",
+			tmp = g_regex_replace (
+					regex, content, -1, 0, "    ",
 					0, NULL);
 
+			g_free (content);
+
 			content = g_regex_replace (
-					regex_hidden_space, content, -1, 0, "", 0, NULL);
+					regex_hidden_space, tmp, -1, 0, "", 0, NULL);
 
 			g_string_append (buffer, content);
 			g_free (tmp);
 			g_free (content);
 		} else {
-			if (g_strcmp0 (webkit_dom_node_get_local_name (child), "br") == 0) {
-				g_string_append (buffer, "\n");
+			if (WEBKIT_DOM_IS_HTML_ELEMENT (child) &&
+				g_strcmp0 (webkit_dom_html_element_get_id (WEBKIT_DOM_HTML_ELEMENT (child)),
+					   "-x-evo-caret-position") == 0) {
+
+				g_string_append (buffer, "-x-evo-caret-position");
+				caret_position_node = TRUE;
 			}
+
+			if (g_strcmp0 (webkit_dom_node_get_local_name (child), "br") == 0)
+				g_string_append (buffer, "\n");
 		}
 
 		if (webkit_dom_node_has_child_nodes (child)) {
-			process_elements (child, buffer);
+			if (!caret_position_node)
+				process_elements (child, buffer);
 		}
 	}
 
-	g_free (display);
+	if (WEBKIT_DOM_IS_HTML_DIV_ELEMENT (node) || WEBKIT_DOM_IS_HTML_PARAGRAPH_ELEMENT (node)) {
+		if (g_utf8_strlen (webkit_dom_node_get_text_content (node), -1) > 0) {
+			g_string_append (buffer, "\n");
+		}
+	}
+
 	g_regex_unref (regex);
 	g_regex_unref (regex_hidden_space);
 }
