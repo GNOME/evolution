@@ -78,15 +78,12 @@ cal_shell_content_display_view_cb (ECalShellContent *cal_shell_content,
 {
 	GnomeCalendar *calendar;
 	GnomeCalendarViewType view_type;
+	GType gal_view_type;
 
-	/* XXX This is confusing: we have CalendarView and ECalendarView.
-	 *     ECalendarView is an abstract base class for calendar view
-	 *     widgets (day view, week view, etc).  CalendarView is a
-	 *     simple GalView subclass that represents a calendar view. */
-
+	gal_view_type = G_OBJECT_TYPE (gal_view);
 	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
 
-	if (GAL_IS_VIEW_ETABLE (gal_view)) {
+	if (gal_view_type == GAL_TYPE_VIEW_ETABLE) {
 		ECalendarView *calendar_view;
 
 		view_type = GNOME_CAL_LIST_VIEW;
@@ -95,9 +92,21 @@ cal_shell_content_display_view_cb (ECalShellContent *cal_shell_content,
 		gal_view_etable_attach_table (
 			GAL_VIEW_ETABLE (gal_view),
 			E_CAL_LIST_VIEW (calendar_view)->table);
+
+	} else if (gal_view_type == GAL_TYPE_VIEW_CALENDAR_DAY) {
+		view_type = GNOME_CAL_DAY_VIEW;
+
+	} else if (gal_view_type == GAL_TYPE_VIEW_CALENDAR_WORK_WEEK) {
+		view_type = GNOME_CAL_WORK_WEEK_VIEW;
+
+	} else if (gal_view_type == GAL_TYPE_VIEW_CALENDAR_WEEK) {
+		view_type = GNOME_CAL_WEEK_VIEW;
+
+	} else if (gal_view_type == GAL_TYPE_VIEW_CALENDAR_MONTH) {
+		view_type = GNOME_CAL_MONTH_VIEW;
+
 	} else {
-		view_type = calendar_view_get_view_type (
-			CALENDAR_VIEW (gal_view));
+		g_return_if_reached ();
 	}
 
 	gnome_calendar_display_view (calendar, view_type);

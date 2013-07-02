@@ -101,17 +101,31 @@ calendar_view_factory_get_type_code (GalViewFactory *factory)
 /* new_view method for the calendar view factory */
 static GalView *
 calendar_view_factory_new_view (GalViewFactory *factory,
-                                const gchar *name)
+                                const gchar *title)
 {
 	CalendarViewFactory *cal_view_factory;
-	CalendarViewFactoryPrivate *priv;
-	CalendarView *cal_view;
+	GType type;
 
 	cal_view_factory = CALENDAR_VIEW_FACTORY (factory);
-	priv = cal_view_factory->priv;
 
-	cal_view = calendar_view_new (priv->view_type, name);
-	return GAL_VIEW (cal_view);
+	switch (cal_view_factory->priv->view_type) {
+		case GNOME_CAL_DAY_VIEW:
+			type = GAL_TYPE_VIEW_CALENDAR_DAY;
+			break;
+		case GNOME_CAL_WORK_WEEK_VIEW:
+			type = GAL_TYPE_VIEW_CALENDAR_WORK_WEEK;
+			break;
+		case GNOME_CAL_WEEK_VIEW:
+			type = GAL_TYPE_VIEW_CALENDAR_WEEK;
+			break;
+		case GNOME_CAL_MONTH_VIEW:
+			type = GAL_TYPE_VIEW_CALENDAR_MONTH;
+			break;
+		default:
+			g_return_val_if_reached (NULL);
+	}
+
+	return g_object_new (type, "title", title, NULL);
 }
 
 /**

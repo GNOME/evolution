@@ -1,6 +1,5 @@
 /*
- *
- * Evolution calendar - Generic view object for calendar views
+ * calendar-view.h
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -15,48 +14,42 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
- *
- * Authors:
- *		Federico Mena-Quintero <federico@ximian.com>
- *
- * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
- *
  */
 
 #ifndef CALENDAR_VIEW_H
 #define CALENDAR_VIEW_H
 
-#include "gnome-cal.h"
+#include <e-util/e-util.h>
+
+/* Standard GObject macros */
+#define GAL_TYPE_VIEW_CALENDAR_DAY \
+	(gal_view_calendar_day_get_type ())
+#define GAL_TYPE_VIEW_CALENDAR_WORK_WEEK \
+	(gal_view_calendar_work_week_get_type ())
+#define GAL_TYPE_VIEW_CALENDAR_WEEK \
+	(gal_view_calendar_week_get_type ())
+#define GAL_TYPE_VIEW_CALENDAR_MONTH \
+	(gal_view_calendar_month_get_type ())
 
 G_BEGIN_DECLS
 
-#define TYPE_CALENDAR_VIEW            (calendar_view_get_type ())
-#define CALENDAR_VIEW(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_CALENDAR_VIEW, CalendarView))
-#define CALENDAR_VIEW_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_CALENDAR_VIEW,	\
-				       CalendarViewClass))
-#define IS_CALENDAR_VIEW(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_CALENDAR_VIEW))
-#define IS_CALENDAR_VIEW_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_CALENDAR_VIEW))
+typedef struct _GalView GalViewCalendarDay;
+typedef struct _GalViewClass GalViewCalendarDayClass;
 
-typedef struct _CalendarViewPrivate CalendarViewPrivate;
+typedef struct _GalView GalViewCalendarWorkWeek;
+typedef struct _GalViewClass GalViewCalendarWorkWeekClass;
 
-typedef struct {
-	GalView view;
+typedef struct _GalView GalViewCalendarWeek;
+typedef struct _GalViewClass GalViewCalendarWeekClass;
 
-	/* Private data */
-	CalendarViewPrivate *priv;
-} CalendarView;
+typedef struct _GalView GalViewCalendarMonth;
+typedef struct _GalViewClass GalViewCalendarMonthClass;
 
-typedef struct {
-	GalViewClass parent_class;
-} CalendarViewClass;
-
-GType calendar_view_get_type (void);
-
-CalendarView *calendar_view_new (GnomeCalendarViewType view_type,
-				 const gchar *title);
-
-GnomeCalendarViewType calendar_view_get_view_type (CalendarView *cal_view);
+GType		gal_view_calendar_day_get_type		(void) G_GNUC_CONST;
+GType		gal_view_calendar_work_week_get_type	(void) G_GNUC_CONST;
+GType		gal_view_calendar_week_get_type		(void) G_GNUC_CONST;
+GType		gal_view_calendar_month_get_type	(void) G_GNUC_CONST;
 
 G_END_DECLS
 
-#endif
+#endif /* CALENDAR_VIEW_H */
