@@ -3162,6 +3162,7 @@ e_editor_selection_wrap_lines (EEditorSelection *selection,
 	} else {
 		/* When there is nothing selected, we select and wrap everything
 		 * that is not containing signature */
+		e_editor_selection_save_caret_position (selection);
 		if (g_strcmp0 (e_editor_selection_get_string (selection), "") == 0) {
 			WebKitDOMNodeList *list;
 			WebKitDOMNode *signature = NULL;
@@ -3174,30 +3175,25 @@ e_editor_selection_wrap_lines (EEditorSelection *selection,
 			if (webkit_dom_node_list_get_length (list) > 0)
 				signature = webkit_dom_node_list_item (list, 0);
 
-			if (signature) {
-				list = webkit_dom_document_query_selector_all (document, "div, pre, p", NULL);
+			list = webkit_dom_document_query_selector_all (document, "div.-x-evo-paragraph, p.-x-evo-paragraph", NULL);
+			for (ii = 0; ii < webkit_dom_node_list_get_length (list); ii++) {
+				WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
 
-				for (ii = 0; ii < webkit_dom_node_list_get_length (list); ii++) {
-					WebKitDOMNode *node;
-					node = webkit_dom_node_list_item (list, ii);
+				/* Select elements that actualy have some text content */
+				if (g_utf8_strlen (webkit_dom_node_get_text_content (node), -1) == 0)
+					continue;
 
-					/* Select elements that actualy have some text content */
-					if (g_utf8_strlen (webkit_dom_node_get_text_content (node), -1) == 0)
-						continue;
-
-					if (!webkit_dom_node_contains (node, signature)
-						&& !webkit_dom_node_contains (signature, node)) {
+				if (signature) {
+					if (!webkit_dom_node_contains (node, signature) &&
+					    !webkit_dom_node_contains (signature, node)) {
 
 						wrap_lines (NULL, node, web_view, jump_to_previous_line,
 							    FALSE, selection->priv->word_wrap_length, delete_pressed);
 					}
+				} else {
+					wrap_lines (NULL, node, web_view, jump_to_previous_line,
+						    FALSE, selection->priv->word_wrap_length, delete_pressed);
 				}
-			} else {
-				/* Wrap all */
-				WebKitDOMNode *body;
-				body = WEBKIT_DOM_NODE (webkit_dom_document_get_body (document));
-				wrap_lines (NULL, body, web_view, jump_to_previous_line,
-					    FALSE, selection->priv->word_wrap_length, delete_pressed);
 			}
 		} else {
 			/* If we have selection -> wrap it */
@@ -3206,19 +3202,22 @@ e_editor_selection_wrap_lines (EEditorSelection *selection,
 		}
 	}
 
+	active_paragraph = webkit_dom_document_get_element_by_id (document, "-x-evo-active-paragraph");
 	/* We have to move caret on position where it was before modifying the text */
 	if (return_pressed) {
-		active_paragraph = webkit_dom_document_get_element_by_id (document, "-x-evo-active-paragraph");
 		e_editor_selection_clear_caret_position_marker (selection);
 		move_caret_into_element (document, active_paragraph);
 		webkit_dom_dom_selection_modify (window_selection, "move", "forward", "character");
 	} else {
-		e_editor_selection_restore_caret_position (selection);
+		if (while_typing)
+			e_editor_selection_restore_caret_position (selection);
+		else
+			e_editor_selection_clear_caret_position_marker (selection);
 	}
 
 	/* Set paragraph as non-active */
-	active_paragraph = webkit_dom_document_get_element_by_id (document, "-x-evo-active-paragraph");
-	webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (active_paragraph), "id");
+	if (active_paragraph)
+		webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (active_paragraph), "id");
 
 	g_object_unref (editor_widget);
 }

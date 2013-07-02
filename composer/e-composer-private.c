@@ -593,7 +593,7 @@ e_composer_paste_text (EMsgComposer *composer,
 
 	if (e_editor_selection_get_block_format (editor_selection) ==
 			E_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH) {
-		e_editor_selection_wrap_lines (editor_selection, TRUE, NULL);
+		e_editor_selection_wrap_lines (editor_selection, FALSE, NULL);
 	}
 
 	g_free (text);
