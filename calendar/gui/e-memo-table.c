@@ -332,6 +332,7 @@ memo_table_constructed (GObject *object)
 	ETableSpecification *specification;
 	AtkObject *a11y;
 	gchar *etspecfile;
+	GError *local_error = NULL;
 
 	memo_table = E_MEMO_TABLE (object);
 	model = e_memo_table_get_model (memo_table);
@@ -408,12 +409,19 @@ memo_table_constructed (GObject *object)
 
 	etspecfile = g_build_filename (
 		EVOLUTION_ETSPECDIR, "e-memo-table.etspec", NULL);
-	specification = e_table_specification_new ();
-	e_table_specification_load_from_file (specification, etspecfile);
+	specification = e_table_specification_new (etspecfile, &local_error);
+
+	/* Failure here is fatal. */
+	if (local_error != NULL) {
+		g_error ("%s: %s", etspecfile, local_error->message);
+		g_assert_not_reached ();
+	}
+
 	e_table_construct (
 		E_TABLE (memo_table),
 		E_TABLE_MODEL (model),
 		extras, specification);
+
 	g_object_unref (specification);
 	g_free (etspecfile);
 

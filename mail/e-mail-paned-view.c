@@ -924,15 +924,22 @@ mail_paned_view_update_view_instance (EMailView *view)
 			ETableState *state;
 			GalView *view;
 			gchar *spec_filename;
+			GError *local_error = NULL;
 
-			spec = e_table_specification_new ();
 			spec_filename = g_build_filename (
 				EVOLUTION_ETSPECDIR,
 				"message-list.etspec",
 				NULL);
-			e_table_specification_load_from_file (
-				spec, spec_filename);
-			g_free (spec_filename);
+			spec = e_table_specification_new (
+				spec_filename, &local_error);
+
+			/* Failure here is fatal. */
+			if (local_error != NULL) {
+				g_error (
+					"%s: %s", spec_filename,
+					local_error->message);
+				g_assert_not_reached ();
+			}
 
 			state = e_table_state_new (spec);
 			view = gal_view_etable_new (spec, "");
@@ -947,6 +954,8 @@ mail_paned_view_update_view_instance (EMailView *view)
 			g_object_unref (state);
 			g_object_unref (view);
 			g_object_unref (spec);
+
+			g_free (spec_filename);
 		}
 
 		g_free (state_filename);

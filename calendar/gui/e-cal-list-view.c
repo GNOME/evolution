@@ -173,6 +173,7 @@ setup_e_table (ECalListView *cal_list_view)
 	GtkWidget *container;
 	GtkWidget *widget;
 	gchar *etspecfile;
+	GError *local_error = NULL;
 
 	model = e_calendar_view_get_model (E_CALENDAR_VIEW (cal_list_view));
 
@@ -286,8 +287,13 @@ setup_e_table (ECalListView *cal_list_view)
 
 	etspecfile = g_build_filename (
 		EVOLUTION_ETSPECDIR, "e-cal-list-view.etspec", NULL);
-	specification = e_table_specification_new ();
-	e_table_specification_load_from_file (specification, etspecfile);
+	specification = e_table_specification_new (etspecfile, &local_error);
+
+	/* Failure here is fatal. */
+	if (local_error != NULL) {
+		g_error ("%s: %s", etspecfile, local_error->message);
+		g_assert_not_reached ();
+	}
 
 	widget = e_table_new (E_TABLE_MODEL (model), extras, specification);
 	gtk_container_add (GTK_CONTAINER (container), widget);

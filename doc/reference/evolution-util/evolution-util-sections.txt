@@ -3874,9 +3874,9 @@ e_table_sorting_utils_lookup_cmp_cache
 <TITLE>ETableSpecification</TITLE>
 ETableSpecification
 e_table_specification_new
+e_table_specification_get_filename
 e_table_specification_ref_columns
 e_table_specification_get_column_index
-e_table_specification_load_from_file
 <SUBSECTION Standard>
 E_TABLE_SPECIFICATION
 E_IS_TABLE_SPECIFICATION

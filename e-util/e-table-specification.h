@@ -82,15 +82,15 @@ struct _ETableSpecificationClass {
 
 GType		e_table_specification_get_type	(void) G_GNUC_CONST;
 ETableSpecification *
-		e_table_specification_new	(void);
+		e_table_specification_new	(const gchar *filename,
+						 GError **error);
+const gchar *	e_table_specification_get_filename
+						(ETableSpecification *specification);
 GPtrArray *	e_table_specification_ref_columns
 						(ETableSpecification *specification);
 gint		e_table_specification_get_column_index
 						(ETableSpecification *specification,
 						 ETableColumnSpecification *column_spec);
-gboolean	e_table_specification_load_from_file
-						(ETableSpecification *specification,
-						 const gchar *filename);
 
 G_END_DECLS
 

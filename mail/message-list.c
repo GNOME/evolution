@@ -3360,6 +3360,7 @@ message_list_construct (MessageList *message_list)
 	AtkObject *a11y;
 	gboolean constructed;
 	gchar *etspecfile;
+	GError *local_error = NULL;
 
 	/*
 	 * The etree
@@ -3368,12 +3369,19 @@ message_list_construct (MessageList *message_list)
 
 	etspecfile = g_build_filename (
 		EVOLUTION_ETSPECDIR, "message-list.etspec", NULL);
-	specification = e_table_specification_new ();
-	e_table_specification_load_from_file (specification, etspecfile);
+	specification = e_table_specification_new (etspecfile, &local_error);
+
+	/* Failure here is fatal. */
+	if (local_error != NULL) {
+		g_error ("%s: %s", etspecfile, local_error->message);
+		g_assert_not_reached ();
+	}
+
 	constructed = e_tree_construct (
 		E_TREE (message_list),
 		E_TREE_MODEL (message_list),
 		message_list->extras, specification);
+
 	g_object_unref (specification);
 	g_free (etspecfile);
 

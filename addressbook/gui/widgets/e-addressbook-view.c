@@ -292,6 +292,7 @@ addressbook_view_create_table_view (EAddressbookView *view,
 	ECell *cell;
 	GtkWidget *widget;
 	gchar *etspecfile;
+	GError *local_error = NULL;
 
 	adapter = e_addressbook_table_adapter_new (view->priv->model);
 
@@ -301,14 +302,19 @@ addressbook_view_create_table_view (EAddressbookView *view,
 	cell = e_table_extras_get_cell (extras, "date");
 	e_cell_date_set_format_component (E_CELL_DATE (cell), "addressbook");
 
+	etspecfile = g_build_filename (
+		EVOLUTION_ETSPECDIR, "e-addressbook-view.etspec", NULL);
+	specification = e_table_specification_new (etspecfile, &local_error);
+
+	/* Failure here is fatal. */
+	if (local_error != NULL) {
+		g_error ("%s: %s", etspecfile, local_error->message);
+		g_assert_not_reached ();
+	}
+
 	/* Here we create the table.  We give it the three pieces of
 	 * the table we've created, the header, the model, and the
 	 * initial layout.  It does the rest.  */
-	etspecfile = g_build_filename (
-		EVOLUTION_ETSPECDIR, "e-addressbook-view.etspec", NULL);
-	specification = e_table_specification_new ();
-	e_table_specification_load_from_file (specification, etspecfile);
-
 	widget = e_table_new (adapter, extras, specification);
 	gtk_container_add (GTK_CONTAINER (view), widget);
 

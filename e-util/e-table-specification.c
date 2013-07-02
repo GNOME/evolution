@@ -31,12 +31,25 @@
 
 struct _ETableSpecificationPrivate {
 	GPtrArray *columns;
+	gchar *filename;
 };
 
-G_DEFINE_TYPE (
+enum {
+	PROP_0,
+	PROP_FILENAME
+};
+
+/* Forward Declarations */
+static void	e_table_specification_initable_init
+						(GInitableIface *interface);
+
+G_DEFINE_TYPE_WITH_CODE (
 	ETableSpecification,
 	e_table_specification,
-	G_TYPE_OBJECT)
+	G_TYPE_OBJECT,
+	G_IMPLEMENT_INTERFACE (
+		G_TYPE_INITABLE,
+		e_table_specification_initable_init))
 
 static void
 table_specification_start_specification (GMarkupParseContext *context,
@@ -401,6 +414,51 @@ static const GMarkupParser table_specification_parser = {
 };
 
 static void
+table_specification_set_filename (ETableSpecification *specification,
+                                  const gchar *filename)
+{
+	g_return_if_fail (filename != NULL);
+	g_return_if_fail (specification->priv->filename == NULL);
+
+	specification->priv->filename = g_strdup (filename);
+}
+
+static void
+table_specification_set_property (GObject *object,
+                                  guint property_id,
+                                  const GValue *value,
+                                  GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_FILENAME:
+			table_specification_set_filename (
+				E_TABLE_SPECIFICATION (object),
+				g_value_get_string (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+table_specification_get_property (GObject *object,
+                                  guint property_id,
+                                  GValue *value,
+                                  GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_FILENAME:
+			g_value_set_string (
+				value,
+				e_table_specification_get_filename (
+				E_TABLE_SPECIFICATION (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
 table_specification_dispose (GObject *object)
 {
 	ETableSpecification *specification;
@@ -426,9 +484,53 @@ table_specification_finalize (GObject *object)
 	g_free (specification->domain);
 
 	g_ptr_array_unref (specification->priv->columns);
+	g_free (specification->priv->filename);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_table_specification_parent_class)->finalize (object);
+}
+
+static gboolean
+table_specification_initable_init (GInitable *initable,
+                                   GCancellable *cancellable,
+                                   GError **error)
+{
+	ETableSpecification *specification;
+	GMarkupParseContext *context;
+	const gchar *filename;
+	gchar *contents = NULL;
+	gboolean success = FALSE;
+
+	specification = E_TABLE_SPECIFICATION (initable);
+	filename = e_table_specification_get_filename (specification);
+	g_return_val_if_fail (filename != NULL, FALSE);
+
+	if (!g_file_get_contents (filename, &contents, NULL, error)) {
+		g_warn_if_fail (contents == NULL);
+		return FALSE;
+	}
+
+	context = g_markup_parse_context_new (
+		&table_specification_parser,
+		0,  /* no flags */
+		g_object_ref (specification),
+		(GDestroyNotify) g_object_unref);
+
+	if (g_markup_parse_context_parse (context, contents, -1, error))
+		success = g_markup_parse_context_end_parse (context, error);
+
+	g_markup_parse_context_free (context);
+
+	if (specification->state == NULL)
+		specification->state = e_table_state_vanilla (specification);
+
+	e_table_sort_info_set_can_group (
+		specification->state->sort_info,
+		specification->allow_grouping);
+
+	g_free (contents);
+
+	return success;
 }
 
 static void
@@ -439,8 +541,28 @@ e_table_specification_class_init (ETableSpecificationClass *class)
 	g_type_class_add_private (class, sizeof (ETableSpecificationPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = table_specification_set_property;
+	object_class->get_property = table_specification_get_property;
 	object_class->dispose = table_specification_dispose;
 	object_class->finalize = table_specification_finalize;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_FILENAME,
+		g_param_spec_string (
+			"filename",
+			"Filename",
+			"Name of the table specification file",
+			NULL,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
+}
+
+static void
+e_table_specification_initable_init (GInitableIface *interface)
+{
+	interface->init = table_specification_initable_init;
 }
 
 static void
@@ -469,16 +591,37 @@ e_table_specification_init (ETableSpecification *specification)
 
 /**
  * e_table_specification_new:
+ * @filename: a table specification file
+ * @error: return location for a #GError, or %NULL
  *
- * Creates a new #ETableSpecification.  This holds the rendering information
- * for an #ETable.
+ * Creates a new #ETableSpecification from @filename.  If a file or parse
+ * error occurs, the function sets @error and returns %NULL.
  *
- * Returns: an #ETableSpecification
+ * Returns: an #ETableSpecification, or %NULL
  */
 ETableSpecification *
-e_table_specification_new (void)
+e_table_specification_new (const gchar *filename,
+                           GError **error)
 {
-	return g_object_new (E_TYPE_TABLE_SPECIFICATION, NULL);
+	return g_initable_new (
+		E_TYPE_TABLE_SPECIFICATION, NULL, error,
+		"filename", filename, NULL);
+}
+
+/**
+ * e_table_specification_get_filename:
+ * @specification: an #ETableSpecification
+ *
+ * Returns the filename from which @specification was loaded.
+ *
+ * Returns: the table specification filename
+ **/
+const gchar *
+e_table_specification_get_filename (ETableSpecification *specification)
+{
+	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (specification), NULL);
+
+	return specification->priv->filename;
 }
 
 /**
@@ -539,55 +682,5 @@ e_table_specification_get_column_index (ETableSpecification *specification,
 	g_ptr_array_unref (columns);
 
 	return column_index;
-}
-
-/**
- * e_table_specification_load_from_file:
- * @specification: an #ETableSpecification
- * @filename: the name of a file containing an #ETable specification
- *
- * Parses the contents of @filename and configures @specification.
- *
- * Returns: TRUE on success, FALSE on failure.
- */
-gboolean
-e_table_specification_load_from_file (ETableSpecification *specification,
-                                      const gchar *filename)
-{
-	GMarkupParseContext *context;
-	gchar *contents = NULL;
-	gboolean success = FALSE;
-
-	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (specification), FALSE);
-	g_return_val_if_fail (filename != NULL, FALSE);
-
-	if (!g_file_get_contents (filename, &contents, NULL, NULL)) {
-		g_warn_if_fail (contents == NULL);
-		return FALSE;
-	}
-
-	g_ptr_array_set_size (specification->priv->columns, 0);
-	g_clear_object (&specification->state);
-
-	context = g_markup_parse_context_new (
-		&table_specification_parser, 0,
-		g_object_ref (specification),
-		(GDestroyNotify) g_object_unref);
-
-	if (g_markup_parse_context_parse (context, contents, -1, NULL))
-		success = g_markup_parse_context_end_parse (context, NULL);
-
-	g_markup_parse_context_free (context);
-
-	if (specification->state == NULL)
-		specification->state = e_table_state_vanilla (specification);
-
-	e_table_sort_info_set_can_group (
-		specification->state->sort_info,
-		specification->allow_grouping);
-
-	g_free (contents);
-
-	return success;
 }
 

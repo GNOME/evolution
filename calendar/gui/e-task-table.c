@@ -460,6 +460,7 @@ task_table_constructed (GObject *object)
 	AtkObject *a11y;
 	gchar *etspecfile;
 	gint percent;
+	GError *local_error = NULL;
 
 	task_table = E_TASK_TABLE (object);
 	model = e_task_table_get_model (task_table);
@@ -695,12 +696,19 @@ task_table_constructed (GObject *object)
 
 	etspecfile = g_build_filename (
 		EVOLUTION_ETSPECDIR, "e-calendar-table.etspec", NULL);
-	specification = e_table_specification_new ();
-	e_table_specification_load_from_file (specification, etspecfile);
+	specification = e_table_specification_new (etspecfile, &local_error);
+
+	/* Failure here is fatal. */
+	if (local_error != NULL) {
+		g_error ("%s: %s", etspecfile, local_error->message);
+		g_assert_not_reached ();
+	}
+
 	e_table_construct (
 		E_TABLE (task_table),
 		E_TABLE_MODEL (model),
 		extras, specification);
+
 	g_object_unref (specification);
 	g_free (etspecfile);
 

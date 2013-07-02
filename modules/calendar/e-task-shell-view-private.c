@@ -194,22 +194,26 @@ task_shell_view_load_view_collection (EShellViewClass *shell_view_class)
 	ETableSpecification *spec;
 	const gchar *base_dir;
 	gchar *filename;
+	GError *local_error = NULL;
 
 	collection = shell_view_class->view_collection;
 
 	base_dir = EVOLUTION_ETSPECDIR;
-	spec = e_table_specification_new ();
 	filename = g_build_filename (base_dir, ETSPEC_FILENAME, NULL);
-	if (!e_table_specification_load_from_file (spec, filename))
-		g_critical (
-			"Unable to load ETable specification file "
-			"for tasks");
-	g_free (filename);
+	spec = e_table_specification_new (filename, &local_error);
+
+	/* Failure here is fatal. */
+	if (local_error != NULL) {
+		g_error ("%s: %s", filename, local_error->message);
+		g_assert_not_reached ();
+	}
 
 	factory = gal_view_factory_etable_new (spec);
 	gal_view_collection_add_factory (collection, factory);
 	g_object_unref (factory);
+
 	g_object_unref (spec);
+	g_free (filename);
 
 	gal_view_collection_load (collection);
 }
