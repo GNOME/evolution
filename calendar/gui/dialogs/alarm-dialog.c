@@ -194,8 +194,10 @@ populate_relative_time_combobox_widget (GtkWidget *combobox,
 	gboolean alarm_after_start;
 	gint i;
 
-	alarm_after_start = !e_client_check_capability (
-			E_CLIENT (cal_client), CAL_STATIC_CAPABILITY_NO_ALARM_AFTER_START);
+	/*
+	 * This capability was added after the 3.8.0 release
+	 */
+	alarm_after_start = !e_client_check_capability (E_CLIENT (cal_client), "no-alarm-after-start");
 	model = gtk_combo_box_get_model (GTK_COMBO_BOX (combobox));
 	valid = gtk_tree_model_get_iter_first (model, &iter);
 
@@ -242,8 +244,9 @@ alarm_to_dialog (Dialog *dialog)
 
 	/*
 	 * If the client doesn't support set alarm description, disable the related widgets
+	 * This capability was added after the 3.8.0 release
 	 */
-	if (e_client_check_capability (E_CLIENT (dialog->cal_client), CAL_STATIC_CAPABILITY_NO_ALARM_DESCRIPTION)) {
+	if (e_client_check_capability (E_CLIENT (dialog->cal_client), "no-alarm-description")) {
 		gtk_widget_hide (dialog->dalarm_group);
 		gtk_widget_hide (dialog->dalarm_message);
 		gtk_widget_hide (dialog->dalarm_description);
