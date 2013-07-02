@@ -3022,6 +3022,7 @@ e_editor_selection_wrap_lines (EEditorSelection *selection,
 	WebKitDOMDOMSelection *window_selection;
 	WebKitDOMElement *active_paragraph;
 	gboolean adding = FALSE;
+	gboolean backspace_pressed = FALSE;
 	gboolean return_pressed = FALSE;
 	gboolean delete_pressed = FALSE;
 	gboolean jump_to_previous_line = FALSE;
@@ -3045,6 +3046,9 @@ e_editor_selection_wrap_lines (EEditorSelection *selection,
 
 		if (return_pressed || (event->keyval == GDK_KEY_space))
 			adding = TRUE;
+
+		if (event->keyval == GDK_KEY_BackSpace)
+			backspace_pressed = TRUE;
 	}
 
 	web_view = WEBKIT_WEB_VIEW (editor_widget);
@@ -3126,24 +3130,41 @@ e_editor_selection_wrap_lines (EEditorSelection *selection,
 			if (!adding && start_offset > selection->priv->word_wrap_length)
 				jump_to_previous_line = TRUE;
 		} else {
+			WebKitDOMElement *caret_position;
+			gboolean parent_is_body = FALSE;
+
+			caret_position = webkit_dom_document_get_element_by_id (document, "-x-evo-caret-position");
+
 			webkit_dom_dom_selection_select_all_children (
 				window_selection,
 				paragraph,
 				NULL);
 
+			if (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (caret_position))))
+				parent_is_body = TRUE;
+
+			if (backspace_pressed && parent_is_body) {
+				WebKitDOMElement *prev_sibling = webkit_dom_element_get_previous_element_sibling (caret_position);
+				move_caret_into_element (document, prev_sibling);
+				e_editor_selection_clear_caret_position_marker (selection);
+				webkit_dom_dom_selection_modify (window_selection, "move", "forward", "character");
+				webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (paragraph), "id");
+
+				return;
+			}
+
 			/* If there is less than word_wrap_length characters do nothing */
 			if (g_utf8_strlen (e_editor_selection_get_string (selection), -1) < selection->priv->word_wrap_length) {
 				if (return_pressed) {
-					active_paragraph = webkit_dom_document_get_element_by_id (document, "-x-evo-active-paragraph");
 					e_editor_selection_clear_caret_position_marker (selection);
-					move_caret_into_element (document, active_paragraph);
+					move_caret_into_element (document, WEBKIT_DOM_ELEMENT (paragraph));
 					webkit_dom_dom_selection_modify (window_selection, "move", "forward", "character");
-					webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (active_paragraph), "id");
 				} else {
-					active_paragraph = webkit_dom_document_get_element_by_id (document, "-x-evo-active-paragraph");
-					webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (active_paragraph), "id");
 					e_editor_selection_restore_caret_position (selection);
 				}
+
+				webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (paragraph), "id");
+
 				return;
 			}
 
