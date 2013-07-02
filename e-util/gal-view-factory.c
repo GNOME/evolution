@@ -50,13 +50,19 @@ const gchar *
 gal_view_factory_get_type_code (GalViewFactory *factory)
 {
 	GalViewFactoryClass *class;
+	GalViewClass *view_class;
 
 	g_return_val_if_fail (GAL_IS_VIEW_FACTORY (factory), NULL);
 
 	class = GAL_VIEW_FACTORY_GET_CLASS (factory);
-	g_return_val_if_fail (class->get_type_code != NULL, NULL);
 
-	return class->get_type_code (factory);
+	/* All GalView types are registered statically, so there's no
+	 * harm in dereferencing the class pointer after unreffing it. */
+	view_class = g_type_class_ref (class->gal_view_type);
+	g_return_val_if_fail (GAL_IS_VIEW_CLASS (view_class), NULL);
+	g_type_class_unref (view_class);
+
+	return view_class->type_code;
 }
 
 /**

@@ -64,7 +64,6 @@ struct _GalViewFactoryClass {
 	GType gal_view_type;
 
 	/* Methods */
-	const gchar *	(*get_type_code)	(GalViewFactory *factory);
 	GalView *	(*new_view)		(GalViewFactory *factory,
 						 const gchar *name);
 };

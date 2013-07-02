@@ -43,12 +43,6 @@ G_DEFINE_TYPE (
 	gal_view_factory_calendar_month,
 	GAL_TYPE_VIEW_FACTORY)
 
-static const gchar *
-gal_view_factory_calendar_day_get_type_code (GalViewFactory *factory)
-{
-	return "day_view";
-}
-
 static GalView *
 gal_view_factory_calendar_day_new_view (GalViewFactory *factory,
                                         const gchar *title)
@@ -62,19 +56,12 @@ static void
 gal_view_factory_calendar_day_class_init (GalViewFactoryClass *class)
 {
 	class->gal_view_type = GAL_TYPE_VIEW_CALENDAR_DAY;
-	class->get_type_code = gal_view_factory_calendar_day_get_type_code;
 	class->new_view = gal_view_factory_calendar_day_new_view;
 }
 
 static void
 gal_view_factory_calendar_day_init (GalViewFactory *factory)
 {
-}
-
-static const gchar *
-gal_view_factory_calendar_work_week_get_type_code (GalViewFactory *factory)
-{
-	return "work_week_view";
 }
 
 static GalView *
@@ -90,19 +77,12 @@ static void
 gal_view_factory_calendar_work_week_class_init (GalViewFactoryClass *class)
 {
 	class->gal_view_type = GAL_TYPE_VIEW_CALENDAR_WORK_WEEK;
-	class->get_type_code = gal_view_factory_calendar_work_week_get_type_code;
 	class->new_view = gal_view_factory_calendar_work_week_new_view;
 }
 
 static void
 gal_view_factory_calendar_work_week_init (GalViewFactory *factory)
 {
-}
-
-static const gchar *
-gal_view_factory_calendar_week_get_type_code (GalViewFactory *factory)
-{
-	return "week_view";
 }
 
 static GalView *
@@ -118,19 +98,12 @@ static void
 gal_view_factory_calendar_week_class_init (GalViewFactoryClass *class)
 {
 	class->gal_view_type = GAL_TYPE_VIEW_CALENDAR_WEEK;
-	class->get_type_code = gal_view_factory_calendar_week_get_type_code;
 	class->new_view = gal_view_factory_calendar_week_new_view;
 }
 
 static void
 gal_view_factory_calendar_week_init (GalViewFactory *factory)
 {
-}
-
-static const gchar *
-gal_view_factory_calendar_month_get_type_code (GalViewFactory *factory)
-{
-	return "month_view";
 }
 
 static GalView *
@@ -146,7 +119,6 @@ static void
 gal_view_factory_calendar_month_class_init (GalViewFactoryClass *class)
 {
 	class->gal_view_type = GAL_TYPE_VIEW_CALENDAR_MONTH;
-	class->get_type_code = gal_view_factory_calendar_month_get_type_code;
 	class->new_view = gal_view_factory_calendar_month_new_view;
 }
 
