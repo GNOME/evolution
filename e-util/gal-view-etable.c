@@ -23,8 +23,8 @@
 	((obj), GAL_TYPE_VIEW_ETABLE, GalViewEtablePrivate))
 
 struct _GalViewEtablePrivate {
-	ETableSpecification *spec;
 	ETableState *state;
+	gchar *state_filename;
 
 	ETable *table;
 	guint table_state_changed_id;
@@ -65,16 +65,27 @@ static void
 gal_view_etable_load (GalView *view,
                       const gchar *filename)
 {
-	e_table_state_load_from_file (
-		GAL_VIEW_ETABLE (view)->priv->state, filename);
+	GalViewEtable *view_etable;
+
+	view_etable = GAL_VIEW_ETABLE (view);
+
+	/* Just note the filename.  We'll do the actual load
+	 * when an ETable or ETree gets attached since we need
+	 * its ETableSpecification to create an ETableState. */
+	g_free (view_etable->priv->state_filename);
+	view_etable->priv->state_filename = g_strdup (filename);
 }
 
 static void
 gal_view_etable_save (GalView *view,
                       const gchar *filename)
 {
-	e_table_state_save_to_file (
-		GAL_VIEW_ETABLE (view)->priv->state, filename);
+	GalViewEtable *view_etable;
+
+	view_etable = GAL_VIEW_ETABLE (view);
+	g_return_if_fail (view_etable->priv->state != NULL);
+
+	e_table_state_save_to_file (view_etable->priv->state, filename);
 }
 
 static const gchar *
@@ -93,10 +104,13 @@ gal_view_etable_clone (GalView *view)
 	clone = GAL_VIEW_CLASS (gal_view_etable_parent_class)->clone (view);
 
 	gve = GAL_VIEW_ETABLE (view);
-	GAL_VIEW_ETABLE (clone)->priv->spec =
-		g_object_ref (gve->priv->spec);
-	GAL_VIEW_ETABLE (clone)->priv->state =
-		e_table_state_duplicate (gve->priv->state);
+
+	if (gve->priv->state != NULL)
+		GAL_VIEW_ETABLE (clone)->priv->state =
+			e_table_state_duplicate (gve->priv->state);
+
+	GAL_VIEW_ETABLE (clone)->priv->state_filename =
+		g_strdup (gve->priv->state_filename);
 
 	return clone;
 }
@@ -108,11 +122,21 @@ gal_view_etable_dispose (GObject *object)
 
 	gal_view_etable_detach (view);
 
-	g_clear_object (&view->priv->spec);
 	g_clear_object (&view->priv->state);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (gal_view_etable_parent_class)->dispose (object);
+}
+
+static void
+gal_view_etable_finalize (GObject *object)
+{
+	GalViewEtable *view = GAL_VIEW_ETABLE (object);
+
+	g_free (view->priv->state_filename);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (gal_view_etable_parent_class)->finalize (object);
 }
 
 static void
@@ -125,6 +149,7 @@ gal_view_etable_class_init (GalViewEtableClass *class)
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = gal_view_etable_dispose;
+	object_class->finalize = gal_view_etable_finalize;
 
 	gal_view_class = GAL_VIEW_CLASS (class);
 	gal_view_class->load = gal_view_etable_load;
@@ -141,7 +166,6 @@ gal_view_etable_init (GalViewEtable *view)
 
 /**
  * gal_view_etable_new
- * @spec: The ETableSpecification that this view will be based upon.
  * @title: The name of the new view.
  *
  * Returns a new GalViewEtable.  This is primarily for use by
@@ -150,41 +174,9 @@ gal_view_etable_init (GalViewEtable *view)
  * Returns: The new GalViewEtable.
  */
 GalView *
-gal_view_etable_new (ETableSpecification *spec,
-                     const gchar *title)
+gal_view_etable_new (const gchar *title)
 {
-	GalViewEtable *view;
-
-	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (spec), NULL);
-
-	view = g_object_new (GAL_TYPE_VIEW_ETABLE, "title", title, NULL);
-
-	return gal_view_etable_construct (view, spec);
-}
-
-/**
- * gal_view_etable_construct
- * @view: The view to construct.
- * @spec: The ETableSpecification that this view will be based upon.
- *
- * constructs the GalViewEtable.  To be used by subclasses and
- * language bindings.
- *
- * Returns: The GalViewEtable.
- */
-GalView *
-gal_view_etable_construct (GalViewEtable *view,
-                           ETableSpecification *spec)
-{
-	g_return_val_if_fail (GAL_IS_VIEW_ETABLE (view), NULL);
-	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (spec), NULL);
-
-	view->priv->spec = g_object_ref (spec);
-
-	g_clear_object (&view->priv->state);
-	view->priv->state = e_table_state_duplicate (spec->state);
-
-	return GAL_VIEW (view);
+	return g_object_new (GAL_TYPE_VIEW_ETABLE, "title", title, NULL);
 }
 
 void
@@ -229,8 +221,17 @@ gal_view_etable_attach_table (GalViewEtable *view,
 
 	gal_view_etable_detach (view);
 
-	view->priv->table = g_object_ref (table);
+	/* Load the state file now, if necessary. */
+	if (view->priv->state == NULL && view->priv->state_filename != NULL) {
+		ETableSpecification *specification;
+		const gchar *filename = view->priv->state_filename;
 
+		specification = table->spec;
+		view->priv->state = e_table_state_new (specification);
+		e_table_state_load_from_file (view->priv->state, filename);
+	}
+
+	view->priv->table = g_object_ref (table);
 	e_table_set_state_object (view->priv->table, view->priv->state);
 
 	view->priv->table_state_changed_id = g_signal_connect (
@@ -247,8 +248,17 @@ gal_view_etable_attach_tree (GalViewEtable *view,
 
 	gal_view_etable_detach (view);
 
-	view->priv->tree = g_object_ref (tree);
+	/* Load the state file now, if necessary. */
+	if (view->priv->state == NULL && view->priv->state_filename != NULL) {
+		ETableSpecification *specification;
+		const gchar *filename = view->priv->state_filename;
 
+		specification = e_tree_get_spec (tree);
+		view->priv->state = e_table_state_new (specification);
+		e_table_state_load_from_file (view->priv->state, filename);
+	}
+
+	view->priv->tree = g_object_ref (tree);
 	e_tree_set_state_object (view->priv->tree, view->priv->state);
 
 	view->priv->tree_state_changed_id = g_signal_connect (

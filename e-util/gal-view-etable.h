@@ -26,7 +26,6 @@
 #include <gtk/gtk.h>
 #include <e-util/gal-view.h>
 #include <e-util/e-table-state.h>
-#include <e-util/e-table-specification.h>
 #include <e-util/e-table.h>
 #include <e-util/e-tree.h>
 
@@ -65,10 +64,7 @@ struct _GalViewEtableClass {
 };
 
 GType		gal_view_etable_get_type	(void);
-GalView *	gal_view_etable_new		(ETableSpecification *spec,
-						 const gchar *title);
-GalView *	gal_view_etable_construct	(GalViewEtable *view,
-						 ETableSpecification *spec);
+GalView *	gal_view_etable_new		(const gchar *title);
 void		gal_view_etable_set_state	(GalViewEtable *view,
 						 ETableState *state);
 void		gal_view_etable_attach_table	(GalViewEtable *view,

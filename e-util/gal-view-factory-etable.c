@@ -116,11 +116,7 @@ static GalView *
 view_factory_etable_new_view (GalViewFactory *factory,
                               const gchar *name)
 {
-	GalViewFactoryEtablePrivate *priv;
-
-	priv = GAL_VIEW_FACTORY_ETABLE_GET_PRIVATE (factory);
-
-	return gal_view_etable_new (priv->specification, name);
+	return gal_view_etable_new (name);
 }
 
 static void

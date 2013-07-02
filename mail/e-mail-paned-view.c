@@ -925,42 +925,19 @@ mail_paned_view_update_view_instance (EMailView *view)
 			folder, "et-header-");
 
 		if (g_file_test (state_filename, G_FILE_TEST_IS_REGULAR)) {
-			ETableSpecification *spec;
-			ETableState *state;
 			GalView *view;
-			gchar *spec_filename;
-			GError *local_error = NULL;
 
-			spec_filename = g_build_filename (
-				EVOLUTION_ETSPECDIR,
-				"message-list.etspec",
-				NULL);
-			spec = e_table_specification_new (
-				spec_filename, &local_error);
+			view = gal_view_etable_new ("");
 
-			/* Failure here is fatal. */
-			if (local_error != NULL) {
-				g_error (
-					"%s: %s", spec_filename,
-					local_error->message);
-				g_assert_not_reached ();
-			}
+			/* XXX This only stashes the filename in the view.
+			 *     The state file is not actually loaded until
+			 *     the MessageList is attached to the view. */
+			gal_view_load (view, state_filename);
 
-			state = e_table_state_new (spec);
-			view = gal_view_etable_new (spec, "");
-
-			e_table_state_load_from_file (
-				state, state_filename);
-			gal_view_etable_set_state (
-				GAL_VIEW_ETABLE (view), state);
 			gal_view_instance_set_custom_view (
 				view_instance, view);
 
-			g_object_unref (state);
 			g_object_unref (view);
-			g_object_unref (spec);
-
-			g_free (spec_filename);
 		}
 
 		g_free (state_filename);

@@ -4627,7 +4627,6 @@ gal_view_collection_get_type
 <TITLE>GalViewEtable</TITLE>
 GalViewEtable
 gal_view_etable_new
-gal_view_etable_construct
 gal_view_etable_set_state
 gal_view_etable_attach_table
 gal_view_etable_attach_tree
