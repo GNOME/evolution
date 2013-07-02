@@ -18,6 +18,14 @@
 
 #include "gal-view.h"
 
+#define GAL_VIEW_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), GAL_TYPE_VIEW, GalViewPrivate))
+
+struct _GalViewPrivate {
+	gint placeholder;
+};
+
 enum {
 	PROP_0,
 	PROP_TITLE,
@@ -96,6 +104,8 @@ gal_view_class_init (GalViewClass *class)
 {
 	GObjectClass *object_class;
 
+	g_type_class_add_private (class, sizeof (GalViewPrivate));
+
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = view_set_property;
 	object_class->get_property = view_get_property;
@@ -139,6 +149,7 @@ gal_view_class_init (GalViewClass *class)
 static void
 gal_view_init (GalView *view)
 {
+	view->priv = GAL_VIEW_GET_PRIVATE (view);
 }
 
 /**

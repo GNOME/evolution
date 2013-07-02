@@ -48,9 +48,11 @@ G_BEGIN_DECLS
 
 typedef struct _GalView GalView;
 typedef struct _GalViewClass GalViewClass;
+typedef struct _GalViewPrivate GalViewPrivate;
 
 struct _GalView {
 	GObject parent;
+	GalViewPrivate *priv;
 };
 
 struct _GalViewClass {

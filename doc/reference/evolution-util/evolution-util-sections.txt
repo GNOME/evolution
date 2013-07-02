@@ -4581,6 +4581,8 @@ GAL_IS_VIEW_CLASS
 GAL_VIEW_GET_CLASS
 GalViewClass
 gal_view_get_type
+<SUBSECTION Private>
+GalViewPrivate
 </SECTION>
 
 <SECTION>
