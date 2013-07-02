@@ -58,12 +58,13 @@ struct _GalView {
 struct _GalViewClass {
 	GObjectClass parent_class;
 
+	const gchar *type_code;
+
 	/* Methods */
 	void		(*load)			(GalView *view,
 						 const gchar *filename);
 	void		(*save)			(GalView *view,
 						 const gchar *filename);
-	const gchar *	(*get_type_code)	(GalView *view);
 	GalView *	(*clone)		(GalView *view);
 
 	/* Signals */
@@ -78,7 +79,6 @@ void		gal_view_save			(GalView *view,
 const gchar *	gal_view_get_title		(GalView *view);
 void		gal_view_set_title		(GalView *view,
 						 const gchar *title);
-const gchar *	gal_view_get_type_code		(GalView *view);
 GalView *	gal_view_clone			(GalView *view);
 void		gal_view_changed		(GalView *view);
 

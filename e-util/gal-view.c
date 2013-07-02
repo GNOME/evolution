@@ -28,8 +28,7 @@ struct _GalViewPrivate {
 
 enum {
 	PROP_0,
-	PROP_TITLE,
-	PROP_TYPE_CODE
+	PROP_TITLE
 };
 
 enum {
@@ -68,12 +67,6 @@ view_get_property (GObject *object,
 		case PROP_TITLE:
 			g_value_set_string (
 				value, gal_view_get_title (
-				GAL_VIEW (object)));
-			return;
-
-		case PROP_TYPE_CODE:
-			g_value_set_string (
-				value, gal_view_get_type_code (
 				GAL_VIEW (object)));
 			return;
 	}
@@ -143,17 +136,6 @@ gal_view_class_init (GalViewClass *class)
 			"View Title",
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_TYPE_CODE,
-		g_param_spec_string (
-			"type-code",
-			NULL,
-			NULL,
-			NULL,
-			G_PARAM_READABLE |
 			G_PARAM_STATIC_STRINGS));
 
 	signals[CHANGED] = g_signal_new (
@@ -244,25 +226,6 @@ gal_view_set_title (GalView *view,
 	view->priv->title = g_strdup (title);
 
 	g_object_notify (G_OBJECT (view), "title");
-}
-
-/**
- * gal_view_get_type_code
- * @view: The view to get.
- *
- * Returns: The type of the view.
- */
-const gchar *
-gal_view_get_type_code (GalView *view)
-{
-	GalViewClass *class;
-
-	g_return_val_if_fail (GAL_IS_VIEW (view), NULL);
-
-	class = GAL_VIEW_GET_CLASS (view);
-	g_return_val_if_fail (class->get_type_code != NULL, NULL);
-
-	return class->get_type_code (view);
 }
 
 /**

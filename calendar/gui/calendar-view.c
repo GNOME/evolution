@@ -38,16 +38,10 @@ G_DEFINE_TYPE (
 	gal_view_calendar_month,
 	GAL_TYPE_VIEW)
 
-static const gchar *
-gal_view_calendar_day_get_type_code (GalView *view)
-{
-	return "day_view";
-}
-
 static void
 gal_view_calendar_day_class_init (GalViewClass *class)
 {
-	class->get_type_code = gal_view_calendar_day_get_type_code;
+	class->type_code = "day_view";
 }
 
 static void
@@ -55,16 +49,10 @@ gal_view_calendar_day_init (GalView *view)
 {
 }
 
-static const gchar *
-gal_view_calendar_work_week_get_type_code (GalView *view)
-{
-	return "work_week_view";
-}
-
 static void
 gal_view_calendar_work_week_class_init (GalViewClass *class)
 {
-	class->get_type_code = gal_view_calendar_work_week_get_type_code;
+	class->type_code = "work_week_view";
 }
 
 static void
@@ -72,16 +60,10 @@ gal_view_calendar_work_week_init (GalView *view)
 {
 }
 
-static const gchar *
-gal_view_calendar_week_get_type_code (GalView *view)
-{
-	return "week_view";
-}
-
 static void
 gal_view_calendar_week_class_init (GalViewClass *class)
 {
-	class->get_type_code = gal_view_calendar_week_get_type_code;
+	class->type_code = "week_view";
 }
 
 static void
@@ -89,16 +71,10 @@ gal_view_calendar_week_init (GalView *view)
 {
 }
 
-static const gchar *
-gal_view_calendar_month_get_type_code (GalView *view)
-{
-	return "month_view";
-}
-
 static void
 gal_view_calendar_month_class_init (GalViewClass *class)
 {
-	class->get_type_code = gal_view_calendar_month_get_type_code;
+	class->type_code = "month_view";
 }
 
 static void

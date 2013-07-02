@@ -4569,7 +4569,6 @@ gal_view_load
 gal_view_save
 gal_view_get_title
 gal_view_set_title
-gal_view_get_type_code
 gal_view_clone
 gal_view_changed
 <SUBSECTION Standard>

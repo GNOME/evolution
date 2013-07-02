@@ -100,12 +100,6 @@ gal_view_etable_save (GalView *view,
 	}
 }
 
-static const gchar *
-gal_view_etable_get_type_code (GalView *view)
-{
-	return "etable";
-}
-
 static GalView *
 gal_view_etable_clone (GalView *view)
 {
@@ -158,9 +152,9 @@ gal_view_etable_class_init (GalViewEtableClass *class)
 	object_class->finalize = gal_view_etable_finalize;
 
 	gal_view_class = GAL_VIEW_CLASS (class);
+	gal_view_class->type_code = "etable";
 	gal_view_class->load = gal_view_etable_load;
 	gal_view_class->save = gal_view_etable_save;
-	gal_view_class->get_type_code = gal_view_etable_get_type_code;
 	gal_view_class->clone = gal_view_etable_clone;
 }
 

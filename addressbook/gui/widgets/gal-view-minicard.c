@@ -105,12 +105,6 @@ view_minicard_save (GalView *view,
 	xmlFreeDoc (doc);
 }
 
-static const gchar *
-view_minicard_get_type_code (GalView *view)
-{
-	return "minicard";
-}
-
 static GalView *
 view_minicard_clone (GalView *view)
 {
@@ -136,9 +130,9 @@ gal_view_minicard_class_init (GalViewMinicardClass *class)
 	object_class->finalize = view_minicard_finalize;
 
 	gal_view_class = GAL_VIEW_CLASS (class);
+	gal_view_class->type_code = "minicard";
 	gal_view_class->load = view_minicard_load;
 	gal_view_class->save = view_minicard_save;
-	gal_view_class->get_type_code = view_minicard_get_type_code;
 	gal_view_class->clone = view_minicard_clone;
 
 }
