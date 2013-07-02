@@ -21,10 +21,7 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
-
 #include <glib/gi18n.h>
 
 #include "gal-view-etable.h"
@@ -45,7 +42,8 @@ enum {
 
 G_DEFINE_TYPE (
 	GalViewFactoryEtable,
-	gal_view_factory_etable, GAL_TYPE_VIEW_FACTORY)
+	gal_view_factory_etable,
+	GAL_TYPE_VIEW_FACTORY)
 
 static void
 view_factory_etable_set_specification (GalViewFactoryEtable *factory,

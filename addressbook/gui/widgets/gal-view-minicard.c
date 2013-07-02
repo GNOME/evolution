@@ -141,15 +141,16 @@ static GalView *
 view_minicard_clone (GalView *view)
 {
 	GalViewMinicard *view_minicard;
-	GalViewMinicard *clone;
+	GalView *clone;
+
+	/* Chain up to parent's clone() method. */
+	clone = GAL_VIEW_CLASS (gal_view_minicard_parent_class)->clone (view);
 
 	view_minicard = GAL_VIEW_MINICARD (view);
+	GAL_VIEW_MINICARD (clone)->column_width = view_minicard->column_width;
+	GAL_VIEW_MINICARD (clone)->title = g_strdup (view_minicard->title);
 
-	clone = g_object_new (GAL_TYPE_VIEW_MINICARD, NULL);
-	clone->column_width = view_minicard->column_width;
-	clone->title = g_strdup (view_minicard->title);
-
-	return GAL_VIEW (clone);
+	return clone;
 }
 
 static void
@@ -159,7 +160,7 @@ gal_view_minicard_class_init (GalViewMinicardClass *class)
 	GalViewClass *gal_view_class;
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->dispose = view_minicard_finalize;
+	object_class->finalize = view_minicard_finalize;
 
 	gal_view_class = GAL_VIEW_CLASS (class);
 	gal_view_class->load = view_minicard_load;

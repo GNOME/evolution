@@ -66,7 +66,8 @@ struct _GalViewFactoryEtableClass {
 	GalViewFactoryClass parent_class;
 };
 
-GType		gal_view_factory_etable_get_type (void);
+GType		gal_view_factory_etable_get_type
+						(void) G_GNUC_CONST;
 GalViewFactory *gal_view_factory_etable_new	(ETableSpecification *specification);
 ETableSpecification *
 		gal_view_factory_etable_get_specification

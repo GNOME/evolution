@@ -1,4 +1,6 @@
 /*
+ * gal-view-etable.c
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -12,17 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
- *
- * Authors:
- *		Chris Lahey <clahey@ximian.com>
- *
- * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
- *
  */
-
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
 
 #include "gal-view-etable.h"
 
@@ -31,31 +23,27 @@ G_DEFINE_TYPE (GalViewEtable, gal_view_etable, GAL_TYPE_VIEW)
 static void
 detach_table (GalViewEtable *view)
 {
-	if (view->table == NULL)
-		return;
-	if (view->table_state_changed_id) {
+	if (view->table_state_changed_id > 0) {
 		g_signal_handler_disconnect (
 			view->table,
 			view->table_state_changed_id);
 		view->table_state_changed_id = 0;
 	}
-	g_object_unref (view->table);
-	view->table = NULL;
+
+	g_clear_object (&view->table);
 }
 
 static void
 detach_tree (GalViewEtable *view)
 {
-	if (view->tree == NULL)
-		return;
-	if (view->tree_state_changed_id) {
+	if (view->tree_state_changed_id > 0) {
 		g_signal_handler_disconnect (
 			view->tree,
 			view->tree_state_changed_id);
 		view->tree_state_changed_id = 0;
 	}
-	g_object_unref (view->tree);
-	view->tree = NULL;
+
+	g_clear_object (&view->tree);
 }
 
 static void
@@ -95,16 +83,18 @@ gal_view_etable_get_type_code (GalView *view)
 static GalView *
 gal_view_etable_clone (GalView *view)
 {
-	GalViewEtable *gve, *new;
+	GalViewEtable *gve;
+	GalView *clone;
+
+	/* Chain up to parent's clone() method. */
+	clone = GAL_VIEW_CLASS (gal_view_etable_parent_class)->clone (view);
 
 	gve = GAL_VIEW_ETABLE (view);
+	GAL_VIEW_ETABLE (clone)->spec = g_object_ref (gve->spec);
+	GAL_VIEW_ETABLE (clone)->state = e_table_state_duplicate (gve->state);
+	GAL_VIEW_ETABLE (clone)->title = g_strdup (gve->title);
 
-	new = g_object_new (GAL_TYPE_VIEW_ETABLE, NULL);
-	new->spec = g_object_ref (gve->spec);
-	new->title = g_strdup (gve->title);
-	new->state = e_table_state_duplicate (gve->state);
-
-	return GAL_VIEW (new);
+	return clone;
 }
 
 static void
@@ -117,13 +107,8 @@ gal_view_etable_dispose (GObject *object)
 	g_free (view->title);
 	view->title = NULL;
 
-	if (view->spec)
-		g_object_unref (view->spec);
-	view->spec = NULL;
-
-	if (view->state)
-		g_object_unref (view->state);
-	view->state = NULL;
+	g_clear_object (&view->spec);
+	g_clear_object (&view->state);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (gal_view_etable_parent_class)->dispose (object);
@@ -132,17 +117,19 @@ gal_view_etable_dispose (GObject *object)
 static void
 gal_view_etable_class_init (GalViewEtableClass *class)
 {
-	GalViewClass *gal_view_class  = GAL_VIEW_CLASS (class);
-	GObjectClass *object_class = G_OBJECT_CLASS (class);
+	GObjectClass *object_class;
+	GalViewClass *gal_view_class;
 
-	gal_view_class->load          = gal_view_etable_load;
-	gal_view_class->save          = gal_view_etable_save;
-	gal_view_class->get_title     = gal_view_etable_get_title;
-	gal_view_class->set_title     = gal_view_etable_set_title;
+	object_class = G_OBJECT_CLASS (class);
+	object_class->dispose = gal_view_etable_dispose;
+
+	gal_view_class = GAL_VIEW_CLASS (class);
+	gal_view_class->load = gal_view_etable_load;
+	gal_view_class->save = gal_view_etable_save;
+	gal_view_class->get_title = gal_view_etable_get_title;
+	gal_view_class->set_title = gal_view_etable_set_title;
 	gal_view_class->get_type_code = gal_view_etable_get_type_code;
-	gal_view_class->clone         = gal_view_etable_clone;
-
-	object_class->dispose         = gal_view_etable_dispose;
+	gal_view_class->clone = gal_view_etable_clone;
 }
 
 static void
@@ -193,10 +180,8 @@ gal_view_etable_construct (GalViewEtable *view,
 	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (spec), NULL);
 
 	view->spec = g_object_ref (spec);
-	view->state = e_table_state_new (spec);
 
-	if (view->state)
-		g_object_unref (view->state);
+	g_clear_object (&view->state);
 	view->state = e_table_state_duplicate (spec->state);
 
 	view->title = g_strdup (title);
@@ -211,8 +196,7 @@ gal_view_etable_set_state (GalViewEtable *view,
 	g_return_if_fail (GAL_IS_VIEW_ETABLE (view));
 	g_return_if_fail (E_IS_TABLE_STATE (state));
 
-	if (view->state)
-		g_object_unref (view->state);
+	g_clear_object (&view->state);
 	view->state = e_table_state_duplicate (state);
 
 	gal_view_changed (GAL_VIEW (view));
@@ -222,11 +206,8 @@ static void
 table_state_changed (ETable *table,
                      GalViewEtable *view)
 {
-	ETableState *state;
-
-	state = e_table_get_state_object (table);
-	g_object_unref (view->state);
-	view->state = state;
+	g_clear_object (&view->state);
+	view->state = e_table_get_state_object (table);
 
 	gal_view_changed (GAL_VIEW (view));
 }
@@ -235,11 +216,8 @@ static void
 tree_state_changed (ETree *tree,
                     GalViewEtable *view)
 {
-	ETableState *state;
-
-	state = e_tree_get_state_object (tree);
-	g_object_unref (view->state);
-	view->state = state;
+	g_clear_object (&view->state);
+	view->state = e_tree_get_state_object (tree);
 
 	gal_view_changed (GAL_VIEW (view));
 }
@@ -253,10 +231,10 @@ gal_view_etable_attach_table (GalViewEtable *view,
 
 	gal_view_etable_detach (view);
 
-	view->table = table;
+	view->table = g_object_ref (table);
 
 	e_table_set_state_object (view->table, view->state);
-	g_object_ref (view->table);
+
 	view->table_state_changed_id = g_signal_connect (
 		view->table, "state_change",
 		G_CALLBACK (table_state_changed), view);
@@ -271,10 +249,10 @@ gal_view_etable_attach_tree (GalViewEtable *view,
 
 	gal_view_etable_detach (view);
 
-	view->tree = tree;
+	view->tree = g_object_ref (tree);
 
 	e_tree_set_state_object (view->tree, view->state);
-	g_object_ref (view->tree);
+
 	view->tree_state_changed_id = g_signal_connect (
 		view->tree, "state_change",
 		G_CALLBACK (tree_state_changed), view);

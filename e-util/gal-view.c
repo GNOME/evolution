@@ -1,4 +1,5 @@
 /*
+ * gal-view.c
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -13,21 +14,9 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
- *
- * Authors:
- *		Chris Lahey <clahey@ximian.com>
- *
- * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
- *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include "gal-view.h"
-
-#define d(x)
 
 enum {
 	PROP_0,
@@ -85,23 +74,46 @@ view_get_property (GObject *object,
 }
 
 static void
+view_load (GalView *view,
+           const gchar *filename)
+{
+}
+
+static void
+view_save (GalView *view,
+           const gchar *filename)
+{
+}
+
+static GalView *
+view_clone (GalView *view)
+{
+	return g_object_new (G_OBJECT_TYPE (view), NULL);
+}
+
+static void
 gal_view_class_init (GalViewClass *class)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (class);
+	GObjectClass *object_class;
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = view_set_property;
 	object_class->get_property = view_get_property;
+
+	class->load = view_load;
+	class->save = view_save;
+	class->clone = view_clone;
 
 	g_object_class_install_property (
 		object_class,
 		PROP_TITLE,
 		g_param_spec_string (
 			"title",
+			"Title",
+			"View Title",
 			NULL,
-			NULL,
-			NULL,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_install_property (
 		object_class,
@@ -111,7 +123,8 @@ gal_view_class_init (GalViewClass *class)
 			NULL,
 			NULL,
 			NULL,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS));
 
 	signals[CHANGED] = g_signal_new (
 		"changed",

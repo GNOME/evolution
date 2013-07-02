@@ -42,8 +42,6 @@ struct _CalendarViewPrivate {
 
 static void calendar_view_finalize (GObject *object);
 
-static void calendar_view_load (GalView *view, const gchar *filename);
-static void calendar_view_save (GalView *view, const gchar *filename);
 static const gchar *calendar_view_get_title (GalView *view);
 static void calendar_view_set_title (GalView *view, const gchar *title);
 static const gchar *calendar_view_get_type_code (GalView *view);
@@ -63,8 +61,6 @@ calendar_view_class_init (CalendarViewClass *class)
 	gal_view_class = (GalViewClass *) class;
 	object_class = (GObjectClass *) class;
 
-	gal_view_class->load = calendar_view_load;
-	gal_view_class->save = calendar_view_save;
 	gal_view_class->get_title = calendar_view_get_title;
 	gal_view_class->set_title = calendar_view_set_title;
 	gal_view_class->get_type_code = calendar_view_get_type_code;
@@ -92,22 +88,6 @@ calendar_view_finalize (GObject *object)
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (calendar_view_parent_class)->finalize (object);
-}
-
-/* load method of the calendar view */
-static void
-calendar_view_load (GalView *view,
-                    const gchar *filename)
-{
-	/* nothing */
-}
-
-/* save method of the calendar view */
-static void
-calendar_view_save (GalView *view,
-                    const gchar *filename)
-{
-	/* nothing */
 }
 
 /* get_title method of the calendar view */
@@ -173,20 +153,16 @@ static GalView *
 calendar_view_clone (GalView *view)
 {
 	CalendarView *cal_view;
-	CalendarViewPrivate *priv;
-	CalendarView *new_view;
-	CalendarViewPrivate *new_priv;
+	GalView *clone;
+
+	/* Chain up to parent's clone() method. */
+	clone = GAL_VIEW_CLASS (calendar_view_parent_class)->clone (view);
 
 	cal_view = CALENDAR_VIEW (view);
-	priv = cal_view->priv;
+	CALENDAR_VIEW (clone)->priv->view_type = cal_view->priv->view_type;
+	CALENDAR_VIEW (clone)->priv->title = g_strdup (cal_view->priv->title);
 
-	new_view = g_object_new (TYPE_CALENDAR_VIEW, NULL);
-	new_priv = new_view->priv;
-
-	new_priv->view_type = priv->view_type;
-	new_priv->title = g_strdup (priv->title);
-
-	return GAL_VIEW (new_view);
+	return clone;
 }
 
 /**
