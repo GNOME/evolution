@@ -419,19 +419,19 @@ cal_shell_view_load_view_collection (EShellViewClass *shell_view_class)
 
 	collection = shell_view_class->view_collection;
 
-	factory = calendar_view_factory_new (GNOME_CAL_DAY_VIEW);
+	factory = g_object_new (GAL_TYPE_VIEW_FACTORY_CALENDAR_DAY, NULL);
 	gal_view_collection_add_factory (collection, factory);
 	g_object_unref (factory);
 
-	factory = calendar_view_factory_new (GNOME_CAL_WORK_WEEK_VIEW);
+	factory = g_object_new (GAL_TYPE_VIEW_FACTORY_CALENDAR_WORK_WEEK, NULL);
 	gal_view_collection_add_factory (collection, factory);
 	g_object_unref (factory);
 
-	factory = calendar_view_factory_new (GNOME_CAL_WEEK_VIEW);
+	factory = g_object_new (GAL_TYPE_VIEW_FACTORY_CALENDAR_WEEK, NULL);
 	gal_view_collection_add_factory (collection, factory);
 	g_object_unref (factory);
 
-	factory = calendar_view_factory_new (GNOME_CAL_MONTH_VIEW);
+	factory = g_object_new (GAL_TYPE_VIEW_FACTORY_CALENDAR_MONTH, NULL);
 	gal_view_collection_add_factory (collection, factory);
 	g_object_unref (factory);
 
