@@ -59,7 +59,6 @@ struct _GalViewEtable {
 
 	ETableSpecification *spec;
 	ETableState *state;
-	gchar *title;
 
 	ETable *table;
 	guint table_state_changed_id;
@@ -76,8 +75,7 @@ GType		gal_view_etable_get_type	(void);
 GalView *	gal_view_etable_new		(ETableSpecification *spec,
 						 const gchar *title);
 GalView *	gal_view_etable_construct	(GalViewEtable *view,
-						 ETableSpecification *spec,
-						 const gchar *title);
+						 ETableSpecification *spec);
 void		gal_view_etable_set_state	(GalViewEtable *view,
 						 ETableState *state);
 void		gal_view_etable_attach_table	(GalViewEtable *view,

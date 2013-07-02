@@ -141,7 +141,7 @@ connect_view (GalViewInstance *instance,
 {
 	if (instance->current_view)
 		disconnect_view (instance);
-	instance->current_view = view;
+	instance->current_view = g_object_ref (view);
 
 	instance->current_title = g_strdup (gal_view_get_title (view));
 	instance->current_type = g_strdup (gal_view_get_type_code (view));

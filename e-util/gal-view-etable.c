@@ -61,20 +61,6 @@ gal_view_etable_save (GalView *view,
 }
 
 static const gchar *
-gal_view_etable_get_title (GalView *view)
-{
-	return GAL_VIEW_ETABLE (view)->title;
-}
-
-static void
-gal_view_etable_set_title (GalView *view,
-                           const gchar *title)
-{
-	g_free (GAL_VIEW_ETABLE (view)->title);
-	GAL_VIEW_ETABLE (view)->title = g_strdup (title);
-}
-
-static const gchar *
 gal_view_etable_get_type_code (GalView *view)
 {
 	return "etable";
@@ -92,7 +78,6 @@ gal_view_etable_clone (GalView *view)
 	gve = GAL_VIEW_ETABLE (view);
 	GAL_VIEW_ETABLE (clone)->spec = g_object_ref (gve->spec);
 	GAL_VIEW_ETABLE (clone)->state = e_table_state_duplicate (gve->state);
-	GAL_VIEW_ETABLE (clone)->title = g_strdup (gve->title);
 
 	return clone;
 }
@@ -103,9 +88,6 @@ gal_view_etable_dispose (GObject *object)
 	GalViewEtable *view = GAL_VIEW_ETABLE (object);
 
 	gal_view_etable_detach (view);
-
-	g_free (view->title);
-	view->title = NULL;
 
 	g_clear_object (&view->spec);
 	g_clear_object (&view->state);
@@ -126,8 +108,6 @@ gal_view_etable_class_init (GalViewEtableClass *class)
 	gal_view_class = GAL_VIEW_CLASS (class);
 	gal_view_class->load = gal_view_etable_load;
 	gal_view_class->save = gal_view_etable_save;
-	gal_view_class->get_title = gal_view_etable_get_title;
-	gal_view_class->set_title = gal_view_etable_set_title;
 	gal_view_class->get_type_code = gal_view_etable_get_type_code;
 	gal_view_class->clone = gal_view_etable_clone;
 }
@@ -155,16 +135,15 @@ gal_view_etable_new (ETableSpecification *spec,
 
 	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (spec), NULL);
 
-	view = g_object_new (GAL_TYPE_VIEW_ETABLE, NULL);
+	view = g_object_new (GAL_TYPE_VIEW_ETABLE, "title", title, NULL);
 
-	return gal_view_etable_construct (view, spec, title);
+	return gal_view_etable_construct (view, spec);
 }
 
 /**
  * gal_view_etable_construct
  * @view: The view to construct.
  * @spec: The ETableSpecification that this view will be based upon.
- * @title: The name of the new view.
  *
  * constructs the GalViewEtable.  To be used by subclasses and
  * language bindings.
@@ -173,8 +152,7 @@ gal_view_etable_new (ETableSpecification *spec,
  */
 GalView *
 gal_view_etable_construct (GalViewEtable *view,
-                           ETableSpecification *spec,
-                           const gchar *title)
+                           ETableSpecification *spec)
 {
 	g_return_val_if_fail (GAL_IS_VIEW_ETABLE (view), NULL);
 	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (spec), NULL);
@@ -183,8 +161,6 @@ gal_view_etable_construct (GalViewEtable *view,
 
 	g_clear_object (&view->state);
 	view->state = e_table_state_duplicate (spec->state);
-
-	view->title = g_strdup (title);
 
 	return GAL_VIEW (view);
 }

@@ -23,7 +23,7 @@
 	((obj), GAL_TYPE_VIEW, GalViewPrivate))
 
 struct _GalViewPrivate {
-	gint placeholder;
+	gchar *title;
 };
 
 enum {
@@ -82,6 +82,19 @@ view_get_property (GObject *object,
 }
 
 static void
+view_finalize (GObject *object)
+{
+	GalViewPrivate *priv;
+
+	priv = GAL_VIEW_GET_PRIVATE (object);
+
+	g_free (priv->title);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (gal_view_parent_class)->finalize (object);
+}
+
+static void
 view_load (GalView *view,
            const gchar *filename)
 {
@@ -96,7 +109,13 @@ view_save (GalView *view,
 static GalView *
 view_clone (GalView *view)
 {
-	return g_object_new (G_OBJECT_TYPE (view), NULL);
+	const gchar *title;
+
+	title = gal_view_get_title (view);
+
+	return g_object_new (
+		G_OBJECT_TYPE (view),
+		"title", title, NULL);
 }
 
 static void
@@ -109,6 +128,7 @@ gal_view_class_init (GalViewClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = view_set_property;
 	object_class->get_property = view_get_property;
+	object_class->finalize = view_finalize;
 
 	class->load = view_load;
 	class->save = view_save;
@@ -201,14 +221,9 @@ gal_view_save (GalView *view,
 const gchar *
 gal_view_get_title (GalView *view)
 {
-	GalViewClass *class;
-
 	g_return_val_if_fail (GAL_IS_VIEW (view), NULL);
 
-	class = GAL_VIEW_GET_CLASS (view);
-	g_return_val_if_fail (class->get_title != NULL, NULL);
-
-	return class->get_title (view);
+	return view->priv->title;
 }
 
 /**
@@ -220,14 +235,13 @@ void
 gal_view_set_title (GalView *view,
                     const gchar *title)
 {
-	GalViewClass *class;
-
 	g_return_if_fail (GAL_IS_VIEW (view));
 
-	class = GAL_VIEW_GET_CLASS (view);
-	g_return_if_fail (class->set_title != NULL);
+	if (g_strcmp0 (title, view->priv->title) == 0)
+		return;
 
-	class->set_title (view, title);
+	g_free (view->priv->title);
+	view->priv->title = g_strdup (title);
 
 	g_object_notify (G_OBJECT (view), "title");
 }

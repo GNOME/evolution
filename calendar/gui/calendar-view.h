@@ -52,10 +52,6 @@ typedef struct {
 
 GType calendar_view_get_type (void);
 
-CalendarView *calendar_view_construct (CalendarView *cal_view,
-				       GnomeCalendarViewType view_type,
-				       const gchar *title);
-
 CalendarView *calendar_view_new (GnomeCalendarViewType view_type,
 				 const gchar *title);
 

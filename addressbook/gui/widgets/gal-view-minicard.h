@@ -56,7 +56,6 @@ typedef struct _GalViewMinicardClass GalViewMinicardClass;
 struct _GalViewMinicard {
 	GalView              parent;
 
-	gchar                *title;
 	gdouble               column_width;
 
 	EMinicardViewWidget *emvw;
@@ -69,8 +68,6 @@ struct _GalViewMinicardClass {
 
 GType		gal_view_minicard_get_type	(void);
 GalView *	gal_view_minicard_new		(const gchar *title);
-GalView *	gal_view_minicard_construct	(GalViewMinicard *view,
-						 const gchar *title);
 void		gal_view_minicard_attach	(GalViewMinicard *view,
 						 EAddressbookView *address_view);
 void		gal_view_minicard_detach	(GalViewMinicard *view);

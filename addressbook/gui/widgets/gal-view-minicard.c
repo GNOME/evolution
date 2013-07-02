@@ -59,11 +59,7 @@ view_minicard_finalize (GObject *object)
 {
 	GalViewMinicard *view = GAL_VIEW_MINICARD (object);
 
-	if (view->title != NULL) {
-		gal_view_minicard_detach (view);
-		g_free (view->title);
-		view->title = NULL;
-	}
+	gal_view_minicard_detach (view);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (gal_view_minicard_parent_class)->finalize (object);
@@ -110,28 +106,6 @@ view_minicard_save (GalView *view,
 }
 
 static const gchar *
-view_minicard_get_title (GalView *view)
-{
-	GalViewMinicard *view_minicard;
-
-	view_minicard = GAL_VIEW_MINICARD (view);
-
-	return view_minicard->title;
-}
-
-static void
-view_minicard_set_title (GalView *view,
-                         const gchar *title)
-{
-	GalViewMinicard *view_minicard;
-
-	view_minicard = GAL_VIEW_MINICARD (view);
-
-	g_free (view_minicard->title);
-	view_minicard->title = g_strdup (title);
-}
-
-static const gchar *
 view_minicard_get_type_code (GalView *view)
 {
 	return "minicard";
@@ -148,7 +122,6 @@ view_minicard_clone (GalView *view)
 
 	view_minicard = GAL_VIEW_MINICARD (view);
 	GAL_VIEW_MINICARD (clone)->column_width = view_minicard->column_width;
-	GAL_VIEW_MINICARD (clone)->title = g_strdup (view_minicard->title);
 
 	return clone;
 }
@@ -165,8 +138,6 @@ gal_view_minicard_class_init (GalViewMinicardClass *class)
 	gal_view_class = GAL_VIEW_CLASS (class);
 	gal_view_class->load = view_minicard_load;
 	gal_view_class->save = view_minicard_save;
-	gal_view_class->get_title = view_minicard_get_title;
-	gal_view_class->set_title = view_minicard_set_title;
 	gal_view_class->get_type_code = view_minicard_get_type_code;
 	gal_view_class->clone = view_minicard_clone;
 
@@ -175,7 +146,6 @@ gal_view_minicard_class_init (GalViewMinicardClass *class)
 static void
 gal_view_minicard_init (GalViewMinicard *gvm)
 {
-	gvm->title = NULL;
 	gvm->column_width = 225.0;
 
 	gvm->emvw = NULL;
@@ -194,27 +164,7 @@ gal_view_minicard_init (GalViewMinicard *gvm)
 GalView *
 gal_view_minicard_new (const gchar *title)
 {
-	return gal_view_minicard_construct (
-		g_object_new (GAL_TYPE_VIEW_MINICARD, NULL), title);
-}
-
-/**
- * gal_view_minicard_construct
- * @view: The view to construct.
- * @title: The name of the new view.
- *
- * Constructs the GalViewMinicard.  To be used by subclasses and
- * language bindings.
- *
- * Returns: The GalViewMinicard.
- */
-GalView *
-gal_view_minicard_construct (GalViewMinicard *view,
-                             const gchar *title)
-{
-	view->title = g_strdup (title);
-
-	return GAL_VIEW (view);
+	return g_object_new (GAL_TYPE_VIEW_MINICARD, "title", title, NULL);
 }
 
 void

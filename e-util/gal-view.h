@@ -63,9 +63,6 @@ struct _GalViewClass {
 						 const gchar *filename);
 	void		(*save)			(GalView *view,
 						 const gchar *filename);
-	const gchar *	(*get_title)		(GalView *view);
-	void		(*set_title)		(GalView *view,
-						 const gchar *title);
 	const gchar *	(*get_type_code)	(GalView *view);
 	GalView *	(*clone)		(GalView *view);
 
