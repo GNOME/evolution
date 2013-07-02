@@ -132,8 +132,8 @@ void		e_table_group_container_construct
 						 ETableModel *model,
 						 ETableSortInfo *sort_info,
 						 gint n);
-
-gboolean	e_table_group_container_is_editing (ETableGroupContainer *etgc);
+gboolean	e_table_group_container_is_editing
+						(ETableGroupContainer *etgc);
 
 G_END_DECLS
 

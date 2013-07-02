@@ -103,7 +103,6 @@ ETableGroup *	e_table_group_leaf_new		(GnomeCanvasGroup *parent,
 						 ETableHeader *header,
 						 ETableModel *model,
 						 ETableSortInfo *sort_info);
-
 gboolean	e_table_group_leaf_is_editing	(ETableGroupLeaf *etgl);
 
 G_END_DECLS
