@@ -2502,8 +2502,14 @@ e_editor_selection_insert_image (EEditorSelection *selection,
 	g_object_unref (editor_widget);
 }
 
-static void
-clear_caret_position_marker (EEditorSelection *selection)
+/**
+ * e_editor_selection_clear_caret_position_marker:
+ * @selection: an #EEditorSelection
+ *
+ * Removes previously set caret position marker from composer.
+ */
+void
+e_editor_selection_clear_caret_position_marker (EEditorSelection *selection)
 {
 	EEditorWidget *widget;
 	WebKitDOMDocument *document;
@@ -2528,8 +2534,14 @@ clear_caret_position_marker (EEditorSelection *selection)
 	g_object_unref (widget);
 }
 
-static void
-save_caret_position (EEditorSelection *selection)
+/**
+ * e_editor_selection_save_caret_position:
+ * @selection: an #EEditorSelection
+ *
+ * Saves current caret position in composer.
+ */
+void
+e_editor_selection_save_caret_position (EEditorSelection *selection)
 {
 	EEditorWidget *widget;
 	WebKitDOMDocument *document;
@@ -2545,9 +2557,11 @@ save_caret_position (EEditorSelection *selection)
 	g_return_if_fail (widget != NULL);
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
-	clear_caret_position_marker (selection);
+	e_editor_selection_clear_caret_position_marker (selection);
 
 	range = editor_selection_get_current_range (selection);
+	if (!range)
+		return;
 
 	start_offset = webkit_dom_range_get_start_offset (range, NULL);
 	start_offset_node = webkit_dom_range_get_end_container (range, NULL);
@@ -2595,8 +2609,14 @@ move_caret_into_element (WebKitDOMDocument *document,
 	webkit_dom_dom_selection_add_range (window_selection, new_range);
 }
 
-static void
-restore_caret_position (EEditorSelection *selection)
+/**
+ * e_editor_selection_restore_caret_position:
+ * @selection: an #EEditorSelection
+ *
+ * Restores previously saved caret position in composer.
+ */
+void
+e_editor_selection_restore_caret_position (EEditorSelection *selection)
 {
 	EEditorWidget *widget;
 	WebKitDOMDocument *document;
@@ -3044,7 +3064,7 @@ e_editor_selection_wrap_lines (EEditorSelection *selection,
 		if (!range)
 			return;
 
-		save_caret_position (selection);
+		e_editor_selection_save_caret_position (selection);
 
 		start_offset = webkit_dom_range_get_start_offset (range, NULL);
 		/* Extend the range to include entire nodes */
@@ -3090,7 +3110,7 @@ e_editor_selection_wrap_lines (EEditorSelection *selection,
 					}
 				} else {
 					/* When some weird element is selected, return */
-					clear_caret_position_marker (selection);
+					e_editor_selection_clear_caret_position_marker (selection);
 					return;
 				}
 			}
@@ -3115,14 +3135,14 @@ e_editor_selection_wrap_lines (EEditorSelection *selection,
 			if (g_utf8_strlen (e_editor_selection_get_string (selection), -1) < selection->priv->word_wrap_length) {
 				if (return_pressed) {
 					active_paragraph = webkit_dom_document_get_element_by_id (document, "-x-evo-active-paragraph");
-					clear_caret_position_marker (selection);
+					e_editor_selection_clear_caret_position_marker (selection);
 					move_caret_into_element (document, active_paragraph);
 					webkit_dom_dom_selection_modify (window_selection, "move", "forward", "character");
 					webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (active_paragraph), "id");
 				} else {
 					active_paragraph = webkit_dom_document_get_element_by_id (document, "-x-evo-active-paragraph");
 					webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (active_paragraph), "id");
-					restore_caret_position (selection);
+					e_editor_selection_restore_caret_position (selection);
 				}
 				return;
 			}
@@ -3189,11 +3209,11 @@ e_editor_selection_wrap_lines (EEditorSelection *selection,
 	/* We have to move caret on position where it was before modifying the text */
 	if (return_pressed) {
 		active_paragraph = webkit_dom_document_get_element_by_id (document, "-x-evo-active-paragraph");
-		clear_caret_position_marker (selection);
+		e_editor_selection_clear_caret_position_marker (selection);
 		move_caret_into_element (document, active_paragraph);
 		webkit_dom_dom_selection_modify (window_selection, "move", "forward", "character");
 	} else {
-		restore_caret_position (selection);
+		e_editor_selection_restore_caret_position (selection);
 	}
 
 	/* Set paragraph as non-active */
