@@ -32,13 +32,6 @@ G_DEFINE_TYPE (
 	gal_view_factory_etable,
 	GAL_TYPE_VIEW_FACTORY)
 
-static GalView *
-view_factory_etable_new_view (GalViewFactory *factory,
-                              const gchar *name)
-{
-	return gal_view_etable_new (name);
-}
-
 static void
 gal_view_factory_etable_class_init (GalViewFactoryEtableClass *class)
 {
@@ -46,7 +39,6 @@ gal_view_factory_etable_class_init (GalViewFactoryEtableClass *class)
 
 	view_factory_class = GAL_VIEW_FACTORY_CLASS (class);
 	view_factory_class->gal_view_type = GAL_TYPE_VIEW_ETABLE;
-	view_factory_class->new_view = view_factory_etable_new_view;
 }
 
 static void

@@ -32,13 +32,6 @@ G_DEFINE_TYPE (
 	GalViewFactoryMinicard,
 	gal_view_factory_minicard, GAL_TYPE_VIEW_FACTORY)
 
-static GalView *
-gal_view_factory_minicard_new_view (GalViewFactory *factory,
-                                    const gchar *name)
-{
-	return gal_view_minicard_new (name);
-}
-
 static void
 gal_view_factory_minicard_class_init (GalViewFactoryMinicardClass *minicard_class)
 {
@@ -46,7 +39,6 @@ gal_view_factory_minicard_class_init (GalViewFactoryMinicardClass *minicard_clas
 
 	view_factory_class = GAL_VIEW_FACTORY_CLASS (minicard_class);
 	view_factory_class->gal_view_type = GAL_TYPE_VIEW_MINICARD;
-	view_factory_class->new_view = gal_view_factory_minicard_new_view;
 }
 
 static void

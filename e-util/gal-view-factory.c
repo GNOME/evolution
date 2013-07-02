@@ -68,21 +68,20 @@ gal_view_factory_get_type_code (GalViewFactory *factory)
 /**
  * gal_view_factory_new_view:
  * @factory: a #GalViewFactory
- * @name: the name for the view
+ * @title: the title for the view
  *
  * Returns: The new view
  */
 GalView *
 gal_view_factory_new_view (GalViewFactory *factory,
-                           const gchar *name)
+                           const gchar *title)
 {
 	GalViewFactoryClass *class;
 
 	g_return_val_if_fail (GAL_IS_VIEW_FACTORY (factory), NULL);
 
 	class = GAL_VIEW_FACTORY_GET_CLASS (factory);
-	g_return_val_if_fail (class->new_view != NULL, NULL);
 
-	return class->new_view (factory, name);
+	return g_object_new (class->gal_view_type, "title", title, NULL);
 }
 

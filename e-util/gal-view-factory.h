@@ -62,10 +62,6 @@ struct _GalViewFactoryClass {
 	GObjectClass parent_class;
 
 	GType gal_view_type;
-
-	/* Methods */
-	GalView *	(*new_view)		(GalViewFactory *factory,
-						 const gchar *name);
 };
 
 GType		gal_view_factory_get_type	(void);
@@ -77,7 +73,7 @@ GType		gal_view_factory_get_type	(void);
 const gchar *	gal_view_factory_get_type_code	(GalViewFactory *factory);
 
 GalView *	gal_view_factory_new_view	(GalViewFactory *factory,
-						 const gchar *name);
+						 const gchar *title);
 
 G_END_DECLS
 
