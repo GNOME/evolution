@@ -1001,6 +1001,31 @@ em_utils_composer_print_cb (EMsgComposer *composer,
                             EActivity *activity,
                             EMailSession *session)
 {
+	/* as long as EMsgComposer uses GtkHTML, use its routine for printing;
+	   this conditional compile is here rather to not forget to fix this
+	   once the WebKit-based composer will land */
+#if defined(GTK_TYPE_HTML)
+	EWebViewGtkHTML *gtkhtml_web_view;
+	GtkPrintOperation *operation;
+	GError *error = NULL;
+
+	gtkhtml_web_view = e_msg_composer_get_web_view (composer);
+	g_return_if_fail (E_IS_WEB_VIEW_GTKHTML (gtkhtml_web_view));
+
+	operation = gtk_print_operation_new ();
+
+	gtk_html_print_operation_run (
+		GTK_HTML (gtkhtml_web_view), operation, action,
+		GTK_WINDOW (composer), NULL, NULL, NULL, NULL, NULL, &error);
+
+	g_object_unref (operation);
+
+	if (error) {
+		if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+			g_warning ("%s: Failed to run print operation: %s", G_STRFUNC, error->message);
+		g_clear_error (&error);
+	}
+#else
 	EMailParser *parser;
 	EMailPartList *parts;
 	EMailPrinter *printer;
@@ -1018,6 +1043,7 @@ em_utils_composer_print_cb (EMsgComposer *composer,
 	g_object_unref (printer);
 
 	g_object_unref (parts);
+#endif
 }
 
 /* Composing messages... */
