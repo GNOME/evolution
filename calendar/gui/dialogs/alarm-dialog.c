@@ -824,8 +824,7 @@ build_combobox_widget (GtkWidget *combobox,
 	GtkListStore *store;
 	gint i;
 
-	g_return_val_if_fail (combo != NULL, FALSE);
-	g_return_val_if_fail (GTK_IS_COMBO_BOX (combo), FALSE);
+	g_return_if_fail (GTK_IS_COMBO_BOX (combo));
 
 	store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_BOOLEAN);
 	gtk_combo_box_set_model (combo, GTK_TREE_MODEL (store));
