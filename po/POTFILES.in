@@ -258,6 +258,7 @@ e-util/e-spell-entry.c
 e-util/e-system.error.xml
 e-util/e-table-click-to-add.c
 e-util/e-table-col.c
+e-util/e-table-column-selector.c
 e-util/e-table-config.c
 e-util/e-table-field-chooser-dialog.c
 e-util/e-table-field-chooser-item.c
