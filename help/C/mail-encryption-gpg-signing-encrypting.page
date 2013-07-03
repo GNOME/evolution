@@ -14,13 +14,18 @@
     <credit type="author">
       <name its:translate="no">Novell, Inc</name> <!-- Content partially from http://library.gnome.org/users/evolution/2.32/encryption.html.en#bspya9p -->
     </credit>
-    
+
     <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
-    
+
 
   </info>
 
   <title>Signing or encrypting messages</title>
+
+<!--A seahorse help page(what-is-pgp-key.page) links to this page. So please
+     change/delete the link in the Seahorse help if you are renaming or
+     deleting this page-->
+
 
 <p>After you have <link xref="mail-encryption-gpg-set-up">set up your GPG key</link>, you can sign or encrypt a message by clicking <guiseq><gui>Options</gui><gui>PGP Sign</gui></guiseq> or <gui>PGP Encrypt</gui> from the message composer menu.</p>
 <note style="tip"><p>The Subject line of the message will not be encrypted and should not be used for sensitive information.</p></note>
