@@ -23,7 +23,6 @@
 	((obj), GAL_TYPE_VIEW_ETABLE, GalViewEtablePrivate))
 
 struct _GalViewEtablePrivate {
-	ETableState *state;
 	gchar *state_filename;
 
 	ETable *table;
@@ -83,9 +82,22 @@ gal_view_etable_save (GalView *view,
 	GalViewEtable *view_etable;
 
 	view_etable = GAL_VIEW_ETABLE (view);
-	g_return_if_fail (view_etable->priv->state != NULL);
 
-	e_table_state_save_to_file (view_etable->priv->state, filename);
+	if (view_etable->priv->table != NULL) {
+		ETableState *state;
+
+		state = e_table_get_state_object (view_etable->priv->table);
+		e_table_state_save_to_file (state, filename);
+		g_object_unref (state);
+	}
+
+	if (view_etable->priv->tree != NULL) {
+		ETableState *state;
+
+		state = e_tree_get_state_object (view_etable->priv->tree);
+		e_table_state_save_to_file (state, filename);
+		g_object_unref (state);
+	}
 }
 
 static const gchar *
@@ -105,10 +117,6 @@ gal_view_etable_clone (GalView *view)
 
 	gve = GAL_VIEW_ETABLE (view);
 
-	if (gve->priv->state != NULL)
-		GAL_VIEW_ETABLE (clone)->priv->state =
-			e_table_state_duplicate (gve->priv->state);
-
 	GAL_VIEW_ETABLE (clone)->priv->state_filename =
 		g_strdup (gve->priv->state_filename);
 
@@ -121,8 +129,6 @@ gal_view_etable_dispose (GObject *object)
 	GalViewEtable *view = GAL_VIEW_ETABLE (object);
 
 	gal_view_etable_detach (view);
-
-	g_clear_object (&view->priv->state);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (gal_view_etable_parent_class)->dispose (object);
@@ -181,22 +187,16 @@ gal_view_etable_new (const gchar *title)
 
 static void
 table_state_changed (ETable *table,
-                     GalViewEtable *view)
+                     GalView *view)
 {
-	g_clear_object (&view->priv->state);
-	view->priv->state = e_table_get_state_object (table);
-
-	gal_view_changed (GAL_VIEW (view));
+	gal_view_changed (view);
 }
 
 static void
 tree_state_changed (ETree *tree,
-                    GalViewEtable *view)
+                    GalView *view)
 {
-	g_clear_object (&view->priv->state);
-	view->priv->state = e_tree_get_state_object (tree);
-
-	gal_view_changed (GAL_VIEW (view));
+	gal_view_changed (view);
 }
 
 void
@@ -208,18 +208,22 @@ gal_view_etable_attach_table (GalViewEtable *view,
 
 	gal_view_etable_detach (view);
 
-	/* Load the state file now, if necessary. */
-	if (view->priv->state == NULL && view->priv->state_filename != NULL) {
+	/* Load the state file now. */
+	if (view->priv->state_filename != NULL) {
 		ETableSpecification *specification;
-		const gchar *filename = view->priv->state_filename;
+		ETableState *state;
 
 		specification = table->spec;
-		view->priv->state = e_table_state_new (specification);
-		e_table_state_load_from_file (view->priv->state, filename);
+		state = e_table_state_new (specification);
+		e_table_state_load_from_file (
+			state, view->priv->state_filename);
+
+		e_table_set_state_object (table, state);
+
+		g_object_unref (state);
 	}
 
 	view->priv->table = g_object_ref (table);
-	e_table_set_state_object (view->priv->table, view->priv->state);
 
 	view->priv->table_state_changed_id = g_signal_connect (
 		view->priv->table, "state_change",
@@ -235,18 +239,22 @@ gal_view_etable_attach_tree (GalViewEtable *view,
 
 	gal_view_etable_detach (view);
 
-	/* Load the state file now, if necessary. */
-	if (view->priv->state == NULL && view->priv->state_filename != NULL) {
+	/* Load the state file now. */
+	if (view->priv->state_filename != NULL) {
 		ETableSpecification *specification;
-		const gchar *filename = view->priv->state_filename;
+		ETableState *state;
 
 		specification = e_tree_get_spec (tree);
-		view->priv->state = e_table_state_new (specification);
-		e_table_state_load_from_file (view->priv->state, filename);
+		state = e_table_state_new (specification);
+		e_table_state_load_from_file (
+			state, view->priv->state_filename);
+
+		e_tree_set_state_object (tree, state);
+
+		g_object_unref (state);
 	}
 
 	view->priv->tree = g_object_ref (tree);
-	e_tree_set_state_object (view->priv->tree, view->priv->state);
 
 	view->priv->tree_state_changed_id = g_signal_connect (
 		view->priv->tree, "state_change",
