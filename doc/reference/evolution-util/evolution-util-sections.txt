@@ -4641,6 +4641,8 @@ GAL_IS_VIEW_ETABLE_CLASS
 GAL_VIEW_ETABLE_GET_CLASS
 GalViewEtableClass
 gal_view_etable_get_type
+<SUBSECTION Private>
+GalViewEtablePrivate
 </SECTION>
 
 <SECTION>

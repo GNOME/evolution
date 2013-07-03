@@ -53,18 +53,11 @@ G_BEGIN_DECLS
 
 typedef struct _GalViewEtable GalViewEtable;
 typedef struct _GalViewEtableClass GalViewEtableClass;
+typedef struct _GalViewEtablePrivate GalViewEtablePrivate;
 
 struct _GalViewEtable {
 	GalView parent;
-
-	ETableSpecification *spec;
-	ETableState *state;
-
-	ETable *table;
-	guint table_state_changed_id;
-
-	ETree *tree;
-	guint tree_state_changed_id;
+	GalViewEtablePrivate *priv;
 };
 
 struct _GalViewEtableClass {

@@ -18,46 +18,63 @@
 
 #include "gal-view-etable.h"
 
+#define GAL_VIEW_ETABLE_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), GAL_TYPE_VIEW_ETABLE, GalViewEtablePrivate))
+
+struct _GalViewEtablePrivate {
+	ETableSpecification *spec;
+	ETableState *state;
+
+	ETable *table;
+	guint table_state_changed_id;
+
+	ETree *tree;
+	guint tree_state_changed_id;
+};
+
 G_DEFINE_TYPE (GalViewEtable, gal_view_etable, GAL_TYPE_VIEW)
 
 static void
 detach_table (GalViewEtable *view)
 {
-	if (view->table_state_changed_id > 0) {
+	if (view->priv->table_state_changed_id > 0) {
 		g_signal_handler_disconnect (
-			view->table,
-			view->table_state_changed_id);
-		view->table_state_changed_id = 0;
+			view->priv->table,
+			view->priv->table_state_changed_id);
+		view->priv->table_state_changed_id = 0;
 	}
 
-	g_clear_object (&view->table);
+	g_clear_object (&view->priv->table);
 }
 
 static void
 detach_tree (GalViewEtable *view)
 {
-	if (view->tree_state_changed_id > 0) {
+	if (view->priv->tree_state_changed_id > 0) {
 		g_signal_handler_disconnect (
-			view->tree,
-			view->tree_state_changed_id);
-		view->tree_state_changed_id = 0;
+			view->priv->tree,
+			view->priv->tree_state_changed_id);
+		view->priv->tree_state_changed_id = 0;
 	}
 
-	g_clear_object (&view->tree);
+	g_clear_object (&view->priv->tree);
 }
 
 static void
 gal_view_etable_load (GalView *view,
                       const gchar *filename)
 {
-	e_table_state_load_from_file (GAL_VIEW_ETABLE (view)->state, filename);
+	e_table_state_load_from_file (
+		GAL_VIEW_ETABLE (view)->priv->state, filename);
 }
 
 static void
 gal_view_etable_save (GalView *view,
                       const gchar *filename)
 {
-	e_table_state_save_to_file (GAL_VIEW_ETABLE (view)->state, filename);
+	e_table_state_save_to_file (
+		GAL_VIEW_ETABLE (view)->priv->state, filename);
 }
 
 static const gchar *
@@ -76,8 +93,10 @@ gal_view_etable_clone (GalView *view)
 	clone = GAL_VIEW_CLASS (gal_view_etable_parent_class)->clone (view);
 
 	gve = GAL_VIEW_ETABLE (view);
-	GAL_VIEW_ETABLE (clone)->spec = g_object_ref (gve->spec);
-	GAL_VIEW_ETABLE (clone)->state = e_table_state_duplicate (gve->state);
+	GAL_VIEW_ETABLE (clone)->priv->spec =
+		g_object_ref (gve->priv->spec);
+	GAL_VIEW_ETABLE (clone)->priv->state =
+		e_table_state_duplicate (gve->priv->state);
 
 	return clone;
 }
@@ -89,8 +108,8 @@ gal_view_etable_dispose (GObject *object)
 
 	gal_view_etable_detach (view);
 
-	g_clear_object (&view->spec);
-	g_clear_object (&view->state);
+	g_clear_object (&view->priv->spec);
+	g_clear_object (&view->priv->state);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (gal_view_etable_parent_class)->dispose (object);
@@ -101,6 +120,8 @@ gal_view_etable_class_init (GalViewEtableClass *class)
 {
 	GObjectClass *object_class;
 	GalViewClass *gal_view_class;
+
+	g_type_class_add_private (class, sizeof (GalViewEtablePrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = gal_view_etable_dispose;
@@ -113,8 +134,9 @@ gal_view_etable_class_init (GalViewEtableClass *class)
 }
 
 static void
-gal_view_etable_init (GalViewEtable *gve)
+gal_view_etable_init (GalViewEtable *view)
 {
+	view->priv = GAL_VIEW_ETABLE_GET_PRIVATE (view);
 }
 
 /**
@@ -157,10 +179,10 @@ gal_view_etable_construct (GalViewEtable *view,
 	g_return_val_if_fail (GAL_IS_VIEW_ETABLE (view), NULL);
 	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (spec), NULL);
 
-	view->spec = g_object_ref (spec);
+	view->priv->spec = g_object_ref (spec);
 
-	g_clear_object (&view->state);
-	view->state = e_table_state_duplicate (spec->state);
+	g_clear_object (&view->priv->state);
+	view->priv->state = e_table_state_duplicate (spec->state);
 
 	return GAL_VIEW (view);
 }
@@ -172,8 +194,8 @@ gal_view_etable_set_state (GalViewEtable *view,
 	g_return_if_fail (GAL_IS_VIEW_ETABLE (view));
 	g_return_if_fail (E_IS_TABLE_STATE (state));
 
-	g_clear_object (&view->state);
-	view->state = e_table_state_duplicate (state);
+	g_clear_object (&view->priv->state);
+	view->priv->state = e_table_state_duplicate (state);
 
 	gal_view_changed (GAL_VIEW (view));
 }
@@ -182,8 +204,8 @@ static void
 table_state_changed (ETable *table,
                      GalViewEtable *view)
 {
-	g_clear_object (&view->state);
-	view->state = e_table_get_state_object (table);
+	g_clear_object (&view->priv->state);
+	view->priv->state = e_table_get_state_object (table);
 
 	gal_view_changed (GAL_VIEW (view));
 }
@@ -192,8 +214,8 @@ static void
 tree_state_changed (ETree *tree,
                     GalViewEtable *view)
 {
-	g_clear_object (&view->state);
-	view->state = e_tree_get_state_object (tree);
+	g_clear_object (&view->priv->state);
+	view->priv->state = e_tree_get_state_object (tree);
 
 	gal_view_changed (GAL_VIEW (view));
 }
@@ -207,12 +229,12 @@ gal_view_etable_attach_table (GalViewEtable *view,
 
 	gal_view_etable_detach (view);
 
-	view->table = g_object_ref (table);
+	view->priv->table = g_object_ref (table);
 
-	e_table_set_state_object (view->table, view->state);
+	e_table_set_state_object (view->priv->table, view->priv->state);
 
-	view->table_state_changed_id = g_signal_connect (
-		view->table, "state_change",
+	view->priv->table_state_changed_id = g_signal_connect (
+		view->priv->table, "state_change",
 		G_CALLBACK (table_state_changed), view);
 }
 
@@ -225,12 +247,12 @@ gal_view_etable_attach_tree (GalViewEtable *view,
 
 	gal_view_etable_detach (view);
 
-	view->tree = g_object_ref (tree);
+	view->priv->tree = g_object_ref (tree);
 
-	e_tree_set_state_object (view->tree, view->state);
+	e_tree_set_state_object (view->priv->tree, view->priv->state);
 
-	view->tree_state_changed_id = g_signal_connect (
-		view->tree, "state_change",
+	view->priv->tree_state_changed_id = g_signal_connect (
+		view->priv->tree, "state_change",
 		G_CALLBACK (tree_state_changed), view);
 }
 
@@ -239,8 +261,8 @@ gal_view_etable_detach (GalViewEtable *view)
 {
 	g_return_if_fail (GAL_IS_VIEW_ETABLE (view));
 
-	if (view->table != NULL)
+	if (view->priv->table != NULL)
 		detach_table (view);
-	if (view->tree != NULL)
+	if (view->priv->tree != NULL)
 		detach_tree (view);
 }
