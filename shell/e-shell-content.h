@@ -81,9 +81,6 @@ void		e_shell_content_focus_search_results
 GtkWidget *	e_shell_content_get_alert_bar	(EShellContent *shell_content);
 struct _EShellView *
 		e_shell_content_get_shell_view	(EShellContent *shell_content);
-const gchar *	e_shell_content_get_view_id	(EShellContent *shell_content);
-void		e_shell_content_set_view_id	(EShellContent *shell_content,
-						 const gchar *view_id);
 void		e_shell_content_run_advanced_search_dialog
 						(EShellContent *shell_content);
 void		e_shell_content_run_edit_searches_dialog
