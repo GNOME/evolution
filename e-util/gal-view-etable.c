@@ -179,19 +179,6 @@ gal_view_etable_new (const gchar *title)
 	return g_object_new (GAL_TYPE_VIEW_ETABLE, "title", title, NULL);
 }
 
-void
-gal_view_etable_set_state (GalViewEtable *view,
-                           ETableState *state)
-{
-	g_return_if_fail (GAL_IS_VIEW_ETABLE (view));
-	g_return_if_fail (E_IS_TABLE_STATE (state));
-
-	g_clear_object (&view->priv->state);
-	view->priv->state = e_table_state_duplicate (state);
-
-	gal_view_changed (GAL_VIEW (view));
-}
-
 static void
 table_state_changed (ETable *table,
                      GalViewEtable *view)

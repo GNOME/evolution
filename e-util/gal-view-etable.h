@@ -65,8 +65,6 @@ struct _GalViewEtableClass {
 
 GType		gal_view_etable_get_type	(void);
 GalView *	gal_view_etable_new		(const gchar *title);
-void		gal_view_etable_set_state	(GalViewEtable *view,
-						 ETableState *state);
 void		gal_view_etable_attach_table	(GalViewEtable *view,
 						 ETable *table);
 void		gal_view_etable_attach_tree	(GalViewEtable *view,
