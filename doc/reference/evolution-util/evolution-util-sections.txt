@@ -4665,7 +4665,6 @@ gal_view_factory_get_type
 <TITLE>GalViewFactoryEtable</TITLE>
 GalViewFactoryEtable
 gal_view_factory_etable_new
-gal_view_factory_etable_get_specification
 <SUBSECTION Standard>
 GAL_VIEW_FACTORY_ETABLE
 GAL_IS_VIEW_FACTORY_ETABLE
