@@ -870,28 +870,6 @@ action_contact_view_cb (GtkRadioAction *action,
 	gtk_orientable_set_orientation (orientable, orientation);
 }
 
-static void
-action_gal_save_custom_view_cb (GtkAction *action,
-                                EBookShellView *book_shell_view)
-{
-	EBookShellContent *book_shell_content;
-	EShellView *shell_view;
-	EAddressbookView *address_view;
-	GalViewInstance *view_instance;
-
-	/* All shell views respond to the activation of this action,
-	 * which is defined by EShellWindow.  But only the currently
-	 * active shell view proceeds with saving the custom view. */
-	shell_view = E_SHELL_VIEW (book_shell_view);
-	if (!e_shell_view_is_active (shell_view))
-		return;
-
-	book_shell_content = book_shell_view->priv->book_shell_content;
-	address_view = e_book_shell_content_get_current_view (book_shell_content);
-	view_instance = e_addressbook_view_get_view_instance (address_view);
-	gal_view_instance_save_as (view_instance);
-}
-
 static GtkActionEntry contact_entries[] = {
 
 	{ "address-book-copy",
@@ -1324,10 +1302,6 @@ e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 	g_object_unref (settings);
 
 	/* Fine tuning. */
-
-	g_signal_connect (
-		ACTION (GAL_SAVE_CUSTOM_VIEW), "activate",
-		G_CALLBACK (action_gal_save_custom_view_cb), book_shell_view);
 
 	g_object_bind_property (
 		ACTION (CONTACT_PREVIEW), "active",

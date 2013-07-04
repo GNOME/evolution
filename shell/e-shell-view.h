@@ -198,6 +198,13 @@ void		e_shell_view_set_title		(EShellView *shell_view,
 const gchar *	e_shell_view_get_view_id	(EShellView *shell_view);
 void		e_shell_view_set_view_id	(EShellView *shell_view,
 						 const gchar *view_id);
+GalViewInstance *
+		e_shell_view_new_view_instance	(EShellView *shell_view,
+						 const gchar *instance_id);
+GalViewInstance *
+		e_shell_view_get_view_instance	(EShellView *shell_view);
+void		e_shell_view_set_view_instance	(EShellView *shell_view,
+						 GalViewInstance *view_instance);
 gboolean	e_shell_view_is_active		(EShellView *shell_view);
 gint		e_shell_view_get_page_num	(EShellView *shell_view);
 void		e_shell_view_set_page_num	(EShellView *shell_view,
@@ -230,9 +237,6 @@ void		e_shell_view_update_actions	(EShellView *shell_view);
 GtkWidget *	e_shell_view_show_popup_menu	(EShellView *shell_view,
 						 const gchar *widget_path,
 						 GdkEvent *button_event);
-GalViewInstance *
-		e_shell_view_new_view_instance	(EShellView *shell_view,
-						 const gchar *instance_id);
 void		e_shell_view_write_source	(EShellView *shell_view,
 						 ESource *source);
 void		e_shell_view_remove_source	(EShellView *shell_view,

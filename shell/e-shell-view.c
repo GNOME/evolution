@@ -53,6 +53,10 @@ struct _EShellViewPrivate {
 	gpointer state_save_activity;  /* weak pointer */
 	guint state_save_timeout_id;
 
+	GalViewInstance *view_instance;
+	gulong view_instance_changed_handler_id;
+	gulong view_instance_loaded_handler_id;
+
 	gchar *title;
 	gchar *view_id;
 	gint page_num;
@@ -85,7 +89,8 @@ enum {
 	PROP_SHELL_WINDOW,
 	PROP_STATE_KEY_FILE,
 	PROP_TITLE,
-	PROP_VIEW_ID
+	PROP_VIEW_ID,
+	PROP_VIEW_INSTANCE
 };
 
 enum {
@@ -404,6 +409,12 @@ shell_view_set_property (GObject *object,
 				E_SHELL_VIEW (object),
 				g_value_get_string (value));
 			return;
+
+		case PROP_VIEW_INSTANCE:
+			e_shell_view_set_view_instance (
+				E_SHELL_VIEW (object),
+				g_value_get_object (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -486,6 +497,12 @@ shell_view_get_property (GObject *object,
 				value, e_shell_view_get_view_id (
 				E_SHELL_VIEW (object)));
 			return;
+
+		case PROP_VIEW_INSTANCE:
+			g_value_set_object (
+				value, e_shell_view_get_view_instance (
+				E_SHELL_VIEW (object)));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -513,6 +530,20 @@ shell_view_dispose (GObject *object)
 		priv->state_save_activity = NULL;
 	}
 
+	if (priv->view_instance_changed_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->view_instance,
+			priv->view_instance_changed_handler_id);
+		priv->view_instance_changed_handler_id = 0;
+	}
+
+	if (priv->view_instance_loaded_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->view_instance,
+			priv->view_instance_loaded_handler_id);
+		priv->view_instance_loaded_handler_id = 0;
+	}
+
 	if (priv->preferences_window != NULL) {
 		g_signal_handler_disconnect (
 			priv->preferences_window,
@@ -526,6 +557,7 @@ shell_view_dispose (GObject *object)
 		priv->shell_window = NULL;
 	}
 
+	g_clear_object (&priv->view_instance);
 	g_clear_object (&priv->shell_content);
 	g_clear_object (&priv->shell_sidebar);
 	g_clear_object (&priv->shell_taskbar);
@@ -923,6 +955,21 @@ e_shell_view_class_init (EShellViewClass *class)
 			G_PARAM_STATIC_STRINGS));
 
 	/**
+	 * EShellView:view-instance:
+	 *
+	 * The current #GalViewInstance.
+	 **/
+	g_object_class_install_property (
+		object_class,
+		PROP_VIEW_INSTANCE,
+		g_param_spec_object (
+			"view-instance",
+			"View Instance",
+			"The current view instance",
+			GAL_TYPE_VIEW_INSTANCE,
+			G_PARAM_READWRITE));
+
+	/**
 	 * EShellView::toggled
 	 * @shell_view: the #EShellView which emitted the signal
 	 *
@@ -1211,6 +1258,109 @@ e_shell_view_set_view_id (EShellView *shell_view,
 	shell_view->priv->view_id = g_strdup (view_id);
 
 	g_object_notify (G_OBJECT (shell_view), "view-id");
+}
+
+/**
+ * e_shell_view_new_view_instance:
+ * @shell_view: an #EShellView
+ * @instance_id: a name for the #GalViewInstance
+ *
+ * Convenience function creates a new #GalViewInstance from the
+ * #GalViewCollection in @shell_view's #EShellViewClass.
+ *
+ * Returns: a new #GalViewInstance
+ **/
+GalViewInstance *
+e_shell_view_new_view_instance (EShellView *shell_view,
+                                const gchar *instance_id)
+{
+	EShellViewClass *class;
+	GalViewCollection *view_collection;
+
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
+
+	class = E_SHELL_VIEW_GET_CLASS (shell_view);
+
+	view_collection = class->view_collection;
+
+	return gal_view_instance_new (view_collection, instance_id);
+}
+
+/**
+ * e_shell_view_get_view_instance:
+ * @shell_view: an #EShellView
+ *
+ * Returns the current #GalViewInstance for @shell_view.
+ *
+ * #EShellView subclasses are responsible for creating and configuring a
+ * #GalViewInstance and handing it off so the @shell_view can monitor it
+ * and perform common actions on it.
+ *
+ * Returns: a #GalViewInstance, or %NULL
+ **/
+GalViewInstance *
+e_shell_view_get_view_instance (EShellView *shell_view)
+{
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
+
+	return shell_view->priv->view_instance;
+}
+
+/**
+ * e_shell_view_set_view_instance:
+ * @shell_view: an #EShellView
+ * @view_instance: a #GalViewInstance, or %NULL
+ *
+ * Sets the current #GalViewInstance for @shell_view.
+ *
+ * #EShellView subclasses are responsible for creating and configuring a
+ * #GalViewInstance and handing it off so the @shell_view can monitor it
+ * and perform common actions on it.
+ **/
+void
+e_shell_view_set_view_instance (EShellView *shell_view,
+                                GalViewInstance *view_instance)
+{
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+
+	if (view_instance != NULL) {
+		g_return_if_fail (GAL_IS_VIEW_INSTANCE (view_instance));
+		g_object_ref (view_instance);
+	}
+
+	if (shell_view->priv->view_instance_changed_handler_id > 0) {
+		g_signal_handler_disconnect (
+			shell_view->priv->view_instance,
+			shell_view->priv->view_instance_changed_handler_id);
+		shell_view->priv->view_instance_changed_handler_id = 0;
+	}
+
+	if (shell_view->priv->view_instance_loaded_handler_id > 0) {
+		g_signal_handler_disconnect (
+			shell_view->priv->view_instance,
+			shell_view->priv->view_instance_loaded_handler_id);
+		shell_view->priv->view_instance_loaded_handler_id = 0;
+	}
+
+	g_clear_object (&shell_view->priv->view_instance);
+
+	shell_view->priv->view_instance = view_instance;
+
+	if (view_instance != NULL) {
+		gulong handler_id;
+
+		handler_id = g_signal_connect_swapped (
+			view_instance, "changed",
+			G_CALLBACK (shell_view_update_view_id), shell_view);
+		shell_view->priv->view_instance_changed_handler_id = handler_id;
+
+		handler_id = g_signal_connect_swapped (
+			view_instance, "loaded",
+			G_CALLBACK (shell_view_update_view_id), shell_view);
+		shell_view->priv->view_instance_loaded_handler_id = handler_id;
+	}
+
+	g_object_notify (G_OBJECT (shell_view), "view-instance");
 }
 
 /**
@@ -1731,42 +1881,6 @@ e_shell_view_show_popup_menu (EShellView *shell_view,
 		event_button, event_time);
 
 	return menu;
-}
-
-/**
- * e_shell_view_new_view_instance:
- * @shell_view: an #EShellView
- * @instance_id: a name for the #GalViewInstance
- *
- * Creates a new #GalViewInstance and configures it to keep
- * @shell_view<!-- -->'s #EShellView:view-id property up-to-date.
- *
- * Returns: a new #GalViewInstance
- **/
-GalViewInstance *
-e_shell_view_new_view_instance (EShellView *shell_view,
-                                const gchar *instance_id)
-{
-	EShellViewClass *class;
-	GalViewCollection *view_collection;
-	GalViewInstance *view_instance;
-
-	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
-
-	class = E_SHELL_VIEW_GET_CLASS (shell_view);
-
-	view_collection = class->view_collection;
-	view_instance = gal_view_instance_new (view_collection, instance_id);
-
-	g_signal_connect_swapped (
-		view_instance, "changed",
-		G_CALLBACK (shell_view_update_view_id), shell_view);
-
-	g_signal_connect_swapped (
-		view_instance, "loaded",
-		G_CALLBACK (shell_view_update_view_id), shell_view);
-
-	return view_instance;
 }
 
 /**

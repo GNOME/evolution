@@ -1345,26 +1345,6 @@ action_event_schedule_appointment_cb (GtkAction *action,
 	edit_event_as (cal_shell_view, FALSE);
 }
 
-static void
-action_gal_save_custom_view_cb (GtkAction *action,
-                                ECalShellView *cal_shell_view)
-{
-	ECalShellContent *cal_shell_content;
-	EShellView *shell_view;
-	GalViewInstance *view_instance;
-
-	/* All shell views respond to the activation of this action,
-	 * which is defined by EShellWindow.  But only the currently
-	 * active shell view proceeds with saving the custom view. */
-	shell_view = E_SHELL_VIEW (cal_shell_view);
-	if (!e_shell_view_is_active (shell_view))
-		return;
-
-	cal_shell_content = cal_shell_view->priv->cal_shell_content;
-	view_instance = e_cal_shell_content_get_view_instance (cal_shell_content);
-	gal_view_instance_save_as (view_instance);
-}
-
 static GtkActionEntry calendar_entries[] = {
 
 	{ "calendar-copy",
@@ -1937,10 +1917,6 @@ e_cal_shell_view_actions_init (ECalShellView *cal_shell_view)
 
 	action = ACTION (CALENDAR_VIEW_WORKWEEK);
 	gtk_action_set_is_important (action, TRUE);
-
-	g_signal_connect (
-		ACTION (GAL_SAVE_CUSTOM_VIEW), "activate",
-		G_CALLBACK (action_gal_save_custom_view_cb), cal_shell_view);
 
 	/* Initialize the memo and task pad actions. */
 	e_cal_shell_view_memopad_actions_init (cal_shell_view);

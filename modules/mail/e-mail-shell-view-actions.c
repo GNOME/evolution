@@ -26,29 +26,6 @@
 #include "e-mail-shell-view-private.h"
 
 static void
-action_gal_save_custom_view_cb (GtkAction *action,
-                                EMailShellView *mail_shell_view)
-{
-	EMailShellContent *mail_shell_content;
-	EShellView *shell_view;
-	EMailView *mail_view;
-	GalViewInstance *view_instance;
-
-	/* All shell views repond to the activation of this action,
-	 * which is defined by EShellWindow.  But only the currently
-	 * active shell view proceeds with saving the custom view. */
-	shell_view = E_SHELL_VIEW (mail_shell_view);
-	if (!e_shell_view_is_active (shell_view))
-		return;
-
-	mail_shell_content = mail_shell_view->priv->mail_shell_content;
-	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
-	view_instance = e_mail_view_get_view_instance (mail_view);
-
-	gal_view_instance_save_as (view_instance);
-}
-
-static void
 action_mail_account_disable_cb (GtkAction *action,
                                 EMailShellView *mail_shell_view)
 {
@@ -2225,10 +2202,6 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 		shell, "online",
 		ACTION (MAIL_DOWNLOAD), "sensitive",
 		G_BINDING_SYNC_CREATE);
-
-	g_signal_connect (
-		ACTION (GAL_SAVE_CUSTOM_VIEW), "activate",
-		G_CALLBACK (action_gal_save_custom_view_cb), mail_shell_view);
 }
 
 /* Helper for e_mail_shell_view_update_popup_labels() */

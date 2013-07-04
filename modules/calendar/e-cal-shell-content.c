@@ -50,8 +50,6 @@ struct _ECalShellContentPrivate {
 	GtkWidget *calendar;
 	GtkWidget *task_table;
 	GtkWidget *memo_table;
-
-	GalViewInstance *view_instance;
 };
 
 enum {
@@ -291,11 +289,6 @@ cal_shell_content_dispose (GObject *object)
 		priv->memo_table = NULL;
 	}
 
-	if (priv->view_instance != NULL) {
-		g_object_unref (priv->view_instance);
-		priv->view_instance = NULL;
-	}
-
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_cal_shell_content_parent_class)->dispose (object);
 }
@@ -520,7 +513,8 @@ cal_shell_content_constructed (GObject *object)
 		object);
 	/* XXX Actually, don't load the view instance just yet.
 	 *     The GtkWidget::map() callback below explains why. */
-	priv->view_instance = view_instance;
+	e_shell_view_set_view_instance (shell_view, view_instance);
+	g_object_unref (view_instance);
 
 	g_signal_connect_swapped (
 		shell_view, "notify::view-id",
@@ -545,7 +539,13 @@ cal_shell_content_constructed (GObject *object)
 static void
 cal_shell_content_map (GtkWidget *widget)
 {
-	ECalShellContentPrivate *priv;
+	EShellView *shell_view;
+	EShellContent *shell_content;
+	GalViewInstance *view_instance;
+
+	shell_content = E_SHELL_CONTENT (widget);
+	shell_view = e_shell_content_get_shell_view (shell_content);
+	view_instance = e_shell_view_get_view_instance (shell_view);
 
 	/* XXX Delay loading the GalViewInstance until after ECalShellView
 	 *     has a chance to install the sidebar's date navigator into
@@ -553,8 +553,7 @@ cal_shell_content_map (GtkWidget *widget)
 	 *     callback in GnomeCalendar that requires the date navigator.
 	 *     Ordinarily we would do this at the end of constructed(), but
 	 *     that's too soon in this case.  (This feels kind of kludgy.) */
-	priv = E_CAL_SHELL_CONTENT_GET_PRIVATE (widget);
-	gal_view_instance_load (priv->view_instance);
+	gal_view_instance_load (view_instance);
 
 	/* Chain up to parent's map() method. */
 	GTK_WIDGET_CLASS (e_cal_shell_content_parent_class)->map (widget);
@@ -932,11 +931,3 @@ e_cal_shell_content_get_searchbar (ECalShellContent *cal_shell_content)
 	return E_SHELL_SEARCHBAR (widget);
 }
 
-GalViewInstance *
-e_cal_shell_content_get_view_instance (ECalShellContent *cal_shell_content)
-{
-	g_return_val_if_fail (
-		E_IS_CAL_SHELL_CONTENT (cal_shell_content), NULL);
-
-	return cal_shell_content->priv->view_instance;
-}

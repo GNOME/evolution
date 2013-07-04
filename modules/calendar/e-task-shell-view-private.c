@@ -219,16 +219,13 @@ task_shell_view_load_view_collection (EShellViewClass *shell_view_class)
 }
 
 static void
-task_shell_view_notify_view_id_cb (ETaskShellView *task_shell_view)
+task_shell_view_notify_view_id_cb (EShellView *shell_view)
 {
-	ETaskShellContent *task_shell_content;
 	GalViewInstance *view_instance;
 	const gchar *view_id;
 
-	task_shell_content = task_shell_view->priv->task_shell_content;
-	view_instance =
-		e_task_shell_content_get_view_instance (task_shell_content);
-	view_id = e_shell_view_get_view_id (E_SHELL_VIEW (task_shell_view));
+	view_id = e_shell_view_get_view_id (shell_view);
+	view_instance = e_shell_view_get_view_instance (shell_view);
 
 	/* A NULL view ID implies we're in a custom view.  But you can
 	 * only get to a custom view via the "Define Views" dialog, which

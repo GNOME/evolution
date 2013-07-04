@@ -92,9 +92,6 @@ void		e_task_shell_content_set_preview_visible
 EShellSearchbar *
 		e_task_shell_content_get_searchbar
 					(ETaskShellContent *task_shell_content);
-GalViewInstance *
-		e_task_shell_content_get_view_instance
-					(ETaskShellContent *task_shell_content);
 
 G_END_DECLS
 

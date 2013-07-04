@@ -231,6 +231,20 @@ action_gal_view_cb (GtkRadioAction *action,
  *
  * Main menu item: View -> Current View -> Save Custom View...
  **/
+static void
+action_gal_save_custom_view_cb (GtkAction *action,
+                                EShellWindow *shell_window)
+{
+	EShellView *shell_view;
+	GalViewInstance *view_instance;
+	const gchar *view_name;
+
+	view_name = e_shell_window_get_active_view (shell_window);
+	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
+	view_instance = e_shell_view_get_view_instance (shell_view);
+
+	gal_view_instance_save_as (view_instance);
+}
 
 /**
  * E_SHELL_WINDOW_ACTION_IMPORT:
@@ -1181,7 +1195,7 @@ static GtkActionEntry shell_gal_view_entries[] = {
 	  N_("Save Custom View..."),
 	  NULL,
 	  N_("Save current custom view"),
-	  NULL },  /* Handled by subclasses. */
+	  G_CALLBACK (action_gal_save_custom_view_cb) },
 
 	/*** Menus ***/
 

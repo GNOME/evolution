@@ -392,9 +392,11 @@ addressbook_view_create_minicard_view (EAddressbookView *view,
 }
 
 static void
-addressbook_view_display_view_cb (EAddressbookView *view,
-                                  GalView *gal_view)
+addressbook_view_display_view_cb (GalViewInstance *view_instance,
+                                  GalView *gal_view,
+                                  EAddressbookView *view)
 {
+	EShellView *shell_view;
 	GtkWidget *child;
 
 	child = gtk_bin_get_child (GTK_BIN (view));
@@ -408,6 +410,9 @@ addressbook_view_display_view_cb (EAddressbookView *view,
 	else if (GAL_IS_VIEW_MINICARD (gal_view))
 		addressbook_view_create_minicard_view (
 			view, GAL_VIEW_MINICARD (gal_view));
+
+	shell_view = e_addressbook_view_get_shell_view (view);
+	e_shell_view_set_view_instance (shell_view, view_instance);
 
 	command_state_change (view);
 }
@@ -592,7 +597,7 @@ addressbook_view_constructed (GObject *object)
 	view->priv->model = e_addressbook_model_new (client_cache);
 
 	view_instance = e_shell_view_new_view_instance (shell_view, uid);
-	g_signal_connect_swapped (
+	g_signal_connect (
 		view_instance, "display-view",
 		G_CALLBACK (addressbook_view_display_view_cb), view);
 	view->priv->view_instance = view_instance;

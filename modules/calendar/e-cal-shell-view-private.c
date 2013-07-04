@@ -460,16 +460,13 @@ cal_shell_view_load_view_collection (EShellViewClass *shell_view_class)
 }
 
 static void
-cal_shell_view_notify_view_id_cb (ECalShellView *cal_shell_view)
+cal_shell_view_notify_view_id_cb (EShellView *shell_view)
 {
-	ECalShellContent *cal_shell_content;
 	GalViewInstance *view_instance;
 	const gchar *view_id;
 
-	cal_shell_content = cal_shell_view->priv->cal_shell_content;
-	view_instance =
-		e_cal_shell_content_get_view_instance (cal_shell_content);
-	view_id = e_shell_view_get_view_id (E_SHELL_VIEW (cal_shell_view));
+	view_id = e_shell_view_get_view_id (shell_view);
+	view_instance = e_shell_view_get_view_instance (shell_view);
 
 	/* A NULL view ID implies we're in a custom view.  But you can
 	 * only get to a custom view via the "Define Views" dialog, which

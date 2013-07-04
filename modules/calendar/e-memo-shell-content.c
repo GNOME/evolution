@@ -44,7 +44,6 @@ struct _EMemoShellContentPrivate {
 	GtkWidget *preview_pane;
 
 	ECalModel *memo_model;
-	GalViewInstance *view_instance;
 	GtkOrientation orientation;
 
 	gchar *current_uid;
@@ -401,11 +400,6 @@ memo_shell_content_dispose (GObject *object)
 		priv->memo_model = NULL;
 	}
 
-	if (priv->view_instance != NULL) {
-		g_object_unref (priv->view_instance);
-		priv->view_instance = NULL;
-	}
-
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_memo_shell_content_parent_class)->dispose (object);
 }
@@ -553,11 +547,9 @@ memo_shell_content_constructed (GObject *object)
 		view_instance, "display-view",
 		G_CALLBACK (memo_shell_content_display_view_cb),
 		object);
-	priv->view_instance = view_instance;
-
-	/* Do this last so e_memo_shell_content_get_view_instance() returns
-	 * the correct instance in GalViewInstance::loaded signal handlers. */
+	e_shell_view_set_view_instance (shell_view, view_instance);
 	gal_view_instance_load (view_instance);
+	g_object_unref (view_instance);
 
 	/* Restore pane positions from the last session once
 	 * the shell view is fully initialized and visible. */
@@ -771,11 +763,3 @@ e_memo_shell_content_get_searchbar (EMemoShellContent *memo_shell_content)
 	return E_SHELL_SEARCHBAR (widget);
 }
 
-GalViewInstance *
-e_memo_shell_content_get_view_instance (EMemoShellContent *memo_shell_content)
-{
-	g_return_val_if_fail (
-		E_IS_MEMO_SHELL_CONTENT (memo_shell_content), NULL);
-
-	return memo_shell_content->priv->view_instance;
-}

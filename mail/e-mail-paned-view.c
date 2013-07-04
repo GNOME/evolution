@@ -246,11 +246,16 @@ mail_paned_view_restore_state_cb (EShellWindow *shell_window,
 }
 
 static void
-mail_paned_display_view_cb (EMailView *view,
-                            GalView *gal_view)
+mail_paned_display_view_cb (GalViewInstance *view_instance,
+                            GalView *gal_view,
+                            EMailView *view)
 {
 	EMailReader *reader;
+	EShellView *shell_view;
 	GtkWidget *message_list;
+
+	shell_view = e_mail_view_get_shell_view (view);
+	e_shell_view_set_view_instance (shell_view, view_instance);
 
 	reader = E_MAIL_READER (view);
 	message_list = e_mail_reader_get_message_list (reader);
@@ -868,7 +873,7 @@ mail_paned_view_update_view_instance (EMailView *view)
 			shell_view, view_id);
 	}
 
-	priv->view_instance = view_instance;
+	priv->view_instance = g_object_ref (view_instance);
 
 	orientable = GTK_ORIENTABLE (view);
 	orientation = gtk_orientable_get_orientation (orientable);
@@ -961,12 +966,16 @@ mail_paned_view_update_view_instance (EMailView *view)
 		g_free (state_filename);
 	}
 
-	g_signal_connect_swapped (
+	g_signal_connect (
 		view_instance, "display-view",
 		G_CALLBACK (mail_paned_display_view_cb), view);
 
 	mail_paned_display_view_cb (
-		view, gal_view_instance_get_current_view (view_instance));
+		view_instance,
+		gal_view_instance_get_current_view (view_instance),
+		view);
+
+	g_object_unref (view_instance);
 
 	g_clear_object (&folder);
 }

@@ -88,9 +88,6 @@ void		e_memo_shell_content_set_preview_visible
 EShellSearchbar *
 		e_memo_shell_content_get_searchbar
 					(EMemoShellContent *memo_shell_content);
-GalViewInstance *
-		e_memo_shell_content_get_view_instance
-					(EMemoShellContent *memo_shell_content);
 
 G_END_DECLS
 
