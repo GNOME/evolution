@@ -520,7 +520,8 @@ e_shell_switcher_class_init (EShellSwitcherClass *class)
 			GTK_TYPE_TOOLBAR_STYLE,
 			E_SHELL_SWITCHER_DEFAULT_TOOLBAR_STYLE,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * EShellSwitcher:toolbar-visible
@@ -536,7 +537,8 @@ e_shell_switcher_class_init (EShellSwitcherClass *class)
 			"Whether the switcher is visible",
 			TRUE,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * EShellSwitcher::style-changed

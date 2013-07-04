@@ -497,18 +497,18 @@ e_shell_window_private_dispose (EShellWindow *shell_window)
 		priv->shell = NULL;
 	}
 
-	DISPOSE (priv->focus_tracker);
-	DISPOSE (priv->ui_manager);
+	g_clear_object (&priv->focus_tracker);
+	g_clear_object (&priv->ui_manager);
 
 	g_hash_table_remove_all (priv->loaded_views);
 
-	DISPOSE (priv->alert_bar);
-	DISPOSE (priv->content_pane);
-	DISPOSE (priv->content_notebook);
-	DISPOSE (priv->sidebar_notebook);
-	DISPOSE (priv->switcher);
-	DISPOSE (priv->tooltip_label);
-	DISPOSE (priv->status_notebook);
+	g_clear_object (&priv->alert_bar);
+	g_clear_object (&priv->content_pane);
+	g_clear_object (&priv->content_notebook);
+	g_clear_object (&priv->sidebar_notebook);
+	g_clear_object (&priv->switcher);
+	g_clear_object (&priv->tooltip_label);
+	g_clear_object (&priv->status_notebook);
 
 	priv->destroyed = TRUE;
 }

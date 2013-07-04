@@ -173,9 +173,9 @@ shell_sidebar_dispose (GObject *object)
 	if (priv->event_box != NULL) {
 		gtk_widget_unparent (priv->event_box);
 		gtk_widget_destroy (priv->event_box);
-		g_object_unref (priv->event_box);
-		priv->event_box = NULL;
 	}
+
+	g_clear_object (&priv->event_box);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_shell_sidebar_parent_class)->dispose (object);
@@ -369,7 +369,8 @@ e_shell_sidebar_class_init (EShellSidebarClass *class)
 			"Icon Name",
 			NULL,
 			NULL,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * EShellSidebar:primary-text
@@ -384,7 +385,8 @@ e_shell_sidebar_class_init (EShellSidebarClass *class)
 			"Primary Text",
 			NULL,
 			NULL,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * EShellSidebar:secondary-text
@@ -400,7 +402,8 @@ e_shell_sidebar_class_init (EShellSidebarClass *class)
 			"Secondary Text",
 			NULL,
 			NULL,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * EShellSidebar:shell-view
@@ -416,7 +419,8 @@ e_shell_sidebar_class_init (EShellSidebarClass *class)
 			NULL,
 			E_TYPE_SHELL_VIEW,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
 }
 
 static void

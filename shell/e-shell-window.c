@@ -760,7 +760,8 @@ e_shell_window_class_init (EShellWindowClass *class)
 			"Active Shell View",
 			"Name of the active shell view",
 			NULL,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * EShellWindow:alert-bar
@@ -775,7 +776,8 @@ e_shell_window_class_init (EShellWindowClass *class)
 			"Alert Bar",
 			"Displays informational and error messages",
 			E_TYPE_ALERT_BAR,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * EShellWindow:focus-tracker
@@ -790,7 +792,8 @@ e_shell_window_class_init (EShellWindowClass *class)
 			"Focus Tracker",
 			"The shell window's EFocusTracker",
 			E_TYPE_FOCUS_TRACKER,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * EShellWindow:geometry
@@ -806,7 +809,8 @@ e_shell_window_class_init (EShellWindowClass *class)
 			"Initial window geometry string",
 			NULL,
 			G_PARAM_WRITABLE |
-			G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * EShellWindow:safe-mode
@@ -822,7 +826,8 @@ e_shell_window_class_init (EShellWindowClass *class)
 			"Whether the shell window is in safe mode",
 			FALSE,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * EShellWindow:shell
@@ -838,7 +843,8 @@ e_shell_window_class_init (EShellWindowClass *class)
 			"The EShell singleton",
 			E_TYPE_SHELL,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * EShellWindow:sidebar-visible
@@ -853,7 +859,8 @@ e_shell_window_class_init (EShellWindowClass *class)
 			"Sidebar Visible",
 			"Whether the shell window's side bar is visible",
 			TRUE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * EShellWindow:switcher-visible
@@ -869,7 +876,8 @@ e_shell_window_class_init (EShellWindowClass *class)
 			"Whether the shell window's "
 			"switcher buttons are visible",
 			TRUE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * EShellWindow:taskbar-visible
@@ -884,7 +892,8 @@ e_shell_window_class_init (EShellWindowClass *class)
 			"Taskbar Visible",
 			"Whether the shell window's task bar is visible",
 			TRUE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * EShellWindow:toolbar-visible
@@ -899,7 +908,8 @@ e_shell_window_class_init (EShellWindowClass *class)
 			"Toolbar Visible",
 			"Whether the shell window's tool bar is visible",
 			TRUE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * EShellWindow:ui-manager
@@ -914,7 +924,8 @@ e_shell_window_class_init (EShellWindowClass *class)
 			"UI Manager",
 			"The shell window's GtkUIManager",
 			GTK_TYPE_UI_MANAGER,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * EShellWindow::shell-view-created

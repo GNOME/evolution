@@ -951,7 +951,8 @@ e_shell_searchbar_class_init (EShellSearchbarClass *class)
 			NULL,
 			NULL,
 			E_TYPE_ACTION_COMBO_BOX,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_install_property (
 		object_class,
@@ -961,7 +962,8 @@ e_shell_searchbar_class_init (EShellSearchbarClass *class)
 			NULL,
 			NULL,
 			NULL,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_install_property (
 		object_class,
@@ -971,7 +973,8 @@ e_shell_searchbar_class_init (EShellSearchbarClass *class)
 			NULL,
 			NULL,
 			GTK_TYPE_RADIO_ACTION,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_install_property (
 		object_class,
@@ -981,7 +984,8 @@ e_shell_searchbar_class_init (EShellSearchbarClass *class)
 			NULL,
 			NULL,
 			NULL,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_install_property (
 		object_class,
@@ -991,7 +995,8 @@ e_shell_searchbar_class_init (EShellSearchbarClass *class)
 			NULL,
 			NULL,
 			E_TYPE_ACTION_COMBO_BOX,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_install_property (
 		object_class,
@@ -1002,7 +1007,8 @@ e_shell_searchbar_class_init (EShellSearchbarClass *class)
 			NULL,
 			FALSE,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * EShellSearchbar:shell-view
@@ -1018,7 +1024,8 @@ e_shell_searchbar_class_init (EShellSearchbarClass *class)
 			NULL,
 			E_TYPE_SHELL_VIEW,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * EShellSearchbar:state-group
@@ -1034,7 +1041,8 @@ e_shell_searchbar_class_init (EShellSearchbarClass *class)
 			NULL,
 			STATE_GROUP_DEFAULT,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
 }
 
 static void

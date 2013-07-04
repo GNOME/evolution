@@ -354,7 +354,8 @@ e_shell_backend_class_init (EShellBackendClass *class)
 			"Busy",
 			"Whether any activities are still in progress",
 			FALSE,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * EShellBackend:prefer-new-item
@@ -369,7 +370,8 @@ e_shell_backend_class_init (EShellBackendClass *class)
 			"Prefer New Item",
 			"Name of an item to prefer in New toolbar button",
 			NULL,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * EShellBackend::activity-added

@@ -69,7 +69,7 @@ struct _EShellViewPrivate {
 	guint execute_search_blocked;
 
 	GtkWidget *preferences_window;
-	gulong preferences_hide_id;
+	gulong preferences_hide_handler_id;
 };
 
 enum {
@@ -513,45 +513,25 @@ shell_view_dispose (GObject *object)
 		priv->state_save_activity = NULL;
 	}
 
+	if (priv->preferences_window != NULL) {
+		g_signal_handler_disconnect (
+			priv->preferences_window,
+			priv->preferences_hide_handler_id);
+		priv->preferences_hide_handler_id = 0;
+	}
+
 	if (priv->shell_window != NULL) {
 		g_object_remove_weak_pointer (
 			G_OBJECT (priv->shell_window), &priv->shell_window);
 		priv->shell_window = NULL;
 	}
 
-	if (priv->shell_content != NULL) {
-		g_object_unref (priv->shell_content);
-		priv->shell_content = NULL;
-	}
-
-	if (priv->shell_sidebar != NULL) {
-		g_object_unref (priv->shell_sidebar);
-		priv->shell_sidebar = NULL;
-	}
-
-	if (priv->shell_taskbar != NULL) {
-		g_object_unref (priv->shell_taskbar);
-		priv->shell_taskbar = NULL;
-	}
-
-	if (priv->searchbar != NULL) {
-		g_object_unref (priv->searchbar);
-		priv->searchbar = NULL;
-	}
-
-	if (priv->search_rule != NULL) {
-		g_object_unref (priv->search_rule);
-		priv->search_rule = NULL;
-	}
-
-	if (priv->preferences_window != NULL) {
-		g_signal_handler_disconnect (
-			priv->preferences_window,
-			priv->preferences_hide_id);
-		g_object_unref (priv->preferences_window);
-		priv->preferences_window = NULL;
-		priv->preferences_hide_id = 0;
-	}
+	g_clear_object (&priv->shell_content);
+	g_clear_object (&priv->shell_sidebar);
+	g_clear_object (&priv->shell_taskbar);
+	g_clear_object (&priv->searchbar);
+	g_clear_object (&priv->search_rule);
+	g_clear_object (&priv->preferences_window);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (parent_class)->dispose (object);
@@ -581,6 +561,7 @@ shell_view_constructed (GObject *object)
 	EShellBackend *shell_backend;
 	EShellViewClass *shell_view_class;
 	GtkWidget *widget;
+	gulong handler_id;
 
 	shell_view = E_SHELL_VIEW (object);
 	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
@@ -618,9 +599,10 @@ shell_view_constructed (GObject *object)
 	/* Update actions whenever the Preferences window is closed. */
 	widget = e_shell_get_preferences_window (shell);
 	shell_view->priv->preferences_window = g_object_ref (widget);
-	shell_view->priv->preferences_hide_id = g_signal_connect_swapped (
+	handler_id = g_signal_connect_swapped (
 		shell_view->priv->preferences_window, "hide",
 		G_CALLBACK (e_shell_view_update_actions), shell_view);
+	shell_view->priv->preferences_hide_handler_id = handler_id;
 
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
 
@@ -769,7 +751,8 @@ e_shell_view_class_init (EShellViewClass *class)
 			"The switcher action for this shell view",
 			GTK_TYPE_RADIO_ACTION,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * EShellView:page-num
@@ -786,7 +769,8 @@ e_shell_view_class_init (EShellViewClass *class)
 			-1,
 			G_MAXINT,
 			-1,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * EShellView:search-rule
@@ -801,7 +785,8 @@ e_shell_view_class_init (EShellViewClass *class)
 			"Search Rule",
 			"Criteria for the current search results",
 			E_TYPE_FILTER_RULE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * EShellView:shell-backend
@@ -816,7 +801,8 @@ e_shell_view_class_init (EShellViewClass *class)
 			"Shell Backend",
 			"The EShellBackend for this shell view",
 			E_TYPE_SHELL_BACKEND,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * EShellView:shell-content
@@ -833,7 +819,8 @@ e_shell_view_class_init (EShellViewClass *class)
 			"The content widget appears in "
 			"a shell window's right pane",
 			E_TYPE_SHELL_CONTENT,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * EShellView:shell-sidebar
@@ -850,7 +837,8 @@ e_shell_view_class_init (EShellViewClass *class)
 			"The sidebar widget appears in "
 			"a shell window's left pane",
 			E_TYPE_SHELL_SIDEBAR,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * EShellView:shell-taskbar
@@ -866,7 +854,8 @@ e_shell_view_class_init (EShellViewClass *class)
 			"The taskbar widget appears at "
 			"the bottom of a shell window",
 			E_TYPE_SHELL_TASKBAR,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * EShellView:shell-window
@@ -882,7 +871,8 @@ e_shell_view_class_init (EShellViewClass *class)
 			"The window to which the shell view belongs",
 			E_TYPE_SHELL_WINDOW,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * EShellView:state-key-file
@@ -896,7 +886,8 @@ e_shell_view_class_init (EShellViewClass *class)
 			"state-key-file",
 			"State Key File",
 			"The key file holding widget state data",
-			G_PARAM_READABLE));
+			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * EShellView:title
@@ -912,7 +903,8 @@ e_shell_view_class_init (EShellViewClass *class)
 			"Title",
 			"The title of the shell view",
 			NULL,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * EShellView:view-id
@@ -927,7 +919,8 @@ e_shell_view_class_init (EShellViewClass *class)
 			"Current View ID",
 			"The current GAL view ID",
 			NULL,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * EShellView::toggled

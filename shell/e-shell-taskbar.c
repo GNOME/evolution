@@ -223,19 +223,11 @@ shell_taskbar_dispose (GObject *object)
 		g_signal_handlers_disconnect_matched (
 			priv->shell_backend, G_SIGNAL_MATCH_DATA,
 			0, 0, NULL, NULL, object);
-		g_object_unref (priv->shell_backend);
-		priv->shell_backend = NULL;
 	}
 
-	if (priv->label != NULL) {
-		g_object_unref (priv->label);
-		priv->label = NULL;
-	}
-
-	if (priv->hbox != NULL) {
-		g_object_unref (priv->hbox);
-		priv->hbox = NULL;
-	}
+	g_clear_object (&priv->shell_backend);
+	g_clear_object (&priv->label);
+	g_clear_object (&priv->hbox);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_shell_taskbar_parent_class)->dispose (object);
@@ -362,7 +354,8 @@ e_shell_taskbar_class_init (EShellTaskbarClass *class)
 			NULL,
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * EShellTaskbar:shell-view
@@ -378,7 +371,8 @@ e_shell_taskbar_class_init (EShellTaskbarClass *class)
 			NULL,
 			E_TYPE_SHELL_VIEW,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
 }
 
 static void

@@ -657,20 +657,9 @@ shell_dispose (GObject *object)
 		priv->backend_died_handler_id = 0;
 	}
 
-	if (priv->registry != NULL) {
-		g_object_unref (priv->registry);
-		priv->registry = NULL;
-	}
-
-	if (priv->client_cache != NULL) {
-		g_object_unref (priv->client_cache);
-		priv->client_cache = NULL;
-	}
-
-	if (priv->preferences_window != NULL) {
-		g_object_unref (priv->preferences_window);
-		priv->preferences_window = NULL;
-	}
+	g_clear_object (&priv->registry);
+	g_clear_object (&priv->client_cache);
+	g_clear_object (&priv->preferences_window);
 
 	if (priv->preparing_for_line_change != NULL) {
 		g_object_remove_weak_pointer (
@@ -858,12 +847,13 @@ e_shell_class_init (EShellClass *class)
 			"Client Cache",
 			"Shared EClient instances",
 			E_TYPE_CLIENT_CACHE,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * EShell:express-mode
 	 *
-	 * Express mode alters Evolution's user interface to be more
+	 * Express mode alters Evolution's user interface to be mode
 	 * usable on devices with small screens.
 	 **/
 	g_object_class_install_property (
@@ -875,7 +865,8 @@ e_shell_class_init (EShellClass *class)
 			"Whether express mode is enabled",
 			FALSE,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * EShell:geometry
@@ -892,7 +883,8 @@ e_shell_class_init (EShellClass *class)
 			"Initial window geometry string",
 			NULL,
 			G_PARAM_WRITABLE |
-			G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * EShell:module-directory
@@ -908,7 +900,8 @@ e_shell_class_init (EShellClass *class)
 			"The directory from which to load EModules",
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * EShell:network-available
@@ -923,7 +916,8 @@ e_shell_class_init (EShellClass *class)
 			"Network Available",
 			"Whether the network is available",
 			TRUE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * EShell:online
@@ -939,7 +933,8 @@ e_shell_class_init (EShellClass *class)
 			"Whether the shell is online",
 			FALSE,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * EShell:registry
@@ -954,7 +949,8 @@ e_shell_class_init (EShellClass *class)
 			"Registry",
 			"Data source registry",
 			E_TYPE_SOURCE_REGISTRY,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * EShell::event

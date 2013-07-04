@@ -153,10 +153,7 @@ shell_content_dispose (GObject *object)
 		priv->shell_view = NULL;
 	}
 
-	if (priv->alert_bar != NULL) {
-		g_object_unref (priv->alert_bar);
-		priv->alert_bar = NULL;
-	}
+	g_clear_object (&priv->alert_bar);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_shell_content_parent_class)->dispose (object);
@@ -461,7 +458,8 @@ e_shell_content_class_init (EShellContentClass *class)
 			"Alert Bar",
 			"Displays informational and error messages",
 			E_TYPE_ALERT_BAR,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * EShellContent:shell-view
@@ -477,7 +475,8 @@ e_shell_content_class_init (EShellContentClass *class)
 			NULL,
 			E_TYPE_SHELL_VIEW,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
 }
 
 static void
