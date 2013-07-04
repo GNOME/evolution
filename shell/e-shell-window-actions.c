@@ -167,36 +167,40 @@ action_custom_rule_cb (GtkAction *action,
 }
 
 /**
- * E_SHELL_WINDOW_ACTION_GAL_DEFINE_VIEWS:
+ * E_SHELL_WINDOW_ACTION_GAL_DELETE_VIEW:
  * @window: an #EShellWindow
  *
- * Activation of this action opens a dialog for editing GAL views for
- * the current shell view.
+ * Activation of this action deletes the current user-created GAL view.
  *
- * Main menu item: View -> Current View -> Define Views...
+ * Main menu item: View -> Current View -> Delete Current View
  **/
 static void
-action_gal_define_views_cb (GtkAction *action,
-                            EShellWindow *shell_window)
+action_gal_delete_view_cb (GtkAction *action,
+                           EShellWindow *shell_window)
 {
 	EShellView *shell_view;
-	EShellViewClass *shell_view_class;
-	GalViewCollection *view_collection;
-	GtkWidget *dialog;
+	GalViewInstance *view_instance;
 	const gchar *view_name;
+	gchar *gal_view_id;
+	gint index = -1;
 
 	view_name = e_shell_window_get_active_view (shell_window);
 	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
-	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
-	view_collection = shell_view_class->view_collection;
-	g_return_if_fail (view_collection != NULL);
+	view_instance = e_shell_view_get_view_instance (shell_view);
+	g_return_if_fail (view_instance != NULL);
 
-	dialog = gal_define_views_dialog_new (view_collection);
-	gtk_dialog_run (GTK_DIALOG (dialog));
-	gal_view_collection_save (view_collection);
-	gtk_widget_destroy (dialog);
+	/* XXX This is kinda cumbersome.  The view collection API
+	 *     should be using only view ID's, not index numbers. */
+	gal_view_id = gal_view_instance_get_current_view_id (view_instance);
+	if (gal_view_id != NULL) {
+		index = gal_view_collection_get_view_index_by_id (
+			view_instance->collection, gal_view_id);
+		g_free (gal_view_id);
+	}
 
-	e_shell_window_update_view_menu (shell_window);
+	gal_view_collection_delete_view (view_instance->collection, index);
+
+	gal_view_collection_save (view_instance->collection);
 }
 
 /**
@@ -1183,12 +1187,12 @@ static GtkRadioActionEntry shell_switcher_style_entries[] = {
 
 static GtkActionEntry shell_gal_view_entries[] = {
 
-	{ "gal-define-views",
+	{ "gal-delete-view",
 	  NULL,
-	  N_("Define Views..."),
+	  N_("Delete Current View"),
 	  NULL,
-	  N_("Create or edit views"),
-	  G_CALLBACK (action_gal_define_views_cb) },
+	  NULL,  /* Set in update_view_menu() */
+	  G_CALLBACK (action_gal_delete_view_cb) },
 
 	{ "gal-save-custom-view",
 	  NULL,
@@ -1657,6 +1661,8 @@ e_shell_window_update_view_menu (EShellWindow *shell_window)
 	const gchar *path;
 	const gchar *view_id;
 	const gchar *view_name;
+	gchar *delete_tooltip = NULL;
+	gboolean delete_visible = FALSE;
 	guint merge_id;
 	gint count, ii;
 
@@ -1706,7 +1712,6 @@ e_shell_window_update_view_menu (EShellWindow *shell_window)
 			"gal-view-%s-%d", view_name, ii);
 		title = e_str_without_underscores (item->title);
 		tooltip = g_strdup_printf (_("Select view: %s"), title);
-		g_free (title);
 
 		radio_action = gtk_radio_action_new (
 			action_name, item->title, tooltip, NULL, ii);
@@ -1719,8 +1724,12 @@ e_shell_window_update_view_menu (EShellWindow *shell_window)
 			G_OBJECT (radio_action), "view-id",
 			g_strdup (item->id), (GDestroyNotify) g_free);
 
-		if (view_id != NULL && strcmp (item->id, view_id) == 0)
+		if (view_id != NULL && strcmp (item->id, view_id) == 0) {
 			gtk_radio_action_set_current_value (radio_action, ii);
+			delete_visible = (!item->built_in);
+			delete_tooltip = g_strdup_printf (
+				_("Delete view: %s"), title);
+		}
 
 		gtk_action_group_add_action (action_group, action);
 
@@ -1731,6 +1740,7 @@ e_shell_window_update_view_menu (EShellWindow *shell_window)
 
 		g_free (action_name);
 		g_free (tooltip);
+		g_free (title);
 	}
 
 	/* Doesn't matter which radio action we check. */
@@ -1744,6 +1754,12 @@ e_shell_window_update_view_menu (EShellWindow *shell_window)
 
 	action = ACTION (GAL_SAVE_CUSTOM_VIEW);
 	gtk_action_set_visible (action, visible);
+
+	action = ACTION (GAL_DELETE_VIEW);
+	gtk_action_set_tooltip (action, delete_tooltip);
+	gtk_action_set_visible (action, delete_visible);
+
+	g_free (delete_tooltip);
 }
 
 void

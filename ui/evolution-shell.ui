@@ -39,7 +39,7 @@
         <menuitem action='gal-custom-view'/>
         <menuitem action='gal-save-custom-view'/>
         <separator/>
-        <menuitem action='gal-define-views'/>
+        <menuitem action='gal-delete-view'/>
       </menu>
       <menu action='window-menu'/>
       <menu action='layout-menu'>

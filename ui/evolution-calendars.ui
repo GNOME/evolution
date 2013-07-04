@@ -87,8 +87,6 @@
       <menuitem action='calendar-view-week'/>
       <menuitem action='calendar-view-month'/>
       <menuitem action='calendar-view-list'/>
-      <separator/>
-      <menuitem action='gal-define-views'/>
     </menu>
     <menuitem action='calendar-popup-go-today'/>
     <menuitem action='calendar-popup-jump-to'/>
