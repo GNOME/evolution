@@ -43,31 +43,11 @@ G_DEFINE_TYPE (GalViewCollection, gal_view_collection, G_TYPE_OBJECT)
 #define d(x)
 
 enum {
-	DISPLAY_VIEW,
 	CHANGED,
 	LAST_SIGNAL
 };
 
 static guint gal_view_collection_signals[LAST_SIGNAL] = { 0, };
-
-/**
- * gal_view_collection_display_view:
- * @collection: The GalViewCollection to send the signal on.
- * @view: The view to display.
- *
- */
-void
-gal_view_collection_display_view (GalViewCollection *collection,
-                                  GalView *view)
-{
-	g_return_if_fail (GAL_IS_VIEW_COLLECTION (collection));
-	g_return_if_fail (GAL_IS_VIEW (view));
-
-	g_signal_emit (
-		collection,
-		gal_view_collection_signals[DISPLAY_VIEW], 0,
-		view);
-}
 
 static void
 gal_view_collection_changed (GalViewCollection *collection)
@@ -199,16 +179,6 @@ gal_view_collection_class_init (GalViewCollectionClass *class)
 
 	object_class->dispose = gal_view_collection_dispose;
 
-	gal_view_collection_signals[DISPLAY_VIEW] = g_signal_new (
-		"display_view",
-		G_OBJECT_CLASS_TYPE (object_class),
-		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (GalViewCollectionClass, display_view),
-		NULL, NULL,
-		g_cclosure_marshal_VOID__OBJECT,
-		G_TYPE_NONE, 1,
-		GAL_TYPE_VIEW);
-
 	gal_view_collection_signals[CHANGED] = g_signal_new (
 		"changed",
 		G_OBJECT_CLASS_TYPE (object_class),
@@ -218,7 +188,6 @@ gal_view_collection_class_init (GalViewCollectionClass *class)
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
 
-	class->display_view = NULL;
 	class->changed      = NULL;
 }
 

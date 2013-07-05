@@ -81,8 +81,6 @@ struct _GalViewCollectionClass {
 	GObjectClass parent_class;
 
 	/* Signals */
-	void		(*display_view)		(GalViewCollection *collection,
-						 GalView *view);
 	void		(*changed)		(GalViewCollection *collection);
 };
 
@@ -113,11 +111,6 @@ void		gal_view_collection_set_storage_directories
 						 const gchar *local_dir);
 void		gal_view_collection_add_factory	(GalViewCollection *collection,
 						 GalViewFactory *factory);
-
-/* Send the display view signal.  This function is deprecated. */
-void		gal_view_collection_display_view
-						(GalViewCollection *collection,
-						 GalView *view);
 
 /* Query the view collection. */
 gint		gal_view_collection_get_count	(GalViewCollection *collection);
