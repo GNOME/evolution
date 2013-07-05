@@ -43,7 +43,6 @@ calendar/alarm-notify/alarm-notify-dialog.c
 calendar/alarm-notify/alarm-queue.c
 calendar/alarm-notify/util.c
 calendar/calendar.error.xml
-calendar/gui/calendar-view-factory.c
 calendar/gui/caltypes.xml
 calendar/gui/dialogs/alarm-dialog.c
 [type: gettext/glade]calendar/gui/dialogs/alarm-dialog.ui

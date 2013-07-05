@@ -45,7 +45,6 @@
 #include "dialogs/event-editor.h"
 
 #include "calendar-config.h"
-#include "calendar-view-factory.h"
 #include "calendar-view.h"
 #include "comp-util.h"
 #include "e-cal-list-view.h"

@@ -8,7 +8,6 @@ ecalendarinclude_HEADERS =			\
 	calendar-config.h			\
 	calendar-config-keys.h			\
 	calendar-view.h				\
-	calendar-view-factory.h			\
 	comp-util.h				\
 	e-alarm-list.h				\
 	e-cal-config.h				\
@@ -83,8 +82,6 @@ libevolution_calendar_la_SOURCES = \
 	calendar-config-keys.h			\
 	calendar-view.c				\
 	calendar-view.h				\
-	calendar-view-factory.c			\
-	calendar-view-factory.h			\
 	comp-util.c				\
 	comp-util.h				\
 	e-alarm-list.c				\
