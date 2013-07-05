@@ -28,6 +28,14 @@
 #include "e-unicode.h"
 #include "e-xml-utils.h"
 
+#define GAL_VIEW_COLLECTION_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), GAL_TYPE_VIEW_COLLECTION, GalViewCollectionPrivate))
+
+struct _GalViewCollectionPrivate {
+	gint placeholder;
+};
+
 enum {
 	PROP_0,
 	PROP_SYSTEM_DIRECTORY,
@@ -197,6 +205,8 @@ gal_view_collection_class_init (GalViewCollectionClass *class)
 {
 	GObjectClass *object_class;
 
+	g_type_class_add_private (class, sizeof (GalViewCollectionPrivate));
+
 	object_class = G_OBJECT_CLASS (class);
 	object_class->get_property = gal_view_collection_get_property;
 	object_class->dispose = gal_view_collection_dispose;
@@ -237,6 +247,8 @@ gal_view_collection_class_init (GalViewCollectionClass *class)
 static void
 gal_view_collection_init (GalViewCollection *collection)
 {
+	collection->priv = GAL_VIEW_COLLECTION_GET_PRIVATE (collection);
+
 	collection->default_view_built_in = TRUE;
 }
 

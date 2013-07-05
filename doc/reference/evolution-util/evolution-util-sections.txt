@@ -4615,6 +4615,8 @@ GAL_IS_VIEW_COLLECTION_CLASS
 GAL_VIEW_COLLECTION_GET_CLASS
 GalViewCollectionClass
 gal_view_collection_get_type
+<SUBSECTION Private>
+GalViewCollectionPrivate
 </SECTION>
 
 <SECTION>

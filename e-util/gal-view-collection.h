@@ -48,11 +48,13 @@ G_BEGIN_DECLS
 
 typedef struct _GalViewCollection GalViewCollection;
 typedef struct _GalViewCollectionClass GalViewCollectionClass;
+typedef struct _GalViewCollectionPrivate GalViewCollectionPrivate;
 
 typedef struct _GalViewCollectionItem GalViewCollectionItem;
 
 struct _GalViewCollection {
 	GObject parent;
+	GalViewCollectionPrivate *priv;
 
 	GalViewCollectionItem **view_data;
 	gint view_count;
