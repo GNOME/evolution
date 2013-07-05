@@ -27,8 +27,10 @@
 
 #include "addressbook/gui/widgets/gal-view-minicard.h"
 
-static gpointer parent_class;
-static GType book_shell_view_type;
+G_DEFINE_DYNAMIC_TYPE (
+	EBookShellView,
+	e_book_shell_view,
+	E_TYPE_SHELL_VIEW);
 
 static void
 book_shell_view_dispose (GObject *object)
@@ -39,7 +41,7 @@ book_shell_view_dispose (GObject *object)
 	e_book_shell_view_private_dispose (book_shell_view);
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_book_shell_view_parent_class)->dispose (object);
 }
 
 static void
@@ -51,7 +53,7 @@ book_shell_view_finalize (GObject *object)
 	e_book_shell_view_private_finalize (book_shell_view);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_book_shell_view_parent_class)->finalize (object);
 }
 
 static void
@@ -60,7 +62,7 @@ book_shell_view_constructed (GObject *object)
 	EBookShellView *book_shell_view;
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (parent_class)->constructed (object);
+	G_OBJECT_CLASS (e_book_shell_view_parent_class)->constructed (object);
 
 	book_shell_view = E_BOOK_SHELL_VIEW (object);
 	e_book_shell_view_private_constructed (book_shell_view);
@@ -215,7 +217,8 @@ book_shell_view_update_actions (EShellView *shell_view)
 	gboolean source_is_editable;
 
 	/* Chain up to parent's update_actions() method. */
-	E_SHELL_VIEW_CLASS (parent_class)->update_actions (shell_view);
+	E_SHELL_VIEW_CLASS (e_book_shell_view_parent_class)->
+		update_actions (shell_view);
 
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
@@ -348,12 +351,16 @@ book_shell_view_update_actions (EShellView *shell_view)
 }
 
 static void
-book_shell_view_class_init (EBookShellViewClass *class)
+e_book_shell_view_class_finalize (EBookShellViewClass *class)
+{
+}
+
+static void
+e_book_shell_view_class_init (EBookShellViewClass *class)
 {
 	GObjectClass *object_class;
 	EShellViewClass *shell_view_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EBookShellViewPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -379,40 +386,21 @@ book_shell_view_class_init (EBookShellViewClass *class)
 }
 
 static void
-book_shell_view_init (EBookShellView *book_shell_view,
-                      EShellViewClass *shell_view_class)
+e_book_shell_view_init (EBookShellView *book_shell_view)
 {
 	book_shell_view->priv =
 		E_BOOK_SHELL_VIEW_GET_PRIVATE (book_shell_view);
 
-	e_book_shell_view_private_init (book_shell_view, shell_view_class);
-}
-
-GType
-e_book_shell_view_get_type (void)
-{
-	return book_shell_view_type;
+	e_book_shell_view_private_init (book_shell_view);
 }
 
 void
-e_book_shell_view_register_type (GTypeModule *type_module)
+e_book_shell_view_type_register (GTypeModule *type_module)
 {
-	const GTypeInfo type_info = {
-		sizeof (EBookShellViewClass),
-		(GBaseInitFunc) NULL,
-		(GBaseFinalizeFunc) NULL,
-		(GClassInitFunc) book_shell_view_class_init,
-		(GClassFinalizeFunc) NULL,
-		NULL,  /* class_data */
-		sizeof (EBookShellView),
-		0,     /* n_preallocs */
-		(GInstanceInitFunc) book_shell_view_init,
-		NULL   /* value_table */
-	};
-
-	book_shell_view_type = g_type_module_register_type (
-		type_module, E_TYPE_SHELL_VIEW,
-		"EBookShellView", &type_info, 0);
+	/* XXX G_DEFINE_DYNAMIC_TYPE declares a static type registration
+	 *     function, so we have to wrap it with a public function in
+	 *     order to register types from a separate compilation unit. */
+	e_book_shell_view_register_type (type_module);
 }
 
 void

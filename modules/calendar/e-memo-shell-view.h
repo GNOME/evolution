@@ -59,7 +59,7 @@ struct _EMemoShellViewClass {
 };
 
 GType		e_memo_shell_view_get_type	(void);
-void		e_memo_shell_view_register_type	(GTypeModule *type_module);
+void		e_memo_shell_view_type_register	(GTypeModule *type_module);
 
 G_END_DECLS
 

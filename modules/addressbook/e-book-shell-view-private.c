@@ -478,8 +478,7 @@ book_shell_view_notify_view_id_cb (EBookShellView *book_shell_view)
 }
 
 void
-e_book_shell_view_private_init (EBookShellView *book_shell_view,
-                                EShellViewClass *shell_view_class)
+e_book_shell_view_private_init (EBookShellView *book_shell_view)
 {
 	EBookShellViewPrivate *priv = book_shell_view->priv;
 	GHashTable *uid_to_view;
@@ -491,9 +490,6 @@ e_book_shell_view_private_init (EBookShellView *book_shell_view,
 
 	priv->uid_to_view = uid_to_view;
 	priv->preview_index = -1;
-
-	if (!gal_view_collection_loaded (shell_view_class->view_collection))
-		gal_view_collection_load (shell_view_class->view_collection);
 
 	g_signal_connect (
 		book_shell_view, "notify::view-id",

@@ -25,8 +25,10 @@
 
 #include "e-mail-shell-view-private.h"
 
-static gpointer parent_class;
-static GType mail_shell_view_type;
+G_DEFINE_DYNAMIC_TYPE (
+	EMailShellView,
+	e_mail_shell_view,
+	E_TYPE_SHELL_VIEW)
 
 /* ETable spec for search results */
 static const gchar *SEARCH_RESULTS_STATE =
@@ -223,7 +225,7 @@ mail_shell_view_dispose (GObject *object)
 	e_mail_shell_view_private_dispose (E_MAIL_SHELL_VIEW (object));
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_mail_shell_view_parent_class)->dispose (object);
 }
 
 static void
@@ -232,14 +234,14 @@ mail_shell_view_finalize (GObject *object)
 	e_mail_shell_view_private_finalize (E_MAIL_SHELL_VIEW (object));
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_mail_shell_view_parent_class)->finalize (object);
 }
 
 static void
 mail_shell_view_constructed (GObject *object)
 {
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (parent_class)->constructed (object);
+	G_OBJECT_CLASS (e_mail_shell_view_parent_class)->constructed (object);
 
 	e_mail_shell_view_private_constructed (E_MAIL_SHELL_VIEW (object));
 }
@@ -277,7 +279,8 @@ mail_shell_view_toggled (EShellView *shell_view)
 	}
 
 	/* Chain up to parent's toggled() method. */
-	E_SHELL_VIEW_CLASS (parent_class)->toggled (shell_view);
+	E_SHELL_VIEW_CLASS (e_mail_shell_view_parent_class)->
+		toggled (shell_view);
 }
 
 static void
@@ -869,7 +872,8 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	gboolean any_store_is_subscribable = FALSE;
 
 	/* Chain up to parent's update_actions() method. */
-	E_SHELL_VIEW_CLASS (parent_class)->update_actions (shell_view);
+	E_SHELL_VIEW_CLASS (e_mail_shell_view_parent_class)->
+		update_actions (shell_view);
 
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
@@ -1055,13 +1059,11 @@ mail_shell_view_update_actions (EShellView *shell_view)
 }
 
 static void
-mail_shell_view_class_init (EMailShellViewClass *class,
-                            GTypeModule *type_module)
+e_mail_shell_view_class_init (EMailShellViewClass *class)
 {
 	GObjectClass *object_class;
 	EShellViewClass *shell_view_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EMailShellViewPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -1088,38 +1090,25 @@ mail_shell_view_class_init (EMailShellViewClass *class,
 }
 
 static void
-mail_shell_view_init (EMailShellView *mail_shell_view,
-                      EShellViewClass *shell_view_class)
+e_mail_shell_view_class_finalize (EMailShellViewClass *class)
+{
+}
+
+static void
+e_mail_shell_view_init (EMailShellView *mail_shell_view)
 {
 	mail_shell_view->priv =
 		E_MAIL_SHELL_VIEW_GET_PRIVATE (mail_shell_view);
 
-	e_mail_shell_view_private_init (mail_shell_view, shell_view_class);
-}
-
-GType
-e_mail_shell_view_get_type (void)
-{
-	return mail_shell_view_type;
+	e_mail_shell_view_private_init (mail_shell_view);
 }
 
 void
-e_mail_shell_view_register_type (GTypeModule *type_module)
+e_mail_shell_view_type_register (GTypeModule *type_module)
 {
-	const GTypeInfo type_info = {
-		sizeof (EMailShellViewClass),
-		(GBaseInitFunc) NULL,
-		(GBaseFinalizeFunc) NULL,
-		(GClassInitFunc) mail_shell_view_class_init,
-		(GClassFinalizeFunc) NULL,
-		NULL,  /* class_data */
-		sizeof (EMailShellView),
-		0,     /* n_preallocs */
-		(GInstanceInitFunc) mail_shell_view_init,
-		NULL   /* value_table */
-	};
-
-	mail_shell_view_type = g_type_module_register_type (
-		type_module, E_TYPE_SHELL_VIEW,
-		"EMailShellView", &type_info, 0);
+	/* XXX G_DEFINE_DYNAMIC_TYPE declares a static type registration
+	 *     function, so we have to wrap it with a public function in
+	 *     order to register types from a separate compilation unit. */
+	e_mail_shell_view_register_type (type_module);
 }
+

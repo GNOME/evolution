@@ -103,8 +103,7 @@ struct _ETaskShellViewPrivate {
 };
 
 void		e_task_shell_view_private_init
-					(ETaskShellView *task_shell_view,
-					 EShellViewClass *shell_view_class);
+					(ETaskShellView *task_shell_view);
 void		e_task_shell_view_private_constructed
 					(ETaskShellView *task_shell_view);
 void		e_task_shell_view_private_dispose

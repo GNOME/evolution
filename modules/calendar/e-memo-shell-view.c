@@ -25,8 +25,10 @@
 
 #include "e-memo-shell-view-private.h"
 
-static gpointer parent_class;
-static GType memo_shell_view_type;
+G_DEFINE_DYNAMIC_TYPE (
+	EMemoShellView,
+	e_memo_shell_view,
+	E_TYPE_SHELL_VIEW)
 
 static void
 memo_shell_view_dispose (GObject *object)
@@ -34,7 +36,7 @@ memo_shell_view_dispose (GObject *object)
 	e_memo_shell_view_private_dispose (E_MEMO_SHELL_VIEW (object));
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_memo_shell_view_parent_class)->dispose (object);
 }
 
 static void
@@ -43,14 +45,14 @@ memo_shell_view_finalize (GObject *object)
 	e_memo_shell_view_private_finalize (E_MEMO_SHELL_VIEW (object));
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_memo_shell_view_parent_class)->finalize (object);
 }
 
 static void
 memo_shell_view_constructed (GObject *object)
 {
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (parent_class)->constructed (object);
+	G_OBJECT_CLASS (e_memo_shell_view_parent_class)->constructed (object);
 
 	e_memo_shell_view_private_constructed (E_MEMO_SHELL_VIEW (object));
 }
@@ -194,7 +196,8 @@ memo_shell_view_update_actions (EShellView *shell_view)
 	gboolean refresh_supported;
 
 	/* Chain up to parent's update_actions() method. */
-	E_SHELL_VIEW_CLASS (parent_class)->update_actions (shell_view);
+	E_SHELL_VIEW_CLASS (e_memo_shell_view_parent_class)->
+		update_actions (shell_view);
 
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
@@ -288,13 +291,11 @@ memo_shell_view_update_actions (EShellView *shell_view)
 }
 
 static void
-memo_shell_view_class_init (EMemoShellViewClass *class,
-                            GTypeModule *type_module)
+e_memo_shell_view_class_init (EMemoShellViewClass *class)
 {
 	GObjectClass *object_class;
 	EShellViewClass *shell_view_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EMemoShellViewPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -319,38 +320,25 @@ memo_shell_view_class_init (EMemoShellViewClass *class,
 }
 
 static void
-memo_shell_view_init (EMemoShellView *memo_shell_view,
-                      EShellViewClass *shell_view_class)
+e_memo_shell_view_class_finalize (EMemoShellViewClass *class)
+{
+}
+
+static void
+e_memo_shell_view_init (EMemoShellView *memo_shell_view)
 {
 	memo_shell_view->priv =
 		E_MEMO_SHELL_VIEW_GET_PRIVATE (memo_shell_view);
 
-	e_memo_shell_view_private_init (memo_shell_view, shell_view_class);
-}
-
-GType
-e_memo_shell_view_get_type (void)
-{
-	return memo_shell_view_type;
+	e_memo_shell_view_private_init (memo_shell_view);
 }
 
 void
-e_memo_shell_view_register_type (GTypeModule *type_module)
+e_memo_shell_view_type_register (GTypeModule *type_module)
 {
-	const GTypeInfo type_info = {
-		sizeof (EMemoShellViewClass),
-		(GBaseInitFunc) NULL,
-		(GBaseFinalizeFunc) NULL,
-		(GClassInitFunc) memo_shell_view_class_init,
-		(GClassFinalizeFunc) NULL,
-		type_module,
-		sizeof (EMemoShellView),
-		0,    /* n_preallocs */
-		(GInstanceInitFunc) memo_shell_view_init,
-		NULL  /* value_table */
-	};
-
-	memo_shell_view_type = g_type_module_register_type (
-		type_module, E_TYPE_SHELL_VIEW,
-		"EMemoShellView", &type_info, 0);
+	/* XXX G_DEFINE_DYNAMIC_TYPE declares a static type registration
+	 *     function, so we have to wrap it with a public function in
+	 *     order to register types from a separate compilation unit. */
+	e_memo_shell_view_register_type (type_module);
 }
+

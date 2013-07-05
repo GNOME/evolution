@@ -49,10 +49,10 @@ e_module_load (GTypeModule *type_module)
 	e_mail_config_hook_register_type (type_module);
 	e_mail_event_hook_register_type (type_module);
 
+	e_mail_shell_view_type_register (type_module);
 	e_mail_shell_backend_type_register (type_module);
 	e_mail_shell_content_type_register (type_module);
 	e_mail_shell_sidebar_type_register (type_module);
-	e_mail_shell_view_register_type (type_module);
 
 	em_account_prefs_type_register (type_module);
 }

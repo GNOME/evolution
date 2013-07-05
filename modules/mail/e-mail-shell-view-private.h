@@ -149,8 +149,7 @@ struct _EMailShellViewPrivate {
 };
 
 void		e_mail_shell_view_private_init
-					(EMailShellView *mail_shell_view,
-					 EShellViewClass *shell_view_class);
+					(EMailShellView *mail_shell_view);
 void		e_mail_shell_view_private_constructed
 					(EMailShellView *mail_shell_view);
 void		e_mail_shell_view_private_dispose

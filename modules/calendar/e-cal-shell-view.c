@@ -27,8 +27,10 @@
 
 #include "calendar/gui/calendar-view.h"
 
-static gpointer parent_class;
-static GType cal_shell_view_type;
+G_DEFINE_DYNAMIC_TYPE (
+	ECalShellView,
+	e_cal_shell_view,
+	E_TYPE_SHELL_VIEW)
 
 static void
 cal_shell_view_add_action_button (GtkBox *box,
@@ -80,7 +82,7 @@ cal_shell_view_dispose (GObject *object)
 	e_cal_shell_view_private_dispose (E_CAL_SHELL_VIEW (object));
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_cal_shell_view_parent_class)->dispose (object);
 }
 
 static void
@@ -89,7 +91,7 @@ cal_shell_view_finalize (GObject *object)
 	e_cal_shell_view_private_finalize (E_CAL_SHELL_VIEW (object));
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_cal_shell_view_parent_class)->finalize (object);
 }
 
 static void
@@ -106,7 +108,7 @@ cal_shell_view_constructed (GObject *object)
 	gulong handler_id;
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (parent_class)->constructed (object);
+	G_OBJECT_CLASS (e_cal_shell_view_parent_class)->constructed (object);
 
 	cal_shell_view = E_CAL_SHELL_VIEW (object);
 	e_cal_shell_view_private_constructed (cal_shell_view);
@@ -370,7 +372,8 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	gboolean refresh_supported;
 
 	/* Chain up to parent's update_actions() method. */
-	E_SHELL_VIEW_CLASS (parent_class)->update_actions (shell_view);
+	E_SHELL_VIEW_CLASS (e_cal_shell_view_parent_class)->
+		update_actions (shell_view);
 
 	priv = E_CAL_SHELL_VIEW_GET_PRIVATE (shell_view);
 
@@ -572,13 +575,11 @@ cal_shell_view_update_actions (EShellView *shell_view)
 }
 
 static void
-cal_shell_view_class_init (ECalShellViewClass *class,
-                           GTypeModule *type_module)
+e_cal_shell_view_class_init (ECalShellViewClass *class)
 {
 	GObjectClass *object_class;
 	EShellViewClass *shell_view_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (ECalShellViewPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -607,38 +608,25 @@ cal_shell_view_class_init (ECalShellViewClass *class,
 }
 
 static void
-cal_shell_view_init (ECalShellView *cal_shell_view,
-                     EShellViewClass *shell_view_class)
+e_cal_shell_view_class_finalize (ECalShellViewClass *class)
+{
+}
+
+static void
+e_cal_shell_view_init (ECalShellView *cal_shell_view)
 {
 	cal_shell_view->priv =
 		E_CAL_SHELL_VIEW_GET_PRIVATE (cal_shell_view);
 
-	e_cal_shell_view_private_init (cal_shell_view, shell_view_class);
-}
-
-GType
-e_cal_shell_view_get_type (void)
-{
-	return cal_shell_view_type;
+	e_cal_shell_view_private_init (cal_shell_view);
 }
 
 void
-e_cal_shell_view_register_type (GTypeModule *type_module)
+e_cal_shell_view_type_register (GTypeModule *type_module)
 {
-	const GTypeInfo type_info = {
-		sizeof (ECalShellViewClass),
-		(GBaseInitFunc) NULL,
-		(GBaseFinalizeFunc) NULL,
-		(GClassInitFunc) cal_shell_view_class_init,
-		(GClassFinalizeFunc) NULL,
-		type_module,
-		sizeof (ECalShellView),
-		0,    /* n_preallocs */
-		(GInstanceInitFunc) cal_shell_view_init,
-		NULL  /* value_table */
-	};
-
-	cal_shell_view_type = g_type_module_register_type (
-		type_module, E_TYPE_SHELL_VIEW,
-		"ECalShellView", &type_info, 0);
+	/* XXX G_DEFINE_DYNAMIC_TYPE declares a static type registration
+	 *     function, so we have to wrap it with a public function in
+	 *     order to register types from a separate compilation unit. */
+	e_cal_shell_view_register_type (type_module);
 }
+

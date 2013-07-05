@@ -174,11 +174,10 @@ shell_view_init_view_collection (EShellViewClass *class)
 	gal_view_collection_set_storage_directories (
 		class->view_collection, system_dir, local_dir);
 
+	gal_view_collection_load (class->view_collection);
+
 	g_free (system_dir);
 	g_free (local_dir);
-
-	/* This is all we can do.  It's up to the subclasses to
-	 * add the appropriate factories to the view collection. */
 }
 
 static void

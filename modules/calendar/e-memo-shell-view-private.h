@@ -85,8 +85,7 @@ struct _EMemoShellViewPrivate {
 };
 
 void		e_memo_shell_view_private_init
-					(EMemoShellView *memo_shell_view,
-					 EShellViewClass *shell_view_class);
+					(EMemoShellView *memo_shell_view);
 void		e_memo_shell_view_private_constructed
 					(EMemoShellView *memo_shell_view);
 void		e_memo_shell_view_private_dispose

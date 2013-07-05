@@ -30,8 +30,10 @@ enum {
 	PROP_CONFIRM_PURGE
 };
 
-static gpointer parent_class;
-static GType task_shell_view_type;
+G_DEFINE_DYNAMIC_TYPE (
+	ETaskShellView,
+	e_task_shell_view,
+	E_TYPE_SHELL_VIEW)
 
 static void
 task_shell_view_set_property (GObject *object,
@@ -73,7 +75,7 @@ task_shell_view_dispose (GObject *object)
 	e_task_shell_view_private_dispose (E_TASK_SHELL_VIEW (object));
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_task_shell_view_parent_class)->dispose (object);
 }
 
 static void
@@ -82,14 +84,14 @@ task_shell_view_finalize (GObject *object)
 	e_task_shell_view_private_finalize (E_TASK_SHELL_VIEW (object));
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_task_shell_view_parent_class)->finalize (object);
 }
 
 static void
 task_shell_view_constructed (GObject *object)
 {
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (parent_class)->constructed (object);
+	G_OBJECT_CLASS (e_task_shell_view_parent_class)->constructed (object);
 
 	e_task_shell_view_private_constructed (E_TASK_SHELL_VIEW (object));
 }
@@ -317,7 +319,8 @@ task_shell_view_update_actions (EShellView *shell_view)
 	gboolean refresh_supported;
 
 	/* Chain up to parent's update_actions() method. */
-	E_SHELL_VIEW_CLASS (parent_class)->update_actions (shell_view);
+	E_SHELL_VIEW_CLASS (e_task_shell_view_parent_class)->
+		update_actions (shell_view);
 
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
@@ -441,13 +444,11 @@ task_shell_view_update_actions (EShellView *shell_view)
 }
 
 static void
-task_shell_view_class_init (ETaskShellViewClass *class,
-                            GTypeModule *type_module)
+e_task_shell_view_class_init (ETaskShellViewClass *class)
 {
 	GObjectClass *object_class;
 	EShellViewClass *shell_view_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (ETaskShellViewPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -484,40 +485,26 @@ task_shell_view_class_init (ETaskShellViewClass *class,
 }
 
 static void
-task_shell_view_init (ETaskShellView *task_shell_view,
-                      EShellViewClass *shell_view_class)
+e_task_shell_view_class_finalize (ETaskShellViewClass *class)
+{
+}
+
+static void
+e_task_shell_view_init (ETaskShellView *task_shell_view)
 {
 	task_shell_view->priv =
 		E_TASK_SHELL_VIEW_GET_PRIVATE (task_shell_view);
 
-	e_task_shell_view_private_init (task_shell_view, shell_view_class);
-}
-
-GType
-e_task_shell_view_get_type (void)
-{
-	return task_shell_view_type;
+	e_task_shell_view_private_init (task_shell_view);
 }
 
 void
-e_task_shell_view_register_type (GTypeModule *type_module)
+e_task_shell_view_type_register (GTypeModule *type_module)
 {
-	const GTypeInfo type_info = {
-		sizeof (ETaskShellViewClass),
-		(GBaseInitFunc) NULL,
-		(GBaseFinalizeFunc) NULL,
-		(GClassInitFunc) task_shell_view_class_init,
-		(GClassFinalizeFunc) NULL,
-		type_module,
-		sizeof (ETaskShellView),
-		0,    /* n_preallocs */
-		(GInstanceInitFunc) task_shell_view_init,
-		NULL  /* value_table */
-	};
-
-	task_shell_view_type = g_type_module_register_type (
-		type_module, E_TYPE_SHELL_VIEW,
-		"ETaskShellView", &type_info, 0);
+	/* XXX G_DEFINE_DYNAMIC_TYPE declares a static type registration
+	 *     function, so we have to wrap it with a public function in
+	 *     order to register types from a separate compilation unit. */
+	e_task_shell_view_register_type (type_module);
 }
 
 gboolean

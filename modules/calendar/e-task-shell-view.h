@@ -59,7 +59,7 @@ struct _ETaskShellViewClass {
 };
 
 GType		e_task_shell_view_get_type	(void);
-void		e_task_shell_view_register_type	(GTypeModule *type_module);
+void		e_task_shell_view_type_register	(GTypeModule *type_module);
 gboolean	e_task_shell_view_get_confirm_purge
 						(ETaskShellView *task_shell_view);
 void		e_task_shell_view_set_confirm_purge

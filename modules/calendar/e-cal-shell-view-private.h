@@ -119,8 +119,7 @@ struct _ECalShellViewPrivate {
 };
 
 void		e_cal_shell_view_private_init
-					(ECalShellView *cal_shell_view,
-					 EShellViewClass *shell_view_class);
+					(ECalShellView *cal_shell_view);
 void		e_cal_shell_view_private_constructed
 					(ECalShellView *cal_shell_view);
 void		e_cal_shell_view_private_dispose

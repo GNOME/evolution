@@ -207,12 +207,8 @@ task_shell_view_notify_view_id_cb (EShellView *shell_view)
 }
 
 void
-e_task_shell_view_private_init (ETaskShellView *task_shell_view,
-                                EShellViewClass *shell_view_class)
+e_task_shell_view_private_init (ETaskShellView *task_shell_view)
 {
-	if (!gal_view_collection_loaded (shell_view_class->view_collection))
-		gal_view_collection_load (shell_view_class->view_collection);
-
 	g_signal_connect (
 		task_shell_view, "notify::view-id",
 		G_CALLBACK (task_shell_view_notify_view_id_cb), NULL);

@@ -59,20 +59,20 @@ e_module_load (GTypeModule *type_module)
 	e_cal_config_hook_register_type (type_module);
 	e_cal_event_hook_register_type (type_module);
 
+	e_cal_shell_view_type_register (type_module);
 	e_cal_shell_backend_type_register (type_module);
 	e_cal_shell_content_type_register (type_module);
 	e_cal_shell_sidebar_type_register (type_module);
-	e_cal_shell_view_register_type (type_module);
 
+	e_memo_shell_view_type_register (type_module);
 	e_memo_shell_backend_type_register (type_module);
 	e_memo_shell_content_type_register (type_module);
 	e_memo_shell_sidebar_type_register (type_module);
-	e_memo_shell_view_register_type (type_module);
 
+	e_task_shell_view_type_register (type_module);
 	e_task_shell_backend_type_register (type_module);
 	e_task_shell_content_type_register (type_module);
 	e_task_shell_sidebar_type_register (type_module);
-	e_task_shell_view_register_type (type_module);
 
 	e_calendar_preferences_type_register (type_module);
 }
