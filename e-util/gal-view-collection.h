@@ -121,8 +121,6 @@ gint		gal_view_collection_get_view_index_by_id
 						 const gchar *view_id);
 
 /* Manipulate the view collection */
-void		gal_view_collection_append	(GalViewCollection *collection,
-						 GalView *view);
 void		gal_view_collection_delete_view	(GalViewCollection *collection,
 						 gint i);
 void		gal_view_collection_copy_view	(GalViewCollection *collection,
