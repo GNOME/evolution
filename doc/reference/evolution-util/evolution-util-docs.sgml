@@ -200,7 +200,6 @@
     <xi:include href="xml/gal-view-etable.xml"/>
     <xi:include href="xml/gal-view-factory-etable.xml"/>
     <xi:include href="xml/gal-view-new-dialog.xml"/>
-    <xi:include href="xml/gal-define-views-dialog.xml"/>
     <xi:include href="xml/gal-define-views-model.xml"/>
     <xi:include href="xml/gal-view-instance-save-as-dialog.xml"/>
   </chapter>

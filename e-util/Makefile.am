@@ -44,7 +44,6 @@ ui_DATA = \
 	e-table-config.ui \
 	e-timezone-dialog.ui \
 	filter.ui \
-	gal-define-views.ui \
 	gal-view-instance-save-as-dialog.ui \
 	gal-view-new-dialog.ui \
 	$(NULL)
@@ -329,7 +328,6 @@ evolution_util_include_HEADERS =  \
 	gal-a11y-e-tree.h \
 	gal-a11y-factory.h \
 	gal-a11y-util.h \
-	gal-define-views-dialog.h \
 	gal-define-views-model.h \
 	gal-view-collection.h \
 	gal-view-etable.h \
@@ -568,7 +566,6 @@ libevolution_util_la_SOURCES = \
 	gal-a11y-e-tree-factory.c \
 	gal-a11y-e-tree.c \
 	gal-a11y-util.c \
-	gal-define-views-dialog.c \
 	gal-define-views-model.c \
 	gal-view-collection.c \
 	gal-view-etable.c \

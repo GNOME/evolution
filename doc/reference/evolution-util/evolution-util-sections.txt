@@ -4562,22 +4562,6 @@ e_xml_get_translated_string_prop_by_name
 </SECTION>
 
 <SECTION>
-<FILE>gal-define-views-dialog</FILE>
-<TITLE>GalDefineViewsDialog</TITLE>
-GalDefineViewsDialog
-gal_define_views_dialog_new
-<SUBSECTION Standard>
-GAL_DEFINE_VIEWS_DIALOG
-GAL_IS_DEFINE_VIEWS_DIALOG
-GAL_TYPE_DEFINE_VIEWS_DIALOG
-GAL_DEFINE_VIEWS_DIALOG_CLASS
-GAL_IS_DEFINE_VIEWS_DIALOG_CLASS
-GAL_DEFINE_VIEWS_DIALOG_GET_CLASS
-GalDefineViewsDialogClass
-gal_define_views_dialog_get_type
-</SECTION>
-
-<SECTION>
 <FILE>gal-define-views-model</FILE>
 <TITLE>GalDefineViewsModel</TITLE>
 GalDefineViewsModel

@@ -176,7 +176,6 @@ em-format/e-mail-part-utils.c
 [type: gettext/glade]e-util/e-table-config.ui
 [type: gettext/glade]e-util/e-timezone-dialog.ui
 [type: gettext/glade]e-util/filter.ui
-[type: gettext/glade]e-util/gal-define-views.ui
 [type: gettext/glade]e-util/gal-view-instance-save-as-dialog.ui
 [type: gettext/glade]e-util/gal-view-new-dialog.ui
 e-util/e-action-combo-box.c
@@ -287,7 +286,6 @@ e-util/gal-a11y-e-cell-tree.c
 e-util/gal-a11y-e-cell.c
 e-util/gal-a11y-e-table-click-to-add.c
 e-util/gal-a11y-e-table-column-header.c
-e-util/gal-define-views-dialog.c
 e-util/gal-define-views-model.c
 e-util/gal-view-factory-etable.c
 e-util/gal-view-instance-save-as-dialog.c

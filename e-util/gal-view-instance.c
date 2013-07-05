@@ -42,7 +42,6 @@
 
 #include "e-unicode.h"
 #include "e-xml-utils.h"
-#include "gal-define-views-dialog.h"
 #include "gal-view-instance-save-as-dialog.h"
 
 G_DEFINE_TYPE (GalViewInstance, gal_view_instance, G_TYPE_OBJECT)

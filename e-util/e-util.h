@@ -222,7 +222,6 @@
 #include <e-util/e-xml-utils.h>
 #include <e-util/ea-cell-table.h>
 #include <e-util/ea-factory.h>
-#include <e-util/gal-define-views-dialog.h>
 #include <e-util/gal-define-views-model.h>
 #include <e-util/gal-view-collection.h>
 #include <e-util/gal-view-etable.h>
