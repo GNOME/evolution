@@ -608,42 +608,6 @@ gal_view_collection_delete_view (GalViewCollection *collection,
 	gal_view_collection_changed (collection);
 }
 
-void
-gal_view_collection_copy_view (GalViewCollection *collection,
-                               gint i)
-{
-	GalViewCollectionItem *item;
-	GalView *view;
-	GalViewClass *view_class;
-
-	g_return_if_fail (GAL_IS_VIEW_COLLECTION (collection));
-	g_return_if_fail (i >= 0 && i < collection->view_count);
-
-	view = collection->view_data[i]->view;
-	view_class = GAL_VIEW_GET_CLASS (view);
-
-	item = g_new (GalViewCollectionItem, 1);
-	item->ever_changed = TRUE;
-	item->changed = FALSE;
-	item->built_in = FALSE;
-	item->title = g_strdup (gal_view_get_title (view));
-	item->type = g_strdup (view_class->type_code);
-	item->id = gal_view_generate_id (collection, view);
-	item->filename = g_strdup_printf ("%s.galview", item->id);
-	item->view = gal_view_clone (view);
-	item->collection = collection;
-
-	item->view_changed_id = g_signal_connect (
-		item->view, "changed",
-		G_CALLBACK (view_changed), item);
-
-	collection->view_data = g_renew (GalViewCollectionItem *, collection->view_data, collection->view_count + 1);
-	collection->view_data[collection->view_count] = item;
-	collection->view_count++;
-
-	gal_view_collection_changed (collection);
-}
-
 gboolean
 gal_view_collection_loaded (GalViewCollection *collection)
 {

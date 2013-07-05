@@ -123,8 +123,6 @@ gint		gal_view_collection_get_view_index_by_id
 /* Manipulate the view collection */
 void		gal_view_collection_delete_view	(GalViewCollection *collection,
 						 gint i);
-void		gal_view_collection_copy_view	(GalViewCollection *collection,
-						 gint i);
 
 /* Call set_storage_directories and add factories for anything
  * that might be found there before doing either of these. */
