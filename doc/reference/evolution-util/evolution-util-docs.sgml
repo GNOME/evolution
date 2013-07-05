@@ -194,7 +194,6 @@
   <chapter>
     <title>View Management</title>
     <xi:include href="xml/gal-view.xml"/>
-    <xi:include href="xml/gal-view-factory.xml"/>
     <xi:include href="xml/gal-view-instance.xml"/>
     <xi:include href="xml/gal-view-collection.xml"/>
     <xi:include href="xml/gal-view-etable.xml"/>

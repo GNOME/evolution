@@ -163,7 +163,6 @@ e_web_view_gtkhtml_get_type
 e_web_view_preview_get_type
 gal_view_collection_get_type
 gal_view_etable_get_type
-gal_view_factory_get_type
 gal_view_get_type
 gal_view_instance_get_type
 gal_view_instance_save_as_dialog_get_type

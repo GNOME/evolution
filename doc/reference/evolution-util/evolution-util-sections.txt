@@ -4637,23 +4637,6 @@ GalViewEtablePrivate
 </SECTION>
 
 <SECTION>
-<FILE>gal-view-factory</FILE>
-<TITLE>GalViewFactory</TITLE>
-GalViewFactory
-gal_view_factory_get_type_code
-gal_view_factory_new_view
-<SUBSECTION Standard>
-GAL_VIEW_FACTORY
-GAL_IS_VIEW_FACTORY
-GAL_TYPE_VIEW_FACTORY
-GAL_VIEW_FACTORY_CLASS
-GAL_IS_VIEW_FACTORY_CLASS
-GAL_VIEW_FACTORY_GET_CLASS
-GalViewFactoryClass
-gal_view_factory_get_type
-</SECTION>
-
-<SECTION>
 <FILE>gal-view-instance</FILE>
 <TITLE>GalViewInstance</TITLE>
 GalViewInstance
