@@ -109,12 +109,6 @@ view_factory_etable_dispose (GObject *object)
 }
 
 static const gchar *
-view_factory_etable_get_title (GalViewFactory *factory)
-{
-	return _("Table");
-}
-
-static const gchar *
 view_factory_etable_get_type_code (GalViewFactory *factory)
 {
 	return "etable";
@@ -145,7 +139,6 @@ gal_view_factory_etable_class_init (GalViewFactoryEtableClass *class)
 	object_class->dispose = view_factory_etable_dispose;
 
 	view_factory_class = GAL_VIEW_FACTORY_CLASS (class);
-	view_factory_class->get_title = view_factory_etable_get_title;
 	view_factory_class->get_type_code = view_factory_etable_get_type_code;
 	view_factory_class->new_view = view_factory_etable_new_view;
 

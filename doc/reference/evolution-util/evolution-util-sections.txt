@@ -4645,7 +4645,6 @@ gal_view_etable_get_type
 <FILE>gal-view-factory</FILE>
 <TITLE>GalViewFactory</TITLE>
 GalViewFactory
-gal_view_factory_get_title
 gal_view_factory_get_type_code
 gal_view_factory_new_view
 <SUBSECTION Standard>

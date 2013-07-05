@@ -62,14 +62,12 @@ struct _GalViewFactoryClass {
 	GObjectClass parent_class;
 
 	/* Methods */
-	const gchar *	(*get_title)		(GalViewFactory *factory);
 	const gchar *	(*get_type_code)	(GalViewFactory *factory);
 	GalView *	(*new_view)		(GalViewFactory *factory,
 						 const gchar *name);
 };
 
 GType		gal_view_factory_get_type	(void);
-const gchar *	gal_view_factory_get_title	(GalViewFactory *factory);
 
 /* Returns the code for use in identifying this type of object in the
  * view list.  This identifier should identify this as being the

@@ -40,8 +40,6 @@ struct _CalendarViewFactoryPrivate {
 };
 
 static const gchar *
-		calendar_view_factory_get_title	(GalViewFactory *factory);
-static const gchar *
 		calendar_view_factory_get_type_code
 						(GalViewFactory *factory);
 static GalView *
@@ -61,7 +59,6 @@ calendar_view_factory_class_init (CalendarViewFactoryClass *class)
 	g_type_class_add_private (class, sizeof (CalendarViewFactoryPrivate));
 
 	gal_view_factory_class = GAL_VIEW_FACTORY_CLASS (class);
-	gal_view_factory_class->get_title = calendar_view_factory_get_title;
 	gal_view_factory_class->get_type_code = calendar_view_factory_get_type_code;
 	gal_view_factory_class->new_view = calendar_view_factory_new_view;
 }
@@ -71,34 +68,6 @@ calendar_view_factory_init (CalendarViewFactory *cal_view_factory)
 {
 	cal_view_factory->priv =
 		CALENDAR_VIEW_FACTORY_GET_PRIVATE (cal_view_factory);
-}
-
-/* get_title method for the calendar view factory */
-static const gchar *
-calendar_view_factory_get_title (GalViewFactory *factory)
-{
-	CalendarViewFactory *cal_view_factory;
-	CalendarViewFactoryPrivate *priv;
-
-	cal_view_factory = CALENDAR_VIEW_FACTORY (factory);
-	priv = cal_view_factory->priv;
-
-	switch (priv->view_type) {
-	case GNOME_CAL_DAY_VIEW:
-		return _("Day View");
-
-	case GNOME_CAL_WORK_WEEK_VIEW:
-		return _("Work Week View");
-
-	case GNOME_CAL_WEEK_VIEW:
-		return _("Week View");
-
-	case GNOME_CAL_MONTH_VIEW:
-		return _("Month View");
-
-	default:
-		g_return_val_if_reached (NULL);
-	}
 }
 
 /* get_type_code method for the calendar view factory */

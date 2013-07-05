@@ -41,25 +41,6 @@ gal_view_factory_init (GalViewFactory *factory)
 }
 
 /**
- * gal_view_factory_get_title:
- * @factory: a #GalViewFactory
- *
- * Returns: The title of the factory.
- */
-const gchar *
-gal_view_factory_get_title (GalViewFactory *factory)
-{
-	GalViewFactoryClass *class;
-
-	g_return_val_if_fail (GAL_IS_VIEW_FACTORY (factory), NULL);
-
-	class = GAL_VIEW_FACTORY_GET_CLASS (factory);
-	g_return_val_if_fail (class->get_title != NULL, NULL);
-
-	return class->get_title (factory);
-}
-
-/**
  * gal_view_factory_get_type_code:
  * @factory: a #GalViewFactory
  *
