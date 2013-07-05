@@ -45,7 +45,6 @@ ui_DATA = \
 	e-timezone-dialog.ui \
 	filter.ui \
 	gal-view-instance-save-as-dialog.ui \
-	gal-view-new-dialog.ui \
 	$(NULL)
 
 xpm_icons = \
@@ -334,7 +333,6 @@ evolution_util_include_HEADERS =  \
 	gal-view-factory.h \
 	gal-view-instance-save-as-dialog.h \
 	gal-view-instance.h \
-	gal-view-new-dialog.h \
 	gal-view.h \
 	$(NULL)
 
@@ -571,7 +569,6 @@ libevolution_util_la_SOURCES = \
 	gal-view-factory.c \
 	gal-view-instance-save-as-dialog.c \
 	gal-view-instance.c \
-	gal-view-new-dialog.c \
 	gal-view.c \
 	$(PLATFORM_SOURCES) \
 	$(NULL)

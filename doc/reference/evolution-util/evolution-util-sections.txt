@@ -4723,20 +4723,3 @@ GalViewInstanceSaveAsDialogClass
 gal_view_instance_save_as_dialog_get_type
 </SECTION>
 
-<SECTION>
-<FILE>gal-view-new-dialog</FILE>
-<TITLE>GalViewNewDialog</TITLE>
-GalViewNewDialog
-gal_view_new_dialog_new
-gal_view_new_dialog_construct
-<SUBSECTION Standard>
-GAL_VIEW_NEW_DIALOG
-GAL_IS_VIEW_NEW_DIALOG
-GAL_TYPE_VIEW_NEW_DIALOG
-GAL_VIEW_NEW_DIALOG_CLASS
-GAL_IS_VIEW_NEW_DIALOG_CLASS
-GAL_VIEW_NEW_DIALOG_GET_CLASS
-GalViewNewDialogClass
-gal_view_new_dialog_get_type
-</SECTION>
-

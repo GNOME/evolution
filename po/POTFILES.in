@@ -177,7 +177,6 @@ em-format/e-mail-part-utils.c
 [type: gettext/glade]e-util/e-timezone-dialog.ui
 [type: gettext/glade]e-util/filter.ui
 [type: gettext/glade]e-util/gal-view-instance-save-as-dialog.ui
-[type: gettext/glade]e-util/gal-view-new-dialog.ui
 e-util/e-action-combo-box.c
 e-util/e-activity-proxy.c
 e-util/e-activity.c
@@ -289,7 +288,6 @@ e-util/gal-a11y-e-table-column-header.c
 e-util/gal-view-factory-etable.c
 e-util/gal-view-instance-save-as-dialog.c
 e-util/gal-view-instance.c
-e-util/gal-view-new-dialog.c
 e-util/widgets.error.xml
 libemail-engine/camel-null-store.c
 libemail-engine/camel-sasl-xoauth2.c

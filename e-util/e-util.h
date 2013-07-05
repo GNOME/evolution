@@ -228,7 +228,6 @@
 #include <e-util/gal-view-factory.h>
 #include <e-util/gal-view-instance-save-as-dialog.h>
 #include <e-util/gal-view-instance.h>
-#include <e-util/gal-view-new-dialog.h>
 #include <e-util/gal-view.h>
 
 #undef __E_UTIL_H_INSIDE__
