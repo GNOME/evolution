@@ -4562,26 +4562,6 @@ e_xml_get_translated_string_prop_by_name
 </SECTION>
 
 <SECTION>
-<FILE>gal-define-views-model</FILE>
-<TITLE>GalDefineViewsModel</TITLE>
-GalDefineViewsModel
-gal_define_views_model_new
-gal_define_views_model_append
-gal_define_views_model_get_view
-gal_define_views_model_delete_view
-gal_define_views_model_copy_view
-<SUBSECTION Standard>
-GAL_DEFINE_VIEWS_MODEL
-GAL_IS_DEFINE_VIEWS_MODEL
-GAL_TYPE_DEFINE_VIEWS_MODEL
-GAL_DEFINE_VIEWS_MODEL_CLASS
-GAL_IS_DEFINE_VIEWS_MODEL_CLASS
-GAL_DEFINE_VIEWS_MODEL_GET_CLASS
-GalDefineViewsModelClass
-gal_define_views_model_get_type
-</SECTION>
-
-<SECTION>
 <FILE>gal-view</FILE>
 <TITLE>GalView</TITLE>
 GalView

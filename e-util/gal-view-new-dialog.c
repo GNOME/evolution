@@ -32,7 +32,6 @@
 #include "e-misc-utils.h"
 #include "e-util-private.h"
 #include "e-unicode.h"
-#include "gal-define-views-model.h"
 
 enum {
 	PROP_0,

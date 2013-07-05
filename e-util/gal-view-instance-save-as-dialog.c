@@ -30,7 +30,6 @@
 
 #include "e-misc-utils.h"
 #include "e-util-private.h"
-#include "gal-define-views-model.h"
 #include "gal-view-new-dialog.h"
 
 G_DEFINE_TYPE (GalViewInstanceSaveAsDialog, gal_view_instance_save_as_dialog, GTK_TYPE_DIALOG)
