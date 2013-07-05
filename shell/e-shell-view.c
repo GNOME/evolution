@@ -153,31 +153,27 @@ static void
 shell_view_init_view_collection (EShellViewClass *class)
 {
 	EShellBackend *shell_backend;
-	const gchar *base_dir;
-	const gchar *backend_name;
-	gchar *system_dir;
-	gchar *local_dir;
+	const gchar *base_directory;
+	const gchar *name;
+	gchar *system_directory;
+	gchar *user_directory;
 
 	shell_backend = class->shell_backend;
 	g_return_if_fail (E_IS_SHELL_BACKEND (shell_backend));
-	backend_name = E_SHELL_BACKEND_GET_CLASS (shell_backend)->name;
+	name = E_SHELL_BACKEND_GET_CLASS (shell_backend)->name;
 
-	base_dir = EVOLUTION_GALVIEWSDIR;
-	system_dir = g_build_filename (base_dir, backend_name, NULL);
+	base_directory = EVOLUTION_GALVIEWSDIR;
+	system_directory = g_build_filename (base_directory, name, NULL);
 
-	base_dir = e_shell_backend_get_config_dir (shell_backend);
-	local_dir = g_build_filename (base_dir, "views", NULL);
+	base_directory = e_shell_backend_get_config_dir (shell_backend);
+	user_directory = g_build_filename (base_directory, "views", NULL);
 
 	/* The view collection is never destroyed. */
-	class->view_collection = gal_view_collection_new ();
+	class->view_collection = gal_view_collection_new (
+		system_directory, user_directory);
 
-	gal_view_collection_set_storage_directories (
-		class->view_collection, system_dir, local_dir);
-
-	gal_view_collection_load (class->view_collection);
-
-	g_free (system_dir);
-	g_free (local_dir);
+	g_free (system_directory);
+	g_free (user_directory);
 }
 
 static void

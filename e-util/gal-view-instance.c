@@ -350,8 +350,6 @@ gal_view_instance_construct (GalViewInstance *instance,
 	gchar *safe_id;
 	const gchar *user_directory;
 
-	g_return_val_if_fail (gal_view_collection_loaded (collection), NULL);
-
 	instance->collection = collection;
 	if (collection)
 		g_object_ref (collection);

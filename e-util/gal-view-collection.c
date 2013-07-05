@@ -41,7 +41,6 @@ struct _GalViewCollectionPrivate {
 	GalViewCollectionItem **removed_view_data;
 	gint removed_view_count;
 
-	gboolean loaded;
 	gboolean default_view_built_in;
 
 	gchar *system_directory;
@@ -145,204 +144,6 @@ gal_view_generate_id (GalViewCollection *collection,
 }
 
 static void
-gal_view_collection_get_property (GObject *object,
-                                  guint property_id,
-                                  GValue *value,
-                                  GParamSpec *pspec)
-{
-	switch (property_id) {
-		case PROP_SYSTEM_DIRECTORY:
-			g_value_set_string (
-				value,
-				gal_view_collection_get_system_directory (
-				GAL_VIEW_COLLECTION (object)));
-			return;
-
-		case PROP_USER_DIRECTORY:
-			g_value_set_string (
-				value,
-				gal_view_collection_get_user_directory (
-				GAL_VIEW_COLLECTION (object)));
-			return;
-	}
-
-	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-}
-
-static void
-gal_view_collection_dispose (GObject *object)
-{
-	GalViewCollectionPrivate *priv;
-	gint ii;
-
-	priv = GAL_VIEW_COLLECTION_GET_PRIVATE (object);
-
-	for (ii = 0; ii < priv->view_count; ii++)
-		gal_view_collection_item_free (priv->view_data[ii]);
-	g_free (priv->view_data);
-	priv->view_data = NULL;
-	priv->view_count = 0;
-
-	for (ii = 0; ii < priv->removed_view_count; ii++)
-		gal_view_collection_item_free (priv->removed_view_data[ii]);
-	g_free (priv->removed_view_data);
-	priv->removed_view_data  = NULL;
-	priv->removed_view_count = 0;
-
-	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (gal_view_collection_parent_class)->dispose (object);
-}
-
-static void
-gal_view_collection_finalize (GObject *object)
-{
-	GalViewCollectionPrivate *priv;
-
-	priv = GAL_VIEW_COLLECTION_GET_PRIVATE (object);
-
-	g_free (priv->system_directory);
-	g_free (priv->user_directory);
-	g_free (priv->default_view);
-
-	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (gal_view_collection_parent_class)->finalize (object);
-}
-
-static void
-gal_view_collection_class_init (GalViewCollectionClass *class)
-{
-	GObjectClass *object_class;
-
-	g_type_class_add_private (class, sizeof (GalViewCollectionPrivate));
-
-	object_class = G_OBJECT_CLASS (class);
-	object_class->get_property = gal_view_collection_get_property;
-	object_class->dispose = gal_view_collection_dispose;
-	object_class->finalize = gal_view_collection_finalize;
-
-	g_object_class_install_property (
-		object_class,
-		PROP_SYSTEM_DIRECTORY,
-		g_param_spec_string (
-			"system-directory",
-			"System Directory",
-			"Directory from which to load built-in views",
-			NULL,
-			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_USER_DIRECTORY,
-		g_param_spec_string (
-			"user-directory",
-			"User Directory",
-			"Directory from which to load user-created views",
-			NULL,
-			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
-
-	signals[CHANGED] = g_signal_new (
-		"changed",
-		G_OBJECT_CLASS_TYPE (object_class),
-		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (GalViewCollectionClass, changed),
-		NULL, NULL,
-		g_cclosure_marshal_VOID__VOID,
-		G_TYPE_NONE, 0);
-}
-
-static void
-gal_view_collection_init (GalViewCollection *collection)
-{
-	collection->priv = GAL_VIEW_COLLECTION_GET_PRIVATE (collection);
-
-	collection->priv->default_view_built_in = TRUE;
-}
-
-/**
- * gal_view_collection_new:
- *
- * A collection of views and view factories.
- */
-GalViewCollection *
-gal_view_collection_new (void)
-{
-	return g_object_new (GAL_TYPE_VIEW_COLLECTION, NULL);
-}
-
-/**
- * gal_view_collection_get_system_directory:
- * @collection: a #GalViewCollection
- *
- * Returns the directory from which built-in views were loaded.
- *
- * Returns: the system directory for @collection
- **/
-const gchar *
-gal_view_collection_get_system_directory (GalViewCollection *collection)
-{
-	g_return_val_if_fail (GAL_IS_VIEW_COLLECTION (collection), NULL);
-
-	return collection->priv->system_directory;
-}
-
-/**
- * gal_view_collection_get_user_directory:
- * @collection: a #GalViewCollection
- *
- * Returns the directory from which user-created views were loaded.
- *
- * Returns: the user directory for @collection
- **/
-const gchar *
-gal_view_collection_get_user_directory (GalViewCollection *collection)
-{
-	g_return_val_if_fail (GAL_IS_VIEW_COLLECTION (collection), NULL);
-
-	return collection->priv->user_directory;
-}
-
-/**
- * gal_view_collection_set_storage_directories
- * @collection: The view collection to initialize
- * @system_dir: The location of the system built in views
- * @local_dir: The location to store the users set up views
- *
- * Sets up the GalViewCollection.
- */
-void
-gal_view_collection_set_storage_directories (GalViewCollection *collection,
-                                             const gchar *system_dir,
-                                             const gchar *local_dir)
-{
-	g_return_if_fail (GAL_IS_VIEW_COLLECTION (collection));
-	g_return_if_fail (system_dir != NULL);
-	g_return_if_fail (local_dir != NULL);
-
-	g_free (collection->priv->system_directory);
-	g_free (collection->priv->user_directory);
-
-	collection->priv->system_directory = g_strdup (system_dir);
-	collection->priv->user_directory = g_strdup (local_dir);
-
-	g_object_notify (G_OBJECT (collection), "system-directory");
-	g_object_notify (G_OBJECT (collection), "user-directory");
-}
-
-static void
-view_changed (GalView *view,
-              GalViewCollectionItem *item)
-{
-	item->changed = TRUE;
-	item->ever_changed = TRUE;
-
-	g_signal_handler_block (item->view, item->view_changed_id);
-	gal_view_collection_changed (item->collection);
-	g_signal_handler_unblock (item->view, item->view_changed_id);
-}
-
-static void
 view_collection_check_type (GType type,
                             gpointer user_data)
 {
@@ -391,14 +192,16 @@ gal_view_collection_real_load_view_from_file (GalViewCollection *collection,
 	return view;
 }
 
-GalView *
-gal_view_collection_load_view_from_file (GalViewCollection *collection,
-                                         const gchar *type,
-                                         const gchar *filename)
+static void
+view_changed (GalView *view,
+              GalViewCollectionItem *item)
 {
-	return gal_view_collection_real_load_view_from_file (
-		collection, type, "",
-		collection->priv->user_directory, filename);
+	item->changed = TRUE;
+	item->ever_changed = TRUE;
+
+	g_signal_handler_block (item->view, item->view_changed_id);
+	gal_view_collection_changed (item->collection);
+	g_signal_handler_unblock (item->view, item->view_changed_id);
 }
 
 static GalViewCollectionItem *
@@ -517,36 +320,253 @@ load_single_dir (GalViewCollection *collection,
 	xmlFreeDoc (doc);
 }
 
-/**
- * gal_view_collection_load
- * @collection: The view collection to load information for
- *
- * Loads the data from the system and user directories specified in
- * set storage directories.  This is primarily for internal use by
- * other parts of gal_view.
- */
-void
-gal_view_collection_load (GalViewCollection *collection)
+static void
+gal_view_collection_set_system_directory (GalViewCollection *collection,
+                                          const gchar *system_directory)
 {
-	const gchar *user_directory;
-	const gchar *system_directory;
+	g_return_if_fail (system_directory != NULL);
+	g_return_if_fail (collection->priv->system_directory == NULL);
 
-	g_return_if_fail (GAL_IS_VIEW_COLLECTION (collection));
-	g_return_if_fail (collection->priv->user_directory != NULL);
-	g_return_if_fail (collection->priv->system_directory != NULL);
-	g_return_if_fail (!collection->priv->loaded);
+	collection->priv->system_directory = g_strdup (system_directory);
+}
 
-	user_directory = gal_view_collection_get_user_directory (collection);
-	system_directory = gal_view_collection_get_system_directory (collection);
+static void
+gal_view_collection_set_user_directory (GalViewCollection *collection,
+                                        const gchar *user_directory)
+{
+	g_return_if_fail (user_directory != NULL);
+	g_return_if_fail (collection->priv->user_directory == NULL);
 
-	if ((g_mkdir_with_parents (user_directory, 0777) == -1) && (errno != EEXIST))
-		g_warning ("Unable to create dir %s: %s", user_directory, g_strerror (errno));
+	collection->priv->user_directory = g_strdup (user_directory);
+}
 
-	load_single_dir (collection, user_directory, TRUE);
-	load_single_dir (collection, system_directory, FALSE);
-	gal_view_collection_changed (collection);
+static void
+gal_view_collection_set_property (GObject *object,
+                                  guint property_id,
+                                  const GValue *value,
+                                  GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_SYSTEM_DIRECTORY:
+			gal_view_collection_set_system_directory (
+				GAL_VIEW_COLLECTION (object),
+				g_value_get_string (value));
+			return;
 
-	collection->priv->loaded = TRUE;
+		case PROP_USER_DIRECTORY:
+			gal_view_collection_set_user_directory (
+				GAL_VIEW_COLLECTION (object),
+				g_value_get_string (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+gal_view_collection_get_property (GObject *object,
+                                  guint property_id,
+                                  GValue *value,
+                                  GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_SYSTEM_DIRECTORY:
+			g_value_set_string (
+				value,
+				gal_view_collection_get_system_directory (
+				GAL_VIEW_COLLECTION (object)));
+			return;
+
+		case PROP_USER_DIRECTORY:
+			g_value_set_string (
+				value,
+				gal_view_collection_get_user_directory (
+				GAL_VIEW_COLLECTION (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+gal_view_collection_dispose (GObject *object)
+{
+	GalViewCollectionPrivate *priv;
+	gint ii;
+
+	priv = GAL_VIEW_COLLECTION_GET_PRIVATE (object);
+
+	for (ii = 0; ii < priv->view_count; ii++)
+		gal_view_collection_item_free (priv->view_data[ii]);
+	g_free (priv->view_data);
+	priv->view_data = NULL;
+	priv->view_count = 0;
+
+	for (ii = 0; ii < priv->removed_view_count; ii++)
+		gal_view_collection_item_free (priv->removed_view_data[ii]);
+	g_free (priv->removed_view_data);
+	priv->removed_view_data  = NULL;
+	priv->removed_view_count = 0;
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (gal_view_collection_parent_class)->dispose (object);
+}
+
+static void
+gal_view_collection_finalize (GObject *object)
+{
+	GalViewCollectionPrivate *priv;
+
+	priv = GAL_VIEW_COLLECTION_GET_PRIVATE (object);
+
+	g_free (priv->system_directory);
+	g_free (priv->user_directory);
+	g_free (priv->default_view);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (gal_view_collection_parent_class)->finalize (object);
+}
+
+static void
+gal_view_collection_constructed (GObject *object)
+{
+	GalViewCollection *collection;
+	const gchar *directory;
+
+	collection = GAL_VIEW_COLLECTION (object);
+
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (gal_view_collection_parent_class)->constructed (object);
+
+	/* XXX Maybe this should implement GInitable, since creating
+	 *     directories and reading files can fail.  Although, we
+	 *     would probably just abort Evolution on error anyway. */
+
+	directory = gal_view_collection_get_user_directory (collection);
+	g_mkdir_with_parents (directory, 0700);
+	load_single_dir (collection, directory, TRUE);
+
+	directory = gal_view_collection_get_system_directory (collection);
+	load_single_dir (collection, directory, FALSE);
+}
+
+static void
+gal_view_collection_class_init (GalViewCollectionClass *class)
+{
+	GObjectClass *object_class;
+
+	g_type_class_add_private (class, sizeof (GalViewCollectionPrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = gal_view_collection_set_property;
+	object_class->get_property = gal_view_collection_get_property;
+	object_class->dispose = gal_view_collection_dispose;
+	object_class->finalize = gal_view_collection_finalize;
+	object_class->constructed = gal_view_collection_constructed;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SYSTEM_DIRECTORY,
+		g_param_spec_string (
+			"system-directory",
+			"System Directory",
+			"Directory from which to load built-in views",
+			NULL,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_USER_DIRECTORY,
+		g_param_spec_string (
+			"user-directory",
+			"User Directory",
+			"Directory from which to load user-created views",
+			NULL,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
+
+	signals[CHANGED] = g_signal_new (
+		"changed",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (GalViewCollectionClass, changed),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
+}
+
+static void
+gal_view_collection_init (GalViewCollection *collection)
+{
+	collection->priv = GAL_VIEW_COLLECTION_GET_PRIVATE (collection);
+
+	collection->priv->default_view_built_in = TRUE;
+}
+
+/**
+ * gal_view_collection_new:
+ * @system_directory: directory from which to load built-in views
+ * @user_directory: directory from which to load user-created views
+ *
+ * Creates a #GalViewCollection and loads ".galview" files from
+ * @system_directory and @user_directory.
+ */
+GalViewCollection *
+gal_view_collection_new (const gchar *system_directory,
+                         const gchar *user_directory)
+{
+	g_return_val_if_fail (system_directory != NULL, NULL);
+	g_return_val_if_fail (user_directory != NULL, NULL);
+
+	return g_object_new (
+		GAL_TYPE_VIEW_COLLECTION,
+		"system-directory", system_directory,
+		"user-directory", user_directory, NULL);
+}
+
+/**
+ * gal_view_collection_get_system_directory:
+ * @collection: a #GalViewCollection
+ *
+ * Returns the directory from which built-in views were loaded.
+ *
+ * Returns: the system directory for @collection
+ **/
+const gchar *
+gal_view_collection_get_system_directory (GalViewCollection *collection)
+{
+	g_return_val_if_fail (GAL_IS_VIEW_COLLECTION (collection), NULL);
+
+	return collection->priv->system_directory;
+}
+
+/**
+ * gal_view_collection_get_user_directory:
+ * @collection: a #GalViewCollection
+ *
+ * Returns the directory from which user-created views were loaded.
+ *
+ * Returns: the user directory for @collection
+ **/
+const gchar *
+gal_view_collection_get_user_directory (GalViewCollection *collection)
+{
+	g_return_val_if_fail (GAL_IS_VIEW_COLLECTION (collection), NULL);
+
+	return collection->priv->user_directory;
+}
+
+GalView *
+gal_view_collection_load_view_from_file (GalViewCollection *collection,
+                                         const gchar *type,
+                                         const gchar *filename)
+{
+	return gal_view_collection_real_load_view_from_file (
+		collection, type, "",
+		collection->priv->user_directory, filename);
 }
 
 /**
@@ -709,14 +729,6 @@ gal_view_collection_delete_view (GalViewCollection *collection,
 	}
 
 	gal_view_collection_changed (collection);
-}
-
-gboolean
-gal_view_collection_loaded (GalViewCollection *collection)
-{
-	g_return_val_if_fail (GAL_IS_VIEW_COLLECTION (collection), FALSE);
-
-	return collection->priv->loaded;
 }
 
 const gchar *

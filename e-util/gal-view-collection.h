@@ -79,18 +79,12 @@ struct _GalViewCollectionItem {
 
 GType		gal_view_collection_get_type	(void) G_GNUC_CONST;
 GalViewCollection *
-		gal_view_collection_new		(void);
+		gal_view_collection_new		(const gchar *system_directory,
+						 const gchar *user_directory);
 const gchar *	gal_view_collection_get_system_directory
 						(GalViewCollection *collection);
 const gchar *	gal_view_collection_get_user_directory
 						(GalViewCollection *collection);
-
-/* Set up the view collection.  Call these two functions
- * before ever doing load or save and never call them again. */
-void		gal_view_collection_set_storage_directories
-						(GalViewCollection *collection,
-						 const gchar *system_dir,
-						 const gchar *local_dir);
 
 /* Query the view collection. */
 gint		gal_view_collection_get_count	(GalViewCollection *collection);
@@ -108,11 +102,7 @@ gint		gal_view_collection_get_view_index_by_id
 void		gal_view_collection_delete_view	(GalViewCollection *collection,
 						 gint i);
 
-/* Call set_storage_directories and add factories for anything
- * that might be found there before doing either of these. */
-void		gal_view_collection_load	(GalViewCollection *collection);
 void		gal_view_collection_save	(GalViewCollection *collection);
-gboolean	gal_view_collection_loaded	(GalViewCollection *collection);
 
 /* Use factory list to load a GalView file. */
 GalView *	gal_view_collection_load_view_from_file
