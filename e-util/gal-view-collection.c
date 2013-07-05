@@ -165,9 +165,6 @@ gal_view_collection_dispose (GObject *object)
 	g_free (collection->default_view);
 	collection->default_view = NULL;
 
-	g_free (collection->title);
-	collection->title = NULL;
-
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (gal_view_collection_parent_class)->dispose (object);
 }
@@ -207,8 +204,6 @@ gal_view_collection_init (GalViewCollection *collection)
 	collection->loaded                = FALSE;
 	collection->default_view          = NULL;
 	collection->default_view_built_in = TRUE;
-
-	collection->title                 = NULL;
 }
 
 /**
@@ -220,14 +215,6 @@ GalViewCollection *
 gal_view_collection_new (void)
 {
 	return g_object_new (GAL_TYPE_VIEW_COLLECTION, NULL);
-}
-
-void
-gal_view_collection_set_title (GalViewCollection *collection,
-                               const gchar *title)
-{
-	g_free (collection->title);
-	collection->title = g_strdup (title);
 }
 
 /**

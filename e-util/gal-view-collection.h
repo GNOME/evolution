@@ -73,8 +73,6 @@ struct _GalViewCollection {
 	gchar *local_dir;
 
 	gchar *default_view;
-
-	gchar *title;
 };
 
 struct _GalViewCollectionClass {
@@ -100,8 +98,6 @@ struct _GalViewCollectionItem {
 GType		gal_view_collection_get_type	(void) G_GNUC_CONST;
 GalViewCollection *
 		gal_view_collection_new		(void);
-void		gal_view_collection_set_title	(GalViewCollection *collection,
-						 const gchar        *title);
 
 /* Set up the view collection.  Call these two functions
  * before ever doing load or save and never call them again. */

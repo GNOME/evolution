@@ -171,9 +171,6 @@ shell_view_init_view_collection (EShellViewClass *class)
 	/* The view collection is never destroyed. */
 	class->view_collection = gal_view_collection_new ();
 
-	gal_view_collection_set_title (
-		class->view_collection, class->label);
-
 	gal_view_collection_set_storage_directories (
 		class->view_collection, system_dir, local_dir);
 
