@@ -48,21 +48,23 @@ static void
 gal_view_instance_save_as_dialog_set_instance (GalViewInstanceSaveAsDialog *dialog,
                                                GalViewInstance *instance)
 {
-	gint i;
 	GtkListStore *store;
 	GtkCellRenderer *renderer;
+	gint ii, view_count;
+
 	dialog->instance = instance;
 
 	store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_POINTER);
 
-	for (i = 0; i < instance->collection->view_count; i++) {
-		GalViewCollectionItem *item = instance->collection->view_data[i];
+	view_count = gal_view_collection_get_count (instance->collection);
+
+	for (ii = 0; ii < view_count; ii++) {
+		GalViewCollectionItem *item;
 		GtkTreeIter iter;
 		gchar *title = NULL;
 
-		/* hide built in views */
-		/*if (item->built_in == 1)
-			continue;*/
+		item = gal_view_collection_get_view_item (
+			instance->collection, ii);
 
 		title = e_str_without_underscores (item->title);
 
@@ -316,9 +318,13 @@ gal_view_instance_save_as_dialog_save (GalViewInstanceSaveAsDialog *dialog)
 {
 	GalView *view = gal_view_instance_get_current_view (dialog->instance);
 	const gchar *title;
-	gint n;
 	const gchar *id = NULL;
+	GalViewCollection *collection;
 	GalViewCollectionItem *item;
+	gint ii, view_count;
+
+	collection = dialog->instance->collection;
+	view_count = gal_view_collection_get_count (collection);
 
 	view = gal_view_clone (view);
 	switch (dialog->toggle) {
@@ -331,10 +337,13 @@ gal_view_instance_save_as_dialog_save (GalViewInstanceSaveAsDialog *dialog)
 			if (gtk_tree_selection_get_selected (selection, &dialog->model, &iter)) {
 				gtk_tree_model_get (dialog->model, &iter, COL_GALVIEW_DATA, &item, -1);
 
-				for (n = 0; n < dialog->instance->collection->view_count; n++) {
-					if (item == dialog->instance->collection->view_data[n]) {
-						id = gal_view_collection_set_nth_view (dialog->instance->collection, n, view);
-						gal_view_collection_save (dialog->instance->collection);
+				for (ii = 0; ii < view_count; ii++) {
+					GalViewCollectionItem *candidate;
+
+					candidate = gal_view_collection_get_view_item (collection, ii);
+					if (item == candidate) {
+						id = gal_view_collection_set_nth_view (collection, ii, view);
+						gal_view_collection_save (collection);
 					}
 				}
 			}
@@ -345,8 +354,8 @@ gal_view_instance_save_as_dialog_save (GalViewInstanceSaveAsDialog *dialog)
 	case GAL_VIEW_INSTANCE_SAVE_AS_DIALOG_TOGGLE_CREATE:
 		if (dialog->entry_create && GTK_IS_ENTRY (dialog->entry_create)) {
 			title = gtk_entry_get_text (GTK_ENTRY (dialog->entry_create));
-			id = gal_view_collection_append_with_title (dialog->instance->collection, title, view);
-			gal_view_collection_save (dialog->instance->collection);
+			id = gal_view_collection_append_with_title (collection, title, view);
+			gal_view_collection_save (collection);
 		}
 		break;
 	}

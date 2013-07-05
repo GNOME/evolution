@@ -55,22 +55,6 @@ typedef struct _GalViewCollectionItem GalViewCollectionItem;
 struct _GalViewCollection {
 	GObject parent;
 	GalViewCollectionPrivate *priv;
-
-	GalViewCollectionItem **view_data;
-	gint view_count;
-
-	GList *factory_list;
-
-	GalViewCollectionItem **removed_view_data;
-	gint removed_view_count;
-
-	gboolean loaded;
-	gboolean default_view_built_in;
-
-	gchar *system_dir;
-	gchar *local_dir;
-
-	gchar *default_view;
 };
 
 struct _GalViewCollectionClass {
