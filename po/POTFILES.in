@@ -30,7 +30,6 @@ addressbook/gui/widgets/ea-minicard.c
 addressbook/gui/widgets/eab-contact-display.c
 addressbook/gui/widgets/eab-contact-formatter.c
 addressbook/gui/widgets/eab-gui-util.c
-addressbook/gui/widgets/gal-view-factory-minicard.c
 addressbook/importers/evolution-csv-importer.c
 addressbook/importers/evolution-ldif-importer.c
 addressbook/importers/evolution-vcard-importer.c

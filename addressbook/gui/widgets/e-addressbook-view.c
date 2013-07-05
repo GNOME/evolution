@@ -40,7 +40,6 @@
 #include "ea-addressbook.h"
 
 #include "gal-view-minicard.h"
-#include "gal-view-factory-minicard.h"
 
 #include "e-addressbook-model.h"
 #include "eab-gui-util.h"

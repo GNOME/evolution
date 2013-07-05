@@ -61,8 +61,6 @@ libeabwidgets_la_SOURCES =			\
 	e-addressbook-view.h			\
 	gal-view-minicard.c			\
 	gal-view-minicard.h			\
-	gal-view-factory-minicard.c		\
-	gal-view-factory-minicard.h		\
 	ea-minicard.c			\
 	ea-minicard.h			\
 	ea-minicard-view.c			\
