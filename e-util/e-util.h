@@ -224,7 +224,6 @@
 #include <e-util/ea-factory.h>
 #include <e-util/gal-view-collection.h>
 #include <e-util/gal-view-etable.h>
-#include <e-util/gal-view-factory-etable.h>
 #include <e-util/gal-view-factory.h>
 #include <e-util/gal-view-instance-save-as-dialog.h>
 #include <e-util/gal-view-instance.h>

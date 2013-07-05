@@ -4654,24 +4654,6 @@ gal_view_factory_get_type
 </SECTION>
 
 <SECTION>
-<FILE>gal-view-factory-etable</FILE>
-<TITLE>GalViewFactoryEtable</TITLE>
-GalViewFactoryEtable
-gal_view_factory_etable_new
-<SUBSECTION Standard>
-GAL_VIEW_FACTORY_ETABLE
-GAL_IS_VIEW_FACTORY_ETABLE
-GAL_TYPE_VIEW_FACTORY_ETABLE
-GAL_VIEW_FACTORY_ETABLE_CLASS
-GAL_IS_VIEW_FACTORY_ETABLE_CLASS
-GAL_VIEW_FACTORY_ETABLE_GET_CLASS
-GalViewFactoryEtableClass
-gal_view_factory_etable_get_type
-<SUBSECTION Private>
-GalViewFactoryEtablePrivate
-</SECTION>
-
-<SECTION>
 <FILE>gal-view-instance</FILE>
 <TITLE>GalViewInstance</TITLE>
 GalViewInstance

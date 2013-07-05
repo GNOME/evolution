@@ -329,7 +329,6 @@ evolution_util_include_HEADERS =  \
 	gal-a11y-util.h \
 	gal-view-collection.h \
 	gal-view-etable.h \
-	gal-view-factory-etable.h \
 	gal-view-factory.h \
 	gal-view-instance-save-as-dialog.h \
 	gal-view-instance.h \
@@ -565,7 +564,6 @@ libevolution_util_la_SOURCES = \
 	gal-a11y-util.c \
 	gal-view-collection.c \
 	gal-view-etable.c \
-	gal-view-factory-etable.c \
 	gal-view-factory.c \
 	gal-view-instance-save-as-dialog.c \
 	gal-view-instance.c \

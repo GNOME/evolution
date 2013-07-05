@@ -198,7 +198,6 @@
     <xi:include href="xml/gal-view-instance.xml"/>
     <xi:include href="xml/gal-view-collection.xml"/>
     <xi:include href="xml/gal-view-etable.xml"/>
-    <xi:include href="xml/gal-view-factory-etable.xml"/>
     <xi:include href="xml/gal-view-instance-save-as-dialog.xml"/>
   </chapter>
 

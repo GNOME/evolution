@@ -285,7 +285,6 @@ e-util/gal-a11y-e-cell-tree.c
 e-util/gal-a11y-e-cell.c
 e-util/gal-a11y-e-table-click-to-add.c
 e-util/gal-a11y-e-table-column-header.c
-e-util/gal-view-factory-etable.c
 e-util/gal-view-instance-save-as-dialog.c
 e-util/gal-view-instance.c
 e-util/widgets.error.xml
