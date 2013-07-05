@@ -63,8 +63,6 @@ struct _GalViewClass {
 	GObjectClass parent_class;
 
 	/* Methods */
-	void		(*edit)			(GalView *view,
-						 GtkWindow *parent_window);
 	void		(*load)			(GalView *view,
 						 const gchar *filename);
 	void		(*save)			(GalView *view,
@@ -80,8 +78,6 @@ struct _GalViewClass {
 };
 
 GType		gal_view_get_type		(void);
-void		gal_view_edit			(GalView *view,
-						 GtkWindow *parent);
 void		gal_view_load			(GalView *view,
 						 const gchar *filename);
 void		gal_view_save			(GalView *view,

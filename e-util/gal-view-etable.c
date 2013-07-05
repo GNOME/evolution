@@ -26,8 +26,6 @@
 
 #include "gal-view-etable.h"
 
-#include "e-table-config.h"
-
 G_DEFINE_TYPE (GalViewEtable, gal_view_etable, GAL_TYPE_VIEW)
 
 static void
@@ -58,41 +56,6 @@ detach_tree (GalViewEtable *view)
 	}
 	g_object_unref (view->tree);
 	view->tree = NULL;
-}
-
-static void
-config_changed (ETableConfig *config,
-                GalViewEtable *view)
-{
-	ETableState *state;
-	if (view->state)
-		g_object_unref (view->state);
-	g_object_get (
-		config,
-		"state", &state,
-		NULL);
-	view->state = e_table_state_duplicate (state);
-	g_object_unref (state);
-
-	gal_view_changed (GAL_VIEW (view));
-}
-
-static void
-gal_view_etable_edit (GalView *view,
-                      GtkWindow *parent)
-{
-	GalViewEtable *etable_view = GAL_VIEW_ETABLE (view);
-	ETableConfig *config;
-
-	config = e_table_config_new (
-		etable_view->title,
-		etable_view->spec,
-		etable_view->state,
-		parent);
-
-	g_signal_connect (
-		config, "changed",
-		G_CALLBACK (config_changed), view);
 }
 
 static void
@@ -172,7 +135,6 @@ gal_view_etable_class_init (GalViewEtableClass *class)
 	GalViewClass *gal_view_class  = GAL_VIEW_CLASS (class);
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
-	gal_view_class->edit          = gal_view_etable_edit;
 	gal_view_class->load          = gal_view_etable_load;
 	gal_view_class->save          = gal_view_etable_save;
 	gal_view_class->get_title     = gal_view_etable_get_title;

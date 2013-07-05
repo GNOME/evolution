@@ -162,7 +162,6 @@ gal_view_minicard_class_init (GalViewMinicardClass *class)
 	object_class->dispose = view_minicard_finalize;
 
 	gal_view_class = GAL_VIEW_CLASS (class);
-	gal_view_class->edit = NULL;
 	gal_view_class->load = view_minicard_load;
 	gal_view_class->save = view_minicard_save;
 	gal_view_class->get_title = view_minicard_get_title;

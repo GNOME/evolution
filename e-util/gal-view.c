@@ -129,26 +129,6 @@ gal_view_init (GalView *view)
 }
 
 /**
- * gal_view_edit
- * @view: The view to edit
- * @parent: the parent window.
- */
-void
-gal_view_edit (GalView *view,
-               GtkWindow *parent)
-{
-	GalViewClass *class;
-
-	g_return_if_fail (GAL_IS_VIEW (view));
-	g_return_if_fail (GTK_IS_WINDOW (parent));
-
-	class = GAL_VIEW_GET_CLASS (view);
-	g_return_if_fail (class->edit != NULL);
-
-	class->edit (view, parent);
-}
-
-/**
  * gal_view_load
  * @view: The view to load to
  * @filename: The file to load from

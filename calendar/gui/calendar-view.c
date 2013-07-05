@@ -63,7 +63,6 @@ calendar_view_class_init (CalendarViewClass *class)
 	gal_view_class = (GalViewClass *) class;
 	object_class = (GObjectClass *) class;
 
-	gal_view_class->edit = NULL;
 	gal_view_class->load = calendar_view_load;
 	gal_view_class->save = calendar_view_save;
 	gal_view_class->get_title = calendar_view_get_title;

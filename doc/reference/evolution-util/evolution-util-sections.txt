@@ -4565,7 +4565,6 @@ e_xml_get_translated_string_prop_by_name
 <FILE>gal-view</FILE>
 <TITLE>GalView</TITLE>
 GalView
-gal_view_edit
 gal_view_load
 gal_view_save
 gal_view_get_title
