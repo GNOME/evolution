@@ -25,6 +25,8 @@
 #include <libxml/parser.h>
 #include <libedataserver/libedataserver.h>
 
+#include <libebackend/libebackend.h>
+
 #include "e-unicode.h"
 #include "e-xml-utils.h"
 
@@ -371,6 +373,26 @@ view_changed (GalView *view,
 	g_signal_handler_unblock (item->view, item->view_changed_id);
 }
 
+static void
+view_collection_check_type (GType type,
+                            gpointer user_data)
+{
+	GalViewClass *class;
+
+	struct {
+		const gchar *type_code;
+		GType type;
+	} *closure = user_data;
+
+	class = g_type_class_ref (type);
+	g_return_if_fail (class != NULL);
+
+	if (g_strcmp0 (class->type_code, closure->type_code) == 0)
+		closure->type = type;
+
+	g_type_class_unref (class);
+}
+
 /* Use factory list to load a GalView file. */
 static GalView *
 gal_view_collection_real_load_view_from_file (GalViewCollection *collection,
@@ -379,25 +401,25 @@ gal_view_collection_real_load_view_from_file (GalViewCollection *collection,
                                               const gchar *dir,
                                               const gchar *filename)
 {
-	GalViewFactory *factory;
-	GList *factories;
+	GalView *view = NULL;
 
-	factory = NULL;
-	for (factories = collection->priv->factory_list; factories; factories = factories->next) {
-		if (type && !strcmp (gal_view_factory_get_type_code (factories->data), type)) {
-			factory = factories->data;
-			break;
-		}
-	}
-	if (factory) {
-		GalView *view;
+	struct {
+		const gchar *type_code;
+		GType type;
+	} closure;
 
-		view = gal_view_factory_new_view (factory, title);
-		gal_view_set_title (view, title);
+	closure.type_code = type;
+	closure.type = G_TYPE_INVALID;
+
+	/* Find the appropriate GalView subtype for the "type_code" string. */
+	e_type_traverse (GAL_TYPE_VIEW, view_collection_check_type, &closure);
+
+	if (g_type_is_a (closure.type, GAL_TYPE_VIEW)) {
+		view = g_object_new (closure.type, "title", title, NULL);
 		gal_view_load (view, filename);
-		return view;
 	}
-	return NULL;
+
+	return view;
 }
 
 GalView *
