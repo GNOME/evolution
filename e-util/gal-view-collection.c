@@ -702,13 +702,3 @@ gal_view_collection_get_default_view (GalViewCollection *collection)
 	return collection->default_view;
 }
 
-void
-gal_view_collection_set_default_view (GalViewCollection *collection,
-                                      const gchar *id)
-{
-	g_free (collection->default_view);
-	collection->default_view = g_strdup (id);
-	gal_view_collection_changed (collection);
-	collection->default_view_built_in = FALSE;
-}
-

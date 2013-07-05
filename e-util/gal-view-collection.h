@@ -149,9 +149,6 @@ const gchar *	gal_view_collection_set_nth_view
 
 const gchar *	gal_view_collection_get_default_view
 						(GalViewCollection *collection);
-void		gal_view_collection_set_default_view
-						(GalViewCollection *collection,
-						 const gchar *id);
 
 G_END_DECLS
 
