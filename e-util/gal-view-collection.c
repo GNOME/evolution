@@ -29,6 +29,11 @@
 #include "e-xml-utils.h"
 
 enum {
+	PROP_0,
+	PROP_SYSTEM_DIRECTORY
+};
+
+enum {
 	CHANGED,
 	LAST_SIGNAL
 };
@@ -117,6 +122,24 @@ gal_view_generate_id (GalViewCollection *collection,
 }
 
 static void
+gal_view_collection_get_property (GObject *object,
+                                  guint property_id,
+                                  GValue *value,
+                                  GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_SYSTEM_DIRECTORY:
+			g_value_set_string (
+				value,
+				gal_view_collection_get_system_directory (
+				GAL_VIEW_COLLECTION (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
 gal_view_collection_dispose (GObject *object)
 {
 	GalViewCollection *collection;
@@ -167,8 +190,20 @@ gal_view_collection_class_init (GalViewCollectionClass *class)
 	GObjectClass *object_class;
 
 	object_class = G_OBJECT_CLASS (class);
+	object_class->get_property = gal_view_collection_get_property;
 	object_class->dispose = gal_view_collection_dispose;
 	object_class->finalize = gal_view_collection_finalize;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SYSTEM_DIRECTORY,
+		g_param_spec_string (
+			"system-directory",
+			"System Directory",
+			"Directory from which to load built-in views",
+			NULL,
+			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS));
 
 	signals[CHANGED] = g_signal_new (
 		"changed",
@@ -198,6 +233,22 @@ gal_view_collection_new (void)
 }
 
 /**
+ * gal_view_collection_get_system_directory:
+ * @collection: a #GalViewCollection
+ *
+ * Returns the directory from which built-in views were loaded.
+ *
+ * Returns: the system directory for @collection
+ **/
+const gchar *
+gal_view_collection_get_system_directory (GalViewCollection *collection)
+{
+	g_return_val_if_fail (GAL_IS_VIEW_COLLECTION (collection), NULL);
+
+	return collection->system_dir;
+}
+
+/**
  * gal_view_collection_set_storage_directories
  * @collection: The view collection to initialize
  * @system_dir: The location of the system built in views
@@ -219,6 +270,8 @@ gal_view_collection_set_storage_directories (GalViewCollection *collection,
 
 	collection->system_dir = g_strdup (system_dir);
 	collection->local_dir = g_strdup (local_dir);
+
+	g_object_notify (G_OBJECT (collection), "system-directory");
 }
 
 /**

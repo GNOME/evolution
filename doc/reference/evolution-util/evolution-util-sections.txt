@@ -4590,6 +4590,7 @@ GalViewPrivate
 GalViewCollectionItem
 GalViewCollection
 gal_view_collection_new
+gal_view_collection_get_system_directory
 gal_view_collection_set_storage_directories
 gal_view_collection_add_factory
 gal_view_collection_get_count
