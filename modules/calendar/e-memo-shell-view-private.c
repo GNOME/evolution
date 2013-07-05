@@ -122,21 +122,6 @@ memo_shell_view_backend_error_cb (EClientCache *client_cache,
 }
 
 static void
-memo_shell_view_load_view_collection (EShellViewClass *shell_view_class)
-{
-	GalViewCollection *collection;
-	GalViewFactory *factory;
-
-	collection = shell_view_class->view_collection;
-
-	factory = gal_view_factory_etable_new ();
-	gal_view_collection_add_factory (collection, factory);
-	g_object_unref (factory);
-
-	gal_view_collection_load (collection);
-}
-
-static void
 memo_shell_view_notify_view_id_cb (EShellView *shell_view)
 {
 	GalViewInstance *view_instance;
@@ -161,7 +146,7 @@ e_memo_shell_view_private_init (EMemoShellView *memo_shell_view,
                                 EShellViewClass *shell_view_class)
 {
 	if (!gal_view_collection_loaded (shell_view_class->view_collection))
-		memo_shell_view_load_view_collection (shell_view_class);
+		gal_view_collection_load (shell_view_class->view_collection);
 
 	g_signal_connect (
 		memo_shell_view, "notify::view-id",

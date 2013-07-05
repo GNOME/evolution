@@ -27,8 +27,6 @@
 
 #include "e-cal-shell-view-private.h"
 
-#include "calendar/gui/calendar-view-factory.h"
-
 #define CHECK_NB	5
 
 /* be compatible with older e-d-s for MeeGo */
@@ -412,37 +410,6 @@ cal_shell_view_backend_error_cb (EClientCache *client_cache,
 }
 
 static void
-cal_shell_view_load_view_collection (EShellViewClass *shell_view_class)
-{
-	GalViewCollection *collection;
-	GalViewFactory *factory;
-
-	collection = shell_view_class->view_collection;
-
-	factory = g_object_new (GAL_TYPE_VIEW_FACTORY_CALENDAR_DAY, NULL);
-	gal_view_collection_add_factory (collection, factory);
-	g_object_unref (factory);
-
-	factory = g_object_new (GAL_TYPE_VIEW_FACTORY_CALENDAR_WORK_WEEK, NULL);
-	gal_view_collection_add_factory (collection, factory);
-	g_object_unref (factory);
-
-	factory = g_object_new (GAL_TYPE_VIEW_FACTORY_CALENDAR_WEEK, NULL);
-	gal_view_collection_add_factory (collection, factory);
-	g_object_unref (factory);
-
-	factory = g_object_new (GAL_TYPE_VIEW_FACTORY_CALENDAR_MONTH, NULL);
-	gal_view_collection_add_factory (collection, factory);
-	g_object_unref (factory);
-
-	factory = gal_view_factory_etable_new ();
-	gal_view_collection_add_factory (collection, factory);
-	g_object_unref (factory);
-
-	gal_view_collection_load (collection);
-}
-
-static void
 cal_shell_view_notify_view_id_cb (EShellView *shell_view)
 {
 	GalViewInstance *view_instance;
@@ -467,7 +434,7 @@ e_cal_shell_view_private_init (ECalShellView *cal_shell_view,
                                EShellViewClass *shell_view_class)
 {
 	if (!gal_view_collection_loaded (shell_view_class->view_collection))
-		cal_shell_view_load_view_collection (shell_view_class);
+		gal_view_collection_load (shell_view_class->view_collection);
 
 	g_signal_connect (
 		cal_shell_view, "notify::view-id",

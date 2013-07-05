@@ -38,8 +38,6 @@ struct _GalViewCollectionPrivate {
 	GalViewCollectionItem **view_data;
 	gint view_count;
 
-	GList *factory_list;
-
 	GalViewCollectionItem **removed_view_data;
 	gint removed_view_count;
 
@@ -184,12 +182,6 @@ gal_view_collection_dispose (GObject *object)
 	g_free (priv->view_data);
 	priv->view_data = NULL;
 	priv->view_count = 0;
-
-	g_list_foreach (
-		priv->factory_list,
-		(GFunc) g_object_unref, NULL);
-	g_list_free (priv->factory_list);
-	priv->factory_list = NULL;
 
 	for (ii = 0; ii < priv->removed_view_count; ii++)
 		gal_view_collection_item_free (priv->removed_view_data[ii]);
@@ -336,29 +328,6 @@ gal_view_collection_set_storage_directories (GalViewCollection *collection,
 
 	g_object_notify (G_OBJECT (collection), "system-directory");
 	g_object_notify (G_OBJECT (collection), "user-directory");
-}
-
-/**
- * gal_view_collection_add_factory
- * @collection: The view collection to add a factory to
- * @factory: The factory to add.  The @collection will add a reference
- * to the factory object, so you should unref it after calling this
- * function if you no longer need it.
- *
- * Adds the given factory to this collection.  This list is used both
- * when loading views from their xml description as well as when the
- * user tries to create a new view.
- */
-void
-gal_view_collection_add_factory (GalViewCollection *collection,
-                                 GalViewFactory *factory)
-{
-	g_return_if_fail (GAL_IS_VIEW_COLLECTION (collection));
-	g_return_if_fail (GAL_IS_VIEW_FACTORY (factory));
-
-	collection->priv->factory_list = g_list_prepend (
-		collection->priv->factory_list,
-		g_object_ref (factory));
 }
 
 static void

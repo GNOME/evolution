@@ -23,7 +23,7 @@
 #ifndef GAL_VIEW_COLLECTION_H
 #define GAL_VIEW_COLLECTION_H
 
-#include <e-util/gal-view-factory.h>
+#include <e-util/gal-view.h>
 
 /* Standard GObject macros */
 #define GAL_TYPE_VIEW_COLLECTION \
@@ -91,8 +91,6 @@ void		gal_view_collection_set_storage_directories
 						(GalViewCollection *collection,
 						 const gchar *system_dir,
 						 const gchar *local_dir);
-void		gal_view_collection_add_factory	(GalViewCollection *collection,
-						 GalViewFactory *factory);
 
 /* Query the view collection. */
 gint		gal_view_collection_get_count	(GalViewCollection *collection);

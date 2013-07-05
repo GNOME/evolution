@@ -25,6 +25,8 @@
 
 #include "e-book-shell-view-private.h"
 
+#include "addressbook/gui/widgets/gal-view-minicard.h"
+
 static gpointer parent_class;
 static GType book_shell_view_type;
 
@@ -370,6 +372,10 @@ book_shell_view_class_init (EBookShellViewClass *class)
 	shell_view_class->new_shell_sidebar = e_book_shell_sidebar_new;
 	shell_view_class->execute_search = book_shell_view_execute_search;
 	shell_view_class->update_actions = book_shell_view_update_actions;
+
+	/* Ensure the GalView types we need are registered. */
+	g_type_ensure (GAL_TYPE_VIEW_ETABLE);
+	g_type_ensure (GAL_TYPE_VIEW_MINICARD);
 }
 
 static void

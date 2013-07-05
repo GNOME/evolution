@@ -478,6 +478,9 @@ task_shell_view_class_init (ETaskShellViewClass *class,
 			NULL,
 			TRUE,
 			G_PARAM_READWRITE));
+
+	/* Ensure the GalView types we need are registered. */
+	g_type_ensure (GAL_TYPE_VIEW_ETABLE);
 }
 
 static void

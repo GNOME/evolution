@@ -25,6 +25,8 @@
 
 #include "e-cal-shell-view-private.h"
 
+#include "calendar/gui/calendar-view.h"
+
 static gpointer parent_class;
 static GType cal_shell_view_type;
 
@@ -595,6 +597,13 @@ cal_shell_view_class_init (ECalShellViewClass *class,
 	shell_view_class->new_shell_sidebar = e_cal_shell_sidebar_new;
 	shell_view_class->execute_search = cal_shell_view_execute_search;
 	shell_view_class->update_actions = cal_shell_view_update_actions;
+
+	/* Ensure the GalView types we need are registered. */
+	g_type_ensure (GAL_TYPE_VIEW_CALENDAR_DAY);
+	g_type_ensure (GAL_TYPE_VIEW_CALENDAR_WORK_WEEK);
+	g_type_ensure (GAL_TYPE_VIEW_CALENDAR_WEEK);
+	g_type_ensure (GAL_TYPE_VIEW_CALENDAR_MONTH);
+	g_type_ensure (GAL_TYPE_VIEW_ETABLE);
 }
 
 static void

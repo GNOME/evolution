@@ -27,8 +27,6 @@
 
 #include "e-book-shell-view-private.h"
 
-#include "addressbook/gui/widgets/gal-view-factory-minicard.h"
-
 static void
 open_contact (EBookShellView *book_shell_view,
               EContact *contact,
@@ -456,25 +454,6 @@ book_shell_view_source_removed_cb (ESourceRegistry *registry,
 }
 
 static void
-book_shell_view_load_view_collection (EShellViewClass *shell_view_class)
-{
-	GalViewCollection *collection;
-	GalViewFactory *factory;
-
-	collection = shell_view_class->view_collection;
-
-	factory = gal_view_factory_etable_new ();
-	gal_view_collection_add_factory (collection, factory);
-	g_object_unref (factory);
-
-	factory = gal_view_factory_minicard_new ();
-	gal_view_collection_add_factory (collection, factory);
-	g_object_unref (factory);
-
-	gal_view_collection_load (collection);
-}
-
-static void
 book_shell_view_notify_view_id_cb (EBookShellView *book_shell_view)
 {
 	EBookShellContent *book_shell_content;
@@ -514,7 +493,7 @@ e_book_shell_view_private_init (EBookShellView *book_shell_view,
 	priv->preview_index = -1;
 
 	if (!gal_view_collection_loaded (shell_view_class->view_collection))
-		book_shell_view_load_view_collection (shell_view_class);
+		gal_view_collection_load (shell_view_class->view_collection);
 
 	g_signal_connect (
 		book_shell_view, "notify::view-id",

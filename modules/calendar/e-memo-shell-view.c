@@ -313,6 +313,9 @@ memo_shell_view_class_init (EMemoShellViewClass *class,
 	shell_view_class->new_shell_sidebar = e_memo_shell_sidebar_new;
 	shell_view_class->execute_search = memo_shell_view_execute_search;
 	shell_view_class->update_actions = memo_shell_view_update_actions;
+
+	/* Ensure the GalView types we need are registered. */
+	g_type_ensure (GAL_TYPE_VIEW_ETABLE);
 }
 
 static void

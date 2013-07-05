@@ -1082,6 +1082,9 @@ mail_shell_view_class_init (EMailShellViewClass *class,
 	shell_view_class->toggled = mail_shell_view_toggled;
 	shell_view_class->execute_search = mail_shell_view_execute_search;
 	shell_view_class->update_actions = mail_shell_view_update_actions;
+
+	/* Ensure the GalView types we need are registered. */
+	g_type_ensure (GAL_TYPE_VIEW_ETABLE);
 }
 
 static void
