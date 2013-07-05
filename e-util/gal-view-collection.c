@@ -582,17 +582,6 @@ gal_view_collection_get_view_index_by_id (GalViewCollection *collection,
 	return -1;
 }
 
-gchar *
-gal_view_collection_get_view_id_by_index (GalViewCollection *collection,
-                                          gint n)
-{
-	g_return_val_if_fail (GAL_IS_VIEW_COLLECTION (collection), NULL);
-	g_return_val_if_fail (n < collection->view_count, NULL);
-	g_return_val_if_fail (n >= 0, NULL);
-
-	return g_strdup (collection->view_data[n]->id);
-}
-
 void
 gal_view_collection_append (GalViewCollection *collection,
                             GalView *view)

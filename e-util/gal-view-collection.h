@@ -119,9 +119,6 @@ GalViewCollectionItem *
 gint		gal_view_collection_get_view_index_by_id
 						(GalViewCollection *collection,
 						 const gchar *view_id);
-gchar *		gal_view_collection_get_view_id_by_index
-						(GalViewCollection *collection,
-						 gint n);
 
 /* Manipulate the view collection */
 void		gal_view_collection_append	(GalViewCollection *collection,
