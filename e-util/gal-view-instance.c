@@ -348,6 +348,7 @@ gal_view_instance_construct (GalViewInstance *instance,
 {
 	gchar *filename;
 	gchar *safe_id;
+	const gchar *user_directory;
 
 	g_return_val_if_fail (gal_view_collection_loaded (collection), NULL);
 
@@ -366,12 +367,17 @@ gal_view_instance_construct (GalViewInstance *instance,
 	safe_id = g_strdup (instance->instance_id);
 	e_filename_make_safe (safe_id);
 
+	user_directory =
+		gal_view_collection_get_user_directory (instance->collection);
+
 	filename = g_strdup_printf ("custom_view-%s.xml", safe_id);
-	instance->custom_filename = g_build_filename (instance->collection->local_dir, filename, NULL);
+	instance->custom_filename =
+		g_build_filename (user_directory, filename, NULL);
 	g_free (filename);
 
 	filename = g_strdup_printf ("current_view-%s.xml", safe_id);
-	instance->current_view_filename = g_build_filename (instance->collection->local_dir, filename, NULL);
+	instance->current_view_filename =
+		g_build_filename (user_directory, filename, NULL);
 	g_free (filename);
 
 	g_free (safe_id);
