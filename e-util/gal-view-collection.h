@@ -1,4 +1,6 @@
 /*
+ * gal-view-collection.h
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -11,12 +13,6 @@
  *
  * You should have received a copy of the GNU Lesser General Public
  * License along with the program; if not, see <http://www.gnu.org/licenses/>
- *
- *
- * Authors:
- *		Chris Lahey <clahey@ximian.com>
- *
- * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  */
 
@@ -66,8 +62,8 @@ struct _GalViewCollection {
 	GalViewCollectionItem **removed_view_data;
 	gint removed_view_count;
 
-	guint loaded : 1;
-	guint default_view_built_in : 1;
+	gboolean loaded;
+	gboolean default_view_built_in;
 
 	gchar *system_dir;
 	gchar *local_dir;
@@ -85,9 +81,9 @@ struct _GalViewCollectionClass {
 struct _GalViewCollectionItem {
 	GalView *view;
 	gchar *id;
-	guint changed : 1;
-	guint ever_changed : 1;
-	guint built_in : 1;
+	gboolean changed;
+	gboolean ever_changed;
+	gboolean built_in;
 	gchar *filename;
 	gchar *title;
 	gchar *type;
@@ -152,4 +148,4 @@ const gchar *	gal_view_collection_get_default_view
 
 G_END_DECLS
 
-#endif /* _GAL_VIEW_COLLECTION_H_ */
+#endif /* GAL_VIEW_COLLECTION_H */

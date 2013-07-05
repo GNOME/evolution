@@ -1,4 +1,6 @@
 /*
+ * gal-view-collection.c
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -12,17 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
- *
- * Authors:
- *		Chris Lahey <clahey@ximian.com>
- *
- * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
- *
  */
-
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
 
 #include "gal-view-collection.h"
 
@@ -33,30 +25,24 @@
 #include <libxml/parser.h>
 #include <libedataserver/libedataserver.h>
 
-#include <glib/gi18n.h>
-
 #include "e-unicode.h"
 #include "e-xml-utils.h"
-
-G_DEFINE_TYPE (GalViewCollection, gal_view_collection, G_TYPE_OBJECT)
-
-#define d(x)
 
 enum {
 	CHANGED,
 	LAST_SIGNAL
 };
 
-static guint gal_view_collection_signals[LAST_SIGNAL] = { 0, };
+static guint signals[LAST_SIGNAL];
+
+G_DEFINE_TYPE (GalViewCollection, gal_view_collection, G_TYPE_OBJECT)
 
 static void
 gal_view_collection_changed (GalViewCollection *collection)
 {
 	g_return_if_fail (GAL_IS_VIEW_COLLECTION (collection));
 
-	g_signal_emit (
-		collection,
-		gal_view_collection_signals[CHANGED], 0);
+	g_signal_emit (collection, signals[CHANGED], 0);
 }
 
 static void
@@ -133,12 +119,13 @@ gal_view_generate_id (GalViewCollection *collection,
 static void
 gal_view_collection_dispose (GObject *object)
 {
-	GalViewCollection *collection = GAL_VIEW_COLLECTION (object);
-	gint i;
+	GalViewCollection *collection;
+	gint ii;
 
-	for (i = 0; i < collection->view_count; i++) {
-		gal_view_collection_item_free (collection->view_data[i]);
-	}
+	collection = GAL_VIEW_COLLECTION (object);
+
+	for (ii = 0; ii < collection->view_count; ii++)
+		gal_view_collection_item_free (collection->view_data[ii]);
 	g_free (collection->view_data);
 	collection->view_data = NULL;
 	collection->view_count = 0;
@@ -149,34 +136,41 @@ gal_view_collection_dispose (GObject *object)
 	g_list_free (collection->factory_list);
 	collection->factory_list = NULL;
 
-	for (i = 0; i < collection->removed_view_count; i++) {
-		gal_view_collection_item_free (collection->removed_view_data[i]);
-	}
+	for (ii = 0; ii < collection->removed_view_count; ii++)
+		gal_view_collection_item_free (collection->removed_view_data[ii]);
 	g_free (collection->removed_view_data);
 	collection->removed_view_data  = NULL;
 	collection->removed_view_count = 0;
-
-	g_free (collection->system_dir);
-	collection->system_dir = NULL;
-
-	g_free (collection->local_dir);
-	collection->local_dir = NULL;
-
-	g_free (collection->default_view);
-	collection->default_view = NULL;
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (gal_view_collection_parent_class)->dispose (object);
 }
 
 static void
+gal_view_collection_finalize (GObject *object)
+{
+	GalViewCollection *collection;
+
+	collection = GAL_VIEW_COLLECTION (object);
+
+	g_free (collection->system_dir);
+	g_free (collection->local_dir);
+	g_free (collection->default_view);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (gal_view_collection_parent_class)->finalize (object);
+}
+
+static void
 gal_view_collection_class_init (GalViewCollectionClass *class)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (class);
+	GObjectClass *object_class;
 
+	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = gal_view_collection_dispose;
+	object_class->finalize = gal_view_collection_finalize;
 
-	gal_view_collection_signals[CHANGED] = g_signal_new (
+	signals[CHANGED] = g_signal_new (
 		"changed",
 		G_OBJECT_CLASS_TYPE (object_class),
 		G_SIGNAL_RUN_LAST,
@@ -184,25 +178,11 @@ gal_view_collection_class_init (GalViewCollectionClass *class)
 		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
-
-	class->changed      = NULL;
 }
 
 static void
 gal_view_collection_init (GalViewCollection *collection)
 {
-	collection->view_data             = NULL;
-	collection->view_count            = 0;
-	collection->factory_list          = NULL;
-
-	collection->removed_view_data     = NULL;
-	collection->removed_view_count    = 0;
-
-	collection->system_dir            = NULL;
-	collection->local_dir             = NULL;
-
-	collection->loaded                = FALSE;
-	collection->default_view          = NULL;
 	collection->default_view_built_in = TRUE;
 }
 
@@ -574,11 +554,16 @@ gint
 gal_view_collection_get_view_index_by_id (GalViewCollection *collection,
                                           const gchar *view_id)
 {
-	gint i;
-	for (i = 0; i < collection->view_count; i++) {
-		if (!strcmp (collection->view_data[i]->id, view_id))
-			return i;
+	gint ii;
+
+	g_return_val_if_fail (GAL_IS_VIEW_COLLECTION (collection), -1);
+	g_return_val_if_fail (view_id != NULL, -1);
+
+	for (ii = 0; ii < collection->view_count; ii++) {
+		if (!strcmp (collection->view_data[ii]->id, view_id))
+			return ii;
 	}
+
 	return -1;
 }
 
@@ -611,6 +596,8 @@ gal_view_collection_delete_view (GalViewCollection *collection,
 gboolean
 gal_view_collection_loaded (GalViewCollection *collection)
 {
+	g_return_val_if_fail (GAL_IS_VIEW_COLLECTION (collection), FALSE);
+
 	return collection->loaded;
 }
 
@@ -628,8 +615,6 @@ gal_view_collection_append_with_title (GalViewCollection *collection,
 	view_class = GAL_VIEW_GET_CLASS (view);
 
 	gal_view_set_title (view, title);
-
-	d (g_print ("%s: %p\n", G_STRFUNC, view));
 
 	item = g_new (GalViewCollectionItem, 1);
 	item->ever_changed = TRUE;
@@ -668,8 +653,6 @@ gal_view_collection_set_nth_view (GalViewCollection *collection,
 	g_return_val_if_fail (i >= 0, NULL);
 	g_return_val_if_fail (i < collection->view_count, NULL);
 
-	d (g_print ("%s: %p\n", G_STRFUNC, view));
-
 	view_class = GAL_VIEW_GET_CLASS (view);
 
 	item = collection->view_data[i];
@@ -699,6 +682,8 @@ gal_view_collection_set_nth_view (GalViewCollection *collection,
 const gchar *
 gal_view_collection_get_default_view (GalViewCollection *collection)
 {
+	g_return_val_if_fail (GAL_IS_VIEW_COLLECTION (collection), NULL);
+
 	return collection->default_view;
 }
 
