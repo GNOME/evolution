@@ -30,7 +30,8 @@
 
 enum {
 	PROP_0,
-	PROP_SYSTEM_DIRECTORY
+	PROP_SYSTEM_DIRECTORY,
+	PROP_USER_DIRECTORY
 };
 
 enum {
@@ -134,6 +135,13 @@ gal_view_collection_get_property (GObject *object,
 				gal_view_collection_get_system_directory (
 				GAL_VIEW_COLLECTION (object)));
 			return;
+
+		case PROP_USER_DIRECTORY:
+			g_value_set_string (
+				value,
+				gal_view_collection_get_user_directory (
+				GAL_VIEW_COLLECTION (object)));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -205,6 +213,17 @@ gal_view_collection_class_init (GalViewCollectionClass *class)
 			G_PARAM_READABLE |
 			G_PARAM_STATIC_STRINGS));
 
+	g_object_class_install_property (
+		object_class,
+		PROP_USER_DIRECTORY,
+		g_param_spec_string (
+			"user-directory",
+			"User Directory",
+			"Directory from which to load user-created views",
+			NULL,
+			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS));
+
 	signals[CHANGED] = g_signal_new (
 		"changed",
 		G_OBJECT_CLASS_TYPE (object_class),
@@ -249,6 +268,22 @@ gal_view_collection_get_system_directory (GalViewCollection *collection)
 }
 
 /**
+ * gal_view_collection_get_user_directory:
+ * @collection: a #GalViewCollection
+ *
+ * Returns the directory from which user-created views were loaded.
+ *
+ * Returns: the user directory for @collection
+ **/
+const gchar *
+gal_view_collection_get_user_directory (GalViewCollection *collection)
+{
+	g_return_val_if_fail (GAL_IS_VIEW_COLLECTION (collection), NULL);
+
+	return collection->local_dir;
+}
+
+/**
  * gal_view_collection_set_storage_directories
  * @collection: The view collection to initialize
  * @system_dir: The location of the system built in views
@@ -272,6 +307,7 @@ gal_view_collection_set_storage_directories (GalViewCollection *collection,
 	collection->local_dir = g_strdup (local_dir);
 
 	g_object_notify (G_OBJECT (collection), "system-directory");
+	g_object_notify (G_OBJECT (collection), "user-directory");
 }
 
 /**

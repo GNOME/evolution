@@ -96,6 +96,8 @@ GalViewCollection *
 		gal_view_collection_new		(void);
 const gchar *	gal_view_collection_get_system_directory
 						(GalViewCollection *collection);
+const gchar *	gal_view_collection_get_user_directory
+						(GalViewCollection *collection);
 
 /* Set up the view collection.  Call these two functions
  * before ever doing load or save and never call them again. */
