@@ -90,6 +90,7 @@ void		e_activity_set_state		(EActivity *activity,
 const gchar *	e_activity_get_text		(EActivity *activity);
 void		e_activity_set_text		(EActivity *activity,
 						 const gchar *text);
+const gchar *	e_activity_get_last_known_text	(EActivity *activity);
 gboolean	e_activity_handle_cancellation	(EActivity *activity,
 						 const GError *error);
 

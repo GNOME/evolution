@@ -43,6 +43,7 @@ e_activity_get_state
 e_activity_set_state
 e_activity_get_text
 e_activity_set_text
+e_activity_get_last_known_text
 e_activity_handle_cancellation
 <SUBSECTION Standard>
 E_ACTIVITY

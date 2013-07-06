@@ -37,6 +37,7 @@
 #include <stdarg.h>
 #include <glib/gi18n.h>
 #include <camel/camel.h>
+#include <libedataserver/libedataserver.h>
 
 #include "e-util-enumtypes.h"
 
@@ -51,6 +52,7 @@ struct _EActivityPrivate {
 
 	gchar *icon_name;
 	gchar *text;
+	gchar *last_known_text;
 	gdouble percent;
 
 	/* Whether to emit a runtime warning if we
@@ -214,6 +216,7 @@ activity_finalize (GObject *object)
 
 	g_free (priv->icon_name);
 	g_free (priv->text);
+	g_free (priv->last_known_text);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_activity_parent_class)->finalize (object);
@@ -726,6 +729,8 @@ void
 e_activity_set_text (EActivity *activity,
                      const gchar *text)
 {
+	gchar *last_known_text = NULL;
+
 	g_return_if_fail (E_IS_ACTIVITY (activity));
 
 	if (g_strcmp0 (activity->priv->text, text) == 0)
@@ -734,7 +739,34 @@ e_activity_set_text (EActivity *activity,
 	g_free (activity->priv->text);
 	activity->priv->text = g_strdup (text);
 
+	/* See e_activity_get_last_known_text(). */
+	last_known_text = e_util_strdup_strip (text);
+	if (last_known_text != NULL) {
+		g_free (activity->priv->last_known_text);
+		activity->priv->last_known_text = last_known_text;
+	}
+
 	g_object_notify (G_OBJECT (activity), "text");
+}
+
+/**
+ * e_activity_get_last_known_text:
+ * @activity: an #EActivity
+ *
+ * Returns the last non-empty #EActivity:text value, so it's possible to
+ * identify what the @activity <emphasis>was</emphasis> doing even if it
+ * currently has no description.
+ *
+ * Mostly useful for debugging.
+ *
+ * Returns: a descriptive message, or %NULL
+ **/
+const gchar *
+e_activity_get_last_known_text (EActivity *activity)
+{
+	g_return_val_if_fail (E_IS_ACTIVITY (activity), NULL);
+
+	return activity->priv->last_known_text;
 }
 
 /**

@@ -105,12 +105,18 @@ shell_backend_debug_list_activities (EShellBackend *shell_backend)
 	for (link = head; link != NULL; link = g_list_next (link)) {
 		EActivity *activity = E_ACTIVITY (link->data);
 		gchar *description;
+		const gchar *was;
 
 		description = e_activity_describe (activity);
+		was = e_activity_get_last_known_text (activity);
+
 		if (description != NULL)
 			g_debug ("* %s", description);
+		else if (was != NULL)
+			g_debug ("* (was \"%s\")", was);
 		else
 			g_debug ("* (no description)");
+
 		g_free (description);
 	}
 }
