@@ -1,10 +1,5 @@
 /* e-color-chooser-widget.h
  *
-<<<<<<< HEAD
- * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
- *
-=======
->>>>>>> Import GtkhtmlColorCombo as EColorCombo
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU Lesser General Public
  * License as published by the Free Software Foundation.
@@ -56,35 +51,21 @@ typedef struct _EColorChooserWidgetPrivate EColorChooserWidgetPrivate;
 
 struct _EColorChooserWidget {
 	GtkColorChooserWidget parent;
-<<<<<<< HEAD
-=======
 
->>>>>>> Import GtkhtmlColorCombo as EColorCombo
 	EColorChooserWidgetPrivate *priv;
 };
 
 struct _EColorChooserWidgetClass {
 	GtkColorChooserWidgetClass parent_class;
 
-<<<<<<< HEAD
-	void		(*editor_activated)	(GtkColorChooserWidget *chooser);
-};
-
-GType		e_color_chooser_widget_get_type	(void) G_GNUC_CONST;
-=======
 	void	(*editor_activated)		(GtkColorChooserWidget *chooser);
 };
 
 GType		e_color_chooser_widget_get_type	(void);
 
->>>>>>> Import GtkhtmlColorCombo as EColorCombo
 GtkWidget *	e_color_chooser_widget_new	(void);
 
 G_END_DECLS
 
 #endif /* E_COLOR_CHOOSER_WIDGET_H */
-<<<<<<< HEAD
-
-=======
  
->>>>>>> Import GtkhtmlColorCombo as EColorCombo

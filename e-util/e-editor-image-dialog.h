@@ -1,11 +1,6 @@
 /*
  * e-editor-image-dialog.h
  *
-<<<<<<< HEAD
- * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
- *
-=======
->>>>>>> Make 'Image Properties' dialog work
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -57,10 +52,7 @@ typedef struct _EEditorImageDialogPrivate EEditorImageDialogPrivate;
 
 struct _EEditorImageDialog {
 	EEditorDialog parent;
-<<<<<<< HEAD
-=======
 
->>>>>>> Make 'Image Properties' dialog work
 	EEditorImageDialogPrivate *priv;
 };
 
@@ -68,15 +60,10 @@ struct _EEditorImageDialogClass {
 	EEditorDialogClass parent_class;
 };
 
-<<<<<<< HEAD
-GType		e_editor_image_dialog_get_type	(void) G_GNUC_CONST;
-GtkWidget *	e_editor_image_dialog_new	(EEditor *editor);
-=======
 GType		e_editor_image_dialog_get_type	(void);
 
 GtkWidget*	e_editor_image_dialog_new	(EEditor *editor);
 
->>>>>>> Make 'Image Properties' dialog work
 void		e_editor_image_dialog_show	(EEditorImageDialog *dialog,
 						 WebKitDOMNode *image);
 

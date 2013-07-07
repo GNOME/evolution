@@ -1,12 +1,4 @@
-<<<<<<< HEAD
-/*
- * e-emoticon.h
- *
- * Copyright (C) 2008 Novell, Inc.
- * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
-=======
 /* e-emoticon.h
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU Lesser General Public
@@ -45,19 +37,11 @@ struct _EEmoticon {
 	gchar *text_face;
 };
 
-<<<<<<< HEAD
-GType		e_emoticon_get_type		(void) G_GNUC_CONST;
-=======
 GType		e_emoticon_get_type		(void);
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 gboolean	e_emoticon_equal		(EEmoticon *emoticon_a,
 						 EEmoticon *emoticon_b);
 EEmoticon *	e_emoticon_copy			(EEmoticon *emoticon);
 void		e_emoticon_free			(EEmoticon *emoticon);
-<<<<<<< HEAD
-gchar *		e_emoticon_get_uri		(EEmoticon *emoticon);
-=======
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 
 gchar *		e_emoticon_get_uri		(EEmoticon *emoticon);
 

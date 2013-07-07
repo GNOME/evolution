@@ -16,13 +16,6 @@
  * Boston, MA 02111-1307, USA.
  */
 
-<<<<<<< HEAD
-#if !defined (__E_UTIL_H_INSIDE__) && !defined (LIBEUTIL_COMPILATION)
-#error "Only <e-util/e-util.h> should be included directly."
-#endif
-
-=======
->>>>>>> Move spell-checking parts to e-util
 #ifndef E_SPELL_CHECKER_H
 #define E_SPELL_CHECKER_H
 
@@ -48,10 +41,7 @@
 	(G_TYPE_INSTANCE_GET_CLASS \
 	((obj), E_TYPE_SPELL_CHECKER, ESpellCheckerClass))
 
-<<<<<<< HEAD
-=======
 
->>>>>>> Move spell-checking parts to e-util
 G_BEGIN_DECLS
 
 typedef struct _ESpellChecker ESpellChecker;
@@ -60,10 +50,7 @@ typedef struct _ESpellCheckerClass ESpellCheckerClass;
 
 struct _ESpellChecker {
 	GObject parent;
-<<<<<<< HEAD
-=======
 
->>>>>>> Move spell-checking parts to e-util
 	ESpellCheckerPrivate *priv;
 };
 
@@ -71,41 +58,6 @@ struct _ESpellCheckerClass {
 	GObjectClass parent_class;
 };
 
-<<<<<<< HEAD
-GType		e_spell_checker_get_type	(void) G_GNUC_CONST;
-ESpellChecker *	e_spell_checker_new		(void);
-GList *		e_spell_checker_list_available_dicts
-						(ESpellChecker *checker);
-ESpellDictionary *
-		e_spell_checker_ref_dictionary	(ESpellChecker *checker,
-						 const gchar *language_code);
-EnchantDict *	e_spell_checker_get_enchant_dict
-						(ESpellChecker *checker,
-						 const gchar *language_code);
-gboolean	e_spell_checker_get_language_active
-						(ESpellChecker *checker,
-						 const gchar *language_code);
-void		e_spell_checker_set_language_active
-						(ESpellChecker *checker,
-						 const gchar *language_code,
-						 gboolean active);
-gchar **	e_spell_checker_list_active_languages
-						(ESpellChecker *checker,
-						 guint *n_languages);
-guint		e_spell_checker_count_active_languages
-						(ESpellChecker *checker);
-gboolean	e_spell_checker_check_word	(ESpellChecker *checker,
-						 const gchar *word,
-						 gsize length);
-void		e_spell_checker_learn_word	(ESpellChecker *checker,
-						 const gchar *word);
-void		e_spell_checker_ignore_word	(ESpellChecker *checker,
-						 const gchar *word);
-
-G_END_DECLS
-
-#endif /* E_SPELL_CHECKER_H */
-=======
 GType			e_spell_checker_get_type	(void);
 
 ESpellChecker *		e_spell_checker_new		(void);
@@ -134,4 +86,3 @@ G_END_DECLS
 
 
 #endif /* E_SPELL_CHECKER_H */
->>>>>>> Move spell-checking parts to e-util

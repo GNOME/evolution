@@ -1,12 +1,4 @@
-<<<<<<< HEAD
-/*
- * e-emoticon-tool-button.h
- *
- * Copyright (C) 2008 Novell, Inc.
- * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
-=======
 /* e-emoticon-tool-button.h
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU Lesser General Public
@@ -65,19 +57,11 @@ struct _EEmoticonToolButton {
 struct _EEmoticonToolButtonClass {
 	GtkToggleToolButtonClass parent_class;
 
-<<<<<<< HEAD
-	void		(*popup)		(EEmoticonToolButton *button);
-	void		(*popdown)		(EEmoticonToolButton *button);
-};
-
-GType		e_emoticon_tool_button_get_type	(void) G_GNUC_CONST;
-=======
 	void	(*popup)		(EEmoticonToolButton *button);
 	void	(*popdown)		(EEmoticonToolButton *button);
 };
 
 GType		e_emoticon_tool_button_get_type	(void);
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 GtkToolItem *	e_emoticon_tool_button_new	(void);
 void		e_emoticon_tool_button_popup	(EEmoticonToolButton *button);
 void		e_emoticon_tool_button_popdown	(EEmoticonToolButton *button);

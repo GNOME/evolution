@@ -14,7 +14,7 @@ libcal_dialogs_la_CPPFLAGS = 				\
 	-DPREFIX=\""$(prefix)"\"			\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(CODE_COVERAGE_CFLAGS)
+	$(CODE_COVERAGE_CFLAGS)				\
 	$(NULL)
 
 ecalendarincludedir = $(privincludedir)/calendar/gui/dialogs

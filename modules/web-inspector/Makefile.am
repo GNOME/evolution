@@ -6,7 +6,7 @@ module_web_inspector_la_CPPFLAGS = 			\
 	-DG_LOG_DOMAIN=\"evolution-web-inspector\"	\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(CODE_COVERAGE_CFLAGS)
+	$(CODE_COVERAGE_CFLAGS)				\
 	$(NULL)
 
 module_web_inspector_la_SOURCES = \

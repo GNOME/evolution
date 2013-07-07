@@ -1,14 +1,6 @@
-<<<<<<< HEAD
-
-/* e-color-chooser-widget.c
- *
- * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
- *
-=======
  
 /* e-color-chooser-widget.c
  *
->>>>>>> Import GtkhtmlColorCombo as EColorCombo
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU Lesser General Public
  * License as published by the Free Software Foundation.
@@ -32,23 +24,10 @@
 
 #include <glib/gi18n-lib.h>
 
-<<<<<<< HEAD
-#define E_COLOR_CHOOSER_WIDGET_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_COLOR_CHOOSER_WIDGET, EColorChooserWidgetPrivate))
-
-/**
- * EColorChooserWidget:
- *
- * This widget wrapps around #GtkColorChooserWidget and allows the widget to be
- * used as a delegate for #GtkComboBox for instance.
- */
-=======
 G_DEFINE_TYPE (
 	EColorChooserWidget,
 	e_color_chooser_widget,
 	GTK_TYPE_COLOR_CHOOSER_WIDGET);
->>>>>>> Import GtkhtmlColorCombo as EColorCombo
 
 struct _EColorChooserWidgetPrivate {
 	gboolean showing_editor;
@@ -61,14 +40,6 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
-<<<<<<< HEAD
-G_DEFINE_TYPE (
-	EColorChooserWidget,
-	e_color_chooser_widget,
-	GTK_TYPE_COLOR_CHOOSER_WIDGET);
-
-=======
->>>>>>> Import GtkhtmlColorCombo as EColorCombo
 /* UGLY UGLY UGLY!
  * GtkColorChooserWidget sends "color-activated" signal
  * only when user double-clicks the color. This is totally stupid
@@ -85,11 +56,7 @@ G_DEFINE_TYPE (
  */
 static gboolean
 color_chooser_widget_button_press_event (GtkWidget *widget,
-<<<<<<< HEAD
-                                         GdkEventButton *event)
-=======
 					 GdkEventButton *event)
->>>>>>> Import GtkhtmlColorCombo as EColorCombo
 {
 	if ((event->type == GDK_BUTTON_PRESS) &&
 	    (event->button == GDK_BUTTON_PRIMARY)) {
@@ -104,13 +71,8 @@ color_chooser_widget_button_press_event (GtkWidget *widget,
 
 static void
 color_chooser_widget_color_activated (GtkColorChooser *chooser,
-<<<<<<< HEAD
-                                      GdkRGBA *color,
-                                      gpointer user_data)
-=======
 				      GdkRGBA *color,
 				      gpointer user_data)
->>>>>>> Import GtkhtmlColorCombo as EColorCombo
 {
 	/* Because we are simulating the double-click by accepting only
 	 * single click, the color in the swatch is actually not selected,
@@ -121,10 +83,6 @@ color_chooser_widget_color_activated (GtkColorChooser *chooser,
 static gboolean
 run_color_chooser_dialog (gpointer user_data)
 {
-<<<<<<< HEAD
-	EColorChooserWidgetPrivate *priv;
-=======
->>>>>>> Import GtkhtmlColorCombo as EColorCombo
 	GtkWidget *parent_window;
 	GtkWidget *parent_chooser;
 	GtkWidget *dialog;
@@ -132,10 +90,7 @@ run_color_chooser_dialog (gpointer user_data)
 
 	parent_chooser = user_data;
 
-<<<<<<< HEAD
-=======
 
->>>>>>> Import GtkhtmlColorCombo as EColorCombo
 	g_object_set (
 		G_OBJECT (parent_chooser), "show-editor", FALSE, NULL);
 
@@ -143,19 +98,11 @@ run_color_chooser_dialog (gpointer user_data)
 	if (!parent_window)
 		parent_window = gtk_widget_get_toplevel (parent_chooser);
 	dialog = gtk_dialog_new_with_buttons (
-<<<<<<< HEAD
-		N_("Choose custom color"),
-		GTK_WINDOW (parent_window),
-		GTK_DIALOG_MODAL,
-		GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
-		GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
-=======
 			N_("Choose custom color"),
 			GTK_WINDOW (parent_window),
 			GTK_DIALOG_MODAL,
 			GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
 			GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
->>>>>>> Import GtkhtmlColorCombo as EColorCombo
 
 	chooser = gtk_color_chooser_widget_new ();
 	g_object_set (G_OBJECT (chooser), "show-editor", TRUE, NULL);
@@ -176,25 +123,14 @@ run_color_chooser_dialog (gpointer user_data)
 
 	gtk_widget_destroy (dialog);
 
-<<<<<<< HEAD
-	priv = E_COLOR_CHOOSER_WIDGET_GET_PRIVATE (parent_chooser);
-	priv->showing_editor = FALSE;
-
-=======
 	E_COLOR_CHOOSER_WIDGET (parent_chooser)->priv->showing_editor = FALSE;
->>>>>>> Import GtkhtmlColorCombo as EColorCombo
 	return FALSE;
 }
 
 static void
 color_chooser_show_editor_notify_cb (EColorChooserWidget *chooser,
-<<<<<<< HEAD
-                                     GParamSpec *pspec,
-                                     gpointer user_data)
-=======
 				     GParamSpec *pspec,
 				     gpointer user_data)
->>>>>>> Import GtkhtmlColorCombo as EColorCombo
 {
 	gboolean show_editor;
 
@@ -215,15 +151,9 @@ color_chooser_show_editor_notify_cb (EColorChooserWidget *chooser,
 }
 
 void
-<<<<<<< HEAD
-e_color_chooser_widget_class_init (EColorChooserWidgetClass *class)
-{
-	g_type_class_add_private (class, sizeof (EColorChooserWidgetPrivate));
-=======
 e_color_chooser_widget_class_init (EColorChooserWidgetClass *klass)
 {
 	g_type_class_add_private (klass, sizeof (EColorChooserWidgetPrivate));
->>>>>>> Import GtkhtmlColorCombo as EColorCombo
 
 	signals[SIGNAL_EDITOR_ACTIVATED] = g_signal_new (
 		"editor-activated",
@@ -273,13 +203,9 @@ e_color_chooser_widget_init (EColorChooserWidget *widget)
 {
 	GtkWidget *swatch;
 
-<<<<<<< HEAD
-	widget->priv = E_COLOR_CHOOSER_WIDGET_GET_PRIVATE (widget);
-=======
 	widget->priv = G_TYPE_INSTANCE_GET_PRIVATE (
 			widget, E_TYPE_COLOR_CHOOSER_WIDGET,
 			EColorChooserWidgetPrivate);
->>>>>>> Import GtkhtmlColorCombo as EColorCombo
 	widget->priv->showing_editor = FALSE;
 
 	swatch = find_swatch (GTK_CONTAINER (widget));

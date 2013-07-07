@@ -1,11 +1,6 @@
 /*
  * e-image-chooser-dialog.c
  *
-<<<<<<< HEAD
- * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
- *
-=======
->>>>>>> Import GtkHTMLImageChooserDialog to EImageChooserDialog
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU Lesser General Public
  * License as published by the Free Software Foundation.
@@ -23,13 +18,6 @@
 
 #include "e-image-chooser-dialog.h"
 
-<<<<<<< HEAD
-#define E_IMAGE_CHOOSER_DIALOG_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_IMAGE_CHOOSER_DIALOG, EImageChooserDialogPrivate))
-
-=======
->>>>>>> Import GtkHTMLImageChooserDialog to EImageChooserDialog
 #define PREVIEW_WIDTH	256
 #define PREVIEW_HEIGHT	256
 
@@ -107,11 +95,7 @@ image_chooser_dialog_update_preview (GtkFileChooser *file_chooser)
 	GFile *preview_file;
 	Context *context;
 
-<<<<<<< HEAD
-	priv = E_IMAGE_CHOOSER_DIALOG_GET_PRIVATE (file_chooser);
-=======
 	priv = E_IMAGE_CHOOSER_DIALOG (file_chooser)->priv;
->>>>>>> Import GtkHTMLImageChooserDialog to EImageChooserDialog
 	preview_file = gtk_file_chooser_get_preview_file (file_chooser);
 	preview_widget = gtk_file_chooser_get_preview_widget (file_chooser);
 
@@ -146,11 +130,7 @@ image_chooser_dialog_dispose (GObject *object)
 {
 	EImageChooserDialogPrivate *priv;
 
-<<<<<<< HEAD
-	priv = E_IMAGE_CHOOSER_DIALOG_GET_PRIVATE (object);
-=======
 	priv = E_IMAGE_CHOOSER_DIALOG (object)->priv;
->>>>>>> Import GtkHTMLImageChooserDialog to EImageChooserDialog
 
 	if (priv->cancellable != NULL) {
 		g_cancellable_cancel (priv->cancellable);
@@ -188,24 +168,14 @@ image_chooser_dialog_constructed (GObject *object)
 }
 
 static void
-<<<<<<< HEAD
-e_image_chooser_dialog_class_init (EImageChooserDialogClass *class)
-=======
 e_image_chooser_dialog_class_init (EImageChooserDialogClass *klass)
->>>>>>> Import GtkHTMLImageChooserDialog to EImageChooserDialog
 {
 	GObjectClass *object_class;
 
 	g_type_class_add_private (
-<<<<<<< HEAD
-		class, sizeof (EImageChooserDialogPrivate));
-
-	object_class = G_OBJECT_CLASS (class);
-=======
 		klass, sizeof (EImageChooserDialogPrivate));
 
 	object_class = G_OBJECT_CLASS (klass);
->>>>>>> Import GtkHTMLImageChooserDialog to EImageChooserDialog
 	object_class->dispose = image_chooser_dialog_dispose;
 	object_class->constructed = image_chooser_dialog_constructed;
 }
@@ -213,13 +183,9 @@ e_image_chooser_dialog_class_init (EImageChooserDialogClass *klass)
 static void
 e_image_chooser_dialog_init (EImageChooserDialog *dialog)
 {
-<<<<<<< HEAD
-	dialog->priv = E_IMAGE_CHOOSER_DIALOG_GET_PRIVATE (dialog);
-=======
 	dialog->priv = G_TYPE_INSTANCE_GET_PRIVATE (
 		dialog, E_TYPE_IMAGE_CHOOSER_DIALOG,
 		EImageChooserDialogPrivate);
->>>>>>> Import GtkHTMLImageChooserDialog to EImageChooserDialog
 
 	g_signal_connect (
 		dialog, "update-preview",
@@ -228,11 +194,7 @@ e_image_chooser_dialog_init (EImageChooserDialog *dialog)
 
 GtkWidget *
 e_image_chooser_dialog_new (const gchar *title,
-<<<<<<< HEAD
-                            GtkWindow *parent)
-=======
 			    GtkWindow *parent)
->>>>>>> Import GtkHTMLImageChooserDialog to EImageChooserDialog
 {
 	return g_object_new (
 		E_TYPE_IMAGE_CHOOSER_DIALOG,

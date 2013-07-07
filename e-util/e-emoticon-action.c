@@ -1,12 +1,4 @@
-<<<<<<< HEAD
-/*
- * e-emoticon-action.c
- *
- * Copyright (C) 2008 Novell, Inc.
- * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
-=======
 /* e-emoticon-action.c
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU Lesser General Public
@@ -29,13 +21,6 @@
 #include "e-emoticon-chooser-menu.h"
 #include "e-emoticon-tool-button.h"
 
-<<<<<<< HEAD
-#define E_EMOTICON_ACTION_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_EMOTICON_ACTION, EEmoticonActionPrivate))
-
-=======
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 struct _EEmoticonActionPrivate {
 	GList *choosers;
 	EEmoticonChooser *current_chooser;
@@ -46,29 +31,11 @@ enum {
 	PROP_CURRENT_FACE
 };
 
-<<<<<<< HEAD
-/* Forward Declarations */
-static void	e_emoticon_action_interface_init
-					(EEmoticonChooserInterface *interface);
-
-G_DEFINE_TYPE_WITH_CODE (
-	EEmoticonAction,
-	e_emoticon_action,
-	GTK_TYPE_ACTION,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_EMOTICON_CHOOSER,
-		e_emoticon_action_interface_init))
-
-static void
-emoticon_action_proxy_item_activated_cb (EEmoticonAction *action,
-                                         EEmoticonChooser *chooser)
-=======
 static gpointer parent_class;
 
 static void
 emoticon_action_proxy_item_activated_cb (EEmoticonAction *action,
 					 EEmoticonChooser *chooser)
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 {
 	action->priv->current_chooser = chooser;
 
@@ -77,15 +44,9 @@ emoticon_action_proxy_item_activated_cb (EEmoticonAction *action,
 
 static void
 emoticon_action_set_property (GObject *object,
-<<<<<<< HEAD
-                              guint property_id,
-                              const GValue *value,
-                              GParamSpec *pspec)
-=======
 			      guint property_id,
 			      const GValue *value,
 			      GParamSpec *pspec)
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 {
 	switch (property_id) {
 		case PROP_CURRENT_FACE:
@@ -100,15 +61,9 @@ emoticon_action_set_property (GObject *object,
 
 static void
 emoticon_action_get_property (GObject *object,
-<<<<<<< HEAD
-                              guint property_id,
-                              GValue *value,
-                              GParamSpec *pspec)
-=======
 			      guint property_id,
 			      GValue *value,
 			      GParamSpec *pspec)
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 {
 	switch (property_id) {
 		case PROP_CURRENT_FACE:
@@ -126,20 +81,12 @@ emoticon_action_finalize (GObject *object)
 {
 	EEmoticonActionPrivate *priv;
 
-<<<<<<< HEAD
-	priv = E_EMOTICON_ACTION_GET_PRIVATE (object);
-=======
 	priv = E_EMOTICON_ACTION (object)->priv;
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 
 	g_list_free (priv->choosers);
 
 	/* Chain up to parent's finalize() method. */
-<<<<<<< HEAD
-	G_OBJECT_CLASS (e_emoticon_action_parent_class)->finalize (object);
-=======
 	G_OBJECT_CLASS (parent_class)->finalize (object);
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 }
 
 static void
@@ -147,11 +94,7 @@ emoticon_action_activate (GtkAction *action)
 {
 	EEmoticonActionPrivate *priv;
 
-<<<<<<< HEAD
-	priv = E_EMOTICON_ACTION_GET_PRIVATE (action);
-=======
 	priv = E_EMOTICON_ACTION (action)->priv;
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 
 	priv->current_chooser = NULL;
 }
@@ -178,19 +121,11 @@ emoticon_action_create_tool_item (GtkAction *action)
 
 static void
 emoticon_action_connect_proxy (GtkAction *action,
-<<<<<<< HEAD
-                               GtkWidget *proxy)
-{
-	EEmoticonActionPrivate *priv;
-
-	priv = E_EMOTICON_ACTION_GET_PRIVATE (action);
-=======
 			       GtkWidget *proxy)
 {
 	EEmoticonActionPrivate *priv;
 
 	priv = E_EMOTICON_ACTION (action)->priv;
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 
 	if (!E_IS_EMOTICON_CHOOSER (proxy))
 		goto chainup;
@@ -204,39 +139,21 @@ emoticon_action_connect_proxy (GtkAction *action,
 
 chainup:
 	/* Chain up to parent's connect_proxy() method. */
-<<<<<<< HEAD
-	GTK_ACTION_CLASS (e_emoticon_action_parent_class)->
-		connect_proxy (action, proxy);
-=======
 	GTK_ACTION_CLASS (parent_class)->connect_proxy (action, proxy);
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 }
 
 static void
 emoticon_action_disconnect_proxy (GtkAction *action,
-<<<<<<< HEAD
-                                  GtkWidget *proxy)
-{
-	EEmoticonActionPrivate *priv;
-
-	priv = E_EMOTICON_ACTION_GET_PRIVATE (action);
-=======
 				  GtkWidget *proxy)
 {
 	EEmoticonActionPrivate *priv;
 
 	priv = E_EMOTICON_ACTION (action)->priv;
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 
 	priv->choosers = g_list_remove (priv->choosers, proxy);
 
 	/* Chain up to parent's disconnect_proxy() method. */
-<<<<<<< HEAD
-	GTK_ACTION_CLASS (e_emoticon_action_parent_class)->
-		disconnect_proxy (action, proxy);
-=======
 	GTK_ACTION_CLASS (parent_class)->disconnect_proxy (action, proxy);
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 }
 
 static GtkWidget *
@@ -245,11 +162,7 @@ emoticon_action_create_menu (GtkAction *action)
 	EEmoticonActionPrivate *priv;
 	GtkWidget *widget;
 
-<<<<<<< HEAD
-	priv = E_EMOTICON_ACTION_GET_PRIVATE (action);
-=======
 	priv = E_EMOTICON_ACTION (action)->priv;
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 
 	widget = e_emoticon_chooser_menu_new ();
 
@@ -268,11 +181,7 @@ emoticon_action_get_current_emoticon (EEmoticonChooser *chooser)
 	EEmoticonActionPrivate *priv;
 	EEmoticon *emoticon = NULL;
 
-<<<<<<< HEAD
-	priv = E_EMOTICON_ACTION_GET_PRIVATE (chooser);
-=======
 	priv = E_EMOTICON_ACTION (chooser)->priv;
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 
 	if (priv->current_chooser != NULL)
 		emoticon = e_emoticon_chooser_get_current_emoticon (
@@ -283,20 +192,12 @@ emoticon_action_get_current_emoticon (EEmoticonChooser *chooser)
 
 static void
 emoticon_action_set_current_emoticon (EEmoticonChooser *chooser,
-<<<<<<< HEAD
-                                      EEmoticon *emoticon)
-=======
 				      EEmoticon *emoticon)
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 {
 	EEmoticonActionPrivate *priv;
 	GList *iter;
 
-<<<<<<< HEAD
-	priv = E_EMOTICON_ACTION_GET_PRIVATE (chooser);
-=======
 	priv = E_EMOTICON_ACTION (chooser)->priv;
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 
 	for (iter = priv->choosers; iter != NULL; iter = iter->next) {
 		EEmoticonChooser *proxy_chooser = iter->data;
@@ -306,19 +207,12 @@ emoticon_action_set_current_emoticon (EEmoticonChooser *chooser,
 }
 
 static void
-<<<<<<< HEAD
-e_emoticon_action_class_init (EEmoticonActionClass *class)
-=======
 emoticon_action_class_init (EEmoticonActionClass *class)
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 {
 	GObjectClass *object_class;
 	GtkActionClass *action_class;
 
-<<<<<<< HEAD
-=======
 	parent_class = g_type_class_peek_parent (class);
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 	g_type_class_add_private (class, sizeof (EEmoticonAction));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -339,18 +233,6 @@ emoticon_action_class_init (EEmoticonActionClass *class)
 }
 
 static void
-<<<<<<< HEAD
-e_emoticon_action_interface_init (EEmoticonChooserInterface *interface)
-{
-	interface->get_current_emoticon = emoticon_action_get_current_emoticon;
-	interface->set_current_emoticon = emoticon_action_set_current_emoticon;
-}
-
-static void
-e_emoticon_action_init (EEmoticonAction *action)
-{
-	action->priv = E_EMOTICON_ACTION_GET_PRIVATE (action);
-=======
 emoticon_action_iface_init (EEmoticonChooserIface *iface)
 {
 	iface->get_current_emoticon = emoticon_action_get_current_emoticon;
@@ -397,20 +279,13 @@ e_emoticon_action_get_type (void)
 	}
 
 	return type;
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 }
 
 GtkAction *
 e_emoticon_action_new (const gchar *name,
-<<<<<<< HEAD
-                       const gchar *label,
-                       const gchar *tooltip,
-                       const gchar *stock_id)
-=======
 		       const gchar *label,
 		       const gchar *tooltip,
 		       const gchar *stock_id)
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 {
 	g_return_val_if_fail (name != NULL, NULL);
 

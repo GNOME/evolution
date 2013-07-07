@@ -1,11 +1,6 @@
 /*
  * e-editor-hrule-dialog.h
  *
-<<<<<<< HEAD
- * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
- *
-=======
->>>>>>> Make horizontal rule dialog work
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -57,10 +52,7 @@ typedef struct _EEditorHRuleDialogPrivate EEditorHRuleDialogPrivate;
 
 struct _EEditorHRuleDialog {
 	EEditorDialog parent;
-<<<<<<< HEAD
-=======
 
->>>>>>> Make horizontal rule dialog work
 	EEditorHRuleDialogPrivate *priv;
 };
 
@@ -68,14 +60,9 @@ struct _EEditorHRuleDialogClass {
 	EEditorDialogClass parent_class;
 };
 
-<<<<<<< HEAD
-GType		e_editor_hrule_dialog_get_type	(void) G_GNUC_CONST;
-GtkWidget *	e_editor_hrule_dialog_new	(EEditor *editor);
-=======
 GType		e_editor_hrule_dialog_get_type	(void);
 
 GtkWidget*	e_editor_hrule_dialog_new	(EEditor *editor);
->>>>>>> Make horizontal rule dialog work
 
 G_END_DECLS
 

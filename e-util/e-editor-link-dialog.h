@@ -1,11 +1,6 @@
 /*
  * e-editor-link-dialog.h
  *
-<<<<<<< HEAD
- * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
- *
-=======
->>>>>>> Refactor EEditorDialog... classes
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -57,10 +52,7 @@ typedef struct _EEditorLinkDialogPrivate EEditorLinkDialogPrivate;
 
 struct _EEditorLinkDialog {
 	EEditorDialog parent;
-<<<<<<< HEAD
-=======
 
->>>>>>> Refactor EEditorDialog... classes
 	EEditorLinkDialogPrivate *priv;
 };
 
@@ -68,14 +60,9 @@ struct _EEditorLinkDialogClass {
 	EEditorDialogClass parent_class;
 };
 
-<<<<<<< HEAD
-GType		e_editor_link_dialog_get_type	(void) G_GNUC_CONST;
-GtkWidget *	e_editor_link_dialog_new	(EEditor *editor);
-=======
 GType		e_editor_link_dialog_get_type	(void);
 
 GtkWidget*	e_editor_link_dialog_new	(EEditor *editor);
->>>>>>> Refactor EEditorDialog... classes
 
 G_END_DECLS
 
