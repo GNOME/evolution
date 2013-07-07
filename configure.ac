@@ -210,9 +210,6 @@ GETTEXT_PACKAGE=evolution-$BASE_VERSION
 AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE", [Package name for gettext])
 
-localedir='$(prefix)/$(DATADIRNAME)/locale'
-AC_SUBST(localedir)
-
 dnl ******************************
 dnl Initialize libtool
 dnl ******************************
