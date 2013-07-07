@@ -3581,6 +3581,7 @@ itip_view_cal_opened_cb (GObject *source_object,
 
 exit:
 	g_clear_object (&client);
+	g_clear_object (&view);
 }
 
 static void
@@ -3633,7 +3634,7 @@ start_calendar_server_by_uid (EMailPartItip *pitip,
 		start_calendar_server (
 			pitip, view, source, type,
 			itip_view_cal_opened_cb,
-			view);
+			g_object_ref (view));
 		g_object_unref (source);
 	}
 }
@@ -3652,7 +3653,7 @@ source_selected_cb (ItipView *view,
 	start_calendar_server (
 		pitip, view, source, pitip->type,
 		itip_view_cal_opened_cb,
-		view);
+		g_object_ref (view));
 }
 
 static void
