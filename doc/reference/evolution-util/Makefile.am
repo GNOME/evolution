@@ -52,14 +52,12 @@ GTKDOC_CFLAGS  =					\
 	-I$(top_builddir)				\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(GTKHTML_CFLAGS)				\
 	$(NULL)
 
 GTKDOC_LIBS = 						\
 	$(top_builddir)/e-util/libevolution-util.la	\
 	$(EVOLUTION_DATA_SERVER_LIBS)			\
 	$(GNOME_PLATFORM_LIBS)				\
-	$(GTKHTML_LIBS)					\
 	$(NULL)
 
 # Extra options to supply to gtkdoc-mkdb

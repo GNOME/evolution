@@ -8,7 +8,6 @@ module_settings_la_CPPFLAGS = \
 	-DG_LOG_DOMAIN=\"evolution-module-settings\" \
 	$(EVOLUTION_DATA_SERVER_CFLAGS) \
 	$(GNOME_PLATFORM_CFLAGS) \
-	$(GTKHTML_CFLAGS) \
 	$(CODE_COVERAGE_CFLAGS) \
 	$(NULL)
 
@@ -63,7 +62,6 @@ module_settings_la_LIBADD = \
 	$(top_builddir)/calendar/gui/libevolution-calendar.la \
 	$(EVOLUTION_DATA_SERVER_LIBS) \
 	$(GNOME_PLATFORM_LIBS) \
-	$(GTKHTML_LIBS) \
 	$(NULL)
 
 module_settings_la_LDFLAGS = \

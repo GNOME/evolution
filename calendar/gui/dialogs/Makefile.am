@@ -14,8 +14,8 @@ libcal_dialogs_la_CPPFLAGS = 				\
 	-DPREFIX=\""$(prefix)"\"			\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(GTKHTML_CFLAGS)				\
 	$(CODE_COVERAGE_CFLAGS)
+	$(NULL)
 
 ecalendarincludedir = $(privincludedir)/calendar/gui/dialogs
 
@@ -52,7 +52,7 @@ libcal_dialogs_la_LIBADD =					\
 	$(top_builddir)/addressbook/util/libeabutil.la		\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
-	$(GTKHTML_LIBS)
+	$(NULL)
 
 libcal_dialogs_la_SOURCES =		\
 	alarm-dialog.c			\

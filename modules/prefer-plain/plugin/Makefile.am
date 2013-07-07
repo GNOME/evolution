@@ -9,8 +9,8 @@ liborg_gnome_prefer_plain_la_CPPFLAGS =		\
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"	\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(GTKHTML_CFLAGS)				\
-	$(CODE_COVERAGE_CFLAGS)
+	$(CODE_COVERAGE_CFLAGS)				\
+	$(NULL)
 
 liborg_gnome_prefer_plain_la_SOURCES =		\
 	config-ui.c
@@ -20,7 +20,7 @@ liborg_gnome_prefer_plain_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED) $(
 liborg_gnome_prefer_plain_la_LIBADD =				\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
-	$(GTKHTML_LIBS)
+	$(NULL)
 
 BUILT_SOURCES = $(plugin_DATA)
 

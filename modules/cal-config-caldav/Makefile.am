@@ -6,9 +6,9 @@ module_cal_config_caldav_la_CPPFLAGS = \
 	-DG_LOG_DOMAIN=\"evolution-cal-config-caldav\"		\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)				\
-	$(GTKHTML_CFLAGS)					\
 	$(LIBSOUP_CFLAGS)					\
-	$(CODE_COVERAGE_CFLAGS)
+	$(CODE_COVERAGE_CFLAGS)					\
+	$(NULL)
 
 module_cal_config_caldav_la_SOURCES = \
 	evolution-cal-config-caldav.c				\
@@ -21,8 +21,8 @@ module_cal_config_caldav_la_LIBADD = \
 	$(top_builddir)/e-util/libevolution-util.la		\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
-	$(GTKHTML_LIBS)						\
-	$(LIBSOUP_LIBS)
+	$(LIBSOUP_LIBS)						\
+	$(NULL)
 
 module_cal_config_caldav_la_LDFLAGS = \
 	-module -avoid-version $(NO_UNDEFINED) $(CODE_COVERAGE_LDFLAGS)

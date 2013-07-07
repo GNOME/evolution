@@ -19,9 +19,9 @@ module_addressbook_la_CPPFLAGS = \
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)				\
 	$(CHAMPLAIN_CFLAGS)					\
-	$(GTKHTML_CFLAGS)					\
 	$(LDAP_CFLAGS)						\
-	$(CODE_COVERAGE_CFLAGS)
+	$(CODE_COVERAGE_CFLAGS)					\
+	$(NULL)
 
 module_addressbook_la_SOURCES = \
 	evolution-module-addressbook.c				\
@@ -64,8 +64,8 @@ module_addressbook_la_LIBADD = \
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
 	$(CHAMPLAIN_LIBS)					\
-	$(GTKHTML_LIBS)						\
-	$(LDAP_LIBS)
+	$(LDAP_LIBS)						\
+	$(NULL)
 
 
 module_addressbook_la_LDFLAGS = \

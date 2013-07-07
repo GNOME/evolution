@@ -36,8 +36,8 @@ libevolution_mail_composer_la_CPPFLAGS =				\
 	-DG_LOG_DOMAIN=\"composer\"					\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)					\
 	$(GNOME_PLATFORM_CFLAGS)					\
-	$(GTKHTML_CFLAGS)						\
-	$(CODE_COVERAGE_CFLAGS)
+	$(CODE_COVERAGE_CFLAGS)						\
+	$(NULL)
 
 libevolution_mail_composer_la_SOURCES =		\
 	$(evolution_mail_composer_include_HEADERS) \
@@ -63,7 +63,7 @@ libevolution_mail_composer_la_LIBADD =			\
 	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la	\
 	$(EVOLUTION_DATA_SERVER_LIBS)			\
 	$(GNOME_PLATFORM_LIBS)				\
-	$(GTKHTML_LIBS)
+	$(NULL)
 
 ui_DATA = evolution-composer.ui
 
