@@ -1008,8 +1008,8 @@ em_utils_composer_print_cb (EMsgComposer *composer,
                             EMailSession *session)
 {
 	/* as long as EMsgComposer uses GtkHTML, use its routine for printing;
-	   this conditional compile is here rather to not forget to fix this
-	   once the WebKit-based composer will land */
+	 * this conditional compile is here rather to not forget to fix this
+	 * once the WebKit-based composer will land */
 #if defined(GTK_TYPE_HTML)
 	EWebViewGtkHTML *gtkhtml_web_view;
 	GtkPrintOperation *operation;

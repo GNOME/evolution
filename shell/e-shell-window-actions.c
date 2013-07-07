@@ -1191,7 +1191,7 @@ static GtkActionEntry shell_gal_view_entries[] = {
 	  NULL,
 	  N_("Delete Current View"),
 	  NULL,
-	  NULL,  /* Set in update_view_menu() */
+	  NULL,  /* Set in update_view_menu */
 	  G_CALLBACK (action_gal_delete_view_cb) },
 
 	{ "gal-save-custom-view",

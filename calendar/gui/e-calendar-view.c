@@ -2375,8 +2375,8 @@ e_calendar_view_is_editing (ECalendarView *cal_view)
 	g_return_val_if_fail (E_IS_CALENDAR_VIEW (cal_view), FALSE);
 
 	/* this should be called from the main thread only,
-	   and each descendant overrides the property,
-	   thus might cause no call recursion */
+	 * and each descendant overrides the property,
+	 * thus might cause no call recursion */
 	if (in) {
 		g_warn_if_reached ();
 		return FALSE;

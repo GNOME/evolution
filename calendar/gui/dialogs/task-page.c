@@ -2206,7 +2206,7 @@ complete_date_changed (TaskPage *tpage,
 
 static void
 completed_date_changed_cb (EDateEdit *dedit,
-			   TaskPage *tpage)
+                           TaskPage *tpage)
 {
 	TaskPagePrivate *priv = tpage->priv;
 	CompEditorPageDates dates = {NULL, NULL, NULL, NULL};
@@ -2351,9 +2351,9 @@ percent_complete_changed (GtkAdjustment *adj,
 
 static gboolean
 task_page_transform_classification_to_combo (GBinding *binding,
-					     const GValue *source_value,
-					     GValue *target_value,
-					     gpointer user_data)
+                                             const GValue *source_value,
+                                             GValue *target_value,
+                                             gpointer user_data)
 {
 	gint action_value;
 
@@ -2368,9 +2368,9 @@ task_page_transform_classification_to_combo (GBinding *binding,
 
 static gboolean
 task_page_transform_classification_from_combo (GBinding *binding,
-					       const GValue *source_value,
-					       GValue *target_value,
-					       gpointer user_data)
+                                               const GValue *source_value,
+                                               GValue *target_value,
+                                               gpointer user_data)
 {
 	gint combo_value;
 

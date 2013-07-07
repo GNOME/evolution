@@ -261,8 +261,8 @@ G_DEFINE_TYPE_WITH_CODE (ETree, e_tree, GTK_TYPE_TABLE,
 
 static void
 tree_item_is_editing_changed_cb (ETableItem *item,
-				 GParamSpec *param,
-				 ETree *tree)
+                                 GParamSpec *param,
+                                 ETree *tree)
 {
 	g_return_if_fail (E_IS_TREE (tree));
 

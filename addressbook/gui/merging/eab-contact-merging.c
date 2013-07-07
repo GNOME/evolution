@@ -288,7 +288,7 @@ dropdown_changed (GtkWidget *dropdown,
 
 static void
 email_dropdown_changed (GtkWidget *dropdown,
-			dropdown_data *data)
+                        dropdown_data *data)
 {
 	gchar *str = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (dropdown));
 

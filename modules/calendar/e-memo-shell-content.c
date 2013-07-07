@@ -292,8 +292,8 @@ memo_shell_content_restore_state_cb (EShellWindow *shell_window,
 
 static void
 memo_shell_content_is_editing_changed_cb (EMemoTable *memo_table,
-					  GParamSpec *param,
-					  EShellView *shell_view)
+                                          GParamSpec *param,
+                                          EShellView *shell_view)
 {
 	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
 
@@ -532,7 +532,8 @@ memo_shell_content_constructed (GObject *object)
 		G_CALLBACK (memo_shell_content_selection_change_cb),
 		object);
 
-	g_signal_connect (priv->memo_table, "notify::is-editing",
+	g_signal_connect (
+		priv->memo_table, "notify::is-editing",
 		G_CALLBACK (memo_shell_content_is_editing_changed_cb), shell_view);
 
 	g_signal_connect_swapped (

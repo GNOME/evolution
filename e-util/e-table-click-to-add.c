@@ -373,8 +373,8 @@ set_initial_selection (ETableClickToAdd *etcta)
 
 static void
 table_click_to_add_row_is_editing_changed_cb (ETableItem *item,
-					      GParamSpec *param,
-					      ETableClickToAdd *etcta)
+                                              GParamSpec *param,
+                                              ETableClickToAdd *etcta)
 {
 	g_return_if_fail (E_IS_TABLE_CLICK_TO_ADD (etcta));
 

@@ -319,8 +319,8 @@ gc_get_default_time (ECalModel *model,
 
 static void
 cal_shell_content_is_editing_changed_cb (gpointer cal_view_tasks_memos_table,
-					 GParamSpec *param,
-					 EShellView *shell_view)
+                                         GParamSpec *param,
+                                         EShellView *shell_view)
 {
 	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
 
@@ -408,7 +408,8 @@ cal_shell_content_constructed (GObject *object)
 	for (ii = 0; ii < GNOME_CAL_LAST_VIEW; ii++) {
 		calendar_view = gnome_calendar_get_calendar_view (calendar, ii);
 
-		g_signal_connect (calendar_view, "notify::is-editing",
+		g_signal_connect (
+			calendar_view, "notify::is-editing",
 			G_CALLBACK (cal_shell_content_is_editing_changed_cb), shell_view);
 
 		gtk_notebook_append_page (
@@ -465,7 +466,8 @@ cal_shell_content_constructed (GObject *object)
 		G_CALLBACK (e_cal_shell_view_taskpad_open_task),
 		shell_view);
 
-	g_signal_connect (widget, "notify::is-editing",
+	g_signal_connect (
+		widget, "notify::is-editing",
 		G_CALLBACK (cal_shell_content_is_editing_changed_cb), shell_view);
 
 	container = priv->vpaned;
@@ -510,7 +512,8 @@ cal_shell_content_constructed (GObject *object)
 		G_CALLBACK (e_cal_shell_view_memopad_open_memo),
 		shell_view);
 
-	g_signal_connect (widget, "notify::is-editing",
+	g_signal_connect (
+		widget, "notify::is-editing",
 		G_CALLBACK (cal_shell_content_is_editing_changed_cb), shell_view);
 
 	/* Load the view instance. */

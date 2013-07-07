@@ -202,8 +202,8 @@ action_address_book_properties_cb (GtkAction *action,
 
 static void
 address_book_refresh_done_cb (GObject *source_object,
-			      GAsyncResult *result,
-			      gpointer user_data)
+                              GAsyncResult *result,
+                              gpointer user_data)
 {
 	EClient *client;
 	GError *error = NULL;
@@ -228,7 +228,7 @@ address_book_refresh_done_cb (GObject *source_object,
 
 static void
 action_address_book_refresh_cb (GtkAction *action,
-				EBookShellView *book_shell_view)
+                                EBookShellView *book_shell_view)
 {
 	EBookShellSidebar *book_shell_sidebar;
 	ESourceSelector *selector;

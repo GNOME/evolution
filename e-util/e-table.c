@@ -1072,8 +1072,8 @@ et_table_rows_deleted (ETableModel *table_model,
 
 static void
 group_is_editing_changed_cb (ETableClickToAdd *etcta,
-			     GParamSpec *param,
-			     ETable *table)
+                             GParamSpec *param,
+                             ETable *table)
 {
 	g_return_if_fail (E_IS_TABLE (table));
 
@@ -1371,8 +1371,8 @@ canvas_vbox_event (ECanvasVbox *vbox,
 
 static void
 click_to_add_is_editing_changed_cb (ETableClickToAdd *etcta,
-				    GParamSpec *param,
-				    ETable *table)
+                                    GParamSpec *param,
+                                    ETable *table)
 {
 	g_return_if_fail (E_IS_TABLE (table));
 

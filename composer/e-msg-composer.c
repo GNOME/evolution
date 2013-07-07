@@ -183,7 +183,7 @@ static gchar *
 emcu_part_to_html (EMsgComposer *composer,
                    CamelMimePart *part,
                    gssize *len,
-		   gboolean keep_signature,
+                   gboolean keep_signature,
                    GCancellable *cancellable)
 {
 	CamelSession *session;
@@ -2648,7 +2648,7 @@ e_msg_composer_add_message_attachments (EMsgComposer *composer,
 static void
 handle_multipart_signed (EMsgComposer *composer,
                          CamelMultipart *multipart,
-			 gboolean keep_signature,
+                         gboolean keep_signature,
                          GCancellable *cancellable,
                          gint depth)
 {
@@ -2729,7 +2729,7 @@ handle_multipart_signed (EMsgComposer *composer,
 static void
 handle_multipart_encrypted (EMsgComposer *composer,
                             CamelMimePart *multipart,
-			    gboolean keep_signature,
+                            gboolean keep_signature,
                             GCancellable *cancellable,
                             gint depth)
 {
@@ -2822,7 +2822,7 @@ handle_multipart_encrypted (EMsgComposer *composer,
 static void
 handle_multipart_alternative (EMsgComposer *composer,
                               CamelMultipart *multipart,
-			      gboolean keep_signature,
+                              gboolean keep_signature,
                               GCancellable *cancellable,
                               gint depth)
 {
@@ -2897,7 +2897,7 @@ handle_multipart_alternative (EMsgComposer *composer,
 static void
 handle_multipart (EMsgComposer *composer,
                   CamelMultipart *multipart,
-		  gboolean keep_signature,
+                  gboolean keep_signature,
                   GCancellable *cancellable,
                   gint depth)
 {

@@ -74,9 +74,9 @@ G_DEFINE_TYPE (ECalListView, e_cal_list_view, E_TYPE_CALENDAR_VIEW)
 
 static void
 e_cal_list_view_get_property (GObject *object,
-			      guint property_id,
-			      GValue *value,
-			      GParamSpec *pspec)
+                              guint property_id,
+                              GValue *value,
+                              GParamSpec *pspec)
 {
 	ECalListView *eclv = E_CAL_LIST_VIEW (object);
 
@@ -152,8 +152,8 @@ get_current_time_cb (ECellDateEdit *ecde,
 
 static void
 e_cal_list_view_table_editing_changed_cb (ETable *table,
-					  GParamSpec *param,
-					  ECalListView *eclv)
+                                          GParamSpec *param,
+                                          ECalListView *eclv)
 {
 	g_return_if_fail (E_IS_CAL_LIST_VIEW (eclv));
 
