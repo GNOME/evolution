@@ -85,8 +85,16 @@ G_BEGIN_DECLS
  * This is an abstract base type for formatter extensions which are
  * intended only for use by #EMailFormatterQuote.
  **/
-typedef EMailFormatterExtension EMailFormatterQuoteExtension;
-typedef EMailFormatterExtensionClass EMailFormatterQuoteExtensionClass;
+typedef struct _EMailFormatterQuoteExtension EMailFormatterQuoteExtension;
+typedef struct _EMailFormatterQuoteExtensionClass EMailFormatterQuoteExtensionClass;
+
+struct _EMailFormatterQuoteExtension {
+	EMailFormatterExtension parent;
+};
+
+struct _EMailFormatterQuoteExtensionClass {
+	EMailFormatterExtensionClass parent_class;
+};
 
 GType		e_mail_formatter_quote_extension_get_type
 						(void) G_GNUC_CONST;
