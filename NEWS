@@ -1,3 +1,53 @@
+Evolution 3.9.4 2013-07-08
+--------------------------
+
+Bug Fixes:
+	Bug 386113 - Show custom alarm message in pop-up alerts (Milan Crha)
+	Bug 641711 - Crash in remove_queued_alarm (Milan Crha)
+	Bug 689640 - Print Preview of composer text is empty (Milan Crha)
+	Bug 693216 - Email type is changed to other after merging (Milan Crha)
+	Bug 699576 - Mail reader frame is black (in the mail view) (Milan Crha)
+	Bug 702006 - Select All does not select collapsed threads
+	             (Matthew Barnes)
+	Bug 702454 - EMailBrowser fails to show message (Matthew Barnes)
+	Bug 702664 - Settings migration issue from "headers" to "show-headers"
+	             (Matthew Barnes)
+	Bug 702710 - MessageList: Delay state capture for regen.
+	             (Matthew Barnes)
+	Bug 702796 - Work around GNode's O(N) tail insertions (Matthew Barnes)
+	Bug 703053 - Error on setting reminder 'after start of appointment'
+	             (Fabiano Fidêncio)
+	Bug 703181 - Asked for password which is never used (David Woodhouse)
+	Bug 703194 - Custom alarm message is REMINDER (Fabiano Fidêncio)
+	Bug 703638 - Keep ItipView alive while connecting to calendar
+	             (Matthew Barnes)
+	Bug 703732 - Unnecessary localedir override in configure.ac
+	             (Evgeny Bobkin)
+
+Other Changes:
+	* User documentation updates. (Andre Klapper)
+	* More ETable/ETree refactoring. (Matthew Barnes)
+	* Heavy GalView refactoring, replace "Define Views..." menu item
+	  with "Delete Current View", delete GalViewFactory. (Matthew Barnes)
+	* Make Ctrl+C/V/X work while editing text in calendar views.
+	  (Milan Crha)
+	* EMFolderTreeModel: Listen for "folder-info-stale" signals and
+	  regenerate the folder tree for that mail store. (Matthew Barnes)
+	* EUrlEntry: Replace the big, bulky "open" button with clickable
+	  inline icon. (Matthew Barnes)
+	* Notify user about question dialogs (Milan Crha)
+	* Add ETreeViewFrame. (Matthew Barnes)
+	* Set network-available on a CamelSession when going online (Milan Crha)
+	* Fix typo: appointmenet -> appointment (Fabiano Fidêncio)
+	* Contacts view: Add 'Refresh' into books context menu (Milan Crha)
+
+Translations:
+	Marek Černocký (cs)
+	Benjamin Steinwender (de)
+	Daniel Mustieles (es)
+	Kjartan Maraas (nb)
+
+
 Evolution 3.9.3 2013-06-17
 --------------------------
 
