@@ -3523,15 +3523,17 @@ add_failed_to_load_msg (ItipView *view,
 }
 
 static void
-cal_opened_cb (GObject *source_object,
-               GAsyncResult *result,
-               gpointer user_data)
+itip_view_cal_opened_cb (GObject *source_object,
+                         GAsyncResult *result,
+                         gpointer user_data)
 {
-	ItipView *view = user_data;
-	EMailPartItip *pitip = itip_view_get_mail_part (view);
+	ItipView *view;
+	EMailPartItip *pitip;
 	EClient *client;
-	ECalClient *cal_client;
 	GError *error = NULL;
+
+	view = ITIP_VIEW (user_data);
+	pitip = itip_view_get_mail_part (view);
 
 	client = e_client_cache_get_client_finish (
 		E_CLIENT_CACHE (source_object), result, &error);
@@ -3545,18 +3547,15 @@ cal_opened_cb (GObject *source_object,
 	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
 	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 		g_error_free (error);
-		return;
+		goto exit;
 
 	} else if (error != NULL) {
 		add_failed_to_load_msg (view, error);
 		g_error_free (error);
-		return;
+		goto exit;
 	}
 
-	cal_client = E_CAL_CLIENT (client);
-	g_return_if_fail (cal_client != NULL);
-
-	if (e_cal_client_check_recurrences_no_master (cal_client)) {
+	if (e_cal_client_check_recurrences_no_master (E_CAL_CLIENT (client))) {
 		icalcomponent *icalcomp;
 		gboolean show_recur_check;
 
@@ -3570,15 +3569,18 @@ cal_opened_cb (GObject *source_object,
 		gboolean needs_decline;
 
 		needs_decline = e_client_check_capability (
-			E_CLIENT (client),
+			client,
 			CAL_STATIC_CAPABILITY_HAS_UNACCEPTED_MEETING);
 		itip_view_set_needs_decline (view, needs_decline);
 		itip_view_set_mode (view, ITIP_VIEW_MODE_PUBLISH);
 	}
 
-	pitip->current_client = cal_client;
+	pitip->current_client = g_object_ref (client);
 
 	set_buttons_sensitive (pitip, view);
+
+exit:
+	g_clear_object (&client);
 }
 
 static void
@@ -3629,7 +3631,9 @@ start_calendar_server_by_uid (EMailPartItip *pitip,
 
 	if (source != NULL) {
 		start_calendar_server (
-			pitip, view, source, type, cal_opened_cb, view);
+			pitip, view, source, type,
+			itip_view_cal_opened_cb,
+			view);
 		g_object_unref (source);
 	}
 }
@@ -3645,7 +3649,10 @@ source_selected_cb (ItipView *view,
 
 	g_return_if_fail (source != NULL);
 
-	start_calendar_server (pitip, view, source, pitip->type, cal_opened_cb, view);
+	start_calendar_server (
+		pitip, view, source, pitip->type,
+		itip_view_cal_opened_cb,
+		view);
 }
 
 static void
