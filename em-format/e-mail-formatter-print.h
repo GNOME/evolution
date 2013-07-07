@@ -75,8 +75,16 @@ G_BEGIN_DECLS
  * This is an abstract base type for formatter extensions which are
  * intended only for use by #EMailFormatterPrint.
  **/
-typedef EMailFormatterExtension EMailFormatterPrintExtension;
-typedef EMailFormatterExtensionClass EMailFormatterPrintExtensionClass;
+typedef struct _EMailFormatterPrintExtension EMailFormatterPrintExtension;
+typedef struct _EMailFormatterPrintExtensionClass EMailFormatterPrintExtensionClass;
+
+struct _EMailFormatterPrintExtension {
+	EMailFormatterExtension parent;
+};
+
+struct _EMailFormatterPrintExtensionClass {
+	EMailFormatterExtensionClass parent_class;
+};
 
 GType		e_mail_formatter_print_extension_get_type
 						(void) G_GNUC_CONST;
