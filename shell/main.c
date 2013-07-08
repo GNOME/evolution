@@ -59,7 +59,6 @@
 
 #include "e-shell.h"
 #include "e-shell-migrate.h"
-#include "es-event.h"
 
 #ifdef G_OS_WIN32
 #include "e-util/e-win32-defaults.h"
@@ -665,7 +664,6 @@ main (gint argc,
 
 	if (!disable_eplugin) {
 		/* Register built-in plugin hook types. */
-		es_event_hook_get_type ();
 		g_type_ensure (E_TYPE_IMPORT_HOOK);
 		g_type_ensure (E_TYPE_PLUGIN_UI_HOOK);
 
@@ -678,7 +676,6 @@ main (gint argc,
 	 * as both shell backends and certain plugins hook into this. */
 	e_shell_migrate_attempt (shell);
 
-	/* This is an alternative to the "upgrade.done" EEvent. */
 	e_shell_event (shell, "ready-to-start", NULL);
 
 	g_idle_add ((GSourceFunc) idle_cb, remaining_args);

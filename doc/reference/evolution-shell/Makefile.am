@@ -15,7 +15,6 @@ CFILE_GLOB=$(top_srcdir)/shell/*.c
 IGNORE_HFILES= \
 	evo-version.h \
 	e-shell-window-private.h \
-	es-event.h \
 	$(NULL)
 
 GTKDOC_CFLAGS= \

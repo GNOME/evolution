@@ -25,7 +25,6 @@
 #include <glib/gstdio.h>
 #include <libedataserver/libedataserver.h>
 
-#include "es-event.h"
 #include "evo-version.h"
 
 static gboolean
@@ -216,7 +215,6 @@ shell_migrate_ready_to_start_event_cb (EShell *shell)
 gboolean
 e_shell_migrate_attempt (EShell *shell)
 {
-	ESEvent *ese;
 	gint major, minor, micro;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
@@ -240,19 +238,6 @@ e_shell_migrate_attempt (EShell *shell)
 	g_signal_connect_after (
 		shell, "event::ready-to-start",
 		G_CALLBACK (shell_migrate_ready_to_start_event_cb), NULL);
-
-	/* @Event: Shell attempted upgrade
-	 * @Id: upgrade.done
-	 * @Target: ESMenuTargetState
-	 *
-	 * This event is emitted whenever the shell successfully attempts
-	 * an upgrade.
-	 */
-	ese = es_event_peek ();
-	e_event_emit (
-		(EEvent *) ese, "upgrade.done",
-		(EEventTarget *) es_event_target_new_upgrade (
-		ese, EVO_MAJOR_VERSION, EVO_MINOR_VERSION, EVO_MICRO_VERSION));
 
 	return TRUE;
 }

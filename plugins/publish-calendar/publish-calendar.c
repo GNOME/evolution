@@ -30,7 +30,6 @@
 #include <gio/gio.h>
 
 #include <calendar/gui/e-cal-config.h>
-#include <shell/es-event.h>
 
 #include <shell/e-shell.h>
 #include <shell/e-shell-view.h>

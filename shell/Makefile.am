@@ -35,7 +35,7 @@ evolution_shell_include_HEADERS =		\
 	e-shell-view.h				\
 	e-shell-window.h			\
 	e-shell-window-actions.h		\
-	es-event.h
+	$(NULL)
 
 libevolution_shell_la_CPPFLAGS =				\
 	$(AM_CPPFLAGS)						\
@@ -83,7 +83,7 @@ libevolution_shell_la_SOURCES =			\
 	e-shell-migrate.h			\
 	e-shell-window-actions.c		\
 	evo-version.h				\
-	es-event.c
+	$(NULL)
 
 libevolution_shell_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 
