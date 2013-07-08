@@ -15,7 +15,6 @@ e_attachment_dialog_get_type
 e_attachment_get_type
 e_attachment_handler_get_type
 e_attachment_handler_image_get_type
-e_attachment_handler_sendto_get_type
 e_attachment_icon_view_get_type
 e_attachment_paned_get_type
 e_attachment_store_get_type

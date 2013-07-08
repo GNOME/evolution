@@ -351,7 +351,6 @@ EAttachmentDialogPrivate
 <TITLE>EAttachmentHandler</TITLE>
 EAttachmentHandler
 EAttachmentHandlerImage
-EAttachmentHandlerSendto
 e_attachment_handler_get_view
 e_attachment_handler_get_drag_actions
 e_attachment_handler_get_target_table
@@ -376,14 +375,11 @@ E_IS_ATTACHMENT_HANDLER_SENDTO_CLASS
 E_ATTACHMENT_HANDLER_SENDTO_GET_CLASS
 EAttachmentHandlerClass
 EAttachmentHandlerImageClass
-EAttachmentHandlerSendtoClass
 e_attachment_handler_get_type
 e_attachment_handler_image_get_type
-e_attachment_handler_sendto_get_type
 <SUBSECTION Private>
 EAttachmentHandlerPrivate
 EAttachmentHandlerImagePrivate
-EAttachmentHandlerSendtoPrivate
 </SECTION>
 
 <SECTION>

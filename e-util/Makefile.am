@@ -118,7 +118,6 @@ evolution_util_include_HEADERS =  \
 	e-attachment-button.h \
 	e-attachment-dialog.h \
 	e-attachment-handler-image.h \
-	e-attachment-handler-sendto.h \
 	e-attachment-handler.h \
 	e-attachment-icon-view.h \
 	e-attachment-paned.h \
@@ -357,7 +356,6 @@ libevolution_util_la_SOURCES = \
 	e-attachment-button.c \
 	e-attachment-dialog.c \
 	e-attachment-handler-image.c \
-	e-attachment-handler-sendto.c \
 	e-attachment-handler.c \
 	e-attachment-icon-view.c \
 	e-attachment-paned.c \

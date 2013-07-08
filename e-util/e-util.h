@@ -36,7 +36,6 @@
 #include <e-util/e-attachment-button.h>
 #include <e-util/e-attachment-dialog.h>
 #include <e-util/e-attachment-handler-image.h>
-#include <e-util/e-attachment-handler-sendto.h>
 #include <e-util/e-attachment-handler.h>
 #include <e-util/e-attachment-icon-view.h>
 #include <e-util/e-attachment-paned.h>

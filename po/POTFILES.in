@@ -183,7 +183,6 @@ e-util/e-alert-dialog.c
 e-util/e-attachment-bar.c
 e-util/e-attachment-dialog.c
 e-util/e-attachment-handler-image.c
-e-util/e-attachment-handler-sendto.c
 e-util/e-attachment-icon-view.c
 e-util/e-attachment-paned.c
 e-util/e-attachment-store.c

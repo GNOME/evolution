@@ -30,7 +30,6 @@
 
 #include "e-attachment-dialog.h"
 #include "e-attachment-handler-image.h"
-#include "e-attachment-handler-sendto.h"
 #include "e-misc-utils.h"
 #include "e-selection.h"
 
@@ -870,7 +869,6 @@ e_attachment_view_default_init (EAttachmentViewInterface *interface)
 
 	/* Register known handler types. */
 	g_type_ensure (E_TYPE_ATTACHMENT_HANDLER_IMAGE);
-	g_type_ensure (E_TYPE_ATTACHMENT_HANDLER_SENDTO);
 }
 
 void
