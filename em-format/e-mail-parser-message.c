@@ -52,7 +52,9 @@ empe_message_parse (EMailParserExtension *extension,
                     GCancellable *cancellable,
                     GQueue *out_mail_parts)
 {
+	GQueue work_queue = G_QUEUE_INIT;
 	CamelContentType *ct;
+	EMailPart *mail_part;
 	gchar *mime_type;
 
 	/* Headers */
@@ -85,9 +87,29 @@ empe_message_parse (EMailParserExtension *extension,
 	}
 
 	/* Actual message body */
+
 	e_mail_parser_parse_part_as (
 		parser, part, part_id, mime_type,
-		cancellable, out_mail_parts);
+		cancellable, &work_queue);
+
+	/* If the EMailPart representing the message body is marked as an
+	 * attachment, wrap it as such so it gets added to the attachment
+	 * bar but also set the "force_inline" flag since it doesn't make
+	 * sense to collapse the message body if we can render it. */
+	mail_part = g_queue_peek_head (&work_queue);
+	if (mail_part != NULL) {
+		if (mail_part->is_attachment) {
+			e_mail_parser_wrap_as_attachment (
+				parser, part, part_id, &work_queue);
+
+			mail_part = g_queue_peek_head (&work_queue);
+
+			if (mail_part != NULL)
+				mail_part->force_inline = TRUE;
+		}
+	}
+
+	e_queue_transfer (&work_queue, out_mail_parts);
 
 	g_free (mime_type);
 
