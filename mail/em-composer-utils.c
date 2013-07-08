@@ -700,10 +700,6 @@ composer_save_to_drafts_complete (GObject *source_object,
 
 	activity = async_context->activity;
 
-	editor = e_editor_window_get_editor (
-		E_EDITOR_WINDOW (async_context->composer));
-	editor_widget = e_editor_get_editor_widget (editor);
-
 	e_mail_session_handle_draft_headers_finish (
 		E_MAIL_SESSION (source_object), result, &local_error);
 
