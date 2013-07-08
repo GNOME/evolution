@@ -5,15 +5,5 @@
       <_summary>Use only local spam tests.</_summary>
       <_description>Use only the local spam tests (no DNS).</_description>
     </key>
-    <key name="socket-path" type="s">
-      <default>''</default>
-      <_summary>Socket path for SpamAssassin</_summary>
-      <_description>Socket path for SpamAssassin</_description>
-    </key>
-    <key name="use-daemon" type="b">
-      <default>true</default>
-      <_summary>Use SpamAssassin daemon and client</_summary>
-      <_description>Use spamc and spamd programs, if available.</_description>
-    </key>
   </schema>
 </schemalist>

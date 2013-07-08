@@ -229,10 +229,6 @@ utf8-for-spam-filter = /apps/evolution/mail/junk/bogofilter/unicode
 
 [org.gnome.evolution.spamassassin]
 local-only = /apps/evolution/mail/junk/sa/local_only
-socket-path = /apps/evolution/mail/junk/sa/socket_path
-spamc-binary = /apps/evolution/mail/junk/sa/spamc_binary
-spamd-binary = /apps/evolution/mail/junk/sa/spamd_binary
-use-daemon = /apps/evolution/mail/junk/sa/use_daemon
 
 [org.gnome.evolution.plugin.attachment-reminder]
 attachment-reminder-clues = /apps/evolution/mail/attachment_reminder_clues

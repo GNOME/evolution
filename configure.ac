@@ -1023,24 +1023,6 @@ if test "x$enable_spamassassin" = "xyes"; then
 		SA_LEARN_COMMAND, "$SA_LEARN",
 		[SpamAssassin spam training program])
 
-	dnl The spamc/spamd programs are optional.
-	AC_ARG_VAR([SPAMC], [SpamAssassin client])
-	AC_PATH_PROG([SPAMC], [spamc])
-	if test "x$SPAMC" != "x"; then
-		AC_DEFINE_UNQUOTED(
-			SPAMC_COMMAND, "$SPAMC",
-			[SpamAssassin client])
-	fi
-
-	dnl The spamc/spamd programs are optional.
-	AC_ARG_VAR([SPAMD], [SpamAssassin daemon])
-	AC_PATH_PROG([SPAMD], [spamd])
-	if test "x$SPAMD" != "x"; then
-		AC_DEFINE_UNQUOTED(
-			SPAMD_COMMAND, "$SPAMD",
-			[SpamAssassin daemon])
-	fi
-
 	msg_spamassassin="$msg_spamassassin ($SPAMASSASSIN)"
 fi
 AM_CONDITIONAL([ENABLE_SPAMASSASSIN], [test "x$enable_spamassassin" = "xyes"])

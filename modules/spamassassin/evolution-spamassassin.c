@@ -35,25 +35,8 @@
 	(G_TYPE_CHECK_INSTANCE_CAST \
 	((obj), E_TYPE_SPAM_ASSASSIN, ESpamAssassin))
 
-/* For starting our own daemon. */
-#define DAEMON_MAX_RETRIES 100
-#define DAEMON_RETRY_DELAY 0.05  /* seconds */
-
 #define SPAM_ASSASSIN_EXIT_STATUS_SUCCESS	0
 #define SPAM_ASSASSIN_EXIT_STATUS_ERROR		-1
-
-#if defined(SPAMC_COMMAND) && defined(SPAMD_COMMAND)
-#define HAVE_SPAM_DAEMON 1
-#endif
-
-/* This is to reduce the number of #if tests in the code.
- * The logic should never actually use these fallbacks. */
-#ifndef SPAMC_COMMAND
-#define SPAMC_COMMAND NULL
-#endif
-#ifndef SPAMD_COMMAND
-#define SPAMD_COMMAND NULL
-#endif
 
 typedef struct _ESpamAssassin ESpamAssassin;
 typedef struct _ESpamAssassinClass ESpamAssassinClass;
@@ -61,21 +44,7 @@ typedef struct _ESpamAssassinClass ESpamAssassinClass;
 struct _ESpamAssassin {
 	EMailJunkFilter parent;
 
-	GOnce spamd_testing;
-	GMutex socket_path_mutex;
-
-	gchar *pid_file;
-	gchar *socket_path;
-	gint version;
-
 	gboolean local_only;
-	gboolean use_daemon;
-	gboolean version_set;
-
-	/* spamd_testing results */
-	gboolean spamd_using_allow_tell;
-	gboolean system_spamd_available;
-	gboolean use_spamc;
 };
 
 struct _ESpamAssassinClass {
@@ -84,9 +53,7 @@ struct _ESpamAssassinClass {
 
 enum {
 	PROP_0,
-	PROP_LOCAL_ONLY,
-	PROP_SOCKET_PATH,
-	PROP_USE_DAEMON
+	PROP_LOCAL_ONLY
 };
 
 /* Module Entry Points */
@@ -341,326 +308,6 @@ spam_assassin_set_local_only (ESpamAssassin *extension,
 	g_object_notify (G_OBJECT (extension), "local-only");
 }
 
-static const gchar *
-spam_assassin_get_socket_path (ESpamAssassin *extension)
-{
-	return extension->socket_path;
-}
-
-static void
-spam_assassin_set_socket_path (ESpamAssassin *extension,
-                               const gchar *socket_path)
-{
-	if (g_strcmp0 (extension->socket_path, socket_path) == 0)
-		return;
-
-	g_free (extension->socket_path);
-	extension->socket_path = g_strdup (socket_path);
-
-	g_object_notify (G_OBJECT (extension), "socket-path");
-}
-
-static gboolean
-spam_assassin_get_use_daemon (ESpamAssassin *extension)
-{
-	return extension->use_daemon;
-}
-
-static void
-spam_assassin_set_use_daemon (ESpamAssassin *extension,
-                              gboolean use_daemon)
-{
-	if (extension->use_daemon == use_daemon)
-		return;
-
-	extension->use_daemon = use_daemon;
-
-	g_object_notify (G_OBJECT (extension), "use-daemon");
-}
-
-#ifdef HAVE_SPAM_DAEMON
-static void
-spam_assassin_test_spamd_allow_tell (ESpamAssassin *extension)
-{
-	gint exit_code;
-	GError *error = NULL;
-
-	const gchar *argv[] = {
-		SPAMC_COMMAND,
-		"--learntype=forget",
-		NULL
-	};
-
-	/* Check if spamd is running with --allow-tell. */
-
-	exit_code = spam_assassin_command (argv, NULL, "\n", NULL, &error);
-	extension->spamd_using_allow_tell = (exit_code == 0);
-
-	if (error != NULL) {
-		g_warning ("%s", error->message);
-		g_error_free (error);
-	}
-}
-
-static gboolean
-spam_assassin_test_spamd_running (ESpamAssassin *extension,
-                                  gboolean system_spamd)
-{
-	const gchar *argv[5];
-	gint exit_code;
-	gint ii = 0;
-	GError *error = NULL;
-
-	g_mutex_lock (&extension->socket_path_mutex);
-
-	argv[ii++] = SPAMC_COMMAND;
-	argv[ii++] = "--no-safe-fallback";
-	if (!system_spamd) {
-		argv[ii++] = "--socket";
-		argv[ii++] = extension->socket_path;
-	}
-	argv[ii] = NULL;
-
-	g_assert (ii < G_N_ELEMENTS (argv));
-
-	exit_code = spam_assassin_command (
-		argv, NULL, "From test@127.0.0.1", NULL, &error);
-
-	if (error != NULL) {
-		g_warning ("%s", error->message);
-		g_error_free (error);
-	}
-
-	g_mutex_unlock (&extension->socket_path_mutex);
-
-	return (exit_code == 0);
-}
-
-static void
-spam_assassin_kill_our_own_daemon (ESpamAssassin *extension)
-{
-	gint pid;
-	gchar *contents = NULL;
-	GError *error = NULL;
-
-	g_mutex_lock (&extension->socket_path_mutex);
-
-	g_free (extension->socket_path);
-	extension->socket_path = NULL;
-
-	g_mutex_unlock (&extension->socket_path_mutex);
-
-	if (extension->pid_file == NULL)
-		return;
-
-	g_file_get_contents (extension->pid_file, &contents, NULL, &error);
-
-	if (error != NULL) {
-		g_warn_if_fail (contents == NULL);
-		g_warning ("%s", error->message);
-		g_error_free (error);
-		return;
-	}
-
-	g_return_if_fail (contents != NULL);
-
-	pid = atoi (contents);
-	g_free (contents);
-
-	if (pid > 0 && kill (pid, SIGTERM) == 0)
-		waitpid (pid, NULL, 0);
-}
-
-static void
-spam_assassin_prepare_for_quit (EShell *shell,
-                                EActivity *activity,
-                                ESpamAssassin *extension)
-{
-	spam_assassin_kill_our_own_daemon (extension);
-}
-
-static gboolean
-spam_assassin_start_our_own_daemon (ESpamAssassin *extension)
-{
-	const gchar *argv[8];
-	const gchar *user_runtime_dir;
-	gchar *pid_file;
-	gchar *socket_path;
-	gboolean started = FALSE;
-	gint exit_code;
-	gint ii = 0;
-	gint fd;
-	GError *error = NULL;
-
-	g_mutex_lock (&extension->socket_path_mutex);
-
-	/* Don't put the PID files in Evolution's tmp directory
-	 * (as defined in e-mktemp.c) because that gets cleaned
-	 * every few hours, and these files need to persist. */
-	user_runtime_dir = g_get_user_runtime_dir ();
-
-	pid_file = g_build_filename (
-		user_runtime_dir, "spamd-pid-file-XXXXXX", NULL);
-
-	socket_path = g_build_filename (
-		user_runtime_dir, "spamd-socket-path-XXXXXX", NULL);
-
-	/* The template filename is modified in place. */
-	fd = g_mkstemp (pid_file);
-	if (fd >= 0) {
-		close (fd);
-		g_unlink (pid_file);
-	} else {
-		g_warning (
-			"Failed to create spamd-pid-file: %s",
-			g_strerror (errno));
-		goto exit;
-	}
-
-	/* The template filename is modified in place. */
-	fd = g_mkstemp (socket_path);
-	if (fd >= 0) {
-		close (fd);
-		g_unlink (socket_path);
-	} else {
-		g_warning (
-			"Failed to create spamd-socket-path: %s",
-			g_strerror (errno));
-		goto exit;
-	}
-
-	argv[ii++] = SPAMD_COMMAND;
-	argv[ii++] = "--socketpath";
-	argv[ii++] = socket_path;
-
-	if (spam_assassin_get_local_only (extension))
-		argv[ii++] = "--local";
-
-	argv[ii++] = "--max-children=1";
-	argv[ii++] = "--pidfile";
-	argv[ii++] = pid_file;
-	argv[ii] = NULL;
-
-	g_assert (ii < G_N_ELEMENTS (argv));
-
-	exit_code = spam_assassin_command_full (
-		argv, NULL, NULL, NULL, FALSE, NULL, &error);
-
-	if (error != NULL) {
-		g_warning ("%s", error->message);
-		g_error_free (error);
-		goto exit;
-	}
-
-	if (exit_code == SPAM_ASSASSIN_EXIT_STATUS_SUCCESS) {
-		/* Wait for the socket path to appear. */
-		for (ii = 0; ii < DAEMON_MAX_RETRIES; ii++) {
-			if (g_file_test (socket_path, G_FILE_TEST_EXISTS)) {
-				started = TRUE;
-				break;
-			}
-			g_usleep (DAEMON_RETRY_DELAY * G_USEC_PER_SEC);
-		}
-	}
-
-	/* Set these directly to avoid emitting "notify" signals. */
-	if (started) {
-		g_free (extension->pid_file);
-		extension->pid_file = pid_file;
-		pid_file = NULL;
-
-		g_free (extension->socket_path);
-		extension->socket_path = socket_path;
-		socket_path = NULL;
-
-		/* XXX EMailSession is too prone to reference leaks to leave
-		 *     this for our finalize() method.  We want to be sure to
-		 *     kill the spamd process we started when Evolution shuts
-		 *     down, so connect to an EShell signal instead. */
-		g_signal_connect (
-			e_shell_get_default (), "prepare-for-quit",
-			G_CALLBACK (spam_assassin_prepare_for_quit),
-			extension);
-	}
-
-exit:
-	g_free (pid_file);
-	g_free (socket_path);
-
-	g_mutex_unlock (&extension->socket_path_mutex);
-
-	return started;
-}
-
-static void
-spam_assassin_test_spamd (ESpamAssassin *extension)
-{
-	gboolean try_system_spamd = TRUE;
-
-	/* XXX SpamAssassin could really benefit from a D-Bus interface
-	 *     these days.  These tests are just needlessly painful for
-	 *     clients trying to talk to an already-running spamd. */
-
-	extension->use_spamc = FALSE;
-
-	if (extension->local_only && try_system_spamd) {
-		gint exit_code;
-
-		/* Run a shell command to check for a running
-		 * spamd process with a -L/--local option or a
-		 * -p/--port option. */
-
-		const gchar *argv[] = {
-			"/bin/sh",
-			"-c",
-			"ps ax | grep -v grep | "
-			"grep -E 'spamd.*(\\-L|\\-\\-local)' | "
-			"grep -E -v '\\ \\-p\\ |\\ \\-\\-port\\ '",
-			NULL
-		};
-
-		exit_code = spam_assassin_command (
-			argv, NULL, NULL, NULL, NULL);
-		try_system_spamd = (exit_code == 0);
-	}
-
-	/* Try to use the system spamd first. */
-	if (try_system_spamd) {
-		if (spam_assassin_test_spamd_running (extension, TRUE)) {
-			extension->use_spamc = TRUE;
-			extension->system_spamd_available = TRUE;
-		}
-	}
-
-	/* If there's no system spamd running, try
-	 * to use one with a user specified socket. */
-	if (!extension->use_spamc && extension->socket_path != NULL) {
-		if (spam_assassin_test_spamd_running (extension, FALSE)) {
-			extension->use_spamc = TRUE;
-			extension->system_spamd_available = FALSE;
-		}
-	}
-
-	/* Still unsuccessful?  Try to start our own spamd. */
-	if (!extension->use_spamc) {
-		extension->use_spamc =
-			spam_assassin_start_our_own_daemon (extension) &&
-			spam_assassin_test_spamd_running (extension, FALSE);
-	}
-}
-
-static gpointer
-spam_assassin_test_spamd_once (gpointer user_data)
-{
-	ESpamAssassin *extension = E_SPAM_ASSASSIN (user_data);
-
-	spam_assassin_test_spamd (extension);
-	spam_assassin_test_spamd_allow_tell (extension);
-
-	return NULL;
-}
-#endif /* HAVE_SPAM_DAEMON */
-
 static void
 spam_assassin_set_property (GObject *object,
                             guint property_id,
@@ -670,18 +317,6 @@ spam_assassin_set_property (GObject *object,
 	switch (property_id) {
 		case PROP_LOCAL_ONLY:
 			spam_assassin_set_local_only (
-				E_SPAM_ASSASSIN (object),
-				g_value_get_boolean (value));
-			return;
-
-		case PROP_SOCKET_PATH:
-			spam_assassin_set_socket_path (
-				E_SPAM_ASSASSIN (object),
-				g_value_get_string (value));
-			return;
-
-		case PROP_USE_DAEMON:
-			spam_assassin_set_use_daemon (
 				E_SPAM_ASSASSIN (object),
 				g_value_get_boolean (value));
 			return;
@@ -702,35 +337,9 @@ spam_assassin_get_property (GObject *object,
 				value, spam_assassin_get_local_only (
 				E_SPAM_ASSASSIN (object)));
 			return;
-
-		case PROP_SOCKET_PATH:
-			g_value_set_string (
-				value, spam_assassin_get_socket_path (
-				E_SPAM_ASSASSIN (object)));
-			return;
-
-		case PROP_USE_DAEMON:
-			g_value_set_boolean (
-				value, spam_assassin_get_use_daemon (
-				E_SPAM_ASSASSIN (object)));
-			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-}
-
-static void
-spam_assassin_finalize (GObject *object)
-{
-	ESpamAssassin *extension = E_SPAM_ASSASSIN (object);
-
-	g_mutex_clear (&extension->socket_path_mutex);
-
-	g_free (extension->pid_file);
-	g_free (extension->socket_path);
-
-	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (e_spam_assassin_parent_class)->finalize (object);
 }
 
 static GtkWidget *
@@ -797,34 +406,13 @@ spam_assassin_classify (CamelJunkFilter *junk_filter,
 	gint exit_code;
 	gint ii = 0;
 
-#ifdef HAVE_SPAM_DAEMON
-	if (extension->use_daemon)
-		g_once (
-			&extension->spamd_testing,
-			spam_assassin_test_spamd_once,
-			extension);
-#endif /* HAVE_SPAM_DAEMON */
-
 	if (g_cancellable_set_error_if_cancelled (cancellable, error))
 		return FALSE;
 
-	g_mutex_lock (&extension->socket_path_mutex);
-
-	if (extension->use_spamc) {
-		g_assert (SPAMC_COMMAND != NULL);
-		argv[ii++] = SPAMC_COMMAND;
-		argv[ii++] = "--check";
-		argv[ii++] = "--timeout=60";
-		if (!extension->system_spamd_available) {
-			argv[ii++] = "--socket";
-			argv[ii++] = extension->socket_path;
-		}
-	} else {
-		argv[ii++] = SPAMASSASSIN_COMMAND;
-		argv[ii++] = "--exit-code";
-		if (extension->local_only)
-			argv[ii++] = "--local";
-	}
+	argv[ii++] = SPAMASSASSIN_COMMAND;
+	argv[ii++] = "--exit-code";
+	if (extension->local_only)
+		argv[ii++] = "--local";
 	argv[ii] = NULL;
 
 	g_assert (ii < G_N_ELEMENTS (argv));
@@ -836,30 +424,19 @@ spam_assassin_classify (CamelJunkFilter *junk_filter,
 	if (exit_code == SPAM_ASSASSIN_EXIT_STATUS_ERROR)
 		status = CAMEL_JUNK_STATUS_ERROR;
 
-	/* For either program, exit code 0 means the message is ham. */
+	/* Zero exit code means the message is ham. */
 	else if (exit_code == 0)
 		status = CAMEL_JUNK_STATUS_MESSAGE_IS_NOT_JUNK;
 
-	/* spamassassin(1) only specifies zero and non-zero exit codes. */
-	else if (!extension->use_spamc)
-		status = CAMEL_JUNK_STATUS_MESSAGE_IS_JUNK;
-
-	/* Whereas spamc(1) explicitly states exit code 1 means spam. */
-	else if (exit_code == 1)
-		status = CAMEL_JUNK_STATUS_MESSAGE_IS_JUNK;
-
-	/* Consider any other spamc(1) exit code to be inconclusive
-	 * since it most likely failed to process the message. */
+	/* Non-zero exit code means the message is spam. */
 	else
-		status = CAMEL_JUNK_STATUS_INCONCLUSIVE;
+		status = CAMEL_JUNK_STATUS_MESSAGE_IS_JUNK;
 
 	/* Check that the return value and GError agree. */
 	if (status != CAMEL_JUNK_STATUS_ERROR)
 		g_warn_if_fail (error == NULL || *error == NULL);
 	else
 		g_warn_if_fail (error == NULL || *error != NULL);
-
-	g_mutex_unlock (&extension->socket_path_mutex);
 
 	return status;
 }
@@ -875,31 +452,14 @@ spam_assassin_learn_junk (CamelJunkFilter *junk_filter,
 	gint exit_code;
 	gint ii = 0;
 
-#ifdef HAVE_SPAM_DAEMON
-	if (extension->use_daemon)
-		g_once (
-			&extension->spamd_testing,
-			spam_assassin_test_spamd_once,
-			extension);
-#endif /* HAVE_SPAM_DAEMON */
-
 	if (g_cancellable_set_error_if_cancelled (cancellable, error))
 		return FALSE;
 
-	if (extension->spamd_using_allow_tell) {
-		g_assert (SPAMC_COMMAND != NULL);
-		argv[ii++] = SPAMC_COMMAND;
-		argv[ii++] = "--learntype=spam";
-	} else {
-		argv[ii++] = SA_LEARN_COMMAND;
-		argv[ii++] = "--spam";
-		if (extension->version >= 3)
-			argv[ii++] = "--no-sync";
-		else
-			argv[ii++] = "--no-rebuild";
-		if (extension->local_only)
-			argv[ii++] = "--local";
-	}
+	argv[ii++] = SA_LEARN_COMMAND;
+	argv[ii++] = "--spam";
+	argv[ii++] = "--no-sync";
+	if (extension->local_only)
+		argv[ii++] = "--local";
 	argv[ii] = NULL;
 
 	g_assert (ii < G_N_ELEMENTS (argv));
@@ -927,31 +487,14 @@ spam_assassin_learn_not_junk (CamelJunkFilter *junk_filter,
 	gint exit_code;
 	gint ii = 0;
 
-#ifdef HAVE_SPAM_DAEMON
-	if (extension->use_daemon)
-		g_once (
-			&extension->spamd_testing,
-			spam_assassin_test_spamd_once,
-			extension);
-#endif /* HAVE_SPAM_DAEMON */
-
 	if (g_cancellable_set_error_if_cancelled (cancellable, error))
 		return FALSE;
 
-	if (extension->spamd_using_allow_tell) {
-		g_assert (SPAMC_COMMAND != NULL);
-		argv[ii++] = SPAMC_COMMAND;
-		argv[ii++] = "--learntype=ham";
-	} else {
-		argv[ii++] = SA_LEARN_COMMAND;
-		argv[ii++] = "--ham";
-		if (extension->version >= 3)
-			argv[ii++] = "--no-sync";
-		else
-			argv[ii++] = "--no-rebuild";
-		if (extension->local_only)
-			argv[ii++] = "--local";
-	}
+	argv[ii++] = SA_LEARN_COMMAND;
+	argv[ii++] = "--ham";
+	argv[ii++] = "--no-sync";
+	if (extension->local_only)
+		argv[ii++] = "--local";
 	argv[ii] = NULL;
 
 	g_assert (ii < G_N_ELEMENTS (argv));
@@ -978,27 +521,11 @@ spam_assassin_synchronize (CamelJunkFilter *junk_filter,
 	gint exit_code;
 	gint ii = 0;
 
-#ifdef HAVE_SPAM_DAEMON
-	if (extension->use_daemon)
-		g_once (
-			&extension->spamd_testing,
-			spam_assassin_test_spamd_once,
-			extension);
-#endif /* HAVE_SPAM_DAEMON */
-
 	if (g_cancellable_set_error_if_cancelled (cancellable, error))
 		return FALSE;
 
-	/* If we're using a spamd that allows learning,
-	 * there's no need to synchronize anything. */
-	if (extension->spamd_using_allow_tell)
-		return TRUE;
-
 	argv[ii++] = SA_LEARN_COMMAND;
-	if (extension->version >= 3)
-		argv[ii++] = "--sync";
-	else
-		argv[ii++] = "--rebuild";
+	argv[ii++] = "--sync";
 	if (extension->local_only)
 		argv[ii++] = "--local";
 	argv[ii] = NULL;
@@ -1026,7 +553,6 @@ e_spam_assassin_class_init (ESpamAssassinClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = spam_assassin_set_property;
 	object_class->get_property = spam_assassin_get_property;
-	object_class->finalize = spam_assassin_finalize;
 
 	junk_filter_class = E_MAIL_JUNK_FILTER_CLASS (class);
 	junk_filter_class->filter_name = "SpamAssassin";
@@ -1041,26 +567,6 @@ e_spam_assassin_class_init (ESpamAssassinClass *class)
 			"Local Only",
 			"Do not use tests requiring DNS lookups",
 			TRUE,
-			G_PARAM_READWRITE));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_SOCKET_PATH,
-		g_param_spec_string (
-			"socket-path",
-			"Socket Path",
-			"Socket path for a SpamAssassin daemon",
-			NULL,
-			G_PARAM_READWRITE));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_USE_DAEMON,
-		g_param_spec_boolean (
-			"use-daemon",
-			"Use Daemon",
-			"Whether to use a SpamAssassin daemon",
-			FALSE,
 			G_PARAM_READWRITE));
 }
 
@@ -1083,24 +589,12 @@ e_spam_assassin_init (ESpamAssassin *extension)
 {
 	GSettings *settings;
 
-	g_mutex_init (&extension->socket_path_mutex);
-
 	settings = g_settings_new ("org.gnome.evolution.spamassassin");
 
 	g_settings_bind (
 		settings, "local-only",
 		extension, "local-only",
 		G_SETTINGS_BIND_DEFAULT);
-	g_settings_bind (
-		settings, "socket-path",
-		extension, "socket-path",
-		G_SETTINGS_BIND_DEFAULT);
-#ifdef HAVE_SPAM_DAEMON
-	g_settings_bind (
-		settings, "use-daemon",
-		extension, "use-daemon",
-		G_SETTINGS_BIND_DEFAULT);
-#endif /* HAVE_SPAM_DAEMON */
 
 	g_object_unref (settings);
 }
