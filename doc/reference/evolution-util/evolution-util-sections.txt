@@ -2843,7 +2843,6 @@ ERuleContextPrivate
 <FILE>e-rule-editor</FILE>
 <TITLE>ERuleEditor</TITLE>
 ERuleEditor
-ERuleEditorUndo
 e_rule_editor_new
 e_rule_editor_construct
 e_rule_editor_set_source

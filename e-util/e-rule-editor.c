@@ -40,8 +40,6 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_RULE_EDITOR, ERuleEditorPrivate))
 
-static gint enable_undo = 0;
-
 enum {
 	BUTTON_ADD,
 	BUTTON_EDIT,
@@ -61,73 +59,6 @@ G_DEFINE_TYPE (
 	ERuleEditor,
 	e_rule_editor,
 	GTK_TYPE_DIALOG)
-
-static void
-rule_editor_add_undo (ERuleEditor *editor,
-                      gint type,
-                      EFilterRule *rule,
-                      gint rank,
-                      gint newrank)
-{
-	ERuleEditorUndo *undo;
-
-	if (!editor->undo_active && enable_undo) {
-		undo = g_malloc0 (sizeof (*undo));
-		undo->rule = rule;
-		undo->type = type;
-		undo->rank = rank;
-		undo->newrank = newrank;
-
-		undo->next = editor->undo_log;
-		editor->undo_log = undo;
-	} else {
-		g_object_unref (rule);
-	}
-}
-
-static void
-rule_editor_play_undo (ERuleEditor *editor)
-{
-	ERuleEditorUndo *undo, *next;
-	EFilterRule *rule;
-
-	editor->undo_active = TRUE;
-	undo = editor->undo_log;
-	editor->undo_log = NULL;
-	while (undo) {
-		next = undo->next;
-		switch (undo->type) {
-		case E_RULE_EDITOR_LOG_EDIT:
-			rule = e_rule_context_find_rank_rule (editor->context, undo->rank, undo->rule->source);
-			if (rule) {
-				e_filter_rule_copy (rule, undo->rule);
-			} else {
-				g_warning ("Could not find the right rule to undo against?");
-			}
-			break;
-		case E_RULE_EDITOR_LOG_ADD:
-			rule = e_rule_context_find_rank_rule (editor->context, undo->rank, undo->rule->source);
-			if (rule)
-				e_rule_context_remove_rule (editor->context, rule);
-			break;
-		case E_RULE_EDITOR_LOG_REMOVE:
-			g_object_ref (undo->rule);
-			e_rule_context_add_rule (editor->context, undo->rule);
-			e_rule_context_rank_rule (editor->context, undo->rule, editor->source, undo->rank);
-			break;
-		case E_RULE_EDITOR_LOG_RANK:
-			rule = e_rule_context_find_rank_rule (editor->context, undo->newrank, undo->rule->source);
-			if (rule)
-				e_rule_context_rank_rule (editor->context, rule, editor->source, undo->rank);
-			break;
-		}
-
-		g_object_unref (undo->rule);
-		g_free (undo);
-		undo = next;
-	}
-	editor->undo_active = FALSE;
-}
 
 static void
 dialog_rule_changed (EFilterRule *fr,
@@ -183,17 +114,6 @@ add_editor_response (GtkWidget *dialog,
 
 		editor->current = editor->edit;
 		e_rule_context_add_rule (editor->context, editor->current);
-
-		g_object_ref (editor->current);
-		rule_editor_add_undo (
-			editor,
-			E_RULE_EDITOR_LOG_ADD,
-			editor->current,
-			e_rule_context_get_rank_rule (
-				editor->context,
-				editor->current,
-				editor->current->source),
-			0);
 	}
 
 	gtk_widget_destroy (dialog);
@@ -238,29 +158,6 @@ cursor_changed (GtkTreeView *treeview,
 		g_return_if_fail (editor->current);
 
 		e_rule_editor_set_sensitive (editor);
-	}
-}
-
-static void
-editor_response (GtkWidget *dialog,
-                 gint button,
-                 ERuleEditor *editor)
-{
-	if (button == GTK_RESPONSE_CANCEL) {
-		if (enable_undo)
-			rule_editor_play_undo (editor);
-		else {
-			ERuleEditorUndo *undo, *next;
-
-			undo = editor->undo_log;
-			editor->undo_log = NULL;
-			while (undo) {
-				next = undo->next;
-				g_object_unref (undo->rule);
-				g_free (undo);
-				undo = next;
-			}
-		}
 	}
 }
 
@@ -356,11 +253,6 @@ edit_editor_response (GtkWidget *dialog,
 				editor->model, &iter,
 				0, editor->edit->name, -1);
 
-			rule_editor_add_undo (
-				editor, E_RULE_EDITOR_LOG_EDIT,
-				e_filter_rule_clone (editor->current),
-				pos, 0);
-
 			/* replace the old rule with the new rule */
 			e_filter_rule_copy (editor->current, editor->edit);
 		}
@@ -441,18 +333,7 @@ rule_delete (GtkWidget *widget,
 		gtk_list_store_remove (editor->model, &iter);
 		gtk_tree_path_free (path);
 
-		rule_editor_add_undo (
-			editor,
-			E_RULE_EDITOR_LOG_REMOVE,
-			delete_rule,
-			e_rule_context_get_rank_rule (
-				editor->context,
-				delete_rule,
-				delete_rule->source),
-			0);
-#if 0
 		g_object_unref (delete_rule);
-#endif
 
 		/* now select the next rule */
 		len = gtk_tree_model_iter_n_children (GTK_TREE_MODEL (editor->model), NULL);
@@ -491,12 +372,6 @@ rule_move (ERuleEditor *editor,
 	GtkTreePath *path;
 	GtkTreeIter iter;
 	EFilterRule *rule;
-
-	rule_editor_add_undo (
-		editor, E_RULE_EDITOR_LOG_RANK,
-		g_object_ref (editor->current),
-		e_rule_context_get_rank_rule (editor->context,
-		editor->current, editor->source), to);
 
 	e_rule_context_rank_rule (
 		editor->context, editor->current, editor->source, to);
@@ -607,17 +482,8 @@ static void
 rule_editor_finalize (GObject *object)
 {
 	ERuleEditor *editor = E_RULE_EDITOR (object);
-	ERuleEditorUndo *undo, *next;
 
 	g_object_unref (editor->context);
-
-	undo = editor->undo_log;
-	while (undo) {
-		next = undo->next;
-		g_object_unref (undo->rule);
-		g_free (undo);
-		undo = next;
-	}
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_rule_editor_parent_class)->finalize (object);
@@ -709,9 +575,6 @@ e_rule_editor_class_init (ERuleEditorClass *class)
 	class->set_source = rule_editor_set_source;
 	class->set_sensitive = rule_editor_set_sensitive;
 	class->create_rule = rule_editor_create_rule;
-
-	/* TODO: Remove when it works (or never will) */
-	enable_undo = getenv ("EVOLUTION_RULE_UNDO") != NULL;
 }
 
 static void
@@ -907,9 +770,6 @@ e_rule_editor_construct (ERuleEditor *editor,
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (widget), GTK_WIDGET (editor->list));
 
-	g_signal_connect (
-		editor, "response",
-		G_CALLBACK (editor_response), editor);
 	rule_editor_set_source (editor, source);
 
 	gtk_dialog_add_buttons (

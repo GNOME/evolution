@@ -58,8 +58,6 @@ typedef struct _ERuleEditor ERuleEditor;
 typedef struct _ERuleEditorClass ERuleEditorClass;
 typedef struct _ERuleEditorPrivate ERuleEditorPrivate;
 
-typedef struct _ERuleEditorUndo ERuleEditorUndo;
-
 struct _ERuleEditor {
 	GtkDialog parent;
 
@@ -74,9 +72,6 @@ struct _ERuleEditor {
 
 	gchar *source;
 
-	ERuleEditorUndo *undo_log;	/* cancel/undo log */
-	guint undo_active:1; /* we're performing undo */
-
 	ERuleEditorPrivate *priv;
 };
 
@@ -88,22 +83,6 @@ struct _ERuleEditorClass {
 						 const gchar *source);
 
 	EFilterRule *	(*create_rule)		(ERuleEditor *editor);
-};
-
-enum {
-	E_RULE_EDITOR_LOG_EDIT,
-	E_RULE_EDITOR_LOG_ADD,
-	E_RULE_EDITOR_LOG_REMOVE,
-	E_RULE_EDITOR_LOG_RANK
-};
-
-struct _ERuleEditorUndo {
-	ERuleEditorUndo *next;
-
-	guint type;
-	EFilterRule *rule;
-	gint rank;
-	gint newrank;
 };
 
 GType		e_rule_editor_get_type		(void) G_GNUC_CONST;
