@@ -526,6 +526,8 @@ settings_deprecated_constructed (GObject *object)
 	if (variant != NULL)
 		g_settings_set_value (
 			priv->mail_settings, "show-headers", variant);
+	else
+		g_settings_reset (priv->mail_settings, "show-headers");
 	g_strfreev (strv_value);
 
 	/* XXX The "reply-style" key uses a completely different
