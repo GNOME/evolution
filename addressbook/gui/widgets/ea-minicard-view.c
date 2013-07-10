@@ -271,6 +271,12 @@ ea_minicard_view_ref_child (AtkObject *accessible,
 		return NULL;
 		/* a minicard */
 	if (index < child_num) {
+		if (reflow->items[index] == NULL) {
+			reflow->items[index] = e_reflow_model_incarnate (reflow->model, index, GNOME_CANVAS_GROUP (reflow));
+			g_object_set (reflow->items[index],
+				      "width", (double) reflow->column_width,
+				      NULL);
+		}
 		card = E_MINICARD (reflow->items[index]);
 		atk_object = atk_gobject_accessible_for_object (G_OBJECT (card));
 	} else {
