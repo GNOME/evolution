@@ -1028,6 +1028,7 @@ refresh_folders_exec (struct _refresh_folders_msg *m,
 {
 	CamelFolder *folder;
 	gint i;
+	gboolean success;
 	GError *local_error = NULL;
 	gulong handler_id = 0;
 
@@ -1035,6 +1036,11 @@ refresh_folders_exec (struct _refresh_folders_msg *m,
 		handler_id = g_signal_connect (
 			m->info->cancellable, "cancelled",
 			G_CALLBACK (main_op_cancelled_cb), cancellable);
+
+	success = camel_service_connect_sync (
+		CAMEL_SERVICE (m->store), cancellable, error);
+	if (!success)
+		goto exit;
 
 	get_folders (m->store, m->folders, m->finfo);
 
@@ -1084,7 +1090,8 @@ refresh_folders_exec (struct _refresh_folders_msg *m,
 
 	camel_operation_pop_message (m->info->cancellable);
 
-	if (cancellable)
+exit:
+	if (handler_id > 0)
 		g_signal_handler_disconnect (m->info->cancellable, handler_id);
 }
 
