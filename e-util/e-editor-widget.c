@@ -1796,7 +1796,7 @@ process_elements (WebKitDOMNode *node,
 
 	for (ii = 0; ii < length; ii++) {
 		WebKitDOMNode *child;
-		gboolean caret_position_node= FALSE;
+		gboolean skip_node = FALSE;
 
 		child = webkit_dom_node_list_item (nodes, ii);
 		if (WEBKIT_DOM_IS_TEXT (child)) {
@@ -1819,26 +1819,56 @@ process_elements (WebKitDOMNode *node,
 			g_free (tmp);
 			g_free (content);
 		} else {
+			/* Leave caret position untouched */
 			if (WEBKIT_DOM_IS_HTML_ELEMENT (child) &&
 				g_strcmp0 (webkit_dom_html_element_get_id (WEBKIT_DOM_HTML_ELEMENT (child)),
 					   "-x-evo-caret-position") == 0) {
 
-				g_string_append (buffer, "-x-evo-caret-position");
-				caret_position_node = TRUE;
+				g_string_append (buffer, webkit_dom_html_element_get_outer_html (WEBKIT_DOM_HTML_ELEMENT (child)));
+				skip_node = TRUE;
 			}
 
+			/* Leave blockquotes as they are */
+			if (g_strcmp0 (webkit_dom_node_get_local_name (child),
+				       "blockquote") == 0) {
+
+				g_string_append (buffer, webkit_dom_html_element_get_outer_html (WEBKIT_DOM_HTML_ELEMENT (child)));
+				skip_node = TRUE;
+			}
+
+			/* Leave wrapped paragraphs as they are */
+			if (WEBKIT_DOM_IS_ELEMENT (child) &&
+				g_strcmp0 (webkit_dom_element_get_class_name (WEBKIT_DOM_ELEMENT (child)),
+					   "-x-evo-paragraph") == 0) {
+
+				g_string_append (buffer, webkit_dom_html_element_get_outer_html (WEBKIT_DOM_HTML_ELEMENT (child)));
+				skip_node = TRUE;
+			}
+
+			/* Insert new line when we hit BR element */
 			if (g_strcmp0 (webkit_dom_node_get_local_name (child), "br") == 0)
 				g_string_append (buffer, "\n");
 		}
 
-		if (webkit_dom_node_has_child_nodes (child)) {
-			if (!caret_position_node)
-				process_elements (child, buffer);
-		}
+		if (webkit_dom_node_has_child_nodes (child) && !skip_node)
+			process_elements (child, buffer);
 	}
 
 	if (WEBKIT_DOM_IS_HTML_DIV_ELEMENT (node) || WEBKIT_DOM_IS_HTML_PARAGRAPH_ELEMENT (node)) {
-		if (g_utf8_strlen (webkit_dom_node_get_text_content (node), -1) > 0) {
+		gboolean add_br = TRUE;
+		WebKitDOMNode *next_sibling = webkit_dom_node_get_next_sibling (node);
+
+		/* If we don't have next sibling (last element in body) or next element is
+		 * signature we are not adding the BR element */
+		if (!next_sibling)
+			add_br = FALSE;
+
+		if (next_sibling && WEBKIT_DOM_IS_HTML_DIV_ELEMENT (next_sibling)) {
+			if (webkit_dom_element_query_selector (WEBKIT_DOM_ELEMENT (next_sibling), "span.-x-evolution-signature", NULL))
+				add_br = FALSE;
+		}
+
+		if (add_br && g_utf8_strlen (webkit_dom_node_get_text_content (node), -1) > 0) {
 			g_string_append (buffer, "\n");
 		}
 	}
