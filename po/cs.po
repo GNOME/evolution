@@ -9055,11 +9055,11 @@ msgstr "Zda odstranit zpracované objekty iTip"
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:1
 msgid "Notify new messages for Inbox only."
-msgstr "Upozornit na nové zprávy pouze v „Příchozí“."
+msgstr "Upozornit na nové zprávy pouze v „Přijaté“."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:2
 msgid "Whether to notify new messages in Inbox folder only."
-msgstr "Zdali upozornit na nové zprávy pouze ve složce „Příchozí“."
+msgstr "Zdali upozornit na nové zprávy pouze ve složce „Přijatá“."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:3
 msgid "Enable D-Bus messages."
@@ -11817,7 +11817,7 @@ msgstr "Odesílá se zpráva"
 #: ../modules/mail/e-mail-shell-view-private.c:1100
 #: ../modules/mail/e-mail-shell-view-private.c:1111
 msgid "Inbox"
-msgstr "Příchozí"
+msgstr "Přijatá"
 
 #. E_MAIL_LOCAL_FOLDER_INBOX
 #: ../libemail-engine/e-mail-session.c:121 ../mail/em-folder-tree-model.c:778
@@ -19548,7 +19548,7 @@ msgstr "Vyberte zvukový soubor"
 
 #: ../plugins/mail-notification/mail-notification.c:792
 msgid "Notify new messages for _Inbox only"
-msgstr "Upozo_rnit na nové zprávy pouze v „Příchozí“"
+msgstr "Upozo_rnit na nové zprávy pouze v „Přijaté“"
 
 #: ../plugins/mail-notification/mail-notification.c:802
 msgid "Show _notification when a new message arrives"
