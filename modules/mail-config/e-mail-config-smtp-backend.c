@@ -238,8 +238,8 @@ mail_config_smtp_backend_insert_widgets (EMailConfigServiceBackend *backend,
 	priv->user_entry = widget;  /* do not reference */
 	gtk_widget_show (widget);
 
-	port = 0;
-	g_object_get (G_OBJECT (settings), "port", &port, NULL);
+	port = camel_network_settings_get_port (
+		CAMEL_NETWORK_SETTINGS (settings));
 
 	g_object_bind_property (
 		settings, "host",
