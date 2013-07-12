@@ -1850,48 +1850,8 @@ e_editor_widget_set_text_html (EEditorWidget *widget,
 {
 	widget->priv->reload_in_progress = TRUE;
 
-	webkit_web_view_load_html_string (
-		WEBKIT_WEB_VIEW (widget), text, "file://");
-}
-
-static void
-do_set_text_plain (EEditorWidget *widget,
-                   gpointer data)
-{
-	gboolean changing = FALSE;
-	const gchar *ptr;
-	gchar *data_copy = NULL;
-
-	if (strstr (data, UNICODE_HIDDEN_SPACE)) {
-		data_copy = g_new (gchar, strlen (data));
-		g_utf8_strncpy (data_copy, data, g_utf8_strlen (data, -1) - 1);
-		ptr = data_copy;
-		changing = TRUE;
-	} else {
-		ptr = data;
-	}
-
-	e_editor_widget_exec_command (
-		widget, E_EDITOR_WIDGET_COMMAND_INSERT_TEXT, ptr);
-
-	if (changing) {
-		WebKitDOMDocument *document;
-		WebKitDOMNode *body;
-		WebKitDOMElement *element;
-
-		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
-		body = WEBKIT_DOM_NODE (webkit_dom_document_get_body (document));
-
-		element = webkit_dom_document_create_element (document, "SPAN", NULL);
-		webkit_dom_html_element_set_id (WEBKIT_DOM_HTML_ELEMENT (element), "-x-evo-changing-mode");
-
-		webkit_dom_node_append_child (
-			body,
-			WEBKIT_DOM_NODE (element),
-			NULL);
-
-		g_free (data_copy);
-	}
+	webkit_web_view_load_string (
+		WEBKIT_WEB_VIEW (widget), text, NULL, NULL, "file://");
 }
 
 /**
@@ -1907,15 +1867,8 @@ e_editor_widget_set_text_plain (EEditorWidget *widget,
 {
 	widget->priv->reload_in_progress = TRUE;
 
-	webkit_web_view_load_html_string (
-		WEBKIT_WEB_VIEW (widget), "", "file://");
-
-	/* webkit_web_view_load_html_string() is actually performed
-	 * when this functions returns, so the operation below would get
-	 * overwritten. Instead queue the insert operation and insert the
-	 * actual text when the webview is reloaded */
-	editor_widget_queue_postreload_operation (
-		widget, do_set_text_plain, g_strdup (text), g_free);
+	webkit_web_view_load_string (
+		WEBKIT_WEB_VIEW (widget), text, NULL, NULL, "file://");
 }
 
 /**

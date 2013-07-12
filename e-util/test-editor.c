@@ -177,8 +177,8 @@ view_source_dialog (EEditor *editor,
 		gtk_text_view_set_editable (GTK_TEXT_VIEW (content), FALSE);
 	} else {
 		content = webkit_web_view_new ();
-		webkit_web_view_load_html_string (
-			WEBKIT_WEB_VIEW (content), html, NULL);
+		webkit_web_view_load_string (
+			WEBKIT_WEB_VIEW (content), html, NULL, NULL, NULL);
 	}
 	g_free (html);
 
