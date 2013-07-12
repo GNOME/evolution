@@ -1169,6 +1169,10 @@ e_composer_update_signature (EMsgComposer *composer)
 	status = webkit_web_view_get_load_status (WEBKIT_WEB_VIEW (editor_widget));
 	/* If document is not loaded, we will wait for him */
 	if (status != WEBKIT_LOAD_FINISHED) {
+		/* Disconnect previous handlers */
+		g_signal_handlers_disconnect_by_func (
+			WEBKIT_WEB_VIEW (editor_widget),
+			G_CALLBACK (composer_web_view_load_status_changed_cb), composer);
 		g_signal_connect (
 			WEBKIT_WEB_VIEW(editor_widget), "notify::load-status",
 			G_CALLBACK (composer_web_view_load_status_changed_cb), composer);
