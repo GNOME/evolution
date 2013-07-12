@@ -3179,9 +3179,13 @@ e_editor_selection_wrap_lines (EEditorSelection *selection,
 			/* If there is less than word_wrap_length characters do nothing */
 			if (g_utf8_strlen (e_editor_selection_get_string (selection), -1) < selection->priv->word_wrap_length) {
 				if (return_pressed) {
+					WebKitDOMNode *next_sibling =
+						webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (caret_position));
+
+					if (WEBKIT_DOM_IS_ELEMENT (next_sibling))
+						move_caret_into_element (document, WEBKIT_DOM_ELEMENT (next_sibling));
+
 					e_editor_selection_clear_caret_position_marker (selection);
-					move_caret_into_element (document, WEBKIT_DOM_ELEMENT (paragraph));
-					webkit_dom_dom_selection_modify (window_selection, "move", "forward", "character");
 				} else {
 					e_editor_selection_restore_caret_position (selection);
 				}
