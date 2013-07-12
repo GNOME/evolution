@@ -3128,6 +3128,26 @@ e_editor_selection_wrap_lines (EEditorSelection *selection,
 
 		webkit_dom_html_element_set_id (WEBKIT_DOM_HTML_ELEMENT (paragraph), "-x-evo-active-paragraph");
 
+		/* If there is hidden space character in the beginning we remove it */
+		if (strstr (webkit_dom_node_get_text_content (paragraph), UNICODE_HIDDEN_SPACE)) {
+			WebKitDOMNode *child = webkit_dom_node_get_first_child (paragraph);
+			GRegex *regex;
+			gchar *node_text;
+
+			regex = g_regex_new (UNICODE_HIDDEN_SPACE, 0, 0, NULL);
+			if (!regex)
+				return;
+
+			node_text = webkit_dom_character_data_get_data (WEBKIT_DOM_CHARACTER_DATA (child));
+			webkit_dom_character_data_set_data (
+				WEBKIT_DOM_CHARACTER_DATA (child),
+				g_regex_replace_literal (regex, node_text, -1, 0, "", 0, NULL),
+				NULL);
+
+			g_free (node_text);
+			g_regex_unref (regex);
+		}
+
 		if (previously_wrapped) {
 			/* If we are on the beginning of line we need to remember it */
 			if (!adding && start_offset > selection->priv->word_wrap_length)
