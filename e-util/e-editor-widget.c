@@ -1531,7 +1531,6 @@ void
 e_editor_widget_set_html_mode (EEditorWidget *widget,
                                gboolean html_mode)
 {
-	gboolean changing = FALSE;
 	gint result;
 
 	g_return_if_fail (E_IS_EDITOR_WIDGET (widget));
@@ -1561,9 +1560,7 @@ e_editor_widget_set_html_mode (EEditorWidget *widget,
 
 		result = gtk_dialog_run (GTK_DIALOG (dialog));
 
-		if (result == GTK_RESPONSE_OK) {
-			changing = TRUE;
-		} else {
+		if (result != GTK_RESPONSE_OK) {
 			gtk_widget_destroy (dialog);
 			/* Nothing has changed, but notify anyway */
 			g_object_notify (G_OBJECT (widget), "html-mode");
@@ -1572,9 +1569,6 @@ e_editor_widget_set_html_mode (EEditorWidget *widget,
 
 		gtk_widget_destroy (dialog);
 	}
-
-	if (html_mode)
-		changing = TRUE;
 
 	if (html_mode == widget->priv->html_mode)
 		return;
@@ -1588,21 +1582,22 @@ e_editor_widget_set_html_mode (EEditorWidget *widget,
 		/* FIXME WEBKIT: Process smileys! */
 	} else {
 		gchar *plain;
+		GRegex *regex;
 
-		plain = e_editor_widget_get_text_plain (widget);
+		/* Save caret position -> it will be restored in e-composer-private.c */
+		e_editor_selection_save_caret_position (e_editor_widget_get_selection (widget));
 
-		if (*plain) {
-			if (changing) {
-				gchar *tmp;
-				tmp = g_strconcat (plain, UNICODE_HIDDEN_SPACE, NULL);
-				g_free (plain);
-				plain = tmp;
-			}
+		/* We need to get plain text from composer, but we need <br> instead of \n */
+		regex = g_regex_new ("\n", 0, 0, NULL);
+		plain = g_regex_replace_literal (regex,
+						 e_editor_widget_get_text_plain (widget),
+						 -1, 0, "<br>", 0, NULL);
 
+		if (*plain)
 			e_editor_widget_set_text_plain (widget, plain);
-		}
 
 		g_free (plain);
+		g_regex_unref (regex);
 	}
 
 	g_object_notify (G_OBJECT (widget), "html-mode");

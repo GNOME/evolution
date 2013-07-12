@@ -803,11 +803,13 @@ composer_move_caret (EMsgComposer *composer)
 	WebKitDOMElement *element;
 	GSettings *settings;
 	gboolean start_bottom;
+	gboolean has_paragraphs_in_body = TRUE;
 
 	/* When there is an option composer-reply-start-bottom set we have
 	 * to move the caret between reply and signature. */
 	settings = g_settings_new ("org.gnome.evolution.mail");
 	start_bottom = g_settings_get_boolean (settings, "composer-reply-start-bottom");
+	g_object_unref (settings);
 
 	editor = e_msg_composer_get_editor (composer);
 	editor_widget = e_editor_get_editor_widget (editor);
@@ -818,20 +820,29 @@ composer_move_caret (EMsgComposer *composer)
 	body = webkit_dom_document_get_body (document);
 	new_range = webkit_dom_document_create_range (document);
 
-	/* If we were just changing composer mode we don't want to insert
-	 * new div and we want to set caret to the beginning */
-	element = webkit_dom_document_get_element_by_id (document, "-x-evo-changing-mode");
+	element = webkit_dom_document_get_element_by_id (document, "-x-evo-caret-position");
+	/* Caret position found => composer mode changed */
 	if (element) {
-		webkit_dom_node_remove_child (
-			WEBKIT_DOM_NODE (body),
-			WEBKIT_DOM_NODE (element),
-			NULL);
+		e_editor_selection_restore_caret_position (e_editor_widget_get_selection (editor_widget));
+		return;
 	}
 
 	list = webkit_dom_document_get_elements_by_class_name (document, "-x-evo-paragraph");
+	/* Situation when wrapped paragraph is just in signature and not in message body */
+	if (webkit_dom_node_list_get_length (list) == 1) {
+		WebKitDOMElement *signature;
+
+		signature = webkit_dom_document_query_selector (document, ".-x-evolution-signature", NULL);
+		if (signature && webkit_dom_element_query_selector (signature, ".-x-evo-paragraph", NULL))
+			has_paragraphs_in_body = FALSE;
+	}
+
+	if (webkit_dom_node_list_get_length (list) == 0)
+		has_paragraphs_in_body = FALSE;
+
 	blockquotes = webkit_dom_document_get_elements_by_tag_name (document, "blockquote");
 
-	if (webkit_dom_node_list_get_length (list) == 0) {
+	if (!has_paragraphs_in_body) {
 		element = webkit_dom_document_create_element (document, "DIV", NULL);
 		webkit_dom_element_set_class_name (WEBKIT_DOM_ELEMENT (element), "-x-evo-paragraph");
 		webkit_dom_html_element_set_id (WEBKIT_DOM_HTML_ELEMENT (element), "-x-evo-input-start");
@@ -840,7 +851,7 @@ composer_move_caret (EMsgComposer *composer)
 
 	if (start_bottom) {
 		if (webkit_dom_node_list_get_length (blockquotes) != 0) {
-			if (webkit_dom_node_list_get_length (list) == 0) {
+			if (!has_paragraphs_in_body) {
 				webkit_dom_node_insert_before (
 					WEBKIT_DOM_NODE (body),
 					WEBKIT_DOM_NODE (element),
@@ -848,31 +859,32 @@ composer_move_caret (EMsgComposer *composer)
 						webkit_dom_node_list_item (blockquotes, 0)),
 					NULL);
 			}
-			input_start = webkit_dom_document_get_element_by_id (document, "-x-evo-input-start");
 
-			/* Move caret between reply and signature. */
+			input_start = webkit_dom_document_get_element_by_id (document, "-x-evo-input-start");
 			if (input_start)
 				webkit_dom_range_select_node_contents (new_range, WEBKIT_DOM_NODE (input_start), NULL);
+
 			webkit_dom_range_collapse (new_range, FALSE, NULL);
 		} else {
-			if (webkit_dom_node_list_get_length (list) == 0) {
-				if (webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)))
+			if (!has_paragraphs_in_body) {
+				if (webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body))) {
 					webkit_dom_node_insert_before (
 						WEBKIT_DOM_NODE (body),
 						WEBKIT_DOM_NODE (element),
 						webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)),
 						NULL);
-				else
+				} else {
 					webkit_dom_node_append_child (
 						WEBKIT_DOM_NODE (body),
 						WEBKIT_DOM_NODE (element),
 						NULL);
+				}
 			}
 
 			webkit_dom_range_select_node_contents (new_range,
-					WEBKIT_DOM_NODE (
-						webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body))),
-					NULL);
+				WEBKIT_DOM_NODE (
+					webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body))),
+				NULL);
 			webkit_dom_range_collapse (new_range, TRUE, NULL);
 		}
 
@@ -881,8 +893,7 @@ composer_move_caret (EMsgComposer *composer)
 			G_CALLBACK (composer_size_allocate_cb), NULL);
 	} else {
 		/* Move caret on the beginning of message */
-		if (webkit_dom_node_list_get_length (list) == 0) {
-
+		if (!has_paragraphs_in_body) {
 			if (webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body))) {
 				webkit_dom_node_insert_before (
 					WEBKIT_DOM_NODE (body),
@@ -917,8 +928,6 @@ composer_move_caret (EMsgComposer *composer)
 
 	webkit_dom_dom_selection_remove_all_ranges (dom_selection);
 	webkit_dom_dom_selection_add_range (dom_selection, new_range);
-
-	g_object_unref (settings);
 }
 
 static void
