@@ -249,7 +249,17 @@ void		e_calendar_view_modify_and_send	(ECalendarView *cal_view,
 						 CalObjModType mod,
 						 GtkWindow *toplevel,
 						 gboolean new);
-
+gboolean	e_calendar_view_modify		(ECalendarView *cal_view,
+						 ECalComponent *comp,
+						 ECalClient *client,
+						 CalObjModType mod);
+void		e_calendar_view_send		(ECalendarView *cal_view,
+						 ECalComponent *comp,
+						 ECalClient *client,
+						 CalObjModType mod,
+						 GtkWindow *toplevel,
+						 gboolean strip_alarms,
+						 gboolean only_new_attendees);
 gboolean	e_calendar_view_get_tooltips	(const ECalendarViewEventData *data);
 
 void		e_calendar_view_move_tip	(GtkWidget *widget,

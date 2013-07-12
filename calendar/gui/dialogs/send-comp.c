@@ -236,6 +236,91 @@ send_component_dialog (GtkWindow *parent,
 	return res;
 }
 
+/**
+ * send_dragged_or_resized_component_dialog:
+ *
+ * Pops up a dialog box asking the user whether he wants to send a
+ * iTip/iMip message or cancel the drag/resize operations
+ *
+ * Return value: GTK_RESPONSE_YES if the user clicked Yes,
+ *		 GTK_RESPONSE_NO if the user clicked No and
+ *		 GTK_RESPONSE_CANCEL otherwise.
+ **/
+GtkResponseType
+send_dragged_or_resized_component_dialog (GtkWindow *parent,
+					  ECalClient *client,
+					  ECalComponent *comp,
+					  gboolean *strip_alarms,
+					  gboolean *only_new_attendees)
+{
+	ECalComponentVType vtype;
+	const gchar *id;
+	GtkWidget *dialog, *sa_checkbox = NULL, *ona_checkbox = NULL;
+	GtkWidget *content_area;
+	gboolean save_schedules = FALSE;
+	GtkResponseType res;
+
+	if (strip_alarms)
+		*strip_alarms = TRUE;
+
+	if (e_cal_client_check_save_schedules (client) || !component_has_recipients (comp))
+		save_schedules = TRUE;
+
+	vtype = e_cal_component_get_vtype (comp);
+
+	switch (vtype) {
+	case E_CAL_COMPONENT_EVENT:
+		id = save_schedules ? "calendar:prompt-save-meeting-dragged-or-resized" :
+				      "calendar:prompt-send-updated-meeting-info-dragged-or-resized";
+		break;
+	default:
+		g_message (
+			"send_component_dialog(): "
+			"Cannot handle object of type %d", vtype);
+		return GTK_RESPONSE_CANCEL;
+	}
+
+	if (only_new_attendees && !component_has_new_attendees (comp)) {
+		/* do not show the check if there is no new attendee and
+		 * set as all attendees are required to be notified */
+		*only_new_attendees = FALSE;
+
+		/* pretend it as being passed NULL to simplify code below */
+		only_new_attendees = NULL;
+	}
+
+	if (strip_alarms && !have_nonprocedural_alarm (comp)) {
+		/* pretend it as being passed NULL to simplify code below */
+		strip_alarms = NULL;
+	}
+
+	dialog = e_alert_dialog_new_for_args (parent, id, NULL);
+	content_area = e_alert_dialog_get_content_area (E_ALERT_DIALOG (dialog));
+
+	if (strip_alarms)
+		sa_checkbox = add_checkbox (GTK_BOX (content_area), _("Send my reminders with this event"));
+	if (only_new_attendees)
+		ona_checkbox = add_checkbox (GTK_BOX (content_area), _("Notify new attendees _only"));
+
+	res = gtk_dialog_run (GTK_DIALOG (dialog));
+
+	/*
+	 * When the Escape key is pressed a GTK_RESPONSE_DELETE_EVENT is generated.
+	 * We should treat this event as the user cancelling the operation
+	 */
+	if (res == GTK_RESPONSE_DELETE_EVENT)
+		res = GTK_RESPONSE_CANCEL;
+
+	if (res == GTK_RESPONSE_YES && strip_alarms)
+		*strip_alarms = !gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (sa_checkbox));
+	if (only_new_attendees)
+		*only_new_attendees = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (ona_checkbox));
+
+	gtk_widget_destroy (GTK_WIDGET (dialog));
+
+	return res;
+}
+
 gboolean
 send_component_prompt_subject (GtkWindow *parent,
                                ECalClient *client,

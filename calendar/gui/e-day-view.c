@@ -42,6 +42,7 @@
 #include "dialogs/cancel-comp.h"
 #include "dialogs/recur-comp.h"
 #include "dialogs/goto-dialog.h"
+#include "dialogs/save-comp.h"
 
 #include "calendar-config.h"
 #include "comp-util.h"
@@ -4721,6 +4722,10 @@ e_day_view_finish_resize (EDayView *day_view)
 	ESourceRegistry *registry;
 	CalObjModType mod = CALOBJ_MOD_ALL;
 	GtkWindow *toplevel;
+	GtkResponseType send = GTK_RESPONSE_NO;
+	gboolean modified;
+	gboolean only_new_attendees = FALSE;
+	gboolean strip_alarms = TRUE;
 
 	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
 	registry = e_cal_model_get_registry (model);
@@ -4755,6 +4760,18 @@ e_day_view_finish_resize (EDayView *day_view)
 		return;
 	}
 
+	toplevel = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (day_view)));
+
+	if ((itip_organizer_is_user (registry, comp, client) ||
+	     itip_sentby_is_user (registry, comp, client)))
+		send = send_dragged_or_resized_component_dialog (
+				toplevel, client, comp, &strip_alarms, &only_new_attendees);
+
+	if (send == GTK_RESPONSE_CANCEL) {
+		e_day_view_abort_resize (day_view);
+		goto out;
+	}
+
 	date.value = &itt;
 	date.tzid = icaltimezone_get_tzid (e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
 
@@ -4787,7 +4804,7 @@ e_day_view_finish_resize (EDayView *day_view)
 
 	if (e_cal_component_has_recurrences (comp)) {
 		if (!recur_component_dialog (client, comp, &mod, NULL, FALSE)) {
-			gtk_widget_queue_draw (day_view->top_canvas);
+			gtk_widget_queue_draw (day_view->main_canvas);
 			goto out;
 		}
 
@@ -4816,13 +4833,14 @@ e_day_view_finish_resize (EDayView *day_view)
 	} else if (e_cal_component_is_instance (comp))
 		mod = CALOBJ_MOD_THIS;
 
-	toplevel = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (day_view)));
-
 	e_cal_component_commit_sequence (comp);
 
-	e_calendar_view_modify_and_send (
-		E_CALENDAR_VIEW (day_view),
-		comp, client, mod, toplevel, TRUE);
+	modified = e_calendar_view_modify (E_CALENDAR_VIEW (day_view), comp, client, mod);
+
+	if (modified && send == GTK_RESPONSE_YES)
+		e_calendar_view_send (
+				E_CALENDAR_VIEW (day_view),
+				comp, client, mod, toplevel, strip_alarms, only_new_attendees);
 
  out:
 	g_object_unref (comp);
@@ -8243,6 +8261,10 @@ e_day_view_on_top_canvas_drag_data_received (GtkWidget *widget,
 	gboolean drag_from_same_window;
 	const guchar *data;
 	gint format, length;
+	GtkResponseType send = GTK_RESPONSE_NO;
+	gboolean modified;
+	gboolean only_new_attendees = FALSE;
+	gboolean strip_alarms = TRUE;
 
 	data = gtk_selection_data_get_data (selection_data);
 	format = gtk_selection_data_get_format (selection_data);
@@ -8328,6 +8350,19 @@ e_day_view_on_top_canvas_drag_data_received (GtkWidget *widget,
 				return;
 			}
 
+			toplevel = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (day_view)));
+
+			if ((itip_organizer_is_user (registry, comp, client) ||
+			     itip_sentby_is_user (registry, comp, client)))
+				send = send_dragged_or_resized_component_dialog (
+						toplevel, client, comp, &strip_alarms, &only_new_attendees);
+
+			if (send == GTK_RESPONSE_CANCEL) {
+				e_day_view_abort_resize (day_view);
+				g_object_unref (comp);
+				return;
+			}
+
 			if (start_offset == 0 && end_offset == 0)
 				all_day_event = TRUE;
 			else
@@ -8379,6 +8414,7 @@ e_day_view_on_top_canvas_drag_data_received (GtkWidget *widget,
 			e_cal_component_commit_sequence (comp);
 			if (e_cal_component_has_recurrences (comp)) {
 				if (!recur_component_dialog (client, comp, &mod, NULL, FALSE)) {
+					gtk_widget_queue_draw (day_view->top_canvas);
 					g_object_unref (comp);
 					return;
 				}
@@ -8395,11 +8431,13 @@ e_day_view_on_top_canvas_drag_data_received (GtkWidget *widget,
 			} else if (e_cal_component_is_instance (comp))
 				mod = CALOBJ_MOD_THIS;
 
-			toplevel = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (day_view)));
 
-			e_calendar_view_modify_and_send (
-				E_CALENDAR_VIEW (day_view),
-				comp, client, mod, toplevel, FALSE);
+			modified = e_calendar_view_modify (E_CALENDAR_VIEW (day_view), comp, client, mod);
+
+			if (modified && send == GTK_RESPONSE_YES)
+				e_calendar_view_send (
+					E_CALENDAR_VIEW (day_view),
+					comp, client, mod, toplevel, strip_alarms, only_new_attendees);
 
 			g_object_unref (comp);
 
@@ -8505,6 +8543,10 @@ e_day_view_on_main_canvas_drag_data_received (GtkWidget *widget,
 	gboolean drag_from_same_window;
 	const guchar *data;
 	gint format, length;
+	GtkResponseType send = GTK_RESPONSE_NO;
+	gboolean modified;
+	gboolean only_new_attendees = FALSE;
+	gboolean strip_alarms = TRUE;
 
 	cal_view = E_CALENDAR_VIEW (day_view);
 	model = e_calendar_view_get_model (cal_view);
@@ -8595,6 +8637,19 @@ e_day_view_on_main_canvas_drag_data_received (GtkWidget *widget,
 				return;
 			}
 
+			toplevel = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (day_view)));
+
+			if ((itip_organizer_is_user (registry, comp, client) ||
+			     itip_sentby_is_user (registry, comp, client)))
+				send = send_dragged_or_resized_component_dialog (
+						toplevel, client, comp, &strip_alarms, &only_new_attendees);
+
+			if (send == GTK_RESPONSE_CANCEL) {
+				e_day_view_abort_resize (day_view);
+				g_object_unref (comp);
+				return;
+			}
+
 			date.value = &itt;
 			date.tzid = icaltimezone_get_tzid (e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
 
@@ -8621,6 +8676,7 @@ e_day_view_on_main_canvas_drag_data_received (GtkWidget *widget,
 			e_cal_component_commit_sequence (comp);
 			if (e_cal_component_has_recurrences (comp)) {
 				if (!recur_component_dialog (client, comp, &mod, NULL, FALSE)) {
+					gtk_widget_queue_draw (day_view->main_canvas);
 					g_object_unref (comp);
 					return;
 				}
@@ -8637,11 +8693,12 @@ e_day_view_on_main_canvas_drag_data_received (GtkWidget *widget,
 			} else if (e_cal_component_is_instance (comp))
 				mod = CALOBJ_MOD_THIS;
 
-			toplevel = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (day_view)));
+			modified = e_calendar_view_modify (E_CALENDAR_VIEW (day_view), comp, client, mod);
 
-			e_calendar_view_modify_and_send (
-				E_CALENDAR_VIEW (day_view),
-				comp, client, mod, toplevel, FALSE);
+			if (modified && send == GTK_RESPONSE_YES)
+				e_calendar_view_send (
+					E_CALENDAR_VIEW (day_view),
+					comp, client, mod, toplevel, strip_alarms, only_new_attendees);
 
 			g_object_unref (comp);
 
