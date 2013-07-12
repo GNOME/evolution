@@ -1776,61 +1776,88 @@ e_calendar_view_modify_and_send (ECalendarView *cal_view,
 	ECalModel *model;
 	ESourceRegistry *registry;
 	gboolean only_new_attendees = FALSE;
-	GError *error = NULL;
+	gboolean strip_alarms = TRUE;
 
-	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
-
-	model = e_calendar_view_get_model (cal_view);
-	registry = e_cal_model_get_registry (model);
-
-	e_cal_component_commit_sequence (comp);
-
-	e_cal_client_modify_object_sync (
-		client, e_cal_component_get_icalcomponent (comp),
-		mod, NULL, &error);
-
-	if (error == NULL) {
-		gboolean strip_alarms = TRUE;
+	if (e_calendar_view_modify (cal_view, comp, client, mod)) {
+		model = e_calendar_view_get_model (cal_view);
+		registry = e_cal_model_get_registry (model);
 
 		if ((itip_organizer_is_user (registry, comp, client) ||
 		     itip_sentby_is_user (registry, comp, client)) &&
-		    send_component_dialog (toplevel, client, comp, new, &strip_alarms, &only_new_attendees)) {
-			ECalComponent *send_comp = NULL;
+		    send_component_dialog (toplevel, client, comp, new, &strip_alarms, &only_new_attendees))
+			e_calendar_view_send (cal_view, comp, client, mod, toplevel, strip_alarms, only_new_attendees);
+	}
+}
 
-			if (mod == CALOBJ_MOD_ALL && e_cal_component_is_instance (comp)) {
-				/* Ensure we send the master object, not the instance only */
-				icalcomponent *icalcomp = NULL;
-				const gchar *uid = NULL;
+gboolean
+e_calendar_view_modify (ECalendarView *cal_view,
+			ECalComponent *comp,
+			ECalClient *client,
+			CalObjModType mod)
+{
+	GError *error = NULL;
+	gboolean ret;
 
-				e_cal_component_get_uid (comp, &uid);
-				if (e_cal_client_get_object_sync (client, uid, NULL, &icalcomp, NULL, NULL) && icalcomp) {
-					send_comp = e_cal_component_new ();
-					if (!e_cal_component_set_icalcomponent (send_comp, icalcomp)) {
-						icalcomponent_free (icalcomp);
-						g_object_unref (send_comp);
-						send_comp = NULL;
-					} else if (only_new_attendees) {
-						/* copy new-attendees information too if required for later use */
-						comp_editor_copy_new_attendees (send_comp, comp);
-					}
-				}
-			}
+	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
 
-			itip_send_comp (
-				registry, E_CAL_COMPONENT_METHOD_REQUEST,
-				send_comp ? send_comp : comp, client, NULL,
-				NULL, NULL, strip_alarms, only_new_attendees);
+	e_cal_component_commit_sequence (comp);
 
-			if (send_comp)
-				g_object_unref (send_comp);
-		}
-	} else {
+	ret = e_cal_client_modify_object_sync (
+		client, e_cal_component_get_icalcomponent (comp),
+		mod, NULL, &error);
+
+	if (error != NULL) {
 		g_message (
 			G_STRLOC ": Could not update the object! %s",
 			error->message);
 
 		g_error_free (error);
 	}
+
+	return ret;
+}
+
+void
+e_calendar_view_send (ECalendarView *cal_view,
+		      ECalComponent *comp,
+		      ECalClient *client,
+		      CalObjModType mod,
+		      GtkWindow *toplevel,
+		      gboolean strip_alarms,
+		      gboolean only_new_attendees)
+{
+	ESourceRegistry *registry;
+	ECalModel *model;
+	ECalComponent *send_comp = NULL;
+
+	if (mod == CALOBJ_MOD_ALL && e_cal_component_is_instance (comp)) {
+		/* Ensure we send the master object, not the instance only */
+		icalcomponent *icalcomp = NULL;
+		const gchar *uid = NULL;
+
+		e_cal_component_get_uid (comp, &uid);
+		if (e_cal_client_get_object_sync (client, uid, NULL, &icalcomp, NULL, NULL) && icalcomp) {
+			send_comp = e_cal_component_new ();
+			if (!e_cal_component_set_icalcomponent (send_comp, icalcomp)) {
+				icalcomponent_free (icalcomp);
+				g_object_unref (send_comp);
+				send_comp = NULL;
+			} else if (only_new_attendees) {
+				/* copy new-attendees information too if required for later use */
+				comp_editor_copy_new_attendees (send_comp, comp);
+			}
+		}
+	}
+
+	model = e_calendar_view_get_model (cal_view);
+	registry = e_cal_model_get_registry (model);
+	itip_send_comp (
+		registry, E_CAL_COMPONENT_METHOD_REQUEST,
+		send_comp ? send_comp : comp, client, NULL,
+		NULL, NULL, strip_alarms, only_new_attendees);
+
+	if (send_comp)
+		g_object_unref (send_comp);
 }
 
 static gboolean
