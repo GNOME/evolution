@@ -2596,11 +2596,14 @@ e_editor_selection_save_caret_position (EEditorSelection *selection)
 
 static void
 move_caret_into_element (WebKitDOMDocument *document,
-	     WebKitDOMElement *element)
+			 WebKitDOMElement *element)
 {
 	WebKitDOMDOMWindow *window;
 	WebKitDOMDOMSelection *window_selection;
 	WebKitDOMRange *new_range;
+
+	if (!element)
+		return;
 
 	window = webkit_dom_document_get_default_view (document);
 	window_selection = webkit_dom_dom_window_get_selection (window);
