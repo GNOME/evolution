@@ -577,9 +577,7 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 			cairo_close_path (cr);
 			cairo_restore (cr);
 		}
-	}
-
-	if (bar_y2 > scroll_flag)
+	} else if (bar_y2 > scroll_flag)
 		event->end_minute += time_divisions;
 	else if (bar_y2 < scroll_flag)
 		event->end_minute -= time_divisions;
