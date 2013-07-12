@@ -315,7 +315,8 @@ static const gchar *emoticons_icon_names[] = {
 static void
 editor_widget_check_magic_links (EEditorWidget *widget,
 				 WebKitDOMRange *range,
-				 gboolean include_space)
+				 gboolean include_space_by_user,
+				 GdkEventKey *event)
 {
 	gchar *node_text;
 	gchar **urls;
@@ -323,14 +324,40 @@ editor_widget_check_magic_links (EEditorWidget *widget,
 	GMatchInfo *match_info;
 	gint start_pos_url, end_pos_url;
 	WebKitDOMNode *node;
+	gboolean include_space = FALSE;
+	gboolean return_pressed = FALSE;
+
+	if (event != NULL) {
+		if ((event->keyval == GDK_KEY_Return) ||
+		    (event->keyval == GDK_KEY_Linefeed) ||
+		    (event->keyval == GDK_KEY_KP_Enter)) {
+
+			return_pressed = TRUE;
+		}
+
+		if (event->keyval == GDK_KEY_space)
+			include_space = TRUE;
+	} else {
+		include_space = include_space_by_user;
+	}
 
 	node = webkit_dom_range_get_end_container (range, NULL);
 
-	if (!WEBKIT_DOM_IS_TEXT (node))
+	if (return_pressed)
+		node = webkit_dom_node_get_previous_sibling (node);
+
+	if (!node)
 		return;
 
+	if (!WEBKIT_DOM_IS_TEXT (node)) {
+		if (webkit_dom_node_has_child_nodes (node))
+			node = webkit_dom_node_get_first_child (node);
+		if (!WEBKIT_DOM_IS_TEXT (node))
+			return;
+	}
+
 	node_text = webkit_dom_text_get_whole_text (WEBKIT_DOM_TEXT (node));
-	if (!node_text || !g_utf8_validate (node_text, -1, NULL))
+	if (!node_text || !(*node_text) || !g_utf8_validate (node_text, -1, NULL))
 		return;
 
 	regex = g_regex_new (include_space ? URL_PATTERN_SPACE : URL_PATTERN, 0, 0, NULL);
@@ -344,11 +371,18 @@ editor_widget_check_magic_links (EEditorWidget *widget,
 	urls = g_match_info_fetch_all (match_info);
 
 	if (urls) {
-		gchar *html, *url, *final_url, *url_end_raw;
+		gchar *final_url, *url_end_raw;
 		glong url_start, url_end, url_length;
 		WebKitDOMDocument *document;
-		WebKitDOMDOMWindow *window;
-		WebKitDOMDOMSelection *selection;
+		WebKitDOMNode *url_text_node_clone;
+		WebKitDOMText *url_text_node;
+		WebKitDOMElement *anchor;
+		const gchar* url_text;
+
+		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
+
+		if (!return_pressed)
+			e_editor_selection_save_caret_position (e_editor_widget_get_selection (widget));
 
 		g_match_info_fetch_pos (match_info, 0, &start_pos_url, &end_pos_url);
 
@@ -360,33 +394,40 @@ editor_widget_check_magic_links (EEditorWidget *widget,
 		url_length = g_utf8_strlen (urls[0], -1);
 		url_start = url_end - url_length;
 
-		/* Remove space on end */
-		url = g_utf8_substring (urls[0], 0, include_space ? url_length - 1 : url_length);
+		if (include_space)
+			webkit_dom_text_split_text (WEBKIT_DOM_TEXT (node), url_end - 1, NULL);
 
-		/* Select the link and put it inside <A> */
-		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
-		window = webkit_dom_document_get_default_view (document);
-		selection = webkit_dom_dom_window_get_selection (window);
+		url_text_node = webkit_dom_text_split_text (WEBKIT_DOM_TEXT (node), url_start, NULL);
+		url_text_node_clone = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (url_text_node), TRUE);
 
-		webkit_dom_dom_selection_set_base_and_extent (
-			selection, webkit_dom_range_get_end_container (range, NULL),
-			include_space ? url_end - 1 : url_end, webkit_dom_range_get_end_container (range, NULL),
-			url_start, NULL);
+		url_text = webkit_dom_text_get_whole_text (WEBKIT_DOM_TEXT (url_text_node_clone));
 
-		if (g_str_has_prefix (url, "www"))
-			final_url = g_strconcat ("http://", url, NULL);
-		else
-			final_url = g_strdup (url);
+		final_url = g_strconcat (g_str_has_prefix (url_text, "www") ? "http://" : "",
+					 url_text, NULL);
 
-		html = g_strdup_printf ("<a href=\"%s\">%s</a>", final_url, url);
+		/* Create and prepare new anchor element */
+		anchor = webkit_dom_document_create_element (document, "A", NULL);
 
-		e_editor_selection_insert_html (widget->priv->selection, html);
+		webkit_dom_html_element_set_inner_html (
+			WEBKIT_DOM_HTML_ELEMENT (anchor),
+			url_text,
+			NULL);
 
-		webkit_dom_dom_selection_modify (selection, "move", "right", "character");
+		webkit_dom_html_anchor_element_set_href (
+			WEBKIT_DOM_HTML_ANCHOR_ELEMENT (anchor),
+			final_url);
+
+		/* Insert new anchor element into document */
+		webkit_dom_node_replace_child (
+			webkit_dom_node_get_parent_node (node),
+			WEBKIT_DOM_NODE (anchor),
+			WEBKIT_DOM_NODE (url_text_node),
+			NULL);
+
+		if (!return_pressed)
+			e_editor_selection_restore_caret_position (e_editor_widget_get_selection (widget));
 
 		g_free (url_end_raw);
-		g_free (html);
-		g_free (url);
 		g_free (final_url);
 	}
 	else {
@@ -423,7 +464,9 @@ editor_widget_check_magic_links (EEditorWidget *widget,
 				inner_html = webkit_dom_html_element_get_inner_html (WEBKIT_DOM_HTML_ELEMENT (parent));
 				new_href = g_strconcat (protocol, inner_html, NULL);
 
-				webkit_dom_html_anchor_element_set_href (WEBKIT_DOM_HTML_ANCHOR_ELEMENT (parent), new_href);
+				webkit_dom_html_anchor_element_set_href (
+					WEBKIT_DOM_HTML_ANCHOR_ELEMENT (parent),
+					new_href);
 
 				g_free (new_href);
 				g_free (protocol);
@@ -442,7 +485,9 @@ editor_widget_check_magic_links (EEditorWidget *widget,
 				inner_html = webkit_dom_html_element_get_inner_html (WEBKIT_DOM_HTML_ELEMENT (parent));
 				new_href = g_strconcat (inner_html, NULL);
 
-				webkit_dom_html_anchor_element_set_href (WEBKIT_DOM_HTML_ANCHOR_ELEMENT (parent), new_href);
+				webkit_dom_html_anchor_element_set_href (
+					WEBKIT_DOM_HTML_ANCHOR_ELEMENT (parent),
+					new_href);
 
 				g_free (new_href);
 				g_free (inner_html);
@@ -939,15 +984,12 @@ editor_widget_key_release_event (GtkWidget *widget,
 		editor_widget_check_magic_smileys (editor_widget, range);
 	}
 
-	if (event->keyval == GDK_KEY_space) {
-		editor_widget_check_magic_links (editor_widget, range, TRUE);
-	}
-
 	if ((event->keyval == GDK_KEY_Return) ||
 	    (event->keyval == GDK_KEY_Linefeed) ||
-	    (event->keyval == GDK_KEY_KP_Enter)) {
+	    (event->keyval == GDK_KEY_KP_Enter) ||
+	    (event->keyval == GDK_KEY_space)) {
 
-		editor_widget_check_magic_links (editor_widget, range, FALSE);
+		editor_widget_check_magic_links (editor_widget, range, FALSE, event);
 	}
 
 	if ((event->keyval == GDK_KEY_Control_L) ||
@@ -2133,6 +2175,6 @@ e_editor_widget_check_magic_links (EEditorWidget *widget,
 	g_return_if_fail (E_IS_EDITOR_WIDGET (widget));
 
 	range = editor_widget_get_dom_range (widget);
-	editor_widget_check_magic_links (widget, range, include_space);
+	editor_widget_check_magic_links (widget, range, include_space, NULL);
 }
 
