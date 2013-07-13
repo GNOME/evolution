@@ -52,8 +52,6 @@ xpm_icons = \
 	arrow-up.xpm \
 	check-empty.xpm \
 	check-filled.xpm \
-	tree-expanded.xpm \
-	tree-unexpanded.xpm \
 	$(NULL)
 
 noinst_PROGRAMS = \
