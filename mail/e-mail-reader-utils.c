@@ -672,7 +672,7 @@ e_mail_reader_refresh_folder_name (EMailReader *reader,
 		mail_reader_refresh_folder_name_cb,
 		async_context);
 
-	g_object_unref (async_context);
+	g_object_unref (activity);
 }
 
 /* Helper for e_mail_reader_unsubscribe_folder_name() */
