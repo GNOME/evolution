@@ -377,10 +377,25 @@ mail_autoconfig_lookup (EMailAutoconfig *autoconfig,
 	gboolean success;
 	guint status;
 	gchar *uri;
+	EProxy *proxy;
 
 	soup_session = soup_session_sync_new ();
 
 	uri = g_strconcat (AUTOCONFIG_BASE_URI, domain, NULL);
+
+	proxy = e_proxy_new ();
+	e_proxy_setup_proxy (proxy);
+
+	if (e_proxy_require_proxy_for_uri (proxy, uri)) {
+		SoupURI *proxy_uri;
+
+		proxy_uri = e_proxy_peek_uri_for (proxy, uri);
+
+		g_object_set (soup_session, SOUP_SESSION_PROXY_URI, proxy_uri, NULL);
+	}
+
+	g_clear_object (&proxy);
+
 	soup_message = soup_message_new (SOUP_METHOD_GET, uri);
 	g_free (uri);
 

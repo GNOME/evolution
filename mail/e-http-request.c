@@ -334,6 +334,7 @@ handle_http_request (GSimpleAsyncResult *res,
 		CamelStream *cache_stream;
 		GError *error;
 		GMainContext *context;
+		EProxy *proxy;
 
 		context = g_main_context_new ();
 		g_main_context_push_thread_default (context);
@@ -341,6 +342,19 @@ handle_http_request (GSimpleAsyncResult *res,
 		session = soup_session_sync_new_with_options (
 				SOUP_SESSION_TIMEOUT, 90,
 				NULL);
+
+		proxy = e_proxy_new ();
+		e_proxy_setup_proxy (proxy);
+
+		if (e_proxy_require_proxy_for_uri (proxy, uri)) {
+			SoupURI *proxy_uri;
+
+			proxy_uri = e_proxy_peek_uri_for (proxy, uri);
+
+			g_object_set (session, SOUP_SESSION_PROXY_URI, proxy_uri, NULL);
+		}
+
+		g_clear_object (&proxy);
 
 		message = soup_message_new (SOUP_METHOD_GET, uri);
 		soup_message_headers_append (

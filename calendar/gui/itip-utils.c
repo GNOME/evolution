@@ -2171,6 +2171,7 @@ itip_publish_comp (ECalClient *cal_client,
 	SoupMessage *msg;
 	SoupURI *real_uri;
 	gchar *ical_string = NULL;
+	EProxy *proxy;
 
 	toplevel = e_cal_util_new_top_level ();
 	icalcomponent_set_method (toplevel, ICAL_METHOD_PUBLISH);
@@ -2186,6 +2187,19 @@ itip_publish_comp (ECalClient *cal_client,
 	/* Publish the component */
 	session = soup_session_async_new ();
 	g_object_set (session, SOUP_SESSION_TIMEOUT, 90, NULL);
+
+	proxy = e_proxy_new ();
+	e_proxy_setup_proxy (proxy);
+
+	if (e_proxy_require_proxy_for_uri (proxy, uri)) {
+		SoupURI *proxy_uri;
+
+		proxy_uri = e_proxy_peek_uri_for (proxy, uri);
+
+		g_object_set (session, SOUP_SESSION_PROXY_URI, proxy_uri, NULL);
+	}
+
+	g_clear_object (&proxy);
 
 	real_uri = soup_uri_new (uri);
 	if (!real_uri || !real_uri->host) {
