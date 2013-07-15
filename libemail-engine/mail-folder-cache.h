@@ -128,10 +128,6 @@ gboolean	mail_folder_cache_get_folder_info_flags
 						(MailFolderCache *cache,
 						 CamelFolder *folder,
 						 CamelFolderInfoFlags *flags);
-gboolean	mail_folder_cache_get_folder_has_children
-						(MailFolderCache *cache,
-						 CamelFolder *folder,
-						 gboolean *found);
 void		mail_folder_cache_get_local_folder_uris
 						(MailFolderCache *cache,
 						 GQueue *out_queue);

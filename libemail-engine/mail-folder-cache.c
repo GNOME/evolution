@@ -103,7 +103,6 @@ struct _folder_info {
 	gchar *full_name;	/* full name of folder/folderinfo */
 
 	guint32 flags;
-	gboolean has_children;
 
 	gpointer folder;	/* if known (weak pointer) */
 };
@@ -558,7 +557,6 @@ setup_folder (MailFolderCache *cache,
 		mfi->full_name = g_strdup (fi->full_name);
 		mfi->store_info = si;
 		mfi->flags = fi->flags;
-		mfi->has_children = fi->child != NULL;
 
 		g_hash_table_insert (si->folders, mfi->full_name, mfi);
 
@@ -680,7 +678,6 @@ rename_folders (MailFolderCache *cache,
 		/* Its a rename op */
 		mfi->full_name = g_strdup (fi->full_name);
 		mfi->flags = fi->flags;
-		mfi->has_children = fi->child != NULL;
 
 		g_hash_table_insert (si->folders, mfi->full_name, mfi);
 	} else {
@@ -689,7 +686,6 @@ rename_folders (MailFolderCache *cache,
 		mfi->full_name = g_strdup (fi->full_name);
 		mfi->store_info = si;
 		mfi->flags = fi->flags;
-		mfi->has_children = fi->child != NULL;
 
 		g_hash_table_insert (si->folders, mfi->full_name, mfi);
 	}
@@ -1724,38 +1720,6 @@ mail_folder_cache_get_folder_info_flags (MailFolderCache *cache,
 	g_free (folder_uri);
 
 	return fi.fi != NULL;
-}
-
-/* Returns whether folder 'folder' has children based on folder_info->child property.
- * If not found returns FALSE and sets 'found' to FALSE, if not NULL. */
-gboolean
-mail_folder_cache_get_folder_has_children (MailFolderCache *cache,
-                                           CamelFolder *folder,
-                                           gboolean *found)
-{
-	struct _find_info fi = { NULL, NULL };
-	gchar *folder_uri;
-
-	g_return_val_if_fail (MAIL_IS_FOLDER_CACHE (cache), FALSE);
-	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), FALSE);
-
-	if (cache->priv->stores == NULL)
-		return FALSE;
-
-	folder_uri = e_mail_folder_uri_from_folder (folder);
-	fi.folder_uri = folder_uri;
-
-	g_rec_mutex_lock (&cache->priv->stores_mutex);
-	g_hash_table_foreach (
-		cache->priv->stores, (GHFunc)
-		storeinfo_find_folder_info, &fi);
-	if (found != NULL)
-		*found = fi.fi != NULL;
-	g_rec_mutex_unlock (&cache->priv->stores_mutex);
-
-	g_free (folder_uri);
-
-	return fi.fi != NULL && fi.fi->has_children;
 }
 
 void
