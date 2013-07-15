@@ -126,7 +126,8 @@ CamelFolder *	mail_folder_cache_ref_folder	(MailFolderCache *cache,
 						 const gchar *folder_name);
 gboolean	mail_folder_cache_get_folder_info_flags
 						(MailFolderCache *cache,
-						 CamelFolder *folder,
+						 CamelStore *store,
+						 const gchar *folder_name,
 						 CamelFolderInfoFlags *flags);
 void		mail_folder_cache_get_local_folder_uris
 						(MailFolderCache *cache,

@@ -193,18 +193,24 @@ emfp_get_folder_item (EConfig *ec,
 		CamelStore *store;
 		CamelSession *session;
 		CamelFolderInfoFlags fi_flags = 0;
+		const gchar *folder_name;
 		MailFolderCache *folder_cache;
+		gboolean have_flags;
 
 		store = camel_folder_get_parent_store (context->folder);
+		folder_name = camel_folder_get_full_name (context->folder);
+
 		session = camel_service_ref_session (CAMEL_SERVICE (store));
 
 		folder_cache = e_mail_session_get_folder_cache (
 			E_MAIL_SESSION (session));
 
+		have_flags = mail_folder_cache_get_folder_info_flags (
+			folder_cache, store, folder_name, &fi_flags);
+
 		can_apply_filters =
 			!CAMEL_IS_VEE_FOLDER (context->folder) &&
-			mail_folder_cache_get_folder_info_flags (
-				folder_cache, context->folder, &fi_flags) &&
+			have_flags &&
 			(fi_flags & CAMEL_FOLDER_TYPE_MASK) != CAMEL_FOLDER_TYPE_INBOX;
 
 		g_object_unref (session);

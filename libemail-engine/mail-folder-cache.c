@@ -102,7 +102,7 @@ struct _folder_info {
 
 	gchar *full_name;	/* full name of folder/folderinfo */
 
-	guint32 flags;
+	CamelFolderInfoFlags flags;
 
 	gpointer folder;	/* if known (weak pointer) */
 };
@@ -1035,36 +1035,6 @@ find_folder_uri (GQueue *queue,
 	return link;
 }
 
-struct _find_info {
-	const gchar *folder_uri;
-	struct _folder_info *fi;
-};
-
-static void
-storeinfo_find_folder_info (CamelStore *store,
-                            StoreInfo *si,
-                            struct _find_info *fi)
-{
-	CamelSession *session;
-	gchar *folder_name;
-	gboolean success;
-
-	if (fi->fi != NULL)
-		return;
-
-	session = camel_service_ref_session (CAMEL_SERVICE (store));
-
-	success = e_mail_folder_uri_parse (
-		session, fi->folder_uri, NULL, &folder_name, NULL);
-
-	g_object_unref (session);
-
-	if (success) {
-		fi->fi = g_hash_table_lookup (si->folders, folder_name);
-		g_free (folder_name);
-	}
-}
-
 static void
 mail_folder_cache_get_property (GObject *object,
                                 guint property_id,
@@ -1708,35 +1678,49 @@ mail_folder_cache_ref_folder (MailFolderCache *cache,
 	return folder;
 }
 
+/**
+ * mail_folder_cache_get_folder_info_flags:
+ * @cache: a #MailFolderCache
+ * @store: a #CamelStore
+ * @folder_name: a folder name
+ * @flags: return location for #CamelFolderInfoFlags
+ *
+ * Obtains #CamelFolderInfoFlags for @store and @folder_name if available,
+ * and returns %TRUE to indicate @flags was set.  If no folder information
+ * is available for @store and @folder_name, the function returns %FALSE.
+ *
+ * Returns: whether @flags was set
+ **/
 gboolean
 mail_folder_cache_get_folder_info_flags (MailFolderCache *cache,
-                                         CamelFolder *folder,
+                                         CamelStore *store,
+                                         const gchar *folder_name,
                                          CamelFolderInfoFlags *flags)
 {
-	struct _find_info fi = { NULL, NULL };
-	gchar *folder_uri;
+	StoreInfo *si;
+	struct _folder_info *fi;
+	gboolean flags_set = FALSE;
+
+	g_return_val_if_fail (MAIL_IS_FOLDER_CACHE (cache), FALSE);
+	g_return_val_if_fail (CAMEL_IS_STORE (store), FALSE);
+	g_return_val_if_fail (folder_name != NULL, FALSE);
+	g_return_val_if_fail (flags != NULL, FALSE);
 
 	if (cache->priv->stores == NULL)
 		return FALSE;
 
-	folder_uri = e_mail_folder_uri_from_folder (folder);
-	fi.folder_uri = folder_uri;
-
 	g_rec_mutex_lock (&cache->priv->stores_mutex);
-	g_hash_table_foreach (
-		cache->priv->stores, (GHFunc)
-		storeinfo_find_folder_info, &fi);
-	if (flags) {
-		if (fi.fi)
-			*flags = fi.fi->flags;
-		else
-			*flags = 0;
+	si = g_hash_table_lookup (cache->priv->stores, store);
+	if (si != NULL) {
+		fi = g_hash_table_lookup (si->folders, folder_name);
+		if (fi != NULL) {
+			*flags = fi->flags;
+			flags_set = TRUE;
+		}
 	}
 	g_rec_mutex_unlock (&cache->priv->stores_mutex);
 
-	g_free (folder_uri);
-
-	return fi.fi != NULL;
+	return flags_set;
 }
 
 void

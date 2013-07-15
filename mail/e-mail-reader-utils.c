@@ -260,7 +260,7 @@ e_mail_reader_delete_folder (EMailReader *reader,
 	}
 
 	have_flags = mail_folder_cache_get_folder_info_flags (
-		folder_cache, folder, &flags);
+		folder_cache, parent_store, full_name, &flags);
 
 	if (have_flags && (flags & CAMEL_FOLDER_SYSTEM)) {
 		e_alert_submit (

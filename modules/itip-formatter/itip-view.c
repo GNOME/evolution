@@ -5776,10 +5776,13 @@ in_proper_folder (CamelFolder *folder)
 	EMailSession *session;
 	MailFolderCache *folder_cache;
 	ESourceRegistry *registry;
+	CamelStore *store;
+	const gchar *folder_name;
 	gboolean res = TRUE;
 	CamelFolderInfoFlags flags = 0;
+	gboolean have_flags;
 
-	if (!folder)
+	if (folder == NULL)
 		return FALSE;
 
 	shell = e_shell_get_default ();
@@ -5789,7 +5792,13 @@ in_proper_folder (CamelFolder *folder)
 	session = e_mail_backend_get_session (backend);
 	folder_cache = e_mail_session_get_folder_cache (session);
 
-	if (mail_folder_cache_get_folder_info_flags (folder_cache, folder, &flags)) {
+	store = camel_folder_get_parent_store (folder);
+	folder_name = camel_folder_get_full_name (folder);
+
+	have_flags = mail_folder_cache_get_folder_info_flags (
+		folder_cache, store, folder_name, &flags);
+
+	if (have_flags) {
 		/* it should be neither trash nor junk folder, */
 		res = ((flags & CAMEL_FOLDER_TYPE_MASK) !=  CAMEL_FOLDER_TYPE_TRASH &&
 		       (flags & CAMEL_FOLDER_TYPE_MASK) != CAMEL_FOLDER_TYPE_JUNK &&
