@@ -117,6 +117,10 @@ void		mail_folder_cache_note_store	(MailFolderCache *cache,
 						 gpointer data);
 void		mail_folder_cache_note_folder	(MailFolderCache *cache,
 						 CamelFolder *folder);
+gboolean	mail_folder_cache_has_folder_info
+						(MailFolderCache *cache,
+						 CamelStore *store,
+						 const gchar *folder_name);
 gboolean	mail_folder_cache_get_folder_from_uri
 						(MailFolderCache *cache,
 						 const gchar *uri,

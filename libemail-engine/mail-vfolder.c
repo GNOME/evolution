@@ -57,6 +57,32 @@ static void rule_changed (EFilterRule *rule, CamelFolder *folder);
 
 /* ********************************************************************** */
 
+static gboolean
+vfolder_cache_has_folder_info (EMailSession *session,
+                               const gchar *folder_uri)
+{
+	MailFolderCache *folder_cache;
+	CamelStore *store = NULL;
+	gchar *folder_name = NULL;
+	gboolean cache_has_info = FALSE;
+
+	folder_cache = e_mail_session_get_folder_cache (session);
+
+	e_mail_folder_uri_parse (
+		CAMEL_SESSION (session), folder_uri,
+		&store, &folder_name, NULL);
+
+	if (store != NULL && folder_name != NULL) {
+		cache_has_info = mail_folder_cache_has_folder_info (
+			folder_cache, store, folder_name);
+	}
+
+	g_clear_object (&store);
+	g_free (folder_name);
+
+	return cache_has_info;
+}
+
 static GList *
 vfolder_get_include_subfolders_uris (EMailSession *session,
                                      const gchar *base_uri,
@@ -292,17 +318,15 @@ vfolder_adduri_exec (struct _adduri_msg *m,
                      GError **error)
 {
 	CamelFolder *folder = NULL;
-	MailFolderCache *folder_cache;
+	gboolean cache_has_info;
 
 	if (vfolder_shutdown)
 		return;
 
-	folder_cache = e_mail_session_get_folder_cache (m->session);
+	cache_has_info = vfolder_cache_has_folder_info (
+		m->session, m->uri[0] == '*' ? m->uri + 1 : m->uri);
 
-	/* we dont try lookup the cache if we are removing it, its no longer there */
-
-	if (!m->remove &&
-	    !mail_folder_cache_get_folder_from_uri (folder_cache, m->uri[0] == '*' ? m->uri + 1 : m->uri, NULL)) {
+	if (!m->remove && !cache_has_info) {
 		g_warning (
 			"Folder '%s' disappeared while I was "
 			"adding/removing it to/from my vfolder", m->uri);
@@ -767,10 +791,7 @@ rule_add_sources (EMailSession *session,
                   EMVFolderRule *rule)
 {
 	GList *sources_uri = *sources_urip;
-	MailFolderCache *folder_cache;
 	GList *head, *link;
-
-	folder_cache = e_mail_session_get_folder_cache (session);
 
 	head = g_queue_peek_head_link (queue);
 	for (link = head; link != NULL; link = g_list_next (link)) {
@@ -778,7 +799,7 @@ rule_add_sources (EMailSession *session,
 
 		/* always pick fresh folders - they are
 		 * from CamelStore's folders bag anyway */
-		if (mail_folder_cache_get_folder_from_uri (folder_cache, uri, NULL)) {
+		if (vfolder_cache_has_folder_info (session, uri)) {
 			/* "tag" uris with subfolders with a star prefix */
 			if (!rule || !em_vfolder_rule_source_get_include_subfolders (rule, uri))
 				sources_uri = g_list_prepend (sources_uri, g_strdup (uri));

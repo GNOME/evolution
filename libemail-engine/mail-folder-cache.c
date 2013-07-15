@@ -1628,6 +1628,44 @@ mail_folder_cache_note_folder (MailFolderCache *cache,
 }
 
 /**
+ * mail_folder_cache_has_folder_info:
+ * @cache: a #MailFolderCache
+ * @store: a #CamelStore
+ * @folder_name: a folder name
+ *
+ * Returns whether @cache has information about the folder described by
+ * @store and @folder_name.  This does not necessarily mean it has the
+ * #CamelFolder instance, but it at least has some meta-data about it.
+ *
+ * You can use this function as a folder existence test.
+ *
+ * Returns: %TRUE if @cache has folder info, %FALSE otherwise
+ **/
+gboolean
+mail_folder_cache_has_folder_info (MailFolderCache *cache,
+                                   CamelStore *store,
+                                   const gchar *folder_name)
+{
+	StoreInfo *si;
+	gboolean has_info = FALSE;
+
+	g_return_val_if_fail (MAIL_IS_FOLDER_CACHE (cache), FALSE);
+	g_return_val_if_fail (CAMEL_IS_STORE (store), FALSE);
+	g_return_val_if_fail (folder_name != NULL, FALSE);
+
+	if (cache->priv->stores == NULL)
+		return FALSE;
+
+	g_rec_mutex_lock (&cache->priv->stores_mutex);
+	si = g_hash_table_lookup (cache->priv->stores, store);
+	if (si != NULL)
+		has_info = g_hash_table_contains (si->folders, folder_name);
+	g_rec_mutex_unlock (&cache->priv->stores_mutex);
+
+	return has_info;
+}
+
+/**
  * mail_folder_cache_get_folder_from_uri:
  *
  * Gets the #CamelFolder for the supplied @uri.
