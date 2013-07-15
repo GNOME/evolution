@@ -498,8 +498,7 @@ folder_changed_cb (CamelFolder *folder,
 			GINT_TO_POINTER (new_latest_received));
 
 	g_rec_mutex_lock (&cache->priv->stores_mutex);
-	if (cache->priv->stores != NULL
-	    && (si = g_hash_table_lookup (cache->priv->stores, parent_store)) != NULL
+	if ((si = g_hash_table_lookup (cache->priv->stores, parent_store)) != NULL
 	    && (mfi = g_hash_table_lookup (si->folders, full_name)) != NULL
 	    && mfi->folder == folder) {
 		update_1folder (cache, mfi, new, uid, sender, subject, NULL);
@@ -1570,8 +1569,7 @@ mail_folder_cache_note_folder (MailFolderCache *cache,
 	parent_store = camel_folder_get_parent_store (folder);
 
 	g_rec_mutex_lock (&cache->priv->stores_mutex);
-	if (cache->priv->stores == NULL
-	    || (si = g_hash_table_lookup (cache->priv->stores, parent_store)) == NULL
+	if ((si = g_hash_table_lookup (cache->priv->stores, parent_store)) == NULL
 	    || (mfi = g_hash_table_lookup (si->folders, full_name)) == NULL) {
 		w (g_warning ("Noting folder before store initialised"));
 		g_rec_mutex_unlock (&cache->priv->stores_mutex);
@@ -1623,9 +1621,6 @@ mail_folder_cache_has_folder_info (MailFolderCache *cache,
 	g_return_val_if_fail (CAMEL_IS_STORE (store), FALSE);
 	g_return_val_if_fail (folder_name != NULL, FALSE);
 
-	if (cache->priv->stores == NULL)
-		return FALSE;
-
 	g_rec_mutex_lock (&cache->priv->stores_mutex);
 	si = g_hash_table_lookup (cache->priv->stores, store);
 	if (si != NULL)
@@ -1662,9 +1657,6 @@ mail_folder_cache_ref_folder (MailFolderCache *cache,
 	g_return_val_if_fail (MAIL_IS_FOLDER_CACHE (cache), NULL);
 	g_return_val_if_fail (CAMEL_IS_STORE (store), NULL);
 	g_return_val_if_fail (folder_name != NULL, NULL);
-
-	if (cache->priv->stores == NULL)
-		return NULL;
 
 	g_rec_mutex_lock (&cache->priv->stores_mutex);
 	si = g_hash_table_lookup (cache->priv->stores, store);
@@ -1705,9 +1697,6 @@ mail_folder_cache_get_folder_info_flags (MailFolderCache *cache,
 	g_return_val_if_fail (CAMEL_IS_STORE (store), FALSE);
 	g_return_val_if_fail (folder_name != NULL, FALSE);
 	g_return_val_if_fail (flags != NULL, FALSE);
-
-	if (cache->priv->stores == NULL)
-		return FALSE;
 
 	g_rec_mutex_lock (&cache->priv->stores_mutex);
 	si = g_hash_table_lookup (cache->priv->stores, store);
@@ -1771,9 +1760,6 @@ mail_folder_cache_service_removed (MailFolderCache *cache,
 
 	g_return_if_fail (MAIL_IS_FOLDER_CACHE (cache));
 	g_return_if_fail (CAMEL_IS_SERVICE (service));
-
-	if (cache->priv->stores == NULL)
-		return;
 
 	g_rec_mutex_lock (&cache->priv->stores_mutex);
 
