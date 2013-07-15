@@ -748,22 +748,23 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 	/* XXX This is duplicated in mail-folder-cache too, should perhaps
 	 *     be functionised. */
 	unread = fi->unread;
-	if (mail_folder_cache_get_folder_from_uri (
-		folder_cache, uri, &folder) && folder) {
+	folder = mail_folder_cache_ref_folder (
+		folder_cache, si->store, fi->full_name);
+	if (folder != NULL) {
 		folder_is_drafts = em_utils_folder_is_drafts (registry, folder);
 		folder_is_outbox = em_utils_folder_is_outbox (registry, folder);
 
 		if (folder_is_drafts || folder_is_outbox) {
 			gint total;
+			gint deleted;
 
-			if ((total = camel_folder_get_message_count (folder)) > 0) {
-				gint deleted = camel_folder_get_deleted_message_count (folder);
+			total = camel_folder_get_message_count (folder);
+			deleted = camel_folder_get_deleted_message_count (folder);
 
-				if (deleted != -1)
-					total -= deleted;
-			}
+			if (total > 0 && deleted != -1)
+				total -= deleted;
 
-			unread = total > 0 ? total : 0;
+			unread = MAX (total, 0);
 		}
 
 		g_object_unref (folder);

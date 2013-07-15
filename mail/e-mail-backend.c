@@ -673,35 +673,30 @@ mail_backend_folder_changed_cb (MailFolderCache *folder_cache,
 	EMEvent *event = em_event_peek ();
 	EMEventTargetFolder *target;
 	EMFolderTreeModel *model;
+	CamelFolder *folder;
 	gchar *folder_uri;
 	gint folder_type;
 	CamelFolderInfoFlags flags = 0;
 
 	folder_uri = e_mail_folder_uri_build (store, folder_name);
 
-	if (folder_uri != NULL) {
-		CamelFolder *folder = NULL;
-
-		if (mail_folder_cache_get_folder_from_uri (
-				folder_cache, folder_uri, &folder)) {
-			if (folder != NULL &&
-				!mail_folder_cache_get_folder_info_flags (
-				folder_cache, folder, &flags)) {
-				g_free (folder_uri);
-				g_return_if_reached ();
-			}
-		}
-
-		if (folder != NULL)
-			g_object_unref (folder);
+	folder = mail_folder_cache_ref_folder (
+		folder_cache, store, folder_name);
+	if (folder != NULL) {
+		/* XXX Need to rethink this API.  Why should we
+		 *     need the CamelFolder instance just to get
+		 *     folder flags?  The flags are more readily
+		 *     available than the CamelFolder instance. */
+		mail_folder_cache_get_folder_info_flags (
+			folder_cache, folder, &flags);
+		g_object_unref (folder);
 	}
 
 	target = em_event_target_new_folder (
 		event, store, folder_uri, new_messages,
 		msg_uid, msg_sender, msg_subject);
 
-	if (folder_uri)
-		g_free (folder_uri);
+	g_free (folder_uri);
 
 	folder_type = (flags & CAMEL_FOLDER_TYPE_MASK);
 	target->is_inbox = (folder_type == CAMEL_FOLDER_TYPE_INBOX);

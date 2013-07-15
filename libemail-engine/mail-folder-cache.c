@@ -1666,36 +1666,46 @@ mail_folder_cache_has_folder_info (MailFolderCache *cache,
 }
 
 /**
- * mail_folder_cache_get_folder_from_uri:
+ * mail_folder_cache_ref_folder:
+ * @cache: a #MailFolderCache
+ * @store: a #CamelStore
+ * @folder_name: a folder name
  *
- * Gets the #CamelFolder for the supplied @uri.
+ * Returns the #CamelFolder for @store and @folder_name if available, or
+ * else %NULL if a #CamelFolder instance is not yet cached.  This function
+ * does not block.
  *
- * Returns: %TRUE if the URI is available, folderp is set to a reffed
- *          folder if the folder has also already been opened
- */
-gboolean
-mail_folder_cache_get_folder_from_uri (MailFolderCache *cache,
-                                       const gchar *uri,
-                                       CamelFolder **folderp)
+ * The returned #CamelFolder is referenced for thread-safety and must be
+ * unreferenced with g_object_unref() when finished with it.
+ *
+ * Returns: a #CamelFolder, or %NULL
+ **/
+CamelFolder *
+mail_folder_cache_ref_folder (MailFolderCache *cache,
+                              CamelStore *store,
+                              const gchar *folder_name)
 {
-	struct _find_info fi = { uri, NULL };
+	StoreInfo *si;
+	struct _folder_info *fi;
+	CamelFolder *folder = NULL;
+
+	g_return_val_if_fail (MAIL_IS_FOLDER_CACHE (cache), NULL);
+	g_return_val_if_fail (CAMEL_IS_STORE (store), NULL);
+	g_return_val_if_fail (folder_name != NULL, NULL);
 
 	if (cache->priv->stores == NULL)
-		return FALSE;
+		return NULL;
 
 	g_rec_mutex_lock (&cache->priv->stores_mutex);
-	g_hash_table_foreach (
-		cache->priv->stores, (GHFunc)
-		storeinfo_find_folder_info, &fi);
-	if (folderp) {
-		if (fi.fi && fi.fi->folder)
-			*folderp = g_object_ref (fi.fi->folder);
-		else
-			*folderp = NULL;
+	si = g_hash_table_lookup (cache->priv->stores, store);
+	if (si != NULL) {
+		fi = g_hash_table_lookup (si->folders, folder_name);
+		if (fi != NULL && fi->folder != NULL)
+			folder = g_object_ref (fi->folder);
 	}
 	g_rec_mutex_unlock (&cache->priv->stores_mutex);
 
-	return fi.fi != NULL;
+	return folder;
 }
 
 gboolean
