@@ -112,7 +112,6 @@ struct _folder_update {
 	guint remove:1;	/* removing from vfolders */
 	guint delete:1;	/* deleting as well? */
 	guint add:1;	/* add to vfolder */
-	guint unsub:1;   /* unsubcribing? */
 	guint new;     /* new mail arrived? */
 
 	gchar *full_name;
@@ -510,8 +509,7 @@ folder_changed_cb (CamelFolder *folder,
 static void
 unset_folder_info (MailFolderCache *cache,
                    struct _folder_info *mfi,
-                   gint delete,
-                   gint unsub)
+                   gint delete)
 {
 	struct _folder_update *up;
 
@@ -532,7 +530,6 @@ unset_folder_info (MailFolderCache *cache,
 
 		up->remove = TRUE;
 		up->delete = delete;
-		up->unsub = unsub;
 		up->store = g_object_ref (mfi->store_info->store);
 		up->full_name = g_strdup (mfi->full_name);
 
@@ -634,7 +631,7 @@ store_folder_unsubscribed_cb (CamelStore *store,
 	if (si) {
 		mfi = g_hash_table_lookup (si->folders, info->full_name);
 		if (mfi) {
-			unset_folder_info (cache, mfi, TRUE, TRUE);
+			unset_folder_info (cache, mfi, TRUE);
 			g_hash_table_remove (si->folders, mfi->full_name);
 		}
 	}
@@ -783,7 +780,7 @@ unset_folder_info_hash (gchar *path,
                         gpointer data)
 {
 	MailFolderCache *cache = (MailFolderCache *) data;
-	unset_folder_info (cache, mfi, FALSE, FALSE);
+	unset_folder_info (cache, mfi, FALSE);
 }
 
 static void
