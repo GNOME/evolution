@@ -60,6 +60,8 @@
 typedef struct _StoreInfo StoreInfo;
 
 struct _MailFolderCachePrivate {
+	GMainContext *main_context;
+
 	/* source id for the ping timeout callback */
 	guint ping_id;
 	/* Store to storeinfo table, active stores */
@@ -76,6 +78,11 @@ struct _MailFolderCachePrivate {
 
 	GQueue local_folder_uris;
 	GQueue remote_folder_uris;
+};
+
+enum {
+	PROP_0,
+	PROP_MAIN_CONTEXT,
 };
 
 enum {
@@ -1059,11 +1066,31 @@ storeinfo_find_folder_info (CamelStore *store,
 }
 
 static void
+mail_folder_cache_get_property (GObject *object,
+                                guint property_id,
+                                GValue *value,
+                                GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_MAIN_CONTEXT:
+			g_value_take_boxed (
+				value,
+				mail_folder_cache_ref_main_context (
+				MAIL_FOLDER_CACHE (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
 mail_folder_cache_finalize (GObject *object)
 {
 	MailFolderCachePrivate *priv;
 
 	priv = MAIL_FOLDER_CACHE_GET_PRIVATE (object);
+
+	g_main_context_unref (priv->main_context);
 
 	g_hash_table_destroy (priv->stores);
 	g_rec_mutex_clear (&priv->stores_mutex);
@@ -1252,11 +1279,24 @@ mail_folder_cache_class_init (MailFolderCacheClass *class)
 	g_type_class_add_private (class, sizeof (MailFolderCachePrivate));
 
 	object_class = G_OBJECT_CLASS (class);
+	object_class->get_property = mail_folder_cache_get_property;
 	object_class->finalize = mail_folder_cache_finalize;
 
 	class->folder_available = mail_folder_cache_folder_available;
 	class->folder_unavailable = mail_folder_cache_folder_unavailable;
 	class->folder_deleted = mail_folder_cache_folder_deleted;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_MAIN_CONTEXT,
+		g_param_spec_boxed (
+			"main-context",
+			"Main Context",
+			"The main loop context on "
+			"which to attach event sources",
+			G_TYPE_MAIN_CONTEXT,
+			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * MailFolderCache::folder-available
@@ -1384,6 +1424,7 @@ mail_folder_cache_init (MailFolderCache *cache)
 	guint timeout;
 
 	cache->priv = MAIL_FOLDER_CACHE_GET_PRIVATE (cache);
+	cache->priv->main_context = g_main_context_ref_thread_default ();
 
 	/* initialize values */
 	cache->priv->stores = g_hash_table_new (NULL, NULL);
@@ -1406,6 +1447,25 @@ MailFolderCache *
 mail_folder_cache_new (void)
 {
 	return g_object_new (MAIL_TYPE_FOLDER_CACHE, NULL);
+}
+
+/**
+ * mail_folder_cache_ref_main_context:
+ *
+ * Returns the #GMainContext on which event sources for @cache are to be
+ * attached.
+ *
+ * The returned #GMainContext is referenced for thread-safety and should
+ * be unreferenced with g_main_context_unref() when finished with it.
+ *
+ * Returns: a #GMainContext
+ **/
+GMainContext *
+mail_folder_cache_ref_main_context (MailFolderCache *cache)
+{
+	g_return_val_if_fail (MAIL_IS_FOLDER_CACHE (cache), NULL);
+
+	return g_main_context_ref (cache->priv->main_context);
 }
 
 /**

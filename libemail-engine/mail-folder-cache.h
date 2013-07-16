@@ -108,6 +108,8 @@ struct _MailFolderCacheClass {
 GType		mail_folder_cache_get_type	(void) G_GNUC_CONST;
 MailFolderCache *
 		mail_folder_cache_new		(void);
+GMainContext *	mail_folder_cache_ref_main_context
+						(MailFolderCache *cache);
 void		mail_folder_cache_note_store	(MailFolderCache *cache,
 						 CamelStore *store,
 						 GCancellable *cancellable,
