@@ -60,8 +60,6 @@
 typedef struct _StoreInfo StoreInfo;
 
 struct _MailFolderCachePrivate {
-	gpointer session;  /* weak pointer */
-
 	/* source id for the ping timeout callback */
 	guint ping_id;
 	/* Store to storeinfo table, active stores */
@@ -78,11 +76,6 @@ struct _MailFolderCachePrivate {
 
 	GQueue local_folder_uris;
 	GQueue remote_folder_uris;
-};
-
-enum {
-	PROP_0,
-	PROP_SESSION
 };
 
 enum {
@@ -339,18 +332,24 @@ update_1folder (MailFolderCache *cache,
                 const gchar *msg_subject,
                 CamelFolderInfo *info)
 {
-	EMailSession *session;
 	ESourceRegistry *registry;
-	struct _folder_update *up;
+	CamelService *service;
+	CamelSession *session;
 	CamelFolder *folder;
 	gint unread = -1;
 	gint deleted;
 
-	session = mail_folder_cache_get_session (cache);
-	registry = e_mail_session_get_registry (session);
+	/* XXX This is a dirty way to obtain the ESourceRegistry,
+	 *     but it avoids MailFolderCache requiring it up front
+	 *     in mail_folder_cache_new(), which just complicates
+	 *     application startup even more. */
+	service = CAMEL_SERVICE (mfi->store_info->store);
+	session = camel_service_get_session (service);
+	registry = e_mail_session_get_registry (E_MAIL_SESSION (session));
+	g_return_if_fail (E_IS_SOURCE_REGISTRY (registry));
 
 	folder = mfi->folder;
-	if (folder) {
+	if (folder != NULL) {
 		gboolean folder_is_sent;
 		gboolean folder_is_drafts;
 		gboolean folder_is_outbox;
@@ -392,19 +391,20 @@ update_1folder (MailFolderCache *cache,
 
 	d (printf ("folder updated: unread %d: '%s'\n", unread, mfi->full_name));
 
-	if (unread == -1)
-		return;
+	if (unread >= 0) {
+		struct _folder_update *up;
 
-	up = g_malloc0 (sizeof (*up));
-	up->full_name = g_strdup (mfi->full_name);
-	up->unread = unread;
-	up->new = new;
-	up->store = g_object_ref (mfi->store_info->store);
-	up->msg_uid = g_strdup (msg_uid);
-	up->msg_sender = g_strdup (msg_sender);
-	up->msg_subject = g_strdup (msg_subject);
-	g_queue_push_tail (&cache->priv->updates, up);
-	flush_updates (cache);
+		up = g_malloc0 (sizeof (*up));
+		up->full_name = g_strdup (mfi->full_name);
+		up->unread = unread;
+		up->new = new;
+		up->store = g_object_ref (mfi->store_info->store);
+		up->msg_uid = g_strdup (msg_uid);
+		up->msg_sender = g_strdup (msg_sender);
+		up->msg_subject = g_strdup (msg_subject);
+		g_queue_push_tail (&cache->priv->updates, up);
+		flush_updates (cache);
+	}
 }
 
 static void
@@ -785,19 +785,21 @@ unset_folder_info_hash (gchar *path,
 
 static void
 mail_folder_cache_first_update (MailFolderCache *cache,
-                                StoreInfo *info)
+                                StoreInfo *store_info)
 {
-	EMailSession *session;
+	CamelService *service;
+	CamelSession *session;
 	const gchar *uid;
 
-	session = mail_folder_cache_get_session (cache);
-	uid = camel_service_get_uid (CAMEL_SERVICE (info->store));
+	service = CAMEL_SERVICE (store_info->store);
+	session = camel_service_ref_session (service);
+	uid = camel_service_get_uid (service);
 
-	if (info->vjunk != NULL)
-		mail_folder_cache_note_folder (cache, info->vjunk);
+	if (store_info->vjunk != NULL)
+		mail_folder_cache_note_folder (cache, store_info->vjunk);
 
-	if (info->vtrash != NULL)
-		mail_folder_cache_note_folder (cache, info->vtrash);
+	if (store_info->vtrash != NULL)
+		mail_folder_cache_note_folder (cache, store_info->vtrash);
 
 	/* Some extra work for the "On This Computer" store. */
 	if (g_strcmp0 (uid, E_MAIL_SESSION_LOCAL_UID) == 0) {
@@ -805,10 +807,13 @@ mail_folder_cache_first_update (MailFolderCache *cache,
 		gint ii;
 
 		for (ii = 0; ii < E_MAIL_NUM_LOCAL_FOLDERS; ii++) {
-			folder = e_mail_session_get_local_folder (session, ii);
+			folder = e_mail_session_get_local_folder (
+				E_MAIL_SESSION (session), ii);
 			mail_folder_cache_note_folder (cache, folder);
 		}
 	}
+
+	g_object_unref (session);
 }
 
 static void
@@ -1054,72 +1059,6 @@ storeinfo_find_folder_info (CamelStore *store,
 }
 
 static void
-mail_folder_cache_set_session (MailFolderCache *cache,
-                               EMailSession *session)
-{
-	g_return_if_fail (E_IS_MAIL_SESSION (session));
-	g_return_if_fail (cache->priv->session == NULL);
-
-	cache->priv->session = session;
-
-	g_object_add_weak_pointer (
-		G_OBJECT (cache->priv->session),
-		&cache->priv->session);
-}
-
-static void
-mail_folder_cache_set_property (GObject *object,
-                                guint property_id,
-                                const GValue *value,
-                                GParamSpec *pspec)
-{
-	switch (property_id) {
-		case PROP_SESSION:
-			mail_folder_cache_set_session (
-				MAIL_FOLDER_CACHE (object),
-				g_value_get_object (value));
-			return;
-	}
-
-	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-}
-
-static void
-mail_folder_cache_get_property (GObject *object,
-                                guint property_id,
-                                GValue *value,
-                                GParamSpec *pspec)
-{
-	switch (property_id) {
-		case PROP_SESSION:
-			g_value_set_object (
-				value,
-				mail_folder_cache_get_session (
-				MAIL_FOLDER_CACHE (object)));
-			return;
-	}
-
-	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-}
-
-static void
-mail_folder_cache_dispose (GObject *object)
-{
-	MailFolderCachePrivate *priv;
-
-	priv = MAIL_FOLDER_CACHE_GET_PRIVATE (object);
-
-	if (priv->session != NULL) {
-		g_object_remove_weak_pointer (
-			G_OBJECT (priv->session), &priv->session);
-		priv->session = NULL;
-	}
-
-	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (mail_folder_cache_parent_class)->dispose (object);
-}
-
-static void
 mail_folder_cache_finalize (GObject *object)
 {
 	MailFolderCachePrivate *priv;
@@ -1313,26 +1252,11 @@ mail_folder_cache_class_init (MailFolderCacheClass *class)
 	g_type_class_add_private (class, sizeof (MailFolderCachePrivate));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->set_property = mail_folder_cache_set_property;
-	object_class->get_property = mail_folder_cache_get_property;
-	object_class->dispose = mail_folder_cache_dispose;
 	object_class->finalize = mail_folder_cache_finalize;
 
 	class->folder_available = mail_folder_cache_folder_available;
 	class->folder_unavailable = mail_folder_cache_folder_unavailable;
 	class->folder_deleted = mail_folder_cache_folder_deleted;
-
-	g_object_class_install_property (
-		object_class,
-		PROP_SESSION,
-		g_param_spec_object (
-			"session",
-			"Session",
-			"Mail session",
-			E_TYPE_MAIL_SESSION,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * MailFolderCache::folder-available
@@ -1479,21 +1403,9 @@ mail_folder_cache_init (MailFolderCache *cache)
 }
 
 MailFolderCache *
-mail_folder_cache_new (EMailSession *session)
+mail_folder_cache_new (void)
 {
-	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
-
-	return g_object_new (
-		MAIL_TYPE_FOLDER_CACHE,
-		"session", session, NULL);
-}
-
-EMailSession *
-mail_folder_cache_get_session (MailFolderCache *cache)
-{
-	g_return_val_if_fail (MAIL_IS_FOLDER_CACHE (cache), NULL);
-
-	return E_MAIL_SESSION (cache->priv->session);
+	return g_object_new (MAIL_TYPE_FOLDER_CACHE, NULL);
 }
 
 /**

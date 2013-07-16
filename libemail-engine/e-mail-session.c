@@ -1965,7 +1965,7 @@ e_mail_session_init (EMailSession *session)
 		(GEqualFunc) g_str_equal);
 
 	session->priv = E_MAIL_SESSION_GET_PRIVATE (session);
-	session->priv->folder_cache = mail_folder_cache_new (session);
+	session->priv->folder_cache = mail_folder_cache_new ();
 	session->priv->auto_refresh_table = auto_refresh_table;
 	session->priv->junk_filters = junk_filters;
 	session->priv->proxy = e_proxy_new ();
