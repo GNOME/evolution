@@ -136,10 +136,11 @@ struct _UpdateClosure {
 
 	CamelStore *store;
 
-	gboolean remove;	/* removing from vfolders */
-	gboolean delete;	/* deleting as well? */
-	gboolean add;		/* add to vfolder */
-	gboolean new;		/* new mail arrived? */
+	/* Signal ID for one of:
+	 * AVAILABLE, DELETED, RENAMED, UNAVAILABLE */
+	guint signal_id;
+
+	gboolean new_messages;
 
 	gchar *full_name;
 	gchar *oldfull;
@@ -629,39 +630,44 @@ mail_folder_cache_update_idle_cb (gpointer user_data)
 	UpdateClosure *closure;
 
 	closure = (UpdateClosure *) user_data;
+
+	/* Sanity checks. */
+	g_return_val_if_fail (closure->full_name != NULL, FALSE);
+
 	cache = g_weak_ref_get (&closure->cache);
 
 	if (cache != NULL) {
-		if (closure->remove) {
-			if (closure->delete) {
-				g_signal_emit (
-					cache,
-					signals[FOLDER_DELETED], 0,
-					closure->store,
-					closure->full_name);
-			} else {
-				g_signal_emit (
-					cache,
-					signals[FOLDER_UNAVAILABLE], 0,
-					closure->store,
-					closure->full_name);
-			}
-		} else {
-			if (closure->oldfull && closure->add) {
-				g_signal_emit (
-					cache,
-					signals[FOLDER_RENAMED], 0,
-					closure->store,
-					closure->oldfull,
-					closure->full_name);
-			}
+		if (closure->signal_id == signals[FOLDER_DELETED]) {
+			g_signal_emit (
+				cache,
+				closure->signal_id, 0,
+				closure->store,
+				closure->full_name);
+		}
 
-			if (!closure->oldfull && closure->add)
-				g_signal_emit (
-					cache,
-					signals[FOLDER_AVAILABLE], 0,
-					closure->store,
-					closure->full_name);
+		if (closure->signal_id == signals[FOLDER_UNAVAILABLE]) {
+			g_signal_emit (
+				cache,
+				closure->signal_id, 0,
+				closure->store,
+				closure->full_name);
+		}
+
+		if (closure->signal_id == signals[FOLDER_AVAILABLE]) {
+			g_signal_emit (
+				cache,
+				closure->signal_id, 0,
+				closure->store,
+				closure->full_name);
+		}
+
+		if (closure->signal_id == signals[FOLDER_RENAMED]) {
+			g_signal_emit (
+				cache,
+				closure->signal_id, 0,
+				closure->store,
+				closure->oldfull,
+				closure->full_name);
 		}
 
 		/* update unread counts */
@@ -672,20 +678,26 @@ mail_folder_cache_update_idle_cb (gpointer user_data)
 			closure->full_name,
 			closure->unread);
 
-		/* indicate that the folder has changed (new mail received, etc) */
-		if (closure->full_name != NULL) {
+		/* XXX The old code excluded this on FOLDER_RENAMED.
+		 *     Not sure if that was intentional (if so it was
+		 *     very subtle!) but we'll preserve the behavior.
+		 *     If it turns out to be a bug then just remove
+		 *     the signal_id check. */
+		if (closure->signal_id != signals[FOLDER_RENAMED]) {
 			g_signal_emit (
 				cache,
 				signals[FOLDER_CHANGED], 0,
 				closure->store,
 				closure->full_name,
-				closure->new,
+				closure->new_messages,
 				closure->msg_uid,
 				closure->msg_sender,
 				closure->msg_subject);
 		}
 
-		if (CAMEL_IS_VEE_STORE (closure->store) && !closure->remove) {
+		if (CAMEL_IS_VEE_STORE (closure->store) &&
+		   (closure->signal_id == signals[FOLDER_AVAILABLE] ||
+		    closure->signal_id == signals[FOLDER_RENAMED])) {
 			/* Normally the vfolder store takes care of the
 			 * folder_opened event itself, but we add folder to
 			 * the noting system later, thus we do not know about
@@ -764,7 +776,7 @@ mail_folder_cache_submit_update (UpdateClosure *closure)
 static void
 update_1folder (MailFolderCache *cache,
                 FolderInfo *folder_info,
-                gint new,
+                gint new_messages,
                 const gchar *msg_uid,
                 const gchar *msg_sender,
                 const gchar *msg_subject,
@@ -840,7 +852,7 @@ update_1folder (MailFolderCache *cache,
 		up = update_closure_new (cache, folder_info->store);
 		up->full_name = g_strdup (folder_info->full_name);
 		up->unread = unread;
-		up->new = new;
+		up->new_messages = new_messages;
 		up->msg_uid = g_strdup (msg_uid);
 		up->msg_sender = g_strdup (msg_sender);
 		up->msg_subject = g_strdup (msg_subject);
@@ -960,9 +972,12 @@ unset_folder_info (MailFolderCache *cache,
 		UpdateClosure *up;
 
 		up = update_closure_new (cache, folder_info->store);
-		up->remove = TRUE;
-		up->delete = delete;
 		up->full_name = g_strdup (folder_info->full_name);
+
+		if (delete)
+			up->signal_id = signals[FOLDER_DELETED];
+		else
+			up->signal_id = signals[FOLDER_UNAVAILABLE];
 
 		mail_folder_cache_submit_update (up);
 	}
@@ -994,7 +1009,7 @@ setup_folder (MailFolderCache *cache,
 		up->unread = fi->unread;
 
 		if ((fi->flags & CAMEL_FOLDER_NOSELECT) == 0)
-			up->add = TRUE;
+			up->signal_id = signals[FOLDER_AVAILABLE];
 
 		mail_folder_cache_submit_update (up);
 
@@ -1090,12 +1105,14 @@ rename_folders (MailFolderCache *cache,
 	const gchar *config_dir;
 
 	up = update_closure_new (cache, store_info->store);
+	up->signal_id = signals[FOLDER_AVAILABLE];
 
 	/* Form what was the old name, and try and look it up */
 	old = g_strdup_printf ("%s%s", oldbase, fi->full_name + strlen (newbase));
 	old_folder_info = store_info_steal_folder_info (store_info, old);
 	if (old_folder_info != NULL) {
 		up->oldfull = old_folder_info->full_name;
+		up->signal_id = signals[FOLDER_RENAMED];
 		folder_info_unref (old_folder_info);
 	}
 
@@ -1111,8 +1128,9 @@ rename_folders (MailFolderCache *cache,
 	up->full_name = g_strdup (fi->full_name);
 	up->unread = fi->unread==-1 ? 0 : fi->unread;
 
-	if ((fi->flags & CAMEL_FOLDER_NOSELECT) == 0)
-		up->add = TRUE;
+	/* No signal emission for NOSELECT folders. */
+	if ((fi->flags & CAMEL_FOLDER_NOSELECT) != 0)
+		up->signal_id = 0;
 
 	mail_folder_cache_submit_update (up);
 
