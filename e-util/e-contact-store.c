@@ -717,6 +717,20 @@ view_complete (EContactStore *contact_store,
  * View/Query management *
  * --------------------- */
 
+static gpointer
+contact_store_stop_view_in_thread (gpointer user_data)
+{
+	EBookClientView *view = user_data;
+
+	g_return_val_if_fail (E_IS_BOOK_CLIENT_VIEW (view), NULL);
+
+	/* this does blocking D-Bus call, thus do it in a dedicated thread */
+	e_book_client_view_stop (view, NULL);
+	g_object_unref (view);
+
+	return NULL;
+}
+
 static void
 start_view (EContactStore *contact_store,
             EBookClientView *view)
@@ -743,7 +757,10 @@ static void
 stop_view (EContactStore *contact_store,
            EBookClientView *view)
 {
-	e_book_client_view_stop (view, NULL);
+	GThread *thread;
+
+	thread = g_thread_new (NULL, contact_store_stop_view_in_thread, g_object_ref (view));
+	g_thread_unref (thread);
 
 	g_signal_handlers_disconnect_matched (
 		view, G_SIGNAL_MATCH_DATA,
