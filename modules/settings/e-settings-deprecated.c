@@ -278,24 +278,10 @@ static void
 settings_deprecated_reply_style_name_cb (GSettings *settings,
                                          const gchar *key)
 {
-	/* XXX The "reply-style" key uses a completely different
-	 *     numbering than the EMailReplyStyle enum.  *sigh* */
-	switch (g_settings_get_enum (settings, "reply-style-name")) {
-		case E_MAIL_REPLY_STYLE_QUOTED:
-			g_settings_set_int (settings, "reply-style", 2);
-			break;
-		case E_MAIL_REPLY_STYLE_DO_NOT_QUOTE:
-			g_settings_set_int (settings, "reply-style", 3);
-			break;
-		case E_MAIL_REPLY_STYLE_ATTACH:
-			g_settings_set_int (settings, "reply-style", 0);
-			break;
-		case E_MAIL_REPLY_STYLE_OUTLOOK:
-			g_settings_set_int (settings, "reply-style", 1);
-			break;
-		default:
-			g_warn_if_reached ();
-	}
+	EMailReplyStyle style;
+
+	style = g_settings_get_enum (settings, "reply-style-name");
+	g_settings_set_int (settings, "reply-style", style);
 }
 
 static void
@@ -530,37 +516,10 @@ settings_deprecated_constructed (GObject *object)
 		g_settings_reset (priv->mail_settings, "show-headers");
 	g_strfreev (strv_value);
 
-	/* XXX The "reply-style" key uses a completely different
-	 *     numbering than the EMailReplyStyle enum.  *sigh* */
-	switch (g_settings_get_int (priv->mail_settings, "reply-style")) {
-		case 0:
-			g_settings_set_enum (
-				priv->mail_settings,
-				"reply-style-name",
-				E_MAIL_REPLY_STYLE_ATTACH);
-			break;
-		case 1:
-			g_settings_set_enum (
-				priv->mail_settings,
-				"reply-style-name",
-				E_MAIL_REPLY_STYLE_OUTLOOK);
-			break;
-		case 2:
-			g_settings_set_enum (
-				priv->mail_settings,
-				"reply-style-name",
-				E_MAIL_REPLY_STYLE_QUOTED);
-			break;
-		case 3:
-			g_settings_set_enum (
-				priv->mail_settings,
-				"reply-style-name",
-				E_MAIL_REPLY_STYLE_DO_NOT_QUOTE);
-			break;
-		default:
-			/* do nothing */
-			break;
-	}
+	int_value = g_settings_get_int (
+		priv->mail_settings, "reply-style");
+	g_settings_set_enum (
+		priv->mail_settings, "reply-style-name", int_value);
 
 	int_value = g_settings_get_int (
 		priv->mail_settings, "load-http-images");
