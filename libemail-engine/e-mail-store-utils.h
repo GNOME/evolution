@@ -40,6 +40,9 @@ gboolean	e_mail_store_create_folder_finish
 						 GAsyncResult *result,
 						 GError **error);
 
+gboolean	e_mail_store_go_offline_sync	(CamelStore *store,
+						 GCancellable *cancellable,
+						 GError **error);
 void		e_mail_store_go_offline		(CamelStore *store,
 						 gint io_priority,
 						 GCancellable *cancellable,

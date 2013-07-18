@@ -160,11 +160,27 @@ mail_store_go_offline_thread (GSimpleAsyncResult *simple,
                               GObject *source_object,
                               GCancellable *cancellable)
 {
-	CamelService *service;
-	const gchar *display_name;
 	GError *local_error = NULL;
 
-	service = CAMEL_SERVICE (source_object);
+	e_mail_store_go_offline_sync (
+		CAMEL_STORE (source_object), cancellable, &local_error);
+
+	if (local_error != NULL)
+		g_simple_async_result_take_error (simple, local_error);
+}
+
+gboolean
+e_mail_store_go_offline_sync (CamelStore *store,
+                              GCancellable *cancellable,
+                              GError **error)
+{
+	CamelService *service;
+	const gchar *display_name;
+	gboolean success = TRUE;
+
+	g_return_val_if_fail (CAMEL_IS_STORE (store), FALSE);
+
+	service = CAMEL_SERVICE (store);
 
 	display_name = camel_service_get_display_name (service);
 	if (display_name == NULL || *display_name == '\0')
@@ -173,36 +189,32 @@ mail_store_go_offline_thread (GSimpleAsyncResult *simple,
 	camel_operation_push_message (
 		cancellable, _("Disconnecting from '%s'"), display_name);
 
-	if (CAMEL_IS_DISCO_STORE (service)) {
+	if (CAMEL_IS_DISCO_STORE (store)) {
 		CamelDiscoStore *disco_store;
 
-		disco_store = CAMEL_DISCO_STORE (service);
+		disco_store = CAMEL_DISCO_STORE (store);
 
 		if (camel_disco_store_can_work_offline (disco_store))
-			camel_disco_store_set_status (
+			success = camel_disco_store_set_status (
 				disco_store, CAMEL_DISCO_STORE_OFFLINE,
-				cancellable, &local_error);
+				cancellable, error);
 		else
-			camel_service_disconnect_sync (
-				service, TRUE, cancellable, &local_error);
+			success = camel_service_disconnect_sync (
+				service, TRUE, cancellable, error);
 
-	} else if (CAMEL_IS_OFFLINE_STORE (service)) {
-		CamelOfflineStore *offline_store;
-
-		offline_store = CAMEL_OFFLINE_STORE (service);
-
-		camel_offline_store_set_online_sync (
-			offline_store, FALSE, cancellable, &local_error);
+	} else if (CAMEL_IS_OFFLINE_STORE (store)) {
+		success = camel_offline_store_set_online_sync (
+			CAMEL_OFFLINE_STORE (store),
+			FALSE, cancellable, error);
 
 	} else {
-		camel_service_disconnect_sync (
-			service, TRUE, cancellable, &local_error);
+		success = camel_service_disconnect_sync (
+			service, TRUE, cancellable, error);
 	}
 
-	if (local_error != NULL)
-		g_simple_async_result_take_error (simple, local_error);
-
 	camel_operation_pop_message (cancellable);
+
+	return success;
 }
 
 void
