@@ -49,6 +49,9 @@ gboolean	e_mail_store_go_offline_finish	(CamelStore *store,
 						 GAsyncResult *result,
 						 GError **error);
 
+gboolean	e_mail_store_go_online_sync	(CamelStore *store,
+						 GCancellable *cancellable,
+						 GError **error);
 void		e_mail_store_go_online		(CamelStore *store,
 						 gint io_priority,
 						 GCancellable *cancellable,

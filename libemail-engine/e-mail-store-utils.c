@@ -246,17 +246,18 @@ e_mail_store_go_offline_finish (CamelStore *store,
 	return !g_simple_async_result_propagate_error (simple, error);
 }
 
-/* Helper for e_mail_store_go_online() */
-static void
-mail_store_go_online_thread (GSimpleAsyncResult *simple,
-                             GObject *source_object,
-                             GCancellable *cancellable)
+gboolean
+e_mail_store_go_online_sync (CamelStore *store,
+                             GCancellable *cancellable,
+                             GError **error)
 {
 	CamelService *service;
 	const gchar *display_name;
-	GError *local_error = NULL;
+	gboolean success = TRUE;
 
-	service = CAMEL_SERVICE (source_object);
+	g_return_val_if_fail (CAMEL_IS_STORE (store), FALSE);
+
+	service = CAMEL_SERVICE (store);
 
 	display_name = camel_service_get_display_name (service);
 	if (display_name == NULL || *display_name == '\0')
@@ -265,21 +266,35 @@ mail_store_go_online_thread (GSimpleAsyncResult *simple,
 	camel_operation_push_message (
 		cancellable, _("Reconnecting to '%s'"), display_name);
 
-	if (CAMEL_IS_DISCO_STORE (service))
-		camel_disco_store_set_status (
-			CAMEL_DISCO_STORE (service),
+	if (CAMEL_IS_DISCO_STORE (store))
+		success = camel_disco_store_set_status (
+			CAMEL_DISCO_STORE (store),
 			CAMEL_DISCO_STORE_ONLINE,
-			cancellable, &local_error);
+			cancellable, error);
 
-	else if (CAMEL_IS_OFFLINE_STORE (service))
-		camel_offline_store_set_online_sync (
-			CAMEL_OFFLINE_STORE (service),
-			TRUE, cancellable, &local_error);
+	if (CAMEL_IS_OFFLINE_STORE (store))
+		success = camel_offline_store_set_online_sync (
+			CAMEL_OFFLINE_STORE (store),
+			TRUE, cancellable, error);
+
+	camel_operation_pop_message (cancellable);
+
+	return success;
+}
+
+/* Helper for e_mail_store_go_online() */
+static void
+mail_store_go_online_thread (GSimpleAsyncResult *simple,
+                             GObject *source_object,
+                             GCancellable *cancellable)
+{
+	GError *local_error = NULL;
+
+	e_mail_store_go_online_sync (
+		CAMEL_STORE (source_object), cancellable, &local_error);
 
 	if (local_error != NULL)
 		g_simple_async_result_take_error (simple, local_error);
-
-	camel_operation_pop_message (cancellable);
 }
 
 void
