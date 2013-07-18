@@ -33,11 +33,11 @@
 
 <note style="info package">
   <p>You might need to install the <sys>dconf-editor</sys> package to perform these steps.</p>
-  <if:choose>
+  <p><if:choose>
     <if:when test="if:supports('action:install')">
       <p><link action="install:dconf-editor" href="http://ftp.gnome.org/pub/gnome/sources/dconf-editor/" style="button">Install dconf-editor</link></p>
     </if:when>
-  </if:choose>
+  </if:choose></p>
 </note>
 
 </page>

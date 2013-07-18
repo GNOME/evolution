@@ -103,11 +103,11 @@
 <p>For connecting to a Microsoft Exchange 2007/2010 or OpenChange server. Note that this is currently under development and will replace the <gui>Exchange MAPI</gui> account type in the future. It might not be available yet for your distribution.</p>
 <note style="info package">
   <p>This requires having the <sys>evolution-ews</sys> package installed.</p>
-  <if:choose>
+  <p><if:choose>
     <if:when test="if:supports('action:install')">
       <p><link action="install:evolution-ews" href="http://projects.gnome.org/evolution/download" style="button">Install evolution-ews</link></p>
     </if:when>
-  </if:choose>
+  </if:choose></p>
 </note>
 
  <section id="configure-sending-exchange-ews" ui:expanded="false">
@@ -127,11 +127,11 @@
 <p>For connecting to a Microsoft Exchange 2007/2010 or OpenChange server.</p>
 <note style="info package">
   <p>This requires having the <sys>evolution-mapi</sys> package installed.</p>
-  <if:choose>
+  <p><if:choose>
     <if:when test="if:supports('action:install')">
       <p><link action="install:evolution-mapi" href="http://projects.gnome.org/evolution/download" style="button">Install evolution-mapi</link></p>
     </if:when>
-  </if:choose>
+  </if:choose></p>
 </note>
 
  <section id="configure-sending-exchange-mapi" ui:expanded="false">

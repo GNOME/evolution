@@ -24,24 +24,24 @@
 <p>Depending on the version of the Microsoft Exchange server that you would like to connect to it is required to make sure that an additional package is installed that provides this functionality.</p>
 
 <p>For Microsoft Exchange 2007, 2010 and newer it is recommended to use the package <sys>evolution-ews</sys>.</p>
-<if:choose>
+<p><if:choose>
   <if:when test="if:supports('action:install')">
     <note style="info package">
       <p><link action="install:evolution-ews" href="http://projects.gnome.org/evolution/download" style="button">Install evolution-ews</link></p>
     </note>
   </if:when>
-</if:choose>
+</if:choose></p>
 
 
 <p>For older versions of Microsoft Exchange, or if <sys>evolution-ews</sys> does not work well for you, try <sys>evolution-mapi</sys>. It uses Microsoft's Messaging API which is also used by Microsoft Outlook. However, <sys>evolution-mapi</sys> requires installing <sys>OpenChange</sys> and <sys>Samba 4</sys>, and is not as performant as <sys>evolution-ews</sys>.</p>
 
-<if:choose>
+<p><if:choose>
   <if:when test="if:supports('action:install')">
     <note style="info package">
       <p><link action="install:evolution-mapi" href="http://projects.gnome.org/evolution/download" style="button">Install evolution-mapi</link></p>
     </note>
   </if:when>
-</if:choose>
+</if:choose></p>
 
 <note style="tip"><p>If you are unsure which Microsoft Exchange server version is used, you may want to contact your system administrator for more information.</p></note>
 

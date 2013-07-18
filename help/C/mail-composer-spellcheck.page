@@ -29,12 +29,12 @@
 
 <note style="info package">
   <p>You might need to install <sys>hunspell</sys> and/or <sys>enchant</sys> to perform these steps.</p>
-  <if:choose>
+  <p><if:choose>
     <if:when test="if:supports('action:install')">
       <p><link action="install:hunspell" href="http://hunspell.sourceforge.net/" style="button">Install hunspell</link></p>
       <p><link action="install:enchant" href="http://www.abisource.com/projects/enchant/" style="button">Install enchant</link></p>
     </if:when>
-  </if:choose>
+  </if:choose></p>
 </note>
 </section>
 
