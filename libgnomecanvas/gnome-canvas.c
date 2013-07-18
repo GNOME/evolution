@@ -391,6 +391,48 @@ gnome_canvas_item_dispose_item (GnomeCanvasItem *item)
 	/* Placeholder so subclasses can safely chain up. */
 }
 
+static void
+gnome_canvas_item_draw (GnomeCanvasItem *item,
+                        cairo_t *cr,
+                        gint x,
+                        gint y,
+                        gint width,
+                        gint height)
+{
+	/* Placeholder so subclasses can safely chain up. */
+}
+
+static GnomeCanvasItem *
+gnome_canvas_item_point (GnomeCanvasItem *item,
+                         gdouble x,
+                         gdouble y,
+                         gint cx,
+                         gint cy)
+{
+	/* Placeholder so subclasses can safely chain up. */
+
+	return NULL;
+}
+
+static void
+gnome_canvas_item_bounds (GnomeCanvasItem *item,
+                          gdouble *x1,
+                          gdouble *y1,
+                          gdouble *x2,
+                          gdouble *y2)
+{
+	/* Placeholder so subclasses can safely chain up. */
+}
+
+static gboolean
+gnome_canvas_item_event (GnomeCanvasItem *item,
+                         GdkEvent *event)
+{
+	/* Placeholder so subclasses can safely chain up. */
+
+	return FALSE;  /* event was not handled */
+}
+
 /*
  * This routine invokes the update method of the item
  * Please notice, that we take parent to canvas pixel matrix as argument
@@ -3370,4 +3412,8 @@ gnome_canvas_item_class_init (GnomeCanvasItemClass *class)
 	class->map = gnome_canvas_item_map;
 	class->unmap = gnome_canvas_item_unmap;
 	class->dispose = gnome_canvas_item_dispose_item;
+	class->draw = gnome_canvas_item_draw;
+	class->point = gnome_canvas_item_point;
+	class->bounds = gnome_canvas_item_bounds;
+	class->event = gnome_canvas_item_event;
 }
