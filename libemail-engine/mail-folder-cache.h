@@ -54,17 +54,6 @@ typedef struct _MailFolderCacheClass MailFolderCacheClass;
 typedef struct _MailFolderCachePrivate MailFolderCachePrivate;
 
 /**
- * NoteDoneFunc:
- *
- * The signature of a function to be registered as a callback for
- * mail_folder_cache_note_store()
- */
-typedef gboolean	(*NoteDoneFunc)		(MailFolderCache *cache,
-						 CamelStore *store,
-						 CamelFolderInfo *info,
-						 gpointer data);
-
-/**
  * MailFolderCache:
  *
  * Contains only private data that should be read and manipulated using the
@@ -113,8 +102,13 @@ GMainContext *	mail_folder_cache_ref_main_context
 void		mail_folder_cache_note_store	(MailFolderCache *cache,
 						 CamelStore *store,
 						 GCancellable *cancellable,
-						 NoteDoneFunc done,
-						 gpointer data);
+						 GAsyncReadyCallback callback,
+						 gpointer user_data);
+gboolean	mail_folder_cache_note_store_finish
+						(MailFolderCache *cache,
+						 GAsyncResult *result,
+						 CamelFolderInfo **out_info,
+						 GError **error);
 void		mail_folder_cache_note_folder	(MailFolderCache *cache,
 						 CamelFolder *folder);
 gboolean	mail_folder_cache_has_folder_info

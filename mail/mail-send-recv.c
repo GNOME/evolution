@@ -1122,33 +1122,46 @@ static MailMsgInfo refresh_folders_info = {
 	(MailMsgFreeFunc) refresh_folders_free
 };
 
-static gboolean
-receive_update_got_folderinfo (MailFolderCache *folder_cache,
-                               CamelStore *store,
-                               CamelFolderInfo *info,
-                               gpointer data)
+static void
+receive_update_got_folderinfo (GObject *source_object,
+                               GAsyncResult *result,
+                               gpointer user_data)
 {
-	if (info) {
+	CamelFolderInfo *info = NULL;
+	struct _send_info *send_info = user_data;
+	GError *local_error = NULL;
+
+	mail_folder_cache_note_store_finish (
+		MAIL_FOLDER_CACHE (source_object),
+		result, &info, &local_error);
+
+	/* Ignore cancellations. */
+	if (g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		g_warn_if_fail (info != NULL);
+		g_error_free (local_error);
+
+	/* XXX Need to hand this off to an EAlertSink. */
+	} else if (local_error != NULL) {
+		g_warn_if_fail (info != NULL);
+		g_warning ("%s: %s", G_STRFUNC, local_error->message);
+		g_error_free (local_error);
+
+	/* CamelFolderInfo may be NULL even if no error occurred. */
+	} else if (info != NULL) {
 		GPtrArray *folders = g_ptr_array_new ();
 		struct _refresh_folders_msg *m;
-		struct _send_info *sinfo = data;
 
 		m = mail_msg_new (&refresh_folders_info);
-		m->store = store;
-		g_object_ref (store);
+		m->store = g_object_ref (send_info->service);
 		m->folders = folders;
-		m->info = sinfo;
-		m->finfo = info;
+		m->info = send_info;
+		m->finfo = info;  /* takes ownership */
 
 		mail_msg_unordered_push (m);
 
-		/* do not free folder info, we will free it later */
-		return FALSE;
 	} else {
-		receive_done (-1, data);
+		receive_done (-1, send_info);
 	}
-
-	return TRUE;
 }
 
 static void

@@ -57,6 +57,7 @@
 
 typedef struct _StoreInfo StoreInfo;
 typedef struct _FolderInfo FolderInfo;
+typedef struct _AsyncContext AsyncContext;
 typedef struct _UpdateClosure UpdateClosure;
 
 struct _MailFolderCachePrivate {
@@ -131,6 +132,11 @@ struct _FolderInfo {
 	gulong folder_changed_handler_id;
 };
 
+struct _AsyncContext {
+	StoreInfo *store_info;
+	CamelFolderInfo *info;
+};
+
 struct _UpdateClosure {
 	GWeakRef cache;
 
@@ -151,13 +157,6 @@ struct _UpdateClosure {
 	gchar *msg_uid;
 	gchar *msg_sender;
 	gchar *msg_subject;
-};
-
-struct _update_data {
-	NoteDoneFunc done;
-	gpointer data;
-	MailFolderCache *cache;
-	GCancellable *cancellable;
 };
 
 /* Forward Declarations */
@@ -303,12 +302,10 @@ store_info_unref (StoreInfo *store_info)
 	g_return_if_fail (store_info->ref_count > 0);
 
 	if (g_atomic_int_dec_and_test (&store_info->ref_count)) {
-		struct _update_data *ud;
 
-		while (!g_queue_is_empty (&store_info->folderinfo_updates)) {
-			ud = g_queue_pop_head (&store_info->folderinfo_updates);
-			g_cancellable_cancel (ud->cancellable);
-		}
+		g_warn_if_fail (
+			g_queue_is_empty (
+			&store_info->folderinfo_updates));
 
 		if (store_info->folder_opened_handler_id > 0) {
 			g_signal_handler_disconnect (
@@ -437,6 +434,19 @@ store_info_steal_folder_info (StoreInfo *store_info,
 	g_mutex_unlock (&store_info->lock);
 
 	return folder_info;
+}
+
+static void
+async_context_free (AsyncContext *async_context)
+{
+	if (async_context->info != NULL)
+		camel_store_free_folder_info (
+			async_context->store_info->store,
+			async_context->info);
+
+	store_info_unref (async_context->store_info);
+
+	g_slice_free (AsyncContext, async_context);
 }
 
 static UpdateClosure *
@@ -1215,93 +1225,6 @@ store_folder_renamed_cb (CamelStore *store,
 	}
 }
 
-static void
-mail_folder_cache_first_update (MailFolderCache *cache,
-                                StoreInfo *store_info)
-{
-	CamelService *service;
-	CamelSession *session;
-	const gchar *uid;
-
-	service = CAMEL_SERVICE (store_info->store);
-	session = camel_service_ref_session (service);
-	uid = camel_service_get_uid (service);
-
-	if (store_info->vjunk != NULL)
-		mail_folder_cache_note_folder (cache, store_info->vjunk);
-
-	if (store_info->vtrash != NULL)
-		mail_folder_cache_note_folder (cache, store_info->vtrash);
-
-	/* Some extra work for the "On This Computer" store. */
-	if (g_strcmp0 (uid, E_MAIL_SESSION_LOCAL_UID) == 0) {
-		CamelFolder *folder;
-		gint ii;
-
-		for (ii = 0; ii < E_MAIL_NUM_LOCAL_FOLDERS; ii++) {
-			folder = e_mail_session_get_local_folder (
-				E_MAIL_SESSION (session), ii);
-			mail_folder_cache_note_folder (cache, folder);
-		}
-	}
-
-	g_object_unref (session);
-}
-
-static void
-update_folders (CamelStore *store,
-                GAsyncResult *result,
-                struct _update_data *ud)
-{
-	CamelFolderInfo *fi;
-	StoreInfo *store_info;
-	GError *error = NULL;
-	gboolean free_fi = TRUE;
-
-	fi = camel_store_get_folder_info_finish (store, result, &error);
-
-	/* Silently ignore cancellation errors. */
-	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-		g_error_free (error);
-
-	} else if (error != NULL) {
-		g_warning ("%s", error->message);
-		g_error_free (error);
-	}
-
-	store_info = mail_folder_cache_ref_store_info (ud->cache, store);
-
-	if (store_info != NULL) {
-		/* The store info is still there, so we can remove ourselves
-		 * from its list.  Or else its not, and we're on our own and
-		 * free anyway. */
-		g_mutex_lock (&store_info->lock);
-		g_queue_remove (&store_info->folderinfo_updates, ud);
-		g_mutex_unlock (&store_info->lock);
-
-		if (fi != NULL && !g_cancellable_is_cancelled (ud->cancellable))
-			create_folders (ud->cache, fi, store_info);
-
-		/* Do some extra work for the first update. */
-		if (store_info->first_update) {
-			mail_folder_cache_first_update (ud->cache, store_info);
-			store_info->first_update = FALSE;
-		}
-
-		store_info_unref (store_info);
-	}
-
-	if (ud->done != NULL)
-		free_fi = ud->done (ud->cache, store, fi, ud->data);
-	if (fi && free_fi)
-		camel_store_free_folder_info (store, fi);
-
-	if (ud->cancellable != NULL)
-		g_object_unref (ud->cancellable);
-
-	g_free (ud);
-}
-
 struct _ping_store_msg {
 	MailMsg base;
 	CamelStore *store;
@@ -1406,46 +1329,6 @@ store_has_folder_hierarchy (CamelStore *store)
 		return TRUE;
 
 	return FALSE;
-}
-
-static void
-store_go_online_cb (CamelStore *store,
-                    GAsyncResult *result,
-                    struct _update_data *ud)
-{
-	StoreInfo *store_info;
-
-	/* FIXME Not checking the GAsyncResult for error. */
-
-	store_info = mail_folder_cache_ref_store_info (ud->cache, store);
-
-	if (store_info != NULL &&
-	    !g_cancellable_is_cancelled (ud->cancellable)) {
-		/* We're already in the store update list. */
-		if (store_has_folder_hierarchy (store))
-			camel_store_get_folder_info (
-				store, NULL,
-				CAMEL_STORE_FOLDER_INFO_FAST |
-				CAMEL_STORE_FOLDER_INFO_RECURSIVE |
-				CAMEL_STORE_FOLDER_INFO_SUBSCRIBED,
-				G_PRIORITY_DEFAULT, ud->cancellable,
-				(GAsyncReadyCallback) update_folders, ud);
-	} else {
-		if (store_info != NULL) {
-			g_mutex_lock (&store_info->lock);
-			g_queue_remove (&store_info->folderinfo_updates, ud);
-			g_mutex_unlock (&store_info->lock);
-		}
-
-		/* The store vanished, that means we were probably cancelled,
-		 * or at any rate, need to clean ourselves up. */
-		if (ud->cancellable != NULL)
-			g_object_unref (ud->cancellable);
-		g_free (ud);
-	}
-
-	if (store_info != NULL)
-		store_info_unref (store_info);
 }
 
 static GList *
@@ -1881,6 +1764,151 @@ mail_folder_cache_ref_main_context (MailFolderCache *cache)
 	return g_main_context_ref (cache->priv->main_context);
 }
 
+/* Helper for mail_folder_cache_note_store() */
+static void
+mail_folder_cache_first_update (MailFolderCache *cache,
+                                StoreInfo *store_info)
+{
+	CamelService *service;
+	CamelSession *session;
+	const gchar *uid;
+
+	service = CAMEL_SERVICE (store_info->store);
+	session = camel_service_ref_session (service);
+	uid = camel_service_get_uid (service);
+
+	if (store_info->vjunk != NULL)
+		mail_folder_cache_note_folder (cache, store_info->vjunk);
+
+	if (store_info->vtrash != NULL)
+		mail_folder_cache_note_folder (cache, store_info->vtrash);
+
+	/* Some extra work for the "On This Computer" store. */
+	if (g_strcmp0 (uid, E_MAIL_SESSION_LOCAL_UID) == 0) {
+		CamelFolder *folder;
+		gint ii;
+
+		for (ii = 0; ii < E_MAIL_NUM_LOCAL_FOLDERS; ii++) {
+			folder = e_mail_session_get_local_folder (
+				E_MAIL_SESSION (session), ii);
+			mail_folder_cache_note_folder (cache, folder);
+		}
+	}
+
+	g_object_unref (session);
+}
+
+/* Helper for mail_folder_cache_note_store() */
+static void
+mail_folder_cache_note_store_thread (GSimpleAsyncResult *simple,
+                                     GObject *source_object,
+                                     GCancellable *cancellable)
+{
+	MailFolderCache *cache;
+	CamelService *service;
+	CamelSession *session;
+	StoreInfo *store_info;
+	GQueue result_queue = G_QUEUE_INIT;
+	AsyncContext *async_context;
+	GError *local_error = NULL;
+
+	cache = MAIL_FOLDER_CACHE (source_object);
+	async_context = g_simple_async_result_get_op_res_gpointer (simple);
+	store_info = async_context->store_info;
+
+	service = CAMEL_SERVICE (store_info->store);
+	session = camel_service_ref_session (service);
+
+	/* We might get a race when setting up a store, such that it is
+	 * still left in offline mode, after we've gone online.  This
+	 * catches and fixes it up when the shell opens us.
+	 *
+	 * XXX This is a Bonobo-era artifact.  Do we really still need
+	 *     to do this?  Also, CamelDiscoStore needs to die already!
+	 */
+	if (camel_session_get_online (session)) {
+		gboolean store_online = TRUE;
+
+		if (CAMEL_IS_DISCO_STORE (service)) {
+			CamelDiscoStore *disco_store;
+			CamelDiscoStoreStatus status;
+
+			disco_store = CAMEL_DISCO_STORE (service);
+			status = camel_disco_store_status (disco_store);
+			store_online = (status != CAMEL_DISCO_STORE_OFFLINE);
+		}
+
+		if (CAMEL_IS_OFFLINE_STORE (service)) {
+			store_online = camel_offline_store_get_online (
+				CAMEL_OFFLINE_STORE (service));
+		}
+
+		if (!store_online) {
+			e_mail_store_go_online_sync (
+				CAMEL_STORE (service),
+				cancellable, &local_error);
+
+			if (local_error != NULL) {
+				g_simple_async_result_take_error (
+					simple, local_error);
+				goto exit;
+			}
+		}
+	}
+
+	/* No folder hierarchy means we're done. */
+	if (!store_has_folder_hierarchy (store_info->store))
+		goto exit;
+
+	async_context->info = camel_store_get_folder_info_sync (
+		store_info->store, NULL,
+		CAMEL_STORE_FOLDER_INFO_FAST |
+		CAMEL_STORE_FOLDER_INFO_RECURSIVE |
+		CAMEL_STORE_FOLDER_INFO_SUBSCRIBED,
+		cancellable, &local_error);
+
+	/* Sanity check. */
+	g_return_if_fail (
+		((async_context->info != NULL) && (local_error == NULL)) ||
+		((async_context->info == NULL) && (local_error != NULL)));
+
+	if (local_error != NULL) {
+		g_simple_async_result_take_error (simple, local_error);
+		goto exit;
+	}
+
+	create_folders (cache, async_context->info, store_info);
+
+	/* Do some extra work for the first update. */
+	if (store_info->first_update) {
+		mail_folder_cache_first_update (cache, store_info);
+		store_info->first_update = FALSE;
+	}
+
+exit:
+	/* We don't want finish() functions being invoked while holding a
+	 * locked mutex, so flush the StoreInfo's queue to a local queue. */
+	g_mutex_lock (&store_info->lock);
+	e_queue_transfer (&store_info->folderinfo_updates, &result_queue);
+	g_mutex_unlock (&store_info->lock);
+
+	while (!g_queue_is_empty (&result_queue)) {
+		GSimpleAsyncResult *queued_result;
+
+		queued_result = g_queue_pop_head (&result_queue);
+
+		/* Skip the GSimpleAsyncResult passed into this function.
+		 * g_simple_async_result_run_in_thread() will complete it
+		 * for us, and we don't want to complete it twice. */
+		if (queued_result != simple)
+			g_simple_async_result_complete_in_idle (queued_result);
+
+		g_clear_object (&queued_result);
+	}
+
+	g_object_unref (session);
+}
+
 /**
  * mail_folder_cache_note_store:
  *
@@ -1892,72 +1920,83 @@ void
 mail_folder_cache_note_store (MailFolderCache *cache,
                               CamelStore *store,
                               GCancellable *cancellable,
-                              NoteDoneFunc done,
-                              gpointer data)
+                              GAsyncReadyCallback callback,
+                              gpointer user_data)
 {
-	CamelSession *session;
 	StoreInfo *store_info;
-	struct _update_data *ud;
+	GSimpleAsyncResult *simple;
+	AsyncContext *async_context;
 
 	g_return_if_fail (MAIL_IS_FOLDER_CACHE (cache));
 	g_return_if_fail (CAMEL_IS_STORE (store));
-
-	session = camel_service_ref_session (CAMEL_SERVICE (store));
 
 	store_info = mail_folder_cache_ref_store_info (cache, store);
 	if (store_info == NULL)
 		store_info = mail_folder_cache_new_store_info (cache, store);
 
-	ud = g_malloc0 (sizeof (*ud));
-	ud->done = done;
-	ud->data = data;
-	ud->cache = cache;
+	async_context = g_slice_new0 (AsyncContext);
+	async_context->store_info = store_info_ref (store_info);
 
-	if (G_IS_CANCELLABLE (cancellable))
-		ud->cancellable = g_object_ref (cancellable);
+	simple = g_simple_async_result_new (
+		G_OBJECT (cache), callback, user_data,
+		mail_folder_cache_note_store);
 
-	/* We might get a race when setting up a store, such that it is
-	 * still left in offline mode, after we've gone online.  This
-	 * catches and fixes it up when the shell opens us. */
-	if (CAMEL_IS_DISCO_STORE (store)) {
-		if (camel_session_get_online (session) &&
-			 camel_disco_store_status (CAMEL_DISCO_STORE (store)) ==
-			CAMEL_DISCO_STORE_OFFLINE) {
-			e_mail_store_go_online (
-				store, G_PRIORITY_DEFAULT, cancellable,
-				(GAsyncReadyCallback) store_go_online_cb, ud);
-		} else {
-			goto normal_setup;
-		}
-	} else if (CAMEL_IS_OFFLINE_STORE (store)) {
-		if (camel_session_get_online (session) &&
-			!camel_offline_store_get_online (
-			CAMEL_OFFLINE_STORE (store))) {
-			e_mail_store_go_online (
-				store, G_PRIORITY_DEFAULT, cancellable,
-				(GAsyncReadyCallback) store_go_online_cb, ud);
-		} else {
-			goto normal_setup;
-		}
-	} else {
-	normal_setup:
-		if (store_has_folder_hierarchy (store))
-			camel_store_get_folder_info (
-				store, NULL,
-				CAMEL_STORE_FOLDER_INFO_FAST |
-				CAMEL_STORE_FOLDER_INFO_RECURSIVE |
-				CAMEL_STORE_FOLDER_INFO_SUBSCRIBED,
-				G_PRIORITY_DEFAULT, cancellable,
-				(GAsyncReadyCallback) update_folders, ud);
-	}
+	g_simple_async_result_set_check_cancellable (simple, cancellable);
+
+	g_simple_async_result_set_op_res_gpointer (
+		simple, async_context, (GDestroyNotify) async_context_free);
 
 	g_mutex_lock (&store_info->lock);
-	g_queue_push_tail (&store_info->folderinfo_updates, ud);
+
+	g_queue_push_tail (
+		&store_info->folderinfo_updates,
+		g_object_ref (simple));
+
+	/* Queue length > 1 means there's already an operation for
+	 * this store in progress so we'll just pick up the result
+	 * when it finishes. */
+	if (g_queue_get_length (&store_info->folderinfo_updates) == 1)
+		g_simple_async_result_run_in_thread (
+			simple,
+			mail_folder_cache_note_store_thread,
+			G_PRIORITY_DEFAULT, cancellable);
+
 	g_mutex_unlock (&store_info->lock);
 
-	store_info_unref (store_info);
+	g_object_unref (simple);
 
-	g_object_unref (session);
+	store_info_unref (store_info);
+}
+
+gboolean
+mail_folder_cache_note_store_finish (MailFolderCache *cache,
+                                     GAsyncResult *result,
+                                     CamelFolderInfo **out_info,
+                                     GError **error)
+{
+	GSimpleAsyncResult *simple;
+	AsyncContext *async_context;
+
+	g_return_val_if_fail (
+		g_simple_async_result_is_valid (
+		result, G_OBJECT (cache),
+		mail_folder_cache_note_store), FALSE);
+
+	simple = G_SIMPLE_ASYNC_RESULT (result);
+	async_context = g_simple_async_result_get_op_res_gpointer (simple);
+
+	if (g_simple_async_result_propagate_error (simple, error))
+		return FALSE;
+
+	if (out_info != NULL) {
+		if (async_context->info != NULL)
+			*out_info = camel_folder_info_clone (
+				async_context->info);
+		else
+			*out_info = NULL;
+	}
+
+	return TRUE;
 }
 
 /**
@@ -2205,6 +2244,10 @@ mail_folder_cache_service_enabled (MailFolderCache *cache,
 	g_return_if_fail (MAIL_IS_FOLDER_CACHE (cache));
 	g_return_if_fail (CAMEL_IS_SERVICE (service));
 
+	/* XXX This has no callback and it swallows errors.  Maybe
+	 *     we don't want a service_enabled() function after all?
+	 *     Call mail_folder_cache_note_store() directly instead
+	 *     and handle errors appropriately. */
 	mail_folder_cache_note_store (
 		cache, CAMEL_STORE (service), NULL, NULL, NULL);
 }
