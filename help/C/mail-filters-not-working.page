@@ -18,7 +18,7 @@
     </credit>
     
     <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
-        
+
 
   </info>
 
@@ -39,7 +39,7 @@
 
 <section id="filter-log">
 <title>Logging Filter Actions</title>
-If it is still unclear why filters do not work as expected, you can enable logging filter actions.
+<p>If it is still unclear why filters do not work as expected, you can enable logging filter actions.</p>
 <list>
 <item><p>Close Evolution.</p></item>
 <item><p>Open the <app>Terminal</app> application.</p></item>
