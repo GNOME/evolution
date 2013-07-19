@@ -28,13 +28,13 @@
 
 <if:choose>
   <if:when test="!platform:gnome-shell !platform:gnome-classic !platform:unity">
-<p>In case you use Evolution under a different environment than GNOME,</p>
+<p>In case you use Evolution under a different environment from GNOME,</p>
  <steps>
    <item>
      <p>Open a terminal application.</p>
    </item>
    <item>
-<p>Find out the name of the <cmd>.desktop</cmd> file for your prefered browser. Depending on your browser and distribution, the file might be called for example <cmd>epiphany.desktop</cmd>, <cmd>firefox.desktop</cmd>, <cmd>google-chrome.desktop</cmd>, <cmd>konqbrowser.desktop</cmd>, or <cmd>opera-browser.desktop</cmd>. If you are unsure you can look up most <cmd>.desktop</cmd> files in the folder <cmd>/usr/share/applications/</cmd>.</p>
+<p>Find out the name of the <cmd>.desktop</cmd> file for your preferred browser. Depending on your browser and distribution, the file might be called for example <cmd>epiphany.desktop</cmd>, <cmd>firefox.desktop</cmd>, <cmd>google-chrome.desktop</cmd>, <cmd>konqbrowser.desktop</cmd>, or <cmd>opera-browser.desktop</cmd>. If you are unsure you can look up most <cmd>.desktop</cmd> files in the folder <cmd>/usr/share/applications/</cmd>.</p>
    </item>
    <item>
      <p>Type this command, replace <cmd>browser.desktop</cmd> by the actual filename, and press <key>Enter</key>:</p>
