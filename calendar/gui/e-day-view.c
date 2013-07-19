@@ -97,6 +97,52 @@
 
 struct _EDayViewPrivate {
 	ECalModel *model;
+	gulong notify_work_day_monday_handler_id;
+	gulong notify_work_day_tuesday_handler_id;
+	gulong notify_work_day_wednesday_handler_id;
+	gulong notify_work_day_thursday_handler_id;
+	gulong notify_work_day_friday_handler_id;
+	gulong notify_work_day_saturday_handler_id;
+	gulong notify_work_day_sunday_handler_id;
+	gulong notify_week_start_day_handler_id;
+	gulong notify_work_day_start_hour_handler_id;
+	gulong notify_work_day_start_minute_handler_id;
+	gulong notify_work_day_end_hour_handler_id;
+	gulong notify_work_day_end_minute_handler_id;
+	gulong time_range_changed_handler_id;
+	gulong model_row_changed_handler_id;
+	gulong model_cell_changed_handler_id;
+	gulong model_rows_inserted_handler_id;
+	gulong comps_deleted_handler_id;
+	gulong timezone_changed_handler_id;
+
+	/* "top_canvas" signal handlers */
+	gulong top_canvas_button_press_event_handler_id;
+	gulong top_canvas_button_release_event_handler_id;
+	gulong top_canvas_scroll_event_handler_id;
+	gulong top_canvas_motion_notify_event_handler_id;
+	gulong top_canvas_drag_motion_handler_id;
+	gulong top_canvas_drag_leave_handler_id;
+	gulong top_canvas_drag_begin_handler_id;
+	gulong top_canvas_drag_end_handler_id;
+	gulong top_canvas_drag_data_get_handler_id;
+	gulong top_canvas_drag_data_received_handler_id;
+
+	/* "main_canvas" signal handlers */
+	gulong main_canvas_realize_handler_id;
+	gulong main_canvas_button_press_event_handler_id;
+	gulong main_canvas_button_release_event_handler_id;
+	gulong main_canvas_scroll_event_handler_id;
+	gulong main_canvas_motion_notify_event_handler_id;
+	gulong main_canvas_drag_motion_handler_id;
+	gulong main_canvas_drag_leave_handler_id;
+	gulong main_canvas_drag_begin_handler_id;
+	gulong main_canvas_drag_end_handler_id;
+	gulong main_canvas_drag_data_get_handler_id;
+	gulong main_canvas_drag_data_received_handler_id;
+
+	/* "time_canvas" signal handlers */
+	gulong time_canvas_scroll_event_handler_id;
 
 	/* Whether we are showing the work-week view. */
 	gboolean work_week_view;
@@ -819,11 +865,289 @@ day_view_dispose (GObject *object)
 		day_view->grabbed_pointer = NULL;
 	}
 
-	if (day_view->priv->model) {
-		g_signal_handlers_disconnect_by_data (day_view->priv->model, day_view);
-		g_signal_handlers_disconnect_by_data (day_view->priv->model, day_view->main_canvas);
+	if (day_view->priv->notify_work_day_monday_handler_id > 0) {
+		g_signal_handler_disconnect (
+			day_view->priv->model,
+			day_view->priv->notify_work_day_monday_handler_id);
+		day_view->priv->notify_work_day_monday_handler_id = 0;
 	}
 
+	if (day_view->priv->notify_work_day_tuesday_handler_id > 0) {
+		g_signal_handler_disconnect (
+			day_view->priv->model,
+			day_view->priv->notify_work_day_tuesday_handler_id);
+		day_view->priv->notify_work_day_tuesday_handler_id = 0;
+	}
+
+	if (day_view->priv->notify_work_day_wednesday_handler_id > 0) {
+		g_signal_handler_disconnect (
+			day_view->priv->model,
+			day_view->priv->notify_work_day_wednesday_handler_id);
+		day_view->priv->notify_work_day_wednesday_handler_id = 0;
+	}
+
+	if (day_view->priv->notify_work_day_thursday_handler_id > 0) {
+		g_signal_handler_disconnect (
+			day_view->priv->model,
+			day_view->priv->notify_work_day_thursday_handler_id);
+		day_view->priv->notify_work_day_thursday_handler_id = 0;
+	}
+
+	if (day_view->priv->notify_work_day_friday_handler_id > 0) {
+		g_signal_handler_disconnect (
+			day_view->priv->model,
+			day_view->priv->notify_work_day_friday_handler_id);
+		day_view->priv->notify_work_day_friday_handler_id = 0;
+	}
+
+	if (day_view->priv->notify_work_day_saturday_handler_id > 0) {
+		g_signal_handler_disconnect (
+			day_view->priv->model,
+			day_view->priv->notify_work_day_saturday_handler_id);
+		day_view->priv->notify_work_day_saturday_handler_id = 0;
+	}
+
+	if (day_view->priv->notify_work_day_sunday_handler_id > 0) {
+		g_signal_handler_disconnect (
+			day_view->priv->model,
+			day_view->priv->notify_work_day_sunday_handler_id);
+		day_view->priv->notify_work_day_sunday_handler_id = 0;
+	}
+
+	if (day_view->priv->notify_week_start_day_handler_id > 0) {
+		g_signal_handler_disconnect (
+			day_view->priv->model,
+			day_view->priv->notify_week_start_day_handler_id);
+		day_view->priv->notify_week_start_day_handler_id = 0;
+	}
+
+	if (day_view->priv->notify_work_day_start_hour_handler_id > 0) {
+		g_signal_handler_disconnect (
+			day_view->priv->model,
+			day_view->priv->notify_work_day_start_hour_handler_id);
+		day_view->priv->notify_work_day_start_hour_handler_id = 0;
+	}
+
+	if (day_view->priv->notify_work_day_start_minute_handler_id > 0) {
+		g_signal_handler_disconnect (
+			day_view->priv->model,
+			day_view->priv->notify_work_day_start_minute_handler_id);
+		day_view->priv->notify_work_day_start_minute_handler_id = 0;
+	}
+
+	if (day_view->priv->notify_work_day_end_hour_handler_id > 0) {
+		g_signal_handler_disconnect (
+			day_view->priv->model,
+			day_view->priv->notify_work_day_end_hour_handler_id);
+		day_view->priv->notify_work_day_end_hour_handler_id = 0;
+	}
+
+	if (day_view->priv->notify_work_day_end_minute_handler_id > 0) {
+		g_signal_handler_disconnect (
+			day_view->priv->model,
+			day_view->priv->notify_work_day_end_minute_handler_id);
+		day_view->priv->notify_work_day_end_minute_handler_id = 0;
+	}
+
+	if (day_view->priv->time_range_changed_handler_id > 0) {
+		g_signal_handler_disconnect (
+			day_view->priv->model,
+			day_view->priv->time_range_changed_handler_id);
+		day_view->priv->time_range_changed_handler_id = 0;
+	}
+
+	if (day_view->priv->model_row_changed_handler_id > 0) {
+		g_signal_handler_disconnect (
+			day_view->priv->model,
+			day_view->priv->model_row_changed_handler_id);
+		day_view->priv->model_row_changed_handler_id = 0;
+	}
+
+	if (day_view->priv->model_cell_changed_handler_id > 0) {
+		g_signal_handler_disconnect (
+			day_view->priv->model,
+			day_view->priv->model_cell_changed_handler_id);
+		day_view->priv->model_cell_changed_handler_id = 0;
+	}
+
+	if (day_view->priv->model_rows_inserted_handler_id > 0) {
+		g_signal_handler_disconnect (
+			day_view->priv->model,
+			day_view->priv->model_rows_inserted_handler_id);
+		day_view->priv->model_rows_inserted_handler_id = 0;
+	}
+
+	if (day_view->priv->comps_deleted_handler_id > 0) {
+		g_signal_handler_disconnect (
+			day_view->priv->model,
+			day_view->priv->comps_deleted_handler_id);
+		day_view->priv->comps_deleted_handler_id = 0;
+	}
+
+	if (day_view->priv->timezone_changed_handler_id > 0) {
+		g_signal_handler_disconnect (
+			day_view->priv->model,
+			day_view->priv->timezone_changed_handler_id);
+		day_view->priv->timezone_changed_handler_id = 0;
+	}
+
+	if (day_view->priv->top_canvas_button_press_event_handler_id > 0) {
+		g_signal_handler_disconnect (
+			day_view->top_canvas,
+			day_view->priv->top_canvas_button_press_event_handler_id);
+		day_view->priv->top_canvas_button_press_event_handler_id = 0;
+	}
+
+	if (day_view->priv->top_canvas_button_release_event_handler_id > 0) {
+		g_signal_handler_disconnect (
+			day_view->top_canvas,
+			day_view->priv->top_canvas_button_release_event_handler_id);
+		day_view->priv->top_canvas_button_release_event_handler_id = 0;
+	}
+
+	if (day_view->priv->top_canvas_scroll_event_handler_id > 0) {
+		g_signal_handler_disconnect (
+			day_view->top_canvas,
+			day_view->priv->top_canvas_scroll_event_handler_id);
+		day_view->priv->top_canvas_scroll_event_handler_id = 0;
+	}
+
+	if (day_view->priv->top_canvas_motion_notify_event_handler_id > 0) {
+		g_signal_handler_disconnect (
+			day_view->top_canvas,
+			day_view->priv->top_canvas_motion_notify_event_handler_id);
+		day_view->priv->top_canvas_motion_notify_event_handler_id = 0;
+	}
+
+	if (day_view->priv->top_canvas_drag_motion_handler_id > 0) {
+		g_signal_handler_disconnect (
+			day_view->top_canvas,
+			day_view->priv->top_canvas_drag_motion_handler_id);
+		day_view->priv->top_canvas_drag_motion_handler_id = 0;
+	}
+
+	if (day_view->priv->top_canvas_drag_leave_handler_id > 0) {
+		g_signal_handler_disconnect (
+			day_view->top_canvas,
+			day_view->priv->top_canvas_drag_leave_handler_id);
+		day_view->priv->top_canvas_drag_leave_handler_id = 0;
+	}
+
+	if (day_view->priv->top_canvas_drag_begin_handler_id > 0) {
+		g_signal_handler_disconnect (
+			day_view->top_canvas,
+			day_view->priv->top_canvas_drag_begin_handler_id);
+		day_view->priv->top_canvas_drag_begin_handler_id = 0;
+	}
+
+	if (day_view->priv->top_canvas_drag_end_handler_id > 0) {
+		g_signal_handler_disconnect (
+			day_view->top_canvas,
+			day_view->priv->top_canvas_drag_end_handler_id);
+		day_view->priv->top_canvas_drag_end_handler_id = 0;
+	}
+
+	if (day_view->priv->top_canvas_drag_data_get_handler_id > 0) {
+		g_signal_handler_disconnect (
+			day_view->top_canvas,
+			day_view->priv->top_canvas_drag_data_get_handler_id);
+		day_view->priv->top_canvas_drag_data_get_handler_id = 0;
+	}
+
+	if (day_view->priv->top_canvas_drag_data_received_handler_id > 0) {
+		g_signal_handler_disconnect (
+			day_view->top_canvas,
+			day_view->priv->top_canvas_drag_data_received_handler_id);
+		day_view->priv->top_canvas_drag_data_received_handler_id = 0;
+	}
+
+	if (day_view->priv->main_canvas_realize_handler_id > 0) {
+		g_signal_handler_disconnect (
+			day_view->main_canvas,
+			day_view->priv->main_canvas_realize_handler_id);
+		day_view->priv->main_canvas_realize_handler_id = 0;
+	}
+
+	if (day_view->priv->main_canvas_button_press_event_handler_id > 0) {
+		g_signal_handler_disconnect (
+			day_view->main_canvas,
+			day_view->priv->main_canvas_button_press_event_handler_id);
+		day_view->priv->main_canvas_button_press_event_handler_id = 0;
+	}
+
+	if (day_view->priv->main_canvas_button_release_event_handler_id > 0) {
+		g_signal_handler_disconnect (
+			day_view->main_canvas,
+			day_view->priv->main_canvas_button_release_event_handler_id);
+		day_view->priv->main_canvas_button_release_event_handler_id = 0;
+	}
+
+	if (day_view->priv->main_canvas_scroll_event_handler_id > 0) {
+		g_signal_handler_disconnect (
+			day_view->main_canvas,
+			day_view->priv->main_canvas_scroll_event_handler_id);
+		day_view->priv->main_canvas_scroll_event_handler_id = 0;
+	}
+
+	if (day_view->priv->main_canvas_motion_notify_event_handler_id > 0) {
+		g_signal_handler_disconnect (
+			day_view->main_canvas,
+			day_view->priv->main_canvas_motion_notify_event_handler_id);
+		day_view->priv->main_canvas_motion_notify_event_handler_id = 0;
+	}
+
+	if (day_view->priv->main_canvas_drag_motion_handler_id > 0) {
+		g_signal_handler_disconnect (
+			day_view->main_canvas,
+			day_view->priv->main_canvas_drag_motion_handler_id);
+		day_view->priv->main_canvas_drag_motion_handler_id = 0;
+	}
+
+	if (day_view->priv->main_canvas_drag_leave_handler_id > 0) {
+		g_signal_handler_disconnect (
+			day_view->main_canvas,
+			day_view->priv->main_canvas_drag_leave_handler_id);
+		day_view->priv->main_canvas_drag_leave_handler_id = 0;
+	}
+
+	if (day_view->priv->main_canvas_drag_begin_handler_id > 0) {
+		g_signal_handler_disconnect (
+			day_view->main_canvas,
+			day_view->priv->main_canvas_drag_begin_handler_id);
+		day_view->priv->main_canvas_drag_begin_handler_id = 0;
+	}
+
+	if (day_view->priv->main_canvas_drag_end_handler_id > 0) {
+		g_signal_handler_disconnect (
+			day_view->main_canvas,
+			day_view->priv->main_canvas_drag_end_handler_id);
+		day_view->priv->main_canvas_drag_end_handler_id = 0;
+	}
+
+	if (day_view->priv->main_canvas_drag_data_get_handler_id > 0) {
+		g_signal_handler_disconnect (
+			day_view->main_canvas,
+			day_view->priv->main_canvas_drag_data_get_handler_id);
+		day_view->priv->main_canvas_drag_data_get_handler_id = 0;
+	}
+
+	if (day_view->priv->main_canvas_drag_data_received_handler_id > 0) {
+		g_signal_handler_disconnect (
+			day_view->main_canvas,
+			day_view->priv->main_canvas_drag_data_received_handler_id);
+		day_view->priv->main_canvas_drag_data_received_handler_id = 0;
+	}
+
+	if (day_view->priv->time_canvas_scroll_event_handler_id > 0) {
+		g_signal_handler_disconnect (
+			day_view->time_canvas,
+			day_view->priv->time_canvas_scroll_event_handler_id);
+		day_view->priv->time_canvas_scroll_event_handler_id = 0;
+	}
+
+	g_clear_object (&day_view->top_canvas);
+	g_clear_object (&day_view->main_canvas);
+	g_clear_object (&day_view->time_canvas);
 	g_clear_object (&day_view->priv->model);
 
 	/* Chain up to parent's dispose() method. */
@@ -831,10 +1155,22 @@ day_view_dispose (GObject *object)
 }
 
 static void
+day_view_notify (GObject *object,
+                 GParamSpec *pspec)
+{
+	/* Don't chain up.  None of our parent classes, not
+	 * even GObjectClass itself, implements this method. */
+
+	if (g_str_equal (pspec->name, "time-divisions"))
+		day_view_notify_time_divisions_cb (E_DAY_VIEW (object));
+}
+
+static void
 day_view_constructed (GObject *object)
 {
 	EDayView *day_view;
 	ECalModel *model;
+	gulong handler_id;
 
 	day_view = E_DAY_VIEW (object);
 
@@ -847,57 +1183,65 @@ day_view_constructed (GObject *object)
 	 * disconnect signal handlers in dispose(). */
 	day_view->priv->model = g_object_ref (model);
 
-	g_signal_connect (
+	handler_id = g_signal_connect (
 		model, "notify::work-day-monday",
 		G_CALLBACK (day_view_notify_work_day_cb), day_view);
+	day_view->priv->notify_work_day_monday_handler_id = handler_id;
 
-	g_signal_connect (
+	handler_id = g_signal_connect (
 		model, "notify::work-day-tuesday",
 		G_CALLBACK (day_view_notify_work_day_cb), day_view);
+	day_view->priv->notify_work_day_tuesday_handler_id = handler_id;
 
-	g_signal_connect (
+	handler_id = g_signal_connect (
 		model, "notify::work-day-wednesday",
 		G_CALLBACK (day_view_notify_work_day_cb), day_view);
+	day_view->priv->notify_work_day_wednesday_handler_id = handler_id;
 
-	g_signal_connect (
+	handler_id = g_signal_connect (
 		model, "notify::work-day-thursday",
 		G_CALLBACK (day_view_notify_work_day_cb), day_view);
+	day_view->priv->notify_work_day_thursday_handler_id = handler_id;
 
-	g_signal_connect (
+	handler_id = g_signal_connect (
 		model, "notify::work-day-friday",
 		G_CALLBACK (day_view_notify_work_day_cb), day_view);
+	day_view->priv->notify_work_day_friday_handler_id = handler_id;
 
-	g_signal_connect (
+	handler_id = g_signal_connect (
 		model, "notify::work-day-saturday",
 		G_CALLBACK (day_view_notify_work_day_cb), day_view);
+	day_view->priv->notify_work_day_saturday_handler_id = handler_id;
 
-	g_signal_connect (
+	handler_id = g_signal_connect (
 		model, "notify::work-day-sunday",
 		G_CALLBACK (day_view_notify_work_day_cb), day_view);
+	day_view->priv->notify_work_day_sunday_handler_id = handler_id;
 
-	g_signal_connect_swapped (
-		day_view, "notify::time-divisions",
-		G_CALLBACK (day_view_notify_time_divisions_cb), day_view);
-
-	g_signal_connect_swapped (
+	handler_id = g_signal_connect_swapped (
 		model, "notify::week-start-day",
 		G_CALLBACK (day_view_notify_week_start_day_cb), day_view);
+	day_view->priv->notify_week_start_day_handler_id = handler_id;
 
-	g_signal_connect_swapped (
+	handler_id = g_signal_connect_swapped (
 		model, "notify::work-day-start-hour",
 		G_CALLBACK (gtk_widget_queue_draw), day_view->main_canvas);
+	day_view->priv->notify_work_day_start_hour_handler_id = handler_id;
 
-	g_signal_connect_swapped (
+	handler_id = g_signal_connect_swapped (
 		model, "notify::work-day-start-minute",
 		G_CALLBACK (gtk_widget_queue_draw), day_view->main_canvas);
+	day_view->priv->notify_work_day_start_minute_handler_id = handler_id;
 
-	g_signal_connect_swapped (
+	handler_id = g_signal_connect_swapped (
 		model, "notify::work-day-end-hour",
 		G_CALLBACK (gtk_widget_queue_draw), day_view->main_canvas);
+	day_view->priv->notify_work_day_end_hour_handler_id = handler_id;
 
-	g_signal_connect_swapped (
+	handler_id = g_signal_connect_swapped (
 		model, "notify::work-day-end-minute",
 		G_CALLBACK (gtk_widget_queue_draw), day_view->main_canvas);
+	day_view->priv->notify_work_day_end_minute_handler_id = handler_id;
 }
 
 static void
@@ -1485,6 +1829,7 @@ e_day_view_class_init (EDayViewClass *class)
 	object_class->get_property = day_view_get_property;
 	object_class->constructed = day_view_constructed;
 	object_class->dispose = day_view_dispose;
+	object_class->notify = day_view_notify;
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->realize = day_view_realize;
@@ -1556,7 +1901,9 @@ e_day_view_init (EDayView *day_view)
 	GnomeCanvasGroup *canvas_group;
 	GtkAdjustment *adjustment;
 	GtkScrollable *scrollable;
-	GtkWidget *w;
+	GtkWidget *container;
+	GtkWidget *widget;
+	gulong handler_id;
 
 	day_view->priv = E_DAY_VIEW_GET_PRIVATE (day_view);
 
@@ -1642,55 +1989,84 @@ e_day_view_init (EDayView *day_view)
 	day_view->before_click_dtstart = 0;
 	day_view->before_click_dtend = 0;
 
-	day_view->week_number_label = gtk_label_new ("");
-	gtk_table_attach (GTK_TABLE (day_view), day_view->week_number_label, 0, 1, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
+	widget = gtk_label_new ("");
+	gtk_table_attach (
+		GTK_TABLE (day_view), widget,
+		0, 1, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
+	day_view->week_number_label = widget;
 
 	/*
 	 * Top Canvas
 	 */
-	w = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-
-	day_view->top_dates_canvas = e_canvas_new ();
-	gtk_box_pack_start (GTK_BOX (w), day_view->top_dates_canvas, TRUE, TRUE, 0);
-	day_view->top_canvas = e_canvas_new ();
-	gtk_box_pack_end (GTK_BOX (w), day_view->top_canvas, TRUE, TRUE, 0);
-
+	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_table_attach (
-		GTK_TABLE (day_view), w,
+		GTK_TABLE (day_view), widget,
 		1, 2, 0, 1, GTK_EXPAND | GTK_FILL, GTK_FILL, 0, 0);
-	gtk_widget_show_all (w);
+	gtk_widget_show (widget);
 
-	g_signal_connect_after (
+	container = widget;
+
+	widget = e_canvas_new ();
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
+	day_view->top_dates_canvas = widget;
+	gtk_widget_show (widget);
+
+	/* Keep our own canvas reference so we can
+	 * disconnect signal handlers in dispose(). */
+	widget = e_canvas_new ();
+	gtk_box_pack_end (GTK_BOX (container), widget, TRUE, TRUE, 0);
+	day_view->top_canvas = g_object_ref (widget);
+	gtk_widget_show (widget);
+
+	handler_id = g_signal_connect_after (
 		day_view->top_canvas, "button_press_event",
 		G_CALLBACK (e_day_view_on_top_canvas_button_press), day_view);
-	g_signal_connect (
+	day_view->priv->top_canvas_button_press_event_handler_id = handler_id;
+
+	handler_id = g_signal_connect (
 		day_view->top_canvas, "button_release_event",
 		G_CALLBACK (e_day_view_on_top_canvas_button_release), day_view);
-	g_signal_connect (
+	day_view->priv->top_canvas_button_release_event_handler_id = handler_id;
+
+	handler_id = g_signal_connect (
 		day_view->top_canvas, "scroll_event",
 		G_CALLBACK (e_day_view_on_top_canvas_scroll), day_view);
-	g_signal_connect (
+	day_view->priv->top_canvas_scroll_event_handler_id = handler_id;
+
+	handler_id = g_signal_connect (
 		day_view->top_canvas, "motion_notify_event",
 		G_CALLBACK (e_day_view_on_top_canvas_motion), day_view);
-	g_signal_connect (
+	day_view->priv->top_canvas_motion_notify_event_handler_id = handler_id;
+
+	handler_id = g_signal_connect (
 		day_view->top_canvas, "drag_motion",
 		G_CALLBACK (e_day_view_on_top_canvas_drag_motion), day_view);
-	g_signal_connect (
+	day_view->priv->top_canvas_drag_motion_handler_id = handler_id;
+
+	handler_id = g_signal_connect (
 		day_view->top_canvas, "drag_leave",
 		G_CALLBACK (e_day_view_on_top_canvas_drag_leave), day_view);
+	day_view->priv->top_canvas_drag_leave_handler_id = handler_id;
 
-	g_signal_connect (
+	handler_id = g_signal_connect (
 		day_view->top_canvas, "drag_begin",
 		G_CALLBACK (e_day_view_on_drag_begin), day_view);
-	g_signal_connect (
+	day_view->priv->top_canvas_drag_begin_handler_id = handler_id;
+
+	handler_id = g_signal_connect (
 		day_view->top_canvas, "drag_end",
 		G_CALLBACK (e_day_view_on_drag_end), day_view);
-	g_signal_connect (
+	day_view->priv->top_canvas_drag_end_handler_id = handler_id;
+
+	handler_id = g_signal_connect (
 		day_view->top_canvas, "drag_data_get",
 		G_CALLBACK (e_day_view_on_drag_data_get), day_view);
-	g_signal_connect (
+	day_view->priv->top_canvas_drag_data_get_handler_id = handler_id;
+
+	handler_id = g_signal_connect (
 		day_view->top_canvas, "drag_data_received",
 		G_CALLBACK (e_day_view_on_top_canvas_drag_data_received), day_view);
+	day_view->priv->top_canvas_drag_data_received_handler_id = handler_id;
 
 	canvas_group = GNOME_CANVAS_GROUP (GNOME_CANVAS (day_view->top_dates_canvas)->root);
 
@@ -1736,48 +2112,71 @@ e_day_view_init (EDayView *day_view)
 	/*
 	 * Main Canvas
 	 */
-	day_view->main_canvas = e_canvas_new ();
+
+	/* Keep our own canvas reference so we can
+	 * disconnect signal handlers in dispose(). */
+	widget = e_canvas_new ();
 	gtk_table_attach (
-		GTK_TABLE (day_view), day_view->main_canvas,
-		1, 2, 1, 2,
+		GTK_TABLE (day_view), widget, 1, 2, 1, 2,
 		GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
-	gtk_widget_show (day_view->main_canvas);
-	g_signal_connect (
+	day_view->main_canvas = g_object_ref (widget);
+	gtk_widget_show (widget);
+
+	handler_id = g_signal_connect (
 		day_view->main_canvas, "realize",
 		G_CALLBACK (e_day_view_on_canvas_realized), day_view);
+	day_view->priv->main_canvas_realize_handler_id = handler_id;
 
-	g_signal_connect (
+	handler_id = g_signal_connect (
 		day_view->main_canvas, "button_press_event",
 		G_CALLBACK (e_day_view_on_main_canvas_button_press), day_view);
-	g_signal_connect (
+	day_view->priv->main_canvas_button_press_event_handler_id = handler_id;
+
+	handler_id = g_signal_connect (
 		day_view->main_canvas, "button_release_event",
 		G_CALLBACK (e_day_view_on_main_canvas_button_release),
 		day_view);
-	g_signal_connect (
+	day_view->priv->main_canvas_button_release_event_handler_id = handler_id;
+
+	handler_id = g_signal_connect (
 		day_view->main_canvas, "scroll_event",
 		G_CALLBACK (e_day_view_on_main_canvas_scroll), day_view);
-	g_signal_connect (
+	day_view->priv->main_canvas_scroll_event_handler_id = handler_id;
+
+	handler_id = g_signal_connect (
 		day_view->main_canvas, "motion_notify_event",
 		G_CALLBACK (e_day_view_on_main_canvas_motion), day_view);
-	g_signal_connect (
+	day_view->priv->main_canvas_motion_notify_event_handler_id = handler_id;
+
+	handler_id = g_signal_connect (
 		day_view->main_canvas, "drag_motion",
 		G_CALLBACK (e_day_view_on_main_canvas_drag_motion), day_view);
-	g_signal_connect (
+	day_view->priv->main_canvas_drag_motion_handler_id = handler_id;
+
+	handler_id = g_signal_connect (
 		day_view->main_canvas, "drag_leave",
 		G_CALLBACK (e_day_view_on_main_canvas_drag_leave), day_view);
+	day_view->priv->main_canvas_drag_leave_handler_id = handler_id;
 
-	g_signal_connect (
+	handler_id = g_signal_connect (
 		day_view->main_canvas, "drag_begin",
 		G_CALLBACK (e_day_view_on_drag_begin), day_view);
-	g_signal_connect (
+	day_view->priv->main_canvas_drag_begin_handler_id = handler_id;
+
+	handler_id = g_signal_connect (
 		day_view->main_canvas, "drag_end",
 		G_CALLBACK (e_day_view_on_drag_end), day_view);
-	g_signal_connect (
+	day_view->priv->main_canvas_drag_end_handler_id = handler_id;
+
+	handler_id = g_signal_connect (
 		day_view->main_canvas, "drag_data_get",
 		G_CALLBACK (e_day_view_on_drag_data_get), day_view);
-	g_signal_connect (
+	day_view->priv->main_canvas_drag_data_get_handler_id = handler_id;
+
+	handler_id = g_signal_connect (
 		day_view->main_canvas, "drag_data_received",
 		G_CALLBACK (e_day_view_on_main_canvas_drag_data_received), day_view);
+	day_view->priv->main_canvas_drag_data_received_handler_id = handler_id;
 
 	canvas_group = GNOME_CANVAS_GROUP (GNOME_CANVAS (day_view->main_canvas)->root);
 
@@ -1818,19 +2217,24 @@ e_day_view_init (EDayView *day_view)
 	/*
 	 * Times Canvas
 	 */
-	day_view->time_canvas = e_canvas_new ();
+
+	/* Keep our own canvas reference so we can
+	 * disconnect signal handlers in dispose(). */
+	widget = e_canvas_new ();
 	scrollable = GTK_SCROLLABLE (day_view->main_canvas);
 	adjustment = gtk_scrollable_get_vadjustment (scrollable);
-	scrollable = GTK_SCROLLABLE (day_view->time_canvas);
+	scrollable = GTK_SCROLLABLE (widget);
 	gtk_scrollable_set_vadjustment (scrollable, adjustment);
 	gtk_table_attach (
-		GTK_TABLE (day_view), day_view->time_canvas,
-		0, 1, 1, 2,
+		GTK_TABLE (day_view), widget, 0, 1, 1, 2,
 		GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
-	gtk_widget_show (day_view->time_canvas);
-	g_signal_connect_after (
+	day_view->time_canvas = g_object_ref (widget);
+	gtk_widget_show (widget);
+
+	handler_id = g_signal_connect_after (
 		day_view->time_canvas, "scroll_event",
 		G_CALLBACK (e_day_view_on_time_canvas_scroll), day_view);
+	day_view->priv->time_canvas_scroll_event_handler_id = handler_id;
 
 	canvas_group = GNOME_CANVAS_GROUP (GNOME_CANVAS (day_view->time_canvas)->root);
 
@@ -2174,25 +2578,37 @@ static void
 init_model (EDayView *day_view,
             ECalModel *model)
 {
-	/* connect to ECalModel's signals */
-	g_signal_connect (
+	gulong handler_id;
+
+	handler_id = g_signal_connect (
 		model, "time_range_changed",
 		G_CALLBACK (time_range_changed_cb), day_view);
-	g_signal_connect (
+	day_view->priv->time_range_changed_handler_id = handler_id;
+
+	handler_id = g_signal_connect (
 		model, "model_row_changed",
 		G_CALLBACK (model_row_changed_cb), day_view);
-	g_signal_connect (
+	day_view->priv->model_row_changed_handler_id = handler_id;
+
+	handler_id = g_signal_connect (
 		model, "model_cell_changed",
 		G_CALLBACK (model_cell_changed_cb), day_view);
-	g_signal_connect (
+	day_view->priv->model_cell_changed_handler_id = handler_id;
+
+	handler_id = g_signal_connect (
 		model, "model_rows_inserted",
 		G_CALLBACK (model_rows_inserted_cb), day_view);
-	g_signal_connect (
+	day_view->priv->model_rows_inserted_handler_id = handler_id;
+
+	handler_id = g_signal_connect (
 		model, "comps_deleted",
 		G_CALLBACK (model_comps_deleted_cb), day_view);
-	g_signal_connect (
+	day_view->priv->comps_deleted_handler_id = handler_id;
+
+	handler_id = g_signal_connect (
 		model, "timezone_changed",
 		G_CALLBACK (timezone_changed_cb), day_view);
+	day_view->priv->timezone_changed_handler_id = handler_id;
 }
 
 /* Turn off the background of the canvas windows. This reduces flicker
