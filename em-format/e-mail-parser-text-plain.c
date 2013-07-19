@@ -137,12 +137,12 @@ empe_text_plain_parse (EMailParserExtension *extension,
 	CamelMultipart *mp;
 	CamelDataWrapper *dw;
 	CamelContentType *type;
-	gint i, count;
+	gint ii, count;
 	EMailInlineFilter *inline_filter;
 	gboolean charset_added = FALSE;
 	const gchar *snoop_type = NULL;
 	gboolean is_attachment;
-	gint n_parts_added = 0;
+	gboolean handled = FALSE;
 
 	dw = camel_medium_get_content ((CamelMedium *) part);
 	if (!dw)
@@ -204,26 +204,27 @@ empe_text_plain_parse (EMailParserExtension *extension,
 	g_object_unref (inline_filter);
 	camel_content_type_unref (type);
 
-	/* We handle our made-up multipart here, so we don't recursively call ourselves */
+	/* We handle our made-up multipart here,
+	 * so we don't recursively call ourselves. */
+
 	count = camel_multipart_get_number (mp);
 
 	is_attachment = ((count == 1) && (e_mail_part_is_attachment (part)));
 
-	for (i = 0; i < count; i++) {
-		CamelMimePart *newpart = camel_multipart_get_part (mp, i);
+	for (ii = 0; ii < count; ii++) {
+		CamelMimePart *newpart = camel_multipart_get_part (mp, ii);
 
-		if (!newpart)
-			continue;
-
-		n_parts_added += process_part (
-			parser, part_id, i,
-			newpart, is_attachment,
-			cancellable, out_mail_parts);
+		if (newpart != NULL) {
+			handled |= process_part (
+				parser, part_id, ii,
+				newpart, is_attachment,
+				cancellable, out_mail_parts);
+		}
 	}
 
 	g_object_unref (mp);
 
-	return n_parts_added;
+	return handled;
 }
 
 static void
