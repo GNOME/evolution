@@ -218,17 +218,12 @@ void
 e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 {
 	ETaskShellViewPrivate *priv = task_shell_view->priv;
-	ETaskShellContent *task_shell_content;
-	ETaskShellSidebar *task_shell_sidebar;
 	EShellBackend *shell_backend;
 	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
 	EShellWindow *shell_window;
 	EShellView *shell_view;
 	EShell *shell;
-	ETaskTable *task_table;
-	ECalModel *model;
-	ESourceSelector *selector;
 	gulong handler_id;
 
 	shell_view = E_SHELL_VIEW (task_shell_view);
@@ -248,16 +243,22 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 
 	priv->settings = g_settings_new ("org.gnome.evolution.calendar");
 
-	task_shell_content = E_TASK_SHELL_CONTENT (shell_content);
-	task_table = e_task_shell_content_get_task_table (task_shell_content);
-	model = e_task_table_get_model (task_table);
+	handler_id = g_signal_connect_object (
+		priv->task_shell_sidebar, "client-added",
+		G_CALLBACK (task_shell_view_selector_client_added_cb),
+		task_shell_view, G_CONNECT_SWAPPED);
+	priv->client_added_handler_id = handler_id;
 
-	task_shell_sidebar = E_TASK_SHELL_SIDEBAR (shell_sidebar);
-	selector = e_task_shell_sidebar_get_selector (task_shell_sidebar);
+	handler_id = g_signal_connect_object (
+		priv->task_shell_sidebar, "client-removed",
+		G_CALLBACK (task_shell_view_selector_client_removed_cb),
+		task_shell_view, G_CONNECT_SWAPPED);
+	priv->client_removed_handler_id = handler_id;
 
 	/* Keep our own reference to this so we can
-	 * disconnect our signal handler in dispose(). */
-	priv->client_cache = g_object_ref (e_shell_get_client_cache (shell));
+	 * disconnect our signal handlers in dispose(). */
+	priv->client_cache = e_shell_get_client_cache (shell);
+	g_object_ref (priv->client_cache);
 
 	handler_id = g_signal_connect (
 		priv->client_cache, "backend-error",
@@ -265,70 +266,88 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 		task_shell_view);
 	priv->backend_error_handler_id = handler_id;
 
-	g_signal_connect_object (
-		model, "row-appended",
-		G_CALLBACK (task_shell_view_model_row_appended_cb),
-		task_shell_view, G_CONNECT_SWAPPED);
+	/* Keep our own reference to this so we can
+	 * disconnect our signal handlers in dispose(). */
+	priv->task_table = e_task_shell_content_get_task_table (
+		E_TASK_SHELL_CONTENT (shell_content));
+	g_object_ref (priv->task_table);
 
-	g_signal_connect_object (
-		task_table, "open-component",
+	handler_id = g_signal_connect_swapped (
+		priv->task_table, "open-component",
 		G_CALLBACK (e_task_shell_view_open_task),
-		task_shell_view, G_CONNECT_SWAPPED);
+		task_shell_view);
+	priv->open_component_handler_id = handler_id;
 
-	g_signal_connect_object (
-		task_table, "popup-event",
+	handler_id = g_signal_connect_swapped (
+		priv->task_table, "popup-event",
 		G_CALLBACK (task_shell_view_table_popup_event_cb),
-		task_shell_view, G_CONNECT_SWAPPED);
+		task_shell_view);
+	priv->popup_event_handler_id = handler_id;
 
-	g_signal_connect_object (
-		task_table, "selection-change",
+	handler_id = g_signal_connect_swapped (
+		priv->task_table, "selection-change",
 		G_CALLBACK (e_task_shell_view_update_sidebar),
-		task_shell_view, G_CONNECT_SWAPPED);
+		task_shell_view);
+	priv->selection_change_1_handler_id = handler_id;
 
-	g_signal_connect_object (
-		task_table, "selection-change",
+	handler_id = g_signal_connect_swapped (
+		priv->task_table, "selection-change",
 		G_CALLBACK (e_shell_view_update_actions),
-		task_shell_view, G_CONNECT_SWAPPED);
+		task_shell_view);
+	priv->selection_change_2_handler_id = handler_id;
 
-	g_signal_connect_object (
-		task_table, "status-message",
+	handler_id = g_signal_connect_swapped (
+		priv->task_table, "status-message",
 		G_CALLBACK (e_task_shell_view_set_status_message),
-		task_shell_view, G_CONNECT_SWAPPED);
+		task_shell_view);
+	priv->status_message_handler_id = handler_id;
 
-	g_signal_connect_object (
-		model, "model-changed",
+	/* Keep our own reference to this so we can
+	 * disconnect our signal handlers in dispose(). */
+	priv->model = e_task_table_get_model (priv->task_table);
+	g_object_ref (priv->model);
+
+	handler_id = g_signal_connect_swapped (
+		priv->model, "model-changed",
 		G_CALLBACK (e_task_shell_view_update_sidebar),
-		task_shell_view, G_CONNECT_SWAPPED);
+		task_shell_view);
+	priv->model_changed_handler_id = handler_id;
 
-	g_signal_connect_object (
-		model, "model-rows-deleted",
+	handler_id = g_signal_connect_swapped (
+		priv->model, "model-rows-deleted",
 		G_CALLBACK (e_task_shell_view_update_sidebar),
-		task_shell_view, G_CONNECT_SWAPPED);
+		task_shell_view);
+	priv->model_rows_deleted_handler_id = handler_id;
 
-	g_signal_connect_object (
-		model, "model-rows-inserted",
+	handler_id = g_signal_connect_swapped (
+		priv->model, "model-rows-inserted",
 		G_CALLBACK (e_task_shell_view_update_sidebar),
-		task_shell_view, G_CONNECT_SWAPPED);
+		task_shell_view);
+	priv->model_rows_inserted_handler_id = handler_id;
 
-	g_signal_connect_object (
-		task_shell_sidebar, "client-added",
-		G_CALLBACK (task_shell_view_selector_client_added_cb),
-		task_shell_view, G_CONNECT_SWAPPED);
+	handler_id = g_signal_connect_swapped (
+		priv->model, "row-appended",
+		G_CALLBACK (task_shell_view_model_row_appended_cb),
+		task_shell_view);
+	priv->rows_appended_handler_id = handler_id;
 
-	g_signal_connect_object (
-		task_shell_sidebar, "client-removed",
-		G_CALLBACK (task_shell_view_selector_client_removed_cb),
-		task_shell_view, G_CONNECT_SWAPPED);
+	/* Keep our own reference to this so we can
+	 * disconnect our signal handlers in dispose(). */
+	priv->selector = e_task_shell_sidebar_get_selector (
+		E_TASK_SHELL_SIDEBAR (shell_sidebar));
+	g_object_ref (priv->selector);
 
-	g_signal_connect_object (
-		selector, "popup-event",
+	handler_id = g_signal_connect_swapped (
+		priv->selector, "popup-event",
 		G_CALLBACK (task_shell_view_selector_popup_event_cb),
-		task_shell_view, G_CONNECT_SWAPPED);
+		task_shell_view);
+	priv->selector_popup_event_handler_id = handler_id;
 
-	g_signal_connect_object (
-		selector, "primary-selection-changed",
+	handler_id = g_signal_connect_swapped (
+		priv->selector, "primary-selection-changed",
 		G_CALLBACK (e_shell_view_update_actions),
-		task_shell_view, G_CONNECT_SWAPPED);
+		task_shell_view);
+	priv->primary_selection_changed_handler_id = handler_id;
 
 	e_categories_add_change_hook (
 		(GHookFunc) e_task_shell_view_update_search_filter,
@@ -337,13 +356,13 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 	/* Listen for configuration changes. */
 	g_settings_bind (
 		priv->settings, "confirm-purge",
-		task_shell_view, "confirm-purge",
+		shell_view, "confirm-purge",
 		G_SETTINGS_BIND_DEFAULT);
 
 	/* Keep the ECalModel in sync with the sidebar. */
 	g_object_bind_property (
 		shell_sidebar, "default-client",
-		model, "default-client",
+		priv->model, "default-client",
 		G_BINDING_SYNC_CREATE);
 
 	/* Hide Completed Tasks (enable/units/value) */
@@ -381,11 +400,102 @@ e_task_shell_view_private_dispose (ETaskShellView *task_shell_view)
 {
 	ETaskShellViewPrivate *priv = task_shell_view->priv;
 
+	if (priv->client_added_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->task_shell_sidebar,
+			priv->client_added_handler_id);
+		priv->client_added_handler_id = 0;
+	}
+
+	if (priv->client_removed_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->task_shell_sidebar,
+			priv->client_removed_handler_id);
+		priv->client_removed_handler_id = 0;
+	}
+
 	if (priv->backend_error_handler_id > 0) {
 		g_signal_handler_disconnect (
 			priv->client_cache,
 			priv->backend_error_handler_id);
 		priv->backend_error_handler_id = 0;
+	}
+
+	if (priv->open_component_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->task_table,
+			priv->open_component_handler_id);
+		priv->open_component_handler_id = 0;
+	}
+
+	if (priv->popup_event_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->task_table,
+			priv->popup_event_handler_id);
+		priv->popup_event_handler_id = 0;
+	}
+
+	if (priv->selection_change_1_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->task_table,
+			priv->selection_change_1_handler_id);
+		priv->selection_change_1_handler_id = 0;
+	}
+
+	if (priv->selection_change_2_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->task_table,
+			priv->selection_change_2_handler_id);
+		priv->selection_change_2_handler_id = 0;
+	}
+
+	if (priv->status_message_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->task_table,
+			priv->status_message_handler_id);
+		priv->status_message_handler_id = 0;
+	}
+
+	if (priv->model_changed_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->model,
+			priv->model_changed_handler_id);
+		priv->model_changed_handler_id = 0;
+	}
+
+	if (priv->model_rows_deleted_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->model,
+			priv->model_rows_deleted_handler_id);
+		priv->model_rows_deleted_handler_id = 0;
+	}
+
+	if (priv->model_rows_inserted_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->model,
+			priv->model_rows_inserted_handler_id);
+		priv->model_rows_inserted_handler_id = 0;
+	}
+
+	if (priv->rows_appended_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->model,
+			priv->rows_appended_handler_id);
+		priv->rows_appended_handler_id = 0;
+	}
+
+	if (priv->selector_popup_event_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->selector,
+			priv->selector_popup_event_handler_id);
+		priv->selector_popup_event_handler_id = 0;
+	}
+
+	if (priv->primary_selection_changed_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->selector,
+			priv->primary_selection_changed_handler_id);
+		priv->primary_selection_changed_handler_id = 0;
 	}
 
 	if (priv->settings_hide_completed_tasks_handler_id > 0) {
@@ -414,6 +524,9 @@ e_task_shell_view_private_dispose (ETaskShellView *task_shell_view)
 	g_clear_object (&priv->task_shell_sidebar);
 
 	g_clear_object (&priv->client_cache);
+	g_clear_object (&priv->task_table);
+	g_clear_object (&priv->model);
+	g_clear_object (&priv->selector);
 	g_clear_object (&priv->settings);
 
 	if (task_shell_view->priv->activity != NULL) {
