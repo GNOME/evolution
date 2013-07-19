@@ -744,9 +744,16 @@ static void
 day_view_dispose (GObject *object)
 {
 	EDayView *day_view;
+	ECalModel *model;
 	gint day;
 
 	day_view = E_DAY_VIEW (object);
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
+
+	if (model) {
+		g_signal_handlers_disconnect_by_data (model, day_view);
+		g_signal_handlers_disconnect_by_data (model, day_view->main_canvas);
+	}
 
 	e_day_view_cancel_layout (day_view);
 

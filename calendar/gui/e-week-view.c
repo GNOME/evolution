@@ -684,10 +684,15 @@ static void
 week_view_dispose (GObject *object)
 {
 	EWeekView *week_view;
+	ECalModel *model;
 
 	week_view = E_WEEK_VIEW (object);
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (object));
 
 	e_week_view_cancel_layout (week_view);
+
+	if (model)
+		g_signal_handlers_disconnect_by_data (model, object);
 
 	if (week_view->events) {
 		e_week_view_free_events (week_view);

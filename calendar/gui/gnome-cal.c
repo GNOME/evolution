@@ -1573,10 +1573,7 @@ gnome_calendar_do_dispose (GObject *object)
 	}
 
 	if (priv->model != NULL) {
-		g_signal_handlers_disconnect_by_func (
-			priv->model, view_progress_cb, object);
-		g_signal_handlers_disconnect_by_func (
-			priv->model, view_complete_cb, object);
+		g_signal_handlers_disconnect_by_data (priv->model, object);
 		g_object_unref (priv->model);
 		priv->model = NULL;
 	}

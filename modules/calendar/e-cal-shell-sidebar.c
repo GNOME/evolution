@@ -385,6 +385,9 @@ cal_shell_sidebar_restore_state_cb (EShellWindow *shell_window,
 	shell = e_shell_window_get_shell (shell_window);
 	shell_settings = e_shell_get_shell_settings (shell);
 
+	g_signal_handlers_disconnect_by_func (shell_window,
+		cal_shell_sidebar_restore_state_cb, shell_sidebar);
+
 	selector = E_SOURCE_SELECTOR (priv->selector);
 	registry = e_source_selector_get_registry (selector);
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (selector));
