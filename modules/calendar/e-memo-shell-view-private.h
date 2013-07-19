@@ -78,8 +78,29 @@ struct _EMemoShellViewPrivate {
 	EMemoShellContent *memo_shell_content;
 	EMemoShellSidebar *memo_shell_sidebar;
 
+	/* sidebar signal handlers */
+	gulong client_added_handler_id;
+	gulong client_removed_handler_id;
+
 	EClientCache *client_cache;
 	gulong backend_error_handler_id;
+
+	EMemoTable *memo_table;
+	gulong open_component_handler_id;
+	gulong popup_event_handler_id;
+	gulong selection_change_1_handler_id;
+	gulong selection_change_2_handler_id;
+	gulong status_message_handler_id;
+
+	ECalModel *model;
+	gulong model_changed_handler_id;
+	gulong model_rows_deleted_handler_id;
+	gulong model_rows_inserted_handler_id;
+	gulong row_appended_handler_id;
+
+	ESourceSelector *selector;
+	gulong selector_popup_event_handler_id;
+	gulong primary_selection_changed_handler_id;
 
 	EActivity *activity;
 };
