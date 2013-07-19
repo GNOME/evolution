@@ -1111,7 +1111,7 @@ rename_folders (MailFolderCache *cache,
 	old = g_strdup_printf ("%s%s", oldbase, fi->full_name + strlen (newbase));
 	old_folder_info = store_info_steal_folder_info (store_info, old);
 	if (old_folder_info != NULL) {
-		up->oldfull = old_folder_info->full_name;
+		up->oldfull = g_strdup (old_folder_info->full_name);
 		up->signal_id = signals[FOLDER_RENAMED];
 		folder_info_unref (old_folder_info);
 	}
