@@ -176,9 +176,15 @@ handle_mail_request (GSimpleAsyncResult *res,
 	context.part_list = NULL;
 
 	/* Convert the GString to GInputStream and send it back to WebKit */
-	ba = camel_stream_mem_get_byte_array (CAMEL_STREAM_MEM (request->priv->output_stream));
-	if (!ba->data) {
-		gchar *data = g_strdup_printf (_("Failed to load part '%s'"), part_id);
+	ba = camel_stream_mem_get_byte_array (
+		CAMEL_STREAM_MEM (request->priv->output_stream));
+	if (ba->data == NULL) {
+		gchar *data;
+
+		/* XXX Text was added after 3.8.0; not translated. */
+		data = g_strdup_printf (
+			"<p align='center'>%s</p>",
+			"The message has no text content.");
 		dd (printf ("%s", data));
 		g_byte_array_append (ba, (guchar *) data, strlen (data));
 		g_free (data);
