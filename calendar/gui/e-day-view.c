@@ -97,13 +97,6 @@
 
 struct _EDayViewPrivate {
 	ECalModel *model;
-	gulong notify_work_day_monday_handler_id;
-	gulong notify_work_day_tuesday_handler_id;
-	gulong notify_work_day_wednesday_handler_id;
-	gulong notify_work_day_thursday_handler_id;
-	gulong notify_work_day_friday_handler_id;
-	gulong notify_work_day_saturday_handler_id;
-	gulong notify_work_day_sunday_handler_id;
 
 	/* Whether we are showing the work-week view. */
 	gboolean work_week_view;
@@ -826,53 +819,9 @@ day_view_dispose (GObject *object)
 		day_view->grabbed_pointer = NULL;
 	}
 
-	if (day_view->priv->notify_work_day_monday_handler_id > 0) {
-		g_signal_handler_disconnect (
-			day_view->priv->model,
-			day_view->priv->notify_work_day_monday_handler_id);
-		day_view->priv->notify_work_day_monday_handler_id = 0;
-	}
-
-	if (day_view->priv->notify_work_day_tuesday_handler_id > 0) {
-		g_signal_handler_disconnect (
-			day_view->priv->model,
-			day_view->priv->notify_work_day_tuesday_handler_id);
-		day_view->priv->notify_work_day_tuesday_handler_id = 0;
-	}
-
-	if (day_view->priv->notify_work_day_wednesday_handler_id > 0) {
-		g_signal_handler_disconnect (
-			day_view->priv->model,
-			day_view->priv->notify_work_day_wednesday_handler_id);
-		day_view->priv->notify_work_day_wednesday_handler_id = 0;
-	}
-
-	if (day_view->priv->notify_work_day_thursday_handler_id > 0) {
-		g_signal_handler_disconnect (
-			day_view->priv->model,
-			day_view->priv->notify_work_day_thursday_handler_id);
-		day_view->priv->notify_work_day_thursday_handler_id = 0;
-	}
-
-	if (day_view->priv->notify_work_day_friday_handler_id > 0) {
-		g_signal_handler_disconnect (
-			day_view->priv->model,
-			day_view->priv->notify_work_day_friday_handler_id);
-		day_view->priv->notify_work_day_friday_handler_id = 0;
-	}
-
-	if (day_view->priv->notify_work_day_saturday_handler_id > 0) {
-		g_signal_handler_disconnect (
-			day_view->priv->model,
-			day_view->priv->notify_work_day_saturday_handler_id);
-		day_view->priv->notify_work_day_saturday_handler_id = 0;
-	}
-
-	if (day_view->priv->notify_work_day_sunday_handler_id > 0) {
-		g_signal_handler_disconnect (
-			day_view->priv->model,
-			day_view->priv->notify_work_day_sunday_handler_id);
-		day_view->priv->notify_work_day_sunday_handler_id = 0;
+	if (day_view->priv->model) {
+		g_signal_handlers_disconnect_by_data (day_view->priv->model, day_view);
+		g_signal_handlers_disconnect_by_data (day_view->priv->model, day_view->main_canvas);
 	}
 
 	g_clear_object (&day_view->priv->model);
@@ -886,7 +835,6 @@ day_view_constructed (GObject *object)
 {
 	EDayView *day_view;
 	ECalModel *model;
-	gulong handler_id;
 
 	day_view = E_DAY_VIEW (object);
 
@@ -899,42 +847,33 @@ day_view_constructed (GObject *object)
 	 * disconnect signal handlers in dispose(). */
 	day_view->priv->model = g_object_ref (model);
 
-	handler_id = g_signal_connect (
+	g_signal_connect (
 		model, "notify::work-day-monday",
 		G_CALLBACK (day_view_notify_work_day_cb), day_view);
-	day_view->priv->notify_work_day_monday_handler_id = handler_id;
 
-	handler_id = g_signal_connect (
+	g_signal_connect (
 		model, "notify::work-day-tuesday",
 		G_CALLBACK (day_view_notify_work_day_cb), day_view);
-	day_view->priv->notify_work_day_tuesday_handler_id = handler_id;
 
-	handler_id = g_signal_connect (
+	g_signal_connect (
 		model, "notify::work-day-wednesday",
 		G_CALLBACK (day_view_notify_work_day_cb), day_view);
-	day_view->priv->notify_work_day_wednesday_handler_id = handler_id;
 
-	handler_id = g_signal_connect (
+	g_signal_connect (
 		model, "notify::work-day-thursday",
 		G_CALLBACK (day_view_notify_work_day_cb), day_view);
-	day_view->priv->notify_work_day_thursday_handler_id = handler_id;
 
-	handler_id = g_signal_connect (
+	g_signal_connect (
 		model, "notify::work-day-friday",
 		G_CALLBACK (day_view_notify_work_day_cb), day_view);
-	day_view->priv->notify_work_day_friday_handler_id = handler_id;
 
-	handler_id = g_signal_connect (
+	g_signal_connect (
 		model, "notify::work-day-saturday",
 		G_CALLBACK (day_view_notify_work_day_cb), day_view);
-	day_view->priv->notify_work_day_saturday_handler_id = handler_id;
 
-	handler_id = g_signal_connect (
+	g_signal_connect (
 		model, "notify::work-day-sunday",
 		G_CALLBACK (day_view_notify_work_day_cb), day_view);
-	day_view->priv->notify_work_day_sunday_handler_id = handler_id;
-
-	/* FIXME Should be doing something similar for these handlers. */
 
 	g_signal_connect_swapped (
 		day_view, "notify::time-divisions",
