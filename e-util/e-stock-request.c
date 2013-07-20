@@ -39,26 +39,31 @@ static const gchar *data_schemes[] = { "gtk-stock", NULL };
 
 G_DEFINE_TYPE (EStockRequest, e_stock_request, SOUP_TYPE_REQUEST)
 
-static void
-handle_stock_request (GSimpleAsyncResult *simple,
-                      GObject *object,
-                      GCancellable *cancellable)
+static gboolean
+handle_stock_request_idle_cb (gpointer user_data)
 {
+	EStockRequestPrivate *priv;
+	GSimpleAsyncResult *simple;
+	GObject *object;
 	SoupURI *uri;
 	GHashTable *query = NULL;
 	GtkStyleContext *context;
 	GtkWidgetPath *path;
 	GtkIconSet *icon_set;
-	EStockRequest *request;
 	gssize size = GTK_ICON_SIZE_BUTTON;
 	gchar *a_size;
 	gchar *buffer = NULL;
 	gsize buff_len = 0;
 	GError *local_error = NULL;
 
-	request = E_STOCK_REQUEST (object);
-	uri = soup_request_get_uri (SOUP_REQUEST (object));
+	simple = G_SIMPLE_ASYNC_RESULT (user_data);
 
+	/* This returns a new reference. */
+	object = g_async_result_get_source_object (G_ASYNC_RESULT (simple));
+
+	priv = E_STOCK_REQUEST_GET_PRIVATE (object);
+
+	uri = soup_request_get_uri (SOUP_REQUEST (object));
 	if (uri->query != NULL)
 		query = soup_form_decode (uri->query);
 
@@ -104,7 +109,7 @@ handle_stock_request (GSimpleAsyncResult *simple,
 		if (filename != NULL) {
 			g_file_get_contents (
 				filename, &buffer, &buff_len, &local_error);
-			request->priv->content_type =
+			priv->content_type =
 				g_content_type_guess (filename, NULL, 0, NULL);
 
 		} else {
@@ -123,13 +128,13 @@ handle_stock_request (GSimpleAsyncResult *simple,
 	}
 
 	/* Sanity check */
-	g_return_if_fail (
+	g_return_val_if_fail (
 		((buffer != NULL) && (local_error == NULL)) ||
-		((buffer == NULL) && (local_error != NULL)));
+		((buffer == NULL) && (local_error != NULL)), FALSE);
 
-	if (request->priv->content_type == NULL)
-		request->priv->content_type = g_strdup ("image/png");
-	request->priv->content_length = buff_len;
+	if (priv->content_type == NULL)
+		priv->content_type = g_strdup ("image/png");
+	priv->content_length = buff_len;
 
 	if (buffer != NULL) {
 		GInputStream *stream;
@@ -145,7 +150,12 @@ handle_stock_request (GSimpleAsyncResult *simple,
 	if (local_error != NULL)
 		g_simple_async_result_take_error (simple, local_error);
 
+	g_simple_async_result_complete_in_idle (simple);
+
 	g_object_unref (context);
+	g_object_unref (object);
+
+	return FALSE;
 }
 
 static void
@@ -183,9 +193,14 @@ stock_request_send_async (SoupRequest *request,
 
 	g_simple_async_result_set_check_cancellable (simple, cancellable);
 
-	g_simple_async_result_run_in_thread (
-		simple, handle_stock_request,
-		G_PRIORITY_DEFAULT, cancellable);
+	/* Need to run this operation in an idle callback rather
+	 * than a worker thread, since we're making all kinds of
+	 * GdkPixbuf/GTK+ calls. */
+	g_idle_add_full (
+		G_PRIORITY_HIGH_IDLE,
+		handle_stock_request_idle_cb,
+		g_object_ref (simple),
+		(GDestroyNotify) g_object_unref);
 
 	g_object_unref (simple);
 }
