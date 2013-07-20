@@ -1342,7 +1342,9 @@ secure_to_port_cb (GBinding *binding,
 	guint16 port;
 
 	authentication_extension = g_binding_get_target (binding);
-	g_object_get (authentication_extension, "port", &port, NULL);
+
+	port = e_source_authentication_get_port (
+		E_SOURCE_AUTHENTICATION (authentication_extension));
 
 	if (port == 80 || port == 443 || port == 0)
 		port = g_value_get_boolean (source_value) ? 443 : 80;
