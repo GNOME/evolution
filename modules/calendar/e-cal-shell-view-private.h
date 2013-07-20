@@ -93,11 +93,46 @@ struct _ECalShellViewPrivate {
 	ECalShellContent *cal_shell_content;
 	ECalShellSidebar *cal_shell_sidebar;
 
+	/* sidebar signal handlers */
+	gulong client_added_handler_id;
+	gulong client_removed_handler_id;
+
 	EShell *shell;
 	gulong prepare_for_quit_handler_id;
 
 	EClientCache *client_cache;
 	gulong backend_error_handler_id;
+
+	GnomeCalendar *calendar;
+	gulong dates_shown_changed_handler_id;
+
+	struct {
+		ECalendarView *calendar_view;
+		gulong popup_event_handler_id;
+		gulong selection_changed_handler_id;
+		gulong user_created_handler_id;
+	} views[GNOME_CAL_LAST_VIEW];
+
+	ECalModel *model;
+	gulong status_message_handler_id;
+
+	ECalendar *date_navigator;
+	gulong scroll_event_handler_id;
+	gulong date_range_changed_handler_id;
+	gulong selection_changed_handler_id;
+
+	ESourceSelector *selector;
+	gulong selector_popup_event_handler_id;
+
+	EMemoTable *memo_table;
+	gulong memo_table_popup_event_handler_id;
+	gulong memo_table_selection_change_handler_id;
+	gulong memo_table_status_message_handler_id;
+
+	ETaskTable *task_table;
+	gulong task_table_popup_event_handler_id;
+	gulong task_table_selection_change_handler_id;
+	gulong task_table_status_message_handler_id;
 
 	/* The last time explicitly selected by the user. */
 	time_t base_view_time;

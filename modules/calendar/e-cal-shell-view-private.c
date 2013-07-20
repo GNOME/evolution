@@ -483,20 +483,12 @@ void
 e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 {
 	ECalShellViewPrivate *priv = cal_shell_view->priv;
-	ECalShellContent *cal_shell_content;
-	ECalShellSidebar *cal_shell_sidebar;
 	EShellBackend *shell_backend;
 	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
 	EShellWindow *shell_window;
 	EShellView *shell_view;
 	EShell *shell;
-	GnomeCalendar *calendar;
-	ECalendar *date_navigator;
-	EMemoTable *memo_table;
-	ETaskTable *task_table;
-	ESourceSelector *selector;
-	ECalModel *model;
 	gulong handler_id;
 	gint ii;
 
@@ -515,28 +507,22 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 	priv->cal_shell_content = g_object_ref (shell_content);
 	priv->cal_shell_sidebar = g_object_ref (shell_sidebar);
 
-	cal_shell_content = E_CAL_SHELL_CONTENT (shell_content);
-	model = e_cal_shell_content_get_model (cal_shell_content);
-	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
-	memo_table = e_cal_shell_content_get_memo_table (cal_shell_content);
-	task_table = e_cal_shell_content_get_task_table (cal_shell_content);
+	handler_id = g_signal_connect_swapped (
+		priv->cal_shell_sidebar, "client-added",
+		G_CALLBACK (cal_shell_view_selector_client_added_cb),
+		cal_shell_view);
+	priv->client_added_handler_id = handler_id;
 
-	cal_shell_sidebar = E_CAL_SHELL_SIDEBAR (shell_sidebar);
-	selector = e_cal_shell_sidebar_get_selector (cal_shell_sidebar);
-	date_navigator = e_cal_shell_sidebar_get_date_navigator (cal_shell_sidebar);
-
-	/* Give GnomeCalendar a handle to the date navigator, memo and task table. */
-	gnome_calendar_set_date_navigator (calendar, date_navigator);
-	gnome_calendar_set_memo_table (calendar, GTK_WIDGET (memo_table));
-	gnome_calendar_set_task_table (calendar, GTK_WIDGET (task_table));
-
-	e_calendar_item_set_get_time_callback (
-		date_navigator->calitem, (ECalendarItemGetTimeCallback)
-		cal_shell_view_get_current_time, cal_shell_view, NULL);
+	handler_id = g_signal_connect (
+		priv->cal_shell_sidebar, "client-removed",
+		G_CALLBACK (cal_shell_view_selector_client_removed_cb),
+		cal_shell_view);
+	priv->client_removed_handler_id = handler_id;
 
 	/* Keep our own reference to this so we can
-	 * disconnect our signal handler in dispose(). */
-	priv->client_cache = g_object_ref (e_shell_get_client_cache (shell));
+	 * disconnect our signal handlers in dispose(). */
+	priv->client_cache = e_shell_get_client_cache (shell);
+	g_object_ref (priv->client_cache);
 
 	handler_id = g_signal_connect (
 		priv->client_cache, "backend-error",
@@ -544,107 +530,157 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 		cal_shell_view);
 	priv->backend_error_handler_id = handler_id;
 
+	/* Keep our own reference to this so we can
+	 * disconnect our signal handlers in dispose(). */
+	priv->calendar = e_cal_shell_content_get_calendar (
+		E_CAL_SHELL_CONTENT (shell_content));
+	g_object_ref (priv->calendar);
+
+	handler_id = g_signal_connect_swapped (
+		priv->calendar, "dates-shown-changed",
+		G_CALLBACK (e_cal_shell_view_update_sidebar),
+		cal_shell_view);
+	priv->dates_shown_changed_handler_id = handler_id;
+
 	for (ii = 0; ii < GNOME_CAL_LAST_VIEW; ii++) {
 		ECalendarView *calendar_view;
 
+		/* Keep our own reference to this so we can
+		 * disconnect our signal handlers in dispose(). */
 		calendar_view =
-			gnome_calendar_get_calendar_view (calendar, ii);
+			gnome_calendar_get_calendar_view (priv->calendar, ii);
+		priv->views[ii].calendar_view = g_object_ref (calendar_view);
 
-		g_signal_connect_object (
+		handler_id = g_signal_connect_swapped (
 			calendar_view, "popup-event",
 			G_CALLBACK (cal_shell_view_popup_event_cb),
-			cal_shell_view, G_CONNECT_SWAPPED);
+			cal_shell_view);
+		priv->views[ii].popup_event_handler_id = handler_id;
 
-		g_signal_connect_object (
+		handler_id = g_signal_connect_swapped (
 			calendar_view, "selection-changed",
 			G_CALLBACK (e_shell_view_update_actions),
-			cal_shell_view, G_CONNECT_SWAPPED);
+			cal_shell_view);
+		priv->views[ii].selection_changed_handler_id = handler_id;
 
-		g_signal_connect_object (
+		handler_id = g_signal_connect_swapped (
 			calendar_view, "user-created",
 			G_CALLBACK (cal_shell_view_user_created_cb),
-			cal_shell_view, G_CONNECT_SWAPPED);
+			cal_shell_view);
+		priv->views[ii].user_created_handler_id = handler_id;
 	}
 
-	g_signal_connect_object (
-		calendar, "dates-shown-changed",
-		G_CALLBACK (e_cal_shell_view_update_sidebar),
-		cal_shell_view, G_CONNECT_SWAPPED);
+	/* Keep our own reference to this so we can
+	 * disconnect our signal handlers in dispose(). */
+	priv->model = e_cal_shell_content_get_model (
+		E_CAL_SHELL_CONTENT (shell_content));
+	g_object_ref (priv->model);
 
-	g_signal_connect_object (
-		model, "status-message",
+	handler_id = g_signal_connect_swapped (
+		priv->model, "status-message",
 		G_CALLBACK (e_cal_shell_view_set_status_message),
-		cal_shell_view, G_CONNECT_SWAPPED);
+		cal_shell_view);
+	priv->status_message_handler_id = handler_id;
 
-	g_signal_connect_object (
-		date_navigator, "scroll-event",
+	/* Keep our own reference to this so we can
+	 * disconnect our signal handlers in dispose(). */
+	priv->date_navigator = e_cal_shell_sidebar_get_date_navigator (
+		E_CAL_SHELL_SIDEBAR (shell_sidebar));
+
+	handler_id = g_signal_connect_swapped (
+		priv->date_navigator, "scroll-event",
 		G_CALLBACK (cal_shell_view_date_navigator_scroll_event_cb),
-		cal_shell_view, G_CONNECT_SWAPPED);
+		cal_shell_view);
+	priv->scroll_event_handler_id = handler_id;
 
-	g_signal_connect_object (
-		date_navigator->calitem, "date-range-changed",
+	handler_id = g_signal_connect_swapped (
+		priv->date_navigator->calitem, "date-range-changed",
 		G_CALLBACK (cal_shell_view_date_navigator_date_range_changed_cb),
-		cal_shell_view, G_CONNECT_SWAPPED);
+		cal_shell_view);
+	priv->date_range_changed_handler_id = handler_id;
 
-	g_signal_connect_object (
-		date_navigator->calitem, "selection-changed",
+	handler_id = g_signal_connect_swapped (
+		priv->date_navigator->calitem, "selection-changed",
 		G_CALLBACK (cal_shell_view_date_navigator_selection_changed_cb),
-		cal_shell_view, G_CONNECT_SWAPPED);
+		cal_shell_view);
+	priv->selection_changed_handler_id = handler_id;
 
-	g_signal_connect_object (
-		selector, "popup-event",
+	/* Keep our own reference to this so we can
+	 * disconnect our signal handlers in dispose(). */
+	priv->selector = e_cal_shell_sidebar_get_selector (
+		E_CAL_SHELL_SIDEBAR (shell_sidebar));
+	g_object_ref (priv->selector);
+
+	handler_id = g_signal_connect_swapped (
+		priv->selector, "popup-event",
 		G_CALLBACK (cal_shell_view_selector_popup_event_cb),
-		cal_shell_view, G_CONNECT_SWAPPED);
+		cal_shell_view);
+	priv->selector_popup_event_handler_id = handler_id;
 
-	g_signal_connect_object (
-		cal_shell_sidebar, "client-added",
-		G_CALLBACK (cal_shell_view_selector_client_added_cb),
-		cal_shell_view, G_CONNECT_SWAPPED);
+	/* Keep our own reference to this so we can
+	 * disconnect our signal handlers in dispose(). */
+	priv->memo_table = e_cal_shell_content_get_memo_table (
+		E_CAL_SHELL_CONTENT (shell_content));
+	g_object_ref (priv->memo_table);
 
-	g_signal_connect_object (
-		cal_shell_sidebar, "client-removed",
-		G_CALLBACK (cal_shell_view_selector_client_removed_cb),
-		cal_shell_view, G_CONNECT_SWAPPED);
+	handler_id = g_signal_connect_swapped (
+		priv->memo_table, "popup-event",
+		G_CALLBACK (cal_shell_view_memopad_popup_event_cb),
+		cal_shell_view);
+	priv->memo_table_popup_event_handler_id = handler_id;
 
-	if (memo_table)
-		g_signal_connect_object (
-			memo_table, "popup-event",
-			G_CALLBACK (cal_shell_view_memopad_popup_event_cb),
-			cal_shell_view, G_CONNECT_SWAPPED);
+	handler_id = g_signal_connect_swapped (
+		priv->memo_table, "selection-change",
+		G_CALLBACK (e_cal_shell_view_memopad_actions_update),
+		cal_shell_view);
+	priv->memo_table_selection_change_handler_id = handler_id;
 
-	if (memo_table)
-		g_signal_connect_object (
-			memo_table, "selection-change",
-			G_CALLBACK (e_cal_shell_view_memopad_actions_update),
-			cal_shell_view, G_CONNECT_SWAPPED);
+	handler_id = g_signal_connect_swapped (
+		priv->memo_table, "status-message",
+		G_CALLBACK (e_cal_shell_view_memopad_set_status_message),
+		cal_shell_view);
+	priv->memo_table_status_message_handler_id = handler_id;
 
-	if (memo_table)
-		g_signal_connect_object (
-			memo_table, "status-message",
-			G_CALLBACK (e_cal_shell_view_memopad_set_status_message),
-			cal_shell_view, G_CONNECT_SWAPPED);
+	/* Keep our own reference to this so we can
+	 * disconnect our signal handlers in dispose(). */
+	priv->task_table = e_cal_shell_content_get_task_table (
+		E_CAL_SHELL_CONTENT (shell_content));
+	g_object_ref (priv->task_table);
 
-	if (task_table)
-		g_signal_connect_object (
-			task_table, "popup-event",
-			G_CALLBACK (cal_shell_view_taskpad_popup_event_cb),
-			cal_shell_view, G_CONNECT_SWAPPED);
+	handler_id = g_signal_connect_swapped (
+		priv->task_table, "popup-event",
+		G_CALLBACK (cal_shell_view_taskpad_popup_event_cb),
+		cal_shell_view);
+	priv->task_table_popup_event_handler_id = handler_id;
 
-	if (task_table)
-		g_signal_connect_object (
-			task_table, "status-message",
-			G_CALLBACK (e_cal_shell_view_taskpad_set_status_message),
-			cal_shell_view, G_CONNECT_SWAPPED);
+	handler_id = g_signal_connect_swapped (
+		priv->task_table, "selection-change",
+		G_CALLBACK (e_cal_shell_view_taskpad_actions_update),
+		cal_shell_view);
+	priv->task_table_selection_change_handler_id = handler_id;
 
-	if (task_table)
-		g_signal_connect_object (
-			task_table, "selection-change",
-			G_CALLBACK (e_cal_shell_view_taskpad_actions_update),
-			cal_shell_view, G_CONNECT_SWAPPED);
+	handler_id = g_signal_connect_swapped (
+		priv->task_table, "status-message",
+		G_CALLBACK (e_cal_shell_view_taskpad_set_status_message),
+		cal_shell_view);
+	priv->task_table_status_message_handler_id = handler_id;
 
 	e_categories_add_change_hook (
 		(GHookFunc) e_cal_shell_view_update_search_filter,
 		cal_shell_view);
+
+	/* Give GnomeCalendar a handle to the date navigator,
+	 * memo and task table. */
+	gnome_calendar_set_date_navigator (
+		priv->calendar, priv->date_navigator);
+	gnome_calendar_set_memo_table (
+		priv->calendar, GTK_WIDGET (priv->memo_table));
+	gnome_calendar_set_task_table (
+		priv->calendar, GTK_WIDGET (priv->task_table));
+
+	e_calendar_item_set_get_time_callback (
+		priv->date_navigator->calitem, (ECalendarItemGetTimeCallback)
+		cal_shell_view_get_current_time, cal_shell_view, NULL);
 
 	init_timezone_monitors (cal_shell_view);
 	e_cal_shell_view_actions_init (cal_shell_view);
@@ -654,25 +690,25 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 	/* Keep the ECalModel in sync with the sidebar. */
 	g_object_bind_property (
 		shell_sidebar, "default-client",
-		model, "default-client",
+		priv->model, "default-client",
 		G_BINDING_SYNC_CREATE);
 
 	/* Keep the toolbar view buttons in sync with the calendar. */
 	g_object_bind_property (
-		calendar, "view",
+		priv->calendar, "view",
 		ACTION (CALENDAR_VIEW_DAY), "current-value",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
 	/* Force the main calendar to update its default source. */
-	g_signal_emit_by_name (selector, "primary-selection-changed");
+	g_signal_emit_by_name (priv->selector, "primary-selection-changed");
 }
 
 void
 e_cal_shell_view_private_dispose (ECalShellView *cal_shell_view)
 {
 	ECalShellViewPrivate *priv = cal_shell_view->priv;
-	gint i;
+	gint ii;
 
 	e_cal_shell_view_search_stop (cal_shell_view);
 
@@ -680,6 +716,20 @@ e_cal_shell_view_private_dispose (ECalShellView *cal_shell_view)
 	 * because it is too late in its own dispose(). */
 	if (priv->cal_shell_content != NULL)
 		e_cal_shell_content_save_state (priv->cal_shell_content);
+
+	if (priv->client_added_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->cal_shell_sidebar,
+			priv->client_added_handler_id);
+		priv->client_added_handler_id = 0;
+	}
+
+	if (priv->client_removed_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->cal_shell_sidebar,
+			priv->client_removed_handler_id);
+		priv->client_removed_handler_id = 0;
+	}
 
 	if (priv->prepare_for_quit_handler_id > 0) {
 		g_signal_handler_disconnect (
@@ -695,12 +745,127 @@ e_cal_shell_view_private_dispose (ECalShellView *cal_shell_view)
 		priv->backend_error_handler_id = 0;
 	}
 
+	if (priv->dates_shown_changed_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->calendar,
+			priv->dates_shown_changed_handler_id);
+		priv->dates_shown_changed_handler_id = 0;
+	}
+
+	if (priv->status_message_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->model,
+			priv->status_message_handler_id);
+		priv->status_message_handler_id = 0;
+	}
+
+	if (priv->scroll_event_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->date_navigator,
+			priv->scroll_event_handler_id);
+		priv->scroll_event_handler_id = 0;
+	}
+
+	if (priv->date_range_changed_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->date_navigator->calitem,
+			priv->date_range_changed_handler_id);
+		priv->date_range_changed_handler_id = 0;
+	}
+
+	if (priv->selection_changed_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->date_navigator->calitem,
+			priv->selection_changed_handler_id);
+		priv->selection_changed_handler_id = 0;
+	}
+
+	if (priv->selector_popup_event_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->selector,
+			priv->selector_popup_event_handler_id);
+		priv->selector_popup_event_handler_id = 0;
+	}
+
+	if (priv->memo_table_popup_event_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->memo_table,
+			priv->memo_table_popup_event_handler_id);
+		priv->memo_table_popup_event_handler_id = 0;
+	}
+
+	if (priv->memo_table_selection_change_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->memo_table,
+			priv->memo_table_selection_change_handler_id);
+		priv->memo_table_selection_change_handler_id = 0;
+	}
+
+	if (priv->memo_table_status_message_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->memo_table,
+			priv->memo_table_status_message_handler_id);
+		priv->memo_table_status_message_handler_id = 0;
+	}
+
+	if (priv->task_table_popup_event_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->task_table,
+			priv->task_table_popup_event_handler_id);
+		priv->task_table_popup_event_handler_id = 0;
+	}
+
+	if (priv->task_table_selection_change_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->task_table,
+			priv->task_table_selection_change_handler_id);
+		priv->task_table_selection_change_handler_id = 0;
+	}
+
+	if (priv->task_table_status_message_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->task_table,
+			priv->task_table_status_message_handler_id);
+		priv->task_table_status_message_handler_id = 0;
+	}
+
+	for (ii = 0; ii < GNOME_CAL_LAST_VIEW; ii++) {
+		if (priv->views[ii].popup_event_handler_id > 0) {
+			g_signal_handler_disconnect (
+				priv->views[ii].calendar_view,
+				priv->views[ii].popup_event_handler_id);
+			priv->views[ii].popup_event_handler_id = 0;
+		}
+
+		if (priv->views[ii].selection_changed_handler_id > 0) {
+			g_signal_handler_disconnect (
+				priv->views[ii].calendar_view,
+				priv->views[ii].selection_changed_handler_id);
+			priv->views[ii].selection_changed_handler_id = 0;
+		}
+
+		if (priv->views[ii].user_created_handler_id > 0) {
+			g_signal_handler_disconnect (
+				priv->views[ii].calendar_view,
+				priv->views[ii].user_created_handler_id);
+			priv->views[ii].user_created_handler_id = 0;
+		}
+
+		g_clear_object (&priv->views[ii].calendar_view);
+	}
+
 	g_clear_object (&priv->cal_shell_backend);
 	g_clear_object (&priv->cal_shell_content);
 	g_clear_object (&priv->cal_shell_sidebar);
 
 	g_clear_object (&priv->shell);
 	g_clear_object (&priv->client_cache);
+	g_clear_object (&priv->calendar);
+	g_clear_object (&priv->model);
+	g_clear_object (&priv->date_navigator);
+	g_clear_object (&priv->selector);
+	g_clear_object (&priv->memo_table);
+	g_clear_object (&priv->task_table);
 
 	if (priv->calendar_activity != NULL) {
 		/* XXX Activity is not cancellable. */
@@ -726,10 +891,8 @@ e_cal_shell_view_private_dispose (ECalShellView *cal_shell_view)
 		priv->taskpad_activity = NULL;
 	}
 
-	for (i = 0; i < CHECK_NB; i++) {
-		g_object_unref (priv->monitors[i]);
-		priv->monitors[i] = NULL;
-	}
+	for (ii = 0; ii < CHECK_NB; ii++)
+		g_clear_object (&priv->monitors[ii]);
 }
 
 void
