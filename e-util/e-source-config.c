@@ -717,6 +717,17 @@ source_config_realize (GtkWidget *widget)
 		source_config_init_for_adding_source (config);
 	else
 		source_config_init_for_editing_source (config);
+
+	/* Connect this signal AFTER we're done adding candidates
+	 * so we don't trigger check_complete() before candidates
+	 * have a chance to insert widgets. */
+	g_signal_connect (
+		config->priv->type_combo, "changed",
+		G_CALLBACK (source_config_type_combo_changed_cb), config);
+
+	/* Trigger the callback to make sure the right page
+	 * is selected, window is an appropriate size, etc. */
+	g_signal_emit_by_name (config->priv->type_combo, "changed");
 }
 
 static GList *
@@ -1020,10 +1031,6 @@ e_source_config_init (ESourceConfig *config)
 	gtk_widget_show (widget);
 
 	pango_attr_list_unref (attr_list);
-
-	g_signal_connect (
-		config->priv->type_combo, "changed",
-		G_CALLBACK (source_config_type_combo_changed_cb), config);
 }
 
 GtkWidget *
