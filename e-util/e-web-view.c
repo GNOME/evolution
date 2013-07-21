@@ -16,17 +16,15 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include "e-web-view.h"
 
-#include <math.h>
+#include <config.h>
+#include <glib/gi18n-lib.h>
 
+#include <math.h>
 #include <stdlib.h>
 #include <string.h>
-#include <glib/gi18n-lib.h>
+
 #include <pango/pango.h>
 
 #include <camel/camel.h>
@@ -49,10 +47,7 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_WEB_VIEW, EWebViewPrivate))
 
-typedef struct _EWebViewRequest EWebViewRequest;
-
 struct _EWebViewPrivate {
-	GList *requests;
 	GtkUIManager *ui_manager;
 	gchar *selected_uri;
 	GdkPixbufAnimation *cursor_image;
@@ -65,13 +60,17 @@ struct _EWebViewPrivate {
 	GtkAction *save_as_proxy;
 
 	/* Lockdown Options */
-	guint disable_printing     : 1;
-	guint disable_save_to_disk : 1;
+	gboolean disable_printing;
+	gboolean disable_save_to_disk;
 
-	guint caret_mode : 1;
+	gboolean caret_mode;
 
 	GSettings *font_settings;
+	gulong font_name_changed_handler_id;
+	gulong monospace_font_name_changed_handler_id;
+
 	GSettings *aliasing_settings;
+	gulong antialiasing_changed_handler_id;
 };
 
 enum {
@@ -355,14 +354,18 @@ web_view_menu_item_select_cb (EWebView *web_view,
 static void
 web_view_update_document_highlights (EWebView *web_view)
 {
+	WebKitWebView *webkit_web_view;
 	GList *head, *link;
+
+	webkit_web_view = WEBKIT_WEB_VIEW (web_view);
 
 	head = g_queue_peek_head_link (&web_view->priv->highlights);
 
 	for (link = head; link != NULL; link = g_list_next (link))
-		webkit_web_view_mark_text_matches (WEBKIT_WEB_VIEW (web_view), link->data, FALSE, 0);
+		webkit_web_view_mark_text_matches (
+			webkit_web_view, link->data, FALSE, 0);
 
-	webkit_web_view_set_highlight_text_matches (WEBKIT_WEB_VIEW (web_view), TRUE);
+	webkit_web_view_set_highlight_text_matches (webkit_web_view, TRUE);
 }
 
 static void
@@ -386,6 +389,125 @@ web_view_connect_proxy_cb (EWebView *web_view,
 	g_signal_connect_swapped (
 		proxy, "deselect",
 		G_CALLBACK (web_view_menu_item_deselect_cb), web_view);
+}
+
+static GdkPixbufAnimation *
+web_view_load_cursor_image (EWebView *web_view,
+                            const guchar *buffer,
+                            gsize length,
+                            GError **error)
+{
+	GdkPixbufLoader *loader;
+	GdkPixbufAnimation *animation = NULL;
+	gboolean success;
+
+	loader = gdk_pixbuf_loader_new ();
+
+	success =
+		gdk_pixbuf_loader_write (loader, buffer, length, error) &&
+		gdk_pixbuf_loader_close (loader, error);
+
+	if (success) {
+		animation = gdk_pixbuf_loader_get_animation (loader);
+		g_object_ref (animation);
+	}
+
+	g_object_unref (loader);
+
+	return animation;
+}
+
+static gboolean
+web_view_context_menu_cb (WebKitWebView *webkit_web_view,
+                          GtkWidget *default_menu,
+                          WebKitHitTestResult *hit_test_result,
+                          gboolean triggered_with_keyboard)
+{
+	WebKitHitTestResultContext context;
+	EWebView *web_view;
+	gboolean event_handled = FALSE;
+	gchar *link_uri = NULL;
+
+	web_view = E_WEB_VIEW (webkit_web_view);
+
+	g_clear_object (&web_view->priv->cursor_image);
+
+	g_free (web_view->priv->cursor_image_src);
+	web_view->priv->cursor_image_src = NULL;
+
+	if (hit_test_result == NULL)
+		return FALSE;
+
+	g_object_get (hit_test_result, "context", &context, NULL);
+
+	if (context & WEBKIT_HIT_TEST_RESULT_CONTEXT_IMAGE) {
+		WebKitWebDataSource *data_source;
+		WebKitWebFrame *frame;
+		GList *list, *link;
+		gchar *image_uri = NULL;
+
+		g_object_get (hit_test_result, "image-uri", &image_uri, NULL);
+
+		if (image_uri == NULL)
+			return FALSE;
+
+		g_free (web_view->priv->cursor_image_src);
+		web_view->priv->cursor_image_src = image_uri;
+
+		/* Iterate through all resources of the loaded webpage and
+		 * try to find resource with URI matching cursor_image_src */
+		frame = webkit_web_view_get_main_frame (
+			WEBKIT_WEB_VIEW (web_view));
+		data_source = webkit_web_frame_get_data_source (frame);
+		list = webkit_web_data_source_get_subresources (data_source);
+
+		for (link = list; link != NULL; link = g_list_next (link)) {
+			WebKitWebResource *resource;
+			GString *data;
+			const gchar *resource_uri;
+			GError *local_error = NULL;
+
+			resource = WEBKIT_WEB_RESOURCE (link->data);
+			resource_uri = webkit_web_resource_get_uri (resource);
+
+			if (g_strcmp0 (resource_uri, image_uri) != 0)
+				continue;
+
+			data = webkit_web_resource_get_data (resource);
+			if (data == NULL)
+				break;
+
+			g_clear_object (&web_view->priv->cursor_image);
+
+			web_view->priv->cursor_image =
+				web_view_load_cursor_image (
+					web_view, (guchar *) data->str,
+					data->len, &local_error);
+
+			if (local_error != NULL) {
+				g_warning (
+					"%s: %s", G_STRFUNC,
+					local_error->message);
+				g_error_free (local_error);
+			}
+
+			break;
+		}
+
+		g_list_free (list);
+	}
+
+	if (context & WEBKIT_HIT_TEST_RESULT_CONTEXT_LINK)
+		g_object_get (hit_test_result, "link-uri", &link_uri, NULL);
+
+	g_signal_emit (
+		web_view,
+		signals[POPUP_EVENT], 0,
+		link_uri, &event_handled);
+
+	g_free (link_uri);
+
+	return event_handled;
 }
 
 static GtkWidget *
@@ -462,16 +584,18 @@ web_view_load_status_changed_cb (WebKitWebView *webkit_web_view,
 	WebKitLoadStatus status;
 	EWebView *web_view;
 
-	status = webkit_web_view_get_load_status (webkit_web_view);
-	if (status != WEBKIT_LOAD_FINISHED)
-		return;
-
 	web_view = E_WEB_VIEW (webkit_web_view);
-	web_view_update_document_highlights (web_view);
 
-	/* Workaround webkit bug https://bugs.webkit.org/show_bug.cgi?id=89553 */
-	e_web_view_zoom_in (web_view);
-	e_web_view_zoom_out (web_view);
+	status = webkit_web_view_get_load_status (webkit_web_view);
+
+	if (status == WEBKIT_LOAD_FINISHED) {
+		web_view_update_document_highlights (web_view);
+
+		/* Workaround webkit bug:
+		 * https://bugs.webkit.org/show_bug.cgi?id=89553 */
+		e_web_view_zoom_in (web_view);
+		e_web_view_zoom_out (web_view);
+	}
 }
 
 static void
@@ -647,51 +771,34 @@ web_view_dispose (GObject *object)
 
 	priv = E_WEB_VIEW_GET_PRIVATE (object);
 
-	if (priv->ui_manager != NULL) {
-		g_object_unref (priv->ui_manager);
-		priv->ui_manager = NULL;
+	if (priv->font_name_changed_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->font_settings,
+			priv->font_name_changed_handler_id);
+		priv->font_name_changed_handler_id = 0;
 	}
 
-	if (priv->open_proxy != NULL) {
-		g_object_unref (priv->open_proxy);
-		priv->open_proxy = NULL;
+	if (priv->monospace_font_name_changed_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->font_settings,
+			priv->monospace_font_name_changed_handler_id);
+		priv->monospace_font_name_changed_handler_id = 0;
 	}
 
-	if (priv->print_proxy != NULL) {
-		g_object_unref (priv->print_proxy);
-		priv->print_proxy = NULL;
+	if (priv->antialiasing_changed_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->aliasing_settings,
+			priv->antialiasing_changed_handler_id);
+		priv->antialiasing_changed_handler_id = 0;
 	}
 
-	if (priv->save_as_proxy != NULL) {
-		g_object_unref (priv->save_as_proxy);
-		priv->save_as_proxy = NULL;
-	}
-
-	if (priv->cursor_image != NULL) {
-		g_object_unref (priv->cursor_image);
-		priv->cursor_image = NULL;
-	}
-
-	if (priv->cursor_image_src != NULL) {
-		g_free (priv->cursor_image_src);
-		priv->cursor_image_src = NULL;
-	}
-
-	if (priv->aliasing_settings != NULL) {
-		g_signal_handlers_disconnect_matched (
-			priv->aliasing_settings, G_SIGNAL_MATCH_DATA,
-			0, 0, NULL, NULL, object);
-		g_object_unref (priv->aliasing_settings);
-		priv->aliasing_settings = NULL;
-	}
-
-	if (priv->font_settings != NULL) {
-		g_signal_handlers_disconnect_matched (
-			priv->font_settings, G_SIGNAL_MATCH_DATA,
-			0, 0, NULL, NULL, object);
-		g_object_unref (priv->font_settings);
-		priv->font_settings = NULL;
-	}
+	g_clear_object (&priv->ui_manager);
+	g_clear_object (&priv->open_proxy);
+	g_clear_object (&priv->print_proxy);
+	g_clear_object (&priv->save_as_proxy);
+	g_clear_object (&priv->cursor_image);
+	g_clear_object (&priv->aliasing_settings);
+	g_clear_object (&priv->font_settings);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_web_view_parent_class)->dispose (object);
@@ -704,11 +811,8 @@ web_view_finalize (GObject *object)
 
 	priv = E_WEB_VIEW_GET_PRIVATE (object);
 
-	/* All URI requests should be complete or cancelled by now. */
-	if (priv->requests != NULL)
-		g_warning ("Finalizing EWebView with active URI requests");
-
 	g_free (priv->selected_uri);
+	g_free (priv->cursor_image_src);
 
 	while (!g_queue_is_empty (&priv->highlights))
 		g_free (g_queue_pop_head (&priv->highlights));
@@ -742,100 +846,6 @@ web_view_constructed (GObject *object)
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_web_view_parent_class)->constructed (object);
-}
-
-static gboolean
-web_view_context_menu_cb (WebKitWebView *webkit_web_view,
-                          GtkWidget *default_menu,
-                          WebKitHitTestResult *hit_test_result,
-                          gboolean triggered_with_keyboard)
-{
-	WebKitHitTestResultContext context;
-	EWebView *web_view;
-	gboolean event_handled = FALSE;
-	gchar *uri;
-
-	web_view = E_WEB_VIEW (webkit_web_view);
-
-	if (web_view->priv->cursor_image != NULL) {
-		g_object_unref (web_view->priv->cursor_image);
-		web_view->priv->cursor_image = NULL;
-	}
-
-	if (web_view->priv->cursor_image_src != NULL) {
-		g_free (web_view->priv->cursor_image_src);
-		web_view->priv->cursor_image_src = NULL;
-	}
-
-	if (hit_test_result == NULL)
-		return FALSE;
-
-	g_object_get (G_OBJECT (hit_test_result), "context", &context, NULL);
-
-	if (context & WEBKIT_HIT_TEST_RESULT_CONTEXT_IMAGE) {
-		WebKitWebDataSource *data_source;
-		WebKitWebFrame *frame;
-		GList *subresources, *res;
-
-		g_object_get (
-			G_OBJECT (hit_test_result), "image-uri", &uri, NULL);
-
-		if (uri == NULL)
-			return FALSE;
-
-		g_free (web_view->priv->cursor_image_src);
-		web_view->priv->cursor_image_src = uri;
-
-		/* Iterate through all resources of the loaded webpage and
-		 * try to find resource with URI matching cursor_image_src */
-		frame = webkit_web_view_get_main_frame (WEBKIT_WEB_VIEW (web_view));
-		data_source = webkit_web_frame_get_data_source (frame);
-		subresources = webkit_web_data_source_get_subresources (data_source);
-		for (res = subresources; res; res = res->next) {
-			WebKitWebResource *src = res->data;
-			GdkPixbufLoader *loader;
-			GString *data;
-
-			if (g_strcmp0 (webkit_web_resource_get_uri (src),
-				web_view->priv->cursor_image_src) != 0)
-				continue;
-
-			data = webkit_web_resource_get_data (src);
-			if (data == NULL)
-				break;
-
-			loader = gdk_pixbuf_loader_new ();
-			if (!gdk_pixbuf_loader_write (loader,
-				(guchar *) data->str, data->len, NULL)) {
-				g_object_unref (loader);
-				break;
-			}
-			gdk_pixbuf_loader_close (loader, NULL);
-
-			if (web_view->priv->cursor_image != NULL)
-				g_object_unref (web_view->priv->cursor_image);
-
-			web_view->priv->cursor_image =
-				g_object_ref (gdk_pixbuf_loader_get_animation (loader));
-
-			g_object_unref (loader);
-			break;
-		}
-		g_list_free (subresources);
-	}
-
-	g_object_get (hit_test_result, "link-uri", &uri, NULL);
-
-	if (!(context & WEBKIT_HIT_TEST_RESULT_CONTEXT_LINK)) {
-		g_free (uri);
-		uri = NULL;
-	}
-
-	g_signal_emit (web_view, signals[POPUP_EVENT], 0, uri, &event_handled);
-
-	g_free (uri);
-
-	return event_handled;
 }
 
 static gboolean
@@ -873,6 +883,16 @@ web_view_scroll_event (GtkWidget *widget,
 		}
 	}
 
+	return FALSE;
+}
+
+static gboolean
+web_view_drag_motion (GtkWidget *widget,
+                      GdkDragContext *context,
+                      gint x,
+                      gint y,
+                      guint time_)
+{
 	return FALSE;
 }
 
@@ -1323,16 +1343,6 @@ web_view_selectable_select_all (ESelectable *selectable)
 	e_web_view_select_all (E_WEB_VIEW (selectable));
 }
 
-static gboolean
-web_view_drag_motion (GtkWidget *widget,
-                      GdkDragContext *context,
-                      gint x,
-                      gint y,
-                      guint time_)
-{
-	return FALSE;
-}
-
 static gpointer
 web_view_disable_webkit_3rd_party_plugins (gpointer unused)
 {
@@ -1375,11 +1385,6 @@ e_web_view_class_init (EWebViewClass *class)
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->scroll_event = web_view_scroll_event;
 	widget_class->drag_motion = web_view_drag_motion;
-
-#if 0  /* WEBKIT */
-	html_class = GTK_HTML_CLASS (class);
-	html_class->url_requested = web_view_url_requested;
-#endif
 
 	class->create_plugin_widget = web_view_create_plugin_widget;
 	class->extract_uri = web_view_extract_uri;
@@ -1594,6 +1599,7 @@ e_web_view_init (EWebView *web_view)
 	GSettings *settings;
 	const gchar *domain = GETTEXT_PACKAGE;
 	const gchar *id;
+	gulong handler_id;
 	GError *error = NULL;
 
 	g_once (
@@ -1602,9 +1608,16 @@ e_web_view_init (EWebView *web_view)
 
 	web_view->priv = E_WEB_VIEW_GET_PRIVATE (web_view);
 
+	/* XXX No WebKitWebView class method pointers to
+	 *     override so we have to use signal handlers. */
+
 	g_signal_connect (
 		web_view, "create-plugin-widget",
 		G_CALLBACK (web_view_create_plugin_widget_cb), NULL);
+
+	g_signal_connect (
+		web_view, "context-menu",
+		G_CALLBACK (web_view_context_menu_cb), NULL);
 
 	g_signal_connect (
 		web_view, "hovering-over-link",
@@ -1619,10 +1632,6 @@ e_web_view_init (EWebView *web_view)
 		web_view, "new-window-policy-decision-requested",
 		G_CALLBACK (web_view_navigation_policy_decision_requested_cb),
 		NULL);
-
-	g_signal_connect (
-		web_view, "context-menu",
-		G_CALLBACK (web_view_context_menu_cb), NULL);
 
 	g_signal_connect (
 		web_view, "notify::load-status",
@@ -1643,13 +1652,16 @@ e_web_view_init (EWebView *web_view)
 	e_web_view_install_request_handler (web_view, E_TYPE_STOCK_REQUEST);
 
 	settings = g_settings_new ("org.gnome.desktop.interface");
-	g_signal_connect_swapped (
+	web_view->priv->font_settings = g_object_ref (settings);
+	handler_id = g_signal_connect_swapped (
 		settings, "changed::font-name",
 		G_CALLBACK (e_web_view_update_fonts), web_view);
-	g_signal_connect_swapped (
+	web_view->priv->font_name_changed_handler_id = handler_id;
+	handler_id = g_signal_connect_swapped (
 		settings, "changed::monospace-font-name",
 		G_CALLBACK (e_web_view_update_fonts), web_view);
-	web_view->priv->font_settings = settings;
+	web_view->priv->monospace_font_name_changed_handler_id = handler_id;
+	g_object_unref (settings);
 
 	/* This schema is optional.  Use if available. */
 	id = "org.gnome.settings-daemon.plugins.xsettings";
@@ -1657,10 +1669,12 @@ e_web_view_init (EWebView *web_view)
 		g_settings_schema_source_get_default (), id, FALSE);
 	if (settings_schema != NULL) {
 		settings = g_settings_new (id);
-		g_signal_connect_swapped (
+		web_view->priv->aliasing_settings = g_object_ref (settings);
+		handler_id = g_signal_connect_swapped (
 			settings, "changed::antialiasing",
 			G_CALLBACK (e_web_view_update_fonts), web_view);
-		web_view->priv->aliasing_settings = settings;
+		web_view->priv->antialiasing_changed_handler_id = handler_id;
+		g_object_unref (settings);
 	}
 
 	e_web_view_update_fonts (web_view);
@@ -2826,12 +2840,18 @@ e_web_view_update_fonts (EWebView *web_view)
 	settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (web_view));
 	g_object_set (
 		G_OBJECT (settings),
-		"default-font-size", pango_font_description_get_size (vw) / PANGO_SCALE,
-		"default-font-family", pango_font_description_get_family (vw),
-		"monospace-font-family", pango_font_description_get_family (ms),
-		"default-monospace-font-size", (pango_font_description_get_size (ms) / PANGO_SCALE),
-		"minimum-font-size", (pango_font_description_get_size (min_size) / PANGO_SCALE),
-		"user-stylesheet-uri", stylesheet->str,
+		"default-font-size",
+		pango_font_description_get_size (vw) / PANGO_SCALE,
+		"default-font-family",
+		pango_font_description_get_family (vw),
+		"monospace-font-family",
+		pango_font_description_get_family (ms),
+		"default-monospace-font-size",
+		pango_font_description_get_size (ms) / PANGO_SCALE,
+		"minimum-font-size",
+		pango_font_description_get_size (min_size) / PANGO_SCALE,
+		"user-stylesheet-uri",
+		stylesheet->str,
 		NULL);
 
 	g_string_free (stylesheet, TRUE);
