@@ -1081,29 +1081,6 @@ web_view_load_uri (EWebView *web_view,
 }
 
 static void
-web_view_frame_load_string (EWebView *web_view,
-                            const gchar *frame_name,
-                            const gchar *string)
-{
-	WebKitWebFrame *main_frame;
-
-	if (string == NULL)
-		string = "";
-
-	main_frame = webkit_web_view_get_main_frame (WEBKIT_WEB_VIEW (web_view));
-	if (main_frame != NULL) {
-		WebKitWebFrame *frame;
-
-		frame = webkit_web_frame_find_frame (main_frame, frame_name);
-
-		if (frame != NULL)
-			webkit_web_frame_load_string (
-				frame, string, "text/html",
-				"UTF-8", "evo-file:///");
-	}
-}
-
-static void
 web_view_frame_load_uri (EWebView *web_view,
                          const gchar *frame_name,
                          const gchar *uri)
@@ -1411,7 +1388,6 @@ e_web_view_class_init (EWebViewClass *class)
 	class->link_clicked = web_view_link_clicked;
 	class->load_string = web_view_load_string;
 	class->load_uri = web_view_load_uri;
-	class->frame_load_string = web_view_frame_load_string;
 	class->frame_load_uri = web_view_frame_load_uri;
 	class->popup_event = web_view_popup_event;
 	class->stop_loading = web_view_stop_loading;
@@ -1871,22 +1847,6 @@ e_web_view_get_uri (EWebView *web_view)
 	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), NULL);
 
 	return webkit_web_view_get_uri (WEBKIT_WEB_VIEW (web_view));
-}
-
-void
-e_web_view_frame_load_string (EWebView *web_view,
-                              const gchar *frame_name,
-                              const gchar *string)
-{
-	EWebViewClass *class;
-
-	g_return_if_fail (E_IS_WEB_VIEW (web_view));
-	g_return_if_fail (frame_name != NULL);
-
-	class = E_WEB_VIEW_GET_CLASS (web_view);
-	g_return_if_fail (class->frame_load_string != NULL);
-
-	class->frame_load_string (web_view, frame_name, string);
 }
 
 void
