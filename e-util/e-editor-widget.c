@@ -429,15 +429,31 @@ editor_widget_check_magic_links (EEditorWidget *widget,
 
 		g_free (url_end_raw);
 		g_free (final_url);
-	}
-	else {
+	} else {
+		WebKitDOMElement *parent;
+		WebKitDOMNode *prev_sibling;
 		gchar *href, *text, *url;
 		gint diff;
-		WebKitDOMElement *parent;
+		const char* text_to_append;
+		gboolean appending_to_link = FALSE;
 
 		parent = webkit_dom_node_get_parent_element (node);
-		/* if parent is href => we're editing the link */
-		if (!WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (parent)) {
+		prev_sibling = webkit_dom_node_get_previous_sibling (node);
+
+		/* If previous sibling is ANCHOR and actual text node is not beginning with
+		 * space => we're appending to link */
+		if (WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (prev_sibling)) {
+			text_to_append = webkit_dom_node_get_text_content (node);
+			if (g_strcmp0 (text_to_append, "") != 0 &&
+				!g_unichar_isspace (g_utf8_get_char (text_to_append))) {
+
+				appending_to_link = TRUE;
+				parent = WEBKIT_DOM_ELEMENT (prev_sibling);
+			}
+		}
+
+		/* If parent is ANCHOR => we're editing the link */
+		if (!WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (parent) && !appending_to_link) {
 			g_match_info_free (match_info);
 			g_regex_unref (regex);
 			g_free (node_text);
@@ -447,8 +463,15 @@ editor_widget_check_magic_links (EEditorWidget *widget,
 		/* edit only if href and description are the same */
 		href = webkit_dom_html_anchor_element_get_href (
 				WEBKIT_DOM_HTML_ANCHOR_ELEMENT (parent));
-		text = webkit_dom_html_element_get_inner_text (
-				WEBKIT_DOM_HTML_ELEMENT (parent));
+
+		if (appending_to_link)
+			text = g_strconcat (
+				webkit_dom_html_element_get_inner_text (
+					WEBKIT_DOM_HTML_ELEMENT (parent)),
+				text_to_append, NULL);
+		else
+			text = webkit_dom_html_element_get_inner_text (
+					WEBKIT_DOM_HTML_ELEMENT (parent));
 
 		if (strstr (href, "://") && !strstr (text, "://")) {
 			url = strstr (href, "://") + 3;
@@ -457,37 +480,62 @@ editor_widget_check_magic_links (EEditorWidget *widget,
 			if (text [strlen (text) - 1] != '/')
 				diff++;
 
-			if (g_strcmp0 (url, text) != 0 && ABS (diff) == 1) {
+			if ((g_strcmp0 (url, text) != 0 && ABS (diff) == 1) || appending_to_link) {
 				gchar *inner_html, *protocol, *new_href;
 
 				protocol = g_strndup (href, strstr (href, "://") - href + 3);
 				inner_html = webkit_dom_html_element_get_inner_html (WEBKIT_DOM_HTML_ELEMENT (parent));
-				new_href = g_strconcat (protocol, inner_html, NULL);
+				new_href = g_strconcat (protocol, inner_html,
+							appending_to_link ? text_to_append : "", NULL);
 
 				webkit_dom_html_anchor_element_set_href (
 					WEBKIT_DOM_HTML_ANCHOR_ELEMENT (parent),
 					new_href);
+
+				if (appending_to_link) {
+					webkit_dom_html_element_set_inner_html (
+						WEBKIT_DOM_HTML_ELEMENT (parent),
+						g_strconcat (inner_html, text_to_append, NULL),
+						NULL);
+
+					webkit_dom_node_remove_child (
+						webkit_dom_node_get_parent_node (node),
+						node, NULL);
+				}
 
 				g_free (new_href);
 				g_free (protocol);
 				g_free (inner_html);
 			}
-		}
-		else {
+		} else {
 			diff = strlen (text) - strlen (href);
 			if (text [strlen (text) - 1] != '/')
 				diff++;
 
-			if (g_strcmp0 (href, text) != 0 && ABS (diff) == 1) {
+			if ((g_strcmp0 (href, text) != 0 && ABS (diff) == 1) || appending_to_link) {
 				gchar *inner_html;
 				gchar *new_href;
 
 				inner_html = webkit_dom_html_element_get_inner_html (WEBKIT_DOM_HTML_ELEMENT (parent));
-				new_href = g_strconcat (inner_html, NULL);
+				new_href = g_strconcat (
+						inner_html,
+						appending_to_link ? text_to_append : "",
+						NULL);
 
 				webkit_dom_html_anchor_element_set_href (
 					WEBKIT_DOM_HTML_ANCHOR_ELEMENT (parent),
 					new_href);
+
+				if (appending_to_link) {
+					webkit_dom_html_element_set_inner_html (
+						WEBKIT_DOM_HTML_ELEMENT (parent),
+						g_strconcat (inner_html, text_to_append, NULL),
+						NULL);
+
+					webkit_dom_node_remove_child (
+						webkit_dom_node_get_parent_node (node),
+						node, NULL);
+				}
 
 				g_free (new_href);
 				g_free (inner_html);
@@ -990,6 +1038,25 @@ editor_widget_key_release_event (GtkWidget *widget,
 	    (event->keyval == GDK_KEY_space)) {
 
 		editor_widget_check_magic_links (editor_widget, range, FALSE, event);
+	} else {
+		WebKitDOMNode *node;
+
+		node = webkit_dom_range_get_end_container (range, NULL);
+
+		if (WEBKIT_DOM_IS_TEXT (node)) {
+			const gchar *text;
+
+			text = webkit_dom_node_get_text_content (node);
+
+			if (g_strcmp0 (text, "") != 0 && !g_unichar_isspace (g_utf8_get_char (text))) {
+				WebKitDOMNode *prev_sibling;
+
+				prev_sibling = webkit_dom_node_get_previous_sibling (node);
+
+				if (WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (prev_sibling))
+					editor_widget_check_magic_links (editor_widget, range, FALSE, event);
+			}
+		}
 	}
 
 	if ((event->keyval == GDK_KEY_Control_L) ||
