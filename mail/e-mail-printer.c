@@ -353,12 +353,21 @@ mail_printer_new_web_view (const gchar *charset,
                            const gchar *default_charset)
 {
 	WebKitWebView *web_view;
+	WebKitWebSettings *web_settings;
 	EMailFormatter *formatter;
 
 	web_view = g_object_new (
 		E_TYPE_MAIL_DISPLAY,
 		"mode", E_MAIL_FORMATTER_MODE_PRINTING, NULL);
-	e_web_view_set_enable_frame_flattening (E_WEB_VIEW (web_view), FALSE);
+
+	/* XXX EMailDisplay enables frame flattening to prevent scrollable
+	 *     subparts in an email, which understandable.  This resets it
+	 *     to allow scrollable subparts for reasons I don't understand. */
+	web_settings = webkit_web_view_get_settings (web_view);
+	g_object_set (
+		G_OBJECT (web_settings),
+		"enable-frame-flattening", FALSE, NULL);
+
 	e_mail_display_set_force_load_images (E_MAIL_DISPLAY (web_view), TRUE);
 
 	formatter = e_mail_display_get_formatter (E_MAIL_DISPLAY (web_view));
