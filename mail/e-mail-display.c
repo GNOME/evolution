@@ -1889,7 +1889,7 @@ do_reload_display (EMailDisplay *display)
 	const gchar *default_charset, *charset;
 
 	web_view = E_WEB_VIEW (display);
-	uri = (gchar *) e_web_view_get_uri (web_view);
+	uri = (gchar *) webkit_web_view_get_uri (WEBKIT_WEB_VIEW (web_view));
 
 	display->priv->scheduled_reload = 0;
 
