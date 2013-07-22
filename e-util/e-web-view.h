@@ -200,14 +200,7 @@ void		e_web_view_status_message	(EWebView *web_view,
 void		e_web_view_stop_loading		(EWebView *web_view);
 void		e_web_view_update_actions	(EWebView *web_view);
 gchar *		e_web_view_get_selection_html	(EWebView *web_view);
-
-void		e_web_view_set_settings		(EWebView *web_view,
-						 WebKitWebSettings *settings);
-
 void		e_web_view_update_fonts		(EWebView *web_view);
-
-WebKitWebSettings *
-		e_web_view_get_default_settings (void);
 
 void		e_web_view_install_request_handler
 						(EWebView *web_view,

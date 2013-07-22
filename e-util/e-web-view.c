@@ -334,6 +334,48 @@ static GtkActionEntry standard_entries[] = {
 };
 
 static void
+web_view_init_web_settings (WebKitWebView *web_view)
+{
+	WebKitWebSettings *web_settings;
+	GObjectClass *class;
+	GParamSpec *pspec;
+
+	web_settings = webkit_web_settings_new ();
+
+	g_object_set (
+		G_OBJECT (web_settings),
+		"enable-frame-flattening", TRUE,
+		"enable-java-applet", FALSE,
+		"enable-html5-database", FALSE,
+		"enable-html5-local-storage", FALSE,
+		"enable-offline-web-application-cache", FALSE,
+		"enable-site-specific-quirks", TRUE,
+		"enable-scripts", FALSE,
+		NULL);
+
+	/* This property was introduced in WebKitGTK 2.0,
+	 * so check for it and enable it if it's present. */
+	class = G_OBJECT_GET_CLASS (web_settings);
+	pspec = g_object_class_find_property (
+		class, "respect-image-orientation");
+	if (pspec != NULL) {
+		g_object_set (
+			G_OBJECT (web_settings),
+			pspec->name, TRUE, NULL);
+	}
+
+	g_object_bind_property (
+		web_settings, "enable-caret-browsing",
+		web_view, "caret-mode",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+
+	webkit_web_view_set_settings (web_view, web_settings);
+
+	g_object_unref (web_settings);
+}
+
+static void
 web_view_menu_item_select_cb (EWebView *web_view,
                               GtkWidget *widget)
 {
@@ -1594,7 +1636,6 @@ e_web_view_init (EWebView *web_view)
 	GtkUIManager *ui_manager;
 	GtkActionGroup *action_group;
 	EPopupAction *popup_action;
-	WebKitWebSettings *web_settings;
 	GSettingsSchema *settings_schema;
 	GSettings *settings;
 	const gchar *domain = GETTEXT_PACKAGE;
@@ -1644,9 +1685,7 @@ e_web_view_init (EWebView *web_view)
 		ui_manager, "connect-proxy",
 		G_CALLBACK (web_view_connect_proxy_cb), web_view);
 
-	web_settings = e_web_view_get_default_settings ();
-	e_web_view_set_settings (web_view, web_settings);
-	g_object_unref (web_settings);
+	web_view_init_web_settings (WEBKIT_WEB_VIEW (web_view));
 
 	e_web_view_install_request_handler (web_view, E_TYPE_FILE_REQUEST);
 	e_web_view_install_request_handler (web_view, E_TYPE_STOCK_REQUEST);
@@ -2642,58 +2681,6 @@ e_web_view_get_selection_html (EWebView *web_view)
 	}
 
 	return NULL;
-}
-
-void
-e_web_view_set_settings (EWebView *web_view,
-                         WebKitWebSettings *settings)
-{
-	g_return_if_fail (E_IS_WEB_VIEW (web_view));
-
-	if (settings == webkit_web_view_get_settings (WEBKIT_WEB_VIEW (web_view)))
-		return;
-
-	g_object_bind_property (
-		settings, "enable-caret-browsing",
-		web_view, "caret-mode",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
-
-	webkit_web_view_set_settings (WEBKIT_WEB_VIEW (web_view), settings);
-}
-
-WebKitWebSettings *
-e_web_view_get_default_settings (void)
-{
-	WebKitWebSettings *settings;
-	GObjectClass *class;
-	GParamSpec *pspec;
-
-	settings = webkit_web_settings_new ();
-
-	g_object_set (
-		G_OBJECT (settings),
-		"enable-frame-flattening", TRUE,
-		"enable-java-applet", FALSE,
-		"enable-html5-database", FALSE,
-		"enable-html5-local-storage", FALSE,
-		"enable-offline-web-application-cache", FALSE,
-		"enable-site-specific-quirks", TRUE,
-		"enable-scripts", FALSE,
-		NULL);
-
-	/* This property was introduced in WebKitGTK 2.0,
-	 * so check for it and enable it if it's present. */
-	class = G_OBJECT_GET_CLASS (settings);
-	pspec = g_object_class_find_property (
-		class, "respect-image-orientation");
-	if (pspec != NULL) {
-		g_object_set (
-			G_OBJECT (settings),
-			pspec->name, TRUE, NULL);
-	}
-
-	return settings;
 }
 
 void
