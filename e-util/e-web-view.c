@@ -984,28 +984,6 @@ web_view_create_plugin_widget (EWebView *web_view,
 	return widget;
 }
 
-static gchar *
-web_view_extract_uri (EWebView *web_view,
-                      GdkEventButton *event)
-{
-	WebKitHitTestResult *result;
-	WebKitHitTestResultContext context;
-	gchar *uri = NULL;
-
-	result = webkit_web_view_get_hit_test_result (
-		WEBKIT_WEB_VIEW (web_view), event);
-
-	g_object_get (result, "context", &context, "link-uri", &uri, NULL);
-	g_object_unref (result);
-
-	if (context & WEBKIT_HIT_TEST_RESULT_CONTEXT_LINK)
-		return uri;
-
-	g_free (uri);
-
-	return NULL;
-}
-
 static void
 web_view_hovering_over_link (EWebView *web_view,
                              const gchar *title,
@@ -1429,7 +1407,6 @@ e_web_view_class_init (EWebViewClass *class)
 	widget_class->drag_motion = web_view_drag_motion;
 
 	class->create_plugin_widget = web_view_create_plugin_widget;
-	class->extract_uri = web_view_extract_uri;
 	class->hovering_over_link = web_view_hovering_over_link;
 	class->link_clicked = web_view_link_clicked;
 	class->load_string = web_view_load_string;
@@ -2422,20 +2399,6 @@ e_web_view_get_action_group (EWebView *web_view,
 	ui_manager = e_web_view_get_ui_manager (web_view);
 
 	return e_lookup_action_group (ui_manager, group_name);
-}
-
-gchar *
-e_web_view_extract_uri (EWebView *web_view,
-                        GdkEventButton *event)
-{
-	EWebViewClass *class;
-
-	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), NULL);
-
-	class = E_WEB_VIEW_GET_CLASS (web_view);
-	g_return_val_if_fail (class->extract_uri != NULL, NULL);
-
-	return class->extract_uri (web_view, event);
 }
 
 void

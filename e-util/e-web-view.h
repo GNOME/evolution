@@ -71,8 +71,6 @@ struct _EWebViewClass {
 						 const gchar *mime_type,
 						 const gchar *uri,
 						 GHashTable *param);
-	gchar *		(*extract_uri)		(EWebView *web_view,
-						 GdkEventButton *event);
 	void		(*hovering_over_link)	(EWebView *web_view,
 						 const gchar *title,
 						 const gchar *uri);
@@ -179,8 +177,6 @@ GtkAction *	e_web_view_get_action		(EWebView *web_view,
 						 const gchar *action_name);
 GtkActionGroup *e_web_view_get_action_group	(EWebView *web_view,
 						 const gchar *group_name);
-gchar *		e_web_view_extract_uri		(EWebView *web_view,
-						 GdkEventButton *event);
 void		e_web_view_copy_clipboard	(EWebView *web_view);
 void		e_web_view_cut_clipboard	(EWebView *web_view);
 gboolean	e_web_view_is_selection_active	(EWebView *web_view);

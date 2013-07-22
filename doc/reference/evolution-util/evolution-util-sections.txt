@@ -4396,7 +4396,6 @@ e_web_view_clear_highlights
 e_web_view_update_highlights
 e_web_view_get_action
 e_web_view_get_action_group
-e_web_view_extract_uri
 e_web_view_copy_clipboard
 e_web_view_cut_clipboard
 e_web_view_is_selection_active
