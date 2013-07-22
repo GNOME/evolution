@@ -523,9 +523,10 @@ composer_send_completed (GObject *source_object,
 		g_error_matches (
 			local_error, CAMEL_SERVICE_ERROR,
 			CAMEL_SERVICE_ERROR_UNAVAILABLE) ||
-		/* XXX camel_getaddrinfo() sets this, unfortunately. */
+		/* a name resolution failed */
 		g_error_matches (
-			local_error, CAMEL_ERROR, CAMEL_ERROR_GENERIC);
+			local_error, CAMEL_SERVICE_ERROR,
+			CAMEL_SERVICE_ERROR_URL_INVALID);
 	if (service_unavailable) {
 		/* Inform the user. */
 		e_alert_run_dialog_for_args (
