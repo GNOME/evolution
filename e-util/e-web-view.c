@@ -1917,22 +1917,6 @@ e_web_view_set_disable_save_to_disk (EWebView *web_view,
 	g_object_notify (G_OBJECT (web_view), "disable-save-to-disk");
 }
 
-void
-e_web_view_set_enable_frame_flattening (EWebView *web_view,
-                                        gboolean enable_frame_flattening)
-{
-	WebKitWebSettings *settings;
-
-	g_return_if_fail (E_IS_WEB_VIEW (web_view));
-
-	settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (web_view));
-	g_return_if_fail (settings != NULL);
-
-	g_object_set (
-		G_OBJECT (settings), "enable-frame-flattening",
-		enable_frame_flattening, NULL);
-}
-
 gboolean
 e_web_view_get_editable (EWebView *web_view)
 {
