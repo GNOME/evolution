@@ -304,30 +304,6 @@ mail_display_link_clicked (WebKitWebView *web_view,
 }
 
 static void
-webkit_request_load_from_file (WebKitNetworkRequest *request,
-                               const gchar *path)
-{
-	gchar *data = NULL;
-	gsize length = 0;
-	gchar *b64, *new_uri;
-	gchar *ct;
-
-	if (!g_file_get_contents (path, &data, &length, NULL))
-		return;
-
-	b64 = g_base64_encode ((guchar *) data, length);
-	ct = g_content_type_guess (path, NULL, 0, NULL);
-
-	new_uri =  g_strdup_printf ("data:%s;base64,%s", ct, b64);
-	webkit_network_request_set_uri (request, new_uri);
-
-	g_free (b64);
-	g_free (new_uri);
-	g_free (ct);
-	g_free (data);
-}
-
-static void
 mail_display_resource_requested (WebKitWebView *web_view,
                                  WebKitWebFrame *frame,
                                  WebKitWebResource *resource,
@@ -335,116 +311,19 @@ mail_display_resource_requested (WebKitWebView *web_view,
                                  WebKitNetworkResponse *response,
                                  gpointer user_data)
 {
-	EMailDisplay *display = E_MAIL_DISPLAY (web_view);
-	EMailPartList *part_list;
-	gboolean uri_is_http;
-	const gchar *uri;
+	const gchar *original_uri;
 
-	part_list = display->priv->part_list;
-	if (part_list == NULL)
-		return;
+	original_uri = webkit_network_request_get_uri (request);
 
-	uri = webkit_network_request_get_uri (request);
-	g_return_if_fail (uri != NULL);
+	if (original_uri != NULL) {
+		gchar *redirected_uri;
 
-	uri_is_http =
-		g_str_has_prefix (uri, "http:") ||
-		g_str_has_prefix (uri, "https:") ||
-		g_str_has_prefix (uri, "evo-http:") ||
-		g_str_has_prefix (uri, "evo-https:");
+		redirected_uri = e_web_view_redirect_uri (
+			E_WEB_VIEW (web_view), original_uri);
 
-	/* Redirect cid:part_id to mail://mail_id/cid:part_id */
-	if (g_str_has_prefix (uri, "cid:")) {
-		CamelFolder *folder;
-		const gchar *message_uid;
-		gchar *new_uri;
+		webkit_network_request_set_uri (request, redirected_uri);
 
-		folder = e_mail_part_list_get_folder (part_list);
-		message_uid = e_mail_part_list_get_message_uid (part_list);
-
-		/* Always write raw content of CID object. */
-		new_uri = e_mail_part_build_uri (
-			folder, message_uid,
-			"part_id", G_TYPE_STRING, uri,
-			"mode", G_TYPE_INT, E_MAIL_FORMATTER_MODE_CID, NULL);
-
-		webkit_network_request_set_uri (request, new_uri);
-
-		g_free (new_uri);
-
-	/* WebKit won't allow to load a local file when displaying
-	 * "remote" mail:// protocol, so we need to handle this manually. */
-	} else if (g_str_has_prefix (uri, "file:")) {
-		gchar *path;
-
-		path = g_filename_from_uri (uri, NULL, NULL);
-		if (path == NULL)
-			return;
-
-		webkit_request_load_from_file (request, path);
-
-		g_free (path);
-
-	/* Redirect http(s) request to evo-http(s) protocol.
-	 * See EMailRequest for further details about this. */
-	} else if (uri_is_http) {
-		CamelFolder *folder;
-		const gchar *message_uid;
-		gchar *new_uri, *mail_uri, *enc;
-		SoupURI *soup_uri;
-		GHashTable *query;
-		gboolean image_exists;
-		EMailImageLoadingPolicy image_policy;
-
-		/* Check Evolution's cache */
-		image_exists = mail_display_image_exists_in_cache (uri);
-
-		/* If the URI is not cached and we are not allowed to load it
-		 * then redirect to invalid URI, so that webkit would display
-		 * a native placeholder for it. */
-		image_policy = e_mail_formatter_get_image_loading_policy (
-			display->priv->formatter);
-		if (!image_exists && !display->priv->force_image_load &&
-		    (image_policy == E_MAIL_IMAGE_LOADING_POLICY_NEVER)) {
-			webkit_network_request_set_uri (request, "about:blank");
-			return;
-		}
-
-		folder = e_mail_part_list_get_folder (part_list);
-		message_uid = e_mail_part_list_get_message_uid (part_list);
-
-		new_uri = g_strconcat ("evo-", uri, NULL);
-		mail_uri = e_mail_part_build_uri (
-			folder, message_uid, NULL, NULL);
-
-		soup_uri = soup_uri_new (new_uri);
-		if (soup_uri->query)
-			query = soup_form_decode (soup_uri->query);
-		else
-			query = g_hash_table_new_full (
-				g_str_hash, g_str_equal,
-				g_free, g_free);
-		enc = soup_uri_encode (mail_uri, NULL);
-		g_hash_table_insert (query, g_strdup ("__evo-mail"), enc);
-
-		if (display->priv->force_image_load) {
-			g_hash_table_insert (
-				query,
-				g_strdup ("__evo-load-images"),
-				g_strdup ("true"));
-		}
-
-		g_free (mail_uri);
-
-		soup_uri_set_query_from_form (soup_uri, query);
-		g_free (new_uri);
-
-		new_uri = soup_uri_to_string (soup_uri, FALSE);
-		webkit_network_request_set_uri (request, new_uri);
-
-		g_free (new_uri);
-		soup_uri_free (soup_uri);
-		g_hash_table_unref (query);
+		g_free (redirected_uri);
 	}
 }
 
@@ -1463,6 +1342,141 @@ chainup:
 		button_press_event (widget, event);
 }
 
+static gchar *
+mail_display_redirect_uri (EWebView *web_view,
+                           const gchar *uri)
+{
+	EMailDisplay *display;
+	EMailPartList *part_list;
+	gboolean uri_is_http;
+
+	display = E_MAIL_DISPLAY (web_view);
+	part_list = e_mail_display_get_part_list (display);
+
+	if (part_list == NULL)
+		goto chainup;
+
+	/* Redirect cid:part_id to mail://mail_id/cid:part_id */
+	if (g_str_has_prefix (uri, "cid:")) {
+		CamelFolder *folder;
+		const gchar *message_uid;
+
+		folder = e_mail_part_list_get_folder (part_list);
+		message_uid = e_mail_part_list_get_message_uid (part_list);
+
+		/* Always write raw content of CID object. */
+		return e_mail_part_build_uri (
+			folder, message_uid,
+			"part_id", G_TYPE_STRING, uri,
+			"mode", G_TYPE_INT, E_MAIL_FORMATTER_MODE_CID, NULL);
+	}
+
+	/* WebKit won't allow to load a local file when displaying
+	 * "remote" mail:// protocol, so we need to handle this manually. */
+	if (g_str_has_prefix (uri, "file:")) {
+		gchar *content = NULL;
+		gchar *content_type;
+		gchar *filename;
+		gchar *encoded;
+		gchar *new_uri;
+		gsize length = 0;
+
+		filename = g_filename_from_uri (uri, NULL, NULL);
+		if (filename == NULL)
+			goto chainup;
+
+		if (!g_file_get_contents (filename, &content, &length, NULL)) {
+			g_free (filename);
+			goto chainup;
+		}
+
+		encoded = g_base64_encode ((guchar *) content, length);
+		content_type = g_content_type_guess (filename, NULL, 0, NULL);
+
+		new_uri = g_strdup_printf (
+			"data:%s;base64,%s", content_type, encoded);
+
+		g_free (content_type);
+		g_free (content);
+		g_free (filename);
+		g_free (encoded);
+
+		return new_uri;
+	}
+
+	uri_is_http =
+		g_str_has_prefix (uri, "http:") ||
+		g_str_has_prefix (uri, "https:") ||
+		g_str_has_prefix (uri, "evo-http:") ||
+		g_str_has_prefix (uri, "evo-https:");
+
+	/* Redirect http(s) request to evo-http(s) protocol.
+	 * See EMailRequest for further details about this. */
+	if (uri_is_http) {
+		CamelFolder *folder;
+		const gchar *message_uid;
+		gchar *new_uri, *mail_uri, *enc;
+		SoupURI *soup_uri;
+		GHashTable *query;
+		gboolean image_exists;
+		EMailImageLoadingPolicy image_policy;
+
+		/* Check Evolution's cache */
+		image_exists = mail_display_image_exists_in_cache (uri);
+
+		/* If the URI is not cached and we are not allowed to load it
+		 * then redirect to invalid URI, so that webkit would display
+		 * a native placeholder for it. */
+		image_policy = e_mail_formatter_get_image_loading_policy (
+			display->priv->formatter);
+		if (!image_exists && !display->priv->force_image_load &&
+		    (image_policy == E_MAIL_IMAGE_LOADING_POLICY_NEVER)) {
+			return g_strdup ("about:blank");
+		}
+
+		folder = e_mail_part_list_get_folder (part_list);
+		message_uid = e_mail_part_list_get_message_uid (part_list);
+
+		new_uri = g_strconcat ("evo-", uri, NULL);
+		mail_uri = e_mail_part_build_uri (
+			folder, message_uid, NULL, NULL);
+
+		soup_uri = soup_uri_new (new_uri);
+		if (soup_uri->query)
+			query = soup_form_decode (soup_uri->query);
+		else
+			query = g_hash_table_new_full (
+				g_str_hash, g_str_equal,
+				g_free, g_free);
+		enc = soup_uri_encode (mail_uri, NULL);
+		g_hash_table_insert (query, g_strdup ("__evo-mail"), enc);
+
+		if (display->priv->force_image_load) {
+			g_hash_table_insert (
+				query,
+				g_strdup ("__evo-load-images"),
+				g_strdup ("true"));
+		}
+
+		g_free (mail_uri);
+
+		soup_uri_set_query_from_form (soup_uri, query);
+		g_free (new_uri);
+
+		new_uri = soup_uri_to_string (soup_uri, FALSE);
+
+		soup_uri_free (soup_uri);
+		g_hash_table_unref (query);
+
+		return new_uri;
+	}
+
+chainup:
+	/* Chain up to parent's redirect_uri() method. */
+	return E_WEB_VIEW_CLASS (e_mail_display_parent_class)->
+		redirect_uri (web_view, uri);
+}
+
 static void
 mail_display_set_fonts (EWebView *web_view,
                         PangoFontDescription **monospace,
@@ -1516,6 +1530,7 @@ e_mail_display_class_init (EMailDisplayClass *class)
 	widget_class->button_press_event = mail_display_button_press_event;
 
 	web_view_class = E_WEB_VIEW_CLASS (class);
+	web_view_class->redirect_uri = mail_display_redirect_uri;
 	web_view_class->set_fonts = mail_display_set_fonts;
 
 	g_object_class_install_property (

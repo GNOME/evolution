@@ -80,6 +80,8 @@ struct _EWebViewClass {
 						 const gchar *load_string);
 	void		(*load_uri)		(EWebView *web_view,
 						 const gchar *load_uri);
+	gchar *		(*redirect_uri)		(EWebView *web_view,
+						 const gchar *uri);
 	void		(*set_fonts)		(EWebView *web_view,
 						 PangoFontDescription **monospace,
 						 PangoFontDescription **variable_width);
@@ -101,6 +103,8 @@ void		e_web_view_clear		(EWebView *web_view);
 void		e_web_view_load_string		(EWebView *web_view,
 						 const gchar *string);
 void		e_web_view_load_uri		(EWebView *web_view,
+						 const gchar *uri);
+gchar *		e_web_view_redirect_uri		(EWebView *web_view,
 						 const gchar *uri);
 void		e_web_view_reload		(EWebView *web_view);
 gchar *		e_web_view_get_html		(EWebView *web_view);

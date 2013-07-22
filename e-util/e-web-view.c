@@ -1080,6 +1080,13 @@ web_view_load_uri (EWebView *web_view,
 	webkit_web_view_load_uri (WEBKIT_WEB_VIEW (web_view), uri);
 }
 
+static gchar *
+web_view_redirect_uri (EWebView *web_view,
+                       const gchar *uri)
+{
+	return g_strdup (uri);
+}
+
 static gboolean
 web_view_popup_event (EWebView *web_view,
                       const gchar *uri)
@@ -1367,6 +1374,7 @@ e_web_view_class_init (EWebViewClass *class)
 	class->link_clicked = web_view_link_clicked;
 	class->load_string = web_view_load_string;
 	class->load_uri = web_view_load_uri;
+	class->redirect_uri = web_view_redirect_uri;
 	class->popup_event = web_view_popup_event;
 	class->stop_loading = web_view_stop_loading;
 	class->update_actions = web_view_update_actions;
@@ -1809,6 +1817,37 @@ e_web_view_load_uri (EWebView *web_view,
 	g_return_if_fail (class->load_uri != NULL);
 
 	class->load_uri (web_view, uri);
+}
+
+/**
+ * e_web_view_redirect_uri:
+ * @web_view: an #EWebView
+ * @uri: the requested URI
+ *
+ * Replaces @uri with a redirected URI as necessary, primarily for use
+ * with custom #SoupRequest handlers.  Typically this function would be
+ * called just prior to handing a request off to a #SoupSession, such as
+ * from a #WebKitWebView #WebKitWebView::resource-request-starting signal
+ * handler.
+ *
+ * A newly-allocated URI string is always returned, whether the @uri was
+ * redirected or not.  Free the returned string with g_free().
+ *
+ * Returns: the redirected URI or a copy of @uri
+ **/
+gchar *
+e_web_view_redirect_uri (EWebView *web_view,
+                         const gchar *uri)
+{
+	EWebViewClass *class;
+
+	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), NULL);
+	g_return_val_if_fail (uri != NULL, NULL);
+
+	class = E_WEB_VIEW_GET_CLASS (web_view);
+	g_return_val_if_fail (class->redirect_uri != NULL, NULL);
+
+	return class->redirect_uri (web_view, uri);
 }
 
 void

@@ -4355,6 +4355,7 @@ e_web_view_new
 e_web_view_clear
 e_web_view_load_string
 e_web_view_load_uri
+e_web_view_redirect_uri
 e_web_view_reload
 e_web_view_get_html
 e_web_view_get_caret_mode
