@@ -2683,6 +2683,30 @@ e_editor_selection_restore_caret_position (EEditorSelection *selection)
 	element = webkit_dom_document_get_element_by_id (document, "-x-evo-caret-position");
 
 	if (element) {
+		/* If parent is BODY element, we try to restore the position on the 
+		 * element that is next to us */
+		if (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (
+			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)))) {
+
+			WebKitDOMNode *next_sibling;
+
+			/* Look if we have DIV on right */
+			next_sibling = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (element));
+
+			if (g_strcmp0 (webkit_dom_element_get_class_name (WEBKIT_DOM_ELEMENT (next_sibling)),
+				       "-x-evo-paragraph") == 0) {
+
+				webkit_dom_node_remove_child (
+					webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
+					WEBKIT_DOM_NODE (element),
+					NULL);
+
+				move_caret_into_element (document, WEBKIT_DOM_ELEMENT (next_sibling));
+
+				return;
+			}
+		}
+
 		move_caret_into_element (document, element);
 		webkit_dom_node_remove_child (
 			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
