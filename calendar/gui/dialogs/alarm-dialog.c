@@ -246,7 +246,7 @@ alarm_to_dialog (Dialog *dialog)
 	 * If the client doesn't support set alarm description, disable the related widgets
 	 * This capability was added after the 3.8.0 release
 	 */
-	if (e_client_check_capability (E_CLIENT (dialog->cal_client), "no-alarm-description")) {
+	if (!e_client_check_capability (E_CLIENT (dialog->cal_client), "alarm-description")) {
 		gtk_widget_hide (dialog->dalarm_group);
 		gtk_widget_hide (dialog->dalarm_message);
 		gtk_widget_hide (dialog->dalarm_description);
