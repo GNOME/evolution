@@ -1790,7 +1790,7 @@ action_mail_show_source_cb (GtkAction *action,
 	display = e_mail_reader_get_mail_display (E_MAIL_READER (browser));
 
 	string = g_strdup_printf (_("Retrieving message '%s'"), message_uid);
-	e_mail_display_set_parts_list (display, NULL);
+	e_mail_display_set_part_list (display, NULL);
 	e_mail_display_set_status (display, string);
 	gtk_widget_show (browser);
 
@@ -2892,7 +2892,7 @@ mail_reader_message_selected_timeout_cb (EMailReader *reader)
 
 			string = g_strdup_printf (
 				_("Retrieving message '%s'"), cursor_uid);
-			e_mail_display_set_parts_list (display, NULL);
+			e_mail_display_set_part_list (display, NULL);
 			e_mail_display_set_status (display, string);
 			g_free (string);
 
@@ -2919,7 +2919,7 @@ mail_reader_message_selected_timeout_cb (EMailReader *reader)
 			priv->retrieving_message = g_object_ref (cancellable);
 		}
 	} else {
-		e_mail_display_set_parts_list (display, NULL);
+		e_mail_display_set_part_list (display, NULL);
 		priv->restoring_message_selection = FALSE;
 	}
 
@@ -2963,7 +2963,7 @@ mail_reader_message_selected_cb (EMailReader *reader,
 		EMailDisplay *display;
 
 		display = e_mail_reader_get_mail_display (reader);
-		e_mail_display_set_parts_list (display, NULL);
+		e_mail_display_set_part_list (display, NULL);
 		e_web_view_clear (E_WEB_VIEW (display));
 	} else if (priv->restoring_message_selection) {
 		/* Skip the timeout if we're restoring the previous message
@@ -3131,7 +3131,7 @@ set_mail_display_part_list (GObject *object,
 
 	part_list = e_mail_reader_parse_message_finish (reader, result);
 
-	e_mail_display_set_parts_list (display, part_list);
+	e_mail_display_set_part_list (display, part_list);
 	e_mail_display_load (display, NULL);
 
 	/* Remove the reference added when parts list was
@@ -3163,7 +3163,7 @@ mail_reader_set_display_formatter_for_message (EMailReader *reader,
 			priv->retrieving_message,
 			set_mail_display_part_list, NULL);
 	} else {
-		e_mail_display_set_parts_list (display, parts);
+		e_mail_display_set_part_list (display, parts);
 		e_mail_display_load (display, NULL);
 		g_object_unref (parts);
 	}

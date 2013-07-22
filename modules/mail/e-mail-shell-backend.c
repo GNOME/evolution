@@ -1064,7 +1064,7 @@ message_parsed_cb (GObject *source_object,
 
 	g_hash_table_insert (mails, mail_uri, parts_list);
 
-	e_mail_display_set_parts_list (display, parts_list);
+	e_mail_display_set_part_list (display, parts_list);
 	e_mail_display_load (display, NULL);
 
 	g_object_unref (parts_list);

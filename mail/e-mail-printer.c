@@ -550,7 +550,7 @@ e_mail_printer_print (EMailPrinter *printer,
 		simple, async_context, (GDestroyNotify) async_context_free);
 
 	web_view = mail_printer_new_web_view (charset, default_charset);
-	e_mail_display_set_parts_list (E_MAIL_DISPLAY (web_view), part_list);
+	e_mail_display_set_part_list (E_MAIL_DISPLAY (web_view), part_list);
 
 	async_context->web_view = g_object_ref_sink (web_view);
 
