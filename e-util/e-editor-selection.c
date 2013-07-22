@@ -3094,6 +3094,7 @@ e_editor_selection_wrap_lines (EEditorSelection *selection,
 	gboolean adding = FALSE;
 	gboolean backspace_pressed = FALSE;
 	gboolean return_pressed = FALSE;
+	gboolean return_pressed_in_text = FALSE;
 	gboolean delete_pressed = FALSE;
 	gboolean jump_to_previous_line = FALSE;
 	gboolean previously_wrapped = FALSE;
@@ -3219,6 +3220,10 @@ e_editor_selection_wrap_lines (EEditorSelection *selection,
 			/* If we are on the beginning of line we need to remember it */
 			if (!adding && start_offset > selection->priv->word_wrap_length)
 				jump_to_previous_line = TRUE;
+
+			if (return_pressed)
+				return_pressed_in_text = TRUE;
+
 		} else {
 			WebKitDOMElement *caret_position;
 			gboolean parent_is_body = FALSE;
@@ -3251,6 +3256,8 @@ e_editor_selection_wrap_lines (EEditorSelection *selection,
 
 					if (WEBKIT_DOM_IS_ELEMENT (next_sibling))
 						move_caret_into_element (document, WEBKIT_DOM_ELEMENT (next_sibling));
+					else
+						move_caret_into_element (document, caret_position);
 
 					e_editor_selection_clear_caret_position_marker (selection);
 				} else {
@@ -3319,15 +3326,12 @@ e_editor_selection_wrap_lines (EEditorSelection *selection,
 
 	active_paragraph = webkit_dom_document_get_element_by_id (document, "-x-evo-active-paragraph");
 	/* We have to move caret on position where it was before modifying the text */
-	if (return_pressed) {
+	if (return_pressed && !return_pressed_in_text) {
 		e_editor_selection_clear_caret_position_marker (selection);
 		move_caret_into_element (document, active_paragraph);
 		webkit_dom_dom_selection_modify (window_selection, "move", "forward", "character");
 	} else {
-		if (while_typing)
-			e_editor_selection_restore_caret_position (selection);
-		else
-			e_editor_selection_clear_caret_position_marker (selection);
+		e_editor_selection_restore_caret_position (selection);
 	}
 
 	/* Set paragraph as non-active */
