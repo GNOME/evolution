@@ -1641,11 +1641,46 @@ e_editor_selection_set_font_size (EEditorSelection *selection,
 gboolean
 e_editor_selection_is_citation (EEditorSelection *selection)
 {
+	gboolean ret_val;
+	gchar *value;
+	EEditorWidget *editor_widget;
+	WebKitDOMCSSStyleDeclaration *style;
+	WebKitDOMDocument *document;
+	WebKitDOMDOMWindow *window;
+	WebKitDOMNode *node;
+	WebKitDOMRange *range;
+
 	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), FALSE);
 
-	/* citation == <blockquote type='cite'>
-	 * special case handled in get_has_style() */
-	return get_has_style (selection, "citation");
+	editor_widget = e_editor_selection_ref_editor_widget (selection);
+	g_return_val_if_fail (editor_widget != NULL, FALSE);
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (editor_widget));
+	g_object_unref (editor_widget);
+	window = webkit_dom_document_get_default_view (document);
+
+	range = editor_selection_get_current_range (selection);
+	if (!range)
+		return FALSE;
+
+	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
+	/* If we are changing the format of block we have to re-set bold property,
+	 * otherwise it will be turned off because of no text in composer */
+	if (g_strcmp0 (webkit_dom_node_get_text_content (node), "") == 0)
+		return FALSE;
+
+	style = webkit_dom_dom_window_get_computed_style (
+			window, webkit_dom_node_get_parent_element (node), NULL);
+	value = webkit_dom_css_style_declaration_get_property_value (style, "type");
+
+	/* citation == <blockquote type='cite'> */
+	if (g_strstr_len (value, -1, "cite"))
+		ret_val = TRUE;
+	else
+		ret_val = FALSE;
+
+	g_free (value);
+	return ret_val;
 }
 
 /**
