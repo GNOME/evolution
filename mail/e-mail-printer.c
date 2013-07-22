@@ -125,7 +125,7 @@ mail_printer_create_custom_widget_cb (GtkPrintOperation *operation,
 	gtk_print_operation_set_custom_tab_label (operation, _("Headers"));
 
 	display = E_MAIL_DISPLAY (async_context->web_view);
-	part_list = e_mail_display_get_parts_list (display);
+	part_list = e_mail_display_get_part_list (display);
 
 	/* FIXME Hard-coding the part ID works for now but could easily
 	 *       break silently.  Need a less brittle way of extracting

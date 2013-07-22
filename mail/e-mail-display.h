@@ -69,7 +69,7 @@ void		e_mail_display_set_mode		(EMailDisplay *display,
 						 EMailFormatterMode mode);
 EMailFormatter *
 		e_mail_display_get_formatter	(EMailDisplay *display);
-EMailPartList *	e_mail_display_get_parts_list	(EMailDisplay *display);
+EMailPartList *	e_mail_display_get_part_list	(EMailDisplay *display);
 void		e_mail_display_set_parts_list	(EMailDisplay *display,
 						 EMailPartList *parts_list);
 gboolean	e_mail_display_get_headers_collapsable

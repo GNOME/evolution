@@ -307,7 +307,7 @@ mail_display_popup_prefer_plain_update_actions (EMailDisplayPopupExtension *exte
 	prefix = g_strndup (part_id, (pos - part_id) + ID_LEN - 1);
 
 	action_name = NULL;
-	part_list = e_mail_display_get_parts_list (display);
+	part_list = e_mail_display_get_part_list (display);
 	e_mail_part_list_queue_parts (part_list, NULL, &queue);
 	head = g_queue_peek_head_link (&queue);
 

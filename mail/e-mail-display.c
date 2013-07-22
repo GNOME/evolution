@@ -1334,7 +1334,7 @@ mail_display_get_property (GObject *object,
 		case PROP_PART_LIST:
 			g_value_set_pointer (
 				value,
-				e_mail_display_get_parts_list (
+				e_mail_display_get_part_list (
 				E_MAIL_DISPLAY (object)));
 			return;
 	}
@@ -1757,7 +1757,7 @@ e_mail_display_get_formatter (EMailDisplay *display)
 }
 
 EMailPartList *
-e_mail_display_get_parts_list (EMailDisplay *display)
+e_mail_display_get_part_list (EMailDisplay *display)
 {
 	g_return_val_if_fail (E_IS_MAIL_DISPLAY (display), NULL);
 

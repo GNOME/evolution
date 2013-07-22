@@ -317,7 +317,7 @@ action_mail_image_save_cb (GtkAction *action,
 	if (image_src == NULL)
 		return;
 
-	parts = e_mail_display_get_parts_list (display);
+	parts = e_mail_display_get_part_list (display);
 	g_return_if_fail (parts != NULL);
 
 	message = e_mail_part_list_get_message (parts);
@@ -2691,7 +2691,7 @@ mail_reader_message_seen_cb (EMailReaderClosure *closure)
 	message_uid = closure->message_uid;
 
 	display = e_mail_reader_get_mail_display (reader);
-	parts = e_mail_display_get_parts_list (display);
+	parts = e_mail_display_get_part_list (display);
 	message_list = e_mail_reader_get_message_list (reader);
 
 	if (e_tree_is_dragging (E_TREE (message_list)))
@@ -2864,7 +2864,7 @@ mail_reader_message_selected_timeout_cb (EMailReader *reader)
 
 	message_list = e_mail_reader_get_message_list (reader);
 	display = e_mail_reader_get_mail_display (reader);
-	parts = e_mail_display_get_parts_list (display);
+	parts = e_mail_display_get_part_list (display);
 
 	cursor_uid = MESSAGE_LIST (message_list)->cursor_uid;
 	if (parts != NULL)
