@@ -102,7 +102,6 @@ mail_signature_editor_loaded_cb (GObject *object,
 {
 	EEditor *editor;
 	EEditorWidget *editor_widget;
-	EEditorSelection *editor_selection;
 	ESource *source;
 	EMailSignatureEditor *window;
 	ESourceMailSignature *extension;
@@ -148,12 +147,10 @@ mail_signature_editor_loaded_cb (GObject *object,
 	editor_widget = e_editor_get_editor_widget (editor);
 	e_editor_widget_set_html_mode (editor_widget, is_html);
 
-	editor_selection = e_editor_widget_get_selection (editor_widget);
-	if (is_html) {
-		e_editor_selection_insert_html (editor_selection, contents);
-	} else {
-		e_editor_selection_insert_text (editor_selection, contents);
-	}
+	if (is_html)
+		e_editor_widget_set_text_html (editor_widget, contents);
+	else
+		e_editor_widget_set_text_plain (editor_widget, contents);
 
 	g_free (contents);
 

@@ -2002,7 +2002,7 @@ e_editor_widget_set_text_plain (EEditorWidget *widget,
 	widget->priv->reload_in_progress = TRUE;
 
 	webkit_web_view_load_string (
-		WEBKIT_WEB_VIEW (widget), text, NULL, NULL, "file://");
+		WEBKIT_WEB_VIEW (widget), text, "text/plain", NULL, "file://");
 }
 
 /**
