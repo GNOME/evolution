@@ -1604,8 +1604,10 @@ attachment_store_changed_cb (EMsgComposer *composer)
 	/* Mark the editor as changed so it prompts about unsaved
 	 * changes on close. */
 	editor = e_msg_composer_get_editor (composer);
-	editor_widget = e_editor_get_editor_widget (editor);
-	e_editor_widget_set_changed (editor_widget, TRUE);
+	if (editor) {
+		editor_widget = e_editor_get_editor_widget (editor);
+		e_editor_widget_set_changed (editor_widget, TRUE);
+	}
 }
 
 static void
