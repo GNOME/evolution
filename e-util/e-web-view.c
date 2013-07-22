@@ -1827,28 +1827,6 @@ e_web_view_get_uri (EWebView *web_view)
 	return webkit_web_view_get_uri (WEBKIT_WEB_VIEW (web_view));
 }
 
-const gchar *
-e_web_view_frame_get_uri (EWebView *web_view,
-                          const gchar *frame_name)
-{
-	WebKitWebFrame *main_frame;
-
-	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), NULL);
-	g_return_val_if_fail (frame_name != NULL, NULL);
-
-	main_frame = webkit_web_view_get_main_frame (WEBKIT_WEB_VIEW (web_view));
-	if (main_frame != NULL) {
-		WebKitWebFrame *frame;
-
-		frame = webkit_web_frame_find_frame (main_frame, frame_name);
-
-		if (frame != NULL)
-			return webkit_web_frame_get_uri (frame);
-	}
-
-	return NULL;
-}
-
 gchar *
 e_web_view_get_html (EWebView *web_view)
 {

@@ -104,8 +104,6 @@ void		e_web_view_load_uri		(EWebView *web_view,
 						 const gchar *uri);
 const gchar *	e_web_view_get_uri		(EWebView *web_view);
 void		e_web_view_reload		(EWebView *web_view);
-const gchar *	e_web_view_frame_get_uri	(EWebView *web_view,
-						 const gchar *frame_name);
 gchar *		e_web_view_get_html		(EWebView *web_view);
 gboolean	e_web_view_get_caret_mode	(EWebView *web_view);
 void		e_web_view_set_caret_mode	(EWebView *web_view,
