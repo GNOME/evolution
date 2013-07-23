@@ -1791,14 +1791,14 @@ e_calendar_view_modify_and_send (ECalendarView *cal_view,
 
 gboolean
 e_calendar_view_modify (ECalendarView *cal_view,
-			ECalComponent *comp,
-			ECalClient *client,
-			CalObjModType mod)
+                        ECalComponent *comp,
+                        ECalClient *client,
+                        CalObjModType mod)
 {
 	GError *error = NULL;
 	gboolean ret;
 
-	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
+	g_return_val_if_fail (E_IS_CALENDAR_VIEW (cal_view), FALSE);
 
 	e_cal_component_commit_sequence (comp);
 
@@ -1819,12 +1819,12 @@ e_calendar_view_modify (ECalendarView *cal_view,
 
 void
 e_calendar_view_send (ECalendarView *cal_view,
-		      ECalComponent *comp,
-		      ECalClient *client,
-		      CalObjModType mod,
-		      GtkWindow *toplevel,
-		      gboolean strip_alarms,
-		      gboolean only_new_attendees)
+                      ECalComponent *comp,
+                      ECalClient *client,
+                      CalObjModType mod,
+                      GtkWindow *toplevel,
+                      gboolean strip_alarms,
+                      gboolean only_new_attendees)
 {
 	ESourceRegistry *registry;
 	ECalModel *model;
@@ -2402,8 +2402,8 @@ e_calendar_view_is_editing (ECalendarView *cal_view)
 	g_return_val_if_fail (E_IS_CALENDAR_VIEW (cal_view), FALSE);
 
 	/* this should be called from the main thread only,
-	   and each descendant overrides the property,
-	   thus might cause no call recursion */
+	 * and each descendant overrides the property,
+	 * thus might cause no call recursion */
 	if (in) {
 		g_warn_if_reached ();
 		return FALSE;

@@ -707,7 +707,7 @@ em_utils_is_local_delivery_mbox_file (CamelURL *url)
 }
 
 /* Expands groups to individual addresses, or removes empty groups completely.
-   Usual email addresses are left untouched.
+ * Usual email addresses are left untouched.
 */
 void
 em_utils_expand_groups (CamelInternetAddress *addresses)

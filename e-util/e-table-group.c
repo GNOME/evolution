@@ -84,9 +84,9 @@ etg_dispose (GObject *object)
 
 static void
 etg_get_property (GObject *object,
-		  guint property_id,
-		  GValue *value,
-		  GParamSpec *pspec)
+                  guint property_id,
+                  GValue *value,
+                  GParamSpec *pspec)
 {
 	ETableGroup *etg = E_TABLE_GROUP (object);
 
@@ -794,8 +794,8 @@ e_table_group_is_editing (ETableGroup *table_group)
 	g_return_val_if_fail (E_IS_TABLE_GROUP (table_group), FALSE);
 
 	/* this should be called from the main thread only,
-	   and each descendant overrides the property,
-	   thus might cause no call recursion */
+	 * and each descendant overrides the property,
+	 * thus might cause no call recursion */
 	if (in) {
 		g_warn_if_reached ();
 		return FALSE;

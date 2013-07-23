@@ -324,8 +324,8 @@ e_alert_dialog_new_for_args (GtkWindow *parent,
 
 static gboolean
 dialog_focus_in_event_cb (GtkWindow *dialog,
-			  GdkEvent *event,
-			  GtkWindow *parent)
+                          GdkEvent *event,
+                          GtkWindow *parent)
 {
 	gtk_window_set_urgency_hint (parent, FALSE);
 

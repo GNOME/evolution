@@ -60,8 +60,8 @@ enum {
 
 static void
 etgl_item_is_editing_changed_cb (ETableItem *item,
-				 GParamSpec *param,
-				 ETableGroupLeaf *etgl)
+                                 GParamSpec *param,
+                                 ETableGroupLeaf *etgl)
 {
 	g_return_if_fail (E_IS_TABLE_GROUP_LEAF (etgl));
 
@@ -108,7 +108,8 @@ etgl_dispose (GObject *object)
 				etgl->item,
 				etgl->etgl_start_drag_id);
 
-		g_signal_handlers_disconnect_by_func (etgl->item,
+		g_signal_handlers_disconnect_by_func (
+			etgl->item,
 			etgl_item_is_editing_changed_cb, etgl);
 
 		etgl->etgl_cursor_change_id = 0;
@@ -345,7 +346,8 @@ etgl_realize (GnomeCanvasItem *item)
 		etgl->item, "start_drag",
 		G_CALLBACK (etgl_start_drag), etgl);
 
-	g_signal_connect (etgl->item, "notify::is-editing",
+	g_signal_connect (
+		etgl->item, "notify::is-editing",
 		G_CALLBACK (etgl_item_is_editing_changed_cb), etgl);
 
 	e_canvas_item_request_reflow (item);

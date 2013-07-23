@@ -248,10 +248,10 @@ send_component_dialog (GtkWindow *parent,
  **/
 GtkResponseType
 send_dragged_or_resized_component_dialog (GtkWindow *parent,
-					  ECalClient *client,
-					  ECalComponent *comp,
-					  gboolean *strip_alarms,
-					  gboolean *only_new_attendees)
+                                          ECalClient *client,
+                                          ECalComponent *comp,
+                                          gboolean *strip_alarms,
+                                          gboolean *only_new_attendees)
 {
 	ECalComponentVType vtype;
 	const gchar *id;

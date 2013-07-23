@@ -127,7 +127,8 @@ cal_config_google_commit_changes (ESourceConfigBackend *backend,
 		ESourceAuthentication *authentication_extension
 			= e_source_get_extension (scratch_source, E_SOURCE_EXTENSION_AUTHENTICATION);
 
-		e_google_chooser_construct_default_uri (soup_uri,
+		e_google_chooser_construct_default_uri (
+			soup_uri,
 			e_source_authentication_get_user (authentication_extension));
 	}
 

@@ -184,9 +184,9 @@ clear_widgets (Dialog *dialog)
 
 static void
 populate_relative_time_combobox_widget (GtkWidget *combobox,
-					ECalClient *cal_client,
-					const gint *map,
-					gint prop)
+                                        ECalClient *cal_client,
+                                        const gint *map,
+                                        gint prop)
 {
 	GtkTreeModel *model;
 	GtkTreeIter iter;
@@ -820,7 +820,7 @@ dialog_to_alarm (Dialog *dialog)
 
 static void
 build_combobox_widget (GtkWidget *combobox,
-		       const gchar *actions[])
+                       const gchar *actions[])
 {
 	GtkComboBox *combo = GTK_COMBO_BOX (combobox);
 	GtkCellRenderer *cell;
