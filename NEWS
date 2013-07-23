@@ -1,3 +1,64 @@
+Evolution 3.8.4 2013-07-23
+--------------------------
+
+Bug Fixes:
+	Bug 386113 - Show custom alarm message in pop-up alerts
+	             (Milan Crha, Fabiano Fidêncio)
+	Bug 641711 - Crash in remove_queued_alarm (Milan Crha)
+	Bug 689640 - Print Preview of composer text is empty (Milan Crha)
+	Bug 693216 - Email type is changed to other after merging (Milan Crha)
+	Bug 697575 - ESourceConfig: Avoid calling check_complete() too soon
+	             (Matthew Barnes)
+	Bug 703053 - Error on setting reminder 'after start of appointment'
+	             (Fabiano Fidêncio)
+	Bug 703153 - Forgotten signal callbacks for freed objects (Milan Crha)
+	Bug 703181 - Asked for password which is never used (David Woodhouse)
+	Bug 703194 - Custom alarm message is REMINDER (Fabiano Fidêncio)
+	Bug 703244 - Work around GtkBox regression in GTK 3.9.1.
+	             (Matthew Barnes)
+	Bug 703389 - Proxy ignored for images (Milan Crha)
+	Bug 703732 - Unnecessary localedir override in configure.ac
+	             (Evgeny Bobkin)
+	Bug 703899 - Moving a meeting does not ask for confirmation
+	             (Fabiano Fidêncio)
+	Bug 703991 - Crash when using -fstack-protector-strong (Matthew Barnes)
+	Bug 703638 - Keep ItipView alive while connecting to calendar
+	             (Matthew Barnes)
+	Bug 704459 - GnomeCanvasItem: Implement all methods (Matthew Barnes)
+	Bug 704494 - EStockRequest calls into GTK+ from worker thread
+	             (Matthew Barnes)
+	Bug 704558 - Crash when using -fstack-protector-strong (Matthew Barnes)
+
+Other Changes:
+	* Reimplement the main toolbar's "prefer-item" feature.
+	  (Matthew Barnes)
+	* ECalShellView: Disconnect "prepare-for-quit" handler on dispose().
+	  (Matthew Barnes)
+	* Fix calendar views inline text edit with Ctrl+C/V/X (Milan Crha)
+	* Notify user about question dialogs (Milan Crha)
+	* Set network-available on a CamelSession when going online
+	  (Milan Crha)
+	* Contacts view: Add 'Refresh' into books context menu (Milan Crha)
+	* EaMinicardView: Create a minicard object, if not present in a list
+	  (Milan Crha)
+	* EMailParserMessage: Better handle message bodies as attachments.
+	  (Matthew Barnes)
+	* EDayView's event resize abort doesn't always restore original event
+	  size (Milan Crha)
+	* EContactStore: Stop book views in a dedicated thread (Milan Crha)
+	* EMailRequest: Handle empty message bodies more gracefully.
+	  (Matthew Barnes)
+
+Translations:
+	Marek Černocký (cs)
+	Christian Kirbach (de)
+	Andika Triwidada (id)
+	Shankar Prasad (kn)
+	A S Alam (pa)
+	Мирослав Николић (sr)
+	Krishnababu Krothapalli (te)
+
+
 Evolution 3.8.3 2013-06-10
 --------------------------
 
