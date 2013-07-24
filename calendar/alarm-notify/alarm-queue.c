@@ -1594,7 +1594,8 @@ tray_list_add_new (TrayIconData *data)
 }
 
 static void
-alarm_queue_get_alarm_summary (ECalComponent *comp,
+alarm_queue_get_alarm_summary (ECalClient *cal_client,
+			       ECalComponent *comp,
                                const ECalComponentAlarmInstance *instance,
                                ECalComponentText *text,
                                ECalComponentAlarm **palarm)
@@ -1607,12 +1608,16 @@ alarm_queue_get_alarm_summary (ECalComponent *comp,
 
 	text->value = NULL;
 
-	*palarm = e_cal_component_get_alarm (comp, instance->auid);
-	if (*palarm) {
-		e_cal_component_alarm_get_description (*palarm, text);
-		if (!text->value || !*text->value) {
-			text->value = NULL;
-			e_cal_component_alarm_free (*palarm);
+	if (e_client_check_capability (E_CLIENT (cal_client), "alarm-description")) {
+		*palarm = e_cal_component_get_alarm (comp, instance->auid);
+		if (*palarm) {
+			e_cal_component_alarm_get_description (*palarm, text);
+			if (!text->value || !*text->value) {
+				text->value = NULL;
+				e_cal_component_alarm_free (*palarm);
+				*palarm = NULL;
+			}
+		} else {
 			*palarm = NULL;
 		}
 	}
@@ -1647,7 +1652,7 @@ display_notification (time_t trigger,
 		return;
 
 	/* get a sensible description for the event */
-	alarm_queue_get_alarm_summary (comp, qa->instance, &text, &comp_alarm);
+	alarm_queue_get_alarm_summary (cqa->parent_client->cal_client, comp, qa->instance, &text, &comp_alarm);
 	e_cal_component_get_organizer (comp, &organiser);
 
 	if (text.value)
@@ -1785,7 +1790,7 @@ popup_notification (time_t trigger,
 		notify_init (_("Evolution Reminders"));
 
 	/* get a sensible description for the event */
-	alarm_queue_get_alarm_summary (comp, qa->instance, &text, &comp_alarm);
+	alarm_queue_get_alarm_summary (cqa->parent_client->cal_client, comp, qa->instance, &text, &comp_alarm);
 	e_cal_component_get_organizer (comp, &organiser);
 
 	if (text.value)
