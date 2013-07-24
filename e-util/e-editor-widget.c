@@ -394,8 +394,7 @@ editor_widget_check_magic_links (EEditorWidget *widget,
 		url_length = g_utf8_strlen (urls[0], -1);
 		url_start = url_end - url_length;
 
-		if (include_space)
-			webkit_dom_text_split_text (WEBKIT_DOM_TEXT (node), url_end - 1, NULL);
+		webkit_dom_text_split_text (WEBKIT_DOM_TEXT (node), include_space ? url_end - 1 : url_end, NULL);
 
 		url_text_node = webkit_dom_text_split_text (WEBKIT_DOM_TEXT (node), url_start, NULL);
 		url_text_node_clone = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (url_text_node), TRUE);
