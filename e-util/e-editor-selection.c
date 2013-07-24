@@ -2908,8 +2908,9 @@ wrap_lines (EEditorSelection *selection,
 				 * delete the first character of the line that is below us */
 				if (delete_pressed && (paragraph_char_count / (br_count + 1)) > word_wrap_length) {
 					WebKitDOMNode *next_text = webkit_dom_node_get_next_sibling (node);
-					webkit_dom_character_data_delete_data (
-						WEBKIT_DOM_CHARACTER_DATA (next_text), 0, 1, NULL);
+					if (WEBKIT_DOM_IS_CHARACTER_DATA (next_text))
+						webkit_dom_character_data_delete_data (
+							WEBKIT_DOM_CHARACTER_DATA (next_text), 0, 1, NULL);
 				}
 				continue;
 			}
