@@ -1949,6 +1949,28 @@ e_editor_selection_is_monospaced (EEditorSelection *selection)
 	return get_has_style (selection, "tt");
 }
 
+static void
+move_caret_into_element (WebKitDOMDocument *document,
+			 WebKitDOMElement *element)
+{
+	WebKitDOMDOMWindow *window;
+	WebKitDOMDOMSelection *window_selection;
+	WebKitDOMRange *new_range;
+
+	if (!element)
+		return;
+
+	window = webkit_dom_document_get_default_view (document);
+	window_selection = webkit_dom_dom_window_get_selection (window);
+	new_range = webkit_dom_document_create_range (document);
+
+	webkit_dom_range_select_node_contents (
+			new_range, WEBKIT_DOM_NODE (element), NULL);
+	webkit_dom_range_collapse (new_range, FALSE, NULL);
+	webkit_dom_dom_selection_remove_all_ranges (window_selection);
+	webkit_dom_dom_selection_add_range (window_selection, new_range);
+}
+
 /**
  * e_editor_selection_set_monospaced:
  * @selection: an #EEditorSelection
@@ -2009,24 +2031,67 @@ e_editor_selection_set_monospaced (EEditorSelection *selection,
 
 			tt_element = webkit_dom_document_create_element (document, "TT", NULL);
 			/* https://bugs.webkit.org/show_bug.cgi?id=15256 */
-			webkit_dom_html_element_set_inner_html (WEBKIT_DOM_HTML_ELEMENT (tt_element), UNICODE_HIDDEN_SPACE, NULL);
+			webkit_dom_html_element_set_inner_html (
+				WEBKIT_DOM_HTML_ELEMENT (tt_element),
+				UNICODE_HIDDEN_SPACE, NULL);
 			webkit_dom_range_insert_node (range, WEBKIT_DOM_NODE (tt_element), NULL);
-			webkit_dom_range_collapse (range, FALSE, NULL);
 
-			webkit_dom_dom_selection_remove_all_ranges (window_selection);
-			webkit_dom_dom_selection_add_range (window_selection, range);
+			move_caret_into_element (document, tt_element);
 		}
 	} else {
 		if (g_strcmp0 (e_editor_selection_get_string (selection), "") != 0) {
-			EEditorWidgetCommand command;
+			gchar *html;
+			gchar *start_position, *end_position;
+			WebKitDOMElement *tt_element;
+			WebKitDOMElement *wrapper;
+			WebKitDOMNode *node;
 
-			/* XXX This removes _all_ formatting that the selection has.
-			 *     In theory it's possible to write a code that would
-			 *     remove the <TT> from selection using advanced DOM
-			 *     manipulation, but right now I don't really feel like
-			 *     writing it all. */
-			command = E_EDITOR_WIDGET_COMMAND_REMOVE_FORMAT;
-			e_editor_widget_exec_command (editor_widget, command, NULL);
+			node = webkit_dom_range_get_end_container (range, NULL);
+			if (g_strcmp0 (webkit_dom_node_get_local_name (node), "tt") == 0)
+				tt_element = WEBKIT_DOM_ELEMENT (node);
+			else
+				tt_element = webkit_dom_node_get_parent_element (node);
+
+			if (g_strcmp0 (webkit_dom_element_get_tag_name (tt_element), "TT") != 0)  {
+				g_object_unref (editor_widget);
+				return;
+			}
+
+			wrapper = webkit_dom_document_create_element (document, "SPAN", NULL);
+			webkit_dom_html_element_set_id (WEBKIT_DOM_HTML_ELEMENT (wrapper), "-x-evo-remove-tt");
+			webkit_dom_range_surround_contents (range, WEBKIT_DOM_NODE (wrapper), NULL);
+
+			html = webkit_dom_html_element_get_outer_html (WEBKIT_DOM_HTML_ELEMENT (tt_element));
+
+			start_position = g_strstr_len (html, -1, "<span id=\"-x-evo-remove-tt\"");
+			end_position = g_strstr_len (start_position, -1, "</span>");
+
+			webkit_dom_html_element_set_outer_html (
+				WEBKIT_DOM_HTML_ELEMENT (tt_element),
+				g_strconcat (
+					/* Beginning */
+					g_utf8_substring (html,
+						0,
+						g_utf8_pointer_to_offset (html, start_position)),
+					/* End the previous TT tag */
+					"</tt>",
+					/* Inside will be the same */
+					webkit_dom_html_element_get_inner_html (
+						WEBKIT_DOM_HTML_ELEMENT (wrapper)),
+					/* Put caret position here */
+					"<span id=\"-x-evo-caret-position\">*</span>",
+					/* Start the new TT element */
+					"<tt>",
+					/* End - we have to start after </span> */
+					g_utf8_substring (html,
+						g_utf8_pointer_to_offset (html, end_position) + 7,
+						g_utf8_strlen (html, -1)),
+					NULL),
+				NULL);
+
+			e_editor_selection_restore_caret_position (selection);
+
+			g_free (html);
 		} else {
 			WebKitDOMElement *tt_element;
 			WebKitDOMRange *new_range;
@@ -2639,28 +2704,6 @@ e_editor_selection_save_caret_position (EEditorSelection *selection)
 		WEBKIT_DOM_NODE (element),
 		split_node,
 		NULL);
-}
-
-static void
-move_caret_into_element (WebKitDOMDocument *document,
-			 WebKitDOMElement *element)
-{
-	WebKitDOMDOMWindow *window;
-	WebKitDOMDOMSelection *window_selection;
-	WebKitDOMRange *new_range;
-
-	if (!element)
-		return;
-
-	window = webkit_dom_document_get_default_view (document);
-	window_selection = webkit_dom_dom_window_get_selection (window);
-	new_range = webkit_dom_document_create_range (document);
-
-	webkit_dom_range_select_node_contents (
-			new_range, WEBKIT_DOM_NODE (element), NULL);
-	webkit_dom_range_collapse (new_range, FALSE, NULL);
-	webkit_dom_dom_selection_remove_all_ranges (window_selection);
-	webkit_dom_dom_selection_add_range (window_selection, new_range);
 }
 
 /**
