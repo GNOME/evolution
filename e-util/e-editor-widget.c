@@ -1618,7 +1618,7 @@ process_elements (WebKitDOMNode *node,
 	if (g_strcmp0 (webkit_dom_element_get_class_name (WEBKIT_DOM_ELEMENT (node)),
 		       "-x-evolution-signature") == 0) {
 
-		if (process_elements)
+		if (process_nodes)
 			g_string_append (buffer, "\n");
 		else
 			return;
