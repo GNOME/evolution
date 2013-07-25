@@ -2039,7 +2039,10 @@ e_editor_selection_set_monospaced (EEditorSelection *selection,
 			GRegex *regex;
 
 			node = webkit_dom_range_get_end_container (range, NULL);
-			tt_element = webkit_dom_node_get_parent_element (node);
+			if (g_strcmp0 (webkit_dom_node_get_local_name (node), "tt") == 0)
+				tt_element = WEBKIT_DOM_ELEMENT (node);
+			else
+				tt_element = webkit_dom_node_get_parent_element (node);
 
 			if (g_strcmp0 (webkit_dom_element_get_tag_name (tt_element), "TT") != 0)  {
 				g_object_unref (editor_widget);
@@ -2056,10 +2059,15 @@ e_editor_selection_set_monospaced (EEditorSelection *selection,
 
 			inner_html = webkit_dom_html_element_get_inner_html (WEBKIT_DOM_HTML_ELEMENT (tt_element));
 			new_inner_html = g_regex_replace_literal (regex, inner_html, -1, 0, "", 0, NULL);
-			webkit_dom_html_element_set_inner_html (WEBKIT_DOM_HTML_ELEMENT (tt_element), new_inner_html, NULL);
+			webkit_dom_html_element_set_inner_html (
+				WEBKIT_DOM_HTML_ELEMENT (tt_element),
+				new_inner_html, NULL);
 
 		        outer_html = webkit_dom_html_element_get_outer_html (WEBKIT_DOM_HTML_ELEMENT (tt_element));
-			webkit_dom_html_element_set_outer_html (WEBKIT_DOM_HTML_ELEMENT (tt_element), g_strconcat (outer_html, UNICODE_HIDDEN_SPACE, NULL), NULL);
+			webkit_dom_html_element_set_outer_html (
+				WEBKIT_DOM_HTML_ELEMENT (tt_element),
+				g_strconcat (outer_html, UNICODE_HIDDEN_SPACE, NULL), NULL);
+
 			/* We need to get that element again */
 			tt_element = webkit_dom_document_get_element_by_id (document, "ev-tt");
 			webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (tt_element), "id");
