@@ -325,7 +325,7 @@ e_meeting_time_selector_init (EMeetingTimeSelector *mts)
 	mts->day_start_minute = 0;
 	mts->day_end_hour = 18;
 	mts->day_end_minute = 0;
-	mts->zoomed_out = TRUE;
+	mts->zoomed_out = FALSE;
 	mts->dragging_position = E_MEETING_TIME_SELECTOR_POS_NONE;
 
 	mts->list_view = NULL;
