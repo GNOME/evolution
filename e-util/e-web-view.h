@@ -142,10 +142,6 @@ void		e_web_view_set_magic_smileys	(EWebView *web_view,
 const gchar *	e_web_view_get_selected_uri	(EWebView *web_view);
 void		e_web_view_set_selected_uri	(EWebView *web_view,
 						 const gchar *selected_uri);
-GdkPixbufAnimation *
-		e_web_view_get_cursor_image	(EWebView *web_view);
-void		e_web_view_set_cursor_image	(EWebView *web_view,
-						 GdkPixbufAnimation *animation);
 const gchar *	e_web_view_get_cursor_image_src	(EWebView *web_view);
 void		e_web_view_set_cursor_image_src	(EWebView *web_view,
 						 const gchar *src_uri);
@@ -189,6 +185,7 @@ void		e_web_view_stop_loading		(EWebView *web_view);
 void		e_web_view_update_actions	(EWebView *web_view);
 gchar *		e_web_view_get_selection_html	(EWebView *web_view);
 void		e_web_view_update_fonts		(EWebView *web_view);
+void		e_web_view_cursor_image_copy	(EWebView *web_view);
 void		e_web_view_request		(EWebView *web_view,
 						 const gchar *uri,
 						 GCancellable *cancellable,

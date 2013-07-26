@@ -415,7 +415,7 @@ mail_shell_view_popup_event_cb (EMailShellView *mail_shell_view,
 	reader = E_MAIL_READER (mail_view);
 	display = e_mail_reader_get_mail_display (reader);
 
-	if (e_web_view_get_cursor_image (E_WEB_VIEW (display)) != NULL)
+	if (e_web_view_get_cursor_image_src (E_WEB_VIEW (display)) != NULL)
 		return FALSE;
 
 	menu = e_mail_reader_get_popup_menu (reader);

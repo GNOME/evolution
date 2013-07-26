@@ -4376,8 +4376,6 @@ e_web_view_get_magic_smileys
 e_web_view_set_magic_smileys
 e_web_view_get_selected_uri
 e_web_view_set_selected_uri
-e_web_view_get_cursor_image
-e_web_view_set_cursor_image
 e_web_view_get_cursor_image_src
 e_web_view_set_cursor_image_src
 e_web_view_get_open_proxy
@@ -4412,6 +4410,7 @@ e_web_view_stop_loading
 e_web_view_update_actions
 e_web_view_get_selection_html
 e_web_view_update_fonts
+e_web_view_cursor_image_copy
 e_web_view_request
 e_web_view_request_finish
 e_web_view_install_request_handler

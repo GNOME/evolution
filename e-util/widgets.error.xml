@@ -14,6 +14,11 @@
     <_secondary>Please provide an unique name to identify this signature.</_secondary>
   </error>
 
+  <error id="no-image-copy" type="warning">
+    <_primary>Unable to copy image to clipboard.</_primary>
+    <secondary xml:space="preserve">{0}</secondary>
+  </error>
+
   <error id="no-load-signature" type="error">
     <_primary>Could not load signature.</_primary>
     <secondary xml:space="preserve">{0}</secondary>

@@ -52,7 +52,6 @@ typedef struct _AsyncContext AsyncContext;
 struct _EWebViewPrivate {
 	GtkUIManager *ui_manager;
 	gchar *selected_uri;
-	GdkPixbufAnimation *cursor_image;
 	gchar *cursor_image_src;
 
 	GQueue highlights;
@@ -83,7 +82,6 @@ enum {
 	PROP_0,
 	PROP_CARET_MODE,
 	PROP_COPY_TARGET_LIST,
-	PROP_CURSOR_IMAGE,
 	PROP_CURSOR_IMAGE_SRC,
 	PROP_DISABLE_PRINTING,
 	PROP_DISABLE_SAVE_TO_DISK,
@@ -263,22 +261,9 @@ action_uri_copy_cb (GtkAction *action,
 
 static void
 action_image_copy_cb (GtkAction *action,
-                    EWebView *web_view)
+                      EWebView *web_view)
 {
-	GtkClipboard *clipboard;
-	GdkPixbufAnimation *animation;
-	GdkPixbuf *pixbuf;
-
-	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
-	animation = e_web_view_get_cursor_image (web_view);
-	g_return_if_fail (animation != NULL);
-
-	pixbuf = gdk_pixbuf_animation_get_static_image (animation);
-	if (pixbuf == NULL)
-		return;
-
-	gtk_clipboard_set_image (clipboard, pixbuf);
-	gtk_clipboard_store (clipboard);
+	e_web_view_cursor_image_copy (web_view);
 }
 
 static GtkActionEntry uri_entries[] = {
@@ -448,32 +433,6 @@ web_view_connect_proxy_cb (EWebView *web_view,
 		G_CALLBACK (web_view_menu_item_deselect_cb), web_view);
 }
 
-static GdkPixbufAnimation *
-web_view_load_cursor_image (EWebView *web_view,
-                            const guchar *buffer,
-                            gsize length,
-                            GError **error)
-{
-	GdkPixbufLoader *loader;
-	GdkPixbufAnimation *animation = NULL;
-	gboolean success;
-
-	loader = gdk_pixbuf_loader_new ();
-
-	success =
-		gdk_pixbuf_loader_write (loader, buffer, length, error) &&
-		gdk_pixbuf_loader_close (loader, error);
-
-	if (success) {
-		animation = gdk_pixbuf_loader_get_animation (loader);
-		g_object_ref (animation);
-	}
-
-	g_object_unref (loader);
-
-	return animation;
-}
-
 static gboolean
 web_view_context_menu_cb (WebKitWebView *webkit_web_view,
                           GtkWidget *default_menu,
@@ -487,8 +446,6 @@ web_view_context_menu_cb (WebKitWebView *webkit_web_view,
 
 	web_view = E_WEB_VIEW (webkit_web_view);
 
-	g_clear_object (&web_view->priv->cursor_image);
-
 	g_free (web_view->priv->cursor_image_src);
 	web_view->priv->cursor_image_src = NULL;
 
@@ -498,60 +455,14 @@ web_view_context_menu_cb (WebKitWebView *webkit_web_view,
 	g_object_get (hit_test_result, "context", &context, NULL);
 
 	if (context & WEBKIT_HIT_TEST_RESULT_CONTEXT_IMAGE) {
-		WebKitWebDataSource *data_source;
-		WebKitWebFrame *frame;
-		GList *list, *link;
 		gchar *image_uri = NULL;
 
 		g_object_get (hit_test_result, "image-uri", &image_uri, NULL);
 
-		if (image_uri == NULL)
-			return FALSE;
-
-		g_free (web_view->priv->cursor_image_src);
-		web_view->priv->cursor_image_src = image_uri;
-
-		/* Iterate through all resources of the loaded webpage and
-		 * try to find resource with URI matching cursor_image_src */
-		frame = webkit_web_view_get_main_frame (
-			WEBKIT_WEB_VIEW (web_view));
-		data_source = webkit_web_frame_get_data_source (frame);
-		list = webkit_web_data_source_get_subresources (data_source);
-
-		for (link = list; link != NULL; link = g_list_next (link)) {
-			WebKitWebResource *resource;
-			GString *data;
-			const gchar *resource_uri;
-			GError *local_error = NULL;
-
-			resource = WEBKIT_WEB_RESOURCE (link->data);
-			resource_uri = webkit_web_resource_get_uri (resource);
-
-			if (g_strcmp0 (resource_uri, image_uri) != 0)
-				continue;
-
-			data = webkit_web_resource_get_data (resource);
-			if (data == NULL)
-				break;
-
-			g_clear_object (&web_view->priv->cursor_image);
-
-			web_view->priv->cursor_image =
-				web_view_load_cursor_image (
-					web_view, (guchar *) data->str,
-					data->len, &local_error);
-
-			if (local_error != NULL) {
-				g_warning (
-					"%s: %s", G_STRFUNC,
-					local_error->message);
-				g_error_free (local_error);
-			}
-
-			break;
+		if (image_uri != NULL) {
+			g_free (web_view->priv->cursor_image_src);
+			web_view->priv->cursor_image_src = image_uri;
 		}
-
-		g_list_free (list);
 	}
 
 	if (context & WEBKIT_HIT_TEST_RESULT_CONTEXT_LINK)
@@ -668,12 +579,6 @@ web_view_set_property (GObject *object,
 				g_value_get_boolean (value));
 			return;
 
-		case PROP_CURSOR_IMAGE:
-			e_web_view_set_cursor_image (
-				E_WEB_VIEW (object),
-				g_value_get_object (value));
-			return;
-
 		case PROP_CURSOR_IMAGE_SRC:
 			e_web_view_set_cursor_image_src (
 				E_WEB_VIEW (object),
@@ -747,12 +652,6 @@ web_view_get_property (GObject *object,
 		case PROP_CARET_MODE:
 			g_value_set_boolean (
 				value, e_web_view_get_caret_mode (
-				E_WEB_VIEW (object)));
-			return;
-
-		case PROP_CURSOR_IMAGE:
-			g_value_set_object (
-				value, e_web_view_get_cursor_image (
 				E_WEB_VIEW (object)));
 			return;
 
@@ -853,7 +752,6 @@ web_view_dispose (GObject *object)
 	g_clear_object (&priv->open_proxy);
 	g_clear_object (&priv->print_proxy);
 	g_clear_object (&priv->save_as_proxy);
-	g_clear_object (&priv->cursor_image);
 	g_clear_object (&priv->aliasing_settings);
 	g_clear_object (&priv->font_settings);
 
@@ -1145,15 +1043,14 @@ web_view_update_actions (EWebView *web_view)
 	gboolean scheme_is_http = FALSE;
 	gboolean scheme_is_mailto = FALSE;
 	gboolean uri_is_valid = FALSE;
-	gboolean has_cursor_image;
 	gboolean visible;
+	const gchar *cursor_image_src;
 	const gchar *group_name;
 	const gchar *uri;
 
 	uri = e_web_view_get_selected_uri (web_view);
 	can_copy = webkit_web_view_can_copy_clipboard (WEBKIT_WEB_VIEW (web_view));
-	has_cursor_image = e_web_view_get_cursor_image_src (web_view) ||
-			   e_web_view_get_cursor_image (web_view);
+	cursor_image_src = e_web_view_get_cursor_image_src (web_view);
 
 	/* Parse the URI early so we know if the actions will work. */
 	if (uri != NULL) {
@@ -1188,7 +1085,7 @@ web_view_update_actions (EWebView *web_view)
 	gtk_action_group_set_visible (action_group, visible);
 
 	group_name = "image";
-	visible = has_cursor_image;
+	visible = (cursor_image_src != NULL);
 	action_group = e_web_view_get_action_group (web_view, group_name);
 	gtk_action_group_set_visible (action_group, visible);
 
@@ -1221,6 +1118,8 @@ web_view_submit_alert (EAlertSink *alert_sink,
 	GtkWidget *dialog;
 	GString *buffer;
 	const gchar *icon_name = NULL;
+	const gchar *primary_text;
+	const gchar *secondary_text;
 	gpointer parent;
 
 	web_view = E_WEB_VIEW (alert_sink);
@@ -1247,6 +1146,15 @@ web_view_submit_alert (EAlertSink *alert_sink,
 			gtk_widget_destroy (dialog);
 			return;
 	}
+
+	/* Primary text is required. */
+	primary_text = e_alert_get_primary_text (alert);
+	g_return_if_fail (primary_text != NULL);
+
+	/* Secondary text is optional. */
+	secondary_text = e_alert_get_secondary_text (alert);
+	if (secondary_text == NULL)
+		secondary_text = "";
 
 	buffer = g_string_sized_new (512);
 
@@ -1281,8 +1189,8 @@ web_view_submit_alert (EAlertSink *alert_sink,
 		"</tr>",
 		icon_name,
 		GTK_ICON_SIZE_DIALOG,
-		e_alert_get_primary_text (alert),
-		e_alert_get_secondary_text (alert));
+		primary_text,
+		secondary_text);
 
 	g_string_append (
 		buffer,
@@ -1422,16 +1330,6 @@ e_web_view_class_init (EWebViewClass *class)
 			"Caret Mode",
 			NULL,
 			FALSE,
-			G_PARAM_READWRITE));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_CURSOR_IMAGE,
-		g_param_spec_object (
-			"cursor-image",
-			"Image animation at the mouse cursor",
-			NULL,
-			GDK_TYPE_PIXBUF_ANIMATION,
 			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
@@ -2170,34 +2068,6 @@ e_web_view_set_selected_uri (EWebView *web_view,
 	g_object_notify (G_OBJECT (web_view), "selected-uri");
 }
 
-GdkPixbufAnimation *
-e_web_view_get_cursor_image (EWebView *web_view)
-{
-	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), NULL);
-
-	return web_view->priv->cursor_image;
-}
-
-void
-e_web_view_set_cursor_image (EWebView *web_view,
-                             GdkPixbufAnimation *image)
-{
-	g_return_if_fail (E_IS_WEB_VIEW (web_view));
-
-	if (web_view->priv->cursor_image == image)
-		return;
-
-	if (image != NULL)
-		g_object_ref (image);
-
-	if (web_view->priv->cursor_image != NULL)
-		g_object_unref (web_view->priv->cursor_image);
-
-	web_view->priv->cursor_image = image;
-
-	g_object_notify (G_OBJECT (web_view), "cursor-image");
-}
-
 const gchar *
 e_web_view_get_cursor_image_src (EWebView *web_view)
 {
@@ -2828,6 +2698,132 @@ e_web_view_update_fonts (EWebView *web_view)
 	pango_font_description_free (vw);
 }
 
+/* Helper for e_web_view_cursor_image_copy() */
+static void
+web_view_cursor_image_copy_pixbuf_cb (GObject *source_object,
+                                      GAsyncResult *result,
+                                      gpointer user_data)
+{
+	EActivity *activity;
+	EAlertSink *alert_sink;
+	GdkPixbuf *pixbuf;
+	GError *local_error = NULL;
+
+	activity = E_ACTIVITY (user_data);
+	alert_sink = e_activity_get_alert_sink (activity);
+
+	pixbuf = gdk_pixbuf_new_from_stream_finish (result, &local_error);
+
+	/* Sanity check. */
+	g_return_if_fail (
+		((pixbuf != NULL) && (local_error == NULL)) ||
+		((pixbuf == NULL) && (local_error != NULL)));
+
+	if (e_activity_handle_cancellation (activity, local_error)) {
+		g_error_free (local_error);
+
+	} else if (local_error != NULL) {
+		e_alert_submit (
+			alert_sink,
+			"widgets:no-image-copy",
+			local_error->message, NULL);
+		g_error_free (local_error);
+
+	} else {
+		GtkClipboard *clipboard;
+
+		clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+		gtk_clipboard_set_image (clipboard, pixbuf);
+		gtk_clipboard_store (clipboard);
+
+		e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
+	}
+
+	g_clear_object (&activity);
+	g_clear_object (&pixbuf);
+}
+
+/* Helper for e_web_view_cursor_image_copy() */
+static void
+web_view_cursor_image_copy_request_cb (GObject *source_object,
+                                       GAsyncResult *result,
+                                       gpointer user_data)
+{
+	EActivity *activity;
+	EAlertSink *alert_sink;
+	GCancellable *cancellable;
+	GInputStream *input_stream;
+	GError *local_error = NULL;
+
+	activity = E_ACTIVITY (user_data);
+	alert_sink = e_activity_get_alert_sink (activity);
+	cancellable = e_activity_get_cancellable (activity);
+
+	input_stream = e_web_view_request_finish (
+		E_WEB_VIEW (source_object), result, &local_error);
+
+	/* Sanity check. */
+	g_return_if_fail (
+		((input_stream != NULL) && (local_error == NULL)) ||
+		((input_stream == NULL) && (local_error != NULL)));
+
+	if (e_activity_handle_cancellation (activity, local_error)) {
+		g_error_free (local_error);
+
+	} else if (local_error != NULL) {
+		e_alert_submit (
+			alert_sink,
+			"widgets:no-image-copy",
+			local_error->message, NULL);
+		g_error_free (local_error);
+
+	} else {
+		gdk_pixbuf_new_from_stream_async (
+			input_stream, cancellable,
+			web_view_cursor_image_copy_pixbuf_cb,
+			g_object_ref (activity));
+	}
+
+	g_clear_object (&activity);
+	g_clear_object (&input_stream);
+}
+
+/**
+ * e_web_view_cursor_image_copy:
+ * @web_view: an #EWebView
+ *
+ * Asynchronously copies the image under the cursor to the clipboard.
+ *
+ * This function triggers a #EWebView::new-activity signal emission so
+ * the asynchronous operation can be tracked and/or cancelled.
+ **/
+void
+e_web_view_cursor_image_copy (EWebView *web_view)
+{
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	if (web_view->priv->cursor_image_src != NULL) {
+		EActivity *activity;
+		GCancellable *cancellable;
+		const gchar *text;
+
+		activity = e_web_view_new_activity (web_view);
+		cancellable = e_activity_get_cancellable (activity);
+
+		text = _("Copying image to clipboard");
+		e_activity_set_text (activity, text);
+
+		e_web_view_request (
+			web_view,
+			web_view->priv->cursor_image_src,
+			cancellable,
+			web_view_cursor_image_copy_request_cb,
+			g_object_ref (activity));
+
+		g_object_unref (activity);
+	}
+}
+
 /* Helper for e_web_view_request() */
 static void
 web_view_request_send_cb (GObject *source_object,
@@ -2848,8 +2844,6 @@ web_view_request_send_cb (GObject *source_object,
 		g_simple_async_result_take_error (simple, local_error);
 
 	g_simple_async_result_complete (simple);
-
-	g_object_unref (simple);
 }
 
 /**

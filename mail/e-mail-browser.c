@@ -333,7 +333,7 @@ mail_browser_popup_event_cb (EMailBrowser *browser,
 	reader = E_MAIL_READER (browser);
 	web_view = E_WEB_VIEW (e_mail_reader_get_mail_display (reader));
 
-	if (e_web_view_get_cursor_image (web_view) != NULL)
+	if (e_web_view_get_cursor_image_src (web_view) != NULL)
 		return FALSE;
 
 	menu = e_mail_reader_get_popup_menu (reader);
