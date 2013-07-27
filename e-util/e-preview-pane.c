@@ -32,6 +32,8 @@ struct _EPreviewPanePrivate {
 	GtkWidget *alert_bar;
 	GtkWidget *web_view;
 	GtkWidget *search_bar;
+
+	gulong web_view_new_activity_handler_id;
 };
 
 enum {
@@ -60,13 +62,29 @@ G_DEFINE_TYPE_WITH_CODE (
 		e_preview_pane_alert_sink_init))
 
 static void
+preview_pane_web_view_new_activity_cb (EWebView *web_view,
+                                       EActivity *activity,
+                                       EPreviewPane *preview_pane)
+{
+	e_activity_set_alert_sink (activity, E_ALERT_SINK (preview_pane));
+}
+
+static void
 preview_pane_set_web_view (EPreviewPane *preview_pane,
                            EWebView *web_view)
 {
+	gulong handler_id;
+
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 	g_return_if_fail (preview_pane->priv->web_view == NULL);
 
 	preview_pane->priv->web_view = g_object_ref_sink (web_view);
+
+	handler_id = g_signal_connect (
+		web_view, "new-activity",
+		G_CALLBACK (preview_pane_web_view_new_activity_cb),
+		preview_pane);
+	preview_pane->priv->web_view_new_activity_handler_id = handler_id;
 }
 
 static void
@@ -115,6 +133,13 @@ preview_pane_dispose (GObject *object)
 	EPreviewPanePrivate *priv;
 
 	priv = E_PREVIEW_PANE_GET_PRIVATE (object);
+
+	if (priv->web_view_new_activity_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->web_view,
+			priv->web_view_new_activity_handler_id);
+		priv->web_view_new_activity_handler_id = 0;
+	}
 
 	g_clear_object (&priv->alert_bar);
 	g_clear_object (&priv->search_bar);
