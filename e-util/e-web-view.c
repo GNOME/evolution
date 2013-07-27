@@ -47,6 +47,8 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_WEB_VIEW, EWebViewPrivate))
 
+typedef struct _AsyncContext AsyncContext;
+
 struct _EWebViewPrivate {
 	GtkUIManager *ui_manager;
 	gchar *selected_uri;
@@ -71,6 +73,10 @@ struct _EWebViewPrivate {
 
 	GSettings *aliasing_settings;
 	gulong antialiasing_changed_handler_id;
+};
+
+struct _AsyncContext {
+	GInputStream *input_stream;
 };
 
 enum {
@@ -142,6 +148,14 @@ G_DEFINE_TYPE_WITH_CODE (
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_SELECTABLE,
 		e_web_view_selectable_init))
+
+static void
+async_context_free (AsyncContext *async_context)
+{
+	g_clear_object (&async_context->input_stream);
+
+	g_slice_free (AsyncContext, async_context);
+}
 
 static void
 action_copy_clipboard_cb (GtkAction *action,
@@ -2765,6 +2779,144 @@ e_web_view_update_fonts (EWebView *web_view)
 
 	pango_font_description_free (ms);
 	pango_font_description_free (vw);
+}
+
+/* Helper for e_web_view_request() */
+static void
+web_view_request_send_cb (GObject *source_object,
+                          GAsyncResult *result,
+                          gpointer user_data)
+{
+	GSimpleAsyncResult *simple;
+	AsyncContext *async_context;
+	GError *local_error = NULL;
+
+	simple = G_SIMPLE_ASYNC_RESULT (user_data);
+	async_context = g_simple_async_result_get_op_res_gpointer (simple);
+
+	async_context->input_stream = soup_request_send_finish (
+		SOUP_REQUEST (source_object), result, &local_error);
+
+	if (local_error != NULL)
+		g_simple_async_result_take_error (simple, local_error);
+
+	g_simple_async_result_complete (simple);
+
+	g_object_unref (simple);
+}
+
+/**
+ * e_web_view_request:
+ * @web_view: an #EWebView
+ * @uri: the URI to load
+ * @cancellable: optional #GCancellable object, or %NULL
+ * @callback: a #GAsyncReadyCallback to call when the request is satisfied
+ * @user_data: data to pass to the callback function
+ *
+ * Asynchronously requests data at @uri by way of a #SoupRequest to WebKit's
+ * default #SoupSession, incorporating both e_web_view_redirect_uri() and the
+ * custom request handlers installed via e_web_view_install_request_handler().
+ *
+ * When the operation is finished, @callback will be called.  You can then
+ * call e_web_view_request_finish() to get the result of the operation.
+ **/
+void
+e_web_view_request (EWebView *web_view,
+                    const gchar *uri,
+                    GCancellable *cancellable,
+                    GAsyncReadyCallback callback,
+                    gpointer user_data)
+{
+	SoupSession *session;
+	SoupSessionFeature *feature;
+	SoupRequester *requester;
+	SoupRequest *request;
+	gchar *real_uri;
+	GSimpleAsyncResult *simple;
+	AsyncContext *async_context;
+	GError *local_error = NULL;
+
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+	g_return_if_fail (uri != NULL);
+
+	session = webkit_get_default_session ();
+
+	/* SoupRequester feature should have already been added. */
+	feature = soup_session_get_feature (session, SOUP_TYPE_REQUESTER);
+	g_return_if_fail (feature != NULL);
+
+	async_context = g_slice_new0 (AsyncContext);
+
+	simple = g_simple_async_result_new (
+		G_OBJECT (web_view), callback,
+		user_data, e_web_view_request);
+
+	g_simple_async_result_set_check_cancellable (simple, cancellable);
+
+	g_simple_async_result_set_op_res_gpointer (
+		simple, async_context, (GDestroyNotify) async_context_free);
+
+	requester = SOUP_REQUESTER (feature);
+	real_uri = e_web_view_redirect_uri (web_view, uri);
+	request = soup_requester_request (requester, real_uri, &local_error);
+	g_free (real_uri);
+
+	/* Sanity check. */
+	g_return_if_fail (
+		((request != NULL) && (local_error == NULL)) ||
+		((request == NULL) && (local_error != NULL)));
+
+	if (request != NULL) {
+		soup_request_send_async (
+			request, cancellable,
+			web_view_request_send_cb,
+			g_object_ref (simple));
+
+		g_object_unref (request);
+
+	} else {
+		g_simple_async_result_take_error (simple, local_error);
+		g_simple_async_result_complete_in_idle (simple);
+	}
+
+	g_object_unref (simple);
+}
+
+/**
+ * e_web_view_request_finish:
+ * @web_view: an #EWebView
+ * @result: a #GAsyncResult
+ * @error: return location for a #GError, or %NULL
+ *
+ * Finishes the operation started with e_web_view_request().
+ *
+ * Unreference the returned #GInputStream with g_object_unref() when finished
+ * with it.  If an error occurred, the function will set @error and return
+ * %NULL.
+ *
+ * Returns: a #GInputStream, or %NULL
+ **/
+GInputStream *
+e_web_view_request_finish (EWebView *web_view,
+                           GAsyncResult *result,
+                           GError **error)
+{
+	GSimpleAsyncResult *simple;
+	AsyncContext *async_context;
+
+	g_return_val_if_fail (
+		g_simple_async_result_is_valid (
+		result, G_OBJECT (web_view), e_web_view_request), NULL);
+
+	simple = G_SIMPLE_ASYNC_RESULT (result);
+	async_context = g_simple_async_result_get_op_res_gpointer (simple);
+
+	if (g_simple_async_result_propagate_error (simple, error))
+		return NULL;
+
+	g_return_val_if_fail (async_context->input_stream != NULL, NULL);
+
+	return g_object_ref (async_context->input_stream);
 }
 
 void

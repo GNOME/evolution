@@ -4411,6 +4411,8 @@ e_web_view_stop_loading
 e_web_view_update_actions
 e_web_view_get_selection_html
 e_web_view_update_fonts
+e_web_view_request
+e_web_view_request_finish
 e_web_view_install_request_handler
 <SUBSECTION Standard>
 E_WEB_VIEW
