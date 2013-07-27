@@ -186,6 +186,7 @@ void		e_web_view_update_actions	(EWebView *web_view);
 gchar *		e_web_view_get_selection_html	(EWebView *web_view);
 void		e_web_view_update_fonts		(EWebView *web_view);
 void		e_web_view_cursor_image_copy	(EWebView *web_view);
+void		e_web_view_cursor_image_save	(EWebView *web_view);
 void		e_web_view_request		(EWebView *web_view,
 						 const gchar *uri,
 						 GCancellable *cancellable,

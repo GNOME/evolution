@@ -75,6 +75,8 @@ struct _EWebViewPrivate {
 };
 
 struct _AsyncContext {
+	EActivity *activity;
+	GFile *destination;
 	GInputStream *input_stream;
 };
 
@@ -151,6 +153,8 @@ G_DEFINE_TYPE_WITH_CODE (
 static void
 async_context_free (AsyncContext *async_context)
 {
+	g_clear_object (&async_context->activity);
+	g_clear_object (&async_context->destination);
 	g_clear_object (&async_context->input_stream);
 
 	g_slice_free (AsyncContext, async_context);
@@ -2821,6 +2825,237 @@ e_web_view_cursor_image_copy (EWebView *web_view)
 			g_object_ref (activity));
 
 		g_object_unref (activity);
+	}
+}
+
+/* Helper for e_web_view_cursor_image_save() */
+static void
+web_view_cursor_image_save_splice_cb (GObject *source_object,
+                                      GAsyncResult *result,
+                                      gpointer user_data)
+{
+	EActivity *activity;
+	EAlertSink *alert_sink;
+	AsyncContext *async_context;
+	GError *local_error = NULL;
+
+	async_context = (AsyncContext *) user_data;
+
+	activity = async_context->activity;
+	alert_sink = e_activity_get_alert_sink (activity);
+
+	g_output_stream_splice_finish (
+		G_OUTPUT_STREAM (source_object), result, &local_error);
+
+	if (e_activity_handle_cancellation (activity, local_error)) {
+		g_error_free (local_error);
+
+	} else if (local_error != NULL) {
+		e_alert_submit (
+			alert_sink,
+			"widgets:no-image-save",
+			local_error->message, NULL);
+		g_error_free (local_error);
+
+	} else {
+		e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
+	}
+
+	async_context_free (async_context);
+}
+
+/* Helper for e_web_view_cursor_image_save() */
+static void
+web_view_cursor_image_save_replace_cb (GObject *source_object,
+                                       GAsyncResult *result,
+                                       gpointer user_data)
+{
+	EActivity *activity;
+	EAlertSink *alert_sink;
+	GCancellable *cancellable;
+	GFileOutputStream *output_stream;
+	AsyncContext *async_context;
+	GError *local_error = NULL;
+
+	async_context = (AsyncContext *) user_data;
+
+	activity = async_context->activity;
+	alert_sink = e_activity_get_alert_sink (activity);
+	cancellable = e_activity_get_cancellable (activity);
+
+	output_stream = g_file_replace_finish (
+		G_FILE (source_object), result, &local_error);
+
+	/* Sanity check. */
+	g_return_if_fail (
+		((output_stream != NULL) && (local_error == NULL)) ||
+		((output_stream == NULL) && (local_error != NULL)));
+
+	if (e_activity_handle_cancellation (activity, local_error)) {
+		g_error_free (local_error);
+		async_context_free (async_context);
+
+	} else if (local_error != NULL) {
+		e_alert_submit (
+			alert_sink,
+			"widgets:no-image-save",
+			local_error->message, NULL);
+		g_error_free (local_error);
+		async_context_free (async_context);
+
+	} else {
+		g_output_stream_splice_async (
+			G_OUTPUT_STREAM (output_stream),
+			async_context->input_stream,
+			G_OUTPUT_STREAM_SPLICE_CLOSE_SOURCE |
+			G_OUTPUT_STREAM_SPLICE_CLOSE_TARGET,
+			G_PRIORITY_DEFAULT,
+			cancellable,
+			web_view_cursor_image_save_splice_cb,
+			async_context);
+	}
+
+	g_clear_object (&output_stream);
+}
+
+/* Helper for e_web_view_cursor_image_save() */
+static void
+web_view_cursor_image_save_request_cb (GObject *source_object,
+                                       GAsyncResult *result,
+                                       gpointer user_data)
+{
+	EActivity *activity;
+	EAlertSink *alert_sink;
+	GCancellable *cancellable;
+	GInputStream *input_stream;
+	AsyncContext *async_context;
+	GError *local_error = NULL;
+
+	async_context = (AsyncContext *) user_data;
+
+	activity = async_context->activity;
+	alert_sink = e_activity_get_alert_sink (activity);
+	cancellable = e_activity_get_cancellable (activity);
+
+	input_stream = e_web_view_request_finish (
+		E_WEB_VIEW (source_object), result, &local_error);
+
+	/* Sanity check. */
+	g_return_if_fail (
+		((input_stream != NULL) && (local_error == NULL)) ||
+		((input_stream == NULL) && (local_error != NULL)));
+
+	if (e_activity_handle_cancellation (activity, local_error)) {
+		g_error_free (local_error);
+		async_context_free (async_context);
+
+	} else if (local_error != NULL) {
+		e_alert_submit (
+			alert_sink,
+			"widgets:no-image-save",
+			local_error->message, NULL);
+		g_error_free (local_error);
+		async_context_free (async_context);
+
+	} else {
+		async_context->input_stream = g_object_ref (input_stream);
+
+		/* Open an output stream to the destination file. */
+		g_file_replace_async (
+			async_context->destination,
+			NULL, FALSE,
+			G_FILE_CREATE_REPLACE_DESTINATION,
+			G_PRIORITY_DEFAULT,
+			cancellable,
+			web_view_cursor_image_save_replace_cb,
+			async_context);
+	}
+
+	g_clear_object (&input_stream);
+}
+
+/**
+ * e_web_view_cursor_image_save:
+ * @web_view: an #EWebView
+ *
+ * Prompts the user to choose a destination file and then asynchronously
+ * saves the image under the cursor to the destination file.
+ *
+ * This function triggers a #EWebView::new-activity signal emission so
+ * the asynchronous operation can be tracked and/or cancelled.
+ **/
+void
+e_web_view_cursor_image_save (EWebView *web_view)
+{
+	GtkFileChooser *file_chooser;
+	GFile *destination = NULL;
+	GtkWidget *dialog;
+	gchar *suggestion;
+	gpointer toplevel;
+
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	if (web_view->priv->cursor_image_src == NULL)
+		return;
+
+	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (web_view));
+	toplevel = gtk_widget_is_toplevel (toplevel) ? toplevel : NULL;
+
+	dialog = gtk_file_chooser_dialog_new (
+		_("Save Image"), toplevel,
+		GTK_FILE_CHOOSER_ACTION_SAVE,
+		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+		GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT, NULL);
+
+	gtk_dialog_set_default_response (
+		GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
+
+	file_chooser = GTK_FILE_CHOOSER (dialog);
+	gtk_file_chooser_set_local_only (file_chooser, FALSE);
+	gtk_file_chooser_set_do_overwrite_confirmation (file_chooser, TRUE);
+
+	suggestion = e_web_view_suggest_filename (
+		web_view, web_view->priv->cursor_image_src);
+
+	if (suggestion != NULL) {
+		gtk_file_chooser_set_current_name (file_chooser, suggestion);
+		g_free (suggestion);
+	}
+
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
+		destination = gtk_file_chooser_get_file (file_chooser);
+
+	gtk_widget_destroy (dialog);
+
+	if (destination != NULL) {
+		EActivity *activity;
+		GCancellable *cancellable;
+		AsyncContext *async_context;
+		gchar *text;
+		gchar *uri;
+
+		activity = e_web_view_new_activity (web_view);
+		cancellable = e_activity_get_cancellable (activity);
+
+		uri = g_file_get_uri (destination);
+		text = g_strdup_printf (_("Saving image to '%s'"), uri);
+		e_activity_set_text (activity, text);
+		g_free (text);
+		g_free (uri);
+
+		async_context = g_slice_new0 (AsyncContext);
+		async_context->activity = g_object_ref (activity);
+		async_context->destination = g_object_ref (destination);
+
+		e_web_view_request (
+			web_view,
+			web_view->priv->cursor_image_src,
+			cancellable,
+			web_view_cursor_image_save_request_cb,
+			async_context);
+
+		g_object_unref (activity);
+		g_object_unref (destination);
 	}
 }
 
