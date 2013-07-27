@@ -1477,6 +1477,45 @@ chainup:
 		redirect_uri (web_view, uri);
 }
 
+static gchar *
+mail_display_suggest_filename (EWebView *web_view,
+                               const gchar *uri)
+{
+	if (g_str_has_prefix (uri, "cid:")) {
+		EMailDisplay *display;
+		EMailPartList *part_list;
+		CamelMimeMessage *message;
+		CamelMimePart *mime_part;
+		const gchar *filename;
+
+		/* Note, this assumes the URI comes
+		 * from the currently loaded message. */
+
+		display = E_MAIL_DISPLAY (web_view);
+
+		part_list = e_mail_display_get_part_list (display);
+		if (part_list == NULL)
+			return NULL;
+
+		message = e_mail_part_list_get_message (part_list);
+		if (message == NULL)
+			return NULL;
+
+		mime_part = camel_mime_message_get_part_by_content_id (
+			message, uri + 4);
+		if (mime_part == NULL)
+			return NULL;
+
+		filename = camel_mime_part_get_filename (mime_part);
+
+		return g_strdup (filename);
+	}
+
+	/* Chain up to parent's suggest_filename() method. */
+	return E_WEB_VIEW_CLASS (e_mail_display_parent_class)->
+		suggest_filename (web_view, uri);
+}
+
 static void
 mail_display_set_fonts (EWebView *web_view,
                         PangoFontDescription **monospace,
@@ -1531,6 +1570,7 @@ e_mail_display_class_init (EMailDisplayClass *class)
 
 	web_view_class = E_WEB_VIEW_CLASS (class);
 	web_view_class->redirect_uri = mail_display_redirect_uri;
+	web_view_class->suggest_filename = mail_display_suggest_filename;
 	web_view_class->set_fonts = mail_display_set_fonts;
 
 	g_object_class_install_property (

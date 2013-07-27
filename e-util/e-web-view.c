@@ -1087,6 +1087,25 @@ web_view_redirect_uri (EWebView *web_view,
 	return g_strdup (uri);
 }
 
+static gchar *
+web_view_suggest_filename (EWebView *web_view,
+                           const gchar *uri)
+{
+	const gchar *cp;
+
+	/* Try to derive a filename from the last path segment. */
+
+	cp = strrchr (uri, '/');
+	if (cp != NULL) {
+		if (strchr (cp, '?') == NULL)
+			cp++;
+		else
+			cp = NULL;
+	}
+
+	return g_strdup (cp);
+}
+
 static gboolean
 web_view_popup_event (EWebView *web_view,
                       const gchar *uri)
@@ -1375,6 +1394,7 @@ e_web_view_class_init (EWebViewClass *class)
 	class->load_string = web_view_load_string;
 	class->load_uri = web_view_load_uri;
 	class->redirect_uri = web_view_redirect_uri;
+	class->suggest_filename = web_view_suggest_filename;
 	class->popup_event = web_view_popup_event;
 	class->stop_loading = web_view_stop_loading;
 	class->update_actions = web_view_update_actions;
@@ -1848,6 +1868,47 @@ e_web_view_redirect_uri (EWebView *web_view,
 	g_return_val_if_fail (class->redirect_uri != NULL, NULL);
 
 	return class->redirect_uri (web_view, uri);
+}
+
+/**
+ * e_web_view_suggest_filename:
+ * @web_view: an #EWebView
+ * @uri: a URI string
+ *
+ * Attempts to derive a suggested filename from the @uri for use in a
+ * "Save As" dialog.
+ *
+ * By default the suggested filename is the last path segment of the @uri
+ * (unless @uri looks like a query), but subclasses can use other mechanisms
+ * for custom URI schemes.  For example, "cid:" URIs in an email message may
+ * refer to a MIME part with a suggested filename in its Content-Disposition
+ * header.
+ *
+ * The returned string should be freed with g_free() when finished with it,
+ * but callers should also be prepared for the function to return %NULL if
+ * a filename cannot be determined.
+ *
+ * Returns: a suggested filename, or %NULL
+ **/
+gchar *
+e_web_view_suggest_filename (EWebView *web_view,
+                             const gchar *uri)
+{
+	EWebViewClass *class;
+	gchar *filename;
+
+	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), NULL);
+	g_return_val_if_fail (uri != NULL, NULL);
+
+	class = E_WEB_VIEW_GET_CLASS (web_view);
+	g_return_val_if_fail (class->suggest_filename != NULL, NULL);
+
+	filename = class->suggest_filename (web_view, uri);
+
+	if (filename != NULL)
+		e_filename_make_safe (filename);
+
+	return filename;
 }
 
 void
