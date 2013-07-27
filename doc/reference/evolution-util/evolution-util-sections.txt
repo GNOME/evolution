@@ -4406,6 +4406,7 @@ e_web_view_zoom_out
 e_web_view_get_ui_manager
 e_web_view_get_popup_menu
 e_web_view_show_popup_menu
+e_web_view_new_activity
 e_web_view_status_message
 e_web_view_stop_loading
 e_web_view_update_actions

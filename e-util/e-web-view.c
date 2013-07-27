@@ -97,6 +97,7 @@ enum {
 };
 
 enum {
+	NEW_ACTIVITY,
 	POPUP_EVENT,
 	STATUS_MESSAGE,
 	STOP_LOADING,
@@ -1535,6 +1536,16 @@ e_web_view_class_init (EWebViewClass *class)
 			NULL,
 			G_PARAM_READWRITE));
 
+	signals[NEW_ACTIVITY] = g_signal_new (
+		"new-activity",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EWebViewClass, new_activity),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__OBJECT,
+		G_TYPE_NONE, 1,
+		E_TYPE_ACTIVITY);
+
 	signals[POPUP_EVENT] = g_signal_new (
 		"popup-event",
 		G_TYPE_FROM_CLASS (class),
@@ -2505,6 +2516,42 @@ e_web_view_show_popup_menu (EWebView *web_view)
 	gtk_menu_popup (
 		GTK_MENU (menu), NULL, NULL, NULL, NULL,
 		0, gtk_get_current_event_time ());
+}
+
+/**
+ * e_web_view_new_activity:
+ * @web_view: an #EWebView
+ *
+ * Returns a new #EActivity for an #EWebView-related asynchronous operation,
+ * and emits the #EWebView::new-activity signal.  By default the #EActivity
+ * comes loaded with a #GCancellable and sets the @web_view itself as the
+ * #EActivity:alert-sink (which means alerts are displayed directly in the
+ * content area).  The signal emission allows the #EActivity to be further
+ * customized and/or tracked by the application.
+ *
+ * Returns: an #EActivity
+ **/
+EActivity *
+e_web_view_new_activity (EWebView *web_view)
+{
+	EActivity *activity;
+	EAlertSink *alert_sink;
+	GCancellable *cancellable;
+
+	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), NULL);
+
+	activity = e_activity_new ();
+
+	alert_sink = E_ALERT_SINK (web_view);
+	e_activity_set_alert_sink (activity, alert_sink);
+
+	cancellable = g_cancellable_new ();
+	e_activity_set_cancellable (activity, cancellable);
+	g_object_unref (cancellable);
+
+	g_signal_emit (web_view, signals[NEW_ACTIVITY], 0, activity);
+
+	return activity;
 }
 
 void
