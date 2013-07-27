@@ -14,14 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
- *
- * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
- *
  */
-
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
 
 #include "e-preview-pane.h"
 
@@ -123,20 +116,9 @@ preview_pane_dispose (GObject *object)
 
 	priv = E_PREVIEW_PANE_GET_PRIVATE (object);
 
-	if (priv->alert_bar != NULL) {
-		g_object_unref (priv->alert_bar);
-		priv->alert_bar = NULL;
-	}
-
-	if (priv->search_bar != NULL) {
-		g_object_unref (priv->search_bar);
-		priv->search_bar = NULL;
-	}
-
-	if (priv->web_view != NULL) {
-		g_object_unref (priv->web_view);
-		priv->web_view = NULL;
-	}
+	g_clear_object (&priv->alert_bar);
+	g_clear_object (&priv->search_bar);
+	g_clear_object (&priv->web_view);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_preview_pane_parent_class)->dispose (object);
@@ -261,7 +243,8 @@ e_preview_pane_class_init (EPreviewPaneClass *class)
 	binding_set = gtk_binding_set_by_class (class);
 
 	gtk_binding_entry_add_signal (
-		binding_set, GDK_KEY_f, GDK_SHIFT_MASK | GDK_CONTROL_MASK,
+		binding_set, GDK_KEY_f,
+		GDK_SHIFT_MASK | GDK_CONTROL_MASK,
 		"show-search-bar", 0);
 }
 
