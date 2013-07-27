@@ -46,10 +46,8 @@
 	((obj), E_TYPE_MAIL_REQUEST, EMailRequestPrivate))
 
 struct _EMailRequestPrivate {
-	CamelStream *output_stream;
+	GBytes *bytes;
 	gchar *mime_type;
-
-	gint content_length;
 
 	GHashTable *uri_query;
 	gchar *uri_base;
@@ -63,7 +61,7 @@ static const gchar *data_schemes[] = { "mail", NULL };
 G_DEFINE_TYPE (EMailRequest, e_mail_request, SOUP_TYPE_REQUEST)
 
 static void
-handle_mail_request (GSimpleAsyncResult *res,
+handle_mail_request (GSimpleAsyncResult *simple,
                      GObject *object,
                      GCancellable *cancellable)
 {
@@ -72,9 +70,9 @@ handle_mail_request (GSimpleAsyncResult *res,
 	EMailFormatter *formatter;
 	EMailPartList *part_list;
 	CamelObjectBag *registry;
-	GByteArray *ba;
-	gchar *part_id;
-	gchar *val;
+	CamelStream *output_stream;
+	GByteArray *byte_array;
+	const gchar *val;
 	const gchar *default_charset, *charset;
 
 	EMailFormatterContext context = { 0 };
@@ -82,30 +80,28 @@ handle_mail_request (GSimpleAsyncResult *res,
 	if (g_cancellable_is_cancelled (cancellable))
 		return;
 
-	if (request->priv->output_stream != NULL) {
-		g_object_unref (request->priv->output_stream);
-	}
-
 	registry = e_mail_part_list_get_registry ();
 	part_list = camel_object_bag_get (registry, request->priv->uri_base);
 	g_return_if_fail (part_list != NULL);
 
-	request->priv->output_stream = camel_stream_mem_new ();
-
-	val = g_hash_table_lookup (request->priv->uri_query, "headers_collapsed");
-	if (val && atoi (val) == 1)
+	val = g_hash_table_lookup (
+		request->priv->uri_query, "headers_collapsed");
+	if (val != NULL && atoi (val) == 1)
 		context.flags |= E_MAIL_FORMATTER_HEADER_FLAG_COLLAPSED;
 
-	val = g_hash_table_lookup (request->priv->uri_query, "headers_collapsable");
-	if (val && atoi (val) == 1)
+	val = g_hash_table_lookup (
+		request->priv->uri_query, "headers_collapsable");
+	if (val != NULL && atoi (val) == 1)
 		context.flags |= E_MAIL_FORMATTER_HEADER_FLAG_COLLAPSABLE;
 
 	val = g_hash_table_lookup (request->priv->uri_query, "mode");
-	if (val)
+	if (val != NULL)
 		context.mode = atoi (val);
 
-	default_charset = g_hash_table_lookup (request->priv->uri_query, "formatter_default_charset");
-	charset = g_hash_table_lookup (request->priv->uri_query, "formatter_charset");
+	default_charset = g_hash_table_lookup (
+		request->priv->uri_query, "formatter_default_charset");
+	charset = g_hash_table_lookup (
+		request->priv->uri_query, "formatter_charset");
 
 	context.part_list = g_object_ref (part_list);
 	context.uri = request->priv->full_uri;
@@ -115,123 +111,113 @@ handle_mail_request (GSimpleAsyncResult *res,
 	else
 		formatter = e_mail_formatter_new ();
 
-	if (default_charset && *default_charset)
+	if (default_charset != NULL && *default_charset != '\0')
 		e_mail_formatter_set_default_charset (formatter, default_charset);
-	if (charset && *charset)
+	if (charset != NULL && *charset != '\0')
 		e_mail_formatter_set_charset (formatter, charset);
 
-	part_id = g_hash_table_lookup (request->priv->uri_query, "part_id");
-	if (part_id) {
+	byte_array = g_byte_array_new ();
+	output_stream = camel_stream_mem_new ();
+
+	/* We retain ownership of the byte array. */
+	camel_stream_mem_set_byte_array (
+		CAMEL_STREAM_MEM (output_stream), byte_array);
+
+	val = g_hash_table_lookup (request->priv->uri_query, "part_id");
+	if (val != NULL) {
 		EMailPart *part;
 		const gchar *mime_type;
-		/* original part_id is owned by the GHashTable */
-		part_id = soup_uri_decode (part_id);
+		gchar *part_id;
+
+		part_id = soup_uri_decode (val);
 		part = e_mail_part_list_ref_part (part_list, part_id);
+		g_free (part_id);
 
-		val = g_hash_table_lookup (request->priv->uri_query, "mime_type");
-		if (val) {
-			mime_type = val;
-		} else {
-			mime_type = NULL;
-		}
+		g_return_if_fail (part != NULL);
 
-		if (context.mode == E_MAIL_FORMATTER_MODE_SOURCE) {
+		mime_type = g_hash_table_lookup (
+			request->priv->uri_query, "mime_type");
+
+		if (context.mode == E_MAIL_FORMATTER_MODE_SOURCE)
 			mime_type = "application/vnd.evolution.source";
-		}
 
-		if (part != NULL) {
-			if (context.mode == E_MAIL_FORMATTER_MODE_CID) {
-				CamelDataWrapper *dw;
-				CamelMimePart *mime_part;
-				CamelStream *raw_content;
-				GByteArray *ba;
+		if (context.mode == E_MAIL_FORMATTER_MODE_CID) {
+			CamelDataWrapper *dw;
+			CamelMimePart *mime_part;
 
-				mime_part = e_mail_part_ref_mime_part (part);
-				dw = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
-				g_return_if_fail (dw);
+			mime_part = e_mail_part_ref_mime_part (part);
+			dw = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
+			g_return_if_fail (dw);
 
-				raw_content = camel_stream_mem_new ();
-				camel_data_wrapper_decode_to_stream_sync (dw, raw_content, cancellable, NULL);
-				ba = camel_stream_mem_get_byte_array (CAMEL_STREAM_MEM (raw_content));
+			camel_data_wrapper_decode_to_stream_sync (
+				dw, output_stream, cancellable, NULL);
 
-				camel_stream_write (request->priv->output_stream, (gchar *) ba->data, ba->len, cancellable, NULL);
-
-				g_object_unref (raw_content);
-
-				g_object_unref (mime_part);
-			} else {
-				if (mime_type == NULL)
-					mime_type = e_mail_part_get_mime_type (part);
-
-				e_mail_formatter_format_as (
-					formatter, &context, part,
-					request->priv->output_stream,
-					mime_type, cancellable);
-			}
-
-			g_object_unref (part);
+			g_object_unref (mime_part);
 		} else {
-			g_warning ("Failed to lookup requested part '%s' - this should not happen!", part_id);
+			if (mime_type == NULL)
+				mime_type = e_mail_part_get_mime_type (part);
+
+			e_mail_formatter_format_as (
+				formatter, &context, part,
+				output_stream, mime_type,
+				cancellable);
 		}
+
+		g_object_unref (part);
 
 	} else {
 		e_mail_formatter_format_sync (
-			formatter, part_list, request->priv->output_stream,
+			formatter, part_list, output_stream,
 			context.flags, context.mode, cancellable);
 	}
 
-	g_object_unref (context.part_list);
-	context.part_list = NULL;
+	g_clear_object (&output_stream);
+	g_clear_object (&context.part_list);
 
-	/* Convert the GString to GInputStream and send it back to WebKit */
-	ba = camel_stream_mem_get_byte_array (
-		CAMEL_STREAM_MEM (request->priv->output_stream));
-	if (ba->data == NULL) {
+	if (byte_array->data == NULL) {
 		gchar *data;
 
 		data = g_strdup_printf (
 			"<p align='center'>%s</p>",
 			_("The message has no text content."));
-		dd (printf ("%s", data));
-		g_byte_array_append (ba, (guchar *) data, strlen (data));
+		g_byte_array_append (
+			byte_array, (guint8 *) data, strlen (data));
 		g_free (data);
-	} else {
-		dd ({
-			gchar *d = g_strndup ((gchar *) ba->data, ba->len);
-			printf ("%s", d);
-			g_free (d);
-		});
 	}
 
-	g_free (part_id);
+	if (request->priv->bytes != NULL)
+		g_bytes_unref (request->priv->bytes);
+	request->priv->bytes = g_byte_array_free_to_bytes (byte_array);
+
+	stream = g_memory_input_stream_new_from_bytes (request->priv->bytes);
+
+	g_simple_async_result_set_op_res_gpointer (
+		simple, g_object_ref (stream),
+		(GDestroyNotify) g_object_unref);
+
+	g_object_unref (stream);
+
 	g_object_unref (part_list);
 	g_object_unref (formatter);
-
-	stream = g_memory_input_stream_new_from_data (
-		(gchar *) ba->data, ba->len, NULL);
-	g_simple_async_result_set_op_res_gpointer (res, stream, g_object_unref);
 }
 
 static GInputStream *
-get_empty_image_stream (gsize *len)
+get_empty_image_stream (void)
 {
-	GdkPixbuf *p;
-	gchar *buff;
-	GInputStream *stream;
+	GdkPixbuf *pixbuf;
+	gchar *buffer;
+	gsize length;
 
-	p = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, 1, 1);
-	gdk_pixbuf_fill (p, 0x00000000);	/* transparent black */
-	gdk_pixbuf_save_to_buffer (p, &buff, len, "png", NULL, NULL);
+	pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, 1, 1);
+	gdk_pixbuf_fill (pixbuf, 0x00000000); /* transparent black */
+	gdk_pixbuf_save_to_buffer (pixbuf, &buffer, &length, "png", NULL, NULL);
+	g_object_unref (pixbuf);
 
-	stream = g_memory_input_stream_new_from_data (buff, *len, g_free);
-
-	g_object_unref (p);
-
-	return stream;
+	return g_memory_input_stream_new_from_data (buffer, length, g_free);
 }
 
 static void
-handle_contact_photo_request (GSimpleAsyncResult *res,
+handle_contact_photo_request (GSimpleAsyncResult *simple,
                               GObject *object,
                               GCancellable *cancellable)
 {
@@ -288,23 +274,13 @@ handle_contact_photo_request (GSimpleAsyncResult *res,
 
 exit:
 	if (stream == NULL)
-		stream = get_empty_image_stream (
-			(gsize *) &request->priv->content_length);
+		stream = get_empty_image_stream ();
 
-	g_simple_async_result_set_op_res_gpointer (res, stream, g_object_unref);
-}
+	g_simple_async_result_set_op_res_gpointer (
+		simple, g_object_ref (stream),
+		(GDestroyNotify) g_object_unref);
 
-static void
-mail_request_dispose (GObject *object)
-{
-	EMailRequestPrivate *priv;
-
-	priv = E_MAIL_REQUEST_GET_PRIVATE (object);
-
-	g_clear_object (&priv->output_stream);
-
-	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (e_mail_request_parent_class)->dispose (object);
+	g_object_unref (stream);
 }
 
 static void
@@ -313,6 +289,9 @@ mail_request_finalize (GObject *object)
 	EMailRequestPrivate *priv;
 
 	priv = E_MAIL_REQUEST_GET_PRIVATE (object);
+
+	if (priv->bytes != NULL)
+		g_bytes_unref (priv->bytes);
 
 	if (priv->uri_query != NULL)
 		g_hash_table_destroy (priv->uri_query);
@@ -340,25 +319,25 @@ mail_request_send_async (SoupRequest *request,
                          GAsyncReadyCallback callback,
                          gpointer user_data)
 {
-	EMailRequest *emr = E_MAIL_REQUEST (request);
+	EMailRequestPrivate *priv;
 	GSimpleAsyncResult *simple;
 	SoupURI *uri;
-	gchar *uri_str;
+
+	priv = E_MAIL_REQUEST_GET_PRIVATE (request);
 
 	uri = soup_request_get_uri (request);
 
 	d (printf ("received request for %s\n", soup_uri_to_string (uri, FALSE)));
 
 	if (uri->query) {
-		emr->priv->uri_query = soup_form_decode (uri->query);
+		priv->uri_query = soup_form_decode (uri->query);
 	} else {
-		emr->priv->uri_query = NULL;
+		priv->uri_query = NULL;
 	}
 
-	emr->priv->full_uri = soup_uri_to_string (uri, FALSE);
-	uri_str = g_strdup_printf (
+	priv->full_uri = soup_uri_to_string (uri, FALSE);
+	priv->uri_base = g_strdup_printf (
 		"%s://%s%s", uri->scheme, uri->host, uri->path);
-	emr->priv->uri_base = uri_str;
 
 	simple = g_simple_async_result_new (
 		G_OBJECT (request), callback,
@@ -391,8 +370,9 @@ mail_request_send_finish (SoupRequest *request,
 	stream = g_simple_async_result_get_op_res_gpointer (simple);
 
 	/* Reset the stream before passing it back to webkit */
-	if (G_IS_INPUT_STREAM (stream) && G_IS_SEEKABLE (stream))
-		g_seekable_seek (G_SEEKABLE (stream), 0, G_SEEK_SET, NULL, NULL);
+	if (G_IS_SEEKABLE (stream))
+		g_seekable_seek (
+			G_SEEKABLE (stream), 0, G_SEEK_SET, NULL, NULL);
 
 	if (stream == NULL) {
 		/* We must always return something */
@@ -408,23 +388,12 @@ static goffset
 mail_request_get_content_length (SoupRequest *request)
 {
 	EMailRequestPrivate *priv;
-	gint content_length = -1;  /* -1 means unknown */
+	goffset content_length = -1;  /* -1 means unknown */
 
 	priv = E_MAIL_REQUEST_GET_PRIVATE (request);
 
-	if (priv->content_length > 0) {
-		content_length = priv->content_length;
-
-	} else if (priv->output_stream != NULL) {
-		GByteArray *ba;
-
-		ba = camel_stream_mem_get_byte_array (
-			CAMEL_STREAM_MEM (priv->output_stream));
-		if (ba != NULL)
-			content_length = ba->len;
-	}
-
-	d (printf ("Content-Length: %d bytes\n", content_length));
+	if (priv->bytes != NULL)
+		content_length = g_bytes_get_size (priv->bytes);
 
 	return content_length;
 }
@@ -432,25 +401,28 @@ mail_request_get_content_length (SoupRequest *request)
 static const gchar *
 mail_request_get_content_type (SoupRequest *request)
 {
-	EMailRequest *emr = E_MAIL_REQUEST (request);
+	EMailRequestPrivate *priv;
 	gchar *mime_type;
 
-	if (emr->priv->mime_type) {
-		mime_type = g_strdup (emr->priv->mime_type);
+	priv = E_MAIL_REQUEST_GET_PRIVATE (request);
+
+	if (priv->mime_type != NULL) {
+		mime_type = g_strdup (priv->mime_type);
 	} else {
 		mime_type = g_strdup ("text/html");
 	}
 
 	if (g_strcmp0 (mime_type, "text/html") == 0) {
-		emr->priv->ret_mime_type = g_strconcat (mime_type, "; charset=\"UTF-8\"", NULL);
+		priv->ret_mime_type = g_strconcat (
+			mime_type, "; charset=\"UTF-8\"", NULL);
 		g_free (mime_type);
 	} else {
-		emr->priv->ret_mime_type = mime_type;
+		priv->ret_mime_type = mime_type;
 	}
 
-	d (printf ("Content-Type: %s\n", emr->priv->ret_mime_type));
+	d (printf ("Content-Type: %s\n", priv->ret_mime_type));
 
-	return emr->priv->ret_mime_type;
+	return priv->ret_mime_type;
 }
 
 static void
@@ -462,7 +434,6 @@ e_mail_request_class_init (EMailRequestClass *class)
 	g_type_class_add_private (class, sizeof (EMailRequestPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->dispose = mail_request_dispose;
 	object_class->finalize = mail_request_finalize;
 
 	request_class = SOUP_REQUEST_CLASS (class);
