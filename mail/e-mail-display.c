@@ -89,15 +89,6 @@ static const gchar *ui =
 "  </popup>"
 "</ui>";
 
-static const gchar *image_ui =
-"<ui>"
-"  <popup name='context'>"
-"    <placeholder name='custom-actions-2'>"
-"      <menuitem action='image-save'/>"
-"    </placeholder>"
-"  </popup>"
-"</ui>";
-
 static GtkActionEntry mailto_entries[] = {
 
 	{ "add-to-address-book",
@@ -136,16 +127,6 @@ static GtkActionEntry mailto_entries[] = {
 	  NULL,
 	  NULL,
 	  NULL }
-};
-
-static GtkActionEntry image_entries[] = {
-
-	{ "image-save",
-	  GTK_STOCK_SAVE,
-	  N_("Save _Image..."),
-	  NULL,
-	  N_("Save the image to a file"),
-	  NULL /* Handled by EMailReader */ },
 };
 
 G_DEFINE_TYPE (
@@ -1288,13 +1269,9 @@ static gboolean
 mail_display_button_press_event (GtkWidget *widget,
                                  GdkEventButton *event)
 {
-	WebKitHitTestResult *hit_test;
-	WebKitHitTestResultContext context;
-	gchar *image_src;
-	gboolean visible;
-	GtkAction *action;
-	GList *extensions, *iter;
 	EWebView *web_view = E_WEB_VIEW (widget);
+	WebKitHitTestResult *hit_test;
+	GList *list, *link;
 
 	if (event->button != 3)
 		goto chainup;
@@ -1302,29 +1279,10 @@ mail_display_button_press_event (GtkWidget *widget,
 	hit_test = webkit_web_view_get_hit_test_result (
 		WEBKIT_WEB_VIEW (web_view), event);
 
-	g_object_get (
-		G_OBJECT (hit_test),
-		"context", &context,
-		"image-uri", &image_src,
-		NULL);
-
-	if ((context & WEBKIT_HIT_TEST_RESULT_CONTEXT_IMAGE)) {
-		visible = image_src && g_str_has_prefix (image_src, "cid:");
-		if (!visible && image_src)
-			visible = mail_display_image_exists_in_cache (image_src);
-
-		if (image_src != NULL)
-			g_free (image_src);
-
-		action = e_web_view_get_action (web_view, "image-save");
-		if (action != NULL)
-			gtk_action_set_visible (action, visible);
-	}
-
-	extensions = e_extensible_list_extensions (
+	list = e_extensible_list_extensions (
 		E_EXTENSIBLE (web_view), E_TYPE_EXTENSION);
-	for (iter = extensions; iter; iter = g_list_next (iter)) {
-		EExtension *extension = iter->data;
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		EExtension *extension = link->data;
 
 		if (!E_IS_MAIL_DISPLAY_POPUP_EXTENSION (extension))
 			continue;
@@ -1332,7 +1290,7 @@ mail_display_button_press_event (GtkWidget *widget,
 		e_mail_display_popup_extension_update_actions (
 			E_MAIL_DISPLAY_POPUP_EXTENSION (extension), hit_test);
 	}
-	g_list_free (extensions);
+	g_list_free (list);
 
 	g_object_unref (hit_test);
 
@@ -1697,12 +1655,6 @@ e_mail_display_init (EMailDisplay *display)
 		G_N_ELEMENTS (mailto_entries), display);
 	ui_manager = e_web_view_get_ui_manager (E_WEB_VIEW (display));
 	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, NULL);
-
-	actions = e_web_view_get_action_group (E_WEB_VIEW (display), "image");
-	gtk_action_group_add_actions (
-		actions, image_entries,
-		G_N_ELEMENTS (image_entries), display);
-	gtk_ui_manager_add_ui_from_string (ui_manager, image_ui, -1, NULL);
 
 	e_web_view_install_request_handler (
 		E_WEB_VIEW (display), E_TYPE_MAIL_REQUEST);

@@ -125,6 +125,7 @@ static const gchar *ui =
 "      <menuitem action='uri-copy'/>"
 "      <menuitem action='mailto-copy'/>"
 "      <menuitem action='image-copy'/>"
+"      <menuitem action='image-save'/>"
 "    </placeholder>"
 "    <placeholder name='custom-actions-3'/>"
 "    <separator/>"
@@ -270,6 +271,13 @@ action_image_copy_cb (GtkAction *action,
 	e_web_view_cursor_image_copy (web_view);
 }
 
+static void
+action_image_save_cb (GtkAction *action,
+                      EWebView *web_view)
+{
+	e_web_view_cursor_image_save (web_view);
+}
+
 static GtkActionEntry uri_entries[] = {
 
 	{ "uri-copy",
@@ -314,7 +322,14 @@ static GtkActionEntry image_entries[] = {
 	  N_("_Copy Image"),
 	  NULL,
 	  N_("Copy the image to the clipboard"),
-	  G_CALLBACK (action_image_copy_cb) }
+	  G_CALLBACK (action_image_copy_cb) },
+
+	{ "image-save",
+	  GTK_STOCK_SAVE,
+	  N_("Save _Image..."),
+	  NULL,
+	  N_("Save the image to a file"),
+	  G_CALLBACK (action_image_save_cb) }
 };
 
 static GtkActionEntry selection_entries[] = {

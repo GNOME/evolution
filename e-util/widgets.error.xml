@@ -19,6 +19,11 @@
     <secondary xml:space="preserve">{0}</secondary>
   </error>
 
+  <error id="no-image-save" type="warning">
+    <_primary>Unable to save image.</_primary>
+    <secondary xml:space="preserve">{0}</secondary>
+  </error>
+
   <error id="no-load-signature" type="error">
     <_primary>Could not load signature.</_primary>
     <secondary xml:space="preserve">{0}</secondary>
