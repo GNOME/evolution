@@ -1860,6 +1860,15 @@ mail_folder_cache_note_store_thread (GSimpleAsyncResult *simple,
 	if (!store_has_folder_hierarchy (store_info->store))
 		goto exit;
 
+	/* XXX This can return NULL without setting a GError if no
+	 *     folders match the search criteria or the store does
+	 *     not support folders.
+	 *
+	 *     The function signature should be changed to return a
+	 *     boolean with the CamelFolderInfo returned through an
+	 *     "out" parameter so it's easier to distinguish errors
+	 *     from empty results.
+	 */
 	async_context->info = camel_store_get_folder_info_sync (
 		store_info->store, NULL,
 		CAMEL_STORE_FOLDER_INFO_FAST |
@@ -1867,12 +1876,8 @@ mail_folder_cache_note_store_thread (GSimpleAsyncResult *simple,
 		CAMEL_STORE_FOLDER_INFO_SUBSCRIBED,
 		cancellable, &local_error);
 
-	/* Sanity check. */
-	g_return_if_fail (
-		((async_context->info != NULL) && (local_error == NULL)) ||
-		((async_context->info == NULL) && (local_error != NULL)));
-
 	if (local_error != NULL) {
+		g_warn_if_fail (async_context->info == NULL);
 		g_simple_async_result_take_error (simple, local_error);
 		goto exit;
 	}
