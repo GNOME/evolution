@@ -8884,7 +8884,6 @@ e_day_view_on_top_canvas_drag_data_received (GtkWidget *widget,
 			} else if (e_cal_component_is_instance (comp))
 				mod = CALOBJ_MOD_THIS;
 
-
 			modified = e_calendar_view_modify (E_CALENDAR_VIEW (day_view), comp, client, mod);
 
 			if (modified && send == GTK_RESPONSE_YES)

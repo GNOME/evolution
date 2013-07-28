@@ -1595,7 +1595,7 @@ tray_list_add_new (TrayIconData *data)
 
 static void
 alarm_queue_get_alarm_summary (ECalClient *cal_client,
-			       ECalComponent *comp,
+                               ECalComponent *comp,
                                const ECalComponentAlarmInstance *instance,
                                ECalComponentText *text,
                                ECalComponentAlarm **palarm)
