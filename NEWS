@@ -1,3 +1,60 @@
+Evolution 3.9.5 2013-07-29
+--------------------------
+
+Bug Fixes:
+	Bug 386113 - Show custom alarm message in pop-up alerts
+	             (Fabiano Fidêncio)
+	Bug 697575 - ESourceConfig: Avoid calling check_complete() too soon
+	             (Matthew Barnes)
+	Bug 697878 - Image popup menu not always shown for images in HTML mails
+	             (Matthew Barnes)
+	Bug 702664 - Settings migration issue from "headers" to "show-headers"
+	             (Matthew Barnes)
+	Bug 703153 - Forgotten signal callbacks for freed objects (Milan Crha)
+	Bug 703244 - Work around GtkBox regression in GTK 3.9.1
+	             (Matthew Barnes)
+	Bug 703389 - Proxy ignored for images (Milan Crha)
+	Bug 703490 - Stop invoking spamc, just use spamassassin
+	             (Matthew Barnes)
+	Bug 703899 - Moving a meeting does not ask for confirmation
+	             (Fabiano Fidêncio)
+	Bug 703991 - Crash when using -fstack-protector-strong (Matthew Barnes)
+	Bug 704259 - Fix "reply-style" key migration logic (Matthew Barnes)
+	Bug 704459 - GnomeCanvasItem: Implement all methods (Matthew Barnes)
+	Bug 704494 - EStockRequest calls into GTK+ from worker thread
+	             (Matthew Barnes)
+	Bug 704558 - Crash when using -fstack-protector-strong (Matthew Barnes)
+	Bug 704682 - Runtime warning in MailFolderCache (Matthew Barnes)
+	Bug 704778 - Default Free/Busy dialog view to zoom-in (Milan Crha)
+
+Other Changes:
+	* User documentation improvements. (Andre Klapper)
+	* Remove nautilus-sendto integration. (Matthew Barnes)
+	* EMailParserMessage: Better handle message bodies as attachments.
+	  (Matthew Barnes)
+	* EaMinicardView: Create a minicard object, if not present in a list.
+	  (Milan Crha)
+	* EDayView's event resize abort doesn't always restore original event
+	  size. (Milan Crha)
+	* EContactStore: Stop book views in a dedicated thread (Milan Crha)
+	* MailFolderCache: Thread-safety improvements and other cleanups.
+	  (Matthew Barnes)
+	* EMailRequest: Handle empty message bodies more gracefully.
+	  (Matthew Barnes)
+	* Do not mask CAMEL_ERROR_GENERIC in composer_send_completed()
+	  (Milan Crha)
+	* Only use the alarm description if the client supports it.
+	  (Fabiano Fidêncio)
+
+Translations:
+	Andika Triwidada (id)
+	Daniel Mustieles (es)
+	Dimitris Spingos (el)
+	Kjartan Maraas (nb)
+	Marek Černocký (cs)
+	Shankar Prasad (kn)
+
+
 Evolution 3.9.4 2013-07-08
 --------------------------
 
