@@ -513,7 +513,7 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 		cal_shell_view);
 	priv->client_added_handler_id = handler_id;
 
-	handler_id = g_signal_connect (
+	handler_id = g_signal_connect_swapped (
 		priv->cal_shell_sidebar, "client-removed",
 		G_CALLBACK (cal_shell_view_selector_client_removed_cb),
 		cal_shell_view);
