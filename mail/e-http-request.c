@@ -378,16 +378,18 @@ handle_http_request (GSimpleAsyncResult *res,
 			camel_stream_write (
 				cache_stream, message->response_body->data,
 				message->response_body->length, cancellable, &error);
-			if (error != NULL) {
-				g_warning (
-					"Failed to write data to cache stream: %s",
-					error->message);
-				g_clear_error (&error);
-				goto cleanup;
-			}
 
 			camel_stream_close (cache_stream, cancellable, NULL);
 			g_object_unref (cache_stream);
+
+			if (error != NULL) {
+				if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+					g_warning (
+						"Failed to write data to cache stream: %s",
+						error->message);
+				g_clear_error (&error);
+				goto cleanup;
+			}
 		}
 
 		/* Send the response body to WebKit */
