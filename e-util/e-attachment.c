@@ -582,10 +582,10 @@ attachment_set_saving (EAttachment *attachment,
 	attachment->priv->saving = saving;
 	attachment->priv->last_percent_notify = 0;
 
-	g_object_freeze_notify (G_OBJECT (attachment));
+	/* g_object_freeze_notify (G_OBJECT (attachment));
 	g_object_notify (G_OBJECT (attachment), "percent");
 	g_object_notify (G_OBJECT (attachment), "saving");
-	g_object_thaw_notify (G_OBJECT (attachment));
+	g_object_thaw_notify (G_OBJECT (attachment)); */
 }
 
 static void
@@ -609,7 +609,7 @@ attachment_progress_cb (goffset current_num_bytes,
 
 	if (new_percent != attachment->priv->percent) {
 		attachment->priv->percent = new_percent;
-		g_object_notify (G_OBJECT (attachment), "percent");
+		/* g_object_notify (G_OBJECT (attachment), "percent"); */
 	}
 }
 
