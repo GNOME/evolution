@@ -1147,7 +1147,7 @@ e_attachment_view_open_path (EAttachmentView *view,
 	store = e_attachment_view_get_store (view);
 	model = GTK_TREE_MODEL (store);
 
-	gtk_tree_model_get_iter (model, &iter, path);
+	g_return_if_fail (gtk_tree_model_get_iter (model, &iter, path));
 	gtk_tree_model_get (model, &iter, column_id, &attachment, -1);
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (view));
