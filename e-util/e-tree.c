@@ -158,6 +158,8 @@ struct _ETreePrivate {
 
 	gint length_threshold;
 
+	GtkAdjustment *table_canvas_vadjustment;
+
 	/*
 	 * Configuration settings
 	 */
@@ -497,8 +499,14 @@ et_dispose (GObject *object)
 	priv->info_text_resize_id = 0;
 
 	if (priv->table_canvas != NULL) {
+		g_signal_handlers_disconnect_by_data (priv->table_canvas, object);
 		gtk_widget_destroy (GTK_WIDGET (priv->table_canvas));
 		priv->table_canvas = NULL;
+	}
+
+	if (priv->table_canvas_vadjustment) {
+		g_signal_handlers_disconnect_by_data (priv->table_canvas_vadjustment, object);
+		g_clear_object (&priv->table_canvas_vadjustment);
 	}
 
 	/* do not unref it, it was owned by priv->table_canvas */
@@ -1236,6 +1244,40 @@ table_canvas_focus_event_cb (GtkWidget *widget,
 }
 
 static void
+e_tree_table_canvas_scrolled_cb (GtkAdjustment *vadjustment,
+				 GParamSpec *param,
+				 ETree *tree)
+{
+	g_return_if_fail (E_IS_TREE (tree));
+
+	if (tree->priv->item)
+		e_table_item_cursor_scrolled (E_TABLE_ITEM (tree->priv->item));
+}
+
+static void
+et_setup_table_canvas_vadjustment (ETree *tree)
+{
+	GtkAdjustment *vadjustment = NULL;
+
+	g_return_if_fail (E_IS_TREE (tree));
+
+	if (tree->priv->table_canvas_vadjustment) {
+		g_signal_handlers_disconnect_by_data (tree->priv->table_canvas_vadjustment, tree);
+		g_clear_object (&tree->priv->table_canvas_vadjustment);
+	}
+
+	if (tree->priv->table_canvas)
+		vadjustment = gtk_scrollable_get_vadjustment (
+			GTK_SCROLLABLE (tree->priv->table_canvas));
+
+	if (vadjustment) {
+		tree->priv->table_canvas_vadjustment = g_object_ref (vadjustment);
+		g_signal_connect (vadjustment, "notify::value",
+			G_CALLBACK (e_tree_table_canvas_scrolled_cb), tree);
+	}
+}
+
+static void
 e_tree_setup_table (ETree *e_tree)
 {
 	GtkWidget *widget;
@@ -1280,6 +1322,10 @@ e_tree_setup_table (ETree *e_tree)
 	g_signal_connect (
 		e_tree->priv->table_canvas, "reflow",
 		G_CALLBACK (tree_canvas_reflow), e_tree);
+
+	et_setup_table_canvas_vadjustment (e_tree);
+	g_signal_connect_swapped (e_tree->priv->table_canvas, "notify::vadjustment",
+		G_CALLBACK (et_setup_table_canvas_vadjustment), e_tree);
 
 	widget = GTK_WIDGET (e_tree->priv->table_canvas);
 	style = gtk_widget_get_style (widget);

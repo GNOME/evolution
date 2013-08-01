@@ -4071,3 +4071,18 @@ e_table_item_is_editing (ETableItem *eti)
 
 	return eti_editing (eti);
 }
+
+/**
+ * e_table_item_cursor_scrolled:
+ * @eti: an %ETableItem 
+ *
+ * Does necessary recalculations after cursor scrolled, like whether
+ * the cursor is on screen or not anymore.
+ **/
+void
+e_table_item_cursor_scrolled (ETableItem *eti)
+{
+	g_return_if_fail (E_IS_TABLE_ITEM (eti));
+
+	eti_check_cursor_bounds (eti);
+}
