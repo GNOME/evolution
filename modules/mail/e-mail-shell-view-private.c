@@ -1024,29 +1024,47 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 			buffer, ngettext ("%d selected, ", "%d selected, ",
 			uids->len), uids->len);
 
-	if (CAMEL_IS_VTRASH_FOLDER (folder)) {
-		CamelVTrashFolder *trash_folder;
-
-		trash_folder = (CamelVTrashFolder *) folder;
-
-		/* "Trash" folder */
-		if (trash_folder->type == CAMEL_VTRASH_FOLDER_TRASH)
+	/* "Trash" folder (virtual or real) */
+	if (folder->folder_flags & CAMEL_FOLDER_IS_TRASH) {
+		if (CAMEL_IS_VTRASH_FOLDER (folder)) {
+			/* For a virtual Trash folder, count
+			 * the messages marked for deletion. */
 			g_string_append_printf (
 				buffer, ngettext ("%d deleted",
 				"%d deleted", num_deleted), num_deleted);
+		} else {
+			/* For a regular Trash folder, just
+			 * count the visible messages.
+			 *
+			 * XXX Open question: what to do about messages
+			 *     marked for deletion in Trash?  Probably
+			 *     this is the wrong question to be asking
+			 *     anyway.  Deleting a message in a real
+			 *     Trash should permanently expunge the
+			 *     message (if the server supports that),
+			 *     which would eliminate this corner case. */
+			if (!e_mail_reader_get_hide_deleted (reader))
+				num_visible += num_deleted;
 
-		/* "Junk" folder (hide deleted messages) */
-		else if (e_mail_reader_get_hide_deleted (reader))
+			g_string_append_printf (
+				buffer, ngettext ("%d deleted",
+				"%d deleted", num_visible), num_visible);
+		}
+
+	/* "Junk" folder (virtual or real) */
+	} else if (folder->folder_flags & CAMEL_FOLDER_IS_JUNK) {
+		if (e_mail_reader_get_hide_deleted (reader)) {
+			/* Junk folder with deleted messages hidden. */
 			g_string_append_printf (
 				buffer, ngettext ("%d junk",
 				"%d junk", num_junked_not_deleted),
 				num_junked_not_deleted);
-
-		/* "Junk" folder (show deleted messages) */
-		else
+		} else {
+			/* Junk folder with deleted messages visible. */
 			g_string_append_printf (
 				buffer, ngettext ("%d junk", "%d junk",
 				num_junked), num_junked);
+		}
 
 	/* "Drafts" folder */
 	} else if (em_utils_folder_is_drafts (registry, folder)) {
