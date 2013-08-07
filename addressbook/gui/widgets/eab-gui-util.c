@@ -77,6 +77,7 @@ typedef enum {
 
 void
 eab_error_dialog (EAlertSink *alert_sink,
+		  GtkWindow *parent,
                   const gchar *msg,
                   const GError *error)
 {
@@ -86,11 +87,15 @@ eab_error_dialog (EAlertSink *alert_sink,
 				alert_sink,
 				"addressbook:generic-error",
 				msg, error->message, NULL);
-		else
+		else {
+			if (!parent)
+				parent = e_shell_get_active_window (NULL);
+
 			e_alert_run_dialog_for_args (
-				e_shell_get_active_window (NULL),
+				parent,
 				"addressbook:generic-error",
 				msg, error->message, NULL);
+		}
 	}
 }
 
@@ -490,7 +495,7 @@ contact_added_cb (EBookClient *book_client,
 	if (error && !g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) &&
 	    !g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 		process->book_status = FALSE;
-		eab_error_dialog (process->alert_sink, _("Error adding contact"), error);
+		eab_error_dialog (process->alert_sink, NULL, _("Error adding contact"), error);
 	} else if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
 	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 		process->book_status = FALSE;

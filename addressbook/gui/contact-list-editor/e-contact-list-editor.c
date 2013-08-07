@@ -1591,7 +1591,7 @@ contact_list_editor_contact_added (EABEditor *editor,
 	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
 		return;
 
-	eab_error_dialog (NULL, _("Error adding list"), error);
+	eab_error_dialog (NULL, eab_editor_get_window (editor), _("Error adding list"), error);
 }
 
 static void
@@ -1606,7 +1606,7 @@ contact_list_editor_contact_modified (EABEditor *editor,
 	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
 		return;
 
-	eab_error_dialog (NULL, _("Error modifying list"), error);
+	eab_error_dialog (NULL, eab_editor_get_window (editor), _("Error modifying list"), error);
 }
 
 static void
@@ -1621,7 +1621,7 @@ contact_list_editor_contact_deleted (EABEditor *editor,
 	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
 		return;
 
-	eab_error_dialog (NULL, _("Error removing list"), error);
+	eab_error_dialog (NULL, eab_editor_get_window (editor), _("Error removing list"), error);
 }
 
 static void
