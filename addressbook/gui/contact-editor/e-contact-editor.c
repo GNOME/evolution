@@ -224,7 +224,7 @@ e_contact_editor_contact_added (EABEditor *editor,
 	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
 		return;
 
-	eab_error_dialog (NULL, _("Error adding contact"), error);
+	eab_error_dialog (NULL, eab_editor_get_window (editor), _("Error adding contact"), error);
 }
 
 static void
@@ -239,7 +239,7 @@ e_contact_editor_contact_modified (EABEditor *editor,
 	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
 		return;
 
-	eab_error_dialog (NULL, _("Error modifying contact"), error);
+	eab_error_dialog (NULL, eab_editor_get_window (editor), _("Error modifying contact"), error);
 }
 
 static void
@@ -254,7 +254,7 @@ e_contact_editor_contact_deleted (EABEditor *editor,
 	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
 		return;
 
-	eab_error_dialog (NULL, _("Error removing contact"), error);
+	eab_error_dialog (NULL, eab_editor_get_window (editor), _("Error removing contact"), error);
 }
 
 static void

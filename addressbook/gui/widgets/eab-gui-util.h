@@ -32,6 +32,7 @@
 G_BEGIN_DECLS
 
 void		eab_error_dialog		(EAlertSink *alert_sink,
+						 GtkWindow *parent,
 						 const gchar *msg,
 						 const GError *error);
 void		eab_load_error_dialog		(GtkWidget *parent,

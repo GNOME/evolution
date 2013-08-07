@@ -1249,7 +1249,7 @@ report_and_free_error_if_any (GError *error)
 			e_shell_get_active_window (NULL),
 			"addressbook:contact-delete-error-perm", NULL);
 	} else {
-		eab_error_dialog (NULL, _("Failed to delete contact"), error);
+		eab_error_dialog (NULL, NULL, _("Failed to delete contact"), error);
 	}
 
 	g_error_free (error);

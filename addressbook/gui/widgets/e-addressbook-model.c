@@ -364,7 +364,7 @@ client_view_ready_cb (GObject *source_object,
 		client_view = NULL;
 
 	if (error) {
-		eab_error_dialog (NULL, _("Error getting book view"), error);
+		eab_error_dialog (NULL, NULL, _("Error getting book view"), error);
 		g_error_free (error);
 		return;
 	}
