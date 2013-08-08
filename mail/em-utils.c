@@ -952,6 +952,12 @@ em_utils_selection_set_urilist (GtkSelectionData *data,
 	gchar *save_file_format;
 	gboolean save_as_mbox;
 
+	g_return_if_fail (uids != NULL);
+
+	/* can be 0 with empty folders */
+	if (!uids->len)
+		return;
+
 	tmpdir = e_mkdtemp ("drag-n-drop-XXXXXX");
 	if (tmpdir == NULL)
 		return;
