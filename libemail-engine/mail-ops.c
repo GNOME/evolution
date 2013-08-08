@@ -348,7 +348,7 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 			g_object_ref (fm->destination);
 		}
 
-		if (!local_error) {
+		if (!local_error && !g_cancellable_is_cancelled (cancellable)) {
 			folder_uids = camel_folder_get_uids (folder);
 			cache_uids = camel_uid_cache_get_new_uids (cache, folder_uids);
 
@@ -373,11 +373,26 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 					g_cancellable_reset (m->cancellable);
 
 				if (!success) {
+					GPtrArray *uncached_uids;
+					GHashTable *uncached_hash;
+
+					uncached_uids = camel_folder_get_uncached_uids (folder, cache_uids, NULL);
+					uncached_hash = g_hash_table_new (g_str_hash, g_str_equal);
+
+					for (i = 0; uncached_uids && i < uncached_uids->len; i++) {
+						g_hash_table_insert (uncached_hash, uncached_uids->pdata[i], uncached_uids->pdata[i]);
+					}
+
 					/* re-enter known UIDs, thus they are not
 					 * re-fetched next time */
 					for (i = 0; i < cache_uids->len; i++) {
-						camel_uid_cache_save_uid (cache, cache_uids->pdata[i]);
+						/* skip uncached UIDs */
+						if (!g_hash_table_lookup (uncached_hash, cache_uids->pdata[i]))
+							camel_uid_cache_save_uid (cache, cache_uids->pdata[i]);
 					}
+
+					g_hash_table_destroy (uncached_hash);
+					camel_folder_free_uids (folder, uncached_uids);
 				}
 
 				/* save the cache of uids that we've just downloaded */
@@ -433,9 +448,18 @@ exit:
 
 	/* also disconnect if not a local delivery mbox;
 	 * there is no need to keep the connection alive forever */
-	if (!is_local_delivery)
+	if (!is_local_delivery) {
+		gboolean was_cancelled;
+
+		was_cancelled = g_cancellable_is_cancelled (cancellable);
+
+		/* pity, but otherwise it doesn't disconnect */
+		if (was_cancelled)
+			g_cancellable_reset (cancellable);
+
 		camel_service_disconnect_sync (
-			service, TRUE, cancellable, NULL);
+			service, !was_cancelled, cancellable, NULL);
+	}
 
 	g_object_unref (session);
 }
