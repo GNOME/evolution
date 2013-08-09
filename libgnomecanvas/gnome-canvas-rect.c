@@ -595,7 +595,7 @@ gnome_canvas_rect_class_init (GnomeCanvasRectClass *class)
 		object_class,
 		PROP_FILL_COLOR_RGBA,
 		g_param_spec_uint (
-			"fill_rgba",
+			"fill_color_rgba",
 			NULL,
 			NULL,
 			0,
