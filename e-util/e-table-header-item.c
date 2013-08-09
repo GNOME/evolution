@@ -468,6 +468,9 @@ make_shaped_window_from_xpm (const gchar **xpm)
 
 	win = gtk_window_new (GTK_WINDOW_POPUP);
 	gtk_window_set_type_hint (GTK_WINDOW (win), GDK_WINDOW_TYPE_HINT_NOTIFICATION);
+	gtk_window_set_resizable (GTK_WINDOW (win), FALSE);
+
+	gtk_widget_set_size_request (win, gdk_pixbuf_get_width (pixbuf), gdk_pixbuf_get_height (pixbuf));
 
 	pix = gtk_image_new_from_pixbuf (pixbuf);
 	gtk_widget_realize (win);
