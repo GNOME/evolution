@@ -1830,6 +1830,9 @@ e_calendar_view_send (ECalendarView *cal_view,
 	ECalModel *model;
 	ECalComponent *send_comp = NULL;
 
+	if (!itip_component_has_recipients (comp))
+		return;
+
 	if (mod == CALOBJ_MOD_ALL && e_cal_component_is_instance (comp)) {
 		/* Ensure we send the master object, not the instance only */
 		icalcomponent *icalcomp = NULL;
