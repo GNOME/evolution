@@ -95,6 +95,7 @@ gboolean	reply_to_calendar_comp		(ESourceRegistry *registry,
 						 icalcomponent *zones,
 						 GSList *attachments_list);
 gboolean	is_icalcomp_valid		(icalcomponent *icalcomp);
+gboolean	itip_component_has_recipients	(ECalComponent *comp);
 
 G_END_DECLS
 
