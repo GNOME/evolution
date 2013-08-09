@@ -119,8 +119,8 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 		g_free (editor);
 	}
 
-	checkbox = gtk_check_button_new_with_label (
-		_("Automatically launch when a new mail is edited"));
+	checkbox = gtk_check_button_new_with_mnemonic (
+		_("_Automatically launch when a new mail is edited"));
 	checked = g_settings_get_boolean (settings, "launch-on-key-press");
 	if (checked)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbox), TRUE);
