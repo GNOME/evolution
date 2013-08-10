@@ -298,10 +298,20 @@ alert_bar_get_request_mode (GtkWidget *widget)
 }
 
 static void
+alert_bar_close (GtkInfoBar *info_bar)
+{
+	/* GtkInfoBar's close() method looks for a button with a response
+	 * code of GTK_RESPONSE_CANCEL.  But that does not apply here, so
+	 * we have to override the method. */
+	e_alert_bar_close_alert (E_ALERT_BAR (info_bar));
+}
+
+static void
 e_alert_bar_class_init (EAlertBarClass *class)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
+	GtkInfoBarClass *info_bar_class;
 
 	g_type_class_add_private (class, sizeof (EAlertBarPrivate));
 
@@ -311,6 +321,9 @@ e_alert_bar_class_init (EAlertBarClass *class)
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->get_request_mode = alert_bar_get_request_mode;
+
+	info_bar_class = GTK_INFO_BAR_CLASS (class);
+	info_bar_class->close = alert_bar_close;
 }
 
 static void
@@ -387,4 +400,31 @@ e_alert_bar_add_alert (EAlertBar *alert_bar,
 	g_queue_push_head (&alert_bar->priv->alerts, g_object_ref (alert));
 
 	alert_bar_show_alert (alert_bar);
+}
+
+/**
+ * e_alert_bar_close_alert:
+ * @alert_bar: an #EAlertBar
+ *
+ * Closes the active #EAlert and returns %TRUE, or else returns %FALSE if
+ * there is no active #EAlert.
+ *
+ * Returns: whether an #EAlert was closed
+ **/
+gboolean
+e_alert_bar_close_alert (EAlertBar *alert_bar)
+{
+	EAlert *alert;
+	gboolean alert_closed = FALSE;
+
+	g_return_val_if_fail (E_IS_ALERT_BAR (alert_bar), FALSE);
+
+	alert = g_queue_peek_head (&alert_bar->priv->alerts);
+
+	if (alert != NULL) {
+		alert_bar_response_close (alert);
+		alert_closed = TRUE;
+	}
+
+	return alert_closed;
 }
