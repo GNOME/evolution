@@ -147,7 +147,6 @@ void		e_shell_window_register_new_source_actions
 						 const gchar *backend_name,
 						 GtkActionEntry *entries,
 						 guint n_entries);
-GtkWidget *	e_shell_window_get_menu_bar_box (EShellWindow *shell_window);
 
 G_END_DECLS
 

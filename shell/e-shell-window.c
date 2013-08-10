@@ -391,12 +391,6 @@ shell_window_construct_menubar (EShellWindow *shell_window)
 	return main_menu;
 }
 
-GtkWidget *
-e_shell_window_get_menu_bar_box (EShellWindow *shell_window)
-{
-	return shell_window->priv->menubar_box;
-}
-
 static GtkWidget *
 shell_window_construct_toolbar (EShellWindow *shell_window)
 {

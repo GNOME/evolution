@@ -298,7 +298,6 @@ e_shell_window_get_toolbar_visible
 e_shell_window_set_toolbar_visible
 e_shell_window_register_new_item_actions
 e_shell_window_register_new_source_actions
-e_shell_window_get_menu_bar_box
 <SUBSECTION Standard>
 E_SHELL_WINDOW
 E_IS_SHELL_WINDOW
