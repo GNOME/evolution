@@ -47,6 +47,7 @@ enum {
 };
 
 enum {
+	CLOSE_ALERT,
 	SHELL_VIEW_CREATED,
 	LAST_SIGNAL
 };
@@ -373,6 +374,27 @@ shell_window_constructed (GObject *object)
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_shell_window_parent_class)->constructed (object);
+}
+
+static void
+shell_window_close_alert (EShellWindow *shell_window)
+{
+	EShellView *shell_view;
+	EShellContent *shell_content;
+	GtkWidget *alert_bar;
+	const gchar *view_name;
+
+	/* Close view-specific alerts first, followed by global alerts. */
+
+	view_name = e_shell_window_get_active_view (shell_window);
+	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+	alert_bar = e_shell_content_get_alert_bar (shell_content);
+
+	if (!e_alert_bar_close_alert (E_ALERT_BAR (alert_bar))) {
+		alert_bar = e_shell_window_get_alert_bar (shell_window);
+		e_alert_bar_close_alert (E_ALERT_BAR (alert_bar));
+	}
 }
 
 static GtkWidget *
@@ -724,6 +746,7 @@ static void
 e_shell_window_class_init (EShellWindowClass *class)
 {
 	GObjectClass *object_class;
+	GtkBindingSet *binding_set;
 
 	g_type_class_add_private (class, sizeof (EShellWindowPrivate));
 
@@ -734,6 +757,7 @@ e_shell_window_class_init (EShellWindowClass *class)
 	object_class->finalize = shell_window_finalize;
 	object_class->constructed = shell_window_constructed;
 
+	class->close_alert = shell_window_close_alert;
 	class->construct_menubar = shell_window_construct_menubar;
 	class->construct_toolbar = shell_window_construct_toolbar;
 	class->construct_sidebar = shell_window_construct_sidebar;
@@ -922,6 +946,22 @@ e_shell_window_class_init (EShellWindowClass *class)
 			G_PARAM_STATIC_STRINGS));
 
 	/**
+	 * EShellWindow::close-alert
+	 * @shell_window: the #EShellWindow which emitted the signal
+	 *
+	 * Closes either one #EShellView-specific #EAlert or else one
+	 * global #EAlert.  This signal is bound to the Escape key.
+	 **/
+	signals[CLOSE_ALERT] = g_signal_new (
+		"close-alert",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+		G_STRUCT_OFFSET (EShellWindowClass, close_alert),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
+
+	/**
 	 * EShellWindow::shell-view-created
 	 * @shell_window: the #EShellWindow which emitted the signal
 	 * @shell_view: the new #EShellView
@@ -940,6 +980,10 @@ e_shell_window_class_init (EShellWindowClass *class)
 		g_cclosure_marshal_VOID__OBJECT,
 		G_TYPE_NONE, 1,
 		E_TYPE_SHELL_VIEW);
+
+	binding_set = gtk_binding_set_by_class (class);
+	gtk_binding_entry_add_signal (
+		binding_set, GDK_KEY_Escape, 0, "close-alert", 0);
 }
 
 static void

@@ -67,6 +67,7 @@ struct _EShellWindowClass {
 	GtkWindowClass parent_class;
 
 	/* Signals */
+	void		(*close_alert)		(EShellWindow *shell_window);
 	void		(*shell_view_created)	(EShellWindow *shell_window,
 						 struct _EShellView *shell_view);
 
