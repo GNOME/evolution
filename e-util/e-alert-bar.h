@@ -66,6 +66,7 @@ GtkWidget *	e_alert_bar_new			(void);
 void		e_alert_bar_clear		(EAlertBar *alert_bar);
 void		e_alert_bar_add_alert		(EAlertBar *alert_bar,
 						 EAlert *alert);
+gboolean	e_alert_bar_close_alert		(EAlertBar *alert_bar);
 
 G_END_DECLS
 

@@ -162,6 +162,7 @@ EAlertBar
 e_alert_bar_new
 e_alert_bar_clear
 e_alert_bar_add_alert
+e_alert_bar_close_alert
 <SUBSECTION Standard>
 E_ALERT_BAR
 E_IS_ALERT_BAR
