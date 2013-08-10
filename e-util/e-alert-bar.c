@@ -117,7 +117,8 @@ alert_bar_show_alert (EAlertBar *alert_bar)
 	gtk_button_set_relief (
 		GTK_BUTTON (widget), GTK_RELIEF_NONE);
 	gtk_widget_set_tooltip_text (
-		widget, _("Close this message"));
+		/* Translators: Escape is a keyboard binding. */
+		widget, _("Close this message (Escape)"));
 	gtk_box_pack_end (
 		GTK_BOX (action_area), widget, FALSE, FALSE, 0);
 	gtk_button_box_set_child_non_homogeneous (
