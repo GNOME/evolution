@@ -44,6 +44,21 @@ dist_theme_DATA =	\
 
 dist_noinst_MANS = evolution.1
 
+gtk_update_icon_cache = gtk-update-icon-cache -f -t $(datadir)/icons/hicolor
+
+# Keep the icon cache updating here to ensure the image files
+# under the 'icons' SUBDIR are installed or uninstalled first.
+update-icon-cache:
+	@-if test -z "$(DESTDIR)"; then \
+		echo "Updating Gtk icon cache."; \
+		$(gtk_update_icon_cache) \
+	else \
+		echo "*** Icon cache not updated.  After (un)install, run this:"; \
+		echo "***   $(gtk_update_icon_cache)"; \
+	fi
+
+install-data-hook: update-icon-cache
+uninstall-hook: update-icon-cache
 
 CLEANFILES =					\
 	$(autostart_DATA)			\

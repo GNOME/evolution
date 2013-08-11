@@ -241,17 +241,6 @@ EXTRA_DIST = \
 
 ###############################################################################
 
-gtk_update_icon_cache = gtk-update-icon-cache -f -t
-
-update-icon-cache:
-	@-if test -z "$(DESTDIR)"; then \
-		echo "Updating Gtk icon cache."; \
-		$(gtk_update_icon_cache) $(datadir)/icons/hicolor; \
-	else \
-		echo "*** Icon cache not updated.  After (un)install, run this:"; \
-		echo "***   $(gtk_update_icon_cache) $(datadir)/icons/hicolor"; \
-	fi
-
 install-icons:
 	for icon in $(public_icons); do \
 		THEME=`echo $$icon | cut -d_ -f1`; \
@@ -301,8 +290,7 @@ uninstall-icons:
 		rm -f $(DESTDIR)$(pkgdatadir)/$(BASE_VERSION)/icons/$$THEME/$$SIZE/$$CONTEXT/stock_$$ICONFILE; \
 	done
 
-install-data-local: install-icons update-icon-cache
-
-uninstall-local: uninstall-icons update-icon-cache
+install-data-local: install-icons
+uninstall-local: uninstall-icons
 
 -include $(top_srcdir)/git.mk
