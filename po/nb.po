@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 3.9.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-30 20:12+0200\n"
-"PO-Revision-Date: 2013-07-30 20:18+0200\n"
+"POT-Creation-Date: 2013-08-12 00:59+0200\n"
+"PO-Revision-Date: 2013-08-12 01:00+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: Norsk bokmål\n"
@@ -400,7 +400,7 @@ msgstr "_Bryllupsdag:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:37
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:685
-#: ../calendar/gui/e-calendar-view.c:2241
+#: ../calendar/gui/e-calendar-view.c:2244
 msgid "Anniversary"
 msgstr "Bryllupsdag"
 
@@ -411,7 +411,7 @@ msgstr "Bryllupsdag"
 #. * the directory components.
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:38
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:684
-#: ../calendar/gui/e-calendar-view.c:2240 ../shell/main.c:128
+#: ../calendar/gui/e-calendar-view.c:2243 ../shell/main.c:128
 msgid "Birthday"
 msgstr "Fødselsdag"
 
@@ -526,7 +526,7 @@ msgid "Twitter"
 msgstr "Twitter"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:227
-#: ../addressbook/gui/widgets/eab-gui-util.c:493
+#: ../addressbook/gui/widgets/eab-gui-util.c:498
 msgid "Error adding contact"
 msgstr "Feil under innlegging av kontakt"
 
@@ -1279,7 +1279,7 @@ msgstr "Hjemmeside"
 msgid "Blog"
 msgstr "Weblogg"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:118
+#: ../addressbook/gui/widgets/eab-gui-util.c:123
 msgid ""
 "This address book cannot be opened. This either means this book is not "
 "marked for offline usage or not yet downloaded for offline usage. Please "
@@ -1289,7 +1289,7 @@ msgstr ""
 "for frakoblet bruk eller at den ikke er lastet ned enda. Last adresseboken i "
 "tilkoblet tilstand for å laste ned innholdet"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:137
+#: ../addressbook/gui/widgets/eab-gui-util.c:142
 #, c-format
 msgid ""
 "This address book cannot be opened.  Please check that the path %s exists "
@@ -1298,7 +1298,7 @@ msgstr ""
 "Kunne ikke åpne denne adresseboken. Vennligst sjekk at stien %s eksisterer "
 "og at du har rettigheter til å aksessere den."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:150
+#: ../addressbook/gui/widgets/eab-gui-util.c:155
 msgid ""
 "This version of Evolution does not have LDAP support compiled in to it.  To "
 "use LDAP in Evolution an LDAP-enabled Evolution package must be installed."
@@ -1307,7 +1307,7 @@ msgstr ""
 "ønsker å bruke LDAP i Evolution må du installere en pakke som har denne "
 "støtten."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:159
+#: ../addressbook/gui/widgets/eab-gui-util.c:164
 msgid ""
 "This address book cannot be opened.  This either means that an incorrect URI "
 "was entered, or the server is unreachable."
@@ -1315,11 +1315,11 @@ msgstr ""
 "Kunne ikke åpne denne adresseboken. Dette betyr enten at du har skrevet inn "
 "en ugyldig URI, eller at tjeneren ikke kan nås."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:167
+#: ../addressbook/gui/widgets/eab-gui-util.c:172
 msgid "Detailed error message:"
 msgstr "Detaljert feilmelding:"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:204
+#: ../addressbook/gui/widgets/eab-gui-util.c:209
 msgid ""
 "More cards matched this query than either the server is \n"
 "configured to return or Evolution is configured to display.\n"
@@ -1331,7 +1331,7 @@ msgstr ""
 "Gjør søket ditt mer nøyaktig eller hev grensen på resultater i\n"
 "brukervalgene til mappetjeneren for denne adresseboken."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:211
+#: ../addressbook/gui/widgets/eab-gui-util.c:216
 msgid ""
 "The time to execute this query exceeded the server limit or the limit\n"
 "configured for this address book.  Please make your search\n"
@@ -1344,50 +1344,50 @@ msgstr ""
 "for denne adresseboken."
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
-#: ../addressbook/gui/widgets/eab-gui-util.c:219
+#: ../addressbook/gui/widgets/eab-gui-util.c:224
 #, c-format
 msgid "The backend for this address book was unable to parse this query. %s"
 msgstr "Motoren for denne adresseboken forsto ikke denne spørringen. %s"
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
-#: ../addressbook/gui/widgets/eab-gui-util.c:224
+#: ../addressbook/gui/widgets/eab-gui-util.c:229
 #, c-format
 msgid "The backend for this address book refused to perform this query. %s"
 msgstr "Motoren for denne adresseboken nektet å utføre denne spørringen. %s"
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
-#: ../addressbook/gui/widgets/eab-gui-util.c:230
-#: ../addressbook/gui/widgets/eab-gui-util.c:236
+#: ../addressbook/gui/widgets/eab-gui-util.c:235
+#: ../addressbook/gui/widgets/eab-gui-util.c:241
 #, c-format
 msgid "This query did not complete successfully. %s"
 msgstr "Denne spørringen ble ikke fullført. %s"
 
 #. This is a filename. Translators take note.
-#: ../addressbook/gui/widgets/eab-gui-util.c:258
+#: ../addressbook/gui/widgets/eab-gui-util.c:263
 msgid "card.vcf"
 msgstr "kort.vcf"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:309
+#: ../addressbook/gui/widgets/eab-gui-util.c:314
 msgid "Select Address Book"
 msgstr "Velg adressebok"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:391
+#: ../addressbook/gui/widgets/eab-gui-util.c:396
 msgid "list"
 msgstr "liste"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:581
+#: ../addressbook/gui/widgets/eab-gui-util.c:586
 msgid "Move contact to"
 msgstr "Flytt kontakt til"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:583
+#: ../addressbook/gui/widgets/eab-gui-util.c:588
 msgid "Copy contact to"
 msgstr "Kopier kontakt til"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:586
+#: ../addressbook/gui/widgets/eab-gui-util.c:591
 msgid "Move contacts to"
 msgstr "Flytt kontakter til"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:588
+#: ../addressbook/gui/widgets/eab-gui-util.c:593
 msgid "Copy contacts to"
 msgstr "Kopier kontakter til"
 
@@ -3320,13 +3320,13 @@ msgstr "Unntak"
 msgid "Preview"
 msgstr "Forhåndsvis"
 
-#: ../calendar/gui/dialogs/send-comp.c:223
-#: ../calendar/gui/dialogs/send-comp.c:301
+#: ../calendar/gui/dialogs/send-comp.c:170
+#: ../calendar/gui/dialogs/send-comp.c:248
 msgid "Send my reminders with this event"
 msgstr "Send mine påminnelser med denne hendelsen"
 
-#: ../calendar/gui/dialogs/send-comp.c:225
-#: ../calendar/gui/dialogs/send-comp.c:303
+#: ../calendar/gui/dialogs/send-comp.c:172
+#: ../calendar/gui/dialogs/send-comp.c:250
 msgid "Notify new attendees _only"
 msgstr "Varsle _kun nye deltakere"
 
@@ -3857,7 +3857,7 @@ msgstr "Oppdaterer objekter"
 #. To Translators: It will display "Organiser: NameOfTheUser <email@ofuser.com>"
 #. To Translators: It will display
 #. * "Organizer: NameOfTheUser <email@ofuser.com>"
-#: ../calendar/gui/e-calendar-view.c:2047 ../calendar/gui/e-memo-table.c:553
+#: ../calendar/gui/e-calendar-view.c:2050 ../calendar/gui/e-memo-table.c:553
 #: ../calendar/gui/e-task-table.c:840
 #, c-format
 msgid "Organizer: %s <%s>"
@@ -3866,21 +3866,21 @@ msgstr "Organisator: %s <%s>"
 #. With SunOne accouts, there may be no ':' in organiser.value
 #. With SunOne accounts, there may be no ':' in
 #. * organizer.value.
-#: ../calendar/gui/e-calendar-view.c:2051 ../calendar/gui/e-memo-table.c:558
+#: ../calendar/gui/e-calendar-view.c:2054 ../calendar/gui/e-memo-table.c:558
 #: ../calendar/gui/e-task-table.c:844
 #, c-format
 msgid "Organizer: %s"
 msgstr "Organisator: %s"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
-#: ../calendar/gui/e-calendar-view.c:2067
+#: ../calendar/gui/e-calendar-view.c:2070
 #: ../calendar/gui/e-meeting-time-sel.c:2664 ../calendar/gui/print.c:3545
 #, c-format
 msgid "Location: %s"
 msgstr "Sted: %s"
 
 #. To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"
-#: ../calendar/gui/e-calendar-view.c:2098
+#: ../calendar/gui/e-calendar-view.c:2101
 #, c-format
 msgid "Time: %s %s"
 msgstr "Tidspunkt: %s %s"
@@ -8865,7 +8865,6 @@ msgid "The default command that must be used as the editor."
 msgstr "Forvalgt kommando som må brukes som redigeringsprogram."
 
 #: ../data/org.gnome.evolution.plugin.external-editor.gschema.xml.in.h:3
-#: ../plugins/external-editor/external-editor.c:123
 msgid "Automatically launch when a new mail is edited"
 msgstr "Start automatisk når en ny e-post redigeres"
 
@@ -9648,11 +9647,11 @@ msgstr "Fjern _alt"
 msgid "_Show field in View"
 msgstr "Vi_s felt i visning"
 
-#: ../e-util/e-table-config.ui.h:8 ../e-util/e-table-header-item.c:1750
+#: ../e-util/e-table-config.ui.h:8 ../e-util/e-table-header-item.c:1753
 msgid "Ascending"
 msgstr "Stigende"
 
-#: ../e-util/e-table-config.ui.h:9 ../e-util/e-table-header-item.c:1750
+#: ../e-util/e-table-config.ui.h:9 ../e-util/e-table-header-item.c:1753
 msgid "Descending"
 msgstr "Synkende"
 
@@ -9847,9 +9846,10 @@ msgstr "%s"
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% fullført)"
 
-#: ../e-util/e-alert-bar.c:120
-msgid "Close this message"
-msgstr "Lukk denne meldingen"
+#. Translators: Escape is a keyboard binding.
+#: ../e-util/e-alert-bar.c:121
+msgid "Close this message (Escape)"
+msgstr "Lukk denne meldingen (Escape)"
 
 #: ../e-util/e-attachment-bar.c:660 ../e-util/e-attachment-paned.c:703
 msgid "Icon View"
@@ -11205,60 +11205,60 @@ msgid_plural "%s (%d items)"
 msgstr[0] "%s (%d oppføring)"
 msgstr[1] "%s (%d oppføringer)"
 
-#: ../e-util/e-table-header-item.c:1573
+#: ../e-util/e-table-header-item.c:1576
 msgid "Customize Current View"
 msgstr "Tilpass aktiv visning"
 
-#: ../e-util/e-table-header-item.c:1596
+#: ../e-util/e-table-header-item.c:1599
 msgid "Sort _Ascending"
 msgstr "Sorter s_tigende"
 
-#: ../e-util/e-table-header-item.c:1599
+#: ../e-util/e-table-header-item.c:1602
 msgid "Sort _Descending"
 msgstr "Sorter s_ynkende"
 
-#: ../e-util/e-table-header-item.c:1602
+#: ../e-util/e-table-header-item.c:1605
 msgid "_Unsort"
 msgstr "_Fjern sortering"
 
-#: ../e-util/e-table-header-item.c:1605
+#: ../e-util/e-table-header-item.c:1608
 msgid "Group By This _Field"
 msgstr "Grupper etter dette _feltet"
 
-#: ../e-util/e-table-header-item.c:1608
+#: ../e-util/e-table-header-item.c:1611
 msgid "Group By _Box"
 msgstr "Grupper etter _boks"
 
-#: ../e-util/e-table-header-item.c:1612
+#: ../e-util/e-table-header-item.c:1615
 msgid "Remove This _Column"
 msgstr "Fjern denne _kolonnen"
 
-#: ../e-util/e-table-header-item.c:1615
+#: ../e-util/e-table-header-item.c:1618
 msgid "Add a C_olumn..."
 msgstr "Legg til en k_olonne …"
 
-#: ../e-util/e-table-header-item.c:1619
+#: ../e-util/e-table-header-item.c:1622
 msgid "A_lignment"
 msgstr "_Justering"
 
-#: ../e-util/e-table-header-item.c:1622
+#: ../e-util/e-table-header-item.c:1625
 msgid "B_est Fit"
 msgstr "B_este tilpasning"
 
-#: ../e-util/e-table-header-item.c:1625
+#: ../e-util/e-table-header-item.c:1628
 msgid "Format Column_s..."
 msgstr "For_mater kolonner …"
 
-#: ../e-util/e-table-header-item.c:1629
+#: ../e-util/e-table-header-item.c:1632
 msgid "Custo_mize Current View..."
 msgstr "T_ilpass aktiv visning …"
 
-#: ../e-util/e-table-header-item.c:1700
+#: ../e-util/e-table-header-item.c:1703
 msgid "_Sort By"
 msgstr "_Sorter etter"
 
 #. Custom
-#: ../e-util/e-table-header-item.c:1723
+#: ../e-util/e-table-header-item.c:1726
 msgid "_Custom"
 msgstr "E_gendefinert"
 
@@ -11572,13 +11572,13 @@ msgid "No mail transport service available"
 msgstr "Tjeneste for transport av e-post er ikke tilgjengelig"
 
 #: ../libemail-engine/e-mail-session-utils.c:638
-#: ../libemail-engine/mail-ops.c:706
+#: ../libemail-engine/mail-ops.c:730
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
 msgstr "Feil under påføring av utgående filtre: %s"
 
 #: ../libemail-engine/e-mail-session-utils.c:685
-#: ../libemail-engine/mail-ops.c:750
+#: ../libemail-engine/mail-ops.c:774
 #, c-format
 msgid ""
 "Failed to append to %s: %s\n"
@@ -11588,44 +11588,44 @@ msgstr ""
 "Legger til i lokal «Sendt»-mappe i stedet."
 
 #: ../libemail-engine/e-mail-session-utils.c:711
-#: ../libemail-engine/mail-ops.c:774
+#: ../libemail-engine/mail-ops.c:798
 #, c-format
 msgid "Failed to append to local 'Sent' folder: %s"
 msgstr "Kunne ikke legge til i lokal Sendt-mappe: %s"
 
 #: ../libemail-engine/e-mail-session-utils.c:912
-#: ../libemail-engine/mail-ops.c:905 ../libemail-engine/mail-ops.c:1007
+#: ../libemail-engine/mail-ops.c:929 ../libemail-engine/mail-ops.c:1031
 msgid "Sending message"
 msgstr "Sender melding"
 
 #: ../libemail-engine/e-mail-session.c:120 ../mail/em-folder-properties.c:342
 #: ../mail/em-folder-tree-model.c:786
-#: ../modules/mail/e-mail-shell-view-private.c:1068
-#: ../modules/mail/e-mail-shell-view-private.c:1079
+#: ../modules/mail/e-mail-shell-view-private.c:1086
+#: ../modules/mail/e-mail-shell-view-private.c:1097
 msgid "Inbox"
 msgstr "Innboks"
 
 #. E_MAIL_LOCAL_FOLDER_INBOX
 #: ../libemail-engine/e-mail-session.c:121 ../mail/em-folder-tree-model.c:779
-#: ../modules/mail/e-mail-shell-view-private.c:1066
+#: ../modules/mail/e-mail-shell-view-private.c:1084
 msgid "Drafts"
 msgstr "Skisser"
 
 #. E_MAIL_LOCAL_FOLDER_DRAFTS
 #: ../libemail-engine/e-mail-session.c:122 ../mail/em-folder-tree-model.c:790
-#: ../modules/mail/e-mail-shell-view-private.c:1070
+#: ../modules/mail/e-mail-shell-view-private.c:1088
 msgid "Outbox"
 msgstr "Utboks"
 
 #. E_MAIL_LOCAL_FOLDER_OUTBOX
 #: ../libemail-engine/e-mail-session.c:123 ../mail/em-folder-tree-model.c:794
-#: ../modules/mail/e-mail-shell-view-private.c:1072
+#: ../modules/mail/e-mail-shell-view-private.c:1090
 msgid "Sent"
 msgstr "Sendt"
 
 #. E_MAIL_LOCAL_FOLDER_SENT
 #: ../libemail-engine/e-mail-session.c:124 ../mail/em-folder-tree-model.c:782
-#: ../modules/mail/e-mail-shell-view-private.c:1074
+#: ../modules/mail/e-mail-shell-view-private.c:1092
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:1
 #: ../plugins/templates/templates.c:1082 ../plugins/templates/templates.c:1381
 #: ../plugins/templates/templates.c:1391
@@ -11701,7 +11701,7 @@ msgstr ""
 msgid "Fetching mail from '%s'"
 msgstr "Henter e-post fra «%s»"
 
-#: ../libemail-engine/mail-ops.c:700
+#: ../libemail-engine/mail-ops.c:724
 #, c-format
 msgid ""
 "Failed to apply outgoing filters. One reason can be that folder location set "
@@ -11714,52 +11714,52 @@ msgstr ""
 "i «Rediger->Meldingsfiltre».\n"
 "Opprinnelig feil var: %s"
 
-#: ../libemail-engine/mail-ops.c:916
+#: ../libemail-engine/mail-ops.c:940
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "Sender melding %d av %d"
 
-#: ../libemail-engine/mail-ops.c:968
+#: ../libemail-engine/mail-ops.c:992
 #, c-format
 msgid "Failed to send a message"
 msgid_plural "Failed to send %d of %d messages"
 msgstr[0] "Klarte ikke å sende en melding"
 msgstr[1] "Klarte ikke å sende %d av %d meldinger"
 
-#: ../libemail-engine/mail-ops.c:974
+#: ../libemail-engine/mail-ops.c:998
 msgid "Canceled."
 msgstr "Avbrutt."
 
-#: ../libemail-engine/mail-ops.c:976
+#: ../libemail-engine/mail-ops.c:1000
 msgid "Complete."
 msgstr "Fullført."
 
-#: ../libemail-engine/mail-ops.c:1088
+#: ../libemail-engine/mail-ops.c:1112
 #, c-format
 msgid "Moving messages to '%s'"
 msgstr "Flytter meldinger til «%s»"
 
-#: ../libemail-engine/mail-ops.c:1089
+#: ../libemail-engine/mail-ops.c:1113
 #, c-format
 msgid "Copying messages to '%s'"
 msgstr "Kopierer meldinger til «%s»"
 
-#: ../libemail-engine/mail-ops.c:1208
+#: ../libemail-engine/mail-ops.c:1232
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "Lagrer mappe «%s»"
 
-#: ../libemail-engine/mail-ops.c:1336
+#: ../libemail-engine/mail-ops.c:1360
 #, c-format
 msgid "Expunging and storing account '%s'"
 msgstr "Tømmer og lagrer konto «%s»"
 
-#: ../libemail-engine/mail-ops.c:1337
+#: ../libemail-engine/mail-ops.c:1361
 #, c-format
 msgid "Storing account '%s'"
 msgstr "Lagrer konto «%s»"
 
-#: ../libemail-engine/mail-ops.c:1411
+#: ../libemail-engine/mail-ops.c:1435
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "Tømmer søppel i «%s»"
@@ -13487,7 +13487,7 @@ msgstr "Ikke vis _denne meldingen igjen"
 msgid "Message Filters"
 msgstr "Meldingsfiltre"
 
-#: ../mail/em-utils.c:976
+#: ../mail/em-utils.c:982
 #, c-format
 msgid "Messages from %s"
 msgstr "Meldinger fra %s"
@@ -18194,61 +18194,62 @@ msgid_plural "%d selected, "
 msgstr[0] "%d valgt, "
 msgstr[1] "%d valgt, "
 
-#: ../modules/mail/e-mail-shell-view-private.c:1007
+#: ../modules/mail/e-mail-shell-view-private.c:1005
+#: ../modules/mail/e-mail-shell-view-private.c:1022
 #, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
 msgstr[0] "%d slettet"
 msgstr[1] "%d slettet"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1013
-#: ../modules/mail/e-mail-shell-view-private.c:1020
+#: ../modules/mail/e-mail-shell-view-private.c:1031
+#: ../modules/mail/e-mail-shell-view-private.c:1037
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
 msgstr[0] "%d uønsket e-post"
 msgstr[1] "%d uønsket e-poster"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1026
+#: ../modules/mail/e-mail-shell-view-private.c:1044
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
 msgstr[0] "%d skisse"
 msgstr[1] "%d skisser"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1032
+#: ../modules/mail/e-mail-shell-view-private.c:1050
 #, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
 msgstr[0] "%d usendt"
 msgstr[1] "%d usendte"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1038
+#: ../modules/mail/e-mail-shell-view-private.c:1056
 #, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
 msgstr[0] "%d sendt"
 msgstr[1] "%d sendt"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1050
+#: ../modules/mail/e-mail-shell-view-private.c:1068
 #, c-format
 msgid "%d unread, "
 msgid_plural "%d unread, "
 msgstr[0] "%d ulest, "
 msgstr[1] "%d uleste, "
 
-#: ../modules/mail/e-mail-shell-view-private.c:1053
+#: ../modules/mail/e-mail-shell-view-private.c:1071
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
 msgstr[0] "%d totalt"
 msgstr[1] "%d totalt"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1076
+#: ../modules/mail/e-mail-shell-view-private.c:1094
 msgid "Trash"
 msgstr "Papirkurv"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1514
+#: ../modules/mail/e-mail-shell-view-private.c:1532
 msgid "Send / Receive"
 msgstr "Send / motta"
 
@@ -18981,6 +18982,10 @@ msgid ""
 msgstr ""
 "Bruk «xemacs» for XEmacs\n"
 "Bruk «gvim -f» for Vim"
+
+#: ../plugins/external-editor/external-editor.c:123
+msgid "_Automatically launch when a new mail is edited"
+msgstr "Start _automatisk når en ny e-post redigeres"
 
 #: ../plugins/external-editor/external-editor.c:413
 #: ../plugins/external-editor/external-editor.c:415
@@ -20142,7 +20147,7 @@ msgstr "Slett visning: %s"
 msgid "Execute these search parameters"
 msgstr "Kjør disse søkeparameterene"
 
-#: ../shell/e-shell-window.c:439
+#: ../shell/e-shell-window.c:455
 msgid "New"
 msgstr "Ny"
 
