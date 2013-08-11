@@ -1,3 +1,33 @@
+Evolution 3.8.5 2013-08-12
+--------------------------
+
+Bug Fixes:
+	Bug 704778 - Default Free/Busy dialog view to zoom-in (Milan Crha)
+	Bug 705119 - File descriptors for images not closed (Milan Crha)
+	Bug 695633 - (workaround) Attachments disappear after opening one
+	             (Milan Crha)
+	Bug 705194 - Failure to decrypt inline encrypted GPG messages
+	             (Matthew Barnes)
+	Bug 699603 - Message list scrolls to cursor on style change (Milan Crha)
+	Bug 705446 - Old POP3 mails can be removed before getting them
+	             (Milan Crha)
+	Bug 705657 - Crash in em_utils_selection_set_urilist() (Milan Crha)
+	Bug 704369 - Meeting change asks on save, but tries to send update
+	             anyway (Milan Crha)
+	Bug 704207 - Dragged column's arrow indicator oversized (Milan Crha)
+	Bug 704440 - Close shell window alerts with Escape key (Matthew Barnes)
+
+Other Changes:
+	* Only use the alarm description if the client supports it
+	  (Fabiano Fidêncio)
+	* Fix sidebar message counts for real Junk / Trash folders.
+	  (Matthew Barnes)
+	* [Addressbook] Show editor errors above editor window (Milan Crha)
+
+Translations:
+	Yuri Myasoedov (ru)
+
+
 Evolution 3.8.4 2013-07-23
 --------------------------
 
