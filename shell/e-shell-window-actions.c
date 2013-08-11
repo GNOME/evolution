@@ -43,7 +43,7 @@ static const gchar *authors[] = {
 	"",
 	"Matthew Barnes <mbarnes@redhat.com>",
 	"Milan Crha <mcrha@redhat.com>",
-	"Dan Vr\xC3\xA1til <dvratil@redhat.com>",
+	"Fabiano Fid\xC3\xAAncio <fabiano@fidencio.org>",
 	"",
 	"and many past contributers",
 	NULL
