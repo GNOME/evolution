@@ -538,7 +538,7 @@ get_window_title (CERTCertificate *cert)
 		return title;
 	}
 
-	return cert->subjectName;
+	return g_strdup (cert->subjectName);
 }
 
 GtkWidget *
