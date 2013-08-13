@@ -44,7 +44,7 @@
 <item><p>Close Evolution.</p></item>
 <item><p>Open the <app>Terminal</app> application.</p></item>
 <item><p>Run the command <cmd>gsettings set org.gnome.evolution.mail filters-log-actions true</cmd></p></item>
-<item><p>Run the command <cmd>gsettings set org.gnome.evolution.mail filters-log-file "/home/myusername/my-filter-log"</cmd> and replace <cmd>myusername</cmd> by your username. This will create a text file named <file>my-filter-log</file> in your home directory. Note that the an absolute path to the file name must be entered; syntax like <sys>~</sys> or <sys>$HOME</sys> will not work.</p></item><!-- this is explained in https://bugzilla.gnome.org/show_bug.cgi?id=669471 -->
+<item><p>Run the command <cmd>gsettings set org.gnome.evolution.mail filters-log-file "/home/myusername/my-filter-log"</cmd> and replace <cmd>myusername</cmd> by your username. This will create a text file named <file>my-filter-log</file> in your home directory. Note that the absolute path to the file name must be entered; a syntax like <sys>~</sys> or <sys>$HOME</sys> will not work.</p></item><!-- this is explained in https://bugzilla.gnome.org/show_bug.cgi?id=669471 -->
 <item><p>Start Evolution.</p></item>
 <item><p>Fetch mail to apply filters.</p></item>
 <item><p>Open the file <file>my-filter-log</file> with a text editor to see which filter actions have been applied.</p></item>
