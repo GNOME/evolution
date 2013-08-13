@@ -3308,23 +3308,13 @@ categories_response (GtkDialog *dialog,
 	editor->categories_dialog = NULL;
 }
 
-static gint
-categories_editor_delete_event_cb (GtkWidget *widget,
-                                   GdkEvent *event,
-                                   gpointer data)
-{
-	if (GTK_IS_WIDGET (widget))
-		gtk_widget_destroy (widget);
-
-	return TRUE;
-}
-
 static void
 categories_clicked (GtkWidget *button,
                     EContactEditor *editor)
 {
 	gchar *categories = NULL;
 	GtkDialog *dialog;
+	GtkWindow *window;
 	GtkWidget *entry = e_builder_get_widget (editor->builder, "entry-categories");
 
 	if (entry && GTK_IS_ENTRY (entry))
@@ -3348,10 +3338,12 @@ categories_clicked (GtkWidget *button,
 		dialog, "response",
 		G_CALLBACK (categories_response), editor);
 
-	/* Close the category dialog if the editor is closed*/
-	g_signal_connect_swapped (
-		editor, "editor_closed",
-		G_CALLBACK (categories_editor_delete_event_cb), dialog);
+	window = GTK_WINDOW (dialog);
+
+	/* Close the category dialog if the editor is closed */
+	gtk_window_set_destroy_with_parent (window, TRUE);
+	gtk_window_set_modal (window, FALSE);
+	gtk_window_set_transient_for (window, eab_editor_get_window (EAB_EDITOR (editor)));
 
 	gtk_widget_show (GTK_WIDGET (dialog));
 	g_free (categories);
