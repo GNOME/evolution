@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2013-08-08 05:49+0000\n"
-"PO-Revision-Date: 2013-08-08 10:33+0200\n"
+"POT-Creation-Date: 2013-08-13 13:28+0000\n"
+"PO-Revision-Date: 2013-08-14 13:32+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -418,7 +418,7 @@ msgstr "_Aniversario:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:37
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:685
-#: ../calendar/gui/e-calendar-view.c:2241
+#: ../calendar/gui/e-calendar-view.c:2244
 msgid "Anniversary"
 msgstr "Aniversario"
 
@@ -429,7 +429,7 @@ msgstr "Aniversario"
 #. * the directory components.
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:38
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:684
-#: ../calendar/gui/e-calendar-view.c:2240 ../shell/main.c:128
+#: ../calendar/gui/e-calendar-view.c:2243 ../shell/main.c:128
 msgid "Birthday"
 msgstr "Cumpleaños"
 
@@ -562,15 +562,15 @@ msgstr "Error al eliminar el contacto"
 msgid "Contact Editor - %s"
 msgstr "Editor de contactos: %s"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3471
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3463
 msgid "Please select an image for this contact"
 msgstr "Seleccione una imagen para este contacto"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3472
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3464
 msgid "_No image"
 msgstr "_Sin imagen"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3813
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3805
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -578,28 +578,28 @@ msgstr ""
 "Los datos del contacto no son válidos:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3819
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3811
 #, c-format
 msgid "'%s' has an invalid format"
 msgstr "«%s» tiene un formato no válido"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3827
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3819
 #, c-format
 msgid "'%s' cannot be a future date"
 msgstr "«%s» no puede ser una fecha en el futuro"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3835
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3827
 #, c-format
 msgid "%s'%s' has an invalid format"
 msgstr "%s«%s» tiene un formato no válido"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3848
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3862
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3840
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3854
 #, c-format
 msgid "%s'%s' is empty"
 msgstr "%s«%s» está vacío"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3877
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3869
 msgid "Invalid contact."
 msgstr "Contacto no válido."
 
@@ -3354,13 +3354,13 @@ msgstr "Excepciones"
 msgid "Preview"
 msgstr "Vista previa"
 
-#: ../calendar/gui/dialogs/send-comp.c:223
-#: ../calendar/gui/dialogs/send-comp.c:301
+#: ../calendar/gui/dialogs/send-comp.c:170
+#: ../calendar/gui/dialogs/send-comp.c:248
 msgid "Send my reminders with this event"
 msgstr "Enviar mis recordatorios con este evento"
 
-#: ../calendar/gui/dialogs/send-comp.c:225
-#: ../calendar/gui/dialogs/send-comp.c:303
+#: ../calendar/gui/dialogs/send-comp.c:172
+#: ../calendar/gui/dialogs/send-comp.c:250
 msgid "Notify new attendees _only"
 msgstr "Notificar sól_o a los participantes"
 
@@ -3890,7 +3890,7 @@ msgstr "Actualizando objetos"
 #. To Translators: It will display "Organiser: NameOfTheUser <email@ofuser.com>"
 #. To Translators: It will display
 #. * "Organizer: NameOfTheUser <email@ofuser.com>"
-#: ../calendar/gui/e-calendar-view.c:2047 ../calendar/gui/e-memo-table.c:553
+#: ../calendar/gui/e-calendar-view.c:2050 ../calendar/gui/e-memo-table.c:553
 #: ../calendar/gui/e-task-table.c:840
 #, c-format
 msgid "Organizer: %s <%s>"
@@ -3899,21 +3899,21 @@ msgstr "Organizador: %s <%s>"
 #. With SunOne accouts, there may be no ':' in organiser.value
 #. With SunOne accounts, there may be no ':' in
 #. * organizer.value.
-#: ../calendar/gui/e-calendar-view.c:2051 ../calendar/gui/e-memo-table.c:558
+#: ../calendar/gui/e-calendar-view.c:2054 ../calendar/gui/e-memo-table.c:558
 #: ../calendar/gui/e-task-table.c:844
 #, c-format
 msgid "Organizer: %s"
 msgstr "Organizador: %s"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
-#: ../calendar/gui/e-calendar-view.c:2067
+#: ../calendar/gui/e-calendar-view.c:2070
 #: ../calendar/gui/e-meeting-time-sel.c:2664 ../calendar/gui/print.c:3545
 #, c-format
 msgid "Location: %s"
 msgstr "Lugar: %s"
 
 #. To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"
-#: ../calendar/gui/e-calendar-view.c:2098
+#: ../calendar/gui/e-calendar-view.c:2101
 #, c-format
 msgid "Time: %s %s"
 msgstr "Hora: %s %s"
@@ -9105,7 +9105,6 @@ msgid "The default command that must be used as the editor."
 msgstr "El comando predeterminado que usar como editor."
 
 #: ../data/org.gnome.evolution.plugin.external-editor.gschema.xml.in.h:3
-#: ../plugins/external-editor/external-editor.c:123
 msgid "Automatically launch when a new mail is edited"
 msgstr "Lanzar automáticamente al editar un correo nuevo"
 
@@ -9914,11 +9913,11 @@ msgstr "Quitar _todo"
 msgid "_Show field in View"
 msgstr "_Mostrar campo en la vista"
 
-#: ../e-util/e-table-config.ui.h:8 ../e-util/e-table-header-item.c:1750
+#: ../e-util/e-table-config.ui.h:8 ../e-util/e-table-header-item.c:1753
 msgid "Ascending"
 msgstr "Ascendente"
 
-#: ../e-util/e-table-config.ui.h:9 ../e-util/e-table-header-item.c:1750
+#: ../e-util/e-table-config.ui.h:9 ../e-util/e-table-header-item.c:1753
 msgid "Descending"
 msgstr "Descendente"
 
@@ -10113,9 +10112,11 @@ msgstr "%s"
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% completado)"
 
-#: ../e-util/e-alert-bar.c:120
-msgid "Close this message"
-msgstr "Cerrar este mensaje"
+#. Translators: Escape is a keyboard binding.
+#: ../e-util/e-alert-bar.c:121
+#| msgid "Close this message"
+msgid "Close this message (Escape)"
+msgstr "Cerrar este mensaje (Escape)"
 
 #: ../e-util/e-attachment-bar.c:660 ../e-util/e-attachment-paned.c:703
 msgid "Icon View"
@@ -11496,60 +11497,60 @@ msgid_plural "%s (%d items)"
 msgstr[0] "%s (%d elemento)"
 msgstr[1] "%s (%d elementos)"
 
-#: ../e-util/e-table-header-item.c:1573
+#: ../e-util/e-table-header-item.c:1576
 msgid "Customize Current View"
 msgstr "Personalizar vista actual"
 
-#: ../e-util/e-table-header-item.c:1596
+#: ../e-util/e-table-header-item.c:1599
 msgid "Sort _Ascending"
 msgstr "Ordenar _ascendentemente"
 
-#: ../e-util/e-table-header-item.c:1599
+#: ../e-util/e-table-header-item.c:1602
 msgid "Sort _Descending"
 msgstr "Ordenar _descendentemente"
 
-#: ../e-util/e-table-header-item.c:1602
+#: ../e-util/e-table-header-item.c:1605
 msgid "_Unsort"
 msgstr "_Desordenar"
 
-#: ../e-util/e-table-header-item.c:1605
+#: ../e-util/e-table-header-item.c:1608
 msgid "Group By This _Field"
 msgstr "Agrupar por _este campo"
 
-#: ../e-util/e-table-header-item.c:1608
+#: ../e-util/e-table-header-item.c:1611
 msgid "Group By _Box"
 msgstr "Agrupar por _caja"
 
-#: ../e-util/e-table-header-item.c:1612
+#: ../e-util/e-table-header-item.c:1615
 msgid "Remove This _Column"
 msgstr "Quitar esta c_olumna"
 
-#: ../e-util/e-table-header-item.c:1615
+#: ../e-util/e-table-header-item.c:1618
 msgid "Add a C_olumn..."
 msgstr "Añadir una c_olumna…"
 
-#: ../e-util/e-table-header-item.c:1619
+#: ../e-util/e-table-header-item.c:1622
 msgid "A_lignment"
 msgstr "A_lineación"
 
-#: ../e-util/e-table-header-item.c:1622
+#: ../e-util/e-table-header-item.c:1625
 msgid "B_est Fit"
 msgstr "Ajust_e automático"
 
-#: ../e-util/e-table-header-item.c:1625
+#: ../e-util/e-table-header-item.c:1628
 msgid "Format Column_s..."
 msgstr "Formatear columna_s…"
 
-#: ../e-util/e-table-header-item.c:1629
+#: ../e-util/e-table-header-item.c:1632
 msgid "Custo_mize Current View..."
 msgstr "Perso_nalizar vista actual…"
 
-#: ../e-util/e-table-header-item.c:1700
+#: ../e-util/e-table-header-item.c:1703
 msgid "_Sort By"
 msgstr "_Ordenar por"
 
 #. Custom
-#: ../e-util/e-table-header-item.c:1723
+#: ../e-util/e-table-header-item.c:1726
 msgid "_Custom"
 msgstr "_Personalizado"
 
@@ -11634,7 +11635,6 @@ msgid "Save the image to a file"
 msgstr "Guardar la imagen en un archivo"
 
 #: ../e-util/e-web-view.c:2832
-#| msgid "Copy the image to the clipboard"
 msgid "Copying image to clipboard"
 msgstr "Copiando imagen al portapapeles"
 
@@ -11644,7 +11644,6 @@ msgstr "Guardar imagen"
 
 #: ../e-util/e-web-view.c:3056
 #, c-format
-#| msgid "Moving messages to '%s'"
 msgid "Saving image to '%s'"
 msgstr "Guardando imagen en «%s»"
 
@@ -11780,12 +11779,10 @@ msgid "Please provide an unique name to identify this signature."
 msgstr "Introduzca un nombre único para identificar esta firma."
 
 #: ../e-util/widgets.error.xml.h:6
-#| msgid "Copy the image to the clipboard"
 msgid "Unable to copy image to clipboard."
 msgstr "No se pudo copiar la imagen al portapapeles."
 
 #: ../e-util/widgets.error.xml.h:7
-#| msgid "Unable to save {0}."
 msgid "Unable to save image."
 msgstr "No se pudo guardar la imagen."
 
@@ -13788,7 +13785,7 @@ msgstr "_No mostrar otra vez este mensaje."
 msgid "Message Filters"
 msgstr "Filtros de mensajes"
 
-#: ../mail/em-utils.c:976
+#: ../mail/em-utils.c:982
 #, c-format
 msgid "Messages from %s"
 msgstr "Mensajes de %s"
@@ -19335,6 +19332,11 @@ msgstr ""
 "Para XEmacs use «xemacs»\n"
 "Para Vim use «gvim -f»"
 
+#: ../plugins/external-editor/external-editor.c:123
+#| msgid "Automatically launch when a new mail is edited"
+msgid "_Automatically launch when a new mail is edited"
+msgstr "Lanzar _automáticamente al editar un correo nuevo"
+
 #: ../plugins/external-editor/external-editor.c:413
 #: ../plugins/external-editor/external-editor.c:415
 msgid "Compose in External Editor"
@@ -20510,7 +20512,7 @@ msgstr "Eliminar vista: %s"
 msgid "Execute these search parameters"
 msgstr "Ejecutar estos parámetros de búsqueda"
 
-#: ../shell/e-shell-window.c:439
+#: ../shell/e-shell-window.c:455
 msgid "New"
 msgstr "Nuevo"
 
