@@ -1452,6 +1452,8 @@ open_alarm_dialog (TrayIconData *tray_data)
 	debug (("..."));
 	qa = lookup_queued_alarm (tray_data->cqa, tray_data->alarm_id);
 	if (qa) {
+		gboolean is_first = !alarm_notifications_dialog;
+
 		remove_tray_icon ();
 
 		if (!alarm_notifications_dialog)
@@ -1477,8 +1479,8 @@ open_alarm_dialog (TrayIconData *tray_data)
 
 			tray_data->is_in_tree = TRUE;
 
-			gtk_tree_selection_select_iter (
-				selection, &tray_data->iter);
+			if (is_first)
+				gtk_tree_selection_select_iter (selection, &tray_data->iter);
 
 			gtk_window_present (GTK_WINDOW (alarm_notifications_dialog->dialog));
 		}
