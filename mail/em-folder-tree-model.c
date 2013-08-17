@@ -1049,6 +1049,11 @@ folder_tree_model_folder_renamed_cb (CamelStore *store,
 
 	em_folder_tree_model_remove_folders (model, si, &iter);
 
+	/* Make sure we don't already have the new folder name. */
+	reference = g_hash_table_lookup (si->full_hash, info->full_name);
+	if (gtk_tree_row_reference_valid (reference))
+		return;
+
 	parent = g_strdup (info->full_name);
 	p = strrchr (parent, '/');
 	if (p)
