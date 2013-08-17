@@ -2227,10 +2227,6 @@ mail_folder_cache_service_removed (MailFolderCache *cache,
 	if (store_info != NULL) {
 		GList *list, *link;
 
-		g_signal_handlers_disconnect_matched (
-			service, G_SIGNAL_MATCH_DATA,
-			0, 0, NULL, NULL, cache);
-
 		list = store_info_list_folder_info (store_info);
 
 		for (link = list; link != NULL; link = g_list_next (link))
