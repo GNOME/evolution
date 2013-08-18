@@ -3669,6 +3669,7 @@ e_table_item_compute_mouse_over
 e_table_item_get_cell_geometry
 e_table_item_row_diff
 e_table_item_is_editing
+e_table_item_cursor_scrolled
 <SUBSECTION Standard>
 E_TABLE_ITEM
 E_IS_TABLE_ITEM
