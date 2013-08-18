@@ -1,3 +1,48 @@
+Evolution 3.9.90 2013-08-19
+---------------------------
+
+Bug Fixes:
+	Bug 695633 - Attachments disappear after opening one (Milan Crha)
+	Bug 698723 - Crash on saving contact with categories (Milan Crha)
+	Bug 699603 - Message list scrolls to cursor on style change
+	             (Milan Crha)
+	Bug 704207 - Dragged column's arrow indicator oversized (Milan Crha)
+	Bug 704369 - Meeting change asks on save, but tries to send update
+	             anyway (Milan Crha)
+	Bug 704440 - Close shell window alerts with Escape key (Matthew Barnes)
+	Bug 704549 - Missing mnemonic in External Editor plugin configuration
+	             (Milan Crha)
+	Bug 704861 - Runtime warning in calendar module (Matthew Barnes)
+	Bug 705119 - File descriptors for images not closed (Milan Crha)
+	Bug 705194 - Failure to decrypt inline encrypted GPG messages
+	             (Matthew Barnes)
+	Bug 705446 - Old POP3 mails can be removed before getting them
+	             (Milan Crha)
+	Bug 705657 - Crash in em_utils_selection_set_urilist() (Milan Crha)
+	Bug 705814 - Crash in certificate_viewer_new() (Milan Crha)
+
+Other Changes:
+	* Fix sidebar message counts for real Junk / Trash folders.
+	  (Matthew Barnes)
+	* [Addressbook] Show editor errors above editor window (Milan Crha)
+	* Close inline alert messages with Escape key. (Matthew Barnes)
+	* Update Authors list in About dialog. (Matthew Barnes)
+	* [alarm-notify] Do not change selection on new reminder arrival
+	  (Thomas Mittelstaedt)
+
+Translations:
+	Christian Kirbach (de)
+	Daniel Mustieles (es)
+	Fran Diéguez (gl)
+	Gabor Kelemen (hu)
+	Aurimas Černius (lt)
+	Kjartan Maraas (nb)
+	Rafael Ferreira (pt_BR)
+	Yuri Myasoedov (ru)
+	Matej Urbančič (sl)
+	Chao-Hsiung Liao (zh_HK)
+
+
 Evolution 3.9.5 2013-07-29
 --------------------------
 
