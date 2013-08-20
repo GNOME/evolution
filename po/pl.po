@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-18 23:07+0200\n"
-"PO-Revision-Date: 2013-08-18 23:08+0200\n"
+"POT-Creation-Date: 2013-08-20 22:54+0200\n"
+"PO-Revision-Date: 2013-08-20 22:55+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -4023,12 +4023,12 @@ msgstr "Brak"
 #. strftime format of a weekday, a date and a time, 24-hour.
 #: ../calendar/gui/e-cell-date-edit-text.c:159
 msgid "%a %m/%d/%Y %H:%M:%S"
-msgstr "%a, %d.%m.%Y %H:%M:%S"
+msgstr "%a, %d.%m.%Y %H∶%M∶%S"
 
 #. strftime format of a weekday, a date and a time, 12-hour.
 #: ../calendar/gui/e-cell-date-edit-text.c:162
 msgid "%a %m/%d/%Y %I:%M:%S %p"
-msgstr "%a, %d.%m.%Y %I:%M:%S %p"
+msgstr "%a, %d.%m.%Y %I∶%M∶%S %p"
 
 #: ../calendar/gui/e-cell-date-edit-text.c:170
 #, c-format
@@ -15260,7 +15260,7 @@ msgstr "Wyższy"
 msgid "Highest"
 msgstr "Najwyższy"
 
-#: ../mail/message-list.c:466 ../mail/message-list.c:5725
+#: ../mail/message-list.c:466 ../mail/message-list.c:5717
 msgid "Generating message list"
 msgstr "Tworzenie listy wiadomości"
 
@@ -15268,19 +15268,19 @@ msgstr "Tworzenie listy wiadomości"
 #. * in 12-hour format, without seconds.
 #: ../mail/message-list.c:1858 ../modules/itip-formatter/itip-view.c:244
 msgid "Today %l:%M %p"
-msgstr "Dzisiaj o %H:%M"
+msgstr "Dzisiaj o %l∶%M %p"
 
 #: ../mail/message-list.c:1867
 msgid "Yesterday %l:%M %p"
-msgstr "Wczoraj o %H:%M"
+msgstr "Wczoraj o %l∶%M %p"
 
 #: ../mail/message-list.c:1879
 msgid "%a %l:%M %p"
-msgstr "%a %H:%M"
+msgstr "%a %l∶%M %p"
 
 #: ../mail/message-list.c:1887
 msgid "%b %d %l:%M %p"
-msgstr "%d %b %H:%M"
+msgstr "%d %b %l∶%M %p"
 
 #: ../mail/message-list.c:1889
 msgid "%b %d %Y"
@@ -15295,11 +15295,11 @@ msgid "Messages"
 msgstr "Wiadomości"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../mail/message-list.c:4758
+#: ../mail/message-list.c:4762
 msgid "Follow-up"
 msgstr "Kontynuuj"
 
-#: ../mail/message-list.c:5663
+#: ../mail/message-list.c:5655
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -15312,7 +15312,7 @@ msgstr ""
 "za pomocą elementu menu Wyszukiwanie->Wyczyść lub przez zmienienie zapytania "
 "powyżej."
 
-#: ../mail/message-list.c:5671
+#: ../mail/message-list.c:5663
 msgid "There are no messages in this folder."
 msgstr "Brak wiadomości w tym katalogu."
 
@@ -17273,43 +17273,43 @@ msgstr "Wyświetlanie części jako zaproszenie"
 #. * in 24-hour format, without seconds.
 #: ../modules/itip-formatter/itip-view.c:235
 msgid "Today %H:%M"
-msgstr "Dziś o %H:%M"
+msgstr "Dziś o %H∶%M"
 
 #. strftime format of a time,
 #. * in 24-hour format.
 #: ../modules/itip-formatter/itip-view.c:239
 msgid "Today %H:%M:%S"
-msgstr "Dziś o %H:%M:%S"
+msgstr "Dziś o %H∶%M∶%S"
 
 #. strftime format of a time,
 #. * in 12-hour format.
 #: ../modules/itip-formatter/itip-view.c:248
 msgid "Today %l:%M:%S %p"
-msgstr "Dziś o %l:%M:%S %p"
+msgstr "Dziś o %l∶%M∶%S %p"
 
 #. strftime format of a time,
 #. * in 24-hour format, without seconds.
 #: ../modules/itip-formatter/itip-view.c:263
 msgid "Tomorrow %H:%M"
-msgstr "Jutro o %H:%M"
+msgstr "Jutro o %H∶%M"
 
 #. strftime format of a time,
 #. * in 24-hour format.
 #: ../modules/itip-formatter/itip-view.c:267
 msgid "Tomorrow %H:%M:%S"
-msgstr "Jutro o %H:%M:%S"
+msgstr "Jutro o %H∶%M∶%S"
 
 #. strftime format of a time,
 #. * in 12-hour format, without seconds.
 #: ../modules/itip-formatter/itip-view.c:272
 msgid "Tomorrow %l:%M %p"
-msgstr "Jutro o %l:%M %p"
+msgstr "Jutro o %l∶%M %p"
 
 #. strftime format of a time,
 #. * in 12-hour format.
 #: ../modules/itip-formatter/itip-view.c:276
 msgid "Tomorrow %l:%M:%S %p"
-msgstr "Jutro o %l:%M:%S %p"
+msgstr "Jutro o %l∶%M∶%S %p"
 
 #. strftime format of a weekday.
 #: ../modules/itip-formatter/itip-view.c:295
@@ -17321,25 +17321,25 @@ msgstr "%A"
 #. * time, in 24-hour format, without seconds.
 #: ../modules/itip-formatter/itip-view.c:300
 msgid "%A %H:%M"
-msgstr "%A %H:%M"
+msgstr "%A %H∶%M"
 
 #. strftime format of a weekday and a
 #. * time, in 24-hour format.
 #: ../modules/itip-formatter/itip-view.c:304
 msgid "%A %H:%M:%S"
-msgstr "%A %H:%M:%S"
+msgstr "%A %H∶%M∶%S"
 
 #. strftime format of a weekday and a
 #. * time, in 12-hour format, without seconds.
 #: ../modules/itip-formatter/itip-view.c:309
 msgid "%A %l:%M %p"
-msgstr "%A %l:%M %p"
+msgstr "%A %l∶%M %p"
 
 #. strftime format of a weekday and a
 #. * time, in 12-hour format.
 #: ../modules/itip-formatter/itip-view.c:313
 msgid "%A %l:%M:%S %p"
-msgstr "%A %l:%M:%S %p"
+msgstr "%A %l∶%M∶%S %p"
 
 #. strftime format of a weekday and a date
 #. * without a year.
@@ -17352,25 +17352,25 @@ msgstr "%A, %e %B"
 #. * in 24-hour format, without seconds.
 #: ../modules/itip-formatter/itip-view.c:328
 msgid "%A, %B %e %H:%M"
-msgstr "%A, %e %B %H:%M"
+msgstr "%A, %e %B %H∶%M"
 
 #. strftime format of a weekday, a date without a year
 #. * and a time, in 24-hour format.
 #: ../modules/itip-formatter/itip-view.c:332
 msgid "%A, %B %e %H:%M:%S"
-msgstr "%A, %e %B %H:%M:%S"
+msgstr "%A, %e %B %H∶%M∶%S"
 
 #. strftime format of a weekday, a date without a year
 #. * and a time, in 12-hour format, without seconds.
 #: ../modules/itip-formatter/itip-view.c:337
 msgid "%A, %B %e %l:%M %p"
-msgstr "%A, %e %B %l:%M %p"
+msgstr "%A, %e %B %l∶%M %p"
 
 #. strftime format of a weekday, a date without a year
 #. * and a time, in 12-hour format.
 #: ../modules/itip-formatter/itip-view.c:341
 msgid "%A, %B %e %l:%M:%S %p"
-msgstr "%A, %e %B %l:%M:%S %p"
+msgstr "%A, %e %B %l∶%M∶%S %p"
 
 #. strftime format of a weekday and a date.
 #: ../modules/itip-formatter/itip-view.c:347
@@ -17381,25 +17381,25 @@ msgstr "%A, %e %B %Y"
 #. * time, in 24-hour format, without seconds.
 #: ../modules/itip-formatter/itip-view.c:352
 msgid "%A, %B %e, %Y %H:%M"
-msgstr "%A, %e %B %Y %H:%M"
+msgstr "%A, %e %B %Y %H∶%M"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 24-hour format.
 #: ../modules/itip-formatter/itip-view.c:356
 msgid "%A, %B %e, %Y %H:%M:%S"
-msgstr "%A, %e %B %Y %H:%M:%S"
+msgstr "%A, %e %B %Y %H∶%M∶%S"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 12-hour format, without seconds.
 #: ../modules/itip-formatter/itip-view.c:361
 msgid "%A, %B %e, %Y %l:%M %p"
-msgstr "%A, %e %B %Y %l:%M %p"
+msgstr "%A, %e %B %Y %l∶%M %p"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 12-hour format.
 #: ../modules/itip-formatter/itip-view.c:365
 msgid "%A, %B %e, %Y %l:%M:%S %p"
-msgstr "%A, %e %B %Y %l:%M:%S %p"
+msgstr "%A, %e %B %Y %l∶%M∶%S %p"
 
 #: ../modules/itip-formatter/itip-view.c:403
 #: ../modules/itip-formatter/itip-view.c:404
@@ -18492,7 +18492,7 @@ msgstr "Wyszukiwanie we wszystkich kontach"
 msgid "Account Search"
 msgstr "Wyszukiwanie w koncie"
 
-#: ../modules/mail/e-mail-shell-view-private.c:996
+#: ../modules/mail/e-mail-shell-view-private.c:998
 #, c-format
 msgid "%d selected, "
 msgid_plural "%d selected, "
@@ -18500,8 +18500,8 @@ msgstr[0] "%d zaznaczona, "
 msgstr[1] "%d zaznaczone, "
 msgstr[2] "%d zaznaczonych, "
 
-#: ../modules/mail/e-mail-shell-view-private.c:1005
-#: ../modules/mail/e-mail-shell-view-private.c:1022
+#: ../modules/mail/e-mail-shell-view-private.c:1007
+#: ../modules/mail/e-mail-shell-view-private.c:1024
 #, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
@@ -18509,8 +18509,8 @@ msgstr[0] "%d usunięta"
 msgstr[1] "%d usunięte"
 msgstr[2] "%d usuniętych"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1031
-#: ../modules/mail/e-mail-shell-view-private.c:1037
+#: ../modules/mail/e-mail-shell-view-private.c:1033
+#: ../modules/mail/e-mail-shell-view-private.c:1039
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
@@ -18518,7 +18518,7 @@ msgstr[0] "%d niechciana"
 msgstr[1] "%d niechciane"
 msgstr[2] "%d niechcianych"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1044
+#: ../modules/mail/e-mail-shell-view-private.c:1046
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
@@ -18526,7 +18526,7 @@ msgstr[0] "%d szkic"
 msgstr[1] "%d szkice"
 msgstr[2] "%d szkiców"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1050
+#: ../modules/mail/e-mail-shell-view-private.c:1052
 #, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
@@ -18534,7 +18534,7 @@ msgstr[0] "%d niewysłana"
 msgstr[1] "%d niewysłane"
 msgstr[2] "%d niewysłanych"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1056
+#: ../modules/mail/e-mail-shell-view-private.c:1058
 #, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
@@ -18542,7 +18542,7 @@ msgstr[0] "%d wysłana"
 msgstr[1] "%d wysłane"
 msgstr[2] "%d wysłanych"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1068
+#: ../modules/mail/e-mail-shell-view-private.c:1070
 #, c-format
 msgid "%d unread, "
 msgid_plural "%d unread, "
@@ -18550,7 +18550,7 @@ msgstr[0] "%d nieprzeczytana, "
 msgstr[1] "%d nieprzeczytane, "
 msgstr[2] "%d nieprzeczytanych, "
 
-#: ../modules/mail/e-mail-shell-view-private.c:1071
+#: ../modules/mail/e-mail-shell-view-private.c:1073
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
@@ -20204,7 +20204,7 @@ msgstr "vCard (.vcf)"
 msgid "All Files (*)"
 msgstr "Wszystkie pliki (*)"
 
-#: ../shell/e-shell-view.c:290
+#: ../shell/e-shell-view.c:292
 msgid "Saving user interface state"
 msgstr "Zapisywanie stanu interfejsu użytkownika"
 
