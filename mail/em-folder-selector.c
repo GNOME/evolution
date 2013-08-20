@@ -449,11 +449,13 @@ em_folder_selector_get_selected_uri (EMFolderSelector *emfs)
 
 	if (emfs->name_entry) {
 		const gchar *name;
-		gchar *temp_uri;
+		gchar *temp_uri, *escaped_name;
 
 		name = gtk_entry_get_text (emfs->name_entry);
-		temp_uri = g_strconcat (uri, "/", name, NULL);
+		escaped_name = g_uri_escape_string (name, NULL, TRUE);
+		temp_uri = g_strconcat (uri, "/", escaped_name, NULL);
 
+		g_free (escaped_name);
 		g_free (uri);
 		uri = temp_uri;
 	}
