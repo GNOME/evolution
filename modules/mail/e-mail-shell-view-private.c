@@ -80,7 +80,7 @@ mail_shell_view_got_folder_cb (CamelStore *store,
 	}
 
 	e_mail_reader_set_folder (context->reader, folder);
-	e_shell_view_update_actions (context->shell_view);
+	e_shell_view_update_actions_in_idle (context->shell_view);
 
 	g_object_unref (folder);
 
@@ -119,7 +119,7 @@ mail_shell_view_folder_tree_selected_cb (EMailShellView *mail_shell_view,
 	/* If we are to clear the message list, do so immediately. */
 	if ((flags & CAMEL_FOLDER_NOSELECT) || folder_name == NULL) {
 		e_mail_reader_set_folder (reader, NULL);
-		e_shell_view_update_actions (shell_view);
+		e_shell_view_update_actions_in_idle (shell_view);
 		return;
 	}
 
@@ -444,7 +444,7 @@ mail_shell_view_reader_changed_cb (EMailShellView *mail_shell_view,
 	display = e_mail_reader_get_mail_display (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
-	e_shell_view_update_actions (E_SHELL_VIEW (mail_shell_view));
+	e_shell_view_update_actions_in_idle (E_SHELL_VIEW (mail_shell_view));
 	e_mail_shell_view_update_sidebar (mail_shell_view);
 
 	/* Connect if its not connected already */
@@ -934,7 +934,8 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 	ESourceRegistry *registry;
 	CamelStore *parent_store;
 	CamelFolder *folder;
-	GPtrArray *uids;
+	MessageList *message_list;
+	guint selected_count;
 	GString *buffer;
 	gboolean store_is_local;
 	const gchar *display_name;
@@ -989,12 +990,13 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 	num_visible = camel_folder_summary_get_visible_count (folder->summary);
 
 	buffer = g_string_sized_new (256);
-	uids = e_mail_reader_get_selected_uids (reader);
+	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
+	selected_count = message_list_selected_count (message_list);
 
-	if (uids->len > 1)
+	if (selected_count > 1)
 		g_string_append_printf (
 			buffer, ngettext ("%d selected, ", "%d selected, ",
-			uids->len), uids->len);
+			selected_count), selected_count);
 
 	/* "Trash" folder (virtual or real) */
 	if (folder->folder_flags & CAMEL_FOLDER_IS_TRASH) {
@@ -1063,7 +1065,7 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 				num_deleted - num_junked +
 				num_junked_not_deleted;
 
-		if (num_unread > 0 && uids->len <= 1)
+		if (num_unread > 0 && selected_count <= 1)
 			g_string_append_printf (
 				buffer, ngettext ("%d unread, ",
 				"%d unread, ", num_unread), num_unread);
@@ -1071,8 +1073,6 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 			buffer, ngettext ("%d total", "%d total",
 			num_visible), num_visible);
 	}
-
-	g_ptr_array_unref (uids);
 
 	uid = camel_service_get_uid (CAMEL_SERVICE (parent_store));
 	store_is_local = (g_strcmp0 (uid, E_MAIL_SESSION_LOCAL_UID) == 0);

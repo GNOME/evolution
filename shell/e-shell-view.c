@@ -74,6 +74,8 @@ struct _EShellViewPrivate {
 
 	GtkWidget *preferences_window;
 	gulong preferences_hide_handler_id;
+
+	guint update_actions_idle_id;
 };
 
 enum {
@@ -515,6 +517,11 @@ shell_view_dispose (GObject *object)
 			shell_view_save_state (E_SHELL_VIEW (object), TRUE);
 	}
 
+	if (priv->update_actions_idle_id > 0) {
+		g_source_remove (priv->update_actions_idle_id);
+		priv->update_actions_idle_id = 0;
+	}
+
 	if (priv->state_save_activity != NULL) {
 		g_object_remove_weak_pointer (
 			G_OBJECT (priv->state_save_activity),
@@ -625,7 +632,7 @@ shell_view_constructed (GObject *object)
 	shell_view->priv->preferences_window = g_object_ref (widget);
 	handler_id = g_signal_connect_swapped (
 		shell_view->priv->preferences_window, "hide",
-		G_CALLBACK (e_shell_view_update_actions), shell_view);
+		G_CALLBACK (e_shell_view_update_actions_in_idle), shell_view);
 	shell_view->priv->preferences_hide_handler_id = handler_id;
 
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
@@ -1822,8 +1829,47 @@ e_shell_view_update_actions (EShellView *shell_view)
 {
 	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
 
-	if (e_shell_view_is_active (shell_view))
+	if (e_shell_view_is_active (shell_view)) {
+		if (shell_view->priv->update_actions_idle_id > 0) {
+			g_source_remove (shell_view->priv->update_actions_idle_id);
+			shell_view->priv->update_actions_idle_id = 0;
+		}
+
 		g_signal_emit (shell_view, signals[UPDATE_ACTIONS], 0);
+	}
+}
+
+static gboolean
+shell_view_call_update_actions_idle (gpointer user_data)
+{
+	EShellView *shell_view = user_data;
+
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), FALSE);
+
+	shell_view->priv->update_actions_idle_id = 0;
+	e_shell_view_update_actions (shell_view);
+
+	return FALSE;
+}
+
+/**
+ * e_shell_view_update_actions_in_idle:
+ * @shell_view: an #EShellView
+ *
+ * Schedules e_shell_view_update_actions() call on idle.
+ *
+ * Since: 3.10
+ **/
+void
+e_shell_view_update_actions_in_idle (EShellView *shell_view)
+{
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+
+	if (!e_shell_view_is_active (shell_view))
+		return;
+
+	if (shell_view->priv->update_actions_idle_id == 0)
+		shell_view->priv->update_actions_idle_id = g_idle_add (shell_view_call_update_actions_idle, shell_view);
 }
 
 /**

@@ -4672,17 +4672,20 @@ static void
 on_selection_changed_cmd (ETree *tree,
                           MessageList *message_list)
 {
-	GPtrArray *uids;
+	GPtrArray *uids = NULL;
 	const gchar *newuid;
+	guint selected_count;
 	GNode *cursor;
 
-	/* not sure if we could just ignore this for the cursor, i think sometimes you
-	 * only get a selection changed when you should also get a cursor activated? */
-	uids = message_list_get_selected (message_list);
+	selected_count = message_list_selected_count (message_list);
+	if (selected_count == 1) {
+		uids = message_list_get_selected (message_list);
 
-	if (uids->len == 1)
-		newuid = g_ptr_array_index (uids, 0);
-	else if ((cursor = e_tree_get_cursor (tree)))
+		if (uids->len == 1)
+			newuid = g_ptr_array_index (uids, 0);
+		else
+			newuid = NULL;
+	} else if ((cursor = e_tree_get_cursor (tree)))
 		newuid = (gchar *) camel_message_info_uid (cursor->data);
 	else
 		newuid = NULL;
@@ -4690,8 +4693,8 @@ on_selection_changed_cmd (ETree *tree,
 	/* If the selection isn't empty, then we ignore the no-uid check, since this event
 	 * is also used for other updating.  If it is empty, it might just be a setup event
 	 * from etree which we do need to ignore */
-	if ((newuid == NULL && message_list->cursor_uid == NULL && uids->len == 0) ||
-	    (message_list->last_sel_single && uids->len == 1 && newuid != NULL && message_list->cursor_uid != NULL && !strcmp (message_list->cursor_uid, newuid))) {
+	if ((newuid == NULL && message_list->cursor_uid == NULL && selected_count == 0) ||
+	    (message_list->last_sel_single && selected_count == 1 && newuid != NULL && message_list->cursor_uid != NULL && !strcmp (message_list->cursor_uid, newuid))) {
 		/* noop */
 	} else {
 		g_free (message_list->cursor_uid);
@@ -4703,9 +4706,10 @@ on_selection_changed_cmd (ETree *tree,
 				message_list, NULL);
 	}
 
-	message_list->last_sel_single = uids->len == 1;
+	message_list->last_sel_single = selected_count == 1;
 
-	g_ptr_array_unref (uids);
+	if (uids)
+		g_ptr_array_unref (uids);
 }
 
 static gint
@@ -4963,27 +4967,15 @@ message_list_count (MessageList *message_list)
 	return data.count;
 }
 
-static void
-ml_getselcount_cb (gint model_row,
-                   gpointer user_data)
-{
-	struct ml_count_data *data = user_data;
-
-	data->count++;
-}
-
 guint
 message_list_selected_count (MessageList *message_list)
 {
 	ESelectionModel *selection;
-	struct ml_count_data data = { message_list, 0 };
 
 	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), 0);
 
 	selection = e_tree_get_selection_model (E_TREE (message_list));
-	e_selection_model_foreach (selection, ml_getselcount_cb, &data);
-
-	return data.count;
+	return  e_selection_model_selected_count (selection);
 }
 
 void
