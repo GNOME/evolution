@@ -21,8 +21,8 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2013-07-31 08:50+0000\n"
-"PO-Revision-Date: 2013-07-31 10:58-0300\n"
+"POT-Creation-Date: 2013-08-20 09:26+0000\n"
+"PO-Revision-Date: 2013-08-18 21:00-0300\n"
 "Last-Translator: Rafael Ferreira <rafael.f.f1@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
@@ -30,7 +30,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.5.7\n"
 "X-Project-Style: gnome\n"
 
 #: ../addressbook/addressbook.error.xml.h:1
@@ -422,7 +422,7 @@ msgstr "Bod_as:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:37
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:685
-#: ../calendar/gui/e-calendar-view.c:2241
+#: ../calendar/gui/e-calendar-view.c:2244
 msgid "Anniversary"
 msgstr "Bodas"
 
@@ -433,7 +433,7 @@ msgstr "Bodas"
 #. * the directory components.
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:38
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:684
-#: ../calendar/gui/e-calendar-view.c:2240 ../shell/main.c:128
+#: ../calendar/gui/e-calendar-view.c:2243 ../shell/main.c:128
 msgid "Birthday"
 msgstr "Aniversário"
 
@@ -548,7 +548,7 @@ msgid "Twitter"
 msgstr "Twitter"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:227
-#: ../addressbook/gui/widgets/eab-gui-util.c:493
+#: ../addressbook/gui/widgets/eab-gui-util.c:498
 msgid "Error adding contact"
 msgstr "Erro ao adicionar contato"
 
@@ -566,15 +566,15 @@ msgstr "Erro ao remover contato"
 msgid "Contact Editor - %s"
 msgstr "Editor de contatos - %s"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3471
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3463
 msgid "Please select an image for this contact"
 msgstr "Por favor, selecione uma imagem para este contato"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3472
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3464
 msgid "_No image"
 msgstr "_Sem imagem"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3813
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3805
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -582,28 +582,28 @@ msgstr ""
 "Os dados do contato são inválidos:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3819
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3811
 #, c-format
 msgid "'%s' has an invalid format"
 msgstr "\"%s\" possui um formato inválido"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3827
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3819
 #, c-format
 msgid "'%s' cannot be a future date"
 msgstr "\"%s\" não pode ser uma data futura"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3835
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3827
 #, c-format
 msgid "%s'%s' has an invalid format"
 msgstr "%s\"%s\" possui um formato inválido"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3848
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3862
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3840
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3854
 #, c-format
 msgid "%s'%s' is empty"
 msgstr "%s\"%s\" está vazio"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3877
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3869
 msgid "Invalid contact."
 msgstr "Contato inválido."
 
@@ -1302,7 +1302,7 @@ msgstr "Página web"
 msgid "Blog"
 msgstr "Blog"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:118
+#: ../addressbook/gui/widgets/eab-gui-util.c:123
 msgid ""
 "This address book cannot be opened. This either means this book is not "
 "marked for offline usage or not yet downloaded for offline usage. Please "
@@ -1313,7 +1313,7 @@ msgstr ""
 "para uso desconectado. Por favor, carregue o catálogo de endereços quando "
 "estiver no modo conectado para baixar seu conteúdo."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:137
+#: ../addressbook/gui/widgets/eab-gui-util.c:142
 #, c-format
 msgid ""
 "This address book cannot be opened.  Please check that the path %s exists "
@@ -1322,7 +1322,7 @@ msgstr ""
 "Não foi possível abrir este catálogo de endereços. Por favor, verifique se o "
 "caminho %s existe e se você possui as permissões para acessá-lo."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:150
+#: ../addressbook/gui/widgets/eab-gui-util.c:155
 msgid ""
 "This version of Evolution does not have LDAP support compiled in to it.  To "
 "use LDAP in Evolution an LDAP-enabled Evolution package must be installed."
@@ -1331,7 +1331,7 @@ msgstr ""
 "LDAP no Evolution, você deve instalar um pacote do Evolution com LDAP "
 "habilitado."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:159
+#: ../addressbook/gui/widgets/eab-gui-util.c:164
 msgid ""
 "This address book cannot be opened.  This either means that an incorrect URI "
 "was entered, or the server is unreachable."
@@ -1339,12 +1339,12 @@ msgstr ""
 "Não foi possível abrir este catálogo de endereços. Isto significa que você "
 "digitou um URI incorreto ou que o servidor está fora do ar."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:167
+#: ../addressbook/gui/widgets/eab-gui-util.c:172
 msgid "Detailed error message:"
 msgstr "Mennsagem detalhada do erro:"
 
 # alterei para ter o mesmo tamanho
-#: ../addressbook/gui/widgets/eab-gui-util.c:204
+#: ../addressbook/gui/widgets/eab-gui-util.c:209
 msgid ""
 "More cards matched this query than either the server is \n"
 "configured to return or Evolution is configured to display.\n"
@@ -1356,7 +1356,7 @@ msgstr ""
 "Por favor, torne a sua pesquisa mais específica ou aumente o limite \n"
 "nas preferências do servidor de diretório para este catálogo de endereços."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:211
+#: ../addressbook/gui/widgets/eab-gui-util.c:216
 msgid ""
 "The time to execute this query exceeded the server limit or the limit\n"
 "configured for this address book.  Please make your search\n"
@@ -1369,14 +1369,14 @@ msgstr ""
 "preferências do servidor de diretório para este catálogo de endereços."
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
-#: ../addressbook/gui/widgets/eab-gui-util.c:219
+#: ../addressbook/gui/widgets/eab-gui-util.c:224
 #, c-format
 msgid "The backend for this address book was unable to parse this query. %s"
 msgstr ""
 "O backend para este catálogo de endereços não pôde analisar esta consulta. %s"
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
-#: ../addressbook/gui/widgets/eab-gui-util.c:224
+#: ../addressbook/gui/widgets/eab-gui-util.c:229
 #, c-format
 msgid "The backend for this address book refused to perform this query. %s"
 msgstr ""
@@ -1384,38 +1384,38 @@ msgstr ""
 "consulta. %s"
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
-#: ../addressbook/gui/widgets/eab-gui-util.c:230
-#: ../addressbook/gui/widgets/eab-gui-util.c:236
+#: ../addressbook/gui/widgets/eab-gui-util.c:235
+#: ../addressbook/gui/widgets/eab-gui-util.c:241
 #, c-format
 msgid "This query did not complete successfully. %s"
 msgstr "Esta consulta não foi concluída com sucesso. %s"
 
 #. This is a filename. Translators take note.
-#: ../addressbook/gui/widgets/eab-gui-util.c:258
+#: ../addressbook/gui/widgets/eab-gui-util.c:263
 msgid "card.vcf"
 msgstr "card.vcf"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:309
+#: ../addressbook/gui/widgets/eab-gui-util.c:314
 msgid "Select Address Book"
 msgstr "Selecionar catálogo de endereços"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:391
+#: ../addressbook/gui/widgets/eab-gui-util.c:396
 msgid "list"
 msgstr "lista"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:581
+#: ../addressbook/gui/widgets/eab-gui-util.c:586
 msgid "Move contact to"
 msgstr "Mover contato para"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:583
+#: ../addressbook/gui/widgets/eab-gui-util.c:588
 msgid "Copy contact to"
 msgstr "Copiar contato para"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:586
+#: ../addressbook/gui/widgets/eab-gui-util.c:591
 msgid "Move contacts to"
 msgstr "Mover contatos para"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:588
+#: ../addressbook/gui/widgets/eab-gui-util.c:593
 msgid "Copy contacts to"
 msgstr "Copiar contatos para"
 
@@ -1563,8 +1563,8 @@ msgid "_Dismiss"
 msgstr "_Descartar"
 
 #: ../calendar/alarm-notify/alarm-notify.ui.h:5
-#: ../calendar/alarm-notify/alarm-queue.c:1819
-#: ../calendar/alarm-notify/alarm-queue.c:1829
+#: ../calendar/alarm-notify/alarm-queue.c:1821
+#: ../calendar/alarm-notify/alarm-queue.c:1831
 #: ../modules/cal-config-weather/evolution-cal-config-weather.c:190
 #: ../modules/itip-formatter/itip-view.c:1489
 #: ../modules/itip-formatter/itip-view.c:1600
@@ -1604,38 +1604,38 @@ msgstr "horas"
 msgid "minutes"
 msgstr "minutos"
 
-#: ../calendar/alarm-notify/alarm-queue.c:1661
-#: ../calendar/alarm-notify/alarm-queue.c:1799
+#: ../calendar/alarm-notify/alarm-queue.c:1663
+#: ../calendar/alarm-notify/alarm-queue.c:1801
 msgid "No summary available."
 msgstr "Sem resumo disponível."
 
-#: ../calendar/alarm-notify/alarm-queue.c:1670
 #: ../calendar/alarm-notify/alarm-queue.c:1672
+#: ../calendar/alarm-notify/alarm-queue.c:1674
 msgid "No description available."
 msgstr "Sem descrição disponível."
 
-#: ../calendar/alarm-notify/alarm-queue.c:1680
+#: ../calendar/alarm-notify/alarm-queue.c:1682
 msgid "No location information available."
 msgstr "Sem informações de local disponíveis."
 
-#: ../calendar/alarm-notify/alarm-queue.c:1685
-#: ../calendar/alarm-notify/alarm-queue.c:1790
-#: ../calendar/alarm-notify/alarm-queue.c:2131
+#: ../calendar/alarm-notify/alarm-queue.c:1687
+#: ../calendar/alarm-notify/alarm-queue.c:1792
+#: ../calendar/alarm-notify/alarm-queue.c:2133
 msgid "Evolution Reminders"
 msgstr "Lembretes do Evolution"
 
-#: ../calendar/alarm-notify/alarm-queue.c:1729
+#: ../calendar/alarm-notify/alarm-queue.c:1731
 #, c-format
 msgid "You have %d reminder"
 msgid_plural "You have %d reminders"
 msgstr[0] "Você tem %d lembrete"
 msgstr[1] "Você tem %d lembretes"
 
-#: ../calendar/alarm-notify/alarm-queue.c:1951
+#: ../calendar/alarm-notify/alarm-queue.c:1953
 msgid "Warning"
 msgstr "Alerta"
 
-#: ../calendar/alarm-notify/alarm-queue.c:1957
+#: ../calendar/alarm-notify/alarm-queue.c:1959
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -1652,7 +1652,7 @@ msgstr ""
 "\n"
 "Você tem certeza de que deseja executar este programa?"
 
-#: ../calendar/alarm-notify/alarm-queue.c:1972
+#: ../calendar/alarm-notify/alarm-queue.c:1974
 msgid "Do not ask me about this program again."
 msgstr "Não me pergunte sobre este programa novamente."
 
@@ -3372,13 +3372,13 @@ msgstr "Exceções"
 msgid "Preview"
 msgstr "Pré-visualizar"
 
-#: ../calendar/gui/dialogs/send-comp.c:223
-#: ../calendar/gui/dialogs/send-comp.c:301
+#: ../calendar/gui/dialogs/send-comp.c:170
+#: ../calendar/gui/dialogs/send-comp.c:248
 msgid "Send my reminders with this event"
 msgstr "Enviar meus lembretes com este evento"
 
-#: ../calendar/gui/dialogs/send-comp.c:225
-#: ../calendar/gui/dialogs/send-comp.c:303
+#: ../calendar/gui/dialogs/send-comp.c:172
+#: ../calendar/gui/dialogs/send-comp.c:250
 msgid "Notify new attendees _only"
 msgstr "Notificar s_omente os novos participantes"
 
@@ -3912,7 +3912,7 @@ msgstr "Atualizando objetos"
 #. To Translators: It will display "Organiser: NameOfTheUser <email@ofuser.com>"
 #. To Translators: It will display
 #. * "Organizer: NameOfTheUser <email@ofuser.com>"
-#: ../calendar/gui/e-calendar-view.c:2047 ../calendar/gui/e-memo-table.c:553
+#: ../calendar/gui/e-calendar-view.c:2050 ../calendar/gui/e-memo-table.c:553
 #: ../calendar/gui/e-task-table.c:840
 #, c-format
 msgid "Organizer: %s <%s>"
@@ -3921,21 +3921,21 @@ msgstr "Organizador: %s <%s>"
 #. With SunOne accouts, there may be no ':' in organiser.value
 #. With SunOne accounts, there may be no ':' in
 #. * organizer.value.
-#: ../calendar/gui/e-calendar-view.c:2051 ../calendar/gui/e-memo-table.c:558
+#: ../calendar/gui/e-calendar-view.c:2054 ../calendar/gui/e-memo-table.c:558
 #: ../calendar/gui/e-task-table.c:844
 #, c-format
 msgid "Organizer: %s"
 msgstr "Organizador: %s"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
-#: ../calendar/gui/e-calendar-view.c:2067
+#: ../calendar/gui/e-calendar-view.c:2070
 #: ../calendar/gui/e-meeting-time-sel.c:2664 ../calendar/gui/print.c:3545
 #, c-format
 msgid "Location: %s"
 msgstr "Local: %s"
 
 #. To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"
-#: ../calendar/gui/e-calendar-view.c:2098
+#: ../calendar/gui/e-calendar-view.c:2101
 #, c-format
 msgid "Time: %s %s"
 msgstr "Data: %s %s"
@@ -9087,7 +9087,6 @@ msgid "The default command that must be used as the editor."
 msgstr "O comando padrão que deve ser usado como o editor."
 
 #: ../data/org.gnome.evolution.plugin.external-editor.gschema.xml.in.h:3
-#: ../plugins/external-editor/external-editor.c:123
 msgid "Automatically launch when a new mail is edited"
 msgstr "Iniciar automaticamente quando uma nova mensagem for editada"
 
@@ -9888,11 +9887,11 @@ msgstr "Limpar _tudo"
 msgid "_Show field in View"
 msgstr "Mo_strar o campo na Visão"
 
-#: ../e-util/e-table-config.ui.h:8 ../e-util/e-table-header-item.c:1750
+#: ../e-util/e-table-config.ui.h:8 ../e-util/e-table-header-item.c:1753
 msgid "Ascending"
 msgstr "Crescente"
 
-#: ../e-util/e-table-config.ui.h:9 ../e-util/e-table-header-item.c:1750
+#: ../e-util/e-table-config.ui.h:9 ../e-util/e-table-header-item.c:1753
 msgid "Descending"
 msgstr "Decrescente"
 
@@ -10087,9 +10086,10 @@ msgstr "%s"
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% concluído)"
 
-#: ../e-util/e-alert-bar.c:120
-msgid "Close this message"
-msgstr "Fechar esta mensagem"
+#. Translators: Escape is a keyboard binding.
+#: ../e-util/e-alert-bar.c:121
+msgid "Close this message (Escape)"
+msgstr "Fechar esta mensagem (Esc)"
 
 #: ../e-util/e-attachment-bar.c:660 ../e-util/e-attachment-paned.c:703
 msgid "Icon View"
@@ -10121,7 +10121,7 @@ msgstr "Não foi possível definir como imagem de fundo"
 
 #: ../e-util/e-attachment-handler-image.c:147
 msgid "Set as _Background"
-msgstr "Usar como Imagem de _Fundo"
+msgstr "Usar como imagem de _fundo"
 
 #: ../e-util/e-attachment-icon-view.c:166
 #: ../e-util/e-attachment-tree-view.c:549
@@ -11469,60 +11469,60 @@ msgid_plural "%s (%d items)"
 msgstr[0] "%s (%d item)"
 msgstr[1] "%s (%d itens)"
 
-#: ../e-util/e-table-header-item.c:1573
+#: ../e-util/e-table-header-item.c:1576
 msgid "Customize Current View"
 msgstr "Personalizar visão atual"
 
-#: ../e-util/e-table-header-item.c:1596
+#: ../e-util/e-table-header-item.c:1599
 msgid "Sort _Ascending"
 msgstr "Ordem _crescente"
 
-#: ../e-util/e-table-header-item.c:1599
+#: ../e-util/e-table-header-item.c:1602
 msgid "Sort _Descending"
 msgstr "Ordem _decrescente"
 
-#: ../e-util/e-table-header-item.c:1602
+#: ../e-util/e-table-header-item.c:1605
 msgid "_Unsort"
 msgstr "Não _ordenar"
 
-#: ../e-util/e-table-header-item.c:1605
+#: ../e-util/e-table-header-item.c:1608
 msgid "Group By This _Field"
 msgstr "Agrupar por este _campo"
 
-#: ../e-util/e-table-header-item.c:1608
+#: ../e-util/e-table-header-item.c:1611
 msgid "Group By _Box"
 msgstr "Agrupar por c_aixa"
 
-#: ../e-util/e-table-header-item.c:1612
+#: ../e-util/e-table-header-item.c:1615
 msgid "Remove This _Column"
 msgstr "Remover esta _coluna"
 
-#: ../e-util/e-table-header-item.c:1615
+#: ../e-util/e-table-header-item.c:1618
 msgid "Add a C_olumn..."
 msgstr "Adicionar uma c_oluna..."
 
-#: ../e-util/e-table-header-item.c:1619
+#: ../e-util/e-table-header-item.c:1622
 msgid "A_lignment"
 msgstr "A_linhamento"
 
-#: ../e-util/e-table-header-item.c:1622
+#: ../e-util/e-table-header-item.c:1625
 msgid "B_est Fit"
 msgstr "M_elhor ajuste"
 
-#: ../e-util/e-table-header-item.c:1625
+#: ../e-util/e-table-header-item.c:1628
 msgid "Format Column_s..."
 msgstr "Formatar coluna_s..."
 
-#: ../e-util/e-table-header-item.c:1629
+#: ../e-util/e-table-header-item.c:1632
 msgid "Custo_mize Current View..."
 msgstr "Perso_nalizar visão atual..."
 
-#: ../e-util/e-table-header-item.c:1700
+#: ../e-util/e-table-header-item.c:1703
 msgid "_Sort By"
 msgstr "_Ordenar por"
 
 #. Custom
-#: ../e-util/e-table-header-item.c:1723
+#: ../e-util/e-table-header-item.c:1726
 msgid "_Custom"
 msgstr "_Personalizar"
 
@@ -11839,13 +11839,13 @@ msgid "No mail transport service available"
 msgstr "Nenhum serviço de transporte de correio disponível"
 
 #: ../libemail-engine/e-mail-session-utils.c:638
-#: ../libemail-engine/mail-ops.c:706
+#: ../libemail-engine/mail-ops.c:730
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
 msgstr "Falha ao aplicar filtros de saída: %s"
 
 #: ../libemail-engine/e-mail-session-utils.c:685
-#: ../libemail-engine/mail-ops.c:750
+#: ../libemail-engine/mail-ops.c:774
 #, c-format
 msgid ""
 "Failed to append to %s: %s\n"
@@ -11855,44 +11855,44 @@ msgstr ""
 "Acrescentando à pasta local \"Enviadas\" no lugar."
 
 #: ../libemail-engine/e-mail-session-utils.c:711
-#: ../libemail-engine/mail-ops.c:774
+#: ../libemail-engine/mail-ops.c:798
 #, c-format
 msgid "Failed to append to local 'Sent' folder: %s"
 msgstr "Falha ao acrescentar à pasta local \"Enviadas\": %s"
 
 #: ../libemail-engine/e-mail-session-utils.c:912
-#: ../libemail-engine/mail-ops.c:905 ../libemail-engine/mail-ops.c:1007
+#: ../libemail-engine/mail-ops.c:929 ../libemail-engine/mail-ops.c:1031
 msgid "Sending message"
 msgstr "Enviando mensagem"
 
 #: ../libemail-engine/e-mail-session.c:120 ../mail/em-folder-properties.c:342
 #: ../mail/em-folder-tree-model.c:786
-#: ../modules/mail/e-mail-shell-view-private.c:1068
-#: ../modules/mail/e-mail-shell-view-private.c:1079
+#: ../modules/mail/e-mail-shell-view-private.c:1086
+#: ../modules/mail/e-mail-shell-view-private.c:1097
 msgid "Inbox"
 msgstr "Entrada"
 
 #. E_MAIL_LOCAL_FOLDER_INBOX
 #: ../libemail-engine/e-mail-session.c:121 ../mail/em-folder-tree-model.c:779
-#: ../modules/mail/e-mail-shell-view-private.c:1066
+#: ../modules/mail/e-mail-shell-view-private.c:1084
 msgid "Drafts"
 msgstr "Rascunhos"
 
 #. E_MAIL_LOCAL_FOLDER_DRAFTS
 #: ../libemail-engine/e-mail-session.c:122 ../mail/em-folder-tree-model.c:790
-#: ../modules/mail/e-mail-shell-view-private.c:1070
+#: ../modules/mail/e-mail-shell-view-private.c:1088
 msgid "Outbox"
 msgstr "Saída"
 
 #. E_MAIL_LOCAL_FOLDER_OUTBOX
 #: ../libemail-engine/e-mail-session.c:123 ../mail/em-folder-tree-model.c:794
-#: ../modules/mail/e-mail-shell-view-private.c:1072
+#: ../modules/mail/e-mail-shell-view-private.c:1090
 msgid "Sent"
 msgstr "Enviadas"
 
 #. E_MAIL_LOCAL_FOLDER_SENT
 #: ../libemail-engine/e-mail-session.c:124 ../mail/em-folder-tree-model.c:782
-#: ../modules/mail/e-mail-shell-view-private.c:1074
+#: ../modules/mail/e-mail-shell-view-private.c:1092
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:1
 #: ../plugins/templates/templates.c:1082 ../plugins/templates/templates.c:1381
 #: ../plugins/templates/templates.c:1391
@@ -11972,7 +11972,7 @@ msgstr ""
 msgid "Fetching mail from '%s'"
 msgstr "Obtendo correio de \"%s\""
 
-#: ../libemail-engine/mail-ops.c:700
+#: ../libemail-engine/mail-ops.c:724
 #, c-format
 msgid ""
 "Failed to apply outgoing filters. One reason can be that folder location set "
@@ -11985,52 +11985,52 @@ msgstr ""
 "filtros em Editar->Filtros de mensagens.\n"
 "O erro original foi: %s"
 
-#: ../libemail-engine/mail-ops.c:916
+#: ../libemail-engine/mail-ops.c:940
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "Enviando mensagem %d de %d"
 
-#: ../libemail-engine/mail-ops.c:968
+#: ../libemail-engine/mail-ops.c:992
 #, c-format
 msgid "Failed to send a message"
 msgid_plural "Failed to send %d of %d messages"
 msgstr[0] "Falha ao enviar uma mensagem"
 msgstr[1] "Falha ao enviar %d de %d mensagens"
 
-#: ../libemail-engine/mail-ops.c:974
+#: ../libemail-engine/mail-ops.c:998
 msgid "Canceled."
 msgstr "Cancelada."
 
-#: ../libemail-engine/mail-ops.c:976
+#: ../libemail-engine/mail-ops.c:1000
 msgid "Complete."
 msgstr "Concluída."
 
-#: ../libemail-engine/mail-ops.c:1088
+#: ../libemail-engine/mail-ops.c:1112
 #, c-format
 msgid "Moving messages to '%s'"
 msgstr "Movendo mensagens para \"%s\""
 
-#: ../libemail-engine/mail-ops.c:1089
+#: ../libemail-engine/mail-ops.c:1113
 #, c-format
 msgid "Copying messages to '%s'"
 msgstr "Copiando mensagens para \"%s\""
 
-#: ../libemail-engine/mail-ops.c:1208
+#: ../libemail-engine/mail-ops.c:1232
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "Armazenando pasta \"%s\""
 
-#: ../libemail-engine/mail-ops.c:1336
+#: ../libemail-engine/mail-ops.c:1360
 #, c-format
 msgid "Expunging and storing account '%s'"
 msgstr "Excluindo permanentemente e armazenando conta \"%s\""
 
-#: ../libemail-engine/mail-ops.c:1337
+#: ../libemail-engine/mail-ops.c:1361
 #, c-format
 msgid "Storing account '%s'"
 msgstr "Armazenando a conta \"%s\""
 
-#: ../libemail-engine/mail-ops.c:1411
+#: ../libemail-engine/mail-ops.c:1435
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "Esvaziando a lixeira em \"%s\""
@@ -13644,7 +13644,7 @@ msgstr "Não foi possível depositar mensagem(ns) no repositório topo"
 msgid "UNMATCHED"
 msgstr "SEM OCORRÊNCIA"
 
-#: ../mail/em-folder-tree-model.c:870 ../mail/em-folder-tree-model.c:1160
+#: ../mail/em-folder-tree-model.c:870 ../mail/em-folder-tree-model.c:1165
 msgid "Loading..."
 msgstr "Carregando..."
 
@@ -13762,7 +13762,7 @@ msgstr "Não mostrar esta mensagem no_vamente"
 msgid "Message Filters"
 msgstr "Filtros de mensagens"
 
-#: ../mail/em-utils.c:976
+#: ../mail/em-utils.c:982
 #, c-format
 msgid "Messages from %s"
 msgstr "Mensagens de %s"
@@ -15281,7 +15281,7 @@ msgstr "Maior"
 msgid "Highest"
 msgstr "Máxima"
 
-#: ../mail/message-list.c:466 ../mail/message-list.c:5725
+#: ../mail/message-list.c:466 ../mail/message-list.c:5717
 msgid "Generating message list"
 msgstr "Gerando lista de mensagens"
 
@@ -15320,11 +15320,11 @@ msgid "Messages"
 msgstr "Mensagens"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../mail/message-list.c:4758
+#: ../mail/message-list.c:4762
 msgid "Follow-up"
 msgstr "Lembrete"
 
-#: ../mail/message-list.c:5663
+#: ../mail/message-list.c:5655
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -15336,7 +15336,7 @@ msgstr ""
 "acima ou executando uma nova pesquisa, seja limpando-o com Pesquisar-"
 ">Limpar, seja alterando a consulta acima."
 
-#: ../mail/message-list.c:5671
+#: ../mail/message-list.c:5663
 msgid "There are no messages in this folder."
 msgstr "Não há mensagens nesta pasta."
 
@@ -18522,7 +18522,7 @@ msgstr "Pesquisa em todas as contas"
 msgid "Account Search"
 msgstr "Pesquisa na conta"
 
-#: ../modules/mail/e-mail-shell-view-private.c:996
+#: ../modules/mail/e-mail-shell-view-private.c:998
 #, c-format
 msgid "%d selected, "
 msgid_plural "%d selected, "
@@ -18530,60 +18530,61 @@ msgstr[0] "%d selecionada, "
 msgstr[1] "%d selecionadas, "
 
 #: ../modules/mail/e-mail-shell-view-private.c:1007
+#: ../modules/mail/e-mail-shell-view-private.c:1024
 #, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
 msgstr[0] "%d excluída"
 msgstr[1] "%d excluídas"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1013
-#: ../modules/mail/e-mail-shell-view-private.c:1020
+#: ../modules/mail/e-mail-shell-view-private.c:1033
+#: ../modules/mail/e-mail-shell-view-private.c:1039
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
 msgstr[0] "%d spam"
 msgstr[1] "%d spams"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1026
+#: ../modules/mail/e-mail-shell-view-private.c:1046
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
 msgstr[0] "%d rascunho"
 msgstr[1] "%d rascunhos"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1032
+#: ../modules/mail/e-mail-shell-view-private.c:1052
 #, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
 msgstr[0] "%d não enviada"
 msgstr[1] "%d não enviadas"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1038
+#: ../modules/mail/e-mail-shell-view-private.c:1058
 #, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
 msgstr[0] "%d enviada"
 msgstr[1] "%d enviadas"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1050
+#: ../modules/mail/e-mail-shell-view-private.c:1070
 #, c-format
 msgid "%d unread, "
 msgid_plural "%d unread, "
 msgstr[0] "%d não lida, "
 msgstr[1] "%d não lidas, "
 
-#: ../modules/mail/e-mail-shell-view-private.c:1053
+#: ../modules/mail/e-mail-shell-view-private.c:1073
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
 msgstr[0] "%d ao total"
 msgstr[1] "%d ao total"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1076
+#: ../modules/mail/e-mail-shell-view-private.c:1094
 msgid "Trash"
 msgstr "Lixeira"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1514
+#: ../modules/mail/e-mail-shell-view-private.c:1532
 msgid "Send / Receive"
 msgstr "Enviar / receber"
 
@@ -19323,6 +19324,10 @@ msgid ""
 msgstr ""
 "Para XEmacs use \"xemacs\"\n"
 "Para Vim use \"gvim -f\""
+
+#: ../plugins/external-editor/external-editor.c:123
+msgid "_Automatically launch when a new mail is edited"
+msgstr "Iniciar _automaticamente quando uma nova mensagem for editada"
 
 #: ../plugins/external-editor/external-editor.c:413
 #: ../plugins/external-editor/external-editor.c:415
@@ -20209,7 +20214,7 @@ msgstr "vCard (.vcf)"
 msgid "All Files (*)"
 msgstr "Todos os arquivos (*)"
 
-#: ../shell/e-shell-view.c:290
+#: ../shell/e-shell-view.c:292
 msgid "Saving user interface state"
 msgstr "Salvando estado da interface do usuário"
 
@@ -20499,7 +20504,7 @@ msgstr "Excluir visão: %s"
 msgid "Execute these search parameters"
 msgstr "Executar estes parâmetros de pesquisa"
 
-#: ../shell/e-shell-window.c:439
+#: ../shell/e-shell-window.c:455
 msgid "New"
 msgstr "Novo"
 
