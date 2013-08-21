@@ -98,6 +98,50 @@ settings_deprecated_header_start_element (GMarkupParseContext *context,
 }
 
 static void
+e_settings_deprecated_set_int_with_change_test (GSettings *settings,
+						const gchar *key,
+						gint value)
+{
+	if (g_settings_get_int (settings, key) != value)
+		g_settings_set_int (settings, key, value);
+}
+
+static void
+e_settings_deprecated_set_string_with_change_test (GSettings *settings,
+						   const gchar *key,
+						   const gchar *value)
+{
+	gchar *stored = g_settings_get_string (settings, key);
+
+	if (g_strcmp0 (stored, value) != 0)
+		g_settings_set_string (settings, key, value);
+
+	g_free (stored);
+}
+
+static void
+e_settings_deprecated_set_strv_with_change_test (GSettings *settings,
+						 const gchar *key,
+						 const gchar * const *value)
+{
+	gchar **stored = g_settings_get_strv (settings, key);
+	gboolean changed;
+	gint ii;
+
+	changed = !stored || !value;
+	for (ii = 0; !changed && stored[ii] && value[ii]; ii++) {
+		changed = g_strcmp0 (stored[ii], value[ii]) != 0;
+	}
+
+	changed = changed || stored[ii] != NULL || value[ii] != NULL;
+
+	if (changed)
+		g_settings_set_strv (settings, key, value);
+
+	g_strfreev (stored);
+}
+
+static void
 settings_deprecated_header_parse_xml (const gchar *xml,
                                       GVariantBuilder *builder)
 {
@@ -141,7 +185,7 @@ settings_deprecated_week_start_day_name_cb (GSettings *settings,
 
 	weekday = g_settings_get_enum (settings, "week-start-day-name");
 	tm_wday = e_weekday_to_tm_wday (weekday);
-	g_settings_set_int (settings, "week-start-day", tm_wday);
+	e_settings_deprecated_set_int_with_change_test (settings, "week-start-day", tm_wday);
 }
 
 static void
@@ -155,7 +199,7 @@ settings_deprecated_work_day_monday_cb (GSettings *settings,
 		flags |= DEPRECATED_WORKING_DAYS_MONDAY;
 	else
 		flags &= ~DEPRECATED_WORKING_DAYS_MONDAY;
-	g_settings_set_int (settings, "working-days", flags);
+	e_settings_deprecated_set_int_with_change_test (settings, "working-days", flags);
 }
 
 static void
@@ -169,7 +213,7 @@ settings_deprecated_work_day_tuesday_cb (GSettings *settings,
 		flags |= DEPRECATED_WORKING_DAYS_TUESDAY;
 	else
 		flags &= ~DEPRECATED_WORKING_DAYS_TUESDAY;
-	g_settings_set_int (settings, "working-days", flags);
+	e_settings_deprecated_set_int_with_change_test (settings, "working-days", flags);
 }
 
 static void
@@ -183,7 +227,7 @@ settings_deprecated_work_day_wednesday_cb (GSettings *settings,
 		flags |= DEPRECATED_WORKING_DAYS_WEDNESDAY;
 	else
 		flags &= ~DEPRECATED_WORKING_DAYS_WEDNESDAY;
-	g_settings_set_int (settings, "working-days", flags);
+	e_settings_deprecated_set_int_with_change_test (settings, "working-days", flags);
 }
 
 static void
@@ -197,7 +241,7 @@ settings_deprecated_work_day_thursday_cb (GSettings *settings,
 		flags |= DEPRECATED_WORKING_DAYS_THURSDAY;
 	else
 		flags &= ~DEPRECATED_WORKING_DAYS_THURSDAY;
-	g_settings_set_int (settings, "working-days", flags);
+	e_settings_deprecated_set_int_with_change_test (settings, "working-days", flags);
 }
 
 static void
@@ -211,7 +255,7 @@ settings_deprecated_work_day_friday_cb (GSettings *settings,
 		flags |= DEPRECATED_WORKING_DAYS_FRIDAY;
 	else
 		flags &= ~DEPRECATED_WORKING_DAYS_FRIDAY;
-	g_settings_set_int (settings, "working-days", flags);
+	e_settings_deprecated_set_int_with_change_test (settings, "working-days", flags);
 }
 
 static void
@@ -225,7 +269,7 @@ settings_deprecated_work_day_saturday_cb (GSettings *settings,
 		flags |= DEPRECATED_WORKING_DAYS_SATURDAY;
 	else
 		flags &= ~DEPRECATED_WORKING_DAYS_SATURDAY;
-	g_settings_set_int (settings, "working-days", flags);
+	e_settings_deprecated_set_int_with_change_test (settings, "working-days", flags);
 }
 
 static void
@@ -239,7 +283,7 @@ settings_deprecated_work_day_sunday_cb (GSettings *settings,
 		flags |= DEPRECATED_WORKING_DAYS_SUNDAY;
 	else
 		flags &= ~DEPRECATED_WORKING_DAYS_SUNDAY;
-	g_settings_set_int (settings, "working-days", flags);
+	e_settings_deprecated_set_int_with_change_test (settings, "working-days", flags);
 }
 
 static void
@@ -250,15 +294,15 @@ settings_deprecated_browser_close_on_reply_policy_cb (GSettings *settings,
 
 	switch (g_settings_get_enum (settings, key)) {
 		case E_AUTOMATIC_ACTION_POLICY_ALWAYS:
-			g_settings_set_string (
+			e_settings_deprecated_set_string_with_change_test (
 				settings, deprecated_key, "always");
 			break;
 		case E_AUTOMATIC_ACTION_POLICY_NEVER:
-			g_settings_set_string (
+			e_settings_deprecated_set_string_with_change_test (
 				settings, deprecated_key, "never");
 			break;
 		default:
-			g_settings_set_string (
+			e_settings_deprecated_set_string_with_change_test (
 				settings, deprecated_key, "ask");
 			break;
 	}
@@ -271,7 +315,7 @@ settings_deprecated_forward_style_name_cb (GSettings *settings,
 	EMailForwardStyle style;
 
 	style = g_settings_get_enum (settings, "forward-style-name");
-	g_settings_set_int (settings, "forward-style", style);
+	e_settings_deprecated_set_int_with_change_test (settings, "forward-style", style);
 }
 
 static void
@@ -281,7 +325,7 @@ settings_deprecated_reply_style_name_cb (GSettings *settings,
 	EMailReplyStyle style;
 
 	style = g_settings_get_enum (settings, "reply-style-name");
-	g_settings_set_int (settings, "reply-style", style);
+	e_settings_deprecated_set_int_with_change_test (settings, "reply-style", style);
 }
 
 static void
@@ -291,7 +335,7 @@ settings_deprecated_image_loading_policy_cb (GSettings *settings,
 	EMailImageLoadingPolicy policy;
 
 	policy = g_settings_get_enum (settings, "image-loading-policy");
-	g_settings_set_int (settings, "load-http-images", policy);
+	e_settings_deprecated_set_int_with_change_test (settings, "load-http-images", policy);
 }
 
 static void
@@ -320,7 +364,7 @@ settings_deprecated_show_headers_cb (GSettings *settings,
 			name, enabled ? " enabled=\"\"" : "");
 	}
 
-	g_settings_set_strv (
+	e_settings_deprecated_set_strv_with_change_test (
 		settings, "headers",
 		(const gchar * const *) strv);
 

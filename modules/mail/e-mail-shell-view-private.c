@@ -734,17 +734,7 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 		mail_shell_view, G_CONNECT_SWAPPED);
 
 	g_signal_connect_object (
-		label_store, "row-changed",
-		G_CALLBACK (e_mail_shell_view_update_search_filter),
-		mail_shell_view, G_CONNECT_SWAPPED);
-
-	g_signal_connect_object (
-		label_store, "row-deleted",
-		G_CALLBACK (e_mail_shell_view_update_search_filter),
-		mail_shell_view, G_CONNECT_SWAPPED);
-
-	g_signal_connect_object (
-		label_store, "row-inserted",
+		label_store, "changed",
 		G_CALLBACK (e_mail_shell_view_update_search_filter),
 		mail_shell_view, G_CONNECT_SWAPPED);
 

@@ -36,9 +36,17 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MAIL_LABEL_LIST_STORE, EMailLabelListStorePrivate))
 
+enum {
+	CHANGED,
+	LAST_SIGNAL
+};
+
+static guint signals[LAST_SIGNAL];
+
 struct _EMailLabelListStorePrivate {
 	GHashTable *tag_index;
 	GSettings *mail_settings;
+	guint idle_changed_id;
 };
 
 static struct {
@@ -180,6 +188,11 @@ mail_label_list_store_dispose (GObject *object)
 
 	priv = E_MAIL_LABEL_LIST_STORE_GET_PRIVATE (object);
 
+	if (priv->idle_changed_id) {
+		g_source_remove (priv->idle_changed_id);
+		priv->idle_changed_id = 0;
+	}
+
 	if (priv->mail_settings != NULL) {
 		g_object_unref (priv->mail_settings);
 		priv->mail_settings = NULL;
@@ -204,14 +217,17 @@ mail_label_list_store_finalize (GObject *object)
 		finalize (object);
 }
 
-static void
-labels_model_changed_cb (EMailLabelListStore *store)
+static gboolean
+labels_model_changed_idle_cb (gpointer user_data)
 {
+	EMailLabelListStore *store = user_data;
 	GPtrArray *array;
 	GtkTreeIter tmp_iter;
 	gboolean iter_set;
 
-	g_return_if_fail (E_IS_MAIL_LABEL_LIST_STORE (store));
+	g_return_val_if_fail (E_IS_MAIL_LABEL_LIST_STORE (store), FALSE);
+
+	store->priv->idle_changed_id = 0;
 
 	/* Make sure we don't enter an infinite synchronizing loop */
 	g_signal_handlers_block_by_func (
@@ -249,6 +265,21 @@ labels_model_changed_cb (EMailLabelListStore *store)
 	g_signal_handlers_unblock_by_func (
 		store->priv->mail_settings,
 		labels_settings_changed_cb, store);
+
+	g_signal_emit (store, signals[CHANGED], 0);
+
+	return FALSE;
+}
+
+static void
+labels_model_changed_cb (EMailLabelListStore *store)
+{
+	g_return_if_fail (E_IS_MAIL_LABEL_LIST_STORE (store));
+
+	/* do the actual save and signal emission on idle,
+	   to accumulate as many changes as possible */
+	if (!store->priv->idle_changed_id)
+		store->priv->idle_changed_id = g_idle_add (labels_model_changed_idle_cb, store);
 }
 
 static void
@@ -257,18 +288,56 @@ labels_settings_changed_cb (GSettings *settings,
                             gpointer user_data)
 {
 	EMailLabelListStore *store;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	GHashTable *changed_labels;
 	gchar **strv;
 	gint i;
 
 	store = E_MAIL_LABEL_LIST_STORE (user_data);
+	model = GTK_TREE_MODEL (store);
+
+	strv = g_settings_get_strv (store->priv->mail_settings, "labels");
+
+	/* Check if any label changed first, because GSettings can claim
+	   change when nothing changed at all */
+	changed_labels = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+	if (gtk_tree_model_get_iter_first (model, &iter)) {
+		do {
+			gchar *label_str = NULL;
+
+			gtk_tree_model_get (model, &iter, 0, &label_str, -1);
+
+			if (label_str)
+				g_hash_table_insert (changed_labels, label_str, NULL);
+		} while (gtk_tree_model_iter_next (model, &iter));
+
+		
+		for (i = 0; strv[i] != NULL; i++) {
+			if (!g_hash_table_remove (changed_labels, strv[i])) {
+				g_hash_table_insert (changed_labels, g_strdup (""), NULL);
+				break;
+			}
+		}
+	} else {
+		/* nothing in the store, thus fill it (pretend change) */
+		g_hash_table_insert (changed_labels, g_strdup (""), NULL);
+	}
+
+	/* Nothing changed */
+	if (g_hash_table_size (changed_labels) == 0) {
+		g_hash_table_destroy (changed_labels);
+		g_strfreev (strv);
+		return;
+	}
+
+	g_hash_table_destroy (changed_labels);
 
 	/* Make sure we don't enter an infinite synchronizing loop */
 	g_signal_handlers_block_by_func (
 		store, labels_model_changed_cb, store);
 
 	gtk_list_store_clear (GTK_LIST_STORE (store));
-
-	strv = g_settings_get_strv (store->priv->mail_settings, "labels");
 
 	for (i = 0; strv[i] != NULL; i++) {
 		GtkTreeIter iter;
@@ -359,6 +428,14 @@ e_mail_label_list_store_class_init (EMailLabelListStoreClass *class)
 
 	class->icon_factory = gtk_icon_factory_new ();
 	gtk_icon_factory_add_default (class->icon_factory);
+
+	signals[CHANGED] = g_signal_new (
+		"changed",
+		G_OBJECT_CLASS_TYPE (class),
+		G_SIGNAL_RUN_FIRST,
+		0, NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 }
 
 static void
