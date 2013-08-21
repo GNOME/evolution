@@ -3499,16 +3499,86 @@ adjust_item (EMailPartItip *pitip,
 	}
 }
 
+static gboolean
+same_attendee_status (EMailPartItip *pitip,
+		      ECalComponent *received_comp)
+{
+	ECalComponent *saved_comp;
+	GSList *received_attendees = NULL, *saved_attendees = NULL, *riter, *siter;
+	gboolean same = FALSE;
+
+	g_return_val_if_fail (pitip != NULL, FALSE);
+
+	saved_comp = get_real_item (pitip);
+	if (!saved_comp)
+		return FALSE;
+
+	e_cal_component_get_attendee_list (received_comp, &received_attendees);
+	e_cal_component_get_attendee_list (saved_comp, &saved_attendees);
+
+	same = received_attendees && saved_attendees;
+
+	for (riter = received_attendees; same && riter; riter = g_slist_next (riter)) {
+		const ECalComponentAttendee *rattendee = riter->data;
+
+		if (!rattendee) {
+			same = FALSE;
+			continue;
+		}
+
+		/* no need to create a hash table for quicker searches, there might
+		   be one attendee in the received component only */
+		for (siter = saved_attendees; siter; siter = g_slist_next (siter)) {
+			const ECalComponentAttendee *sattendee = siter->data;
+
+			if (!sattendee)
+				continue;
+
+			if (rattendee->value && sattendee->value &&
+			    g_ascii_strcasecmp (rattendee->value, sattendee->value) == 0) {
+				same = rattendee->status == sattendee->status;
+				break;
+			}
+		}
+
+		/* received attendee was not found in the saved attendees */
+		if (!siter)
+			same = FALSE;
+	}
+
+	e_cal_component_free_attendee_list (received_attendees);
+	e_cal_component_free_attendee_list (saved_attendees);
+	g_object_unref (saved_comp);
+
+	return same;
+}
+
 static void
 set_buttons_sensitive (EMailPartItip *pitip,
                        ItipView *view)
 {
-	gboolean read_only = TRUE;
+	gboolean enabled = pitip->current_client != NULL;
 
-	if (pitip->current_client)
-		read_only = e_client_is_readonly (E_CLIENT (pitip->current_client));
+	if (enabled && pitip->current_client)
+		enabled = !e_client_is_readonly (E_CLIENT (pitip->current_client));
 
-	itip_view_set_buttons_sensitive (view, pitip->current_client != NULL && !read_only);
+	itip_view_set_buttons_sensitive (view, enabled);
+
+	if (enabled && itip_view_get_mode (view) == ITIP_VIEW_MODE_REPLY &&
+	    pitip->comp && same_attendee_status (pitip, pitip->comp)) {
+		itip_view_add_lower_info_item (
+			view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
+			_("Attendee status updated"));
+
+		if (view->priv->dom_document) {
+			WebKitDOMElement *el;
+
+			el = webkit_dom_document_get_element_by_id (
+				view->priv->dom_document, BUTTON_UPDATE_ATTENDEE_STATUS);
+			webkit_dom_html_button_element_set_disabled (
+				WEBKIT_DOM_HTML_BUTTON_ELEMENT (el), TRUE);
+		}
+	}
 }
 
 static void
@@ -4948,6 +5018,18 @@ modify_object_cb (GObject *ecalclient,
 		itip_view_add_lower_info_item (
 			view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
 			_("Attendee status updated"));
+
+		if (view->priv->dom_document) {
+			WebKitDOMElement *el;
+
+			el = webkit_dom_document_get_element_by_id (
+				view->priv->dom_document, BUTTON_UPDATE_ATTENDEE_STATUS);
+			webkit_dom_html_button_element_set_disabled (
+				WEBKIT_DOM_HTML_BUTTON_ELEMENT (el), TRUE);
+		}
+
+		if (pitip->delete_message && pitip->folder)
+			camel_folder_delete_message (pitip->folder, pitip->uid);
 	}
 }
 
