@@ -1970,10 +1970,13 @@ ask_drop_folder (EMFolderTree *folder_tree,
 	EMailSession *session;
 	GSettings *settings;
 	gchar *set_value, *src_folder_name = NULL;
+	CamelProvider *src_provider, *des_provider;
+	CamelStore *src_store = NULL;
 	GError *error = NULL;
 	GtkWidget *widget;
 	GtkWindow *parent;
 	gint response;
+	gboolean src_store_is_local, des_store_is_local, session_is_online;
 
 	g_return_val_if_fail (folder_tree != NULL, FALSE);
 	g_return_val_if_fail (src_folder_uri != NULL, FALSE);
@@ -2000,7 +2003,7 @@ ask_drop_folder (EMFolderTree *folder_tree,
 
 	e_mail_folder_uri_parse (
 		CAMEL_SESSION (session),
-		src_folder_uri, NULL, &src_folder_name, &error);
+		src_folder_uri, &src_store, &src_folder_name, &error);
 
 	if (error != NULL) {
 		g_warning (
@@ -2008,6 +2011,30 @@ ask_drop_folder (EMFolderTree *folder_tree,
 			G_STRFUNC, src_folder_uri, error->message);
 		g_object_unref (settings);
 		g_error_free (error);
+
+		return FALSE;
+	}
+
+	session_is_online = camel_session_get_online (CAMEL_SESSION (session));
+
+	src_provider = camel_service_get_provider (CAMEL_SERVICE (src_store));
+	src_store_is_local = (src_provider->flags & CAMEL_PROVIDER_IS_LOCAL) != 0;
+
+	des_provider = camel_service_get_provider (CAMEL_SERVICE (des_store));
+	des_store_is_local = (des_provider->flags & CAMEL_PROVIDER_IS_LOCAL) != 0;
+
+	if (!session_is_online && (!src_store_is_local || !des_store_is_local)) {
+		EAlertSink *alert_sink;
+
+		alert_sink = em_folder_tree_get_alert_sink (folder_tree);
+		e_alert_submit (
+			alert_sink,
+			"mail:online-operation",
+			src_store_is_local ? des_full_name : src_folder_name,
+			NULL);
+		g_free (src_folder_name);
+		g_object_unref (src_store);
+		g_object_unref (settings);
 
 		return FALSE;
 	}
@@ -2033,6 +2060,7 @@ ask_drop_folder (EMFolderTree *folder_tree,
 		g_settings_set_string (settings, key, "never");
 
 	g_free (src_folder_name);
+	g_object_unref (src_store);
 	g_object_unref (settings);
 
 	return response == GTK_RESPONSE_YES || response == GTK_RESPONSE_OK;

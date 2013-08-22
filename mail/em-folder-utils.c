@@ -339,19 +339,52 @@ emfu_copy_folder_selected (EMailSession *session,
                            gpointer data)
 {
 	struct _copy_folder_data *cfd = data;
+	CamelProvider *provider, *toprovider;
 	CamelStore *tostore = NULL;
-	CamelService *service;
-	gboolean store_is_local;
-	const gchar *uid;
+	CamelService *service, *toservice;
+	gboolean store_is_local, tostore_is_local, session_is_online;
 	gchar *tobase = NULL;
 	GError *local_error = NULL;
 
 	if (uri == NULL)
 		goto fail;
 
-	service = CAMEL_SERVICE (cfd->source_store);
-	camel_service_connect_sync (service, NULL, &local_error);
+	session_is_online = camel_session_get_online (CAMEL_SESSION (session));
 
+	service = CAMEL_SERVICE (cfd->source_store);
+	provider = camel_service_get_provider (service);
+	store_is_local = (provider->flags & CAMEL_PROVIDER_IS_LOCAL) != 0;
+
+	e_mail_folder_uri_parse (
+		CAMEL_SESSION (session), uri,
+		&tostore, &tobase, &local_error);
+
+	if (local_error != NULL) {
+		e_alert_submit (
+			alert_sink, cfd->delete ?
+			"mail:no-move-folder-to-nostore" :
+			"mail:no-copy-folder-to-nostore",
+			cfd->source_folder_name, uri,
+			local_error->message, NULL);
+		goto fail;
+	}
+
+	g_return_if_fail (CAMEL_IS_STORE (service));
+
+	toservice = CAMEL_SERVICE (tostore);
+	toprovider = camel_service_get_provider (toservice);
+	tostore_is_local = (toprovider->flags & CAMEL_PROVIDER_IS_LOCAL) != 0;
+
+	if (!session_is_online && (!store_is_local || !tostore_is_local)) {
+		e_alert_submit (
+			alert_sink,
+			"mail:online-operation",
+			store_is_local ? uri : cfd->source_folder_name,
+			NULL);
+		goto fail;
+	}
+
+	camel_service_connect_sync (service, NULL, &local_error);
 	if (local_error != NULL) {
 		e_alert_submit (
 			alert_sink, cfd->delete ?
@@ -362,11 +395,6 @@ emfu_copy_folder_selected (EMailSession *session,
 		goto fail;
 	}
 
-	g_return_if_fail (CAMEL_IS_STORE (service));
-
-	uid = camel_service_get_uid (CAMEL_SERVICE (cfd->source_store));
-	store_is_local = (g_strcmp0 (uid, E_MAIL_SESSION_LOCAL_UID) == 0);
-
 	if (cfd->delete && store_is_local &&
 		emfu_is_special_local_folder (cfd->source_folder_name)) {
 		e_alert_submit (
@@ -376,15 +404,7 @@ emfu_copy_folder_selected (EMailSession *session,
 		goto fail;
 	}
 
-	if (!e_mail_folder_uri_parse (
-		CAMEL_SESSION (session), uri,
-		&tostore, &tobase, &local_error))
-		tostore = NULL;
-
-	if (tostore != NULL)
-		camel_service_connect_sync (
-			CAMEL_SERVICE (tostore), NULL, &local_error);
-
+	camel_service_connect_sync (toservice, NULL, &local_error);
 	if (local_error != NULL) {
 		e_alert_submit (
 			alert_sink, cfd->delete ?
