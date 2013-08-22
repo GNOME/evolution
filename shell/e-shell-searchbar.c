@@ -334,6 +334,24 @@ shell_searchbar_execute_search_cb (EShellView *shell_view,
 }
 
 static void
+shell_searchbar_filter_changed_cb (GtkComboBox *filter_combo_box,
+                                   EShellSearchbar *searchbar)
+{
+	EShellView *shell_view;
+	EShellContent *shell_content;
+
+	shell_view = e_shell_searchbar_get_shell_view (searchbar);
+
+	e_shell_view_execute_search (shell_view);
+
+	/* Direct the focus away from the filter combo box so the
+	 * next keyboard event doesn't change the selected filter.
+	 * The user is probably trying to navigate search results. */
+	shell_content = e_shell_view_get_shell_content (shell_view);
+	e_shell_content_focus_search_results (shell_content);
+}
+
+static void
 shell_searchbar_entry_activate_cb (EShellSearchbar *searchbar)
 {
 	EShellView *shell_view;
@@ -814,11 +832,9 @@ shell_searchbar_constructed (GObject *object)
 	/* Use G_CONNECT_AFTER here so the EActionComboBox has a
 	 * chance to update its radio actions before we go sifting
 	 * through the radio group for the current action. */
-	g_signal_connect_data (
+	g_signal_connect_after (
 		widget, "changed",
-		G_CALLBACK (e_shell_view_execute_search),
-		shell_view, (GClosureNotify) NULL,
-		G_CONNECT_AFTER | G_CONNECT_SWAPPED);
+		G_CALLBACK (shell_searchbar_filter_changed_cb), searchbar);
 
 	searchbar->priv->css_provider = gtk_css_provider_new ();
 	widget = searchbar->priv->search_entry;
