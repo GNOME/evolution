@@ -986,7 +986,7 @@ action_event_occurrence_movable_cb (GtkAction *action,
 	cal_comp_set_dtstart_with_oldzone (client, exception_component, &date);
 	*date.value = icaltime_from_timet_with_zone (
 		event->comp_data->instance_end, FALSE, timezone);
-	cal_comp_set_dtstart_with_oldzone (client, exception_component, &date);
+	cal_comp_set_dtend_with_oldzone (client, exception_component, &date);
 	e_cal_component_commit_sequence (exception_component);
 
 	/* Now update both ECalComponents.  Note that we do this last
