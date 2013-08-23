@@ -1840,17 +1840,10 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 
 	if (src_message == NULL) {
 		src_message = e_mail_part_list_get_message (part_list);
-		if (src_message != NULL)
-			g_object_ref (src_message);
-
-		g_object_unref (part_list);
-		part_list = NULL;
-
 		g_return_if_fail (src_message != NULL);
-	} else {
-		g_object_unref (part_list);
-		part_list = NULL;
 	}
+
+	g_clear_object (&part_list);
 
 	if (!e_web_view_is_selection_active (web_view))
 		goto whole_message;
@@ -1883,8 +1876,6 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 	camel_mime_part_set_content (
 		CAMEL_MIME_PART (new_message),
 		selection, length, "text/html");
-
-	g_object_unref (src_message);
 
 	composer = em_utils_reply_to_message (
 		shell, new_message, folder, uid,
