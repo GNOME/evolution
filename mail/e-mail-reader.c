@@ -1324,29 +1324,31 @@ action_mail_reply_sender_check (CamelFolder *folder,
 	gboolean munged_list_message;
 	gboolean active;
 	const gchar *key;
-	GError *error = NULL;
+	GError *local_error = NULL;
 
 	alert_sink = e_activity_get_alert_sink (closure->activity);
 
-	message = camel_folder_get_message_finish (folder, result, &error);
+	message = camel_folder_get_message_finish (
+		folder, result, &local_error);
 
-	if (e_activity_handle_cancellation (closure->activity, error)) {
-		g_warn_if_fail (message == NULL);
+	/* Sanity check. */
+	g_return_if_fail (
+		((message != NULL) && (local_error == NULL)) ||
+		((message == NULL) && (local_error != NULL)));
+
+	if (e_activity_handle_cancellation (closure->activity, local_error)) {
 		mail_reader_closure_free (closure);
-		g_error_free (error);
+		g_error_free (local_error);
 		return;
 
-	} else if (error != NULL) {
-		g_warn_if_fail (message == NULL);
+	} else if (local_error != NULL) {
 		e_alert_submit (
 			alert_sink, "mail:no-retrieve-message",
-			error->message, NULL);
+			local_error->message, NULL);
 		mail_reader_closure_free (closure);
-		g_error_free (error);
+		g_error_free (local_error);
 		return;
 	}
-
-	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
 
 	settings = g_settings_new ("org.gnome.evolution.mail");
 
