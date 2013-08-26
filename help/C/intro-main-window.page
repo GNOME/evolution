@@ -41,24 +41,24 @@
 <p>Corresponding elements in the mail main window:</p>
 <table frame="all" rules="all">
   <tr>
-    <td colspan="2"><p><media type="image" mime="image/png" src="./figures/color-c4a000.png" width="10"/> Menu bar</p></td>
+    <td colspan="2"><p><media type="image" mime="image/png" its:translate="no" src="./figures/color-c4a000.png" width="10"/> Menu bar</p></td>
   </tr>
   <tr>
-    <td colspan="2"><p><media type="image" mime="image/png" src="./figures/color-ce5c00.png" width="10" /> Tool bar</p></td>
+    <td colspan="2"><p><media type="image" mime="image/png" its:translate="no" src="./figures/color-ce5c00.png" width="10" /> Tool bar</p></td>
   </tr>
   <tr>
-    <td rowspan="2"><p><media type="image" mime="image/png" src="./figures/color-8f5902.png" width="10" /> Folder list</p></td>
-    <td><p><media type="image" mime="image/png" src="./figures/color-4e9a06.png" width="10" /> Search bar</p></td>
+    <td rowspan="2"><p><media type="image" mime="image/png" its:translate="no" src="./figures/color-8f5902.png" width="10" /> Folder list</p></td>
+    <td><p><media type="image" mime="image/png" its:translate="no" src="./figures/color-4e9a06.png" width="10" /> Search bar</p></td>
   </tr>
   <tr>
-    <td><p><media type="image" mime="image/png" src="./figures/color-204a87.png" width="10" /> Message list</p></td>
+    <td><p><media type="image" mime="image/png" its:translate="no" src="./figures/color-204a87.png" width="10" /> Message list</p></td>
   </tr>
   <tr>
-    <td><p><media type="image" mime="image/png" src="./figures/color-a40000.png" width="10" /> Switcher</p></td>
-    <td><p><media type="image" mime="image/png" src="./figures/color-5c3566.png" width="10" /> Preview pane</p></td>
+    <td><p><media type="image" mime="image/png" its:translate="no" src="./figures/color-a40000.png" width="10" /> Switcher</p></td>
+    <td><p><media type="image" mime="image/png" its:translate="no" src="./figures/color-5c3566.png" width="10" /> Preview pane</p></td>
   </tr>
   <tr>
-    <td colspan="2"><p><media type="image" mime="image/png" src="./figures/color-2e3436.png" width="10" /> Status bar</p></td>
+    <td colspan="2"><p><media type="image" mime="image/png" its:translate="no" src="./figures/color-2e3436.png" width="10" /> Status bar</p></td>
   </tr>
 </table>
 
@@ -90,17 +90,17 @@
 <p>Elements in the calendar main window:</p>
 <table frame="all" rules="all">
   <tr>
-    <td colspan="3"><p><media type="image" src="./figures/color-c4a000.png" width="10"/> Menu bar</p></td>
+    <td colspan="3"><p><media type="image" its:translate="no" src="./figures/color-c4a000.png" width="10"/> Menu bar</p></td>
   </tr>
   <tr>
-    <td colspan="3"><p><media type="image" src="./figures/color-ce5c00.png" width="10" /> Tool bar</p></td>
+    <td colspan="3"><p><media type="image" its:translate="no" src="./figures/color-ce5c00.png" width="10" /> Tool bar</p></td>
   </tr>
   <tr>
-    <td rowspan="2"><p><media type="image" src="./figures/color-8f5902.png" width="10" /> Calendar list</p></td>
-    <td colspan="2"><p><media type="image" src="./figures/color-4e9a06.png" width="10" /> Search bar</p></td>
+    <td rowspan="2"><p><media type="image" its:translate="no" src="./figures/color-8f5902.png" width="10" /> Calendar list</p></td>
+    <td colspan="2"><p><media type="image" its:translate="no" src="./figures/color-4e9a06.png" width="10" /> Search bar</p></td>
   </tr>
   <tr>
-    <td rowspan="3"><p><media type="image" src="./figures/color-204a87.png" width="10" /> Appointment list</p></td>
+    <td rowspan="3"><p><media type="image" its:translate="no" src="./figures/color-204a87.png" width="10" /> Appointment list</p></td>
     <td><p>Task list</p></td>
   </tr>
   <tr>
@@ -108,10 +108,10 @@
     <td rowspan="2"><p>Memo list</p></td>
   </tr>
   <tr>
-    <td><p><media type="image" src="./figures/color-a40000.png" width="10" /> Switcher</p></td>
+    <td><p><media type="image" its:translate="no" src="./figures/color-a40000.png" width="10" /> Switcher</p></td>
   </tr>
   <tr>
-    <td colspan="3"><p><media type="image" src="./figures/color-2e3436.png" width="10" /> Status bar</p></td>
+    <td colspan="3"><p><media type="image" its:translate="no" src="./figures/color-2e3436.png" width="10" /> Status bar</p></td>
   </tr>
 </table>
 <terms>
@@ -136,24 +136,24 @@
 <p>Elements in the contacts main window:</p>
 <table frame="all" rules="all">
   <tr>
-    <td colspan="2"><p><media type="image" src="./figures/color-c4a000.png" width="10"/> Menu bar</p></td>
+    <td colspan="2"><p><media type="image" its:translate="no" src="./figures/color-c4a000.png" width="10"/> Menu bar</p></td>
   </tr>
   <tr>
-    <td colspan="2"><p><media type="image" src="./figures/color-ce5c00.png" width="10" /> Tool bar</p></td>
+    <td colspan="2"><p><media type="image" its:translate="no" src="./figures/color-ce5c00.png" width="10" /> Tool bar</p></td>
   </tr>
   <tr>
-    <td rowspan="2"><p><media type="image" src="./figures/color-8f5902.png" width="10" /> Address book list</p></td>
-    <td><p><media type="image" src="./figures/color-4e9a06.png" width="10" /> Search bar</p></td>
+    <td rowspan="2"><p><media type="image" its:translate="no" src="./figures/color-8f5902.png" width="10" /> Address book list</p></td>
+    <td><p><media type="image" its:translate="no" src="./figures/color-4e9a06.png" width="10" /> Search bar</p></td>
   </tr>
   <tr>
-    <td><p><media type="image" src="./figures/color-204a87.png" width="10" /> Contacts list</p></td>
+    <td><p><media type="image" its:translate="no" src="./figures/color-204a87.png" width="10" /> Contacts list</p></td>
   </tr>
   <tr>
-    <td><p><media type="image" src="./figures/color-a40000.png" width="10" /> Switcher</p></td>
-    <td><p><media type="image" src="./figures/color-5c3566.png" width="10" /> Contact preview</p></td>
+    <td><p><media type="image" its:translate="no" src="./figures/color-a40000.png" width="10" /> Switcher</p></td>
+    <td><p><media type="image" its:translate="no" src="./figures/color-5c3566.png" width="10" /> Contact preview</p></td>
   </tr>
   <tr>
-    <td colspan="2"><p><media type="image" src="./figures/color-2e3436.png" width="10" /> Status bar</p></td>
+    <td colspan="2"><p><media type="image" its:translate="no" src="./figures/color-2e3436.png" width="10" /> Status bar</p></td>
   </tr>
 </table>
 <note style="tip"><p>You can disable the contact preview by toggling <guiseq><gui>View</gui><gui>Preview</gui><gui>Contact Preview</gui></guiseq>.</p></note>

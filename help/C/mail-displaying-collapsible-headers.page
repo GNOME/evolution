@@ -24,8 +24,8 @@
 
 <p>Evolution compresses the To, Cc and Bcc headers of received mail and shows only five addresses in the message preview.</p>
 
-<p>To see all recipients, click the <media type="image" src="./figures/plus-icon.png"></media> icon next to the <gui>To:</gui> or <gui>Cc:</gui> line, or click the ellipsis (...) at the end of the five displayed addresses.</p>
+<p>To see all recipients, click the <media type="image" its:translate="no" src="./figures/plus-icon.png"></media> icon next to the <gui>To:</gui> or <gui>Cc:</gui> line, or click the ellipsis (...) at the end of the five displayed addresses.</p>
 
-<p>To collapse all of the message headers and just display the subject and sender in one line, click the icon <media type="image" src="./figures/minus-icon.png"></media> next to the <gui>From:</gui> line. This is helpful on small screens.</p>
+<p>To collapse all of the message headers and just display the subject and sender in one line, click the icon <media type="image" its:translate="no" src="./figures/minus-icon.png"></media> next to the <gui>From:</gui> line. This is helpful on small screens.</p>
  
 </page>

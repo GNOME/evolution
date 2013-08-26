@@ -27,7 +27,7 @@
 <item><p>Click <gui>Open</gui>.</p></item>
 </steps>
 
-<p>Alternately, you can also use the <media type="image" src="./figures/html-composer-insert-image.png" /> icon in the second bar below the <gui>Subject</gui> line, or drag an image into the text area of the message composer.</p>
+<p>Alternately, you can also use the <media type="image" its:translate="no" src="./figures/html-composer-insert-image.png" /> icon in the second bar below the <gui>Subject</gui> line, or drag an image into the text area of the message composer.</p>
 
 </page>
 

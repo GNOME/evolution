@@ -39,7 +39,7 @@
 <title>Quick Search</title>
 <p>In the mail view, you can quickly search for messages by defining conditions.</p>
 <steps>
-<item><p>Click on the search icon <media type="image" mime="image/png" src="figures/search-icon.png"/> to expand the drop-down list.</p></item>
+<item><p>Click on the search icon <media type="image" mime="image/png" its:translate="no" src="figures/search-icon.png"/> to expand the drop-down list.</p></item>
 <item><p>Select the search condition from the list.</p></item>
 <item><p>Select the scope from the drop-down list right to the text box.</p>
 <note style="tip"><p>For the <gui>Current Account</gui> scope, the term "account" refers to top-level nodes in the <link xref="intro-main-window#e-mail"> mail folder list</link>, like "On this computer" and remote mail accounts.</p></note>

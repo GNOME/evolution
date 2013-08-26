@@ -37,7 +37,7 @@
     <td><p>Font size.</p></td>
   </tr>
   <tr>
-    <td><p><media type="image" src="./figures/color-000000.png" /></p></td>
+    <td><p><media type="image" its:translate="no" src="./figures/color-000000.png" /></p></td>
     <td><p>Color chooser for text. The box displays the current text color. To choose a new color, click the arrow button to the right. If you have text selected, the color applies to the selected text. If you do not have text selected, the color applies to whatever you type next. You can select a background color or image by right-clicking the message background, then selecting <guiseq><gui>Style</gui><gui>Page Style</gui></guiseq>.</p></td>
   </tr>
   <tr>

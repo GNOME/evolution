@@ -29,7 +29,7 @@
 <item><p>Click <gui>Close</gui>.</p></item>
 </steps>
 
-<p>Alternately, you can also use the <media type="image" src="./figures/html-composer-insert-link.png" /> icon in the second bar below the <gui>Subject</gui> line.</p>
+<p>Alternately, you can also use the <media type="image" its:translate="no" src="./figures/html-composer-insert-link.png" /> icon in the second bar below the <gui>Subject</gui> line.</p>
 
 <p>If you do not want a special link text you can just enter the address of the link directly. It will be automatically recognized as a link.</p>
 </page>

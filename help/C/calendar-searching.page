@@ -31,7 +31,7 @@
 <p>In the Calendar view, you can quickly search for appointments and meetings either by summary or by category.</p>
 <p>Searching by summary:</p>
 <steps>
-<item><p>Click the search icon <media type="image" mime="image/png" src="figures/search-icon.png"/> to expand the drop-down list.</p></item>
+<item><p>Click the search icon <media type="image" mime="image/png" its:translate="no" src="figures/search-icon.png"/> to expand the drop-down list.</p></item>
 <item><p>Select the search condition from the list.</p></item>
 <item><p>Enter the text you want to search for and press <key>Enter</key>.</p></item>
 <item><p>Evolution displays the search results.</p></item>

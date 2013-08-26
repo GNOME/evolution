@@ -39,7 +39,7 @@
 <p>In the Contacts view, you can quickly search for contacts either by category or by contact's info.</p>
 <p>Searching by contact's info:</p>
 <steps>
-<item><p>Click the search icon <media type="image" mime="image/png" src="figures/search-icon.png"/> to expand the drop-down list.</p></item>
+<item><p>Click the search icon <media type="image" mime="image/png" its:translate="no" src="figures/search-icon.png"/> to expand the drop-down list.</p></item>
 <item><p>Select the search condition from the list.</p></item>
 <item><p>Enter the text you want to search for and press <key>Enter</key>.</p></item>
 <item><p>Evolution displays the search results.</p></item>
