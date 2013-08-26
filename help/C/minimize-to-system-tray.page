@@ -26,6 +26,6 @@
 
 <p>GNOME, by default, has a <link xref="mail-received-notification">notification area</link> which includes an applet that informs users of any system updates, changes, or events. This includes the arrival of email messages on Evolution. You can refer to this built-in feature of GNOME for any email notifications.</p>
 
-<p>In GNOME version 2 you may modify the notification area and set it up to become a system tray by using external applications which might be available for installation in the software management tool of your distribution. Available options are for example <link href="http://alltray.trausch.us/">Alltray</link> or <link href="http://code.google.com/p/tint2/">Tint2</link>. This is no longer possible in GNOME 3.</p>
+<p>In GNOME version 2 you may modify the notification area and set it up to become a system tray by using external applications which might be available for installation in the software management tool of your distribution. Available options are for example <link href="http://code.google.com/p/tint2/">Tint2</link>. This is no longer possible in GNOME 3.</p>
 </page>
 
