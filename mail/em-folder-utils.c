@@ -343,7 +343,9 @@ emfu_copy_folder_selected (EMailSession *session,
 	CamelStore *tostore = NULL;
 	CamelService *service, *toservice;
 	gboolean store_is_local, tostore_is_local, session_is_online;
+	const gchar *display_name, *todisplay_name;
 	gchar *tobase = NULL;
+	gchar *folder_name = NULL, *tofolder_name = NULL;
 	GError *local_error = NULL;
 
 	if (uri == NULL)
@@ -354,6 +356,8 @@ emfu_copy_folder_selected (EMailSession *session,
 	service = CAMEL_SERVICE (cfd->source_store);
 	provider = camel_service_get_provider (service);
 	store_is_local = (provider->flags & CAMEL_PROVIDER_IS_LOCAL) != 0;
+	display_name = camel_service_get_display_name (service);
+	folder_name = g_strdup_printf ("%s: %s", display_name, cfd->source_folder_name);
 
 	e_mail_folder_uri_parse (
 		CAMEL_SESSION (session), uri,
@@ -364,7 +368,7 @@ emfu_copy_folder_selected (EMailSession *session,
 			alert_sink, cfd->delete ?
 			"mail:no-move-folder-to-nostore" :
 			"mail:no-copy-folder-to-nostore",
-			cfd->source_folder_name, uri,
+			folder_name, uri,
 			local_error->message, NULL);
 		goto fail;
 	}
@@ -374,12 +378,14 @@ emfu_copy_folder_selected (EMailSession *session,
 	toservice = CAMEL_SERVICE (tostore);
 	toprovider = camel_service_get_provider (toservice);
 	tostore_is_local = (toprovider->flags & CAMEL_PROVIDER_IS_LOCAL) != 0;
+	todisplay_name = camel_service_get_display_name (toservice);
+	tofolder_name = g_strdup_printf ("%s: %s", todisplay_name, tobase);
 
 	if (!session_is_online && (!store_is_local || !tostore_is_local)) {
 		e_alert_submit (
 			alert_sink,
 			"mail:online-operation",
-			store_is_local ? uri : cfd->source_folder_name,
+			store_is_local ? tofolder_name : folder_name,
 			NULL);
 		goto fail;
 	}
@@ -390,7 +396,7 @@ emfu_copy_folder_selected (EMailSession *session,
 			alert_sink, cfd->delete ?
 			"mail:no-move-folder-nostore" :
 			"mail:no-copy-folder-nostore",
-			cfd->source_folder_name, uri,
+			folder_name, tofolder_name,
 			local_error->message, NULL);
 		goto fail;
 	}
@@ -400,7 +406,7 @@ emfu_copy_folder_selected (EMailSession *session,
 		e_alert_submit (
 			alert_sink,
 			"mail:no-rename-special-folder",
-			cfd->source_folder_name, NULL);
+			folder_name, NULL);
 		goto fail;
 	}
 
@@ -410,7 +416,7 @@ emfu_copy_folder_selected (EMailSession *session,
 			alert_sink, cfd->delete ?
 			"mail:no-move-folder-to-nostore" :
 			"mail:no-copy-folder-to-nostore",
-			cfd->source_folder_name, uri,
+			folder_name, tofolder_name,
 			local_error->message, NULL);
 		goto fail;
 	}
@@ -431,6 +437,8 @@ fail:
 	if (tostore)
 		g_object_unref (tostore);
 	g_free (tobase);
+	g_free (folder_name);
+	g_free (tofolder_name);
 }
 
 /* tree here is the 'destination' selector, not 'self' */

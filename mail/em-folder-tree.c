@@ -1967,9 +1967,11 @@ ask_drop_folder (EMFolderTree *folder_tree,
                  gboolean is_move)
 {
 	const gchar *key = is_move ? "prompt-on-folder-drop-move" : "prompt-on-folder-drop-copy";
+	const gchar *src_display_name, *des_display_name;
 	EMailSession *session;
 	GSettings *settings;
 	gchar *set_value, *src_folder_name = NULL;
+	gchar *src_folder = NULL, *des_folder = NULL;
 	CamelProvider *src_provider, *des_provider;
 	CamelStore *src_store = NULL;
 	GError *error = NULL;
@@ -2019,9 +2021,13 @@ ask_drop_folder (EMFolderTree *folder_tree,
 
 	src_provider = camel_service_get_provider (CAMEL_SERVICE (src_store));
 	src_store_is_local = (src_provider->flags & CAMEL_PROVIDER_IS_LOCAL) != 0;
+	src_display_name = camel_service_get_display_name (CAMEL_SERVICE (src_store));
+	src_folder = g_strdup_printf ("%s: %s", src_display_name, src_folder_name);
 
 	des_provider = camel_service_get_provider (CAMEL_SERVICE (des_store));
 	des_store_is_local = (des_provider->flags & CAMEL_PROVIDER_IS_LOCAL) != 0;
+	des_display_name = camel_service_get_display_name (CAMEL_SERVICE (des_store));
+	des_folder = g_strdup_printf ("%s: %s", des_display_name, des_full_name);
 
 	if (!session_is_online && (!src_store_is_local || !des_store_is_local)) {
 		EAlertSink *alert_sink;
@@ -2030,9 +2036,11 @@ ask_drop_folder (EMFolderTree *folder_tree,
 		e_alert_submit (
 			alert_sink,
 			"mail:online-operation",
-			src_store_is_local ? des_full_name : src_folder_name,
+			src_store_is_local ? des_folder : src_folder,
 			NULL);
 		g_free (src_folder_name);
+		g_free (src_folder);
+		g_free (des_folder);
 		g_object_unref (src_store);
 		g_object_unref (settings);
 
@@ -2048,7 +2056,7 @@ ask_drop_folder (EMFolderTree *folder_tree,
 		parent,
 		is_move ? "mail:ask-folder-drop-move" : "mail:ask-folder-drop-copy",
 		src_folder_name,
-		des_full_name && *des_full_name ? des_full_name :
+		des_full_name && *des_full_name ? des_folder :
 			camel_service_get_display_name (CAMEL_SERVICE (des_store)),
 		NULL);
 	response = gtk_dialog_run (GTK_DIALOG (widget));
@@ -2060,6 +2068,8 @@ ask_drop_folder (EMFolderTree *folder_tree,
 		g_settings_set_string (settings, key, "never");
 
 	g_free (src_folder_name);
+	g_free (src_folder);
+	g_free (des_folder);
 	g_object_unref (src_store);
 	g_object_unref (settings);
 
