@@ -66,6 +66,7 @@ struct _ENameSelectorDialogPrivate {
 	GtkTreeModelSort *contact_sort;
 	GCancellable *cancellable;
 
+	GtkWidget *client_combo;
 	GtkTreeView *contact_view;
 	GtkLabel *status_label;
 	GtkGrid *destination_vgrid;
@@ -144,6 +145,17 @@ name_selector_dialog_populate_categories (ENameSelectorDialog *name_selector_dia
 	g_signal_connect_swapped (
 		combo_box, "changed",
 		G_CALLBACK (search_changed), name_selector_dialog);
+}
+
+static void
+name_selector_dialog_realize_cb (ENameSelectorDialog *name_selector_dialog,
+				 gpointer user_data)
+{
+	g_return_if_fail (E_IS_NAME_SELECTOR_DIALOG (name_selector_dialog));
+
+	source_changed (
+		name_selector_dialog,
+		E_CLIENT_COMBO_BOX (name_selector_dialog->priv->client_combo));
 }
 
 static void
@@ -515,13 +527,10 @@ name_selector_dialog_constructed (GObject *object)
 	extension_name = E_SOURCE_EXTENSION_ADDRESS_BOOK;
 	client_combo = e_client_combo_box_new (
 		priv->client_cache, extension_name);
+	priv->client_combo = client_combo;
 	g_signal_connect_swapped (
 		client_combo, "changed",
 		G_CALLBACK (source_changed), object);
-
-	source_changed (
-		E_NAME_SELECTOR_DIALOG (object),
-		E_CLIENT_COMBO_BOX (client_combo));
 
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (AddressBookLabel), client_combo);
@@ -579,6 +588,8 @@ name_selector_dialog_constructed (GObject *object)
 		GTK_WINDOW (object),
 		_("Select Contacts from Address Book"));
 	gtk_widget_grab_focus (search);
+
+	g_signal_connect (object, "realize", G_CALLBACK (name_selector_dialog_realize_cb), NULL);
 
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
 }
