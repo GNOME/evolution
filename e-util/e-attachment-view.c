@@ -661,6 +661,27 @@ attachment_view_uris (EAttachmentView *view,
 	gtk_drag_finish (drag_context, TRUE, FALSE, time);
 }
 
+static gboolean
+executable_is_evolution (const gchar *app_executable)
+{
+	const gchar *dash;
+	const gchar *evo_name;
+
+	g_return_val_if_fail (app_executable != NULL, FALSE);
+
+	dash = strrchr (app_executable, G_DIR_SEPARATOR);
+	if (dash)
+		app_executable = dash + 1;
+
+	#ifdef G_OS_WIN32
+	evo_name = "evolution.exe";
+	#else
+	evo_name = "evolution";
+	#endif
+
+	return g_ascii_strcasecmp (app_executable, evo_name) == 0;
+}
+
 static void
 attachment_view_update_actions (EAttachmentView *view)
 {
@@ -770,6 +791,11 @@ attachment_view_update_actions (EAttachmentView *view)
 		gchar *action_name;
 
 		app_executable = g_app_info_get_executable (app_info);
+
+		/* skip evolution from the list */
+		if (executable_is_evolution (app_executable))
+			continue;
+
 		app_icon = g_app_info_get_icon (app_info);
 		app_name = g_app_info_get_name (app_info);
 
