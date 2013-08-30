@@ -307,4 +307,70 @@
     <secondary>{0}</secondary>
   </error>
 
+  <error id="failed-copy-event" type="error" default="GTK_RESPONSE_YES">
+    <!-- Translators: {0} is the name of the calendar. -->
+    <_primary>Failed to copy an event into the calendar '{0}'</_primary>
+    <secondary>{1}</secondary>
+  </error>
+
+  <error id="failed-copy-task" type="error" default="GTK_RESPONSE_YES">
+    <!-- Translators: {0} is the name of the task list. -->
+    <_primary>Failed to copy a task into the task list '{0}'</_primary>
+    <secondary>{1}</secondary>
+  </error>
+
+  <error id="failed-copy-memo" type="error" default="GTK_RESPONSE_YES">
+    <!-- Translators: {0} is the name of the memo list. -->
+    <_primary>Failed to copy a memo into the memo list '{0}'</_primary>
+    <secondary>{1}</secondary>
+  </error>
+
+  <error id="failed-move-event" type="error" default="GTK_RESPONSE_YES">
+    <!-- Translators: {0} is the name of the calendar. -->
+    <_primary>Failed to move an event into the calendar '{0}'</_primary>
+    <secondary>{1}</secondary>
+  </error>
+
+  <error id="failed-move-task" type="error" default="GTK_RESPONSE_YES">
+    <!-- Translators: {0} is the name of the task list. -->
+    <_primary>Failed to move a task into the task list '{0}'</_primary>
+    <secondary>{1}</secondary>
+  </error>
+
+  <error id="failed-move-memo" type="error" default="GTK_RESPONSE_YES">
+    <!-- Translators: {0} is the name of the memo list. -->
+    <_primary>Failed to move a memo into the memo list '{0}'</_primary>
+    <secondary>{1}</secondary>
+  </error>
+
+  <error id="status-copy-event" type="warning">
+    <!-- Translators: {0} is the name of the calendar. -->
+    <_primary>Copying an event into the calendar '{0}'</_primary>
+  </error>
+
+  <error id="status-copy-task" type="warning">
+    <!-- Translators: {0} is the name of the task list. -->
+    <_primary>Copying a task into the task list '{0}'</_primary>
+  </error>
+
+  <error id="status-copy-memo" type="warning">
+    <!-- Translators: {0} is the name of the memo list. -->
+    <_primary>Copying a memo into the memo list '{0}'</_primary>
+  </error>
+
+  <error id="status-move-event" type="warning">
+    <!-- Translators: {0} is the name of the calendar. -->
+    <_primary>Moving an event into the calendar '{0}'</_primary>
+  </error>
+
+  <error id="status-move-task" type="warning">
+    <!-- Translators: {0} is the name of the task list. -->
+    <_primary>Moving a task into the task list '{0}'</_primary>
+  </error>
+
+  <error id="status-move-memo" type="warning">
+    <!-- Translators: {0} is the name of the memo list. -->
+    <_primary>Moving a memo into the memo list '{0}'</_primary>
+  </error>
+
 </error-list>
