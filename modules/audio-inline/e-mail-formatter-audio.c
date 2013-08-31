@@ -69,6 +69,8 @@ static const gchar *formatter_mime_types[] = {
 	"audio/microsoft-wav",
 	"audio/x-wma",
 	"audio/x-ms-wma",
+	"audio/ogg",
+	"audio/x-vorbis+ogg",
 	"application/ogg",
 	"application/x-ogg",
 	NULL
@@ -184,7 +186,7 @@ play_clicked (GtkWidget *button,
 		/* FIXME this is ugly, we should stream this directly to gstreamer */
 		part->filename = e_mktemp ("org-gnome-audio-file-XXXXXX");
 
-		d (printf ("audio formatter: write to temp file %s\n", po->filename));
+		d (printf ("audio formatter: write to temp file %s\n", part->filename));
 
 		stream = camel_stream_fs_new_with_name (
 			part->filename, O_RDWR | O_CREAT | O_TRUNC, 0600, NULL);

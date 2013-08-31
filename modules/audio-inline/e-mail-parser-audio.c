@@ -69,6 +69,8 @@ static const gchar *parser_mime_types[] = {
 	"audio/microsoft-wav",
 	"audio/x-wma",
 	"audio/x-ms-wma",
+	"audio/ogg",
+	"audio/x-vorbis+ogg",
 	"application/ogg",
 	"application/x-ogg",
 	NULL
@@ -88,6 +90,8 @@ mail_parser_audio_parse (EMailParserExtension *extension,
 
 	len = part_id->len;
 	g_string_append (part_id, ".org-gnome-audio-button-panel");
+
+	camel_mime_part_set_disposition (part, "inline");
 
 	d (printf ("audio formatter: format classid %s\n", part_id->str));
 
