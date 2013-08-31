@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-master-po-gl-53747.merged\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-27 02:58+0200\n"
-"PO-Revision-Date: 2013-08-27 02:58+0200\n"
+"POT-Creation-Date: 2013-08-31 20:56+0200\n"
+"PO-Revision-Date: 2013-08-31 20:59+0200\n"
 "Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
 "Language-Team: gnome-l10n-gl@gnome.org\n"
 "Language: gl\n"
@@ -194,7 +194,7 @@ msgstr ""
 "unha tarxeta nova co mesmo enderezo?"
 
 #: ../addressbook/addressbook.error.xml.h:33
-#: ../e-util/e-name-selector-dialog.c:977 ../mail/em-vfolder-editor-rule.c:397
+#: ../e-util/e-name-selector-dialog.c:988 ../mail/em-vfolder-editor-rule.c:397
 msgid "_Add"
 msgstr "Eng_adir"
 
@@ -2088,6 +2088,70 @@ msgstr "Produciuse un erro ao cargar a lista de recordatorios «{0}»"
 #: ../calendar/calendar.error.xml.h:85
 msgid "The memo list is not marked for offline usage."
 msgstr "A lista de notas non está marcada para o seu uso sen conexión."
+
+#. Translators: {0} is the name of the calendar.
+#: ../calendar/calendar.error.xml.h:87
+msgid "Failed to copy an event into the calendar '{0}'"
+msgstr "Produciuse un fallo ao copiar un evento o calendario «{0}»"
+
+#. Translators: {0} is the name of the task list.
+#: ../calendar/calendar.error.xml.h:89
+msgid "Failed to copy a task into the task list '{0}'"
+msgstr "Produciuse un fallo ao copiar unha tarefa na lista de tarefas «{0}»"
+
+#. Translators: {0} is the name of the memo list.
+#: ../calendar/calendar.error.xml.h:91
+msgid "Failed to copy a memo into the memo list '{0}'"
+msgstr ""
+"Produciuse un fallo ao copiar unha recordatorio na lista de recordatorios "
+"«{0}»"
+
+#. Translators: {0} is the name of the calendar.
+#: ../calendar/calendar.error.xml.h:93
+msgid "Failed to move an event into the calendar '{0}'"
+msgstr "Produciuse un fallo ao mover un evento o calendario «{0}»"
+
+#. Translators: {0} is the name of the task list.
+#: ../calendar/calendar.error.xml.h:95
+msgid "Failed to move a task into the task list '{0}'"
+msgstr "Produciuse un fallo ao mover unha tarefa na lista de tarefas «{0}»"
+
+#. Translators: {0} is the name of the memo list.
+#: ../calendar/calendar.error.xml.h:97
+msgid "Failed to move a memo into the memo list '{0}'"
+msgstr ""
+"Produciuse un fallo ao mover unha recordatorio na lista de recordatorios "
+"«{0}»"
+
+#. Translators: {0} is the name of the calendar.
+#: ../calendar/calendar.error.xml.h:99
+msgid "Copying an event into the calendar '{0}'"
+msgstr "Copiando un evento no calendario «{0}»"
+
+#. Translators: {0} is the name of the task list.
+#: ../calendar/calendar.error.xml.h:101
+msgid "Copying a task into the task list '{0}'"
+msgstr "Copiando unha tarefa na lista de tarefas «{0}»"
+
+#. Translators: {0} is the name of the memo list.
+#: ../calendar/calendar.error.xml.h:103
+msgid "Copying a memo into the memo list '{0}'"
+msgstr "Copiando de recordatorio na lista de recordatorios «{0}»"
+
+#. Translators: {0} is the name of the calendar.
+#: ../calendar/calendar.error.xml.h:105
+msgid "Moving an event into the calendar '{0}'"
+msgstr "Movendo un evento no calendario «{0}»"
+
+#. Translators: {0} is the name of the task list.
+#: ../calendar/calendar.error.xml.h:107
+msgid "Moving a task into the task list '{0}'"
+msgstr "Movendo unha tarefa na lista de tarefas «{0}»"
+
+#. Translators: {0} is the name of the memo list.
+#: ../calendar/calendar.error.xml.h:109
+msgid "Moving a memo into the memo list '{0}'"
+msgstr "Movendo un recordatorio na lista de recordatorios «{0}»?"
 
 #: ../calendar/gui/caltypes.xml.h:1
 #: ../calendar/gui/e-calendar-table.etspec.h:4
@@ -10204,12 +10268,12 @@ msgstr "_Ver inserido"
 msgid "Vie_w All Inline"
 msgstr "_Ver todo inserido"
 
-#: ../e-util/e-attachment-view.c:777
+#: ../e-util/e-attachment-view.c:803
 #, c-format
 msgid "Open With \"%s\""
 msgstr "Abrir con «%s»"
 
-#: ../e-util/e-attachment-view.c:780
+#: ../e-util/e-attachment-view.c:806
 #, c-format
 msgid "Open this attachment in %s"
 msgstr "Abrir este anexo en %s"
@@ -11044,24 +11108,24 @@ msgstr "Non foi posíbel abrir a ligazón."
 msgid "Could not display help for Evolution."
 msgstr "Non foi posíbel mostrar a axuda do Evolution."
 
-#: ../e-util/e-name-selector-dialog.c:278
+#: ../e-util/e-name-selector-dialog.c:290
 msgid "Show Contacts"
 msgstr "Mostrar os contactos"
 
-#: ../e-util/e-name-selector-dialog.c:310
+#: ../e-util/e-name-selector-dialog.c:322
 msgid "Address B_ook:"
 msgstr "Axenda de enderez_os:"
 
-#: ../e-util/e-name-selector-dialog.c:317
+#: ../e-util/e-name-selector-dialog.c:329
 msgid "Cat_egory:"
 msgstr "Cat_egoría:"
 
-#: ../e-util/e-name-selector-dialog.c:341
+#: ../e-util/e-name-selector-dialog.c:353
 msgid "_Search:"
 msgstr "_Buscar:"
 
-#: ../e-util/e-name-selector-dialog.c:367
-#: ../e-util/e-name-selector-dialog.c:1256
+#: ../e-util/e-name-selector-dialog.c:379
+#: ../e-util/e-name-selector-dialog.c:1267
 #: ../modules/addressbook/e-book-shell-view-actions.c:1111
 #: ../modules/calendar/e-cal-shell-view-actions.c:1734
 #: ../modules/calendar/e-memo-shell-view-actions.c:767
@@ -11069,30 +11133,30 @@ msgstr "_Buscar:"
 msgid "Any Category"
 msgstr "Calquera categoría"
 
-#: ../e-util/e-name-selector-dialog.c:369
+#: ../e-util/e-name-selector-dialog.c:381
 msgid "Co_ntacts"
 msgstr "Co_ntactos"
 
-#: ../e-util/e-name-selector-dialog.c:446
+#: ../e-util/e-name-selector-dialog.c:458
 msgid "Search"
 msgstr "Buscar"
 
-#: ../e-util/e-name-selector-dialog.c:449
+#: ../e-util/e-name-selector-dialog.c:461
 #: ../mail/importers/pine-importer.c:426
 msgid "Address Book"
 msgstr "Axenda de enderezos"
 
-#: ../e-util/e-name-selector-dialog.c:452
+#: ../e-util/e-name-selector-dialog.c:464
 #: ../modules/addressbook/e-book-shell-backend.c:304
 #: ../modules/addressbook/e-book-shell-view.c:372
 msgid "Contacts"
 msgstr "Contactos"
 
-#: ../e-util/e-name-selector-dialog.c:580
+#: ../e-util/e-name-selector-dialog.c:589
 msgid "Select Contacts from Address Book"
 msgstr "Seleccionar contactos desde a axenda de enderezos"
 
-#: ../e-util/e-name-selector-dialog.c:981
+#: ../e-util/e-name-selector-dialog.c:992
 msgid "_Remove"
 msgstr "_Retirar"
 
@@ -11857,7 +11921,7 @@ msgid_plural "Saving %d messages"
 msgstr[0] "Gardando %d mensaxe"
 msgstr[1] "Gardando %d mensaxes"
 
-#: ../libemail-engine/e-mail-folder-utils.c:1926 ../mail/em-folder-utils.c:630
+#: ../libemail-engine/e-mail-folder-utils.c:1926 ../mail/em-folder-utils.c:638
 #, c-format
 msgid "Invalid folder URI '%s'"
 msgstr "O URI do cartafol «%s» non é válido"
@@ -12653,7 +12717,7 @@ msgstr "Páxina %d de %d"
 msgid "Copy to Folder"
 msgstr "Copiar ao cartafol"
 
-#: ../mail/e-mail-reader.c:346 ../mail/em-folder-utils.c:509
+#: ../mail/e-mail-reader.c:346 ../mail/em-folder-utils.c:517
 msgid "C_opy"
 msgstr "C_opiar"
 
@@ -12661,7 +12725,7 @@ msgstr "C_opiar"
 msgid "Move to Folder"
 msgstr "Mover ao cartafol"
 
-#: ../mail/e-mail-reader.c:846 ../mail/em-folder-utils.c:509
+#: ../mail/e-mail-reader.c:846 ../mail/em-folder-utils.c:517
 msgid "_Move"
 msgstr "_Mover"
 
@@ -13640,27 +13704,27 @@ msgstr "%s (%u%s)"
 msgid "Mail Folder Tree"
 msgstr "Árbore de cartafoles de correo"
 
-#: ../mail/em-folder-tree.c:2158 ../mail/em-folder-utils.c:112
+#: ../mail/em-folder-tree.c:2168 ../mail/em-folder-utils.c:112
 #, c-format
 msgid "Moving folder %s"
 msgstr "Movendo o cartafol %s"
 
-#: ../mail/em-folder-tree.c:2161 ../mail/em-folder-utils.c:114
+#: ../mail/em-folder-tree.c:2171 ../mail/em-folder-utils.c:114
 #, c-format
 msgid "Copying folder %s"
 msgstr "Copiando o cartafol %s"
 
-#: ../mail/em-folder-tree.c:2168 ../mail/message-list.c:2280
+#: ../mail/em-folder-tree.c:2178 ../mail/message-list.c:2280
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Movendo as mensaxes ao cartafol %s"
 
-#: ../mail/em-folder-tree.c:2172 ../mail/message-list.c:2282
+#: ../mail/em-folder-tree.c:2182 ../mail/message-list.c:2282
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Copiando as mensaxes ao cartafol %s"
 
-#: ../mail/em-folder-tree.c:2191
+#: ../mail/em-folder-tree.c:2201
 #, c-format
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "Non é posíbel soltar as mensaxe(s) no almacenamento do nivel superior"
@@ -13674,19 +13738,19 @@ msgstr "SEN COINCIDENCIAS"
 msgid "Loading..."
 msgstr "Cargando…"
 
-#: ../mail/em-folder-utils.c:510
+#: ../mail/em-folder-utils.c:518
 msgid "Move Folder To"
 msgstr "Mover o cartafol a"
 
-#: ../mail/em-folder-utils.c:510
+#: ../mail/em-folder-utils.c:518
 msgid "Copy Folder To"
 msgstr "Copiar o cartafol a"
 
-#: ../mail/em-folder-utils.c:607
+#: ../mail/em-folder-utils.c:615
 msgid "Create Folder"
 msgstr "Crear un cartafol"
 
-#: ../mail/em-folder-utils.c:608
+#: ../mail/em-folder-utils.c:616
 msgid "Specify where to create the folder:"
 msgstr "Indicar onde crear o cartafol:"
 
@@ -15771,11 +15835,11 @@ msgstr "Enviar unha _mensaxe á lista"
 msgid "_Send Message to Contact"
 msgstr "Enviar unha _mensaxe ao contacto"
 
-#: ../modules/audio-inline/e-mail-formatter-audio.c:314
+#: ../modules/audio-inline/e-mail-formatter-audio.c:316
 msgid "Audio Player"
 msgstr "Reprodutor de audio"
 
-#: ../modules/audio-inline/e-mail-formatter-audio.c:315
+#: ../modules/audio-inline/e-mail-formatter-audio.c:317
 msgid "Play the attachment in embedded audio player"
 msgstr "Reproducir o anexo nun reprodutor de audio incrustado"
 
@@ -21699,9 +21763,6 @@ msgstr "Con e_stado"
 
 #~ msgid "Ignore invalid SSL certificate"
 #~ msgstr "Ignorar certificado SSL non válido"
-
-#~ msgid "Failed to load the calendar '%s' (%s)"
-#~ msgstr "Produciuse un erro ao cargar o calendario «%s» (%s)"
 
 #~ msgid "Could not publish calendar: Calendar backend no longer exists"
 #~ msgstr ""
