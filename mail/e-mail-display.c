@@ -451,106 +451,6 @@ plugin_widget_set_parent_element (GtkWidget *widget,
 }
 
 static void
-toggle_widget_visibility (EAttachmentButton *button,
-                          EMailDisplay *display,
-                          WebKitDOMElement *element)
-{
-	GtkWidget *widget = NULL;
-	gchar *id;
-
-	id = webkit_dom_html_element_get_id (WEBKIT_DOM_HTML_ELEMENT (element));
-	if (id == NULL || *id == '\0')
-		return;
-
-	if (display->priv->widgets != NULL)
-		widget = g_hash_table_lookup (display->priv->widgets, id);
-
-	g_free (id);
-
-	if (widget == NULL)
-		return;
-
-	/* If the widget encapsulates EAttachmentBar then check, whether
-	 * the attachment bar is not empty. We want to display it only
-	 * when there's at least one attachment */
-	if (GTK_IS_BOX (widget)) {
-		GList *children;
-
-		children = gtk_container_get_children (GTK_CONTAINER (widget));
-		if (children != NULL && E_IS_ATTACHMENT_BAR (children->data)) {
-			EAttachmentStore *store;
-
-			store = e_attachment_bar_get_store (
-				E_ATTACHMENT_BAR (children->data));
-
-			g_list_free (children);
-
-			/* Don't allow to display such attachment bar,
-			 * but always allow to hide it */
-			if (e_attachment_button_get_expanded (button) &&
-			    (e_attachment_store_get_num_attachments (store) == 0))
-				return;
-			else
-				children = NULL;
-		}
-
-		g_list_free (children);
-	}
-
-	webkit_dom_html_element_set_hidden (
-		WEBKIT_DOM_HTML_ELEMENT (element),
-		!e_attachment_button_get_expanded (button));
-
-	if (e_attachment_button_get_expanded (button))
-		gtk_widget_show (widget);
-	else
-		gtk_widget_hide (widget);
-}
-
-/**
- * @button: An #EAttachmentButton
- * @iframe: An iframe element containing document with an attachment
- * 	    represented by the @button
- */
-static void
-bind_iframe_content_visibility (WebKitDOMElement *iframe,
-                                EMailDisplay *display,
-                                EAttachmentButton *button)
-{
-	WebKitDOMDocument *document;
-	WebKitDOMNodeList *nodes;
-	gulong ii, length;
-
-	if (!WEBKIT_DOM_IS_HTML_IFRAME_ELEMENT (iframe))
-		return;
-
-	document = webkit_dom_html_iframe_element_get_content_document (
-		WEBKIT_DOM_HTML_IFRAME_ELEMENT (iframe));
-	if (!WEBKIT_DOM_IS_DOCUMENT (document))
-		return;
-
-	nodes = webkit_dom_document_get_elements_by_tag_name (document, "object");
-	length = webkit_dom_node_list_get_length (nodes);
-
-	d ({
-		gchar *name = webkit_dom_html_iframe_element_get_name (
-			WEBKIT_DOM_HTML_IFRAME_ELEMENT (iframe));
-		printf ("Found %ld objects within iframe %s\n", length, name);
-		g_free (name);
-	});
-
-	/* Iterate through all <object>s and bind visibility of their widget
-	 * with expanded-state of related attachment button */
-	for (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *node = webkit_dom_node_list_item (nodes, ii);
-
-		/* Initial sync */
-		toggle_widget_visibility (
-			button, display, WEBKIT_DOM_ELEMENT (node));
-	}
-}
-
-static void
 attachment_button_expanded (GObject *object,
                             GParamSpec *pspec,
                             gpointer user_data)
@@ -592,16 +492,6 @@ attachment_button_expanded (GObject *object,
 	css = webkit_dom_element_get_style (element);
 	webkit_dom_css_style_declaration_set_property (
 		css, "display", expanded ? "block" : "none", "", NULL);
-
-	element_id = g_strconcat (attachment_part_id, ".iframe", NULL);
-	element = find_element_by_id (document, element_id);
-	g_free (element_id);
-
-	if (!WEBKIT_DOM_IS_HTML_IFRAME_ELEMENT (element)) {
-		d (printf ("%s: No <iframe> found\n", attachment_part_id));
-		return;
-	}
-	bind_iframe_content_visibility (element, display, button);
 }
 
 static void
