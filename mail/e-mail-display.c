@@ -390,35 +390,6 @@ mail_display_plugin_widget_resize (GtkWidget *widget,
 }
 
 static void
-mail_display_plugin_widget_realize_cb (GtkWidget *widget,
-                                       gpointer user_data)
-{
-	WebKitDOMHTMLElement *element;
-
-	if (GTK_IS_BOX (widget)) {
-		GList *children;
-
-		children = gtk_container_get_children (GTK_CONTAINER (widget));
-		if (children != NULL && E_IS_ATTACHMENT_BAR (children->data))
-			widget = children->data;
-		g_list_free (children);
-	}
-
-	/* First check if we are actually supposed to be visible */
-	element = g_object_get_data (G_OBJECT (widget), "parent_element");
-	if (element == NULL || !WEBKIT_DOM_IS_HTML_ELEMENT (element)) {
-		g_warn_if_reached ();
-	} else if (webkit_dom_html_element_get_hidden (element)) {
-		gtk_widget_hide (widget);
-		return;
-	}
-
-	/* Initial resize of the <object> element when the widget
-	 * is displayed for the first time. */
-	mail_display_plugin_widget_resize (widget, NULL, user_data);
-}
-
-static void
 plugin_widget_set_parent_element (GtkWidget *widget,
                                   EMailDisplay *display)
 {
@@ -621,9 +592,6 @@ mail_display_plugin_widget_requested (WebKitWebView *web_view,
 
 	/* Resizing a GtkWidget requires changing size of parent
 	 * <object> HTML element in DOM. */
-	g_signal_connect (
-		widget, "realize",
-		G_CALLBACK (mail_display_plugin_widget_realize_cb), display);
 	g_signal_connect (
 		widget, "size-allocate",
 		G_CALLBACK (mail_display_plugin_widget_resize), display);
