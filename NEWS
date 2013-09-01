@@ -1,3 +1,45 @@
+Evolution 3.9.91 2013-09-02
+---------------------------
+
+Bug Fixes:
+	Bug 274144 - 'Update attendee status' might not be done multiple times
+	             (Milan Crha)
+	Bug 656804 - Cannot create folder with special characters in name
+	             (Milan Crha)
+	Bug 658164 - Pressing the "Make this Occurrence Movable" changes
+	             meeting time (Fabiano Fidêncio)
+	Bug 659715 - Reject folder copy/move in offline (Fabiano Fidêncio)
+	Bug 682277 - Multiselect of messages causes slow UI update (Milan Crha)
+	Bug 698275 - Enable/disable account yields to a several seconds busy
+	             loop (Milan Crha)
+	Bug 706463 - Refcounting error in e_mail_reader_reply_to_message()
+	             (Matthew Barnes)
+	Bug 706814 - Do not use folder uri in copy/move folder errors
+	             (Fabiano Fidêncio)
+	Bug 706901 - Large default book slows down composer open (Milan Crha)
+	Bug 707043 - Audio attachment not shown correctly (David Woodhouse)
+
+Other Changes:
+	* User documentation improvements. (Andre Klapper)
+	* EShellSearchbar: Put focus on search results after changing filter.
+	  (Matthew Barnes)
+	* Skip evolution from 'Open with' list of applications on attachments
+	  (Milan Crha)
+
+Translations:
+	Christian Kirbach (de)
+	Benjamin Steinwender (de)
+	Alexandre Franke (fr)
+	Fran Diéguez (gl)
+	Balázs Úr (hu)
+	Aurimas Černius (lt)
+	Anish A (ml)
+	Piotr Drąg (pl)
+	Rafael Ferreira (pt_BR)
+	Enrico Nicoletto (pt_BR)
+	Matej Urbančič (sl)
+
+
 Evolution 3.9.90 2013-08-19
 ---------------------------
 
