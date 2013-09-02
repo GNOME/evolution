@@ -590,7 +590,7 @@ cal_shell_sidebar_constructed (GObject *object)
 	container = widget;
 
 	client_cache = e_shell_get_client_cache (shell);
-	widget = e_calendar_selector_new (client_cache);
+	widget = e_calendar_selector_new (client_cache, shell_view);
 	e_source_selector_set_select_new (E_SOURCE_SELECTOR (widget), TRUE);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	a11y = gtk_widget_get_accessible (widget);

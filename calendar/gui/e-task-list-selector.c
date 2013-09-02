@@ -32,13 +32,18 @@
 	((obj), E_TYPE_TASK_LIST_SELECTOR, ETaskListSelectorPrivate))
 
 struct _ETaskListSelectorPrivate {
-	gint dummy_value;
+	EShellView *shell_view;
 };
 
 G_DEFINE_TYPE (
 	ETaskListSelector,
 	e_task_list_selector,
 	E_TYPE_CLIENT_SELECTOR)
+
+enum {
+	PROP_0,
+	PROP_SHELL_VIEW
+};
 
 static gboolean
 task_list_selector_update_single_object (ECalClient *client,
@@ -325,6 +330,71 @@ task_list_selector_data_dropped (ESourceSelector *selector,
 	return TRUE;
 }
 
+EShellView *
+e_task_list_selector_get_shell_view (ETaskListSelector *task_list_selector)
+{
+	g_return_val_if_fail (E_IS_TASK_LIST_SELECTOR (task_list_selector), NULL);
+
+	return task_list_selector->priv->shell_view;
+}
+
+static void
+e_task_list_selector_set_shell_view (ETaskListSelector *task_list_selector,
+				     EShellView *shell_view)
+{
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+	g_return_if_fail (task_list_selector->priv->shell_view == NULL);
+
+	task_list_selector->priv->shell_view = g_object_ref (shell_view);
+}
+
+static void
+task_list_selector_set_property (GObject *object,
+				 guint property_id,
+				 const GValue *value,
+				 GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_SHELL_VIEW:
+			e_task_list_selector_set_shell_view (
+				E_TASK_LIST_SELECTOR (object),
+				g_value_get_object (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+task_list_selector_get_property (GObject *object,
+				 guint property_id,
+				 GValue *value,
+				 GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_SHELL_VIEW:
+			g_value_set_object (
+				value,
+				e_task_list_selector_get_shell_view (E_TASK_LIST_SELECTOR (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+task_list_selector_dispose (GObject *object)
+{
+	ETaskListSelectorPrivate *priv;
+
+	priv = E_TASK_LIST_SELECTOR_GET_PRIVATE (object);
+
+	g_clear_object (&priv->shell_view);
+
+	/* Chain up to the parent' s dispose() method. */
+	G_OBJECT_CLASS (e_task_list_selector_parent_class)->dispose (object);
+}
+
 static void
 e_task_list_selector_class_init (ETaskListSelectorClass *class)
 {
@@ -335,9 +405,24 @@ e_task_list_selector_class_init (ETaskListSelectorClass *class)
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = task_list_selector_constructed;
+	object_class->set_property = task_list_selector_set_property;
+	object_class->get_property = task_list_selector_get_property;
+	object_class->dispose = task_list_selector_dispose;
 
 	source_selector_class = E_SOURCE_SELECTOR_CLASS (class);
 	source_selector_class->data_dropped = task_list_selector_data_dropped;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SHELL_VIEW,
+		g_param_spec_object (
+			"shell-view",
+			NULL,
+			NULL,
+			E_TYPE_SHELL_VIEW,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
 }
 
 static void
@@ -353,12 +438,14 @@ e_task_list_selector_init (ETaskListSelector *selector)
 }
 
 GtkWidget *
-e_task_list_selector_new (EClientCache *client_cache)
+e_task_list_selector_new (EClientCache *client_cache,
+			  EShellView *shell_view)
 {
 	ESourceRegistry *registry;
 	GtkWidget *widget;
 
 	g_return_val_if_fail (E_IS_CLIENT_CACHE (client_cache), NULL);
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
 	registry = e_client_cache_ref_registry (client_cache);
 
@@ -366,6 +453,7 @@ e_task_list_selector_new (EClientCache *client_cache)
 		E_TYPE_TASK_LIST_SELECTOR,
 		"client-cache", client_cache,
 		"extension-name", E_SOURCE_EXTENSION_TASK_LIST,
+		"shell-view", shell_view,
 		"registry", registry, NULL);
 
 	g_object_unref (registry);

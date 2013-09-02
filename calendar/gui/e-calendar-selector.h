@@ -22,6 +22,7 @@
 #define E_CALENDAR_SELECTOR_H
 
 #include <e-util/e-util.h>
+#include <shell/e-shell-view.h>
 
 /* Standard GObject macros */
 #define E_TYPE_CALENDAR_SELECTOR \
@@ -58,7 +59,10 @@ struct _ECalendarSelectorClass {
 };
 
 GType		e_calendar_selector_get_type	(void);
-GtkWidget *	e_calendar_selector_new		(EClientCache *client_cache);
+GtkWidget *	e_calendar_selector_new		(EClientCache *client_cache,
+						 EShellView *shell_backend);
+EShellView *	e_calendar_selector_get_shell_view
+						(ECalendarSelector *calendar_selector);
 
 G_END_DECLS
 

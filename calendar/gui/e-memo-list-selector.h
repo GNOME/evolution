@@ -27,6 +27,7 @@
 #define E_MEMO_LIST_SELECTOR_H
 
 #include <e-util/e-util.h>
+#include <shell/e-shell-view.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MEMO_LIST_SELECTOR \
@@ -63,7 +64,10 @@ struct _EMemoListSelectorClass {
 };
 
 GType		e_memo_list_selector_get_type	(void);
-GtkWidget *	e_memo_list_selector_new	(EClientCache *client_cache);
+GtkWidget *	e_memo_list_selector_new	(EClientCache *client_cache,
+						 EShellView *shell_view);
+EShellView *	e_memo_list_selector_get_shell_view
+						(EMemoListSelector *memo_list_selector);
 
 G_END_DECLS
 
