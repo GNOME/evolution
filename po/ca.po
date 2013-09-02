@@ -16275,7 +16275,7 @@ msgstr "contactes"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:841
 msgid "Browse until limit is reached"
-msgstr "Navega fins arribar al límit"
+msgstr "Navega fins a arribar al límit"
 
 #: ../modules/book-config-webdav/evolution-book-config-webdav.c:136
 #: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:205
@@ -16306,7 +16306,7 @@ msgstr "No s'esperava aquesta resposta del servidor"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser.c:1124
 msgid "Could not locate user's calendars"
-msgstr "No s'ha pogut trobat els calendaris de l'usuari"
+msgstr "No s'han pogut trobar els calendaris de l'usuari"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser.c:1348
 msgid "Path"
@@ -17929,7 +17929,7 @@ msgstr "S'ha trobat l'esdeveniment al calendari «%s»"
 
 #: ../modules/itip-formatter/itip-view.c:3824
 msgid "Unable to find any calendars"
-msgstr "No s'ha pogut trobat cap calendari"
+msgstr "No s'ha pogut trobar cap calendari"
 
 #: ../modules/itip-formatter/itip-view.c:3832
 msgid "Unable to find this meeting in any calendar"
@@ -18298,7 +18298,7 @@ msgstr "Afegeix el _calendari i les tasques del Yahoo! a aquest compte"
 #, c-format
 msgid "%d attached message"
 msgid_plural "%d attached messages"
-msgstr[0] "%d missatges adjunt"
+msgstr[0] "%d missatge adjunt"
 msgstr[1] "%d missatges adjunts"
 
 #: ../modules/mail/e-mail-shell-backend.c:238
@@ -18831,7 +18831,7 @@ msgid ""
 "Evolution will return to online mode once a network connection is "
 "established."
 msgstr ""
-"L'Evolution tornarà a estar en mode en línia tant bon punt es restableixi la "
+"L'Evolution tornarà a estar en mode en línia tan bon punt es restableixi la "
 "connexió de xarxa."
 
 #: ../modules/online-accounts/camel-sasl-xoauth.c:298
