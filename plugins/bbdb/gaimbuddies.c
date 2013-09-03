@@ -270,7 +270,7 @@ bbdb_sync_buddy_list_in_thread (gpointer data)
 			/* Write it out to the addressbook */
 			if (!e_book_client_modify_contact_sync (client, c, NULL, &error)) {
 				g_warning ("bbdb: Could not modify contact: %s", error->message);
-				g_error_free (error);
+				g_clear_error (&error);
 			}
 
 			g_slist_free_full (
@@ -290,7 +290,7 @@ bbdb_sync_buddy_list_in_thread (gpointer data)
 		uid = NULL;
 		if (!e_book_client_add_contact_sync (client, c, &uid, NULL, &error)) {
 			g_warning ("bbdb: Failed to add new contact: %s", error->message);
-			g_error_free (error);
+			g_clear_error (&error);
 			goto exit;
 		}
 
@@ -368,9 +368,7 @@ bbdb_merge_buddy_to_contact (EBookClient *client,
 	EContactField field;
 	GList *ims;
 	gboolean dirty = FALSE;
-
 	EContactPhoto *photo = NULL;
-
 	GError *error = NULL;
 
 	/* Set the IM account */
