@@ -31,8 +31,8 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2013-08-23 14:27+0000\n"
-"PO-Revision-Date: 2013-08-24 15:44+0200\n"
+"POT-Creation-Date: 2013-08-30 15:26+0000\n"
+"PO-Revision-Date: 2013-09-04 12:46+0200\n"
 "Last-Translator: Alain Lojewski <allomervan@gmail.com>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "Language: \n"
@@ -216,7 +216,7 @@ msgstr ""
 "une nouvelle carte avec la même adresse ?"
 
 #: ../addressbook/addressbook.error.xml.h:33
-#: ../e-util/e-name-selector-dialog.c:977 ../mail/em-vfolder-editor-rule.c:397
+#: ../e-util/e-name-selector-dialog.c:988 ../mail/em-vfolder-editor-rule.c:397
 msgid "_Add"
 msgstr "A_jouter"
 
@@ -2119,6 +2119,66 @@ msgstr "Erreur lors du chargement de la liste « {0} » des mémos"
 #: ../calendar/calendar.error.xml.h:85
 msgid "The memo list is not marked for offline usage."
 msgstr "La liste des mémos n'est pas marquée pour une utilisation hors ligne."
+
+#. Translators: {0} is the name of the calendar.
+#: ../calendar/calendar.error.xml.h:87
+msgid "Failed to copy an event into the calendar '{0}'"
+msgstr "Impossible de copier un évènement dans l'agenda « {0} »"
+
+#. Translators: {0} is the name of the task list.
+#: ../calendar/calendar.error.xml.h:89
+msgid "Failed to copy a task into the task list '{0}'"
+msgstr "Impossible de copier une tâche dans la liste des tâches « {0} »"
+
+#. Translators: {0} is the name of the memo list.
+#: ../calendar/calendar.error.xml.h:91
+msgid "Failed to copy a memo into the memo list '{0}'"
+msgstr "Impossible de copier un mémo dans la liste des mémos « {0} »"
+
+#. Translators: {0} is the name of the calendar.
+#: ../calendar/calendar.error.xml.h:93
+msgid "Failed to move an event into the calendar '{0}'"
+msgstr "Impossible de déplacer un évènement dans l'agenda « {0} »"
+
+#. Translators: {0} is the name of the task list.
+#: ../calendar/calendar.error.xml.h:95
+msgid "Failed to move a task into the task list '{0}'"
+msgstr "Impossible de déplacer une tâche dans la liste des tâches « {0} »"
+
+#. Translators: {0} is the name of the memo list.
+#: ../calendar/calendar.error.xml.h:97
+msgid "Failed to move a memo into the memo list '{0}'"
+msgstr "Impossible de déplacer un mémo dans la liste des mémos « {0} »"
+
+#. Translators: {0} is the name of the calendar.
+#: ../calendar/calendar.error.xml.h:99
+msgid "Copying an event into the calendar '{0}'"
+msgstr "Copie d'un évènement dans l'agenda « {0} »"
+
+#. Translators: {0} is the name of the task list.
+#: ../calendar/calendar.error.xml.h:101
+msgid "Copying a task into the task list '{0}'"
+msgstr "Copie d'une tâche dans la liste des tâches « {0} »"
+
+#. Translators: {0} is the name of the memo list.
+#: ../calendar/calendar.error.xml.h:103
+msgid "Copying a memo into the memo list '{0}'"
+msgstr "Copie d'un mémo dans la liste des mémos « {0} »"
+
+#. Translators: {0} is the name of the calendar.
+#: ../calendar/calendar.error.xml.h:105
+msgid "Moving an event into the calendar '{0}'"
+msgstr "Déplacement d'un évènement dans l'agenda « {0} »"
+
+#. Translators: {0} is the name of the task list.
+#: ../calendar/calendar.error.xml.h:107
+msgid "Moving a task into the task list '{0}'"
+msgstr "Déplacement d'une tâche dans la liste des tâches « {0} »"
+
+#. Translators: {0} is the name of the memo list.
+#: ../calendar/calendar.error.xml.h:109
+msgid "Moving a memo into the memo list '{0}'"
+msgstr "Déplacement d'un mémo dans la liste des mémos « {0} »"
 
 #: ../calendar/gui/caltypes.xml.h:1
 #: ../calendar/gui/e-calendar-table.etspec.h:4
@@ -10299,12 +10359,12 @@ msgstr "_Afficher dans le corps"
 msgid "Vie_w All Inline"
 msgstr "Tout affic_her dans le corps"
 
-#: ../e-util/e-attachment-view.c:777
+#: ../e-util/e-attachment-view.c:803
 #, c-format
 msgid "Open With \"%s\""
 msgstr "Ouvrir dans « %s »"
 
-#: ../e-util/e-attachment-view.c:780
+#: ../e-util/e-attachment-view.c:806
 #, c-format
 msgid "Open this attachment in %s"
 msgstr "Ouvrir cette pièce jointe dans %s"
@@ -11128,24 +11188,24 @@ msgstr "Impossible d'ouvrir le lien."
 msgid "Could not display help for Evolution."
 msgstr "Impossible d'afficher l'aide d'Evolution."
 
-#: ../e-util/e-name-selector-dialog.c:278
+#: ../e-util/e-name-selector-dialog.c:290
 msgid "Show Contacts"
 msgstr "Afficher les contacts"
 
-#: ../e-util/e-name-selector-dialog.c:310
+#: ../e-util/e-name-selector-dialog.c:322
 msgid "Address B_ook:"
 msgstr "Carnet d'_adresses :"
 
-#: ../e-util/e-name-selector-dialog.c:317
+#: ../e-util/e-name-selector-dialog.c:329
 msgid "Cat_egory:"
 msgstr "Catégori_e :"
 
-#: ../e-util/e-name-selector-dialog.c:341
+#: ../e-util/e-name-selector-dialog.c:353
 msgid "_Search:"
 msgstr "_Rechercher :"
 
-#: ../e-util/e-name-selector-dialog.c:367
-#: ../e-util/e-name-selector-dialog.c:1256
+#: ../e-util/e-name-selector-dialog.c:379
+#: ../e-util/e-name-selector-dialog.c:1267
 #: ../modules/addressbook/e-book-shell-view-actions.c:1111
 #: ../modules/calendar/e-cal-shell-view-actions.c:1734
 #: ../modules/calendar/e-memo-shell-view-actions.c:767
@@ -11153,30 +11213,30 @@ msgstr "_Rechercher :"
 msgid "Any Category"
 msgstr "Toutes les catégories"
 
-#: ../e-util/e-name-selector-dialog.c:369
+#: ../e-util/e-name-selector-dialog.c:381
 msgid "Co_ntacts"
 msgstr "Co_ntacts"
 
-#: ../e-util/e-name-selector-dialog.c:446
+#: ../e-util/e-name-selector-dialog.c:458
 msgid "Search"
 msgstr "Recherche"
 
-#: ../e-util/e-name-selector-dialog.c:449
+#: ../e-util/e-name-selector-dialog.c:461
 #: ../mail/importers/pine-importer.c:426
 msgid "Address Book"
 msgstr "Carnet d'adresses"
 
-#: ../e-util/e-name-selector-dialog.c:452
+#: ../e-util/e-name-selector-dialog.c:464
 #: ../modules/addressbook/e-book-shell-backend.c:304
 #: ../modules/addressbook/e-book-shell-view.c:372
 msgid "Contacts"
 msgstr "Contacts"
 
-#: ../e-util/e-name-selector-dialog.c:580
+#: ../e-util/e-name-selector-dialog.c:589
 msgid "Select Contacts from Address Book"
 msgstr "Sélectionner les contacts du carnet d'adresses"
 
-#: ../e-util/e-name-selector-dialog.c:981
+#: ../e-util/e-name-selector-dialog.c:992
 msgid "_Remove"
 msgstr "_Enlever"
 
@@ -11933,7 +11993,7 @@ msgid_plural "Saving %d messages"
 msgstr[0] "Enregistrement de %d message"
 msgstr[1] "Enregistrement de %d messages"
 
-#: ../libemail-engine/e-mail-folder-utils.c:1926 ../mail/em-folder-utils.c:610
+#: ../libemail-engine/e-mail-folder-utils.c:1926 ../mail/em-folder-utils.c:638
 #, c-format
 msgid "Invalid folder URI '%s'"
 msgstr "URI de dossier non valide « %s »"
@@ -12735,7 +12795,7 @@ msgstr "Page %d sur %d"
 msgid "Copy to Folder"
 msgstr "Copier vers le dossier"
 
-#: ../mail/e-mail-reader.c:346 ../mail/em-folder-utils.c:489
+#: ../mail/e-mail-reader.c:346 ../mail/em-folder-utils.c:517
 msgid "C_opy"
 msgstr "C_opier"
 
@@ -12743,7 +12803,7 @@ msgstr "C_opier"
 msgid "Move to Folder"
 msgstr "Déplacer vers le dossier"
 
-#: ../mail/e-mail-reader.c:846 ../mail/em-folder-utils.c:489
+#: ../mail/e-mail-reader.c:846 ../mail/em-folder-utils.c:517
 msgid "_Move"
 msgstr "_Déplacer"
 
@@ -13725,27 +13785,27 @@ msgstr "%s (%u%s)"
 msgid "Mail Folder Tree"
 msgstr "Arborescence des courriels"
 
-#: ../mail/em-folder-tree.c:2130 ../mail/em-folder-utils.c:112
+#: ../mail/em-folder-tree.c:2168 ../mail/em-folder-utils.c:112
 #, c-format
 msgid "Moving folder %s"
 msgstr "Déplacement du dossier %s"
 
-#: ../mail/em-folder-tree.c:2133 ../mail/em-folder-utils.c:114
+#: ../mail/em-folder-tree.c:2171 ../mail/em-folder-utils.c:114
 #, c-format
 msgid "Copying folder %s"
 msgstr "Copie du dossier %s"
 
-#: ../mail/em-folder-tree.c:2140 ../mail/message-list.c:2280
+#: ../mail/em-folder-tree.c:2178 ../mail/message-list.c:2280
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Déplacement des messages vers le dossier %s"
 
-#: ../mail/em-folder-tree.c:2144 ../mail/message-list.c:2282
+#: ../mail/em-folder-tree.c:2182 ../mail/message-list.c:2282
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Copie des messages vers le dossier %s"
 
-#: ../mail/em-folder-tree.c:2163
+#: ../mail/em-folder-tree.c:2201
 #, c-format
 msgid "Cannot drop message(s) into toplevel store"
 msgstr ""
@@ -13760,19 +13820,19 @@ msgstr "SANS_CORRESPONDANCE"
 msgid "Loading..."
 msgstr "Chargement..."
 
-#: ../mail/em-folder-utils.c:490
+#: ../mail/em-folder-utils.c:518
 msgid "Move Folder To"
 msgstr "Déplacer le dossier vers"
 
-#: ../mail/em-folder-utils.c:490
+#: ../mail/em-folder-utils.c:518
 msgid "Copy Folder To"
 msgstr "Copier le dossier vers"
 
-#: ../mail/em-folder-utils.c:587
+#: ../mail/em-folder-utils.c:615
 msgid "Create Folder"
 msgstr "Création d'un dossier"
 
-#: ../mail/em-folder-utils.c:588
+#: ../mail/em-folder-utils.c:616
 msgid "Specify where to create the folder:"
 msgstr "Précisez l'emplacement de création du dossier :"
 
@@ -21954,9 +22014,6 @@ msgstr "Avec l'é_tat"
 
 #~ msgid "A_ccept"
 #~ msgstr "A_ccepter"
-
-#~ msgid "Failed to load the calendar '%s' (%s)"
-#~ msgstr "Impossible de charger l'agenda « %s » (%s)"
 
 #~ msgid "Proxy _Logout"
 #~ msgstr "_Déconnecter le mandataire"
