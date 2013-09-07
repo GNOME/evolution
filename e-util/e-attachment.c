@@ -559,11 +559,6 @@ attachment_set_saving (EAttachment *attachment,
 	attachment->priv->percent = 0;
 	attachment->priv->saving = saving;
 	attachment->priv->last_percent_notify = 0;
-
-	/* g_object_freeze_notify (G_OBJECT (attachment));
-	g_object_notify (G_OBJECT (attachment), "percent");
-	g_object_notify (G_OBJECT (attachment), "saving");
-	g_object_thaw_notify (G_OBJECT (attachment)); */
 }
 
 static void
@@ -585,10 +580,8 @@ attachment_progress_cb (goffset current_num_bytes,
 
 	new_percent = (current_num_bytes * 100) / total_num_bytes;
 
-	if (new_percent != attachment->priv->percent) {
+	if (new_percent != attachment->priv->percent)
 		attachment->priv->percent = new_percent;
-		/* g_object_notify (G_OBJECT (attachment), "percent"); */
-	}
 }
 
 static gboolean
@@ -1827,13 +1820,13 @@ attachment_load_finish (LoadContext *load_context)
 	load_context->mime_part = mime_part;
 
 	g_simple_async_result_set_op_res_gpointer (
-		simple, load_context, (GDestroyNotify) attachment_load_context_free);
+		simple, load_context,
+		(GDestroyNotify) attachment_load_context_free);
 
 	g_simple_async_result_complete (simple);
 
-	/* make sure it's freed on operation end */
-	load_context->simple = NULL;
-	g_object_unref (simple);
+	/* Make sure it's freed on operation end. */
+	g_clear_object (&load_context->simple);
 }
 
 static void
@@ -2077,7 +2070,9 @@ attachment_load_from_mime_part_thread (GSimpleAsyncResult *simple,
 		}
 	} else {
 		decoded_string = camel_header_decode_string (string, "UTF-8");
-		if (decoded_string && *decoded_string && !g_str_equal (decoded_string, string)) {
+		if (decoded_string != NULL &&
+		    *decoded_string != '\0' &&
+		    !g_str_equal (decoded_string, string)) {
 			string = decoded_string;
 		} else {
 			g_free (decoded_string);
@@ -2105,9 +2100,8 @@ attachment_load_from_mime_part_thread (GSimpleAsyncResult *simple,
 
 	load_context->mime_part = g_object_ref (mime_part);
 
-	/* make sure it's freed on operation end */
-	g_object_unref (load_context->simple);
-	load_context->simple = NULL;
+	/* Make sure it's freed on operation end. */
+	g_clear_object (&load_context->simple);
 
 	g_simple_async_result_set_op_res_gpointer (
 		simple, load_context,
@@ -2290,7 +2284,8 @@ e_attachment_load (EAttachment *attachment,
 
 	closure = e_async_closure_new ();
 
-	e_attachment_load_async (attachment, e_async_closure_callback, closure);
+	e_attachment_load_async (
+		attachment, e_async_closure_callback, closure);
 
 	result = e_async_closure_wait (closure);
 
@@ -2597,7 +2592,9 @@ e_attachment_open (EAttachment *attachment,
 
 	closure = e_async_closure_new ();
 
-	e_attachment_open_async (attachment, app_info, e_async_closure_callback, closure);
+	e_attachment_open_async (
+		attachment, app_info,
+		e_async_closure_callback, closure);
 
 	result = e_async_closure_wait (closure);
 
@@ -3142,11 +3139,14 @@ e_attachment_save (EAttachment *attachment,
 
 	closure = e_async_closure_new ();
 
-	e_attachment_save_async (attachment, in_destination, e_async_closure_callback, closure);
+	e_attachment_save_async (
+		attachment, in_destination,
+		e_async_closure_callback, closure);
 
 	result = e_async_closure_wait (closure);
 
-	*out_destination = e_attachment_save_finish (attachment, result, error);
+	*out_destination =
+		e_attachment_save_finish (attachment, result, error);
 
 	e_async_closure_free (closure);
 

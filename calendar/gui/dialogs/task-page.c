@@ -718,7 +718,9 @@ task_page_fill_widgets (CompEditorPage *page,
 	comp_editor_set_classification (editor, cl);
 
 	e_cal_component_get_uid (comp, &uid);
-	if (e_cal_client_get_object_sync (client, uid, NULL, &icalcomp, NULL, NULL)) {
+	e_cal_client_get_object_sync (
+		client, uid, NULL, &icalcomp, NULL, NULL);
+	if (icalcomp != NULL) {
 		icalcomponent_free (icalcomp);
 		task_page_hide_options (tpage);
 	}
@@ -2056,15 +2058,15 @@ tpage_get_client_cb (GObject *source_object,
 		((client != NULL) && (error == NULL)) ||
 		((client == NULL) && (error != NULL)));
 
-	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
-	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 		g_clear_error (&error);
 		return;
 	}
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (tpage));
 	priv = tpage->priv;
-	if (error) {
+
+	if (error != NULL) {
 		GtkWidget *dialog;
 		ECalClient *old_client;
 

@@ -100,6 +100,7 @@ name_selector_get_client_cb (GObject *source_object,
 	GArray *sections;
 	SourceBook source_book;
 	guint ii;
+	gboolean ignore_error;
 	GError *error = NULL;
 
 	client = e_client_cache_get_client_finish (
@@ -110,11 +111,18 @@ name_selector_get_client_cb (GObject *source_object,
 		((client != NULL) && (error == NULL)) ||
 		((client == NULL) && (error != NULL)));
 
+	ignore_error =
+		g_error_matches (
+			error, E_CLIENT_ERROR,
+			E_CLIENT_ERROR_REPOSITORY_OFFLINE) ||
+		g_error_matches (
+			error, E_CLIENT_ERROR,
+			E_CLIENT_ERROR_OFFLINE_UNAVAILABLE) ||
+		g_error_matches (
+			error, G_IO_ERROR, G_IO_ERROR_CANCELLED);
+
 	if (error != NULL) {
-		if (!g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_REPOSITORY_OFFLINE)
-		    && !g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_OFFLINE_UNAVAILABLE)
-		    && !g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED)
-		    && !g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+		if (!ignore_error)
 			g_warning ("%s: %s", G_STRFUNC, error->message);
 		g_error_free (error);
 		goto exit;

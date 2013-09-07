@@ -55,7 +55,8 @@ handle_file_request (GSimpleAsyncResult *res,
 
 	if (g_file_get_contents (uri->path, &contents, &length, NULL)) {
 
-		request->priv->content_type = g_content_type_guess (uri->path, NULL, 0, NULL);
+		request->priv->content_type =
+			g_content_type_guess (uri->path, NULL, 0, NULL);
 		request->priv->content_length = length;
 
 		stream = g_memory_input_stream_new_from_data (

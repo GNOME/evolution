@@ -121,7 +121,10 @@ send_component_dialog (GtkWindow *parent,
 	if (strip_alarms)
 		*strip_alarms = TRUE;
 
-	if (e_cal_client_check_save_schedules (client) || !itip_component_has_recipients (comp))
+	if (e_cal_client_check_save_schedules (client))
+		return FALSE;
+
+	if (!itip_component_has_recipients (comp))
 		return FALSE;
 
 	vtype = e_cal_component_get_vtype (comp);
@@ -210,15 +213,19 @@ send_dragged_or_resized_component_dialog (GtkWindow *parent,
 	if (strip_alarms)
 		*strip_alarms = TRUE;
 
-	if (e_cal_client_check_save_schedules (client) || !itip_component_has_recipients (comp))
+	if (e_cal_client_check_save_schedules (client))
+		save_schedules = TRUE;
+
+	if (!itip_component_has_recipients (comp))
 		save_schedules = TRUE;
 
 	vtype = e_cal_component_get_vtype (comp);
 
 	switch (vtype) {
 	case E_CAL_COMPONENT_EVENT:
-		id = save_schedules ? "calendar:prompt-save-meeting-dragged-or-resized" :
-				      "calendar:prompt-send-updated-meeting-info-dragged-or-resized";
+		id = save_schedules ?
+			"calendar:prompt-save-meeting-dragged-or-resized" :
+			"calendar:prompt-send-updated-meeting-info-dragged-or-resized";
 		break;
 	default:
 		g_message (

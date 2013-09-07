@@ -1027,10 +1027,14 @@ em_utils_composer_print_cb (EMsgComposer *composer,
 
 	g_object_unref (operation);
 
-	if (error) {
-		if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-			g_warning ("%s: Failed to run print operation: %s", G_STRFUNC, error->message);
-		g_clear_error (&error);
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		g_error_free (error);
+
+	} else if (error != NULL) {
+		g_warning (
+			"%s: Failed to run print operation: %s",
+			G_STRFUNC, error->message);
+		g_error_free (error);
 	}
 #else
 	EMailParser *parser;

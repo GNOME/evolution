@@ -370,13 +370,16 @@ remove_queued_alarm (CompQueuedAlarms *cqa,
 				id->rid, qa->instance->auid, NULL, &error);
 			cqa->expecting_update = FALSE;
 
-			if (error) {
-				if (!g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_NOT_SUPPORTED))
-					g_warning (
-						"%s: Failed to discard alarm: %s",
-						G_STRFUNC, error->message);
+			if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_NOT_SUPPORTED)) {
+				g_error_free (error);
+
+			} else if (error != NULL) {
+				g_warning (
+					"%s: Failed to discard alarm: %s",
+					G_STRFUNC, error->message);
 				g_error_free (error);
 			}
+
 			e_cal_component_free_id (id);
 		}
 	}
@@ -776,7 +779,7 @@ get_alarms_for_object (ECalClient *cal_client,
                        time_t end,
                        ECalComponentAlarms **alarms)
 {
-	icalcomponent *icalcomp;
+	icalcomponent *icalcomp = NULL;
 	ECalComponent *comp;
 	ECalComponentAlarmAction omit[] = {-1};
 
@@ -786,11 +789,10 @@ get_alarms_for_object (ECalClient *cal_client,
 	g_return_val_if_fail (start >= 0 && end >= 0, FALSE);
 	g_return_val_if_fail (start <= end, FALSE);
 
-	if (!e_cal_client_get_object_sync (
-		cal_client, id->uid, id->rid, &icalcomp, NULL, NULL))
-		return FALSE;
+	e_cal_client_get_object_sync (
+		cal_client, id->uid, id->rid, &icalcomp, NULL, NULL);
 
-	if (!icalcomp)
+	if (icalcomp == NULL)
 		return FALSE;
 
 	comp = e_cal_component_new ();

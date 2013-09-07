@@ -858,8 +858,8 @@ client_view_ready_cb (GObject *source_object,
 	book_client = E_BOOK_CLIENT (source_object);
 	g_return_if_fail (book_client != NULL);
 
-	if (!e_book_client_get_view_finish (book_client, result, &client_view, NULL))
-		client_view = NULL;
+	e_book_client_get_view_finish (
+		book_client, result, &client_view, NULL);
 
 	source_idx = find_contact_source_by_client (contact_store, book_client);
 	if (source_idx >= 0) {

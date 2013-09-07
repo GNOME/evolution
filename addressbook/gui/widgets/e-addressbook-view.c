@@ -1238,8 +1238,7 @@ report_and_free_error_if_any (GError *error)
 	if (!error)
 		return;
 
-	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
-	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 		g_error_free (error);
 		return;
 	}
@@ -1538,8 +1537,8 @@ all_contacts_ready_cb (GObject *source_object,
 	g_return_if_fail (book_client != NULL);
 	g_return_if_fail (tcd != NULL);
 
-	if (!e_book_client_get_contacts_finish (book_client, result, &contacts, &error))
-		contacts = NULL;
+	e_book_client_get_contacts_finish (
+		book_client, result, &contacts, &error);
 
 	shell_view = e_addressbook_view_get_shell_view (tcd->view);
 	shell_content = e_shell_view_get_shell_content (shell_view);
@@ -1548,12 +1547,13 @@ all_contacts_ready_cb (GObject *source_object,
 	model = e_addressbook_view_get_model (tcd->view);
 	client_cache = e_addressbook_model_get_client_cache (model);
 
-	if (error) {
+	if (error != NULL) {
 		e_alert_submit (
 			alert_sink, "addressbook:search-error",
 			error->message, NULL);
 		g_error_free (error);
-	} else if (contacts) {
+
+	} else if (contacts != NULL) {
 		ESourceRegistry *registry;
 
 		registry = e_client_cache_ref_registry (client_cache);

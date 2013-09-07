@@ -1133,30 +1133,29 @@ comp_server_send (ECalComponentItipMethod method,
 
 	top_level = comp_toplevel_with_zones (method, comp, cal_client, zones);
 	d (printf ("itip-utils.c: comp_server_send: calling e_cal_send_objects... \n"));
-	if (!e_cal_client_send_objects_sync (cal_client, top_level, users, &returned_icalcomp, NULL, &error)) {
-		/* FIXME Really need a book problem status code */
-		d (printf ("itip-utils.c: return value from e_cal_send_objects is: %d", error->code));
-		if (error) {
-			if (g_error_matches (error, E_CAL_CLIENT_ERROR, E_CAL_CLIENT_ERROR_OBJECT_ID_ALREADY_EXISTS)) {
-				e_notice (
-					NULL, GTK_MESSAGE_ERROR,
-					_("Unable to book a resource, the "
-					"new event collides with some other."));
-			} else {
-				e_notice (
-					NULL, GTK_MESSAGE_ERROR,
-					_("Unable to book a resource, error: %s"), error->message);
-			}
 
-			retval = FALSE;
-		}
-	} else {
-	  d (printf ("itip-utils.c: e_cal_send_objects returned without errors\n"));
+	e_cal_client_send_objects_sync (
+		cal_client, top_level, users,
+		&returned_icalcomp, NULL, &error);
+
+	if (g_error_matches (error, E_CAL_CLIENT_ERROR, E_CAL_CLIENT_ERROR_OBJECT_ID_ALREADY_EXISTS)) {
+		e_notice (
+			NULL, GTK_MESSAGE_ERROR,
+			_("Unable to book a resource, the "
+			"new event collides with some other."));
+		g_error_free (error);
+		retval = FALSE;
+
+	} else if (error != NULL) {
+		e_notice (
+			NULL, GTK_MESSAGE_ERROR,
+			_("Unable to book a resource, error: %s"),
+			error->message);
+		g_error_free (error);
+		retval = FALSE;
 	}
 
-	g_clear_error (&error);
-
-	if (returned_icalcomp)
+	if (returned_icalcomp != NULL)
 		icalcomponent_free (returned_icalcomp);
 	icalcomponent_free (top_level);
 

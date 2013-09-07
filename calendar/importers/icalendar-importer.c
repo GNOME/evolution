@@ -854,9 +854,9 @@ default_client_connect_cb (GObject *source_object,
 	/* Client may be NULL; don't use a type cast macro. */
 	odsd->opened_cb ((ECalClient *) client, error, odsd->ici);
 
-	if (client)
-		g_object_unref (client);
-	if (error)
+	g_clear_object (&client);
+
+	if (error != NULL)
 		g_error_free (error);
 
 	g_free (odsd);

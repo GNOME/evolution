@@ -108,6 +108,7 @@ offline_alert_window_added_cb (GtkApplication *application,
 {
 	EShell *shell = E_SHELL (application);
 	GtkAction *action;
+	const gchar *alert_id;
 
 	if (!E_IS_SHELL_WINDOW (window))
 		return;
@@ -137,7 +138,11 @@ offline_alert_window_added_cb (GtkApplication *application,
 
 	action = E_SHELL_WINDOW_ACTION_WORK_ONLINE (window);
 
-	extension->alert = e_alert_new (e_shell_get_network_available (shell) ? "offline-alert:offline" : "offline-alert:no-network", NULL);
+	if (e_shell_get_network_available (shell))
+		alert_id = "offline-alert:offline";
+	else
+		alert_id = "offline-alert:no-network";
+	extension->alert = e_alert_new (alert_id, NULL);
 	e_alert_add_action (extension->alert, action, GTK_RESPONSE_NONE);
 
 	g_object_add_weak_pointer (

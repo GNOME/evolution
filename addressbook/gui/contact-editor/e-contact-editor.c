@@ -217,14 +217,19 @@ e_contact_editor_contact_added (EABEditor *editor,
                                 const GError *error,
                                 EContact *contact)
 {
-	if (!error)
+	GtkWindow *window;
+	const gchar *message;
+
+	if (error == NULL)
 		return;
 
-	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
-	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
 		return;
 
-	eab_error_dialog (NULL, eab_editor_get_window (editor), _("Error adding contact"), error);
+	window = eab_editor_get_window (editor);
+	message = _("Error adding contact");
+
+	eab_error_dialog (NULL, window, message, error);
 }
 
 static void
@@ -232,14 +237,19 @@ e_contact_editor_contact_modified (EABEditor *editor,
                                    const GError *error,
                                    EContact *contact)
 {
-	if (!error)
+	GtkWindow *window;
+	const gchar *message;
+
+	if (error == NULL)
 		return;
 
-	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
-	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
 		return;
 
-	eab_error_dialog (NULL, eab_editor_get_window (editor), _("Error modifying contact"), error);
+	window = eab_editor_get_window (editor);
+	message = _("Error modifying contact");
+
+	eab_error_dialog (NULL, window, message, error);
 }
 
 static void
@@ -247,14 +257,19 @@ e_contact_editor_contact_deleted (EABEditor *editor,
                                   const GError *error,
                                   EContact *contact)
 {
-	if (!error)
+	GtkWindow *window;
+	const gchar *message;
+
+	if (error == NULL)
 		return;
 
-	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
-	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
 		return;
 
-	eab_error_dialog (NULL, eab_editor_get_window (editor), _("Error removing contact"), error);
+	window = eab_editor_get_window (editor);
+	message = _("Error removing contact");
+
+	eab_error_dialog (NULL, window, message, error);
 }
 
 static void
@@ -3063,22 +3078,27 @@ init_all (EContactEditor *editor)
 	}
 
 	if (requisition.width > 0 && requisition.height > 0) {
-		GtkWindow *window;
+		GtkWidget *window;
 		GdkScreen *screen;
 		GdkRectangle monitor_area;
 		gint x = 0, y = 0, monitor, width, height;
 
-		window = GTK_WINDOW (e_builder_get_widget (editor->builder, "contact editor"));
+		window = e_builder_get_widget (
+			editor->builder, "contact editor");
 
-		gtk_widget_get_preferred_size (GTK_WIDGET (window), &tab_req, NULL);
+		gtk_widget_get_preferred_size (window, &tab_req, NULL);
 		width = tab_req.width - 320 + 24;
 		height = tab_req.height - 240 + 24;
 
-		screen = gtk_window_get_screen (window);
-		gtk_window_get_position (window, &x, &y);
+		screen = gtk_window_get_screen (GTK_WINDOW (window));
+		gtk_window_get_position (GTK_WINDOW (window), &x, &y);
 
 		monitor = gdk_screen_get_monitor_at_point (screen, x, y);
-		if (monitor < 0 || monitor >= gdk_screen_get_n_monitors (screen))
+
+		if (monitor < 0)
+			monitor = 0;
+
+		if (monitor >= gdk_screen_get_n_monitors (screen))
 			monitor = 0;
 
 		gdk_screen_get_monitor_workarea (screen, monitor, &monitor_area);
@@ -3090,7 +3110,10 @@ init_all (EContactEditor *editor)
 			requisition.height = monitor_area.height - height;
 
 		if (requisition.width > 0 && requisition.height > 0)
-			gtk_window_set_default_size (window, width + requisition.width, height + requisition.height);
+			gtk_window_set_default_size (
+				GTK_WINDOW (window),
+				width + requisition.width,
+				height + requisition.height);
 	}
 }
 
@@ -3114,8 +3137,7 @@ contact_editor_get_client_cb (GObject *source_object,
 		((client != NULL) && (error == NULL)) ||
 		((client == NULL) && (error != NULL)));
 
-	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
-	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 		g_warn_if_fail (client == NULL);
 		g_error_free (error);
 		goto exit;
@@ -3547,7 +3569,7 @@ contact_removed_cb (GObject *source_object,
 		sensitize_all (ce);
 	}
 
-	if (error)
+	if (error != NULL)
 		g_error_free (error);
 
 	g_object_unref (ce);
@@ -3635,7 +3657,7 @@ contact_modified_ready_cb (GObject *source_object,
 
 	contact_modified_cb (book_client, error, user_data);
 
-	if (error)
+	if (error != NULL)
 		g_error_free (error);
 }
 

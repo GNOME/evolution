@@ -99,8 +99,8 @@ settings_deprecated_header_start_element (GMarkupParseContext *context,
 
 static void
 e_settings_deprecated_set_int_with_change_test (GSettings *settings,
-						const gchar *key,
-						gint value)
+                                                const gchar *key,
+                                                gint value)
 {
 	if (g_settings_get_int (settings, key) != value)
 		g_settings_set_int (settings, key, value);
@@ -108,8 +108,8 @@ e_settings_deprecated_set_int_with_change_test (GSettings *settings,
 
 static void
 e_settings_deprecated_set_string_with_change_test (GSettings *settings,
-						   const gchar *key,
-						   const gchar *value)
+                                                   const gchar *key,
+                                                   const gchar *value)
 {
 	gchar *stored = g_settings_get_string (settings, key);
 
@@ -121,8 +121,8 @@ e_settings_deprecated_set_string_with_change_test (GSettings *settings,
 
 static void
 e_settings_deprecated_set_strv_with_change_test (GSettings *settings,
-						 const gchar *key,
-						 const gchar * const *value)
+                                                 const gchar *key,
+                                                 const gchar * const *value)
 {
 	gchar **stored = g_settings_get_strv (settings, key);
 	gboolean changed;

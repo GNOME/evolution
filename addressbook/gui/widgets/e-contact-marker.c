@@ -122,53 +122,31 @@ texture_new_from_pixbuf (GdkPixbuf *pixbuf,
 static ClutterActor *
 contact_photo_to_texture (EContactPhoto *photo)
 {
-	GdkPixbuf *pixbuf;
+	ClutterActor *texture = NULL;
+	GdkPixbuf *pixbuf = NULL;
 
 	if  (photo->type == E_CONTACT_PHOTO_TYPE_INLINED) {
-		GError *error = NULL;
-
 		GdkPixbufLoader *loader = gdk_pixbuf_loader_new ();
+
 		gdk_pixbuf_loader_write (
 			loader, photo->data.inlined.data,
 			photo->data.inlined.length, NULL);
 		gdk_pixbuf_loader_close (loader, NULL);
 		pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
-		if (pixbuf)
+		if (pixbuf != NULL)
 			g_object_ref (pixbuf);
 		g_object_unref (loader);
 
-		if (error) {
-			g_error_free (error);
-			return NULL;
-		}
 	} else if (photo->type == E_CONTACT_PHOTO_TYPE_URI) {
-		GError *error = NULL;
-
-		pixbuf = gdk_pixbuf_new_from_file (photo->data.uri, &error);
-
-		if (error) {
-			g_error_free (error);
-			return NULL;
-		}
-	} else
-		return NULL;
-
-	if (pixbuf) {
-		ClutterActor *texture;
-		GError *error = NULL;
-
-		texture = texture_new_from_pixbuf (pixbuf, &error);
-		if (error) {
-			g_error_free (error);
-			g_object_unref (pixbuf);
-			return NULL;
-		}
-
-		g_object_unref (pixbuf);
-		return texture;
+		pixbuf = gdk_pixbuf_new_from_file (photo->data.uri, NULL);
 	}
 
-	return NULL;
+	if (pixbuf != NULL) {
+		texture = texture_new_from_pixbuf (pixbuf, NULL);
+		g_object_unref (pixbuf);
+	}
+
+	return texture;
 }
 
 static void
@@ -177,15 +155,15 @@ draw_box (cairo_t *cr,
           gint height,
           gint point)
 {
-      cairo_move_to (cr, RADIUS, 0);
-      cairo_line_to (cr, width - RADIUS, 0);
-      cairo_arc (cr, width - RADIUS, RADIUS, RADIUS - 1, 3 * M_PI / 2.0, 0);
-      cairo_line_to (cr, width, height - RADIUS);
-      cairo_arc (cr, width - RADIUS, height - RADIUS, RADIUS - 1, 0, M_PI / 2.0);
-      cairo_line_to (cr, point, height);
-      cairo_line_to (cr, 0, height + point);
-      cairo_arc (cr, RADIUS, RADIUS, RADIUS - 1, M_PI, 3 * M_PI / 2.0);
-      cairo_close_path (cr);
+	cairo_move_to (cr, RADIUS, 0);
+	cairo_line_to (cr, width - RADIUS, 0);
+	cairo_arc (cr, width - RADIUS, RADIUS, RADIUS - 1, 3 * M_PI / 2.0, 0);
+	cairo_line_to (cr, width, height - RADIUS);
+	cairo_arc (cr, width - RADIUS, height - RADIUS, RADIUS - 1, 0, M_PI / 2.0);
+	cairo_line_to (cr, point, height);
+	cairo_line_to (cr, 0, height + point);
+	cairo_arc (cr, RADIUS, RADIUS, RADIUS - 1, M_PI, 3 * M_PI / 2.0);
+	cairo_close_path (cr);
 }
 
 static void

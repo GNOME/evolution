@@ -506,7 +506,11 @@ ldif_import_contacts (gpointer d)
 				add_to_notes (contact, E_CONTACT_OFFICE);
 				add_to_notes (contact, E_CONTACT_SPOUSE);
 				add_to_notes (contact, E_CONTACT_BLOG_URL);
-				if (e_book_client_add_contact_sync (gci->book_client, contact, &uid, NULL, NULL) && uid) {
+
+				e_book_client_add_contact_sync (
+					gci->book_client,
+					contact, &uid, NULL, NULL);
+				if (uid != NULL) {
 					e_contact_set (contact, E_CONTACT_UID, uid);
 					g_free (uid);
 				}
@@ -525,7 +529,9 @@ ldif_import_contacts (gpointer d)
 
 			contact = iter->data;
 			resolve_list_card (gci, contact);
-			if (e_book_client_add_contact_sync (gci->book_client, contact, &uid, NULL, NULL) && uid) {
+			e_book_client_add_contact_sync (
+				gci->book_client, contact, &uid, NULL, NULL);
+			if (uid != NULL) {
 				e_contact_set (contact, E_CONTACT_UID, uid);
 				g_free (uid);
 			}

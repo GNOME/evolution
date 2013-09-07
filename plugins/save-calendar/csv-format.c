@@ -548,14 +548,12 @@ do_save_calendar_csv (FormatHandler *handler,
 	g_free (config->newline);
 	g_free (config);
 
-	if (error) {
+	if (error != NULL) {
 		display_error_message (
 			gtk_widget_get_toplevel (GTK_WIDGET (selector)),
 			error);
 		g_error_free (error);
 	}
-
-	return;
 }
 
 static GtkWidget *

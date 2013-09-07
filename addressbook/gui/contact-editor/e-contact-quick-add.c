@@ -137,8 +137,7 @@ merge_cb (GObject *source_object,
 		((client == NULL) && (error != NULL)));
 
 	/* Ignore cancellations. */
-	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
-	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 		g_warn_if_fail (client == NULL);
 		g_error_free (error);
 		return;
@@ -239,7 +238,7 @@ ce_have_contact (EBookClient *book_client,
 {
 	QuickAdd *qa = (QuickAdd *) closure;
 
-	if (error) {
+	if (error != NULL) {
 		if (book_client)
 			g_object_unref (book_client);
 		g_warning (
@@ -305,8 +304,7 @@ ce_have_book (GObject *source_object,
 		((client == NULL) && (error != NULL)));
 
 	/* Ignore cancellations. */
-	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
-	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 		g_warn_if_fail (client == NULL);
 		g_error_free (error);
 		return;

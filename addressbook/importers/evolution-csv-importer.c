@@ -726,7 +726,10 @@ csv_import_contacts (gpointer d)
 
 	while ((contact = getNextCSVEntry (gci, gci->file))) {
 		gchar *uid = NULL;
-		if (e_book_client_add_contact_sync (gci->book_client, contact, &uid, NULL, NULL) && uid) {
+
+		e_book_client_add_contact_sync (
+			gci->book_client, contact, &uid, NULL, NULL);
+		if (uid != NULL) {
 			e_contact_set (contact, E_CONTACT_UID, uid);
 			g_free (uid);
 		}

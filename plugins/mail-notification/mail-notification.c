@@ -163,7 +163,7 @@ send_dbus_message (const gchar *name,
 	/* Frees the message */
 	g_object_unref (message);
 
-	if (error) {
+	if (error != NULL) {
 		g_warning ("%s: %s", G_STRFUNC, error->message);
 		g_error_free (error);
 	}
@@ -202,7 +202,7 @@ init_gdbus (void)
 		return TRUE;
 
 	connection = g_bus_get_sync (G_BUS_TYPE_SESSION, NULL, &error);
-	if (error) {
+	if (error != NULL) {
 		g_warning ("could not get system bus: %s\n", error->message);
 		g_error_free (error);
 

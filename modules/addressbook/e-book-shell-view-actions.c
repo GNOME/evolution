@@ -212,17 +212,22 @@ address_book_refresh_done_cb (GObject *source_object,
 
 	client = E_CLIENT (source_object);
 
-	if (!e_client_refresh_finish (client, result, &error)) {
-		ESource *source = e_client_get_source (client);
+	e_client_refresh_finish (client, result, &error);
 
-		if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED) &&
-		    !g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED))
-			g_warning (
-				"%s: Failed to refresh '%s', %s",
-				G_STRFUNC, e_source_get_display_name (source),
-				error ? error->message : "Unknown error");
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		g_error_free (error);
 
-		g_clear_error (&error);
+	} else if (error != NULL) {
+		ESource *source;
+
+		source = e_client_get_source (client);
+
+		g_warning (
+			"%s: Failed to refresh '%s', %s",
+			G_STRFUNC, e_source_get_display_name (source),
+			error ? error->message : "Unknown error");
+
+		g_error_free (error);
 	}
 }
 
@@ -267,7 +272,7 @@ contact_editor_contact_modified_cb (EABEditor *editor,
 	EContactMap *map;
 	const gchar *contact_uid;
 
-	if (error) {
+	if (error != NULL) {
 		g_warning ("Error modifying contact: %s", error->message);
 		return;
 	}

@@ -67,7 +67,7 @@ GType		e_task_list_selector_get_type	(void);
 GtkWidget *	e_task_list_selector_new	(EClientCache *client_cache,
 						 EShellView *shell_view);
 EShellView *	e_task_list_selector_get_shell_view
-						(ETaskListSelector *task_list_selector);
+						(ETaskListSelector *selector);
 
 G_END_DECLS
 

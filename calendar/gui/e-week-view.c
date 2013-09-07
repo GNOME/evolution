@@ -4372,9 +4372,9 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 					E_CALENDAR_VIEW (week_view), client);
 			}
 
-			if (uid)
-				g_free (uid);
-			if (error)
+			g_free (uid);
+
+			if (error != NULL)
 				g_error_free (error);
 
 			/* we remove the object since we either got the update from the server or failed */

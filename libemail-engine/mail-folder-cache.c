@@ -895,8 +895,9 @@ folder_changed_cb (CamelFolder *folder,
 	parent_store = camel_folder_get_parent_store (folder);
 	session = camel_service_ref_session (CAMEL_SERVICE (parent_store));
 
-	if (!last_newmail_per_folder)
-		last_newmail_per_folder = g_hash_table_new (g_direct_hash, g_direct_equal);
+	if (last_newmail_per_folder == NULL)
+		last_newmail_per_folder = g_hash_table_new (
+			g_direct_hash, g_direct_equal);
 
 	/* it's fine to hash them by folder pointer here */
 	latest_received = GPOINTER_TO_INT (

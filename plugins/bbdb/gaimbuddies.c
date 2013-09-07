@@ -224,7 +224,7 @@ bbdb_sync_buddy_list_in_thread (gpointer data)
 	for (link = head; link != NULL; link = g_list_next (link)) {
 		GaimBuddy *b = link->data;
 		EBookQuery *query;
-		gchar *query_string, *uid;
+		gchar *query_string;
 		GSList *contacts = NULL;
 		EContact *c;
 
@@ -268,8 +268,13 @@ bbdb_sync_buddy_list_in_thread (gpointer data)
 			}
 
 			/* Write it out to the addressbook */
-			if (!e_book_client_modify_contact_sync (client, c, NULL, &error)) {
-				g_warning ("bbdb: Could not modify contact: %s", error->message);
+			e_book_client_modify_contact_sync (
+				client, c, NULL, &error);
+
+			if (error != NULL) {
+				g_warning (
+					"bbdb: Could not modify contact: %s",
+					error->message);
 				g_clear_error (&error);
 			}
 
@@ -287,15 +292,17 @@ bbdb_sync_buddy_list_in_thread (gpointer data)
 			continue;
 		}
 
-		uid = NULL;
-		if (!e_book_client_add_contact_sync (client, c, &uid, NULL, &error)) {
-			g_warning ("bbdb: Failed to add new contact: %s", error->message);
+		e_book_client_add_contact_sync (client, c, NULL, NULL, &error);
+
+		if (error != NULL) {
+			g_warning (
+				"bbdb: Failed to add new contact: %s",
+				error->message);
 			g_clear_error (&error);
 			goto exit;
 		}
 
 		g_object_unref (c);
-		g_free (uid);
 	}
 
 	g_idle_add (store_last_sync_idle_cb, NULL);

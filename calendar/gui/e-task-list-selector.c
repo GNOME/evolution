@@ -49,27 +49,31 @@ static gboolean
 task_list_selector_update_single_object (ECalClient *client,
                                          icalcomponent *icalcomp)
 {
-	gchar *uid = NULL;
-	icalcomponent *tmp_icalcomp;
+	gchar *uid;
+	icalcomponent *tmp_icalcomp = NULL;
+	gboolean success;
 
 	uid = (gchar *) icalcomponent_get_uid (icalcomp);
 
-	if (e_cal_client_get_object_sync (client, uid, NULL, &tmp_icalcomp, NULL, NULL)) {
+	e_cal_client_get_object_sync (
+		client, uid, NULL, &tmp_icalcomp, NULL, NULL);
+
+	if (tmp_icalcomp != NULL) {
 		icalcomponent_free (tmp_icalcomp);
 
 		return e_cal_client_modify_object_sync (
 			client, icalcomp, CALOBJ_MOD_ALL, NULL, NULL);
 	}
 
-	if (!e_cal_client_create_object_sync (client, icalcomp, &uid, NULL, NULL))
-		return FALSE;
+	success = e_cal_client_create_object_sync (
+		client, icalcomp, &uid, NULL, NULL);
 
-	if (uid)
+	if (uid != NULL) {
 		icalcomponent_set_uid (icalcomp, uid);
+		g_free (uid);
+	}
 
-	g_free (uid);
-
-	return TRUE;
+	return success;
 }
 
 static gboolean
@@ -185,23 +189,25 @@ task_list_selector_process_data (ESourceSelector *selector,
 	if (old_uid == NULL)
 		old_uid = g_strdup (uid);
 
-	if (e_cal_client_get_object_sync (client, uid, NULL, &tmp_icalcomp, NULL, &error)) {
+	e_cal_client_get_object_sync (
+		client, uid, NULL, &tmp_icalcomp, NULL, &error);
+
+	if (tmp_icalcomp != NULL) {
 		icalcomponent_free (tmp_icalcomp);
 		success = TRUE;
 		goto exit;
 	}
 
-	if (error != NULL && !g_error_matches (error, E_CAL_CLIENT_ERROR, E_CAL_CLIENT_ERROR_OBJECT_NOT_FOUND)) {
+	if (g_error_matches (error, E_CAL_CLIENT_ERROR, E_CAL_CLIENT_ERROR_OBJECT_NOT_FOUND)) {
+		g_clear_error (&error);
+
+	} else if (error != NULL) {
 		g_message (
 			"Failed to search the object in destination "
 			"task list: %s", error->message);
 		g_error_free (error);
 		goto exit;
 	}
-
-	if (error)
-		g_error_free (error);
-	error = NULL;
 
 	success = task_list_selector_update_objects (client, icalcomp);
 
@@ -224,8 +230,7 @@ exit:
 	return success;
 }
 
-struct DropData
-{
+struct DropData {
 	ESourceSelector *selector;
 	GdkDragAction action;
 	GSList *list;
@@ -292,6 +297,51 @@ exit:
 }
 
 static void
+task_list_selector_set_shell_view (ETaskListSelector *selector,
+                                   EShellView *shell_view)
+{
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+	g_return_if_fail (selector->priv->shell_view == NULL);
+
+	selector->priv->shell_view = g_object_ref (shell_view);
+}
+
+static void
+task_list_selector_set_property (GObject *object,
+                                 guint property_id,
+                                 const GValue *value,
+                                 GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_SHELL_VIEW:
+			task_list_selector_set_shell_view (
+				E_TASK_LIST_SELECTOR (object),
+				g_value_get_object (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+task_list_selector_get_property (GObject *object,
+                                 guint property_id,
+                                 GValue *value,
+                                 GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_SHELL_VIEW:
+			g_value_set_object (
+				value,
+				e_task_list_selector_get_shell_view (
+				E_TASK_LIST_SELECTOR (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
 task_list_selector_constructed (GObject *object)
 {
 	ESourceSelector *selector;
@@ -328,58 +378,6 @@ task_list_selector_data_dropped (ESourceSelector *selector,
 		client_connect_for_drop_cb, dd);
 
 	return TRUE;
-}
-
-EShellView *
-e_task_list_selector_get_shell_view (ETaskListSelector *task_list_selector)
-{
-	g_return_val_if_fail (E_IS_TASK_LIST_SELECTOR (task_list_selector), NULL);
-
-	return task_list_selector->priv->shell_view;
-}
-
-static void
-e_task_list_selector_set_shell_view (ETaskListSelector *task_list_selector,
-				     EShellView *shell_view)
-{
-	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
-	g_return_if_fail (task_list_selector->priv->shell_view == NULL);
-
-	task_list_selector->priv->shell_view = g_object_ref (shell_view);
-}
-
-static void
-task_list_selector_set_property (GObject *object,
-				 guint property_id,
-				 const GValue *value,
-				 GParamSpec *pspec)
-{
-	switch (property_id) {
-		case PROP_SHELL_VIEW:
-			e_task_list_selector_set_shell_view (
-				E_TASK_LIST_SELECTOR (object),
-				g_value_get_object (value));
-			return;
-	}
-
-	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-}
-
-static void
-task_list_selector_get_property (GObject *object,
-				 guint property_id,
-				 GValue *value,
-				 GParamSpec *pspec)
-{
-	switch (property_id) {
-		case PROP_SHELL_VIEW:
-			g_value_set_object (
-				value,
-				e_task_list_selector_get_shell_view (E_TASK_LIST_SELECTOR (object)));
-			return;
-	}
-
-	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
 static void
@@ -439,7 +437,7 @@ e_task_list_selector_init (ETaskListSelector *selector)
 
 GtkWidget *
 e_task_list_selector_new (EClientCache *client_cache,
-			  EShellView *shell_view)
+                          EShellView *shell_view)
 {
 	ESourceRegistry *registry;
 	GtkWidget *widget;
@@ -460,3 +458,12 @@ e_task_list_selector_new (EClientCache *client_cache,
 
 	return widget;
 }
+
+EShellView *
+e_task_list_selector_get_shell_view (ETaskListSelector *selector)
+{
+	g_return_val_if_fail (E_IS_TASK_LIST_SELECTOR (selector), NULL);
+
+	return selector->priv->shell_view;
+}
+

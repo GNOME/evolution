@@ -200,41 +200,48 @@ publish_online (EPublishUri *uri,
 	GOutputStream *stream;
 	GError *error = NULL;
 
-	stream = G_OUTPUT_STREAM (g_file_replace (file, NULL, FALSE, G_FILE_CREATE_NONE, NULL, &error));
+	stream = G_OUTPUT_STREAM (g_file_replace (
+		file, NULL, FALSE, G_FILE_CREATE_NONE, NULL, &error));
 
-	if (!stream || error) {
-		if (stream)
-			g_object_unref (stream);
+	/* Sanity check. */
+	g_return_if_fail (
+		((stream != NULL) && (error == NULL)) ||
+		((stream == NULL) && (error != NULL)));
 
-		if (perror) {
+	if (error != NULL) {
+		if (perror != NULL) {
 			*perror = error;
-		} else if (error) {
-
-			error_queue_add (g_strdup_printf (_("Could not open %s:"), uri->location), error);
 		} else {
-			error_queue_add (g_strdup_printf (_("Could not open %s: Unknown error"), uri->location), NULL);
+			error_queue_add (
+				g_strdup_printf (
+					_("Could not open %s:"),
+					uri->location),
+				error);
 		}
 		return;
 	}
 
 	switch (uri->publish_format) {
-	case URI_PUBLISH_AS_ICAL:
-		publish_calendar_as_ical (stream, uri, &error);
-		break;
-	case URI_PUBLISH_AS_FB:
-		publish_calendar_as_fb (stream, uri, &error);
-		break;
-	/*
-	case URI_PUBLISH_AS_HTML:
-		publish_calendar_as_html (handle, uri);
-		break;
-	*/
+		case URI_PUBLISH_AS_ICAL:
+			publish_calendar_as_ical (stream, uri, &error);
+			break;
+		case URI_PUBLISH_AS_FB:
+			publish_calendar_as_fb (stream, uri, &error);
+			break;
 	}
 
-	if (error)
-		error_queue_add (g_strdup_printf (_("There was an error while publishing to %s:"), uri->location), error);
+	if (error != NULL)
+		error_queue_add (
+			g_strdup_printf (
+				_("There was an error while publishing to %s:"),
+				uri->location),
+			error);
 	else if (can_report_success)
-		error_queue_add (g_strdup_printf (_("Publishing to %s finished successfully"), uri->location), NULL);
+		error_queue_add (
+			g_strdup_printf (
+				_("Publishing to %s finished successfully"),
+				uri->location),
+			NULL);
 
 	update_timestamp (uri);
 
@@ -251,7 +258,7 @@ unmount_done_cb (GObject *source_object,
 
 	g_mount_unmount_with_operation_finish (G_MOUNT (source_object), result, &error);
 
-	if (error) {
+	if (error != NULL) {
 		g_warning ("Unmount failed: %s", error->message);
 		g_error_free (error);
 	}
@@ -277,8 +284,12 @@ mount_ready_cb (GObject *source_object,
 
 	g_file_mount_enclosing_volume_finish (G_FILE (source_object), result, &error);
 
-	if (error) {
-		error_queue_add (g_strdup_printf (_("Mount of %s failed:"), ms ? ms->uri->location : "???"), error);
+	if (error != NULL) {
+		error_queue_add (
+			g_strdup_printf (
+				_("Mount of %s failed:"),
+				ms ? ms->uri->location : "???"),
+			error);
 
 		if (ms)
 			g_object_unref (ms->mount_op);
@@ -467,8 +478,12 @@ publish (EPublishUri *uri,
 			mount_first (uri, file, can_report_success);
 		}
 
-		if (error)
-			error_queue_add (g_strdup_printf (_("Could not open %s:"), uri->location), error);
+		if (error != NULL)
+			error_queue_add (
+				g_strdup_printf (
+					_("Could not open %s:"),
+					uri->location),
+				error);
 
 		g_object_unref (file);
 	} else {

@@ -321,7 +321,7 @@ report_and_free_error (CertPage *cp,
 		GTK_MESSAGE_ERROR, "%s: %s", where,
 		error ? error->message : _("Unknown error"));
 
-	if (error)
+	if (error != NULL)
 		g_error_free (error);
 }
 

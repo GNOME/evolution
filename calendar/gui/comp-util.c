@@ -106,7 +106,8 @@ cal_comp_util_compare_event_timezones (ECalComponent *comp,
 	ECalComponentDateTime start_datetime, end_datetime;
 	const gchar *tzid;
 	gboolean retval = FALSE;
-	icaltimezone *start_zone, *end_zone;
+	icaltimezone *start_zone = NULL;
+	icaltimezone *end_zone = NULL;
 	gint offset1, offset2;
 
 	tzid = icaltimezone_get_tzid (zone);
@@ -150,8 +151,9 @@ cal_comp_util_compare_event_timezones (ECalComponent *comp,
 		/* If the TZIDs differ, we have to compare the UTC offsets
 		 * of the start and end times, using their own timezones and
 		 * the given timezone. */
-		if (!e_cal_client_get_timezone_sync (client, start_datetime.tzid,
-					      &start_zone, NULL, NULL))
+		e_cal_client_get_timezone_sync (
+			client, start_datetime.tzid, &start_zone, NULL, NULL);
+		if (start_zone == NULL)
 			goto out;
 
 		if (start_datetime.value) {
@@ -167,8 +169,9 @@ cal_comp_util_compare_event_timezones (ECalComponent *comp,
 				goto out;
 		}
 
-		if (!e_cal_client_get_timezone_sync (client, end_datetime.tzid,
-					      &end_zone, NULL, NULL))
+		e_cal_client_get_timezone_sync (
+			client, end_datetime.tzid, &end_zone, NULL, NULL);
+		if (end_zone == NULL)
 			goto out;
 
 		if (end_datetime.value) {
@@ -242,7 +245,10 @@ cal_comp_is_on_server (ECalComponent *comp,
 		rid = e_cal_component_get_recurid_as_string (comp);
 	}
 
-	if (e_cal_client_get_object_sync (client, uid, rid, &icalcomp, NULL, &error)) {
+	e_cal_client_get_object_sync (
+		client, uid, rid, &icalcomp, NULL, &error);
+
+	if (icalcomp != NULL) {
 		icalcomponent_free (icalcomp);
 		g_free (rid);
 
@@ -298,13 +304,14 @@ cal_comp_event_new_with_defaults (ECalClient *client,
                                   gint default_reminder_interval,
                                   EDurationType default_reminder_units)
 {
-	icalcomponent *icalcomp;
+	icalcomponent *icalcomp = NULL;
 	ECalComponent *comp;
 	ECalComponentAlarm *alarm;
 	icalproperty *icalprop;
 	ECalComponentAlarmTrigger trigger;
 
-	if (!e_cal_client_get_default_object_sync (client, &icalcomp, NULL, NULL))
+	e_cal_client_get_default_object_sync (client, &icalcomp, NULL, NULL);
+	if (icalcomp == NULL)
 		icalcomp = icalcomponent_new (ICAL_VEVENT_COMPONENT);
 
 	comp = e_cal_component_new ();
@@ -407,9 +414,10 @@ ECalComponent *
 cal_comp_task_new_with_defaults (ECalClient *client)
 {
 	ECalComponent *comp;
-	icalcomponent *icalcomp;
+	icalcomponent *icalcomp = NULL;
 
-	if (!e_cal_client_get_default_object_sync (client, &icalcomp, NULL, NULL))
+	e_cal_client_get_default_object_sync (client, &icalcomp, NULL, NULL);
+	if (icalcomp == NULL)
 		icalcomp = icalcomponent_new (ICAL_VTODO_COMPONENT);
 
 	comp = e_cal_component_new ();
@@ -426,9 +434,10 @@ ECalComponent *
 cal_comp_memo_new_with_defaults (ECalClient *client)
 {
 	ECalComponent *comp;
-	icalcomponent *icalcomp;
+	icalcomponent *icalcomp = NULL;
 
-	if (!e_cal_client_get_default_object_sync (client, &icalcomp, NULL, NULL))
+	e_cal_client_get_default_object_sync (client, &icalcomp, NULL, NULL);
+	if (icalcomp == NULL)
 		icalcomp = icalcomponent_new (ICAL_VJOURNAL_COMPONENT);
 
 	comp = e_cal_component_new ();

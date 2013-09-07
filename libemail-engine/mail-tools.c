@@ -192,14 +192,22 @@ mail_tool_generate_forward_subject (CamelMimeMessage *msg)
 struct _camel_header_raw *
 mail_tool_remove_xevolution_headers (CamelMimeMessage *message)
 {
+	struct _camel_header_raw *headers;
 	struct _camel_header_raw *scan, *list = NULL;
 
-	for (scan = ((CamelMimePart *) message)->headers; scan; scan = scan->next)
-		if (!strncmp (scan->name, "X-Evolution", 11))
-			camel_header_raw_append (&list, scan->name, scan->value, scan->offset);
+	headers = CAMEL_MIME_PART (message)->headers;
 
-	for (scan = list; scan; scan = scan->next)
-		camel_medium_remove_header ((CamelMedium *) message, scan->name);
+	for (scan = headers; scan != NULL; scan = scan->next) {
+		if (strncmp (scan->name, "X-Evolution", 11) == 0)
+			camel_header_raw_append (
+				&list, scan->name,
+				scan->value, scan->offset);
+	}
+
+	for (scan = list; scan; scan = scan->next) {
+		camel_medium_remove_header (
+			CAMEL_MEDIUM (message), scan->name);
+	}
 
 	return list;
 }

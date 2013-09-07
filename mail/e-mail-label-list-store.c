@@ -277,7 +277,7 @@ labels_model_changed_cb (EMailLabelListStore *store)
 	g_return_if_fail (E_IS_MAIL_LABEL_LIST_STORE (store));
 
 	/* do the actual save and signal emission on idle,
-	   to accumulate as many changes as possible */
+	 * to accumulate as many changes as possible */
 	if (!store->priv->idle_changed_id)
 		store->priv->idle_changed_id = g_idle_add (labels_model_changed_idle_cb, store);
 }
@@ -300,7 +300,7 @@ labels_settings_changed_cb (GSettings *settings,
 	strv = g_settings_get_strv (store->priv->mail_settings, "labels");
 
 	/* Check if any label changed first, because GSettings can claim
-	   change when nothing changed at all */
+	 * change when nothing changed at all */
 	changed_labels = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
 	if (gtk_tree_model_get_iter_first (model, &iter)) {
 		do {
@@ -312,7 +312,6 @@ labels_settings_changed_cb (GSettings *settings,
 				g_hash_table_insert (changed_labels, label_str, NULL);
 		} while (gtk_tree_model_iter_next (model, &iter));
 
-		
 		for (i = 0; strv[i] != NULL; i++) {
 			if (!g_hash_table_remove (changed_labels, strv[i])) {
 				g_hash_table_insert (changed_labels, g_strdup (""), NULL);

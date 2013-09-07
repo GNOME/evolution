@@ -661,27 +661,6 @@ attachment_view_uris (EAttachmentView *view,
 	gtk_drag_finish (drag_context, TRUE, FALSE, time);
 }
 
-static gboolean
-executable_is_evolution (const gchar *app_executable)
-{
-	const gchar *dash;
-	const gchar *evo_name;
-
-	g_return_val_if_fail (app_executable != NULL, FALSE);
-
-	dash = strrchr (app_executable, G_DIR_SEPARATOR);
-	if (dash)
-		app_executable = dash + 1;
-
-	#ifdef G_OS_WIN32
-	evo_name = "evolution.exe";
-	#else
-	evo_name = "evolution";
-	#endif
-
-	return g_ascii_strcasecmp (app_executable, evo_name) == 0;
-}
-
 static void
 attachment_view_update_actions (EAttachmentView *view)
 {
@@ -784,23 +763,27 @@ attachment_view_update_actions (EAttachmentView *view)
 		GAppInfo *app_info = iter->data;
 		GtkAction *action;
 		GIcon *app_icon;
-		const gchar *app_executable;
+		const gchar *app_id;
 		const gchar *app_name;
 		gchar *action_tooltip;
 		gchar *action_label;
 		gchar *action_name;
 
-		app_executable = g_app_info_get_executable (app_info);
-
-		/* skip evolution from the list */
-		if (executable_is_evolution (app_executable))
-			continue;
-
+		app_id = g_app_info_get_id (app_info);
 		app_icon = g_app_info_get_icon (app_info);
 		app_name = g_app_info_get_name (app_info);
 
-		action_name = g_strdup_printf ("open-with-%s", app_executable);
-		action_label = g_strdup_printf (_("Open With \"%s\""), app_name);
+		if (app_id == NULL)
+			continue;
+
+		/* Don't list 'Open With "Evolution"'. */
+		if (g_str_equal (app_id, "evolution.desktop"))
+			continue;
+
+		action_name = g_strdup_printf ("open-with-%s", app_id);
+
+		action_label = g_strdup_printf (
+			_("Open With \"%s\""), app_name);
 
 		action_tooltip = g_strdup_printf (
 			_("Open this attachment in %s"), app_name);
@@ -1163,6 +1146,7 @@ e_attachment_view_open_path (EAttachmentView *view,
 	EAttachment *attachment;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
+	gboolean iter_valid;
 	gpointer parent;
 	gint column_id;
 
@@ -1173,7 +1157,9 @@ e_attachment_view_open_path (EAttachmentView *view,
 	store = e_attachment_view_get_store (view);
 	model = GTK_TREE_MODEL (store);
 
-	g_return_if_fail (gtk_tree_model_get_iter (model, &iter, path));
+	iter_valid = gtk_tree_model_get_iter (model, &iter, path);
+	g_return_if_fail (iter_valid);
+
 	gtk_tree_model_get (model, &iter, column_id, &attachment, -1);
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (view));

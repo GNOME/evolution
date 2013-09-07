@@ -1000,8 +1000,7 @@ action_event_occurrence_movable_cb (GtkAction *action,
 	g_object_unref (recurring_component);
 
 	icalcomp = e_cal_component_get_icalcomponent (exception_component);
-	if (e_cal_client_create_object_sync (client, icalcomp, &uid, NULL, NULL))
-		g_free (uid);
+	e_cal_client_create_object_sync (client, icalcomp, NULL, NULL, NULL);
 
 	g_object_unref (exception_component);
 

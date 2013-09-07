@@ -2220,9 +2220,11 @@ e_web_view_add_highlight (EWebView *web_view,
 		&web_view->priv->highlights,
 		g_strdup (highlight));
 
-	webkit_web_view_mark_text_matches (WEBKIT_WEB_VIEW (web_view), highlight, FALSE, 0);
+	webkit_web_view_mark_text_matches (
+		WEBKIT_WEB_VIEW (web_view), highlight, FALSE, 0);
 
-	webkit_web_view_set_highlight_text_matches (WEBKIT_WEB_VIEW (web_view), TRUE);
+	webkit_web_view_set_highlight_text_matches (
+		WEBKIT_WEB_VIEW (web_view), TRUE);
 }
 
 void

@@ -3501,7 +3501,7 @@ adjust_item (EMailPartItip *pitip,
 
 static gboolean
 same_attendee_status (EMailPartItip *pitip,
-		      ECalComponent *received_comp)
+                      ECalComponent *received_comp)
 {
 	ECalComponent *saved_comp;
 	GSList *received_attendees = NULL, *saved_attendees = NULL, *riter, *siter;
@@ -3527,7 +3527,7 @@ same_attendee_status (EMailPartItip *pitip,
 		}
 
 		/* no need to create a hash table for quicker searches, there might
-		   be one attendee in the received component only */
+		 * be one attendee in the received component only */
 		for (siter = saved_attendees; siter; siter = g_slist_next (siter)) {
 			const ECalComponentAttendee *sattendee = siter->data;
 
@@ -3614,8 +3614,7 @@ itip_view_cal_opened_cb (GObject *source_object,
 		((client == NULL) && (error != NULL)));
 
 	/* Ignore cancellations. */
-	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
-	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 		g_error_free (error);
 		goto exit;
 
@@ -3941,11 +3940,9 @@ get_object_without_rid_ready_cb (GObject *source_object,
 	icalcomponent *icalcomp = NULL;
 	GError *error = NULL;
 
-	if (!e_cal_client_get_object_finish (cal_client, result, &icalcomp, &error))
-		icalcomp = NULL;
+	e_cal_client_get_object_finish (cal_client, result, &icalcomp, &error);
 
-	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
-	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED) ||
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED) ||
 	    g_cancellable_is_cancelled (fd->cancellable)) {
 		g_clear_error (&error);
 		find_cal_update_ui (fd, cal_client);
@@ -3992,11 +3989,9 @@ get_object_with_rid_ready_cb (GObject *source_object,
 	icalcomponent *icalcomp = NULL;
 	GError *error = NULL;
 
-	if (!e_cal_client_get_object_finish (cal_client, result, &icalcomp, &error))
-		icalcomp = NULL;
+	e_cal_client_get_object_finish (cal_client, result, &icalcomp, &error);
 
-	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
-	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED) ||
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED) ||
 	    g_cancellable_is_cancelled (fd->cancellable)) {
 		g_clear_error (&error);
 		find_cal_update_ui (fd, cal_client);
@@ -4048,8 +4043,8 @@ get_object_list_ready_cb (GObject *source_object,
 	GSList *objects = NULL;
 	GError *error = NULL;
 
-	if (!e_cal_client_get_object_list_finish (cal_client, result, &objects, &error))
-		objects = NULL;
+	e_cal_client_get_object_list_finish (
+		cal_client, result, &objects, &error);
 
 	if (g_cancellable_is_cancelled (fd->cancellable)) {
 		g_clear_error (&error);
@@ -4057,21 +4052,24 @@ get_object_list_ready_cb (GObject *source_object,
 		return;
 	}
 
-	if (error) {
-		if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
-		    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-			g_error_free (error);
-			decrease_find_data (fd);
-			return;
-		}
-
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 		g_error_free (error);
+		decrease_find_data (fd);
+		return;
+
+	} else if (error != NULL) {
+		g_error_free (error);
+
 	} else {
-		g_hash_table_insert (fd->conflicts, cal_client, GINT_TO_POINTER (g_slist_length (objects)));
+		g_hash_table_insert (
+			fd->conflicts, cal_client,
+			GINT_TO_POINTER (g_slist_length (objects)));
 		e_cal_client_free_icalcomp_slist (objects);
 	}
 
-	e_cal_client_get_object (cal_client, fd->uid, fd->rid, fd->cancellable, get_object_with_rid_ready_cb, fd);
+	e_cal_client_get_object (
+		cal_client, fd->uid, fd->rid, fd->cancellable,
+		get_object_with_rid_ready_cb, fd);
 }
 
 static void
@@ -4098,8 +4096,7 @@ find_cal_opened_cb (GObject *source_object,
 		((client == NULL) && (error != NULL)));
 
 	/* Ignore cancellations. */
-	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
-	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 		decrease_find_data (fd);
 		g_error_free (error);
 		return;
@@ -4111,7 +4108,7 @@ find_cal_opened_cb (GObject *source_object,
 		return;
 	}
 
-	if (error) {
+	if (error != NULL) {
 		/* FIXME Do we really want to warn here?  If we fail
 		 * to find the item, this won't be cleared but the
 		 * selector might be shown */
@@ -4643,17 +4640,18 @@ receive_objects_ready_cb (GObject *ecalclient,
 
 	e_cal_client_receive_objects_finish (client, result, &error);
 
-	if (error != NULL) {
-		if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED) &&
-		    !g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED)) {
-			update_item_progress_info (pitip, view, NULL);
-			pitip->update_item_error_info_id =
-				itip_view_add_lower_info_item_printf (
-					view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
-					_("Unable to send item to calendar '%s'.  %s"),
-					e_source_get_display_name (source),
-					error->message);
-		}
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		g_error_free (error);
+		return;
+
+	} else if (error != NULL) {
+		update_item_progress_info (pitip, view, NULL);
+		pitip->update_item_error_info_id =
+			itip_view_add_lower_info_item_printf (
+				view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
+				_("Unable to send item to calendar '%s'.  %s"),
+				e_source_get_display_name (source),
+				error->message);
 		g_error_free (error);
 		return;
 	}
@@ -4999,13 +4997,10 @@ modify_object_cb (GObject *ecalclient,
 
 	e_cal_client_modify_object_finish (client, result, &error);
 
-	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED) ||
-	    g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED)) {
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 		g_error_free (error);
-		return;
-	}
 
-	if (error != NULL) {
+	} else if (error != NULL) {
 		update_item_progress_info (pitip, view, NULL);
 		pitip->update_item_error_info_id =
 			itip_view_add_lower_info_item_printf (
@@ -5013,6 +5008,7 @@ modify_object_cb (GObject *ecalclient,
 				_("Unable to update attendee. %s"),
 				error->message);
 		g_error_free (error);
+
 	} else {
 		update_item_progress_info (pitip, view, NULL);
 		itip_view_add_lower_info_item (
@@ -5187,24 +5183,25 @@ update_attendee_status_get_object_without_rid_cb (GObject *ecalclient,
 	icalcomponent *icalcomp = NULL;
 	GError *error = NULL;
 
-	if (!e_cal_client_get_object_finish (client, result, &icalcomp, &error)) {
-		if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED) ||
-		    g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED)) {
-			g_clear_error (&error);
-			return;
-		}
+	e_cal_client_get_object_finish (client, result, &icalcomp, &error);
 
-		g_clear_error (&error);
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		g_error_free (error);
+
+	} else if (error != NULL) {
+		g_error_free (error);
 
 		update_item_progress_info (pitip, view, NULL);
-		pitip->update_item_error_info_id = itip_view_add_lower_info_item (
-			view,
-			ITIP_VIEW_INFO_ITEM_TYPE_WARNING,
-			_("Attendee status can not be updated because the item no longer exists"));
-		return;
-	}
+		pitip->update_item_error_info_id =
+			itip_view_add_lower_info_item (
+				view,
+				ITIP_VIEW_INFO_ITEM_TYPE_WARNING,
+				_("Attendee status can not be updated "
+				"because the item no longer exists"));
 
-	update_attendee_status_icalcomp (pitip, view, icalcomp);
+	} else {
+		update_attendee_status_icalcomp (pitip, view, icalcomp);
+	}
 }
 
 static void
@@ -5218,45 +5215,43 @@ update_attendee_status_get_object_with_rid_cb (GObject *ecalclient,
 	icalcomponent *icalcomp = NULL;
 	GError *error = NULL;
 
-	if (!e_cal_client_get_object_finish (client, result, &icalcomp, &error)) {
+	e_cal_client_get_object_finish (client, result, &icalcomp, &error);
+
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		g_error_free (error);
+
+	} else if (error != NULL) {
 		const gchar *uid;
 		gchar *rid;
 
-		if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED) ||
-		    g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED)) {
-			g_clear_error (&error);
-			return;
-		}
-
-		g_clear_error (&error);
+		g_error_free (error);
 
 		e_cal_component_get_uid (pitip->comp, &uid);
 		rid = e_cal_component_get_recurid_as_string (pitip->comp);
 
-		if (!rid || !*rid) {
-			g_free (rid);
-
+		if (rid == NULL || *rid == '\0') {
 			update_item_progress_info (pitip, view, NULL);
-			pitip->update_item_error_info_id = itip_view_add_lower_info_item (
-				view,
-				ITIP_VIEW_INFO_ITEM_TYPE_WARNING,
-				_("Attendee status can not be updated because the item no longer exists"));
-			return;
+			pitip->update_item_error_info_id =
+				itip_view_add_lower_info_item (
+					view,
+					ITIP_VIEW_INFO_ITEM_TYPE_WARNING,
+					_("Attendee status can not be updated "
+					"because the item no longer exists"));
+		} else {
+			e_cal_client_get_object (
+				pitip->current_client,
+				uid,
+				NULL,
+				pitip->cancellable,
+				update_attendee_status_get_object_without_rid_cb,
+				view);
 		}
 
-		e_cal_client_get_object (
-			pitip->current_client,
-			uid,
-			NULL,
-			pitip->cancellable,
-			update_attendee_status_get_object_without_rid_cb,
-			view);
-
 		g_free (rid);
-		return;
-	}
 
-	update_attendee_status_icalcomp (pitip, view, icalcomp);
+	} else {
+		update_attendee_status_icalcomp (pitip, view, icalcomp);
+	}
 }
 
 static void

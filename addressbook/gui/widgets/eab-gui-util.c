@@ -77,7 +77,7 @@ typedef enum {
 
 void
 eab_error_dialog (EAlertSink *alert_sink,
-		  GtkWindow *parent,
+                  GtkWindow *parent,
                   const gchar *msg,
                   const GError *error)
 {
@@ -166,12 +166,14 @@ eab_load_error_dialog (GtkWidget *parent,
 			  "is unreachable.");
 	}
 
-	if (can_detail_error) {
-		/* do not show repository offline message, it's kind of generic error */
-		if (error && !g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_REPOSITORY_OFFLINE)) {
-			label = g_strconcat (label_string, "\n\n", _("Detailed error message:"), " ", error->message, NULL);
-			label_string = label;
-		}
+	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_REPOSITORY_OFFLINE)) {
+		/* Do not show a detailed message; too generic. */
+	} else if (can_detail_error && error != NULL) {
+		label = g_strconcat (
+			label_string, "\n\n",
+			_("Detailed error message:"),
+			" ", error->message, NULL);
+		label_string = label;
 	}
 
 	if (alert_sink) {
@@ -492,15 +494,14 @@ contact_added_cb (EBookClient *book_client,
 {
 	ContactCopyProcess *process = user_data;
 
-	if (error && !g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) &&
-	    !g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 		process->book_status = FALSE;
-		eab_error_dialog (process->alert_sink, NULL, _("Error adding contact"), error);
-	} else if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
-	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+	} else if (error != NULL) {
 		process->book_status = FALSE;
-	}
-	else {
+		eab_error_dialog (
+			process->alert_sink, NULL,
+			_("Error adding contact"), error);
+	} else {
 		/* success */
 		process->book_status = TRUE;
 	}
@@ -803,7 +804,7 @@ get_address_format (AddressFormat address_format,
 	error = NULL;
 	key_file = g_key_file_new ();
 	g_key_file_load_from_file (key_file, EVOLUTION_RULEDIR "/address_formats.dat", 0, &error);
-	if (error) {
+	if (error != NULL) {
 		g_warning ("%s: Failed to load address_formats.dat file: %s", G_STRFUNC, error->message);
 		*format = g_strdup (ADDRESS_DEFAULT_FORMAT);
 		*country_position = g_strdup (ADDRESS_DEFAULT_COUNTRY_POSITION);

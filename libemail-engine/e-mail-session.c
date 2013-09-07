@@ -175,10 +175,13 @@ user_message_response_cb (GObject *source,
 	struct _user_message_msg *m = user_data;
 	GError *local_error = NULL;
 
-	m->result = e_user_prompter_prompt_finish (E_USER_PROMPTER (source), result, &local_error);
+	m->result = e_user_prompter_prompt_finish (
+		E_USER_PROMPTER (source), result, &local_error);
 
-	if (local_error) {
-		g_print ("%s: Failed to prompt user: %s\n", G_STRFUNC, local_error->message);
+	if (local_error != NULL) {
+		g_warning (
+			"%s: Failed to prompt user: %s",
+			G_STRFUNC, local_error->message);
 		g_clear_error (&local_error);
 	}
 
@@ -1412,6 +1415,7 @@ mail_session_trust_prompt (CamelSession *session,
 	CamelCertTrust response;
 	gchar *errors_code;
 	GList *iter;
+	gint button_index;
 	gint ii;
 
 	prompter = e_user_prompter_new ();
@@ -1433,19 +1437,23 @@ mail_session_trust_prompt (CamelSession *session,
 		g_free (name);
 	}
 
-	switch (e_user_prompter_extension_prompt_sync (prompter, "ETrustPrompt::trust-prompt", parameters, NULL, cancellable, NULL)) {
-	case 0:
-		response = CAMEL_CERT_TRUST_NEVER;
-		break;
-	case 1:
-		response = CAMEL_CERT_TRUST_FULLY;
-		break;
-	case 2:
-		response = CAMEL_CERT_TRUST_TEMPORARY;
-		break;
-	default:
-		response = CAMEL_CERT_TRUST_UNKNOWN;
-		break;
+	button_index = e_user_prompter_extension_prompt_sync (
+		prompter, "ETrustPrompt::trust-prompt",
+		parameters, NULL, cancellable, NULL);
+
+	switch (button_index) {
+		case 0:
+			response = CAMEL_CERT_TRUST_NEVER;
+			break;
+		case 1:
+			response = CAMEL_CERT_TRUST_FULLY;
+			break;
+		case 2:
+			response = CAMEL_CERT_TRUST_TEMPORARY;
+			break;
+		default:
+			response = CAMEL_CERT_TRUST_UNKNOWN;
+			break;
 	}
 
 	g_free (errors_code);

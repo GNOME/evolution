@@ -36,7 +36,10 @@ display_error_message (GtkWidget *parent,
 {
 	GtkWidget *dialog;
 
-	dialog = gtk_message_dialog_new (GTK_WINDOW (parent), 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, "%s", message);
+	dialog = gtk_message_dialog_new (
+		GTK_WINDOW (parent), 0,
+		GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
+		"%s", message);
 	gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);
 }
@@ -61,8 +64,13 @@ insert_tz_comps (icalparameter *param,
 	if (g_hash_table_lookup (tdata->zones, tzid))
 		return;
 
-	if (!e_cal_client_get_timezone_sync (tdata->client, tzid, &zone, NULL, &error)) {
-		g_warning ("Could not get the timezone information for %s :  %s \n", tzid, error->message);
+	e_cal_client_get_timezone_sync (
+		tdata->client, tzid, &zone, NULL, &error);
+
+	if (error != NULL) {
+		g_warning (
+			"Could not get the timezone information for %s: %s",
+			tzid, error->message);
 		g_error_free (error);
 		return;
 	}
@@ -105,7 +113,7 @@ do_save_calendar_ical (FormatHandler *handler,
 		((source_client != NULL) && (error == NULL)) ||
 		((source_client == NULL) && (error != NULL)));
 
-	if (source_client == NULL) {
+	if (error != NULL) {
 		display_error_message (
 			gtk_widget_get_toplevel (GTK_WIDGET (selector)),
 			error->message);
@@ -116,8 +124,10 @@ do_save_calendar_ical (FormatHandler *handler,
 	/* create destination file */
 	top_level = e_cal_util_new_top_level ();
 
-	error = NULL;
-	if (e_cal_client_get_object_list_sync (E_CAL_CLIENT (source_client), "#t", &objects, NULL, &error)) {
+	e_cal_client_get_object_list_sync (
+		E_CAL_CLIENT (source_client), "#t", &objects, NULL, &error);
+
+	if (objects != NULL) {
 		CompTzData tdata;
 		GOutputStream *stream;
 		GSList *iter;
@@ -153,8 +163,10 @@ do_save_calendar_ical (FormatHandler *handler,
 		e_cal_client_free_icalcomp_slist (objects);
 	}
 
-	if (error) {
-		display_error_message (gtk_widget_get_toplevel (GTK_WIDGET (selector)), error->message);
+	if (error != NULL) {
+		display_error_message (
+			gtk_widget_get_toplevel (GTK_WIDGET (selector)),
+			error->message);
 		g_error_free (error);
 	}
 
@@ -163,7 +175,8 @@ do_save_calendar_ical (FormatHandler *handler,
 	icalcomponent_free (top_level);
 }
 
-FormatHandler *ical_format_handler_new (void)
+FormatHandler *
+ical_format_handler_new (void)
 {
 	FormatHandler *handler = g_new (FormatHandler, 1);
 

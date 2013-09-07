@@ -390,12 +390,14 @@ changes_view_ready_cb (GObject *source_object,
 				G_STRFUNC, error->message);
 			g_error_free (error);
 		}
-	} else if (error) {
-		if (!g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) &&
-		    !g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-			g_warning (
-				"%s: Failed to get view: %s",
-				G_STRFUNC, error->message);
+
+	} else if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		g_error_free (error);
+
+	} else if (error != NULL) {
+		g_warning (
+			"%s: Failed to get view: %s",
+			G_STRFUNC, error->message);
 		g_error_free (error);
 	}
 }
@@ -619,7 +621,7 @@ save_comp (CompEditor *editor)
 		gtk_dialog_run (GTK_DIALOG (dialog));
 		gtk_widget_destroy (dialog);
 
-		if (error)
+		if (error != NULL)
 			g_error_free (error);
 
 		g_free (orig_uid_copy);
@@ -1055,35 +1057,23 @@ save_and_close_editor (CompEditor *editor,
 			rid = e_cal_component_get_recurid_as_string (priv->comp);
 
 			source_type = e_cal_client_get_source_type (priv->cal_client);
-			if (!e_cal_client_get_object_sync (priv->cal_client, uid, rid, &icalcomp, NULL, &error)) {
-				if (error != NULL) {
-					switch (source_type) {
-						case (E_CAL_CLIENT_SOURCE_TYPE_TASKS):
-							g_warning ("Unable to retrieve saved component from the task list, returned error was: %s", error->message);
-							break;
-						case (E_CAL_CLIENT_SOURCE_TYPE_MEMOS):
-							g_warning ("Unable to retrieve saved component from the memo list, returned error was: %s", error->message);
-							break;
-						case (E_CAL_CLIENT_SOURCE_TYPE_EVENTS):
-						default:
-							g_warning ("Unable to retrieve saved component from the calendar, returned error was: %s", error->message);
-							break;
-					}
-					g_clear_error (&error);
-				} else {
-					switch (source_type) {
-						case (E_CAL_CLIENT_SOURCE_TYPE_TASKS):
-							g_warning ("Unable to retrieve saved component from the task list");
+			e_cal_client_get_object_sync (
+				priv->cal_client, uid, rid,
+				&icalcomp, NULL, &error);
+			if (error != NULL) {
+				switch (source_type) {
+					case (E_CAL_CLIENT_SOURCE_TYPE_TASKS):
+						g_warning ("Unable to retrieve saved component from the task list, returned error was: %s", error->message);
 						break;
-						case (E_CAL_CLIENT_SOURCE_TYPE_MEMOS):
-							g_warning ("Unable to retrieve saved component from the memo list");
-							break;
-						case (E_CAL_CLIENT_SOURCE_TYPE_EVENTS):
-						default:
-							g_warning ("Unable to retrieve saved component from the calendar");
-							break;
-					}
+					case (E_CAL_CLIENT_SOURCE_TYPE_MEMOS):
+						g_warning ("Unable to retrieve saved component from the memo list, returned error was: %s", error->message);
+						break;
+					case (E_CAL_CLIENT_SOURCE_TYPE_EVENTS):
+					default:
+						g_warning ("Unable to retrieve saved component from the calendar, returned error was: %s", error->message);
+						break;
 				}
+				g_clear_error (&error);
 				e_notice (
 					GTK_WINDOW (editor),
 					GTK_MESSAGE_ERROR,
@@ -3438,7 +3428,9 @@ real_send_comp (CompEditor *editor,
 		const gchar *uid = NULL;
 
 		e_cal_component_get_uid (priv->comp, &uid);
-		if (e_cal_client_get_object_sync (priv->cal_client, uid, NULL, &icalcomp, NULL, NULL) && icalcomp) {
+		e_cal_client_get_object_sync (
+			priv->cal_client, uid, NULL, &icalcomp, NULL, NULL);
+		if (icalcomp != NULL) {
 			send_comp = e_cal_component_new ();
 			if (!e_cal_component_set_icalcomponent (send_comp, icalcomp)) {
 				icalcomponent_free (icalcomp);

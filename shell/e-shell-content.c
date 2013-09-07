@@ -305,7 +305,9 @@ shell_content_size_allocate (GtkWidget *widget,
 	child_allocation.y += child_requisition.height;
 
 	if (gtk_widget_get_visible (child))
-		gtk_widget_get_preferred_height_for_width (child, child_allocation.width, &child_requisition.height, NULL);
+		gtk_widget_get_preferred_height_for_width (
+			child, child_allocation.width,
+			&child_requisition.height, NULL);
 	else
 		child_requisition.height = 0;
 

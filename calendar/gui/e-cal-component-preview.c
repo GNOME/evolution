@@ -164,22 +164,19 @@ timet_to_str_with_zone (ECalComponentDateTime *dt,
                         gboolean use_24_hour_format)
 {
 	struct icaltimetype itt;
-	icaltimezone *zone;
+	icaltimezone *zone = NULL;
 	struct tm tm;
 	gchar buf[256];
 
-	if (dt->tzid) {
-		/* If we can't find the zone, we'll guess its "local" */
-		if (!e_cal_client_get_timezone_sync (client, dt->tzid, &zone, NULL, NULL))
-			zone = NULL;
+	if (dt->tzid != NULL) {
+		e_cal_client_get_timezone_sync (
+			client, dt->tzid, &zone, NULL, NULL);
 	} else if (dt->value->is_utc) {
 		zone = icaltimezone_get_utc_timezone ();
-	} else {
-		zone = NULL;
 	}
 
 	itt = *dt->value;
-	if (zone)
+	if (zone != NULL)
 		icaltimezone_convert_time (&itt, zone, default_zone);
 	tm = icaltimetype_to_tm (&itt);
 

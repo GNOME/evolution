@@ -108,7 +108,8 @@ copy_folders (CamelStore *mail_store,
 			gchar *maildir_folder_name;
 
 			/* sanitize folder names and copy folders */
-			maildir_folder_name = sanitize_maildir_folder_name (fi->full_name);
+			maildir_folder_name =
+				sanitize_maildir_folder_name (fi->full_name);
 			copy_folder (
 				mail_store, maildir_store,
 				fi->full_name, maildir_folder_name);

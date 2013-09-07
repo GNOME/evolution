@@ -242,7 +242,8 @@ replace_in_file (const gchar *filename,
 		}
 
 		g_free (content);
-	} else if (error) {
+
+	} else if (error != NULL) {
 		g_warning (
 			"%s: Cannot read file content, error: %s",
 			G_STRFUNC, error->message);
@@ -296,7 +297,7 @@ write_dir_file (void)
 
 	g_file_set_contents (filename->str, content->str, content->len, &error);
 
-	if (error) {
+	if (error != NULL) {
 		g_warning ("Failed to write file '%s': %s\n", filename->str, error->message);
 		g_error_free (error);
 	}
@@ -389,7 +390,7 @@ extract_backup_data (const gchar *filename,
 	key_file = g_key_file_new ();
 	g_key_file_load_from_file (key_file, filename, G_KEY_FILE_NONE, &error);
 
-	if (error) {
+	if (error != NULL) {
 		g_warning ("Failed to read '%s': %s", filename, error->message);
 		g_error_free (error);
 

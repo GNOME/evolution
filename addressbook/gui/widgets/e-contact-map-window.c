@@ -87,8 +87,7 @@ book_contacts_received_cb (GObject *source_object,
 	GSList *contacts = NULL, *p;
 	GError *error = NULL;
 
-	if (!e_book_client_get_contacts_finish (client, result, &contacts, &error))
-		contacts = NULL;
+	e_book_client_get_contacts_finish (client, result, &contacts, &error);
 
 	if (error != NULL) {
 		g_warning (

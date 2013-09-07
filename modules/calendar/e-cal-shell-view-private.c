@@ -1015,8 +1015,11 @@ add_timezone_to_cal_cb (icalparameter *param,
 	if (!tzid || !*tzid)
 		return;
 
-	if (e_cal_client_get_timezone_sync (ftd->source_client, tzid, &tz, NULL, NULL) && tz)
-		e_cal_client_add_timezone_sync (ftd->dest_client, tz, NULL, NULL);
+	e_cal_client_get_timezone_sync (
+		ftd->source_client, tzid, &tz, NULL, NULL);
+	if (tz != NULL)
+		e_cal_client_add_timezone_sync (
+			ftd->dest_client, tz, NULL, NULL);
 }
 
 void
@@ -1367,9 +1370,9 @@ cal_searching_got_instance_cb (ECalComponent *comp,
 
 	if (dt.tzid && dt.value) {
 		icaltimezone *zone = NULL;
-		if (!e_cal_client_get_timezone_sync (gid->client, dt.tzid, &zone, gid->cancellable, NULL)) {
-			zone = NULL;
-		}
+
+		e_cal_client_get_timezone_sync (
+			gid->client, dt.tzid, &zone, gid->cancellable, NULL);
 
 		if (g_cancellable_is_cancelled (gid->cancellable))
 			return FALSE;
@@ -1405,14 +1408,17 @@ cal_search_get_object_list_cb (GObject *source,
 	g_return_if_fail (result != NULL);
 	g_return_if_fail (cal_shell_view != NULL);
 
-	if (!e_cal_client_get_object_list_finish (client, result, &icalcomps, &error) || !icalcomps) {
-		if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
-		    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-			g_clear_error (&error);
-			return;
-		}
+	e_cal_client_get_object_list_finish (
+		client, result, &icalcomps, &error);
 
-		g_clear_error (&error);
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		g_warn_if_fail (icalcomps == NULL);
+		g_error_free (error);
+
+	} else if (error != NULL) {
+		g_warn_if_fail (icalcomps == NULL);
+		g_error_free (error);
+
 		cal_shell_view->priv->search_pending_count--;
 		if (!cal_shell_view->priv->search_pending_count) {
 			cal_shell_view->priv->search_hit_cache =
@@ -1421,6 +1427,7 @@ cal_search_get_object_list_cb (GObject *source,
 					cal_time_t_ptr_compare);
 			cal_iterate_searching (cal_shell_view);
 		}
+
 	} else {
 		GSList *iter;
 		GCancellable *cancellable;
@@ -1478,7 +1485,9 @@ cal_searching_check_candidates (ECalShellView *cal_shell_view)
 	if (!e_calendar_view_get_selected_time_range (calendar_view, &value, NULL))
 		return FALSE;
 
-	if (cal_shell_view->priv->search_direction > 0 && (view_type == GNOME_CAL_WEEK_VIEW || view_type == GNOME_CAL_MONTH_VIEW))
+	if (cal_shell_view->priv->search_direction > 0 &&
+	    (view_type == GNOME_CAL_WEEK_VIEW ||
+	     view_type == GNOME_CAL_MONTH_VIEW))
 		value = time_add_day (value, 1);
 
 	for (iter = cal_shell_view->priv->search_hit_cache; iter; iter = iter->next) {

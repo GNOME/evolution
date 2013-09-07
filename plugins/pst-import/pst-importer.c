@@ -614,16 +614,18 @@ pst_get_client_cb (GObject *source_object,
 		((client != NULL) && (error == NULL)) ||
 		((client == NULL) && (error != NULL)));
 
-	if (error)
-		g_debug ("%s: %s", G_STRFUNC, error->message);
-	g_clear_error (&error);
+	if (error != NULL) {
+		g_warning ("%s: %s", G_STRFUNC, error->message);
+		g_error_free (error);
+	}
 
-	if (client) {
-		if (E_IS_BOOK_CLIENT (client)) {
-			m->addressbook = E_BOOK_CLIENT (client);
-		} else if (E_IS_CAL_CLIENT (client)) {
-			ECalClient *cal_client = E_CAL_CLIENT (client);
-			switch (e_cal_client_get_source_type (cal_client)) {
+	if (E_IS_BOOK_CLIENT (client))
+		m->addressbook = E_BOOK_CLIENT (client);
+
+	if (E_IS_CAL_CLIENT (client)) {
+		ECalClient *cal_client = E_CAL_CLIENT (client);
+
+		switch (e_cal_client_get_source_type (cal_client)) {
 			case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
 				m->calendar = cal_client;
 				break;
@@ -634,13 +636,8 @@ pst_get_client_cb (GObject *source_object,
 				m->journal = cal_client;
 				break;
 			default:
-				g_object_unref (client);
 				g_warn_if_reached ();
 				break;
-			}
-		} else {
-			g_object_unref (client);
-			g_warn_if_reached ();
 		}
 	}
 
@@ -1518,7 +1515,6 @@ pst_process_contact (PstImporter *m,
 	pst_item_contact *c;
 	EContact *ec;
 	GString *notes;
-	gchar *uid = NULL;
 	GError *error = NULL;
 
 	c = item->contact;
@@ -1659,11 +1655,10 @@ pst_process_contact (PstImporter *m,
 	contact_set_string (ec, E_CONTACT_NOTE, notes->str);
 	g_string_free (notes, TRUE);
 
-	if (!e_book_client_add_contact_sync (m->addressbook, ec, &uid, NULL, &error))
-		uid = NULL;
+	e_book_client_add_contact_sync (
+		m->addressbook, ec, NULL, NULL, &error);
 
 	g_object_unref (ec);
-	g_free (uid);
 
 	if (error != NULL) {
 		g_warning (
@@ -2008,7 +2003,6 @@ pst_process_component (PstImporter *m,
                        ECalClient *cal)
 {
 	ECalComponent *ec;
-	gchar *uid = NULL;
 	GError *error = NULL;
 
 	g_return_if_fail (item->appointment != NULL);
@@ -2019,15 +2013,18 @@ pst_process_component (PstImporter *m,
 	fill_calcomponent (m, item, ec, comp_type);
 	set_cal_attachments (cal, ec, m, item->attach);
 
-	if (!e_cal_client_create_object_sync (cal, e_cal_component_get_icalcomponent (ec), &uid, NULL, &error)) {
-		uid = NULL;
-		g_warning ("Creation of %s failed: %s", comp_type, error ? error->message : "Unknown error");
+	e_cal_client_create_object_sync (
+		cal, e_cal_component_get_icalcomponent (ec),
+		NULL, NULL, &error);
+
+	if (error != NULL) {
+		g_warning (
+			"Creation of %s failed: %s",
+			comp_type, error->message);
+		g_error_free (error);
 	}
 
 	g_object_unref (ec);
-	g_free (uid);
-	if (error)
-		g_error_free (error);
 }
 
 static void

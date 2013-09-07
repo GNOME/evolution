@@ -128,10 +128,14 @@ composer_spell_languages_changed (EMsgComposer *composer,
                                   GList *languages)
 {
 	EComposerHeader *header;
-	EComposerHeaderTable *table = e_msg_composer_get_header_table (composer);
+	EComposerHeaderTable *table;
 
-	header = e_composer_header_table_get_header (table, E_COMPOSER_HEADER_SUBJECT);
-	e_composer_spell_header_set_languages (E_COMPOSER_SPELL_HEADER (header), languages);
+	table = e_msg_composer_get_header_table (composer);
+	header = e_composer_header_table_get_header (
+		table, E_COMPOSER_HEADER_SUBJECT);
+
+	e_composer_spell_header_set_languages (
+		E_COMPOSER_SPELL_HEADER (header), languages);
 }
 
 void

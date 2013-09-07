@@ -176,7 +176,7 @@ prepare_image (const gchar *image_filename,
 			if (can_claim)
 				e_alert_run_dialog_for_args (NULL, "org.gnome.evolution.plugins.face:not-an-image", err, NULL);
 
-			if (error)
+			if (error != NULL)
 				g_error_free (error);
 		} else {
 			gint width, height;

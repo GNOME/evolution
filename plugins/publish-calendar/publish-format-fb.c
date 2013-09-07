@@ -66,7 +66,7 @@ write_calendar (const gchar *uid,
 	icalcomponent *top_level;
 	gchar *email = NULL;
 	GSList *users = NULL;
-	gboolean res = FALSE;
+	gboolean success = FALSE;
 
 	utc = icaltimezone_get_utc_timezone ();
 	start = time_day_begin_with_zone (start, utc);
@@ -114,7 +114,9 @@ write_calendar (const gchar *uid,
 		client, "free-busy-data",
 		G_CALLBACK (free_busy_data_cb), &objects);
 
-	if (e_cal_client_get_free_busy_sync (E_CAL_CLIENT (client), start, end, users, NULL, error)) {
+	success = e_cal_client_get_free_busy_sync (
+		E_CAL_CLIENT (client), start, end, users, NULL, error);
+	if (success) {
 		gchar *ical_string;
 		GSList *iter;
 		gboolean done = FALSE;
@@ -135,7 +137,11 @@ write_calendar (const gchar *uid,
 		}
 
 		ical_string = icalcomponent_as_ical_string_r (top_level);
-		res = g_output_stream_write_all (stream, ical_string, strlen (ical_string), NULL, NULL, error);
+
+		success = g_output_stream_write_all (
+			stream, ical_string,
+			strlen (ical_string),
+			NULL, NULL, error);
 
 		e_cal_client_free_ecalcomp_slist (objects);
 		g_free (ical_string);
@@ -148,7 +154,7 @@ write_calendar (const gchar *uid,
 	g_object_unref (client);
 	icalcomponent_free (top_level);
 
-	return res;
+	return success;
 }
 
 void

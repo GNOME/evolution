@@ -1079,6 +1079,7 @@ attachment_store_move_file (SaveContext *save_context,
 {
 	gchar *tmpl;
 	gchar *path;
+	GError *local_error = NULL;
 
 	g_return_if_fail (save_context != NULL);
 	g_return_if_fail (source != NULL);
@@ -1109,12 +1110,16 @@ attachment_store_move_file (SaveContext *save_context,
 	g_file_move (
 		destination,
 		save_context->trash_directory,
-		G_FILE_COPY_NONE, NULL, NULL, NULL, error);
+		G_FILE_COPY_NONE, NULL, NULL,
+		NULL, &local_error);
 
-	if (*error != NULL && !g_error_matches (*error, G_IO_ERROR, G_IO_ERROR_NOT_FOUND))
+	if (g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_NOT_FOUND))
+		g_clear_error (&local_error);
+
+	if (local_error != NULL) {
+		g_propagate_error (error, local_error);
 		return;
-
-	g_clear_error (error);
+	}
 
 	/* Now we can move the file from the temporary directory
 	 * to the user-specified destination. */
@@ -1143,19 +1148,23 @@ attachment_store_save_cb (EAttachment *attachment,
 
 	if (file != NULL) {
 		/* Assemble the file's final URI from its basename. */
+		GFile *source = NULL;
+		GFile *destination = NULL;
 		gchar *basename;
 		gchar *uri;
-		GFile *source = NULL, *destination = NULL;
+		const gchar *prefix;
 
 		basename = g_file_get_basename (file);
 		g_object_unref (file);
 
-		source = g_file_get_child (save_context->fresh_directory, basename);
+		source = g_file_get_child (
+			save_context->fresh_directory, basename);
 
-		if (save_context->filename_prefix && *save_context->filename_prefix) {
+		prefix = save_context->filename_prefix;
+
+		if (prefix != NULL && *prefix != '\0') {
 			gchar *tmp = basename;
-
-			basename = g_strconcat (save_context->filename_prefix, basename, NULL);
+			basename = g_strconcat (prefix, basename, NULL);
 			g_free (tmp);
 		}
 
@@ -1164,9 +1173,10 @@ attachment_store_save_cb (EAttachment *attachment,
 		uri = g_file_get_uri (destination);
 
 		/* move them file-by-file */
-		attachment_store_move_file (save_context, source, destination, &error);
+		attachment_store_move_file (
+			save_context, source, destination, &error);
 
-		if (!error)
+		if (error == NULL)
 			save_context->uris[save_context->index++] = uri;
 
 		g_object_unref (source);

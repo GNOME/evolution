@@ -363,12 +363,20 @@ e_restore_window (GtkWindow *window,
 			data->premax_height = height;
 
 			monitor = gdk_screen_get_monitor_at_point (screen, x, y);
-			if (monitor < 0 || monitor >= gdk_screen_get_n_monitors (screen))
+			if (monitor < 0)
 				monitor = 0;
 
-			gdk_screen_get_monitor_workarea (screen, monitor, &monitor_area);
+			if (monitor >= gdk_screen_get_n_monitors (screen))
+				monitor = 0;
 
-			gtk_window_resize (window, monitor_area.width, monitor_area.height);
+			gdk_screen_get_monitor_workarea (
+				screen, monitor, &monitor_area);
+
+			gtk_window_resize (
+				window,
+				monitor_area.width,
+				monitor_area.height);
+
 			gtk_window_maximize (window);
 		}
 	}

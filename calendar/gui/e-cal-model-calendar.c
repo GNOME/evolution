@@ -329,7 +329,10 @@ cal_model_calendar_set_value_at (ETableModel *etm,
 				const gchar *uid = NULL;
 
 				e_cal_component_get_uid (comp, &uid);
-				if (e_cal_client_get_object_sync (comp_data->client, uid, NULL, &icalcomp, NULL, NULL) && icalcomp) {
+				e_cal_client_get_object_sync (
+					comp_data->client, uid, NULL,
+					&icalcomp, NULL, NULL);
+				if (icalcomp != NULL) {
 					send_comp = e_cal_component_new ();
 					if (!e_cal_component_set_icalcomponent (send_comp, icalcomp)) {
 						icalcomponent_free (icalcomp);

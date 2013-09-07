@@ -1584,14 +1584,19 @@ contact_list_editor_contact_added (EABEditor *editor,
                                    const GError *error,
                                    EContact *contact)
 {
-	if (!error)
+	GtkWindow *window;
+	const gchar *message;
+
+	if (error == NULL)
 		return;
 
-	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
-	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
 		return;
 
-	eab_error_dialog (NULL, eab_editor_get_window (editor), _("Error adding list"), error);
+	window = eab_editor_get_window (editor);
+	message = _("Error adding list");
+
+	eab_error_dialog (NULL, window, message, error);
 }
 
 static void
@@ -1599,14 +1604,19 @@ contact_list_editor_contact_modified (EABEditor *editor,
                                       const GError *error,
                                       EContact *contact)
 {
-	if (!error)
+	GtkWindow *window;
+	const gchar *message;
+
+	if (error == NULL)
 		return;
 
-	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
-	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
 		return;
 
-	eab_error_dialog (NULL, eab_editor_get_window (editor), _("Error modifying list"), error);
+	window = eab_editor_get_window (editor);
+	message = _("Error modifying list");
+
+	eab_error_dialog (NULL, window, message, error);
 }
 
 static void
@@ -1614,14 +1624,19 @@ contact_list_editor_contact_deleted (EABEditor *editor,
                                      const GError *error,
                                      EContact *contact)
 {
-	if (!error)
+	GtkWindow *window;
+	const gchar *message;
+
+	if (error == NULL)
 		return;
 
-	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
-	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
 		return;
 
-	eab_error_dialog (NULL, eab_editor_get_window (editor), _("Error removing list"), error);
+	window = eab_editor_get_window (editor);
+	message = _("Error removing list");
+
+	eab_error_dialog (NULL, window, message, error);
 }
 
 static void

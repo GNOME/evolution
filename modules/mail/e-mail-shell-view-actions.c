@@ -112,21 +112,25 @@ account_refresh_folder_info_received_cb (GObject *source,
 	GError *error = NULL;
 
 	store = CAMEL_STORE (source);
-	activity = user_data;
+	activity = E_ACTIVITY (user_data);
+
 	info = camel_store_get_folder_info_finish (store, result, &error);
-	if (info) {
-		/* provider takes care of notifications of new/removed folders,
-		 * thus it's enough to free the returned list */
+
+	if (info != NULL) {
+		/* Provider takes care of notifications of new/removed
+		 * folders, thus it's enough to free the returned list. */
 		camel_store_free_folder_info (store, info);
 	}
 
-	if (error && !g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-		g_message ("%s: Failed: %s", G_STRFUNC, error->message);
+	if (e_activity_handle_cancellation (activity, error)) {
+		g_error_free (error);
 
-	g_clear_error (&error);
+	} else if (error != NULL) {
+		g_warning ("%s: %s", G_STRFUNC, error->message);
+		g_error_free (error);
+	}
 
-	if (activity)
-		g_object_unref (activity);
+	g_clear_object (&activity);
 }
 
 static void
@@ -458,7 +462,7 @@ mark_all_read_thread (GSimpleAsyncResult *simple,
 		g_object_unref (folder);
 	}
 
-	if (error)
+	if (error != NULL)
 		g_simple_async_result_take_error (simple, error);
 }
 

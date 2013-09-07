@@ -234,7 +234,9 @@ preview_recur (RecurrencePage *rpage)
 	e_cal_component_get_dtstart (priv->comp, &cdt);
 	if (cdt.tzid != NULL) {
 		/* FIXME Will e_cal_client_get_timezone_sync really not return builtin zones? */
-		if (!e_cal_client_get_timezone_sync (client, cdt.tzid, &zone, NULL, NULL))
+		e_cal_client_get_timezone_sync (
+			client, cdt.tzid, &zone, NULL, NULL);
+		if (zone == NULL)
 			zone = icaltimezone_get_builtin_timezone_from_tzid (cdt.tzid);
 	}
 	e_cal_component_set_dtstart (comp, &cdt);
@@ -630,8 +632,7 @@ rpage_get_objects_for_uid_cb (GObject *source_object,
 
 	if (result && !e_cal_client_get_objects_for_uid_finish (client, result, &ecalcomps, &error)) {
 		ecalcomps = NULL;
-		if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
-		    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 			g_clear_error (&error);
 			return;
 		}
@@ -658,8 +659,7 @@ rpage_get_object_cb (GObject *source_object,
 
 	if (result && !e_cal_client_get_object_finish (client, result, &icalcomp, &error)) {
 		icalcomp = NULL;
-		if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
-		    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 			g_clear_error (&error);
 			return;
 		}

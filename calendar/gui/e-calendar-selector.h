@@ -62,7 +62,7 @@ GType		e_calendar_selector_get_type	(void);
 GtkWidget *	e_calendar_selector_new		(EClientCache *client_cache,
 						 EShellView *shell_backend);
 EShellView *	e_calendar_selector_get_shell_view
-						(ECalendarSelector *calendar_selector);
+						(ECalendarSelector *selector);
 
 G_END_DECLS
 

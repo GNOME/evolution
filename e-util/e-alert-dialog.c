@@ -160,7 +160,8 @@ alert_dialog_constructed (GObject *object)
 	if (!actions) {
 		GtkAction *action;
 
-		/* Make sure there is at least one action, thus the dialog can be closed. */
+		/* Make sure there is at least one action,
+		 * thus the dialog can be closed. */
 		action = gtk_action_new (
 			"alert-response-0", _("_Dismiss"), NULL, NULL);
 		e_alert_add_action (alert, action, GTK_RESPONSE_CLOSE);
@@ -344,19 +345,20 @@ e_alert_run_dialog (GtkWindow *parent,
 
 	dialog = e_alert_dialog_new (parent, alert);
 
-	if (parent) {
+	if (parent != NULL) {
 		gtk_window_set_urgency_hint (parent, TRUE);
-		signal_id = g_signal_connect (dialog, "focus-in-event", G_CALLBACK (dialog_focus_in_event_cb), parent);
+		signal_id = g_signal_connect (
+			dialog, "focus-in-event",
+			G_CALLBACK (dialog_focus_in_event_cb), parent);
 	} else {
 		gtk_window_set_urgency_hint (GTK_WINDOW (dialog), TRUE);
 	}
 
 	response = gtk_dialog_run (GTK_DIALOG (dialog));
 
-	if (parent) {
+	if (signal_id > 0) {
 		gtk_window_set_urgency_hint (parent, FALSE);
-		if (signal_id)
-			g_signal_handler_disconnect (dialog, signal_id);
+		g_signal_handler_disconnect (dialog, signal_id);
 	}
 
 	gtk_widget_destroy (dialog);

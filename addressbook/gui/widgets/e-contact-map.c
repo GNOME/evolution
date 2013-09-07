@@ -91,7 +91,6 @@ contact_map_address_resolved_cb (GObject *source,
 	AsyncContext *async_context = user_data;
 	ChamplainMarkerLayer *marker_layer;
 	ChamplainMarker *marker;
-	GError *error = NULL;
 
 	g_return_if_fail (async_context != NULL);
 	g_return_if_fail (E_IS_CONTACT_MAP (async_context->map));
@@ -109,13 +108,12 @@ contact_map_address_resolved_cb (GObject *source,
 		goto exit;
 
 	resolved = geocode_object_resolve_finish (
-		GEOCODE_OBJECT (source), result, &error);
+		GEOCODE_OBJECT (source), result, NULL);
 
 	if (resolved == NULL ||
 	    !geocode_object_get_coords (resolved, &longitude, &latitude)) {
 		const gchar *name;
-		if (error)
-			g_error_free (error);
+
 		name = champlain_label_get_text (CHAMPLAIN_LABEL (marker));
 		g_signal_emit (
 			async_context->map,

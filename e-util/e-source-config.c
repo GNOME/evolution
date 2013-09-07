@@ -174,6 +174,7 @@ source_config_add_candidate (ESourceConfig *config,
 	GtkBox *backend_box;
 	GtkLabel *type_label;
 	GtkComboBoxText *type_combo;
+	GtkWidget *widget;
 	ESource *parent_source;
 	ESourceRegistry *registry;
 	const gchar *display_name;
@@ -194,8 +195,9 @@ source_config_add_candidate (ESourceConfig *config,
 	candidate->scratch_source = g_object_ref (scratch_source);
 
 	/* Do not show the page here. */
-	candidate->page = g_object_ref_sink (gtk_box_new (GTK_ORIENTATION_VERTICAL, 6));
-	gtk_box_pack_start (backend_box, candidate->page, FALSE, FALSE, 0);
+	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
+	gtk_box_pack_start (backend_box, widget, FALSE, FALSE, 0);
+	candidate->page = g_object_ref_sink (widget);
 
 	g_ptr_array_add (config->priv->candidates, candidate);
 
@@ -1385,8 +1387,7 @@ void
 e_source_config_add_secure_connection_for_webdav (ESourceConfig *config,
                                                   ESource *scratch_source)
 {
-	GtkWidget *widget1;
-	GtkWidget *widget2;
+	GtkWidget *widget;
 	ESourceExtension *extension;
 	ESourceAuthentication *authentication_extension;
 	const gchar *extension_name;
@@ -1399,18 +1400,19 @@ e_source_config_add_secure_connection_for_webdav (ESourceConfig *config,
 	extension = e_source_get_extension (scratch_source, extension_name);
 
 	label = _("Use a secure connection");
-	widget1 = gtk_check_button_new_with_label (label);
-	e_source_config_insert_widget (config, scratch_source, NULL, widget1);
-	gtk_widget_show (widget1);
+	widget = gtk_check_button_new_with_label (label);
+	e_source_config_insert_widget (config, scratch_source, NULL, widget);
+	gtk_widget_show (widget);
 
 	g_object_bind_property (
 		extension, "secure",
-		widget1, "active",
+		widget, "active",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
 	extension_name = E_SOURCE_EXTENSION_AUTHENTICATION;
-	authentication_extension = e_source_get_extension (scratch_source, extension_name);
+	authentication_extension =
+		e_source_get_extension (scratch_source, extension_name);
 
 	g_object_bind_property_full (
 		extension, "secure",
@@ -1422,19 +1424,22 @@ e_source_config_add_secure_connection_for_webdav (ESourceConfig *config,
 	extension_name = E_SOURCE_EXTENSION_WEBDAV_BACKEND;
 	extension = e_source_get_extension (scratch_source, extension_name);
 
-	widget2 = gtk_button_new_with_mnemonic (_("Unset _trust for SSL certificate"));
-	gtk_widget_set_margin_left (widget2, 24);
-	e_source_config_insert_widget (config, scratch_source, NULL, widget2);
-	gtk_widget_show (widget2);
+	widget = gtk_button_new_with_mnemonic (
+		_("Unset _trust for SSL certificate"));
+	gtk_widget_set_margin_left (widget, 24);
+	e_source_config_insert_widget (config, scratch_source, NULL, widget);
+	gtk_widget_show (widget);
 
 	g_object_bind_property_full (
 		extension, "ssl-trust",
-		widget2, "sensitive",
+		widget, "sensitive",
 		G_BINDING_SYNC_CREATE,
 		webdav_source_ssl_trust_to_sensitive_cb,
 		NULL, NULL, NULL);
 
-	g_signal_connect (widget2, "clicked", G_CALLBACK (webdav_unset_ssl_trust_clicked_cb), extension);
+	g_signal_connect (
+		widget, "clicked",
+		G_CALLBACK (webdav_unset_ssl_trust_clicked_cb), extension);
 }
 
 void

@@ -905,10 +905,11 @@ clipboard_get_calendar_data (EMemoTable *memo_table,
 
 				/* FIXME Should we convert start/due/complete
 				 *       times?  Also, need error handling.*/
-				if (!e_cal_client_create_object_sync (client, e_cal_component_get_icalcomponent (tmp_comp), &uid, NULL, &error))
-					uid = NULL;
+				e_cal_client_create_object_sync (
+					client,
+					e_cal_component_get_icalcomponent (tmp_comp),
+					NULL, NULL, &error);
 
-				g_free (uid);
 				g_object_unref (tmp_comp);
 
 				if (error != NULL) {
@@ -929,12 +930,13 @@ clipboard_get_calendar_data (EMemoTable *memo_table,
 		uid = e_cal_component_gen_uid ();
 		e_cal_component_set_uid (comp, (const gchar *) uid);
 		g_free (uid);
-
 		uid = NULL;
-		if (!e_cal_client_create_object_sync (client, e_cal_component_get_icalcomponent (comp), &uid, NULL, &error))
-			uid = NULL;
 
-		g_free (uid);
+		e_cal_client_create_object_sync (
+			client,
+			e_cal_component_get_icalcomponent (comp),
+			NULL, NULL, &error);
+
 		g_object_unref (comp);
 
 		if (error != NULL) {

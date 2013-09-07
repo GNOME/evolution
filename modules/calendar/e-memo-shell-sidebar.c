@@ -206,15 +206,9 @@ memo_shell_sidebar_handle_connect_error (EActivity *activity,
                                          const GError *error)
 {
 	EAlertSink *alert_sink;
-	gboolean cancelled = FALSE;
 	gboolean offline_error;
 
 	alert_sink = e_activity_get_alert_sink (activity);
-
-	cancelled |= g_error_matches (
-		error, G_IO_ERROR, G_IO_ERROR_CANCELLED);
-	cancelled |= g_error_matches (
-		error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED);
 
 	offline_error = g_error_matches (
 		error, E_CLIENT_ERROR, E_CLIENT_ERROR_REPOSITORY_OFFLINE);

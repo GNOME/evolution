@@ -196,11 +196,12 @@ calendar_view_delete_event (ECalendarView *cal_view,
 				comp, retract_comment, CALOBJ_MOD_ALL);
 			icalcomp = e_cal_component_get_icalcomponent (comp);
 			icalcomponent_set_method (icalcomp, ICAL_METHOD_CANCEL);
-			if (!e_cal_client_send_objects_sync (event->comp_data->client, icalcomp, &users,
-						&mod_comp, NULL, &error))	{
+			e_cal_client_send_objects_sync (
+				event->comp_data->client, icalcomp,
+				&users, &mod_comp, NULL, &error);
+			if (error != NULL) {
 				delete_error_dialog (error, E_CAL_COMPONENT_EVENT);
 				g_clear_error (&error);
-				error = NULL;
 			} else {
 
 				if (mod_comp)
@@ -527,10 +528,13 @@ add_related_timezones (icalcomponent *des_icalcomp,
 					GError *error = NULL;
 					icaltimezone *zone = NULL;
 
-					if (!e_cal_client_get_timezone_sync (client, tzid, &zone, NULL, &error)) {
-						g_warning ("%s: Cannot get timezone for '%s'. %s", G_STRFUNC, tzid, error ? error->message : "");
-						if (error)
-							g_error_free (error);
+					e_cal_client_get_timezone_sync (
+						client, tzid, &zone, NULL, &error);
+					if (error != NULL) {
+						g_warning (
+							"%s: Cannot get timezone for '%s'. %s",
+							G_STRFUNC, tzid, error->message);
+						g_error_free (error);
 					} else if (zone &&
 						icalcomponent_get_timezone (des_icalcomp, icaltimezone_get_tzid (zone)) == NULL) {
 						/* do not duplicate timezones in the component */
@@ -660,12 +664,24 @@ clipboard_get_calendar_data (ECalendarView *cal_view,
 
 			zone = icaltimezone_new ();
 			icaltimezone_set_component (zone, subcomp);
-			if (!e_cal_client_add_timezone_sync (client, zone, NULL, &error)) {
-				icalproperty *tzidprop = icalcomponent_get_first_property (subcomp, ICAL_TZID_PROPERTY);
+			e_cal_client_add_timezone_sync (
+				client, zone, NULL, &error);
+			if (error != NULL) {
+				icalproperty *tzidprop;
+				const gchar *tzid;
 
-				g_warning ("%s: Add zone '%s' failed. %s", G_STRFUNC, tzidprop ? icalproperty_get_tzid (tzidprop) : "???", error ? error->message : "");
-				if (error)
-					g_error_free (error);
+				tzidprop = icalcomponent_get_first_property (
+					subcomp, ICAL_TZID_PROPERTY);
+				if (tzidprop != NULL)
+					tzid = icalproperty_get_tzid (tzidprop);
+				else
+					tzid = "???";
+
+				g_warning (
+					"%s: Add zone '%s' failed. %s",
+					G_STRFUNC, tzid, error->message);
+
+				g_error_free (error);
 			}
 
 			icaltimezone_free (zone, 1);
@@ -778,14 +794,25 @@ calendar_view_paste_clipboard (ESelectable *selectable)
 
 					/* when cutting detached instances, only cut that instance */
 					rid = e_cal_component_get_recurid_as_string (comp);
-					if (e_cal_client_get_object_sync (comp_data->client, uid, rid, &icalcomp, NULL, NULL)) {
-						e_cal_client_remove_object_sync (comp_data->client, uid, rid, CALOBJ_MOD_THIS, NULL, &error);
+					e_cal_client_get_object_sync (
+						comp_data->client, uid, rid,
+						&icalcomp, NULL, NULL);
+					if (icalcomp != NULL) {
+						e_cal_client_remove_object_sync (
+							comp_data->client, uid, rid,
+							CALOBJ_MOD_THIS, NULL, &error);
 						icalcomponent_free (icalcomp);
-					} else
-						e_cal_client_remove_object_sync (comp_data->client, uid, NULL, CALOBJ_MOD_ALL, NULL, &error);
+					} else {
+						e_cal_client_remove_object_sync (
+							comp_data->client, uid, NULL,
+							CALOBJ_MOD_ALL, NULL, &error);
+					}
 					g_free (rid);
-				} else
-					e_cal_client_remove_object_sync (comp_data->client, uid, NULL, CALOBJ_MOD_ALL, NULL, &error);
+				} else {
+					e_cal_client_remove_object_sync (
+						comp_data->client, uid, NULL,
+						CALOBJ_MOD_ALL, NULL, &error);
+				}
 				delete_error_dialog (error, E_CAL_COMPONENT_EVENT);
 
 				g_clear_error (&error);
@@ -1139,7 +1166,10 @@ e_calendar_view_add_event (ECalendarView *cal_view,
 	e_cal_component_commit_sequence (comp);
 
 	uid = NULL;
-	if (e_cal_client_create_object_sync (client, e_cal_component_get_icalcomponent (comp), &uid, NULL, &error)) {
+	e_cal_client_create_object_sync (
+		client, e_cal_component_get_icalcomponent (comp),
+		&uid, NULL, &error);
+	if (error == NULL) {
 		gboolean strip_alarms = TRUE;
 
 		if (uid) {
@@ -1159,9 +1189,10 @@ e_calendar_view_add_event (ECalendarView *cal_view,
 				FALSE);
 		}
 	} else {
-		g_message (G_STRLOC ": Could not create the object! %s", error ? error->message : "");
-		if (error)
-			g_error_free (error);
+		g_message (
+			"%s: Could not create the object! %s",
+			G_STRFUNC, error->message);
+		g_error_free (error);
 		ret = FALSE;
 	}
 
@@ -1396,11 +1427,12 @@ e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view)
 				comp, retract_comment, CALOBJ_MOD_THIS);
 			icalcomp = e_cal_component_get_icalcomponent (comp);
 			icalcomponent_set_method (icalcomp, ICAL_METHOD_CANCEL);
-			if (!e_cal_client_send_objects_sync (event->comp_data->client, icalcomp, &users,
-						&mod_comp, NULL, &error))	{
+			e_cal_client_send_objects_sync (
+				event->comp_data->client, icalcomp,
+				&users, &mod_comp, NULL, &error);
+			if (error != NULL) {
 				delete_error_dialog (error, E_CAL_COMPONENT_EVENT);
 				g_clear_error (&error);
-				error = NULL;
 			} else {
 				if (mod_comp)
 					icalcomponent_free (mod_comp);
@@ -1429,7 +1461,7 @@ e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view)
 			GError *error = NULL;
 
 			e_cal_client_get_timezone_sync (event->comp_data->client, dt.tzid, &zone, NULL, &error);
-			if (error) {
+			if (error != NULL) {
 				zone = e_calendar_view_get_timezone (cal_view);
 				g_clear_error (&error);
 			}
@@ -1839,7 +1871,9 @@ e_calendar_view_send (ECalendarView *cal_view,
 		const gchar *uid = NULL;
 
 		e_cal_component_get_uid (comp, &uid);
-		if (e_cal_client_get_object_sync (client, uid, NULL, &icalcomp, NULL, NULL) && icalcomp) {
+		e_cal_client_get_object_sync (
+			client, uid, NULL, &icalcomp, NULL, NULL);
+		if (icalcomp != NULL) {
 			send_comp = e_cal_component_new ();
 			if (!e_cal_component_set_icalcomponent (send_comp, icalcomp)) {
 				icalcomponent_free (icalcomp);

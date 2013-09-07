@@ -272,7 +272,7 @@ bbdb_do_it (EBookClient *client,
             const gchar *name,
             const gchar *email)
 {
-	gchar *query_string, *delim, *temp_name = NULL, *uid;
+	gchar *query_string, *delim, *temp_name = NULL;
 	GSList *contacts = NULL;
 	gboolean status;
 	EContact *contact;
@@ -334,8 +334,14 @@ bbdb_do_it (EBookClient *client,
 
 		contact = (EContact *) contacts->data;
 		add_email_to_contact (contact, email);
-		if (!e_book_client_modify_contact_sync (client, contact, NULL, &error)) {
-			g_warning ("bbdb: Could not modify contact: %s\n", error->message);
+
+		e_book_client_modify_contact_sync (
+			client, contact, NULL, &error);
+
+		if (error != NULL) {
+			g_warning (
+				"bbdb: Could not modify contact: %s\n",
+				error->message);
 			g_error_free (error);
 		}
 
@@ -350,14 +356,16 @@ bbdb_do_it (EBookClient *client,
 	add_email_to_contact (contact, email);
 	g_free (temp_name);
 
-	uid = NULL;
-	if (!e_book_client_add_contact_sync (client, contact, &uid, NULL, &error)) {
-		g_warning ("bbdb: Failed to add new contact: %s", error->message);
+	e_book_client_add_contact_sync (client, contact, NULL, NULL, &error);
+
+	if (error != NULL) {
+		g_warning (
+			"bbdb: Failed to add new contact: %s",
+			error->message);
 		g_error_free (error);
 	}
 
 	g_object_unref (contact);
-	g_free (uid);
 }
 
 EBookClient *

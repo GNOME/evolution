@@ -77,8 +77,11 @@ add_timezone_to_cal_cb (icalparameter *param,
 	if (!tzid || !*tzid)
 		return;
 
-	if (e_cal_client_get_timezone_sync (ftd->source_client, tzid, &tz, NULL, NULL) && tz)
-		e_cal_client_add_timezone_sync (ftd->dest_client, tz, NULL, NULL);
+	e_cal_client_get_timezone_sync (
+		ftd->source_client, tzid, &tz, NULL, NULL);
+	if (tz != NULL)
+		e_cal_client_add_timezone_sync (
+			ftd->dest_client, tz, NULL, NULL);
 }
 
 static void
@@ -128,7 +131,10 @@ dest_source_connected_cb (GObject *source_object,
 		show_error (csdd, _("Destination is read only"), NULL);
 	} else {
 		GSList *obj_list = NULL;
-		if (e_cal_client_get_object_list_sync (csdd->source_client, "#t", &obj_list, NULL, NULL)) {
+
+		e_cal_client_get_object_list_sync (
+			csdd->source_client, "#t", &obj_list, NULL, NULL);
+		if (obj_list != NULL) {
 			GSList *l;
 			icalcomponent *icalcomp;
 			struct ForeachTzidData ftd;
@@ -139,12 +145,16 @@ dest_source_connected_cb (GObject *source_object,
 			for (l = obj_list; l != NULL; l = l->next) {
 				/* FIXME: process recurrences */
 				/* FIXME: process errors */
-				if (e_cal_client_get_object_sync (csdd->dest_client, icalcomponent_get_uid (l->data), NULL,
-						      &icalcomp, NULL, NULL)) {
-					e_cal_client_modify_object_sync (csdd->dest_client, l->data, CALOBJ_MOD_ALL, NULL, NULL);
+				e_cal_client_get_object_sync (
+					csdd->dest_client,
+					icalcomponent_get_uid (l->data),
+					NULL, &icalcomp, NULL, NULL);
+				if (icalcomp != NULL) {
+					e_cal_client_modify_object_sync (
+						csdd->dest_client, l->data,
+						CALOBJ_MOD_ALL, NULL, NULL);
 					icalcomponent_free (icalcomp);
 				} else {
-					gchar *uid = NULL;
 					GError *error = NULL;
 
 					icalcomp = l->data;
@@ -155,13 +165,13 @@ dest_source_connected_cb (GObject *source_object,
 						icalcomp,
 						add_timezone_to_cal_cb, &ftd);
 
-					if (e_cal_client_create_object_sync (csdd->dest_client, icalcomp, &uid, NULL, &error)) {
-						g_free (uid);
-					} else {
-						if (error) {
-							show_error (csdd, _("Cannot create object"), error);
-							g_error_free (error);
-						}
+					e_cal_client_create_object_sync (
+						csdd->dest_client,
+						icalcomp, NULL, NULL, &error);
+
+					if (error != NULL) {
+						show_error (csdd, _("Cannot create object"), error);
+						g_error_free (error);
 						break;
 					}
 				}

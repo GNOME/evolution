@@ -625,6 +625,8 @@ skip_send:
 
 	/* Run filters on the outgoing message. */
 	if (context->driver != NULL) {
+		CamelMessageFlags message_flags;
+
 		camel_filter_driver_filter_message (
 			context->driver, context->message, context->info,
 			NULL, NULL, NULL, "", cancellable, &error);
@@ -640,7 +642,9 @@ skip_send:
 			g_clear_error (&error);
 		}
 
-		if ((camel_message_info_flags (context->info) & CAMEL_MESSAGE_DELETED) != 0)
+		message_flags = camel_message_info_flags (context->info);
+
+		if (message_flags & CAMEL_MESSAGE_DELETED)
 			copy_to_sent = FALSE;
 	}
 

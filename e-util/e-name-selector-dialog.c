@@ -148,17 +148,6 @@ name_selector_dialog_populate_categories (ENameSelectorDialog *name_selector_dia
 }
 
 static void
-name_selector_dialog_realize_cb (ENameSelectorDialog *name_selector_dialog,
-				 gpointer user_data)
-{
-	g_return_if_fail (E_IS_NAME_SELECTOR_DIALOG (name_selector_dialog));
-
-	source_changed (
-		name_selector_dialog,
-		E_CLIENT_COMBO_BOX (name_selector_dialog->priv->client_combo));
-}
-
-static void
 name_selector_dialog_set_client_cache (ENameSelectorDialog *name_selector_dialog,
                                        EClientCache *client_cache)
 {
@@ -589,15 +578,32 @@ name_selector_dialog_constructed (GObject *object)
 		_("Select Contacts from Address Book"));
 	gtk_widget_grab_focus (search);
 
-	g_signal_connect (object, "realize", G_CALLBACK (name_selector_dialog_realize_cb), NULL);
-
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
+}
+
+static void
+name_selector_dialog_realize (GtkWidget *widget)
+{
+	ENameSelectorDialog *name_selector_dialog;
+	GtkWidget *client_combo;
+
+	/* Chain up to parent's realize() method. */
+	GTK_WIDGET_CLASS (e_name_selector_dialog_parent_class)->
+		realize (widget);
+
+	name_selector_dialog = E_NAME_SELECTOR_DIALOG (widget);
+	client_combo = name_selector_dialog->priv->client_combo;
+
+	source_changed (
+		name_selector_dialog,
+		E_CLIENT_COMBO_BOX (client_combo));
 }
 
 static void
 e_name_selector_dialog_class_init (ENameSelectorDialogClass *class)
 {
 	GObjectClass *object_class;
+	GtkWidgetClass *widget_class;
 
 	g_type_class_add_private (class, sizeof (ENameSelectorDialogPrivate));
 
@@ -607,6 +613,9 @@ e_name_selector_dialog_class_init (ENameSelectorDialogClass *class)
 	object_class->dispose = name_selector_dialog_dispose;
 	object_class->finalize = name_selector_dialog_finalize;
 	object_class->constructed = name_selector_dialog_constructed;
+
+	widget_class = GTK_WIDGET_CLASS (class);
+	widget_class->realize = name_selector_dialog_realize;
 
 	/**
 	 * ENameSelectorDialog:client-cache:

@@ -734,8 +734,8 @@ action_list_cards_init (ActionContext *p_actctx)
 	query_str = e_book_query_to_string (query);
 	e_book_query_unref (query);
 
-	if (!e_book_client_get_contacts_sync (book_client, query_str, &contacts, NULL, &error))
-		contacts = NULL;
+	e_book_client_get_contacts_sync (
+		book_client, query_str, &contacts, NULL, &error);
 
 	action_list_cards (contacts, p_actctx);
 
@@ -743,7 +743,7 @@ action_list_cards_init (ActionContext *p_actctx)
 	g_slist_free (contacts);
 	g_object_unref (book_client);
 
-	if (error) {
+	if (error != NULL) {
 		g_warning ("Failed to get contacts: %s", error->message);
 		g_error_free (error);
 	}

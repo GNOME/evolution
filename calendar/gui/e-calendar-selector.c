@@ -47,11 +47,15 @@ calendar_selector_update_single_object (ECalClient *client,
                                         icalcomponent *icalcomp)
 {
 	gchar *uid;
-	icalcomponent *tmp_icalcomp;
+	icalcomponent *tmp_icalcomp = NULL;
+	gboolean success;
 
 	uid = (gchar *) icalcomponent_get_uid (icalcomp);
 
-	if (e_cal_client_get_object_sync (client, uid, NULL, &tmp_icalcomp, NULL, NULL)) {
+	e_cal_client_get_object_sync (
+		client, uid, NULL, &tmp_icalcomp, NULL, NULL);
+
+	if (tmp_icalcomp != NULL) {
 		icalcomponent_free (tmp_icalcomp);
 
 		return e_cal_client_modify_object_sync (
@@ -59,14 +63,15 @@ calendar_selector_update_single_object (ECalClient *client,
 	}
 
 	uid = NULL;
-	if (!e_cal_client_create_object_sync (client, icalcomp, &uid, NULL, NULL))
-		return FALSE;
+	success = e_cal_client_create_object_sync (
+		client, icalcomp, &uid, NULL, NULL);
 
-	if (uid)
+	if (uid != NULL) {
 		icalcomponent_set_uid (icalcomp, uid);
-	g_free (uid);
+		g_free (uid);
+	}
 
-	return TRUE;
+	return success;
 }
 
 static gboolean
@@ -152,6 +157,64 @@ client_connect_cb (GObject *source_object,
 }
 
 static void
+calendar_selector_set_shell_view (ECalendarSelector *selector,
+                                  EShellView *shell_view)
+{
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+	g_return_if_fail (selector->priv->shell_view == NULL);
+
+	selector->priv->shell_view = g_object_ref (shell_view);
+}
+
+static void
+calendar_selector_set_property (GObject *object,
+                                guint property_id,
+                                const GValue *value,
+                                GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_SHELL_VIEW:
+			calendar_selector_set_shell_view (
+				E_CALENDAR_SELECTOR (object),
+				g_value_get_object (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+calendar_selector_get_property (GObject *object,
+                                guint property_id,
+                                GValue *value,
+                                GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_SHELL_VIEW:
+			g_value_set_object (
+				value,
+				e_calendar_selector_get_shell_view (
+				E_CALENDAR_SELECTOR (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+calendar_selector_dispose (GObject *object)
+{
+	ECalendarSelectorPrivate *priv;
+
+	priv = E_CALENDAR_SELECTOR_GET_PRIVATE (object);
+
+	g_clear_object (&priv->shell_view);
+
+	/* Chain up to the parent' s dispose() method. */
+	G_OBJECT_CLASS (e_calendar_selector_parent_class)->dispose (object);
+}
+
+static void
 calendar_selector_constructed (GObject *object)
 {
 	ESourceSelector *selector;
@@ -212,71 +275,6 @@ exit:
 	return success;
 }
 
-EShellView *
-e_calendar_selector_get_shell_view (ECalendarSelector *calendar_selector)
-{
-	g_return_val_if_fail (E_IS_CALENDAR_SELECTOR (calendar_selector), NULL);
-
-	return calendar_selector->priv->shell_view;
-}
-
-static void
-e_calendar_selector_set_shell_view (ECalendarSelector *calendar_selector,
-				    EShellView *shell_view)
-{
-	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
-	g_return_if_fail (calendar_selector->priv->shell_view == NULL);
-
-	calendar_selector->priv->shell_view = g_object_ref (shell_view);
-}
-
-static void
-calendar_selector_set_property (GObject *object,
-				guint property_id,
-				const GValue *value,
-				GParamSpec *pspec)
-{
-	switch (property_id) {
-		case PROP_SHELL_VIEW:
-			e_calendar_selector_set_shell_view (
-				E_CALENDAR_SELECTOR (object),
-				g_value_get_object (value));
-			return;
-	}
-
-	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-}
-
-static void
-calendar_selector_get_property (GObject *object,
-				guint property_id,
-				GValue *value,
-				GParamSpec *pspec)
-{
-	switch (property_id) {
-		case PROP_SHELL_VIEW:
-			g_value_set_object (
-				value,
-				e_calendar_selector_get_shell_view (E_CALENDAR_SELECTOR (object)));
-			return;
-	}
-
-	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-}
-
-static void
-calendar_selector_dispose (GObject *object)
-{
-	ECalendarSelectorPrivate *priv;
-
-	priv = E_CALENDAR_SELECTOR_GET_PRIVATE (object);
-
-	g_clear_object (&priv->shell_view);
-
-	/* Chain up to the parent' s dispose() method. */
-	G_OBJECT_CLASS (e_calendar_selector_parent_class)->dispose (object);
-}
-
 static void
 e_calendar_selector_class_init (ECalendarSelectorClass *class)
 {
@@ -321,7 +319,7 @@ e_calendar_selector_init (ECalendarSelector *selector)
 
 GtkWidget *
 e_calendar_selector_new (EClientCache *client_cache,
-			 EShellView *shell_view)
+                         EShellView *shell_view)
 {
 	ESourceRegistry *registry;
 	GtkWidget *widget;
@@ -343,3 +341,12 @@ e_calendar_selector_new (EClientCache *client_cache,
 
 	return widget;
 }
+
+EShellView *
+e_calendar_selector_get_shell_view (ECalendarSelector *selector)
+{
+	g_return_val_if_fail (E_IS_CALENDAR_SELECTOR (selector), NULL);
+
+	return selector->priv->shell_view;
+}
+

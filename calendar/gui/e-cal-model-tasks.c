@@ -375,7 +375,7 @@ get_due_status (ECalModelTasks *model,
 		return E_CAL_MODEL_TASKS_DUE_NEVER;
 	else {
 		struct icaltimetype now_tt, due_tt;
-		icaltimezone *zone;
+		icaltimezone *zone = NULL;
 
 		/* Second, is it already completed? */
 		if (is_complete (comp_data))
@@ -404,7 +404,9 @@ get_due_status (ECalModelTasks *model,
 
 			/* Get the current time in the same timezone as the DUE date.*/
 			tzid = icalparameter_get_tzid (param);
-			if (!e_cal_client_get_timezone_sync (comp_data->client, tzid, &zone, NULL, NULL))
+			e_cal_client_get_timezone_sync (
+				comp_data->client, tzid, &zone, NULL, NULL);
+			if (zone == NULL)
 				return E_CAL_MODEL_TASKS_DUE_FUTURE;
 
 			now_tt = icaltime_current_time_with_zone (zone);

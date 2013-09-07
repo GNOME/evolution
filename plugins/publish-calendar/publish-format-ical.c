@@ -51,8 +51,13 @@ insert_tz_comps (icalparameter *param,
 	if (g_hash_table_lookup (tdata->zones, tzid))
 		return;
 
-	if (!e_cal_client_get_timezone_sync (tdata->client, tzid, &zone, NULL, &error)) {
-		g_warning ("Could not get the timezone information for %s :  %s \n", tzid, error->message);
+	e_cal_client_get_timezone_sync (
+		tdata->client, tzid, &zone, NULL, &error);
+
+	if (error != NULL) {
+		g_warning (
+			"Could not get the timezone information for %s: %s",
+			tzid, error->message);
 		g_error_free (error);
 		return;
 	}
@@ -78,7 +83,7 @@ write_calendar (const gchar *uid,
 	ESource *source;
 	ESourceRegistry *registry;
 	EClient *client = NULL;
-	GSList *objects;
+	GSList *objects = NULL;
 	icalcomponent *top_level;
 	gboolean res = FALSE;
 
@@ -103,7 +108,10 @@ write_calendar (const gchar *uid,
 
 	top_level = e_cal_util_new_top_level ();
 
-	if (e_cal_client_get_object_list_sync (E_CAL_CLIENT (client), "#t", &objects, NULL, error)) {
+	e_cal_client_get_object_list_sync (
+		E_CAL_CLIENT (client), "#t", &objects, NULL, error);
+
+	if (objects != NULL) {
 		GSList *iter;
 		gchar *ical_string;
 		CompTzData tdata;

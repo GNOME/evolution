@@ -59,7 +59,9 @@ G_DEFINE_TYPE (
 static void
 replace_local_image_links (WebKitDOMElement *element)
 {
-	if (!element)
+	WebKitDOMElement *child;
+
+	if (element == NULL)
 		return;
 
 	if (WEBKIT_DOM_IS_HTML_IMAGE_ELEMENT (element)) {
@@ -90,11 +92,13 @@ replace_local_image_links (WebKitDOMElement *element)
 		replace_local_image_links (WEBKIT_DOM_ELEMENT (frame_document));
 	}
 
-	replace_local_image_links (webkit_dom_element_get_first_element_child (element));
+	child = webkit_dom_element_get_first_element_child (element);
+	replace_local_image_links (child);
 
-	while (element = webkit_dom_element_get_next_element_sibling (element), element) {
+	do {
+		element = webkit_dom_element_get_next_element_sibling (element);
 		replace_local_image_links (element);
-	}
+	} while (element != NULL);
 }
 
 static void
@@ -362,7 +366,9 @@ e_mail_signature_preview_init (EMailSignaturePreview *preview)
 {
 	preview->priv = E_MAIL_SIGNATURE_PREVIEW_GET_PRIVATE (preview);
 
-	g_signal_connect (preview, "document-load-finished", G_CALLBACK (signature_preview_document_loaded_cb), NULL);
+	g_signal_connect (
+		preview, "document-load-finished",
+		G_CALLBACK (signature_preview_document_loaded_cb), NULL);
 }
 
 GtkWidget *

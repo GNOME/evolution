@@ -157,11 +157,16 @@ mail_signature_editor_loaded_cb (GObject *object,
 		gtkhtml_editor_insert_text (
 			GTKHTML_EDITOR (editor), contents);
 
-		gtkhtml_editor_run_command (GTKHTML_EDITOR (editor), "cursor-position-save");
-		gtkhtml_editor_run_command (GTKHTML_EDITOR (editor), "select-all");
-		gtkhtml_editor_run_command (GTKHTML_EDITOR (editor), "style-pre");
-		gtkhtml_editor_run_command (GTKHTML_EDITOR (editor), "unselect-all");
-		gtkhtml_editor_run_command (GTKHTML_EDITOR (editor), "cursor-position-restore");
+		gtkhtml_editor_run_command (
+			GTKHTML_EDITOR (editor), "cursor-position-save");
+		gtkhtml_editor_run_command (
+			GTKHTML_EDITOR (editor), "select-all");
+		gtkhtml_editor_run_command (
+			GTKHTML_EDITOR (editor), "style-pre");
+		gtkhtml_editor_run_command (
+			GTKHTML_EDITOR (editor), "unselect-all");
+		gtkhtml_editor_run_command (
+			GTKHTML_EDITOR (editor), "cursor-position-restore");
 	}
 
 	g_free (contents);

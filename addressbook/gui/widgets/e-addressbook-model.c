@@ -360,11 +360,17 @@ client_view_ready_cb (GObject *source_object,
 	EAddressbookModel *model = user_data;
 	GError *error = NULL;
 
-	if (!e_book_client_get_view_finish (book_client, result, &client_view, &error))
-		client_view = NULL;
+	e_book_client_get_view_finish (
+		book_client, result, &client_view, &error);
 
-	if (error) {
-		eab_error_dialog (NULL, NULL, _("Error getting book view"), error);
+	/* Sanity check. */
+	g_return_if_fail (
+		((client_view != NULL) && (error == NULL)) ||
+		((client_view == NULL) && (error != NULL)));
+
+	if (error != NULL) {
+		eab_error_dialog (
+			NULL, NULL, _("Error getting book view"), error);
 		g_error_free (error);
 		return;
 	}

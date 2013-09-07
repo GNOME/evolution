@@ -992,8 +992,10 @@ event_page_load_locations_list (CompEditorPage *page,
 
 	error = NULL;
 	g_file_get_contents (file_name, &contents, NULL, &error);
-	if (error) {
-		g_warning ("%s: Failed to load locations list: %s", G_STRFUNC, error->message);
+	if (error != NULL) {
+		g_warning (
+			"%s: Failed to load locations list: %s",
+			G_STRFUNC, error->message);
 		g_error_free (error);
 		g_free (file_name);
 		return;
@@ -1081,8 +1083,10 @@ event_page_save_locations_list (CompEditorPage *page,
 
 	error = NULL;
 	g_file_set_contents (file_name, contents->str, -1, &error);
-	if (error) {
-		g_warning ("%s: Failed to save locations: %s", G_STRFUNC, error->message);
+	if (error != NULL) {
+		g_warning (
+			"%s: Failed to save locations: %s",
+			G_STRFUNC, error->message);
 		g_error_free (error);
 	}
 
@@ -2997,8 +3001,7 @@ epage_get_client_cb (GObject *source_object,
 		((client != NULL) && (error == NULL)) ||
 		((client == NULL) && (error != NULL)));
 
-	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
-	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 		g_clear_error (&error);
 		return;
 	}
@@ -3006,7 +3009,7 @@ epage_get_client_cb (GObject *source_object,
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (epage));
 	priv = epage->priv;
 
-	if (error) {
+	if (error != NULL) {
 		GtkWidget *dialog;
 		ECalClient *old_client;
 

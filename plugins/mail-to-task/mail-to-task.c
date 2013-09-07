@@ -120,8 +120,7 @@ get_component_editor (EShell *shell,
 			editor = memo_editor_new (client, shell, flags);
 			break;
 		default:
-			if (error)
-				*error = e_client_error_create (E_CLIENT_ERROR_INVALID_ARG, NULL);
+			g_warn_if_reached ();
 			break;
 		}
 
@@ -382,7 +381,7 @@ attachment_save_finished (EAttachmentStore *store,
 	GError *error = NULL;
 
 	uris = e_attachment_store_save_finish (store, result, &error);
-	if (error)
+	if (error != NULL)
 		data->uris = NULL;
 	else
 		data->uris = uris;
@@ -811,12 +810,16 @@ do_manage_comp_idle (struct _manage_comp *mc)
 			g_cond_signal (&mc->cond);
 		}
 	} else {
-		/* User canceled editing already existing event, so treat it as if he just closed the editor window */
+		/* User canceled editing already existing event, so
+		 * treat it as if he just closed the editor window. */
 		comp_editor_closed (NULL, FALSE, mc);
 	}
 
-	if (error) {
-		e_notice (NULL, GTK_MESSAGE_ERROR, _("An error occurred during processing: %s"), error->message);
+	if (error != NULL) {
+		e_notice (
+			NULL, GTK_MESSAGE_ERROR,
+			_("An error occurred during processing: %s"),
+			error->message);
 		g_clear_error (&error);
 	}
 
@@ -1008,8 +1011,10 @@ do_mail_to_event (AsyncData *data)
 					break;
 			}
 
-			if (!e_cal_client_get_object_sync (E_CAL_CLIENT (client), icalcomponent_get_uid (icalcomp), NULL, &(mc->stored_comp), NULL, NULL))
-				mc->stored_comp = NULL;
+			e_cal_client_get_object_sync (
+				E_CAL_CLIENT (client),
+				icalcomponent_get_uid (icalcomp),
+				NULL, &mc->stored_comp, NULL, NULL);
 
 			/* Prioritize ahead of GTK+ redraws. */
 			g_idle_add_full (
@@ -1193,9 +1198,11 @@ mail_to_event (ECalClientSourceType source_type,
 	} else if (!source && default_source) {
 		source = default_source;
 	} else if (!source) {
-		e_notice (NULL, GTK_MESSAGE_ERROR, _("No writable calendar is available."));
+		e_notice (
+			NULL, GTK_MESSAGE_ERROR,
+			_("No writable calendar is available."));
 
-		if (error)
+		if (error != NULL)
 			g_error_free (error);
 		goto exit;
 	}

@@ -2063,15 +2063,17 @@ start_async_read (const gchar *uri,
 
 	istream = G_INPUT_STREAM (g_file_read (file, NULL, &error));
 
-	if (error && g_error_matches (error, SOUP_HTTP_ERROR, SOUP_STATUS_UNAUTHORIZED)) {
+	if (g_error_matches (error, SOUP_HTTP_ERROR, SOUP_STATUS_UNAUTHORIZED)) {
 		download_with_libsoup (uri, qdata);
 		g_object_unref (file);
 		g_error_free (error);
 		return;
 	}
 
-	if (error) {
-		g_warning ("Unable to access free/busy url: %s", error->message);
+	if (error != NULL) {
+		g_warning (
+			"Unable to access free/busy url: %s",
+			error->message);
 		g_error_free (error);
 		process_callbacks (qdata);
 		g_object_unref (file);
@@ -2081,10 +2083,11 @@ start_async_read (const gchar *uri,
 	if (!istream) {
 		process_callbacks (qdata);
 		g_object_unref (file);
-	} else
+	} else {
 		g_input_stream_read_async (
 			istream, qdata->buffer, BUF_SIZE - 1,
 			G_PRIORITY_DEFAULT, NULL, async_read, qdata);
+	}
 }
 
 void

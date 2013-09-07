@@ -247,7 +247,9 @@ vcard_import_contact (VCardImporter *gci,
 	add_to_notes (contact, E_CONTACT_BLOG_URL);
 
 	/* FIXME Error checking */
-	if (e_book_client_add_contact_sync (gci->book_client, contact, &uid, NULL, NULL) && uid) {
+	e_book_client_add_contact_sync (
+		gci->book_client, contact, &uid, NULL, NULL);
+	if (uid != NULL) {
 		e_contact_set (contact, E_CONTACT_UID, uid);
 		g_free (uid);
 	}

@@ -1245,8 +1245,8 @@ table_canvas_focus_event_cb (GtkWidget *widget,
 
 static void
 e_tree_table_canvas_scrolled_cb (GtkAdjustment *vadjustment,
-				 GParamSpec *param,
-				 ETree *tree)
+                                 GParamSpec *param,
+                                 ETree *tree)
 {
 	g_return_if_fail (E_IS_TREE (tree));
 
@@ -1272,7 +1272,8 @@ et_setup_table_canvas_vadjustment (ETree *tree)
 
 	if (vadjustment) {
 		tree->priv->table_canvas_vadjustment = g_object_ref (vadjustment);
-		g_signal_connect (vadjustment, "notify::value",
+		g_signal_connect (
+			vadjustment, "notify::value",
 			G_CALLBACK (e_tree_table_canvas_scrolled_cb), tree);
 	}
 }
@@ -1324,7 +1325,8 @@ e_tree_setup_table (ETree *tree)
 		G_CALLBACK (tree_canvas_reflow), tree);
 
 	et_setup_table_canvas_vadjustment (tree);
-	g_signal_connect_swapped (tree->priv->table_canvas, "notify::vadjustment",
+	g_signal_connect_swapped (
+		tree->priv->table_canvas, "notify::vadjustment",
 		G_CALLBACK (et_setup_table_canvas_vadjustment), tree);
 
 	widget = GTK_WIDGET (tree->priv->table_canvas);

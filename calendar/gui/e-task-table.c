@@ -1203,8 +1203,10 @@ clipboard_get_calendar_data (ETaskTable *task_table,
 
 				/* FIXME should we convert start/due/complete
 				 * times?  Also, need error handling. */
-				if (!e_cal_client_create_object_sync (client, e_cal_component_get_icalcomponent (tmp_comp), &uid, NULL, &error))
-					uid = NULL;
+				e_cal_client_create_object_sync (
+					client,
+					e_cal_component_get_icalcomponent (tmp_comp),
+					NULL, NULL, &error);
 
 				if (error != NULL) {
 					g_warning (
@@ -1214,7 +1216,6 @@ clipboard_get_calendar_data (ETaskTable *task_table,
 				}
 
 				g_object_unref (tmp_comp);
-				g_free (uid);
 			}
 			subcomp = icalcomponent_get_next_component (
 				vcal_comp, ICAL_ANY_COMPONENT);
@@ -1229,8 +1230,10 @@ clipboard_get_calendar_data (ETaskTable *task_table,
 		g_free (uid);
 		uid = NULL;
 
-		if (!e_cal_client_create_object_sync (client, e_cal_component_get_icalcomponent (comp), &uid, NULL, &error))
-			uid = NULL;
+		e_cal_client_create_object_sync (
+			client,
+			e_cal_component_get_icalcomponent (comp),
+			NULL, NULL, &error);
 
 		if (error != NULL) {
 			g_warning (
@@ -1240,7 +1243,6 @@ clipboard_get_calendar_data (ETaskTable *task_table,
 		}
 
 		g_object_unref (comp);
-		g_free (uid);
 	}
 
 	task_table_emit_status_message (task_table, NULL, -1.0);
@@ -1414,10 +1416,12 @@ task_table_delete_selection (ESelectable *selectable)
 			add_retract_data (comp, retract_comment);
 			icalcomp = e_cal_component_get_icalcomponent (comp);
 			icalcomponent_set_method (icalcomp, ICAL_METHOD_CANCEL);
-			if (!e_cal_client_send_objects_sync (comp_data->client, icalcomp, &users, &mod_comp, NULL, &error)) {
+			e_cal_client_send_objects_sync (
+				comp_data->client, icalcomp,
+				&users, &mod_comp, NULL, &error);
+			if (error != NULL) {
 				delete_error_dialog (error, E_CAL_COMPONENT_TODO);
 				g_clear_error (&error);
-				error = NULL;
 			} else {
 
 				if (mod_comp)
@@ -1704,17 +1708,21 @@ hide_completed_rows_ready (GObject *source_object,
 	e_cal_client_get_object_list_finish (
 		E_CAL_CLIENT (source_object), result, &objects, &error);
 
-	if (error != NULL) {
-		if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED) &&
-		    !g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED)) {
-			ESource *source = e_client_get_source (E_CLIENT (source_object));
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		g_error_free (error);
+		return;
 
-			g_debug (
-				"%s: Could not get the objects from '%s': %s",
-				G_STRFUNC,
-				e_source_get_display_name (source),
-				error->message);
-		}
+	} else if (error != NULL) {
+		ESource *source;
+
+		source = e_client_get_source (E_CLIENT (source_object));
+
+		g_warning (
+			"%s: Could not get the objects from '%s': %s",
+			G_STRFUNC,
+			e_source_get_display_name (source),
+			error->message);
+
 		g_error_free (error);
 		return;
 	}
@@ -1770,17 +1778,21 @@ show_completed_rows_ready (GObject *source_object,
 	e_cal_client_get_object_list_finish (
 		E_CAL_CLIENT (source_object), result, &objects, &error);
 
-	if (error != NULL) {
-		if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED) &&
-		    !g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED)) {
-			ESource *source = e_client_get_source (E_CLIENT (source_object));
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		g_error_free (error);
+		return;
 
-			g_debug (
-				"%s: Could not get the objects from '%s': %s",
-				G_STRFUNC,
-				e_source_get_display_name (source),
-				error->message);
-		}
+	} else if (error != NULL) {
+		ESource *source;
+
+		source = e_client_get_source (E_CLIENT (source_object));
+
+		g_debug (
+			"%s: Could not get the objects from '%s': %s",
+			G_STRFUNC,
+			e_source_get_display_name (source),
+			error->message);
+
 		g_error_free (error);
 		return;
 	}

@@ -1869,7 +1869,8 @@ e_shell_view_update_actions_in_idle (EShellView *shell_view)
 		return;
 
 	if (shell_view->priv->update_actions_idle_id == 0)
-		shell_view->priv->update_actions_idle_id = g_idle_add (shell_view_call_update_actions_idle, shell_view);
+		shell_view->priv->update_actions_idle_id = g_idle_add (
+			shell_view_call_update_actions_idle, shell_view);
 }
 
 /**

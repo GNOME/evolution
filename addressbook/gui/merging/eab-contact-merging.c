@@ -197,7 +197,7 @@ modify_contact_ready_cb (GObject *source_object,
 	else
 		final_cb (book_client, error, lookup);
 
-	if (error)
+	if (error != NULL)
 		g_error_free (error);
 }
 
@@ -214,12 +214,11 @@ add_contact_ready_cb (GObject *source_object,
 	g_return_if_fail (book_client != NULL);
 	g_return_if_fail (lookup != NULL);
 
-	if (!e_book_client_add_contact_finish (book_client, result, &uid, &error))
-		uid = NULL;
+	e_book_client_add_contact_finish (book_client, result, &uid, &error);
 
 	final_id_cb (book_client, error, uid, lookup);
 
-	if (error)
+	if (error != NULL)
 		g_error_free (error);
 }
 
@@ -239,7 +238,10 @@ doit (EContactMergingLookup *lookup,
 static void
 cancelit (EContactMergingLookup *lookup)
 {
-	GError *error = e_client_error_create (E_CLIENT_ERROR_CANCELLED, NULL);
+	GError *error;
+
+	error = g_error_new_literal (
+		G_IO_ERROR, G_IO_ERROR_CANCELLED, _("Cancelled"));
 
 	if (lookup->op == E_CONTACT_MERGING_ADD) {
 		final_id_cb (lookup->book_client, error, NULL, lookup);

@@ -368,17 +368,16 @@ do_save_calendar_rdf (FormatHandler *handler,
 
 	g_object_unref (source_client);
 
-	if (error) {
+	if (error != NULL) {
 		display_error_message (
 			gtk_widget_get_toplevel (GTK_WIDGET (selector)),
 			error->message);
 		g_error_free (error);
 	}
-
-	return;
 }
 
-FormatHandler *rdf_format_handler_new (void)
+FormatHandler *
+rdf_format_handler_new (void)
 {
 	FormatHandler *handler = g_new (FormatHandler, 1);
 

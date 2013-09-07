@@ -168,7 +168,8 @@ shell_switcher_layout_actions (EShellSwitcher *switcher)
 			child_allocation.width = max_width + extra_width;
 			child_allocation.height = max_height;
 
-			gtk_widget_size_allocate (GTK_WIDGET (p->data), &child_allocation);
+			gtk_widget_size_allocate (
+				GTK_WIDGET (p->data), &child_allocation);
 
 			x += child_allocation.width + H_PADDING;
 		}
