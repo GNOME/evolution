@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application>
+<id type="desktop">evolution.desktop</id>
+<licence>CC0</licence>
+<description>
+<p>
+Evolution is a personal information management application that provides integrated mail, calendaring and address book functionality.
+</p>
+<p>
+Evolution supports a wide range of industry standard data formats and network protocols for information exchange, with an emphasis on standards compliance and security.  Evolution can also integrate smoothly with Microsoft Exchange by way of the "Exchange Web Services" (EWS) extension.
+</p>
+</description>
+<url type="homepage">https://live.gnome.org/Apps/Evolution</url>
+<screenshots>
+  <screenshot type="default">https://wiki.gnome.org/Apps/Evolution/Screenshots?action=AttachFile&amp;do=get&amp;target=evolution_mail.png</screenshot>
+</screenshots>
+<updatecontact>evolution-hackers_at_gnome.org</updatecontact>
+</application>

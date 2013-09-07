@@ -4,6 +4,9 @@ desktopdir = $(datadir)/applications
 desktop_in_files = evolution.desktop.in
 desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
 
+appdatadir = $(datadir)/appdata
+appdata_DATA = evolution.appdata.xml
+
 autostartdir = $(sysconfdir)/xdg/autostart
 autostart_in_files = evolution-alarm-notify.desktop.in
 autostart_DATA = $(autostart_in_files:.desktop.in=.desktop)
@@ -65,6 +68,7 @@ CLEANFILES =					\
 	$(desktop_DATA)
 
 EXTRA_DIST =					\
+	$(appdata_DATA)				\
 	$(autostart_in_files)			\
 	$(desktop_in_files)			\
 	$(convert_DATA)				\
