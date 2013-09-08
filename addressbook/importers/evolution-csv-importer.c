@@ -642,7 +642,7 @@ getNextCSVEntry (CSVImporter *gci,
 	GString  *line;
 	GString *str;
 	gchar *buf;
-	gchar c;
+	gint c;
 
 	line = g_string_new ("");
 	while (1) {
