@@ -582,9 +582,10 @@ em_folder_utils_create_folder (GtkWindow *parent,
 	EMFolderTreeModel *model;
 	EMailAccountStore *account_store;
 	CamelStore *store = NULL;
-	gchar *folder_name = NULL;
 	GtkWidget *dialog;
 	GQueue queue = G_QUEUE_INIT;
+	const gchar *folder_uri;
+	gchar *folder_name = NULL;
 	GError *error = NULL;
 
 	g_return_if_fail (GTK_IS_WINDOW (parent));
@@ -626,28 +627,12 @@ em_folder_utils_create_folder (GtkWindow *parent,
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) != GTK_RESPONSE_OK)
 		goto exit;
 
-	if (em_folder_tree_store_root_selected (folder_tree, &store)) {
-		const gchar *folder_uri;
+	folder_uri = em_folder_selector_get_selected_uri (selector);
+	g_return_if_fail (folder_uri != NULL);
 
-		folder_uri = em_folder_selector_get_selected_uri (selector);
-
-		if (!folder_uri || !strrchr (folder_uri, '/'))
-			g_set_error (
-				&error, CAMEL_FOLDER_ERROR,
-				CAMEL_FOLDER_ERROR_INVALID,
-				_("Invalid folder URI '%s'"),
-				folder_uri ? folder_uri : "null");
-		else
-			folder_name = g_strdup (strrchr (folder_uri, '/'));
-	} else {
-		const gchar *folder_uri;
-
-		folder_uri = em_folder_selector_get_selected_uri (selector);
-
-		e_mail_folder_uri_parse (
-			CAMEL_SESSION (session), folder_uri,
-			&store, &folder_name, &error);
-	}
+	e_mail_folder_uri_parse (
+		CAMEL_SESSION (session), folder_uri,
+		&store, &folder_name, &error);
 
 	/* XXX This is unlikely to fail since the URI comes straight from
 	 *     EMFolderSelector, but leave a breadcrumb if it does fail. */
