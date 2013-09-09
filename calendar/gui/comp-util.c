@@ -222,7 +222,7 @@ cal_comp_is_on_server (ECalComponent *comp,
 {
 	const gchar *uid;
 	gchar *rid = NULL;
-	icalcomponent *icalcomp;
+	icalcomponent *icalcomp = NULL;
 	GError *error = NULL;
 
 	g_return_val_if_fail (comp != NULL, FALSE);
