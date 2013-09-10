@@ -24,9 +24,9 @@ msgstr ""
 msgctxt "_"
 msgid "translator-credits"
 msgstr ""
-"Bence Lukács lukacs.bence1 at gmail dot com\n"
-"Gabor Kelemen kelemeng at gnome dot hu\n"
-"Nagy Zoltán dzodzie at gmail dot com"
+"Bence Lukács lukacs.bence1 at gmail dot com, 2011\n"
+"Gabor Kelemen kelemeng at gnome dot hu, 2011, 2012, 2013.\n"
+"Nagy Zoltán dzodzie at gmail dot com, 2011"
 
 #. (itstool) path: info/desc
 #: C/index.page:5
@@ -5073,7 +5073,7 @@ msgstr "Microsoft Exchange 2007 vagy 2010 fiók hozzáadása és szerkesztése."
 #. (itstool) path: page/title
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:20
 msgid "Exchange Web Services account settings"
-msgstr "Exchange Web Services fiók beállításai"
+msgstr "Webes Exchange-szolgáltatások fiók beállításai"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:36
