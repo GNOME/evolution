@@ -141,21 +141,6 @@ client_selector_client_notify_cb (EClientCache *client_cache,
 }
 
 static void
-client_selector_prefetch_cb (GObject *source_object,
-                             GAsyncResult *result,
-                             gpointer user_data)
-{
-	EClient *client;
-
-	/* We don't care about errors here.  this is just to try and
-	 * get the EClient instances we'll need cached ahead of time. */
-	client = e_client_selector_get_client_finish (
-		E_CLIENT_SELECTOR (source_object), result, NULL);
-
-	g_clear_object (&client);
-}
-
-static void
 client_selector_set_client_cache (EClientSelector *selector,
                                   EClientCache *client_cache)
 {
@@ -239,12 +224,9 @@ client_selector_constructed (GObject *object)
 {
 	EClientSelector *selector;
 	EClientCache *client_cache;
-	ESourceRegistry *registry;
 	GtkTreeView *tree_view;
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *renderer;
-	const gchar *extension_name;
-	GList *list, *link;
 	gulong handler_id;
 
 	selector = E_CLIENT_SELECTOR (object);
@@ -288,39 +270,6 @@ client_selector_constructed (GObject *object)
 	selector->priv->client_notify_online_handler_id = handler_id;
 
 	g_object_unref (client_cache);
-
-	/* Pre-fetch EClient instances for all relevant ESources.
-	 * This is just to try and make sure they get cache ahead
-	 * of time, so we need not worry about reporting errors. */
-
-	registry = e_source_selector_get_registry (
-		E_SOURCE_SELECTOR (selector));
-	extension_name = e_source_selector_get_extension_name (
-		E_SOURCE_SELECTOR (selector));
-
-	list = e_source_registry_list_sources (registry, extension_name);
-
-	for (link = list; link != NULL; link = g_list_next (link)) {
-		ESource *source = E_SOURCE (link->data);
-		ESourceExtension *extension;
-
-		extension = e_source_get_extension (source, extension_name);
-
-		/* If selectable, skip unselected sources. */
-		if (E_IS_SOURCE_SELECTABLE (extension)) {
-			ESourceSelectable *selectable;
-
-			selectable = E_SOURCE_SELECTABLE (extension);
-			if (!e_source_selectable_get_selected (selectable))
-				continue;
-		}
-
-		e_client_selector_get_client (
-			selector, source, NULL,
-			client_selector_prefetch_cb, NULL);
-	}
-
-	g_list_free_full (list, (GDestroyNotify) g_object_unref);
 }
 
 static void
