@@ -97,7 +97,7 @@ alarm_ready_cb (gpointer data)
 		if (ar->trigger > now)
 			break;
 
-		debug (("Process alarm with trigger %" G_GINT64_FORMAT, (gint64)ar->trigger));
+		debug (("Process alarm with trigger %" G_GINT64_FORMAT, (gint64) ar->trigger));
 		notify_id = ar;
 
 		ar_copy = *ar;
@@ -154,7 +154,7 @@ setup_timeout (void)
 	/* Add the time out */
 	debug (
 		("Setting timeout for %d.%2d (from now) %" G_GINT64_FORMAT "%" G_GINT64_FORMAT,
-		diff / 60, diff % 60, (gint64)ar->trigger, (gint64)now));
+		diff / 60, diff % 60, (gint64) ar->trigger, (gint64) now));
 	debug ((" %s", ctime (&ar->trigger)));
 	debug ((" %s", ctime (&now)));
 	timeout_id = g_timeout_add_seconds (diff, alarm_ready_cb, NULL);
