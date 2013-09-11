@@ -7804,7 +7804,7 @@ msgid ""
 msgstr ""
 "Ces étapes sont très techniques. Pour les utilisateurs moyens, nous "
 "recommandons d'utiliser l'application <link href=\"help:seahorse/index"
-"\"><app>Seahorse</app> pour gérer les clés GPG/OpenPGP."
+"\"><app>Seahorse</app></link> pour gérer les clés GPG/OpenPGP."
 
 #: C/mail-encryption-gpg-create-key.page:28(page/p)
 msgid ""
