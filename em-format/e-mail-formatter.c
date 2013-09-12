@@ -1105,10 +1105,27 @@ e_mail_formatter_format_text (EMailFormatter *formatter,
 	g_object_unref (mime_part);
 }
 
+const gchar *
+e_mail_formatter_get_sub_html_header (EMailFormatter *formatter)
+{
+	return  "<!DOCTYPE HTML>\n"
+		"<html>\n"
+		"<head>\n"
+		"<meta name=\"generator\" content=\"Evolution Mail\"/>\n"
+		"<title>Evolution Mail Display</title>\n"
+		"<link type=\"text/css\" rel=\"stylesheet\" "
+		"      href=\"" STYLESHEET_URI "\"/>\n"
+		"<style type=\"text/css\">\n"
+		"  table th { font-weight: bold; }\n"
+		"</style>\n"
+		"</head>"
+		"<body class=\"-e-web-view-background-color -e-web-view-text-color\">";
+}
+
 gchar *
 e_mail_formatter_get_html_header (EMailFormatter *formatter)
 {
-	return g_strdup_printf (
+	return g_strdup (
 		"<!DOCTYPE HTML>\n"
 		"<html>\n"
 		"<head>\n"
@@ -1117,19 +1134,11 @@ e_mail_formatter_get_html_header (EMailFormatter *formatter)
 		"<link type=\"text/css\" rel=\"stylesheet\" "
 		"      href=\"" STYLESHEET_URI "\"/>\n"
 		"<style type=\"text/css\">\n"
-		"  table th { color: #%06x; font-weight: bold; }\n"
+		"  table th { font-weight: bold; }\n"
 		"</style>\n"
 		"</head>"
-		"<body bgcolor=\"#%06x\" text=\"#%06x\">",
-		e_rgba_to_value (
-			e_mail_formatter_get_color (
-				formatter, E_MAIL_FORMATTER_COLOR_HEADER)),
-		e_rgba_to_value (
-			e_mail_formatter_get_color (
-				formatter, E_MAIL_FORMATTER_COLOR_BODY)),
-		e_rgba_to_value (
-			e_mail_formatter_get_color (
-				formatter, E_MAIL_FORMATTER_COLOR_TEXT)));
+		"<body class=\"-e-mail-formatter-body-color "
+		"-e-web-view-background-color -e-web-view-text-color\">");
 }
 
 EMailExtensionRegistry *

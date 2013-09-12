@@ -832,6 +832,60 @@ toggle_address_visibility (WebKitDOMElement *button,
 }
 
 static void
+add_color_css_rule_for_web_view (EWebView *view,
+				 const char *color_name,
+				 const char *color_value)
+{
+	gchar *selector;
+	gchar *style;
+
+	selector = g_strconcat (".-e-mail-formatter-", color_name, NULL);
+
+	if (g_strstr_len (color_name, -1, "header"))
+		style = g_strconcat ("color: ", color_value, " !important;", NULL);
+	else if (g_strstr_len (color_name, -1, "frame"))
+		style = g_strconcat ("border-color: ", color_value, " !important;", NULL);
+	else
+		style = g_strconcat ("background-color: ", color_value, " !important;", NULL);
+
+	e_web_view_add_css_rule_into_style_sheet (
+		view,
+		"-e-mail-formatter-style-sheet",
+		selector,
+		style);
+
+	g_free (style);
+	g_free (selector);
+}
+
+static void
+initialize_web_view_colors (EMailDisplay *display)
+{
+	EMailFormatter *formatter;
+	const gchar *color_names [] = { "body-color", "citation-color",
+					"frame-color", "header-color", NULL };
+	gint ii;
+
+	formatter = e_mail_display_get_formatter (display);
+
+	for (ii = 0; color_names[ii]; ii++) {
+		GdkRGBA *color = NULL;
+		gchar *color_value;
+
+		g_object_get (formatter, color_names[ii], &color, NULL);
+		color_value = g_strdup_printf ("#%06x", e_rgba_to_value (color));
+
+		add_color_css_rule_for_web_view (
+			E_WEB_VIEW (display),
+			color_names[ii],
+			color_value);
+
+		gdk_rgba_free (color);
+		g_free (color_value);
+	}
+}
+
+static void
 setup_dom_bindings (GObject *object,
                     GParamSpec *pspec,
                     gpointer user_data)
@@ -914,6 +968,7 @@ mail_parts_bind_dom (GObject *object,
 	if (display->priv->part_list == NULL)
 		return;
 
+	initialize_web_view_colors (display);
 	frame_name = webkit_web_frame_get_name (frame);
 	if (frame_name == NULL || *frame_name == '\0')
 		frame_name = ".message.headers";
@@ -1535,6 +1590,30 @@ e_mail_display_init (EMailDisplay *display)
 	}
 }
 
+static void
+e_mail_display_update_colors (EMailDisplay *display,
+                              GParamSpec *param_spec,
+                              EMailFormatter *formatter)
+{
+	GdkRGBA *color = NULL;
+	gchar *color_value;
+
+	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
+	g_return_if_fail (E_IS_MAIL_FORMATTER (formatter));
+
+	g_object_get (formatter, param_spec->name, &color, NULL);
+
+	color_value = g_strdup_printf ("#%06x", e_rgba_to_value (color));
+
+	add_color_css_rule_for_web_view (
+		E_WEB_VIEW (display),
+		param_spec->name,
+		color_value);
+
+	gdk_rgba_free (color);
+	g_free (color_value);
+}
+
 GtkWidget *
 e_mail_display_new (void)
 {
@@ -1592,18 +1671,14 @@ e_mail_display_set_mode (EMailDisplay *display,
 			G_CALLBACK (e_mail_display_reload), display,
 		"swapped-object-signal::notify::animate-images",
 			G_CALLBACK (e_mail_display_reload), display,
-		"swapped-object-signal::notify::text-color",
-			G_CALLBACK (e_mail_display_reload), display,
 		"swapped-object-signal::notify::body-color",
-			G_CALLBACK (e_mail_display_reload), display,
+			G_CALLBACK (e_mail_display_update_colors), display,
 		"swapped-object-signal::notify::citation-color",
-			G_CALLBACK (e_mail_display_reload), display,
-		"swapped-object-signal::notify::content-color",
-			G_CALLBACK (e_mail_display_reload), display,
+			G_CALLBACK (e_mail_display_update_colors), display,
 		"swapped-object-signal::notify::frame-color",
-			G_CALLBACK (e_mail_display_reload), display,
+			G_CALLBACK (e_mail_display_update_colors), display,
 		"swapped-object-signal::notify::header-color",
-			G_CALLBACK (e_mail_display_reload), display,
+			G_CALLBACK (e_mail_display_update_colors), display,
 		"swapped-object-signal::need-redraw",
 			G_CALLBACK (e_mail_display_reload), display,
 		NULL);
@@ -1854,7 +1929,7 @@ e_mail_display_set_status (EMailDisplay *display,
 		"<meta name=\"generator\" content=\"Evolution Mail\"/>\n"
 		"<title>Evolution Mail Display</title>\n"
 		"</head>\n"
-		"<body bgcolor=\"#%06x\" text=\"#%06x\">"
+		"<body class=\"-e-web-view-background-color e-web-view-text-color\">"
 		"  <style>html, body { height: 100%%; }</style>\n"
 		"  <table border=\"0\" width=\"100%%\" height=\"100%%\">\n"
 		"    <tr height=\"100%%\" valign=\"middle\">\n"
@@ -1865,14 +1940,6 @@ e_mail_display_set_status (EMailDisplay *display,
 		"  </table>\n"
 		"</body>\n"
 		"</html>\n",
-		e_rgba_to_value (
-			e_mail_formatter_get_color (
-				display->priv->formatter,
-				E_MAIL_FORMATTER_COLOR_CONTENT)),
-		e_rgba_to_value (
-			e_mail_formatter_get_color (
-				display->priv->formatter,
-				E_MAIL_FORMATTER_COLOR_TEXT)),
 		status);
 
 	e_web_view_load_string (E_WEB_VIEW (display), str);

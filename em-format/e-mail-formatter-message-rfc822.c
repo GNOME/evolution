@@ -221,18 +221,12 @@ emfe_message_rfc822_format (EMailFormatterExtension *extension,
 			NULL);
 
 		str = g_strdup_printf (
-			"<div class=\"part-container\" style=\"border-color: #%06x; "
-			"background-color: #%06x;\">\n"
+			"<div class=\"part-container -e-mail-formatter-frame-color "
+			"-e-mail-formatter-body-color\">\n"
 			"<iframe width=\"100%%\" height=\"10\""
 			" id=\"%s.iframe\" "
 			" frameborder=\"0\" src=\"%s\" name=\"%s\"></iframe>"
 			"</div>",
-			e_rgba_to_value (
-				e_mail_formatter_get_color (
-					formatter, E_MAIL_FORMATTER_COLOR_FRAME)),
-			e_rgba_to_value (
-				e_mail_formatter_get_color (
-					formatter, E_MAIL_FORMATTER_COLOR_BODY)),
 			part_id, uri, part_id);
 
 		camel_stream_write_string (stream, str, cancellable, NULL);

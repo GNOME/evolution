@@ -70,31 +70,16 @@ emfe_source_format (EMailFormatterExtension *extension,
 	buffer = g_string_new ("");
 
 	if (CAMEL_IS_MIME_MESSAGE (mime_part)) {
-		g_string_append_printf (
+		g_string_append (
 			buffer,
-			"<div class=\"part-container\" "
-			"style=\"border: 0; background: #%06x; color: #%06x;\" >",
-			e_rgba_to_value (
-				e_mail_formatter_get_color (
-					formatter, E_MAIL_FORMATTER_COLOR_BODY)),
-			e_rgba_to_value (
-				e_mail_formatter_get_color (
-					formatter, E_MAIL_FORMATTER_COLOR_TEXT)));
+			"<div class=\"part-container -e-mail-formatter-body-color "
+			"-e-web-view-text-color\" style=\"border: 0;\" >");
 	} else {
-		g_string_append_printf (
+		g_string_append (
 			buffer,
-			"<div class=\"part-container\" "
-			"style=\"border-color: #%06x; background: #%06x; color: #%06x;\">"
-			"<div class=\"part-container-inner-margin pre\">\n",
-			e_rgba_to_value (
-				e_mail_formatter_get_color (
-					formatter, E_MAIL_FORMATTER_COLOR_FRAME)),
-			e_rgba_to_value (
-				e_mail_formatter_get_color (
-					formatter, E_MAIL_FORMATTER_COLOR_BODY)),
-			e_rgba_to_value (
-				e_mail_formatter_get_color (
-					formatter, E_MAIL_FORMATTER_COLOR_TEXT)));
+			"<div class=\"part-container -e-mail-formatter-body-color "
+			" -e-web-view-text-color -e-mail-formatter-frame-color\">"
+			"<div class=\"part-container-inner-margin pre\">\n");
 	}
 
 	camel_stream_write_string (

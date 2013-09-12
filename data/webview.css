@@ -14,7 +14,6 @@ body {
 
 th {
   text-align: left;
-  font-weight: normal;
   vertical-align: top;
 }
 
@@ -50,7 +49,6 @@ img.navigable {
 
 .part-container {
   height: 100%;
-  background: #FFF;
   margin-top: 2px;
   margin-bottom: 3px;
   border-width: 1px;

@@ -125,6 +125,8 @@ void		e_mail_formatter_format_text	(EMailFormatter *formatter,
 						 EMailPart *part,
 						 CamelStream *stream,
 						 GCancellable *cancellable);
+const gchar *	e_mail_formatter_get_sub_html_header
+						(EMailFormatter *formatter);
 gchar *		e_mail_formatter_get_html_header
 						(EMailFormatter *formatter);
 EMailExtensionRegistry *

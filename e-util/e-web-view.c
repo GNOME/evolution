@@ -564,6 +564,59 @@ web_view_navigation_policy_decision_requested_cb (EWebView *web_view,
 }
 
 static void
+style_updated_cb (EWebView *web_view)
+{
+	GdkRGBA color;
+	gchar *color_value;
+	gchar *style;
+	GtkStateFlags state_flags;
+	GtkStyleContext *style_context;
+	GtkWidgetPath *widget_path;
+
+	state_flags = gtk_widget_get_state_flags (GTK_WIDGET (web_view));
+	style_context = gtk_style_context_new ();
+	widget_path = gtk_widget_path_new ();
+	gtk_widget_path_append_type (widget_path, GTK_TYPE_WINDOW);
+	gtk_style_context_set_path (style_context, widget_path);
+	gtk_style_context_add_class (style_context, GTK_STYLE_CLASS_ENTRY);
+
+	gtk_style_context_get_background_color (
+		style_context,
+		state_flags | GTK_STATE_FLAG_FOCUSED,
+		&color);
+	color_value = g_strdup_printf ("#%06x", e_rgba_to_value (&color));
+	style = g_strconcat ("background-color: ", color_value, ";", NULL);
+
+	e_web_view_add_css_rule_into_style_sheet (
+		web_view,
+		"-e-web-view-css-sheet",
+		".-e-web-view-background-color",
+		style);
+
+	g_free (color_value);
+	g_free (style);
+
+	gtk_style_context_get_color (
+		style_context,
+		state_flags | GTK_STATE_FLAG_FOCUSED,
+		&color);
+	color_value = g_strdup_printf ("#%06x", e_rgba_to_value (&color));
+	style = g_strconcat ("color: ", color_value, ";", NULL);
+
+	e_web_view_add_css_rule_into_style_sheet (
+		web_view,
+		"-e-web-view-css-sheet",
+		".-e-web-view-text-color",
+		style);
+
+	gtk_widget_path_free (widget_path);
+	g_object_unref (style_context);
+
+	g_free (color_value);
+	g_free (style);
+}
+
+static void
 web_view_load_status_changed_cb (WebKitWebView *webkit_web_view,
                                  GParamSpec *pspec,
                                  gpointer user_data)
@@ -575,14 +628,17 @@ web_view_load_status_changed_cb (WebKitWebView *webkit_web_view,
 
 	status = webkit_web_view_get_load_status (webkit_web_view);
 
-	if (status == WEBKIT_LOAD_FINISHED) {
-		web_view_update_document_highlights (web_view);
+	if (status != WEBKIT_LOAD_FINISHED)
+       		return;
 
-		/* Workaround webkit bug:
-		 * https://bugs.webkit.org/show_bug.cgi?id=89553 */
-		e_web_view_zoom_in (web_view);
-		e_web_view_zoom_out (web_view);
-	}
+	style_updated_cb (web_view);
+
+	web_view_update_document_highlights (web_view);
+
+	/* Workaround webkit bug:
+	 * https://bugs.webkit.org/show_bug.cgi?id=89553 */
+	e_web_view_zoom_in (web_view);
+	e_web_view_zoom_out (web_view);
 }
 
 static void
@@ -1579,6 +1635,14 @@ e_web_view_init (EWebView *web_view)
 		web_view, "notify::load-status",
 		G_CALLBACK (web_view_load_status_changed_cb), NULL);
 
+	g_signal_connect (
+		web_view, "style-updated",
+		G_CALLBACK (style_updated_cb), NULL);
+
+	g_signal_connect (
+		web_view, "state-flags-changed",
+		G_CALLBACK (style_updated_cb), NULL);
+
 	ui_manager = gtk_ui_manager_new ();
 	web_view->priv->ui_manager = ui_manager;
 
@@ -1725,6 +1789,8 @@ e_web_view_init (EWebView *web_view)
 	id = "org.gnome.evolution.webview";
 	e_plugin_ui_register_manager (ui_manager, id, web_view);
 	e_plugin_ui_enable_manager (ui_manager, id);
+
+	e_web_view_clear (E_WEB_VIEW (web_view));
 }
 
 GtkWidget *
@@ -1736,21 +1802,15 @@ e_web_view_new (void)
 void
 e_web_view_clear (EWebView *web_view)
 {
-	GtkStyle *style;
-	gchar *html;
-
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
-	style = gtk_widget_get_style (GTK_WIDGET (web_view));
-
-	html = g_strdup_printf (
-		"<html><head></head><body bgcolor=\"#%06x\"></body></html>",
-		e_color_to_value (&style->base[GTK_STATE_NORMAL]));
-
 	webkit_web_view_load_html_string (
-		WEBKIT_WEB_VIEW (web_view), html, NULL);
-
-	g_free (html);
+		WEBKIT_WEB_VIEW (web_view),
+		"<html> \
+		 <head></head> \
+		 <body class=\"-e-web-view-background-color -e-web-view-text-color\"></body> \
+		 </html>",
+		 NULL);
 }
 
 void
@@ -3234,3 +3294,168 @@ e_web_view_install_request_handler (EWebView *web_view,
 	g_object_unref (feature);
 }
 
+static void
+create_and_add_css_style_sheet (WebKitDOMDocument *document,
+                                const gchar *style_sheet_id)
+{
+	WebKitDOMElement *style_element;
+
+	style_element = webkit_dom_document_get_element_by_id (document, style_sheet_id);
+
+	if (!style_element) {
+		/* Create new <style> element */
+		style_element = webkit_dom_document_create_element (document, "style", NULL);
+		webkit_dom_html_element_set_id (
+			WEBKIT_DOM_HTML_ELEMENT (style_element),
+			style_sheet_id);
+		webkit_dom_html_style_element_set_media (
+			WEBKIT_DOM_HTML_STYLE_ELEMENT (style_element),
+			"screen");
+		webkit_dom_node_append_child (
+			WEBKIT_DOM_NODE (style_element),
+			/* WebKit hack - we have to insert empty TextNode into style element */
+			WEBKIT_DOM_NODE (webkit_dom_document_create_text_node (document, "")),
+			NULL);
+
+		webkit_dom_node_append_child (
+			WEBKIT_DOM_NODE (webkit_dom_document_get_head (document)),
+			WEBKIT_DOM_NODE (style_element),
+			NULL);
+	}
+}
+
+static void
+add_css_rule_into_style_sheet (WebKitDOMDocument *document,
+                               const gchar *style_sheet_id,
+                               const gchar *selector,
+                               const gchar *style)
+{
+	WebKitDOMElement *style_element;
+	WebKitDOMStyleSheet *sheet;
+	WebKitDOMCSSRuleList *rules_list;
+	gint length, ii;
+
+	style_element = webkit_dom_document_get_element_by_id (document, style_sheet_id);
+
+	if (!style_element) {
+		create_and_add_css_style_sheet (document, style_sheet_id);
+		style_element = webkit_dom_document_get_element_by_id (document, style_sheet_id);
+	}
+
+	/* Get sheet that is associated with style element */
+	sheet = webkit_dom_html_style_element_get_sheet (WEBKIT_DOM_HTML_STYLE_ELEMENT (style_element));
+
+	rules_list = webkit_dom_css_style_sheet_get_css_rules (WEBKIT_DOM_CSS_STYLE_SHEET (sheet));
+	length = webkit_dom_css_rule_list_get_length (rules_list);
+
+	/* Check if rule exists */
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMCSSRule *rule;
+		const gchar *rule_text;
+		gchar *rule_selector, *selector_end;
+
+		rule = webkit_dom_css_rule_list_item (rules_list, ii);
+
+		if (!WEBKIT_DOM_IS_CSS_RULE (rule))
+			continue;
+
+		rule_text = webkit_dom_css_rule_get_css_text (rule);
+
+		/* Find the start of the style => end of the selector */
+		selector_end = g_strstr_len (rule_text, -1, " {");
+		if (!selector_end)
+			continue;
+
+		rule_selector =
+			g_utf8_substring (
+				rule_text,
+				0,
+				g_utf8_pointer_to_offset (rule_text, selector_end));
+
+		if (g_strcmp0 (rule_selector, selector) == 0) {
+			/* If exists remove it */
+			webkit_dom_css_style_sheet_remove_rule (
+				WEBKIT_DOM_CSS_STYLE_SHEET (sheet),
+				ii, NULL);
+		}
+
+		g_free (rule_selector);
+	}
+
+	/* Insert the rule at the end, so it will override previously inserted */
+	webkit_dom_css_style_sheet_add_rule (
+		WEBKIT_DOM_CSS_STYLE_SHEET (sheet),
+		selector,
+		style,
+		webkit_dom_css_rule_list_get_length (
+			webkit_dom_css_style_sheet_get_css_rules (
+				WEBKIT_DOM_CSS_STYLE_SHEET (sheet))), /* Index */
+		NULL);
+}
+
+static void
+add_css_rule_into_style_sheet_recursive (WebKitDOMDocument *document,
+                                         const gchar *style_sheet_id,
+                                         const gchar *selector,
+                                         const gchar *style)
+{
+	WebKitDOMNodeList *frames;
+	gint ii, length;
+
+	/* Add rule to document */
+	add_css_rule_into_style_sheet (
+		document,
+		style_sheet_id,
+		selector,
+		style);
+
+	frames = webkit_dom_document_query_selector_all (document, "iframe", NULL);
+	length = webkit_dom_node_list_get_length (frames);
+
+	/* Add rules to every sub document */
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMDocument *iframe_document;
+		WebKitDOMNode *node;
+
+		node = webkit_dom_node_list_item (frames, ii);
+		iframe_document = webkit_dom_html_iframe_element_get_content_document (
+			WEBKIT_DOM_HTML_IFRAME_ELEMENT (node));
+
+		add_css_rule_into_style_sheet_recursive (
+			iframe_document,
+			style_sheet_id,
+			selector,
+			style);
+	}
+}
+
+/**
+ * e_web_view_add_css_rule_into_style_sheet:
+ * @web_view: an #EWebView
+ * @style_sheet_id: CSS style sheet's id
+ * @selector: CSS selector
+ * @style: style for given selector
+ *
+ * Insert new CSS rule (defined with @selector and @style) into CSS style sheet
+ * with given @style_sheet_id. If style sheet doesn't exist, it's created.
+ *
+ * The rule is inserted to every DOM document that is in page. That means also into
+ * DOM documents inside iframe elements.
+ **/
+void
+e_web_view_add_css_rule_into_style_sheet (EWebView *view,
+                                          const gchar *style_sheet_id,
+                                          const gchar *selector,
+                                          const gchar *style)
+{
+	g_return_if_fail (E_IS_WEB_VIEW (view));
+	g_return_if_fail (style_sheet_id && *style_sheet_id);
+	g_return_if_fail (selector && *selector);
+	g_return_if_fail (style && *style);
+
+	add_css_rule_into_style_sheet_recursive (
+		webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view)),
+		style_sheet_id,
+		selector,
+		style);
+}

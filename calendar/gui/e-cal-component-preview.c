@@ -205,8 +205,6 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 	icalproperty_status status;
 	const gchar *location;
 	gint *priority_value;
-	GtkStyle *style;
-	GtkStateType state;
 
 	client = preview->priv->client;
 	comp = preview->priv->comp;
@@ -216,14 +214,8 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 	/* write document header */
 	e_cal_component_get_summary (comp, &text);
 
-	style = gtk_widget_get_style (GTK_WIDGET (preview));
-	state = gtk_widget_get_state (GTK_WIDGET (preview));
-
 	g_string_append (buffer, HTML_HEADER);
-	g_string_append_printf (
-		buffer, "<body bgcolor=\"#%06x\" text=\"#%06x\">",
-		e_color_to_value (&style->base[state]),
-		e_color_to_value (&style->text[state]));
+	g_string_append (buffer, "<body class=\"-e-web-view-background-color -e-web-view-text-color\">");
 
 	if (text.value)
 		g_string_append_printf (buffer, "<h2>%s</h2>", text.value);

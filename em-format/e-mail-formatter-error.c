@@ -59,24 +59,14 @@ emfe_error_format (EMailFormatterExtension *extension,
 	dw = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
 
 	html = g_strdup_printf (
-		"<div class=\"part-container\" style=\""
-		"border-color: #%06x;"
-		"background-color: #%06x; color: #%06x;\">"
+		"<div class=\"part-container -e-mail-formatter-frame-color "
+	        "-e-mail-formatter-body-color -e-web-view-text-color\">"
 		"<div class=\"part-container-inner-margin pre\">\n"
 		"<table border=\"0\" cellspacing=\"10\" "
 		"cellpadding=\"0\" width=\"100%%\">\n"
 		"<tr valign=\"top\"><td width=50>"
 		"<img src=\"gtk-stock://%s/?size=%d\" /></td>\n"
 		"<td style=\"color: red;\">",
-		e_rgba_to_value (
-			e_mail_formatter_get_color (
-				formatter, E_MAIL_FORMATTER_COLOR_FRAME)),
-		e_rgba_to_value (
-			e_mail_formatter_get_color (
-				formatter, E_MAIL_FORMATTER_COLOR_BODY)),
-		e_rgba_to_value (
-			e_mail_formatter_get_color (
-				formatter, E_MAIL_FORMATTER_COLOR_TEXT)),
 		GTK_STOCK_DIALOG_ERROR, GTK_ICON_SIZE_DIALOG);
 
 	camel_stream_write_string (stream, html, cancellable, NULL);

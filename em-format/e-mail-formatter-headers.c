@@ -490,9 +490,6 @@ emfe_headers_format (EMailFormatterExtension *extension,
 {
 	CamelMimePart *mime_part;
 	GString *buffer;
-	const GdkRGBA white = { 1.0, 1.0, 1.0, 1.0 };
-	const GdkRGBA *body_rgba = &white;
-	const GdkRGBA *header_rgba;
 	const gchar *direction;
 	gboolean is_collapsable;
 	gboolean is_collapsed;
@@ -524,22 +521,15 @@ emfe_headers_format (EMailFormatterExtension *extension,
 
 	buffer = g_string_new ("");
 
-	if (context->mode != E_MAIL_FORMATTER_MODE_PRINTING)
-		body_rgba = e_mail_formatter_get_color (
-			formatter, E_MAIL_FORMATTER_COLOR_BODY);
-
-	header_rgba = e_mail_formatter_get_color (
-		formatter, E_MAIL_FORMATTER_COLOR_HEADER);
-
 	g_string_append_printf (
 		buffer,
-		"<div class=\"headers\" style=\"background: #%06x;\" id=\"%s\">"
-		"<table border=\"0\" width=\"100%%\" "
-		"style=\"color: #%06x; direction: %s\">"
+		"%s id=\"%s\"><table class=\"-e-mail-formatter-header-color\" border=\"0\" width=\"100%%\" "
+		"style=\"direction: %s\">"
 		"<tr>",
-		e_rgba_to_value (body_rgba),
+		(context->mode != E_MAIL_FORMATTER_MODE_PRINTING) ?
+			"<div class=\"headers -e-mail-formatter-body-color\"" :
+			"<div class=\"headers\" style=\"background-color: #ffffff;\"",
 		e_mail_part_get_id (part),
-		e_rgba_to_value (header_rgba),
 		direction);
 
 	if (is_collapsable)

@@ -73,17 +73,11 @@ emfe_text_enriched_format (EMailFormatterExtension *extension,
 
 	buffer = g_string_new ("");
 
-	g_string_append_printf (
+	g_string_append (
 		buffer,
-		"<div class=\"part-container\" style=\"border-color: #%06x; "
-		"background-color: #%06x; color: #%06x;\">"
-		"<div class=\"part-container-inner-margin\">\n",
-		e_rgba_to_value (
-			e_mail_formatter_get_color (formatter, E_MAIL_FORMATTER_COLOR_FRAME)),
-		e_rgba_to_value (
-			e_mail_formatter_get_color (formatter, E_MAIL_FORMATTER_COLOR_CONTENT)),
-		e_rgba_to_value (
-			e_mail_formatter_get_color (formatter, E_MAIL_FORMATTER_COLOR_TEXT)));
+		"<div class=\"part-container -e-mail-formatter-frame-color "
+	        "-e-web-view-background-color -e-web-view-text-color\">"
+		"<div class=\"part-container-inner-margin\">\n");
 
 	camel_stream_write_string (stream, buffer->str, cancellable, NULL);
 	g_string_free (buffer, TRUE);

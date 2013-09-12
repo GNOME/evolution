@@ -195,11 +195,14 @@ void		e_web_view_request		(EWebView *web_view,
 GInputStream *	e_web_view_request_finish	(EWebView *web_view,
 						 GAsyncResult *result,
 						 GError **error);
-
 void		e_web_view_install_request_handler
 						(EWebView *web_view,
 						 GType handler_type);
-
+void		e_web_view_add_css_rule_into_style_sheet
+						(EWebView *view,
+						 const gchar *style_sheet_id,
+						 const gchar *selector,
+						 const gchar *style);
 G_END_DECLS
 
 #endif /* E_WEB_VIEW_H */

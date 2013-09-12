@@ -747,7 +747,7 @@ render_normal (EABContactFormatter *formatter,
                GString *buffer)
 {
 	g_string_append (buffer, HTML_HEADER);
-	g_string_append (buffer, "<body bgcolor=\"white\">");
+	g_string_append (buffer,"<body class=\"-e-web-view-background-color -e-web-view-text-color\">");
 
 	if (contact != NULL) {
 		if (e_contact_get (contact, E_CONTACT_IS_LIST))
@@ -769,7 +769,7 @@ render_compact (EABContactFormatter *formatter,
 	EContactPhoto *photo;
 
 	g_string_append (buffer, HTML_HEADER);
-	g_string_append (buffer, "<body>\n");
+	g_string_append (buffer,"<body class=\"-e-web-view-background-color -e-web-view-text-color\">");
 
 	if (contact == NULL) {
 		g_string_append (buffer, "</body></html>");

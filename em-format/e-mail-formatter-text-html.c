@@ -328,15 +328,13 @@ emfe_text_html_format (EMailFormatterExtension *extension,
 			"<iframe width=\"100%%\" height=\"10\" "
 			" frameborder=\"0\" src=\"%s\" "
 			" id=\"%s.iframe\" name=\"%s\" "
-			" style=\"border: 1px solid #%06x; background-color: #ffffff;\">"
+			" class=\"-e-mail-formatter-frame-color\" "
+			" style=\"background-color: #ffffff; border: 1px solid;\">"
 			"</iframe>"
 			"</div>",
 			uri,
 			e_mail_part_get_id (part),
-			e_mail_part_get_id (part),
-			e_rgba_to_value (
-				e_mail_formatter_get_color (
-					formatter, E_MAIL_FORMATTER_COLOR_FRAME)));
+			e_mail_part_get_id (part));
 
 		camel_stream_write_string (stream, str, cancellable, NULL);
 

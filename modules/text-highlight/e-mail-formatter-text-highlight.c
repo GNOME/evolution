@@ -333,19 +333,14 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 			"<div class=\"part-container-nostyle\" >"
 			"<iframe width=\"100%%\" height=\"10\""
 			" id=\"%s\" name=\"%s\" "
+			" class=\"-e-mail-formatter-frame-color -e-web-view-background-color\" "
 			" frameborder=\"0\" src=\"%s\" "
-			" style=\"border: 1px solid #%06x; background-color: #%06x;\">"
+			" style=\"border: 1px solid;\">"
 			"</iframe>"
 			"</div>",
 			e_mail_part_get_id (part),
 			e_mail_part_get_id (part),
-			uri,
-			e_rgba_to_value (
-				e_mail_formatter_get_color (
-					formatter, E_MAIL_FORMATTER_COLOR_FRAME)),
-			e_rgba_to_value (
-				e_mail_formatter_get_color (
-					formatter, E_MAIL_FORMATTER_COLOR_CONTENT)));
+			uri);
 
 		camel_stream_write_string (stream, str, cancellable, NULL);
 

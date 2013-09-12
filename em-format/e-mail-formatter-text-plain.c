@@ -70,10 +70,11 @@ emfe_text_plain_format (EMailFormatterExtension *extension,
 		CamelDataWrapper *dw;
 
 		if (context->mode == E_MAIL_FORMATTER_MODE_RAW) {
-			gchar *header;
-			header = e_mail_formatter_get_html_header (formatter);
-			camel_stream_write_string (stream, header, cancellable, NULL);
-			g_free (header);
+			camel_stream_write_string (
+				stream,
+				e_mail_formatter_get_sub_html_header (formatter),
+				cancellable,
+				NULL);
 
 			/* No need for body margins within <iframe> */
 			camel_stream_write_string (
@@ -107,16 +108,10 @@ emfe_text_plain_format (EMailFormatterExtension *extension,
 			CAMEL_STREAM_FILTER (filtered_stream), html_filter);
 		g_object_unref (html_filter);
 
-		content = g_strdup_printf (
-			"<div class=\"part-container pre\" style=\""
-			"border: none; padding: 8px; margin: 0; "
-			"background-color: #%06x; color: #%06x;\">\n",
-			e_rgba_to_value (
-				e_mail_formatter_get_color (
-					formatter, E_MAIL_FORMATTER_COLOR_CONTENT)),
-			e_rgba_to_value (
-				e_mail_formatter_get_color (
-					formatter, E_MAIL_FORMATTER_COLOR_TEXT)));
+		content = g_strdup (
+			"<div class=\"part-container pre "
+			"-e-web-view-background-color -e-web-view-text-color\" "
+			"style=\"border: none; padding: 8px; margin: 0;\">");
 
 		camel_stream_write_string (stream, content, cancellable, NULL);
 		e_mail_formatter_format_text (formatter, part, filtered_stream, cancellable);
@@ -166,18 +161,14 @@ emfe_text_plain_format (EMailFormatterExtension *extension,
 			"<iframe width=\"100%%\" height=\"10\""
 			" id=\"%s.iframe\" name=\"%s\" "
 			" frameborder=\"0\" src=\"%s\" "
-			" style=\"border: 1px solid #%06x; background-color: #%06x;\">"
+			" class=\"-e-mail-formatter-frame-color"
+			" -e-web-view-text-color\" "
+			" style=\"border: 1px solid;\">"
 			"</iframe>"
 			"</div>",
 			e_mail_part_get_id (part),
 			e_mail_part_get_id (part),
-			uri,
-			e_rgba_to_value (
-				e_mail_formatter_get_color (
-					formatter, E_MAIL_FORMATTER_COLOR_FRAME)),
-			e_rgba_to_value (
-				e_mail_formatter_get_color (
-					formatter, E_MAIL_FORMATTER_COLOR_CONTENT)));
+			uri);
 
 		camel_stream_write_string (stream, str, cancellable, NULL);
 
