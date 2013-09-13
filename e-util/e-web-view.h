@@ -202,6 +202,16 @@ void		e_web_view_add_css_rule_into_style_sheet
 						 const gchar *style_sheet_id,
 						 const gchar *selector,
 						 const gchar *style);
+gboolean	element_has_id			(WebKitDOMElement *element,
+						 const gchar* id);
+gboolean	element_has_tag			(WebKitDOMElement *element,
+						 const gchar* tag);
+gboolean	element_has_class		(WebKitDOMElement *element,
+						 const gchar* class);
+void		element_add_class		(WebKitDOMElement *element,
+						 const gchar* class);
+void		element_remove_class		(WebKitDOMElement *element,
+						 const gchar* class);
 G_END_DECLS
 
 #endif /* E_WEB_VIEW_H */

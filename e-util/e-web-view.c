@@ -3457,3 +3457,118 @@ e_web_view_add_css_rule_into_style_sheet (EWebView *view,
 		selector,
 		style);
 }
+
+gboolean
+element_has_id (WebKitDOMElement *element,
+                const gchar* id)
+{
+	const gchar *element_id;
+
+	if (!element)
+		return FALSE;
+
+	if (!WEBKIT_DOM_IS_ELEMENT (element))
+		return FALSE;
+
+	element_id = webkit_dom_html_element_get_id (WEBKIT_DOM_HTML_ELEMENT (element));
+
+	if (g_ascii_strcasecmp (element_id, id) != 0)
+		return FALSE;
+
+	return TRUE;
+}
+
+gboolean
+element_has_tag (WebKitDOMElement *element,
+                 const gchar* tag)
+{
+	const gchar *element_tag;
+
+	if (!WEBKIT_DOM_IS_ELEMENT (element))
+		return FALSE;
+
+	element_tag = webkit_dom_node_get_local_name (WEBKIT_DOM_NODE (element));
+
+	if (g_ascii_strcasecmp (element_tag, tag) != 0)
+		return FALSE;
+
+	return TRUE;
+}
+
+gboolean
+element_has_class (WebKitDOMElement *element,
+                const gchar* class)
+{
+	const gchar *element_class;
+
+	if (!element)
+		return FALSE;
+
+	if (!WEBKIT_DOM_IS_ELEMENT (element))
+		return FALSE;
+
+	element_class = webkit_dom_element_get_class_name (element);
+
+	if (g_strstr_len (element_class, -1, class))
+		return TRUE;
+
+	return FALSE;
+}
+
+void
+element_add_class (WebKitDOMElement *element,
+                   const gchar* class)
+{
+	const gchar *element_class;
+	gchar *new_class;
+
+	if (!WEBKIT_DOM_IS_ELEMENT (element))
+		return;
+
+	if (element_has_class (element, class))
+		return;
+
+	element_class = webkit_dom_element_get_class_name (element);
+
+	if (g_strcmp0 (element_class, ""))
+		new_class = g_strdup (class);
+	else
+		new_class = g_strconcat (element_class, " ", class, NULL);
+
+	webkit_dom_element_set_class_name (element, new_class);
+
+	g_free (new_class);
+}
+
+void
+element_remove_class (WebKitDOMElement *element,
+                      const gchar* class)
+{
+	GRegex *regex;
+	char *new_class;
+	const gchar *element_class;
+
+	if (!WEBKIT_DOM_IS_ELEMENT (element))
+		return;
+
+	if (!element_has_class (element, class))
+		return;
+
+	element_class = webkit_dom_element_get_class_name (element);
+
+	if (g_strcmp0 (element_class, class) == 0) {
+		webkit_dom_element_remove_attribute (element, "class");
+		return;
+	}
+
+	regex = g_regex_new (class, 0, 0, NULL);
+	if (!regex)
+		return;
+
+	new_class = g_regex_replace_literal (regex, element_class, -1, 0, "", 0, NULL);
+
+	webkit_dom_element_set_class_name (element, new_class);
+
+	g_free (new_class);
+	g_regex_unref (regex);
+}
