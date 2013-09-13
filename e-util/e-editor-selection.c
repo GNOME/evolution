@@ -1649,10 +1649,6 @@ e_editor_selection_is_citation (EEditorSelection *selection)
 	gboolean ret_val;
 	const gchar *text_content;
 	gchar *value;
-	EEditorWidget *editor_widget;
-	WebKitDOMCSSStyleDeclaration *style;
-	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *window;
 	WebKitDOMNode *node;
 	WebKitDOMRange *range;
 
@@ -1670,15 +1666,17 @@ e_editor_selection_is_citation (EEditorSelection *selection)
 		return FALSE;
 
 	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
+
+	if (WEBKIT_DOM_IS_TEXT (node))
+		return FALSE;
+
 	text_content = webkit_dom_node_get_text_content (node);
 	/* If we are changing the format of block we have to re-set bold property,
 	 * otherwise it will be turned off because of no text in composer */
 	if (g_strcmp0 (text_content, "") == 0)
 		return FALSE;
 
-	style = webkit_dom_dom_window_get_computed_style (
-			window, webkit_dom_node_get_parent_element (node), NULL);
-	value = webkit_dom_css_style_declaration_get_property_value (style, "type");
+	value = webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (node), "type");
 
 	/* citation == <blockquote type='cite'> */
 	if (g_strstr_len (value, -1, "cite"))
