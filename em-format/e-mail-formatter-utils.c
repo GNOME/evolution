@@ -200,48 +200,33 @@ e_mail_formatter_format_address (EMailFormatter *formatter,
 
 		/* Let us add a '...' if we have more addresses */
 		if (limit > 0 && i == limit && a != NULL) {
-			const gchar *id = NULL;
+			if (strcmp (field, _("To")) == 0 ||
+			    strcmp (field, _("Cc")) == 0 ||
+			    strcmp (field, _("Bcc")) == 0) {
 
-			if (strcmp (field, _("To")) == 0) {
-				id = "to";
-			} else if (strcmp (field, _("Cc")) == 0) {
-				id = "cc";
-			} else if (strcmp (field, _("Bcc")) == 0) {
-				id = "bcc";
-			}
-
-			if (id != NULL) {
-				g_string_append_printf (
+				g_string_append (
 					out,
-					"<span id=\"__evo-moreaddr-%s\" "
-					"style=\"display: none;\">", id);
+					"<span id=\"__evo-moreaddr\" "
+					"style=\"display: none;\">");
 				str = g_strdup_printf (
 					"<img src=\"evo-file://%s/plus.png\" "
-					"id=\"__evo-moreaddr-img-%s\" class=\"navigable\">",
-					EVOLUTION_IMAGESDIR, id);
+					"id=\"__evo-moreaddr-img\" class=\"navigable\">",
+					EVOLUTION_IMAGESDIR);
 			}
 		}
 	}
 
 	if (elipsize && str) {
-		const gchar *id = NULL;
+		if (strcmp (field, _("To")) == 0 ||
+		    strcmp (field, _("Cc")) == 0 ||
+		    strcmp (field, _("Bcc")) == 0) {
 
-		if (strcmp (field, _("To")) == 0) {
-			id = "to";
-		} else if (strcmp (field, _("Cc")) == 0) {
-			id = "cc";
-		} else if (strcmp (field, _("Bcc")) == 0) {
-			id = "bcc";
-		}
-
-		if (id != NULL) {
-			g_string_append_printf (
+			g_string_append (
 				out,
 				"</span>"
 				"<span class=\"navigable\" "
-					"id=\"__evo-moreaddr-ellipsis-%s\" "
-					"style=\"display: inline;\">...</span>",
-				id);
+					"id=\"__evo-moreaddr-ellipsis\" "
+					"style=\"display: inline;\">...</span>");
 		}
 	}
 

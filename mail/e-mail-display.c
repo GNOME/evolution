@@ -769,37 +769,31 @@ toggle_headers_visibility (WebKitDOMElement *button,
 	d (printf ("Headers %s!\n", expanded ? "collapsed" : "expanded"));
 }
 
-static const gchar *addresses[] = { "to", "cc", "bcc" };
-
 static void
 toggle_address_visibility (WebKitDOMElement *button,
-                           WebKitDOMEvent *event,
-                           const gchar *address)
+                           WebKitDOMEvent *event)
 {
 	WebKitDOMElement *full_addr, *ellipsis;
+	WebKitDOMElement *parent;
 	WebKitDOMCSSStyleDeclaration *css_full, *css_ellipsis;
-	WebKitDOMDocument *document;
-	gchar *id;
 	const gchar *path;
 	gboolean expanded;
 
-	document = webkit_dom_node_get_owner_document (
-		WEBKIT_DOM_NODE (button));
+	/* <b> element */
+	parent = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (button));
+	/* <td> element */
+	parent = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (parent));
 
-	id = g_strconcat ("__evo-moreaddr-", address, NULL);
-	full_addr = webkit_dom_document_get_element_by_id (document, id);
-	g_free (id);
+	full_addr = webkit_dom_element_query_selector (parent, "#__evo-moreaddr", NULL);
 
-	if (full_addr == NULL)
+	if (!full_addr)
 		return;
 
 	css_full = webkit_dom_element_get_style (full_addr);
 
-	id = g_strconcat ("__evo-moreaddr-ellipsis-", address, NULL);
-	ellipsis = webkit_dom_document_get_element_by_id (document, id);
-	g_free (id);
+	ellipsis = webkit_dom_element_query_selector (parent, "#__evo-moreaddr-ellipsis", NULL);
 
-	if (ellipsis == NULL)
+	if (!ellipsis)
 		return;
 
 	css_ellipsis = webkit_dom_element_get_style (ellipsis);
@@ -819,11 +813,9 @@ toggle_address_visibility (WebKitDOMElement *button,
 		path = "evo-file://" EVOLUTION_IMAGESDIR "/minus.png";
 
 	if (!WEBKIT_DOM_IS_HTML_IMAGE_ELEMENT (button)) {
-		id = g_strconcat ("__evo-moreaddr-img-", address, NULL);
-		button = webkit_dom_document_get_element_by_id (document, id);
-		g_free (id);
+		button = webkit_dom_element_query_selector (parent, "#__evo-moreaddr-img", NULL);
 
-		if (button == NULL)
+		if (!button)
 			return;
 	}
 
@@ -895,7 +887,8 @@ setup_dom_bindings (GObject *object,
 	WebKitLoadStatus load_status;
 	WebKitDOMDocument *document;
 	WebKitDOMElement *button;
-	gint ii = 0;
+	WebKitDOMNodeList *list;
+	gint length, ii = 0;
 
 	frame = WEBKIT_WEB_FRAME (object);
 	load_status = webkit_web_frame_get_load_status (frame);
@@ -913,33 +906,17 @@ setup_dom_bindings (GObject *object,
 			G_CALLBACK (toggle_headers_visibility),
 			FALSE, web_view);
 
-	for (ii = 0; ii < 3; ii++) {
-		gchar *id;
+	list = webkit_dom_document_query_selector_all (document, "*[id^=__evo-moreaddr-]", NULL);
 
-		id = g_strconcat ("__evo-moreaddr-img-", addresses[ii], NULL);
-		button = webkit_dom_document_get_element_by_id (document, id);
-		g_free (id);
+	length = webkit_dom_node_list_get_length (list);
 
-		if (button == NULL)
-			continue;
+	for (ii = 0; ii < length; ii++) {
+		button = WEBKIT_DOM_ELEMENT (webkit_dom_node_list_item (list, ii));
 
 		webkit_dom_event_target_add_event_listener (
 			WEBKIT_DOM_EVENT_TARGET (button), "click",
 			G_CALLBACK (toggle_address_visibility), FALSE,
-			(gpointer) addresses[ii]);
-
-		id = g_strconcat (
-			"__evo-moreaddr-ellipsis-", addresses[ii], NULL);
-		button = webkit_dom_document_get_element_by_id (document, id);
-		g_free (id);
-
-		if (button == NULL)
-			continue;
-
-		webkit_dom_event_target_add_event_listener (
-			WEBKIT_DOM_EVENT_TARGET (button), "click",
-			G_CALLBACK (toggle_address_visibility), FALSE,
-			(gpointer) addresses[ii]);
+			NULL);
 	}
 }
 
