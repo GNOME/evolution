@@ -463,12 +463,14 @@ editor_widget_check_magic_links (EEditorWidget *widget,
 		href = webkit_dom_html_anchor_element_get_href (
 				WEBKIT_DOM_HTML_ANCHOR_ELEMENT (parent));
 
-		if (appending_to_link)
-			text = g_strconcat (
+		if (appending_to_link) {
+			const gchar *inner_text;
+			inner_text =
 				webkit_dom_html_element_get_inner_text (
 					WEBKIT_DOM_HTML_ELEMENT (parent)),
-				text_to_append, NULL);
-		else
+
+			text = g_strconcat (inner_text, text_to_append, NULL);
+		} else
 			text = webkit_dom_html_element_get_inner_text (
 					WEBKIT_DOM_HTML_ELEMENT (parent));
 
@@ -492,14 +494,19 @@ editor_widget_check_magic_links (EEditorWidget *widget,
 					new_href);
 
 				if (appending_to_link) {
+					gchar *tmp;
+
+					tmp = g_strconcat (inner_html, text_to_append, NULL);
 					webkit_dom_html_element_set_inner_html (
 						WEBKIT_DOM_HTML_ELEMENT (parent),
-						g_strconcat (inner_html, text_to_append, NULL),
+						tmp,
 						NULL);
 
 					webkit_dom_node_remove_child (
 						webkit_dom_node_get_parent_node (node),
 						node, NULL);
+
+					g_free (tmp);
 				}
 
 				g_free (new_href);
@@ -526,14 +533,19 @@ editor_widget_check_magic_links (EEditorWidget *widget,
 					new_href);
 
 				if (appending_to_link) {
+					gchar *tmp;
+
+					tmp = g_strconcat (inner_html, text_to_append, NULL);
 					webkit_dom_html_element_set_inner_html (
 						WEBKIT_DOM_HTML_ELEMENT (parent),
-						g_strconcat (inner_html, text_to_append, NULL),
+						tmp,
 						NULL);
 
 					webkit_dom_node_remove_child (
 						webkit_dom_node_get_parent_node (node),
 						node, NULL);
+
+					g_free (tmp);
 				}
 
 				g_free (new_href);
@@ -1591,6 +1603,7 @@ process_elements (WebKitDOMNode *node,
 	WebKitDOMNodeList *nodes;
 	gulong ii, length;
 	GRegex *regex, *regex_hidden_space;
+	gchar *content;
 
 	/* Replace images with smileys by their text representation */
 	if (WEBKIT_DOM_IS_HTML_IMAGE_ELEMENT (node)) {
@@ -1615,9 +1628,7 @@ process_elements (WebKitDOMNode *node,
 	}
 
 	/* Skip signature */
-	if (g_strcmp0 (webkit_dom_element_get_class_name (WEBKIT_DOM_ELEMENT (node)),
-		       "-x-evolution-signature") == 0) {
-
+	if (element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evolution-signature")) {
 		if (process_nodes)
 			g_string_append (buffer, "\n");
 		else
@@ -1655,39 +1666,37 @@ process_elements (WebKitDOMNode *node,
 			g_free (content);
 		} else {
 			/* Leave caret position untouched */
-			if (WEBKIT_DOM_IS_HTML_ELEMENT (child) &&
-				g_strcmp0 (webkit_dom_html_element_get_id (WEBKIT_DOM_HTML_ELEMENT (child)),
-					   "-x-evo-caret-position") == 0) {
-
-				if (!process_nodes)
-					g_string_append (buffer, webkit_dom_html_element_get_outer_html (WEBKIT_DOM_HTML_ELEMENT (child)));
-
+			if (element_has_id (WEBKIT_DOM_ELEMENT (child), "-x-evo-caret-position")) {
+				if (!process_nodes) {
+					content = webkit_dom_html_element_get_outer_html (WEBKIT_DOM_HTML_ELEMENT (child));
+					g_string_append (buffer, content);
+					g_free (content);
+				}
 				skip_node = TRUE;
 			}
 
 			/* Leave blockquotes as they are */
-			if (g_strcmp0 (webkit_dom_node_get_local_name (child),
-				       "blockquote") == 0) {
-
+			if (element_has_tag (WEBKIT_DOM_ELEMENT (child), "blockquote")) {
 				if (!process_nodes) {
-					g_string_append (buffer, webkit_dom_html_element_get_outer_html (WEBKIT_DOM_HTML_ELEMENT (child)));
+					content = webkit_dom_html_element_get_outer_html (WEBKIT_DOM_HTML_ELEMENT (child));
+					g_string_append (buffer, content);
+					g_free (content);
 					skip_node = TRUE;
 				}
 			}
 
 			/* Leave wrapped paragraphs as they are */
-			if (WEBKIT_DOM_IS_ELEMENT (child) &&
-				g_strcmp0 (webkit_dom_element_get_class_name (WEBKIT_DOM_ELEMENT (child)),
-					   "-x-evo-paragraph") == 0) {
-
+			if (element_has_class (WEBKIT_DOM_ELEMENT (child), "-x-evo-paragraph")) {
 				if (!process_nodes) {
-					g_string_append (buffer, webkit_dom_html_element_get_outer_html (WEBKIT_DOM_HTML_ELEMENT (child)));
+					content = webkit_dom_html_element_get_outer_html (WEBKIT_DOM_HTML_ELEMENT (child));
+					g_string_append (buffer, content);
+					g_free (content);
 					skip_node = TRUE;
 				}
 			}
 
 			/* Insert new line when we hit BR element */
-			if (g_strcmp0 (webkit_dom_node_get_local_name (child), "br") == 0)
+			if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (child))
 				g_string_append (buffer, process_nodes ? "\n" : "<br>");
 		}
 
@@ -1709,9 +1718,11 @@ process_elements (WebKitDOMNode *node,
 				add_br = FALSE;
 		}
 
-		if (add_br && g_utf8_strlen (webkit_dom_node_get_text_content (node), -1) > 0) {
+		content = webkit_dom_node_get_text_content (node);
+		if (add_br && g_utf8_strlen (content, -1) > 0) {
 			g_string_append (buffer, process_nodes ? "\n" : "<br>");
 		}
+		g_free (content);
 	}
 
 	g_regex_unref (regex);

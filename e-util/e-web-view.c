@@ -3444,7 +3444,7 @@ gboolean
 element_has_id (WebKitDOMElement *element,
                 const gchar* id)
 {
-	gchar *element_id;
+	const gchar *element_id;
 
 	if (!element)
 		return FALSE;
@@ -3452,13 +3452,10 @@ element_has_id (WebKitDOMElement *element,
 	if (!WEBKIT_DOM_IS_ELEMENT (element))
 		return FALSE;
 
-	element_id = webkit_dom_element_get_id (element);
+	element_id = webkit_dom_html_element_get_id (WEBKIT_DOM_HTML_ELEMENT (element));
 
-	if (g_ascii_strcasecmp (element_id, id) != 0) {
-		g_free (element_id);
+	if (g_ascii_strcasecmp (element_id, id) != 0)
 		return FALSE;
-	}
-	g_free (element_id);
 
 	return TRUE;
 }
@@ -3467,18 +3464,15 @@ gboolean
 element_has_tag (WebKitDOMElement *element,
                  const gchar* tag)
 {
-	gchar *element_tag;
+	const gchar *element_tag;
 
 	if (!WEBKIT_DOM_IS_ELEMENT (element))
 		return FALSE;
 
 	element_tag = webkit_dom_node_get_local_name (WEBKIT_DOM_NODE (element));
 
-	if (g_ascii_strcasecmp (element_tag, tag) != 0) {
-		g_free (element_tag);
+	if (g_ascii_strcasecmp (element_tag, tag) != 0)
 		return FALSE;
-	}
-	g_free (element_tag);
 
 	return TRUE;
 }
@@ -3487,7 +3481,7 @@ gboolean
 element_has_class (WebKitDOMElement *element,
                 const gchar* class)
 {
-	gchar *element_class;
+	const gchar *element_class;
 
 	if (!element)
 		return FALSE;
@@ -3497,11 +3491,8 @@ element_has_class (WebKitDOMElement *element,
 
 	element_class = webkit_dom_element_get_class_name (element);
 
-	if (g_strstr_len (element_class, -1, class)) {
-		g_free (element_class);
+	if (g_strstr_len (element_class, -1, class))
 		return TRUE;
-	}
-	g_free (element_class);
 
 	return FALSE;
 }
@@ -3510,7 +3501,7 @@ void
 element_add_class (WebKitDOMElement *element,
                    const gchar* class)
 {
-	gchar *element_class;
+	const gchar *element_class;
 	gchar *new_class;
 
 	if (!WEBKIT_DOM_IS_ELEMENT (element))
@@ -3521,14 +3512,13 @@ element_add_class (WebKitDOMElement *element,
 
 	element_class = webkit_dom_element_get_class_name (element);
 
-	if (g_strcmp0 (element_class, "") == 0)
+	if (g_strcmp0 (element_class, ""))
 		new_class = g_strdup (class);
 	else
 		new_class = g_strconcat (element_class, " ", class, NULL);
 
 	webkit_dom_element_set_class_name (element, new_class);
 
-	g_free (element_class);
 	g_free (new_class);
 }
 
@@ -3536,8 +3526,9 @@ void
 element_remove_class (WebKitDOMElement *element,
                       const gchar* class)
 {
-	gchar *element_class;
-	GString *result;
+	GRegex *regex;
+	char *new_class;
+	const gchar *element_class;
 
 	if (!WEBKIT_DOM_IS_ELEMENT (element))
 		return;
@@ -3549,15 +3540,17 @@ element_remove_class (WebKitDOMElement *element,
 
 	if (g_strcmp0 (element_class, class) == 0) {
 		webkit_dom_element_remove_attribute (element, "class");
-		g_free (element_class);
 		return;
 	}
 
-	result = e_str_replace_string (element_class, class, "");
-	if (result) {
-		webkit_dom_element_set_class_name (element, result->str);
-		g_string_free (result, TRUE);
-	}
+	regex = g_regex_new (class, 0, 0, NULL);
+	if (!regex)
+		return;
 
-	g_free (element_class);
+	new_class = g_regex_replace_literal (regex, element_class, -1, 0, "", 0, NULL);
+
+	webkit_dom_element_set_class_name (element, new_class);
+
+	g_free (new_class);
+	g_regex_unref (regex);
 }
