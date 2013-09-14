@@ -32,11 +32,18 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_CLIENT_SELECTOR, EClientSelectorPrivate))
 
+typedef struct _AsyncContext AsyncContext;
+
 struct _EClientSelectorPrivate {
 	EClientCache *client_cache;
 	gulong backend_died_handler_id;
 	gulong client_created_handler_id;
 	gulong client_notify_online_handler_id;
+};
+
+struct _AsyncContext {
+	EClientSelector *selector;
+	ESource *source;
 };
 
 enum {
@@ -48,6 +55,15 @@ G_DEFINE_TYPE (
 	EClientSelector,
 	e_client_selector,
 	E_TYPE_SOURCE_SELECTOR)
+
+static void
+async_context_free (AsyncContext *async_context)
+{
+	g_clear_object (&async_context->selector);
+	g_clear_object (&async_context->source);
+
+	g_slice_free (AsyncContext, async_context);
+}
 
 static void
 client_selector_update_status_icon_cb (GtkTreeViewColumn *column,
@@ -85,8 +101,17 @@ client_selector_update_status_icon_cb (GtkTreeViewColumn *column,
 
 			dead_backend = e_client_selector_is_backend_dead (
 				E_CLIENT_SELECTOR (tree_view), source);
-			if (dead_backend)
+			if (dead_backend) {
 				icon_name = "network-error-symbolic";
+			} else {
+				gpointer data;
+
+				/* See client_selector_can_reach_cb() */
+				data = g_object_get_data (
+					G_OBJECT (source),
+					"initial-icon-name");
+				icon_name = (const gchar *) data;
+			}
 
 			g_object_unref (source);
 		}
@@ -138,6 +163,50 @@ client_selector_client_notify_cb (EClientCache *client_cache,
                                   EClientSelector *selector)
 {
 	client_selector_update_row (selector, client);
+}
+
+static void
+client_selector_can_reach_cb (GObject *source_object,
+                              GAsyncResult *result,
+                              gpointer user_data)
+{
+	EClient *client;
+	AsyncContext *async_context;
+	gboolean reachable;
+
+	async_context = (AsyncContext *) user_data;
+
+	/* We don't care about errors here.  This is just to show some
+	 * initial icon next to the ESource before creating an EClient. */
+	reachable = g_network_monitor_can_reach_finish (
+		G_NETWORK_MONITOR (source_object), result, NULL);
+
+	client = e_client_selector_ref_cached_client (
+		async_context->selector, async_context->source);
+
+	/* EClient's online state is authoritative.
+	 * Defer to it if an instance already exists. */
+	if (client == NULL) {
+		const gchar *icon_name;
+
+		if (reachable)
+			icon_name = "network-idle-symbolic";
+		else
+			icon_name = "network-offline-symbolic";
+
+		/* XXX Hackish way to stash the initial icon name. */
+		g_object_set_data (
+			G_OBJECT (async_context->source),
+			"initial-icon-name", (gpointer) icon_name);
+
+		e_source_selector_update_row (
+			E_SOURCE_SELECTOR (async_context->selector),
+			async_context->source);
+	}
+
+	g_clear_object (&client);
+
+	async_context_free (async_context);
 }
 
 static void
@@ -224,9 +293,13 @@ client_selector_constructed (GObject *object)
 {
 	EClientSelector *selector;
 	EClientCache *client_cache;
+	ESourceRegistry *registry;
 	GtkTreeView *tree_view;
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *renderer;
+	GNetworkMonitor *network_monitor;
+	const gchar *extension_name;
+	GList *list, *link;
 	gulong handler_id;
 
 	selector = E_CLIENT_SELECTOR (object);
@@ -270,6 +343,82 @@ client_selector_constructed (GObject *object)
 	selector->priv->client_notify_online_handler_id = handler_id;
 
 	g_object_unref (client_cache);
+
+	/* Have GNetworkMonitor make an initial guess at the online
+	 * state of backends by evaluating the reachability of their
+	 * host name.  This will show an initial status icon for all
+	 * displayed ESources without actually opening a connection,
+	 * since some backends are expensive to start unnecessarily.
+	 *
+	 * XXX It occurred to me after writing this that it would be
+	 *     better for ESourceSelector to evaluate reachability of
+	 *     ESource host names, and keep it up-to-date in response
+	 *     to network changes.  It could automatically trigger a
+	 *     GtkTreeModel::row-changed signal when it has a new host
+	 *     reachability result, and provide that result via some
+	 *     e_source_selector_get_host_reachable() for us to fall
+	 *     back on if no EClient instance is available.
+	 *
+	 *     But the approach below is good enough for now.
+	 */
+
+	network_monitor = g_network_monitor_get_default ();
+
+	registry = e_source_selector_get_registry (
+		E_SOURCE_SELECTOR (selector));
+	extension_name = e_source_selector_get_extension_name (
+		E_SOURCE_SELECTOR (selector));
+
+	list = e_source_registry_list_sources (registry, extension_name);
+
+	extension_name = E_SOURCE_EXTENSION_AUTHENTICATION;
+
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		ESource *source = E_SOURCE (link->data);
+		ESource *auth_source;
+		ESourceAuthentication *auth_extension;
+		GSocketConnectable *socket_connectable;
+		const gchar *host;
+		guint16 port;
+
+		auth_source = e_source_registry_find_extension (
+			registry, source, extension_name);
+
+		if (auth_source == NULL)
+			continue;
+
+		auth_extension = e_source_get_extension (
+			auth_source, extension_name);
+
+		host = e_source_authentication_get_host (auth_extension);
+		port = e_source_authentication_get_port (auth_extension);
+
+		socket_connectable = g_network_address_new (host, port);
+
+		/* XXX GNetworkAddress will happily take a NULL host
+		 *     but then crash while enumerating the address,
+		 *     so watch out for that. */
+		if (host == NULL)
+			g_clear_object (&socket_connectable);
+
+		if (socket_connectable != NULL) {
+			AsyncContext *async_context;
+
+			async_context = g_slice_new0 (AsyncContext);
+			async_context->selector = g_object_ref (selector);
+			async_context->source = g_object_ref (source);
+
+			g_network_monitor_can_reach_async (
+				network_monitor, socket_connectable, NULL,
+				client_selector_can_reach_cb, async_context);
+
+			g_object_unref (socket_connectable);
+		}
+
+		g_object_unref (auth_source);
+	}
+
+	g_list_free_full (list, (GDestroyNotify) g_object_unref);
 }
 
 static void
