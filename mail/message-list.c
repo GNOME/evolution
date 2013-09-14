@@ -3905,9 +3905,11 @@ build_tree (MessageList *message_list,
 					node = parent;
 			}
 
-			message_list_tree_model_freeze (message_list);
-
+			/* We need to set the cursor before we freeze, as
+			 * the thaw will restore it to the pre-freeze value. */
 			e_tree_set_cursor (E_TREE (message_list), node);
+
+			message_list_tree_model_freeze (message_list);
 
 			/* Show the cursor unless we're responding to a
 			 * "folder-changed" signal from our CamelFolder. */
