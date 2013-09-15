@@ -4417,6 +4417,7 @@ e_web_view_cursor_image_save
 e_web_view_request
 e_web_view_request_finish
 e_web_view_install_request_handler
+e_web_view_add_css_rule_into_style_sheet
 <SUBSECTION Standard>
 E_WEB_VIEW
 E_IS_WEB_VIEW

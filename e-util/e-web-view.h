@@ -199,7 +199,7 @@ void		e_web_view_install_request_handler
 						(EWebView *web_view,
 						 GType handler_type);
 void		e_web_view_add_css_rule_into_style_sheet
-						(EWebView *view,
+						(EWebView *web_view,
 						 const gchar *style_sheet_id,
 						 const gchar *selector,
 						 const gchar *style);

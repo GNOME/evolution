@@ -3439,8 +3439,8 @@ add_css_rule_into_style_sheet_recursive (WebKitDOMDocument *document,
  * Insert new CSS rule (defined with @selector and @style) into CSS style sheet
  * with given @style_sheet_id. If style sheet doesn't exist, it's created.
  *
- * The rule is inserted to every DOM document that is in page. That means also into
- * DOM documents inside iframe elements.
+ * The rule is inserted to every DOM document that is in page. That means also
+ * into DOM documents inside iframe elements.
  **/
 void
 e_web_view_add_css_rule_into_style_sheet (EWebView *view,
