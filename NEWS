@@ -1,3 +1,47 @@
+Evolution 3.9.92 2013-09-16
+---------------------------
+
+Bug Fixes:
+	Bug 706008 - Workaround gnome-shell style change on focus change
+	             (Tomas Popela)
+	Bug 707048 - [bbdb] GError double free when contact save fails
+	             (Milan Crha)
+	Bug 707392 - Only very first Collapse/Expand button in message header
+	             pane works (Tomas Popela)
+	Bug 707571 - Bad EOF check in getNextCSVEntry (Andreas Schwab)
+	Bug 708004 - Deleting in threaded mode moves cursor to incorrect
+	             message (David Dillow)
+
+Other Changes:
+	* Add EShellView to E{Calendar,MemoList,TaskList}Selector
+	  (Fabiano Fidêncio)
+	* Add an AppData description for Evolution. (Matthew Barnes)
+	* Fix folder name encoding in em_folder_utils_create_folder().
+	  (Matthew Barnes)
+	* calendar: do not assume time_t is long (Antoine Jacoutot)
+	* EClientSelector: Show an initial icon based on host name.
+	  (Matthew Barnes)
+
+Translations:
+	Ihar Hrachyshka (be)
+	Jordi Mas (ca)
+	Christian Kirbach (de)
+	Daniel Mustieles (es)
+	Timo Jyrinki (fi)
+	Alexandre Franke (fr)
+	Seán de Búrca (ga)
+	Balázs Úr (hu)
+	Gabor Kelemen (hu)
+	Andika Triwidada (id)
+	Changwoo Ryu (ko)
+	Aurimas Černius (lt)
+	Rūdolfs Mazurs (lv)
+	Kjartan Maraas (nb)
+	Yuri Myasoedov (ru)
+	Мирослав Николић (sr)
+	Chao-Hsiung Liao (zh_HK)
+
+
 Evolution 3.9.91 2013-09-02
 ---------------------------
 
