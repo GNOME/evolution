@@ -1654,13 +1654,6 @@ e_editor_selection_is_citation (EEditorSelection *selection)
 
 	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), FALSE);
 
-	editor_widget = e_editor_selection_ref_editor_widget (selection);
-	g_return_val_if_fail (editor_widget != NULL, FALSE);
-
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (editor_widget));
-	g_object_unref (editor_widget);
-	window = webkit_dom_document_get_default_view (document);
-
 	range = editor_selection_get_current_range (selection);
 	if (!range)
 		return FALSE;
