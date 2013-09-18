@@ -2979,7 +2979,7 @@ wrap_lines (EEditorSelection *selection,
 			/* When we are not removing user-entered BR elements (lines wrapped by user),
 			 * we need to skip those elements */
 			if (!remove_all_br && WEBKIT_DOM_IS_HTMLBR_ELEMENT (node)) {
-				if (element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-wrap-br")) {
+				if (!element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-wrap-br")) {
 					len = 0;
 					node = webkit_dom_node_get_next_sibling (node);
 					continue;
