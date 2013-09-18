@@ -1577,6 +1577,367 @@ e_editor_widget_set_changed (EEditorWidget *widget,
 	g_object_notify (G_OBJECT (widget), "changed");
 }
 
+static gboolean
+is_citation_node (WebKitDOMNode *node)
+{
+	const gchar *value;
+
+	if (node && !WEBKIT_DOM_IS_HTML_ELEMENT (node))
+		return FALSE;
+
+	if (!element_has_tag (WEBKIT_DOM_ELEMENT (node), "blockquote"))
+		return FALSE;
+
+	value = webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (node), "type");
+
+	/* citation == <blockquote type='cite'> */
+	if (g_strcmp0 (value, "cite") == 0)
+		return TRUE;
+	else
+		return FALSE;
+}
+
+static void
+insert_quote_symbols (WebKitDOMHTMLElement *element,
+                      gint quote_level,
+                      gboolean force_insert)
+{
+	const gchar *text;
+	gint ii;
+	GString *output;
+	gchar *indent;
+
+	if (!WEBKIT_DOM_IS_HTML_ELEMENT (element))
+		return;
+
+	text = webkit_dom_html_element_get_inner_html (element);
+	output = g_string_new ("");
+	indent = g_strnfill (quote_level, '>');
+
+	if (g_strcmp0 (text, "\n") == 0) {
+		g_string_append (output, "<span class=\"-x-evo-quoted\">");
+		g_string_append (output, indent);
+		g_string_append (output, " </span>");
+		g_string_append (output, "\n");
+	} else {
+		gchar **lines;
+
+		lines = g_strsplit (text, "\n", 0);
+
+		if (g_str_has_prefix (text, "\n") &&
+		    !g_str_has_suffix (text, "\n") &&
+		    g_strv_length (lines) == 2) {
+			/* Text node on the beginning of line with another element */
+			g_string_append (output, "<span class=\"-x-evo-quoted\">");
+			g_string_append (output, indent);
+			g_string_append (output, " </span>");
+			g_string_append (output, lines[1]);
+		} else if (!g_str_has_prefix (text, "\n") &&
+			   g_str_has_suffix (text, "\n") &&
+			   g_strv_length (lines) == 2) {
+			/* Text node on the end of line with another element */
+			if (force_insert) {
+				/* Workaround for first line of citation: On xx/xx/xxxx ... */
+				g_string_append (output, "<span class=\"-x-evo-quoted\">");
+				g_string_append (output, indent);
+				g_string_append (output, " </span>");
+			}
+			g_string_append (output, lines[0]);
+			g_string_append (output, "\n");
+		} else {
+			for (ii = 0; lines[ii]; ii++) {
+				if (ii == 0 && g_str_has_prefix (text, "\n")) {
+					/* Skip first line if is empty (if node's text starts with \n) */
+					continue;
+				}
+				if ((ii == g_strv_length (lines) - 1) &&
+				    g_str_has_suffix (text, "\n")) {
+					/* Skip last line if is empty (if node's text ends with \n) */
+					break;
+				}
+				if (!(ii == 0 && (g_strcmp0 (lines[ii], "&gt;") == 0) &&
+				    g_str_has_prefix (text, "&gt;"))) {
+					g_string_append (output, "<span class=\"-x-evo-quoted\">");
+					g_string_append (output, indent);
+					g_string_append (output, " </span>");
+				}
+				/* Insert line of text */
+				g_string_append (output, lines[ii]);
+				if ((ii == g_strv_length (lines) - 1) &&
+				    !g_str_has_suffix (text, "\n")) {
+					/* If we are on last line and node's text doesn't
+					 * end with \n, don't insert it */
+					break;
+				}
+				g_string_append (output, "\n");
+			}
+		}
+		g_strfreev (lines);
+	}
+
+	webkit_dom_html_element_set_inner_html (element, output->str, NULL);
+
+	g_free (indent);
+	g_string_free (output, TRUE);
+}
+
+static void
+quote_node (WebKitDOMDocument *document,
+	    WebKitDOMNode *node,
+	    gint quote_level)
+{
+	/* Don't quote when we are not in citation */
+	if (quote_level == 0)
+		return;
+
+	if (WEBKIT_DOM_IS_TEXT (node)) {
+		WebKitDOMElement *wrapper;
+		WebKitDOMNode *parent;
+		WebKitDOMNode *node_clone;
+		WebKitDOMNode *prev_sibling;
+		const gchar *text_content;
+		gboolean force_insert = FALSE;
+
+		text_content = webkit_dom_node_get_text_content (node);
+		parent = webkit_dom_node_get_parent_node (node);
+
+		/* FIXME find where we take the "\n" nodes */
+		if (g_strcmp0 (text_content, "\n") == 0) {
+			webkit_dom_node_remove_child (
+				parent,
+				node,
+				NULL);
+			return;
+		}
+
+		prev_sibling = webkit_dom_node_get_previous_sibling (node);
+
+		if (!prev_sibling) {
+			/* Workaround for first line of citation: On xx/xx/xxxx ... */
+			WebKitDOMNode *parent;
+
+			parent = webkit_dom_node_get_parent_node (node);
+			if (element_has_tag (WEBKIT_DOM_ELEMENT (parent), "pre"))
+				force_insert = TRUE;
+
+		}
+
+		/* Do temporary wrapper */
+		wrapper = webkit_dom_document_create_element (document, "SPAN", NULL);
+		webkit_dom_element_set_class_name (
+			wrapper,
+			"-x-evo-temp-text-wrapper");
+
+		node_clone = webkit_dom_node_clone_node (node, TRUE);
+
+		webkit_dom_node_append_child (
+			WEBKIT_DOM_NODE (wrapper),
+			node_clone,
+			NULL);
+
+		insert_quote_symbols (
+			WEBKIT_DOM_HTML_ELEMENT (wrapper),
+			quote_level,
+			force_insert);
+
+		webkit_dom_node_replace_child (
+			webkit_dom_node_get_parent_node (node),
+			WEBKIT_DOM_NODE (wrapper),
+			node,
+			NULL);
+	} else if (WEBKIT_DOM_IS_HTML_ELEMENT (node))
+		insert_quote_symbols (WEBKIT_DOM_HTML_ELEMENT (node), quote_level, FALSE);
+}
+
+static void
+quote_plain_text_recursive (WebKitDOMDocument *document,
+			    WebKitDOMNode *node,
+			    WebKitDOMNode *start_node,
+			    gint quote_level)
+{
+	gboolean skip_node = FALSE;
+	gboolean move_next = FALSE;
+
+	node = webkit_dom_node_get_first_child (node);
+
+	while (node) {
+		skip_node = FALSE;
+		move_next = FALSE;
+
+		if (WEBKIT_DOM_IS_TEXT (node)) {
+			/* Start quoting after we are in blockquote */
+			if (quote_level > 0) {
+				WebKitDOMNode *next_sibling;
+
+				/* When quoting text node, we are wrappering it and
+				 * afterwards replacing it with that wrapper, thus asking
+				 * for next_sibling after quoting will return NULL bacause
+				 * that node don't exist anymore */
+				next_sibling = webkit_dom_node_get_next_sibling (node);
+				quote_node (document, node, quote_level);
+				node = next_sibling;
+				skip_node = TRUE;
+			}
+
+			goto next_node;
+		}
+
+		if (WEBKIT_DOM_IS_ELEMENT (node) || WEBKIT_DOM_IS_HTML_ELEMENT (node)) {
+			if (webkit_dom_element_get_child_element_count (WEBKIT_DOM_ELEMENT (node)) == 0) {
+				/* We have to treat anchors separately to avoid
+				 * modifications * of it's inner text */
+				if (WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (node)) {
+					WebKitDOMNode *next_sibling;
+					const gchar *text_content;
+
+					next_sibling = webkit_dom_node_get_next_sibling (node);
+					text_content = webkit_dom_node_get_text_content (next_sibling);
+
+					/* If anchor is on the end of the line, we have
+					 * to insert "\n" text node after it, because
+					 * we are skipping the anchor and in next
+					 * node we won't have this information */
+					if (g_str_has_prefix (text_content, "\n")) {
+						WebKitDOMText *text;
+						/* Create new "\n" text node */
+						text = webkit_dom_document_create_text_node (document, "\n");
+						/* Insert it and move to it */
+						node = webkit_dom_node_insert_before (
+							webkit_dom_node_get_parent_node (node),
+							WEBKIT_DOM_NODE (text),
+							next_sibling, NULL);
+					}
+					move_next = TRUE;
+
+					goto next_node;
+				}
+
+				/* If element doesn't have children, we can quote it */
+				if (is_citation_node (node)) {
+					/* Citation with just text inside */
+					quote_node (document, node, quote_level + 1);
+					/* Set citation as quoted */
+					element_add_class (
+						WEBKIT_DOM_ELEMENT (node),
+						"-x-evo-plaintext-quoted");
+				} else
+					quote_node (document, node, quote_level);
+
+				move_next = TRUE;
+			} else {
+				if (is_citation_node (node)) {
+					/* Go deeper and increase level */
+					quote_plain_text_recursive (
+						document, node,
+						start_node, quote_level + 1);
+					/* set citation as quoted */
+					element_add_class (
+						WEBKIT_DOM_ELEMENT (node),
+						"-x-evo-plaintext-quoted");
+					move_next = TRUE;
+				} else {
+					quote_plain_text_recursive (
+						document, node,
+						start_node, quote_level);
+					move_next = TRUE;
+				}
+			}
+		}
+next_node:
+		if (!skip_node) {
+			/* Move to next node */
+			if (!move_next && webkit_dom_node_has_child_nodes (node)) {
+				node = webkit_dom_node_get_first_child (node);
+			} else if (webkit_dom_node_get_next_sibling (node)) {
+				node = webkit_dom_node_get_next_sibling (node);
+			} else {
+				return;
+			}
+		}
+	}
+}
+
+/**
+ * e_editor_widget_quote_plain_text:
+ * @widget: an #EEditorWidget
+ *
+ * Quote plain text in editor.
+ */
+void
+e_editor_widget_quote_plain_text (EEditorWidget *widget)
+{
+	WebKitDOMDocument *document;
+	WebKitDOMHTMLElement *body;
+	WebKitDOMNode *body_clone;
+	WebKitDOMElement *element;
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
+
+	/* Check if the document is already quoted */
+	element = webkit_dom_document_query_selector (document, ".-x-evo-plaintext-quoted", NULL);
+	if (element)
+		return;
+
+	body = webkit_dom_document_get_body (document);
+	body_clone = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (body), TRUE);
+
+	quote_plain_text_recursive (
+		document,
+		body_clone,
+		body_clone,
+		0);
+
+	/* Replace old BODY with one, that is quoted */
+	webkit_dom_node_replace_child (
+		webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (body)),
+		WEBKIT_DOM_NODE (body_clone),
+		WEBKIT_DOM_NODE (body),
+		NULL);
+}
+
+/**
+ * e_editor_widget_dequote_plain_text:
+ * @widget: an #EEditorWidget
+ *
+ * Dequote already quoted plain text in editor.
+ * Editor have to be quoted with e_editor_widget_quote_plain_text otherwise
+ * it's working.
+ */
+void
+e_editor_widget_dequote_plain_text (EEditorWidget *widget)
+{
+	WebKitDOMDocument *document;
+	WebKitDOMNodeList *list;
+	gint ii;
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
+
+	list = webkit_dom_document_query_selector_all (document, "blockquote.-x-evo-plaintext-quoted", NULL);
+
+	for (ii = 0; ii < webkit_dom_node_list_get_length (list); ii++) {
+		WebKitDOMNodeList *gt_list;
+		WebKitDOMElement *element;
+		gint jj;
+
+		element = WEBKIT_DOM_ELEMENT (webkit_dom_node_list_item (list, ii));
+
+		if (is_citation_node (WEBKIT_DOM_NODE (element))) {
+			element_remove_class (element, "-x-evo-plaintext-quoted");
+
+			gt_list = webkit_dom_element_query_selector_all (element, "span.-x-evo-quoted", NULL);
+
+			for (jj = 0; jj < webkit_dom_node_list_get_length (gt_list); jj++) {
+				WebKitDOMNode *node = webkit_dom_node_list_item (gt_list, jj);
+
+				webkit_dom_node_remove_child (
+					webkit_dom_node_get_parent_node (node),
+					node,
+					NULL);
+			}
+		}
+	}
+}
+
 /**
  * e_editor_widget_get_html_mode:
  * @widget: an #EEditorWidget
@@ -1629,9 +1990,10 @@ process_elements (WebKitDOMNode *node,
 
 	/* Skip signature */
 	if (element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evolution-signature")) {
-		if (process_nodes)
+		if (process_nodes) {
 			g_string_append (buffer, "\n");
-		else
+			element_remove_class (WEBKIT_DOM_ELEMENT (node), "-x-evolution-signature");
+		} else
 			return;
 	}
 
@@ -1682,6 +2044,51 @@ process_elements (WebKitDOMNode *node,
 					g_string_append (buffer, content);
 					g_free (content);
 					skip_node = TRUE;
+				} else {
+					WebKitDOMNodeList *list;
+					int jj, length;
+
+					/* First replace wrappers */
+					list = webkit_dom_element_query_selector_all (
+							WEBKIT_DOM_ELEMENT (child),
+							"span.-x-evo-temp-text-wrapper",
+							NULL);
+
+					length = webkit_dom_node_list_get_length (list);
+
+					for (jj = 0; jj < length; jj++) {
+						WebKitDOMNode *quoted_node;
+						const gchar *text_content;
+
+						quoted_node = webkit_dom_node_list_item (list, jj);
+						text_content = webkit_dom_node_get_text_content (quoted_node);
+
+						webkit_dom_html_element_set_outer_html (
+							WEBKIT_DOM_HTML_ELEMENT (quoted_node),
+							text_content,
+							NULL);
+					}
+
+					/* Afterwards replace quote nodes with symbols */
+					list = webkit_dom_element_query_selector_all (
+							WEBKIT_DOM_ELEMENT (child),
+							"span.-x-evo-quoted",
+							NULL);
+
+					length = webkit_dom_node_list_get_length (list);
+
+					for (jj = 0; jj < length; jj++) {
+						WebKitDOMNode *quoted_node;
+						const gchar *text_content;
+
+						quoted_node = webkit_dom_node_list_item (list, jj);
+						text_content = webkit_dom_node_get_text_content (quoted_node);
+
+						webkit_dom_html_element_set_outer_html (
+							WEBKIT_DOM_HTML_ELEMENT (quoted_node),
+							text_content,
+							NULL);
+					}
 				}
 			}
 
@@ -1809,11 +2216,14 @@ e_editor_widget_set_html_mode (EEditorWidget *widget,
 
 	if (widget->priv->html_mode) {
 		/* FIXME WEBKIT: Process smileys! */
+		e_editor_widget_dequote_plain_text (widget);
 	} else {
 		gchar *plain;
 
 		/* Save caret position -> it will be restored in e-composer-private.c */
 		e_editor_selection_save_caret_position (e_editor_widget_get_selection (widget));
+
+		e_editor_widget_quote_plain_text (widget);
 
 		plain = changing_composer_mode_get_text_plain (widget);
 
@@ -2185,7 +2595,16 @@ e_editor_widget_update_fonts (EEditorWidget *widget)
 
 	g_string_append_printf (
 		stylesheet,
-		"blockquote[type=cite] {\n"
+		"blockquote[type=cite] "
+		"{\n"
+		"  padding: 0.0ex 0ex;\n"
+		"  margin: 0ex;\n"
+		"}\n");
+
+	g_string_append_printf (
+		stylesheet,
+		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
+		"{\n"
 		"  padding: 0.4ex 1ex;\n"
 		"  margin: 1ex;\n"
 		"  border-width: 0px 2px 0px 2px;\n"
@@ -2197,45 +2616,45 @@ e_editor_widget_update_fonts (EEditorWidget *widget)
 
 	g_string_append_printf (
 		stylesheet,
-		"blockquote[type=cite] "
+		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
 		"{\n"
 		"  border-color: rgb(114,159,207);\n"  /* Sky Blue 1 */
 		"}\n");
 
 	g_string_append_printf (
 		stylesheet,
-		"blockquote[type=cite] "
-		"blockquote[type=cite] "
+		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
+		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
 		"{\n"
 		"  border-color: rgb(173,127,168);\n"  /* Plum 1 */
 		"}\n");
 
 	g_string_append_printf (
 		stylesheet,
-		"blockquote[type=cite] "
-		"blockquote[type=cite] "
-		"blockquote[type=cite] "
+		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
+		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
+		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
 		"{\n"
 		"  border-color: rgb(138,226,52);\n"  /* Chameleon 1 */
 		"}\n");
 
 	g_string_append_printf (
 		stylesheet,
-		"blockquote[type=cite] "
-		"blockquote[type=cite] "
-		"blockquote[type=cite] "
-		"blockquote[type=cite] "
+		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
+		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
+		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
+		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
 		"{\n"
 		"  border-color: rgb(252,175,62);\n"  /* Orange 1 */
 		"}\n");
 
 	g_string_append_printf (
 		stylesheet,
-		"blockquote[type=cite] "
-		"blockquote[type=cite] "
-		"blockquote[type=cite] "
-		"blockquote[type=cite] "
-		"blockquote[type=cite] "
+		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
+		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
+		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
+		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
+		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
 		"{\n"
 		"  border-color: rgb(233,185,110);\n"  /* Chocolate 1 */
 		"}\n");
