@@ -3512,7 +3512,7 @@ element_add_class (WebKitDOMElement *element,
 
 	element_class = webkit_dom_element_get_class_name (element);
 
-	if (g_strcmp0 (element_class, ""))
+	if (g_strcmp0 (element_class, "") == 0)
 		new_class = g_strdup (class);
 	else
 		new_class = g_strconcat (element_class, " ", class, NULL);
