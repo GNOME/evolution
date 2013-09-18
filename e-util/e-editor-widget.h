@@ -107,11 +107,16 @@ void		e_editor_widget_set_text_plain	(EEditorWidget *widget,
 void		e_editor_widget_paste_clipboard_quoted
 						(EEditorWidget *widget);
 void		e_editor_widget_update_fonts	(EEditorWidget *widget);
-
 WebKitDOMElement *
-		e_editor_widget_get_element_under_mouse_click (EEditorWidget *widget);
-void		e_editor_widget_check_magic_links (EEditorWidget *widget,
-						   gboolean while_typing);
+		e_editor_widget_get_element_under_mouse_click
+						(EEditorWidget *widget);
+void		e_editor_widget_check_magic_links
+						(EEditorWidget *widget,
+						 gboolean while_typing);
+void		e_editor_widget_quote_plain_text
+						(EEditorWidget *widget);
+void		e_editor_widget_dequote_plain_text
+						(EEditorWidget *widget);
 G_END_DECLS
 
 #endif /* E_EDITOR_WIDGET_H */
