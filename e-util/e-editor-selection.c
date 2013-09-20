@@ -1770,6 +1770,7 @@ e_editor_selection_is_bold (EEditorSelection *selection)
 	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *window;
 	WebKitDOMNode *node;
+	WebKitDOMElement *element;
 	WebKitDOMRange *range;
 
 	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), FALSE);
@@ -1795,8 +1796,13 @@ e_editor_selection_is_bold (EEditorSelection *selection)
 	}
 	g_free (text_content);
 
+	if (WEBKIT_DOM_IS_ELEMENT (node))
+		element = WEBKIT_DOM_ELEMENT (node);
+	else
+		element = webkit_dom_node_get_parent_element (node);
+
 	style = webkit_dom_dom_window_get_computed_style (
-			window, webkit_dom_node_get_parent_element (node), NULL);
+			window, element, NULL);
 	value = webkit_dom_css_style_declaration_get_property_value (style, "font-weight");
 
 	if (g_strstr_len (value, -1, "normal"))
@@ -1860,6 +1866,7 @@ e_editor_selection_is_italic (EEditorSelection *selection)
 	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *window;
 	WebKitDOMNode *node;
+	WebKitDOMElement *element;
 	WebKitDOMRange *range;
 
 	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), FALSE);
@@ -1885,8 +1892,13 @@ e_editor_selection_is_italic (EEditorSelection *selection)
 	}
 	g_free (text_content);
 
+	if (WEBKIT_DOM_IS_ELEMENT (node))
+		element = WEBKIT_DOM_ELEMENT (node);
+	else
+		element = webkit_dom_node_get_parent_element (node);
+
 	style = webkit_dom_dom_window_get_computed_style (
-			window, webkit_dom_node_get_parent_element (node), NULL);
+			window, element, NULL);
 	value = webkit_dom_css_style_declaration_get_property_value (style, "font-style");
 
 	if (g_strstr_len (value, -1, "italic"))
@@ -2193,6 +2205,7 @@ e_editor_selection_is_strike_through (EEditorSelection *selection)
 	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *window;
 	WebKitDOMNode *node;
+	WebKitDOMElement *element;
 	WebKitDOMRange *range;
 
 	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), FALSE);
@@ -2218,8 +2231,13 @@ e_editor_selection_is_strike_through (EEditorSelection *selection)
 	}
 	g_free (text_content);
 
+	if (WEBKIT_DOM_IS_ELEMENT (node))
+		element = WEBKIT_DOM_ELEMENT (node);
+	else
+		element = webkit_dom_node_get_parent_element (node);
+
 	style = webkit_dom_dom_window_get_computed_style (
-			window, webkit_dom_node_get_parent_element (node), NULL);
+			window, element, NULL);
 	value = webkit_dom_css_style_declaration_get_property_value (style, "text-decoration");
 
 	if (g_strstr_len (value, -1, "line-through"))
@@ -2419,6 +2437,7 @@ e_editor_selection_is_underline (EEditorSelection *selection)
 	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *window;
 	WebKitDOMNode *node;
+	WebKitDOMElement *element;
 	WebKitDOMRange *range;
 
 	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), FALSE);
@@ -2444,8 +2463,13 @@ e_editor_selection_is_underline (EEditorSelection *selection)
 	}
 	g_free (text_content);
 
+	if (WEBKIT_DOM_IS_ELEMENT (node))
+		element = WEBKIT_DOM_ELEMENT (node);
+	else
+		element = webkit_dom_node_get_parent_element (node);
+
 	style = webkit_dom_dom_window_get_computed_style (
-			window, webkit_dom_node_get_parent_element (node), NULL);
+			window, element, NULL);
 	value = webkit_dom_css_style_declaration_get_property_value (style, "text-decoration");
 
 	if (g_strstr_len (value, -1, "underline"))
