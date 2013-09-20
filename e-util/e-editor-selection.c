@@ -1643,8 +1643,7 @@ gboolean
 e_editor_selection_is_citation (EEditorSelection *selection)
 {
 	gboolean ret_val;
-	const gchar *text_content;
-	gchar *value;
+	gchar *value, *text_content;
 	WebKitDOMNode *node;
 	WebKitDOMRange *range;
 
@@ -1659,11 +1658,14 @@ e_editor_selection_is_citation (EEditorSelection *selection)
 	if (WEBKIT_DOM_IS_TEXT (node))
 		return FALSE;
 
-	text_content = webkit_dom_node_get_text_content (node);
 	/* If we are changing the format of block we have to re-set bold property,
 	 * otherwise it will be turned off because of no text in composer */
-	if (g_strcmp0 (text_content, "") == 0)
+	text_content = webkit_dom_node_get_text_content (node);
+	if (g_strcmp0 (text_content, "") == 0) {
+		g_free (text_content);
 		return FALSE;
+	}
+	g_free (text_content);
 
 	value = webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (node), "type");
 
@@ -1758,8 +1760,7 @@ gboolean
 e_editor_selection_is_bold (EEditorSelection *selection)
 {
 	gboolean ret_val;
-	const gchar *text_content;
-	gchar *value;
+	gchar *value, *text_content;
 	EEditorWidget *editor_widget;
 	WebKitDOMCSSStyleDeclaration *style;
 	WebKitDOMDocument *document;
@@ -1784,8 +1785,11 @@ e_editor_selection_is_bold (EEditorSelection *selection)
 	/* If we are changing the format of block we have to re-set bold property,
 	 * otherwise it will be turned off because of no text in composer */
 	text_content = webkit_dom_node_get_text_content (node);
-	if (g_strcmp0 (text_content, "") == 0)
+	if (g_strcmp0 (text_content, "") == 0) {
+		g_free (text_content);
 		return selection->priv->is_bold;
+	}
+	g_free (text_content);
 
 	style = webkit_dom_dom_window_get_computed_style (
 			window, webkit_dom_node_get_parent_element (node), NULL);
@@ -1846,8 +1850,7 @@ gboolean
 e_editor_selection_is_italic (EEditorSelection *selection)
 {
 	gboolean ret_val;
-	const gchar *text_content;
-	gchar *value;
+	gchar *value, *text_content;
 	EEditorWidget *editor_widget;
 	WebKitDOMCSSStyleDeclaration *style;
 	WebKitDOMDocument *document;
@@ -1872,8 +1875,11 @@ e_editor_selection_is_italic (EEditorSelection *selection)
 	/* If we are changing the format of block we have to re-set italic property,
 	 * otherwise it will be turned off because of no text in composer */
 	text_content = webkit_dom_node_get_text_content (node);
-	if (g_strcmp0 (text_content, "") == 0)
+	if (g_strcmp0 (text_content, "") == 0) {
+		g_free (text_content);
 		return selection->priv->is_italic;
+	}
+	g_free (text_content);
 
 	style = webkit_dom_dom_window_get_computed_style (
 			window, webkit_dom_node_get_parent_element (node), NULL);
@@ -1935,7 +1941,7 @@ e_editor_selection_is_monospaced (EEditorSelection *selection)
 {
 	WebKitDOMRange *range;
 	WebKitDOMNode *node;
-	const gchar *text_content;
+	gchar *text_content;
 
 	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), FALSE);
 
@@ -1947,8 +1953,11 @@ e_editor_selection_is_monospaced (EEditorSelection *selection)
 	/* If we are changing the format of block we have to re-set monospaced property,
 	 * otherwise it will be turned off because of no text in composer */
 	text_content = webkit_dom_node_get_text_content (node);
-	if (g_strcmp0 (text_content, "") == 0)
+	if (g_strcmp0 (text_content, "") == 0) {
+		g_free (text_content);
 		return selection->priv->is_monospaced;
+	}
+	g_free (text_content);
 
 	return get_has_style (selection, "tt");
 }
@@ -2174,8 +2183,7 @@ gboolean
 e_editor_selection_is_strike_through (EEditorSelection *selection)
 {
 	gboolean ret_val;
-	const gchar *text_content;
-	gchar *value;
+	gchar *value, *text_content;
 	EEditorWidget *editor_widget;
 	WebKitDOMCSSStyleDeclaration *style;
 	WebKitDOMDocument *document;
@@ -2200,8 +2208,11 @@ e_editor_selection_is_strike_through (EEditorSelection *selection)
 	/* If we are changing the format of block we have to re-set strike-through property,
 	 * otherwise it will be turned off because of no text in composer */
 	text_content = webkit_dom_node_get_text_content (node);
-	if (g_strcmp0 (text_content, "") == 0)
-		return selection->priv->is_strike_through;
+	if (g_strcmp0 (text_content, "") == 0) {
+		g_free (text_content);
+		return selection->priv->is_monospaced;
+	}
+	g_free (text_content);
 
 	style = webkit_dom_dom_window_get_computed_style (
 			window, webkit_dom_node_get_parent_element (node), NULL);
@@ -2398,8 +2409,7 @@ gboolean
 e_editor_selection_is_underline (EEditorSelection *selection)
 {
 	gboolean ret_val;
-	const gchar *text_content;
-	gchar *value;
+	gchar *value, *text_content;
 	EEditorWidget *editor_widget;
 	WebKitDOMCSSStyleDeclaration *style;
 	WebKitDOMDocument *document;
@@ -2424,8 +2434,11 @@ e_editor_selection_is_underline (EEditorSelection *selection)
 	/* If we are changing the format of block we have to re-set underline property,
 	 * otherwise it will be turned off because of no text in composer */
 	text_content = webkit_dom_node_get_text_content (node);
-	if (g_strcmp0 (text_content, "") == 0)
+	if (g_strcmp0 (text_content, "") == 0) {
+		g_free (text_content);
 		return selection->priv->is_underline;
+	}
+	g_free (text_content);
 
 	style = webkit_dom_dom_window_get_computed_style (
 			window, webkit_dom_node_get_parent_element (node), NULL);
@@ -3199,7 +3212,7 @@ e_editor_selection_wrap_lines (EEditorSelection *selection,
 		WebKitDOMNode *parent;
 		WebKitDOMNode *paragraph;
 		gulong start_offset;
-		const gchar *text_content;
+		gchar *text_content;
 
 		/* We need to save caret position and restore it after
 		 * wrapping the selection, but we need to save it before we
@@ -3277,8 +3290,10 @@ e_editor_selection_wrap_lines (EEditorSelection *selection,
 				gchar *node_text;
 
 				regex = g_regex_new (UNICODE_HIDDEN_SPACE, 0, 0, NULL);
-				if (!regex)
+				if (!regex) {
+					g_free (text_content);
 					return;
+				}
 
 				node_text = webkit_dom_character_data_get_data (WEBKIT_DOM_CHARACTER_DATA (child));
 				webkit_dom_character_data_set_data (
@@ -3290,6 +3305,7 @@ e_editor_selection_wrap_lines (EEditorSelection *selection,
 				g_regex_unref (regex);
 			}
 		}
+		g_free (text_content);
 
 		if (previously_wrapped) {
 			/* If we are on the beginning of line we need to remember it */
@@ -3380,12 +3396,15 @@ e_editor_selection_wrap_lines (EEditorSelection *selection,
 			list = webkit_dom_document_query_selector_all (document, "div.-x-evo-paragraph, p.-x-evo-paragraph", NULL);
 			for (ii = 0; ii < webkit_dom_node_list_get_length (list); ii++) {
 				WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
-				const gchar *text_content;
+				gchar *text_content;
 
 				/* Select elements that actualy have some text content */
 				text_content = webkit_dom_node_get_text_content (node);
-				if (g_utf8_strlen (text_content, -1) == 0)
+				if (g_utf8_strlen (text_content, -1) == 0) {
+					g_free (text_content);
 					continue;
+				}
+				g_free (text_content);
 
 				if (signature) {
 					if (!webkit_dom_node_contains (node, signature) &&

@@ -464,12 +464,14 @@ editor_widget_check_magic_links (EEditorWidget *widget,
 				WEBKIT_DOM_HTML_ANCHOR_ELEMENT (parent));
 
 		if (appending_to_link) {
-			const gchar *inner_text;
+			gchar *inner_text;
+
 			inner_text =
 				webkit_dom_html_element_get_inner_text (
 					WEBKIT_DOM_HTML_ELEMENT (parent)),
 
 			text = g_strconcat (inner_text, text_to_append, NULL);
+			g_free (inner_text);
 		} else
 			text = webkit_dom_html_element_get_inner_text (
 					WEBKIT_DOM_HTML_ELEMENT (parent));
@@ -1055,7 +1057,7 @@ editor_widget_key_release_event (GtkWidget *widget,
 		node = webkit_dom_range_get_end_container (range, NULL);
 
 		if (WEBKIT_DOM_IS_TEXT (node)) {
-			const gchar *text;
+			gchar *text;
 
 			text = webkit_dom_node_get_text_content (node);
 
@@ -1067,6 +1069,7 @@ editor_widget_key_release_event (GtkWidget *widget,
 				if (WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (prev_sibling))
 					editor_widget_check_magic_links (editor_widget, range, FALSE, event);
 			}
+			g_free (text);
 		}
 	}
 
@@ -1580,7 +1583,7 @@ e_editor_widget_set_changed (EEditorWidget *widget,
 static gboolean
 is_citation_node (WebKitDOMNode *node)
 {
-	const gchar *value;
+	char *value;
 
 	if (node && !WEBKIT_DOM_IS_HTML_ELEMENT (node))
 		return FALSE;
@@ -1591,10 +1594,13 @@ is_citation_node (WebKitDOMNode *node)
 	value = webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (node), "type");
 
 	/* citation == <blockquote type='cite'> */
-	if (g_strcmp0 (value, "cite") == 0)
+	if (g_strcmp0 (value, "cite") == 0) {
+		g_free (value);
 		return TRUE;
-	else
+	} else {
+		g_free (value);
 		return FALSE;
+	}
 }
 
 static void
@@ -1602,7 +1608,7 @@ insert_quote_symbols (WebKitDOMHTMLElement *element,
                       gint quote_level,
                       gboolean force_insert)
 {
-	const gchar *text;
+	gchar *text;
 	gint ii;
 	GString *output;
 	gchar *indent;
@@ -1678,6 +1684,7 @@ insert_quote_symbols (WebKitDOMHTMLElement *element,
 	webkit_dom_html_element_set_inner_html (element, output->str, NULL);
 
 	g_free (indent);
+	g_free (text);
 	g_string_free (output, TRUE);
 }
 
@@ -1695,7 +1702,7 @@ quote_node (WebKitDOMDocument *document,
 		WebKitDOMNode *parent;
 		WebKitDOMNode *node_clone;
 		WebKitDOMNode *prev_sibling;
-		const gchar *text_content;
+		gchar *text_content;
 		gboolean force_insert = FALSE;
 
 		text_content = webkit_dom_node_get_text_content (node);
@@ -1707,6 +1714,7 @@ quote_node (WebKitDOMDocument *document,
 				parent,
 				node,
 				NULL);
+			g_free (text_content);
 			return;
 		}
 
@@ -1745,6 +1753,7 @@ quote_node (WebKitDOMDocument *document,
 			WEBKIT_DOM_NODE (wrapper),
 			node,
 			NULL);
+		g_free (text_content);
 	} else if (WEBKIT_DOM_IS_HTML_ELEMENT (node))
 		insert_quote_symbols (WEBKIT_DOM_HTML_ELEMENT (node), quote_level, FALSE);
 }
@@ -1788,7 +1797,7 @@ quote_plain_text_recursive (WebKitDOMDocument *document,
 				 * modifications * of it's inner text */
 				if (WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (node)) {
 					WebKitDOMNode *next_sibling;
-					const gchar *text_content;
+					gchar *text_content;
 
 					next_sibling = webkit_dom_node_get_next_sibling (node);
 					text_content = webkit_dom_node_get_text_content (next_sibling);
@@ -1808,6 +1817,7 @@ quote_plain_text_recursive (WebKitDOMDocument *document,
 							next_sibling, NULL);
 					}
 					move_next = TRUE;
+					g_free (text_content);
 
 					goto next_node;
 				}
@@ -2058,7 +2068,7 @@ process_elements (WebKitDOMNode *node,
 
 					for (jj = 0; jj < length; jj++) {
 						WebKitDOMNode *quoted_node;
-						const gchar *text_content;
+						gchar *text_content;
 
 						quoted_node = webkit_dom_node_list_item (list, jj);
 						text_content = webkit_dom_node_get_text_content (quoted_node);
@@ -2067,6 +2077,7 @@ process_elements (WebKitDOMNode *node,
 							WEBKIT_DOM_HTML_ELEMENT (quoted_node),
 							text_content,
 							NULL);
+						g_free (text_content);
 					}
 
 					/* Afterwards replace quote nodes with symbols */
@@ -2079,7 +2090,7 @@ process_elements (WebKitDOMNode *node,
 
 					for (jj = 0; jj < length; jj++) {
 						WebKitDOMNode *quoted_node;
-						const gchar *text_content;
+						gchar *text_content;
 
 						quoted_node = webkit_dom_node_list_item (list, jj);
 						text_content = webkit_dom_node_get_text_content (quoted_node);
@@ -2088,6 +2099,7 @@ process_elements (WebKitDOMNode *node,
 							WEBKIT_DOM_HTML_ELEMENT (quoted_node),
 							text_content,
 							NULL);
+						g_free (text_content);
 					}
 				}
 			}
