@@ -1047,8 +1047,9 @@ insert:
 		/* When we are editing a message with signature we need to set active
 		 * signature id in signature combo box otherwise no signature will be added */
 		if (composer->priv->is_from_message) {
-			const gchar *name =  webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (node), "name");
+			gchar *name = webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (node), "name");
 			gtk_combo_box_set_active_id (GTK_COMBO_BOX (combo_box), name);
+			g_free (name);
 		}
 
 		if (id && (strlen (id) == 1) && (*id == '1')) {
