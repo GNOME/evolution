@@ -871,7 +871,7 @@ e_mail_reader_open_selected (EMailReader *reader)
 			g_ptr_array_add (views, g_strdup (uid));
 		}
 
-		camel_folder_free_message_info (folder, info);
+		camel_message_info_unref (info);
 	}
 
 	for (ii = 0; ii < views->len; ii++) {
@@ -2033,7 +2033,7 @@ e_mail_reader_save_messages (EMailReader *reader)
 		subject = camel_message_info_subject (info);
 		if (subject != NULL)
 			suggestion = g_strconcat (subject, ".mbox", NULL);
-		camel_folder_free_message_info (folder, info);
+		camel_message_info_unref (info);
 	}
 
 	if (suggestion == NULL) {

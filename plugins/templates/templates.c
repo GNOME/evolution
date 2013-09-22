@@ -1303,7 +1303,7 @@ build_menu (EShellWindow *shell_window,
 		&action_count, merge_id, folder_info,
 		shell_view);
 
-	camel_store_free_folder_info (local_store, folder_info);
+	camel_folder_info_free (folder_info);
 }
 
 static void

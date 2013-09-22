@@ -128,8 +128,7 @@ vfolder_get_include_subfolders_uris (EMailSession *session,
 		}
 	}
 
-	if (fi)
-		camel_store_free_folder_info (store, fi);
+	camel_folder_info_free (fi);
 
 	g_object_unref (store);
 	g_free (folder_name);

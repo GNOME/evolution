@@ -116,11 +116,9 @@ account_refresh_folder_info_received_cb (GObject *source,
 
 	info = camel_store_get_folder_info_finish (store, result, &error);
 
-	if (info != NULL) {
-		/* Provider takes care of notifications of new/removed
-		 * folders, thus it's enough to free the returned list. */
-		camel_store_free_folder_info (store, info);
-	}
+	/* Provider takes care of notifications of new/removed
+	 * folders, thus it's enough to free the returned list. */
+	camel_folder_info_free (info);
 
 	if (e_activity_handle_cancellation (activity, error)) {
 		g_error_free (error);
@@ -599,9 +597,10 @@ mark_all_read_got_folder_info (GObject *source,
 			g_strdup (folder_info->full_name));
 
 	if (response == MARK_ALL_READ_WITH_SUBFOLDERS)
-		mark_all_read_collect_folder_names (&context->folder_names, folder_info);
+		mark_all_read_collect_folder_names (
+			&context->folder_names, folder_info);
 
-	camel_store_free_folder_info (store, folder_info);
+	camel_folder_info_free (folder_info);
 
 	if (g_queue_is_empty (&context->folder_names)) {
 		e_activity_set_state (context->activity, E_ACTIVITY_COMPLETED);

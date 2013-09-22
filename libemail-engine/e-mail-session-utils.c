@@ -74,7 +74,7 @@ async_context_free (AsyncContext *context)
 		g_object_unref (context->message);
 
 	if (context->info != NULL)
-		camel_message_info_free (context->info);
+		camel_message_info_unref (context->info);
 
 	if (context->from != NULL)
 		g_object_unref (context->from);

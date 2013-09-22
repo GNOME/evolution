@@ -291,7 +291,7 @@ mail_browser_message_selected_cb (EMailBrowser *browser,
 		camel_message_info_set_flags (
 			info, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
 
-		camel_folder_free_message_info (folder, info);
+		camel_message_info_unref (info);
 	}
 
 	g_clear_object (&folder);
@@ -863,7 +863,7 @@ mail_browser_set_message (EMailReader *reader,
 		gtk_window_set_title (
 			GTK_WINDOW (reader),
 			camel_message_info_subject (info));
-		camel_folder_free_message_info (folder, info);
+		camel_message_info_unref (info);
 	}
 
 	g_clear_object (&folder);

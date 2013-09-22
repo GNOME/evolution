@@ -1110,7 +1110,7 @@ refresh_folders_free (struct _refresh_folders_msg *m)
 		g_free (m->folders->pdata[i]);
 	g_ptr_array_free (m->folders, TRUE);
 
-	camel_store_free_folder_info (m->store, m->finfo);
+	camel_folder_info_free (m->finfo);
 	g_object_unref (m->store);
 }
 

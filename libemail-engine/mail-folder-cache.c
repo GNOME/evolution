@@ -440,9 +440,7 @@ static void
 async_context_free (AsyncContext *async_context)
 {
 	if (async_context->info != NULL)
-		camel_store_free_folder_info (
-			async_context->store_info->store,
-			async_context->info);
+		camel_folder_info_free (async_context->info);
 
 	store_info_unref (async_context->store_info);
 
@@ -944,7 +942,8 @@ folder_changed_cb (CamelFolder *folder,
 						subject = NULL;
 					}
 				}
-				camel_folder_free_message_info (folder, info);
+
+				camel_message_info_unref (info);
 			}
 		}
 	}

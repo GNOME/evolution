@@ -82,8 +82,7 @@ static void
 mdn_context_free (MdnContext *context)
 {
 	if (context->info != NULL)
-		camel_folder_free_message_info (
-			context->folder, context->info);
+		camel_message_info_unref (context->info);
 
 	g_object_unref (context->source);
 	g_object_unref (context->reader);
@@ -423,7 +422,7 @@ mdn_notify_sender (ESource *identity_source,
 		NULL, (GAsyncReadyCallback) mdn_receipt_done,
 		g_object_ref (session));
 
-	camel_message_info_free (receipt_info);
+	camel_message_info_unref (receipt_info);
 }
 
 static void
@@ -441,7 +440,7 @@ mdn_notify_action_cb (GtkAction *action,
 		MDN_SENDING_MODE_MANUAL);
 
 	/* Make sure the newly-added user flag gets saved. */
-	camel_folder_free_message_info (context->folder, context->info);
+	camel_message_info_unref (context->info);
 	context->info = NULL;
 }
 
@@ -568,7 +567,7 @@ mdn_message_loaded_cb (EMailReader *reader,
 
 exit:
 	if (info != NULL)
-		camel_folder_free_message_info (folder, info);
+		camel_message_info_unref (info);
 
 	g_clear_object (&folder);
 	g_free (notify_to);
@@ -628,7 +627,7 @@ mdn_message_seen_cb (EMailReader *reader,
 
 exit:
 	if (info != NULL)
-		camel_folder_free_message_info (folder, info);
+		camel_message_info_unref (info);
 
 	g_clear_object (&folder);
 	g_free (notify_to);

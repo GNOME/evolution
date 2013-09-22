@@ -515,8 +515,7 @@ regen_data_unref (RegenData *regen_data)
 			length = regen_data->summary->len;
 
 			for (ii = 0; ii < length; ii++)
-				camel_folder_free_message_info (
-					regen_data->folder,
+				camel_message_info_unref (
 					regen_data->summary->pdata[ii]);
 
 			g_ptr_array_free (regen_data->summary, TRUE);
@@ -3477,10 +3476,7 @@ clear_info (gchar *key,
             GNode *node,
             MessageList *message_list)
 {
-	CamelMessageInfo *info;
-
-	info = node->data;
-	camel_folder_free_message_info (message_list->priv->folder, info);
+	camel_message_info_unref (node->data);
 	node->data = NULL;
 }
 
@@ -3745,7 +3741,7 @@ ml_uid_nodemap_insert (MessageList *message_list,
 	flags = camel_message_info_flags (info);
 	date = camel_message_info_date_received (info);
 
-	camel_folder_ref_message_info (folder, info);
+	camel_message_info_ref (info);
 	g_hash_table_insert (message_list->uid_nodemap, (gpointer) uid, node);
 
 	/* Track the latest seen and unseen messages shown, used in
@@ -3793,7 +3789,7 @@ ml_uid_nodemap_remove (MessageList *message_list,
 	}
 
 	g_hash_table_remove (message_list->uid_nodemap, uid);
-	camel_folder_free_message_info (folder, info);
+	camel_message_info_unref (info);
 
 	g_object_unref (folder);
 }
@@ -4257,7 +4253,7 @@ mail_folder_hide_by_flag (CamelFolder *folder,
 			camel_folder_change_info_change_uid (
 				newchanges, changes->uid_changed->pdata[i]);
 		if (info)
-			camel_folder_free_message_info (folder, info);
+			camel_message_info_unref (info);
 	}
 
 	if (newchanges->uid_added->len > 0 || newchanges->uid_removed->len > 0) {
@@ -5156,7 +5152,7 @@ free_message_info_data (gpointer uid,
 		g_ptr_array_free (data->values, TRUE);
 	}
 
-	camel_folder_free_message_info (sort_data->folder, data->mi);
+	camel_message_info_unref (data->mi);
 	g_free (data);
 }
 
@@ -5257,7 +5253,7 @@ ml_sort_uids_by_tree (MessageList *message_list,
 			cmp_array_uids,
 			&sort_data);
 
-	camel_folder_summary_unlock (folder->summary, CAMEL_FOLDER_SUMMARY_SUMMARY_LOCK);
+	camel_folder_summary_unlock (folder->summary);
 
 	/* FIXME Teach the hash table to destroy its own data. */
 	g_hash_table_foreach (
@@ -5332,7 +5328,7 @@ message_list_regen_tweak_search_results (MessageList *message_list,
 			search_results,
 			(gpointer) camel_pstring_strdup (uid));
 
-	camel_folder_free_message_info (folder, info);
+	camel_message_info_unref (info);
 }
 
 static void

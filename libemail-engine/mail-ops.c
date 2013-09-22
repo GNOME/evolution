@@ -854,7 +854,7 @@ exit:
 	}
 
 	if (info != NULL)
-		camel_message_info_free (info);
+		camel_message_info_unref (info);
 
 	if (service != NULL)
 		g_object_unref (service);
@@ -914,7 +914,7 @@ send_queue_exec (struct _send_queue_msg *m,
 		if (info) {
 			if ((camel_message_info_flags (info) & CAMEL_MESSAGE_DELETED) == 0)
 				send_uids->pdata[j++] = uids->pdata[i];
-			camel_folder_free_message_info (m->queue, info);
+			camel_message_info_unref (info);
 		}
 	}
 

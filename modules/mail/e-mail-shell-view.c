@@ -99,8 +99,7 @@ add_folders_from_store (GList **folders,
 		fi = next;
 	}
 
-	if (root)
-		camel_store_free_folder_info_full (store, root);
+	camel_folder_info_free (root);
 }
 
 typedef struct {

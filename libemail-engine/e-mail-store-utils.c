@@ -78,7 +78,7 @@ e_mail_store_create_folder_sync (CamelStore *store,
 			CAMEL_SUBSCRIBABLE (store),
 			full_name, cancellable, error);
 
-	camel_store_free_folder_info (store, folder_info);
+	camel_folder_info_free (folder_info);
 
 	return success;
 }

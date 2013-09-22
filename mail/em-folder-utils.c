@@ -274,9 +274,8 @@ emft_copy_folders__exec (struct _EMCopyFolders *m,
 		l = l->next;
 	}
 
- exception:
-
-	camel_store_free_folder_info (m->fromstore, fi);
+exception:
+	camel_folder_info_free (fi);
 	g_list_free (deleting);
 
 	g_string_free (toname, TRUE);

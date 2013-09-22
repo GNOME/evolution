@@ -191,7 +191,7 @@ import_mbox_exec (struct _import_mbox_msg *m,
 			camel_folder_append_message_sync (
 				folder, msg, info, NULL,
 				cancellable, error);
-			camel_message_info_free (info);
+			camel_message_info_unref (info);
 			g_object_unref (msg);
 
 			if (error && *error != NULL)

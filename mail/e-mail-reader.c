@@ -202,7 +202,7 @@ action_mail_add_sender_cb (GtkAction *action,
 
 exit:
 	if (info != NULL)
-		camel_folder_free_message_info (folder, info);
+		camel_message_info_unref (info);
 	g_ptr_array_unref (uids);
 
 	g_clear_object (&folder);
@@ -4073,7 +4073,7 @@ e_mail_reader_check_state (EMailReader *reader)
 		string = camel_message_info_mlist (info);
 		is_mailing_list &= (string != NULL && *string != '\0');
 
-		camel_folder_free_message_info (folder, info);
+		camel_message_info_unref (info);
 	}
 
 	have_enabled_account =

@@ -688,7 +688,7 @@ dbx_import_file (DbxImporter *m)
 		success = camel_folder_append_message_sync (
 			folder, msg, info, NULL,
 			cancellable, &m->base.error);
-		camel_message_info_free (info);
+		camel_message_info_unref (info);
 		g_object_unref (msg);
 
 		if (!success) {

@@ -393,8 +393,7 @@ folder_tree_get_folder_info_cb (CamelStore *store,
 		COL_BOOL_LOAD_SUBDIRS, FALSE, -1);
 
 exit:
-	if (folder_info != NULL)
-		camel_store_free_folder_info (store, folder_info);
+	camel_folder_info_free (folder_info);
 
 	async_context_free (context);
 }
@@ -655,7 +654,7 @@ folder_tree_cell_edited_cb (EMFolderTree *folder_tree,
 		e_alert_run_dialog_for_args (
 			parent, "mail:no-rename-folder-exists",
 			old_name, new_name, NULL);
-		camel_store_free_folder_info (store, folder_info);
+		camel_folder_info_free (folder_info);
 		goto exit;
 	}
 

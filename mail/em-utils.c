@@ -338,7 +338,7 @@ em_utils_flag_for_followup (EMailReader *reader,
 			camel_message_info_from (info),
 			camel_message_info_subject (info));
 
-		camel_folder_free_message_info (folder, info);
+		camel_message_info_unref (info);
 	}
 
 	/* special-case... */
@@ -354,7 +354,7 @@ em_utils_flag_for_followup (EMailReader *reader,
 			if (tags)
 				e_mail_tag_editor_set_tag_list (
 					E_MAIL_TAG_EDITOR (editor), tags);
-			camel_folder_free_message_info (folder, info);
+			camel_message_info_unref (info);
 		}
 	}
 
@@ -379,7 +379,7 @@ em_utils_flag_for_followup (EMailReader *reader,
 			camel_message_info_set_user_tag (
 				info, iter->name, iter->value);
 
-		camel_folder_free_message_info (folder, info);
+		camel_message_info_unref (info);
 	}
 
 	camel_folder_thaw (folder);
@@ -420,7 +420,7 @@ em_utils_flag_for_followup_clear (GtkWindow *parent,
 			camel_message_info_set_user_tag (mi, "follow-up", NULL);
 			camel_message_info_set_user_tag (mi, "due-by", NULL);
 			camel_message_info_set_user_tag (mi, "completed-on", NULL);
-			camel_folder_free_message_info (folder, mi);
+			camel_message_info_unref (mi);
 		}
 	}
 
@@ -460,7 +460,7 @@ em_utils_flag_for_followup_completed (GtkWindow *parent,
 			tag = camel_message_info_user_tag (mi, "follow-up");
 			if (tag && tag[0])
 				camel_message_info_set_user_tag (mi, "completed-on", now);
-			camel_folder_free_message_info (folder, mi);
+			camel_message_info_unref (mi);
 		}
 	}
 
@@ -769,7 +769,7 @@ em_utils_selection_set_uidlist (GtkSelectionData *selection_data,
 				g_free (folder_uri);
 			}
 
-			camel_folder_free_message_info (folder, info);
+			camel_message_info_unref (info);
 		}
 	} else {
 		folder_uri = e_mail_folder_uri_from_folder (folder);
@@ -925,7 +925,7 @@ em_utils_build_export_basename (CamelFolder *folder,
 	basename = g_strdup_printf ("%s_%s%s", datetmp, subject, extension);
 
 	if (info != NULL)
-		camel_folder_free_message_info (folder, info);
+		camel_message_info_unref (info);
 
 	return basename;
 }

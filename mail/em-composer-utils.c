@@ -799,7 +799,7 @@ composer_save_to_drafts_append_mail (AsyncContext *async_context,
 		composer_save_to_drafts_cleanup,
 		async_context);
 
-	camel_message_info_free (info);
+	camel_message_info_unref (info);
 
 	g_object_unref (drafts_folder);
 }
@@ -998,7 +998,7 @@ em_utils_composer_save_to_outbox_cb (EMsgComposer *composer,
 		composer_save_to_outbox_completed,
 		async_context);
 
-	camel_message_info_free (info);
+	camel_message_info_unref (info);
 }
 
 static void
@@ -1582,12 +1582,12 @@ em_utils_get_real_folder_uri_and_message_uid (CamelFolder *folder,
 				*folder_uri = e_mail_folder_uri_from_folder (real_folder);
 				*message_uid = real_uid;
 
-				camel_folder_free_message_info (folder, mi);
+				camel_message_info_unref (mi);
 
 				return;
 			}
 
-			camel_folder_free_message_info (folder, mi);
+			camel_message_info_unref (mi);
 		}
 	}
 

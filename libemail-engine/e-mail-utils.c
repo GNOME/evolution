@@ -313,7 +313,7 @@ guess_mail_account_from_folder (ESourceRegistry *registry,
 			location = camel_vee_folder_get_location (CAMEL_VEE_FOLDER (folder), (CamelVeeMessageInfo *) mi, NULL);
 			if (location)
 				store = camel_folder_get_parent_store (location);
-			camel_folder_free_message_info (folder, mi);
+			camel_message_info_unref (mi);
 		}
 	}
 

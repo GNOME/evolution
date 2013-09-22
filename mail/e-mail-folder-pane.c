@@ -143,7 +143,7 @@ mail_paned_view_open_selected_mail (EMailPanedView *view)
 			g_ptr_array_add (views, g_strdup (uid));
 		}
 
-		camel_folder_free_message_info (folder, info);
+		camel_message_info_unref (info);
 	}
 
 	n_views = views->len;

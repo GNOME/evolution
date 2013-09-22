@@ -54,7 +54,7 @@ async_context_free (AsyncContext *context)
 		g_object_unref (context->message);
 
 	if (context->info != NULL)
-		camel_message_info_free (context->info);
+		camel_message_info_unref (context->info);
 
 	if (context->part != NULL)
 		g_object_unref (context->part);
@@ -249,7 +249,7 @@ mail_folder_expunge_pop3_stores (CamelFolder *folder,
 
 		if (info != NULL) {
 			flags = camel_message_info_flags (info);
-			camel_folder_free_message_info (folder, info);
+			camel_message_info_unref (info);
 		}
 
 		/* Only interested in deleted messages. */
@@ -797,7 +797,7 @@ e_mail_folder_find_duplicate_messages_sync (CamelFolder *folder,
 		/* Skip messages marked for deletion. */
 		if (flags & CAMEL_MESSAGE_DELETED) {
 			g_queue_push_tail (&trash, key);
-			camel_message_info_free (info);
+			camel_message_info_unref (info);
 			continue;
 		}
 
@@ -805,7 +805,7 @@ e_mail_folder_find_duplicate_messages_sync (CamelFolder *folder,
 
 		if (digest == NULL) {
 			g_queue_push_tail (&trash, key);
-			camel_message_info_free (info);
+			camel_message_info_unref (info);
 			continue;
 		}
 
@@ -827,7 +827,7 @@ e_mail_folder_find_duplicate_messages_sync (CamelFolder *folder,
 			g_queue_push_tail (&trash, key);
 		}
 
-		camel_message_info_free (info);
+		camel_message_info_unref (info);
 	}
 
 	/* Delete all non-duplicate messages from the hash table. */
@@ -1171,8 +1171,7 @@ e_mail_folder_remove_sync (CamelFolder *folder,
 			g_warning (
 				"%s: Failed to find folder '%s'",
 				G_STRFUNC, full_name);
-			camel_store_free_folder_info (
-				parent_store, folder_info);
+			camel_folder_info_free (folder_info);
 			return TRUE;
 		}
 
@@ -1206,7 +1205,7 @@ e_mail_folder_remove_sync (CamelFolder *folder,
 	 * state so we don't leak folder_info nodes. */
 	to_remove->next = next;
 
-	camel_store_free_folder_info (parent_store, folder_info);
+	camel_folder_info_free (folder_info);
 
 	return success;
 }
@@ -1360,8 +1359,8 @@ mail_folder_strip_message (CamelFolder *folder,
 				CAMEL_MESSAGE_DELETED,
 				CAMEL_MESSAGE_DELETED);
 
-		camel_folder_free_message_info (folder, orig_info);
-		camel_message_info_free (copy_info);
+		camel_message_info_unref (orig_info);
+		camel_message_info_unref (copy_info);
 	}
 
 	return success;
