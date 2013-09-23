@@ -104,6 +104,8 @@ mail_config_sidebar_notebook_page_added (GtkNotebook *notebook,
 	g_hash_table_insert (
 		sidebar->priv->buttons_to_pages,
 		g_object_ref (button), g_object_ref (page));
+
+	g_free (tab_label);
 }
 
 static void

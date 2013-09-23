@@ -435,6 +435,7 @@ mail_config_identity_page_constructed (GObject *object)
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 0, 3, 1);
 	gtk_widget_show (widget);
+	g_free (markup);
 
 	text = _("Re_ply-To:");
 	widget = gtk_label_new_with_mnemonic (text);
