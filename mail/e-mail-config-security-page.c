@@ -264,6 +264,7 @@ mail_config_security_page_constructed (GObject *object)
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 0, 1, 1);
 	gtk_widget_show (widget);
+	g_free (markup);
 
 	text = _("_Do not sign meeting requests (for Outlook compatibility)");
 	widget = gtk_check_button_new_with_mnemonic (text);
@@ -294,6 +295,7 @@ mail_config_security_page_constructed (GObject *object)
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 0, 2, 1);
 	gtk_widget_show (widget);
+	g_free (markup);
 
 	text = _("OpenPGP _Key ID:");
 	widget = gtk_label_new_with_mnemonic (text);
@@ -413,6 +415,7 @@ mail_config_security_page_constructed (GObject *object)
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 0, 4, 1);
 	gtk_widget_show (widget);
+	g_free (markup);
 
 	text = _("Sig_ning certificate:");
 	widget = gtk_label_new_with_mnemonic (text);
