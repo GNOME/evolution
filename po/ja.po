@@ -6411,11 +6411,11 @@ msgstr "印刷プレビュー(_V)"
 
 #: ../composer/e-composer-actions.c:344
 msgid "Save as _Draft"
-msgstr "草案として保存(_D)"
+msgstr "下書きとして保存(_D)"
 
 #: ../composer/e-composer-actions.c:346
 msgid "Save as draft"
-msgstr "草案として保存します"
+msgstr "下書きとして保存します"
 
 #: ../composer/e-composer-actions.c:351
 msgid "S_end"
@@ -6507,7 +6507,7 @@ msgstr "返信先の表示/非表示を切り替えます"
 
 #: ../composer/e-composer-actions.c:494
 msgid "Save Draft"
-msgstr "草案を保存します"
+msgstr "下書きを保存します"
 
 #: ../composer/e-composer-header-table.c:39
 msgid "Enter the recipients of the message"
@@ -6647,7 +6647,7 @@ msgstr "編集を続行する(_C)"
 
 #: ../composer/mail-composer.error.xml.h:19
 msgid "_Save Draft"
-msgstr "草案を保存する(_S)"
+msgstr "下書きを保存する(_S)"
 
 #: ../composer/mail-composer.error.xml.h:20
 msgid "Could not create message."
@@ -6679,7 +6679,7 @@ msgstr "&quot;{0}&quot; というエラーが報告されました。メッセ�
 
 #: ../composer/mail-composer.error.xml.h:27
 msgid "An error occurred while saving to your Drafts folder."
-msgstr "草案フォルダーへの保存の際にエラーが発生しました。"
+msgstr "下書きフォルダーへの保存の際にエラーが発生しました。"
 
 #: ../composer/mail-composer.error.xml.h:28
 msgid "The reported error was &quot;{0}&quot;. The message has most likely not been saved."
@@ -10951,7 +10951,7 @@ msgstr "受信箱"
 #: ../libemail-engine/e-mail-session.c:121 ../mail/em-folder-tree-model.c:779
 #: ../modules/mail/e-mail-shell-view-private.c:1074
 msgid "Drafts"
-msgstr "草案"
+msgstr "下書き"
 
 #. E_MAIL_LOCAL_FOLDER_DRAFTS
 #: ../libemail-engine/e-mail-session.c:122 ../mail/em-folder-tree-model.c:790
@@ -11238,11 +11238,11 @@ msgstr "特別なフォルダー"
 
 #: ../mail/e-mail-config-defaults-page.c:561
 msgid "Draft Messages _Folder:"
-msgstr "草案フォルダー(_F):"
+msgstr "下書きフォルダー(_F):"
 
 #: ../mail/e-mail-config-defaults-page.c:571
 msgid "Choose a folder for saving draft messages."
-msgstr "草案を保存するフォルダーを選択してください。"
+msgstr "下書きを保存するフォルダーを選択してください。"
 
 #: ../mail/e-mail-config-defaults-page.c:585
 msgid "Sent _Messages Folder:"
@@ -12393,7 +12393,7 @@ msgstr "が次で始まらない"
 
 #: ../mail/em-filter-i18n.h:25
 msgid "Draft"
-msgstr "草案"
+msgstr "下書き"
 
 #: ../mail/em-filter-i18n.h:26
 msgid "ends with"
@@ -13531,11 +13531,11 @@ msgstr "\"宛先\" のフィールドに正しいメールアドレスを入力�
 
 #: ../mail/mail.error.xml.h:32
 msgid "Use default drafts folder?"
-msgstr "デフォルトの草案フォルダーを使用しますか?"
+msgstr "デフォルトの下書きフォルダーを使用しますか?"
 
 #: ../mail/mail.error.xml.h:33
 msgid "Unable to open the drafts folder for this account. Use the system drafts folder instead?"
-msgstr "このアカウントの草案フォルダーを開けません。代わりにシステムの草案フォルダーを使用しますか?"
+msgstr "このアカウントの下書きフォルダーを開けません。代わりにシステムの下書きフォルダーを使用しますか?"
 
 #: ../mail/mail.error.xml.h:34
 msgid "Use _Default"
@@ -17324,7 +17324,7 @@ msgstr[0] "ジャンク %d通"
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
-msgstr[0] "草案 %d通"
+msgstr[0] "下書き %d通"
 
 #: ../modules/mail/e-mail-shell-view-private.c:1042
 #, c-format
