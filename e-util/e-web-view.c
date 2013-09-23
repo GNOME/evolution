@@ -3351,7 +3351,7 @@ add_css_rule_into_style_sheet (WebKitDOMDocument *document,
 	/* Check if rule exists */
 	for (ii = 0; ii < length; ii++) {
 		WebKitDOMCSSRule *rule;
-		const gchar *rule_text;
+		gchar *rule_text;
 		gchar *rule_selector, *selector_end;
 
 		rule = webkit_dom_css_rule_list_item (rules_list, ii);
@@ -3363,8 +3363,10 @@ add_css_rule_into_style_sheet (WebKitDOMDocument *document,
 
 		/* Find the start of the style => end of the selector */
 		selector_end = g_strstr_len (rule_text, -1, " {");
-		if (!selector_end)
+		if (!selector_end) {
+			g_free (rule_text);
 			continue;
+		}
 
 		rule_selector =
 			g_utf8_substring (
@@ -3380,6 +3382,7 @@ add_css_rule_into_style_sheet (WebKitDOMDocument *document,
 		}
 
 		g_free (rule_selector);
+		g_free (rule_text);
 	}
 
 	/* Insert the rule at the end, so it will override previously inserted */
