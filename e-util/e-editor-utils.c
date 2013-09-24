@@ -55,13 +55,13 @@ e_editor_dom_node_find_parent_element (WebKitDOMNode *node,
 			    (strlen (node_tagname) == taglen) &&
 			    (g_ascii_strncasecmp (node_tagname, tagname, taglen) == 0)) {
 				g_free (node_tagname);
-				return (WebKitDOMElement *) node;
+				return WEBKIT_DOM_ELEMENT (node);
 			}
 
 			g_free (node_tagname);
 		}
 
-		node = (WebKitDOMNode *) webkit_dom_node_get_parent_element (node);
+		node = WEBKIT_DOM_NODE (webkit_dom_node_get_parent_element (node));
 	}
 
 	return NULL;
@@ -97,7 +97,7 @@ e_editor_dom_node_find_child_element (WebKitDOMNode *node,
 			    (strlen (node_tagname) == taglen) &&
 			    (g_ascii_strncasecmp (node_tagname, tagname, taglen) == 0)) {
 				g_free (node_tagname);
-				return (WebKitDOMElement *) node;
+				return WEBKIT_DOM_ELEMENT (node);
 			}
 
 			g_free (node_tagname);
