@@ -47,6 +47,7 @@ m4_define([soup_encoded_version], [SOUP_VERSION_2_40])
 m4_define([eds_minimum_version], [evo_version])
 m4_define([gtkhtml_minimum_version], [4.5.2])
 m4_define([gdk_pixbuf_minimum_version], [2.24.0])
+m4_define([gcr_minimum_version], [3.4])
 m4_define([gnome_desktop_minimum_version], [2.91.3])
 m4_define([gnome_icon_theme_minimum_version], [2.30.2.1])
 m4_define([gsettings_desktop_schemas_minimum_version], [2.91.92])
@@ -283,6 +284,7 @@ PKG_CHECK_MODULES([GNOME_PLATFORM],
 	 gtk+-3.0 >= gdk_minimum_version
 	 gail-3.0 >= gdk_minimum_version
 	 gdk-pixbuf-2.0 >= gdk_pixbuf_minimum_version
+	 gcr-3 >= gcr_minimum_version
 	 libxml-2.0 >= libxml_minimum_version
 	 shared-mime-info >= shared_mime_info_minimum_version
 	 gnome-desktop-3.0 >= gnome_desktop_minimum_version
