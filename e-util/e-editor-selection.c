@@ -1197,8 +1197,6 @@ e_editor_selection_get_block_format (EEditorSelection *selection)
 		} else {
 			result = E_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST;
 		}
-	} else if (e_editor_dom_node_find_parent_element (node, "BLOCKQUOTE")) {
-		result = E_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE;
 	} else if (e_editor_dom_node_find_parent_element (node, "PRE")) {
 		result = E_EDITOR_SELECTION_BLOCK_FORMAT_PRE;
 	} else if (e_editor_dom_node_find_parent_element (node, "ADDRESS")) {
@@ -1219,6 +1217,14 @@ e_editor_selection_get_block_format (EEditorSelection *selection)
 		result = E_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
 	} else {
 		result = E_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
+	}
+
+	element = e_editor_dom_node_find_parent_element (node, "BLOCKQUOTE");
+
+	if (element) {
+		/* Indented paragraphs should have the same format as unindented */
+		if (element && !element_has_class (element, "-x-evo-indented"))
+			result = E_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE;
 	}
 
 	return result;
