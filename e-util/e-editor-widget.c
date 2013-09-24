@@ -1755,7 +1755,7 @@ quote_node (WebKitDOMDocument *document,
 			NULL);
 		g_free (text_content);
 	} else if (WEBKIT_DOM_IS_HTML_ELEMENT (node))
-		insert_quote_symbols (WEBKIT_DOM_HTML_ELEMENT (node), quote_level, FALSE);
+		insert_quote_symbols (WEBKIT_DOM_HTML_ELEMENT (node), quote_level, TRUE);
 }
 
 static void
