@@ -390,12 +390,6 @@ e_cert_get_issued_on (ECert *cert)
 	return cert->priv->issued_on_string;
 }
 
-PRTime
-e_cert_get_expires_on_time (ECert *cert)
-{
-	return cert->priv->expires_on;
-}
-
 const gchar *
 e_cert_get_expires_on (ECert *cert)
 {
