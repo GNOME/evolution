@@ -384,12 +384,6 @@ e_cert_get_subject_name (ECert *cert)
 	return cert->priv->cert->subjectName;
 }
 
-PRTime
-e_cert_get_issued_on_time (ECert *cert)
-{
-	return cert->priv->issued_on;
-}
-
 const gchar *
 e_cert_get_issued_on (ECert *cert)
 {

@@ -83,7 +83,6 @@ const gchar *          e_cert_get_issuer_cn       (ECert *cert);
 const gchar *          e_cert_get_issuer_org      (ECert *cert);
 const gchar *          e_cert_get_issuer_org_unit (ECert *cert);
 
-PRTime               e_cert_get_issued_on_time  (ECert *cert);
 const gchar *          e_cert_get_issued_on       (ECert *cert);
 PRTime               e_cert_get_expires_on_time (ECert *cert);
 const gchar *          e_cert_get_expires_on      (ECert *cert);
