@@ -18,8 +18,6 @@ libessmime_la_CPPFLAGS =				\
 	$(CERT_UI_CFLAGS)
 
 libessmime_la_SOURCES = 	\
-	e-asn1-object.c		\
-	e-asn1-object.h		\
 	e-cert.c		\
 	e-cert.h		\
 	e-cert-trust.c		\
