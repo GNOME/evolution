@@ -32,7 +32,6 @@
 #include "ca-trust-dialog.h"
 #include "cert-trust-dialog.h"
 #include "certificate-manager.h"
-#include "certificate-viewer.h"
 
 #include "e-cert.h"
 #include "e-cert-trust.h"
@@ -44,6 +43,15 @@
 #include <certdb.h>
 #include <pkcs11.h>
 #include <pk11func.h>
+
+/* XXX Hack to disable p11-kit's pkcs11.h header, since
+ *     NSS headers supply the same PKCS #11 definitions. */
+#define PKCS11_H 1
+
+/* XXX Yeah, yeah... */
+#define GCR_API_SUBJECT_TO_CHANGE
+
+#include <gcr/gcr.h>
 
 #include "shell/e-shell.h"
 
@@ -1112,28 +1120,83 @@ e_cert_manager_config_new (EPreferencesWindow *window)
 	return GTK_WIDGET (ecmc);
 }
 
+/* Helper for e_cert_manager_new_certificate_viewer() */
+static void
+cert_manager_parser_parsed_cb (GcrParser *parser,
+                               GcrParsed **out_parsed)
+{
+	GcrParsed *parsed;
+
+	parsed = gcr_parser_get_parsed (parser);
+	g_return_if_fail (parsed != NULL);
+
+	*out_parsed = gcr_parsed_ref (parsed);
+}
+
 GtkWidget *
 e_cert_manager_new_certificate_viewer (GtkWindow *parent,
                                        ECert *cert)
 {
+	GcrParser *parser;
+	GcrParsed *parsed = NULL;
+	GcrCertificate *certificate;
+	GckAttributes *attributes;
+	GcrCertificateWidget *certificate_widget;
+	GtkWidget *content_area;
 	GtkWidget *dialog;
-	GList *chain, *citer;
-	GSList *issuers = NULL;
+	GtkWidget *widget;
+	gchar *subject_name;
+	const guchar *der_data = NULL;
+	gsize der_length;
+	GError *local_error = NULL;
 
 	g_return_val_if_fail (cert != NULL, NULL);
 
-	chain = e_cert_get_issuers_chain (cert);
-	for (citer = chain; citer; citer = g_list_next (citer)) {
-		issuers = g_slist_append (issuers, e_cert_get_internal_cert (citer->data));
+	certificate = GCR_CERTIFICATE (cert);
+	der_data = gcr_certificate_get_der_data (certificate, &der_length);
+
+	parser = gcr_parser_new ();
+	g_signal_connect (
+		parser, "parsed",
+		G_CALLBACK (cert_manager_parser_parsed_cb), &parsed);
+	gcr_parser_parse_data (
+		parser, der_data, der_length, &local_error);
+	g_object_unref (parser);
+
+	/* Sanity check. */
+	g_return_val_if_fail (
+		((parsed != NULL) && (local_error == NULL)) ||
+		((parsed == NULL) && (local_error != NULL)), NULL);
+
+	if (local_error != NULL) {
+		g_warning ("%s: %s", G_STRFUNC, local_error->message);
+		g_clear_error (&local_error);
+		return NULL;
 	}
 
-	dialog = certificate_viewer_new (
-		(GtkWindow *) parent,
-		e_cert_get_internal_cert (cert),
-		issuers);
+	attributes = gcr_parsed_get_attributes (parsed);
+	subject_name = gcr_certificate_get_subject_name (certificate);
 
-	g_list_free_full (chain, g_object_unref);
-	g_slist_free (issuers);
+	dialog = gtk_dialog_new_with_buttons (
+		subject_name, parent,
+		GTK_DIALOG_DESTROY_WITH_PARENT,
+		GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
+		NULL);
+
+	gtk_container_set_border_width (GTK_CONTAINER (dialog), 5);
+
+	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+
+	certificate_widget = gcr_certificate_widget_new (certificate);
+	gcr_certificate_widget_set_attributes (certificate_widget, attributes);
+
+	widget = GTK_WIDGET (certificate_widget);
+	gtk_container_set_border_width (GTK_CONTAINER (widget), 5);
+	gtk_box_pack_start (GTK_BOX (content_area), widget, TRUE, TRUE, 0);
+	gtk_widget_show (widget);
+
+	g_free (subject_name);
+	gcr_parsed_unref (parsed);
 
 	return dialog;
 }

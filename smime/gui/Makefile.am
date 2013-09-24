@@ -27,8 +27,6 @@ libevolution_smime_la_SOURCES = 	\
 	cert-trust-dialog.h		\
 	certificate-manager.c		\
 	certificate-manager.h		\
-	certificate-viewer.c		\
-	certificate-viewer.h		\
 	e-cert-selector.c		\
 	e-cert-selector.h		\
 	component.c			\
