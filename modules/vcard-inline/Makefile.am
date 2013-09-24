@@ -23,7 +23,6 @@ module_vcard_inline_la_LIBADD =				\
 	$(top_builddir)/em-format/libevolution-mail-formatter.la	\
 	$(top_builddir)/addressbook/util/libeabutil.la			\
 	$(top_builddir)/addressbook/gui/widgets/libeabwidgets.la	\
-	$(top_builddir)/addressbook/gui/merging/libeabbookmerging.la	\
 	$(top_builddir)/addressbook/printing/libecontactprint.la	\
 	$(EVOLUTION_DATA_SERVER_LIBS)					\
 	$(GNOME_PLATFORM_LIBS)						\

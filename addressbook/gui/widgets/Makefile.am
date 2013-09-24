@@ -11,9 +11,9 @@ libeabwidgets_la_CPPFLAGS =				\
 	-DEVOLUTION_RULEDIR=\"$(ruledir)\"		\
 	-DEVOLUTION_IMAGESDIR=\"${imagesdir}\"		\
 	-DEVOLUTION_PRIVDATADIR=\"${privdatadir}\"	\
+	-DEVOLUTION_UIDIR=\""$(uidir)"\"		\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/addressbook			\
-	-I$(top_srcdir)/addressbook/gui/merging		\
 	-I$(top_srcdir)/addressbook/util		\
 	-I$(top_builddir)/shell				\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
@@ -29,10 +29,14 @@ eabinclude_HEADERS = 			\
 
 libeabwidgets_la_SOURCES =			\
 	eab-config.c				\
+	eab-contact-compare.c			\
+	eab-contact-compare.h			\
 	eab-contact-display.c			\
 	eab-contact-display.h			\
 	eab-contact-formatter.c			\
 	eab-contact-formatter.h			\
+	eab-contact-merging.c			\
+	eab-contact-merging.h			\
 	eab-gui-util.c				\
 	eab-gui-util.h				\
 	e-contact-map.c				\
@@ -61,12 +65,12 @@ libeabwidgets_la_SOURCES =			\
 	e-addressbook-view.h			\
 	gal-view-minicard.c			\
 	gal-view-minicard.h			\
-	ea-minicard.c			\
-	ea-minicard.h			\
+	ea-minicard.c				\
+	ea-minicard.h				\
 	ea-minicard-view.c			\
 	ea-minicard-view.h			\
-	ea-addressbook-view.c		\
-	ea-addressbook-view.h		\
+	ea-addressbook-view.c			\
+	ea-addressbook-view.h			\
 	ea-addressbook.c			\
 	ea-addressbook.h
 
@@ -85,8 +89,13 @@ dist-hook:
 
 etspec_DATA= e-addressbook-view.etspec
 
+ui_DATA = \
+	eab-contact-duplicate-detected.ui	\
+	eab-contact-commit-duplicate-detected.ui
+
 EXTRA_DIST = 			\
 	$(etspec_DATA)		\
-	$(rule_DATA)
+	$(rule_DATA)		\
+	$(ui_DATA)
 
 -include $(top_srcdir)/git.mk

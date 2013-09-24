@@ -4,7 +4,7 @@ libecontacteditor_la_CPPFLAGS =				\
 	$(AM_CPPFLAGS)					\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/addressbook/			\
-	-I$(top_srcdir)/addressbook/gui/merging		\
+	-I$(top_srcdir)/addressbook/gui/widgets		\
 	-I$(top_builddir)/shell				\
 	-DEVOLUTION_UIDIR=\""$(uidir)"\"		\
 	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"	\
@@ -29,7 +29,6 @@ libecontacteditor_la_LIBADD =						\
 	$(top_builddir)/e-util/libevolution-util.la			\
 	$(top_builddir)/addressbook/util/libeabutil.la			\
 	$(top_builddir)/addressbook/gui/widgets/libeabwidgets.la	\
-	$(top_builddir)/addressbook/gui/merging/libeabbookmerging.la	\
 	$(top_builddir)/addressbook/printing/libecontactprint.la	\
 	$(EVOLUTION_ADDRESSBOOK_LIBS)					\
 	$(EVOLUTION_DATA_SERVER_LIBS)					\

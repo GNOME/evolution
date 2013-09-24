@@ -9,9 +9,9 @@ addressbook/gui/contact-editor/e-contact-quick-add.c
 [type: gettext/glade]addressbook/gui/contact-editor/fullname.ui
 [type: gettext/glade]addressbook/gui/contact-list-editor/contact-list-editor.ui
 addressbook/gui/contact-list-editor/e-contact-list-editor.c
-[type: gettext/glade]addressbook/gui/merging/eab-contact-commit-duplicate-detected.ui
-[type: gettext/glade]addressbook/gui/merging/eab-contact-duplicate-detected.ui
-addressbook/gui/merging/eab-contact-merging.c
+[type: gettext/glade]addressbook/gui/widgets/eab-contact-commit-duplicate-detected.ui
+[type: gettext/glade]addressbook/gui/widgets/eab-contact-duplicate-detected.ui
+addressbook/gui/widgets/eab-contact-merging.c
 addressbook/gui/widgets/addresstypes.xml
 addressbook/gui/widgets/e-addressbook-model.c
 addressbook/gui/widgets/e-addressbook-reflow-adapter.c

@@ -1425,7 +1425,6 @@ addressbook/Makefile
 addressbook/gui/Makefile
 addressbook/gui/contact-editor/Makefile
 addressbook/gui/contact-list-editor/Makefile
-addressbook/gui/merging/Makefile
 addressbook/gui/widgets/Makefile
 addressbook/importers/Makefile
 addressbook/printing/Makefile

@@ -25,7 +25,7 @@
 #include <em-format/e-mail-part-utils.h>
 
 #include <shell/e-shell.h>
-#include <addressbook/gui/merging/eab-contact-merging.h>
+#include <addressbook/gui/widgets/eab-contact-merging.h>
 
 #define E_MAIL_PART_VCARD_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

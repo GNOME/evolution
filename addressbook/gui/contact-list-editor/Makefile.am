@@ -4,7 +4,7 @@ libecontactlisteditor_la_CPPFLAGS =			\
 	$(AM_CPPFLAGS)					\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/addressbook/			\
-	-I$(top_srcdir)/addressbook/gui/merging		\
+	-I$(top_srcdir)/addressbook/gui/widgets		\
 	-I$(top_srcdir)/addressbook/gui/contact-editor	\
 	-I$(top_builddir)/shell				\
 	-DEVOLUTION_UIDIR=\""$(uidir)"\"		\
