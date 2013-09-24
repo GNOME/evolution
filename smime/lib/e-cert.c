@@ -56,6 +56,15 @@
 #include "certdb.h"
 #include "hasht.h"
 
+/* XXX Hack to disable p11-kit's pkcs11.h header, since
+ *     NSS headers supply the same PKCS #11 definitions. */
+#define PKCS11_H 1
+
+/* XXX Yeah, yeah */
+#define GCR_API_SUBJECT_TO_CHANGE
+
+#include <gcr/gcr-base.h>
+
 #define E_CERT_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_CERT, ECertPrivate))
@@ -89,7 +98,18 @@ struct _ECertPrivate {
 	gboolean delete;
 };
 
-G_DEFINE_TYPE (ECert, e_cert, G_TYPE_OBJECT)
+/* Forward Declarations */
+static void	e_cert_gcr_certificate_init
+					(GcrCertificateIface *interface);
+
+G_DEFINE_TYPE_WITH_CODE (
+	ECert,
+	e_cert,
+	G_TYPE_OBJECT,
+	GCR_CERTIFICATE_MIXIN_IMPLEMENT_COMPARABLE ()
+	G_IMPLEMENT_INTERFACE (
+		GCR_TYPE_CERTIFICATE,
+		e_cert_gcr_certificate_init))
 
 static void
 e_cert_finalize (GObject *object)
@@ -145,6 +165,17 @@ e_cert_finalize (GObject *object)
 	G_OBJECT_CLASS (e_cert_parent_class)->finalize (object);
 }
 
+static const guchar *
+cert_get_der_data (GcrCertificate *certificate,
+                   gsize *n_data)
+{
+	ECertPrivate *priv = E_CERT_GET_PRIVATE (certificate);
+
+	*n_data = priv->cert->derCert.len;
+
+	return priv->cert->derCert.data;
+}
+
 static void
 e_cert_class_init (ECertClass *class)
 {
@@ -153,7 +184,16 @@ e_cert_class_init (ECertClass *class)
 	g_type_class_add_private (class, sizeof (ECertPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
+	object_class->get_property = gcr_certificate_mixin_get_property;
 	object_class->finalize = e_cert_finalize;
+
+	gcr_certificate_mixin_class_init (object_class);
+}
+
+static void
+e_cert_gcr_certificate_init (GcrCertificateIface *interface)
+{
+	interface->get_der_data = cert_get_der_data;
 }
 
 static void
