@@ -1718,12 +1718,66 @@ e_editor_selection_indent (EEditorSelection *selection)
 	editor_widget = e_editor_selection_ref_editor_widget (selection);
 	g_return_if_fail (editor_widget != NULL);
 
-	command = E_EDITOR_WIDGET_COMMAND_INDENT;
-	e_editor_widget_exec_command (editor_widget, command, NULL);
+	if (g_strcmp0 (e_editor_selection_get_string (selection), "") == 0) {
+		WebKitDOMDocument *document;
+		WebKitDOMRange *range;
+		WebKitDOMNode *node;
+		WebKitDOMNode *clone;
+		WebKitDOMElement *element;
+
+		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (editor_widget));
+
+		e_editor_selection_save_caret_position (selection);
+
+		range = editor_selection_get_current_range (selection);
+		if (!range) {
+			g_object_unref (editor_widget);
+			return;
+		}
+
+		node = webkit_dom_range_get_end_container (range, NULL);
+		if (!WEBKIT_DOM_IS_ELEMENT (node))
+			node = WEBKIT_DOM_NODE (webkit_dom_node_get_parent_element (node));
+
+		element = webkit_dom_node_get_parent_element (node);
+
+		clone = webkit_dom_node_clone_node (node, TRUE);
+		element = webkit_dom_document_create_element (document, "BLOCKQUOTE", NULL);
+		element_add_class (element, "-x-evo-indented");
+		/* We don't want vertical space bellow and above blockquote inserted by
+		 * WebKit's User Agent Stylesheet. We have to override it through style attribute. */
+		webkit_dom_element_set_attribute (
+			element,
+			"style",
+			"-webkit-margin-before: 0em; -webkit-margin-after: 0em;",
+			NULL);
+
+		webkit_dom_node_append_child (
+			WEBKIT_DOM_NODE (element),
+			clone,
+			NULL);
+
+		webkit_dom_node_replace_child (
+			webkit_dom_node_get_parent_node (node),
+			WEBKIT_DOM_NODE (element),
+			node,
+			NULL);
+
+		e_editor_selection_restore_caret_position (selection);
+	} else {
+		command = E_EDITOR_WIDGET_COMMAND_INDENT;
+		e_editor_widget_exec_command (editor_widget, command, NULL);
+	}
 
 	g_object_unref (editor_widget);
 
 	g_object_notify (G_OBJECT (selection), "indented");
+}
+
+static gboolean
+is_caret_position_node (WebKitDOMNode *node)
+{
+	return element_has_id (WEBKIT_DOM_ELEMENT (node), "-x-evo-caret-position");
 }
 
 /**
@@ -1743,8 +1797,148 @@ e_editor_selection_unindent (EEditorSelection *selection)
 	editor_widget = e_editor_selection_ref_editor_widget (selection);
 	g_return_if_fail (editor_widget != NULL);
 
-	command = E_EDITOR_WIDGET_COMMAND_OUTDENT;
-	e_editor_widget_exec_command (editor_widget, command, NULL);
+	if (g_strcmp0 (e_editor_selection_get_string (selection), "") == 0) {
+		WebKitDOMDocument *document;
+		WebKitDOMElement *element;
+		WebKitDOMElement *prev_blockquote = NULL;
+		WebKitDOMElement *next_blockquote = NULL;
+		WebKitDOMNode *node;
+		WebKitDOMNode *clone;
+		WebKitDOMNode *node_clone;
+		WebKitDOMNode *caret_node;
+		WebKitDOMRange *range;
+		gboolean before_node = TRUE;
+		gboolean reinsert_caret_position = FALSE;
+
+		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (editor_widget));
+
+		e_editor_selection_save_caret_position (selection);
+
+		range = editor_selection_get_current_range (selection);
+		if (!range) {
+			g_object_unref (editor_widget);
+			return;
+		}
+
+		node = webkit_dom_range_get_end_container (range, NULL);
+		if (!WEBKIT_DOM_IS_ELEMENT (node))
+			node = WEBKIT_DOM_NODE (webkit_dom_node_get_parent_element (node));
+
+		element = webkit_dom_node_get_parent_element (node);
+
+		if (!element || !element_has_tag (element, "blockquote")) {
+			return;
+		}
+
+		clone = WEBKIT_DOM_NODE (webkit_dom_node_clone_node (WEBKIT_DOM_NODE (element), TRUE));
+
+		/* Look if we have previous siblings, if so, we have to
+		 * create new blockquote that will include them */
+		if (webkit_dom_node_get_previous_sibling (node)) {
+			prev_blockquote = webkit_dom_document_create_element (document, "BLOCKQUOTE", NULL);
+			/* We don't want vertical space bellow and above blockquote inserted by
+			 * WebKit's User Agent Stylesheet. We have to override it through style attribute. */
+			element_add_class (prev_blockquote, "-x-evo-indented");
+			webkit_dom_element_set_attribute (
+				prev_blockquote,
+				"style",
+				"-webkit-margin-before: 0em; -webkit-margin-after: 0em;",
+				NULL);
+		}
+
+		/* Look if we have next siblings, if so, we have to
+		 * create new blockquote that will include them */
+		if (webkit_dom_node_get_next_sibling (node)) {
+			next_blockquote = webkit_dom_document_create_element (document, "BLOCKQUOTE", NULL);
+			/* We don't want vertical space bellow and above blockquote inserted by
+			 * WebKit's User Agent Stylesheet. We have to override it through style attribute. */
+			element_add_class (next_blockquote, "-x-evo-indented");
+			webkit_dom_element_set_attribute (
+				next_blockquote,
+				"style",
+				"-webkit-margin-before: 0em; -webkit-margin-after: 0em;",
+				NULL);
+		}
+
+		/* Copy nodes that are before / after the element that we want to unindent */
+		while (webkit_dom_node_has_child_nodes (clone)) {
+			WebKitDOMNode *child;
+
+			child = webkit_dom_node_get_first_child (clone);
+
+			if (is_caret_position_node (child)) {
+				reinsert_caret_position = TRUE;
+				caret_node = webkit_dom_node_clone_node (child, TRUE);
+				webkit_dom_node_remove_child (clone, child, NULL);
+				continue;
+			}
+
+			if (webkit_dom_node_is_equal_node (child, node)) {
+				before_node = FALSE;
+				node_clone = webkit_dom_node_clone_node (child, TRUE);
+				webkit_dom_node_remove_child (clone, child, NULL);
+				continue;
+			}
+
+			webkit_dom_node_append_child (
+				before_node ?
+					WEBKIT_DOM_NODE (prev_blockquote) :
+					WEBKIT_DOM_NODE (next_blockquote),
+				child,
+				NULL);
+
+			webkit_dom_node_remove_child (clone, child, NULL);
+		}
+
+		/* Insert blockqoute with nodes that were before the element that we want to unindent */
+		if (prev_blockquote) {
+			if (webkit_dom_node_has_child_nodes (WEBKIT_DOM_NODE (prev_blockquote))) {
+				webkit_dom_node_insert_before (
+					webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
+					WEBKIT_DOM_NODE (prev_blockquote),
+					WEBKIT_DOM_NODE (element),
+					NULL);
+			}
+		}
+
+		/* Reinsert the caret position */
+		if (reinsert_caret_position) {
+			webkit_dom_node_insert_before (
+				node_clone,
+				caret_node,
+				webkit_dom_node_get_first_child (node_clone),
+				NULL);
+		}
+
+		/* Insert the unindented element */
+		webkit_dom_node_insert_before (
+			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
+			node_clone,
+			WEBKIT_DOM_NODE (element),
+			NULL);
+
+		/* Insert blockqoute with nodes that were after the element that we want to unindent */
+		if (next_blockquote) {
+			if (webkit_dom_node_has_child_nodes (WEBKIT_DOM_NODE (prev_blockquote))) {
+				webkit_dom_node_insert_before (
+					webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
+					WEBKIT_DOM_NODE (next_blockquote),
+					WEBKIT_DOM_NODE (element),
+					NULL);
+			}
+		}
+
+		/* Remove old blockquote */
+		webkit_dom_node_remove_child (
+			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
+			WEBKIT_DOM_NODE (element),
+			NULL);
+
+		e_editor_selection_restore_caret_position (selection);
+	} else {
+		command = E_EDITOR_WIDGET_COMMAND_OUTDENT;
+		e_editor_widget_exec_command (editor_widget, command, NULL);
+	}
 
 	g_object_unref (editor_widget);
 
@@ -2782,6 +2976,11 @@ e_editor_selection_restore_caret_position (EEditorSelection *selection)
 	element = webkit_dom_document_get_element_by_id (document, "-x-evo-caret-position");
 
 	if (element) {
+		WebKitDOMDOMWindow *window;
+		WebKitDOMDOMSelection *window_selection;
+
+		window = webkit_dom_document_get_default_view (document);
+		window_selection = webkit_dom_dom_window_get_selection (window);
 		/* If parent is BODY element, we try to restore the position on the 
 		 * element that is next to us */
 		if (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (
@@ -2800,6 +2999,12 @@ e_editor_selection_restore_caret_position (EEditorSelection *selection)
 
 				move_caret_into_element (document, WEBKIT_DOM_ELEMENT (next_sibling));
 
+				/* FIXME If caret position is restored and afterwards the position is saved
+				 * it is not on the place where it supposed to be (it is in the beginning of
+				 * parent's element. It can be avoided by moving with the caret. */
+				webkit_dom_dom_selection_modify (window_selection, "move", "right", "character");
+				webkit_dom_dom_selection_modify (window_selection, "move", "left", "character");
+
 				return;
 			}
 		}
@@ -2809,6 +3014,12 @@ e_editor_selection_restore_caret_position (EEditorSelection *selection)
 			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
 			WEBKIT_DOM_NODE (element),
 			NULL);
+
+		/* FIXME If caret position is restored and afterwards the position is saved
+		 * it is not on the place where it supposed to be (it is in the beginning of
+		 * parent's element. It can be avoided by moving with the caret. */
+		webkit_dom_dom_selection_modify (window_selection, "move", "right", "character");
+		webkit_dom_dom_selection_modify (window_selection, "move", "left", "character");
 	}
 }
 
@@ -2888,12 +3099,6 @@ find_where_to_break_line (WebKitDOMNode *node,
 	g_free (text_start);
 
 	return ret_val;
-}
-
-static gboolean
-is_caret_position_node (WebKitDOMNode *node)
-{
-	return element_has_id (WEBKIT_DOM_ELEMENT (node), "-x-evo-caret-position");
 }
 
 static void

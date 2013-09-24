@@ -1967,6 +1967,123 @@ e_editor_widget_get_html_mode (EEditorWidget *widget)
 }
 
 static void
+process_blockquote (WebKitDOMElement *blockquote)
+{
+	WebKitDOMNodeList *list;
+	int jj, length;
+
+	/* First replace wrappers */
+	list = webkit_dom_element_query_selector_all (
+		blockquote,
+		"span.-x-evo-temp-text-wrapper",
+		NULL);
+
+	length = webkit_dom_node_list_get_length (list);
+
+	for (jj = 0; jj < length; jj++) {
+		WebKitDOMNode *quoted_node;
+		gchar *text_content;
+
+		quoted_node = webkit_dom_node_list_item (list, jj);
+		text_content = webkit_dom_node_get_text_content (quoted_node);
+
+		webkit_dom_html_element_set_outer_html (
+			WEBKIT_DOM_HTML_ELEMENT (quoted_node),
+			text_content,
+			NULL);
+		g_free (text_content);
+	}
+
+	/* Afterwards replace quote nodes with symbols */
+	list = webkit_dom_element_query_selector_all (
+		blockquote,
+		"span.-x-evo-quoted",
+		NULL);
+
+	length = webkit_dom_node_list_get_length (list);
+
+	for (jj = 0; jj < length; jj++) {
+		WebKitDOMNode *quoted_node;
+		gchar *text_content;
+
+		quoted_node = webkit_dom_node_list_item (list, jj);
+		text_content = webkit_dom_node_get_text_content (quoted_node);
+
+		webkit_dom_html_element_set_outer_html (
+			WEBKIT_DOM_HTML_ELEMENT (quoted_node),
+			text_content,
+			NULL);
+		g_free (text_content);
+	}
+
+	if (element_has_class (blockquote, "-x-evo-indented")) {
+		WebKitDOMElement *parent;
+		WebKitDOMNode *child;
+		gint level = 1;
+		gchar *spaces;
+
+		webkit_dom_element_remove_attribute (blockquote, "style");
+		element_remove_class (blockquote, "-x-evo-indented");
+
+		parent = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (blockquote));
+		/* Count level of indentation */
+		while (!WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent)) {
+			if (element_has_class (parent, "-x-evo-indented"))
+				level++;
+
+			parent = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (parent));
+		}
+
+		spaces = g_strnfill (4 * level, ' ');
+
+		child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (blockquote));
+		while (child) {
+			/* If next sibling is indented blockqoute skip it,
+			 * it will be processed afterwards */
+			if (WEBKIT_DOM_IS_ELEMENT (child) &&
+			    element_has_class (WEBKIT_DOM_ELEMENT (child), "-x-evo-indented"))
+				child = webkit_dom_node_get_next_sibling (child);
+
+			if (WEBKIT_DOM_IS_TEXT (child)) {
+				gchar *text_content;
+				gchar *indented_text;
+
+				text_content = webkit_dom_text_get_whole_text (WEBKIT_DOM_TEXT (child));
+
+				/* FIXME Fix properly in wrapping => do not include space on the beginning of the line */
+				if (g_str_has_prefix (text_content, " "))
+					indented_text = g_strconcat (spaces + 1, text_content, NULL);
+				else
+					indented_text = g_strconcat (spaces, text_content, NULL);
+
+				webkit_dom_text_replace_whole_text (
+					WEBKIT_DOM_TEXT (child),
+					indented_text,
+					NULL);
+
+				g_free (text_content);
+				g_free (indented_text);
+			}
+
+			/* Move to next node */
+			if (webkit_dom_node_has_child_nodes (child))
+				child = webkit_dom_node_get_first_child (child);
+			else if (webkit_dom_node_get_next_sibling (child))
+				child = webkit_dom_node_get_next_sibling (child);
+			else {
+				if (webkit_dom_node_is_equal_node (child, child))
+					break;
+
+				child = webkit_dom_node_get_parent_node (child);
+				if (child)
+					child = webkit_dom_node_get_next_sibling (child);
+			}
+		}
+		g_free (spaces);
+	}
+}
+
+static void
 process_elements (WebKitDOMNode *node,
                   GString *buffer,
 		  gboolean process_nodes)
@@ -2054,58 +2171,22 @@ process_elements (WebKitDOMNode *node,
 					g_string_append (buffer, content);
 					g_free (content);
 					skip_node = TRUE;
-				} else {
-					WebKitDOMNodeList *list;
-					int jj, length;
-
-					/* First replace wrappers */
-					list = webkit_dom_element_query_selector_all (
-							WEBKIT_DOM_ELEMENT (child),
-							"span.-x-evo-temp-text-wrapper",
-							NULL);
-
-					length = webkit_dom_node_list_get_length (list);
-
-					for (jj = 0; jj < length; jj++) {
-						WebKitDOMNode *quoted_node;
-						gchar *text_content;
-
-						quoted_node = webkit_dom_node_list_item (list, jj);
-						text_content = webkit_dom_node_get_text_content (quoted_node);
-
-						webkit_dom_html_element_set_outer_html (
-							WEBKIT_DOM_HTML_ELEMENT (quoted_node),
-							text_content,
-							NULL);
-						g_free (text_content);
-					}
-
-					/* Afterwards replace quote nodes with symbols */
-					list = webkit_dom_element_query_selector_all (
-							WEBKIT_DOM_ELEMENT (child),
-							"span.-x-evo-quoted",
-							NULL);
-
-					length = webkit_dom_node_list_get_length (list);
-
-					for (jj = 0; jj < length; jj++) {
-						WebKitDOMNode *quoted_node;
-						gchar *text_content;
-
-						quoted_node = webkit_dom_node_list_item (list, jj);
-						text_content = webkit_dom_node_get_text_content (quoted_node);
-
-						webkit_dom_html_element_set_outer_html (
-							WEBKIT_DOM_HTML_ELEMENT (quoted_node),
-							text_content,
-							NULL);
-						g_free (text_content);
-					}
-				}
+				} else
+					process_blockquote (WEBKIT_DOM_ELEMENT (child));
 			}
 
 			/* Leave wrapped paragraphs as they are */
 			if (element_has_class (WEBKIT_DOM_ELEMENT (child), "-x-evo-paragraph")) {
+				if (!process_nodes) {
+					content = webkit_dom_html_element_get_outer_html (WEBKIT_DOM_HTML_ELEMENT (child));
+					g_string_append (buffer, content);
+					g_free (content);
+					skip_node = TRUE;
+				}
+			}
+
+			/* Leave PRE elements untouched */
+			if (WEBKIT_DOM_IS_HTML_PRE_ELEMENT (child)) {
 				if (!process_nodes) {
 					content = webkit_dom_html_element_get_outer_html (WEBKIT_DOM_HTML_ELEMENT (child));
 					g_string_append (buffer, content);
@@ -2131,6 +2212,9 @@ process_elements (WebKitDOMNode *node,
 		 * signature we are not adding the BR element */
 		if (!next_sibling)
 			add_br = FALSE;
+
+		if (element_has_class (webkit_dom_node_get_parent_element (node), "-x-evo-indented"))
+			add_br = TRUE;
 
 		if (next_sibling && WEBKIT_DOM_IS_HTML_DIV_ELEMENT (next_sibling)) {
 			if (webkit_dom_element_query_selector (WEBKIT_DOM_ELEMENT (next_sibling), "span.-x-evolution-signature", NULL))
