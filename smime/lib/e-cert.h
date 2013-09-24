@@ -26,7 +26,6 @@
 
 #include <glib-object.h>
 #include <cert.h>
-#include "e-asn1-object.h"
 
 #define E_TYPE_CERT            (e_cert_get_type ())
 #define E_CERT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_CERT, ECert))
@@ -97,7 +96,6 @@ const gchar *          e_cert_get_md5_fingerprint  (ECert *cert);
 
 GList *               e_cert_get_issuers_chain     (ECert *cert);
 ECert *              e_cert_get_ca_cert     (ECert *ecert);
-EASN1Object *         e_cert_get_asn1_struct (ECert *cert);
 
 gboolean             e_cert_mark_for_deletion (ECert *cert);
 

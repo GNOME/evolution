@@ -86,8 +86,6 @@ struct _ECertPrivate {
 	gchar *sha1_fingerprint;
 	gchar *md5_fingerprint;
 
-	EASN1Object *asn1;
-
 	gboolean delete;
 };
 
@@ -127,9 +125,6 @@ e_cert_finalize (GObject *object)
 		PORT_Free (priv->sha1_fingerprint);
 	if (priv->md5_fingerprint)
 		PORT_Free (priv->md5_fingerprint);
-
-	if (priv->asn1)
-		g_object_unref (priv->asn1);
 
 	if (priv->delete) {
 		printf ("attempting to delete cert marked for deletion\n");
@@ -481,18 +476,6 @@ e_cert_get_ca_cert (ECert *ecert)
 		return g_object_ref (ecert);
 	else
 		return e_cert_new (cert);
-}
-
-EASN1Object *
-e_cert_get_asn1_struct (ECert *cert)
-{
-	if (!cert->priv->asn1)
-		cert->priv->asn1 = e_asn1_object_new_from_cert (cert->priv->cert);
-
-	if (cert->priv->asn1)
-		return g_object_ref (cert->priv->asn1);
-
-	return NULL;
 }
 
 gboolean
