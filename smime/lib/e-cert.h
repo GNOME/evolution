@@ -71,7 +71,6 @@ ECert *               e_cert_new_from_der (gchar *data, guint32 len);
 CERTCertificate *     e_cert_get_internal_cert (ECert *cert);
 
 gboolean             e_cert_get_raw_der       (ECert *cert, gchar **data, guint32 *len);
-const gchar *          e_cert_get_window_title  (ECert *cert);
 const gchar *          e_cert_get_nickname      (ECert *cert);
 const gchar *          e_cert_get_email         (ECert *cert);
 const gchar *          e_cert_get_org           (ECert *cert);

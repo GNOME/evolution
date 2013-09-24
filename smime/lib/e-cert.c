@@ -325,17 +325,6 @@ e_cert_get_raw_der (ECert *cert,
 }
 
 const gchar *
-e_cert_get_window_title (ECert *cert)
-{
-	if (cert->priv->cert->nickname)
-		return cert->priv->cert->nickname;
-	else if (cert->priv->cn)
-		return cert->priv->cn;
-	else
-		return cert->priv->cert->subjectName;
-}
-
-const gchar *
 e_cert_get_nickname (ECert *cert)
 {
 	return cert->priv->cert->nickname;
