@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: as\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2013-09-07 23:08+0000\n"
-"PO-Revision-Date: 2013-09-20 13:32+0530\n"
+"POT-Creation-Date: 2013-09-22 11:13+0000\n"
+"PO-Revision-Date: 2013-09-24 13:16+0530\n"
 "Last-Translator: Nilamdyuti Goswami <ngoswami@redhat.com>\n"
 "Language-Team: Assamese <kde-i18n-doc@kde.org>\n"
 "Language: as_IN\n"
@@ -1231,7 +1231,7 @@ msgid "Send a mail message to this address"
 msgstr "এই ঠিকনালে এটা মেইল বাৰ্তা পঠাওক"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:291
-#: ../e-util/e-web-view-gtkhtml.c:970 ../e-util/e-web-view.c:934
+#: ../e-util/e-web-view-gtkhtml.c:970 ../e-util/e-web-view.c:990
 #, c-format
 msgid "Click to mail %s"
 msgstr "%s কে মেইল কৰিবলৈ হলে ক্লিক কৰক"
@@ -2125,73 +2125,61 @@ msgstr "মেমোৰ তালিকা, অফ-লাইন ব্যবহ�
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:87
-#| msgid "Failed to load the calendar '%s' (%s)"
 msgid "Failed to copy an event into the calendar '{0}'"
 msgstr "কেলেন্ডাৰ '{0}' লৈ এটা ঘটনা কপি কৰিবলৈ ব্যৰ্থ"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:89
-#| msgid "Unable to find this task in any task list"
 msgid "Failed to copy a task into the task list '{0}'"
 msgstr "কাৰ্য্য তালিকা '{0}' লৈ এটা কাৰ্য্য কপি কৰিবলৈ ব্যৰ্থ"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:91
-#| msgid "Delete remote memo list '{0}'?"
 msgid "Failed to copy a memo into the memo list '{0}'"
 msgstr "মেমো তালিকা '{0}' ত এটা মেমো কপি কৰিবলৈ ব্যৰ্থ"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:93
-#| msgid "Found the appointment in the calendar '%s'"
 msgid "Failed to move an event into the calendar '{0}'"
 msgstr "কেলেন্ডাৰ '{0}' লৈ এটা ঘটনা স্থানান্তৰ কৰিবলৈ ব্যৰ্থ"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:95
-#| msgid "Delete remote task list '{0}'?"
 msgid "Failed to move a task into the task list '{0}'"
 msgstr "কাৰ্য্য তালিকা '{0}' ত এটা কাৰ্য্য স্থানান্তৰ কৰিবলৈ ব্যৰ্থ"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:97
-#| msgid "Delete remote memo list '{0}'?"
 msgid "Failed to move a memo into the memo list '{0}'"
 msgstr "মেমো তালিকা '{0}' ত এটা মেমো স্থানান্তৰ কৰিবলৈ ব্যৰ্থ"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:99
-#| msgid "Found the appointment in the calendar '%s'"
 msgid "Copying an event into the calendar '{0}'"
 msgstr "কেলেন্ডাৰ '{0}' লৈ এটা ঘটনা কপি কৰা হৈছে"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:101
-#| msgid "Error loading task list '{0}'"
 msgid "Copying a task into the task list '{0}'"
 msgstr "কাৰ্য্য তালিকা '{0}' লৈ এটা কাৰ্য্য কপি কৰা হৈছে"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:103
-#| msgid "Delete remote memo list '{0}'?"
 msgid "Copying a memo into the memo list '{0}'"
 msgstr "মেমো তালিকা '{0}' ত এটা মেমো কপি কৰা হৈছে"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:105
-#| msgid "Found the appointment in the calendar '%s'"
 msgid "Moving an event into the calendar '{0}'"
 msgstr "কেলেন্ডাৰ '{0}' লৈ এটা ঘটনা স্থানান্তৰ কৰা হৈছে"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:107
-#| msgid "Error loading task list '{0}'"
 msgid "Moving a task into the task list '{0}'"
 msgstr "কাৰ্য্য তালিকা '{0}' লৈ এটা কাৰ্য্য স্থানান্তৰ কৰা হৈছে"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:109
-#| msgid "Delete remote memo list '{0}'?"
 msgid "Moving a memo into the memo list '{0}'"
 msgstr "এটা মেমোক মেমো তালিকা '{0}' লৈ স্থানান্তৰ কৰা হৈছে"
 
@@ -2569,14 +2557,14 @@ msgstr "বৰ্তমান উইন্ডো বন্ধ কৰক"
 #: ../calendar/gui/dialogs/comp-editor.c:1229 ../e-util/e-focus-tracker.c:121
 #: ../e-util/e-focus-tracker.c:558 ../e-util/e-web-view-gtkhtml.c:455
 #: ../e-util/e-web-view-gtkhtml.c:1296 ../e-util/e-web-view.c:341
-#: ../e-util/e-web-view.c:1249 ../mail/e-mail-browser.c:136
+#: ../e-util/e-web-view.c:1305 ../mail/e-mail-browser.c:136
 #: ../shell/e-shell-window-actions.c:888
 msgid "Copy the selection"
 msgstr "নিৰ্বাচিত বস্তু কপি কৰক"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1236 ../e-util/e-focus-tracker.c:114
 #: ../e-util/e-focus-tracker.c:553 ../e-util/e-web-view-gtkhtml.c:1290
-#: ../e-util/e-web-view.c:1243 ../mail/e-mail-browser.c:143
+#: ../e-util/e-web-view.c:1299 ../mail/e-mail-browser.c:143
 #: ../shell/e-shell-window-actions.c:895
 msgid "Cut the selection"
 msgstr "নিৰ্বাচিত বস্তু কাট কৰক"
@@ -2592,7 +2580,7 @@ msgstr "সহায় দৰ্শন কৰক"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1257 ../e-util/e-focus-tracker.c:128
 #: ../e-util/e-focus-tracker.c:563 ../e-util/e-web-view-gtkhtml.c:1302
-#: ../e-util/e-web-view.c:1255 ../mail/e-mail-browser.c:150
+#: ../e-util/e-web-view.c:1311 ../mail/e-mail-browser.c:150
 #: ../shell/e-shell-window-actions.c:923
 msgid "Paste the clipboard"
 msgstr "ক্লিপবোৰ্ডেৰ বস্তু পেস্ট কৰক"
@@ -3176,8 +3164,8 @@ msgid "Memo cannot be fully edited, because you are not the organizer"
 msgstr "মেমোক সম্পূৰ্ণভাৱে সম্পাদনা কৰিব নোৱাৰি, কাৰণ আপুনি সংঘটক নহয়"
 
 #: ../calendar/gui/dialogs/memo-page.c:1160
-#: ../em-format/e-mail-formatter-utils.c:205
-#: ../em-format/e-mail-formatter-utils.c:229
+#: ../em-format/e-mail-formatter-utils.c:203
+#: ../em-format/e-mail-formatter-utils.c:220
 #: ../em-format/e-mail-part-headers.c:49 ../mail/em-filter-i18n.h:78
 #: ../mail/message-list.etspec.h:9 ../modules/mail/em-mailer-prefs.c:66
 msgid "To"
@@ -3540,7 +3528,7 @@ msgstr "সমাপ্তিৰ তাৰিখ সঠিক নহয়"
 
 #. To Translators: This is task priority
 #: ../calendar/gui/dialogs/task-page.ui.h:8
-#: ../calendar/gui/e-cal-component-preview.c:345
+#: ../calendar/gui/e-cal-component-preview.c:337
 #: ../calendar/gui/e-task-table.c:573 ../calendar/gui/tasktypes.xml.h:19
 #: ../e-util/e-send-options.ui.h:2 ../mail/message-list.c:320
 msgid "High"
@@ -3548,7 +3536,7 @@ msgstr "উঁচু"
 
 #. To Translators: This is task priority
 #: ../calendar/gui/dialogs/task-page.ui.h:10
-#: ../calendar/gui/e-cal-component-preview.c:347
+#: ../calendar/gui/e-cal-component-preview.c:339
 #: ../calendar/gui/e-cal-model.c:1666 ../calendar/gui/e-task-table.c:574
 #: ../calendar/gui/tasktypes.xml.h:20 ../e-util/e-send-options.ui.h:5
 #: ../mail/message-list.c:319
@@ -3557,7 +3545,7 @@ msgstr "স্বাভাবিক"
 
 #. To Translators: This is task priority
 #: ../calendar/gui/dialogs/task-page.ui.h:12
-#: ../calendar/gui/e-cal-component-preview.c:349
+#: ../calendar/gui/e-cal-component-preview.c:341
 #: ../calendar/gui/e-task-table.c:575 ../calendar/gui/tasktypes.xml.h:21
 #: ../e-util/e-send-options.ui.h:4 ../mail/message-list.c:318
 msgid "Low"
@@ -3572,7 +3560,7 @@ msgstr "অবিৱৰিত"
 
 #. To Translators: This is task status
 #: ../calendar/gui/dialogs/task-page.ui.h:16
-#: ../calendar/gui/e-cal-component-preview.c:330
+#: ../calendar/gui/e-cal-component-preview.c:322
 #: ../calendar/gui/e-cal-model-tasks.c:311
 #: ../calendar/gui/e-cal-model-tasks.c:553 ../calendar/gui/e-task-table.c:214
 #: ../calendar/gui/e-task-table.c:229 ../calendar/gui/e-task-table.c:656
@@ -3582,7 +3570,7 @@ msgstr "আৰম্ভ হোৱা নাই"
 
 #. To Translators: This is task status
 #: ../calendar/gui/dialogs/task-page.ui.h:18
-#: ../calendar/gui/e-cal-component-preview.c:320
+#: ../calendar/gui/e-cal-component-preview.c:312
 #: ../calendar/gui/e-cal-model-tasks.c:313
 #: ../calendar/gui/e-cal-model-tasks.c:555
 #: ../calendar/gui/e-cal-model-tasks.c:633 ../calendar/gui/e-task-table.c:216
@@ -3593,7 +3581,7 @@ msgstr "চলি আছে"
 
 #. To Translators: This is task status
 #: ../calendar/gui/dialogs/task-page.ui.h:20
-#: ../calendar/gui/e-cal-component-preview.c:323
+#: ../calendar/gui/e-cal-component-preview.c:315
 #: ../calendar/gui/e-cal-model-tasks.c:315
 #: ../calendar/gui/e-cal-model-tasks.c:557
 #: ../calendar/gui/e-meeting-store.c:205 ../calendar/gui/e-meeting-store.c:228
@@ -3606,7 +3594,7 @@ msgstr "সম্পন্ন"
 
 #. To Translators: This is task status
 #: ../calendar/gui/dialogs/task-page.ui.h:22
-#: ../calendar/gui/e-cal-component-preview.c:326
+#: ../calendar/gui/e-cal-component-preview.c:318
 #: ../calendar/gui/e-cal-model-tasks.c:317
 #: ../calendar/gui/e-cal-model-tasks.c:559 ../calendar/gui/e-task-table.c:220
 #: ../calendar/gui/e-task-table.c:235 ../calendar/gui/e-task-table.c:659
@@ -3624,27 +3612,22 @@ msgid "Time zone:"
 msgstr "সময় অঞ্চল:"
 
 #: ../calendar/gui/dialogs/task-page.ui.h:32
-#| msgid "Status:"
 msgid "_Status:"
 msgstr "অবস্থা (_S):"
 
 #: ../calendar/gui/dialogs/task-page.ui.h:33
-#| msgid "_Date completed:"
 msgid "Date _completed:"
 msgstr "সম্পূৰ্ণ কৰাৰ তাৰিখ (_c):"
 
 #: ../calendar/gui/dialogs/task-page.ui.h:34
-#| msgid "P_ercent complete:"
 msgid "_Percent complete:"
 msgstr "সম্পূৰ্ণ শতাংশ (_P):"
 
 #: ../calendar/gui/dialogs/task-page.ui.h:35
-#| msgid "Priority:"
 msgid "Priorit_y:"
 msgstr "প্ৰাথমিকতা (_y):"
 
 #: ../calendar/gui/dialogs/task-page.ui.h:36
-#| msgid "_Classification:"
 msgid "C_lassification:"
 msgstr "শ্ৰেণীবিভাজন (_l):"
 
@@ -3887,47 +3870,47 @@ msgstr "মাহ অনুসৰি কেলেন্ডাৰ প্ৰদৰ
 msgid "calendar view for one or more weeks"
 msgstr "একাধিক সপ্তাহ অনুসৰি কেলেন্ডাৰ প্ৰদৰ্শন"
 
-#: ../calendar/gui/e-cal-component-preview.c:231 ../e-util/e-filter-rule.c:750
+#: ../calendar/gui/e-cal-component-preview.c:223 ../e-util/e-filter-rule.c:750
 #: ../mail/e-mail-config-page.c:126
 msgid "Untitled"
 msgstr "শীৰ্ষকহীন"
 
-#: ../calendar/gui/e-cal-component-preview.c:239
+#: ../calendar/gui/e-cal-component-preview.c:231
 msgid "Categories:"
 msgstr "বিভাগসমূহ:"
 
-#: ../calendar/gui/e-cal-component-preview.c:271
+#: ../calendar/gui/e-cal-component-preview.c:263
 msgid "Summary:"
 msgstr "সাৰাংশ:"
 
-#: ../calendar/gui/e-cal-component-preview.c:280
+#: ../calendar/gui/e-cal-component-preview.c:272
 msgid "Start Date:"
 msgstr "আৰম্ভৰ তাৰিখ:"
 
-#: ../calendar/gui/e-cal-component-preview.c:292
+#: ../calendar/gui/e-cal-component-preview.c:284
 msgid "End Date:"
 msgstr "শেষৰ তাৰিখ:"
 
-#: ../calendar/gui/e-cal-component-preview.c:304
+#: ../calendar/gui/e-cal-component-preview.c:296
 msgid "Due Date:"
 msgstr "দেয় তাৰিখ:"
 
-#: ../calendar/gui/e-cal-component-preview.c:316
+#: ../calendar/gui/e-cal-component-preview.c:308
 #: ../modules/itip-formatter/itip-view.c:1492
 #: ../modules/itip-formatter/itip-view.c:1609
 msgid "Status:"
 msgstr "অবস্থা:"
 
-#: ../calendar/gui/e-cal-component-preview.c:343
+#: ../calendar/gui/e-cal-component-preview.c:335
 msgid "Priority:"
 msgstr "অগ্ৰগণ্য:"
 
-#: ../calendar/gui/e-cal-component-preview.c:368
+#: ../calendar/gui/e-cal-component-preview.c:360
 #: ../mail/e-mail-config-service-page.c:672
 msgid "Description:"
 msgstr "বিবৰণ:"
 
-#: ../calendar/gui/e-cal-component-preview.c:399
+#: ../calendar/gui/e-cal-component-preview.c:391
 msgid "Web Page:"
 msgstr "ৱেব পৃষ্ঠা:"
 
@@ -7070,8 +7053,9 @@ msgid "Manage your email, contacts and schedule"
 msgstr "আপোনাৰ ই-মেইল একাওন্টসমূহকে ইয়াত বিন্যাস কৰক"
 
 #: ../data/evolution.desktop.in.in.h:5
-msgid "mail;calendar;contact;addressbook;task;"
-msgstr "মেইল;কেলেন্ডাৰ;পৰিচয়;ঠিকনাবহী;কাৰ্য্য;"
+#| msgid "mail;calendar;contact;addressbook;task;"
+msgid "email;calendar;contact;addressbook;task;"
+msgstr "ইমেইল;কেলেন্ডাৰ;পৰিচয়;ঠিকনাবহী;কাৰ্য্য;"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
 msgid "Enable address formatting"
@@ -8332,7 +8316,6 @@ msgid "Show all the headers when viewing a messages."
 msgstr "এটা বাৰ্তা দৰ্শন কৰোতে সকলো হেডাৰ দেখুৱাওক।"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:77
-#| msgid "Show all the headers when viewing a messages."
 msgid "List of headers to show when viewing a message."
 msgstr "এটা বাৰ্তা দৰ্শন কৰোতে দেখুৱাব লগিয়া হেডাৰসমূহৰ তালিকা।"
 
@@ -8345,8 +8328,8 @@ msgstr ""
 "প্ৰত্যকটো হেডাৰ এটা যোৰ হিচাপে প্ৰতিনিদ্ধিত্ব কৰা হয়: হেডাৰ নাম, আৰু এটা "
 "বুলিয়ান যি "
 "হেডাৰ সামৰ্থবান আছে নে দেখুৱায়। অসামৰ্থবান হেডাৰসমূহ এটা বাৰ্তা দৰ্শন কৰোতে "
-"দেখুৱা নহয়, "
-"কিন্তু তথাপিও পছন্দসমূহত তালিকাভুক্ত থাকে।"
+"দেখুৱা "
+"নহয়, কিন্তু তথাপিও পছন্দসমূহত তালিকাভুক্ত থাকে।"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:79
 msgid "Show photo of the sender"
@@ -8802,7 +8785,8 @@ msgid ""
 "or replying to the displayed message."
 msgstr ""
 "প্ৰদৰ্শিত বাৰ্তা ফৰৱাৰ্ড কৰোতে অথবা উত্তৰ দিওতে বাৰ্তা ব্ৰাউছাৰ উইন্ডো "
-"স্বচালিতভাৱে বন্ধ কৰাৰ নীতি।"
+"স্বচালিতভাৱে "
+"বন্ধ কৰাৰ নীতি।"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:157
 msgid "Empty Trash folders on exit"
@@ -9093,20 +9077,17 @@ msgstr ""
 "\"reply-style-name\" ব্যৱহাৰ কৰক।"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
-#| msgid "List of custom headers and whether they are enabled."
 msgid "(Deprecated) List of custom headers and whether they are enabled."
 msgstr "(স্খলিত) স্বনিৰ্বাচিত হেডাৰসমূহৰ তালিকা আৰু সিহত সামৰ্থবান আছে নে।"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
-#| msgid ""
-#| "This key was deprecated in version 3.10 and should no longer be used. Use "
-#| "\"forward-style-name\" instead."
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"show-headers\" instead."
 msgstr ""
-"এই কি' সংস্কৰণ 3.10 ত স্খলিত কৰা হৈছিল আৰু ব্যৱহাৰ হব নালাগে। ইয়াৰ পৰিবৰ্তে"
-"\"show-headers\" ব্যৱহাৰ কৰক।"
+"এই কি' সংস্কৰণ 3.10 ত স্খলিত কৰা হৈছিল আৰু ব্যৱহাৰ হব নালাগে। ইয়াৰ "
+"পৰিবৰ্তে\"show-"
+"headers\" ব্যৱহাৰ কৰক।"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:205
 msgid "(Deprecated) Load images for HTML messages over HTTP"
@@ -9121,21 +9102,15 @@ msgstr ""
 "\"image-loading-policy\" ব্যৱহাৰ কৰক।"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:207
-#| msgid ""
-#| "Asks whether to close the message window when the user forwards or "
-#| "replies to the message shown in the window"
 msgid ""
 "(Deprecated) Asks whether to close the message window when the user forwards "
 "or replies to the message shown in the window"
 msgstr ""
 "(স্খলিত) যেতিয়া ব্যৱহাৰকাৰীজনে উইন্ডোত দেখুৱা বাৰ্তাক ফৰৱাৰ্ড কৰে বা উত্তৰ "
-"দিয়ে তেতিয়া বাৰ্তা "
-"উইন্ডো বন্ধ কৰা হব নে সোধে"
+"দিয়ে "
+"তেতিয়া বাৰ্তা উইন্ডো বন্ধ কৰা হব নে সোধে"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:208
-#| msgid ""
-#| "This key was deprecated in version 3.10 and should no longer be used. Use "
-#| "\"image-loading-policy\" instead."
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"browser-close-on-reply-policy\" instead."
@@ -9567,11 +9542,11 @@ msgstr "সাধাৰণ ছবি"
 msgid "Display part as an image"
 msgstr "অংশক এটা ছবি হিচাপে প্ৰদৰ্শন কৰক"
 
-#: ../em-format/e-mail-formatter-message-rfc822.c:252
+#: ../em-format/e-mail-formatter-message-rfc822.c:246
 msgid "RFC822 message"
 msgstr "RFC822 বাৰ্তা"
 
-#: ../em-format/e-mail-formatter-message-rfc822.c:253
+#: ../em-format/e-mail-formatter-message-rfc822.c:247
 msgid "Format part as an RFC822 message"
 msgstr "অংশক এটা RFC822 বাৰ্তা হিচাপে বিন্যাস কৰক"
 
@@ -9621,38 +9596,38 @@ msgstr "বিষয়"
 
 #. pseudo-header
 #: ../em-format/e-mail-formatter-quote-headers.c:187
-#: ../em-format/e-mail-formatter-utils.c:359
+#: ../em-format/e-mail-formatter-utils.c:344
 #: ../modules/mail/em-mailer-prefs.c:1145
 msgid "Mailer"
 msgstr "মেইলাৰ"
 
 #: ../em-format/e-mail-formatter-quote-text-enriched.c:91
-#: ../em-format/e-mail-formatter-text-enriched.c:104
+#: ../em-format/e-mail-formatter-text-enriched.c:98
 msgid "Richtext"
 msgstr "Richtext"
 
 #: ../em-format/e-mail-formatter-quote-text-enriched.c:92
-#: ../em-format/e-mail-formatter-text-enriched.c:105
+#: ../em-format/e-mail-formatter-text-enriched.c:99
 msgid "Display part as enriched text"
 msgstr "অংশক ধনী লিখনীৰ এটা অংশ হিচাপে প্ৰদৰ্শন কৰক"
 
 #: ../em-format/e-mail-formatter-quote-text-html.c:90
-#: ../em-format/e-mail-formatter-text-html.c:353
+#: ../em-format/e-mail-formatter-text-html.c:351
 msgid "HTML"
 msgstr "HTML"
 
 #: ../em-format/e-mail-formatter-quote-text-html.c:91
-#: ../em-format/e-mail-formatter-text-html.c:354
+#: ../em-format/e-mail-formatter-text-html.c:352
 msgid "Format part as HTML"
 msgstr "অংশক HTML হিচাপে বিন্যাস কৰক"
 
 #: ../em-format/e-mail-formatter-quote-text-plain.c:115
-#: ../em-format/e-mail-formatter-text-plain.c:194
+#: ../em-format/e-mail-formatter-text-plain.c:185
 msgid "Plain Text"
 msgstr "প্লেইন টেক্সট"
 
 #: ../em-format/e-mail-formatter-quote-text-plain.c:116
-#: ../em-format/e-mail-formatter-text-plain.c:195
+#: ../em-format/e-mail-formatter-text-plain.c:186
 msgid "Format part as plain text"
 msgstr "অংশক প্লেইন টেক্সট হিচাপে বিন্যাস কৰক"
 
@@ -9779,22 +9754,22 @@ msgstr "প্ৰমাণপত্ৰ প্ৰত্যক্ষ কৰক (_V
 msgid "This certificate is not viewable"
 msgstr "প্ৰমাণপত্ৰ প্ৰদৰ্শনযোগ্য নহয়"
 
-#: ../em-format/e-mail-formatter-source.c:130
+#: ../em-format/e-mail-formatter-source.c:115
 msgid "Source"
 msgstr "উৎস"
 
-#: ../em-format/e-mail-formatter-source.c:131
+#: ../em-format/e-mail-formatter-source.c:116
 msgid "Display source of a MIME part"
 msgstr "এটা MIME অংশৰ উৎস প্ৰদৰ্শন কৰক"
 
-#: ../em-format/e-mail-formatter-utils.c:207
-#: ../em-format/e-mail-formatter-utils.c:231
+#: ../em-format/e-mail-formatter-utils.c:204
+#: ../em-format/e-mail-formatter-utils.c:221
 #: ../em-format/e-mail-part-headers.c:50 ../modules/mail/em-mailer-prefs.c:67
 msgid "Cc"
 msgstr "কপি প্ৰাপক"
 
-#: ../em-format/e-mail-formatter-utils.c:209
-#: ../em-format/e-mail-formatter-utils.c:233
+#: ../em-format/e-mail-formatter-utils.c:205
+#: ../em-format/e-mail-formatter-utils.c:222
 #: ../em-format/e-mail-part-headers.c:51 ../modules/mail/em-mailer-prefs.c:68
 msgid "Bcc"
 msgstr "অপ্ৰকাশিত কপি প্ৰাপক"
@@ -10252,7 +10227,6 @@ msgstr "%s (%d%% সম্পন্ন)"
 
 #. Translators: Escape is a keyboard binding.
 #: ../e-util/e-alert-bar.c:121
-#| msgid "Close this message"
 msgid "Close this message (Escape)"
 msgstr "এই বাৰ্তা বন্ধ কৰা (Escape)"
 
@@ -11560,27 +11534,22 @@ msgid "click to add"
 msgstr "যোগ কৰিবলৈ টিপক"
 
 #: ../e-util/e-table-column-selector.c:266
-#| msgid "Move selected messages to another folder"
 msgid "Move selected column names to top"
 msgstr "নিৰ্বাচিত স্তম্ভ নামসমূহক ওপৰলৈ নিয়ক"
 
 #: ../e-util/e-table-column-selector.c:271
-#| msgid "Move selected contacts to another address book"
 msgid "Move selected column names up one row"
 msgstr "নিৰ্বাচিত স্তম্ভ নামসমূহক এটা শাৰী ওপৰলৈ নিয়ক"
 
 #: ../e-util/e-table-column-selector.c:276
-#| msgid "Move selected contacts to another address book"
 msgid "Move selected column names down one row"
 msgstr "নিৰ্বাচিত স্তম্ভ নামসমূহক এটা শাৰী তললৈ নিয়ক"
 
 #: ../e-util/e-table-column-selector.c:281
-#| msgid "Move selected messages to another folder"
 msgid "Move selected column names to bottom"
 msgstr "নিৰ্বাচিত স্তম্ভ নামসমূহক তললৈ নিয়ক"
 
 #: ../e-util/e-table-column-selector.c:286
-#| msgid "Select all visible memos"
 msgid "Select all column names"
 msgstr "সকলো স্তম্ভ নাম বাছক"
 
@@ -11605,7 +11574,6 @@ msgid "Show Fields"
 msgstr "ক্ষেত্ৰ দেখুৱাওক"
 
 #: ../e-util/e-table-config.c:562
-#| msgid "Choose a folder for saving sent messages."
 msgid "Choose the order of information to appear in the message list."
 msgstr "বাৰ্তা তালিকাত উপস্থিত হবলৈ তথ্যৰ ক্ৰম বাছক।"
 
@@ -11708,12 +11676,10 @@ msgid "UTC"
 msgstr "UTC"
 
 #: ../e-util/e-url-entry.c:109
-#| msgid "Click here to go to URL"
 msgid "Click here to open the URL"
 msgstr "URL খোলিবলৈ ইয়াত ক্লিক কৰক"
 
 #: ../e-util/e-url-entry.c:111
-#| msgid "Enter Passphrase"
 msgid "Enter a URL here"
 msgstr "ইয়াত এটা URL সুমুৱাওক"
 
@@ -11746,22 +11712,22 @@ msgid "Copy the image to the clipboard"
 msgstr "ছবিসমূহ ক্লিপবৰ্ডলৈ কপি কৰক"
 
 #: ../e-util/e-web-view-gtkhtml.c:465 ../e-util/e-web-view-gtkhtml.c:1308
-#: ../e-util/e-web-view.c:351 ../e-util/e-web-view.c:1261
+#: ../e-util/e-web-view.c:351 ../e-util/e-web-view.c:1317
 msgid "Select all text and images"
 msgstr "সকলো লিখনী আৰু ছবি বাছক"
 
 #: ../e-util/e-web-view-gtkhtml.c:972 ../e-util/e-web-view-gtkhtml.c:974
-#: ../e-util/e-web-view-gtkhtml.c:976 ../e-util/e-web-view.c:936
-#: ../e-util/e-web-view.c:938 ../e-util/e-web-view.c:940
+#: ../e-util/e-web-view-gtkhtml.c:976 ../e-util/e-web-view.c:992
+#: ../e-util/e-web-view.c:994 ../e-util/e-web-view.c:996
 #, c-format
 msgid "Click to call %s"
 msgstr "%sকে কল কৰিবলৈ হলে ক্লিক কৰক"
 
-#: ../e-util/e-web-view-gtkhtml.c:978 ../e-util/e-web-view.c:942
+#: ../e-util/e-web-view-gtkhtml.c:978 ../e-util/e-web-view.c:998
 msgid "Click to hide/unhide addresses"
 msgstr "ঠিকনা প্ৰদৰ্শন/আড়াল কৰাৰ উদ্দেশ্যে ক্লিক কৰক"
 
-#: ../e-util/e-web-view-gtkhtml.c:980 ../e-util/e-web-view.c:944
+#: ../e-util/e-web-view-gtkhtml.c:980 ../e-util/e-web-view.c:1000
 #, c-format
 msgid "Click to open %s"
 msgstr "%s খোলাৰ বাবে ক্লিক কৰক"
@@ -11774,18 +11740,16 @@ msgstr "ছবি সংৰক্ষণ কৰক (_I)..."
 msgid "Save the image to a file"
 msgstr "ছবিক এটা ফাইললে সংৰক্ষণ কৰক"
 
-#: ../e-util/e-web-view.c:2834
-#| msgid "Copy the image to the clipboard"
+#: ../e-util/e-web-view.c:2894
 msgid "Copying image to clipboard"
 msgstr "ছবিক ক্লিপবৰ্ডলৈ কপি কৰা হৈছে"
 
-#: ../e-util/e-web-view.c:3022
+#: ../e-util/e-web-view.c:3082
 msgid "Save Image"
 msgstr "ছবি সংৰক্ষণ কৰক"
 
-#: ../e-util/e-web-view.c:3058
+#: ../e-util/e-web-view.c:3118
 #, c-format
-#| msgid "Moving messages to '%s'"
 msgid "Saving image to '%s'"
 msgstr "ছবিক '%s' ত সংৰক্ষণ কৰা হৈছে"
 
@@ -11922,12 +11886,10 @@ msgid "Please provide an unique name to identify this signature."
 msgstr "এই স্বাক্ষৰেৰ বাবে এটা স্বতন্ত্ৰ নাম লিখক।"
 
 #: ../e-util/widgets.error.xml.h:6
-#| msgid "Copy the image to the clipboard"
 msgid "Unable to copy image to clipboard."
 msgstr "ছবিক ক্লিপবৰ্ডলৈ কপি কৰিবলৈ অক্ষম।"
 
 #: ../e-util/widgets.error.xml.h:7
-#| msgid "Unable to save {0}."
 msgid "Unable to save image."
 msgstr "ছবি সংৰক্ষণ কৰিবলৈ অক্ষম।"
 
@@ -11999,13 +11961,12 @@ msgid_plural "Saving %d messages"
 msgstr[0] "%d টি বাৰ্তা সংৰক্ষণ কৰা হৈছে"
 msgstr[1] "%d টি বাৰ্তা সংৰক্ষণ কৰা হৈছে"
 
-#: ../libemail-engine/e-mail-folder-utils.c:1926 ../mail/em-folder-utils.c:638
+#: ../libemail-engine/e-mail-folder-utils.c:1926
 #, c-format
 msgid "Invalid folder URI '%s'"
 msgstr "অবৈধ ফোল্ডাৰ URl '%s'"
 
 #: ../libemail-engine/e-mail-session-utils.c:540
-#| msgid "No HTML stream available"
 msgid "No mail transport service available"
 msgstr "কোনো মেইল পৰিবহন সেৱা উপলব্ধ নহয়"
 
@@ -12754,27 +12715,22 @@ msgid "Color"
 msgstr "ৰঙ"
 
 #: ../mail/e-mail-print-config-headers.c:167
-#| msgid "Move selected messages to another folder"
 msgid "Move selected headers to top"
 msgstr "নিৰ্বাচিত হেডাৰসমূহ ওপৰলৈ নিয়ক"
 
 #: ../mail/e-mail-print-config-headers.c:172
-#| msgid "Move selected messages to another folder"
 msgid "Move selected headers up one row"
 msgstr "নিৰ্বাচিত হেডাৰসমূহ এক শাৰী ওপৰত স্থানান্তৰ কৰক"
 
 #: ../mail/e-mail-print-config-headers.c:177
-#| msgid "Move selected messages to another folder"
 msgid "Move selected headers down one row"
 msgstr "নিৰ্বাচিত হেডাৰসমূহ এক শাৰী তলত স্থানান্তৰ কৰক"
 
 #: ../mail/e-mail-print-config-headers.c:182
-#| msgid "Move selected messages to another folder"
 msgid "Move selected headers to bottom"
 msgstr "নিৰ্বাচিত হেডাৰসমূহ তলত স্থানান্তৰ কৰক"
 
 #: ../mail/e-mail-print-config-headers.c:187
-#| msgid "Select _All Messages"
 msgid "Select all headers"
 msgstr "সকলো হেডাৰ বাছক"
 
@@ -13425,7 +13381,6 @@ msgid "Parsing message"
 msgstr "বাৰ্তা বিশ্লেষণ কৰা"
 
 #: ../mail/e-mail-request.c:182
-#| msgid "These messages are not copies."
 msgid "The message has no text content."
 msgstr "বাৰ্তাত কোনো লিখনী সমল নাই।"
 
@@ -13833,11 +13788,11 @@ msgstr "ফোল্ডাৰক স্থানান্তৰ কৰক"
 msgid "Copy Folder To"
 msgstr "ফোল্ডাৰক কপি কৰক"
 
-#: ../mail/em-folder-utils.c:615
+#: ../mail/em-folder-utils.c:616
 msgid "Create Folder"
 msgstr "ফোল্ডাৰ সৃষ্টি কৰক"
 
-#: ../mail/em-folder-utils.c:616
+#: ../mail/em-folder-utils.c:617
 msgid "Specify where to create the folder:"
 msgstr "ফোল্ডাৰ কোথায় সৃষ্টি কৰা হ'ব ইয়াক নিৰ্ধাৰণ কৰক:"
 
@@ -15256,12 +15211,10 @@ msgstr ""
 "উত্তৰ দিওতে অথবা ফৰৱাৰ্ড কৰোতে Evolution এ এই উইন্ডো বন্ধ কৰিব লাগে নে?"
 
 #: ../mail/mail.error.xml.h:134
-#| msgid "_Always"
 msgid "_Yes, Always"
 msgstr "হয়, সদায় (_Y)"
 
 #: ../mail/mail.error.xml.h:135
-#| msgid "Never"
 msgid "_No, Never"
 msgstr "নহয়, কেতিয়াও নহয় (_N)"
 
@@ -15493,7 +15446,7 @@ msgstr "উচ্চতৰ"
 msgid "Highest"
 msgstr "সৰ্বোত্তম"
 
-#: ../mail/message-list.c:466 ../mail/message-list.c:5717
+#: ../mail/message-list.c:466 ../mail/message-list.c:5719
 msgid "Generating message list"
 msgstr "বাৰ্তাৰ তালিকা প্ৰস্তুত কৰা হৈছে"
 
@@ -15528,11 +15481,11 @@ msgid "Messages"
 msgstr "বাৰ্তা"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../mail/message-list.c:4762
+#: ../mail/message-list.c:4764
 msgid "Follow-up"
 msgstr "ফলো আপ"
 
-#: ../mail/message-list.c:5655
+#: ../mail/message-list.c:5657
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -15547,7 +15500,7 @@ msgstr ""
 "সন্ধানৰ মাপকাঠী সলনি কৰক।"
 
 #
-#: ../mail/message-list.c:5663
+#: ../mail/message-list.c:5665
 msgid "There are no messages in this folder."
 msgstr "এই ফোল্ডাৰেৰ মাজত কোনো বাৰ্তা উপস্থিত নাই।"
 
@@ -15746,7 +15699,6 @@ msgid "Re_fresh"
 msgstr "নতুন কৰে প্ৰদৰ্শন (_f)"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:919
-#| msgid "Rename the selected address book"
 msgid "Refresh the selected address book"
 msgstr "নিৰ্বাচিত ঠিকনা বহী সতেজ কৰক"
 
@@ -16877,7 +16829,8 @@ msgid "Rename the selected calendar"
 msgstr "নিৰ্বাচিত কেলেন্ডাৰ পুনৰ নামাকৰন কৰক"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1428
-msgid "Find _next"
+#| msgid "Find _next"
+msgid "Find _Next"
 msgstr "পৰৱৰ্তী সন্ধান কৰক (_N)"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1430
@@ -16885,16 +16838,18 @@ msgid "Find next occurrence of the current search string"
 msgstr "বৰ্তমান সন্ধান স্ট্ৰিংৰ পৰৱৰ্তী উপস্থিতি সন্ধান কৰক"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1435
-msgid "Find _previous"
-msgstr "পূৰ্বৱৰ্তী সন্ধান কৰক (_p)"
+#| msgid "Find _previous"
+msgid "Find _Previous"
+msgstr "পূৰ্বৱৰ্তী সন্ধান কৰক (_P)"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1437
 msgid "Find previous occurrence of the current search string"
 msgstr "বৰ্তমান সন্ধান স্ট্ৰিংৰ পূৰ্বৱৰ্তী উপস্থিতি সন্ধান কৰক"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1442
-msgid "Stop _running search"
-msgstr "সন্ধান কৰা বন্ধ কৰক (_r)"
+#| msgid "Stop _running search"
+msgid "Stop _Running Search"
+msgstr "সন্ধান কৰা বন্ধ কৰক (_R)"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1444
 msgid "Stop currently running search"
@@ -19105,11 +19060,11 @@ msgstr "এই ধৰণে ফৰমেট কৰক (_F)..."
 msgid "_Other languages"
 msgstr "অন্য ভাষা (_O)"
 
-#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:367
+#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:362
 msgid "Text Highlight"
 msgstr "লিখনী উজ্জ্বলকৰণ"
 
-#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:368
+#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:363
 msgid "Syntax highlighting of mail parts"
 msgstr "মেইল অংশবোৰৰ বাক্যবিন্যাস উজ্জ্বলকৰণ"
 
@@ -19563,7 +19518,6 @@ msgstr ""
 "Vim ৰ বাবে \"gvim -f\" ব্যৱহাৰ কৰক"
 
 #: ../plugins/external-editor/external-editor.c:123
-#| msgid "Automatically launch when a new mail is edited"
 msgid "_Automatically launch when a new mail is edited"
 msgstr "যেতিয়া এটা নতুন মেইল সম্পাদন কৰা হয় তেতিয়া স্বচালিতভাৱে লঞ্চ কৰিব (_A)"
 
@@ -20709,7 +20663,6 @@ msgid "Display window buttons using the desktop toolbar setting"
 msgstr "ডেস্কটপ টুলবাৰতৰ বৈশিষ্ট্যেৰ সহায়ত উইন্ডোৰ বুটাম প্ৰদৰ্শন কৰক"
 
 #: ../shell/e-shell-window-actions.c:1192
-#| msgid "Save Current View"
 msgid "Delete Current View"
 msgstr "বৰ্তমান দৰ্শন মচি পেলাওক"
 
@@ -20749,7 +20702,6 @@ msgstr "দৰ্শন বাছক: %s"
 
 #: ../shell/e-shell-window-actions.c:1731
 #, c-format
-#| msgid "Select view: %s"
 msgid "Delete view: %s"
 msgstr "দৰ্শন মচক: %s"
 
@@ -21132,7 +21084,6 @@ msgstr ""
 
 #: ../smime/gui/component.c:56
 #, c-format
-#| msgid "Enter the password for '%s'"
 msgid "Enter the password for '%s', token '%s'"
 msgstr "'%s' ৰ বাবে পাছৱাৰ্ড সুমুৱাওক, টকেন '%s'"
 
