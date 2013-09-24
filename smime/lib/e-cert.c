@@ -446,34 +446,6 @@ e_cert_get_md5_fingerprint (ECert *cert)
 	return cert->priv->md5_fingerprint;
 }
 
-GList *
-e_cert_get_issuers_chain (ECert *ecert)
-{
-	GList *issuers = NULL;
-
-	while (ecert) {
-		CERTCertificate *cert = e_cert_get_internal_cert (ecert);
-		CERTCertificate *next_cert;
-
-		if (SECITEM_CompareItem (&cert->derIssuer, &cert->derSubject) == SECEqual)
-			break;
-
-		next_cert = CERT_FindCertIssuer (cert, PR_Now (), certUsageSSLClient);
-		if (!next_cert)
-			break;
-
-		/* next_cert has a reference already */
-		ecert = e_cert_new (next_cert);
-
-		if (ecert) {
-			/* the first is issuer of the original ecert */
-			issuers = g_list_append (issuers, ecert);
-		}
-	}
-
-	return issuers;
-}
-
 ECert *
 e_cert_get_ca_cert (ECert *ecert)
 {

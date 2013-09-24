@@ -84,7 +84,6 @@ const gchar *          e_cert_get_issuer_org      (ECert *cert);
 const gchar *          e_cert_get_issuer_org_unit (ECert *cert);
 
 const gchar *          e_cert_get_issued_on       (ECert *cert);
-PRTime               e_cert_get_expires_on_time (ECert *cert);
 const gchar *          e_cert_get_expires_on      (ECert *cert);
 const gchar *	     e_cert_get_usage (ECert *cert);
 
@@ -92,7 +91,6 @@ const gchar *          e_cert_get_serial_number    (ECert *cert);
 const gchar *          e_cert_get_sha1_fingerprint (ECert *cert);
 const gchar *          e_cert_get_md5_fingerprint  (ECert *cert);
 
-GList *               e_cert_get_issuers_chain     (ECert *cert);
 ECert *              e_cert_get_ca_cert     (ECert *ecert);
 
 gboolean             e_cert_mark_for_deletion (ECert *cert);
