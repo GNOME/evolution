@@ -586,32 +586,6 @@ e_cert_db_shutdown (void)
 	/* XXX */
 }
 
-/* searching for certificates */
-ECert *
-e_cert_db_find_cert_by_nickname (ECertDB *certdb,
-                                 const gchar *nickname,
-                                 GError **error)
-{
-	/*  nsNSSShutDownPreventionLock locker;*/
-	CERTCertificate *cert = NULL;
-
-	/*PR_LOG(gPIPNSSLog, PR_LOG_DEBUG, ("Getting \"%s\"\n", asciiname));*/
-	cert = PK11_FindCertFromNickname ((gchar *) nickname, NULL);
-	if (!cert) {
-		cert = CERT_FindCertByNickname (CERT_GetDefaultCertDB (), (gchar *) nickname);
-	}
-
-	if (cert) {
-		/*    PR_LOG(gPIPNSSLog, PR_LOG_DEBUG, ("got it\n"));*/
-		ECert *ecert = e_cert_new (cert);
-		return ecert;
-	}
-	else {
-		set_nss_error (error);
-		return NULL;
-	}
-}
-
 #ifdef notyet
 ECert *
 e_cert_db_find_cert_by_key (ECertDB *certdb,

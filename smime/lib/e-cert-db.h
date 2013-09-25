@@ -70,11 +70,6 @@ ECertDB *             e_cert_db_peek         (void);
 
 void                 e_cert_db_shutdown     (void);
 
-/* searching for certificates */
-ECert *               e_cert_db_find_cert_by_nickname (ECertDB *certdb,
-						      const gchar *nickname,
-						      GError **error);
-
 #ifdef notyet
 ECert *               e_cert_db_find_cert_by_key      (ECertDB *certdb,
 						      const gchar *db_key,
