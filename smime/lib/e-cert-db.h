@@ -70,12 +70,6 @@ ECertDB *             e_cert_db_peek         (void);
 
 void                 e_cert_db_shutdown     (void);
 
-#ifdef notyet
-ECert *               e_cert_db_find_email_signing_cert (ECertDB *certdb,
-							const gchar *nickname,
-							GError **error);
-#endif
-
 ECert *               e_cert_db_find_cert_by_email_address (ECertDB *certdb,
 							   const gchar *nickname,
 							   GError **error);
