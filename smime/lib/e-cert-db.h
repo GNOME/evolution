@@ -86,10 +86,6 @@ gboolean             e_cert_db_import_email_cert (ECertDB *certdb,
 						  GSList **imported_certs,
 						  GError **error);
 
-gboolean             e_cert_db_import_user_cert (ECertDB *certdb,
-						 gchar *data, guint32 length,
-						 GError **error);
-
 gboolean             e_cert_db_import_server_cert (ECertDB *certdb,
 						   gchar *data, guint32 length,
 						   GSList **imported_certs,
