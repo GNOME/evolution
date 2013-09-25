@@ -3048,8 +3048,8 @@ e_editor_selection_restore_caret_position (EEditorSelection *selection)
 				/* FIXME If caret position is restored and afterwards the position is saved
 				 * it is not on the place where it supposed to be (it is in the beginning of
 				 * parent's element. It can be avoided by moving with the caret. */
-				webkit_dom_dom_selection_modify (window_selection, "move", "right", "character");
 				webkit_dom_dom_selection_modify (window_selection, "move", "left", "character");
+				webkit_dom_dom_selection_modify (window_selection, "move", "right", "character");
 
 				return;
 			}
@@ -3064,8 +3064,8 @@ e_editor_selection_restore_caret_position (EEditorSelection *selection)
 		/* FIXME If caret position is restored and afterwards the position is saved
 		 * it is not on the place where it supposed to be (it is in the beginning of
 		 * parent's element. It can be avoided by moving with the caret. */
-		webkit_dom_dom_selection_modify (window_selection, "move", "right", "character");
 		webkit_dom_dom_selection_modify (window_selection, "move", "left", "character");
+		webkit_dom_dom_selection_modify (window_selection, "move", "right", "character");
 	}
 }
 
