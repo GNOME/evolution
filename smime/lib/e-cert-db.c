@@ -586,60 +586,6 @@ e_cert_db_shutdown (void)
 	/* XXX */
 }
 
-ECert *
-e_cert_db_find_cert_by_email_address (ECertDB *certdb,
-                                      const gchar *email,
-                                      GError **error)
-{
-	/*  nsNSSShutDownPreventionLock locker; */
-	ECert *cert;
-	CERTCertificate *any_cert;
-	CERTCertList *certlist;
-
-	any_cert = CERT_FindCertByNicknameOrEmailAddr (
-		CERT_GetDefaultCertDB (), (gchar *) email);
-
-	if (!any_cert) {
-		set_nss_error (error);
-		return NULL;
-	}
-
-	/* any_cert now contains a cert with the right subject,
-	 * but it might not have the correct usage. */
-	certlist = CERT_CreateSubjectCertList (
-		NULL,
-		CERT_GetDefaultCertDB (),
-		&any_cert->derSubject,
-		PR_Now (), PR_TRUE);
-	if (!certlist) {
-		set_nss_error (error);
-		CERT_DestroyCertificate (any_cert);
-		return NULL;
-	}
-
-	if (SECSuccess != CERT_FilterCertListByUsage (
-		certlist, certUsageEmailRecipient, PR_FALSE)) {
-		set_nss_error (error);
-		CERT_DestroyCertificate (any_cert);
-		CERT_DestroyCertList (certlist);
-		return NULL;
-	}
-
-	if (CERT_LIST_END (CERT_LIST_HEAD (certlist), certlist)) {
-		set_nss_error (error);
-		CERT_DestroyCertificate (any_cert);
-		CERT_DestroyCertList (certlist);
-		return NULL;
-	}
-
-	cert = e_cert_new (CERT_DupCertificate (CERT_LIST_HEAD (certlist)->cert));
-
-	CERT_DestroyCertList (certlist);
-	CERT_DestroyCertificate (any_cert);
-
-	return cert;
-}
-
 static gboolean
 confirm_download_ca_cert (ECertDB *cert_db,
                           ECert *cert,

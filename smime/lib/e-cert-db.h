@@ -70,10 +70,6 @@ ECertDB *             e_cert_db_peek         (void);
 
 void                 e_cert_db_shutdown     (void);
 
-ECert *               e_cert_db_find_cert_by_email_address (ECertDB *certdb,
-							   const gchar *nickname,
-							   GError **error);
-
 /* deleting certificates */
 gboolean             e_cert_db_delete_cert (ECertDB *certdb,
 					    ECert   *cert);
