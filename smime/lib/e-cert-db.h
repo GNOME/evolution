@@ -71,10 +71,6 @@ ECertDB *             e_cert_db_peek         (void);
 void                 e_cert_db_shutdown     (void);
 
 #ifdef notyet
-ECert *               e_cert_db_find_cert_by_key      (ECertDB *certdb,
-						      const gchar *db_key,
-						      GError **error);
-
 GList *               e_cert_db_get_cert_nicknames    (ECertDB *certdb,
 						      ECertType cert_type,
 						      GError **error);

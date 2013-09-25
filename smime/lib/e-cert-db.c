@@ -587,49 +587,6 @@ e_cert_db_shutdown (void)
 }
 
 #ifdef notyet
-ECert *
-e_cert_db_find_cert_by_key (ECertDB *certdb,
-                            const gchar *db_key,
-                            GError **error)
-{
-	/*  nsNSSShutDownPreventionLock locker;*/
-	SECItem keyItem = {siBuffer, NULL, 0};
-	SECItem *dummy;
-	CERTIssuerAndSN issuerSN;
-	gulong moduleID,slotID;
-	CERTCertificate *cert;
-
-	if (!db_key) {
-		set_nss_error (error);
-		return NULL;
-	}
-
-	dummy = NSSBase64_DecodeBuffer (
-		NULL, &keyItem, db_key,
-		(PRUint32) PL_strlen (db_key));
-
-	/* someday maybe we can speed up the search using the moduleID and slotID*/
-	moduleID = NS_NSS_GET_LONG (keyItem.data);
-	slotID = NS_NSS_GET_LONG (&keyItem.data[NS_NSS_LONG]);
-
-	/* build the issuer/SN structure*/
-	issuerSN.serialNumber.len = NS_NSS_GET_LONG (&keyItem.data[NS_NSS_LONG *2]);
-	issuerSN.derIssuer.len = NS_NSS_GET_LONG (&keyItem.data[NS_NSS_LONG *3]);
-	issuerSN.serialNumber.data= &keyItem.data[NS_NSS_LONG *4];
-	issuerSN.derIssuer.data= &keyItem.data[NS_NSS_LONG *4+
-					       issuerSN.serialNumber.len];
-
-	cert = CERT_FindCertByIssuerAndSN (CERT_GetDefaultCertDB (), &issuerSN);
-	PR_FREEIF (keyItem.data);
-	if (cert) {
-		ECert *ecert = e_cert_new (cert);
-		return e_cert;
-	}
-
-	set_nss_error (error);
-	return NULL;
-}
-
 GList *
 e_cert_db_get_cert_nicknames (ECertDB *certdb,
                               ECertType cert_type,
