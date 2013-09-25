@@ -587,13 +587,6 @@ e_cert_db_shutdown (void)
 }
 
 #ifdef notyet
-GList *
-e_cert_db_get_cert_nicknames (ECertDB *certdb,
-                              ECertType cert_type,
-                              GError **error)
-{
-}
-
 ECert *
 e_cert_db_find_email_encryption_cert (ECertDB *certdb,
                                       const gchar *nickname,
