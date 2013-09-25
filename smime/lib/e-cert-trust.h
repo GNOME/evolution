@@ -35,7 +35,6 @@ void e_cert_trust_init_with_values (CERTCertTrust *trust,
 				    guint ssl,
 				    guint email,
 				    guint objsign);
-void e_cert_trust_copy (CERTCertTrust *dst_trust, CERTCertTrust *src_trust);
 void e_cert_trust_add_ca_trust (CERTCertTrust *trust, PRBool ssl, PRBool email, PRBool objSign);
 void e_cert_trust_add_peer_trust (CERTCertTrust *trust, PRBool ssl, PRBool email, PRBool objSign);
 void e_cert_trust_set_ssl_trust (CERTCertTrust *trust,
