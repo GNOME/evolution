@@ -260,27 +260,6 @@ e_cert_trust_has_any_ca (CERTCertTrust *trust)
 }
 
 PRBool
-e_cert_trust_has_ca (CERTCertTrust *trust,
-                     PRBool checkSSL,
-                     PRBool checkEmail,
-                     PRBool checkObjSign)
-{
-	if (checkSSL && !e_cert_trust_has_trust (
-		trust->sslFlags, CERTDB_VALID_CA))
-		return PR_FALSE;
-
-	if (checkEmail && !e_cert_trust_has_trust (
-		trust->emailFlags, CERTDB_VALID_CA))
-		return PR_FALSE;
-
-	if (checkObjSign && !e_cert_trust_has_trust (
-		trust->objectSigningFlags, CERTDB_VALID_CA))
-		return PR_FALSE;
-
-	return PR_TRUE;
-}
-
-PRBool
 e_cert_trust_has_peer (CERTCertTrust *trust,
                        PRBool checkSSL,
                        PRBool checkEmail,

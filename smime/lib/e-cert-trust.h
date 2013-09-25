@@ -53,10 +53,6 @@ void e_cert_trust_set_valid_ca (CERTCertTrust *trust);
 void e_cert_trust_set_valid_peer (CERTCertTrust *trust);
 void e_cert_trust_set_valid_server_peer (CERTCertTrust *trust);
 PRBool e_cert_trust_has_any_ca (CERTCertTrust *trust);
-PRBool e_cert_trust_has_ca (CERTCertTrust *trust,
-			      PRBool checkSSL,
-			      PRBool checkEmail,
-			      PRBool checkObjSign);
 PRBool e_cert_trust_has_peer (CERTCertTrust *trust,
 				PRBool checkSSL,
 				PRBool checkEmail,
