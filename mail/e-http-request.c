@@ -188,6 +188,11 @@ handle_http_request (GSimpleAsyncResult *res,
 
 	evo_uri = soup_uri_to_string (soup_uri, FALSE);
 
+	if (camel_debug_start ("emformat:requests")) {
+		printf ("%s: looking for '%s'\n", G_STRFUNC, evo_uri);
+		camel_debug_end ();
+	}
+
 	/* Remove the "evo-" prefix from scheme */
 	uri_len = strlen (evo_uri);
 	uri = NULL;
