@@ -101,13 +101,6 @@ gboolean             e_cert_db_import_pkcs12_file (ECertDB *cert_db,
 						   const gchar *file_path,
 						   GError **error);
 
-#ifdef notyet
-gboolean             e_cert_db_export_pkcs12_file (ECertDB *cert_db,
-						   const gchar *file_path,
-						   GList *certs,
-						   GError **error);
-#endif
-
 gboolean             e_cert_db_login_to_slot      (ECertDB *cert_db,
 						   PK11SlotInfo *slot);
 
