@@ -58,10 +58,6 @@ PRBool e_cert_trust_has_peer (CERTCertTrust *trust,
 				PRBool checkEmail,
 				PRBool checkObjSign);
 PRBool e_cert_trust_has_any_user (CERTCertTrust *trust);
-PRBool e_cert_trust_has_user (CERTCertTrust *trust,
-				PRBool checkSSL,
-				PRBool checkEmail,
-				PRBool checkObjSign);
 PRBool e_cert_trust_has_trusted_ca (CERTCertTrust *trust,
 				      PRBool checkSSL,
 				      PRBool checkEmail,
