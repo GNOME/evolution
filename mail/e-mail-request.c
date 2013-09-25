@@ -82,7 +82,14 @@ handle_mail_request (GSimpleAsyncResult *simple,
 
 	registry = e_mail_part_list_get_registry ();
 	part_list = camel_object_bag_get (registry, request->priv->uri_base);
-	g_return_if_fail (part_list != NULL);
+
+	if (camel_debug_start ("emformat:requests")) {
+		printf ("%s: found part-list %p for full_uri '%s'\n", G_STRFUNC, part_list, request->priv->full_uri);
+		camel_debug_end ();
+	}
+
+	if (!part_list)
+		return;
 
 	val = g_hash_table_lookup (
 		request->priv->uri_query, "headers_collapsed");
@@ -131,9 +138,16 @@ handle_mail_request (GSimpleAsyncResult *simple,
 
 		part_id = soup_uri_decode (val);
 		part = e_mail_part_list_ref_part (part_list, part_id);
-		g_free (part_id);
+		if (!part) {
+			if (camel_debug_start ("emformat:requests")) {
+				printf ("%s: part with id '%s' not found\n", G_STRFUNC, part_id);
+				camel_debug_end ();
+			}
 
-		g_return_if_fail (part != NULL);
+			g_free (part_id);
+			goto no_part;
+		}
+		g_free (part_id);
 
 		mime_type = g_hash_table_lookup (
 			request->priv->uri_query, "mime_type");
@@ -171,6 +185,7 @@ handle_mail_request (GSimpleAsyncResult *simple,
 			context.flags, context.mode, cancellable);
 	}
 
+ no_part:
 	g_clear_object (&output_stream);
 	g_clear_object (&context.part_list);
 
