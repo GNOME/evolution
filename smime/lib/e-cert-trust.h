@@ -50,7 +50,6 @@ void e_cert_trust_set_objsign_trust (CERTCertTrust *trust,
 				     PRBool ca,   PRBool tCA, PRBool tClientCA,
 				     PRBool user, PRBool warn);
 void e_cert_trust_set_valid_ca (CERTCertTrust *trust);
-void e_cert_trust_set_trusted_ca (CERTCertTrust *trust);
 void e_cert_trust_set_valid_peer (CERTCertTrust *trust);
 void e_cert_trust_set_valid_server_peer (CERTCertTrust *trust);
 void e_cert_trust_set_trusted_peer (CERTCertTrust *trust);

@@ -217,22 +217,6 @@ e_cert_trust_set_valid_ca (CERTCertTrust *trust)
 }
 
 void
-e_cert_trust_set_trusted_ca (CERTCertTrust *trust)
-{
-	e_cert_trust_set_ssl_trust (
-		trust, PR_FALSE, PR_FALSE, PR_TRUE,
-		PR_TRUE, PR_TRUE, PR_FALSE, PR_FALSE);
-
-	e_cert_trust_set_email_trust (
-		trust, PR_FALSE, PR_FALSE, PR_TRUE,
-		PR_TRUE, PR_TRUE, PR_FALSE, PR_FALSE);
-
-	e_cert_trust_set_objsign_trust (
-		trust, PR_FALSE, PR_FALSE, PR_TRUE,
-		PR_TRUE, PR_TRUE, PR_FALSE, PR_FALSE);
-}
-
-void
 e_cert_trust_set_valid_peer (CERTCertTrust *trust)
 {
 	e_cert_trust_set_ssl_trust (
