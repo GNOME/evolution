@@ -1468,40 +1468,60 @@ mail_session_trust_prompt (CamelSession *session,
 	return response;
 }
 
-static void
-mail_session_get_socks_proxy (CamelSession *session,
-                              const gchar *for_host,
-                              gchar **host_ret,
-                              gint *port_ret)
+static GProxyResolver *
+mail_session_ref_proxy_resolver (CamelSession *session,
+                                 CamelService *service)
 {
-	EMailSession *mail_session;
+	EMailSessionPrivate *priv;
+	GProxyResolver *proxy_resolver = NULL;
+	CamelSettings *settings;
+	gchar *host = NULL;
 	gchar *uri;
 
-	g_return_if_fail (session != NULL);
-	g_return_if_fail (for_host != NULL);
-	g_return_if_fail (host_ret != NULL);
-	g_return_if_fail (port_ret != NULL);
+	priv = E_MAIL_SESSION_GET_PRIVATE (session);
 
-	mail_session = E_MAIL_SESSION (session);
-	g_return_if_fail (mail_session != NULL);
-	g_return_if_fail (mail_session->priv != NULL);
+	settings = camel_service_ref_settings (service);
+	if (CAMEL_IS_NETWORK_SETTINGS (settings)) {
+		CamelNetworkSettings *network_settings;
 
-	*host_ret = NULL;
-	*port_ret = 0;
+		network_settings = CAMEL_NETWORK_SETTINGS (settings);
+		host = camel_network_settings_dup_host (network_settings);
+	}
+	g_object_unref (settings);
 
-	uri = g_strconcat ("socks://", for_host, NULL);
+	if (host == NULL)
+		goto chainup;
 
-	if (e_proxy_require_proxy_for_uri (mail_session->priv->proxy, uri)) {
-		SoupURI *suri;
+	uri = g_strconcat ("socks://", host, NULL);
 
-		suri = e_proxy_peek_uri_for (mail_session->priv->proxy, uri);
-		if (suri) {
-			*host_ret = g_strdup (suri->host);
-			*port_ret = suri->port;
+	if (e_proxy_require_proxy_for_uri (priv->proxy, uri)) {
+		SoupURI *soup_uri;
+
+		soup_uri = e_proxy_peek_uri_for (priv->proxy, uri);
+		if (soup_uri != NULL) {
+			gchar *default_proxy;
+
+			default_proxy = soup_uri_to_string (soup_uri, TRUE);
+
+			/* XXX EProxy provides no way to get at the
+			 *     "ignore-hosts" list, so just skip it. */
+			proxy_resolver = g_simple_proxy_resolver_new (
+				default_proxy, NULL);
+
+			g_free (default_proxy);
 		}
 	}
 
+	g_free (host);
 	g_free (uri);
+
+	if (proxy_resolver != NULL)
+		return proxy_resolver;
+
+chainup:
+	/* Chain up to parent's ref_proxy_resolver() method. */
+	return CAMEL_SESSION_CLASS (e_mail_session_parent_class)->
+		ref_proxy_resolver (session, service);
 }
 
 static gboolean
@@ -1821,7 +1841,7 @@ e_mail_session_class_init (EMailSessionClass *class)
 	session_class->forget_password = mail_session_forget_password;
 	session_class->alert_user = mail_session_alert_user;
 	session_class->trust_prompt = mail_session_trust_prompt;
-	session_class->get_socks_proxy = mail_session_get_socks_proxy;
+	session_class->ref_proxy_resolver = mail_session_ref_proxy_resolver;
 	session_class->authenticate_sync = mail_session_authenticate_sync;
 	session_class->forward_to_sync = mail_session_forward_to_sync;
 
