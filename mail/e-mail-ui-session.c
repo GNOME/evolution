@@ -678,16 +678,14 @@ e_mail_ui_session_alert_user (CamelSession *session,
 
 CamelCertTrust
 e_mail_ui_session_trust_prompt (CamelSession *session,
-                                const gchar *host,
-                                const gchar *certificate,
-                                guint32 certificate_errors,
-                                GList *issuers,
-                                GCancellable *cancellable)
+                                CamelService *service,
+                                GTlsCertificate *certificate,
+                                GTlsCertificateFlags errors)
 {
 	g_type_ensure (E_TYPE_MAIL_UI_SESSION);
 
-	return CAMEL_SESSION_CLASS (e_mail_ui_session_parent_class)->trust_prompt (
-		session, host, certificate, certificate_errors, issuers, cancellable);
+	return CAMEL_SESSION_CLASS (e_mail_ui_session_parent_class)->
+		trust_prompt (session, service, certificate, errors);
 }
 
 static CamelFilterDriver *

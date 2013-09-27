@@ -92,11 +92,9 @@ gint		e_mail_ui_session_alert_user	(CamelSession *session,
 						 GList *button_captions,
 						 GCancellable *cancellable);
 CamelCertTrust	e_mail_ui_session_trust_prompt	(CamelSession *session,
-						 const gchar *host,
-						 const gchar *certificate,
-						 guint32 certificate_errors,
-						 GList *issuers,
-						 GCancellable *cancellable);
+						 CamelService *service,
+						 GTlsCertificate *certificate,
+						 GTlsCertificateFlags errors);
 gboolean	e_mail_ui_session_check_known_address_sync
 						(EMailUISession *session,
 						 CamelInternetAddress *addr,

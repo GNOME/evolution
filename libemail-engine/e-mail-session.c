@@ -1404,42 +1404,48 @@ mail_session_alert_user (CamelSession *session,
 
 static CamelCertTrust
 mail_session_trust_prompt (CamelSession *session,
-                           const gchar *host,
-                           const gchar *certificate,
-                           guint32 certificate_errors,
-                           GList *issuers,
-                           GCancellable *cancellable)
+                           CamelService *service,
+                           GTlsCertificate *certificate,
+                           GTlsCertificateFlags errors)
 {
 	EUserPrompter *prompter;
 	ENamedParameters *parameters;
+	CamelSettings *settings;
 	CamelCertTrust response;
-	gchar *errors_code;
-	GList *iter;
+	GByteArray *der = NULL;
+	gchar *base64;
+	gchar *errhex;
+	gchar *host;
 	gint button_index;
-	gint ii;
 
 	prompter = e_user_prompter_new ();
 	parameters = e_named_parameters_new ();
-	errors_code = g_strdup_printf ("%x", certificate_errors);
+
+	settings = camel_service_ref_settings (service);
+	g_return_val_if_fail (CAMEL_IS_NETWORK_SETTINGS (settings), 0);
+	host = camel_network_settings_dup_host (
+		CAMEL_NETWORK_SETTINGS (settings));
+	g_object_unref (settings);
+
+	/* XXX No accessor function for this property. */
+	g_object_get (certificate, "certificate", &der, NULL);
+	g_return_val_if_fail (der != NULL, 0);
+	base64 = g_base64_encode (der->data, der->len);
+	g_byte_array_unref (der);
+
+	errhex = g_strdup_printf ("%x", (gint) errors);
 
 	e_named_parameters_set (parameters, "host", host);
-	e_named_parameters_set (parameters, "certificate", certificate);
-	e_named_parameters_set (parameters, "certificate-errors", errors_code);
+	e_named_parameters_set (parameters, "certificate", base64);
+	e_named_parameters_set (parameters, "certificate-errors", errhex);
 
-	for (ii = 1, iter = issuers; iter; ii++, iter = iter->next) {
-		gchar *name;
-
-		if (!iter->data)
-			break;
-
-		name = g_strdup_printf ("issuer-%d", ii);
-		e_named_parameters_set (parameters, name, iter->data);
-		g_free (name);
-	}
+	g_free (host);
+	g_free (base64);
+	g_free (errhex);
 
 	button_index = e_user_prompter_extension_prompt_sync (
 		prompter, "ETrustPrompt::trust-prompt",
-		parameters, NULL, cancellable, NULL);
+		parameters, NULL, NULL, NULL);
 
 	switch (button_index) {
 		case 0:
@@ -1456,7 +1462,6 @@ mail_session_trust_prompt (CamelSession *session,
 			break;
 	}
 
-	g_free (errors_code);
 	e_named_parameters_free (parameters);
 	g_object_unref (prompter);
 
