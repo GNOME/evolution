@@ -398,6 +398,26 @@ e_mail_part_list_queue_parts (EMailPartList *part_list,
 }
 
 /**
+ * e_mail_part_list_is_empty:
+ * @part_list: an #EMailPartList
+ *
+ * Returns: whether the part list is empty (it doesn't contain any #EMailpart).
+ **/
+gboolean
+e_mail_part_list_is_empty (EMailPartList *part_list)
+{
+	gboolean is_empty;
+
+	g_return_val_if_fail (E_IS_MAIL_PART_LIST (part_list), TRUE);
+
+	g_mutex_lock (&part_list->priv->queue_lock);
+	is_empty = g_queue_is_empty (&part_list->priv->queue);
+	g_mutex_unlock (&part_list->priv->queue_lock);
+
+	return is_empty;
+}
+
+/**
  * e_mail_part_list_get_registry:
  *
  * Returns a #CamelObjectBag where parsed #EMailPartLists can be stored.

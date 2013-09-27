@@ -203,10 +203,6 @@ emcu_part_to_html (EMsgComposer *composer,
 
 	session = e_msg_composer_ref_session (composer);
 
-	buf = g_byte_array_new ();
-	mem = (CamelStreamMem *) camel_stream_mem_new ();
-	camel_stream_mem_set_byte_array (mem, buf);
-
 	part_list = e_mail_part_list_new (NULL, NULL, NULL);
 
 	part_id = g_string_sized_new (0);
@@ -215,11 +211,25 @@ emcu_part_to_html (EMsgComposer *composer,
 		parser, part, part_id, cancellable, &queue);
 	while (!g_queue_is_empty (&queue)) {
 		EMailPart *mail_part = g_queue_pop_head (&queue);
-		e_mail_part_list_add_part (part_list, mail_part);
+
+		if (!e_mail_part_get_is_attachment (mail_part) &&
+		    !mail_part->is_hidden)
+			e_mail_part_list_add_part (part_list, mail_part);
+
 		g_object_unref (mail_part);
 	}
 	g_string_free (part_id, TRUE);
 	g_object_unref (parser);
+	g_object_unref (session);
+
+	if (e_mail_part_list_is_empty (part_list)) {
+		g_object_unref (part_list);
+		return NULL;
+	}
+
+	buf = g_byte_array_new ();
+	mem = (CamelStreamMem *) camel_stream_mem_new ();
+	camel_stream_mem_set_byte_array (mem, buf);
 
 	formatter = e_mail_formatter_quote_new (
 		NULL, keep_signature ? E_MAIL_FORMATTER_QUOTE_FLAG_KEEP_SIG : 0);
@@ -239,9 +249,8 @@ emcu_part_to_html (EMsgComposer *composer,
 	text = (gchar *) buf->data;
 	if (len)
 		*len = buf->len - 1;
-	g_byte_array_free (buf, FALSE);
 
-	g_object_unref (session);
+	g_byte_array_free (buf, FALSE);
 
 	return text;
 }
@@ -2719,7 +2728,8 @@ handle_multipart_signed (EMsgComposer *composer,
 
 		html = emcu_part_to_html (
 			composer, mime_part, &length, keep_signature, cancellable);
-		e_msg_composer_set_pending_body (composer, html, length);
+		if (html)
+			e_msg_composer_set_pending_body (composer, html, length);
 
 	} else {
 		e_msg_composer_attach (composer, mime_part);
@@ -2810,7 +2820,8 @@ handle_multipart_encrypted (EMsgComposer *composer,
 
 		html = emcu_part_to_html (
 			composer, mime_part, &length, keep_signature, cancellable);
-		e_msg_composer_set_pending_body (composer, html, length);
+		if (html)
+			e_msg_composer_set_pending_body (composer, html, length);
 
 	} else {
 		e_msg_composer_attach (composer, mime_part);
@@ -2826,8 +2837,8 @@ handle_multipart_alternative (EMsgComposer *composer,
                               GCancellable *cancellable,
                               gint depth)
 {
-	/* Find the text/html part and set the composer body to it's contents */
-	CamelMimePart *text_part = NULL;
+	/* Find the text/html part and set the composer body to its content */
+	CamelMimePart *text_part = NULL, *fallback_text_part = NULL;
 	gint i, nparts;
 
 	nparts = camel_multipart_get_number (multipart);
@@ -2879,6 +2890,11 @@ handle_multipart_alternative (EMsgComposer *composer,
 			 * text part we find isn't necessarily the one we'll use. */
 			if (!text_part)
 				text_part = mime_part;
+
+			/* this is when prefer-plain filters out text/html part, then
+			   the text/plain should be used */
+			if (camel_content_type_is (content_type, "text", "plain"))
+				fallback_text_part = mime_part;
 		} else {
 			e_msg_composer_attach (composer, mime_part);
 		}
@@ -2890,7 +2906,11 @@ handle_multipart_alternative (EMsgComposer *composer,
 
 		html = emcu_part_to_html (
 			composer, text_part, &length, keep_signature, cancellable);
-		e_msg_composer_set_pending_body (composer, html, length);
+		if (!html && fallback_text_part)
+			html = emcu_part_to_html (
+				composer, fallback_text_part, &length, keep_signature, cancellable);
+		if (html)
+			e_msg_composer_set_pending_body (composer, html, length);
 	}
 }
 
@@ -2956,7 +2976,8 @@ handle_multipart (EMsgComposer *composer,
 			 * this must be the body. */
 			html = emcu_part_to_html (
 				composer, mime_part, &length, keep_signature, cancellable);
-			e_msg_composer_set_pending_body (composer, html, length);
+			if (html)
+				e_msg_composer_set_pending_body (composer, html, length);
 
 		} else if (camel_mime_part_get_content_id (mime_part) ||
 			   camel_mime_part_get_content_location (mime_part)) {
@@ -3341,7 +3362,8 @@ e_msg_composer_new_with_message (EShell *shell,
 		html = emcu_part_to_html (
 			composer, CAMEL_MIME_PART (message),
 			&length, keep_signature, cancellable);
-		e_msg_composer_set_pending_body (composer, html, length);
+		if (html)
+			e_msg_composer_set_pending_body (composer, html, length);
 	}
 
 	priv->is_from_message = TRUE;
