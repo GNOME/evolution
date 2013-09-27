@@ -27,8 +27,6 @@ main (gint argc,
 	EMailAutoconfig *autoconfig;
 	GError *error = NULL;
 
-	g_type_init ();
-
 	if (argc < 2) {
 		g_printerr ("USAGE: %s EMAIL-ADDRESS\n", argv[0]);
 		exit (EXIT_FAILURE);

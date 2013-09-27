@@ -109,8 +109,6 @@ main (gint argc,
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	textdomain (GETTEXT_PACKAGE);
 
-	g_type_init ();
-
 	user_config_dir = e_get_user_config_dir ();
 	filename = g_build_filename (user_config_dir, ".running", NULL);
 	pid_file = g_file_new_for_path (filename);

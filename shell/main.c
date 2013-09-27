@@ -479,8 +479,6 @@ main (gint argc,
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	textdomain (GETTEXT_PACKAGE);
 
-	g_type_init ();
-
 	/* do not require Gtk+ for --force-shutdown */
 	if (argc == 2 && argv[1] && g_str_equal (argv[1], "--force-shutdown")) {
 		shell_force_shutdown ();

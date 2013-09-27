@@ -104,8 +104,6 @@ main (gint argc,
 #endif
 #endif
 
-	g_type_init ();
-
 	/*i18n-lize */
 	bindtextdomain (GETTEXT_PACKAGE, EVOLUTION_LOCALEDIR);
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
