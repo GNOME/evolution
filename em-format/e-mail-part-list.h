@@ -72,6 +72,7 @@ EMailPart *	e_mail_part_list_ref_part	(EMailPartList *part_list,
 guint		e_mail_part_list_queue_parts	(EMailPartList *part_list,
 						 const gchar *part_id,
 						 GQueue *result_queue);
+gboolean	e_mail_part_list_is_empty	(EMailPartList *part_list);
 
 CamelObjectBag *
 		e_mail_part_list_get_registry	(void);
