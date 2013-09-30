@@ -43,7 +43,6 @@
 #include "dialogs/goto-dialog.h"
 
 #include "calendar-config.h"
-#include "calendar-config.h"
 #include "comp-util.h"
 #include "e-cal-model-calendar.h"
 #include "e-week-view-event-item.h"

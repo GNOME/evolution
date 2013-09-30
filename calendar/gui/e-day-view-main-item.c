@@ -32,7 +32,6 @@
 
 #include "comp-util.h"
 #include "e-calendar-view.h"
-#include "e-calendar-view.h"
 #include "e-day-view-layout.h"
 #include "ea-calendar.h"
 

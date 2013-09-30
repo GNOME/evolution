@@ -19,7 +19,6 @@
 
 #include <camel/camel.h>
 
-#include "e-mail-formatter-quote.h"
 #include "e-mail-formatter-utils.h"
 #include "e-mail-part.h"
 #include "e-mail-part-attachment.h"

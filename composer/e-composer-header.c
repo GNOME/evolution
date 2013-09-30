@@ -25,7 +25,6 @@
 
 #include "e-composer-header.h"
 
-#include <config.h>
 #include <glib/gi18n-lib.h>
 
 #define E_COMPOSER_HEADER_GET_PRIVATE(obj) \

@@ -31,8 +31,6 @@
 
 #include "e-config.h"
 
-#include <glib/gi18n.h>
-
 #define E_CONFIG_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_CONFIG, EConfigPrivate))

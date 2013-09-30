@@ -29,7 +29,6 @@
 #include <errno.h>
 #include <string.h>
 #include <locale.h>
-#include <string.h>
 
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>

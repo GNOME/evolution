@@ -35,7 +35,6 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <math.h>
-#include <string.h>
 
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
