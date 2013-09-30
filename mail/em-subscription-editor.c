@@ -1429,6 +1429,33 @@ subscription_editor_add_store (EMSubscriptionEditor *editor,
 }
 
 static void
+emse_notebook_sensitive_changed_cb (GtkWidget *notebook,
+				    GParamSpec *param,
+				    GtkDialog *editor)
+{
+	gtk_dialog_set_response_sensitive (editor,
+		GTK_RESPONSE_CLOSE, gtk_widget_get_sensitive (notebook));
+}
+
+static gboolean
+subscription_editor_delete_event_cb (EMSubscriptionEditor *editor,
+				     GdkEvent *event,
+				     gpointer user_data)
+{
+	/* stop processing if the button is insensitive */
+	return !gtk_widget_get_sensitive (editor->priv->notebook);
+}
+
+static void
+subscription_editor_response_cb (EMSubscriptionEditor *editor,
+				 gint response_id,
+				 gpointer user_data)
+{
+	if (!gtk_widget_get_sensitive (editor->priv->notebook))
+		g_signal_stop_emission_by_name (editor, "response");
+}
+
+static void
 subscription_editor_set_store (EMSubscriptionEditor *editor,
                                CamelStore *store)
 {
@@ -1574,6 +1601,9 @@ subscription_editor_constructed (GObject *object)
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (em_subscription_editor_parent_class)->constructed (object);
+
+	g_signal_connect (editor, "delete-event", G_CALLBACK (subscription_editor_delete_event_cb), NULL);
+	g_signal_connect (editor, "response", G_CALLBACK (subscription_editor_response_cb), NULL);
 }
 
 static void
@@ -1770,6 +1800,9 @@ em_subscription_editor_init (EMSubscriptionEditor *editor)
 		editor->priv->notebook, "page",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
+
+	g_signal_connect (widget, "notify::sensitive",
+		G_CALLBACK (emse_notebook_sensitive_changed_cb), editor);
 
 	widget = gtk_button_box_new (GTK_ORIENTATION_VERTICAL);
 	gtk_box_set_spacing (GTK_BOX (widget), 6);
