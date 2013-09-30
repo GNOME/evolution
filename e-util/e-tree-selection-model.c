@@ -489,12 +489,7 @@ tree_selection_model_row_count (ESelectionModel *selection)
 {
 	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL (selection);
 
-	/* We want to return the true row count, including collapsed rows.
-	 * ETreeTableAdapter pretends that collapsed rows don't exist and
-	 * will return a false count (for our purpose), so instead we ask
-	 * the ETreeModel directly. */
-
-	return e_tree_model_node_get_n_nodes (etsm->priv->model);
+	return e_table_model_row_count (E_TABLE_MODEL (etsm->priv->etta));
 }
 
 static void
