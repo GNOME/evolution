@@ -4,9 +4,6 @@ desktopdir = $(datadir)/applications
 desktop_in_files = evolution.desktop.in
 desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
 
-appdatadir = $(datadir)/appdata
-appdata_DATA = evolution.appdata.xml
-
 autostartdir = $(sysconfdir)/xdg/autostart
 autostart_in_files = evolution-alarm-notify.desktop.in
 autostart_DATA = $(autostart_in_files:.desktop.in=.desktop)
@@ -34,6 +31,10 @@ gsettings_SCHEMAS =							\
 	org.gnome.evolution.plugin.templates.gschema.xml
 
 @INTLTOOL_XML_NOMERGE_RULE@
+appdatadir = $(datadir)/appdata
+appdata_files = evolution.appdata.xml
+dist_appdata_DATA = $(appdata_in_files:.xml.in=.xml)
+appdata_in_files = evolution.appdata.xml.in
 
 @GSETTINGS_RULES@
 
@@ -68,13 +69,14 @@ CLEANFILES =					\
 	$(desktop_DATA)
 
 EXTRA_DIST =					\
-	$(appdata_DATA)				\
+	$(appdata_files)			\
 	$(autostart_in_files)			\
 	$(desktop_in_files)			\
 	$(convert_DATA)				\
 	$(gsettings_SCHEMAS:.xml=.xml.in)
 
 DISTCLEANFILES =		\
+	$(app_data_in_files)	\
 	$(gsettings_SCHEMAS)
 
 -include $(top_srcdir)/git.mk

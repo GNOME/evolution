@@ -125,6 +125,7 @@ composer/e-composer-private.c
 composer/e-msg-composer.c
 composer/mail-composer.error.xml
 data/evolution-alarm-notify.desktop.in.in
+data/evolution.appdata.xml
 data/evolution.desktop.in.in
 data/org.gnome.evolution.addressbook.gschema.xml.in
 data/org.gnome.evolution.bogofilter.gschema.xml.in
