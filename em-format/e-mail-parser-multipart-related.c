@@ -26,6 +26,7 @@
 
 #include "e-mail-parser-extension.h"
 #include "e-mail-part-utils.h"
+#include "e-mail-part-image.h"
 
 typedef EMailParserExtension EMailParserMultipartRelated;
 typedef EMailParserExtensionClass EMailParserMultipartRelatedClass;
@@ -51,7 +52,7 @@ empe_mp_related_parse (EMailParserExtension *extension,
                        GQueue *out_mail_parts)
 {
 	CamelMultipart *mp;
-	CamelMimePart *body_part, *display_part = NULL;
+	CamelMimePart *body_part, *display_part = NULL, *may_display_part;
 	CamelContentType *display_content_type;
 	gchar *html_body = NULL;
 	gint i, nparts, partidlen, displayid = 0;
@@ -71,12 +72,30 @@ empe_mp_related_parse (EMailParserExtension *extension,
 			parser, part, part_id, "multipart/mixed",
 			cancellable, out_mail_parts);
 
+	may_display_part = display_part;
+
 	display_content_type = camel_mime_part_get_content_type (display_part);
+	if (display_content_type && camel_content_type_is (display_content_type, "multipart", "alternative")) {
+		CamelMultipart *subparts = CAMEL_MULTIPART (camel_medium_get_content ((CamelMedium *) display_part));
+		if (subparts) {
+			nparts = camel_multipart_get_number (subparts);
+			for (i = 0; i < nparts; i++) {
+				body_part = camel_multipart_get_part (subparts, i);
+				display_content_type = camel_mime_part_get_content_type (body_part);
+				if (display_content_type && camel_content_type_is (display_content_type, "text", "html")) {
+					may_display_part = body_part;
+					break;
+				}
+			}
+		}
+	}
+
+	display_content_type = camel_mime_part_get_content_type (may_display_part);
 	if (display_content_type &&
 	    camel_content_type_is (display_content_type, "text", "html")) {
 		CamelDataWrapper *dw;
 
-		dw = camel_medium_get_content ((CamelMedium *) display_part);
+		dw = camel_medium_get_content ((CamelMedium *) may_display_part);
 		if (dw) {
 			CamelStream *mem = camel_stream_mem_new ();
 			GByteArray *bytes;
@@ -131,6 +150,13 @@ empe_mp_related_parse (EMailParserExtension *extension,
 			/* Don't render the part on its own! */
 			if (e_mail_part_utils_body_refers (html_body, cid))
 				mail_part->is_hidden = TRUE;
+			else if (cid && E_IS_MAIL_PART_IMAGE (mail_part) &&
+				 e_mail_part_get_is_attachment (mail_part) &&
+				 mail_part->is_hidden) {
+				mail_part->is_hidden = FALSE;
+
+				e_mail_parser_wrap_as_attachment (parser, body_part, part_id, &work_queue);
+			}
 		}
 
 		e_queue_transfer (&work_queue, out_mail_parts);
