@@ -139,33 +139,8 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 	}
 
 	if (context->mode == E_MAIL_FORMATTER_MODE_PRINTING) {
-		CamelDataWrapper *dw;
-		CamelStream *filter_stream;
-		CamelMimeFilter *mime_filter;
-
-		dw = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
-		if (dw == NULL)
-			goto exit;
-
-		camel_stream_write_string (
-			stream, "<pre><div class=\"pre\">", cancellable, NULL);
-
-		filter_stream = camel_stream_filter_new (stream);
-		mime_filter = camel_mime_filter_tohtml_new (
-			CAMEL_MIME_FILTER_TOHTML_PRE |
-			CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES, 0);
-		camel_stream_filter_add (
-			CAMEL_STREAM_FILTER (filter_stream), mime_filter);
-		g_object_unref (mime_filter);
-
-		e_mail_formatter_format_text (
-			formatter, part, filter_stream, cancellable);
-
-		camel_stream_flush (filter_stream, cancellable, NULL);
-		g_object_unref (filter_stream);
-
-		camel_stream_write_string (
-			stream, "</div></pre>", cancellable, NULL);
+		/* Don't interfere with printing. */
+		goto exit;
 
 	} else if (context->mode == E_MAIL_FORMATTER_MODE_RAW) {
 		gint pipe_stdin, pipe_stdout;
