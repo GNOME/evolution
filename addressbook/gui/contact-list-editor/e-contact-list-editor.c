@@ -352,7 +352,7 @@ contact_list_editor_get_client_cb (GObject *source_object,
 
 		e_source_combo_box_set_active (
 			E_SOURCE_COMBO_BOX (combo_box),
-			closure->source);
+			e_client_get_source (E_CLIENT (editor->priv->book_client)));
 
 		g_error_free (error);
 		goto exit;
@@ -1524,6 +1524,8 @@ contact_list_editor_save_contact (EABEditor *eab_editor,
 	EditorCloseStruct *ecs;
 	EContact *contact;
 	EShell *shell;
+	GtkWidget *client_combo_box;
+	ESource *active_source;
 
 	shell = eab_editor_get_shell (eab_editor);
 	registry = e_shell_get_registry (shell);
@@ -1532,6 +1534,22 @@ contact_list_editor_save_contact (EABEditor *eab_editor,
 
 	if (priv->book_client == NULL)
 		return;
+
+	client_combo_box = WIDGET (CLIENT_COMBO_BOX);
+	active_source = e_source_combo_box_ref_active (E_SOURCE_COMBO_BOX (client_combo_box));
+	g_return_if_fail (active_source != NULL);
+
+	if (!e_source_equal (e_client_get_source (E_CLIENT (priv->book_client)), active_source)) {
+		e_alert_run_dialog_for_args (
+				GTK_WINDOW (WIDGET (DIALOG)),
+				"addressbook:error-still-opening",
+				e_source_get_display_name (active_source),
+				NULL);
+		g_object_unref (active_source);
+		return;
+	}
+
+	g_object_unref (active_source);
 
 	ecs = g_new (EditorCloseStruct, 1);
 	ecs->editor = g_object_ref (editor);

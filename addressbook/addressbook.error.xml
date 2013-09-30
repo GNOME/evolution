@@ -56,8 +56,8 @@
   </error>
 
   <error id="load-error" type="error">
-    <_primary>Unable to open address book</_primary>
-    <secondary>{0}</secondary>
+    <_primary>Unable to open address book '{0}'</_primary>
+    <secondary>{1}</secondary>
   </error>
 
   <error id="search-error" type="error">
@@ -123,6 +123,12 @@
     <_primary>Cannot add new contact</_primary>
     <!-- For Translators: {0} is the name of the address book source -->
     <_secondary>'{0}' is a read-only address book and cannot be modified. Please select a different address book from the side bar in the Contacts view.</_secondary>
+  </error>
+
+  <error id="error-still-opening" type="error" default="GTK_RESPONSE_YES">
+    <_primary>Cannot save a contact, address book is still opening</_primary>
+    <!-- For Translators: {0} is the name of the address book source -->
+    <_secondary>Cannot save a contact to the address book '{0}', because it is still opening. Either wait till it's opened, or select a different address book.</_secondary>
   </error>
 
 </error-list>

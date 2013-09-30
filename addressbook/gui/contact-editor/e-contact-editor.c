@@ -3153,7 +3153,7 @@ contact_editor_get_client_cb (GObject *source_object,
 
 		e_source_combo_box_set_active (
 			E_SOURCE_COMBO_BOX (combo_box),
-			closure->source);
+			e_client_get_source (E_CLIENT (closure->editor->target_client)));
 
 		g_error_free (error);
 		goto exit;
@@ -3711,10 +3711,27 @@ save_contact (EContactEditor *ce,
 	const gchar *name_entry_string;
 	const gchar *file_as_entry_string;
 	const gchar *company_name_string;
-	GtkWidget *entry_fullname, *entry_file_as, *company_name;
+	GtkWidget *entry_fullname, *entry_file_as, *company_name, *client_combo_box;
+	ESource *active_source;
 
 	if (!ce->target_client)
 		return;
+
+	client_combo_box = e_builder_get_widget (ce->builder, "client-combo-box");
+	active_source = e_source_combo_box_ref_active (E_SOURCE_COMBO_BOX (client_combo_box));
+	g_return_if_fail (active_source != NULL);
+
+	if (!e_source_equal (e_client_get_source (E_CLIENT (ce->target_client)), active_source)) {
+		e_alert_run_dialog_for_args (
+				GTK_WINDOW (ce->app),
+				"addressbook:error-still-opening",
+				e_source_get_display_name (active_source),
+				NULL);
+		g_object_unref (active_source);
+		return;
+	}
+
+	g_object_unref (active_source);
 
 	if (ce->target_editable && e_client_is_readonly (E_CLIENT (ce->source_client))) {
 		if (e_alert_run_dialog_for_args (
