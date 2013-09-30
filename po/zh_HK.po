@@ -11,16 +11,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 3.3.91\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-23 22:03+0800\n"
-"PO-Revision-Date: 2013-09-23 22:03+0800\n"
-"Last-Translator: Chao-Hsiung Liao <j_h_liau@yahoo.com.tw>\n"
+"POT-Creation-Date: 2013-09-30 19:25+0800\n"
+"PO-Revision-Date: 2013-09-30 19:25+0800\n"
+"Last-Translator: Cheng-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Hong Kong) <community@linuxhall.org>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 1.5.7\n"
+"X-Generator: Poedit 1.5.4\n"
 "X-Project-Style: gnome\n"
 
 #: ../addressbook/addressbook.error.xml.h:1
@@ -3554,7 +3554,7 @@ msgstr "Gnome 行事曆"
 #: ../calendar/gui/ea-gnome-calendar.c:204
 #: ../modules/calendar/e-cal-shell-view-private.c:1225
 msgid "%A %d %b %Y"
-msgstr "%Y年%m月%d日 (%A)"
+msgstr "%Y年%m月%d日%A"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. * %b = abbreviated month name. Don't use any other specifiers.
@@ -6622,7 +6622,7 @@ msgid "S_ubject:"
 msgstr "主旨(_U):"
 
 #: ../composer/e-composer-header-table.c:813
-#: ../mail/e-mail-config-identity-page.c:488
+#: ../mail/e-mail-config-identity-page.c:489
 msgid "Si_gnature:"
 msgstr "簽名檔(_G):"
 
@@ -6634,28 +6634,28 @@ msgstr "按這裏新增目錄服務"
 msgid "Click here to select folders to post to"
 msgstr "按一下這裏，選取要張貼的資料夾"
 
-#: ../composer/e-msg-composer.c:869
+#: ../composer/e-msg-composer.c:878
 #, c-format
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr "無法簽署送出的郵件：此帳號沒有設定簽署證書"
 
-#: ../composer/e-msg-composer.c:878
+#: ../composer/e-msg-composer.c:887
 #, c-format
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
 "account"
 msgstr "無法加密送出的郵件：沒有設定加密證書(此帳號)"
 
-#: ../composer/e-msg-composer.c:1557 ../composer/e-msg-composer.c:1958
+#: ../composer/e-msg-composer.c:1566 ../composer/e-msg-composer.c:1967
 msgid "Compose Message"
 msgstr "編輯郵件"
 
-#: ../composer/e-msg-composer.c:4213
+#: ../composer/e-msg-composer.c:4235
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr "郵件編輯器包含不能編輯的非文字的郵件內文。"
 
-#: ../composer/e-msg-composer.c:4886
+#: ../composer/e-msg-composer.c:4908
 msgid "Untitled Message"
 msgstr "未命名的郵件"
 
@@ -8986,7 +8986,7 @@ msgid "S/MIME encrpyted"
 msgstr "S/MIME 加密"
 
 #: ../em-format/e-mail-formatter-print-headers.c:171
-#: ../mail/e-mail-config-security-page.c:642
+#: ../mail/e-mail-config-security-page.c:645
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:195
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:129
 msgid "Security"
@@ -9817,13 +9817,13 @@ msgstr "複製備忘錄清單內容至本地以便離線作業"
 #: ../e-util/e-calendar-item.c:1327 ../e-util/e-calendar-item.c:2195
 msgctxt "CalItem"
 msgid "%B"
-msgstr "%B"
+msgstr "%m月"
 
 #. This is a strftime() format. %Y = Year.
 #: ../e-util/e-calendar-item.c:1329
 msgctxt "CalItem"
 msgid "%Y"
-msgstr "%Y"
+msgstr "%Y年"
 
 #. This is a strftime() format. %B = Month name, %Y = Year.
 #: ../e-util/e-calendar-item.c:1366
@@ -11103,7 +11103,7 @@ msgid "Flags"
 msgstr "旗標"
 
 #: ../e-util/evolution-source-viewer.c:726
-#: ../mail/e-mail-config-identity-page.c:677
+#: ../mail/e-mail-config-identity-page.c:678
 msgid "Identity"
 msgstr "身分"
 
@@ -11557,8 +11557,8 @@ msgid "Account Name"
 msgstr "帳號名稱"
 
 #: ../mail/e-mail-account-tree-view.c:136
-#: ../mail/e-mail-config-security-page.c:333
-#: ../mail/e-mail-config-security-page.c:472 ../mail/e-mail-reader.c:3532
+#: ../mail/e-mail-config-security-page.c:335
+#: ../mail/e-mail-config-security-page.c:475 ../mail/e-mail-reader.c:3532
 #: ../mail/mail-config.ui.h:49
 msgid "Default"
 msgstr "預設值"
@@ -11733,15 +11733,15 @@ msgstr "電子郵件位址(_A):"
 msgid "Optional Information"
 msgstr "選擇性的資訊"
 
-#: ../mail/e-mail-config-identity-page.c:439
+#: ../mail/e-mail-config-identity-page.c:440
 msgid "Re_ply-To:"
 msgstr "回覆地址(_P):"
 
-#: ../mail/e-mail-config-identity-page.c:466
+#: ../mail/e-mail-config-identity-page.c:467
 msgid "Or_ganization:"
 msgstr "團體(_G):"
 
-#: ../mail/e-mail-config-identity-page.c:521
+#: ../mail/e-mail-config-identity-page.c:522
 msgid "Add Ne_w Signature..."
 msgstr "加入新的簽名檔(_W)…"
 
@@ -11775,84 +11775,84 @@ msgstr "接收電子郵件"
 msgid "General"
 msgstr "一般"
 
-#: ../mail/e-mail-config-security-page.c:268
+#: ../mail/e-mail-config-security-page.c:269
 msgid "_Do not sign meeting requests (for Outlook compatibility)"
 msgstr "不簽署會議邀請 (兼容於 _Outlook)"
 
-#: ../mail/e-mail-config-security-page.c:290
+#: ../mail/e-mail-config-security-page.c:291
 msgid "Pretty Good Privacy (OpenPGP)"
 msgstr "嚴密私隱權 (OpenPGP)"
 
-#: ../mail/e-mail-config-security-page.c:298
+#: ../mail/e-mail-config-security-page.c:300
 msgid "OpenPGP _Key ID:"
 msgstr "OpenPGP 密碼匙 ID(_K):"
 
-#: ../mail/e-mail-config-security-page.c:320
+#: ../mail/e-mail-config-security-page.c:322
 msgid "Si_gning algorithm:"
 msgstr "簽署演算法(_G):"
 
-#: ../mail/e-mail-config-security-page.c:336
-#: ../mail/e-mail-config-security-page.c:475 ../mail/mail-config.ui.h:50
+#: ../mail/e-mail-config-security-page.c:338
+#: ../mail/e-mail-config-security-page.c:478 ../mail/mail-config.ui.h:50
 msgid "SHA1"
 msgstr "SHA1"
 
-#: ../mail/e-mail-config-security-page.c:339
-#: ../mail/e-mail-config-security-page.c:478 ../mail/mail-config.ui.h:51
+#: ../mail/e-mail-config-security-page.c:341
+#: ../mail/e-mail-config-security-page.c:481 ../mail/mail-config.ui.h:51
 msgid "SHA256"
 msgstr "SHA256"
 
-#: ../mail/e-mail-config-security-page.c:342
-#: ../mail/e-mail-config-security-page.c:481 ../mail/mail-config.ui.h:52
+#: ../mail/e-mail-config-security-page.c:344
+#: ../mail/e-mail-config-security-page.c:484 ../mail/mail-config.ui.h:52
 msgid "SHA384"
 msgstr "SHA384"
 
-#: ../mail/e-mail-config-security-page.c:345
-#: ../mail/e-mail-config-security-page.c:484 ../mail/mail-config.ui.h:53
+#: ../mail/e-mail-config-security-page.c:347
+#: ../mail/e-mail-config-security-page.c:487 ../mail/mail-config.ui.h:53
 msgid "SHA512"
 msgstr "SHA512"
 
-#: ../mail/e-mail-config-security-page.c:361
+#: ../mail/e-mail-config-security-page.c:363
 msgid "Al_ways sign outgoing messages when using this account"
 msgstr "使用此帳號時一定在外送的郵件簽署(_W)"
 
-#: ../mail/e-mail-config-security-page.c:373
+#: ../mail/e-mail-config-security-page.c:375
 msgid "Always encrypt to _myself when sending encrypted messages"
 msgstr "當傳送加密郵件時永遠自我加密(_M)"
 
-#: ../mail/e-mail-config-security-page.c:385
+#: ../mail/e-mail-config-security-page.c:387
 msgid "Always _trust keys in my keyring when encrypting"
 msgstr "加密時永遠信任我的密碼匙圈裏的密碼匙(_T)"
 
-#: ../mail/e-mail-config-security-page.c:409
+#: ../mail/e-mail-config-security-page.c:411
 msgid "Secure MIME (S/MIME)"
 msgstr "安全式 MIME (S/MIME)"
 
-#: ../mail/e-mail-config-security-page.c:417
+#: ../mail/e-mail-config-security-page.c:420
 msgid "Sig_ning certificate:"
 msgstr "簽署證書(_N):"
 
-#: ../mail/e-mail-config-security-page.c:441
-#: ../mail/e-mail-config-security-page.c:547
+#: ../mail/e-mail-config-security-page.c:444
+#: ../mail/e-mail-config-security-page.c:550
 msgid "Select"
 msgstr "選擇"
 
-#: ../mail/e-mail-config-security-page.c:459
+#: ../mail/e-mail-config-security-page.c:462
 msgid "Signing _algorithm:"
 msgstr "簽署演算法(_A):"
 
-#: ../mail/e-mail-config-security-page.c:500
+#: ../mail/e-mail-config-security-page.c:503
 msgid "Always sign outgoing messages when using this account"
 msgstr "使用此帳號時一定在外送的郵件簽署"
 
-#: ../mail/e-mail-config-security-page.c:523
+#: ../mail/e-mail-config-security-page.c:526
 msgid "Encryption certificate:"
 msgstr "加密證書："
 
-#: ../mail/e-mail-config-security-page.c:565
+#: ../mail/e-mail-config-security-page.c:568
 msgid "Always encrypt outgoing messages when using this account"
 msgstr "使用此帳號時一定在外送的郵件加密"
 
-#: ../mail/e-mail-config-security-page.c:585
+#: ../mail/e-mail-config-security-page.c:588
 msgid "Always encrypt to myself when sending encrypted messages"
 msgstr "當傳送加密郵件時永遠自我加密"
 
@@ -12673,7 +12673,7 @@ msgstr[0] "郵件"
 msgid "Parsing message"
 msgstr "解析郵件"
 
-#: ../mail/e-mail-request.c:182
+#: ../mail/e-mail-request.c:197
 msgid "The message has no text content."
 msgstr "這個郵件沒有文字內容。"
 
@@ -14612,7 +14612,7 @@ msgstr "昨天 %p %l:%M"
 
 #: ../mail/message-list.c:1879
 msgid "%a %l:%M %p"
-msgstr "%a %p %l:%M"
+msgstr "%A %p %l:%M"
 
 #: ../mail/message-list.c:1887
 msgid "%b %d %l:%M %p"
@@ -16638,61 +16638,61 @@ msgstr "%A %p %l:%M:%S"
 #. * without a year.
 #: ../modules/itip-formatter/itip-view.c:322
 msgid "%A, %B %e"
-msgstr "%m月%e日(%A)"
+msgstr "%b%e日%A"
 
 #. strftime format of a weekday, a date
 #. * without a year and a time,
 #. * in 24-hour format, without seconds.
 #: ../modules/itip-formatter/itip-view.c:328
 msgid "%A, %B %e %H:%M"
-msgstr "%m月%e日(%A) %H:%M"
+msgstr "%b%e日%A %H:%M"
 
 #. strftime format of a weekday, a date without a year
 #. * and a time, in 24-hour format.
 #: ../modules/itip-formatter/itip-view.c:332
 msgid "%A, %B %e %H:%M:%S"
-msgstr "%m月%e日(%A) %H:%M:%S"
+msgstr "%b%e日%A %H:%M:%S"
 
 #. strftime format of a weekday, a date without a year
 #. * and a time, in 12-hour format, without seconds.
 #: ../modules/itip-formatter/itip-view.c:337
 msgid "%A, %B %e %l:%M %p"
-msgstr "%m月%e日(%A) %p %l:%M"
+msgstr "%b%e日%A %p %l:%M"
 
 #. strftime format of a weekday, a date without a year
 #. * and a time, in 12-hour format.
 #: ../modules/itip-formatter/itip-view.c:341
 msgid "%A, %B %e %l:%M:%S %p"
-msgstr "%m月%e日(%A) %p %l:%M:%S"
+msgstr "%b%e日%A %p %l:%M:%S"
 
 #. strftime format of a weekday and a date.
 #: ../modules/itip-formatter/itip-view.c:347
 msgid "%A, %B %e, %Y"
-msgstr "%Y年%m月%e日(%A)"
+msgstr "%Y年%b%e日%A"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 24-hour format, without seconds.
 #: ../modules/itip-formatter/itip-view.c:352
 msgid "%A, %B %e, %Y %H:%M"
-msgstr "%Y年%m月%e日(%A) %H:%M"
+msgstr "%Y年%b%e日%A %H:%M"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 24-hour format.
 #: ../modules/itip-formatter/itip-view.c:356
 msgid "%A, %B %e, %Y %H:%M:%S"
-msgstr "%Y年%m月%e日(%A) %H:%M:%S"
+msgstr "%Y年%b%e日%A %H:%M:%S"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 12-hour format, without seconds.
 #: ../modules/itip-formatter/itip-view.c:361
 msgid "%A, %B %e, %Y %l:%M %p"
-msgstr "%Y年%m月%e日(%A) %p %l:%M"
+msgstr "%Y年%b%e日%A %p %l:%M"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 12-hour format.
 #: ../modules/itip-formatter/itip-view.c:365
 msgid "%A, %B %e, %Y %l:%M:%S %p"
-msgstr "%Y年%m月%e日(%A) %p %l:%M:%S"
+msgstr "%Y年%b%e日%A %p %l:%M:%S"
 
 #: ../modules/itip-formatter/itip-view.c:403
 #: ../modules/itip-formatter/itip-view.c:404
