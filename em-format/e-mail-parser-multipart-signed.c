@@ -51,31 +51,34 @@ empe_mp_signed_parse (EMailParserExtension *extension,
                       GCancellable *cancellable,
                       GQueue *out_mail_parts)
 {
-	CamelMimePart *cpart;
-	CamelMultipartSigned *mps;
+	CamelMimePart *cpart = NULL;
+	CamelMultipart *multipart;
 	CamelCipherContext *cipher = NULL;
+	CamelContentType *content_type;
 	CamelSession *session;
 	guint32 validity_type;
 	CamelCipherValidity *valid;
+	const gchar *protocol = NULL;
 	GError *local_error = NULL;
 	gint i, nparts, len;
 	gboolean secured;
 
 	/* If the part is application/pgp-signature sub-part then skip it. */
 	if (!CAMEL_IS_MULTIPART (part)) {
-		CamelContentType *ct;
-		ct = camel_mime_part_get_content_type (CAMEL_MIME_PART (part));
-		if (camel_content_type_is (ct, "application", "pgp-signature")) {
+		content_type = camel_mime_part_get_content_type (part);
+		if (camel_content_type_is (
+			content_type, "application", "pgp-signature")) {
 			return TRUE;
 		}
 	}
 
-	mps = (CamelMultipartSigned *) camel_medium_get_content ((CamelMedium *) part);
-	if (!CAMEL_IS_MULTIPART_SIGNED (mps)
-		|| (
+	multipart = (CamelMultipart *) camel_medium_get_content ((CamelMedium *) part);
+	if (CAMEL_IS_MULTIPART_SIGNED (multipart)) {
 		cpart = camel_multipart_get_part (
-			(CamelMultipart *) mps,
-		CAMEL_MULTIPART_SIGNED_CONTENT)) == NULL) {
+			multipart, CAMEL_MULTIPART_SIGNED_CONTENT);
+	}
+
+	if (cpart == NULL) {
 		e_mail_parser_error (
 			parser, out_mail_parts,
 			_("Could not parse MIME message. "
@@ -88,18 +91,23 @@ empe_mp_signed_parse (EMailParserExtension *extension,
 		return TRUE;
 	}
 
+	content_type = camel_data_wrapper_get_mime_type_field (
+		CAMEL_DATA_WRAPPER (multipart));
+	if (content_type != NULL)
+		protocol = camel_content_type_param (content_type, "protocol");
+
 	session = e_mail_parser_get_session (parser);
 	/* FIXME: Should be done via a plugin interface */
 	/* FIXME: duplicated in em-format-html-display.c */
-	if (mps->protocol) {
+	if (protocol != NULL) {
 #ifdef ENABLE_SMIME
-		if (g_ascii_strcasecmp ("application/x-pkcs7-signature", mps->protocol) == 0
-		    || g_ascii_strcasecmp ("application/pkcs7-signature", mps->protocol) == 0) {
+		if (g_ascii_strcasecmp ("application/x-pkcs7-signature", protocol) == 0
+		    || g_ascii_strcasecmp ("application/pkcs7-signature", protocol) == 0) {
 			cipher = camel_smime_context_new (session);
 			validity_type = E_MAIL_PART_VALIDITY_SMIME;
 		} else {
 #endif
-			if (g_ascii_strcasecmp ("application/pgp-signature", mps->protocol) == 0) {
+			if (g_ascii_strcasecmp ("application/pgp-signature", protocol) == 0) {
 				cipher = camel_gpg_context_new (session);
 				validity_type = E_MAIL_PART_VALIDITY_PGP;
 			}
@@ -137,7 +145,7 @@ empe_mp_signed_parse (EMailParserExtension *extension,
 		return TRUE;
 	}
 
-	nparts = camel_multipart_get_number (CAMEL_MULTIPART (mps));
+	nparts = camel_multipart_get_number (multipart);
 	secured = FALSE;
 	len = part_id->len;
 	for (i = 0; i < nparts; i++) {
@@ -145,7 +153,7 @@ empe_mp_signed_parse (EMailParserExtension *extension,
 		GList *head, *link;
 		CamelMimePart *subpart;
 
-		subpart = camel_multipart_get_part (CAMEL_MULTIPART (mps), i);
+		subpart = camel_multipart_get_part (multipart, i);
 
 		g_string_append_printf (part_id, ".signed.%d", i);
 
