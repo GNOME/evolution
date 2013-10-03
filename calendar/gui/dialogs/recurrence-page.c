@@ -1757,6 +1757,7 @@ recurrence_page_fill_widgets (CompEditorPage *page,
 
 	/* Clean the page */
 	clear_widgets (rpage);
+	priv->custom = FALSE;
 
 	/* Summary */
 	e_cal_component_get_summary (comp, &text);
@@ -2067,7 +2068,6 @@ recurrence_page_fill_widgets (CompEditorPage *page,
 	sensitize_buttons (rpage);
 
  out:
-	priv->custom = FALSE;
 	e_cal_component_free_recur_list (rrule_list);
 	preview_recur (rpage);
 
