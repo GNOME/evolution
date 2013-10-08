@@ -1597,37 +1597,51 @@ tray_list_add_new (TrayIconData *data)
 	message_push ((Message *) msg);
 }
 
-static void
+static gchar *
 alarm_queue_get_alarm_summary (ECalClient *cal_client,
                                ECalComponent *comp,
-                               const ECalComponentAlarmInstance *instance,
-                               ECalComponentText *text,
-                               ECalComponentAlarm **palarm)
+                               const ECalComponentAlarmInstance *instance)
 {
-	g_return_if_fail (comp != NULL);
-	g_return_if_fail (instance != NULL);
-	g_return_if_fail (instance->auid != NULL);
-	g_return_if_fail (text != NULL);
-	g_return_if_fail (palarm != NULL);
+	ECalComponentAlarm *alarm = NULL;
+	ECalComponentText summary_text, alarm_text;
+	gchar *alarm_summary;
 
-	text->value = NULL;
+	g_return_val_if_fail (comp != NULL, NULL);
+	g_return_val_if_fail (instance != NULL, NULL);
+	g_return_val_if_fail (instance->auid != NULL, NULL);
+
+	summary_text.value = NULL;
+	alarm_text.value = NULL;
+
+	e_cal_component_get_summary (comp, &summary_text);
 
 	if (e_client_check_capability (E_CLIENT (cal_client), CAL_STATIC_CAPABILITY_ALARM_DESCRIPTION)) {
-		*palarm = e_cal_component_get_alarm (comp, instance->auid);
-		if (*palarm) {
-			e_cal_component_alarm_get_description (*palarm, text);
-			if (!text->value || !*text->value) {
-				text->value = NULL;
-				e_cal_component_alarm_free (*palarm);
-				*palarm = NULL;
-			}
-		} else {
-			*palarm = NULL;
+		alarm = e_cal_component_get_alarm (comp, instance->auid);
+		if (alarm) {
+			e_cal_component_alarm_get_description (alarm, &alarm_text);
+			if (!alarm_text.value || !*alarm_text.value)
+				alarm_text.value = NULL;
 		}
 	}
 
-	if (!text->value)
-		e_cal_component_get_summary (comp, text);
+	if (alarm_text.value && summary_text.value &&
+	    e_util_utf8_strcasecmp (alarm_text.value, summary_text.value) == 0)
+		alarm_text.value = NULL;
+
+	if (summary_text.value && *summary_text.value &&
+	    alarm_text.value && *alarm_text.value)
+		alarm_summary = g_strconcat (summary_text.value, "\n", alarm_text.value, NULL);
+	else if (summary_text.value && *summary_text.value)
+		alarm_summary = g_strdup (summary_text.value);
+	else if (alarm_text.value && *alarm_text.value)
+		alarm_summary = g_strdup (alarm_text.value);
+	else
+		alarm_summary = NULL;
+
+	if (alarm)
+		e_cal_component_alarm_free (alarm);
+
+	return alarm_summary;
 }
 
 /* Performs notification of a display alarm */
@@ -1639,8 +1653,8 @@ display_notification (time_t trigger,
 {
 	QueuedAlarm *qa;
 	ECalComponent *comp;
-	ECalComponentAlarm *comp_alarm = NULL;
 	const gchar *summary, *description, *location;
+	gchar *alarm_summary;
 	TrayIconData *tray_data;
 	ECalComponentText text;
 	GSList *text_list;
@@ -1656,11 +1670,11 @@ display_notification (time_t trigger,
 		return;
 
 	/* get a sensible description for the event */
-	alarm_queue_get_alarm_summary (cqa->parent_client->cal_client, comp, qa->instance, &text, &comp_alarm);
+	alarm_summary = alarm_queue_get_alarm_summary (cqa->parent_client->cal_client, comp, qa->instance);
 	e_cal_component_get_organizer (comp, &organiser);
 
-	if (text.value)
-		summary = text.value;
+	if (alarm_summary && *alarm_summary)
+		summary = alarm_summary;
 	else
 		summary = _("No summary available.");
 
@@ -1739,8 +1753,7 @@ display_notification (time_t trigger,
 		gtk_status_icon_set_tooltip_text (tray_icon, str);
 	}
 
-	if (comp_alarm)
-		e_cal_component_alarm_free (comp_alarm);
+	g_free (alarm_summary);
 	g_free (start_str);
 	g_free (end_str);
 	g_free (alarm_str);
@@ -1775,9 +1788,8 @@ popup_notification (time_t trigger,
 {
 	QueuedAlarm *qa;
 	ECalComponent *comp;
-	ECalComponentAlarm *comp_alarm = NULL;
 	const gchar *summary, *location;
-	ECalComponentText text;
+	gchar *alarm_summary;
 	gchar *str, *start_str, *end_str, *alarm_str, *time_str;
 	icaltimezone *current_zone;
 	ECalComponentOrganizer organiser;
@@ -1794,11 +1806,11 @@ popup_notification (time_t trigger,
 		notify_init (_("Evolution Reminders"));
 
 	/* get a sensible description for the event */
-	alarm_queue_get_alarm_summary (cqa->parent_client->cal_client, comp, qa->instance, &text, &comp_alarm);
+	alarm_summary = alarm_queue_get_alarm_summary (cqa->parent_client->cal_client, comp, qa->instance);
 	e_cal_component_get_organizer (comp, &organiser);
 
-	if (text.value)
-		summary = text.value;
+	if (alarm_summary && *alarm_summary)
+		summary = alarm_summary;
 	else
 		summary = _("No summary available.");
 
@@ -1849,9 +1861,7 @@ popup_notification (time_t trigger,
 	if (!notify_notification_show (notify, NULL))
 		g_warning ("Could not send notification to daemon\n");
 
-	if (comp_alarm)
-		e_cal_component_alarm_free (comp_alarm);
-	/* create the private structure */
+	g_free (alarm_summary);
 	g_free (start_str);
 	g_free (end_str);
 	g_free (alarm_str);
