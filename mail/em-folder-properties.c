@@ -31,9 +31,13 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
+#include <shell/e-shell.h>
+
 #include <libemail-engine/e-mail-folder-utils.h>
 #include <libemail-engine/mail-mt.h>
 #include <libemail-engine/mail-ops.h>
+
+#include <e-util/e-util.h>
 
 #include "e-mail-backend.h"
 #include "e-mail-ui-session.h"
@@ -75,6 +79,25 @@ emfp_free (EConfig *ec,
            gpointer data)
 {
 	g_slist_free (items);
+}
+
+static void
+mail_identity_combo_box_changed_cb (GtkComboBox *combo_box,
+				    EMailSendAccountOverride *account_override)
+{
+	const gchar *active_id, *folder_uri;
+
+	g_return_if_fail (GTK_IS_COMBO_BOX (combo_box));
+	g_return_if_fail (E_IS_MAIL_SEND_ACCOUNT_OVERRIDE (account_override));
+
+	folder_uri = g_object_get_data (G_OBJECT (combo_box), "sao-folder-uri");
+	g_return_if_fail (folder_uri != NULL);
+
+	active_id = gtk_combo_box_get_active_id (combo_box);
+	if (!active_id || !*active_id)
+		e_mail_send_account_override_remove_for_folder (account_override, folder_uri);
+	else
+		e_mail_send_account_override_set_for_folder (account_override, folder_uri, active_id);
 }
 
 static gint
@@ -254,6 +277,56 @@ emfp_get_folder_item (EConfig *ec,
 	}
 
 	g_free (properties);
+
+	/* add send-account-override setting widgets */
+	if (context->folder != NULL) {
+		ESourceRegistry *registry;
+		EShell *shell;
+		EMailBackend *mail_backend;
+		EMailSendAccountOverride *account_override;
+		gchar *folder_uri, *account_uid;
+		GtkWidget *label;
+
+		registry = e_shell_get_registry (e_shell_get_default ());
+
+		label = gtk_label_new_with_mnemonic (_("_Send Account Override:"));
+		gtk_widget_set_halign (label, GTK_ALIGN_START);
+		gtk_widget_show (label);
+		gtk_table_attach (
+			GTK_TABLE (table), label,
+			0, 2, row, row + 1,
+			GTK_FILL, 0, 0, 0);
+		row++;
+
+		widget = g_object_new (E_TYPE_MAIL_IDENTITY_COMBO_BOX,
+			"registry", registry,
+			"allow-none", TRUE,
+			NULL);
+		gtk_label_set_mnemonic_widget (GTK_LABEL (label), widget);
+		gtk_widget_set_margin_left (widget, 12);
+		gtk_widget_show (widget);
+		gtk_table_attach (
+			GTK_TABLE (table), widget,
+			0, 2, row, row + 1,
+			GTK_FILL | GTK_EXPAND, 0, 0, 0);
+		row++;
+
+		shell = e_shell_get_default ();
+		mail_backend = E_MAIL_BACKEND (e_shell_get_backend_by_name (shell, "mail"));
+		g_return_val_if_fail (mail_backend != NULL, table);
+
+		account_override = e_mail_backend_get_send_account_override (mail_backend);
+		folder_uri = e_mail_folder_uri_from_folder (context->folder);
+		account_uid = e_mail_send_account_override_get_for_folder (account_override, folder_uri);
+
+		gtk_combo_box_set_active_id (GTK_COMBO_BOX (widget), account_uid ? account_uid : "");
+		g_object_set_data_full (G_OBJECT (widget), "sao-folder-uri", folder_uri, g_free);
+
+		g_signal_connect (widget, "changed",
+			G_CALLBACK (mail_identity_combo_box_changed_cb), account_override);
+
+		g_free (account_uid);
+	}
 
 	return table;
 }

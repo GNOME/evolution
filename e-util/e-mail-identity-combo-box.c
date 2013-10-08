@@ -16,6 +16,12 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
+#include <glib/gi18n-lib.h>
+
 #include "e-mail-identity-combo-box.h"
 
 #define E_MAIL_IDENTITY_COMBO_BOX_GET_PRIVATE(obj) \
@@ -28,11 +34,13 @@
 struct _EMailIdentityComboBoxPrivate {
 	ESourceRegistry *registry;
 	guint refresh_idle_id;
+	gboolean allow_none;
 };
 
 enum {
 	PROP_0,
-	PROP_REGISTRY
+	PROP_REGISTRY,
+	PROP_ALLOW_NONE
 };
 
 enum {
@@ -129,6 +137,12 @@ mail_identity_combo_box_set_property (GObject *object,
 				E_MAIL_IDENTITY_COMBO_BOX (object),
 				g_value_get_object (value));
 			return;
+
+		case PROP_ALLOW_NONE:
+			e_mail_identity_combo_box_set_allow_none (
+				E_MAIL_IDENTITY_COMBO_BOX (object),
+				g_value_get_boolean (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -145,6 +159,13 @@ mail_identity_combo_box_get_property (GObject *object,
 			g_value_set_object (
 				value,
 				e_mail_identity_combo_box_get_registry (
+				E_MAIL_IDENTITY_COMBO_BOX (object)));
+			return;
+
+		case PROP_ALLOW_NONE:
+			g_value_set_boolean (
+				value,
+				e_mail_identity_combo_box_get_allow_none (
 				E_MAIL_IDENTITY_COMBO_BOX (object)));
 			return;
 	}
@@ -230,12 +251,24 @@ e_mail_identity_combo_box_class_init (EMailIdentityComboBoxClass *class)
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
 			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_ALLOW_NONE,
+		g_param_spec_boolean (
+			"allow-none",
+			"Allow None Item",
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
 }
 
 static void
 e_mail_identity_combo_box_init (EMailIdentityComboBox *combo_box)
 {
 	combo_box->priv = E_MAIL_IDENTITY_COMBO_BOX_GET_PRIVATE (combo_box);
+	combo_box->priv->allow_none = FALSE;
 }
 
 GtkWidget *
@@ -359,6 +392,17 @@ e_mail_identity_combo_box_refresh (EMailIdentityComboBox *combo_box)
 
 	g_list_free_full (list, (GDestroyNotify) g_object_unref);
 
+	if (combo_box->priv->allow_none) {
+		GtkTreeIter iter;
+
+		gtk_list_store_insert (GTK_LIST_STORE (tree_model), &iter, 0);
+
+		gtk_list_store_set (
+			GTK_LIST_STORE (tree_model), &iter,
+			COLUMN_DISPLAY_NAME, _("None"),
+			COLUMN_UID, "", -1);
+	}
+
 	/* Try and restore the previous selected source, or else pick
 	 * the default identity of the default mail account.  If even
 	 * that fails, just pick the first item. */
@@ -366,7 +410,8 @@ e_mail_identity_combo_box_refresh (EMailIdentityComboBox *combo_box)
 	if (saved_uid != NULL)
 		gtk_combo_box_set_active_id (gtk_combo_box, saved_uid);
 
-	if (gtk_combo_box_get_active_id (gtk_combo_box) == NULL)
+	if (!combo_box->priv->allow_none &&
+	    gtk_combo_box_get_active_id (gtk_combo_box) == NULL)
 		mail_identity_combo_box_activate_default (combo_box);
 
 	if (gtk_combo_box_get_active_id (gtk_combo_box) == NULL)
@@ -379,4 +424,28 @@ e_mail_identity_combo_box_get_registry (EMailIdentityComboBox *combo_box)
 	g_return_val_if_fail (E_IS_MAIL_IDENTITY_COMBO_BOX (combo_box), NULL);
 
 	return combo_box->priv->registry;
+}
+
+void
+e_mail_identity_combo_box_set_allow_none (EMailIdentityComboBox *combo_box,
+					  gboolean allow_none)
+{
+	g_return_if_fail (E_IS_MAIL_IDENTITY_COMBO_BOX (combo_box));
+
+	if ((combo_box->priv->allow_none ? 1 : 0) == (allow_none ? 1 : 0))
+		return;
+
+	combo_box->priv->allow_none = allow_none;
+
+	g_object_notify (G_OBJECT (combo_box), "allow-none");
+
+	e_mail_identity_combo_box_refresh (combo_box);
+}
+
+gboolean
+e_mail_identity_combo_box_get_allow_none (EMailIdentityComboBox *combo_box)
+{
+	g_return_val_if_fail (E_IS_MAIL_IDENTITY_COMBO_BOX (combo_box), FALSE);
+
+	return combo_box->priv->allow_none;
 }

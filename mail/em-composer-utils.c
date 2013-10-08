@@ -1103,6 +1103,8 @@ create_new_composer (EShell *shell,
 	e_composer_header_table_set_subject (table, subject);
 	e_composer_header_table_set_identity_uid (table, identity);
 
+	em_utils_apply_send_account_override_to_composer (composer, shell, folder);
+
 	g_free (identity);
 
 	g_object_unref (client_cache);
@@ -1140,6 +1142,83 @@ em_utils_compose_new_message (EShell *shell,
 	return composer;
 }
 
+static CamelMimeMessage *
+em_utils_get_composer_recipients_as_message (EMsgComposer *composer)
+{
+	CamelMimeMessage *message;
+	EComposerHeaderTable *table;
+	EComposerHeader *header;
+	EDestination **destv;
+	CamelInternetAddress *to_addr, *cc_addr, *bcc_addr, *dest_addr;
+	const gchar *text_addr;
+	gint ii;
+
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
+
+	table = e_msg_composer_get_header_table (composer);
+	header = e_composer_header_table_get_header (table, E_COMPOSER_HEADER_TO);
+
+	if (!e_composer_header_get_visible (header))
+		return NULL;
+
+	message = camel_mime_message_new ();
+
+	to_addr  = camel_internet_address_new ();
+	cc_addr  = camel_internet_address_new ();
+	bcc_addr = camel_internet_address_new ();
+
+	/* To */
+	dest_addr = to_addr;
+	destv = e_composer_header_table_get_destinations_to (table);
+	for (ii = 0; destv != NULL && destv[ii] != NULL; ii++) {
+		text_addr = e_destination_get_address (destv[ii]);
+		if (text_addr && *text_addr) {
+			if (camel_address_decode (CAMEL_ADDRESS (dest_addr), text_addr) <= 0)
+				camel_internet_address_add (dest_addr, "", text_addr);
+		}
+	}
+	e_destination_freev (destv);
+
+	/* CC */
+	dest_addr = cc_addr;
+	destv = e_composer_header_table_get_destinations_cc (table);
+	for (ii = 0; destv != NULL && destv[ii] != NULL; ii++) {
+		text_addr = e_destination_get_address (destv[ii]);
+		if (text_addr && *text_addr) {
+			if (camel_address_decode (CAMEL_ADDRESS (dest_addr), text_addr) <= 0)
+				camel_internet_address_add (dest_addr, "", text_addr);
+		}
+	}
+	e_destination_freev (destv);
+
+	/* Bcc */
+	dest_addr = bcc_addr;
+	destv = e_composer_header_table_get_destinations_bcc (table);
+	for (ii = 0; destv != NULL && destv[ii] != NULL; ii++) {
+		text_addr = e_destination_get_address (destv[ii]);
+		if (text_addr && *text_addr) {
+			if (camel_address_decode (CAMEL_ADDRESS (dest_addr), text_addr) <= 0)
+				camel_internet_address_add (dest_addr, "", text_addr);
+		}
+	}
+	e_destination_freev (destv);
+
+	if (camel_address_length (CAMEL_ADDRESS (to_addr)) > 0)
+		camel_mime_message_set_recipients (message, CAMEL_RECIPIENT_TYPE_TO, to_addr);
+
+	if (camel_address_length (CAMEL_ADDRESS (cc_addr)) > 0)
+		camel_mime_message_set_recipients (message, CAMEL_RECIPIENT_TYPE_CC, cc_addr);
+
+	if (camel_address_length (CAMEL_ADDRESS (bcc_addr)) > 0)
+		camel_mime_message_set_recipients (message, CAMEL_RECIPIENT_TYPE_BCC, bcc_addr);
+
+	g_object_unref (to_addr);
+	g_object_unref (cc_addr);
+	g_object_unref (bcc_addr);
+
+	return message;
+}
+
 /**
  * em_utils_compose_new_message_with_mailto:
  * @shell: an #EShell
@@ -1169,6 +1248,8 @@ em_utils_compose_new_message_with_mailto (EShell *shell,
 		composer = e_msg_composer_new_from_url (shell, mailto);
 	else
 		composer = e_msg_composer_new (shell);
+
+	em_utils_apply_send_account_override_to_composer (composer, shell, folder);
 
 	table = e_msg_composer_get_header_table (composer);
 
@@ -1459,6 +1540,9 @@ em_utils_edit_message (EShell *shell,
 	}
 
 	composer = e_msg_composer_new_with_message (shell, message, keep_signature, NULL);
+
+	em_utils_apply_send_account_override_to_composer (composer, shell, folder);
+
 	if (!folder_is_templates) {
 		EComposerHeaderTable *table;
 		ESource *source;
@@ -1907,8 +1991,10 @@ redirect_get_composer (EShell *shell,
 	registry = e_shell_get_registry (shell);
 
 	/* This returns a new ESource reference. */
-	source = em_utils_guess_mail_identity_with_recipients_and_sort (
-		registry, message, NULL, NULL, sort_sources_by_ui, shell);
+	source = em_utils_check_send_account_override (shell, message, NULL);
+	if (!source)
+		source = em_utils_guess_mail_identity_with_recipients_and_sort (
+			registry, message, NULL, NULL, sort_sources_by_ui, shell);
 
 	if (source != NULL) {
 		identity_uid = e_source_dup_uid (source);
@@ -2851,8 +2937,10 @@ em_utils_reply_to_message (EShell *shell,
 	registry = e_shell_get_registry (shell);
 
 	/* This returns a new ESource reference. */
-	source = em_utils_guess_mail_identity_with_recipients_and_sort (
-		registry, message, folder, message_uid, sort_sources_by_ui, shell);
+	source = em_utils_check_send_account_override (shell, message, folder);
+	if (!source)
+		source = em_utils_guess_mail_identity_with_recipients_and_sort (
+			registry, message, folder, message_uid, sort_sources_by_ui, shell);
 	if (source != NULL) {
 		identity_uid = e_source_dup_uid (source);
 		g_object_unref (source);
@@ -2919,6 +3007,9 @@ em_utils_reply_to_message (EShell *shell,
 		g_free (folder_uri);
 		g_free (tmp_message_uid);
 	}
+
+	/* because some reply types can change recipients after the composer is populated */
+	em_utils_apply_send_account_override_to_composer (composer, shell, folder);
 
 	composer_set_no_change (composer);
 
@@ -3057,4 +3148,81 @@ em_configure_new_composer (EMsgComposer *composer,
 	g_signal_connect (
 		header, "clicked",
 		G_CALLBACK (post_header_clicked_cb), session);
+}
+
+/* free returned pointer with g_object_unref(), if not NULL */
+ESource *
+em_utils_check_send_account_override (EShell *shell,
+				      CamelMimeMessage *message,
+				      CamelFolder *folder)
+{
+	EMailBackend *mail_backend;
+	EMailSendAccountOverride *account_override;
+	CamelInternetAddress *to = NULL, *cc = NULL, *bcc = NULL;
+	gchar *folder_uri = NULL, *account_uid;
+	ESource *account_source = NULL;
+	ESourceRegistry *source_registry;
+
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
+
+	if (!message && !folder)
+		return NULL;
+
+	if (message) {
+		to = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
+		cc = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
+		bcc = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_BCC);
+	}
+
+	mail_backend = E_MAIL_BACKEND (e_shell_get_backend_by_name (shell, "mail"));
+	g_return_val_if_fail (mail_backend != NULL, NULL);
+
+	if (folder)
+		folder_uri = e_mail_folder_uri_from_folder (folder);
+
+	source_registry = e_shell_get_registry (shell);
+	account_override = e_mail_backend_get_send_account_override (mail_backend);
+	account_uid = e_mail_send_account_override_get_account_uid (account_override, folder_uri, to, cc, bcc);
+
+	while (account_uid) {
+		account_source = e_source_registry_ref_source (source_registry, account_uid);
+		if (account_source)
+			break;
+
+		/* stored send account override settings contain a reference
+		   to a dropped account, thus cleanup it now */
+		e_mail_send_account_override_remove_for_account_uid (account_override, account_uid);
+
+		g_free (account_uid);
+		account_uid = e_mail_send_account_override_get_account_uid (account_override, folder_uri, to, cc, bcc);
+	}
+
+	g_free (folder_uri);
+	g_free (account_uid);
+
+	return account_source;
+}
+
+void
+em_utils_apply_send_account_override_to_composer (EMsgComposer *composer,
+						  EShell *shell,
+						  CamelFolder *folder)
+{
+	CamelMimeMessage *message;
+	EComposerHeaderTable *header_table;
+	ESource *source;
+
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
+	message = em_utils_get_composer_recipients_as_message (composer);
+	source = em_utils_check_send_account_override (shell, message, folder);
+	g_object_unref (message);
+
+	if (!source)
+		return;
+
+	header_table = e_msg_composer_get_header_table (composer);
+	e_composer_header_table_set_identity_uid (header_table, e_source_get_uid (source));
+
+	g_object_unref (source);
 }

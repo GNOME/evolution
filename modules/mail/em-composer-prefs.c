@@ -37,14 +37,22 @@
 
 #include <gtkhtml/gtkhtml.h>
 #include <editor/gtkhtml-spell-language.h>
+#include <libedataserver/libedataserver.h>
 
 #include <composer/e-msg-composer.h>
 
 #include <shell/e-shell-utils.h>
 
+#include <libemail-engine/e-mail-folder-utils.h>
+
 #include <mail/em-config.h>
 #include <mail/em-folder-selection-button.h>
+#include <mail/em-folder-selector.h>
+#include <mail/em-folder-tree.h>
+#include <mail/em-folder-tree-model.h>
+#include <mail/e-mail-backend.h>
 #include <mail/e-mail-junk-options.h>
+#include <mail/e-mail-ui-session.h>
 
 G_DEFINE_TYPE (
 	EMComposerPrefs,
@@ -218,6 +226,722 @@ spell_setup (EMComposerPrefs *prefs)
 	g_list_free (active_languages);
 }
 
+#define MAIL_SEND_ACCOUNT_OVERRIDE_KEY "sao-mail-send-account-override"
+#define MAIL_CAMEL_SESSION_KEY "sao-mail-camel-session"
+
+static gchar *
+sao_dup_account_uid (GtkBuilder *builder)
+{
+	GtkWidget *widget;
+	GtkTreeView *tree_view;
+	GtkTreeSelection *selection;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	gchar *account_uid = NULL;
+
+	widget = e_builder_get_widget (builder, "sao-account-treeview");
+	g_return_val_if_fail (GTK_IS_TREE_VIEW (widget), NULL);
+
+	tree_view = GTK_TREE_VIEW (widget);
+	selection = gtk_tree_view_get_selection (tree_view);
+
+	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
+		return NULL;
+
+	gtk_tree_model_get (model, &iter, 1, &account_uid, -1);
+
+	return account_uid;
+}
+
+static void
+sao_fill_overrides (GtkBuilder *builder,
+		    const gchar *tree_view_name,
+		    GSList *overrides,
+		    gboolean is_folder)
+{
+	CamelSession *session = NULL;
+	GtkWidget *widget;
+	GtkListStore *list_store;
+	GtkTreeIter titer;
+	GSList *oiter;
+
+	widget = e_builder_get_widget (builder, tree_view_name);
+	g_return_if_fail (GTK_IS_TREE_VIEW (widget));
+
+	list_store = GTK_LIST_STORE (gtk_tree_view_get_model (GTK_TREE_VIEW (widget)));
+	g_return_if_fail (list_store != NULL);
+
+	gtk_list_store_clear (list_store);
+
+	if (is_folder)
+		session = g_object_get_data (G_OBJECT (builder), MAIL_CAMEL_SESSION_KEY);
+
+	for (oiter = overrides; oiter; oiter = g_slist_next (oiter)) {
+		const gchar *value = oiter->data;
+		gchar *markup = NULL;
+
+		if (!value || !*value)
+			continue;
+
+		if (is_folder) {
+			markup = e_mail_folder_uri_to_markup (session, value, NULL);
+			if (!markup)
+				continue;
+		}
+
+		gtk_list_store_append (list_store, &titer);
+
+		if (is_folder) {
+			gtk_list_store_set (list_store, &titer, 0, markup, 1, value, -1);
+		} else {
+			gtk_list_store_set (list_store, &titer, 0, value, -1);
+		}
+
+		g_free (markup);
+	}
+}
+
+static void
+sao_account_treeview_selection_changed_cb (GtkTreeSelection *selection,
+					   GtkBuilder *builder)
+{
+	GtkTreeModel *model = NULL;
+	GtkWidget *widget;
+	gboolean enable = FALSE;
+
+	g_return_if_fail (GTK_IS_TREE_SELECTION (selection));
+	g_return_if_fail (GTK_IS_BUILDER (builder));
+
+	widget = e_builder_get_widget (builder, "sao-folders-treeview");
+	g_return_if_fail (GTK_IS_WIDGET (widget));
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
+	gtk_list_store_clear (GTK_LIST_STORE (model));
+
+	widget = e_builder_get_widget (builder, "sao-recipients-treeview");
+	g_return_if_fail (GTK_IS_WIDGET (widget));
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
+	gtk_list_store_clear (GTK_LIST_STORE (model));
+
+	if (gtk_tree_selection_get_selected (selection, NULL, NULL)) {
+		gchar *account_uid;
+
+		account_uid = sao_dup_account_uid (builder);
+		if (account_uid) {
+			GSList *folder_overrides = NULL, *recipient_overrides = NULL;
+
+			enable = TRUE;
+
+			e_mail_send_account_override_list_for_account (
+				g_object_get_data (G_OBJECT (builder), MAIL_SEND_ACCOUNT_OVERRIDE_KEY),
+				account_uid, &folder_overrides, &recipient_overrides);
+
+			sao_fill_overrides (builder, "sao-folders-treeview", folder_overrides, TRUE);
+			sao_fill_overrides (builder, "sao-recipients-treeview", recipient_overrides, FALSE);
+
+			g_slist_free_full (folder_overrides, g_free);
+			g_slist_free_full (recipient_overrides, g_free);
+			g_free (account_uid);
+		}
+	}
+
+	widget = e_builder_get_widget (builder, "sao-folders-frame");
+	g_return_if_fail (GTK_IS_WIDGET (widget));
+	gtk_widget_set_sensitive (widget, enable);
+
+	widget = e_builder_get_widget (builder, "sao-recipients-frame");
+	g_return_if_fail (GTK_IS_WIDGET (widget));
+	gtk_widget_set_sensitive (widget, enable);
+}
+
+static void
+sao_overrides_changed_cb (EMailSendAccountOverride *account_override,
+			  GtkBuilder *builder)
+{
+	GtkWidget *widget;
+	GtkTreeSelection *selection;
+
+	g_return_if_fail (GTK_IS_BUILDER (builder));
+
+	widget = e_builder_get_widget (builder, "sao-account-treeview");
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (widget));
+
+	sao_account_treeview_selection_changed_cb (selection, builder);
+}
+
+static void
+sao_block_changed_handler (GtkBuilder *builder)
+{
+	GObject *account_override;
+
+	g_return_if_fail (GTK_IS_BUILDER (builder));
+
+	account_override = g_object_get_data (G_OBJECT (builder), MAIL_SEND_ACCOUNT_OVERRIDE_KEY),
+	g_signal_handlers_block_by_func (account_override, sao_overrides_changed_cb, builder);
+}
+
+static void
+sao_unblock_changed_handler (GtkBuilder *builder)
+{
+	GObject *account_override;
+
+	g_return_if_fail (GTK_IS_BUILDER (builder));
+
+	account_override = g_object_get_data (G_OBJECT (builder), MAIL_SEND_ACCOUNT_OVERRIDE_KEY),
+	g_signal_handlers_unblock_by_func (account_override, sao_overrides_changed_cb, builder);
+}
+
+static void
+sao_folders_treeview_selection_changed_cb (GtkTreeSelection *selection,
+					   GtkBuilder *builder)
+{
+	GtkWidget *widget;
+	gint nselected;
+
+	g_return_if_fail (GTK_IS_TREE_SELECTION (selection));
+	g_return_if_fail (GTK_IS_BUILDER (builder));
+
+	nselected = gtk_tree_selection_count_selected_rows (selection);
+
+	widget = e_builder_get_widget (builder, "sao-folders-remove-button");
+	g_return_if_fail (GTK_IS_WIDGET (widget));
+	gtk_widget_set_sensitive (widget, nselected > 0);
+}
+
+static void
+sao_folders_add_button_clicked_cb (GtkButton *button,
+				   GtkBuilder *builder)
+{
+	GtkTreeSelection *selection;
+	GtkTreeView *tree_view;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	GtkWidget *widget;
+	EMFolderSelector *selector;
+	EMFolderTree *folder_tree;
+	GtkWidget *dialog;
+	GtkWindow *window;
+	gchar *account_uid = NULL;
+
+	g_return_if_fail (GTK_IS_BUTTON (button));
+	g_return_if_fail (GTK_IS_BUILDER (builder));
+
+	account_uid = sao_dup_account_uid (builder);
+	g_return_if_fail (account_uid != NULL);
+
+	widget = e_builder_get_widget (builder, "sao-folders-treeview");
+	g_return_if_fail (GTK_IS_TREE_VIEW (widget));
+	tree_view = GTK_TREE_VIEW (widget);
+
+	window = GTK_WINDOW (gtk_widget_get_toplevel (widget));
+
+	dialog = em_folder_selector_new (
+		window, em_folder_tree_model_get_default (),
+		0, _("Select Folder to Add"), NULL, _("_Add"));
+
+	selector = EM_FOLDER_SELECTOR (dialog);
+	folder_tree = em_folder_selector_get_folder_tree (selector);
+
+	em_folder_tree_set_excluded (folder_tree, EMFT_EXCLUDE_NOSELECT);
+
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
+		const gchar *uri;
+
+		uri = em_folder_selector_get_selected_uri (selector);
+		if (uri && *uri) {
+			gboolean found = FALSE;
+
+			selection = gtk_tree_view_get_selection (tree_view);
+			model = gtk_tree_view_get_model (tree_view);
+
+			if (gtk_tree_model_get_iter_first (model, &iter)) {
+				do {
+					gchar *old_uri = NULL;
+
+					gtk_tree_model_get (model, &iter, 1, &old_uri, -1);
+
+					found = g_strcmp0 (uri, old_uri) == 0;
+
+					g_free (old_uri);
+				} while (!found && gtk_tree_model_iter_next (model, &iter));
+			}
+
+			if (!found) {
+				EMailSendAccountOverride *account_override;
+				GtkListStore *list_store;
+				CamelSession *session;
+				gchar *markup;
+
+				list_store = GTK_LIST_STORE (model);
+				session = g_object_get_data (G_OBJECT (builder), MAIL_CAMEL_SESSION_KEY);
+				markup = e_mail_folder_uri_to_markup (session, uri, NULL);
+
+				gtk_list_store_append (list_store, &iter);
+				gtk_list_store_set (list_store, &iter, 0, markup, 1, uri, -1);
+
+				g_free (markup);
+
+				sao_block_changed_handler (builder);
+
+				account_override = g_object_get_data (G_OBJECT (builder), MAIL_SEND_ACCOUNT_OVERRIDE_KEY);
+				e_mail_send_account_override_set_for_folder (account_override, uri, account_uid);
+
+				sao_unblock_changed_handler (builder);
+			}
+
+			gtk_tree_selection_unselect_all (selection);
+			gtk_tree_selection_select_iter (selection, &iter);
+		}
+	}
+
+	gtk_widget_destroy (dialog);
+	g_free (account_uid);
+}
+
+static void
+sao_folders_remove_button_clicked_cb (GtkButton *button,
+				      GtkBuilder *builder)
+{
+	EMailSendAccountOverride *account_override;
+	GtkTreeSelection *selection;
+	GtkTreeView *tree_view;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	GtkWidget *widget;
+	GList *selected, *siter;
+
+	g_return_if_fail (GTK_IS_BUTTON (button));
+	g_return_if_fail (GTK_IS_BUILDER (builder));
+
+	widget = e_builder_get_widget (builder, "sao-folders-treeview");
+	g_return_if_fail (GTK_IS_TREE_VIEW (widget));
+	tree_view = GTK_TREE_VIEW (widget);
+	selection = gtk_tree_view_get_selection (tree_view);
+	model = gtk_tree_view_get_model (tree_view);
+
+	sao_block_changed_handler (builder);
+
+	account_override = g_object_get_data (G_OBJECT (builder), MAIL_SEND_ACCOUNT_OVERRIDE_KEY);
+	e_mail_send_account_override_freeze_save (account_override);
+
+	selected = gtk_tree_selection_get_selected_rows (selection, &model);
+	selected = g_list_reverse (selected);
+
+	for (siter = selected; siter; siter = g_list_next (siter)) {
+		gchar *uri = NULL;
+
+		if (!gtk_tree_model_get_iter (model, &iter, siter->data))
+			continue;
+
+		gtk_tree_model_get (model, &iter, 1, &uri, -1);
+
+		if (uri && *uri)
+			e_mail_send_account_override_remove_for_folder (account_override, uri);
+
+		gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
+		g_free (uri);
+	}
+
+	e_mail_send_account_override_thaw_save (account_override);
+	sao_unblock_changed_handler (builder);
+
+	g_list_free_full (selected, (GDestroyNotify) gtk_tree_path_free);
+}
+
+static void
+sao_recipients_treeview_selection_changed_cb (GtkTreeSelection *selection,
+					      GtkBuilder *builder)
+{
+	GtkWidget *widget;
+	gint nselected;
+
+	g_return_if_fail (GTK_IS_TREE_SELECTION (selection));
+	g_return_if_fail (GTK_IS_BUILDER (builder));
+
+	nselected = gtk_tree_selection_count_selected_rows (selection);
+
+	widget = e_builder_get_widget (builder, "sao-recipients-edit-button");
+	g_return_if_fail (GTK_IS_WIDGET (widget));
+	gtk_widget_set_sensitive (widget, nselected == 1);
+
+	widget = e_builder_get_widget (builder, "sao-recipients-remove-button");
+	g_return_if_fail (GTK_IS_WIDGET (widget));
+	gtk_widget_set_sensitive (widget, nselected > 0);
+}
+
+static void
+sao_recipient_edited_cb (GtkCellRendererText *renderer,
+			 const gchar *path_str,
+			 const gchar *new_text,
+			 GtkBuilder *builder)
+{
+	EMailSendAccountOverride *account_override;
+	GtkTreePath *path;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	gchar *text, *old_text = NULL, *account_uid;
+	GtkWidget *widget;
+
+	g_return_if_fail (path_str != NULL);
+	g_return_if_fail (GTK_IS_BUILDER (builder));
+
+	widget = e_builder_get_widget (builder, "sao-recipients-treeview");
+	g_return_if_fail (GTK_IS_TREE_VIEW (widget));
+
+	path = gtk_tree_path_new_from_string (path_str);
+	g_return_if_fail (path != NULL);
+
+	account_uid = sao_dup_account_uid (builder);
+	g_return_if_fail (account_uid != NULL);
+
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
+	g_return_if_fail (gtk_tree_model_get_iter (model, &iter, path));
+	gtk_tree_path_free (path);
+
+	gtk_tree_model_get (model, &iter, 0, &old_text, -1);
+
+	sao_block_changed_handler (builder);
+
+	account_override = g_object_get_data (G_OBJECT (builder), MAIL_SEND_ACCOUNT_OVERRIDE_KEY);
+
+	text = g_strdup (new_text);
+	if (text)
+		g_strchomp (text);
+
+	if (old_text && *old_text)
+		e_mail_send_account_override_remove_for_recipient (account_override, old_text);
+
+	if (!text || !*text) {
+		gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
+	} else {
+		GtkTreeIter new_iter = iter;
+		gboolean is_new = TRUE;
+
+		if (gtk_tree_model_get_iter_first (model, &iter)) {
+			do {
+				gchar *old_recipient = NULL;
+
+				gtk_tree_model_get (model, &iter, 0, &old_recipient, -1);
+
+				is_new = !old_recipient || e_util_utf8_strcasecmp (text, old_recipient) != 0;
+
+				g_free (old_recipient);
+			} while (is_new && gtk_tree_model_iter_next (model, &iter));
+		}
+
+		if (is_new) {
+			gtk_list_store_set (GTK_LIST_STORE (model), &new_iter, 0, text, -1);
+			e_mail_send_account_override_set_for_recipient (account_override, text, account_uid);
+		} else {
+			GtkTreeSelection *selection;
+
+			selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (widget));
+
+			gtk_list_store_remove (GTK_LIST_STORE (model), &new_iter);
+
+			gtk_tree_selection_unselect_all (selection);
+			gtk_tree_selection_select_iter (selection, &iter);
+		}
+	}
+
+	sao_unblock_changed_handler (builder);
+
+	g_free (account_uid);
+	g_free (old_text);
+	g_free (text);
+}
+
+static void
+sao_recipient_editing_canceled_cb (GtkCellRenderer *renderer,
+				   GtkBuilder *builder)
+{
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	GtkWidget *widget;
+
+	g_return_if_fail (GTK_IS_BUILDER (builder));
+
+	widget = e_builder_get_widget (builder, "sao-recipients-treeview");
+	g_return_if_fail (GTK_IS_TREE_VIEW (widget));
+
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
+
+	if (gtk_tree_model_get_iter_first (model, &iter)) {
+		do {
+			gchar *old_recipient = NULL;
+
+			gtk_tree_model_get (model, &iter, 0, &old_recipient, -1);
+
+			if (!old_recipient || !*old_recipient) {
+				gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
+				g_free (old_recipient);
+				break;
+			}
+
+			g_free (old_recipient);
+		} while (gtk_tree_model_iter_next (model, &iter));
+	}
+}
+
+static void
+sao_recipients_add_button_clicked_cb (GtkButton *button,
+				      GtkBuilder *builder)
+{
+	GtkTreeView *tree_view;
+	GtkTreeViewColumn *column;
+	GtkTreeSelection *selection;
+	GtkTreeModel *model;
+	GtkTreePath *path;
+	GtkTreeIter iter;
+	GtkWidget *widget;
+	GList *cells;
+
+	g_return_if_fail (GTK_IS_BUTTON (button));
+	g_return_if_fail (GTK_IS_BUILDER (builder));
+
+	widget = e_builder_get_widget (builder, "sao-recipients-treeview");
+	g_return_if_fail (GTK_IS_TREE_VIEW (widget));
+
+	tree_view = GTK_TREE_VIEW (widget);
+	model = gtk_tree_view_get_model (tree_view);
+	selection = gtk_tree_view_get_selection (tree_view);
+
+	gtk_list_store_append (GTK_LIST_STORE (model), &iter);
+
+	gtk_tree_selection_unselect_all (selection);
+	gtk_tree_selection_select_iter (selection, &iter);
+
+	column = gtk_tree_view_get_column (tree_view, 0);
+	g_return_if_fail (column != NULL);
+
+	cells = gtk_cell_layout_get_cells (GTK_CELL_LAYOUT (column));
+	g_return_if_fail (cells != NULL);
+
+	path = gtk_tree_model_get_path (model, &iter);
+	if (path == NULL) {
+		g_list_free (cells);
+		return;
+	}
+
+	g_object_set (cells->data, "editable", TRUE, NULL);
+	gtk_tree_view_set_cursor_on_cell (
+		tree_view, path, column, cells->data, TRUE);
+	g_object_set (cells->data, "editable", FALSE, NULL);
+
+	gtk_tree_path_free (path);
+	g_list_free (cells);
+}
+
+static void
+sao_recipients_edit_button_clicked_cb (GtkButton *button,
+				       GtkBuilder *builder)
+{
+	GtkTreeView *tree_view;
+	GtkTreeViewColumn *column;
+	GtkTreeSelection *selection;
+	GtkTreePath *path;
+	GtkWidget *widget;
+	GList *cells, *selected;
+
+	g_return_if_fail (GTK_IS_BUTTON (button));
+	g_return_if_fail (GTK_IS_BUILDER (builder));
+
+	widget = e_builder_get_widget (builder, "sao-recipients-treeview");
+	g_return_if_fail (GTK_IS_TREE_VIEW (widget));
+
+	tree_view = GTK_TREE_VIEW (widget);
+	selection = gtk_tree_view_get_selection (tree_view);
+
+	g_return_if_fail (gtk_tree_selection_count_selected_rows (selection) == 1);
+
+	selected = gtk_tree_selection_get_selected_rows (selection, NULL);
+	g_return_if_fail (selected && selected->next == NULL);
+
+	path = selected->data;
+	/* 'path' is freed later in the function */
+	g_list_free (selected);
+
+	column = gtk_tree_view_get_column (tree_view, 0);
+	g_return_if_fail (column != NULL);
+
+	cells = gtk_cell_layout_get_cells (GTK_CELL_LAYOUT (column));
+	g_return_if_fail (cells != NULL);
+
+	g_object_set (cells->data, "editable", TRUE, NULL);
+	gtk_tree_view_set_cursor_on_cell (
+		tree_view, path, column, cells->data, TRUE);
+	g_object_set (cells->data, "editable", FALSE, NULL);
+
+	gtk_tree_path_free (path);
+	g_list_free (cells);
+}
+
+static void
+sao_recipients_remove_button_clicked_cb (GtkButton *button,
+					 GtkBuilder *builder)
+{
+	EMailSendAccountOverride *account_override;
+	GtkTreeSelection *selection;
+	GtkTreeView *tree_view;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	GtkWidget *widget;
+	GList *selected, *siter;
+
+	g_return_if_fail (GTK_IS_BUTTON (button));
+	g_return_if_fail (GTK_IS_BUILDER (builder));
+
+	widget = e_builder_get_widget (builder, "sao-recipients-treeview");
+	g_return_if_fail (GTK_IS_TREE_VIEW (widget));
+	tree_view = GTK_TREE_VIEW (widget);
+	selection = gtk_tree_view_get_selection (tree_view);
+	model = gtk_tree_view_get_model (tree_view);
+
+	sao_block_changed_handler (builder);
+
+	account_override = g_object_get_data (G_OBJECT (builder), MAIL_SEND_ACCOUNT_OVERRIDE_KEY);
+	e_mail_send_account_override_freeze_save (account_override);
+
+	selected = gtk_tree_selection_get_selected_rows (selection, &model);
+	selected = g_list_reverse (selected);
+
+	for (siter = selected; siter; siter = g_list_next (siter)) {
+		gchar *recipient = NULL;
+
+		if (!gtk_tree_model_get_iter (model, &iter, siter->data))
+			continue;
+
+		gtk_tree_model_get (model, &iter, 0, &recipient, -1);
+
+		if (recipient && *recipient)
+			e_mail_send_account_override_remove_for_recipient (account_override, recipient);
+
+		gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
+		g_free (recipient);
+	}
+
+	e_mail_send_account_override_thaw_save (account_override);
+	sao_unblock_changed_handler (builder);
+
+	g_list_free_full (selected, (GDestroyNotify) gtk_tree_path_free);
+}
+
+static void
+send_account_override_setup (GtkBuilder *builder,
+			     EMailBackend *mail_backend,
+			     ESourceRegistry *registry)
+{
+	EMailIdentityComboBox *identity_combo_box;
+	EMailSendAccountOverride *account_override;
+	GtkTreeView *tree_view;
+	GtkTreeSelection *selection;
+	GtkTreeModel *model;
+	GtkListStore *list_store;
+	GtkCellRenderer *renderer;
+	GtkWidget *widget;
+
+	g_return_if_fail (GTK_IS_BUILDER (builder));
+	g_return_if_fail (E_IS_MAIL_BACKEND (mail_backend));
+	g_return_if_fail (E_IS_SOURCE_REGISTRY (registry));
+
+	/* use its model to avoid code duplication */
+	widget = e_mail_identity_combo_box_new (registry);
+	identity_combo_box = g_object_ref_sink (widget);
+
+	widget = e_builder_get_widget (builder, "sao-account-treeview");
+	g_return_if_fail (GTK_IS_TREE_VIEW (widget));
+
+	tree_view = GTK_TREE_VIEW (widget);
+
+	g_object_set_data_full (G_OBJECT (tree_view), "identity-combo-box",
+		identity_combo_box, (GDestroyNotify) gtk_widget_destroy);
+	g_object_set_data_full (G_OBJECT (builder), MAIL_CAMEL_SESSION_KEY,
+		g_object_ref (e_mail_backend_get_session (mail_backend)), g_object_unref);
+
+	model = gtk_combo_box_get_model (GTK_COMBO_BOX (identity_combo_box));
+
+	gtk_tree_view_set_model (tree_view, model);
+	gtk_tree_view_insert_column_with_attributes (tree_view, -1, _("Account"),
+		gtk_cell_renderer_text_new (),
+		"text", 0, NULL);
+
+	selection = gtk_tree_view_get_selection (tree_view);
+	g_signal_connect (selection, "changed",
+		G_CALLBACK (sao_account_treeview_selection_changed_cb), builder);
+
+	widget = e_builder_get_widget (builder, "sao-folders-treeview");
+	g_return_if_fail (GTK_IS_TREE_VIEW (widget));
+
+	tree_view = GTK_TREE_VIEW (widget);
+
+	/* markup, folder-uri */
+	list_store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
+	gtk_tree_view_set_model (tree_view, GTK_TREE_MODEL (list_store));
+	gtk_tree_view_insert_column_with_attributes (tree_view, -1, _("Folder"),
+		gtk_cell_renderer_text_new (),
+		"markup", 0, NULL);
+	g_object_unref (list_store);
+
+	selection = gtk_tree_view_get_selection (tree_view);
+	g_signal_connect (selection, "changed",
+		G_CALLBACK (sao_folders_treeview_selection_changed_cb), builder);
+
+	widget = e_builder_get_widget (builder, "sao-folders-add-button");
+	g_return_if_fail (GTK_IS_BUTTON (widget));
+	g_signal_connect (widget, "clicked",
+		G_CALLBACK (sao_folders_add_button_clicked_cb), builder);
+
+	widget = e_builder_get_widget (builder, "sao-folders-remove-button");
+	g_return_if_fail (GTK_IS_BUTTON (widget));
+	gtk_widget_set_sensitive (widget, FALSE);
+	g_signal_connect (widget, "clicked",
+		G_CALLBACK (sao_folders_remove_button_clicked_cb), builder);
+
+	widget = e_builder_get_widget (builder, "sao-recipients-treeview");
+	g_return_if_fail (GTK_IS_TREE_VIEW (widget));
+
+	tree_view = GTK_TREE_VIEW (widget);
+
+	renderer = gtk_cell_renderer_text_new ();
+	g_object_set (G_OBJECT (renderer), "mode", GTK_CELL_RENDERER_MODE_EDITABLE, NULL);
+	g_signal_connect (renderer, "edited", G_CALLBACK (sao_recipient_edited_cb), builder);
+	g_signal_connect (renderer, "editing-canceled", G_CALLBACK (sao_recipient_editing_canceled_cb), builder);
+
+	list_store = gtk_list_store_new (1, G_TYPE_STRING);
+	gtk_tree_view_set_model (tree_view, GTK_TREE_MODEL (list_store));
+	gtk_tree_view_insert_column_with_attributes (tree_view, -1, _("Recipient"),
+		renderer, "text", 0, NULL);
+	g_object_unref (list_store);
+
+	selection = gtk_tree_view_get_selection (tree_view);
+	g_signal_connect (selection, "changed",
+		G_CALLBACK (sao_recipients_treeview_selection_changed_cb), builder);
+
+	widget = e_builder_get_widget (builder, "sao-recipients-add-button");
+	g_return_if_fail (GTK_IS_BUTTON (widget));
+	g_signal_connect (widget, "clicked",
+		G_CALLBACK (sao_recipients_add_button_clicked_cb), builder);
+
+	widget = e_builder_get_widget (builder, "sao-recipients-edit-button");
+	g_return_if_fail (GTK_IS_BUTTON (widget));
+	gtk_widget_set_sensitive (widget, FALSE);
+	g_signal_connect (widget, "clicked",
+		G_CALLBACK (sao_recipients_edit_button_clicked_cb), builder);
+
+	widget = e_builder_get_widget (builder, "sao-recipients-remove-button");
+	g_return_if_fail (GTK_IS_BUTTON (widget));
+	gtk_widget_set_sensitive (widget, FALSE);
+	g_signal_connect (widget, "clicked",
+		G_CALLBACK (sao_recipients_remove_button_clicked_cb), builder);
+
+	/* init view */
+	widget = e_builder_get_widget (builder, "sao-account-treeview");
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (widget));
+	sao_account_treeview_selection_changed_cb (selection, builder);
+
+	account_override = e_mail_backend_get_send_account_override (mail_backend);
+	g_signal_connect_object (account_override, "changed", G_CALLBACK (sao_overrides_changed_cb), builder, 0);
+}
+
 static GtkWidget *
 emcp_widget_glade (EConfig *ec,
                    EConfigItem *item,
@@ -259,6 +983,11 @@ static EMConfigItem emcp_items[] = {
 	{ E_CONFIG_PAGE,
 	  (gchar *) "20.spellcheck",
 	  (gchar *) "vboxSpellChecking",
+	  emcp_widget_glade },
+
+	{ E_CONFIG_PAGE,
+	  (gchar *) "90.accountoverride",
+	  (gchar *) "send-account-override-grid",
 	  emcp_widget_glade }
 };
 
@@ -285,6 +1014,8 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	GtkCellRenderer *renderer;
 	EMConfig *ec;
 	EMConfigTargetPrefs *target;
+	EMailBackend *mail_backend;
+	EMailSendAccountOverride *send_override;
 	GSList *l;
 	gint i;
 
@@ -495,6 +1226,22 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 		settings, "composer-send-html",
 		widget, "prefer-html",
 		G_SETTINGS_BIND_GET);
+
+	/* Send Account override */
+	mail_backend = E_MAIL_BACKEND (e_shell_get_backend_by_name (shell, "mail"));
+	g_return_if_fail (mail_backend != NULL);
+
+	send_override = e_mail_backend_get_send_account_override (mail_backend);
+	g_object_set_data_full (G_OBJECT (prefs->builder), MAIL_SEND_ACCOUNT_OVERRIDE_KEY,
+		g_object_ref (send_override), g_object_unref);
+
+	send_account_override_setup (prefs->builder, mail_backend, registry);
+
+	widget = e_builder_get_widget (prefs->builder, "sao-prefer-folder-check");
+	g_object_bind_property (
+		send_override, "prefer-folder",
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
 
 	/* get our toplevel widget */
 	target = em_config_target_new_prefs (ec);

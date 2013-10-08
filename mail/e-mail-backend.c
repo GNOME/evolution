@@ -63,11 +63,13 @@
 struct _EMailBackendPrivate {
 	EMailSession *session;
 	GHashTable *jobs;
+	EMailSendAccountOverride *send_account_override;
 };
 
 enum {
 	PROP_0,
-	PROP_SESSION
+	PROP_SESSION,
+	PROP_SEND_ACCOUNT_OVERRIDE
 };
 
 /* FIXME Kill this thing.  It's a horrible hack. */
@@ -825,6 +827,13 @@ mail_backend_get_property (GObject *object,
 				e_mail_backend_get_session (
 				E_MAIL_BACKEND (object)));
 			return;
+
+		case PROP_SEND_ACCOUNT_OVERRIDE:
+			g_value_set_object (
+				value,
+				e_mail_backend_get_send_account_override (
+				E_MAIL_BACKEND (object)));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -862,6 +871,7 @@ mail_backend_finalize (GObject *object)
 	priv = E_MAIL_BACKEND_GET_PRIVATE (object);
 
 	g_hash_table_destroy (priv->jobs);
+	g_clear_object (&priv->send_account_override);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_mail_backend_parent_class)->finalize (object);
@@ -1016,6 +1026,7 @@ mail_backend_constructed (GObject *object)
 	EShellBackend *shell_backend;
 	MailFolderCache *folder_cache;
 	ESourceRegistry *registry;
+	gchar *send_overrides_ini;
 
 	priv = E_MAIL_BACKEND_GET_PRIVATE (object);
 
@@ -1108,6 +1119,10 @@ mail_backend_constructed (GObject *object)
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_mail_backend_parent_class)->constructed (object);
+
+	send_overrides_ini = g_build_filename (e_shell_backend_get_config_dir (shell_backend), "send-overrides.ini", NULL);
+	priv->send_account_override = e_mail_send_account_override_new (send_overrides_ini);
+	g_free (send_overrides_ini);
 }
 
 static void
@@ -1137,6 +1152,16 @@ e_mail_backend_class_init (EMailBackendClass *class)
 			NULL,
 			NULL,
 			E_TYPE_MAIL_SESSION,
+			G_PARAM_READABLE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SEND_ACCOUNT_OVERRIDE,
+		g_param_spec_object (
+			"send-account-override",
+			NULL,
+			NULL,
+			E_TYPE_MAIL_SEND_ACCOUNT_OVERRIDE,
 			G_PARAM_READABLE));
 }
 
@@ -1229,3 +1254,10 @@ e_mail_backend_empty_trash_policy_decision (EMailBackend *backend)
 	return class->empty_trash_policy_decision (backend);
 }
 
+EMailSendAccountOverride *
+e_mail_backend_get_send_account_override (EMailBackend *backend)
+{
+	g_return_val_if_fail (E_IS_MAIL_BACKEND (backend), NULL);
+
+	return backend->priv->send_account_override;
+}

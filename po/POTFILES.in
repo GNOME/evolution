@@ -226,6 +226,7 @@ e-util/e-focus-tracker.c
 e-util/e-image-chooser.c
 e-util/e-import-assistant.c
 e-util/e-interval-chooser.c
+e-util/e-mail-identity-combo-box.c
 e-util/e-mail-signature-combo-box.c
 e-util/e-mail-signature-editor.c
 e-util/e-mail-signature-manager.c

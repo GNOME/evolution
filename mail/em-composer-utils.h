@@ -85,6 +85,14 @@ void		em_utils_get_real_folder_uri_and_message_uid
 						 const gchar *uid,
 						 gchar **folder_uri,
 						 gchar **message_uid);
+ESource *	em_utils_check_send_account_override
+						(EShell *shell,
+						 CamelMimeMessage *message,
+						 CamelFolder *folder);
+void		em_utils_apply_send_account_override_to_composer
+						(EMsgComposer *composer,
+						 EShell *shell,
+						 CamelFolder *folder);
 
 G_END_DECLS
 

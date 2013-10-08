@@ -80,6 +80,7 @@ mailinclude_HEADERS =					\
 	e-mail-reader-utils.h				\
 	e-mail-reader.h					\
 	e-mail-request.h				\
+	e-mail-send-account-override.h			\
 	e-mail-sidebar.h				\
 	e-mail-tag-editor.h				\
 	e-mail-ui-session.h				\
@@ -154,6 +155,7 @@ libevolution_mail_la_SOURCES =				\
 	e-mail-reader-utils.c				\
 	e-mail-reader.c					\
 	e-mail-request.c				\
+	e-mail-send-account-override.c			\
 	e-mail-sidebar.c				\
 	e-mail-tag-editor.c				\
 	e-mail-ui-session.c				\

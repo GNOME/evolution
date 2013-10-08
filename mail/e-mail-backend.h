@@ -28,6 +28,7 @@
 
 #include <shell/e-shell-backend.h>
 #include <libemail-engine/e-mail-session.h>
+#include <mail/e-mail-send-account-override.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_BACKEND \
@@ -75,6 +76,9 @@ EAlertSink *	e_mail_backend_get_alert_sink	(EMailBackend *backend);
 gboolean	e_mail_backend_delete_junk_policy_decision
 						(EMailBackend *backend);
 gboolean	e_mail_backend_empty_trash_policy_decision
+						(EMailBackend *backend);
+EMailSendAccountOverride *
+		e_mail_backend_get_send_account_override
 						(EMailBackend *backend);
 
 G_END_DECLS
