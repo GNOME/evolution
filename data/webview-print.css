@@ -41,6 +41,11 @@ th {
         margin: 8px;
 }
 
+a {
+	white-space:normal;
+	word-break:break-all;
+}
+
 /***** PRINTING *******/
 
 .printing-header {
@@ -60,4 +65,3 @@ th {
 .attachments-list th {
         font-weight: bold;
 }
-

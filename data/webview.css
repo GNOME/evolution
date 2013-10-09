@@ -70,6 +70,11 @@ object { /* GtkWidgets */
   font-weight: bold;
 }
 
+a {
+	white-space:normal;
+	word-break:break-all;
+}
+
 /**** HEADERS ****/
 
 table.header {
