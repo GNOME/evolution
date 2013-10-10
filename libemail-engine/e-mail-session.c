@@ -68,6 +68,7 @@
 	((obj), E_TYPE_MAIL_SESSION, EMailSessionPrivate))
 
 typedef struct _AsyncContext AsyncContext;
+typedef struct _ServiceProxyData ServiceProxyData;
 
 struct _EMailSessionPrivate {
 	MailFolderCache *folder_cache;
@@ -105,6 +106,11 @@ struct _AsyncContext {
 
 	/* results */
 	CamelFolder *folder;
+};
+
+struct _ServiceProxyData {
+	ESource *authentication_source;
+	gulong auth_source_changed_handler_id;
 };
 
 enum {
@@ -276,6 +282,117 @@ async_context_free (AsyncContext *context)
 	g_free (context->uri);
 
 	g_slice_free (AsyncContext, context);
+}
+
+static void
+service_proxy_data_free (ServiceProxyData *proxy_data)
+{
+	g_signal_handler_disconnect (
+		proxy_data->authentication_source,
+		proxy_data->auth_source_changed_handler_id);
+
+	g_clear_object (&proxy_data->authentication_source);
+
+	g_slice_free (ServiceProxyData, proxy_data);
+}
+
+static void
+mail_session_update_proxy_resolver (CamelService *service,
+                                    ESource *authentication_source)
+{
+	GProxyResolver *proxy_resolver = NULL;
+	ESourceAuthentication *extension;
+	CamelSession *session;
+	ESource *source = NULL;
+	gchar *uid;
+
+	session = camel_service_ref_session (service);
+
+	extension = e_source_get_extension (
+		authentication_source,
+		E_SOURCE_EXTENSION_AUTHENTICATION);
+
+	uid = e_source_authentication_dup_proxy_uid (extension);
+	if (uid != NULL) {
+		ESourceRegistry *registry;
+		EMailSession *mail_session;
+
+		mail_session = E_MAIL_SESSION (session);
+		registry = e_mail_session_get_registry (mail_session);
+		source = e_source_registry_ref_source (registry, uid);
+		g_free (uid);
+	}
+
+	if (source != NULL) {
+		proxy_resolver = G_PROXY_RESOLVER (source);
+		if (!g_proxy_resolver_is_supported (proxy_resolver))
+			proxy_resolver = NULL;
+	}
+
+	camel_service_set_proxy_resolver (service, proxy_resolver);
+
+	g_clear_object (&session);
+	g_clear_object (&source);
+}
+
+static void
+mail_session_auth_source_changed_cb (ESource *authentication_source,
+                                     GWeakRef *service_weak_ref)
+{
+	CamelService *service;
+
+	service = g_weak_ref_get (service_weak_ref);
+
+	if (service != NULL) {
+		mail_session_update_proxy_resolver (
+			service, authentication_source);
+		g_object_unref (service);
+	}
+}
+
+static void
+mail_session_configure_proxy_resolver (ESourceRegistry *registry,
+                                       CamelService *service)
+{
+	ESource *source;
+	ESource *authentication_source;
+	const gchar *uid;
+
+	uid = camel_service_get_uid (service);
+	source = e_source_registry_ref_source (registry, uid);
+	g_return_if_fail (source != NULL);
+
+	authentication_source =
+		e_source_registry_find_extension (
+		registry, source, E_SOURCE_EXTENSION_AUTHENTICATION);
+
+	if (authentication_source != NULL) {
+		ServiceProxyData *proxy_data;
+		gulong handler_id;
+
+		mail_session_update_proxy_resolver (
+			service, authentication_source);
+
+		handler_id = g_signal_connect_data (
+			authentication_source, "changed",
+			G_CALLBACK (mail_session_auth_source_changed_cb),
+			e_weak_ref_new (service),
+			(GClosureNotify) e_weak_ref_free, 0);
+
+		/* This takes ownership of the authentication source. */
+		proxy_data = g_slice_new0 (ServiceProxyData);
+		proxy_data->authentication_source = authentication_source;
+		proxy_data->auth_source_changed_handler_id = handler_id;
+
+		/* Tack the proxy data on to the CamelService,
+		 * so it's destroyed along with the CamelService. */
+		g_object_set_data_full (
+			G_OBJECT (service),
+			"proxy-data", proxy_data,
+			(GDestroyNotify) service_proxy_data_free);
+	}
+
+	g_object_unref (source);
 }
 
 static gchar *
@@ -1260,6 +1377,9 @@ mail_session_add_service (CamelSession *session,
 		/* This handles all the messy property bindings. */
 		e_source_camel_configure_service (source, service);
 
+		/* Track the proxy resolver for this service. */
+		mail_session_configure_proxy_resolver (registry, service);
+
 		g_object_bind_property (
 			source, "display-name",
 			service, "display-name",
@@ -1466,62 +1586,6 @@ mail_session_trust_prompt (CamelSession *session,
 	g_object_unref (prompter);
 
 	return response;
-}
-
-static GProxyResolver *
-mail_session_ref_proxy_resolver (CamelSession *session,
-                                 CamelService *service)
-{
-	EMailSessionPrivate *priv;
-	GProxyResolver *proxy_resolver = NULL;
-	CamelSettings *settings;
-	gchar *host = NULL;
-	gchar *uri;
-
-	priv = E_MAIL_SESSION_GET_PRIVATE (session);
-
-	settings = camel_service_ref_settings (service);
-	if (CAMEL_IS_NETWORK_SETTINGS (settings)) {
-		CamelNetworkSettings *network_settings;
-
-		network_settings = CAMEL_NETWORK_SETTINGS (settings);
-		host = camel_network_settings_dup_host (network_settings);
-	}
-	g_object_unref (settings);
-
-	if (host == NULL)
-		goto chainup;
-
-	uri = g_strconcat ("socks://", host, NULL);
-
-	if (e_proxy_require_proxy_for_uri (priv->proxy, uri)) {
-		SoupURI *soup_uri;
-
-		soup_uri = e_proxy_peek_uri_for (priv->proxy, uri);
-		if (soup_uri != NULL) {
-			gchar *default_proxy;
-
-			default_proxy = soup_uri_to_string (soup_uri, TRUE);
-
-			/* XXX EProxy provides no way to get at the
-			 *     "ignore-hosts" list, so just skip it. */
-			proxy_resolver = g_simple_proxy_resolver_new (
-				default_proxy, NULL);
-
-			g_free (default_proxy);
-		}
-	}
-
-	g_free (host);
-	g_free (uri);
-
-	if (proxy_resolver != NULL)
-		return proxy_resolver;
-
-chainup:
-	/* Chain up to parent's ref_proxy_resolver() method. */
-	return CAMEL_SESSION_CLASS (e_mail_session_parent_class)->
-		ref_proxy_resolver (session, service);
 }
 
 static gboolean
@@ -1841,7 +1905,6 @@ e_mail_session_class_init (EMailSessionClass *class)
 	session_class->forget_password = mail_session_forget_password;
 	session_class->alert_user = mail_session_alert_user;
 	session_class->trust_prompt = mail_session_trust_prompt;
-	session_class->ref_proxy_resolver = mail_session_ref_proxy_resolver;
 	session_class->authenticate_sync = mail_session_authenticate_sync;
 	session_class->forward_to_sync = mail_session_forward_to_sync;
 
