@@ -2003,6 +2003,8 @@ EMailIdentityComboBox
 e_mail_identity_combo_box_new
 e_mail_identity_combo_box_refresh
 e_mail_identity_combo_box_get_registry
+e_mail_identity_combo_box_get_allow_none
+e_mail_identity_combo_box_set_allow_none
 <SUBSECTION Standard>
 E_MAIL_IDENTITY_COMBO_BOX
 E_IS_MAIL_IDENTITY_COMBO_BOX

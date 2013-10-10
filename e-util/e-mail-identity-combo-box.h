@@ -69,11 +69,11 @@ void		e_mail_identity_combo_box_refresh
 ESourceRegistry *
 		e_mail_identity_combo_box_get_registry
 					(EMailIdentityComboBox *combo_box);
+gboolean	e_mail_identity_combo_box_get_allow_none
+					(EMailIdentityComboBox *combo_box);
 void		e_mail_identity_combo_box_set_allow_none
 					(EMailIdentityComboBox *combo_box,
 					 gboolean allow_none);
-gboolean	e_mail_identity_combo_box_get_allow_none
-					(EMailIdentityComboBox *combo_box);
 
 G_END_DECLS
 
