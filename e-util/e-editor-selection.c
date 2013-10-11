@@ -3014,8 +3014,12 @@ e_editor_selection_save_caret_position (EEditorSelection *selection)
 	start_offset_node = webkit_dom_range_get_end_container (range, NULL);
 
 	element	= webkit_dom_document_create_element (document, "SPAN", NULL);
-	webkit_dom_html_element_set_id (WEBKIT_DOM_HTML_ELEMENT (element), "-x-evo-caret-position");
-	webkit_dom_html_element_set_inner_html (WEBKIT_DOM_HTML_ELEMENT (element), "*", NULL);
+	webkit_dom_html_element_set_id (
+		WEBKIT_DOM_HTML_ELEMENT (element), "-x-evo-caret-position");
+	webkit_dom_element_set_attribute (
+		element, "style", "display: none", NULL);
+	webkit_dom_html_element_set_inner_html (
+		WEBKIT_DOM_HTML_ELEMENT (element), "*", NULL);
 
 	if (WEBKIT_DOM_IS_TEXT (start_offset_node)) {
 		WebKitDOMText *split_text;
@@ -3060,14 +3064,15 @@ e_editor_selection_restore_caret_position (EEditorSelection *selection)
 
 	if (element) {
 		WebKitDOMDOMWindow *window;
+		WebKitDOMNode *parent_node;
 		WebKitDOMDOMSelection *window_selection;
 
 		window = webkit_dom_document_get_default_view (document);
 		window_selection = webkit_dom_dom_window_get_selection (window);
+		parent_node = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element));
 		/* If parent is BODY element, we try to restore the position on the 
 		 * element that is next to us */
-		if (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (
-			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)))) {
+		if (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent_node)) {
 
 			WebKitDOMNode *next_sibling;
 
@@ -3088,6 +3093,7 @@ e_editor_selection_restore_caret_position (EEditorSelection *selection)
 				webkit_dom_dom_selection_modify (window_selection, "move", "left", "character");
 				webkit_dom_dom_selection_modify (window_selection, "move", "right", "character");
 
+				webkit_dom_node_normalize (parent_node);
 				return;
 			}
 		}
@@ -3103,6 +3109,8 @@ e_editor_selection_restore_caret_position (EEditorSelection *selection)
 		 * parent's element. It can be avoided by moving with the caret. */
 		webkit_dom_dom_selection_modify (window_selection, "move", "left", "character");
 		webkit_dom_dom_selection_modify (window_selection, "move", "right", "character");
+
+		webkit_dom_node_normalize (parent_node);
 	}
 }
 
