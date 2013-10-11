@@ -1000,6 +1000,12 @@ editor_widget_key_press_event (GtkWidget *widget,
 {
 	EEditorWidget *editor = E_EDITOR_WIDGET (widget);
 
+	if (event->keyval == GDK_KEY_Tab)
+		return e_editor_widget_exec_command (
+			editor,
+			E_EDITOR_WIDGET_COMMAND_INSERT_TEXT,
+			"\t");
+
 	if ((event->keyval == GDK_KEY_Control_L) ||
 	    (event->keyval == GDK_KEY_Control_R)) {
 
