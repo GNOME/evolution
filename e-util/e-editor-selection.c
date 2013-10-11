@@ -1155,6 +1155,27 @@ e_editor_selection_set_background_color (EEditorSelection *selection,
 	g_object_notify (G_OBJECT (selection), "background-color");
 }
 
+static gint
+get_indentation_level (WebKitDOMElement *element)
+{
+	WebKitDOMElement *parent;
+	gint level = 0;
+
+	if (element_has_class (element, "-x-evo-indented"))
+		level++;
+
+	parent = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (element));
+	/* Count level of indentation */
+	while (!WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent)) {
+		if (element_has_class (parent, "-x-evo-indented"))
+			level++;
+
+		parent = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (parent));
+	}
+
+	return level;
+}
+
 /**
  * e_editor_selection_get_block_format:
  * @selection: an #EEditorSelection
@@ -1222,12 +1243,12 @@ e_editor_selection_get_block_format (EEditorSelection *selection)
 		result = E_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
 	}
 
-	element = e_editor_dom_node_find_parent_element (node, "BLOCKQUOTE");
-
+	element = webkit_dom_node_get_parent_element (node);
 	if (element) {
 		/* Indented paragraphs should have the same format as unindented */
-		if (element && !element_has_class (element, "-x-evo-indented"))
-			result = E_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE;
+		if (element_has_tag (element, "blockquote"))
+			if (!element_has_class (element, "-x-evo-indented"))
+				result = E_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE;
 	}
 
 	return result;
@@ -1745,9 +1766,26 @@ e_editor_selection_is_citation (EEditorSelection *selection)
 gboolean
 e_editor_selection_is_indented (EEditorSelection *selection)
 {
+	WebKitDOMRange *range;
+	WebKitDOMNode *node;
+	WebKitDOMElement *element;
+
 	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), FALSE);
 
-	return get_has_style (selection, "blockquote");
+	range = editor_selection_get_current_range (selection);
+	if (!range)
+		return FALSE;
+
+	node = webkit_dom_range_get_end_container (range, NULL);
+	if (!WEBKIT_DOM_IS_ELEMENT (node))
+		node = WEBKIT_DOM_NODE (webkit_dom_node_get_parent_element (node));
+
+	element = webkit_dom_node_get_parent_element (node);
+
+	if (element_has_tag (element, "blockquote"))
+		return element_has_class (element, "-x-evo-indented");
+
+	return FALSE;
 }
 
 /**
