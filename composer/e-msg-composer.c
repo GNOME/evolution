@@ -1223,7 +1223,7 @@ composer_build_message (EMsgComposer *composer,
 		e_editor_widget_embed_styles (editor_widget);
 		e_editor_selection_save_caret_position (selection);
 
-		text = e_editor_widget_get_text_html_for_drafts (editor_widget);
+		text = e_editor_widget_get_text_html (editor_widget);
 
 		e_editor_widget_remove_embed_styles (editor_widget);
 		e_editor_selection_restore_caret_position (selection);
@@ -1806,9 +1806,11 @@ msg_composer_drag_data_received_cb (GtkWidget *widget,
 	EAttachmentView *view;
 	EEditor *editor;
 	EEditorWidget *editor_widget;
+	EEditorSelection *editor_selection;
 
 	editor = e_msg_composer_get_editor (composer);
 	editor_widget = e_editor_get_editor_widget (editor);
+	editor_selection = e_editor_widget_get_selection (editor_widget);
 
 	/* HTML mode has a few special cases for drops... */
 	if (e_editor_widget_get_html_mode (editor_widget)) {
@@ -3324,11 +3326,21 @@ e_msg_composer_new_with_message (EShell *shell,
 		flags = g_strsplit (format, ", ", 0);
 		for (i = 0; flags[i]; i++) {
 			if (g_ascii_strcasecmp (flags[i], "text/html") == 0) {
-				e_editor_widget_set_html_mode (
-					editor_widget, TRUE);
+				if (g_ascii_strcasecmp (composer_mode, "text/html") == 0) {
+					e_editor_widget_set_html_mode (
+						editor_widget, TRUE);
+				} else {
+					e_editor_widget_set_html_mode (
+						editor_widget, FALSE);
+				}
 			} else if (g_ascii_strcasecmp (flags[i], "text/plain") == 0) {
-				e_editor_widget_set_html_mode (
-					editor_widget, FALSE);
+				if (g_ascii_strcasecmp (composer_mode, "text/html") == 0) {
+					e_editor_widget_set_html_mode (
+						editor_widget, TRUE);
+				} else {
+					e_editor_widget_set_html_mode (
+						editor_widget, FALSE);
+				}
 			} else if (g_ascii_strcasecmp (flags[i], "pgp-sign") == 0) {
 				action = GTK_TOGGLE_ACTION (ACTION (PGP_SIGN));
 				gtk_toggle_action_set_active (action, TRUE);
@@ -4795,8 +4807,11 @@ e_msg_composer_get_message_draft (EMsgComposer *composer,
 
 	editor = e_msg_composer_get_editor (composer);
 	editor_widget = e_editor_get_editor_widget (editor);
+	/* We need to remember composer mode */
 	if (e_editor_widget_get_html_mode (editor_widget))
-		flags |= COMPOSER_FLAG_HTML_CONTENT;
+		flags |= COMPOSER_FLAG_HTML_MODE;
+	/* We want to save HTML content everytime when we save as draft */
+	flags |= COMPOSER_FLAG_SAVE_DRAFT;
 
 	action = ACTION (PRIORITIZE_MESSAGE);
 	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
