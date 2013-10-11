@@ -1836,22 +1836,22 @@ msg_composer_drag_data_received_cb (GtkWidget *widget,
 			list_len = length;
 			do {
 				uri = next_uri ((guchar **) &data, &len, &list_len);
-				e_editor_widget_exec_command (editor_widget, E_EDITOR_WIDGET_COMMAND_INSERT_IMAGE, uri);
+				e_editor_selection_insert_image (editor_selection, uri);
 			} while (list_len);
 		}
 
 		/* FIXME CID images */
+	} else {
+		view = e_msg_composer_get_attachment_view (composer);
+
+		/* Forward the data to the attachment view.  Note that calling
+		 * e_attachment_view_drag_data_received() will not work because
+		 * that function only handles the case where all the other drag
+		 * handlers have failed. */
+		e_attachment_paned_drag_data_received (
+			E_ATTACHMENT_PANED (view),
+			context, x, y, selection, info, time);
 	}
-
-		if (e_composer_selection_is_base64_uris (composer, selection)) {
-			const guchar *data;
-			gint length;
-			gint list_len, len;
-			gchar *uri;
-
-			data = gtk_selection_data_get_data (selection);
-			length = gtk_selection_data_get_length (selection);
-
 	/* Stop the signal from propagating */
 	g_signal_stop_emission_by_name (widget, "drag-data-received");
 }
