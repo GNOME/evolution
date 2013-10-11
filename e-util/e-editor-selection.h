@@ -27,6 +27,7 @@
 
 #include <gtk/gtk.h>
 #include <e-util/e-util-enums.h>
+#include <webkit/webkit.h>
 
 /* Standard GObject macros */
 #define E_TYPE_EDITOR_SELECTION \
@@ -67,6 +68,8 @@ struct _EEditorSelectionClass {
 GType		e_editor_selection_get_type	(void) G_GNUC_CONST;
 struct _EEditorWidget *
 		e_editor_selection_ref_editor_widget
+						(EEditorSelection *selection);
+gint		e_editor_selection_get_word_wrap_length
 						(EEditorSelection *selection);
 gboolean	e_editor_selection_has_text	(EEditorSelection *selection);
 gchar *		e_editor_selection_get_caret_word
@@ -160,9 +163,10 @@ void		e_editor_selection_save_caret_position
 						(EEditorSelection *selection);
 void		e_editor_selection_restore_caret_position
 						(EEditorSelection *selection);
-void		e_editor_selection_wrap_lines	(EEditorSelection *selection,
-						 gboolean while_typing,
-						 GdkEventKey *event);
+void		e_editor_selection_wrap_lines	(EEditorSelection *selection);
+void		e_editor_selection_wrap_paragraph
+						(EEditorSelection *selection,
+						 WebKitDOMElement *paragraph);
 void		e_editor_selection_save		(EEditorSelection *selection);
 void		e_editor_selection_restore	(EEditorSelection *selection);
 void		e_editor_selection_move		(EEditorSelection *selection,
