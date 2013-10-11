@@ -3283,9 +3283,9 @@ e_web_view_install_request_handler (EWebView *web_view,
 	soup_session_add_feature_by_type (session, handler_type);
 }
 
-static void
-create_and_add_css_style_sheet (WebKitDOMDocument *document,
-                                const gchar *style_sheet_id)
+void
+e_web_view_create_and_add_css_style_sheet (WebKitDOMDocument *document,
+                                           const gchar *style_sheet_id)
 {
 	WebKitDOMElement *style_element;
 
@@ -3333,7 +3333,7 @@ add_css_rule_into_style_sheet (WebKitDOMDocument *document,
 	style_element = webkit_dom_document_get_element_by_id (document, style_sheet_id);
 
 	if (!style_element) {
-		create_and_add_css_style_sheet (document, style_sheet_id);
+		e_web_view_create_and_add_css_style_sheet (document, style_sheet_id);
 		style_element = webkit_dom_document_get_element_by_id (document, style_sheet_id);
 	}
 
