@@ -1099,10 +1099,24 @@ insert:
 		}
 
 		if (id && (strlen (id) == 1) && (*id == '1')) {
+			/* We have to remove the div containing the span with signature */
+			WebKitDOMNode *next_sibling;
+			WebKitDOMNode *parent;
+
+			parent = webkit_dom_node_get_parent_node (node);
+			next_sibling = webkit_dom_node_get_next_sibling (parent);
+
+			if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (next_sibling))
+				webkit_dom_node_remove_child (
+					webkit_dom_node_get_parent_node (next_sibling),
+					next_sibling,
+					NULL);
+
 			webkit_dom_node_remove_child (
-				webkit_dom_node_get_parent_node (webkit_dom_node_get_parent_node (node)),
-				webkit_dom_node_get_parent_node (node),
+				webkit_dom_node_get_parent_node (parent),
+				parent,
 				NULL);
+
 			g_free (id);
 			break;
 		}
