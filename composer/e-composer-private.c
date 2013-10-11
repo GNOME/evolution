@@ -867,9 +867,6 @@ composer_move_caret (EMsgComposer *composer)
 
 	if (start_bottom) {
 		if (webkit_dom_node_list_get_length (blockquotes) != 0) {
-			if (!e_editor_widget_get_html_mode (editor_widget))
-				e_editor_widget_quote_plain_text (editor_widget);
-
 			if (!has_paragraphs_in_body) {
 				webkit_dom_node_insert_before (
 					WEBKIT_DOM_NODE (body),
