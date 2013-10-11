@@ -117,6 +117,8 @@ void		e_editor_widget_quote_plain_text
 						(EEditorWidget *widget);
 void		e_editor_widget_dequote_plain_text
 						(EEditorWidget *widget);
+void		e_editor_widget_force_spellcheck
+						(EEditorWidget *widget);
 G_END_DECLS
 
 #endif /* E_EDITOR_WIDGET_H */
