@@ -2629,13 +2629,34 @@ e_editor_widget_get_text_plain (EEditorWidget *widget)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMNode *body;
+	WebKitDOMNode *body_clone;
+	WebKitDOMNodeList *paragraphs;
+	gint length, ii;
 	GString *plain_text;
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
 	body = WEBKIT_DOM_NODE (webkit_dom_document_get_body (document));
 
 	plain_text = g_string_sized_new (1024);
-	process_elements (body, plain_text, TRUE);
+
+	paragraphs = webkit_dom_document_query_selector_all (
+			document,
+			".-x-evo-paragraph",
+			NULL);
+
+	length = webkit_dom_node_list_get_length (paragraphs);
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMNode *paragraph;
+
+		paragraph = webkit_dom_node_list_item (paragraphs, ii);
+
+		e_editor_selection_wrap_paragraph (
+			e_editor_widget_get_selection (widget),
+			WEBKIT_DOM_ELEMENT (paragraph));
+	}
+
+	body_clone = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (body), TRUE);
+	process_elements (body_clone, plain_text, TRUE);
 
 	/* Return text content between <body> and </body> */
 	return g_string_free (plain_text, FALSE);
