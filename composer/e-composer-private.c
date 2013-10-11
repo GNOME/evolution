@@ -606,11 +606,6 @@ e_composer_paste_text (EMsgComposer *composer,
 
 	e_editor_widget_check_magic_links (editor_widget, FALSE);
 
-	if (e_editor_selection_get_block_format (editor_selection) ==
-			E_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH) {
-		e_editor_selection_wrap_lines (editor_selection, FALSE, NULL);
-	}
-
 	g_free (text);
 
 	return TRUE;
@@ -780,6 +775,7 @@ composer_move_caret (EMsgComposer *composer)
 	WebKitDOMRange *new_range;
 	EEditor *editor;
 	EEditorWidget *editor_widget;
+	EEditorSelection *editor_selection;
 	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *window;
 	WebKitDOMDOMSelection *dom_selection;
@@ -799,6 +795,8 @@ composer_move_caret (EMsgComposer *composer)
 
 	editor = e_msg_composer_get_editor (composer);
 	editor_widget = e_editor_get_editor_widget (editor);
+	editor_selection = e_editor_widget_get_selection (editor_widget);
+
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (editor_widget));
 	window = webkit_dom_document_get_default_view (document);
 	dom_selection = webkit_dom_dom_window_get_selection (window);
@@ -829,10 +827,23 @@ composer_move_caret (EMsgComposer *composer)
 	blockquotes = webkit_dom_document_get_elements_by_tag_name (document, "blockquote");
 
 	if (!has_paragraphs_in_body) {
+		gchar *style_value;
+		gint word_wrap_length;
+
 		element = webkit_dom_document_create_element (document, "DIV", NULL);
-		webkit_dom_element_set_class_name (WEBKIT_DOM_ELEMENT (element), "-x-evo-paragraph");
-		webkit_dom_html_element_set_id (WEBKIT_DOM_HTML_ELEMENT (element), "-x-evo-input-start");
-		webkit_dom_html_element_set_inner_html (WEBKIT_DOM_HTML_ELEMENT (element), UNICODE_HIDDEN_SPACE, NULL);
+		webkit_dom_element_set_class_name (
+			WEBKIT_DOM_ELEMENT (element), "-x-evo-paragraph");
+		webkit_dom_html_element_set_id (
+			WEBKIT_DOM_HTML_ELEMENT (element), "-x-evo-input-start");
+
+		word_wrap_length = e_editor_selection_get_word_wrap_length (editor_selection);
+
+		style_value = g_strdup_printf ("width: %dch; word-wrap: normal;", word_wrap_length);
+		webkit_dom_element_set_attribute (
+			element, "style", style_value, NULL);
+		webkit_dom_html_element_set_inner_html (
+			WEBKIT_DOM_HTML_ELEMENT (element), UNICODE_HIDDEN_SPACE, NULL);
+		g_free (style_value);
 	}
 
 	if (start_bottom) {
@@ -854,6 +865,10 @@ composer_move_caret (EMsgComposer *composer)
 				webkit_dom_range_select_node_contents (new_range, WEBKIT_DOM_NODE (input_start), NULL);
 
 			webkit_dom_range_collapse (new_range, FALSE, NULL);
+
+			e_editor_selection_restore_caret_position (editor_selection);
+			e_editor_widget_quote_plain_text (editor_widget);
+			e_editor_widget_force_spellcheck (editor_widget);
 		} else {
 			if (!has_paragraphs_in_body) {
 				if (webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body))) {
@@ -899,8 +914,20 @@ composer_move_caret (EMsgComposer *composer)
 			if (webkit_dom_node_list_get_length (blockquotes) != 0) {
 				WebKitDOMElement *br = webkit_dom_document_create_element (document, "BR", NULL);
 
-				if (!e_editor_widget_get_html_mode (editor_widget))
+				if (!e_editor_widget_get_html_mode (editor_widget)) {
+					WebKitDOMNode *blockquote;
+
+					blockquote = webkit_dom_node_list_item (blockquotes, 0);
+
+					/* FIXME determine when we can skip this */
+					e_editor_selection_wrap_paragraph (
+						editor_selection,
+						WEBKIT_DOM_ELEMENT (blockquote));
+
+					e_editor_selection_restore_caret_position (editor_selection);
 					e_editor_widget_quote_plain_text (editor_widget);
+					e_editor_widget_force_spellcheck (editor_widget);
+				}
 
 				webkit_dom_node_insert_before (
 					WEBKIT_DOM_NODE (body),

@@ -1044,18 +1044,6 @@ editor_widget_button_release_event (GtkWidget *widget,
 }
 
 static gboolean
-is_something_to_remove (EEditorWidget *widget)
-{
-	WebKitDOMDocument *document;
-	WebKitDOMHTMLElement *body;
-
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
-	body = webkit_dom_document_get_body (document);
-
-	return (g_utf8_strlen (webkit_dom_node_get_text_content (WEBKIT_DOM_NODE (body)), -1) > 0);
-}
-
-static gboolean
 editor_widget_key_press_event (GtkWidget *widget,
                                GdkEventKey *event)
 {
@@ -1073,11 +1061,6 @@ editor_widget_key_press_event (GtkWidget *widget,
 	    (event->keyval == GDK_KEY_Control_R)) {
 
 		editor_widget_set_links_active (editor, TRUE);
-	}
-
-    	if (event->keyval == GDK_KEY_BackSpace) {
-		if (!is_something_to_remove (editor))
-			return FALSE;
 	}
 
 	if ((event->keyval == GDK_KEY_Return) ||
@@ -1151,18 +1134,6 @@ editor_widget_key_release_event (GtkWidget *widget,
 		editor_widget_set_links_active (editor_widget, FALSE);
 	}
 
-	if ((event->keyval == GDK_KEY_space) ||
-	    (event->keyval == GDK_KEY_Delete) ||
-	    (event->keyval == GDK_KEY_Return) ||
-	    (event->keyval == GDK_KEY_Linefeed) ||
-	    (event->keyval == GDK_KEY_KP_Enter) ||
-	    (event->keyval == GDK_KEY_BackSpace)) {
-
-		EEditorSelection *selection;
-		selection = e_editor_widget_get_selection (editor_widget);
-		if (e_editor_selection_get_block_format (selection) == E_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH)
-			e_editor_selection_wrap_lines (selection, TRUE, event);
-	}
 	/* Chain up to parent's key_release_event() method. */
 	return GTK_WIDGET_CLASS (e_editor_widget_parent_class)->
 		key_release_event (widget, event);
@@ -2116,6 +2087,24 @@ e_editor_widget_get_html_mode (EEditorWidget *widget)
 	return widget->priv->html_mode;
 }
 
+static gint
+get_indentation_level (WebKitDOMElement *element)
+{
+	WebKitDOMElement *parent;
+	gint level = 1;
+
+	parent = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (element));
+	/* Count level of indentation */
+	while (!WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent)) {
+		if (element_has_class (parent, "-x-evo-indented"))
+			level++;
+
+		parent = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (parent));
+	}
+
+	return level;
+}
+
 static void
 process_blockquote (WebKitDOMElement *blockquote)
 {
@@ -2167,24 +2156,10 @@ process_blockquote (WebKitDOMElement *blockquote)
 	}
 
 	if (element_has_class (blockquote, "-x-evo-indented")) {
-		WebKitDOMElement *parent;
 		WebKitDOMNode *child;
-		gint level = 1;
 		gchar *spaces;
 
-		webkit_dom_element_remove_attribute (blockquote, "style");
-		element_remove_class (blockquote, "-x-evo-indented");
-
-		parent = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (blockquote));
-		/* Count level of indentation */
-		while (!WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent)) {
-			if (element_has_class (parent, "-x-evo-indented"))
-				level++;
-
-			parent = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (parent));
-		}
-
-		spaces = g_strnfill (4 * level, ' ');
+		spaces = g_strnfill (4 * get_indentation_level (blockquote), ' ');
 
 		child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (blockquote));
 		while (child) {
@@ -2199,12 +2174,7 @@ process_blockquote (WebKitDOMElement *blockquote)
 				gchar *indented_text;
 
 				text_content = webkit_dom_text_get_whole_text (WEBKIT_DOM_TEXT (child));
-
-				/* FIXME Fix properly in wrapping => do not include space on the beginning of the line */
-				if (g_str_has_prefix (text_content, " "))
-					indented_text = g_strconcat (spaces + 1, text_content, NULL);
-				else
-					indented_text = g_strconcat (spaces, text_content, NULL);
+				indented_text = g_strconcat (spaces, text_content, NULL);
 
 				webkit_dom_text_replace_whole_text (
 					WEBKIT_DOM_TEXT (child),
@@ -2215,13 +2185,16 @@ process_blockquote (WebKitDOMElement *blockquote)
 				g_free (indented_text);
 			}
 
+			if (!child)
+				break;
+
 			/* Move to next node */
 			if (webkit_dom_node_has_child_nodes (child))
 				child = webkit_dom_node_get_first_child (child);
 			else if (webkit_dom_node_get_next_sibling (child))
 				child = webkit_dom_node_get_next_sibling (child);
 			else {
-				if (webkit_dom_node_is_equal_node (child, child))
+				if (webkit_dom_node_is_equal_node (WEBKIT_DOM_NODE (blockquote), child))
 					break;
 
 				child = webkit_dom_node_get_parent_node (child);
@@ -2230,6 +2203,8 @@ process_blockquote (WebKitDOMElement *blockquote)
 			}
 		}
 		g_free (spaces);
+
+		webkit_dom_element_remove_attribute (blockquote, "style");
 	}
 }
 
@@ -2836,7 +2811,7 @@ e_editor_widget_update_fonts (EEditorWidget *widget)
 		e_color_to_value (visited));
 
 	/* See bug #689777 for details */
-	g_string_append_printf (
+	g_string_append (
 		stylesheet,
 		"p,pre,code,address {\n"
 		"  margin: 0;\n"
@@ -2846,15 +2821,25 @@ e_editor_widget_update_fonts (EEditorWidget *widget)
 		"  margin-bottom: 0.2em;\n"
 		"}\n");
 
-	g_string_append_printf (
+	g_string_append(
+		stylesheet,
+		"blockquote "
+		"{\n"
+		"  -webkit-margin-before: 0em; "
+		"  -webkit-margin-after: 0em; "
+		"}\n");
+
+	g_string_append (
 		stylesheet,
 		"blockquote[type=cite] "
 		"{\n"
 		"  padding: 0.0ex 0ex;\n"
 		"  margin: 0ex;\n"
+		"  -webkit-margin-start: 0em; "
+		"  -webkit-margin-end : 0em; "
 		"}\n");
 
-	g_string_append_printf (
+	g_string_append (
 		stylesheet,
 		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
 		"{\n"
@@ -2867,14 +2852,14 @@ e_editor_widget_update_fonts (EEditorWidget *widget)
 
 	/* Block quote border colors are borrowed from Thunderbird. */
 
-	g_string_append_printf (
+	g_string_append (
 		stylesheet,
 		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
 		"{\n"
 		"  border-color: rgb(114,159,207);\n"  /* Sky Blue 1 */
 		"}\n");
 
-	g_string_append_printf (
+	g_string_append (
 		stylesheet,
 		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
 		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
@@ -2882,7 +2867,7 @@ e_editor_widget_update_fonts (EEditorWidget *widget)
 		"  border-color: rgb(173,127,168);\n"  /* Plum 1 */
 		"}\n");
 
-	g_string_append_printf (
+	g_string_append (
 		stylesheet,
 		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
 		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
@@ -2891,7 +2876,7 @@ e_editor_widget_update_fonts (EEditorWidget *widget)
 		"  border-color: rgb(138,226,52);\n"  /* Chameleon 1 */
 		"}\n");
 
-	g_string_append_printf (
+	g_string_append (
 		stylesheet,
 		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
 		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
@@ -2901,7 +2886,7 @@ e_editor_widget_update_fonts (EEditorWidget *widget)
 		"  border-color: rgb(252,175,62);\n"  /* Orange 1 */
 		"}\n");
 
-	g_string_append_printf (
+	g_string_append (
 		stylesheet,
 		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
 		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
