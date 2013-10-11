@@ -215,6 +215,28 @@ editor_widget_selection_changed_cb (EEditorWidget *widget,
 	}
 }
 
+static void
+move_caret_into_element (WebKitDOMDocument *document,
+			 WebKitDOMElement *element)
+{
+	WebKitDOMDOMWindow *window;
+	WebKitDOMDOMSelection *window_selection;
+	WebKitDOMRange *new_range;
+
+	if (!element)
+		return;
+
+	window = webkit_dom_document_get_default_view (document);
+	window_selection = webkit_dom_dom_window_get_selection (window);
+	new_range = webkit_dom_document_create_range (document);
+
+	webkit_dom_range_select_node_contents (
+		new_range, WEBKIT_DOM_NODE (element), NULL);
+	webkit_dom_range_collapse (new_range, FALSE, NULL);
+	webkit_dom_dom_selection_remove_all_ranges (window_selection);
+	webkit_dom_dom_selection_add_range (window_selection, new_range);
+}
+
 static gboolean
 editor_widget_should_show_delete_interface_for_element (EEditorWidget *widget,
                                                         WebKitDOMHTMLElement *element)
@@ -222,36 +244,75 @@ editor_widget_should_show_delete_interface_for_element (EEditorWidget *widget,
 	return FALSE;
 }
 
+static gint
+get_word_count_in_element (WebKitDOMHTMLElement *element) {
+	gchar *inner_text;
+	gchar **words;
+	gint count;
+
+	inner_text = webkit_dom_html_element_get_inner_text (element);
+	words = g_strsplit (inner_text, " ", 0);
+	count = g_strv_length (words);
+	g_strfreev (words);
+	g_free (inner_text);
+
+	return count;
+}
+
+void
+e_editor_widget_force_spellcheck (EEditorWidget *widget)
+{
+	EEditorSelection *selection;
+	gint ii, word_count;
+	WebKitDOMDocument *document;
+	WebKitDOMDOMSelection *dom_selection;
+	WebKitDOMDOMWindow *window;
+	WebKitDOMHTMLElement *body;
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
+	window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (window);
+
+	/* Enable spellcheck in composer */
+	body = webkit_dom_document_get_body (document);
+	webkit_dom_element_set_attribute (
+		WEBKIT_DOM_ELEMENT (body),
+		"spellcheck",
+		"true",
+		NULL);
+
+	selection = e_editor_widget_get_selection (widget);
+
+	e_editor_selection_save_caret_position (selection);
+
+	if (!webkit_dom_document_get_element_by_id (document, "-x-evo-caret-position")) {
+		move_caret_into_element (
+			document,
+			WEBKIT_DOM_ELEMENT (webkit_dom_document_get_body (document)));
+		e_editor_selection_save_caret_position (selection);
+	}
+
+	webkit_dom_dom_selection_modify (dom_selection, "move", "backward", "documentboundary");
+
+	/* Go through all words to spellcheck them. To avoid this we have to wait for
+	 * http://www.w3.org/html/wg/drafts/html/master/editing.html#dom-forcespellcheck */
+	word_count = get_word_count_in_element (body);
+	for (ii = 0; ii < word_count; ii++)
+		webkit_dom_dom_selection_modify (dom_selection, "move", "forward", "word");
+
+	e_editor_selection_restore_caret_position (selection);
+}
+
 static void
 editor_widget_load_status_changed (EEditorWidget *widget)
 {
 	WebKitLoadStatus status;
-	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *window;
-	WebKitDOMDOMSelection *selection;
-	WebKitDOMRange *range;
 
 	status = webkit_web_view_get_load_status (WEBKIT_WEB_VIEW (widget));
-	if (status != WEBKIT_LOAD_FINISHED) {
+	if (status != WEBKIT_LOAD_FINISHED)
 		return;
-	}
 
 	widget->priv->reload_in_progress = FALSE;
-
- 	/* After reload, there is no selection in the document. Fix it. */
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
-	window = webkit_dom_document_get_default_view (document);
-	selection = webkit_dom_dom_window_get_selection (window);
-
-	range = webkit_dom_document_create_range (document);
-	webkit_dom_range_set_start (
-		range, WEBKIT_DOM_NODE (webkit_dom_document_get_body (document)),
-		0, NULL);
-	webkit_dom_range_set_end (
-		range, WEBKIT_DOM_NODE (webkit_dom_document_get_body (document)),
-		0, NULL);
-
-	webkit_dom_dom_selection_add_range (selection, range);
 
 	/* Dispatch queued operations */
 	while (widget->priv->postreload_operations &&
