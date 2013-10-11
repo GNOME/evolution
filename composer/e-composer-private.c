@@ -821,7 +821,12 @@ composer_move_caret (EMsgComposer *composer)
 	element = webkit_dom_document_get_element_by_id (document, "-x-evo-caret-position");
 	/* Caret position found => composer mode changed */
 	if (element) {
-		e_editor_selection_restore_caret_position (e_editor_widget_get_selection (editor_widget));
+		e_editor_selection_restore_caret_position (editor_selection);
+		/* We want to force spellcheck just in case that we switched to plain
+		 * text mode (when switching to html mode, the underlined words are
+		 * preserved */
+		if (!e_editor_widget_get_html_mode (editor_widget))
+			e_editor_widget_force_spellcheck (editor_widget);
 		return;
 	}
 
