@@ -106,6 +106,9 @@ void		e_editor_widget_set_text_plain	(EEditorWidget *widget,
 						 const gchar *text);
 void		e_editor_widget_paste_clipboard_quoted
 						(EEditorWidget *widget);
+void		e_editor_widget_embed_styles	(EEditorWidget *widget);
+void		e_editor_widget_remove_embed_styles
+						(EEditorWidget *widget);
 void		e_editor_widget_update_fonts	(EEditorWidget *widget);
 WebKitDOMElement *
 		e_editor_widget_get_element_under_mouse_click

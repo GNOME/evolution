@@ -3013,6 +3013,271 @@ e_editor_selection_insert_html (EEditorSelection *selection,
 	g_object_unref (editor_widget);
 }
 
+
+/************************* image_load_and_insert_async() *************************/
+
+typedef struct _LoadContext LoadContext;
+
+struct _LoadContext {
+	EEditorSelection *selection;
+	GInputStream *input_stream;
+	GOutputStream *output_stream;
+	GFile *file;
+	GFileInfo *file_info;
+	goffset total_num_bytes;
+	gssize bytes_read;
+	const gchar *content_type;
+	gchar buffer[4096];
+};
+
+/* Forward Declaration */
+static void
+image_load_stream_read_cb (GInputStream *input_stream,
+                           GAsyncResult *result,
+                           LoadContext *load_context);
+
+static LoadContext *
+image_load_context_new (EEditorSelection *selection)
+{
+	LoadContext *load_context;
+
+	load_context = g_slice_new0 (LoadContext);
+	load_context->selection = selection;
+
+	return load_context;
+}
+
+static void
+image_load_context_free (LoadContext *load_context)
+{
+	if (load_context->input_stream != NULL)
+		g_object_unref (load_context->input_stream);
+
+	if (load_context->output_stream != NULL)
+		g_object_unref (load_context->output_stream);
+
+	if (load_context->file_info != NULL)
+		g_object_unref (load_context->file_info);
+
+	if (load_context->file != NULL)
+		g_object_unref (load_context->file);
+
+	g_slice_free (LoadContext, load_context);
+}
+
+static void
+image_load_finish (LoadContext *load_context)
+{
+	EEditorSelection *selection;
+	EEditorWidget *editor_widget;
+	WebKitDOMDocument *document;
+	WebKitDOMElement *element;
+	WebKitDOMElement *caret_position;
+	GMemoryOutputStream *output_stream;
+	gchar *base64_encoded;
+	gchar *mime_type;
+	gchar *output;
+	gsize size;
+	gpointer data;
+
+	output_stream = G_MEMORY_OUTPUT_STREAM (load_context->output_stream);
+
+	selection = load_context->selection;
+
+	editor_widget = e_editor_selection_ref_editor_widget (selection);
+	g_return_if_fail (editor_widget != NULL);
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (editor_widget));
+	g_object_unref (editor_widget);
+
+	mime_type = g_content_type_get_mime_type (load_context->content_type);
+
+	data = g_memory_output_stream_get_data (output_stream);
+	size = g_memory_output_stream_get_data_size (output_stream);
+
+	base64_encoded = g_base64_encode ((const guchar *) data, size);
+	output = g_strconcat ("data:", mime_type, ";base64,", base64_encoded, NULL);
+
+	e_editor_selection_save_caret_position (selection);
+
+	element = webkit_dom_document_create_element (document, "img", NULL);
+	webkit_dom_html_image_element_set_src (
+		WEBKIT_DOM_HTML_IMAGE_ELEMENT (element),
+		output);
+
+	caret_position = webkit_dom_document_get_element_by_id (
+				document, "-x-evo-caret-position");
+
+	webkit_dom_node_insert_before (
+		webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (caret_position)),
+		WEBKIT_DOM_NODE (element),
+		WEBKIT_DOM_NODE (caret_position),
+		NULL);
+
+	e_editor_selection_restore_caret_position (selection);
+
+	g_free (base64_encoded);
+	g_free (output);
+	g_free (mime_type);
+
+	image_load_context_free (load_context);
+}
+
+static void
+image_load_write_cb (GOutputStream *output_stream,
+                     GAsyncResult *result,
+                          LoadContext *load_context)
+{
+	GInputStream *input_stream;
+	gssize bytes_written;
+	GError *error = NULL;
+
+	bytes_written = g_output_stream_write_finish (
+		output_stream, result, &error);
+
+	if (error) {
+		image_load_context_free (load_context);
+		return;
+	}
+
+	input_stream = load_context->input_stream;
+
+	if (bytes_written < load_context->bytes_read) {
+		g_memmove (
+			load_context->buffer,
+			load_context->buffer + bytes_written,
+			load_context->bytes_read - bytes_written);
+		load_context->bytes_read -= bytes_written;
+
+		g_output_stream_write_async (
+			output_stream,
+			load_context->buffer,
+			load_context->bytes_read,
+			G_PRIORITY_DEFAULT, NULL,
+			(GAsyncReadyCallback) image_load_write_cb,
+			load_context);
+	} else
+		g_input_stream_read_async (
+			input_stream,
+			load_context->buffer,
+			sizeof (load_context->buffer),
+			G_PRIORITY_DEFAULT, NULL,
+			(GAsyncReadyCallback) image_load_stream_read_cb,
+			load_context);
+}
+
+static void
+image_load_stream_read_cb (GInputStream *input_stream,
+                                GAsyncResult *result,
+                                LoadContext *load_context)
+{
+	GOutputStream *output_stream;
+	gssize bytes_read;
+	GError *error = NULL;
+
+	bytes_read = g_input_stream_read_finish (
+		input_stream, result, &error);
+
+	if (error) {
+		image_load_context_free (load_context);
+		return;
+	}
+
+	if (bytes_read == 0) {
+		image_load_finish (load_context);
+		return;
+	}
+
+	output_stream = load_context->output_stream;
+	load_context->bytes_read = bytes_read;
+
+	g_output_stream_write_async (
+		output_stream,
+		load_context->buffer,
+		load_context->bytes_read,
+		G_PRIORITY_DEFAULT, NULL,
+		(GAsyncReadyCallback) image_load_write_cb,
+		load_context);
+}
+
+static void
+image_load_file_read_cb (GFile *file,
+                         GAsyncResult *result,
+                         LoadContext *load_context)
+{
+	GFileInputStream *input_stream;
+	GOutputStream *output_stream;
+	GError *error = NULL;
+
+	/* Input stream might be NULL, so don't use cast macro. */
+	input_stream = g_file_read_finish (file, result, &error);
+	load_context->input_stream = (GInputStream *) input_stream;
+
+	if (error) {
+		image_load_context_free (load_context);
+		return;
+	}
+
+	/* Load the contents into a GMemoryOutputStream. */
+	output_stream = g_memory_output_stream_new (
+		NULL, 0, g_realloc, g_free);
+
+	load_context->output_stream = output_stream;
+
+	g_input_stream_read_async (
+		load_context->input_stream,
+		load_context->buffer,
+		sizeof (load_context->buffer),
+		G_PRIORITY_DEFAULT, NULL,
+		(GAsyncReadyCallback) image_load_stream_read_cb,
+		load_context);
+}
+
+static void
+image_load_query_info_cb (GFile *file,
+                          GAsyncResult *result,
+                          LoadContext *load_context)
+{
+	GFileInfo *file_info;
+	GError *error = NULL;
+
+	file_info = g_file_query_info_finish (file, result, &error);
+	if (error) {
+		image_load_context_free (load_context);
+		return;
+	}
+
+	load_context->content_type = g_file_info_get_content_type (file_info);
+	load_context->total_num_bytes = g_file_info_get_size (file_info);
+
+	g_file_read_async (
+		file, G_PRIORITY_DEFAULT,
+		NULL, (GAsyncReadyCallback)
+		image_load_file_read_cb, load_context);
+}
+
+static void
+image_load_and_insert_async (EEditorSelection *selection,
+                             const gchar *uri)
+{
+	LoadContext *load_context;
+	GFile *file;
+
+	g_return_if_fail (uri && *uri);
+
+	file = g_file_new_for_uri (uri);
+	g_return_if_fail (file != NULL);
+
+	load_context = image_load_context_new (selection);
+	load_context->file = file;
+
+	g_file_query_info_async (
+		file, "standard::*",
+		G_FILE_QUERY_INFO_NONE,G_PRIORITY_DEFAULT,
+		NULL, (GAsyncReadyCallback)
+		image_load_query_info_cb, load_context);
+}
+
 /**
  * e_editor_selection_insert_image:
  * @selection: an #EEditorSelection
@@ -3026,7 +3291,6 @@ e_editor_selection_insert_image (EEditorSelection *selection,
                                  const gchar *image_uri)
 {
 	EEditorWidget *editor_widget;
-	EEditorWidgetCommand command;
 
 	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
 	g_return_if_fail (image_uri != NULL);
@@ -3034,8 +3298,8 @@ e_editor_selection_insert_image (EEditorSelection *selection,
 	editor_widget = e_editor_selection_ref_editor_widget (selection);
 	g_return_if_fail (editor_widget != NULL);
 
-	command = E_EDITOR_WIDGET_COMMAND_INSERT_IMAGE;
-	e_editor_widget_exec_command (editor_widget, command, image_uri);
+	if (e_editor_widget_get_html_mode (editor_widget))
+		image_load_and_insert_async (selection, image_uri);
 
 	g_object_unref (editor_widget);
 }

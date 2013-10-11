@@ -2855,6 +2855,64 @@ e_editor_widget_paste_clipboard_quoted (EEditorWidget *widget)
 	class->paste_clipboard_quoted (widget);
 }
 
+void
+e_editor_widget_embed_styles (EEditorWidget *widget)
+{
+	WebKitWebSettings *settings;
+	WebKitDOMDocument *document;
+	WebKitDOMElement *sheet;
+	gchar *stylesheet_uri;
+	gchar *stylesheet_content;
+	const gchar *stylesheet;
+	gsize length;
+
+	settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (widget));
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
+
+	g_object_get (
+		G_OBJECT (settings),
+		"user-stylesheet-uri", &stylesheet_uri,
+		NULL);
+
+	stylesheet = strstr (stylesheet_uri, ",");
+	stylesheet_content = (gchar *) g_base64_decode (stylesheet, &length);
+	g_free (stylesheet_uri);
+
+	if (length == 0) {
+		g_free (stylesheet_content);
+		return;
+	}
+
+	e_web_view_create_and_add_css_style_sheet (document, "-x-evo-composer-sheet");
+
+	sheet = webkit_dom_document_get_element_by_id (document, "-x-evo-composer-sheet");
+	webkit_dom_element_set_attribute (
+		sheet,
+		"type",
+		"text/css",
+		NULL);
+
+	webkit_dom_html_element_set_inner_html (WEBKIT_DOM_HTML_ELEMENT (sheet), stylesheet_content, NULL);
+
+	g_free (stylesheet_content);
+}
+
+void
+e_editor_widget_remove_embed_styles (EEditorWidget *widget)
+{
+	WebKitDOMDocument *document;
+	WebKitDOMElement *sheet;
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
+	sheet = webkit_dom_document_get_element_by_id (
+			document, "-x-evo-composer-sheet");
+
+	webkit_dom_node_remove_child (
+		webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (sheet)),
+		WEBKIT_DOM_NODE (sheet),
+		NULL);
+}
+
 /**
  * e_editor_widget_update_fonts:
  * @widget: an #EEditorWidget
