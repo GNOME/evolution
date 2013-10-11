@@ -969,10 +969,13 @@ editor_widget_button_release_event (GtkWidget *widget,
 			toplevel = gtk_widget_get_toplevel (widget);
 			screen = gtk_window_get_screen (GTK_WINDOW (toplevel));
 			gtk_show_uri (screen, uri, event->time, NULL);
+			g_free (uri);
 		}
 
 		return TRUE;
 	}
+
+	g_free (uri);
 
 	/* Chain up to parent's button_release_event() method. */
 	return GTK_WIDGET_CLASS (e_editor_widget_parent_class)->
