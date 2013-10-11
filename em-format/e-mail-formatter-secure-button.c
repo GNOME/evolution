@@ -66,8 +66,13 @@ static const struct {
 	{ "stock_lock-ok", N_("Encrypted, strong"), N_("This message is encrypted, with a strong encryption algorithm. It would be very difficult for an outsider to view the content of this message in a practical amount of time.") },
 };
 
-static const GdkRGBA smime_sign_colour[5] = {
-	{ 0 }, { 0.53, 0.73, 0.53, 1 }, { 0.73, 0.53, 0.53, 1 }, { 0.91, 0.82, 0.13, 1 }, { 0 },
+static const GdkRGBA smime_sign_colour[6] = {
+	{ 0.0, 0.0, 0.0, 0.0 },
+	{ 0.53, 0.73, 0.53, 1.0 },
+	{ 0.73, 0.53, 0.53, 1.0 },
+	{ 0.91, 0.82, 0.13, 1.0 },
+	{ 0.0, 0.0, 0.0, 0.0 },
+	{ 0.0, 0.0, 0.0, 1.0 }
 };
 
 static gboolean
@@ -416,6 +421,8 @@ secure_button_get_widget_for_validity (CamelCipherValidity *validity)
 	gtk_button_set_image (GTK_BUTTON (button), widget);
 
 	widget = gtk_label_new (description);
+	/* make sure the text color doesn't change with theme */
+	gtk_widget_override_color (widget, GTK_STATE_FLAG_NORMAL, &smime_sign_colour[5]);
 	gtk_box_pack_start (GTK_BOX (layout), widget, FALSE, FALSE, 0);
 
 	g_free (description);
