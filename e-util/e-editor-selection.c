@@ -123,12 +123,15 @@ editor_selection_get_current_range (EEditorSelection *selection)
 		goto exit;
 
 	dom_selection = webkit_dom_dom_window_get_selection (window);
+	if (!WEBKIT_DOM_IS_DOM_SELECTION (dom_selection))
+		goto exit;
+
 	if (webkit_dom_dom_selection_get_range_count (dom_selection) < 1)
 		goto exit;
 
 	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
 
-exit:
+ exit:
 	g_object_unref (editor_widget);
 
 	return range;
