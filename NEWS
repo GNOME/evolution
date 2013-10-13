@@ -1,3 +1,40 @@
+Evolution 3.10.1 2013-10-14
+---------------------------
+
+Bug Fixes:
+	Bug 689787 - Prefer-plain can hide message body for composer
+	             (Milan Crha)
+	Bug 699997 - Show unreferenced images in multipart/related parser
+	             (Milan Crha)
+	Bug 707856 - Custom recurrence dropped on event editor save
+	             (Milan Crha)
+	Bug 708347 - Memory leak from EWebView/webkit (Tomas Popela)
+	Bug 708349 - Memory leaks around mail config (Milan Crha)
+	Bug 708390 - text-highlight: Don't interfere with printing
+	             (Matthew Barnes)
+	Bug 708682 - Move with 'End' key with collapsed threads fails
+	             (Milan Crha)
+	Bug 708840 - Crash when closing subscription dialog with running
+	             operation (Milan Crha)
+
+Other Changes:
+	* Show both component summary and alarm description in Reminders
+	  (Milan Crha)
+	* Auto-wrap long anchors (Milan Crha)
+	* Signature/encryption bar may not inherit text color from theme
+	  (Milan Crha)
+
+Translations:
+	Josep Sànchez (ca)
+	Carles Ferrando (ca@valencia)
+	Christian Kirbach (de)
+	Jiro Matsuzawa (ja)
+	Marián Čavojský (sk)
+	Daniel Korostil (uk)
+	Chao-Hsiung Liao (zh_HK)
+	Cheng-Chia Tseng (zh_HK)
+
+
 Evolution 3.10.0 2013-09-23
 ---------------------------
 
