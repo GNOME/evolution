@@ -101,6 +101,7 @@ e_port_entry_get_type
 e_preferences_window_get_type
 e_preview_pane_get_type
 e_printable_get_type
+e_proxy_combo_box_get_type
 e_reflow_get_type
 e_reflow_model_get_type
 e_rule_context_get_type

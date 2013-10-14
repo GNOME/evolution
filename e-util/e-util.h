@@ -143,6 +143,7 @@
 #include <e-util/e-preview-pane.h>
 #include <e-util/e-print.h>
 #include <e-util/e-printable.h>
+#include <e-util/e-proxy-combo-box.h>
 #include <e-util/e-reflow-model.h>
 #include <e-util/e-reflow.h>
 #include <e-util/e-rule-context.h>

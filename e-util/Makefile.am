@@ -224,6 +224,7 @@ evolution_util_include_HEADERS =  \
 	e-preview-pane.h \
 	e-print.h \
 	e-printable.h \
+	e-proxy-combo-box.h \
 	e-reflow-model.h \
 	e-reflow.h \
 	e-rule-context.h \
@@ -462,6 +463,7 @@ libevolution_util_la_SOURCES = \
 	e-preview-pane.c \
 	e-print.c \
 	e-printable.c \
+	e-proxy-combo-box.c \
 	e-reflow-model.c \
 	e-reflow.c \
 	e-rule-context.c \

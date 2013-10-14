@@ -2753,6 +2753,26 @@ e_printable_get_type
 </SECTION>
 
 <SECTION>
+<FILE>e-proxy-combo-box</FILE>
+<TITLE>EProxyComboBox</TITLE>
+EProxyComboBox
+e_proxy_combo_box_new
+e_proxy_combo_box_refresh
+e_proxy_combo_box_get_registry
+<SUBSECTION Standard>
+E_PROXY_COMBO_BOX
+E_IS_PROXY_COMBO_BOX
+E_TYPE_PROXY_COMBO_BOX
+E_PROXY_COMBO_BOX_CLASS
+E_IS_PROXY_COMBO_BOX_CLASS
+E_PROXY_COMBO_BOX_GET_CLASS
+EProxyComboBoxClass
+e_proxy_combo_box_get_type
+<SUBSECTION Private>
+EProxyComboBoxPrivate
+</SECTION>
+
+<SECTION>
 <FILE>e-reflow</FILE>
 <TITLE>EReflow</TITLE>
 EReflow
