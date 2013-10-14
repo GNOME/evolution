@@ -2773,6 +2773,28 @@ EProxyComboBoxPrivate
 </SECTION>
 
 <SECTION>
+<FILE>e-proxy-selector</FILE>
+<TITLE>EProxySelector</TITLE>
+EProxySelector
+e_proxy_selector_new
+e_proxy_selector_refresh
+e_proxy_selector_get_registry
+e_proxy_selector_ref_selected
+e_proxy_selector_set_selected
+<SUBSECTION Standard>
+E_PROXY_SELECTOR
+E_IS_PROXY_SELECTOR
+E_TYPE_PROXY_SELECTOR
+E_PROXY_SELECTOR_CLASS
+E_IS_PROXY_SELECTOR_CLASS
+E_PROXY_SELECTOR_GET_CLASS
+EProxySelectorClass
+e_proxy_selector_get_type
+<SUBSECTION Private>
+EProxySelectorPrivate
+</SECTION>
+
+<SECTION>
 <FILE>e-reflow</FILE>
 <TITLE>EReflow</TITLE>
 EReflow

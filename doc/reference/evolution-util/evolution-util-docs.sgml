@@ -248,6 +248,7 @@
     <xi:include href="xml/e-preview-pane.xml"/>
     <xi:include href="xml/e-printable.xml"/>
     <xi:include href="xml/e-proxy-combo-box.xml"/>
+    <xi:include href="xml/e-proxy-selector.xml"/>
     <xi:include href="xml/e-search-bar.xml"/>
     <xi:include href="xml/e-selectable.xml"/>
     <xi:include href="xml/e-selection-model-array.xml"/>

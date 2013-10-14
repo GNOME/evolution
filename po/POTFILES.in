@@ -243,6 +243,7 @@ e-util/e-plugin.c
 e-util/e-popup-action.c
 e-util/e-preferences-window.c
 e-util/e-print.c
+e-util/e-proxy-selector.c
 e-util/e-rule-context.c
 e-util/e-rule-editor.c
 e-util/e-search-bar.c

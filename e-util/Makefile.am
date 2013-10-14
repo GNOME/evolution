@@ -225,6 +225,7 @@ evolution_util_include_HEADERS =  \
 	e-print.h \
 	e-printable.h \
 	e-proxy-combo-box.h \
+	e-proxy-selector.h \
 	e-reflow-model.h \
 	e-reflow.h \
 	e-rule-context.h \
@@ -464,6 +465,7 @@ libevolution_util_la_SOURCES = \
 	e-print.c \
 	e-printable.c \
 	e-proxy-combo-box.c \
+	e-proxy-selector.c \
 	e-reflow-model.c \
 	e-reflow.c \
 	e-rule-context.c \
