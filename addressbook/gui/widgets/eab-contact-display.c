@@ -29,7 +29,7 @@
 #include <string.h>
 #include <glib/gi18n.h>
 
-#include <webkit/webkit.h>
+#include <webkit2/webkit2.h>
 
 #include "e-contact-map.h"
 #include "eab-contact-formatter.h"

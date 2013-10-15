@@ -20,7 +20,7 @@
 #define E_MAIL_DISPLAY_POPUP_EXTENSION_H
 
 #include <glib-object.h>
-#include <webkit/webkit.h>
+#include <webkit2/webkit2.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_DISPLAY_POPUP_EXTENSION \

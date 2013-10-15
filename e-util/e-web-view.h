@@ -31,7 +31,7 @@
 #ifndef E_WEB_VIEW_H
 #define E_WEB_VIEW_H
 
-#include <webkit/webkit.h>
+#include <webkit2/webkit2.h>
 #include <e-util/e-activity.h>
 
 /* Standard GObject macros */

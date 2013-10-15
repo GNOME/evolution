@@ -27,7 +27,7 @@
 #include <libsoup/soup-requester.h>
 #include <libsoup/soup-request-http.h>
 #include <camel/camel.h>
-#include <webkit/webkit.h>
+#include <webkit2/webkit2.h>
 
 #include <e-util/e-util.h>
 #include <mail/em-utils.h>

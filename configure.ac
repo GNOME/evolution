@@ -51,7 +51,7 @@ m4_define([gcr_minimum_version], [3.4])
 m4_define([gnome_desktop_minimum_version], [2.91.3])
 m4_define([gnome_icon_theme_minimum_version], [2.30.2.1])
 m4_define([gsettings_desktop_schemas_minimum_version], [2.91.92])
-m4_define([webkitgtk_minimum_version], [1.10.0])
+m4_define([webkit2gtk_minimum_version], [2.0.1])
 m4_define([libgdata_minimum_version], [0.10])
 m4_define([libxml_minimum_version], [2.7.3])
 m4_define([shared_mime_info_minimum_version], [0.22])
@@ -289,7 +289,7 @@ PKG_CHECK_MODULES([GNOME_PLATFORM],
 	 shared-mime-info >= shared_mime_info_minimum_version
 	 gnome-desktop-3.0 >= gnome_desktop_minimum_version
 	 gsettings-desktop-schemas >= gsettings_desktop_schemas_minimum_version
-	 webkitgtk-3.0 >= webkitgtk_minimum_version])
+	 webkit2gtk-3.0 >= webkit2gtk_minimum_version])
 AC_SUBST(GNOME_PLATFORM_CFLAGS)
 AC_SUBST(GNOME_PLATFORM_LIBS)
 

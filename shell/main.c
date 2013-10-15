@@ -55,7 +55,7 @@
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 
-#include <webkit/webkit.h>
+#include <webkit2/webkit2.h>
 
 #include "e-shell.h"
 #include "e-shell-migrate.h"
