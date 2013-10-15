@@ -104,6 +104,7 @@ e_printable_get_type
 e_proxy_combo_box_get_type
 e_proxy_editor_get_type
 e_proxy_link_selector_get_type
+e_proxy_preferences_get_type
 e_proxy_selector_get_type
 e_reflow_get_type
 e_reflow_model_get_type

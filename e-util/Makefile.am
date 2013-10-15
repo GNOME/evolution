@@ -63,6 +63,7 @@ noinst_PROGRAMS = \
 	test-mail-signatures \
 	test-name-selector \
 	test-preferences-window \
+	test-proxy-preferences \
 	test-source-combo-box \
 	test-source-config \
 	test-source-selector \
@@ -227,6 +228,7 @@ evolution_util_include_HEADERS =  \
 	e-proxy-combo-box.h \
 	e-proxy-editor.h \
 	e-proxy-link-selector.h \
+	e-proxy-preferences.h \
 	e-proxy-selector.h \
 	e-reflow-model.h \
 	e-reflow.h \
@@ -469,6 +471,7 @@ libevolution_util_la_SOURCES = \
 	e-proxy-combo-box.c \
 	e-proxy-editor.c \
 	e-proxy-link-selector.c \
+	e-proxy-preferences.c \
 	e-proxy-selector.c \
 	e-reflow-model.c \
 	e-reflow.c \
@@ -626,6 +629,10 @@ test_name_selector_LDADD = $(TEST_LDADD)
 test_preferences_window_CPPFLAGS = $(TEST_CPPFLAGS)
 test_preferences_window_SOURCES = test-preferences-window.c
 test_preferences_window_LDADD = $(TEST_LDADD)
+
+test_proxy_preferences_CPPFLAGS = $(TEST_CPPFLAGS)
+test_proxy_preferences_SOURCES = test-proxy-preferences.c
+test_proxy_preferences_LDADD = $(TEST_LDADD)
 
 test_source_combo_box_CPPFLAGS = $(TEST_CPPFLAGS)
 test_source_combo_box_SOURCES = test-source-combo-box.c

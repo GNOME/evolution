@@ -2815,6 +2815,28 @@ EProxyLinkSelectorPrivate
 </SECTION>
 
 <SECTION>
+<FILE>e-proxy-preferences</FILE>
+<TITLE>EProxyPreferences</TITLE>
+EProxyPreferences
+e_proxy_preferences_new
+e_proxy_preferences_submit
+e_proxy_preferences_get_registry
+e_proxy_preferences_get_show_advanced
+e_proxy_preferences_set_show_advanced
+<SUBSECTION Standard>
+E_PROXY_PREFERENCES
+E_IS_PROXY_PREFERENCES
+E_TYPE_PROXY_PREFERENCES
+E_PROXY_PREFERENCES_CLASS
+E_IS_PROXY_PREFERENCES_CLASS
+E_PROXY_PREFERENCES_GET_CLASS
+EProxyPreferencesClass
+e_proxy_preferences_get_type
+<SUBSECTION Private>
+EProxyPreferencesPrivate
+</SECTION>
+
+<SECTION>
 <FILE>e-proxy-selector</FILE>
 <TITLE>EProxySelector</TITLE>
 EProxySelector

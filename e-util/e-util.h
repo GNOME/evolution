@@ -146,6 +146,7 @@
 #include <e-util/e-proxy-combo-box.h>
 #include <e-util/e-proxy-editor.h>
 #include <e-util/e-proxy-link-selector.h>
+#include <e-util/e-proxy-preferences.h>
 #include <e-util/e-proxy-selector.h>
 #include <e-util/e-reflow-model.h>
 #include <e-util/e-reflow.h>

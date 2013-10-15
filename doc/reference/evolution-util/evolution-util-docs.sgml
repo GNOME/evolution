@@ -250,6 +250,7 @@
     <xi:include href="xml/e-proxy-combo-box.xml"/>
     <xi:include href="xml/e-proxy-editor.xml"/>
     <xi:include href="xml/e-proxy-link-selector.xml"/>
+    <xi:include href="xml/e-proxy-preferences.xml"/>
     <xi:include href="xml/e-proxy-selector.xml"/>
     <xi:include href="xml/e-search-bar.xml"/>
     <xi:include href="xml/e-selectable.xml"/>
