@@ -174,19 +174,19 @@ in_scrolled_window (GtkWidget *widget)
 static void
 e_web_view_preview_init (EWebViewPreview *preview)
 {
-	GtkWidget *tree_view_sw, *web_view_sw;
+	GtkWidget *tree_view_sw, *web_view;
 
 	preview->priv = E_WEB_VIEW_PREVIEW_GET_PRIVATE (preview);
 	preview->priv->escape_values = TRUE;
 
 	tree_view_sw = in_scrolled_window (gtk_tree_view_new ());
-	web_view_sw = in_scrolled_window (e_web_view_new ());
+	web_view = e_web_view_new ();
 
 	gtk_widget_hide (tree_view_sw);
-	gtk_widget_show (web_view_sw);
+	gtk_widget_show (web_view);
 
 	gtk_paned_pack1 (GTK_PANED (preview), tree_view_sw, FALSE, TRUE);
-	gtk_paned_pack2 (GTK_PANED (preview), web_view_sw, TRUE, TRUE);
+	gtk_paned_pack2 (GTK_PANED (preview), web_view, TRUE, TRUE);
 
 	/* rawly 3 lines of a text plus a little bit more */
 	if (gtk_paned_get_position (GTK_PANED (preview)) < 85)
@@ -212,7 +212,7 @@ e_web_view_preview_get_preview (EWebViewPreview *preview)
 {
 	g_return_val_if_fail (E_IS_WEB_VIEW_PREVIEW (preview), NULL);
 
-	return gtk_bin_get_child (GTK_BIN (gtk_paned_get_child2 (GTK_PANED (preview))));
+	return gtk_paned_get_child2 (GTK_PANED (preview));
 }
 
 void
@@ -224,7 +224,7 @@ e_web_view_preview_set_preview (EWebViewPreview *preview,
 	g_return_if_fail (E_IS_WEB_VIEW_PREVIEW (preview));
 	g_return_if_fail (GTK_IS_WIDGET (preview_widget));
 
-	old_child = gtk_bin_get_child (GTK_BIN (gtk_paned_get_child2 (GTK_PANED (preview))));
+	old_child = gtk_paned_get_child2 (GTK_PANED (preview));
 	if (old_child) {
 		g_return_if_fail (old_child != preview_widget);
 		gtk_widget_destroy (old_child);
