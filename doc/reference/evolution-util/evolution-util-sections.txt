@@ -2773,6 +2773,28 @@ EProxyComboBoxPrivate
 </SECTION>
 
 <SECTION>
+<FILE>e-proxy-editor</FILE>
+<TITLE>EProxyEditor</TITLE>
+EProxyEditor
+e_proxy_editor_new
+e_proxy_editor_save
+e_proxy_editor_get_registry
+e_proxy_editor_ref_source
+e_proxy_editor_set_source
+<SUBSECTION Standard>
+E_PROXY_EDITOR
+E_IS_PROXY_EDITOR
+E_TYPE_PROXY_EDITOR
+E_PROXY_EDITOR_CLASS
+E_IS_PROXY_EDITOR_CLASS
+E_PROXY_EDITOR_GET_CLASS
+EProxyEditorClass
+e_proxy_editor_get_type
+<SUBSECTION Private>
+EProxyEditorPrivate
+</SECTION>
+
+<SECTION>
 <FILE>e-proxy-selector</FILE>
 <TITLE>EProxySelector</TITLE>
 EProxySelector
