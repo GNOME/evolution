@@ -465,6 +465,7 @@ e_composer_private_finalize (EMsgComposer *composer)
 	g_free (composer->priv->charset);
 	g_free (composer->priv->mime_type);
 	g_free (composer->priv->mime_body);
+	g_free (composer->priv->selected_signature_uid);
 
 	g_hash_table_destroy (composer->priv->inline_images);
 	g_hash_table_destroy (composer->priv->inline_images_by_url);
@@ -1023,11 +1024,18 @@ exit:
 	g_object_unref (composer);
 }
 
+static gboolean
+is_null_or_none (const gchar *text)
+{
+	return !text || g_strcmp0 (text, "none") == 0;
+}
+
 void
 e_composer_update_signature (EMsgComposer *composer)
 {
 	EComposerHeaderTable *table;
 	EMailSignatureComboBox *combo_box;
+	const gchar *signature_uid;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
@@ -1036,6 +1044,19 @@ e_composer_update_signature (EMsgComposer *composer)
 		return;
 
 	table = e_msg_composer_get_header_table (composer);
+	signature_uid = e_composer_header_table_get_signature_uid (table);
+
+	/* this is a case when the signature combo cleared itself for a reload */
+	if (!signature_uid)
+		return;
+
+	if (g_strcmp0 (signature_uid, composer->priv->selected_signature_uid) == 0 ||
+	    (is_null_or_none (signature_uid) && is_null_or_none (composer->priv->selected_signature_uid)))
+		return;
+
+	g_free (composer->priv->selected_signature_uid);
+	composer->priv->selected_signature_uid = g_strdup (signature_uid);
+
 	combo_box = e_composer_header_table_get_signature_combo_box (table);
 
 	/* XXX Signature files should be local and therefore load quickly,
