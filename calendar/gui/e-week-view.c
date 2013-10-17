@@ -3290,6 +3290,7 @@ tooltip_event_cb (GnomeCanvasItem *item,
 		if (view->editing_event_num == -1) {
 			ECalendarViewEventData *data;
 
+			g_return_val_if_fail (pevent != NULL, FALSE);
 			data = g_malloc (sizeof (ECalendarViewEventData));
 
 			pevent->x = ((GdkEventCrossing *) event)->x_root;
@@ -3311,6 +3312,8 @@ tooltip_event_cb (GnomeCanvasItem *item,
 			return FALSE;
 		}
 		case GDK_MOTION_NOTIFY:
+			g_return_val_if_fail (pevent != NULL, FALSE);
+
 			pevent->x = ((GdkEventMotion *) event)->x_root;
 			pevent->y = ((GdkEventMotion *) event)->y_root;
 			pevent->tooltip = (GtkWidget *) g_object_get_data (G_OBJECT (view), "tooltip-window");
@@ -3964,6 +3967,7 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 		g_object_set_data ((GObject *) item, "event-num", GINT_TO_POINTER (nevent));
 
 		pevent = tooltip_get_view_event (week_view, -1, nevent);
+		g_return_val_if_fail (pevent != NULL, FALSE);
 
 		data = g_malloc (sizeof (ECalendarViewEventData));
 
@@ -3991,6 +3995,8 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 
 		return FALSE;
 	case GDK_MOTION_NOTIFY:
+		g_return_val_if_fail (pevent != NULL, FALSE);
+
 		gdk_event_get_root_coords (
 			gdk_event, &event_x_root, &event_y_root);
 
