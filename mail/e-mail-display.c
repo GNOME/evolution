@@ -1925,15 +1925,17 @@ e_mail_display_set_status (EMailDisplay *display,
 }
 
 gchar *
-e_mail_display_get_selection_plain_text_sync (EMailDisplay *display)
+e_mail_display_get_selection_plain_text_sync (EMailDisplay *display,
+                                              GCancellable *cancellable,
+                                              GError **error)
 {
 	GDBusProxy *web_extension;
 
-	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
-
+	g_return_val_if_fail (E_IS_MAIL_DISPLAY (display), NULL);
+/* FIXME XXX
 	if (!webkit_web_view_has_selection (WEBKIT_WEB_VIEW (display)))
 		return NULL;
-
+*/
 	web_extension = e_web_view_get_web_extension_proxy (E_WEB_VIEW (display));
 	if (web_extension) {
 		GVariant *result;
@@ -1945,7 +1947,7 @@ e_mail_display_get_selection_plain_text_sync (EMailDisplay *display)
 				g_variant_new (
 					"(t)",
 					webkit_web_view_get_page_id (
-						WEBKIT_WEB_VIEW (web_view))),
+						WEBKIT_WEB_VIEW (display))),
 				G_DBUS_CALL_FLAGS_NONE,
 				-1,
 				cancellable,
