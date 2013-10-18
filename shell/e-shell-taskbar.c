@@ -53,6 +53,10 @@ struct _EShellTaskbarPrivate {
 	GHashTable *proxy_table;
 
 	gint fixed_height;
+
+	/* Basically the main() thread, aka UI thread, where the gtk calls
+	 * can be done. */
+	GThread *main_thread;
 };
 
 enum {
@@ -68,19 +72,28 @@ G_DEFINE_TYPE_WITH_CODE (
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_EXTENSIBLE, NULL))
 
-static void
-shell_taskbar_weak_notify_cb (EShellTaskbar *shell_taskbar,
-                              GObject *where_the_activity_was)
-{
-	GtkWidget *proxy;
-	GtkContainer *container;
-	GHashTable *proxy_table;
-	GList *children;
+typedef struct {
+	EShellTaskbar *shell_taskbar;
+	EActivity *activity;
+	GtkWidget *proxy; /* not referenced */
+} EShellTaskbarIdleData;
 
-	proxy_table = shell_taskbar->priv->proxy_table;
-	proxy = g_hash_table_lookup (proxy_table, where_the_activity_was);
-	g_hash_table_remove (proxy_table, where_the_activity_was);
-	g_return_if_fail (proxy != NULL);
+static void
+shell_taskbar_free_idle_data (gpointer data)
+{
+	EShellTaskbarIdleData *idle_data = data;
+
+	g_clear_object (&idle_data->shell_taskbar);
+	g_clear_object (&idle_data->activity);
+	g_free (idle_data);
+}
+
+static void
+shell_taskbar_remove_proxy_container (EShellTaskbar *shell_taskbar,
+				      GtkWidget *proxy)
+{
+	GList *children;
+	GtkContainer *container;
 
 	container = GTK_CONTAINER (shell_taskbar->priv->hbox);
 	gtk_container_remove (container, proxy);
@@ -91,6 +104,46 @@ shell_taskbar_weak_notify_cb (EShellTaskbar *shell_taskbar,
 		gtk_widget_hide (GTK_WIDGET (container));
 
 	g_list_free (children);
+}
+
+static gboolean
+shell_taskbar_remove_proxy_container_idle_cb (gpointer user_data)
+{
+	EShellTaskbarIdleData *idle_data = user_data;
+
+	g_return_val_if_fail (idle_data != NULL, FALSE);
+	g_return_val_if_fail (idle_data->shell_taskbar != NULL, FALSE);
+	g_return_val_if_fail (idle_data->proxy != NULL, FALSE);
+
+	shell_taskbar_remove_proxy_container (idle_data->shell_taskbar, idle_data->proxy);
+
+	return FALSE;
+}
+
+static void
+shell_taskbar_weak_notify_cb (EShellTaskbar *shell_taskbar,
+                              GObject *where_the_activity_was)
+{
+	GtkWidget *proxy;
+	GHashTable *proxy_table;
+
+	proxy_table = shell_taskbar->priv->proxy_table;
+	proxy = g_hash_table_lookup (proxy_table, where_the_activity_was);
+	g_hash_table_remove (proxy_table, where_the_activity_was);
+	g_return_if_fail (proxy != NULL);
+
+	if (shell_taskbar->priv->main_thread == g_thread_self ()) {
+		shell_taskbar_remove_proxy_container (shell_taskbar, proxy);
+	} else {
+		EShellTaskbarIdleData *idle_data;
+
+		idle_data = g_new0 (EShellTaskbarIdleData, 1);
+		idle_data->shell_taskbar = g_object_ref (shell_taskbar);
+		idle_data->proxy = proxy;
+
+		g_idle_add_full (G_PRIORITY_DEFAULT, shell_taskbar_remove_proxy_container_idle_cb,
+			idle_data, shell_taskbar_free_idle_data);
+	}
 }
 
 static void
@@ -129,6 +182,38 @@ shell_taskbar_activity_add (EShellTaskbar *shell_taskbar,
 		shell_taskbar_weak_notify_cb, shell_taskbar);
 
 	g_hash_table_insert (proxy_table, activity, proxy);
+}
+
+static gboolean
+shell_taskbar_add_activity_idle_cb (gpointer user_data)
+{
+	EShellTaskbarIdleData *idle_data = user_data;
+
+	g_return_val_if_fail (idle_data != NULL, FALSE);
+	g_return_val_if_fail (idle_data->shell_taskbar != NULL, FALSE);
+	g_return_val_if_fail (idle_data->activity != NULL, FALSE);
+
+	shell_taskbar_activity_add (idle_data->shell_taskbar, idle_data->activity);
+
+	return FALSE;
+}
+
+static void
+shell_taskbar_activity_added_cb (EShellTaskbar *shell_taskbar,
+				 EActivity *activity)
+{
+	if (shell_taskbar->priv->main_thread == g_thread_self ()) {
+		shell_taskbar_activity_add (shell_taskbar, activity);
+	} else {
+		EShellTaskbarIdleData *idle_data;
+
+		idle_data = g_new0 (EShellTaskbarIdleData, 1);
+		idle_data->shell_taskbar = g_object_ref (shell_taskbar);
+		idle_data->activity = g_object_ref (activity);
+
+		g_idle_add_full (G_PRIORITY_DEFAULT, shell_taskbar_add_activity_idle_cb,
+			idle_data, shell_taskbar_free_idle_data);
+	}
 }
 
 static gboolean
@@ -263,7 +348,7 @@ shell_taskbar_constructed (GObject *object)
 
 	g_signal_connect_swapped (
 		shell_backend, "activity-added",
-		G_CALLBACK (shell_taskbar_activity_add), shell_taskbar);
+		G_CALLBACK (shell_taskbar_activity_added_cb), shell_taskbar);
 
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
 
@@ -382,6 +467,7 @@ e_shell_taskbar_init (EShellTaskbar *shell_taskbar)
 
 	shell_taskbar->priv = E_SHELL_TASKBAR_GET_PRIVATE (shell_taskbar);
 	shell_taskbar->priv->proxy_table = g_hash_table_new (NULL, NULL);
+	shell_taskbar->priv->main_thread = g_thread_self ();
 
 	gtk_box_set_spacing (GTK_BOX (shell_taskbar), 12);
 
