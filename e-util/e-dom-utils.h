@@ -16,15 +16,8 @@
  *
  */
 
-/* This is intended to serve as a common base class for all HTML viewing
- * needs in Evolution.  Currently based on GtkHTML, the idea is to wrap
- * the GtkHTML API enough that we no longer have to make direct calls to
- * it.  This should help smooth the transition to WebKit/GTK+.
- *
- * This class handles basic tasks like mouse hovers over links, clicked
- * links, and servicing URI requests asynchronously via GIO. */
-
-#if !defined (__E_UTIL_H_INSIDE__) && !defined (LIBEUTIL_COMPILATION)
+#if (!defined (__E_UTIL_H_INSIDE__) && !defined (LIBEUTIL_COMPILATION)) && \
+	!defined (WEBEXTENSIONS_COMPILATION)
 #error "Only <e-util/e-util.h> should be included directly."
 #endif
 

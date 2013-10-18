@@ -1568,6 +1568,7 @@ plugins/pst-import/Makefile
 plugins/publish-calendar/Makefile
 plugins/save-calendar/Makefile
 plugins/templates/Makefile
+web-extensions/Makefile
 smime/Makefile
 smime/lib/Makefile
 smime/gui/Makefile

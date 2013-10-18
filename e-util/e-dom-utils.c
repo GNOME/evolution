@@ -89,7 +89,7 @@ document_has_selection (WebKitDOMDocument *document)
 		return FALSE;
 
 	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
-	if (!WEBKIT_DOM_IS_DOM_SELECTION (dom_selection)
+	if (!WEBKIT_DOM_IS_DOM_SELECTION (dom_selection))
 		return FALSE;
 
 	if (webkit_dom_dom_selection_get_range_count (dom_selection) == 0)

@@ -16,13 +16,16 @@
  *
  */
 
-#include "config.h"
 #include "evolution-web-extension.h"
 
 #include <gio/gio.h>
 #include <gtk/gtk.h>
-#include <libsoup/soup.h>
 #include <webkit2/webkit-web-extension.h>
+
+#include "../e-util/e-dom-utils.h"
+
+/* FIXME Clean it */
+static GDBusConnection *dbus_connection;
 
 static const char introspection_xml[] =
 "<node>"
@@ -58,15 +61,37 @@ static const char introspection_xml[] =
 "  </interface>"
 "</node>";
 
+static gboolean
+web_page_send_request (WebKitWebPage *web_page,
+                       WebKitURIRequest *request,
+                       WebKitURIResponse *redirected_response,
+                       gpointer user_data)
+{
+	return FALSE;
+}
+
+static void
+web_page_document_loaded (WebKitWebPage *web_page,
+                          gpointer user_data)
+{
+
+}
+
 static void
 web_page_created_callback (WebKitWebExtension *extension,
                            WebKitWebPage *web_page,
                            gpointer user_data)
 {
 	g_signal_connect_object (
+		web_page, "send-request",
+		G_CALLBACK (web_page_send_request),
+		NULL, 0);
+
+	g_signal_connect_object (
 		web_page, "document-loaded",
 		G_CALLBACK (web_page_document_loaded),
 		NULL, 0);
+
 }
 
 static WebKitWebPage *
@@ -220,6 +245,9 @@ bus_acquired_cb (GDBusConnection *connection,
 		g_object_add_weak_pointer (G_OBJECT (connection), (gpointer *)&dbus_connection);
 	}
 }
+
+/* Forward declaration */
+G_MODULE_EXPORT void webkit_web_extension_initialize (WebKitWebExtension *extension);
 
 G_MODULE_EXPORT void
 webkit_web_extension_initialize (WebKitWebExtension *extension)
