@@ -57,64 +57,30 @@ G_DEFINE_TYPE (
 	E_TYPE_WEB_VIEW)
 
 static void
-replace_local_image_links (WebKitDOMElement *element)
-{
-	WebKitDOMElement *child;
-
-	if (element == NULL)
-		return;
-
-	if (WEBKIT_DOM_IS_HTML_IMAGE_ELEMENT (element)) {
-		WebKitDOMHTMLImageElement *img;
-		gchar *src;
-
-		img = WEBKIT_DOM_HTML_IMAGE_ELEMENT (element);
-		src = webkit_dom_html_image_element_get_src (img);
-		if (src && g_ascii_strncasecmp (src, "file://", 7) == 0) {
-			gchar *new_src;
-
-			/* this forms "evo-file://", which can be loaded,
-			 * while "file://" cannot be, due to webkit policy */
-			new_src = g_strconcat ("evo-", src, NULL);
-			webkit_dom_html_image_element_set_src (img, new_src);
-			g_free (new_src);
-		}
-
-		g_free (src);
-	}
-
-	if (WEBKIT_DOM_IS_HTML_IFRAME_ELEMENT (element)) {
-		WebKitDOMDocument *frame_document;
-
-		frame_document =
-			webkit_dom_html_iframe_element_get_content_document (
-				WEBKIT_DOM_HTML_IFRAME_ELEMENT (element));
-		replace_local_image_links (WEBKIT_DOM_ELEMENT (frame_document));
-	}
-
-	child = webkit_dom_element_get_first_element_child (element);
-	replace_local_image_links (child);
-
-	do {
-		element = webkit_dom_element_get_next_element_sibling (element);
-		replace_local_image_links (element);
-	} while (element != NULL);
-}
-
-static void
 signature_preview_document_loaded_cb (WebKitWebView *web_view,
-                                      WebKitWebFrame *web_frame,
+                                      WebKitLoadEvent load_event,
                                       gpointer user_data)
 {
-	WebKitDOMDocument *document;
-	WebKitDOMNode *node;
+	GDBusProxy *web_extension;
+	GVariant* result;
 
-	document = webkit_web_view_get_dom_document (web_view);
-	for (node = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (document));
-	     node;
-	     node = webkit_dom_node_get_next_sibling (node)) {
-		if (WEBKIT_DOM_IS_ELEMENT (node))
-			replace_local_image_links (WEBKIT_DOM_ELEMENT (node));
+	if (load_event != WEBKIT_LOAD_FINISHED)
+		return;
+
+	web_extension = e_web_view_get_web_extension_proxy (E_WEB_VIEW (web_view));
+	if (web_extension) {
+		result = g_dbus_proxy_call_sync (
+				web_extension,
+				"ReplaceLocalImageLinks",
+				g_variant_new (
+					"(t)",
+					webkit_web_view_get_page_id (web_view)),
+				G_DBUS_CALL_FLAGS_NONE,
+				-1,
+				NULL, //cancellable
+				NULL);
+		if (result)
+			g_variant_unref (result);
 	}
 }
 
@@ -367,7 +333,7 @@ e_mail_signature_preview_init (EMailSignaturePreview *preview)
 	preview->priv = E_MAIL_SIGNATURE_PREVIEW_GET_PRIVATE (preview);
 
 	g_signal_connect (
-		preview, "document-load-finished",
+		preview, "load-changed",
 		G_CALLBACK (signature_preview_document_loaded_cb), NULL);
 }
 
