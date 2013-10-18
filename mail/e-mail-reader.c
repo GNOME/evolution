@@ -1754,10 +1754,17 @@ action_mail_zoom_in_cb (GtkAction *action,
                         EMailReader *reader)
 {
 	EMailDisplay *display;
+	gdouble zoom_level;
 
 	display = e_mail_reader_get_mail_display (reader);
 
-	webkit_web_view_zoom_in (WEBKIT_WEB_VIEW (display));
+	/* There is no webkit_web_view_zoom_in function in WK2, so emulate it */
+	zoom_level = webkit_web_view_get_zoom_level (WEBKIT_WEB_VIEW (display));
+	/* zoom-step in WK1 was 0.1 */
+	zoom_level += 0.1;
+	webkit_web_view_set_zoom_level (WEBKIT_WEB_VIEW (display), zoom_level);
+/* FIXME XXX
+	webkit_web_view_zoom_in (WEBKIT_WEB_VIEW (web_view));*/
 }
 
 static void
@@ -1765,10 +1772,18 @@ action_mail_zoom_out_cb (GtkAction *action,
                          EMailReader *reader)
 {
 	EMailDisplay *display;
+	gdouble zoom_level;
 
 	display = e_mail_reader_get_mail_display (reader);
 
-	webkit_web_view_zoom_out (WEBKIT_WEB_VIEW (display));
+	/* There is no webkit_web_view_zoom_out function in WK2, so emulate it */
+	zoom_level = webkit_web_view_get_zoom_level (WEBKIT_WEB_VIEW (web_view));
+	/* zoom-step in WK1 was 0.1 */
+	zoom_level -= 0.1;
+	if (zoom_level >= 0)
+		webkit_web_view_set_zoom_level (WEBKIT_WEB_VIEW (web_view), zoom_level);
+/* FIXME XXX
+	webkit_web_view_zoom_out (WEBKIT_WEB_VIEW (web_view));*/
 }
 
 static void
