@@ -77,6 +77,8 @@ struct _EWebViewPrivate {
 
 	GDBusProxy *web_extension;
 	guint web_extension_watch_name_id;
+
+	WebKitFindController *find_controller;
 };
 
 struct _AsyncContext {
@@ -112,7 +114,6 @@ enum {
 };
 
 static guint signals[LAST_SIGNAL];
-static GOnce disable_webkit_3rd_party_plugins_once = G_ONCE_INIT;
 
 static const gchar *ui =
 "<ui>"
@@ -358,45 +359,36 @@ static GtkActionEntry standard_entries[] = {
 };
 
 static void
-web_view_init_web_settings (WebKitWebView *web_view)
+web_view_init_webkit_settings (EWebView *web_view)
 {
-	WebKitWebSettings *web_settings;
-	GObjectClass *class;
-	GParamSpec *pspec;
+	WebKitSettings *webkit_settings;
 
-	web_settings = webkit_web_settings_new ();
-
-	g_object_set (
-		G_OBJECT (web_settings),
-		"enable-frame-flattening", TRUE,
-		"enable-java-applet", FALSE,
-		"enable-html5-database", FALSE,
-		"enable-html5-local-storage", FALSE,
-		"enable-offline-web-application-cache", FALSE,
-		"enable-site-specific-quirks", TRUE,
-		"enable-scripts", FALSE,
-		NULL);
-
-	/* This property was introduced in WebKitGTK 2.0,
-	 * so check for it and enable it if it's present. */
-	class = G_OBJECT_GET_CLASS (web_settings);
-	pspec = g_object_class_find_property (
-		class, "respect-image-orientation");
-	if (pspec != NULL) {
-		g_object_set (
-			G_OBJECT (web_settings),
-			pspec->name, TRUE, NULL);
-	}
+	webkit_settings =
+		webkit_settings_new_with_settings (
+			"enable-frame-flattening", TRUE,
+			"auto-load-images", TRUE,
+			"enable-page-cache", FALSE,
+			"enable-java", FALSE,
+			"enable-javascript", FALSE,
+			"enable-plugins", FALSE,
+			"enable-html5-database", FALSE,
+			"enable-html5-local-storage", FALSE,
+			"enable-private-browsing", TRUE,
+			"enable-smooth-scrolling", TRUE,
+			"enable-offline-web-application-cache", FALSE,
+			"media-playback-allows-inline", FALSE,
+			NULL);
 
 	g_object_bind_property (
-		web_settings, "enable-caret-browsing",
+		webkit_settings, "enable-caret-browsing",
 		web_view, "caret-mode",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	webkit_web_view_set_settings (web_view, web_settings);
+	webkit_web_view_set_settings (
+		WEBKIT_WEB_VIEW (web_view), webkit_settings);
 
-	g_object_unref (web_settings);
+	g_object_unref (webkit_settings);
 }
 
 static void
@@ -418,20 +410,54 @@ web_view_menu_item_select_cb (EWebView *web_view,
 }
 
 static void
+webkit_find_controller_found_text_cb (WebKitFindController *find_controller,
+                                      guint match_count,
+                                      EWebView *web_view)
+{
+}
+
+static void
+webkit_find_controller_failed_to_found_text_cb (WebKitFindController *find_controller,
+                                                EWebView *web_view)
+{
+}
+
+static void
 web_view_update_document_highlights (EWebView *web_view)
 {
-	WebKitWebView *webkit_web_view;
+	WebKitFindController *find_controller;
 	GList *head, *link;
 
-	webkit_web_view = WEBKIT_WEB_VIEW (web_view);
+	find_controller = web_view->priv->find_controller;
 
 	head = g_queue_peek_head_link (&web_view->priv->highlights);
 
-	for (link = head; link != NULL; link = g_list_next (link))
-		webkit_web_view_mark_text_matches (
-			webkit_web_view, link->data, FALSE, 0);
+	for (link = head; link != NULL; link = g_list_next (link)) {
+		webkit_find_controller_search (
+			find_controller,
+			link->data,
+			WEBKIT_FIND_OPTIONS_NONE,
+			G_MAXUINT);
+	}
+}
 
-	webkit_web_view_set_highlight_text_matches (webkit_web_view, TRUE);
+static void
+web_view_set_find_controller (EWebView *web_view)
+{
+	WebKitFindController *find_controller;
+
+	find_controller =
+		webkit_web_view_get_find_controller (WEBKIT_WEB_VIEW (web_view));
+
+	g_signal_connect (
+		find_controller, "found-text",
+		G_CALLBACK (webkit_find_controller_found_text_cb), web_view);
+
+	g_signal_connect (
+		find_controller, "failed-to-find-text",
+		G_CALLBACK (webkit_find_controller_failed_to_found_text_cb), web_view);
+
+	web_view->priv->find_controller = find_controller;
 }
 
 static void
@@ -522,10 +548,16 @@ web_view_create_plugin_widget_cb (EWebView *web_view,
 
 static void
 web_view_hovering_over_link_cb (EWebView *web_view,
-                                const gchar *title,
-                                const gchar *uri)
+                                WebKitHitTestResult *hit_test_result,
+				guint modifiers,
+                                gpointer user_data)
 {
 	EWebViewClass *class;
+	const gchar *title, *uri;
+
+	/* We can test there is we are hovering over link, image .. */
+	if (!webkit_hit_test_result_context_is_image (hit_test_result))
+		return;
 
 	/* XXX WebKitWebView does not provide a class method for
 	 *     this signal, so we do so we can override the default
@@ -534,22 +566,28 @@ web_view_hovering_over_link_cb (EWebView *web_view,
 	class = E_WEB_VIEW_GET_CLASS (web_view);
 	g_return_if_fail (class->hovering_over_link != NULL);
 
+	title = webkit_hit_test_result_get_link_title (hit_test_result);
+	uri = webkit_hit_test_result_get_link_uri (hit_test_result);
+
 	class->hovering_over_link (web_view, title, uri);
 }
 
 static gboolean
-web_view_navigation_policy_decision_requested_cb (EWebView *web_view,
-                                                  WebKitWebFrame *frame,
-                                                  WebKitNetworkRequest *request,
-                                                  WebKitWebNavigationAction *navigation_action,
-                                                  WebKitWebPolicyDecision *policy_decision)
+web_view_decide_policy_cb (EWebView *web_view,
+                           WebKitPolicyDecision *decision,
+                           WebKitPolicyDecisionType type)
 {
 	EWebViewClass *class;
-	WebKitWebNavigationReason reason;
+	WebKitNavigationPolicyDecision *navigation_decision;
+	WebKitURIRequest *request;
 	const gchar *uri;
 
-	reason = webkit_web_navigation_action_get_reason (navigation_action);
-	if (reason != WEBKIT_WEB_NAVIGATION_REASON_LINK_CLICKED)
+	if (type != WEBKIT_POLICY_DECISION_TYPE_NAVIGATION_ACTION)
+		return FALSE;
+
+	navigation_decision = WEBKIT_NAVIGATION_POLICY_DECISION (decision);
+
+	if (navigation_decision != WEBKIT_NAVIGATION_TYPE_LINK_CLICKED)
 		return FALSE;
 
 	/* XXX WebKitWebView does not provide a class method for
@@ -559,9 +597,9 @@ web_view_navigation_policy_decision_requested_cb (EWebView *web_view,
 	class = E_WEB_VIEW_GET_CLASS (web_view);
 	g_return_val_if_fail (class->link_clicked != NULL, FALSE);
 
-	webkit_web_policy_decision_ignore (policy_decision);
-
-	uri = webkit_network_request_get_uri (request);
+	webkit_policy_decision_ignore (decision);
+	request = webkit_navigation_policy_decision_get_request (navigation_decision);
+	uri = webkit_uri_request_get_uri (request);
 
 	class->link_clicked (web_view, uri);
 
@@ -592,11 +630,13 @@ style_updated_cb (EWebView *web_view)
 	color_value = g_strdup_printf ("#%06x", e_rgba_to_value (&color));
 	style = g_strconcat ("background-color: ", color_value, ";", NULL);
 
-	e_web_view_add_css_rule_into_style_sheet (
+	e_web_view_add_css_rule_into_style_sheet_sync (
 		web_view,
 		"-e-web-view-css-sheet",
 		".-e-web-view-background-color",
-		style);
+		style,
+		NULL,
+		NULL);
 
 	g_free (color_value);
 	g_free (style);
@@ -608,11 +648,13 @@ style_updated_cb (EWebView *web_view)
 	color_value = g_strdup_printf ("#%06x", e_rgba_to_value (&color));
 	style = g_strconcat ("color: ", color_value, ";", NULL);
 
-	e_web_view_add_css_rule_into_style_sheet (
+	e_web_view_add_css_rule_into_style_sheet_sync (
 		web_view,
 		"-e-web-view-css-sheet",
 		".-e-web-view-text-color",
-		style);
+		style,
+		NULL,
+		NULL);
 
 	gtk_widget_path_free (widget_path);
 	g_object_unref (style_context);
@@ -622,18 +664,15 @@ style_updated_cb (EWebView *web_view)
 }
 
 static void
-web_view_load_status_changed_cb (WebKitWebView *webkit_web_view,
-                                 GParamSpec *pspec,
-                                 gpointer user_data)
+web_view_load_changed_cb (WebKitWebView *webkit_web_view,
+                          WebKitLoadEvent load_event,
+                          gpointer user_data)
 {
-	WebKitLoadStatus status;
 	EWebView *web_view;
 
 	web_view = E_WEB_VIEW (webkit_web_view);
 
-	status = webkit_web_view_get_load_status (webkit_web_view);
-
-	if (status != WEBKIT_LOAD_FINISHED)
+	if (load_event != WEBKIT_LOAD_FINISHED)
        		return;
 
 	style_updated_cb (web_view);
@@ -1064,9 +1103,9 @@ web_view_load_string (EWebView *web_view,
 	if (string == NULL)
 		string = "";
 
-	webkit_web_view_load_string (
+	webkit_web_view_load_html (
 		WEBKIT_WEB_VIEW (web_view),
-		string, "text/html", "UTF-8", "evo-file:///");
+		string, "evo-file:///");
 }
 
 static void
@@ -1190,6 +1229,11 @@ e_web_view_get_web_extension_proxy (EWebView *web_view)
 }
 
 static void
+web_view_update_actions_cb (WebKitWebView *webkit_web_view,
+                            GAsyncResult *result,
+                            gpointer user_data)
+{
+	EWebView *web_view;
 	GtkActionGroup *action_group;
 	gboolean can_copy;
 	gboolean scheme_is_http = FALSE;
@@ -1200,8 +1244,14 @@ static void
 	const gchar *group_name;
 	const gchar *uri;
 
+	web_view = E_WEB_VIEW (webkit_web_view);
+
 	uri = e_web_view_get_selected_uri (web_view);
-	can_copy = webkit_web_view_can_copy_clipboard (WEBKIT_WEB_VIEW (web_view));
+	can_copy =
+		webkit_web_view_can_execute_editing_command_finish (
+			webkit_web_view,
+			result,
+			NULL);
 	cursor_image_src = e_web_view_get_cursor_image_src (web_view);
 
 	/* Parse the URI early so we know if the actions will work. */
@@ -1260,6 +1310,17 @@ static void
 	visible = (uri == NULL) && !web_view->priv->disable_save_to_disk;
 	action_group = e_web_view_get_action_group (web_view, group_name);
 	gtk_action_group_set_visible (action_group, visible);
+}
+
+static void
+web_view_update_actions (EWebView *web_view)
+{
+	webkit_web_view_can_execute_editing_command (
+		WEBKIT_WEB_VIEW (web_view),
+		WEBKIT_EDITING_COMMAND_COPY,
+		NULL, /* cancellable */
+		(GAsyncReadyCallback) web_view_update_actions_cb,
+		NULL);
 }
 
 static void
@@ -1358,6 +1419,23 @@ web_view_submit_alert (EAlertSink *alert_sink,
 	g_string_free (buffer, TRUE);
 }
 
+
+static void
+web_view_can_execute_editing_command_cb (WebKitWebView *webkit_web_view,
+                                         GAsyncResult *result,
+                                         GtkAction *action)
+{
+	gboolean can_do_command;
+
+	can_do_command =
+		webkit_web_view_can_execute_editing_command_finish (
+			webkit_web_view,
+			result,
+			NULL);
+
+	gtk_action_set_sensitive (action, can_do_command);
+}
+
 static void
 web_view_selectable_update_actions (ESelectable *selectable,
                                     EFocusTracker *focus_tracker,
@@ -1372,21 +1450,33 @@ web_view_selectable_update_actions (ESelectable *selectable,
 	web_view = WEBKIT_WEB_VIEW (selectable);
 
 	action = e_focus_tracker_get_cut_clipboard_action (focus_tracker);
-	sensitive = webkit_web_view_can_cut_clipboard (web_view);
+	webkit_web_view_can_execute_editing_command (
+		WEBKIT_WEB_VIEW (web_view),
+		WEBKIT_EDITING_COMMAND_CUT,
+		NULL, /* cancellable */
+		(GAsyncReadyCallback) web_view_can_execute_editing_command_cb,
+		action);
 	tooltip = _("Cut the selection");
-	gtk_action_set_sensitive (action, sensitive);
 	gtk_action_set_tooltip (action, tooltip);
 
 	action = e_focus_tracker_get_copy_clipboard_action (focus_tracker);
-	sensitive = webkit_web_view_can_copy_clipboard (web_view);
+	webkit_web_view_can_execute_editing_command (
+		WEBKIT_WEB_VIEW (web_view),
+		WEBKIT_EDITING_COMMAND_COPY,
+		NULL, /* cancellable */
+		(GAsyncReadyCallback) web_view_can_execute_editing_command_cb,
+		action);
 	tooltip = _("Copy the selection");
-	gtk_action_set_sensitive (action, sensitive);
 	gtk_action_set_tooltip (action, tooltip);
 
 	action = e_focus_tracker_get_paste_clipboard_action (focus_tracker);
-	sensitive = webkit_web_view_can_paste_clipboard (web_view);
+	webkit_web_view_can_execute_editing_command (
+		WEBKIT_WEB_VIEW (web_view),
+		WEBKIT_EDITING_COMMAND_PASTE,
+		NULL, /* cancellable */
+		(GAsyncReadyCallback) web_view_can_execute_editing_command_cb,
+		action);
 	tooltip = _("Paste the clipboard");
-	gtk_action_set_sensitive (action, sensitive);
 	gtk_action_set_tooltip (action, tooltip);
 
 	action = e_focus_tracker_get_select_all_action (focus_tracker);
@@ -1418,30 +1508,6 @@ static void
 web_view_selectable_select_all (ESelectable *selectable)
 {
 	e_web_view_select_all (E_WEB_VIEW (selectable));
-}
-
-static gpointer
-web_view_disable_webkit_3rd_party_plugins (gpointer unused)
-{
-	WebKitWebPluginDatabase *database;
-	GSList *installed_plugins, *iterator;
-
-	database = webkit_get_web_plugin_database ();
-
-	if (!database)
-		return NULL;
-
-	installed_plugins = webkit_web_plugin_database_get_plugins (database);
-
-	if (!installed_plugins)
-		return NULL;
-
-	for (iterator = installed_plugins; iterator; iterator = iterator->next)
-		webkit_web_plugin_set_enabled (iterator->data, FALSE);
-
-	webkit_web_plugin_database_plugins_list_free (installed_plugins);
-
-	return NULL;
 }
 
 static void
@@ -1642,10 +1708,6 @@ e_web_view_class_init (EWebViewClass *class)
 		NULL, NULL,
 		e_marshal_BOOLEAN__STRING,
 		G_TYPE_BOOLEAN, 1, G_TYPE_STRING);
-
-	webkit_set_cache_model (WEBKIT_CACHE_MODEL_DOCUMENT_VIEWER);
-	webkit_set_default_web_database_quota (0);
-	webkit_application_cache_set_maximum_size (0);
 }
 
 static void
@@ -1676,10 +1738,7 @@ e_web_view_init (EWebView *web_view)
 	const gchar *id;
 	gulong handler_id;
 	GError *error = NULL;
-
-	g_once (
-		&disable_webkit_3rd_party_plugins_once,
-		web_view_disable_webkit_3rd_party_plugins, NULL);
+	WebKitWebContext *web_context;
 
 	web_view->priv = E_WEB_VIEW_GET_PRIVATE (web_view);
 
@@ -1695,22 +1754,17 @@ e_web_view_init (EWebView *web_view)
 		G_CALLBACK (web_view_context_menu_cb), NULL);
 
 	g_signal_connect (
-		web_view, "hovering-over-link",
+		web_view, "mouse-target-changed",
 		G_CALLBACK (web_view_hovering_over_link_cb), NULL);
 
 	g_signal_connect (
-		web_view, "navigation-policy-decision-requested",
-		G_CALLBACK (web_view_navigation_policy_decision_requested_cb),
+		web_view, "decide-policy",
+		G_CALLBACK (web_view_decide_policy_cb),
 		NULL);
 
 	g_signal_connect (
-		web_view, "new-window-policy-decision-requested",
-		G_CALLBACK (web_view_navigation_policy_decision_requested_cb),
-		NULL);
-
-	g_signal_connect (
-		web_view, "notify::load-status",
-		G_CALLBACK (web_view_load_status_changed_cb), NULL);
+		web_view, "notify::load-changed",
+		G_CALLBACK (web_view_load_changed_cb), NULL);
 
 	g_signal_connect (
 		web_view, "style-updated",
@@ -1727,7 +1781,12 @@ e_web_view_init (EWebView *web_view)
 		ui_manager, "connect-proxy",
 		G_CALLBACK (web_view_connect_proxy_cb), web_view);
 
-	web_view_init_web_settings (WEBKIT_WEB_VIEW (web_view));
+	web_view_init_webkit_settings (web_view);
+	web_view_watch_web_extension (web_view);
+	web_view_set_find_controller (web_view);
+
+	web_context = webkit_web_view_get_context (WEBKIT_WEB_VIEW (web_view));
+	webkit_web_context_set_cache_model (web_context, WEBKIT_CACHE_MODEL_DOCUMENT_VIEWER);
 
 	e_web_view_install_request_handler (web_view, E_TYPE_FILE_REQUEST);
 	e_web_view_install_request_handler (web_view, E_TYPE_STOCK_REQUEST);
@@ -1881,7 +1940,7 @@ e_web_view_clear (EWebView *web_view)
 {
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
-	webkit_web_view_load_html_string (
+	webkit_web_view_load_html (
 		WEBKIT_WEB_VIEW (web_view),
 		"<html> \
 		 <head></head> \
@@ -1998,19 +2057,100 @@ e_web_view_reload (EWebView *web_view)
 	webkit_web_view_reload (WEBKIT_WEB_VIEW (web_view));
 }
 
-gchar *
-e_web_view_get_html (EWebView *web_view)
+static void
+get_document_content_html_cb (GDBusProxy *web_extension,
+                             GAsyncResult *result,
+                             GTask *task)
 {
-	WebKitDOMDocument *document;
-	WebKitDOMElement *element;
+	GVariant *result_variant;
+	gchar *html_content;
+
+	result_variant = g_dbus_proxy_call_finish (web_extension, result, NULL);
+	if (result_variant) {
+		g_variant_get (result_variant, "(s)", &html_content);
+		g_variant_unref (result_variant);
+	}
+
+	g_task_return_pointer (task, html_content, g_free);
+	g_object_unref (task);
+}
+
+void
+e_web_view_get_content_html (EWebView *web_view,
+                             GCancellable *cancellable,
+                             GAsyncReadyCallback callback,
+                             gpointer user_data)
+{
+	GDBusProxy *web_extension;
+	GTask *task;
+
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	task = g_task_new (web_view, cancellable, callback, user_data);
+
+	web_extension = e_web_view_get_web_extension_proxy (web_view);
+	if (web_extension) {
+		g_dbus_proxy_call (
+			web_extension,
+			"GetDocumentContentHtml",
+			g_variant_new (
+				"(t)",
+				webkit_web_view_get_page_id (
+					WEBKIT_WEB_VIEW (web_view))),
+			G_DBUS_CALL_FLAGS_NONE,
+			-1,
+			cancellable,
+			(GAsyncReadyCallback) get_document_content_html_cb,
+			g_object_ref (task));
+	} else
+		g_task_return_pointer (task, NULL, NULL);
+}
+
+gchar *
+e_web_view_get_content_html_finish (EWebView *web_view,
+                                    GAsyncResult *result,
+                                    GError **error)
+{
+	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), NULL);
+	g_return_val_if_fail (g_task_is_valid (result, web_view), FALSE);
+
+	return g_task_propagate_pointer (G_TASK (result), error);
+}
+
+gchar *
+e_web_view_get_content_html_sync (EWebView *web_view,
+                                  GCancellable *cancellable,
+                                  GError **error)
+{
+	GDBusProxy *web_extension;
 
 	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), NULL);
 
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (web_view));
-	element = webkit_dom_document_get_document_element (document);
+	web_extension = e_web_view_get_web_extension_proxy (web_view);
+	if (web_extension) {
+		GVariant *result;
+		gchar *html_content = NULL;
 
-	return webkit_dom_html_element_get_outer_html (
-		WEBKIT_DOM_HTML_ELEMENT (element));
+		result = g_dbus_proxy_call_sync (
+				web_extension,
+				"GetDocumentContentHtml",
+				g_variant_new (
+					"(t)",
+					webkit_web_view_get_page_id (
+						WEBKIT_WEB_VIEW (web_view))),
+				G_DBUS_CALL_FLAGS_NONE,
+				-1,
+				cancellable,
+				error);
+
+		if (result) {
+			g_variant_get (result, "(s)", &html_content);
+			g_variant_unref (result);
+			return html_content;
+		}
+	}
+
+	return NULL;
 }
 
 gboolean
@@ -2040,8 +2180,10 @@ e_web_view_get_copy_target_list (EWebView *web_view)
 {
 	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), NULL);
 
-	return webkit_web_view_get_copy_target_list (
-		WEBKIT_WEB_VIEW (web_view));
+	return NULL;
+	/* FIXME XXX */
+//	return webkit_web_view_get_copy_target_list (
+//		WEBKIT_WEB_VIEW (web_view));
 }
 
 gboolean
@@ -2093,7 +2235,9 @@ e_web_view_get_editable (EWebView *web_view)
 {
 	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), FALSE);
 
-	return webkit_web_view_get_editable (WEBKIT_WEB_VIEW (web_view));
+/* FIXME XXX */
+//	return webkit_web_view_get_editable (WEBKIT_WEB_VIEW (web_view));
+	return TRUE;
 }
 
 void
@@ -2102,7 +2246,8 @@ e_web_view_set_editable (EWebView *web_view,
 {
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
-	webkit_web_view_set_editable (WEBKIT_WEB_VIEW (web_view), editable);
+/* FIXME XXX */
+//	webkit_web_view_set_editable (WEBKIT_WEB_VIEW (web_view), editable);
 }
 
 gboolean
@@ -2281,9 +2426,10 @@ GtkTargetList *
 e_web_view_get_paste_target_list (EWebView *web_view)
 {
 	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), NULL);
-
+/* FIXME XXX
 	return webkit_web_view_get_paste_target_list (
-		WEBKIT_WEB_VIEW (web_view));
+		WEBKIT_WEB_VIEW (web_view));*/
+	return NULL;
 }
 
 GtkAction *
@@ -2357,11 +2503,11 @@ e_web_view_add_highlight (EWebView *web_view,
 		&web_view->priv->highlights,
 		g_strdup (highlight));
 
-	webkit_web_view_mark_text_matches (
-		WEBKIT_WEB_VIEW (web_view), highlight, FALSE, 0);
-
-	webkit_web_view_set_highlight_text_matches (
-		WEBKIT_WEB_VIEW (web_view), TRUE);
+	webkit_find_controller_search (
+		web_view->priv->find_controller,
+		highlight,
+		WEBKIT_FIND_OPTIONS_NONE,
+		G_MAXUINT);
 }
 
 void
@@ -2369,7 +2515,7 @@ e_web_view_clear_highlights (EWebView *web_view)
 {
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
-	webkit_web_view_unmark_text_matches (WEBKIT_WEB_VIEW (web_view));
+	webkit_find_controller_search_finish (web_view->priv->find_controller);
 
 	while (!g_queue_is_empty (&web_view->priv->highlights))
 		g_free (g_queue_pop_head (&web_view->priv->highlights));
@@ -2416,7 +2562,8 @@ e_web_view_copy_clipboard (EWebView *web_view)
 {
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
-	webkit_web_view_copy_clipboard (WEBKIT_WEB_VIEW (web_view));
+	webkit_web_view_execute_editing_command (
+		WEBKIT_WEB_VIEW (web_view), WEBKIT_EDITING_COMMAND_COPY);
 }
 
 void
@@ -2424,15 +2571,17 @@ e_web_view_cut_clipboard (EWebView *web_view)
 {
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
-	webkit_web_view_cut_clipboard (WEBKIT_WEB_VIEW (web_view));
+	webkit_web_view_execute_editing_command (
+		WEBKIT_WEB_VIEW (web_view), WEBKIT_EDITING_COMMAND_CUT);
 }
 
 gboolean
 e_web_view_is_selection_active (EWebView *web_view)
 {
 	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), FALSE);
-
-	return webkit_web_view_has_selection (WEBKIT_WEB_VIEW (web_view));
+/* FIXME XXX
+	return webkit_web_view_has_selection (WEBKIT_WEB_VIEW (web_view));*/
+	return FALSE;
 }
 
 void
@@ -2440,16 +2589,18 @@ e_web_view_paste_clipboard (EWebView *web_view)
 {
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
-	webkit_web_view_paste_clipboard (WEBKIT_WEB_VIEW (web_view));
+	webkit_web_view_execute_editing_command (
+		WEBKIT_WEB_VIEW (web_view), WEBKIT_EDITING_COMMAND_PASTE);
 }
 
 gboolean
 e_web_view_scroll_forward (EWebView *web_view)
 {
 	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), FALSE);
-
+/* FIXME XXX
 	webkit_web_view_move_cursor (
 		WEBKIT_WEB_VIEW (web_view), GTK_MOVEMENT_PAGES, 1);
+*/
 
 	return TRUE;  /* XXX This means nothing. */
 }
@@ -2458,9 +2609,10 @@ gboolean
 e_web_view_scroll_backward (EWebView *web_view)
 {
 	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), FALSE);
-
+/* FIXME XXX
 	webkit_web_view_move_cursor (
 		WEBKIT_WEB_VIEW (web_view), GTK_MOVEMENT_PAGES, -1);
+*/
 
 	return TRUE;  /* XXX This means nothing. */
 }
@@ -2470,7 +2622,8 @@ e_web_view_select_all (EWebView *web_view)
 {
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
-	webkit_web_view_select_all (WEBKIT_WEB_VIEW (web_view));
+	webkit_web_view_execute_editing_command (
+		WEBKIT_WEB_VIEW (web_view), WEBKIT_EDITING_COMMAND_SELECT_ALL);
 }
 
 void
@@ -2494,17 +2647,34 @@ e_web_view_zoom_100 (EWebView *web_view)
 void
 e_web_view_zoom_in (EWebView *web_view)
 {
+	gdouble zoom_level;
+
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
-	webkit_web_view_zoom_in (WEBKIT_WEB_VIEW (web_view));
+	/* There is no webkit_web_view_zoom_in function in WK2, so emulate it */
+	zoom_level = webkit_web_view_get_zoom_level (WEBKIT_WEB_VIEW (web_view));
+	/* zoom-step in WK1 was 0.1 */
+	zoom_level -= 0.1;
+	if (zoom_level >= 0)
+		webkit_web_view_set_zoom_level (WEBKIT_WEB_VIEW (web_view), zoom_level);
+/* FIXME XXX
+	webkit_web_view_zoom_in (WEBKIT_WEB_VIEW (web_view));*/
 }
 
 void
 e_web_view_zoom_out (EWebView *web_view)
 {
+	gdouble zoom_level;
+
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
-	webkit_web_view_zoom_out (WEBKIT_WEB_VIEW (web_view));
+	/* There is no webkit_web_view_zoom_out function in WK2, so emulate it */
+	zoom_level = webkit_web_view_get_zoom_level (WEBKIT_WEB_VIEW (web_view));
+	/* zoom-step in WK1 was 0.1 */
+	zoom_level += 0.1;
+	webkit_web_view_set_zoom_level (WEBKIT_WEB_VIEW (web_view), zoom_level);
+/* FIXME XXX
+	webkit_web_view_zoom_out (WEBKIT_WEB_VIEW (web_view));*/
 }
 
 GtkUIManager *
@@ -2607,86 +2777,103 @@ e_web_view_update_actions (EWebView *web_view)
 	g_signal_emit (web_view, signals[UPDATE_ACTIONS], 0);
 }
 
-static gchar *
-web_view_get_frame_selection_html (WebKitDOMElement *iframe)
+static void
+get_selection_content_html_cb (GDBusProxy *web_extension,
+                               GAsyncResult *result,
+                               GTask *task)
 {
-	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *window;
-	WebKitDOMDOMSelection *selection;
-	WebKitDOMNodeList *frames;
-	gulong ii, length;
+	GVariant *result_variant;
+	gchar *html_content;
 
-	document = webkit_dom_html_iframe_element_get_content_document (
-		WEBKIT_DOM_HTML_IFRAME_ELEMENT (iframe));
-	window = webkit_dom_document_get_default_view (document);
-	selection = webkit_dom_dom_window_get_selection (window);
-	if (selection && (webkit_dom_dom_selection_get_range_count (selection) > 0)) {
-		WebKitDOMRange *range;
-		WebKitDOMElement *element;
-		WebKitDOMDocumentFragment *fragment;
-
-		range = webkit_dom_dom_selection_get_range_at (selection, 0, NULL);
-		if (range != NULL) {
-			fragment = webkit_dom_range_clone_contents (
-				range, NULL);
-
-			element = webkit_dom_document_create_element (
-				document, "DIV", NULL);
-			webkit_dom_node_append_child (
-				WEBKIT_DOM_NODE (element),
-				WEBKIT_DOM_NODE (fragment), NULL);
-
-			return webkit_dom_html_element_get_inner_html (
-				WEBKIT_DOM_HTML_ELEMENT (element));
-		}
+	result_variant = g_dbus_proxy_call_finish (web_extension, result, NULL);
+	if (result_variant) {
+		g_variant_get (result_variant, "(s)", &html_content);
+		g_variant_unref (result_variant);
 	}
 
-	frames = webkit_dom_document_get_elements_by_tag_name (
-		document, "IFRAME");
-	length = webkit_dom_node_list_get_length (frames);
-	for (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *node;
-		gchar *text;
+	g_task_return_pointer (task, html_content, g_free);
+	g_object_unref (task);
+}
 
-		node = webkit_dom_node_list_item (frames, ii);
+void
+e_web_view_get_selection_content_html (EWebView *web_view,
+                                       GCancellable *cancellable,
+                                       GAsyncReadyCallback callback,
+                                       gpointer user_data)
+{
+	GDBusProxy *web_extension;
+	GTask *task;
 
-		text = web_view_get_frame_selection_html (
-			WEBKIT_DOM_ELEMENT (node));
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
-		if (text != NULL)
-			return text;
-	}
+	task = g_task_new (web_view, cancellable, callback, user_data);
+/*FIXME XXX
+	if (!webkit_web_view_has_selection (WEBKIT_WEB_VIEW (web_view)))
+		return NULL;*/
 
-	return NULL;
+	web_extension = e_web_view_get_web_extension_proxy (web_view);
+	if (web_extension) {
+		g_dbus_proxy_call (
+			web_extension,
+			"GetSelectionContentHtml",
+			g_variant_new (
+				"(t)",
+				webkit_web_view_get_page_id (
+					WEBKIT_WEB_VIEW (web_view))),
+			G_DBUS_CALL_FLAGS_NONE,
+			-1,
+			cancellable,
+			(GAsyncReadyCallback) get_selection_content_html_cb,
+			g_object_ref (task));
+	} else
+		g_task_return_pointer (task, NULL, NULL);
 }
 
 gchar *
-e_web_view_get_selection_html (EWebView *web_view)
+e_web_view_get_selection_content_html_finish (EWebView *web_view,
+                                              GAsyncResult *result,
+                                              GError **error)
 {
-	WebKitDOMDocument *document;
-	WebKitDOMNodeList *frames;
-	gulong ii, length;
+	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), NULL);
+	g_return_val_if_fail (g_task_is_valid (result, web_view), FALSE);
+
+	return g_task_propagate_pointer (G_TASK (result), error);
+}
+
+gchar *
+e_web_view_get_selection_content_html_sync (EWebView *web_view,
+                                            GCancellable *cancellable,
+                                            GError **error)
+{
+	GDBusProxy *web_extension;
 
 	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), NULL);
-
+/*FIXME XXX
 	if (!webkit_web_view_has_selection (WEBKIT_WEB_VIEW (web_view)))
-		return NULL;
+		return NULL;*/
 
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (web_view));
-	frames = webkit_dom_document_get_elements_by_tag_name (document, "IFRAME");
-	length = webkit_dom_node_list_get_length (frames);
+	web_extension = e_web_view_get_web_extension_proxy (web_view);
+	if (web_extension) {
+		GVariant *result;
+		gchar *html_content = NULL;
 
-	for (ii = 0; ii < length; ii++) {
-		gchar *text;
-		WebKitDOMNode *node;
+		result = g_dbus_proxy_call_sync (
+				web_extension,
+				"GetSelectionContentHtml",
+				g_variant_new (
+					"(t)",
+					webkit_web_view_get_page_id (
+						WEBKIT_WEB_VIEW (web_view))),
+				G_DBUS_CALL_FLAGS_NONE,
+				-1,
+				cancellable,
+				error);
 
-		node = webkit_dom_node_list_item (frames, ii);
-
-		text = web_view_get_frame_selection_html (
-			WEBKIT_DOM_ELEMENT (node));
-
-		if (text != NULL)
-			return text;
+		if (result) {
+			g_variant_get (result, "(s)", &html_content);
+			g_variant_unref (result);
+			return html_content;
+		}
 	}
 
 	return NULL;
@@ -2699,7 +2886,7 @@ e_web_view_update_fonts (EWebView *web_view)
 	GString *stylesheet;
 	gchar *base64;
 	gchar *aa = NULL;
-	WebKitWebSettings *settings;
+	WebKitSettings *settings;
 	PangoFontDescription *min_size, *ms, *vw;
 	const gchar *styles[] = { "normal", "oblique", "italic" };
 	const gchar *smoothing = NULL;
@@ -2846,10 +3033,11 @@ e_web_view_update_fonts (EWebView *web_view)
 		pango_font_description_get_size (ms) / PANGO_SCALE,
 		"minimum-font-size",
 		pango_font_description_get_size (min_size) / PANGO_SCALE,
-		"user-stylesheet-uri",
-		stylesheet->str,
+/*		"user-stylesheet-uri",
+		stylesheet->str,*/
 		NULL);
 
+/*FIXME XXX stylesheet uri*/
 	g_string_free (stylesheet, TRUE);
 
 	pango_font_description_free (ms);
@@ -3269,7 +3457,8 @@ e_web_view_request (EWebView *web_view,
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 	g_return_if_fail (uri != NULL);
 
-	session = webkit_get_default_session ();
+//	session = webkit_get_default_session ();
+	session = NULL;
 
 	/* SoupRequester feature should have already been added. */
 	feature = soup_session_get_feature (session, SOUP_TYPE_REQUESTER);
@@ -3356,7 +3545,8 @@ e_web_view_install_request_handler (EWebView *web_view,
 	SoupSession *session;
 	SoupSessionFeature *feature;
 
-	session = webkit_get_default_session ();
+//	session = webkit_get_default_session ();
+	session = NULL;
 
 	feature = soup_session_get_feature (session, SOUP_TYPE_REQUESTER);
 	if (feature != NULL) {
@@ -3371,146 +3561,49 @@ e_web_view_install_request_handler (EWebView *web_view,
 	g_object_unref (feature);
 }
 
-static void
-create_and_add_css_style_sheet (WebKitDOMDocument *document,
-                                const gchar *style_sheet_id)
+/**
+ * e_web_view_create_and_add_css_style_sheet_sync:
+ * @web_view: an #EWebView
+ * @style_sheet_id: CSS style sheet's id
+ *
+ * Creates new CSS style sheet with given @style_sheel_id and inserts
+ * it into given @web_view document.
+ **/
+void
+e_web_view_create_and_add_css_style_sheet_sync (EWebView *web_view,
+                                                const gchar *style_sheet_id,
+                                                GCancellable *cancellable,
+                                                GError **error)
 {
-	WebKitDOMElement *style_element;
+	GDBusProxy *web_extension;
 
-	style_element = webkit_dom_document_get_element_by_id (document, style_sheet_id);
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+	g_return_if_fail (style_sheet_id && *style_sheet_id);
 
-	if (!style_element) {
-		/* Create new <style> element */
-		style_element = webkit_dom_document_create_element (document, "style", NULL);
-		webkit_dom_html_element_set_id (
-			WEBKIT_DOM_HTML_ELEMENT (style_element),
-			style_sheet_id);
-		webkit_dom_html_style_element_set_media (
-			WEBKIT_DOM_HTML_STYLE_ELEMENT (style_element),
-			"screen");
-		webkit_dom_node_append_child (
-			WEBKIT_DOM_NODE (style_element),
-			/* WebKit hack - we have to insert empty TextNode into style element */
-			WEBKIT_DOM_NODE (webkit_dom_document_create_text_node (document, "")),
-			NULL);
+	web_extension = e_web_view_get_web_extension_proxy (web_view);
+	if (web_extension) {
+		GVariant *result;
 
-		webkit_dom_node_append_child (
-			WEBKIT_DOM_NODE (webkit_dom_document_get_head (document)),
-			WEBKIT_DOM_NODE (style_element),
-			NULL);
-	}
-}
+		result = g_dbus_proxy_call_sync (
+				web_extension,
+				"CreateAndAddCSSStyleSheet",
+				g_variant_new (
+					"(ts)",
+					webkit_web_view_get_page_id (
+						WEBKIT_WEB_VIEW (web_view)),
+					style_sheet_id),
+				G_DBUS_CALL_FLAGS_NONE,
+				-1,
+				cancellable,
+				error);
 
-static void
-add_css_rule_into_style_sheet (WebKitDOMDocument *document,
-                               const gchar *style_sheet_id,
-                               const gchar *selector,
-                               const gchar *style)
-{
-	WebKitDOMElement *style_element;
-	WebKitDOMStyleSheet *sheet;
-	WebKitDOMCSSRuleList *rules_list;
-	gint length, ii;
-
-	style_element = webkit_dom_document_get_element_by_id (document, style_sheet_id);
-
-	if (!style_element) {
-		create_and_add_css_style_sheet (document, style_sheet_id);
-		style_element = webkit_dom_document_get_element_by_id (document, style_sheet_id);
-	}
-
-	/* Get sheet that is associated with style element */
-	sheet = webkit_dom_html_style_element_get_sheet (WEBKIT_DOM_HTML_STYLE_ELEMENT (style_element));
-
-	rules_list = webkit_dom_css_style_sheet_get_css_rules (WEBKIT_DOM_CSS_STYLE_SHEET (sheet));
-	length = webkit_dom_css_rule_list_get_length (rules_list);
-
-	/* Check if rule exists */
-	for (ii = 0; ii < length; ii++) {
-		WebKitDOMCSSRule *rule;
-		gchar *rule_text;
-		gchar *rule_selector, *selector_end;
-
-		rule = webkit_dom_css_rule_list_item (rules_list, ii);
-
-		if (!WEBKIT_DOM_IS_CSS_RULE (rule))
-			continue;
-
-		rule_text = webkit_dom_css_rule_get_css_text (rule);
-
-		/* Find the start of the style => end of the selector */
-		selector_end = g_strstr_len (rule_text, -1, " {");
-		if (!selector_end) {
-			g_free (rule_text);
-			continue;
-		}
-
-		rule_selector =
-			g_utf8_substring (
-				rule_text,
-				0,
-				g_utf8_pointer_to_offset (rule_text, selector_end));
-
-		if (g_strcmp0 (rule_selector, selector) == 0) {
-			/* If exists remove it */
-			webkit_dom_css_style_sheet_remove_rule (
-				WEBKIT_DOM_CSS_STYLE_SHEET (sheet),
-				ii, NULL);
-		}
-
-		g_free (rule_selector);
-		g_free (rule_text);
-	}
-
-	/* Insert the rule at the end, so it will override previously inserted */
-	webkit_dom_css_style_sheet_add_rule (
-		WEBKIT_DOM_CSS_STYLE_SHEET (sheet),
-		selector,
-		style,
-		webkit_dom_css_rule_list_get_length (
-			webkit_dom_css_style_sheet_get_css_rules (
-				WEBKIT_DOM_CSS_STYLE_SHEET (sheet))), /* Index */
-		NULL);
-}
-
-static void
-add_css_rule_into_style_sheet_recursive (WebKitDOMDocument *document,
-                                         const gchar *style_sheet_id,
-                                         const gchar *selector,
-                                         const gchar *style)
-{
-	WebKitDOMNodeList *frames;
-	gint ii, length;
-
-	/* Add rule to document */
-	add_css_rule_into_style_sheet (
-		document,
-		style_sheet_id,
-		selector,
-		style);
-
-	frames = webkit_dom_document_query_selector_all (document, "iframe", NULL);
-	length = webkit_dom_node_list_get_length (frames);
-
-	/* Add rules to every sub document */
-	for (ii = 0; ii < length; ii++) {
-		WebKitDOMDocument *iframe_document;
-		WebKitDOMNode *node;
-
-		node = webkit_dom_node_list_item (frames, ii);
-		iframe_document = webkit_dom_html_iframe_element_get_content_document (
-			WEBKIT_DOM_HTML_IFRAME_ELEMENT (node));
-
-		add_css_rule_into_style_sheet_recursive (
-			iframe_document,
-			style_sheet_id,
-			selector,
-			style);
+		if (result)
+			g_variant_unref (result);
 	}
 }
 
 /**
- * e_web_view_add_css_rule_into_style_sheet:
+ * e_web_view_add_css_rule_into_style_sheet_sync:
  * @web_view: an #EWebView
  * @style_sheet_id: CSS style sheet's id
  * @selector: CSS selector
@@ -3523,19 +3616,40 @@ add_css_rule_into_style_sheet_recursive (WebKitDOMDocument *document,
  * into DOM documents inside iframe elements.
  **/
 void
-e_web_view_add_css_rule_into_style_sheet (EWebView *view,
-                                          const gchar *style_sheet_id,
-                                          const gchar *selector,
-                                          const gchar *style)
+e_web_view_add_css_rule_into_style_sheet_sync (EWebView *web_view,
+                                               const gchar *style_sheet_id,
+                                               const gchar *selector,
+                                               const gchar *style,
+                                               GCancellable *cancellable,
+                                               GError **error)
 {
-	g_return_if_fail (E_IS_WEB_VIEW (view));
+	GDBusProxy *web_extension;
+
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 	g_return_if_fail (style_sheet_id && *style_sheet_id);
 	g_return_if_fail (selector && *selector);
 	g_return_if_fail (style && *style);
 
-	add_css_rule_into_style_sheet_recursive (
-		webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view)),
-		style_sheet_id,
-		selector,
-		style);
+	web_extension = e_web_view_get_web_extension_proxy (web_view);
+	if (web_extension) {
+		GVariant *result;
+
+		result = g_dbus_proxy_call_sync (
+				web_extension,
+				"AddCSSRuleIntoStyleSheet",
+				g_variant_new (
+					"(tsss)",
+					webkit_web_view_get_page_id (
+						WEBKIT_WEB_VIEW (web_view)),
+					style_sheet_id,
+					selector,
+					style),
+				G_DBUS_CALL_FLAGS_NONE,
+				-1,
+				cancellable,
+				error);
+
+		if (result)
+			g_variant_unref (result);
+	}
 }

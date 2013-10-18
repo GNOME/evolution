@@ -115,6 +115,18 @@ gchar *		e_web_view_suggest_filename	(EWebView *web_view,
 						 const gchar *uri);
 void		e_web_view_reload		(EWebView *web_view);
 gchar *		e_web_view_get_html		(EWebView *web_view);
+void		e_web_view_get_content_html	(EWebView *web_view,
+						 GCancellable *cancellable,
+						 GAsyncReadyCallback callback,
+						 gpointer user_data);
+gchar *		e_web_view_get_content_html_finish
+						(EWebView *web_view,
+						 GAsyncResult *result,
+						 GError **error);
+gchar *		e_web_view_get_content_html_sync
+						(EWebView *web_view,
+						 GCancellable *cancellable,
+						 GError **error);
 GDBusProxy *	e_web_view_get_web_extension_proxy
 						(EWebView *web_view);
 gboolean	e_web_view_get_caret_mode	(EWebView *web_view);
@@ -185,7 +197,19 @@ void		e_web_view_status_message	(EWebView *web_view,
 						 const gchar *status_message);
 void		e_web_view_stop_loading		(EWebView *web_view);
 void		e_web_view_update_actions	(EWebView *web_view);
-gchar *		e_web_view_get_selection_html	(EWebView *web_view);
+void		e_web_view_get_selection_content_html
+						(EWebView *web_view,
+						 GCancellable *cancellable,
+						 GAsyncReadyCallback callback,
+						 gpointer user_data);
+gchar *		e_web_view_get_selection_content_html_finish
+						(EWebView *web_view,
+						 GAsyncResult *result,
+						 GError **error);
+gchar *		e_web_view_get_selection_content_html_sync
+						(EWebView *web_view,
+						 GCancellable *cancellable,
+						 GError **error);
 void		e_web_view_update_fonts		(EWebView *web_view);
 void		e_web_view_cursor_image_copy	(EWebView *web_view);
 void		e_web_view_cursor_image_save	(EWebView *web_view);
@@ -200,11 +224,18 @@ GInputStream *	e_web_view_request_finish	(EWebView *web_view,
 void		e_web_view_install_request_handler
 						(EWebView *web_view,
 						 GType handler_type);
-void		e_web_view_add_css_rule_into_style_sheet
+void		e_web_view_create_and_add_css_style_sheet_sync
+						(EWebView *web_view,
+						 const gchar *style_sheet_id,
+						 GCancellable *cancellable,
+						 GError **error);
+void		e_web_view_add_css_rule_into_style_sheet_sync
 						(EWebView *web_view,
 						 const gchar *style_sheet_id,
 						 const gchar *selector,
-						 const gchar *style);
+						 const gchar *style,
+						 GCancellable *cancellable,
+						 GError **error);
 G_END_DECLS
 
 #endif /* E_WEB_VIEW_H */
