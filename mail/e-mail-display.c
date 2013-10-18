@@ -1924,73 +1924,38 @@ e_mail_display_set_status (EMailDisplay *display,
 	g_free (str);
 }
 
-static gchar *
-mail_display_get_frame_selection_text (WebKitDOMElement *iframe)
-{
-	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *window;
-	WebKitDOMDOMSelection *selection;
-	WebKitDOMNodeList *frames;
-	gulong ii, length;
-
-	document = webkit_dom_html_iframe_element_get_content_document (
-		WEBKIT_DOM_HTML_IFRAME_ELEMENT (iframe));
-	window = webkit_dom_document_get_default_view (document);
-	selection = webkit_dom_dom_window_get_selection (window);
-	if (selection && (webkit_dom_dom_selection_get_range_count (selection) > 0)) {
-		WebKitDOMRange *range;
-
-		range = webkit_dom_dom_selection_get_range_at (selection, 0, NULL);
-		if (range != NULL)
-			return webkit_dom_range_to_string (range, NULL);
-	}
-
-	frames = webkit_dom_document_get_elements_by_tag_name (
-		document, "IFRAME");
-	length = webkit_dom_node_list_get_length (frames);
-	for (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *node;
-		gchar *text;
-
-		node = webkit_dom_node_list_item (frames, ii);
-
-		text = mail_display_get_frame_selection_text (
-			WEBKIT_DOM_ELEMENT (node));
-
-		if (text != NULL)
-			return text;
-	}
-
-	return NULL;
-}
-
 gchar *
-e_mail_display_get_selection_plain_text (EMailDisplay *display)
+e_mail_display_get_selection_plain_text_sync (EMailDisplay *display)
 {
-	WebKitDOMDocument *document;
-	WebKitDOMNodeList *frames;
-	gulong ii, length;
+	GDBusProxy *web_extension;
 
-	g_return_val_if_fail (E_IS_MAIL_DISPLAY (display), NULL);
+	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
 
 	if (!webkit_web_view_has_selection (WEBKIT_WEB_VIEW (display)))
 		return NULL;
 
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (display));
-	frames = webkit_dom_document_get_elements_by_tag_name (document, "IFRAME");
-	length = webkit_dom_node_list_get_length (frames);
+	web_extension = e_web_view_get_web_extension_proxy (E_WEB_VIEW (display));
+	if (web_extension) {
+		GVariant *result;
+		gchar *text_content = NULL;
 
-	for (ii = 0; ii < length; ii++) {
-		gchar *text;
-		WebKitDOMNode *node;
+		result = g_dbus_proxy_call_sync (
+				web_extension,
+				"GetDocumentContentText",
+				g_variant_new (
+					"(t)",
+					webkit_web_view_get_page_id (
+						WEBKIT_WEB_VIEW (web_view))),
+				G_DBUS_CALL_FLAGS_NONE,
+				-1,
+				cancellable,
+				error);
 
-		node = webkit_dom_node_list_item (frames, ii);
-
-		text = mail_display_get_frame_selection_text (
-			WEBKIT_DOM_ELEMENT (node));
-
-		if (text != NULL)
-			return text;
+		if (result) {
+			g_variant_get (result, "(s)", &text_content);
+			g_variant_unref (result);
+			return text_content;
+		}
 	}
 
 	return NULL;
