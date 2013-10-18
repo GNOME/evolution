@@ -1144,6 +1144,16 @@ AC_SUBST(viewsdir)
 dnl For evolution-alarm-notify.desktop
 AS_AC_EXPAND(PRIVLIBEXECDIR, "$privlibexecdir")
 
+dnl **********************************
+dnl WebKit2 Web Extensions
+dnl **********************************
+webextensionsdir="$privlibdir/web-extensions"
+AC_SUBST(webextensionsdir)
+
+PKG_CHECK_MODULES(WEB_EXTENSION, [webkit2gtk-3.0 >= webkit2gtk_minimum_version])
+AC_SUBST(WEB_EXTENSIONS_CFLAGS)
+AC_SUBST(WEB_EXTENSIONS_LIBS)
+
 dnl ************************
 dnl Plugins
 dnl ************************

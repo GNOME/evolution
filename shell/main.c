@@ -609,6 +609,11 @@ main (gint argc,
 	if (setup_only)
 		exit (0);
 
+	/* Set the web extensions dir before the process is launched */
+	webkit_web_context_set_web_extensions_directory (
+		webkit_web_context_get_default (),
+		EVOLUTION_WEB_EXTENSIONS_DIR);
+
 	categories_icon_theme_hack ();
 	gtk_accel_map_load (e_get_accels_filename ());
 
