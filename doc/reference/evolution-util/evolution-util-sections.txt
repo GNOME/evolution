@@ -2795,6 +2795,26 @@ EProxyEditorPrivate
 </SECTION>
 
 <SECTION>
+<FILE>e-proxy-link-selector</FILE>
+<TITLE>EProxyLinkSelector</TITLE>
+EProxyLinkSelector
+e_proxy_link_selector_new
+e_proxy_link_selector_ref_target_source
+e_proxy_link_selector_set_target_source
+<SUBSECTION Standard>
+E_PROXY_LINK_SELECTOR
+E_IS_PROXY_LINK_SELECTOR
+E_TYPE_PROXY_LINK_SELECTOR
+E_PROXY_LINK_SELECTOR_CLASS
+E_IS_PROXY_LINK_SELECTOR_CLASS
+E_PROXY_LINK_SELECTOR_GET_CLASS
+EProxyLinkSelectorClass
+e_proxy_link_selector_get_type
+<SUBSECTION Private>
+EProxyLinkSelectorPrivate
+</SECTION>
+
+<SECTION>
 <FILE>e-proxy-selector</FILE>
 <TITLE>EProxySelector</TITLE>
 EProxySelector

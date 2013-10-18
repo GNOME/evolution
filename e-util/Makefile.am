@@ -226,6 +226,7 @@ evolution_util_include_HEADERS =  \
 	e-printable.h \
 	e-proxy-combo-box.h \
 	e-proxy-editor.h \
+	e-proxy-link-selector.h \
 	e-proxy-selector.h \
 	e-reflow-model.h \
 	e-reflow.h \
@@ -467,6 +468,7 @@ libevolution_util_la_SOURCES = \
 	e-printable.c \
 	e-proxy-combo-box.c \
 	e-proxy-editor.c \
+	e-proxy-link-selector.c \
 	e-proxy-selector.c \
 	e-reflow-model.c \
 	e-reflow.c \
