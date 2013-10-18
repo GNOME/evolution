@@ -114,7 +114,6 @@ gchar *		e_web_view_redirect_uri		(EWebView *web_view,
 gchar *		e_web_view_suggest_filename	(EWebView *web_view,
 						 const gchar *uri);
 void		e_web_view_reload		(EWebView *web_view);
-gchar *		e_web_view_get_html		(EWebView *web_view);
 void		e_web_view_get_content_html	(EWebView *web_view,
 						 GCancellable *cancellable,
 						 GAsyncReadyCallback callback,
