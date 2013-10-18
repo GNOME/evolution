@@ -170,6 +170,7 @@ evolution_util_include_HEADERS =  \
 	e-destination-store.h \
 	e-dialog-utils.h \
 	e-dialog-widgets.h \
+	e-dom-utils.h \
 	e-event.h \
 	e-file-request.h \
 	e-file-utils.h \
@@ -408,6 +409,7 @@ libevolution_util_la_SOURCES = \
 	e-destination-store.c \
 	e-dialog-utils.c \
 	e-dialog-widgets.c \
+	e-dom-utils.c \
 	e-event.c \
 	e-file-request.c \
 	e-file-utils.c \
