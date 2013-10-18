@@ -115,6 +115,8 @@ gchar *		e_web_view_suggest_filename	(EWebView *web_view,
 						 const gchar *uri);
 void		e_web_view_reload		(EWebView *web_view);
 gchar *		e_web_view_get_html		(EWebView *web_view);
+GDBusProxy *	e_web_view_get_web_extension_proxy
+						(EWebView *web_view);
 gboolean	e_web_view_get_caret_mode	(EWebView *web_view);
 void		e_web_view_set_caret_mode	(EWebView *web_view,
 						 gboolean caret_mode);

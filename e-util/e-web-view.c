@@ -43,6 +43,8 @@
 #include "e-selectable.h"
 #include "e-stock-request.h"
 
+#include "../web-extensions/evolution-web-extension.h"
+
 #define E_WEB_VIEW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_WEB_VIEW, EWebViewPrivate))
@@ -72,6 +74,9 @@ struct _EWebViewPrivate {
 
 	GSettings *aliasing_settings;
 	gulong antialiasing_changed_handler_id;
+
+	GDBusProxy *web_extension;
+	guint web_extension_watch_name_id;
 };
 
 struct _AsyncContext {
@@ -823,12 +828,18 @@ web_view_dispose (GObject *object)
 		priv->antialiasing_changed_handler_id = 0;
 	}
 
+	if (priv->web_extension_watch_name_id > 0) {
+		g_bus_unwatch_name (priv->web_extension_watch_name_id);
+		priv->web_extension_watch_name_id = 0;
+	}
+
 	g_clear_object (&priv->ui_manager);
 	g_clear_object (&priv->open_proxy);
 	g_clear_object (&priv->print_proxy);
 	g_clear_object (&priv->save_as_proxy);
 	g_clear_object (&priv->aliasing_settings);
 	g_clear_object (&priv->font_settings);
+	g_clear_object (&priv->web_extension);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_web_view_parent_class)->dispose (object);
@@ -1111,8 +1122,74 @@ web_view_stop_loading (EWebView *web_view)
 }
 
 static void
-web_view_update_actions (EWebView *web_view)
+web_extension_proxy_created_cb (GDBusProxy *proxy,
+                                GAsyncResult *result,
+                                EWebView *web_view)
 {
+	GError *error = NULL;
+
+	web_view->priv->web_extension = g_dbus_proxy_new_finish (result, &error);
+	if (!web_view->priv->web_extension) {
+		g_warning ("Error creating web extension proxy: %s\n", error->message);
+		g_error_free (error);
+	}
+}
+
+static void
+web_extension_appeared_cb (GDBusConnection *connection,
+                           const gchar *name,
+                           const gchar *name_owner,
+                           EWebView *web_view)
+{
+	g_dbus_proxy_new (
+		connection,
+		G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START |
+		G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES |
+		G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS,
+		NULL,
+		name,
+		EVOLUTION_WEB_EXTENSION_OBJECT_PATH,
+		EVOLUTION_WEB_EXTENSION_INTERFACE,
+		NULL,
+		(GAsyncReadyCallback)web_extension_proxy_created_cb,
+		web_view);
+}
+
+static void
+web_extension_vanished_cb (GDBusConnection *connection,
+                           const gchar *name,
+                           EWebView *web_view)
+{
+	g_clear_object (&web_view->priv->web_extension);
+}
+
+static void
+web_view_watch_web_extension (EWebView *web_view)
+{
+	char *service_name;
+
+	service_name = g_strdup_printf ("%s-%u", EVOLUTION_WEB_EXTENSION_SERVICE_NAME, getpid ());
+	web_view->priv->web_extension_watch_name_id =
+		g_bus_watch_name (
+			G_BUS_TYPE_SESSION,
+			service_name,
+			G_BUS_NAME_WATCHER_FLAGS_NONE,
+			(GBusNameAppearedCallback) web_extension_appeared_cb,
+			(GBusNameVanishedCallback) web_extension_vanished_cb,
+			web_view, NULL);
+
+	g_free (service_name);
+}
+
+GDBusProxy *
+e_web_view_get_web_extension_proxy (EWebView *web_view)
+{
+	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), NULL);
+
+	return web_view->priv->web_extension;
+}
+
+static void
 	GtkActionGroup *action_group;
 	gboolean can_copy;
 	gboolean scheme_is_http = FALSE;
