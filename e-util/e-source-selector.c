@@ -366,9 +366,11 @@ source_selector_build_model (ESourceSelector *selector)
 	if (selected == NULL) {
 		selected = e_source_registry_ref_default_for_extension_name (
 			registry, extension_name);
-		e_source_selector_set_primary_selection (selector, selected);
 	}
-	g_object_unref (selected);
+	if (selected != NULL) {
+		e_source_selector_set_primary_selection (selector, selected);
+		g_object_unref (selected);
+	}
 }
 
 static void
