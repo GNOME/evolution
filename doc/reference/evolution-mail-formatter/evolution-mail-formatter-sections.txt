@@ -364,6 +364,7 @@ e_mail_part_list_get_message_uid
 e_mail_part_list_add_part
 e_mail_part_list_ref_part
 e_mail_part_list_queue_parts
+e_mail_part_list_is_empty
 e_mail_part_list_get_registry
 <SUBSECTION Standard>
 E_MAIL_PART_LIST
