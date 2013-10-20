@@ -825,8 +825,8 @@ toggle_address_visibility (WebKitDOMElement *button,
 
 static void
 add_color_css_rule_for_web_view (EWebView *view,
-				 const char *color_name,
-				 const char *color_value)
+                                 const gchar *color_name,
+                                 const gchar *color_value)
 {
 	gchar *selector;
 	gchar *style;
@@ -854,9 +854,15 @@ static void
 initialize_web_view_colors (EMailDisplay *display)
 {
 	EMailFormatter *formatter;
-	const gchar *color_names [] = { "body-color", "citation-color",
-					"frame-color", "header-color", NULL };
 	gint ii;
+
+	const gchar *color_names[] = {
+		"body-color",
+		"citation-color",
+		"frame-color",
+		"header-color",
+		NULL
+	};
 
 	formatter = e_mail_display_get_formatter (display);
 
