@@ -825,20 +825,24 @@ toggle_address_visibility (WebKitDOMElement *button,
 
 static void
 add_color_css_rule_for_web_view (EWebView *view,
-				 const char *color_name,
-				 const char *color_value)
+                                 const gchar *color_name,
+                                 const gchar *color_value)
 {
 	gchar *selector;
 	gchar *style;
 
 	selector = g_strconcat (".-e-mail-formatter-", color_name, NULL);
 
-	if (g_strstr_len (color_name, -1, "header"))
-		style = g_strconcat ("color: ", color_value, " !important;", NULL);
-	else if (g_strstr_len (color_name, -1, "frame"))
-		style = g_strconcat ("border-color: ", color_value, " !important;", NULL);
-	else
-		style = g_strconcat ("background-color: ", color_value, " !important;", NULL);
+	if (g_strstr_len (color_name, -1, "header")) {
+		style = g_strconcat (
+			"color: ", color_value, " !important;", NULL);
+	} else if (g_strstr_len (color_name, -1, "frame")) {
+		style = g_strconcat (
+			"border-color: ", color_value, " !important;", NULL);
+	} else {
+		style = g_strconcat (
+			"background-color: ", color_value, " !important;", NULL);
+	}
 
 	e_web_view_add_css_rule_into_style_sheet (
 		view,
@@ -854,9 +858,15 @@ static void
 initialize_web_view_colors (EMailDisplay *display)
 {
 	EMailFormatter *formatter;
-	const gchar *color_names [] = { "body-color", "citation-color",
-					"frame-color", "header-color", NULL };
 	gint ii;
+
+	const gchar *color_names[] = {
+		"body-color",
+		"citation-color",
+		"frame-color",
+		"header-color",
+		NULL
+	};
 
 	formatter = e_mail_display_get_formatter (display);
 

@@ -3153,8 +3153,8 @@ em_configure_new_composer (EMsgComposer *composer,
 /* free returned pointer with g_object_unref(), if not NULL */
 ESource *
 em_utils_check_send_account_override (EShell *shell,
-				      CamelMimeMessage *message,
-				      CamelFolder *folder)
+                                      CamelMimeMessage *message,
+                                      CamelFolder *folder)
 {
 	EMailBackend *mail_backend;
 	EMailSendAccountOverride *account_override;
@@ -3190,7 +3190,7 @@ em_utils_check_send_account_override (EShell *shell,
 			break;
 
 		/* stored send account override settings contain a reference
-		   to a dropped account, thus cleanup it now */
+		 * to a dropped account, thus cleanup it now */
 		e_mail_send_account_override_remove_for_account_uid (account_override, account_uid);
 
 		g_free (account_uid);
@@ -3205,8 +3205,8 @@ em_utils_check_send_account_override (EShell *shell,
 
 void
 em_utils_apply_send_account_override_to_composer (EMsgComposer *composer,
-						  EShell *shell,
-						  CamelFolder *folder)
+                                                  EShell *shell,
+                                                  CamelFolder *folder)
 {
 	CamelMimeMessage *message;
 	EComposerHeaderTable *header_table;

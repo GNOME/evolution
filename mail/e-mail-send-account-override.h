@@ -56,52 +56,65 @@ struct _EMailSendAccountOverride {
 };
 
 struct _EMailSendAccountOverrideClass {
-	GObjectClass parent;
+	GObjectClass parent_class;
 
 	/* Signals */
-	void	(* changed)	(EMailSendAccountOverride *account_override);
+	void		(*changed)	(EMailSendAccountOverride *override);
 };
 
-GType		e_mail_send_account_override_get_type		(void);
+GType		e_mail_send_account_override_get_type
+					(void) G_GNUC_CONST;
 EMailSendAccountOverride *
-		e_mail_send_account_override_new		(const gchar *config_filename);
+		e_mail_send_account_override_new
+					(const gchar *config_filename);
 void		e_mail_send_account_override_set_config_filename
-								(EMailSendAccountOverride *account_override,
-								 const gchar *config_filename);
+					(EMailSendAccountOverride *override,
+					 const gchar *config_filename);
 gchar *		e_mail_send_account_override_dup_config_filename
-								(EMailSendAccountOverride *account_override);
-void		e_mail_send_account_override_set_prefer_folder	(EMailSendAccountOverride *account_override,
-								 gboolean prefer_folder);
-gboolean	e_mail_send_account_override_get_prefer_folder	(EMailSendAccountOverride *account_override);
-gchar *		e_mail_send_account_override_get_account_uid	(EMailSendAccountOverride *account_override,
-								 const gchar *folder_uri,
-								 const CamelInternetAddress *recipients_to,
-								 const CamelInternetAddress *recipients_cc,
-								 const CamelInternetAddress *recipients_bcc);
+					(EMailSendAccountOverride *override);
+void		e_mail_send_account_override_set_prefer_folder
+					(EMailSendAccountOverride *override,
+					 gboolean prefer_folder);
+gboolean	e_mail_send_account_override_get_prefer_folder
+					(EMailSendAccountOverride *override);
+gchar *		e_mail_send_account_override_get_account_uid
+					(EMailSendAccountOverride *override,
+					 const gchar *folder_uri,
+					 CamelInternetAddress *recipients_to,
+					 CamelInternetAddress *recipients_cc,
+					 CamelInternetAddress *recipients_bcc);
 void		e_mail_send_account_override_remove_for_account_uid
-								(EMailSendAccountOverride *account_override,
-								 const gchar *account_uid);
-gchar *		e_mail_send_account_override_get_for_folder	(EMailSendAccountOverride *account_override,
-								 const gchar *folder_uri);
-void		e_mail_send_account_override_set_for_folder	(EMailSendAccountOverride *account_override,
-								 const gchar *folder_uri,
-								 const gchar *account_uid);
-void		e_mail_send_account_override_remove_for_folder	(EMailSendAccountOverride *account_override,
-								 const gchar *folder_uri);
-gchar *		e_mail_send_account_override_get_for_recipient	(EMailSendAccountOverride *account_override,
-								 const CamelInternetAddress *recipients);
-void		e_mail_send_account_override_set_for_recipient	(EMailSendAccountOverride *account_override,
-								 const gchar *recipient,
-								 const gchar *account_uid);
+					(EMailSendAccountOverride *override,
+					 const gchar *account_uid);
+gchar *		e_mail_send_account_override_get_for_folder
+					(EMailSendAccountOverride *override,
+					 const gchar *folder_uri);
+void		e_mail_send_account_override_set_for_folder
+					(EMailSendAccountOverride *override,
+					 const gchar *folder_uri,
+					 const gchar *account_uid);
+void		e_mail_send_account_override_remove_for_folder
+					(EMailSendAccountOverride *override,
+					 const gchar *folder_uri);
+gchar *		e_mail_send_account_override_get_for_recipient
+					(EMailSendAccountOverride *override,
+					 CamelInternetAddress *recipients);
+void		e_mail_send_account_override_set_for_recipient
+					(EMailSendAccountOverride *override,
+					 const gchar *recipient,
+					 const gchar *account_uid);
 void		e_mail_send_account_override_remove_for_recipient
-								(EMailSendAccountOverride *account_override,
-								 const gchar *recipient);
-void		e_mail_send_account_override_list_for_account	(EMailSendAccountOverride *account_override,
-								 const gchar *account_uid,
-								 GSList **folder_overrides,
-								 GSList **recipient_overrides);
-void		e_mail_send_account_override_freeze_save	(EMailSendAccountOverride *account_override);
-void		e_mail_send_account_override_thaw_save		(EMailSendAccountOverride *account_override);
+					(EMailSendAccountOverride *override,
+					 const gchar *recipient);
+void		e_mail_send_account_override_list_for_account
+					(EMailSendAccountOverride *override,
+					 const gchar *account_uid,
+					 GList **folder_overrides,
+					 GList **recipient_overrides);
+void		e_mail_send_account_override_freeze_save
+					(EMailSendAccountOverride *override);
+void		e_mail_send_account_override_thaw_save
+					(EMailSendAccountOverride *override);
 
 G_END_DECLS
 

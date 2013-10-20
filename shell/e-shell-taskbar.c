@@ -90,7 +90,7 @@ shell_taskbar_free_idle_data (gpointer data)
 
 static void
 shell_taskbar_remove_proxy_container (EShellTaskbar *shell_taskbar,
-				      GtkWidget *proxy)
+                                      GtkWidget *proxy)
 {
 	GList *children;
 	GtkContainer *container;
@@ -141,7 +141,9 @@ shell_taskbar_weak_notify_cb (EShellTaskbar *shell_taskbar,
 		idle_data->shell_taskbar = g_object_ref (shell_taskbar);
 		idle_data->proxy = proxy;
 
-		g_idle_add_full (G_PRIORITY_DEFAULT, shell_taskbar_remove_proxy_container_idle_cb,
+		g_idle_add_full (
+			G_PRIORITY_DEFAULT,
+			shell_taskbar_remove_proxy_container_idle_cb,
 			idle_data, shell_taskbar_free_idle_data);
 	}
 }
@@ -200,7 +202,7 @@ shell_taskbar_add_activity_idle_cb (gpointer user_data)
 
 static void
 shell_taskbar_activity_added_cb (EShellTaskbar *shell_taskbar,
-				 EActivity *activity)
+                                 EActivity *activity)
 {
 	if (shell_taskbar->priv->main_thread == g_thread_self ()) {
 		shell_taskbar_activity_add (shell_taskbar, activity);
@@ -211,7 +213,9 @@ shell_taskbar_activity_added_cb (EShellTaskbar *shell_taskbar,
 		idle_data->shell_taskbar = g_object_ref (shell_taskbar);
 		idle_data->activity = g_object_ref (activity);
 
-		g_idle_add_full (G_PRIORITY_DEFAULT, shell_taskbar_add_activity_idle_cb,
+		g_idle_add_full (
+			G_PRIORITY_DEFAULT,
+			shell_taskbar_add_activity_idle_cb,
 			idle_data, shell_taskbar_free_idle_data);
 	}
 }

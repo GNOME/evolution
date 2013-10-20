@@ -629,7 +629,7 @@ web_view_load_status_changed_cb (WebKitWebView *webkit_web_view,
 	status = webkit_web_view_get_load_status (webkit_web_view);
 
 	if (status != WEBKIT_LOAD_FINISHED)
-       		return;
+		return;
 
 	style_updated_cb (web_view);
 
@@ -1806,11 +1806,11 @@ e_web_view_clear (EWebView *web_view)
 
 	webkit_web_view_load_html_string (
 		WEBKIT_WEB_VIEW (web_view),
-		"<html> \
-		 <head></head> \
-		 <body class=\"-e-web-view-background-color -e-web-view-text-color\"></body> \
-		 </html>",
-		 NULL);
+		"<html>"
+		"<head></head>"
+		"<body class=\"-e-web-view-background-color -e-web-view-text-color\"></body>"
+		"</html>",
+		NULL);
 }
 
 void

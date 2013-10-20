@@ -2892,7 +2892,7 @@ handle_multipart_alternative (EMsgComposer *composer,
 				text_part = mime_part;
 
 			/* this is when prefer-plain filters out text/html part, then
-			   the text/plain should be used */
+			 * the text/plain should be used */
 			if (camel_content_type_is (content_type, "text", "plain"))
 				fallback_text_part = mime_part;
 		} else {

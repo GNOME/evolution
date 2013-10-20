@@ -60,7 +60,7 @@ emfe_error_format (EMailFormatterExtension *extension,
 
 	html = g_strdup_printf (
 		"<div class=\"part-container -e-mail-formatter-frame-color "
-	        "-e-mail-formatter-body-color -e-web-view-text-color\">"
+		"-e-mail-formatter-body-color -e-web-view-text-color\">"
 		"<div class=\"part-container-inner-margin pre\">\n"
 		"<table border=\"0\" cellspacing=\"10\" "
 		"cellpadding=\"0\" width=\"100%%\">\n"

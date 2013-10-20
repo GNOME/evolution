@@ -83,7 +83,7 @@ emfp_free (EConfig *ec,
 
 static void
 mail_identity_combo_box_changed_cb (GtkComboBox *combo_box,
-				    EMailSendAccountOverride *account_override)
+                                    EMailSendAccountOverride *account_override)
 {
 	const gchar *active_id, *folder_uri;
 
@@ -298,7 +298,8 @@ emfp_get_folder_item (EConfig *ec,
 			GTK_FILL, 0, 0, 0);
 		row++;
 
-		widget = g_object_new (E_TYPE_MAIL_IDENTITY_COMBO_BOX,
+		widget = g_object_new (
+			E_TYPE_MAIL_IDENTITY_COMBO_BOX,
 			"registry", registry,
 			"allow-none", TRUE,
 			NULL);
@@ -322,7 +323,8 @@ emfp_get_folder_item (EConfig *ec,
 		gtk_combo_box_set_active_id (GTK_COMBO_BOX (widget), account_uid ? account_uid : "");
 		g_object_set_data_full (G_OBJECT (widget), "sao-folder-uri", folder_uri, g_free);
 
-		g_signal_connect (widget, "changed",
+		g_signal_connect (
+			widget, "changed",
 			G_CALLBACK (mail_identity_combo_box_changed_cb), account_override);
 
 		g_free (account_uid);

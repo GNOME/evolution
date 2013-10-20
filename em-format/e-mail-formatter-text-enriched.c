@@ -76,7 +76,7 @@ emfe_text_enriched_format (EMailFormatterExtension *extension,
 	g_string_append (
 		buffer,
 		"<div class=\"part-container -e-mail-formatter-frame-color "
-	        "-e-web-view-background-color -e-web-view-text-color\">"
+		"-e-web-view-background-color -e-web-view-text-color\">"
 		"<div class=\"part-container-inner-margin\">\n");
 
 	camel_stream_write_string (stream, buffer->str, cancellable, NULL);
