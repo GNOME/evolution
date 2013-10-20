@@ -1,3 +1,57 @@
+Evolution 3.11.1 2013-10-21
+---------------------------
+
+Bug Fixes:
+	Bug 215115 - Per-folder From: email address (Milan Crha)
+	Bug 640382 - Prevent a crash in e_week_view_on_text_item_event()
+	             (Milan Crha)
+	Bug 659890 - Merge addressbook 'widgets' and 'merging' libraries
+	             (Milan Crha)
+	Bug 689787 - Prefer-plain can hide message body for composer
+	             (Milan Crha)
+	Bug 699997 - Show unreferenced images in multipart/related parser
+	             (Milan Crha)
+	Bug 705685 - Contact(-list)-editor - reject save when book is still
+	             opening (Milan Crha)
+	Bug 707425 - Inconsistent capitalization in calendar Search menu
+	             (Matthew Barnes)
+	Bug 707720 - Change 'mail' keyword to 'email' in evolution.desktop
+	             (Matthew Barnes)
+	Bug 707856 - Custom recurrence dropped on event editor save (Milan Crha)
+	Bug 708347 - Memory leak from EWebView/webkit (Tomas Popela)
+	Bug 708349 - Memory leaks around mail config (Milan Crha)
+	Bug 708390 - text-highlight: Don't interfere with printing
+	             (Matthew Barnes)
+	Bug 708682 - Move with 'End' key with collapsed threads fails
+	             (Milan Crha)
+	Bug 708840 - Crash when closing subscription dialog with running
+	             operation (Milan Crha)
+	Bug 709108 - Make Appdata file translatable (Daniel Mustieles)
+	Bug 709396 - Quoted text truncated when "Keep signature above" is set
+	             (Milan Crha)
+	Bug 710171 - EShellTaskbar: Gtk+ functions called out of the main
+	             thread (Milan Crha)
+
+Other Changes:
+	* Bump minimum GLib requirement to 2.36. (Matthew Barnes)
+	* New base dependency: gcr-3 >= 3.4 (Matthew Barnes)
+	* Use GcrCertificateWidget to display certificate details.
+	  (Matthew Barnes)
+	* Show both component summary and alarm description in Reminders
+	  (Milan Crha)
+
+Translations:
+	Nilamdyuti Goswami (as)
+	Josep Sànchez (ca)
+	Carles Ferrando (ca@valencia)
+	Christian Kirbach (de)
+	Balázs Úr (hu)
+	Jiro Matsuzawa (ja)
+	Daniel Korostil (uk)
+	Chao-Hsiung Liao (zh_HK)
+	Cheng-Chia Tseng (zh_HK)
+
+
 Evolution 3.10.0 2013-09-23
 ---------------------------
 
