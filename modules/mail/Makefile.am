@@ -37,8 +37,7 @@ module_mail_la_SOURCES = \
 	em-composer-prefs.h						\
 	em-mailer-prefs.c						\
 	em-mailer-prefs.h						\
-	em-network-prefs.c						\
-	em-network-prefs.h
+	$(NULL)
 
 module_mail_la_LIBADD = \
 	$(top_builddir)/libemail-engine/libemail-engine.la		\

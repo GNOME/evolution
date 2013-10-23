@@ -58,7 +58,6 @@
 #include "em-account-prefs.h"
 #include "em-composer-prefs.h"
 #include "em-mailer-prefs.h"
-#include "em-network-prefs.h"
 
 #define E_MAIL_SHELL_BACKEND_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -508,6 +507,18 @@ mail_shell_backend_changes_committed_cb (EMailConfigWindow *window,
 	g_object_unref (service);
 }
 
+static GtkWidget *
+mail_shell_backend_create_proxy_page (EPreferencesWindow *window)
+{
+	EShell *shell;
+	ESourceRegistry *registry;
+
+	shell = e_preferences_window_get_shell (window);
+	registry = e_shell_get_registry (shell);
+
+	return e_proxy_preferences_new (registry);
+}
+
 static void
 mail_shell_backend_constructed (GObject *object)
 {
@@ -571,13 +582,14 @@ mail_shell_backend_constructed (GObject *object)
 		em_composer_prefs_new,
 		400);
 
+	/* This page is encapsulated by EProxyPreferences. */
 	e_preferences_window_add_page (
 		E_PREFERENCES_WINDOW (preferences_window),
 		"system-network-proxy",
 		"preferences-system-network-proxy",
 		_("Network Preferences"),
 		NULL,
-		em_network_prefs_new,
+		mail_shell_backend_create_proxy_page,
 		500);
 
 	mail_session = e_mail_backend_get_session (E_MAIL_BACKEND (object));
