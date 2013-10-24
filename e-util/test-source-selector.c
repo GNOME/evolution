@@ -28,29 +28,28 @@ static const gchar *extension_name;
 static void
 dump_selection (ESourceSelector *selector)
 {
-	GSList *selection = e_source_selector_get_selection (selector);
+	GList *list, *link;
+
+	list = e_source_selector_get_selection (selector);
 
 	g_print ("Current selection:\n");
-	if (selection == NULL) {
+
+	if (list == NULL)
 		g_print ("\t(None)\n");
-	} else {
-		GSList *p;
 
-		for (p = selection; p != NULL; p = p->next) {
-			ESource *source = E_SOURCE (p->data);
-			ESourceBackend *extension;
+	for (link = list; link != NULL; link = g_list_next (link->next)) {
+		ESource *source = E_SOURCE (link->data);
+		ESourceBackend *extension;
 
-			extension = e_source_get_extension (
-				source, extension_name);
+		extension = e_source_get_extension (source, extension_name);
 
-			g_print (
-				"\tSource %s (backend %s)\n",
-				e_source_get_display_name (source),
-				e_source_backend_get_backend_name (extension));
-		}
+		g_print (
+			"\tSource %s (backend %s)\n",
+			e_source_get_display_name (source),
+			e_source_backend_get_backend_name (extension));
 	}
 
-	e_source_selector_free_selection (selection);
+	g_list_free_full (list, (GDestroyNotify) g_object_unref);
 }
 
 static void

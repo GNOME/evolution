@@ -38,6 +38,12 @@ typedef struct _AsyncContext AsyncContext;
 
 struct _ESourceSelectorPrivate {
 	ESourceRegistry *registry;
+	gulong source_added_handler_id;
+	gulong source_changed_handler_id;
+	gulong source_removed_handler_id;
+	gulong source_enabled_handler_id;
+	gulong source_disabled_handler_id;
+
 	GHashTable *source_index;
 	gchar *extension_name;
 
@@ -687,14 +693,42 @@ source_selector_dispose (GObject *object)
 
 	priv = E_SOURCE_SELECTOR_GET_PRIVATE (object);
 
-	if (priv->registry != NULL) {
-		g_signal_handlers_disconnect_matched (
+	if (priv->source_added_handler_id > 0) {
+		g_signal_handler_disconnect (
 			priv->registry,
-			G_SIGNAL_MATCH_DATA,
-			0, 0, NULL, NULL, object);
-		g_object_unref (priv->registry);
-		priv->registry = NULL;
+			priv->source_added_handler_id);
+		priv->source_added_handler_id = 0;
 	}
+
+	if (priv->source_changed_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->registry,
+			priv->source_changed_handler_id);
+		priv->source_changed_handler_id = 0;
+	}
+
+	if (priv->source_removed_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->registry,
+			priv->source_removed_handler_id);
+		priv->source_removed_handler_id = 0;
+	}
+
+	if (priv->source_enabled_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->registry,
+			priv->source_enabled_handler_id);
+		priv->source_enabled_handler_id = 0;
+	}
+
+	if (priv->source_disabled_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->registry,
+			priv->source_disabled_handler_id);
+		priv->source_disabled_handler_id = 0;
+	}
+
+	g_clear_object (&priv->registry);
 
 	g_hash_table_remove_all (priv->source_index);
 	g_hash_table_remove_all (priv->pending_writes);
@@ -729,29 +763,35 @@ source_selector_constructed (GObject *object)
 {
 	ESourceRegistry *registry;
 	ESourceSelector *selector;
+	gulong handler_id;
 
 	selector = E_SOURCE_SELECTOR (object);
 	registry = e_source_selector_get_registry (selector);
 
-	g_signal_connect (
+	handler_id = g_signal_connect (
 		registry, "source-added",
 		G_CALLBACK (source_selector_source_added_cb), selector);
+	selector->priv->source_added_handler_id = handler_id;
 
-	g_signal_connect (
+	handler_id = g_signal_connect (
 		registry, "source-changed",
 		G_CALLBACK (source_selector_source_changed_cb), selector);
+	selector->priv->source_changed_handler_id = handler_id;
 
-	g_signal_connect (
+	handler_id = g_signal_connect (
 		registry, "source-removed",
 		G_CALLBACK (source_selector_source_removed_cb), selector);
+	selector->priv->source_removed_handler_id = handler_id;
 
-	g_signal_connect (
+	handler_id = g_signal_connect (
 		registry, "source-enabled",
 		G_CALLBACK (source_selector_source_enabled_cb), selector);
+	selector->priv->source_enabled_handler_id = handler_id;
 
-	g_signal_connect (
+	handler_id = g_signal_connect (
 		registry, "source-disabled",
 		G_CALLBACK (source_selector_source_disabled_cb), selector);
+	selector->priv->source_disabled_handler_id = handler_id;
 
 	source_selector_build_model (selector);
 
@@ -1450,7 +1490,7 @@ e_source_selector_set_show_colors (ESourceSelector *selector,
 {
 	g_return_if_fail (E_IS_SOURCE_SELECTOR (selector));
 
-	if ((show_colors ? 1 : 0) == (selector->priv->show_colors ? 1 : 0))
+	if (show_colors == selector->priv->show_colors)
 		return;
 
 	selector->priv->show_colors = show_colors;
@@ -1493,7 +1533,7 @@ e_source_selector_set_show_toggles (ESourceSelector *selector,
 {
 	g_return_if_fail (E_IS_SOURCE_SELECTOR (selector));
 
-	if ((show_toggles ? 1 : 0) == (selector->priv->show_toggles ? 1 : 0))
+	if (show_toggles == selector->priv->show_toggles)
 		return;
 
 	selector->priv->show_toggles = show_toggles;
@@ -1514,15 +1554,15 @@ source_selector_check_selected (GtkTreeModel *model,
 
 	struct {
 		ESourceSelector *selector;
-		GSList *list;
+		GQueue queue;
 	} *closure = user_data;
 
 	gtk_tree_model_get (model, iter, COLUMN_SOURCE, &source, -1);
 
 	if (e_source_selector_source_is_selected (closure->selector, source))
-		closure->list = g_slist_prepend (closure->list, source);
-	else
-		g_object_unref (source);
+		g_queue_push_tail (&closure->queue, g_object_ref (source));
+
+	g_object_unref (source);
 
 	return FALSE;
 }
@@ -1531,45 +1571,41 @@ source_selector_check_selected (GtkTreeModel *model,
  * e_source_selector_get_selection:
  * @selector: an #ESourceSelector
  *
- * Get the list of selected sources, i.e. those that were enabled through the
- * corresponding checkboxes in the tree.
+ * Returns a list of selected sources, i.e. those that were enabled through
+ * the corresponding checkboxes in the tree.  The sources are ordered as they
+ * appear in @selector.
  *
- * Returns: A list of the ESources currently selected.  The sources will
- * be in the same order as they appear on the screen, and the list should be
- * freed using e_source_selector_free_selection().
+ * The sources returned in the list are referenced for thread-safety.
+ * They must each be unreferenced with g_object_unref() when finished
+ * with them.  Free the returned list itself with g_list_free().
+ *
+ * An easy way to free the list properly in one step is as follows:
+ *
+ * |[
+ *   g_list_free_full (list, g_object_unref);
+ * ]|
+ *
+ * Returns: a ordered list of selected sources
  **/
-GSList *
+GList *
 e_source_selector_get_selection (ESourceSelector *selector)
 {
 	struct {
 		ESourceSelector *selector;
-		GSList *list;
+		GQueue queue;
 	} closure;
 
 	g_return_val_if_fail (E_IS_SOURCE_SELECTOR (selector), NULL);
 
 	closure.selector = selector;
-	closure.list = NULL;
+	g_queue_init (&closure.queue);
 
 	gtk_tree_model_foreach (
 		gtk_tree_view_get_model (GTK_TREE_VIEW (selector)),
 		(GtkTreeModelForeachFunc) source_selector_check_selected,
 		&closure);
 
-	return g_slist_reverse (closure.list);
-}
-
-/**
- * e_source_list_free_selection:
- * @list: A selection list returned by e_source_selector_get_selection().
- *
- * Free the selection list.
- **/
-void
-e_source_selector_free_selection (GSList *list)
-{
-	g_slist_foreach (list, (GFunc) g_object_unref, NULL);
-	g_slist_free (list);
+	return g_queue_peek_head_link (&closure.queue);
 }
 
 /**

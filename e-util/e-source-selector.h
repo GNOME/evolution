@@ -117,9 +117,7 @@ void		e_source_selector_select_exclusive
 gboolean	e_source_selector_source_is_selected
 						(ESourceSelector *selector,
 						 ESource *source);
-GSList *	e_source_selector_get_selection	(ESourceSelector *selector);
-void		e_source_selector_free_selection
-						(GSList *list);
+GList *		e_source_selector_get_selection	(ESourceSelector *selector);
 void		e_source_selector_set_select_new
 						(ESourceSelector *selector,
 						 gboolean state);

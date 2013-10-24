@@ -110,7 +110,7 @@ static void
 check_input (UrlEditorDialog *dialog)
 {
 	gint n = 0;
-	GSList *sources;
+	GList *sources;
 	EPublishUri *uri;
 
 	uri = dialog->uri;
@@ -126,8 +126,10 @@ check_input (UrlEditorDialog *dialog)
 	}
 
 	if (gtk_widget_get_sensitive (dialog->events_selector)) {
-		sources = e_source_selector_get_selection (E_SOURCE_SELECTOR (dialog->events_selector));
-		n += g_slist_length (sources);
+		sources = e_source_selector_get_selection (
+			E_SOURCE_SELECTOR (dialog->events_selector));
+		n += g_list_length (sources);
+		g_list_free_full (sources, (GDestroyNotify) g_object_unref);
 	}
 	if (n == 0)
 		goto fail;
@@ -586,7 +588,7 @@ url_editor_dialog_run (UrlEditorDialog *dialog)
 
 	response = gtk_dialog_run (GTK_DIALOG (dialog));
 	if (response == GTK_RESPONSE_OK) {
-		GSList *l, *p;
+		GList *list, *link;
 
 		if (dialog->uri->password)
 			g_free (dialog->uri->password);
@@ -606,16 +608,20 @@ url_editor_dialog_run (UrlEditorDialog *dialog)
 			e_passwords_forget_password (dialog->uri->location);
 		}
 
-		l = e_source_selector_get_selection (E_SOURCE_SELECTOR (dialog->events_selector));
-		for (p = l; p; p = g_slist_next (p)) {
+		list = e_source_selector_get_selection (
+			E_SOURCE_SELECTOR (dialog->events_selector));
+
+		for (link = list; link != NULL; link = g_list_next (link)) {
 			ESource *source;
 			const gchar *uid;
 
-			source = E_SOURCE (p->data);
+			source = E_SOURCE (link->data);
 			uid = e_source_get_uid (source);
 			dialog->uri->events = g_slist_append (
 				dialog->uri->events, g_strdup (uid));
 		}
+
+		g_list_free_full (list, (GDestroyNotify) g_object_unref);
 	}
 	gtk_widget_hide (GTK_WIDGET (dialog));
 
