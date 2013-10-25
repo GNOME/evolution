@@ -561,23 +561,25 @@ text_cell_edited_cb (ESourceSelector *selector,
 	GtkTreeIter iter;
 	ESource *source;
 
-	tree_view = GTK_TREE_VIEW (selector);
-	model = gtk_tree_view_get_model (tree_view);
-	path = gtk_tree_path_new_from_string (path_string);
-
-	gtk_tree_model_get_iter (model, &iter, path);
-	gtk_tree_model_get (model, &iter, COLUMN_SOURCE, &source, -1);
-	gtk_tree_path_free (path);
-
 	if (new_name == NULL || *new_name == '\0')
 		return;
 
 	if (same_source_name_exists (selector, new_name))
 		return;
 
+	tree_view = GTK_TREE_VIEW (selector);
+	model = gtk_tree_view_get_model (tree_view);
+
+	path = gtk_tree_path_new_from_string (path_string);
+	gtk_tree_model_get_iter (model, &iter, path);
+	gtk_tree_model_get (model, &iter, COLUMN_SOURCE, &source, -1);
+	gtk_tree_path_free (path);
+
 	e_source_set_display_name (source, new_name);
 
 	e_source_selector_queue_write (selector, source);
+
+	g_object_unref (source);
 }
 
 static void
