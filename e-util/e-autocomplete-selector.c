@@ -82,6 +82,8 @@ e_autocomplete_selector_init (EAutocompleteSelector *selector)
 {
 	e_source_selector_set_show_colors (
 		E_SOURCE_SELECTOR (selector), FALSE);
+	e_source_selector_set_show_icons (
+		E_SOURCE_SELECTOR (selector), TRUE);
 }
 
 GtkWidget *
