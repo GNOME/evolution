@@ -52,6 +52,8 @@ struct _EProxyEditorPrivate {
 	GtkWidget *socks_port_spin_button;
 	GtkWidget *ignore_hosts_entry;
 	GtkWidget *autoconfig_url_entry;
+
+	gchar *gcc_program_path;
 };
 
 enum {
@@ -147,6 +149,26 @@ proxy_editor_focus_out_event_cb (GtkWidget *widget,
 	return FALSE;  /* propagate the event */
 }
 
+static void
+proxy_editor_open_desktop_settings_cb (GtkButton *button,
+                                       EProxyEditor *editor)
+{
+	gchar *command_line;
+	GError *local_error = NULL;
+
+	g_return_if_fail (editor->priv->gcc_program_path != NULL);
+
+	command_line = g_strdup_printf (
+		"%s network", editor->priv->gcc_program_path);
+	g_spawn_command_line_async (command_line, &local_error);
+	g_free (command_line);
+
+	if (local_error != NULL) {
+		g_warning ("%s: %s", G_STRFUNC, local_error->message);
+		g_error_free (local_error);
+	}
+}
+
 static gboolean
 proxy_editor_active_id_to_visible (GBinding *binding,
                                    const GValue *source_value,
@@ -240,6 +262,19 @@ proxy_editor_dispose (GObject *object)
 }
 
 static void
+proxy_editor_finalize (GObject *object)
+{
+	EProxyEditorPrivate *priv;
+
+	priv = E_PROXY_EDITOR_GET_PRIVATE (object);
+
+	g_free (priv->gcc_program_path);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (e_proxy_editor_parent_class)->finalize (object);
+}
+
+static void
 proxy_editor_constructed (GObject *object)
 {
 	EProxyEditor *editor;
@@ -298,17 +333,26 @@ proxy_editor_constructed (GObject *object)
 		GTK_COMBO_BOX_TEXT (editor->priv->method_combo_box),
 		enum_value->value_nick, _("Defer to Desktop Settings"));
 
-	widget = gtk_alignment_new (0.5, 0.5, 1.0, 1.0);
-	gtk_grid_attach (GTK_GRID (editor), widget, 0, ++row, 2, 1);
+	if (editor->priv->gcc_program_path != NULL) {
+		widget = gtk_button_new_with_mnemonic (
+			_("_Open Desktop Settings"));
+		gtk_widget_set_halign (widget, GTK_ALIGN_START);
+		gtk_grid_attach (GTK_GRID (editor), widget, 1, ++row, 2, 1);
 
-	g_object_bind_property_full (
-		editor->priv->method_combo_box, "active-id",
-		widget, "visible",
-		G_BINDING_DEFAULT,
-		proxy_editor_active_id_to_visible,
-		NULL,
-		(gpointer) enum_value->value_nick,
-		(GDestroyNotify) NULL);
+		g_signal_connect (
+			widget, "clicked",
+			G_CALLBACK (proxy_editor_open_desktop_settings_cb),
+			editor);
+
+		g_object_bind_property_full (
+			editor->priv->method_combo_box, "active-id",
+			widget, "visible",
+			G_BINDING_DEFAULT,
+			proxy_editor_active_id_to_visible,
+			NULL,
+			(gpointer) enum_value->value_nick,
+			(GDestroyNotify) NULL);
+	}
 
 	/*** Manual ***/
 
@@ -535,6 +579,7 @@ e_proxy_editor_class_init (EProxyEditorClass *class)
 	object_class->set_property = proxy_editor_set_property;
 	object_class->get_property = proxy_editor_get_property;
 	object_class->dispose = proxy_editor_dispose;
+	object_class->finalize = proxy_editor_finalize;
 	object_class->constructed = proxy_editor_constructed;
 
 	g_object_class_install_property (
@@ -565,6 +610,9 @@ static void
 e_proxy_editor_init (EProxyEditor *editor)
 {
 	editor->priv = E_PROXY_EDITOR_GET_PRIVATE (editor);
+
+	editor->priv->gcc_program_path =
+		g_find_program_in_path ("gnome-control-center");
 }
 
 /**
