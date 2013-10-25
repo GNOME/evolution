@@ -16,6 +16,17 @@
  *
  */
 
+/**
+ * SECTION: e-proxy-link-selector
+ * @include: e-util/e-util.h
+ * @short_description: Link accounts to a proxy profile
+ *
+ * #EProxyLinkSelector shows all network-based accounts in a tree view,
+ * with a checkbox next to each account.  The checkbox allows users to
+ * choose between linking the account to a pre-determined user-defined
+ * proxy profile, or to the built-in default proxy profile.
+ **/
+
 #include "e-proxy-link-selector.h"
 
 #define E_PROXY_LINK_SELECTOR_GET_PRIVATE(obj) \
@@ -251,6 +262,14 @@ e_proxy_link_selector_init (EProxyLinkSelector *selector)
 	selector->priv = E_PROXY_LINK_SELECTOR_GET_PRIVATE (selector);
 }
 
+/**
+ * e_proxy_link_selector_new:
+ * @registry: an #ESourceRegistry
+ *
+ * Creates a new #EProxyLinkSelector using #ESource instances in @registry.
+ *
+ * Returns: a new #EProxyLinkSelector
+ **/
 GtkWidget *
 e_proxy_link_selector_new (ESourceRegistry *registry)
 {
@@ -262,6 +281,19 @@ e_proxy_link_selector_new (ESourceRegistry *registry)
 		"registry", registry, NULL);
 }
 
+/**
+ * e_proxy_link_selector_ref_target_source:
+ * @selector: an #EProxyLinkSelector
+ *
+ * Returns the target network proxy profile #ESource.
+ *
+ * See e_proxy_link_selector_set_target_source() for further details.
+ *
+ * The returned #ESource is referenced for thread-safety and must be
+ * unreferenced with g_object_unref() when finished with it.
+ *
+ * Returns: an #ESource
+ **/
 ESource *
 e_proxy_link_selector_ref_target_source (EProxyLinkSelector *selector)
 {
@@ -270,6 +302,21 @@ e_proxy_link_selector_ref_target_source (EProxyLinkSelector *selector)
 	return g_object_ref (selector->priv->target_source);
 }
 
+/**
+ * e_proxy_link_selector_set_target_source:
+ * @selector: an #EProxyLinkSelector
+ * @target_source: an #ESource
+ *
+ * Sets the target network proxy profile #ESource.
+ *
+ * Checking the box next to an account name in @selector will link the
+ * account to @target_source.  The account will then use @target_source
+ * as its #GProxyResolver when connecting to a remote host.
+ *
+ * As a special case, if @target_source refers to the built-in network
+ * proxy profile, then @selector will hide its checkboxes since they would
+ * otherwise link accounts to the same #ESource when checked or unchecked.
+ **/
 void
 e_proxy_link_selector_set_target_source (EProxyLinkSelector *selector,
                                          ESource *target_source)

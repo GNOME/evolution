@@ -50,6 +50,12 @@ typedef struct _EProxyLinkSelector EProxyLinkSelector;
 typedef struct _EProxyLinkSelectorClass EProxyLinkSelectorClass;
 typedef struct _EProxyLinkSelectorPrivate EProxyLinkSelectorPrivate;
 
+/**
+ * EProxyLinkSelector:
+ *
+ * Contains only private data that should be read and manipulated using the
+ * functions below.
+ **/
 struct _EProxyLinkSelector {
 	ESourceSelector parent;
 	EProxyLinkSelectorPrivate *priv;
