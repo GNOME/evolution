@@ -101,6 +101,11 @@ gboolean	e_source_selector_get_show_colors
 void		e_source_selector_set_show_colors
 						(ESourceSelector *selector,
 						 gboolean show_colors);
+gboolean	e_source_selector_get_show_icons
+						(ESourceSelector *selector);
+void		e_source_selector_set_show_icons
+						(ESourceSelector *selector,
+						 gboolean show_icons);
 gboolean	e_source_selector_get_show_toggles
 						(ESourceSelector *selector);
 void		e_source_selector_set_show_toggles

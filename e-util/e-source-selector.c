@@ -56,6 +56,7 @@ struct _ESourceSelectorPrivate {
 	gboolean toggled_last;
 	gboolean select_new;
 	gboolean show_colors;
+	gboolean show_icons;
 	gboolean show_toggles;
 };
 
@@ -70,6 +71,7 @@ enum {
 	PROP_PRIMARY_SELECTION,
 	PROP_REGISTRY,
 	PROP_SHOW_COLORS,
+	PROP_SHOW_ICONS,
 	PROP_SHOW_TOGGLES
 };
 
@@ -85,7 +87,9 @@ enum {
 	COLUMN_NAME,
 	COLUMN_COLOR,
 	COLUMN_ACTIVE,
+	COLUMN_ICON_NAME,
 	COLUMN_SHOW_COLOR,
+	COLUMN_SHOW_ICONS,
 	COLUMN_SHOW_TOGGLE,
 	COLUMN_WEIGHT,
 	COLUMN_SOURCE,
@@ -235,6 +239,43 @@ source_selector_cancel_write (ESourceSelector *selector,
 	 * to overwrite whatever change we're being notified of. */
 	pending_writes = selector->priv->pending_writes;
 	g_hash_table_remove (pending_writes, source);
+}
+
+static const gchar *
+source_selector_get_icon_name (ESourceSelector *selector,
+                               ESource *source)
+{
+	const gchar *extension_name;
+	const gchar *icon_name = NULL;
+
+	/* XXX These are the same icons used in EShellView subclasses.
+	 *     We should really centralize these icon names somewhere. */
+
+	extension_name = E_SOURCE_EXTENSION_ADDRESS_BOOK;
+	if (e_source_has_extension (source, extension_name))
+		icon_name = "x-office-address-book";
+
+	extension_name = E_SOURCE_EXTENSION_CALENDAR;
+	if (e_source_has_extension (source, extension_name))
+		icon_name = "x-office-calendar";
+
+	extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
+	if (e_source_has_extension (source, extension_name))
+		icon_name = "evolution-mail";
+
+	extension_name = E_SOURCE_EXTENSION_MAIL_TRANSPORT;
+	if (e_source_has_extension (source, extension_name))
+		icon_name = "mail-send";
+
+	extension_name = E_SOURCE_EXTENSION_MEMO_LIST;
+	if (e_source_has_extension (source, extension_name))
+		icon_name = "evolution-memos";
+
+	extension_name = E_SOURCE_EXTENSION_TASK_LIST;
+	if (e_source_has_extension (source, extension_name))
+		icon_name = "evolution-tasks";
+
+	return icon_name;
 }
 
 static gboolean
@@ -630,6 +671,12 @@ source_selector_set_property (GObject *object,
 				g_value_get_boolean (value));
 			return;
 
+		case PROP_SHOW_ICONS:
+			e_source_selector_set_show_icons (
+				E_SOURCE_SELECTOR (object),
+				g_value_get_boolean (value));
+			return;
+
 		case PROP_SHOW_TOGGLES:
 			e_source_selector_set_show_toggles (
 				E_SOURCE_SELECTOR (object),
@@ -672,6 +719,13 @@ source_selector_get_property (GObject *object,
 			g_value_set_boolean (
 				value,
 				e_source_selector_get_show_colors (
+				E_SOURCE_SELECTOR (object)));
+			return;
+
+		case PROP_SHOW_ICONS:
+			g_value_set_boolean (
+				value,
+				e_source_selector_get_show_icons (
 				E_SOURCE_SELECTOR (object)));
 			return;
 
@@ -1245,6 +1299,17 @@ e_source_selector_class_init (ESourceSelectorClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_SHOW_ICONS,
+		g_param_spec_boolean (
+			"show-icons",
+			NULL,
+			NULL,
+			TRUE,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_SHOW_TOGGLES,
 		g_param_spec_boolean (
 			"show-toggles",
@@ -1341,7 +1406,9 @@ e_source_selector_init (ESourceSelector *selector)
 		G_TYPE_STRING,		/* COLUMN_NAME */
 		GDK_TYPE_COLOR,		/* COLUMN_COLOR */
 		G_TYPE_BOOLEAN,		/* COLUMN_ACTIVE */
+		G_TYPE_STRING,		/* COLUMN_ICON_NAME */
 		G_TYPE_BOOLEAN,		/* COLUMN_SHOW_COLOR */
+		G_TYPE_BOOLEAN,		/* COLUMN_SHOW_ICON */
 		G_TYPE_BOOLEAN,		/* COLUMN_SHOW_TOGGLE */
 		G_TYPE_INT,		/* COLUMN_WEIGHT */
 		E_TYPE_SOURCE);		/* COLUMN_SOURCE */
@@ -1371,6 +1438,16 @@ e_source_selector_init (ESourceSelector *selector)
 	g_signal_connect (
 		renderer, "toggled",
 		G_CALLBACK (cell_toggled_callback), selector);
+
+	renderer = gtk_cell_renderer_pixbuf_new ();
+	g_object_set (
+		G_OBJECT (renderer),
+		"stock-size", GTK_ICON_SIZE_MENU, NULL);
+	gtk_tree_view_column_pack_start (column, renderer, FALSE);
+	gtk_tree_view_column_add_attribute (
+		column, renderer, "icon-name", COLUMN_ICON_NAME);
+	gtk_tree_view_column_add_attribute (
+		column, renderer, "visible", COLUMN_SHOW_ICONS);
 
 	renderer = gtk_cell_renderer_text_new ();
 	g_object_set (
@@ -1496,6 +1573,57 @@ e_source_selector_set_show_colors (ESourceSelector *selector,
 	selector->priv->show_colors = show_colors;
 
 	g_object_notify (G_OBJECT (selector), "show-colors");
+
+	source_selector_build_model (selector);
+}
+
+/**
+ * e_source_selector_get_show_icons:
+ * @selector: an #ESourceSelector
+ *
+ * Returns whether icons are shown next to data sources.
+ *
+ * Generally the icon shown will be based on the presence of a backend-based
+ * extension, such as #ESourceAddressBook or #ESourceCalendar.  For #ESource
+ * instances with no such extension, no icon is shown.
+ *
+ * Returns: %TRUE if icons are being shown
+ *
+ * Since: 3.12
+ **/
+gboolean
+e_source_selector_get_show_icons (ESourceSelector *selector)
+{
+	g_return_val_if_fail (E_IS_SOURCE_SELECTOR (selector), FALSE);
+
+	return selector->priv->show_icons;
+}
+
+/**
+ * e_source_selector_set_show_icons:
+ * @selector: an #ESourceSelector
+ * @show_icons: whether to show icons
+ *
+ * Sets whether to show icons next to data sources.
+ *
+ * Generally the icon shown will be based on the presence of a backend-based
+ * extension, such as #ESourceAddressBook or #ESourceCalendar.  For #ESource
+ * instances with no such extension, no icon is shown.
+ *
+ * Since: 3.12
+ **/
+void
+e_source_selector_set_show_icons (ESourceSelector *selector,
+                                  gboolean show_icons)
+{
+	g_return_if_fail (E_IS_SOURCE_SELECTOR (selector));
+
+	if (show_icons == selector->priv->show_icons)
+		return;
+
+	selector->priv->show_icons = show_icons;
+
+	g_object_notify (G_OBJECT (selector), "show-icons");
 
 	source_selector_build_model (selector);
 }
@@ -2130,7 +2258,9 @@ e_source_selector_update_row (ESourceSelector *selector,
 	if (extension != NULL) {
 		GdkColor color;
 		const gchar *color_spec = NULL;
-		gboolean show_color = FALSE;
+		const gchar *icon_name;
+		gboolean show_color;
+		gboolean show_icons;
 		gboolean show_toggle;
 
 		show_color =
@@ -2144,6 +2274,9 @@ e_source_selector_update_row (ESourceSelector *selector,
 		if (color_spec != NULL && *color_spec != '\0')
 			show_color = gdk_color_parse (color_spec, &color);
 
+		show_icons = e_source_selector_get_show_icons (selector);
+		icon_name = source_selector_get_icon_name (selector, source);
+
 		show_toggle = e_source_selector_get_show_toggles (selector);
 
 		gtk_tree_store_set (
@@ -2151,7 +2284,9 @@ e_source_selector_update_row (ESourceSelector *selector,
 			COLUMN_NAME, display_name,
 			COLUMN_COLOR, show_color ? &color : NULL,
 			COLUMN_ACTIVE, selected,
+			COLUMN_ICON_NAME, icon_name,
 			COLUMN_SHOW_COLOR, show_color,
+			COLUMN_SHOW_ICONS, show_icons,
 			COLUMN_SHOW_TOGGLE, show_toggle,
 			COLUMN_WEIGHT, PANGO_WEIGHT_NORMAL,
 			COLUMN_SOURCE, source,
@@ -2162,7 +2297,9 @@ e_source_selector_update_row (ESourceSelector *selector,
 			COLUMN_NAME, display_name,
 			COLUMN_COLOR, NULL,
 			COLUMN_ACTIVE, FALSE,
+			COLUMN_ICON_NAME, NULL,
 			COLUMN_SHOW_COLOR, FALSE,
+			COLUMN_SHOW_ICONS, FALSE,
 			COLUMN_SHOW_TOGGLE, FALSE,
 			COLUMN_WEIGHT, PANGO_WEIGHT_BOLD,
 			COLUMN_SOURCE, source,

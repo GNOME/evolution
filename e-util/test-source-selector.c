@@ -69,7 +69,7 @@ on_idle_create_widget (ESourceRegistry *registry)
 	GtkWidget *check;
 
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_default_size (GTK_WINDOW (window), 200, 300);
+	gtk_window_set_default_size (GTK_WINDOW (window), 300, 400);
 
 	g_signal_connect (
 		window, "delete-event",
@@ -107,6 +107,16 @@ on_idle_create_widget (ESourceRegistry *registry)
 
 	g_object_bind_property (
 		selector, "show-colors",
+		check, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+
+	check = gtk_check_button_new_with_label ("Show icons");
+	gtk_widget_set_halign (check, GTK_ALIGN_FILL);
+	gtk_container_add (GTK_CONTAINER (vgrid), check);
+
+	g_object_bind_property (
+		selector, "show-icons",
 		check, "active",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
