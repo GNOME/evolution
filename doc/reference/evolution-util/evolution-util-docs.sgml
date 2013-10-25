@@ -110,6 +110,15 @@
   </chapter>
 
   <chapter>
+    <title>Network Proxies</title>
+    <xi:include href="xml/e-proxy-preferences.xml"/>
+    <xi:include href="xml/e-proxy-editor.xml"/>
+    <xi:include href="xml/e-proxy-selector.xml"/>
+    <xi:include href="xml/e-proxy-link-selector.xml"/>
+    <xi:include href="xml/e-proxy-combo-box.xml"/>
+  </chapter>
+
+  <chapter>
     <title>Tables and Trees</title>
     <xi:include href="xml/e-table.xml"/>
     <xi:include href="xml/e-table-click-to-add.xml"/>
@@ -247,11 +256,6 @@
     <xi:include href="xml/e-preferences-window.xml"/>
     <xi:include href="xml/e-preview-pane.xml"/>
     <xi:include href="xml/e-printable.xml"/>
-    <xi:include href="xml/e-proxy-combo-box.xml"/>
-    <xi:include href="xml/e-proxy-editor.xml"/>
-    <xi:include href="xml/e-proxy-link-selector.xml"/>
-    <xi:include href="xml/e-proxy-preferences.xml"/>
-    <xi:include href="xml/e-proxy-selector.xml"/>
     <xi:include href="xml/e-search-bar.xml"/>
     <xi:include href="xml/e-selectable.xml"/>
     <xi:include href="xml/e-selection-model-array.xml"/>
