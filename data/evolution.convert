@@ -17,7 +17,7 @@ start-offline = /apps/evolution/shell/start_offline
 statusbar-visible = /apps/evolution/shell/view_defaults/statusbar_visible
 toolbar-visible = /apps/evolution/shell/view_defaults/toolbar_visible
 
-[org.gnome.evolution.window:/org/gnome/evolution/mail/shell/window]
+[org.gnome.evolution.window:/org/gnome/evolution/mail/shell/window/]
 height = /apps/evolution/shell/view_defaults/window_height
 maximized = /apps/evolution/shell/view_defaults/window_maximized
 width = /apps/evolution/shell/view_defaults/window_width
@@ -204,22 +204,22 @@ height = /apps/evolution/mail/mail_browser_height
 maximized = /apps/evolution/mail/mail_browser_maximized
 width = /apps/evolution/mail/mail_browser_width
 
-[org.gnome.evolution.window:/org/gnome/evolution/mail/filter-window]
+[org.gnome.evolution.window:/org/gnome/evolution/mail/filter-window/]
 height = /apps/evolution/mail/filter_editor_height
 maximized = /apps/evolution/mail/filter_editor_maximized
 width = /apps/evolution/mail/filter_editor_width
 
-[org.gnome.evolution.window:/org/gnome/evolution/mail/send-recv-window]
+[org.gnome.evolution.window:/org/gnome/evolution/mail/send-recv-window/]
 height = /apps/evolution/mail/send_recv_height
 maximized = /apps/evolution/mail/send_recv_maximized
 width = /apps/evolution/mail/send_recv_width
 
-[org.gnome.evolution.window:/org/gnome/evolution/mail/subscription-window]
+[org.gnome.evolution.window:/org/gnome/evolution/mail/subscription-window/]
 height = /apps/evolution/mail/subscription_editor_height
 maximized = /apps/evolution/mail/subscription_editor_maximized
 width = /apps/evolution/mail/subscription_editor_width
 
-[org.gnome.evolution.window:/org/gnome/evolution/mail/vfolder-window]
+[org.gnome.evolution.window:/org/gnome/evolution/mail/vfolder-window/]
 height = /apps/evolution/mail/vfolder_editor_height
 maximized = /apps/evolution/mail/vfolder_editor_maximized
 width = /apps/evolution/mail/vfolder_editor_width
