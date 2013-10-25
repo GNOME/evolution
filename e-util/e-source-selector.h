@@ -123,9 +123,6 @@ gboolean	e_source_selector_source_is_selected
 						(ESourceSelector *selector,
 						 ESource *source);
 GList *		e_source_selector_get_selection	(ESourceSelector *selector);
-void		e_source_selector_set_select_new
-						(ESourceSelector *selector,
-						 gboolean state);
 void		e_source_selector_edit_primary_selection
 						(ESourceSelector *selector);
 ESource *	e_source_selector_ref_primary_selection

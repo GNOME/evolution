@@ -54,7 +54,6 @@ struct _ESourceSelectorPrivate {
 	GMainContext *main_context;
 
 	gboolean toggled_last;
-	gboolean select_new;
 	gboolean show_colors;
 	gboolean show_icons;
 	gboolean show_toggles;
@@ -1393,7 +1392,6 @@ e_source_selector_init (ESourceSelector *selector)
 	gtk_tree_view_set_enable_search (tree_view, TRUE);
 
 	selector->priv->toggled_last = FALSE;
-	selector->priv->select_new = FALSE;
 	selector->priv->show_colors = TRUE;
 	selector->priv->show_toggles = TRUE;
 
@@ -1736,22 +1734,6 @@ e_source_selector_get_selection (ESourceSelector *selector)
 		&closure);
 
 	return g_queue_peek_head_link (&closure.queue);
-}
-
-/**
- * e_source_selector_set_select_new:
- * @selector: An #ESourceSelector widget
- * @state: A gboolean
- *
- * Set whether or not to select new sources added to @selector.
- **/
-void
-e_source_selector_set_select_new (ESourceSelector *selector,
-                                  gboolean state)
-{
-	g_return_if_fail (E_IS_SOURCE_SELECTOR (selector));
-
-	selector->priv->select_new = state;
 }
 
 /**
