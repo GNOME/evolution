@@ -90,6 +90,8 @@ e_contacts_selector_init (EContactsSelector *selector)
 {
 	e_source_selector_set_show_colors (
 		E_SOURCE_SELECTOR (selector), FALSE);
+	e_source_selector_set_show_icons (
+		E_SOURCE_SELECTOR (selector), TRUE);
 }
 
 void
