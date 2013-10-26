@@ -139,6 +139,13 @@ proxy_editor_load (EProxyEditor *editor)
 	g_object_unref (source);
 }
 
+static void
+proxy_editor_combo_box_changed_cb (GtkComboBox *widget,
+                                   EProxyEditor *editor)
+{
+	e_proxy_editor_save (editor);
+}
+
 static gboolean
 proxy_editor_focus_out_event_cb (GtkWidget *widget,
                                  GdkEvent *event,
@@ -319,10 +326,6 @@ proxy_editor_constructed (GObject *object)
 	gtk_grid_attach (GTK_GRID (editor), widget, 1, 0, 1, 1);
 	editor->priv->method_combo_box = widget;  /* do not reference */
 	gtk_widget_show (widget);
-
-	g_signal_connect (
-		widget, "focus-out-event",
-		G_CALLBACK (proxy_editor_focus_out_event_cb), editor);
 
 	/*** Defer to Desktop Settings ***/
 
@@ -566,6 +569,12 @@ proxy_editor_constructed (GObject *object)
 
 	/* Populate the widgets. */
 	proxy_editor_load (editor);
+
+	/* Connect to this signal after the initial load. */
+	g_signal_connect (
+		editor->priv->method_combo_box, "changed",
+		G_CALLBACK (proxy_editor_combo_box_changed_cb), editor);
+
 }
 
 static void
