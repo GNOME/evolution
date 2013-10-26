@@ -63,9 +63,6 @@ struct _EShellSearchbarPrivate {
 	GtkWidget *search_entry;
 	GtkWidget *scope_combo_box;
 
-	/* Child widget containers (referenced) */
-	GQueue child_containers;
-
 	/* State Key File */
 	gchar *state_group;
 
