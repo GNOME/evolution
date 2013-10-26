@@ -40,9 +40,6 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_SHELL_SEARCHBAR, EShellSearchbarPrivate))
 
-/* spacing between "groups" on the search bar */
-#define COLUMN_SPACING			24
-
 #define SEARCH_OPTION_ADVANCED		(-1)
 
 /* Default "state key file" group: [Search Bar] */
@@ -68,11 +65,11 @@ struct _EShellSearchbarPrivate {
 
 	/* Child widget containers (referenced) */
 	GQueue child_containers;
-	guint resize_idle_id;
 
 	/* State Key File */
 	gchar *state_group;
 
+	gboolean filter_visible;
 	gboolean scope_visible;
 	gboolean state_dirty;
 };
@@ -80,6 +77,7 @@ struct _EShellSearchbarPrivate {
 enum {
 	PROP_0,
 	PROP_FILTER_COMBO_BOX,
+	PROP_FILTER_VISIBLE,
 	PROP_SEARCH_HINT,
 	PROP_SEARCH_OPTION,
 	PROP_SEARCH_TEXT,
@@ -92,7 +90,7 @@ enum {
 G_DEFINE_TYPE_WITH_CODE (
 	EShellSearchbar,
 	e_shell_searchbar,
-	GTK_TYPE_GRID,
+	GTK_TYPE_BOX,
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_EXTENSIBLE, NULL))
 
@@ -491,125 +489,6 @@ shell_searchbar_option_changed_cb (GtkRadioAction *action,
 }
 
 static gboolean
-shell_searchbar_resize_idle_cb (gpointer user_data)
-{
-	GtkWidget *widget;
-	EShellSearchbar *searchbar;
-	GQueue *child_containers;
-	GList *head, *link;
-	GArray *widths;
-	gint row = 0;
-	gint column = 0;
-	gint roww = 0;
-	gint maxw = 0;
-	gint child_left;
-	gint child_top;
-	gint allocated_width;
-	gboolean needs_reposition = FALSE;
-
-	widget = GTK_WIDGET (user_data);
-	allocated_width = gtk_widget_get_allocated_width (widget);
-
-	searchbar = E_SHELL_SEARCHBAR (widget);
-	child_containers = &searchbar->priv->child_containers;
-	head = g_queue_peek_head_link (child_containers);
-
-	widths = g_array_new (FALSE, FALSE, sizeof (gint));
-
-	for (link = head; link != NULL; link = g_list_next (link)) {
-		GtkWidget *child = GTK_WIDGET (link->data);
-		gint minw = -1;
-
-		if (!gtk_widget_get_visible (child))
-			minw = 0;
-		else
-			gtk_widget_get_preferred_width (child, &minw, NULL);
-
-		g_array_append_val (widths, minw);
-
-		if (roww && minw) {
-			roww += COLUMN_SPACING;
-			column++;
-		}
-
-		roww += minw;
-
-		if (minw > maxw)
-			maxw = minw;
-
-		if (roww > allocated_width) {
-			row++;
-			roww = minw;
-			column = 0;
-		}
-
-		gtk_container_child_get (
-			GTK_CONTAINER (widget), child,
-			"left-attach", &child_left,
-			"top-attach", &child_top,
-			NULL);
-
-		needs_reposition |=
-			(child_left != column) ||
-			(child_top != row);
-
-		if (column == 0 && row > 0 && roww < maxw) {
-			/* Columns have the same width, so use
-			 * the wider widget for calculations. */
-			roww = maxw;
-		}
-	}
-
-	if (needs_reposition) {
-		guint ii = 0;
-
-		row = 0;
-		column = 0;
-		roww = 0;
-
-		g_warn_if_fail (child_containers->length == widths->len);
-
-		for (link = head; link != NULL; link = g_list_next (link))
-			gtk_container_remove (
-				GTK_CONTAINER (widget),
-				GTK_WIDGET (link->data));
-
-		for (link = head; link != NULL; link = g_list_next (link)) {
-			GtkWidget *child;
-			gint w;
-
-			child = GTK_WIDGET (link->data);
-			w = g_array_index (widths, gint, ii++);
-
-			if (roww && w) {
-				roww += COLUMN_SPACING;
-				column++;
-			}
-
-			roww += w;
-
-			if (roww > allocated_width) {
-				row++;
-				roww = w;
-				column = 0;
-			}
-
-			gtk_grid_attach (
-				GTK_GRID (widget), child, column, row, 1, 1);
-
-			if (column == 0 && row > 0 && roww < maxw)
-				roww = maxw;
-		}
-	}
-
-	g_array_free (widths, TRUE);
-
-	searchbar->priv->resize_idle_id = 0;
-
-	return FALSE;
-}
-
-static gboolean
 shell_searchbar_entry_focus_in_cb (GtkWidget *entry,
                                    GdkEvent *event,
                                    EShellSearchbar *searchbar)
@@ -650,6 +529,12 @@ shell_searchbar_set_property (GObject *object,
                               GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_FILTER_VISIBLE:
+			e_shell_searchbar_set_filter_visible (
+				E_SHELL_SEARCHBAR (object),
+				g_value_get_boolean (value));
+			return;
+
 		case PROP_SEARCH_HINT:
 			e_shell_searchbar_set_search_hint (
 				E_SHELL_SEARCHBAR (object),
@@ -700,6 +585,12 @@ shell_searchbar_get_property (GObject *object,
 		case PROP_FILTER_COMBO_BOX:
 			g_value_set_object (
 				value, e_shell_searchbar_get_filter_combo_box (
+				E_SHELL_SEARCHBAR (object)));
+			return;
+
+		case PROP_FILTER_VISIBLE:
+			g_value_set_boolean (
+				value, e_shell_searchbar_get_filter_visible (
 				E_SHELL_SEARCHBAR (object)));
 			return;
 
@@ -756,11 +647,6 @@ shell_searchbar_dispose (GObject *object)
 
 	priv = E_SHELL_SEARCHBAR_GET_PRIVATE (object);
 
-	if (priv->resize_idle_id > 0) {
-		g_source_remove (priv->resize_idle_id);
-		priv->resize_idle_id = 0;
-	}
-
 	if (priv->shell_view != NULL) {
 		g_object_remove_weak_pointer (
 			G_OBJECT (priv->shell_view), &priv->shell_view);
@@ -775,9 +661,6 @@ shell_searchbar_dispose (GObject *object)
 	}
 
 	g_clear_object (&priv->css_provider);
-
-	while (!g_queue_is_empty (&priv->child_containers))
-		g_object_unref (g_queue_pop_head (&priv->child_containers));
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_shell_searchbar_parent_class)->dispose (object);
@@ -895,51 +778,6 @@ shell_searchbar_map (GtkWidget *widget)
 }
 
 static void
-shell_searchbar_size_allocate (GtkWidget *widget,
-                               GdkRectangle *allocation)
-{
-	EShellSearchbarPrivate *priv;
-
-	priv = E_SHELL_SEARCHBAR_GET_PRIVATE (widget);
-
-	/* Chain up to parent's size_allocate() method. */
-	GTK_WIDGET_CLASS (e_shell_searchbar_parent_class)->
-		size_allocate (widget, allocation);
-
-	if (priv->resize_idle_id == 0)
-		priv->resize_idle_id = g_idle_add (
-			shell_searchbar_resize_idle_cb, widget);
-}
-
-static void
-shell_searchbar_get_preferred_width (GtkWidget *widget,
-                                     gint *minimum_width,
-                                     gint *natural_width)
-{
-	GList *children, *iter;
-	gint max_minimum = 0, max_natural = 0;
-
-	children = gtk_container_get_children (GTK_CONTAINER (widget));
-	for (iter = children; iter != NULL; iter = iter->next) {
-		GtkWidget *child = iter->data;
-		gint minimum = 0, natural = 0;
-
-		if (gtk_widget_get_visible (child)) {
-			gtk_widget_get_preferred_width (child, &minimum, &natural);
-			if (minimum > max_minimum)
-				max_minimum = minimum;
-			if (natural > max_natural)
-				max_natural = natural;
-		}
-	}
-
-	g_list_free (children);
-
-	*minimum_width = max_minimum + COLUMN_SPACING;
-	*natural_width = max_natural + COLUMN_SPACING;
-}
-
-static void
 e_shell_searchbar_class_init (EShellSearchbarClass *class)
 {
 	GObjectClass *object_class;
@@ -956,8 +794,6 @@ e_shell_searchbar_class_init (EShellSearchbarClass *class)
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->map = shell_searchbar_map;
-	widget_class->size_allocate = shell_searchbar_size_allocate;
-	widget_class->get_preferred_width = shell_searchbar_get_preferred_width;
 
 	g_object_class_install_property (
 		object_class,
@@ -968,6 +804,18 @@ e_shell_searchbar_class_init (EShellSearchbarClass *class)
 			NULL,
 			E_TYPE_ACTION_COMBO_BOX,
 			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_FILTER_VISIBLE,
+		g_param_spec_boolean (
+			"filter-visible",
+			NULL,
+			NULL,
+			TRUE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
 			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_install_property (
@@ -1064,89 +912,66 @@ e_shell_searchbar_class_init (EShellSearchbarClass *class)
 static void
 e_shell_searchbar_init (EShellSearchbar *searchbar)
 {
-	GtkGrid *grid;
+	GtkBox *box;
 	GtkLabel *label;
 	GtkWidget *widget;
-	GQueue *child_containers;
 
 	searchbar->priv = E_SHELL_SEARCHBAR_GET_PRIVATE (searchbar);
 
-	child_containers = &searchbar->priv->child_containers;
-
-	gtk_grid_set_column_spacing (GTK_GRID (searchbar), COLUMN_SPACING);
-	gtk_grid_set_row_spacing (GTK_GRID (searchbar), 4);
+	gtk_box_set_spacing (GTK_BOX (searchbar), 6);
 
 	/* Filter Combo Widgets */
 
-	grid = GTK_GRID (searchbar);
+	box = GTK_BOX (searchbar);
 
-	widget = gtk_grid_new ();
-	g_object_set (
-		G_OBJECT (widget),
-		"orientation", GTK_ORIENTATION_HORIZONTAL,
-		"border-width", 3,
-		"column-spacing", 3,
-		"valign", GTK_ALIGN_CENTER,
-		NULL);
-	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
-	gtk_widget_show (widget);
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 3);
+	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
 
-	g_queue_push_tail (child_containers, g_object_ref (widget));
+	g_object_bind_property (
+		searchbar, "filter-visible",
+		widget, "visible",
+		G_BINDING_SYNC_CREATE);
 
-	grid = GTK_GRID (widget);
+	box = GTK_BOX (widget);
 
 	/* Translators: The "Show:" label precedes a combo box that
 	 * allows the user to filter the current view.  Examples of
 	 * items that appear in the combo box are "Unread Messages",
 	 * "Important Messages", or "Active Appointments". */
 	widget = gtk_label_new_with_mnemonic (_("Sho_w:"));
-	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
+	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
 	label = GTK_LABEL (widget);
 
 	widget = e_action_combo_box_new ();
 	gtk_label_set_mnemonic_widget (label, widget);
-	gtk_grid_attach (grid, widget, 1, 0, 1, 1);
+	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
 	searchbar->priv->filter_combo_box = widget;
 	gtk_widget_show (widget);
 
 	/* Search Entry Widgets */
 
-	grid = GTK_GRID (searchbar);
+	box = GTK_BOX (searchbar);
 
-	widget = gtk_grid_new ();
-	g_object_set (
-		G_OBJECT (widget),
-		"orientation", GTK_ORIENTATION_HORIZONTAL,
-		"column-spacing", 3,
-		"valign", GTK_ALIGN_CENTER,
-		"halign", GTK_ALIGN_FILL,
-		"hexpand", TRUE,
-		NULL);
-	gtk_grid_attach (grid, widget, 1, 0, 1, 1);
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 3);
+	gtk_widget_set_margin_left (widget, 12);
+	gtk_box_pack_start (box, widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
 
-	g_queue_push_tail (child_containers, g_object_ref (widget));
-
-	grid = GTK_GRID (widget);
+	box = GTK_BOX (widget);
 
 	/* Translators: This is part of the quick search interface.
 	 * example: Search: [_______________] in [ Current Folder ] */
 	widget = gtk_label_new_with_mnemonic (_("Sear_ch:"));
-	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
+	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
 	label = GTK_LABEL (widget);
 
 	widget = gtk_entry_new ();
 	gtk_label_set_mnemonic_widget (label, widget);
-	g_object_set (
-		G_OBJECT (widget),
-		"halign", GTK_ALIGN_FILL,
-		"hexpand", TRUE,
-		NULL);
-	gtk_grid_attach (grid, widget, 1, 0, 1, 1);
+	gtk_box_pack_start (box, widget, TRUE, TRUE, 0);
 	searchbar->priv->search_entry = widget;
 	gtk_widget_show (widget);
 
@@ -1192,37 +1017,29 @@ e_shell_searchbar_init (EShellSearchbar *searchbar)
 
 	/* Scope Combo Widgets */
 
-	grid = GTK_GRID (searchbar);
+	box = GTK_BOX (searchbar);
 
-	widget = gtk_grid_new ();
-	g_object_set (
-		G_OBJECT (widget),
-		"orientation", GTK_ORIENTATION_HORIZONTAL,
-		"column-spacing", 3,
-		"valign", GTK_ALIGN_CENTER,
-		NULL);
-	gtk_grid_attach (grid, widget, 2, 0, 1, 1);
-
-	g_queue_push_tail (child_containers, g_object_ref (widget));
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 3);
+	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
 
 	g_object_bind_property (
 		searchbar, "scope-visible",
 		widget, "visible",
 		G_BINDING_SYNC_CREATE);
 
-	grid = GTK_GRID (widget);
+	box = GTK_BOX (widget);
 
 	/* Translators: This is part of the quick search interface.
 	 * example: Search: [_______________] in [ Current Folder ] */
 	widget = gtk_label_new_with_mnemonic (_("i_n"));
-	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
+	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
 	label = GTK_LABEL (widget);
 
 	widget = e_action_combo_box_new ();
 	gtk_label_set_mnemonic_widget (label, widget);
-	gtk_grid_attach (grid, widget, 1, 0, 1, 1);
+	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
 	searchbar->priv->scope_combo_box = widget;
 	gtk_widget_show (widget);
 
@@ -1278,6 +1095,37 @@ e_shell_searchbar_get_filter_combo_box (EShellSearchbar *searchbar)
 	g_return_val_if_fail (E_IS_SHELL_SEARCHBAR (searchbar), NULL);
 
 	return E_ACTION_COMBO_BOX (searchbar->priv->filter_combo_box);
+}
+
+gboolean
+e_shell_searchbar_get_filter_visible (EShellSearchbar *searchbar)
+{
+	g_return_val_if_fail (E_IS_SHELL_SEARCHBAR (searchbar), FALSE);
+
+	return searchbar->priv->filter_visible;
+}
+
+void
+e_shell_searchbar_set_filter_visible (EShellSearchbar *searchbar,
+                                      gboolean filter_visible)
+{
+	g_return_if_fail (E_IS_SHELL_SEARCHBAR (searchbar));
+
+	if (searchbar->priv->filter_visible == filter_visible)
+		return;
+
+	searchbar->priv->filter_visible = filter_visible;
+
+	/* If we're hiding the filter combo box, reset it to its
+	 * first item so that no content gets permanently hidden. */
+	if (!filter_visible) {
+		EActionComboBox *combo_box;
+
+		combo_box = e_shell_searchbar_get_filter_combo_box (searchbar);
+		gtk_combo_box_set_active (GTK_COMBO_BOX (combo_box), 0);
+	}
+
+	g_object_notify (G_OBJECT (searchbar), "filter-visible");
 }
 
 const gchar *

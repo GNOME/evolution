@@ -57,12 +57,12 @@ typedef struct _EShellSearchbarPrivate EShellSearchbarPrivate;
  * functions below.
  **/
 struct _EShellSearchbar {
-	GtkGrid parent;
+	GtkBox parent;
 	EShellSearchbarPrivate *priv;
 };
 
 struct _EShellSearchbarClass {
-	GtkGridClass parent_class;
+	GtkBoxClass parent_class;
 };
 
 GType		e_shell_searchbar_get_type	(void);
@@ -72,6 +72,11 @@ EShellView *	e_shell_searchbar_get_shell_view
 EActionComboBox *
 		e_shell_searchbar_get_filter_combo_box
 						(EShellSearchbar *searchbar);
+gboolean	e_shell_searchbar_get_filter_visible
+						(EShellSearchbar *searchbar);
+void		e_shell_searchbar_set_filter_visible
+						(EShellSearchbar *searchbar,
+						 gboolean filter_visible);
 const gchar *	e_shell_searchbar_get_search_hint
 						(EShellSearchbar *searchbar);
 void		e_shell_searchbar_set_search_hint

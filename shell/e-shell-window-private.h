@@ -32,6 +32,7 @@
 #include <e-shell.h>
 #include <e-shell-content.h>
 #include <e-shell-view.h>
+#include <e-shell-searchbar.h>
 #include <e-shell-switcher.h>
 #include <e-shell-window-actions.h>
 #include <e-shell-utils.h>
