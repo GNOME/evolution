@@ -24,6 +24,7 @@
 #endif
 
 #include "e-mail-shell-view-private.h"
+#include "web-extension/module-mail-web-extension.h"
 
 #include "e-util/e-util-private.h"
 
@@ -254,36 +255,44 @@ mail_shell_view_folder_tree_popup_event_cb (EShellView *shell_view,
 }
 
 static gboolean
-mail_shell_view_mail_display_needs_key (EMailDisplay *mail_display,
+mail_shell_view_mail_display_needs_key (EMailShellView *mail_shell_view,
+                                        EMailDisplay *mail_display,
                                         gboolean with_input)
 {
-	gboolean needs_key = FALSE;
-
 	if (gtk_widget_has_focus (GTK_WIDGET (mail_display))) {
-		WebKitWebFrame *frame;
-		WebKitDOMDocument *dom;
-		WebKitDOMElement *element;
-		gchar *name = NULL;
+		GDBusProxy *web_extension;
 
-		frame = webkit_web_view_get_focused_frame (WEBKIT_WEB_VIEW (mail_display));
-		if (!frame)
-			return FALSE;
-		dom = webkit_web_frame_get_dom_document (frame);
-		/* intentionally used "static_cast" */
-		element = webkit_dom_html_document_get_active_element ((WebKitDOMHTMLDocument *) dom);
+		web_extension = e_mail_shell_view_get_web_extension_proxy (mail_shell_view);
+		if (web_extension) {
+			GVariant *result;
+			const gchar *element_name = NULL;
 
-		if (element)
-			name = webkit_dom_node_get_node_name (WEBKIT_DOM_NODE (element));
+			result = g_dbus_proxy_call_sync (
+					web_extension,
+					"GetActiveElementName",
+					g_variant_new (
+						"(t)",
+						webkit_web_view_get_page_id (
+							WEBKIT_WEB_VIEW (mail_display))),
+					G_DBUS_CALL_FLAGS_NONE,
+					-1,
+					NULL,
+					NULL);
 
-		/* if INPUT or TEXTAREA has focus, then any key press should go there */
-		if (name && ((with_input && g_ascii_strcasecmp (name, "INPUT") == 0) || g_ascii_strcasecmp (name, "TEXTAREA") == 0)) {
-			needs_key = TRUE;
+			if (result) {
+				element_name = g_variant_get_string (result, NULL);
+				g_variant_unref (result);
+
+				if (element_name && *element_name) {
+					if ((with_input && g_strcmp0 (element_name, "input") == 0) ||
+					    g_strcmp0 (element_name, "textarea") == 0) {
+						return TRUE;
+					}
+				}
+			}
 		}
-
-		g_free (name);
 	}
-
-	return needs_key;
+	return FALSE;
 }
 
 static gboolean
@@ -327,7 +336,8 @@ mail_shell_view_key_press_event_cb (EMailShellView *mail_shell_view,
 		case GDK_KEY_Next:
 		case GDK_KEY_End:
 		case GDK_KEY_Begin:
-			if (!mail_shell_view_mail_display_needs_key (mail_display, FALSE) &&
+#if 0
+			if (!mail_shell_view_mail_display_needs_key (mail_shell_view, mail_display, FALSE) &&
 			    webkit_web_view_get_main_frame (WEBKIT_WEB_VIEW (mail_display)) !=
 			    webkit_web_view_get_focused_frame (WEBKIT_WEB_VIEW (mail_display))) {
 				WebKitDOMDocument *document;
@@ -344,13 +354,13 @@ mail_shell_view_key_press_event_cb (EMailShellView *mail_shell_view,
 				*/
 				webkit_dom_dom_window_focus (window);
 			}
-
+#endif
 			return FALSE;
 		default:
 			return FALSE;
 	}
 
-	if (mail_shell_view_mail_display_needs_key (mail_display, TRUE))
+	if (mail_shell_view_mail_display_needs_key (mail_shell_view, mail_display, TRUE))
 		return FALSE;
 
 	gtk_action_activate (action);
@@ -580,12 +590,82 @@ mail_shell_view_search_filter_changed_cb (EMailShellView *mail_shell_view)
 	e_mail_reader_avoid_next_mark_as_seen (E_MAIL_READER (mail_view));
 }
 
+static void
+web_extension_proxy_created_cb (GDBusProxy *proxy,
+                                GAsyncResult *result,
+                                EMailShellView *mail_shell_view)
+{
+	GError *error = NULL;
+
+	mail_shell_view->priv->web_extension = g_dbus_proxy_new_finish (result, &error);
+	if (!mail_shell_view->priv->web_extension) {
+		g_warning ("Error creating web extension proxy: %s\n", error->message);
+		g_error_free (error);
+	}
+}
+
+static void
+web_extension_appeared_cb (GDBusConnection *connection,
+                           const gchar *name,
+                           const gchar *name_owner,
+                           EMailShellView *mail_shell_view)
+{
+	g_dbus_proxy_new (
+		connection,
+		G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START |
+		G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES |
+		G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS,
+		NULL,
+		name,
+		MODULE_MAIL_WEB_EXTENSION_OBJECT_PATH,
+		MODULE_MAIL_WEB_EXTENSION_INTERFACE,
+		NULL,
+		(GAsyncReadyCallback)web_extension_proxy_created_cb,
+		mail_shell_view);
+}
+
+static void
+web_extension_vanished_cb (GDBusConnection *connection,
+                           const gchar *name,
+                           EMailShellView *mail_shell_view)
+{
+	g_clear_object (&mail_shell_view->priv->web_extension);
+}
+
+static void
+mail_shell_view_watch_web_extension (EMailShellView *mail_shell_view)
+{
+	char *service_name;
+
+	service_name = g_strdup_printf ("%s-%u", MODULE_MAIL_WEB_EXTENSION_SERVICE_NAME, getpid ());
+	mail_shell_view->priv->web_extension_watch_name_id =
+		g_bus_watch_name (
+			G_BUS_TYPE_SESSION,
+			service_name,
+			G_BUS_NAME_WATCHER_FLAGS_NONE,
+			(GBusNameAppearedCallback) web_extension_appeared_cb,
+			(GBusNameVanishedCallback) web_extension_vanished_cb,
+			mail_shell_view, NULL);
+
+	g_free (service_name);
+}
+
+GDBusProxy *
+e_mail_shell_view_get_web_extension_proxy (EMailShellView *mail_shell_view)
+{
+	g_return_val_if_fail (E_IS_MAIL_SHELL_VIEW (mail_shell_view), NULL);
+
+	return mail_shell_view->priv->web_extension;
+}
+
 void
 e_mail_shell_view_private_init (EMailShellView *mail_shell_view)
 {
 	g_signal_connect (
 		mail_shell_view, "notify::view-id",
 		G_CALLBACK (mail_shell_view_notify_view_id_cb), NULL);
+
+	mail_shell_view_watch_web_extension (mail_shell_view);
 }
 
 void
@@ -842,6 +922,13 @@ e_mail_shell_view_private_dispose (EMailShellView *mail_shell_view)
 		g_object_unref (priv->search_account_cancel);
 		priv->search_account_cancel = NULL;
 	}
+
+	if (priv->web_extension_watch_name_id > 0) {
+		g_bus_unwatch_name (priv->web_extension_watch_name_id);
+		priv->web_extension_watch_name_id = 0;
+	}
+
+	g_clear_object (&priv->web_extension);
 }
 
 void

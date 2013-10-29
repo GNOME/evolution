@@ -1540,6 +1540,7 @@ modules/itip-formatter/plugin/Makefile
 modules/itip-formatter/web-extension/Makefile
 modules/mail-config/Makefile
 modules/mail/Makefile
+modules/mail/web-extension/Makefile
 modules/mailto-handler/Makefile
 modules/mdn/Makefile
 modules/offline-alert/Makefile

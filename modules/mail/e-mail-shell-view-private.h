@@ -146,6 +146,9 @@ struct _EMailShellViewPrivate {
 
 	GtkToolItem *send_receive_tool_item;
 	GtkToolItem *send_receive_tool_separator;
+
+	GDBusProxy *web_extension;
+	guint web_extension_watch_name_id;
 };
 
 void		e_mail_shell_view_private_init
@@ -171,7 +174,8 @@ void		e_mail_shell_view_update_sidebar
 					(EMailShellView *mail_shell_view);
 void		e_mail_shell_view_update_send_receive_menus
 					(EMailShellView *mail_shell_view);
-
+GDBusProxy *	e_mail_shell_view_get_web_extension_proxy
+					(EMailShellView *mail_shell_view);
 G_END_DECLS
 
 #endif /* E_MAIL_SHELL_VIEW_PRIVATE_H */
