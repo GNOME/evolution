@@ -502,7 +502,7 @@ web_view_context_menu_cb (WebKitWebView *webkit_web_view,
 	if (hit_test_result == NULL)
 		return FALSE;
 
-	g_object_get (hit_test_result, "context", &context, NULL);
+	context = webkit_hit_test_result_get_context (hit_test_result);
 
 	if (context & WEBKIT_HIT_TEST_RESULT_CONTEXT_IMAGE) {
 		gchar *image_uri = NULL;
