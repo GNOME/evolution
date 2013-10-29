@@ -1125,54 +1125,6 @@ mail_display_redirect_uri (EWebView *web_view,
 	if (part_list == NULL)
 		goto chainup;
 
-	/* Redirect cid:part_id to mail://mail_id/cid:part_id */
-	if (g_str_has_prefix (uri, "cid:")) {
-		CamelFolder *folder;
-		const gchar *message_uid;
-
-		folder = e_mail_part_list_get_folder (part_list);
-		message_uid = e_mail_part_list_get_message_uid (part_list);
-
-		/* Always write raw content of CID object. */
-		return e_mail_part_build_uri (
-			folder, message_uid,
-			"part_id", G_TYPE_STRING, uri,
-			"mode", G_TYPE_INT, E_MAIL_FORMATTER_MODE_CID, NULL);
-	}
-
-	/* WebKit won't allow to load a local file when displaying
-	 * "remote" mail:// protocol, so we need to handle this manually. */
-	if (g_str_has_prefix (uri, "file:")) {
-		gchar *content = NULL;
-		gchar *content_type;
-		gchar *filename;
-		gchar *encoded;
-		gchar *new_uri;
-		gsize length = 0;
-
-		filename = g_filename_from_uri (uri, NULL, NULL);
-		if (filename == NULL)
-			goto chainup;
-
-		if (!g_file_get_contents (filename, &content, &length, NULL)) {
-			g_free (filename);
-			goto chainup;
-		}
-
-		encoded = g_base64_encode ((guchar *) content, length);
-		content_type = g_content_type_guess (filename, NULL, 0, NULL);
-
-		new_uri = g_strdup_printf (
-			"data:%s;base64,%s", content_type, encoded);
-
-		g_free (content_type);
-		g_free (content);
-		g_free (filename);
-		g_free (encoded);
-
-		return new_uri;
-	}
-
 	uri_is_http =
 		g_str_has_prefix (uri, "http:") ||
 		g_str_has_prefix (uri, "https:") ||
@@ -1397,6 +1349,118 @@ e_mail_display_class_init (EMailDisplayClass *class)
 }
 
 static void
+mail_cid_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
+                                 EMailDisplay *display)
+{
+	EMailPartList *part_list;
+	EMailPart *part;
+	CamelFolder *folder;
+	GInputStream *stream;
+	gsize stream_length;
+	const gchar *message_uid;
+	const gchar *uri;
+	const gchar *mime_type;
+	gchar *content = NULL;
+
+	/* Redirect cid:part_id to mail://mail_id/cid:part_id */
+
+	part_list = e_mail_display_get_part_list (display);
+	folder = e_mail_part_list_get_folder (part_list);
+	message_uid = e_mail_part_list_get_message_uid (part_list);
+
+	uri = webkit_uri_scheme_request_get_uri (request);
+	part = e_mail_part_list_ref_part (part_list, uri);
+
+	mime_type = e_mail_part_get_mime_type (part);
+
+	/* Always write raw content of CID object. */
+	content = e_mail_part_build_uri (
+			folder, message_uid,
+			"part_id", G_TYPE_STRING, uri,
+			"mode", G_TYPE_INT, E_MAIL_FORMATTER_MODE_CID, NULL);
+
+	stream_length = strlen (content);
+	stream = g_memory_input_stream_new_from_data (content, stream_length, g_free);
+
+	webkit_uri_scheme_request_finish (request, stream, stream_length, mime_type);
+	g_object_unref (stream);
+	g_object_unref (part);
+}
+
+static void
+mail_file_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
+                                  EMailDisplay *display)
+{
+	EMailPartList *part_list;
+	CamelFolder *folder;
+	GInputStream *stream;
+	gsize stream_length;
+	const gchar *message_uid;
+	const gchar *uri;
+	gchar *content = NULL;
+	gchar *content_type;
+	gchar *filename;
+	gchar *encoded;
+	gsize length = 0;
+
+	/* WebKit won't allow to load a local file when displaying
+	 * "remote" mail:// protocol, so we need to handle this manually. */
+	uri = webkit_uri_scheme_request_get_uri (request);
+
+	part_list = e_mail_display_get_part_list (display);
+	folder = e_mail_part_list_get_folder (part_list);
+	message_uid = e_mail_part_list_get_message_uid (part_list);
+
+	filename = g_filename_from_uri (uri, NULL, NULL);
+	if (!filename)
+		return;
+
+	if (!g_file_get_contents (filename, &content, &length, NULL)) {
+		g_free (filename);
+		return;
+	}
+
+	encoded = g_base64_encode ((guchar *) content, length);
+	content_type = g_content_type_guess (filename, NULL, 0, NULL);
+
+	content = g_strdup_printf ( "data:%s;base64,%s", content_type, encoded);
+
+	content = e_mail_part_build_uri (
+			folder, message_uid,
+			"part_id", G_TYPE_STRING, uri,
+			"mode", G_TYPE_INT, E_MAIL_FORMATTER_MODE_CID, NULL);
+
+	stream_length = strlen (content);
+	stream = g_memory_input_stream_new_from_data (content, stream_length, g_free);
+
+	webkit_uri_scheme_request_finish (request, stream, stream_length, content_type);
+
+	g_free (content_type);
+	g_free (content);
+	g_free (filename);
+	g_free (encoded);
+	g_object_unref (stream);
+}
+
+static void
+mail_http_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
+                                  EMailDisplay *display)
+{
+}
+
+static void
+mail_gtk_stock_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
+                                       EMailDisplay *display)
+{
+}
+
+static void
+mail_mail_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
+                                  EMailDisplay *display)
+{
+}
+
+static void
 e_mail_display_init (EMailDisplay *display)
 {
 	GtkUIManager *ui_manager;
@@ -1463,6 +1527,25 @@ e_mail_display_init (EMailDisplay *display)
 	ui_manager = e_web_view_get_ui_manager (E_WEB_VIEW (display));
 	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, NULL);
 
+	e_web_view_register_uri_scheme (
+		E_WEB_VIEW (display), CID_URI_SCHEME,
+		mail_cid_uri_scheme_appeared_cb, display);
+	e_web_view_register_uri_scheme (
+		E_WEB_VIEW (display), FILE_URI_SCHEME,
+		mail_file_uri_scheme_appeared_cb, display);
+	e_web_view_register_uri_scheme (
+		E_WEB_VIEW (display), EVO_HTTP_URI_SCHEME,
+		mail_http_uri_scheme_appeared_cb, display);
+	e_web_view_register_uri_scheme (
+		E_WEB_VIEW (display), EVO_HTTPS_URI_SCHEME,
+		mail_http_uri_scheme_appeared_cb, display);
+	e_web_view_register_uri_scheme (
+		E_WEB_VIEW (display), MAIL_URI_SCHEME,
+		mail_mail_uri_scheme_appeared_cb, display);
+	e_web_view_register_uri_scheme (
+		E_WEB_VIEW (display), GTK_STOCK_URI_SCHEME,
+		mail_gtk_stock_uri_scheme_appeared_cb, display);
+/*
 	e_web_view_install_request_handler (
 		E_WEB_VIEW (display), E_TYPE_MAIL_REQUEST);
 	e_web_view_install_request_handler (
@@ -1471,7 +1554,7 @@ e_mail_display_init (EMailDisplay *display)
 		E_WEB_VIEW (display), E_TYPE_FILE_REQUEST);
 	e_web_view_install_request_handler (
 		E_WEB_VIEW (display), E_TYPE_STOCK_REQUEST);
-
+*/
 	if (emd_global_http_cache == NULL) {
 		user_cache_dir = e_get_user_cache_dir ();
 		emd_global_http_cache = camel_data_cache_new (user_cache_dir, NULL);

@@ -82,6 +82,35 @@ web_page_send_request (WebKitWebPage *web_page,
                        WebKitURIResponse *redirected_response,
                        gpointer user_data)
 {
+	const char *request_uri;
+	const char *page_uri;
+
+	request_uri = webkit_uri_request_get_uri (request);
+	page_uri = webkit_web_page_get_uri (web_page);
+
+	/* Always load the main resource. */
+	if (g_strcmp0 (request_uri, page_uri) == 0)
+		return FALSE;
+
+	/* Redirect http(s) request to evo-http(s) protocol. */
+	if (strstr (request_uri, "http")) {
+		GSettings *settings;
+		EMailImageLoadingPolicy image_policy;
+		gchar *new_uri;
+
+		settings = g_settings_new ("org.gnome.evolution.mail");
+		image_policy = g_settings_get_enum (settings, "image-loading-policy");
+		g_object_unref (settings);
+
+		if (image_policy == E_MAIL_IMAGE_LOADING_POLICY_ALWAYS)
+			return FALSE;
+
+		new_uri = g_strconcat ("evo-", request_uri, NULL);
+		webkit_uri_request_set_uri (request, new_uri);
+
+		g_free (new_uri);
+	}
+
 	return FALSE;
 }
 
