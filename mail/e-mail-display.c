@@ -239,14 +239,21 @@ mail_display_process_mailto (EWebView *web_view,
 }
 
 static gboolean
-mail_display_link_clicked (WebKitWebView *web_view,
-                           WebKitWebFrame *frame,
-                           WebKitNetworkRequest *request,
-                           WebKitWebNavigationAction *navigation_action,
-                           WebKitWebPolicyDecision *policy_decision,
-                           gpointer user_data)
+decide_policy_cb (WebKitWebView *web_view,
+                  WebKitPolicyDecision *decision,
+                  WebKitPolicyDecisionType type)
 {
-	const gchar *uri = webkit_network_request_get_uri (request);
+	WebKitNavigationPolicyDecision *navigation_decision;
+	WebKitURIRequest *request;
+	const gchar *uri;
+
+	if (type != WEBKIT_POLICY_DECISION_TYPE_NAVIGATION_ACTION)
+		return FALSE;
+
+	navigation_decision = WEBKIT_NAVIGATION_POLICY_DECISION (decision);
+
+	request = webkit_navigation_policy_decision_get_request (navigation_decision);
+	uri = webkit_uri_request_get_uri (request);
 
 	if (g_str_has_prefix (uri, "file://")) {
 		gchar *filename;
@@ -254,8 +261,9 @@ mail_display_link_clicked (WebKitWebView *web_view,
 		filename = g_filename_from_uri (uri, NULL, NULL);
 
 		if (g_file_test (filename, G_FILE_TEST_IS_DIR)) {
-			webkit_web_policy_decision_ignore (policy_decision);
-			webkit_network_request_set_uri (request, "about:blank");
+			webkit_policy_decision_ignore (decision);
+			/* FIXME XXX Not sure if the request will be changed there */
+			webkit_uri_request_set_uri (request, "about:blank");
 			g_free (filename);
 			return TRUE;
 		}
@@ -265,17 +273,17 @@ mail_display_link_clicked (WebKitWebView *web_view,
 
 	if (mail_display_process_mailto (E_WEB_VIEW (web_view), uri, NULL)) {
 		/* do nothing, function handled the "mailto:" uri already */
-		webkit_web_policy_decision_ignore (policy_decision);
+		webkit_policy_decision_ignore (decision);
 		return TRUE;
 
 	} else if (g_ascii_strncasecmp (uri, "thismessage:", 12) == 0) {
 		/* ignore */
-		webkit_web_policy_decision_ignore (policy_decision);
+		webkit_policy_decision_ignore (decision);
 		return TRUE;
 
 	} else if (g_ascii_strncasecmp (uri, "cid:", 4) == 0) {
 		/* ignore */
-		webkit_web_policy_decision_ignore (policy_decision);
+		webkit_policy_decision_ignore (decision);
 		return TRUE;
 
 	}
@@ -1500,8 +1508,8 @@ e_mail_display_init (EMailDisplay *display)
 	g_object_set (settings, "enable-frame-flattening", TRUE, NULL);
 
 	g_signal_connect (
-		display, "navigation-policy-decision-requested",
-		G_CALLBACK (mail_display_link_clicked), NULL);
+		display, "decide-policy",
+		G_CALLBACK (decide_policy_cb), NULL);
 	g_signal_connect (
 		display, "resource-request-starting",
 		G_CALLBACK (mail_display_resource_requested), NULL);
