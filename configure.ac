@@ -1537,6 +1537,7 @@ modules/contact-photos/Makefile
 modules/gravatar/Makefile
 modules/itip-formatter/Makefile
 modules/itip-formatter/plugin/Makefile
+modules/itip-formatter/web-extension/Makefile
 modules/mail-config/Makefile
 modules/mail/Makefile
 modules/mailto-handler/Makefile

@@ -28,7 +28,6 @@
 #include <unistd.h>
 
 #include <gtk/gtk.h>
-#include <webkit/webkitdom.h>
 
 #include <libecal/libecal.h>
 
@@ -118,7 +117,7 @@ void		itip_view_write			(EMailFormatter *formatter,
 void		itip_view_write_for_printing	(ItipView *view,
 						 GString *buffer);
 void		itip_view_create_dom_bindings	(ItipView *view,
-						 WebKitDOMElement *element);
+						 const gchar *element_id);
 struct _EMailPartItip *
 		itip_view_get_mail_part		(ItipView *view);
 EClientCache *	itip_view_get_client_cache	(ItipView *view);
@@ -218,7 +217,7 @@ void		itip_view_set_update		(ItipView *view,
 gboolean	itip_view_get_show_update_check (ItipView *view);
 void		itip_view_set_show_update_check (ItipView *view,
 						 gboolean show);
-gchar *		itip_view_get_rsvp_comment	(ItipView *view);
+const gchar *	itip_view_get_rsvp_comment	(ItipView *view);
 void		itip_view_set_rsvp_comment	(ItipView *view,
 						 const gchar *comment);
 gboolean	itip_view_get_buttons_sensitive	(ItipView *view);
@@ -247,7 +246,8 @@ void		itip_view_set_show_inherit_alarm_check
 void		itip_view_set_error		(ItipView *view,
 						 const gchar *error_html,
 						 gboolean show_save_btn);
-
+GDBusProxy *	itip_view_get_web_extension_proxy
+						(ItipView *view);
 G_END_DECLS
 
 #endif /* ITIP_VIEW_H */
