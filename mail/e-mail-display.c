@@ -1085,19 +1085,17 @@ mail_display_style_updated (GtkWidget *widget)
 		style_updated (widget);
 }
 
-static gboolean
-mail_display_button_press_event (GtkWidget *widget,
-                                 GdkEventButton *event)
+static void
+mail_display_mouse_target_changed_cb (EMailDisplay *display,
+                                      WebKitHitTestResult *hit_test_result,
+                                      guint modifiers,
+                                      gpointer user_data)
 {
-	EWebView *web_view = E_WEB_VIEW (widget);
-	WebKitHitTestResult *hit_test;
+	EWebView *web_view = E_WEB_VIEW (display);
 	GList *list, *link;
 
-	if (event->button != 3)
-		goto chainup;
-
-	hit_test = webkit_web_view_get_hit_test_result (
-		WEBKIT_WEB_VIEW (web_view), event);
+	if (!(modifiers & GDK_BUTTON3_MASK))
+		return;
 
 	list = e_extensible_list_extensions (
 		E_EXTENSIBLE (web_view), E_TYPE_EXTENSION);
@@ -1108,16 +1106,9 @@ mail_display_button_press_event (GtkWidget *widget,
 			continue;
 
 		e_mail_display_popup_extension_update_actions (
-			E_MAIL_DISPLAY_POPUP_EXTENSION (extension), hit_test);
+			E_MAIL_DISPLAY_POPUP_EXTENSION (extension), hit_test_result);
 	}
 	g_list_free (list);
-
-	g_object_unref (hit_test);
-
-chainup:
-	/* Chain up to parent's button_press_event() method. */
-	return GTK_WIDGET_CLASS (e_mail_display_parent_class)->
-		button_press_event (widget, event);
 }
 
 static gchar *
@@ -1440,6 +1431,10 @@ e_mail_display_init (EMailDisplay *display)
 	g_signal_connect (
 		display, "notify::uri",
 		G_CALLBACK (mail_display_uri_changed), NULL);
+
+	g_signal_connect (
+		display, "mouse-target-changed",
+		G_CALLBACK (mail_display_mouse_target_changed_cb), NULL);
 
 	display->priv->settings = g_settings_new ("org.gnome.evolution.mail");
 	g_signal_connect_swapped (
