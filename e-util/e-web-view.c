@@ -1727,6 +1727,92 @@ e_web_view_selectable_init (ESelectableInterface *interface)
 }
 
 static void
+web_view_cid_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
+                                     EWebView *web_view)
+{
+}
+
+static void
+web_view_file_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
+                                      EWebView *web_view)
+{
+}
+static void
+web_view_mail_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
+                                      EWebView *web_view)
+{
+}
+
+static void
+web_view_http_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
+                                      EWebView *web_view)
+{
+}
+
+static void
+web_view_gtk_stock_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
+                                           EWebView *web_view)
+{
+}
+
+void
+e_web_view_register_uri_scheme (EWebView *web_view,
+                                EURIScheme scheme,
+                                gpointer user_callback,
+				gpointer user_data)
+{
+	WebKitWebContext *context;
+	gpointer callback = NULL;
+	const gchar *uri_scheme;
+
+	context = webkit_web_view_get_context (WEBKIT_WEB_VIEW (web_view));
+	callback = user_callback;
+
+	switch (scheme) {
+		case CID_URI_SCHEME:
+			uri_scheme = "cid";
+			if (!callback)
+				callback = web_view_cid_uri_scheme_appeared_cb;
+			break;
+		case FILE_URI_SCHEME:
+			uri_scheme = "file";
+			if (!callback)
+				callback = web_view_file_uri_scheme_appeared_cb;
+			break;
+		case MAIL_URI_SCHEME:
+			uri_scheme = "mail";
+			if (!callback)
+				callback = web_view_mail_uri_scheme_appeared_cb;
+			break;
+		case EVO_HTTP_URI_SCHEME:
+			uri_scheme = "evo-http";
+			if (!callback)
+				callback = web_view_http_uri_scheme_appeared_cb;
+			break;
+		case EVO_HTTPS_URI_SCHEME:
+			uri_scheme = "evo-https";
+			if (!callback)
+				callback = web_view_http_uri_scheme_appeared_cb;
+			break;
+		case GTK_STOCK_URI_SCHEME:
+			uri_scheme = "gtk-stock";
+			if (!callback)
+				callback = web_view_gtk_stock_uri_scheme_appeared_cb;
+			break;
+		default:
+			return;
+	}
+
+	webkit_web_context_register_uri_scheme (
+		context,
+		uri_scheme,
+		(WebKitURISchemeRequestCallback) callback,
+		user_data ? user_data : web_view,
+		NULL);
+
+}
+
+static void
 e_web_view_init (EWebView *web_view)
 {
 	GtkUIManager *ui_manager;
@@ -1788,9 +1874,12 @@ e_web_view_init (EWebView *web_view)
 	web_context = webkit_web_view_get_context (WEBKIT_WEB_VIEW (web_view));
 	webkit_web_context_set_cache_model (web_context, WEBKIT_CACHE_MODEL_DOCUMENT_VIEWER);
 
+	e_web_view_register_uri_scheme (web_view, FILE_URI_SCHEME, NULL, NULL);
+	e_web_view_register_uri_scheme (web_view, GTK_STOCK_URI_SCHEME, NULL, NULL);
+/*
 	e_web_view_install_request_handler (web_view, E_TYPE_FILE_REQUEST);
 	e_web_view_install_request_handler (web_view, E_TYPE_STOCK_REQUEST);
-
+*/
 	settings = g_settings_new ("org.gnome.desktop.interface");
 	web_view->priv->font_settings = g_object_ref (settings);
 	handler_id = g_signal_connect_swapped (
@@ -3537,7 +3626,7 @@ e_web_view_request_finish (EWebView *web_view,
 
 	return g_object_ref (async_context->input_stream);
 }
-
+/*
 void
 e_web_view_install_request_handler (EWebView *web_view,
                                     GType handler_type)
@@ -3560,7 +3649,7 @@ e_web_view_install_request_handler (EWebView *web_view,
 
 	g_object_unref (feature);
 }
-
+*/
 /**
  * e_web_view_create_and_add_css_style_sheet_sync:
  * @web_view: an #EWebView

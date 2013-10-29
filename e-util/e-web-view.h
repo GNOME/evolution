@@ -59,6 +59,15 @@ typedef struct _EWebView EWebView;
 typedef struct _EWebViewClass EWebViewClass;
 typedef struct _EWebViewPrivate EWebViewPrivate;
 
+typedef enum {
+	CID_URI_SCHEME,
+	FILE_URI_SCHEME,
+	MAIL_URI_SCHEME,
+	EVO_HTTP_URI_SCHEME,
+	EVO_HTTPS_URI_SCHEME,
+	GTK_STOCK_URI_SCHEME
+} EURIScheme;
+
 struct _EWebView {
 	WebKitWebView parent;
 	EWebViewPrivate *priv;
@@ -220,6 +229,10 @@ void		e_web_view_request		(EWebView *web_view,
 GInputStream *	e_web_view_request_finish	(EWebView *web_view,
 						 GAsyncResult *result,
 						 GError **error);
+void		e_web_view_register_uri_scheme	(EWebView *web_view,
+						 EURIScheme scheme,
+						 gpointer user_callback,
+						 gpointer user_data);
 void		e_web_view_install_request_handler
 						(EWebView *web_view,
 						 GType handler_type);
