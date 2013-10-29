@@ -86,48 +86,22 @@ web_inspector_key_press_event_cb (WebKitWebView *web_view,
 	return handled;
 }
 
-static WebKitWebView *
-web_inspector_inspect_web_view_cb (WebKitWebInspector *inspector)
-{
-	GtkWidget *web_view;
-	GtkWidget *window;
-	const gchar *title;
-
-	title = _("Evolution Web Inspector");
-	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_title (GTK_WINDOW (window), title);
-	gtk_widget_set_size_request (window, 600, 400);
-	gtk_widget_show (window);
-
-	web_view = webkit_web_view_new ();
-	gtk_container_add (GTK_CONTAINER (window), web_view);
-	gtk_widget_show (web_view);
-
-	return WEBKIT_WEB_VIEW (web_view);
-}
-
 static void
 web_inspector_constructed (GObject *object)
 {
 	EWebInspector *extension;
 	WebKitWebView *web_view;
 	WebKitWebSettings *settings;
-	WebKitWebInspector *inspector;
 
 	extension = E_WEB_INSPECTOR (object);
 	web_view = web_inspector_get_web_view (extension);
 	settings = webkit_web_view_get_settings (web_view);
-	inspector = webkit_web_view_get_inspector (web_view);
 
 	g_object_set (settings, "enable-developer-extras", TRUE, NULL);
 
 	g_signal_connect (
 		web_view, "key-press-event",
 		G_CALLBACK (web_inspector_key_press_event_cb), NULL);
-
-	g_signal_connect (
-		inspector, "inspect-web-view",
-		G_CALLBACK (web_inspector_inspect_web_view_cb), NULL);
 }
 
 static void
