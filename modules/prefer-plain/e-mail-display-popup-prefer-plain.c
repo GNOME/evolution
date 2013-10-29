@@ -24,6 +24,8 @@
 #include <shell/e-shell-window.h>
 #include "mail/e-mail-browser.h"
 
+#include "web-extension/module-prefer-plain-web-extension.h"
+
 #include <libebackend/libebackend.h>
 
 #include <glib/gi18n-lib.h>
@@ -36,12 +38,13 @@ typedef struct _EMailDisplayPopupPreferPlainClass EMailDisplayPopupPreferPlainCl
 struct _EMailDisplayPopupPreferPlain {
 	EExtension parent;
 
-	WebKitDOMDocument *document;
 	gchar *text_plain_id;
 	gchar *text_html_id;
 
 	GtkActionGroup *action_group;
 
+	GDBusProxy *web_extension;
+	gint web_extension_watch_name_id;
 };
 
 struct _EMailDisplayPopupPreferPlainClass {
@@ -91,20 +94,94 @@ static const gchar *ui_reader =
 "</ui>";
 
 static void
+web_extension_proxy_created_cb (GDBusProxy *proxy,
+                                GAsyncResult *result,
+                                EMailDisplayPopupPreferPlain *pp_extension)
+{
+	GError *error = NULL;
+
+	pp_extension->web_extension = g_dbus_proxy_new_finish (result, &error);
+	if (!pp_extension->web_extension) {
+		g_warning ("Error creating web extension proxy: %s\n", error->message);
+		g_error_free (error);
+	}
+}
+
+static void
+web_extension_appeared_cb (GDBusConnection *connection,
+                           const gchar *name,
+                           const gchar *name_owner,
+                           EMailDisplayPopupPreferPlain *pp_extension)
+{
+	g_dbus_proxy_new (
+		connection,
+		G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START |
+		G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES |
+		G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS,
+		NULL,
+		name,
+		MODULE_PREFER_PLAIN_WEB_EXTENSION_OBJECT_PATH,
+		MODULE_PREFER_PLAIN_WEB_EXTENSION_INTERFACE,
+		NULL,
+		(GAsyncReadyCallback)web_extension_proxy_created_cb,
+		pp_extension);
+}
+
+static void
+web_extension_vanished_cb (GDBusConnection *connection,
+                           const gchar *name,
+                           EMailDisplayPopupPreferPlain *pp_extension)
+{
+	g_clear_object (&pp_extension->web_extension);
+}
+
+static void
+mail_display_popup_prefer_plain_watch_web_extension (EMailDisplayPopupPreferPlain *pp_extension)
+{
+	char *service_name;
+
+	service_name = g_strdup_printf ("%s-%u", MODULE_PREFER_PLAIN_WEB_EXTENSION_SERVICE_NAME, getpid ());
+	pp_extension->web_extension_watch_name_id =
+		g_bus_watch_name (
+			G_BUS_TYPE_SESSION,
+			service_name,
+			G_BUS_NAME_WATCHER_FLAGS_NONE,
+			(GBusNameAppearedCallback) web_extension_appeared_cb,
+			(GBusNameVanishedCallback) web_extension_vanished_cb,
+			pp_extension, NULL);
+
+	g_free (service_name);
+}
+
+static void
 toggle_part (GtkAction *action,
              EMailDisplayPopupExtension *extension)
 {
 	EMailDisplayPopupPreferPlain *pp_extension = (EMailDisplayPopupPreferPlain *) extension;
-	WebKitDOMDocument *doc = pp_extension->document;
-	WebKitDOMDOMWindow *window;
-	WebKitDOMElement *frame_element;
 	SoupURI *soup_uri;
 	GHashTable *query;
+	const gchar *document_uri;
 	gchar *uri;
 
-	uri = webkit_dom_document_get_document_uri (doc);
-	soup_uri = soup_uri_new (uri);
-	g_free (uri);
+	if (pp_extension->web_extension) {
+		GVariant *result;
+
+		/* Get URI from saved document */
+		result = g_dbus_proxy_call_sync (
+				pp_extension->web_extension,
+				"GetDocumentURI",
+				NULL,
+				G_DBUS_CALL_FLAGS_NONE,
+				-1,
+				NULL,
+				NULL);
+		if (result) {
+			document_uri = g_variant_get_string (result, NULL);
+			g_variant_unref (result);
+		}
+	}
+
+	soup_uri = soup_uri_new (document_uri);
 
 	query = soup_form_decode (soup_uri->query);
 	g_hash_table_replace (
@@ -125,10 +202,20 @@ toggle_part (GtkAction *action,
 	soup_uri_free (soup_uri);
 
 	/* Get frame's window and from the window the actual <iframe> element */
-	window = webkit_dom_document_get_default_view (doc);
-	frame_element = webkit_dom_dom_window_get_frame_element (window);
-	webkit_dom_html_iframe_element_set_src (
-		WEBKIT_DOM_HTML_IFRAME_ELEMENT (frame_element), uri);
+	if (pp_extension->web_extension) {
+		GVariant *result;
+
+		result = g_dbus_proxy_call_sync (
+				pp_extension->web_extension,
+				"ChangeIFrameSource",
+				g_variant_new ("(s)", uri),
+				G_DBUS_CALL_FLAGS_NONE,
+				-1,
+				NULL,
+				NULL);
+		if (result)
+			g_variant_unref (result);
+	}
 
 	g_free (uri);
 }
@@ -223,8 +310,8 @@ mail_display_popup_prefer_plain_update_actions (EMailDisplayPopupExtension *exte
 {
 	EMailDisplay *display;
 	GtkAction *action;
-	WebKitDOMNode *node;
-	gchar *uri, *part_id, *pos, *prefix;
+	gchar *part_id, *pos, *prefix;
+	const gchar *document_uri;
 	SoupURI *soup_uri;
 	GHashTable *query;
 	EMailPartList *part_list;
@@ -233,6 +320,9 @@ mail_display_popup_prefer_plain_update_actions (EMailDisplayPopupExtension *exte
 	EMailDisplayPopupPreferPlain *pp_extension;
 	GQueue queue = G_QUEUE_INIT;
 	GList *head, *link;
+	gint32 x, y;
+	GdkDeviceManager *device_manager;
+	GdkDevice *pointer;
 
 	display = E_MAIL_DISPLAY (e_extension_get_extensible (
 			E_EXTENSION (extension)));
@@ -242,22 +332,52 @@ mail_display_popup_prefer_plain_update_actions (EMailDisplayPopupExtension *exte
 	if (!pp_extension->action_group)
 		pp_extension->action_group = create_group (extension);
 
-	g_object_get (context, "inner-node", &node, NULL);
+	/* In WK2 you can't get the node on what WebKitHitTest was performed,
+	 * we have to use other way */
+	device_manager = gdk_display_get_device_manager (
+		gtk_widget_get_display (GTK_WIDGET(display)));
+	pointer = gdk_device_manager_get_client_pointer (device_manager);
+	gdk_window_get_device_position (
+		gtk_widget_get_window (GTK_WIDGET (display)), pointer, &x, &y, NULL);
 
-	if (!node) {
-		gtk_action_group_set_visible (pp_extension->action_group, FALSE);
-		return;
+	if (pp_extension->web_extension) {
+		GVariant *result;
+
+		result = g_dbus_proxy_call_sync (
+				pp_extension->web_extension,
+				"SaveDocumentFromPoint",
+				g_variant_new (
+					"(tii)",
+					webkit_web_view_get_page_id (
+						WEBKIT_WEB_VIEW (display)),
+					x, y),
+				G_DBUS_CALL_FLAGS_NONE,
+				-1,
+				NULL,
+				NULL);
+		if (result)
+			g_variant_unref (result);
+
+		/* Get URI from saved document */
+		result = g_dbus_proxy_call_sync (
+				pp_extension->web_extension,
+				"GetDocumentURI",
+				NULL,
+				G_DBUS_CALL_FLAGS_NONE,
+				-1,
+				NULL,
+				NULL);
+		if (result) {
+			document_uri = g_variant_get_string (result, NULL);
+			g_variant_unref (result);
+		}
 	}
 
-	pp_extension->document = webkit_dom_node_get_owner_document (node);
-	uri = webkit_dom_document_get_document_uri (pp_extension->document);
-
-	soup_uri = soup_uri_new (uri);
+	soup_uri = soup_uri_new (document_uri);
 	if (!soup_uri || !soup_uri->query) {
 		gtk_action_group_set_visible (pp_extension->action_group, FALSE);
 		if (soup_uri)
 			soup_uri_free (soup_uri);
-		g_free (uri);
 		return;
 	}
 
@@ -267,7 +387,6 @@ mail_display_popup_prefer_plain_update_actions (EMailDisplayPopupExtension *exte
 		gtk_action_group_set_visible (pp_extension->action_group, FALSE);
 		g_hash_table_destroy (query);
 		soup_uri_free (soup_uri);
-		g_free (uri);
 		return;
 	}
 
@@ -276,7 +395,6 @@ mail_display_popup_prefer_plain_update_actions (EMailDisplayPopupExtension *exte
 		gtk_action_group_set_visible (pp_extension->action_group, FALSE);
 		g_hash_table_destroy (query);
 		soup_uri_free (soup_uri);
-		g_free (uri);
 		return;
 	}
 
@@ -285,7 +403,6 @@ mail_display_popup_prefer_plain_update_actions (EMailDisplayPopupExtension *exte
 		gtk_action_group_set_visible (pp_extension->action_group, FALSE);
 		g_hash_table_destroy (query);
 		soup_uri_free (soup_uri);
-		g_free (uri);
 		return;
 	}
 
@@ -356,7 +473,6 @@ mail_display_popup_prefer_plain_update_actions (EMailDisplayPopupExtension *exte
 	g_free (prefix);
 	g_hash_table_destroy (query);
 	soup_uri_free (soup_uri);
-	g_free (uri);
 }
 
 void
@@ -375,6 +491,11 @@ e_mail_display_popup_prefer_plain_dispose (GObject *object)
 	if (extension->action_group != NULL) {
 		g_object_unref (extension->action_group);
 		extension->action_group = NULL;
+	}
+
+	if (extension->web_extension_watch_name_id > 0) {
+		g_bus_unwatch_name (extension->web_extension_watch_name_id);
+		extension->web_extension_watch_name_id = 0;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -429,5 +550,7 @@ e_mail_display_popup_prefer_plain_init (EMailDisplayPopupPreferPlain *extension)
 	extension->action_group = NULL;
 	extension->text_html_id = NULL;
 	extension->text_plain_id = NULL;
-	extension->document = NULL;
+	extension->web_extension = NULL;
+
+	mail_display_popup_prefer_plain_watch_web_extension (extension);
 }

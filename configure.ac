@@ -1548,6 +1548,7 @@ modules/plugin-lib/Makefile
 modules/plugin-manager/Makefile
 modules/prefer-plain/Makefile
 modules/prefer-plain/plugin/Makefile
+modules/prefer-plain/web-extension/Makefile
 modules/settings/Makefile
 modules/spamassassin/Makefile
 modules/startup-wizard/Makefile
