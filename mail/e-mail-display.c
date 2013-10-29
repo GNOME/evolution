@@ -848,11 +848,13 @@ add_color_css_rule_for_web_view (EWebView *view,
 	else
 		style = g_strconcat ("background-color: ", color_value, " !important;", NULL);
 
-	e_web_view_add_css_rule_into_style_sheet (
+	e_web_view_add_css_rule_into_style_sheet_sync (
 		view,
 		"-e-mail-formatter-style-sheet",
 		selector,
-		style);
+		style,
+		NULL,
+		NULL);
 
 	g_free (style);
 	g_free (selector);
