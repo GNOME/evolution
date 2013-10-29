@@ -40,6 +40,8 @@
 #include "em-composer-utils.h"
 #include "em-utils.h"
 
+#include <web-extensions/evolution-web-extension.h>
+
 #define d(x)
 
 #define E_MAIL_DISPLAY_GET_PRIVATE(obj) \
@@ -60,6 +62,8 @@ struct _EMailDisplayPrivate {
 	GHashTable *widgets;
 
 	guint scheduled_reload;
+
+	guint web_extension_headers_collapsed_signal_id;
 };
 
 enum {
@@ -292,6 +296,7 @@ decide_policy_cb (WebKitWebView *web_view,
 	return FALSE;
 }
 
+#if 0
 static void
 mail_display_resource_requested (WebKitWebView *web_view,
                                  WebKitWebFrame *frame,
@@ -723,114 +728,7 @@ exit:
 
 	return widget;
 }
-
-static void
-toggle_headers_visibility (WebKitDOMElement *button,
-                           WebKitDOMEvent *event,
-                           WebKitWebView *web_view)
-{
-	WebKitDOMDocument *document;
-	WebKitDOMElement *short_headers, *full_headers;
-	WebKitDOMCSSStyleDeclaration *css_short, *css_full;
-	gboolean expanded;
-	const gchar *path;
-	gchar *css_value;
-
-	document = webkit_web_view_get_dom_document (web_view);
-
-	short_headers = webkit_dom_document_get_element_by_id (
-		document, "__evo-short-headers");
-	if (short_headers == NULL)
-		return;
-
-	css_short = webkit_dom_element_get_style (short_headers);
-
-	full_headers = webkit_dom_document_get_element_by_id (
-		document, "__evo-full-headers");
-	if (full_headers == NULL)
-		return;
-
-	css_full = webkit_dom_element_get_style (full_headers);
-	css_value = webkit_dom_css_style_declaration_get_property_value (
-		css_full, "display");
-	expanded = (g_strcmp0 (css_value, "table") == 0);
-	g_free (css_value);
-
-	webkit_dom_css_style_declaration_set_property (
-		css_full, "display",
-		expanded ? "none" : "table", "", NULL);
-	webkit_dom_css_style_declaration_set_property (
-		css_short, "display",
-		expanded ? "table" : "none", "", NULL);
-
-	if (expanded)
-		path = "evo-file://" EVOLUTION_IMAGESDIR "/plus.png";
-	else
-		path = "evo-file://" EVOLUTION_IMAGESDIR "/minus.png";
-
-	webkit_dom_html_image_element_set_src (
-		WEBKIT_DOM_HTML_IMAGE_ELEMENT (button), path);
-
-	e_mail_display_set_headers_collapsed (
-		E_MAIL_DISPLAY (web_view), expanded);
-
-	d (printf ("Headers %s!\n", expanded ? "collapsed" : "expanded"));
-}
-
-static void
-toggle_address_visibility (WebKitDOMElement *button,
-                           WebKitDOMEvent *event)
-{
-	WebKitDOMElement *full_addr, *ellipsis;
-	WebKitDOMElement *parent;
-	WebKitDOMCSSStyleDeclaration *css_full, *css_ellipsis;
-	const gchar *path;
-	gboolean expanded;
-
-	/* <b> element */
-	parent = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (button));
-	/* <td> element */
-	parent = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (parent));
-
-	full_addr = webkit_dom_element_query_selector (parent, "#__evo-moreaddr", NULL);
-
-	if (!full_addr)
-		return;
-
-	css_full = webkit_dom_element_get_style (full_addr);
-
-	ellipsis = webkit_dom_element_query_selector (parent, "#__evo-moreaddr-ellipsis", NULL);
-
-	if (!ellipsis)
-		return;
-
-	css_ellipsis = webkit_dom_element_get_style (ellipsis);
-
-	expanded = (g_strcmp0 (
-		webkit_dom_css_style_declaration_get_property_value (
-		css_full, "display"), "inline") == 0);
-
-	webkit_dom_css_style_declaration_set_property (
-		css_full, "display", (expanded ? "none" : "inline"), "", NULL);
-	webkit_dom_css_style_declaration_set_property (
-		css_ellipsis, "display", (expanded ? "inline" : "none"), "", NULL);
-
-	if (expanded)
-		path = "evo-file://" EVOLUTION_IMAGESDIR "/plus.png";
-	else
-		path = "evo-file://" EVOLUTION_IMAGESDIR "/minus.png";
-
-	if (!WEBKIT_DOM_IS_HTML_IMAGE_ELEMENT (button)) {
-		button = webkit_dom_element_query_selector (parent, "#__evo-moreaddr-img", NULL);
-
-		if (!button)
-			return;
-	}
-
-	webkit_dom_html_image_element_set_src (
-		WEBKIT_DOM_HTML_IMAGE_ELEMENT (button), path);
-}
-
+#endif
 static void
 add_color_css_rule_for_web_view (EWebView *view,
 				 const char *color_name,
@@ -888,116 +786,130 @@ initialize_web_view_colors (EMailDisplay *display)
 }
 
 static void
-setup_dom_bindings (GObject *object,
-                    GParamSpec *pspec,
-                    gpointer user_data)
+headers_collapsed_signal_cb (GDBusConnection *connection,
+                          const gchar *sender_name,
+                          const gchar *object_path,
+                          const gchar *interface_name,
+                          const gchar *signal_name,
+                          GVariant *parameters,
+                          EMailDisplay *display)
 {
-	WebKitWebView *web_view;
-	WebKitWebFrame *frame;
-	WebKitLoadStatus load_status;
-	WebKitDOMDocument *document;
-	WebKitDOMElement *button;
-	WebKitDOMNodeList *list;
-	gint length, ii = 0;
+	gboolean expanded;
 
-	frame = WEBKIT_WEB_FRAME (object);
-	load_status = webkit_web_frame_get_load_status (frame);
-	if (load_status != WEBKIT_LOAD_FINISHED)
+	if (g_strcmp0 (signal_name, "HeadersCollapsed") != 0)
 		return;
 
-	web_view = webkit_web_frame_get_web_view (frame);
-	document = webkit_web_view_get_dom_document (web_view);
+	if (parameters)
+		g_variant_get (parameters, "(b)", &expanded);
 
-	button = webkit_dom_document_get_element_by_id (
-		document, "__evo-collapse-headers-img");
-	if (button != NULL)
-		webkit_dom_event_target_add_event_listener (
-			WEBKIT_DOM_EVENT_TARGET (button), "click",
-			G_CALLBACK (toggle_headers_visibility),
-			FALSE, web_view);
+	e_mail_display_set_headers_collapsed (
+		display, expanded);
+}
 
-	list = webkit_dom_document_query_selector_all (document, "*[id^=__evo-moreaddr-]", NULL);
+static void
+setup_dom_bindings (WebKitWebView *web_view,
+                    WebKitLoadEvent load_event,
+                    gpointer user_data)
+{
+	GDBusProxy *web_extension;
+	EMailDisplay *display;
+	GVariant* result;
 
-	length = webkit_dom_node_list_get_length (list);
+	if (load_event != WEBKIT_LOAD_FINISHED)
+		return;
 
-	for (ii = 0; ii < length; ii++) {
-		button = WEBKIT_DOM_ELEMENT (webkit_dom_node_list_item (list, ii));
+	display = E_MAIL_DISPLAY (web_view);
 
-		webkit_dom_event_target_add_event_listener (
-			WEBKIT_DOM_EVENT_TARGET (button), "click",
-			G_CALLBACK (toggle_address_visibility), FALSE,
+	web_extension = e_web_view_get_web_extension_proxy (E_WEB_VIEW (web_view));
+
+	display->priv->web_extension_headers_collapsed_signal_id =
+		g_dbus_connection_signal_subscribe (
+			g_dbus_proxy_get_connection (web_extension),
+			g_dbus_proxy_get_name (web_extension),
+			EVOLUTION_WEB_EXTENSION_INTERFACE,
+			"RecurToggled",
+			EVOLUTION_WEB_EXTENSION_OBJECT_PATH,
+			NULL,
+			G_DBUS_SIGNAL_FLAGS_NONE,
+			(GDBusSignalCallback) headers_collapsed_signal_cb,
+			display,
 			NULL);
+
+	if (web_extension) {
+		result = g_dbus_proxy_call_sync (
+				web_extension,
+				"EMailDisplayBindDOM",
+				g_variant_new (
+					"(t)",
+					webkit_web_view_get_page_id (web_view)),
+				G_DBUS_CALL_FLAGS_NONE,
+				-1,
+				NULL,
+				NULL);
+		if (result)
+			g_variant_unref (result);
 	}
 }
 
 static void
-mail_parts_bind_dom (GObject *object,
-                     GParamSpec *pspec,
+mail_parts_bind_dom (WebKitWebView *web_view,
+                     WebKitLoadEvent load_event,
                      gpointer user_data)
 {
-	WebKitWebFrame *frame;
-	WebKitLoadStatus load_status;
-	WebKitWebView *web_view;
-	WebKitDOMDocument *document;
 	EMailDisplay *display;
 	GQueue queue = G_QUEUE_INIT;
 	GList *head, *link;
-	const gchar *frame_name;
+	GDBusProxy *web_extension;
 
-	frame = WEBKIT_WEB_FRAME (object);
-	load_status = webkit_web_frame_get_load_status (frame);
-
-	if (load_status != WEBKIT_LOAD_FINISHED)
+	if (load_event != WEBKIT_LOAD_FINISHED)
 		return;
 
-	web_view = webkit_web_frame_get_web_view (frame);
 	display = E_MAIL_DISPLAY (web_view);
 	if (display->priv->part_list == NULL)
 		return;
 
 	initialize_web_view_colors (display);
-	frame_name = webkit_web_frame_get_name (frame);
-	if (frame_name == NULL || *frame_name == '\0')
-		frame_name = ".message.headers";
 
-	document = webkit_web_view_get_dom_document (web_view);
+	web_extension = e_web_view_get_web_extension_proxy (E_WEB_VIEW (display));
+	if (!web_extension)
+		return;
 
 	e_mail_part_list_queue_parts (
-		display->priv->part_list, frame_name, &queue);
+		display->priv->part_list, NULL, &queue);
 	head = g_queue_peek_head_link (&queue);
 
 	for (link = head; link != NULL; link = g_list_next (link)) {
 		EMailPart *part = E_MAIL_PART (link->data);
-		WebKitDOMElement *element;
 		const gchar *part_id;
-
-		/* Iterate only the parts rendered in
-		 * the frame and all it's subparts. */
-		if (!e_mail_part_id_has_prefix (part, frame_name))
-			break;
+		GVariant *result;
+		gboolean element_exists = FALSE;
 
 		part_id = e_mail_part_get_id (part);
-		element = find_element_by_id (document, part_id);
 
-		if (element != NULL)
-			e_mail_part_bind_dom_element (part, element);
+		result = g_dbus_proxy_call_sync (
+				web_extension,
+				"ElementExists",
+				g_variant_new (
+					"(ts)",
+					webkit_web_view_get_page_id (
+						WEBKIT_WEB_VIEW (display)),
+					part_id),
+				G_DBUS_CALL_FLAGS_NONE,
+				-1,
+				NULL,
+				NULL);
+
+		if (result) {
+			g_variant_get (result, "(b)", &element_exists);
+			g_variant_unref (result);
+		}
+
+		if (element_exists)
+			e_mail_part_bind_dom_element (part, part_id);
 	}
 
 	while (!g_queue_is_empty (&queue))
 		g_object_unref (g_queue_pop_head (&queue));
-}
-
-static void
-mail_display_frame_created (WebKitWebView *web_view,
-                            WebKitWebFrame *frame,
-                            gpointer user_data)
-{
-	d (printf ("Frame %s created!\n", webkit_web_frame_get_name (frame)));
-
-	/* Call bind_func of all parts written in this frame */
-	g_signal_connect (
-		frame, "notify::load-status",
-		G_CALLBACK (mail_parts_bind_dom), NULL);
 }
 
 static void
@@ -1126,6 +1038,14 @@ mail_display_dispose (GObject *object)
 		g_signal_handlers_disconnect_matched (
 			priv->settings, G_SIGNAL_MATCH_DATA,
 			0, 0, NULL, NULL, object);
+
+	if (priv->web_extension_headers_collapsed_signal_id > 0) {
+		g_dbus_connection_signal_unsubscribe (
+			g_dbus_proxy_get_connection (
+				e_web_view_get_web_extension_proxy (E_WEB_VIEW (object))),
+			priv->web_extension_headers_collapsed_signal_id);
+		priv->web_extension_headers_collapsed_signal_id = 0;
+	}
 
 	g_clear_object (&priv->part_list);
 	g_clear_object (&priv->formatter);
@@ -1424,7 +1344,6 @@ e_mail_display_class_init (EMailDisplayClass *class)
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->realize = mail_display_realize;
 	widget_class->style_updated = mail_display_style_updated;
-	widget_class->button_press_event = mail_display_button_press_event;
 
 	web_view_class = E_WEB_VIEW_CLASS (class);
 	web_view_class->redirect_uri = mail_display_redirect_uri;
@@ -1491,8 +1410,7 @@ e_mail_display_init (EMailDisplay *display)
 {
 	GtkUIManager *ui_manager;
 	const gchar *user_cache_dir;
-	WebKitWebSettings *settings;
-	WebKitWebFrame *main_frame;
+	WebKitSettings *settings;
 	GtkActionGroup *actions;
 
 	display->priv = E_MAIL_DISPLAY_GET_PRIVATE (display);
@@ -1504,26 +1422,21 @@ e_mail_display_init (EMailDisplay *display)
 	display->priv->force_image_load = FALSE;
 	display->priv->scheduled_reload = 0;
 
-	webkit_web_view_set_full_content_zoom (WEBKIT_WEB_VIEW (display), TRUE);
-
 	settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (display));
 	g_object_set (settings, "enable-frame-flattening", TRUE, NULL);
 
 	g_signal_connect (
 		display, "decide-policy",
 		G_CALLBACK (decide_policy_cb), NULL);
-	g_signal_connect (
+/*	g_signal_connect (
 		display, "resource-request-starting",
-		G_CALLBACK (mail_display_resource_requested), NULL);
+		G_CALLBACK (mail_display_resource_requested), NULL);*/
 	g_signal_connect (
 		display, "process-mailto",
 		G_CALLBACK (mail_display_process_mailto), NULL);
-	g_signal_connect (
+/*	g_signal_connect (
 		display, "create-plugin-widget",
-		G_CALLBACK (mail_display_plugin_widget_requested), NULL);
-	g_signal_connect (
-		display, "frame-created",
-		G_CALLBACK (mail_display_frame_created), NULL);
+		G_CALLBACK (mail_display_plugin_widget_requested), NULL);*/
 	g_signal_connect (
 		display, "notify::uri",
 		G_CALLBACK (mail_display_uri_changed), NULL);
@@ -1541,12 +1454,11 @@ e_mail_display_init (EMailDisplay *display)
 
 	e_web_view_update_fonts (E_WEB_VIEW (display));
 
-	main_frame = webkit_web_view_get_main_frame (WEBKIT_WEB_VIEW (display));
 	g_signal_connect (
-		main_frame, "notify::load-status",
+		display, "notify::load-changed",
 		G_CALLBACK (setup_dom_bindings), NULL);
 	g_signal_connect (
-		main_frame, "notify::load-status",
+		display, "notify::load-changed",
 		G_CALLBACK (mail_parts_bind_dom), NULL);
 
 	actions = e_web_view_get_action_group (E_WEB_VIEW (display), "mailto");

@@ -18,6 +18,8 @@
 
 #include "e-dom-utils.h"
 
+#include "../web-extensions/evolution-web-extension.h"
+
 #include <config.h>
 
 static void
@@ -448,25 +450,244 @@ collapse_contacts_list (WebKitDOMEventTarget *event_target,
 	g_free (imagesdir);
 }
 
-void
-e_dom_utils_eab_contact_formatter_bind_dom (WebKitDOMDocument *document)
+static void
+toggle_headers_visibility (WebKitDOMElement *button,
+                           WebKitDOMEvent *event,
+                           WebKitDOMDocument *document)
+{
+	WebKitDOMElement *short_headers, *full_headers;
+	WebKitDOMCSSStyleDeclaration *css_short, *css_full;
+	gboolean expanded;
+	const gchar *path;
+	gchar *css_value;
+
+	short_headers = webkit_dom_document_get_element_by_id (
+		document, "__evo-short-headers");
+	if (short_headers == NULL)
+		return;
+
+	css_short = webkit_dom_element_get_style (short_headers);
+
+	full_headers = webkit_dom_document_get_element_by_id (
+		document, "__evo-full-headers");
+	if (full_headers == NULL)
+		return;
+
+	css_full = webkit_dom_element_get_style (full_headers);
+	css_value = webkit_dom_css_style_declaration_get_property_value (
+		css_full, "display");
+	expanded = (g_strcmp0 (css_value, "table") == 0);
+	g_free (css_value);
+
+	webkit_dom_css_style_declaration_set_property (
+		css_full, "display",
+		expanded ? "none" : "table", "", NULL);
+	webkit_dom_css_style_declaration_set_property (
+		css_short, "display",
+		expanded ? "table" : "none", "", NULL);
+
+	if (expanded)
+		path = "evo-file://" EVOLUTION_IMAGESDIR "/plus.png";
+	else
+		path = "evo-file://" EVOLUTION_IMAGESDIR "/minus.png";
+
+	webkit_dom_html_image_element_set_src (
+		WEBKIT_DOM_HTML_IMAGE_ELEMENT (button), path);
+}
+
+static void
+toggle_address_visibility (WebKitDOMElement *button,
+                           WebKitDOMEvent *event,
+			   GDBusConnection *connection)
+{
+	WebKitDOMElement *full_addr, *ellipsis;
+	WebKitDOMElement *parent;
+	WebKitDOMCSSStyleDeclaration *css_full, *css_ellipsis;
+	const gchar *path;
+	gboolean expanded;
+	GError *error = NULL;
+
+	/* <b> element */
+	parent = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (button));
+	/* <td> element */
+	parent = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (parent));
+
+	full_addr = webkit_dom_element_query_selector (parent, "#__evo-moreaddr", NULL);
+
+	if (!full_addr)
+		return;
+
+	css_full = webkit_dom_element_get_style (full_addr);
+
+	ellipsis = webkit_dom_element_query_selector (parent, "#__evo-moreaddr-ellipsis", NULL);
+
+	if (!ellipsis)
+		return;
+
+	css_ellipsis = webkit_dom_element_get_style (ellipsis);
+
+	expanded = (g_strcmp0 (
+		webkit_dom_css_style_declaration_get_property_value (
+		css_full, "display"), "inline") == 0);
+
+	webkit_dom_css_style_declaration_set_property (
+		css_full, "display", (expanded ? "none" : "inline"), "", NULL);
+	webkit_dom_css_style_declaration_set_property (
+		css_ellipsis, "display", (expanded ? "inline" : "none"), "", NULL);
+
+	if (expanded)
+		path = "evo-file://" EVOLUTION_IMAGESDIR "/plus.png";
+	else
+		path = "evo-file://" EVOLUTION_IMAGESDIR "/minus.png";
+
+	if (!WEBKIT_DOM_IS_HTML_IMAGE_ELEMENT (button)) {
+		button = webkit_dom_element_query_selector (parent, "#__evo-moreaddr-img", NULL);
+
+		if (!button)
+			return;
+	}
+
+	webkit_dom_html_image_element_set_src (
+		WEBKIT_DOM_HTML_IMAGE_ELEMENT (button), path);
+
+	g_dbus_connection_emit_signal (
+		connection,
+		NULL,
+		EVOLUTION_WEB_EXTENSION_OBJECT_PATH,
+		EVOLUTION_WEB_EXTENSION_INTERFACE,
+		"HeadersCollapsed"
+		g_variant_new ("(b)", expanded),
+		&error);
+
+	if (error) {
+		g_warning ("Error emitting signal HeadersCollapsed: %s\n", error->message);
+		g_error_free (error);
+	}
+}
+
+static void
+e_dom_utils_bind_dom (WebKitDOMDocument *document,
+                      const gchar *selector,
+                      const gchar *event,
+                      gpointer callback,
+                      gpointer user_data)
 {
 	WebKitDOMNodeList *nodes;
 	gulong ii, length;
 
-	nodes = webkit_dom_document_get_elements_by_class_name (
-		document, "_evo_collapse_button");
+	nodes = webkit_dom_document_query_selector_all (
+			document, selector, NULL);
 
 	length = webkit_dom_node_list_get_length (nodes);
 	for (ii = 0; ii < length; ii++) {
-
 		WebKitDOMNode *node;
 
 		node = webkit_dom_node_list_item (nodes, ii);
 		webkit_dom_event_target_add_event_listener (
-			WEBKIT_DOM_EVENT_TARGET (node), "click",
-			G_CALLBACK (collapse_contacts_list), FALSE, document);
+			WEBKIT_DOM_EVENT_TARGET (node), event,
+			G_CALLBACK (callback), FALSE, user_data);
 	}
+}
+
+void
+e_dom_utils_e_mail_display_bind_dom (WebKitDOMDocument *document,
+                                     GDBusConnection *connection)
+{
+	e_dom_utils_bind_dom (
+		document,
+		"#__evo-collapse-headers-img",
+		"click",
+		toggle_headers_visibility,
+		document);
+
+	e_dom_utils_bind_dom (
+		document,
+		"*[id^=__evo-moreaddr-]",
+		"click",
+		toggle_address_visibility,
+		connetion);
+}
+
+void
+e_dom_utils_eab_contact_formatter_bind_dom (WebKitDOMDocument *document)
+{
+	e_dom_utils_bind_dom (
+		document,
+		"._evo_collapse_button",
+		"click",
+		collapse_contacts_list,
+		document);
+}
+
+/* ! This function can be called only from WK2 web-extension ! */
+WebKitDOMElement *
+e_dom_utils_find_element_by_id (WebKitDOMDocument *document,
+                                const gchar *id)
+{
+	WebKitDOMNodeList *frames;
+	WebKitDOMElement *element;
+	gulong ii, length;
+
+	/* Try to look up the element in this DOM document */
+	element = webkit_dom_document_get_element_by_id (document, id);
+	if (element != NULL)
+		return element;
+
+	/* If the element is not here then recursively scan all frames */
+	frames = webkit_dom_document_get_elements_by_tag_name (
+		document, "iframe");
+	length = webkit_dom_node_list_get_length (frames);
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMHTMLIFrameElement *iframe;
+		WebKitDOMDocument *frame_doc;
+		WebKitDOMElement *element;
+
+		iframe = WEBKIT_DOM_HTML_IFRAME_ELEMENT (
+			webkit_dom_node_list_item (frames, ii));
+
+		frame_doc = webkit_dom_html_iframe_element_get_content_document (iframe);
+
+		element = e_dom_utils_find_element_by_id (frame_doc, id);
+
+		if (element != NULL)
+			return element;
+	}
+
+	return NULL;
+}
+
+gboolean
+e_dom_utils_element_exists (WebKitDOMDocument *document,
+                            const gchar *element_id)
+{
+	WebKitDOMNodeList *frames;
+	gboolean element_exists = FALSE;
+	gulong ii, length;
+
+	/* Try to look up the element in this DOM document */
+	if (webkit_dom_document_get_element_by_id (document, element_id))
+		return TRUE;
+
+	/* If the element is not here then recursively scan all frames */
+	frames = webkit_dom_document_get_elements_by_tag_name (
+		document, "iframe");
+	length = webkit_dom_node_list_get_length (frames);
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMHTMLIFrameElement *iframe;
+		WebKitDOMDocument *frame_doc;
+
+		iframe = WEBKIT_DOM_HTML_IFRAME_ELEMENT (
+			webkit_dom_node_list_item (frames, ii));
+
+		frame_doc = webkit_dom_html_iframe_element_get_content_document (iframe);
+
+		element_exists = e_dom_utils_element_exists (frame_doc, element_id);
+
+		if (element_exists)
+			return TRUE;
+	}
+
+	return FALSE;
 }
 
 gchar *
@@ -483,3 +704,34 @@ e_dom_utils_get_active_element_name (WebKitDOMDocument *document)
 	return webkit_dom_node_get_local_name (WEBKIT_DOM_NODE (element));
 }
 
+void
+e_dom_utils_e_mail_part_headers_bind_dom_element (WebKitDOMDocument *document,
+                                                  const gchar *element_id)
+{
+	WebKitDOMDocument *element_document;
+	WebKitDOMElement *element;
+	WebKitDOMElement *photo;
+	gchar *addr, *uri;
+
+	element = e_dom_utils_find_element_by_id (document, element_id);
+	if (!element)
+		return;
+
+	element_document = webkit_dom_node_get_owner_document (
+		WEBKIT_DOM_NODE (element));
+	photo = webkit_dom_document_get_element_by_id (
+		element_document, "__evo-contact-photo");
+
+	/* Contact photos disabled, the <img> tag is not there. */
+	if (!photo)
+		return;
+
+	addr = webkit_dom_element_get_attribute (photo, "data-mailaddr");
+	uri = g_strdup_printf ("mail://contact-photo?mailaddr=%s", addr);
+
+	webkit_dom_html_image_element_set_src (
+		WEBKIT_DOM_HTML_IMAGE_ELEMENT (photo), uri);
+
+	g_free (addr);
+	g_free (uri);
+}

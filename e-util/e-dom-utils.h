@@ -48,8 +48,20 @@ void		e_dom_utils_add_css_rule_into_style_sheet
 						 const gchar *style);
 void		e_dom_utils_eab_contact_formatter_bind_dom
 						(WebKitDOMDocument *document);
-gchar *	e_dom_utils_get_active_element_name
+void		e_dom_utils_e_mail_display_bind_dom
+						(WebKitDOMDocument *document,
+						 GDBusConnection *connection);
+WebKitDOMElement *
+		e_dom_utils_find_element_by_id	(WebKitDOMDocument *document,
+						 const gchar *element_id);
+gboolean	e_dom_utils_element_exists
+						(WebKitDOMDocument *document,
+						 const gchar *element_id);
+gchar *		e_dom_utils_get_active_element_name
 						(WebKitDOMDocument *document);
+void		e_dom_utils_e_mail_part_headers_bind_dom_element
+						(WebKitDOMDocument *document,
+						 const gchar *element_id);
 G_END_DECLS
 
 #endif /* E_DOM_UTILS_H */

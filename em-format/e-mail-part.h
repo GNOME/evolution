@@ -20,7 +20,6 @@
 #define E_MAIL_PART_H
 
 #include <camel/camel.h>
-#include <webkit/webkitdom.h>
 
 #include <e-util/e-util.h>
 
@@ -88,7 +87,7 @@ struct _EMailPartClass {
 	GObjectClass parent_class;
 
 	void		(*bind_dom_element)	(EMailPart *part,
-						 WebKitDOMElement *element);
+						 const gchar *element_id);
 };
 
 GType		e_mail_part_get_type		(void) G_GNUC_CONST;
@@ -116,7 +115,7 @@ gboolean	e_mail_part_get_is_attachment	(EMailPart *part);
 void		e_mail_part_set_is_attachment	(EMailPart *part,
 						 gboolean is_attachment);
 void		e_mail_part_bind_dom_element	(EMailPart *part,
-						 WebKitDOMElement *element);
+						 const gchar *element_id);
 void		e_mail_part_update_validity	(EMailPart *part,
 						 CamelCipherValidity *validity,
 						 EMailPartValidityFlags validity_type);

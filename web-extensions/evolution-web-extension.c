@@ -30,6 +30,9 @@ static GDBusConnection *dbus_connection;
 static const char introspection_xml[] =
 "<node>"
 "  <interface name='org.gnome.Evolution.WebExtension'>"
+"    <signal name='HeadersCollapsed'>"
+"      <arg type='b' name='expanded' direction='out'/>"
+"    </signal>"
 "    <method name='ReplaceLocalImageLinks'>"
 "      <arg type='t' name='page_id' direction='in'/>"
 "    </method>"
@@ -57,6 +60,14 @@ static const char introspection_xml[] =
 "    </method>"
 "    <method name='EABContactFormatterBindDOM'>"
 "      <arg type='t' name='page_id' direction='in'/>"
+"    </method>"
+"    <method name='EMailDisplayBindDOM'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"    </method>"
+"    <method name='ElementExists'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='element_id' direction='in'/>"
+"      <arg type='b' name='element_exists' direction='out'/>"
 "    </method>"
 "    <method name='GetActiveElementName'>"
 "      <arg type='t' name='page_id' direction='in'/>"
@@ -223,6 +234,30 @@ handle_method_call (GDBusConnection *connection,
 		e_dom_utils_eab_contact_formatter_bind_dom (document);
 
 		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "EMailDisplayBindDOM") == 0) {
+		g_variant_get (parameters, "(t)", &page_id);
+		web_page = get_webkit_web_page_or_return_dbus_error (invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		e_dom_utils_e_mail_display_bind_dom (document, connection);
+
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "ElementExists") == 0) {
+		const gchar *element_id;
+		gboolean element_exists;
+
+		g_variant_get (parameters, "(t&s)", &page_id, &element_id);
+		web_page = get_webkit_web_page_or_return_dbus_error (invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		element_exists = e_dom_utils_element_exists (document, element_id);
+
+		g_dbus_method_invocation_return_value (
+			invocation, g_variant_new ("(b)", element_exists));
 	} else if (g_strcmp0 (method_name, "GetActiveElementName") == 0) {
 		gchar *element_name;
 
