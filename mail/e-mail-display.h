@@ -89,10 +89,10 @@ GtkAction *	e_mail_display_get_action	(EMailDisplay *display,
 						 const gchar *action_name);
 void		e_mail_display_set_status	(EMailDisplay *display,
 						 const gchar *status);
-gchar *		e_mail_display_get_selection_plain_text_sync
+const gchar *	e_mail_display_get_selection_plain_text_sync
 						(EMailDisplay *display,
 						 GCancellable *cancellable,
-						 GError *error);
+						 GError **error);
 void		e_mail_display_load_images	(EMailDisplay *display);
 void		e_mail_display_set_force_load_images
 						(EMailDisplay *display,

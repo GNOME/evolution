@@ -1924,7 +1924,7 @@ e_mail_display_set_status (EMailDisplay *display,
 	g_free (str);
 }
 
-gchar *
+const gchar *
 e_mail_display_get_selection_plain_text_sync (EMailDisplay *display,
                                               GCancellable *cancellable,
                                               GError **error)
@@ -1939,7 +1939,7 @@ e_mail_display_get_selection_plain_text_sync (EMailDisplay *display,
 	web_extension = e_web_view_get_web_extension_proxy (E_WEB_VIEW (display));
 	if (web_extension) {
 		GVariant *result;
-		gchar *text_content = NULL;
+		const gchar *text_content = NULL;
 
 		result = g_dbus_proxy_call_sync (
 				web_extension,
@@ -1954,7 +1954,7 @@ e_mail_display_get_selection_plain_text_sync (EMailDisplay *display,
 				error);
 
 		if (result) {
-			g_variant_get (result, "(s)", &text_content);
+			text_content = g_variant_get_string (result, NULL);
 			g_variant_unref (result);
 			return text_content;
 		}
