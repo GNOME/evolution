@@ -547,10 +547,10 @@ web_view_create_plugin_widget_cb (EWebView *web_view,
 }
 
 static void
-web_view_hovering_over_link_cb (EWebView *web_view,
-                                WebKitHitTestResult *hit_test_result,
-				guint modifiers,
-                                gpointer user_data)
+web_view_mouse_target_changed_cb (EWebView *web_view,
+                                  WebKitHitTestResult *hit_test_result,
+                                  guint modifiers,
+                                  gpointer user_data)
 {
 	EWebViewClass *class;
 	const gchar *title, *uri;
@@ -1841,7 +1841,7 @@ e_web_view_init (EWebView *web_view)
 
 	g_signal_connect (
 		web_view, "mouse-target-changed",
-		G_CALLBACK (web_view_hovering_over_link_cb), NULL);
+		G_CALLBACK (web_view_mouse_target_changed_cb), NULL);
 
 	g_signal_connect (
 		web_view, "decide-policy",
