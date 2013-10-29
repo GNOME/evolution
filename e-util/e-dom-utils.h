@@ -62,6 +62,20 @@ gchar *		e_dom_utils_get_active_element_name
 void		e_dom_utils_e_mail_part_headers_bind_dom_element
 						(WebKitDOMDocument *document,
 						 const gchar *element_id);
+void		e_dom_utils_element_set_inner_html
+						(WebKitDOMDocument *document,
+						 const gchar *element_id,
+						 const gchar *inner_html);
+void		e_dom_utils_remove_element	(WebKitDOMDocument *document,
+						 const gchar *element_id);
+void		e_dom_utils_element_remove_child_nodes
+						(WebKitDOMDocument *document,
+						 const gchar *element_id);
+void		e_dom_utils_hide_element	(WebKitDOMDocument *document,
+						 const gchar *element_id,
+                                                 gboolean hide);
+gboolean	e_dom_utils_element_is_hidden	(WebKitDOMDocument *document,
+						 const gchar *element_id);
 G_END_DECLS
 
 #endif /* E_DOM_UTILS_H */

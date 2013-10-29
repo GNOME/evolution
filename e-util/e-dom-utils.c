@@ -735,3 +735,86 @@ e_dom_utils_e_mail_part_headers_bind_dom_element (WebKitDOMDocument *document,
 	g_free (addr);
 	g_free (uri);
 }
+
+void
+e_dom_utils_element_set_inner_html (WebKitDOMDocument *document,
+                                    const gchar *element_id,
+                                    const gchar *inner_html)
+{
+	WebKitDOMElement *element;
+
+	element = webkit_dom_document_get_element_by_id (document, element_id);
+
+	if (!element)
+		return;
+
+	webkit_dom_html_element_set_inner_html (
+		WEBKIT_DOM_HTML_ELEMENT (element), inner_html, NULL);
+}
+
+void
+e_dom_utils_remove_element (WebKitDOMDocument *document,
+                            const gchar *element_id)
+{
+	WebKitDOMElement *element;
+
+	element = webkit_dom_document_get_element_by_id (document, element_id);
+
+	if (!element)
+		return;
+
+	webkit_dom_node_remove_child (
+		webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
+		WEBKIT_DOM_NODE (element),
+		NULL);
+}
+
+void
+e_dom_utils_element_remove_child_nodes (WebKitDOMDocument *document,
+                                        const gchar *element_id)
+{
+	WebKitDOMNode *node;
+
+	node = WEBKIT_DOM_NODE (webkit_dom_document_get_element_by_id (document, element_id));
+
+	if (!node)
+		return;
+
+	while (webkit_dom_node_has_child_nodes (node)) {
+		webkit_dom_node_remove_child (
+			node,
+			webkit_dom_node_get_last_child (node),
+			NULL);
+	}
+}
+
+void
+e_dom_utils_hide_element (WebKitDOMDocument *document,
+                          const gchar *element_id,
+                          gboolean hide)
+{
+	WebKitDOMElement *element;
+
+	element = webkit_dom_document_get_element_by_id (document, element_id);
+
+	if (!element)
+		return;
+
+	webkit_dom_html_element_set_hidden (
+		WEBKIT_DOM_HTML_ELEMENT (element), hide);
+}
+
+gboolean
+e_dom_utils_element_is_hidden (WebKitDOMDocument *document,
+                               const gchar *element_id)
+{
+	WebKitDOMElement *element;
+
+	element = webkit_dom_document_get_element_by_id (document, element_id);
+
+	if (!element)
+		return FALSE;
+
+	return webkit_dom_html_element_get_hidden (
+		WEBKIT_DOM_HTML_ELEMENT (element));
+}
