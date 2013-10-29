@@ -555,7 +555,7 @@ toggle_address_visibility (WebKitDOMElement *button,
 		NULL,
 		EVOLUTION_WEB_EXTENSION_OBJECT_PATH,
 		EVOLUTION_WEB_EXTENSION_INTERFACE,
-		"HeadersCollapsed"
+		"HeadersCollapsed",
 		g_variant_new ("(b)", expanded),
 		&error);
 
@@ -605,7 +605,7 @@ e_dom_utils_e_mail_display_bind_dom (WebKitDOMDocument *document,
 		"*[id^=__evo-moreaddr-]",
 		"click",
 		toggle_address_visibility,
-		connetion);
+		connection);
 }
 
 void
