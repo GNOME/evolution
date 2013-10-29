@@ -151,7 +151,10 @@ handle_method_call (GDBusConnection *connection,
 		document = webkit_web_page_get_dom_document (web_page);
 		html_content = e_dom_utils_get_document_content_html (document);
 
-		g_dbus_method_invocation_return_value (invocation, g_variant_new ("(s)", html_content));
+		g_dbus_method_invocation_return_value (
+			invocation, g_variant_new ("(s)", html_content));
+
+		g_free (html_content);
 	} else if (g_strcmp0 (method_name, "GetSelectionContentHtml") == 0) {
 		gchar *html_content;
 
@@ -163,7 +166,10 @@ handle_method_call (GDBusConnection *connection,
 		document = webkit_web_page_get_dom_document (web_page);
 		html_content = e_dom_utils_get_selection_content_html (document);
 
-		g_dbus_method_invocation_return_value (invocation, g_variant_new ("(s)", html_content));
+		g_dbus_method_invocation_return_value (invocation,
+			g_variant_new ("(s)", html_content));
+
+		g_free (html_content);
 	} else if (g_strcmp0 (method_name, "GetSelectionContentText") == 0) {
 		gchar *text_content;
 
@@ -175,11 +181,18 @@ handle_method_call (GDBusConnection *connection,
 		document = webkit_web_page_get_dom_document (web_page);
 		text_content = e_dom_utils_get_selection_content_html (document);
 
-		g_dbus_method_invocation_return_value (invocation, g_variant_new ("(s)", text_content));
-	} else if (g_strcmp0 (method_name, "AddCSSRuleIntoStyleSheet") == 0) {
-		gchar *style_sheet_id, *selector, *style;
+		g_dbus_method_invocation_return_value (invocation,
+			g_variant_new ("(s)", text_content));
 
-		g_variant_get (parameters, "(tsss)", &page_id, &style_sheet_id, &selector, &style);
+		g_free (text_content);
+	} else if (g_strcmp0 (method_name, "AddCSSRuleIntoStyleSheet") == 0) {
+		const gchar *style_sheet_id, *selector, *style;
+
+		g_variant_get (
+			parameters,
+			"(t&s&s&s)",
+			&page_id, &style_sheet_id, &selector, &style);
+
 		web_page = get_webkit_web_page_or_return_dbus_error (invocation, web_extension, page_id);
 		if (!web_page)
 			return;
@@ -189,9 +202,9 @@ handle_method_call (GDBusConnection *connection,
 
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "CreateAndAddCSSStyleSheet") == 0) {
-		gchar *style_sheet_id;
+		const gchar *style_sheet_id;
 
-		g_variant_get (parameters, "(ts)", &page_id, &style_sheet_id);
+		g_variant_get (parameters, "(t&s)", &page_id, &style_sheet_id);
 		web_page = get_webkit_web_page_or_return_dbus_error (invocation, web_extension, page_id);
 		if (!web_page)
 			return;
