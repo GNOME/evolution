@@ -48,7 +48,8 @@ void		e_dom_utils_add_css_rule_into_style_sheet
 						 const gchar *style);
 void		e_dom_utils_eab_contact_formatter_bind_dom
 						(WebKitDOMDocument *document);
-
+gchar *	e_dom_utils_get_active_element_name
+						(WebKitDOMDocument *document);
 G_END_DECLS
 
 #endif /* E_DOM_UTILS_H */

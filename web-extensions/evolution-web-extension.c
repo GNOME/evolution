@@ -58,6 +58,10 @@ static const char introspection_xml[] =
 "    <method name='EABContactFormatterBindDOM'>"
 "      <arg type='t' name='page_id' direction='in'/>"
 "    </method>"
+"    <method name='GetActiveElementName'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='element_name' direction='out'/>"
+"    </method>"
 "  </interface>"
 "</node>";
 
@@ -206,6 +210,21 @@ handle_method_call (GDBusConnection *connection,
 		e_dom_utils_eab_contact_formatter_bind_dom (document);
 
 		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "GetActiveElementName") == 0) {
+		gchar *element_name;
+
+		g_variant_get (parameters, "(t)", &page_id);
+		web_page = get_webkit_web_page_or_return_dbus_error (invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		element_name = e_dom_utils_get_active_element_name (document);
+
+		g_dbus_method_invocation_return_value (
+			invocation, g_variant_new ("(s)", element_name));
+
+		g_free (element_name);
 	}
 }
 

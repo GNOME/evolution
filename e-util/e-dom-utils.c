@@ -469,3 +469,17 @@ e_dom_utils_eab_contact_formatter_bind_dom (WebKitDOMDocument *document)
 	}
 }
 
+gchar *
+e_dom_utils_get_active_element_name (WebKitDOMDocument *document)
+{
+	WebKitDOMElement *element;
+	/* FIXME XXX Do version that checks underlying documents */
+
+	element = webkit_dom_html_document_get_active_element (
+			WEBKIT_DOM_HTML_DOCUMENT (document));
+	if (!element)
+		return NULL;
+
+	return webkit_dom_node_get_local_name (WEBKIT_DOM_NODE (element));
+}
+

@@ -1777,11 +1777,11 @@ action_mail_zoom_out_cb (GtkAction *action,
 	display = e_mail_reader_get_mail_display (reader);
 
 	/* There is no webkit_web_view_zoom_out function in WK2, so emulate it */
-	zoom_level = webkit_web_view_get_zoom_level (WEBKIT_WEB_VIEW (web_view));
+	zoom_level = webkit_web_view_get_zoom_level (WEBKIT_WEB_VIEW (display));
 	/* zoom-step in WK1 was 0.1 */
 	zoom_level -= 0.1;
 	if (zoom_level >= 0)
-		webkit_web_view_set_zoom_level (WEBKIT_WEB_VIEW (web_view), zoom_level);
+		webkit_web_view_set_zoom_level (WEBKIT_WEB_VIEW (display), zoom_level);
 /* FIXME XXX
 	webkit_web_view_zoom_out (WEBKIT_WEB_VIEW (web_view));*/
 }
@@ -2462,32 +2462,38 @@ mail_reader_key_press_event_cb (EMailReader *reader,
 	const gchar *action_name;
 
 	if (!gtk_widget_has_focus (GTK_WIDGET (reader))) {
-		WebKitWebFrame *frame;
-		WebKitDOMDocument *dom;
-		WebKitDOMElement *element;
 		EMailDisplay *display;
-		gchar *name = NULL;
+		GDBusProxy *web_extension;
 
 		display = e_mail_reader_get_mail_display (reader);
-		frame = webkit_web_view_get_focused_frame (WEBKIT_WEB_VIEW (display));
+		web_extension = e_web_view_get_web_extension_proxy (E_WEB_VIEW (display));
+		if (web_extension) {
+			GVariant *result;
+			const gchar *element_name = NULL;
 
-		if (frame != NULL) {
-			dom = webkit_web_frame_get_dom_document (frame);
-			/* intentionally used "static_cast" */
-			element = webkit_dom_html_document_get_active_element ((WebKitDOMHTMLDocument *) dom);
+			result = g_dbus_proxy_call_sync (
+					web_extension,
+					"GetActiveElementName",
+					g_variant_new (
+						"(t)",
+						webkit_web_view_get_page_id (
+							WEBKIT_WEB_VIEW (display))),
+					G_DBUS_CALL_FLAGS_NONE,
+					-1,
+					NULL,
+					NULL);
 
-			if (element != NULL)
-				name = webkit_dom_node_get_node_name (WEBKIT_DOM_NODE (element));
+			if (result) {
+				element_name = g_variant_get_string (result, NULL);
+				g_variant_unref (result);
 
-			/* If INPUT or TEXTAREA has focus,
-			 * then any key press should go there. */
-			if (name != NULL &&
-			    (g_ascii_strcasecmp (name, "INPUT") == 0 ||
-			     g_ascii_strcasecmp (name, "TEXTAREA") == 0)) {
-				g_free (name);
-				return FALSE;
+				if (element_name && *element_name) {
+					if (g_strcmp0 (element_name, "input") == 0 ||
+							g_strcmp0 (element_name, "textarea") == 0) {
+						return FALSE;
+					}
+				}
 			}
-			g_free (name);
 		}
 	}
 
