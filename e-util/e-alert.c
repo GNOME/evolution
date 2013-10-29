@@ -428,8 +428,10 @@ alert_set_tag (EAlert *alert,
 }
 
 static gboolean
-alert_timeout_cb (EAlert *alert)
+alert_timeout_cb (gpointer user_data)
 {
+	EAlert *alert = E_ALERT (user_data);
+
 	e_alert_response (alert, alert->priv->default_response);
 
 	return FALSE;
@@ -968,9 +970,11 @@ e_alert_start_timer (EAlert *alert,
 		alert->priv->timeout_id = 0;
 	}
 
-	if (seconds > 0)
-		alert->priv->timeout_id = g_timeout_add_seconds (
-			seconds, (GSourceFunc) alert_timeout_cb, alert);
+	if (seconds > 0) {
+		alert->priv->timeout_id =
+			e_named_timeout_add_seconds (
+			seconds, alert_timeout_cb, alert);
+	}
 }
 
 void

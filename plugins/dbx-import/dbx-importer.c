@@ -808,8 +808,8 @@ org_gnome_evolution_readdbx_import (EImport *ei,
 	m->folder_name = NULL;
 	m->folder_uri = NULL;
 
-	m->status_timeout_id = g_timeout_add (100, dbx_status_timeout, m);
-	/*m->status_timeout_id = NULL;*/
+	m->status_timeout_id =
+		e_named_timeout_add (100, dbx_status_timeout, m);
 	g_mutex_init (&m->status_lock);
 	m->cancellable = camel_operation_new ();
 

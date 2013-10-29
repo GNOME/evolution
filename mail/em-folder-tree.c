@@ -2677,8 +2677,9 @@ tree_drag_leave (GtkWidget *widget,
 #define SCROLL_EDGE_SIZE 15
 
 static gboolean
-tree_autoscroll (EMFolderTree *folder_tree)
+tree_autoscroll (gpointer user_data)
 {
+	EMFolderTree *folder_tree;
 	GtkAdjustment *adjustment;
 	GtkTreeView *tree_view;
 	GtkScrollable *scrollable;
@@ -2689,6 +2690,8 @@ tree_autoscroll (EMFolderTree *folder_tree)
 	GdkDevice *device;
 	gdouble value;
 	gint offset, y;
+
+	folder_tree = EM_FOLDER_TREE (user_data);
 
 	/* Get the y pointer position relative to the treeview. */
 	tree_view = GTK_TREE_VIEW (folder_tree);
@@ -2723,13 +2726,15 @@ tree_autoscroll (EMFolderTree *folder_tree)
 }
 
 static gboolean
-tree_autoexpand (EMFolderTree *folder_tree)
+tree_autoexpand (gpointer user_data)
 {
-	EMFolderTreePrivate *priv = folder_tree->priv;
+	EMFolderTreePrivate *priv;
 	GtkTreeView *tree_view;
 	GtkTreePath *path;
 
-	tree_view = GTK_TREE_VIEW (folder_tree);
+	tree_view = GTK_TREE_VIEW (user_data);
+	priv = EM_FOLDER_TREE_GET_PRIVATE (tree_view);
+
 	path = gtk_tree_row_reference_get_path (priv->autoexpand_row);
 	gtk_tree_view_expand_row (tree_view, path, FALSE);
 	gtk_tree_path_free (path);
@@ -2763,9 +2768,10 @@ tree_drag_motion (GtkWidget *widget,
 	if (!gtk_tree_view_get_dest_row_at_pos (tree_view, x, y, &path, &pos))
 		return FALSE;
 
-	if (priv->autoscroll_id == 0)
-		priv->autoscroll_id = g_timeout_add (
-			150, (GSourceFunc) tree_autoscroll, folder_tree);
+	if (priv->autoscroll_id == 0) {
+		priv->autoscroll_id = e_named_timeout_add (
+			150, tree_autoscroll, folder_tree);
+	}
 
 	gtk_tree_model_get_iter (model, &iter, path);
 
@@ -2783,16 +2789,14 @@ tree_drag_motion (GtkWidget *widget,
 				priv->autoexpand_row =
 					gtk_tree_row_reference_new (model, path);
 				g_source_remove (priv->autoexpand_id);
-				priv->autoexpand_id = g_timeout_add (
-					600, (GSourceFunc)
-					tree_autoexpand, folder_tree);
+				priv->autoexpand_id = e_named_timeout_add (
+					600, tree_autoexpand, folder_tree);
 			}
 
 			gtk_tree_path_free (autoexpand_path);
 		} else {
-			priv->autoexpand_id = g_timeout_add (
-				600, (GSourceFunc)
-				tree_autoexpand, folder_tree);
+			priv->autoexpand_id = e_named_timeout_add (
+				600, tree_autoexpand, folder_tree);
 			priv->autoexpand_row =
 				gtk_tree_row_reference_new (model, path);
 		}

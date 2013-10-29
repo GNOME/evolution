@@ -3301,7 +3301,7 @@ tooltip_event_cb (GnomeCanvasItem *item,
 			data->day = -1;
 			data->event_num = event_num;
 			data->get_view_event = (ECalendarViewEvent * (*)(ECalendarView *, int, gint)) tooltip_get_view_event;
-			pevent->timeout = g_timeout_add_full (
+			pevent->timeout = e_named_timeout_add_full (
 				G_PRIORITY_DEFAULT, 500,
 				(GSourceFunc) e_calendar_view_get_tooltips,
 				data, (GDestroyNotify) g_free);
@@ -3982,7 +3982,7 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 		data->day = -1;
 		data->event_num = nevent;
 		data->get_view_event = (ECalendarViewEvent * (*)(ECalendarView *, int, gint)) tooltip_get_view_event;
-		pevent->timeout = g_timeout_add_full (
+		pevent->timeout = e_named_timeout_add_full (
 			G_PRIORITY_DEFAULT, 500,
 			(GSourceFunc) e_calendar_view_get_tooltips,
 			data, (GDestroyNotify) g_free);
@@ -4915,7 +4915,9 @@ static void
 e_week_view_queue_layout (EWeekView *week_view)
 {
 	if (week_view->layout_timeout_id == 0) {
-		week_view->layout_timeout_id = g_timeout_add (E_WEEK_VIEW_LAYOUT_TIMEOUT, e_week_view_layout_timeout_cb, week_view);
+		week_view->layout_timeout_id = e_named_timeout_add (
+			E_WEEK_VIEW_LAYOUT_TIMEOUT,
+			e_week_view_layout_timeout_cb, week_view);
 	}
 }
 

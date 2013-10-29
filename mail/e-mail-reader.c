@@ -2556,8 +2556,9 @@ mail_reader_key_press_cb (EMailReader *reader,
 }
 
 static gboolean
-mail_reader_message_seen_cb (EMailReaderClosure *closure)
+mail_reader_message_seen_cb (gpointer user_data)
 {
+	EMailReaderClosure *closure = user_data;
 	EMailReader *reader;
 	GtkWidget *message_list;
 	EMailPartList *parts;
@@ -2631,11 +2632,12 @@ schedule_timeout_mark_seen (EMailReader *reader)
 		timeout_closure->reader = g_object_ref (reader);
 		timeout_closure->message_uid = g_strdup (message_uid);
 
-		MESSAGE_LIST (message_list)->seen_id = g_timeout_add_full (
-			G_PRIORITY_DEFAULT, timeout_interval,
-			(GSourceFunc) mail_reader_message_seen_cb,
-			timeout_closure, (GDestroyNotify)
-			mail_reader_closure_free);
+		MESSAGE_LIST (message_list)->seen_id =
+			e_named_timeout_add_full (
+				G_PRIORITY_DEFAULT, timeout_interval,
+				mail_reader_message_seen_cb,
+				timeout_closure, (GDestroyNotify)
+				mail_reader_closure_free);
 	}
 
 	return schedule_timeout;
@@ -2731,8 +2733,9 @@ exit:
 }
 
 static gboolean
-mail_reader_message_selected_timeout_cb (EMailReader *reader)
+mail_reader_message_selected_timeout_cb (gpointer user_data)
 {
+	EMailReader *reader;
 	EMailReaderPrivate *priv;
 	EMailDisplay *display;
 	GtkWidget *message_list;
@@ -2740,6 +2743,7 @@ mail_reader_message_selected_timeout_cb (EMailReader *reader)
 	const gchar *format_uid;
 	EMailPartList *parts;
 
+	reader = E_MAIL_READER (user_data);
 	priv = E_MAIL_READER_GET_PRIVATE (reader);
 
 	message_list = e_mail_reader_get_message_list (reader);
@@ -2845,15 +2849,16 @@ mail_reader_message_selected_cb (EMailReader *reader,
 		display = e_mail_reader_get_mail_display (reader);
 		e_mail_display_set_part_list (display, NULL);
 		e_web_view_clear (E_WEB_VIEW (display));
+
 	} else if (priv->restoring_message_selection) {
 		/* Skip the timeout if we're restoring the previous message
 		 * selection.  The timeout is there for when we're scrolling
 		 * rapidly through the message list. */
 		mail_reader_message_selected_timeout_cb (reader);
+
 	} else {
-		priv->message_selected_timeout_id = g_timeout_add (
-			100, (GSourceFunc)
-			mail_reader_message_selected_timeout_cb, reader);
+		priv->message_selected_timeout_id = e_named_timeout_add (
+			100, mail_reader_message_selected_timeout_cb, reader);
 	}
 
 	e_mail_reader_changed (reader);

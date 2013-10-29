@@ -1470,12 +1470,14 @@ update_task_and_memo_views (GnomeCalendar *gcal)
 }
 
 static gboolean
-update_marcus_bains_line_cb (GnomeCalendar *gcal)
+update_marcus_bains_line_cb (gpointer user_data)
 {
+	GnomeCalendar *gcal;
 	GnomeCalendarViewType view_type;
 	ECalendarView *view;
 	time_t now, day_begin;
 
+	gcal = GNOME_CALENDAR (user_data);
 	view_type = gnome_calendar_get_view (gcal);
 	view = gnome_calendar_get_calendar_view (gcal, view_type);
 
@@ -1518,9 +1520,10 @@ setup_widgets (GnomeCalendar *gcal)
 #endif
 
 	/* The Marcus Bains line */
-	priv->update_marcus_bains_line_timeout = g_timeout_add_full (
-		G_PRIORITY_LOW, 60000, (GSourceFunc)
-		update_marcus_bains_line_cb, gcal, NULL);
+	priv->update_marcus_bains_line_timeout =
+		e_named_timeout_add_seconds_full (
+			G_PRIORITY_LOW, 60,
+			update_marcus_bains_line_cb, gcal, NULL);
 
 	/* update_memo_view (gcal); */
 }

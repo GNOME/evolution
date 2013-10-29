@@ -190,7 +190,7 @@ connection_closed_cb (GDBusConnection *pconnection,
 	g_object_unref (connection);
 	connection = NULL;
 
-	g_timeout_add (3000, reinit_gdbus, NULL);
+	e_named_timeout_add (3000, reinit_gdbus, NULL);
 }
 
 static gboolean

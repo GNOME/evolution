@@ -585,8 +585,11 @@ attachment_progress_cb (goffset current_num_bytes,
 }
 
 static gboolean
-attachment_cancelled_timeout_cb (EAttachment *attachment)
+attachment_cancelled_timeout_cb (gpointer user_data)
 {
+	EAttachment *attachment;
+
+	attachment = E_ATTACHMENT (user_data);
 	attachment->priv->emblem_timeout_id = 0;
 	g_cancellable_reset (attachment->priv->cancellable);
 
@@ -605,8 +608,8 @@ attachment_cancelled_cb (EAttachment *attachment)
 	if (attachment->priv->emblem_timeout_id > 0)
 		g_source_remove (attachment->priv->emblem_timeout_id);
 
-	attachment->priv->emblem_timeout_id = g_timeout_add_seconds (
-		1, (GSourceFunc) attachment_cancelled_timeout_cb, attachment);
+	attachment->priv->emblem_timeout_id = e_named_timeout_add_seconds (
+		1, attachment_cancelled_timeout_cb, attachment);
 
 	attachment_update_icon_column (attachment);
 }

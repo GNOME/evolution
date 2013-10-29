@@ -29,15 +29,15 @@
  * to got to the current day.
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include "e-calendar.h"
 
-#include <gtk/gtk.h>
-#include <libgnomecanvas/gnome-canvas-widget.h>
+#include <config.h>
 #include <glib/gi18n.h>
+
+#include <gtk/gtk.h>
+#include <libedataserver/libedataserver.h>
+
+#include <libgnomecanvas/gnome-canvas-widget.h>
 
 #define E_CALENDAR_SMALL_FONT_PTSIZE 6
 
@@ -586,11 +586,11 @@ e_calendar_start_auto_move (ECalendar *cal,
                             gboolean moving_forward)
 {
 	if (cal->timeout_id == 0) {
-		cal->timeout_id = g_timeout_add (
+		cal->timeout_id = e_named_timeout_add (
 			E_CALENDAR_AUTO_MOVE_TIMEOUT,
-			e_calendar_auto_move_handler,
-			cal);
+			e_calendar_auto_move_handler, cal);
 	}
+
 	cal->timeout_delay = E_CALENDAR_AUTO_MOVE_TIMEOUT_DELAY;
 	cal->moving_forward = moving_forward;
 
@@ -601,11 +601,11 @@ e_calendar_start_auto_move_year (ECalendar *cal,
                                  gboolean moving_forward)
 {
 	if (cal->timeout_id == 0) {
-		cal->timeout_id = g_timeout_add (
+		cal->timeout_id = e_named_timeout_add (
 			E_CALENDAR_AUTO_MOVE_TIMEOUT,
-			e_calendar_auto_move_year_handler,
-			cal);
+			e_calendar_auto_move_year_handler, cal);
 	}
+
 	cal->timeout_delay = E_CALENDAR_AUTO_MOVE_TIMEOUT_DELAY;
 	cal->moving_forward = moving_forward;
 }

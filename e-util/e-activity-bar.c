@@ -16,11 +16,11 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include "e-activity-bar.h"
+
+#include <config.h>
+
+#include <libedataserver/libedataserver.h>
 
 #define E_ACTIVITY_BAR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -70,7 +70,7 @@ activity_bar_feedback (EActivityBar *bar)
 
 	/* Hold a reference on the EActivity for a short
 	 * period so the activity bar stays visible. */
-	bar->priv->timeout_id = g_timeout_add_seconds_full (
+	bar->priv->timeout_id = e_named_timeout_add_seconds_full (
 		G_PRIORITY_LOW, FEEDBACK_PERIOD, (GSourceFunc) gtk_false,
 		g_object_ref (activity), (GDestroyNotify) g_object_unref);
 }

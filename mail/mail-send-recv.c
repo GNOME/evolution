@@ -616,7 +616,7 @@ build_dialog (GtkWindow *parent,
 			info->keep_on_server = get_keep_on_server (service);
 			info->cancellable = camel_operation_new ();
 			info->state = allow_send ? SEND_ACTIVE : SEND_COMPLETE;
-			info->timeout_id = g_timeout_add (
+			info->timeout_id = e_named_timeout_add (
 				STATUS_TIMEOUT, operation_status_timeout, info);
 
 			g_signal_connect (
@@ -631,9 +631,10 @@ build_dialog (GtkWindow *parent,
 			/* incase we get the same source pop up again */
 			continue;
 
-		} else if (info->timeout_id == 0)
-			info->timeout_id = g_timeout_add (
+		} else if (info->timeout_id == 0) {
+			info->timeout_id = e_named_timeout_add (
 				STATUS_TIMEOUT, operation_status_timeout, info);
+		}
 
 		recv_icon = gtk_image_new_from_icon_name (
 			"mail-inbox", SEND_RECV_ICON_SIZE);
@@ -704,7 +705,7 @@ build_dialog (GtkWindow *parent,
 			info->keep_on_server = FALSE;
 			info->cancellable = camel_operation_new ();
 			info->state = SEND_ACTIVE;
-			info->timeout_id = g_timeout_add (
+			info->timeout_id = e_named_timeout_add (
 				STATUS_TIMEOUT, operation_status_timeout, info);
 
 			g_signal_connect (
@@ -714,9 +715,10 @@ build_dialog (GtkWindow *parent,
 			g_hash_table_insert (
 				data->active, g_strdup (SEND_URI_KEY), info);
 			list = g_list_prepend (list, info);
-		} else if (info->timeout_id == 0)
-			info->timeout_id = g_timeout_add (
+		} else if (info->timeout_id == 0) {
+			info->timeout_id = e_named_timeout_add (
 				STATUS_TIMEOUT, operation_status_timeout, info);
+		}
 
 		send_icon = gtk_image_new_from_icon_name (
 			"mail-outbox", SEND_RECV_ICON_SIZE);

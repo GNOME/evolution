@@ -318,8 +318,9 @@ pine_status (CamelOperation *op,
 }
 
 static gboolean
-pine_status_timeout (struct _pine_import_msg *importer)
+pine_status_timeout (gpointer user_data)
 {
+	struct _pine_import_msg *importer = user_data;
 	gint pc;
 	gchar *what;
 
@@ -358,8 +359,8 @@ mail_importer_pine_import (EImport *ei,
 	m->import = ei;
 	g_object_ref (m->import);
 	m->target = target;
-	m->status_timeout_id = g_timeout_add (
-		100, (GSourceFunc) pine_status_timeout, m);
+	m->status_timeout_id = e_named_timeout_add (
+		100, pine_status_timeout, m);
 	g_mutex_init (&m->status_lock);
 	m->cancellable = camel_operation_new ();
 

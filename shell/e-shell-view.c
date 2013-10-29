@@ -299,9 +299,12 @@ shell_view_save_state (EShellView *shell_view,
 }
 
 static gboolean
-shell_view_state_timeout_cb (EShellView *shell_view)
+shell_view_state_timeout_cb (gpointer user_data)
 {
+	EShellView *shell_view;
 	EActivity *activity;
+
+	shell_view = E_SHELL_VIEW (user_data);
 
 	/* If a save is still in progress, check back later. */
 	if (shell_view->priv->state_save_activity != NULL)
@@ -1697,8 +1700,8 @@ e_shell_view_set_state_dirty (EShellView *shell_view)
 	if (shell_view->priv->state_save_timeout_id > 0)
 		return;
 
-	source_id = g_timeout_add_seconds (
-		STATE_SAVE_TIMEOUT_SECONDS, (GSourceFunc)
+	source_id = e_named_timeout_add_seconds (
+		STATE_SAVE_TIMEOUT_SECONDS,
 		shell_view_state_timeout_cb, shell_view);
 
 	shell_view->priv->state_save_timeout_id = source_id;

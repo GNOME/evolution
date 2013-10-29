@@ -266,13 +266,16 @@ mail_shell_backend_sync_store_done_cb (CamelStore *store,
 }
 
 static gboolean
-mail_shell_backend_mail_sync (EMailShellBackend *mail_shell_backend)
+mail_shell_backend_mail_sync (gpointer user_data)
 {
+	EMailShellBackend *mail_shell_backend;
 	EShell *shell;
 	EShellBackend *shell_backend;
 	EMailBackend *backend;
 	EMailSession *session;
 	GList *list, *link;
+
+	mail_shell_backend = E_MAIL_SHELL_BACKEND (user_data);
 
 	shell_backend = E_SHELL_BACKEND (mail_shell_backend);
 	shell = e_shell_backend_get_shell (shell_backend);
@@ -632,11 +635,12 @@ mail_shell_backend_start (EShellBackend *shell_backend)
 		g_error_free (error);
 	}
 
-	if (g_getenv ("CAMEL_FLUSH_CHANGES") != NULL)
-		priv->mail_sync_source_id = g_timeout_add_seconds (
+	if (g_getenv ("CAMEL_FLUSH_CHANGES") != NULL) {
+		priv->mail_sync_source_id = e_named_timeout_add_seconds (
 			mail_config_get_sync_timeout (),
-			(GSourceFunc) mail_shell_backend_mail_sync,
+			mail_shell_backend_mail_sync,
 			shell_backend);
+	}
 }
 
 static gboolean

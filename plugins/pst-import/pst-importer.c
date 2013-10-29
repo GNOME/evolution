@@ -2157,8 +2157,8 @@ pst_import (EImport *ei,
 	m->journal = NULL;
 	m->waiting_open = 0;
 
-	m->status_timeout_id = g_timeout_add (100, pst_status_timeout, m);
-	/*m->status_timeout_id = NULL;*/
+	m->status_timeout_id =
+		e_named_timeout_add (100, pst_status_timeout, m);
 	g_mutex_init (&m->status_lock);
 	m->cancellable = camel_operation_new ();
 

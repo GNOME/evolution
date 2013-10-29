@@ -2721,7 +2721,8 @@ e_meeting_time_selector_drag_meeting_time (EMeetingTimeSelector *mts,
 	if (x < scroll_x || x > scroll_x + canvas_width) {
 		/* If we haven't added a timeout function, add one. */
 		if (mts->auto_scroll_timeout_id == 0) {
-			mts->auto_scroll_timeout_id = g_timeout_add (60, e_meeting_time_selector_timeout_handler, mts);
+			mts->auto_scroll_timeout_id = e_named_timeout_add (
+				60, e_meeting_time_selector_timeout_handler, mts);
 			mts->scroll_count = 0;
 
 			/* Call the handler to start scrolling now. */
@@ -3297,6 +3298,6 @@ free_busy_template_changed_cb (EMeetingTimeSelector *mts)
 	if (mts->fb_refresh_not != 0)
 		g_source_remove (mts->fb_refresh_not);
 
-	mts->fb_refresh_not = g_timeout_add_seconds (
+	mts->fb_refresh_not = e_named_timeout_add_seconds (
 		REFRESH_PAUSE, free_busy_timeout_refresh, mts);
 }

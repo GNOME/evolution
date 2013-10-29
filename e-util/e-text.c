@@ -35,12 +35,9 @@
  * 02110-1301, USA.
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include "e-text.h"
 
+#include <config.h>
 #include <math.h>
 #include <ctype.h>
 #include <string.h>
@@ -48,6 +45,8 @@
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
+
+#include <libedataserver/libedataserver.h>
 
 #include "e-canvas-utils.h"
 #include "e-canvas.h"
@@ -1549,8 +1548,10 @@ start_editing (EText *text)
 	text->select_by_word = FALSE;
 	text->xofs_edit = 0;
 	text->yofs_edit = 0;
-	if (text->timeout_id == 0)
-		text->timeout_id = g_timeout_add (10, _blink_scroll_timeout, text);
+	if (text->timeout_id == 0) {
+		text->timeout_id = e_named_timeout_add (
+			10, _blink_scroll_timeout, text);
+	}
 	text->timer = g_timer_new ();
 	g_timer_elapsed (text->timer, &(text->scroll_start));
 	g_timer_start (text->timer);
@@ -1765,12 +1766,12 @@ e_text_event (GnomeCanvasItem *item,
 		if (event->type == GDK_BUTTON_PRESS) {
 			if (text->dbl_timeout == 0 &&
 			    text->tpl_timeout == 0) {
-				text->dbl_timeout = g_timeout_add (
+				text->dbl_timeout = e_named_timeout_add (
 					200, _click, &(text->dbl_timeout));
 			} else {
 				if (text->tpl_timeout == 0) {
 					e_tep_event.type = GDK_2BUTTON_PRESS;
-					text->tpl_timeout = g_timeout_add (
+					text->tpl_timeout = e_named_timeout_add (
 						200, _click, &(text->tpl_timeout));
 				} else {
 					e_tep_event.type = GDK_3BUTTON_PRESS;

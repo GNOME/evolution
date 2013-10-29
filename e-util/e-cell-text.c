@@ -1121,7 +1121,8 @@ ect_enter_edit (ECellView *ecell_view,
 	edit->selection_end = 0;
 	edit->select_by_word = FALSE;
 
-	edit->timeout_id = g_timeout_add (10, _blink_scroll_timeout, text_view);
+	edit->timeout_id = e_named_timeout_add (
+		10, _blink_scroll_timeout, text_view);
 	edit->timer = g_timer_new ();
 	g_timer_elapsed (edit->timer, &(edit->scroll_start));
 	g_timer_start (edit->timer);

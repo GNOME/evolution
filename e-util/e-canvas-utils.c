@@ -21,11 +21,11 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include "e-canvas-utils.h"
+
+#include <config.h>
+
+#include <libedataserver/libedataserver.h>
 
 void
 e_canvas_item_move_absolute (GnomeCanvasItem *item,
@@ -216,7 +216,7 @@ e_canvas_item_show_area_delayed (GnomeCanvasItem *item,
 	dac->y1 = y1;
 	dac->x2 = x2;
 	dac->y2 = y2;
-	dac->canvas = item->canvas;
-	g_object_ref (item->canvas);
-	g_timeout_add (delay, show_area_timeout, dac);
+	dac->canvas = g_object_ref (item->canvas);
+
+	e_named_timeout_add (delay, show_area_timeout, dac);
 }

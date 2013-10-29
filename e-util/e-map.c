@@ -22,16 +22,16 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "e-map.h"
 
+#include <config.h>
 #include <math.h>
 #include <stdlib.h>
-#include <gdk/gdkkeysyms.h>
-#include <glib/gi18n.h>
 
-#include "e-map.h"
+#include <glib/gi18n.h>
+#include <gdk/gdkkeysyms.h>
+
+#include <libedataserver/libedataserver.h>
 
 #include "e-util-private.h"
 
@@ -203,7 +203,7 @@ e_map_start_tweening (EMap *map)
 
 	map->priv->timer = g_timer_new ();
 	map->priv->timer_current_ms = 0;
-	map->priv->tween_id = g_timeout_add (
+	map->priv->tween_id = e_named_timeout_add (
 		E_MAP_TWEEN_TIMEOUT_MSECS, e_map_do_tween_cb, map);
 	g_timer_start (map->priv->timer);
 }

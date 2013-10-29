@@ -274,7 +274,8 @@ mbox_import (EImport *ei,
 	importer->import = ei;
 	importer->target = target;
 	g_mutex_init (&importer->status_lock);
-	importer->status_timeout_id = g_timeout_add (100, mbox_status_timeout, importer);
+	importer->status_timeout_id =
+		e_named_timeout_add (100, mbox_status_timeout, importer);
 	importer->cancellable = camel_operation_new ();
 
 	g_signal_connect (

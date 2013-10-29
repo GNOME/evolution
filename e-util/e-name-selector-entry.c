@@ -98,7 +98,7 @@ G_DEFINE_TYPE_WITH_CODE (
 #define re_set_timeout(id,func,ptr,tout) G_STMT_START {		\
 	if (id)							\
 		g_source_remove (id);				\
-	id = g_timeout_add (tout, (GSourceFunc) func, ptr);	\
+	id = e_named_timeout_add (tout, func, ptr);		\
 	} G_STMT_END
 
 static void destination_row_inserted (ENameSelectorEntry *name_selector_entry, GtkTreePath *path, GtkTreeIter *iter);
@@ -1194,18 +1194,26 @@ update_completion_model (ENameSelectorEntry *name_selector_entry)
 }
 
 static gboolean
-type_ahead_complete_on_timeout_cb (ENameSelectorEntry *name_selector_entry)
+type_ahead_complete_on_timeout_cb (gpointer user_data)
 {
+	ENameSelectorEntry *name_selector_entry;
+
+	name_selector_entry = E_NAME_SELECTOR_ENTRY (user_data);
 	type_ahead_complete (name_selector_entry);
 	name_selector_entry->priv->type_ahead_complete_cb_id = 0;
+
 	return FALSE;
 }
 
 static gboolean
-update_completions_on_timeout_cb (ENameSelectorEntry *name_selector_entry)
+update_completions_on_timeout_cb (gpointer user_data)
 {
+	ENameSelectorEntry *name_selector_entry;
+
+	name_selector_entry = E_NAME_SELECTOR_ENTRY (user_data);
 	update_completion_model (name_selector_entry);
 	name_selector_entry->priv->update_completions_cb_id = 0;
+
 	return FALSE;
 }
 
@@ -1518,10 +1526,12 @@ user_insert_text (ENameSelectorEntry *name_selector_entry,
 		/* If the user inserted one character, kick off completion */
 		re_set_timeout (
 			name_selector_entry->priv->update_completions_cb_id,
-			update_completions_on_timeout_cb,  name_selector_entry, AUTOCOMPLETE_TIMEOUT);
+			update_completions_on_timeout_cb,  name_selector_entry,
+			AUTOCOMPLETE_TIMEOUT);
 		re_set_timeout (
 			name_selector_entry->priv->type_ahead_complete_cb_id,
-			type_ahead_complete_on_timeout_cb, name_selector_entry, AUTOCOMPLETE_TIMEOUT);
+			type_ahead_complete_on_timeout_cb, name_selector_entry,
+			AUTOCOMPLETE_TIMEOUT);
 	}
 
 	g_signal_handlers_unblock_by_func (name_selector_entry, user_delete_text, name_selector_entry);
@@ -1566,7 +1576,8 @@ user_delete_text (ENameSelectorEntry *name_selector_entry,
 		/* Might be backspace; update completion model so dropdown is accurate */
 		re_set_timeout (
 			name_selector_entry->priv->update_completions_cb_id,
-			update_completions_on_timeout_cb, name_selector_entry, AUTOCOMPLETE_TIMEOUT);
+			update_completions_on_timeout_cb, name_selector_entry,
+			AUTOCOMPLETE_TIMEOUT);
 	}
 
 	index_start = get_index_at_position (text, start_pos);
@@ -2181,7 +2192,8 @@ ensure_type_ahead_complete_on_timeout (ENameSelectorEntry *name_selector_entry)
 	if (!name_selector_entry->priv->type_ahead_complete_cb_id) {
 		re_set_timeout (
 			name_selector_entry->priv->type_ahead_complete_cb_id,
-			type_ahead_complete_on_timeout_cb, name_selector_entry, SHOW_RESULT_TIMEOUT);
+			type_ahead_complete_on_timeout_cb, name_selector_entry,
+			SHOW_RESULT_TIMEOUT);
 	}
 }
 

@@ -3735,7 +3735,7 @@ redo_queries (ECalModel *model)
 
 	if (!g_main_context_is_owner (g_main_context_default ())) {
 		/* function called from other than main thread */
-		g_timeout_add (10, cleanup_content_cb, &data);
+		e_named_timeout_add (10, cleanup_content_cb, &data);
 		e_flag_wait (data.eflag);
 	} else {
 		cleanup_content_cb (&data);

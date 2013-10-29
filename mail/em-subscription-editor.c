@@ -1187,8 +1187,11 @@ subscription_editor_update_view (EMSubscriptionEditor *editor)
 }
 
 static gboolean
-subscription_editor_timeout_cb (EMSubscriptionEditor *editor)
+subscription_editor_timeout_cb (gpointer user_data)
 {
+	EMSubscriptionEditor *editor;
+
+	editor = EM_SUBSCRIPTION_EDITOR (user_data);
 	subscription_editor_update_view (editor);
 	editor->priv->timeout_id = 0;
 
@@ -1234,11 +1237,12 @@ subscription_editor_entry_changed_cb (GtkEntry *entry,
 
 	text = gtk_entry_get_text (entry);
 
-	if (text != NULL && *text != '\0')
-		editor->priv->timeout_id = g_timeout_add_seconds (
-			1, (GSourceFunc) subscription_editor_timeout_cb, editor);
-	else
+	if (text != NULL && *text != '\0') {
+		editor->priv->timeout_id = e_named_timeout_add_seconds (
+			1, subscription_editor_timeout_cb, editor);
+	} else {
 		subscription_editor_update_view (editor);
+	}
 }
 
 static void

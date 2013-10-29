@@ -105,7 +105,7 @@ proxy_preferences_commit_stash (EProxyPreferences *preferences,
 
 	if (start_timeout) {
 		preferences->priv->commit_timeout_id =
-			g_timeout_add_seconds (
+			e_named_timeout_add_seconds (
 				COMMIT_DELAY_SECS,
 				proxy_preferences_commit_timeout_cb,
 				preferences);

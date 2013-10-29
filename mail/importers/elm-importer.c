@@ -292,7 +292,8 @@ mail_importer_elm_import (EImport *ei,
 	m->import = ei;
 	g_object_ref (m->import);
 	m->target = (EImportTargetHome *) target;
-	m->status_timeout_id = g_timeout_add (100, elm_status_timeout, m);
+	m->status_timeout_id =
+		e_named_timeout_add (100, elm_status_timeout, m);
 	g_mutex_init (&m->status_lock);
 	m->status = camel_operation_new ();
 

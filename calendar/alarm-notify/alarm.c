@@ -157,8 +157,7 @@ setup_timeout (void)
 		diff / 60, diff % 60, (gint64) ar->trigger, (gint64) now));
 	debug ((" %s", ctime (&ar->trigger)));
 	debug ((" %s", ctime (&now)));
-	timeout_id = g_timeout_add_seconds (diff, alarm_ready_cb, NULL);
-
+	timeout_id = e_named_timeout_add_seconds (diff, alarm_ready_cb, NULL);
 }
 
 /* Used from g_list_insert_sorted(); compares the

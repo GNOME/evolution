@@ -54,7 +54,7 @@ file_monitor_changed_cb (GFileMonitor *monitor,
 }
 
 static gboolean
-evolution_not_responding_cb (void)
+evolution_not_responding_cb (gpointer user_data)
 {
 	g_print ("No response from Evolution -- killing the process\n");
 
@@ -149,8 +149,8 @@ main (gint argc,
 		monitor, "changed",
 		G_CALLBACK (file_monitor_changed_cb), NULL);
 
-	g_timeout_add_seconds (
-		EVOLUTION_SHUTDOWN_TIMEOUT, (GSourceFunc)
+	e_named_timeout_add_seconds (
+		EVOLUTION_SHUTDOWN_TIMEOUT,
 		evolution_not_responding_cb, NULL);
 
 	/* Start the clock. */

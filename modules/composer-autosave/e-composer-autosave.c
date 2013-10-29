@@ -107,10 +107,12 @@ composer_autosave_finished_cb (EMsgComposer *composer,
 }
 
 static gboolean
-composer_autosave_timeout_cb (EComposerAutosave *autosave)
+composer_autosave_timeout_cb (gpointer user_data)
 {
+	EComposerAutosave *autosave;
 	EExtensible *extensible;
 
+	autosave = E_COMPOSER_AUTOSAVE (user_data);
 	extensible = e_extension_get_extensible (E_EXTENSION (autosave));
 
 	/* User may have reverted or explicitly saved
@@ -148,10 +150,11 @@ composer_autosave_changed_cb (EComposerAutosave *autosave)
 	editor = GTKHTML_EDITOR (extensible);
 	autosave->changed = gtkhtml_editor_get_changed (editor);
 
-	if (autosave->changed && autosave->timeout_id == 0)
-		autosave->timeout_id = g_timeout_add_seconds (
-			AUTOSAVE_INTERVAL, (GSourceFunc)
+	if (autosave->changed && autosave->timeout_id == 0) {
+		autosave->timeout_id = e_named_timeout_add_seconds (
+			AUTOSAVE_INTERVAL,
 			composer_autosave_timeout_cb, autosave);
+	}
 }
 
 static void

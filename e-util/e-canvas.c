@@ -20,13 +20,12 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
+#include "e-canvas.h"
+
 #include <config.h>
-#endif
 
 #include <gtk/gtk.h>
-
-#include "e-canvas.h"
+#include <libedataserver/libedataserver.h>
 
 #define d(x)
 
@@ -851,7 +850,7 @@ e_canvas_item_grab (ECanvas *canvas,
 		item, event_mask, cursor, device, etime);
 	if (grab_status == GDK_GRAB_SUCCESS) {
 		canvas->grab_cancelled_cb = cancelled_cb;
-		canvas->grab_cancelled_check_id = g_timeout_add_full (
+		canvas->grab_cancelled_check_id = e_named_timeout_add_full (
 			G_PRIORITY_LOW, 100,
 			grab_cancelled_check, canvas, NULL);
 		canvas->grab_cancelled_time = etime;

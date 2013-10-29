@@ -461,7 +461,9 @@ ect_event (ECellView *ecell_view,
 				closure->node = node;
 				closure->expanded = expanded;
 				closure->area = area;
-				tree_view->animate_timeout = g_timeout_add (50, animate_expander, closure);
+				tree_view->animate_timeout =
+					e_named_timeout_add (
+					50, animate_expander, closure);
 				return TRUE;
 			}
 		}

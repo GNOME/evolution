@@ -91,8 +91,10 @@ e_plugin_lib_enable (EPlugin *ep,
 		g_idle_add (bbdb_timeout, ep);
 
 		interval = get_check_interval ();
-		if (interval > 0)
-			update_source = g_timeout_add_seconds (interval, (GSourceFunc) bbdb_timeout, NULL);
+		if (interval > 0) {
+			update_source = e_named_timeout_add_seconds (
+				interval, bbdb_timeout, NULL);
+		}
 	}
 
 	return 0;

@@ -77,7 +77,7 @@ task_shell_view_process_completed_tasks (ETaskShellView *task_shell_view)
 	if (source_id > 0)
 		g_source_remove (source_id);
 
-	source_id = g_timeout_add_seconds (
+	source_id = e_named_timeout_add_seconds (
 		1, task_shell_view_process_completed_tasks_cb,
 		task_shell_view);
 
@@ -146,12 +146,14 @@ task_shell_view_selector_popup_event_cb (EShellView *shell_view,
 }
 
 static gboolean
-task_shell_view_update_timeout_cb (ETaskShellView *task_shell_view)
+task_shell_view_update_timeout_cb (gpointer user_data)
 {
+	ETaskShellView *task_shell_view;
 	ETaskShellContent *task_shell_content;
 	ETaskTable *task_table;
 	ECalModel *model;
 
+	task_shell_view = E_TASK_SHELL_VIEW (user_data);
 	task_shell_content = task_shell_view->priv->task_shell_content;
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
 	model = e_task_table_get_model (task_table);
@@ -389,8 +391,8 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 	/* Call this when everything is ready, like actions in
 	 * action groups and such. */
 	task_shell_view_update_timeout_cb (task_shell_view);
-	priv->update_timeout = g_timeout_add_full (
-		G_PRIORITY_LOW, 60000, (GSourceFunc)
+	priv->update_timeout = e_named_timeout_add_full (
+		G_PRIORITY_LOW, 60000,
 		task_shell_view_update_timeout_cb,
 		task_shell_view, NULL);
 }

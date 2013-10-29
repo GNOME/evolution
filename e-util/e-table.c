@@ -2981,7 +2981,8 @@ scroll_on (ETable *et,
 		if (et->scroll_idle_id != 0)
 			g_source_remove (et->scroll_idle_id);
 		et->scroll_direction = scroll_direction;
-		et->scroll_idle_id = g_timeout_add (100, scroll_timeout, et);
+		et->scroll_idle_id = e_named_timeout_add (
+			100, scroll_timeout, et);
 	}
 }
 

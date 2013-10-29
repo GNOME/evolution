@@ -77,8 +77,9 @@ window_data_free (WindowData *data)
 }
 
 static gboolean
-window_update_settings (WindowData *data)
+window_update_settings (gpointer user_data)
 {
+	WindowData *data = user_data;
 	GSettings *settings = data->settings;
 
 	if (data->flags & E_RESTORE_WINDOW_SIZE) {
@@ -122,8 +123,8 @@ window_delayed_update_settings (WindowData *data)
 	if (data->timeout_id > 0)
 		g_source_remove (data->timeout_id);
 
-	data->timeout_id = g_timeout_add_seconds (
-		1, (GSourceFunc) window_update_settings, data);
+	data->timeout_id = e_named_timeout_add_seconds (
+		1, window_update_settings, data);
 }
 
 static gboolean

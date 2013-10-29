@@ -20,13 +20,12 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include "e-table-search.h"
 
+#include <config.h>
 #include <string.h>
+
+#include <libedataserver/libedataserver.h>
 
 #include "e-marshal.h"
 
@@ -98,17 +97,19 @@ ets_accept (gpointer data)
 static void
 drop_timeout (ETableSearch *ets)
 {
-	if (ets->priv->timeout_id) {
+	if (ets->priv->timeout_id > 0) {
 		g_source_remove (ets->priv->timeout_id);
+		ets->priv->timeout_id = 0;
 	}
-	ets->priv->timeout_id = 0;
 }
 
 static void
 add_timeout (ETableSearch *ets)
 {
 	drop_timeout (ets);
-	ets->priv->timeout_id = g_timeout_add_seconds (1, ets_accept, ets);
+
+	ets->priv->timeout_id =
+		e_named_timeout_add_seconds (1, ets_accept, ets);
 }
 
 static void

@@ -785,8 +785,10 @@ check (const gchar *filename,
 }
 
 static gboolean
-pbar_update (GCancellable *cancellable)
+pbar_update (gpointer user_data)
 {
+	GCancellable *cancellable = G_CANCELLABLE (user_data);
+
 	gtk_progress_bar_pulse ((GtkProgressBar *) pbar);
 	gtk_progress_bar_set_text ((GtkProgressBar *) pbar, txt);
 
@@ -1070,12 +1072,13 @@ main (gint argc,
 		exit (result == 0 ? 0 : 1);
 	}
 
-	if (gui_arg)
-		g_timeout_add_full (
-			G_PRIORITY_DEFAULT, 50,
-			(GSourceFunc) pbar_update,
+	if (gui_arg) {
+		e_named_timeout_add_full (
+			G_PRIORITY_DEFAULT,
+			50, pbar_update,
 			g_object_ref (cancellable),
 			(GDestroyNotify) g_object_unref);
+	}
 
 	g_io_scheduler_push_job (
 		start_job, NULL,

@@ -265,7 +265,7 @@ mail_backend_delete_junk (CamelService *service,
 
 /* Helper for mail_backend_prepare_for_quit_cb() */
 static gboolean
-mail_backend_poll_to_quit (EActivity *activity)
+mail_backend_poll_to_quit (gpointer user_data)
 {
 	return mail_msg_active ();
 }
@@ -358,12 +358,14 @@ mail_backend_prepare_for_quit_cb (EShell *shell,
 	/* Now we poll until all activities are actually cancelled or finished.
 	 * Reffing the activity delays quitting; the reference count
 	 * acts like a counting semaphore. */
-	if (mail_msg_active ())
-		g_timeout_add_seconds_full (
-			G_PRIORITY_DEFAULT, QUIT_POLL_INTERVAL,
-			(GSourceFunc) mail_backend_poll_to_quit,
+	if (mail_msg_active ()) {
+		e_named_timeout_add_seconds_full (
+			G_PRIORITY_DEFAULT,
+			QUIT_POLL_INTERVAL,
+			mail_backend_poll_to_quit,
 			g_object_ref (activity),
 			(GDestroyNotify) g_object_unref);
+	}
 }
 
 static void

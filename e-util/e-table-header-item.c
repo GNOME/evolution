@@ -667,7 +667,8 @@ scroll_on (ETableHeaderItem *ethi,
 		if (ethi->scroll_idle_id != 0)
 			g_source_remove (ethi->scroll_idle_id);
 		ethi->scroll_direction = scroll_direction;
-		ethi->scroll_idle_id = g_timeout_add (100, scroll_timeout, ethi);
+		ethi->scroll_idle_id = e_named_timeout_add (
+			100, scroll_timeout, ethi);
 	}
 }
 

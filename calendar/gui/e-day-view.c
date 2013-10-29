@@ -7102,7 +7102,7 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 			data->day = day;
 			data->event_num = event_num;
 			data->get_view_event = (ECalendarViewEvent * (*)(ECalendarView *, int, gint)) tooltip_get_view_event;
-			pevent->timeout = g_timeout_add_full (
+			pevent->timeout = e_named_timeout_add_full (
 				G_PRIORITY_DEFAULT, 500,
 				(GSourceFunc) e_calendar_view_get_tooltips,
 				data, (GDestroyNotify) g_free);
@@ -7773,7 +7773,9 @@ e_day_view_start_auto_scroll (EDayView *day_view,
                               gboolean scroll_up)
 {
 	if (day_view->auto_scroll_timeout_id == 0) {
-		day_view->auto_scroll_timeout_id = g_timeout_add (E_DAY_VIEW_AUTO_SCROLL_TIMEOUT, e_day_view_auto_scroll_handler, day_view);
+		day_view->auto_scroll_timeout_id = e_named_timeout_add (
+			E_DAY_VIEW_AUTO_SCROLL_TIMEOUT,
+			e_day_view_auto_scroll_handler, day_view);
 		day_view->auto_scroll_delay = E_DAY_VIEW_AUTO_SCROLL_DELAY;
 	}
 	day_view->auto_scroll_up = scroll_up;
@@ -9287,7 +9289,9 @@ static void
 e_day_view_queue_layout (EDayView *day_view)
 {
 	if (day_view->layout_timeout_id == 0) {
-		day_view->layout_timeout_id = g_timeout_add (E_DAY_VIEW_LAYOUT_TIMEOUT, e_day_view_layout_timeout_cb, day_view);
+		day_view->layout_timeout_id = e_named_timeout_add (
+			E_DAY_VIEW_LAYOUT_TIMEOUT,
+			e_day_view_layout_timeout_cb, day_view);
 	}
 }
 

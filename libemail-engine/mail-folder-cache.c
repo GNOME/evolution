@@ -1284,9 +1284,12 @@ static MailMsgInfo ping_store_info = {
 };
 
 static gboolean
-ping_cb (MailFolderCache *cache)
+ping_cb (gpointer user_data)
 {
+	MailFolderCache *cache;
 	GList *list, *link;
+
+	cache = MAIL_FOLDER_CACHE (user_data);
 
 	list = mail_folder_cache_list_stores (cache);
 
@@ -1732,8 +1735,8 @@ mail_folder_cache_init (MailFolderCache *cache)
 
 	buf = getenv ("EVOLUTION_PING_TIMEOUT");
 	timeout = buf ? strtoul (buf, NULL, 10) : 600;
-	cache->priv->ping_id = g_timeout_add_seconds (
-		timeout, (GSourceFunc) ping_cb, cache);
+	cache->priv->ping_id = e_named_timeout_add_seconds (
+		timeout, ping_cb, cache);
 
 	g_queue_init (&cache->priv->local_folder_uris);
 	g_queue_init (&cache->priv->remote_folder_uris);

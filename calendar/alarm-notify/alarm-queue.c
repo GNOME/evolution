@@ -1774,7 +1774,8 @@ display_notification (time_t trigger,
 	} else {
 		if (tray_blink_id == -1) {
 			tray_blink_countdown = 30;
-			tray_blink_id = g_timeout_add (500, tray_icon_blink_cb, tray_data);
+			tray_blink_id = e_named_timeout_add (
+				500, tray_icon_blink_cb, tray_data);
 		}
 	}
 }
@@ -2134,12 +2135,14 @@ alarm_queue_init (gpointer data)
 		config_data_set_last_notification_time (NULL, tmval);
 	}
 
-	/* install timeout handler (every 30 mins) for not missing the midnight refresh */
-	g_timeout_add_seconds (1800, check_midnight_refresh, NULL);
+	/* Install timeout handler (every 30 mins) for not missing the
+	 * midnight refresh. */
+	e_named_timeout_add_seconds (1800, check_midnight_refresh, NULL);
 
-	/* monotonic time doesn't change during hibernation, while the wall clock time does,
-	 * thus check for wall clock time changes and reschedule alarms when it changes */
-	g_timeout_add_seconds (60, check_wall_clock_time_changed, NULL);
+	/* Monotonic time doesn't change during hibernation, while the
+	 * wall clock time does, thus check for wall clock time changes
+	 * and reschedule alarms when it changes. */
+	e_named_timeout_add_seconds (60, check_wall_clock_time_changed, NULL);
 
 #ifdef HAVE_LIBNOTIFY
 	notify_init (_("Evolution Reminders"));

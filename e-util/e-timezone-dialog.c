@@ -586,11 +586,13 @@ on_map_visibility_changed (GtkWidget *w,
 	if (event->state != GDK_VISIBILITY_FULLY_OBSCURED) {
 		/* Map is visible, at least partly, so make sure we flash the
 		 * selected point. */
-		if (!priv->timeout_id)
-			priv->timeout_id = g_timeout_add (100, on_map_timeout, etd);
+		if (priv->timeout_id == 0) {
+			priv->timeout_id = e_named_timeout_add (
+				100, on_map_timeout, etd);
+		}
 	} else {
 		/* Map is invisible, so don't waste resources on the timeout.*/
-		if (priv->timeout_id) {
+		if (priv->timeout_id > 0) {
 			g_source_remove (priv->timeout_id);
 			priv->timeout_id = 0;
 		}
