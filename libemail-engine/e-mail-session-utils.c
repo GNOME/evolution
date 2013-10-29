@@ -578,11 +578,11 @@ mail_session_send_to_thread (GSimpleAsyncResult *simple,
 			camel_service_disconnect_sync (
 				context->transport, TRUE, cancellable, &error);
 		}
+	}
 
-		if (error != NULL) {
-			g_simple_async_result_take_error (simple, error);
-			return;
-		}
+	if (error != NULL) {
+		g_simple_async_result_take_error (simple, error);
+		return;
 	}
 
 skip_send:
