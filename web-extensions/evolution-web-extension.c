@@ -77,6 +77,26 @@ static const char introspection_xml[] =
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='s' name='element_id' direction='in'/>"
 "    </method>"
+"    <signal name='VCardInlineDisplayModeToggled'>"
+"      <arg type='s' name='button_class' direction='out'/>"
+"    </signal>"
+"    <signal name='VCardInlineSaveButtonPressed'>"
+"      <arg type='s' name='button_class' direction='out'/>"
+"    </signal>"
+"    <method name='VCardInlineBindDOM'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='element_id' direction='in'/>"
+"    </method>"
+"    <method name='VCardInlineUpdateButton'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='button_value' direction='in'/>"
+"      <arg type='s' name='html_label' direction='in'/>"
+"      <arg type='s' name='access_key' direction='in'/>"
+"    </method>"
+"    <method name='VCardInlineSetIFrameSrc'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='src' direction='in'/>"
+"    </method>"
 "  </interface>"
 "</node>";
 
@@ -316,6 +336,47 @@ handle_method_call (GDBusConnection *connection,
 
 		document = webkit_web_page_get_dom_document (web_page);
 		e_dom_utils_e_mail_part_headers_bind_dom_element (document, element_id);
+
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "VCardInlineBindDOM") == 0) {
+		const gchar *element_id;
+
+		g_variant_get (parameters, "(t&s)", &page_id, &element_id);
+		web_page = get_webkit_web_page_or_return_dbus_error (invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		e_dom_utils_vcard_inline_bind_dom (document, element_id);
+
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "VCardInlineUpdateButton") == 0) {
+		const gchar *button_value, *html_label, *access_key;
+
+		g_variant_get (
+			parameters,
+			"(t&s&s&s)",
+			&page_id, &button_value, &html_label, &access_key);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		e_dom_utils_vcard_inline_update_button (
+			document, button_value, html_label, access_key);
+
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "VCardInlineSetIFrameSrc") == 0) {
+		const gchar *src
+
+		g_variant_get (parameters, "(t&s)", &page_id, &src);
+		web_page = get_webkit_web_page_or_return_dbus_error (invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		e_dom_utils_vcard_inline_set_iframe_src (document, src);
 
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	}

@@ -621,6 +621,43 @@ e_dom_utils_eab_contact_formatter_bind_dom (WebKitDOMDocument *document)
 
 /* ! This function can be called only from WK2 web-extension ! */
 WebKitDOMElement *
+e_dom_utils_find_element_by_selector (WebKitDOMDocument *document,
+                                      const gchar *selector)
+{
+	WebKitDOMNodeList *frames;
+	WebKitDOMElement *element;
+	gulong ii, length;
+
+	/* Try to look up the element in this DOM document */
+	element = webkit_dom_document_query_selector (document, selector, NULL);
+	if (element != NULL)
+		return element;
+
+	/* If the element is not here then recursively scan all frames */
+	frames = webkit_dom_document_get_elements_by_tag_name (
+		document, "iframe");
+	length = webkit_dom_node_list_get_length (frames);
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMHTMLIFrameElement *iframe;
+		WebKitDOMDocument *frame_doc;
+		WebKitDOMElement *element;
+
+		iframe = WEBKIT_DOM_HTML_IFRAME_ELEMENT (
+			webkit_dom_node_list_item (frames, ii));
+
+		frame_doc = webkit_dom_html_iframe_element_get_content_document (iframe);
+
+		element = e_dom_utils_find_element_by_id (frame_doc, selector);
+
+		if (element != NULL)
+			return element;
+	}
+
+	return NULL;
+}
+
+/* ! This function can be called only from WK2 web-extension ! */
+WebKitDOMElement *
 e_dom_utils_find_element_by_id (WebKitDOMDocument *document,
                                 const gchar *id)
 {
@@ -655,7 +692,6 @@ e_dom_utils_find_element_by_id (WebKitDOMDocument *document,
 
 	return NULL;
 }
-
 gboolean
 e_dom_utils_element_exists (WebKitDOMDocument *document,
                             const gchar *element_id)
@@ -817,4 +853,129 @@ e_dom_utils_element_is_hidden (WebKitDOMDocument *document,
 
 	return webkit_dom_html_element_get_hidden (
 		WEBKIT_DOM_HTML_ELEMENT (element));
+}
+
+/* VCard Inline Module DOM functions */
+
+static void
+display_mode_toggle_button_cb (WebKitDOMElement *button,
+                               WebKitDOMEvent *event,
+                               GDBusConnection *connection)
+{
+	GError *error;
+
+	g_dbus_connection_emit_signal (
+		connection,
+		NULL,
+		EVOLUTION_WEB_EXTENSION_OBJECT_PATH,
+		EVOLUTION_WEB_EXTENSION_INTERFACE,
+		"VCardInlineDisplayModeToggled",
+		g_variant_new (
+			"(s)",
+			webkit_dom_html_button_element_get_value (
+				WEBKIT_DOM_HTML_BUTTON_ELEMENT (button))),
+		&error);
+
+	if (error) {
+		g_warning ("Error emitting signal DisplayModeToggled: %s\n", error->message);
+		g_error_free (error);
+	}
+}
+
+static void
+save_vcard_button_cb (WebKitDOMElement *button,
+                      WebKitDOMEvent *event,
+                      GDBusConnection *connection)
+{
+	GError *error;
+
+	g_dbus_connection_emit_signal (
+		connection,
+		NULL,
+		EVOLUTION_WEB_EXTENSION_OBJECT_PATH,
+		EVOLUTION_WEB_EXTENSION_INTERFACE,
+		"VCardInlineSaveButtonPressed",
+		g_variant_new (
+			"(s)",
+			webkit_dom_html_button_element_get_value (
+				WEBKIT_DOM_HTML_BUTTON_ELEMENT (button))),
+		&error);
+
+	if (error) {
+		g_warning ("Error emitting signal SaveVCardButtonPressed: %s\n", error->message);
+		g_error_free (error);
+	}
+}
+
+void
+e_dom_utils_module_vcard_inline_bind_dom (WebKitDOMDocument *document,
+                                          const gchar *element_id,
+                                          GDBusConnection *connection)
+{
+	WebKitDOMElement *element;
+	WebKitDOMDocument *element_document;
+
+	element = e_dom_utils_find_element_by_id (document, element_id);
+	if (!element)
+		return;
+
+	element_document = webkit_dom_node_get_owner_document (
+		WEBKIT_DOM_NODE (element));
+
+	e_dom_utils_bind_dom (
+		element_document,
+		".org-gnome-vcard-display-mode-button",
+		"click",
+		display_mode_toggle_button_cb,
+		connection);
+
+	e_dom_utils_bind_dom (
+		element_document,
+		".org-gnome-vcard-save-button",
+		"click",
+		save_vcard_button_cb,
+		connection);
+
+	e_dom_utils_eab_contact_formatter_bind_dom (element_document);
+}
+
+void
+e_dom_utils_module_vcard_inline_update_button (WebKitDOMDocument *document,
+                                               const gchar *button_value,
+                                               const gchar *html_label,
+                                               const gchar *access_key)
+{
+	WebKitDOMElement *element;
+	gchar *selector;
+
+	selector = g_strconcat ("button[value=", button_value, "]", NULL);
+	element = e_dom_utils_find_element_by_selector (document, selector);
+	g_free (selector);
+
+	if (!element)
+		return;
+
+	webkit_dom_html_element_set_inner_html (
+		WEBKIT_DOM_HTML_ELEMENT (element), html_label, NULL);
+
+	if (access_key) {
+		webkit_dom_html_element_set_access_key (
+			WEBKIT_DOM_HTML_ELEMENT (element), access_key);
+	}
+}
+
+void
+e_dom_utils_module_vcard_inline_set_iframe_src (WebKitDOMDocument *document,
+                                                const gchar *src)
+{
+	WebKitDOMElement *element;
+
+	element = e_dom_utils_find_element_by_selector (
+		document, "iframe[name$=org-gnome-vcard-display]");
+
+	if (!element)
+		return;
+
+	webkit_dom_html_iframe_element_set_src (
+		WEBKIT_DOM_HTML_IFRAME_ELEMENT (element), src);
 }

@@ -52,6 +52,10 @@ void		e_dom_utils_e_mail_display_bind_dom
 						(WebKitDOMDocument *document,
 						 GDBusConnection *connection);
 WebKitDOMElement *
+		e_dom_utils_find_element_by_selector
+						(WebKitDOMDocument *document,
+						 const gchar *selector);
+WebKitDOMElement *
 		e_dom_utils_find_element_by_id	(WebKitDOMDocument *document,
 						 const gchar *element_id);
 gboolean	e_dom_utils_element_exists
@@ -76,6 +80,20 @@ void		e_dom_utils_hide_element	(WebKitDOMDocument *document,
                                                  gboolean hide);
 gboolean	e_dom_utils_element_is_hidden	(WebKitDOMDocument *document,
 						 const gchar *element_id);
+
+/* VCard Inline Module DOM functions */
+void		e_dom_utils_module_vcard_inline_bind_dom
+						(WebKitDOMDocument *document,
+						 const gchar *element_id,
+						 GDBusConnection *connection);
+void		e_dom_utils_module_vcard_inline_update_button
+						(WebKitDOMDocument *document,
+						 const gchar *button_value,
+						 const gchar *html_label,
+						 const gchar *access_key);
+void		e_dom_utils_module_vcard_inline_set_iframe_src
+						(WebKitDOMDocument *document,
+						 const gchar *src);
 G_END_DECLS
 
 #endif /* E_DOM_UTILS_H */

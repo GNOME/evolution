@@ -58,9 +58,6 @@ struct _EMailPartVCard {
 	GtkWidget *message_label;
 
 	EABContactFormatter *formatter;
-	WebKitDOMElement *iframe;
-	WebKitDOMElement *toggle_button;
-	WebKitDOMElement *save_button;
 
 	CamelFolder *folder;
 	gchar *message_uid;
