@@ -158,27 +158,27 @@ toggle_part (GtkAction *action,
              EMailDisplayPopupExtension *extension)
 {
 	EMailDisplayPopupPreferPlain *pp_extension = (EMailDisplayPopupPreferPlain *) extension;
+	GVariant *result;
 	SoupURI *soup_uri;
 	GHashTable *query;
 	const gchar *document_uri;
 	gchar *uri;
 
-	if (pp_extension->web_extension) {
-		GVariant *result;
+	if (!pp_extension->web_extension)
+		return;
 
-		/* Get URI from saved document */
-		result = g_dbus_proxy_call_sync (
-				pp_extension->web_extension,
-				"GetDocumentURI",
-				NULL,
-				G_DBUS_CALL_FLAGS_NONE,
-				-1,
-				NULL,
-				NULL);
-		if (result) {
-			document_uri = g_variant_get_string (result, NULL);
-			g_variant_unref (result);
-		}
+	/* Get URI from saved document */
+	result = g_dbus_proxy_call_sync (
+			pp_extension->web_extension,
+			"GetDocumentURI",
+			NULL,
+			G_DBUS_CALL_FLAGS_NONE,
+			-1,
+			NULL,
+			NULL);
+	if (result) {
+		document_uri = g_variant_get_string (result, NULL);
+		g_variant_unref (result);
 	}
 
 	soup_uri = soup_uri_new (document_uri);
@@ -202,20 +202,16 @@ toggle_part (GtkAction *action,
 	soup_uri_free (soup_uri);
 
 	/* Get frame's window and from the window the actual <iframe> element */
-	if (pp_extension->web_extension) {
-		GVariant *result;
-
-		result = g_dbus_proxy_call_sync (
-				pp_extension->web_extension,
-				"ChangeIFrameSource",
-				g_variant_new ("(s)", uri),
-				G_DBUS_CALL_FLAGS_NONE,
-				-1,
-				NULL,
-				NULL);
-		if (result)
-			g_variant_unref (result);
-	}
+	result = g_dbus_proxy_call_sync (
+			pp_extension->web_extension,
+			"ChangeIFrameSource",
+			g_variant_new ("(s)", uri),
+			G_DBUS_CALL_FLAGS_NONE,
+			-1,
+			NULL,
+			NULL);
+	if (result)
+		g_variant_unref (result);
 
 	g_free (uri);
 }
@@ -320,6 +316,7 @@ mail_display_popup_prefer_plain_update_actions (EMailDisplayPopupExtension *exte
 	EMailDisplayPopupPreferPlain *pp_extension;
 	GQueue queue = G_QUEUE_INIT;
 	GList *head, *link;
+	GVariant *result;
 	gint32 x, y;
 	GdkDeviceManager *device_manager;
 	GdkDevice *pointer;
@@ -340,37 +337,36 @@ mail_display_popup_prefer_plain_update_actions (EMailDisplayPopupExtension *exte
 	gdk_window_get_device_position (
 		gtk_widget_get_window (GTK_WIDGET (display)), pointer, &x, &y, NULL);
 
-	if (pp_extension->web_extension) {
-		GVariant *result;
+	if (!pp_extension->web_extension)
+       		return;
 
-		result = g_dbus_proxy_call_sync (
-				pp_extension->web_extension,
-				"SaveDocumentFromPoint",
-				g_variant_new (
-					"(tii)",
-					webkit_web_view_get_page_id (
-						WEBKIT_WEB_VIEW (display)),
-					x, y),
-				G_DBUS_CALL_FLAGS_NONE,
-				-1,
-				NULL,
-				NULL);
-		if (result)
-			g_variant_unref (result);
+	result = g_dbus_proxy_call_sync (
+			pp_extension->web_extension,
+			"SaveDocumentFromPoint",
+			g_variant_new (
+				"(tii)",
+				webkit_web_view_get_page_id (
+					WEBKIT_WEB_VIEW (display)),
+				x, y),
+			G_DBUS_CALL_FLAGS_NONE,
+			-1,
+			NULL,
+			NULL);
+	if (result)
+		g_variant_unref (result);
 
-		/* Get URI from saved document */
-		result = g_dbus_proxy_call_sync (
-				pp_extension->web_extension,
-				"GetDocumentURI",
-				NULL,
-				G_DBUS_CALL_FLAGS_NONE,
-				-1,
-				NULL,
-				NULL);
-		if (result) {
-			document_uri = g_variant_get_string (result, NULL);
-			g_variant_unref (result);
-		}
+	/* Get URI from saved document */
+	result = g_dbus_proxy_call_sync (
+			pp_extension->web_extension,
+			"GetDocumentURI",
+			NULL,
+			G_DBUS_CALL_FLAGS_NONE,
+			-1,
+			NULL,
+			NULL);
+	if (result) {
+		document_uri = g_variant_get_string (result, NULL);
+		g_variant_unref (result);
 	}
 
 	soup_uri = soup_uri_new (document_uri);
@@ -497,6 +493,8 @@ e_mail_display_popup_prefer_plain_dispose (GObject *object)
 		g_bus_unwatch_name (extension->web_extension_watch_name_id);
 		extension->web_extension_watch_name_id = 0;
 	}
+
+	g_clear_object (&extension->web_extension);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_display_popup_prefer_plain_parent_class)->
