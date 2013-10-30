@@ -22,6 +22,10 @@
 #include <gtk/gtk.h>
 #include <webkit2/webkit-web-extension.h>
 
+#include <libemail-engine/e-mail-enums.h>
+
+#include <string.h>
+
 #include "../e-util/e-dom-utils.h"
 
 /* FIXME Clean it */
@@ -347,7 +351,8 @@ handle_method_call (GDBusConnection *connection,
 			return;
 
 		document = webkit_web_page_get_dom_document (web_page);
-		e_dom_utils_vcard_inline_bind_dom (document, element_id);
+		e_dom_utils_module_vcard_inline_bind_dom (
+			document, element_id, connection);
 
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "VCardInlineUpdateButton") == 0) {
@@ -363,12 +368,12 @@ handle_method_call (GDBusConnection *connection,
 			return;
 
 		document = webkit_web_page_get_dom_document (web_page);
-		e_dom_utils_vcard_inline_update_button (
+		e_dom_utils_module_vcard_inline_update_button (
 			document, button_value, html_label, access_key);
 
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "VCardInlineSetIFrameSrc") == 0) {
-		const gchar *src
+		const gchar *src;
 
 		g_variant_get (parameters, "(t&s)", &page_id, &src);
 		web_page = get_webkit_web_page_or_return_dbus_error (invocation, web_extension, page_id);
@@ -376,7 +381,7 @@ handle_method_call (GDBusConnection *connection,
 			return;
 
 		document = webkit_web_page_get_dom_document (web_page);
-		e_dom_utils_vcard_inline_set_iframe_src (document, src);
+		e_dom_utils_module_vcard_inline_set_iframe_src (document, src);
 
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	}
