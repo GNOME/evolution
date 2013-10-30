@@ -1553,6 +1553,7 @@ modules/settings/Makefile
 modules/spamassassin/Makefile
 modules/startup-wizard/Makefile
 modules/text-highlight/Makefile
+modules/text-highlight/web-extension/Makefile
 modules/tnef-attachment/Makefile
 modules/vcard-inline/Makefile
 modules/web-inspector/Makefile
