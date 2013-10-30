@@ -216,6 +216,7 @@ mail_part_headers_constructed (GObject *object)
 static void
 mail_part_headers_bind_dom_element (EMailPart *part,
                                     GDBusProxy *web_extension,
+				    guint64 page_id,
                                     const gchar *element_id)
 {
 	if (web_extension) {
@@ -224,15 +225,11 @@ mail_part_headers_bind_dom_element (EMailPart *part,
 		result = g_dbus_proxy_call_sync (
 				web_extension,
 				"EMailPartHeadersBindDOMElement",
-				g_variant_new (
-					"(ts)",
-					webkit_web_view_get_page_id (
-						WEBKIT_WEB_VIEW (web_view)),
-					element_id),
+				g_variant_new ("(ts)", page_id, element_id),
 				G_DBUS_CALL_FLAGS_NONE,
 				-1,
-				cancellable,
-				error);
+				NULL,
+				NULL);
 
 		if (result)
 			g_variant_unref (result);

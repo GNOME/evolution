@@ -88,6 +88,7 @@ struct _EMailPartClass {
 
 	void		(*bind_dom_element)	(EMailPart *part,
 						 GDBusProxy *web_extension,
+						 guint64 page_id,
 						 const gchar *element_id);
 };
 
@@ -116,6 +117,8 @@ gboolean	e_mail_part_get_is_attachment	(EMailPart *part);
 void		e_mail_part_set_is_attachment	(EMailPart *part,
 						 gboolean is_attachment);
 void		e_mail_part_bind_dom_element	(EMailPart *part,
+						 GDBusProxy *web_extension,
+						 guint64 page_id,
 						 const gchar *element_id);
 void		e_mail_part_update_validity	(EMailPart *part,
 						 CamelCipherValidity *validity,

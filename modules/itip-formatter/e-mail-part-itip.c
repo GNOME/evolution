@@ -78,6 +78,7 @@ mail_part_itip_finalize (GObject *object)
 static void
 mail_part_itip_bind_dom_element (EMailPart *part,
                                  GDBusProxy *evolution_web_extension,
+				 guint64 page_id,
                                  const gchar *element_id)
 {
 	ItipView *view;
