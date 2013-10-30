@@ -70,6 +70,7 @@ struct _EShellPrivate {
 	guint express_mode		: 1;
 	guint modules_loaded		: 1;
 	guint network_available		: 1;
+	guint network_available_set	: 1;
 	guint network_available_locked	: 1;
 	guint online			: 1;
 	guint quit_cancelled		: 1;
@@ -1588,7 +1589,12 @@ e_shell_set_network_available (EShell *shell,
 	if (shell->priv->network_available_locked)
 		return;
 
-	if (shell->priv->network_available == network_available)
+	/* Network availablity is in an indeterminate state until
+	 * the first time this function is called.  Don't let our
+	 * arbitrary default value block this from being handled. */
+	if (!shell->priv->network_available_set)
+		shell->priv->network_available_set = TRUE;
+	else if (shell->priv->network_available == network_available)
 		return;
 
 	shell->priv->network_available = network_available;
