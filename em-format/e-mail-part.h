@@ -87,6 +87,7 @@ struct _EMailPartClass {
 	GObjectClass parent_class;
 
 	void		(*bind_dom_element)	(EMailPart *part,
+						 GDBusProxy *web_extension,
 						 const gchar *element_id);
 };
 

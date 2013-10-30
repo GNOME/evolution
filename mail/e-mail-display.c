@@ -905,7 +905,7 @@ mail_parts_bind_dom (WebKitWebView *web_view,
 		}
 
 		if (element_exists)
-			e_mail_part_bind_dom_element (part, part_id);
+			e_mail_part_bind_dom_element (part, web_extension, part_id);
 	}
 
 	while (!g_queue_is_empty (&queue))

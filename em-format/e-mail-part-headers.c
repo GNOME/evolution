@@ -215,12 +215,9 @@ mail_part_headers_constructed (GObject *object)
 
 static void
 mail_part_headers_bind_dom_element (EMailPart *part,
+                                    GDBusProxy *web_extension,
                                     const gchar *element_id)
 {
-	/*FIXME XXX Get the proxy here
-	GDBusProxy *web_extension;
-
-	web_extension = e_web_view_get_web_extension_proxy (web_view);
 	if (web_extension) {
 		GVariant *result;
 
@@ -240,7 +237,6 @@ mail_part_headers_bind_dom_element (EMailPart *part,
 		if (result)
 			g_variant_unref (result);
 	}
-	*/
 }
 
 static void
