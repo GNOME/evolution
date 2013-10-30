@@ -91,7 +91,7 @@ web_inspector_constructed (GObject *object)
 {
 	EWebInspector *extension;
 	WebKitWebView *web_view;
-	WebKitWebSettings *settings;
+	WebKitSettings *settings;
 
 	extension = E_WEB_INSPECTOR (object);
 	web_view = web_inspector_get_web_view (extension);
