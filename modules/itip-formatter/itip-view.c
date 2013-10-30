@@ -26,7 +26,6 @@
 
 #include <string.h>
 #include <glib/gi18n.h>
-#include <webkit/webkitdom.h>
 #include <libedataserver/libedataserver.h>
 
 #include <shell/e-shell.h>
