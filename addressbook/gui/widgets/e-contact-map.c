@@ -29,7 +29,7 @@
 #include <champlain-gtk/champlain-gtk.h>
 #include <geoclue/geoclue-address.h>
 #include <geoclue/geoclue-position.h>
-#include <geocode-glib.h>
+#include <geocode-glib/geocode-glib.h>
 
 #include <clutter/clutter.h>
 
@@ -87,10 +87,12 @@ contact_map_address_resolved_cb (GObject *source,
 	GHashTable *resolved = NULL;
 	gpointer marker_ptr;
 	const gchar *name;
-	gdouble latitude, longitude;
 	AsyncContext *async_context = user_data;
 	ChamplainMarkerLayer *marker_layer;
 	ChamplainMarker *marker;
+	GeocodePlace *place;
+	GeocodeLocation *location;
+	GList *search_results;
 
 	g_return_if_fail (async_context != NULL);
 	g_return_if_fail (E_IS_CONTACT_MAP (async_context->map));
@@ -107,13 +109,10 @@ contact_map_address_resolved_cb (GObject *source,
 	if (!CHAMPLAIN_IS_MARKER_LAYER (marker_layer))
 		goto exit;
 
-	resolved = geocode_object_resolve_finish (
-		GEOCODE_OBJECT (source), result, NULL);
+	search_results = geocode_forward_search_finish (
+		GEOCODE_FORWARD (source), result, NULL);
 
-	if (resolved == NULL ||
-	    !geocode_object_get_coords (resolved, &longitude, &latitude)) {
-		const gchar *name;
-
+	if (search_results == NULL) {
 		name = champlain_label_get_text (CHAMPLAIN_LABEL (marker));
 		g_signal_emit (
 			async_context->map,
@@ -121,13 +120,21 @@ contact_map_address_resolved_cb (GObject *source,
 		goto exit;
 	}
 
-	/* Move the marker to resolved position */
+	place = GEOCODE_PLACE (search_results->data);
+	location = geocode_place_get_location (place);
+
+	/* Move the marker to resolved position. */
 	champlain_location_set_location (
-		CHAMPLAIN_LOCATION (marker), latitude, longitude);
+		CHAMPLAIN_LOCATION (marker),
+		geocode_location_get_latitude (location),
+		geocode_location_get_longitude (location));
 	champlain_marker_layer_add_marker (marker_layer, marker);
 	champlain_marker_set_selected (marker, FALSE);
 
-	/* Store the marker in the hash table. Use it's label as key */
+	/* Do not unref the list elements. */
+	g_list_free (search_results);
+
+	/* Store the marker in the hash table, using its label as key. */
 	name = champlain_label_get_text (CHAMPLAIN_LABEL (marker));
 	marker_ptr = g_hash_table_lookup (
 		async_context->map->priv->markers, name);
@@ -151,39 +158,61 @@ exit:
 }
 
 static void
+add_attr (GHashTable *hash_table,
+          const gchar *key,
+          const gchar *string)
+{
+	GValue *value;
+
+	value = g_new0 (GValue, 1);
+	g_value_init (value, G_TYPE_STRING);
+	g_value_set_static_string (value, string);
+
+	g_hash_table_insert (hash_table, g_strdup (key), value);
+}
+
+static GHashTable *
+address_to_xep (EContactAddress *address)
+{
+
+	GHashTable *hash_table;
+
+	hash_table = g_hash_table_new_full (
+		(GHashFunc) g_str_hash,
+		(GEqualFunc) g_str_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) g_free);
+
+	add_attr (hash_table, "postalcode", address->code);
+	add_attr (hash_table, "country", address->country);
+	add_attr (hash_table, "region", address->region);
+	add_attr (hash_table, "locality", address->locality);
+	add_attr (hash_table, "street", address->street);
+
+	return hash_table;
+}
+
+static void
 resolve_marker_position (EContactMap *map,
                          EContactMarker *marker,
                          EContactAddress *address)
 {
-	GeocodeObject *geocoder;
+	GeocodeForward *geocoder;
 	AsyncContext *async_context;
-	const gchar *key;
+	GHashTable *hash_table;
 
 	g_return_if_fail (E_IS_CONTACT_MAP (map));
 	g_return_if_fail (address != NULL);
 
-	geocoder = geocode_object_new ();
-
-	key = GEOCODE_OBJECT_FIELD_POSTAL;
-	geocode_object_add (geocoder, key, address->code);
-
-	key = GEOCODE_OBJECT_FIELD_COUNTRY;
-	geocode_object_add (geocoder, key, address->country);
-
-	key = GEOCODE_OBJECT_FIELD_STATE;
-	geocode_object_add (geocoder, key, address->region);
-
-	key = GEOCODE_OBJECT_FIELD_CITY;
-	geocode_object_add (geocoder, key, address->locality);
-
-	key = GEOCODE_OBJECT_FIELD_STREET;
-	geocode_object_add (geocoder, key, address->street);
+	hash_table = address_to_xep (address);
+	geocoder = geocode_forward_new_for_params (hash_table);
+	g_hash_table_destroy (hash_table);
 
 	async_context = g_slice_new0 (AsyncContext);
 	async_context->map = g_object_ref (map);
 	async_context->marker = marker;
 
-	geocode_object_resolve_async (
+	geocode_forward_search_async (
 		geocoder, NULL,
 		contact_map_address_resolved_cb,
 		async_context);

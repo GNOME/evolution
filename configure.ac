@@ -61,6 +61,7 @@ dnl Optional Packages
 m4_define([champlain_minimum_version], [0.12])
 m4_define([clutter_gtk_minimum_version], [0.90])
 m4_define([geoclue_minimum_version], [0.12.0])
+m4_define([geocode_glib_minimum_version], [3.10])
 m4_define([gladeui_minimum_version], [3.10.0])
 m4_define([gweather_minimum_version], [3.5.0])
 m4_define([libcanberra_gtk_minimum_version], [0.25])
@@ -1280,12 +1281,10 @@ if test "x$enable_contact_maps" = "xyes"; then
 
 	])])
 
-	dnl Restrict geocode-glib dependency to 0.99.0 so
-	dnl we don't have to chase subsequent API changes.
 	PKG_CHECK_MODULES(
 		[GEO],
 		[geoclue >= geoclue_minimum_version
-		 geocode-glib = 0.99.0],,
+		 geocode-glib-1.0 >= geocode_glib_minimum_version],,
 		[AC_MSG_ERROR([
 
 	geoclue and/or geocode-glib not found.
