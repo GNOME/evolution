@@ -2170,7 +2170,7 @@ e_web_view_set_cursor_image_src (EWebView *web_view,
 GtkAction *
 e_web_view_get_open_proxy (EWebView *web_view)
 {
-	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), FALSE);
+	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), NULL);
 
 	return web_view->priv->open_proxy;
 }
@@ -2209,7 +2209,7 @@ e_web_view_get_paste_target_list (EWebView *web_view)
 GtkAction *
 e_web_view_get_print_proxy (EWebView *web_view)
 {
-	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), FALSE);
+	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), NULL);
 
 	return web_view->priv->print_proxy;
 }
@@ -2239,7 +2239,7 @@ e_web_view_set_print_proxy (EWebView *web_view,
 GtkAction *
 e_web_view_get_save_as_proxy (EWebView *web_view)
 {
-	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), FALSE);
+	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), NULL);
 
 	return web_view->priv->save_as_proxy;
 }

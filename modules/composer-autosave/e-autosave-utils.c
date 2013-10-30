@@ -98,7 +98,7 @@ create_snapshot_file (EMsgComposer *composer,
 			g_file_error_from_errno (errno),
 			"%s", g_strerror (errno));
 		g_free (path);
-		return FALSE;
+		return NULL;
 	}
 
 	close (fd);

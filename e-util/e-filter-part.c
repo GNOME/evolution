@@ -148,9 +148,9 @@ e_filter_part_xml_create (EFilterPart *part,
 	gchar *type, *str;
 	EFilterElement *el;
 
-	g_return_val_if_fail (E_IS_FILTER_PART (part), FALSE);
-	g_return_val_if_fail (node != NULL, FALSE);
-	g_return_val_if_fail (E_IS_RULE_CONTEXT (context), FALSE);
+	g_return_val_if_fail (E_IS_FILTER_PART (part), 0);
+	g_return_val_if_fail (node != NULL, 0);
+	g_return_val_if_fail (E_IS_RULE_CONTEXT (context), 0);
 
 	str = (gchar *) xmlGetProp (node, (xmlChar *)"name");
 	part->name = g_strdup (str);

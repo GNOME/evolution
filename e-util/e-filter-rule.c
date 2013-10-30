@@ -1225,7 +1225,7 @@ e_filter_rule_find_list (GList *list,
 {
 	GList *link;
 
-	g_return_val_if_fail (name != NULL, FALSE);
+	g_return_val_if_fail (name != NULL, NULL);
 
 	for (link = list; link != NULL; link = g_list_next (link)) {
 		EFilterRule *rule = link->data;

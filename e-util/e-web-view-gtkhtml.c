@@ -2021,7 +2021,7 @@ e_web_view_gtkhtml_set_cursor_image (EWebViewGtkHTML *web_view,
 GtkAction *
 e_web_view_gtkhtml_get_open_proxy (EWebViewGtkHTML *web_view)
 {
-	g_return_val_if_fail (E_IS_WEB_VIEW_GTKHTML (web_view), FALSE);
+	g_return_val_if_fail (E_IS_WEB_VIEW_GTKHTML (web_view), NULL);
 
 	return web_view->priv->open_proxy;
 }
@@ -2056,7 +2056,7 @@ e_web_view_gtkhtml_get_paste_target_list (EWebViewGtkHTML *web_view)
 GtkAction *
 e_web_view_gtkhtml_get_print_proxy (EWebViewGtkHTML *web_view)
 {
-	g_return_val_if_fail (E_IS_WEB_VIEW_GTKHTML (web_view), FALSE);
+	g_return_val_if_fail (E_IS_WEB_VIEW_GTKHTML (web_view), NULL);
 
 	return web_view->priv->print_proxy;
 }
@@ -2083,7 +2083,7 @@ e_web_view_gtkhtml_set_print_proxy (EWebViewGtkHTML *web_view,
 GtkAction *
 e_web_view_gtkhtml_get_save_as_proxy (EWebViewGtkHTML *web_view)
 {
-	g_return_val_if_fail (E_IS_WEB_VIEW_GTKHTML (web_view), FALSE);
+	g_return_val_if_fail (E_IS_WEB_VIEW_GTKHTML (web_view), NULL);
 
 	return web_view->priv->save_as_proxy;
 }

@@ -222,7 +222,7 @@ get_url_at_iter (GtkTextBuffer *buffer,
 
 	tag_table = gtk_text_buffer_get_tag_table (buffer);
 	tag = gtk_text_tag_table_lookup (tag_table, E_BUFFER_TAGGER_LINK_TAG);
-	g_return_val_if_fail (tag != NULL, FALSE);
+	g_return_val_if_fail (tag != NULL, NULL);
 
 	if (get_tag_bounds (iter, tag, &start, &end))
 		url = gtk_text_iter_get_text (&start, &end);
