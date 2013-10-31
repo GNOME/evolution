@@ -1,3 +1,5 @@
+SUBDIRS = web-extension
+
 module_LTLIBRARIES = module-text-highlight.la
 
 module_text_highlight_la_CPPFLAGS =					\

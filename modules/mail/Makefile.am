@@ -1,3 +1,5 @@
+SUBDIRS=web-extension
+
 module_LTLIBRARIES = module-mail.la
 
 module_mail_la_CPPFLAGS = \

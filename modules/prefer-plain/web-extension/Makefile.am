@@ -1,8 +1,8 @@
 webextensions_LTLIBRARIES = libmodulepreferplainwebextension.la
 
 libmodulepreferplainwebextension_la_SOURCES =		\
-	module-preferplain-web-extension.c		\
-	module-preferplain-web-extension.h
+	module-prefer-plain-web-extension.c		\
+	module-prefer-plain-web-extension.h
 
 libmodulepreferplainwebextension_la_CPPFLAGS =		\
 	-DWEBEXTENSIONS_COMPILATION			\

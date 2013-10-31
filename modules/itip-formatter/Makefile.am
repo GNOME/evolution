@@ -1,4 +1,4 @@
-SUBDIRS = plugin
+SUBDIRS = plugin web-extension
 
 @EVO_PLUGIN_RULE@
 
