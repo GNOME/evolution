@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2013-10-23 00:51+0000\n"
-"PO-Revision-Date: 2013-10-24 20:44+0100\n"
+"POT-Creation-Date: 2013-10-30 19:40+0000\n"
+"PO-Revision-Date: 2013-10-31 20:48+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: Slovenian\n"
@@ -244,7 +244,7 @@ msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:45
 msgid "Cannot save a contact, address book is still opening"
-msgstr ""
+msgstr "Stika ni mogoče shraniti, saj imenik še vedno ni odprt"
 
 #. For Translators: {0} is the name of the address book source
 #: ../addressbook/addressbook.error.xml.h:47
@@ -252,6 +252,8 @@ msgid ""
 "Cannot save a contact to the address book '{0}', because it is still "
 "opening. Either wait till it's opened, or select a different address book."
 msgstr ""
+"Stika ni mogoče shraniti, saj imenik '{0}' še vedno ni odprt. Ali počakajte "
+"na izbranega ali pa izberite drug imenik."
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:1
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:650
@@ -1570,8 +1572,8 @@ msgid "_Dismiss"
 msgstr "_Opusti"
 
 #: ../calendar/alarm-notify/alarm-notify.ui.h:5
-#: ../calendar/alarm-notify/alarm-queue.c:1835
-#: ../calendar/alarm-notify/alarm-queue.c:1845
+#: ../calendar/alarm-notify/alarm-queue.c:1836
+#: ../calendar/alarm-notify/alarm-queue.c:1846
 #: ../modules/cal-config-weather/evolution-cal-config-weather.c:190
 #: ../modules/itip-formatter/itip-view.c:1489
 #: ../modules/itip-formatter/itip-view.c:1600
@@ -1612,7 +1614,7 @@ msgid "minutes"
 msgstr "minut"
 
 #: ../calendar/alarm-notify/alarm-queue.c:1679
-#: ../calendar/alarm-notify/alarm-queue.c:1815
+#: ../calendar/alarm-notify/alarm-queue.c:1816
 msgid "No summary available."
 msgstr "Povzetek ni na voljo."
 
@@ -1626,8 +1628,8 @@ msgid "No location information available."
 msgstr "Podatki o mestu niso na voljo."
 
 #: ../calendar/alarm-notify/alarm-queue.c:1703
-#: ../calendar/alarm-notify/alarm-queue.c:1806
-#: ../calendar/alarm-notify/alarm-queue.c:2145
+#: ../calendar/alarm-notify/alarm-queue.c:1807
+#: ../calendar/alarm-notify/alarm-queue.c:2148
 msgid "Evolution Reminders"
 msgstr "Opomniki Evolution"
 
@@ -1640,11 +1642,11 @@ msgstr[1] "Imate %d opomnik"
 msgstr[2] "Imate %d opomnika"
 msgstr[3] "Imate %d opomnike"
 
-#: ../calendar/alarm-notify/alarm-queue.c:1965
+#: ../calendar/alarm-notify/alarm-queue.c:1966
 msgid "Warning"
 msgstr "Opozorilo"
 
-#: ../calendar/alarm-notify/alarm-queue.c:1971
+#: ../calendar/alarm-notify/alarm-queue.c:1972
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -1661,7 +1663,7 @@ msgstr ""
 "\n"
 "Ali ste prepričani, da želite ta program zagnati?"
 
-#: ../calendar/alarm-notify/alarm-queue.c:1986
+#: ../calendar/alarm-notify/alarm-queue.c:1987
 msgid "Do not ask me about this program again."
 msgstr "O tem programu me ne sprašuj več."
 
@@ -2240,7 +2242,7 @@ msgstr "Udeleženec"
 
 #: ../calendar/gui/caltypes.xml.h:14
 #: ../calendar/gui/e-cal-list-view.etspec.h:5 ../mail/message-list.etspec.h:14
-#: ../plugins/publish-calendar/publish-calendar.c:897
+#: ../plugins/publish-calendar/publish-calendar.c:904
 #: ../plugins/publish-calendar/publish-calendar.ui.h:22
 #: ../plugins/save-calendar/csv-format.c:390
 msgid "Location"
@@ -3563,7 +3565,7 @@ msgstr "Končano"
 #: ../calendar/gui/e-cal-model-tasks.c:317
 #: ../calendar/gui/e-cal-model-tasks.c:559 ../calendar/gui/e-task-table.c:220
 #: ../calendar/gui/e-task-table.c:235 ../calendar/gui/e-task-table.c:659
-#: ../calendar/gui/print.c:3600 ../mail/mail-send-recv.c:878
+#: ../calendar/gui/print.c:3600 ../mail/mail-send-recv.c:880
 msgid "Canceled"
 msgstr "Preklicano"
 
@@ -3905,7 +3907,7 @@ msgstr "Vrsta"
 msgid "Completion date"
 msgstr "Datum zaključka"
 
-#: ../calendar/gui/e-calendar-table.etspec.h:6 ../mail/mail-send-recv.c:880
+#: ../calendar/gui/e-calendar-table.etspec.h:6 ../mail/mail-send-recv.c:882
 msgid "Complete"
 msgstr "Končano"
 
@@ -4280,7 +4282,7 @@ msgid "Failure reason: %s"
 msgstr "Vzrok napake: %s"
 
 #: ../calendar/gui/e-meeting-store.c:1925
-#: ../plugins/publish-calendar/publish-calendar.c:351
+#: ../plugins/publish-calendar/publish-calendar.c:352
 #: ../smime/gui/component.c:64
 msgid "Enter password"
 msgstr "Vnesite geslo"
@@ -4482,7 +4484,7 @@ msgstr "Izberi časovni pas"
 msgid "%d %B"
 msgstr "%d %B"
 
-#: ../calendar/gui/gnome-cal.c:2369
+#: ../calendar/gui/gnome-cal.c:2372
 msgid "Purging"
 msgstr "Čiščenje"
 
@@ -9886,11 +9888,11 @@ msgstr "Počisti _vse"
 msgid "_Show field in View"
 msgstr "_Pokaži polje v meniju pogleda"
 
-#: ../e-util/e-table-config.ui.h:8 ../e-util/e-table-header-item.c:1753
+#: ../e-util/e-table-config.ui.h:8 ../e-util/e-table-header-item.c:1754
 msgid "Ascending"
 msgstr "Naraščajoče"
 
-#: ../e-util/e-table-config.ui.h:9 ../e-util/e-table-header-item.c:1753
+#: ../e-util/e-table-config.ui.h:9 ../e-util/e-table-header-item.c:1754
 msgid "Descending"
 msgstr "Padajoče"
 
@@ -10045,7 +10047,7 @@ msgstr "_Ime:"
 msgid "_Replace existing view"
 msgstr "_Zamenjaj obstoječi pogled"
 
-#: ../e-util/e-activity-proxy.c:311
+#: ../e-util/e-activity-proxy.c:310
 #: ../modules/mail/e-mail-shell-view-actions.c:1722
 msgid "Cancel"
 msgstr "Prekliči"
@@ -10157,8 +10159,8 @@ msgstr[2] "Shrani prilogi"
 msgstr[3] "Shrani priloge"
 
 #. Translators: Default attachment filename.
-#: ../e-util/e-attachment-store.c:568 ../e-util/e-attachment.c:2048
-#: ../e-util/e-attachment.c:2708
+#: ../e-util/e-attachment-store.c:568 ../e-util/e-attachment.c:2051
+#: ../e-util/e-attachment.c:2711
 msgid "attachment.dat"
 msgstr "priloga.dat"
 
@@ -10204,48 +10206,48 @@ msgstr "Odpri prilogo v %s"
 #. * message when, for example, attaching it to a composer. When the
 #. * message to be attached has also filled Subject, then this text is
 #. * of form "Attached message - Subject", otherwise it's left as is.
-#: ../e-util/e-attachment.c:1103
+#: ../e-util/e-attachment.c:1106
 msgid "Attached message"
 msgstr "Priloženo sporočilo"
 
-#: ../e-util/e-attachment.c:2129 ../e-util/e-attachment.c:3014
+#: ../e-util/e-attachment.c:2132 ../e-util/e-attachment.c:3017
 msgid "A load operation is already in progress"
 msgstr "Dejanje nalaganja je že v teku"
 
-#: ../e-util/e-attachment.c:2137 ../e-util/e-attachment.c:3022
+#: ../e-util/e-attachment.c:2140 ../e-util/e-attachment.c:3025
 msgid "A save operation is already in progress"
 msgstr "Dejanje shranjevanja je že v teku"
 
-#: ../e-util/e-attachment.c:2254
+#: ../e-util/e-attachment.c:2257
 #, c-format
 msgid "Could not load '%s'"
 msgstr "Ni mogoče naložiti '%s'"
 
-#: ../e-util/e-attachment.c:2257
+#: ../e-util/e-attachment.c:2260
 #, c-format
 msgid "Could not load the attachment"
 msgstr "Ni mogoče naložiti priloge"
 
-#: ../e-util/e-attachment.c:2561
+#: ../e-util/e-attachment.c:2564
 #, c-format
 msgid "Could not open '%s'"
 msgstr "Ni mogoče odpreti '%s'"
 
-#: ../e-util/e-attachment.c:2564
+#: ../e-util/e-attachment.c:2567
 #, c-format
 msgid "Could not open the attachment"
 msgstr "Ni mogoče odpreti priloge"
 
-#: ../e-util/e-attachment.c:3031
+#: ../e-util/e-attachment.c:3034
 msgid "Attachment contents not loaded"
 msgstr "Vsebina priloge ni naložena"
 
-#: ../e-util/e-attachment.c:3107
+#: ../e-util/e-attachment.c:3110
 #, c-format
 msgid "Could not save '%s'"
 msgstr "Ni mogoče shraniti '%s'"
 
-#: ../e-util/e-attachment.c:3110
+#: ../e-util/e-attachment.c:3113
 #, c-format
 msgid "Could not save the attachment"
 msgstr "Ni mogoče shraniti priloge"
@@ -10827,7 +10829,7 @@ msgstr "Najdi predmete, ki ustrezajo naslednjim pogojem"
 #. protocol:
 #. name:
 #: ../e-util/e-filter-rule.c:838 ../e-util/e-mail-identity-combo-box.c:401
-#: ../e-util/e-mail-signature-combo-box.c:369
+#: ../e-util/e-mail-signature-combo-box.c:369 ../e-util/e-proxy-editor.c:550
 #: ../libemail-engine/camel-null-store.c:28
 #: ../mail/e-mail-config-summary-page.c:139
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:622
@@ -11030,11 +11032,11 @@ msgstr ""
 "Uporabniki tipkovnice lahko časovni pas izberejo iz spodnjega spustnega "
 "polja."
 
-#: ../e-util/e-misc-utils.c:242
+#: ../e-util/e-misc-utils.c:243
 msgid "Could not open the link."
 msgstr "Ni mogoče odpreti povezave."
 
-#: ../e-util/e-misc-utils.c:289
+#: ../e-util/e-misc-utils.c:290
 msgid "Could not display help for Evolution."
 msgstr "Ni mogoče prikazati pomoči za program Evolution."
 
@@ -11072,7 +11074,7 @@ msgid "Search"
 msgstr "Iskanje"
 
 #: ../e-util/e-name-selector-dialog.c:450
-#: ../mail/importers/pine-importer.c:426
+#: ../mail/importers/pine-importer.c:427
 msgid "Address Book"
 msgstr "Imenik"
 
@@ -11091,25 +11093,25 @@ msgid "_Remove"
 msgstr "_Odstrani"
 
 #. To Translators: This would be similiar to "Expand MyList Inline" where MyList is a Contact List
-#: ../e-util/e-name-selector-entry.c:3028
+#: ../e-util/e-name-selector-entry.c:3040
 #, c-format
 msgid "E_xpand %s Inline"
 msgstr "_Razširi %s"
 
 #. Copy Contact Item
-#: ../e-util/e-name-selector-entry.c:3044
+#: ../e-util/e-name-selector-entry.c:3056
 #, c-format
 msgid "Cop_y %s"
 msgstr "Kop_raj %s"
 
 #. Cut Contact Item
-#: ../e-util/e-name-selector-entry.c:3055
+#: ../e-util/e-name-selector-entry.c:3067
 #, c-format
 msgid "C_ut %s"
 msgstr "Iz_reži %s"
 
 #. Edit Contact item
-#: ../e-util/e-name-selector-entry.c:3073
+#: ../e-util/e-name-selector-entry.c:3085
 #, c-format
 msgid "_Edit %s"
 msgstr "_Uredi %s"
@@ -11178,6 +11180,80 @@ msgid ""
 "The printing system did not report any additional details about the error."
 msgstr "Ni dodatnih podrobnosti o napaki sistema tiskanja."
 
+#: ../e-util/e-proxy-editor.c:315
+msgid "_Method:"
+msgstr "_Način:"
+
+#: ../e-util/e-proxy-editor.c:337
+msgid "Defer to Desktop Settings"
+msgstr "Preusmeri na nastavitve namizja"
+
+#: ../e-util/e-proxy-editor.c:341
+msgid "_Open Desktop Settings"
+msgstr "_Odpri nastavitve namizja"
+
+#: ../e-util/e-proxy-editor.c:367
+msgid "Manual"
+msgstr "ročno"
+
+#: ../e-util/e-proxy-editor.c:386
+msgid "_HTTP Proxy:"
+msgstr "Posredniški strežnik _HTTP:"
+
+#: ../e-util/e-proxy-editor.c:417
+msgid "H_TTPS Proxy:"
+msgstr "Posredniški strežnik H_TTP:"
+
+#: ../e-util/e-proxy-editor.c:448
+msgid "_Socks Proxy:"
+msgstr "Posredniški strežnik SOC_KS:"
+
+#: ../e-util/e-proxy-editor.c:479
+msgid "_Ignore Hosts:"
+msgstr "Prezri _gostitelje:"
+
+#: ../e-util/e-proxy-editor.c:505
+msgid "Automatic"
+msgstr "samodejno"
+
+#: ../e-util/e-proxy-editor.c:524
+msgid "Configuration _URL:"
+msgstr "Naslov _URL nastavitev:"
+
+#: ../e-util/e-proxy-editor.c:553
+msgid "Use a direct connection, no proxying required."
+msgstr "Uporabi neposredno povezavo brez posredniškega strežnika."
+
+#: ../e-util/e-proxy-preferences.c:178
+msgid "Switch to Basic Proxy Preferences"
+msgstr ""
+
+#: ../e-util/e-proxy-preferences.c:180
+msgid "Switch to Advanced Proxy Preferences"
+msgstr ""
+
+#: ../e-util/e-proxy-preferences.c:464
+msgid "Apply custom proxy settings to these accounts:"
+msgstr ""
+
+#: ../e-util/e-proxy-preferences.c:499
+msgid ""
+"<b>Advanced Proxy Preferences</b> lets you define alternate network proxies "
+"and apply them to specific accounts"
+msgstr ""
+
+#: ../e-util/e-proxy-selector.c:86
+msgid "Custom Proxy"
+msgstr "Posredniški strežnik po meri"
+
+#: ../e-util/e-proxy-selector.c:488
+msgid "Create a new proxy profile"
+msgstr "Ustvari nov profil posredniškega strežnika"
+
+#: ../e-util/e-proxy-selector.c:493
+msgid "Delete the selected proxy profile"
+msgstr "Izbriši izbran profil posredniškega strežnika"
+
 #: ../e-util/e-rule-editor.c:185
 msgid "Add Rule"
 msgstr "Dodaj pravilo"
@@ -11231,8 +11307,8 @@ msgstr "Doseženo je dno strani, nadaljevanje z vrha"
 msgid "Reached top of page, continued from bottom"
 msgstr "Dosežen je bil vrh strani, nadaljevanje z dna"
 
-#: ../e-util/e-send-options.c:538 ../mail/importers/elm-importer.c:331
-#: ../mail/importers/pine-importer.c:419
+#: ../e-util/e-send-options.c:538 ../mail/importers/elm-importer.c:332
+#: ../mail/importers/pine-importer.c:420
 #: ../modules/mail/e-mail-shell-view.c:1074
 msgid "Mail"
 msgstr "Pošta"
@@ -11480,75 +11556,75 @@ msgstr[1] "%s (%d predmet)"
 msgstr[2] "%s (%d predmeta)"
 msgstr[3] "%s (%d predmeti)"
 
-#: ../e-util/e-table-header-item.c:1576
+#: ../e-util/e-table-header-item.c:1577
 msgid "Customize Current View"
 msgstr "Prilagodi trenutni pogled"
 
-#: ../e-util/e-table-header-item.c:1599
+#: ../e-util/e-table-header-item.c:1600
 msgid "Sort _Ascending"
 msgstr "Razvrsti _naraščajoče"
 
-#: ../e-util/e-table-header-item.c:1602
+#: ../e-util/e-table-header-item.c:1603
 msgid "Sort _Descending"
 msgstr "Razvrsti _padajoče"
 
-#: ../e-util/e-table-header-item.c:1605
+#: ../e-util/e-table-header-item.c:1606
 msgid "_Unsort"
 msgstr "O_dstrani razvrstitev"
 
-#: ../e-util/e-table-header-item.c:1608
+#: ../e-util/e-table-header-item.c:1609
 msgid "Group By This _Field"
 msgstr "Združi po tem _polju"
 
-#: ../e-util/e-table-header-item.c:1611
+#: ../e-util/e-table-header-item.c:1612
 msgid "Group By _Box"
 msgstr "Združi po _škatli"
 
-#: ../e-util/e-table-header-item.c:1615
+#: ../e-util/e-table-header-item.c:1616
 msgid "Remove This _Column"
 msgstr "Odstrani ta _stolpec"
 
-#: ../e-util/e-table-header-item.c:1618
+#: ../e-util/e-table-header-item.c:1619
 msgid "Add a C_olumn..."
 msgstr "_Dodaj stolpec ..."
 
-#: ../e-util/e-table-header-item.c:1622
+#: ../e-util/e-table-header-item.c:1623
 msgid "A_lignment"
 msgstr "_Poravnava"
 
-#: ../e-util/e-table-header-item.c:1625
+#: ../e-util/e-table-header-item.c:1626
 msgid "B_est Fit"
 msgstr "Najboljše _prileganje"
 
-#: ../e-util/e-table-header-item.c:1628
+#: ../e-util/e-table-header-item.c:1629
 msgid "Format Column_s..."
 msgstr "_Oblikuj stolpce ..."
 
-#: ../e-util/e-table-header-item.c:1632
+#: ../e-util/e-table-header-item.c:1633
 msgid "Custo_mize Current View..."
 msgstr "Prila_godi trenutni pogled ..."
 
-#: ../e-util/e-table-header-item.c:1703
+#: ../e-util/e-table-header-item.c:1704
 msgid "_Sort By"
 msgstr "_Razvrsti po"
 
 #. Custom
-#: ../e-util/e-table-header-item.c:1726
+#: ../e-util/e-table-header-item.c:1727
 msgid "_Custom"
 msgstr "_Po meri"
 
-#: ../e-util/e-text.c:2098
+#: ../e-util/e-text.c:2099
 msgid "Select All"
 msgstr "Izberi vse"
 
-#: ../e-util/e-text.c:2111
+#: ../e-util/e-text.c:2112
 msgid "Input Methods"
 msgstr "Načini vnosa"
 
 #. Put the "UTC" entry at the top of the combo's list.
 #: ../e-util/e-timezone-dialog.c:207 ../e-util/e-timezone-dialog.c:429
 #: ../e-util/e-timezone-dialog.c:433 ../e-util/e-timezone-dialog.c:437
-#: ../e-util/e-timezone-dialog.c:803
+#: ../e-util/e-timezone-dialog.c:805
 msgid "UTC"
 msgstr "UTC"
 
@@ -11876,7 +11952,7 @@ msgstr "Pripenjanje v krajevno mapo 'Poslano' ni uspelo: %s"
 msgid "Sending message"
 msgstr "Pošiljanje sporočila"
 
-#: ../libemail-engine/e-mail-session.c:120 ../mail/em-folder-properties.c:417
+#: ../libemail-engine/e-mail-session.c:126 ../mail/em-folder-properties.c:417
 #: ../mail/em-folder-tree-model.c:786
 #: ../modules/mail/e-mail-shell-view-private.c:1076
 #: ../modules/mail/e-mail-shell-view-private.c:1087
@@ -11884,25 +11960,25 @@ msgid "Inbox"
 msgstr "Dohodna pošta"
 
 #. E_MAIL_LOCAL_FOLDER_INBOX
-#: ../libemail-engine/e-mail-session.c:121 ../mail/em-folder-tree-model.c:779
+#: ../libemail-engine/e-mail-session.c:127 ../mail/em-folder-tree-model.c:779
 #: ../modules/mail/e-mail-shell-view-private.c:1074
 msgid "Drafts"
 msgstr "Osnutki"
 
 #. E_MAIL_LOCAL_FOLDER_DRAFTS
-#: ../libemail-engine/e-mail-session.c:122 ../mail/em-folder-tree-model.c:790
+#: ../libemail-engine/e-mail-session.c:128 ../mail/em-folder-tree-model.c:790
 #: ../modules/mail/e-mail-shell-view-private.c:1078
 msgid "Outbox"
 msgstr "Odhodni predal"
 
 #. E_MAIL_LOCAL_FOLDER_OUTBOX
-#: ../libemail-engine/e-mail-session.c:123 ../mail/em-folder-tree-model.c:794
+#: ../libemail-engine/e-mail-session.c:129 ../mail/em-folder-tree-model.c:794
 #: ../modules/mail/e-mail-shell-view-private.c:1080
 msgid "Sent"
 msgstr "Poslano"
 
 #. E_MAIL_LOCAL_FOLDER_SENT
-#: ../libemail-engine/e-mail-session.c:124 ../mail/em-folder-tree-model.c:782
+#: ../libemail-engine/e-mail-session.c:130 ../mail/em-folder-tree-model.c:782
 #: ../modules/mail/e-mail-shell-view-private.c:1082
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:1
 #: ../plugins/templates/templates.c:1082 ../plugins/templates/templates.c:1381
@@ -11910,29 +11986,29 @@ msgstr "Poslano"
 msgid "Templates"
 msgstr "Predloge"
 
-#: ../libemail-engine/e-mail-session.c:1347
+#: ../libemail-engine/e-mail-session.c:1467
 #, c-format
 msgid "User cancelled operation"
 msgstr "Uporabnik je preklical opravilo"
 
-#: ../libemail-engine/e-mail-session.c:1567
+#: ../libemail-engine/e-mail-session.c:1631
 #, c-format
 msgid "%s authentication failed"
 msgstr "Overitev %s je spodletela."
 
-#: ../libemail-engine/e-mail-session.c:1617
+#: ../libemail-engine/e-mail-session.c:1681
 #, c-format
 msgid "No data source found for UID '%s'"
 msgstr "Vira podatkov za UID '%s' ni bilo mogoče najti."
 
-#: ../libemail-engine/e-mail-session.c:1680
+#: ../libemail-engine/e-mail-session.c:1744
 #, c-format
 msgid ""
 "No destination address provided, forwarding of the message has been "
 "cancelled."
 msgstr "Ciljni naslov ni določen, posredovanje sporočila je preklicano."
 
-#: ../libemail-engine/e-mail-session.c:1693
+#: ../libemail-engine/e-mail-session.c:1757
 #, c-format
 msgid "No identity found to use, forwarding of the message has been cancelled."
 msgstr ""
@@ -12130,7 +12206,7 @@ msgstr "_Privzeto"
 #: ../mail/e-mail-account-tree-view.c:85
 #: ../modules/mail/em-composer-prefs.c:1194
 #: ../modules/plugin-manager/evolution-plugin-manager.c:359
-#: ../plugins/publish-calendar/publish-calendar.c:890
+#: ../plugins/publish-calendar/publish-calendar.c:897
 msgid "Enabled"
 msgstr "Omogočeno"
 
@@ -12140,7 +12216,7 @@ msgstr "Ime računa"
 
 #: ../mail/e-mail-account-tree-view.c:136
 #: ../mail/e-mail-config-security-page.c:335
-#: ../mail/e-mail-config-security-page.c:475 ../mail/e-mail-reader.c:3532
+#: ../mail/e-mail-config-security-page.c:475 ../mail/e-mail-reader.c:3537
 #: ../mail/mail-config.ui.h:59
 msgid "Default"
 msgstr "Privzeto"
@@ -12153,7 +12229,7 @@ msgstr "Elektronski naslov ni naveden"
 msgid "Missing domain in email address"
 msgstr "V elektronskem naslovu manjka del z domeno"
 
-#: ../mail/e-mail-backend.c:739
+#: ../mail/e-mail-backend.c:741
 msgid "Unknown background operation"
 msgstr "Neznano ozadnje opravilo"
 
@@ -12669,7 +12745,7 @@ msgstr "_Vedno prezri dogovore-na: za dopisne sezname"
 msgid "Failed to retrieve message:"
 msgstr "Pridobivanje poročila je spodletelo:"
 
-#: ../mail/e-mail-reader.c:1672 ../mail/e-mail-reader.c:2774
+#: ../mail/e-mail-reader.c:1672 ../mail/e-mail-reader.c:2778
 #, c-format
 msgid "Retrieving message '%s'"
 msgstr "Pridobivanje sporočila '%s'"
@@ -13181,42 +13257,42 @@ msgstr "Vse _glave sporočil"
 msgid "Show messages with all email headers"
 msgstr "Pokaži sporočila z vsemi glavami elektronske pošte"
 
-#: ../mail/e-mail-reader.c:2780
+#: ../mail/e-mail-reader.c:2784
 msgid "Retrieving message"
 msgstr "Pridobivanje sporočila"
 
-#: ../mail/e-mail-reader.c:3702
+#: ../mail/e-mail-reader.c:3707
 #: ../modules/mail/e-mail-attachment-handler.c:207
 msgid "_Forward"
 msgstr "_Posreduj naprej"
 
-#: ../mail/e-mail-reader.c:3703
+#: ../mail/e-mail-reader.c:3708
 msgid "Forward the selected message to someone"
 msgstr "Nekomu posreduje izbrano sporočilo"
 
-#: ../mail/e-mail-reader.c:3722
+#: ../mail/e-mail-reader.c:3727
 msgid "Group Reply"
 msgstr "Skupinski odgovor"
 
-#: ../mail/e-mail-reader.c:3723
+#: ../mail/e-mail-reader.c:3728
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "Ali je odgovor namenjen dopisnemu seznamu ali vsem prejemnikom"
 
-#: ../mail/e-mail-reader.c:3789 ../mail/em-filter-i18n.h:15
+#: ../mail/e-mail-reader.c:3794 ../mail/em-filter-i18n.h:15
 msgid "Delete"
 msgstr "Izbriši"
 
-#: ../mail/e-mail-reader.c:3801
+#: ../mail/e-mail-reader.c:3806
 #: ../modules/calendar/e-cal-shell-view-actions.c:1372
 msgid "Next"
 msgstr "Naslednji"
 
-#: ../mail/e-mail-reader.c:3805
+#: ../mail/e-mail-reader.c:3810
 #: ../modules/calendar/e-cal-shell-view-actions.c:1365
 msgid "Previous"
 msgstr "Predhodni"
 
-#: ../mail/e-mail-reader.c:3814 ../mail/mail-dialogs.ui.h:15
+#: ../mail/e-mail-reader.c:3819 ../mail/mail-dialogs.ui.h:15
 msgid "Reply"
 msgstr "Odgovori"
 
@@ -13709,7 +13785,7 @@ msgstr "Naroči se na _prikazano"
 msgid "Subscribe To _All"
 msgstr "Naroči se na _vse"
 
-#: ../mail/em-subscription-editor.c:981 ../mail/em-subscription-editor.c:1871
+#: ../mail/em-subscription-editor.c:981 ../mail/em-subscription-editor.c:1875
 #: ../modules/mail/e-mail-shell-view-actions.c:1629
 msgid "_Unsubscribe"
 msgstr "_Prekliči naročnino"
@@ -13722,56 +13798,56 @@ msgstr "Prekliči naročnino na _skrito"
 msgid "Unsubscribe From _All"
 msgstr "Prekliči naročnino na _vse"
 
-#: ../mail/em-subscription-editor.c:1708
+#: ../mail/em-subscription-editor.c:1712
 msgid "Folder Subscriptions"
 msgstr "Naročnine na mape"
 
-#: ../mail/em-subscription-editor.c:1747
+#: ../mail/em-subscription-editor.c:1751
 msgid "_Account:"
 msgstr "R_ačun:"
 
-#: ../mail/em-subscription-editor.c:1760
+#: ../mail/em-subscription-editor.c:1764
 msgid "Clear Search"
 msgstr "Počisti iskanje"
 
-#: ../mail/em-subscription-editor.c:1777
+#: ../mail/em-subscription-editor.c:1781
 msgid "Sho_w items that contain:"
 msgstr "Pok_aži predmete, ki vsebujejo:"
 
-#: ../mail/em-subscription-editor.c:1824
+#: ../mail/em-subscription-editor.c:1828
 msgid "Subscribe to the selected folder"
 msgstr "Naroči se na izbrano mapo"
 
-#: ../mail/em-subscription-editor.c:1825
+#: ../mail/em-subscription-editor.c:1829
 msgid "Su_bscribe"
 msgstr "_Naroči"
 
-#: ../mail/em-subscription-editor.c:1870
+#: ../mail/em-subscription-editor.c:1874
 #: ../modules/mail/e-mail-shell-view-actions.c:1631
 msgid "Unsubscribe from the selected folder"
 msgstr "Prekliče naročnino na izbrano mapo"
 
-#: ../mail/em-subscription-editor.c:1910
+#: ../mail/em-subscription-editor.c:1914
 msgid "Collapse all folders"
 msgstr "Skrči vse mape"
 
-#: ../mail/em-subscription-editor.c:1911
+#: ../mail/em-subscription-editor.c:1915
 msgid "C_ollapse All"
 msgstr "_Skrči vse"
 
-#: ../mail/em-subscription-editor.c:1921
+#: ../mail/em-subscription-editor.c:1925
 msgid "Expand all folders"
 msgstr "Razširi vse mape"
 
-#: ../mail/em-subscription-editor.c:1922
+#: ../mail/em-subscription-editor.c:1926
 msgid "E_xpand All"
 msgstr "_Razširi vse"
 
-#: ../mail/em-subscription-editor.c:1932
+#: ../mail/em-subscription-editor.c:1936
 msgid "Refresh the folder list"
 msgstr "Osveži seznam map"
 
-#: ../mail/em-subscription-editor.c:1944
+#: ../mail/em-subscription-editor.c:1948
 msgid "Stop the current operation"
 msgstr "Zaustavi trenutno opravilo"
 
@@ -13842,11 +13918,11 @@ msgstr "vključi podmape"
 msgid "Importing Elm data"
 msgstr "Uvažanje podatkov Elm"
 
-#: ../mail/importers/elm-importer.c:378
+#: ../mail/importers/elm-importer.c:379
 msgid "Evolution Elm importer"
 msgstr "Uvoznik Elm Evolution"
 
-#: ../mail/importers/elm-importer.c:379
+#: ../mail/importers/elm-importer.c:380
 msgid "Import mail from Elm."
 msgstr "Uvozi pošto iz Elma."
 
@@ -13867,22 +13943,22 @@ msgstr "Izbor mape"
 msgid "Select folder to import into"
 msgstr "Izberite mapo za uvoz"
 
-#: ../mail/importers/evolution-mbox-importer.c:437
+#: ../mail/importers/evolution-mbox-importer.c:438
 msgctxt "mboxImp"
 msgid "Subject"
 msgstr "Zadeva"
 
-#: ../mail/importers/evolution-mbox-importer.c:442
+#: ../mail/importers/evolution-mbox-importer.c:443
 msgctxt "mboxImp"
 msgid "From"
 msgstr "Od"
 
-#: ../mail/importers/evolution-mbox-importer.c:486
+#: ../mail/importers/evolution-mbox-importer.c:487
 #: ../shell/e-shell-utils.c:172
 msgid "Berkeley Mailbox (mbox)"
 msgstr "Poštni predal Berkeley (mbox)"
 
-#: ../mail/importers/evolution-mbox-importer.c:487
+#: ../mail/importers/evolution-mbox-importer.c:488
 msgid "Importer Berkeley Mailbox format folders"
 msgstr "Uvoznik map v obliki poštnih predalov Berkeley"
 
@@ -13907,11 +13983,11 @@ msgstr "Preiskovanje %s"
 msgid "Importing Pine data"
 msgstr "Uvažanje podatkov Pine"
 
-#: ../mail/importers/pine-importer.c:474
+#: ../mail/importers/pine-importer.c:475
 msgid "Evolution Pine importer"
 msgstr "Uvoznik Pine Evolution"
 
-#: ../mail/importers/pine-importer.c:475
+#: ../mail/importers/pine-importer.c:476
 msgid "Import mail from Pine."
 msgstr "Uvozi pošto iz Pina."
 
@@ -14359,65 +14435,16 @@ msgid "Option is ignored if a match for custom junk headers is found."
 msgstr "Možnost je prezrta, če je najdena glava po meri za vsiljeno pošto."
 
 #: ../mail/mail-config.ui.h:107
-msgid "Proxy Settings"
-msgstr "Nastavitve posredniškega strežnika"
-
-#: ../mail/mail-config.ui.h:108
-msgid "_Use system defaults"
-msgstr "Uporabi _privzete sistemske vrednosti"
-
-#: ../mail/mail-config.ui.h:109
-msgid "_Direct connection to the Internet"
-msgstr "_Neposredna povezava z medmrežjem"
-
-#: ../mail/mail-config.ui.h:110
-msgid "_Manual proxy configuration:"
-msgstr "_Ročna nastavitev posredniškega strežnika:"
-
-#: ../mail/mail-config.ui.h:111
-msgid "H_TTP Proxy:"
-msgstr "Posredniški strežnik _HTTP:"
-
-#: ../mail/mail-config.ui.h:112
-msgid "_Secure HTTP Proxy:"
-msgstr "_Varni posredniški strežnik HTTP:"
-
-#: ../mail/mail-config.ui.h:113
-msgid "SOC_KS Proxy:"
-msgstr "Posredniški strežnik SOC_KS:"
-
-#: ../mail/mail-config.ui.h:114
-msgid "No _Proxy for:"
-msgstr "Ni _posredniškega strežnika za:"
-
-#: ../mail/mail-config.ui.h:115
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:614
-msgid "Port:"
-msgstr "Vrata:"
-
-#: ../mail/mail-config.ui.h:116
-msgid "Use Authe_ntication"
-msgstr "Uporabi _overitev"
-
-#: ../mail/mail-config.ui.h:117
-msgid "Us_ername:"
-msgstr "Uporab_niško ime:"
-
-#: ../mail/mail-config.ui.h:118
-msgid "Pass_word:"
-msgstr "_Geslo:"
-
-#: ../mail/mail-config.ui.h:119
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:225
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:159
 msgid "No encryption"
 msgstr "Brez šifriranja"
 
-#: ../mail/mail-config.ui.h:120
+#: ../mail/mail-config.ui.h:108
 msgid "TLS encryption"
 msgstr "Šifriranje TLS"
 
-#: ../mail/mail-config.ui.h:121
+#: ../mail/mail-config.ui.h:109
 msgid "SSL encryption"
 msgstr "Šifriranje SSL"
 
@@ -14918,7 +14945,7 @@ msgid "Do _Not Disable"
 msgstr "Ne _onemogoči"
 
 #: ../mail/mail.error.xml.h:90
-#: ../plugins/publish-calendar/publish-calendar.c:649
+#: ../plugins/publish-calendar/publish-calendar.c:656
 msgid "_Disable"
 msgstr "O_nemogoči"
 
@@ -15279,15 +15306,15 @@ msgstr "Pošlji in prejmi pošto"
 msgid "Cancel _All"
 msgstr "Prekliči _vse"
 
-#: ../mail/mail-send-recv.c:655 ../mail/mail-send-recv.c:1047
+#: ../mail/mail-send-recv.c:656 ../mail/mail-send-recv.c:1049
 msgid "Updating..."
 msgstr "Posodabljanje ..."
 
-#: ../mail/mail-send-recv.c:655 ../mail/mail-send-recv.c:736
+#: ../mail/mail-send-recv.c:656 ../mail/mail-send-recv.c:738
 msgid "Waiting..."
 msgstr "Čakanje ..."
 
-#: ../mail/mail-send-recv.c:1020
+#: ../mail/mail-send-recv.c:1022
 #, c-format
 msgid "Checking for new mail at '%s'"
 msgstr "Preverjanje za novo pošto na '%s'"
@@ -15943,41 +15970,41 @@ msgstr "Odstranjevanje začasnih datotek varnostnih kopij"
 msgid "Reloading registry service"
 msgstr "Ponovno nalaganje storitve registra"
 
-#: ../modules/backup-restore/evolution-backup-tool.c:915
+#: ../modules/backup-restore/evolution-backup-tool.c:917
 msgid "Evolution Back Up"
 msgstr "Varnostna kopija programa Evolution"
 
-#: ../modules/backup-restore/evolution-backup-tool.c:916
+#: ../modules/backup-restore/evolution-backup-tool.c:918
 #, c-format
 msgid "Backing up to the folder %s"
 msgstr "Shranjevanje varnostne kopije v mapo %s"
 
-#: ../modules/backup-restore/evolution-backup-tool.c:920
+#: ../modules/backup-restore/evolution-backup-tool.c:922
 msgid "Evolution Restore"
 msgstr "Obnavljanje Evolutiona"
 
-#: ../modules/backup-restore/evolution-backup-tool.c:921
+#: ../modules/backup-restore/evolution-backup-tool.c:923
 #, c-format
 msgid "Restoring from the folder %s"
 msgstr "Obnavljanje podatkov iz mape %s"
 
-#: ../modules/backup-restore/evolution-backup-tool.c:991
+#: ../modules/backup-restore/evolution-backup-tool.c:993
 msgid "Backing up Evolution Data"
 msgstr "Varnostna kopija podatkov programa Evolution"
 
-#: ../modules/backup-restore/evolution-backup-tool.c:992
+#: ../modules/backup-restore/evolution-backup-tool.c:994
 msgid "Please wait while Evolution is backing up your data."
 msgstr "Počakajte, dokler program ne naredi varnostne kopije vaših podatkov."
 
-#: ../modules/backup-restore/evolution-backup-tool.c:994
+#: ../modules/backup-restore/evolution-backup-tool.c:996
 msgid "Restoring Evolution Data"
 msgstr "Obnovitev podatkov programa Evolution"
 
-#: ../modules/backup-restore/evolution-backup-tool.c:995
+#: ../modules/backup-restore/evolution-backup-tool.c:997
 msgid "Please wait while Evolution is restoring your data."
 msgstr "Počakajte, dokler program ne obnovi vaših podatkov."
 
-#: ../modules/backup-restore/evolution-backup-tool.c:1017
+#: ../modules/backup-restore/evolution-backup-tool.c:1019
 msgid "This may take a while depending on the amount of data in your account."
 msgstr ""
 "Postopek je lahko dolgotrajen, saj je odvisen od količine podatkov na vašemu "
@@ -16089,6 +16116,10 @@ msgstr "Povezovanje z LDAP"
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:587
 msgid "Server Information"
 msgstr "Podrobnosti o strežniku"
+
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:614
+msgid "Port:"
+msgstr "Vrata:"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:628
 msgid "StartTLS (recommended)"
@@ -16598,7 +16629,7 @@ msgstr "Koledar in naloge"
 msgid "Opening calendar '%s'"
 msgstr "Odpiranje koledarja '%s'"
 
-#: ../modules/calendar/e-cal-shell-sidebar.c:591
+#: ../modules/calendar/e-cal-shell-sidebar.c:590
 msgid "Calendar Selector"
 msgstr "Izbirnik koledarjev"
 
@@ -17074,7 +17105,7 @@ msgstr "Ustvari nov seznam opomnikov"
 msgid "Opening memo list '%s'"
 msgstr "Odpiranje seznama opomnikov '%s'"
 
-#: ../modules/calendar/e-memo-shell-sidebar.c:547
+#: ../modules/calendar/e-memo-shell-sidebar.c:546
 msgid "Memo List Selector"
 msgstr "Izbirnik seznama opomnikov"
 
@@ -17165,7 +17196,7 @@ msgstr[2] "%d opomnika"
 msgstr[3] "%d opomniki"
 
 #: ../modules/calendar/e-memo-shell-view-private.c:542
-#: ../modules/calendar/e-task-shell-view-private.c:746
+#: ../modules/calendar/e-task-shell-view-private.c:748
 #, c-format
 msgid "%d selected"
 msgstr "%d izbranih"
@@ -17204,7 +17235,7 @@ msgstr "Ustvari nov seznam nalog"
 msgid "Opening task list '%s'"
 msgstr "Odpiranje seznama opravil '%s'"
 
-#: ../modules/calendar/e-task-shell-sidebar.c:547
+#: ../modules/calendar/e-task-shell-sidebar.c:546
 msgid "Task List Selector"
 msgstr "Izbirnik seznama nalog"
 
@@ -17333,11 +17364,11 @@ msgstr "Izbriši naloge"
 msgid "Delete Task"
 msgstr "Izbriši nalogo"
 
-#: ../modules/calendar/e-task-shell-view-private.c:631
+#: ../modules/calendar/e-task-shell-view-private.c:633
 msgid "Expunging"
 msgstr "Uničuvanje"
 
-#: ../modules/calendar/e-task-shell-view-private.c:742
+#: ../modules/calendar/e-task-shell-view-private.c:744
 #, c-format
 msgid "%d task"
 msgid_plural "%d tasks"
@@ -18205,51 +18236,51 @@ msgstr[1] "%d priloženo sporočilo"
 msgstr[2] "%d priloženi sporočili"
 msgstr[3] "%d priložena sporočila"
 
-#: ../modules/mail/e-mail-shell-backend.c:237
+#: ../modules/mail/e-mail-shell-backend.c:236
 msgctxt "New"
 msgid "_Mail Message"
 msgstr "_Poštno sporočilo"
 
-#: ../modules/mail/e-mail-shell-backend.c:239
+#: ../modules/mail/e-mail-shell-backend.c:238
 msgid "Compose a new mail message"
 msgstr "Sestavi novo poštno sporočilo"
 
-#: ../modules/mail/e-mail-shell-backend.c:247
+#: ../modules/mail/e-mail-shell-backend.c:246
 msgctxt "New"
 msgid "Mail Acco_unt"
 msgstr "Poštni _račun"
 
-#: ../modules/mail/e-mail-shell-backend.c:249
+#: ../modules/mail/e-mail-shell-backend.c:248
 msgid "Create a new mail account"
 msgstr "Ustvari nov poštni račun"
 
-#: ../modules/mail/e-mail-shell-backend.c:254
+#: ../modules/mail/e-mail-shell-backend.c:253
 msgctxt "New"
 msgid "Mail _Folder"
 msgstr "Poštna _mapa"
 
-#: ../modules/mail/e-mail-shell-backend.c:256
+#: ../modules/mail/e-mail-shell-backend.c:255
 msgid "Create a new mail folder"
 msgstr "Ustvari novo poštno mapo"
 
-#: ../modules/mail/e-mail-shell-backend.c:551
+#: ../modules/mail/e-mail-shell-backend.c:565
 msgid "Mail Accounts"
 msgstr "Poštni računi"
 
-#: ../modules/mail/e-mail-shell-backend.c:560
+#: ../modules/mail/e-mail-shell-backend.c:574
 msgid "Mail Preferences"
 msgstr "Možnosti pošte"
 
-#: ../modules/mail/e-mail-shell-backend.c:569
+#: ../modules/mail/e-mail-shell-backend.c:583
 msgid "Composer Preferences"
 msgstr "Možnosti sestavljalnika"
 
-#: ../modules/mail/e-mail-shell-backend.c:578
+#: ../modules/mail/e-mail-shell-backend.c:593
 msgid "Network Preferences"
 msgstr "Možnosti omrežja"
 
 #. Translators: The first item in the list, to be able to set rule: [Label] [is/is-not] [None]
-#: ../modules/mail/e-mail-shell-backend.c:867
+#: ../modules/mail/e-mail-shell-backend.c:883
 msgctxt "label"
 msgid "None"
 msgstr "Brez"
@@ -19249,35 +19280,35 @@ msgstr "Opomnik prilog"
 msgid "Reminds you when you forgot to add an attachment to a mail message."
 msgstr "Opomnik v primeru da pozabite dodati prilogo poštnemu sporočilu."
 
-#: ../plugins/bbdb/bbdb.c:635 ../plugins/bbdb/bbdb.c:644
+#: ../plugins/bbdb/bbdb.c:637 ../plugins/bbdb/bbdb.c:646
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1
 msgid "Automatic Contacts"
 msgstr "Samodejni stiki"
 
 #. Enable BBDB checkbox
-#: ../plugins/bbdb/bbdb.c:659
+#: ../plugins/bbdb/bbdb.c:661
 msgid "Create _address book entries when sending mails"
 msgstr "_Ustvari vnose v imeniku pri odgovarjanju na sporočila"
 
-#: ../plugins/bbdb/bbdb.c:666
+#: ../plugins/bbdb/bbdb.c:668
 msgid "Select Address book for Automatic Contacts"
 msgstr "Izberite imenik za samodejne stike"
 
-#: ../plugins/bbdb/bbdb.c:683
+#: ../plugins/bbdb/bbdb.c:685
 msgid "Instant Messaging Contacts"
 msgstr "Stiki hipnega sporočanja"
 
 #. Enable Gaim Checkbox
-#: ../plugins/bbdb/bbdb.c:698
+#: ../plugins/bbdb/bbdb.c:700
 msgid "_Synchronize contact info and images from Pidgin buddy list"
 msgstr "_Uskladi podatke in slike stikov s seznama stikov programa Pidgin"
 
-#: ../plugins/bbdb/bbdb.c:705
+#: ../plugins/bbdb/bbdb.c:707
 msgid "Select Address book for Pidgin buddy list"
 msgstr "Izberite imenik za seznam stikov Pidgin"
 
 #. Synchronize now button.
-#: ../plugins/bbdb/bbdb.c:718
+#: ../plugins/bbdb/bbdb.c:720
 msgid "Synchronize with _buddy list now"
 msgstr "Uskladi s _seznamom prijateljev"
 
@@ -19963,44 +19994,44 @@ msgstr "Mesta"
 msgid "Publish calendars to the web."
 msgstr "Objavi koledarje na spletu."
 
-#: ../plugins/publish-calendar/publish-calendar.c:217
-#: ../plugins/publish-calendar/publish-calendar.c:484
+#: ../plugins/publish-calendar/publish-calendar.c:218
+#: ../plugins/publish-calendar/publish-calendar.c:485
 #, c-format
 msgid "Could not open %s:"
 msgstr "Ni mogoče odpreti %s:"
 
-#: ../plugins/publish-calendar/publish-calendar.c:236
+#: ../plugins/publish-calendar/publish-calendar.c:237
 #, c-format
 msgid "There was an error while publishing to %s:"
 msgstr "Med objavljanjem v %s je prišlo do napake:"
 
-#: ../plugins/publish-calendar/publish-calendar.c:242
+#: ../plugins/publish-calendar/publish-calendar.c:243
 #, c-format
 msgid "Publishing to %s finished successfully"
 msgstr "Objavljanje v %s je uspešno končano"
 
-#: ../plugins/publish-calendar/publish-calendar.c:290
+#: ../plugins/publish-calendar/publish-calendar.c:291
 #, c-format
 msgid "Mount of %s failed:"
 msgstr "Priklop %s je spodletel:"
 
-#: ../plugins/publish-calendar/publish-calendar.c:649
+#: ../plugins/publish-calendar/publish-calendar.c:656
 #: ../plugins/publish-calendar/publish-calendar.ui.h:33
 msgid "E_nable"
 msgstr "_Omogoči"
 
-#: ../plugins/publish-calendar/publish-calendar.c:799
+#: ../plugins/publish-calendar/publish-calendar.c:806
 msgid "Are you sure you want to remove this location?"
 msgstr "Ali ste prepričani, da želite odstraniti to mesto?"
 
 #. To Translators: This is shown to a user when creation of a new thread,
 #. * where the publishing should be done, fails. Basically, this shouldn't
 #. * ever happen, and if so, then something is really wrong.
-#: ../plugins/publish-calendar/publish-calendar.c:1138
+#: ../plugins/publish-calendar/publish-calendar.c:1145
 msgid "Could not create publish thread."
 msgstr "Ni mogoče objaviti niti sporočil."
 
-#: ../plugins/publish-calendar/publish-calendar.c:1148
+#: ../plugins/publish-calendar/publish-calendar.c:1155
 msgid "_Publish Calendar Information"
 msgstr "Objavi _podatke o koledarju"
 
@@ -20098,11 +20129,11 @@ msgstr "Mesto objave"
 msgid "Invalid source UID '%s'"
 msgstr "Neveljaven naslov URI vira '%s'"
 
-#: ../plugins/publish-calendar/url-editor-dialog.c:540
+#: ../plugins/publish-calendar/url-editor-dialog.c:542
 msgid "New Location"
 msgstr "Novo mesto"
 
-#: ../plugins/publish-calendar/url-editor-dialog.c:542
+#: ../plugins/publish-calendar/url-editor-dialog.c:544
 msgid "Edit Location"
 msgstr "Urejanje mesta"
 
@@ -20252,19 +20283,19 @@ msgstr "Shrani kot _predlogo"
 msgid "Save as Template"
 msgstr "Shrani kot predlogo"
 
-#: ../shell/e-shell.c:278
+#: ../shell/e-shell.c:279
 msgid "Preparing to go offline..."
 msgstr "Priprava za delo brez povezave ..."
 
-#: ../shell/e-shell.c:331
+#: ../shell/e-shell.c:332
 msgid "Preparing to go online..."
 msgstr "Priprava za delo v povezavi ..."
 
-#: ../shell/e-shell.c:412
+#: ../shell/e-shell.c:413
 msgid "Preparing to quit"
 msgstr "Priprava na končanje"
 
-#: ../shell/e-shell.c:418
+#: ../shell/e-shell.c:419
 msgid "Preparing to quit..."
 msgstr "Priprava na končanje ..."
 
@@ -20280,19 +20311,19 @@ msgstr "Shrani iskanje"
 #. * allows the user to filter the current view.  Examples of
 #. * items that appear in the combo box are "Unread Messages",
 #. * "Important Messages", or "Active Appointments".
-#: ../shell/e-shell-searchbar.c:1102
+#: ../shell/e-shell-searchbar.c:938
 msgid "Sho_w:"
 msgstr "Po_kaži:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
-#: ../shell/e-shell-searchbar.c:1136
+#: ../shell/e-shell-searchbar.c:963
 msgid "Sear_ch:"
 msgstr "Po_išči:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
-#: ../shell/e-shell-searchbar.c:1217
+#: ../shell/e-shell-searchbar.c:1031
 msgid "i_n"
 msgstr "_v"
 
@@ -20582,7 +20613,7 @@ msgstr "Izbriši pogled: %s"
 msgid "Execute these search parameters"
 msgstr "Izvedi te parametre iskanja"
 
-#: ../shell/e-shell-window.c:455
+#: ../shell/e-shell-window.c:504
 msgid "New"
 msgstr "Nov"
 
@@ -21113,6 +21144,33 @@ msgstr "Z _datumom zapadlosti"
 #: ../views/tasks/galview.xml.h:3
 msgid "With _Status"
 msgstr "S _stanjem"
+
+#~ msgid "Proxy Settings"
+#~ msgstr "Nastavitve posredniškega strežnika"
+
+#~ msgid "_Use system defaults"
+#~ msgstr "Uporabi _privzete sistemske vrednosti"
+
+#~ msgid "_Direct connection to the Internet"
+#~ msgstr "_Neposredna povezava z medmrežjem"
+
+#~ msgid "_Manual proxy configuration:"
+#~ msgstr "_Ročna nastavitev posredniškega strežnika:"
+
+#~ msgid "_Secure HTTP Proxy:"
+#~ msgstr "_Varni posredniški strežnik HTTP:"
+
+#~ msgid "No _Proxy for:"
+#~ msgstr "Ni _posredniškega strežnika za:"
+
+#~ msgid "Use Authe_ntication"
+#~ msgstr "Uporabi _overitev"
+
+#~ msgid "Us_ername:"
+#~ msgstr "Uporab_niško ime:"
+
+#~ msgid "Pass_word:"
+#~ msgstr "_Geslo:"
 
 #~ msgid "Could not open %s: Unknown error"
 #~ msgstr "Ni mogoče odpreti %s: neznana napaka"
