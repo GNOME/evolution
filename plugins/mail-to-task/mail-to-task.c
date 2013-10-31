@@ -1044,7 +1044,6 @@ do_mail_to_event (AsyncData *data)
 	g_object_unref (folder);
 
 	g_object_unref (data->source);
-	g_free (data->selected_text);
 	g_free (data);
 	data = NULL;
 
@@ -1220,7 +1219,7 @@ mail_to_event (ECalClientSourceType source_type,
 
 		/* FIXME move data->selected_text to const gchar * */
 		if (uids->len == 1)
-			data->selected_text = g_strdup (get_selected_text (reader));
+			data->selected_text = get_selected_text (reader);
 		else
 			data->selected_text = NULL;
 
