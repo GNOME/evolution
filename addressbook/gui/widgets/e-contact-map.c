@@ -39,8 +39,6 @@
 
 #include "e-util/e-util.h"
 
-#include "e-contact-marker.h"
-
 #define E_CONTACT_MAP_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_CONTACT_MAP, EContactMapPrivate))
@@ -55,7 +53,7 @@ struct _EContactMapPrivate {
 
 struct _AsyncContext {
 	EContactMap *map;
-	EContactMarker *marker;
+	ClutterActor *marker;
 };
 
 enum {
@@ -76,6 +74,66 @@ async_context_free (AsyncContext *async_context)
 	g_clear_object (&async_context->map);
 
 	g_slice_free (AsyncContext, async_context);
+}
+
+static ClutterActor *
+texture_new_from_pixbuf (GdkPixbuf *pixbuf,
+                         GError **error)
+{
+	ClutterActor *texture = NULL;
+	const guchar *data;
+	gboolean has_alpha, success;
+	gint width, height, rowstride;
+	ClutterTextureFlags flags = 0;
+
+	data = gdk_pixbuf_get_pixels (pixbuf);
+	width = gdk_pixbuf_get_width (pixbuf);
+	height = gdk_pixbuf_get_height (pixbuf);
+	has_alpha = gdk_pixbuf_get_has_alpha (pixbuf);
+	rowstride = gdk_pixbuf_get_rowstride (pixbuf);
+
+	texture = clutter_texture_new ();
+	success = clutter_texture_set_from_rgb_data (
+		CLUTTER_TEXTURE (texture),
+		data, has_alpha, width, height, rowstride,
+		(has_alpha ? 4: 3), flags, NULL);
+
+	if (!success) {
+		clutter_actor_destroy (CLUTTER_ACTOR (texture));
+		texture = NULL;
+	}
+
+	return texture;
+}
+
+static ClutterActor *
+contact_map_photo_to_texture (EContactPhoto *photo)
+{
+	ClutterActor *texture = NULL;
+	GdkPixbuf *pixbuf = NULL;
+
+	if  (photo->type == E_CONTACT_PHOTO_TYPE_INLINED) {
+		GdkPixbufLoader *loader = gdk_pixbuf_loader_new ();
+
+		gdk_pixbuf_loader_write (
+			loader, photo->data.inlined.data,
+			photo->data.inlined.length, NULL);
+		gdk_pixbuf_loader_close (loader, NULL);
+		pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
+		if (pixbuf != NULL)
+			g_object_ref (pixbuf);
+		g_object_unref (loader);
+
+	} else if (photo->type == E_CONTACT_PHOTO_TYPE_URI) {
+		pixbuf = gdk_pixbuf_new_from_file (photo->data.uri, NULL);
+	}
+
+	if (pixbuf != NULL) {
+		texture = texture_new_from_pixbuf (pixbuf, NULL);
+		g_object_unref (pixbuf);
+	}
+
+	return texture;
 }
 
 static void
@@ -343,7 +401,7 @@ e_contact_map_add_marker (EContactMap *map,
                           EContactAddress *address,
                           EContactPhoto *photo)
 {
-	EContactMarker *marker;
+	ClutterActor *marker;
 	GHashTable *hash_table;
 	GeocodeForward *geocoder;
 	AsyncContext *async_context;
@@ -353,7 +411,20 @@ e_contact_map_add_marker (EContactMap *map,
 	g_return_if_fail (contact_uid != NULL);
 	g_return_if_fail (address != NULL);
 
-	marker = e_contact_marker_new (name, contact_uid, photo);
+	marker = champlain_label_new ();
+	champlain_label_set_text (CHAMPLAIN_LABEL (marker), name);
+
+	if (photo != NULL) {
+		champlain_label_set_image (
+			CHAMPLAIN_LABEL (marker),
+			contact_map_photo_to_texture (photo));
+	}
+
+	/* Stash the contact UID for EContactMapWindow. */
+	g_object_set_data_full (
+		G_OBJECT (marker), "contact-uid",
+		g_strdup (contact_uid),
+		(GDestroyNotify) g_free);
 
 	hash_table = address_to_xep (address);
 	geocoder = geocode_forward_new_for_params (hash_table);

@@ -43,8 +43,6 @@ libeabwidgets_la_SOURCES =			\
 	e-contact-map.h				\
 	e-contact-map-window.c			\
 	e-contact-map-window.h			\
-	e-contact-marker.c			\
-	e-contact-marker.h			\
 	e-minicard.c				\
 	e-minicard.h				\
 	e-minicard-label.c			\
