@@ -31,7 +31,6 @@
 #include <champlain/champlain.h>
 
 #include "e-contact-map.h"
-#include "e-contact-marker.h"
 
 #define E_CONTACT_MAP_WINDOW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -65,18 +64,25 @@ G_DEFINE_TYPE (
 	e_contact_map_window,
 	GTK_TYPE_WINDOW)
 
-static void
-marker_doubleclick_cb (ClutterActor *actor,
-                       gpointer user_data)
+static gboolean
+contact_map_marker_button_release_event_cb (ClutterActor *actor,
+                                            ClutterEvent *event,
+                                            EContactMapWindow *window)
 {
-	EContactMapWindow *window = user_data;
-	EContactMarker *marker;
 	const gchar *contact_uid;
 
-	marker = E_CONTACT_MARKER (actor);
-	contact_uid = e_contact_marker_get_contact_uid (marker);
+	if (clutter_event_get_click_count (event) != 2)
+		return FALSE;
 
-	g_signal_emit (window, signals[SHOW_CONTACT_EDITOR], 0, contact_uid);
+	contact_uid = g_object_get_data (G_OBJECT (actor), "contact-uid");
+	g_return_val_if_fail (contact_uid != NULL, FALSE);
+
+	g_signal_emit (
+		window,
+		signals[SHOW_CONTACT_EDITOR], 0,
+		contact_uid);
+
+	return TRUE;
 }
 
 static void
@@ -173,8 +179,9 @@ contact_map_window_contact_added_cb (EContactMap *map,
 	gtk_list_store_set (list_store, &iter, 0, name, -1);
 
 	g_signal_connect (
-		marker, "double-clicked",
-		G_CALLBACK (marker_doubleclick_cb), window);
+		marker, "button-release-event",
+		G_CALLBACK (contact_map_marker_button_release_event_cb),
+		window);
 
 	window->priv->tasks_cnt--;
 	if (window->priv->tasks_cnt == 0) {
