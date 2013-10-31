@@ -347,9 +347,6 @@ map_window_show_contact_editor_cb (EContactMapWindow *window,
 	g_signal_connect (
 		editor, "contact-modified",
 		G_CALLBACK (contact_editor_contact_modified_cb), window);
-	g_signal_connect_swapped (
-		editor, "editor-closed",
-		G_CALLBACK (g_object_unref), editor);
 
 	eab_editor_show (editor);
 	g_object_unref (client);
