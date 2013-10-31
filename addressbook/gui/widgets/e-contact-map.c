@@ -73,33 +73,30 @@ G_DEFINE_TYPE (EContactMap, e_contact_map, GTK_CHAMPLAIN_TYPE_EMBED)
 static void
 async_context_free (AsyncContext *async_context)
 {
-	if (async_context->map != NULL)
-		g_object_unref (async_context->map);
+	g_clear_object (&async_context->map);
 
 	g_slice_free (AsyncContext, async_context);
 }
 
 static void
-contact_map_address_resolved_cb (GObject *source,
+contact_map_address_resolved_cb (GObject *source_object,
                                  GAsyncResult *result,
                                  gpointer user_data)
 {
 	GHashTable *resolved = NULL;
 	gpointer marker_ptr;
-	const gchar *name;
 	AsyncContext *async_context = user_data;
 	ChamplainMarkerLayer *marker_layer;
 	ChamplainMarker *marker;
 	GeocodePlace *place;
 	GeocodeLocation *location;
 	GList *search_results;
-
-	g_return_if_fail (async_context != NULL);
-	g_return_if_fail (E_IS_CONTACT_MAP (async_context->map));
-	g_return_if_fail (E_IS_CONTACT_MARKER (async_context->marker));
+	const gchar *name;
+	GError *local_error = NULL;
 
 	marker = CHAMPLAIN_MARKER (async_context->marker);
 	marker_layer = async_context->map->priv->marker_layer;
+	name = champlain_label_get_text (CHAMPLAIN_LABEL (marker));
 
 	/* If the marker_layer does not exist anymore, the map has
 	 * probably been destroyed before this callback was launched.
@@ -110,10 +107,24 @@ contact_map_address_resolved_cb (GObject *source,
 		goto exit;
 
 	search_results = geocode_forward_search_finish (
-		GEOCODE_FORWARD (source), result, NULL);
+		GEOCODE_FORWARD (source_object), result, &local_error);
+
+	/* Sanity check. */
+	g_warn_if_fail (
+		((search_results != NULL) && (local_error == NULL)) ||
+		((search_results == NULL) && (local_error != NULL)));
+
+	/* Keep quiet if the search just came up empty. */
+	if (g_error_matches (local_error, GEOCODE_ERROR, GEOCODE_ERROR_NO_MATCHES)) {
+		g_clear_error (&local_error);
+
+	/* Leave a breadcrumb on the console for any other errors. */
+	} else if (local_error != NULL) {
+		g_warning ("%s: %s", G_STRFUNC, local_error->message);
+		g_clear_error (&local_error);
+	}
 
 	if (search_results == NULL) {
-		name = champlain_label_get_text (CHAMPLAIN_LABEL (marker));
 		g_signal_emit (
 			async_context->map,
 			signals[GEOCODING_FAILED], 0, name);
@@ -135,7 +146,6 @@ contact_map_address_resolved_cb (GObject *source,
 	g_list_free (search_results);
 
 	/* Store the marker in the hash table, using its label as key. */
-	name = champlain_label_get_text (CHAMPLAIN_LABEL (marker));
 	marker_ptr = g_hash_table_lookup (
 		async_context->map->priv->markers, name);
 	if (marker_ptr != NULL) {
@@ -193,46 +203,13 @@ address_to_xep (EContactAddress *address)
 }
 
 static void
-resolve_marker_position (EContactMap *map,
-                         EContactMarker *marker,
-                         EContactAddress *address)
-{
-	GeocodeForward *geocoder;
-	AsyncContext *async_context;
-	GHashTable *hash_table;
-
-	g_return_if_fail (E_IS_CONTACT_MAP (map));
-	g_return_if_fail (address != NULL);
-
-	hash_table = address_to_xep (address);
-	geocoder = geocode_forward_new_for_params (hash_table);
-	g_hash_table_destroy (hash_table);
-
-	async_context = g_slice_new0 (AsyncContext);
-	async_context->map = g_object_ref (map);
-	async_context->marker = marker;
-
-	geocode_forward_search_async (
-		geocoder, NULL,
-		contact_map_address_resolved_cb,
-		async_context);
-
-	g_object_unref (geocoder);
-
-	g_signal_emit (map, signals[GEOCODING_STARTED], 0, marker);
-}
-
-static void
 contact_map_finalize (GObject *object)
 {
 	EContactMapPrivate *priv;
 
-	priv = E_CONTACT_MAP (object)->priv;
+	priv = E_CONTACT_MAP_GET_PRIVATE (object);
 
-	if (priv->markers) {
-		g_hash_table_destroy (priv->markers);
-		priv->markers = NULL;
-	}
+	g_hash_table_destroy (priv->markers);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_contact_map_parent_class)->finalize (object);
@@ -288,17 +265,16 @@ e_contact_map_class_init (EContactMapClass *class)
 static void
 e_contact_map_init (EContactMap *map)
 {
-	GHashTable *hash_table;
 	ChamplainMarkerLayer *layer;
 	ChamplainView *view;
 
 	map->priv = E_CONTACT_MAP_GET_PRIVATE (map);
 
-	hash_table = g_hash_table_new_full (
-		g_str_hash, g_str_equal,
-			(GDestroyNotify) g_free, NULL);
-
-	map->priv->markers = hash_table;
+	map->priv->markers = g_hash_table_new_full (
+		(GHashFunc) g_str_hash,
+		(GEqualFunc) g_str_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) NULL);
 
 	view = gtk_champlain_embed_get_view (GTK_CHAMPLAIN_EMBED (map));
 	/* This feature is somehow broken sometimes, so disable it for now */
@@ -311,8 +287,7 @@ e_contact_map_init (EContactMap *map)
 GtkWidget *
 e_contact_map_new (void)
 {
-	return g_object_new (
-		E_TYPE_CONTACT_MAP,NULL);
+	return g_object_new (E_TYPE_CONTACT_MAP, NULL);
 }
 
 void
@@ -321,32 +296,43 @@ e_contact_map_add_contact (EContactMap *map,
 {
 	EContactAddress *address;
 	EContactPhoto *photo;
+	const gchar *contact_name;
 	const gchar *contact_uid;
-	gchar *name;
 
-	g_return_if_fail (map && E_IS_CONTACT_MAP (map));
-	g_return_if_fail (contact && E_IS_CONTACT (contact));
+	g_return_if_fail (E_IS_CONTACT_MAP (map));
+	g_return_if_fail (E_IS_CONTACT (contact));
 
 	photo = e_contact_get (contact, E_CONTACT_PHOTO);
+	contact_name = e_contact_get_const (contact, E_CONTACT_FILE_AS);
 	contact_uid = e_contact_get_const (contact, E_CONTACT_UID);
 
 	address = e_contact_get (contact, E_CONTACT_ADDRESS_HOME);
-	if (address) {
-		name = g_strconcat (e_contact_get_const (contact, E_CONTACT_FILE_AS), " (", _("Home"), ")", NULL);
-		e_contact_map_add_marker (map, name, contact_uid, address, photo);
+	if (address != NULL) {
+		gchar *name;
+
+		name = g_strdup_printf (
+			"%s (%s)", contact_name, _("Home"));
+		e_contact_map_add_marker (
+			map, name, contact_uid, address, photo);
 		g_free (name);
+
 		e_contact_address_free (address);
 	}
 
 	address = e_contact_get (contact, E_CONTACT_ADDRESS_WORK);
-	if (address) {
-		name = g_strconcat (e_contact_get_const (contact, E_CONTACT_FILE_AS), " (", _("Work"), ")", NULL);
-		e_contact_map_add_marker (map, name, contact_uid, address, photo);
+	if (address != NULL) {
+		gchar *name;
+
+		name = g_strdup_printf (
+			"%s (%s)", contact_name, _("Work"));
+		e_contact_map_add_marker (
+			map, name, contact_uid, address, photo);
 		g_free (name);
+
 		e_contact_address_free (address);
 	}
 
-	if (photo)
+	if (photo != NULL)
 		e_contact_photo_free (photo);
 }
 
@@ -358,15 +344,33 @@ e_contact_map_add_marker (EContactMap *map,
                           EContactPhoto *photo)
 {
 	EContactMarker *marker;
+	GHashTable *hash_table;
+	GeocodeForward *geocoder;
+	AsyncContext *async_context;
 
-	g_return_if_fail (map && E_IS_CONTACT_MAP (map));
-	g_return_if_fail (name && *name);
-	g_return_if_fail (contact_uid && *contact_uid);
-	g_return_if_fail (address);
+	g_return_if_fail (E_IS_CONTACT_MAP (map));
+	g_return_if_fail (name != NULL);
+	g_return_if_fail (contact_uid != NULL);
+	g_return_if_fail (address != NULL);
 
-	marker = E_CONTACT_MARKER (e_contact_marker_new (name, contact_uid, photo));
+	marker = e_contact_marker_new (name, contact_uid, photo);
 
-	resolve_marker_position (map, marker, address);
+	hash_table = address_to_xep (address);
+	geocoder = geocode_forward_new_for_params (hash_table);
+	g_hash_table_destroy (hash_table);
+
+	async_context = g_slice_new0 (AsyncContext);
+	async_context->map = g_object_ref (map);
+	async_context->marker = marker;
+
+	geocode_forward_search_async (
+		geocoder, NULL,
+		contact_map_address_resolved_cb,
+		async_context);
+
+	g_object_unref (geocoder);
+
+	g_signal_emit (map, signals[GEOCODING_STARTED], 0, marker);
 }
 
 /**
@@ -379,8 +383,8 @@ e_contact_map_remove_contact (EContactMap *map,
 {
 	ChamplainMarker *marker;
 
-	g_return_if_fail (map && E_IS_CONTACT_MAP (map));
-	g_return_if_fail (name && *name);
+	g_return_if_fail (E_IS_CONTACT_MAP (map));
+	g_return_if_fail (name != NULL);
 
 	marker = g_hash_table_lookup (map->priv->markers, name);
 
@@ -392,28 +396,14 @@ e_contact_map_remove_contact (EContactMap *map,
 }
 
 void
-e_contact_map_remove_marker (EContactMap *map,
-                             ClutterActor *marker)
-{
-	const gchar *name;
-
-	g_return_if_fail (map && E_IS_CONTACT_MAP (map));
-	g_return_if_fail (marker && CLUTTER_IS_ACTOR (marker));
-
-	name = champlain_label_get_text (CHAMPLAIN_LABEL (marker));
-
-	e_contact_map_remove_contact (map, name);
-}
-
-void
 e_contact_map_zoom_on_marker (EContactMap *map,
                               ClutterActor *marker)
 {
 	ChamplainView *view;
 	gdouble lat, lng;
 
-	g_return_if_fail (map && E_IS_CONTACT_MAP (map));
-	g_return_if_fail (marker && CLUTTER_IS_ACTOR (marker));
+	g_return_if_fail (E_IS_CONTACT_MAP (map));
+	g_return_if_fail (CLUTTER_IS_ACTOR (marker));
 
 	lat = champlain_location_get_latitude (CHAMPLAIN_LOCATION (marker));
 	lng = champlain_location_get_longitude (CHAMPLAIN_LOCATION (marker));
