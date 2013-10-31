@@ -63,44 +63,34 @@ struct _EContactMap {
 struct _EContactMapClass {
 	GtkWindowClass parent_class;
 
-	void (*contact_added)	   (EContactMap *map,
-				    ClutterActor *marker);
-
-	void (*contact_removed)	  (EContactMap *map,
-				   const gchar *name);
-
-	void (*geocoding_started)	(EContactMap *map,
-					 ClutterActor *marker);
-
-	void (*geocoding_failed)	(EContactMap *map,
-					 const gchar *name);
+	/* Signals */
+	void		(*contact_added)	(EContactMap *map,
+						 ClutterActor *marker);
+	void		(*contact_removed)	(EContactMap *map,
+						 const gchar *name);
+	void		(*geocoding_started)	(EContactMap *map,
+						 ClutterActor *marker);
+	void		(*geocoding_failed)	(EContactMap *map,
+						 const gchar *name);
 };
 
 GType		e_contact_map_get_type		(void) G_GNUC_CONST;
 GtkWidget *	e_contact_map_new		(void);
-
 void		e_contact_map_add_contact	(EContactMap *map,
 						 EContact *contact);
-
 void		e_contact_map_add_marker	(EContactMap *map,
 						 const gchar *name,
 						 const gchar *contact_uid,
 						 EContactAddress *address,
 						 EContactPhoto *photo);
-
 void		e_contact_map_remove_contact	(EContactMap *map,
 						 const gchar *name);
-
-void		e_contact_map_remove_marker	(EContactMap *map,
-						 ClutterActor *marker);
-
 void		e_contact_map_zoom_on_marker	(EContactMap *map,
 						 ClutterActor *marker);
-
-ChamplainView *  e_contact_map_get_view		(EContactMap *map);
+ChamplainView *	e_contact_map_get_view		(EContactMap *map);
 
 G_END_DECLS
 
 #endif /* WITH_CONTACT_MAPS */
 
-#endif
+#endif /* E_CONTACT_MAP_H */

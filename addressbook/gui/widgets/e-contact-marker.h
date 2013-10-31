@@ -25,60 +25,57 @@
 
 #ifdef WITH_CONTACT_MAPS
 
-#include <libebook/libebook.h>
-
+#include <clutter/clutter.h>
 #include <champlain/champlain.h>
 
-#include <glib-object.h>
-#include <clutter/clutter.h>
+#include <libebook/libebook.h>
+
+/* Standard GObject macros */
+#define E_TYPE_CONTACT_MARKER \
+	(e_contact_marker_get_type ())
+#define E_CONTACT_MARKER(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_CONTACT_MARKER, EContactMarker))
+#define E_CONTACT_MARKER_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_CONTACT_MARKER, EContactMarkerClass))
+#define E_IS_CONTACT_MARKER(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_CONTACT_MARKER))
+#define E_IS_CONTACT_MARKER_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_CONTACT_MARKER))
+#define E_CONTACT_MARKER_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_CONTACT_MARKER, EContactMarkerClass))
 
 G_BEGIN_DECLS
 
-#define E_TYPE_CONTACT_MARKER e_contact_marker_get_type ()
-
-#define E_CONTACT_MARKER(obj) \
-	(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_CONTACT_MARKER, EContactMarker))
-
-#define E_CONTACT_MARKER_CLASS(klass) \
-	(G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_CONTACT_MARKER, EContactMarkerClass))
-
-#define E_IS_CONTACT_MARKER(obj) \
-	(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_CONTACT_MARKER))
-
-#define E_IS_CONTACT_MARKER_CLASS(klass) \
-	(G_TYPE_CHECK_CLASS_TYPE ((klass), E_TYPE_CONTACT_MARKER))
-
-#define E_CONTACT_MARKER_GET_CLASS(obj) \
-	(G_TYPE_INSTANCE_GET_CLASS ((obj), E_TYPE_CONTACT_MARKER, EContactMarkerClass))
-
-typedef struct _EContactMarkerPrivate EContactMarkerPrivate;
-
 typedef struct _EContactMarker EContactMarker;
 typedef struct _EContactMarkerClass EContactMarkerClass;
+typedef struct _EContactMarkerPrivate EContactMarkerPrivate;
 
-struct _EContactMarker
-{
+struct _EContactMarker {
 	ChamplainLabel parent;
 	EContactMarkerPrivate *priv;
 };
 
-struct _EContactMarkerClass
-{
+struct _EContactMarkerClass {
 	ChamplainLabelClass parent_class;
 
 	void (*double_clicked)	(ClutterActor *actor);
 };
 
-GType e_contact_marker_get_type		(void);
-
-ClutterActor * e_contact_marker_new		(const gchar *name,
+GType		e_contact_marker_get_type	(void) G_GNUC_CONST;
+EContactMarker *
+		e_contact_marker_new		(const gchar *name,
 						 const gchar *contact_uid,
 						 EContactPhoto *photo);
-
-const gchar * e_contact_marker_get_contact_uid	(EContactMarker *marker);
+const gchar *	e_contact_marker_get_contact_uid
+						(EContactMarker *marker);
 
 G_END_DECLS
 
 #endif /* WITH_CONTACT_MAPS */
 
-#endif
+#endif /* E_CONTACT_MARKER_H */

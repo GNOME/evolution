@@ -18,28 +18,24 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
+/* This defines WITH_CONTACT_MAPS. */
 #include <config.h>
-#endif
 
 #ifdef WITH_CONTACT_MAPS
 
-#include "e-contact-map.h"
 #include "e-contact-map-window.h"
-#include "e-contact-marker.h"
+
+#include <string.h>
+#include <glib/gi18n.h>
 
 #include <champlain/champlain.h>
 
-#include <string.h>
-
-#include <glib/gi18n.h>
-#include <glib-object.h>
+#include "e-contact-map.h"
+#include "e-contact-marker.h"
 
 #define E_CONTACT_MAP_WINDOW_GET_PRIVATE(obj) \
-        (G_TYPE_INSTANCE_GET_PRIVATE \
-        ((obj), E_TYPE_CONTACT_MAP_WINDOW, EContactMapWindowPrivate))
-
-G_DEFINE_TYPE (EContactMapWindow, e_contact_map_window, GTK_TYPE_WINDOW)
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_CONTACT_MAP_WINDOW, EContactMapWindowPrivate))
 
 struct _EContactMapWindowPrivate {
 	EContactMap *map;
@@ -50,7 +46,8 @@ struct _EContactMapWindowPrivate {
 	GtkWidget *search_entry;
 	GtkListStore *completion_model;
 
-	GHashTable *hash_table;		/* Hash table contact-name -> marker */
+	/* contact name -> marker */
+	GHashTable *hash_table;
 
 	GtkWidget *spinner;
 	gint tasks_cnt;
@@ -61,7 +58,12 @@ enum {
 	LAST_SIGNAL
 };
 
-static gint signals[LAST_SIGNAL] = {0};
+static guint signals[LAST_SIGNAL];
+
+G_DEFINE_TYPE (
+	EContactMapWindow,
+	e_contact_map_window,
+	GTK_TYPE_WINDOW)
 
 static void
 marker_doubleclick_cb (ClutterActor *actor,
@@ -78,37 +80,39 @@ marker_doubleclick_cb (ClutterActor *actor,
 }
 
 static void
-book_contacts_received_cb (GObject *source_object,
-                           GAsyncResult *result,
-                           gpointer user_data)
+contact_map_window_get_contacts_cb (GObject *source_object,
+                                    GAsyncResult *result,
+                                    gpointer user_data)
 {
-	EContactMapWindow *window = user_data;
-	EBookClient *client = E_BOOK_CLIENT (source_object);
-	GSList *contacts = NULL, *p;
-	GError *error = NULL;
+	EContactMapWindow *window;
+	GSList *list = NULL, *link;
+	GError *local_error = NULL;
 
-	e_book_client_get_contacts_finish (client, result, &contacts, &error);
+	window = E_CONTACT_MAP_WINDOW (user_data);
 
-	if (error != NULL) {
+	e_book_client_get_contacts_finish (
+		E_BOOK_CLIENT (source_object),
+		result, &list, &local_error);
+
+	if (local_error != NULL) {
 		g_warning (
 			"%s: Failed to get contacts: %s",
-			G_STRFUNC, error->message);
-		g_error_free (error);
+			G_STRFUNC, local_error->message);
+		g_error_free (local_error);
 	}
 
-	for (p = contacts; p; p = p->next)
-		e_contact_map_add_contact (
-			window->priv->map, (EContact *) p->data);
+	for (link = list; link != NULL; link = g_slist_next (link)) {
+		EContact *contact = E_CONTACT (link->data);
+		e_contact_map_add_contact (window->priv->map, contact);
+	}
 
-	g_slist_free_full (contacts, (GDestroyNotify) g_object_unref);
-	g_object_unref (client);
+	g_slist_free_full (list, (GDestroyNotify) g_object_unref);
 }
 
 static void
 contact_map_window_zoom_in_cb (GtkButton *button,
-                               gpointer user_data)
+                               EContactMapWindow *window)
 {
-	EContactMapWindow *window = user_data;
 	ChamplainView *view;
 
 	view = e_contact_map_get_view (window->priv->map);
@@ -118,22 +122,23 @@ contact_map_window_zoom_in_cb (GtkButton *button,
 
 static void
 contact_map_window_zoom_out_cb (GtkButton *button,
-                                gpointer user_data)
+                                EContactMapWindow *window)
 {
-	EContactMapWindow *window = user_data;
 	ChamplainView *view;
 
 	view = e_contact_map_get_view (window->priv->map);
 
 	champlain_view_zoom_out (view);
 }
+
 static void
-zoom_level_changed_cb (ChamplainView *view,
-                       GParamSpec *pspec,
-                       gpointer user_data)
+contact_map_window_zoom_level_changed_cb (ChamplainView *view,
+                                          GParamSpec *pspec,
+                                          EContactMapWindow *window)
 {
-	EContactMapWindow *window = user_data;
-	gint zoom_level = champlain_view_get_zoom_level (view);
+	gint zoom_level;
+
+	zoom_level = champlain_view_get_zoom_level (view);
 
 	gtk_widget_set_sensitive (
 		window->priv->zoom_in_btn,
@@ -149,86 +154,90 @@ zoom_level_changed_cb (ChamplainView *view,
  * that the contact has really been added to map.
  */
 static void
-map_contact_added_cb (EContactMap *map,
-                      ClutterActor *marker,
-                      gpointer user_data)
+contact_map_window_contact_added_cb (EContactMap *map,
+                                     ClutterActor *marker,
+                                     EContactMapWindow *window)
 {
-	EContactMapWindowPrivate *priv = E_CONTACT_MAP_WINDOW (user_data)->priv;
-	const gchar *name;
+	GtkListStore *list_store;
 	GtkTreeIter iter;
+	const gchar *name;
 
 	name = champlain_label_get_text (CHAMPLAIN_LABEL (marker));
 
 	g_hash_table_insert (
-		priv->hash_table,
+		window->priv->hash_table,
 		g_strdup (name), marker);
 
-	gtk_list_store_append (priv->completion_model, &iter);
-	gtk_list_store_set (
-		priv->completion_model, &iter,
-		0, name, -1);
+	list_store = window->priv->completion_model;
+	gtk_list_store_append (list_store, &iter);
+	gtk_list_store_set (list_store, &iter, 0, name, -1);
 
 	g_signal_connect (
 		marker, "double-clicked",
-		G_CALLBACK (marker_doubleclick_cb), user_data);
+		G_CALLBACK (marker_doubleclick_cb), window);
 
-	priv->tasks_cnt--;
-	if (priv->tasks_cnt == 0) {
-		gtk_spinner_stop (GTK_SPINNER (priv->spinner));
-		gtk_widget_hide (priv->spinner);
+	window->priv->tasks_cnt--;
+	if (window->priv->tasks_cnt == 0) {
+		gtk_spinner_stop (GTK_SPINNER (window->priv->spinner));
+		gtk_widget_hide (window->priv->spinner);
 	}
 }
 
 static void
-map_contact_removed_cb (EContactMap *map,
-                        const gchar *name,
-                        gpointer user_data)
+contact_map_window_contact_removed_cb (EContactMap *map,
+                                       const gchar *name,
+                                       EContactMapWindow *window)
 {
-	EContactMapWindowPrivate *priv = E_CONTACT_MAP_WINDOW (user_data)->priv;
+	GtkListStore *list_store;
+	GtkTreeModel *tree_model;
 	GtkTreeIter iter;
-	GtkTreeModel *model = GTK_TREE_MODEL (priv->completion_model);
+	gboolean iter_valid;
 
-	g_hash_table_remove (priv->hash_table, name);
+	list_store = window->priv->completion_model;
+	tree_model = GTK_TREE_MODEL (list_store);
 
-	if (gtk_tree_model_get_iter_first (model, &iter)) {
-		do {
-			gchar *name_str;
-			gtk_tree_model_get (model, &iter, 0, &name_str, -1);
-			if (g_ascii_strcasecmp (name_str, name) == 0) {
-				g_free (name_str);
-				gtk_list_store_remove (priv->completion_model, &iter);
-				break;
-			}
-			g_free (name_str);
-		} while (gtk_tree_model_iter_next (model, &iter));
+	g_hash_table_remove (window->priv->hash_table, name);
+
+	iter_valid = gtk_tree_model_get_iter_first (tree_model, &iter);
+
+	while (iter_valid) {
+		gchar *name_str;
+		gboolean match;
+
+		gtk_tree_model_get (tree_model, &iter, 0, &name_str, -1);
+		match = (g_ascii_strcasecmp (name_str, name) == 0);
+		g_free (name_str);
+
+		if (match) {
+			gtk_list_store_remove (list_store, &iter);
+			break;
+		}
+
+		iter_valid = gtk_tree_model_iter_next (tree_model, &iter);
 	}
 }
 
 static void
-map_contact_geocoding_started_cb (EContactMap *map,
-                                  ClutterActor *marker,
-                                  gpointer user_data)
+contact_map_window_geocoding_started_cb (EContactMap *map,
+                                         ClutterActor *marker,
+                                         EContactMapWindow *window)
 {
-	EContactMapWindowPrivate *priv = E_CONTACT_MAP_WINDOW (user_data)->priv;
+	gtk_spinner_start (GTK_SPINNER (window->priv->spinner));
+	gtk_widget_show (window->priv->spinner);
 
-	gtk_spinner_start (GTK_SPINNER (priv->spinner));
-	gtk_widget_show (priv->spinner);
-
-	priv->tasks_cnt++;
+	window->priv->tasks_cnt++;
 }
 
 static void
-map_contact_geocoding_failed_cb (EContactMap *map,
-                                 const gchar *name,
-                                 gpointer user_data)
+contact_map_window_geocoding_failed_cb (EContactMap *map,
+                                        const gchar *name,
+                                        EContactMapWindow *window)
 {
-	EContactMapWindowPrivate *priv = E_CONTACT_MAP_WINDOW (user_data)->priv;
+	window->priv->tasks_cnt--;
 
-	priv->tasks_cnt--;
-
-	if (priv->tasks_cnt == 0) {
-		gtk_spinner_stop (GTK_SPINNER (priv->spinner));
-		gtk_widget_hide (priv->spinner);
+	if (window->priv->tasks_cnt == 0) {
+		gtk_spinner_stop (GTK_SPINNER (window->priv->spinner));
+		gtk_widget_hide (window->priv->spinner);
 	}
 }
 
@@ -280,39 +289,34 @@ entry_completion_match_selected_cb (GtkEntryCompletion *widget,
 }
 
 static void
-contact_map_window_finalize (GObject *object)
-{
-	EContactMapWindowPrivate *priv;
-
-	priv = E_CONTACT_MAP_WINDOW (object)->priv;
-
-	if (priv->hash_table) {
-		g_hash_table_destroy (priv->hash_table);
-		priv->hash_table = NULL;
-	}
-
-	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (e_contact_map_window_parent_class)->finalize (object);
-}
-
-static void
 contact_map_window_dispose (GObject *object)
 {
 	EContactMapWindowPrivate *priv;
 
-	priv = E_CONTACT_MAP_WINDOW (object)->priv;
+	priv = E_CONTACT_MAP_WINDOW_GET_PRIVATE (object);
 
-	if (priv->map) {
+	if (priv->map != NULL) {
 		gtk_widget_destroy (GTK_WIDGET (priv->map));
 		priv->map = NULL;
 	}
 
-	if (priv->completion_model) {
-		g_object_unref (priv->completion_model);
-		priv->completion_model = NULL;
-	}
+	g_clear_object (&priv->completion_model);
 
+	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_contact_map_window_parent_class)->dispose (object);
+}
+
+static void
+contact_map_window_finalize (GObject *object)
+{
+	EContactMapWindowPrivate *priv;
+
+	priv = E_CONTACT_MAP_WINDOW_GET_PRIVATE (object);
+
+	g_hash_table_destroy (priv->hash_table);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (e_contact_map_window_parent_class)->finalize (object);
 }
 
 static void
@@ -323,8 +327,8 @@ e_contact_map_window_class_init (EContactMapWindowClass *class)
 	g_type_class_add_private (class, sizeof (EContactMapWindowPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->finalize = contact_map_window_finalize;
 	object_class->dispose = contact_map_window_dispose;
+	object_class->finalize = contact_map_window_finalize;
 
 	signals[SHOW_CONTACT_EDITOR] = g_signal_new (
 		"show-contact-editor",
@@ -371,19 +375,19 @@ e_contact_map_window_init (EContactMapWindow *window)
 	priv->map = E_CONTACT_MAP (map);
 	g_signal_connect (
 		view, "notify::zoom-level",
-		G_CALLBACK (zoom_level_changed_cb), window);
+		G_CALLBACK (contact_map_window_zoom_level_changed_cb), window);
 	g_signal_connect (
 		map, "contact-added",
-		G_CALLBACK (map_contact_added_cb), window);
+		G_CALLBACK (contact_map_window_contact_added_cb), window);
 	g_signal_connect (
 		map, "contact-removed",
-		G_CALLBACK (map_contact_removed_cb), window);
+		G_CALLBACK (contact_map_window_contact_removed_cb), window);
 	g_signal_connect (
 		map, "geocoding-started",
-		G_CALLBACK (map_contact_geocoding_started_cb), window);
+		G_CALLBACK (contact_map_window_geocoding_started_cb), window);
 	g_signal_connect (
 		map, "geocoding-failed",
-		G_CALLBACK (map_contact_geocoding_failed_cb), window);
+		G_CALLBACK (contact_map_window_geocoding_failed_cb), window);
 
 	/* HBox container */
 	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 7);
@@ -455,8 +459,15 @@ e_contact_map_window_init (EContactMapWindow *window)
 EContactMapWindow *
 e_contact_map_window_new (void)
 {
-	return g_object_new (
-		E_TYPE_CONTACT_MAP_WINDOW, NULL);
+	return g_object_new (E_TYPE_CONTACT_MAP_WINDOW, NULL);
+}
+
+EContactMap *
+e_contact_map_window_get_map (EContactMapWindow *window)
+{
+	g_return_val_if_fail (E_IS_CONTACT_MAP_WINDOW (window), NULL);
+
+	return window->priv->map;
 }
 
 /**
@@ -473,27 +484,15 @@ e_contact_map_window_load_addressbook (EContactMapWindow *map,
 	g_return_if_fail (E_IS_CONTACT_MAP_WINDOW (map));
 	g_return_if_fail (E_IS_BOOK_CLIENT (book_client));
 
-	/* Reference book, so that it does not get deleted before the callback is
-	 * involved. The book is unrefed in the callback */
-	g_object_ref (book_client);
-
 	book_query = e_book_query_field_exists (E_CONTACT_ADDRESS);
 	query_string = e_book_query_to_string (book_query);
 	e_book_query_unref (book_query);
 
 	e_book_client_get_contacts (
 		book_client, query_string, NULL,
-		book_contacts_received_cb, map);
+		contact_map_window_get_contacts_cb, map);
 
 	g_free (query_string);
-}
-
-EContactMap *
-e_contact_map_window_get_map (EContactMapWindow *window)
-{
-	g_return_val_if_fail (E_IS_CONTACT_MAP_WINDOW (window), NULL);
-
-	return window->priv->map;
 }
 
 #endif /* WITH_CONTACT_MAPS */
