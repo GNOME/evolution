@@ -267,8 +267,8 @@ e_dom_utils_create_and_add_css_style_sheet (WebKitDOMDocument *document,
 	if (!style_element) {
 		/* Create new <style> element */
 		style_element = webkit_dom_document_create_element (document, "style", NULL);
-		webkit_dom_html_element_set_id (
-			WEBKIT_DOM_HTML_ELEMENT (style_element),
+		webkit_dom_element_set_id (
+			style_element,
 			style_sheet_id);
 		webkit_dom_html_style_element_set_media (
 			WEBKIT_DOM_HTML_STYLE_ELEMENT (style_element),
@@ -423,7 +423,7 @@ collapse_contacts_list (WebKitDOMEventTarget *event_target,
 	gboolean hidden;
 
 	document = user_data;
-	id = webkit_dom_html_element_get_id (WEBKIT_DOM_HTML_ELEMENT (event_target));
+	id = webkit_dom_element_get_id (WEBKIT_DOM_ELEMENT (event_target));
 
 	list_id = g_strconcat ("list-", id, NULL);
 	list = webkit_dom_document_get_element_by_id (document, list_id);
