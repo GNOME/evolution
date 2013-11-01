@@ -51,6 +51,12 @@ typedef struct _EMailIdentityComboBox EMailIdentityComboBox;
 typedef struct _EMailIdentityComboBoxClass EMailIdentityComboBoxClass;
 typedef struct _EMailIdentityComboBoxPrivate EMailIdentityComboBoxPrivate;
 
+/**
+ * EMailIdentityComboBox:
+ *
+ * Contains only private data that should be read and manipulated using the
+ * functions below.
+ **/
 struct _EMailIdentityComboBox {
 	GtkComboBox parent;
 	EMailIdentityComboBoxPrivate *priv;

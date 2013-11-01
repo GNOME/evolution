@@ -16,13 +16,21 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
-#include <glib/gi18n-lib.h>
+/**
+ * SECTION: e-mail-identity-combo-box
+ * @include: e-util/e-util.h
+ * @short_description: Combo box of mail identities
+ *
+ * #EMailIdentity is a combo box of available mail identities, as described
+ * by #ESource instances with an #ESourceMailIdentity extension.  For
+ * convenience, the combo box model's #GtkComboBox:id-column is populated
+ * with #ESource #ESource:uid strings.
+ **/
 
 #include "e-mail-identity-combo-box.h"
+
+#include <config.h>
+#include <glib/gi18n-lib.h>
 
 #define E_MAIL_IDENTITY_COMBO_BOX_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -33,8 +41,13 @@
 
 struct _EMailIdentityComboBoxPrivate {
 	ESourceRegistry *registry;
-	guint refresh_idle_id;
+	gulong source_added_handler_id;
+	gulong source_changed_handler_id;
+	gulong source_removed_handler_id;
+
 	gboolean allow_none;
+
+	guint refresh_idle_id;
 };
 
 enum {
@@ -54,8 +67,10 @@ G_DEFINE_TYPE (
 	GTK_TYPE_COMBO_BOX)
 
 static gboolean
-mail_identity_combo_box_refresh_idle_cb (EMailIdentityComboBox *combo_box)
+mail_identity_combo_box_refresh_idle_cb (gpointer user_data)
 {
+	EMailIdentityComboBox *combo_box = user_data;
+
 	/* The refresh function will clear the idle ID. */
 	e_mail_identity_combo_box_refresh (combo_box);
 
@@ -63,25 +78,43 @@ mail_identity_combo_box_refresh_idle_cb (EMailIdentityComboBox *combo_box)
 }
 
 static void
-mail_identity_combo_box_registry_changed (ESourceRegistry *registry,
-                                          ESource *source,
-                                          EMailIdentityComboBox *combo_box)
+mail_identity_combo_box_schedule_refresh (EMailIdentityComboBox *combo_box)
 {
-	/* If the ESource in question has a "Mail Identity" extension,
-	 * schedule a refresh of the tree model.  Otherwise ignore it.
-	 * We use an idle callback to limit how frequently we refresh
-	 * the tree model, in case the registry is emitting lots of
+	/* Use an idle callback to limit how frequently we refresh
+	 * the tree model in case the registry is emitting lots of
 	 * signals at once. */
 
-	if (!SOURCE_IS_MAIL_IDENTITY (source))
-		return;
+	if (combo_box->priv->refresh_idle_id == 0) {
+		combo_box->priv->refresh_idle_id = g_idle_add (
+			mail_identity_combo_box_refresh_idle_cb, combo_box);
+	}
+}
 
-	if (combo_box->priv->refresh_idle_id > 0)
-		return;
+static void
+mail_identity_combo_box_source_added_cb (ESourceRegistry *registry,
+                                         ESource *source,
+                                         EMailIdentityComboBox *combo_box)
+{
+	if (e_source_has_extension (source, E_SOURCE_EXTENSION_MAIL_IDENTITY))
+		mail_identity_combo_box_schedule_refresh (combo_box);
+}
 
-	combo_box->priv->refresh_idle_id = g_idle_add (
-		(GSourceFunc) mail_identity_combo_box_refresh_idle_cb,
-		combo_box);
+static void
+mail_identity_combo_box_source_changed_cb (ESourceRegistry *registry,
+                                           ESource *source,
+                                           EMailIdentityComboBox *combo_box)
+{
+	if (e_source_has_extension (source, E_SOURCE_EXTENSION_MAIL_IDENTITY))
+		mail_identity_combo_box_schedule_refresh (combo_box);
+}
+
+static void
+mail_identity_combo_box_source_removed_cb (ESourceRegistry *registry,
+                                           ESource *source,
+                                           EMailIdentityComboBox *combo_box)
+{
+	if (e_source_has_extension (source, E_SOURCE_EXTENSION_MAIL_IDENTITY))
+		mail_identity_combo_box_schedule_refresh (combo_box);
 }
 
 static void
@@ -104,25 +137,30 @@ static void
 mail_identity_combo_box_set_registry (EMailIdentityComboBox *combo_box,
                                       ESourceRegistry *registry)
 {
+	gulong handler_id;
+
 	g_return_if_fail (E_IS_SOURCE_REGISTRY (registry));
 	g_return_if_fail (combo_box->priv->registry == NULL);
 
 	combo_box->priv->registry = g_object_ref (registry);
 
-	g_signal_connect (
+	handler_id = g_signal_connect (
 		registry, "source-added",
-		G_CALLBACK (mail_identity_combo_box_registry_changed),
+		G_CALLBACK (mail_identity_combo_box_source_added_cb),
 		combo_box);
+	combo_box->priv->source_added_handler_id = handler_id;
 
-	g_signal_connect (
+	handler_id = g_signal_connect (
 		registry, "source-changed",
-		G_CALLBACK (mail_identity_combo_box_registry_changed),
+		G_CALLBACK (mail_identity_combo_box_source_changed_cb),
 		combo_box);
+	combo_box->priv->source_changed_handler_id = handler_id;
 
-	g_signal_connect (
+	handler_id = g_signal_connect (
 		registry, "source-removed",
-		G_CALLBACK (mail_identity_combo_box_registry_changed),
+		G_CALLBACK (mail_identity_combo_box_source_removed_cb),
 		combo_box);
+	combo_box->priv->source_removed_handler_id = handler_id;
 }
 
 static void
@@ -180,18 +218,33 @@ mail_identity_combo_box_dispose (GObject *object)
 
 	priv = E_MAIL_IDENTITY_COMBO_BOX_GET_PRIVATE (object);
 
-	if (priv->registry != NULL) {
-		g_signal_handlers_disconnect_matched (
-			priv->registry, G_SIGNAL_MATCH_DATA,
-			0, 0, NULL, NULL, object);
-		g_object_unref (priv->registry);
-		priv->registry = NULL;
+	if (priv->source_added_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->registry,
+			priv->source_added_handler_id);
+		priv->source_added_handler_id = 0;
+	}
+
+	if (priv->source_changed_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->registry,
+			priv->source_changed_handler_id);
+		priv->source_changed_handler_id = 0;
+	}
+
+	if (priv->source_removed_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->registry,
+			priv->source_removed_handler_id);
+		priv->source_removed_handler_id = 0;
 	}
 
 	if (priv->refresh_idle_id > 0) {
 		g_source_remove (priv->refresh_idle_id);
 		priv->refresh_idle_id = 0;
 	}
+
+	g_clear_object (&priv->registry);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_identity_combo_box_parent_class)->
@@ -270,6 +323,15 @@ e_mail_identity_combo_box_init (EMailIdentityComboBox *combo_box)
 	combo_box->priv = E_MAIL_IDENTITY_COMBO_BOX_GET_PRIVATE (combo_box);
 }
 
+/**
+ * e_mail_identity_combo_box_new:
+ * @registry: an #ESourceRegistry
+ *
+ * Creates a new #EMailIdentityComboBox widget using #ESource instances in
+ * @registry.
+ *
+ * Returns: a new #EMailIdentityComboBox
+ **/
 GtkWidget *
 e_mail_identity_combo_box_new (ESourceRegistry *registry)
 {
@@ -280,6 +342,17 @@ e_mail_identity_combo_box_new (ESourceRegistry *registry)
 		"registry", registry, NULL);
 }
 
+/**
+ * e_mail_identity_combo_box_refresh:
+ * @combo_box: an #EMailIdentityComboBox
+ *
+ * Rebuilds the combo box model with an updated list of #ESource instances
+ * that describe a mail identity, without disrupting the previously active
+ * item (if possible).
+ *
+ * This function is called automatically in response to #ESourceRegistry
+ * signals which are pertinent to the @combo_box.
+ **/
 void
 e_mail_identity_combo_box_refresh (EMailIdentityComboBox *combo_box)
 {
@@ -417,6 +490,14 @@ e_mail_identity_combo_box_refresh (EMailIdentityComboBox *combo_box)
 		gtk_combo_box_set_active (gtk_combo_box, 0);
 }
 
+/**
+ * e_mail_identity_combo_box_get_registry:
+ * @combo_box: an #EMailIdentityComboBox
+ *
+ * Returns the #ESourceRegistry passed to e_mail_identity_combo_box_new().
+ *
+ * Returns: an #ESourceRegistry
+ **/
 ESourceRegistry *
 e_mail_identity_combo_box_get_registry (EMailIdentityComboBox *combo_box)
 {
@@ -425,6 +506,15 @@ e_mail_identity_combo_box_get_registry (EMailIdentityComboBox *combo_box)
 	return combo_box->priv->registry;
 }
 
+/**
+ * e_mail_identity_combo_box_get_allow_none:
+ * @combo_box: an #EMailIdentityComboBox
+ *
+ * Returns whether to append the mail identity list with a "None" item for
+ * use cases where the user may wish to opt out of choosing a mail identity.
+ *
+ * Returns: whether to include a "None" option
+ **/
 gboolean
 e_mail_identity_combo_box_get_allow_none (EMailIdentityComboBox *combo_box)
 {
@@ -433,6 +523,16 @@ e_mail_identity_combo_box_get_allow_none (EMailIdentityComboBox *combo_box)
 	return combo_box->priv->allow_none;
 }
 
+/**
+ * e_mail_identity_combo_box_set_allow_none:
+ * @combo_box: an #EMailIdentityComboBox
+ * @allow_none: whether to include a "None" option
+ *
+ * Sets whether to append the mail identity list with a "None" item for use
+ * cases where the user may wish to opt out of choosing a mail identity.
+ *
+ * Changing this property will automatically rebuild the combo box model.
+ **/
 void
 e_mail_identity_combo_box_set_allow_none (EMailIdentityComboBox *combo_box,
                                           gboolean allow_none)
