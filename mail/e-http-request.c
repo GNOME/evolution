@@ -55,24 +55,34 @@ struct _EHTTPRequestPrivate {
 G_DEFINE_TYPE (EHTTPRequest, e_http_request, SOUP_TYPE_REQUEST)
 
 static gssize
-copy_stream_to_stream (CamelStream *input,
+copy_stream_to_stream (GIOStream *file_io_stream,
                        GMemoryInputStream *output,
                        GCancellable *cancellable)
 {
+	GInputStream *input_stream;
 	gchar *buff;
 	gssize read_len = 0;
 	gssize total_len = 0;
+	const gsize buff_size = 4096;
 
-	g_seekable_seek (G_SEEKABLE (input), 0, G_SEEK_SET, cancellable, NULL);
+	g_seekable_seek (
+		G_SEEKABLE (file_io_stream), 0,
+		G_SEEK_SET, cancellable, NULL);
 
-	buff = g_malloc (4096);
-	while ((read_len = camel_stream_read (input, buff, 4096, cancellable, NULL)) > 0) {
+	input_stream = g_io_stream_get_input_stream (file_io_stream);
 
-		g_memory_input_stream_add_data (output, buff, read_len, g_free);
+	buff = g_malloc (buff_size);
+	read_len = g_input_stream_read (
+		input_stream, buff, buff_size, cancellable, NULL);
+	while (read_len > 0) {
+		g_memory_input_stream_add_data (
+			output, buff, read_len, g_free);
 
 		total_len += read_len;
 
-		buff = g_malloc (4096);
+		buff = g_malloc (buff_size);
+		read_len = g_input_stream_read (
+			input_stream, buff, buff_size, cancellable, NULL);
 	}
 
 	/* Free the last unused buffer */
@@ -160,7 +170,7 @@ handle_http_request (GSimpleAsyncResult *res,
 	GSettings *settings;
 	const gchar *user_cache_dir;
 	CamelDataCache *cache;
-	CamelStream *cache_stream;
+	GIOStream *cache_stream;
 	GHashTable *query;
 	gint uri_len;
 
@@ -224,8 +234,7 @@ handle_http_request (GSimpleAsyncResult *res,
 
 	/* Found item in cache! */
 	cache_stream = camel_data_cache_get (cache, "http", uri_md5, NULL);
-	if (cache_stream) {
-
+	if (cache_stream != NULL) {
 		gssize len;
 
 		stream = g_memory_input_stream_new ();
@@ -336,7 +345,7 @@ handle_http_request (GSimpleAsyncResult *res,
 
 		SoupSession *session;
 		SoupMessage *message;
-		CamelStream *cache_stream;
+		GIOStream *cache_stream;
 		GError *error;
 		GMainContext *context;
 		EProxy *proxy;
@@ -374,18 +383,26 @@ handle_http_request (GSimpleAsyncResult *res,
 
 		/* Write the response body to cache */
 		error = NULL;
-		cache_stream = camel_data_cache_add (cache, "http", uri_md5, &error);
+		cache_stream = camel_data_cache_add (
+			cache, "http", uri_md5, &error);
 		if (error != NULL) {
 			g_warning (
 				"Failed to create cache file for '%s': %s",
 				uri, error->message);
 			g_clear_error (&error);
 		} else {
-			camel_stream_write (
-				cache_stream, message->response_body->data,
-				message->response_body->length, cancellable, &error);
+			GOutputStream *output_stream;
 
-			camel_stream_close (cache_stream, cancellable, NULL);
+			output_stream =
+				g_io_stream_get_output_stream (cache_stream);
+
+			g_output_stream_write_all (
+				output_stream,
+				message->response_body->data,
+				message->response_body->length,
+				NULL, cancellable, &error);
+
+			g_io_stream_close (cache_stream, NULL, NULL);
 			g_object_unref (cache_stream);
 
 			if (error != NULL) {
