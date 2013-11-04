@@ -75,4 +75,21 @@ void comp_util_sanitize_recurrence_master (ECalComponent *comp, ECalClient *clie
 
 gchar *icalcomp_suggest_filename (icalcomponent *icalcomp, const gchar *default_name);
 
+void cal_comp_transfer_item_to			(ECalClient *src_client,
+						 ECalClient *dest_client,
+						 icalcomponent *icalcomp_vcal,
+						 gboolean do_copy,
+						 GCancellable *cancellable,
+						 GAsyncReadyCallback callback,
+						 gpointer user_data);
+gboolean cal_comp_transfer_item_to_finish	(ECalClient *client,
+						 GAsyncResult *result,
+						 GError **error);
+gboolean cal_comp_transfer_item_to_sync		(ECalClient *src_client,
+						 ECalClient *dest_client,
+						 icalcomponent *icalcomp_event,
+						 gboolean do_copy,
+						 GCancellable *cancellable,
+						 GError **error);
+
 #endif

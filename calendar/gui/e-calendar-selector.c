@@ -20,7 +20,10 @@
 
 #include <config.h>
 
+#include <glib/gi18n.h>
+
 #include "e-calendar-selector.h"
+#include "comp-util.h"
 
 #include <libecal/libecal.h>
 
@@ -30,6 +33,8 @@
 
 struct _ECalendarSelectorPrivate {
 	EShellView *shell_view;
+
+	gpointer transfer_alert; /* weak pointer to EAlert */
 };
 
 G_DEFINE_TYPE (
@@ -42,118 +47,188 @@ enum {
 	PROP_SHELL_VIEW,
 };
 
-static gboolean
-calendar_selector_update_single_object (ECalClient *client,
-                                        icalcomponent *icalcomp)
+static void
+cal_transferring_update_alert (ECalendarSelector *calendar_selector,
+			       EShellView *shell_view,
+			       const gchar *domain,
+			       const gchar *calendar,
+			       const gchar *message)
 {
-	gchar *uid;
-	icalcomponent *tmp_icalcomp = NULL;
-	gboolean success;
+	ECalendarSelectorPrivate *priv;
+	EShellContent *shell_content;
+	EAlert *alert;
 
-	uid = (gchar *) icalcomponent_get_uid (icalcomp);
+	g_return_if_fail (calendar_selector != NULL);
+	g_return_if_fail (calendar_selector->priv != NULL);
 
-	e_cal_client_get_object_sync (
-		client, uid, NULL, &tmp_icalcomp, NULL, NULL);
+	priv = calendar_selector->priv;
 
-	if (tmp_icalcomp != NULL) {
-		icalcomponent_free (tmp_icalcomp);
-
-		return e_cal_client_modify_object_sync (
-			client, icalcomp, CALOBJ_MOD_ALL, NULL, NULL);
+	if (priv->transfer_alert) {
+		e_alert_response (
+			priv->transfer_alert,
+			e_alert_get_default_response (priv->transfer_alert));
+		priv->transfer_alert = NULL;
 	}
 
-	uid = NULL;
-	success = e_cal_client_create_object_sync (
-		client, icalcomp, &uid, NULL, NULL);
+	if (!message)
+		return;
 
-	if (uid != NULL) {
-		icalcomponent_set_uid (icalcomp, uid);
-		g_free (uid);
-	}
+	alert = e_alert_new (domain, calendar, message, NULL);
+	g_return_if_fail (alert != NULL);
 
-	return success;
+	priv->transfer_alert = alert;
+	g_object_add_weak_pointer (G_OBJECT (alert), &priv->transfer_alert);
+	e_alert_start_timer (priv->transfer_alert, 300);
+
+	shell_content = e_shell_view_get_shell_content (shell_view);
+	e_alert_sink_submit_alert (E_ALERT_SINK (shell_content), priv->transfer_alert);
+	g_object_unref (priv->transfer_alert);
 }
 
-static gboolean
-calendar_selector_update_objects (ECalClient *client,
-                                  icalcomponent *icalcomp)
+typedef struct _TransferItemToData {
+	ESource *destination;
+	ESourceSelector *selector;
+	EClient *src_client;
+	EShellView *shell_view;
+	EActivity *activity;
+	icalcomponent *icalcomp;
+	const gchar *display_name;
+	gboolean do_copy;
+} TransferItemToData;
+
+static void
+transfer_item_to_cb (GObject *source_object,
+		     GAsyncResult *result,
+		     gpointer user_data)
 {
-	icalcomponent *subcomp;
-	icalcomponent_kind kind;
+	TransferItemToData *titd = user_data;
+	GError *error = NULL;
+	GCancellable *cancellable;
+	gboolean success;
 
-	kind = icalcomponent_isa (icalcomp);
-	if (kind == ICAL_VTODO_COMPONENT || kind == ICAL_VEVENT_COMPONENT)
-		return calendar_selector_update_single_object (
-			client, icalcomp);
-	else if (kind != ICAL_VCALENDAR_COMPONENT)
-		return FALSE;
+	success = cal_comp_transfer_item_to_finish (E_CAL_CLIENT (source_object), result, &error);
 
-	subcomp = icalcomponent_get_first_component (
-		icalcomp, ICAL_ANY_COMPONENT);
-	while (subcomp != NULL) {
-		gboolean success;
-
-		kind = icalcomponent_isa (subcomp);
-		if (kind == ICAL_VTIMEZONE_COMPONENT) {
-			icaltimezone *zone;
-			GError *error = NULL;
-
-			zone = icaltimezone_new ();
-			icaltimezone_set_component (zone, subcomp);
-
-			e_cal_client_add_timezone_sync (client, zone, NULL, &error);
-			icaltimezone_free (zone, 1);
-
-			if (error != NULL) {
-				g_warning (
-					"%s: Failed to add timezone: %s",
-					G_STRFUNC, error->message);
-				g_error_free (error);
-				return FALSE;
-			}
-		} else if (kind == ICAL_VTODO_COMPONENT ||
-			kind == ICAL_VEVENT_COMPONENT) {
-			success = calendar_selector_update_single_object (
-				client, subcomp);
-			if (!success)
-				return FALSE;
-		}
-
-		subcomp = icalcomponent_get_next_component (
-			icalcomp, ICAL_ANY_COMPONENT);
+	if (!success) {
+		cal_transferring_update_alert (
+			E_CALENDAR_SELECTOR (titd->selector),
+			titd->shell_view,
+			titd->do_copy ? "calendar:failed-copy-event" : "calendar:failed-move-event",
+			titd->display_name,
+			error->message);
+		g_clear_error (&error);
 	}
 
-	return TRUE;
+	cancellable = e_activity_get_cancellable (titd->activity);
+	e_activity_set_state (
+		titd->activity,
+		g_cancellable_is_cancelled (cancellable) ? E_ACTIVITY_CANCELLED : E_ACTIVITY_COMPLETED);
+
+	g_object_unref (titd->activity);
+	icalcomponent_free (titd->icalcomp);
+	g_free (titd);
 }
 
 static void
-client_connect_cb (GObject *source_object,
-                   GAsyncResult *result,
-                   gpointer user_data)
+destination_client_connect_cb (GObject *source_object,
+			       GAsyncResult *result,
+			       gpointer user_data)
 {
 	EClient *client;
-	icalcomponent *icalcomp = user_data;
+	TransferItemToData *titd = user_data;
+	GCancellable *cancellable;
 	GError *error = NULL;
 
-	g_return_if_fail (icalcomp != NULL);
-
-	client = e_client_selector_get_client_finish (
-		E_CLIENT_SELECTOR (source_object), result, &error);
+	client = e_client_selector_get_client_finish (E_CLIENT_SELECTOR (source_object), result, &error);
 
 	/* Sanity check. */
 	g_return_if_fail (
 		((client != NULL) && (error == NULL)) ||
 		((client == NULL) && (error != NULL)));
 
+	cancellable = e_activity_get_cancellable (titd->activity);
+
 	if (error != NULL) {
-		g_warning ("%s: %s", G_STRFUNC, error->message);
-		g_error_free (error);
+		cal_transferring_update_alert (
+			E_CALENDAR_SELECTOR (titd->selector),
+			titd->shell_view,
+			titd->do_copy ? "calendar:failed-copy-event" : "calendar:failed-move-event",
+			titd->display_name,
+			error->message);
+		g_clear_error (&error);
+
+		goto exit;
 	}
 
-	calendar_selector_update_objects (E_CAL_CLIENT (client), icalcomp);
-	g_object_unref (client);
+	if (g_cancellable_is_cancelled (cancellable))
+		goto exit;
 
-	icalcomponent_free (icalcomp);
+	cal_comp_transfer_item_to (
+		E_CAL_CLIENT (titd->src_client), E_CAL_CLIENT (client),
+		titd->icalcomp, titd->do_copy, cancellable, transfer_item_to_cb, titd);
+
+	return;
+
+exit:
+	e_activity_set_state (
+		titd->activity,
+		g_cancellable_is_cancelled (cancellable) ? E_ACTIVITY_CANCELLED : E_ACTIVITY_COMPLETED);
+
+	g_object_unref (titd->activity);
+	icalcomponent_free (titd->icalcomp);
+	g_free (titd);
+
+}
+
+static void
+source_client_connect_cb (GObject *source_object,
+			  GAsyncResult *result,
+			  gpointer user_data)
+{
+	EClient *client;
+	TransferItemToData *titd = user_data;
+	GCancellable *cancellable;
+	GError *error = NULL;
+
+	client = e_client_selector_get_client_finish (E_CLIENT_SELECTOR (source_object), result, &error);
+
+	/* Sanity check. */
+	g_return_if_fail (
+		((client != NULL) && (error == NULL)) ||
+		((client == NULL) && (error != NULL)));
+
+	cancellable = e_activity_get_cancellable (titd->activity);
+
+	if (error != NULL) {
+		cal_transferring_update_alert (
+			E_CALENDAR_SELECTOR (titd->selector),
+			titd->shell_view,
+			titd->do_copy ? "calendar:failed-copy-event" : "calendar:failed-move-event",
+			titd->display_name,
+			error->message);
+		g_clear_error (&error);
+
+		goto exit;
+	}
+
+	if (g_cancellable_is_cancelled (cancellable))
+		goto exit;
+
+	titd->src_client = client;
+
+	e_client_selector_get_client (
+		E_CLIENT_SELECTOR (titd->selector), titd->destination, cancellable,
+		destination_client_connect_cb, titd);
+
+	return;
+
+exit:
+	e_activity_set_state (
+		titd->activity,
+		g_cancellable_is_cancelled (cancellable) ? E_ACTIVITY_CANCELLED : E_ACTIVITY_COMPLETED);
+
+	g_object_unref (titd->activity);
+	icalcomponent_free (titd->icalcomp);
+	g_free (titd);
 }
 
 static void
@@ -239,40 +314,83 @@ calendar_selector_data_dropped (ESourceSelector *selector,
                                 GdkDragAction action,
                                 guint info)
 {
-	GtkTreePath *path = NULL;
 	icalcomponent *icalcomp;
+	EActivity *activity;
+	EShellBackend *shell_backend;
+	EShellView *shell_view;
+	ESource *source;
+	ESourceRegistry *registry;
+	GCancellable *cancellable;
+	gchar **segments;
+	gchar *source_uid = NULL;
+	gchar *message;
+	const gchar *display_name;
 	const guchar *data;
-	gboolean success = FALSE;
-	gpointer object = NULL;
+	gboolean do_copy;
+	TransferItemToData *titd;
 
 	data = gtk_selection_data_get_data (selection_data);
-	icalcomp = icalparser_parse_string ((const gchar *) data);
+	g_return_val_if_fail (data != NULL, FALSE);
 
-	if (icalcomp == NULL)
+	segments = g_strsplit ((const gchar *) data, "\n", 2);
+	if (g_strv_length (segments) != 2)
 		goto exit;
 
-	/* FIXME Deal with GDK_ACTION_ASK. */
-	if (action == GDK_ACTION_COPY) {
-		gchar *uid;
+	source_uid = g_strdup (segments[0]);
+	icalcomp = icalparser_parse_string (segments[1]);
 
-		uid = e_cal_component_gen_uid ();
-		icalcomponent_set_uid (icalcomp, uid);
-	}
+	if (!icalcomp)
+		goto exit;
+
+	registry = e_source_selector_get_registry (selector);
+	source = e_source_registry_ref_source (registry, source_uid);
+	if (!source)
+		goto exit;
+
+	shell_view = e_calendar_selector_get_shell_view (E_CALENDAR_SELECTOR (selector));
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+
+	display_name = e_source_get_display_name (destination);
+
+	do_copy = action == GDK_ACTION_COPY ? TRUE : FALSE;
+
+	message = do_copy ?
+		g_strdup_printf (_("Copying an event into the calendar %s"), display_name) :
+		g_strdup_printf (_("Moving an event into the calendar %s"), display_name);
+
+	cancellable = g_cancellable_new ();
+	activity = e_activity_new ();
+	e_activity_set_cancellable (activity, cancellable);
+	e_activity_set_state (activity, E_ACTIVITY_RUNNING);
+	e_activity_set_text (activity, message);
+	g_free (message);
+
+	e_shell_backend_add_activity (shell_backend, activity);
+
+	titd = g_new0 (TransferItemToData, 1);
+
+	titd->destination = destination;
+	titd->icalcomp = icalcomponent_new_clone (icalcomp);
+	titd->selector = selector;
+	titd->shell_view = shell_view;
+	titd->activity = activity;
+	titd->display_name = display_name;
+	titd->do_copy = do_copy;
 
 	e_client_selector_get_client (
-		E_CLIENT_SELECTOR (selector), destination, NULL,
-		client_connect_cb, icalcomp);
-
-	success = TRUE;
+		E_CLIENT_SELECTOR (selector), source, cancellable,
+		source_client_connect_cb, titd);
 
 exit:
-	if (path != NULL)
-		gtk_tree_path_free (path);
+	if (source)
+		g_object_unref (source);
 
-	if (object != NULL)
-		g_object_unref (object);
+	if (icalcomp)
+		icalcomponent_free (icalcomp);
 
-	return success;
+	g_free (source_uid);
+	g_strfreev (segments);
+	return TRUE;
 }
 
 static void

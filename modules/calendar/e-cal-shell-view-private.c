@@ -993,33 +993,78 @@ e_cal_shell_view_set_status_message (ECalShellView *cal_shell_view,
 	cal_shell_view->priv->calendar_activity = activity;
 }
 
-struct ForeachTzidData
-{
-	ECalClient *source_client;
-	ECalClient *dest_client;
-};
-
 static void
-add_timezone_to_cal_cb (icalparameter *param,
-                        gpointer data)
+cal_transferring_update_alert (ECalShellView *cal_shell_view,
+			       const gchar *domain,
+			       const gchar *calendar,
+			       const gchar *message)
 {
-	struct ForeachTzidData *ftd = data;
-	icaltimezone *tz = NULL;
-	const gchar *tzid;
+	ECalShellViewPrivate *priv;
+	EShellContent *shell_content;
+	EAlert *alert;
 
-	g_return_if_fail (ftd != NULL);
-	g_return_if_fail (ftd->source_client != NULL);
-	g_return_if_fail (ftd->dest_client != NULL);
+	g_return_if_fail (cal_shell_view != NULL);
+	g_return_if_fail (cal_shell_view->priv != NULL);
 
-	tzid = icalparameter_get_tzid (param);
-	if (!tzid || !*tzid)
+	priv = cal_shell_view->priv;
+
+	if (priv->transfer_alert) {
+		e_alert_response (
+			priv->transfer_alert,
+			e_alert_get_default_response (priv->transfer_alert));
+		priv->transfer_alert = NULL;
+	}
+
+	if (!message)
 		return;
 
-	e_cal_client_get_timezone_sync (
-		ftd->source_client, tzid, &tz, NULL, NULL);
-	if (tz != NULL)
-		e_cal_client_add_timezone_sync (
-			ftd->dest_client, tz, NULL, NULL);
+	alert = e_alert_new (domain, calendar, message, NULL);
+	g_return_if_fail (alert != NULL);
+
+	priv->transfer_alert = alert;
+	g_object_add_weak_pointer (G_OBJECT (alert), &priv->transfer_alert);
+	e_alert_start_timer (priv->transfer_alert, 300);
+
+	shell_content = e_shell_view_get_shell_content (E_SHELL_VIEW (cal_shell_view));
+	e_alert_sink_submit_alert (E_ALERT_SINK (shell_content), priv->transfer_alert);
+	g_object_unref (priv->transfer_alert);
+}
+
+typedef struct _TransferItemToData {
+	ECalShellView *cal_shell_view;
+	EActivity *activity;
+	const gchar *display_name;
+	gboolean remove;
+} TransferItemToData;
+
+static void
+transfer_item_to_cb (GObject *src_object,
+		     GAsyncResult *result,
+		     gpointer user_data)
+{
+	TransferItemToData *titd = user_data;
+	GError *error = NULL;
+	GCancellable *cancellable;
+	gboolean success;
+
+	success = cal_comp_transfer_item_to_finish (E_CAL_CLIENT (src_object), result, &error);
+
+	cancellable = e_activity_get_cancellable (titd->activity);
+	e_activity_set_state (
+		titd->activity,
+		g_cancellable_is_cancelled (cancellable) ? E_ACTIVITY_CANCELLED : E_ACTIVITY_COMPLETED);
+
+	if (!success) {
+		cal_transferring_update_alert (
+			titd->cal_shell_view,
+			titd->remove ? "calendar:failed-move-event" : "calendar:failed-copy-event",
+			titd->display_name,
+			error->message);
+		g_clear_error (&error);
+	}
+
+	g_object_unref (titd->activity);
+	g_free (titd);
 }
 
 void
@@ -1028,129 +1073,50 @@ e_cal_shell_view_transfer_item_to (ECalShellView *cal_shell_view,
                                    ECalClient *destination_client,
                                    gboolean remove)
 {
-	icalcomponent *icalcomp;
-	icalcomponent *icalcomp_clone;
-	icalcomponent *icalcomp_event;
-	gboolean success;
-	const gchar *uid;
-
-	/* XXX This function should be split up into
-	 *     smaller, more understandable pieces. */
+	EActivity *activity;
+	EShellBackend *shell_backend;
+	ESource *source;
+	GCancellable *cancellable = NULL;
+	gchar *message;
+	const gchar *display_name;
+	TransferItemToData *titd;
 
 	g_return_if_fail (E_IS_CAL_SHELL_VIEW (cal_shell_view));
 	g_return_if_fail (event != NULL);
+	g_return_if_fail (is_comp_data_valid (event) != FALSE);
 	g_return_if_fail (E_IS_CAL_CLIENT (destination_client));
 
 	if (!is_comp_data_valid (event))
 		return;
 
-	icalcomp_event = event->comp_data->icalcomp;
-	uid = icalcomponent_get_uid (icalcomp_event);
+	source = e_client_get_source (E_CLIENT (destination_client));
+	display_name = e_source_get_display_name (source);
 
-	/* Put the new object into the destination calendar. */
+	message = remove ?
+		g_strdup_printf (_("Moving an event into the calendar %s"), display_name) :
+		g_strdup_printf (_("Copying an event into the calendar %s"), display_name);
 
-	success = e_cal_client_get_object_sync (
-		destination_client, uid, NULL, &icalcomp, NULL, NULL);
+	shell_backend = e_shell_view_get_shell_backend (E_SHELL_VIEW (cal_shell_view));
 
-	if (success) {
-		icalcomponent_free (icalcomp);
-		success = e_cal_client_modify_object_sync (
-			destination_client, icalcomp_event,
-			CALOBJ_MOD_ALL, NULL, NULL);
+	cancellable = g_cancellable_new ();
+	activity = e_activity_new ();
+	e_activity_set_cancellable (activity, cancellable);
+	e_activity_set_state (activity, E_ACTIVITY_RUNNING);
+	e_activity_set_text (activity, message);
+	g_free (message);
 
-		/* do not delete the event when it was found in the calendar */
-		return;
-	} else {
-		icalproperty *icalprop;
-		gchar *new_uid;
-		GError *error = NULL;
-		struct ForeachTzidData ftd;
+	e_shell_backend_add_activity (shell_backend, activity);
 
-		ftd.source_client = event->comp_data->client;
-		ftd.dest_client = destination_client;
+	titd = g_new0 (TransferItemToData, 1);
 
-		if (e_cal_util_component_is_instance (icalcomp_event)) {
-			success = e_cal_client_get_object_sync (
-				event->comp_data->client,
-				uid, NULL, &icalcomp, NULL, NULL);
-			if (success) {
-				/* Use master object when working
-				 * with a recurring event ... */
-				icalcomp_clone = icalcomponent_new_clone (icalcomp);
-				icalcomponent_free (icalcomp);
-			} else {
-				/* ... or remove the recurrence ID ... */
-				icalcomp_clone =
-					icalcomponent_new_clone (icalcomp_event);
-				if (e_cal_util_component_has_recurrences (icalcomp_clone)) {
-					/* ... for non-detached instances,
-					 * to make it a master object. */
-					icalprop = icalcomponent_get_first_property (
-						icalcomp_clone, ICAL_RECURRENCEID_PROPERTY);
-					if (icalprop != NULL)
-						icalcomponent_remove_property (
-							icalcomp_clone, icalprop);
-				}
-			}
-		} else
-			icalcomp_clone =
-				icalcomponent_new_clone (icalcomp_event);
+	titd->cal_shell_view = cal_shell_view;
+	titd->activity = activity;
+	titd->display_name = display_name;
+	titd->remove = remove;
 
-		icalprop = icalproperty_new_x ("1");
-		icalproperty_set_x_name (icalprop, "X-EVOLUTION-MOVE-CALENDAR");
-		icalcomponent_add_property (icalcomp_clone, icalprop);
-
-		if (!remove) {
-			/* Change the UID to avoid problems with
-			 * duplicated UIDs. */
-			new_uid = e_cal_component_gen_uid ();
-			icalcomponent_set_uid (icalcomp_clone, new_uid);
-			g_free (new_uid);
-		}
-
-		new_uid = NULL;
-		icalcomponent_foreach_tzid (
-			icalcomp_clone, add_timezone_to_cal_cb, &ftd);
-		success = e_cal_client_create_object_sync (
-			destination_client, icalcomp_clone,
-			&new_uid, NULL, &error);
-		if (!success) {
-			icalcomponent_free (icalcomp_clone);
-			g_warning (
-				"%s: Failed to create object: %s",
-				G_STRFUNC, error->message);
-			g_error_free (error);
-			return;
-		}
-
-		icalcomponent_free (icalcomp_clone);
-		g_free (new_uid);
-	}
-
-	if (remove) {
-		ECalClient *source_client = event->comp_data->client;
-
-		/* Remove the item from the source calendar. */
-		if (e_cal_util_component_is_instance (icalcomp_event) ||
-			e_cal_util_component_has_recurrences (icalcomp_event)) {
-			icaltimetype icaltime;
-			gchar *rid;
-
-			icaltime =
-				icalcomponent_get_recurrenceid (icalcomp_event);
-			if (!icaltime_is_null_time (icaltime))
-				rid = icaltime_as_ical_string_r (icaltime);
-			else
-				rid = NULL;
-			e_cal_client_remove_object_sync (
-				source_client, uid, rid,
-				CALOBJ_MOD_ALL, NULL, NULL);
-			g_free (rid);
-		} else
-			e_cal_client_remove_object_sync (
-				source_client, uid, NULL,
-				CALOBJ_MOD_THIS, NULL, NULL);
-	}
+	cal_comp_transfer_item_to (
+		event->comp_data->client, destination_client,
+		event->comp_data->icalcomp, !remove, cancellable, transfer_item_to_cb, titd);
 }
 
 void
