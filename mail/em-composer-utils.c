@@ -523,7 +523,14 @@ composer_send_completed (GObject *source_object,
 		g_error_matches (
 			local_error, CAMEL_SERVICE_ERROR,
 			CAMEL_SERVICE_ERROR_UNAVAILABLE) ||
-		/* a name resolution failed */
+		/* name resolution failed */
+		g_error_matches (
+			local_error, G_RESOLVER_ERROR,
+			G_RESOLVER_ERROR_NOT_FOUND) ||
+		g_error_matches (
+			local_error, G_RESOLVER_ERROR,
+			G_RESOLVER_ERROR_TEMPORARY_FAILURE) ||
+		/* something internal to Camel failed */
 		g_error_matches (
 			local_error, CAMEL_SERVICE_ERROR,
 			CAMEL_SERVICE_ERROR_URL_INVALID);
