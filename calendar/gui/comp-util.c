@@ -822,3 +822,366 @@ icalcomp_suggest_filename (icalcomponent *icalcomp,
 
 	return g_strconcat (summary, ".ics", NULL);
 }
+
+typedef struct _AsyncContext {
+	ECalClient *src_client;
+	icalcomponent *icalcomp_clone;
+	gboolean do_copy;
+} AsyncContext;
+
+struct ForeachTzidData
+{
+	ECalClient *source_client;
+	ECalClient *destination_client;
+	GCancellable *cancellable;
+	GError **error;
+	gboolean success;
+};
+
+static void
+async_context_free (AsyncContext *async_context)
+{
+	if (async_context->src_client)
+		g_object_unref (async_context->src_client);
+
+	if (async_context->icalcomp_clone)
+		icalcomponent_free (async_context->icalcomp_clone);
+
+	g_slice_free (AsyncContext, async_context);
+}
+
+static void
+add_timezone_to_cal_cb (icalparameter *param,
+			gpointer data)
+{
+	struct ForeachTzidData *ftd = data;
+	icaltimezone *tz = NULL;
+	const gchar *tzid;
+
+	g_return_if_fail (ftd != NULL);
+	g_return_if_fail (ftd->source_client != NULL);
+	g_return_if_fail (ftd->destination_client != NULL);
+
+	if (!ftd->success)
+		return;
+
+	if (ftd->cancellable && g_cancellable_is_cancelled (ftd->cancellable)) {
+		ftd->success = FALSE;
+		return;
+	}
+
+	tzid = icalparameter_get_tzid (param);
+	if (!tzid || !*tzid)
+		return;
+
+	if (e_cal_client_get_timezone_sync (ftd->source_client, tzid, &tz, ftd->cancellable, NULL) && tz)
+		ftd->success = e_cal_client_add_timezone_sync (
+				ftd->destination_client, tz, ftd->cancellable, ftd->error);
+}
+
+/* Helper for cal_comp_transfer_item_to() */
+static void
+cal_comp_transfer_item_to_thread (GSimpleAsyncResult *simple,
+				  GObject *source_object,
+				  GCancellable *cancellable)
+{
+	AsyncContext *async_context;
+	GError *local_error = NULL;
+
+	async_context = g_simple_async_result_get_op_res_gpointer (simple);
+
+	cal_comp_transfer_item_to_sync (
+		async_context->src_client,
+		E_CAL_CLIENT (source_object),
+		async_context->icalcomp_clone,
+		async_context->do_copy,
+		cancellable, &local_error);
+
+	if (local_error != NULL)
+		g_simple_async_result_take_error (simple, local_error);
+}
+
+void
+cal_comp_transfer_item_to (ECalClient *src_client,
+			   ECalClient *dest_client,
+			   icalcomponent *icalcomp_vcal,
+			   gboolean do_copy,
+			   GCancellable *cancellable,
+			   GAsyncReadyCallback callback,
+			   gpointer user_data)
+{
+	GSimpleAsyncResult *simple;
+	AsyncContext *async_context;
+
+	g_return_val_if_fail (E_IS_CAL_CLIENT (src_client), FALSE);
+	g_return_val_if_fail (E_IS_CAL_CLIENT (dest_client), FALSE);
+	g_return_val_if_fail (icalcomp_vcal != NULL, FALSE);
+
+	async_context = g_slice_new0 (AsyncContext);
+	async_context->src_client = g_object_ref (src_client);
+	async_context->icalcomp_clone = icalcomponent_new_clone (icalcomp_vcal);
+	async_context->do_copy = do_copy;
+
+	simple = g_simple_async_result_new (
+		G_OBJECT (dest_client), callback, user_data,
+		cal_comp_transfer_item_to);
+
+	g_simple_async_result_set_check_cancellable (simple, cancellable);
+
+	g_simple_async_result_set_op_res_gpointer (
+		simple, async_context, (GDestroyNotify) async_context_free);
+
+	g_simple_async_result_run_in_thread (
+		simple, cal_comp_transfer_item_to_thread,
+		G_PRIORITY_DEFAULT, cancellable);
+
+	g_object_unref (simple);
+}
+
+gboolean
+cal_comp_transfer_item_to_finish (ECalClient *client,
+				  GAsyncResult *result,
+				  GError **error)
+{
+	GSimpleAsyncResult *simple;
+
+	g_return_val_if_fail (
+		g_simple_async_result_is_valid (result, G_OBJECT (client), cal_comp_transfer_item_to),
+		FALSE);
+
+	simple = G_SIMPLE_ASYNC_RESULT (result);
+
+	if (g_simple_async_result_propagate_error (simple, error))
+		return FALSE;
+
+	return TRUE;
+}
+
+gboolean
+cal_comp_transfer_item_to_sync (ECalClient *src_client,
+				ECalClient *dest_client,
+				icalcomponent *icalcomp_vcal,
+				gboolean do_copy,
+				GCancellable *cancellable,
+				GError **error)
+{
+	icalcomponent *icalcomp;
+	icalcomponent *icalcomp_event, *subcomp;
+	icalcomponent_kind icalcomp_kind;
+	const gchar *uid;
+	gchar *new_uid = NULL;
+	struct ForeachTzidData ftd;
+	ECalClientSourceType source_type;
+	GHashTable *processed_uids;
+	gboolean success = FALSE;
+
+	g_return_val_if_fail (E_IS_CAL_CLIENT (src_client), FALSE);
+	g_return_val_if_fail (E_IS_CAL_CLIENT (dest_client), FALSE);
+	g_return_val_if_fail (icalcomp_vcal != NULL, FALSE);
+
+	icalcomp_event = icalcomponent_get_inner (icalcomp_vcal);
+	g_return_val_if_fail (icalcomp_event != NULL, FALSE);
+
+	source_type = e_cal_client_get_source_type (src_client);
+	switch (source_type) {
+		case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
+			icalcomp_kind = ICAL_VEVENT_COMPONENT;
+			break;
+		case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
+			icalcomp_kind = ICAL_VTODO_COMPONENT;
+			break;
+		case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
+			icalcomp_kind = ICAL_VJOURNAL_COMPONENT;
+			break;
+		default:
+			g_return_val_if_reached (FALSE);
+	}
+
+	processed_uids = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+
+	icalcomp_event = icalcomponent_get_first_component (icalcomp_vcal, icalcomp_kind);
+	/*
+	 * This check should be removed in the near future.
+	 * We should be able to work properly with multiselection, which means that we always
+	 * will receive a component with subcomponents.
+	 */
+	if (icalcomp_event == NULL)
+		icalcomp_event = icalcomp_vcal;
+	for (;
+	     icalcomp_event;
+	     icalcomp_event = icalcomponent_get_next_component (icalcomp_vcal, icalcomp_kind)) {
+		GError *local_error = NULL;
+
+		uid = icalcomponent_get_uid (icalcomp_event);
+
+		if (g_hash_table_lookup (processed_uids, uid))
+			continue;
+
+		success = e_cal_client_get_object_sync (dest_client, uid, NULL, &icalcomp, cancellable, &local_error);
+		if (success) {
+			success = e_cal_client_modify_object_sync (
+				dest_client, icalcomp_event, CALOBJ_MOD_ALL, cancellable, error);
+
+			icalcomponent_free (icalcomp);
+			if (!success)
+				goto exit;
+
+			if (!do_copy) {
+				ECalObjModType mod_type = CALOBJ_MOD_THIS;
+
+				/* Remove the item from the source calendar. */
+				if (e_cal_util_component_is_instance (icalcomp_event) ||
+				    e_cal_util_component_has_recurrences (icalcomp_event))
+					mod_type = CALOBJ_MOD_ALL;
+
+				success = e_cal_client_remove_object_sync (
+						src_client, uid, NULL, mod_type, cancellable, error);
+				if (!success)
+					goto exit;
+			}
+
+			continue;
+		} else if (local_error != NULL && !g_error_matches (
+					local_error, E_CAL_CLIENT_ERROR, E_CAL_CLIENT_ERROR_OBJECT_NOT_FOUND)) {
+			g_propagate_error (error, local_error);
+			goto exit;
+		} else {
+			g_clear_error (&local_error);
+		}
+
+		if (e_cal_util_component_is_instance (icalcomp_event)) {
+			GSList *ecalcomps = NULL, *eiter;
+			ECalComponent *comp ;
+
+			success = e_cal_client_get_objects_for_uid_sync (src_client, uid, &ecalcomps, cancellable, error);
+			if (!success)
+				goto exit;
+
+			if (ecalcomps && !ecalcomps->next) {
+				/* only one component, no need for a vCalendar list */
+				comp = ecalcomps->data;
+				icalcomp = icalcomponent_new_clone (e_cal_component_get_icalcomponent (comp));
+			} else {
+				icalcomp = icalcomponent_new (ICAL_VCALENDAR_COMPONENT);
+				for (eiter = ecalcomps; eiter; eiter = g_slist_next (eiter)) {
+					comp = eiter->data;
+
+					icalcomponent_add_component (icalcomp,
+						icalcomponent_new_clone (e_cal_component_get_icalcomponent (comp)));
+				}
+			}
+
+			e_cal_client_free_ecalcomp_slist (ecalcomps);
+		} else {
+			icalcomp = icalcomponent_new_clone (icalcomp_event);
+		}
+
+		if (do_copy) {
+			/* Change the UID to avoid problems with duplicated UID */
+			new_uid = e_cal_component_gen_uid ();
+			if (icalcomponent_isa (icalcomp) == ICAL_VCALENDAR_COMPONENT) {
+				/* in case of a vCalendar, the component might have detached instances,
+				   thus change the UID on all of the subcomponents of it */
+				for (subcomp = icalcomponent_get_first_component (icalcomp, icalcomp_kind);
+				     subcomp;
+				     subcomp = icalcomponent_get_next_component (icalcomp, icalcomp_kind)) {
+					icalcomponent_set_uid (subcomp, new_uid);
+				}
+			} else {
+				icalcomponent_set_uid (icalcomp, new_uid);
+			}
+			g_free (new_uid);
+			new_uid = NULL;
+		}
+
+		ftd.source_client = src_client;
+		ftd.destination_client = dest_client;
+		ftd.cancellable = cancellable;
+		ftd.error = error;
+		ftd.success = TRUE;
+
+		if (icalcomponent_isa (icalcomp) == ICAL_VCALENDAR_COMPONENT) {
+			/* in case of a vCalendar, the component might have detached instances,
+			   thus check timezones on all of the subcomponents of it */
+			for (subcomp = icalcomponent_get_first_component (icalcomp, icalcomp_kind);
+			     subcomp && ftd.success;
+			     subcomp = icalcomponent_get_next_component (icalcomp, icalcomp_kind)) {
+				icalcomponent_foreach_tzid (subcomp, add_timezone_to_cal_cb, &ftd);
+			}
+		} else {
+			icalcomponent_foreach_tzid (icalcomp, add_timezone_to_cal_cb, &ftd);
+		}
+
+		if (!ftd.success) {
+			success = FALSE;
+			goto exit;
+		}
+
+		if (icalcomponent_isa (icalcomp) == ICAL_VCALENDAR_COMPONENT) {
+			gboolean did_add = FALSE;
+
+			/* in case of a vCalendar, the component might have detached instances,
+			   thus add the master object first, and then all of the subcomponents of it */
+			for (subcomp = icalcomponent_get_first_component (icalcomp, icalcomp_kind);
+			     subcomp && !did_add;
+			     subcomp = icalcomponent_get_next_component (icalcomp, icalcomp_kind)) {
+				if (icaltime_is_null_time (icalcomponent_get_recurrenceid (subcomp))) {
+					did_add = TRUE;
+					success = e_cal_client_create_object_sync (dest_client, subcomp,
+						&new_uid, cancellable, error);
+					g_free (new_uid);
+				}
+			}
+
+			if (!success) {
+				icalcomponent_free (icalcomp);
+				goto exit;
+			}
+
+			/* deal with detached instances */
+			for (subcomp = icalcomponent_get_first_component (icalcomp, icalcomp_kind);
+			     subcomp && success;
+			     subcomp = icalcomponent_get_next_component (icalcomp, icalcomp_kind)) {
+				if (!icaltime_is_null_time (icalcomponent_get_recurrenceid (subcomp))) {
+					if (did_add) {
+						success = e_cal_client_modify_object_sync (dest_client, subcomp,
+							CALOBJ_MOD_THIS, cancellable, error);
+					} else {
+						/* just in case there are only detached instances and no master object */
+						did_add = TRUE;
+						success = e_cal_client_create_object_sync (dest_client, subcomp,
+							&new_uid, cancellable, error);
+						g_free (new_uid);
+					}
+				}
+			}
+		} else {
+			success = e_cal_client_create_object_sync (dest_client, icalcomp, &new_uid, cancellable, error);
+			g_free (new_uid);
+		}
+
+		icalcomponent_free (icalcomp);
+		if (!success)
+			goto exit;
+
+		if (!do_copy) {
+			ECalObjModType mod_type = CALOBJ_MOD_THIS;
+
+			/* Remove the item from the source calendar. */
+			if (e_cal_util_component_is_instance (icalcomp_event) ||
+			    e_cal_util_component_has_recurrences (icalcomp_event))
+				mod_type = CALOBJ_MOD_ALL;
+
+			success = e_cal_client_remove_object_sync (src_client, uid, NULL, mod_type, cancellable, error);
+			if (!success)
+				goto exit;
+		}
+
+		g_hash_table_insert (processed_uids, g_strdup (uid), GINT_TO_POINTER (1));
+	}
+
+ exit:
+	g_hash_table_destroy (processed_uids);
+
+	return success;
+}

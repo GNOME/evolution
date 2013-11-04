@@ -150,6 +150,9 @@ struct _ECalShellViewPrivate {
 	gint search_direction; /* negative value is backward, positive is forward, zero is error; in days */
 	GSList *search_hit_cache; /* pointers on time_t for matched events */
 
+	/* Event/Task/Memo transferring */
+	gpointer transfer_alert; /* weak pointer to EAlert * */
+
         GFileMonitor *monitors[CHECK_NB];
 };
 
