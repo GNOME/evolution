@@ -314,11 +314,11 @@ calendar_selector_data_dropped (ESourceSelector *selector,
                                 GdkDragAction action,
                                 guint info)
 {
-	icalcomponent *icalcomp;
+	icalcomponent *icalcomp = NULL;
 	EActivity *activity;
 	EShellBackend *shell_backend;
 	EShellView *shell_view;
-	ESource *source;
+	ESource *source = NULL;
 	ESourceRegistry *registry;
 	GCancellable *cancellable;
 	gchar **segments;
