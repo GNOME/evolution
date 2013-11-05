@@ -10,11 +10,11 @@
 # Andika Triwidada <andika@gmail.com>, 2010, 2011, 2012, 2013.
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution master\n"
+"Project-Id-Version: evolution gnome-3-10\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2013-09-07 23:08+0000\n"
-"PO-Revision-Date: 2013-09-09 21:12+0700\n"
+"POT-Creation-Date: 2013-11-04 20:23+0000\n"
+"PO-Revision-Date: 2013-11-05 08:41+0700\n"
 "Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "Language: id\n"
@@ -456,7 +456,7 @@ msgstr "_Alamat:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:47
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:191
-#: ../addressbook/gui/widgets/e-contact-map.c:306
+#: ../addressbook/gui/widgets/e-contact-map.c:372
 #: ../addressbook/gui/widgets/eab-contact-display.c:357
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:81
 msgid "Home"
@@ -464,7 +464,7 @@ msgstr "Rumah"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:48
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:190
-#: ../addressbook/gui/widgets/e-contact-map.c:314
+#: ../addressbook/gui/widgets/e-contact-map.c:385
 #: ../addressbook/gui/widgets/eab-contact-display.c:354
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:80
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:666
@@ -794,19 +794,19 @@ msgid "Merge Contact"
 msgstr "Gabung Kontak"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:1
-#: ../modules/addressbook/e-book-shell-view-actions.c:1154
+#: ../modules/addressbook/e-book-shell-view-actions.c:1151
 msgid "Name contains"
 msgstr "Nama berisi"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:2
-#: ../modules/addressbook/e-book-shell-view-actions.c:1147
+#: ../modules/addressbook/e-book-shell-view-actions.c:1144
 msgid "Email begins with"
 msgstr "Surel diawali dengan"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:3
 #: ../calendar/gui/caltypes.xml.h:26 ../calendar/gui/memotypes.xml.h:19
 #: ../calendar/gui/tasktypes.xml.h:30
-#: ../modules/addressbook/e-book-shell-view-actions.c:1140
+#: ../modules/addressbook/e-book-shell-view-actions.c:1137
 #: ../modules/calendar/e-cal-shell-view-actions.c:1771
 #: ../modules/calendar/e-memo-shell-view-actions.c:791
 #: ../modules/calendar/e-task-shell-view-actions.c:990
@@ -848,7 +848,7 @@ msgid "Paste contacts from the clipboard"
 msgstr "Mengambil kontak dari papan klip"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:667
-#: ../modules/addressbook/e-book-shell-view-actions.c:954
+#: ../modules/addressbook/e-book-shell-view-actions.c:951
 msgid "Delete selected contacts"
 msgstr "Menghapus kontak yang dipilih"
 
@@ -1070,7 +1070,7 @@ msgstr "Pasangan Hidup"
 msgid "Note"
 msgstr "Catatan"
 
-#: ../addressbook/gui/widgets/e-contact-map-window.c:363
+#: ../addressbook/gui/widgets/e-contact-map-window.c:374
 msgid "Contacts Map"
 msgstr "Peta Kontak"
 
@@ -1201,7 +1201,7 @@ msgid "Send a mail message to this address"
 msgstr "Kirim surel ke alamat ini?"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:291
-#: ../e-util/e-web-view-gtkhtml.c:970 ../e-util/e-web-view.c:934
+#: ../e-util/e-web-view-gtkhtml.c:970 ../e-util/e-web-view.c:990
 #, c-format
 msgid "Click to mail %s"
 msgstr "Klik untuk mengirim surat kepada %s"
@@ -1544,8 +1544,8 @@ msgid "_Dismiss"
 msgstr "_Tutup"
 
 #: ../calendar/alarm-notify/alarm-notify.ui.h:5
-#: ../calendar/alarm-notify/alarm-queue.c:1823
-#: ../calendar/alarm-notify/alarm-queue.c:1833
+#: ../calendar/alarm-notify/alarm-queue.c:1835
+#: ../calendar/alarm-notify/alarm-queue.c:1845
 #: ../modules/cal-config-weather/evolution-cal-config-weather.c:190
 #: ../modules/itip-formatter/itip-view.c:1489
 #: ../modules/itip-formatter/itip-view.c:1600
@@ -1585,37 +1585,37 @@ msgstr "jam"
 msgid "minutes"
 msgstr "menit"
 
-#: ../calendar/alarm-notify/alarm-queue.c:1665
-#: ../calendar/alarm-notify/alarm-queue.c:1803
+#: ../calendar/alarm-notify/alarm-queue.c:1679
+#: ../calendar/alarm-notify/alarm-queue.c:1815
 msgid "No summary available."
 msgstr "Tak tersedia ringkasan."
 
-#: ../calendar/alarm-notify/alarm-queue.c:1674
-#: ../calendar/alarm-notify/alarm-queue.c:1676
+#: ../calendar/alarm-notify/alarm-queue.c:1688
+#: ../calendar/alarm-notify/alarm-queue.c:1690
 msgid "No description available."
 msgstr "Tak tersedia keterangan."
 
-#: ../calendar/alarm-notify/alarm-queue.c:1684
+#: ../calendar/alarm-notify/alarm-queue.c:1698
 msgid "No location information available."
 msgstr "Informasi lokasi tidak tersedia."
 
-#: ../calendar/alarm-notify/alarm-queue.c:1689
-#: ../calendar/alarm-notify/alarm-queue.c:1794
-#: ../calendar/alarm-notify/alarm-queue.c:2135
+#: ../calendar/alarm-notify/alarm-queue.c:1703
+#: ../calendar/alarm-notify/alarm-queue.c:1806
+#: ../calendar/alarm-notify/alarm-queue.c:2145
 msgid "Evolution Reminders"
 msgstr "Pengingat Evolution"
 
-#: ../calendar/alarm-notify/alarm-queue.c:1733
+#: ../calendar/alarm-notify/alarm-queue.c:1747
 #, c-format
 msgid "You have %d reminder"
 msgid_plural "You have %d reminders"
 msgstr[0] "Anda punya %d pengingat"
 
-#: ../calendar/alarm-notify/alarm-queue.c:1955
+#: ../calendar/alarm-notify/alarm-queue.c:1965
 msgid "Warning"
 msgstr "Peringatan"
 
-#: ../calendar/alarm-notify/alarm-queue.c:1961
+#: ../calendar/alarm-notify/alarm-queue.c:1971
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -1632,7 +1632,7 @@ msgstr ""
 "\n"
 "Benar ingin menjalankan program ini?"
 
-#: ../calendar/alarm-notify/alarm-queue.c:1976
+#: ../calendar/alarm-notify/alarm-queue.c:1986
 msgid "Do not ask me about this program again."
 msgstr "Jangan tanya lagi tentang program ini."
 
@@ -2502,14 +2502,14 @@ msgstr "Tutup jendela ini"
 #: ../calendar/gui/dialogs/comp-editor.c:1229 ../e-util/e-focus-tracker.c:121
 #: ../e-util/e-focus-tracker.c:558 ../e-util/e-web-view-gtkhtml.c:455
 #: ../e-util/e-web-view-gtkhtml.c:1296 ../e-util/e-web-view.c:341
-#: ../e-util/e-web-view.c:1249 ../mail/e-mail-browser.c:136
+#: ../e-util/e-web-view.c:1305 ../mail/e-mail-browser.c:136
 #: ../shell/e-shell-window-actions.c:888
 msgid "Copy the selection"
 msgstr "Salin bagian yang dipilih"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1236 ../e-util/e-focus-tracker.c:114
 #: ../e-util/e-focus-tracker.c:553 ../e-util/e-web-view-gtkhtml.c:1290
-#: ../e-util/e-web-view.c:1243 ../mail/e-mail-browser.c:143
+#: ../e-util/e-web-view.c:1299 ../mail/e-mail-browser.c:143
 #: ../shell/e-shell-window-actions.c:895
 msgid "Cut the selection"
 msgstr "Potong bagian yang dipilih"
@@ -2525,7 +2525,7 @@ msgstr "Tilik bantuan"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1257 ../e-util/e-focus-tracker.c:128
 #: ../e-util/e-focus-tracker.c:563 ../e-util/e-web-view-gtkhtml.c:1302
-#: ../e-util/e-web-view.c:1255 ../mail/e-mail-browser.c:150
+#: ../e-util/e-web-view.c:1311 ../mail/e-mail-browser.c:150
 #: ../shell/e-shell-window-actions.c:923
 msgid "Paste the clipboard"
 msgstr "Tempel isi clipboard"
@@ -3106,8 +3106,8 @@ msgid "Memo cannot be fully edited, because you are not the organizer"
 msgstr "Memo tidak dapat disunting penuh, karena Anda bukan penyelenggaranya"
 
 #: ../calendar/gui/dialogs/memo-page.c:1160
-#: ../em-format/e-mail-formatter-utils.c:205
-#: ../em-format/e-mail-formatter-utils.c:229
+#: ../em-format/e-mail-formatter-utils.c:203
+#: ../em-format/e-mail-formatter-utils.c:220
 #: ../em-format/e-mail-part-headers.c:49 ../mail/em-filter-i18n.h:78
 #: ../mail/message-list.etspec.h:9 ../modules/mail/em-mailer-prefs.c:66
 msgid "To"
@@ -3459,7 +3459,7 @@ msgstr "Tanggal selesai salah"
 
 #. To Translators: This is task priority
 #: ../calendar/gui/dialogs/task-page.ui.h:8
-#: ../calendar/gui/e-cal-component-preview.c:345
+#: ../calendar/gui/e-cal-component-preview.c:337
 #: ../calendar/gui/e-task-table.c:573 ../calendar/gui/tasktypes.xml.h:19
 #: ../e-util/e-send-options.ui.h:2 ../mail/message-list.c:320
 msgid "High"
@@ -3467,7 +3467,7 @@ msgstr "Tinggi"
 
 #. To Translators: This is task priority
 #: ../calendar/gui/dialogs/task-page.ui.h:10
-#: ../calendar/gui/e-cal-component-preview.c:347
+#: ../calendar/gui/e-cal-component-preview.c:339
 #: ../calendar/gui/e-cal-model.c:1666 ../calendar/gui/e-task-table.c:574
 #: ../calendar/gui/tasktypes.xml.h:20 ../e-util/e-send-options.ui.h:5
 #: ../mail/message-list.c:319
@@ -3476,7 +3476,7 @@ msgstr "Normal"
 
 #. To Translators: This is task priority
 #: ../calendar/gui/dialogs/task-page.ui.h:12
-#: ../calendar/gui/e-cal-component-preview.c:349
+#: ../calendar/gui/e-cal-component-preview.c:341
 #: ../calendar/gui/e-task-table.c:575 ../calendar/gui/tasktypes.xml.h:21
 #: ../e-util/e-send-options.ui.h:4 ../mail/message-list.c:318
 msgid "Low"
@@ -3491,7 +3491,7 @@ msgstr "Belum didefinisikan"
 
 #. To Translators: This is task status
 #: ../calendar/gui/dialogs/task-page.ui.h:16
-#: ../calendar/gui/e-cal-component-preview.c:330
+#: ../calendar/gui/e-cal-component-preview.c:322
 #: ../calendar/gui/e-cal-model-tasks.c:311
 #: ../calendar/gui/e-cal-model-tasks.c:553 ../calendar/gui/e-task-table.c:214
 #: ../calendar/gui/e-task-table.c:229 ../calendar/gui/e-task-table.c:656
@@ -3501,7 +3501,7 @@ msgstr "Belum Dimulai"
 
 #. To Translators: This is task status
 #: ../calendar/gui/dialogs/task-page.ui.h:18
-#: ../calendar/gui/e-cal-component-preview.c:320
+#: ../calendar/gui/e-cal-component-preview.c:312
 #: ../calendar/gui/e-cal-model-tasks.c:313
 #: ../calendar/gui/e-cal-model-tasks.c:555
 #: ../calendar/gui/e-cal-model-tasks.c:633 ../calendar/gui/e-task-table.c:216
@@ -3512,7 +3512,7 @@ msgstr "Dalam Proses"
 
 #. To Translators: This is task status
 #: ../calendar/gui/dialogs/task-page.ui.h:20
-#: ../calendar/gui/e-cal-component-preview.c:323
+#: ../calendar/gui/e-cal-component-preview.c:315
 #: ../calendar/gui/e-cal-model-tasks.c:315
 #: ../calendar/gui/e-cal-model-tasks.c:557
 #: ../calendar/gui/e-meeting-store.c:205 ../calendar/gui/e-meeting-store.c:228
@@ -3525,7 +3525,7 @@ msgstr "Selesai"
 
 #. To Translators: This is task status
 #: ../calendar/gui/dialogs/task-page.ui.h:22
-#: ../calendar/gui/e-cal-component-preview.c:326
+#: ../calendar/gui/e-cal-component-preview.c:318
 #: ../calendar/gui/e-cal-model-tasks.c:317
 #: ../calendar/gui/e-cal-model-tasks.c:559 ../calendar/gui/e-task-table.c:220
 #: ../calendar/gui/e-task-table.c:235 ../calendar/gui/e-task-table.c:659
@@ -3656,7 +3656,7 @@ msgid "Gnome Calendar"
 msgstr "Kalender Gnome"
 
 #: ../calendar/gui/ea-gnome-calendar.c:204
-#: ../modules/calendar/e-cal-shell-view-private.c:1225
+#: ../modules/calendar/e-cal-shell-view-private.c:1191
 msgid "%A %d %b %Y"
 msgstr "%A, %d %b %Y"
 
@@ -3669,16 +3669,16 @@ msgstr "%A, %d %b %Y"
 #: ../calendar/gui/ea-gnome-calendar.c:208 ../calendar/gui/e-day-view.c:2793
 #: ../calendar/gui/e-day-view-top-item.c:859
 #: ../calendar/gui/e-week-view-main-item.c:219
-#: ../modules/calendar/e-cal-shell-view-private.c:1229
+#: ../modules/calendar/e-cal-shell-view-private.c:1195
 msgid "%a %d %b"
 msgstr "%a, %d %b"
 
 #: ../calendar/gui/ea-gnome-calendar.c:211
 #: ../calendar/gui/ea-gnome-calendar.c:217
 #: ../calendar/gui/ea-gnome-calendar.c:220
-#: ../modules/calendar/e-cal-shell-view-private.c:1232
-#: ../modules/calendar/e-cal-shell-view-private.c:1238
-#: ../modules/calendar/e-cal-shell-view-private.c:1241
+#: ../modules/calendar/e-cal-shell-view-private.c:1198
+#: ../modules/calendar/e-cal-shell-view-private.c:1204
+#: ../modules/calendar/e-cal-shell-view-private.c:1207
 msgid "%a %d %b %Y"
 msgstr "%a, %d %b %Y"
 
@@ -3686,10 +3686,10 @@ msgstr "%a, %d %b %Y"
 #: ../calendar/gui/ea-gnome-calendar.c:247
 #: ../calendar/gui/ea-gnome-calendar.c:254
 #: ../calendar/gui/ea-gnome-calendar.c:257
-#: ../modules/calendar/e-cal-shell-view-private.c:1258
-#: ../modules/calendar/e-cal-shell-view-private.c:1269
-#: ../modules/calendar/e-cal-shell-view-private.c:1276
-#: ../modules/calendar/e-cal-shell-view-private.c:1279
+#: ../modules/calendar/e-cal-shell-view-private.c:1224
+#: ../modules/calendar/e-cal-shell-view-private.c:1235
+#: ../modules/calendar/e-cal-shell-view-private.c:1242
+#: ../modules/calendar/e-cal-shell-view-private.c:1245
 msgid "%d %b %Y"
 msgstr "%d %b %Y"
 
@@ -3701,7 +3701,7 @@ msgstr "%d %b %Y"
 #: ../calendar/gui/ea-gnome-calendar.c:244 ../calendar/gui/e-day-view.c:2809
 #: ../calendar/gui/e-day-view-top-item.c:863
 #: ../calendar/gui/e-week-view-main-item.c:233
-#: ../modules/calendar/e-cal-shell-view-private.c:1265
+#: ../modules/calendar/e-cal-shell-view-private.c:1231
 msgid "%d %b"
 msgstr "%d %b"
 
@@ -3797,47 +3797,47 @@ msgstr "kalender tampi untuk sebulan"
 msgid "calendar view for one or more weeks"
 msgstr "tampilan kalender untuk satu minggu atau lebih"
 
-#: ../calendar/gui/e-cal-component-preview.c:231 ../e-util/e-filter-rule.c:750
+#: ../calendar/gui/e-cal-component-preview.c:223 ../e-util/e-filter-rule.c:750
 #: ../mail/e-mail-config-page.c:126
 msgid "Untitled"
 msgstr "Tak ada judul"
 
-#: ../calendar/gui/e-cal-component-preview.c:239
+#: ../calendar/gui/e-cal-component-preview.c:231
 msgid "Categories:"
 msgstr "Kategori"
 
-#: ../calendar/gui/e-cal-component-preview.c:271
+#: ../calendar/gui/e-cal-component-preview.c:263
 msgid "Summary:"
 msgstr "Ringkasan:"
 
-#: ../calendar/gui/e-cal-component-preview.c:280
+#: ../calendar/gui/e-cal-component-preview.c:272
 msgid "Start Date:"
 msgstr "Tanggal Awal:"
 
-#: ../calendar/gui/e-cal-component-preview.c:292
+#: ../calendar/gui/e-cal-component-preview.c:284
 msgid "End Date:"
 msgstr "Tanggal Akhir:"
 
-#: ../calendar/gui/e-cal-component-preview.c:304
+#: ../calendar/gui/e-cal-component-preview.c:296
 msgid "Due Date:"
 msgstr "Tanggal Tenggat:"
 
-#: ../calendar/gui/e-cal-component-preview.c:316
+#: ../calendar/gui/e-cal-component-preview.c:308
 #: ../modules/itip-formatter/itip-view.c:1492
 #: ../modules/itip-formatter/itip-view.c:1609
 msgid "Status:"
 msgstr "Status:"
 
-#: ../calendar/gui/e-cal-component-preview.c:343
+#: ../calendar/gui/e-cal-component-preview.c:335
 msgid "Priority:"
 msgstr "Prioritas:"
 
-#: ../calendar/gui/e-cal-component-preview.c:368
+#: ../calendar/gui/e-cal-component-preview.c:360
 #: ../mail/e-mail-config-service-page.c:672
 msgid "Description:"
 msgstr "Keterangan:"
 
-#: ../calendar/gui/e-cal-component-preview.c:399
+#: ../calendar/gui/e-cal-component-preview.c:391
 msgid "Web Page:"
 msgstr "Laman Web:"
 
@@ -6737,7 +6737,7 @@ msgid "S_ubject:"
 msgstr "J_udul:"
 
 #: ../composer/e-composer-header-table.c:813
-#: ../mail/e-mail-config-identity-page.c:488
+#: ../mail/e-mail-config-identity-page.c:489
 msgid "Si_gnature:"
 msgstr "Tanda tan_gan:"
 
@@ -6750,7 +6750,7 @@ msgstr "Klik untuk membuka buku alamat"
 msgid "Click here to select folders to post to"
 msgstr "Klik disini untuk memilih folder tempat posting"
 
-#: ../composer/e-msg-composer.c:869
+#: ../composer/e-msg-composer.c:878
 #, c-format
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
@@ -6758,7 +6758,7 @@ msgstr ""
 "Tidak dapat menandatangani pesan keluar: Sertifikat untuk tanda tangan belum "
 "diset untuk akun ini"
 
-#: ../composer/e-msg-composer.c:878
+#: ../composer/e-msg-composer.c:887
 #, c-format
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
@@ -6767,15 +6767,15 @@ msgstr ""
 "Tidak dapat mengacak pesan keluar: Sertifikat enkripsi belum diset untuk "
 "akun ini"
 
-#: ../composer/e-msg-composer.c:1557 ../composer/e-msg-composer.c:1958
+#: ../composer/e-msg-composer.c:1566 ../composer/e-msg-composer.c:1967
 msgid "Compose Message"
 msgstr "Tulis Pesan Baru"
 
-#: ../composer/e-msg-composer.c:4213
+#: ../composer/e-msg-composer.c:4235
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr "Komposer mengandung badan bukan teks, sehingga tidak dapat disunting."
 
-#: ../composer/e-msg-composer.c:4886
+#: ../composer/e-msg-composer.c:4908
 msgid "Untitled Message"
 msgstr "Belum Diberi Judul"
 
@@ -9377,11 +9377,11 @@ msgstr "Gambar Biasa"
 msgid "Display part as an image"
 msgstr "Tampilkan bagian sebagai gambar"
 
-#: ../em-format/e-mail-formatter-message-rfc822.c:252
+#: ../em-format/e-mail-formatter-message-rfc822.c:246
 msgid "RFC822 message"
 msgstr "Pesan RFC822"
 
-#: ../em-format/e-mail-formatter-message-rfc822.c:253
+#: ../em-format/e-mail-formatter-message-rfc822.c:247
 msgid "Format part as an RFC822 message"
 msgstr "Format bagian sebagai pesan RFC822"
 
@@ -9416,7 +9416,7 @@ msgid "S/MIME encrpyted"
 msgstr "Dienkripsi S/MIME"
 
 #: ../em-format/e-mail-formatter-print-headers.c:171
-#: ../mail/e-mail-config-security-page.c:642
+#: ../mail/e-mail-config-security-page.c:645
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:195
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:129
 msgid "Security"
@@ -9431,38 +9431,38 @@ msgstr "Subjek"
 
 #. pseudo-header
 #: ../em-format/e-mail-formatter-quote-headers.c:187
-#: ../em-format/e-mail-formatter-utils.c:359
+#: ../em-format/e-mail-formatter-utils.c:344
 #: ../modules/mail/em-mailer-prefs.c:1145
 msgid "Mailer"
 msgstr "Mailer"
 
 #: ../em-format/e-mail-formatter-quote-text-enriched.c:91
-#: ../em-format/e-mail-formatter-text-enriched.c:104
+#: ../em-format/e-mail-formatter-text-enriched.c:98
 msgid "Richtext"
 msgstr "Richtext"
 
 #: ../em-format/e-mail-formatter-quote-text-enriched.c:92
-#: ../em-format/e-mail-formatter-text-enriched.c:105
+#: ../em-format/e-mail-formatter-text-enriched.c:99
 msgid "Display part as enriched text"
 msgstr "Tampilkan bagian sebagai teks diperkaya"
 
 #: ../em-format/e-mail-formatter-quote-text-html.c:90
-#: ../em-format/e-mail-formatter-text-html.c:353
+#: ../em-format/e-mail-formatter-text-html.c:351
 msgid "HTML"
 msgstr "HTML"
 
 #: ../em-format/e-mail-formatter-quote-text-html.c:91
-#: ../em-format/e-mail-formatter-text-html.c:354
+#: ../em-format/e-mail-formatter-text-html.c:352
 msgid "Format part as HTML"
 msgstr "Format bagian sebagai HTML"
 
 #: ../em-format/e-mail-formatter-quote-text-plain.c:115
-#: ../em-format/e-mail-formatter-text-plain.c:194
+#: ../em-format/e-mail-formatter-text-plain.c:185
 msgid "Plain Text"
 msgstr "Teks Polos"
 
 #: ../em-format/e-mail-formatter-quote-text-plain.c:116
-#: ../em-format/e-mail-formatter-text-plain.c:195
+#: ../em-format/e-mail-formatter-text-plain.c:186
 msgid "Format part as plain text"
 msgstr "Format bagian sebagai teks polos"
 
@@ -9573,31 +9573,31 @@ msgstr ""
 "Pesan ini dienkripsi dengan algoritma yang kuat. Akan sangat sulit bagi yang "
 "tidak berhak untuk melihat isi pesan tersebut dalam waktu yang singkat."
 
-#: ../em-format/e-mail-formatter-secure-button.c:182
+#: ../em-format/e-mail-formatter-secure-button.c:187
 #: ../smime/gui/smime-ui.ui.h:20
 msgid "_View Certificate"
 msgstr "Lihat Serti_fikat"
 
-#: ../em-format/e-mail-formatter-secure-button.c:197
+#: ../em-format/e-mail-formatter-secure-button.c:202
 msgid "This certificate is not viewable"
 msgstr "Sertifikat tidak dapat dilihat"
 
-#: ../em-format/e-mail-formatter-source.c:130
+#: ../em-format/e-mail-formatter-source.c:115
 msgid "Source"
 msgstr "Sumber"
 
-#: ../em-format/e-mail-formatter-source.c:131
+#: ../em-format/e-mail-formatter-source.c:116
 msgid "Display source of a MIME part"
 msgstr "Tampilkan sumber dari suatu bagian MIME"
 
-#: ../em-format/e-mail-formatter-utils.c:207
-#: ../em-format/e-mail-formatter-utils.c:231
+#: ../em-format/e-mail-formatter-utils.c:204
+#: ../em-format/e-mail-formatter-utils.c:221
 #: ../em-format/e-mail-part-headers.c:50 ../modules/mail/em-mailer-prefs.c:67
 msgid "Cc"
 msgstr "Cc"
 
-#: ../em-format/e-mail-formatter-utils.c:209
-#: ../em-format/e-mail-formatter-utils.c:233
+#: ../em-format/e-mail-formatter-utils.c:205
+#: ../em-format/e-mail-formatter-utils.c:222
 #: ../em-format/e-mail-part-headers.c:51 ../modules/mail/em-mailer-prefs.c:68
 msgid "Bcc"
 msgstr "Bcc"
@@ -10980,7 +10980,7 @@ msgstr "_Cari:"
 
 #: ../e-util/e-name-selector-dialog.c:368
 #: ../e-util/e-name-selector-dialog.c:1276
-#: ../modules/addressbook/e-book-shell-view-actions.c:1116
+#: ../modules/addressbook/e-book-shell-view-actions.c:1113
 #: ../modules/calendar/e-cal-shell-view-actions.c:1733
 #: ../modules/calendar/e-memo-shell-view-actions.c:767
 #: ../modules/calendar/e-task-shell-view-actions.c:938
@@ -11502,22 +11502,22 @@ msgid "Copy the image to the clipboard"
 msgstr "Salin gambar ke papan klip"
 
 #: ../e-util/e-web-view-gtkhtml.c:465 ../e-util/e-web-view-gtkhtml.c:1308
-#: ../e-util/e-web-view.c:351 ../e-util/e-web-view.c:1261
+#: ../e-util/e-web-view.c:351 ../e-util/e-web-view.c:1317
 msgid "Select all text and images"
 msgstr "Pilih semua teks dan gambar"
 
 #: ../e-util/e-web-view-gtkhtml.c:972 ../e-util/e-web-view-gtkhtml.c:974
-#: ../e-util/e-web-view-gtkhtml.c:976 ../e-util/e-web-view.c:936
-#: ../e-util/e-web-view.c:938 ../e-util/e-web-view.c:940
+#: ../e-util/e-web-view-gtkhtml.c:976 ../e-util/e-web-view.c:992
+#: ../e-util/e-web-view.c:994 ../e-util/e-web-view.c:996
 #, c-format
 msgid "Click to call %s"
 msgstr "Klik untuk memanggil %s"
 
-#: ../e-util/e-web-view-gtkhtml.c:978 ../e-util/e-web-view.c:942
+#: ../e-util/e-web-view-gtkhtml.c:978 ../e-util/e-web-view.c:998
 msgid "Click to hide/unhide addresses"
 msgstr "Klik untuk sembunyi/tampilkan alamat"
 
-#: ../e-util/e-web-view-gtkhtml.c:980 ../e-util/e-web-view.c:944
+#: ../e-util/e-web-view-gtkhtml.c:980 ../e-util/e-web-view.c:1000
 #, c-format
 msgid "Click to open %s"
 msgstr "Klik untuk membuka %s"
@@ -11530,15 +11530,15 @@ msgstr "S_impan Gambar..."
 msgid "Save the image to a file"
 msgstr "Simpan gambar ke suatu berkas"
 
-#: ../e-util/e-web-view.c:2834
+#: ../e-util/e-web-view.c:2894
 msgid "Copying image to clipboard"
 msgstr "Menyalin gambar ke papan klip"
 
-#: ../e-util/e-web-view.c:3022
+#: ../e-util/e-web-view.c:3082
 msgid "Save Image"
 msgstr "Simpan Gambar"
 
-#: ../e-util/e-web-view.c:3058
+#: ../e-util/e-web-view.c:3118
 #, c-format
 msgid "Saving image to '%s'"
 msgstr "Menyimpan gambar ke '%s'"
@@ -11570,7 +11570,7 @@ msgid "Flags"
 msgstr "Penanda"
 
 #: ../e-util/evolution-source-viewer.c:726
-#: ../mail/e-mail-config-identity-page.c:677
+#: ../mail/e-mail-config-identity-page.c:678
 msgid "Identity"
 msgstr "Identitas"
 
@@ -11747,7 +11747,7 @@ msgid "Saving %d message"
 msgid_plural "Saving %d messages"
 msgstr[0] "Menyimpan %d pesan"
 
-#: ../libemail-engine/e-mail-folder-utils.c:1926 ../mail/em-folder-utils.c:638
+#: ../libemail-engine/e-mail-folder-utils.c:1926
 #, c-format
 msgid "Invalid folder URI '%s'"
 msgstr "URI folder '%s' tidak valid"
@@ -12030,8 +12030,8 @@ msgid "Account Name"
 msgstr "Nama akun"
 
 #: ../mail/e-mail-account-tree-view.c:136
-#: ../mail/e-mail-config-security-page.c:333
-#: ../mail/e-mail-config-security-page.c:472 ../mail/e-mail-reader.c:3532
+#: ../mail/e-mail-config-security-page.c:335
+#: ../mail/e-mail-config-security-page.c:475 ../mail/e-mail-reader.c:3532
 #: ../mail/mail-config.ui.h:49
 msgid "Default"
 msgstr "Default"
@@ -12210,15 +12210,15 @@ msgstr "_Alamat Surel:"
 msgid "Optional Information"
 msgstr "Informasi Opsional"
 
-#: ../mail/e-mail-config-identity-page.c:439
+#: ../mail/e-mail-config-identity-page.c:440
 msgid "Re_ply-To:"
 msgstr "_Balas ke:"
 
-#: ../mail/e-mail-config-identity-page.c:466
+#: ../mail/e-mail-config-identity-page.c:467
 msgid "Or_ganization:"
 msgstr "Or_ganisasi:"
 
-#: ../mail/e-mail-config-identity-page.c:521
+#: ../mail/e-mail-config-identity-page.c:522
 msgid "Add Ne_w Signature..."
 msgstr "_Tambah Tanda Tangan Baru..."
 
@@ -12252,88 +12252,88 @@ msgstr "Pengambilan Surel"
 msgid "General"
 msgstr "Umum"
 
-#: ../mail/e-mail-config-security-page.c:268
+#: ../mail/e-mail-config-security-page.c:269
 msgid "_Do not sign meeting requests (for Outlook compatibility)"
 msgstr "Jangan tan_da tangani usulan pertemuan (agar bisa dibaca pada Outlook)"
 
-#: ../mail/e-mail-config-security-page.c:290
+#: ../mail/e-mail-config-security-page.c:291
 msgid "Pretty Good Privacy (OpenPGP)"
 msgstr "Pretty Good Privacy (OpenPGP)"
 
-#: ../mail/e-mail-config-security-page.c:298
+#: ../mail/e-mail-config-security-page.c:300
 msgid "OpenPGP _Key ID:"
 msgstr "ID _Kunci OpenPGP:"
 
-#: ../mail/e-mail-config-security-page.c:320
+#: ../mail/e-mail-config-security-page.c:322
 msgid "Si_gning algorithm:"
 msgstr "Al_goritma tanda tangan:"
 
-#: ../mail/e-mail-config-security-page.c:336
-#: ../mail/e-mail-config-security-page.c:475 ../mail/mail-config.ui.h:50
+#: ../mail/e-mail-config-security-page.c:338
+#: ../mail/e-mail-config-security-page.c:478 ../mail/mail-config.ui.h:50
 msgid "SHA1"
 msgstr "SHA1"
 
-#: ../mail/e-mail-config-security-page.c:339
-#: ../mail/e-mail-config-security-page.c:478 ../mail/mail-config.ui.h:51
+#: ../mail/e-mail-config-security-page.c:341
+#: ../mail/e-mail-config-security-page.c:481 ../mail/mail-config.ui.h:51
 msgid "SHA256"
 msgstr "SHA256"
 
-#: ../mail/e-mail-config-security-page.c:342
-#: ../mail/e-mail-config-security-page.c:481 ../mail/mail-config.ui.h:52
+#: ../mail/e-mail-config-security-page.c:344
+#: ../mail/e-mail-config-security-page.c:484 ../mail/mail-config.ui.h:52
 msgid "SHA384"
 msgstr "SHA384"
 
-#: ../mail/e-mail-config-security-page.c:345
-#: ../mail/e-mail-config-security-page.c:484 ../mail/mail-config.ui.h:53
+#: ../mail/e-mail-config-security-page.c:347
+#: ../mail/e-mail-config-security-page.c:487 ../mail/mail-config.ui.h:53
 msgid "SHA512"
 msgstr "SHA512"
 
-#: ../mail/e-mail-config-security-page.c:361
+#: ../mail/e-mail-config-security-page.c:363
 msgid "Al_ways sign outgoing messages when using this account"
 msgstr ""
 "_Selalu bubuhkan tanda tangan pada surel keluar saat menggunakan akun ini"
 
-#: ../mail/e-mail-config-security-page.c:373
+#: ../mail/e-mail-config-security-page.c:375
 msgid "Always encrypt to _myself when sending encrypted messages"
 msgstr ""
 "Selalu enkripsi pesan yang dikiri_m untuk diri sendiri saat mengirim pesan "
 "terenkripsi"
 
-#: ../mail/e-mail-config-security-page.c:385
+#: ../mail/e-mail-config-security-page.c:387
 msgid "Always _trust keys in my keyring when encrypting"
 msgstr "Selalu _percaya kunci pada keyring saat mengacak"
 
-#: ../mail/e-mail-config-security-page.c:409
+#: ../mail/e-mail-config-security-page.c:411
 msgid "Secure MIME (S/MIME)"
 msgstr "MIME Aman (S/MIME)"
 
-#: ../mail/e-mail-config-security-page.c:417
+#: ../mail/e-mail-config-security-page.c:420
 msgid "Sig_ning certificate:"
 msgstr "Sertifikat ta_nda tangan:"
 
-#: ../mail/e-mail-config-security-page.c:441
-#: ../mail/e-mail-config-security-page.c:547
+#: ../mail/e-mail-config-security-page.c:444
+#: ../mail/e-mail-config-security-page.c:550
 msgid "Select"
 msgstr "Pilih"
 
-#: ../mail/e-mail-config-security-page.c:459
+#: ../mail/e-mail-config-security-page.c:462
 msgid "Signing _algorithm:"
 msgstr "_Algoritma tanda tangan:"
 
-#: ../mail/e-mail-config-security-page.c:500
+#: ../mail/e-mail-config-security-page.c:503
 msgid "Always sign outgoing messages when using this account"
 msgstr ""
 "Selalu bubuhkan tanda tangan pada email keluar saat menggunakan akun ini"
 
-#: ../mail/e-mail-config-security-page.c:523
+#: ../mail/e-mail-config-security-page.c:526
 msgid "Encryption certificate:"
 msgstr "Sertifikat enkripsi:"
 
-#: ../mail/e-mail-config-security-page.c:565
+#: ../mail/e-mail-config-security-page.c:568
 msgid "Always encrypt outgoing messages when using this account"
 msgstr "Selalu enkripsi surel keluar saat menggunakan akun ini"
 
-#: ../mail/e-mail-config-security-page.c:585
+#: ../mail/e-mail-config-security-page.c:588
 msgid "Always encrypt to myself when sending encrypted messages"
 msgstr ""
 "Selalu enkripsi pesan yang dikirim untuk diri sendiri saat mengirim pesan "
@@ -13159,7 +13159,7 @@ msgstr[0] "Pesan"
 msgid "Parsing message"
 msgstr "Mengurai pesan"
 
-#: ../mail/e-mail-request.c:182
+#: ../mail/e-mail-request.c:197
 msgid "The message has no text content."
 msgstr "Pesan ini tak memiliki isi teks."
 
@@ -13562,11 +13562,11 @@ msgstr "Pindahkan Folder Ke"
 msgid "Copy Folder To"
 msgstr "Salin Folder"
 
-#: ../mail/em-folder-utils.c:615
+#: ../mail/em-folder-utils.c:616
 msgid "Create Folder"
 msgstr "Buat folder"
 
-#: ../mail/em-folder-utils.c:616
+#: ../mail/em-folder-utils.c:617
 msgid "Specify where to create the folder:"
 msgstr "Tentukan lokasi folder baru:"
 
@@ -13582,7 +13582,7 @@ msgstr "_Berlangganan Ke Yang Ditampilkan"
 msgid "Subscribe To _All"
 msgstr "Berlangganan Ke Semu_a"
 
-#: ../mail/em-subscription-editor.c:981 ../mail/em-subscription-editor.c:1836
+#: ../mail/em-subscription-editor.c:981 ../mail/em-subscription-editor.c:1871
 #: ../modules/mail/e-mail-shell-view-actions.c:1630
 msgid "_Unsubscribe"
 msgstr "_Berhenti Langganan"
@@ -13595,56 +13595,56 @@ msgstr "_Berhenti Berlangganan Dari Yang Tersembunyi"
 msgid "Unsubscribe From _All"
 msgstr "Berhenti Berlangganan Dari Semu_a"
 
-#: ../mail/em-subscription-editor.c:1677
+#: ../mail/em-subscription-editor.c:1708
 msgid "Folder Subscriptions"
 msgstr "Langganan Folder"
 
-#: ../mail/em-subscription-editor.c:1716
+#: ../mail/em-subscription-editor.c:1747
 msgid "_Account:"
 msgstr "_Akun:"
 
-#: ../mail/em-subscription-editor.c:1729
+#: ../mail/em-subscription-editor.c:1760
 msgid "Clear Search"
 msgstr "Bersihkan Pencairan"
 
-#: ../mail/em-subscription-editor.c:1746
+#: ../mail/em-subscription-editor.c:1777
 msgid "Sho_w items that contain:"
 msgstr "Tampilkan butir _yang memuat:"
 
-#: ../mail/em-subscription-editor.c:1789
+#: ../mail/em-subscription-editor.c:1824
 msgid "Subscribe to the selected folder"
 msgstr "Berlangganan ke folder yang dipilih"
 
-#: ../mail/em-subscription-editor.c:1790
+#: ../mail/em-subscription-editor.c:1825
 msgid "Su_bscribe"
 msgstr "_Berlangganan"
 
-#: ../mail/em-subscription-editor.c:1835
+#: ../mail/em-subscription-editor.c:1870
 #: ../modules/mail/e-mail-shell-view-actions.c:1632
 msgid "Unsubscribe from the selected folder"
 msgstr "Berhenti langganan dari folder yang dipilih"
 
-#: ../mail/em-subscription-editor.c:1875
+#: ../mail/em-subscription-editor.c:1910
 msgid "Collapse all folders"
 msgstr "Lipat semua folder"
 
-#: ../mail/em-subscription-editor.c:1876
+#: ../mail/em-subscription-editor.c:1911
 msgid "C_ollapse All"
 msgstr "Lip_at Semua"
 
-#: ../mail/em-subscription-editor.c:1886
+#: ../mail/em-subscription-editor.c:1921
 msgid "Expand all folders"
 msgstr "Kembangkan semua folder"
 
-#: ../mail/em-subscription-editor.c:1887
+#: ../mail/em-subscription-editor.c:1922
 msgid "E_xpand All"
 msgstr "_Kembangkan Semua"
 
-#: ../mail/em-subscription-editor.c:1897
+#: ../mail/em-subscription-editor.c:1932
 msgid "Refresh the folder list"
 msgstr "Segarkan daftar folder"
 
-#: ../mail/em-subscription-editor.c:1909
+#: ../mail/em-subscription-editor.c:1944
 msgid "Stop the current operation"
 msgstr "Hentikan operasi saat ini"
 
@@ -15161,7 +15161,7 @@ msgstr "Lebih Tinggi"
 msgid "Highest"
 msgstr "Paling Tinggi"
 
-#: ../mail/message-list.c:466 ../mail/message-list.c:5717
+#: ../mail/message-list.c:466 ../mail/message-list.c:5719
 msgid "Generating message list"
 msgstr "Membuat daftar pesan"
 
@@ -15196,11 +15196,11 @@ msgid "Messages"
 msgstr "Pesan"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../mail/message-list.c:4762
+#: ../mail/message-list.c:4764
 msgid "Follow-up"
 msgstr "Tindak-lanjut"
 
-#: ../mail/message-list.c:5655
+#: ../mail/message-list.c:5657
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -15212,7 +15212,7 @@ msgstr ""
 "atau dengan menjalankan pencarian baru dengan cara membersihkannya memakai "
 "butir menu Cari->Bersihkan atau ndengan mengubah query di atas."
 
-#: ../mail/message-list.c:5663
+#: ../mail/message-list.c:5665
 msgid "There are no messages in this folder."
 msgstr "Tidak ada pesan di dalam folder ini."
 
@@ -15327,7 +15327,7 @@ msgstr "_Kontak"
 
 # Ini yang muncul di baris status.
 #: ../modules/addressbook/e-book-shell-backend.c:270
-#: ../modules/addressbook/e-book-shell-view-actions.c:982
+#: ../modules/addressbook/e-book-shell-view-actions.c:979
 msgid "Create a new contact"
 msgstr "Membuat kontak baru"
 
@@ -15338,7 +15338,7 @@ msgstr "_Daftar Kontak"
 
 # Yang muncul di baris status.
 #: ../modules/addressbook/e-book-shell-backend.c:277
-#: ../modules/addressbook/e-book-shell-view-actions.c:989
+#: ../modules/addressbook/e-book-shell-view-actions.c:986
 msgid "Create a new contact list"
 msgstr "Membuat daftar kontak baru"
 
@@ -15349,7 +15349,7 @@ msgstr "_Buku Alamat"
 
 # Yang muncul di baris status.
 #: ../modules/addressbook/e-book-shell-backend.c:287
-#: ../modules/addressbook/e-book-shell-view-actions.c:905
+#: ../modules/addressbook/e-book-shell-view-actions.c:902
 msgid "Create a new address book"
 msgstr "Membuat buku alamat baru"
 
@@ -15362,67 +15362,67 @@ msgid "Address Book Properties"
 msgstr "Properti Buku Alamat"
 
 #. Translators: This is a save dialog title
-#: ../modules/addressbook/e-book-shell-view-actions.c:479
-#: ../modules/addressbook/e-book-shell-view-actions.c:775
+#: ../modules/addressbook/e-book-shell-view-actions.c:476
+#: ../modules/addressbook/e-book-shell-view-actions.c:772
 msgid "Save as vCard"
 msgstr "Simpan sebagai vCard"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:882
+#: ../modules/addressbook/e-book-shell-view-actions.c:879
 msgid "Co_py All Contacts To..."
 msgstr "Salin Semua _Kontak..."
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:884
+#: ../modules/addressbook/e-book-shell-view-actions.c:881
 msgid "Copy the contacts of the selected address book to another"
 msgstr "Menyalin kontak dari buku alamat yang dipilih"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:889
+#: ../modules/addressbook/e-book-shell-view-actions.c:886
 msgid "D_elete Address Book"
 msgstr "_Hapus Buku Alamat"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:891
+#: ../modules/addressbook/e-book-shell-view-actions.c:888
 msgid "Delete the selected address book"
 msgstr "Menghapus buku alamat yang dipilih"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:896
+#: ../modules/addressbook/e-book-shell-view-actions.c:893
 msgid "Mo_ve All Contacts To..."
 msgstr "Pindahkan _Semua Kontak..."
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:898
+#: ../modules/addressbook/e-book-shell-view-actions.c:895
 msgid "Move the contacts of the selected address book to another"
 msgstr "Memindahkan kontak dari buku alamat yang dipilih"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:903
+#: ../modules/addressbook/e-book-shell-view-actions.c:900
 msgid "_New Address Book"
 msgstr "_Buku Alamat Baru"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:910
+#: ../modules/addressbook/e-book-shell-view-actions.c:907
 msgid "Address _Book Properties"
 msgstr "Properti _Buku Alamat"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:912
+#: ../modules/addressbook/e-book-shell-view-actions.c:909
 msgid "Show properties of the selected address book"
 msgstr "Menampilkan properti buku alamat yang dipilih"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:917
+#: ../modules/addressbook/e-book-shell-view-actions.c:914
 #: ../modules/calendar/e-cal-shell-view-actions.c:1414
 #: ../modules/calendar/e-memo-shell-view-actions.c:636
 #: ../modules/calendar/e-task-shell-view-actions.c:760
 msgid "Re_fresh"
 msgstr "Per_barui"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:919
+#: ../modules/addressbook/e-book-shell-view-actions.c:916
 msgid "Refresh the selected address book"
 msgstr "Segarkan buku alamat yang dipilih"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:924
+#: ../modules/addressbook/e-book-shell-view-actions.c:921
 msgid "Address Book _Map"
 msgstr "Peta Buku Ala_mat"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:926
+#: ../modules/addressbook/e-book-shell-view-actions.c:923
 msgid "Show map with all contacts from selected address book"
 msgstr "Tampilkan peta dengan semua kontak dari buku alamat yang dipilih"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:931
+#: ../modules/addressbook/e-book-shell-view-actions.c:928
 #: ../modules/calendar/e-cal-shell-view-actions.c:1421
 #: ../modules/calendar/e-memo-shell-view-actions.c:643
 #: ../modules/calendar/e-task-shell-view-actions.c:767
@@ -15430,149 +15430,149 @@ msgstr "Tampilkan peta dengan semua kontak dari buku alamat yang dipilih"
 msgid "_Rename..."
 msgstr "_Ubah Nama..."
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:933
+#: ../modules/addressbook/e-book-shell-view-actions.c:930
 msgid "Rename the selected address book"
 msgstr "Mengubah nama buku alamat yang dipilih"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:940
+#: ../modules/addressbook/e-book-shell-view-actions.c:937
 msgid "Stop loading"
 msgstr "Hentikan pemuatan"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:945
+#: ../modules/addressbook/e-book-shell-view-actions.c:942
 msgid "_Copy Contact To..."
 msgstr "_Salin Kontak Ke..."
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:947
+#: ../modules/addressbook/e-book-shell-view-actions.c:944
 msgid "Copy selected contacts to another address book"
 msgstr "Menyalin kontak yang dipilih kepada buku alamat yang lain"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:952
+#: ../modules/addressbook/e-book-shell-view-actions.c:949
 msgid "_Delete Contact"
 msgstr "_Hapus Kontak"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:959
+#: ../modules/addressbook/e-book-shell-view-actions.c:956
 msgid "_Find in Contact..."
 msgstr "_Cari Dalam kontak..."
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:961
+#: ../modules/addressbook/e-book-shell-view-actions.c:958
 msgid "Search for text in the displayed contact"
 msgstr "Mencari teks pada kontak yang ditampilkan"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:966
+#: ../modules/addressbook/e-book-shell-view-actions.c:963
 msgid "_Forward Contact..."
 msgstr "_Kirimkan Info Kontak..."
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:968
+#: ../modules/addressbook/e-book-shell-view-actions.c:965
 msgid "Send selected contacts to another person"
 msgstr "Mengirim kontak yang dipilih kepada orang lain"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:973
+#: ../modules/addressbook/e-book-shell-view-actions.c:970
 msgid "_Move Contact To..."
 msgstr "_Pindahkan Kontak Ke..."
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:975
+#: ../modules/addressbook/e-book-shell-view-actions.c:972
 msgid "Move selected contacts to another address book"
 msgstr "Memindahkan kontak kepada buku alamat lain"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:980
+#: ../modules/addressbook/e-book-shell-view-actions.c:977
 msgid "_New Contact..."
 msgstr "Kontak _Baru..."
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:987
+#: ../modules/addressbook/e-book-shell-view-actions.c:984
 msgid "New Contact _List..."
 msgstr "Daftar Kontak _Baru..."
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:994
+#: ../modules/addressbook/e-book-shell-view-actions.c:991
 msgid "_Open Contact"
 msgstr "Buka K_ontak"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:996
+#: ../modules/addressbook/e-book-shell-view-actions.c:993
 msgid "View the current contact"
 msgstr "Melihat kontak ini"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1001
+#: ../modules/addressbook/e-book-shell-view-actions.c:998
 msgid "_Send Message to Contact..."
 msgstr "Kirim Pe_san ke Kontak ini..."
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1003
+#: ../modules/addressbook/e-book-shell-view-actions.c:1000
 msgid "Send a message to the selected contacts"
 msgstr "Mengirim pesan kepada kontak yang dipilih"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1010
+#: ../modules/addressbook/e-book-shell-view-actions.c:1007
 #: ../modules/calendar/e-cal-shell-view-actions.c:1577
 #: ../modules/calendar/e-task-shell-view-actions.c:825
 msgid "_Actions"
 msgstr "_Aksi"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1017
+#: ../modules/addressbook/e-book-shell-view-actions.c:1014
 #: ../modules/calendar/e-memo-shell-view-actions.c:680
 #: ../modules/calendar/e-task-shell-view-actions.c:832
 #: ../modules/mail/e-mail-shell-view-actions.c:1774
 msgid "_Preview"
 msgstr "_Pratinjau"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1026
+#: ../modules/addressbook/e-book-shell-view-actions.c:1023
 #: ../modules/calendar/e-cal-shell-view-actions.c:1594
 #: ../modules/calendar/e-memo-shell-view-actions.c:693
 #: ../modules/calendar/e-task-shell-view-actions.c:845
 msgid "_Delete"
 msgstr "_Hapus"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1030
+#: ../modules/addressbook/e-book-shell-view-actions.c:1027
 #: ../modules/mail/e-mail-shell-view-actions.c:1525
 msgid "_Properties"
 msgstr "_Properti"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1038
+#: ../modules/addressbook/e-book-shell-view-actions.c:1035
 msgid "Address Book Map"
 msgstr "Peta Buku Alamat"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1070
+#: ../modules/addressbook/e-book-shell-view-actions.c:1067
 msgid "Contact _Preview"
 msgstr "_Pratinjau Kontak"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1072
+#: ../modules/addressbook/e-book-shell-view-actions.c:1069
 msgid "Show contact preview window"
 msgstr "Menampilkan jendela pratinjau kontak"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1078
+#: ../modules/addressbook/e-book-shell-view-actions.c:1075
 msgid "Show _Maps"
 msgstr "Ta_mpilkan Peta"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1080
+#: ../modules/addressbook/e-book-shell-view-actions.c:1077
 msgid "Show maps in contact preview window"
 msgstr "Tampilkan peta di jendela pratinjau kontak"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1099
+#: ../modules/addressbook/e-book-shell-view-actions.c:1096
 #: ../modules/calendar/e-memo-shell-view-actions.c:750
 #: ../modules/calendar/e-task-shell-view-actions.c:914
 #: ../modules/mail/e-mail-shell-view-actions.c:1904
 msgid "_Classic View"
 msgstr "Tampilan _Klasik"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1101
+#: ../modules/addressbook/e-book-shell-view-actions.c:1098
 msgid "Show contact preview below the contact list"
 msgstr "Menampilkan pratinjau kontak di bawah daftar kontak"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1106
+#: ../modules/addressbook/e-book-shell-view-actions.c:1103
 #: ../modules/calendar/e-memo-shell-view-actions.c:757
 #: ../modules/calendar/e-task-shell-view-actions.c:921
 #: ../modules/mail/e-mail-shell-view-actions.c:1911
 msgid "_Vertical View"
 msgstr "Tampilan _Vertikal"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1108
+#: ../modules/addressbook/e-book-shell-view-actions.c:1105
 msgid "Show contact preview alongside the contact list"
 msgstr "Menampilkan pratinjau kontak di samping daftar kontak"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1123
+#: ../modules/addressbook/e-book-shell-view-actions.c:1120
 #: ../modules/calendar/e-cal-shell-view-actions.c:1754
 #: ../modules/calendar/e-memo-shell-view-actions.c:774
 #: ../modules/calendar/e-task-shell-view-actions.c:973
 msgid "Unmatched"
 msgstr "Tidak cocok"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1133
+#: ../modules/addressbook/e-book-shell-view-actions.c:1130
 #: ../modules/calendar/e-cal-shell-view-actions.c:1764
 #: ../modules/calendar/e-memo-shell-view-actions.c:784
 #: ../modules/calendar/e-task-shell-view-actions.c:983
@@ -15582,33 +15582,33 @@ msgid "Advanced Search"
 msgstr "Pencarian Lebih Lanjut"
 
 # Ini yang muncul di baris status.
-#: ../modules/addressbook/e-book-shell-view-actions.c:1166
+#: ../modules/addressbook/e-book-shell-view-actions.c:1163
 msgid "Print all shown contacts"
 msgstr "Mencetak semua kontak yang ditampilkan"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1173
+#: ../modules/addressbook/e-book-shell-view-actions.c:1170
 msgid "Preview the contacts to be printed"
 msgstr "Mempratinjau kontak yang akan dicetak"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1180
+#: ../modules/addressbook/e-book-shell-view-actions.c:1177
 msgid "Print selected contacts"
 msgstr "Cetak kontak yang sudah dipilih"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1195
+#: ../modules/addressbook/e-book-shell-view-actions.c:1192
 msgid "S_ave Address Book as vCard"
 msgstr "Simpan Buku _Alamat sebagai VCard"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1197
+#: ../modules/addressbook/e-book-shell-view-actions.c:1194
 msgid "Save the contacts of the selected address book as a vCard"
 msgstr "Menyimpan kontak dari buku alamat yang dipilih sebagai vCard"
 
 #. Translators: This is an action label
-#: ../modules/addressbook/e-book-shell-view-actions.c:1203
-#: ../modules/addressbook/e-book-shell-view-actions.c:1213
+#: ../modules/addressbook/e-book-shell-view-actions.c:1200
+#: ../modules/addressbook/e-book-shell-view-actions.c:1210
 msgid "_Save as vCard..."
 msgstr "_Simpan sebagai vCard..."
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1205
+#: ../modules/addressbook/e-book-shell-view-actions.c:1202
 msgid "Save selected contacts as a vCard"
 msgstr "Menyimpan kontak yang dipilih sebagai vCard"
 
@@ -16772,27 +16772,37 @@ msgstr "Buka Laman _Web"
 msgid "Print the selected memo"
 msgstr "Cetak memo yang dipilih"
 
-#: ../modules/calendar/e-cal-shell-view-private.c:1600
+#: ../modules/calendar/e-cal-shell-view-private.c:1096
+#, c-format
+msgid "Moving an event into the calendar %s"
+msgstr "Memindah suatu kejadian ke dalam kalender %s"
+
+#: ../modules/calendar/e-cal-shell-view-private.c:1097
+#, c-format
+msgid "Copying an event into the calendar %s"
+msgstr "Menyalin suatu kejadian ke dalam kalender %s"
+
+#: ../modules/calendar/e-cal-shell-view-private.c:1566
 msgid "Searching next matching event"
 msgstr "Mencari acara selanjutnya yang cocok"
 
-#: ../modules/calendar/e-cal-shell-view-private.c:1601
+#: ../modules/calendar/e-cal-shell-view-private.c:1567
 msgid "Searching previous matching event"
 msgstr "Mencari acara sebelumnya yang cocok"
 
-#: ../modules/calendar/e-cal-shell-view-private.c:1622
+#: ../modules/calendar/e-cal-shell-view-private.c:1588
 #, c-format
 msgid "Cannot find matching event in the next %d year"
 msgid_plural "Cannot find matching event in the next %d years"
 msgstr[0] "Tak bisa temukan acara yang cocok dalam %d tahun mendatang"
 
-#: ../modules/calendar/e-cal-shell-view-private.c:1626
+#: ../modules/calendar/e-cal-shell-view-private.c:1592
 #, c-format
 msgid "Cannot find matching event in the previous %d year"
 msgid_plural "Cannot find matching event in the previous %d years"
 msgstr[0] "Tak bisa temukan acara yang cocok dalam %d tahun lalu"
 
-#: ../modules/calendar/e-cal-shell-view-private.c:1651
+#: ../modules/calendar/e-cal-shell-view-private.c:1617
 msgid "Cannot search with no active calendar"
 msgstr "Tak bisa mencari tanpa kalender aktif"
 
@@ -18722,11 +18732,11 @@ msgstr "_Format sebagai..."
 msgid "_Other languages"
 msgstr "Bahasa _lain"
 
-#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:367
+#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:337
 msgid "Text Highlight"
 msgstr "Penyorotan Teks"
 
-#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:368
+#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:338
 msgid "Syntax highlighting of mail parts"
 msgstr "Penyorotan sintaks dari bagian surel"
 
@@ -19975,9 +19985,9 @@ msgid ""
 "$ORIG[from], $ORIG[to] or $ORIG[body], which will be replaced by values from "
 "an email you are replying to."
 msgstr ""
-"Plugin templat berbasis draft. Anda dapat memakai variabel seperti $ORIG"
-"[subject], $ORIG[from], $ORIG[to], atau $ORIG[body], yang akan digantikan "
-"dengan nilai-nilai dari surel yang sedang Anda jawab."
+"Plugin templat berbasis draft. Anda dapat memakai variabel seperti "
+"$ORIG[subject], $ORIG[from], $ORIG[to], atau $ORIG[body], yang akan "
+"digantikan dengan nilai-nilai dari surel yang sedang Anda jawab."
 
 #: ../plugins/templates/templates.c:1148
 msgid "No Title"
@@ -19991,19 +20001,19 @@ msgstr "Simpan sebagai Pale_t"
 msgid "Save as Template"
 msgstr "Menyimpan sebegai Palet"
 
-#: ../shell/e-shell.c:278
+#: ../shell/e-shell.c:279
 msgid "Preparing to go offline..."
 msgstr "Bersiap untuk meninggalkan jaringan..."
 
-#: ../shell/e-shell.c:331
+#: ../shell/e-shell.c:332
 msgid "Preparing to go online..."
 msgstr "Bersiap untuk terhubung ke jaringan..."
 
-#: ../shell/e-shell.c:412
+#: ../shell/e-shell.c:413
 msgid "Preparing to quit"
 msgstr "Bersiap untuk keluar"
 
-#: ../shell/e-shell.c:418
+#: ../shell/e-shell.c:419
 msgid "Preparing to quit..."
 msgstr "Bersiap untuk keluar..."
 
@@ -20019,19 +20029,19 @@ msgstr "Simpan Pencarian"
 #. * allows the user to filter the current view.  Examples of
 #. * items that appear in the combo box are "Unread Messages",
 #. * "Important Messages", or "Active Appointments".
-#: ../shell/e-shell-searchbar.c:1102
+#: ../shell/e-shell-searchbar.c:938
 msgid "Sho_w:"
 msgstr "_Tampilkan:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
-#: ../shell/e-shell-searchbar.c:1136
+#: ../shell/e-shell-searchbar.c:963
 msgid "Sear_ch:"
 msgstr "_Cari:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
-#: ../shell/e-shell-searchbar.c:1217
+#: ../shell/e-shell-searchbar.c:1031
 msgid "i_n"
 msgstr "dala_m"
 
@@ -20325,7 +20335,7 @@ msgstr "Hapus tampilan: %s"
 msgid "Execute these search parameters"
 msgstr "Eksekusi parameter pencarian"
 
-#: ../shell/e-shell-window.c:455
+#: ../shell/e-shell-window.c:504
 msgid "New"
 msgstr "Baru"
 
