@@ -3531,7 +3531,7 @@ print_comp_draw_real (GtkPrintOperation *operation,
 	/* Summary */
 	font = get_font_for_size (18, PANGO_WEIGHT_BOLD);
 	e_cal_component_get_summary (comp, &text);
-	summary_string = g_strdup_printf (_("Summary: %s"), text.value);
+	summary_string = g_strdup_printf (_("Summary: %s"), text.value ? text.value : "");
 	top = bound_text (
 		context, font, summary_string, -1, 0.0, top, width,
 		height, FALSE, &page_start, &pages);
