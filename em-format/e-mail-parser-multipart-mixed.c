@@ -97,7 +97,7 @@ empe_mp_mixed_parse (EMailParserExtension *extension,
 
 		/* Force messages to be expandable */
 		} else if (mail_part == NULL ||
-		    (camel_content_type_is (ct, "message", "rfc822") &&
+		    (camel_content_type_is (ct, "message", "*") &&
 		     mail_part != NULL &&
 		     !e_mail_part_get_is_attachment (mail_part))) {
 
