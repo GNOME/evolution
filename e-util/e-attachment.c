@@ -1341,14 +1341,16 @@ e_attachment_set_file_info (EAttachment *attachment,
 	GtkTreeRowReference *reference;
 	GIcon *icon;
 
-	reference = e_attachment_get_reference (attachment);
+	g_return_if_fail (E_IS_ATTACHMENT (attachment));
 
-	if (file_info != NULL)
+	if (file_info != NULL) {
+		g_return_if_fail (G_IS_FILE_INFO (file_info));
 		g_object_ref (file_info);
+	}
 
-	if (attachment->priv->file_info != NULL)
-		g_object_unref (attachment->priv->file_info);
+	g_mutex_lock (&attachment->priv->property_lock);
 
+	g_clear_object (&attachment->priv->file_info);
 	attachment->priv->file_info = file_info;
 
 	/* If the GFileInfo contains a GThemedIcon, append a
@@ -1358,9 +1360,12 @@ e_attachment_set_file_info (EAttachment *attachment,
 		g_themed_icon_append_name (
 			G_THEMED_ICON (icon), DEFAULT_ICON_NAME);
 
+	g_mutex_unlock (&attachment->priv->property_lock);
+
 	g_object_notify (G_OBJECT (attachment), "file-info");
 
 	/* Tell the EAttachmentStore its total size changed. */
+	reference = e_attachment_get_reference (attachment);
 	if (gtk_tree_row_reference_valid (reference)) {
 		GtkTreeModel *model;
 		model = gtk_tree_row_reference_get_model (reference);
