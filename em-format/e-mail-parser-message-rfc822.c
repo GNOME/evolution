@@ -73,7 +73,7 @@ empe_msg_rfc822_parse (EMailParserExtension *extension,
 	 * CamelMimePart, sometimes the CamelMimePart itself represents
 	 * the RFC822 message. */
 	ct = camel_mime_part_get_content_type (part);
-	if (camel_content_type_is (ct, "message", "rfc822")) {
+	if (camel_content_type_is (ct, "message", "*")) {
 		new_stream = camel_stream_mem_new ();
 		mime_parser = camel_mime_parser_new ();
 		message = (CamelMimePart *) camel_mime_message_new ();
@@ -82,7 +82,8 @@ empe_msg_rfc822_parse (EMailParserExtension *extension,
 		camel_data_wrapper_decode_to_stream_sync (
 			dw, new_stream, cancellable, NULL);
 		g_seekable_seek (
-			G_SEEKABLE (new_stream), 0, G_SEEK_SET, cancellable, NULL);
+			G_SEEKABLE (new_stream), 0,
+			G_SEEK_SET, cancellable, NULL);
 		camel_mime_parser_init_with_stream (
 			mime_parser, new_stream, NULL);
 		camel_mime_part_construct_from_parser_sync (

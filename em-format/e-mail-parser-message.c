@@ -72,7 +72,7 @@ empe_message_parse (EMailParserExtension *extension,
 	ct = camel_mime_part_get_content_type (part);
 	mime_type = camel_content_type_simple (ct);
 
-	if (mime_type && g_ascii_strcasecmp (mime_type, "message/rfc822") == 0) {
+	if (camel_content_type_is (ct, "message", "*")) {
 		/* get mime type of the content of the message,
 		 * instead of using a generic message/rfc822 */
 		CamelDataWrapper *content;
