@@ -577,7 +577,7 @@ task_page_fill_widgets (CompEditorPage *page,
 	ECalClient *client;
 	EShell *shell;
 	GSList *l;
-	icalcomponent *icalcomp;
+	icalcomponent *icalcomp = NULL;
 	const gchar *categories, *uid;
 	icaltimezone *zone, *default_zone;
 	gchar *backend_addr = NULL;
