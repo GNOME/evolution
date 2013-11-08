@@ -686,8 +686,7 @@ mail_account_manager_constructed (GObject *object)
 	gtk_info_bar_set_message_type (
 		GTK_INFO_BAR (widget), GTK_MESSAGE_INFO);
 	gtk_info_bar_add_button (
-		GTK_INFO_BAR (widget),
-		_("_Restore Default"),
+		GTK_INFO_BAR (widget), _("_Reset Order"),
 		DEFAULT_ORDER_RESPONSE);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);
