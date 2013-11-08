@@ -535,10 +535,10 @@ eab_contact_display_init (EABContactDisplay *display)
 
 	e_web_view_register_uri_scheme (E_WEB_VIEW (display), FILE_URI_SCHEME, NULL, NULL);
 	e_web_view_register_uri_scheme (E_WEB_VIEW (display), GTK_STOCK_URI_SCHEME, NULL, NULL);
-	/*
+#if 0
 	e_web_view_install_request_handler (E_WEB_VIEW (display), E_TYPE_FILE_REQUEST);
 	e_web_view_install_request_handler (E_WEB_VIEW (display), E_TYPE_STOCK_REQUEST);
-*/
+#endif
 	action_group = gtk_action_group_new ("internal-mailto");
 	gtk_action_group_set_translation_domain (action_group, domain);
 	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
@@ -559,7 +559,10 @@ eab_contact_display_init (EABContactDisplay *display)
 GtkWidget *
 eab_contact_display_new (void)
 {
-	return g_object_new (EAB_TYPE_CONTACT_DISPLAY, NULL);
+	return g_object_new (
+		EAB_TYPE_CONTACT_DISPLAY,
+		"group", e_web_view_get_web_view_group (),
+		NULL);
 }
 
 EContact *

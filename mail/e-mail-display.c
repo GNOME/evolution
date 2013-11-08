@@ -1252,27 +1252,24 @@ mail_display_suggest_filename (EWebView *web_view,
 }
 
 static void
-mail_display_set_fonts (EWebView *web_view,
-                        PangoFontDescription **monospace,
-                        PangoFontDescription **variable)
+mail_display_get_font_settings (GSettings *settings,
+                                PangoFontDescription **monospace,
+                                PangoFontDescription **variable)
 {
-	EMailDisplay *display = E_MAIL_DISPLAY (web_view);
 	gboolean use_custom_font;
 	gchar *monospace_font;
 	gchar *variable_font;
 
-	use_custom_font = g_settings_get_boolean (
-		display->priv->settings, "use-custom-font");
+	use_custom_font = g_settings_get_boolean (settings, "use-custom-font");
+
 	if (!use_custom_font) {
 		*monospace = NULL;
 		*variable = NULL;
 		return;
 	}
 
-	monospace_font = g_settings_get_string (
-		display->priv->settings, "monospace-font");
-	variable_font = g_settings_get_string (
-		display->priv->settings, "variable-width-font");
+	monospace_font = g_settings_get_string (settings, "monospace-font");
+	variable_font = g_settings_get_string (settings, "variable-width-font");
 
 	*monospace = (monospace_font != NULL) ?
 		pango_font_description_from_string (monospace_font) : NULL;
@@ -1281,6 +1278,16 @@ mail_display_set_fonts (EWebView *web_view,
 
 	g_free (monospace_font);
 	g_free (variable_font);
+}
+
+static void
+mail_display_set_fonts (EWebView *web_view,
+                        PangoFontDescription **monospace,
+                        PangoFontDescription **variable)
+{
+	EMailDisplay *display = E_MAIL_DISPLAY (web_view);
+
+	mail_display_get_font_settings (display->priv->settings, monospace, variable);
 }
 
 static void
@@ -1616,11 +1623,16 @@ mail_mail_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
 }
 
 static void
+mail_display_update_fonts (EMailDisplay *display)
+{
+	e_web_view_update_fonts (E_WEB_VIEW (display), e_mail_display_get_web_view_group ());
+}
+
+static void
 e_mail_display_init (EMailDisplay *display)
 {
 	GtkUIManager *ui_manager;
 	const gchar *user_cache_dir;
-	WebKitSettings *settings;
 	GtkActionGroup *actions;
 
 	display->priv = E_MAIL_DISPLAY_GET_PRIVATE (display);
@@ -1632,25 +1644,25 @@ e_mail_display_init (EMailDisplay *display)
 	display->priv->force_image_load = FALSE;
 	display->priv->scheduled_reload = 0;
 
-	settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (display));
-	g_object_set (settings, "enable-frame-flattening", TRUE, NULL);
-
 	g_signal_connect (
 		display, "decide-policy",
 		G_CALLBACK (decide_policy_cb), NULL);
-/*	g_signal_connect (
+#if 0
+	g_signal_connect (
 		display, "resource-request-starting",
-		G_CALLBACK (mail_display_resource_requested), NULL);*/
+		G_CALLBACK (mail_display_resource_requested), NULL);
+#endif
 	g_signal_connect (
 		display, "process-mailto",
 		G_CALLBACK (mail_display_process_mailto), NULL);
-/*	g_signal_connect (
+#if 0
+	g_signal_connect (
 		display, "create-plugin-widget",
-		G_CALLBACK (mail_display_plugin_widget_requested), NULL);*/
+		G_CALLBACK (mail_display_plugin_widget_requested), NULL);
 	g_signal_connect (
 		display, "notify::uri",
 		G_CALLBACK (mail_display_uri_changed), NULL);
-
+#endif
 	g_signal_connect (
 		display, "mouse-target-changed",
 		G_CALLBACK (mail_display_mouse_target_changed_cb), NULL);
@@ -1658,15 +1670,13 @@ e_mail_display_init (EMailDisplay *display)
 	display->priv->settings = g_settings_new ("org.gnome.evolution.mail");
 	g_signal_connect_swapped (
 		display->priv->settings , "changed::monospace-font",
-		G_CALLBACK (e_web_view_update_fonts), display);
+		G_CALLBACK (mail_display_update_fonts), display);
 	g_signal_connect_swapped (
 		display->priv->settings , "changed::variable-width-font",
-		G_CALLBACK (e_web_view_update_fonts), display);
+		G_CALLBACK (mail_display_update_fonts), display);
 	g_signal_connect_swapped (
 		display->priv->settings , "changed::use-custom-font",
-		G_CALLBACK (e_web_view_update_fonts), display);
-
-	e_web_view_update_fonts (E_WEB_VIEW (display));
+		G_CALLBACK (mail_display_update_fonts), display);
 
 	g_signal_connect (
 		display, "load-changed",
@@ -1700,7 +1710,8 @@ e_mail_display_init (EMailDisplay *display)
 	e_web_view_register_uri_scheme (
 		E_WEB_VIEW (display), GTK_STOCK_URI_SCHEME,
 		mail_gtk_stock_uri_scheme_appeared_cb, display);
-/*
+
+#if 0
 	e_web_view_install_request_handler (
 		E_WEB_VIEW (display), E_TYPE_MAIL_REQUEST);
 	e_web_view_install_request_handler (
@@ -1709,7 +1720,7 @@ e_mail_display_init (EMailDisplay *display)
 		E_WEB_VIEW (display), E_TYPE_FILE_REQUEST);
 	e_web_view_install_request_handler (
 		E_WEB_VIEW (display), E_TYPE_STOCK_REQUEST);
-*/
+#endif
 	if (emd_global_http_cache == NULL) {
 		user_cache_dir = e_get_user_cache_dir ();
 		emd_global_http_cache = camel_data_cache_new (user_cache_dir, NULL);
@@ -1746,10 +1757,64 @@ e_mail_display_update_colors (EMailDisplay *display,
 	g_free (color_value);
 }
 
+static void
+mail_display_initialize_group (WebKitWebViewGroup *web_view_group)
+{
+	const gchar *id = "org.gnome.settings-daemon.plugins.xsettings";
+	GSettings *settings;
+	GSettingsSchema *settings_schema;
+	WebKitSettings *wk_settings;
+	PangoFontDescription *ms = NULL, *vw = NULL;
+
+	wk_settings = webkit_web_view_group_get_settings (web_view_group);
+
+	e_web_view_initialize_settings (wk_settings);
+
+	g_object_set (wk_settings,
+		"enable-frame-flattening", TRUE,
+		NULL);
+
+	settings = g_settings_new ("org.gnome.evolution.mail");
+	mail_display_get_font_settings (settings, &ms, &vw);
+
+	/* Optional schema */
+	settings_schema = g_settings_schema_source_lookup (
+		g_settings_schema_source_get_default (), id, FALSE);
+
+	if (settings_schema)
+		settings = g_settings_new (id);
+	else
+		settings = NULL;
+
+	e_web_view_update_fonts_settings (
+		g_settings_new ("org.gnome.desktop.interface"),
+		settings,
+		web_view_group, ms, vw, NULL);
+
+	pango_font_description_free (ms);
+	pango_font_description_free (vw);
+}
+
+WebKitWebViewGroup *
+e_mail_display_get_web_view_group (void)
+{
+	static WebKitWebViewGroup *web_view_group = NULL;
+
+	if (!web_view_group) {
+		web_view_group = webkit_web_view_group_new ("Evolution Mail WebView Group");
+		mail_display_initialize_group (web_view_group);
+	}
+
+	return web_view_group;
+}
+
 GtkWidget *
 e_mail_display_new (void)
 {
-	return g_object_new (E_TYPE_MAIL_DISPLAY, NULL);
+	return g_object_new (
+		E_TYPE_MAIL_DISPLAY,
+		"group", e_mail_display_get_web_view_group (),
+		NULL);
 }
 
 EMailFormatterMode

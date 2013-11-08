@@ -114,7 +114,6 @@ evolution_CPPFLAGS =						\
 	-DEVOLUTION_RULEDIR=\""$(privdatadir)"\"		\
 	-DEVOLUTION_TOOLSDIR=\""$(privlibexecdir)"\"		\
 	-DEVOLUTION_UIDIR=\""$(uidir)"\"			\
-	-DEVOLUTION_WEB_EXTENSIONS_DIR=\""$(webextensionsdir)"\" \
 	-DPREFIX=\""$(prefix)"\"				\
 	-DEVOLUTION_MX_THEMEDIR=\"$(privdatadir)/theme\" 	\
 	-DSYSCONFDIR=\""$(sysconfdir)"\"			\

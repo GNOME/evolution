@@ -95,9 +95,10 @@ web_inspector_constructed (GObject *object)
 
 	extension = E_WEB_INSPECTOR (object);
 	web_view = web_inspector_get_web_view (extension);
-	settings = webkit_web_view_get_settings (web_view);
 
-	g_object_set (settings, "enable-developer-extras", TRUE, NULL);
+	settings = webkit_web_view_group_get_settings (
+		webkit_web_view_get_group (web_view));
+	webkit_settings_set_enable_developer_extras (settings, TRUE);
 
 	g_signal_connect (
 		web_view, "key-press-event",

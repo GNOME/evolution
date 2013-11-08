@@ -446,7 +446,10 @@ e_cal_component_preview_init (ECalComponentPreview *preview)
 GtkWidget *
 e_cal_component_preview_new (void)
 {
-	return g_object_new (E_TYPE_CAL_COMPONENT_PREVIEW, NULL);
+	return g_object_new (
+		E_TYPE_CAL_COMPONENT_PREVIEW,
+		"group", e_web_view_get_web_view_group (),
+		NULL);
 }
 
 void

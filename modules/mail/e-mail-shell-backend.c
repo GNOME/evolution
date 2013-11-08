@@ -1080,7 +1080,10 @@ mbox_create_preview_cb (GObject *preview,
 	g_return_if_fail (preview != NULL);
 	g_return_if_fail (preview_widget != NULL);
 
-	display = g_object_new (E_TYPE_MAIL_DISPLAY, NULL);
+	display = g_object_new (
+		E_TYPE_MAIL_DISPLAY,
+		"group", e_mail_display_get_web_view_group (),
+		NULL);
 	g_object_set_data_full (
 		preview, "mbox-imp-display",
 		g_object_ref (display), g_object_unref);

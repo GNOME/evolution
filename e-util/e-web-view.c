@@ -359,39 +359,6 @@ static GtkActionEntry standard_entries[] = {
 };
 
 static void
-web_view_init_webkit_settings (EWebView *web_view)
-{
-	WebKitSettings *webkit_settings;
-
-	webkit_settings =
-		webkit_settings_new_with_settings (
-			"enable-frame-flattening", TRUE,
-			"auto-load-images", TRUE,
-			"enable-page-cache", FALSE,
-			"enable-java", FALSE,
-			"enable-javascript", FALSE,
-			"enable-plugins", FALSE,
-			"enable-html5-database", FALSE,
-			"enable-html5-local-storage", FALSE,
-			"enable-private-browsing", TRUE,
-			"enable-smooth-scrolling", TRUE,
-			"enable-offline-web-application-cache", FALSE,
-			"media-playback-allows-inline", FALSE,
-			NULL);
-
-	g_object_bind_property (
-		webkit_settings, "enable-caret-browsing",
-		web_view, "caret-mode",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
-
-	webkit_web_view_set_settings (
-		WEBKIT_WEB_VIEW (web_view), webkit_settings);
-
-	g_object_unref (webkit_settings);
-}
-
-static void
 web_view_menu_item_select_cb (EWebView *web_view,
                               GtkWidget *widget)
 {
@@ -531,7 +498,7 @@ web_view_context_menu_cb (WebKitWebView *webkit_web_view,
 
 	return event_handled;
 }
-
+#if 0
 static GtkWidget *
 web_view_create_plugin_widget_cb (EWebView *web_view,
                                   const gchar *mime_type,
@@ -549,7 +516,7 @@ web_view_create_plugin_widget_cb (EWebView *web_view,
 
 	return class->create_plugin_widget (web_view, mime_type, uri, param);
 }
-
+#endif
 static void
 web_view_mouse_target_changed_cb (EWebView *web_view,
                                   WebKitHitTestResult *hit_test_result,
@@ -904,6 +871,7 @@ web_view_finalize (GObject *object)
 static void
 web_view_constructed (GObject *object)
 {
+	WebKitSettings *web_settings;
 #ifndef G_OS_WIN32
 	GSettings *settings;
 
@@ -921,6 +889,14 @@ web_view_constructed (GObject *object)
 
 	g_object_unref (settings);
 #endif
+	web_settings = webkit_web_view_group_get_settings (
+		e_web_view_get_web_view_group ());
+
+	g_object_bind_property (
+		web_settings, "enable-caret-browsing",
+		E_WEB_VIEW (object), "caret-mode",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
 
@@ -1819,6 +1795,34 @@ e_web_view_register_uri_scheme (EWebView *web_view,
 }
 
 static void
+web_view_update_fonts (EWebView *web_view)
+{
+	e_web_view_update_fonts (web_view, e_web_view_get_web_view_group ());
+}
+
+void
+e_web_view_update_fonts (EWebView *web_view,
+                         WebKitWebViewGroup *web_view_group)
+{
+	EWebViewClass *class;
+	PangoFontDescription *ms = NULL, *vw = NULL;
+
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	class = E_WEB_VIEW_GET_CLASS (web_view);
+	if (class->set_fonts != NULL)
+		class->set_fonts (web_view, &ms, &vw);
+
+	e_web_view_update_fonts_settings (
+		web_view->priv->font_settings,
+		web_view->priv->aliasing_settings,
+		web_view_group, ms, vw, GTK_WIDGET (web_view));
+
+	pango_font_description_free (ms);
+	pango_font_description_free (vw);
+}
+
+static void
 e_web_view_init (EWebView *web_view)
 {
 	GtkUIManager *ui_manager;
@@ -1830,17 +1834,16 @@ e_web_view_init (EWebView *web_view)
 	const gchar *id;
 	gulong handler_id;
 	GError *error = NULL;
-	WebKitWebContext *web_context;
 
 	web_view->priv = E_WEB_VIEW_GET_PRIVATE (web_view);
 
 	/* XXX No WebKitWebView class method pointers to
 	 *     override so we have to use signal handlers. */
-
+#if 0
 	g_signal_connect (
 		web_view, "create-plugin-widget",
 		G_CALLBACK (web_view_create_plugin_widget_cb), NULL);
-
+#endif
 	g_signal_connect (
 		web_view, "context-menu",
 		G_CALLBACK (web_view_context_menu_cb), NULL);
@@ -1873,28 +1876,23 @@ e_web_view_init (EWebView *web_view)
 		ui_manager, "connect-proxy",
 		G_CALLBACK (web_view_connect_proxy_cb), web_view);
 
-	web_view_init_webkit_settings (web_view);
 	web_view_watch_web_extension (web_view);
-	web_view_set_find_controller (web_view);
-
-	web_context = webkit_web_view_get_context (WEBKIT_WEB_VIEW (web_view));
-	webkit_web_context_set_cache_model (web_context, WEBKIT_CACHE_MODEL_DOCUMENT_VIEWER);
 
 	e_web_view_register_uri_scheme (web_view, FILE_URI_SCHEME, NULL, NULL);
 	e_web_view_register_uri_scheme (web_view, GTK_STOCK_URI_SCHEME, NULL, NULL);
-/*
+#if 0
 	e_web_view_install_request_handler (web_view, E_TYPE_FILE_REQUEST);
 	e_web_view_install_request_handler (web_view, E_TYPE_STOCK_REQUEST);
-*/
+#endif
 	settings = g_settings_new ("org.gnome.desktop.interface");
 	web_view->priv->font_settings = g_object_ref (settings);
 	handler_id = g_signal_connect_swapped (
 		settings, "changed::font-name",
-		G_CALLBACK (e_web_view_update_fonts), web_view);
+		G_CALLBACK (web_view_update_fonts), web_view);
 	web_view->priv->font_name_changed_handler_id = handler_id;
 	handler_id = g_signal_connect_swapped (
 		settings, "changed::monospace-font-name",
-		G_CALLBACK (e_web_view_update_fonts), web_view);
+		G_CALLBACK (web_view_update_fonts), web_view);
 	web_view->priv->monospace_font_name_changed_handler_id = handler_id;
 	g_object_unref (settings);
 
@@ -1907,12 +1905,10 @@ e_web_view_init (EWebView *web_view)
 		web_view->priv->aliasing_settings = g_object_ref (settings);
 		handler_id = g_signal_connect_swapped (
 			settings, "changed::antialiasing",
-			G_CALLBACK (e_web_view_update_fonts), web_view);
+			G_CALLBACK (web_view_update_fonts), web_view);
 		web_view->priv->antialiasing_changed_handler_id = handler_id;
 		g_object_unref (settings);
 	}
-
-	e_web_view_update_fonts (web_view);
 
 	action_group = gtk_action_group_new ("uri");
 	gtk_action_group_set_translation_domain (action_group, domain);
@@ -2020,14 +2016,292 @@ e_web_view_init (EWebView *web_view)
 	id = "org.gnome.evolution.webview";
 	e_plugin_ui_register_manager (ui_manager, id, web_view);
 	e_plugin_ui_enable_manager (ui_manager, id);
+}
 
-	e_web_view_clear (E_WEB_VIEW (web_view));
+static gdouble
+get_screen_dpi (GdkScreen *screen)
+{
+	gdouble dpi;
+	gdouble dp, di;
+
+	dpi = gdk_screen_get_resolution (screen);
+	if (dpi != -1)
+		return dpi;
+
+	dp = hypot (gdk_screen_get_width (screen), gdk_screen_get_height (screen));
+	di = hypot (gdk_screen_get_width_mm (screen), gdk_screen_get_height_mm (screen)) / 25.4;
+
+	return dp / di;
+}
+
+static guint
+normalize_font_size (GtkWidget *widget,
+                     gdouble font_size)
+{
+	/* WebKit2 uses font sizes in pixels. */
+	GdkScreen *screen;
+	gdouble dpi;
+
+	if (widget) {
+		screen = gtk_widget_has_screen (widget) ?
+			gtk_widget_get_screen (widget) : gdk_screen_get_default ();
+	} else {
+		screen = gdk_screen_get_default ();
+	}
+
+	dpi = screen ? get_screen_dpi (screen) : 96;
+
+	return font_size / 72.0 * dpi;
+}
+
+void
+e_web_view_update_fonts_settings (GSettings *font_settings,
+                                  GSettings *aliasing_settings,
+                                  WebKitWebViewGroup *web_view_group,
+                                  PangoFontDescription *ms_font,
+                                  PangoFontDescription *vw_font,
+				  GtkWidget *view_widget)
+{
+	gboolean clean_ms = FALSE, clean_vw = FALSE;
+	gchar *aa = NULL;
+	const gchar *styles[] = { "normal", "oblique", "italic" };
+	const gchar *smoothing = NULL;
+	GdkColor *link = NULL;
+	GdkColor *visited = NULL;
+	GString *stylesheet;
+	GtkStyleContext *context;
+	PangoFontDescription *min_size, *ms, *vw;
+	WebKitSettings *wk_settings;
+
+	if (!ms_font) {
+		gchar *font;
+
+		font = g_settings_get_string (
+			font_settings,
+			"monospace-font-name");
+
+		ms = pango_font_description_from_string (
+			(font != NULL) ? font : "monospace 10");
+
+		clean_ms = TRUE;
+
+		g_free (font);
+	} else
+		ms = ms_font;
+
+	if (vw_font == NULL) {
+		gchar *font;
+
+		font = g_settings_get_string (
+			font_settings,
+			"font-name");
+
+		vw = pango_font_description_from_string (
+			(font != NULL) ? font : "serif 10");
+
+		clean_vw = TRUE;
+
+		g_free (font);
+	} else
+		vw = vw_font;
+
+	if (pango_font_description_get_size (ms) < pango_font_description_get_size (vw))
+		min_size = ms;
+	else
+		min_size = vw;
+
+	stylesheet = g_string_new ("");
+	g_string_append_printf (
+		stylesheet,
+		"body {\n"
+		"  font-family: '%s';\n"
+		"  font-size: %dpt;\n"
+		"  font-weight: %d;\n"
+		"  font-style: %s;\n",
+		pango_font_description_get_family (vw),
+		pango_font_description_get_size (vw) / PANGO_SCALE,
+		pango_font_description_get_weight (vw),
+		styles[pango_font_description_get_style (vw)]);
+
+	if (aliasing_settings != NULL)
+		aa = g_settings_get_string (
+			aliasing_settings, "antialiasing");
+
+	if (g_strcmp0 (aa, "none") == 0)
+		smoothing = "none";
+	else if (g_strcmp0 (aa, "grayscale") == 0)
+		smoothing = "antialiased";
+	else if (g_strcmp0 (aa, "rgba") == 0)
+		smoothing = "subpixel-antialiased";
+
+	if (smoothing != NULL)
+		g_string_append_printf (
+			stylesheet,
+			" -webkit-font-smoothing: %s;\n",
+			smoothing);
+
+	g_free (aa);
+
+	g_string_append (stylesheet, "}\n");
+
+	g_string_append_printf (
+		stylesheet,
+		"pre,code,.pre {\n"
+		"  font-family: '%s';\n"
+		"  font-size: %dpt;\n"
+		"  font-weight: %d;\n"
+		"  font-style: %s;\n"
+		"} \n",
+		pango_font_description_get_family (ms),
+		pango_font_description_get_size (ms) / PANGO_SCALE,
+		pango_font_description_get_weight (ms),
+		styles[pango_font_description_get_style (ms)]);
+
+	if (view_widget) {
+		context = gtk_widget_get_style_context (view_widget);
+		gtk_style_context_get_style (
+			context,
+			"link-color", &link,
+			"visited-link-color", &visited,
+			NULL);
+
+		if (link == NULL) {
+			link = g_slice_new0 (GdkColor);
+			link->blue = G_MAXINT16;
+		}
+
+		if (visited == NULL) {
+			visited = g_slice_new0 (GdkColor);
+			visited->red = G_MAXINT16;
+		}
+
+		g_string_append_printf (
+			stylesheet,
+			"a {\n"
+			"  color: #%06x;\n"
+			"}\n"
+			"a:visited {\n"
+			"  color: #%06x;\n"
+			"}\n",
+			e_color_to_value (link),
+			e_color_to_value (visited));
+
+		gdk_color_free (link);
+		gdk_color_free (visited);
+	}
+
+	wk_settings = webkit_web_view_group_get_settings (web_view_group);
+
+	g_object_set (
+		wk_settings,
+		"default-font-size",
+		normalize_font_size (
+			view_widget, pango_font_description_get_size (vw) / PANGO_SCALE),
+		"default-font-family",
+		pango_font_description_get_family (vw),
+		"monospace-font-family",
+		pango_font_description_get_family (ms),
+		"default-monospace-font-size",
+		normalize_font_size (
+			view_widget, pango_font_description_get_size (ms) / PANGO_SCALE),
+		"minimum-font-size",
+		normalize_font_size (
+			view_widget, pango_font_description_get_size (min_size) / PANGO_SCALE),
+		NULL);
+
+	webkit_web_view_group_add_user_style_sheet (
+		web_view_group,
+		stylesheet->str,
+		NULL, NULL, NULL,
+		WEBKIT_INJECTED_CONTENT_FRAMES_ALL);
+
+	g_string_free (stylesheet, TRUE);
+
+	if (clean_ms)
+		pango_font_description_free (ms);
+	if (clean_vw)
+		pango_font_description_free (vw);
+}
+
+void
+e_web_view_initialize_settings (WebKitSettings *settings)
+{
+	g_object_set (settings,
+		"auto-load-images", TRUE,
+		"enable-html5-database", FALSE,
+		"enable-html5-local-storage", FALSE,
+		"enable-java", FALSE,
+		"enable-javascript", FALSE,
+		"enable-offline-web-application-cache", FALSE,
+		"enable-page-cache", FALSE,
+		"enable-plugins", FALSE,
+		"enable-private-browsing", TRUE,
+		"enable-smooth-scrolling", TRUE,
+		"media-playback-allows-inline", FALSE,
+		NULL);
+}
+
+static void
+web_view_initialize_group (WebKitWebViewGroup *web_view_group)
+{
+	const gchar *id = "org.gnome.settings-daemon.plugins.xsettings";
+	GSettings *settings;
+	GSettingsSchema *settings_schema;
+	WebKitSettings *wk_settings;
+
+	wk_settings = webkit_web_view_group_get_settings (web_view_group);
+
+	e_web_view_initialize_settings (wk_settings);
+
+	/* Optional schema */
+	settings_schema = g_settings_schema_source_lookup (
+		g_settings_schema_source_get_default (), id, FALSE);
+
+	if (settings_schema)
+		settings = g_settings_new (id);
+	else
+		settings = NULL;
+
+	e_web_view_update_fonts_settings (
+		g_settings_new ("org.gnome.desktop.interface"),
+		settings,
+		web_view_group, NULL, NULL, NULL);
+}
+
+WebKitWebViewGroup *
+e_web_view_get_web_view_group (void)
+{
+	static WebKitWebViewGroup *web_view_group = NULL;
+
+	if (!web_view_group) {
+		web_view_group = webkit_web_view_group_new ("Evolution WebView Group");
+		web_view_initialize_group (web_view_group);
+	}
+
+	return web_view_group;
+}
+
+void
+e_web_view_initialize_webkit (void)
+{
+	WebKitWebContext *web_context;
+
+	web_context = webkit_web_context_get_default ();
+
+	/* Set the web extensions dir before the process is launched */
+	webkit_web_context_set_web_extensions_directory (
+		web_context, EVOLUTION_WEB_EXTENSIONS_DIR);
+
+	webkit_web_context_set_cache_model (web_context, WEBKIT_CACHE_MODEL_DOCUMENT_VIEWER);
 }
 
 GtkWidget *
 e_web_view_new (void)
 {
-	return g_object_new (E_TYPE_WEB_VIEW, NULL);
+	return g_object_new (
+		E_TYPE_WEB_VIEW,
+		"group", e_web_view_get_web_view_group (),
+		NULL);
 }
 
 void
@@ -2969,171 +3243,6 @@ e_web_view_get_selection_content_html_sync (EWebView *web_view,
 	}
 
 	return NULL;
-}
-
-void
-e_web_view_update_fonts (EWebView *web_view)
-{
-	EWebViewClass *class;
-	GString *stylesheet;
-	gchar *base64;
-	gchar *aa = NULL;
-	WebKitSettings *settings;
-	PangoFontDescription *min_size, *ms, *vw;
-	const gchar *styles[] = { "normal", "oblique", "italic" };
-	const gchar *smoothing = NULL;
-	GtkStyleContext *context;
-	GdkColor *link = NULL;
-	GdkColor *visited = NULL;
-
-	g_return_if_fail (E_IS_WEB_VIEW (web_view));
-
-	ms = NULL;
-	vw = NULL;
-
-	class = E_WEB_VIEW_GET_CLASS (web_view);
-	if (class->set_fonts != NULL)
-		class->set_fonts (web_view, &ms, &vw);
-
-	if (ms == NULL) {
-		gchar *font;
-
-		font = g_settings_get_string (
-			web_view->priv->font_settings,
-			"monospace-font-name");
-
-		ms = pango_font_description_from_string (
-			(font != NULL) ? font : "monospace 10");
-
-		g_free (font);
-	}
-
-	if (vw == NULL) {
-		gchar *font;
-
-		font = g_settings_get_string (
-			web_view->priv->font_settings,
-			"font-name");
-
-		vw = pango_font_description_from_string (
-			(font != NULL) ? font : "serif 10");
-
-		g_free (font);
-	}
-
-	if (pango_font_description_get_size (ms) < pango_font_description_get_size (vw)) {
-		min_size = ms;
-	} else {
-		min_size = vw;
-	}
-
-	stylesheet = g_string_new ("");
-	g_string_append_printf (
-		stylesheet,
-		"body {\n"
-		"  font-family: '%s';\n"
-		"  font-size: %dpt;\n"
-		"  font-weight: %d;\n"
-		"  font-style: %s;\n",
-		pango_font_description_get_family (vw),
-		pango_font_description_get_size (vw) / PANGO_SCALE,
-		pango_font_description_get_weight (vw),
-		styles[pango_font_description_get_style (vw)]);
-
-	if (web_view->priv->aliasing_settings != NULL)
-		aa = g_settings_get_string (
-			web_view->priv->aliasing_settings, "antialiasing");
-
-	if (g_strcmp0 (aa, "none") == 0)
-		smoothing = "none";
-	else if (g_strcmp0 (aa, "grayscale") == 0)
-		smoothing = "antialiased";
-	else if (g_strcmp0 (aa, "rgba") == 0)
-		smoothing = "subpixel-antialiased";
-
-	if (smoothing != NULL)
-		g_string_append_printf (
-			stylesheet,
-			" -webkit-font-smoothing: %s;\n",
-			smoothing);
-
-	g_free (aa);
-
-	g_string_append (stylesheet, "}\n");
-
-	g_string_append_printf (
-		stylesheet,
-		"pre,code,.pre {\n"
-		"  font-family: '%s';\n"
-		"  font-size: %dpt;\n"
-		"  font-weight: %d;\n"
-		"  font-style: %s;\n"
-		"}",
-		pango_font_description_get_family (ms),
-		pango_font_description_get_size (ms) / PANGO_SCALE,
-		pango_font_description_get_weight (ms),
-		styles[pango_font_description_get_style (ms)]);
-
-	context = gtk_widget_get_style_context (GTK_WIDGET (web_view));
-	gtk_style_context_get_style (
-		context,
-		"link-color", &link,
-		"visited-link-color", &visited,
-		NULL);
-
-	if (link == NULL) {
-		link = g_slice_new0 (GdkColor);
-		link->blue = G_MAXINT16;
-	}
-
-	if (visited == NULL) {
-		visited = g_slice_new0 (GdkColor);
-		visited->red = G_MAXINT16;
-	}
-
-	g_string_append_printf (
-		stylesheet,
-		"a {\n"
-		"  color: #%06x;\n"
-		"}\n"
-		"a:visited {\n"
-		"  color: #%06x;\n"
-		"}\n",
-		e_color_to_value (link),
-		e_color_to_value (visited));
-
-	gdk_color_free (link);
-	gdk_color_free (visited);
-
-	base64 = g_base64_encode ((guchar *) stylesheet->str, stylesheet->len);
-	g_string_free (stylesheet, TRUE);
-
-	stylesheet = g_string_new ("data:text/css;charset=utf-8;base64,");
-	g_string_append (stylesheet, base64);
-	g_free (base64);
-
-	settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (web_view));
-	g_object_set (
-		G_OBJECT (settings),
-		"default-font-size",
-		pango_font_description_get_size (vw) / PANGO_SCALE,
-		"default-font-family",
-		pango_font_description_get_family (vw),
-		"monospace-font-family",
-		pango_font_description_get_family (ms),
-		"default-monospace-font-size",
-		pango_font_description_get_size (ms) / PANGO_SCALE,
-		"minimum-font-size",
-		pango_font_description_get_size (min_size) / PANGO_SCALE,
-/*		"user-stylesheet-uri",
-		stylesheet->str,*/
-		NULL);
-
-/*FIXME XXX stylesheet uri*/
-	g_string_free (stylesheet, TRUE);
-
-	pango_font_description_free (ms);
-	pango_font_description_free (vw);
 }
 
 /* Helper for e_web_view_cursor_image_copy() */
