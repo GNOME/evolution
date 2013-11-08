@@ -1846,7 +1846,7 @@ e_web_view_init (EWebView *web_view)
 		NULL);
 
 	g_signal_connect (
-		web_view, "notify::load-changed",
+		web_view, "load-changed",
 		G_CALLBACK (web_view_load_changed_cb), NULL);
 
 	g_signal_connect (
