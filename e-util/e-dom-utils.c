@@ -50,12 +50,16 @@ replace_local_image_links (WebKitDOMElement *element)
 	}
 
 	if (WEBKIT_DOM_IS_HTML_IFRAME_ELEMENT (element)) {
-		WebKitDOMDocument *frame_document;
+		WebKitDOMDocument *content_document;
 
-		frame_document =
+		content_document =
 			webkit_dom_html_iframe_element_get_content_document (
 				WEBKIT_DOM_HTML_IFRAME_ELEMENT (element));
-		replace_local_image_links (WEBKIT_DOM_ELEMENT (frame_document));
+
+		if (!content_document)
+			return;
+
+		replace_local_image_links (WEBKIT_DOM_ELEMENT (content_document));
 	}
 
 	child = webkit_dom_element_get_first_element_child (element);
@@ -116,15 +120,19 @@ e_dom_utils_get_document_content_html (WebKitDOMDocument *document)
 static gchar *
 get_frame_selection_html (WebKitDOMElement *iframe)
 {
-	WebKitDOMDocument *document;
+	WebKitDOMDocument *content_document;
 	WebKitDOMDOMWindow *window;
 	WebKitDOMDOMSelection *selection;
 	WebKitDOMNodeList *frames;
 	gulong ii, length;
 
-	document = webkit_dom_html_iframe_element_get_content_document (
+	content_document = webkit_dom_html_iframe_element_get_content_document (
 		WEBKIT_DOM_HTML_IFRAME_ELEMENT (iframe));
-	window = webkit_dom_document_get_default_view (document);
+
+	if (!content_document)
+		return NULL;
+
+	window = webkit_dom_document_get_default_view (content_document);
 	selection = webkit_dom_dom_window_get_selection (window);
 	if (selection && (webkit_dom_dom_selection_get_range_count (selection) > 0)) {
 		WebKitDOMRange *range;
@@ -137,7 +145,7 @@ get_frame_selection_html (WebKitDOMElement *iframe)
 				range, NULL);
 
 			element = webkit_dom_document_create_element (
-				document, "DIV", NULL);
+				content_document, "DIV", NULL);
 			webkit_dom_node_append_child (
 				WEBKIT_DOM_NODE (element),
 				WEBKIT_DOM_NODE (fragment), NULL);
@@ -148,7 +156,7 @@ get_frame_selection_html (WebKitDOMElement *iframe)
 	}
 
 	frames = webkit_dom_document_get_elements_by_tag_name (
-		document, "IFRAME");
+		content_document, "IFRAME");
 	length = webkit_dom_node_list_get_length (frames);
 	for (ii = 0; ii < length; ii++) {
 		WebKitDOMNode *node;
@@ -172,6 +180,9 @@ e_dom_utils_get_selection_content_html (WebKitDOMDocument *document)
 	WebKitDOMNodeList *frames;
 	gulong ii, length;
 
+	if (!document_has_selection (document))
+		return NULL;
+
 	frames = webkit_dom_document_get_elements_by_tag_name (document, "IFRAME");
 	length = webkit_dom_node_list_get_length (frames);
 
@@ -194,15 +205,19 @@ e_dom_utils_get_selection_content_html (WebKitDOMDocument *document)
 static gchar *
 get_frame_selection_content_text (WebKitDOMElement *iframe)
 {
-	WebKitDOMDocument *document;
+	WebKitDOMDocument *content_document;
 	WebKitDOMDOMWindow *window;
 	WebKitDOMDOMSelection *selection;
 	WebKitDOMNodeList *frames;
 	gulong ii, length;
 
-	document = webkit_dom_html_iframe_element_get_content_document (
+	content_document = webkit_dom_html_iframe_element_get_content_document (
 		WEBKIT_DOM_HTML_IFRAME_ELEMENT (iframe));
-	window = webkit_dom_document_get_default_view (document);
+
+	if (!content_document)
+		return NULL;
+
+	window = webkit_dom_document_get_default_view (content_document);
 	selection = webkit_dom_dom_window_get_selection (window);
 	if (selection && (webkit_dom_dom_selection_get_range_count (selection) > 0)) {
 		WebKitDOMRange *range;
@@ -213,7 +228,7 @@ get_frame_selection_content_text (WebKitDOMElement *iframe)
 	}
 
 	frames = webkit_dom_document_get_elements_by_tag_name (
-		document, "IFRAME");
+		content_document, "IFRAME");
 	length = webkit_dom_node_list_get_length (frames);
 	for (ii = 0; ii < length; ii++) {
 		WebKitDOMNode *node;
@@ -379,15 +394,19 @@ add_css_rule_into_style_sheet_recursive (WebKitDOMDocument *document,
 
 	/* Add rules to every sub document */
 	for (ii = 0; ii < length; ii++) {
-		WebKitDOMDocument *iframe_document;
+		WebKitDOMDocument *content_document = NULL;
 		WebKitDOMNode *node;
 
 		node = webkit_dom_node_list_item (frames, ii);
-		iframe_document = webkit_dom_html_iframe_element_get_content_document (
-			WEBKIT_DOM_HTML_IFRAME_ELEMENT (node));
+		content_document =
+			webkit_dom_html_iframe_element_get_content_document (
+				WEBKIT_DOM_HTML_IFRAME_ELEMENT (node));
+
+		if (!content_document)
+			continue;
 
 		add_css_rule_into_style_sheet_recursive (
-			iframe_document,
+			content_document,
 			style_sheet_id,
 			selector,
 			style);
@@ -396,9 +415,9 @@ add_css_rule_into_style_sheet_recursive (WebKitDOMDocument *document,
 
 void
 e_dom_utils_add_css_rule_into_style_sheet (WebKitDOMDocument *document,
-                                            const gchar *style_sheet_id,
-                                            const gchar *selector,
-                                            const gchar *style)
+                                           const gchar *style_sheet_id,
+                                           const gchar *selector,
+                                           const gchar *style)
 {
 	g_return_if_fail (style_sheet_id && *style_sheet_id);
 	g_return_if_fail (selector && *selector);
@@ -634,20 +653,21 @@ e_dom_utils_find_element_by_selector (WebKitDOMDocument *document,
 		return element;
 
 	/* If the element is not here then recursively scan all frames */
-	frames = webkit_dom_document_get_elements_by_tag_name (
-		document, "iframe");
+	frames = webkit_dom_document_get_elements_by_tag_name (document, "iframe");
 	length = webkit_dom_node_list_get_length (frames);
 	for (ii = 0; ii < length; ii++) {
 		WebKitDOMHTMLIFrameElement *iframe;
-		WebKitDOMDocument *frame_doc;
+		WebKitDOMDocument *content_document;
 		WebKitDOMElement *element;
 
 		iframe = WEBKIT_DOM_HTML_IFRAME_ELEMENT (
 			webkit_dom_node_list_item (frames, ii));
 
-		frame_doc = webkit_dom_html_iframe_element_get_content_document (iframe);
+		content_document = webkit_dom_html_iframe_element_get_content_document (iframe);
+		if (!content_document)
+			continue;
 
-		element = e_dom_utils_find_element_by_id (frame_doc, selector);
+		element = e_dom_utils_find_element_by_id (content_document, selector);
 
 		if (element != NULL)
 			return element;
@@ -676,15 +696,17 @@ e_dom_utils_find_element_by_id (WebKitDOMDocument *document,
 	length = webkit_dom_node_list_get_length (frames);
 	for (ii = 0; ii < length; ii++) {
 		WebKitDOMHTMLIFrameElement *iframe;
-		WebKitDOMDocument *frame_doc;
+		WebKitDOMDocument *content_document;
 		WebKitDOMElement *element;
 
 		iframe = WEBKIT_DOM_HTML_IFRAME_ELEMENT (
 			webkit_dom_node_list_item (frames, ii));
 
-		frame_doc = webkit_dom_html_iframe_element_get_content_document (iframe);
+		content_document = webkit_dom_html_iframe_element_get_content_document (iframe);
+		if (!content_document)
+			continue;
 
-		element = e_dom_utils_find_element_by_id (frame_doc, id);
+		element = e_dom_utils_find_element_by_id (content_document, id);
 
 		if (element != NULL)
 			return element;
@@ -710,14 +732,16 @@ e_dom_utils_element_exists (WebKitDOMDocument *document,
 	length = webkit_dom_node_list_get_length (frames);
 	for (ii = 0; ii < length; ii++) {
 		WebKitDOMHTMLIFrameElement *iframe;
-		WebKitDOMDocument *frame_doc;
+		WebKitDOMDocument *content_document;
 
 		iframe = WEBKIT_DOM_HTML_IFRAME_ELEMENT (
 			webkit_dom_node_list_item (frames, ii));
 
-		frame_doc = webkit_dom_html_iframe_element_get_content_document (iframe);
+		content_document = webkit_dom_html_iframe_element_get_content_document (iframe);
+		if (!content_document)
+			continue;
 
-		element_exists = e_dom_utils_element_exists (frame_doc, element_id);
+		element_exists = e_dom_utils_element_exists (content_document, element_id);
 
 		if (element_exists)
 			return TRUE;
