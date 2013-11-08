@@ -159,7 +159,6 @@ display_mode_toggle_cb (GDBusConnection *connection,
 	gchar *access_key;
 	const gchar *part_id;
 	const gchar *button_value;
-	GVariant *result;
 
 	if (g_strcmp0 (signal_name, "VCardInlineDisplayModeToggled") != 0)
 		return;
@@ -167,7 +166,7 @@ display_mode_toggle_cb (GDBusConnection *connection,
 	if (!vcard_part->priv->web_extension)
 		return;
 
-	button_value = g_variant_get_string (parameters, NULL);
+	g_variant_get (parameters, "(&s)", &button_value);
 
 	part_id = e_mail_part_get_id (E_MAIL_PART (vcard_part));
 
@@ -184,22 +183,20 @@ display_mode_toggle_cb (GDBusConnection *connection,
 				_("Show Com_pact vCard"), &access_key);
 	}
 
-	result = g_dbus_proxy_call_sync (
-			vcard_part->priv->web_extension,
-			"VCardInlineUpdateButton",
-			g_variant_new (
-				"(tsss)",
-				vcard_part->priv->page_id,
-				button_value,
-				html_label,
-				access_key),
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			NULL,
-			NULL);
-
-	if (result)
-		g_variant_unref (result);
+	g_dbus_proxy_call (
+		vcard_part->priv->web_extension,
+		"VCardInlineUpdateButton",
+		g_variant_new (
+			"(tsss)",
+			vcard_part->priv->page_id,
+			button_value,
+			html_label,
+			access_key),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
 
 	if (access_key)
 		g_free (access_key);
@@ -213,20 +210,18 @@ display_mode_toggle_cb (GDBusConnection *connection,
 		"part_id", G_TYPE_STRING, part_id,
 		"mode", G_TYPE_INT, E_MAIL_FORMATTER_MODE_RAW, NULL);
 
-	result = g_dbus_proxy_call_sync (
-			vcard_part->priv->web_extension,
-			"VCardInlineSetIFrameSrc",
-			g_variant_new (
-				"(ts)",
-				vcard_part->priv->page_id,
-				uri),
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			NULL,
-			NULL);
-
-	if (result)
-		g_variant_unref (result);
+	g_dbus_proxy_call (
+		vcard_part->priv->web_extension,
+		"VCardInlineSetIFrameSrc",
+		g_variant_new (
+			"(ts)",
+			vcard_part->priv->page_id,
+			uri),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
 
 	g_free (uri);
 }
@@ -302,7 +297,6 @@ mail_part_vcard_bind_dom_element (EMailPart *part,
                                   const gchar *element_id)
 {
 	EMailPartVCard *vcard_part;
-	GVariant *result;
 
 	vcard_part = E_MAIL_PART_VCARD (part);
 
@@ -335,20 +329,18 @@ mail_part_vcard_bind_dom_element (EMailPart *part,
 			vcard_part,
 			NULL);
 
-	result = g_dbus_proxy_call_sync (
-			vcard_part->priv->web_extension,
-			"VCardInlineBindDOM",
-			g_variant_new (
-				"(ts)",
-				vcard_part->priv->page_id,
-				element_id),
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			NULL,
-			NULL);
-
-	if (result)
-		g_variant_unref (result);
+	g_dbus_proxy_call (
+		vcard_part->priv->web_extension,
+		"VCardInlineBindDOM",
+		g_variant_new (
+			"(ts)",
+			vcard_part->priv->page_id,
+			element_id),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
 }
 
 static void
