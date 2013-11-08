@@ -236,18 +236,14 @@ void		e_web_view_register_uri_scheme	(EWebView *web_view,
 void		e_web_view_install_request_handler
 						(EWebView *web_view,
 						 GType handler_type);
-void		e_web_view_create_and_add_css_style_sheet_sync
+void		e_web_view_create_and_add_css_style_sheet
 						(EWebView *web_view,
-						 const gchar *style_sheet_id,
-						 GCancellable *cancellable,
-						 GError **error);
-void		e_web_view_add_css_rule_into_style_sheet_sync
+						 const gchar *style_sheet_id);
+void		e_web_view_add_css_rule_into_style_sheet
 						(EWebView *web_view,
 						 const gchar *style_sheet_id,
 						 const gchar *selector,
-						 const gchar *style,
-						 GCancellable *cancellable,
-						 GError **error);
+						 const gchar *style);
 G_END_DECLS
 
 #endif /* E_WEB_VIEW_H */

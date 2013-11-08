@@ -631,13 +631,11 @@ style_updated_cb (EWebView *web_view)
 	color_value = g_strdup_printf ("#%06x", e_rgba_to_value (&color));
 	style = g_strconcat ("background-color: ", color_value, ";", NULL);
 
-	e_web_view_add_css_rule_into_style_sheet_sync (
+	e_web_view_add_css_rule_into_style_sheet (
 		web_view,
 		"-e-web-view-css-sheet",
 		".-e-web-view-background-color",
-		style,
-		NULL,
-		NULL);
+		style);
 
 	g_free (color_value);
 	g_free (style);
@@ -649,13 +647,11 @@ style_updated_cb (EWebView *web_view)
 	color_value = g_strdup_printf ("#%06x", e_rgba_to_value (&color));
 	style = g_strconcat ("color: ", color_value, ";", NULL);
 
-	e_web_view_add_css_rule_into_style_sheet_sync (
+	e_web_view_add_css_rule_into_style_sheet (
 		web_view,
 		"-e-web-view-css-sheet",
 		".-e-web-view-text-color",
-		style,
-		NULL,
-		NULL);
+		style);
 
 	gtk_widget_path_free (widget_path);
 	g_object_unref (style_context);
@@ -3652,7 +3648,7 @@ e_web_view_install_request_handler (EWebView *web_view,
 }
 */
 /**
- * e_web_view_create_and_add_css_style_sheet_sync:
+ * e_web_view_create_and_add_css_style_sheet:
  * @web_view: an #EWebView
  * @style_sheet_id: CSS style sheet's id
  *
@@ -3660,10 +3656,8 @@ e_web_view_install_request_handler (EWebView *web_view,
  * it into given @web_view document.
  **/
 void
-e_web_view_create_and_add_css_style_sheet_sync (EWebView *web_view,
-                                                const gchar *style_sheet_id,
-                                                GCancellable *cancellable,
-                                                GError **error)
+e_web_view_create_and_add_css_style_sheet (EWebView *web_view,
+                                           const gchar *style_sheet_id)
 {
 	GDBusProxy *web_extension;
 
@@ -3672,28 +3666,24 @@ e_web_view_create_and_add_css_style_sheet_sync (EWebView *web_view,
 
 	web_extension = e_web_view_get_web_extension_proxy (web_view);
 	if (web_extension) {
-		GVariant *result;
-
-		result = g_dbus_proxy_call_sync (
-				web_extension,
-				"CreateAndAddCSSStyleSheet",
-				g_variant_new (
-					"(ts)",
-					webkit_web_view_get_page_id (
-						WEBKIT_WEB_VIEW (web_view)),
-					style_sheet_id),
-				G_DBUS_CALL_FLAGS_NONE,
-				-1,
-				cancellable,
-				error);
-
-		if (result)
-			g_variant_unref (result);
+		g_dbus_proxy_call (
+			web_extension,
+			"CreateAndAddCSSStyleSheet",
+			g_variant_new (
+				"(ts)",
+				webkit_web_view_get_page_id (
+					WEBKIT_WEB_VIEW (web_view)),
+				style_sheet_id),
+			G_DBUS_CALL_FLAGS_NONE,
+			-1,
+			NULL,
+			NULL,
+			NULL);
 	}
 }
 
 /**
- * e_web_view_add_css_rule_into_style_sheet_sync:
+ * e_web_view_add_css_rule_into_style_sheet:
  * @web_view: an #EWebView
  * @style_sheet_id: CSS style sheet's id
  * @selector: CSS selector
@@ -3706,12 +3696,10 @@ e_web_view_create_and_add_css_style_sheet_sync (EWebView *web_view,
  * into DOM documents inside iframe elements.
  **/
 void
-e_web_view_add_css_rule_into_style_sheet_sync (EWebView *web_view,
-                                               const gchar *style_sheet_id,
-                                               const gchar *selector,
-                                               const gchar *style,
-                                               GCancellable *cancellable,
-                                               GError **error)
+e_web_view_add_css_rule_into_style_sheet (EWebView *web_view,
+                                          const gchar *style_sheet_id,
+                                          const gchar *selector,
+                                          const gchar *style)
 {
 	GDBusProxy *web_extension;
 
@@ -3722,24 +3710,20 @@ e_web_view_add_css_rule_into_style_sheet_sync (EWebView *web_view,
 
 	web_extension = e_web_view_get_web_extension_proxy (web_view);
 	if (web_extension) {
-		GVariant *result;
-
-		result = g_dbus_proxy_call_sync (
-				web_extension,
-				"AddCSSRuleIntoStyleSheet",
-				g_variant_new (
-					"(tsss)",
-					webkit_web_view_get_page_id (
-						WEBKIT_WEB_VIEW (web_view)),
-					style_sheet_id,
-					selector,
-					style),
-				G_DBUS_CALL_FLAGS_NONE,
-				-1,
-				cancellable,
-				error);
-
-		if (result)
-			g_variant_unref (result);
+		g_dbus_proxy_call (
+			web_extension,
+			"AddCSSRuleIntoStyleSheet",
+			g_variant_new (
+				"(tsss)",
+				webkit_web_view_get_page_id (
+					WEBKIT_WEB_VIEW (web_view)),
+				style_sheet_id,
+				selector,
+				style),
+			G_DBUS_CALL_FLAGS_NONE,
+			-1,
+			NULL,
+			NULL,
+			NULL);
 	}
 }
