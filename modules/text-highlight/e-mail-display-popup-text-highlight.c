@@ -155,19 +155,14 @@ web_extension_vanished_cb (GDBusConnection *connection,
 static void
 mail_display_popup_prefer_plain_watch_web_extension (EMailDisplayPopupTextHighlight *th_extension)
 {
-	char *service_name;
-
-	service_name = g_strdup_printf ("%s-%u", MODULE_TEXT_HIGHLIGHT_WEB_EXTENSION_SERVICE_NAME, getpid ());
 	th_extension->web_extension_watch_name_id =
 		g_bus_watch_name (
 			G_BUS_TYPE_SESSION,
-			service_name,
+			MODULE_TEXT_HIGHLIGHT_WEB_EXTENSION_SERVICE_NAME,
 			G_BUS_NAME_WATCHER_FLAGS_NONE,
 			(GBusNameAppearedCallback) web_extension_appeared_cb,
 			(GBusNameVanishedCallback) web_extension_vanished_cb,
 			th_extension, NULL);
-
-	g_free (service_name);
 }
 
 static void

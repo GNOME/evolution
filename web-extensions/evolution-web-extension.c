@@ -431,27 +431,17 @@ G_MODULE_EXPORT void webkit_web_extension_initialize (WebKitWebExtension *extens
 G_MODULE_EXPORT void
 webkit_web_extension_initialize (WebKitWebExtension *extension)
 {
-	char *service_name;
-
 	g_signal_connect (
 		extension, "page-created",
 		G_CALLBACK (web_page_created_callback),
 		NULL);
 
-	service_name =
-		g_strdup_printf (
-			"%s-%s",
-			EVOLUTION_WEB_EXTENSION_SERVICE_NAME,
-			g_getenv ("EVOLUTION_WEB_EXTENSION_ID"));
-
 	g_bus_own_name (
 		G_BUS_TYPE_SESSION,
-		service_name,
+		EVOLUTION_WEB_EXTENSION_SERVICE_NAME,
 		G_BUS_NAME_OWNER_FLAGS_NONE,
 		bus_acquired_cb,
 		NULL, NULL,
 		g_object_ref (extension),
 		g_object_unref);
-
-	g_free (service_name);
 }

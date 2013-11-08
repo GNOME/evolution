@@ -1899,19 +1899,14 @@ web_extension_vanished_cb (GDBusConnection *connection,
 static void
 itip_view_watch_web_extension (ItipView *view)
 {
-	char *service_name;
-
-	service_name = g_strdup_printf ("%s-%u", MODULE_ITIP_FORMATTER_WEB_EXTENSION_SERVICE_NAME, getpid ());
 	view->priv->web_extension_watch_name_id =
 		g_bus_watch_name (
 			G_BUS_TYPE_SESSION,
-			service_name,
+			MODULE_ITIP_FORMATTER_WEB_EXTENSION_SERVICE_NAME,
 			G_BUS_NAME_WATCHER_FLAGS_NONE,
 			(GBusNameAppearedCallback) web_extension_appeared_cb,
 			(GBusNameVanishedCallback) web_extension_vanished_cb,
 			view, NULL);
-
-	g_free (service_name);
 }
 
 GDBusProxy *
