@@ -72,6 +72,7 @@ static const char introspection_xml[] =
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='s' name='element_id' direction='in'/>"
 "      <arg type='b' name='element_exists' direction='out'/>"
+"      <arg type='t' name='page_id' direction='out'/>"
 "    </method>"
 "    <method name='GetActiveElementName'>"
 "      <arg type='t' name='page_id' direction='in'/>"
@@ -314,7 +315,7 @@ handle_method_call (GDBusConnection *connection,
 		element_exists = e_dom_utils_element_exists (document, element_id);
 
 		g_dbus_method_invocation_return_value (
-			invocation, g_variant_new ("(b)", element_exists));
+			invocation, g_variant_new ("(bt)", element_exists, page_id));
 	} else if (g_strcmp0 (method_name, "GetActiveElementName") == 0) {
 		gchar *element_name;
 

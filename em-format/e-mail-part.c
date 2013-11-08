@@ -496,7 +496,7 @@ e_mail_part_bind_dom_element (EMailPart *part,
 
 	g_return_if_fail (E_IS_MAIL_PART (part));
 	g_return_if_fail (web_extension);
-	g_return_if_fail (page_id == 0);
+	g_return_if_fail (page_id != 0);
 	g_return_if_fail (element_id && *element_id);
 
 	class = E_MAIL_PART_GET_CLASS (part);

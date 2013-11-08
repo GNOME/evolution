@@ -813,7 +813,6 @@ setup_dom_bindings (WebKitWebView *web_view,
 {
 	GDBusProxy *web_extension;
 	EMailDisplay *display;
-	GVariant* result;
 
 	if (load_event != WEBKIT_LOAD_FINISHED)
 		return;
@@ -822,33 +821,59 @@ setup_dom_bindings (WebKitWebView *web_view,
 
 	web_extension = e_web_view_get_web_extension_proxy (E_WEB_VIEW (web_view));
 
-	display->priv->web_extension_headers_collapsed_signal_id =
-		g_dbus_connection_signal_subscribe (
-			g_dbus_proxy_get_connection (web_extension),
-			g_dbus_proxy_get_name (web_extension),
-			EVOLUTION_WEB_EXTENSION_INTERFACE,
-			"RecurToggled",
-			EVOLUTION_WEB_EXTENSION_OBJECT_PATH,
-			NULL,
-			G_DBUS_SIGNAL_FLAGS_NONE,
-			(GDBusSignalCallback) headers_collapsed_signal_cb,
-			display,
-			NULL);
+	if (display->priv->web_extension_headers_collapsed_signal_id == 0) {
+		display->priv->web_extension_headers_collapsed_signal_id =
+			g_dbus_connection_signal_subscribe (
+				g_dbus_proxy_get_connection (web_extension),
+				g_dbus_proxy_get_name (web_extension),
+				EVOLUTION_WEB_EXTENSION_INTERFACE,
+				"RecurToggled",
+				EVOLUTION_WEB_EXTENSION_OBJECT_PATH,
+				NULL,
+				G_DBUS_SIGNAL_FLAGS_NONE,
+				(GDBusSignalCallback) headers_collapsed_signal_cb,
+				display,
+				NULL);
+	}
 
 	if (web_extension) {
-		result = g_dbus_proxy_call_sync (
-				web_extension,
-				"EMailDisplayBindDOM",
-				g_variant_new (
-					"(t)",
-					webkit_web_view_get_page_id (web_view)),
-				G_DBUS_CALL_FLAGS_NONE,
-				-1,
-				NULL,
-				NULL);
-		if (result)
-			g_variant_unref (result);
+		g_dbus_proxy_call (
+			web_extension,
+			"EMailDisplayBindDOM",
+			g_variant_new (
+				"(t)",
+				webkit_web_view_get_page_id (web_view)),
+			G_DBUS_CALL_FLAGS_NONE,
+			-1,
+			NULL,
+			NULL,
+			NULL);
 	}
+}
+
+static void
+mail_element_exists_cb (GDBusProxy *web_extension,
+                        GAsyncResult *result,
+                        EMailPart *part)
+{
+	gboolean element_exists = FALSE;
+	GVariant *result_variant;
+	guint64 page_id;
+
+	result_variant = g_dbus_proxy_call_finish (web_extension, result, NULL);
+	if (result_variant) {
+		g_variant_get (result_variant, "(bt)", &element_exists, &page_id);
+		g_variant_unref (result_variant);
+	}
+
+	if (element_exists)
+		e_mail_part_bind_dom_element (
+			part,
+			web_extension,
+			page_id,
+			e_mail_part_get_id (part));
+
+	g_object_unref (part);
 }
 
 static void
@@ -881,36 +906,22 @@ mail_parts_bind_dom (WebKitWebView *web_view,
 	for (link = head; link != NULL; link = g_list_next (link)) {
 		EMailPart *part = E_MAIL_PART (link->data);
 		const gchar *part_id;
-		GVariant *result;
-		gboolean element_exists = FALSE;
 
 		part_id = e_mail_part_get_id (part);
 
-		result = g_dbus_proxy_call_sync (
-				web_extension,
-				"ElementExists",
-				g_variant_new (
-					"(ts)",
-					webkit_web_view_get_page_id (
-						WEBKIT_WEB_VIEW (display)),
-					part_id),
-				G_DBUS_CALL_FLAGS_NONE,
-				-1,
-				NULL,
-				NULL);
-
-		if (result) {
-			g_variant_get (result, "(b)", &element_exists);
-			g_variant_unref (result);
-		}
-
-		if (element_exists)
-			e_mail_part_bind_dom_element (
-				part,
-				web_extension,
+		g_dbus_proxy_call (
+			web_extension,
+			"ElementExists",
+			g_variant_new (
+				"(ts)",
 				webkit_web_view_get_page_id (
 					WEBKIT_WEB_VIEW (display)),
-				part_id);
+				part_id),
+			G_DBUS_CALL_FLAGS_NONE,
+			-1,
+			NULL,
+			(GAsyncReadyCallback)mail_element_exists_cb,
+			g_object_ref (part));
 	}
 
 	while (!g_queue_is_empty (&queue))
@@ -1519,10 +1530,10 @@ e_mail_display_init (EMailDisplay *display)
 	e_web_view_update_fonts (E_WEB_VIEW (display));
 
 	g_signal_connect (
-		display, "notify::load-changed",
+		display, "load-changed",
 		G_CALLBACK (setup_dom_bindings), NULL);
 	g_signal_connect (
-		display, "notify::load-changed",
+		display, "load-changed",
 		G_CALLBACK (mail_parts_bind_dom), NULL);
 
 	actions = e_web_view_get_action_group (E_WEB_VIEW (display), "mailto");
