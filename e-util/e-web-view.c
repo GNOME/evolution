@@ -485,9 +485,10 @@ web_view_connect_proxy_cb (EWebView *web_view,
 
 static gboolean
 web_view_context_menu_cb (WebKitWebView *webkit_web_view,
-                          GtkWidget *default_menu,
+                          WebKitContextMenu *context_menu,
+                          GdkEvent *event,
                           WebKitHitTestResult *hit_test_result,
-                          gboolean triggered_with_keyboard)
+                          gpointer user_data)
 {
 	WebKitHitTestResultContext context;
 	EWebView *web_view;
