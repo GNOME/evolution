@@ -2484,7 +2484,7 @@ mail_reader_key_press_event_cb (EMailReader *reader,
 					NULL);
 
 			if (result) {
-				element_name = g_variant_get_string (result, NULL);
+				g_variant_get (result, "(&s)", &element_name);
 				g_variant_unref (result);
 
 				if (element_name && *element_name) {
