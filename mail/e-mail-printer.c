@@ -24,8 +24,6 @@
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 
-#include <webkit/webkitdom.h>
-
 #include "e-util/e-util.h"
 
 #include "em-format/e-mail-formatter-print.h"
@@ -193,7 +191,7 @@ mail_printer_print_timeout_cb (gpointer user_data)
 	GtkPrintOperation *print_operation;
 	GtkPrintOperationAction print_action;
 	EMailPrinter *printer;
-	WebKitWebFrame *web_frame;
+//	WebKitWebFrame *web_frame;
 	gulong create_custom_widget_handler_id;
 	gulong custom_widget_apply_handler_id;
 	gulong draw_page_handler_id;
@@ -242,10 +240,10 @@ mail_printer_print_timeout_cb (gpointer user_data)
 		G_CALLBACK (mail_printer_draw_footer_cb),
 		async_context->cancellable);
 
-	web_frame = webkit_web_view_get_main_frame (async_context->web_view);
+//	web_frame = webkit_web_view_get_main_frame (async_context->web_view);
 
-	async_context->print_result = webkit_web_frame_print_full (
-		web_frame, print_operation, print_action, &error);
+//	async_context->print_result = webkit_web_frame_print_full (
+//		web_frame, print_operation, print_action, &error);
 
 	/* Sanity check. */
 	switch (async_context->print_result) {
@@ -296,17 +294,15 @@ exit:
 
 static void
 mail_printer_load_status_cb (WebKitWebView *web_view,
-                             GParamSpec *pspec,
+                             WebKitLoadEvent load_event,
                              GSimpleAsyncResult *simple)
 {
 	AsyncContext *async_context;
-	WebKitLoadStatus load_status;
 	GCancellable *cancellable;
 	GError *error = NULL;
 
 	/* Note: we disregard WEBKIT_LOAD_FAILED and print what we can. */
-	load_status = webkit_web_view_get_load_status (web_view);
-	if (load_status != WEBKIT_LOAD_FINISHED)
+	if (load_event != WEBKIT_LOAD_FINISHED)
 		return;
 
 	/* Signal handlers are holding the only GSimpleAsyncResult
@@ -353,7 +349,7 @@ mail_printer_new_web_view (const gchar *charset,
                            const gchar *default_charset)
 {
 	WebKitWebView *web_view;
-	WebKitWebSettings *web_settings;
+	WebKitSettings *web_settings;
 	EMailFormatter *formatter;
 
 	web_view = g_object_new (
@@ -564,7 +560,7 @@ e_mail_printer_print (EMailPrinter *printer,
 	async_context->web_view = g_object_ref_sink (web_view);
 
 	handler_id = g_signal_connect_data (
-		web_view, "notify::load-status",
+		web_view, "load-changed",
 		G_CALLBACK (mail_printer_load_status_cb),
 		g_object_ref (simple),
 		(GClosureNotify) g_object_unref, 0);
