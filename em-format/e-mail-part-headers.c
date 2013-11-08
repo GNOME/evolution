@@ -220,19 +220,15 @@ mail_part_headers_bind_dom_element (EMailPart *part,
                                     const gchar *element_id)
 {
 	if (web_extension) {
-		GVariant *result;
-
-		result = g_dbus_proxy_call_sync (
-				web_extension,
-				"EMailPartHeadersBindDOMElement",
-				g_variant_new ("(ts)", page_id, element_id),
-				G_DBUS_CALL_FLAGS_NONE,
-				-1,
-				NULL,
-				NULL);
-
-		if (result)
-			g_variant_unref (result);
+		g_dbus_proxy_call (
+			web_extension,
+			"EMailPartHeadersBindDOMElement",
+			g_variant_new ("(ts)", page_id, element_id),
+			G_DBUS_CALL_FLAGS_NONE,
+			-1,
+			NULL,
+			NULL,
+			NULL);
 	}
 }
 
