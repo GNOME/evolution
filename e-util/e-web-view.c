@@ -423,25 +423,6 @@ webkit_find_controller_failed_to_found_text_cb (WebKitFindController *find_contr
 }
 
 static void
-web_view_update_document_highlights (EWebView *web_view)
-{
-	WebKitFindController *find_controller;
-	GList *head, *link;
-
-	find_controller = web_view->priv->find_controller;
-
-	head = g_queue_peek_head_link (&web_view->priv->highlights);
-
-	for (link = head; link != NULL; link = g_list_next (link)) {
-		webkit_find_controller_search (
-			find_controller,
-			link->data,
-			WEBKIT_FIND_OPTIONS_NONE,
-			G_MAXUINT);
-	}
-}
-
-static void
 web_view_set_find_controller (EWebView *web_view)
 {
 	WebKitFindController *find_controller;
@@ -458,6 +439,28 @@ web_view_set_find_controller (EWebView *web_view)
 		G_CALLBACK (webkit_find_controller_failed_to_found_text_cb), web_view);
 
 	web_view->priv->find_controller = find_controller;
+}
+
+static void
+web_view_update_document_highlights (EWebView *web_view)
+{
+	WebKitFindController *find_controller;
+	GList *head, *link;
+
+	if (!web_view->priv->find_controller)
+		web_view_set_find_controller (web_view);
+
+	find_controller = web_view->priv->find_controller;
+
+	head = g_queue_peek_head_link (&web_view->priv->highlights);
+
+	for (link = head; link != NULL; link = g_list_next (link)) {
+		webkit_find_controller_search (
+			find_controller,
+			link->data,
+			WEBKIT_FIND_OPTIONS_NONE,
+			G_MAXUINT);
+	}
 }
 
 static void
@@ -2600,6 +2603,9 @@ void
 e_web_view_clear_highlights (EWebView *web_view)
 {
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	if (!web_view->priv->find_controller)
+		web_view_set_find_controller (web_view);
 
 	webkit_find_controller_search_finish (web_view->priv->find_controller);
 
