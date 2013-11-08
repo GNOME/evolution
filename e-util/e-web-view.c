@@ -2143,8 +2143,8 @@ e_web_view_reload (EWebView *web_view)
 
 static void
 get_document_content_html_cb (GDBusProxy *web_extension,
-                             GAsyncResult *result,
-                             GTask *task)
+                              GAsyncResult *result,
+                              GTask *task)
 {
 	GVariant *result_variant;
 	const gchar *html_content;
@@ -2894,9 +2894,6 @@ e_web_view_get_selection_content_html (EWebView *web_view,
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
 	task = g_task_new (web_view, cancellable, callback, user_data);
-/*FIXME XXX
-	if (!webkit_web_view_has_selection (WEBKIT_WEB_VIEW (web_view)))
-		return NULL;*/
 
 	web_extension = e_web_view_get_web_extension_proxy (web_view);
 	if (web_extension) {
@@ -2935,9 +2932,6 @@ e_web_view_get_selection_content_html_sync (EWebView *web_view,
 	GDBusProxy *web_extension;
 
 	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), NULL);
-/*FIXME XXX
-	if (!webkit_web_view_has_selection (WEBKIT_WEB_VIEW (web_view)))
-		return NULL;*/
 
 	web_extension = e_web_view_get_web_extension_proxy (web_view);
 	if (web_extension) {
