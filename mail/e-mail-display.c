@@ -1447,10 +1447,172 @@ mail_gtk_stock_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
 {
 }
 
+static gchar *
+get_value_from_uri (const gchar *uri,
+                    const gchar *key)
+{
+	const gchar *key_position;
+	const gchar *value_start;
+	const gchar *value_end;
+	gchar *value;
+
+	key_position = strstr (uri, key);
+	if (!key_position)
+		return NULL;
+
+	value_start = strstr (key_position, "=");
+	if (!value_start)
+		return NULL;
+
+	value_end = strstr (value_start, "&");
+
+	if (value_end)
+		value = g_utf8_substring (value_start, 1, g_utf8_pointer_to_offset (value_start, value_end));
+	else
+		value = g_utf8_substring (value_start, 1, g_utf8_strlen (value_start, -1));
+
+	return value;
+}
+
 static void
 mail_mail_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
                                   EMailDisplay *display)
 {
+	GInputStream *stream;
+	EMailFormatter *formatter;
+	EMailPartList *part_list;
+	CamelStream *output_stream;
+	GByteArray *byte_array;
+	gchar *val;
+	const gchar *uri;
+	gchar *default_charset, *charset, *mode;
+
+	GCancellable *cancellable = NULL;
+
+	EMailFormatterContext context = { 0 };
+
+	uri = webkit_uri_scheme_request_get_uri (request);
+
+	part_list = display->priv->part_list;
+
+	if (camel_debug_start ("emformat:requests")) {
+		printf ("%s: found part-list %p for full_uri '%s'\n", G_STRFUNC, part_list, uri);
+		camel_debug_end ();
+	}
+
+	if (!part_list)
+		return;
+
+	if (display->priv->headers_collapsed)
+		context.flags |= E_MAIL_FORMATTER_HEADER_FLAG_COLLAPSED;
+
+	if (display->priv->headers_collapsable)
+		context.flags |= E_MAIL_FORMATTER_HEADER_FLAG_COLLAPSABLE;
+
+	mode = get_value_from_uri (uri, "mode");
+	if (mode)
+		context.mode = atoi (mode);
+
+	default_charset = get_value_from_uri (uri, "formatter_default_charset");
+	charset = get_value_from_uri (uri, "formatter_charset");
+
+	context.part_list = g_object_ref (part_list);
+	context.uri = g_strdup (uri);
+
+	formatter = display->priv->formatter;
+
+	if (default_charset != NULL && *default_charset != '\0') {
+		e_mail_formatter_set_default_charset (formatter, default_charset);
+		g_free (default_charset);
+	}
+	if (charset != NULL && *charset != '\0') {
+		e_mail_formatter_set_charset (formatter, charset);
+		g_free (charset);
+	}
+
+	byte_array = g_byte_array_new ();
+	output_stream = camel_stream_mem_new ();
+
+	/* We retain ownership of the byte array. */
+	camel_stream_mem_set_byte_array (
+		CAMEL_STREAM_MEM (output_stream), byte_array);
+
+	val = get_value_from_uri (uri, "part_id");
+	if (val != NULL) {
+		EMailPart *part;
+		gchar *mime_type;
+
+		part = e_mail_part_list_ref_part (part_list, val);
+		if (!part) {
+			if (camel_debug_start ("emformat:requests")) {
+				printf ("%s: part with id '%s' not found\n", G_STRFUNC, val);
+				camel_debug_end ();
+			}
+
+			g_free (val);
+			goto no_part;
+		}
+		g_free (val);
+
+		mime_type = get_value_from_uri (uri, "mime_type");
+
+		if (context.mode == E_MAIL_FORMATTER_MODE_SOURCE) {
+			g_free (mime_type);
+			mime_type = g_strdup ("application/vnd.evolution.source");
+		}
+
+		if (context.mode == E_MAIL_FORMATTER_MODE_CID) {
+			CamelDataWrapper *dw;
+			CamelMimePart *mime_part;
+
+			mime_part = e_mail_part_ref_mime_part (part);
+			dw = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
+			g_return_if_fail (dw);
+
+			camel_data_wrapper_decode_to_stream_sync (
+				dw, output_stream, cancellable, NULL);
+
+			g_object_unref (mime_part);
+		} else {
+			if (!mime_type)
+				mime_type = g_strdup (e_mail_part_get_mime_type (part));
+
+			e_mail_formatter_format_as (
+				formatter, &context, part,
+				output_stream, mime_type,
+				cancellable);
+
+			g_free (mime_type);
+		}
+
+		g_object_unref (part);
+	} else {
+		e_mail_formatter_format_sync (
+			formatter, part_list, output_stream,
+			context.flags, context.mode, cancellable);
+	}
+
+ no_part:
+	g_clear_object (&output_stream);
+	g_clear_object (&context.part_list);
+
+	if (byte_array->data == NULL) {
+		gchar *data;
+
+		data = g_strdup_printf (
+			"<p align='center'>%s</p>",
+			_("The message has no text content."));
+		g_byte_array_append (
+			byte_array, (guint8 *) data, strlen (data));
+		g_free (data);
+	}
+
+	stream = g_memory_input_stream_new_from_bytes (
+		g_byte_array_free_to_bytes (byte_array));
+
+	/* FIXME This can be done async */
+	webkit_uri_scheme_request_finish (request, stream, -1, "text/html");
+	g_object_unref (stream);
 }
 
 static void
