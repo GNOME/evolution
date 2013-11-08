@@ -1781,38 +1781,32 @@ void
 itip_view_create_dom_bindings (ItipView *view,
                                const gchar *element_id)
 {
-	GVariant *result;
-
 	if (!view->priv->web_extension)
 		return;
 
-	result = g_dbus_proxy_call_sync (
-			view->priv->web_extension,
-			"SaveDocumentFromElement",
-			g_variant_new (
-				"(ts)",
-				webkit_web_view_get_page_id (
-					WEBKIT_WEB_VIEW (view)),
-				element_id),
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			NULL,
-			NULL);
+	g_dbus_proxy_call (
+		view->priv->web_extension,
+		"SaveDocumentFromElement",
+		g_variant_new (
+			"(ts)",
+			webkit_web_view_get_page_id (
+				WEBKIT_WEB_VIEW (view)),
+			element_id),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
 
-	if (result)
-		g_variant_unref (result);
-
-	result = g_dbus_proxy_call_sync (
-			view->priv->web_extension,
-			"CreateDOMBindings",
-			NULL,
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			NULL,
-			NULL);
-
-	if (result)
-		g_variant_unref (result);
+	g_dbus_proxy_call (
+		view->priv->web_extension,
+		"CreateDOMBindings",
+		NULL,
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
 }
 
 static void
