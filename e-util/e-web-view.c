@@ -1760,7 +1760,13 @@ e_web_view_register_uri_scheme (EWebView *web_view,
 	gpointer callback = NULL;
 	const gchar *uri_scheme;
 
-	context = webkit_web_view_get_context (WEBKIT_WEB_VIEW (web_view));
+	static GHashTable *hash_table = NULL;
+
+	if (!hash_table)
+		hash_table = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, NULL);
+
+	context = webkit_web_context_get_default ();
+
 	callback = user_callback;
 
 	switch (scheme) {
@@ -1770,7 +1776,7 @@ e_web_view_register_uri_scheme (EWebView *web_view,
 				callback = web_view_cid_uri_scheme_appeared_cb;
 			break;
 		case FILE_URI_SCHEME:
-			uri_scheme = "file";
+			uri_scheme = "evo-file";
 			if (!callback)
 				callback = web_view_file_uri_scheme_appeared_cb;
 			break;
@@ -1797,6 +1803,11 @@ e_web_view_register_uri_scheme (EWebView *web_view,
 		default:
 			return;
 	}
+
+	if (g_hash_table_lookup (hash_table, uri_scheme))
+		return;
+
+	g_hash_table_insert (hash_table, (gpointer) uri_scheme, callback);
 
 	webkit_web_context_register_uri_scheme (
 		context,
