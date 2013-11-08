@@ -62,7 +62,7 @@ alarm_notify_load_calendars (AlarmNotify *an)
 	/* Add all available ESources.  alarm_notify_add_calendar() will
 	 * discard the ones we're not interested in (mail accounts, etc.). */
 
-	list = e_source_registry_list_sources (an->priv->registry, NULL);
+	list = e_source_registry_list_enabled (an->priv->registry, NULL);
 
 	for (iter = list; iter != NULL; iter = g_list_next (iter))
 		alarm_notify_add_calendar (an, E_SOURCE (iter->data));
