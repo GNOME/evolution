@@ -886,7 +886,7 @@ display_mode_toggle_button_cb (WebKitDOMElement *button,
                                WebKitDOMEvent *event,
                                GDBusConnection *connection)
 {
-	GError *error;
+	GError *error = NULL;
 
 	g_dbus_connection_emit_signal (
 		connection,
@@ -911,7 +911,7 @@ save_vcard_button_cb (WebKitDOMElement *button,
                       WebKitDOMEvent *event,
                       GDBusConnection *connection)
 {
-	GError *error;
+	GError *error = NULL;
 
 	g_dbus_connection_emit_signal (
 		connection,
