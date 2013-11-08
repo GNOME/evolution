@@ -1405,27 +1405,16 @@ static void
 mail_file_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
                                   EMailDisplay *display)
 {
-	EMailPartList *part_list;
-	CamelFolder *folder;
 	GInputStream *stream;
-	gsize stream_length;
-	const gchar *message_uid;
 	const gchar *uri;
 	gchar *content = NULL;
 	gchar *content_type;
 	gchar *filename;
-	gchar *encoded;
 	gsize length = 0;
 
-	/* WebKit won't allow to load a local file when displaying
-	 * "remote" mail:// protocol, so we need to handle this manually. */
 	uri = webkit_uri_scheme_request_get_uri (request);
 
-	part_list = e_mail_display_get_part_list (display);
-	folder = e_mail_part_list_get_folder (part_list);
-	message_uid = e_mail_part_list_get_message_uid (part_list);
-
-	filename = g_filename_from_uri (uri, NULL, NULL);
+	filename = g_filename_from_uri (strstr (uri, "file"), NULL, NULL);
 	if (!filename)
 		return;
 
@@ -1434,26 +1423,16 @@ mail_file_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
 		return;
 	}
 
-	encoded = g_base64_encode ((guchar *) content, length);
 	content_type = g_content_type_guess (filename, NULL, 0, NULL);
 
-	content = g_strdup_printf ( "data:%s;base64,%s", content_type, encoded);
+	stream = g_memory_input_stream_new_from_data (content, length, g_free);
 
-	content = e_mail_part_build_uri (
-			folder, message_uid,
-			"part_id", G_TYPE_STRING, uri,
-			"mode", G_TYPE_INT, E_MAIL_FORMATTER_MODE_CID, NULL);
-
-	stream_length = strlen (content);
-	stream = g_memory_input_stream_new_from_data (content, stream_length, g_free);
-
-	webkit_uri_scheme_request_finish (request, stream, stream_length, content_type);
+	webkit_uri_scheme_request_finish (request, stream, length, content_type);
 
 	g_free (content_type);
 	g_free (content);
 	g_free (filename);
-	g_free (encoded);
-	g_object_unref (stream);
+/*	g_object_unref (stream); */
 }
 
 static void
