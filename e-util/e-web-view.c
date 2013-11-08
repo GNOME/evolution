@@ -1205,7 +1205,6 @@ web_extension_vanished_cb (GDBusConnection *connection,
 static void
 web_view_watch_web_extension (EWebView *web_view)
 {
-	g_warning ("%s", __FUNCTION__);
 	web_view->priv->web_extension_watch_name_id =
 		g_bus_watch_name (
 			G_BUS_TYPE_SESSION,
