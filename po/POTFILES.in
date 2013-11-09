@@ -86,6 +86,7 @@ calendar/gui/e-alarm-list.c
 calendar/gui/ea-week-view.c
 calendar/gui/ea-week-view-main-item.c
 calendar/gui/e-cal-component-preview.c
+calendar/gui/e-calendar-selector.c
 calendar/gui/e-calendar-table.etspec
 calendar/gui/e-calendar-view.c
 calendar/gui/e-cal-list-view.c
