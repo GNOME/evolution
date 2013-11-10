@@ -46,8 +46,6 @@
 
 #include "libemail-engine/mail-mt.h"
 
-#include "e-util/e-util.h"
-
 /* This is our hack, not part of libcamel. */
 #include "camel-null-store.h"
 

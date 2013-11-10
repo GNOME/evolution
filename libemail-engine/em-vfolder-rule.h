@@ -89,13 +89,13 @@ void		em_vfolder_rule_source_set_include_subfolders
 						(EMVFolderRule *rule,
 						 const gchar *source,
 						 gboolean include_subfolders);
-void		em_vfolder_rule_set_with	(EMVFolderRule *rule,
-						 em_vfolder_rule_with_t with);
 em_vfolder_rule_with_t
 		em_vfolder_rule_get_with	(EMVFolderRule *rule);
+void		em_vfolder_rule_set_with	(EMVFolderRule *rule,
+						 em_vfolder_rule_with_t with);
+gboolean	em_vfolder_rule_get_autoupdate	(EMVFolderRule *rule);
 void		em_vfolder_rule_set_autoupdate	(EMVFolderRule *rule,
 						 gboolean autoupdate);
-gboolean	em_vfolder_rule_get_autoupdate	(EMVFolderRule *rule);
 
 G_END_DECLS
 

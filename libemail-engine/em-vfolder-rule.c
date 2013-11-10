@@ -258,15 +258,6 @@ em_vfolder_rule_source_set_include_subfolders (EMVFolderRule *rule,
 			(gpointer) source);
 }
 
-void
-em_vfolder_rule_set_with (EMVFolderRule *rule,
-                          em_vfolder_rule_with_t with)
-{
-	g_return_if_fail (rule != NULL);
-
-	rule->priv->with = with;
-}
-
 em_vfolder_rule_with_t
 em_vfolder_rule_get_with (EMVFolderRule *rule)
 {
@@ -276,12 +267,12 @@ em_vfolder_rule_get_with (EMVFolderRule *rule)
 }
 
 void
-em_vfolder_rule_set_autoupdate (EMVFolderRule *rule,
-                                gboolean autoupdate)
+em_vfolder_rule_set_with (EMVFolderRule *rule,
+                          em_vfolder_rule_with_t with)
 {
 	g_return_if_fail (rule != NULL);
 
-	rule->priv->autoupdate = autoupdate;
+	rule->priv->with = with;
 }
 
 gboolean
@@ -290,6 +281,15 @@ em_vfolder_rule_get_autoupdate (EMVFolderRule *rule)
 	g_return_val_if_fail (rule != NULL, EM_VFOLDER_RULE_WITH_SPECIFIC);
 
 	return rule->priv->autoupdate;
+}
+
+void
+em_vfolder_rule_set_autoupdate (EMVFolderRule *rule,
+                                gboolean autoupdate)
+{
+	g_return_if_fail (rule != NULL);
+
+	rule->priv->autoupdate = autoupdate;
 }
 
 static gint
