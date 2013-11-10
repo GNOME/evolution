@@ -34,7 +34,7 @@
 
 #include "shell/e-shell-utils.h"
 
-#include "libemail-engine/e-mail-enumtypes.h"
+#include "libemail-engine/e-mail-engine-enumtypes.h"
 #include "libemail-engine/e-mail-utils.h"
 #include "libemail-engine/mail-mt.h"
 #include "libemail-engine/mail-ops.h"

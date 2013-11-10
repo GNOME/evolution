@@ -2,20 +2,20 @@ NULL =
 
 privsolib_LTLIBRARIES = libemail-engine.la
 
-ENUM_TYPES = e-mail-enums.h
+ENUM_TYPES = e-mail-engine-enums.h
 
-e-mail-enumtypes.h: $(top_srcdir)/enumtypes.h.template $(ENUM_TYPES)
+e-mail-engine-enumtypes.h: $(top_srcdir)/enumtypes.h.template $(ENUM_TYPES)
 	$(AM_V_GEN) $(GLIB_MKENUMS) --template $(top_srcdir)/enumtypes.h.template \
-		--fhead "#ifndef E_MAIL_ENUMTYPES_H\n#define E_MAIL_ENUMTYPES_H\n" \
-		--ftail "#endif /* E_MAIL_ENUMTYPES_H */\n" \
+		--fhead "#ifndef E_MAIL_ENGINE_ENUMTYPES_H\n#define E_MAIL_ENGINE_ENUMTYPES_H\n" \
+		--ftail "#endif /* E_MAIL_ENGINE_ENUMTYPES_H */\n" \
 		$(addprefix $(srcdir)/,$(ENUM_TYPES)) > $@
 
-e-mail-enumtypes.c: $(top_srcdir)/enumtypes.c.template $(ENUM_TYPES)
+e-mail-engine-enumtypes.c: $(top_srcdir)/enumtypes.c.template $(ENUM_TYPES)
 	$(AM_V_GEN) $(GLIB_MKENUMS) --template $(top_srcdir)/enumtypes.c.template \
-		--fhead "#include \"e-mail-enumtypes.h\"" \
+		--fhead "#include \"e-mail-engine-enumtypes.h\"" \
 		$(addprefix $(srcdir)/,$(ENUM_TYPES)) > $@
 
-ENUM_GENERATED = e-mail-enumtypes.h e-mail-enumtypes.c
+ENUM_GENERATED = e-mail-engine-enumtypes.h e-mail-engine-enumtypes.c
 
 libemail_engine_la_CPPFLAGS = \
 	$(AM_CPPFLAGS) \
@@ -32,8 +32,8 @@ libmailengineinclude_HEADERS =  \
 	camel-null-store.h \
 	camel-sasl-xoauth2.h \
 	e-mail-authenticator.h \
-	e-mail-enums.h \
-	e-mail-enumtypes.h \
+	e-mail-engine-enums.h \
+	e-mail-engine-enumtypes.h \
 	e-mail-folder-utils.h \
 	e-mail-junk-filter.h \
 	e-mail-session-utils.h \
@@ -56,7 +56,7 @@ libemail_engine_la_SOURCES =  \
 	camel-null-store.c \
 	camel-sasl-xoauth2.c \
 	e-mail-authenticator.c \
-	e-mail-enumtypes.c \
+	e-mail-engine-enumtypes.c \
 	e-mail-folder-utils.c \
 	e-mail-junk-filter.c \
 	e-mail-session-utils.c \

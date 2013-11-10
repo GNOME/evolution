@@ -27,7 +27,7 @@
 #include <gdk/gdk.h>
 #include <glib/gi18n.h>
 
-#include "libemail-engine/e-mail-enumtypes.h"
+#include "libemail-engine/e-mail-engine-enumtypes.h"
 
 #define d(x)
 

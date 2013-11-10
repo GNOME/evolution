@@ -13,7 +13,7 @@ CFILE_GLOB=$(top_srcdir)/libemail-engine/*.c
 
 # Header files to ignore when scanning.
 IGNORE_HFILES= \
-	e-mail-enumtypes.h \
+	e-mail-engine-enumtypes.h \
 	$(NULL)
 
 GTKDOC_CFLAGS= \

@@ -31,7 +31,7 @@
 
 #include <e-util/e-util.h>
 #include <mail/em-utils.h>
-#include <libemail-engine/e-mail-enumtypes.h>
+#include <libemail-engine/e-mail-engine-enumtypes.h>
 
 #include <string.h>
 

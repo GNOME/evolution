@@ -27,7 +27,7 @@
 
 #include <camel/camel.h>
 #include <libedataserver/libedataserver.h>
-#include <libemail-engine/e-mail-enums.h>
+#include <libemail-engine/e-mail-engine-enums.h>
 #include <libemail-engine/em-vfolder-context.h>
 #include <libemail-engine/mail-folder-cache.h>
 

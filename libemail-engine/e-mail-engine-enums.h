@@ -1,5 +1,5 @@
 /*
- * e-mail-enums.h
+ * e-mail-engine-enums.h
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,8 +16,8 @@
  *
  */
 
-#ifndef E_MAIL_ENUMS_H
-#define E_MAIL_ENUMS_H
+#ifndef E_MAIL_ENGINE_ENUMS_H
+#define E_MAIL_ENGINE_ENUMS_H
 
 #include <glib.h>
 
@@ -71,4 +71,4 @@ typedef enum {
 
 G_END_DECLS
 
-#endif /* E_MAIL_ENUMS_H */
+#endif /* E_MAIL_ENGINE_ENUMS_H */
