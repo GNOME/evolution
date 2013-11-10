@@ -1,3 +1,51 @@
+Evolution 3.10.2 2013-11-11
+---------------------------
+
+* This release bump the minimum webkitgtk-3.0 requirement from 1.10.0 to
+  2.0.1 because it turns out Evolution was already depending on behavior
+  subtly introduced in version 2.0.1.
+
+Bug Fixes:
+	Bug 640382 - Prevent a crash in e_week_view_on_text_item_event()
+	             (Milan Crha)
+	Bug 657808 - Copy/move of a single instance should grab whole series
+	             (Milan Crha)
+	Bug 689055 - Port contact map to geocode-glib 3.10
+	             (Canek Peláez Valdés)
+	Bug 707112 - Replace webkit_dom_html_element_get_id usage
+	             (Kerrick Staley)
+	Bug 709396 - Quoted text truncated when "Keep signature above" is set
+	             (Milan Crha)
+	Bug 709428 - Searchbar widgets should not wrap (Matthew Barnes)
+	Bug 710171 - EShellTaskbar: Gtk+ functions called out of the main
+	             thread (Milan Crha)
+	Bug 710489 - Network detection broken at startup (Matthew Barnes)
+	Bug 710835 - evolution.convert: Add trailing / for schemas paths
+	             (Colin Walters)
+	Bug 710852 - Missing linker flag in evolution-alarm-notify
+	             (Canek Peláez Valdés)
+	Bug 711198 - Crashes on creating a new task (Matthew Barnes)
+	Bug 711477 - Print/export tasks/memos without summary displays "(null)"
+	             (Milan Crha)
+	Bug 711532 - Infinite recursion from message/news attachment
+	             (Matthew Barnes)
+
+Other Changes:
+	* Fix error handling glitch in mail_session_send_to_thread().
+	  (Matthew Barnes)
+	* Get Address Book Map feature working again. (Matthew Barnes)
+	* Make e_attachment_set_file_info() thread-safe. (Matthew Barnes)
+	* Alarm-Notify: Skip disabled sources/calendars (Milan Crha)
+
+Translations:
+	Efstathios Iosifidis (el)
+	Andika Triwidada (id)
+	Aurimas Černius (lt)
+	Piotr Drąg (pl)
+	Enrico Nicoletto (pt_BR)
+	Yuri Myasoedov (ru)
+
+
 Evolution 3.10.1 2013-10-14
 ---------------------------
 
