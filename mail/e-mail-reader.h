@@ -34,6 +34,7 @@
 
 #include <mail/e-mail-backend.h>
 #include <mail/e-mail-display.h>
+#include <mail/e-mail-enums.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_READER \

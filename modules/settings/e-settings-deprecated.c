@@ -24,6 +24,7 @@
 #include "e-settings-deprecated.h"
 
 #include <shell/e-shell.h>
+#include <mail/e-mail-enums.h>
 #include <libemail-engine/e-mail-engine-enums.h>
 
 #define E_SETTINGS_DEPRECATED_GET_PRIVATE(obj) \

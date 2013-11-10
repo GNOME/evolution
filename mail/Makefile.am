@@ -2,6 +2,21 @@ SUBDIRS = . default importers
 
 privsolib_LTLIBRARIES = libevolution-mail.la
 
+ENUM_TYPES = e-mail-enums.h
+
+e-mail-enumtypes.h: $(top_srcdir)/enumtypes.h.template $(ENUM_TYPES)
+	$(AM_V_GEN) $(GLIB_MKENUMS) --template $(top_srcdir)/enumtypes.h.template \
+		--fhead "#ifndef E_MAIL_ENUMTYPES_H\n#define E_MAIL_ENUMTYPES_H\n" \
+		--ftail "#endif /* E_MAIL_ENUMTYPES_H */\n" \
+		$(addprefix $(srcdir)/,$(ENUM_TYPES)) > $@
+
+e-mail-enumtypes.c: $(top_srcdir)/enumtypes.c.template $(ENUM_TYPES)
+	$(AM_V_GEN) $(GLIB_MKENUMS) --template $(top_srcdir)/enumtypes.c.template \
+		--fhead "#include \"e-mail-enumtypes.h\"" \
+		$(addprefix $(srcdir)/,$(ENUM_TYPES)) > $@
+
+ENUM_GENERATED = e-mail-enumtypes.h e-mail-enumtypes.c
+
 mailincludedir = $(privincludedir)/mail
 
 libevolution_mail_la_CPPFLAGS =				\
@@ -65,6 +80,8 @@ mailinclude_HEADERS =					\
 	e-mail-config-window.h				\
 	e-mail-display.h				\
 	e-mail-display-popup-extension.h		\
+	e-mail-enums.h					\
+	e-mail-enumtypes.h				\
 	e-mail-folder-pane.h				\
 	e-mail-junk-options.h				\
 	e-mail-label-action.h				\
@@ -140,6 +157,7 @@ libevolution_mail_la_SOURCES =				\
 	e-mail-config-window.c				\
 	e-mail-display.c				\
 	e-mail-display-popup-extension.c		\
+	e-mail-enumtypes.c				\
 	e-mail-folder-pane.c				\
 	e-mail-junk-options.c				\
 	e-mail-label-action.c				\
@@ -277,7 +295,7 @@ endif
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)
 
-BUILT_SOURCES = $(error_DATA)
+BUILT_SOURCES = $(ENUM_GENERATED) $(error_DATA)
 
 CLEANFILES = $(BUILT_SOURCES)
 

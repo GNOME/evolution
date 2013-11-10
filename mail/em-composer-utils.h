@@ -25,9 +25,12 @@
 #define EM_COMPOSER_UTILS_H
 
 #include <em-format/e-mail-part.h>
-#include <mail/e-mail-backend.h>
-#include <composer/e-msg-composer.h>
 #include <em-format/e-mail-part-list.h>
+
+#include <composer/e-msg-composer.h>
+
+#include <mail/e-mail-backend.h>
+#include <mail/e-mail-enums.h>
 
 G_BEGIN_DECLS
 
