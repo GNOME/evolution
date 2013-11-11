@@ -913,9 +913,9 @@ cal_comp_transfer_item_to (ECalClient *src_client,
 	GSimpleAsyncResult *simple;
 	AsyncContext *async_context;
 
-	g_return_val_if_fail (E_IS_CAL_CLIENT (src_client), FALSE);
-	g_return_val_if_fail (E_IS_CAL_CLIENT (dest_client), FALSE);
-	g_return_val_if_fail (icalcomp_vcal != NULL, FALSE);
+	g_return_if_fail (E_IS_CAL_CLIENT (src_client));
+	g_return_if_fail (E_IS_CAL_CLIENT (dest_client));
+	g_return_if_fail (icalcomp_vcal != NULL);
 
 	async_context = g_slice_new0 (AsyncContext);
 	async_context->src_client = g_object_ref (src_client);
