@@ -27,7 +27,7 @@
 #include <gtk/gtk.h>
 #include <e-util/e-util.h>
 #include <mail/em-folder-tree-model.h>
-#include <libemail-engine/e-mail-session.h>
+#include <libemail-engine/libemail-engine.h>
 
 /* Standard GObject macros */
 #define EM_TYPE_FOLDER_TREE \

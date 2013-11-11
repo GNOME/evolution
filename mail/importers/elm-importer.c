@@ -21,10 +21,7 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
-
 #include <stdio.h>
 #include <errno.h>
 #include <sys/types.h>
@@ -38,7 +35,6 @@
 
 #include "mail-importer.h"
 
-#include "libemail-engine/mail-mt.h"
 #include "mail/e-mail-backend.h"
 #include "shell/e-shell.h"
 

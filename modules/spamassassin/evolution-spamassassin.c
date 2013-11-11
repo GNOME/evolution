@@ -26,7 +26,7 @@
 #include <camel/camel.h>
 
 #include <shell/e-shell.h>
-#include <libemail-engine/e-mail-junk-filter.h>
+#include <libemail-engine/libemail-engine.h>
 
 /* Standard GObject macros */
 #define E_TYPE_SPAM_ASSASSIN \

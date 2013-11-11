@@ -29,8 +29,7 @@
 #include <libedataserver/libedataserver.h>
 
 #include <e-util/e-util.h>
-#include <libemail-engine/e-mail-utils.h>
-#include <libemail-engine/mail-config.h>
+#include <libemail-engine/libemail-engine.h>
 
 static const gchar *addrspec_hdrs[] = {
 	"Sender", "From", "Reply-To", "To", "Cc", "Bcc",

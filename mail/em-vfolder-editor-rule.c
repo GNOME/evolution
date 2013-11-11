@@ -21,10 +21,9 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "em-vfolder-editor-rule.h"
 
+#include <config.h>
 #include <string.h>
 
 #include <gtk/gtk.h>
@@ -35,13 +34,10 @@
 #include <e-util/e-util.h>
 #include <e-util/e-util-private.h>
 
-#include <libemail-engine/e-mail-folder-utils.h>
-
 #include "em-folder-selector.h"
 #include "em-folder-tree.h"
 #include "em-utils.h"
 #include "em-vfolder-editor-context.h"
-#include "em-vfolder-editor-rule.h"
 
 #define EM_VFOLDER_EDITOR_RULE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

@@ -20,10 +20,9 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "em-utils.h"
 
+#include <config.h>
 #include <stdio.h>
 #include <string.h>
 #include <sys/types.h>
@@ -42,25 +41,17 @@
 #undef interface
 #endif
 
-#include "em-filter-editor.h"
-
 #include <libebook/libebook.h>
 
-#include "shell/e-shell.h"
+#include <shell/e-shell.h>
 
-#include "em-format/e-mail-parser.h"
-#include "em-format/e-mail-formatter-quote.h"
+#include <em-format/e-mail-parser.h>
+#include <em-format/e-mail-formatter-quote.h>
 
-#include "libemail-engine/e-mail-folder-utils.h"
-#include "libemail-engine/e-mail-session.h"
-#include "libemail-engine/mail-mt.h"
-#include "libemail-engine/mail-ops.h"
-#include "libemail-engine/mail-tools.h"
-
+#include "e-mail-printer.h"
 #include "e-mail-tag-editor.h"
 #include "em-composer-utils.h"
-#include "em-utils.h"
-#include "e-mail-printer.h"
+#include "em-filter-editor.h"
 
 /* How many is too many? */
 /* Used in em_util_ask_open_many() */

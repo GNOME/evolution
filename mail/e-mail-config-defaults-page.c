@@ -23,8 +23,6 @@
 
 #include <libebackend/libebackend.h>
 
-#include <libemail-engine/e-mail-folder-utils.h>
-
 #include <mail/e-mail-config-page.h>
 #include <mail/em-folder-selection-button.h>
 

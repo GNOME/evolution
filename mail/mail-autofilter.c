@@ -20,17 +20,11 @@
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  */
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
 
+#include <config.h>
 #include <ctype.h>
 #include <string.h>
-
 #include <glib/gi18n.h>
-
-#include <libemail-engine/e-mail-folder-utils.h>
-#include <libemail-engine/e-mail-session.h>
 
 #include "mail-vfolder-ui.h"
 #include "mail-autofilter.h"

@@ -34,8 +34,6 @@
 
 #include <libecal/libecal.h>
 
-#include <libemail-engine/e-mail-utils.h>
-
 #include <shell/e-shell-view.h>
 #include <shell/e-shell-window-actions.h>
 

@@ -33,9 +33,7 @@
 
 #include <shell/e-shell.h>
 
-#include <libemail-engine/e-mail-folder-utils.h>
-#include <libemail-engine/mail-mt.h>
-#include <libemail-engine/mail-ops.h>
+#include <libemail-engine/libemail-engine.h>
 
 #include <e-util/e-util.h>
 

@@ -24,7 +24,7 @@
 #include <glib/gi18n-lib.h>
 
 #include <e-util/e-util.h>
-#include <libemail-engine/e-mail-utils.h>
+#include <libemail-engine/libemail-engine.h>
 
 #include "e-mail-parser-extension.h"
 #include "e-mail-part-headers.h"

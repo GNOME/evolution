@@ -16,20 +16,13 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include "em-subscription-editor.h"
 
+#include <config.h>
 #include <string.h>
 #include <glib/gi18n-lib.h>
 
-#include "libemail-engine/mail-mt.h"
-#include "libemail-engine/mail-tools.h"
-#include "libemail-engine/mail-ops.h"
-
-#include "e-util/e-util.h"
+#include <e-util/e-util.h>
 
 #include "em-folder-utils.h"
 
@@ -43,10 +36,6 @@
 #define FOLDER_SUBSCRIBED(folder_info) \
 	((folder_info) != NULL && \
 	((folder_info)->flags & CAMEL_FOLDER_SUBSCRIBED) != 0)
-
-#define EM_SUBSCRIPTION_EDITOR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), EM_TYPE_SUBSCRIPTION_EDITOR, EMSubscriptionEditorPrivate))
 
 typedef struct _AsyncContext AsyncContext;
 typedef struct _TreeRowData TreeRowData;

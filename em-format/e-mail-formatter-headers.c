@@ -23,9 +23,10 @@
 #include <string.h>
 #include <glib/gi18n-lib.h>
 
-#include <libemail-engine/e-mail-utils.h>
 #include <libedataserver/libedataserver.h>
+
 #include <e-util/e-util.h>
+#include <libemail-engine/libemail-engine.h>
 #include <shell/e-shell.h>
 
 #include "e-mail-formatter-extension.h"

@@ -22,6 +22,10 @@
  *
  */
 
+#if !defined (__LIBEMAIL_ENGINE_H_INSIDE__) && !defined (LIBEMAIL_ENGINE_COMPILATION)
+#error "Only <libemail-engine/libemail-engine.h> should be included directly."
+#endif
+
 #ifndef EM_VFOLDER_CONTEXT_H
 #define EM_VFOLDER_CONTEXT_H
 

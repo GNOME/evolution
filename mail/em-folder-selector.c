@@ -21,18 +21,16 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "em-folder-selector.h"
 
+#include <config.h>
 #include <string.h>
 #include <glib/gi18n.h>
-#include <e-util/e-util.h>
 
-#include <libemail-engine/e-mail-session.h>
+#include <e-util/e-util.h>
+#include <libemail-engine/libemail-engine.h>
 
 #include "em-folder-tree.h"
-#include "em-folder-selector.h"
 #include "em-folder-utils.h"
 #include "em-utils.h"
 

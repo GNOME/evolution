@@ -54,20 +54,13 @@
 #include "shell/e-shell-content.h"
 #include "shell/e-shell-window.h"
 
-#include "libemail-engine/e-mail-folder-utils.h"
-#include "libemail-engine/e-mail-junk-filter.h"
-#include "libemail-engine/e-mail-session.h"
 #include "e-mail-ui-session.h"
 #include "em-composer-utils.h"
 #include "em-filter-context.h"
 #include "em-vfolder-editor-context.h"
 #include "em-filter-rule.h"
 #include "em-utils.h"
-#include "libemail-engine/mail-config.h"
-#include "libemail-engine/mail-mt.h"
-#include "libemail-engine/mail-ops.h"
 #include "mail-send-recv.h"
-#include "libemail-engine/mail-tools.h"
 
 #define E_MAIL_UI_SESSION_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

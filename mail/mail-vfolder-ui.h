@@ -19,13 +19,12 @@
  *
  */
 
-#ifndef _MAIL_VFOLDER_UI_H
-#define _MAIL_VFOLDER_UI_H
+#ifndef MAIL_VFOLDER_UI_H
+#define MAIL_VFOLDER_UI_H
 
 #include <camel/camel.h>
 
-#include <libemail-engine/em-vfolder-rule.h>
-#include <libemail-engine/mail-vfolder.h>
+#include <libemail-engine/libemail-engine.h>
 
 #include <mail/e-mail-backend.h>
 #include <shell/e-shell-view.h>
@@ -46,4 +45,5 @@ void		vfolder_gui_add_from_address	(EMailSession *session,
 						 CamelInternetAddress *addr,
 						 gint flags,
 						 CamelFolder *folder);
-#endif
+
+#endif /* MAIL_VFOLDER_UI_H */

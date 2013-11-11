@@ -21,8 +21,6 @@
 #include <config.h>
 #include <glib/gi18n-lib.h>
 
-#include <libemail-engine/e-mail-junk-filter.h>
-
 #define E_MAIL_JUNK_OPTIONS_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MAIL_JUNK_OPTIONS, EMailJunkOptionsPrivate))

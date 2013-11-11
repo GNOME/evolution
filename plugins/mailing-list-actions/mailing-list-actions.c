@@ -37,9 +37,6 @@
 
 #include <composer/e-msg-composer.h>
 
-#include <libemail-engine/mail-mt.h>
-#include <libemail-engine/mail-ops.h>
-
 #include <mail/e-mail-browser.h>
 #include <mail/e-mail-reader.h>
 #include <mail/em-composer-utils.h>

@@ -20,23 +20,13 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
+#include "mail-vfolder-ui.h"
+
 #include <config.h>
-#endif
-
 #include <string.h>
-
 #include <glib/gi18n.h>
 
 #include "e-util/e-util-private.h"
-
-#include "libemail-engine/e-mail-folder-utils.h"
-#include "libemail-engine/e-mail-session.h"
-#include "libemail-engine/e-mail-utils.h"
-#include "libemail-engine/mail-folder-cache.h"
-#include "libemail-engine/mail-mt.h"
-#include "libemail-engine/mail-ops.h"
-#include "libemail-engine/mail-tools.h"
 
 #include "e-mail-backend.h"
 #include "em-folder-tree-model.h"
@@ -45,7 +35,6 @@
 #include "em-vfolder-editor.h"
 #include "em-vfolder-editor-rule.h"
 #include "mail-autofilter.h"
-#include "mail-vfolder-ui.h"
 #include "e-mail-ui-session.h"
 
 #define d(x)  /* (printf("%s:%s: ",  G_STRLOC, G_STRFUNC), (x))*/

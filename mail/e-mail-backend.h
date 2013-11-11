@@ -27,7 +27,7 @@
 #define E_MAIL_BACKEND_H
 
 #include <shell/e-shell-backend.h>
-#include <libemail-engine/e-mail-session.h>
+#include <libemail-engine/libemail-engine.h>
 #include <mail/e-mail-send-account-override.h>
 
 /* Standard GObject macros */

@@ -20,10 +20,10 @@
 #define E_MAIL_CONFIG_ASSISTANT_H
 
 #include <gtk/gtk.h>
+#include <libemail-engine/libemail-engine.h>
 
 #include <mail/e-mail-config-page.h>
 #include <mail/e-mail-config-service-backend.h>
-#include <libemail-engine/e-mail-session.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_CONFIG_ASSISTANT \

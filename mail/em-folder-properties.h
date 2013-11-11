@@ -25,7 +25,7 @@
 #define __EM_FOLDER_PROPERTIES_H__
 
 #include <camel/camel.h>
-#include <libemail-engine/e-mail-session.h>
+#include <e-util/e-util.h>
 
 G_BEGIN_DECLS
 

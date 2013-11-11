@@ -21,10 +21,9 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "mail-importer.h"
 
+#include <config.h>
 #include <errno.h>
 #include <string.h>
 #include <sys/types.h>
@@ -38,12 +37,6 @@
 
 #include "e-util/e-util-private.h"
 #include "shell/e-shell-backend.h"
-
-#include "libemail-engine/e-mail-session.h"
-#include "libemail-engine/mail-mt.h"
-#include "libemail-engine/mail-tools.h"
-
-#include "mail-importer.h"
 
 struct _import_mbox_msg {
 	MailMsg base;

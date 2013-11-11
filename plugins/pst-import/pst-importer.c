@@ -42,9 +42,6 @@
 #include <libecal/libecal.h>
 #include <libebook/libebook.h>
 
-#include <libemail-engine/mail-mt.h>
-#include <libemail-engine/mail-tools.h>
-
 #include <shell/e-shell.h>
 #include <shell/e-shell-window.h>
 #include <shell/e-shell-view.h>

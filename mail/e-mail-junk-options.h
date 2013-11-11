@@ -20,7 +20,7 @@
 #define E_MAIL_JUNK_OPTIONS_H
 
 #include <gtk/gtk.h>
-#include <libemail-engine/e-mail-session.h>
+#include <libemail-engine/libemail-engine.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_JUNK_OPTIONS \

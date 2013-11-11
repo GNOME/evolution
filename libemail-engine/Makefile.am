@@ -21,6 +21,7 @@ libemail_engine_la_CPPFLAGS = \
 	$(AM_CPPFLAGS) \
 	-I$(top_srcdir) \
 	-I$(top_builddir) \
+	-DLIBEMAIL_ENGINE_COMPILATION \
 	$(EVOLUTION_DATA_SERVER_CFLAGS) \
 	$(GNOME_PLATFORM_CFLAGS) \
 	$(GTKHTML_CFLAGS) \
@@ -29,6 +30,7 @@ libemail_engine_la_CPPFLAGS = \
 
 libmailengineincludedir = $(privincludedir)/libemail-engine
 libmailengineinclude_HEADERS =  \
+	libemail-engine.h \
 	camel-null-store.h \
 	camel-sasl-xoauth2.h \
 	e-mail-authenticator.h \

@@ -22,12 +22,9 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include "em-filter-editor-folder-element.h"
 
+#include <config.h>
 #include <string.h>
 
 #include <gtk/gtk.h>

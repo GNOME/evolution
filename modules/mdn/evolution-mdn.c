@@ -22,8 +22,6 @@
 
 #include <libebackend/libebackend.h>
 
-#include <libemail-engine/e-mail-session-utils.h>
-
 #include <mail/em-utils.h>
 #include <mail/e-mail-reader.h>
 #include <mail/mail-send-recv.h>

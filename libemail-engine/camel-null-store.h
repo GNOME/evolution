@@ -21,6 +21,10 @@
  * the account type.  This bizarre hack keeps that bizzare hack working
  * until we can support multiple identities properly. */
 
+#if !defined (__LIBEMAIL_ENGINE_H_INSIDE__) && !defined (LIBEMAIL_ENGINE_COMPILATION)
+#error "Only <libemail-engine/libemail-engine.h> should be included directly."
+#endif
+
 #ifndef CAMEL_NULL_STORE_H
 #define CAMEL_NULL_STORE_H
 

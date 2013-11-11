@@ -25,10 +25,9 @@
 #define MAIL_AUTOFILTER_H
 
 #include <camel/camel.h>
+#include <libemail-engine/libemail-engine.h>
 
 #include <mail/em-filter-context.h>
-#include <libemail-engine/e-mail-session.h>
-#include <libemail-engine/em-vfolder-context.h>
 
 enum {
 	AUTO_SUBJECT = 1,

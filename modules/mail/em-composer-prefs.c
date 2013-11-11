@@ -43,8 +43,6 @@
 
 #include <shell/e-shell-utils.h>
 
-#include <libemail-engine/e-mail-folder-utils.h>
-
 #include <mail/em-config.h>
 #include <mail/em-folder-selection-button.h>
 #include <mail/em-folder-selector.h>

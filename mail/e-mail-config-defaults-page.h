@@ -20,7 +20,7 @@
 #define E_MAIL_CONFIG_DEFAULTS_PAGE_H
 
 #include <gtk/gtk.h>
-#include <libemail-engine/e-mail-session.h>
+#include <libemail-engine/libemail-engine.h>
 
 #include <mail/e-mail-config-page.h>
 

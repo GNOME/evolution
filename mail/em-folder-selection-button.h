@@ -25,7 +25,7 @@
 #define EM_FOLDER_SELECTION_BUTTON_H
 
 #include <gtk/gtk.h>
-#include <libemail-engine/e-mail-session.h>
+#include <libemail-engine/libemail-engine.h>
 
 /* Standard GObject macros */
 #define EM_TYPE_FOLDER_SELECTION_BUTTON \

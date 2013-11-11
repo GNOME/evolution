@@ -16,11 +16,10 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include "e-http-request.h"
+
+#include <config.h>
+#include <string.h>
 
 #define LIBSOUP_USE_UNSTABLE_REQUEST_API
 #include <libsoup/soup.h>
@@ -30,10 +29,9 @@
 #include <webkit/webkit.h>
 
 #include <e-util/e-util.h>
-#include <mail/em-utils.h>
-#include <libemail-engine/e-mail-engine-enumtypes.h>
+#include <libemail-engine/libemail-engine.h>
 
-#include <string.h>
+#include <mail/em-utils.h>
 
 #include <shell/e-shell.h>
 

@@ -21,10 +21,7 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
-
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -43,8 +40,6 @@
 #include "shell/e-shell-window.h"
 #include "shell/e-shell-view.h"
 #include "shell/e-shell-sidebar.h"
-
-#include "libemail-engine/mail-mt.h"
 
 #include "mail/e-mail-backend.h"
 #include "mail/em-folder-selection-button.h"

@@ -32,15 +32,13 @@
 #include <X11/XF86keysym.h>
 #endif
 
-#include "shell/e-shell-utils.h"
+#include <shell/e-shell-utils.h>
 
-#include "libemail-engine/e-mail-utils.h"
-#include "libemail-engine/mail-mt.h"
-#include "libemail-engine/mail-ops.h"
+#include <libemail-engine/libemail-engine.h>
 
-#include "em-format/e-mail-formatter.h"
-#include "em-format/e-mail-parser.h"
-#include "em-format/e-mail-part-utils.h"
+#include <em-format/e-mail-formatter.h>
+#include <em-format/e-mail-parser.h>
+#include <em-format/e-mail-part-utils.h>
 
 #include "e-mail-backend.h"
 #include "e-mail-browser.h"

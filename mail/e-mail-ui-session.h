@@ -29,8 +29,7 @@
 
 #include <camel/camel.h>
 #include <e-util/e-util.h>
-#include <libemail-engine/e-mail-session.h>
-#include <libemail-engine/mail-folder-cache.h>
+#include <libemail-engine/libemail-engine.h>
 
 #include <mail/e-mail-account-store.h>
 #include <mail/e-mail-label-list-store.h>

@@ -16,6 +16,10 @@
  *
  */
 
+#if !defined (__LIBEMAIL_ENGINE_H_INSIDE__) && !defined (LIBEMAIL_ENGINE_COMPILATION)
+#error "Only <libemail-engine/libemail-engine.h> should be included directly."
+#endif
+
 #ifndef E_MAIL_ENGINE_ENUMS_H
 #define E_MAIL_ENGINE_ENUMS_H
 

@@ -21,7 +21,7 @@
 
 #include <gtk/gtk.h>
 #include <camel/camel.h>
-#include <libemail-engine/e-mail-session.h>
+#include <libemail-engine/libemail-engine.h>
 
 /* Standard GObject macros */
 #define EM_TYPE_SUBSCRIPTION_EDITOR \

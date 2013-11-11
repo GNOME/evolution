@@ -19,16 +19,11 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include "e-mail-sidebar.h"
 
+#include <config.h>
 #include <string.h>
 #include <camel/camel.h>
-
-#include <libemail-engine/e-mail-folder-utils.h>
 
 #include "mail/em-utils.h"
 

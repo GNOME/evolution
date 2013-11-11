@@ -27,7 +27,7 @@
 
 #include <camel/camel.h>
 
-#include <libemail-engine/e-mail-junk-filter.h>
+#include <libemail-engine/libemail-engine.h>
 
 /* Standard GObject macros */
 #define E_TYPE_BOGOFILTER \

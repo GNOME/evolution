@@ -32,17 +32,14 @@
 #include <gtkhtml/gtkhtml.h>
 #include <camel/camel.h>
 
-#include "shell/e-shell-utils.h"
+#include <shell/e-shell-utils.h>
 
-#include "libemail-engine/e-mail-folder-utils.h"
-#include "libemail-engine/e-mail-utils.h"
-#include "libemail-engine/mail-ops.h"
-#include "libemail-engine/mail-tools.h"
+#include <libemail-engine/libemail-engine.h>
 
-#include "em-format/e-mail-parser.h"
-#include "em-format/e-mail-part-utils.h"
+#include <em-format/e-mail-parser.h>
+#include <em-format/e-mail-part-utils.h>
 
-#include "composer/e-composer-actions.h"
+#include <composer/e-composer-actions.h>
 
 #include "e-mail-backend.h"
 #include "e-mail-browser.h"

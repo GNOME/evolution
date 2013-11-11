@@ -24,7 +24,7 @@
 
 #include <libebackend/libebackend.h>
 
-#include <libemail-engine/mail-ops.h>
+#include <libemail-engine/libemail-engine.h>
 
 #include <mail/mail-vfolder-ui.h>
 

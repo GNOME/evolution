@@ -1,12 +1,4 @@
-#include <libemail-engine/camel-null-store.h>
-#include <libemail-engine/camel-sasl-xoauth2.h>
-#include <libemail-engine/e-mail-authenticator.h>
-#include <libemail-engine/e-mail-junk-filter.h>
-#include <libemail-engine/e-mail-session.h>
-#include <libemail-engine/em-filter-folder-element.h>
-#include <libemail-engine/em-vfolder-context.h>
-#include <libemail-engine/em-vfolder-rule.h>
-#include <libemail-engine/mail-folder-cache.h>
+#include <libemail-engine/libemail-engine.h>
 
 camel_null_store_get_type
 camel_sasl_xoauth2_get_type

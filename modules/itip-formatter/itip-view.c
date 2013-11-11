@@ -34,10 +34,6 @@
 
 #include <calendar/gui/itip-utils.h>
 
-#include <libemail-engine/mail-folder-cache.h>
-#include <libemail-engine/mail-mt.h>
-#include <libemail-engine/mail-tools.h>
-
 #include <mail/em-config.h>
 #include <mail/em-utils.h>
 #include <em-format/e-mail-formatter-utils.h>

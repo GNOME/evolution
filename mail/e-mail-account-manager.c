@@ -22,7 +22,8 @@
 #include <glib/gi18n-lib.h>
 #include <gdk/gdkkeysyms.h>
 
-#include <libemail-engine/e-mail-session.h>
+#include <libemail-engine/libemail-engine.h>
+
 #include <mail/e-mail-account-tree-view.h>
 
 #define E_MAIL_ACCOUNT_MANAGER_GET_PRIVATE(obj) \

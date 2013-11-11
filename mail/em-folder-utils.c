@@ -20,10 +20,9 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "em-folder-utils.h"
 
+#include <config.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -39,24 +38,14 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <glib/gi18n.h>
 
-#include "e-util/e-util.h"
+#include <e-util/e-util.h>
 
 #include "em-vfolder-editor-rule.h"
-
-#include "libemail-engine/e-mail-folder-utils.h"
-#include "libemail-engine/e-mail-session.h"
-#include "libemail-engine/e-mail-store-utils.h"
-#include "libemail-engine/e-mail-utils.h"
-#include "libemail-engine/mail-folder-cache.h"
-#include "libemail-engine/mail-mt.h"
-#include "libemail-engine/mail-ops.h"
-#include "libemail-engine/mail-tools.h"
 
 #include "e-mail-ui-session.h"
 #include "em-utils.h"
 #include "em-folder-tree.h"
 #include "em-folder-tree-model.h"
-#include "em-folder-utils.h"
 #include "em-folder-selector.h"
 #include "em-folder-properties.h"
 #include "mail-vfolder-ui.h"

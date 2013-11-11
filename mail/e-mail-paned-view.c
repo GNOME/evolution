@@ -20,20 +20,14 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include "e-mail-paned-view.h"
 
+#include <config.h>
 #include <glib/gi18n.h>
 
-#include "shell/e-shell-window-actions.h"
+#include <shell/e-shell-window-actions.h>
 
-#include "libemail-engine/e-mail-folder-utils.h"
-#include "libemail-engine/e-mail-utils.h"
-#include "libemail-engine/mail-config.h"
-#include "libemail-engine/mail-ops.h"
+#include <libemail-engine/libemail-engine.h>
 
 #include "em-utils.h"
 #include "message-list.h"

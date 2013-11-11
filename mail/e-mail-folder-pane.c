@@ -28,11 +28,10 @@
 #include <string.h>
 #include <glib/gi18n.h>
 
-#include "shell/e-shell.h"
-#include "shell/e-shell-utils.h"
+#include <shell/e-shell.h>
+#include <shell/e-shell-utils.h>
 
-#include "libemail-engine/e-mail-utils.h"
-#include "libemail-engine/mail-tools.h"
+#include <libemail-engine/libemail-engine.h>
 
 #include "e-mail-reader.h"
 #include "e-mail-reader-utils.h"

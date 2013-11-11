@@ -34,13 +34,6 @@
 
 #include <shell/e-shell.h>
 
-#include <libemail-engine/e-mail-folder-utils.h>
-#include <libemail-engine/e-mail-session.h>
-#include <libemail-engine/e-mail-store-utils.h>
-#include <libemail-engine/mail-config.h>
-#include <libemail-engine/mail-folder-cache.h>
-#include <libemail-engine/mail-ops.h>
-
 #include <mail/e-mail-migrate.h>
 #include <mail/e-mail-ui-session.h>
 #include <mail/em-event.h>

@@ -32,11 +32,6 @@
 
 #include <composer/e-msg-composer.h>
 
-#include <libemail-engine/e-mail-folder-utils.h>
-#include <libemail-engine/e-mail-session.h>
-#include <libemail-engine/mail-config.h>
-#include <libemail-engine/mail-ops.h>
-
 #include <mail/e-mail-browser.h>
 #include <mail/e-mail-config-assistant.h>
 #include <mail/e-mail-config-window.h>

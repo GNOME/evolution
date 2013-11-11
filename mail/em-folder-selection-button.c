@@ -20,21 +20,18 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "em-folder-selection-button.h"
 
+#include <config.h>
 #include <string.h>
 #include <glib/gi18n.h>
 #include <e-util/e-util.h>
 
-#include <libemail-engine/e-mail-folder-utils.h>
+#include <libemail-engine/libemail-engine.h>
 
 #include "em-folder-tree.h"
 #include "em-folder-selector.h"
 #include "em-utils.h"
-
-#include "em-folder-selection-button.h"
 
 #define EM_FOLDER_SELECTION_BUTTON_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

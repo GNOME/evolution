@@ -27,8 +27,7 @@
 #include <sys/types.h>
 #include <camel/camel.h>
 
-#include <libemail-engine/e-mail-session.h>
-#include <libemail-engine/e-mail-utils.h>
+#include <libemail-engine/libemail-engine.h>
 
 #include <mail/e-mail-reader.h>
 #include <mail/em-folder-tree.h>

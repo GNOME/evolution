@@ -22,27 +22,17 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include "message-list.h"
 
+#include <config.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
-
 #include <string.h>
 #include <ctype.h>
 
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
-
-#include "libemail-engine/e-mail-utils.h"
-#include "libemail-engine/mail-config.h"
-#include "libemail-engine/mail-mt.h"
-#include "libemail-engine/mail-ops.h"
-#include "libemail-engine/mail-tools.h"
 
 #include "e-mail-label-list-store.h"
 #include "e-mail-ui-session.h"

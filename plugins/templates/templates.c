@@ -32,9 +32,6 @@
 
 #include <shell/e-shell-view.h>
 
-#include <libemail-engine/e-mail-session-utils.h>
-#include <libemail-engine/mail-ops.h>
-
 #include <mail/e-mail-reader.h>
 #include <mail/em-composer-utils.h>
 #include <mail/em-utils.h>

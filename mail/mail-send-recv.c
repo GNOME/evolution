@@ -20,34 +20,21 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "mail-send-recv.h"
 
+#include <config.h>
 #include <stdio.h>
 #include <string.h>
-
 #include <glib/gi18n.h>
 
 #include <shell/e-shell.h>
 #include <e-util/e-util.h>
-
-/* This is our hack, not part of libcamel. */
-#include <libemail-engine/camel-null-store.h>
-
-#include <libemail-engine/e-mail-folder-utils.h>
-#include <libemail-engine/e-mail-session.h>
-#include <libemail-engine/mail-folder-cache.h>
-#include <libemail-engine/mail-mt.h>
-#include <libemail-engine/mail-ops.h>
-#include <libemail-engine/mail-tools.h>
 
 #include "e-mail-account-store.h"
 #include "e-mail-ui-session.h"
 #include "em-event.h"
 #include "em-filter-rule.h"
 #include "em-utils.h"
-#include "mail-send-recv.h"
 
 #define d(x)
 

@@ -26,7 +26,7 @@
 
 #include <gtk/gtk.h>
 #include <camel/camel.h>
-#include <libemail-engine/e-mail-session.h>
+#include <libemail-engine/libemail-engine.h>
 #include <mail/em-folder-tree.h>
 
 G_BEGIN_DECLS

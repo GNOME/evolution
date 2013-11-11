@@ -29,8 +29,6 @@
 
 #include <e-util/e-util-private.h>
 
-#include <libemail-engine/mail-ops.h>
-
 #include <mail/e-mail-paned-view.h>
 #include <mail/e-mail-reader.h>
 #include <mail/e-mail-reader-utils.h>

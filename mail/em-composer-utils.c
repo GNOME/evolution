@@ -32,13 +32,7 @@
 
 #include <e-util/e-util.h>
 
-#include <libemail-engine/e-mail-folder-utils.h>
-#include <libemail-engine/e-mail-session-utils.h>
-#include <libemail-engine/e-mail-session.h>
-#include <libemail-engine/e-mail-utils.h>
-#include <libemail-engine/mail-mt.h>
-#include <libemail-engine/mail-ops.h>
-#include <libemail-engine/mail-tools.h>
+#include <libemail-engine/libemail-engine.h>
 
 #include <em-format/e-mail-parser.h>
 #include <em-format/e-mail-formatter-quote.h>

@@ -20,8 +20,7 @@
 #define E_MAIL_CONFIG_WINDOW_H
 
 #include <gtk/gtk.h>
-
-#include <libemail-engine/e-mail-session.h>
+#include <libemail-engine/libemail-engine.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_CONFIG_WINDOW \

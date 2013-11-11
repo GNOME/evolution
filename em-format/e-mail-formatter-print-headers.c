@@ -26,7 +26,7 @@
 #include <camel/camel.h>
 
 #include <e-util/e-util.h>
-#include <libemail-engine/e-mail-utils.h>
+#include <libemail-engine/libemail-engine.h>
 
 #include "e-mail-formatter-print.h"
 #include "e-mail-formatter-utils.h"
