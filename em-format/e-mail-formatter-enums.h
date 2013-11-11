@@ -62,6 +62,24 @@ typedef enum { /*< flags >*/
 } EMailFormatterQuoteFlags;
 
 /**
+ * EMailImageLoadingPolicy:
+ * @E_MAIL_IMAGE_LOADING_POLICY_NEVER:
+ *   Never load images from a remote server.
+ * @E_MAIL_IMAGE_LOADING_POLICY_SOMETIMES:
+ *   Only load images from a remote server if the sender is a known contact.
+ * @E_MAIL_IMAGE_LOADING_POLICY_ALWAYS:
+ *   Always load images from a remote server.
+ *
+ * Policy for loading remote image URLs in email.  Allowing images to be
+ * loaded from a remote server may have privacy implications.
+ **/
+typedef enum {
+	E_MAIL_IMAGE_LOADING_POLICY_NEVER,
+	E_MAIL_IMAGE_LOADING_POLICY_SOMETIMES,
+	E_MAIL_IMAGE_LOADING_POLICY_ALWAYS
+} EMailImageLoadingPolicy;
+
+/**
  * EMailParserExtensionFlags:
  * @E_MAIL_PARSER_EXTENSION_INLINE:
  *    Don't parse as attachment.

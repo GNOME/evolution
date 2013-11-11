@@ -25,7 +25,7 @@
 
 #include <shell/e-shell.h>
 #include <mail/e-mail-enums.h>
-#include <libemail-engine/e-mail-engine-enums.h>
+#include <em-format/e-mail-formatter-enums.h>
 
 #define E_SETTINGS_DEPRECATED_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

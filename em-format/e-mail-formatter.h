@@ -20,7 +20,6 @@
 #define E_MAIL_FORMATTER_H_
 
 #include <gdk/gdk.h>
-#include <libemail-engine/e-mail-engine-enums.h>
 
 #include <em-format/e-mail-extension-registry.h>
 #include <em-format/e-mail-formatter-enums.h>

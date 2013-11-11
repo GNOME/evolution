@@ -23,12 +23,6 @@
 
 G_BEGIN_DECLS
 
-typedef enum {
-	E_MAIL_IMAGE_LOADING_POLICY_NEVER,
-	E_MAIL_IMAGE_LOADING_POLICY_SOMETIMES,
-	E_MAIL_IMAGE_LOADING_POLICY_ALWAYS
-} EMailImageLoadingPolicy;
-
 /* XXX E_MAIL_FOLDER_TEMPLATES is a prime example of why templates
  *     should be a core feature: the mailer now has to know about
  *     this specific plugin, which defeats the purpose of plugins. */

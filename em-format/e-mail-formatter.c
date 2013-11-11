@@ -18,16 +18,15 @@
 
 #include "e-mail-formatter.h"
 
+#include <gdk/gdk.h>
+#include <libebackend/libebackend.h>
+
+#include <e-util/e-util.h>
+
+#include "e-mail-formatter-enumtypes.h"
 #include "e-mail-formatter-extension.h"
 #include "e-mail-formatter-utils.h"
 #include "e-mail-part.h"
-
-#include <e-util/e-util.h>
-#include <libebackend/libebackend.h>
-#include <gdk/gdk.h>
-#include <glib/gi18n.h>
-
-#include "libemail-engine/e-mail-engine-enumtypes.h"
 
 #define d(x)
 
