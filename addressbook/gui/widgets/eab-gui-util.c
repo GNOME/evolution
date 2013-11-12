@@ -665,7 +665,7 @@ get_locales (void)
 static gchar *
 get_locales_str (void)
 {
-	gchar *ret;
+	gchar *ret = NULL;
 	gchar **loc = get_locales ();
 
 	if (!loc)

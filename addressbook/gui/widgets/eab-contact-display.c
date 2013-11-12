@@ -345,8 +345,8 @@ contact_display_object_requested (WebKitWebView *web_view,
 	EContact *contact = display->priv->contact;
 	const gchar *name = e_contact_get_const (contact, E_CONTACT_FILE_AS);
 	const gchar *contact_uid = e_contact_get_const (contact, E_CONTACT_UID);
-	gchar *full_name;
-	EContactAddress *address;
+	gchar *full_name = NULL;
+	EContactAddress *address = NULL;
 	GtkWidget *map = NULL;
 
 	if (strstr (mime_type, "work") != NULL) {
