@@ -413,7 +413,7 @@ cal_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 	gchar *comp_rid = NULL;
 	GDate start_date;
 	GDate end_date;
-	icaltimezone *zone;
+	icaltimezone *zone = NULL;
 	gboolean handled = FALSE;
 	GError *error = NULL;
 
