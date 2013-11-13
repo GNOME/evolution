@@ -1215,8 +1215,7 @@ send_receive_add_to_menu (SendReceiveData *data,
 	if (provider && (provider->flags & CAMEL_PROVIDER_IS_REMOTE) != 0) {
 		gpointer object;
 
-		if (CAMEL_IS_OFFLINE_STORE (service) ||
-		    CAMEL_IS_DISCO_STORE (service))
+		if (CAMEL_IS_OFFLINE_STORE (service))
 			object = g_object_ref (service);
 		else
 			object = camel_service_ref_session (service);

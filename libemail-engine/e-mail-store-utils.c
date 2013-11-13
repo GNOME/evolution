@@ -189,20 +189,7 @@ e_mail_store_go_offline_sync (CamelStore *store,
 	camel_operation_push_message (
 		cancellable, _("Disconnecting from '%s'"), display_name);
 
-	if (CAMEL_IS_DISCO_STORE (store)) {
-		CamelDiscoStore *disco_store;
-
-		disco_store = CAMEL_DISCO_STORE (store);
-
-		if (camel_disco_store_can_work_offline (disco_store))
-			success = camel_disco_store_set_status (
-				disco_store, CAMEL_DISCO_STORE_OFFLINE,
-				cancellable, error);
-		else
-			success = camel_service_disconnect_sync (
-				service, TRUE, cancellable, error);
-
-	} else if (CAMEL_IS_OFFLINE_STORE (store)) {
+	if (CAMEL_IS_OFFLINE_STORE (store)) {
 		success = camel_offline_store_set_online_sync (
 			CAMEL_OFFLINE_STORE (store),
 			FALSE, cancellable, error);
@@ -277,12 +264,6 @@ e_mail_store_go_online_sync (CamelStore *store,
 
 	camel_operation_push_message (
 		cancellable, _("Reconnecting to '%s'"), display_name);
-
-	if (CAMEL_IS_DISCO_STORE (store))
-		success = camel_disco_store_set_status (
-			CAMEL_DISCO_STORE (store),
-			CAMEL_DISCO_STORE_ONLINE,
-			cancellable, error);
 
 	if (CAMEL_IS_OFFLINE_STORE (store))
 		success = camel_offline_store_set_online_sync (
@@ -370,12 +351,7 @@ mail_store_prepare_for_offline_thread (GSimpleAsyncResult *simple,
 		cancellable, _("Preparing account '%s' for offline"),
 		display_name);
 
-	if (CAMEL_IS_DISCO_STORE (service))
-		camel_disco_store_prepare_for_offline (
-			CAMEL_DISCO_STORE (service),
-			cancellable, &local_error);
-
-	else if (CAMEL_IS_OFFLINE_STORE (service))
+	if (CAMEL_IS_OFFLINE_STORE (service))
 		camel_offline_store_prepare_for_offline_sync (
 			CAMEL_OFFLINE_STORE (service),
 			cancellable, &local_error);

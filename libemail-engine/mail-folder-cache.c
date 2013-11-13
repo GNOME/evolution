@@ -1256,11 +1256,7 @@ ping_store_exec (struct _ping_store_msg *m,
 	status = camel_service_get_connection_status (service);
 
 	if (status == CAMEL_SERVICE_CONNECTED) {
-		if (CAMEL_IS_DISCO_STORE (m->store) &&
-			camel_disco_store_status (
-			CAMEL_DISCO_STORE (m->store)) !=CAMEL_DISCO_STORE_OFFLINE)
-			online = TRUE;
-		else if (CAMEL_IS_OFFLINE_STORE (m->store) &&
+		if (CAMEL_IS_OFFLINE_STORE (m->store) &&
 			camel_offline_store_get_online (
 			CAMEL_OFFLINE_STORE (m->store)))
 			online = TRUE;
@@ -1827,19 +1823,10 @@ mail_folder_cache_note_store_thread (GSimpleAsyncResult *simple,
 	 * catches and fixes it up when the shell opens us.
 	 *
 	 * XXX This is a Bonobo-era artifact.  Do we really still need
-	 *     to do this?  Also, CamelDiscoStore needs to die already!
+	 *     to do this?
 	 */
 	if (camel_session_get_online (session)) {
 		gboolean store_online = TRUE;
-
-		if (CAMEL_IS_DISCO_STORE (service)) {
-			CamelDiscoStore *disco_store;
-			CamelDiscoStoreStatus status;
-
-			disco_store = CAMEL_DISCO_STORE (service);
-			status = camel_disco_store_status (disco_store);
-			store_online = (status != CAMEL_DISCO_STORE_OFFLINE);
-		}
 
 		if (CAMEL_IS_OFFLINE_STORE (service)) {
 			store_online = camel_offline_store_get_online (
