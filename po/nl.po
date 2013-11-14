@@ -39,7 +39,6 @@
 # subscription           -? abonnement/inschrijving
 # sync                   -? sync/synchroniseren/actualiseren
 # thread                 -  voor e-mail: conversatie (sinds 20110329 in plaats van ‘discussie’ gekomen), voor caldav/calendar: thread (alleen als technische term in foutmeldingen)
-#: ../shell/main.c:557
 # Arjan Scherpenisse <acscherp@wins.uva.nl>, 2000.
 # Gerard Oskamp <gerard@linuxfreak.nl>, 2000.
 # Dennis Smit <synap@area101.penguin.nl>, 2000.
@@ -54,13 +53,14 @@
 # Reinout van Schouwen <reinouts@gnome.org>, 2007–2008, 2012.
 # Wouter Bolsterlee <wbolster@gnome.org>, 2006–2011.
 # Hannie Dumoleyn <hannie@ubuntu-nl.org>, 2010–2011, 2013.
+#: ../shell/main.c:557
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2013-11-12 07:50+0000\n"
-"PO-Revision-Date: 2013-11-12 11:32+0100\n"
+"POT-Creation-Date: 2013-11-12 11:51+0000\n"
+"PO-Revision-Date: 2013-11-14 11:25+0100\n"
 "Last-Translator: Hannie Dumoleyn <hannie@ubuntu-nl.org>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
 "Language: nl\n"
@@ -4011,14 +4011,12 @@ msgstr "Webpagina:"
 #: ../calendar/gui/e-calendar-selector.c:358
 #: ../modules/calendar/e-cal-shell-view-private.c:1097
 #, c-format
-#| msgid "Copying an event into the calendar '{0}'"
 msgid "Copying an event into the calendar %s"
 msgstr "Een afspraak kopiëren naar agenda %s"
 
 #: ../calendar/gui/e-calendar-selector.c:359
 #: ../modules/calendar/e-cal-shell-view-private.c:1096
 #, c-format
-#| msgid "Moving an event into the calendar '{0}'"
 msgid "Moving an event into the calendar %s"
 msgstr "Een afspraak verplaatsen naar agenda %s"
 
@@ -8082,11 +8080,11 @@ msgstr "Spellingsfouten aanduiden tijdens het typen."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:9
 msgid "Automatic link recognition"
-msgstr "Automatisch herkennen van verwijzingen"
+msgstr "Automatisch herkennen van koppelingen"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:10
 msgid "Recognize links in text and replace them."
-msgstr "Herkennen en vervangen van verwijzingen in de tekst."
+msgstr "Herkennen en vervangen van koppelingen in de tekst."
 
 # emotiepictogrammen/emoticons/smileys
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:11
@@ -9256,9 +9254,7 @@ msgstr ""
 #. indicate that an attachment should have been attached to the message.
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:4
 msgid "['attachment','attaching','attached','enclosed']"
-msgstr ""
-"['attachment',‘bijlage’,'attaching','attached',‘bijgevoegd’,'enclosed',‘ingesl"
-"oten’]"
+msgstr "['attachment',‘bijlage’,'attaching','attached',‘bijgevoegd’,'enclosed',‘ingesloten’]"
 
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:5
 msgid ""
@@ -10571,7 +10567,7 @@ msgstr "De inhoud van het adresboek lokaal kopiëren voor offline gebruik"
 #. To Translators: The text is concatenated to a form: "Ctrl-click to open a link http://www.example.com"
 #: ../e-util/e-buffer-tagger.c:410
 msgid "Ctrl-click to open a link"
-msgstr "Ctrl-klik om een verwijzing te openen"
+msgstr "Ctrl-klik om een koppeling te openen"
 
 # aanduiden/markeren/aanmerken/instellen/aangeven
 #: ../e-util/e-cal-source-config.c:170
@@ -11334,7 +11330,7 @@ msgstr ""
 # verwijzing
 #: ../e-util/e-misc-utils.c:242
 msgid "Could not open the link."
-msgstr "Kon de verwijzing niet openen."
+msgstr "Kon de koppeling niet openen."
 
 # updaten
 #: ../e-util/e-misc-utils.c:289
@@ -11874,19 +11870,19 @@ msgstr "Voer hier een URL in"
 
 #: ../e-util/e-web-view-gtkhtml.c:406 ../e-util/e-web-view.c:285
 msgid "_Copy Link Location"
-msgstr "verwijzing _kopiëren"
+msgstr "Locatie van koppeling _kopiëren"
 
 #: ../e-util/e-web-view-gtkhtml.c:408 ../e-util/e-web-view.c:287
 msgid "Copy the link to the clipboard"
-msgstr "De verwijzing naar het klembord kopiëren"
+msgstr "De koppeling naar het klembord kopiëren"
 
 #: ../e-util/e-web-view-gtkhtml.c:416 ../e-util/e-web-view.c:295
 msgid "_Open Link in Browser"
-msgstr "Verwijzing in browser _openen"
+msgstr "Koppeling in browser _openen"
 
 #: ../e-util/e-web-view-gtkhtml.c:418 ../e-util/e-web-view.c:297
 msgid "Open the link in a web browser"
-msgstr "Verwijzing in een webbrowser openen"
+msgstr "Koppeling in browser openen"
 
 #: ../e-util/e-web-view-gtkhtml.c:426 ../e-util/e-web-view.c:305
 msgid "_Copy Email Address"
