@@ -145,11 +145,8 @@ mail_backend_prepare_for_offline_cb (EShell *shell,
 		synchronize = em_utils_prompt_user (
 			window, NULL, "mail:ask-quick-offline", NULL);
 
-	if (!synchronize) {
+	if (!synchronize)
 		mail_cancel_all ();
-		camel_session_set_network_available (
-			CAMEL_SESSION (session), FALSE);
-	}
 
 	/* Set the cancellable only here, because mail_cancel_all() would
 	 * cancel the just added CamelOperation as well. */
@@ -203,7 +200,6 @@ mail_backend_prepare_for_online_cb (EShell *shell,
 	session = e_mail_backend_get_session (backend);
 	account_store = e_mail_ui_session_get_account_store (E_MAIL_UI_SESSION (session));
 
-	camel_session_set_network_available (CAMEL_SESSION (session), TRUE);
 	camel_session_set_online (CAMEL_SESSION (session), TRUE);
 
 	e_mail_account_store_queue_enabled_services (account_store, &queue);
