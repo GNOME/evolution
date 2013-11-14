@@ -148,8 +148,11 @@ alarm_check_toggled_cb (WebKitDOMHTMLInputElement *check1,
 	gchar *id;
 
        	document = webkit_dom_node_get_owner_document (WEBKIT_DOM_NODE (check1));
-
+#if WEBKIT_CHECK_VERSION(2,2,0) /* XXX should really be (2,1,something) */
+	id = webkit_dom_element_get_id (WEBKIT_DOM_ELEMENT (check1));
+#else
 	id = webkit_dom_html_element_get_id (WEBKIT_DOM_HTML_ELEMENT (check1));
+#endif
 
 	if (g_strcmp0 (id, CHECKBOX_INHERIT_ALARM)) {
 		check2 = webkit_dom_document_get_element_by_id (
@@ -592,7 +595,11 @@ module_itip_formatter_dom_utils_append_info_item_row (WebKitDOMDocument *documen
 	row = webkit_dom_html_table_element_insert_row (
 		WEBKIT_DOM_HTML_TABLE_ELEMENT (table), -1, NULL);
 
+#if WEBKIT_CHECK_VERSION(2,2,0) /* XXX should really be (2,1,something) */
+	webkit_dom_element_set_id (WEBKIT_DOM_ELEMENT (row), row_id);
+#else
 	webkit_dom_html_element_set_id (row, row_id);
+#endif
 
 	cell = webkit_dom_html_table_row_element_insert_cell (
 		WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row), -1, NULL);
