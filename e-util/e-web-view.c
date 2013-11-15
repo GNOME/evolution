@@ -1741,18 +1741,121 @@ static void
 web_view_mail_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
                                       EWebView *web_view)
 {
+	g_warning ("%s", __FUNCTION__);
 }
 
 static void
 web_view_http_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
                                       EWebView *web_view)
 {
+	g_warning ("%s", __FUNCTION__);
 }
 
 static void
 web_view_gtk_stock_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
                                            EWebView *web_view)
 {
+	SoupURI *uri;
+	GHashTable *query = NULL;
+	GtkStyleContext *context;
+	GtkWidgetPath *path;
+	GtkIconSet *icon_set;
+	gssize size = GTK_ICON_SIZE_BUTTON;
+	gchar *a_size;
+	gchar *buffer = NULL;
+	gchar *content_type = NULL;
+	gsize buff_len = 0;
+	GError *local_error = NULL;
+
+	g_warning ("%s", __FUNCTION__);
+	uri = soup_uri_new (webkit_uri_scheme_request_get_uri (request));
+	if (uri != NULL)
+		query = soup_form_decode (uri->query);
+
+	if (query != NULL) {
+		a_size = g_hash_table_lookup (query, "size");
+		if (a_size != NULL)
+			size = atoi (a_size);
+		g_hash_table_destroy (query);
+	}
+
+	/* Try style context first */
+	context = gtk_style_context_new ();
+	path = gtk_widget_path_new ();
+	gtk_widget_path_append_type (path, GTK_TYPE_WINDOW);
+	gtk_widget_path_append_type (path, GTK_TYPE_BUTTON);
+	gtk_style_context_set_path (context, path);
+	gtk_widget_path_free (path);
+
+	icon_set = gtk_style_context_lookup_icon_set (context, uri->host);
+	if (icon_set != NULL) {
+		GdkPixbuf *pixbuf;
+
+		pixbuf = gtk_icon_set_render_icon_pixbuf (
+			icon_set, context, size);
+		gdk_pixbuf_save_to_buffer (
+			pixbuf, &buffer, &buff_len,
+			"png", &local_error, NULL);
+		g_object_unref (pixbuf);
+
+	/* Fallback to icon theme */
+	} else {
+		GtkIconTheme *icon_theme;
+		GtkIconInfo *icon_info;
+		const gchar *filename;
+
+		icon_theme = gtk_icon_theme_get_default ();
+
+		icon_info = gtk_icon_theme_lookup_icon (
+			icon_theme, uri->host, size,
+			GTK_ICON_LOOKUP_USE_BUILTIN);
+
+		filename = gtk_icon_info_get_filename (icon_info);
+		if (filename != NULL) {
+			g_file_get_contents (
+				filename, &buffer, &buff_len, &local_error);
+			content_type =
+				g_content_type_guess (filename, NULL, 0, NULL);
+
+		} else {
+			GdkPixbuf *pixbuf;
+
+			pixbuf = gtk_icon_info_get_builtin_pixbuf (icon_info);
+			if (pixbuf != NULL) {
+				gdk_pixbuf_save_to_buffer (
+					pixbuf, &buffer, &buff_len,
+					"png", &local_error, NULL);
+				g_object_unref (pixbuf);
+			}
+		}
+
+		gtk_icon_info_free (icon_info);
+	}
+
+	/* Sanity check */
+	g_return_if_fail (
+		((buffer != NULL) && (local_error == NULL)) ||
+		((buffer == NULL) && (local_error != NULL)));
+
+	if (!content_type)
+		content_type = g_strdup ("image/png");
+
+	g_warning ("%s", content_type);
+
+	if (buffer != NULL) {
+		GInputStream *stream;
+
+		stream = g_memory_input_stream_new_from_data (
+			buffer, buff_len, (GDestroyNotify) g_free);
+
+		webkit_uri_scheme_request_finish (
+			request, stream, buff_len, content_type);
+
+		g_object_unref (stream);
+	}
+
+	g_object_unref (context);
+	g_free (content_type);
 }
 
 void

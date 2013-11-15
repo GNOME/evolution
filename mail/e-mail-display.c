@@ -1414,12 +1414,6 @@ mail_http_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
 {
 }
 
-static void
-mail_gtk_stock_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
-                                       EMailDisplay *display)
-{
-}
-
 static gchar *
 get_value_from_uri (const gchar *uri,
                     const gchar *key)
@@ -1671,10 +1665,6 @@ e_mail_display_init (EMailDisplay *display)
 	e_web_view_register_uri_scheme (
 		E_WEB_VIEW (display), MAIL_URI_SCHEME,
 		mail_mail_uri_scheme_appeared_cb, display);
-	e_web_view_register_uri_scheme (
-		E_WEB_VIEW (display), GTK_STOCK_URI_SCHEME,
-		mail_gtk_stock_uri_scheme_appeared_cb, display);
-
 #if 0
 	e_web_view_install_request_handler (
 		E_WEB_VIEW (display), E_TYPE_MAIL_REQUEST);
