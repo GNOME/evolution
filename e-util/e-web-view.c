@@ -1707,6 +1707,35 @@ static void
 web_view_file_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
                                       EWebView *web_view)
 {
+	GInputStream *stream;
+	const gchar *uri;
+	gchar *content = NULL;
+	gchar *content_type;
+	gchar *filename;
+	gsize length = 0;
+
+	g_warning ("%s", __FUNCTION__);
+	uri = webkit_uri_scheme_request_get_uri (request);
+
+	filename = g_filename_from_uri (strstr (uri, "file"), NULL, NULL);
+	if (!filename)
+		return;
+
+	if (!g_file_get_contents (filename, &content, &length, NULL)) {
+		g_free (filename);
+		return;
+	}
+
+	content_type = g_content_type_guess (filename, NULL, 0, NULL);
+
+	stream = g_memory_input_stream_new_from_data (content, length, g_free);
+
+	webkit_uri_scheme_request_finish (request, stream, length, content_type);
+
+	g_free (content_type);
+	g_free (content);
+	g_free (filename);
+/*	g_object_unref (stream); */
 }
 static void
 web_view_mail_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,

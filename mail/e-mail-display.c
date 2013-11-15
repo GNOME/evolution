@@ -1409,40 +1409,6 @@ mail_cid_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
 }
 
 static void
-mail_file_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
-                                  EMailDisplay *display)
-{
-	GInputStream *stream;
-	const gchar *uri;
-	gchar *content = NULL;
-	gchar *content_type;
-	gchar *filename;
-	gsize length = 0;
-
-	uri = webkit_uri_scheme_request_get_uri (request);
-
-	filename = g_filename_from_uri (strstr (uri, "file"), NULL, NULL);
-	if (!filename)
-		return;
-
-	if (!g_file_get_contents (filename, &content, &length, NULL)) {
-		g_free (filename);
-		return;
-	}
-
-	content_type = g_content_type_guess (filename, NULL, 0, NULL);
-
-	stream = g_memory_input_stream_new_from_data (content, length, g_free);
-
-	webkit_uri_scheme_request_finish (request, stream, length, content_type);
-
-	g_free (content_type);
-	g_free (content);
-	g_free (filename);
-/*	g_object_unref (stream); */
-}
-
-static void
 mail_http_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
                                   EMailDisplay *display)
 {
@@ -1692,18 +1658,16 @@ e_mail_display_init (EMailDisplay *display)
 	ui_manager = e_web_view_get_ui_manager (E_WEB_VIEW (display));
 	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, NULL);
 
-	e_web_view_register_uri_scheme (
-		E_WEB_VIEW (display), CID_URI_SCHEME,
-		mail_cid_uri_scheme_appeared_cb, display);
-	e_web_view_register_uri_scheme (
-		E_WEB_VIEW (display), FILE_URI_SCHEME,
-		mail_file_uri_scheme_appeared_cb, display);
-	e_web_view_register_uri_scheme (
+/*	e_web_view_register_uri_scheme (
 		E_WEB_VIEW (display), EVO_HTTP_URI_SCHEME,
 		mail_http_uri_scheme_appeared_cb, display);
 	e_web_view_register_uri_scheme (
 		E_WEB_VIEW (display), EVO_HTTPS_URI_SCHEME,
-		mail_http_uri_scheme_appeared_cb, display);
+		mail_http_uri_scheme_appeared_cb, display);*/
+
+	e_web_view_register_uri_scheme (
+		E_WEB_VIEW (display), CID_URI_SCHEME,
+		mail_cid_uri_scheme_appeared_cb, display);
 	e_web_view_register_uri_scheme (
 		E_WEB_VIEW (display), MAIL_URI_SCHEME,
 		mail_mail_uri_scheme_appeared_cb, display);
