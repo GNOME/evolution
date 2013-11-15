@@ -603,7 +603,7 @@ style_updated_cb (EWebView *web_view)
 
 	e_web_view_add_css_rule_into_style_sheet (
 		web_view,
-		"-e-web-view-css-sheet",
+		"-e-web-view-style-sheet",
 		".-e-web-view-background-color",
 		style);
 
@@ -619,7 +619,7 @@ style_updated_cb (EWebView *web_view)
 
 	e_web_view_add_css_rule_into_style_sheet (
 		web_view,
-		"-e-web-view-css-sheet",
+		"-e-web-view-style-sheet",
 		".-e-web-view-text-color",
 		style);
 
