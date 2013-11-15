@@ -553,6 +553,9 @@ mail_reader_refresh_folder_cb (GObject *source_object,
 	GError *local_error = NULL;
 
 	folder = CAMEL_FOLDER (source_object);
+	if (!camel_folder_refresh_info_finish (folder, result, &local_error) && !local_error)
+		local_error = g_error_new_literal (CAMEL_ERROR, CAMEL_ERROR_GENERIC, _("Unknown error"));
+
 	async_context = (AsyncContext *) user_data;
 
 	activity = async_context->activity;

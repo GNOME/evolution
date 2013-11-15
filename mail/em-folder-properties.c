@@ -148,6 +148,18 @@ emfp_get_folder_item (EConfig *ec,
 	guint ii, n_properties;
 	gint row = 0;
 	gboolean can_apply_filters = FALSE;
+	CamelStore *store;
+	CamelSession *session;
+	CamelFolderInfoFlags fi_flags = 0;
+	const gchar *folder_name;
+	MailFolderCache *folder_cache;
+	gboolean have_flags;
+	ESourceRegistry *registry;
+	EShell *shell;
+	EMailBackend *mail_backend;
+	EMailSendAccountOverride *account_override;
+	gchar *folder_uri, *account_uid;
+	GtkWidget *label;
 
 	if (old)
 		return old;
@@ -210,32 +222,23 @@ emfp_get_folder_item (EConfig *ec,
 		}
 	}
 
-	if (context->folder != NULL) {
-		CamelStore *store;
-		CamelSession *session;
-		CamelFolderInfoFlags fi_flags = 0;
-		const gchar *folder_name;
-		MailFolderCache *folder_cache;
-		gboolean have_flags;
+	store = camel_folder_get_parent_store (context->folder);
+	folder_name = camel_folder_get_full_name (context->folder);
 
-		store = camel_folder_get_parent_store (context->folder);
-		folder_name = camel_folder_get_full_name (context->folder);
+	session = camel_service_ref_session (CAMEL_SERVICE (store));
 
-		session = camel_service_ref_session (CAMEL_SERVICE (store));
+	folder_cache = e_mail_session_get_folder_cache (
+		E_MAIL_SESSION (session));
 
-		folder_cache = e_mail_session_get_folder_cache (
-			E_MAIL_SESSION (session));
+	have_flags = mail_folder_cache_get_folder_info_flags (
+		folder_cache, store, folder_name, &fi_flags);
 
-		have_flags = mail_folder_cache_get_folder_info_flags (
-			folder_cache, store, folder_name, &fi_flags);
+	can_apply_filters =
+		!CAMEL_IS_VEE_FOLDER (context->folder) &&
+		have_flags &&
+		(fi_flags & CAMEL_FOLDER_TYPE_MASK) != CAMEL_FOLDER_TYPE_INBOX;
 
-		can_apply_filters =
-			!CAMEL_IS_VEE_FOLDER (context->folder) &&
-			have_flags &&
-			(fi_flags & CAMEL_FOLDER_TYPE_MASK) != CAMEL_FOLDER_TYPE_INBOX;
-
-		g_object_unref (session);
-	}
+	g_object_unref (session);
 
 	class = G_OBJECT_GET_CLASS (context->folder);
 	properties = g_object_class_list_properties (class, &n_properties);
@@ -277,56 +280,47 @@ emfp_get_folder_item (EConfig *ec,
 	g_free (properties);
 
 	/* add send-account-override setting widgets */
-	if (context->folder != NULL) {
-		ESourceRegistry *registry;
-		EShell *shell;
-		EMailBackend *mail_backend;
-		EMailSendAccountOverride *account_override;
-		gchar *folder_uri, *account_uid;
-		GtkWidget *label;
+	registry = e_shell_get_registry (e_shell_get_default ());
 
-		registry = e_shell_get_registry (e_shell_get_default ());
+	label = gtk_label_new_with_mnemonic (_("_Send Account Override:"));
+	gtk_widget_set_halign (label, GTK_ALIGN_START);
+	gtk_widget_show (label);
+	gtk_table_attach (
+		GTK_TABLE (table), label,
+		0, 2, row, row + 1,
+		GTK_FILL, 0, 0, 0);
+	row++;
 
-		label = gtk_label_new_with_mnemonic (_("_Send Account Override:"));
-		gtk_widget_set_halign (label, GTK_ALIGN_START);
-		gtk_widget_show (label);
-		gtk_table_attach (
-			GTK_TABLE (table), label,
-			0, 2, row, row + 1,
-			GTK_FILL, 0, 0, 0);
-		row++;
+	widget = g_object_new (
+		E_TYPE_MAIL_IDENTITY_COMBO_BOX,
+		"registry", registry,
+		"allow-none", TRUE,
+		NULL);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (label), widget);
+	gtk_widget_set_margin_left (widget, 12);
+	gtk_widget_show (widget);
+	gtk_table_attach (
+		GTK_TABLE (table), widget,
+		0, 2, row, row + 1,
+		GTK_FILL | GTK_EXPAND, 0, 0, 0);
+	row++;
 
-		widget = g_object_new (
-			E_TYPE_MAIL_IDENTITY_COMBO_BOX,
-			"registry", registry,
-			"allow-none", TRUE,
-			NULL);
-		gtk_label_set_mnemonic_widget (GTK_LABEL (label), widget);
-		gtk_widget_set_margin_left (widget, 12);
-		gtk_widget_show (widget);
-		gtk_table_attach (
-			GTK_TABLE (table), widget,
-			0, 2, row, row + 1,
-			GTK_FILL | GTK_EXPAND, 0, 0, 0);
-		row++;
+	shell = e_shell_get_default ();
+	mail_backend = E_MAIL_BACKEND (e_shell_get_backend_by_name (shell, "mail"));
+	g_return_val_if_fail (mail_backend != NULL, table);
 
-		shell = e_shell_get_default ();
-		mail_backend = E_MAIL_BACKEND (e_shell_get_backend_by_name (shell, "mail"));
-		g_return_val_if_fail (mail_backend != NULL, table);
+	account_override = e_mail_backend_get_send_account_override (mail_backend);
+	folder_uri = e_mail_folder_uri_from_folder (context->folder);
+	account_uid = e_mail_send_account_override_get_for_folder (account_override, folder_uri);
 
-		account_override = e_mail_backend_get_send_account_override (mail_backend);
-		folder_uri = e_mail_folder_uri_from_folder (context->folder);
-		account_uid = e_mail_send_account_override_get_for_folder (account_override, folder_uri);
+	gtk_combo_box_set_active_id (GTK_COMBO_BOX (widget), account_uid ? account_uid : "");
+	g_object_set_data_full (G_OBJECT (widget), "sao-folder-uri", folder_uri, g_free);
 
-		gtk_combo_box_set_active_id (GTK_COMBO_BOX (widget), account_uid ? account_uid : "");
-		g_object_set_data_full (G_OBJECT (widget), "sao-folder-uri", folder_uri, g_free);
+	g_signal_connect (
+		widget, "changed",
+		G_CALLBACK (mail_identity_combo_box_changed_cb), account_override);
 
-		g_signal_connect (
-			widget, "changed",
-			G_CALLBACK (mail_identity_combo_box_changed_cb), account_override);
-
-		g_free (account_uid);
-	}
+	g_free (account_uid);
 
 	return table;
 }

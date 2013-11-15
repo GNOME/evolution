@@ -1141,41 +1141,38 @@ gal_a11y_e_table_item_new (ETableItem *item)
 	if (GET_PRIVATE (a11y)->columns == NULL)
 		return NULL;
 
-	if (item) {
-		g_signal_connect (
-			item, "selection_model_removed",
-			G_CALLBACK (eti_a11y_selection_model_removed_cb), NULL);
-		g_signal_connect (
-			item, "selection_model_added",
-			G_CALLBACK (eti_a11y_selection_model_added_cb), NULL);
-		if (item->selection)
-			gal_a11y_e_table_item_ref_selection (
-				a11y,
-				item->selection);
+	g_signal_connect (
+		item, "selection_model_removed",
+		G_CALLBACK (eti_a11y_selection_model_removed_cb), NULL);
+	g_signal_connect (
+		item, "selection_model_added",
+		G_CALLBACK (eti_a11y_selection_model_added_cb), NULL);
+	if (item->selection)
+		gal_a11y_e_table_item_ref_selection (
+			a11y,
+			item->selection);
 
-		/* find the TableItem's parent: table or tree */
-		GET_PRIVATE (a11y)->widget = gtk_widget_get_parent (
-			GTK_WIDGET (item->parent.canvas));
-		parent = gtk_widget_get_accessible (GET_PRIVATE (a11y)->widget);
-		name = atk_object_get_name (parent);
-		if (name)
-			atk_object_set_name (accessible, name);
-		atk_object_set_parent (accessible, parent);
+	/* find the TableItem's parent: table or tree */
+	GET_PRIVATE (a11y)->widget = gtk_widget_get_parent (
+		GTK_WIDGET (item->parent.canvas));
+	parent = gtk_widget_get_accessible (GET_PRIVATE (a11y)->widget);
+	name = atk_object_get_name (parent);
+	if (name)
+		atk_object_set_name (accessible, name);
+	atk_object_set_parent (accessible, parent);
 
-		if (E_IS_TREE (GET_PRIVATE (a11y)->widget)) {
-			ETreeModel *model;
-			model = e_tree_get_model (E_TREE (GET_PRIVATE (a11y)->widget));
-			g_signal_connect (
-				model, "node_changed",
-				G_CALLBACK (eti_tree_model_node_changed_cb), item);
-			accessible->role = ATK_ROLE_TREE_TABLE;
-		} else if (E_IS_TABLE (GET_PRIVATE (a11y)->widget)) {
-			accessible->role = ATK_ROLE_TABLE;
-		}
+	if (E_IS_TREE (GET_PRIVATE (a11y)->widget)) {
+		ETreeModel *model;
+		model = e_tree_get_model (E_TREE (GET_PRIVATE (a11y)->widget));
+		g_signal_connect (
+			model, "node_changed",
+			G_CALLBACK (eti_tree_model_node_changed_cb), item);
+		accessible->role = ATK_ROLE_TREE_TABLE;
+	} else if (E_IS_TABLE (GET_PRIVATE (a11y)->widget)) {
+		accessible->role = ATK_ROLE_TABLE;
 	}
 
-	if (item)
-		g_object_weak_ref (G_OBJECT (item), item_finalized, g_object_ref (a11y));
+	g_object_weak_ref (G_OBJECT (item), item_finalized, g_object_ref (a11y));
 
 	esm = item->selection;
 

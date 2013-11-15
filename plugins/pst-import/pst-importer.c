@@ -807,13 +807,14 @@ pst_import_folders (PstImporter *m,
                     pst_desc_tree *topitem)
 {
 	GHashTable *node_to_folderuri; /* pointers of hierarchy nodes, to them associated folder uris */
-	pst_desc_tree *d_ptr;
+	pst_desc_tree *d_ptr = NULL;
 
 	node_to_folderuri = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, g_free);
-	d_ptr = topitem->child;
 
-	if (topitem)
+	if (topitem) {
+		d_ptr = topitem->child;
 		g_hash_table_insert (node_to_folderuri, topitem, g_strdup (m->folder_uri));
+	}
 
 	/* Walk through folder tree */
 	while (d_ptr != NULL && (g_cancellable_is_cancelled (m->cancellable) == FALSE)) {
@@ -866,7 +867,7 @@ pst_import_folders (PstImporter *m,
 				break;
 			}
 
-			d_ptr = d_ptr->next;
+			d_ptr = d_ptr ? d_ptr->next : NULL;
 		}
 
 		g_free (previous_folder);
@@ -1865,6 +1866,8 @@ fill_calcomponent (PstImporter *m,
 		case PST_FREEBUSY_FREE:
 			/* mark as transparent and as confirmed */
 			e_cal_component_set_transparency (ec, E_CAL_COMPONENT_TRANSP_TRANSPARENT);
+			e_cal_component_set_status (ec, ICAL_STATUS_CONFIRMED);
+			break;
 		case PST_FREEBUSY_BUSY:
 		case PST_FREEBUSY_OUT_OF_OFFICE:
 			e_cal_component_set_status (ec, ICAL_STATUS_CONFIRMED);

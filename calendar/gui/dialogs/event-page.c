@@ -991,12 +991,14 @@ event_page_load_locations_list (CompEditorPage *page,
 	}
 
 	error = NULL;
-	g_file_get_contents (file_name, &contents, NULL, &error);
-	if (error != NULL) {
-		g_warning (
-			"%s: Failed to load locations list: %s",
-			G_STRFUNC, error->message);
-		g_error_free (error);
+	if (!g_file_get_contents (file_name, &contents, NULL, &error)) {
+		if (error != NULL) {
+			g_warning (
+				"%s: Failed to load locations list: %s",
+				G_STRFUNC, error->message);
+			g_error_free (error);
+		}
+
 		g_free (file_name);
 		return;
 	}

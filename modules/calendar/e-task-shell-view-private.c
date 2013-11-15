@@ -518,7 +518,7 @@ e_task_shell_view_private_dispose (ETaskShellView *task_shell_view)
 		g_signal_handler_disconnect (
 			priv->settings,
 			priv->settings_hide_completed_tasks_value_handler_id);
-		priv->settings_hide_completed_tasks_units_handler_id = 0;
+		priv->settings_hide_completed_tasks_value_handler_id = 0;
 	}
 
 	g_clear_object (&priv->task_shell_backend);

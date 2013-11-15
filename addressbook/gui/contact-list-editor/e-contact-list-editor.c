@@ -502,9 +502,9 @@ contact_list_editor_selection_changed_cb (GtkTreeSelection *selection,
 		gtk_widget_set_sensitive (WIDGET (UP_BUTTON), FALSE);
 	}
 
-	gtk_tree_model_get_iter (model, &iter, g_list_last (selected)->data);
 	/* Item below last selected exists => enable Down/Bottom buttons */
-	if (gtk_tree_model_iter_next (model, &iter)) {
+	if (gtk_tree_model_get_iter (model, &iter, g_list_last (selected)->data) &&
+	    gtk_tree_model_iter_next (model, &iter)) {
 		gtk_widget_set_sensitive (WIDGET (DOWN_BUTTON), TRUE);
 		gtk_widget_set_sensitive (WIDGET (BOTTOM_BUTTON), TRUE);
 	} else {
@@ -888,9 +888,11 @@ contact_list_editor_remove_button_clicked_cb (GtkWidget *widget)
 		path = gtk_tree_row_reference_get_path (reference);
 		valid = gtk_tree_model_get_iter (model, &iter, path);
 		gtk_tree_path_free (path);
-		g_assert (valid);
-
-		e_contact_list_model_remove_row (E_CONTACT_LIST_MODEL (model), &iter);
+		if (valid) {
+			e_contact_list_model_remove_row (E_CONTACT_LIST_MODEL (model), &iter);
+		} else {
+			g_warn_if_reached ();
+		}
 		gtk_tree_row_reference_free (reference);
 	}
 
@@ -967,7 +969,9 @@ contact_list_editor_select_button_clicked_cb (GtkWidget *widget)
 	for (iter = list; iter != NULL; iter = iter->next) {
 		EDestination *destination = iter->data;
 
-		contact_list_editor_add_destination (widget, destination);
+		if (!contact_list_editor_add_destination (widget, destination))
+			g_warning ("%s: Failed to add destination", G_STRFUNC);
+
 		e_destination_store_remove_destination (store, destination);
 	}
 
@@ -1066,9 +1070,9 @@ contact_list_editor_top_button_clicked_cb (GtkButton *button)
 
 	for (l = references; l; l = l->next) {
 		path = gtk_tree_row_reference_get_path (l->data);
-		gtk_tree_model_get_iter (model, &iter, path);
-		gtk_tree_store_move_after (
-			GTK_TREE_STORE (model), &iter, NULL);
+		if (gtk_tree_model_get_iter (model, &iter, path))
+			gtk_tree_store_move_after (
+				GTK_TREE_STORE (model), &iter, NULL);
 		gtk_tree_path_free (path);
 	}
 
@@ -1105,16 +1109,19 @@ contact_list_editor_up_button_clicked_cb (GtkButton *button)
 	/* Get iter of item above the first selected item */
 	path = gtk_tree_path_copy (selected->data);
 	gtk_tree_path_prev (path);
-	gtk_tree_model_get_iter (model, &iter, path);
+	if (!gtk_tree_model_get_iter (model, &iter, path)) {
+		gtk_tree_path_free (path);
+		g_list_free_full (selected, (GDestroyNotify) gtk_tree_path_free);
+		return;
+	}
 	gtk_tree_path_free (path);
 
 	/* Get iter of the last selected item */
-	gtk_tree_model_get_iter (model, &iter2, g_list_last (selected)->data);
+	if (gtk_tree_model_get_iter (model, &iter2, g_list_last (selected)->data)) {
+		gtk_tree_store_move_after (GTK_TREE_STORE (model), &iter, &iter2);
+	}
 
-	gtk_tree_store_move_after (GTK_TREE_STORE (model), &iter, &iter2);
-
-	g_list_foreach (selected, (GFunc) gtk_tree_path_free, NULL);
-	g_list_free (selected);
+	g_list_free_full (selected, (GDestroyNotify) gtk_tree_path_free);
 
 	contact_list_editor_selection_changed_cb (selection, editor);
 }
@@ -1141,16 +1148,21 @@ contact_list_editor_down_button_clicked_cb (GtkButton *button)
 	selected = gtk_tree_selection_get_selected_rows (selection, &model);
 
 	/* Iter of the first selected item */
-	gtk_tree_model_get_iter (model, &iter, selected->data);
+	if (!gtk_tree_model_get_iter (model, &iter, selected->data)) {
+		g_list_free_full (selected, (GDestroyNotify) gtk_tree_path_free);
+		return;
+	}
 
 	/* Iter of item below the last selected item */
-	gtk_tree_model_get_iter (model, &iter2, g_list_last (selected)->data);
-	gtk_tree_model_iter_next (model, &iter2);
+	if (!gtk_tree_model_get_iter (model, &iter2, g_list_last (selected)->data) ||
+	    !gtk_tree_model_iter_next (model, &iter2)) {
+		g_list_free_full (selected, (GDestroyNotify) gtk_tree_path_free);
+		return;
+	}
 
 	gtk_tree_store_move_before (GTK_TREE_STORE (model), &iter2, &iter);
 
-	g_list_foreach (selected, (GFunc) gtk_tree_path_free, NULL);
-	g_list_free (selected);
+	g_list_free_full (selected, (GDestroyNotify) gtk_tree_path_free);
 
 	contact_list_editor_selection_changed_cb (selection, editor);
 }
@@ -1828,10 +1840,10 @@ save_contact_list (GtkTreeModel *model,
 			g_free (uid);
 
 			/* Set new_iter to first child of iter */
-			gtk_tree_model_iter_children (model, &new_iter, iter);
-
-			/* Go recursive */
-			save_contact_list (model, &new_iter, attrs, parent_id);
+			if (gtk_tree_model_iter_children (model, &new_iter, iter)) {
+				/* Go recursive */
+				save_contact_list (model, &new_iter, attrs, parent_id);
+			}
 		} else {
 			attr = e_vcard_attribute_new (NULL, EVC_EMAIL);
 			e_destination_export_to_vcard_attribute (dest, attr);

@@ -98,7 +98,7 @@ static GOptionEntry options[] = {
 #define d(x)
 
 #define print_and_run(x) \
-	G_STMT_START { g_message ("%s", x); system (x); } G_STMT_END
+	G_STMT_START { g_message ("%s", x); if (system (x) == -1) g_warning ("%s: Failed to execute '%s'", G_STRFUNC, (x)); } G_STMT_END
 
 static gboolean check (const gchar *filename, gboolean *is_new_format);
 

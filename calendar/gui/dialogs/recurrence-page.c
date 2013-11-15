@@ -837,8 +837,10 @@ simple_recur_to_comp (RecurrencePage *rpage,
 
 		if (month_num == MONTH_NUM_LAST)
 			month_num = -1;
-		else
+		else if (month_num != -1)
 			month_num++;
+		else
+			g_warn_if_reached ();
 
 		switch (month_day) {
 		case MONTH_DAY_NTH:

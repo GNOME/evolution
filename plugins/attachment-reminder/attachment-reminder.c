@@ -622,9 +622,7 @@ e_plugin_lib_get_configure_widget (EPlugin *plugin)
 		gtk_list_store_set (ui->store, &iter, CLUE_KEYWORD_COLUMN, clue_list[i], -1);
 	}
 
-	if (clue_list) {
-		g_strfreev (clue_list);
-	}
+	g_strfreev (clue_list);
 
 	/* Add the list here */
 

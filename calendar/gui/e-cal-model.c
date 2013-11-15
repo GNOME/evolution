@@ -2108,12 +2108,7 @@ e_cal_model_update_comp_time (ECalModel *model,
 
 		/* If the TZID is set to "UTC", we don't want to save the TZID. */
 		if (tzid && strcmp (tzid, "UTC")) {
-			if (param) {
-				icalparameter_set_tzid (param, (gchar *) tzid);
-			} else {
-				param = icalparameter_new_tzid ((gchar *) tzid);
-				icalproperty_add_parameter (prop, param);
-			}
+			icalparameter_set_tzid (param, (gchar *) tzid);
 		} else {
 			icalproperty_remove_parameter (prop, ICAL_TZID_PARAMETER);
 		}

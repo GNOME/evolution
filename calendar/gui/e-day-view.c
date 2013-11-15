@@ -1540,10 +1540,11 @@ day_view_focus (GtkWidget *widget,
 			e_day_view_ensure_rows_visible (
 				day_view,
 				start_row, end_row);
+	} else if (new_day != -1) {
+		e_day_view_start_editing_event (
+			day_view, new_day,
+			new_event_num, NULL);
 	}
-	e_day_view_start_editing_event (
-		day_view, new_day,
-		new_event_num, NULL);
 
 	return TRUE;
 }
@@ -1771,6 +1772,8 @@ day_view_get_visible_time_range (ECalendarView *cal_view,
 		return FALSE;
 
 	days_shown = e_day_view_get_days_shown (day_view);
+	if (days_shown <= 0)
+		return FALSE;
 
 	*start_time = day_view->day_starts[0];
 	*end_time = day_view->day_starts[days_shown];
@@ -3417,6 +3420,8 @@ e_day_view_recalc_day_starts (EDayView *day_view,
 	GDate dt;
 
 	days_shown = e_day_view_get_days_shown (day_view);
+	if (days_shown <= 0)
+		return;
 
 	day_view->day_starts[0] = start_time;
 	for (day = 1; day <= days_shown; day++) {
@@ -4321,11 +4326,13 @@ e_day_view_on_long_event_click (EDayView *day_view,
 		day_view->drag_event_x = event_x;
 		day_view->drag_event_y = event_y;
 
-		e_day_view_convert_position_in_top_canvas (
+		pos = e_day_view_convert_position_in_top_canvas (
 			day_view,
 			event_x, event_y,
 			&day, NULL);
-		day_view->drag_event_offset = day - start_day;
+
+		if (pos != E_CALENDAR_VIEW_POS_NONE && pos != E_CALENDAR_VIEW_POS_OUTSIDE)
+			day_view->drag_event_offset = day - start_day;
 	}
 }
 
@@ -4428,13 +4435,16 @@ e_day_view_on_event_click (EDayView *day_view,
 		day_view->drag_event_x = event_x;
 		day_view->drag_event_y = event_y;
 
-		e_day_view_convert_position_in_main_canvas (
+		pos = e_day_view_convert_position_in_main_canvas (
 			day_view,
 			event_x, event_y,
 			&tmp_day, &row,
 			NULL);
-		start_row = event->start_minute / time_divisions;
-		day_view->drag_event_offset = row - start_row;
+
+		if (pos != E_CALENDAR_VIEW_POS_NONE && pos != E_CALENDAR_VIEW_POS_OUTSIDE) {
+			start_row = event->start_minute / time_divisions;
+			day_view->drag_event_offset = row - start_row;
+		}
 	}
 }
 
@@ -6882,7 +6892,10 @@ cancel_editing (EDayView *day_view)
 	day = day_view->editing_event_day;
 	event_num = day_view->editing_event_num;
 
-	g_return_if_fail (day != -1);
+	if (day == -1) {
+		g_warn_if_reached ();
+		return;
+	}
 
 	if (day == E_DAY_VIEW_LONG_EVENT) {
 		if (!is_array_index_in_bounds (day_view->long_events, event_num))
@@ -7005,11 +7018,16 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 		break;
 
 	case GDK_BUTTON_RELEASE:
-			if (day_view->resize_event_num != -1)
-				day_view->resize_event_num = -1;
+		if (day_view->resize_event_num != -1)
+			day_view->resize_event_num = -1;
 
-			if (day_view->drag_event_num != -1)
-				day_view->drag_event_num = -1;
+		if (day_view->drag_event_num != -1)
+			day_view->drag_event_num = -1;
+		tooltip_destroy (day_view, item);
+		/* Only let the EText handle the event while editing. */
+		if (!E_TEXT (item)->editing)
+			g_signal_stop_emission_by_name (item, "event");
+		break;
 
 	case GDK_BUTTON_PRESS:
 		tooltip_destroy (day_view, item);
@@ -8441,12 +8459,12 @@ e_day_view_update_main_canvas_drag (EDayView *day_view,
 			end_row = start_row;
 
 		num_rows = end_row - start_row + 1;
-	}
 
-	if (event && day_view->drag_event_day == day && start_row == row) {
-		cols_in_row = day_view->cols_per_row[day][row];
-		start_col = event->start_row_or_col;
-		num_columns = event->num_columns;
+		if (day_view->drag_event_day == day && start_row == row) {
+			cols_in_row = day_view->cols_per_row[day][row];
+			start_col = event->start_row_or_col;
+			num_columns = event->num_columns;
+		}
 	}
 
 	item_x = day_view->day_offsets[day]
@@ -8561,7 +8579,11 @@ e_day_view_on_drag_begin (GtkWidget *widget,
 	event_num = day_view->drag_event_num;
 
 	/* These should both be set. */
-	g_return_if_fail (day != -1);
+	if (day == -1) {
+		g_warn_if_reached ();
+		return;
+	}
+
 	g_return_if_fail (event_num != -1);
 
 	if (day == E_DAY_VIEW_LONG_EVENT) {
@@ -8639,7 +8661,11 @@ e_day_view_on_drag_data_get (GtkWidget *widget,
 	event_num = day_view->drag_event_num;
 
 	/* These should both be set. */
-	g_return_if_fail (day != -1);
+	if (day == -1) {
+		g_warn_if_reached ();
+		return;
+	}
+
 	g_return_if_fail (event_num != -1);
 
 	if (day == E_DAY_VIEW_LONG_EVENT) {

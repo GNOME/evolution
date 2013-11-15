@@ -329,6 +329,7 @@ get_attachment_list (CompEditor *editor)
 
 	/* We can't return until we have results, so crank
 	 * the main loop until the callback gets triggered. */
+	/* coverity[loop_condition] */
 	while (!status.done)
 		gtk_main_iteration ();
 
@@ -936,25 +937,21 @@ save_and_close_editor (CompEditor *editor,
 
 	if (e_attachment_store_get_num_loading (store) > 0) {
 		gboolean response = 1;
-	/*FIXME: Cannot use mail functions from calendar!!!! */
-#if 0
 		ECalComponentVType vtype = e_cal_component_get_vtype (editor->priv->comp);
 
 		if (vtype == E_CAL_COMPONENT_EVENT)
-			response = em_utils_prompt_user (
-				(GtkWindow *) widget,
-				NULL,
+			response = e_alert_run_dialog_for_args (
+				GTK_WINDOW (editor),
 				"calendar:ask-send-event-pending-download",
 				NULL);
 		else
-			response = em_utils_prompt_user (
-				(GtkWindow *) widget,
-				NULL,
+			response = e_alert_run_dialog_for_args (
+				GTK_WINDOW (editor),
 				"calendar:ask-send-task-pending-download",
 				NULL);
-#endif
-	if (!response)
-		return;
+
+		if (response != GTK_RESPONSE_YES)
+			return;
 	}
 
 	if (e_client_is_readonly (E_CLIENT (priv->cal_client))) {

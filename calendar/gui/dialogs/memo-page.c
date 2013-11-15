@@ -605,12 +605,10 @@ fill_comp_with_recipients (ENameSelector *name_selector,
 
 		for (l = list_dests; l; l = l->next) {
 			EDestination *dest = l->data;
-			const gchar *attendee = NULL;
+			const gchar *attendee;
 
-			/* If we couldn't get the attendee prior,
-			 * get the email address as the default. */
-			if (attendee == NULL || *attendee == '\0')
-				attendee = e_destination_get_email (dest);
+			/* Get the email address as the default. */
+			attendee = e_destination_get_email (dest);
 
 			if (attendee == NULL || *attendee == '\0')
 				continue;

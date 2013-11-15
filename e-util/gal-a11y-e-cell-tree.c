@@ -191,15 +191,14 @@ gal_a11y_e_cell_tree_new (ETableItem *item,
 {
 	AtkObject *subcell_a11y;
 	GalA11yECellTree *a11y;
-
 	ETreePath node;
 	ETreeModel *tree_model;
 	ETreeTableAdapter *tree_table_adapter;
-
 	ECellView *subcell_view;
+
 	subcell_view = e_cell_tree_view_get_subcell_view (cell_view);
 
-	if (subcell_view->ecell) {
+	if (subcell_view && subcell_view->ecell) {
 		subcell_a11y = gal_a11y_e_cell_registry_get_object (
 			NULL,
 			item,
@@ -233,8 +232,7 @@ gal_a11y_e_cell_tree_new (ETableItem *item,
 			if (e_tree_table_adapter_node_is_expanded (tree_table_adapter, node))
 				gal_a11y_e_cell_add_state (GAL_A11Y_E_CELL (subcell_a11y), ATK_STATE_EXPANDED, FALSE);
 		}
-	}
-	else
+	} else
 		subcell_a11y = NULL;
 
 	/* create a companion a11y object, this object has type GalA11yECellTree

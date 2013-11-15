@@ -191,12 +191,10 @@ emfe_text_html_format (EMailFormatterExtension *extension,
 			closing = g_utf8_strchr (pos, -1, '>');
 
 			/* Find where the actual tag name begins */
-			tag = g_utf8_find_next_char (pos, NULL);
-			while ((tag = g_utf8_find_next_char (pos, NULL)) != NULL) {
+			while (tag = g_utf8_find_next_char (pos, NULL), tag != NULL) {
 				gunichar c = g_utf8_get_char (tag);
 				if (!g_unichar_isspace (c))
 					break;
-
 			}
 
 			if (g_ascii_strncasecmp (tag, "style", 5) == 0) {

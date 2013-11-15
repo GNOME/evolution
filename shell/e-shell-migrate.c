@@ -19,12 +19,15 @@
  *
  */
 
-#include "e-shell-migrate.h"
-
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
+#include <errno.h>
 #include <glib/gstdio.h>
 #include <libedataserver/libedataserver.h>
 
+#include "e-shell-migrate.h"
 #include "evo-version.h"
 
 static gboolean
@@ -157,7 +160,9 @@ change_dir_modes (const gchar *path)
 		g_free (full_path);
 	}
 
-	g_chmod (path, 0700);
+	if (g_chmod (path, 0700) == -1)
+		g_warning ("%s: Failed to chmod of '%s': %s", G_STRFUNC, path, g_strerror (errno));
+
 	g_dir_close (dir);
 }
 

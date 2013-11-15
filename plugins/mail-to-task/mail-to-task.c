@@ -852,23 +852,19 @@ do_mail_to_event (AsyncData *data)
 	if (error != NULL) {
 		report_error_idle (_("Cannot open calendar. %s"), error->message);
 	} else if (e_client_is_readonly (E_CLIENT (client))) {
-		if (error != NULL)
-			report_error_idle ("Check readonly failed. %s", error->message);
-		else {
-			switch (data->source_type) {
-			case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
-				report_error_idle (_("Selected calendar is read only, thus cannot create event there. Select other calendar, please."), NULL);
-				break;
-			case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
-				report_error_idle (_("Selected task list is read only, thus cannot create task there. Select other task list, please."), NULL);
-				break;
-			case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
-				report_error_idle (_("Selected memo list is read only, thus cannot create memo there. Select other memo list, please."), NULL);
-				break;
-			default:
-				g_assert_not_reached ();
-				break;
-			}
+		switch (data->source_type) {
+		case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
+			report_error_idle (_("Selected calendar is read only, thus cannot create event there. Select other calendar, please."), NULL);
+			break;
+		case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
+			report_error_idle (_("Selected task list is read only, thus cannot create task there. Select other task list, please."), NULL);
+			break;
+		case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
+			report_error_idle (_("Selected memo list is read only, thus cannot create memo there. Select other memo list, please."), NULL);
+			break;
+		default:
+			g_assert_not_reached ();
+			break;
 		}
 	} else {
 		gint i;
@@ -1114,7 +1110,6 @@ mail_to_event (ECalClientSourceType source_type,
 	GList *list, *iter;
 	GtkWindow *parent;
 	const gchar *extension_name;
-	GError *error = NULL;
 
 	parent = e_mail_reader_get_window (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
@@ -1193,16 +1188,6 @@ mail_to_event (ECalClientSourceType source_type,
 				E_SOURCE_SELECTOR_DIALOG (dialog));
 
 		gtk_widget_destroy (dialog);
-	} else if (!source && default_source) {
-		source = default_source;
-	} else if (!source) {
-		e_notice (
-			NULL, GTK_MESSAGE_ERROR,
-			_("No writable calendar is available."));
-
-		if (error != NULL)
-			g_error_free (error);
-		goto exit;
 	}
 
 	if (source) {
@@ -1234,7 +1219,6 @@ mail_to_event (ECalClientSourceType source_type,
 		}
 	}
 
-exit:
 	g_object_unref (default_source);
 	g_ptr_array_unref (uids);
 }

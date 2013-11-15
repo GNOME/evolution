@@ -1222,7 +1222,7 @@ static void
 ethi_start_drag (ETableHeaderItem *ethi,
                  GdkEvent *event)
 {
-	GtkWidget *widget = GTK_WIDGET (GNOME_CANVAS_ITEM (ethi)->canvas);
+	GtkWidget *widget;
 	GtkTargetList *list;
 	GdkDragContext *context;
 	ETableCol *ecol;

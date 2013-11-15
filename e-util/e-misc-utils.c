@@ -1232,6 +1232,7 @@ e_format_number (gint number)
 		default:
 			last_count = *grouping;
 			grouping++;
+			/* coverity[fallthrough] */
 		case 0:
 			divider = epow10 (last_count);
 			if (number >= divider) {

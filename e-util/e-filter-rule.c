@@ -100,7 +100,11 @@ part_combobox_changed (GtkComboBox *combobox,
 		/* traverse until reached index */
 	}
 
-	g_return_if_fail (part != NULL);
+	if (!part) {
+		g_warn_if_reached ();
+		return;
+	}
+
 	g_return_if_fail (i == index);
 
 	/* dont update if we haven't changed */

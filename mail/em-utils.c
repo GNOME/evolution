@@ -590,7 +590,6 @@ em_utils_read_messages_from_stream (CamelFolder *folder,
 
 	while (camel_mime_parser_step (mp, NULL, NULL) == CAMEL_MIME_PARSER_STATE_FROM) {
 		CamelMimeMessage *msg;
-		gboolean success;
 
 		/* NB: de-from filter, once written */
 		msg = camel_mime_message_new ();
@@ -1060,6 +1059,8 @@ em_utils_selection_set_urilist (GtkSelectionData *data,
 
 exit:
 	g_free (tmpdir);
+	/* the 'fd' from the 'save_as_mbox' part is freed within the 'fstream' */
+	/* coverity[leaked_handle] */
 }
 
 /**
@@ -1094,6 +1095,8 @@ em_utils_selection_get_urilist (GtkSelectionData *selection_data,
 		if (url == NULL)
 			continue;
 
+		/* 'fd', if set, is freed within the 'stream' */
+		/* coverity[overwrite_var] */
 		if (strcmp (url->protocol, "file") == 0
 		    && (fd = g_open (url->path, O_RDONLY | O_BINARY, 0)) != -1) {
 			stream = camel_stream_fs_new_with_fd (fd);
@@ -1107,6 +1110,9 @@ em_utils_selection_get_urilist (GtkSelectionData *selection_data,
 	}
 
 	g_strfreev (uris);
+
+	/* 'fd', if set, is freed within the 'stream' */
+	/* coverity[leaked_handle] */
 }
 
 /* ********************************************************************** */

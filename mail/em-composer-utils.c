@@ -468,9 +468,10 @@ composer_presend_check_unwanted_html (EMsgComposer *composer,
 		gboolean html_problem = FALSE;
 
 		for (ii = 0; recipients[ii] != NULL; ii++) {
-			if (!e_destination_get_html_mail_pref (recipients[ii]))
+			if (!e_destination_get_html_mail_pref (recipients[ii])) {
 				html_problem = TRUE;
 				break;
+			}
 		}
 
 		if (html_problem) {
@@ -2882,14 +2883,13 @@ em_utils_construct_composer_text (CamelSession *session,
                                   EMailPartList *parts_list)
 {
 	gchar *text, *credits;
-	gboolean start_bottom = 0;
 
 	g_return_val_if_fail (CAMEL_IS_SESSION (session), NULL);
 
 	credits = attribution_format (message);
 	text = em_utils_message_to_html (
 		session, message, credits, E_MAIL_FORMATTER_QUOTE_FLAG_CITE,
-		parts_list, start_bottom ? "<BR>" : NULL, NULL);
+		parts_list, NULL, NULL);
 	g_free (credits);
 
 	return text;

@@ -467,7 +467,7 @@ layout_with_preedit (ECellTextView *text_view,
 		edit->im_context,
 		&preedit_string,&preedit_attrs,
 		NULL);
-	preedit_length = edit->preedit_length = strlen (preedit_string);;
+	preedit_length = edit->preedit_length = preedit_string ? strlen (preedit_string) : 0;
 
 	layout = edit->layout;
 
@@ -2237,12 +2237,10 @@ _get_position (ECellTextView *text_view,
 	case E_TEP_BACKWARD_PAGE:
 		return edit->selection_end;
 	default:
-		return edit->selection_end;
+		break;
 	}
 
-	g_return_val_if_reached (0);
-
-	return 0; /* Kill warning */
+	return edit->selection_end;
 }
 
 static void

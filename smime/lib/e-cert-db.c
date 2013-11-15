@@ -1094,6 +1094,7 @@ e_cert_db_import_certs_from_file (ECertDB *cert_db,
 			rv = e_cert_db_import_email_cert (cert_db, buf, bytes_read, imported_certs, error);
 			break;
 
+		/* coverity[dead_error_begin] */
 		default:
 			rv = FALSE;
 			break;

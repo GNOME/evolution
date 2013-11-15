@@ -446,7 +446,8 @@ dbx_read_mail_body (DbxImporter *m,
 	guint32 buflen = 0x200;
 	guchar *buffer = g_malloc (buflen);
 
-	ftruncate (bodyfd, 0);
+	if (ftruncate (bodyfd, 0) == -1)
+		g_warning ("%s: Failed to truncate file: %s", G_STRFUNC, g_strerror (errno));
 	lseek (bodyfd, 0, SEEK_SET);
 
 	while (offset) {

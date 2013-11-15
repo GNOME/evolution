@@ -63,7 +63,7 @@ emfqe_attachment_format (EMailFormatterExtension *extension,
 
 	empa = E_MAIL_PART_ATTACHMENT (part);
 
-	if (!empa->attachment_view_part_id)
+	if (!empa || !empa->attachment_view_part_id)
 		return FALSE;
 
 	attachment_view_part = e_mail_part_list_ref_part (
@@ -78,7 +78,8 @@ emfqe_attachment_format (EMailFormatterExtension *extension,
 	mime_part = e_mail_part_ref_mime_part (part);
 	text = e_mail_part_describe (
 		mime_part,
-		empa ? empa->snoop_mime_type :
+		empa->snoop_mime_type && *empa->snoop_mime_type ?
+		empa->snoop_mime_type :
 		e_mail_part_get_mime_type (part));
 	g_object_unref (mime_part);
 

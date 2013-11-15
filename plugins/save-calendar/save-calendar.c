@@ -82,14 +82,14 @@ on_type_combobox_changed (GtkComboBox *combobox,
 		extra_widget_foreach_hide,
 		g_object_get_data (G_OBJECT (combobox), "format-box"));
 
-	gtk_combo_box_get_active_iter (combobox, &iter);
+	if (!gtk_combo_box_get_active_iter (combobox, &iter))
+		return;
 
 	gtk_tree_model_get (
 		model, &iter,
 		DEST_HANDLER, &handler, -1);
 
-	if (handler->options_widget)
-	{
+	if (handler && handler->options_widget) {
 		gtk_widget_show (handler->options_widget);
 	}
 
@@ -202,25 +202,30 @@ ask_destination_and_save (ESourceSelector *selector,
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
 		gchar *tmp = NULL;
 
-		gtk_combo_box_get_active_iter (combo, &iter);
-		gtk_tree_model_get (
-			model, &iter,
-			DEST_HANDLER, &handler, -1);
+		if (gtk_combo_box_get_active_iter (combo, &iter))
+			gtk_tree_model_get (
+				model, &iter,
+				DEST_HANDLER, &handler, -1);
+		else
+			handler = NULL;
 
-	       dest_uri = gtk_file_chooser_get_uri
-			(GTK_FILE_CHOOSER (dialog));
+		dest_uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (dialog));
 
-		tmp = strstr (dest_uri, handler->filename_ext);
+		if (handler) {
+			tmp = strstr (dest_uri, handler->filename_ext);
 
-		if (!(tmp && *(tmp + strlen (handler->filename_ext)) == '\0')) {
+			if (!(tmp && *(tmp + strlen (handler->filename_ext)) == '\0')) {
 
-			gchar *temp;
-			temp = g_strconcat (dest_uri, handler->filename_ext, NULL);
-			g_free (dest_uri);
-			dest_uri = temp;
+				gchar *temp;
+				temp = g_strconcat (dest_uri, handler->filename_ext, NULL);
+				g_free (dest_uri);
+				dest_uri = temp;
+			}
+
+			handler->save (handler, selector, type, dest_uri);
+		} else {
+			g_warn_if_reached ();
 		}
-
-		handler->save (handler, selector, type, dest_uri);
 	}
 
 	/* Free the handlers */

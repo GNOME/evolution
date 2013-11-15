@@ -3076,9 +3076,12 @@ eti_event (GnomeCanvasItem *item,
 				e_table_item_leave_edit_(eti);
 			}
 		}
+		return_val = FALSE;
+		break;
 
 	default:
 		return_val = FALSE;
+		break;
 	}
 	/* d(g_print("%s: returning: %s\n", __FUNCTION__, return_val?"true":"false"));*/
 
@@ -3601,9 +3604,11 @@ e_table_item_enter_edit (ETableItem *eti,
 	eti->editing_col = col;
 	eti->editing_row = row;
 
-	eti->edit_ctx = e_cell_enter_edit (eti->cell_views[col], view_to_model_col (eti, col), col, row);
+	if (col >= 0) {
+		eti->edit_ctx = e_cell_enter_edit (eti->cell_views[col], view_to_model_col (eti, col), col, row);
 
-	g_object_notify (G_OBJECT (eti), "is-editing");
+		g_object_notify (G_OBJECT (eti), "is-editing");
+	}
 }
 
 /**

@@ -2943,7 +2943,6 @@ mail_reader_set_folder (EMailReader *reader,
 
 	priv = E_MAIL_READER_GET_PRIVATE (reader);
 
-	backend = e_mail_reader_get_backend (reader);
 	display = e_mail_reader_get_mail_display (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 

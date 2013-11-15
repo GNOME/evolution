@@ -197,12 +197,12 @@ handle_http_request (GSimpleAsyncResult *res,
 	evo_uri = soup_uri_to_string (soup_uri, FALSE);
 
 	if (camel_debug_start ("emformat:requests")) {
-		printf ("%s: looking for '%s'\n", G_STRFUNC, evo_uri);
+		printf ("%s: looking for '%s'\n", G_STRFUNC, evo_uri ? evo_uri : "[null]");
 		camel_debug_end ();
 	}
 
 	/* Remove the "evo-" prefix from scheme */
-	uri_len = strlen (evo_uri);
+	uri_len = evo_uri ? strlen (evo_uri) : 0;
 	uri = NULL;
 	if (evo_uri && (uri_len > 5)) {
 

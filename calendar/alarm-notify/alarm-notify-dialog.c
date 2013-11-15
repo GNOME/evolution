@@ -155,7 +155,10 @@ dialog_response_cb (GtkDialog *dialog,
 		gtk_tree_model_get (treemodel, &iter, ALARM_FUNCINFO_COLUMN, &funcinfo, -1);
 	}
 
-	g_return_if_fail (funcinfo);
+	if (!funcinfo) {
+		g_warn_if_reached ();
+		return;
+	}
 
 	switch (response_id) {
 	case GTK_RESPONSE_CLOSE:
@@ -178,7 +181,10 @@ edit_pressed_cb (GtkButton *button,
 	if (gtk_tree_selection_get_selected (selection, &model, &iter))
 		gtk_tree_model_get (model, &iter, ALARM_FUNCINFO_COLUMN, &funcinfo, -1);
 
-	g_return_if_fail (funcinfo);
+	if (!funcinfo) {
+		g_warn_if_reached ();
+		return;
+	}
 
 	(* funcinfo->func) (ALARM_NOTIFY_EDIT, -1, funcinfo->func_data);
 }
@@ -196,7 +202,10 @@ print_pressed_cb (GtkButton *button,
 	if (gtk_tree_selection_get_selected (selection, &model, &iter))
 		gtk_tree_model_get (model, &iter, ALARM_FUNCINFO_COLUMN, &funcinfo, -1);
 
-	g_return_if_fail (funcinfo);
+	if (!funcinfo) {
+		g_warn_if_reached ();
+		return;
+	}
 
 	(* funcinfo->func) (ALARM_NOTIFY_PRINT, -1, funcinfo->func_data);
 }
@@ -219,7 +228,10 @@ snooze_pressed_cb (GtkButton *button,
 	if (gtk_tree_selection_get_selected (selection, &model, &iter))
 		gtk_tree_model_get (model, &iter, ALARM_FUNCINFO_COLUMN, &funcinfo, -1);
 
-	g_return_if_fail (funcinfo);
+	if (!funcinfo) {
+		g_warn_if_reached ();
+		return;
+	}
 
 	snooze_timeout = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (an->snooze_time_min));
 	snooze_timeout += 60 * (gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (an->snooze_time_hrs)));
@@ -248,7 +260,10 @@ dismiss_pressed_cb (GtkButton *button,
 		if (gtk_tree_selection_get_selected (selection, &model, &iter))
 			gtk_tree_model_get (model, &iter, ALARM_FUNCINFO_COLUMN, &funcinfo, -1);
 
-		g_return_if_fail (funcinfo);
+		if (!funcinfo) {
+			g_warn_if_reached ();
+			return;
+		}
 
 		(* funcinfo->func) (ALARM_NOTIFY_DISMISS, -1, funcinfo->func_data);
 	}

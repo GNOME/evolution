@@ -1142,8 +1142,6 @@ table_interface_get_column_description (AtkTable *table,
 		case 6:
 			g_snprintf (buffer,128,"Sunday");
 			break;
-		default:
-			break;
 		}
 
 		ea_cell_table_set_column_label (cell_data, in_col, buffer);

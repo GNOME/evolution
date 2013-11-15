@@ -28,6 +28,7 @@
 
 #include "e-mail-backend.h"
 
+#include <errno.h>
 #include <string.h>
 #include <glib/gstdio.h>
 #include <glib/gi18n-lib.h>
@@ -638,7 +639,10 @@ mail_backend_folder_renamed_cb (MailFolderCache *folder_cache,
 		newname = mail_backend_uri_to_evname (new_uri, cachenames[ii]);
 
 		/* Ignore errors; doesn't matter. */
-		g_rename (oldname, newname);
+		if (g_rename (oldname, newname) == -1) {
+			g_warning ("%s: Failed to rename '%s' to '%s': %s", G_STRFUNC,
+				   oldname, newname, g_strerror (errno));
+		}
 
 		g_free (oldname);
 		g_free (newname);

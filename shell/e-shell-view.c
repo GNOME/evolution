@@ -452,6 +452,7 @@ shell_view_get_property (GObject *object,
 			g_value_set_object (
 				value, e_shell_view_get_shell_backend (
 				E_SHELL_VIEW (object)));
+			return;
 
 		case PROP_SHELL_CONTENT:
 			g_value_set_object (

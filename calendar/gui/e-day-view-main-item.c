@@ -1013,6 +1013,10 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 	g_return_if_fail (day_view != NULL);
 
 	days_shown = e_day_view_get_days_shown (day_view);
+	if (days_shown <= 0) {
+		g_warn_if_reached ();
+		return;
+	}
 
 	cal_view = E_CALENDAR_VIEW (day_view);
 	time_divisions = e_calendar_view_get_time_divisions (cal_view);

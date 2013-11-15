@@ -374,8 +374,7 @@ mbox_get_preview (EImport *ei,
 	mp = camel_mime_parser_new ();
 	camel_mime_parser_scan_from (mp, TRUE);
 	if (camel_mime_parser_init_with_fd (mp, fd) == -1) {
-		g_object_unref (mp);
-		return NULL;
+		goto cleanup;
 	}
 
 	while (camel_mime_parser_step (mp, NULL, NULL) == CAMEL_MIME_PARSER_STATE_FROM) {
@@ -416,14 +415,18 @@ mbox_get_preview (EImport *ei,
 	if (store) {
 		GtkTreeView *tree_view;
 		GtkTreeSelection *selection;
-		gboolean valid;
 
 		preview = e_web_view_preview_new ();
 		gtk_widget_show (preview);
 
 		tree_view = e_web_view_preview_get_tree_view (
 			E_WEB_VIEW_PREVIEW (preview));
-		g_return_val_if_fail (tree_view != NULL, NULL);
+		if (!tree_view) {
+			g_warn_if_reached ();
+			gtk_widget_destroy (preview);
+			preview = NULL;
+			goto cleanup;
+		}
 
 		gtk_tree_view_set_model (tree_view, GTK_TREE_MODEL (store));
 		g_object_unref (store);
@@ -443,16 +446,20 @@ mbox_get_preview (EImport *ei,
 				E_WEB_VIEW_PREVIEW (preview));
 
 		create_preview_func (G_OBJECT (preview), &preview_widget);
-		g_return_val_if_fail (preview_widget != NULL, NULL);
+		if (!preview_widget) {
+			g_warn_if_reached ();
+			goto cleanup;
+		}
 
 		e_web_view_preview_set_preview (
 			E_WEB_VIEW_PREVIEW (preview), preview_widget);
 		gtk_widget_show (preview_widget);
 
 		selection = gtk_tree_view_get_selection (tree_view);
-		valid = gtk_tree_model_get_iter_first (
-			GTK_TREE_MODEL (store), &iter);
-		g_return_val_if_fail (valid, NULL);
+		if (!gtk_tree_model_get_iter_first (GTK_TREE_MODEL (store), &iter)) {
+			g_warn_if_reached ();
+			goto cleanup;
+		}
 		gtk_tree_selection_select_iter (selection, &iter);
 
 		g_signal_connect (
@@ -463,6 +470,11 @@ mbox_get_preview (EImport *ei,
 			selection, E_WEB_VIEW_PREVIEW (preview));
 	}
 
+ cleanup:
+	g_object_unref (mp);
+
+	/* 'fd' is freed together with 'mp' */
+	/* coverity[leaked_handle] */
 	return preview;
 }
 

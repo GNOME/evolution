@@ -1233,7 +1233,7 @@ thread_select_foreach (ETreePath path,
 	do {
 		last = node;
 		node = node->parent;
-	} while (!G_NODE_IS_ROOT (node));
+	} while (node && !G_NODE_IS_ROOT (node));
 
 	g_ptr_array_add (tsi->paths, last);
 
@@ -1719,14 +1719,14 @@ ml_tree_value_at_ex (ETreeModel *etm,
 
 				/* Extract the single label from the hashtable. */
 				g_hash_table_iter_init (&iter, ld.labels_tag2iter);
-				g_hash_table_iter_next (&iter, NULL, (gpointer *) &label_defn);
+				if (g_hash_table_iter_next (&iter, NULL, (gpointer *) &label_defn)) {
+					e_mail_label_list_store_get_color (ld.store, label_defn, &colour_val);
 
-				e_mail_label_list_store_get_color (ld.store, label_defn, &colour_val);
-
-				/* XXX Hack to avoid returning an allocated string. */
-				colour_alloced = gdk_color_to_string (&colour_val);
-				colour = g_intern_string (colour_alloced);
-				g_free (colour_alloced);
+					/* XXX Hack to avoid returning an allocated string. */
+					colour_alloced = gdk_color_to_string (&colour_val);
+					colour = g_intern_string (colour_alloced);
+					g_free (colour_alloced);
+				}
 			} else if (camel_message_info_flags (msg_info) & CAMEL_MESSAGE_FLAGGED) {
 				/* FIXME: extract from the important.xpm somehow. */
 				colour = "#A7453E";
@@ -5412,9 +5412,11 @@ message_list_regen_thread (GSimpleAsyncResult *simple,
 
 	/* Handle search error or cancellation. */
 
-	if (local_error == NULL)
+	if (local_error == NULL) {
+		/* coverity[unchecked_value] */
 		g_cancellable_set_error_if_cancelled (
 			cancellable, &local_error);
+	}
 
 	if (local_error != NULL) {
 		g_simple_async_result_take_error (simple, local_error);
@@ -5506,9 +5508,8 @@ message_list_regen_done_cb (GObject *source_object,
 
 	activity = regen_data->activity;
 
-	g_simple_async_result_propagate_error (simple, &local_error);
-
-	if (e_activity_handle_cancellation (activity, local_error)) {
+	if (g_simple_async_result_propagate_error (simple, &local_error) &&
+	    e_activity_handle_cancellation (activity, local_error)) {
 		g_error_free (local_error);
 		return;
 

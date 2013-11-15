@@ -480,7 +480,10 @@ day_event_cb (GnomeCanvasItem *item,
 			break;
 	}
 
-	g_return_val_if_fail (ii < 7, FALSE);
+	if (ii >= 7) {
+		g_warn_if_reached ();
+		return FALSE;
+	}
 
 	chooser->priv->focus_day = e_weekday_add_days (
 		chooser->priv->week_start_day, ii);
@@ -634,7 +637,7 @@ e_weekday_chooser_set_blocked (EWeekdayChooser *chooser,
 GDateWeekday
 e_weekday_chooser_get_week_start_day (EWeekdayChooser *chooser)
 {
-	g_return_val_if_fail (E_IS_WEEKDAY_CHOOSER (chooser), -1);
+	g_return_val_if_fail (E_IS_WEEKDAY_CHOOSER (chooser), G_DATE_BAD_WEEKDAY);
 
 	return chooser->priv->week_start_day;
 }

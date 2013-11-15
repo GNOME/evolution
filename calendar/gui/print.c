@@ -1654,8 +1654,10 @@ print_day_details (GtkPrintContext *context,
 
 			/* this ugly thing is here only to get rid of compiler warning
 			 * about unused 'jump_xpm_focused' */
-			if (pixbuf)
+			if (pixbuf) {
+				/* coverity[dead_error_line] */
 				xpm = (const gchar **) jump_xpm_focused;
+			}
 
 			pixbuf = gdk_pixbuf_new_from_xpm_data (xpm);
 		}
@@ -2002,11 +2004,6 @@ print_week_event (GtkPrintContext *context,
 
 			if (!pixbuf) {
 				const gchar **xpm = (const gchar **) jump_xpm;
-
-				/* this ugly thing is here only to get rid of compiler warning
-				 * about unused 'jump_xpm_focused' */
-				if (pixbuf)
-					xpm = (const gchar **) jump_xpm_focused;
 
 				pixbuf = gdk_pixbuf_new_from_xpm_data (xpm);
 			}
@@ -2839,11 +2836,6 @@ print_work_week_day_details (GtkPrintContext *context,
 
 		if (!pixbuf) {
 			const gchar **xpm = (const gchar **) jump_xpm;
-
-			/* this ugly thing is here only to get rid of compiler warning
-			 * about unused 'jump_xpm_focused' */
-			if (pixbuf)
-				xpm = (const gchar **) jump_xpm_focused;
 
 			pixbuf = gdk_pixbuf_new_from_xpm_data (xpm);
 		}

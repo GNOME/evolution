@@ -156,7 +156,7 @@ e_shell_run_save_dialog (EShell *shell,
 		gchar **flts = g_strsplit (filters, ";", -1);
 		gint i;
 
-		for (i = 0; flts[i]; i++) {
+		for (i = 0; flts && flts[i]; i++) {
 			GtkFileFilter *filter = gtk_file_filter_new ();
 			gchar *flt = flts[i];
 			gchar *delim = strchr (flt, ':'), *next = NULL;

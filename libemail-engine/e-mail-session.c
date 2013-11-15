@@ -190,7 +190,7 @@ user_message_response_cb (GObject *source,
 	}
 
 	/* waiting for a response? */
-	if (m && m->button_captions)
+	if (m->button_captions)
 		e_flag_set (m->done);
 
 	/* check for pendings */

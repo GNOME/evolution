@@ -32,6 +32,7 @@
 #include <config.h>
 #endif
 
+#include <errno.h>
 #include <string.h>
 #include <time.h>
 
@@ -1152,12 +1153,18 @@ rename_folders (MailFolderCache *cache,
 	e_filename_make_safe (newuri);
 	oldfile = g_strdup_printf ("%s/custom_view-%s.xml", config_dir, olduri);
 	newfile = g_strdup_printf ("%s/custom_view-%s.xml", config_dir, newuri);
-	g_rename (oldfile, newfile);
+	if (g_rename (oldfile, newfile) == -1) {
+		g_warning ("%s: Failed to rename '%s' to '%s': %s", G_STRFUNC,
+			   oldfile, newfile, g_strerror (errno));
+	}
 	g_free (oldfile);
 	g_free (newfile);
 	oldfile = g_strdup_printf ("%s/current_view-%s.xml", config_dir, olduri);
 	newfile = g_strdup_printf ("%s/current_view-%s.xml", config_dir, newuri);
-	g_rename (oldfile, newfile);
+	if (g_rename (oldfile, newfile) == -1) {
+		g_warning ("%s: Failed to rename '%s' to '%s': %s", G_STRFUNC,
+			   oldfile, newfile, g_strerror (errno));
+	}
 	g_free (oldfile);
 	g_free (newfile);
 	g_free (olduri);

@@ -2191,6 +2191,11 @@ e_attachment_load_finish (EAttachment *attachment,
 	g_return_val_if_fail (G_IS_SIMPLE_ASYNC_RESULT (result), FALSE);
 
 	simple = G_SIMPLE_ASYNC_RESULT (result);
+	if (g_simple_async_result_propagate_error (simple, error)) {
+		attachment_set_loading (attachment, FALSE);
+		return FALSE;
+	}
+
 	load_context = g_simple_async_result_get_op_res_gpointer (simple);
 
 	if (load_context != NULL && load_context->mime_part != NULL) {
@@ -2205,8 +2210,6 @@ e_attachment_load_finish (EAttachment *attachment,
 		e_attachment_set_mime_part (
 			attachment, load_context->mime_part);
 	}
-
-	g_simple_async_result_propagate_error (simple, error);
 
 	attachment_set_loading (attachment, FALSE);
 
@@ -2529,8 +2532,8 @@ e_attachment_open_finish (EAttachment *attachment,
 	g_return_val_if_fail (G_IS_SIMPLE_ASYNC_RESULT (result), FALSE);
 
 	simple = G_SIMPLE_ASYNC_RESULT (result);
-	success = g_simple_async_result_get_op_res_gboolean (simple);
-	g_simple_async_result_propagate_error (simple, error);
+	success = !g_simple_async_result_propagate_error (simple, error) &&
+		   g_simple_async_result_get_op_res_gboolean (simple);
 
 	return success;
 }
@@ -3066,10 +3069,14 @@ e_attachment_save_finish (EAttachment *attachment,
 	g_return_val_if_fail (G_IS_SIMPLE_ASYNC_RESULT (result), NULL);
 
 	simple = G_SIMPLE_ASYNC_RESULT (result);
+	if (g_simple_async_result_propagate_error (simple, error)) {
+		attachment_set_saving (attachment, FALSE);
+		return NULL;
+	}
+
 	destination = g_simple_async_result_get_op_res_gpointer (simple);
 	if (destination != NULL)
 		g_object_ref (destination);
-	g_simple_async_result_propagate_error (simple, error);
 
 	attachment_set_saving (attachment, FALSE);
 

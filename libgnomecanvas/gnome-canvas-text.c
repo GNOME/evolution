@@ -935,12 +935,15 @@ gnome_canvas_text_set_property (GObject *object,
 		color_name = g_value_get_string (value);
 		if (color_name) {
 			GdkColor color;
-			gdk_color_parse (color_name, &color);
-
-			text->rgba = ((color.red & 0xff00) << 16 |
-				      (color.green & 0xff00) << 8 |
-				      (color.blue & 0xff00) |
-				      0xff);
+			if (gdk_color_parse (color_name, &color)) {
+				text->rgba = ((color.red & 0xff00) << 16 |
+					      (color.green & 0xff00) << 8 |
+					      (color.blue & 0xff00) |
+					      0xff);
+			} else {
+				g_warning ("%s: Failed to parse color form string '%s'",
+					G_STRFUNC, color_name);
+			}
 		}
 		break;
 	}

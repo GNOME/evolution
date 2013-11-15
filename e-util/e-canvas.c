@@ -678,14 +678,12 @@ e_canvas_item_grab_focus (GnomeCanvasItem *item,
 		gtk_widget_grab_focus (GTK_WIDGET (item->canvas));
 	}
 
-	if (item) {
-		ev.focus_change.type = GDK_FOCUS_CHANGE;
-		ev.focus_change.window = bin_window;
-		ev.focus_change.send_event = FALSE;
-		ev.focus_change.in = TRUE;
+	ev.focus_change.type = GDK_FOCUS_CHANGE;
+	ev.focus_change.window = bin_window;
+	ev.focus_change.send_event = FALSE;
+	ev.focus_change.in = TRUE;
 
-		canvas_emit_event (item->canvas, &ev);
-	}
+	canvas_emit_event (item->canvas, &ev);
 }
 
 static void

@@ -573,6 +573,7 @@ setup_widgets (ESendOptionsDialog *sod,
 			priv->help_section = g_strdup ("groupwise-placeholder");
 			gtk_widget_hide (priv->completed_label);
 			gtk_widget_hide (priv->when_completed);
+			break;
 		case E_ITEM_TASK:
 			priv->help_section = g_strdup ("groupwise-placeholder");
 			gtk_widget_hide (priv->security_label);
@@ -636,6 +637,7 @@ e_send_options_cb (GtkDialog *dialog,
 	switch (state) {
 		case GTK_RESPONSE_OK:
 			e_send_options_get_widgets_data (sod);
+			/* coverity[fallthrough] */
 		case GTK_RESPONSE_CANCEL:
 			gtk_widget_hide (priv->main);
 			gtk_widget_destroy (priv->main);

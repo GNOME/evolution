@@ -67,7 +67,7 @@ action_list_folders_init (ActionContext *p_actctx)
 		client = e_book_client_connect_sync (source, NULL, &error);
 
 		/* Sanity check. */
-		g_return_if_fail (
+		g_warn_if_fail (
 			((client != NULL) && (error == NULL)) ||
 			((client == NULL) && (error != NULL)));
 

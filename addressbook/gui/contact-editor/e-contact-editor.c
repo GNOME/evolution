@@ -433,6 +433,7 @@ style_makes_sense (const EContactName *name,
 			else
 				return FALSE;
 		}
+		return FALSE;
 	case 3:
 		if (company && *company)
 			return TRUE;
@@ -1125,7 +1126,7 @@ extract_email (EContactEditor *editor)
 {
 	GList *attr_list = NULL;
 	GList *old_attr_list;
-	GList *l, *l_next;
+	GList *ll;
 	gint   i;
 
 	for (i = 1; i <= EMAIL_SLOTS; i++) {
@@ -1157,14 +1158,12 @@ extract_email (EContactEditor *editor)
 	/* Splice in the old attributes, minus the EMAIL_SLOTS first */
 
 	old_attr_list = e_contact_get_attributes (editor->contact, E_CONTACT_EMAIL);
-	for (l = old_attr_list, i = 1; l && i <= EMAIL_SLOTS; l = l_next, i++) {
-		l_next = g_list_next (l);
-
-		e_vcard_attribute_free (l->data);
-		l = g_list_delete_link (l, l);
+	for (ll = old_attr_list, i = 1; ll && i <= EMAIL_SLOTS; i++) {
+		e_vcard_attribute_free (ll->data);
+		ll = g_list_delete_link (ll, ll);
 	}
 
-	old_attr_list = l;
+	old_attr_list = ll;
 	attr_list = g_list_concat (attr_list, old_attr_list);
 
 	e_contact_set_attributes (editor->contact, E_CONTACT_EMAIL, attr_list);
@@ -1468,7 +1467,7 @@ extract_phone (EContactEditor *editor)
 {
 	GList *attr_list = NULL;
 	GList *old_attr_list;
-	GList *l, *l_next;
+	GList *ll;
 	gint   i;
 
 	for (i = 1; i <= PHONE_SLOTS; i++) {
@@ -1509,14 +1508,12 @@ extract_phone (EContactEditor *editor)
 	/* Splice in the old attributes, minus the PHONE_SLOTS first */
 
 	old_attr_list = get_attributes_named (E_VCARD (editor->contact), "TEL");
-	for (l = old_attr_list, i = 1; l && i <= PHONE_SLOTS; l = l_next, i++) {
-		l_next = g_list_next (l);
-
-		e_vcard_attribute_free (l->data);
-		l = g_list_delete_link (l, l);
+	for (ll = old_attr_list, i = 1; ll && i <= PHONE_SLOTS; i++) {
+		e_vcard_attribute_free (ll->data);
+		ll = g_list_delete_link (ll, ll);
 	}
 
-	old_attr_list = l;
+	old_attr_list = ll;
 	attr_list = g_list_concat (attr_list, old_attr_list);
 
 	set_attributes_named (E_VCARD (editor->contact), "TEL", attr_list);
@@ -1913,7 +1910,7 @@ extract_im (EContactEditor *editor)
 	for (i = 0; i < G_N_ELEMENTS (im_service); i++) {
 		GList *old_service_attr_list;
 		gint   filled_in_slots;
-		GList *l, *l_next;
+		GList *ll;
 		gint   j;
 
 		/* Splice in the old attributes, minus the filled_in_slots first */
@@ -1925,15 +1922,14 @@ extract_im (EContactEditor *editor)
 			g_list_length (old_service_attr_list));
 		remaining_slots -= filled_in_slots;
 
-		for (l = old_service_attr_list, j = 0;
-			l && j < filled_in_slots; l = l_next, j++) {
-			l_next = g_list_next (l);
+		for (ll = old_service_attr_list, j = 0;
+		     ll && j < filled_in_slots; j++) {
 
-			e_vcard_attribute_free (l->data);
-			l = g_list_delete_link (l, l);
+			e_vcard_attribute_free (ll->data);
+			ll = g_list_delete_link (ll, ll);
 		}
 
-		old_service_attr_list = l;
+		old_service_attr_list = ll;
 		service_attr_list[i] = g_list_concat (
 			service_attr_list[i], old_service_attr_list);
 

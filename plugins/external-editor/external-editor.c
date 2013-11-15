@@ -26,6 +26,8 @@
 #include <config.h>
 #endif
 
+#include <errno.h>
+
 #include <mail/em-config.h>
 #include <mail/em-composer-utils.h>
 #include <e-msg-composer.h>
@@ -374,7 +376,9 @@ external_editor_thread (gpointer user_data)
 			g_idle_add ((GSourceFunc) update_composer_text, array);
 
 			/* We no longer need that temporary file */
-			g_remove (filename);
+			if (g_remove (filename) == -1)
+				g_warning ("%s: Failed to remove file '%s': %s",
+					   G_STRFUNC, filename, g_strerror (errno));
 			g_free (filename);
 		}
 	}

@@ -191,6 +191,7 @@ e_mail_config_page_compare (GtkWidget *page_a,
 	if (interface_a == NULL && interface_b != NULL)
 		return 1;
 
+	/* coverity[var_deref_op] */
 	if (interface_a->sort_order < interface_b->sort_order)
 		return -1;
 

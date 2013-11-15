@@ -726,8 +726,11 @@ e_text_set_property (GObject *object,
 		break;
 
 	case PROP_FILL_COLOR:
-		if (g_value_get_string (value))
-			gdk_color_parse (g_value_get_string (value), &color);
+		if (g_value_get_string (value) &&
+		    !gdk_color_parse (g_value_get_string (value), &color)) {
+			g_warning ("%s: Failed to parse color '%s'", G_STRFUNC, g_value_get_string (value));
+			break;
+		}
 
 		text->rgba = ((color.red & 0xff00) << 16 |
 			      (color.green & 0xff00) << 8 |
@@ -1275,7 +1278,7 @@ e_text_draw (GnomeCanvasItem *item,
 
 	if (text->editing) {
 		if (text->selection_start != text->selection_end) {
-			cairo_region_t *clip_region = cairo_region_create ();
+			cairo_region_t *clip_region;
 			gint indices[2];
 			GtkStateType state;
 

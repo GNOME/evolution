@@ -86,8 +86,6 @@ em_utils_folder_is_drafts (ESourceRegistry *registry,
 
 	folder_uri = e_mail_folder_uri_from_folder (folder);
 
-	store = camel_folder_get_parent_store (folder);
-
 	extension_name = E_SOURCE_EXTENSION_MAIL_COMPOSITION;
 	list = e_source_registry_list_sources (registry, extension_name);
 
@@ -157,8 +155,6 @@ em_utils_folder_is_templates (ESourceRegistry *registry,
 
 	folder_uri = e_mail_folder_uri_from_folder (folder);
 
-	store = camel_folder_get_parent_store (folder);
-
 	extension_name = E_SOURCE_EXTENSION_MAIL_COMPOSITION;
 	list = e_source_registry_list_sources (registry, extension_name);
 
@@ -226,8 +222,6 @@ em_utils_folder_is_sent (ESourceRegistry *registry,
 	}
 
 	folder_uri = e_mail_folder_uri_from_folder (folder);
-
-	store = camel_folder_get_parent_store (folder);
 
 	extension_name = E_SOURCE_EXTENSION_MAIL_SUBMISSION;
 	list = e_source_registry_list_sources (registry, extension_name);

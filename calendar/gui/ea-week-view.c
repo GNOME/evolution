@@ -232,13 +232,8 @@ ea_week_view_get_n_children (AtkObject *accessible)
 
 		event = &g_array_index (week_view->events,
 					EWeekViewEvent, event_index);
-		if (!event)
-			continue;
 		span = &g_array_index (week_view->spans, EWeekViewEventSpan,
 				       event->spans_index + 0);
-
-		if (!span)
-			continue;
 
 		/* at least one of the event spans is visible, count it */
 		if (span->text_item)
@@ -299,14 +294,8 @@ ea_week_view_ref_child (AtkObject *accessible,
 
 		event = &g_array_index (week_view->events,
 					EWeekViewEvent, event_index);
-		if (!event)
-			continue;
-
 		span = &g_array_index (week_view->spans, EWeekViewEventSpan,
 				       event->spans_index + span_num);
-
-		if (!span)
-			continue;
 
 		current_day = span->start_day;
 		if (span->text_item)

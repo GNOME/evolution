@@ -997,7 +997,11 @@ e_meeting_time_selector_create_no_info_pattern (EMeetingTimeSelector *mts)
 		CAIRO_CONTENT_COLOR, 8, 8);
 	cr = cairo_create (surface);
 
-	gdk_color_parse ("white", &color);
+	color.pixel = 0;
+	color.red = 0xFFFF;
+	color.green = 0xFFFF;
+	color.blue = 0xFFFF;
+
 	gdk_cairo_set_source_color (cr, &color);
 	cairo_paint (cr);
 

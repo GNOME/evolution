@@ -149,7 +149,9 @@ cp (const gchar *src,
 	ut.actime = st.st_atime;
 	ut.modtime = st.st_mtime;
 	utime (dest, &ut);
-	chmod (dest, st.st_mode);
+	if (chmod (dest, st.st_mode) == -1) {
+		g_warning ("%s: Failed to chmod '%s': %s", G_STRFUNC, dest, g_strerror (errno));
+	}
 
 	return TRUE;
 
@@ -264,7 +266,10 @@ em_rename_view_in_folder (gpointer data,
 		oldname = g_build_filename (views_dir, filename, NULL);
 		newname = g_build_filename (views_dir, newfile, NULL);
 
-		g_rename (oldname, newname);
+		if (g_rename (oldname, newname) == -1) {
+			g_warning ("%s: Failed to rename '%s' to '%s': %s", G_STRFUNC,
+				   oldname, newname, g_strerror (errno));
+		}
 
 		g_checksum_free (checksum);
 		g_free (oldname);

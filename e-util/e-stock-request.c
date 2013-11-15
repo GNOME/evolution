@@ -107,8 +107,11 @@ handle_stock_request_idle_cb (gpointer user_data)
 
 		filename = gtk_icon_info_get_filename (icon_info);
 		if (filename != NULL) {
-			g_file_get_contents (
-				filename, &buffer, &buff_len, &local_error);
+			if (!g_file_get_contents (
+				filename, &buffer, &buff_len, &local_error)) {
+				buffer = NULL;
+				buff_len = 0;
+			}
 			priv->content_type =
 				g_content_type_guess (filename, NULL, 0, NULL);
 

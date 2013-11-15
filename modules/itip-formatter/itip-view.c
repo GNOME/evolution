@@ -4483,6 +4483,7 @@ get_uri_for_part (CamelMimePart *mime_part)
 	/* Loading should be instantaneous since we already have
 	 * the full content, but we still have to crank the main
 	 * loop until the callback gets triggered. */
+	/* coverity[loop_condition] */
 	while (!status.done)
 		gtk_main_iteration ();
 
@@ -4495,6 +4496,7 @@ get_uri_for_part (CamelMimePart *mime_part)
 
 	/* We can't return until we have results, so crank
 	 * the main loop until the callback gets triggered. */
+	/* coverity[loop_condition] */
 	while (!status.done)
 		gtk_main_iteration ();
 
@@ -6004,6 +6006,7 @@ itip_view_init_view (ItipView *view)
 			case ICAL_METHOD_REQUEST:
                                 /* FIXME What about the name? */
 				itip_view_set_delegator (view, info->delegator_name ? info->delegator_name : info->delegator_address);
+				/* coverity[fallthrough] */
 			case ICAL_METHOD_PUBLISH:
 			case ICAL_METHOD_ADD:
 			case ICAL_METHOD_CANCEL:
@@ -6019,13 +6022,13 @@ itip_view_init_view (ItipView *view)
 					itip_view_set_organizer_sentby (
 						view, itip_strip_mailto (organizer.sentby));
 
-					if (info->my_address) {
-						if (!(organizer.value && !g_ascii_strcasecmp (itip_strip_mailto (organizer.value), info->my_address))
-							&& !(organizer.sentby && !g_ascii_strcasecmp (itip_strip_mailto (organizer.sentby), info->my_address))
-							&& (info->to_address && g_ascii_strcasecmp (info->to_address, info->my_address)))
-							itip_view_set_proxy (view, info->to_name ? info->to_name : info->to_address);
-					}
-					break;
+				if (info->my_address) {
+					if (!(organizer.value && !g_ascii_strcasecmp (itip_strip_mailto (organizer.value), info->my_address))
+						&& !(organizer.sentby && !g_ascii_strcasecmp (itip_strip_mailto (organizer.sentby), info->my_address))
+						&& (info->to_address && g_ascii_strcasecmp (info->to_address, info->my_address)))
+						itip_view_set_proxy (view, info->to_name ? info->to_name : info->to_address);
+				}
+				break;
 			case ICAL_METHOD_REPLY:
 			case ICAL_METHOD_REFRESH:
 			case ICAL_METHOD_COUNTER:

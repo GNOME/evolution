@@ -588,6 +588,9 @@ set_status (ECalModelComponent *comp_data,
 	case ICAL_STATUS_COMPLETED:
 		ensure_task_complete (comp_data, -1);
 		break;
+
+	/* to make compiler happy */
+	/* coverity[dead_error_begin] */
 	default:
 		break;
 	}

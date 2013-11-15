@@ -16,8 +16,11 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
+#include <errno.h>
 #include <glib/gstdio.h>
 #include <camel/camel.h>
 
@@ -168,8 +171,11 @@ rename_mbox_dir (ESource *mbox_source,
 		g_file_test (old_mail_dir, G_FILE_TEST_EXISTS) &&
 		!g_file_test (new_mail_dir, G_FILE_TEST_EXISTS);
 
-	if (need_rename)
-		g_rename (old_mail_dir, new_mail_dir);
+	if (need_rename) {
+		if (g_rename (old_mail_dir, new_mail_dir) == -1)
+			g_warning ("%s: Failed to rename '%s' to '%s': %s",
+				   G_STRFUNC, old_mail_dir, new_mail_dir, g_strerror (errno));
+	}
 
 	g_free (old_mail_dir);
 	g_free (new_mail_dir);
@@ -246,7 +252,9 @@ migrate_mbox_to_maildir (EShell *shell,
 
 	path = g_build_filename (data_dir, "local", NULL);
 	g_object_set (settings, "path", path, NULL);
-	g_mkdir (path, 0700);
+	if (g_mkdir (path, 0700) == -1)
+		g_warning ("%s: Failed to make directory '%s': %s",
+			   G_STRFUNC, path, g_strerror (errno));
 	g_free (path);
 
 	g_object_unref (settings);
@@ -257,6 +265,7 @@ migrate_mbox_to_maildir (EShell *shell,
 	ms.complete = FALSE;
 
 	thread = g_thread_new (NULL, (GThreadFunc) migrate_stores, &ms);
+	/* coverity[loop_condition] */
 	while (!ms.complete)
 		g_main_context_iteration (NULL, TRUE);
 

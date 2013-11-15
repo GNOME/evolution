@@ -554,6 +554,8 @@ folder_tree_maybe_expand_row (EMFolderTreeModel *model,
 	if (u) {
 		gchar *c = strrchr (key, '/');
 
+		/* 'c' cannot be NULL, because the above contructed 'key' has it there */
+		/* coverity[dereference] */
 		*c = '\0';
 		folder_tree_expand_node (key, folder_tree);
 
@@ -3036,12 +3038,10 @@ em_folder_tree_set_selected_list (EMFolderTree *folder_tree,
 				g_slist_append (priv->select_uris, u);
 		}
 
-		end = strrchr (expand_key, '/');
-		do {
+		while (end = strrchr (expand_key, '/'), end) {
 			folder_tree_expand_node (expand_key, folder_tree);
 			*end = 0;
-			end = strrchr (expand_key, '/');
-		} while (end);
+		}
 
 		if (expand_only)
 			folder_tree_free_select_uri (u);
@@ -3108,33 +3108,39 @@ em_folder_tree_select_next_path (EMFolderTree *folder_tree,
 		current_path = gtk_tree_model_get_path (model, &iter);
 
 		do {
-		if (gtk_tree_model_iter_has_child (model, &iter)) {
-			gtk_tree_model_iter_children (model, &child, &iter);
-			path = gtk_tree_model_get_path (model, &child);
-			iter = child;
-		} else {
-			while (1) {
-				gboolean has_parent;
-
-				has_parent = gtk_tree_model_iter_parent (
-					model, &parent, &iter);
-
-				if (gtk_tree_model_iter_next (model, &iter)) {
-					path = gtk_tree_model_get_path (model, &iter);
+			if (gtk_tree_model_iter_has_child (model, &iter)) {
+				if (!gtk_tree_model_iter_children (model, &child, &iter))
 					break;
-				} else {
-					if (has_parent) {
-						iter =  parent;
-					} else {
-						/* Reached end. Wrapup*/
-						gtk_tree_model_get_iter_first (model, &iter);
+				path = gtk_tree_model_get_path (model, &child);
+				iter = child;
+			} else {
+				while (1) {
+					gboolean has_parent;
+
+					has_parent = gtk_tree_model_iter_parent (
+						model, &parent, &iter);
+
+					if (gtk_tree_model_iter_next (model, &iter)) {
 						path = gtk_tree_model_get_path (model, &iter);
 						break;
+					} else {
+						if (has_parent) {
+							iter =  parent;
+						} else {
+							/* Reached end. Wrapup*/
+							if (gtk_tree_model_get_iter_first (model, &iter))
+								path = gtk_tree_model_get_path (model, &iter);
+							else
+								path = NULL;
+							break;
+						}
 					}
 				}
+
+				if (!path)
+					break;
 			}
-		}
-		gtk_tree_model_get (model, &iter, COL_UINT_UNREAD, &unread, -1);
+			gtk_tree_model_get (model, &iter, COL_UINT_UNREAD, &unread, -1);
 
 		/* TODO : Flags here for better options */
 		} while (skip_read_folders && unread <=0 &&
@@ -3153,6 +3159,7 @@ em_folder_tree_select_next_path (EMFolderTree *folder_tree,
 		}
 		gtk_tree_view_scroll_to_cell (tree_view, path, NULL, TRUE, 0.5f, 0.0f);
 	}
+
 	return;
 }
 

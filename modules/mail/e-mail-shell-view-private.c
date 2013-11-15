@@ -178,9 +178,6 @@ ctrl:
 			goto exit;
 	}
 
-	/* All branches jump past this. */
-	g_return_val_if_reached (FALSE);
-
 emit:
 	/* Forward the key press to the EMailReader interface. */
 	g_signal_emit_by_name (mail_view, "key-press-event", event, &handled);

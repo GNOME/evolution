@@ -888,7 +888,7 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 			draw_end = FALSE;
 			break;
 		default:
-			g_return_if_reached ();
+			g_warn_if_reached ();
 			draw_start = FALSE;
 			draw_end = FALSE;
 			break;

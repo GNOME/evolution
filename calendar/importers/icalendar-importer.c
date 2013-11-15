@@ -1004,33 +1004,27 @@ gnome_calendar_import (EImport *ei,
 	g_free (filename);
 
 	/* If we couldn't load the file, just return. FIXME: Error message? */
-	if (!icalcomp)
-		goto out;
+	if (icalcomp) {
+		ici = g_malloc0 (sizeof (*ici));
+		ici->ei = ei;
+		ici->target = target;
+		ici->cancellable = g_cancellable_new ();
+		ici->icalcomp = icalcomp;
 
-	ici = g_malloc0 (sizeof (*ici));
-	ici->ei = ei;
-	ici->target = target;
-	ici->cancellable = g_cancellable_new ();
-	ici->icalcomp = icalcomp;
-	icalcomp = NULL;
+		g_datalist_set_data_full (&target->data, "gnomecal-data", ici, free_ici);
 
-	g_datalist_set_data_full (&target->data, "gnomecal-data", ici, free_ici);
+		prepare_events (ici->icalcomp, &ici->tasks);
+		if (do_calendar) {
+			open_default_source (ici, E_CAL_CLIENT_SOURCE_TYPE_EVENTS, gc_import_events);
+			return;
+		}
 
-	prepare_events (ici->icalcomp, &ici->tasks);
-	if (do_calendar) {
-		open_default_source (ici, E_CAL_CLIENT_SOURCE_TYPE_EVENTS, gc_import_events);
-		return;
+		prepare_tasks (ici->icalcomp, ici->tasks);
+		if (do_tasks) {
+			open_default_source (ici, E_CAL_CLIENT_SOURCE_TYPE_TASKS, gc_import_tasks);
+			return;
+		}
 	}
-
-	prepare_tasks (ici->icalcomp, ici->tasks);
-	if (do_tasks) {
-		open_default_source (ici, E_CAL_CLIENT_SOURCE_TYPE_TASKS, gc_import_tasks);
-		return;
-	}
-
- out:
-	if (icalcomp)
-		icalcomponent_free (icalcomp);
 
 	e_import_complete (ei, target);
 }

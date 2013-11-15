@@ -655,6 +655,8 @@ mail_call_main (mail_call_t type,
 	ret = m->ret;
 	mail_msg_unref (m);
 
+	/* the m->ap is freed on the message end, at do_free() above */
+	/* coverity[missing_va_end] */
 	return ret;
 }
 

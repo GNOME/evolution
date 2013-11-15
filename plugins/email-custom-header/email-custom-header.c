@@ -177,6 +177,7 @@ epech_header_options_cb (GtkDialog *dialog,
 	switch (state) {
 		case GTK_RESPONSE_OK:
 			epech_get_widgets_data (mch);
+			/* coverity[fallthrough] */
 		case GTK_RESPONSE_CANCEL:
 			gtk_widget_hide (priv->main);
 			gtk_widget_destroy (priv->main);

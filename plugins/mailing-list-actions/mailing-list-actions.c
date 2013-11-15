@@ -229,7 +229,7 @@ emla_list_action_cb (CamelFolder *folder,
 		/* get URL portion */
 		url = g_strndup (headerpos, end - headerpos);
 
-		if (strncmp (url, "mailto:", 6) == 0) {
+		if (url && strncmp (url, "mailto:", 6) == 0) {
 			if (emla_action_headers[t].interactive)
 				send_message_response = GTK_RESPONSE_NO;
 			else
@@ -253,7 +253,7 @@ emla_list_action_cb (CamelFolder *folder,
 			}
 
 			goto exit;
-		} else {
+		} else if (url && *url) {
 			e_show_uri (window, url);
 			goto exit;
 		}

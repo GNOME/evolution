@@ -1453,7 +1453,7 @@ e_table_group_container_print_page (EPrintable *ep,
 			break;
 		}
 
-		child = child->next;
+		child = child ? child->next : NULL;
 		if (!child) {
 			child_printable = NULL;
 			break;

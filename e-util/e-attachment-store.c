@@ -824,8 +824,10 @@ e_attachment_store_get_uris_finish (EAttachmentStore *store,
 	g_return_val_if_fail (G_IS_SIMPLE_ASYNC_RESULT (result), NULL);
 
 	simple = G_SIMPLE_ASYNC_RESULT (result);
+	if (g_simple_async_result_propagate_error (simple, error))
+		return NULL;
+
 	uris = g_simple_async_result_get_op_res_gpointer (simple);
-	g_simple_async_result_propagate_error (simple, error);
 
 	return uris;
 }
@@ -982,8 +984,8 @@ e_attachment_store_load_finish (EAttachmentStore *store,
 	g_return_val_if_fail (G_IS_SIMPLE_ASYNC_RESULT (result), FALSE);
 
 	simple = G_SIMPLE_ASYNC_RESULT (result);
-	success = g_simple_async_result_get_op_res_gboolean (simple);
-	g_simple_async_result_propagate_error (simple, error);
+	success = !g_simple_async_result_propagate_error (simple, error) &&
+		   g_simple_async_result_get_op_res_gboolean (simple);
 
 	return success;
 }
@@ -1332,8 +1334,10 @@ e_attachment_store_save_finish (EAttachmentStore *store,
 	g_return_val_if_fail (G_IS_SIMPLE_ASYNC_RESULT (result), NULL);
 
 	simple = G_SIMPLE_ASYNC_RESULT (result);
+	if (g_simple_async_result_propagate_error (simple, error))
+		return NULL;
+
 	uris = g_simple_async_result_get_op_res_gpointer (simple);
-	g_simple_async_result_propagate_error (simple, error);
 
 	return uris;
 }

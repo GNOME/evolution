@@ -58,8 +58,6 @@ format_short_headers (EMailFormatter *formatter,
 {
 	CamelMimePart *mime_part;
 	GtkTextDirection direction;
-	const gchar *charset;
-	CamelContentType *ct;
 	gchar *hdr_charset;
 	gchar *evolution_imagesdir;
 	gchar *subject = NULL;
@@ -73,9 +71,6 @@ format_short_headers (EMailFormatter *formatter,
 	mime_part = e_mail_part_ref_mime_part (part);
 	direction = gtk_widget_get_default_direction ();
 
-	ct = camel_mime_part_get_content_type (mime_part);
-	charset = camel_content_type_param (ct, "charset");
-	charset = camel_iconv_charset_name (charset);
 	hdr_charset = e_mail_formatter_dup_charset (formatter);
 	if (!hdr_charset)
 		hdr_charset = e_mail_formatter_dup_default_charset (formatter);

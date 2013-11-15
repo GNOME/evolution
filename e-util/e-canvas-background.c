@@ -121,13 +121,13 @@ ecb_set_property (GObject *object,
 
 	switch (property_id) {
 	case PROP_FILL_COLOR:
-		if (g_value_get_string (value))
-			gdk_color_parse (g_value_get_string (value), &color);
-
-		ecb->priv->rgba = ((color.red & 0xff00) << 16 |
-				   (color.green & 0xff00) << 8 |
-				   (color.blue & 0xff00) |
-				   0xff);
+		if (g_value_get_string (value) &&
+		    gdk_color_parse (g_value_get_string (value), &color)) {
+			ecb->priv->rgba = ((color.red & 0xff00) << 16 |
+					   (color.green & 0xff00) << 8 |
+					   (color.blue & 0xff00) |
+					   0xff);
+		}
 		break;
 
 	case PROP_FILL_COLOR_GDK:

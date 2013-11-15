@@ -72,6 +72,9 @@ create_uri (UrlEditorDialog *dialog)
 		case TYPE_ANON_FTP:
 			g_free (username);
 			username = g_strdup ("anonymous");
+			method = "ftp";
+			break;
+
 		case TYPE_FTP:
 			method = "ftp";
 			break;

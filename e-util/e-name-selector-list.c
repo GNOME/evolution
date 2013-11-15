@@ -465,8 +465,9 @@ enl_tree_button_press_event (GtkWidget *widget,
 	if (!gtk_widget_has_grab (GTK_WIDGET (list->priv->popup)))
 		enl_popup_grab (list, (GdkEvent *) event);
 
-	gtk_tree_view_get_dest_row_at_pos (
-		tree_view, event->x, event->y, &path, NULL);
+	if (!gtk_tree_view_get_dest_row_at_pos (
+		tree_view, event->x, event->y, &path, NULL))
+		return FALSE;
 	selection = gtk_tree_view_get_selection (tree_view);
 	if (!gtk_tree_model_get_iter (GTK_TREE_MODEL (store), &iter, path))
 		return FALSE;

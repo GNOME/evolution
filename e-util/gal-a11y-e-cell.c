@@ -359,7 +359,10 @@ gal_a11y_e_cell_remove_action_by_name (GalA11yECell *cell,
 		}
 	}
 
-	g_return_val_if_fail (list_node != NULL, FALSE);
+	if (!list_node) {
+		g_warn_if_reached ();
+		return FALSE;
+	}
 
 	_gal_a11y_e_cell_destroy_action_info (list_node->data, NULL);
 	cell->action_list = g_list_remove_link (cell->action_list, list_node);

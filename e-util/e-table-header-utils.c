@@ -272,6 +272,7 @@ e_table_header_draw_button (cairo_t *cr,
 		break;
 	}
 
+	/* coverity[dead_error_begin] */
 	default:
 		cairo_restore (cr);
 		g_return_if_reached ();

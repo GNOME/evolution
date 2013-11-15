@@ -2142,7 +2142,7 @@ static gboolean
 msg_composer_key_press_event (GtkWidget *widget,
                               GdkEventKey *event)
 {
-	EMsgComposer *composer = E_MSG_COMPOSER (widget);
+	EMsgComposer *composer;
 	GtkWidget *input_widget;
 	GtkhtmlEditor *editor;
 	EWebViewGtkHTML *web_view;
@@ -3140,87 +3140,81 @@ e_msg_composer_new_with_message (EShell *shell,
 			table, identity_uid);
 	}
 
-	if (postto == NULL) {
-		auto_cc = g_hash_table_new_full (
-			(GHashFunc) camel_strcase_hash,
-			(GEqualFunc) camel_strcase_equal,
-			(GDestroyNotify) g_free,
-			(GDestroyNotify) NULL);
+	auto_cc = g_hash_table_new_full (
+		(GHashFunc) camel_strcase_hash,
+		(GEqualFunc) camel_strcase_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) NULL);
 
-		auto_bcc = g_hash_table_new_full (
-			(GHashFunc) camel_strcase_hash,
-			(GEqualFunc) camel_strcase_equal,
-			(GDestroyNotify) g_free,
-			(GDestroyNotify) NULL);
+	auto_bcc = g_hash_table_new_full (
+		(GHashFunc) camel_strcase_hash,
+		(GEqualFunc) camel_strcase_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) NULL);
 
-		if (source != NULL) {
-			composer_add_auto_recipients (source, "cc", auto_cc);
-			composer_add_auto_recipients (source, "bcc", auto_bcc);
-		}
-
-		to = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
-		cc = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
-		bcc = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_BCC);
-
-		len = CAMEL_ADDRESS (to)->addresses->len;
-		for (i = 0; i < len; i++) {
-			const gchar *name, *addr;
-
-			if (camel_internet_address_get (to, i, &name, &addr)) {
-				EDestination *dest = e_destination_new ();
-				e_destination_set_name (dest, name);
-				e_destination_set_email (dest, addr);
-				To = g_list_append (To, dest);
-			}
-		}
-
-		Tov = destination_list_to_vector (To);
-		g_list_free (To);
-
-		len = CAMEL_ADDRESS (cc)->addresses->len;
-		for (i = 0; i < len; i++) {
-			const gchar *name, *addr;
-
-			if (camel_internet_address_get (cc, i, &name, &addr)) {
-				EDestination *dest = e_destination_new ();
-				e_destination_set_name (dest, name);
-				e_destination_set_email (dest, addr);
-
-				if (g_hash_table_contains (auto_cc, addr))
-					e_destination_set_auto_recipient (dest, TRUE);
-
-				Cc = g_list_append (Cc, dest);
-			}
-		}
-
-		Ccv = destination_list_to_vector (Cc);
-		g_hash_table_destroy (auto_cc);
-		g_list_free (Cc);
-
-		len = CAMEL_ADDRESS (bcc)->addresses->len;
-		for (i = 0; i < len; i++) {
-			const gchar *name, *addr;
-
-			if (camel_internet_address_get (bcc, i, &name, &addr)) {
-				EDestination *dest = e_destination_new ();
-				e_destination_set_name (dest, name);
-				e_destination_set_email (dest, addr);
-
-				if (g_hash_table_contains (auto_bcc, addr))
-					e_destination_set_auto_recipient (dest, TRUE);
-
-				Bcc = g_list_append (Bcc, dest);
-			}
-		}
-
-		Bccv = destination_list_to_vector (Bcc);
-		g_hash_table_destroy (auto_bcc);
-		g_list_free (Bcc);
-	} else {
-		Tov = NULL;
-		Ccv = NULL;
-		Bccv = NULL;
+	if (source != NULL) {
+		composer_add_auto_recipients (source, "cc", auto_cc);
+		composer_add_auto_recipients (source, "bcc", auto_bcc);
 	}
+
+	to = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
+	cc = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
+	bcc = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_BCC);
+
+	len = CAMEL_ADDRESS (to)->addresses->len;
+	for (i = 0; i < len; i++) {
+		const gchar *name, *addr;
+
+		if (camel_internet_address_get (to, i, &name, &addr)) {
+			EDestination *dest = e_destination_new ();
+			e_destination_set_name (dest, name);
+			e_destination_set_email (dest, addr);
+			To = g_list_append (To, dest);
+		}
+	}
+
+	Tov = destination_list_to_vector (To);
+	g_list_free (To);
+
+	len = CAMEL_ADDRESS (cc)->addresses->len;
+	for (i = 0; i < len; i++) {
+		const gchar *name, *addr;
+
+		if (camel_internet_address_get (cc, i, &name, &addr)) {
+			EDestination *dest = e_destination_new ();
+			e_destination_set_name (dest, name);
+			e_destination_set_email (dest, addr);
+
+			if (g_hash_table_contains (auto_cc, addr))
+				e_destination_set_auto_recipient (dest, TRUE);
+
+			Cc = g_list_append (Cc, dest);
+		}
+	}
+
+	Ccv = destination_list_to_vector (Cc);
+	g_hash_table_destroy (auto_cc);
+	g_list_free (Cc);
+
+	len = CAMEL_ADDRESS (bcc)->addresses->len;
+	for (i = 0; i < len; i++) {
+		const gchar *name, *addr;
+
+		if (camel_internet_address_get (bcc, i, &name, &addr)) {
+			EDestination *dest = e_destination_new ();
+			e_destination_set_name (dest, name);
+			e_destination_set_email (dest, addr);
+
+			if (g_hash_table_contains (auto_bcc, addr))
+				e_destination_set_auto_recipient (dest, TRUE);
+
+			Bcc = g_list_append (Bcc, dest);
+		}
+	}
+
+	Bccv = destination_list_to_vector (Bcc);
+	g_hash_table_destroy (auto_bcc);
+	g_list_free (Bcc);
 
 	if (source != NULL)
 		g_object_unref (source);

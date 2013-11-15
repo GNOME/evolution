@@ -231,7 +231,7 @@ static ETableColumnSpecification *
 find_column_spec_by_name (ETableSpecification *spec,
                           const gchar *s)
 {
-	ETableColumnSpecification *column;
+	ETableColumnSpecification *column = NULL;
 	GPtrArray *array;
 	guint ii;
 

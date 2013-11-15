@@ -634,6 +634,7 @@ comp_from (ECalComponentItipMethod method,
 			return sender;
 		if (!e_cal_component_has_attendees (comp))
 			return NULL;
+		/* coverity[fallthrough] */
 
 	case E_CAL_COMPONENT_METHOD_CANCEL:
 
@@ -1844,7 +1845,6 @@ reply_to_calendar_comp (ESourceRegistry *registry,
 	ECalComponent *comp = NULL;
 	icalcomponent *top_level = NULL;
 	icaltimezone *default_zone;
-	GSList *users = NULL;
 	gchar *subject = NULL;
 	gchar *ical_string = NULL;
 	gboolean retval = FALSE;
@@ -1865,7 +1865,7 @@ reply_to_calendar_comp (ESourceRegistry *registry,
 
 	/* Recipients */
 	destinations = comp_to_list (
-		registry, method, comp, users, reply_all, NULL);
+		registry, method, comp, NULL, reply_all, NULL);
 
 	/* Subject information */
 	subject = comp_subject (registry, method, comp);
@@ -2002,11 +2002,6 @@ reply_to_calendar_comp (ESourceRegistry *registry,
 		g_object_unref (comp);
 	if (top_level != NULL)
 		icalcomponent_free (top_level);
-
-	if (users) {
-		g_slist_foreach (users, (GFunc) g_free, NULL);
-		g_slist_free (users);
-	}
 
 	g_free (subject);
 	g_free (ical_string);

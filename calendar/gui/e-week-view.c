@@ -1259,7 +1259,6 @@ week_view_set_selected_time_range (ECalendarView *cal_view,
 {
 	GDate date, end_date;
 	gint num_days;
-	gboolean update_adjustment_value = FALSE;
 	EWeekView *week_view = E_WEEK_VIEW (cal_view);
 
 	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
@@ -1292,18 +1291,6 @@ week_view_set_selected_time_range (ECalendarView *cal_view,
 		week_view->selection_end_day,
 		week_view->selection_start_day,
 		num_days);
-
-	/* Reset the adjustment value to 0 if the base address has changed.
-	 * Note that we do this after updating first_day_shown so that our
-	 * signal handler will not try to reload the events. */
-	if (update_adjustment_value) {
-		GtkRange *range;
-		GtkAdjustment *adjustment;
-
-		range = GTK_RANGE (week_view->vscrollbar);
-		adjustment = gtk_range_get_adjustment (range);
-		gtk_adjustment_set_value (adjustment, 0);
-	}
 
 	gtk_widget_queue_draw (week_view->main_canvas);
 }
@@ -3703,7 +3690,7 @@ e_week_view_start_editing_event (EWeekView *week_view,
 		editing = &g_array_index (week_view->events, EWeekViewEvent, week_view->editing_event_num);
 
 		/* do not change to other part of same component - the event is spread into more days */
-		if (editing && event && editing->comp_data == event->comp_data)
+		if (editing && editing->comp_data == event->comp_data)
 			return FALSE;
 	}
 
@@ -4828,7 +4815,10 @@ e_week_view_on_jump_button_event (GnomeCanvasItem *item,
 				break;
 		}
 
-		g_return_val_if_fail (day < E_WEEK_VIEW_MAX_WEEKS * 7, FALSE);
+		if (day >= E_WEEK_VIEW_MAX_WEEKS * 7) {
+			g_warn_if_reached ();
+			return FALSE;
+		}
 
 		if (focus_event->in) {
 			week_view->focused_jump_button = day;

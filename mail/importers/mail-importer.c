@@ -203,6 +203,8 @@ fail1:
 	/* FIXME Not passing a GCancellable or GError here. */
 	camel_folder_synchronize_sync (folder, FALSE, NULL, NULL);
 	g_object_unref (folder);
+	/* 'fd' is freed together with 'mp' */
+	/* coverity[leaked_handle] */
 }
 
 static void

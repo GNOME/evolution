@@ -277,7 +277,7 @@ struct _EDayView {
 
 	/* This is the width & offset of each of the day columns in the
 	 * display. */
-	gint day_widths[E_DAY_VIEW_MAX_DAYS];
+	gint day_widths[E_DAY_VIEW_MAX_DAYS + 1];
 	gint day_offsets[E_DAY_VIEW_MAX_DAYS + 1];
 
 	/* An array holding the number of columns in each row, in each day.
