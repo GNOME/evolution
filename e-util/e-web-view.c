@@ -2341,6 +2341,9 @@ e_web_view_update_fonts_settings (GSettings *font_settings,
 			view_widget, pango_font_description_get_size (min_size) / PANGO_SCALE),
 		NULL);
 
+	webkit_web_view_group_remove_all_user_style_sheets (
+		web_view_group);
+
 	webkit_web_view_group_add_user_style_sheet (
 		web_view_group,
 		stylesheet->str,
