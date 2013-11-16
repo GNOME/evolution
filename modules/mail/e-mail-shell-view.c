@@ -121,10 +121,13 @@ search_results_exec (SearchResultsMsg *msg,
                      GCancellable *cancellable,
                      GError **error)
 {
-	GList *folders = NULL, *iter;
+	GList *folders = NULL, *link;
 
-	for (iter = msg->stores_list; iter && !g_cancellable_is_cancelled (cancellable); iter = iter->next) {
-		CamelStore *store = iter->data;
+	for (link = msg->stores_list; link != NULL; link = link->next) {
+		CamelStore *store = CAMEL_STORE (link->data);
+
+		if (g_cancellable_is_cancelled (cancellable))
+			break;
 
 		add_folders_from_store (&folders, store, cancellable, error);
 	}
@@ -343,7 +346,8 @@ mail_shell_view_execute_search (EShellView *shell_view)
 	message_list = e_mail_reader_get_message_list (reader);
 
 	registry = e_mail_session_get_registry (session);
-	label_store = e_mail_ui_session_get_label_store (E_MAIL_UI_SESSION (session));
+	label_store = e_mail_ui_session_get_label_store (
+		E_MAIL_UI_SESSION (session));
 
 	action = ACTION (MAIL_SEARCH_SUBJECT_OR_ADDRESSES_CONTAIN);
 	value = gtk_radio_action_get_current_value (GTK_RADIO_ACTION (action));
@@ -576,8 +580,9 @@ all_accounts:
 		 * avoid search conflicts, so we can't just grab the
 		 * folder URI and let the asynchronous callbacks run
 		 * after we've already kicked off the search. */
-		if (em_folder_tree_get_selected (folder_tree, &selected_store, &selected_folder_name) &&
-		    selected_store && selected_folder_name) {
+		em_folder_tree_get_selected (
+			folder_tree, &selected_store, &selected_folder_name);
+		if (selected_store != NULL && selected_folder_name != NULL) {
 			folder = camel_store_get_folder_sync (
 				selected_store, selected_folder_name,
 				CAMEL_STORE_FOLDER_INFO_FAST, NULL, NULL);
@@ -585,8 +590,7 @@ all_accounts:
 			g_object_unref (folder);
 		}
 
-		if (selected_store)
-			g_object_unref (selected_store);
+		g_clear_object (&selected_store);
 		g_free (selected_folder_name);
 
 		gtk_widget_set_sensitive (GTK_WIDGET (combo_box), TRUE);
@@ -597,9 +601,13 @@ all_accounts:
 	search_folder = priv->search_account_all;
 
 	/* Skip the search if we already have the results. */
-	if (search_folder != NULL)
-		if (g_strcmp0 (query, camel_vee_folder_get_expression (search_folder)) == 0)
+	if (search_folder != NULL) {
+		const gchar *vf_query;
+
+		vf_query = camel_vee_folder_get_expression (search_folder);
+		if (g_strcmp0 (query, vf_query) == 0)
 			goto all_accounts_setup;
+	}
 
 	/* Disable the scope combo while search is in progress. */
 	gtk_widget_set_sensitive (GTK_WIDGET (combo_box), FALSE);
@@ -680,8 +688,9 @@ current_account:
 		 * avoid search conflicts, so we can't just grab the
 		 * folder URI and let the asynchronous callbacks run
 		 * after we've already kicked off the search. */
-		if (em_folder_tree_get_selected (folder_tree, &selected_store, &selected_folder_name) &&
-		    selected_store && selected_folder_name) {
+		em_folder_tree_get_selected (
+			folder_tree, &selected_store, &selected_folder_name);
+		if (selected_store != NULL && selected_folder_name != NULL) {
 			folder = camel_store_get_folder_sync (
 				selected_store, selected_folder_name,
 				CAMEL_STORE_FOLDER_INFO_FAST, NULL, NULL);
@@ -689,8 +698,7 @@ current_account:
 			g_object_unref (folder);
 		}
 
-		if (selected_store)
-			g_object_unref (selected_store);
+		g_clear_object (&selected_store);
 		g_free (selected_folder_name);
 
 		gtk_widget_set_sensitive (GTK_WIDGET (combo_box), TRUE);
@@ -701,9 +709,13 @@ current_account:
 	search_folder = priv->search_account_current;
 
 	/* Skip the search if we already have the results. */
-	if (search_folder != NULL)
-		if (g_strcmp0 (query, camel_vee_folder_get_expression (search_folder)) == 0)
+	if (search_folder != NULL) {
+		const gchar *vf_query;
+
+		vf_query = camel_vee_folder_get_expression (search_folder);
+		if (g_strcmp0 (query, vf_query) == 0)
 			goto current_accout_setup;
+	}
 
 	/* Disable the scope combo while search is in progress. */
 	gtk_widget_set_sensitive (GTK_WIDGET (combo_box), FALSE);
@@ -947,7 +959,8 @@ mail_shell_view_update_actions (EShellView *shell_view)
 				GTK_TREE_MODEL (model), &iter, path);
 			has_unread_mail (
 				GTK_TREE_MODEL (model), &iter,
-				TRUE, &folder_has_unread, &folder_has_unread_rec);
+				TRUE, &folder_has_unread,
+				&folder_has_unread_rec);
 			gtk_tree_path_free (path);
 		}
 
