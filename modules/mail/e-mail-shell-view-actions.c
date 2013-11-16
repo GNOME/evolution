@@ -47,7 +47,8 @@ action_mail_account_disable_cb (GtkAction *action,
 
 	backend = E_MAIL_BACKEND (shell_backend);
 	session = e_mail_backend_get_session (backend);
-	account_store = e_mail_ui_session_get_account_store (E_MAIL_UI_SESSION (session));
+	account_store = e_mail_ui_session_get_account_store (
+		E_MAIL_UI_SESSION (session));
 
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
 	store = em_folder_tree_get_selected_store (folder_tree);
@@ -137,25 +138,30 @@ static void
 action_mail_account_refresh_cb (GtkAction *action,
                                 EMailShellView *mail_shell_view)
 {
+	EMailShellContent *mail_shell_content;
 	EMailShellSidebar *mail_shell_sidebar;
 	EMFolderTree *folder_tree;
-	EMailReader *reader;
+	EMailView *mail_view;
 	EActivity *activity;
 	CamelStore *store;
 	GCancellable *cancellable;
 
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
 	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
+
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
 	store = em_folder_tree_get_selected_store (folder_tree);
 	g_return_if_fail (store != NULL);
 
-	reader = E_MAIL_READER (e_mail_shell_content_get_mail_view (mail_shell_view->priv->mail_shell_content));
-	activity = e_mail_reader_new_activity (reader);
+	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
+	activity = e_mail_reader_new_activity (E_MAIL_READER (mail_view));
 	cancellable = e_activity_get_cancellable (activity);
 
 	camel_store_get_folder_info (
-		store, NULL, CAMEL_STORE_FOLDER_INFO_RECURSIVE,
-		G_PRIORITY_DEFAULT, cancellable, account_refresh_folder_info_received_cb, activity);
+		store, NULL,
+		CAMEL_STORE_FOLDER_INFO_RECURSIVE,
+		G_PRIORITY_DEFAULT, cancellable,
+		account_refresh_folder_info_received_cb, activity);
 }
 
 static void
@@ -437,13 +443,14 @@ mark_all_read_thread (GSimpleAsyncResult *simple,
 	store = CAMEL_STORE (object);
 
 	while (!g_queue_is_empty (&context->folder_names) && !error) {
-		gchar *folder_name = g_queue_pop_head (&context->folder_names);
+		gchar *folder_name;
 
-		folder = camel_store_get_folder_sync (store, folder_name, 0, cancellable, &error);
-
+		folder_name = g_queue_pop_head (&context->folder_names);
+		folder = camel_store_get_folder_sync (
+			store, folder_name, 0, cancellable, &error);
 		g_free (folder_name);
 
-		if (!folder)
+		if (folder == NULL)
 			break;
 
 		camel_folder_freeze (folder);
@@ -656,7 +663,8 @@ e_mail_shell_view_actions_mark_all_read (EMailShellView *mail_shell_view,
 	cancellable = camel_operation_new ();
 	e_activity_set_cancellable (context->activity, cancellable);
 
-	camel_operation_push_message (cancellable, _("Marking messages as read..."));
+	camel_operation_push_message (
+		cancellable, _("Marking messages as read..."));
 
 	e_shell_backend_add_activity (shell_backend, context->activity);
 
@@ -705,28 +713,20 @@ static void
 action_mail_popup_folder_mark_all_as_read_cb (GtkAction *action,
                                               EMailShellView *mail_shell_view)
 {
-	EShellSidebar *shell_sidebar;
+	EMailShellSidebar *mail_shell_sidebar;
 	EMFolderTree *folder_tree;
-	CamelStore *store;
-	gchar *folder_name;
+	CamelStore *store = NULL;
+	gchar *folder_name = NULL;
 
-	shell_sidebar = e_shell_view_get_shell_sidebar (E_SHELL_VIEW (mail_shell_view));
-
-	g_object_get (shell_sidebar, "folder-tree", &folder_tree, NULL);
+	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
+	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
+	em_folder_tree_get_selected (folder_tree, &store, &folder_name);
 
 	/* This action should only be activatable if a folder is selected. */
-	if (!em_folder_tree_get_selected (folder_tree, &store, &folder_name)) {
-		g_object_unref (folder_tree);
-		g_return_if_reached ();
-	}
-
-	g_object_unref (folder_tree);
+	g_return_if_fail (store != NULL && folder_name != NULL);
 
 	e_mail_shell_view_actions_mark_all_read (
-		mail_shell_view,
-		store,
-		folder_name,
-		TRUE);
+		mail_shell_view, store, folder_name, TRUE);
 
 	g_object_unref (store);
 	g_free (folder_name);
