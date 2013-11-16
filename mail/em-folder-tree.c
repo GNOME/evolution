@@ -545,10 +545,11 @@ folder_tree_maybe_expand_row (EMFolderTreeModel *model,
 	gtk_tree_model_get (
 		GTK_TREE_MODEL (model), iter,
 		COL_STRING_FULL_NAME, &full_name,
-		COL_POINTER_CAMEL_STORE, &store, -1);
+		COL_OBJECT_CAMEL_STORE, &store, -1);
 
 	uid = camel_service_get_uid (CAMEL_SERVICE (store));
 	key = g_strdup_printf ("%s/%s", uid, full_name ? full_name : "");
+	g_object_unref (store);
 
 	u = g_hash_table_lookup (priv->select_uris_table, key);
 	if (u) {
@@ -614,11 +615,17 @@ folder_tree_cell_edited_cb (EMFolderTree *folder_tree,
 
 	gtk_tree_model_get (
 		model, &iter,
-		COL_POINTER_CAMEL_STORE, &store,
+		COL_OBJECT_CAMEL_STORE, &store,
 		COL_STRING_DISPLAY_NAME, &old_name,
 		COL_STRING_FULL_NAME, &old_full_name, -1);
 
-	if (!old_name || !old_full_name || g_strcmp0 (new_name, old_name) == 0)
+	if (old_name == NULL)
+		goto exit;
+
+	if (old_full_name == NULL)
+		goto exit;
+
+	if (g_strcmp0 (new_name, old_name) == 0)
 		goto exit;
 
 	/* Check for invalid characters. */
@@ -668,11 +675,11 @@ folder_tree_cell_edited_cb (EMFolderTree *folder_tree,
 	em_folder_tree_set_selected (folder_tree, folder_uri, FALSE);
 	g_free (folder_uri);
 
- exit:
-
+exit:
 	g_free (old_name);
 	g_free (old_full_name);
 	g_free (new_full_name);
+	g_clear_object (&store);
 }
 
 static gboolean
@@ -714,7 +721,7 @@ folder_tree_render_display_name (GtkTreeViewColumn *column,
 	gtk_tree_model_get (
 		model, iter,
 		COL_STRING_DISPLAY_NAME, &name,
-		COL_POINTER_CAMEL_STORE, &service,
+		COL_OBJECT_CAMEL_STORE, &service,
 		COL_BOOL_IS_STORE, &is_store,
 		COL_UINT_UNREAD, &unread, -1);
 
@@ -773,6 +780,7 @@ folder_tree_render_display_name (GtkTreeViewColumn *column,
 	}
 
 	g_free (name);
+	g_clear_object (&service);
 }
 
 static void
@@ -878,7 +886,7 @@ folder_tree_selection_changed_cb (EMFolderTree *folder_tree,
 
 	gtk_tree_model_get (
 		model, &iter,
-		COL_POINTER_CAMEL_STORE, &store,
+		COL_OBJECT_CAMEL_STORE, &store,
 		COL_STRING_FULL_NAME, &folder_name,
 		COL_UINT_FLAGS, &flags,
 		COL_UINT_UNREAD, &unread,
@@ -896,6 +904,7 @@ exit:
 		store, folder_name, flags);
 
 	g_free (folder_name);
+	g_clear_object (&store);
 
 	g_list_foreach (list, (GFunc) gtk_tree_path_free, NULL);
 	g_list_free (list);
@@ -1347,7 +1356,7 @@ folder_tree_row_activated (GtkTreeView *tree_view,
 
 	gtk_tree_model_get (
 		model, &iter,
-		COL_POINTER_CAMEL_STORE, &store,
+		COL_OBJECT_CAMEL_STORE, &store,
 		COL_STRING_FULL_NAME, &folder_name,
 		COL_UINT_FLAGS, &flags, -1);
 
@@ -1362,6 +1371,7 @@ folder_tree_row_activated (GtkTreeView *tree_view,
 		store, folder_name);
 
 	g_free (folder_name);
+	g_clear_object (&store);
 }
 
 static gboolean
@@ -1407,13 +1417,11 @@ folder_tree_row_expanded (GtkTreeView *tree_view,
 	gtk_tree_model_get (
 		model, iter,
 		COL_STRING_FULL_NAME, &full_name,
-		COL_POINTER_CAMEL_STORE, &store,
+		COL_OBJECT_CAMEL_STORE, &store,
 		COL_BOOL_LOAD_SUBDIRS, &load, -1);
 
-	if (!load) {
-		g_free (full_name);
-		return;
-	}
+	if (!load)
+		goto exit;
 
 	gtk_tree_store_set (
 		GTK_TREE_STORE (model), iter,
@@ -1439,7 +1447,9 @@ folder_tree_row_expanded (GtkTreeView *tree_view,
 		(GAsyncReadyCallback) folder_tree_get_folder_info_cb,
 		context);
 
+exit:
 	g_free (full_name);
+	g_clear_object (&store);
 }
 
 static void
@@ -1911,7 +1921,7 @@ tree_drag_data_get (GtkWidget *widget,
 
 	gtk_tree_model_get (
 		model, &iter,
-		COL_POINTER_CAMEL_STORE, &store,
+		COL_OBJECT_CAMEL_STORE, &store,
 		COL_STRING_FULL_NAME, &folder_name, -1);
 
 	/* make sure user isn't trying to drag on a placeholder row */
@@ -1948,6 +1958,7 @@ tree_drag_data_get (GtkWidget *widget,
 
 fail:
 	gtk_tree_path_free (src_path);
+	g_clear_object (&store);
 	g_free (folder_name);
 }
 
@@ -2302,7 +2313,7 @@ tree_drag_data_received (GtkWidget *widget,
 
 	gtk_tree_model_get (
 		model, &iter,
-		COL_POINTER_CAMEL_STORE, &store,
+		COL_OBJECT_CAMEL_STORE, &store,
 		COL_BOOL_IS_STORE, &is_store,
 		COL_STRING_FULL_NAME, &full_name, -1);
 
@@ -2310,6 +2321,7 @@ tree_drag_data_received (GtkWidget *widget,
 	if (full_name == NULL && !is_store) {
 		gtk_drag_finish (context, FALSE, FALSE, GDK_CURRENT_TIME);
 		gtk_tree_path_free (dest_path);
+		g_clear_object (&store);
 		return;
 	}
 
@@ -2320,6 +2332,7 @@ tree_drag_data_received (GtkWidget *widget,
 			      gdk_drag_context_get_selected_action (context) == GDK_ACTION_MOVE)) {
 		gtk_drag_finish (context, FALSE, FALSE, GDK_CURRENT_TIME);
 		gtk_tree_path_free (dest_path);
+		g_clear_object (&store);
 		g_free (full_name);
 		return;
 	}
@@ -2339,6 +2352,7 @@ tree_drag_data_received (GtkWidget *widget,
 
 	tree_drag_data_action (m);
 	gtk_tree_path_free (dest_path);
+	g_clear_object (&store);
 }
 
 static gboolean
@@ -2361,7 +2375,7 @@ folder_tree_drop_target (EMFolderTree *folder_tree,
 	EMFolderTreePrivate *p = folder_tree->priv;
 	gchar *dst_full_name = NULL;
 	gchar *src_full_name = NULL;
-	CamelStore *dst_store;
+	CamelStore *dst_store = NULL;
 	CamelStore *src_store = NULL;
 	GdkAtom atom = GDK_NONE;
 	gboolean is_store;
@@ -2388,7 +2402,7 @@ folder_tree_drop_target (EMFolderTree *folder_tree,
 	gtk_tree_model_get (
 		model, &iter,
 		COL_BOOL_IS_STORE, &is_store,
-		COL_POINTER_CAMEL_STORE, &dst_store,
+		COL_OBJECT_CAMEL_STORE, &dst_store,
 		COL_STRING_FULL_NAME, &dst_full_name,
 		COL_UINT_FLAGS, &flags, -1);
 
@@ -2424,7 +2438,7 @@ folder_tree_drop_target (EMFolderTree *folder_tree,
 			if (gtk_tree_model_get_iter (model, &iter, src_path))
 				gtk_tree_model_get (
 					model, &iter,
-					COL_POINTER_CAMEL_STORE, &src_store,
+					COL_OBJECT_CAMEL_STORE, &src_store,
 					COL_STRING_FULL_NAME, &src_full_name,
 					COL_UINT_FLAGS, &src_flags, -1);
 
@@ -2571,10 +2585,11 @@ folder_tree_drop_target (EMFolderTree *folder_tree,
 		}
 	}
 
- done:
-
+done:
 	g_free (dst_full_name);
 	g_free (src_full_name);
+	g_clear_object (&dst_store);
+	g_clear_object (&src_store);
 
 	return atom;
 }
@@ -2937,7 +2952,7 @@ em_folder_tree_get_selected_uris (EMFolderTree *folder_tree)
 
 			gtk_tree_model_get (
 				model, &iter,
-				COL_POINTER_CAMEL_STORE, &store,
+				COL_OBJECT_CAMEL_STORE, &store,
 				COL_STRING_FULL_NAME, &folder_name, -1);
 
 			if (CAMEL_IS_STORE (store) && folder_name != NULL) {
@@ -2949,6 +2964,7 @@ em_folder_tree_get_selected_uris (EMFolderTree *folder_tree)
 			}
 
 			g_free (folder_name);
+			g_clear_object (&store);
 		}
 		gtk_tree_path_free (path);
 	}
@@ -3335,7 +3351,7 @@ em_folder_tree_get_selected (EMFolderTree *folder_tree,
 
 	gtk_tree_model_get (
 		model, &iter,
-		COL_POINTER_CAMEL_STORE, &store,
+		COL_OBJECT_CAMEL_STORE, &store,
 		COL_STRING_FULL_NAME, &folder_name, -1);
 
 	/* We should always get a valid store. */
@@ -3344,12 +3360,11 @@ em_folder_tree_get_selected (EMFolderTree *folder_tree,
 	/* If a store is selected, the folder name will be NULL.
 	 * Treat this as though nothing is selected, so that callers
 	 * can assume a TRUE return value means a folder is selected. */
-	if (folder_name == NULL)
+	if (folder_name == NULL) {
+		g_clear_object (&store);
 		return FALSE;
+	}
 
-	/* FIXME We really should be storing the CamelStore as a GObject
-	 *       so it gets referenced.  The pointer type is a relic of
-	 *       days before Camel used GObject. */
 	if (out_store != NULL)
 		*out_store = g_object_ref (store);
 
@@ -3357,6 +3372,8 @@ em_folder_tree_get_selected (EMFolderTree *folder_tree,
 		*out_folder_name = folder_name;
 	else
 		g_free (folder_name);
+
+	g_clear_object (&store);
 
 	return TRUE;
 }
@@ -3383,17 +3400,21 @@ em_folder_tree_store_root_selected (EMFolderTree *folder_tree,
 
 	gtk_tree_model_get (
 		model, &iter,
-		COL_POINTER_CAMEL_STORE, &store,
+		COL_OBJECT_CAMEL_STORE, &store,
 		COL_BOOL_IS_STORE, &is_store, -1);
 
 	/* We should always get a valid store. */
 	g_return_val_if_fail (CAMEL_IS_STORE (store), FALSE);
 
-	if (!is_store)
+	if (!is_store) {
+		g_clear_object (&store);
 		return FALSE;
+	}
 
 	if (out_store != NULL)
 		*out_store = g_object_ref (store);
+
+	g_clear_object (&store);
 
 	return TRUE;
 }
@@ -3419,15 +3440,19 @@ em_folder_tree_get_selected_uri (EMFolderTree *folder_tree)
 
 	gtk_tree_model_get (
 		model, &iter,
-		COL_POINTER_CAMEL_STORE, &store,
+		COL_OBJECT_CAMEL_STORE, &store,
 		COL_STRING_FULL_NAME, &folder_name, -1);
 
-	if (CAMEL_IS_STORE (store) && folder_name != NULL)
+	/* We should always get a valid store. */
+	g_return_val_if_fail (CAMEL_IS_STORE (store), FALSE);
+
+	if (folder_name != NULL)
 		folder_uri = e_mail_folder_uri_build (store, folder_name);
-	else if (CAMEL_IS_STORE (store))
+	else
 		folder_uri = e_mail_folder_uri_build (store, "");
 
 	g_free (folder_name);
+	g_clear_object (&store);
 
 	return folder_uri;
 }
@@ -3464,9 +3489,9 @@ em_folder_tree_ref_selected_store (EMFolderTree *folder_tree)
 	if (gtk_tree_selection_get_selected (selection, &model, &iter))
 		gtk_tree_model_get (
 			model, &iter,
-			COL_POINTER_CAMEL_STORE, &store, -1);
+			COL_OBJECT_CAMEL_STORE, &store, -1);
 
-	return (store != NULL) ? g_object_ref (store) : NULL;
+	return store;
 }
 
 void
@@ -3633,9 +3658,9 @@ em_folder_tree_restore_state (EMFolderTree *folder_tree,
 
 		gtk_tree_model_get (
 			tree_model, &iter,
-			COL_POINTER_CAMEL_STORE, &store, -1);
+			COL_OBJECT_CAMEL_STORE, &store, -1);
 
-		if (!CAMEL_IS_STORE (store))
+		if (store == NULL)
 			goto next;
 
 		service = CAMEL_SERVICE (store);
@@ -3652,6 +3677,7 @@ em_folder_tree_restore_state (EMFolderTree *folder_tree,
 		}
 
 		g_free (group_name);
+		g_clear_object (&store);
 
 	next:
 		valid = gtk_tree_model_iter_next (tree_model, &iter);

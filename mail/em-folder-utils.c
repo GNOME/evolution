@@ -450,10 +450,11 @@ emfu_copy_folder_exclude (EMFolderTree *tree,
 	gtk_tree_model_get (
 		model, iter,
 		COL_UINT_FLAGS, &flags,
-		COL_POINTER_CAMEL_STORE, &store, -1);
+		COL_OBJECT_CAMEL_STORE, &store, -1);
 
 	uid = camel_service_get_uid (CAMEL_SERVICE (store));
 	tovfolder = (g_strcmp0 (uid, E_MAIL_SESSION_VFOLDER_UID) == 0);
+	g_object_unref (store);
 
 	/* moving from vfolder to normal- not allowed */
 	if (fromvfolder && !tovfolder && cfd->delete)

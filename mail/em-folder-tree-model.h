@@ -56,7 +56,7 @@ typedef struct _EMFolderTreeModelStoreInfo EMFolderTreeModelStoreInfo;
 
 enum {
 	COL_STRING_DISPLAY_NAME,	/* string that appears in the tree */
-	COL_POINTER_CAMEL_STORE,	/* CamelStore object */
+	COL_OBJECT_CAMEL_STORE,		/* CamelStore object */
 	COL_STRING_FULL_NAME,		/* if node is a folder, the full path
 					 * name of the folder, no leading / */
 	COL_STRING_ICON_NAME,		/* icon name for the folder */
