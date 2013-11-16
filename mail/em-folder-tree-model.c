@@ -150,7 +150,7 @@ folder_tree_model_sort (GtkTreeModel *model,
 	gtk_tree_model_get (
 		model, a,
 		COL_BOOL_IS_STORE, &a_is_store,
-		COL_POINTER_CAMEL_STORE, &service_a,
+		COL_OBJECT_CAMEL_STORE, &service_a,
 		COL_STRING_DISPLAY_NAME, &aname,
 		COL_UINT_FLAGS, &flags_a,
 		-1);
@@ -158,7 +158,7 @@ folder_tree_model_sort (GtkTreeModel *model,
 	gtk_tree_model_get (
 		model, b,
 		COL_BOOL_IS_STORE, &b_is_store,
-		COL_POINTER_CAMEL_STORE, &service_b,
+		COL_OBJECT_CAMEL_STORE, &service_b,
 		COL_STRING_DISPLAY_NAME, &bname,
 		COL_UINT_FLAGS, &flags_b,
 		-1);
@@ -199,6 +199,9 @@ folder_tree_model_sort (GtkTreeModel *model,
 
 	g_free (aname);
 	g_free (bname);
+
+	g_clear_object (&service_a);
+	g_clear_object (&service_b);
 
 	return rv;
 }
@@ -345,18 +348,18 @@ static void
 folder_tree_model_constructed (GObject *object)
 {
 	GType col_types[] = {
-		G_TYPE_STRING,   /* display name */
-		G_TYPE_POINTER,  /* store object */
-		G_TYPE_STRING,   /* full name */
-		G_TYPE_STRING,   /* icon name */
-		G_TYPE_UINT,     /* unread count */
-		G_TYPE_UINT,     /* flags */
-		G_TYPE_BOOLEAN,  /* is a store node */
-		G_TYPE_BOOLEAN,  /* is a folder node */
-		G_TYPE_BOOLEAN,  /* has not-yet-loaded subfolders */
-		G_TYPE_UINT,     /* last known unread count */
-		G_TYPE_BOOLEAN,  /* folder is a draft folder */
-		G_TYPE_UINT	 /* user's sortorder */
+		G_TYPE_STRING,    /* display name */
+		CAMEL_TYPE_STORE, /* CamelStore */
+		G_TYPE_STRING,    /* full name */
+		G_TYPE_STRING,    /* icon name */
+		G_TYPE_UINT,      /* unread count */
+		G_TYPE_UINT,      /* flags */
+		G_TYPE_BOOLEAN,   /* is a store node */
+		G_TYPE_BOOLEAN,   /* is a folder node */
+		G_TYPE_BOOLEAN,   /* has not-yet-loaded subfolders */
+		G_TYPE_UINT,      /* last known unread count */
+		G_TYPE_BOOLEAN,   /* folder is a draft folder */
+		G_TYPE_UINT       /* user's sortorder */
 	};
 
 	gtk_tree_store_set_column_types (
@@ -836,7 +839,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 	gtk_tree_store_set (
 		tree_store, iter,
 		COL_STRING_DISPLAY_NAME, display_name,
-		COL_POINTER_CAMEL_STORE, si->store,
+		COL_OBJECT_CAMEL_STORE, si->store,
 		COL_STRING_FULL_NAME, fi->full_name,
 		COL_STRING_ICON_NAME, icon_name,
 		COL_UINT_FLAGS, flags,
@@ -868,7 +871,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 		gtk_tree_store_set (
 			tree_store, &sub,
 			COL_STRING_DISPLAY_NAME, _("Loading..."),
-			COL_POINTER_CAMEL_STORE, si->store,
+			COL_OBJECT_CAMEL_STORE, si->store,
 			COL_STRING_FULL_NAME, NULL,
 			COL_STRING_ICON_NAME, NULL,
 			COL_BOOL_LOAD_SUBDIRS, FALSE,
@@ -1136,7 +1139,7 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model,
 	gtk_tree_store_set (
 		tree_store, &iter,
 		COL_STRING_DISPLAY_NAME, display_name,
-		COL_POINTER_CAMEL_STORE, store,
+		COL_OBJECT_CAMEL_STORE, store,
 		COL_STRING_FULL_NAME, NULL,
 		COL_BOOL_LOAD_SUBDIRS, TRUE,
 		COL_BOOL_IS_STORE, TRUE,
@@ -1163,7 +1166,7 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model,
 	gtk_tree_store_set (
 		tree_store, &iter,
 		COL_STRING_DISPLAY_NAME, _("Loading..."),
-		COL_POINTER_CAMEL_STORE, store,
+		COL_OBJECT_CAMEL_STORE, store,
 		COL_STRING_FULL_NAME, NULL,
 		COL_BOOL_LOAD_SUBDIRS, FALSE,
 		COL_BOOL_IS_STORE, FALSE,

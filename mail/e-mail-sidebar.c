@@ -111,7 +111,7 @@ mail_sidebar_model_loaded_row_cb (GtkTreeModel *model,
 
 	gtk_tree_model_get (
 		model, iter,
-		COL_POINTER_CAMEL_STORE, &store,
+		COL_OBJECT_CAMEL_STORE, &store,
 		COL_STRING_FULL_NAME, &folder_name,
 		COL_BOOL_IS_STORE, &is_store,
 		COL_BOOL_IS_FOLDER, &is_folder, -1);
@@ -143,6 +143,7 @@ mail_sidebar_model_loaded_row_cb (GtkTreeModel *model,
 
 	g_free (group_name);
 	g_free (folder_name);
+	g_clear_object (&store);
 }
 
 static void
@@ -166,13 +167,14 @@ mail_sidebar_selection_changed_cb (GtkTreeSelection *selection,
 
 		gtk_tree_model_get (
 			model, &iter,
-			COL_POINTER_CAMEL_STORE, &store,
+			COL_OBJECT_CAMEL_STORE, &store,
 			COL_STRING_FULL_NAME, &folder_name, -1);
 
 		if (CAMEL_IS_STORE (store) && folder_name != NULL)
 			uri = e_mail_folder_uri_build (store, folder_name);
 
 		g_free (folder_name);
+		g_clear_object (&store);
 	}
 
 	if (uri != NULL)
@@ -322,7 +324,7 @@ mail_sidebar_row_expanded (GtkTreeView *tree_view,
 
 		gtk_tree_model_get (
 			model, &iter,
-			COL_POINTER_CAMEL_STORE, &store,
+			COL_OBJECT_CAMEL_STORE, &store,
 			COL_STRING_FULL_NAME, &folder_name,
 			COL_BOOL_IS_STORE, &is_store,
 			COL_BOOL_IS_FOLDER, &is_folder, -1);
@@ -348,6 +350,7 @@ mail_sidebar_row_expanded (GtkTreeView *tree_view,
 
 		g_free (group_name);
 		g_free (folder_name);
+		g_clear_object (&store);
 
 		gtk_tree_path_up (path);
 	}
@@ -381,7 +384,7 @@ mail_sidebar_row_collapsed (GtkTreeView *tree_view,
 
 	gtk_tree_model_get (
 		model, iter,
-		COL_POINTER_CAMEL_STORE, &store,
+		COL_OBJECT_CAMEL_STORE, &store,
 		COL_STRING_FULL_NAME, &folder_name,
 		COL_BOOL_IS_STORE, &is_store,
 		COL_BOOL_IS_FOLDER, &is_folder, -1);
@@ -407,6 +410,7 @@ mail_sidebar_row_collapsed (GtkTreeView *tree_view,
 
 	g_free (group_name);
 	g_free (folder_name);
+	g_clear_object (&store);
 }
 
 static guint32
@@ -440,7 +444,7 @@ mail_sidebar_check_state (EMailSidebar *sidebar)
 
 	gtk_tree_model_get (
 		model, &iter,
-		COL_POINTER_CAMEL_STORE, &store,
+		COL_OBJECT_CAMEL_STORE, &store,
 		COL_STRING_FULL_NAME, &full_name,
 		COL_BOOL_IS_STORE, &is_store,
 		COL_UINT_FLAGS, &folder_flags, -1);
@@ -537,6 +541,7 @@ mail_sidebar_check_state (EMailSidebar *sidebar)
 		state |= E_MAIL_SIDEBAR_STORE_CAN_BE_DISABLED;
 
 	g_free (full_name);
+	g_clear_object (&store);
 
 	return state;
 }
