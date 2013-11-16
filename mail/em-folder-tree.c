@@ -3432,8 +3432,20 @@ em_folder_tree_get_selected_uri (EMFolderTree *folder_tree)
 	return folder_uri;
 }
 
+/**
+ * em_folder_tree_ref_selected_store:
+ * @folder_tree: an #EMFolderTree
+ *
+ * Returns the #CamelStore for the selected row in @folder_tree, or %NULL
+ * if no row is selected.
+ *
+ * The returned #CamelStore is referenced for thread-safety and must be
+ * unreferenced with g_object_unref() when finished with it.
+ *
+ * Returns: a #CamelStore, or %NULL
+ **/
 CamelStore *
-em_folder_tree_get_selected_store (EMFolderTree *folder_tree)
+em_folder_tree_ref_selected_store (EMFolderTree *folder_tree)
 {
 	GtkTreeView *tree_view;
 	GtkTreeSelection *selection;
@@ -3454,7 +3466,7 @@ em_folder_tree_get_selected_store (EMFolderTree *folder_tree)
 			model, &iter,
 			COL_POINTER_CAMEL_STORE, &store, -1);
 
-	return CAMEL_IS_STORE (store) ? store : NULL;
+	return (store != NULL) ? g_object_ref (store) : NULL;
 }
 
 void

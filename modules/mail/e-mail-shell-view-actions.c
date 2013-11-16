@@ -51,7 +51,7 @@ action_mail_account_disable_cb (GtkAction *action,
 		E_MAIL_UI_SESSION (session));
 
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
-	store = em_folder_tree_get_selected_store (folder_tree);
+	store = em_folder_tree_ref_selected_store (folder_tree);
 	g_return_if_fail (store != NULL);
 
 	e_mail_account_store_disable_service (
@@ -60,6 +60,8 @@ action_mail_account_disable_cb (GtkAction *action,
 		CAMEL_SERVICE (store));
 
 	e_shell_view_update_actions (shell_view);
+
+	g_object_unref (store);
 }
 
 static void
@@ -86,7 +88,7 @@ action_mail_account_properties_cb (GtkAction *action,
 	shell = e_shell_backend_get_shell (shell_backend);
 
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
-	store = em_folder_tree_get_selected_store (folder_tree);
+	store = em_folder_tree_ref_selected_store (folder_tree);
 	g_return_if_fail (store != NULL);
 
 	service = CAMEL_SERVICE (store);
@@ -100,6 +102,7 @@ action_mail_account_properties_cb (GtkAction *action,
 		GTK_WINDOW (shell_window), source);
 
 	g_object_unref (source);
+	g_object_unref (store);
 }
 
 static void
@@ -148,7 +151,7 @@ action_mail_account_refresh_cb (GtkAction *action,
 	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
 
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
-	store = em_folder_tree_get_selected_store (folder_tree);
+	store = em_folder_tree_ref_selected_store (folder_tree);
 	g_return_if_fail (store != NULL);
 
 	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
@@ -160,6 +163,8 @@ action_mail_account_refresh_cb (GtkAction *action,
 		CAMEL_STORE_FOLDER_INFO_RECURSIVE,
 		G_PRIORITY_DEFAULT, cancellable,
 		account_refresh_folder_info_received_cb, activity);
+
+	g_object_unref (store);
 }
 
 static void
@@ -1468,11 +1473,17 @@ action_mail_tools_subscriptions_cb (GtkAction *action,
 
 	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
-	store = em_folder_tree_get_selected_store (folder_tree);
 	session = em_folder_tree_get_session (folder_tree);
+
+	/* The subscription editor's initial store can be NULL. */
+	store = em_folder_tree_ref_selected_store (folder_tree);
 
 	dialog = em_subscription_editor_new (
 		GTK_WINDOW (shell_window), session, store);
+
+	if (store != NULL)
+		g_object_unref (store);
+
 	gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);
 }
