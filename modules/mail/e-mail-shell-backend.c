@@ -71,13 +71,97 @@ struct _EMailShellBackendPrivate {
 	gpointer editor;    /* weak pointer, when editing a mail account */
 };
 
-static void mbox_create_preview_cb (GObject *preview, GtkWidget **preview_widget);
-static void mbox_fill_preview_cb (GObject *preview, CamelMimeMessage *msg);
-
 G_DEFINE_DYNAMIC_TYPE (
 	EMailShellBackend,
 	e_mail_shell_backend,
 	E_TYPE_MAIL_BACKEND)
+
+/* utility functions for mbox importer */
+static void
+mbox_create_preview_cb (GObject *preview,
+                        GtkWidget **preview_widget)
+{
+	EMailDisplay *display;
+
+	g_return_if_fail (preview != NULL);
+	g_return_if_fail (preview_widget != NULL);
+
+	display = g_object_new (E_TYPE_MAIL_DISPLAY, NULL);
+	g_object_set_data_full (
+		preview, "mbox-imp-display",
+		g_object_ref (display), g_object_unref);
+
+	*preview_widget = GTK_WIDGET (display);
+}
+
+static void
+message_parsed_cb (GObject *source_object,
+                   GAsyncResult *res,
+                   gpointer user_data)
+{
+	EMailParser *parser = E_MAIL_PARSER (source_object);
+	EMailPartList *parts_list;
+	GObject *preview = user_data;
+	EMailDisplay *display;
+	CamelFolder *folder;
+	SoupSession *soup_session;
+	GHashTable *mails;
+	const gchar *message_uid;
+	gchar *mail_uri;
+
+	display = g_object_get_data (preview, "mbox-imp-display");
+
+	parts_list = e_mail_parser_parse_finish (parser, res, NULL);
+
+	soup_session = webkit_get_default_session ();
+	mails = g_object_get_data (G_OBJECT (soup_session), "mails");
+	if (!mails) {
+		mails = g_hash_table_new_full (
+			g_str_hash, g_str_equal,
+			(GDestroyNotify) g_free, NULL);
+		g_object_set_data (
+			G_OBJECT (soup_session), "mails", mails);
+	}
+
+	folder = e_mail_part_list_get_folder (parts_list);
+	message_uid = e_mail_part_list_get_message_uid (parts_list);
+	mail_uri = e_mail_part_build_uri (folder, message_uid, NULL, NULL);
+
+	g_hash_table_insert (mails, mail_uri, parts_list);
+
+	e_mail_display_set_part_list (display, parts_list);
+	e_mail_display_load (display, NULL);
+
+	g_object_unref (parts_list);
+}
+
+static void
+mbox_fill_preview_cb (GObject *preview,
+                      CamelMimeMessage *msg)
+{
+	EShell *shell;
+	EMailDisplay *display;
+	EMailParser *parser;
+	EMailSession *mail_session;
+	ESourceRegistry *registry;
+
+	g_return_if_fail (preview != NULL);
+	g_return_if_fail (msg != NULL);
+
+	display = g_object_get_data (preview, "mbox-imp-display");
+	g_return_if_fail (display != NULL);
+
+	shell = e_shell_get_default ();
+	registry = e_shell_get_registry (shell);
+	mail_session = e_mail_session_new (registry);
+
+	parser = e_mail_parser_new (CAMEL_SESSION (mail_session));
+	e_mail_parser_parse (
+		parser, NULL, msg->message_id, msg,
+		message_parsed_cb, NULL, preview);
+
+	g_object_unref (mail_session);
+}
 
 static void
 mail_shell_backend_init_importers (void)
@@ -531,7 +615,8 @@ mail_shell_backend_constructed (GObject *object)
 	shell = e_shell_backend_get_shell (shell_backend);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_mail_shell_backend_parent_class)->constructed (object);
+	G_OBJECT_CLASS (e_mail_shell_backend_parent_class)->
+		constructed (object);
 
 	mail_shell_backend_init_importers ();
 
@@ -620,7 +705,8 @@ mail_shell_backend_start (EShellBackend *shell_backend)
 
 	backend = E_MAIL_BACKEND (shell_backend);
 	session = e_mail_backend_get_session (backend);
-	account_store = e_mail_ui_session_get_account_store (E_MAIL_UI_SESSION (session));
+	account_store = e_mail_ui_session_get_account_store (
+		E_MAIL_UI_SESSION (session));
 
 	/* XXX Should we be calling this unconditionally? */
 	vfolder_load_storage (session);
@@ -874,7 +960,8 @@ mail_labels_get_filter_options (gboolean include_none)
 		struct _filter_option *option;
 
 		option = g_new0 (struct _filter_option, 1);
-		/* Translators: The first item in the list, to be able to set rule: [Label] [is/is-not] [None] */
+		/* Translators: The first item in the list, to be
+		 * able to set rule: [Label] [is/is-not] [None] */
 		option->title = g_strdup (C_("label", "None"));
 		option->value = g_strdup ("");
 		list = g_slist_prepend (list, option);
@@ -955,7 +1042,9 @@ append_one_label_expr (GString *out,
 
 	g_string_append_printf (
 		out,
-		" (= (user-tag \"label\") %s) (user-flag (+ \"$Label\" %s)) (user-flag %s)",
+		" (= (user-tag \"label\") %s)"
+		" (user-flag (+ \"$Label\" %s))"
+		" (user-flag %s)",
 		encoded->str, encoded->str, encoded->str);
 
 	g_string_free (encoded, TRUE);
@@ -978,7 +1067,9 @@ e_mail_labels_get_filter_code (EFilterElement *element,
 	is_not = g_str_equal (label_type, "is-not");
 
 	if (!g_str_equal (label_type, "is") && !is_not) {
-		g_warning ("%s: Unknown label-type: '%s'", G_STRFUNC, label_type);
+		g_warning (
+			"%s: Unknown label-type: '%s'",
+			G_STRFUNC, label_type);
 		return;
 	}
 
@@ -1007,7 +1098,8 @@ e_mail_labels_get_filter_code (EFilterElement *element,
 
 		backend = E_MAIL_BACKEND (shell_backend);
 		session = e_mail_backend_get_session (backend);
-		label_store = e_mail_ui_session_get_label_store (E_MAIL_UI_SESSION (session));
+		label_store = e_mail_ui_session_get_label_store (
+			E_MAIL_UI_SESSION (session));
 
 		model = GTK_TREE_MODEL (label_store);
 		valid = gtk_tree_model_get_iter_first (model, &iter);
@@ -1015,7 +1107,8 @@ e_mail_labels_get_filter_code (EFilterElement *element,
 		while (valid) {
 			gchar *tag;
 
-			tag = e_mail_label_list_store_get_tag (label_store, &iter);
+			tag = e_mail_label_list_store_get_tag (
+				label_store, &iter);
 
 			if (g_str_has_prefix (tag, "$Label")) {
 				gchar *tmp = tag;
@@ -1040,89 +1133,3 @@ e_mail_labels_get_filter_code (EFilterElement *element,
 	g_string_append (out, " ))");
 }
 
-static void
-message_parsed_cb (GObject *source_object,
-                   GAsyncResult *res,
-                   gpointer user_data)
-{
-	EMailParser *parser = E_MAIL_PARSER (source_object);
-	EMailPartList *parts_list;
-	GObject *preview = user_data;
-	EMailDisplay *display;
-	CamelFolder *folder;
-	SoupSession *soup_session;
-	GHashTable *mails;
-	const gchar *message_uid;
-	gchar *mail_uri;
-
-	display = g_object_get_data (preview, "mbox-imp-display");
-
-	parts_list = e_mail_parser_parse_finish (parser, res, NULL);
-
-	soup_session = webkit_get_default_session ();
-	mails = g_object_get_data (G_OBJECT (soup_session), "mails");
-	if (!mails) {
-		mails = g_hash_table_new_full (
-			g_str_hash, g_str_equal,
-			(GDestroyNotify) g_free, NULL);
-		g_object_set_data (
-			G_OBJECT (soup_session), "mails", mails);
-	}
-
-	folder = e_mail_part_list_get_folder (parts_list);
-	message_uid = e_mail_part_list_get_message_uid (parts_list);
-	mail_uri = e_mail_part_build_uri (folder, message_uid, NULL, NULL);
-
-	g_hash_table_insert (mails, mail_uri, parts_list);
-
-	e_mail_display_set_part_list (display, parts_list);
-	e_mail_display_load (display, NULL);
-
-	g_object_unref (parts_list);
-}
-
-/* utility functions for mbox importer */
-static void
-mbox_create_preview_cb (GObject *preview,
-                        GtkWidget **preview_widget)
-{
-	EMailDisplay *display;
-
-	g_return_if_fail (preview != NULL);
-	g_return_if_fail (preview_widget != NULL);
-
-	display = g_object_new (E_TYPE_MAIL_DISPLAY, NULL);
-	g_object_set_data_full (
-		preview, "mbox-imp-display",
-		g_object_ref (display), g_object_unref);
-
-	*preview_widget = GTK_WIDGET (display);
-}
-
-static void
-mbox_fill_preview_cb (GObject *preview,
-                      CamelMimeMessage *msg)
-{
-	EShell *shell;
-	EMailDisplay *display;
-	EMailParser *parser;
-	EMailSession *mail_session;
-	ESourceRegistry *registry;
-
-	g_return_if_fail (preview != NULL);
-	g_return_if_fail (msg != NULL);
-
-	display = g_object_get_data (preview, "mbox-imp-display");
-	g_return_if_fail (display != NULL);
-
-	shell = e_shell_get_default ();
-	registry = e_shell_get_registry (shell);
-	mail_session = e_mail_session_new (registry);
-
-	parser = e_mail_parser_new (CAMEL_SESSION (mail_session));
-	e_mail_parser_parse (
-		parser, NULL, msg->message_id, msg,
-		message_parsed_cb, NULL, preview);
-
-	g_object_unref (mail_session);
-}
