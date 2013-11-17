@@ -1,3 +1,54 @@
+Evolution 3.11.2 2013-11-18
+---------------------------
+
+* Network proxy support is far more configurable.  Alternate proxy settings
+  can be defined in Network Preferences and applied to individual accounts.
+
+Bug Fixes:
+	Bug 657808 - Copy/move of a single instance should grab whole series
+	             (Milan Crha)
+	Bug 689055 - Port contact map to geocode-glib 3.10
+	             (Canek Peláez Valdés)
+	Bug 707112 - Replace webkit_dom_html_element_get_id usage
+	             (Kerrick Staley)
+	Bug 709428 - Searchbar widgets should not wrap (Matthew Barnes)
+	Bug 710489 - Network detection broken at startup (Matthew Barnes)
+	Bug 710797 - Name all the timeouts added with g_timeout_add()
+	             (Bastien Nocera)
+	Bug 710835 - evolution.convert: Add trailing / for schemas paths
+	             (Colin Walters)
+	Bug 710852 - Missing linker flag in evolution-alarm-notify
+	             (Canek Peláez Valdés)
+	Bug 711198 - Crashes on creating a new task (Matthew Barnes)
+	Bug 711477 - Print/export tasks/memos without summary displays "(null)"
+	             (Milan Crha)
+	Bug 711532 - Infinite recursion from message/news attachment
+	             (Matthew Barnes)
+	Bug 711835 - Clang build in broken: void function
+	             'cal_comp_transfer_item_to' should not return a value
+	             (Fabiano Fidêncio)
+
+Other Changes:
+	* Bump webkitgtk-3.0 requirement to 2.0.1. (Matthew Barnes)
+	* Fix error handling glitch in mail_session_send_to_thread().
+	  (Matthew Barnes)
+	* Update error handling when sending offline. (Matthew Barnes)
+	* Fix potential issues found by static analysis tools. (Milan Crha)
+	* Make e_attachment_set_file_info() thread-safe. (Matthew Barnes)
+	* Alarm-Notify: Skip disabled sources/calendars (Milan Crha)
+	* Generate documentation for libemail-engine. (Matthew Barnes)
+
+Translations:
+	Dimitris Spingos (el)
+	Daniel Mustieles (es)
+	Fran Diéguez (gl)
+	Anish A (ml)
+	Hannie Dumoleyn (nl)
+	Piotr Drąg (pl)
+	Yuri Myasoedov (ru)
+	Matej Urbančič (sl)
+
+
 Evolution 3.11.1 2013-10-21
 ---------------------------
 
