@@ -897,23 +897,28 @@ display_mode_toggle_button_cb (WebKitDOMElement *button,
                                GDBusConnection *connection)
 {
 	GError *error = NULL;
+	gchar *element_id;
 
+#if WEBKIT_CHECK_VERSION(2,2,0) /* XXX should really be (2,1,something) */
+	element_id = webkit_dom_element_get_id (button);
+#else
+	element_id = webkit_dom_html_element_get_id (WEBKIT_DOM_HTML_ELEMENT (button));
+#endif
 	g_dbus_connection_emit_signal (
 		connection,
 		NULL,
 		EVOLUTION_WEB_EXTENSION_OBJECT_PATH,
 		EVOLUTION_WEB_EXTENSION_INTERFACE,
 		"VCardInlineDisplayModeToggled",
-		g_variant_new (
-			"(s)",
-			webkit_dom_html_button_element_get_value (
-				WEBKIT_DOM_HTML_BUTTON_ELEMENT (button))),
+		g_variant_new ("(s)", element_id),
 		&error);
 
 	if (error) {
 		g_warning ("Error emitting signal DisplayModeToggled: %s\n", error->message);
 		g_error_free (error);
 	}
+
+	g_free (element_id);
 }
 
 static void
@@ -922,6 +927,10 @@ save_vcard_button_cb (WebKitDOMElement *button,
                       GDBusConnection *connection)
 {
 	GError *error = NULL;
+	gchar *button_value;
+
+	button_value = webkit_dom_html_button_element_get_value (
+		WEBKIT_DOM_HTML_BUTTON_ELEMENT (button));
 
 	g_dbus_connection_emit_signal (
 		connection,
@@ -929,16 +938,15 @@ save_vcard_button_cb (WebKitDOMElement *button,
 		EVOLUTION_WEB_EXTENSION_OBJECT_PATH,
 		EVOLUTION_WEB_EXTENSION_INTERFACE,
 		"VCardInlineSaveButtonPressed",
-		g_variant_new (
-			"(s)",
-			webkit_dom_html_button_element_get_value (
-				WEBKIT_DOM_HTML_BUTTON_ELEMENT (button))),
+		g_variant_new ("(s)", button_value),
 		&error);
 
 	if (error) {
 		g_warning ("Error emitting signal SaveVCardButtonPressed: %s\n", error->message);
 		g_error_free (error);
 	}
+
+	g_free (button_value);
 }
 
 void
@@ -948,6 +956,7 @@ e_dom_utils_module_vcard_inline_bind_dom (WebKitDOMDocument *document,
 {
 	WebKitDOMElement *element;
 	WebKitDOMDocument *element_document;
+	gchar *selector;
 
 	element = e_dom_utils_find_element_by_id (document, element_id);
 	if (!element)
@@ -956,33 +965,37 @@ e_dom_utils_module_vcard_inline_bind_dom (WebKitDOMDocument *document,
 	element_document = webkit_dom_node_get_owner_document (
 		WEBKIT_DOM_NODE (element));
 
+	selector = g_strconcat ("button[id='", element_id, "']", NULL);
 	e_dom_utils_bind_dom (
 		element_document,
-		".org-gnome-vcard-display-mode-button",
+		selector,
 		"click",
 		display_mode_toggle_button_cb,
 		connection);
+	g_free (selector);
 
+	selector = g_strconcat ("button[value='", element_id, "']", NULL);
 	e_dom_utils_bind_dom (
 		element_document,
-		".org-gnome-vcard-save-button",
+		selector,
 		"click",
 		save_vcard_button_cb,
 		connection);
+	g_free (selector);
 
 	e_dom_utils_eab_contact_formatter_bind_dom (element_document);
 }
 
 void
 e_dom_utils_module_vcard_inline_update_button (WebKitDOMDocument *document,
-                                               const gchar *button_value,
+                                               const gchar *button_id,
                                                const gchar *html_label,
                                                const gchar *access_key)
 {
 	WebKitDOMElement *element;
 	gchar *selector;
 
-	selector = g_strconcat ("button[value=", button_value, "]", NULL);
+	selector = g_strconcat ("button[id='", button_id, "']", NULL);
 	element = e_dom_utils_find_element_by_selector (document, selector);
 	g_free (selector);
 
@@ -1000,16 +1013,24 @@ e_dom_utils_module_vcard_inline_update_button (WebKitDOMDocument *document,
 
 void
 e_dom_utils_module_vcard_inline_set_iframe_src (WebKitDOMDocument *document,
+                                                const gchar *button_id,
                                                 const gchar *src)
 {
-	WebKitDOMElement *element;
+	WebKitDOMElement *element, *parent, *iframe;
+	gchar *selector;
 
-	element = e_dom_utils_find_element_by_selector (
-		document, "iframe[name$=org-gnome-vcard-display]");
+	selector = g_strconcat ("button[id='", button_id, "']", NULL);
+	element = e_dom_utils_find_element_by_selector (document, selector);
+	g_free (selector);
 
-	if (!element)
+	parent = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (element));
+	if (!parent)
+		return;
+
+	iframe = webkit_dom_element_query_selector (parent, "iframe", NULL);
+	if (!iframe)
 		return;
 
 	webkit_dom_html_iframe_element_set_src (
-		WEBKIT_DOM_HTML_IFRAME_ELEMENT (element), src);
+		WEBKIT_DOM_HTML_IFRAME_ELEMENT (iframe), src);
 }

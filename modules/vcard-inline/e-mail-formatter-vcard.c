@@ -143,9 +143,11 @@ mail_formatter_vcard_format (EMailFormatterExtension *extension,
 		str = g_strdup_printf (
 			"<button type=\"button\" "
 				"name=\"set-display-mode\" "
+				"id=\"%s\" "
 				"class=\"org-gnome-vcard-display-mode-button\" "
 				"value=\"%d\" "
 				"accesskey=\"%s\">%s</button>",
+			e_mail_part_get_id (part),
 			mode, access_key, html_label);
 		camel_stream_write_string (stream, str, cancellable, NULL);
 		g_free (str);

@@ -105,10 +105,17 @@ save_vcard_cb (GDBusConnection *connection,
 	ESourceRegistry *registry;
 	ESourceSelector *selector;
 	GSList *contact_list;
-	const gchar *extension_name;
+	const gchar *extension_name, *button_value, *part_id;
 	GtkWidget *dialog;
 
 	if (g_strcmp0 (signal_name, "VCardInlineSaveButtonPressed") != 0)
+		return;
+
+	g_variant_get (parameters, "(&s)", &button_value);
+
+	part_id = e_mail_part_get_id (E_MAIL_PART (vcard_part));
+
+	if (!strstr (part_id, button_value))
 		return;
 
 	shell = e_shell_get_default ();
@@ -158,7 +165,7 @@ display_mode_toggle_cb (GDBusConnection *connection,
 	gchar *html_label;
 	gchar *access_key;
 	const gchar *part_id;
-	const gchar *button_value;
+	const gchar *button_id;
 
 	if (g_strcmp0 (signal_name, "VCardInlineDisplayModeToggled") != 0)
 		return;
@@ -166,9 +173,12 @@ display_mode_toggle_cb (GDBusConnection *connection,
 	if (!vcard_part->priv->web_extension)
 		return;
 
-	g_variant_get (parameters, "(&s)", &button_value);
+	g_variant_get (parameters, "(&s)", &button_id);
 
 	part_id = e_mail_part_get_id (E_MAIL_PART (vcard_part));
+
+	if (!strstr (part_id, button_id))
+		return;
 
 	mode = eab_contact_formatter_get_display_mode (vcard_part->formatter);
 	if (mode == EAB_CONTACT_DISPLAY_RENDER_NORMAL) {
@@ -189,7 +199,7 @@ display_mode_toggle_cb (GDBusConnection *connection,
 		g_variant_new (
 			"(tsss)",
 			vcard_part->priv->page_id,
-			button_value,
+			button_id,
 			html_label,
 			access_key),
 		G_DBUS_CALL_FLAGS_NONE,
@@ -214,8 +224,9 @@ display_mode_toggle_cb (GDBusConnection *connection,
 		vcard_part->priv->web_extension,
 		"VCardInlineSetIFrameSrc",
 		g_variant_new (
-			"(ts)",
+			"(tss)",
 			vcard_part->priv->page_id,
+			button_id,
 			uri),
 		G_DBUS_CALL_FLAGS_NONE,
 		-1,

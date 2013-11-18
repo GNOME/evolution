@@ -89,11 +89,12 @@ void		e_dom_utils_module_vcard_inline_bind_dom
 						 GDBusConnection *connection);
 void		e_dom_utils_module_vcard_inline_update_button
 						(WebKitDOMDocument *document,
-						 const gchar *button_value,
+						 const gchar *button_id,
 						 const gchar *html_label,
 						 const gchar *access_key);
 void		e_dom_utils_module_vcard_inline_set_iframe_src
 						(WebKitDOMDocument *document,
+						 const gchar *button_id,
 						 const gchar *src);
 G_END_DECLS
 
