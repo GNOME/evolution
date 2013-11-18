@@ -69,19 +69,56 @@ cal_config_weather_location_to_string (GBinding *binding,
 
 	location = g_value_get_boxed (source_value);
 
-	if (location != NULL) {
-		const gchar *code;
-		gchar *city_name;
+	while (location && !gweather_location_has_coords (location)) {
+		location = gweather_location_get_parent (location);
+	}
 
-		code = gweather_location_get_code (location);
-		city_name = gweather_location_get_city_name (location);
-		string = g_strdup_printf ("%s/%s", code, city_name);
-		g_free (city_name);
+	if (location) {
+		gdouble latitude, longitude;
+		gchar lat_str[G_ASCII_DTOSTR_BUF_SIZE + 1], lon_str[G_ASCII_DTOSTR_BUF_SIZE + 1];
+
+		gweather_location_get_coords (location, &latitude, &longitude);
+
+		g_ascii_dtostr (lat_str, G_ASCII_DTOSTR_BUF_SIZE, latitude);
+		g_ascii_dtostr (lon_str, G_ASCII_DTOSTR_BUF_SIZE, longitude);
+
+		string = g_strdup_printf ("%s/%s", lat_str, lon_str);
 	}
 
 	g_value_take_string (target_value, string);
 
 	return TRUE;
+}
+
+static GWeatherLocation *
+cal_config_weather_find_location_by_coords (GWeatherLocation *start,
+					    gdouble latitude,
+					    gdouble longitude)
+{
+	GWeatherLocation *location, **children;
+	gint ii;
+
+	if (!start)
+		return NULL;
+
+	location = start;
+	if (gweather_location_has_coords (location)) {
+		gdouble lat, lon;
+
+		gweather_location_get_coords (location, &lat, &lon);
+
+		if (lat == latitude && lon == longitude)
+			return location;
+	}
+
+	children = gweather_location_get_children (location);
+	for (ii = 0; children[ii]; ii++) {
+		location = cal_config_weather_find_location_by_coords (children[ii], latitude, longitude);
+		if (location)
+			return location;
+	}
+
+	return NULL;
 }
 
 static gboolean
@@ -90,12 +127,10 @@ cal_config_weather_string_to_location (GBinding *binding,
                                        GValue *target_value,
                                        gpointer user_data)
 {
-	GWeatherLocation *world;
-	GWeatherLocation *match, *start;
+	GWeatherLocation *world, *match;
 	const gchar *string;
-	const gchar *city_name;
-	const gchar *code;
 	gchar **tokens;
+	gdouble latitude, longitude;
 
 	world = user_data;
 
@@ -104,7 +139,7 @@ cal_config_weather_string_to_location (GBinding *binding,
 	if (string == NULL)
 		return FALSE;
 
-	/* String is: STATION-CODE '/' CITY-NAME */
+	/* String is: latitude '/' longitude */
 	tokens = g_strsplit (string, "/", 2);
 
 	if (g_strv_length (tokens) != 2) {
@@ -112,35 +147,16 @@ cal_config_weather_string_to_location (GBinding *binding,
 		return FALSE;
 	}
 
-	code = tokens[0];
-	city_name = tokens[1];
+	latitude = g_ascii_strtod (tokens[0], NULL);
+	longitude = g_ascii_strtod (tokens[1], NULL);
 
-	match = start = gweather_location_find_by_station_code (world, code);
-	while (match) {
-		gchar *cmp_city_name;
-
-		/* Does the city name match? */
-		cmp_city_name = gweather_location_get_city_name (match);
-		if (g_strcmp0 (city_name, cmp_city_name) == 0) {
-			g_free (cmp_city_name);
-			break;
-		}
-		g_free (cmp_city_name);
-
-		/* No match, try parent */
-		match = gweather_location_get_parent (match);
-	}
-
-	if (match == NULL) {
-		/* No exact match, use start instead */
-		match = start;
-	}
+	match = cal_config_weather_find_location_by_coords (world, latitude, longitude);
 
 	g_value_set_boxed (target_value, match);
 
 	g_strfreev (tokens);
 
-	return TRUE;
+	return match != NULL;
 }
 
 static gboolean
