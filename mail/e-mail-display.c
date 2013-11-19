@@ -1414,33 +1414,6 @@ mail_http_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
 {
 }
 
-static gchar *
-get_value_from_uri (const gchar *uri,
-                    const gchar *key)
-{
-	const gchar *key_position;
-	const gchar *value_start;
-	const gchar *value_end;
-	gchar *value;
-
-	key_position = strstr (uri, key);
-	if (!key_position)
-		return NULL;
-
-	value_start = strstr (key_position, "=");
-	if (!value_start)
-		return NULL;
-
-	value_end = strstr (value_start, "&");
-
-	if (value_end)
-		value = g_utf8_substring (value_start, 1, g_utf8_pointer_to_offset (value_start, value_end));
-	else
-		value = g_utf8_substring (value_start, 1, g_utf8_strlen (value_start, -1));
-
-	return value;
-}
-
 static void
 mail_mail_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
                                   EMailDisplay *display)
@@ -1450,9 +1423,10 @@ mail_mail_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
 	EMailPartList *part_list;
 	CamelStream *output_stream;
 	GByteArray *byte_array;
-	gchar *val;
-	const gchar *uri;
-	gchar *default_charset, *charset, *mode;
+	GHashTable *query;
+	const gchar *val, *uri;
+	const gchar *default_charset, *charset;
+	SoupURI *soup_uri;
 
 	GCancellable *cancellable = NULL;
 
@@ -1470,32 +1444,38 @@ mail_mail_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
 	if (!part_list)
 		return;
 
-	if (display->priv->headers_collapsed)
+	soup_uri = soup_uri_new (uri);
+	if (!soup_uri || !soup_uri->query) {
+		if (soup_uri)
+			soup_uri_free (soup_uri);
+		return;
+	}
+	query = soup_form_decode (soup_uri->query);
+
+	val = g_hash_table_lookup (query, "headers_collapsed");
+	if (val && atoi (val) == 1)
 		context.flags |= E_MAIL_FORMATTER_HEADER_FLAG_COLLAPSED;
 
-	if (display->priv->headers_collapsable)
+	val = g_hash_table_lookup (query, "headers_collapsable");
+	if (val && atoi (val) == 1)
 		context.flags |= E_MAIL_FORMATTER_HEADER_FLAG_COLLAPSABLE;
 
-	mode = get_value_from_uri (uri, "mode");
-	if (mode)
-		context.mode = atoi (mode);
+	val = g_hash_table_lookup (query, "mode");
+	if (val)
+		context.mode = atoi (val);
 
-	default_charset = get_value_from_uri (uri, "formatter_default_charset");
-	charset = get_value_from_uri (uri, "formatter_charset");
+	default_charset = g_hash_table_lookup (query, "formatter_default_charset");
+	charset = g_hash_table_lookup (query, "formatter_charset");
 
 	context.part_list = g_object_ref (part_list);
 	context.uri = g_strdup (uri);
 
 	formatter = display->priv->formatter;
 
-	if (default_charset != NULL && *default_charset != '\0') {
+	if (default_charset && *default_charset != '\0')
 		e_mail_formatter_set_default_charset (formatter, default_charset);
-		g_free (default_charset);
-	}
-	if (charset != NULL && *charset != '\0') {
+	if (charset && *charset != '\0')
 		e_mail_formatter_set_charset (formatter, charset);
-		g_free (charset);
-	}
 
 	byte_array = g_byte_array_new ();
 	output_stream = camel_stream_mem_new ();
@@ -1504,29 +1484,29 @@ mail_mail_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
 	camel_stream_mem_set_byte_array (
 		CAMEL_STREAM_MEM (output_stream), byte_array);
 
-	val = get_value_from_uri (uri, "part_id");
-	if (val != NULL) {
+	val = g_hash_table_lookup (query, "part_id");
+	if (val) {
 		EMailPart *part;
-		gchar *mime_type;
+		const gchar *mime_type;
+		gchar *part_id;
 
-		part = e_mail_part_list_ref_part (part_list, val);
+		part_id = soup_uri_decode (val);
+		part = e_mail_part_list_ref_part (part_list, part_id);
 		if (!part) {
 			if (camel_debug_start ("emformat:requests")) {
 				printf ("%s: part with id '%s' not found\n", G_STRFUNC, val);
 				camel_debug_end ();
 			}
 
-			g_free (val);
+			g_free (part_id);
 			goto no_part;
 		}
-		g_free (val);
+		g_free (part_id);
 
-		mime_type = get_value_from_uri (uri, "mime_type");
+		mime_type = g_hash_table_lookup (query, "mime_type");
 
-		if (context.mode == E_MAIL_FORMATTER_MODE_SOURCE) {
-			g_free (mime_type);
-			mime_type = g_strdup ("application/vnd.evolution.source");
-		}
+		if (context.mode == E_MAIL_FORMATTER_MODE_SOURCE)
+			mime_type = "application/vnd.evolution.source";
 
 		if (context.mode == E_MAIL_FORMATTER_MODE_CID) {
 			CamelDataWrapper *dw;
@@ -1542,14 +1522,12 @@ mail_mail_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
 			g_object_unref (mime_part);
 		} else {
 			if (!mime_type)
-				mime_type = g_strdup (e_mail_part_get_mime_type (part));
+				mime_type = e_mail_part_get_mime_type (part);
 
 			e_mail_formatter_format_as (
 				formatter, &context, part,
 				output_stream, mime_type,
 				cancellable);
-
-			g_free (mime_type);
 		}
 
 		g_object_unref (part);
@@ -1580,6 +1558,8 @@ mail_mail_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
 	/* FIXME This can be done async */
 	webkit_uri_scheme_request_finish (request, stream, -1, "text/html");
 	g_object_unref (stream);
+	g_hash_table_destroy (query);
+	soup_uri_free (soup_uri);
 }
 
 static void
