@@ -3637,6 +3637,7 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 		"clip_height", (gdouble) text_h,
 		NULL);
 	e_canvas_item_move_absolute (span->text_item, text_x, text_y);
+	gnome_canvas_item_request_update (span->background_item);
 
 	g_object_unref (comp);
 	g_object_unref (layout);
