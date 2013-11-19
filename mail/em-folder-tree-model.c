@@ -678,10 +678,11 @@ folder_tree_model_get_sent_folder_uri (ESourceRegistry *registry,
 void
 em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
                                       GtkTreeIter *iter,
-                                      EMFolderTreeModelStoreInfo *si,
+                                      CamelStore *store,
                                       CamelFolderInfo *fi,
                                       gint fully_loaded)
 {
+	EMFolderTreeModelStoreInfo *si;
 	GtkTreeRowReference *path_row;
 	GtkTreeStore *tree_store;
 	MailFolderCache *folder_cache;
@@ -704,6 +705,14 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 	gboolean store_is_local;
 	gchar *uri;
 
+	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
+	g_return_if_fail (iter != NULL);
+	g_return_if_fail (CAMEL_IS_STORE (store));
+	g_return_if_fail (fi != NULL);
+
+	si = g_hash_table_lookup (model->priv->store_index, store);
+	g_return_if_fail (si != NULL);
+
 	/* Make sure we don't already know about it. */
 	if (g_hash_table_lookup (si->full_hash, fi->full_name))
 		return;
@@ -714,7 +723,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 	folder_cache = e_mail_session_get_folder_cache (session);
 	registry = e_mail_session_get_registry (session);
 
-	uid = camel_service_get_uid (CAMEL_SERVICE (si->store));
+	uid = camel_service_get_uid (CAMEL_SERVICE (store));
 	store_is_local = (g_strcmp0 (uid, E_MAIL_SESSION_LOCAL_UID) == 0);
 
 	if (!fully_loaded)
@@ -725,7 +734,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 	path_row = gtk_tree_row_reference_new (GTK_TREE_MODEL (model), path);
 	gtk_tree_path_free (path);
 
-	uri = e_mail_folder_uri_build (si->store, fi->full_name);
+	uri = e_mail_folder_uri_build (store, fi->full_name);
 
 	g_hash_table_insert (
 		si->full_hash, g_strdup (fi->full_name), path_row);
@@ -737,7 +746,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 	 *     be functionised. */
 	unread = fi->unread;
 	folder = mail_folder_cache_ref_folder (
-		folder_cache, si->store, fi->full_name);
+		folder_cache, store, fi->full_name);
 	if (folder != NULL) {
 		folder_is_drafts = em_utils_folder_is_drafts (registry, folder);
 		folder_is_outbox = em_utils_folder_is_outbox (registry, folder);
@@ -788,10 +797,10 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 		gchar *sent_folder_uri;
 
 		folder_tree_model_get_drafts_folder_uri (
-			registry, si->store, &drafts_folder_uri);
+			registry, store, &drafts_folder_uri);
 
 		folder_tree_model_get_sent_folder_uri (
-			registry, si->store, &sent_folder_uri);
+			registry, store, &sent_folder_uri);
 
 		if (!folder_is_drafts && drafts_folder_uri != NULL) {
 			folder_is_drafts = e_mail_folder_uri_equal (
@@ -824,7 +833,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 	gtk_tree_store_set (
 		tree_store, iter,
 		COL_STRING_DISPLAY_NAME, display_name,
-		COL_OBJECT_CAMEL_STORE, si->store,
+		COL_OBJECT_CAMEL_STORE, store,
 		COL_STRING_FULL_NAME, fi->full_name,
 		COL_STRING_ICON_NAME, icon_name,
 		COL_UINT_FLAGS, flags,
@@ -856,7 +865,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 		gtk_tree_store_set (
 			tree_store, &sub,
 			COL_STRING_DISPLAY_NAME, _("Loading..."),
-			COL_OBJECT_CAMEL_STORE, si->store,
+			COL_OBJECT_CAMEL_STORE, store,
 			COL_STRING_FULL_NAME, NULL,
 			COL_STRING_ICON_NAME, NULL,
 			COL_BOOL_LOAD_SUBDIRS, FALSE,
@@ -890,7 +899,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 			}
 
 			em_folder_tree_model_set_folder_info (
-				model, &sub, si, fi, fully_loaded);
+				model, &sub, store, fi, fully_loaded);
 			fi = fi->next;
 		} while (fi);
 	}
@@ -950,7 +959,7 @@ folder_tree_model_folder_subscribed_cb (CamelStore *store,
 
 	gtk_tree_store_append (GTK_TREE_STORE (model), &iter, &parent);
 
-	em_folder_tree_model_set_folder_info (model, &iter, si, fi, TRUE);
+	em_folder_tree_model_set_folder_info (model, &iter, store, fi, TRUE);
 }
 
 static void
@@ -1062,7 +1071,7 @@ folder_tree_model_folder_renamed_cb (CamelStore *store,
 	gtk_tree_path_free (path);
 
 	gtk_tree_store_append (GTK_TREE_STORE (model), &iter, &root);
-	em_folder_tree_model_set_folder_info (model, &iter, si, info, TRUE);
+	em_folder_tree_model_set_folder_info (model, &iter, store, info, TRUE);
 }
 
 static void

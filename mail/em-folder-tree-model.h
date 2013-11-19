@@ -126,7 +126,7 @@ void		em_folder_tree_model_set_session
 void		em_folder_tree_model_set_folder_info
 					(EMFolderTreeModel *model,
 					 GtkTreeIter *iter,
-					 EMFolderTreeModelStoreInfo *si,
+					 CamelStore *store,
 					 CamelFolderInfo *fi,
 					 gint fully_loaded);
 void		em_folder_tree_model_add_store

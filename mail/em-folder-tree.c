@@ -205,7 +205,6 @@ folder_tree_get_folder_info_cb (CamelStore *store,
                                 GAsyncResult *result,
                                 AsyncContext *context)
 {
-	struct _EMFolderTreeModelStoreInfo *si;
 	CamelFolderInfo *folder_info;
 	CamelFolderInfo *child_info;
 	EAlertSink *alert_sink;
@@ -281,12 +280,6 @@ folder_tree_get_folder_info_cb (CamelStore *store,
 	 * subscribed to any folders yet, folder_info may legitimately be
 	 * NULL at this point.  We handle that case below.  Proceed. */
 
-	/* Check if the store has been removed. */
-	si = em_folder_tree_model_lookup_store_info (
-		EM_FOLDER_TREE_MODEL (model), store);
-	if (si == NULL)
-		goto exit;
-
 	/* Make sure we still need to load the tree subfolders. */
 
 	iter_is_placeholder = FALSE;
@@ -353,8 +346,9 @@ folder_tree_get_folder_info_cb (CamelStore *store,
 			GtkTreeRowReference *reference;
 
 			/* Check if we already have this row cached. */
-			reference = g_hash_table_lookup (
-				si->full_hash, child_info->full_name);
+			reference = em_folder_tree_model_get_row_reference (
+				EM_FOLDER_TREE_MODEL (model),
+				store, child_info->full_name);
 
 			if (reference == NULL) {
 				/* If we're on a placeholder row, reuse
@@ -368,7 +362,7 @@ folder_tree_get_folder_info_cb (CamelStore *store,
 
 				em_folder_tree_model_set_folder_info (
 					EM_FOLDER_TREE_MODEL (model),
-					&iter, si, child_info, TRUE);
+					&iter, store, child_info, TRUE);
 			}
 
 			child_info = child_info->next;
