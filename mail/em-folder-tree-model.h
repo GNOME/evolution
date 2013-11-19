@@ -137,10 +137,6 @@ void		em_folder_tree_model_remove_store
 					 CamelStore *store);
 GList *		em_folder_tree_model_list_stores
 					(EMFolderTreeModel *model);
-void		em_folder_tree_model_remove_folders
-					(EMFolderTreeModel *model,
-					 EMFolderTreeModelStoreInfo *si,
-					 GtkTreeIter *toplevel);
 gboolean	em_folder_tree_model_is_type_inbox
 					(EMFolderTreeModel *model,
 					 CamelStore *store,

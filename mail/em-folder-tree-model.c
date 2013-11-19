@@ -192,6 +192,54 @@ folder_tree_model_sort (GtkTreeModel *model,
 }
 
 static void
+folder_tree_model_remove_folders (EMFolderTreeModel *folder_tree_model,
+                                  EMFolderTreeModelStoreInfo *si,
+                                  GtkTreeIter *toplevel)
+{
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	gchar *full_name;
+	gboolean is_store;
+	gboolean iter_valid;
+
+	model = GTK_TREE_MODEL (folder_tree_model);
+
+	iter_valid = gtk_tree_model_iter_children (model, &iter, toplevel);
+
+	while (iter_valid) {
+		GtkTreeIter next = iter;
+
+		/* Recursing will invalidate the current tree model
+		 * iterator, so we have to fetch the next one first. */
+		iter_valid = gtk_tree_model_iter_next (model, &next);
+		folder_tree_model_remove_folders (folder_tree_model, si, &iter);
+		iter = next;
+	}
+
+	gtk_tree_model_get (
+		model, toplevel,
+		COL_STRING_FULL_NAME, &full_name,
+		COL_BOOL_IS_STORE, &is_store, -1);
+
+	if (full_name != NULL)
+		g_hash_table_remove (si->full_hash, full_name);
+
+	gtk_tree_store_remove (GTK_TREE_STORE (model), toplevel);
+
+	/* Freeing the GtkTreeRowReference in the store info may finalize
+	 * the model.  Keep the model alive until the store info is fully
+	 * removed from the hash table. */
+	if (is_store) {
+		g_object_ref (folder_tree_model);
+		g_hash_table_remove (
+			folder_tree_model->priv->store_index, si->store);
+		g_object_unref (folder_tree_model);
+	}
+
+	g_free (full_name);
+}
+
+static void
 folder_tree_model_service_removed (EMailAccountStore *account_store,
                                    CamelService *service,
                                    EMFolderTreeModel *folder_tree_model)
@@ -984,7 +1032,7 @@ folder_tree_model_folder_unsubscribed_cb (CamelStore *store,
 	gtk_tree_model_get_iter (GTK_TREE_MODEL (model), &iter, path);
 	gtk_tree_path_free (path);
 
-	em_folder_tree_model_remove_folders (model, si, &iter);
+	folder_tree_model_remove_folders (model, si, &iter);
 }
 
 static void
@@ -1044,7 +1092,7 @@ folder_tree_model_folder_renamed_cb (CamelStore *store,
 	gtk_tree_model_get_iter (GTK_TREE_MODEL (model), &iter, path);
 	gtk_tree_path_free (path);
 
-	em_folder_tree_model_remove_folders (model, si, &iter);
+	folder_tree_model_remove_folders (model, si, &iter);
 
 	/* Make sure we don't already have the new folder name. */
 	reference = g_hash_table_lookup (si->full_hash, info->full_name);
@@ -1228,7 +1276,7 @@ em_folder_tree_model_remove_store (EMFolderTreeModel *model,
 	gtk_tree_path_free (path);
 
 	/* recursively remove subfolders and finally the toplevel store */
-	em_folder_tree_model_remove_folders (model, si, &iter);
+	folder_tree_model_remove_folders (model, si, &iter);
 }
 
 GList *
@@ -1237,47 +1285,6 @@ em_folder_tree_model_list_stores (EMFolderTreeModel *model)
 	g_return_val_if_fail (EM_IS_FOLDER_TREE_MODEL (model), NULL);
 
 	return g_hash_table_get_keys (model->priv->store_index);
-}
-
-void
-em_folder_tree_model_remove_folders (EMFolderTreeModel *model,
-                                     EMFolderTreeModelStoreInfo *si,
-                                     GtkTreeIter *toplevel)
-{
-	gchar *full_name;
-	gboolean is_store, go;
-	GtkTreeIter iter;
-
-	if (gtk_tree_model_iter_children (GTK_TREE_MODEL (model), &iter, toplevel)) {
-		do {
-			GtkTreeIter next = iter;
-
-			go = gtk_tree_model_iter_next (GTK_TREE_MODEL (model), &next);
-			em_folder_tree_model_remove_folders (model, si, &iter);
-			iter = next;
-		} while (go);
-	}
-
-	gtk_tree_model_get (
-		GTK_TREE_MODEL (model), toplevel,
-		COL_STRING_FULL_NAME, &full_name,
-		COL_BOOL_IS_STORE, &is_store, -1);
-
-	if (full_name != NULL)
-		g_hash_table_remove (si->full_hash, full_name);
-
-	gtk_tree_store_remove ((GtkTreeStore *) model, toplevel);
-
-	/* Freeing the GtkTreeRowReference in the store info may finalize
-	 * the model.  Keep the model alive until the store info is fully
-	 * removed from the hash table. */
-	if (is_store) {
-		g_object_ref (model);
-		g_hash_table_remove (model->priv->store_index, si->store);
-		g_object_unref (model);
-	}
-
-	g_free (full_name);
 }
 
 gboolean
