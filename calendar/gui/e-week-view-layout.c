@@ -483,7 +483,7 @@ e_week_view_layout_get_span_position (EWeekViewEvent *event,
 		} else {
 			gint day_x, day_y, rows = 0;
 			e_week_view_layout_get_day_position (
-				end_day_of_week, multi_week_view, 1,
+				end_day_of_week - 1, multi_week_view, 1,
 				display_start_day, compress_weekend,
 				&day_x, &day_y, &rows);
 
