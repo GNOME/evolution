@@ -94,7 +94,6 @@ handle_method_call (GDBusConnection *connection,
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "SaveDocumentFromPoint") == 0) {
 		gint32 x = 0, y = 0;
-		WebKitDOMElement *active_element;
 
 		g_variant_get (parameters, "(tii)", &page_id, &x, &y);
 		web_page = get_webkit_web_page_or_return_dbus_error (invocation, web_extension, page_id);
@@ -108,7 +107,10 @@ handle_method_call (GDBusConnection *connection,
 	} else if (g_strcmp0 (method_name, "GetDocumentURI") == 0) {
 		gchar *document_uri;
 
-		document_uri = webkit_dom_document_get_document_uri (document_saved);
+		if (document_saved)
+			document_uri = webkit_dom_document_get_document_uri (document_saved);
+		else
+			document_uri = g_strdup ("");
 
 		g_dbus_method_invocation_return_value (
 			invocation, g_variant_new ("(s)", document_uri));

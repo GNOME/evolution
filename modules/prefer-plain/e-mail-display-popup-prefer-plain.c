@@ -149,32 +149,23 @@ mail_display_popup_prefer_plain_watch_web_extension (EMailDisplayPopupPreferPlai
 }
 
 static void
-toggle_part (GtkAction *action,
-             EMailDisplayPopupExtension *extension)
+toggle_part_get_document_uri_cb (GDBusProxy *web_extension,
+                                 GAsyncResult *result,
+                                 EMailDisplayPopupExtension *extension)
 {
 	EMailDisplayPopupPreferPlain *pp_extension = (EMailDisplayPopupPreferPlain *) extension;
-	GVariant *result;
 	SoupURI *soup_uri;
 	GHashTable *query;
-	const gchar *document_uri;
 	gchar *uri;
+	GVariant *result_variant;
 
-	if (!pp_extension->web_extension)
-		return;
+	result_variant = g_dbus_proxy_call_finish (web_extension, result, NULL);
+	if (result_variant) {
+		const gchar *document_uri;
 
-	/* Get URI from saved document */
-	result = g_dbus_proxy_call_sync (
-			pp_extension->web_extension,
-			"GetDocumentURI",
-			NULL,
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			NULL,
-			NULL);
-	if (result) {
-		g_variant_get (result, "(&s)", &document_uri);
+		g_variant_get (result_variant, "(&s)", &document_uri);
 		soup_uri = soup_uri_new (document_uri);
-		g_variant_unref (result);
+		g_variant_unref (result_variant);
 	}
 
 	if (!soup_uri || !soup_uri->query) {
@@ -201,19 +192,38 @@ toggle_part (GtkAction *action,
 	uri = soup_uri_to_string (soup_uri, FALSE);
 	soup_uri_free (soup_uri);
 
-	/* Get frame's window and from the window the actual <iframe> element */
-	result = g_dbus_proxy_call_sync (
-			pp_extension->web_extension,
-			"ChangeIFrameSource",
-			g_variant_new ("(s)", uri),
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			NULL,
-			NULL);
-	if (result)
-		g_variant_unref (result);
+	g_dbus_proxy_call (
+		pp_extension->web_extension,
+		"ChangeIFrameSource",
+		g_variant_new ("(s)", uri),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
 
 	g_free (uri);
+}
+
+static void
+toggle_part (GtkAction *action,
+             EMailDisplayPopupExtension *extension)
+{
+	EMailDisplayPopupPreferPlain *pp_extension = (EMailDisplayPopupPreferPlain *) extension;
+
+	if (!pp_extension->web_extension)
+		return;
+
+	/* Get URI from saved document */
+	g_dbus_proxy_call (
+		pp_extension->web_extension,
+		"GetDocumentURI",
+		NULL,
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		(GAsyncReadyCallback) toggle_part_get_document_uri_cb,
+		extension);
 }
 
 GtkActionEntry entries[] = {
@@ -301,12 +311,13 @@ create_group (EMailDisplayPopupExtension *extension)
 }
 
 static void
-mail_display_popup_prefer_plain_update_actions (EMailDisplayPopupExtension *extension)
+get_document_uri_cb (GDBusProxy *web_extension,
+                     GAsyncResult *result,
+                     EMailDisplayPopupExtension *extension)
 {
 	EMailDisplay *display;
 	GtkAction *action;
 	gchar *part_id, *pos, *prefix;
-	const gchar *document_uri;
 	SoupURI *soup_uri;
 	GHashTable *query;
 	EMailPartList *part_list;
@@ -315,58 +326,20 @@ mail_display_popup_prefer_plain_update_actions (EMailDisplayPopupExtension *exte
 	EMailDisplayPopupPreferPlain *pp_extension;
 	GQueue queue = G_QUEUE_INIT;
 	GList *head, *link;
-	GVariant *result;
-	gint32 x, y;
-	GdkDeviceManager *device_manager;
-	GdkDevice *pointer;
+	GVariant *result_variant;
 
 	display = E_MAIL_DISPLAY (e_extension_get_extensible (
 			E_EXTENSION (extension)));
 
 	pp_extension = E_MAIL_DISPLAY_POPUP_PREFER_PLAIN (extension);
 
-	if (!pp_extension->action_group)
-		pp_extension->action_group = create_group (extension);
+	result_variant = g_dbus_proxy_call_finish (web_extension, result, NULL);
+	if (result_variant) {
+		const gchar *document_uri;
 
-	/* In WK2 you can't get the node on what WebKitHitTest was performed,
-	 * we have to use other way */
-	device_manager = gdk_display_get_device_manager (
-		gtk_widget_get_display (GTK_WIDGET(display)));
-	pointer = gdk_device_manager_get_client_pointer (device_manager);
-	gdk_window_get_device_position (
-		gtk_widget_get_window (GTK_WIDGET (display)), pointer, &x, &y, NULL);
-
-	if (!pp_extension->web_extension)
-       		return;
-
-	result = g_dbus_proxy_call_sync (
-			pp_extension->web_extension,
-			"SaveDocumentFromPoint",
-			g_variant_new (
-				"(tii)",
-				webkit_web_view_get_page_id (
-					WEBKIT_WEB_VIEW (display)),
-				x, y),
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			NULL,
-			NULL);
-	if (result)
-		g_variant_unref (result);
-
-	/* Get URI from saved document */
-	result = g_dbus_proxy_call_sync (
-			pp_extension->web_extension,
-			"GetDocumentURI",
-			NULL,
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			NULL,
-			NULL);
-	if (result) {
-		g_variant_get (result, "(&s)", &document_uri);
+		g_variant_get (result_variant, "(&s)", &document_uri);
 		soup_uri = soup_uri_new (document_uri);
-		g_variant_unref (result);
+		g_variant_unref (result_variant);
 	}
 
 	if (!soup_uri || !soup_uri->query) {
@@ -468,6 +441,60 @@ mail_display_popup_prefer_plain_update_actions (EMailDisplayPopupExtension *exte
 	g_free (prefix);
 	g_hash_table_destroy (query);
 	soup_uri_free (soup_uri);
+}
+
+static void
+mail_display_popup_prefer_plain_update_actions (EMailDisplayPopupExtension *extension)
+{
+	EMailDisplay *display;
+	EMailDisplayPopupPreferPlain *pp_extension;
+	gint32 x, y;
+	GdkDeviceManager *device_manager;
+	GdkDevice *pointer;
+
+	display = E_MAIL_DISPLAY (e_extension_get_extensible (
+			E_EXTENSION (extension)));
+
+	pp_extension = E_MAIL_DISPLAY_POPUP_PREFER_PLAIN (extension);
+
+	if (!pp_extension->action_group)
+		pp_extension->action_group = create_group (extension);
+
+	/* In WK2 you can't get the node on what WebKitHitTest was performed,
+	 * we have to use other way */
+	device_manager = gdk_display_get_device_manager (
+		gtk_widget_get_display (GTK_WIDGET(display)));
+	pointer = gdk_device_manager_get_client_pointer (device_manager);
+	gdk_window_get_device_position (
+		gtk_widget_get_window (GTK_WIDGET (display)), pointer, &x, &y, NULL);
+
+	if (!pp_extension->web_extension)
+       		return;
+
+	g_dbus_proxy_call (
+		pp_extension->web_extension,
+		"SaveDocumentFromPoint",
+		g_variant_new (
+			"(tii)",
+			webkit_web_view_get_page_id (
+				WEBKIT_WEB_VIEW (display)),
+			x, y),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
+
+	/* Get URI from saved document */
+	g_dbus_proxy_call (
+		pp_extension->web_extension,
+		"GetDocumentURI",
+		NULL,
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		(GAsyncReadyCallback) get_document_uri_cb,
+		extension);
 }
 
 void
