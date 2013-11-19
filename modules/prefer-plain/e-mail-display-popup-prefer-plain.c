@@ -172,11 +172,16 @@ toggle_part (GtkAction *action,
 			NULL,
 			NULL);
 	if (result) {
-		document_uri = g_variant_get_string (result, NULL);
+		g_variant_get (result, "(&s)", &document_uri);
+		soup_uri = soup_uri_new (document_uri);
 		g_variant_unref (result);
 	}
 
-	soup_uri = soup_uri_new (document_uri);
+	if (!soup_uri || !soup_uri->query) {
+		if (soup_uri)
+			soup_uri_free (soup_uri);
+		return;
+	}
 
 	query = soup_form_decode (soup_uri->query);
 	g_hash_table_replace (
@@ -359,11 +364,11 @@ mail_display_popup_prefer_plain_update_actions (EMailDisplayPopupExtension *exte
 			NULL,
 			NULL);
 	if (result) {
-		document_uri = g_variant_get_string (result, NULL);
+		g_variant_get (result, "(&s)", &document_uri);
+		soup_uri = soup_uri_new (document_uri);
 		g_variant_unref (result);
 	}
 
-	soup_uri = soup_uri_new (document_uri);
 	if (!soup_uri || !soup_uri->query) {
 		gtk_action_group_set_visible (pp_extension->action_group, FALSE);
 		if (soup_uri)

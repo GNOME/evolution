@@ -22,6 +22,8 @@
 #include <gtk/gtk.h>
 #include <webkit2/webkit-web-extension.h>
 
+#include "../../../e-util/e-dom-utils.h"
+
 /* FIXME Clean it */
 static GDBusConnection *dbus_connection;
 
@@ -81,7 +83,7 @@ handle_method_call (GDBusConnection *connection,
 		WebKitDOMElement *frame_element;
 		const gchar *new_uri;
 
-		g_variant_get (parameters, "(t&s)", &page_id, &new_uri);
+		g_variant_get (parameters, "(&s)", &new_uri);
 
 		/* Get frame's window and from the window the actual <iframe> element */
 		window = webkit_dom_document_get_default_view (document_saved);
@@ -100,18 +102,7 @@ handle_method_call (GDBusConnection *connection,
 			return;
 
 		document = webkit_web_page_get_dom_document (web_page);
-		document_saved = document;
-
-		if (x == 0 && y == 0)
-			active_element = webkit_dom_html_document_get_active_element (WEBKIT_DOM_HTML_DOCUMENT (document));
-		else
-			active_element = webkit_dom_document_element_from_point (document, x,y);
-
-		if (WEBKIT_DOM_IS_HTML_IFRAME_ELEMENT (active_element)) {
-			document_saved =
-				webkit_dom_html_iframe_element_get_content_document (
-					WEBKIT_DOM_HTML_IFRAME_ELEMENT (active_element));
-		}
+		document_saved = e_dom_utils_get_document_from_point (document, x, y);
 
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "GetDocumentURI") == 0) {
@@ -119,7 +110,10 @@ handle_method_call (GDBusConnection *connection,
 
 		document_uri = webkit_dom_document_get_document_uri (document_saved);
 
-		g_dbus_method_invocation_return_value (invocation, g_variant_new ("(s)", document_uri));
+		g_dbus_method_invocation_return_value (
+			invocation, g_variant_new ("(s)", document_uri));
+
+		g_free (document_uri);
 	}
 }
 

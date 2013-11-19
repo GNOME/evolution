@@ -81,7 +81,16 @@ void		e_dom_utils_hide_element	(WebKitDOMDocument *document,
                                                  gboolean hide);
 gboolean	e_dom_utils_element_is_hidden	(WebKitDOMDocument *document,
 						 const gchar *element_id);
-
+WebKitDOMElement *
+		e_dom_utils_get_element_from_point
+						(WebKitDOMDocument *document,
+						 gint32 x,
+						 gint32 y);
+WebKitDOMDocument *
+		e_dom_utils_get_document_from_point
+						(WebKitDOMDocument *document,
+						 gint32 x,
+						 gint32 y);
 /* VCard Inline Module DOM functions */
 void		e_dom_utils_module_vcard_inline_bind_dom
 						(WebKitDOMDocument *document,

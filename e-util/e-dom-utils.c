@@ -724,6 +724,7 @@ e_dom_utils_find_element_by_id (WebKitDOMDocument *document,
 
 	return NULL;
 }
+
 gboolean
 e_dom_utils_element_exists (WebKitDOMDocument *document,
                             const gchar *element_id)
@@ -887,6 +888,97 @@ e_dom_utils_element_is_hidden (WebKitDOMDocument *document,
 
 	return webkit_dom_html_element_get_hidden (
 		WEBKIT_DOM_HTML_ELEMENT (element));
+}
+
+static void
+get_total_offsets (WebKitDOMElement *element,
+                   glong *left,
+                   glong *top)
+{
+	WebKitDOMElement *offset_parent;
+
+	if (left)
+		*left = 0;
+
+	if (top)
+		*top = 0;
+
+	offset_parent = element;
+	do {
+		if (left)
+			*left += webkit_dom_element_get_offset_left (offset_parent);
+		if (top)
+			*top += webkit_dom_element_get_offset_top (offset_parent);
+		offset_parent = webkit_dom_element_get_offset_parent (offset_parent);
+	} while (offset_parent);
+}
+
+static WebKitDOMElement *
+find_element_from_point (WebKitDOMDocument *document,
+                         gint32 x,
+                         gint32 y,
+                         WebKitDOMElement *element_on_point)
+{
+	WebKitDOMDocument *content_document;
+	WebKitDOMElement *element;
+
+	if (!element_on_point)
+		element = webkit_dom_document_element_from_point (document, x, y);
+	else {
+		glong left, top;
+		get_total_offsets (element_on_point, &left, &top);
+
+		element = webkit_dom_document_element_from_point (
+			document, x - left, y - top);
+	}
+
+	if (element_on_point && webkit_dom_node_is_equal_node (
+	    	WEBKIT_DOM_NODE (element),
+	        WEBKIT_DOM_NODE (element_on_point))) {
+		return element_on_point;
+	}
+
+	if (!WEBKIT_DOM_IS_HTML_IFRAME_ELEMENT (element))
+		return element_on_point;
+
+	content_document =
+		webkit_dom_html_iframe_element_get_content_document (
+			WEBKIT_DOM_HTML_IFRAME_ELEMENT (element));
+
+	if (!content_document)
+		return element_on_point;
+
+	return find_element_from_point (content_document, x, y, element);
+}
+
+/* ! This function can be called only from WK2 web-extension ! */
+WebKitDOMElement *
+e_dom_utils_get_element_from_point (WebKitDOMDocument *document,
+                                    gint32 x,
+                                    gint32 y)
+{
+	return find_element_from_point (document, x, y, NULL);
+}
+
+/* ! This function can be called only from WK2 web-extension ! */
+WebKitDOMDocument *
+e_dom_utils_get_document_from_point (WebKitDOMDocument *document,
+                                     gint32 x,
+                                     gint32 y)
+{
+	WebKitDOMElement *element;
+
+	if (x == 0 && y == 0)
+		element = webkit_dom_html_document_get_active_element (WEBKIT_DOM_HTML_DOCUMENT (document));
+	else
+		element = find_element_from_point (document, x, y, NULL);
+
+	if (WEBKIT_DOM_IS_HTML_IFRAME_ELEMENT (element))
+		return webkit_dom_html_iframe_element_get_content_document (
+			WEBKIT_DOM_HTML_IFRAME_ELEMENT (element));
+	else
+		return webkit_dom_node_get_owner_document (
+			WEBKIT_DOM_NODE (element));
 }
 
 /* VCard Inline Module DOM functions */
