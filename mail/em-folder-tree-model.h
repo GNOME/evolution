@@ -145,10 +145,6 @@ gchar *		em_folder_tree_model_get_folder_name
 					(EMFolderTreeModel *model,
 					 CamelStore *store,
 					 const gchar *full);
-EMFolderTreeModelStoreInfo *
-		em_folder_tree_model_lookup_store_info
-					(EMFolderTreeModel *model,
-					 CamelStore *store);
 GtkTreeRowReference *
 		em_folder_tree_model_get_row_reference
 					(EMFolderTreeModel *model,

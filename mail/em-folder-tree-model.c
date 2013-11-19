@@ -114,6 +114,15 @@ store_info_free (EMFolderTreeModelStoreInfo *si)
 	g_free (si);
 }
 
+static EMFolderTreeModelStoreInfo *
+folder_tree_model_lookup_store_info (EMFolderTreeModel *model,
+                                     CamelStore *store)
+{
+	g_return_val_if_fail (CAMEL_IS_STORE (store), NULL);
+
+	return g_hash_table_lookup (model->priv->store_index, store);
+}
+
 static gint
 folder_tree_model_sort (GtkTreeModel *model,
                         GtkTreeIter *a,
@@ -488,7 +497,7 @@ folder_tree_model_set_unread_count (EMFolderTreeModel *model,
 	if (unread < 0)
 		return;
 
-	si = em_folder_tree_model_lookup_store_info (model, store);
+	si = folder_tree_model_lookup_store_info (model, store);
 	if (si == NULL)
 		return;
 
@@ -971,7 +980,7 @@ folder_tree_model_folder_subscribed_cb (CamelStore *store,
 	gboolean load;
 	gchar *dirname, *p;
 
-	si = em_folder_tree_model_lookup_store_info (model, store);
+	si = folder_tree_model_lookup_store_info (model, store);
 	if (si == NULL)
 		return;
 
@@ -1020,7 +1029,7 @@ folder_tree_model_folder_unsubscribed_cb (CamelStore *store,
 	GtkTreePath *path;
 	GtkTreeIter iter;
 
-	si = em_folder_tree_model_lookup_store_info (model, store);
+	si = folder_tree_model_lookup_store_info (model, store);
 	if (si == NULL)
 		return;
 
@@ -1048,7 +1057,7 @@ folder_tree_model_folder_created_cb (CamelStore *store,
 		return;
 
 	/* process "folder-created" event only when store already loaded */
-	si = em_folder_tree_model_lookup_store_info (model, store);
+	si = folder_tree_model_lookup_store_info (model, store);
 	if (si == NULL || g_hash_table_size (si->full_hash) == 0)
 		return;
 
@@ -1080,7 +1089,7 @@ folder_tree_model_folder_renamed_cb (CamelStore *store,
 	GtkTreePath *path;
 	gchar *parent, *p;
 
-	si = em_folder_tree_model_lookup_store_info (model, store);
+	si = folder_tree_model_lookup_store_info (model, store);
 	if (si == NULL)
 		return;
 
@@ -1172,7 +1181,7 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model,
 	uri = camel_url_to_string (service_url, CAMEL_URL_HIDE_ALL);
 	camel_url_free (service_url);
 
-	si = em_folder_tree_model_lookup_store_info (model, store);
+	si = folder_tree_model_lookup_store_info (model, store);
 	if (si != NULL)
 		em_folder_tree_model_remove_store (model, store);
 
@@ -1267,7 +1276,7 @@ em_folder_tree_model_remove_store (EMFolderTreeModel *model,
 	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
 	g_return_if_fail (CAMEL_IS_STORE (store));
 
-	si = em_folder_tree_model_lookup_store_info (model, store);
+	si = folder_tree_model_lookup_store_info (model, store);
 	if (si == NULL)
 		return;
 
@@ -1302,7 +1311,7 @@ em_folder_tree_model_is_type_inbox (EMFolderTreeModel *model,
 	g_return_val_if_fail (CAMEL_IS_STORE (store), FALSE);
 	g_return_val_if_fail (full != NULL, FALSE);
 
-	si = em_folder_tree_model_lookup_store_info (model, store);
+	si = folder_tree_model_lookup_store_info (model, store);
 	if (si == NULL)
 		return FALSE;
 
@@ -1336,7 +1345,7 @@ em_folder_tree_model_get_folder_name (EMFolderTreeModel *model,
 	g_return_val_if_fail (CAMEL_IS_STORE (store), NULL);
 	g_return_val_if_fail (full != NULL, NULL);
 
-	si = em_folder_tree_model_lookup_store_info (model, store);
+	si = folder_tree_model_lookup_store_info (model, store);
 	if (si == NULL)
 		return g_strdup (full);
 
@@ -1353,16 +1362,6 @@ em_folder_tree_model_get_folder_name (EMFolderTreeModel *model,
 		COL_STRING_DISPLAY_NAME, &name, -1);
 
 	return name;
-}
-
-EMFolderTreeModelStoreInfo *
-em_folder_tree_model_lookup_store_info (EMFolderTreeModel *model,
-                                        CamelStore *store)
-{
-	g_return_val_if_fail (EM_IS_FOLDER_TREE_MODEL (model), NULL);
-	g_return_val_if_fail (CAMEL_IS_STORE (store), NULL);
-
-	return g_hash_table_lookup (model->priv->store_index, store);
 }
 
 /**
