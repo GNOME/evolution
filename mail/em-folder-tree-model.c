@@ -1395,6 +1395,46 @@ em_folder_tree_model_lookup_uri (EMFolderTreeModel *model,
 	return reference;
 }
 
+/**
+ * em_folder_tree_model_get_row_reference:
+ * @model: an #EMFolderTreeModel
+ * @store: a #CamelStore
+ * @folder_name: a folder name, or %NULL
+ *
+ * Returns the #GtkTreeRowReference for the folder described by @store and
+ * @folder_name.  If @folder_name is %NULL, returns the #GtkTreeRowReference
+ * for the @store itself.  If no matching row is found, the function returns
+ * %NULL.
+ *
+ * Returns: a valid #GtkTreeRowReference, or %NULL
+ **/
+GtkTreeRowReference *
+em_folder_tree_model_get_row_reference (EMFolderTreeModel *model,
+                                        CamelStore *store,
+                                        const gchar *folder_name)
+{
+	GtkTreeRowReference *reference = NULL;
+	EMFolderTreeModelStoreInfo *si;
+
+	g_return_val_if_fail (EM_IS_FOLDER_TREE_MODEL (model), NULL);
+	g_return_val_if_fail (CAMEL_IS_STORE (store), NULL);
+
+	si = g_hash_table_lookup (model->priv->store_index, store);
+
+	if (si == NULL)
+		return NULL;
+
+	if (folder_name != NULL)
+		reference = g_hash_table_lookup (si->full_hash, folder_name);
+	else
+		reference = si->row;
+
+	if (!gtk_tree_row_reference_valid (reference))
+		reference = NULL;
+
+	return reference;
+}
+
 void
 em_folder_tree_model_user_marked_unread (EMFolderTreeModel *model,
                                          CamelFolder *folder,
@@ -1403,7 +1443,8 @@ em_folder_tree_model_user_marked_unread (EMFolderTreeModel *model,
 	GtkTreeRowReference *reference;
 	GtkTreePath *path;
 	GtkTreeIter iter;
-	gchar *folder_uri;
+	CamelStore *parent_store;
+	const gchar *folder_name;
 	guint unread;
 
 	/* The user marked messages in the given folder as unread.
@@ -1413,9 +1454,11 @@ em_folder_tree_model_user_marked_unread (EMFolderTreeModel *model,
 	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 
-	folder_uri = e_mail_folder_uri_from_folder (folder);
-	reference = em_folder_tree_model_lookup_uri (model, folder_uri);
-	g_free (folder_uri);
+	parent_store = camel_folder_get_parent_store (folder);
+	folder_name = camel_folder_get_full_name (folder);
+
+	reference = em_folder_tree_model_get_row_reference (
+		model, parent_store, folder_name);
 
 	g_return_if_fail (gtk_tree_row_reference_valid (reference));
 

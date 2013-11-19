@@ -157,6 +157,11 @@ GtkTreeRowReference *
 		em_folder_tree_model_lookup_uri
 					(EMFolderTreeModel *model,
 					 const gchar *folder_uri);
+GtkTreeRowReference *
+		em_folder_tree_model_get_row_reference
+					(EMFolderTreeModel *model,
+					 CamelStore *store,
+					 const gchar *folder_name);
 void		em_folder_tree_model_user_marked_unread
 					(EMFolderTreeModel *model,
 					 CamelFolder *folder,

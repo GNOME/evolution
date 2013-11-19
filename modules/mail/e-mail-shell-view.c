@@ -862,8 +862,9 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	EMailReader *reader;
 	EMailView *mail_view;
 	GtkAction *action;
+	CamelStore *store = NULL;
 	GList *list, *link;
-	gchar *uri;
+	gchar *folder_name = NULL;
 	gboolean sensitive;
 	guint32 state;
 
@@ -871,6 +872,7 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	gboolean folder_allows_children;
 	gboolean folder_can_be_deleted;
 	gboolean folder_is_outbox;
+	gboolean folder_is_selected = FALSE;
 	gboolean folder_is_store;
 	gboolean folder_is_trash;
 	gboolean folder_is_virtual;
@@ -923,11 +925,11 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	store_can_be_disabled =
 		(state & E_MAIL_SIDEBAR_STORE_CAN_BE_DISABLED);
 
-	uri = em_folder_tree_get_selected_uri (folder_tree);
-
-	if (uri != NULL) {
+	if (em_folder_tree_get_selected (folder_tree, &store, &folder_name)) {
 		GtkTreeRowReference *reference;
 		CamelFolder *folder;
+
+		folder_is_selected = TRUE;
 
 		folder = e_mail_reader_ref_folder (reader);
 
@@ -939,17 +941,22 @@ mail_shell_view_update_actions (EShellView *shell_view)
 		 *     folder tree editing, it's just too hairy to try to
 		 *     get right.  So we're punting. */
 		if (folder != NULL) {
-			gchar *folder_uri;
+			gchar *uri1, *uri2;
 
-			folder_uri = e_mail_folder_uri_from_folder (folder);
+			uri1 = e_mail_folder_uri_from_folder (folder);
+			uri2 = e_mail_folder_uri_build (store, folder_name);
+
 			folder_tree_and_message_list_agree =
-				(g_strcmp0 (uri, folder_uri) == 0);
-			g_free (folder_uri);
+				(g_strcmp0 (uri1, uri2) == 0);
+
+			g_free (uri1);
+			g_free (uri2);
 
 			g_object_unref (folder);
 		}
 
-		reference = em_folder_tree_model_lookup_uri (model, uri);
+		reference = em_folder_tree_model_get_row_reference (
+			model, store, folder_name);
 		if (reference != NULL) {
 			GtkTreePath *path;
 			GtkTreeIter iter;
@@ -964,7 +971,9 @@ mail_shell_view_update_actions (EShellView *shell_view)
 			gtk_tree_path_free (path);
 		}
 
-		g_free (uri);
+		g_clear_object (&store);
+		g_free (folder_name);
+		folder_name = NULL;
 	}
 
 	/* Look for a CamelStore that supports subscriptions. */
@@ -1000,19 +1009,19 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_FOLDER_COPY);
-	sensitive = !folder_is_store;
+	sensitive = folder_is_selected;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_FOLDER_DELETE);
-	sensitive = !folder_is_store && folder_can_be_deleted;
+	sensitive = folder_is_selected && folder_can_be_deleted;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_FOLDER_EXPUNGE);
-	sensitive = !folder_is_store && !folder_is_virtual && uri != NULL;
+	sensitive = folder_is_selected && !folder_is_virtual;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_FOLDER_MOVE);
-	sensitive = !folder_is_store && folder_can_be_deleted;
+	sensitive = folder_is_selected && folder_can_be_deleted;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_FOLDER_NEW);
@@ -1020,39 +1029,41 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_FOLDER_PROPERTIES);
-	sensitive = !folder_is_store && uri != NULL;
+	sensitive = folder_is_selected;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_FOLDER_REFRESH);
-	sensitive = !folder_is_store;
+	sensitive = folder_is_selected;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_FOLDER_RENAME);
 	sensitive =
-		!folder_is_store && folder_can_be_deleted &&
+		folder_is_selected &&
+		folder_can_be_deleted &&
 		folder_tree_and_message_list_agree;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_FOLDER_SELECT_THREAD);
-	sensitive = !folder_is_store;
+	sensitive = folder_is_selected;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_FOLDER_SELECT_SUBTHREAD);
-	sensitive = !folder_is_store;
+	sensitive = folder_is_selected;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_FOLDER_UNSUBSCRIBE);
 	sensitive =
+		folder_is_selected &&
 		store_is_subscribable &&
-		!folder_is_store && !folder_is_virtual;
+		!folder_is_virtual;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_FOLDER_MARK_ALL_AS_READ);
-	sensitive = folder_has_unread && !folder_is_store;
+	sensitive = folder_is_selected && folder_has_unread;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_POPUP_FOLDER_MARK_ALL_AS_READ);
-	sensitive = folder_has_unread_rec && !folder_is_store;
+	sensitive = folder_is_selected && folder_has_unread_rec;
 	gtk_action_set_visible (action, sensitive);
 
 	action = ACTION (MAIL_MANAGE_SUBSCRIPTIONS);

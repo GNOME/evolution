@@ -474,8 +474,7 @@ static void
 folder_tree_expand_node (const gchar *key,
                          EMFolderTree *folder_tree)
 {
-	struct _EMFolderTreeModelStoreInfo *si = NULL;
-	GtkTreeRowReference *row;
+	GtkTreeRowReference *row = NULL;
 	GtkTreeView *tree_view;
 	GtkTreeModel *model;
 	GtkTreePath *path;
@@ -502,22 +501,23 @@ folder_tree_expand_node (const gchar *key,
 
 	service = camel_session_ref_service (CAMEL_SESSION (session), uid);
 
-	if (CAMEL_IS_STORE (service))
-		si = em_folder_tree_model_lookup_store_info (
+	if (CAMEL_IS_STORE (service)) {
+		const gchar *folder_name;
+
+		if (p != NULL && p[1] != '\0')
+			folder_name = p + 1;
+		else
+			folder_name = NULL;
+
+		row = em_folder_tree_model_get_row_reference (
 			EM_FOLDER_TREE_MODEL (model),
-			CAMEL_STORE (service));
+			CAMEL_STORE (service), folder_name);
+	}
 
-	if (service != NULL)
-		g_object_unref (service);
+	g_clear_object (&service);
 
-	if (si == NULL)
+	if (row == NULL)
 		return;
-
-	if (p != NULL && p[1]) {
-		if (!(row = g_hash_table_lookup (si->full_hash, p + 1)))
-			return;
-	} else
-		row = si->row;
 
 	path = gtk_tree_row_reference_get_path (row);
 	gtk_tree_view_expand_to_path (tree_view, path);
@@ -3614,17 +3614,8 @@ em_folder_tree_restore_state (EMFolderTree *folder_tree,
 				key_file, group_name, key, NULL);
 
 		if (expanded && success) {
-			EMFolderTreeModelStoreInfo *si;
-
-			si = em_folder_tree_model_lookup_store_info (
-				folder_tree_model, store);
-			if (si != NULL) {
-				if (folder_name != NULL)
-					reference = g_hash_table_lookup (
-						si->full_hash, folder_name);
-				else
-					reference = si->row;
-			}
+			reference = em_folder_tree_model_get_row_reference (
+				folder_tree_model, store, folder_name);
 		}
 
 		if (gtk_tree_row_reference_valid (reference)) {
