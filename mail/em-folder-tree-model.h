@@ -52,7 +52,6 @@ G_BEGIN_DECLS
 typedef struct _EMFolderTreeModel EMFolderTreeModel;
 typedef struct _EMFolderTreeModelClass EMFolderTreeModelClass;
 typedef struct _EMFolderTreeModelPrivate EMFolderTreeModelPrivate;
-typedef struct _EMFolderTreeModelStoreInfo EMFolderTreeModelStoreInfo;
 
 enum {
 	COL_STRING_DISPLAY_NAME,	/* string that appears in the tree */
@@ -71,22 +70,6 @@ enum {
 	COL_UINT_UNREAD_LAST_SEL,	/* last known unread count */
 	COL_BOOL_IS_DRAFT,		/* %TRUE for a draft folder */
 	NUM_COLUMNS
-};
-
-struct _EMFolderTreeModelStoreInfo {
-	CamelStore *store;
-	GtkTreeRowReference *row;
-
-	/* CamelFolderInfo::full_name -> GtkTreeRowReference */
-	GHashTable *full_hash;
-
-	/* CamelStore signal handler IDs */
-	gulong folder_created_handler_id;
-	gulong folder_deleted_handler_id;
-	gulong folder_renamed_handler_id;
-	gulong folder_info_stale_handler_id;
-	gulong folder_subscribed_handler_id;
-	gulong folder_unsubscribed_handler_id;
 };
 
 struct _EMFolderTreeModel {

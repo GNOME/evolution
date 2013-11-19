@@ -46,6 +46,8 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), EM_TYPE_FOLDER_TREE_MODEL, EMFolderTreeModelPrivate))
 
+typedef struct _StoreInfo StoreInfo;
+
 struct _EMFolderTreeModelPrivate {
 	/* This is set by EMailShellSidebar.  It allows new EMFolderTree
 	 * instances to initialize their selection and expanded states to
@@ -55,8 +57,24 @@ struct _EMFolderTreeModelPrivate {
 	EMailSession *session;
 	EMailAccountStore *account_store;
 
-	/* CamelStore -> EMFolderTreeStoreInfo */
+	/* CamelStore -> StoreInfo */
 	GHashTable *store_index;
+};
+
+struct _StoreInfo {
+	CamelStore *store;
+	GtkTreeRowReference *row;
+
+	/* CamelFolderInfo::full_name -> GtkTreeRowReference */
+	GHashTable *full_hash;
+
+	/* CamelStore signal handler IDs */
+	gulong folder_created_handler_id;
+	gulong folder_deleted_handler_id;
+	gulong folder_renamed_handler_id;
+	gulong folder_info_stale_handler_id;
+	gulong folder_subscribed_handler_id;
+	gulong folder_unsubscribed_handler_id;
 };
 
 enum {
@@ -76,7 +94,7 @@ static guint signals[LAST_SIGNAL];
 G_DEFINE_TYPE (EMFolderTreeModel, em_folder_tree_model, GTK_TYPE_TREE_STORE)
 
 static void
-store_info_free (EMFolderTreeModelStoreInfo *si)
+store_info_free (StoreInfo *si)
 {
 	if (si->folder_created_handler_id > 0)
 		g_signal_handler_disconnect (
@@ -114,7 +132,7 @@ store_info_free (EMFolderTreeModelStoreInfo *si)
 	g_free (si);
 }
 
-static EMFolderTreeModelStoreInfo *
+static StoreInfo *
 folder_tree_model_lookup_store_info (EMFolderTreeModel *model,
                                      CamelStore *store)
 {
@@ -202,7 +220,7 @@ folder_tree_model_sort (GtkTreeModel *model,
 
 static void
 folder_tree_model_remove_folders (EMFolderTreeModel *folder_tree_model,
-                                  EMFolderTreeModelStoreInfo *si,
+                                  StoreInfo *si,
                                   GtkTreeIter *toplevel)
 {
 	GtkTreeModel *model;
@@ -482,12 +500,12 @@ folder_tree_model_set_unread_count (EMFolderTreeModel *model,
                                     const gchar *full,
                                     gint unread)
 {
-	EMFolderTreeModelStoreInfo *si;
 	GtkTreeRowReference *reference;
 	GtkTreeModel *tree_model;
 	GtkTreePath *path;
 	GtkTreeIter parent;
 	GtkTreeIter iter;
+	StoreInfo *si;
 	guint old_unread = 0;
 
 	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
@@ -739,7 +757,6 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
                                       CamelFolderInfo *fi,
                                       gint fully_loaded)
 {
-	EMFolderTreeModelStoreInfo *si;
 	GtkTreeRowReference *path_row;
 	GtkTreeStore *tree_store;
 	MailFolderCache *folder_cache;
@@ -749,6 +766,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 	GtkTreePath *path;
 	GtkTreeIter sub;
 	CamelFolder *folder;
+	StoreInfo *si;
 	gboolean emitted = FALSE;
 	const gchar *uid;
 	const gchar *icon_name;
@@ -973,10 +991,10 @@ folder_tree_model_folder_subscribed_cb (CamelStore *store,
                                         CamelFolderInfo *fi,
                                         EMFolderTreeModel *model)
 {
-	EMFolderTreeModelStoreInfo *si;
 	GtkTreeRowReference *reference;
 	GtkTreeIter parent, iter;
 	GtkTreePath *path;
+	StoreInfo *si;
 	gboolean load;
 	gchar *dirname, *p;
 
@@ -1024,10 +1042,10 @@ folder_tree_model_folder_unsubscribed_cb (CamelStore *store,
                                           CamelFolderInfo *fi,
                                           EMFolderTreeModel *model)
 {
-	EMFolderTreeModelStoreInfo *si;
 	GtkTreeRowReference *reference;
 	GtkTreePath *path;
 	GtkTreeIter iter;
+	StoreInfo *si;
 
 	si = folder_tree_model_lookup_store_info (model, store);
 	if (si == NULL)
@@ -1049,7 +1067,7 @@ folder_tree_model_folder_created_cb (CamelStore *store,
                                      CamelFolderInfo *fi,
                                      EMFolderTreeModel *model)
 {
-	EMFolderTreeModelStoreInfo *si;
+	StoreInfo *si;
 
 	/* We only want created events to do more
 	 * work if we don't support subscriptions. */
@@ -1083,10 +1101,10 @@ folder_tree_model_folder_renamed_cb (CamelStore *store,
                                      CamelFolderInfo *info,
                                      EMFolderTreeModel *model)
 {
-	EMFolderTreeModelStoreInfo *si;
 	GtkTreeRowReference *reference;
 	GtkTreeIter root, iter;
 	GtkTreePath *path;
+	StoreInfo *si;
 	gchar *parent, *p;
 
 	si = folder_tree_model_lookup_store_info (model, store);
@@ -1135,8 +1153,8 @@ static void
 folder_tree_model_folder_info_stale_cb (CamelStore *store,
                                         EMFolderTreeModel *model)
 {
-	/* Re-add the store.  The EMFolderTreeModelStoreInfo will
-	 * be discarded and the folder tree will be reconstructed. */
+	/* Re-add the store.  The StoreInfo instance will be
+	 * discarded and the folder tree will be reconstructed. */
 	em_folder_tree_model_add_store (model, store);
 }
 
@@ -1144,7 +1162,6 @@ void
 em_folder_tree_model_add_store (EMFolderTreeModel *model,
                                 CamelStore *store)
 {
-	EMFolderTreeModelStoreInfo *si;
 	GtkTreeRowReference *reference;
 	GtkTreeStore *tree_store;
 	GtkTreeIter root, iter;
@@ -1152,6 +1169,7 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model,
 	CamelService *service;
 	CamelProvider *provider;
 	CamelURL *service_url;
+	StoreInfo *si;
 	const gchar *display_name;
 	gulong handler_id;
 	gchar *uri;
@@ -1201,7 +1219,7 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model,
 	path = gtk_tree_model_get_path (GTK_TREE_MODEL (model), &iter);
 	reference = gtk_tree_row_reference_new (GTK_TREE_MODEL (model), path);
 
-	si = g_new0 (EMFolderTreeModelStoreInfo, 1);
+	si = g_new0 (StoreInfo, 1);
 	si->store = g_object_ref (store);
 	si->row = reference;  /* takes ownership */
 	si->full_hash = g_hash_table_new_full (
@@ -1269,9 +1287,9 @@ void
 em_folder_tree_model_remove_store (EMFolderTreeModel *model,
                                    CamelStore *store)
 {
-	EMFolderTreeModelStoreInfo *si;
 	GtkTreePath *path;
 	GtkTreeIter iter;
+	StoreInfo *si;
 
 	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
 	g_return_if_fail (CAMEL_IS_STORE (store));
@@ -1301,10 +1319,10 @@ em_folder_tree_model_is_type_inbox (EMFolderTreeModel *model,
                                     CamelStore *store,
                                     const gchar *full)
 {
-	EMFolderTreeModelStoreInfo *si;
 	GtkTreeRowReference *reference;
 	GtkTreePath *path;
 	GtkTreeIter iter;
+	StoreInfo *si;
 	guint32 flags;
 
 	g_return_val_if_fail (EM_IS_FOLDER_TREE_MODEL (model), FALSE);
@@ -1335,10 +1353,10 @@ em_folder_tree_model_get_folder_name (EMFolderTreeModel *model,
                                       CamelStore *store,
                                       const gchar *full)
 {
-	EMFolderTreeModelStoreInfo *si;
 	GtkTreeRowReference *reference;
 	GtkTreePath *path;
 	GtkTreeIter iter;
+	StoreInfo *si;
 	gchar *name = NULL;
 
 	g_return_val_if_fail (EM_IS_FOLDER_TREE_MODEL (model), NULL);
@@ -1383,7 +1401,7 @@ em_folder_tree_model_get_row_reference (EMFolderTreeModel *model,
                                         const gchar *folder_name)
 {
 	GtkTreeRowReference *reference = NULL;
-	EMFolderTreeModelStoreInfo *si;
+	StoreInfo *si;
 
 	g_return_val_if_fail (EM_IS_FOLDER_TREE_MODEL (model), NULL);
 	g_return_val_if_fail (CAMEL_IS_STORE (store), NULL);
