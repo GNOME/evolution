@@ -344,8 +344,7 @@ create_group (EMailDisplayPopupExtension *extension)
 }
 
 static void
-update_actions (EMailDisplayPopupExtension *extension,
-                WebKitHitTestResult *context)
+update_actions (EMailDisplayPopupExtension *extension)
 {
 	EMailDisplay *display;
 	EMailDisplayPopupTextHighlight *th_extension;

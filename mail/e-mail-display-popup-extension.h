@@ -20,7 +20,6 @@
 #define E_MAIL_DISPLAY_POPUP_EXTENSION_H
 
 #include <glib-object.h>
-#include <webkit2/webkit2.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_DISPLAY_POPUP_EXTENSION \
@@ -49,15 +48,13 @@ typedef struct _EMailDisplayPopupExtensionInterface EMailDisplayPopupExtensionIn
 struct _EMailDisplayPopupExtensionInterface {
 	GTypeInterface parent_interface;
 
-	void	(*update_actions)		(EMailDisplayPopupExtension *extension,
-						 WebKitHitTestResult *context);
+	void	(*update_actions)		(EMailDisplayPopupExtension *extension);
 };
 
 GType		e_mail_display_popup_extension_get_type	(void);
 
 void		e_mail_display_popup_extension_update_actions
-							(EMailDisplayPopupExtension *extension,
-							 WebKitHitTestResult *context);
+							(EMailDisplayPopupExtension *extension);
 
 G_END_DECLS
 

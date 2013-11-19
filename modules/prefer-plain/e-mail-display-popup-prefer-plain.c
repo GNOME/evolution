@@ -296,8 +296,7 @@ create_group (EMailDisplayPopupExtension *extension)
 }
 
 static void
-mail_display_popup_prefer_plain_update_actions (EMailDisplayPopupExtension *extension,
-                                                WebKitHitTestResult *context)
+mail_display_popup_prefer_plain_update_actions (EMailDisplayPopupExtension *extension)
 {
 	EMailDisplay *display;
 	GtkAction *action;
