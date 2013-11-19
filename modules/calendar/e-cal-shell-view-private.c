@@ -1300,13 +1300,8 @@ cal_searching_instances_done_cb (gpointer user_data)
 
 	if (!g_cancellable_is_cancelled (gid->cancellable)) {
 		gid->cal_shell_view->priv->search_pending_count--;
-		if (!gid->cal_shell_view->priv->search_pending_count) {
-			gid->cal_shell_view->priv->search_hit_cache =
-				g_slist_sort (
-					gid->cal_shell_view->priv->search_hit_cache,
-					cal_time_t_ptr_compare);
+		if (!gid->cal_shell_view->priv->search_pending_count)
 			cal_iterate_searching (gid->cal_shell_view);
-		}
 	}
 
 	g_object_unref (gid->cancellable);
@@ -1381,16 +1376,12 @@ cal_search_get_object_list_cb (GObject *source,
 		g_warn_if_fail (icalcomps == NULL);
 		g_error_free (error);
 
-	} else if (error != NULL) {
+	} else if (error != NULL || !icalcomps) {
 		g_warn_if_fail (icalcomps == NULL);
-		g_error_free (error);
+		g_clear_error (&error);
 
 		cal_shell_view->priv->search_pending_count--;
 		if (!cal_shell_view->priv->search_pending_count) {
-			cal_shell_view->priv->search_hit_cache =
-				g_slist_sort (
-					cal_shell_view->priv->search_hit_cache,
-					cal_time_t_ptr_compare);
 			cal_iterate_searching (cal_shell_view);
 		}
 
@@ -1456,10 +1447,15 @@ cal_searching_check_candidates (ECalShellView *cal_shell_view)
 	     view_type == GNOME_CAL_MONTH_VIEW))
 		value = time_add_day (value, 1);
 
+	cal_shell_view->priv->search_hit_cache =
+		g_slist_sort (
+			cal_shell_view->priv->search_hit_cache,
+			cal_time_t_ptr_compare);
+
 	for (iter = cal_shell_view->priv->search_hit_cache; iter; iter = iter->next) {
 		time_t cache = *((time_t *) iter->data);
 
-		/* list is sorted, once the search iteration is complete */
+		/* list is sorted before traversing it */
 		if (cache > value) {
 			if (cal_shell_view->priv->search_direction > 0)
 				candidate = cache;
