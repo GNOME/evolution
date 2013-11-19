@@ -166,37 +166,23 @@ mail_display_popup_prefer_plain_watch_web_extension (EMailDisplayPopupTextHighli
 }
 
 static void
-reformat (GtkAction *old,
-          GtkAction *action,
-          gpointer user_data)
+reformat_get_document_uri_cb (GDBusProxy *web_extension,
+                              GAsyncResult *result,
+                              GtkAction *action)
 {
-	EMailDisplayPopupTextHighlight *th_extension;
-	GVariant *result;
 	SoupURI *soup_uri;
 	GHashTable *query;
-	const gchar *document_uri;
 	gchar *uri;
+	GVariant *result_variant;
 
-	th_extension = E_MAIL_DISPLAY_POPUP_TEXT_HIGHLIGHT (user_data);
+	result_variant = g_dbus_proxy_call_finish (web_extension, result, NULL);
+	if (result_variant) {
+		const gchar *document_uri;
 
-	if (!th_extension->web_extension)
-		return;
-
-	/* Get URI from saved document */
-	result = g_dbus_proxy_call_sync (
-			th_extension->web_extension,
-			"GetDocumentURI",
-			NULL,
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			NULL,
-			NULL);
-	if (result) {
-		document_uri = g_variant_get_string (result, NULL);
-		g_variant_unref (result);
+		g_variant_get (result_variant, "(&s)", &document_uri);
+		soup_uri = soup_uri_new (document_uri);
+		g_variant_unref (result_variant);
 	}
-
-	soup_uri = soup_uri_new (document_uri);
 
 	if (!soup_uri)
 		return;
@@ -219,18 +205,41 @@ reformat (GtkAction *old,
 	soup_uri_free (soup_uri);
 
 	/* Get frame's window and from the window the actual <iframe> element */
-	result = g_dbus_proxy_call_sync (
-			th_extension->web_extension,
-			"ChangeIFrameSource",
-			g_variant_new ("(s)", uri),
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			NULL,
-			NULL);
-	if (result)
-		g_variant_unref (result);
+	g_dbus_proxy_call (
+		web_extension,
+		"ChangeIFrameSource",
+		g_variant_new ("(s)", uri),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
 
 	g_free (uri);
+}
+
+static void
+reformat (GtkAction *old,
+          GtkAction *action,
+          gpointer user_data)
+{
+	EMailDisplayPopupTextHighlight *th_extension;
+
+	th_extension = E_MAIL_DISPLAY_POPUP_TEXT_HIGHLIGHT (user_data);
+
+	if (!th_extension->web_extension)
+		return;
+
+	/* Get URI from saved document */
+	g_dbus_proxy_call (
+		th_extension->web_extension,
+		"GetDocumentURI",
+		NULL,
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		(GAsyncReadyCallback) reformat_get_document_uri_cb,
+		action);
 }
 
 static GtkActionGroup *
@@ -344,65 +353,18 @@ create_group (EMailDisplayPopupExtension *extension)
 }
 
 static void
-update_actions (EMailDisplayPopupExtension *extension)
+get_document_uri_cb (GDBusProxy *web_extension,
+                     GAsyncResult *result,
+                     EMailDisplayPopupTextHighlight *th_extension)
 {
-	EMailDisplay *display;
-	EMailDisplayPopupTextHighlight *th_extension;
-	const gchar *document_uri;
-	GVariant *result;
-	gint32 x, y;
-	GdkDeviceManager *device_manager;
-	GdkDevice *pointer;
+	GVariant *result_variant;
+	gchar *document_uri;
 
-	display = E_MAIL_DISPLAY (e_extension_get_extensible (
-			E_EXTENSION (extension)));
-
-	th_extension = E_MAIL_DISPLAY_POPUP_TEXT_HIGHLIGHT (extension);
-
-	if (th_extension->action_group == NULL) {
-		th_extension->action_group = create_group (extension);
+	result_variant = g_dbus_proxy_call_finish (web_extension, result, NULL);
+	if (result_variant) {
+		g_variant_get (result_variant, "(s)", &document_uri);
+		g_variant_unref (result_variant);
 	}
-
-	/* In WK2 you can't get the node on what WebKitHitTest was performed,
-	 * we have to use other way */
-	device_manager = gdk_display_get_device_manager (
-		gtk_widget_get_display (GTK_WIDGET(display)));
-	pointer = gdk_device_manager_get_client_pointer (device_manager);
-	gdk_window_get_device_position (
-		gtk_widget_get_window (GTK_WIDGET (display)), pointer, &x, &y, NULL);
-
-	if (!th_extension->web_extension)
-       		return;
-
-	result = g_dbus_proxy_call_sync (
-			th_extension->web_extension,
-			"SaveDocumentFromPoint",
-			g_variant_new (
-				"(tii)",
-				webkit_web_view_get_page_id (
-					WEBKIT_WEB_VIEW (display)),
-				x, y),
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			NULL,
-			NULL);
-	if (result)
-		g_variant_unref (result);
-
-	/* Get URI from saved document */
-	result = g_dbus_proxy_call_sync (
-			th_extension->web_extension,
-			"GetDocumentURI",
-			NULL,
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			NULL,
-			NULL);
-	if (result) {
-		document_uri = g_variant_get_string (result, NULL);
-		g_variant_unref (result);
-	}
-
 
 	/* If the part below context menu was made by text-highlight formatter,
 	 * then try to check what formatter it's using at the moment and set
@@ -436,11 +398,66 @@ update_actions (EMailDisplayPopupExtension *extension)
 		if (soup_uri) {
 			soup_uri_free (soup_uri);
 		}
-
 	} else {
 		gtk_action_group_set_visible (
 			th_extension->action_group, FALSE);
 	}
+
+	g_free (document_uri);
+}
+static void
+update_actions (EMailDisplayPopupExtension *extension)
+{
+	EMailDisplay *display;
+	EMailDisplayPopupTextHighlight *th_extension;
+	gint32 x, y;
+	GdkDeviceManager *device_manager;
+	GdkDevice *pointer;
+
+	display = E_MAIL_DISPLAY (e_extension_get_extensible (
+			E_EXTENSION (extension)));
+
+	th_extension = E_MAIL_DISPLAY_POPUP_TEXT_HIGHLIGHT (extension);
+
+	if (th_extension->action_group == NULL) {
+		th_extension->action_group = create_group (extension);
+	}
+
+	/* In WK2 you can't get the node on what WebKitHitTest was performed,
+	 * we have to use other way */
+	device_manager = gdk_display_get_device_manager (
+		gtk_widget_get_display (GTK_WIDGET(display)));
+	pointer = gdk_device_manager_get_client_pointer (device_manager);
+	gdk_window_get_device_position (
+		gtk_widget_get_window (GTK_WIDGET (display)), pointer, &x, &y, NULL);
+
+	if (!th_extension->web_extension)
+       		return;
+
+	g_dbus_proxy_call (
+		th_extension->web_extension,
+		"SaveDocumentFromPoint",
+		g_variant_new (
+			"(tii)",
+			webkit_web_view_get_page_id (
+				WEBKIT_WEB_VIEW (display)),
+			x, y),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
+
+	/* Get URI from saved document */
+	g_dbus_proxy_call (
+		th_extension->web_extension,
+		"GetDocumentURI",
+		NULL,
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		(GAsyncReadyCallback) get_document_uri_cb,
+		th_extension);
 }
 
 void

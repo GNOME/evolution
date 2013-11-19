@@ -932,6 +932,9 @@ find_element_from_point (WebKitDOMDocument *document,
 			document, x - left, y - top);
 	}
 
+	if (!element)
+		return element_on_point;
+
 	if (element_on_point && webkit_dom_node_is_equal_node (
 	    	WEBKIT_DOM_NODE (element),
 	        WEBKIT_DOM_NODE (element_on_point))) {
