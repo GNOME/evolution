@@ -1349,52 +1349,6 @@ em_folder_tree_model_lookup_store_info (EMFolderTreeModel *model,
 	return g_hash_table_lookup (model->priv->store_index, store);
 }
 
-GtkTreeRowReference *
-em_folder_tree_model_lookup_uri (EMFolderTreeModel *model,
-                                 const gchar *folder_uri)
-{
-	GtkTreeRowReference *reference = NULL;
-	EMFolderTreeModelStoreInfo *si;
-	EMailSession *session;
-	CamelStore *store = NULL;
-	gchar *folder_name = NULL;
-	GError *error = NULL;
-
-	g_return_val_if_fail (EM_IS_FOLDER_TREE_MODEL (model), NULL);
-	g_return_val_if_fail (folder_uri != NULL, NULL);
-
-	session = em_folder_tree_model_get_session (model);
-	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
-
-	e_mail_folder_uri_parse (
-		CAMEL_SESSION (session),
-		folder_uri, &store, &folder_name, &error);
-
-	if (error != NULL) {
-		g_warn_if_fail (store == NULL);
-		g_warn_if_fail (folder_name == NULL);
-		g_warning ("%s: %s", G_STRFUNC, error->message);
-		g_error_free (error);
-		return NULL;
-	}
-
-	g_return_val_if_fail (CAMEL_IS_STORE (store), NULL);
-	g_return_val_if_fail (folder_name != NULL, NULL);
-
-	si = g_hash_table_lookup (model->priv->store_index, store);
-
-	if (si != NULL)
-		reference = g_hash_table_lookup (si->full_hash, folder_name);
-
-	if (!gtk_tree_row_reference_valid (reference))
-		reference = NULL;
-
-	g_object_unref (store);
-	g_free (folder_name);
-
-	return reference;
-}
-
 /**
  * em_folder_tree_model_get_row_reference:
  * @model: an #EMFolderTreeModel
