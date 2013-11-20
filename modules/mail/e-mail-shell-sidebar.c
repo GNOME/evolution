@@ -176,11 +176,6 @@ mail_shell_sidebar_constructed (GObject *object)
 	settings = g_settings_new ("org.gnome.evolution.mail");
 
 	g_settings_bind (
-		settings, "side-bar-ellipsize-mode",
-		widget, "ellipsize",
-		G_SETTINGS_BIND_GET);
-
-	g_settings_bind (
 		settings, "side-bar-search",
 		widget, "enable-search",
 		G_SETTINGS_BIND_GET);
