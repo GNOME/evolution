@@ -80,7 +80,8 @@ typedef enum {
 	COMPOSER_FLAG_PGP_SIGN			= 1 << 4,
 	COMPOSER_FLAG_PGP_ENCRYPT		= 1 << 5,
 	COMPOSER_FLAG_SMIME_SIGN		= 1 << 6,
-	COMPOSER_FLAG_SMIME_ENCRYPT		= 1 << 7
+	COMPOSER_FLAG_SMIME_ENCRYPT		= 1 << 7,
+	COMPOSER_FLAG_DRAFT			= 1 << 8
 } ComposerFlags;
 
 enum {
@@ -1119,16 +1120,16 @@ composer_build_message (EMsgComposer *composer,
 	context->session = e_msg_composer_ref_session (composer);
 	context->from = e_msg_composer_get_from (composer);
 
-	if (flags & COMPOSER_FLAG_PGP_SIGN)
+	if ((flags & COMPOSER_FLAG_PGP_SIGN) != 0 && (flags & COMPOSER_FLAG_DRAFT) == 0)
 		context->pgp_sign = TRUE;
 
-	if (flags & COMPOSER_FLAG_PGP_ENCRYPT)
+	if ((flags & COMPOSER_FLAG_PGP_ENCRYPT) != 0 && (flags & COMPOSER_FLAG_DRAFT) == 0)
 		context->pgp_encrypt = TRUE;
 
-	if (flags & COMPOSER_FLAG_SMIME_SIGN)
+	if ((flags & COMPOSER_FLAG_SMIME_SIGN) != 0 && (flags & COMPOSER_FLAG_DRAFT) == 0)
 		context->smime_sign = TRUE;
 
-	if (flags & COMPOSER_FLAG_SMIME_ENCRYPT)
+	if ((flags & COMPOSER_FLAG_SMIME_ENCRYPT) != 0 && (flags & COMPOSER_FLAG_DRAFT) == 0)
 		context->smime_encrypt = TRUE;
 
 	context->need_thread =
@@ -1614,13 +1615,16 @@ msg_composer_mail_identity_changed_cb (EMsgComposer *composer)
 		(g_ascii_strncasecmp (p->mime_type, "text/calendar", 13) != 0);
 
 	action = GTK_TOGGLE_ACTION (ACTION (PGP_SIGN));
-	gtk_toggle_action_set_active (action, can_sign && pgp_sign);
+	gtk_toggle_action_set_active (action, (can_sign && pgp_sign) ||
+		(p->is_from_message && gtk_toggle_action_get_active (action)));
 
 	action = GTK_TOGGLE_ACTION (ACTION (SMIME_SIGN));
-	gtk_toggle_action_set_active (action, can_sign && smime_sign);
+	gtk_toggle_action_set_active (action, (can_sign && smime_sign) ||
+		(p->is_from_message && gtk_toggle_action_get_active (action)));
 
 	action = GTK_TOGGLE_ACTION (ACTION (SMIME_ENCRYPT));
-	gtk_toggle_action_set_active (action, smime_encrypt);
+	gtk_toggle_action_set_active (action, smime_encrypt ||
+		(p->is_from_message && gtk_toggle_action_get_active (action)));
 
 	combo_box = e_composer_header_table_get_signature_combo_box (table);
 	e_mail_signature_combo_box_set_identity_uid (combo_box, uid);
@@ -4717,7 +4721,8 @@ e_msg_composer_get_message_draft (EMsgComposer *composer,
                                   gpointer user_data)
 {
 	GSimpleAsyncResult *simple;
-	ComposerFlags flags = 0;
+	ComposerFlags flags = COMPOSER_FLAG_DRAFT;
+	GtkAction *action;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
@@ -4729,6 +4734,32 @@ e_msg_composer_get_message_draft (EMsgComposer *composer,
 
 	if (gtkhtml_editor_get_html_mode (GTKHTML_EDITOR (composer)))
 		flags |= COMPOSER_FLAG_HTML_CONTENT;
+
+	action = ACTION (PRIORITIZE_MESSAGE);
+	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
+		flags |= COMPOSER_FLAG_PRIORITIZE_MESSAGE;
+
+	action = ACTION (REQUEST_READ_RECEIPT);
+	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
+		flags |= COMPOSER_FLAG_REQUEST_READ_RECEIPT;
+
+	action = ACTION (PGP_SIGN);
+	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
+		flags |= COMPOSER_FLAG_PGP_SIGN;
+
+	action = ACTION (PGP_ENCRYPT);
+	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
+		flags |= COMPOSER_FLAG_PGP_ENCRYPT;
+
+#ifdef HAVE_NSS
+	action = ACTION (SMIME_SIGN);
+	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
+		flags |= COMPOSER_FLAG_SMIME_SIGN;
+
+	action = ACTION (SMIME_ENCRYPT);
+	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
+		flags |= COMPOSER_FLAG_SMIME_ENCRYPT;
+#endif
 
 	composer_build_message (
 		composer, flags, io_priority,
