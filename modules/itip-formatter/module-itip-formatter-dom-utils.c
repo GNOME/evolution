@@ -21,7 +21,7 @@
 #include "web-extension/module-itip-formatter-web-extension.h"
 #include "itip-view-elements-defines.h"
 
-#include "../../e-util/e-dom-utils.h"
+#include <e-util/e-util.h>
 
 void
 module_itip_formatter_dom_utils_show_button (WebKitDOMDocument *document,

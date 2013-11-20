@@ -90,6 +90,7 @@
 #include <e-util/e-destination-store.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-dialog-widgets.h>
+#include <e-util/e-dom-utils.h>
 #include <e-util/e-event.h>
 #include <e-util/e-file-request.h>
 #include <e-util/e-file-utils.h>

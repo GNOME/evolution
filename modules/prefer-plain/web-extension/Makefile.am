@@ -2,19 +2,21 @@ webextensions_LTLIBRARIES = libmodulepreferplainwebextension.la
 
 libmodulepreferplainwebextension_la_SOURCES =		\
 	module-prefer-plain-web-extension.c		\
-	module-prefer-plain-web-extension.h		\
-	$(top_srcdir)/e-util/e-dom-utils.c		\
-	$(top_srcdir)/e-util/e-dom-utils.h
+	module-prefer-plain-web-extension.h
 
 libmodulepreferplainwebextension_la_CPPFLAGS =		\
-	-DWEBEXTENSIONS_COMPILATION			\
-	-DEVOLUTION_IMAGESDIR=\"${imagesdir}\"		\
-	$(GNOME_PLATFORM_CFLAGS)			\
 	$(AM_CPPFLAGS)					\
+	-I$(top_srcdir)					\
+	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
+	$(GNOME_PLATFORM_CFLAGS)			\
+	$(GTKHTML_CFLAGS)				\
 	$(WEB_EXTENSIONS_CFLAGS)
 
 libmodulepreferplainwebextension_la_LIBADD =		\
+	$(top_builddir)/e-util/libevolution-util.la	\
+	$(EVOLUTION_DATA_SERVER_LIBS)			\
 	$(GNOME_PLATFORM_LIBS)				\
+	$(GTKHTML_LIBS)					\
 	$(WEB_EXTENSIONS_LIBS)
 
 libmodulepreferplainwebextension_la_LDFLAGS =		\

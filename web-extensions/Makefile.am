@@ -2,20 +2,21 @@ webextensions_LTLIBRARIES = libevolutionwebextension.la
 
 libevolutionwebextension_la_SOURCES =			\
 	evolution-web-extension.c			\
-	evolution-web-extension.h			\
-	$(top_srcdir)/e-util/e-dom-utils.c		\
-	$(top_srcdir)/e-util/e-dom-utils.h
+	evolution-web-extension.h
 
 libevolutionwebextension_la_CPPFLAGS =			\
-	-DWEBEXTENSIONS_COMPILATION			\
-	-DEVOLUTION_IMAGESDIR=\"${imagesdir}\"		\
-	-I$(top_srcdir)/e-util				\
-	$(GNOME_PLATFORM_CFLAGS)			\
 	$(AM_CPPFLAGS)					\
+	-I$(top_srcdir)					\
+	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
+	$(GNOME_PLATFORM_CFLAGS)			\
+	$(GTKHTML_CFLAGS)				\
 	$(WEB_EXTENSIONS_CFLAGS)
 
 libevolutionwebextension_la_LIBADD =			\
+	$(top_builddir)/e-util/libevolution-util.la	\
+	$(EVOLUTION_DATA_SERVER_LIBS)			\
 	$(GNOME_PLATFORM_LIBS)				\
+	$(GTKHTML_LIBS)					\
 	$(WEB_EXTENSIONS_LIBS)
 
 libevolutionwebextension_la_LDFLAGS =			\

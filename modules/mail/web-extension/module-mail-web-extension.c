@@ -24,7 +24,7 @@
 
 #include "../module-mail-dom-utils.h"
 
-#include <e-util/e-dom-utils.h>
+#include <e-util/e-util.h>
 
 /* FIXME Clean it */
 static GDBusConnection *dbus_connection;
