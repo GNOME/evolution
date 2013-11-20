@@ -109,35 +109,73 @@ enum {
 static void	folder_tree_model_folder_created_cb
 						(CamelStore *store,
 						 CamelFolderInfo *fi,
-						 GWeakRef *model_weak_ref);
+						 StoreInfo *si);
 static void	folder_tree_model_folder_deleted_cb
 						(CamelStore *store,
 						 CamelFolderInfo *fi,
-						 GWeakRef *model_weak_ref);
+						 StoreInfo *si);
 static void	folder_tree_model_folder_renamed_cb
 						(CamelStore *store,
 						 const gchar *old_name,
 						 CamelFolderInfo *info,
-						 GWeakRef *model_weak_ref);
+						 StoreInfo *si);
 static void	folder_tree_model_folder_info_stale_cb
 						(CamelStore *store,
-						 GWeakRef *model_weak_ref);
+						 StoreInfo *si);
 static void	folder_tree_model_folder_subscribed_cb
 						(CamelStore *store,
 						 CamelFolderInfo *fi,
-						 GWeakRef *model_weak_ref);
+						 StoreInfo *si);
 static void	folder_tree_model_folder_unsubscribed_cb
 						(CamelStore *store,
 						 CamelFolderInfo *fi,
-						 GWeakRef *model_weak_ref);
+						 StoreInfo *si);
 static void	folder_tree_model_status_notify_cb
 						(CamelStore *store,
 						 GParamSpec *pspec,
-						 GWeakRef *model_weak_ref);
+						 StoreInfo *si);
 
 static guint signals[LAST_SIGNAL];
 
 G_DEFINE_TYPE (EMFolderTreeModel, em_folder_tree_model, GTK_TYPE_TREE_STORE)
+
+static StoreInfo *
+store_info_ref (StoreInfo *si)
+{
+	g_return_val_if_fail (si != NULL, NULL);
+	g_return_val_if_fail (si->ref_count > 0, NULL);
+
+	g_atomic_int_inc (&si->ref_count);
+
+	return si;
+}
+
+static void
+store_info_unref (StoreInfo *si)
+{
+	g_return_if_fail (si != NULL);
+	g_return_if_fail (si->ref_count > 0);
+
+	if (g_atomic_int_dec_and_test (&si->ref_count)) {
+
+		/* Check that we're fully disconnected. */
+		g_warn_if_fail (si->folder_created_handler_id == 0);
+		g_warn_if_fail (si->folder_deleted_handler_id == 0);
+		g_warn_if_fail (si->folder_renamed_handler_id == 0);
+		g_warn_if_fail (si->folder_info_stale_handler_id == 0);
+		g_warn_if_fail (si->folder_subscribed_handler_id == 0);
+		g_warn_if_fail (si->folder_unsubscribed_handler_id == 0);
+		g_warn_if_fail (si->connection_status_handler_id == 0);
+		g_warn_if_fail (si->host_reachable_handler_id == 0);
+		g_warn_if_fail (si->spinner_pulse_timeout_id == 0);
+
+		g_object_unref (si->store);
+		gtk_tree_row_reference_free (si->row);
+		g_hash_table_destroy (si->full_hash);
+
+		g_slice_free (StoreInfo, si);
+	}
+}
 
 static StoreInfo *
 store_info_new (EMFolderTreeModel *model,
@@ -160,44 +198,44 @@ store_info_new (EMFolderTreeModel *model,
 	handler_id = g_signal_connect_data (
 		store, "folder-created",
 		G_CALLBACK (folder_tree_model_folder_created_cb),
-		e_weak_ref_new (model),
-		(GClosureNotify) e_weak_ref_free, 0);
+		store_info_ref (si),
+		(GClosureNotify) store_info_unref, 0);
 	si->folder_created_handler_id = handler_id;
 
 	handler_id = g_signal_connect_data (
 		store, "folder-deleted",
 		G_CALLBACK (folder_tree_model_folder_deleted_cb),
-		e_weak_ref_new (model),
-		(GClosureNotify) e_weak_ref_free, 0);
+		store_info_ref (si),
+		(GClosureNotify) store_info_unref, 0);
 	si->folder_deleted_handler_id = handler_id;
 
 	handler_id = g_signal_connect_data (
 		store, "folder-renamed",
 		G_CALLBACK (folder_tree_model_folder_renamed_cb),
-		e_weak_ref_new (model),
-		(GClosureNotify) e_weak_ref_free, 0);
+		store_info_ref (si),
+		(GClosureNotify) store_info_unref, 0);
 	si->folder_renamed_handler_id = handler_id;
 
 	handler_id = g_signal_connect_data (
 		store, "folder-info-stale",
 		G_CALLBACK (folder_tree_model_folder_info_stale_cb),
-		e_weak_ref_new (model),
-		(GClosureNotify) e_weak_ref_free, 0);
+		store_info_ref (si),
+		(GClosureNotify) store_info_unref, 0);
 	si->folder_info_stale_handler_id = handler_id;
 
 	if (CAMEL_IS_SUBSCRIBABLE (store)) {
 		handler_id = g_signal_connect_data (
 			store, "folder-subscribed",
 			G_CALLBACK (folder_tree_model_folder_subscribed_cb),
-			e_weak_ref_new (model),
-			(GClosureNotify) e_weak_ref_free, 0);
+			store_info_ref (si),
+			(GClosureNotify) store_info_unref, 0);
 		si->folder_subscribed_handler_id = handler_id;
 
 		handler_id = g_signal_connect_data (
 			store, "folder-unsubscribed",
 			G_CALLBACK (folder_tree_model_folder_unsubscribed_cb),
-			e_weak_ref_new (model),
-			(GClosureNotify) e_weak_ref_free, 0);
+			store_info_ref (si),
+			(GClosureNotify) store_info_unref, 0);
 		si->folder_unsubscribed_handler_id = handler_id;
 	}
 
@@ -205,15 +243,15 @@ store_info_new (EMFolderTreeModel *model,
 		handler_id = g_signal_connect_data (
 			store, "notify::connection-status",
 			G_CALLBACK (folder_tree_model_status_notify_cb),
-			e_weak_ref_new (model),
-			(GClosureNotify) e_weak_ref_free, 0);
+			store_info_ref (si),
+			(GClosureNotify) store_info_unref, 0);
 		si->connection_status_handler_id = handler_id;
 
 		handler_id = g_signal_connect_data (
 			store, "notify::host-reachable",
 			G_CALLBACK (folder_tree_model_status_notify_cb),
-			e_weak_ref_new (model),
-			(GClosureNotify) e_weak_ref_free, 0);
+			store_info_ref (si),
+			(GClosureNotify) store_info_unref, 0);
 		si->host_reachable_handler_id = handler_id;
 	}
 
@@ -223,73 +261,76 @@ store_info_new (EMFolderTreeModel *model,
 	return si;
 }
 
-static StoreInfo *
-store_info_ref (StoreInfo *si)
-{
-	g_return_val_if_fail (si != NULL, NULL);
-	g_return_val_if_fail (si->ref_count > 0, NULL);
-
-	g_atomic_int_inc (&si->ref_count);
-
-	return si;
-}
-
 static void
-store_info_unref (StoreInfo *si)
+store_info_dispose (StoreInfo *si)
 {
 	g_return_if_fail (si != NULL);
-	g_return_if_fail (si->ref_count > 0);
 
-	if (g_atomic_int_dec_and_test (&si->ref_count)) {
-		if (si->folder_created_handler_id > 0)
-			g_signal_handler_disconnect (
-				si->store,
-				si->folder_created_handler_id);
+	/* Disconnect all signal handlers and whatever
+	 * else might be holding a StoreInfo reference. */
 
-		if (si->folder_deleted_handler_id > 0)
-			g_signal_handler_disconnect (
-				si->store,
-				si->folder_deleted_handler_id);
-
-		if (si->folder_renamed_handler_id > 0)
-			g_signal_handler_disconnect (
-				si->store,
-				si->folder_renamed_handler_id);
-
-		if (si->folder_info_stale_handler_id > 0)
-			g_signal_handler_disconnect (
-				si->store,
-				si->folder_info_stale_handler_id);
-
-		if (si->folder_subscribed_handler_id > 0)
-			g_signal_handler_disconnect (
-				si->store,
-				si->folder_subscribed_handler_id);
-
-		if (si->folder_unsubscribed_handler_id > 0)
-			g_signal_handler_disconnect (
-				si->store,
-				si->folder_unsubscribed_handler_id);
-
-		if (si->connection_status_handler_id > 0)
-			g_signal_handler_disconnect (
-				si->store,
-				si->connection_status_handler_id);
-
-		if (si->host_reachable_handler_id > 0)
-			g_signal_handler_disconnect (
-				si->store,
-				si->host_reachable_handler_id);
-
-		if (si->spinner_pulse_timeout_id > 0)
-			g_source_remove (si->spinner_pulse_timeout_id);
-
-		g_object_unref (si->store);
-		gtk_tree_row_reference_free (si->row);
-		g_hash_table_destroy (si->full_hash);
-
-		g_slice_free (StoreInfo, si);
+	if (si->folder_created_handler_id > 0) {
+		g_signal_handler_disconnect (
+			si->store,
+			si->folder_created_handler_id);
+		si->folder_created_handler_id = 0;
 	}
+
+	if (si->folder_deleted_handler_id > 0) {
+		g_signal_handler_disconnect (
+			si->store,
+			si->folder_deleted_handler_id);
+		si->folder_deleted_handler_id = 0;
+	}
+
+	if (si->folder_renamed_handler_id > 0) {
+		g_signal_handler_disconnect (
+			si->store,
+			si->folder_renamed_handler_id);
+		si->folder_renamed_handler_id = 0;
+	}
+
+	if (si->folder_info_stale_handler_id > 0) {
+		g_signal_handler_disconnect (
+			si->store,
+			si->folder_info_stale_handler_id);
+		si->folder_info_stale_handler_id = 0;
+	}
+
+	if (si->folder_subscribed_handler_id > 0) {
+		g_signal_handler_disconnect (
+			si->store,
+			si->folder_subscribed_handler_id);
+		si->folder_subscribed_handler_id = 0;
+	}
+
+	if (si->folder_unsubscribed_handler_id > 0) {
+		g_signal_handler_disconnect (
+			si->store,
+			si->folder_unsubscribed_handler_id);
+		si->folder_unsubscribed_handler_id = 0;
+	}
+
+	if (si->connection_status_handler_id > 0) {
+		g_signal_handler_disconnect (
+			si->store,
+			si->connection_status_handler_id);
+		si->connection_status_handler_id = 0;
+	}
+
+	if (si->host_reachable_handler_id > 0) {
+		g_signal_handler_disconnect (
+			si->store,
+			si->host_reachable_handler_id);
+		si->host_reachable_handler_id = 0;
+	}
+
+	if (si->spinner_pulse_timeout_id > 0) {
+		g_source_remove (si->spinner_pulse_timeout_id);
+		si->spinner_pulse_timeout_id = 0;
+	}
+
+	store_info_unref (si);
 }
 
 static StoreInfo *
@@ -790,7 +831,7 @@ em_folder_tree_model_init (EMFolderTreeModel *model)
 		(GHashFunc) g_direct_hash,
 		(GEqualFunc) g_direct_equal,
 		(GDestroyNotify) NULL,
-		(GDestroyNotify) store_info_unref);
+		(GDestroyNotify) store_info_dispose);
 
 	model->priv = EM_FOLDER_TREE_MODEL_GET_PRIVATE (model);
 	model->priv->store_index = store_index;
@@ -1229,78 +1270,58 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 static void
 folder_tree_model_folder_created_cb (CamelStore *store,
                                      CamelFolderInfo *fi,
-                                     GWeakRef *model_weak_ref)
+                                     StoreInfo *si)
 {
-	EMFolderTreeModel *model;
-	StoreInfo *si;
-
 	/* We only want created events to do more
 	 * work if we don't support subscriptions. */
 	if (CAMEL_IS_SUBSCRIBABLE (store))
 		return;
 
-	model = g_weak_ref_get (model_weak_ref);
-	g_return_if_fail (model != NULL);
-
-	si = folder_tree_model_store_index_lookup (model, store);
-
-	if (si != NULL && g_hash_table_size (si->full_hash) > 0)
-		folder_tree_model_folder_subscribed_cb (
-			store, fi, model_weak_ref);
-
-	if (si != NULL)
-		store_info_unref (si);
-
-	g_object_unref (model);
+	if (g_hash_table_size (si->full_hash) > 0)
+		folder_tree_model_folder_subscribed_cb (store, fi, si);
 }
 
 static void
 folder_tree_model_folder_deleted_cb (CamelStore *store,
                                      CamelFolderInfo *fi,
-                                     GWeakRef *model_weak_ref)
+                                     StoreInfo *si)
 {
 	/* We only want deleted events to do more
 	 * work if we don't support subscriptions. */
 	if (CAMEL_IS_SUBSCRIBABLE (store))
 		return;
 
-	folder_tree_model_folder_unsubscribed_cb (store, fi, model_weak_ref);
+	folder_tree_model_folder_unsubscribed_cb (store, fi, si);
 }
 
 static void
 folder_tree_model_folder_renamed_cb (CamelStore *store,
                                      const gchar *old_name,
                                      CamelFolderInfo *info,
-                                     GWeakRef *model_weak_ref)
+                                     StoreInfo *si)
 {
-	EMFolderTreeModel *model;
 	GtkTreeRowReference *reference;
+	GtkTreeModel *model;
 	GtkTreeIter root, iter;
 	GtkTreePath *path;
-	StoreInfo *si;
 	gchar *parent, *p;
-
-	model = g_weak_ref_get (model_weak_ref);
-	g_return_if_fail (model != NULL);
-
-	si = folder_tree_model_store_index_lookup (model, store);
-	if (si == NULL)
-		goto exit;
 
 	reference = g_hash_table_lookup (si->full_hash, old_name);
 	if (!gtk_tree_row_reference_valid (reference))
-		goto exit;
+		return;
 
 	path = gtk_tree_row_reference_get_path (reference);
-	gtk_tree_model_get_iter (GTK_TREE_MODEL (model), &iter, path);
+	model = gtk_tree_row_reference_get_model (reference);
+	gtk_tree_model_get_iter (model, &iter, path);
 	gtk_tree_path_free (path);
 
-	folder_tree_model_remove_folders (model, si, &iter);
+	folder_tree_model_remove_folders (
+		EM_FOLDER_TREE_MODEL (model), si, &iter);
 
 	/* Make sure we don't already have the new folder name. */
 	reference = g_hash_table_lookup (si->full_hash, info->full_name);
 	if (gtk_tree_row_reference_valid (reference))
-		goto exit;
+		return;
 
 	parent = g_strdup (info->full_name);
 	p = strrchr (parent, '/');
@@ -1315,61 +1336,48 @@ folder_tree_model_folder_renamed_cb (CamelStore *store,
 	g_free (parent);
 
 	if (!gtk_tree_row_reference_valid (reference))
-		goto exit;
+		return;
 
 	path = gtk_tree_row_reference_get_path (reference);
-	gtk_tree_model_get_iter (GTK_TREE_MODEL (model), &root, path);
+	gtk_tree_model_get_iter (model, &root, path);
 	gtk_tree_path_free (path);
 
 	gtk_tree_store_append (GTK_TREE_STORE (model), &iter, &root);
-	em_folder_tree_model_set_folder_info (model, &iter, store, info, TRUE);
-
-exit:
-	if (si != NULL)
-		store_info_unref (si);
-
-	g_object_unref (model);
+	em_folder_tree_model_set_folder_info (
+		EM_FOLDER_TREE_MODEL (model), &iter, store, info, TRUE);
 }
 
 static void
 folder_tree_model_folder_info_stale_cb (CamelStore *store,
-                                        GWeakRef *model_weak_ref)
+                                        StoreInfo *si)
 {
-	EMFolderTreeModel *model;
+	GtkTreeModel *model;
 
-	model = g_weak_ref_get (model_weak_ref);
-	g_return_if_fail (model != NULL);
+	if (!gtk_tree_row_reference_valid (si->row))
+		return;
+
+	model = gtk_tree_row_reference_get_model (si->row);
 
 	/* Re-add the store.  The StoreInfo instance will be
 	 * discarded and the folder tree will be reconstructed. */
-	em_folder_tree_model_add_store (model, store);
-
-	g_object_unref (model);
+	em_folder_tree_model_add_store (EM_FOLDER_TREE_MODEL (model), store);
 }
 
 static void
 folder_tree_model_folder_subscribed_cb (CamelStore *store,
                                         CamelFolderInfo *fi,
-                                        GWeakRef *model_weak_ref)
+                                        StoreInfo *si)
 {
-	EMFolderTreeModel *model;
 	GtkTreeRowReference *reference;
+	GtkTreeModel *model;
 	GtkTreeIter parent, iter;
 	GtkTreePath *path;
-	StoreInfo *si;
 	gboolean load;
 	gchar *dirname, *p;
 
-	model = g_weak_ref_get (model_weak_ref);
-	g_return_if_fail (model != NULL);
-
-	si = folder_tree_model_store_index_lookup (model, store);
-	if (si == NULL)
-		goto exit;
-
 	/* Make sure we don't already know about it? */
-	if (g_hash_table_lookup (si->full_hash, fi->full_name))
-		goto exit;
+	if (g_hash_table_contains (si->full_hash, fi->full_name))
+		return;
 
 	/* Get our parent folder's path. */
 	dirname = g_alloca (strlen (fi->full_name) + 1);
@@ -1384,63 +1392,47 @@ folder_tree_model_folder_subscribed_cb (CamelStore *store,
 	}
 
 	if (!gtk_tree_row_reference_valid (reference))
-		goto exit;
+		return;
 
 	path = gtk_tree_row_reference_get_path (reference);
-	gtk_tree_model_get_iter (GTK_TREE_MODEL (model), &parent, path);
+	model = gtk_tree_row_reference_get_model (reference);
+	gtk_tree_model_get_iter (model, &parent, path);
 	gtk_tree_path_free (path);
 
 	/* Make sure parent's subfolders have already been loaded. */
 	gtk_tree_model_get (
-		GTK_TREE_MODEL (model), &parent,
+		model, &parent,
 		COL_BOOL_LOAD_SUBDIRS, &load, -1);
 	if (load)
-		goto exit;
+		return;
 
 	gtk_tree_store_append (GTK_TREE_STORE (model), &iter, &parent);
 
-	em_folder_tree_model_set_folder_info (model, &iter, store, fi, TRUE);
-
-exit:
-	if (si != NULL)
-		store_info_unref (si);
-
-	g_object_unref (model);
+	em_folder_tree_model_set_folder_info (
+		EM_FOLDER_TREE_MODEL (model), &iter, store, fi, TRUE);
 }
 
 static void
 folder_tree_model_folder_unsubscribed_cb (CamelStore *store,
                                           CamelFolderInfo *fi,
-                                          GWeakRef *model_weak_ref)
+                                          StoreInfo *si)
 {
-	EMFolderTreeModel *model;
 	GtkTreeRowReference *reference;
+	GtkTreeModel *model;
 	GtkTreePath *path;
 	GtkTreeIter iter;
-	StoreInfo *si;
-
-	model = g_weak_ref_get (model_weak_ref);
-	g_return_if_fail (model != NULL);
-
-	si = folder_tree_model_store_index_lookup (model, store);
-	if (si == NULL)
-		goto exit;
 
 	reference = g_hash_table_lookup (si->full_hash, fi->full_name);
 	if (!gtk_tree_row_reference_valid (reference))
-		goto exit;
+		return;
 
 	path = gtk_tree_row_reference_get_path (reference);
-	gtk_tree_model_get_iter (GTK_TREE_MODEL (model), &iter, path);
+	model = gtk_tree_row_reference_get_model (reference);
+	gtk_tree_model_get_iter (model, &iter, path);
 	gtk_tree_path_free (path);
 
-	folder_tree_model_remove_folders (model, si, &iter);
-
-exit:
-	if (si != NULL)
-		store_info_unref (si);
-
-	g_object_unref (model);
+	folder_tree_model_remove_folders (
+		EM_FOLDER_TREE_MODEL (model), si, &iter);
 }
 
 static void
@@ -1530,26 +1522,13 @@ folder_tree_model_update_status_icon (StoreInfo *si)
 static void
 folder_tree_model_status_notify_cb (CamelStore *store,
                                     GParamSpec *pspec,
-                                    GWeakRef *model_weak_ref)
+                                    StoreInfo *si)
 {
-	EMFolderTreeModel *model;
-	StoreInfo *si;
-
 	/* Even though this is a GObject::notify signal, CamelService
 	 * always emits it from its GMainContext on the "main" thread,
 	 * so it's safe to modify the GtkTreeStore from here. */
 
-	model = g_weak_ref_get (model_weak_ref);
-	g_return_if_fail (model != NULL);
-
-	si = folder_tree_model_store_index_lookup (model, store);
-
-	if (si != NULL) {
-		folder_tree_model_update_status_icon (si);
-		store_info_unref (si);
-	}
-
-	g_object_unref (model);
+	folder_tree_model_update_status_icon (si);
 }
 
 void
