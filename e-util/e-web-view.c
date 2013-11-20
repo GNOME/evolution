@@ -1767,12 +1767,12 @@ web_view_gtk_stock_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
 	gsize buff_len = 0;
 	GError *local_error = NULL;
 
-	g_warning ("%s", __FUNCTION__);
 	uri = soup_uri_new (webkit_uri_scheme_request_get_uri (request));
-	if (uri != NULL)
+
+	if (uri && uri->query)
 		query = soup_form_decode (uri->query);
 
-	if (query != NULL) {
+	if (query) {
 		a_size = g_hash_table_lookup (query, "size");
 		if (a_size != NULL)
 			size = atoi (a_size);
