@@ -2112,7 +2112,7 @@ e_mail_display_get_selection_plain_text_sync (EMailDisplay *display,
 				error);
 
 		if (result) {
-			text_content = g_variant_get_string (result, NULL);
+			g_variant_get (result, "(&s)", &text_content);
 			g_variant_unref (result);
 			return text_content;
 		}
