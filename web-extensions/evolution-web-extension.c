@@ -123,7 +123,7 @@ web_page_send_request (WebKitWebPage *web_page,
 		return FALSE;
 
 	/* Redirect http(s) request to evo-http(s) protocol. */
-	if (strstr (request_uri, "http")) {
+	if (g_ascii_strncasecmp (request_uri, "http", 4) == 0) {
 		GSettings *settings;
 		EMailImageLoadingPolicy image_policy;
 		gchar *new_uri;
