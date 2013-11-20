@@ -278,20 +278,22 @@ itip_organizer_is_user_ex (ESourceRegistry *registry,
 
 	e_cal_component_get_organizer (comp, &organizer);
 	if (organizer.value != NULL) {
+		gchar *email = NULL;
 
 		strip = itip_strip_mailto (organizer.value);
 
-		if (e_client_check_capability (E_CLIENT (cal_client), CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS)) {
-			gchar *email = NULL;
-
-			if (e_client_get_backend_property_sync (E_CLIENT (cal_client), CAL_BACKEND_PROPERTY_CAL_EMAIL_ADDRESS, &email, NULL, NULL) &&
-				!g_ascii_strcasecmp (email, strip)) {
-				g_free (email);
-
-				return TRUE;
-			}
-
+		if (e_client_get_backend_property_sync (E_CLIENT (cal_client),
+							CAL_BACKEND_PROPERTY_CAL_EMAIL_ADDRESS,
+							&email, NULL, NULL) &&
+				email && g_ascii_strcasecmp (email, strip) == 0) {
 			g_free (email);
+
+			return TRUE;
+		}
+
+		g_free (email);
+
+		if (e_client_check_capability (E_CLIENT (cal_client), CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS)) {
 			return FALSE;
 		}
 
