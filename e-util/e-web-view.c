@@ -939,7 +939,8 @@ web_view_scroll_event (GtkWidget *widget,
 		}
 	}
 
-	return FALSE;
+	return GTK_WIDGET_CLASS (e_web_view_parent_class)->
+		scroll_event (widget, event);
 }
 
 static gboolean
