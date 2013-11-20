@@ -96,10 +96,6 @@ GtkWidget *	em_folder_tree_new_with_model	(EMailSession *session,
 						 EAlertSink *alert_sink,
 						 EMFolderTreeModel *model);
 EActivity *	em_folder_tree_new_activity	(EMFolderTree *folder_tree);
-PangoEllipsizeMode
-		em_folder_tree_get_ellipsize	(EMFolderTree *folder_tree);
-void		em_folder_tree_set_ellipsize	(EMFolderTree *folder_tree,
-						 PangoEllipsizeMode ellipsize);
 EAlertSink *	em_folder_tree_get_alert_sink	(EMFolderTree *folder_tree);
 EMailSession *	em_folder_tree_get_session	(EMFolderTree *folder_tree);
 void		em_folder_tree_enable_drag_and_drop

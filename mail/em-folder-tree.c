@@ -102,7 +102,6 @@ struct _EMFolderTreePrivate {
 	gboolean skip_double_click;
 
 	GtkCellRenderer *text_renderer;
-	PangoEllipsizeMode ellipsize;
 
 	GtkWidget *selectable; /* an ESelectable, where to pass selectable calls */
 
@@ -121,7 +120,6 @@ enum {
 	PROP_0,
 	PROP_ALERT_SINK,
 	PROP_COPY_TARGET_LIST,
-	PROP_ELLIPSIZE,
 	PROP_MODEL,
 	PROP_PASTE_TARGET_LIST,
 	PROP_SESSION
@@ -1014,12 +1012,6 @@ folder_tree_set_property (GObject *object,
 				g_value_get_object (value));
 			return;
 
-		case PROP_ELLIPSIZE:
-			em_folder_tree_set_ellipsize (
-				EM_FOLDER_TREE (object),
-				g_value_get_enum (value));
-			return;
-
 		case PROP_MODEL:
 			gtk_tree_view_set_model (
 				GTK_TREE_VIEW (object),
@@ -1054,13 +1046,6 @@ folder_tree_get_property (GObject *object,
 			g_value_set_boxed (
 				value,
 				folder_tree_get_copy_target_list (
-				EM_FOLDER_TREE (object)));
-			return;
-
-		case PROP_ELLIPSIZE:
-			g_value_set_enum (
-				value,
-				em_folder_tree_get_ellipsize (
 				EM_FOLDER_TREE (object)));
 			return;
 
@@ -1208,16 +1193,12 @@ folder_tree_constructed (GObject *object)
 		folder_tree_render_icon, NULL, NULL);
 
 	renderer = gtk_cell_renderer_text_new ();
+	g_object_set (renderer, "ellipsize", PANGO_ELLIPSIZE_END, NULL);
 	gtk_tree_view_column_pack_start (column, renderer, TRUE);
 	gtk_tree_view_column_set_cell_data_func (
 		column, renderer, (GtkTreeCellDataFunc)
 		folder_tree_render_display_name, NULL, NULL);
 	priv->text_renderer = g_object_ref (renderer);
-
-	g_object_bind_property (
-		object, "ellipsize",
-		renderer, "ellipsize",
-		G_BINDING_SYNC_CREATE);
 
 	g_signal_connect_swapped (
 		renderer, "edited",
@@ -1512,17 +1493,6 @@ em_folder_tree_class_init (EMFolderTreeClass *class)
 		object_class,
 		PROP_COPY_TARGET_LIST,
 		"copy-target-list");
-
-	g_object_class_install_property (
-		object_class,
-		PROP_ELLIPSIZE,
-		g_param_spec_enum (
-			"ellipsize",
-			NULL,
-			NULL,
-			PANGO_TYPE_ELLIPSIZE_MODE,
-			PANGO_ELLIPSIZE_NONE,
-			G_PARAM_READWRITE));
 
 	/* XXX We override the GtkTreeView:model property to add
 	 *     G_PARAM_CONSTRUCT_ONLY so the model is set by the
@@ -1843,28 +1813,6 @@ em_folder_tree_new_activity (EMFolderTree *folder_tree)
 		E_MAIL_UI_SESSION (session), activity);
 
 	return activity;
-}
-
-PangoEllipsizeMode
-em_folder_tree_get_ellipsize (EMFolderTree *folder_tree)
-{
-	g_return_val_if_fail (EM_IS_FOLDER_TREE (folder_tree), 0);
-
-	return folder_tree->priv->ellipsize;
-}
-
-void
-em_folder_tree_set_ellipsize (EMFolderTree *folder_tree,
-                              PangoEllipsizeMode ellipsize)
-{
-	g_return_if_fail (EM_IS_FOLDER_TREE (folder_tree));
-
-	if (ellipsize == folder_tree->priv->ellipsize)
-		return;
-
-	folder_tree->priv->ellipsize = ellipsize;
-
-	g_object_notify (G_OBJECT (folder_tree), "ellipsize");
 }
 
 EAlertSink *
