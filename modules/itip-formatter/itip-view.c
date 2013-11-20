@@ -1088,7 +1088,7 @@ itip_view_rebuild_source_list (ItipView *view)
 	if (extension_name == NULL)
 		return;
 
-	list = e_source_registry_list_sources (registry, extension_name);
+	list = e_source_registry_list_enabled (registry, extension_name);
 	groups = g_hash_table_new_full (
 		g_str_hash, g_str_equal,
 		(GDestroyNotify) g_free, NULL);
@@ -4211,7 +4211,7 @@ find_server (EMailPartItip *pitip,
 			g_return_if_reached ();
 	}
 
-	list = e_source_registry_list_sources (
+	list = e_source_registry_list_enabled (
 		view->priv->registry, extension_name);
 
 	e_cal_component_get_uid (comp, &uid);
