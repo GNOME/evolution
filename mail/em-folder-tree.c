@@ -1195,6 +1195,8 @@ folder_tree_constructed (GObject *object)
 	priv->selection_changed_handler_id = handler_id;
 
 	column = gtk_tree_view_column_new ();
+	gtk_tree_view_column_set_sizing (
+		column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);
 	gtk_tree_view_append_column (tree_view, column);
 
 	renderer = gtk_cell_renderer_pixbuf_new ();
@@ -1220,6 +1222,27 @@ folder_tree_constructed (GObject *object)
 	g_signal_connect_swapped (
 		renderer, "edited",
 		G_CALLBACK (folder_tree_cell_edited_cb), object);
+
+	column = gtk_tree_view_column_new ();
+	gtk_tree_view_append_column (tree_view, column);
+
+	renderer = gtk_cell_renderer_pixbuf_new ();
+	g_object_set (renderer, "xalign", 1.0, NULL);
+	gtk_tree_view_column_pack_end (column, renderer, FALSE);
+	gtk_tree_view_column_add_attribute (
+		column, renderer, "gicon", COL_STATUS_ICON);
+	gtk_tree_view_column_add_attribute (
+		column, renderer, "visible", COL_STATUS_ICON_VISIBLE);
+
+	renderer = gtk_cell_renderer_spinner_new ();
+	g_object_set (renderer, "xalign", 1.0, NULL);
+	gtk_tree_view_column_pack_end (column, renderer, FALSE);
+	gtk_tree_view_column_add_attribute (
+		column, renderer, "active", COL_BOOL_IS_STORE);
+	gtk_tree_view_column_add_attribute (
+		column, renderer, "pulse", COL_STATUS_SPINNER_PULSE);
+	gtk_tree_view_column_add_attribute (
+		column, renderer, "visible", COL_STATUS_SPINNER_VISIBLE);
 
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
 	gtk_tree_selection_set_select_function (

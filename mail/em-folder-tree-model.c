@@ -46,6 +46,10 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), EM_TYPE_FOLDER_TREE_MODEL, EMFolderTreeModelPrivate))
 
+/* See GtkCellRendererSpinner:pulse property.
+ * Animation cycles over 12 frames in 750 ms. */
+#define SPINNER_PULSE_INTERVAL (750 / 12)
+
 typedef struct _StoreInfo StoreInfo;
 
 struct _EMFolderTreeModelPrivate {
@@ -78,6 +82,15 @@ struct _StoreInfo {
 	gulong folder_info_stale_handler_id;
 	gulong folder_subscribed_handler_id;
 	gulong folder_unsubscribed_handler_id;
+	gulong connection_status_handler_id;
+	gulong host_reachable_handler_id;
+
+	/* For comparison with the current status. */
+	CamelServiceConnectionStatus last_status;
+
+	/* Spinner renderers have to be animated manually. */
+	guint spinner_pulse_value;
+	guint spinner_pulse_timeout_id;
 };
 
 enum {
@@ -117,6 +130,10 @@ static void	folder_tree_model_folder_unsubscribed_cb
 						(CamelStore *store,
 						 CamelFolderInfo *fi,
 						 GWeakRef *model_weak_ref);
+static void	folder_tree_model_status_notify_cb
+						(CamelStore *store,
+						 GParamSpec *pspec,
+						 GWeakRef *model_weak_ref);
 
 static guint signals[LAST_SIGNAL];
 
@@ -126,6 +143,7 @@ static StoreInfo *
 store_info_new (EMFolderTreeModel *model,
                 CamelStore *store)
 {
+	CamelService *service;
 	StoreInfo *si;
 	gulong handler_id;
 
@@ -183,6 +201,25 @@ store_info_new (EMFolderTreeModel *model,
 		si->folder_unsubscribed_handler_id = handler_id;
 	}
 
+	if (CAMEL_IS_NETWORK_SERVICE (store)) {
+		handler_id = g_signal_connect_data (
+			store, "notify::connection-status",
+			G_CALLBACK (folder_tree_model_status_notify_cb),
+			e_weak_ref_new (model),
+			(GClosureNotify) e_weak_ref_free, 0);
+		si->connection_status_handler_id = handler_id;
+
+		handler_id = g_signal_connect_data (
+			store, "notify::host-reachable",
+			G_CALLBACK (folder_tree_model_status_notify_cb),
+			e_weak_ref_new (model),
+			(GClosureNotify) e_weak_ref_free, 0);
+		si->host_reachable_handler_id = handler_id;
+	}
+
+	service = CAMEL_SERVICE (store);
+	si->last_status = camel_service_get_connection_status (service);
+
 	return si;
 }
 
@@ -233,6 +270,19 @@ store_info_unref (StoreInfo *si)
 			g_signal_handler_disconnect (
 				si->store,
 				si->folder_unsubscribed_handler_id);
+
+		if (si->connection_status_handler_id > 0)
+			g_signal_handler_disconnect (
+				si->store,
+				si->connection_status_handler_id);
+
+		if (si->host_reachable_handler_id > 0)
+			g_signal_handler_disconnect (
+				si->store,
+				si->host_reachable_handler_id);
+
+		if (si->spinner_pulse_timeout_id > 0)
+			g_source_remove (si->spinner_pulse_timeout_id);
 
 		g_object_unref (si->store);
 		gtk_tree_row_reference_free (si->row);
@@ -449,6 +499,36 @@ folder_tree_model_services_reordered (EMailAccountStore *account_store,
 		folder_tree_model_sort, NULL, NULL);
 }
 
+static gboolean
+folder_tree_model_spinner_pulse_cb (gpointer user_data)
+{
+	GtkTreeModel *model;
+	GtkTreePath *path;
+	GtkTreeIter iter;
+	StoreInfo *si;
+
+	si = (StoreInfo *) user_data;
+
+	if (!gtk_tree_row_reference_valid (si->row))
+		return G_SOURCE_REMOVE;
+
+	path = gtk_tree_row_reference_get_path (si->row);
+	model = gtk_tree_row_reference_get_model (si->row);
+	gtk_tree_model_get_iter (model, &iter, path);
+	gtk_tree_path_free (path);
+
+	gtk_tree_store_set (
+		GTK_TREE_STORE (model), &iter,
+		COL_STATUS_SPINNER_PULSE,
+		si->spinner_pulse_value++,
+		-1);
+
+	if (si->spinner_pulse_value == G_MAXUINT)
+		si->spinner_pulse_value = 0;
+
+	return G_SOURCE_CONTINUE;
+}
+
 static void
 folder_tree_model_selection_finalized_cb (EMFolderTreeModel *model)
 {
@@ -565,7 +645,10 @@ folder_tree_model_constructed (GObject *object)
 		G_TYPE_BOOLEAN,   /* has not-yet-loaded subfolders */
 		G_TYPE_UINT,      /* last known unread count */
 		G_TYPE_BOOLEAN,   /* folder is a draft folder */
-		G_TYPE_UINT       /* user's sortorder */
+		G_TYPE_ICON,      /* status GIcon */
+		G_TYPE_BOOLEAN,   /* status icon visible */
+		G_TYPE_UINT,      /* status spinner pulse */
+		G_TYPE_BOOLEAN,   /* status spinner visible */
 	};
 
 	gtk_tree_store_set_column_types (
@@ -1360,6 +1443,115 @@ exit:
 	g_object_unref (model);
 }
 
+static void
+folder_tree_model_update_status_icon (StoreInfo *si)
+{
+	CamelService *service;
+	CamelServiceConnectionStatus status;
+	GtkTreeModel *model;
+	GtkTreePath *path;
+	GtkTreeIter iter;
+	GIcon *icon = NULL;
+	const gchar *icon_name;
+	gboolean was_connecting;
+	gboolean host_reachable;
+
+	g_return_if_fail (si != NULL);
+
+	if (!gtk_tree_row_reference_valid (si->row))
+		return;
+
+	service = CAMEL_SERVICE (si->store);
+	status = camel_service_get_connection_status (service);
+	was_connecting = (si->last_status == CAMEL_SERVICE_CONNECTING);
+	si->last_status = status;
+
+	host_reachable = camel_network_service_get_host_reachable (
+		CAMEL_NETWORK_SERVICE (service));
+
+	switch (status) {
+		case CAMEL_SERVICE_DISCONNECTED:
+			if (!host_reachable)
+				icon_name = "network-no-route-symbolic";
+			else if (was_connecting)
+				icon_name = "network-error-symbolic";
+			else
+				icon_name = "network-offline-symbolic";
+			break;
+
+		case CAMEL_SERVICE_CONNECTING:
+			icon_name = NULL;
+			break;
+
+		case CAMEL_SERVICE_CONNECTED:
+			icon_name = "network-idle-symbolic";
+			break;
+
+		case CAMEL_SERVICE_DISCONNECTING:
+			icon_name = NULL;
+			break;
+	}
+
+	if (icon_name == NULL && si->spinner_pulse_timeout_id == 0) {
+		si->spinner_pulse_timeout_id = g_timeout_add_full (
+			G_PRIORITY_DEFAULT,
+			SPINNER_PULSE_INTERVAL,
+			folder_tree_model_spinner_pulse_cb,
+			store_info_ref (si),
+			(GDestroyNotify) store_info_unref);
+	}
+
+	if (icon_name != NULL && si->spinner_pulse_timeout_id > 0) {
+		g_source_remove (si->spinner_pulse_timeout_id);
+		si->spinner_pulse_timeout_id = 0;
+	}
+
+	path = gtk_tree_row_reference_get_path (si->row);
+	model = gtk_tree_row_reference_get_model (si->row);
+	gtk_tree_model_get_iter (model, &iter, path);
+	gtk_tree_path_free (path);
+
+	if (icon_name != NULL) {
+		/* Use fallbacks if symbolic icons are not available. */
+		icon = g_themed_icon_new_with_default_fallbacks (icon_name);
+	}
+
+	gtk_tree_store_set (
+		GTK_TREE_STORE (model), &iter,
+		COL_STATUS_ICON, icon,
+		COL_STATUS_ICON_VISIBLE, (icon_name != NULL),
+		COL_STATUS_SPINNER_VISIBLE, (icon_name == NULL),
+		-1);
+
+	g_clear_object (&icon);
+
+}
+
+static void
+folder_tree_model_status_notify_cb (CamelStore *store,
+                                    GParamSpec *pspec,
+                                    GWeakRef *model_weak_ref)
+{
+	EMFolderTreeModel *model;
+	StoreInfo *si;
+
+	/* Even though this is a GObject::notify signal, CamelService
+	 * always emits it from its GMainContext on the "main" thread,
+	 * so it's safe to modify the GtkTreeStore from here. */
+
+	model = g_weak_ref_get (model_weak_ref);
+	g_return_if_fail (model != NULL);
+
+	si = folder_tree_model_store_index_lookup (model, store);
+
+	if (si != NULL) {
+		folder_tree_model_update_status_icon (si);
+		store_info_unref (si);
+	}
+
+	g_object_unref (model);
+}
+
 void
 em_folder_tree_model_add_store (EMFolderTreeModel *model,
                                 CamelStore *store)
@@ -1427,8 +1619,6 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model,
 
 	folder_tree_model_store_index_insert (model, si);
 
-	store_info_unref (si);
-
 	/* Each store has folders, but we don't load them until
 	 * the user demands them. */
 	root = iter;
@@ -1446,8 +1636,13 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model,
 		COL_BOOL_IS_DRAFT, FALSE,
 		-1);
 
+	if (CAMEL_IS_NETWORK_SERVICE (store))
+		folder_tree_model_update_status_icon (si);
+
 	g_signal_emit (model, signals[LOADED_ROW], 0, path, &root);
 	gtk_tree_path_free (path);
+
+	store_info_unref (si);
 }
 
 void

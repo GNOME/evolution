@@ -69,6 +69,13 @@ enum {
 					 * been added to the tree */
 	COL_UINT_UNREAD_LAST_SEL,	/* last known unread count */
 	COL_BOOL_IS_DRAFT,		/* %TRUE for a draft folder */
+
+	/* Status icon/spinner, only for top-level store rows. */
+	COL_STATUS_ICON,
+	COL_STATUS_ICON_VISIBLE,
+	COL_STATUS_SPINNER_PULSE,
+	COL_STATUS_SPINNER_VISIBLE,
+
 	NUM_COLUMNS
 };
 
