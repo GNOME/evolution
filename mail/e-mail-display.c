@@ -1379,35 +1379,39 @@ mail_cid_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
 {
 	EMailPartList *part_list;
 	EMailPart *part;
-	CamelFolder *folder;
 	GInputStream *stream;
-	gsize stream_length;
-	const gchar *message_uid;
 	const gchar *uri;
 	const gchar *mime_type;
-	gchar *content = NULL;
-
-	/* Redirect cid:part_id to mail://mail_id/cid:part_id */
+	GByteArray *byte_array;
+	CamelStream *output_stream;
+	GCancellable *cancellable = NULL;
+	CamelDataWrapper *dw;
+	CamelMimePart *mime_part;
 
 	part_list = e_mail_display_get_part_list (display);
-	folder = e_mail_part_list_get_folder (part_list);
-	message_uid = e_mail_part_list_get_message_uid (part_list);
-
 	uri = webkit_uri_scheme_request_get_uri (request);
 	part = e_mail_part_list_ref_part (part_list, uri);
-
 	mime_type = e_mail_part_get_mime_type (part);
+	mime_part = e_mail_part_ref_mime_part (part);
+	dw = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
 
-	/* Always write raw content of CID object. */
-	content = e_mail_part_build_uri (
-			folder, message_uid,
-			"part_id", G_TYPE_STRING, uri,
-			"mode", G_TYPE_INT, E_MAIL_FORMATTER_MODE_CID, NULL);
+	g_return_if_fail (dw);
 
-	stream_length = strlen (content);
-	stream = g_memory_input_stream_new_from_data (content, stream_length, g_free);
+	byte_array = g_byte_array_new ();
+	output_stream = camel_stream_mem_new ();
 
-	webkit_uri_scheme_request_finish (request, stream, stream_length, mime_type);
+	/* We retain ownership of the byte array. */
+	camel_stream_mem_set_byte_array (
+		CAMEL_STREAM_MEM (output_stream), byte_array);
+
+	camel_data_wrapper_decode_to_stream_sync (
+		dw, output_stream, cancellable, NULL);
+
+	stream = g_memory_input_stream_new_from_bytes (
+		g_byte_array_free_to_bytes (byte_array));
+
+	webkit_uri_scheme_request_finish (request, stream, -1, mime_type);
+	g_object_unref (mime_part);
 	g_object_unref (stream);
 	g_object_unref (part);
 }
