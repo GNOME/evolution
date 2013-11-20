@@ -700,6 +700,29 @@ render_personal_column (EABContactFormatter *formatter,
 }
 
 static void
+render_other_column (EABContactFormatter *formatter,
+		     EContact *contact,
+		     GString *buffer)
+{
+	GString *accum = g_string_new ("");
+
+	accum_address (accum, contact, _("Address"), E_CONTACT_ADDRESS_OTHER, E_CONTACT_ADDRESS_LABEL_OTHER);
+	if (formatter->priv->render_maps)
+		accum_address_map (accum, contact, E_CONTACT_ADDRESS_OTHER);
+
+	if (accum->len > 0) {
+		g_string_append_printf (
+			buffer,
+			"<div class=\"column\" id=\"contact-other\">"
+			"<h3>%s</h3>"
+			"<table border=\"0\" cellspacing=\"5\">%s</table>"
+			"</div>", _("Other"), accum->str);
+	}
+
+	g_string_free (accum, TRUE);
+}
+
+static void
 render_footer (EABContactFormatter *formatter,
                EContact *contact,
                GString *buffer)
@@ -736,6 +759,7 @@ render_contact (EABContactFormatter *formatter,
 	render_contact_column (formatter, contact, buffer);
 	render_work_column (formatter, contact, buffer);
 	render_personal_column (formatter, contact, buffer);
+	render_other_column (formatter, contact, buffer);
 	g_string_append (buffer, "</div>");
 
 	render_footer (formatter, contact, buffer);
