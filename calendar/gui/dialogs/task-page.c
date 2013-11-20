@@ -760,8 +760,7 @@ task_page_fill_widgets (CompEditorPage *page,
 
 				if (itip_organizer_is_user (registry, comp, client) ||
 				    itip_sentby_is_user (registry, comp, client)) {
-					if (e_client_check_capability (E_CLIENT (client), CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS))
-						priv->user_org = TRUE;
+					priv->user_org = TRUE;
 				} else {
 					if (e_client_check_capability (E_CLIENT (client), CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS))
 						gtk_widget_set_sensitive (priv->invite, FALSE);
