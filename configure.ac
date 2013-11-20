@@ -62,7 +62,7 @@ m4_define([clutter_gtk_minimum_version], [0.90])
 m4_define([geoclue_minimum_version], [0.12.0])
 m4_define([geocode_glib_minimum_version], [3.10])
 m4_define([gladeui_minimum_version], [3.10.0])
-m4_define([gweather_minimum_version], [3.5.0])
+m4_define([gweather_minimum_version], [3.8])
 m4_define([libcanberra_gtk_minimum_version], [0.25])
 m4_define([libnotify_minimum_version], [0.7])
 
