@@ -211,7 +211,7 @@ handle_method_call (GDBusConnection *connection,
 	} else if (g_strcmp0 (method_name, "ShowButton") == 0) {
 		const gchar *button_id;
 
-		button_id = g_variant_get_string (parameters, NULL);
+		g_variant_get (parameters, "(&s)", &button_id);
 
 		/* FIXME return error */
 		if (!document_saved)
@@ -259,7 +259,7 @@ handle_method_call (GDBusConnection *connection,
 	} else if (g_strcmp0 (method_name, "RemoveElement") == 0) {
 		const gchar *element_id;
 
-		element_id = g_variant_get_string (parameters, NULL);
+		g_variant_get (parameters, "(&s)", &element_id);
 		/* FIXME return error */
 		if (!document_saved)
 			g_dbus_method_invocation_return_value (invocation, NULL);
@@ -270,7 +270,7 @@ handle_method_call (GDBusConnection *connection,
 	} else if (g_strcmp0 (method_name, "ElementRemoveChildNodes") == 0) {
 		const gchar *element_id;
 
-		element_id = g_variant_get_string (parameters, NULL);
+		g_variant_get (parameters, "(&s)", &element_id);
 		/* FIXME return error */
 		if (!document_saved)
 			g_dbus_method_invocation_return_value (invocation, NULL);
@@ -294,7 +294,7 @@ handle_method_call (GDBusConnection *connection,
 		const gchar *element_id;
 		gboolean hidden;
 
-		element_id = g_variant_get_string (parameters, NULL);
+		g_variant_get (parameters, "(&s)", &element_id);
 
 		/* FIXME return error */
 		if (!document_saved)
@@ -331,7 +331,7 @@ handle_method_call (GDBusConnection *connection,
 		const gchar *input_id;
 		gboolean checked;
 
-		input_id = g_variant_get_string (parameters, NULL);
+		g_variant_get (parameters, "(&s)", &input_id);
 
 		/* FIXME return error */
 		if (!document_saved)
@@ -398,7 +398,7 @@ handle_method_call (GDBusConnection *connection,
 	} else if (g_strcmp0 (method_name, "ElementHideChildNodes") == 0) {
 		const gchar *element_id;
 
-		element_id = g_variant_get_string (parameters, NULL);
+		g_variant_get (parameters, "(&s)", &element_id);
 
 		/* FIXME return error */
 		if (!document_saved)
@@ -426,7 +426,7 @@ handle_method_call (GDBusConnection *connection,
 		const gchar *select_id;
 		gboolean enabled;
 
-		select_id = g_variant_get_string (parameters, NULL);
+		g_variant_get (parameters, "(&s)", &select_id);
 
 		/* FIXME return error */
 		if (!document_saved)
@@ -441,7 +441,7 @@ handle_method_call (GDBusConnection *connection,
 		const gchar *select_id;
 		gchar *value;
 
-		select_id = g_variant_get_string (parameters, NULL);
+		g_variant_get (parameters, "(&s)", &select_id);
 
 		/* FIXME return error */
 		if (!document_saved)
@@ -527,7 +527,7 @@ handle_method_call (GDBusConnection *connection,
 		const gchar *area_id;
 		gchar *value;
 
-		area_id = g_variant_get_string (parameters, NULL);
+		g_variant_get (parameters, "(&s)", &area_id);
 
 		/* FIXME return error */
 		if (!document_saved)

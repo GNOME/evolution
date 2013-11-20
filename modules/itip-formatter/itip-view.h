@@ -110,7 +110,9 @@ struct _ItipViewClass {
 
 GType		itip_view_get_type		(void);
 ItipView *	itip_view_new			(struct _EMailPartItip *puri,
-						 EClientCache *client_cache);
+						 EClientCache *client_cache,
+						 const gchar *element_id,
+						 guint64 page_id);
 void		itip_view_init_view		(ItipView *view);
 void		itip_view_write			(EMailFormatter *formatter,
 						 GString *buffer);

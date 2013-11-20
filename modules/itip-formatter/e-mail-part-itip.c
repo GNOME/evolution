@@ -81,7 +81,6 @@ mail_part_itip_bind_dom_element (EMailPart *part,
 				 guint64 page_id,
                                  const gchar *element_id)
 {
-	ItipView *view;
 	EMailPartItip *pitip;
 
 	pitip = E_MAIL_PART_ITIP (part);
@@ -98,15 +97,7 @@ mail_part_itip_bind_dom_element (EMailPart *part,
 		WEBKIT_DOM_HTML_IFRAME_ELEMENT (element));
 #endif
 
-	view = itip_view_new (pitip, pitip->client_cache);
-#if 0
-	g_object_set_data_full (
-		G_OBJECT (element), "view", view,
-		(GDestroyNotify) g_object_unref);
-#endif
-	itip_view_create_dom_bindings (view, element_id);
-
-	itip_view_init_view (view);
+	itip_view_new (pitip, pitip->client_cache, element_id, page_id);
 }
 
 static void

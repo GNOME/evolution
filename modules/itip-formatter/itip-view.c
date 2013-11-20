@@ -124,6 +124,9 @@ struct _ItipViewPrivate {
 	guint web_extension_button_clicked_signal_id;
 	guint web_extension_recur_toggled_signal_id;
 
+	const gchar *element_id;
+	guint64 page_id;
+
         gchar *error;
 };
 
@@ -740,9 +743,6 @@ show_checkbox (ItipView *view,
                gboolean show,
 	       gboolean update_second)
 {
-	g_warning ("%s", __FUNCTION__);
-	g_warning ("\t%s", id);
-
 	g_return_if_fail (ITIP_IS_VIEW (view));
 
 	if (!view->priv->web_extension)
@@ -1745,11 +1745,7 @@ itip_view_create_dom_bindings (ItipView *view,
 	g_dbus_proxy_call (
 		view->priv->web_extension,
 		"SaveDocumentFromElement",
-		g_variant_new (
-			"(ts)",
-			webkit_web_view_get_page_id (
-				WEBKIT_WEB_VIEW (view)),
-			element_id),
+		g_variant_new ("(ts)", view->priv->page_id, element_id),
 		G_DBUS_CALL_FLAGS_NONE,
 		-1,
 		NULL,
@@ -1818,6 +1814,10 @@ web_extension_proxy_created_cb (GDBusProxy *proxy,
 			(GDBusSignalCallback) recur_toggled_signal_cb,
 			view,
 			NULL);
+
+	itip_view_create_dom_bindings (view, view->priv->element_id);
+
+	itip_view_init_view (view);
 }
 
 static void
@@ -1873,13 +1873,13 @@ static void
 itip_view_init (ItipView *view)
 {
 	view->priv = ITIP_VIEW_GET_PRIVATE (view);
-
-	itip_view_watch_web_extension (view);
 }
 
 ItipView *
 itip_view_new (EMailPartItip *puri,
-               EClientCache *client_cache)
+               EClientCache *client_cache,
+	       const gchar *element_id,
+	       guint64 page_id)
 {
 	ItipView *view;
 
@@ -1890,7 +1890,10 @@ itip_view_new (EMailPartItip *puri,
 		"client-cache", client_cache,
 		NULL));
 	view->priv->itip_part = puri;
+	view->priv->element_id = element_id;
+	view->priv->page_id = page_id;
 
+	itip_view_watch_web_extension (view);
 	return view;
 }
 

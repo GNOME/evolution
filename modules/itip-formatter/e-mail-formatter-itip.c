@@ -70,7 +70,7 @@ emfe_itip_format (EMailFormatterExtension *extension,
 		buffer = g_string_sized_new (1024);
 
 		itip_part->view = itip_view_new (
-			itip_part, itip_part->client_cache);
+			itip_part, itip_part->client_cache, "", 0);
 
 		itip_view_init_view (itip_part->view);
 		itip_view_write_for_printing (itip_part->view, buffer);
