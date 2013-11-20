@@ -269,6 +269,7 @@ handle_http_request (GSimpleAsyncResult *res,
 			goto cleanup;
 		} else {
 			d (printf ("Failed to load '%s' from cache.\n", uri));
+			g_object_unref (stream);
 		}
 	}
 
@@ -368,7 +369,10 @@ handle_http_request (GSimpleAsyncResult *res,
 		send_and_handle_redirection (session, message, NULL);
 
 		if (!SOUP_STATUS_IS_SUCCESSFUL (message->status_code)) {
-			g_warning ("Failed to request %s (code %d)", uri, message->status_code);
+			g_debug ("Failed to request %s (code %d)", uri, message->status_code);
+			g_object_unref (message);
+			g_object_unref (session);
+			g_main_context_unref (context);
 			goto cleanup;
 		}
 
@@ -394,6 +398,9 @@ handle_http_request (GSimpleAsyncResult *res,
 						"Failed to write data to cache stream: %s",
 						error->message);
 				g_clear_error (&error);
+				g_object_unref (message);
+				g_object_unref (session);
+				g_main_context_unref (context);
 				goto cleanup;
 			}
 		}
