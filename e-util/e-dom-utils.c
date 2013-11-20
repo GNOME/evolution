@@ -905,10 +905,14 @@ get_total_offsets (WebKitDOMElement *element,
 
 	offset_parent = element;
 	do {
-		if (left)
+		if (left) {
 			*left += webkit_dom_element_get_offset_left (offset_parent);
-		if (top)
+			*left -= webkit_dom_element_get_scroll_left (offset_parent);
+		}
+		if (top) {
 			*top += webkit_dom_element_get_offset_top (offset_parent);
+			*top -= webkit_dom_element_get_scroll_top (offset_parent);
+		}
 		offset_parent = webkit_dom_element_get_offset_parent (offset_parent);
 	} while (offset_parent);
 }
