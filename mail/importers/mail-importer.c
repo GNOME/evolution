@@ -272,7 +272,7 @@ mail_importer_import_mbox_sync (EMailSession *session,
 	m->path = g_strdup (path);
 	m->uri = g_strdup (folderuri);
 	if (cancellable)
-		m->base.cancellable = cancellable;
+		m->base.cancellable = g_object_ref (cancellable);
 
 	cancellable = m->base.cancellable;
 
