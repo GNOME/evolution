@@ -765,12 +765,26 @@ gchar *
 e_dom_utils_get_active_element_name (WebKitDOMDocument *document)
 {
 	WebKitDOMElement *element;
-	/* FIXME XXX Do version that checks underlying documents */
 
 	element = webkit_dom_html_document_get_active_element (
-			WEBKIT_DOM_HTML_DOCUMENT (document));
+		WEBKIT_DOM_HTML_DOCUMENT (document));
+
 	if (!element)
 		return NULL;
+
+	while (WEBKIT_DOM_IS_HTML_IFRAME_ELEMENT (element)) {
+		WebKitDOMDocument *content_document;
+
+		content_document =
+			webkit_dom_html_iframe_element_get_content_document (
+				WEBKIT_DOM_HTML_IFRAME_ELEMENT (element));
+
+		if (!content_document)
+			break;
+
+		element = webkit_dom_html_document_get_active_element (
+			WEBKIT_DOM_HTML_DOCUMENT (content_document));
+	}
 
 	return webkit_dom_node_get_local_name (WEBKIT_DOM_NODE (element));
 }
