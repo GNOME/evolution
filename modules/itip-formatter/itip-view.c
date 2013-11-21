@@ -875,7 +875,7 @@ update_start_end_times (ItipView *view)
 	} else
 		hide_element (view, TABLE_ROW_START_DATE, TRUE);
 
-	if (priv->start_header && priv->start_label) {
+	if (priv->end_header && priv->end_label) {
 		g_dbus_proxy_call (
 			priv->web_extension,
 			"UpdateTimes",

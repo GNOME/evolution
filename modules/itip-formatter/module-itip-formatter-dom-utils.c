@@ -336,13 +336,11 @@ module_itip_formatter_dom_utils_show_checkbox (WebKitDOMDocument *document,
 {
 	WebKitDOMElement *label;
 	WebKitDOMElement *el;
+	gchar *row_id;
 
-	el = webkit_dom_document_get_element_by_id (
-		document, id);
+	el = webkit_dom_document_get_element_by_id (document, id);
 	webkit_dom_html_element_set_hidden (WEBKIT_DOM_HTML_ELEMENT (el), !show);
 
-	el = webkit_dom_document_get_element_by_id (
-		document, id);
 	label = webkit_dom_element_get_next_element_sibling (el);
 	webkit_dom_html_element_set_hidden (WEBKIT_DOM_HTML_ELEMENT (label), !show);
 
@@ -357,6 +355,11 @@ module_itip_formatter_dom_utils_show_checkbox (WebKitDOMDocument *document,
 			WEBKIT_DOM_HTML_INPUT_ELEMENT (el),
 			NULL, NULL);
 	}
+
+	row_id = g_strconcat ("table_row_", id, NULL);
+	el = webkit_dom_document_get_element_by_id (document, row_id);
+	webkit_dom_html_element_set_hidden (WEBKIT_DOM_HTML_ELEMENT (el), !show);
+	g_free (row_id);
 }
 
 void
