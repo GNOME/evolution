@@ -22,8 +22,6 @@
 #include <gtk/gtk.h>
 #include <webkit2/webkit-web-extension.h>
 
-#include "../module-mail-dom-utils.h"
-
 #include <e-util/e-util.h>
 
 /* FIXME Clean it */
