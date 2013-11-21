@@ -526,10 +526,6 @@ web_view_mouse_target_changed_cb (EWebView *web_view,
 	EWebViewClass *class;
 	const gchar *title, *uri;
 
-	/* We can test there is we are hovering over link, image .. */
-	if (!webkit_hit_test_result_context_is_image (hit_test_result))
-		return;
-
 	/* XXX WebKitWebView does not provide a class method for
 	 *     this signal, so we do so we can override the default
 	 *     behavior from subclasses for special URI types. */
