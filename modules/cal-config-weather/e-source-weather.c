@@ -140,7 +140,7 @@ e_source_weather_class_init (ESourceWeatherClass *class)
 			"Units",
 			"Metric or imperial units",
 			E_TYPE_SOURCE_WEATHER_UNITS,
-			E_SOURCE_WEATHER_UNITS_METRIC,
+			E_SOURCE_WEATHER_UNITS_FAHRENHEIT,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
 			E_SOURCE_PARAM_SETTING));
@@ -162,12 +162,15 @@ void
 e_source_weather_type_register (GTypeModule *type_module)
 {
 	static const GEnumValue e_source_weather_units_values[] = {
-		{ E_SOURCE_WEATHER_UNITS_METRIC,
-		  "E_SOURCE_WEATHER_UNITS_METRIC",
-		  "metric" },
-		{ E_SOURCE_WEATHER_UNITS_IMPERIAL,
-		  "E_SOURCE_WEATHER_UNITS_IMPERIAL",
-		  "imperial" },
+		{ E_SOURCE_WEATHER_UNITS_FAHRENHEIT,
+		  "E_SOURCE_WEATHER_UNITS_FAHRENHEIT",
+		  "fahrenheit" },
+		{ E_SOURCE_WEATHER_UNITS_CENTIGRADE,
+		  "E_SOURCE_WEATHER_UNITS_CENTIGRADE",
+		  "centigrade" },
+		{ E_SOURCE_WEATHER_UNITS_KELVIN,
+		  "E_SOURCE_WEATHER_UNITS_KELVIN",
+		  "kelvin" },
 		{ 0, NULL, NULL }
 	};
 

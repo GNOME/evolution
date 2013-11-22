@@ -61,8 +61,9 @@ struct _ESourceWeatherClass {
 };
 
 typedef enum {
-	E_SOURCE_WEATHER_UNITS_METRIC,
-	E_SOURCE_WEATHER_UNITS_IMPERIAL
+	E_SOURCE_WEATHER_UNITS_FAHRENHEIT = 0,
+	E_SOURCE_WEATHER_UNITS_CENTIGRADE,
+	E_SOURCE_WEATHER_UNITS_KELVIN
 } ESourceWeatherUnits;
 
 GType		e_source_weather_get_type	(void);

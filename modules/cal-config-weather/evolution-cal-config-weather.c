@@ -207,6 +207,24 @@ cal_config_weather_insert_widgets (ESourceConfigBackend *backend,
 	context->location_entry = g_object_ref (widget);
 	gtk_widget_show (widget);
 
+	widget = gtk_combo_box_text_new ();
+	/* keep the same order as in the ESourceWeatherUnits */
+	gtk_combo_box_text_append_text (
+		GTK_COMBO_BOX_TEXT (widget),
+		/* TRANSLATOR: This is the temperature in degrees Fahrenheit (\302\260 is U+00B0 DEGREE SIGN) */
+		_("Fahrenheit (\302\260F)"));
+	gtk_combo_box_text_append_text (
+		GTK_COMBO_BOX_TEXT (widget),
+		/* TRANSLATOR: This is the temperature in degrees Celsius (\302\260 is U+00B0 DEGREE SIGN) */
+		_("Centigrade (\302\260C)"));
+	gtk_combo_box_text_append_text (
+		GTK_COMBO_BOX_TEXT (widget),
+		/* TRANSLATOR: This is the temperature in kelvin */
+		_("Kelvin (K)"));
+	e_source_config_insert_widget (
+		config, scratch_source, _("Units:"), widget);
+	gtk_widget_show (widget);
+
 	e_source_config_add_refresh_interval (config, scratch_source);
 
 	extension_name = E_SOURCE_EXTENSION_WEATHER_BACKEND;
@@ -221,6 +239,12 @@ cal_config_weather_insert_widgets (ESourceConfigBackend *backend,
 		cal_config_weather_location_to_string,
 		gweather_location_ref (world),
 		(GDestroyNotify) gweather_location_unref);
+
+	g_object_bind_property (
+		extension, "units",
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	gweather_location_unref (world);
 }
