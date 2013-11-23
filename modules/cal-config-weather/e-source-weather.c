@@ -138,9 +138,9 @@ e_source_weather_class_init (ESourceWeatherClass *class)
 		g_param_spec_enum (
 			"units",
 			"Units",
-			"Metric or imperial units",
+			"Fahrenheit, Centigrade or Kelvin units",
 			E_TYPE_SOURCE_WEATHER_UNITS,
-			E_SOURCE_WEATHER_UNITS_FAHRENHEIT,
+			E_SOURCE_WEATHER_UNITS_CENTIGRADE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
 			E_SOURCE_PARAM_SETTING));

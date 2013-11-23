@@ -29,6 +29,10 @@
 
 #include "e-source-weather.h"
 
+#if HAVE_NL_LANGINFO
+#include <langinfo.h>
+#endif
+
 typedef ESourceConfigBackend ECalConfigWeather;
 typedef ESourceConfigBackendClass ECalConfigWeatherClass;
 
@@ -159,6 +163,28 @@ cal_config_weather_string_to_location (GBinding *binding,
 	return match != NULL;
 }
 
+#if HAVE_NL_LANGINFO
+static gboolean
+is_locale_metric (void)
+{
+	const char *fmt;
+	fmt = nl_langinfo (_NL_MEASUREMENT_MEASUREMENT);
+
+	if (fmt && *fmt == 2)
+		return FALSE;
+	else
+		return TRUE;
+}
+
+static ESourceWeatherUnits
+cal_config_weather_get_units_from_locale (void)
+{
+	return is_locale_metric() ?
+		E_SOURCE_WEATHER_UNITS_CENTIGRADE :
+		E_SOURCE_WEATHER_UNITS_FAHRENHEIT;
+}
+#endif
+
 static gboolean
 cal_config_weather_allow_creation (ESourceConfigBackend *backend)
 {
@@ -185,8 +211,12 @@ cal_config_weather_insert_widgets (ESourceConfigBackend *backend,
 	GWeatherLocation *world;
 	GtkWidget *widget;
 	Context *context;
-	const gchar *extension_name;
 	const gchar *uid;
+#if HAVE_NL_LANGINFO
+	gboolean is_new_source;
+
+	is_new_source = !e_source_has_extension (scratch_source, E_SOURCE_EXTENSION_WEATHER_BACKEND);
+#endif
 
 	context = g_slice_new (Context);
 	uid = e_source_get_uid (scratch_source);
@@ -227,8 +257,14 @@ cal_config_weather_insert_widgets (ESourceConfigBackend *backend,
 
 	e_source_config_add_refresh_interval (config, scratch_source);
 
-	extension_name = E_SOURCE_EXTENSION_WEATHER_BACKEND;
-	extension = e_source_get_extension (scratch_source, extension_name);
+	extension = e_source_get_extension (scratch_source, E_SOURCE_EXTENSION_WEATHER_BACKEND);
+
+#if HAVE_NL_LANGINFO
+	if (is_new_source)
+		e_source_weather_set_units (
+			E_SOURCE_WEATHER (extension),
+			cal_config_weather_get_units_from_locale ());
+#endif
 
 	g_object_bind_property_full (
 		extension, "location",

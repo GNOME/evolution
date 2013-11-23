@@ -276,6 +276,16 @@ AM_CONDITIONAL(HAVE_WINDRES, test "x$WINDRES" != "x:")
 AC_SUBST(WINDRES)
 
 dnl **********************************
+dnl Check for functions
+dnl **********************************
+AC_CHECK_FUNCS(nl_langinfo)
+
+dnl **********************************
+dnl Check for nl_langinfo features
+dnl **********************************
+EVO_CHECK_LANGINFO([_NL_MEASUREMENT_MEASUREMENT])
+
+dnl **********************************
 dnl Check for base dependencies early.
 dnl **********************************
 PKG_CHECK_MODULES([GNOME_PLATFORM],
