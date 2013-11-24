@@ -462,16 +462,6 @@ mail_session_resolve_popb4smtp (ESourceRegistry *registry,
 	return pop_uid;
 }
 
-static void
-mail_session_check_junk_notify (GSettings *settings,
-                                const gchar *key,
-                                CamelSession *session)
-{
-	if (strcmp (key, "junk-check-incoming") == 0)
-		camel_session_set_check_junk (
-			session, g_settings_get_boolean (settings, key));
-}
-
 static const gchar *
 mail_session_get_junk_filter_name (EMailSession *session)
 {
@@ -1309,13 +1299,6 @@ mail_session_constructed (GObject *object)
 		settings, "junk-default-plugin",
 		object, "junk-filter-name",
 		G_SETTINGS_BIND_DEFAULT);
-
-	camel_session_set_check_junk (
-		CAMEL_SESSION (session), g_settings_get_boolean (
-		settings, "junk-check-incoming"));
-	g_signal_connect (
-		settings, "changed",
-		G_CALLBACK (mail_session_check_junk_notify), session);
 
 	mail_config_reload_junk_headers (session);
 

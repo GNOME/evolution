@@ -35,6 +35,8 @@ module_settings_la_SOURCES = \
 	e-settings-mail-part-headers.h \
 	e-settings-mail-reader.c \
 	e-settings-mail-reader.h \
+	e-settings-mail-session.c \
+	e-settings-mail-session.h \
 	e-settings-meeting-store.c \
 	e-settings-meeting-store.h \
 	e-settings-meeting-time-selector.c \
@@ -54,6 +56,7 @@ module_settings_la_SOURCES = \
 	$(NULL)
 
 module_settings_la_LIBADD = \
+	$(top_builddir)/libemail-engine/libemail-engine.la \
 	$(top_builddir)/e-util/libevolution-util.la \
 	$(top_builddir)/em-format/libevolution-mail-formatter.la \
 	$(top_builddir)/shell/libevolution-shell.la \
