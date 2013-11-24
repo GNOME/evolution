@@ -74,11 +74,13 @@ struct _EMailUISessionPrivate {
 	EMailAccountStore *account_store;
 	EMailLabelListStore *label_store;
 	EPhotoCache *photo_cache;
+	gboolean check_junk;
 };
 
 enum {
 	PROP_0,
 	PROP_ACCOUNT_STORE,
+	PROP_CHECK_JUNK,
 	PROP_LABEL_STORE,
 	PROP_PHOTO_CACHE
 };
@@ -368,6 +370,7 @@ main_get_filter_driver (CamelSession *session,
 	GSettings *settings;
 	ERuleContext *fc;
 	EMailUISessionPrivate *priv;
+	gboolean add_junk_test;
 
 	priv = E_MAIL_UI_SESSION_GET_PRIVATE (session);
 
@@ -403,10 +406,12 @@ main_get_filter_driver (CamelSession *session,
 	camel_filter_driver_set_play_sound_func (driver, session_play_sound, NULL);
 	camel_filter_driver_set_system_beep_func (driver, session_system_beep, NULL);
 
-	if ((!strcmp (type, E_FILTER_SOURCE_INCOMING) ||
-		!strcmp (type, E_FILTER_SOURCE_JUNKTEST))
-		&& camel_session_get_check_junk (session)) {
+	add_junk_test =
+		priv->check_junk && (
+		g_str_equal (type, E_FILTER_SOURCE_INCOMING) ||
+		g_str_equal (type, E_FILTER_SOURCE_JUNKTEST));
 
+	if (add_junk_test) {
 		/* implicit junk check as 1st rule */
 		camel_filter_driver_add_rule (
 			driver, "Junk check", "(junk-test)",
@@ -475,6 +480,23 @@ mail_ui_session_add_service_cb (SourceContext *context)
 }
 
 static void
+mail_ui_session_set_property (GObject *object,
+                              guint property_id,
+                              const GValue *value,
+                              GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_CHECK_JUNK:
+			e_mail_ui_session_set_check_junk (
+				E_MAIL_UI_SESSION (object),
+				g_value_get_boolean (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
 mail_ui_session_get_property (GObject *object,
                               guint property_id,
                               GValue *value,
@@ -485,6 +507,13 @@ mail_ui_session_get_property (GObject *object,
 			g_value_set_object (
 				value,
 				e_mail_ui_session_get_account_store (
+				E_MAIL_UI_SESSION (object)));
+			return;
+
+		case PROP_CHECK_JUNK:
+			g_value_set_boolean (
+				value,
+				e_mail_ui_session_get_check_junk (
 				E_MAIL_UI_SESSION (object)));
 			return;
 
@@ -753,6 +782,7 @@ e_mail_ui_session_class_init (EMailUISessionClass *class)
 	g_type_class_add_private (class, sizeof (EMailUISessionPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = mail_ui_session_set_property;
 	object_class->get_property = mail_ui_session_get_property;
 	object_class->dispose = mail_ui_session_dispose;
 	object_class->constructed = mail_ui_session_constructed;
@@ -767,6 +797,18 @@ e_mail_ui_session_class_init (EMailUISessionClass *class)
 	mail_session_class = E_MAIL_SESSION_CLASS (class);
 	mail_session_class->create_vfolder_context = mail_ui_session_create_vfolder_context;
 	mail_session_class->refresh_service = mail_ui_session_refresh_service;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_CHECK_JUNK,
+		g_param_spec_boolean (
+			"check-junk",
+			"Check Junk",
+			"Check if incoming messages are junk",
+			TRUE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_install_property (
 		object_class,
@@ -833,6 +875,43 @@ e_mail_ui_session_get_account_store (EMailUISession *session)
 	g_return_val_if_fail (E_IS_MAIL_UI_SESSION (session), NULL);
 
 	return session->priv->account_store;
+}
+
+/**
+ * e_mail_ui_session_get_check_junk:
+ * @session: an #EMailUISession
+ *
+ * Returns whether to automatically check incoming messages for junk content.
+ *
+ * Returns: whether to check for junk messages
+ **/
+gboolean
+e_mail_ui_session_get_check_junk (EMailUISession *session)
+{
+	g_return_val_if_fail (E_IS_MAIL_UI_SESSION (session), FALSE);
+
+	return session->priv->check_junk;
+}
+
+/**
+ * e_mail_ui_session_set_check_junk:
+ * @session: an #EMailUISession
+ * @check_junk: whether to check for junk messages
+ *
+ * Sets whether to automatically check incoming messages for junk content.
+ **/
+void
+e_mail_ui_session_set_check_junk (EMailUISession *session,
+                                  gboolean check_junk)
+{
+	g_return_if_fail (E_IS_MAIL_UI_SESSION (session));
+
+	if (check_junk == session->priv->check_junk)
+		return;
+
+	session->priv->check_junk = check_junk;
+
+	g_object_notify (G_OBJECT (session), "check-junk");
 }
 
 EMailLabelListStore *

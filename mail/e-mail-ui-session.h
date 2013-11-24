@@ -77,6 +77,11 @@ EMailSession *	e_mail_ui_session_new		(ESourceRegistry *registry);
 EMailAccountStore *
 		e_mail_ui_session_get_account_store
 						(EMailUISession *session);
+gboolean	e_mail_ui_session_get_check_junk
+						(EMailUISession *session);
+void		e_mail_ui_session_set_check_junk
+						(EMailUISession *session,
+						 gboolean check_junk);
 EMailLabelListStore *
 		e_mail_ui_session_get_label_store
 						(EMailUISession *session);
