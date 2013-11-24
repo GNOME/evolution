@@ -83,9 +83,6 @@ struct _EMMailerPrefs {
 	GtkTreeView *header_list;
 	GtkListStore *header_list_store;
 
-	GtkToggleButton *sa_local_tests_only;
-	GtkToggleButton *sa_use_daemon;
-
 	GtkToggleButton *junk_header_check;
 	GtkTreeView *junk_header_tree;
 	GtkListStore *junk_header_list_store;
@@ -99,9 +96,8 @@ struct _EMMailerPrefsClass {
 	GtkBoxClass parent_class;
 };
 
-GType      em_mailer_prefs_get_type (void);
-GtkWidget *create_combo_text_widget (void);
-GtkWidget *em_mailer_prefs_new      (EPreferencesWindow *window);
+GType		em_mailer_prefs_get_type	(void);
+GtkWidget *	em_mailer_prefs_new		(EPreferencesWindow *window);
 
 G_END_DECLS
 
