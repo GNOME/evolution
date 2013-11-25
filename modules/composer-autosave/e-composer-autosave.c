@@ -16,31 +16,19 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
-#include <libebackend/libebackend.h>
+#include "e-composer-autosave.h"
 
 #include <composer/e-msg-composer.h>
 
 #include "e-autosave-utils.h"
 
-/* Standard GObject macros */
-#define E_TYPE_COMPOSER_AUTOSAVE \
-	(e_composer_autosave_get_type ())
-#define E_COMPOSER_AUTOSAVE(obj) \
-	(G_TYPE_CHECK_INSTANCE_CAST \
-	((obj), E_TYPE_COMPOSER_AUTOSAVE, EComposerAutosave))
+#define E_COMPOSER_AUTOSAVE_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_COMPOSER_AUTOSAVE, EComposerAutosavePrivate))
 
 #define AUTOSAVE_INTERVAL	60 /* seconds */
 
-typedef struct _EComposerAutosave EComposerAutosave;
-typedef struct _EComposerAutosaveClass EComposerAutosaveClass;
-
-struct _EComposerAutosave {
-	EExtension parent;
-
+struct _EComposerAutosavePrivate {
 	GCancellable *cancellable;
 	guint timeout_id;
 
@@ -52,35 +40,32 @@ struct _EComposerAutosave {
 	gboolean error_shown;
 };
 
-struct _EComposerAutosaveClass {
-	EExtensionClass parent_class;
-};
-
-/* Forward Declarations */
-GType e_composer_autosave_get_type (void);
-void e_composer_autosave_type_register (GTypeModule *type_module);
-
 G_DEFINE_DYNAMIC_TYPE (
 	EComposerAutosave,
 	e_composer_autosave,
 	E_TYPE_EXTENSION)
 
 static void
-composer_autosave_finished_cb (EMsgComposer *composer,
+composer_autosave_finished_cb (GObject *source_object,
                                GAsyncResult *result,
-                               EComposerAutosave *autosave)
+                               gpointer user_data)
 {
+	EMsgComposer *composer;
+	EComposerAutosave *autosave;
 	GFile *snapshot_file;
-	GError *error = NULL;
+	GError *local_error = NULL;
+
+	composer = E_MSG_COMPOSER (source_object);
+	autosave = E_COMPOSER_AUTOSAVE (user_data);
 
 	snapshot_file = e_composer_get_snapshot_file (composer);
-	e_composer_save_snapshot_finish (composer, result, &error);
+	e_composer_save_snapshot_finish (composer, result, &local_error);
 
 	/* Return silently if we were cancelled. */
-	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-		g_error_free (error);
+	if (g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+		g_error_free (local_error);
 
-	else if (error != NULL) {
+	else if (local_error != NULL) {
 		gchar *basename;
 
 		if (G_IS_FILE (snapshot_file))
@@ -89,18 +74,18 @@ composer_autosave_finished_cb (EMsgComposer *composer,
 			basename = g_strdup (" ");
 
 		/* Only show one error dialog at a time. */
-		if (!autosave->error_shown) {
-			autosave->error_shown = TRUE;
+		if (!autosave->priv->error_shown) {
+			autosave->priv->error_shown = TRUE;
 			e_alert_run_dialog_for_args (
 				GTK_WINDOW (composer),
 				"mail-composer:no-autosave",
-				basename, error->message, NULL);
-			autosave->error_shown = FALSE;
+				basename, local_error->message, NULL);
+			autosave->priv->error_shown = FALSE;
 		} else
-			g_warning ("%s: %s", basename, error->message);
+			g_warning ("%s: %s", basename, local_error->message);
 
 		g_free (basename);
-		g_error_free (error);
+		g_error_free (local_error);
 	}
 
 	g_object_unref (autosave);
@@ -115,24 +100,23 @@ composer_autosave_timeout_cb (EComposerAutosave *autosave)
 
 	/* User may have reverted or explicitly saved
 	 * the changes since the timeout was scheduled. */
-	if (autosave->changed) {
+	if (autosave->priv->changed) {
 
 		/* Cancel the previous snapshot if it's still in
 		 * progress and start a new snapshot operation. */
-		g_cancellable_cancel (autosave->cancellable);
-		g_object_unref (autosave->cancellable);
-		autosave->cancellable = g_cancellable_new ();
+		g_cancellable_cancel (autosave->priv->cancellable);
+		g_object_unref (autosave->priv->cancellable);
+		autosave->priv->cancellable = g_cancellable_new ();
 
 		e_composer_save_snapshot (
 			E_MSG_COMPOSER (extensible),
-			autosave->cancellable,
-			(GAsyncReadyCallback)
+			autosave->priv->cancellable,
 			composer_autosave_finished_cb,
 			g_object_ref (autosave));
 	}
 
-	autosave->timeout_id = 0;
-	autosave->changed = FALSE;
+	autosave->priv->timeout_id = 0;
+	autosave->priv->changed = FALSE;
 
 	return FALSE;
 }
@@ -146,10 +130,10 @@ composer_autosave_changed_cb (EComposerAutosave *autosave)
 	extensible = e_extension_get_extensible (E_EXTENSION (autosave));
 
 	editor = GTKHTML_EDITOR (extensible);
-	autosave->changed = gtkhtml_editor_get_changed (editor);
+	autosave->priv->changed = gtkhtml_editor_get_changed (editor);
 
-	if (autosave->changed && autosave->timeout_id == 0)
-		autosave->timeout_id = g_timeout_add_seconds (
+	if (autosave->priv->changed && autosave->priv->timeout_id == 0)
+		autosave->priv->timeout_id = g_timeout_add_seconds (
 			AUTOSAVE_INTERVAL, (GSourceFunc)
 			composer_autosave_timeout_cb, autosave);
 }
@@ -157,37 +141,32 @@ composer_autosave_changed_cb (EComposerAutosave *autosave)
 static void
 composer_autosave_dispose (GObject *object)
 {
-	EComposerAutosave *autosave;
-	GObjectClass *parent_class;
+	EComposerAutosavePrivate *priv;
 
-	autosave = E_COMPOSER_AUTOSAVE (object);
+	priv = E_COMPOSER_AUTOSAVE_GET_PRIVATE (object);
 
 	/* Cancel any snapshots in progress. */
-	if (autosave->cancellable != NULL) {
-		g_cancellable_cancel (autosave->cancellable);
-		g_object_unref (autosave->cancellable);
-		autosave->cancellable = NULL;
+	g_cancellable_cancel (priv->cancellable);
+
+	if (priv->timeout_id > 0) {
+		g_source_remove (priv->timeout_id);
+		priv->timeout_id = 0;
 	}
 
-	if (autosave->timeout_id > 0) {
-		g_source_remove (autosave->timeout_id);
-		autosave->timeout_id = 0;
-	}
+	g_clear_object (&priv->cancellable);
 
 	/* Chain up to parent's dispose() method. */
-	parent_class = G_OBJECT_CLASS (e_composer_autosave_parent_class);
-	parent_class->dispose (object);
+	G_OBJECT_CLASS (e_composer_autosave_parent_class)->dispose (object);
 }
 
 static void
 composer_autosave_constructed (GObject *object)
 {
 	EExtensible *extensible;
-	GObjectClass *parent_class;
 
 	/* Chain up to parent's constructed() method. */
-	parent_class = G_OBJECT_CLASS (e_composer_autosave_parent_class);
-	parent_class->constructed (object);
+	G_OBJECT_CLASS (e_composer_autosave_parent_class)->
+		constructed (object);
 
 	extensible = e_extension_get_extensible (E_EXTENSION (object));
 
@@ -201,6 +180,8 @@ e_composer_autosave_class_init (EComposerAutosaveClass *class)
 {
 	GObjectClass *object_class;
 	EExtensionClass *extension_class;
+
+	g_type_class_add_private (class, sizeof (EComposerAutosavePrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = composer_autosave_dispose;
@@ -218,7 +199,8 @@ e_composer_autosave_class_finalize (EComposerAutosaveClass *class)
 static void
 e_composer_autosave_init (EComposerAutosave *autosave)
 {
-	autosave->cancellable = g_cancellable_new ();
+	autosave->priv = E_COMPOSER_AUTOSAVE_GET_PRIVATE (autosave);
+	autosave->priv->cancellable = g_cancellable_new ();
 }
 
 void
