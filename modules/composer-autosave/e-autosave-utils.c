@@ -128,16 +128,16 @@ load_snapshot_loaded_cb (GFile *snapshot_file,
 	CamelStream *camel_stream;
 	gchar *contents = NULL;
 	gsize length;
-	GError *error = NULL;
+	GError *local_error = NULL;
 
 	context = g_simple_async_result_get_op_res_gpointer (simple);
 
 	g_file_load_contents_finish (
-		snapshot_file, result, &contents, &length, NULL, &error);
+		snapshot_file, result, &contents, &length, NULL, &local_error);
 
-	if (error != NULL) {
+	if (local_error != NULL) {
 		g_warn_if_fail (contents == NULL);
-		g_simple_async_result_take_error (simple, error);
+		g_simple_async_result_take_error (simple, local_error);
 		g_simple_async_result_complete (simple);
 		return;
 	}
@@ -148,12 +148,12 @@ load_snapshot_loaded_cb (GFile *snapshot_file,
 	message = camel_mime_message_new ();
 	camel_stream = camel_stream_mem_new_with_buffer (contents, length);
 	camel_data_wrapper_construct_from_stream_sync (
-		CAMEL_DATA_WRAPPER (message), camel_stream, NULL, &error);
+		CAMEL_DATA_WRAPPER (message), camel_stream, NULL, &local_error);
 	g_object_unref (camel_stream);
 	g_free (contents);
 
-	if (error != NULL) {
-		g_simple_async_result_take_error (simple, error);
+	if (local_error != NULL) {
+		g_simple_async_result_take_error (simple, local_error);
 		g_simple_async_result_complete (simple);
 		g_object_unref (message);
 		return;
@@ -186,12 +186,12 @@ save_snapshot_splice_cb (GOutputStream *output_stream,
                          GAsyncResult *result,
                          GSimpleAsyncResult *simple)
 {
-	GError *error = NULL;
+	GError *local_error = NULL;
 
-	g_output_stream_splice_finish (output_stream, result, &error);
+	g_output_stream_splice_finish (output_stream, result, &local_error);
 
-	if (error != NULL)
-		g_simple_async_result_take_error (simple, error);
+	if (local_error != NULL)
+		g_simple_async_result_take_error (simple, local_error);
 
 	g_simple_async_result_complete (simple);
 	g_object_unref (simple);
@@ -207,16 +207,16 @@ save_snapshot_get_message_cb (EMsgComposer *composer,
 	GInputStream *input_stream;
 	CamelStream *camel_stream;
 	GByteArray *buffer;
-	GError *error = NULL;
+	GError *local_error = NULL;
 
 	context = g_simple_async_result_get_op_res_gpointer (simple);
 
 	message = e_msg_composer_get_message_draft_finish (
-		composer, result, &error);
+		composer, result, &local_error);
 
-	if (error != NULL) {
+	if (local_error != NULL) {
 		g_warn_if_fail (message == NULL);
-		g_simple_async_result_take_error (simple, error);
+		g_simple_async_result_take_error (simple, local_error);
 		g_simple_async_result_complete (simple);
 		g_object_unref (simple);
 		return;
@@ -266,17 +266,18 @@ save_snapshot_replace_cb (GFile *snapshot_file,
 	GObject *object;
 	SaveContext *context;
 	GFileOutputStream *output_stream;
-	GError *error = NULL;
+	GError *local_error = NULL;
 
 	context = g_simple_async_result_get_op_res_gpointer (simple);
 
 	/* Output stream might be NULL, so don't use cast macro. */
-	output_stream = g_file_replace_finish (snapshot_file, result, &error);
+	output_stream = g_file_replace_finish (
+		snapshot_file, result, &local_error);
 	context->output_stream = (GOutputStream *) output_stream;
 
-	if (error != NULL) {
+	if (local_error != NULL) {
 		g_warn_if_fail (output_stream == NULL);
-		g_simple_async_result_take_error (simple, error);
+		g_simple_async_result_take_error (simple, local_error);
 		g_simple_async_result_complete (simple);
 		g_object_unref (simple);
 		return;
@@ -453,7 +454,7 @@ e_composer_save_snapshot (EMsgComposer *composer,
 	GSimpleAsyncResult *simple;
 	SaveContext *context;
 	GFile *snapshot_file;
-	GError *error = NULL;
+	GError *local_error = NULL;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
@@ -474,11 +475,11 @@ e_composer_save_snapshot (EMsgComposer *composer,
 	snapshot_file = e_composer_get_snapshot_file (composer);
 
 	if (!G_IS_FILE (snapshot_file))
-		snapshot_file = create_snapshot_file (composer, &error);
+		snapshot_file = create_snapshot_file (composer, &local_error);
 
-	if (error != NULL) {
+	if (local_error != NULL) {
 		g_warn_if_fail (snapshot_file == NULL);
-		g_simple_async_result_take_error (simple, error);
+		g_simple_async_result_take_error (simple, local_error);
 		g_simple_async_result_complete (simple);
 		g_object_unref (simple);
 		return;
