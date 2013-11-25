@@ -35,6 +35,7 @@
 struct _EComposerRegistryPrivate {
 	GQueue composers;
 	gboolean orphans_restored;
+	gulong map_event_handler_id;
 };
 
 G_DEFINE_DYNAMIC_TYPE (
@@ -127,6 +128,12 @@ composer_registry_map_event_cb (GtkWindow *parent,
 	composer_registry_restore_orphans (registry, parent);
 	registry->priv->orphans_restored = TRUE;
 
+	/* This is a one-time-only signal handler.
+	 * Disconnect from subsequent map events. */
+	g_signal_handler_disconnect (
+		parent, registry->priv->map_event_handler_id);
+	registry->priv->map_event_handler_id = 0;
+
 	return FALSE;
 }
 
@@ -148,10 +155,13 @@ composer_registry_window_added_cb (GtkApplication *application,
 	/* Offer to restore any orphaned auto-save files from the
 	 * previous session once the first EShellWindow is mapped. */
 	if (E_IS_SHELL_WINDOW (window) && !registry->priv->orphans_restored) {
-		g_signal_connect (
+		gulong handler_id;
+
+		handler_id = g_signal_connect (
 			window, "map-event",
 			G_CALLBACK (composer_registry_map_event_cb),
 			registry);
+		registry->priv->map_event_handler_id = handler_id;
 
 	/* Track the new composer window. */
 	} else if (E_IS_MSG_COMPOSER (window)) {
