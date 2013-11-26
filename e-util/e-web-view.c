@@ -30,9 +30,7 @@
 #include <camel/camel.h>
 #include <libebackend/libebackend.h>
 
-#define LIBSOUP_USE_UNSTABLE_REQUEST_API
 #include <libsoup/soup.h>
-#include <libsoup/soup-requester.h>
 
 #include "e-alert-dialog.h"
 #include "e-alert-sink.h"
@@ -3181,8 +3179,6 @@ e_web_view_request (EWebView *web_view,
                     gpointer user_data)
 {
 	SoupSession *session;
-	SoupSessionFeature *feature;
-	SoupRequester *requester;
 	SoupRequest *request;
 	gchar *real_uri;
 	GSimpleAsyncResult *simple;
@@ -3193,10 +3189,6 @@ e_web_view_request (EWebView *web_view,
 	g_return_if_fail (uri != NULL);
 
 	session = webkit_get_default_session ();
-
-	/* SoupRequester feature should have already been added. */
-	feature = soup_session_get_feature (session, SOUP_TYPE_REQUESTER);
-	g_return_if_fail (feature != NULL);
 
 	async_context = g_slice_new0 (AsyncContext);
 
@@ -3209,9 +3201,8 @@ e_web_view_request (EWebView *web_view,
 	g_simple_async_result_set_op_res_gpointer (
 		simple, async_context, (GDestroyNotify) async_context_free);
 
-	requester = SOUP_REQUESTER (feature);
 	real_uri = e_web_view_redirect_uri (web_view, uri);
-	request = soup_requester_request (requester, real_uri, &local_error);
+	request = soup_session_request (session, real_uri, &local_error);
 	g_free (real_uri);
 
 	/* Sanity check. */
@@ -3277,21 +3268,9 @@ e_web_view_install_request_handler (EWebView *web_view,
                                     GType handler_type)
 {
 	SoupSession *session;
-	SoupSessionFeature *feature;
 
 	session = webkit_get_default_session ();
-
-	feature = soup_session_get_feature (session, SOUP_TYPE_REQUESTER);
-	if (feature != NULL) {
-		g_object_ref (feature);
-	} else {
-		feature = SOUP_SESSION_FEATURE (soup_requester_new ());
-		soup_session_add_feature (session, feature);
-	}
-
-	soup_session_feature_add_feature (feature, handler_type);
-
-	g_object_unref (feature);
+	soup_session_add_feature_by_type (session, handler_type);
 }
 
 static void

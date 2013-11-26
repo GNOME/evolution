@@ -19,8 +19,6 @@
 #include "e-gravatar-photo-source.h"
 
 #include <libsoup/soup.h>
-#include <libsoup/soup-requester.h>
-#include <libsoup/soup-request-http.h>
 #include <libedataserver/libedataserver.h>
 
 #define E_GRAVATAR_PHOTO_SOURCE_GET_PRIVATE(obj) \
@@ -64,7 +62,6 @@ gravatar_photo_source_get_photo_thread (GSimpleAsyncResult *simple,
                                         GCancellable *cancellable)
 {
 	AsyncContext *async_context;
-	SoupRequester *requester;
 	SoupRequest *request;
 	SoupSession *session;
 	GInputStream *stream = NULL;
@@ -96,11 +93,8 @@ gravatar_photo_source_get_photo_thread (GSimpleAsyncResult *simple,
 
 	g_clear_object (&proxy);
 
-	requester = soup_requester_new ();
-	soup_session_add_feature (session, SOUP_SESSION_FEATURE (requester));
-
 	/* We control the URI so there should be no error. */
-	request = soup_requester_request (requester, uri, NULL);
+	request = soup_session_request (session, uri, NULL);
 	g_return_if_fail (request != NULL);
 
 	stream = soup_request_send (request, cancellable, &local_error);
@@ -143,7 +137,6 @@ gravatar_photo_source_get_photo_thread (GSimpleAsyncResult *simple,
 
 	g_debug ("Request complete");
 
-	g_clear_object (&requester);
 	g_clear_object (&request);
 	g_clear_object (&session);
 
