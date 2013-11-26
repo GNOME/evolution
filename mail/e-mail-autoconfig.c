@@ -379,7 +379,7 @@ mail_autoconfig_lookup (EMailAutoconfig *autoconfig,
 	gchar *uri;
 	EProxy *proxy;
 
-	soup_session = soup_session_sync_new ();
+	soup_session = soup_session_new ();
 
 	uri = g_strconcat (AUTOCONFIG_BASE_URI, domain, NULL);
 

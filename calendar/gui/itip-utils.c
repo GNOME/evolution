@@ -2181,7 +2181,7 @@ itip_publish_comp (ECalClient *cal_client,
 	icalcomponent_add_component (toplevel, icomp);
 
 	/* Publish the component */
-	session = soup_session_async_new ();
+	session = soup_session_new ();
 	g_object_set (session, SOUP_SESSION_TIMEOUT, 90, NULL);
 
 	proxy = e_proxy_new ();

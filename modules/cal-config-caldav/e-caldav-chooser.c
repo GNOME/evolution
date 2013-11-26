@@ -1307,7 +1307,7 @@ caldav_chooser_constructed (GObject *object)
 	G_OBJECT_CLASS (e_caldav_chooser_parent_class)->constructed (object);
 
 	chooser = E_CALDAV_CHOOSER (object);
-	session = soup_session_async_new ();
+	session = soup_session_new ();
 	caldav_chooser_configure_session (chooser, session);
 	chooser->priv->session = session;
 
@@ -1390,7 +1390,7 @@ caldav_chooser_try_password_sync (ESourceAuthenticator *auth,
 
 	/* Create our own SoupSession so we
 	 * can try the password synchronously. */
-	session = soup_session_sync_new ();
+	session = soup_session_new ();
 	caldav_chooser_configure_session (chooser, session);
 
 	source = e_caldav_chooser_get_source (chooser);

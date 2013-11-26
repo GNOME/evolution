@@ -2018,7 +2018,7 @@ download_with_libsoup (const gchar *uri,
 
 	g_object_set_data_full (G_OBJECT (msg), "orig-uri", g_strdup (uri), g_free);
 
-	session = soup_session_async_new ();
+	session = soup_session_new ();
 	g_object_set (session, SOUP_SESSION_TIMEOUT, 90, NULL);
 	g_signal_connect (
 		session, "authenticate",

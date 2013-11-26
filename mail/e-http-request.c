@@ -352,9 +352,8 @@ handle_http_request (GSimpleAsyncResult *res,
 		context = g_main_context_new ();
 		g_main_context_push_thread_default (context);
 
-		session = soup_session_sync_new_with_options (
-				SOUP_SESSION_TIMEOUT, 90,
-				NULL);
+		session = soup_session_new_with_options (
+			SOUP_SESSION_TIMEOUT, 90, NULL);
 
 		proxy = e_proxy_new ();
 		e_proxy_setup_proxy (proxy);

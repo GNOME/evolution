@@ -81,7 +81,7 @@ gravatar_photo_source_get_photo_thread (GSimpleAsyncResult *simple,
 	g_debug ("Requesting avatar for %s", async_context->email_address);
 	g_debug ("%s", uri);
 
-	session = soup_session_sync_new ();
+	session = soup_session_new ();
 
 	proxy = e_proxy_new ();
 	e_proxy_setup_proxy (proxy);
