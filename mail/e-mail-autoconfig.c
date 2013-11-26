@@ -372,6 +372,8 @@ mail_autoconfig_lookup (EMailAutoconfig *autoconfig,
                         GError **error)
 {
 	GMarkupParseContext *context;
+	ESourceRegistry *registry;
+	ESource *proxy_source;
 	SoupMessage *soup_message;
 	SoupSession *soup_session;
 	ParserClosure closure;
@@ -379,24 +381,18 @@ mail_autoconfig_lookup (EMailAutoconfig *autoconfig,
 	gboolean success;
 	guint status;
 	gchar *uri;
-	EProxy *proxy;
 
-	soup_session = soup_session_new ();
+	registry = e_mail_autoconfig_get_registry (autoconfig);
+	proxy_source = e_source_registry_ref_builtin_proxy (registry);
+
+	soup_session = soup_session_new_with_options (
+		SOUP_SESSION_PROXY_RESOLVER,
+		G_PROXY_RESOLVER (proxy_source),
+		NULL);
+
+	g_object_unref (proxy_source);
 
 	uri = g_strconcat (AUTOCONFIG_BASE_URI, domain, NULL);
-
-	proxy = e_proxy_new ();
-	e_proxy_setup_proxy (proxy);
-
-	if (e_proxy_require_proxy_for_uri (proxy, uri)) {
-		SoupURI *proxy_uri;
-
-		proxy_uri = e_proxy_peek_uri_for (proxy, uri);
-
-		g_object_set (soup_session, SOUP_SESSION_PROXY_URI, proxy_uri, NULL);
-	}
-
-	g_clear_object (&proxy);
 
 	soup_message = soup_message_new (SOUP_METHOD_GET, uri);
 	g_free (uri);
