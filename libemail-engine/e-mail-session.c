@@ -85,7 +85,6 @@ struct _EMailSessionPrivate {
 
 	FILE *filter_logfile;
 	GHashTable *junk_filters;
-	EProxy *proxy;
 
 	/* Local folder cache. */
 	GPtrArray *local_folders;
@@ -1064,7 +1063,6 @@ mail_session_finalize (GObject *object)
 
 	g_hash_table_destroy (priv->auto_refresh_table);
 	g_hash_table_destroy (priv->junk_filters);
-	g_object_unref (priv->proxy);
 
 	g_ptr_array_free (priv->local_folders, TRUE);
 	g_ptr_array_free (priv->local_folder_uris, TRUE);
@@ -1207,8 +1205,6 @@ mail_session_constructed (GObject *object)
 	g_list_free (list);
 
 	mail_config_reload_junk_headers (session);
-
-	e_proxy_setup_proxy (session->priv->proxy);
 
 	/* Initialize the legacy message-passing framework
 	 * before starting the first mail store refresh. */
@@ -1938,7 +1934,6 @@ e_mail_session_init (EMailSession *session)
 	session->priv->folder_cache = mail_folder_cache_new ();
 	session->priv->auto_refresh_table = auto_refresh_table;
 	session->priv->junk_filters = junk_filters;
-	session->priv->proxy = e_proxy_new ();
 
 	session->priv->local_folders =
 		g_ptr_array_new_with_free_func (
