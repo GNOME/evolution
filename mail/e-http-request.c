@@ -98,12 +98,14 @@ redirect_handler (SoupMessage *msg,
 		SoupURI *new_uri;
 		const gchar *new_loc;
 
-		new_loc = soup_message_headers_get_list (msg->response_headers, "Location");
-		if (!new_loc)
+		new_loc = soup_message_headers_get_list (
+			msg->response_headers, "Location");
+		if (new_loc == NULL)
 			return;
 
-		new_uri = soup_uri_new_with_base (soup_message_get_uri (msg), new_loc);
-		if (!new_uri) {
+		new_uri = soup_uri_new_with_base (
+			soup_message_get_uri (msg), new_loc);
+		if (new_uri == NULL) {
 			soup_message_set_status_full (
 				msg,
 				SOUP_STATUS_MALFORMED,
@@ -123,23 +125,28 @@ send_and_handle_redirection (SoupSession *session,
                              SoupMessage *message,
                              gchar **new_location)
 {
+	SoupURI *soup_uri;
 	gchar *old_uri = NULL;
 
 	g_return_if_fail (message != NULL);
 
-	if (new_location) {
-		old_uri = soup_uri_to_string (soup_message_get_uri (message), FALSE);
-	}
+	soup_uri = soup_message_get_uri (message);
+
+	if (new_location != NULL)
+		old_uri = soup_uri_to_string (soup_uri, FALSE);
 
 	soup_message_set_flags (message, SOUP_MESSAGE_NO_REDIRECT);
 	soup_message_add_header_handler (
 		message, "got_body", "Location",
 		G_CALLBACK (redirect_handler), session);
-	soup_message_headers_append (message->request_headers, "Connection", "close");
+	soup_message_headers_append (
+		message->request_headers, "Connection", "close");
 	soup_session_send_message (session, message);
 
-	if (new_location) {
-		gchar *new_loc = soup_uri_to_string (soup_message_get_uri (message), FALSE);
+	if (new_location != NULL) {
+		gchar *new_loc;
+
+		new_loc = soup_uri_to_string (soup_uri, FALSE);
 
 		if (new_loc && old_uri && !g_str_equal (new_loc, old_uri)) {
 			*new_location = new_loc;
@@ -153,11 +160,12 @@ send_and_handle_redirection (SoupSession *session,
 
 static void
 handle_http_request (GSimpleAsyncResult *res,
-                     GObject *object,
+                     GObject *source_object,
                      GCancellable *cancellable)
 {
-	EHTTPRequest *request = E_HTTP_REQUEST (object);
+	EHTTPRequestPrivate *priv;
 	SoupURI *soup_uri;
+	SoupRequest *soup_request;
 	gchar *evo_uri, *uri;
 	gchar *mail_uri;
 	GInputStream *stream;
@@ -172,12 +180,15 @@ handle_http_request (GSimpleAsyncResult *res,
 	GHashTable *query;
 	gint uri_len;
 
-	if (g_cancellable_is_cancelled (cancellable)) {
+	if (g_cancellable_is_cancelled (cancellable))
 		return;
-	}
+
+	priv = E_HTTP_REQUEST_GET_PRIVATE (source_object);
+
+	soup_request = SOUP_REQUEST (source_object);
 
 	/* Remove the __evo-mail query */
-	soup_uri = soup_request_get_uri (SOUP_REQUEST (request));
+	soup_uri = soup_request_get_uri (soup_request);
 	g_return_if_fail (soup_uri_get_query (soup_uri) != NULL);
 
 	query = soup_form_decode (soup_uri_get_query (soup_uri));
@@ -197,14 +208,16 @@ handle_http_request (GSimpleAsyncResult *res,
 	evo_uri = soup_uri_to_string (soup_uri, FALSE);
 
 	if (camel_debug_start ("emformat:requests")) {
-		printf ("%s: looking for '%s'\n", G_STRFUNC, evo_uri ? evo_uri : "[null]");
+		printf (
+			"%s: looking for '%s'\n",
+			G_STRFUNC, evo_uri ? evo_uri : "[null]");
 		camel_debug_end ();
 	}
 
 	/* Remove the "evo-" prefix from scheme */
-	uri_len = evo_uri ? strlen (evo_uri) : 0;
+	uri_len = (evo_uri != NULL) ? strlen (evo_uri) : 0;
 	uri = NULL;
-	if (evo_uri && (uri_len > 5)) {
+	if (evo_uri != NULL && (uri_len > 5)) {
 
 		/* Remove trailing "?" if there is no URI query */
 		if (evo_uri[uri_len - 1] == '?') {
@@ -225,10 +238,8 @@ handle_http_request (GSimpleAsyncResult *res,
 	/* Open Evolution's cache */
 	user_cache_dir = e_get_user_cache_dir ();
 	cache = camel_data_cache_new (user_cache_dir, NULL);
-	if (cache) {
-		camel_data_cache_set_expire_age (cache, 24 * 60 * 60);
-		camel_data_cache_set_expire_access (cache, 2 * 60 * 60);
-	}
+	camel_data_cache_set_expire_age (cache, 24 * 60 * 60);
+	camel_data_cache_set_expire_access (cache, 2 * 60 * 60);
 
 	/* Found item in cache! */
 	cache_stream = camel_data_cache_get (cache, "http", uri_md5, NULL);
@@ -240,38 +251,40 @@ handle_http_request (GSimpleAsyncResult *res,
 		len = copy_stream_to_stream (
 			cache_stream,
 			G_MEMORY_INPUT_STREAM (stream), cancellable);
-		request->priv->content_length = len;
+		priv->content_length = len;
 
 		g_object_unref (cache_stream);
 
 		/* When succesfully read some data from cache then
 		 * get mimetype and return the stream to WebKit.
 		 * Otherwise try to fetch the resource again from the network. */
-		if ((len != -1) && (request->priv->content_length > 0)) {
+		if ((len != -1) && (priv->content_length > 0)) {
 			GFile *file;
 			GFileInfo *info;
 			gchar *path;
 
-			path = camel_data_cache_get_filename (cache, "http", uri_md5);
+			path = camel_data_cache_get_filename (
+				cache, "http", uri_md5);
 			file = g_file_new_for_path (path);
 			info = g_file_query_info (
 				file, G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE,
 				0, cancellable, NULL);
 
-			request->priv->content_type = g_strdup (
+			priv->content_type = g_strdup (
 				g_file_info_get_content_type (info));
 
 			d (
 				printf ("'%s' found in cache (%d bytes, %s)\n",
-				uri, request->priv->content_length,
-				request->priv->content_type));
+				uri, priv->content_length,
+				priv->content_type));
 
 			g_object_unref (info);
 			g_object_unref (file);
 			g_free (path);
 
 			/* Set result and quit the thread */
-			g_simple_async_result_set_op_res_gpointer (res, stream, NULL);
+			g_simple_async_result_set_op_res_gpointer (
+				res, stream, NULL);
 
 			goto cleanup;
 		} else {
@@ -280,12 +293,11 @@ handle_http_request (GSimpleAsyncResult *res,
 		}
 	}
 
-	/* If the item is not in the cache and Evolution is in offline mode then
-	 * quit regardless any image loading policy */
+	/* If the item is not cached and Evolution is offline
+	 * then quit regardless of any image loading policy. */
 	shell = e_shell_get_default ();
-	if (!e_shell_get_online (shell)) {
+	if (!e_shell_get_online (shell))
 		goto cleanup;
-	}
 
 	settings = g_settings_new ("org.gnome.evolution.mail");
 	image_policy = g_settings_get_enum (settings, "image-loading-policy");
@@ -293,7 +305,7 @@ handle_http_request (GSimpleAsyncResult *res,
 
 	/* Item not found in cache, but image loading policy allows us to fetch
 	 * it from the interwebs */
-	if (!force_load_images && mail_uri &&
+	if (!force_load_images && mail_uri != NULL &&
 	    (image_policy == E_MAIL_IMAGE_LOADING_POLICY_SOMETIMES)) {
 		CamelObjectBag *registry;
 		gchar *decoded_uri;
@@ -303,7 +315,7 @@ handle_http_request (GSimpleAsyncResult *res,
 		decoded_uri = soup_uri_decode (mail_uri);
 
 		part_list = camel_object_bag_get (registry, decoded_uri);
-		if (part_list) {
+		if (part_list != NULL) {
 			EShellBackend *shell_backend;
 			EMailBackend *backend;
 			EMailSession *session;
@@ -342,7 +354,7 @@ handle_http_request (GSimpleAsyncResult *res,
 	if ((image_policy == E_MAIL_IMAGE_LOADING_POLICY_ALWAYS) ||
 	    force_load_images) {
 
-		SoupSession *session;
+		SoupSession *temp_session;
 		SoupMessage *message;
 		GIOStream *cache_stream;
 		GError *error;
@@ -352,7 +364,7 @@ handle_http_request (GSimpleAsyncResult *res,
 		context = g_main_context_new ();
 		g_main_context_push_thread_default (context);
 
-		session = soup_session_new_with_options (
+		temp_session = soup_session_new_with_options (
 			SOUP_SESSION_TIMEOUT, 90, NULL);
 
 		proxy = e_proxy_new ();
@@ -363,21 +375,22 @@ handle_http_request (GSimpleAsyncResult *res,
 
 			proxy_uri = e_proxy_peek_uri_for (proxy, uri);
 
-			g_object_set (session, SOUP_SESSION_PROXY_URI, proxy_uri, NULL);
+			g_object_set (temp_session, SOUP_SESSION_PROXY_URI, proxy_uri, NULL);
 		}
 
 		g_clear_object (&proxy);
 
 		message = soup_message_new (SOUP_METHOD_GET, uri);
 		soup_message_headers_append (
-			message->request_headers, "User-Agent", "Evolution/" VERSION);
+			message->request_headers,
+			"User-Agent", "Evolution/" VERSION);
 
-		send_and_handle_redirection (session, message, NULL);
+		send_and_handle_redirection (temp_session, message, NULL);
 
 		if (!SOUP_STATUS_IS_SUCCESSFUL (message->status_code)) {
 			g_debug ("Failed to request %s (code %d)", uri, message->status_code);
 			g_object_unref (message);
-			g_object_unref (session);
+			g_object_unref (temp_session);
 			g_main_context_unref (context);
 			goto cleanup;
 		}
@@ -413,7 +426,7 @@ handle_http_request (GSimpleAsyncResult *res,
 						error->message);
 				g_clear_error (&error);
 				g_object_unref (message);
-				g_object_unref (session);
+				g_object_unref (temp_session);
 				g_main_context_unref (context);
 				goto cleanup;
 			}
@@ -421,35 +434,36 @@ handle_http_request (GSimpleAsyncResult *res,
 
 		/* Send the response body to WebKit */
 		stream = g_memory_input_stream_new_from_data (
-			g_memdup (message->response_body->data, message->response_body->length),
+			g_memdup (
+				message->response_body->data,
+				message->response_body->length),
 			message->response_body->length,
 			(GDestroyNotify) g_free);
 
-		request->priv->content_length = message->response_body->length;
-		request->priv->content_type =
-			g_strdup (
-				soup_message_headers_get_content_type (
-					message->response_headers, NULL));
+		priv->content_length = message->response_body->length;
+		priv->content_type = g_strdup (
+			soup_message_headers_get_content_type (
+				message->response_headers, NULL));
 
 		g_object_unref (message);
-		g_object_unref (session);
+		g_object_unref (temp_session);
 		g_main_context_unref (context);
 
 		d (printf ("Received image from %s\n"
 			"Content-Type: %s\n"
 			"Content-Length: %d bytes\n"
 			"URI MD5: %s:\n",
-			uri, request->priv->content_type,
-			request->priv->content_length, uri_md5));
+			uri, priv->content_type,
+			priv->content_length, uri_md5));
 
 		g_simple_async_result_set_op_res_gpointer (res, stream, NULL);
+
 		goto cleanup;
 	}
 
- cleanup:
-	if (cache) {
-		g_object_unref (cache);
-	}
+cleanup:
+	g_clear_object (&cache);
+
 	g_free (uri);
 	g_free (uri_md5);
 	g_free (mail_uri);
@@ -510,7 +524,7 @@ http_request_send_async (SoupRequest *request,
 
 	enc = g_hash_table_lookup (query, "__evo-mail");
 
-	if (!enc || !*enc) {
+	if (enc == NULL || *enc == '\0') {
 		g_hash_table_destroy (query);
 		return;
 	}
@@ -545,7 +559,8 @@ http_request_send_finish (SoupRequest *request,
 {
 	GInputStream *stream;
 
-	stream = g_simple_async_result_get_op_res_gpointer (G_SIMPLE_ASYNC_RESULT (result));
+	stream = g_simple_async_result_get_op_res_gpointer (
+		G_SIMPLE_ASYNC_RESULT (result));
 
 	/* Reset the stream before passing it back to webkit */
 	if (stream && G_IS_SEEKABLE (stream))
