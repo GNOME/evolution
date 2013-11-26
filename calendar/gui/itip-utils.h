@@ -78,11 +78,6 @@ gboolean	itip_send_comp			(ESourceRegistry *registry,
 						 GSList *users,
 						 gboolean strip_alarms,
 						 gboolean only_new_attendees);
-gboolean	itip_publish_comp		(ECalClient *cal_client,
-						 gchar *uri,
-						 gchar *username,
-						 gchar *password,
-						 ECalComponent **pub_comp);
 gboolean	itip_publish_begin		(ECalComponent *pub_comp,
 						 ECalClient *cal_client,
 						 gboolean cloned,
