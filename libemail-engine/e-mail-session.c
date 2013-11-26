@@ -53,7 +53,6 @@
 #include "camel-sasl-xoauth2.h"
 
 #include "e-mail-authenticator.h"
-#include "e-mail-junk-filter.h"
 #include "e-mail-session.h"
 #include "e-mail-folder-utils.h"
 #include "e-mail-utils.h"
@@ -2147,6 +2146,26 @@ e_mail_session_get_available_junk_filters (EMailSession *session)
 
 	/* Sort the available junk filters by display name. */
 	return g_list_sort (list, (GCompareFunc) e_mail_junk_filter_compare);
+}
+
+/**
+ * e_mail_session_get_junk_filter_by_name:
+ * @session: an #EMailSession
+ * @filter_name: a junk filter name
+ *
+ * Looks up an #EMailJunkFilter extension by its filter name, as specified
+ * in its class structure.  If no match is found, the function returns %NULL.
+ *
+ * Returns: an #EMailJunkFilter, or %NULL
+ **/
+EMailJunkFilter *
+e_mail_session_get_junk_filter_by_name (EMailSession *session,
+                                        const gchar *filter_name)
+{
+	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
+	g_return_val_if_fail (filter_name != NULL, NULL);
+
+	return g_hash_table_lookup (session->priv->junk_filters, filter_name);
 }
 
 static void

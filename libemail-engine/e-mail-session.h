@@ -32,6 +32,7 @@
 #include <camel/camel.h>
 #include <libedataserver/libedataserver.h>
 #include <libemail-engine/e-mail-engine-enums.h>
+#include <libemail-engine/e-mail-junk-filter.h>
 #include <libemail-engine/em-vfolder-context.h>
 #include <libemail-engine/mail-folder-cache.h>
 
@@ -100,6 +101,10 @@ const gchar *	e_mail_session_get_local_folder_uri
 						 EMailLocalFolder type);
 GList *		e_mail_session_get_available_junk_filters
 						(EMailSession *session);
+EMailJunkFilter *
+		e_mail_session_get_junk_filter_by_name
+						(EMailSession *session,
+						 const gchar *filter_name);
 CamelFolder *	e_mail_session_get_inbox_sync	(EMailSession *session,
 						 const gchar *service_uid,
 						 GCancellable *cancellable,
