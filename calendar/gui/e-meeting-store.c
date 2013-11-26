@@ -2004,7 +2004,6 @@ download_with_libsoup (const gchar *uri,
 {
 	SoupSession *session;
 	SoupMessage *msg;
-	EProxy *proxy;
 
 	g_return_if_fail (uri != NULL);
 	g_return_if_fail (qdata != NULL);
@@ -2023,18 +2022,6 @@ download_with_libsoup (const gchar *uri,
 	g_signal_connect (
 		session, "authenticate",
 		G_CALLBACK (soup_authenticate), NULL);
-
-	proxy = e_proxy_new ();
-	e_proxy_setup_proxy (proxy);
-
-	if (e_proxy_require_proxy_for_uri (proxy, uri)) {
-		SoupURI *proxy_uri;
-
-		proxy_uri = e_proxy_peek_uri_for (proxy, uri);
-		g_object_set (session, SOUP_SESSION_PROXY_URI, proxy_uri, NULL);
-	}
-
-	g_object_unref (proxy);
 
 	soup_message_set_flags (msg, SOUP_MESSAGE_NO_REDIRECT);
 	soup_message_add_header_handler (
