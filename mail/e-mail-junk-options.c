@@ -51,6 +51,51 @@ enum {
 	COLUMN_DISPLAY_NAME
 };
 
+static gboolean
+mail_junk_options_junk_filter_to_name (GBinding *binding,
+                                       const GValue *source_value,
+                                       GValue *target_value,
+                                       gpointer user_data)
+{
+	CamelJunkFilter *junk_filter;
+	gboolean success = FALSE;
+
+	junk_filter = g_value_get_object (source_value);
+
+	if (E_IS_MAIL_JUNK_FILTER (junk_filter)) {
+		EMailJunkFilterClass *class;
+
+		class = E_MAIL_JUNK_FILTER_GET_CLASS (junk_filter);
+		g_value_set_string (target_value, class->filter_name);
+		success = TRUE;
+	}
+
+	return success;
+}
+
+static gboolean
+mail_junk_options_name_to_junk_filter (GBinding *binding,
+                                       const GValue *source_value,
+                                       GValue *target_value,
+                                       gpointer user_data)
+{
+	const gchar *filter_name;
+	gboolean success = FALSE;
+
+	filter_name = g_value_get_string (source_value);
+
+	if (filter_name != NULL) {
+		EMailJunkFilter *junk_filter;
+
+		junk_filter = e_mail_session_get_junk_filter_by_name (
+			E_MAIL_SESSION (user_data), filter_name);
+		g_value_set_object (target_value, junk_filter);
+		success = (junk_filter != NULL);
+	}
+
+	return success;
+}
+
 static void
 mail_junk_options_combo_box_changed_cb (GtkComboBox *combo_box,
                                         EMailJunkOptions *options)
@@ -137,11 +182,14 @@ mail_junk_options_rebuild (EMailJunkOptions *options)
 	if (session != NULL) {
 		GBinding *binding;
 
-		binding = g_object_bind_property (
-			session, "junk-filter-name",
+		binding = g_object_bind_property_full (
+			session, "junk-filter",
 			combo_box, "active-id",
 			G_BINDING_BIDIRECTIONAL |
-			G_BINDING_SYNC_CREATE);
+			G_BINDING_SYNC_CREATE,
+			mail_junk_options_junk_filter_to_name,
+			mail_junk_options_name_to_junk_filter,
+			session, (GDestroyNotify) NULL);
 		options->priv->active_id_binding = binding;
 	}
 
