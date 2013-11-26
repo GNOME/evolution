@@ -113,7 +113,6 @@ struct _ServiceProxyData {
 enum {
 	PROP_0,
 	PROP_FOLDER_CACHE,
-	PROP_JUNK_FILTER_NAME,
 	PROP_LOCAL_STORE,
 	PROP_REGISTRY,
 	PROP_VFOLDER_STORE
@@ -459,63 +458,6 @@ mail_session_resolve_popb4smtp (ESourceRegistry *registry,
 	g_list_free_full (list, (GDestroyNotify) g_object_unref);
 
 	return pop_uid;
-}
-
-static const gchar *
-mail_session_get_junk_filter_name (EMailSession *session)
-{
-	CamelJunkFilter *junk_filter;
-	GHashTableIter iter;
-	gpointer key, value;
-
-	/* XXX This property can be removed once Evolution moves to
-	 *     GSettings and can use transform functions when binding
-	 *     properties to settings.  That's why this is private. */
-
-	g_hash_table_iter_init (&iter, session->priv->junk_filters);
-	junk_filter = camel_session_get_junk_filter (CAMEL_SESSION (session));
-
-	while (g_hash_table_iter_next (&iter, &key, &value)) {
-		if (junk_filter == CAMEL_JUNK_FILTER (value))
-			return (const gchar *) key;
-	}
-
-	if (junk_filter != NULL)
-		g_warning (
-			"Camel is using a junk filter "
-			"unknown to Evolution of type %s",
-			G_OBJECT_TYPE_NAME (junk_filter));
-
-	return "";
-}
-
-static void
-mail_session_set_junk_filter_name (EMailSession *session,
-                                   const gchar *junk_filter_name)
-{
-	CamelJunkFilter *junk_filter = NULL;
-
-	/* XXX This property can be removed once Evolution moves to
-	 *     GSettings and can use transform functions when binding
-	 *     properties to settings.  That's why this is private. */
-
-	/* An empty string is equivalent to a NULL string. */
-	if (junk_filter_name != NULL && *junk_filter_name == '\0')
-		junk_filter_name = NULL;
-
-	if (junk_filter_name != NULL) {
-		junk_filter = g_hash_table_lookup (
-			session->priv->junk_filters, junk_filter_name);
-		if (junk_filter == NULL) {
-			g_warning (
-				"Unrecognized junk filter name "
-				"'%s' in GSettings", junk_filter_name);
-		}
-	}
-
-	camel_session_set_junk_filter (CAMEL_SESSION (session), junk_filter);
-
-	/* XXX We emit the "notify" signal in mail_session_notify(). */
 }
 
 static void
@@ -1006,12 +948,6 @@ mail_session_set_property (GObject *object,
                            GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_JUNK_FILTER_NAME:
-			mail_session_set_junk_filter_name (
-				E_MAIL_SESSION (object),
-				g_value_get_string (value));
-			return;
-
 		case PROP_REGISTRY:
 			mail_session_set_registry (
 				E_MAIL_SESSION (object),
@@ -1033,13 +969,6 @@ mail_session_get_property (GObject *object,
 			g_value_set_object (
 				value,
 				e_mail_session_get_folder_cache (
-				E_MAIL_SESSION (object)));
-			return;
-
-		case PROP_JUNK_FILTER_NAME:
-			g_value_set_string (
-				value,
-				mail_session_get_junk_filter_name (
 				E_MAIL_SESSION (object)));
 			return;
 
@@ -1147,18 +1076,6 @@ mail_session_finalize (GObject *object)
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_mail_session_parent_class)->finalize (object);
-}
-
-static void
-mail_session_notify (GObject *object,
-                     GParamSpec *pspec)
-{
-	/* GObject does not implement this method; do not chain up. */
-
-	/* XXX Delete this once Evolution moves to GSettings and
-	 *     we're able to get rid of PROP_JUNK_FILTER_NAME. */
-	if (g_strcmp0 (pspec->name, "junk-filter") == 0)
-		g_object_notify (object, "junk-filter-name");
 }
 
 static void
@@ -1868,7 +1785,6 @@ e_mail_session_class_init (EMailSessionClass *class)
 	object_class->get_property = mail_session_get_property;
 	object_class->dispose = mail_session_dispose;
 	object_class->finalize = mail_session_finalize;
-	object_class->notify = mail_session_notify;
 	object_class->constructed = mail_session_constructed;
 
 	session_class = CAMEL_SESSION_CLASS (class);
@@ -1891,20 +1807,6 @@ e_mail_session_class_init (EMailSessionClass *class)
 			NULL,
 			MAIL_TYPE_FOLDER_CACHE,
 			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
-
-	/* XXX This property can be removed once Evolution moves to
-	 *     GSettings and can use transform functions when binding
-	 *     properties to settings. */
-	g_object_class_install_property (
-		object_class,
-		PROP_JUNK_FILTER_NAME,
-		g_param_spec_string (
-			"junk-filter-name",
-			NULL,
-			NULL,
-			NULL,
-			G_PARAM_READWRITE |
 			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_install_property (
