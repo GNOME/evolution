@@ -67,7 +67,6 @@ gravatar_photo_source_get_photo_thread (GSimpleAsyncResult *simple,
 	GInputStream *stream = NULL;
 	gchar *hash;
 	gchar *uri;
-	EProxy *proxy;
 	GError *local_error = NULL;
 
 	async_context = g_simple_async_result_get_op_res_gpointer (simple);
@@ -79,19 +78,6 @@ gravatar_photo_source_get_photo_thread (GSimpleAsyncResult *simple,
 	g_debug ("%s", uri);
 
 	session = soup_session_new ();
-
-	proxy = e_proxy_new ();
-	e_proxy_setup_proxy (proxy);
-
-	if (e_proxy_require_proxy_for_uri (proxy, uri)) {
-		SoupURI *proxy_uri;
-
-		proxy_uri = e_proxy_peek_uri_for (proxy, uri);
-
-		g_object_set (session, SOUP_SESSION_PROXY_URI, proxy_uri, NULL);
-	}
-
-	g_clear_object (&proxy);
 
 	/* We control the URI so there should be no error. */
 	request = soup_session_request (session, uri, NULL);
