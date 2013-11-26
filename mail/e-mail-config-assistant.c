@@ -821,9 +821,12 @@ mail_config_assistant_prepare (GtkAssistant *assistant,
 	if (E_IS_MAIL_CONFIG_LOOKUP_PAGE (page)) {
 		AutoconfigContext *context;
 		ESource *source;
+		ESourceRegistry *registry;
 		ESourceMailIdentity *extension;
 		const gchar *email_address;
 		const gchar *extension_name;
+
+		registry = e_mail_session_get_registry (priv->session);
 
 		source = priv->identity_source;
 		extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
@@ -833,6 +836,7 @@ mail_config_assistant_prepare (GtkAssistant *assistant,
 		context = autoconfig_context_new (assistant);
 
 		e_mail_autoconfig_new (
+			registry,
 			email_address,
 			G_PRIORITY_DEFAULT,
 			context->cancellable,

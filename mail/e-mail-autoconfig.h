@@ -57,10 +57,12 @@ struct _EMailAutoconfigClass {
 
 GType		e_mail_autoconfig_get_type	(void) G_GNUC_CONST;
 EMailAutoconfig *
-		e_mail_autoconfig_new_sync	(const gchar *email_address,
+		e_mail_autoconfig_new_sync	(ESourceRegistry *registry,
+						 const gchar *email_address,
 						 GCancellable *cancellable,
 						 GError **error);
-void		e_mail_autoconfig_new		(const gchar *email_address,
+void		e_mail_autoconfig_new		(ESourceRegistry *registry,
+						 const gchar *email_address,
 						 gint io_priority,
 						 GCancellable *cancellable,
 						 GAsyncReadyCallback callback,
@@ -68,6 +70,8 @@ void		e_mail_autoconfig_new		(const gchar *email_address,
 EMailAutoconfig *
 		e_mail_autoconfig_finish	(GAsyncResult *result,
 						 GError **error);
+ESourceRegistry *
+		e_mail_autoconfig_get_registry	(EMailAutoconfig *autoconfig);
 const gchar *	e_mail_autoconfig_get_email_address
 						(EMailAutoconfig *autoconfig);
 gboolean	e_mail_autoconfig_set_imap_details

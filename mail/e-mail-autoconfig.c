@@ -94,6 +94,7 @@ struct _EMailAutoconfigResult {
 };
 
 struct _EMailAutoconfigPrivate {
+	ESourceRegistry *registry;
 	gchar *email_address;
 	gchar *email_local_part;
 	gchar *email_domain_part;
@@ -109,7 +110,8 @@ struct _ParserClosure {
 
 enum {
 	PROP_0,
-	PROP_EMAIL_ADDRESS
+	PROP_EMAIL_ADDRESS,
+	PROP_REGISTRY
 };
 
 /* Forward Declarations */
@@ -496,6 +498,16 @@ mail_autoconfig_set_email_address (EMailAutoconfig *autoconfig,
 }
 
 static void
+mail_autoconfig_set_registry (EMailAutoconfig *autoconfig,
+                              ESourceRegistry *registry)
+{
+	g_return_if_fail (E_IS_SOURCE_REGISTRY (registry));
+	g_return_if_fail (autoconfig->priv->registry == NULL);
+
+	autoconfig->priv->registry = g_object_ref (registry);
+}
+
+static void
 mail_autoconfig_set_property (GObject *object,
                               guint property_id,
                               const GValue *value,
@@ -506,6 +518,12 @@ mail_autoconfig_set_property (GObject *object,
 			mail_autoconfig_set_email_address (
 				E_MAIL_AUTOCONFIG (object),
 				g_value_get_string (value));
+			return;
+
+		case PROP_REGISTRY:
+			mail_autoconfig_set_registry (
+				E_MAIL_AUTOCONFIG (object),
+				g_value_get_object (value));
 			return;
 	}
 
@@ -525,9 +543,29 @@ mail_autoconfig_get_property (GObject *object,
 				e_mail_autoconfig_get_email_address (
 				E_MAIL_AUTOCONFIG (object)));
 			return;
+
+		case PROP_REGISTRY:
+			g_value_set_object (
+				value,
+				e_mail_autoconfig_get_registry (
+				E_MAIL_AUTOCONFIG (object)));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+mail_autoconfig_dispose (GObject *object)
+{
+	EMailAutoconfigPrivate *priv;
+
+	priv = E_MAIL_AUTOCONFIG_GET_PRIVATE (object);
+
+	g_clear_object (&priv->registry);
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (e_mail_autoconfig_parent_class)->dispose (object);
 }
 
 static void
@@ -661,6 +699,7 @@ e_mail_autoconfig_class_init (EMailAutoconfigClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = mail_autoconfig_set_property;
 	object_class->get_property = mail_autoconfig_get_property;
+	object_class->dispose = mail_autoconfig_dispose;
 	object_class->finalize = mail_autoconfig_finalize;
 
 	g_object_class_install_property (
@@ -671,6 +710,18 @@ e_mail_autoconfig_class_init (EMailAutoconfigClass *class)
 			"Email Address",
 			"The address from which to query config data",
 			NULL,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_REGISTRY,
+		g_param_spec_object (
+			"registry",
+			"Registry",
+			"Data source registry",
+			E_TYPE_SOURCE_REGISTRY,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
 			G_PARAM_STATIC_STRINGS));
@@ -689,32 +740,38 @@ e_mail_autoconfig_init (EMailAutoconfig *autoconfig)
 }
 
 EMailAutoconfig *
-e_mail_autoconfig_new_sync (const gchar *email_address,
+e_mail_autoconfig_new_sync (ESourceRegistry *registry,
+                            const gchar *email_address,
                             GCancellable *cancellable,
                             GError **error)
 {
+	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
 	g_return_val_if_fail (email_address != NULL, NULL);
 
 	return g_initable_new (
 		E_TYPE_MAIL_AUTOCONFIG,
 		cancellable, error,
+		"registry", registry,
 		"email-address", email_address,
 		NULL);
 }
 
 void
-e_mail_autoconfig_new (const gchar *email_address,
+e_mail_autoconfig_new (ESourceRegistry *registry,
+                       const gchar *email_address,
                        gint io_priority,
                        GCancellable *cancellable,
                        GAsyncReadyCallback callback,
                        gpointer user_data)
 {
+	g_return_if_fail (E_IS_SOURCE_REGISTRY (registry));
 	g_return_if_fail (email_address != NULL);
 
 	g_async_initable_new_async (
 		E_TYPE_MAIL_AUTOCONFIG,
 		io_priority, cancellable,
 		callback, user_data,
+		"registry", registry,
 		"email-address", email_address,
 		NULL);
 }
@@ -740,6 +797,23 @@ e_mail_autoconfig_finish (GAsyncResult *result,
 		return NULL;
 
 	return E_MAIL_AUTOCONFIG (autoconfig);
+}
+
+/**
+ * e_mail_autoconfig_get_registry:
+ * @autoconfig: an #EMailAutoconfig
+ *
+ * Returns the #ESourceRegistry passed to e_mail_autoconfig_new() or
+ * e_mail_autoconfig_new_sync().
+ *
+ * Returns: an #ESourceRegistry
+ **/
+ESourceRegistry *
+e_mail_autoconfig_get_registry (EMailAutoconfig *autoconfig)
+{
+	g_return_val_if_fail (E_IS_MAIL_AUTOCONFIG (autoconfig), NULL);
+
+	return autoconfig->priv->registry;
 }
 
 const gchar *

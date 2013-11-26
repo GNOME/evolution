@@ -17,6 +17,7 @@
  */
 
 #include <stdlib.h>
+#include <libedataserver/libedataserver.h>
 
 #include "e-mail-autoconfig.h"
 
@@ -24,6 +25,7 @@ gint
 main (gint argc,
       gchar **argv)
 {
+	ESourceRegistry *registry;
 	EMailAutoconfig *autoconfig;
 	GError *error = NULL;
 
@@ -32,16 +34,24 @@ main (gint argc,
 		exit (EXIT_FAILURE);
 	}
 
-	autoconfig = e_mail_autoconfig_new_sync (argv[1], NULL, &error);
+	registry = e_source_registry_new_sync (NULL, &error);
+
+	if (registry != NULL) {
+		autoconfig = e_mail_autoconfig_new_sync (
+			registry, argv[1], NULL, &error);
+		g_object_unref (registry);
+	}
+
+	/* Sanity check. */
+	g_assert (
+		((autoconfig != NULL) && (error == NULL)) ||
+		((autoconfig == NULL) && (error != NULL)));
 
 	if (error != NULL) {
-		g_warn_if_fail (autoconfig == NULL);
 		g_printerr ("%s\n", error->message);
 		g_error_free (error);
 		exit (EXIT_FAILURE);
 	}
-
-	g_assert (E_IS_MAIL_AUTOCONFIG (autoconfig));
 
 	e_mail_autoconfig_dump_results (autoconfig);
 
