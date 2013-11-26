@@ -1289,16 +1289,6 @@ mail_session_constructed (GObject *object)
 
 	g_list_free (list);
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
-
-	/* Bind the "junk-default-plugin" GSettings
-	 * key to our "junk-filter-name" property. */
-
-	g_settings_bind (
-		settings, "junk-default-plugin",
-		object, "junk-filter-name",
-		G_SETTINGS_BIND_DEFAULT);
-
 	mail_config_reload_junk_headers (session);
 
 	e_proxy_setup_proxy (session->priv->proxy);
@@ -1306,6 +1296,8 @@ mail_session_constructed (GObject *object)
 	/* Initialize the legacy message-passing framework
 	 * before starting the first mail store refresh. */
 	mail_msg_init ();
+
+	settings = g_settings_new ("org.gnome.evolution.mail");
 
 	/* The application is not yet fully initialized at this point,
 	 * so run the first mail store refresh from an idle callback. */

@@ -33,13 +33,83 @@ G_DEFINE_DYNAMIC_TYPE (
 	e_settings_mail_session,
 	E_TYPE_EXTENSION)
 
+static gboolean
+settings_mail_session_name_to_junk_filter (GValue *value,
+                                           GVariant *variant,
+                                           gpointer user_data)
+{
+	const gchar *filter_name;
+	gboolean success = FALSE;
+
+	filter_name = g_variant_get_string (variant, NULL);
+
+	if (filter_name != NULL) {
+		EMailJunkFilter *junk_filter;
+
+		junk_filter = e_mail_session_get_junk_filter_by_name (
+			E_MAIL_SESSION (user_data), filter_name);
+		g_value_set_object (value, junk_filter);
+		success = (junk_filter != NULL);
+	}
+
+	return success;
+}
+
+static GVariant *
+settings_mail_session_junk_filter_to_name (const GValue *value,
+                                           const GVariantType *expected_type,
+                                           gpointer user_data)
+{
+	EMailJunkFilter *junk_filter;
+	GVariant *result = NULL;
+
+	junk_filter = g_value_get_object (value);
+
+	if (E_IS_MAIL_JUNK_FILTER (junk_filter)) {
+		EMailJunkFilterClass *class;
+
+		class = E_MAIL_JUNK_FILTER_GET_CLASS (junk_filter);
+		result = g_variant_new_string (class->filter_name);
+	}
+
+	return result;
+}
+
+static gboolean
+settings_mail_session_idle_cb (gpointer user_data)
+{
+	EMailSession *session;
+	GSettings *settings;
+
+	session = E_MAIL_SESSION (user_data);
+
+	settings = g_settings_new ("org.gnome.evolution.mail");
+
+	/* Need to delay the settings binding to give EMailSession a
+	 * chance to set up its junk filter table.  The junk filters
+	 * are also EMailSession extensions. */
+	g_settings_bind_with_mapping (
+		settings, "junk-default-plugin",
+		session, "junk-filter",
+		G_SETTINGS_BIND_DEFAULT,
+		settings_mail_session_name_to_junk_filter,
+		settings_mail_session_junk_filter_to_name,
+		session, (GDestroyNotify) NULL);
+
+	g_object_unref (settings);
+
+	return G_SOURCE_REMOVE;
+}
+
 static void
 settings_mail_session_constructed (GObject *object)
 {
+	EExtension *extension;
 	EExtensible *extensible;
 	GSettings *settings;
 
-	extensible = e_extension_get_extensible (E_EXTENSION (object));
+	extension = E_EXTENSION (object);
+	extensible = e_extension_get_extensible (extension);
 
 	settings = g_settings_new ("org.gnome.evolution.mail");
 
@@ -51,6 +121,12 @@ settings_mail_session_constructed (GObject *object)
 	}
 
 	g_object_unref (settings);
+
+	g_idle_add_full (
+		G_PRIORITY_HIGH_IDLE,
+		settings_mail_session_idle_cb,
+		g_object_ref (extensible),
+		(GDestroyNotify) g_object_unref);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_settings_mail_session_parent_class)->
