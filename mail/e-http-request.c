@@ -166,6 +166,7 @@ handle_http_request (GSimpleAsyncResult *res,
 	EHTTPRequestPrivate *priv;
 	SoupURI *soup_uri;
 	SoupRequest *soup_request;
+	SoupSession *soup_session;
 	gchar *evo_uri, *uri;
 	gchar *mail_uri;
 	GInputStream *stream;
@@ -186,6 +187,7 @@ handle_http_request (GSimpleAsyncResult *res,
 	priv = E_HTTP_REQUEST_GET_PRIVATE (source_object);
 
 	soup_request = SOUP_REQUEST (source_object);
+	soup_session = soup_request_get_session (soup_request);
 
 	/* Remove the __evo-mail query */
 	soup_uri = soup_request_get_uri (soup_request);
@@ -359,7 +361,6 @@ handle_http_request (GSimpleAsyncResult *res,
 		GIOStream *cache_stream;
 		GError *error;
 		GMainContext *context;
-		EProxy *proxy;
 
 		context = g_main_context_new ();
 		g_main_context_push_thread_default (context);
@@ -367,18 +368,10 @@ handle_http_request (GSimpleAsyncResult *res,
 		temp_session = soup_session_new_with_options (
 			SOUP_SESSION_TIMEOUT, 90, NULL);
 
-		proxy = e_proxy_new ();
-		e_proxy_setup_proxy (proxy);
-
-		if (e_proxy_require_proxy_for_uri (proxy, uri)) {
-			SoupURI *proxy_uri;
-
-			proxy_uri = e_proxy_peek_uri_for (proxy, uri);
-
-			g_object_set (temp_session, SOUP_SESSION_PROXY_URI, proxy_uri, NULL);
-		}
-
-		g_clear_object (&proxy);
+		g_object_bind_property (
+			soup_session, "proxy-resolver",
+			temp_session, "proxy-resolver",
+			G_BINDING_SYNC_CREATE);
 
 		message = soup_message_new (SOUP_METHOD_GET, uri);
 		soup_message_headers_append (
