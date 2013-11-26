@@ -788,6 +788,7 @@ shell_initable_init (GInitable *initable,
 	GApplication *application = G_APPLICATION (initable);
 	EShell *shell = E_SHELL (initable);
 	ESourceRegistry *registry;
+	ESource *proxy_source;
 	gulong handler_id;
 
 	shell_add_actions (application);
@@ -807,6 +808,17 @@ shell_initable_init (GInitable *initable,
 		G_CALLBACK (shell_backend_died_cb), shell);
 	shell->priv->backend_died_handler_id = handler_id;
 
+	/* Configure WebKit's default SoupSession. */
+
+	proxy_source = e_source_registry_ref_builtin_proxy (registry);
+
+	g_object_set (
+		webkit_get_default_session (),
+		SOUP_SESSION_PROXY_RESOLVER,
+		G_PROXY_RESOLVER (proxy_source),
+		NULL);
+
+	g_object_unref (proxy_source);
 	g_object_unref (registry);
 
 	return TRUE;
