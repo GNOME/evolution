@@ -306,21 +306,6 @@ mail_msg_active (void)
 
 /* **************************************** */
 
-static GHookList cancel_hook_list;
-
-void
-mail_cancel_all (void)
-{
-	camel_operation_cancel_all ();
-
-	g_mutex_lock (&mail_msg_lock);
-
-	if (cancel_hook_list.is_setup)
-		g_hook_list_invoke (&cancel_hook_list, FALSE);
-
-	g_mutex_unlock (&mail_msg_lock);
-}
-
 static guint idle_source_id = 0;
 G_LOCK_DEFINE_STATIC (idle_source_id);
 static GAsyncQueue *main_loop_queue = NULL;

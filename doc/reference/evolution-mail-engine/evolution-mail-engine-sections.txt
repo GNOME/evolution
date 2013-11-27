@@ -363,7 +363,6 @@ mail_msg_main_loop_push
 mail_msg_unordered_push
 mail_msg_fast_ordered_push
 mail_msg_slow_ordered_push
-mail_cancel_all
 mail_get_password
 mail_in_main_thread
 mail_call_t

@@ -1367,14 +1367,6 @@ action_mail_stop_cb (GtkAction *action,
 	shell_view = E_SHELL_VIEW (mail_shell_view);
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
 
-	/* XXX There's some overlap here: activities submitted through
-	 *     the legacy MailMsg system might be cancelled twice, but
-	 *     it shouldn't cause problems. */
-
-	/* the old way */
-	mail_cancel_all ();
-
-	/* the new way */
 	e_shell_backend_cancel_all (shell_backend);
 }
 

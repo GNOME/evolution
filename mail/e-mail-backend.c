@@ -131,33 +131,34 @@ mail_backend_prepare_for_offline_cb (EShell *shell,
 	GtkWindow *window;
 	EMailSession *session;
 	EMailAccountStore *account_store;
+	EShellBackend *shell_backend;
 	GQueue queue = G_QUEUE_INIT;
-	gboolean synchronize = FALSE;
 
-	if (e_shell_backend_is_started (E_SHELL_BACKEND (backend)))
-		e_shell_backend_add_activity (E_SHELL_BACKEND (backend), activity);
+	shell_backend = E_SHELL_BACKEND (backend);
 
 	window = e_shell_get_active_window (shell);
 	session = e_mail_backend_get_session (backend);
 	account_store = e_mail_ui_session_get_account_store (E_MAIL_UI_SESSION (session));
 
-	if (e_shell_get_network_available (shell) &&
-		e_shell_backend_is_started (E_SHELL_BACKEND (backend)))
-		synchronize = em_utils_prompt_user (
-			window, NULL, "mail:ask-quick-offline", NULL);
+	if (e_shell_backend_is_started (shell_backend)) {
+		gboolean synchronize = FALSE;
 
-	if (!synchronize)
-		mail_cancel_all ();
+		if (e_shell_get_network_available (shell))
+			synchronize = em_utils_prompt_user (
+				window, NULL, "mail:ask-quick-offline", NULL);
 
-	/* Set the cancellable only here, because mail_cancel_all() would
-	 * cancel the just added CamelOperation as well. */
-	if (e_shell_backend_is_started (E_SHELL_BACKEND (backend)) &&
-	    !e_activity_get_cancellable (activity)) {
-		GCancellable *cancellable;
+		if (synchronize)
+			e_shell_backend_cancel_all (shell_backend);
 
-		cancellable = camel_operation_new ();
-		e_activity_set_cancellable (activity, cancellable);
-		g_object_unref (cancellable);
+		if (!e_activity_get_cancellable (activity)) {
+			GCancellable *cancellable;
+
+			cancellable = camel_operation_new ();
+			e_activity_set_cancellable (activity, cancellable);
+			g_object_unref (cancellable);
+		}
+
+		e_shell_backend_add_activity (shell_backend, activity);
 	}
 
 	e_mail_account_store_queue_enabled_services (account_store, &queue);
@@ -165,15 +166,15 @@ mail_backend_prepare_for_offline_cb (EShell *shell,
 		CamelService *service;
 
 		service = g_queue_pop_head (&queue);
-		if (service == NULL)
+
+		if (!CAMEL_IS_STORE (service))
 			continue;
 
-		if (CAMEL_IS_STORE (service))
-			e_mail_store_go_offline (
-				CAMEL_STORE (service), G_PRIORITY_DEFAULT,
-				e_activity_get_cancellable (activity),
-				(GAsyncReadyCallback) mail_backend_store_operation_done_cb,
-				g_object_ref (activity));
+		e_mail_store_go_offline (
+			CAMEL_STORE (service), G_PRIORITY_DEFAULT,
+			e_activity_get_cancellable (activity),
+			(GAsyncReadyCallback) mail_backend_store_operation_done_cb,
+			g_object_ref (activity));
 	}
 }
 
@@ -304,9 +305,6 @@ mail_backend_prepare_for_quit_cb (EShell *shell,
 	camel_application_is_exiting = TRUE;
 
 	mail_vfolder_shutdown ();
-
-	/* Cancel all pending activities. */
-	mail_cancel_all ();
 
 	list = camel_session_list_services (CAMEL_SESSION (session));
 
