@@ -309,17 +309,6 @@ mail_msg_active (void)
 static GHookList cancel_hook_list;
 
 void
-mail_cancel_hook_remove (GHook *hook)
-{
-	g_mutex_lock (&mail_msg_lock);
-
-	g_return_if_fail (cancel_hook_list.is_setup);
-	g_hook_destroy_link (&cancel_hook_list, hook);
-
-	g_mutex_unlock (&mail_msg_lock);
-}
-
-void
 mail_cancel_all (void)
 {
 	camel_operation_cancel_all ();
