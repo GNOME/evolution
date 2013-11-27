@@ -104,10 +104,6 @@ GHook * mail_cancel_hook_add (GHookFunc func, gpointer data);
 void mail_cancel_hook_remove (GHook *hook);
 void mail_cancel_all (void);
 
-/* request a string/password */
-gchar *mail_get_password (CamelService *service, const gchar *prompt,
-			 gboolean secret, gboolean *cache);
-
 /* Call a function in the GUI thread, wait for it to return, type is
  * the marshaller to use.  FIXME This thing is horrible, please put
  * it out of its misery. */
