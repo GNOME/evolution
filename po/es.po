@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2013-11-24 14:45+0000\n"
-"PO-Revision-Date: 2013-11-25 10:42+0100\n"
+"POT-Creation-Date: 2013-11-27 15:01+0000\n"
+"PO-Revision-Date: 2013-11-27 17:08+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -1217,22 +1217,22 @@ msgid "Copy _Email Address"
 msgstr "Copiar dirección de _correo-e"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:152
-#: ../e-util/e-web-view-gtkhtml.c:428 ../e-util/e-web-view.c:307
+#: ../e-util/e-web-view-gtkhtml.c:428 ../e-util/e-web-view.c:305
 msgid "Copy the email address to the clipboard"
 msgstr "Copiar la dirección de correo-e al portapapeles"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:157
-#: ../e-util/e-web-view-gtkhtml.c:433 ../e-util/e-web-view.c:312
+#: ../e-util/e-web-view-gtkhtml.c:433 ../e-util/e-web-view.c:310
 msgid "_Send New Message To..."
 msgstr "_Enviar un correo nuevo a…"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:159
-#: ../e-util/e-web-view-gtkhtml.c:435 ../e-util/e-web-view.c:314
+#: ../e-util/e-web-view-gtkhtml.c:435 ../e-util/e-web-view.c:312
 msgid "Send a mail message to this address"
 msgstr "Enviar un correo a esta dirección"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:291
-#: ../e-util/e-web-view-gtkhtml.c:970 ../e-util/e-web-view.c:990
+#: ../e-util/e-web-view-gtkhtml.c:970 ../e-util/e-web-view.c:988
 #, c-format
 msgid "Click to mail %s"
 msgstr "Pulse para enviar correo a %s"
@@ -2536,15 +2536,15 @@ msgstr "Cerrar la ventana actual"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1226 ../e-util/e-focus-tracker.c:121
 #: ../e-util/e-focus-tracker.c:558 ../e-util/e-web-view-gtkhtml.c:455
-#: ../e-util/e-web-view-gtkhtml.c:1296 ../e-util/e-web-view.c:341
-#: ../e-util/e-web-view.c:1305 ../mail/e-mail-browser.c:136
+#: ../e-util/e-web-view-gtkhtml.c:1296 ../e-util/e-web-view.c:339
+#: ../e-util/e-web-view.c:1303 ../mail/e-mail-browser.c:136
 #: ../shell/e-shell-window-actions.c:888
 msgid "Copy the selection"
 msgstr "Copiar la selección"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1233 ../e-util/e-focus-tracker.c:114
 #: ../e-util/e-focus-tracker.c:553 ../e-util/e-web-view-gtkhtml.c:1290
-#: ../e-util/e-web-view.c:1299 ../mail/e-mail-browser.c:143
+#: ../e-util/e-web-view.c:1297 ../mail/e-mail-browser.c:143
 #: ../shell/e-shell-window-actions.c:895
 msgid "Cut the selection"
 msgstr "Cortar la selección"
@@ -2560,7 +2560,7 @@ msgstr "Ver la ayuda"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1254 ../e-util/e-focus-tracker.c:128
 #: ../e-util/e-focus-tracker.c:563 ../e-util/e-web-view-gtkhtml.c:1302
-#: ../e-util/e-web-view.c:1311 ../mail/e-mail-browser.c:150
+#: ../e-util/e-web-view.c:1309 ../mail/e-mail-browser.c:150
 #: ../shell/e-shell-window-actions.c:923
 msgid "Paste the clipboard"
 msgstr "Pega el contenido del porta papeles"
@@ -11760,72 +11760,72 @@ msgstr "Pulse aquí para abrir el URL"
 msgid "Enter a URL here"
 msgstr "Introduzca un URL aquí"
 
-#: ../e-util/e-web-view-gtkhtml.c:406 ../e-util/e-web-view.c:285
+#: ../e-util/e-web-view-gtkhtml.c:406 ../e-util/e-web-view.c:283
 msgid "_Copy Link Location"
 msgstr "_Copiar dirección del enlace"
 
-#: ../e-util/e-web-view-gtkhtml.c:408 ../e-util/e-web-view.c:287
+#: ../e-util/e-web-view-gtkhtml.c:408 ../e-util/e-web-view.c:285
 msgid "Copy the link to the clipboard"
 msgstr "Copiar el enlace al portapapeles"
 
-#: ../e-util/e-web-view-gtkhtml.c:416 ../e-util/e-web-view.c:295
+#: ../e-util/e-web-view-gtkhtml.c:416 ../e-util/e-web-view.c:293
 msgid "_Open Link in Browser"
 msgstr "_Abrir enlace en el navegador"
 
-#: ../e-util/e-web-view-gtkhtml.c:418 ../e-util/e-web-view.c:297
+#: ../e-util/e-web-view-gtkhtml.c:418 ../e-util/e-web-view.c:295
 msgid "Open the link in a web browser"
 msgstr "_Abrir enlace en el navegador"
 
-#: ../e-util/e-web-view-gtkhtml.c:426 ../e-util/e-web-view.c:305
+#: ../e-util/e-web-view-gtkhtml.c:426 ../e-util/e-web-view.c:303
 msgid "_Copy Email Address"
 msgstr "_Copiar dirección de correo-e"
 
-#: ../e-util/e-web-view-gtkhtml.c:443 ../e-util/e-web-view.c:322
+#: ../e-util/e-web-view-gtkhtml.c:443 ../e-util/e-web-view.c:320
 msgid "_Copy Image"
 msgstr "_Copiar imagen"
 
-#: ../e-util/e-web-view-gtkhtml.c:445 ../e-util/e-web-view.c:324
+#: ../e-util/e-web-view-gtkhtml.c:445 ../e-util/e-web-view.c:322
 msgid "Copy the image to the clipboard"
 msgstr "Copiar la imagen al portapapeles"
 
 #: ../e-util/e-web-view-gtkhtml.c:465 ../e-util/e-web-view-gtkhtml.c:1308
-#: ../e-util/e-web-view.c:351 ../e-util/e-web-view.c:1317
+#: ../e-util/e-web-view.c:349 ../e-util/e-web-view.c:1315
 msgid "Select all text and images"
 msgstr "Seleccionar todo el texto y las imágenes"
 
 #: ../e-util/e-web-view-gtkhtml.c:972 ../e-util/e-web-view-gtkhtml.c:974
-#: ../e-util/e-web-view-gtkhtml.c:976 ../e-util/e-web-view.c:992
-#: ../e-util/e-web-view.c:994 ../e-util/e-web-view.c:996
+#: ../e-util/e-web-view-gtkhtml.c:976 ../e-util/e-web-view.c:990
+#: ../e-util/e-web-view.c:992 ../e-util/e-web-view.c:994
 #, c-format
 msgid "Click to call %s"
 msgstr "Pulse para llamar a %s"
 
-#: ../e-util/e-web-view-gtkhtml.c:978 ../e-util/e-web-view.c:998
+#: ../e-util/e-web-view-gtkhtml.c:978 ../e-util/e-web-view.c:996
 msgid "Click to hide/unhide addresses"
 msgstr "Pulse para ocultar/mostrar las direcciones"
 
-#: ../e-util/e-web-view-gtkhtml.c:980 ../e-util/e-web-view.c:1000
+#: ../e-util/e-web-view-gtkhtml.c:980 ../e-util/e-web-view.c:998
 #, c-format
 msgid "Click to open %s"
 msgstr "Pulse para abrir %s"
 
-#: ../e-util/e-web-view.c:329
+#: ../e-util/e-web-view.c:327
 msgid "Save _Image..."
 msgstr "Guardar _imagen…"
 
-#: ../e-util/e-web-view.c:331
+#: ../e-util/e-web-view.c:329
 msgid "Save the image to a file"
 msgstr "Guardar la imagen en un archivo"
 
-#: ../e-util/e-web-view.c:2894
+#: ../e-util/e-web-view.c:2892
 msgid "Copying image to clipboard"
 msgstr "Copiando imagen al portapapeles"
 
-#: ../e-util/e-web-view.c:3082
+#: ../e-util/e-web-view.c:3080
 msgid "Save Image"
 msgstr "Guardar imagen"
 
-#: ../e-util/e-web-view.c:3118
+#: ../e-util/e-web-view.c:3116
 #, c-format
 msgid "Saving image to '%s'"
 msgstr "Guardando imagen en «%s»"
@@ -12074,7 +12074,7 @@ msgstr "Falló anexar a la carpeta local «Correo enviado»: %s"
 msgid "Sending message"
 msgstr "Enviando mensaje"
 
-#: ../libemail-engine/e-mail-session.c:124 ../mail/em-folder-properties.c:409
+#: ../libemail-engine/e-mail-session.c:121 ../mail/em-folder-properties.c:409
 #: ../mail/em-folder-tree-model.c:1139
 #: ../modules/mail/e-mail-shell-view-private.c:1073
 #: ../modules/mail/e-mail-shell-view-private.c:1084
@@ -12082,25 +12082,25 @@ msgid "Inbox"
 msgstr "Bandeja de entrada"
 
 #. E_MAIL_LOCAL_FOLDER_INBOX
-#: ../libemail-engine/e-mail-session.c:125 ../mail/em-folder-tree-model.c:1132
+#: ../libemail-engine/e-mail-session.c:122 ../mail/em-folder-tree-model.c:1132
 #: ../modules/mail/e-mail-shell-view-private.c:1071
 msgid "Drafts"
 msgstr "Borradores"
 
 #. E_MAIL_LOCAL_FOLDER_DRAFTS
-#: ../libemail-engine/e-mail-session.c:126 ../mail/em-folder-tree-model.c:1143
+#: ../libemail-engine/e-mail-session.c:123 ../mail/em-folder-tree-model.c:1143
 #: ../modules/mail/e-mail-shell-view-private.c:1075
 msgid "Outbox"
 msgstr "Bandeja de salida"
 
 #. E_MAIL_LOCAL_FOLDER_OUTBOX
-#: ../libemail-engine/e-mail-session.c:127 ../mail/em-folder-tree-model.c:1147
+#: ../libemail-engine/e-mail-session.c:124 ../mail/em-folder-tree-model.c:1147
 #: ../modules/mail/e-mail-shell-view-private.c:1077
 msgid "Sent"
 msgstr "Correo enviado"
 
 #. E_MAIL_LOCAL_FOLDER_SENT
-#: ../libemail-engine/e-mail-session.c:128 ../mail/em-folder-tree-model.c:1135
+#: ../libemail-engine/e-mail-session.c:125 ../mail/em-folder-tree-model.c:1135
 #: ../modules/mail/e-mail-shell-view-private.c:1079
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:1
 #: ../plugins/templates/templates.c:1079 ../plugins/templates/templates.c:1378
@@ -12108,22 +12108,22 @@ msgstr "Correo enviado"
 msgid "Templates"
 msgstr "Plantillas"
 
-#: ../libemail-engine/e-mail-session.c:1465
+#: ../libemail-engine/e-mail-session.c:1246
 #, c-format
 msgid "User cancelled operation"
 msgstr "El usuario canceló la operación"
 
-#: ../libemail-engine/e-mail-session.c:1629
+#: ../libemail-engine/e-mail-session.c:1374
 #, c-format
 msgid "%s authentication failed"
 msgstr "Falló en la autenticación %s"
 
-#: ../libemail-engine/e-mail-session.c:1679
+#: ../libemail-engine/e-mail-session.c:1424
 #, c-format
 msgid "No data source found for UID '%s'"
 msgstr "No se han encontrado fuentes de datos para el UID «%s»"
 
-#: ../libemail-engine/e-mail-session.c:1742
+#: ../libemail-engine/e-mail-session.c:1487
 #, c-format
 msgid ""
 "No destination address provided, forwarding of the message has been "
@@ -12132,7 +12132,7 @@ msgstr ""
 "No se proporcionó ninguna dirección de destino, se ha cancelado el reenvío "
 "del mensaje."
 
-#: ../libemail-engine/e-mail-session.c:1755
+#: ../libemail-engine/e-mail-session.c:1500
 #, c-format
 msgid "No identity found to use, forwarding of the message has been cancelled."
 msgstr ""
@@ -12333,11 +12333,11 @@ msgstr "Nombre de la cuenta"
 msgid "Default"
 msgstr "Predeterminado"
 
-#: ../mail/e-mail-autoconfig.c:578
+#: ../mail/e-mail-autoconfig.c:612
 msgid "No email address provided"
 msgstr "No se ha proporcionado ninguna dirección de correo-e"
 
-#: ../mail/e-mail-autoconfig.c:587
+#: ../mail/e-mail-autoconfig.c:621
 msgid "Missing domain in email address"
 msgstr "Falta el dominio en la dirección de correo-e"
 
@@ -12363,7 +12363,7 @@ msgstr "_Ignorar búsqueda"
 msgid "Evolution Account Assistant"
 msgstr "Asistente de cuentas de Evolution"
 
-#: ../mail/e-mail-config-auth-check.c:352
+#: ../mail/e-mail-config-auth-check.c:351
 msgid "Check for Supported Types"
 msgstr "Comprobar tipos soportados"
 
@@ -12739,7 +12739,7 @@ msgstr "Crear carpeta de _búsqueda"
 
 #. Label + combo box has a 12px left margin so it's
 #. * aligned with the junk mail options above it.
-#: ../mail/e-mail-junk-options.c:250
+#: ../mail/e-mail-junk-options.c:298
 msgid "Junk filtering software:"
 msgstr "Software de filtrado de SPAM:"
 
@@ -15406,6 +15406,10 @@ msgstr "No se puede realizar esta operación en {0}."
 #: ../mail/mail.error.xml.h:172
 msgid "You must be working online to complete this operation."
 msgstr "Debe estar trabajando en línea para completar esta operación."
+
+#: ../mail/mail.error.xml.h:173
+msgid "Message from &quot;{0}&quot; account:"
+msgstr "Mensaje de la cuenta &quot;{0}&quot;:"
 
 #: ../mail/mail-send-recv.c:189
 msgid "Canceling..."
