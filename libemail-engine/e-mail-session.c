@@ -146,112 +146,6 @@ G_DEFINE_TYPE_WITH_CODE (
 	CAMEL_TYPE_SESSION,
 	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
-/* Support for CamelSession.alert_user() *************************************/
-
-static GQueue user_message_queue = { NULL, NULL, 0 };
-
-struct _user_message_msg {
-	MailMsg base;
-
-	EUserPrompter *prompter;
-	CamelSessionAlertType type;
-	gchar *prompt;
-	GList *button_captions;
-	EFlag *done;
-
-	gint result;
-	guint ismain : 1;
-};
-
-static void
-user_message_exec (struct _user_message_msg *m,
-                   GCancellable *cancellable,
-                   GError **error);
-
-static void
-user_message_response_cb (GObject *source,
-                          GAsyncResult *result,
-                          gpointer user_data)
-{
-	struct _user_message_msg *m = user_data;
-	GError *local_error = NULL;
-
-	m->result = e_user_prompter_prompt_finish (
-		E_USER_PROMPTER (source), result, &local_error);
-
-	if (local_error != NULL) {
-		g_warning (
-			"%s: Failed to prompt user: %s",
-			G_STRFUNC, local_error->message);
-		g_clear_error (&local_error);
-	}
-
-	/* waiting for a response? */
-	if (m->button_captions)
-		e_flag_set (m->done);
-
-	/* check for pendings */
-	if (!g_queue_is_empty (&user_message_queue)) {
-		GCancellable *cancellable;
-
-		m = g_queue_pop_head (&user_message_queue);
-		cancellable = m->base.cancellable;
-		user_message_exec (m, cancellable, &m->base.error);
-		mail_msg_unref (m);
-	}
-}
-
-static void
-user_message_exec (struct _user_message_msg *m,
-                   GCancellable *cancellable,
-                   GError **error)
-{
-	if (m->ismain) {
-		const gchar *type = "";
-
-		switch (m->type) {
-		case CAMEL_SESSION_ALERT_INFO:
-			type = "info";
-			break;
-		case CAMEL_SESSION_ALERT_WARNING:
-			type = "warning";
-			break;
-		case CAMEL_SESSION_ALERT_ERROR:
-			type = "error";
-			break;
-		}
-
-		if (!m->prompter)
-			m->prompter = e_user_prompter_new ();
-
-		e_user_prompter_prompt (
-			m->prompter, type, "",
-			m->prompt, NULL, FALSE, m->button_captions, cancellable,
-			user_message_response_cb, m);
-	} else
-		g_queue_push_tail (&user_message_queue, mail_msg_ref (m));
-}
-
-static void
-user_message_free (struct _user_message_msg *m)
-{
-	g_free (m->prompt);
-	g_list_free_full (m->button_captions, g_free);
-	e_flag_free (m->done);
-
-	if (m->prompter)
-		g_object_unref (m->prompter);
-	m->prompter = NULL;
-}
-
-static MailMsgInfo user_message_info = {
-	sizeof (struct _user_message_msg),
-	(MailMsgDescFunc) NULL,
-	(MailMsgExecFunc) user_message_exec,
-	(MailMsgDoneFunc) NULL,
-	(MailMsgFreeFunc) user_message_free
-};
-
 static gboolean
 session_forward_to_flush_outbox_cb (gpointer user_data)
 {
@@ -1371,42 +1265,6 @@ mail_session_forget_password (CamelSession *session,
 	return TRUE;
 }
 
-static gint
-mail_session_alert_user (CamelSession *session,
-                         CamelSessionAlertType type,
-                         const gchar *prompt,
-                         GList *button_captions,
-                         GCancellable *cancellable)
-{
-	struct _user_message_msg *m;
-	gint result = -1;
-
-	m = mail_msg_new (&user_message_info);
-	m->ismain = mail_in_main_thread ();
-	m->type = type;
-	m->prompt = g_strdup (prompt);
-	m->done = e_flag_new ();
-	m->button_captions = g_list_copy_deep (
-		button_captions, (GCopyFunc) g_strdup, NULL);
-
-	if (g_list_length (button_captions) > 1)
-		mail_msg_ref (m);
-
-	if (m->ismain)
-		user_message_exec (m, cancellable, &m->base.error);
-	else
-		mail_msg_main_loop_push (m);
-
-	if (g_list_length (button_captions) > 1) {
-		e_flag_wait (m->done);
-		result = m->result;
-		mail_msg_unref (m);
-	} else if (m->ismain)
-		mail_msg_unref (m);
-
-	return result;
-}
-
 static CamelCertTrust
 mail_session_trust_prompt (CamelSession *session,
                            CamelService *service,
@@ -1787,7 +1645,6 @@ e_mail_session_class_init (EMailSessionClass *class)
 	session_class->add_service = mail_session_add_service;
 	session_class->get_password = mail_session_get_password;
 	session_class->forget_password = mail_session_forget_password;
-	session_class->alert_user = mail_session_alert_user;
 	session_class->trust_prompt = mail_session_trust_prompt;
 	session_class->authenticate_sync = mail_session_authenticate_sync;
 	session_class->forward_to_sync = mail_session_forward_to_sync;

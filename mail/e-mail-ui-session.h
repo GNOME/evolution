@@ -89,11 +89,6 @@ EPhotoCache *	e_mail_ui_session_get_photo_cache
 						(EMailUISession *session);
 void		e_mail_ui_session_add_activity	(EMailUISession *session,
 						 EActivity *activity);
-gint		e_mail_ui_session_alert_user	(CamelSession *session,
-						 CamelSessionAlertType type,
-						 const gchar *prompt,
-						 GList *button_captions,
-						 GCancellable *cancellable);
 CamelCertTrust	e_mail_ui_session_trust_prompt	(CamelSession *session,
 						 CamelService *service,
 						 GTlsCertificate *certificate,

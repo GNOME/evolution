@@ -521,5 +521,20 @@ An mbox account will be created to preserve the old mbox folders. You can delete
     <_secondary xml:space="preserve">You must be working online to complete this operation.</_secondary>
   </error>
 
+  <error id="user-alert-info" type="info">
+    <_primary>Message from &quot;{0}&quot; account:</_primary>
+    <secondary>{1}</secondary>
+  </error>
+
+  <error id="user-alert-warning" type="warning">
+    <_primary>Message from &quot;{0}&quot; account:</_primary>
+    <secondary>{1}</secondary>
+  </error>
+
+  <error id="user-alert-error" type="error">
+    <_primary>Message from &quot;{0}&quot; account:</_primary>
+    <secondary>{1}</secondary>
+  </error>
+
 </error-list>
 

@@ -147,7 +147,6 @@ mail_config_auth_check_update (EMailConfigAuthCheck *auth_check)
 		NULL);
 
 	/* to be able to answer for invalid/self-signed server certificates */
-	CAMEL_SESSION_GET_CLASS (session)->alert_user = e_mail_ui_session_alert_user;
 	CAMEL_SESSION_GET_CLASS (session)->trust_prompt = e_mail_ui_session_trust_prompt;
 
 	service = camel_session_add_service (
