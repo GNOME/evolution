@@ -100,7 +100,6 @@ void mail_msg_fast_ordered_push (gpointer msg);
 void mail_msg_slow_ordered_push (gpointer msg);
 
 /* To implement the stop button */
-GHook * mail_cancel_hook_add (GHookFunc func, gpointer data);
 void mail_cancel_hook_remove (GHook *hook);
 void mail_cancel_all (void);
 

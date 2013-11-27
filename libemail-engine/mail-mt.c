@@ -308,28 +308,6 @@ mail_msg_active (void)
 
 static GHookList cancel_hook_list;
 
-GHook *
-mail_cancel_hook_add (GHookFunc func,
-                      gpointer data)
-{
-	GHook *hook;
-
-	g_mutex_lock (&mail_msg_lock);
-
-	if (!cancel_hook_list.is_setup)
-		g_hook_list_init (&cancel_hook_list, sizeof (GHook));
-
-	hook = g_hook_alloc (&cancel_hook_list);
-	hook->func = func;
-	hook->data = data;
-
-	g_hook_append (&cancel_hook_list, hook);
-
-	g_mutex_unlock (&mail_msg_lock);
-
-	return hook;
-}
-
 void
 mail_cancel_hook_remove (GHook *hook)
 {
