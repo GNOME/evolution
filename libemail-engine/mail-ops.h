@@ -79,8 +79,6 @@ typedef CamelFolder *
 						 GError **error);
 
 void		mail_fetch_mail			(CamelStore *store,
-						 CamelFetchType fetch_type,
-						 gint fetch_count,
 						 const gchar *type,
 						 MailProviderFetchLockFunc lock_func,
 						 MailProviderFetchUnlockFunc unlock_func,
@@ -90,7 +88,7 @@ void		mail_fetch_mail			(CamelStore *store,
 						 gpointer get_data,
 						 CamelFilterStatusFunc *status,
 						 gpointer status_data,
-						 void (*done)(gint still_more, gpointer data),
+						 void (*done)(gpointer data),
 						 gpointer data);
 
 void		mail_filter_folder		(EMailSession *session,

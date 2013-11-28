@@ -76,15 +76,12 @@ struct _fetch_mail_msg {
 	GCancellable *cancellable;	/* we have our own cancellation
 					 * struct, the other should be empty */
 	gint keep;			/* keep on server? */
-	gint fetch_count;
-	CamelFetchType fetch_type;
-	gint still_more;
 
 	MailProviderFetchLockFunc provider_lock;
 	MailProviderFetchUnlockFunc provider_unlock;
 	MailProviderFetchInboxFunc provider_fetch_inbox;
 
-	void (*done)(gint still_more, gpointer data);
+	void (*done)(gpointer data);
 	gpointer data;
 };
 
@@ -326,13 +323,6 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 
 	parent_store = camel_folder_get_parent_store (folder);
 
-	if (m->fetch_count > 0) {
-		/* We probably should fetch some old messages first. */
-		m->still_more = camel_folder_fetch_messages_sync (
-			folder, m->fetch_type,
-			m->fetch_count, cancellable, error) ? 1 : 0;
-	}
-
 	service = CAMEL_SERVICE (parent_store);
 	data_dir = camel_service_get_user_data_dir (service);
 
@@ -472,7 +462,7 @@ static void
 fetch_mail_done (struct _fetch_mail_msg *m)
 {
 	if (m->done)
-		m->done (m->still_more, m->data);
+		m->done (m->data);
 }
 
 static void
@@ -498,8 +488,6 @@ static MailMsgInfo fetch_mail_info = {
 /* ouch, a 'do everything' interface ... */
 void
 mail_fetch_mail (CamelStore *store,
-                 CamelFetchType fetch_type,
-                 gint fetch_count,
                  const gchar *type,
                  MailProviderFetchLockFunc lock_func,
                  MailProviderFetchUnlockFunc unlock_func,
@@ -509,8 +497,7 @@ mail_fetch_mail (CamelStore *store,
                  gpointer get_data,
                  CamelFilterStatusFunc *status,
                  gpointer status_data,
-                 void (*done)(gint still_more,
-                 gpointer data),
+                 void (*done)(gpointer data),
                  gpointer data)
 {
 	struct _fetch_mail_msg *m;
@@ -530,10 +517,6 @@ mail_fetch_mail (CamelStore *store,
 		m->cancellable = g_object_ref (cancellable);
 	m->done = done;
 	m->data = data;
-
-	m->fetch_count = fetch_count;
-	m->fetch_type = fetch_type;
-	m->still_more = -1;
 
 	m->provider_lock = lock_func;
 	m->provider_unlock = unlock_func;

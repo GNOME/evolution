@@ -824,8 +824,7 @@ receive_status (CamelFilterDriver *driver,
 
 /* when receive/send is complete */
 static void
-receive_done (gint still_more,
-              gpointer data)
+receive_done (gpointer data)
 {
 	struct _send_info *info = data;
 	const gchar *uid;
@@ -908,7 +907,7 @@ receive_done (gint still_more,
 static void
 send_done (gpointer data)
 {
-	receive_done (-1, data);
+	receive_done (data);
 }
 /* although we dont do anythign smart here yet, there is no need for this interface to
  * be available to anyone else.
@@ -1087,7 +1086,7 @@ exit:
 static void
 refresh_folders_done (struct _refresh_folders_msg *m)
 {
-	receive_done (-1, m->info);
+	receive_done (m->info);
 }
 
 static void
@@ -1149,7 +1148,7 @@ receive_update_got_folderinfo (GObject *source_object,
 		mail_msg_unordered_push (m);
 
 	} else {
-		receive_done (-1, send_info);
+		receive_done (send_info);
 	}
 }
 
@@ -1177,7 +1176,7 @@ receive_update_got_store (CamelStore *store,
 			folder_cache, store, info->cancellable,
 			receive_update_got_folderinfo, info);
 	} else {
-		receive_done (-1, info);
+		receive_done (info);
 	}
 }
 
@@ -1265,7 +1264,6 @@ send_receive (GtkWindow *parent,
 		case SEND_RECEIVE:
 			mail_fetch_mail (
 				CAMEL_STORE (info->service),
-				CAMEL_FETCH_OLD_MESSAGES, -1,
 				E_FILTER_SOURCE_INCOMING,
 				NULL, NULL, NULL,
 				info->cancellable,
@@ -1364,7 +1362,6 @@ mail_receive_service (CamelService *service)
 	case SEND_RECEIVE:
 		mail_fetch_mail (
 			CAMEL_STORE (service),
-			CAMEL_FETCH_OLD_MESSAGES, -1,
 			E_FILTER_SOURCE_INCOMING,
 			NULL, NULL, NULL,
 			info->cancellable,
