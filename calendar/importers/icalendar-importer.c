@@ -363,7 +363,7 @@ ivcal_getwidget (EImport *ei,
 
 		if (!group)
 			group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (rb));
-		if (first == NULL) {
+		if (first == NULL && source != NULL) {
 			g_datalist_set_data_full (&target->data, "primary-source", g_object_ref (source), g_object_unref);
 			g_datalist_set_data (&target->data, "primary-type", GINT_TO_POINTER (import_type_map[i]));
 			first = rb;
