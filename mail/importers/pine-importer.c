@@ -198,6 +198,11 @@ import_contacts (void)
 
 		source = E_SOURCE (list->data);
 		client = e_book_client_connect_sync (source, NULL, &error);
+	} else {
+		/* No address books exist. */
+		g_warning ("%s: No address books exist.", G_STRFUNC);
+		fclose (fp);
+		return;
 	}
 
 	g_list_free_full (list, (GDestroyNotify) g_object_unref);
