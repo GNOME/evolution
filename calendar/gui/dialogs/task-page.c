@@ -34,6 +34,8 @@
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
 
+#include "e-util/e-util.h"
+
 #include "../e-meeting-attendee.h"
 #include "../e-meeting-list-view.h"
 #include "../e-meeting-store.h"
@@ -2681,6 +2683,8 @@ task_page_construct (TaskPage *tpage,
 			"Could not find all widgets in the XML file!");
 		return NULL;
 	}
+
+	e_spell_text_view_attach (GTK_TEXT_VIEW (priv->description));
 
 	combo_box = GTK_COMBO_BOX (priv->organizer);
 	model = gtk_combo_box_get_model (combo_box);

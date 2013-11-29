@@ -35,6 +35,8 @@
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
 
+#include "e-util/e-util.h"
+
 #include "../e-alarm-list.h"
 #include "../e-meeting-attendee.h"
 #include "../e-meeting-list-view.h"
@@ -3611,6 +3613,8 @@ event_page_construct (EventPage *epage,
 			"Could not find all widgets in the XML file!");
 		return NULL;
 	}
+
+	e_spell_text_view_attach (GTK_TEXT_VIEW (priv->description));
 
 	/* Create entry completion and attach it to the entry */
 	priv->location_completion = gtk_entry_completion_new ();

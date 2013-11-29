@@ -1241,6 +1241,8 @@ memo_page_construct (MemoPage *mpage)
 		return NULL;
 	}
 
+	e_spell_text_view_attach (GTK_TEXT_VIEW (priv->memo_content));
+
 	if (flags & COMP_EDITOR_IS_SHARED) {
 		GtkComboBox *combo_box;
 		GtkListStore *list_store;

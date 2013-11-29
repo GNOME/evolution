@@ -1087,6 +1087,30 @@ CFLAGS=$save_cflags
 LIBS=$save_libs
 AC_MSG_RESULT([$ac_cv_have_iuth])
 
+dnl ****************************
+dnl Check for gtkspell
+dnl ****************************
+AC_ARG_ENABLE([gtkspell],
+	[AS_HELP_STRING([--enable-gtkspell],
+	[Enable gtkspell @<:@default=yes@:>@])],
+	[enable_gtkspell="$enableval"], [enable_gtkspell="yes"])
+
+if test "x$enable_gtkspell" = "xyes"; then
+	PKG_CHECK_MODULES(
+		[GTKSPELL],
+		[gtkspell3-3.0],,
+		[AC_MSG_ERROR([
+
+	gtkspell3-3.0 not found
+
+	If you want to disable the gtkspell feature,
+	please append --disable-gtkspell to configure.
+
+	])])
+
+	AC_DEFINE(WITH_GTKSPELL, 1, [When defined spell checking is enabled])
+fi
+
 dnl *******************
 dnl Special directories
 dnl *******************

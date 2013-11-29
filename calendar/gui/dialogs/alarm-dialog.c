@@ -1304,6 +1304,9 @@ alarm_dialog_run (GtkWidget *parent,
 		return FALSE;
 	}
 
+	e_spell_text_view_attach (GTK_TEXT_VIEW (dialog.dalarm_description));
+	e_spell_text_view_attach (GTK_TEXT_VIEW (dialog.malarm_description));
+
 	if (!setup_select_names (&dialog)) {
 		g_object_unref (dialog.builder);
 		return FALSE;

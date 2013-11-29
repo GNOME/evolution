@@ -100,6 +100,7 @@ libevolution_util_la_CPPFLAGS = \
 	$(GNOME_PLATFORM_CFLAGS) \
 	$(GEO_CFLAGS) \
 	$(GTKHTML_CFLAGS) \
+	$(GTKSPELL_CFLAGS) \
 	$(NULL)
 
 evolution_util_include_HEADERS =  \
@@ -251,6 +252,7 @@ evolution_util_include_HEADERS =  \
 	e-source-selector.h \
 	e-source-util.h \
 	e-spell-entry.h \
+	e-spell-text-view.h \
 	e-stock-request.h \
 	e-table-click-to-add.h \
 	e-table-col-dnd.h \
@@ -494,6 +496,7 @@ libevolution_util_la_SOURCES = \
 	e-source-selector.c \
 	e-source-util.c \
 	e-spell-entry.c \
+	e-spell-text-view.c \
 	e-stock-request.c \
 	e-table-click-to-add.c \
 	e-table-col.c \
@@ -585,6 +588,7 @@ libevolution_util_la_LIBADD =  \
 	$(GNOME_PLATFORM_LIBS) \
 	$(GEO_LIBS) \
 	$(GTKHTML_LIBS) \
+	$(GTKSPELL_LIBS) \
 	$(INTLLIBS) \
 	$(MATH_LIB) \
 	$(NULL)

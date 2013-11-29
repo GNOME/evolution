@@ -37,6 +37,7 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
 #include "shell/e-shell.h"
+#include "e-util/e-util.h"
 
 #include "addressbook/printing/e-contact-print.h"
 #include "addressbook/gui/widgets/eab-gui-util.h"
@@ -3111,6 +3112,10 @@ init_all (EContactEditor *editor)
 				width + requisition.width,
 				height + requisition.height);
 	}
+
+	widget = e_builder_get_widget (editor->builder, "text-comments");
+	if (widget)
+		e_spell_text_view_attach (GTK_TEXT_VIEW (widget));
 }
 
 static void
