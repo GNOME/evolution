@@ -1541,10 +1541,8 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model,
 	GtkTreePath *path;
 	CamelService *service;
 	CamelProvider *provider;
-	CamelURL *service_url;
 	StoreInfo *si;
 	const gchar *display_name;
-	gchar *uri;
 
 	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
 	g_return_if_fail (CAMEL_IS_STORE (store));
@@ -1566,10 +1564,6 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model,
 	if (em_utils_is_local_delivery_mbox_file (service))
 		return;
 
-	service_url = camel_service_new_camel_url (service);
-	uri = camel_url_to_string (service_url, CAMEL_URL_HIDE_ALL);
-	camel_url_free (service_url);
-
 	si = folder_tree_model_store_index_lookup (model, store);
 	if (si != NULL) {
 		em_folder_tree_model_remove_store (model, store);
@@ -1586,8 +1580,6 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model,
 		COL_BOOL_LOAD_SUBDIRS, TRUE,
 		COL_BOOL_IS_STORE, TRUE,
 		-1);
-
-	g_free (uri);
 
 	path = gtk_tree_model_get_path (GTK_TREE_MODEL (model), &iter);
 	reference = gtk_tree_row_reference_new (GTK_TREE_MODEL (model), path);
