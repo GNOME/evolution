@@ -1330,21 +1330,22 @@ struct _sync_store_msg {
 static gchar *
 sync_store_desc (struct _sync_store_msg *m)
 {
-	CamelURL *url;
-	gchar *uri, *res;
+	CamelService *service;
+	gchar *display_name;
+	gchar *description;
 
-	url = camel_service_new_camel_url (CAMEL_SERVICE (m->store));
-	uri = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
-	camel_url_free (url);
+	service = CAMEL_SERVICE (m->store);
+	display_name = camel_service_dup_display_name (service);
 
-	res = g_strdup_printf (
+	description = g_strdup_printf (
 		m->expunge ?
 		_("Expunging and storing account '%s'") :
 		_("Storing account '%s'"),
-		uri);
-	g_free (uri);
+		display_name);
 
-	return res;
+	g_free (display_name);
+
+	return description;
 }
 
 static void
