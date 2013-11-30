@@ -670,16 +670,54 @@ em_utils_ref_mail_identity_for_store (ESourceRegistry *registry,
 	return source;
 }
 
-/* Returns TRUE if CamelURL points to a local mbox file. */
+/**
+ * em_utils_is_local_delivery_mbox_file:
+ * @service: a #CamelService
+ *
+ * Returns whether @service refers to a local mbox file where new mail
+ * is delivered by some external software.
+ *
+ * Specifically that means @service's #CamelProvider protocol is "mbox"
+ * and its #CamelLocalSettings:path setting points to an existing file,
+ * not a directory.
+ *
+ * Returns: whether @service is for local mbox delivery
+ **/
 gboolean
-em_utils_is_local_delivery_mbox_file (CamelURL *url)
+em_utils_is_local_delivery_mbox_file (CamelService *service)
 {
-	g_return_val_if_fail (url != NULL, FALSE);
+	CamelProvider *provider;
+	CamelSettings *settings;
+	gchar *mbox_path = NULL;
+	gboolean is_local_delivery_mbox_file;
 
-	return g_str_equal (url->protocol, "mbox") &&
-		(url->path != NULL) &&
-		g_file_test (url->path, G_FILE_TEST_EXISTS) &&
-		!g_file_test (url->path, G_FILE_TEST_IS_DIR);
+	g_return_val_if_fail (CAMEL_IS_SERVICE (service), FALSE);
+
+	provider = camel_service_get_provider (service);
+	g_return_val_if_fail (provider != NULL, FALSE);
+	g_return_val_if_fail (provider->protocol != NULL, FALSE);
+
+	if (!g_str_equal (provider->protocol, "mbox"))
+		return FALSE;
+
+	settings = camel_service_ref_settings (service);
+
+	if (CAMEL_IS_LOCAL_SETTINGS (settings)) {
+		CamelLocalSettings *local_settings;
+
+		local_settings = CAMEL_LOCAL_SETTINGS (settings);
+		mbox_path = camel_local_settings_dup_path (local_settings);
+	}
+
+	is_local_delivery_mbox_file =
+		(mbox_path != NULL) &&
+		g_file_test (mbox_path, G_FILE_TEST_EXISTS) &&
+		!g_file_test (mbox_path, G_FILE_TEST_IS_DIR);
+
+	g_free (mbox_path);
+	g_clear_object (&settings);
+
+	return is_local_delivery_mbox_file;
 }
 
 /* Expands groups to individual addresses, or removes empty groups completely.

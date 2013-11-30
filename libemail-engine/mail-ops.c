@@ -245,7 +245,6 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 	CamelSettings *settings;
 	CamelStore *parent_store;
 	CamelUIDCache *cache = NULL;
-	CamelURL *url;
 	gboolean keep = TRUE;
 	gboolean delete_fetched;
 	gboolean is_local_delivery = FALSE;
@@ -281,15 +280,16 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 	/* Just for readability. */
 	delete_fetched = !keep;
 
-	url = camel_service_new_camel_url (service);
-	is_local_delivery = em_utils_is_local_delivery_mbox_file (url);
-
-	if (is_local_delivery) {
+	if (em_utils_is_local_delivery_mbox_file (service)) {
+		CamelURL *url;
 		gchar *path;
 		gchar *url_string;
 
 		path = mail_tool_do_movemail (m->store, error);
+
+		url = camel_service_new_camel_url (service);
 		url_string = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
+		camel_url_free (url);
 
 		if (path && (!error || !*error)) {
 			camel_folder_freeze (fm->destination);
@@ -306,6 +306,7 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 
 		g_free (path);
 		g_free (url_string);
+
 	} else {
 		uid = camel_service_get_uid (service);
 		if (m->provider_lock)
@@ -315,8 +316,6 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 			e_mail_session_get_inbox_sync (
 				fm->session, uid, cancellable, error);
 	}
-
-	camel_url_free (url);
 
 	if (folder == NULL)
 		goto exit;

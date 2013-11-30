@@ -76,7 +76,7 @@ ESource *	em_utils_ref_mail_identity_for_store
 						(ESourceRegistry *registry,
 						 CamelStore *store);
 gboolean	em_utils_is_local_delivery_mbox_file
-						(CamelURL *url);
+						(CamelService *service);
 
 void		em_utils_expand_groups		(CamelInternetAddress *addresses);
 

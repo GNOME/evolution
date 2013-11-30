@@ -432,22 +432,16 @@ format_service_name (CamelService *service)
 static send_info_t
 get_receive_type (CamelService *service)
 {
-	CamelURL *url;
 	CamelProvider *provider;
 	const gchar *uid;
-	gboolean is_local_delivery;
 
 	/* Disregard CamelNullStores. */
 	if (CAMEL_IS_NULL_STORE (service))
 		return SEND_INVALID;
 
-	url = camel_service_new_camel_url (service);
-	is_local_delivery = em_utils_is_local_delivery_mbox_file (url);
-	camel_url_free (url);
-
 	/* mbox pointing to a file is a 'Local delivery'
 	 * source which requires special processing. */
-	if (is_local_delivery)
+	if (em_utils_is_local_delivery_mbox_file (service))
 		return SEND_RECEIVE;
 
 	provider = camel_service_get_provider (service);

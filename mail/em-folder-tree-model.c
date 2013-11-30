@@ -1563,11 +1563,10 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model,
 	if ((provider->flags & CAMEL_PROVIDER_IS_STORAGE) == 0)
 		return;
 
-	service_url = camel_service_new_camel_url (service);
-	if (em_utils_is_local_delivery_mbox_file (service_url)) {
-		camel_url_free (service_url);
+	if (em_utils_is_local_delivery_mbox_file (service))
 		return;
-	}
+
+	service_url = camel_service_new_camel_url (service);
 	uri = camel_url_to_string (service_url, CAMEL_URL_HIDE_ALL);
 	camel_url_free (service_url);
 
