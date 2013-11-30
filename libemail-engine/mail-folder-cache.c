@@ -803,8 +803,10 @@ update_1folder (MailFolderCache *cache,
 	 *     in mail_folder_cache_new(), which just complicates
 	 *     application startup even more. */
 	service = CAMEL_SERVICE (folder_info->store);
-	session = camel_service_get_session (service);
+	session = camel_service_ref_session (service);
 	registry = e_mail_session_get_registry (E_MAIL_SESSION (session));
+	g_object_unref (session);
+
 	g_return_if_fail (E_IS_SOURCE_REGISTRY (registry));
 
 	folder = g_weak_ref_get (&folder_info->folder);
