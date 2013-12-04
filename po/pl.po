@@ -18710,7 +18710,7 @@ msgstr "_Powiadom nadawcę"
 
 #: ../modules/mdn/evolution-mdn.error.xml.h:1
 msgid "Sender wants to be notified when you have read this message."
-msgstr "Nadawce chce zostać powiadomiony o odczytaniu tej wiadomości."
+msgstr "Nadawca chce zostać powiadomiony o odczytaniu tej wiadomości."
 
 #: ../modules/mdn/evolution-mdn.error.xml.h:2
 msgid "Sender has been notified that you have read this message."
