@@ -2469,30 +2469,14 @@ mail_reader_key_press_event_cb (EMailReader *reader,
 		web_extension = e_web_view_get_web_extension_proxy (E_WEB_VIEW (display));
 		if (web_extension) {
 			GVariant *result;
-			const gchar *element_name = NULL;
 
-			result = g_dbus_proxy_call_sync (
-					web_extension,
-					"GetActiveElementName",
-					g_variant_new (
-						"(t)",
-						webkit_web_view_get_page_id (
-							WEBKIT_WEB_VIEW (display))),
-					G_DBUS_CALL_FLAGS_NONE,
-					-1,
-					NULL,
-					NULL);
-
+			result = g_dbus_proxy_get_cached_property (web_extension, "NeedInput");
 			if (result) {
-				g_variant_get (result, "(&s)", &element_name);
+				gboolean need_input = g_variant_get_boolean (result);
 				g_variant_unref (result);
 
-				if (element_name && *element_name) {
-					if (g_strcmp0 (element_name, "input") == 0 ||
-							g_strcmp0 (element_name, "textarea") == 0) {
-						return FALSE;
-					}
-				}
+				if (need_input)
+					return FALSE;
 			}
 		}
 	}

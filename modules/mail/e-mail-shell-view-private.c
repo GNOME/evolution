@@ -256,39 +256,24 @@ mail_shell_view_folder_tree_popup_event_cb (EShellView *shell_view,
 
 static gboolean
 mail_shell_view_mail_display_needs_key (EMailShellView *mail_shell_view,
-                                        EMailDisplay *mail_display,
-                                        gboolean with_input)
+                                        EMailDisplay *mail_display)
 {
 	if (gtk_widget_has_focus (GTK_WIDGET (mail_display))) {
 		GDBusProxy *web_extension;
 
-		web_extension = e_mail_shell_view_get_web_extension_proxy (mail_shell_view);
+		/* Intentionally use Evolution Web Extension */
+		web_extension = e_web_view_get_web_extension_proxy (E_WEB_VIEW (mail_display));
 		if (web_extension) {
 			GVariant *result;
-			const gchar *element_name = NULL;
 
-			result = g_dbus_proxy_call_sync (
-					web_extension,
-					"GetActiveElementName",
-					g_variant_new (
-						"(t)",
-						webkit_web_view_get_page_id (
-							WEBKIT_WEB_VIEW (mail_display))),
-					G_DBUS_CALL_FLAGS_NONE,
-					-1,
-					NULL,
-					NULL);
-
+			result = g_dbus_proxy_get_cached_property (web_extension, "NeedInput");
 			if (result) {
-				element_name = g_variant_get_string (result, NULL);
+				gboolean need_input;
+
+				need_input = g_variant_get_boolean (result);
 				g_variant_unref (result);
 
-				if (element_name && *element_name) {
-					if ((with_input && g_strcmp0 (element_name, "input") == 0) ||
-					    g_strcmp0 (element_name, "textarea") == 0) {
-						return TRUE;
-					}
-				}
+				return need_input;
 			}
 		}
 	}
@@ -327,40 +312,11 @@ mail_shell_view_key_press_event_cb (EMailShellView *mail_shell_view,
 			action = ACTION (MAIL_SMART_BACKWARD);
 			break;
 
-		case GDK_KEY_Home:
-		case GDK_KEY_Left:
-		case GDK_KEY_Up:
-		case GDK_KEY_Right:
-		case GDK_KEY_Down:
-		case GDK_KEY_Prior:
-		case GDK_KEY_Next:
-		case GDK_KEY_End:
-		case GDK_KEY_Begin:
-#if 0
-			if (!mail_shell_view_mail_display_needs_key (mail_shell_view, mail_display, FALSE) &&
-			    webkit_web_view_get_main_frame (WEBKIT_WEB_VIEW (mail_display)) !=
-			    webkit_web_view_get_focused_frame (WEBKIT_WEB_VIEW (mail_display))) {
-				WebKitDOMDocument *document;
-				WebKitDOMDOMWindow *window;
-
-				document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (mail_display));
-				window = webkit_dom_document_get_default_view (document);
-
-				/* Workaround WebKit bug for key navigation, when inner IFRAME is focused.
-				 * EMailView's inner IFRAMEs have disabled scrolling, but WebKit doesn't post
-				 * key navigation events to parent's frame, thus the view doesn't scroll.
-				 * This is a poor workaround for this issue, the main frame is focused,
-				 * which has scrolling enabled.
-				*/
-				webkit_dom_dom_window_focus (window);
-			}
-#endif
-			return FALSE;
 		default:
 			return FALSE;
 	}
 
-	if (mail_shell_view_mail_display_needs_key (mail_shell_view, mail_display, TRUE))
+	if (mail_shell_view_mail_display_needs_key (mail_shell_view, mail_display))
 		return FALSE;
 
 	gtk_action_activate (action);

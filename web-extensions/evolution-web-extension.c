@@ -30,6 +30,7 @@
 
 /* FIXME Clean it */
 static GDBusConnection *dbus_connection;
+static gboolean need_input = FALSE;
 
 static const char introspection_xml[] =
 "<node>"
@@ -103,6 +104,7 @@ static const char introspection_xml[] =
 "      <arg type='s' name='button_id' direction='in'/>"
 "      <arg type='s' name='src' direction='in'/>"
 "    </method>"
+"    <property type='b' name='NeedInput' access='readwrite'/>"
 "  </interface>"
 "</node>";
 
@@ -301,6 +303,7 @@ handle_method_call (GDBusConnection *connection,
 
 		document = webkit_web_page_get_dom_document (web_page);
 		e_dom_utils_e_mail_display_bind_dom (document, connection);
+		e_dom_utils_bind_focus_on_elements (document, connection);
 
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "ElementExists") == 0) {
@@ -389,10 +392,67 @@ handle_method_call (GDBusConnection *connection,
 	}
 }
 
+static GVariant *
+handle_get_property (GDBusConnection *connection,
+                     const gchar *sender,
+                     const gchar *object_path,
+                     const gchar *interface_name,
+                     const gchar *property_name,
+                     GError **error,
+                     gpointer user_data)
+{
+	GVariant *variant;
+
+	if (g_strcmp0 (property_name, "NeedInput") == 0) {
+		variant = g_variant_new_boolean (need_input);
+	}
+
+	return variant;
+}
+
+static gboolean
+handle_set_property (GDBusConnection *connection,
+                     const gchar *sender,
+                     const gchar *object_path,
+                     const gchar *interface_name,
+                     const gchar *property_name,
+                     GVariant *variant,
+                     GError **error,
+                     gpointer user_data)
+{
+	if (need_input != g_variant_get_boolean (variant)) {
+		GVariantBuilder *builder;
+		GError *local_error;
+
+		need_input = g_variant_get_boolean (variant);
+
+		local_error = NULL;
+		builder = g_variant_builder_new (G_VARIANT_TYPE_ARRAY);
+		g_variant_builder_add (builder,
+				"{sv}",
+				"NeedInput",
+				g_variant_new_boolean (need_input));
+		g_dbus_connection_emit_signal (connection,
+				NULL,
+				object_path,
+				"org.freedesktop.DBus.Properties",
+				"PropertiesChanged",
+				g_variant_new (
+					"(sa{sv}as)",
+					interface_name,
+					builder,
+					NULL),
+				&local_error);
+		g_assert_no_error (local_error);
+	}
+
+	return TRUE;
+}
+
 static const GDBusInterfaceVTable interface_vtable = {
 	handle_method_call,
-	NULL,
-	NULL
+	handle_get_property,
+	handle_set_property
 };
 
 static void

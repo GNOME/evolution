@@ -1156,7 +1156,6 @@ web_extension_appeared_cb (GDBusConnection *connection,
 	g_dbus_proxy_new (
 		connection,
 		G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START |
-		G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES |
 		G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS,
 		NULL,
 		name,
