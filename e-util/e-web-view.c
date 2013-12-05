@@ -2359,6 +2359,7 @@ e_web_view_initialize_settings (WebKitSettings *settings)
 {
 	g_object_set (settings,
 		"auto-load-images", TRUE,
+		"default-charset", "utf-8",
 		"enable-html5-database", FALSE,
 		"enable-html5-local-storage", FALSE,
 		"enable-java", FALSE,
