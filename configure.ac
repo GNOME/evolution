@@ -1188,37 +1188,6 @@ dnl They must be explicitly disabled if the libraries are not present.
 dnl ******************************************************************
 
 dnl **************************************************
-dnl audio-inline plugin requires gstreamer-1.0 or 0.10
-dnl **************************************************
-AC_ARG_ENABLE([audio-inline],
-	[AS_HELP_STRING([--enable-audio-inline],
-	[Enable audio-inline plugin @<:@default=yes@:>@])],
-	[enable_audio_inline="$enableval"], [enable_audio_inline=yes])
-
-if test "x$enable_audio_inline" = "xyes"; then
-	PKG_CHECK_MODULES([GSTREAMER], [gstreamer-1.0], have_gst=yes,
-		 [PKG_CHECK_MODULES([GSTREAMER], [gstreamer-0.10], have_gst=yes, have_gst=no)],
-		 have_gst=no)
-	AC_SUBST(GSTREAMER_CFLAGS)
-	AC_SUBST(GSTREAMER_LIBS)
-
-	if test "x$have_gst" = "xyes"; then
-		AC_DEFINE(ENABLE_AUDIO_INLINE, 1, [Define to add support for inlining audio attachments])
-	else
-		AC_MSG_ERROR([
-
-	gstreamer-1.0 or 0.10 not found.
-
-	If you want to disable support for playing audio attachments,
-	please append --disable-audio-inline to configure.
-
-	])
-	fi
-fi
-
-AM_CONDITIONAL([ENABLE_AUDIO_INLINE], [test "x$enable_audio_inline" = "xyes"])
-
-dnl **************************************************
 dnl text-highlight plugins requires highlight utility
 dnl **************************************************
 AC_ARG_ENABLE([text-highlight],
@@ -1519,7 +1488,6 @@ mail/importers/Makefile
 maint/Makefile
 modules/Makefile
 modules/addressbook/Makefile
-modules/audio-inline/Makefile
 modules/backup-restore/Makefile
 modules/bogofilter/Makefile
 modules/book-config-google/Makefile

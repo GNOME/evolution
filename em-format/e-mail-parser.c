@@ -51,6 +51,7 @@ enum {
 /* internal parser extensions */
 GType e_mail_parser_application_mbox_get_type (void);
 GType e_mail_parser_attachment_bar_get_type (void);
+GType e_mail_parser_audio_get_type (void);
 GType e_mail_parser_headers_get_type (void);
 GType e_mail_parser_message_get_type (void);
 GType e_mail_parser_secure_button_get_type (void);
@@ -206,6 +207,7 @@ e_mail_parser_base_init (EMailParserClass *class)
 	/* Register internal extensions. */
 	g_type_ensure (e_mail_parser_application_mbox_get_type ());
 	g_type_ensure (e_mail_parser_attachment_bar_get_type ());
+	g_type_ensure (e_mail_parser_audio_get_type ());
 	g_type_ensure (e_mail_parser_headers_get_type ());
 	g_type_ensure (e_mail_parser_message_get_type ());
 	g_type_ensure (e_mail_parser_secure_button_get_type ());

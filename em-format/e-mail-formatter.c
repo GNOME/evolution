@@ -62,6 +62,7 @@ struct _AsyncContext {
 /* internal formatter extensions */
 GType e_mail_formatter_attachment_get_type (void);
 GType e_mail_formatter_attachment_bar_get_type (void);
+GType e_mail_formatter_audio_get_type (void);
 GType e_mail_formatter_error_get_type (void);
 GType e_mail_formatter_headers_get_type (void);
 GType e_mail_formatter_image_get_type (void);
@@ -534,6 +535,7 @@ e_mail_formatter_base_init (EMailFormatterClass *class)
 	/* Register internal extensions. */
 	g_type_ensure (e_mail_formatter_attachment_get_type ());
 	g_type_ensure (e_mail_formatter_attachment_bar_get_type ());
+	g_type_ensure (e_mail_formatter_audio_get_type ());
 	g_type_ensure (e_mail_formatter_error_get_type ());
 	g_type_ensure (e_mail_formatter_headers_get_type ());
 	g_type_ensure (e_mail_formatter_image_get_type ());

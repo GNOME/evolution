@@ -20,7 +20,6 @@
 #define E_MAIL_PART_AUDIO_H
 
 #include <em-format/e-mail-part.h>
-#include <gst/gst.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_PART_AUDIO \
@@ -50,14 +49,6 @@ typedef struct _EMailPartAudioPrivate EMailPartAudioPrivate;
 struct _EMailPartAudio {
 	EMailPart parent;
 	EMailPartAudioPrivate *priv;
-
-	gchar *filename;
-	GstElement *playbin;
-	gulong      bus_id;
-	GstState    target_state;
-	GtkWidget  *play_button;
-	GtkWidget  *pause_button;
-	GtkWidget  *stop_button;
 };
 
 struct _EMailPartAudioClass {
@@ -65,7 +56,6 @@ struct _EMailPartAudioClass {
 };
 
 GType		e_mail_part_audio_get_type	(void) G_GNUC_CONST;
-void		e_mail_part_audio_type_register	(GTypeModule *type_module);
 EMailPart *	e_mail_part_audio_new		(CamelMimePart *mime_part,
 						 const gchar *id);
 

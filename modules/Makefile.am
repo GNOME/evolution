@@ -18,10 +18,6 @@ if ENABLE_TNEF
 TNEF_ATTACHMENT_DIR = tnef-attachment
 endif
 
-if ENABLE_AUDIO_INLINE
-AUDIO_INLINE_DIR = audio-inline
-endif
-
 if ENABLE_TEXT_HIGHLIGHT
 TEXT_HIGHLIGHT_DIR = text-highlight
 endif
@@ -59,7 +55,6 @@ SUBDIRS = \
 	$(BOGOFILTER_DIR) \
 	$(SPAMASSASSIN_DIR) \
 	$(TNEF_ATTACHMENT_DIR) \
-	$(AUDIO_INLINE_DIR) \
 	$(TEXT_HIGHLIGHT_DIR)
 
 -include $(top_srcdir)/git.mk

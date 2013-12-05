@@ -35,6 +35,7 @@ evolution_mail_formatter_include_HEADERS =		\
 	e-mail-part.h					\
 	e-mail-part-attachment.h			\
 	e-mail-part-attachment-bar.h			\
+	e-mail-part-audio.h				\
 	e-mail-part-headers.h				\
 	e-mail-part-image.h				\
 	e-mail-part-list.h				\
@@ -68,6 +69,7 @@ libevolution_mail_formatter_la_SOURCES =		\
 	e-mail-formatter-utils.c			\
 	e-mail-formatter-attachment.c			\
 	e-mail-formatter-attachment-bar.c		\
+	e-mail-formatter-audio.c			\
 	e-mail-formatter-enumtypes.c			\
 	e-mail-formatter-error.c			\
 	e-mail-formatter-extension.c			\
@@ -90,6 +92,7 @@ libevolution_mail_formatter_la_SOURCES =		\
 	e-mail-parser.c					\
 	e-mail-parser-application-mbox.c		\
 	e-mail-parser-attachment-bar.c			\
+	e-mail-parser-audio.c				\
 	e-mail-parser-headers.c				\
 	e-mail-parser-image.c				\
 	e-mail-parser-inlinepgp-encrypted.c		\
@@ -113,6 +116,7 @@ libevolution_mail_formatter_la_SOURCES =		\
 	e-mail-part.c					\
 	e-mail-part-attachment.c			\
 	e-mail-part-attachment-bar.c			\
+	e-mail-part-audio.c				\
 	e-mail-part-headers.c				\
 	e-mail-part-image.c				\
 	e-mail-part-list.c				\

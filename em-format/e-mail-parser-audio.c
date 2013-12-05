@@ -20,32 +20,21 @@
 #endif
 
 #include <string.h>
-#include <gtk/gtk.h>
-#include <glib.h>
-#include <glib/gi18n.h>
-
-#include "e-mail-parser-audio.h"
-#include "e-mail-part-audio.h"
+#include <glib/gi18n-lib.h>
 
 #include <camel/camel.h>
 
-#include <em-format/e-mail-extension-registry.h>
-#include <em-format/e-mail-parser-extension.h>
-#include <em-format/e-mail-part.h>
-
-#include <libebackend/libebackend.h>
-
-#define d(x)
+#include "e-mail-extension-registry.h"
+#include "e-mail-parser-extension.h"
+#include "e-mail-part-audio.h"
+#include "e-mail-part.h"
 
 typedef EMailParserExtension EMailParserAudio;
 typedef EMailParserExtensionClass EMailParserAudioClass;
 
-typedef EExtension EMailParserAudioLoader;
-typedef EExtensionClass EMailParserAudioLoaderClass;
-
 GType e_mail_parser_audio_get_type (void);
 
-G_DEFINE_DYNAMIC_TYPE (
+G_DEFINE_TYPE (
 	EMailParserAudio,
 	e_mail_parser_audio,
 	E_TYPE_MAIL_PARSER_EXTENSION)
@@ -89,11 +78,9 @@ mail_parser_audio_parse (EMailParserExtension *extension,
 	gint len;
 
 	len = part_id->len;
-	g_string_append (part_id, ".org-gnome-audio-button-panel");
+	g_string_append (part_id, ".audio");
 
 	camel_mime_part_set_disposition (part, "inline");
-
-	d (printf ("audio formatter: format classid %s\n", part_id->str));
 
 	mail_part = e_mail_part_audio_new (part, part_id->str);
 
@@ -113,24 +100,12 @@ static void
 e_mail_parser_audio_class_init (EMailParserExtensionClass *class)
 {
 	class->mime_types = parser_mime_types;
+	class->priority = G_PRIORITY_LOW;
 	class->flags = E_MAIL_PARSER_EXTENSION_INLINE_DISPOSITION;
 	class->parse = mail_parser_audio_parse;
-}
-
-static void
-e_mail_parser_audio_class_finalize (EMailParserExtensionClass *class)
-{
-
 }
 
 static void
 e_mail_parser_audio_init (EMailParserExtension *extension)
 {
 }
-
-void
-e_mail_parser_audio_type_register (GTypeModule *type_module)
-{
-	e_mail_parser_audio_register_type (type_module);
-}
-
