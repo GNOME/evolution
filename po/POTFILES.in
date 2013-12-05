@@ -146,6 +146,7 @@ data/org.gnome.evolution.plugin.templates.gschema.xml.in
 data/org.gnome.evolution.shell.gschema.xml.in
 data/org.gnome.evolution.spamassassin.gschema.xml.in
 em-format/e-mail-formatter-attachment.c
+em-format/e-mail-formatter-audio.c
 em-format/e-mail-formatter.c
 em-format/e-mail-formatter-headers.c
 em-format/e-mail-formatter-image.c
@@ -373,7 +374,6 @@ modules/addressbook/e-book-shell-migrate.c
 modules/addressbook/e-book-shell-sidebar.c
 modules/addressbook/e-book-shell-view-actions.c
 modules/addressbook/e-book-shell-view.c
-modules/audio-inline/e-mail-formatter-audio.c
 modules/backup-restore/e-mail-config-restore-page.c
 modules/backup-restore/e-mail-config-restore-ready-page.c
 modules/backup-restore/evolution-backup-restore.c
