@@ -244,6 +244,8 @@ e_contact_editor_fullname_init (EContactEditorFullname *e_contact_editor_fullnam
 	gtk_box_pack_start (GTK_BOX (content_area), widget, TRUE, TRUE, 0);
 	g_object_unref (widget);
 
+	gtk_dialog_set_default_response (dialog, GTK_RESPONSE_OK);
+
 	gtk_window_set_icon_name (
 		GTK_WINDOW (e_contact_editor_fullname), "contact-new");
 }
