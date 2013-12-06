@@ -20,6 +20,6 @@
 <title>Add, Edit and Delete Memos</title>
 
 <note style="tip"><p>Currently there is no support for syncing memos with the <app>Tomboy</app> or <app>Gnote</app> applications.</p></note>
-<!-- TODO:POST-3-8: Periodically recheck status of https://bugzilla.gnome.org/show_bug.cgi?id=469217 -->
+<!-- TODO:POST-3-10: Periodically recheck status of https://bugzilla.gnome.org/show_bug.cgi?id=469217 (Tomboy) and https://bugzilla.gnome.org/show_bug.cgi?id=603586 (gnote) -->
 
 </page>
