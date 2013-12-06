@@ -26,6 +26,11 @@
 <title>General Settings</title>
 
 <p>Under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Calendar and Tasks</gui><gui>Reminders</gui></guiseq> you can select those calendars for which you want to receive reminder notifications. If you do not select a calendar, you will not receive reminders for any events in this calendar. You can also define whether to show a reminder for every appointment and for every birthday and anniversary.</p>
+<if:choose>
+  <if:when test="platform:gnome-shell">
+    <p>For general information on displaying reminders, please see <link href="help:gnome-help/shell-notifications">the GNOME Desktop Help</link>.
+  </if:when>
+</if:choose>
 
 </section>
 
@@ -36,7 +41,6 @@
 <steps>
 <item><p>Click <guiseq><gui>Options</gui><gui>Reminders</gui></guiseq> or press the Reminder button in the toolbar.</p></item>
 <item><p>From the dropdown menu, choose either one of the available default options when to show a notification reminder, or choose <gui>Customize</gui>.</p></item>
-<!-- TODO: Test how this is in GNOME3? Displayed in Notification area, permanently? --> 
 <item><p>In case of <gui>Customize</gui>, the reminder can be a popup, a sound played, or a program ran. You can also define whether the reminder should be repeated.</p></item>
 </steps>
 
