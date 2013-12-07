@@ -995,9 +995,9 @@ e_cal_shell_view_set_status_message (ECalShellView *cal_shell_view,
 
 static void
 cal_transferring_update_alert (ECalShellView *cal_shell_view,
-			       const gchar *domain,
-			       const gchar *calendar,
-			       const gchar *message)
+                               const gchar *domain,
+                               const gchar *calendar,
+                               const gchar *message)
 {
 	ECalShellViewPrivate *priv;
 	EShellContent *shell_content;
@@ -1039,8 +1039,8 @@ typedef struct _TransferItemToData {
 
 static void
 transfer_item_to_cb (GObject *src_object,
-		     GAsyncResult *result,
-		     gpointer user_data)
+                     GAsyncResult *result,
+                     gpointer user_data)
 {
 	TransferItemToData *titd = user_data;
 	GError *error = NULL;

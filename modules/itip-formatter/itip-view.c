@@ -914,7 +914,7 @@ append_info_item_row (ItipView *view,
 
 	id = g_strdup_printf ("%s_row_%d", table_id, item->id);
 #if WEBKIT_CHECK_VERSION(2,2,0)  /* XXX should really be (2,1,something) */
-	webkit_dom_element_set_id (WEBKIT_DOM_ELEMENT(row), id);
+	webkit_dom_element_set_id (WEBKIT_DOM_ELEMENT (row), id);
 #else
 	webkit_dom_html_element_set_id (row, id);
 #endif

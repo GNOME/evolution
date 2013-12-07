@@ -49,10 +49,10 @@ enum {
 
 static void
 cal_transferring_update_alert (ECalendarSelector *calendar_selector,
-			       EShellView *shell_view,
-			       const gchar *domain,
-			       const gchar *calendar,
-			       const gchar *message)
+                               EShellView *shell_view,
+                               const gchar *domain,
+                               const gchar *calendar,
+                               const gchar *message)
 {
 	ECalendarSelectorPrivate *priv;
 	EShellContent *shell_content;
@@ -98,8 +98,8 @@ typedef struct _TransferItemToData {
 
 static void
 transfer_item_to_cb (GObject *source_object,
-		     GAsyncResult *result,
-		     gpointer user_data)
+                     GAsyncResult *result,
+                     gpointer user_data)
 {
 	TransferItemToData *titd = user_data;
 	GError *error = NULL;
@@ -130,8 +130,8 @@ transfer_item_to_cb (GObject *source_object,
 
 static void
 destination_client_connect_cb (GObject *source_object,
-			       GAsyncResult *result,
-			       gpointer user_data)
+                               GAsyncResult *result,
+                               gpointer user_data)
 {
 	EClient *client;
 	TransferItemToData *titd = user_data;
@@ -181,8 +181,8 @@ exit:
 
 static void
 source_client_connect_cb (GObject *source_object,
-			  GAsyncResult *result,
-			  gpointer user_data)
+                          GAsyncResult *result,
+                          gpointer user_data)
 {
 	EClient *client;
 	TransferItemToData *titd = user_data;

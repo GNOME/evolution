@@ -63,7 +63,7 @@ struct _EContactMapWindowClass {
 	GtkWindowClass parent_class;
 
 	void		(*show_contact_editor)	(EContactMapWindow *window,
-					 	 const gchar *contact_uid);
+						 const gchar *contact_uid);
 };
 
 GType		e_contact_map_window_get_type	(void) G_GNUC_CONST;

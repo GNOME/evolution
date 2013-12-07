@@ -701,8 +701,8 @@ render_personal_column (EABContactFormatter *formatter,
 
 static void
 render_other_column (EABContactFormatter *formatter,
-		     EContact *contact,
-		     GString *buffer)
+                     EContact *contact,
+                     GString *buffer)
 {
 	GString *accum = g_string_new ("");
 

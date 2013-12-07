@@ -75,7 +75,8 @@ cal_config_weather_location_to_string (GBinding *binding,
 
 	if (location) {
 		gdouble latitude, longitude;
-		gchar lat_str[G_ASCII_DTOSTR_BUF_SIZE + 1], lon_str[G_ASCII_DTOSTR_BUF_SIZE + 1];
+		gchar lat_str[G_ASCII_DTOSTR_BUF_SIZE + 1];
+		gchar lon_str[G_ASCII_DTOSTR_BUF_SIZE + 1];
 
 		gweather_location_get_coords (location, &latitude, &longitude);
 
@@ -92,13 +93,13 @@ cal_config_weather_location_to_string (GBinding *binding,
 
 static GWeatherLocation *
 cal_config_weather_find_location_by_coords (GWeatherLocation *start,
-					    gdouble latitude,
-					    gdouble longitude)
+                                            gdouble latitude,
+                                            gdouble longitude)
 {
 	GWeatherLocation *location, **children;
 	gint ii;
 
-	if (!start)
+	if (start == NULL)
 		return NULL;
 
 	location = start;
@@ -113,8 +114,9 @@ cal_config_weather_find_location_by_coords (GWeatherLocation *start,
 
 	children = gweather_location_get_children (location);
 	for (ii = 0; children[ii]; ii++) {
-		location = cal_config_weather_find_location_by_coords (children[ii], latitude, longitude);
-		if (location)
+		location = cal_config_weather_find_location_by_coords (
+			children[ii], latitude, longitude);
+		if (location != NULL)
 			return location;
 	}
 
@@ -150,7 +152,8 @@ cal_config_weather_string_to_location (GBinding *binding,
 	latitude = g_ascii_strtod (tokens[0], NULL);
 	longitude = g_ascii_strtod (tokens[1], NULL);
 
-	match = cal_config_weather_find_location_by_coords (world, latitude, longitude);
+	match = cal_config_weather_find_location_by_coords (
+		world, latitude, longitude);
 
 	g_value_set_boxed (target_value, match);
 
