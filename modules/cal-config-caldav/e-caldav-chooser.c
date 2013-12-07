@@ -393,10 +393,6 @@ caldav_chooser_configure_session (ECaldavChooser *chooser,
 		SOUP_SESSION_SSL_STRICT, TRUE,
 		NULL);
 
-	/* This adds proxy support. */
-	soup_session_add_feature_by_type (
-		session, SOUP_TYPE_GNOME_FEATURES_2_26);
-
 	g_signal_connect (
 		session, "authenticate",
 		G_CALLBACK (caldav_chooser_authenticate_cb), chooser);
