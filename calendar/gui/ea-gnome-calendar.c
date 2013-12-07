@@ -162,7 +162,7 @@ ea_gnome_calendar_get_label_description (GnomeCalendar *gcal)
 	view_type = gnome_calendar_get_view (gcal);
 	calendar_view = gnome_calendar_get_calendar_view (gcal, view_type);
 
-	if(!e_calendar_view_get_visible_time_range (
+	if (!e_calendar_view_get_visible_time_range (
 		calendar_view, &start_time, &end_time)) {
 		g_warn_if_reached ();
 		return NULL;

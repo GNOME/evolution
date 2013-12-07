@@ -1120,17 +1120,19 @@ composer_build_message (EMsgComposer *composer,
 	context->session = e_msg_composer_ref_session (composer);
 	context->from = e_msg_composer_get_from (composer);
 
-	if ((flags & COMPOSER_FLAG_PGP_SIGN) != 0 && (flags & COMPOSER_FLAG_DRAFT) == 0)
-		context->pgp_sign = TRUE;
+	if ((flags & COMPOSER_FLAG_DRAFT) == 0) {
+		if ((flags & COMPOSER_FLAG_PGP_SIGN) != 0)
+			context->pgp_sign = TRUE;
 
-	if ((flags & COMPOSER_FLAG_PGP_ENCRYPT) != 0 && (flags & COMPOSER_FLAG_DRAFT) == 0)
-		context->pgp_encrypt = TRUE;
+		if ((flags & COMPOSER_FLAG_PGP_ENCRYPT) != 0)
+			context->pgp_encrypt = TRUE;
 
-	if ((flags & COMPOSER_FLAG_SMIME_SIGN) != 0 && (flags & COMPOSER_FLAG_DRAFT) == 0)
-		context->smime_sign = TRUE;
+		if ((flags & COMPOSER_FLAG_SMIME_SIGN) != 0)
+			context->smime_sign = TRUE;
 
-	if ((flags & COMPOSER_FLAG_SMIME_ENCRYPT) != 0 && (flags & COMPOSER_FLAG_DRAFT) == 0)
-		context->smime_encrypt = TRUE;
+		if ((flags & COMPOSER_FLAG_SMIME_ENCRYPT) != 0)
+			context->smime_encrypt = TRUE;
+	}
 
 	context->need_thread =
 		context->pgp_sign || context->pgp_encrypt ||
@@ -1572,7 +1574,6 @@ msg_composer_subject_changed_cb (EMsgComposer *composer)
 static void
 msg_composer_mail_identity_changed_cb (EMsgComposer *composer)
 {
-	EMsgComposerPrivate *p = composer->priv;
 	EMailSignatureComboBox *combo_box;
 	ESourceMailComposition *mc;
 	ESourceOpenPGP *pgp;
@@ -1580,6 +1581,7 @@ msg_composer_mail_identity_changed_cb (EMsgComposer *composer)
 	EComposerHeaderTable *table;
 	GtkToggleAction *action;
 	ESource *source;
+	gboolean active;
 	gboolean can_sign;
 	gboolean pgp_sign;
 	gboolean smime_sign;
@@ -1610,21 +1612,29 @@ msg_composer_mail_identity_changed_cb (EMsgComposer *composer)
 	smime_encrypt = e_source_smime_get_encrypt_by_default (smime);
 
 	can_sign =
-		(p->mime_type == NULL) ||
+		(composer->priv->mime_type == NULL) ||
 		e_source_mail_composition_get_sign_imip (mc) ||
-		(g_ascii_strncasecmp (p->mime_type, "text/calendar", 13) != 0);
+		(g_ascii_strncasecmp (
+			composer->priv->mime_type,
+			"text/calendar", 13) != 0);
 
 	action = GTK_TOGGLE_ACTION (ACTION (PGP_SIGN));
-	gtk_toggle_action_set_active (action, (can_sign && pgp_sign) ||
-		(p->is_from_message && gtk_toggle_action_get_active (action)));
+	active = gtk_toggle_action_get_active (action);
+	active &= composer->priv->is_from_message;
+	active |= (can_sign && pgp_sign);
+	gtk_toggle_action_set_active (action, active);
 
 	action = GTK_TOGGLE_ACTION (ACTION (SMIME_SIGN));
-	gtk_toggle_action_set_active (action, (can_sign && smime_sign) ||
-		(p->is_from_message && gtk_toggle_action_get_active (action)));
+	active = gtk_toggle_action_get_active (action);
+	active &= composer->priv->is_from_message;
+	active |= (can_sign && smime_sign);
+	gtk_toggle_action_set_active (action, active);
 
 	action = GTK_TOGGLE_ACTION (ACTION (SMIME_ENCRYPT));
-	gtk_toggle_action_set_active (action, smime_encrypt ||
-		(p->is_from_message && gtk_toggle_action_get_active (action)));
+	active = gtk_toggle_action_get_active (action);
+	active &= composer->priv->is_from_message;
+	active |= smime_encrypt;
+	gtk_toggle_action_set_active (action, active);
 
 	combo_box = e_composer_header_table_get_signature_combo_box (table);
 	e_mail_signature_combo_box_set_identity_uid (combo_box, uid);

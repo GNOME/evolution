@@ -852,7 +852,7 @@ async_context_free (AsyncContext *async_context)
 
 static void
 add_timezone_to_cal_cb (icalparameter *param,
-			gpointer data)
+                        gpointer data)
 {
 	struct ForeachTzidData *ftd = data;
 	icaltimezone *tz = NULL;
@@ -882,8 +882,8 @@ add_timezone_to_cal_cb (icalparameter *param,
 /* Helper for cal_comp_transfer_item_to() */
 static void
 cal_comp_transfer_item_to_thread (GSimpleAsyncResult *simple,
-				  GObject *source_object,
-				  GCancellable *cancellable)
+                                  GObject *source_object,
+                                  GCancellable *cancellable)
 {
 	AsyncContext *async_context;
 	GError *local_error = NULL;
@@ -903,12 +903,12 @@ cal_comp_transfer_item_to_thread (GSimpleAsyncResult *simple,
 
 void
 cal_comp_transfer_item_to (ECalClient *src_client,
-			   ECalClient *dest_client,
-			   icalcomponent *icalcomp_vcal,
-			   gboolean do_copy,
-			   GCancellable *cancellable,
-			   GAsyncReadyCallback callback,
-			   gpointer user_data)
+                           ECalClient *dest_client,
+                           icalcomponent *icalcomp_vcal,
+                           gboolean do_copy,
+                           GCancellable *cancellable,
+                           GAsyncReadyCallback callback,
+                           gpointer user_data)
 {
 	GSimpleAsyncResult *simple;
 	AsyncContext *async_context;
@@ -940,8 +940,8 @@ cal_comp_transfer_item_to (ECalClient *src_client,
 
 gboolean
 cal_comp_transfer_item_to_finish (ECalClient *client,
-				  GAsyncResult *result,
-				  GError **error)
+                                  GAsyncResult *result,
+                                  GError **error)
 {
 	GSimpleAsyncResult *simple;
 
@@ -959,11 +959,11 @@ cal_comp_transfer_item_to_finish (ECalClient *client,
 
 gboolean
 cal_comp_transfer_item_to_sync (ECalClient *src_client,
-				ECalClient *dest_client,
-				icalcomponent *icalcomp_vcal,
-				gboolean do_copy,
-				GCancellable *cancellable,
-				GError **error)
+                                ECalClient *dest_client,
+                                icalcomponent *icalcomp_vcal,
+                                gboolean do_copy,
+                                GCancellable *cancellable,
+                                GError **error)
 {
 	icalcomponent *icalcomp;
 	icalcomponent *icalcomp_event, *subcomp;
@@ -1051,7 +1051,7 @@ cal_comp_transfer_item_to_sync (ECalClient *src_client,
 
 		if (e_cal_util_component_is_instance (icalcomp_event)) {
 			GSList *ecalcomps = NULL, *eiter;
-			ECalComponent *comp ;
+			ECalComponent *comp;
 
 			success = e_cal_client_get_objects_for_uid_sync (src_client, uid, &ecalcomps, cancellable, error);
 			if (!success)
@@ -1066,7 +1066,8 @@ cal_comp_transfer_item_to_sync (ECalClient *src_client,
 				for (eiter = ecalcomps; eiter; eiter = g_slist_next (eiter)) {
 					comp = eiter->data;
 
-					icalcomponent_add_component (icalcomp,
+					icalcomponent_add_component (
+						icalcomp,
 						icalcomponent_new_clone (e_cal_component_get_icalcomponent (comp)));
 				}
 			}
@@ -1081,7 +1082,7 @@ cal_comp_transfer_item_to_sync (ECalClient *src_client,
 			new_uid = e_cal_component_gen_uid ();
 			if (icalcomponent_isa (icalcomp) == ICAL_VCALENDAR_COMPONENT) {
 				/* in case of a vCalendar, the component might have detached instances,
-				   thus change the UID on all of the subcomponents of it */
+				 * thus change the UID on all of the subcomponents of it */
 				for (subcomp = icalcomponent_get_first_component (icalcomp, icalcomp_kind);
 				     subcomp;
 				     subcomp = icalcomponent_get_next_component (icalcomp, icalcomp_kind)) {
@@ -1102,7 +1103,7 @@ cal_comp_transfer_item_to_sync (ECalClient *src_client,
 
 		if (icalcomponent_isa (icalcomp) == ICAL_VCALENDAR_COMPONENT) {
 			/* in case of a vCalendar, the component might have detached instances,
-			   thus check timezones on all of the subcomponents of it */
+			 * thus check timezones on all of the subcomponents of it */
 			for (subcomp = icalcomponent_get_first_component (icalcomp, icalcomp_kind);
 			     subcomp && ftd.success;
 			     subcomp = icalcomponent_get_next_component (icalcomp, icalcomp_kind)) {
@@ -1121,13 +1122,14 @@ cal_comp_transfer_item_to_sync (ECalClient *src_client,
 			gboolean did_add = FALSE;
 
 			/* in case of a vCalendar, the component might have detached instances,
-			   thus add the master object first, and then all of the subcomponents of it */
+			 * thus add the master object first, and then all of the subcomponents of it */
 			for (subcomp = icalcomponent_get_first_component (icalcomp, icalcomp_kind);
 			     subcomp && !did_add;
 			     subcomp = icalcomponent_get_next_component (icalcomp, icalcomp_kind)) {
 				if (icaltime_is_null_time (icalcomponent_get_recurrenceid (subcomp))) {
 					did_add = TRUE;
-					success = e_cal_client_create_object_sync (dest_client, subcomp,
+					success = e_cal_client_create_object_sync (
+						dest_client, subcomp,
 						&new_uid, cancellable, error);
 					g_free (new_uid);
 				}
@@ -1144,12 +1146,14 @@ cal_comp_transfer_item_to_sync (ECalClient *src_client,
 			     subcomp = icalcomponent_get_next_component (icalcomp, icalcomp_kind)) {
 				if (!icaltime_is_null_time (icalcomponent_get_recurrenceid (subcomp))) {
 					if (did_add) {
-						success = e_cal_client_modify_object_sync (dest_client, subcomp,
+						success = e_cal_client_modify_object_sync (
+							dest_client, subcomp,
 							CALOBJ_MOD_THIS, cancellable, error);
 					} else {
 						/* just in case there are only detached instances and no master object */
 						did_add = TRUE;
-						success = e_cal_client_create_object_sync (dest_client, subcomp,
+						success = e_cal_client_create_object_sync (
+							dest_client, subcomp,
 							&new_uid, cancellable, error);
 						g_free (new_uid);
 					}

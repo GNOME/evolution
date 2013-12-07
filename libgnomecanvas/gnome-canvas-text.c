@@ -941,7 +941,8 @@ gnome_canvas_text_set_property (GObject *object,
 					      (color.blue & 0xff00) |
 					      0xff);
 			} else {
-				g_warning ("%s: Failed to parse color form string '%s'",
+				g_warning (
+					"%s: Failed to parse color form string '%s'",
 					G_STRFUNC, color_name);
 			}
 		}

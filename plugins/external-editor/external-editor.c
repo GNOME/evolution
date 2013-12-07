@@ -377,8 +377,9 @@ external_editor_thread (gpointer user_data)
 
 			/* We no longer need that temporary file */
 			if (g_remove (filename) == -1)
-				g_warning ("%s: Failed to remove file '%s': %s",
-					   G_STRFUNC, filename, g_strerror (errno));
+				g_warning (
+					"%s: Failed to remove file '%s': %s",
+					G_STRFUNC, filename, g_strerror (errno));
 			g_free (filename);
 		}
 	}

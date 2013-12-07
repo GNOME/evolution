@@ -26,7 +26,7 @@
 
 static void
 dump_selection (ESourceSelector *selector,
-		const gchar *extension_name)
+                const gchar *extension_name)
 {
 	GList *list, *link;
 
@@ -55,45 +55,54 @@ dump_selection (ESourceSelector *selector,
 static void
 selection_changed_callback (ESourceSelector *selector)
 {
+	const gchar *extension_name;
+
 	g_print ("Selection changed!\n");
-	dump_selection (selector, g_object_get_data (G_OBJECT (selector), EXTENSION_NAME_KEY));
+
+	extension_name = g_object_get_data (
+		G_OBJECT (selector), EXTENSION_NAME_KEY);
+	dump_selection (selector, extension_name);
 }
 
 static void
 enable_widget_if_opened_cb (ESourceSelector *selector,
-			    GtkWidget *widget)
+                            GtkWidget *widget)
 {
 	GHashTable *opened_sources;
 	ESource *source;
+	gboolean sensitive = FALSE;
 
 	opened_sources = g_object_get_data (G_OBJECT (selector), OPENED_KEY);
 	g_return_if_fail (opened_sources != NULL);
 
 	source = e_source_selector_ref_primary_selection (selector);
-	gtk_widget_set_sensitive (widget, source && g_hash_table_lookup (opened_sources, source) != NULL);
-	if (source)
-		g_object_unref (source);
+	if (source != NULL)
+		sensitive = g_hash_table_contains (opened_sources, source);
+	gtk_widget_set_sensitive (widget, sensitive);
+	g_clear_object (&source);
 }
 
 static void
 disable_widget_if_opened_cb (ESourceSelector *selector,
-			     GtkWidget *widget)
+                             GtkWidget *widget)
 {
 	GHashTable *opened_sources;
 	ESource *source;
+	gboolean sensitive = FALSE;
 
 	opened_sources = g_object_get_data (G_OBJECT (selector), OPENED_KEY);
 	g_return_if_fail (opened_sources != NULL);
 
 	source = e_source_selector_ref_primary_selection (selector);
-	gtk_widget_set_sensitive (widget, source && g_hash_table_lookup (opened_sources, source) == NULL);
-	if (source)
-		g_object_unref (source);
+	if (source != NULL)
+		sensitive = !g_hash_table_contains (opened_sources, source);
+	gtk_widget_set_sensitive (widget, sensitive);
+	g_clear_object (&source);
 }
 
 static void
 open_selected_clicked_cb (GtkWidget *button,
-			  ESourceSelector *selector)
+                          ESourceSelector *selector)
 {
 	GHashTable *opened_sources;
 	ESource *source;
@@ -102,24 +111,41 @@ open_selected_clicked_cb (GtkWidget *button,
 	g_return_if_fail (opened_sources != NULL);
 
 	source = e_source_selector_ref_primary_selection (selector);
-	if (!source)
+	if (source == NULL)
 		return;
 
-	if (!g_hash_table_lookup (opened_sources, source)) {
+	if (!g_hash_table_contains (opened_sources, source)) {
 		EClient *client;
-		GError *error = NULL;
 		ECalClientSourceType source_type;
+		gpointer data;
+		GError *local_error = NULL;
 
-		source_type = GPOINTER_TO_UINT (g_object_get_data (G_OBJECT (selector), SOURCE_TYPE_KEY));
+		data = g_object_get_data (G_OBJECT (selector), SOURCE_TYPE_KEY);
+		source_type = GPOINTER_TO_UINT (data);
+
 		if (source_type == E_CAL_CLIENT_SOURCE_TYPE_LAST)
-			client = e_book_client_connect_sync (source, NULL, &error);
+			client = e_book_client_connect_sync (
+				source, NULL, &local_error);
 		else
-			client = e_cal_client_connect_sync (source, source_type, NULL, &error);
-		if (error) {
-			g_warning ("Failed to open '%s': %s", e_source_get_display_name (source), error->message);
-		} else {
-			g_hash_table_insert (opened_sources, g_object_ref (source), client);
-			g_signal_emit_by_name (selector, "primary-selection-changed", 0);
+			client = e_cal_client_connect_sync (
+				source, source_type, NULL, &local_error);
+
+		if (client != NULL) {
+			g_hash_table_insert (
+				opened_sources,
+				g_object_ref (source),
+				g_object_ref (client));
+			g_signal_emit_by_name (
+				selector, "primary-selection-changed", 0);
+			g_object_unref (client);
+		}
+
+		if (local_error != NULL) {
+			g_warning (
+				"Failed to open '%s': %s",
+				e_source_get_display_name (source),
+				local_error->message);
+			g_error_free (local_error);
 		}
 	}
 
@@ -128,7 +154,7 @@ open_selected_clicked_cb (GtkWidget *button,
 
 static void
 close_selected_clicked_cb (GtkWidget *button,
-			   ESourceSelector *selector)
+                           ESourceSelector *selector)
 {
 	GHashTable *opened_sources;
 	ESource *source;
@@ -137,19 +163,20 @@ close_selected_clicked_cb (GtkWidget *button,
 	g_return_if_fail (opened_sources != NULL);
 
 	source = e_source_selector_ref_primary_selection (selector);
-	if (!source)
+	if (source == NULL)
 		return;
 
 	if (g_hash_table_remove (opened_sources, source))
-		g_signal_emit_by_name (selector, "primary-selection-changed", 0);
+		g_signal_emit_by_name (
+			selector, "primary-selection-changed", 0);
 
 	g_object_unref (source);
 }
 
 static GtkWidget *
 create_page (ESourceRegistry *registry,
-	     const gchar *extension_name,
-	     ECalClientSourceType source_type)
+             const gchar *extension_name,
+             ECalClientSourceType source_type)
 {
 	GtkWidget *widget, *subwindow, *selector, *button_box;
 	GtkGrid *grid;
@@ -158,7 +185,8 @@ create_page (ESourceRegistry *registry,
 	grid = GTK_GRID (gtk_grid_new ());
 
 	subwindow = gtk_scrolled_window_new (NULL, NULL);
-	g_object_set (G_OBJECT (subwindow),
+	g_object_set (
+		G_OBJECT (subwindow),
 		"halign", GTK_ALIGN_FILL,
 		"hexpand", TRUE,
 		"valign", GTK_ALIGN_FILL,
@@ -166,7 +194,8 @@ create_page (ESourceRegistry *registry,
 		NULL);
 
 	selector = e_source_selector_new (registry, extension_name);
-	g_object_set (G_OBJECT (selector),
+	g_object_set (
+		G_OBJECT (selector),
 		"halign", GTK_ALIGN_FILL,
 		"hexpand", TRUE,
 		"valign", GTK_ALIGN_FILL,
@@ -179,7 +208,8 @@ create_page (ESourceRegistry *registry,
 	gtk_grid_attach (grid, subwindow, 0, 0, 1, 5);
 
 	button_box = gtk_button_box_new (GTK_ORIENTATION_VERTICAL);
-	g_object_set (G_OBJECT (button_box),
+	g_object_set (
+		G_OBJECT (button_box),
 		"halign", GTK_ALIGN_START,
 		"hexpand", FALSE,
 		"valign", GTK_ALIGN_START,
@@ -189,16 +219,27 @@ create_page (ESourceRegistry *registry,
 
 	widget = gtk_button_new_with_label ("Open selected");
 	gtk_container_add (GTK_CONTAINER (button_box), widget);
-	g_signal_connect (widget, "clicked", G_CALLBACK (open_selected_clicked_cb), selector);
-	g_signal_connect (selector, "primary-selection-changed", G_CALLBACK (disable_widget_if_opened_cb), widget);
+
+	g_signal_connect (
+		widget, "clicked",
+		G_CALLBACK (open_selected_clicked_cb), selector);
+	g_signal_connect (
+		selector, "primary-selection-changed",
+		G_CALLBACK (disable_widget_if_opened_cb), widget);
 
 	widget = gtk_button_new_with_label ("Close selected");
 	gtk_container_add (GTK_CONTAINER (button_box), widget);
-	g_signal_connect (widget, "clicked", G_CALLBACK (close_selected_clicked_cb), selector);
-	g_signal_connect (selector, "primary-selection-changed", G_CALLBACK (enable_widget_if_opened_cb), widget);
+
+	g_signal_connect (
+		widget, "clicked",
+		G_CALLBACK (close_selected_clicked_cb), selector);
+	g_signal_connect (
+		selector, "primary-selection-changed",
+		G_CALLBACK (enable_widget_if_opened_cb), widget);
 
 	widget = gtk_label_new ("");
-	g_object_set (G_OBJECT (widget),
+	g_object_set (
+		G_OBJECT (widget),
 		"halign", GTK_ALIGN_FILL,
 		"hexpand", FALSE,
 		"valign", GTK_ALIGN_FILL,
@@ -207,7 +248,8 @@ create_page (ESourceRegistry *registry,
 	gtk_grid_attach (grid, widget, 1, 1, 1, 1);
 
 	widget = gtk_check_button_new_with_label ("Show colors");
-	g_object_set (G_OBJECT (widget),
+	g_object_set (
+		G_OBJECT (widget),
 		"halign", GTK_ALIGN_START,
 		"hexpand", FALSE,
 		"valign", GTK_ALIGN_END,
@@ -222,7 +264,8 @@ create_page (ESourceRegistry *registry,
 		G_BINDING_SYNC_CREATE);
 
 	widget = gtk_check_button_new_with_label ("Show icons");
-	g_object_set (G_OBJECT (widget),
+	g_object_set (
+		G_OBJECT (widget),
 		"halign", GTK_ALIGN_START,
 		"hexpand", FALSE,
 		"valign", GTK_ALIGN_END,
@@ -237,7 +280,8 @@ create_page (ESourceRegistry *registry,
 		G_BINDING_SYNC_CREATE);
 
 	widget = gtk_check_button_new_with_label ("Show toggles");
-	g_object_set (G_OBJECT (widget),
+	g_object_set (
+		G_OBJECT (widget),
 		"halign", GTK_ALIGN_START,
 		"hexpand", FALSE,
 		"valign", GTK_ALIGN_END,
@@ -251,10 +295,25 @@ create_page (ESourceRegistry *registry,
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	opened_sources = g_hash_table_new_full (g_direct_hash, g_direct_equal, g_object_unref, g_object_unref);
-	g_object_set_data_full (G_OBJECT (selector), OPENED_KEY, opened_sources, (GDestroyNotify) g_hash_table_unref);
-	g_object_set_data (G_OBJECT (selector), SOURCE_TYPE_KEY, GUINT_TO_POINTER (source_type));
-	g_object_set_data_full (G_OBJECT (selector), EXTENSION_NAME_KEY, g_strdup (extension_name), g_free);
+	opened_sources = g_hash_table_new_full (
+		(GHashFunc) g_direct_hash,
+		(GEqualFunc) g_direct_equal,
+		(GDestroyNotify) g_object_unref,
+		(GDestroyNotify) g_object_unref);
+	g_object_set_data_full (
+		G_OBJECT (selector),
+		OPENED_KEY,
+		opened_sources,
+		(GDestroyNotify) g_hash_table_unref);
+	g_object_set_data (
+		G_OBJECT (selector),
+		SOURCE_TYPE_KEY,
+		GUINT_TO_POINTER (source_type));
+	g_object_set_data_full (
+		G_OBJECT (selector),
+		EXTENSION_NAME_KEY,
+		g_strdup (extension_name),
+		(GDestroyNotify) g_free);
 
 	/* update buttons */
 	g_signal_emit_by_name (selector, "primary-selection-changed", 0);
@@ -283,22 +342,34 @@ on_idle_create_widget (ESourceRegistry *registry)
 
 	gtk_notebook_append_page (
 		GTK_NOTEBOOK (notebook),
-		create_page (registry, E_SOURCE_EXTENSION_CALENDAR, E_CAL_CLIENT_SOURCE_TYPE_EVENTS),
+		create_page (
+			registry,
+			E_SOURCE_EXTENSION_CALENDAR,
+			E_CAL_CLIENT_SOURCE_TYPE_EVENTS),
 		gtk_label_new ("Calendars"));
 
 	gtk_notebook_append_page (
 		GTK_NOTEBOOK (notebook),
-		create_page (registry, E_SOURCE_EXTENSION_MEMO_LIST, E_CAL_CLIENT_SOURCE_TYPE_MEMOS),
+		create_page (
+			registry,
+			E_SOURCE_EXTENSION_MEMO_LIST,
+			E_CAL_CLIENT_SOURCE_TYPE_MEMOS),
 		gtk_label_new ("Memos"));
 
 	gtk_notebook_append_page (
 		GTK_NOTEBOOK (notebook),
-		create_page (registry, E_SOURCE_EXTENSION_TASK_LIST, E_CAL_CLIENT_SOURCE_TYPE_TASKS),
+		create_page (
+			registry,
+			E_SOURCE_EXTENSION_TASK_LIST,
+			E_CAL_CLIENT_SOURCE_TYPE_TASKS),
 		gtk_label_new ("Tasks"));
 
 	gtk_notebook_append_page (
 		GTK_NOTEBOOK (notebook),
-		create_page (registry, E_SOURCE_EXTENSION_ADDRESS_BOOK, E_CAL_CLIENT_SOURCE_TYPE_LAST),
+		create_page (
+			registry,
+			E_SOURCE_EXTENSION_ADDRESS_BOOK,
+			E_CAL_CLIENT_SOURCE_TYPE_LAST),
 		gtk_label_new ("Books"));
 
 	gtk_widget_show_all (window);
@@ -311,16 +382,16 @@ main (gint argc,
       gchar **argv)
 {
 	ESourceRegistry *registry;
-	GError *error = NULL;
+	GError *local_error = NULL;
 
 	gtk_init (&argc, &argv);
 
-	registry = e_source_registry_new_sync (NULL, &error);
+	registry = e_source_registry_new_sync (NULL, &local_error);
 
-	if (error != NULL) {
+	if (local_error != NULL) {
 		g_error (
 			"Failed to load ESource registry: %s",
-			error->message);
+			local_error->message);
 		g_assert_not_reached ();
 	}
 

@@ -638,8 +638,9 @@ mail_backend_folder_renamed_cb (MailFolderCache *folder_cache,
 
 		/* Ignore errors; doesn't matter. */
 		if (g_rename (oldname, newname) == -1) {
-			g_warning ("%s: Failed to rename '%s' to '%s': %s", G_STRFUNC,
-				   oldname, newname, g_strerror (errno));
+			g_warning (
+				"%s: Failed to rename '%s' to '%s': %s", G_STRFUNC,
+				oldname, newname, g_strerror (errno));
 		}
 
 		g_free (oldname);

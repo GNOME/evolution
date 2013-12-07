@@ -267,8 +267,9 @@ em_rename_view_in_folder (gpointer data,
 		newname = g_build_filename (views_dir, newfile, NULL);
 
 		if (g_rename (oldname, newname) == -1) {
-			g_warning ("%s: Failed to rename '%s' to '%s': %s", G_STRFUNC,
-				   oldname, newname, g_strerror (errno));
+			g_warning (
+				"%s: Failed to rename '%s' to '%s': %s", G_STRFUNC,
+				oldname, newname, g_strerror (errno));
 		}
 
 		g_checksum_free (checksum);

@@ -1156,16 +1156,18 @@ rename_folders (MailFolderCache *cache,
 	oldfile = g_strdup_printf ("%s/custom_view-%s.xml", config_dir, olduri);
 	newfile = g_strdup_printf ("%s/custom_view-%s.xml", config_dir, newuri);
 	if (g_rename (oldfile, newfile) == -1) {
-		g_warning ("%s: Failed to rename '%s' to '%s': %s", G_STRFUNC,
-			   oldfile, newfile, g_strerror (errno));
+		g_warning (
+			"%s: Failed to rename '%s' to '%s': %s", G_STRFUNC,
+			oldfile, newfile, g_strerror (errno));
 	}
 	g_free (oldfile);
 	g_free (newfile);
 	oldfile = g_strdup_printf ("%s/current_view-%s.xml", config_dir, olduri);
 	newfile = g_strdup_printf ("%s/current_view-%s.xml", config_dir, newuri);
 	if (g_rename (oldfile, newfile) == -1) {
-		g_warning ("%s: Failed to rename '%s' to '%s': %s", G_STRFUNC,
-			   oldfile, newfile, g_strerror (errno));
+		g_warning (
+			"%s: Failed to rename '%s' to '%s': %s", G_STRFUNC,
+			oldfile, newfile, g_strerror (errno));
 	}
 	g_free (oldfile);
 	g_free (newfile);

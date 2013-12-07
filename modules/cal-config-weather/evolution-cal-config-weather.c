@@ -79,7 +79,8 @@ cal_config_weather_location_to_string (GBinding *binding,
 
 	if (location) {
 		gdouble latitude, longitude;
-		gchar lat_str[G_ASCII_DTOSTR_BUF_SIZE + 1], lon_str[G_ASCII_DTOSTR_BUF_SIZE + 1];
+		gchar lat_str[G_ASCII_DTOSTR_BUF_SIZE + 1];
+		gchar lon_str[G_ASCII_DTOSTR_BUF_SIZE + 1];
 
 		gweather_location_get_coords (location, &latitude, &longitude);
 
@@ -96,13 +97,13 @@ cal_config_weather_location_to_string (GBinding *binding,
 
 static GWeatherLocation *
 cal_config_weather_find_location_by_coords (GWeatherLocation *start,
-					    gdouble latitude,
-					    gdouble longitude)
+                                            gdouble latitude,
+                                            gdouble longitude)
 {
 	GWeatherLocation *location, **children;
 	gint ii;
 
-	if (!start)
+	if (start == NULL)
 		return NULL;
 
 	location = start;
@@ -117,8 +118,9 @@ cal_config_weather_find_location_by_coords (GWeatherLocation *start,
 
 	children = gweather_location_get_children (location);
 	for (ii = 0; children[ii]; ii++) {
-		location = cal_config_weather_find_location_by_coords (children[ii], latitude, longitude);
-		if (location)
+		location = cal_config_weather_find_location_by_coords (
+			children[ii], latitude, longitude);
+		if (location != NULL)
 			return location;
 	}
 
@@ -154,7 +156,8 @@ cal_config_weather_string_to_location (GBinding *binding,
 	latitude = g_ascii_strtod (tokens[0], NULL);
 	longitude = g_ascii_strtod (tokens[1], NULL);
 
-	match = cal_config_weather_find_location_by_coords (world, latitude, longitude);
+	match = cal_config_weather_find_location_by_coords (
+		world, latitude, longitude);
 
 	g_value_set_boxed (target_value, match);
 
@@ -167,7 +170,7 @@ cal_config_weather_string_to_location (GBinding *binding,
 static gboolean
 is_locale_metric (void)
 {
-	const char *fmt;
+	const gchar *fmt;
 	fmt = nl_langinfo (_NL_MEASUREMENT_MEASUREMENT);
 
 	if (fmt && *fmt == 2)
@@ -179,7 +182,7 @@ is_locale_metric (void)
 static ESourceWeatherUnits
 cal_config_weather_get_units_from_locale (void)
 {
-	return is_locale_metric() ?
+	return is_locale_metric () ?
 		E_SOURCE_WEATHER_UNITS_CENTIGRADE :
 		E_SOURCE_WEATHER_UNITS_FAHRENHEIT;
 }
@@ -211,11 +214,13 @@ cal_config_weather_insert_widgets (ESourceConfigBackend *backend,
 	GWeatherLocation *world;
 	GtkWidget *widget;
 	Context *context;
+	const gchar *extension_name;
 	const gchar *uid;
 #if HAVE_NL_LANGINFO
 	gboolean is_new_source;
 
-	is_new_source = !e_source_has_extension (scratch_source, E_SOURCE_EXTENSION_WEATHER_BACKEND);
+	is_new_source = !e_source_has_extension (
+		scratch_source, E_SOURCE_EXTENSION_WEATHER_BACKEND);
 #endif
 
 	context = g_slice_new (Context);
@@ -241,15 +246,17 @@ cal_config_weather_insert_widgets (ESourceConfigBackend *backend,
 	/* keep the same order as in the ESourceWeatherUnits */
 	gtk_combo_box_text_append_text (
 		GTK_COMBO_BOX_TEXT (widget),
-		/* TRANSLATOR: This is the temperature in degrees Fahrenheit (\302\260 is U+00B0 DEGREE SIGN) */
+		/* Translators: This is the temperature in degrees
+		 * Fahrenheit. (\302\260 is U+00B0 DEGREE SIGN) */
 		_("Fahrenheit (\302\260F)"));
 	gtk_combo_box_text_append_text (
 		GTK_COMBO_BOX_TEXT (widget),
-		/* TRANSLATOR: This is the temperature in degrees Celsius (\302\260 is U+00B0 DEGREE SIGN) */
+		/* Translators: This is the temperature in degrees
+		 * Celsius. (\302\260 is U+00B0 DEGREE SIGN) */
 		_("Centigrade (\302\260C)"));
 	gtk_combo_box_text_append_text (
 		GTK_COMBO_BOX_TEXT (widget),
-		/* TRANSLATOR: This is the temperature in kelvin */
+		/* Translators: This is the temperature in kelvin. */
 		_("Kelvin (K)"));
 	e_source_config_insert_widget (
 		config, scratch_source, _("Units:"), widget);
@@ -257,7 +264,8 @@ cal_config_weather_insert_widgets (ESourceConfigBackend *backend,
 
 	e_source_config_add_refresh_interval (config, scratch_source);
 
-	extension = e_source_get_extension (scratch_source, E_SOURCE_EXTENSION_WEATHER_BACKEND);
+	extension_name = E_SOURCE_EXTENSION_WEATHER_BACKEND;
+	extension = e_source_get_extension (scratch_source, extension_name);
 
 #if HAVE_NL_LANGINFO
 	if (is_new_source)
