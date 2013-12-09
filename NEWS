@@ -1,3 +1,50 @@
+Evolution 3.10.3 2013-12-09
+---------------------------
+
+Bug Fixes:
+	Bug 704832 - Event removal doesn't update week/month views properly
+	             (Milan Crha)
+	Bug 711499 - Failed image download lefts opened file descriptor
+	             (Milan Crha)
+	Bug 711669 - "Other address" is not displayed in preview (Milan Crha)
+	Bug 711685 - Check calendar email as an organizer (Milan Crha)
+	Bug 711824 - Crash due to use-after-free after pine import (Milan Crha)
+	Bug 711835 - Clang build in broken: void function
+	             'cal_comp_transfer_item_to' should not return a value
+	             (Fabiano Fidêncio)
+	Bug 712342 - Calendar search doesn't finish (Milan Crha)
+	Bug 712388 - Crash when opening Properties of a Weather calendar
+	             (Milan Crha)
+	Bug 712668 - Disable message recovery after initial scan
+	             (Matthew Barnes)
+	Bug 712738 - Recovered message doesn't restore options (Milan Crha)
+	Bug 715067 - <Enter> does not save in the full name editor
+	             (Michael Ekstrand)
+
+Other Changes:
+	* Bump minimum libgweather requirement. (Matthew Barnes)
+	* EMFolderTreeModel: Declare the CamelStore column as an object type.
+	  (Matthew Barnes)
+	* [itip-formatter] Search for an event in enabled calendars only
+	  (Milan Crha)
+	* e-utils: replacing g_memmove with memmove (Alberto Ruiz)
+	* pine-importer: Fix a crash when importing with no existing address
+	  books (Philip Withnall)
+	* icalendar-importer: Fix a crash when importing with no existing cals
+	  (Philip Withnall)
+	* Remove --enable-strict configure option. (Matthew Barnes)
+
+Translations:
+	Daniel Mustieles (es)
+	Fran Diéguez (gl)
+	Gabor Kelemen (hu)
+	Hannie Dumoleyn (nl)
+	Piotr Drąg (pl)
+	Мирослав Николић (sr)
+	Shantha kumar (ta)
+	Gan Lu (zh_CN)
+
+
 Evolution 3.10.2 2013-11-11
 ---------------------------
 
