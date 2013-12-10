@@ -546,6 +546,7 @@ web_view_decide_policy_cb (EWebView *web_view,
 {
 	EWebViewClass *class;
 	WebKitNavigationPolicyDecision *navigation_decision;
+	WebKitNavigationType navigation_type;
 	WebKitURIRequest *request;
 	const gchar *uri;
 
@@ -553,8 +554,9 @@ web_view_decide_policy_cb (EWebView *web_view,
 		return FALSE;
 
 	navigation_decision = WEBKIT_NAVIGATION_POLICY_DECISION (decision);
+	navigation_type = webkit_navigation_policy_decision_get_navigation_type (navigation_decision);
 
-	if (navigation_decision != WEBKIT_NAVIGATION_TYPE_LINK_CLICKED)
+	if (navigation_type != WEBKIT_NAVIGATION_TYPE_LINK_CLICKED)
 		return FALSE;
 
 	/* XXX WebKitWebView does not provide a class method for
