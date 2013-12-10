@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-29 16:11+0000\n"
-"PO-Revision-Date: 2013-09-02 16:55+0200\n"
+"POT-Creation-Date: 2013-12-07 00:30+0000\n"
+"PO-Revision-Date: 2013-12-10 12:34+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -238,23 +238,23 @@ msgstr ""
 "puede restaurar Evolution desde un archivo de respaldo."
 
 #. (itstool) path: info/desc
-#: C/calendar-alarms-and-reminders.page:5
+#: C/calendar-alarms-and-reminders.page:7
 msgid "Setting up reminder notifications for appointments."
 msgstr "Establecer notificaciones de recordatorios para citas."
 
 #. (itstool) path: page/title
-#: C/calendar-alarms-and-reminders.page:23
+#: C/calendar-alarms-and-reminders.page:25
 msgid "Reminders for appointments"
 msgstr "Recordatorios para citas"
 
 # index.docbook:29, index.docbook:30
 #. (itstool) path: section/title
-#: C/calendar-alarms-and-reminders.page:26
+#: C/calendar-alarms-and-reminders.page:28
 msgid "General Settings"
 msgstr "Configuración general"
 
 #. (itstool) path: section/p
-#: C/calendar-alarms-and-reminders.page:28
+#: C/calendar-alarms-and-reminders.page:30
 msgid ""
 "Under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Calendar and Tasks</"
 "gui><gui>Reminders</gui></guiseq> you can select those calendars for which "
@@ -270,13 +270,26 @@ msgstr ""
 "ese calendario. También puede definir si quiere mostrar un recordatorio para "
 "cada cita  para cada cumpleaños y aniversario."
 
-#. (itstool) path: section/title
+#. (itstool) path: when/p
 #: C/calendar-alarms-and-reminders.page:33
+#| msgid ""
+#| "Please see <link href=\"help:gnome-help/net-default-browser\">the GNOME "
+#| "Desktop Help</link>."
+msgid ""
+"For general information on displaying reminders, please see <link href="
+"\"help:gnome-help/shell-notifications\">the GNOME Desktop Help</link>."
+msgstr ""
+"Consulte <link href=\"help:gnome-help/shell-notifications\">la ayuda del "
+"escritorio GNOME</link> para obtener información sobre cómo mostrar "
+"recordatorios."
+
+#. (itstool) path: section/title
+#: C/calendar-alarms-and-reminders.page:40
 msgid "Manual Reminders"
 msgstr "Recordatorios manuales"
 
 #. (itstool) path: section/p
-#: C/calendar-alarms-and-reminders.page:35
+#: C/calendar-alarms-and-reminders.page:42
 msgid ""
 "Apart from the general settings you can also set up reminders in the "
 "appointment editor for certain appointments only:"
@@ -285,7 +298,7 @@ msgstr ""
 "manuales en el editor de citas, solo para cierto tipo de citas:"
 
 #. (itstool) path: item/p
-#: C/calendar-alarms-and-reminders.page:37
+#: C/calendar-alarms-and-reminders.page:44
 msgid ""
 "Click <guiseq><gui>Options</gui><gui>Reminders</gui></guiseq> or press the "
 "Reminder button in the toolbar."
@@ -294,7 +307,7 @@ msgstr ""
 "el botón Recordatorio en la barra de herramientas."
 
 #. (itstool) path: item/p
-#: C/calendar-alarms-and-reminders.page:38
+#: C/calendar-alarms-and-reminders.page:45
 msgid ""
 "From the dropdown menu, choose either one of the available default options "
 "when to show a notification reminder, or choose <gui>Customize</gui>."
@@ -304,7 +317,7 @@ msgstr ""
 "gui>."
 
 #. (itstool) path: item/p
-#: C/calendar-alarms-and-reminders.page:40
+#: C/calendar-alarms-and-reminders.page:46
 msgid ""
 "In case of <gui>Customize</gui>, the reminder can be a popup, a sound "
 "played, or a program ran. You can also define whether the reminder should be "
@@ -1466,9 +1479,6 @@ msgstr "Buscar por resumen:"
 #. (itstool) path: item/p
 #: C/calendar-searching.page:34 C/contacts-searching.page:42
 #: C/memos-searching.page:43 C/tasks-searching.page:43
-#| msgid ""
-#| "Click the search icon <media type=\"image\" mime=\"image/png\" src="
-#| "\"figures/search-icon.png\"/> to expand the drop-down list."
 msgid "Click the search icon <_:media-1/> to expand the drop-down list."
 msgstr ""
 "Pulse el icono de búsqueda <_:media-1/> para expandir la dista desplegable."
@@ -4403,13 +4413,11 @@ msgstr "<_:media-1/> Barra de menú"
 #. (itstool) path: td/p
 #: C/intro-main-window.page:47 C/intro-main-window.page:96
 #: C/intro-main-window.page:142
-#| msgid "<_:media-1/> Evolution Mail and Calendar"
 msgid "<_:media-1/> Tool bar"
 msgstr "<_:media-1/> Barra de herramientas"
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:50
-#| msgid "Folder list"
 msgid "<_:media-1/> Folder list"
 msgstr "<_:media-1/> Lista de carpetas"
 
@@ -4547,13 +4555,11 @@ msgstr "Elementos en la ventana principal del calendario:"
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:99
-#| msgid "<_:media-1/> Evolution Mail and Calendar"
 msgid "<_:media-1/> Calendar list"
 msgstr "<_:media-1/> Lista del calendario"
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:103
-#| msgid "Appointment List"
 msgid "<_:media-1/> Appointment list"
 msgstr "<_:media-1/> Lista de citas"
 
@@ -4631,7 +4637,6 @@ msgstr "<_:media-1/> Lista de libreta de direcciones"
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:149
-#| msgid "Creating a contact list"
 msgid "<_:media-1/> Contacts list"
 msgstr "<_:media-1/> Lista de contactos"
 
@@ -4683,8 +4688,8 @@ msgstr ""
 #: C/mail-access-gmail-imap-account.page:28
 msgid ""
 "To access Gmail via IMAP you must turn on IMAP in your Google account. See "
-"the <link href=\"https://mail.google.com/support/bin/answer.py?answer=77695"
-"\">Gmail Help</link> for more information."
+"the <link href=\"https://mail.google.com/support/bin/answer.py?"
+"answer=77695\">Gmail Help</link> for more information."
 msgstr ""
 "Para acceder a Gmail mediante IMAP debe activar IMAP en su cuenta de Google. "
 "Consulte la <link href=\"https://mail.google.com/support/bin/answer.py?"
@@ -5855,9 +5860,6 @@ msgstr ""
 
 #. (itstool) path: when/p
 #: C/mail-composer-change-quotation-string.page:38
-#| msgid ""
-#| "<link action=\"install:dconf-editor\" href=\"http://ftp.gnome.org/pub/"
-#| "gnome/sources/dconf-editor/\" style=\"button\">Install dconf-editor</link>"
 msgid ""
 "<link action=\"install:dconf-editor\" href=\"http://ftp.gnome.org/pub/gnome/"
 "sources/dconf/\" style=\"button\">Install dconf-editor</link>"
@@ -6192,11 +6194,6 @@ msgstr "Pulse <gui>Abrir</gui>."
 
 #. (itstool) path: page/p
 #: C/mail-composer-html-image.page:30
-#| msgid ""
-#| "Alternately, you can also use the <media type=\"image\" src=\"./figures/"
-#| "html-composer-insert-image.png\"/> icon in the second bar below the "
-#| "<gui>Subject</gui> line, or drag an image into the text area of the "
-#| "message composer."
 msgid ""
 "Alternately, you can also use the <_:media-1/> icon in the second bar below "
 "the <gui>Subject</gui> line, or drag an image into the text area of the "
@@ -6251,10 +6248,6 @@ msgstr "Pulse <gui>Cerrar</gui>."
 #. (itstool) path: page/p
 #: C/mail-composer-html-link.page:32 C/mail-composer-html-rule.page:31
 #: C/mail-composer-html-table.page:32
-#| msgid ""
-#| "Alternately, you can also use the <media type=\"image\" src=\"./figures/"
-#| "html-composer-insert-link.png\"/> icon in the second bar below the "
-#| "<gui>Subject</gui> line."
 msgid ""
 "Alternately, you can also use the <_:media-1/> icon in the second bar below "
 "the <gui>Subject</gui> line."
@@ -7805,10 +7798,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/mail-displaying-collapsible-headers.page:27
-#| msgid ""
-#| "To see all recipients, click the <media type=\"image\" src=\"./figures/"
-#| "plus-icon.png\"/> icon next to the <gui>To:</gui> or <gui>Cc:</gui> line, "
-#| "or click the ellipsis (...) at the end of the five displayed addresses."
 msgid ""
 "To see all recipients, click the <_:media-1/> icon next to the <gui>To:</"
 "gui> or <gui>Cc:</gui> line, or click the ellipsis (...) at the end of the "
@@ -7820,11 +7809,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/mail-displaying-collapsible-headers.page:29
-#| msgid ""
-#| "To collapse all of the message headers and just display the subject and "
-#| "sender in one line, click the icon <media type=\"image\" src=\"./figures/"
-#| "minus-icon.png\"/> next to the <gui>From:</gui> line. This is helpful on "
-#| "small screens."
 msgid ""
 "To collapse all of the message headers and just display the subject and "
 "sender in one line, click the icon <_:media-1/> next to the <gui>From:</gui> "
@@ -9039,13 +9023,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-filters-not-working.page:47
-#| msgid ""
-#| "Run the command <cmd>gsettings set org.gnome.evolution.mail filters-log-"
-#| "file \"/home/myusername/my-filter-log\"</cmd> and replace "
-#| "<cmd>myusername</cmd> by your username. This will create a text file "
-#| "named <file>my-filter-log</file> in your home directory. Note that the an "
-#| "absolute path to the file name must be entered; syntax like <sys>~</sys> "
-#| "or <sys>$HOME</sys> will not work."
 msgid ""
 "Run the command <cmd>gsettings set org.gnome.evolution.mail filters-log-file "
 "\"/home/myusername/my-filter-log\"</cmd> and replace <cmd>myusername</cmd> "
@@ -9722,8 +9699,8 @@ msgid ""
 msgstr ""
 "Generalmente se añade un prefijo «Re:» a la línea del asunto cuando se "
 "responde a un correo. Algunas aplicaciones usan términos traducidos para "
-"esto (por ejemplo, «SV» en danés o «AW» en alemán). <app>Evolution</app> puede "
-"reconocer estos términos para evitar que el sujeto se haga muy largo a "
+"esto (por ejemplo, «SV» en danés o «AW» en alemán). <app>Evolution</app> "
+"puede reconocer estos términos para evitar que el sujeto se haga muy largo a "
 "medida que avanza la conversación."
 
 #. (itstool) path: item/p
@@ -9757,10 +9734,11 @@ msgid ""
 "messages are retained until you expunge the emails marked for deletion."
 msgstr ""
 "Si su servidor todavía no soporta la<link href=\"http://tools.ietf.org/html/"
-"rfc6851\">característica «mover» de IMAP</link>, que se introdujo en enero de "
-"2013, Evolution «mueve» los mensajes copiando y eliminando correos. Eliminar "
-"significa «marcar correos para eliminar» de tal forma que los correos "
-"originales se mantienen hasta que purgue los correos marcados para eliminar."
+"rfc6851\">característica «mover» de IMAP</link>, que se introdujo en enero "
+"de 2013, Evolution «mueve» los mensajes copiando y eliminando correos. "
+"Eliminar significa «marcar correos para eliminar» de tal forma que los "
+"correos originales se mantienen hasta que purgue los correos marcados para "
+"eliminar."
 
 #. (itstool) path: page/p
 #: C/mail-moving-emails.page:28
@@ -11008,9 +10986,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-searching.page:42
-#| msgid ""
-#| "Click on the search icon <media type=\"image\" mime=\"image/png\" src="
-#| "\"figures/search-icon.png\"/> to expand the drop-down list."
 msgid "Click on the search icon <_:media-1/> to expand the drop-down list."
 msgstr ""
 "Pulse el icono de búsqueda <_:media-1/> para expandir la dista desplegable."
@@ -12383,13 +12358,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/minimize-to-system-tray.page:29
-#| msgid ""
-#| "In GNOME version 2 you may modify the notification area and set it up to "
-#| "become a system tray by using external applications which might be "
-#| "available for installation in the software management tool of your "
-#| "distribution. Available options are for example <link href=\"http://"
-#| "alltray.trausch.us/\">Alltray</link> or <link href=\"http://code.google."
-#| "com/p/tint2/\">Tint2</link>. This is no longer possible in GNOME 3."
 msgid ""
 "In GNOME version 2 you may modify the notification area and set it up to "
 "become a system tray by using external applications which might be available "
@@ -13782,8 +13750,8 @@ msgstr "Q"
 #. (itstool) path: section/p
 #: C/xinclude-searching.xml:15
 msgid ""
-"To clear your search view and get back to the default view, click the <_:gui-"
-"1/> icon in the search string field, or choose <_:guiseq-2/> from the "
+"To clear your search view and get back to the default view, click the <_:"
+"gui-1/> icon in the search string field, or choose <_:guiseq-2/> from the "
 "menubar. You can also press <_:keyseq-3/> to clear the search."
 msgstr ""
 "Para limpiar su búsqueda puede pulsar el botón o menú <_:gui-1/> en el campo "
@@ -13823,8 +13791,8 @@ msgid ""
 "select <_:guiseq-3/>. From now on this search will be directly available "
 "from the <_:gui-4/> menu."
 msgstr ""
-"Para guardar el resultado de su búsqueda pulse <_:gui-1/> en lugar de <_:gui-"
-"2/> en el diálogo Buscar, o en caso de que ya se estén mostrando los "
+"Para guardar el resultado de su búsqueda pulse <_:gui-1/> en lugar de <_:"
+"gui-2/> en el diálogo Buscar, o en caso de que ya se estén mostrando los "
 "resultados de la búsqueda, seleccione <_:guiseq-3/>. Desde ahora, esta "
 "búsqueda estará directamente disponible desde el menú <_:gui-4/>."
 
