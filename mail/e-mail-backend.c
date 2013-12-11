@@ -637,10 +637,12 @@ mail_backend_folder_renamed_cb (MailFolderCache *folder_cache,
 		newname = mail_backend_uri_to_evname (new_uri, cachenames[ii]);
 
 		/* Ignore errors; doesn't matter. */
-		if (g_rename (oldname, newname) == -1) {
+		if (g_rename (oldname, newname) == -1 && errno != ENOENT) {
 			g_warning (
-				"%s: Failed to rename '%s' to '%s': %s", G_STRFUNC,
-				oldname, newname, g_strerror (errno));
+				"%s: Failed to rename '%s' to '%s': %s",
+				G_STRFUNC,
+				oldname, newname,
+				g_strerror (errno));
 		}
 
 		g_free (oldname);
