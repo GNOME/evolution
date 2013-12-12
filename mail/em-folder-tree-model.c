@@ -965,7 +965,9 @@ folder_tree_model_folder_subscribed_cb (CamelStore *store,
 
 	gtk_tree_store_append (GTK_TREE_STORE (model), &iter, &parent);
 
-	em_folder_tree_model_set_folder_info (model, &iter, si, fi, TRUE);
+	/* The CamelFolderInfo does not contain child information,
+	 * so pass fully_loaded=FALSE to indicate it's incomplete. */
+	em_folder_tree_model_set_folder_info (model, &iter, si, fi, FALSE);
 }
 
 static void
