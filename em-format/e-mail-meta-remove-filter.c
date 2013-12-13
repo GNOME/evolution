@@ -184,7 +184,6 @@ filter_filter (CamelMimeFilter *filter,
                gsize *outlen,
                gsize *outprespace)
 {
-	printf ("%s\n", __FUNCTION__);
 	remove_meta_tag (filter, in, len, prespace, out, outlen);
 
 	*outprespace = prespace;
@@ -199,10 +198,6 @@ filter_complete (CamelMimeFilter *filter,
                  gsize *outlen,
                  gsize *outprespace)
 {
-	printf ("%s\n", __FUNCTION__);
-//	remove_meta_tag (
-//		filter, in, len, prespace, out, outlen, TRUE);
-
 	*out = (gchar *) in;
 	*outlen = len;
 	*outprespace = prespace;
