@@ -1,3 +1,61 @@
+Evolution 3.11.2 2013-12-16
+---------------------------
+
+Highlights:
+	* Nicer playback controls for audio attachments. (Matthew Barnes)
+	* Folder tree shows connection icons next to accounts. (Matthew Barnes)
+
+Bug Fixes:
+	Bug 329616 - Spell checking for Event/Task/Memo editors (Milan Crha)
+	Bug 704832 - Event removal doesn't update week/month views properly
+	             (Milan Crha)
+	Bug 711499 - Failed image download lefts opened file descriptor
+	             (Milan Crha)
+	Bug 711669 - "Other address" is not displayed in preview (Milan Crha)
+	Bug 711685 - Check calendar email as an organizer (Milan Crha)
+	Bug 711824 - Crash due to use-after-free after pine import (Milan Crha)
+	Bug 712342 - Calendar search doesn't finish (Milan Crha)
+	Bug 712388 - Crash when opening Properties of a Weather calendar
+	             (Milan Crha)
+	Bug 712668 - Disable message recovery after initial scan
+	             (Matthew Barnes)
+	Bug 712738 - Recovered message doesn't restore options (Milan Crha)
+	Bug 715057 - Weather calendar is using Fahrenheit units as default
+	             (Fabiano Fidêncio)
+	Bug 715067 - <Enter> does not save in the full name editor
+	             (Michael Ekstrand)
+
+Other Changes:
+	* Bump libsoup requirement to 2.42. (Matthew Barnes)
+	* Bump minimum libgweather requirement. (Matthew Barnes)
+	* Remove --enable-strict configure option. (Matthew Barnes)
+	* User documentation improvements. (Andre Klapper)
+	* Purge remaining EProxy usage. (Matthew Barnes)
+	* [itip-formatter] Search for an event in enabled calendars only
+	  (Milan Crha)
+	* Remove "side-bar-ellipsize-mode" setting. (Matthew Barnes)
+	* Weather calendar: Be able to change temperature unit (Milan Crha)
+	* Use SoupSession's request API instead of SoupRequester.
+	  (Matthew Barnes)
+	* Extend test-source-selector test program (Milan Crha)
+	* pine-importer: Fix a crash when importing with no existing address
+	  books (Philip Withnall)
+	* icalendar-importer: Fix a crash when importing with no existing
+	  cals (Philip Withnall)
+	* EMFolderTreeModel: Fix subscribing to a folder with children.
+	  (Matthew Barnes)
+
+Translations:
+	Aurimas Černius (lt)
+	Daniel Mustieles (es)
+	Dimitris Spingos (el)
+	Krishnababu Krothapalli (te)
+	Piotr Drąg (pl)
+	Shantha kumar (ta)
+	Мирослав Николић (sr)
+	Gan Lu (zh_CN)
+
+
 Evolution 3.11.2 2013-11-18
 ---------------------------
 
