@@ -3395,6 +3395,14 @@ ESpellEntryPrivate
 </SECTION>
 
 <SECTION>
+<FILE>e-spell-text-view</FILE>
+<TITLE>e-spell-text-view</TITLE>
+e_spell_text_view_is_supported
+e_spell_text_view_attach
+e_spell_text_view_recheck_all
+</SECTION>
+
+<SECTION>
 <FILE>e-stock-request</FILE>
 <TITLE>EStockRequest</TITLE>
 EStockRequest

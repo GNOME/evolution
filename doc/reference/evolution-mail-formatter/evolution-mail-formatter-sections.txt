@@ -313,6 +313,24 @@ EMailPartAttachmentBarPrivate
 </SECTION>
 
 <SECTION>
+<FILE>e-mail-part-audio</FILE>
+<TITLE>EMailPartAudio</TITLE>
+EMailPartAudio
+e_mail_part_audio_new
+<SUBSECTION Standard>
+E_MAIL_PART_AUDIO
+E_IS_MAIL_PART_AUDIO
+E_TYPE_MAIL_PART_AUDIO
+E_MAIL_PART_AUDIO_CLASS
+E_IS_MAIL_PART_AUDIO_CLASS
+E_MAIL_PART_AUDIO_GET_CLASS
+EMailPartAudioClass
+e_mail_part_audio_get_type
+<SUBSECTION Private>
+EMailPartAudioPrivate
+</SECTION>
+
+<SECTION>
 <FILE>e-mail-part-headers</FILE>
 <TITLE>EMailPartHeaders</TITLE>
 E_MAIL_PART_HEADERS_MIME_TYPE
