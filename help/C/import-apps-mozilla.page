@@ -24,7 +24,7 @@
 <steps>
 <item><p>Click <guiseq><gui>File</gui><gui>Import</gui></guiseq>.</p></item>
 <item><p>In the <gui>Importer Type</gui> tab, click <gui>Import a single file</gui>.</p></item>
-<item><p>Go to the folder in which Thunderbird stores its data. On a Linux system, Thunderbird's files are located in the hidden folder <file>$HOME/.thunderbird/12345678</file>. <file>12345678</file> will be a random string. If you cannot see the <file>.thunderbird</file> folder, make sure to <link href="help:gnome-help/files-hidden#show-hidden">show hidden files</link> in the file selector dialog.</p></item>
+<item><p>Go to the folder in which Thunderbird stores its data. On a Linux system, Thunderbird's files are located in the hidden folder <file>$HOME/.thunderbird/12345678</file>. <file>12345678</file> will be a random string. If you cannot see the <file>.thunderbird</file> folder, make sure to <link xref="help:gnome-help/files-hidden#show-hidden" href="https://help.gnome.org/users/gnome-help/stable/files-hidden#show-hidden">show hidden files</link> in the file selector dialog.</p></item>
 <item>
 <list>
 <item><p>If you would like to import Thunderbird mail, go to <file>Mail/Local Folders</file> (for local mail accounts) or <file>ImapMail/servername</file> (for remote mail accounts). <file>servername</file> will be the address of your remote mail server. Files without a file ending include your messages (not the <file>.msf</file> files).</p></item>

@@ -30,7 +30,7 @@
 <p>Under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Calendar and Tasks</gui><gui>Reminders</gui></guiseq> you can select those calendars for which you want to receive reminder notifications. If you do not select a calendar, you will not receive reminders for any events in this calendar. You can also define whether to show a reminder for every appointment and for every birthday and anniversary.</p>
 <if:choose>
   <if:when test="platform:gnome-shell">
-    <p>For general information on displaying reminders, please see <link href="help:gnome-help/shell-notifications">the GNOME Desktop Help</link>.</p>
+    <p>For general information on displaying reminders, please see <link xref="help:gnome-help/shell-notifications" href="https://help.gnome.org/users/gnome-help/stable/shell-notifications">the GNOME Desktop Help</link>.</p>
   </if:when>
 </if:choose>
 

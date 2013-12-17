@@ -19,7 +19,7 @@
 
 <title>Save messages as PDF</title>
 
-<p>In order to save emails in the PDF file format, select <guiseq><gui>File</gui><gui>Print</gui></guiseq> and then choose <gui>Print to File</gui>. See <link href="help:gnome-help/printing">the desktop help</link> for general information on printing.</p>
+<p>In order to save emails in the PDF file format, select <guiseq><gui>File</gui><gui>Print</gui></guiseq> and then choose <gui>Print to File</gui>. See <link xref="help:gnome-help/printing" href="https://help.gnome.org/users/gnome-help/stable/printing">the desktop help</link> for general information on printing.</p>
 
 <note style="advanced">
 <p>You can also export messages as PDF by dragging and dropping them to the file manager, instead of dropping them in mbox (text) format by default.</p>

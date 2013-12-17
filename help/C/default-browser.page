@@ -61,7 +61,7 @@
   </if:choose>
 </note>
   </if:when>
-<p>Please see <link href="help:gnome-help/net-default-browser">the GNOME Desktop Help</link>.</p>
+<p>Please see <link xref="help:gnome-help/net-default-browser" href="https://help.gnome.org/users/gnome-help/stable/net-default-browser">the GNOME Desktop Help</link>.</p>
 
 <p>If the preferred browser is set as default application but still does not work correctly please contact your distribution via their forum or bug tracker.</p>
 
@@ -80,7 +80,7 @@
 <section id="email-application-to-use">
 <title>Change which mail application is used to write emails</title>
 
-<p>Please see <link href="help:gnome-help/net-default-email">the GNOME Desktop Help</link>.</p>
+<p>Please see <link xref="help:gnome-help/net-default-email" href="https://help.gnome.org/users/gnome-help/stable/net-default-email">the GNOME Desktop Help</link>.</p>
 
 </section>
 
