@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2013-12-11 16:26+0000\n"
+"POT-Creation-Date: 2013-12-12 14:59+0000\n"
 "PO-Revision-Date: 2013-11-19 01:28-0500\n"
 "Last-Translator: kkrothap <kkrothap@redhat.com>\n"
 "Language-Team: Telugu <Fedora-trans-te@redhat.com>\n"
@@ -13536,7 +13536,7 @@ msgstr "సందేశము(ల)ను పైస్థాయి నిల్�
 msgid "UNMATCHED"
 msgstr "జతకాని"
 
-#: ../mail/em-folder-tree-model.c:1223 ../mail/em-folder-tree-model.c:1598
+#: ../mail/em-folder-tree-model.c:1223 ../mail/em-folder-tree-model.c:1600
 msgid "Loading..."
 msgstr "నింపబడుతున్న..."
 
@@ -20027,7 +20027,7 @@ msgstr "వినియోగదారి యింటర్ఫేస్  స్
 #. * about dialog.
 #: ../shell/e-shell-window-actions.c:74
 msgid "translator-credits"
-msgstr "అనువాదకర్త పరపతులు"
+msgstr "Krishnababu Krothapalli <kkrothap@redhat.com> 2008-2013"
 
 #: ../shell/e-shell-window-actions.c:85
 msgid "Evolution Website"
