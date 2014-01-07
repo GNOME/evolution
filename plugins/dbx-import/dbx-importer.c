@@ -1,33 +1,32 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* dbx-importer.c
-*
-* Author: David Woodhouse <dwmw2@infradead.org>
-*
-* Copyright © 2010 Intel Corporation
-*
-* Evolution parts largely lifted from pst-import.c:
-*   Author: Chris Halls <chris.halls@credativ.co.uk>
-*	    Bharath Acharya <abharath@novell.com>
-*   Copyright © 2006 Chris Halls
-*
-* Some DBX bits from libdbx:
-*   Author: David Smith <Dave.S@Earthcorp.Com>
-*    Copyright © 2001 David Smith
-*
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU Lesser General Public
-* License as published by the Free Software Foundation; either
-* version 2 of the License, or (at your option) version 3.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-* Lesser General Public License for more details.
-*
-* You should have received a copy of the GNU Lesser General Public
-* License along with the program; if not, see <http://www.gnu.org/licenses/>
-*
-*/
+ *
+ * Author: David Woodhouse <dwmw2@infradead.org>
+ *
+ * Copyright © 2010 Intel Corporation
+ *
+ * Evolution parts largely lifted from pst-import.c:
+ *   Author: Chris Halls <chris.halls@credativ.co.uk>
+ *	    Bharath Acharya <abharath@novell.com>
+ *   Copyright © 2006 Chris Halls
+ *
+ * Some DBX bits from libdbx:
+ *   Author: David Smith <Dave.S@Earthcorp.Com>
+ *    Copyright © 2001 David Smith
+ *
+ * This program is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+ * for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
