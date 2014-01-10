@@ -134,6 +134,32 @@ e_selectable_select_all (ESelectable *selectable)
 		interface->select_all (selectable);
 }
 
+void
+e_selectable_undo (ESelectable *selectable)
+{
+	ESelectableInterface *interface;
+
+	g_return_if_fail (E_IS_SELECTABLE (selectable));
+
+	interface = E_SELECTABLE_GET_INTERFACE (selectable);
+
+	if (interface->undo != NULL)
+		interface->undo (selectable);
+}
+
+void
+e_selectable_redo (ESelectable *selectable)
+{
+	ESelectableInterface *interface;
+
+	g_return_if_fail (E_IS_SELECTABLE (selectable));
+
+	interface = E_SELECTABLE_GET_INTERFACE (selectable);
+
+	if (interface->redo != NULL)
+		interface->redo (selectable);
+}
+
 GtkTargetList *
 e_selectable_get_copy_target_list (ESelectable *selectable)
 {

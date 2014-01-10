@@ -921,6 +921,11 @@ task_page_fill_widgets (CompEditorPage *page,
 
 	sensitize_widgets (tpage);
 
+	e_widget_undo_reset (priv->summary);
+	e_widget_undo_reset (priv->categories);
+	e_widget_undo_reset (priv->web_page_entry);
+	e_widget_undo_reset (priv->description);
+
 	return TRUE;
 }
 
@@ -2652,6 +2657,7 @@ task_page_construct (TaskPage *tpage,
 	EShell *shell;
 	CompEditor *editor;
 	ESourceRegistry *registry;
+	EFocusTracker *focus_tracker;
 	TaskPagePrivate *priv;
 	GtkComboBox *combo_box;
 	GtkListStore *list_store;
@@ -2661,6 +2667,7 @@ task_page_construct (TaskPage *tpage,
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (tpage));
 	shell = comp_editor_get_shell (editor);
+	focus_tracker = comp_editor_get_focus_tracker (editor);
 
 	priv = tpage->priv;
 	priv->meeting_store = g_object_ref (meeting_store);
@@ -2684,6 +2691,10 @@ task_page_construct (TaskPage *tpage,
 	}
 
 	e_spell_text_view_attach (GTK_TEXT_VIEW (priv->description));
+	e_widget_undo_attach (priv->summary, focus_tracker);
+	e_widget_undo_attach (priv->categories, focus_tracker);
+	e_widget_undo_attach (priv->web_page_entry, focus_tracker);
+	e_widget_undo_attach (priv->description, focus_tracker);
 
 	combo_box = GTK_COMBO_BOX (priv->organizer);
 	model = gtk_combo_box_get_model (combo_box);

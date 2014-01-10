@@ -223,6 +223,7 @@
 #include <e-util/e-web-view-gtkhtml.h>
 #include <e-util/e-web-view-preview.h>
 #include <e-util/e-web-view.h>
+#include <e-util/e-widget-undo.h>
 #include <e-util/e-xml-utils.h>
 #include <e-util/ea-cell-table.h>
 #include <e-util/ea-factory.h>

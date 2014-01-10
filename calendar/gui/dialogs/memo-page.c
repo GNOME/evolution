@@ -374,6 +374,10 @@ memo_page_fill_widgets (CompEditorPage *page,
 
 	sensitize_widgets (mpage);
 
+	e_widget_undo_reset (priv->summary_entry);
+	e_widget_undo_reset (priv->categories);
+	e_widget_undo_reset (priv->memo_content);
+
 	return TRUE;
 }
 
@@ -1213,11 +1217,13 @@ memo_page_construct (MemoPage *mpage)
 	CompEditor *editor;
 	CompEditorFlags flags;
 	ESourceRegistry *registry;
+	EFocusTracker *focus_tracker;
 	EClientCache *client_cache;
 
 	priv = mpage->priv;
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (mpage));
+	focus_tracker = comp_editor_get_focus_tracker (editor);
 
 	flags = comp_editor_get_flags (editor);
 	shell = comp_editor_get_shell (editor);
@@ -1241,6 +1247,9 @@ memo_page_construct (MemoPage *mpage)
 	}
 
 	e_spell_text_view_attach (GTK_TEXT_VIEW (priv->memo_content));
+	e_widget_undo_attach (priv->summary_entry, focus_tracker);
+	e_widget_undo_attach (priv->categories, focus_tracker);
+	e_widget_undo_attach (priv->memo_content, focus_tracker);
 
 	if (flags & COMP_EDITOR_IS_SHARED) {
 		GtkComboBox *combo_box;

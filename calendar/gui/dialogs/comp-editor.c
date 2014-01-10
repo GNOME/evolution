@@ -158,6 +158,9 @@ static const gchar *ui =
 "      <menuitem action='close'/>"
 "    </menu>"
 "    <menu action='edit-menu'>"
+"      <menuitem action='undo'/>"
+"      <menuitem action='redo'/>"
+"      <separator/>"
 "      <menuitem action='cut-clipboard'/>"
 "      <menuitem action='copy-clipboard'/>"
 "      <menuitem action='paste-clipboard'/>"
@@ -178,6 +181,9 @@ static const gchar *ui =
 "    <toolitem action='save-and-close'/>\n"
 "    <toolitem action='save'/>\n"
 "    <toolitem action='print'/>\n"
+"    <separator/>"
+"    <toolitem action='undo'/>"
+"    <toolitem action='redo'/>"
 "    <separator/>"
 "    <placeholder name='content'/>\n"
 "  </toolbar>"
@@ -1288,6 +1294,21 @@ static GtkActionEntry core_entries[] = {
 	  N_("Select all text"),
 	  NULL },  /* Handled by EFocusTracker */
 
+	{ "undo",
+	  GTK_STOCK_UNDO,
+	  NULL,
+	  "<Control>z",
+	  N_("Undo"),
+	  NULL },  /* Handled by EFocusTracker */
+
+	{ "redo",
+	  GTK_STOCK_REDO,
+	  NULL,
+	  "<Control>y",
+	  N_("Redo"),
+	  NULL },  /* Handled by EFocusTracker */
+
+
 	/* Menus */
 
 	{ "classification-menu",
@@ -2198,6 +2219,12 @@ comp_editor_init (CompEditor *editor)
 
 	action = comp_editor_get_action (editor, "select-all");
 	e_focus_tracker_set_select_all_action (focus_tracker, action);
+
+	action = comp_editor_get_action (editor, "undo");
+	e_focus_tracker_set_undo_action (focus_tracker, action);
+
+	action = comp_editor_get_action (editor, "redo");
+	e_focus_tracker_set_redo_action (focus_tracker, action);
 
 	priv->focus_tracker = focus_tracker;
 

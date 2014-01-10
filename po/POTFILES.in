@@ -279,6 +279,7 @@ e-util/e-tree.c
 e-util/e-url-entry.c
 e-util/e-web-view-gtkhtml.c
 e-util/e-web-view.c
+e-util/e-widget-undo.c
 e-util/ea-calendar-item.c
 e-util/evolution-source-viewer.c
 e-util/filter.error.xml

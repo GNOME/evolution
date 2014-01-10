@@ -1384,6 +1384,11 @@ event_page_fill_widgets (CompEditorPage *page,
 
 	sensitize_widgets (epage);
 
+	e_widget_undo_reset (priv->summary);
+	e_widget_undo_reset (priv->location);
+	e_widget_undo_reset (priv->categories);
+	e_widget_undo_reset (priv->description);
+
 	return validated;
 }
 
@@ -3585,6 +3590,7 @@ event_page_construct (EventPage *epage,
 	EShell *shell;
 	CompEditor *editor;
 	ESourceRegistry *registry;
+	EFocusTracker *focus_tracker;
 	GtkComboBox *combo_box;
 	GtkListStore *list_store;
 	GtkTreeModel *model;
@@ -3593,6 +3599,7 @@ event_page_construct (EventPage *epage,
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (epage));
 	shell = comp_editor_get_shell (editor);
+	focus_tracker = comp_editor_get_focus_tracker (editor);
 
 	priv = epage->priv;
 	priv->meeting_store = g_object_ref (meeting_store);
@@ -3614,6 +3621,10 @@ event_page_construct (EventPage *epage,
 	}
 
 	e_spell_text_view_attach (GTK_TEXT_VIEW (priv->description));
+	e_widget_undo_attach (priv->summary, focus_tracker);
+	e_widget_undo_attach (priv->location, focus_tracker);
+	e_widget_undo_attach (priv->categories, focus_tracker);
+	e_widget_undo_attach (priv->description, focus_tracker);
 
 	/* Create entry completion and attach it to the entry */
 	priv->location_completion = gtk_entry_completion_new ();

@@ -62,6 +62,8 @@ struct _ESelectableInterface {
 	void		(*paste_clipboard)	(ESelectable *selectable);
 	void		(*delete_selection)	(ESelectable *selectable);
 	void		(*select_all)		(ESelectable *selectable);
+	void		(*undo)			(ESelectable *selectable);
+	void		(*redo)			(ESelectable *selectable);
 };
 
 GType		e_selectable_get_type		(void) G_GNUC_CONST;
@@ -74,6 +76,8 @@ void		e_selectable_copy_clipboard	(ESelectable *selectable);
 void		e_selectable_paste_clipboard	(ESelectable *selectable);
 void		e_selectable_delete_selection	(ESelectable *selectable);
 void		e_selectable_select_all		(ESelectable *selectable);
+void		e_selectable_undo		(ESelectable *selectable);
+void		e_selectable_redo		(ESelectable *selectable);
 GtkTargetList *	e_selectable_get_copy_target_list
 						(ESelectable *selectable);
 GtkTargetList *	e_selectable_get_paste_target_list

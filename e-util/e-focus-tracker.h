@@ -90,6 +90,12 @@ GtkAction *	e_focus_tracker_get_select_all_action
 void		e_focus_tracker_set_select_all_action
 						(EFocusTracker *focus_tracker,
 						 GtkAction *select_all);
+GtkAction *	e_focus_tracker_get_undo_action	(EFocusTracker *focus_tracker);
+void		e_focus_tracker_set_undo_action	(EFocusTracker *focus_tracker,
+						 GtkAction *undo);
+GtkAction *	e_focus_tracker_get_redo_action	(EFocusTracker *focus_tracker);
+void		e_focus_tracker_set_redo_action	(EFocusTracker *focus_tracker,
+						 GtkAction *redo);
 void		e_focus_tracker_update_actions	(EFocusTracker *focus_tracker);
 void		e_focus_tracker_cut_clipboard	(EFocusTracker *focus_tracker);
 void		e_focus_tracker_copy_clipboard	(EFocusTracker *focus_tracker);
@@ -97,6 +103,8 @@ void		e_focus_tracker_paste_clipboard	(EFocusTracker *focus_tracker);
 void		e_focus_tracker_delete_selection
 						(EFocusTracker *focus_tracker);
 void		e_focus_tracker_select_all	(EFocusTracker *focus_tracker);
+void		e_focus_tracker_undo		(EFocusTracker *focus_tracker);
+void		e_focus_tracker_redo		(EFocusTracker *focus_tracker);
 
 G_END_DECLS
 

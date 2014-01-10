@@ -27,6 +27,7 @@
 #include <glib/gi18n-lib.h>
 
 #include "e-selectable.h"
+#include "e-widget-undo.h"
 
 #define E_FOCUS_TRACKER_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -41,6 +42,8 @@ struct _EFocusTrackerPrivate {
 	GtkAction *paste_clipboard;
 	GtkAction *delete_selection;
 	GtkAction *select_all;
+	GtkAction *undo;
+	GtkAction *redo;
 };
 
 enum {
@@ -51,7 +54,9 @@ enum {
 	PROP_COPY_CLIPBOARD_ACTION,
 	PROP_PASTE_CLIPBOARD_ACTION,
 	PROP_DELETE_SELECTION_ACTION,
-	PROP_SELECT_ALL_ACTION
+	PROP_SELECT_ALL_ACTION,
+	PROP_UNDO_ACTION,
+	PROP_REDO_ACTION
 };
 
 G_DEFINE_TYPE (
@@ -83,6 +88,55 @@ focus_tracker_disable_actions (EFocusTracker *focus_tracker)
 	action = e_focus_tracker_get_select_all_action (focus_tracker);
 	if (action != NULL)
 		gtk_action_set_sensitive (action, FALSE);
+
+	action = e_focus_tracker_get_undo_action (focus_tracker);
+	if (action != NULL)
+		gtk_action_set_sensitive (action, FALSE);
+
+	action = e_focus_tracker_get_redo_action (focus_tracker);
+	if (action != NULL)
+		gtk_action_set_sensitive (action, FALSE);
+}
+
+static void
+focus_tracker_update_undo_redo (EFocusTracker *focus_tracker,
+				GtkWidget *widget,
+				gboolean can_edit_text)
+{
+	GtkAction *action;
+	gboolean sensitive;
+
+	action = e_focus_tracker_get_undo_action (focus_tracker);
+	if (action != NULL) {
+		sensitive = can_edit_text && widget && e_widget_undo_has_undo (widget);
+		gtk_action_set_sensitive (action, sensitive);
+
+		if (sensitive) {
+			gchar *description;
+
+			description = e_widget_undo_describe_undo (widget);
+			gtk_action_set_tooltip (action, description);
+			g_free (description);
+		} else {
+			gtk_action_set_tooltip (action, _("Undo"));
+		}
+	}
+
+	action = e_focus_tracker_get_redo_action (focus_tracker);
+	if (action != NULL) {
+		sensitive = can_edit_text && widget && e_widget_undo_has_redo (widget);
+		gtk_action_set_sensitive (action, sensitive);
+
+		if (sensitive) {
+			gchar *description;
+
+			description = e_widget_undo_describe_redo (widget);
+			gtk_action_set_tooltip (action, description);
+			g_free (description);
+		} else {
+			gtk_action_set_tooltip (action, _("Redo"));
+		}
+	}
 }
 
 static void
@@ -140,6 +194,65 @@ focus_tracker_editable_update_actions (EFocusTracker *focus_tracker,
 		gtk_action_set_sensitive (action, sensitive);
 		gtk_action_set_tooltip (action, _("Select all text"));
 	}
+
+	focus_tracker_update_undo_redo (focus_tracker, GTK_WIDGET (editable), can_edit_text);
+}
+
+
+static void
+focus_tracker_text_view_update_actions (EFocusTracker *focus_tracker,
+					GtkTextView *text_view,
+					GdkAtom *targets,
+					gint n_targets)
+{
+	GtkAction *action;
+	GtkTextBuffer *buffer;
+	gboolean can_edit_text;
+	gboolean clipboard_has_text;
+	gboolean text_is_selected;
+	gboolean sensitive;
+
+	buffer = gtk_text_view_get_buffer (text_view);
+	can_edit_text = gtk_text_view_get_editable (text_view);
+	clipboard_has_text = (targets != NULL) && gtk_targets_include_text (targets, n_targets);
+	text_is_selected = gtk_text_buffer_get_selection_bounds (buffer, NULL, NULL);
+
+	action = e_focus_tracker_get_cut_clipboard_action (focus_tracker);
+	if (action != NULL) {
+		sensitive = can_edit_text && text_is_selected;
+		gtk_action_set_sensitive (action, sensitive);
+		gtk_action_set_tooltip (action, _("Cut the selection"));
+	}
+
+	action = e_focus_tracker_get_copy_clipboard_action (focus_tracker);
+	if (action != NULL) {
+		sensitive = text_is_selected;
+		gtk_action_set_sensitive (action, sensitive);
+		gtk_action_set_tooltip (action, _("Copy the selection"));
+	}
+
+	action = e_focus_tracker_get_paste_clipboard_action (focus_tracker);
+	if (action != NULL) {
+		sensitive = can_edit_text && clipboard_has_text;
+		gtk_action_set_sensitive (action, sensitive);
+		gtk_action_set_tooltip (action, _("Paste the clipboard"));
+	}
+
+	action = e_focus_tracker_get_delete_selection_action (focus_tracker);
+	if (action != NULL) {
+		sensitive = can_edit_text && text_is_selected;
+		gtk_action_set_sensitive (action, sensitive);
+		gtk_action_set_tooltip (action, _("Delete the selection"));
+	}
+
+	action = e_focus_tracker_get_select_all_action (focus_tracker);
+	if (action != NULL) {
+		sensitive = TRUE;  /* always enabled */
+		gtk_action_set_sensitive (action, sensitive);
+		gtk_action_set_tooltip (action, _("Select all text"));
+	}
+
+	focus_tracker_update_undo_redo (focus_tracker, GTK_WIDGET (text_view), can_edit_text);
 }
 
 static void
@@ -181,6 +294,14 @@ focus_tracker_selectable_update_actions (EFocusTracker *focus_tracker,
 	action = e_focus_tracker_get_select_all_action (focus_tracker);
 	if (action != NULL && interface->select_all == NULL)
 		gtk_action_set_sensitive (action, FALSE);
+
+	action = e_focus_tracker_get_undo_action (focus_tracker);
+	if (action != NULL && interface->undo == NULL)
+		gtk_action_set_sensitive (action, FALSE);
+
+	action = e_focus_tracker_get_redo_action (focus_tracker);
+	if (action != NULL && interface->redo == NULL)
+		gtk_action_set_sensitive (action, FALSE);
 }
 
 static void
@@ -196,15 +317,21 @@ focus_tracker_targets_received_cb (GtkClipboard *clipboard,
 	if (focus == NULL)
 		focus_tracker_disable_actions (focus_tracker);
 
+	else if (E_IS_SELECTABLE (focus))
+		focus_tracker_selectable_update_actions (
+			focus_tracker, E_SELECTABLE (focus),
+			targets, n_targets);
+
 	else if (GTK_IS_EDITABLE (focus))
 		focus_tracker_editable_update_actions (
 			focus_tracker, GTK_EDITABLE (focus),
 			targets, n_targets);
 
-	else if (E_IS_SELECTABLE (focus))
-		focus_tracker_selectable_update_actions (
-			focus_tracker, E_SELECTABLE (focus),
+	else if (GTK_IS_TEXT_VIEW (focus))
+		focus_tracker_text_view_update_actions (
+			focus_tracker, GTK_TEXT_VIEW (focus),
 			targets, n_targets);
+
 
 	g_object_unref (focus_tracker);
 }
@@ -215,10 +342,13 @@ focus_tracker_set_focus_cb (GtkWindow *window,
                             EFocusTracker *focus_tracker)
 {
 	while (focus != NULL) {
+		if (E_IS_SELECTABLE (focus))
+			break;
+
 		if (GTK_IS_EDITABLE (focus))
 			break;
 
-		if (E_IS_SELECTABLE (focus))
+		if (GTK_IS_TEXT_VIEW (focus))
 			break;
 
 		focus = gtk_widget_get_parent (focus);
@@ -289,6 +419,18 @@ focus_tracker_set_property (GObject *object,
 				E_FOCUS_TRACKER (object),
 				g_value_get_object (value));
 			return;
+
+		case PROP_UNDO_ACTION:
+			e_focus_tracker_set_undo_action (
+				E_FOCUS_TRACKER (object),
+				g_value_get_object (value));
+			return;
+
+		case PROP_REDO_ACTION:
+			e_focus_tracker_set_redo_action (
+				E_FOCUS_TRACKER (object),
+				g_value_get_object (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -347,6 +489,20 @@ focus_tracker_get_property (GObject *object,
 			g_value_set_object (
 				value,
 				e_focus_tracker_get_select_all_action (
+				E_FOCUS_TRACKER (object)));
+			return;
+
+		case PROP_UNDO_ACTION:
+			g_value_set_object (
+				value,
+				e_focus_tracker_get_undo_action (
+				E_FOCUS_TRACKER (object)));
+			return;
+
+		case PROP_REDO_ACTION:
+			g_value_set_object (
+				value,
+				e_focus_tracker_get_redo_action (
 				E_FOCUS_TRACKER (object)));
 			return;
 	}
@@ -531,6 +687,26 @@ e_focus_tracker_class_init (EFocusTrackerClass *class)
 		g_param_spec_object (
 			"select-all-action",
 			"Select All Action",
+			NULL,
+			GTK_TYPE_ACTION,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_UNDO_ACTION,
+		g_param_spec_object (
+			"undo-action",
+			"Undo Action",
+			NULL,
+			GTK_TYPE_ACTION,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_REDO_ACTION,
+		g_param_spec_object (
+			"redo-action",
+			"Redo Action",
 			NULL,
 			GTK_TYPE_ACTION,
 			G_PARAM_READWRITE));
@@ -787,6 +963,82 @@ e_focus_tracker_set_select_all_action (EFocusTracker *focus_tracker,
 	g_object_notify (G_OBJECT (focus_tracker), "select-all-action");
 }
 
+GtkAction *
+e_focus_tracker_get_undo_action (EFocusTracker *focus_tracker)
+{
+	g_return_val_if_fail (E_IS_FOCUS_TRACKER (focus_tracker), NULL);
+
+	return focus_tracker->priv->undo;
+}
+
+void
+e_focus_tracker_set_undo_action (EFocusTracker *focus_tracker,
+				 GtkAction *undo)
+{
+	g_return_if_fail (E_IS_FOCUS_TRACKER (focus_tracker));
+
+	if (undo != NULL) {
+		g_return_if_fail (GTK_IS_ACTION (undo));
+		g_object_ref (undo);
+	}
+
+	if (focus_tracker->priv->undo != NULL) {
+		g_signal_handlers_disconnect_matched (
+			focus_tracker->priv->undo,
+			G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL,
+			focus_tracker);
+		g_object_unref (focus_tracker->priv->undo);
+	}
+
+	focus_tracker->priv->undo = undo;
+
+	if (undo != NULL)
+		g_signal_connect_swapped (
+			undo, "activate",
+			G_CALLBACK (e_focus_tracker_undo),
+			focus_tracker);
+
+	g_object_notify (G_OBJECT (focus_tracker), "undo-action");
+}
+
+GtkAction *
+e_focus_tracker_get_redo_action (EFocusTracker *focus_tracker)
+{
+	g_return_val_if_fail (E_IS_FOCUS_TRACKER (focus_tracker), NULL);
+
+	return focus_tracker->priv->redo;
+}
+
+void
+e_focus_tracker_set_redo_action (EFocusTracker *focus_tracker,
+				 GtkAction *redo)
+{
+	g_return_if_fail (E_IS_FOCUS_TRACKER (focus_tracker));
+
+	if (redo != NULL) {
+		g_return_if_fail (GTK_IS_ACTION (redo));
+		g_object_ref (redo);
+	}
+
+	if (focus_tracker->priv->redo != NULL) {
+		g_signal_handlers_disconnect_matched (
+			focus_tracker->priv->redo,
+			G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL,
+			focus_tracker);
+		g_object_unref (focus_tracker->priv->redo);
+	}
+
+	focus_tracker->priv->redo = redo;
+
+	if (redo != NULL)
+		g_signal_connect_swapped (
+			redo, "activate",
+			G_CALLBACK (e_focus_tracker_redo),
+			focus_tracker);
+
+	g_object_notify (G_OBJECT (focus_tracker), "redo-action");
+}
+
 void
 e_focus_tracker_update_actions (EFocusTracker *focus_tracker)
 {
@@ -813,11 +1065,21 @@ e_focus_tracker_cut_clipboard (EFocusTracker *focus_tracker)
 
 	focus = e_focus_tracker_get_focus (focus_tracker);
 
-	if (GTK_IS_EDITABLE (focus))
+	if (E_IS_SELECTABLE (focus))
+		e_selectable_cut_clipboard (E_SELECTABLE (focus));
+
+	else if (GTK_IS_EDITABLE (focus))
 		gtk_editable_cut_clipboard (GTK_EDITABLE (focus));
 
-	else if (E_IS_SELECTABLE (focus))
-		e_selectable_cut_clipboard (E_SELECTABLE (focus));
+	else if (GTK_IS_TEXT_VIEW (focus)) {
+		GtkTextView *text_view = GTK_TEXT_VIEW (focus);
+		GtkTextBuffer *buffer = gtk_text_view_get_buffer (text_view);
+		gboolean is_editable = gtk_text_view_get_editable (text_view);
+
+		gtk_text_buffer_cut_clipboard (buffer,
+			gtk_widget_get_clipboard (focus, GDK_SELECTION_CLIPBOARD),
+			is_editable);
+	}
 }
 
 void
@@ -829,11 +1091,18 @@ e_focus_tracker_copy_clipboard (EFocusTracker *focus_tracker)
 
 	focus = e_focus_tracker_get_focus (focus_tracker);
 
-	if (GTK_IS_EDITABLE (focus))
+	if (E_IS_SELECTABLE (focus))
+		e_selectable_copy_clipboard (E_SELECTABLE (focus));
+
+	else if (GTK_IS_EDITABLE (focus))
 		gtk_editable_copy_clipboard (GTK_EDITABLE (focus));
 
-	else if (E_IS_SELECTABLE (focus))
-		e_selectable_copy_clipboard (E_SELECTABLE (focus));
+	else if (GTK_IS_TEXT_VIEW (focus)) {
+		GtkTextBuffer *buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (focus));
+
+		gtk_text_buffer_copy_clipboard (buffer,
+			gtk_widget_get_clipboard (focus, GDK_SELECTION_CLIPBOARD));
+	}
 }
 
 void
@@ -845,11 +1114,21 @@ e_focus_tracker_paste_clipboard (EFocusTracker *focus_tracker)
 
 	focus = e_focus_tracker_get_focus (focus_tracker);
 
-	if (GTK_IS_EDITABLE (focus))
+	if (E_IS_SELECTABLE (focus))
+		e_selectable_paste_clipboard (E_SELECTABLE (focus));
+
+	else if (GTK_IS_EDITABLE (focus))
 		gtk_editable_paste_clipboard (GTK_EDITABLE (focus));
 
-	else if (E_IS_SELECTABLE (focus))
-		e_selectable_paste_clipboard (E_SELECTABLE (focus));
+	else if (GTK_IS_TEXT_VIEW (focus)) {
+		GtkTextView *text_view = GTK_TEXT_VIEW (focus);
+		GtkTextBuffer *buffer = gtk_text_view_get_buffer (text_view);
+		gboolean is_editable = gtk_text_view_get_editable (text_view);
+
+		gtk_text_buffer_paste_clipboard (buffer,
+			gtk_widget_get_clipboard (focus, GDK_SELECTION_CLIPBOARD),
+			NULL, is_editable);
+	}
 }
 
 void
@@ -861,11 +1140,19 @@ e_focus_tracker_delete_selection (EFocusTracker *focus_tracker)
 
 	focus = e_focus_tracker_get_focus (focus_tracker);
 
-	if (GTK_IS_EDITABLE (focus))
+	if (E_IS_SELECTABLE (focus))
+		e_selectable_delete_selection (E_SELECTABLE (focus));
+
+	else if (GTK_IS_EDITABLE (focus))
 		gtk_editable_delete_selection (GTK_EDITABLE (focus));
 
-	else if (E_IS_SELECTABLE (focus))
-		e_selectable_delete_selection (E_SELECTABLE (focus));
+	else if (GTK_IS_TEXT_VIEW (focus)) {
+		GtkTextView *text_view = GTK_TEXT_VIEW (focus);
+		GtkTextBuffer *buffer = gtk_text_view_get_buffer (text_view);
+		gboolean is_editable = gtk_text_view_get_editable (text_view);
+
+		gtk_text_buffer_delete_selection (buffer, TRUE, is_editable);
+	}
 }
 
 void
@@ -877,9 +1164,47 @@ e_focus_tracker_select_all (EFocusTracker *focus_tracker)
 
 	focus = e_focus_tracker_get_focus (focus_tracker);
 
-	if (GTK_IS_EDITABLE (focus))
+	if (E_IS_SELECTABLE (focus))
+		e_selectable_select_all (E_SELECTABLE (focus));
+
+	else if (GTK_IS_EDITABLE (focus))
 		gtk_editable_select_region (GTK_EDITABLE (focus), 0, -1);
 
-	else if (E_IS_SELECTABLE (focus))
-		e_selectable_select_all (E_SELECTABLE (focus));
+	else if (GTK_IS_TEXT_VIEW (focus)) {
+		GtkTextBuffer *buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (focus));
+		GtkTextIter start, end;
+
+		gtk_text_buffer_get_bounds (buffer, &start, &end);
+		gtk_text_buffer_select_range (buffer, &start, &end);
+	}
+}
+
+void
+e_focus_tracker_undo (EFocusTracker *focus_tracker)
+{
+	GtkWidget *focus;
+
+	g_return_if_fail (E_IS_FOCUS_TRACKER (focus_tracker));
+
+	focus = e_focus_tracker_get_focus (focus_tracker);
+
+	if (E_IS_SELECTABLE (focus))
+		e_selectable_undo (E_SELECTABLE (focus));
+	else
+		e_widget_undo_do_undo (focus);
+}
+
+void
+e_focus_tracker_redo (EFocusTracker *focus_tracker)
+{
+	GtkWidget *focus;
+
+	g_return_if_fail (E_IS_FOCUS_TRACKER (focus_tracker));
+
+	focus = e_focus_tracker_get_focus (focus_tracker);
+
+	if (E_IS_SELECTABLE (focus))
+		e_selectable_redo (E_SELECTABLE (focus));
+	else
+		e_widget_undo_do_redo (focus);
 }

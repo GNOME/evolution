@@ -45,58 +45,12 @@ G_BEGIN_DECLS
 
 typedef struct _EContactEditor       EContactEditor;
 typedef struct _EContactEditorClass  EContactEditorClass;
+typedef struct _EContactEditorPrivate EContactEditorPrivate;
 
 struct _EContactEditor
 {
 	EABEditor object;
-
-	/* item specific fields */
-	EBookClient *source_client;
-	EBookClient *target_client;
-	EContact *contact;
-
-	GtkBuilder *builder;
-	GtkWidget *app;
-
-	GtkWidget *file_selector;
-
-	EContactName *name;
-
-	/* Whether we are editing a new contact or an existing one */
-	guint is_new_contact : 1;
-
-	/* Whether an image is associated with a contact. */
-	guint image_set : 1;
-
-	/* Whether the contact has been changed since bringing up the contact editor */
-	guint changed : 1;
-
-	/* Wheter should check for contact to merge. Only when name or email are changed */
-	guint check_merge : 1;
-
-	/* Whether the contact editor will accept modifications, save */
-	guint target_editable : 1;
-
-	/* Whether an async wombat call is in progress */
-	guint in_async_call : 1;
-
-	/* Whether an image is changed */
-	guint image_changed : 1;
-
-	/* Whether to try to reduce space used */
-	guint compress_ui : 1;
-
-	GSList *writable_fields;
-
-	GSList *required_fields;
-
-	GCancellable *cancellable;
-
-	/* signal ids for "writable_status" */
-	gint target_editable_id;
-
-	GtkWidget *fullname_dialog;
-	GtkWidget *categories_dialog;
+	EContactEditorPrivate *priv;
 };
 
 struct _EContactEditorClass

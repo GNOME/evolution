@@ -307,6 +307,7 @@ evolution_util_include_HEADERS =  \
 	e-web-view-gtkhtml.h \
 	e-web-view-preview.h \
 	e-web-view.h \
+	e-widget-undo.h \
 	e-xml-utils.h \
 	ea-calendar-cell.h \
 	ea-calendar-item.h \
@@ -548,6 +549,7 @@ libevolution_util_la_SOURCES = \
 	e-web-view-gtkhtml.c \
 	e-web-view-preview.c \
 	e-web-view.c \
+	e-widget-undo.c \
 	e-xml-utils.c \
 	ea-calendar-cell.c \
 	ea-calendar-item.c \
