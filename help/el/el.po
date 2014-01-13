@@ -1,20 +1,20 @@
 # Greek translation of Evolution User Guide
 # Μάριος Ζηντίλης <m.zindilis@dmajor.org>, 2009.
 # Marios Zindilis <m.zindilis@dmajor.org>, 2010.
-# Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>, 2012, 2013.
+# Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>, 2012, 2013, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: el\n"
-"POT-Creation-Date: 2013-11-20 20:58+0000\n"
-"PO-Revision-Date: 2013-11-21 07:10+0300\n"
+"POT-Creation-Date: 2014-01-10 16:59+0000\n"
+"PO-Revision-Date: 2014-01-11 17:40+0300\n"
 "Last-Translator: Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>\n"
-"Language-Team: team@lists.gnome.gr\n"
+"Language-Team: www.gnome.gr\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Virtaal 0.7.0\n"
+"X-Generator: Virtaal 0.7.1\n"
 
 # #-#-#-#-#  gnome-power-manager.HEAD.el.po (el)  #-#-#-#-#
 # #-#-#-#-#  nautilus.HEAD.el.po (el)  #-#-#-#-#
@@ -39,7 +39,7 @@ msgstr ""
 msgctxt "_"
 msgid "translator-credits"
 msgstr ""
-"Δημήτρης Σπίγγος <dmtrs32@gmail.com>, 2012, 2013\n"
+"Δημήτρης Σπίγγος <dmtrs32@gmail.com>, 2012, 2013, 2014\n"
 "Φώτης Τσάμης <ftsamis@gmail.com>\n"
 "Μάριος Ζηντίλης <m.zindilis@dmajor.org>"
 
@@ -254,22 +254,22 @@ msgstr ""
 "να επαναφέρετε τα δεδομένα του Evolution από εφεδρικό αρχείο."
 
 #. (itstool) path: info/desc
-#: C/calendar-alarms-and-reminders.page:5
+#: C/calendar-alarms-and-reminders.page:7
 msgid "Setting up reminder notifications for appointments."
 msgstr "Ορισμός ειδοποιήσεων υπενθύμισης για ραντεβού."
 
 #. (itstool) path: page/title
-#: C/calendar-alarms-and-reminders.page:23
+#: C/calendar-alarms-and-reminders.page:25
 msgid "Reminders for appointments"
 msgstr "Υπενθυμίσεις συναντήσεων"
 
 #. (itstool) path: section/title
-#: C/calendar-alarms-and-reminders.page:26
+#: C/calendar-alarms-and-reminders.page:28
 msgid "General Settings"
 msgstr "Γενικές ρυθμίσεις"
 
 #. (itstool) path: section/p
-#: C/calendar-alarms-and-reminders.page:28
+#: C/calendar-alarms-and-reminders.page:30
 msgid ""
 "Under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Calendar and Tasks</"
 "gui><gui>Reminders</gui></guiseq> you can select those calendars for which "
@@ -285,13 +285,23 @@ msgstr ""
 "αυτό το ημερολόγιο. Μπορείτε επίσης να ορίσετε εάν θα εμφανιστεί μια "
 "υπενθύμιση για κάθε συνάντηση και για κάθε γενέθλια και επέτειο."
 
-#. (itstool) path: section/title
+#. (itstool) path: when/p
 #: C/calendar-alarms-and-reminders.page:33
+msgid ""
+"For general information on displaying reminders, please see <link href="
+"\"help:gnome-help/shell-notifications\">the GNOME Desktop Help</link>."
+msgstr ""
+"Για γενικές πληροφορίες στην εμφάνιση υπενθυμίσεων, παρακαλούμε δείτε <link "
+"href=\"help:gnome-help/shell-notifications\">βοήθεια επιφάνειας εργασίας "
+"GNOME</link>."
+
+#. (itstool) path: section/title
+#: C/calendar-alarms-and-reminders.page:40
 msgid "Manual Reminders"
 msgstr "Χειροκίνητες υπενθυμίσεις"
 
 #. (itstool) path: section/p
-#: C/calendar-alarms-and-reminders.page:35
+#: C/calendar-alarms-and-reminders.page:42
 msgid ""
 "Apart from the general settings you can also set up reminders in the "
 "appointment editor for certain appointments only:"
@@ -300,7 +310,7 @@ msgstr ""
 "επεξεργαστή συναντήσεων για συγκεκριμένες συναντήσεις μόνο:"
 
 #. (itstool) path: item/p
-#: C/calendar-alarms-and-reminders.page:37
+#: C/calendar-alarms-and-reminders.page:44
 msgid ""
 "Click <guiseq><gui>Options</gui><gui>Reminders</gui></guiseq> or press the "
 "Reminder button in the toolbar."
@@ -309,7 +319,7 @@ msgstr ""
 "πατήστε το κουμπί υπενθύμισης στην εργαλειοθήκη."
 
 #. (itstool) path: item/p
-#: C/calendar-alarms-and-reminders.page:38
+#: C/calendar-alarms-and-reminders.page:45
 msgid ""
 "From the dropdown menu, choose either one of the available default options "
 "when to show a notification reminder, or choose <gui>Customize</gui>."
@@ -319,7 +329,7 @@ msgstr ""
 "<gui>προσαρμογή</gui>."
 
 #. (itstool) path: item/p
-#: C/calendar-alarms-and-reminders.page:40
+#: C/calendar-alarms-and-reminders.page:46
 msgid ""
 "In case of <gui>Customize</gui>, the reminder can be a popup, a sound "
 "played, or a program ran. You can also define whether the reminder should be "
