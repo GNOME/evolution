@@ -1,4 +1,35 @@
-Evolution 3.11.2 2013-12-16
+Evolution 3.11.4 2014-01-13
+---------------------------
+
+Bugs Fixed:
+	Bug 333184 - Add Undo support to component editors (Milan Crha)
+	Bug 677300 - Add 3 px padding above and below the searchbar
+	             (Matthew Barnes)
+	Bug 721545 - License text contains obsolete FSF postal address
+	             (Matthew Barnes)
+
+Other Changes:
+	* configure.ac: Update PACKAGE_URL to Evolution wiki. (Matthew Barnes)
+	* Update copyright year in About dialog. (Matthew Barnes)
+
+Translations:
+	Nilamdyuti Goswami (as)
+	Marek Černocký (cs)
+	Christian Kirbach (de)
+	Dimitris Spingos (el)
+	Daniel Mustieles (es)
+	Fran Diéguez (gl)
+	Andika Triwidada (id)
+	Rafael Ferreira (pt_BR)
+	Stas Solovey (ru)
+	Marián Čavojský (sk)
+	Krishnababu Krothapalli (te)
+	Victor Ibragimov (tg)
+	Wylmer Wang (zh_CN)
+	Chao-Hsiung Liao (zh_HK)
+
+
+Evolution 3.11.3 2013-12-16
 ---------------------------
 
 Highlights:
