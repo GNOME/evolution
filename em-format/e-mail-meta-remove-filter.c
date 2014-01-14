@@ -43,6 +43,7 @@ remove_meta_tag (CamelMimeFilter *filter,
 	gboolean in_meta = meta_remove->in_meta;
 	gboolean previously_in_meta = meta_remove->in_meta;
 	gboolean charset_meta = FALSE;
+	gboolean backup = FALSE;
 	GString *new_out = NULL;
 	gsize offset = 0;
 
@@ -76,7 +77,15 @@ remove_meta_tag (CamelMimeFilter *filter,
 		}
 
 		/* Meta tags are valid just in head element */
-		if (g_ascii_strncasecmp (inptr, "</head>", 7) == 0) {
+		if (!in_meta && g_ascii_strncasecmp (inptr, "</head>", 7) == 0) {
+			meta_remove->after_head = TRUE;
+			if (end_of_prev_meta)
+				break;
+			else
+				goto copy_input;
+		}
+
+		if (!in_meta && g_ascii_strncasecmp (inptr, "<body", 5) == 0) {
 			meta_remove->after_head = TRUE;
 			if (end_of_prev_meta)
 				break;
@@ -95,17 +104,19 @@ remove_meta_tag (CamelMimeFilter *filter,
 			end_of_prev_meta = inptr;
 			in_meta = FALSE;
 			/* Strip meta tag from input */
-			if (meta_remove->remove_all_meta || (charset_meta)) {
+			if (meta_remove->remove_all_meta || charset_meta) {
 				if (new_out->len == 0 && !previously_in_meta) {
-					/* Copy tags before meta tag */
-					gchar *beginning;
-
 					if (start) {
-						beginning = g_strndup (in, start - in);
-						g_string_append (new_out, beginning);
-						g_free (beginning);
+						/* Copy tags before meta tag */
+						if (start - in > 0) {
+							gchar *beginning;
+
+							beginning = g_strndup (in, start - in);
+							g_string_append (new_out, beginning);
+							g_free (beginning);
+						}
 					} else {
-						/* If meta tag continues from previous buffer 
+						/* If meta tag continues from previous buffer
 						 * just adjust the offset */
 						offset = end_of_prev_meta + 1 - in;
 					}
@@ -154,6 +165,7 @@ remove_meta_tag (CamelMimeFilter *filter,
 	} else if (!end_of_prev_meta) {
 		/* Meta was not found in this buffer */
 		camel_mime_filter_backup (filter, inend - 6, 6);
+		backup = TRUE;
 		goto copy_input;
 	}
 
@@ -167,8 +179,15 @@ remove_meta_tag (CamelMimeFilter *filter,
 	return;
 
  copy_input:
-	*out = (gchar *) in;
-	*outlen = inend - in;
+	if (backup) {
+		gchar *out_backup = g_strndup (in, inend - in - 6);
+		*out = out_backup;
+		*outlen = inend - in - 6;
+		g_free (out_backup);
+	} else {
+		*out = (gchar *) in;
+		*outlen = inend - in;
+	}
 
 	meta_remove->in_meta = in_meta;
 
