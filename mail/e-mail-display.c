@@ -795,22 +795,23 @@ setup_dom_bindings (WebKitWebView *web_view,
 
 	web_extension = e_web_view_get_web_extension_proxy (E_WEB_VIEW (web_view));
 
-	if (display->priv->web_extension_headers_collapsed_signal_id == 0) {
-		display->priv->web_extension_headers_collapsed_signal_id =
-			g_dbus_connection_signal_subscribe (
-				g_dbus_proxy_get_connection (web_extension),
-				g_dbus_proxy_get_name (web_extension),
-				EVOLUTION_WEB_EXTENSION_INTERFACE,
-				"RecurToggled",
-				EVOLUTION_WEB_EXTENSION_OBJECT_PATH,
-				NULL,
-				G_DBUS_SIGNAL_FLAGS_NONE,
-				(GDBusSignalCallback) headers_collapsed_signal_cb,
-				display,
-				NULL);
-	}
 
 	if (web_extension) {
+		if (display->priv->web_extension_headers_collapsed_signal_id == 0) {
+			display->priv->web_extension_headers_collapsed_signal_id =
+				g_dbus_connection_signal_subscribe (
+					g_dbus_proxy_get_connection (web_extension),
+					g_dbus_proxy_get_name (web_extension),
+					EVOLUTION_WEB_EXTENSION_INTERFACE,
+					"RecurToggled",
+					EVOLUTION_WEB_EXTENSION_OBJECT_PATH,
+					NULL,
+					G_DBUS_SIGNAL_FLAGS_NONE,
+					(GDBusSignalCallback) headers_collapsed_signal_cb,
+					display,
+					NULL);
+		}
+
 		g_dbus_proxy_call (
 			web_extension,
 			"EMailDisplayBindDOM",
