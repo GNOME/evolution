@@ -1687,6 +1687,39 @@ hide_date_popup (EDateEdit *dedit)
 	}
 }
 
+/* some locales may not define am/pm equivalents for '%p',
+   thus force 24 hour format for these, otherwise the am/pm
+   time clashes */
+static gboolean
+date_edit_use_24_hour_format (gboolean use_24_hour_format)
+{
+	struct tm tmp_tm = { 0 };
+	gchar buffer[40];
+
+	if (use_24_hour_format)
+		return TRUE;
+
+	/* Fill the struct tm with some sane values. */
+	tmp_tm.tm_year = 2000;
+	tmp_tm.tm_mon = 0;
+	tmp_tm.tm_mday = 1;
+	tmp_tm.tm_sec  = 0;
+	tmp_tm.tm_isdst = 0;
+	tmp_tm.tm_hour = 1;
+	tmp_tm.tm_min  = 0;
+
+	if (e_utf8_strftime (buffer, sizeof (buffer), "%p", &tmp_tm) == 0)
+		return TRUE;
+
+	tmp_tm.tm_hour = 13;
+	tmp_tm.tm_min  = 0;
+
+	if (e_utf8_strftime (buffer, sizeof (buffer), "%p", &tmp_tm) == 0)
+		return TRUE;
+
+	return use_24_hour_format;
+}
+
 /* Clears the time popup and rebuilds it using the lower_hour, upper_hour
  * and use_24_hour_format settings. */
 static void
@@ -1697,7 +1730,8 @@ rebuild_time_popup (EDateEdit *dedit)
 	GtkListStore *list_store;
 	GtkTreeIter iter;
 	gchar buffer[40];
-	struct tm tmp_tm;
+	gboolean use_24_hour_format;
+	struct tm tmp_tm = { 0 };
 	gint hour, min;
 
 	priv = dedit->priv;
@@ -1713,6 +1747,8 @@ rebuild_time_popup (EDateEdit *dedit)
 	tmp_tm.tm_sec  = 0;
 	tmp_tm.tm_isdst = 0;
 
+	use_24_hour_format = date_edit_use_24_hour_format (priv->use_24_hour_format);
+
 	for (hour = priv->lower_hour; hour <= priv->upper_hour; hour++) {
 
 		/* We don't want to display midnight at the end,
@@ -1727,24 +1763,14 @@ rebuild_time_popup (EDateEdit *dedit)
 			tmp_tm.tm_hour = hour;
 			tmp_tm.tm_min  = min;
 
-			if (priv->use_24_hour_format)
-				/* This is a strftime() format.
-				 * %H = hour (0-23), %M = minute. */
-				e_time_format_time (
-					&tmp_tm, 1, 0,
-					buffer, sizeof (buffer));
-			else
-				/* This is a strftime() format.
-				 * %I = hour (1-12), %M = minute,
-				 * %p = am/pm string. */
-				e_time_format_time (
-					&tmp_tm, 0, 0,
-					buffer, sizeof (buffer));
+			e_time_format_time (
+				&tmp_tm, use_24_hour_format, 0,
+				buffer, sizeof (buffer));
 
 			/* For 12-hour am/pm format, we want space padding,
 			 * not zero padding. This can be done with strftime's
 			 * %l, but it's a potentially unportable extension. */
-			if (!priv->use_24_hour_format && buffer[0] == '0')
+			if (use_24_hour_format && buffer[0] == '0')
 				buffer[0] = ' ';
 
 			gtk_list_store_append (list_store, &iter);
@@ -2105,7 +2131,7 @@ e_date_edit_update_time_entry (EDateEdit *dedit)
 	} else {
 		GtkTreeModel *model;
 		GtkTreeIter iter;
-		gboolean valid;
+		gboolean valid, use_24_hour_format;
 		gchar *b;
 
 		/* Set these to reasonable values just in case. */
@@ -2119,21 +2145,15 @@ e_date_edit_update_time_entry (EDateEdit *dedit)
 		tmp_tm.tm_sec = 0;
 		tmp_tm.tm_isdst = -1;
 
-		if (priv->use_24_hour_format)
-			/* This is a strftime() format.
-			 * %H = hour (0-23), %M = minute. */
-			e_time_format_time (
-				&tmp_tm, 1, 0, buffer, sizeof (buffer));
-		else
-			/* This is a strftime() format.
-			 * %I = hour (1-12), %M = minute, %p = am/pm. */
-			e_time_format_time (
-				&tmp_tm, 0, 0, buffer, sizeof (buffer));
+		use_24_hour_format = date_edit_use_24_hour_format (priv->use_24_hour_format);
+
+		e_time_format_time (
+			&tmp_tm, use_24_hour_format, 0, buffer, sizeof (buffer));
 
 		/* For 12-hour am/pm format, we want space padding, not
 		 * zero padding.  This can be done with strftime's %l,
 		 * but it's a potentially unportable extension. */
-		if (!priv->use_24_hour_format && buffer[0] == '0')
+		if (!use_24_hour_format && buffer[0] == '0')
 			buffer[0] = ' ';
 
 		gtk_entry_set_text (GTK_ENTRY (child), buffer);
