@@ -1696,33 +1696,54 @@ e_web_view_selectable_init (ESelectableInterface *interface)
 }
 
 static void
+web_view_process_uri_scheme_finished_cb (EWebView *web_view,
+                                         GAsyncResult *result,
+                                         WebKitURISchemeRequest *request)
+{
+	GError *error = NULL;
+
+	if (!g_task_propagate_boolean (G_TASK (result), &error)) {
+		if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+			g_warning ("URI %s cannot be processed: %s",
+				webkit_uri_scheme_request_get_uri (request),
+				error ? error->message : "Unknown error");
+		}
+		g_object_unref (request);
+		if (error)
+			g_error_free (error);
+	}
+}
+
+static void
 web_view_cid_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
                                      EWebView *web_view)
 {
 }
 
 static void
-web_view_file_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
-                                      EWebView *web_view)
+web_view_process_file_uri_scheme_request (GTask *task,
+                                          gpointer source_object,
+                                          gpointer task_data,
+                                          GCancellable *cancellable)
 {
-	GInputStream *stream;
+	gboolean ret_val = FALSE;
 	const gchar *uri;
 	gchar *content = NULL;
-	gchar *content_type;
-	gchar *filename;
+	gchar *content_type = NULL;
+	gchar *filename = NULL;
+	GInputStream *stream;
 	gsize length = 0;
+	GError *error = NULL;
+	WebKitURISchemeRequest *request = WEBKIT_URI_SCHEME_REQUEST (task_data);
 
-	g_warning ("%s", __FUNCTION__);
 	uri = webkit_uri_scheme_request_get_uri (request);
 
-	filename = g_filename_from_uri (strstr (uri, "file"), NULL, NULL);
+	filename = g_filename_from_uri (strstr (uri, "file"), NULL, &error);
 	if (!filename)
-		return;
+		goto out;
 
-	if (!g_file_get_contents (filename, &content, &length, NULL)) {
-		g_free (filename);
-		return;
-	}
+	if (!g_file_get_contents (filename, &content, &length, &error))
+		goto out;
 
 	content_type = g_content_type_guess (filename, NULL, 0, NULL);
 
@@ -1730,23 +1751,50 @@ web_view_file_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
 
 	webkit_uri_scheme_request_finish (request, stream, length, content_type);
 
+	ret_val = TRUE;
+ out:
 	g_free (content_type);
 	g_free (content);
 	g_free (filename);
-/*	g_object_unref (stream); */
+
+	if (ret_val)
+		g_object_unref (request);
+
+	if (error)
+		g_task_return_error (task, error);
+	else
+		g_task_return_boolean (task, ret_val);
 }
+
+static void
+web_view_file_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
+                                      EWebView *web_view)
+{
+	GTask *task;
+
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	task = g_task_new (
+		web_view, NULL,
+		(GAsyncReadyCallback) web_view_process_uri_scheme_finished_cb,
+		request);
+
+	g_task_set_task_data (task, g_object_ref (request), NULL);
+	g_task_run_in_thread (task, web_view_process_file_uri_scheme_request);
+
+	g_object_unref (task);
+}
+
 static void
 web_view_mail_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
                                       EWebView *web_view)
 {
-	g_warning ("%s", __FUNCTION__);
 }
 
 static void
 web_view_http_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
                                       EWebView *web_view)
 {
-	g_warning ("%s", __FUNCTION__);
 }
 
 static void
@@ -1837,8 +1885,6 @@ web_view_gtk_stock_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
 
 	if (!content_type)
 		content_type = g_strdup ("image/png");
-
-	g_warning ("%s", content_type);
 
 	if (buffer != NULL) {
 		GInputStream *stream;

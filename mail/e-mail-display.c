@@ -1374,6 +1374,25 @@ e_mail_display_class_init (EMailDisplayClass *class)
 }
 
 static void
+mail_display_process_uri_scheme_finished_cb (EMailDisplay *display,
+                                             GAsyncResult *result,
+                                             WebKitURISchemeRequest *request)
+{
+	GError *error = NULL;
+
+	if (!g_task_propagate_boolean (G_TASK (result), &error)) {
+		if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+			g_warning ("URI %s cannot be processed: %s",
+				webkit_uri_scheme_request_get_uri (request),
+				error ? error->message : "Unknown error");
+		}
+		g_object_unref (request);
+		if (error)
+			g_error_free (error);
+	}
+}
+
+static void
 mail_cid_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
                                  EMailDisplay *display)
 {
@@ -1420,13 +1439,32 @@ static void
 mail_http_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
                                   EMailDisplay *display)
 {
+	GTask *task;
+	GCancellable *cancellable;
+
+	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
+
+	cancellable = g_cancellable_new ();
+
+	task = g_task_new (
+		display, cancellable,
+		(GAsyncReadyCallback) mail_display_process_uri_scheme_finished_cb,
+		request);
+
+	g_task_set_task_data (task, g_object_ref (request), NULL);
+	g_task_run_in_thread (task, web_view_process_http_uri_scheme_request);
+
+	g_object_unref (task);
+	g_object_unref (cancellable);
 }
 
 static void
-mail_mail_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
-                                  EMailDisplay *display)
+mail_display_process_mail_uri_scheme_request (GTask *task,
+                                              gpointer source_object,
+                                              gpointer task_data,
+                                              GCancellable *cancellable)
 {
-	GInputStream *stream;
+	GInputStream *stream = NULL;
 	EMailFormatter *formatter;
 	EMailPartList *part_list;
 	CamelStream *output_stream;
@@ -1435,10 +1473,9 @@ mail_mail_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
 	const gchar *val, *uri;
 	const gchar *default_charset, *charset;
 	SoupURI *soup_uri;
-
-	GCancellable *cancellable = NULL;
-
 	EMailFormatterContext context = { 0 };
+	EMailDisplay *display = E_MAIL_DISPLAY (source_object);
+	WebKitURISchemeRequest *request = WEBKIT_URI_SCHEME_REQUEST (task_data);
 
 	uri = webkit_uri_scheme_request_get_uri (request);
 
@@ -1449,13 +1486,16 @@ mail_mail_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
 		camel_debug_end ();
 	}
 
-	if (!part_list)
+	if (!part_list) {
+		g_task_return_boolean (task, FALSE);
 		return;
+	}
 
 	soup_uri = soup_uri_new (uri);
 	if (!soup_uri || !soup_uri->query) {
 		if (soup_uri)
 			soup_uri_free (soup_uri);
+		g_task_return_boolean (task, FALSE);
 		return;
 	}
 	query = soup_form_decode (soup_uri->query);
@@ -1522,7 +1562,8 @@ mail_mail_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
 
 			mime_part = e_mail_part_ref_mime_part (part);
 			dw = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
-			g_return_if_fail (dw);
+			if (!dw)
+				goto no_part;
 
 			camel_data_wrapper_decode_to_stream_sync (
 				dw, output_stream, cancellable, NULL);
@@ -1563,11 +1604,144 @@ mail_mail_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
 	stream = g_memory_input_stream_new_from_bytes (
 		g_byte_array_free_to_bytes (byte_array));
 
-	/* FIXME This can be done async */
 	webkit_uri_scheme_request_finish (request, stream, -1, "text/html");
+
 	g_object_unref (stream);
-	g_hash_table_destroy (query);
-	soup_uri_free (soup_uri);
+
+	if (query)
+		g_hash_table_destroy (query);
+
+	if (soup_uri)
+		soup_uri_free (soup_uri);
+
+	g_task_return_boolean (task, TRUE);
+}
+
+static GInputStream *
+get_empty_image_stream (void)
+{
+	GdkPixbuf *pixbuf;
+	gchar *buffer;
+	gsize length;
+
+	pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, 1, 1);
+	gdk_pixbuf_fill (pixbuf, 0x00000000); /* transparent black */
+	gdk_pixbuf_save_to_buffer (pixbuf, &buffer, &length, "png", NULL, NULL);
+	g_object_unref (pixbuf);
+
+	return g_memory_input_stream_new_from_data (buffer, length, g_free);
+}
+
+static void
+mail_display_process_contact_photo_uri_scheme_request (GTask *task,
+                                                       gpointer source_object,
+                                                       gpointer task_data,
+                                                       GCancellable *cancellable)
+{
+	EShell *shell;
+	EShellBackend *shell_backend;
+	EMailBackend *mail_backend;
+	EMailSession *mail_session;
+	EPhotoCache *photo_cache;
+	CamelInternetAddress *cia;
+	GInputStream *stream = NULL;
+	const gchar *uri;
+	const gchar *email_address;
+	const gchar *escaped_string;
+	gchar *unescaped_string;
+	GError *error = NULL;
+	SoupURI *soup_uri;
+	GHashTable *uri_query;
+	WebKitURISchemeRequest *request = WEBKIT_URI_SCHEME_REQUEST (task_data);
+
+	/* XXX Is this really the only way to obtain
+	 *     the mail session instance from here? */
+	shell = e_shell_get_default ();
+	shell_backend = e_shell_get_backend_by_name (shell, "mail");
+	mail_backend = E_MAIL_BACKEND (shell_backend);
+	mail_session = e_mail_backend_get_session (mail_backend);
+
+	photo_cache = e_mail_ui_session_get_photo_cache (
+		E_MAIL_UI_SESSION (mail_session));
+
+	uri = webkit_uri_scheme_request_get_uri (request);
+
+	soup_uri = soup_uri_new (uri);
+	if (!soup_uri || !soup_uri->query)
+		goto exit;
+
+	uri_query = soup_form_decode (soup_uri->query);
+	escaped_string = g_hash_table_lookup (uri_query, "mailaddr");
+	if (escaped_string == NULL || *escaped_string == '\0')
+		goto exit;
+
+	cia = camel_internet_address_new ();
+
+	unescaped_string = g_uri_unescape_string (escaped_string, NULL);
+	camel_address_decode (CAMEL_ADDRESS (cia), unescaped_string);
+	g_free (unescaped_string);
+
+	if (camel_internet_address_get (cia, 0, NULL, &email_address))
+		e_photo_cache_get_photo_sync (
+			photo_cache, email_address,
+			cancellable, &stream, &error);
+
+	g_object_unref (cia);
+
+	/* Ignore cancellations. */
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		g_clear_error (&error);
+	} else if (error != NULL) {
+		g_warning ("%s: %s", G_STRFUNC, error->message);
+		g_clear_error (&error);
+	}
+
+exit:
+	if (!stream)
+		stream = get_empty_image_stream ();
+
+	webkit_uri_scheme_request_finish (request, stream, -1, "image/*");
+
+	g_object_unref (request);
+	g_object_unref (stream);
+
+	if (uri_query)
+		g_hash_table_destroy (uri_query);
+
+	if (soup_uri)
+		soup_uri_free (soup_uri);
+
+	g_task_return_boolean (task, TRUE);
+}
+
+static void
+mail_mail_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
+                                  EMailDisplay *display)
+{
+	GTask *task;
+	GCancellable *cancellable;
+	const gchar *uri;
+
+	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
+
+	cancellable = g_cancellable_new ();
+
+	uri = webkit_uri_scheme_request_get_uri (request);
+
+	task = g_task_new (
+		display, cancellable,
+		(GAsyncReadyCallback) mail_display_process_uri_scheme_finished_cb,
+		request);
+
+	g_task_set_task_data (task, g_object_ref (request), NULL);
+
+	if (g_ascii_strncasecmp (uri, "mail://contact-photo", 20) == 0)
+		g_task_run_in_thread (task, mail_display_process_contact_photo_uri_scheme_request);
+	else
+		g_task_run_in_thread (task, mail_display_process_mail_uri_scheme_request);
+
+	g_object_unref (task);
+	g_object_unref (cancellable);
 }
 
 static void
