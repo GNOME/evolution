@@ -37,6 +37,7 @@
 #include "e-http-request.h"
 #include "e-mail-display-popup-extension.h"
 #include "e-mail-request.h"
+#include "e-mail-ui-session.h"
 #include "em-composer-utils.h"
 #include "em-utils.h"
 
@@ -74,8 +75,6 @@ enum {
 	PROP_MODE,
 	PROP_PART_LIST
 };
-
-static CamelDataCache *emd_global_http_cache = NULL;
 
 static const gchar *ui =
 "<ui>"
@@ -153,29 +152,6 @@ formatter_image_loading_policy_changed_cb (GObject *object,
 		e_mail_display_load_images (display);
 	else
 		e_mail_display_reload (display);
-}
-
-static gboolean
-mail_display_image_exists_in_cache (const gchar *image_uri)
-{
-	gchar *filename;
-	gchar *hash;
-	gboolean exists = FALSE;
-
-	g_return_val_if_fail (emd_global_http_cache != NULL, FALSE);
-
-	hash = g_compute_checksum_for_string (G_CHECKSUM_MD5, image_uri, -1);
-	filename = camel_data_cache_get_filename (
-		emd_global_http_cache, "http", hash);
-
-	if (filename != NULL) {
-		exists = g_file_test (filename, G_FILE_TEST_EXISTS);
-		g_free (filename);
-	}
-
-	g_free (hash);
-
-	return exists;
 }
 
 static void
@@ -1430,9 +1406,377 @@ mail_cid_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
 		g_byte_array_free_to_bytes (byte_array));
 
 	webkit_uri_scheme_request_finish (request, stream, -1, mime_type);
+
 	g_object_unref (mime_part);
 	g_object_unref (stream);
 	g_object_unref (part);
+}
+
+static gssize
+copy_stream_to_stream (CamelStream *input,
+                       GMemoryInputStream *output,
+                       GCancellable *cancellable)
+{
+	gchar *buff;
+	gssize read_len = 0;
+	gssize total_len = 0;
+
+	g_seekable_seek (G_SEEKABLE (input), 0, G_SEEK_SET, cancellable, NULL);
+
+	buff = g_malloc (4096);
+	while ((read_len = camel_stream_read (input, buff, 4096, cancellable, NULL)) > 0) {
+
+		g_memory_input_stream_add_data (output, buff, read_len, g_free);
+
+		total_len += read_len;
+
+		buff = g_malloc (4096);
+	}
+
+	/* Free the last unused buffer */
+	g_free (buff);
+
+	return total_len;
+}
+
+static void
+redirect_handler (SoupMessage *msg,
+                  gpointer user_data)
+{
+	if (SOUP_STATUS_IS_REDIRECTION (msg->status_code)) {
+		SoupSession *soup_session = user_data;
+		SoupURI *new_uri;
+		const gchar *new_loc;
+
+		new_loc = soup_message_headers_get_list (msg->response_headers, "Location");
+		if (!new_loc)
+			return;
+
+		new_uri = soup_uri_new_with_base (soup_message_get_uri (msg), new_loc);
+		if (!new_uri) {
+			soup_message_set_status_full (
+				msg,
+				SOUP_STATUS_MALFORMED,
+				"Invalid Redirect URL");
+			return;
+		}
+
+		soup_message_set_uri (msg, new_uri);
+		soup_session_requeue_message (soup_session, msg);
+
+		soup_uri_free (new_uri);
+	}
+}
+
+static void
+send_and_handle_redirection (SoupSession *session,
+                             SoupMessage *message,
+                             gchar **new_location)
+{
+	gchar *old_uri = NULL;
+
+	g_return_if_fail (message != NULL);
+
+	if (new_location) {
+		old_uri = soup_uri_to_string (soup_message_get_uri (message), FALSE);
+	}
+
+	soup_message_set_flags (message, SOUP_MESSAGE_NO_REDIRECT);
+	soup_message_add_header_handler (
+		message, "got_body", "Location",
+		G_CALLBACK (redirect_handler), session);
+	soup_message_headers_append (message->request_headers, "Connection", "close");
+	soup_session_send_message (session, message);
+
+	if (new_location) {
+		gchar *new_loc = soup_uri_to_string (soup_message_get_uri (message), FALSE);
+
+		if (new_loc && old_uri && !g_str_equal (new_loc, old_uri)) {
+			*new_location = new_loc;
+		} else {
+			g_free (new_loc);
+		}
+	}
+
+	g_free (old_uri);
+}
+
+static void
+web_view_process_http_uri_scheme_request (GTask *task,
+                                          gpointer source_object,
+                                          gpointer task_data,
+                                          GCancellable *cancellable)
+{
+	SoupURI *soup_uri;
+	gchar *evo_uri, *uri;
+	gchar *mail_uri;
+	const gchar *user_cache_dir;
+	const gchar *content_type;
+	GInputStream *stream = NULL;
+	gboolean force_load_images = FALSE;
+	gboolean ret_val = FALSE;
+	EMailImageLoadingPolicy image_policy;
+	gchar *uri_md5;
+	EShell *shell;
+	GSettings *settings;
+	CamelDataCache *cache;
+	CamelStream *cache_stream;
+	GHashTable *query;
+	gint uri_len;
+	WebKitURISchemeRequest *request = WEBKIT_URI_SCHEME_REQUEST (task_data);
+
+	/* Remove the __evo-mail query */
+	soup_uri = soup_uri_new (webkit_uri_scheme_request_get_uri (request));
+
+	if (!soup_uri_get_query (soup_uri)) {
+		g_task_return_boolean (task, FALSE);
+		soup_uri_free (soup_uri);
+		return;
+	}
+
+	query = soup_form_decode (soup_uri_get_query (soup_uri));
+	mail_uri = g_hash_table_lookup (query, "__evo-mail");
+	if (mail_uri)
+		mail_uri = g_strdup (mail_uri);
+
+	g_hash_table_remove (query, "__evo-mail");
+
+	/* Remove __evo-load-images if present (and in such case set
+	 * force_load_images to TRUE) */
+	force_load_images = g_hash_table_remove (query, "__evo-load-images");
+
+	soup_uri_set_query_from_form (soup_uri, query);
+	g_hash_table_unref (query);
+
+	evo_uri = soup_uri_to_string (soup_uri, FALSE);
+
+	if (camel_debug_start ("emformat:requests")) {
+		printf ("%s: looking for '%s'\n", G_STRFUNC, evo_uri);
+		camel_debug_end ();
+	}
+
+	/* Remove the "evo-" prefix from scheme */
+	uri_len = strlen (evo_uri);
+	uri = NULL;
+	if (evo_uri && (uri_len > 5)) {
+		/* Remove trailing "?" if there is no URI query */
+		if (evo_uri[uri_len - 1] == '?') {
+			uri = g_strndup (evo_uri + 4, uri_len - 5);
+		} else {
+			uri = g_strdup (evo_uri + 4);
+		}
+		g_free (evo_uri);
+	}
+
+	if (!uri || !*uri)
+		goto cleanup;
+
+	/* Use MD5 hash of the URI as a filname of the resourec cache file.
+	 * We were previously using the URI as a filename but the URI is
+	 * sometimes too long for a filename. */
+	uri_md5 = g_compute_checksum_for_string (G_CHECKSUM_MD5, uri, -1);
+
+	/* Open Evolution's cache */
+	user_cache_dir = e_get_user_cache_dir ();
+	cache = camel_data_cache_new (user_cache_dir, NULL);
+	if (cache) {
+		camel_data_cache_set_expire_age (cache, 24 * 60 * 60);
+		camel_data_cache_set_expire_access (cache, 2 * 60 * 60);
+	}
+
+	/* Found item in cache! */
+	cache_stream = camel_data_cache_get (cache, "http", uri_md5, NULL);
+	if (cache_stream)
+		goto process;
+
+	/* If the item is not in the cache and Evolution is in offline mode then
+	 * quit regardless any image loading policy */
+	shell = e_shell_get_default ();
+	if (!e_shell_get_online (shell)) {
+		goto cleanup;
+	}
+
+	settings = g_settings_new ("org.gnome.evolution.mail");
+	image_policy = g_settings_get_enum (settings, "image-loading-policy");
+	g_object_unref (settings);
+
+	/* Item not found in cache, but image loading policy allows us to fetch
+	 * it from the interwebs */
+	if (!force_load_images && mail_uri &&
+	    (image_policy == E_MAIL_IMAGE_LOADING_POLICY_SOMETIMES)) {
+		CamelObjectBag *registry;
+		gchar *decoded_uri;
+		EMailPartList *part_list;
+
+		registry = e_mail_part_list_get_registry ();
+		decoded_uri = soup_uri_decode (mail_uri);
+
+		part_list = camel_object_bag_get (registry, decoded_uri);
+		if (part_list) {
+			EShellBackend *shell_backend;
+			EMailBackend *backend;
+			EMailSession *session;
+			CamelInternetAddress *addr;
+			CamelMimeMessage *message;
+			gboolean known_address = FALSE;
+			GError *error = NULL;
+
+			shell_backend =
+				e_shell_get_backend_by_name (shell, "mail");
+			backend = E_MAIL_BACKEND (shell_backend);
+			session = e_mail_backend_get_session (backend);
+
+			message = e_mail_part_list_get_message (part_list);
+			addr = camel_mime_message_get_from (message);
+
+			e_mail_ui_session_check_known_address_sync (
+				E_MAIL_UI_SESSION (session),
+				addr, FALSE, cancellable,
+				&known_address, &error);
+
+			if (error != NULL) {
+				g_warning ("%s: %s", G_STRFUNC, error->message);
+				g_error_free (error);
+			}
+
+			if (known_address)
+				force_load_images = TRUE;
+
+			g_object_unref (part_list);
+		}
+
+		g_free (decoded_uri);
+	}
+
+	if ((image_policy == E_MAIL_IMAGE_LOADING_POLICY_ALWAYS) ||
+	    force_load_images) {
+
+		SoupSession *session;
+		SoupMessage *message;
+		GError *error;
+		EProxy *proxy;
+
+		session = soup_session_sync_new_with_options (
+				SOUP_SESSION_TIMEOUT, 90,
+				NULL);
+
+		proxy = e_proxy_new ();
+		e_proxy_setup_proxy (proxy);
+
+		if (e_proxy_require_proxy_for_uri (proxy, uri)) {
+			SoupURI *proxy_uri;
+
+			proxy_uri = e_proxy_peek_uri_for (proxy, uri);
+
+			g_object_set (session, SOUP_SESSION_PROXY_URI, proxy_uri, NULL);
+		}
+
+		g_clear_object (&proxy);
+
+		message = soup_message_new (SOUP_METHOD_GET, uri);
+		soup_message_headers_append (
+			message->request_headers, "User-Agent", "Evolution/" VERSION);
+
+		send_and_handle_redirection (session, message, NULL);
+
+		if (!SOUP_STATUS_IS_SUCCESSFUL (message->status_code)) {
+			g_warning ("Failed to request %s (code %d)", uri, message->status_code);
+			goto cleanup;
+		}
+
+		/* Write the response body to cache */
+		error = NULL;
+		cache_stream = camel_data_cache_add (cache, "http", uri_md5, &error);
+		if (error != NULL) {
+			g_warning (
+				"Failed to create cache file for '%s': %s",
+				uri, error->message);
+			g_clear_error (&error);
+		} else {
+			camel_stream_write (
+				cache_stream, message->response_body->data,
+				message->response_body->length, cancellable, &error);
+
+			if (error != NULL) {
+				if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+					g_warning (
+						"Failed to write data to cache stream: %s",
+						error->message);
+				g_clear_error (&error);
+				g_object_unref (cache_stream);
+				goto cleanup;
+			}
+
+			g_seekable_seek (G_SEEKABLE (cache_stream), 0, G_SEEK_SET, cancellable, NULL);
+
+		}
+
+		g_object_unref (message);
+		g_object_unref (session);
+	}
+
+ process:
+	if (cache_stream) {
+		gssize len;
+
+		stream = g_memory_input_stream_new ();
+
+		len = copy_stream_to_stream (
+			cache_stream,
+			G_MEMORY_INPUT_STREAM (stream), cancellable);
+
+		camel_stream_close (cache_stream, cancellable, NULL);
+
+		g_object_unref (cache_stream);
+
+		/* When succesfully read some data from cache then
+		 * get mimetype and return the stream to WebKit.
+		 * Otherwise try to fetch the resource again from the network. */
+		if (len > 0) {
+			GFile *file;
+			GFileInfo *info;
+			gchar *path;
+
+			path = camel_data_cache_get_filename (cache, "http", uri_md5);
+			file = g_file_new_for_path (path);
+
+			info = g_file_query_info (
+				file, G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE,
+				0, cancellable, NULL);
+
+			content_type = g_file_info_get_content_type (info);
+
+			webkit_uri_scheme_request_finish (
+				request, stream, len, content_type);
+
+			ret_val = TRUE;
+
+			g_object_unref (request);
+			g_object_unref (stream);
+
+			d (
+				printf ("'%s' found in cache (%d bytes, %s)\n",
+				uri, len, content_type));
+
+			g_object_unref (info);
+			g_object_unref (file);
+			g_free (path);
+		} else {
+			d (printf ("Failed to load '%s' from cache.\n", uri));
+		}
+	}
+ cleanup:
+	if (cache)
+		g_object_unref (cache);
+
+	if (soup_uri)
+		soup_uri_free (soup_uri);
+
+	g_free (uri);
+	g_free (uri_md5);
+	g_free (mail_uri);
+
+	g_task_return_boolean (task, ret_val);
 }
 
 static void
@@ -1754,7 +2098,6 @@ static void
 e_mail_display_init (EMailDisplay *display)
 {
 	GtkUIManager *ui_manager;
-	const gchar *user_cache_dir;
 	GtkActionGroup *actions;
 
 	display->priv = E_MAIL_DISPLAY_GET_PRIVATE (display);
@@ -1810,13 +2153,12 @@ e_mail_display_init (EMailDisplay *display)
 	ui_manager = e_web_view_get_ui_manager (E_WEB_VIEW (display));
 	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, NULL);
 
-/*	e_web_view_register_uri_scheme (
+	e_web_view_register_uri_scheme (
 		E_WEB_VIEW (display), EVO_HTTP_URI_SCHEME,
 		mail_http_uri_scheme_appeared_cb, display);
 	e_web_view_register_uri_scheme (
 		E_WEB_VIEW (display), EVO_HTTPS_URI_SCHEME,
-		mail_http_uri_scheme_appeared_cb, display);*/
-
+		mail_http_uri_scheme_appeared_cb, display);
 	e_web_view_register_uri_scheme (
 		E_WEB_VIEW (display), CID_URI_SCHEME,
 		mail_cid_uri_scheme_appeared_cb, display);
@@ -1833,16 +2175,6 @@ e_mail_display_init (EMailDisplay *display)
 	e_web_view_install_request_handler (
 		E_WEB_VIEW (display), E_TYPE_STOCK_REQUEST);
 #endif
-	if (emd_global_http_cache == NULL) {
-		user_cache_dir = e_get_user_cache_dir ();
-		emd_global_http_cache = camel_data_cache_new (user_cache_dir, NULL);
-
-		/* cache expiry - 2 hour access, 1 day max */
-		camel_data_cache_set_expire_age (
-			emd_global_http_cache, 24 * 60 * 60);
-		camel_data_cache_set_expire_access (
-			emd_global_http_cache, 2 * 60 * 60);
-	}
 }
 
 static void
@@ -2095,7 +2427,7 @@ e_mail_display_load (EMailDisplay *display,
 
 	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
 
-	display->priv->force_image_load = FALSE;
+	e_mail_display_set_force_load_images (display, FALSE);
 
 	part_list = display->priv->part_list;
 	if (part_list == NULL) {
@@ -2300,7 +2632,7 @@ e_mail_display_load_images (EMailDisplay *display)
 {
 	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
 
-	display->priv->force_image_load = TRUE;
+	e_mail_display_set_force_load_images (display, TRUE);
 	e_web_view_reload (E_WEB_VIEW (display));
 }
 
@@ -2308,8 +2640,29 @@ void
 e_mail_display_set_force_load_images (EMailDisplay *display,
                                       gboolean force_load_images)
 {
+	GDBusProxy *web_extension;
+
 	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
 
-	display->priv->force_image_load = force_load_images;
+	web_extension = e_web_view_get_web_extension_proxy (E_WEB_VIEW (display));
+	if (web_extension) {
+		g_dbus_connection_call (
+			g_dbus_proxy_get_connection (web_extension),
+			g_dbus_proxy_get_name (web_extension),
+			EVOLUTION_WEB_EXTENSION_OBJECT_PATH,
+			"org.freedesktop.DBus.Properties",
+			"Set",
+			g_variant_new (
+				"(ssv)",
+				EVOLUTION_WEB_EXTENSION_INTERFACE,
+				"ForceImageLoad",
+				g_variant_new_boolean (force_load_images)),
+			NULL,
+			G_DBUS_CALL_FLAGS_NONE,
+			-1,
+			NULL,
+			NULL,
+			NULL);
+	}
 }
 

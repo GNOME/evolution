@@ -31,6 +31,8 @@
 /* FIXME Clean it */
 static GDBusConnection *dbus_connection;
 static gboolean need_input = FALSE;
+static gboolean force_image_load = FALSE;
+static CamelDataCache *emd_global_http_cache = NULL;
 
 static const char introspection_xml[] =
 "<node>"
@@ -105,8 +107,107 @@ static const char introspection_xml[] =
 "      <arg type='s' name='src' direction='in'/>"
 "    </method>"
 "    <property type='b' name='NeedInput' access='readwrite'/>"
+"    <property type='b' name='ForceImageLoad' access='readwrite'/>"
 "  </interface>"
 "</node>";
+
+static gboolean
+image_exists_in_cache (const gchar *image_uri)
+{
+	gchar *filename;
+	gchar *hash;
+	gboolean exists = FALSE;
+
+	g_return_val_if_fail (emd_global_http_cache != NULL, FALSE);
+
+	hash = g_compute_checksum_for_string (G_CHECKSUM_MD5, image_uri, -1);
+	filename = camel_data_cache_get_filename (
+		emd_global_http_cache, "http", hash);
+
+	if (filename != NULL) {
+		exists = g_file_test (filename, G_FILE_TEST_EXISTS);
+		g_free (filename);
+	}
+
+	g_free (hash);
+
+	return exists;
+}
+
+static EMailImageLoadingPolicy
+get_image_loading_policy (void)
+{
+	GSettings *settings;
+	EMailImageLoadingPolicy image_policy;
+
+	settings = g_settings_new ("org.gnome.evolution.mail");
+	image_policy = g_settings_get_enum (settings, "image-loading-policy");
+	g_object_unref (settings);
+
+	return image_policy;
+}
+
+static void
+redirect_http_uri (WebKitWebPage *web_page,
+                   WebKitURIRequest *request)
+{
+	const gchar *uri, *page_uri;
+	gchar *new_uri, *mail_uri, *enc;
+	SoupURI *soup_uri;
+	GHashTable *query;
+	gboolean image_exists;
+	EMailImageLoadingPolicy image_policy;
+
+	uri = webkit_uri_request_get_uri (request);
+	page_uri = webkit_web_page_get_uri (web_page);
+
+	/* Check Evolution's cache */
+	image_exists = image_exists_in_cache (uri);
+
+	/* If the URI is not cached and we are not allowed to load it
+	 * then redirect to invalid URI, so that webkit would display
+	 * a native placeholder for it. */
+	image_policy = get_image_loading_policy ();
+	if (!image_exists && !force_image_load &&
+	    (image_policy == E_MAIL_IMAGE_LOADING_POLICY_NEVER)) {
+		webkit_uri_request_set_uri (request, "about:blank");
+		return;
+	}
+
+	new_uri = g_strconcat ("evo-", uri, NULL);
+	mail_uri = g_strndup (page_uri, strstr (page_uri, "?") - page_uri);
+
+	soup_uri = soup_uri_new (new_uri);
+	if (soup_uri->query)
+		query = soup_form_decode (soup_uri->query);
+	else
+		query = g_hash_table_new_full (
+			g_str_hash, g_str_equal,
+			g_free, g_free);
+
+	enc = soup_uri_encode (mail_uri, NULL);
+	g_hash_table_insert (query, g_strdup ("__evo-mail"), enc);
+
+	if (force_image_load) {
+		g_hash_table_insert (
+			query,
+			g_strdup ("__evo-load-images"),
+			g_strdup ("true"));
+	}
+
+	g_free (mail_uri);
+
+	soup_uri_set_query_from_form (soup_uri, query);
+	g_free (new_uri);
+
+	new_uri = soup_uri_to_string (soup_uri, FALSE);
+
+	webkit_uri_request_set_uri (request, new_uri);
+
+	soup_uri_free (soup_uri);
+	g_hash_table_unref (query);
+	g_free (new_uri);
+}
 
 static gboolean
 web_page_send_request (WebKitWebPage *web_page,
@@ -116,6 +217,7 @@ web_page_send_request (WebKitWebPage *web_page,
 {
 	const char *request_uri;
 	const char *page_uri;
+	gboolean uri_is_http;
 
 	request_uri = webkit_uri_request_get_uri (request);
 	page_uri = webkit_web_page_get_uri (web_page);
@@ -124,24 +226,14 @@ web_page_send_request (WebKitWebPage *web_page,
 	if (g_strcmp0 (request_uri, page_uri) == 0)
 		return FALSE;
 
-	/* Redirect http(s) request to evo-http(s) protocol. */
-	if (g_ascii_strncasecmp (request_uri, "http", 4) == 0) {
-		GSettings *settings;
-		EMailImageLoadingPolicy image_policy;
-		gchar *new_uri;
+	uri_is_http =
+		g_str_has_prefix (request_uri, "http:") ||
+		g_str_has_prefix (request_uri, "https:") ||
+		g_str_has_prefix (request_uri, "evo-http:") ||
+		g_str_has_prefix (request_uri, "evo-https:");
 
-		settings = g_settings_new ("org.gnome.evolution.mail");
-		image_policy = g_settings_get_enum (settings, "image-loading-policy");
-		g_object_unref (settings);
-
-		if (image_policy == E_MAIL_IMAGE_LOADING_POLICY_ALWAYS)
-			return FALSE;
-
-		new_uri = g_strconcat ("evo-", request_uri, NULL);
-		webkit_uri_request_set_uri (request, new_uri);
-
-		g_free (new_uri);
-	}
+	if (uri_is_http)
+		redirect_http_uri (web_page, request);
 
 	return FALSE;
 }
@@ -405,6 +497,8 @@ handle_get_property (GDBusConnection *connection,
 
 	if (g_strcmp0 (property_name, "NeedInput") == 0) {
 		variant = g_variant_new_boolean (need_input);
+	} else if (g_strcmp0 (property_name, "ForceImageLoad") == 0) {
+		variant = g_variant_new_boolean (force_image_load);
 	}
 
 	return variant;
@@ -420,31 +514,53 @@ handle_set_property (GDBusConnection *connection,
                      GError **error,
                      gpointer user_data)
 {
-	if (need_input != g_variant_get_boolean (variant)) {
-		GVariantBuilder *builder;
-		GError *local_error;
+	GError *local_error = NULL;
+	GVariantBuilder *builder;
 
-		need_input = g_variant_get_boolean (variant);
+	builder = g_variant_builder_new (G_VARIANT_TYPE_ARRAY);
 
-		local_error = NULL;
-		builder = g_variant_builder_new (G_VARIANT_TYPE_ARRAY);
+	if (g_strcmp0 (property_name, "NeedInput") == 0) {
+		gboolean value = g_variant_get_boolean (variant);
+
+		if (value == need_input)
+			goto exit;
+
+		need_input = value;
+
 		g_variant_builder_add (builder,
-				"{sv}",
-				"NeedInput",
-				g_variant_new_boolean (need_input));
-		g_dbus_connection_emit_signal (connection,
-				NULL,
-				object_path,
-				"org.freedesktop.DBus.Properties",
-				"PropertiesChanged",
-				g_variant_new (
-					"(sa{sv}as)",
-					interface_name,
-					builder,
-					NULL),
-				&local_error);
-		g_assert_no_error (local_error);
+			"{sv}",
+			"NeedInput",
+			g_variant_new_boolean (need_input));
+	} else if (g_strcmp0 (property_name, "ForceImageLoad") == 0) {
+		gboolean value = g_variant_get_boolean (variant);
+
+		if (value == force_image_load)
+			goto exit;
+
+		force_image_load = value;
+
+		g_variant_builder_add (builder,
+			"{sv}",
+			"ForceImageLoad",
+			g_variant_new_boolean (force_image_load));
 	}
+
+	g_dbus_connection_emit_signal (connection,
+		NULL,
+		object_path,
+		"org.freedesktop.DBus.Properties",
+		"PropertiesChanged",
+		g_variant_new (
+			"(sa{sv}as)",
+			interface_name,
+			builder,
+			NULL),
+		&local_error);
+
+	g_assert_no_error (local_error);
+
+ exit:
+	g_variant_builder_unref (builder);
 
 	return TRUE;
 }
@@ -483,6 +599,17 @@ bus_acquired_cb (GDBusConnection *connection,
 	} else {
 		dbus_connection = connection;
 		g_object_add_weak_pointer (G_OBJECT (connection), (gpointer *)&dbus_connection);
+
+		if (emd_global_http_cache == NULL) {
+			emd_global_http_cache = camel_data_cache_new (
+				e_get_user_cache_dir (), NULL);
+
+			/* cache expiry - 2 hour access, 1 day max */
+			camel_data_cache_set_expire_age (
+				emd_global_http_cache, 24 * 60 * 60);
+			camel_data_cache_set_expire_access (
+				emd_global_http_cache, 2 * 60 * 60);
+		}
 	}
 }
 
