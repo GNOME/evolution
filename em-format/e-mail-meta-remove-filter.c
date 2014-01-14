@@ -180,10 +180,8 @@ remove_meta_tag (CamelMimeFilter *filter,
 
  copy_input:
 	if (backup) {
-		gchar *out_backup = g_strndup (in, inend - in - 6);
-		*out = out_backup;
+		*out = g_strndup (in, inend - in - 6);
 		*outlen = inend - in - 6;
-		g_free (out_backup);
 	} else {
 		*out = (gchar *) in;
 		*outlen = inend - in;
