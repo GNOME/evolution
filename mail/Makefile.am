@@ -204,7 +204,7 @@ libevolution_mail_la_LIBADD =				\
 	$(GTKHTML_LIBS)					\
 	$(SMIME_LIBS)					\
 	$(LIBSOUP_LIBS)					\
-	-lresolv
+	$(NULL)
 
 libevolution_mail_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 
@@ -225,7 +225,7 @@ test_mail_autoconfig_SOURCES = \
 test_mail_autoconfig_LDADD = \
 	$(EVOLUTION_DATA_SERVER_LIBS)			\
 	$(GNOME_PLATFORM_LIBS)				\
-	-lresolv
+	$(NULL)
 
 # Misc data to install
 filterdir = $(privdatadir)
