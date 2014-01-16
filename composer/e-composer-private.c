@@ -406,6 +406,9 @@ e_composer_private_finalize (EMsgComposer *composer)
 	g_free (composer->priv->charset);
 	g_free (composer->priv->mime_type);
 	g_free (composer->priv->mime_body);
+
+	g_hash_table_destroy (composer->priv->inline_images);
+	g_hash_table_destroy (composer->priv->inline_images_by_url);
 }
 
 gchar *
@@ -1202,25 +1205,6 @@ e_composer_update_signature (EMsgComposer *composer)
 		return;
 
 	table = e_msg_composer_get_header_table (composer);
-	combo_box = e_composer_header_table_get_signature_combo_box (table);
-	editor = e_msg_composer_get_editor (composer);
-	editor_widget = e_editor_get_editor_widget (editor);
-
-	status = webkit_web_view_get_load_status (WEBKIT_WEB_VIEW (editor_widget));
-	/* If document is not loaded, we will wait for him */
-	if (status != WEBKIT_LOAD_FINISHED) {
-		/* Disconnect previous handlers */
-		g_signal_handlers_disconnect_by_func (
-			WEBKIT_WEB_VIEW (editor_widget),
-			G_CALLBACK (composer_web_view_load_status_changed_cb), composer);
-		g_signal_connect (
-			WEBKIT_WEB_VIEW(editor_widget), "notify::load-status",
-			G_CALLBACK (composer_web_view_load_status_changed_cb), composer);
-		return;
-
-	g_free (composer->priv->selected_signature_uid);
-	composer->priv->selected_signature_uid = g_strdup (signature_uid);
-
 	combo_box = e_composer_header_table_get_signature_combo_box (table);
 	editor = e_msg_composer_get_editor (composer);
 	editor_widget = e_editor_get_editor_widget (editor);
