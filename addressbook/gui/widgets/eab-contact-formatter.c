@@ -1196,13 +1196,7 @@ collapse_contacts_list (WebKitDOMEventTarget *event_target,
 	gboolean hidden;
 
 	document = user_data;
-#if WEBKIT_CHECK_VERSION(2,2,0)  /* XXX should really be (2,1,something) */
-	id = webkit_dom_element_get_id (
-		WEBKIT_DOM_ELEMENT (event_target));
-#else
-	id = webkit_dom_html_element_get_id (
-		WEBKIT_DOM_HTML_ELEMENT (event_target));
-#endif
+	id = webkit_dom_element_get_id (WEBKIT_DOM_ELEMENT (event_target));
 
 	list_id = g_strconcat ("list-", id, NULL);
 	list = webkit_dom_document_get_element_by_id (document, list_id);

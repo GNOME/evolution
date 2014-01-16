@@ -837,8 +837,8 @@ composer_move_caret (EMsgComposer *composer)
 		element = webkit_dom_document_create_element (document, "DIV", NULL);
 		webkit_dom_element_set_class_name (
 			WEBKIT_DOM_ELEMENT (element), "-x-evo-paragraph");
-		webkit_dom_html_element_set_id (
-			WEBKIT_DOM_HTML_ELEMENT (element), "-x-evo-input-start");
+		webkit_dom_element_set_id (
+			WEBKIT_DOM_ELEMENT (element), "-x-evo-input-start");
 
 		word_wrap_length = e_editor_selection_get_word_wrap_length (editor_selection);
 
@@ -1070,7 +1070,7 @@ insert:
 		gchar *id;
 
 		node = webkit_dom_node_list_item (signatures, ii);
-		id = webkit_dom_html_element_get_id (WEBKIT_DOM_HTML_ELEMENT (node));
+		id = webkit_dom_element_get_id (WEBKIT_DOM_ELEMENT (node));
 
 		/* When we are editing a message with signature we need to set active
 		 * signature id in signature combo box otherwise no signature will be added */

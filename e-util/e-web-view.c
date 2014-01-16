@@ -3294,15 +3294,9 @@ e_web_view_create_and_add_css_style_sheet (WebKitDOMDocument *document,
 	if (!style_element) {
 		/* Create new <style> element */
 		style_element = webkit_dom_document_create_element (document, "style", NULL);
-#if WEBKIT_CHECK_VERSION(2,2,0)  /* XXX should really be (2,1,something) */
 		webkit_dom_element_set_id (
 			WEBKIT_DOM_ELEMENT (style_element),
 			style_sheet_id);
-#else
-		webkit_dom_html_element_set_id (
-			WEBKIT_DOM_HTML_ELEMENT (style_element),
-			style_sheet_id);
-#endif
 		webkit_dom_html_style_element_set_media (
 			WEBKIT_DOM_HTML_STYLE_ELEMENT (style_element),
 			"screen");
@@ -3470,7 +3464,7 @@ element_has_id (WebKitDOMElement *element,
 	if (!WEBKIT_DOM_IS_ELEMENT (element))
 		return FALSE;
 
-	element_id = webkit_dom_html_element_get_id (WEBKIT_DOM_HTML_ELEMENT (element));
+	element_id = webkit_dom_element_get_id (element);
 
 	if (g_ascii_strcasecmp (element_id, id) != 0) {
 		g_free (element_id);
