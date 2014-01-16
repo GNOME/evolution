@@ -3452,7 +3452,7 @@ element_has_id (WebKitDOMElement *element,
 	if (!WEBKIT_DOM_IS_ELEMENT (element))
 		return FALSE;
 
-	element_id = webkit_dom_html_element_get_id (WEBKIT_DOM_HTML_ELEMENT (element));
+	element_id = webkit_dom_element_get_id (element);
 
 	if (g_ascii_strcasecmp (element_id, id) != 0) {
 		g_free (element_id);

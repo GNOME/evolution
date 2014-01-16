@@ -2459,9 +2459,7 @@ e_editor_selection_set_monospaced (EEditorSelection *selection,
 			WebKitDOMElement *wrapper;
 
 			wrapper = webkit_dom_document_create_element (document, "SPAN", NULL);
-			webkit_dom_html_element_set_id (
-				WEBKIT_DOM_HTML_ELEMENT (wrapper),
-				"-x-evo-remove-tt");
+			webkit_dom_element_set_id (wrapper, "-x-evo-remove-tt");
 			webkit_dom_range_surround_contents (range, WEBKIT_DOM_NODE (wrapper), NULL);
 
 			html = webkit_dom_html_element_get_outer_html (WEBKIT_DOM_HTML_ELEMENT (tt_element));
@@ -2515,8 +2513,7 @@ e_editor_selection_set_monospaced (EEditorSelection *selection,
 				return;
 			}
 
-			webkit_dom_html_element_set_id (
-				WEBKIT_DOM_HTML_ELEMENT (tt_element), "ev-tt");
+			webkit_dom_element_set_id (tt_element, "ev-tt");
 
 			inner_html = webkit_dom_html_element_get_inner_html (WEBKIT_DOM_HTML_ELEMENT (tt_element));
 			new_inner_html = g_regex_replace_literal (regex, inner_html, -1, 0, "", 0, NULL);
@@ -3371,8 +3368,7 @@ e_editor_selection_save_caret_position (EEditorSelection *selection)
 	start_offset_node = webkit_dom_range_get_end_container (range, NULL);
 
 	element	= webkit_dom_document_create_element (document, "SPAN", NULL);
-	webkit_dom_html_element_set_id (
-		WEBKIT_DOM_HTML_ELEMENT (element), "-x-evo-caret-position");
+	webkit_dom_element_set_id (element, "-x-evo-caret-position");
 	webkit_dom_element_set_attribute (
 		element, "style", "display: none", NULL);
 	webkit_dom_html_element_set_inner_html (
@@ -3921,8 +3917,7 @@ e_editor_selection_wrap_lines (EEditorSelection *selection)
 			return;
 
 		webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (paragraph), "style");
-		webkit_dom_html_element_set_id (
-			WEBKIT_DOM_HTML_ELEMENT (paragraph),
+		webkit_dom_element_set_id (WEBKIT_DOM_ELEMENT (paragraph),
 			"-x-evo-active-paragraph");
 
 		text_content = webkit_dom_node_get_text_content (paragraph);
@@ -4073,9 +4068,7 @@ e_editor_selection_save (EEditorSelection *selection)
 
 		marker = webkit_dom_document_create_element (
 			document, "SPAN", NULL);
-		webkit_dom_html_element_set_id (
-			WEBKIT_DOM_HTML_ELEMENT (marker),
-			"-x-evolution-selection-start-marker");
+		webkit_dom_element_set_id (marker, "-x-evolution-selection-start-marker");
 
 		container = webkit_dom_range_get_start_container (range, NULL);
 		if (WEBKIT_DOM_IS_TEXT (container)) {
@@ -4097,9 +4090,7 @@ e_editor_selection_save (EEditorSelection *selection)
 
 		marker = webkit_dom_document_create_element (
 			document, "SPAN", NULL);
-		webkit_dom_html_element_set_id (
-			WEBKIT_DOM_HTML_ELEMENT (marker),
-			"-x-evolution-selection-end-marker");
+		webkit_dom_element_set_id (marker, "-x-evolution-selection-end-marker");
 
 		container = webkit_dom_range_get_end_container (range, NULL);
 		if (WEBKIT_DOM_IS_TEXT (container)) {

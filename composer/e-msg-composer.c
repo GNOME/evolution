@@ -3071,7 +3071,7 @@ set_signature_gui (EMsgComposer *composer)
 		gchar *id;
 
 		node = webkit_dom_node_list_item (nodes, ii);
-		id = webkit_dom_html_element_get_id (WEBKIT_DOM_HTML_ELEMENT (node));
+		id = webkit_dom_element_get_id (WEBKIT_DOM_ELEMENT (node));
 		if (id && (strlen (id) == 1) && (*id == '1')) {
 			uid = webkit_dom_element_get_attribute (
 				WEBKIT_DOM_ELEMENT (node), "name");

@@ -756,8 +756,7 @@ editor_widget_set_links_active (EEditorWidget *widget,
 		head = webkit_dom_document_get_head (document);
 
 		style = webkit_dom_document_create_element (document, "STYLE", NULL);
-		webkit_dom_html_element_set_id (
-			WEBKIT_DOM_HTML_ELEMENT (style), "--evolution-editor-style-a");
+		webkit_dom_element_set_id (style, "--evolution-editor-style-a");
 		webkit_dom_html_element_set_inner_text (
 			WEBKIT_DOM_HTML_ELEMENT (style), "a { cursor: text; }", NULL);
 
@@ -2693,7 +2692,7 @@ html_plain_text_convertor_load_status_changed (WebKitWebView *web_view,
 
 		element = webkit_dom_document_create_element (document, "div", NULL);
 		element_add_class (element, "-x-evo-paragraph");
-		webkit_dom_html_element_set_id (WEBKIT_DOM_HTML_ELEMENT (element), "-x-evo-input-start");
+		webkit_dom_element_set_id (element, "-x-evo-input-start");
 		webkit_dom_node_append_child (
 			WEBKIT_DOM_NODE (webkit_dom_document_get_body (document)),
 			WEBKIT_DOM_NODE (element),
