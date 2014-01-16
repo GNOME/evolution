@@ -1964,6 +1964,8 @@ e_editor_selection_unindent (EEditorSelection *selection)
 			return;
 		}
 
+		element_add_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-to-unindent");
+
 		level = get_indentation_level (element);
 		clone = WEBKIT_DOM_NODE (webkit_dom_node_clone_node (WEBKIT_DOM_NODE (element), TRUE));
 
@@ -2046,6 +2048,8 @@ e_editor_selection_unindent (EEditorSelection *selection)
 
 			webkit_dom_node_remove_child (clone, child, NULL);
 		}
+
+		element_remove_class (WEBKIT_DOM_ELEMENT (node_clone), "-x-evo-to-unindent");
 
 		/* Insert blockqoute with nodes that were before the element that we want to unindent */
 		if (prev_blockquote) {
