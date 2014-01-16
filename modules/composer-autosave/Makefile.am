@@ -1,5 +1,3 @@
-NULL =
-
 module_LTLIBRARIES = module-composer-autosave.la
 
 module_composer_autosave_la_CPPFLAGS = \
@@ -12,14 +10,13 @@ module_composer_autosave_la_CPPFLAGS = \
 	$(NULL)
 
 module_composer_autosave_la_SOURCES = \
-	evolution-composer-autosave.c \
-	e-autosave-utils.c \
-	e-autosave-utils.h \
-	e-composer-autosave.c \
-	e-composer-autosave.h \
-	e-composer-registry.c \
-	e-composer-registry.h \
-	$(NULL)
+	evolution-composer-autosave.c				\
+	e-autosave-utils.c					\
+	e-autosave-utils.h					\
+	e-composer-autosave.c					\
+	e-composer-autosave.h					\
+	e-composer-registry.c					\
+	e-composer-registry.h
 
 module_composer_autosave_la_LIBADD = \
 	$(top_builddir)/shell/libevolution-shell.la		\

@@ -133,7 +133,7 @@ composer_autosave_changed_cb (EComposerAutosave *autosave)
 
 	editor = e_msg_composer_get_editor (E_MSG_COMPOSER (extensible));
 	editor_widget = e_editor_get_editor_widget (editor);
-	autosave->changed = e_editor_widget_get_changed (editor_widget);
+	autosave->priv->changed = e_editor_widget_get_changed (editor_widget);
 
 	if (autosave->priv->changed && autosave->priv->timeout_id == 0) {
 		autosave->priv->timeout_id = e_named_timeout_add_seconds (

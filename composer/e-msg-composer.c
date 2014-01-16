@@ -4813,7 +4813,7 @@ e_msg_composer_get_message_draft (EMsgComposer *composer,
 	EEditor *editor;
 	EEditorWidget *editor_widget;
 	GSimpleAsyncResult *simple;
-	ComposerFlags flags = COMPOSER_FLAG_DRAFT;
+	ComposerFlags flags = COMPOSER_FLAG_SAVE_DRAFT;
 	GtkAction *action;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));

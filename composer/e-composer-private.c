@@ -417,7 +417,6 @@ e_composer_private_finalize (EMsgComposer *composer)
 	g_free (composer->priv->charset);
 	g_free (composer->priv->mime_type);
 	g_free (composer->priv->mime_body);
-	g_free (composer->priv->selected_signature_uid);
 
 	g_hash_table_destroy (composer->priv->inline_images);
 	g_hash_table_destroy (composer->priv->inline_images_by_url);
@@ -1183,19 +1182,6 @@ e_composer_update_signature (EMsgComposer *composer)
 		return;
 
 	table = e_msg_composer_get_header_table (composer);
-	signature_uid = e_composer_header_table_get_signature_uid (table);
-
-	/* this is a case when the signature combo cleared itself for a reload */
-	if (!signature_uid)
-		return;
-
-	if (g_strcmp0 (signature_uid, composer->priv->selected_signature_uid) == 0 ||
-	    (is_null_or_none (signature_uid) && is_null_or_none (composer->priv->selected_signature_uid)))
-		return;
-
-	g_free (composer->priv->selected_signature_uid);
-	composer->priv->selected_signature_uid = g_strdup (signature_uid);
-
 	combo_box = e_composer_header_table_get_signature_combo_box (table);
 	editor = e_msg_composer_get_editor (composer);
 	editor_widget = e_editor_get_editor_widget (editor);

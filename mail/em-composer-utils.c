@@ -2866,6 +2866,7 @@ em_utils_construct_composer_text (CamelSession *session,
                                   EMailPartList *parts_list)
 {
 	gchar *text, *credits;
+	gboolean start_bottom = FALSE;
 
 	g_return_val_if_fail (CAMEL_IS_SESSION (session), NULL);
 
