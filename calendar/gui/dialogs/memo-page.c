@@ -491,6 +491,11 @@ sensitize_widgets (MemoPage *mpage)
 
 	action_group = comp_editor_get_action_group (editor, "individual");
 	gtk_action_group_set_sensitive (action_group, sensitize);
+
+	if (e_client_check_capability (E_CLIENT (client), CAL_STATIC_CAPABILITY_NO_MEMO_START_DATE)) {
+		gtk_widget_hide (priv->start_label);
+		gtk_widget_hide (priv->start_date);
+	}
 }
 
 /* returns empty string rather than NULL because of simplicity of usage */
