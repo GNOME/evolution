@@ -922,7 +922,7 @@ append_info_item_row (ItipView *view,
 	}
 
 	cell = webkit_dom_html_table_row_element_insert_cell (
-		(WebKitDOMHTMLTableRowElement *) row, -1, NULL);
+		WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row), -1, NULL);
 
 	if (icon_name) {
 		WebKitDOMElement *image;
@@ -943,7 +943,7 @@ append_info_item_row (ItipView *view,
 	}
 
 	cell = webkit_dom_html_table_row_element_insert_cell (
-		(WebKitDOMHTMLTableRowElement *) row, -1, NULL);
+		WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row), -1, NULL);
 
 	webkit_dom_html_element_set_inner_html (cell, item->message, NULL);
 
