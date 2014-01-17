@@ -63,9 +63,6 @@ typedef struct _UpdateClosure UpdateClosure;
 struct _MailFolderCachePrivate {
 	GMainContext *main_context;
 
-	/* source id for the ping timeout callback */
-	guint ping_id;
-
 	/* Store to storeinfo table, active stores */
 	GHashTable *store_info_ht;
 	GMutex store_info_ht_lock;
@@ -1235,92 +1232,6 @@ store_folder_renamed_cb (CamelStore *store,
 	}
 }
 
-struct _ping_store_msg {
-	MailMsg base;
-	CamelStore *store;
-};
-
-static gchar *
-ping_store_desc (struct _ping_store_msg *m)
-{
-	gchar *service_name;
-	gchar *msg;
-
-	service_name = camel_service_get_name (CAMEL_SERVICE (m->store), TRUE);
-	msg = g_strdup_printf (_("Pinging %s"), service_name);
-	g_free (service_name);
-
-	return msg;
-}
-
-static void
-ping_store_exec (struct _ping_store_msg *m,
-                 GCancellable *cancellable,
-                 GError **error)
-{
-	CamelServiceConnectionStatus status;
-	CamelService *service;
-	gboolean online = FALSE;
-
-	service = CAMEL_SERVICE (m->store);
-	status = camel_service_get_connection_status (service);
-
-	if (status == CAMEL_SERVICE_CONNECTED) {
-		if (CAMEL_IS_OFFLINE_STORE (m->store) &&
-			camel_offline_store_get_online (
-			CAMEL_OFFLINE_STORE (m->store)))
-			online = TRUE;
-	}
-	if (online)
-		camel_store_noop_sync (m->store, cancellable, error);
-}
-
-static void
-ping_store_free (struct _ping_store_msg *m)
-{
-	g_object_unref (m->store);
-}
-
-static MailMsgInfo ping_store_info = {
-	sizeof (struct _ping_store_msg),
-	(MailMsgDescFunc) ping_store_desc,
-	(MailMsgExecFunc) ping_store_exec,
-	(MailMsgDoneFunc) NULL,
-	(MailMsgFreeFunc) ping_store_free
-};
-
-static gboolean
-ping_cb (gpointer user_data)
-{
-	MailFolderCache *cache;
-	GList *list, *link;
-
-	cache = MAIL_FOLDER_CACHE (user_data);
-
-	list = mail_folder_cache_list_stores (cache);
-
-	for (link = list; link != NULL; link = g_list_next (link)) {
-		CamelService *service;
-		CamelServiceConnectionStatus status;
-		struct _ping_store_msg *m;
-
-		service = CAMEL_SERVICE (link->data);
-		status = camel_service_get_connection_status (service);
-
-		if (status != CAMEL_SERVICE_CONNECTED)
-			continue;
-
-		m = mail_msg_new (&ping_store_info);
-		m->store = g_object_ref (service);
-
-		mail_msg_slow_ordered_push (m);
-	}
-
-	g_list_free_full (list, (GDestroyNotify) g_object_unref);
-
-	return TRUE;
-}
-
 static gboolean
 store_has_folder_hierarchy (CamelStore *store)
 {
@@ -1398,11 +1309,6 @@ mail_folder_cache_finalize (GObject *object)
 
 	g_hash_table_destroy (priv->store_info_ht);
 	g_mutex_clear (&priv->store_info_ht_lock);
-
-	if (priv->ping_id > 0) {
-		g_source_remove (priv->ping_id);
-		priv->ping_id = 0;
-	}
 
 	while (!g_queue_is_empty (&priv->local_folder_uris))
 		g_free (g_queue_pop_head (&priv->local_folder_uris));
@@ -1721,8 +1627,6 @@ static void
 mail_folder_cache_init (MailFolderCache *cache)
 {
 	GHashTable *store_info_ht;
-	const gchar *buf;
-	guint timeout;
 
 	store_info_ht = g_hash_table_new_full (
 		(GHashFunc) g_direct_hash,
@@ -1738,11 +1642,6 @@ mail_folder_cache_init (MailFolderCache *cache)
 
 	cache->priv->count_sent = getenv ("EVOLUTION_COUNT_SENT") != NULL;
 	cache->priv->count_trash = getenv ("EVOLUTION_COUNT_TRASH") != NULL;
-
-	buf = getenv ("EVOLUTION_PING_TIMEOUT");
-	timeout = buf ? strtoul (buf, NULL, 10) : 600;
-	cache->priv->ping_id = e_named_timeout_add_seconds (
-		timeout, ping_cb, cache);
 
 	g_queue_init (&cache->priv->local_folder_uris);
 	g_queue_init (&cache->priv->remote_folder_uris);
