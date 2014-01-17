@@ -586,11 +586,6 @@ PKG_CHECK_MODULES([GTKHTML],
 AC_SUBST(GTKHTML_CFLAGS)
 AC_SUBST(GTKHTML_LIBS)
 
-dnl ************
-dnl Kerberos 5
-dnl ************
-EVO_KRB5_SUPPORT(no)
-
 dnl ********************************************************************************
 dnl security extension support (SSL and S/MIME)
 dnl
