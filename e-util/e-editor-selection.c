@@ -1170,7 +1170,7 @@ get_indentation_level (WebKitDOMElement *element)
 
 	parent = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (element));
 	/* Count level of indentation */
-	while (!WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent)) {
+	while (parent && !WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent)) {
 		if (element_has_class (parent, "-x-evo-indented"))
 			level++;
 
@@ -1837,6 +1837,7 @@ e_editor_selection_indent (EEditorSelection *selection)
 		gint spaces_per_indentation = 4;
 		gint word_wrap_length = selection->priv->word_wrap_length;
 		gint level;
+		gint final_width = 0;
 
 		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (editor_widget));
 
@@ -1854,6 +1855,12 @@ e_editor_selection_indent (EEditorSelection *selection)
 
 		level = get_indentation_level (WEBKIT_DOM_ELEMENT (node));
 
+		final_width = word_wrap_length - spaces_per_indentation * (level + 1);
+		if (final_width < 10) {
+			g_object_unref (editor_widget);
+			return;
+		}
+
 		element = webkit_dom_node_get_parent_element (node);
 
 		clone = webkit_dom_node_clone_node (node, TRUE);
@@ -1864,6 +1871,7 @@ e_editor_selection_indent (EEditorSelection *selection)
 
 		element = webkit_dom_document_create_element (document, "BLOCKQUOTE", NULL);
 		element_add_class (element, "-x-evo-indented");
+
 		/* We don't want vertical space bellow and above blockquote inserted by
 		 * WebKit's User Agent Stylesheet. We have to override it through style attribute. */
 		style_value =
@@ -1874,7 +1882,7 @@ e_editor_selection_indent (EEditorSelection *selection)
 				"width: %dch",
 				spaces_per_indentation,
 				spaces_per_indentation,
-				word_wrap_length - spaces_per_indentation * level);
+				final_width);
 
 		webkit_dom_element_set_attribute (
 			element,
