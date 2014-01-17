@@ -645,7 +645,7 @@ editor_widget_check_magic_smileys (EEditorWidget *widget,
 	if (!WEBKIT_DOM_IS_TEXT (node))
 		return;
 
-	node_text = webkit_dom_text_get_whole_text ((WebKitDOMText *) node);
+	node_text = webkit_dom_text_get_whole_text (WEBKIT_DOM_TEXT (node));
 	if (node_text == NULL)
 		return;
 

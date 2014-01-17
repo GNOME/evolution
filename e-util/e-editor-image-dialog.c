@@ -277,44 +277,44 @@ editor_image_dialog_set_url (EEditorImageDialog *dialog)
 
 	url = gtk_entry_get_text (GTK_ENTRY (dialog->priv->url_edit));
 	link = e_editor_dom_node_find_parent_element (
-		(WebKitDOMNode *) dialog->priv->image, "A");
+		WEBKIT_DOM_NODE (dialog->priv->image), "A");
 
 	if (link) {
 		if (!url || !*url) {
 			webkit_dom_node_insert_before (
 				webkit_dom_node_get_parent_node (
-					(WebKitDOMNode *) link),
-				(WebKitDOMNode *) dialog->priv->image,
-				(WebKitDOMNode *) link, NULL);
+					WEBKIT_DOM_NODE (link)),
+				WEBKIT_DOM_NODE (dialog->priv->image),
+				WEBKIT_DOM_NODE (link), NULL);
 			webkit_dom_node_remove_child (
 				webkit_dom_node_get_parent_node (
-					(WebKitDOMNode *) link),
-				(WebKitDOMNode *) link, NULL);
+					WEBKIT_DOM_NODE (link)),
+				WEBKIT_DOM_NODE (link), NULL);
 		} else {
 			webkit_dom_html_anchor_element_set_href (
-				(WebKitDOMHTMLAnchorElement *) link, url);
+				WEBKIT_DOM_HTML_ANCHOR_ELEMENT (link), url);
 		}
 	} else {
 		if (url && *url) {
 			WebKitDOMDocument *document;
 
 			document = webkit_dom_node_get_owner_document (
-					(WebKitDOMNode *) dialog->priv->image);
+					WEBKIT_DOM_NODE (dialog->priv->image));
 			link = webkit_dom_document_create_element (
 					document, "A", NULL);
 
 			webkit_dom_html_anchor_element_set_href (
-				(WebKitDOMHTMLAnchorElement *) link, url);
+				WEBKIT_DOM_HTML_ANCHOR_ELEMENT (link), url);
 
 			webkit_dom_node_insert_before (
 				webkit_dom_node_get_parent_node (
-					(WebKitDOMNode *) dialog->priv->image),
-				(WebKitDOMNode *) link,
-				(WebKitDOMNode *) dialog->priv->image, NULL);
+					WEBKIT_DOM_NODE (dialog->priv->image)),
+				WEBKIT_DOM_NODE (link),
+				WEBKIT_DOM_NODE (dialog->priv->image), NULL);
 
 			webkit_dom_node_append_child (
-				(WebKitDOMNode *) link,
-				(WebKitDOMNode *) dialog->priv->image, NULL);
+				WEBKIT_DOM_NODE (link),
+				WEBKIT_DOM_NODE (dialog->priv->image), NULL);
 		}
 	}
 }
@@ -382,7 +382,7 @@ editor_image_dialog_show (GtkWidget *widget)
 			WEBKIT_DOM_NODE (dialog->priv->image), "A");
 	if (link) {
 		tmp = webkit_dom_html_anchor_element_get_href (
-				(WebKitDOMHTMLAnchorElement *) link);
+				WEBKIT_DOM_HTML_ANCHOR_ELEMENT (link));
 		gtk_entry_set_text (GTK_ENTRY (dialog->priv->url_edit), tmp);
 		g_free (tmp);
 	}
@@ -656,7 +656,7 @@ e_editor_image_dialog_show (EEditorImageDialog *dialog,
 	g_return_if_fail (E_IS_EDITOR_IMAGE_DIALOG (dialog));
 
 	if (image) {
-		dialog->priv->image = (WebKitDOMHTMLImageElement *) image;
+		dialog->priv->image = WEBKIT_DOM_HTML_IMAGE_ELEMENT (image);
 	} else {
 		dialog->priv->image = NULL;
 	}

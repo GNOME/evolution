@@ -107,7 +107,7 @@ for_each_cell_do (WebKitDOMElement *row,
 	WebKitDOMHTMLCollection *cells;
 	gulong ii, length;
 	cells = webkit_dom_html_table_row_element_get_cells (
-			(WebKitDOMHTMLTableRowElement *) row);
+			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row));
 	length = webkit_dom_html_collection_get_length (cells);
 	for (ii = 0; ii < length; ii++) {
 		WebKitDOMNode *cell;
@@ -117,7 +117,7 @@ for_each_cell_do (WebKitDOMElement *row,
 		}
 
 		call_cell_dom_func (
-			(WebKitDOMHTMLTableCellElement *) cell, func, value, user_data);
+			WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (cell), func, value, user_data);
 	}
 }
 
@@ -130,7 +130,7 @@ editor_cell_dialog_set_attribute (EEditorCellDialog *dialog,
 	if (dialog->priv->scope == SCOPE_CELL) {
 
 		call_cell_dom_func (
-			(WebKitDOMHTMLTableCellElement *) dialog->priv->cell,
+			WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (dialog->priv->cell),
 			func, value, user_data);
 
 	} else if (dialog->priv->scope == SCOPE_COLUMN) {
@@ -139,15 +139,15 @@ editor_cell_dialog_set_attribute (EEditorCellDialog *dialog,
 		WebKitDOMHTMLCollection *rows;
 
 		index = webkit_dom_html_table_cell_element_get_cell_index (
-				(WebKitDOMHTMLTableCellElement *) dialog->priv->cell);
+				WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (dialog->priv->cell));
 		table = e_editor_dom_node_find_parent_element (
-				(WebKitDOMNode *) dialog->priv->cell, "TABLE");
+				WEBKIT_DOM_NODE (dialog->priv->cell), "TABLE");
 		if (!table) {
 			return;
 		}
 
 		rows = webkit_dom_html_table_element_get_rows (
-				(WebKitDOMHTMLTableElement *) table);
+				WEBKIT_DOM_HTML_TABLE_ELEMENT (table));
 		length = webkit_dom_html_collection_get_length (rows);
 		for (ii = 0; ii < length; ii++) {
 			WebKitDOMNode *row, *cell;
@@ -155,14 +155,14 @@ editor_cell_dialog_set_attribute (EEditorCellDialog *dialog,
 
 			row = webkit_dom_html_collection_item (rows, ii);
 			cells = webkit_dom_html_table_row_element_get_cells (
-					(WebKitDOMHTMLTableRowElement *) row);
+					WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row));
 			cell = webkit_dom_html_collection_item (cells, index);
 			if (!cell) {
 				continue;
 			}
 
 			call_cell_dom_func (
-				(WebKitDOMHTMLTableCellElement *) cell,
+				WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (cell),
 				func, value, user_data);
 		}
 
@@ -170,7 +170,7 @@ editor_cell_dialog_set_attribute (EEditorCellDialog *dialog,
 		WebKitDOMElement *row;
 
 		row = e_editor_dom_node_find_parent_element (
-				(WebKitDOMNode *) dialog->priv->cell, "TR");
+				WEBKIT_DOM_NODE (dialog->priv->cell), "TR");
 		if (!row) {
 			return;
 		}
@@ -183,13 +183,13 @@ editor_cell_dialog_set_attribute (EEditorCellDialog *dialog,
 		WebKitDOMHTMLCollection *rows;
 
 		table = e_editor_dom_node_find_parent_element (
-				(WebKitDOMNode *) dialog->priv->cell, "TABLE");
+				WEBKIT_DOM_NODE (dialog->priv->cell), "TABLE");
 		if (!table) {
 			return;
 		}
 
 		rows = webkit_dom_html_table_element_get_rows (
-				(WebKitDOMHTMLTableElement *) table);
+				WEBKIT_DOM_HTML_TABLE_ELEMENT (table));
 		length = webkit_dom_html_collection_get_length (rows);
 		for (ii = 0; ii < length; ii++) {
 			WebKitDOMNode *row;
@@ -200,7 +200,7 @@ editor_cell_dialog_set_attribute (EEditorCellDialog *dialog,
 			}
 
 			for_each_cell_do (
-				(WebKitDOMElement *) row, func, value, user_data);
+				WEBKIT_DOM_ELEMENT (row), func, value, user_data);
 		}
 	}
 }
@@ -436,10 +436,10 @@ cell_set_background_image (WebKitDOMHTMLTableCellElement *cell,
 {
 	if (!uri || !*uri) {
 		webkit_dom_element_remove_attribute (
-			(WebKitDOMElement *) cell, "background");
+			WEBKIT_DOM_ELEMENT (cell), "background");
 	} else {
 		webkit_dom_element_set_attribute (
-			(WebKitDOMElement *) cell, "background", uri, NULL);
+			WEBKIT_DOM_ELEMENT (cell), "background", uri, NULL);
 	}
 }
 
@@ -472,14 +472,14 @@ editor_cell_dialog_show (GtkWidget *widget)
 		GTK_TOGGLE_BUTTON (dialog->priv->scope_cell_button), TRUE);
 
 	tmp = webkit_dom_html_table_cell_element_get_align (
-			(WebKitDOMHTMLTableCellElement *) dialog->priv->cell);
+			WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (dialog->priv->cell));
 	gtk_combo_box_set_active_id (
 		GTK_COMBO_BOX (dialog->priv->halign_combo),
 		(tmp && *tmp) ? tmp : "left");
 	g_free (tmp);
 
 	tmp = webkit_dom_html_table_cell_element_get_v_align (
-			(WebKitDOMHTMLTableCellElement *) dialog->priv->cell);
+			WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (dialog->priv->cell));
 	gtk_combo_box_set_active_id (
 		GTK_COMBO_BOX (dialog->priv->valign_combo),
 		(tmp && *tmp) ? tmp : "middle");
@@ -488,17 +488,17 @@ editor_cell_dialog_show (GtkWidget *widget)
 	gtk_toggle_button_set_active (
 		GTK_TOGGLE_BUTTON (dialog->priv->wrap_text_check),
 		!webkit_dom_html_table_cell_element_get_no_wrap (
-			(WebKitDOMHTMLTableCellElement *) dialog->priv->cell));
+			WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (dialog->priv->cell)));
 
 	tmp = webkit_dom_element_get_tag_name (
-		(WebKitDOMElement *) dialog->priv->cell);
+		WEBKIT_DOM_ELEMENT (dialog->priv->cell));
 	gtk_toggle_button_set_active (
 		GTK_TOGGLE_BUTTON (dialog->priv->header_style_check),
 		(g_ascii_strncasecmp (tmp, "TH", 2) == 0));
 	g_free (tmp);
 
 	tmp = webkit_dom_html_table_cell_element_get_width (
-		(WebKitDOMHTMLTableCellElement *) dialog->priv->cell);
+		WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (dialog->priv->cell));
 	if (tmp && *tmp) {
 		gint val = atoi (tmp);
 		gtk_spin_button_set_value (
@@ -518,16 +518,16 @@ editor_cell_dialog_show (GtkWidget *widget)
 	gtk_spin_button_set_value (
 		GTK_SPIN_BUTTON (dialog->priv->row_span_edit),
 		webkit_dom_html_table_cell_element_get_row_span (
-			(WebKitDOMHTMLTableCellElement *) dialog->priv->cell));
+			WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (dialog->priv->cell)));
 	gtk_spin_button_set_value (
 		GTK_SPIN_BUTTON (dialog->priv->col_span_edit),
 		webkit_dom_html_table_cell_element_get_col_span (
-			(WebKitDOMHTMLTableCellElement *) dialog->priv->cell));
+			WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (dialog->priv->cell)));
 
 	if (webkit_dom_element_has_attribute (
-		(WebKitDOMElement *) dialog->priv->cell, "background")) {
+		WEBKIT_DOM_ELEMENT (dialog->priv->cell), "background")) {
 		tmp = webkit_dom_element_get_attribute (
-			(WebKitDOMElement *) dialog->priv->cell, "background");
+			WEBKIT_DOM_ELEMENT (dialog->priv->cell), "background");
 
 		gtk_file_chooser_set_uri (
 			GTK_FILE_CHOOSER (dialog->priv->background_image_chooser),
@@ -540,7 +540,7 @@ editor_cell_dialog_show (GtkWidget *widget)
 	}
 
 	tmp = webkit_dom_html_table_cell_element_get_bg_color (
-		(WebKitDOMHTMLTableCellElement *) dialog->priv->cell);
+		WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (dialog->priv->cell));
 	if (!tmp || *tmp) {
 		color = white;
 	}

@@ -160,7 +160,7 @@ editor_page_dialog_set_text_color (EEditorPageDialog *dialog)
 
 	color = g_strdup_printf ("#%06x", e_rgba_to_value (&rgba));
 	webkit_dom_html_body_element_set_text (
-		(WebKitDOMHTMLBodyElement *) body, color);
+		WEBKIT_DOM_HTML_BODY_ELEMENT (body), color);
 
 	g_free (color);
 }
@@ -185,7 +185,7 @@ editor_page_dialog_set_link_color (EEditorPageDialog *dialog)
 
 	color = g_strdup_printf ("#%06x", e_rgba_to_value (&rgba));
 	webkit_dom_html_body_element_set_link (
-		(WebKitDOMHTMLBodyElement *) body, color);
+		WEBKIT_DOM_HTML_BODY_ELEMENT (body), color);
 
 	g_free (color);
 }
@@ -211,7 +211,7 @@ editor_page_dialog_set_background_color (EEditorPageDialog *dialog)
 	color = g_strdup_printf ("#%06x", e_rgba_to_value (&rgba));
 
 	webkit_dom_html_body_element_set_bg_color (
-		(WebKitDOMHTMLBodyElement *) body, color);
+		WEBKIT_DOM_HTML_BODY_ELEMENT (body), color);
 
 	g_free (color);
 }
@@ -271,7 +271,7 @@ editor_page_dialog_set_background_image (EEditorPageDialog *dialog)
 				dialog->priv->background_image_filechooser));
 
 	webkit_dom_html_body_element_set_background (
-		(WebKitDOMHTMLBodyElement *) body, uri ? uri : "");
+		WEBKIT_DOM_HTML_BODY_ELEMENT (body), uri ? uri : "");
 
 	g_free (uri);
 }
@@ -295,7 +295,7 @@ editor_page_dialog_show (GtkWidget *widget)
 	body = webkit_dom_document_get_body (document);
 
 	tmp = webkit_dom_html_body_element_get_background (
-			(WebKitDOMHTMLBodyElement *) body);
+			WEBKIT_DOM_HTML_BODY_ELEMENT (body));
 	if (tmp && *tmp) {
 		gint ii;
 		gchar *fname = g_filename_from_uri (tmp, NULL, NULL);
@@ -317,7 +317,7 @@ editor_page_dialog_show (GtkWidget *widget)
 	g_free (tmp);
 
 	tmp = webkit_dom_html_body_element_get_text (
-			(WebKitDOMHTMLBodyElement *) body);
+			WEBKIT_DOM_HTML_BODY_ELEMENT (body));
 	if (!tmp || !*tmp) {
 		GdkColor *color;
 		GtkStyle *style = gtk_widget_get_style (GTK_WIDGET (editor_widget));
@@ -335,7 +335,7 @@ editor_page_dialog_show (GtkWidget *widget)
 		E_COLOR_COMBO (dialog->priv->text_color_picker), &rgba);
 
 	tmp = webkit_dom_html_body_element_get_link (
-			(WebKitDOMHTMLBodyElement *) body);
+			WEBKIT_DOM_HTML_BODY_ELEMENT (body));
 	if (!tmp || !*tmp) {
 		GdkColor color;
 		gtk_widget_style_get (
@@ -353,7 +353,7 @@ editor_page_dialog_show (GtkWidget *widget)
 		E_COLOR_COMBO (dialog->priv->link_color_picker), &rgba);
 
 	tmp = webkit_dom_html_body_element_get_bg_color (
-			(WebKitDOMHTMLBodyElement *) body);
+			WEBKIT_DOM_HTML_BODY_ELEMENT (body));
 	if (!tmp || !*tmp) {
 		GdkColor *color;
 		GtkStyle *style = gtk_widget_get_style (GTK_WIDGET (editor_widget));

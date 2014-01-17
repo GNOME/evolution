@@ -159,7 +159,7 @@ editor_table_dialog_set_column_count (EEditorTableDialog *dialog)
 		WebKitDOMHTMLCollection *cells;
 		gulong jj, current_columns;
 
-		row = (WebKitDOMHTMLTableRowElement *) (
+		row = WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (
 			webkit_dom_html_collection_item (rows, ii));
 
 		cells = webkit_dom_html_table_row_element_get_cells (row);
@@ -191,7 +191,7 @@ editor_table_dialog_get_column_count (EEditorTableDialog *dialog)
 	row = webkit_dom_html_collection_item (rows, 0);
 
 	columns = webkit_dom_html_table_row_element_get_cells (
-				(WebKitDOMHTMLTableRowElement *) row);
+				WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row));
 
 	gtk_spin_button_set_value (
 		GTK_SPIN_BUTTON (dialog->priv->columns_edit),
@@ -571,12 +571,12 @@ editor_table_dialog_show (GtkWidget *widget)
 			webkit_dom_range_get_start_container (range, NULL), "TABLE");
 
 		if (!table) {
-			dialog->priv->table_element = (WebKitDOMHTMLTableElement *)
-				editor_table_dialog_create_table (dialog);
+			dialog->priv->table_element = WEBKIT_DOM_HTML_TABLE_ELEMENT (
+				editor_table_dialog_create_table (dialog));
 			editor_table_dialog_reset_values (dialog);
 		} else {
 			dialog->priv->table_element =
-				(WebKitDOMHTMLTableElement *) table;
+				WEBKIT_DOM_HTML_TABLE_ELEMENT (table);
 			editor_table_dialog_get_values (dialog);
 		}
 	}

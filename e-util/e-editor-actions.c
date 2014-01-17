@@ -255,9 +255,9 @@ action_context_insert_column_after_cb (GtkAction *action,
 	g_return_if_fail (row != NULL);
 
 	/* Get the first row in the table */
-	row = (WebKitDOMElement *)
+	row = WEBKIT_DOM_ELEMENT (
 		webkit_dom_node_get_first_child (
-			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (row)));
+			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (row))));
 
 	index = webkit_dom_html_table_cell_element_get_cell_index (
 			WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (cell));
@@ -266,8 +266,8 @@ action_context_insert_column_after_cb (GtkAction *action,
 		webkit_dom_html_table_row_element_insert_cell (
 			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row), index + 1, NULL);
 
-		row = (WebKitDOMElement *)
-			webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (row));
+		row = WEBKIT_DOM_ELEMENT (
+			webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (row)));
 	}
 }
 
@@ -291,9 +291,9 @@ action_context_insert_column_before_cb (GtkAction *action,
 	g_return_if_fail (row != NULL);
 
 	/* Get the first row in the table */
-	row = (WebKitDOMElement *)
+	row = WEBKIT_DOM_ELEMENT (
 		webkit_dom_node_get_first_child (
-			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (row)));
+			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (row))));
 
 	index = webkit_dom_html_table_cell_element_get_cell_index (
 			WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (cell));
@@ -302,8 +302,8 @@ action_context_insert_column_before_cb (GtkAction *action,
 		webkit_dom_html_table_row_element_insert_cell (
 			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row), index - 1, NULL);
 
-		row = (WebKitDOMElement *)
-			webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (row));
+		row = WEBKIT_DOM_ELEMENT (
+			webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (row)));
 	}
 }
 
