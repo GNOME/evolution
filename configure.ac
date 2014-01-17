@@ -1557,7 +1557,6 @@ echo "
 	LDAP support:		$msg_ldap
 	Contact Maps:		$enable_contact_maps
 	Libnotify:		$HAVE_LIBNOTIFY
-	Kerberos 5:		$msg_krb5
 	SSL support:		$msg_ssl
 	SMIME support:		$msg_smime
 	Bogofilter support:	$msg_bogofilter
