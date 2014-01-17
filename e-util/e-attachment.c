@@ -334,6 +334,9 @@ attachment_update_icon_column_idle_cb (gpointer weak_ref)
 
 	if (file_info != NULL) {
 		icon = g_file_info_get_icon (file_info);
+		/* add the reference here, thus the create_system_thumbnail() can unref the *icon. */
+		if (icon)
+			g_object_ref (icon);
 		thumbnail_path = g_file_info_get_attribute_byte_string (
 			file_info, G_FILE_ATTRIBUTE_THUMBNAIL_PATH);
 	}
@@ -351,11 +354,11 @@ attachment_update_icon_column_idle_cb (gpointer weak_ref)
 		/* Nothing to do, just use the icon. */
 
 	/* Else use the standard icon for the content type. */
-	} else if (icon != NULL)
-		g_object_ref (icon);
+	} else if (icon != NULL) {
+		/* Nothing to do, just use the already reffed icon. */
 
 	/* Last ditch fallback.  (GFileInfo not yet loaded?) */
-	else
+	} else
 		icon = g_themed_icon_new (DEFAULT_ICON_NAME);
 
 	/* Pick an emblem, limit one.  Choices listed by priority. */
