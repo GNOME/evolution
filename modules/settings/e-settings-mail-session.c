@@ -38,7 +38,6 @@ settings_mail_session_name_to_junk_filter (GValue *value,
                                            gpointer user_data)
 {
 	const gchar *filter_name;
-	gboolean success = FALSE;
 
 	filter_name = g_variant_get_string (variant, NULL);
 
@@ -48,10 +47,14 @@ settings_mail_session_name_to_junk_filter (GValue *value,
 		junk_filter = e_mail_session_get_junk_filter_by_name (
 			E_MAIL_SESSION (user_data), filter_name);
 		g_value_set_object (value, junk_filter);
-		success = (junk_filter != NULL);
 	}
 
-	return success;
+	/* XXX Always return success, even if we cannot find a matching
+	 *     EMailJunkFilter.  The default value is 'Bogofilter', but
+	 *     if the Bogofilter module is not installed then GSettings
+	 *     will actually abort the program.  Nice. */
+
+	return TRUE;
 }
 
 static GVariant *
