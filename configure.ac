@@ -1047,7 +1047,7 @@ AC_SUBST(LIBNOTIFY_LIBS)
 dnl **************
 dnl Calendar Flags
 dnl **************
-PKG_CHECK_MODULES([LIBSOUP], [libsoup-gnome-2.4 >= soup_minimum_version])
+PKG_CHECK_MODULES([LIBSOUP], [libsoup-2.4 >= soup_minimum_version])
 AC_SUBST(LIBSOUP_CFLAGS)
 AC_SUBST(LIBSOUP_LIBS)
 

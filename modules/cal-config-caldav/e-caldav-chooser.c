@@ -21,7 +21,6 @@
 #include <glib/gi18n-lib.h>
 
 #include <libsoup/soup.h>
-#include <libsoup/soup-gnome.h>
 
 #include <libxml/tree.h>
 #include <libxml/xpath.h>
