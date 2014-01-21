@@ -128,6 +128,18 @@ mail_backend_store_operation_done_cb (CamelStore *store,
 }
 
 static void
+mail_backend_set_session_offline_cb (gpointer user_data,
+				     GObject *object)
+{
+	CamelSession *session = user_data;
+
+	g_return_if_fail (CAMEL_IS_SESSION (session));
+
+	camel_session_set_online (session, FALSE);
+	g_object_unref (session);
+}
+
+static void
 mail_backend_prepare_for_offline_cb (EShell *shell,
                                      EActivity *activity,
                                      EMailBackend *backend)
@@ -144,6 +156,9 @@ mail_backend_prepare_for_offline_cb (EShell *shell,
 	window = e_shell_get_active_window (shell);
 	session = e_mail_backend_get_session (backend);
 	account_store = e_mail_ui_session_get_account_store (E_MAIL_UI_SESSION (session));
+
+	if (!e_shell_get_network_available (shell))
+		camel_session_set_online (CAMEL_SESSION (session), FALSE);
 
 	if (e_shell_get_network_available (shell) &&
 		e_shell_backend_is_started (E_SHELL_BACKEND (backend)))
@@ -166,6 +181,8 @@ mail_backend_prepare_for_offline_cb (EShell *shell,
 		e_activity_set_cancellable (activity, cancellable);
 		g_object_unref (cancellable);
 	}
+
+	g_object_weak_ref (G_OBJECT (activity), mail_backend_set_session_offline_cb, g_object_ref (session));
 
 	e_mail_account_store_queue_enabled_services (account_store, &queue);
 	while (!g_queue_is_empty (&queue)) {
