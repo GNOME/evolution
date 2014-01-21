@@ -643,6 +643,7 @@ render_work_column (EABContactFormatter *formatter,
 
 	accum_attribute (accum, contact, _("Company"), E_CONTACT_ORG, NULL, 0);
 	accum_attribute (accum, contact, _("Department"), E_CONTACT_ORG_UNIT, NULL, 0);
+	accum_attribute (accum, contact, _("Office"), E_CONTACT_OFFICE, NULL, 0);
 	accum_attribute (accum, contact, _("Profession"), E_CONTACT_ROLE, NULL, 0);
 	accum_attribute (accum, contact, _("Position"), E_CONTACT_TITLE, NULL, 0);
 	accum_attribute (accum, contact, _("Manager"), E_CONTACT_MANAGER, NULL, 0);
