@@ -1078,13 +1078,25 @@ folder_tree_dispose (GObject *object)
 {
 	EMFolderTreePrivate *priv;
 	GtkTreeModel *model;
+	GtkTreeSelection *selection;
 
 	priv = EM_FOLDER_TREE_GET_PRIVATE (object);
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (object));
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (object));
 
 	if (priv->loaded_row_id != 0) {
 		g_signal_handler_disconnect (model, priv->loaded_row_id);
 		priv->loaded_row_id = 0;
+	}
+
+	if (priv->loading_row_id != 0) {
+		g_signal_handler_disconnect (model, priv->loading_row_id);
+		priv->loading_row_id = 0;
+	}
+
+	if (priv->selection_changed_handler_id != 0) {
+		g_signal_handler_disconnect (selection, priv->selection_changed_handler_id);
+		priv->selection_changed_handler_id = 0;
 	}
 
 	if (priv->autoscroll_id != 0) {
