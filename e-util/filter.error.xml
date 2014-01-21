@@ -31,4 +31,9 @@
   <_secondary>Please choose another name.</_secondary>
  </error>
 
+ <error id="no-condition" type="error">
+  <_primary>Missing condition.</_primary>
+  <_secondary>Filter should have at least one condition.</_secondary>
+ </error>
+
 </error-list>
