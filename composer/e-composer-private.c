@@ -879,15 +879,15 @@ composer_move_caret (EMsgComposer *composer)
 					NULL);
 			}
 
+			e_editor_selection_restore_caret_position (editor_selection);
+			e_editor_widget_quote_plain_text (editor_widget);
+			e_editor_widget_force_spellcheck (editor_widget);
+
 			input_start = webkit_dom_document_get_element_by_id (document, "-x-evo-input-start");
 			if (input_start)
 				webkit_dom_range_select_node_contents (new_range, WEBKIT_DOM_NODE (input_start), NULL);
 
 			webkit_dom_range_collapse (new_range, FALSE, NULL);
-
-			e_editor_selection_restore_caret_position (editor_selection);
-			e_editor_widget_quote_plain_text (editor_widget);
-			e_editor_widget_force_spellcheck (editor_widget);
 		} else {
 			if (!has_paragraphs_in_body) {
 				if (webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body))) {
