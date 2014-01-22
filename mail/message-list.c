@@ -3890,9 +3890,13 @@ build_tree (MessageList *message_list,
 					node = parent;
 			}
 
-			/* We need to set the cursor before we freeze, as
-			 * the thaw will restore it to the pre-freeze value. */
-			e_tree_set_cursor (E_TREE (message_list), node);
+			/* Do not update cursor on folder change signal, to not lose user's
+			   scroll bar position */
+			if (!folder_changed || !table_item) {
+				/* We need to set the cursor before we freeze, as
+				 * the thaw will restore it to the pre-freeze value. */
+				e_tree_set_cursor (E_TREE (message_list), node);
+			}
 
 			message_list_tree_model_freeze (message_list);
 
@@ -4126,7 +4130,8 @@ build_subtree_diff (MessageList *message_list,
 
 static void
 build_flat (MessageList *message_list,
-            GPtrArray *summary)
+            GPtrArray *summary,
+	    gboolean folder_changed)
 {
 	gchar *saveuid = NULL;
 	gint i;
@@ -4171,7 +4176,7 @@ build_flat (MessageList *message_list,
 			g_signal_emit (
 				message_list,
 				signals[MESSAGE_SELECTED], 0, NULL);
-		} else {
+		} else if (!folder_changed || !e_tree_get_item (E_TREE (message_list))) {
 			e_tree_set_cursor (E_TREE (message_list), node);
 		}
 		g_free (saveuid);
@@ -4280,7 +4285,12 @@ message_list_folder_changed (CamelFolder *folder,
 	hide_junk = message_list_get_hide_junk (message_list, folder);
 	hide_deleted = message_list_get_hide_deleted (message_list, folder);
 
-	d (printf ("folder changed event, changes = %p\n", changes));
+	d (printf ("%s: changes:%p added:%d removed:%d changed:%d recent:%d for '%s'\n", G_STRFUNC, changes,
+		changes ? changes->uid_added->len : -1,
+		changes ? changes->uid_removed->len : -1,
+		changes ? changes->uid_changed->len : -1,
+		changes ? changes->uid_recent->len : -1,
+		camel_folder_get_full_name (folder)));
 	if (changes != NULL) {
 		for (i = 0; i < changes->uid_removed->len; i++)
 			g_hash_table_remove (
@@ -5598,7 +5608,8 @@ message_list_regen_done_cb (GObject *source_object,
 	} else {
 		build_flat (
 			message_list,
-			regen_data->summary);
+			regen_data->summary,
+			regen_data->folder_changed);
 	}
 
 	row_count = e_table_model_row_count (E_TABLE_MODEL (adapter));
