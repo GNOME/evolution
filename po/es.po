@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2014-01-10 16:19+0000\n"
-"PO-Revision-Date: 2014-01-10 17:58+0100\n"
+"POT-Creation-Date: 2014-01-21 18:17+0000\n"
+"PO-Revision-Date: 2014-01-22 11:06+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -316,7 +316,7 @@ msgstr "_Quiere recibir el correo como HTML"
 #: ../addressbook/gui/widgets/eab-contact-merging.c:408
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:6
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:589
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:965
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:966
 msgid "Email"
 msgstr "Correo-e"
 
@@ -432,7 +432,7 @@ msgid "_Anniversary:"
 msgstr "_Aniversario:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:37
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:684
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:685
 #: ../calendar/gui/e-calendar-view.c:2277
 msgid "Anniversary"
 msgstr "Aniversario"
@@ -443,7 +443,7 @@ msgstr "Aniversario"
 #. * which, so long as it has an icon.  We're just interested in
 #. * the directory components.
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:38
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:683
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:684
 #: ../calendar/gui/e-calendar-view.c:2276 ../shell/main.c:127
 msgid "Birthday"
 msgstr "Cumpleaños"
@@ -493,7 +493,7 @@ msgstr "Domicilio"
 #: ../addressbook/gui/widgets/e-contact-map.c:384
 #: ../addressbook/gui/widgets/eab-contact-display.c:353
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:79
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:665
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:666
 msgid "Work"
 msgstr "Trabajo"
 
@@ -501,7 +501,7 @@ msgstr "Trabajo"
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:193
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:81
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:367
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:718
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:719
 #: ../calendar/gui/e-cal-model.c:3957
 msgid "Other"
 msgstr "Otro"
@@ -1013,7 +1013,7 @@ msgid "ISDN Phone"
 msgstr "Teléfono RDSI"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:20
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:681
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:682
 msgid "Mobile Phone"
 msgstr "Teléfono móvil"
 
@@ -1061,6 +1061,7 @@ msgid "Unit"
 msgstr "Unidad"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:36
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:646
 msgid "Office"
 msgstr "Oficina"
 
@@ -1075,12 +1076,12 @@ msgid "Role"
 msgstr "Papel"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:39
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:648
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:649
 msgid "Manager"
 msgstr "Jefe"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:40
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:649
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:650
 msgid "Assistant"
 msgstr "Secretario"
 
@@ -1101,12 +1102,12 @@ msgid "Categories"
 msgstr "Categorías"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:44
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:685
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:686
 msgid "Spouse"
 msgstr "Cónyuge"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:45
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:740
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:741
 msgid "Note"
 msgstr "Nota"
 
@@ -1259,19 +1260,19 @@ msgstr "Listar miembros:"
 msgid "Department"
 msgstr "Departamento"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:646
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:647
 msgid "Profession"
 msgstr "Profesión"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:647
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:648
 msgid "Position"
 msgstr "Posición"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:650
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:651
 msgid "Video Chat"
 msgstr "Charla por vídeo"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:651
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:652
 #: ../e-util/e-send-options.c:545
 #: ../modules/calendar/e-cal-shell-view-actions.c:215
 #: ../modules/calendar/e-cal-shell-view-actions.c:244
@@ -1280,53 +1281,53 @@ msgstr "Charla por vídeo"
 msgid "Calendar"
 msgstr "Calendario"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:652
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:653
 #: ../calendar/gui/dialogs/event-editor.c:115
 #: ../calendar/gui/dialogs/event-editor.c:342
 #: ../plugins/publish-calendar/publish-calendar.ui.h:2
 msgid "Free/Busy"
 msgstr "Disponibilidad"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:653
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:680
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:654
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:681
 msgid "Phone"
 msgstr "Teléfono"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:654
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:655
 msgid "Fax"
 msgstr "Fax"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:655
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:682
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:708
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:656
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:683
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:709
 msgid "Address"
 msgstr "Dirección"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:678
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:679
 msgid "Home Page"
 msgstr "Página personal"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:679
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:680
 msgid "Web Log"
 msgstr "Diario web"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:695
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:696
 msgid "Personal"
 msgstr "Privado"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:929
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:930
 msgid "List Members"
 msgstr "Listar miembros"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:950
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:951
 msgid "Job Title"
 msgstr "Puesto"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:991
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:992
 msgid "Home page"
 msgstr "Página personal"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:1001
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:1002
 msgid "Blog"
 msgstr "Diario web"
 
@@ -2937,7 +2938,7 @@ msgid "Event with no end date"
 msgstr "Acontecimiento sin fecha de finalización"
 
 #: ../calendar/gui/dialogs/event-page.c:1484
-#: ../calendar/gui/dialogs/memo-page.c:727
+#: ../calendar/gui/dialogs/memo-page.c:732
 #: ../calendar/gui/dialogs/task-page.c:1031
 msgid "Start date is wrong"
 msgstr "La fecha de inicio está equivocada"
@@ -2955,7 +2956,7 @@ msgid "End time is wrong"
 msgstr "La hora de finalización está equivocada"
 
 #: ../calendar/gui/dialogs/event-page.c:1691
-#: ../calendar/gui/dialogs/memo-page.c:766
+#: ../calendar/gui/dialogs/memo-page.c:771
 #: ../calendar/gui/dialogs/task-page.c:1085
 msgid "An organizer is required."
 msgstr "Se requiere un organizador."
@@ -3153,7 +3154,7 @@ msgstr "La nota no se puede editar porque es de sólo lectura"
 msgid "Memo cannot be fully edited, because you are not the organizer"
 msgstr "La nota no se puede editar completamente porque no es el organizador"
 
-#: ../calendar/gui/dialogs/memo-page.c:1161
+#: ../calendar/gui/dialogs/memo-page.c:1166
 #: ../em-format/e-mail-formatter-utils.c:201
 #: ../em-format/e-mail-formatter-utils.c:218
 #: ../em-format/e-mail-part-headers.c:48 ../mail/em-filter-i18n.h:78
@@ -3846,7 +3847,7 @@ msgstr "vista de calendario para un mes"
 msgid "calendar view for one or more weeks"
 msgstr "vista de calendario para una o más semanas"
 
-#: ../calendar/gui/e-cal-component-preview.c:222 ../e-util/e-filter-rule.c:753
+#: ../calendar/gui/e-cal-component-preview.c:222 ../e-util/e-filter-rule.c:756
 #: ../mail/e-mail-config-page.c:125
 msgid "Untitled"
 msgstr "Sin título"
@@ -9570,7 +9571,7 @@ msgstr "Formatear parte como un mensaje RFC822"
 #: ../em-format/e-mail-formatter-print.c:53
 #: ../e-util/gal-view-instance-save-as-dialog.c:94
 #: ../mail/e-mail-label-tree-view.c:98
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:1323
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:1322
 #: ../modules/cal-config-google/e-google-chooser.c:236
 #: ../modules/plugin-manager/evolution-plugin-manager.c:66
 msgid "Name"
@@ -9929,7 +9930,7 @@ msgstr "días"
 msgid "_When convenient"
 msgstr "_Cuando convenga"
 
-#: ../e-util/e-send-options.ui.h:19 ../e-util/e-filter-rule.c:843
+#: ../e-util/e-send-options.ui.h:19 ../e-util/e-filter-rule.c:846
 msgid "Replies"
 msgstr "Respuestas"
 
@@ -10106,7 +10107,7 @@ msgstr "_Selección"
 msgid "Timezone drop-down combination box"
 msgstr "Cada de combinación desplegable de la zona horaria"
 
-#: ../e-util/filter.ui.h:1 ../e-util/e-filter-rule.c:1242
+#: ../e-util/filter.ui.h:1 ../e-util/e-filter-rule.c:1245
 #: ../mail/em-utils.c:230
 msgid "Incoming"
 msgstr "Entrante"
@@ -10309,8 +10310,8 @@ msgstr[0] "Guarda el adjunto"
 msgstr[1] "Guardar los adjuntos"
 
 #. Translators: Default attachment filename.
-#: ../e-util/e-attachment-store.c:567 ../e-util/e-attachment.c:2055
-#: ../e-util/e-attachment.c:2718
+#: ../e-util/e-attachment-store.c:567 ../e-util/e-attachment.c:2058
+#: ../e-util/e-attachment.c:2721
 msgid "attachment.dat"
 msgstr "attachment.dat"
 
@@ -10356,48 +10357,48 @@ msgstr "Abrir este adjunto en %s"
 #. * message when, for example, attaching it to a composer. When the
 #. * message to be attached has also filled Subject, then this text is
 #. * of form "Attached message - Subject", otherwise it's left as is.
-#: ../e-util/e-attachment.c:1105
+#: ../e-util/e-attachment.c:1108
 msgid "Attached message"
 msgstr "Mensaje adjunto"
 
-#: ../e-util/e-attachment.c:2136 ../e-util/e-attachment.c:3024
+#: ../e-util/e-attachment.c:2139 ../e-util/e-attachment.c:3027
 msgid "A load operation is already in progress"
 msgstr "Existe una operación de carga en progreso"
 
-#: ../e-util/e-attachment.c:2144 ../e-util/e-attachment.c:3032
+#: ../e-util/e-attachment.c:2147 ../e-util/e-attachment.c:3035
 msgid "A save operation is already in progress"
 msgstr "Existe una operación de guardado en progreso"
 
-#: ../e-util/e-attachment.c:2264
+#: ../e-util/e-attachment.c:2267
 #, c-format
 msgid "Could not load '%s'"
 msgstr "No se pudo cargar «%s»"
 
-#: ../e-util/e-attachment.c:2267
+#: ../e-util/e-attachment.c:2270
 #, c-format
 msgid "Could not load the attachment"
 msgstr "No se pudo cargar el adjunto"
 
-#: ../e-util/e-attachment.c:2571
+#: ../e-util/e-attachment.c:2574
 #, c-format
 msgid "Could not open '%s'"
 msgstr "No se pudo abrir «%s»"
 
-#: ../e-util/e-attachment.c:2574
+#: ../e-util/e-attachment.c:2577
 #, c-format
 msgid "Could not open the attachment"
 msgstr "No se pudo abrir el adjunto"
 
-#: ../e-util/e-attachment.c:3041
+#: ../e-util/e-attachment.c:3044
 msgid "Attachment contents not loaded"
 msgstr "No se cargó el contenido del adjunto"
 
-#: ../e-util/e-attachment.c:3121
+#: ../e-util/e-attachment.c:3124
 #, c-format
 msgid "Could not save '%s'"
 msgstr "No se pudo guardar «%s»"
 
-#: ../e-util/e-attachment.c:3124
+#: ../e-util/e-attachment.c:3127
 #, c-format
 msgid "Could not save the attachment"
 msgstr "No se pudo guardar el adjunto"
@@ -10707,16 +10708,16 @@ msgstr "_Ninguna"
 
 #. Translators: "None" for date field of a date edit, shown when
 #. * there is no date set.
-#: ../e-util/e-dateedit.c:1812 ../e-util/e-dateedit.c:2060
+#: ../e-util/e-dateedit.c:1838 ../e-util/e-dateedit.c:2086
 msgctxt "date"
 msgid "None"
 msgstr "Ninguna"
 
-#: ../e-util/e-dateedit.c:1952
+#: ../e-util/e-dateedit.c:1978
 msgid "Invalid Date Value"
 msgstr "Valor de fecha no válido"
 
-#: ../e-util/e-dateedit.c:1997
+#: ../e-util/e-dateedit.c:2023
 msgid "Invalid Time Value"
 msgstr "Valor de hora no válido"
 
@@ -10934,23 +10935,23 @@ msgstr "Seleccione una fecha con la que comparar"
 msgid "Choose a File"
 msgstr "Elegir un archivo"
 
-#: ../e-util/e-filter-rule.c:746
+#: ../e-util/e-filter-rule.c:749
 msgid "R_ule name:"
 msgstr "Nombre de la _regla:"
 
-#: ../e-util/e-filter-rule.c:796
+#: ../e-util/e-filter-rule.c:799
 msgid "all the following conditions"
 msgstr "todas las condiciones siguientes"
 
-#: ../e-util/e-filter-rule.c:797
+#: ../e-util/e-filter-rule.c:800
 msgid "any of the following conditions"
 msgstr "alguna de las condiciones siguientes"
 
-#: ../e-util/e-filter-rule.c:803
+#: ../e-util/e-filter-rule.c:806
 msgid "_Find items which match:"
 msgstr "_Buscar elementos que coinciden con:"
 
-#: ../e-util/e-filter-rule.c:826
+#: ../e-util/e-filter-rule.c:829
 msgid "Find items that meet the following conditions"
 msgstr "Buscar elementos que cumplen con estos criterios"
 
@@ -10958,7 +10959,7 @@ msgstr "Buscar elementos que cumplen con estos criterios"
 #. * part of "Include threads: None"
 #. protocol:
 #. name:
-#: ../e-util/e-filter-rule.c:841 ../e-util/e-mail-identity-combo-box.c:473
+#: ../e-util/e-filter-rule.c:844 ../e-util/e-mail-identity-combo-box.c:473
 #: ../e-util/e-mail-signature-combo-box.c:368 ../e-util/e-proxy-editor.c:549
 #: ../libemail-engine/camel-null-store.c:27
 #: ../mail/e-mail-config-summary-page.c:138
@@ -10966,27 +10967,27 @@ msgstr "Buscar elementos que cumplen con estos criterios"
 msgid "None"
 msgstr "Ninguna"
 
-#: ../e-util/e-filter-rule.c:842
+#: ../e-util/e-filter-rule.c:845
 msgid "All related"
 msgstr "Todas las relacionadas"
 
-#: ../e-util/e-filter-rule.c:844
+#: ../e-util/e-filter-rule.c:847
 msgid "Replies and parents"
 msgstr "Respuestas y antecesores"
 
-#: ../e-util/e-filter-rule.c:845
+#: ../e-util/e-filter-rule.c:848
 msgid "No reply or parent"
 msgstr "Sin respuesta o antecesor"
 
-#: ../e-util/e-filter-rule.c:848
+#: ../e-util/e-filter-rule.c:851
 msgid "I_nclude threads:"
 msgstr "I_ncluir conversaciones:"
 
-#: ../e-util/e-filter-rule.c:925
+#: ../e-util/e-filter-rule.c:928
 msgid "A_dd Condition"
 msgstr "Añadir a_cción"
 
-#: ../e-util/e-filter-rule.c:1242 ../mail/em-utils.c:231
+#: ../e-util/e-filter-rule.c:1245 ../mail/em-utils.c:231
 msgid "Outgoing"
 msgstr "Saliente"
 
@@ -11941,6 +11942,15 @@ msgstr "El nombre «{0}» ya se está usando."
 msgid "Please choose another name."
 msgstr "Elija otro nombre."
 
+#: ../e-util/filter.error.xml.h:12
+#| msgid "Missing date."
+msgid "Missing condition."
+msgstr "Falta la condición."
+
+#: ../e-util/filter.error.xml.h:13
+msgid "Filter should have at least one condition."
+msgstr "El filtro debe tener por lo menos una condición."
+
 #. Translators: description of a "popup" action
 #: ../e-util/gal-a11y-e-cell-popup.c:127
 msgid "popup a child"
@@ -12189,11 +12199,6 @@ msgstr "Reconectándose con «%s»"
 msgid "Preparing account '%s' for offline"
 msgstr "Preparando la cuenta «%s» para desconexión"
 
-#: ../libemail-engine/mail-folder-cache.c:1250
-#, c-format
-msgid "Pinging %s"
-msgstr "Haciendo ping a %s"
-
 #: ../libemail-engine/mail-ops.c:90
 msgid "Filtering Selected Messages"
 msgstr "Filtrado de mensajes seleccionados"
@@ -12377,7 +12382,7 @@ msgstr "No se ha proporcionado ninguna dirección de correo-e"
 msgid "Missing domain in email address"
 msgstr "Falta el dominio en la dirección de correo-e"
 
-#: ../mail/e-mail-backend.c:734
+#: ../mail/e-mail-backend.c:751
 msgid "Unknown background operation"
 msgstr "Operación en segundo plano desconocida"
 
@@ -13860,31 +13865,31 @@ msgctxt "folder-display"
 msgid "%s (%u%s)"
 msgstr "%s (%u%s)"
 
-#: ../mail/em-folder-tree.c:1587
+#: ../mail/em-folder-tree.c:1599
 msgid "Mail Folder Tree"
 msgstr "Árbol de carpetas de correo"
 
-#: ../mail/em-folder-tree.c:2135 ../mail/em-folder-utils.c:100
+#: ../mail/em-folder-tree.c:2147 ../mail/em-folder-utils.c:100
 #, c-format
 msgid "Moving folder %s"
 msgstr "Moviendo la carpeta %s"
 
-#: ../mail/em-folder-tree.c:2138 ../mail/em-folder-utils.c:102
+#: ../mail/em-folder-tree.c:2150 ../mail/em-folder-utils.c:102
 #, c-format
 msgid "Copying folder %s"
 msgstr "Copiando la carpeta %s"
 
-#: ../mail/em-folder-tree.c:2145 ../mail/message-list.c:2268
+#: ../mail/em-folder-tree.c:2157 ../mail/message-list.c:2268
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Moviendo los mensajes a la carpeta %s"
 
-#: ../mail/em-folder-tree.c:2149 ../mail/message-list.c:2270
+#: ../mail/em-folder-tree.c:2161 ../mail/message-list.c:2270
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Copiando los mensajes a la carpeta %s"
 
-#: ../mail/em-folder-tree.c:2168
+#: ../mail/em-folder-tree.c:2180
 #, c-format
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "No se puede dejar el(los) mensaje(s) en el almacén de nivel superior"
@@ -16379,28 +16384,28 @@ msgstr "URL:"
 msgid "Avoid IfMatch (needed on Apache < 2.2.8)"
 msgstr "Evitar IfMatch (necesario en Apache < 2.2.8)"
 
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:442
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:441
 #, c-format
 msgid "HTTP Error: %s"
 msgstr "Error HTTP: %s"
 
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:470
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:469
 msgid "Could not parse response"
 msgstr "No se pudo analizar la respuesta"
 
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:479
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:478
 msgid "Empty response"
 msgstr "Respuesta vacía"
 
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:487
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:486
 msgid "Unexpected reply from server"
 msgstr "Respuesta inesperada del servidor"
 
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:1119
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:1118
 msgid "Could not locate user's calendars"
 msgstr "No se pudo encontrar ningún calendario del usuario"
 
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:1343
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:1342
 msgid "Path"
 msgstr "Ruta"
 
@@ -20456,19 +20461,19 @@ msgstr "Guardar búsqueda"
 #. * allows the user to filter the current view.  Examples of
 #. * items that appear in the combo box are "Unread Messages",
 #. * "Important Messages", or "Active Appointments".
-#: ../shell/e-shell-searchbar.c:937
+#: ../shell/e-shell-searchbar.c:938
 msgid "Sho_w:"
 msgstr "M_ostrar:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
-#: ../shell/e-shell-searchbar.c:962
+#: ../shell/e-shell-searchbar.c:963
 msgid "Sear_ch:"
 msgstr "B_uscar:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
-#: ../shell/e-shell-searchbar.c:1030
+#: ../shell/e-shell-searchbar.c:1031
 msgid "i_n"
 msgstr "e_n"
 
@@ -21293,6 +21298,9 @@ msgstr "Con fecha de _vencimiento"
 #: ../views/tasks/galview.xml.h:3
 msgid "With _Status"
 msgstr "Con _estado"
+
+#~ msgid "Pinging %s"
+#~ msgstr "Haciendo ping a %s"
 
 #~ msgid "Ellipsize mode for folder names in side bar"
 #~ msgstr "Modo de elipsis para nombres de carpetas en la barra lateral"
