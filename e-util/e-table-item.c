@@ -58,7 +58,7 @@ G_DEFINE_TYPE (
 #define d(x)
 
 #if d(!)0
-#define e_table_item_leave_edit_(x) (e_table_item_leave_edit((x)), g_print ("%s: e_table_item_leave_edit\n", __FUNCTION__))
+#define e_table_item_leave_edit_(x) (e_table_item_leave_edit((x)), g_print ("%s: e_table_item_leave_edit\n", G_STRFUNC))
 #else
 #define e_table_item_leave_edit_(x) (e_table_item_leave_edit((x)))
 #endif
@@ -243,7 +243,7 @@ eti_grab (ETableItem *eti,
           guint32 time)
 {
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (eti);
-	d (g_print ("%s: time: %d\n", __FUNCTION__, time));
+	d (g_print ("%s: time: %d\n", G_STRFUNC, time));
 	if (eti->grabbed_count == 0) {
 		GdkGrabStatus grab_status;
 
@@ -265,7 +265,7 @@ eti_grab (ETableItem *eti,
 			eti);
 
 		if (grab_status != GDK_GRAB_SUCCESS) {
-			d (g_print ("%s: gtk_grab_add\n", __FUNCTION__));
+			d (g_print ("%s: gtk_grab_add\n", G_STRFUNC));
 			gtk_grab_add (GTK_WIDGET (item->canvas));
 			eti->gtk_grabbed = TRUE;
 		}
@@ -278,14 +278,14 @@ eti_ungrab (ETableItem *eti,
             guint32 time)
 {
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (eti);
-	d (g_print ("%s: time: %d\n", __FUNCTION__, time));
+	d (g_print ("%s: time: %d\n", G_STRFUNC, time));
 	eti->grabbed_count--;
 	if (eti->grabbed_count == 0) {
 		if (eti->grab_cancelled) {
 			eti->grab_cancelled = FALSE;
 		} else {
 			if (eti->gtk_grabbed) {
-				d (g_print ("%s: gtk_grab_remove\n", __FUNCTION__));
+				d (g_print ("%s: gtk_grab_remove\n", G_STRFUNC));
 				gtk_grab_remove (GTK_WIDGET (item->canvas));
 				eti->gtk_grabbed = FALSE;
 			}
@@ -299,7 +299,7 @@ eti_ungrab (ETableItem *eti,
 inline static gboolean
 eti_editing (ETableItem *eti)
 {
-	d (g_print ("%s: %s\n", __FUNCTION__, (eti->editing_col == -1) ? "false":"true"));
+	d (g_print ("%s: %s\n", G_STRFUNC, (eti->editing_col == -1) ? "false":"true"));
 
 	if (eti->editing_col == -1)
 		return FALSE;
@@ -1049,7 +1049,7 @@ eti_show_cursor (ETableItem *eti,
 	cursor_row = e_selection_model_cursor_row (eti->selection);
 #endif
 
-	d (g_print ("%s: cursor row: %d\n", __FUNCTION__, cursor_row));
+	d (g_print ("%s: cursor row: %d\n", G_STRFUNC, cursor_row));
 
 	if (cursor_row != -1) {
 		cursor_row = model_to_view_row (eti, cursor_row);
@@ -1090,11 +1090,11 @@ eti_check_cursor_bounds (ETableItem *eti)
 		return;
 	}
 
-	d (g_print ("%s: model cursor row: %d\n", __FUNCTION__, cursor_row));
+	d (g_print ("%s: model cursor row: %d\n", G_STRFUNC, cursor_row));
 
 	cursor_row = model_to_view_row (eti, cursor_row);
 
-	d (g_print ("%s: cursor row: %d\n", __FUNCTION__, cursor_row));
+	d (g_print ("%s: cursor row: %d\n", G_STRFUNC, cursor_row));
 
 	eti_get_region (
 		eti,
@@ -1106,14 +1106,14 @@ eti_check_cursor_bounds (ETableItem *eti)
 	eti->cursor_y2 = y2;
 	eti->cursor_on_screen = e_canvas_item_area_shown (GNOME_CANVAS_ITEM (eti), x1, y1, x2, y2);
 
-	d (g_print ("%s: cursor on screen: %s\n", __FUNCTION__, eti->cursor_on_screen ? "TRUE" : "FALSE"));
+	d (g_print ("%s: cursor on screen: %s\n", G_STRFUNC, eti->cursor_on_screen ? "TRUE" : "FALSE"));
 }
 
 static void
 eti_maybe_show_cursor (ETableItem *eti,
                        gint delay)
 {
-	d (g_print ("%s: cursor on screen: %s\n", __FUNCTION__, eti->cursor_on_screen ? "TRUE" : "FALSE"));
+	d (g_print ("%s: cursor on screen: %s\n", G_STRFUNC, eti->cursor_on_screen ? "TRUE" : "FALSE"));
 	if (eti->cursor_on_screen)
 		eti_show_cursor (eti, delay);
 	eti_check_cursor_bounds (eti);
@@ -1137,7 +1137,7 @@ eti_idle_show_cursor_cb (gpointer data)
 static void
 eti_idle_maybe_show_cursor (ETableItem *eti)
 {
-	d (g_print ("%s: cursor on screen: %s\n", __FUNCTION__, eti->cursor_on_screen ? "TRUE" : "FALSE"));
+	d (g_print ("%s: cursor on screen: %s\n", G_STRFUNC, eti->cursor_on_screen ? "TRUE" : "FALSE"));
 	if (eti->cursor_on_screen) {
 		g_object_ref (eti);
 		if (!eti->cursor_idle_id)
@@ -1162,7 +1162,7 @@ static void
 eti_freeze (ETableItem *eti)
 {
 	eti->frozen_count++;
-	d (g_print ("%s: %d\n", __FUNCTION__, eti->frozen_count));
+	d (g_print ("%s: %d\n", G_STRFUNC, eti->frozen_count));
 }
 
 static void
@@ -1172,7 +1172,7 @@ eti_unfreeze (ETableItem *eti)
 		return;
 
 	eti->frozen_count--;
-	d (g_print ("%s: %d\n", __FUNCTION__, eti->frozen_count));
+	d (g_print ("%s: %d\n", G_STRFUNC, eti->frozen_count));
 	if (eti->frozen_count == 0 && eti->queue_show_cursor) {
 		eti_show_cursor (eti, 0);
 		eti_check_cursor_bounds (eti);
@@ -1842,7 +1842,7 @@ eti_unrealize (GnomeCanvasItem *item)
 	ETableItem *eti = E_TABLE_ITEM (item);
 
 	if (eti->grabbed_count > 0) {
-		d (g_print ("%s: eti_ungrab\n", __FUNCTION__));
+		d (g_print ("%s: eti_ungrab\n", G_STRFUNC));
 		eti_ungrab (eti, -1);
 	}
 
@@ -2334,7 +2334,7 @@ eti_e_cell_event (ETableItem *item,
 		GdkDevice *event_device;
 		guint32 event_time;
 
-		d (g_print ("%s: eti_grab\n", __FUNCTION__));
+		d (g_print ("%s: eti_grab\n", G_STRFUNC));
 
 		event_device = gdk_event_get_device (event);
 		event_time = gdk_event_get_time (event);
@@ -2347,7 +2347,7 @@ eti_e_cell_event (ETableItem *item,
 	if (actions & E_CELL_UNGRAB) {
 		guint32 event_time;
 
-		d (g_print ("%s: eti_ungrab\n", __FUNCTION__));
+		d (g_print ("%s: eti_ungrab\n", G_STRFUNC));
 
 		event_time = gdk_event_get_time (event);
 		eti_ungrab (item, event_time);
@@ -2400,7 +2400,7 @@ eti_event (GnomeCanvasItem *item,
 		gint new_cursor_row, new_cursor_col;
 		ECellFlags flags = 0;
 
-		d (g_print ("%s: GDK_BUTTON_PRESS received, button %d\n", __FUNCTION__, event_button));
+		d (g_print ("%s: GDK_BUTTON_PRESS received, button %d\n", G_STRFUNC, event_button));
 
 		switch (event_button) {
 		case 1: /* Fall through. */
@@ -2517,7 +2517,7 @@ eti_event (GnomeCanvasItem *item,
 				eti->drag_y        = event_y_item;
 				eti->drag_state    = event_state;
 				eti->grabbed       = TRUE;
-				d (g_print ("%s: eti_grab\n", __FUNCTION__));
+				d (g_print ("%s: eti_grab\n", G_STRFUNC));
 				eti_grab (eti, event_device, event_time);
 			}
 
@@ -2567,10 +2567,10 @@ eti_event (GnomeCanvasItem *item,
 		gint col, row;
 		gint cursor_row, cursor_col;
 
-		d (g_print ("%s: GDK_BUTTON_RELEASE received, button %d\n", __FUNCTION__, event_button));
+		d (g_print ("%s: GDK_BUTTON_RELEASE received, button %d\n", G_STRFUNC, event_button));
 
 		if (eti->grabbed_count > 0) {
-			d (g_print ("%s: eti_ungrab\n", __FUNCTION__));
+			d (g_print ("%s: eti_ungrab\n", G_STRFUNC));
 			eti_ungrab (eti, event_time);
 		}
 
@@ -2601,7 +2601,7 @@ eti_event (GnomeCanvasItem *item,
 					&col, &row, &x1, &y1);
 				g_print (
 					"%s: find_cell(%f, %f) = %s(%d, %d, %f, %f)\n",
-					__FUNCTION__, event_x_item, event_y_item,
+					G_STRFUNC, event_x_item, event_y_item,
 					cell_found?"true":"false", col, row, x1, y1);
 			}
 #endif
@@ -2617,7 +2617,7 @@ eti_event (GnomeCanvasItem *item,
 
 			if (eti_editing (eti) && cursor_row == view_to_model_row (eti, row) && cursor_col == view_to_model_col (eti, col)) {
 
-				d (g_print ("%s: GDK_BUTTON_RELEASE received, button %d, line: %d\n", __FUNCTION__, event_button, __LINE__))
+				d (g_print ("%s: GDK_BUTTON_RELEASE received, button %d, line: %d\n", G_STRFUNC, event_button, __LINE__))
 ;
 
 				ecell_view = eti->cell_views[col];
@@ -2655,7 +2655,7 @@ eti_event (GnomeCanvasItem *item,
 		gdouble x1, y1;
 #endif
 
-		d (g_print ("%s: GDK_2BUTTON_PRESS received, button %d\n", __FUNCTION__, event_button));
+		d (g_print ("%s: GDK_2BUTTON_PRESS received, button %d\n", G_STRFUNC, event_button));
 
 		/*
 		 * click_count is so that if you click on two
@@ -2702,7 +2702,7 @@ eti_event (GnomeCanvasItem *item,
 			}
 
 			if (eti->grabbed_count > 0) {
-				d (g_print ("%s: eti_ungrab\n", __FUNCTION__));
+				d (g_print ("%s: eti_ungrab\n", G_STRFUNC));
 				eti_ungrab (eti, event_time);
 			}
 
@@ -2801,7 +2801,7 @@ eti_event (GnomeCanvasItem *item,
 		gint cursor_row, cursor_col;
 		gint handled = TRUE;
 
-		d (g_print ("%s: GDK_KEY_PRESS received, keyval: %d\n", __FUNCTION__, (gint) e->key.keyval));
+		d (g_print ("%s: GDK_KEY_PRESS received, keyval: %d\n", G_STRFUNC, (gint) e->key.keyval));
 
 		g_object_get (
 			eti->selection,
@@ -3014,7 +3014,7 @@ eti_event (GnomeCanvasItem *item,
 	case GDK_KEY_RELEASE: {
 		gint cursor_row, cursor_col;
 
-		d (g_print ("%s: GDK_KEY_RELEASE received, keyval: %d\n", __FUNCTION__, (gint) event_keyval));
+		d (g_print ("%s: GDK_KEY_RELEASE received, keyval: %d\n", G_STRFUNC, (gint) event_keyval));
 
 		g_object_get (
 			eti->selection,
@@ -3038,7 +3038,7 @@ eti_event (GnomeCanvasItem *item,
 	case GDK_LEAVE_NOTIFY:
 		d (leave = TRUE);
 	case GDK_ENTER_NOTIFY:
-		d (g_print ("%s: %s received\n", __FUNCTION__, leave ? "GDK_LEAVE_NOTIFY" : "GDK_ENTER_NOTIFY"));
+		d (g_print ("%s: %s received\n", G_STRFUNC, leave ? "GDK_LEAVE_NOTIFY" : "GDK_ENTER_NOTIFY"));
 		if (eti->motion_row != -1 && eti->motion_col != -1)
 			return_val = eti_e_cell_event (
 				eti, eti->cell_views[eti->motion_col],
@@ -3051,7 +3051,7 @@ eti_event (GnomeCanvasItem *item,
 		break;
 
 	case GDK_FOCUS_CHANGE:
-		d (g_print ("%s: GDK_FOCUS_CHANGE received, %s\n", __FUNCTION__, e->focus_change.in ? "in": "out"));
+		d (g_print ("%s: GDK_FOCUS_CHANGE received, %s\n", G_STRFUNC, e->focus_change.in ? "in": "out"));
 		if (event->focus_change.in) {
 			if (eti->save_row != -1 &&
 			    eti->save_col != -1 &&
@@ -3082,7 +3082,7 @@ eti_event (GnomeCanvasItem *item,
 		return_val = FALSE;
 		break;
 	}
-	/* d(g_print("%s: returning: %s\n", __FUNCTION__, return_val?"true":"false"));*/
+	/* d(g_print("%s: returning: %s\n", G_STRFUNC, return_val?"true":"false"));*/
 
 	return return_val;
 }
@@ -3595,7 +3595,7 @@ e_table_item_enter_edit (ETableItem *eti,
 	g_return_if_fail (eti != NULL);
 	g_return_if_fail (E_IS_TABLE_ITEM (eti));
 
-	d (g_print ("%s: %d, %d, eti_editing() = %s\n", __FUNCTION__, col, row, eti_editing (eti)?"true":"false"));
+	d (g_print ("%s: %d, %d, eti_editing() = %s\n", G_STRFUNC, col, row, eti_editing (eti)?"true":"false"));
 
 	if (eti_editing (eti))
 		e_table_item_leave_edit_(eti);
@@ -3625,7 +3625,7 @@ e_table_item_leave_edit (ETableItem *eti)
 	g_return_if_fail (eti != NULL);
 	g_return_if_fail (E_IS_TABLE_ITEM (eti));
 
-	d (g_print ("%s: eti_editing() = %s\n", __FUNCTION__, eti_editing (eti)?"true":"false"));
+	d (g_print ("%s: eti_editing() = %s\n", G_STRFUNC, eti_editing (eti)?"true":"false"));
 
 	if (!eti_editing (eti))
 		return;

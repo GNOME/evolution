@@ -59,7 +59,7 @@
 #if d(!)0
 #define e_table_item_leave_edit_(x) \
 	(e_table_item_leave_edit ((x)), \
-	 g_print ("%s: e_table_item_leave_edit\n", __FUNCTION__))
+	 g_print ("%s: e_table_item_leave_edit\n", G_STRFUNC))
 #else
 #define e_table_item_leave_edit_(x) (e_table_item_leave_edit((x)))
 #endif

@@ -145,7 +145,7 @@ mail_tool_do_movemail (CamelStore *store,
 	/* Unclear yet whether camel-movemail etc makes any sense on
 	 * Win32, at least it is not ported yet.
 	 */
-	g_warning ("%s: Not implemented", __FUNCTION__);
+	g_warning ("%s: Not implemented", G_STRFUNC);
 	return NULL;
 #endif
 }

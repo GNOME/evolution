@@ -61,7 +61,7 @@
 #define VIEW_TO_CELL(view) E_CELL_TEXT (((ECellView *)view)->ecell)
 
 #if d(!)0
-#define e_table_item_leave_edit_(x) (e_table_item_leave_edit((x)), g_print ("%s: e_table_item_leave_edit\n", __FUNCTION__))
+#define e_table_item_leave_edit_(x) (e_table_item_leave_edit((x)), g_print ("%s: e_table_item_leave_edit\n", G_STRFUNC))
 #else
 #define e_table_item_leave_edit_(x) (e_table_item_leave_edit((x)))
 #endif
@@ -946,7 +946,7 @@ ect_event (ECellView *ecell_view,
 	case GDK_BUTTON_PRESS: /* Fall Through */
 		d (press = TRUE);
 	case GDK_BUTTON_RELEASE:
-		d (g_print ("%s: %s\n", __FUNCTION__, press ? "GDK_BUTTON_PRESS" : "GDK_BUTTON_RELEASE"));
+		d (g_print ("%s: %s\n", G_STRFUNC, press ? "GDK_BUTTON_PRESS" : "GDK_BUTTON_RELEASE"));
 		event->button.x -= 4;
 		event->button.y -= 1;
 		if ((!edit_display)

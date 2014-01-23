@@ -396,12 +396,12 @@ ethi_find_col_by_x (ETableHeaderItem *ethi,
 	gint x1 = 0;
 	gint col;
 
-	d (g_print ("%s:%d: x = %d, x1 = %d\n", __FUNCTION__, __LINE__, x, x1));
+	d (g_print ("%s:%d: x = %d, x1 = %d\n", G_STRFUNC, __LINE__, x, x1));
 
 	x1 += ethi->group_indent_width;
 
 	if (x < x1) {
-		d (g_print ("%s:%d: Returning 0\n", __FUNCTION__, __LINE__));
+		d (g_print ("%s:%d: Returning 0\n", G_STRFUNC, __LINE__));
 		return 0;
 	}
 
@@ -409,13 +409,13 @@ ethi_find_col_by_x (ETableHeaderItem *ethi,
 		ETableCol *ecol = e_table_header_get_column (ethi->eth, col);
 
 		if ((x >= x1) && (x <= x1 + ecol->width)) {
-			d (g_print ("%s:%d: Returning %d\n", __FUNCTION__, __LINE__, col));
+			d (g_print ("%s:%d: Returning %d\n", G_STRFUNC, __LINE__, col));
 			return col;
 		}
 
 		x1 += ecol->width;
 	}
-	d (g_print ("%s:%d: Returning %d\n", __FUNCTION__, __LINE__, cols - 1));
+	d (g_print ("%s:%d: Returning %d\n", G_STRFUNC, __LINE__, cols - 1));
 	return cols - 1;
 }
 
