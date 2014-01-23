@@ -133,7 +133,6 @@ e_composer_private_constructed (EMsgComposer *composer)
 
 	priv->is_from_message = FALSE;
 	priv->is_from_new_message = FALSE;
-	priv->set_signature_from_message = FALSE;
 
 	e_composer_actions_init (composer);
 
