@@ -5131,3 +5131,12 @@ e_save_spell_languages (const GList *spell_dicts)
 
 	g_ptr_array_free (lang_array, TRUE);
 }
+
+void
+e_msg_composer_is_from_new_message (EMsgComposer *composer,
+                                    gboolean is_from_new_message)
+{
+	g_return_if_fail (composer != NULL);
+
+	composer->priv->is_from_new_message = is_from_new_message;
+}

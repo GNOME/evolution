@@ -197,6 +197,10 @@ GByteArray *	e_msg_composer_get_raw_message_text
 gboolean	e_msg_composer_is_exiting	(EMsgComposer *composer);
 
 void		e_save_spell_languages		(const GList *spell_languages);
+void		e_msg_composer_is_from_new_message
+						(EMsgComposer *composer,
+						 gboolean is_from_new_message);
+
 
 G_END_DECLS
 
