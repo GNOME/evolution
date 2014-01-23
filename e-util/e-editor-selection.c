@@ -3404,6 +3404,44 @@ e_editor_selection_save_caret_position (EEditorSelection *selection)
 		NULL);
 }
 
+static void
+fix_quoting_nodes_after_caret_restoration (WebKitDOMDOMSelection *window_selection,
+                                           WebKitDOMNode *prev_sibling,
+                                           WebKitDOMNode *next_sibling)
+{
+	WebKitDOMNode *tmp_node;
+
+	if (!element_has_class (WEBKIT_DOM_ELEMENT (prev_sibling), "-x-evo-temp-text-wrapper"))
+		return;
+
+	webkit_dom_dom_selection_modify (
+		window_selection, "move", "right", "character");
+	tmp_node = webkit_dom_node_get_next_sibling (
+		webkit_dom_node_get_first_child (prev_sibling));
+
+	webkit_dom_node_insert_before (
+		webkit_dom_node_get_parent_node (prev_sibling),
+		tmp_node,
+		next_sibling,
+		NULL);
+
+	tmp_node = webkit_dom_node_get_first_child (prev_sibling);
+
+	webkit_dom_node_insert_before (
+		webkit_dom_node_get_parent_node (prev_sibling),
+		tmp_node,
+		webkit_dom_node_get_previous_sibling (next_sibling),
+		NULL);
+
+	webkit_dom_node_remove_child (
+		webkit_dom_node_get_parent_node (prev_sibling),
+		prev_sibling,
+		NULL);
+
+	webkit_dom_dom_selection_modify (
+		window_selection, "move", "left", "character");
+}
+
 /**
  * e_editor_selection_restore_caret_position:
  * @selection: an #EEditorSelection
@@ -3416,6 +3454,7 @@ e_editor_selection_restore_caret_position (EEditorSelection *selection)
 	EEditorWidget *widget;
 	WebKitDOMDocument *document;
 	WebKitDOMElement *element;
+	gboolean fix_after_quoting;
 
 	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
 
@@ -3425,12 +3464,16 @@ e_editor_selection_restore_caret_position (EEditorSelection *selection)
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
 	g_object_unref (widget);
 
-	element = webkit_dom_document_get_element_by_id (document, "-x-evo-caret-position");
+	element = webkit_dom_document_get_element_by_id (
+		document, "-x-evo-caret-position");
+	fix_after_quoting = element_has_class (element, "-x-evo-caret-quoting");
 
 	if (element) {
 		WebKitDOMDOMWindow *window;
 		WebKitDOMNode *parent_node;
 		WebKitDOMDOMSelection *window_selection;
+		WebKitDOMNode *prev_sibling;
+		WebKitDOMNode *next_sibling;
 
 		window = webkit_dom_document_get_default_view (document);
 		window_selection = webkit_dom_dom_window_get_selection (window);
@@ -3438,42 +3481,52 @@ e_editor_selection_restore_caret_position (EEditorSelection *selection)
 		/* If parent is BODY element, we try to restore the position on the 
 		 * element that is next to us */
 		if (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent_node)) {
-
-			WebKitDOMNode *next_sibling;
-
 			/* Look if we have DIV on right */
-			next_sibling = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (element));
-
+			next_sibling = webkit_dom_node_get_next_sibling (
+				WEBKIT_DOM_NODE (element));
 			if (element_has_class (WEBKIT_DOM_ELEMENT (next_sibling), "-x-evo-paragraph")) {
 				webkit_dom_node_remove_child (
-					webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
+					webkit_dom_node_get_parent_node (
+						WEBKIT_DOM_NODE (element)),
 					WEBKIT_DOM_NODE (element),
 					NULL);
 
-				move_caret_into_element (document, WEBKIT_DOM_ELEMENT (next_sibling));
+				move_caret_into_element (
+					document, WEBKIT_DOM_ELEMENT (next_sibling));
 
-				/* FIXME If caret position is restored and afterwards the position is saved
-				 * it is not on the place where it supposed to be (it is in the beginning of
-				 * parent's element. It can be avoided by moving with the caret. */
-				webkit_dom_dom_selection_modify (window_selection, "move", "left", "character");
-				webkit_dom_dom_selection_modify (window_selection, "move", "right", "character");
-
-				webkit_dom_node_normalize (parent_node);
-				return;
+				goto out;
 			}
 		}
 
 		move_caret_into_element (document, element);
+
+		if (fix_after_quoting) {
+			prev_sibling = webkit_dom_node_get_previous_sibling (
+				WEBKIT_DOM_NODE (element));
+			next_sibling = webkit_dom_node_get_next_sibling (
+				WEBKIT_DOM_NODE (element));
+			if (!next_sibling)
+				fix_after_quoting = FALSE;
+		}
+
 		webkit_dom_node_remove_child (
-			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
+			webkit_dom_node_get_parent_node (
+				WEBKIT_DOM_NODE (element)),
 			WEBKIT_DOM_NODE (element),
 			NULL);
 
-		/* FIXME If caret position is restored and afterwards the position is saved
-		 * it is not on the place where it supposed to be (it is in the beginning of
-		 * parent's element. It can be avoided by moving with the caret. */
-		webkit_dom_dom_selection_modify (window_selection, "move", "left", "character");
-		webkit_dom_dom_selection_modify (window_selection, "move", "right", "character");
+		if (fix_after_quoting)
+			fix_quoting_nodes_after_caret_restoration (
+				window_selection, prev_sibling, next_sibling);
+ out:
+		/* FIXME If caret position is restored and afterwards the
+		 * position is saved it is not on the place where it supposed
+		 * to be (it is in the beginning of parent's element. It can
+		 * be avoided by moving with the caret. */
+		webkit_dom_dom_selection_modify (
+			window_selection, "move", "left", "character");
+		webkit_dom_dom_selection_modify (
+			window_selection, "move", "right", "character");
 
 		webkit_dom_node_normalize (parent_node);
 	}
