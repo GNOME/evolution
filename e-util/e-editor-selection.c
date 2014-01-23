@@ -2515,23 +2515,21 @@ e_editor_selection_set_monospaced (EEditorSelection *selection,
 			g_free (end);
 		} else {
 			WebKitDOMRange *new_range;
-			gchar *outer_html, *inner_html, *new_inner_html;
+			gchar *outer_html, *inner_html;
 			gchar *tmp;
-			GRegex *regex;
-
-			regex = g_regex_new (UNICODE_HIDDEN_SPACE, 0, 0, NULL);
-			if (!regex) {
-				g_object_unref (editor_widget);
-				return;
-			}
+			GString *result;
 
 			webkit_dom_element_set_id (tt_element, "ev-tt");
 
 			inner_html = webkit_dom_html_element_get_inner_html (WEBKIT_DOM_HTML_ELEMENT (tt_element));
-			new_inner_html = g_regex_replace_literal (regex, inner_html, -1, 0, "", 0, NULL);
-			webkit_dom_html_element_set_inner_html (
-				WEBKIT_DOM_HTML_ELEMENT (tt_element),
-				new_inner_html, NULL);
+			result = e_str_replace_string (inner_html, UNICODE_HIDDEN_SPACE, "");
+			if (result) {
+				webkit_dom_html_element_set_inner_html (
+					WEBKIT_DOM_HTML_ELEMENT (tt_element),
+					result->str,
+					NULL);
+				g_string_free (result, TRUE);
+			}
 
 		        outer_html = webkit_dom_html_element_get_outer_html (WEBKIT_DOM_HTML_ELEMENT (tt_element));
 			tmp = g_strconcat (outer_html, UNICODE_HIDDEN_SPACE, NULL);
@@ -2552,9 +2550,7 @@ e_editor_selection_set_monospaced (EEditorSelection *selection,
 
 			webkit_dom_dom_selection_modify (window_selection, "move", "right", "character");
 
-			g_regex_unref (regex);
 			g_free (inner_html);
-			g_free (new_inner_html);
 			g_free (outer_html);
 			g_free (tmp);
 		}
@@ -3991,23 +3987,16 @@ e_editor_selection_wrap_lines (EEditorSelection *selection)
 			WebKitDOMNode *child = webkit_dom_node_get_first_child (paragraph);
 
 			if (WEBKIT_DOM_IS_CHARACTER_DATA (child)) {
-				GRegex *regex;
-				gchar *node_text;
+				GString *result = e_str_replace_string (
+					text_content, UNICODE_HIDDEN_SPACE, "");
 
-				regex = g_regex_new (UNICODE_HIDDEN_SPACE, 0, 0, NULL);
-				if (!regex) {
-					g_free (text_content);
-					return;
+				if (result) {
+					webkit_dom_character_data_set_data (
+						WEBKIT_DOM_CHARACTER_DATA (child),
+						result->str,
+						NULL);
+					g_string_free (result, TRUE);
 				}
-
-				node_text = webkit_dom_character_data_get_data (WEBKIT_DOM_CHARACTER_DATA (child));
-				webkit_dom_character_data_set_data (
-					WEBKIT_DOM_CHARACTER_DATA (child),
-					g_regex_replace_literal (regex, node_text, -1, 0, "", 0, NULL),
-					NULL);
-
-				g_free (node_text);
-				g_regex_unref (regex);
 			}
 		}
 		g_free (text_content);
