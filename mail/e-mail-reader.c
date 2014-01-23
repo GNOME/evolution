@@ -90,6 +90,11 @@ struct _EMailReaderPrivate {
 	guint avoid_next_mark_as_seen     : 1;
 
 	guint group_by_threads : 1;
+
+	/* to be able to start the mark_seen timeout only after
+	   the message is loaded into the EMailDisplay */
+	gboolean schedule_mark_seen;
+	guint schedule_mark_seen_interval;
 };
 
 enum {
@@ -2591,9 +2596,61 @@ mail_reader_message_seen_cb (gpointer user_data)
 	return FALSE;
 }
 
-static gboolean
+static void
 schedule_timeout_mark_seen (EMailReader *reader)
 {
+	EMailReaderPrivate *priv;
+	MessageList *message_list;
+
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+
+	priv = E_MAIL_READER_GET_PRIVATE (reader);
+
+	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
+	g_return_if_fail (message_list != NULL);
+
+	if (message_list->cursor_uid) {
+		EMailReaderClosure *timeout_closure;
+
+		if (message_list->seen_id > 0) {
+			g_source_remove (message_list->seen_id);
+			message_list->seen_id = 0;
+		}
+
+		timeout_closure = g_slice_new0 (EMailReaderClosure);
+		timeout_closure->reader = g_object_ref (reader);
+		timeout_closure->message_uid = g_strdup (message_list->cursor_uid);
+
+		MESSAGE_LIST (message_list)->seen_id =
+			e_named_timeout_add_full (
+				G_PRIORITY_DEFAULT, priv->schedule_mark_seen_interval,
+				mail_reader_message_seen_cb,
+				timeout_closure, (GDestroyNotify)
+				mail_reader_closure_free);
+	}
+}
+
+static void
+mail_reader_load_status_changed_cb (EMailReader *reader,
+				    GParamSpec *pspec,
+				    EMailDisplay *display)
+{
+	EMailReaderPrivate *priv;
+
+	if (webkit_web_view_get_load_status (WEBKIT_WEB_VIEW (display)) != WEBKIT_LOAD_FINISHED)
+		return;
+
+	priv = E_MAIL_READER_GET_PRIVATE (reader);
+	if (priv->schedule_mark_seen &&
+	    e_mail_display_get_part_list (display) &&
+	    e_mail_view_get_preview_visible (E_MAIL_VIEW (reader)))
+		schedule_timeout_mark_seen (reader);
+}
+
+static gboolean
+maybe_schedule_timeout_mark_seen (EMailReader *reader)
+{
+	EMailReaderPrivate *priv;
 	MessageList *message_list;
 	GSettings *settings;
 	gboolean schedule_timeout;
@@ -2622,20 +2679,9 @@ schedule_timeout_mark_seen (EMailReader *reader)
 		message_list->seen_id = 0;
 	}
 
-	if (schedule_timeout) {
-		EMailReaderClosure *timeout_closure;
-
-		timeout_closure = g_slice_new0 (EMailReaderClosure);
-		timeout_closure->reader = g_object_ref (reader);
-		timeout_closure->message_uid = g_strdup (message_uid);
-
-		MESSAGE_LIST (message_list)->seen_id =
-			e_named_timeout_add_full (
-				G_PRIORITY_DEFAULT, timeout_interval,
-				mail_reader_message_seen_cb,
-				timeout_closure, (GDestroyNotify)
-				mail_reader_closure_free);
-	}
+	priv = E_MAIL_READER_GET_PRIVATE (reader);
+	priv->schedule_mark_seen = schedule_timeout;
+	priv->schedule_mark_seen_interval = timeout_interval;
 
 	return schedule_timeout;
 }
@@ -2643,9 +2689,13 @@ schedule_timeout_mark_seen (EMailReader *reader)
 static gboolean
 discard_timeout_mark_seen_cb (EMailReader *reader)
 {
+	EMailReaderPrivate *priv;
 	MessageList *message_list;
 
 	g_return_val_if_fail (reader != NULL, FALSE);
+
+	priv = E_MAIL_READER_GET_PRIVATE (reader);
+	priv->schedule_mark_seen = FALSE;
 
 	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
 	g_return_val_if_fail (message_list != NULL, FALSE);
@@ -2879,7 +2929,7 @@ mail_reader_message_cursor_change_cb (EMailReader *reader)
 	    E_IS_MAIL_VIEW (reader) &&
 	    e_mail_view_get_preview_visible (E_MAIL_VIEW (reader)) &&
 	    !priv->avoid_next_mark_as_seen)
-		schedule_timeout_mark_seen (reader);
+		maybe_schedule_timeout_mark_seen (reader);
 }
 
 static void
@@ -3104,7 +3154,7 @@ mail_reader_message_loaded (EMailReader *reader,
 	if (message != NULL &&
 	    !priv->restoring_message_selection &&
 	    !priv->avoid_next_mark_as_seen &&
-	    schedule_timeout_mark_seen (reader)) {
+	    maybe_schedule_timeout_mark_seen (reader)) {
 		g_clear_error (&error);
 	} else if (error != NULL) {
 		e_alert_submit (
@@ -3893,6 +3943,10 @@ connect_signals:
 	g_signal_connect_swapped (
 		display, "key-press-event",
 		G_CALLBACK (mail_reader_key_press_event_cb), reader);
+
+	g_signal_connect_swapped (
+		display, "notify::load-status",
+		G_CALLBACK (mail_reader_load_status_changed_cb), reader);
 
 	g_signal_connect_swapped (
 		message_list, "message-selected",
