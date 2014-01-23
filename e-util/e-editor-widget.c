@@ -3091,8 +3091,8 @@ e_editor_widget_update_fonts (EEditorWidget *widget)
 		stylesheet,
 		"blockquote "
 		"{\n"
-		"  -webkit-margin-before: 0em; "
-		"  -webkit-margin-after: 0em; "
+		"  -webkit-margin-before: 0em; \n"
+		"  -webkit-margin-after: 0em; \n"
 		"}\n");
 
 	g_string_append (
@@ -3101,8 +3101,9 @@ e_editor_widget_update_fonts (EEditorWidget *widget)
 		"{\n"
 		"  padding: 0.0ex 0ex;\n"
 		"  margin: 0ex;\n"
-		"  -webkit-margin-start: 0em; "
-		"  -webkit-margin-end : 0em; "
+		"  -webkit-margin-start: 0em; \n"
+		"  -webkit-margin-end : 0em; \n"
+		"  color: #737373 !important;\n"
 		"}\n");
 
 	g_string_append (
