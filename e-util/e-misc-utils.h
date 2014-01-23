@@ -99,6 +99,9 @@ gchar *		e_ascii_dtostr			(gchar *buffer,
 						 gdouble d);
 
 gchar *		e_str_without_underscores	(const gchar *string);
+GString *	e_str_replace_string		(const gchar *text,
+						 const gchar *find,
+						 const gchar *replace);
 gint		e_str_compare			(gconstpointer x,
 						 gconstpointer y);
 gint		e_str_case_compare		(gconstpointer x,

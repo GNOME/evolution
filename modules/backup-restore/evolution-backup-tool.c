@@ -101,38 +101,6 @@ static GOptionEntry options[] = {
 
 static gboolean check (const gchar *filename, gboolean *is_new_format);
 
-static GString *
-replace_string (const gchar *text,
-                const gchar *find,
-                const gchar *replace)
-{
-	const gchar *p, *next;
-	GString *str;
-	gint find_len;
-
-	g_return_val_if_fail (text != NULL, NULL);
-	g_return_val_if_fail (find != NULL, NULL);
-	g_return_val_if_fail (*find, NULL);
-
-	find_len = strlen (find);
-	str = g_string_new ("");
-
-	p = text;
-	while (next = strstr (p, find), next) {
-		if (p < next)
-			g_string_append_len (str, p, next - p);
-
-		if (replace && *replace)
-			g_string_append (str, replace);
-
-		p = next + find_len;
-	}
-
-	g_string_append (str, p);
-
-	return str;
-}
-
 static const gchar *
 strip_home_dir (const gchar *dir)
 {
@@ -166,11 +134,11 @@ replace_variables (const gchar *str,
 	strip_datadir = strip_home_dir (e_get_user_data_dir ());
 	strip_configdir = strip_home_dir (e_get_user_config_dir ());
 
-	#define repl(_find, _replace) \
-		use = replace_string (res ? res->str : str, _find, _replace); \
-		g_return_val_if_fail (use != NULL, NULL); \
-		if (res) \
-			g_string_free (res, TRUE); \
+	#define repl(_find, _replace)							\
+		use = e_str_replace_string (res ? res->str : str, _find, _replace);	\
+		g_return_val_if_fail (use != NULL, NULL);				\
+		if (res)								\
+			g_string_free (res, TRUE);					\
 		res = use;
 
 	repl ("$HOME", g_get_home_dir ());
@@ -223,7 +191,7 @@ replace_in_file (const gchar *filename,
 	}
 
 	if (g_file_get_contents (filename, &content, NULL, &error)) {
-		GString *str = replace_string (content, find, replace);
+		GString *str = e_str_replace_string (content, find, replace);
 
 		if (str) {
 			if (!g_file_set_contents (filename, str->str, -1, &error) && error) {
