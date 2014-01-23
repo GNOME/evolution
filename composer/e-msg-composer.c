@@ -3492,6 +3492,7 @@ e_msg_composer_new_with_message (EShell *shell,
 	}
 
 	priv->is_from_message = TRUE;
+	priv->set_signature_from_message = TRUE;
 
 	/* We wait until now to set the body text because we need to
 	 * ensure that the attachment bar has all the attachments before
