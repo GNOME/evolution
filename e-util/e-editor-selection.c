@@ -1752,7 +1752,7 @@ e_editor_selection_is_citation (EEditorSelection *selection)
 	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
 
 	if (WEBKIT_DOM_IS_TEXT (node))
-		return FALSE;
+		return get_has_style (selection, "citation");
 
 	/* If we are changing the format of block we have to re-set bold property,
 	 * otherwise it will be turned off because of no text in composer */
@@ -1769,7 +1769,7 @@ e_editor_selection_is_citation (EEditorSelection *selection)
 	if (g_strstr_len (value, -1, "cite"))
 		ret_val = TRUE;
 	else
-		ret_val = FALSE;
+		ret_val = get_has_style (selection, "citation");
 
 	g_free (value);
 	return ret_val;
