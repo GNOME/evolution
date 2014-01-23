@@ -1547,7 +1547,6 @@ set_editor_text (EMsgComposer *composer,
                  const gchar *text,
                  gboolean set_signature)
 {
-	gchar *body = NULL;
 	EEditor *editor;
 	EEditorWidget *editor_widget;
 
@@ -1583,10 +1582,6 @@ set_editor_text (EMsgComposer *composer,
 	} else {
 		e_editor_widget_set_text_html (editor_widget, text);
 	}
-
-	editor = e_msg_composer_get_editor (composer);
-	editor_widget = e_editor_get_editor_widget (editor);
-	e_editor_widget_set_text_html (editor_widget, body);
 
 	if (set_signature)
 		e_composer_update_signature (composer);

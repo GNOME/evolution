@@ -1960,7 +1960,10 @@ quote_plain_text_recursive (WebKitDOMDocument *document,
  * e_editor_widget_quote_plain_text:
  * @widget: an #EEditorWidget
  *
- * Quote plain text in editor.
+ * Quote text inside citation blockquotes in plain text mode.
+ *
+ * As this function is cloning and replacing all citation blockquotes keep on
+ * mind that any pointers to nodes inside these blockquotes will be invalidated.
  */
 void
 e_editor_widget_quote_plain_text (EEditorWidget *widget)
