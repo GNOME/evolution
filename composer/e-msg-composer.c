@@ -1579,7 +1579,6 @@ set_editor_text (EMsgComposer *composer,
                  const gchar *text,
                  gboolean set_signature)
 {
-	gchar *body = NULL;
 	EEditor *editor;
 	EEditorWidget *editor_widget;
 
@@ -1602,22 +1601,23 @@ set_editor_text (EMsgComposer *composer,
 
 	/* "Edit as New Message" sets "priv->is_from_message".
 	 * Always put the signature at the bottom for that case. */
-	if (!composer->priv->is_from_message && use_top_signature (composer)) {
-		/* put marker to the top */
-		body = g_strdup_printf ("<BR>" NO_SIGNATURE_TEXT "%s", text);
-	} else {
-		/* no marker => to the bottom */
-		body = g_strdup_printf ("%s<BR>", text);
-	}
 
 	editor = e_msg_composer_get_editor (composer);
 	editor_widget = e_editor_get_editor_widget (editor);
-	e_editor_widget_set_text_html (editor_widget, body);
+
+	if (!composer->priv->is_from_message && use_top_signature (composer)) {
+		gchar *body;
+		/* put marker to the top */
+		body = g_strdup_printf ("<BR>%s", text);
+		e_editor_widget_set_text_html (editor_widget, body);
+		g_free (body);
+	} else {
+		e_editor_widget_set_text_html (editor_widget, text);
+	}
 
 	if (set_signature)
 		e_composer_update_signature (composer);
 
-	g_free (body);
 }
 
 /* Miscellaneous callbacks.  */

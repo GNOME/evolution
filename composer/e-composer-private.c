@@ -769,10 +769,32 @@ composer_size_allocate_cb (GtkWidget *widget,
 }
 
 static void
+insert_paragraph_with_input (WebKitDOMElement *paragraph,
+                             WebKitDOMElement *body)
+{
+	WebKitDOMNode *node = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body));
+
+	if (node) {
+		webkit_dom_node_insert_before (
+			WEBKIT_DOM_NODE (body),
+			WEBKIT_DOM_NODE (paragraph),
+			node,
+			NULL);
+	} else {
+		webkit_dom_node_append_child (
+			WEBKIT_DOM_NODE (body),
+			WEBKIT_DOM_NODE (paragraph),
+			NULL);
+	}
+}
+
+static void
 composer_move_caret (EMsgComposer *composer)
 {
-	WebKitDOMHTMLElement *body;
-	WebKitDOMRange *new_range;
+	GSettings *settings;
+	gboolean start_bottom;
+	gboolean top_signature;
+	gboolean has_paragraphs_in_body = TRUE;
 	EEditor *editor;
 	EEditorWidget *editor_widget;
 	EEditorSelection *editor_selection;
@@ -780,18 +802,23 @@ composer_move_caret (EMsgComposer *composer)
 	WebKitDOMDOMWindow *window;
 	WebKitDOMDOMSelection *dom_selection;
 	WebKitDOMElement *input_start;
+	WebKitDOMElement *element;
+	WebKitDOMElement *signature;
+	WebKitDOMHTMLElement *body;
 	WebKitDOMNodeList *list;
 	WebKitDOMNodeList *blockquotes;
-	WebKitDOMElement *element;
-	GSettings *settings;
-	gboolean start_bottom;
-	gboolean has_paragraphs_in_body = TRUE;
+	WebKitDOMRange *new_range;
 
 	/* When there is an option composer-reply-start-bottom set we have
 	 * to move the caret between reply and signature. */
 	settings = g_settings_new ("org.gnome.evolution.mail");
 	start_bottom = g_settings_get_boolean (settings, "composer-reply-start-bottom");
 	g_object_unref (settings);
+
+	top_signature =
+		use_top_signature (composer) &&
+		!composer->priv->is_from_message &&
+		!composer->priv->is_from_new_message;
 
 	editor = e_msg_composer_get_editor (composer);
 	editor_widget = e_editor_get_editor_widget (editor);
@@ -816,12 +843,19 @@ composer_move_caret (EMsgComposer *composer)
 		return;
 	}
 
+	/* If editing message as new don't handle with caret */
+	if (composer->priv->is_from_message) {
+		e_editor_selection_restore_caret_position (editor_selection);
+		e_editor_widget_quote_plain_text (editor_widget);
+		e_editor_widget_force_spellcheck (editor_widget);
+
+		return;
+	}
+
 	list = webkit_dom_document_get_elements_by_class_name (document, "-x-evo-paragraph");
+	signature = webkit_dom_document_query_selector (document, ".-x-evolution-signature", NULL);
 	/* Situation when wrapped paragraph is just in signature and not in message body */
 	if (webkit_dom_node_list_get_length (list) == 1) {
-		WebKitDOMElement *signature;
-
-		signature = webkit_dom_document_query_selector (document, ".-x-evolution-signature", NULL);
 		if (signature && webkit_dom_element_query_selector (signature, ".-x-evo-paragraph", NULL))
 			has_paragraphs_in_body = FALSE;
 	}
@@ -854,12 +888,22 @@ composer_move_caret (EMsgComposer *composer)
 	if (start_bottom) {
 		if (webkit_dom_node_list_get_length (blockquotes) != 0) {
 			if (!has_paragraphs_in_body) {
-				webkit_dom_node_insert_before (
-					WEBKIT_DOM_NODE (body),
-					WEBKIT_DOM_NODE (element),
-					webkit_dom_node_get_next_sibling (
-						webkit_dom_node_list_item (blockquotes, 0)),
-					NULL);
+				if (!top_signature) {
+					webkit_dom_node_insert_before (
+						WEBKIT_DOM_NODE (body),
+						WEBKIT_DOM_NODE (element),
+						signature ?
+							webkit_dom_node_get_parent_node (
+								WEBKIT_DOM_NODE (signature)) :
+							webkit_dom_node_get_next_sibling (
+								webkit_dom_node_list_item (blockquotes, 0)),
+						NULL);
+				} else {
+					webkit_dom_node_append_child (
+						WEBKIT_DOM_NODE (body),
+						WEBKIT_DOM_NODE (element),
+						NULL);
+				}
 			}
 
 			e_editor_selection_restore_caret_position (editor_selection);
@@ -872,20 +916,8 @@ composer_move_caret (EMsgComposer *composer)
 
 			webkit_dom_range_collapse (new_range, FALSE, NULL);
 		} else {
-			if (!has_paragraphs_in_body) {
-				if (webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body))) {
-					webkit_dom_node_insert_before (
-						WEBKIT_DOM_NODE (body),
-						WEBKIT_DOM_NODE (element),
-						webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)),
-						NULL);
-				} else {
-					webkit_dom_node_append_child (
-						WEBKIT_DOM_NODE (body),
-						WEBKIT_DOM_NODE (element),
-						NULL);
-				}
-			}
+			if (!has_paragraphs_in_body)
+				insert_paragraph_with_input (element, body);
 
 			webkit_dom_range_select_node_contents (new_range,
 				WEBKIT_DOM_NODE (
@@ -900,22 +932,9 @@ composer_move_caret (EMsgComposer *composer)
 	} else {
 		/* Move caret on the beginning of message */
 		if (!has_paragraphs_in_body) {
-			if (webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body))) {
-				webkit_dom_node_insert_before (
-					WEBKIT_DOM_NODE (body),
-					WEBKIT_DOM_NODE (element),
-					webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)),
-					NULL);
-			} else {
-				webkit_dom_node_append_child (
-					WEBKIT_DOM_NODE (body),
-					WEBKIT_DOM_NODE (element),
-					NULL);
-			}
+			insert_paragraph_with_input (element, body);
 
 			if (webkit_dom_node_list_get_length (blockquotes) != 0) {
-				WebKitDOMElement *br = webkit_dom_document_create_element (document, "BR", NULL);
-
 				if (!e_editor_widget_get_html_mode (editor_widget)) {
 					WebKitDOMNode *blockquote;
 
@@ -929,14 +948,8 @@ composer_move_caret (EMsgComposer *composer)
 					e_editor_selection_restore_caret_position (editor_selection);
 					e_editor_widget_quote_plain_text (editor_widget);
 					e_editor_widget_force_spellcheck (editor_widget);
+					body = webkit_dom_document_get_body (document);
 				}
-
-				webkit_dom_node_insert_before (
-					WEBKIT_DOM_NODE (body),
-					WEBKIT_DOM_NODE (br),
-					webkit_dom_node_get_next_sibling (
-						webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body))),
-					NULL);
 			}
 		}
 
@@ -967,9 +980,9 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 	EEditorWidget *editor_widget;
 	WebKitDOMDocument *document;
 	WebKitDOMNodeList *signatures;
-	WebKitDOMDOMWindow *window;
-	WebKitDOMDOMSelection *dom_selection;
 	gulong list_length, ii;
+	GSettings *settings;
+	gboolean start_bottom;
 
 	e_mail_signature_combo_box_load_selected_finish (
 		combo_box, result, &contents, &length, &is_html, &error);
@@ -985,7 +998,12 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 	 * Always put the signature at the bottom for that case. */
 	top_signature =
 		use_top_signature (composer) &&
-		!composer->priv->is_from_message;
+		!composer->priv->is_from_message &&
+		!composer->priv->is_from_new_message;
+
+	settings = g_settings_new ("org.gnome.evolution.mail");
+	start_bottom = g_settings_get_boolean (settings, "composer-reply-start-bottom");
+	g_object_unref (settings);
 
 	if (contents == NULL)
 		goto insert;
@@ -1047,9 +1065,6 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 	if (!is_html)
 		g_string_append (html_buffer, "</PRE>\n");
 
-	if (top_signature)
-		g_string_append (html_buffer, "<BR>");
-
 	g_string_append (html_buffer, "</SPAN>");
 	g_free (contents);
 
@@ -1060,8 +1075,6 @@ insert:
 	editor_widget = e_editor_get_editor_widget (editor);
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (editor_widget));
-	window = webkit_dom_document_get_default_view (document);
-	dom_selection = webkit_dom_dom_window_get_selection (window);
 
 	signatures = webkit_dom_document_get_elements_by_class_name (
 		document, "-x-evolution-signature");
@@ -1107,25 +1120,6 @@ insert:
 		g_free (id);
 	}
 
-	if (top_signature) {
-		WebKitDOMElement *citation;
-
-		citation = webkit_dom_document_get_element_by_id (
-			document, "-x-evolution-reply-citation");
-		if (citation == NULL) {
-			webkit_dom_dom_selection_modify (
-				dom_selection, "move", "forward",
-				"documentBoundary");
-		} else {
-			webkit_dom_dom_selection_set_base_and_extent (
-				dom_selection, WEBKIT_DOM_NODE (citation), 0,
-				WEBKIT_DOM_NODE (citation), 0, NULL);
-		}
-	} else {
-		webkit_dom_dom_selection_modify (
-			dom_selection, "move", "forward", "documentBoundary");
-	}
-
 	if (html_buffer != NULL) {
 		if (*html_buffer->str) {
 			WebKitDOMElement *element;
@@ -1134,8 +1128,40 @@ insert:
 			body = webkit_dom_document_get_body (document);
 			element = webkit_dom_document_create_element (document, "DIV", NULL);
 
-			webkit_dom_html_element_set_inner_html (WEBKIT_DOM_HTML_ELEMENT (element), html_buffer->str, NULL);
-			webkit_dom_node_append_child (WEBKIT_DOM_NODE (body), WEBKIT_DOM_NODE (element), NULL);
+			webkit_dom_html_element_set_inner_html (
+				WEBKIT_DOM_HTML_ELEMENT (element), html_buffer->str, NULL);
+
+			if (top_signature) {
+				WebKitDOMNode *child =
+					webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body));
+
+				if (start_bottom) {
+					webkit_dom_node_insert_before (
+						WEBKIT_DOM_NODE (body),
+						WEBKIT_DOM_NODE (element),
+						child,
+						NULL);
+				} else {
+					WebKitDOMElement *input_start =
+						webkit_dom_document_get_element_by_id (
+							document, "-x-evo-input-start");
+					/* When we are using signature on top the caret
+					 * should be before the signature */
+					webkit_dom_node_insert_before (
+						WEBKIT_DOM_NODE (body),
+						WEBKIT_DOM_NODE (element),
+						input_start ?
+							webkit_dom_node_get_next_sibling (
+								WEBKIT_DOM_NODE (input_start)) :
+							child,
+						NULL);
+				}
+			} else {
+				webkit_dom_node_append_child (
+					WEBKIT_DOM_NODE (body),
+					WEBKIT_DOM_NODE (element),
+					NULL);
+			}
 		}
 
 		g_string_free (html_buffer, TRUE);
