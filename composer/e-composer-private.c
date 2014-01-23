@@ -133,6 +133,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 
 	priv->is_from_message = FALSE;
 	priv->is_from_new_message = FALSE;
+	priv->set_signature_from_message = FALSE;
 
 	e_composer_actions_init (composer);
 
@@ -1103,11 +1104,13 @@ insert:
 		id = webkit_dom_element_get_id (WEBKIT_DOM_ELEMENT (node));
 
 		/* When we are editing a message with signature we need to set active
-		 * signature id in signature combo box otherwise no signature will be added */
-		if (composer->priv->is_from_message) {
+		 * signature id in signature combo box otherwise no signature will be
+		 * added but we have to do it just once when the composer opens */
+		if (composer->priv->is_from_message && composer->priv->set_signature_from_message) {
 			gchar *name = webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (node), "name");
 			gtk_combo_box_set_active_id (GTK_COMBO_BOX (combo_box), name);
 			g_free (name);
+			composer->priv->set_signature_from_message = FALSE;
 		}
 
 		if (id && (strlen (id) == 1) && (*id == '1')) {
