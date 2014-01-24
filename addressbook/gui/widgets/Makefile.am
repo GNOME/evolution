@@ -87,13 +87,8 @@ dist-hook:
 
 etspec_DATA= e-addressbook-view.etspec
 
-ui_DATA = \
-	eab-contact-duplicate-detected.ui	\
-	eab-contact-commit-duplicate-detected.ui
-
 EXTRA_DIST = 			\
 	$(etspec_DATA)		\
-	$(rule_DATA)		\
-	$(ui_DATA)
+	$(rule_DATA)
 
 -include $(top_srcdir)/git.mk
