@@ -445,6 +445,12 @@ source_selector_source_added_cb (ESourceRegistry *registry,
                                  ESource *source,
                                  ESourceSelector *selector)
 {
+	const gchar *extension_name;
+
+	extension_name = e_source_selector_get_extension_name (selector);
+	if (!extension_name || !e_source_has_extension (source, extension_name))
+		return;
+
 	source_selector_build_model (selector);
 
 	source_selector_expand_to_source (selector, source);
@@ -455,6 +461,12 @@ source_selector_source_changed_cb (ESourceRegistry *registry,
                                    ESource *source,
                                    ESourceSelector *selector)
 {
+	const gchar *extension_name;
+
+	extension_name = e_source_selector_get_extension_name (selector);
+	if (!extension_name || !e_source_has_extension (source, extension_name))
+		return;
+
 	source_selector_cancel_write (selector, source);
 
 	e_source_selector_update_row (selector, source);
@@ -465,6 +477,12 @@ source_selector_source_removed_cb (ESourceRegistry *registry,
                                    ESource *source,
                                    ESourceSelector *selector)
 {
+	const gchar *extension_name;
+
+	extension_name = e_source_selector_get_extension_name (selector);
+	if (!extension_name || !e_source_has_extension (source, extension_name))
+		return;
+
 	source_selector_build_model (selector);
 }
 
@@ -473,6 +491,12 @@ source_selector_source_enabled_cb (ESourceRegistry *registry,
                                    ESource *source,
                                    ESourceSelector *selector)
 {
+	const gchar *extension_name;
+
+	extension_name = e_source_selector_get_extension_name (selector);
+	if (!extension_name || !e_source_has_extension (source, extension_name))
+		return;
+
 	source_selector_build_model (selector);
 
 	source_selector_expand_to_source (selector, source);
@@ -483,6 +507,12 @@ source_selector_source_disabled_cb (ESourceRegistry *registry,
                                     ESource *source,
                                     ESourceSelector *selector)
 {
+	const gchar *extension_name;
+
+	extension_name = e_source_selector_get_extension_name (selector);
+	if (!extension_name || !e_source_has_extension (source, extension_name))
+		return;
+
 	source_selector_build_model (selector);
 }
 
