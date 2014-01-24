@@ -57,8 +57,18 @@
             <property name="row_spacing">6</property>
             <property name="column_spacing">6</property>
             <child>
-              <object class="EABContactDisplay" type-func="eab_contact_display_get_type" id="custom-old-contact">
-                <property name="visible">True</property>
+	      <object class="GtkScrolledWindow" id="scrolled-old-contact">
+		<property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="hscrollbar_policy">GTK_POLICY_NEVER</property>
+                <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
+                <property name="shadow_type">GTK_SHADOW_NONE</property>
+                <property name="window_placement">GTK_CORNER_TOP_LEFT</property>
+		<child>
+                  <object class="EABContactDisplay" type-func="eab_contact_display_get_type" id="custom-old-contact">
+                    <property name="visible">True</property>
+                  </object>
+                </child>
               </object>
               <packing>
                 <property name="left_attach">1</property>
@@ -135,8 +145,18 @@
               </packing>
             </child>
             <child>
-              <object class="EABContactDisplay" type-func="eab_contact_display_get_type" id="custom-new-contact">
-                <property name="visible">True</property>
+	      <object class="GtkScrolledWindow" id="scrolled-new-contact">
+		<property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="hscrollbar_policy">GTK_POLICY_NEVER</property>
+                <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
+                <property name="shadow_type">GTK_SHADOW_NONE</property>
+                <property name="window_placement">GTK_CORNER_TOP_LEFT</property>
+		<child>
+                  <object class="EABContactDisplay" type-func="eab_contact_display_get_type" id="custom-new-contact">
+                    <property name="visible">True</property>
+                  </object>
+                </child>
               </object>
               <packing>
                 <property name="left_attach">1</property>
