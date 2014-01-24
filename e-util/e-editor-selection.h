@@ -159,10 +159,37 @@ void		e_editor_selection_insert_text	(EEditorSelection *selection,
 						 const gchar *plain_text);
 void 		e_editor_selection_clear_caret_position_marker
 						(EEditorSelection *selection);
+WebKitDOMElement *
+		e_editor_selection_get_caret_position_node
+						(WebKitDOMDocument *document);
 void		e_editor_selection_save_caret_position
 						(EEditorSelection *selection);
 void		e_editor_selection_restore_caret_position
 						(EEditorSelection *selection);
+void		e_editor_selection_set_indented_style
+						(EEditorSelection *selection,
+						 WebKitDOMElement *element,
+						 gint width);
+WebKitDOMElement *
+		e_editor_selection_get_indented_element
+						(EEditorSelection *selection,
+						 WebKitDOMDocument *document,
+						 gint width);
+void		e_editor_selection_set_paragraph_style
+						(EEditorSelection *selection,
+						 WebKitDOMElement *element,
+						 gint width);
+WebKitDOMElement *
+		e_editor_selection_get_paragraph_element
+						(EEditorSelection *selection,
+						 WebKitDOMDocument *document,
+						 gint width);
+WebKitDOMElement *
+		e_editor_selection_put_node_into_paragraph
+						(EEditorSelection *selection,
+						 WebKitDOMDocument *document,
+						 WebKitDOMNode *node,
+						 WebKitDOMNode *caret_position);
 void		e_editor_selection_wrap_lines	(EEditorSelection *selection);
 void		e_editor_selection_wrap_paragraph
 						(EEditorSelection *selection,

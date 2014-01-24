@@ -40,6 +40,7 @@
 	((obj), E_TYPE_EDITOR_SELECTION, EEditorSelectionPrivate))
 
 #define UNICODE_HIDDEN_SPACE "\xe2\x80\x8b"
+#define SPACES_PER_INDENTATION 4
 
 /**
  * EEditorSelection:
@@ -818,7 +819,8 @@ e_editor_selection_init (EEditorSelection *selection)
 	selection->priv = E_EDITOR_SELECTION_GET_PRIVATE (selection);
 
 	g_settings = g_settings_new ("org.gnome.evolution.mail");
-	selection->priv->word_wrap_length = g_settings_get_int (g_settings, "composer-word-wrap-length");
+	selection->priv->word_wrap_length =
+		g_settings_get_int (g_settings, "composer-word-wrap-length");
 	g_object_unref (g_settings);
 }
 
@@ -1513,26 +1515,15 @@ e_editor_selection_set_block_format (EEditorSelection *selection,
 		paragraph = e_editor_dom_node_find_parent_element (node, "P");
 
 		if (paragraph) {
-			gchar *style_value;
-			gint spaces_per_indentation = 4;
 			gint word_wrap_length = selection->priv->word_wrap_length;
 			gint level;
 
-			element_add_class (WEBKIT_DOM_ELEMENT (paragraph), "-x-evo-paragraph");
 			level = get_indentation_level (WEBKIT_DOM_ELEMENT (paragraph));
-			style_value =
-				g_strdup_printf (
-					"word-wrap: normal; "
-					"width: %dch",
-					word_wrap_length - spaces_per_indentation * level);
 
-			webkit_dom_element_set_attribute (
-				paragraph,
-				"style",
-				style_value,
-				NULL);
-
-			g_free (style_value);
+			e_editor_selection_set_paragraph_style (
+				selection,
+				WEBKIT_DOM_ELEMENT (paragraph),
+				word_wrap_length - SPACES_PER_INDENTATION * level);
 		}
 	}
 
@@ -1839,8 +1830,6 @@ e_editor_selection_indent (EEditorSelection *selection)
 		WebKitDOMNode *node;
 		WebKitDOMNode *clone;
 		WebKitDOMElement *element;
-		gchar *style_value;
-		gint spaces_per_indentation = 4;
 		gint word_wrap_length = selection->priv->word_wrap_length;
 		gint level;
 		gint final_width = 0;
@@ -1861,40 +1850,21 @@ e_editor_selection_indent (EEditorSelection *selection)
 
 		level = get_indentation_level (WEBKIT_DOM_ELEMENT (node));
 
-		final_width = word_wrap_length - spaces_per_indentation * (level + 1);
+		final_width = word_wrap_length - SPACES_PER_INDENTATION * (level + 1);
 		if (final_width < 10) {
 			g_object_unref (editor_widget);
 			return;
 		}
 
 		element = webkit_dom_node_get_parent_element (node);
-
 		clone = webkit_dom_node_clone_node (node, TRUE);
 
 		/* Remove style and let the paragraph inherit it from parent */
 		if (element_has_class (WEBKIT_DOM_ELEMENT (clone), "-x-evo-paragraph"))
 			webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (clone), "style");
 
-		element = webkit_dom_document_create_element (document, "BLOCKQUOTE", NULL);
-		element_add_class (element, "-x-evo-indented");
-
-		/* We don't want vertical space bellow and above blockquote inserted by
-		 * WebKit's User Agent Stylesheet. We have to override it through style attribute. */
-		style_value =
-			g_strdup_printf (
-				"-webkit-margin-start: %dch; "
-				"-webkit-margin-end : %dch; "
-				"word-wrap: normal; "
-				"width: %dch",
-				spaces_per_indentation,
-				spaces_per_indentation,
-				final_width);
-
-		webkit_dom_element_set_attribute (
-			element,
-			"style",
-			style_value,
-			NULL);
+		element = e_editor_selection_get_indented_element (
+			selection, document, final_width);
 
 		webkit_dom_node_append_child (
 			WEBKIT_DOM_NODE (element),
@@ -1907,7 +1877,6 @@ e_editor_selection_indent (EEditorSelection *selection)
 			node,
 			NULL);
 
-		g_free (style_value);
 		e_editor_selection_restore_caret_position (selection);
 	} else {
 		command = E_EDITOR_WIDGET_COMMAND_INDENT;
@@ -1955,8 +1924,8 @@ e_editor_selection_unindent (EEditorSelection *selection)
 		gboolean before_node = TRUE;
 		gboolean reinsert_caret_position = FALSE;
 		gint word_wrap_length = selection->priv->word_wrap_length;
-		gint spaces_per_indentation = 4;
 		gint level;
+		gint width;
 
 		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (editor_widget));
 
@@ -1981,57 +1950,20 @@ e_editor_selection_unindent (EEditorSelection *selection)
 		element_add_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-to-unindent");
 
 		level = get_indentation_level (element);
+		width = word_wrap_length - SPACES_PER_INDENTATION * level;
 		clone = WEBKIT_DOM_NODE (webkit_dom_node_clone_node (WEBKIT_DOM_NODE (element), TRUE));
 
 		/* Look if we have previous siblings, if so, we have to
 		 * create new blockquote that will include them */
-		if (webkit_dom_node_get_previous_sibling (node)) {
-			gchar *style_value;
-			prev_blockquote = webkit_dom_document_create_element (document, "BLOCKQUOTE", NULL);
-			/* We don't want vertical space bellow and above blockquote inserted by
-			 * WebKit's User Agent Stylesheet. We have to override it through style attribute. */
-			element_add_class (prev_blockquote, "-x-evo-indented");
-			style_value =
-				g_strdup_printf (
-					"-webkit-margin-start: %dch; "
-					"-webkit-margin-end : %dch; "
-					"word-wrap: normal; "
-					"width: %dch",
-					spaces_per_indentation,
-					spaces_per_indentation,
-					word_wrap_length - spaces_per_indentation * level);
-			webkit_dom_element_set_attribute (
-				prev_blockquote,
-				"style",
-				style_value,
-				NULL);
-			g_free (style_value);
-		}
+		if (webkit_dom_node_get_previous_sibling (node))
+			prev_blockquote = e_editor_selection_get_indented_element (
+				selection, document, width);
 
 		/* Look if we have next siblings, if so, we have to
 		 * create new blockquote that will include them */
-		if (webkit_dom_node_get_next_sibling (node)) {
-			gchar *style_value;
-			prev_blockquote = webkit_dom_document_create_element (document, "BLOCKQUOTE", NULL);
-			/* We don't want vertical space bellow and above blockquote inserted by
-			 * WebKit's User Agent Stylesheet. We have to override it through style attribute. */
-			element_add_class (prev_blockquote, "-x-evo-indented");
-			style_value =
-				g_strdup_printf (
-					"-webkit-margin-start: %dch; "
-					"-webkit-margin-end : %dch; "
-					"word-wrap: normal; "
-					"width: %dch",
-					spaces_per_indentation,
-					spaces_per_indentation,
-					word_wrap_length - spaces_per_indentation * level);
-			webkit_dom_element_set_attribute (
-				prev_blockquote,
-				"style",
-				style_value,
-				NULL);
-			g_free (style_value);
-		}
+		if (webkit_dom_node_get_next_sibling (node))
+			next_blockquote = e_editor_selection_get_indented_element (
+				selection, document, width);
 
 		/* Copy nodes that are before / after the element that we want to unindent */
 		while (webkit_dom_node_has_child_nodes (clone)) {
@@ -2085,20 +2017,9 @@ e_editor_selection_unindent (EEditorSelection *selection)
 				NULL);
 		}
 
-		if (level == 1 &&
-		    element_has_class (WEBKIT_DOM_ELEMENT (node_clone), "-x-evo-paragraph")) {
-			gchar *style_value;
-
-			style_value = g_strdup_printf ("word-wrap: normal; width: %dch",
-							word_wrap_length);
-
-			webkit_dom_element_set_attribute (
-				WEBKIT_DOM_ELEMENT (node_clone),
-				"style",
-				style_value,
-				NULL);
-			g_free (style_value);
-		}
+		if (level == 1 && element_has_class (WEBKIT_DOM_ELEMENT (node_clone), "-x-evo-paragraph"))
+			e_editor_selection_set_paragraph_style (
+				selection, WEBKIT_DOM_ELEMENT (node_clone), word_wrap_length);
 
 		/* Insert the unindented element */
 		webkit_dom_node_insert_before (
@@ -3285,6 +3206,21 @@ image_load_and_insert_async (EEditorSelection *selection,
 		image_load_query_info_cb, load_context);
 }
 
+static gboolean
+is_in_html_mode (EEditorSelection *selection)
+{
+	EEditorWidget *widget = e_editor_selection_ref_editor_widget (selection);
+	gboolean ret_val;
+
+	g_return_val_if_fail (widget != NULL, FALSE);
+
+	ret_val = e_editor_widget_get_html_mode (widget);
+
+	g_object_unref (widget);
+
+	return ret_val;
+}
+
 /**
  * e_editor_selection_insert_image:
  * @selection: an #EEditorSelection
@@ -3297,18 +3233,12 @@ void
 e_editor_selection_insert_image (EEditorSelection *selection,
                                  const gchar *image_uri)
 {
-	EEditorWidget *editor_widget;
-
 	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
 	g_return_if_fail (image_uri != NULL);
 
-	editor_widget = e_editor_selection_ref_editor_widget (selection);
-	g_return_if_fail (editor_widget != NULL);
-
-	if (e_editor_widget_get_html_mode (editor_widget))
+	if (is_in_html_mode (selection))
 		image_load_and_insert_async (selection, image_uri);
 
-	g_object_unref (editor_widget);
 }
 
 /**
@@ -3341,6 +3271,21 @@ e_editor_selection_clear_caret_position_marker (EEditorSelection *selection)
 	}
 
 	g_object_unref (widget);
+}
+
+WebKitDOMElement *
+e_editor_selection_get_caret_position_node (WebKitDOMDocument *document)
+{
+	WebKitDOMElement *element;
+
+	element	= webkit_dom_document_create_element (document, "SPAN", NULL);
+	webkit_dom_element_set_id (element, "-x-evo-caret-position");
+	webkit_dom_element_set_attribute (
+		element, "style", "display: none", NULL);
+	webkit_dom_html_element_set_inner_html (
+		WEBKIT_DOM_HTML_ELEMENT (element), "*", NULL);
+
+	return element;
 }
 
 /**
@@ -3377,12 +3322,7 @@ e_editor_selection_save_caret_position (EEditorSelection *selection)
 	start_offset = webkit_dom_range_get_start_offset (range, NULL);
 	start_offset_node = webkit_dom_range_get_end_container (range, NULL);
 
-	element	= webkit_dom_document_create_element (document, "SPAN", NULL);
-	webkit_dom_element_set_id (element, "-x-evo-caret-position");
-	webkit_dom_element_set_attribute (
-		element, "style", "display: none", NULL);
-	webkit_dom_html_element_set_inner_html (
-		WEBKIT_DOM_HTML_ELEMENT (element), "*", NULL);
+	element = e_editor_selection_get_caret_position_node (document);
 
 	if (WEBKIT_DOM_IS_TEXT (start_offset_node)) {
 		WebKitDOMText *split_text;
@@ -3891,6 +3831,92 @@ wrap_lines (EEditorSelection *selection,
 	}
 }
 
+void
+e_editor_selection_set_indented_style (EEditorSelection *selection,
+                                       WebKitDOMElement *element,
+                                       gint width)
+{
+	gint word_wrap_length = (width == -1) ? selection->priv->word_wrap_length : width;
+	gchar *style;
+
+	webkit_dom_element_set_class_name (element, "-x-evo-indented");
+	/* We don't want vertical space bellow and above blockquote inserted by
+	 * WebKit's User Agent Stylesheet. We have to override it through style attribute. */
+	if (is_in_html_mode (selection))
+		style = g_strdup_printf (
+			"-webkit-margin-start: %dch; -webkit-margin-end : %dch;",
+			SPACES_PER_INDENTATION, SPACES_PER_INDENTATION);
+	else
+		style = g_strdup_printf (
+			"-webkit-margin-start: %dch; -webkit-margin-end : %dch; "
+			"word-wrap: normal; width: %dch",
+			SPACES_PER_INDENTATION, SPACES_PER_INDENTATION, word_wrap_length);
+
+	webkit_dom_element_set_attribute (element, "style", style, NULL);
+	g_free (style);
+}
+
+WebKitDOMElement *
+e_editor_selection_get_indented_element (EEditorSelection *selection,
+                                         WebKitDOMDocument *document,
+                                         gint width)
+{
+	WebKitDOMElement *element;
+
+	element = webkit_dom_document_create_element (document, "BLOCKQUOTE", NULL);
+	e_editor_selection_set_indented_style (selection, element, width);
+
+	return element;
+}
+
+void
+e_editor_selection_set_paragraph_style (EEditorSelection *selection,
+                                        WebKitDOMElement *element,
+                                        gint width)
+{
+	gint word_wrap_length = (width == -1) ? selection->priv->word_wrap_length : width;
+
+	webkit_dom_element_set_class_name (element, "-x-evo-paragraph");
+	if (!is_in_html_mode (selection)) {
+		gchar *style = g_strdup_printf (
+			"width: %dch; word-wrap: normal;", word_wrap_length);
+		webkit_dom_element_set_attribute (element, "style", style, NULL);
+		g_free (style);
+	}
+}
+
+WebKitDOMElement *
+e_editor_selection_get_paragraph_element (EEditorSelection *selection,
+                                          WebKitDOMDocument *document,
+                                          gint width)
+{
+	WebKitDOMElement *element;
+
+	element = webkit_dom_document_create_element (document, "DIV", NULL);
+	e_editor_selection_set_paragraph_style (selection, element, width);
+
+	return element;
+}
+
+WebKitDOMElement *
+e_editor_selection_put_node_into_paragraph (EEditorSelection *selection,
+                                            WebKitDOMDocument *document,
+                                            WebKitDOMNode *node,
+                                            WebKitDOMNode *caret_position)
+{
+	WebKitDOMRange *range;
+	WebKitDOMElement *container;
+
+	range = webkit_dom_document_create_range (document);
+	container = e_editor_selection_get_paragraph_element (selection, document, -1);
+	webkit_dom_range_select_node (range, node, NULL);
+	webkit_dom_range_surround_contents (range, WEBKIT_DOM_NODE (container), NULL);
+	/* We have to move caret position inside this container */
+	webkit_dom_node_append_child (WEBKIT_DOM_NODE (container), caret_position, NULL);
+
+	return container;
+}
+
 /**
  * e_editor_selection_wrap_lines:
  * @selection: an #EEditorSelection
@@ -3953,21 +3979,13 @@ e_editor_selection_wrap_lines (EEditorSelection *selection)
 				paragraph = webkit_dom_node_get_previous_sibling (position);
 				if (paragraph) {
 					/* When there is just text without container we have to surround it with paragraph div */
-					if (WEBKIT_DOM_IS_TEXT (paragraph)) {
-						WebKitDOMRange *new_range = webkit_dom_document_create_range (document);
-						WebKitDOMNode *container = WEBKIT_DOM_NODE (webkit_dom_document_create_element (document, "DIV", NULL));
-						element_add_class (
-							WEBKIT_DOM_ELEMENT (container),
-							"-x-evo-paragraph");
-						webkit_dom_element_set_attribute (
-							WEBKIT_DOM_ELEMENT (container),
-							"style", "width: 70ch; word-wrap: normal;", NULL);
-						webkit_dom_range_select_node (new_range, paragraph, NULL);
-						webkit_dom_range_surround_contents (new_range, container, NULL);
-						/* We have to move caret position inside this container */
-						webkit_dom_node_append_child (container, position, NULL);
-						paragraph = container;
-					}
+					if (WEBKIT_DOM_IS_TEXT (paragraph))
+						paragraph = WEBKIT_DOM_NODE (
+							e_editor_selection_put_node_into_paragraph (
+								selection,
+								document,
+								paragraph,
+								position));
 				} else {
 					/* When some weird element is selected, return */
 					e_editor_selection_clear_caret_position_marker (selection);
@@ -4027,7 +4045,6 @@ e_editor_selection_wrap_paragraph (EEditorSelection *selection,
 	EEditorWidget *editor_widget;
 	WebKitDOMDocument *document;
 	gint level;
-	gint spaces_per_indentation = 4;
 	gint word_wrap_length;
 
 	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
@@ -4045,7 +4062,7 @@ e_editor_selection_wrap_paragraph (EEditorSelection *selection,
 
 	wrap_lines (
 		NULL, WEBKIT_DOM_NODE (paragraph), document, FALSE,
-		word_wrap_length - spaces_per_indentation * level);
+		word_wrap_length - SPACES_PER_INDENTATION * level);
 }
 
 /**
