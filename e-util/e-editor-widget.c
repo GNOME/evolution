@@ -2449,6 +2449,47 @@ changing_composer_mode_get_text_plain (EEditorWidget *widget)
 	return g_string_free (plain_text, FALSE);
 }
 
+static void
+toggle_paragraphs_style (EEditorWidget *widget)
+{
+	EEditorSelection *selection;
+	gboolean html_mode;
+	gint length;
+	gint ii;
+	WebKitDOMDocument *document;
+	WebKitDOMNodeList *paragraphs;
+
+	html_mode = e_editor_widget_get_html_mode (widget);
+	selection = e_editor_widget_get_selection (widget);
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
+	paragraphs = webkit_dom_document_query_selector_all (
+		document, ".-x-evo-paragraph", NULL);
+
+	length = webkit_dom_node_list_get_length (paragraphs);
+
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMNode *node = webkit_dom_node_list_item (paragraphs, ii);
+
+		if (html_mode)
+			/* In HTML mode the paragraphs don't have width limit */
+			webkit_dom_element_remove_attribute (
+				WEBKIT_DOM_ELEMENT (node), "style");
+		else {
+			WebKitDOMNode *parent;
+
+			parent = webkit_dom_node_get_parent_node (node);
+			/* If the paragraph is inside indented paragraph don't set
+			 * the style as it will be inherited */
+			if (!element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-indented"))
+				/* In HTML mode the paragraphs have width limit */
+				e_editor_selection_set_paragraph_style (
+					selection, WEBKIT_DOM_ELEMENT (node), -1);
+		}
+
+	}
+}
+
 /**
  * e_editor_widget_set_html_mode:
  * @widget: an #EEditorWidget
@@ -2519,6 +2560,8 @@ e_editor_widget_set_html_mode (EEditorWidget *widget,
 		/* FIXME WEBKIT: Process smileys! */
 		if (blockquote)
 			e_editor_widget_dequote_plain_text (widget);
+
+		toggle_paragraphs_style (widget);
 	} else {
 		gchar *plain;
 
@@ -2527,6 +2570,8 @@ e_editor_widget_set_html_mode (EEditorWidget *widget,
 
 		if (blockquote)
 			e_editor_widget_quote_plain_text (widget);
+
+		toggle_paragraphs_style (widget);
 
 		plain = changing_composer_mode_get_text_plain (widget);
 
