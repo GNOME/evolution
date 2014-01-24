@@ -2047,6 +2047,8 @@ e_editor_selection_unindent (EEditorSelection *selection)
 		e_editor_widget_exec_command (editor_widget, command, NULL);
 	}
 
+	e_editor_widget_force_spellcheck (editor_widget);
+
 	g_object_unref (editor_widget);
 
 	g_object_notify (G_OBJECT (selection), "indented");
