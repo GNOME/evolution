@@ -886,7 +886,7 @@ source_selector_button_press_event (GtkWidget *widget,
 {
 	ESourceSelector *selector;
 	GtkWidgetClass *widget_class;
-	GtkTreePath *path;
+	GtkTreePath *path = NULL;
 	ESource *source = NULL;
 	ESource *primary;
 	gboolean right_click = FALSE;
@@ -921,6 +921,9 @@ source_selector_button_press_event (GtkWidget *widget,
 		gtk_tree_model_get_iter (model, &iter, path);
 		gtk_tree_model_get (model, &iter, COLUMN_SOURCE, &source, -1);
 	}
+
+	if (path)
+		gtk_tree_path_free (path);
 
 	if (source == NULL)
 		goto chainup;
