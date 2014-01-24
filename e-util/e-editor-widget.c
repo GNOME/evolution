@@ -1107,8 +1107,36 @@ editor_widget_key_release_event (GtkWidget *widget,
 		editor_widget_check_magic_links (editor_widget, range, FALSE, event);
 	} else {
 		WebKitDOMNode *node;
+		WebKitDOMNode *next_sibling;
 
 		node = webkit_dom_range_get_end_container (range, NULL);
+		next_sibling = webkit_dom_node_get_next_sibling (node);
+
+		/* All text in composer has to be written in div elements, so if
+		 * we are writing something straight to the body, surround it with
+		 * paragraph */
+		if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (next_sibling) && WEBKIT_DOM_IS_TEXT (node)) {
+			WebKitDOMDocument *document =
+				webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
+			EEditorSelection *selection =
+				e_editor_widget_get_selection (editor_widget);
+
+			e_editor_selection_put_node_into_paragraph (
+				selection,
+				document,
+				node,
+				WEBKIT_DOM_NODE (e_editor_selection_get_caret_position_node (document)));
+
+			webkit_dom_node_remove_child (
+				webkit_dom_node_get_parent_node (next_sibling),
+				next_sibling,
+				NULL);
+
+			e_editor_selection_restore_caret_position (selection);
+
+			range = editor_widget_get_dom_range (editor_widget);
+			node = webkit_dom_range_get_end_container (range, NULL);
+		}
 
 		if (WEBKIT_DOM_IS_TEXT (node)) {
 			gchar *text;
