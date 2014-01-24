@@ -165,17 +165,30 @@ cal_config_weather_string_to_location (GBinding *binding,
 	return match != NULL;
 }
 
-#if HAVE_NL_LANGINFO
 static gboolean
 is_locale_metric (void)
 {
 	const gchar *fmt;
+
+#if HAVE_NL_LANGINFO && HAVE__NL_MEASUREMENT_MEASUREMENT
 	fmt = nl_langinfo (_NL_MEASUREMENT_MEASUREMENT);
 
 	if (fmt && *fmt == 2)
 		return FALSE;
 	else
 		return TRUE;
+#else
+	/* Translators: Translate to the default units to use for presenting
+	 * temperature units to the user. The value can be only "default:inch"
+	 * or "default:mm", any other value is treated as "default:mm" (quotes
+	 * for clarity only). Note the value is used only if the system this
+	 * is running on doesn't provide other ways for figuring out temperature
+	 * units for the current locale.
+	 */
+	fmt = C_("locale-metric", "default:mm");
+
+	return g_strcmp0 (fmt, "default:inch") != 0;
+#endif
 }
 
 static ESourceWeatherUnits
@@ -185,7 +198,6 @@ cal_config_weather_get_units_from_locale (void)
 		E_SOURCE_WEATHER_UNITS_CENTIGRADE :
 		E_SOURCE_WEATHER_UNITS_FAHRENHEIT;
 }
-#endif
 
 static gboolean
 cal_config_weather_allow_creation (ESourceConfigBackend *backend)
@@ -215,12 +227,10 @@ cal_config_weather_insert_widgets (ESourceConfigBackend *backend,
 	Context *context;
 	const gchar *extension_name;
 	const gchar *uid;
-#if HAVE_NL_LANGINFO
 	gboolean is_new_source;
 
 	is_new_source = !e_source_has_extension (
 		scratch_source, E_SOURCE_EXTENSION_WEATHER_BACKEND);
-#endif
 
 	context = g_slice_new (Context);
 	uid = e_source_get_uid (scratch_source);
@@ -266,12 +276,10 @@ cal_config_weather_insert_widgets (ESourceConfigBackend *backend,
 	extension_name = E_SOURCE_EXTENSION_WEATHER_BACKEND;
 	extension = e_source_get_extension (scratch_source, extension_name);
 
-#if HAVE_NL_LANGINFO
 	if (is_new_source)
 		e_source_weather_set_units (
 			E_SOURCE_WEATHER (extension),
 			cal_config_weather_get_units_from_locale ());
-#endif
 
 	g_object_bind_property_full (
 		extension, "location",
