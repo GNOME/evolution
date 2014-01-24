@@ -883,23 +883,12 @@ composer_move_caret (EMsgComposer *composer)
 	blockquotes = webkit_dom_document_get_elements_by_tag_name (document, "blockquote");
 
 	if (!has_paragraphs_in_body) {
-		gchar *style_value;
-		gint word_wrap_length;
-
-		element = webkit_dom_document_create_element (document, "DIV", NULL);
-		webkit_dom_element_set_class_name (
-			WEBKIT_DOM_ELEMENT (element), "-x-evo-paragraph");
+		element = e_editor_selection_get_paragraph_element (
+			editor_selection, document, -1);
 		webkit_dom_element_set_id (
 			WEBKIT_DOM_ELEMENT (element), "-x-evo-input-start");
-
-		word_wrap_length = e_editor_selection_get_word_wrap_length (editor_selection);
-
-		style_value = g_strdup_printf ("width: %dch; word-wrap: normal;", word_wrap_length);
-		webkit_dom_element_set_attribute (
-			element, "style", style_value, NULL);
 		webkit_dom_html_element_set_inner_html (
 			WEBKIT_DOM_HTML_ELEMENT (element), UNICODE_HIDDEN_SPACE, NULL);
-		g_free (style_value);
 	}
 
 	if (start_bottom) {

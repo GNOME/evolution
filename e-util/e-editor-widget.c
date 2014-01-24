@@ -2753,7 +2753,6 @@ html_plain_text_convertor_load_status_changed (WebKitWebView *web_view,
 			EEditorSelection *selection;
 			WebKitDOMNode *blockquote_clone;
 			WebKitDOMElement *pre;
-			gchar *style_value;
 			WebKitDOMNodeList *list;
 			gint length, ii;
 
@@ -2763,19 +2762,8 @@ html_plain_text_convertor_load_status_changed (WebKitWebView *web_view,
 			blockquote_clone = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (blockquote), FALSE);
 			pre = webkit_dom_document_create_element (document, "pre", NULL);
 
-			style_value =
-				g_strdup_printf (
-					"word-wrap: normal; "
-					"width: %dch",
-					e_editor_selection_get_word_wrap_length (selection));
-
-			webkit_dom_element_set_attribute (
-				WEBKIT_DOM_ELEMENT (blockquote_clone),
-				"style",
-				style_value,
-				NULL);
-
-			g_free (style_value);
+			e_editor_selection_set_paragraph_style (
+				selection, WEBKIT_DOM_ELEMENT (blockquote_clone), -1);
 
 			webkit_dom_html_element_set_inner_text (
 				WEBKIT_DOM_HTML_ELEMENT (pre), inner_text, NULL);
