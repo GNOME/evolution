@@ -169,6 +169,8 @@ get_has_style (EEditorSelection *selection,
 			accept_citation = TRUE;
 			result = ((strlen (element_tag) == 10 /* strlen ("blockquote") */) &&
 				(g_ascii_strncasecmp (element_tag, "blockquote", 10) == 0));
+			if (element_has_class (element, "-x-evo-indented"))
+				result = FALSE;
 		} else {
 			result = ((tag_len == strlen (element_tag)) &&
 				(g_ascii_strncasecmp (element_tag, style_tag, tag_len) == 0));
@@ -185,6 +187,9 @@ get_has_style (EEditorSelection *selection,
 					result = FALSE;
 				}
 				g_free (type);
+			} else {
+				if (accept_citation)
+					result = FALSE;
 			}
 		}
 
@@ -1245,18 +1250,15 @@ e_editor_selection_get_block_format (EEditorSelection *selection)
 		result = E_EDITOR_SELECTION_BLOCK_FORMAT_H5;
 	} else if (e_editor_dom_node_find_parent_element (node, "H6")) {
 		result = E_EDITOR_SELECTION_BLOCK_FORMAT_H6;
+	} else if ((element = e_editor_dom_node_find_parent_element (node, "BLOCKQUOTE")) != NULL) {
+		if (element_has_class (element, "-x-evo-indented"))
+			result = E_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
+		else
+			result = E_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE;
 	} else if (e_editor_dom_node_find_parent_element (node, "P")) {
 		result = E_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
 	} else {
 		result = E_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
-	}
-
-	element = webkit_dom_node_get_parent_element (node);
-	if (element) {
-		/* Indented paragraphs should have the same format as unindented */
-		if (element_has_tag (element, "blockquote"))
-			if (!element_has_class (element, "-x-evo-indented"))
-				result = E_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE;
 	}
 
 	return result;
