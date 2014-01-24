@@ -934,7 +934,8 @@ composer_move_caret (EMsgComposer *composer)
 			webkit_dom_range_collapse (new_range, FALSE, NULL);
 		} else {
 			if (!has_paragraphs_in_body)
-				insert_paragraph_with_input (element, body);
+				insert_paragraph_with_input (
+					element, WEBKIT_DOM_ELEMENT (body));
 
 			webkit_dom_range_select_node_contents (new_range,
 				WEBKIT_DOM_NODE (
@@ -949,7 +950,8 @@ composer_move_caret (EMsgComposer *composer)
 	} else {
 		/* Move caret on the beginning of message */
 		if (!has_paragraphs_in_body) {
-			insert_paragraph_with_input (element, body);
+			insert_paragraph_with_input (
+				element, WEBKIT_DOM_ELEMENT (body));
 
 			if (webkit_dom_node_list_get_length (blockquotes) != 0) {
 				if (!e_editor_widget_get_html_mode (editor_widget)) {
