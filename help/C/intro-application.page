@@ -6,7 +6,7 @@
 
      <link type="guide" xref="index#getting-started"/>
 
-    <revision pkgversion="3.8.2" version="0.3" date="2013-06-20" status="draft"/>
+    <revision pkgversion="3.10.3" version="0.4" date="2014-01-25" status="draft"/>
     <credit type="author">
       <name its:translate="no">Brian Grohe</name>
       <email its:translate="no">grohe43@gmail.com</email>
@@ -22,7 +22,7 @@
   </info>
 
 <title>Getting Started</title>
-<p>Evolution is a stable and versatile personal information manager for the GNOME project. Evolution allows you to keep your calendars, mail, address books and tasks in one place.</p>
+<p>Evolution allows you to access your personal information like your calendars, mail, address books and tasks in one place.</p>
 
 <p>By default Evolution opens the mail view. This is were you can view all your mail. You can change to other views of the application by going to the bottom of the left pane in the window (the so-called "switcher") and selecting the desired view. <link xref="intro-main-window">Learn more about the elements of the main window.</link></p>
 
