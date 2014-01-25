@@ -7,7 +7,7 @@
     <link type="guide" xref="index#tracking-down-problems" />
     <link type="seealso" xref="problems-getting-help" />
 
-    <revision pkgversion="3.0.2" version="0.3" date="2011-07-30" status="final"/>
+    <revision pkgversion="3.10.3" version="0.4" date="2014-01-25" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -22,7 +22,7 @@
 
 <p>As a first hint, error messages will be either displayed in the statusbar or between the tool bar and the search bar.</p>
 
-<p>To further track down a problem, some debug options are listed on the <link href="http://projects.gnome.org/evolution/bugs.shtml">Evolution project website</link>.</p>
+<p>To further track down a problem, some debug options are listed on the <link href="https://wiki.gnome.org/Apps/Evolution/Debugging">Evolution project website</link>.</p>
 
 <p>To contact the Evolution community for help, please see <link xref="problems-getting-help">How to get help</link>.</p>
 
