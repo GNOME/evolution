@@ -2,7 +2,7 @@
       type="guide" id="index">
 
   <info>
-    <desc>Evolution</desc>
+    <desc>Manage your email, contacts and schedule</desc>
     <title type='link' role="trail"><media type="image" its:translate="no" src="figures/evolutionlogo.png"/></title>
     <title type='text'>Evolution Mail and Calendar</title>
     <revision pkgversion="3.8.2" version="0.7" date="2013-06-22" status="final"/>
