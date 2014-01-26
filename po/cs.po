@@ -9143,7 +9143,7 @@ msgstr "Upozornit na nové zprávy pouze v „Přijaté“."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:2
 msgid "Whether to notify new messages in Inbox folder only."
-msgstr "Zdali upozornit na nové zprávy pouze ve složce „Přijatá“."
+msgstr "Zdali upozornit na nové zprávy pouze ve složce „Přijaté“."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:3
 msgid "Enable D-Bus messages."
@@ -11957,7 +11957,7 @@ msgstr "Odesílá se zpráva"
 #: ../modules/mail/e-mail-shell-view-private.c:1073
 #: ../modules/mail/e-mail-shell-view-private.c:1084
 msgid "Inbox"
-msgstr "Přijatá"
+msgstr "Přijaté"
 
 #. E_MAIL_LOCAL_FOLDER_INBOX
 #: ../libemail-engine/e-mail-session.c:122 ../mail/em-folder-tree-model.c:1132
@@ -12512,7 +12512,7 @@ msgstr "Vždy šifrovat sobě při odesílání šifrované zprávy"
 
 #: ../mail/e-mail-config-sending-page.c:50
 msgid "Sending Email"
-msgstr "Odesílá se pošta"
+msgstr "Odesílání pošty"
 
 #: ../mail/e-mail-config-service-page.c:640
 msgid "Server _Type:"
