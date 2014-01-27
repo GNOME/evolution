@@ -363,6 +363,9 @@ action_combo_box_constructed (GObject *object)
 
 	combo_box = GTK_COMBO_BOX (object);
 
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_action_combo_box_parent_class)->constructed (object);
+
 	/* This needs to happen after constructor properties are set
 	 * so that GtkCellLayout.get_area() returns something valid. */
 
