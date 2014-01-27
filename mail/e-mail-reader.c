@@ -2642,6 +2642,7 @@ mail_reader_load_status_changed_cb (EMailReader *reader,
 
 	priv = E_MAIL_READER_GET_PRIVATE (reader);
 	if (priv->schedule_mark_seen &&
+	    E_IS_MAIL_VIEW (reader) &&
 	    e_mail_display_get_part_list (display) &&
 	    e_mail_view_get_preview_visible (E_MAIL_VIEW (reader)))
 		schedule_timeout_mark_seen (reader);
