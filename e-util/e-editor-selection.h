@@ -159,7 +159,7 @@ void		e_editor_selection_insert_text	(EEditorSelection *selection,
 						 const gchar *plain_text);
 void 		e_editor_selection_clear_caret_position_marker
 						(EEditorSelection *selection);
-WebKitDOMElement *
+WebKitDOMNode *
 		e_editor_selection_get_caret_position_node
 						(WebKitDOMDocument *document);
 void		e_editor_selection_save_caret_position

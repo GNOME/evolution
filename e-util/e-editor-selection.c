@@ -3271,7 +3271,7 @@ e_editor_selection_clear_caret_position_marker (EEditorSelection *selection)
 	g_object_unref (widget);
 }
 
-WebKitDOMElement *
+WebKitDOMNode *
 e_editor_selection_get_caret_position_node (WebKitDOMDocument *document)
 {
 	WebKitDOMElement *element;
@@ -3283,7 +3283,7 @@ e_editor_selection_get_caret_position_node (WebKitDOMDocument *document)
 	webkit_dom_html_element_set_inner_html (
 		WEBKIT_DOM_HTML_ELEMENT (element), "*", NULL);
 
-	return element;
+	return WEBKIT_DOM_NODE (element);
 }
 
 /**
@@ -3297,9 +3297,9 @@ e_editor_selection_save_caret_position (EEditorSelection *selection)
 {
 	EEditorWidget *widget;
 	WebKitDOMDocument *document;
-	WebKitDOMElement *element;
 	WebKitDOMNode *split_node;
 	WebKitDOMNode *start_offset_node;
+	WebKitDOMNode *caret_node;
 	WebKitDOMRange *range;
 	gulong start_offset;
 
@@ -3320,7 +3320,7 @@ e_editor_selection_save_caret_position (EEditorSelection *selection)
 	start_offset = webkit_dom_range_get_start_offset (range, NULL);
 	start_offset_node = webkit_dom_range_get_end_container (range, NULL);
 
-	element = e_editor_selection_get_caret_position_node (document);
+	caret_node = e_editor_selection_get_caret_position_node (document);
 
 	if (WEBKIT_DOM_IS_TEXT (start_offset_node)) {
 		WebKitDOMText *split_text;
@@ -3335,7 +3335,7 @@ e_editor_selection_save_caret_position (EEditorSelection *selection)
 
 	webkit_dom_node_insert_before (
 		webkit_dom_node_get_parent_node (start_offset_node),
-		WEBKIT_DOM_NODE (element),
+		caret_node,
 		split_node,
 		NULL);
 }

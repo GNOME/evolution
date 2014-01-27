@@ -1125,7 +1125,7 @@ editor_widget_key_release_event (GtkWidget *widget,
 				selection,
 				document,
 				node,
-				WEBKIT_DOM_NODE (e_editor_selection_get_caret_position_node (document)));
+				e_editor_selection_get_caret_position_node (document));
 
 			webkit_dom_node_remove_child (
 				webkit_dom_node_get_parent_node (next_sibling),
