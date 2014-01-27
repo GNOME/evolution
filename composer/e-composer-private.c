@@ -27,7 +27,7 @@
 /* Initial height of the picture gallery. */
 #define GALLERY_INITIAL_HEIGHT 150
 
-#define UNICODE_HIDDEN_SPACE "\xe2\x80\x8b"
+#define UNICODE_ZERO_WIDTH_SPACE "\xe2\x80\x8b"
 
 static void
 composer_setup_charset_menu (EMsgComposer *composer)
@@ -888,7 +888,7 @@ composer_move_caret (EMsgComposer *composer)
 		webkit_dom_element_set_id (
 			WEBKIT_DOM_ELEMENT (element), "-x-evo-input-start");
 		webkit_dom_html_element_set_inner_html (
-			WEBKIT_DOM_HTML_ELEMENT (element), UNICODE_HIDDEN_SPACE, NULL);
+			WEBKIT_DOM_HTML_ELEMENT (element), UNICODE_ZERO_WIDTH_SPACE, NULL);
 	}
 
 	if (start_bottom) {

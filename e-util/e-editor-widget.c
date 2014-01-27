@@ -35,7 +35,7 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_EDITOR_WIDGET, EEditorWidgetPrivate))
 
-#define UNICODE_HIDDEN_SPACE "\xe2\x80\x8b"
+#define UNICODE_ZERO_WIDTH_SPACE "\xe2\x80\x8b"
 
 #define URL_PATTERN \
 	"((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[\\-;:&=\\+\\$,\\w]+@)?" \
@@ -304,15 +304,59 @@ e_editor_widget_force_spellcheck (EEditorWidget *widget)
 }
 
 static void
+body_input_event_cb (WebKitDOMElement *element,
+                     WebKitDOMEvent *event,
+                     EEditorWidget *editor_widget)
+{
+	WebKitDOMNode *node;
+	WebKitDOMRange *range = editor_widget_get_dom_range (editor_widget);
+
+	/* If text before caret includes UNICODE_ZERO_WIDTH_SPACE character, remove it */
+	node = webkit_dom_range_get_end_container (range, NULL);
+	if (WEBKIT_DOM_IS_TEXT (node)) {
+		gchar *text = webkit_dom_node_get_text_content (node);
+		if (strstr (text, UNICODE_ZERO_WIDTH_SPACE)) {
+			WebKitDOMDocument *document;
+			WebKitDOMDOMWindow *window;
+			WebKitDOMDOMSelection *selection;
+
+			GString *res = e_str_replace_string (text, UNICODE_ZERO_WIDTH_SPACE, "");
+
+			webkit_dom_node_set_text_content (node, res->str, NULL);
+
+			document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (editor_widget));
+			window = webkit_dom_document_get_default_view (document);
+			selection = webkit_dom_dom_window_get_selection (window);
+
+			webkit_dom_dom_selection_modify (selection, "move", "right", "character");
+
+			g_string_free (res, TRUE);
+		}
+		g_free (text);
+	}
+}
+
+
+static void
 editor_widget_load_status_changed (EEditorWidget *widget)
 {
 	WebKitLoadStatus status;
+	WebKitDOMDocument *document;
 
 	status = webkit_web_view_get_load_status (WEBKIT_WEB_VIEW (widget));
 	if (status != WEBKIT_LOAD_FINISHED)
 		return;
 
 	widget->priv->reload_in_progress = FALSE;
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
+
+	/* Register on input event that is called when the content (body) is modified */
+	webkit_dom_event_target_add_event_listener (
+		WEBKIT_DOM_EVENT_TARGET (webkit_dom_document_get_body (document)),
+		"input",
+		G_CALLBACK (body_input_event_cb),
+		FALSE,
+		widget);
 
 	/* Dispatch queued operations */
 	while (widget->priv->postreload_operations &&
@@ -2327,7 +2371,7 @@ process_elements (WebKitDOMNode *node,
 	nodes = webkit_dom_node_get_child_nodes (node);
 	length = webkit_dom_node_list_get_length (nodes);
 	regex = g_regex_new ("\x9", 0, 0, NULL);
-	regex_hidden_space = g_regex_new (UNICODE_HIDDEN_SPACE, 0, 0, NULL);
+	regex_hidden_space = g_regex_new (UNICODE_ZERO_WIDTH_SPACE, 0, 0, NULL);
 
 	for (ii = 0; ii < length; ii++) {
 		WebKitDOMNode *child;

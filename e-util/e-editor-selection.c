@@ -39,7 +39,7 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_EDITOR_SELECTION, EEditorSelectionPrivate))
 
-#define UNICODE_HIDDEN_SPACE "\xe2\x80\x8b"
+#define UNICODE_ZERO_WIDTH_SPACE "\xe2\x80\x8b"
 #define SPACES_PER_INDENTATION 4
 
 /**
@@ -1435,7 +1435,7 @@ e_editor_selection_set_block_format (EEditorSelection *selection,
 			WebKitDOMNode *paragraph_node = webkit_dom_node_list_item (list, ii);
 
 			content = webkit_dom_node_get_text_content (paragraph_node);
-			if (g_strcmp0 (content, UNICODE_HIDDEN_SPACE) == 0) {
+			if (g_strcmp0 (content, UNICODE_ZERO_WIDTH_SPACE) == 0) {
 				webkit_dom_node_set_text_content (paragraph_node, "", NULL);
 			}
 			g_free (content);
@@ -1446,7 +1446,7 @@ e_editor_selection_set_block_format (EEditorSelection *selection,
 
 		/* We have to use again the hidden space to move caret into newly
 		 * inserted list */
-		content = g_strconcat ("<li>", UNICODE_HIDDEN_SPACE, "</li>", NULL);
+		content = g_strconcat ("<li>", UNICODE_ZERO_WIDTH_SPACE, "</li>", NULL);
 		webkit_dom_html_element_set_inner_html (
 			WEBKIT_DOM_HTML_ELEMENT (element),
 			content,
@@ -2365,7 +2365,7 @@ e_editor_selection_set_monospaced (EEditorSelection *selection,
 			/* https://bugs.webkit.org/show_bug.cgi?id=15256 */
 			webkit_dom_html_element_set_inner_html (
 				WEBKIT_DOM_HTML_ELEMENT (tt_element),
-				UNICODE_HIDDEN_SPACE, NULL);
+				UNICODE_ZERO_WIDTH_SPACE, NULL);
 			webkit_dom_range_insert_node (range, WEBKIT_DOM_NODE (tt_element), NULL);
 
 			move_caret_into_element (document, tt_element);
@@ -2443,7 +2443,7 @@ e_editor_selection_set_monospaced (EEditorSelection *selection,
 			webkit_dom_element_set_id (tt_element, "ev-tt");
 
 			inner_html = webkit_dom_html_element_get_inner_html (WEBKIT_DOM_HTML_ELEMENT (tt_element));
-			result = e_str_replace_string (inner_html, UNICODE_HIDDEN_SPACE, "");
+			result = e_str_replace_string (inner_html, UNICODE_ZERO_WIDTH_SPACE, "");
 			if (result) {
 				webkit_dom_html_element_set_inner_html (
 					WEBKIT_DOM_HTML_ELEMENT (tt_element),
@@ -2453,7 +2453,7 @@ e_editor_selection_set_monospaced (EEditorSelection *selection,
 			}
 
 		        outer_html = webkit_dom_html_element_get_outer_html (WEBKIT_DOM_HTML_ELEMENT (tt_element));
-			tmp = g_strconcat (outer_html, UNICODE_HIDDEN_SPACE, NULL);
+			tmp = g_strconcat (outer_html, UNICODE_ZERO_WIDTH_SPACE, NULL);
 			webkit_dom_html_element_set_outer_html (
 				WEBKIT_DOM_HTML_ELEMENT (tt_element),
 				tmp, NULL);
@@ -3625,7 +3625,7 @@ wrap_lines (EEditorSelection *selection,
 
 			/* If there is temporary hidden space we remove it */
 			text_content = webkit_dom_node_get_text_content (node);
-			if (g_strstr_len (text_content, -1, UNICODE_HIDDEN_SPACE)) {
+			if (g_strstr_len (text_content, -1, UNICODE_ZERO_WIDTH_SPACE)) {
 				webkit_dom_character_data_delete_data (
 					WEBKIT_DOM_CHARACTER_DATA (node), 0, 1, NULL);
 				g_free (text_content);
@@ -4001,12 +4001,12 @@ e_editor_selection_wrap_lines (EEditorSelection *selection)
 
 		text_content = webkit_dom_node_get_text_content (paragraph);
 		/* If there is hidden space character in the beginning we remove it */
-		if (g_strstr_len (text_content, -1, UNICODE_HIDDEN_SPACE)) {
+		if (g_strstr_len (text_content, -1, UNICODE_ZERO_WIDTH_SPACE)) {
 			WebKitDOMNode *child = webkit_dom_node_get_first_child (paragraph);
 
 			if (WEBKIT_DOM_IS_CHARACTER_DATA (child)) {
 				GString *result = e_str_replace_string (
-					text_content, UNICODE_HIDDEN_SPACE, "");
+					text_content, UNICODE_ZERO_WIDTH_SPACE, "");
 
 				if (result) {
 					webkit_dom_character_data_set_data (
