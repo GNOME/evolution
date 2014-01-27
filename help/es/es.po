@@ -4,14 +4,14 @@
 # 
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 2009, 2010, 2011, 2012.
 # 
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012., 2013.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012., 2013, 2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-07 00:30+0000\n"
-"PO-Revision-Date: 2013-12-10 12:34+0100\n"
+"POT-Creation-Date: 2014-01-26 23:41+0000\n"
+"PO-Revision-Date: 2014-01-27 13:19+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -25,14 +25,14 @@ msgstr ""
 msgctxt "_"
 msgid "translator-credits"
 msgstr ""
-"Daniel Mustieles <daniel.mustieles@gmail.com>, 2012, 2013\n"
+"Daniel Mustieles <daniel.mustieles@gmail.com>, 2012, 2014\n"
 "Jorge González <jorgegonz@svn.gnome.org>, 2007-2011\n"
 "Francisco Javier F. Serrador <serrador@openshine.com>, 2005, 2006"
 
 #. (itstool) path: info/desc
 #: C/index.page:5
-msgid "Evolution"
-msgstr "Evolution"
+msgid "Manage your email, contacts and schedule"
+msgstr "Gestionar su correo-e, sus contactos y sus tareas"
 
 #. (itstool) path: info/title
 #: C/index.page:7
@@ -273,13 +273,15 @@ msgstr ""
 #. (itstool) path: when/p
 #: C/calendar-alarms-and-reminders.page:33
 #| msgid ""
-#| "Please see <link href=\"help:gnome-help/net-default-browser\">the GNOME "
-#| "Desktop Help</link>."
+#| "For general information on displaying reminders, please see <link href="
+#| "\"help:gnome-help/shell-notifications\">the GNOME Desktop Help</link>."
 msgid ""
-"For general information on displaying reminders, please see <link href="
-"\"help:gnome-help/shell-notifications\">the GNOME Desktop Help</link>."
+"For general information on displaying reminders, please see <link xref="
+"\"help:gnome-help/shell-notifications\" href=\"https://help.gnome.org/users/"
+"gnome-help/stable/shell-notifications\">the GNOME Desktop Help</link>."
 msgstr ""
-"Consulte <link href=\"help:gnome-help/shell-notifications\">la ayuda del "
+"Consulte <link xref=\"help:gnome-help/shell-notifications\" href=\"https://"
+"help.gnome.org/users/gnome-help/stable/shell-notifications\">la ayuda del "
 "escritorio GNOME</link> para obtener información sobre cómo mostrar "
 "recordatorios."
 
@@ -3026,11 +3028,16 @@ msgstr ""
 
 #. (itstool) path: choose/p
 #: C/default-browser.page:64
+#| msgid ""
+#| "Please see <link href=\"help:gnome-help/net-default-browser\">the GNOME "
+#| "Desktop Help</link>."
 msgid ""
-"Please see <link href=\"help:gnome-help/net-default-browser\">the GNOME "
+"Please see <link xref=\"help:gnome-help/net-default-browser\" href=\"https://"
+"help.gnome.org/users/gnome-help/stable/net-default-browser\">the GNOME "
 "Desktop Help</link>."
 msgstr ""
-"Consulte <link href=\"help:gnome-help/net-default-browser\">la ayuda del "
+"Consulte <link xref=\"help:gnome-help/net-default-browser\" href=\"https://"
+"help.gnome.org/users/gnome-help/stable/net-default-browser\">la ayuda del "
 "escritorio GNOME</link>."
 
 #. (itstool) path: choose/p
@@ -3070,11 +3077,16 @@ msgstr ""
 
 #. (itstool) path: section/p
 #: C/default-browser.page:83
+#| msgid ""
+#| "Please see <link href=\"help:gnome-help/net-default-email\">the GNOME "
+#| "Desktop Help</link>."
 msgid ""
-"Please see <link href=\"help:gnome-help/net-default-email\">the GNOME "
-"Desktop Help</link>."
+"Please see <link xref=\"help:gnome-help/net-default-email\" href=\"https://"
+"help.gnome.org/users/gnome-help/stable/net-default-email\">the GNOME Desktop "
+"Help</link>."
 msgstr ""
-"Consulte <link href=\"help:gnome-help/net-default-email\">la ayuda del "
+"Consulte <link xref=\"help:gnome-help/net-default-email\" href=\"https://"
+"help.gnome.org/users/gnome-help/stable/net-default-email\">la ayuda del "
 "escritorio GNOME</link>."
 
 #. (itstool) path: section/title
@@ -3450,20 +3462,30 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/import-apps-mozilla.page:27
+#| msgid ""
+#| "Go to the folder in which Thunderbird stores its data. On a Linux system, "
+#| "Thunderbird's files are located in the hidden folder <file>$HOME/."
+#| "thunderbird/12345678</file>. <file>12345678</file> will be a random "
+#| "string. If you cannot see the <file>.thunderbird</file> folder, make sure "
+#| "to <link href=\"help:gnome-help/files-hidden#show-hidden\">show hidden "
+#| "files</link> in the file selector dialog."
 msgid ""
 "Go to the folder in which Thunderbird stores its data. On a Linux system, "
 "Thunderbird's files are located in the hidden folder <file>$HOME/."
 "thunderbird/12345678</file>. <file>12345678</file> will be a random string. "
 "If you cannot see the <file>.thunderbird</file> folder, make sure to <link "
-"href=\"help:gnome-help/files-hidden#show-hidden\">show hidden files</link> "
-"in the file selector dialog."
+"xref=\"help:gnome-help/files-hidden#show-hidden\" href=\"https://help.gnome."
+"org/users/gnome-help/stable/files-hidden#show-hidden\">show hidden files</"
+"link> in the file selector dialog."
 msgstr ""
 "Vaya a la carpeta en la que Thunderbird guarda sus datos. En un sistema GNU/"
-"Linux los archivos de Thunderbirdse guardan en la carpeta oculta <file>"
+"Linux los archivos de Thunderbird se guardan en la carpeta oculta <file>"
 "$HOME/.thunderbird/12345678</file>. <file>12345678</file> será una cadena "
 "aleatoria. Si no puede ver la carpeta <file>.thunderbird</file>, asegúrese "
-"de que <link href=\"help:gnome-help/files-hidden#show-hidden\">muestra los "
-"archivos ocultos</link> en el diálogo del selector de archivos."
+"de que <link xref=\"help:gnome-help/files-hidden#show-hidden\" href="
+"\"https://help.gnome.org/users/gnome-help/stable/files-hidden#show-hidden"
+"\">muestra los archivos ocultos</link> en el diálogo del selector de "
+"archivos."
 
 #. (itstool) path: item/p
 #: C/import-apps-mozilla.page:30
@@ -3924,14 +3946,16 @@ msgstr "Una introducción a Evolution."
 
 #. (itstool) path: page/p
 #: C/intro-application.page:25
+#| msgid ""
+#| "Evolution is a stable and versatile personal information manager for the "
+#| "GNOME project. Evolution allows you to keep your calendars, mail, address "
+#| "books and tasks in one place."
 msgid ""
-"Evolution is a stable and versatile personal information manager for the "
-"GNOME project. Evolution allows you to keep your calendars, mail, address "
-"books and tasks in one place."
+"Evolution allows you to access your personal information like your "
+"calendars, mail, address books and tasks in one place."
 msgstr ""
-"Evolution es un gestor de información personal estable y versátil del "
-"proyecto GNOME. Evolution le permite mantener su calendario, correo-e "
-"libreta de direcciones y tareas en un único lugar."
+"Evolution le permite acceder a su información personal como su calendario, "
+"correo-e libreta de direcciones y tareas en un único lugar."
 
 #. (itstool) path: page/p
 #: C/intro-application.page:27
@@ -8104,14 +8128,20 @@ msgstr "Crear una clave GPG"
 
 #. (itstool) path: note/p
 #: C/mail-encryption-gpg-create-key.page:25
+#| msgid ""
+#| "These steps are very technical. For average users we recommend using the "
+#| "<link href=\"help:seahorse/index\"><app>Seahorse</app> application</link> "
+#| "for managing GPG/OpenPGP keys."
 msgid ""
 "These steps are very technical. For average users we recommend using the "
-"<link href=\"help:seahorse/index\"><app>Seahorse</app> application</link> "
-"for managing GPG/OpenPGP keys."
+"<link xref=\"help:seahorse/index\" href=\"https://help.gnome.org/users/"
+"seahorse/stable/index\"><app>Seahorse</app> application</link> for managing "
+"GPG/OpenPGP keys."
 msgstr ""
 "Estos pasos son muy técnicos. Se recomienda, para el usuario medio de hoy en "
-"día, usar la aplicación <link href=\"help:seahorse/index\"><app>Seahorse</"
-"app> application</link> para gestionar claves GPG/OpenPGP."
+"día, usar la aplicación <link xref=\"help:seahorse/index\" href=\"https://"
+"help.gnome.org/users/seahorse/stable/index\">aplicación <app>Seahorse</app> "
+"</link> para gestionar claves GPG/OpenPGP."
 
 #. (itstool) path: page/p
 #: C/mail-encryption-gpg-create-key.page:28
@@ -10047,13 +10077,17 @@ msgstr ""
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
 #: C/mail-received-notification.page:31
+#| msgctxt "_"
+#| msgid ""
+#| "external ref='./figures/new-mail-notification.png' "
+#| "md5='25a4373da392793406910cd883f0c21c'"
 msgctxt "_"
 msgid ""
 "external ref='./figures/new-mail-notification.png' "
-"md5='25a4373da392793406910cd883f0c21c'"
+"md5='979052fce0d164644cdeda1c20c06e28'"
 msgstr ""
 "external ref='./figures/new-mail-notification.png' "
-"md5='25a4373da392793406910cd883f0c21c'"
+"md5='979052fce0d164644cdeda1c20c06e28'"
 
 #. (itstool) path: info/desc
 #: C/mail-received-notification.page:5
@@ -10613,16 +10647,23 @@ msgstr "Guardar el mensaje como PDF"
 
 #. (itstool) path: page/p
 #: C/mail-save-as-pdf.page:22
+#| msgid ""
+#| "In order to save emails in the PDF file format, select <guiseq><gui>File</"
+#| "gui><gui>Print</gui></guiseq> and then choose <gui>Print to File</gui>. "
+#| "See <link href=\"help:gnome-help/printing\">the desktop help</link> for "
+#| "general information on printing."
 msgid ""
 "In order to save emails in the PDF file format, select <guiseq><gui>File</"
 "gui><gui>Print</gui></guiseq> and then choose <gui>Print to File</gui>. See "
-"<link href=\"help:gnome-help/printing\">the desktop help</link> for general "
-"information on printing."
+"<link xref=\"help:gnome-help/printing\" href=\"https://help.gnome.org/users/"
+"gnome-help/stable/printing\">the desktop help</link> for general information "
+"on printing."
 msgstr ""
 "Para guardar correos en formato PDF, seleccione <guiseq><gui>Archivo</"
 "gui><gui>Imprimir</gui></guiseq> y elija <gui>Imprimir a un archivo</gui>. "
-"Consulte <link href=\"help:gnome-help/printing\">la ayuda del escritorio</"
-"link> para obtener información general sobre la impresión."
+"Consulte <link xref=\"help:gnome-help/printing\" href=\"https://help.gnome."
+"org/users/gnome-help/stable/printing\">la ayuda del escritorio</link> para "
+"obtener información general sobre la impresión."
 
 #. (itstool) path: note/p
 #: C/mail-save-as-pdf.page:25
@@ -12410,20 +12451,29 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/offline.page:28
+#| msgid ""
+#| "If the problem persists and you are sure you have not clicked the icon, "
+#| "but you can still reach the network from other apps on your system "
+#| "(browsers, FTP, SSH, ping etc.) it may be that your network connection is "
+#| "not properly configured. For more information please take a look at the "
+#| "<link href=\"help:gnome-help/net-problem\">Desktop help</link> or seek "
+#| "help from your distribution support forums, mailing lists etc."
 msgid ""
 "If the problem persists and you are sure you have not clicked the icon, but "
 "you can still reach the network from other apps on your system (browsers, "
 "FTP, SSH, ping etc.) it may be that your network connection is not properly "
-"configured. For more information please take a look at the <link href=\"help:"
-"gnome-help/net-problem\">Desktop help</link> or seek help from your "
-"distribution support forums, mailing lists etc."
+"configured. For more information please take a look at the <link xref=\"help:"
+"gnome-help/net-problem\" href=\"https://help.gnome.org/users/gnome-help/"
+"stable/net-problem\">Desktop help</link> or seek help from your distribution "
+"support forums, mailing lists etc."
 msgstr ""
 "Si el problema persiste y está seguro de que no ha pulsado el icono, pero "
 "puede usar la red con otras aplicaciones de su sistema (navegadores, FTP, "
 "SSH, ping, etc) puede ser que su conexión de red no esté bien configurada. "
-"Para obtener más información, consulte la <link href=\"help:gnome-help/net-"
-"problem\">ayuda del escritorio</link> o busque ayuda en los foros de soporte "
-"de su distribución, listas de correo, etc."
+"Para obtener más información, consulte la <link xref=\"help:gnome-help/net-"
+"problem\" href=\"https://help.gnome.org/users/gnome-help/stable/net-problem"
+"\">ayuda del escritorio</link> o busque ayuda en los foros de soporte de su "
+"distribución, listas de correo, etc."
 
 #. (itstool) path: info/desc
 #: C/organizing.page:5
@@ -12456,14 +12506,18 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/problems-debug-how-to.page:25
+#| msgid ""
+#| "To further track down a problem, some debug options are listed on the "
+#| "<link href=\"http://projects.gnome.org/evolution/bugs.shtml\">Evolution "
+#| "project website</link>."
 msgid ""
 "To further track down a problem, some debug options are listed on the <link "
-"href=\"http://projects.gnome.org/evolution/bugs.shtml\">Evolution project "
+"href=\"https://wiki.gnome.org/Apps/Evolution/Debugging\">Evolution project "
 "website</link>."
 msgstr ""
-"Se listan algunas opciones de depuración en la <link href=\"http://projects."
-"gnome.org/evolution/bugs.shtml\">página web del proyecto de Evolution</link> "
-"para un seguimiento más profundo de los problemas."
+"Se listan algunas opciones de depuración en la <link href=\"https://wiki."
+"gnome.org/Apps/Evolution/Debugging\">página web del proyecto de Evolution</"
+"link> para un seguimiento más profundo de los problemas."
 
 #. (itstool) path: page/p
 #: C/problems-debug-how-to.page:27
@@ -12486,20 +12540,29 @@ msgstr "Cómo obtener ayuda"
 
 #. (itstool) path: page/p
 #: C/problems-getting-help.page:24
+#| msgid ""
+#| "To receive help on problems you can send an email to the <link href="
+#| "\"http://mail.gnome.org/mailman/listinfo/evolution-list\">Evolution "
+#| "mailing list</link> or talk to developers and other users in the IRC chat "
+#| "channel #evolution on the server irc.gimp.net. To connect to an IRC "
+#| "server you can for example <link href=\"help:empathy/irc-manage\">use the "
+#| "internet messenger application <app>Empathy</app></link>."
 msgid ""
 "To receive help on problems you can send an email to the <link href=\"http://"
 "mail.gnome.org/mailman/listinfo/evolution-list\">Evolution mailing list</"
 "link> or talk to developers and other users in the IRC chat channel "
 "#evolution on the server irc.gimp.net. To connect to an IRC server you can "
-"for example <link href=\"help:empathy/irc-manage\">use the internet "
-"messenger application <app>Empathy</app></link>."
+"for example <link xref=\"help:empathy/irc-manage\" href=\"https://help.gnome."
+"org/users/empathy/stable/irc-manage\">use the internet messenger application "
+"<app>Empathy</app></link>."
 msgstr ""
 "Para recibir ayuda sobre problemas puede enviar un correo a la <link href="
 "\"http://mail.gnome.org/mailman/listinfo/evolution-list\">lista de correo de "
 "Evolution</link> o hablar con los desarrolladores y otros usuarios en el "
 "canal de chat de IRC #evolution en el servidor irc.gimp.net. Para conectarse "
-"a un servidor IRC puede, por ejemplo <link href=\"help:empathy/irc-manage"
-"\">usar la aplicación de mensajería instantánea <app>Empathy</app></link>."
+"a un servidor IRC puede, por ejemplo <link xref=\"help:empathy/irc-manage\" "
+"href=\"https://help.gnome.org/users/empathy/stable/irc-manage\">usar la "
+"aplicación de mensajería instantánea <app>Empathy</app></link>."
 
 #. (itstool) path: info/desc
 #: C/problems-reporting-bugs.page:5
@@ -13835,6 +13898,9 @@ msgstr "Edite el título o el criterio de búsqueda desde el cuadro de diálogo.
 #: C/xinclude-searching.xml:30
 msgid "Click <_:gui-1/>."
 msgstr "Pulse <_:gui-1/>."
+
+#~ msgid "Evolution"
+#~ msgstr "Evolution"
 
 #~ msgctxt "_"
 #~ msgid ""
