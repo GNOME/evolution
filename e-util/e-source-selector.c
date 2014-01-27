@@ -110,6 +110,9 @@ G_DEFINE_TYPE (
 	e_cell_renderer_safe_toggle,
 	GTK_TYPE_CELL_RENDERER_TOGGLE)
 
+static void selection_changed_callback (GtkTreeSelection *selection,
+					ESourceSelector *selector);
+
 static gboolean
 safe_toggle_activate (GtkCellRenderer *cell,
                       GdkEvent *event,
@@ -342,6 +345,7 @@ source_selector_build_model (ESourceSelector *selector)
 	GQueue queue = G_QUEUE_INIT;
 	GHashTable *source_index;
 	GtkTreeView *tree_view;
+	GtkTreeSelection *selection;
 	GtkTreeModel *model;
 	ESource *selected;
 	const gchar *extension_name;
@@ -359,6 +363,12 @@ source_selector_build_model (ESourceSelector *selector)
 
 	source_index = selector->priv->source_index;
 	selected = e_source_selector_ref_primary_selection (selector);
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (selector));
+
+	/* Signal is blocked to avoid "primary-selection-changed" signal on model clear */
+	g_signal_handlers_block_matched (
+		selection, G_SIGNAL_MATCH_FUNC,
+		0, 0, NULL, selection_changed_callback, NULL);
 
 	/* Save expanded sources to restore later. */
 	gtk_tree_view_map_expanded_rows (
@@ -403,6 +413,12 @@ source_selector_build_model (ESourceSelector *selector)
 		e_source_selector_set_primary_selection (selector, selected);
 		g_object_unref (selected);
 	}
+
+	/* If the first succeeded, then there is no selection change, thus no need
+	   for notification; notify about the change in ay other cases */
+	g_signal_handlers_unblock_matched (
+		selection, G_SIGNAL_MATCH_FUNC,
+		0, 0, NULL, selection_changed_callback, NULL);
 
 	/* Make sure we have a primary selection.  If not, pick one. */
 	selected = e_source_selector_ref_primary_selection (selector);
