@@ -6,7 +6,7 @@
     
     <link type="guide" xref="calendar-using-several-calendars"/>
 
-    <revision pkgversion="3.1.5" version="0.3" date="2011-07-28" status="final"/>
+    <revision pkgversion="3.10.3" version="0.4" date="2014-01-27" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -25,6 +25,7 @@
 <item><p>Select the type <gui>On This Computer</gui>.</p></item>
 <item><p>Enter a name that you prefer.</p></item>
 <item><p>Optionally choose a color that you prefer.</p></item>
+<item><p>If you choose to use an existing calendar file which is already located on your computer, you need to provide its location and whether Evolution should only read from the file or if Evolution can also add and alter items in that file.</p></item>
 <item><p>Click <gui style="button">Apply</gui>.</p></item>
 </steps>
 
