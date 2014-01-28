@@ -2899,6 +2899,8 @@ html_plain_text_convertor_load_status_changed (WebKitWebView *web_view,
 		element = webkit_dom_document_create_element (document, "div", NULL);
 		element_add_class (element, "-x-evo-paragraph");
 		webkit_dom_element_set_id (element, "-x-evo-input-start");
+		webkit_dom_html_element_set_inner_text (
+			WEBKIT_DOM_HTML_ELEMENT (element), UNICODE_ZERO_WIDTH_SPACE, NULL);
 		webkit_dom_node_append_child (
 			WEBKIT_DOM_NODE (webkit_dom_document_get_body (document)),
 			WEBKIT_DOM_NODE (element),
@@ -2911,8 +2913,6 @@ html_plain_text_convertor_load_status_changed (WebKitWebView *web_view,
 			EEditorSelection *selection;
 			WebKitDOMNode *blockquote_clone;
 			WebKitDOMElement *pre;
-			WebKitDOMNodeList *list;
-			gint length, ii;
 
 			selection = e_editor_widget_get_selection (widget);
 			e_editor_selection_save_caret_position (selection);
@@ -2934,27 +2934,6 @@ html_plain_text_convertor_load_status_changed (WebKitWebView *web_view,
 				blockquote_clone,
 				webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (paragraph)),
 				NULL);
-
-			e_editor_selection_wrap_paragraph (
-				selection,
-				pre);
-
-			/* Clean after wrapping */
-			list = webkit_dom_document_query_selector_all (
-					document,
-					"br.-x-evo-wrap-br",
-					NULL);
-
-			length = webkit_dom_node_list_get_length (list);
-			for (ii = 0; ii < length; ii++) {
-				WebKitDOMNode *br;
-
-				br = webkit_dom_node_list_item (list, ii);
-
-				webkit_dom_element_remove_attribute (
-					WEBKIT_DOM_ELEMENT (br),
-					"class");
-			}
 
 			e_editor_widget_quote_plain_text (widget);
 
