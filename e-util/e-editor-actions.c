@@ -447,20 +447,14 @@ action_insert_emoticon_cb (GtkAction *action,
                            EEditor *editor)
 {
 	EEditorWidget *widget;
-	EEditorSelection *selection;
 	EEmoticon *emoticon;
-	gchar *uri = NULL;
 
 	emoticon = e_emoticon_chooser_get_current_emoticon (
 					E_EMOTICON_CHOOSER (action));
 	g_return_if_fail (emoticon != NULL);
 
-	uri = e_emoticon_get_uri (emoticon);
 	widget = e_editor_get_editor_widget (editor);
-	selection = e_editor_widget_get_selection (widget);
-	e_editor_selection_insert_image (selection, uri);
-
-	g_free (uri);
+	e_editor_widget_insert_smiley (widget, emoticon);
 }
 
 static void

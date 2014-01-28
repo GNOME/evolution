@@ -28,6 +28,7 @@
 #include <webkit/webkit.h>
 
 #include <e-util/e-editor-selection.h>
+#include <e-util/e-emoticon.h>
 #include <e-util/e-spell-checker.h>
 #include <e-util/e-util-enums.h>
 
@@ -91,6 +92,8 @@ void		e_editor_widget_set_inline_spelling
 gboolean	e_editor_widget_get_magic_links	(EEditorWidget *widget);
 void		e_editor_widget_set_magic_links	(EEditorWidget *widget,
 						 gboolean magic_links);
+void		e_editor_widget_insert_smiley	(EEditorWidget *widget,
+						 EEmoticon *emoticon);
 gboolean	e_editor_widget_get_magic_smileys
 						(EEditorWidget *widget);
 void		e_editor_widget_set_magic_smileys
