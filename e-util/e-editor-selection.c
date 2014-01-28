@@ -4028,7 +4028,6 @@ void
 e_editor_selection_wrap_paragraph (EEditorSelection *selection,
                                    WebKitDOMElement *paragraph)
 {
-	EEditorWidget *editor_widget;
 	WebKitDOMDocument *document;
 	gint level;
 	gint word_wrap_length;
@@ -4036,14 +4035,9 @@ e_editor_selection_wrap_paragraph (EEditorSelection *selection,
 	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
 	g_return_if_fail (WEBKIT_DOM_IS_ELEMENT (paragraph));
 
-	editor_widget = e_editor_selection_ref_editor_widget (selection);
-	g_return_if_fail (editor_widget != NULL);
-
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (editor_widget));
-	g_object_unref (editor_widget);
+	document = webkit_dom_node_get_owner_document (WEBKIT_DOM_NODE (paragraph));
 
 	word_wrap_length = selection->priv->word_wrap_length;
-
 	level = get_indentation_level (paragraph);
 
 	wrap_lines (
