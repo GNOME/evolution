@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-26 23:41+0000\n"
-"PO-Revision-Date: 2014-01-27 13:19+0100\n"
+"POT-Creation-Date: 2014-01-27 20:22+0000\n"
+"PO-Revision-Date: 2014-01-28 11:34+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -272,9 +272,6 @@ msgstr ""
 
 #. (itstool) path: when/p
 #: C/calendar-alarms-and-reminders.page:33
-#| msgid ""
-#| "For general information on displaying reminders, please see <link href="
-#| "\"help:gnome-help/shell-notifications\">the GNOME Desktop Help</link>."
 msgid ""
 "For general information on displaying reminders, please see <link xref="
 "\"help:gnome-help/shell-notifications\" href=\"https://help.gnome.org/users/"
@@ -408,7 +405,7 @@ msgstr "Introduzca su nombre de usuario y su dirección de correo-e."
 
 #. (itstool) path: item/p
 #: C/calendar-caldav.page:35 C/calendar-google.page:35
-#: C/calendar-local.page:28 C/calendar-weather.page:34
+#: C/calendar-local.page:29 C/calendar-weather.page:34
 #: C/calendar-webdav.page:34 C/contacts-google.page:31 C/contacts-ldap.page:36
 #: C/contacts-local.page:27 C/tasks-caldav.page:32 C/tasks-local.page:28
 #: C/tasks-webdav.page:34
@@ -417,7 +414,7 @@ msgstr "Pulse <gui style=\"button\">Aplicar</gui>."
 
 #. (itstool) path: page/p
 #: C/calendar-caldav.page:38 C/calendar-google.page:38
-#: C/calendar-local.page:31 C/calendar-weather.page:37
+#: C/calendar-local.page:32 C/calendar-weather.page:37
 #: C/calendar-webdav.page:37
 msgid "The calendar will be added to the list of calendars in Evolution."
 msgstr "Se añadirá el calendario a la lista de calendarios de Evolution."
@@ -1020,6 +1017,18 @@ msgstr ""
 #: C/calendar-local.page:25 C/contacts-local.page:25 C/tasks-local.page:25
 msgid "Select the type <gui>On This Computer</gui>."
 msgstr "Seleccione el tipo <gui>En este equipo</gui>."
+
+#. (itstool) path: item/p
+#: C/calendar-local.page:28
+msgid ""
+"If you choose to use an existing calendar file which is already located on "
+"your computer, you need to provide its location and whether Evolution should "
+"only read from the file or if Evolution can also add and alter items in that "
+"file."
+msgstr ""
+"Si elige usar un archivo de calendario existente que ya está en su equipo, "
+"necesitará proporcionar su ubicación y si Evolution debe solamente leer del "
+"archivo o si también puede añadir y modificar elementos en este archivo."
 
 #. (itstool) path: info/desc
 #: C/calendar-marcus-bains-line.page:5
@@ -3028,9 +3037,6 @@ msgstr ""
 
 #. (itstool) path: choose/p
 #: C/default-browser.page:64
-#| msgid ""
-#| "Please see <link href=\"help:gnome-help/net-default-browser\">the GNOME "
-#| "Desktop Help</link>."
 msgid ""
 "Please see <link xref=\"help:gnome-help/net-default-browser\" href=\"https://"
 "help.gnome.org/users/gnome-help/stable/net-default-browser\">the GNOME "
@@ -3077,9 +3083,6 @@ msgstr ""
 
 #. (itstool) path: section/p
 #: C/default-browser.page:83
-#| msgid ""
-#| "Please see <link href=\"help:gnome-help/net-default-email\">the GNOME "
-#| "Desktop Help</link>."
 msgid ""
 "Please see <link xref=\"help:gnome-help/net-default-email\" href=\"https://"
 "help.gnome.org/users/gnome-help/stable/net-default-email\">the GNOME Desktop "
@@ -3462,13 +3465,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/import-apps-mozilla.page:27
-#| msgid ""
-#| "Go to the folder in which Thunderbird stores its data. On a Linux system, "
-#| "Thunderbird's files are located in the hidden folder <file>$HOME/."
-#| "thunderbird/12345678</file>. <file>12345678</file> will be a random "
-#| "string. If you cannot see the <file>.thunderbird</file> folder, make sure "
-#| "to <link href=\"help:gnome-help/files-hidden#show-hidden\">show hidden "
-#| "files</link> in the file selector dialog."
 msgid ""
 "Go to the folder in which Thunderbird stores its data. On a Linux system, "
 "Thunderbird's files are located in the hidden folder <file>$HOME/."
@@ -3946,10 +3942,6 @@ msgstr "Una introducción a Evolution."
 
 #. (itstool) path: page/p
 #: C/intro-application.page:25
-#| msgid ""
-#| "Evolution is a stable and versatile personal information manager for the "
-#| "GNOME project. Evolution allows you to keep your calendars, mail, address "
-#| "books and tasks in one place."
 msgid ""
 "Evolution allows you to access your personal information like your "
 "calendars, mail, address books and tasks in one place."
@@ -4831,7 +4823,7 @@ msgstr "Editor de cuentas"
 #. (itstool) path: section/p
 #: C/mail-account-manage-imap-plus.page:24
 #: C/mail-account-manage-local-delivery.page:24
-#: C/mail-account-manage-maildir-format-directories.page:24
+#: C/mail-account-manage-maildir-format-directories.page:25
 #: C/mail-account-manage-mh-format-directories.page:24
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:24
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:24
@@ -4875,7 +4867,7 @@ msgstr ""
 #. (itstool) path: section/p
 #: C/mail-account-manage-imap-plus.page:26
 #: C/mail-account-manage-local-delivery.page:26
-#: C/mail-account-manage-maildir-format-directories.page:26
+#: C/mail-account-manage-maildir-format-directories.page:27
 #: C/mail-account-manage-mh-format-directories.page:26
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:26
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:26
@@ -4896,7 +4888,7 @@ msgstr "Recibir correo y opciones de recepción (cuentas IMAP+)"
 #. (itstool) path: section/title
 #: C/mail-account-manage-imap-plus.page:38
 #: C/mail-account-manage-local-delivery.page:38
-#: C/mail-account-manage-maildir-format-directories.page:38
+#: C/mail-account-manage-maildir-format-directories.page:39
 #: C/mail-account-manage-mh-format-directories.page:38
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:38
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:38
@@ -4916,7 +4908,7 @@ msgstr "Enviar correo-e (cuentas IMAP+)"
 #. (itstool) path: section/title
 #: C/mail-account-manage-imap-plus.page:45
 #: C/mail-account-manage-local-delivery.page:45
-#: C/mail-account-manage-maildir-format-directories.page:45
+#: C/mail-account-manage-maildir-format-directories.page:46
 #: C/mail-account-manage-mh-format-directories.page:45
 #: C/mail-account-manage-pop.page:45
 #: C/mail-account-manage-unix-mbox-spool-directory.page:45
@@ -4934,7 +4926,7 @@ msgstr "Opciones predeterminadas (cuentas IMAP+)"
 #. (itstool) path: section/title
 #: C/mail-account-manage-imap-plus.page:52
 #: C/mail-account-manage-local-delivery.page:52
-#: C/mail-account-manage-maildir-format-directories.page:52
+#: C/mail-account-manage-maildir-format-directories.page:53
 #: C/mail-account-manage-mh-format-directories.page:52
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:45
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:45
@@ -4954,7 +4946,7 @@ msgstr "Seguridad (cuentas IMAP+)"
 #. (itstool) path: section/title
 #: C/mail-account-manage-imap-plus.page:59
 #: C/mail-account-manage-local-delivery.page:59
-#: C/mail-account-manage-maildir-format-directories.page:59
+#: C/mail-account-manage-maildir-format-directories.page:60
 #: C/mail-account-manage-mh-format-directories.page:59
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:52
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:57
@@ -4997,7 +4989,7 @@ msgstr "Configuración de cuenta de envío local"
 
 #. (itstool) path: section/p
 #: C/mail-account-manage-local-delivery.page:25
-#: C/mail-account-manage-maildir-format-directories.page:25
+#: C/mail-account-manage-maildir-format-directories.page:26
 #: C/mail-account-manage-mh-format-directories.page:25
 #: C/mail-account-manage-pop.page:25
 #: C/mail-account-manage-unix-mbox-spool-directory.page:25
@@ -5046,8 +5038,14 @@ msgstr ""
 msgid "Maildir Format Mail Directories account settings"
 msgstr "Configuración de cuenta para directorios de correo en formato Maildir"
 
+#. (itstool) path: section/p
+#: C/mail-account-manage-maildir-format-directories.page:24
+#| msgid "Evolution supports the following headers:"
+msgid "Evolution supports the Maildir++ specification."
+msgstr "Evolution soporta la especificación Maildir++."
+
 #. (itstool) path: info/title
-#: C/mail-account-manage-maildir-format-directories.page:36
+#: C/mail-account-manage-maildir-format-directories.page:37
 msgctxt "link"
 msgid ""
 "Receiving Email and Receiving options (Maildir Format Mail Directories "
@@ -5057,14 +5055,14 @@ msgstr ""
 "correo en formato Maildir)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-maildir-format-directories.page:43
+#: C/mail-account-manage-maildir-format-directories.page:44
 msgctxt "link"
 msgid "Sending Email (Maildir Format Mail Directories accounts)"
 msgstr ""
 "Envío de correo (cuentas para directorios de correo en formato Maildir)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-maildir-format-directories.page:50
+#: C/mail-account-manage-maildir-format-directories.page:51
 msgctxt "link"
 msgid "Defaults (Maildir Format Mail Directories accounts)"
 msgstr ""
@@ -5072,7 +5070,7 @@ msgstr ""
 "Maildir)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-maildir-format-directories.page:57
+#: C/mail-account-manage-maildir-format-directories.page:58
 msgctxt "link"
 msgid "Security (Maildir Format Mail Directories accounts)"
 msgstr "Seguridad (cuentas para directorios de correo en formato Maildir)"
@@ -8128,10 +8126,6 @@ msgstr "Crear una clave GPG"
 
 #. (itstool) path: note/p
 #: C/mail-encryption-gpg-create-key.page:25
-#| msgid ""
-#| "These steps are very technical. For average users we recommend using the "
-#| "<link href=\"help:seahorse/index\"><app>Seahorse</app> application</link> "
-#| "for managing GPG/OpenPGP keys."
 msgid ""
 "These steps are very technical. For average users we recommend using the "
 "<link xref=\"help:seahorse/index\" href=\"https://help.gnome.org/users/"
@@ -10077,10 +10071,6 @@ msgstr ""
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
 #: C/mail-received-notification.page:31
-#| msgctxt "_"
-#| msgid ""
-#| "external ref='./figures/new-mail-notification.png' "
-#| "md5='25a4373da392793406910cd883f0c21c'"
 msgctxt "_"
 msgid ""
 "external ref='./figures/new-mail-notification.png' "
@@ -10647,11 +10637,6 @@ msgstr "Guardar el mensaje como PDF"
 
 #. (itstool) path: page/p
 #: C/mail-save-as-pdf.page:22
-#| msgid ""
-#| "In order to save emails in the PDF file format, select <guiseq><gui>File</"
-#| "gui><gui>Print</gui></guiseq> and then choose <gui>Print to File</gui>. "
-#| "See <link href=\"help:gnome-help/printing\">the desktop help</link> for "
-#| "general information on printing."
 msgid ""
 "In order to save emails in the PDF file format, select <guiseq><gui>File</"
 "gui><gui>Print</gui></guiseq> and then choose <gui>Print to File</gui>. See "
@@ -11097,6 +11082,19 @@ msgstr ""
 "gui><gui>Cuentas de correo</gui><gui style=\"button\">Editar</"
 "gui><gui>Opciones de recepción</gui></guiseq>) y seleccione la frecuencia en "
 "minutos."
+
+#. (itstool) path: note/p
+#: C/mail-send-and-receive-automatically.page:23
+msgid ""
+"Evolution supports <link href=\"https://en.wikipedia.org/wiki/IMAP_IDLE"
+"\">IMAP IDLE</link> on the currently selected folder and partially supports "
+"the <link href=\"http://tools.ietf.org/search/rfc5465\">IMAP NOTIFY</link> "
+"extension."
+msgstr ""
+"Evolution soporta <link href=\"http://es.wikipedia.org/wiki/IMAP_IDLE\">IMAP "
+"IDLE</link> en la carpeta actualmente seleccionada y soporta parcialmente la "
+"extensión <link href=\"http://tools.ietf.org/search/rfc5465\">IMAP NOTIFY</"
+"link>."
 
 #. (itstool) path: info/desc
 #: C/mail-send-and-receive-manual.page:5
@@ -12451,13 +12449,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/offline.page:28
-#| msgid ""
-#| "If the problem persists and you are sure you have not clicked the icon, "
-#| "but you can still reach the network from other apps on your system "
-#| "(browsers, FTP, SSH, ping etc.) it may be that your network connection is "
-#| "not properly configured. For more information please take a look at the "
-#| "<link href=\"help:gnome-help/net-problem\">Desktop help</link> or seek "
-#| "help from your distribution support forums, mailing lists etc."
 msgid ""
 "If the problem persists and you are sure you have not clicked the icon, but "
 "you can still reach the network from other apps on your system (browsers, "
@@ -12506,10 +12497,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/problems-debug-how-to.page:25
-#| msgid ""
-#| "To further track down a problem, some debug options are listed on the "
-#| "<link href=\"http://projects.gnome.org/evolution/bugs.shtml\">Evolution "
-#| "project website</link>."
 msgid ""
 "To further track down a problem, some debug options are listed on the <link "
 "href=\"https://wiki.gnome.org/Apps/Evolution/Debugging\">Evolution project "
@@ -12540,13 +12527,6 @@ msgstr "Cómo obtener ayuda"
 
 #. (itstool) path: page/p
 #: C/problems-getting-help.page:24
-#| msgid ""
-#| "To receive help on problems you can send an email to the <link href="
-#| "\"http://mail.gnome.org/mailman/listinfo/evolution-list\">Evolution "
-#| "mailing list</link> or talk to developers and other users in the IRC chat "
-#| "channel #evolution on the server irc.gimp.net. To connect to an IRC "
-#| "server you can for example <link href=\"help:empathy/irc-manage\">use the "
-#| "internet messenger application <app>Empathy</app></link>."
 msgid ""
 "To receive help on problems you can send an email to the <link href=\"http://"
 "mail.gnome.org/mailman/listinfo/evolution-list\">Evolution mailing list</"
