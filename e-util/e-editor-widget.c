@@ -669,6 +669,61 @@ editor_widget_check_magic_links (EEditorWidget *widget,
 	g_free (node_text);
 }
 
+void
+e_editor_widget_insert_smiley (EEditorWidget *widget,
+                               EEmoticon *emoticon)
+{
+	gchar *filename_uri, *html, *node_text;
+	WebKitDOMDocument *document;
+	WebKitDOMElement *span;
+	WebKitDOMNode *node;
+	WebKitDOMNode *parent;
+	WebKitDOMRange *range;
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
+	range = editor_widget_get_dom_range (widget);
+	node = webkit_dom_range_get_end_container (range, NULL);
+	node_text = webkit_dom_text_get_whole_text (WEBKIT_DOM_TEXT (node));
+
+	filename_uri = e_emoticon_get_uri (emoticon);
+	parent = webkit_dom_node_get_parent_node (node);
+	span = webkit_dom_document_create_element (document, "SPAN", NULL);
+	/* Insert span with image representation and another one with text
+	 * represetation and hide/show them dependant on active composer mode */
+	/* &#8203 == UNICODE_ZERO_WIDTH_SPACE */
+	html = g_strdup_printf (
+		"<span class\"-x-evo-smiley-wrapper\"><img src=\"%s\" alt=\"%s\" "
+		"x-evo-smiley=\"%s\" class=\"-x-evo-smiley-img\"/><span "
+		"class=\"-x-evo-smiley-text\" style=\"display: none;\">%s</span>"
+		"</span>&#8203;",
+		filename_uri, emoticon ? emoticon->text_face : "",
+		emoticon->icon_name, emoticon ? emoticon->text_face : "");
+
+	span = WEBKIT_DOM_ELEMENT (webkit_dom_node_append_child (
+		parent, WEBKIT_DOM_NODE (span), NULL));
+
+	webkit_dom_html_element_set_outer_html (
+		WEBKIT_DOM_HTML_ELEMENT (span), html, NULL);
+
+	webkit_dom_node_append_child (
+		parent,
+		e_editor_selection_get_caret_position_node (document),
+		NULL);
+
+	webkit_dom_character_data_delete_data (
+		WEBKIT_DOM_CHARACTER_DATA (node),
+		g_utf8_strlen (node_text, -1) - strlen (emoticon->text_face),
+		strlen (emoticon->text_face),
+		NULL);
+
+	e_editor_selection_restore_caret_position (
+		e_editor_widget_get_selection (widget));
+
+	g_free (html);
+	g_free (filename_uri);
+	g_free (node_text);
+}
+
 static void
 editor_widget_check_magic_smileys (EEditorWidget *widget,
                                    WebKitDOMRange *range)
@@ -682,10 +737,6 @@ editor_widget_check_magic_smileys (EEditorWidget *widget,
 	WebKitDOMNode *node;
 
 	node = webkit_dom_range_get_end_container (range, NULL);
-	if (!webkit_dom_node_get_node_type (node) == 3) {
-		return;
-	}
-
 	if (!WEBKIT_DOM_IS_TEXT (node))
 		return;
 
@@ -724,54 +775,19 @@ editor_widget_check_magic_smileys (EEditorWidget *widget,
 	}
 
 	if (state < 0) {
-		GtkIconInfo *icon_info;
-		const gchar *filename;
-		gchar *filename_uri, *html;
-		WebKitDOMDocument *document;
-		WebKitDOMDOMWindow *window;
-		WebKitDOMDOMSelection *selection;
 		const EEmoticon *emoticon;
 
 		if (pos > 0) {
 			uc = g_utf8_get_char (g_utf8_offset_to_pointer (node_text, pos - 1));
-			if (uc != ' ' && uc != '\t') {
+			if (!g_unichar_isspace (uc)) {
 				g_free (node_text);
 				return;
 			}
 		}
 
-		/* Select the text-smiley and replace it by <img> */
-		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
-		window = webkit_dom_document_get_default_view (document);
-		selection = webkit_dom_dom_window_get_selection (window);
-		webkit_dom_dom_selection_set_base_and_extent (
-			selection, webkit_dom_range_get_end_container (range, NULL),
-			pos, webkit_dom_range_get_end_container (range, NULL),
-			start + 1, NULL);
-
-		emoticon = e_emoticon_chooser_lookup_emoticon (
-				emoticons_icon_names[-state - 1]);
-
-		/* Convert a named icon to a file URI. */
-		icon_info = gtk_icon_theme_lookup_icon (
-			gtk_icon_theme_get_default (),
-			emoticons_icon_names[-state - 1], 16, 0);
-		g_return_if_fail (icon_info != NULL);
-		filename = gtk_icon_info_get_filename (icon_info);
-		g_return_if_fail (filename != NULL);
-		filename_uri = g_filename_to_uri (filename, NULL, NULL);
-
-		html = g_strdup_printf (
-			"<img src=\"%s\" alt=\"%s\" x-evo-smiley=\"%s\" />",
-			filename_uri, emoticon ? emoticon->text_face : "",
-			emoticons_icon_names[-state - 1]);
-
-		e_editor_selection_insert_html (
-			widget->priv->selection, html);
-
-		g_free (html);
-		g_free (filename_uri);
-		gtk_icon_info_free (icon_info);
+		emoticon = (e_emoticon_chooser_lookup_emoticon (
+			emoticons_icon_names[-state - 1]));
+		e_editor_widget_insert_smiley (widget, (EEmoticon *) emoticon);
 	}
 
 	g_free (node_text);
@@ -2337,28 +2353,6 @@ process_elements (WebKitDOMNode *node,
 	GRegex *regex, *regex_hidden_space;
 	gchar *content;
 
-	/* Replace images with smileys by their text representation */
-	if (WEBKIT_DOM_IS_HTML_IMAGE_ELEMENT (node)) {
-		if (webkit_dom_element_has_attribute (
-				WEBKIT_DOM_ELEMENT (node), "x-evo-smiley")) {
-
-			gchar *smiley_name;
-			const EEmoticon *emoticon;
-
-			smiley_name = webkit_dom_element_get_attribute (
-				WEBKIT_DOM_ELEMENT (node), "x-evo-smiley");
-			emoticon = e_emoticon_chooser_lookup_emoticon (smiley_name);
-			if (emoticon != NULL)
-				g_string_append_printf (
-					buffer, " %s ", emoticon->text_face);
-
-			g_free (smiley_name);
-
-			/* IMG can't have child elements, so we return now */
-			return;
-		}
-	}
-
 	/* Skip signature */
 	if (element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evolution-signature")) {
 		if (process_nodes) {
@@ -2423,6 +2417,19 @@ process_elements (WebKitDOMNode *node,
 			if (element_has_class (WEBKIT_DOM_ELEMENT (child), "-x-evo-paragraph")) {
 				if (!process_nodes) {
 					content = webkit_dom_html_element_get_outer_html (WEBKIT_DOM_HTML_ELEMENT (child));
+					g_string_append (buffer, content);
+					g_free (content);
+					skip_node = TRUE;
+				}
+			}
+
+			/* Replace smileys with their text representation */
+			if (element_has_class (WEBKIT_DOM_ELEMENT (child), "-x-evo-smiley-wrapper")) {
+				if (!process_nodes) {
+					WebKitDOMNode *text_version;
+
+					text_version = webkit_dom_node_get_last_child (child);
+					content = webkit_dom_html_element_get_inner_text (WEBKIT_DOM_HTML_ELEMENT (text_version));
 					g_string_append (buffer, content);
 					g_free (content);
 					skip_node = TRUE;
@@ -2494,6 +2501,37 @@ changing_composer_mode_get_text_plain (EEditorWidget *widget)
 }
 
 static void
+toggle_smileys (EEditorWidget *widget)
+{
+	gboolean html_mode;
+	gint length;
+	gint ii;
+	WebKitDOMDocument *document;
+	WebKitDOMNodeList *smileys;
+
+	html_mode = e_editor_widget_get_html_mode (widget);
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
+	smileys = webkit_dom_document_query_selector_all (
+		document, "img.-x-evo-smiley-img", NULL);
+
+	length = webkit_dom_node_list_get_length (smileys);
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMNode *img = webkit_dom_node_list_item (smileys, ii);
+		WebKitDOMNode *text = webkit_dom_node_get_next_sibling (img);
+
+		webkit_dom_element_set_attribute (
+			WEBKIT_DOM_ELEMENT (html_mode ? text : img),
+			"style",
+			"display: none",
+			NULL);
+
+		webkit_dom_element_remove_attribute (
+			WEBKIT_DOM_ELEMENT (html_mode ? img : text), "style");
+	}
+}
+
+static void
 toggle_paragraphs_style (EEditorWidget *widget)
 {
 	EEditorSelection *selection;
@@ -2530,7 +2568,6 @@ toggle_paragraphs_style (EEditorWidget *widget)
 				e_editor_selection_set_paragraph_style (
 					selection, WEBKIT_DOM_ELEMENT (node), -1);
 		}
-
 	}
 }
 
@@ -2606,6 +2643,7 @@ e_editor_widget_set_html_mode (EEditorWidget *widget,
 			e_editor_widget_dequote_plain_text (widget);
 
 		toggle_paragraphs_style (widget);
+		toggle_smileys (widget);
 	} else {
 		gchar *plain;
 
@@ -2616,6 +2654,7 @@ e_editor_widget_set_html_mode (EEditorWidget *widget,
 			e_editor_widget_quote_plain_text (widget);
 
 		toggle_paragraphs_style (widget);
+		toggle_smileys (widget);
 
 		plain = changing_composer_mode_get_text_plain (widget);
 
