@@ -106,6 +106,28 @@ filter_input_validate (EFilterElement *element,
 		}
 
 		regfree (&regexpat);
+	} else if (!input->allow_empty && (!input->values || !input->values->next)) {
+		const gchar *value = input->values->data;
+		gboolean is_empty = value == NULL;
+
+		if (value) {
+			gint ii;
+
+			is_empty = TRUE;
+
+			for (ii = 0; value[ii]; ii++) {
+				if (!g_ascii_isspace (value[ii])) {
+					is_empty = FALSE;
+					break;
+				}
+			}
+		}
+
+		if (is_empty) {
+			valid = FALSE;
+			if (alert)
+				*alert = e_alert_new ("filter:not-allow-empty", NULL);
+		}
 	}
 
 	return valid;
@@ -142,7 +164,23 @@ filter_input_eq (EFilterElement *element_a,
 	if (link_a != NULL || link_b != NULL)
 		return FALSE;
 
-	return TRUE;
+	return input_a->allow_empty == input_b->allow_empty;
+}
+
+static void
+filter_input_xml_create (EFilterElement *element,
+			 xmlNodePtr node)
+{
+	EFilterInput *input = E_FILTER_INPUT (element);
+	gchar *allow_empty;
+
+	/* Chain up to parent's method. */
+	E_FILTER_ELEMENT_CLASS (e_filter_input_parent_class)->xml_create (element, node);
+
+	allow_empty = (gchar *) xmlGetProp (node, (xmlChar *) "allow-empty");
+
+	input->allow_empty = !allow_empty || g_strcmp0 (allow_empty, "true") == 0;
+	xmlFree (allow_empty);
 }
 
 static xmlNodePtr
@@ -158,6 +196,7 @@ filter_input_xml_encode (EFilterElement *element)
 	value = xmlNewNode (NULL, (xmlChar *) "value");
 	xmlSetProp (value, (xmlChar *) "name", (xmlChar *) element->name);
 	xmlSetProp (value, (xmlChar *) "type", (xmlChar *) type);
+	xmlSetProp (value, (xmlChar *) "allow-empty", (xmlChar *) (input->allow_empty ? "true" : "false"));
 
 	for (link = input->values; link != NULL; link = g_list_next (link)) {
 		xmlChar *str = link->data;
@@ -178,7 +217,7 @@ filter_input_xml_decode (EFilterElement *element,
                          xmlNodePtr node)
 {
 	EFilterInput *input = (EFilterInput *) element;
-	gchar *name, *str, *type;
+	gchar *name, *str, *type, *allow_empty;
 	xmlNodePtr child;
 
 	g_list_foreach (input->values, (GFunc) g_free, NULL);
@@ -187,12 +226,16 @@ filter_input_xml_decode (EFilterElement *element,
 
 	name = (gchar *) xmlGetProp (node, (xmlChar *) "name");
 	type = (gchar *) xmlGetProp (node, (xmlChar *) "type");
+	allow_empty = (gchar *) xmlGetProp (node, (xmlChar *) "allow-empty");
 
 	xmlFree (element->name);
 	element->name = name;
 
 	xmlFree (input->type);
 	input->type = type;
+
+	input->allow_empty = !allow_empty || g_strcmp0 (allow_empty, "true") == 0;
+	xmlFree (allow_empty);
 
 	child = node->children;
 	while (child != NULL) {
@@ -254,6 +297,7 @@ e_filter_input_class_init (EFilterInputClass *class)
 	filter_element_class = E_FILTER_ELEMENT_CLASS (class);
 	filter_element_class->validate = filter_input_validate;
 	filter_element_class->eq = filter_input_eq;
+	filter_element_class->xml_create = filter_input_xml_create;
 	filter_element_class->xml_encode = filter_input_xml_encode;
 	filter_element_class->xml_decode = filter_input_xml_decode;
 	filter_element_class->get_widget = filter_input_get_widget;
@@ -264,6 +308,7 @@ static void
 e_filter_input_init (EFilterInput *input)
 {
 	input->values = g_list_prepend (NULL, g_strdup (""));
+	input->allow_empty = TRUE;
 }
 
 /**

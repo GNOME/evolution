@@ -36,4 +36,9 @@
   <_secondary>Filter should have at least one condition.</_secondary>
  </error>
 
+ <error id="not-allow-empty" type="error">
+  <_primary>Missing value.</_primary>
+  <_secondary>One or more values cannot be empty.</_secondary>
+ </error>
+
 </error-list>

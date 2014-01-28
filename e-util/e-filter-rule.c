@@ -400,7 +400,7 @@ filter_rule_validate (EFilterRule *rule,
 		parts = parts->next;
 	}
 
-	if (!valid && !parts && alert)
+	if (!valid && !rule->parts && alert)
 		*alert = e_alert_new ("filter:no-condition", NULL);
 
 	return valid;

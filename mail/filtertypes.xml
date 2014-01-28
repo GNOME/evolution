@@ -65,7 +65,7 @@
      </code>
     </option>
    </input>
-   <input type="string" name="sender"/>
+   <input type="string" name="sender" allow-empty="false"/>
  </part>
 
  <part name="to">
@@ -147,7 +147,7 @@
      </code>
     </option>
    </input>
-   <input type="address" name="recipient"/>
+   <input type="address" name="recipient" allow-empty="false"/>
  </part>
 
  <part name="cc">
@@ -214,7 +214,7 @@
      </code>
     </option>
    </input>
-   <input type="address" name="recipient"/>
+   <input type="address" name="recipient" allow-empty="false"/>
  </part>
 
  <part name="bcc">
@@ -281,7 +281,7 @@
      </code>
     </option>
    </input>
-   <input type="address" name="recipient"/>
+   <input type="address" name="recipient" allow-empty="false"/>
  </part>
 
  <part name="senderto">
@@ -383,7 +383,7 @@
      </code>
     </option>
    </input>
-   <input type="address" name="recipient"/>
+   <input type="address" name="recipient" allow-empty="false"/>
  </part>
 
  <part name="subject">
@@ -467,7 +467,7 @@
 
  <part name="header">
    <title>Specific header</title>
-   <input type="string" name="header-field"/>
+   <input type="string" name="header-field" allow-empty="false"/>
    <input type="optionlist" name="header-type">
     <option value="contains">
      <title>contains</title>
@@ -573,7 +573,7 @@
      </code>
     </option>
    </input>
-   <input type="string" name="word"/>
+   <input type="string" name="word" allow-empty="false"/>
  </part>
 
  <part name="sexp">
@@ -819,7 +819,7 @@
         <code>(match-all (not (header-contains "x-camel-mlist" ${mlist})))</code>
     </option>
    </input>
-   <input type="string" name="mlist"/>
+   <input type="string" name="mlist" allow-empty="false"/>
  </part>
 
  <part name="regex">
@@ -1040,7 +1040,7 @@
  <part name="forward">
   <title>Forward to</title>
   <code>(forward-to ${address})</code>
-  <input type="address" name="address"/>
+  <input type="address" name="address" allow-empty="false"/>
  </part>
 </actionset>
 </filterdescription>
