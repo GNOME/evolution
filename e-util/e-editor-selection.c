@@ -3036,7 +3036,7 @@ image_load_finish (LoadContext *load_context)
 		output);
 
 	caret_position = webkit_dom_document_get_element_by_id (
-				document, "-x-evo-caret-position");
+		document, "-x-evo-caret-position");
 
 	webkit_dom_node_insert_before (
 		webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (caret_position)),
@@ -3240,7 +3240,6 @@ e_editor_selection_insert_image (EEditorSelection *selection,
 
 	if (is_in_html_mode (selection))
 		image_load_and_insert_async (selection, image_uri);
-
 }
 
 /**
