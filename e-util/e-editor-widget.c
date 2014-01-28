@@ -1175,7 +1175,9 @@ editor_widget_key_release_event (GtkWidget *widget,
 		/* All text in composer has to be written in div elements, so if
 		 * we are writing something straight to the body, surround it with
 		 * paragraph */
-		if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (next_sibling) && WEBKIT_DOM_IS_TEXT (node)) {
+		if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (next_sibling) && WEBKIT_DOM_IS_TEXT (node) &&
+		    WEBKIT_DOM_IS_HTML_BODY_ELEMENT (webkit_dom_node_get_parent_node (node))) {
+			g_warning ("WRAPPING");
 			WebKitDOMDocument *document =
 				webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
 			EEditorSelection *selection =
