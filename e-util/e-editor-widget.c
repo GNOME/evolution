@@ -2842,11 +2842,12 @@ e_editor_widget_get_text_plain (EEditorWidget *widget)
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
 	body = WEBKIT_DOM_NODE (webkit_dom_document_get_body (document));
+	body_clone = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (body), TRUE);
 
 	plain_text = g_string_sized_new (1024);
 
-	paragraphs = webkit_dom_document_query_selector_all (
-			document,
+	paragraphs = webkit_dom_element_query_selector_all (
+			WEBKIT_DOM_ELEMENT (body_clone),
 			".-x-evo-paragraph",
 			NULL);
 
@@ -2861,7 +2862,6 @@ e_editor_widget_get_text_plain (EEditorWidget *widget)
 			WEBKIT_DOM_ELEMENT (paragraph));
 	}
 
-	body_clone = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (body), TRUE);
 	process_elements (body_clone, plain_text, TRUE);
 
 	/* Return text content between <body> and </body> */
