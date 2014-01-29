@@ -2,22 +2,28 @@
       type="guide" id="mail-account-management">
 
   <info>
-    <desc>Adding, editing and managing mail accounts.</desc>
-
-    <link type="guide" xref="index#mail-basic" />
+    <desc>Add, edit and remove mail accounts.</desc>
+    <link type="guide" xref="index" group="getting-started" />
 
     <revision pkgversion="2.28.3" version="0.3" date="2010-12-09" status="stub"/>
+    <revision pkgversion="3.10.2" version="0.4" date="2014-01-29" status="review"/>
+
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
     </credit>
     
+    <credit type="author">
+      <name its:translate="no">Julita Inca</name>
+      <email its:translate="no">yrazes@gmail.com</email>
+    </credit>
+
     <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
         
 
   </info>
 
-<title>Account Management</title>
+<title>Add an Account</title>
 
   <section id="mail-common-account-types" style="2column">
     <title>Common Account Types</title>
