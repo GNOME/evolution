@@ -495,18 +495,10 @@ mail_shell_view_reader_update_actions_cb (EMailReader *reader,
 }
 
 static void
-mail_shell_view_prepare_for_quit_done_cb (CamelFolder *folder,
-                                          gpointer user_data)
-{
-	g_object_unref (E_ACTIVITY (user_data));
-}
-
-static void
 mail_shell_view_prepare_for_quit_cb (EMailShellView *mail_shell_view,
                                      EActivity *activity)
 {
 	EMailShellContent *mail_shell_content;
-	CamelFolder *folder;
 	EMailReader *reader;
 	EMailView *mail_view;
 	GtkWidget *message_list;
@@ -519,18 +511,11 @@ mail_shell_view_prepare_for_quit_cb (EMailShellView *mail_shell_view,
 	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
 
 	reader = E_MAIL_READER (mail_view);
-	folder = e_mail_reader_ref_folder (reader);
 	message_list = e_mail_reader_get_message_list (reader);
-
 	message_list_save_state (MESSAGE_LIST (message_list));
 
-	if (folder != NULL) {
-		mail_sync_folder (
-			folder, TRUE,
-			mail_shell_view_prepare_for_quit_done_cb,
-			g_object_ref (activity));
-		g_object_unref (folder);
-	}
+	/* Do not sync folder content here, it's duty of EMailBackend,
+	   which does it for all accounts */
 }
 
 static void
