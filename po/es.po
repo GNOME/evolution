@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2014-01-25 22:32+0000\n"
-"PO-Revision-Date: 2014-01-27 13:15+0100\n"
+"POT-Creation-Date: 2014-01-28 16:26+0000\n"
+"PO-Revision-Date: 2014-01-29 10:04+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -797,7 +797,6 @@ msgid "Duplicate Contact Detected"
 msgstr "Se ha detectado un contacto duplicado"
 
 #: ../addressbook/gui/widgets/eab-contact-merging.c:636
-#| msgid "Cancel"
 msgid "_Cancel"
 msgstr "_Cancelar"
 
@@ -807,9 +806,6 @@ msgid "_Save"
 msgstr "_Guardar"
 
 #: ../addressbook/gui/widgets/eab-contact-merging.c:686
-#| msgid ""
-#| "The name or email of this contact already exists in this folder. Would "
-#| "you like to save the changes anyway?"
 msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder. Would you like to save the changes anyway?"
@@ -818,9 +814,6 @@ msgstr ""
 "en esta carpeta. ¿Quiere guardar los cambios de todos modos?"
 
 #: ../addressbook/gui/widgets/eab-contact-merging.c:689
-#| msgid ""
-#| "The name or email address of this contact already exists\n"
-#| "in this folder.  Would you like to add it anyway?"
 msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder. Would you like to add it anyway?"
@@ -841,7 +834,6 @@ msgid "Conflicting Contact:"
 msgstr "Contacto en conflicto:"
 
 #: ../addressbook/gui/widgets/eab-contact-merging.c:743
-#| msgid "Contact: "
 msgid "Old Contact:"
 msgstr "Contacto antiguo:"
 
@@ -2201,12 +2193,12 @@ msgid "Summary"
 msgstr "Resumen"
 
 #: ../calendar/gui/caltypes.xml.h:2 ../calendar/gui/memotypes.xml.h:2
-#: ../calendar/gui/tasktypes.xml.h:2 ../mail/em-filter-i18n.h:11
+#: ../calendar/gui/tasktypes.xml.h:2 ../mail/em-filter-i18n.h:55
 msgid "contains"
 msgstr "contiene"
 
 #: ../calendar/gui/caltypes.xml.h:3 ../calendar/gui/memotypes.xml.h:3
-#: ../calendar/gui/tasktypes.xml.h:3 ../mail/em-filter-i18n.h:17
+#: ../calendar/gui/tasktypes.xml.h:3 ../mail/em-filter-i18n.h:56
 msgid "does not contain"
 msgstr "no contiene"
 
@@ -2227,12 +2219,12 @@ msgid "Classification"
 msgstr "Clasificación"
 
 #: ../calendar/gui/caltypes.xml.h:7 ../calendar/gui/memotypes.xml.h:8
-#: ../calendar/gui/tasktypes.xml.h:9 ../mail/em-filter-i18n.h:34
+#: ../calendar/gui/tasktypes.xml.h:9 ../mail/em-filter-i18n.h:75
 msgid "is"
 msgstr "es"
 
 #: ../calendar/gui/caltypes.xml.h:8 ../calendar/gui/memotypes.xml.h:9
-#: ../calendar/gui/tasktypes.xml.h:10 ../mail/em-filter-i18n.h:40
+#: ../calendar/gui/tasktypes.xml.h:10 ../mail/em-filter-i18n.h:73
 msgid "is not"
 msgstr "no es"
 
@@ -2291,12 +2283,12 @@ msgid "Attachments"
 msgstr "Adjuntos"
 
 #: ../calendar/gui/caltypes.xml.h:17 ../calendar/gui/memotypes.xml.h:15
-#: ../calendar/gui/tasktypes.xml.h:16 ../mail/em-filter-i18n.h:27
+#: ../calendar/gui/tasktypes.xml.h:16 ../mail/em-filter-i18n.h:18
 msgid "Exist"
 msgstr "Existen"
 
 #: ../calendar/gui/caltypes.xml.h:18 ../calendar/gui/memotypes.xml.h:16
-#: ../calendar/gui/tasktypes.xml.h:17 ../mail/em-filter-i18n.h:24
+#: ../calendar/gui/tasktypes.xml.h:17 ../mail/em-filter-i18n.h:16
 msgid "Do Not Exist"
 msgstr "No existen"
 
@@ -3169,7 +3161,7 @@ msgstr "La nota no se puede editar completamente porque no es el organizador"
 #: ../calendar/gui/dialogs/memo-page.c:1166
 #: ../em-format/e-mail-formatter-utils.c:201
 #: ../em-format/e-mail-formatter-utils.c:218
-#: ../em-format/e-mail-part-headers.c:48 ../mail/em-filter-i18n.h:78
+#: ../em-format/e-mail-part-headers.c:48 ../mail/em-filter-i18n.h:52
 #: ../mail/message-list.etspec.h:9 ../modules/mail/em-mailer-prefs.c:65
 msgid "To"
 msgstr "Para"
@@ -3961,7 +3953,7 @@ msgstr "Prioridad"
 #: ../calendar/gui/e-cal-model.c:4011
 #: ../calendar/gui/e-meeting-list-view.c:695
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:9
-#: ../calendar/gui/tasktypes.xml.h:8 ../mail/em-filter-i18n.h:75
+#: ../calendar/gui/tasktypes.xml.h:8 ../mail/em-filter-i18n.h:49
 #: ../mail/message-list.etspec.h:1
 msgid "Status"
 msgstr "Estado"
@@ -4877,11 +4869,11 @@ msgstr "En proceso"
 msgid "% Completed"
 msgstr "% terminado"
 
-#: ../calendar/gui/tasktypes.xml.h:26 ../mail/em-filter-i18n.h:38
+#: ../calendar/gui/tasktypes.xml.h:26 ../mail/em-filter-i18n.h:69
 msgid "is greater than"
 msgstr "es mayor que"
 
-#: ../calendar/gui/tasktypes.xml.h:27 ../mail/em-filter-i18n.h:39
+#: ../calendar/gui/tasktypes.xml.h:27 ../mail/em-filter-i18n.h:70
 msgid "is less than"
 msgstr "es menor que"
 
@@ -9619,7 +9611,7 @@ msgstr "Seguridad"
 
 #: ../em-format/e-mail-formatter-quote-headers.c:167
 #: ../em-format/e-mail-part-headers.c:51 ../mail/e-mail-tag-editor.c:276
-#: ../mail/em-filter-i18n.h:77 ../mail/message-list.etspec.h:6
+#: ../mail/em-filter-i18n.h:51 ../mail/message-list.etspec.h:6
 #: ../modules/mail/em-mailer-prefs.c:68
 msgid "Subject"
 msgstr "Asunto"
@@ -10596,7 +10588,7 @@ msgstr "Codificación de caracteres"
 msgid "Enter the character set to use"
 msgstr "Introduzca el conjunto de caracteres a usar"
 
-#: ../e-util/e-charset-combo-box.c:341
+#: ../e-util/e-charset-combo-box.c:368
 msgid "Other..."
 msgstr "Otro…"
 
@@ -11962,6 +11954,16 @@ msgstr "Falta la condición."
 msgid "Filter should have at least one condition."
 msgstr "El filtro debe tener por lo menos una condición."
 
+#: ../e-util/filter.error.xml.h:14
+#| msgid "Missing date."
+msgid "Missing value."
+msgstr "Falta el valor."
+
+#: ../e-util/filter.error.xml.h:15
+#| msgid "Label name cannot be empty."
+msgid "One or more values cannot be empty."
+msgstr "Uno o más valores no puede estar vacíos."
+
 #. Translators: description of a "popup" action
 #: ../e-util/gal-a11y-e-cell-popup.c:127
 msgid "popup a child"
@@ -12380,7 +12382,7 @@ msgstr "Nombre de la cuenta"
 
 #: ../mail/e-mail-account-tree-view.c:135
 #: ../mail/e-mail-config-security-page.c:334
-#: ../mail/e-mail-config-security-page.c:474 ../mail/e-mail-reader.c:3583
+#: ../mail/e-mail-config-security-page.c:474 ../mail/e-mail-reader.c:3584
 #: ../mail/mail-config.ui.h:59
 msgid "Default"
 msgstr "Predeterminado"
@@ -12881,7 +12883,7 @@ msgstr "Cabeceras"
 msgid "Page %d of %d"
 msgstr "Página %d de %d"
 
-#: ../mail/e-mail-reader.c:348 ../mail/em-filter-i18n.h:12
+#: ../mail/e-mail-reader.c:348 ../mail/em-filter-i18n.h:11
 msgid "Copy to Folder"
 msgstr "Copiar a la carpeta"
 
@@ -12889,7 +12891,7 @@ msgstr "Copiar a la carpeta"
 msgid "C_opy"
 msgstr "C_opiar"
 
-#: ../mail/e-mail-reader.c:848 ../mail/em-filter-i18n.h:54
+#: ../mail/e-mail-reader.c:848 ../mail/em-filter-i18n.h:33
 msgid "Move to Folder"
 msgstr "Mover a la carpeta"
 
@@ -12910,7 +12912,7 @@ msgstr "_Ignorar siempre «Responder a:» para las listas de correo."
 msgid "Failed to retrieve message:"
 msgstr "Falló al obtener el mensaje:"
 
-#: ../mail/e-mail-reader.c:1674 ../mail/e-mail-reader.c:2825
+#: ../mail/e-mail-reader.c:1674 ../mail/e-mail-reader.c:2826
 #, c-format
 msgid "Retrieving message '%s'"
 msgstr "Obteniendo mensaje «%s»"
@@ -13423,42 +13425,42 @@ msgstr "_Todas las cabeceras del mensaje"
 msgid "Show messages with all email headers"
 msgstr "Mostrar los mensajes con todas las cabeceras de correo-e"
 
-#: ../mail/e-mail-reader.c:2831
+#: ../mail/e-mail-reader.c:2832
 msgid "Retrieving message"
 msgstr "Descargando mensaje"
 
-#: ../mail/e-mail-reader.c:3753
+#: ../mail/e-mail-reader.c:3754
 #: ../modules/mail/e-mail-attachment-handler.c:206
 msgid "_Forward"
 msgstr "Reen_viar"
 
-#: ../mail/e-mail-reader.c:3754
+#: ../mail/e-mail-reader.c:3755
 msgid "Forward the selected message to someone"
 msgstr "Reenvía a alguien el mensaje seleccionado"
 
-#: ../mail/e-mail-reader.c:3773
+#: ../mail/e-mail-reader.c:3774
 msgid "Group Reply"
 msgstr "Responder al grupo"
 
-#: ../mail/e-mail-reader.c:3774
+#: ../mail/e-mail-reader.c:3775
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "Responder a la lista de correo o a todos los destinatarios"
 
-#: ../mail/e-mail-reader.c:3840 ../mail/em-filter-i18n.h:15
+#: ../mail/e-mail-reader.c:3841 ../mail/em-filter-i18n.h:14
 msgid "Delete"
 msgstr "Eliminar"
 
-#: ../mail/e-mail-reader.c:3852
+#: ../mail/e-mail-reader.c:3853
 #: ../modules/calendar/e-cal-shell-view-actions.c:1371
 msgid "Next"
 msgstr "Siguiente"
 
-#: ../mail/e-mail-reader.c:3856
+#: ../mail/e-mail-reader.c:3857
 #: ../modules/calendar/e-cal-shell-view-actions.c:1364
 msgid "Previous"
 msgstr "Anterior"
 
-#: ../mail/e-mail-reader.c:3865 ../mail/mail-dialogs.ui.h:15
+#: ../mail/e-mail-reader.c:3866 ../mail/mail-dialogs.ui.h:15
 msgid "Reply"
 msgstr "Responder"
 
@@ -13590,230 +13592,230 @@ msgstr "Cc"
 msgid "Completed On"
 msgstr "Completado en"
 
-#: ../mail/em-filter-i18n.h:13
+#: ../mail/em-filter-i18n.h:12
 msgid "Date received"
 msgstr "Fecha de recepción"
 
-#: ../mail/em-filter-i18n.h:14
+#: ../mail/em-filter-i18n.h:13
 msgid "Date sent"
 msgstr "Fecha de envío"
 
-#: ../mail/em-filter-i18n.h:16
+#: ../mail/em-filter-i18n.h:15
 msgid "Deleted"
 msgstr "Eliminado"
 
-#: ../mail/em-filter-i18n.h:18
-msgid "does not end with"
-msgstr "no acaba en"
-
-#: ../mail/em-filter-i18n.h:19
-msgid "does not exist"
-msgstr "no existe"
-
-#: ../mail/em-filter-i18n.h:20
-msgid "does not have words"
-msgstr "no contiene palabras"
-
-#: ../mail/em-filter-i18n.h:21
-msgid "does not return"
-msgstr "no devuelve"
-
-#: ../mail/em-filter-i18n.h:22
-msgid "does not sound like"
-msgstr "no suena como"
-
-#: ../mail/em-filter-i18n.h:23
-msgid "does not start with"
-msgstr "no comienza por"
-
-#: ../mail/em-filter-i18n.h:25
+#: ../mail/em-filter-i18n.h:17
 msgid "Draft"
 msgstr "Borrador"
 
-#: ../mail/em-filter-i18n.h:26
-msgid "ends with"
-msgstr "acaba en"
-
-#: ../mail/em-filter-i18n.h:28
-msgid "exists"
-msgstr "existe"
-
-#: ../mail/em-filter-i18n.h:29
+#: ../mail/em-filter-i18n.h:19
 msgid "Expression"
 msgstr "Expresión"
 
-#: ../mail/em-filter-i18n.h:30
+#: ../mail/em-filter-i18n.h:20
 msgid "Follow Up"
 msgstr "Seguimiento"
 
-#: ../mail/em-filter-i18n.h:31
+#: ../mail/em-filter-i18n.h:21
 msgid "Forward to"
 msgstr "Reenviar a"
 
-#: ../mail/em-filter-i18n.h:32
-msgid "has words"
-msgstr "contiene palabras"
-
-#: ../mail/em-filter-i18n.h:33
+#: ../mail/em-filter-i18n.h:22
 msgid "Important"
 msgstr "Importante"
 
-#: ../mail/em-filter-i18n.h:35
-msgid "is after"
-msgstr "es posterior a"
-
-#: ../mail/em-filter-i18n.h:36
-msgid "is before"
-msgstr "es anterior a"
-
-#: ../mail/em-filter-i18n.h:37
-msgid "is Flagged"
-msgstr "está marcado"
-
-#: ../mail/em-filter-i18n.h:41
-msgid "is not Flagged"
-msgstr "no está marcado"
-
-#: ../mail/em-filter-i18n.h:42
-msgid "is not set"
-msgstr "no está configurado"
-
-#: ../mail/em-filter-i18n.h:43
-msgid "is set"
-msgstr "está configurado"
-
-#: ../mail/em-filter-i18n.h:44 ../mail/mail-config.ui.h:106
-msgid "Junk"
-msgstr "SPAM"
-
-#: ../mail/em-filter-i18n.h:45
+#: ../mail/em-filter-i18n.h:23
 msgid "Junk Test"
 msgstr "Detección de SPAM"
 
-#: ../mail/em-filter-i18n.h:46
+#: ../mail/em-filter-i18n.h:24 ../mail/mail-config.ui.h:106
+msgid "Junk"
+msgstr "SPAM"
+
+#: ../mail/em-filter-i18n.h:25
 msgid "Label"
 msgstr "Etiqueta"
 
-#: ../mail/em-filter-i18n.h:47
+#: ../mail/em-filter-i18n.h:26
 msgid "Mailing list"
 msgstr "Lista de correo"
 
-#: ../mail/em-filter-i18n.h:48
+#: ../mail/em-filter-i18n.h:27
 msgid "Match All"
 msgstr "Coincidir con todo"
 
-#: ../mail/em-filter-i18n.h:49
+#: ../mail/em-filter-i18n.h:28
 msgid "Message Body"
 msgstr "Cuerpo del mensaje"
 
-#: ../mail/em-filter-i18n.h:50
+#: ../mail/em-filter-i18n.h:29
 msgid "Message Header"
 msgstr "Cabecera del mensaje"
 
-#: ../mail/em-filter-i18n.h:51
-msgid "Message is Junk"
-msgstr "El mensaje es SPAM"
-
-#: ../mail/em-filter-i18n.h:52
-msgid "Message is not Junk"
-msgstr "El mensaje no es SPAM"
-
-#: ../mail/em-filter-i18n.h:53
+#: ../mail/em-filter-i18n.h:30
 msgid "Message Location"
 msgstr "Ubicación del mensaje"
 
-#: ../mail/em-filter-i18n.h:55
+#: ../mail/em-filter-i18n.h:31
+msgid "Message is Junk"
+msgstr "El mensaje es SPAM"
+
+#: ../mail/em-filter-i18n.h:32
+msgid "Message is not Junk"
+msgstr "El mensaje no es SPAM"
+
+#: ../mail/em-filter-i18n.h:34
 msgid "Pipe to Program"
 msgstr "Encauzar al programa"
 
-#: ../mail/em-filter-i18n.h:56
+#: ../mail/em-filter-i18n.h:35
 msgid "Play Sound"
 msgstr "Reproducir un sonido"
 
 #. Past tense, as in "has been read".
-#: ../mail/em-filter-i18n.h:57 ../mail/mail-dialogs.ui.h:14
+#: ../mail/em-filter-i18n.h:36 ../mail/mail-dialogs.ui.h:14
 msgid "Read"
 msgstr "Leído"
 
-#: ../mail/em-filter-i18n.h:58 ../mail/message-list.etspec.h:16
+#: ../mail/em-filter-i18n.h:37 ../mail/message-list.etspec.h:16
 msgid "Recipients"
 msgstr "Destinatarios"
 
-#: ../mail/em-filter-i18n.h:59
+#: ../mail/em-filter-i18n.h:38
 msgid "Regex Match"
 msgstr "Coincide con la expresión regular"
 
-#: ../mail/em-filter-i18n.h:60
+#: ../mail/em-filter-i18n.h:39
 msgid "Replied to"
 msgstr "Respondió a"
 
-#: ../mail/em-filter-i18n.h:61
-msgid "returns"
-msgstr "devuelve"
-
-#: ../mail/em-filter-i18n.h:62
-msgid "returns greater than"
-msgstr "devuelve mayor que"
-
-#: ../mail/em-filter-i18n.h:63
-msgid "returns less than"
-msgstr "devuelve menor que"
-
-#: ../mail/em-filter-i18n.h:64
+#: ../mail/em-filter-i18n.h:40
 msgid "Run Program"
 msgstr "Ejecutar programa"
 
-#: ../mail/em-filter-i18n.h:65 ../mail/message-list.etspec.h:3
+#: ../mail/em-filter-i18n.h:41 ../mail/message-list.etspec.h:3
 msgid "Score"
 msgstr "Puntuación"
 
-#: ../mail/em-filter-i18n.h:66 ../mail/message-list.etspec.h:15
-msgid "Sender"
-msgstr "Remitente"
-
-#: ../mail/em-filter-i18n.h:67
+#: ../mail/em-filter-i18n.h:42
 msgid "Sender or Recipients"
 msgstr "Remitente o destinatarios"
 
-#: ../mail/em-filter-i18n.h:68
+#: ../mail/em-filter-i18n.h:43 ../mail/message-list.etspec.h:15
+msgid "Sender"
+msgstr "Remitente"
+
+#: ../mail/em-filter-i18n.h:44
 msgid "Set Label"
 msgstr "Establecer etiqueta"
 
-#: ../mail/em-filter-i18n.h:69
+#: ../mail/em-filter-i18n.h:45
 msgid "Set Status"
 msgstr "Poner estado"
 
-#: ../mail/em-filter-i18n.h:70
+#: ../mail/em-filter-i18n.h:46
 msgid "Size (kB)"
 msgstr "Tamaño (Kib)"
 
-#: ../mail/em-filter-i18n.h:71
-msgid "sounds like"
-msgstr "suena como"
-
-#: ../mail/em-filter-i18n.h:72
+#: ../mail/em-filter-i18n.h:47
 msgid "Source Account"
 msgstr "Cuenta de origen"
 
-#: ../mail/em-filter-i18n.h:73
+#: ../mail/em-filter-i18n.h:48
 msgid "Specific header"
 msgstr "Cabecera específica"
 
-#: ../mail/em-filter-i18n.h:74
-msgid "starts with"
-msgstr "comienza por"
-
-#: ../mail/em-filter-i18n.h:76
+#: ../mail/em-filter-i18n.h:50
 msgid "Stop Processing"
 msgstr "Parar de procesar"
 
-#: ../mail/em-filter-i18n.h:79
+#: ../mail/em-filter-i18n.h:53
 msgid "Unset Color"
 msgstr "Color no establecido"
 
-#: ../mail/em-filter-i18n.h:80
+#: ../mail/em-filter-i18n.h:54
 msgid "Unset Status"
 msgstr "Quitar estado"
+
+#: ../mail/em-filter-i18n.h:57
+msgid "does not end with"
+msgstr "no acaba en"
+
+#: ../mail/em-filter-i18n.h:58
+msgid "does not exist"
+msgstr "no existe"
+
+#: ../mail/em-filter-i18n.h:59
+msgid "does not have words"
+msgstr "no contiene palabras"
+
+#: ../mail/em-filter-i18n.h:60
+msgid "does not return"
+msgstr "no devuelve"
+
+#: ../mail/em-filter-i18n.h:61
+msgid "does not sound like"
+msgstr "no suena como"
+
+#: ../mail/em-filter-i18n.h:62
+msgid "does not start with"
+msgstr "no comienza por"
+
+#: ../mail/em-filter-i18n.h:63
+msgid "ends with"
+msgstr "acaba en"
+
+#: ../mail/em-filter-i18n.h:64
+msgid "exists"
+msgstr "existe"
+
+#: ../mail/em-filter-i18n.h:65
+msgid "has words"
+msgstr "contiene palabras"
+
+#: ../mail/em-filter-i18n.h:66
+msgid "is Flagged"
+msgstr "está marcado"
+
+#: ../mail/em-filter-i18n.h:67
+msgid "is after"
+msgstr "es posterior a"
+
+#: ../mail/em-filter-i18n.h:68
+msgid "is before"
+msgstr "es anterior a"
+
+#: ../mail/em-filter-i18n.h:71
+msgid "is not Flagged"
+msgstr "no está marcado"
+
+#: ../mail/em-filter-i18n.h:72
+msgid "is not set"
+msgstr "no está configurado"
+
+#: ../mail/em-filter-i18n.h:74
+msgid "is set"
+msgstr "está configurado"
+
+#: ../mail/em-filter-i18n.h:76
+msgid "returns greater than"
+msgstr "devuelve mayor que"
+
+#: ../mail/em-filter-i18n.h:77
+msgid "returns less than"
+msgstr "devuelve menor que"
+
+#: ../mail/em-filter-i18n.h:78
+msgid "returns"
+msgstr "devuelve"
+
+#: ../mail/em-filter-i18n.h:79
+msgid "sounds like"
+msgstr "suena como"
+
+#: ../mail/em-filter-i18n.h:80
+msgid "starts with"
+msgstr "comienza por"
 
 #. and now for the action area
 #: ../mail/em-filter-rule.c:585
@@ -16502,7 +16504,6 @@ msgstr "Permite a Evolution actualizar el archivo"
 #. * units for the current locale.
 #.
 #: ../modules/cal-config-weather/evolution-cal-config-weather.c:188
-#| msgid "Default"
 msgctxt "locale-metric"
 msgid "default:mm"
 msgstr "predeterminado:mm"
@@ -27422,9 +27423,6 @@ msgstr "Con _estado"
 
 #~ msgid "Component"
 #~ msgstr "Componente"
-
-#~ msgid "Label name cannot be empty."
-#~ msgstr "El nombre de la etiqueta no puede estar vacío."
 
 #~ msgid ""
 #~ "A label having the same tag already exists on the server. Please rename "
