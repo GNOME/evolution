@@ -3,10 +3,9 @@
       type="topic" id="intro-application">
 
   <info>
-    <desc>An introduction to Evolution.</desc>
+    <desc>Keep your personal information information like your mail and shedule.</desc>
 
-     <link type="guide" xref="getting-started" group="#first"/>
-     <link type="guide" xref="index" group="#first"/>
+     <link type="guide" xref="index" group="#getting-started"/>
 
     <revision pkgversion="3.10.3" version="0.4" date="2014-01-25" status="draft"/>
     <revision pkgversion="3.10.2" version="0.5" date="2014-01-29" status="review"/>      
@@ -32,8 +31,8 @@
 
   </info>
 
-<title>Introduction</title>
-<p>Evolution allows you to access your personal information like your calendars, mail, address books and tasks in one place.</p>
+<title>Introduction to Evolution</title>
+<p>Keep your personal information information like your mail and shedule in one place.</p>
 
 <p>By default Evolution opens the mail view. This is were you can view all your mail. You can change to other views of the application by going to the bottom of the left pane in the window (the so-called "switcher") and selecting the desired view. <link xref="intro-main-window">Learn more about the elements of the main window.</link></p>
 

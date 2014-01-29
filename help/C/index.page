@@ -39,9 +39,9 @@
 
 <links type="topic" style="toronto" groups="
        getting-started
-       mail-basic   calendar
-       contacts     memos-and-tasks
-       a11y tips more-help"/>
+       mails   calendars
+       contactlist     memos
+       common-problems"/>
 
 
 <!--
