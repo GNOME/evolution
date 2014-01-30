@@ -315,11 +315,13 @@ body_input_event_cb (WebKitDOMElement *element,
 	node = webkit_dom_range_get_end_container (range, NULL);
 	if (WEBKIT_DOM_IS_TEXT (node)) {
 		gchar *text = webkit_dom_node_get_text_content (node);
-		if (strstr (text, UNICODE_ZERO_WIDTH_SPACE)) {
+		glong length = g_utf8_strlen (text, -1);
+		/* We have to preserve empty paragraphs with just UNICODE_ZERO_WIDTH_SPACE
+		 * character as when we will remove it it will collapse */
+		if (length > 1 && strstr (text, UNICODE_ZERO_WIDTH_SPACE)) {
 			WebKitDOMDocument *document;
 			WebKitDOMDOMWindow *window;
 			WebKitDOMDOMSelection *selection;
-
 			GString *res = e_str_replace_string (text, UNICODE_ZERO_WIDTH_SPACE, "");
 
 			webkit_dom_node_set_text_content (node, res->str, NULL);
