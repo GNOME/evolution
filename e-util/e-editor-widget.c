@@ -3213,6 +3213,14 @@ e_editor_widget_update_fonts (EEditorWidget *widget)
 
 	g_string_append(
 		stylesheet,
+		"ol,ul "
+		"{\n"
+		"  -webkit-margin-before: 0em; \n"
+		"  -webkit-margin-after: 0em; \n"
+		"}\n");
+
+	g_string_append(
+		stylesheet,
 		"blockquote "
 		"{\n"
 		"  -webkit-margin-before: 0em; \n"
