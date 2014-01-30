@@ -1880,7 +1880,7 @@ e_editor_selection_is_indented (EEditorSelection *selection)
 
 	element = webkit_dom_node_get_parent_element (node);
 
-	if (element_has_tag (element, "blockquote"))
+	if (WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (element))
 		return element_has_class (element, "-x-evo-indented");
 
 	return FALSE;
@@ -2022,9 +2022,8 @@ e_editor_selection_unindent (EEditorSelection *selection)
 
 		element = webkit_dom_node_get_parent_element (node);
 
-		if (!element || !element_has_tag (element, "blockquote")) {
+		if (!WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (element))
 			return;
-		}
 
 		element_add_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-to-unindent");
 

@@ -1719,10 +1719,7 @@ is_citation_node (WebKitDOMNode *node)
 {
 	char *value;
 
-	if (node && !WEBKIT_DOM_IS_HTML_ELEMENT (node))
-		return FALSE;
-
-	if (!element_has_tag (WEBKIT_DOM_ELEMENT (node), "blockquote"))
+	if (!WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (node))
 		return FALSE;
 
 	value = webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (node), "type");
@@ -2407,7 +2404,7 @@ process_elements (WebKitDOMNode *node,
 			}
 
 			/* Leave blockquotes as they are */
-			if (element_has_tag (WEBKIT_DOM_ELEMENT (child), "blockquote")) {
+			if (WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (child)) {
 				if (!process_nodes) {
 					content = webkit_dom_html_element_get_outer_html (WEBKIT_DOM_HTML_ELEMENT (child));
 					g_string_append (buffer, content);
