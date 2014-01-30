@@ -55,6 +55,7 @@ calendar_config_get_timezone (void)
 
 	settings = g_settings_new ("org.gnome.evolution.calendar");
 	retval = g_settings_get_string (settings, "timezone");
+	g_object_unref (settings);
 	if (!retval)
 		retval = g_strdup ("UTC");
 

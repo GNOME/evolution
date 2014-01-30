@@ -162,6 +162,7 @@ e_mail_reader_confirm_delete (EMailReader *reader)
 
 exit:
 	g_clear_object (&folder);
+	g_clear_object (&settings);
 
 	return (response == GTK_RESPONSE_OK);
 }

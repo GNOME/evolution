@@ -287,6 +287,8 @@ memo_shell_content_restore_state_cb (EShellWindow *shell_window,
 		settings, "memo-vpane-position",
 		priv->paned, "vposition",
 		G_SETTINGS_BIND_DEFAULT);
+
+	g_object_unref (settings);
 }
 
 static void
