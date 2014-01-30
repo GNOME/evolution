@@ -45,8 +45,6 @@
 struct _EHTTPRequestPrivate {
 	gchar *content_type;
 	gint content_length;
-
-	EMailPartList *parts_list;
 };
 
 G_DEFINE_TYPE (EHTTPRequest, e_http_request, SOUP_TYPE_REQUEST)
@@ -471,11 +469,6 @@ http_request_finalize (GObject *object)
 		request->priv->content_type = NULL;
 	}
 
-	if (request->priv->parts_list) {
-		g_object_unref (request->priv->parts_list);
-		request->priv->parts_list = NULL;
-	}
-
 	G_OBJECT_CLASS (e_http_request_parent_class)->finalize (object);
 }
 
@@ -494,15 +487,11 @@ http_request_send_async (SoupRequest *request,
                          GAsyncReadyCallback callback,
                          gpointer user_data)
 {
-	EHTTPRequest *ehr;
 	GSimpleAsyncResult *simple;
-	gchar *mail_uri;
 	SoupURI *uri;
 	const gchar *enc;
-	CamelObjectBag *registry;
 	GHashTable *query;
 
-	ehr = E_HTTP_REQUEST (request);
 	uri = soup_request_get_uri (request);
 	g_return_if_fail (soup_uri_get_query (uri) != NULL);
 
@@ -520,14 +509,6 @@ http_request_send_async (SoupRequest *request,
 		g_hash_table_destroy (query);
 		return;
 	}
-
-	mail_uri = soup_uri_decode (enc);
-
-	registry = e_mail_part_list_get_registry ();
-	ehr->priv->parts_list = camel_object_bag_get (registry, mail_uri);
-	g_free (mail_uri);
-
-	g_return_if_fail (ehr->priv->parts_list);
 
 	simple = g_simple_async_result_new (
 		G_OBJECT (request), callback,
