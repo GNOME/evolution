@@ -3350,7 +3350,7 @@ e_editor_selection_get_caret_position_node (WebKitDOMDocument *document)
 	element	= webkit_dom_document_create_element (document, "SPAN", NULL);
 	webkit_dom_element_set_id (element, "-x-evo-caret-position");
 	webkit_dom_element_set_attribute (
-		element, "style", "display: none", NULL);
+		element, "style", "color: red", NULL);
 	webkit_dom_html_element_set_inner_html (
 		WEBKIT_DOM_HTML_ELEMENT (element), "*", NULL);
 
