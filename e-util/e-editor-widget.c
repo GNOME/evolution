@@ -1146,15 +1146,97 @@ editor_widget_key_press_event (GtkWidget *widget,
 		key_press_event (widget, event);
 }
 
+static void
+adjust_html_structure_after_ending_list (EEditorSelection *selection,
+                                         WebKitDOMDocument *document,
+                                         WebKitDOMNode *node)
+{
+	WebKitDOMNode *prev_sibling;
+	WebKitDOMNode *parent;
+	WebKitDOMElement *paragraph;
+
+	/* When pressing Enter on empty line in the list WebKit will end that
+	 * list and inserts <div><br></div> after it and sets the caret after
+	 * the BR element. But that's not what we want, so we will remove the DIV
+	 * and BR elements and append new paragraph with caret inside it after
+	 * the paragraph that includes the previously inserted list. */
+	prev_sibling = webkit_dom_node_get_previous_sibling (node);
+	if (WEBKIT_DOM_IS_HTMLLI_ELEMENT (prev_sibling) ||
+	    WEBKIT_DOM_IS_HTMLO_LIST_ELEMENT (prev_sibling) ||
+	    WEBKIT_DOM_IS_HTMLU_LIST_ELEMENT (prev_sibling))
+		return;
+
+	if (!(WEBKIT_DOM_IS_HTML_DIV_ELEMENT (node) &&
+	    !element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-paragraph")))
+		return;
+
+	parent = webkit_dom_node_get_parent_node (prev_sibling);
+	paragraph = e_editor_selection_get_paragraph_element (
+		selection, document, -1),
+
+	webkit_dom_html_element_set_inner_text (
+		WEBKIT_DOM_HTML_ELEMENT (paragraph), UNICODE_ZERO_WIDTH_SPACE, NULL);
+
+	webkit_dom_node_append_child (
+		WEBKIT_DOM_NODE (paragraph),
+		e_editor_selection_get_caret_position_node (document),
+		NULL);
+
+	webkit_dom_node_insert_before (
+		webkit_dom_node_get_parent_node (parent),
+		WEBKIT_DOM_NODE (paragraph),
+		webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (parent)),
+		NULL);
+
+	webkit_dom_node_remove_child (
+		parent, node, NULL);
+
+	e_editor_selection_restore_caret_position (selection);
+}
+
+static gboolean
+surround_text_with_paragraph_if_needed (EEditorSelection *selection,
+                                        WebKitDOMDocument *document,
+                                        WebKitDOMNode *node)
+{
+	WebKitDOMNode *next_sibling = webkit_dom_node_get_next_sibling (node);
+
+	/* All text in composer has to be written in div elements, so if
+	 * we are writing something straight to the body, surround it with
+	 * paragraph */
+	if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (next_sibling) && WEBKIT_DOM_IS_TEXT (node) &&
+	    WEBKIT_DOM_IS_HTML_BODY_ELEMENT (webkit_dom_node_get_parent_node (node))) {
+		e_editor_selection_put_node_into_paragraph (
+			selection,
+			document,
+			node,
+			e_editor_selection_get_caret_position_node (document));
+
+		webkit_dom_node_remove_child (
+			webkit_dom_node_get_parent_node (next_sibling),
+			next_sibling,
+			NULL);
+
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
 static gboolean
 editor_widget_key_release_event (GtkWidget *widget,
                                  GdkEventKey *event)
 {
+	WebKitDOMDocument *document;
 	WebKitDOMRange *range;
 	EEditorWidget *editor_widget;
+	EEditorSelection *selection;
 
 	editor_widget = E_EDITOR_WIDGET (widget);
 	range = editor_widget_get_dom_range (editor_widget);
+	selection = e_editor_widget_get_selection (editor_widget);
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
 
 	if (editor_widget->priv->magic_smileys &&
 	    editor_widget->priv->html_mode) {
@@ -1167,39 +1249,20 @@ editor_widget_key_release_event (GtkWidget *widget,
 	    (event->keyval == GDK_KEY_space)) {
 
 		editor_widget_check_magic_links (editor_widget, range, FALSE, event);
+		adjust_html_structure_after_ending_list (
+			selection,
+			document,
+			webkit_dom_range_get_end_container (range, NULL));
+
 	} else {
 		WebKitDOMNode *node;
-		WebKitDOMNode *next_sibling;
 
 		node = webkit_dom_range_get_end_container (range, NULL);
-		next_sibling = webkit_dom_node_get_next_sibling (node);
 
-		/* All text in composer has to be written in div elements, so if
-		 * we are writing something straight to the body, surround it with
-		 * paragraph */
-		if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (next_sibling) && WEBKIT_DOM_IS_TEXT (node) &&
-		    WEBKIT_DOM_IS_HTML_BODY_ELEMENT (webkit_dom_node_get_parent_node (node))) {
-			g_warning ("WRAPPING");
-			WebKitDOMDocument *document =
-				webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
-			EEditorSelection *selection =
-				e_editor_widget_get_selection (editor_widget);
-
-			e_editor_selection_put_node_into_paragraph (
-				selection,
-				document,
-				node,
-				e_editor_selection_get_caret_position_node (document));
-
-			webkit_dom_node_remove_child (
-				webkit_dom_node_get_parent_node (next_sibling),
-				next_sibling,
-				NULL);
-
+		if (surround_text_with_paragraph_if_needed (selection, document, node)) {
 			e_editor_selection_restore_caret_position (selection);
-
-			range = editor_widget_get_dom_range (editor_widget);
 			node = webkit_dom_range_get_end_container (range, NULL);
+			range = editor_widget_get_dom_range (editor_widget);
 		}
 
 		if (WEBKIT_DOM_IS_TEXT (node)) {
