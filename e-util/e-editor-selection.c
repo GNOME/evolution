@@ -1605,6 +1605,7 @@ e_editor_selection_set_block_format (EEditorSelection *selection,
 		}
 	}
 
+	e_editor_widget_force_spellcheck (editor_widget);
 	g_object_unref (editor_widget);
 
 	/* When changing the format we need to re-set the alignment */
