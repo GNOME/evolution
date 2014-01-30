@@ -1,11 +1,11 @@
 <page xmlns="http://projectmallard.org/1.0/" 
-  xmlns:its="http://www.w3.org/2005/11/its"
+      xmlns:its="http://www.w3.org/2005/11/its"
       type="topic" id="intro-application">
 
   <info>
     <desc>Keep your personal information information like your mail and shedule.</desc>
 
-     <link type="guide" xref="index" group="#getting-started"/>
+    <link type="guide" xref="index" group="#first"/>
 
     <revision pkgversion="3.10.3" version="0.4" date="2014-01-25" status="draft"/>
     <revision pkgversion="3.10.2" version="0.5" date="2014-01-29" status="review"/>      

@@ -34,17 +34,14 @@
   Evolution
 </title>
 
-
 <links type="topic" groups="#first"/>
 
+<!--
 <links type="topic" style="toronto" groups="
-       getting-started
        mails   calendars
        contactlist     memos
        common-problems"/>
 
-
-<!--
   <section id="getting-started" style="2column">
     <title>Getting Started</title>
   </section>
