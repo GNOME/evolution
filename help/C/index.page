@@ -36,12 +36,17 @@
 
 <links type="topic" groups="#first"/>
 
-<!--
-<links type="topic" style="toronto" groups="
-       mails   calendars
-       contactlist     memos
+
+<links type="topic" style="2column" groups="
+       mails
+       calendars
+       contactlist
+       memos
        common-problems"/>
 
+<links type="topic" groups="#last"/>
+
+<!--
   <section id="getting-started" style="2column">
     <title>Getting Started</title>
   </section>

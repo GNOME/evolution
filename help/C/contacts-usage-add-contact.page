@@ -2,22 +2,28 @@
       type="topic" id="contacts-usage-add-contact">
 
   <info>
-    <desc>Adding a contact to your address book.</desc>
-    
-    <link type="guide" xref="contacts-usage" />
+    <desc>Add, edit and remove contacts.</desc>
+       <link type="guide" xref="index" group="contactlist" />
 
-    <revision pkgversion="3.0.2" version="0.2" date="2011-09-29" status="final"/>
+    <revision pkgversion="2.28.3" version="0.3" date="2010-12-09" status="stub"/>
+    <revision pkgversion="3.10.2" version="0.4" date="2014-01-30" status="review"/>
+
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
     </credit>
     
+    <credit type="editor">
+      <name its:translate="no">Julita Inca</name>
+      <email its:translate="no">yrazes@gmail.com</email>
+    </credit>
+
     <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
         
 
   </info>
 
-<title>Adding a Contact</title>
+<title>Contacts</title>
 
 <steps>
 <item><p>Click <guiseq><gui>File</gui><gui>New</gui><gui>Contact</gui></guiseq>, or right-click in a blank space in the list of contacts and click <gui>New Contact...</gui>, or press <keyseq><key>Shift</key><key>Ctrl</key><key>C</key></keyseq>.</p></item>

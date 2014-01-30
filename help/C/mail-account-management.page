@@ -3,7 +3,7 @@
 
   <info>
     <desc>Add, edit and remove mail accounts.</desc>
-    <link type="guide" xref="index" group="getting-started" />
+    <link type="guide" xref="index" group="mails"/>
 
     <revision pkgversion="2.28.3" version="0.3" date="2010-12-09" status="stub"/>
     <revision pkgversion="3.10.2" version="0.4" date="2014-01-29" status="review"/>
@@ -23,7 +23,7 @@
 
   </info>
 
-<title>Add an Account</title>
+<title>Mail</title>
 
   <section id="mail-common-account-types" style="2column">
     <title>Common Account Types</title>

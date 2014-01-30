@@ -2,15 +2,21 @@
       type="topic" id="memos-usage-add-memo">
 
   <info>
-    <desc>Adding a memo to your memo list.</desc>
-    
-    <link type="guide" xref="memos-usage" />
+    <desc>Add, edit and remove memos.</desc>  
+  
+    <link type="guide" xref="index" group="memos" />
 
     <revision pkgversion="3.0.2" version="0.1" date="2011-08-01" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
     </credit>
+
+    <credit type="editor">
+      <name its:translate="no">Julita Inca</name>
+      <email its:translate="no">yrazes@gmail.com</email>
+    </credit>
+
     <credit type="author">
       <name its:translate="no">Novell, Inc</name> <!-- Content partially from http://library.gnome.org/users/evolution/2.32/b15iirao.html.en -->
     </credit>
@@ -20,7 +26,7 @@
 
   </info>
 
-<title>Adding a Memo</title>
+<title>Memo and Task</title>
 
 <steps>
 <item><p>Click <guiseq><gui>File</gui><gui>New</gui><gui>Memo</gui></guiseq>, or press <keyseq><key>Shift</key><key>Ctrl</key><key>O</key></keyseq>.</p></item>

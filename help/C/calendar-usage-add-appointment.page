@@ -2,22 +2,28 @@
       type="topic" id="calendar-usage-add-appointment">
 
   <info>
-    <desc>Adding an appointment.</desc>
-    
-    <link type="guide" xref="calendar-usage" />
+    <desc>Add, edit and remove appointments.</desc>
+        <link type="guide" xref="index" group="calendars" />
 
-    <revision pkgversion="3.0.2" version="0.2" date="2011-08-01" status="final"/>
+    <revision pkgversion="2.28.3" version="0.3" date="2010-12-09" status="stub"/>
+    <revision pkgversion="3.10.2" version="0.4" date="2014-01-30" status="review"/>
+
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
     </credit>
     
+    <credit type="editor">
+      <name its:translate="no">Julita Inca</name>
+      <email its:translate="no">yrazes@gmail.com</email>
+    </credit>
+
     <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
         
 
   </info>
 
-<title>Adding an Appointment</title>
+<title>Calendar</title>
 
 <steps>
 <item><p>Click <guiseq><gui>File</gui><gui>New</gui><gui>Appointment</gui></guiseq>, or double-click in a blank space in the calendar to open the Appointment dialog. The particular time on the calendar view against which you have double clicked on will be suggested for the new appointment. You can also directly write in the calendar and then adjust the duration by dragging it with the mouse.</p></item>
