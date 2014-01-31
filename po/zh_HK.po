@@ -6,13 +6,13 @@
 # Chao-Hsiung Liao <j_h_liau@yahoo.com.tw>, 2005, 2010, 2012.
 # Abel Cheung <abelcheung@gmail.com>, 2006.
 # Wei-Lun Chao <chaoweilun@gmail.com>, 2010.
-#: ../shell/main.c:554
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 3.3.91\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-15 15:59+0800\n"
-"PO-Revision-Date: 2014-01-15 16:00+0800\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
+"POT-Creation-Date: 2014-01-28 16:26+0000\n"
+"PO-Revision-Date: 2014-01-31 23:07+0800\n"
 "Last-Translator: Chao-Hsiung Liao <j_h_liau@yahoo.com.tw>\n"
 "Language-Team: Chinese (Hong Kong) <community@linuxhall.org>\n"
 "Language: zh_TW\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 1.6.3\n"
+"X-Generator: Poedit 1.5.3\n"
 "X-Project-Style: gnome\n"
 
 #: ../addressbook/addressbook.error.xml.h:1
@@ -171,6 +171,7 @@ msgid ""
 msgstr "此聯絡人的電子郵件地址已經存在。你無論如何都要加入同樣位址的新卡片嗎？"
 
 #: ../addressbook/addressbook.error.xml.h:33
+#: ../addressbook/gui/widgets/eab-contact-merging.c:641
 #: ../e-util/e-name-selector-dialog.c:995 ../mail/em-vfolder-editor-rule.c:392
 #: ../modules/mail/em-composer-prefs.c:443
 msgid "_Add"
@@ -278,7 +279,7 @@ msgstr "可接受 H_TML 郵件"
 #: ../addressbook/gui/widgets/eab-contact-merging.c:408
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:6
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:589
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:965
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:966
 msgid "Email"
 msgstr "電子郵件"
 
@@ -302,7 +303,7 @@ msgstr "首頁(_H):"
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:14
 #: ../calendar/gui/dialogs/event-page.c:710
 #: ../calendar/gui/dialogs/event-page.ui.h:22
-#: ../modules/itip-formatter/itip-view.c:1884
+#: ../modules/itip-formatter/itip-view.c:1882
 msgid "_Calendar:"
 msgstr "行事曆(_C):"
 
@@ -366,20 +367,20 @@ msgid "_Department:"
 msgstr "部門(_D):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:30
+msgid "_Office:"
+msgstr "辦公室(_O):"
+
+#: ../addressbook/gui/contact-editor/contact-editor.ui.h:31
 msgid "_Manager:"
 msgstr "主管(_M):"
 
-#: ../addressbook/gui/contact-editor/contact-editor.ui.h:31
+#: ../addressbook/gui/contact-editor/contact-editor.ui.h:32
 msgid "_Assistant:"
 msgstr "助理(_A):"
 
-#: ../addressbook/gui/contact-editor/contact-editor.ui.h:32
+#: ../addressbook/gui/contact-editor/contact-editor.ui.h:33
 msgid "Job"
 msgstr "工作"
-
-#: ../addressbook/gui/contact-editor/contact-editor.ui.h:33
-msgid "_Office:"
-msgstr "辦公室(_O):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:34
 msgid "_Spouse:"
@@ -394,7 +395,7 @@ msgid "_Anniversary:"
 msgstr "週年紀念日(_A):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:37
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:684
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:685
 #: ../calendar/gui/e-calendar-view.c:2277
 msgid "Anniversary"
 msgstr "週年紀念日"
@@ -405,7 +406,7 @@ msgstr "週年紀念日"
 #. * which, so long as it has an icon.  We're just interested in
 #. * the directory components.
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:38
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:683
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:684
 #: ../calendar/gui/e-calendar-view.c:2276 ../shell/main.c:127
 msgid "Birthday"
 msgstr "生日"
@@ -455,7 +456,7 @@ msgstr "住家"
 #: ../addressbook/gui/widgets/e-contact-map.c:384
 #: ../addressbook/gui/widgets/eab-contact-display.c:353
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:79
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:665
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:666
 msgid "Work"
 msgstr "工作"
 
@@ -463,7 +464,7 @@ msgstr "工作"
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:193
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:81
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:367
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:718
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:719
 #: ../calendar/gui/e-cal-model.c:3957
 msgid "Other"
 msgstr "其他"
@@ -524,15 +525,15 @@ msgstr "Twitter"
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:271
 #: ../calendar/gui/dialogs/comp-editor.c:1301 ../e-util/e-focus-tracker.c:121
 msgid "Undo"
-msgstr ""
+msgstr "復原"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:278
 #: ../calendar/gui/dialogs/comp-editor.c:1308 ../e-util/e-focus-tracker.c:137
 msgid "Redo"
-msgstr ""
+msgstr "取消復原"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:310
-#: ../addressbook/gui/widgets/eab-gui-util.c:504
+#: ../addressbook/gui/widgets/eab-gui-util.c:503
 msgid "Error adding contact"
 msgstr "新增聯絡人時發生錯誤"
 
@@ -738,47 +739,6 @@ msgstr "編輯清單時發生錯誤"
 msgid "Error removing list"
 msgstr "移除清單時發生錯誤"
 
-#: ../addressbook/gui/widgets/eab-contact-commit-duplicate-detected.ui.h:1
-#: ../addressbook/gui/widgets/eab-contact-duplicate-detected.ui.h:1
-msgid "Duplicate Contact Detected"
-msgstr "偵測到重複的聯絡人"
-
-#: ../addressbook/gui/widgets/eab-contact-commit-duplicate-detected.ui.h:2
-msgid ""
-"The name or email of this contact already exists in this folder. Would you "
-"like to save the changes anyway?"
-msgstr "此聯絡人的名稱或電子郵件地址已經存在於此資料夾。要強制儲存更改嗎？"
-
-#. Translators: Heading of the contact which has same name or email address in this folder already.
-#: ../addressbook/gui/widgets/eab-contact-commit-duplicate-detected.ui.h:4
-msgid "Conflicting Contact:"
-msgstr "衝突的聯絡人:"
-
-#: ../addressbook/gui/widgets/eab-contact-commit-duplicate-detected.ui.h:5
-msgid "Changed Contact:"
-msgstr "更改後的聯絡人:"
-
-#: ../addressbook/gui/widgets/eab-contact-duplicate-detected.ui.h:2
-#: ../addressbook/gui/widgets/eab-contact-merging.c:363
-msgid "_Merge"
-msgstr "合併(_M)"
-
-#: ../addressbook/gui/widgets/eab-contact-duplicate-detected.ui.h:3
-msgid ""
-"The name or email address of this contact already exists\n"
-"in this folder.  Would you like to add it anyway?"
-msgstr ""
-"此聯絡人的名稱或電子郵件地址已經存在\n"
-"於此資料夾。你無論如何都要新增它嗎？"
-
-#: ../addressbook/gui/widgets/eab-contact-duplicate-detected.ui.h:5
-msgid "Original Contact:"
-msgstr "原本的聯絡人:"
-
-#: ../addressbook/gui/widgets/eab-contact-duplicate-detected.ui.h:6
-msgid "New Contact:"
-msgstr "新的聯絡人:"
-
 #: ../addressbook/gui/widgets/eab-contact-merging.c:243
 #: ../calendar/gui/tasktypes.xml.h:14
 msgid "Cancelled"
@@ -787,6 +747,64 @@ msgstr "已取消"
 #: ../addressbook/gui/widgets/eab-contact-merging.c:345
 msgid "Merge Contact"
 msgstr "合併聯絡人"
+
+#: ../addressbook/gui/widgets/eab-contact-merging.c:363
+#: ../addressbook/gui/widgets/eab-contact-merging.c:642
+msgid "_Merge"
+msgstr "合併(_M)"
+
+#: ../addressbook/gui/widgets/eab-contact-merging.c:631
+msgid "Duplicate Contact Detected"
+msgstr "偵測到重複的聯絡人"
+
+#: ../addressbook/gui/widgets/eab-contact-merging.c:636
+#| msgid "Cancel"
+msgid "_Cancel"
+msgstr "取消(_C)"
+
+#: ../addressbook/gui/widgets/eab-contact-merging.c:639
+#: ../calendar/calendar.error.xml.h:47 ../composer/e-composer-actions.c:296
+msgid "_Save"
+msgstr "儲存(_S)"
+
+#: ../addressbook/gui/widgets/eab-contact-merging.c:686
+#| msgid ""
+#| "The name or email of this contact already exists in this folder. Would "
+#| "you like to save the changes anyway?"
+msgid ""
+"The name or email address of this contact already exists\n"
+"in this folder. Would you like to save the changes anyway?"
+msgstr ""
+"此聯絡人的名稱或電子郵件地址已經存在\n"
+"於此資料夾。要強制儲存更改嗎？"
+
+#: ../addressbook/gui/widgets/eab-contact-merging.c:689
+#| msgid ""
+#| "The name or email address of this contact already exists\n"
+#| "in this folder.  Would you like to add it anyway?"
+msgid ""
+"The name or email address of this contact already exists\n"
+"in this folder. Would you like to add it anyway?"
+msgstr ""
+"此聯絡人的名稱或電子郵件地址已經存在\n"
+"於此資料夾。你無論如何都要新增它嗎？"
+
+#: ../addressbook/gui/widgets/eab-contact-merging.c:703
+msgid "Changed Contact:"
+msgstr "更改後的聯絡人:"
+
+#: ../addressbook/gui/widgets/eab-contact-merging.c:705
+msgid "New Contact:"
+msgstr "新的聯絡人:"
+
+#: ../addressbook/gui/widgets/eab-contact-merging.c:741
+msgid "Conflicting Contact:"
+msgstr "衝突的聯絡人:"
+
+#: ../addressbook/gui/widgets/eab-contact-merging.c:743
+#| msgid "Contact: "
+msgid "Old Contact:"
+msgstr "舊的聯絡人："
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:1
 #: ../modules/addressbook/e-book-shell-view-actions.c:1150
@@ -968,7 +986,7 @@ msgid "ISDN Phone"
 msgstr "ISDN 電話"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:20
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:681
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:682
 msgid "Mobile Phone"
 msgstr "流動電話"
 
@@ -1016,6 +1034,7 @@ msgid "Unit"
 msgstr "單位"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:36
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:646
 msgid "Office"
 msgstr "辦公室"
 
@@ -1030,12 +1049,12 @@ msgid "Role"
 msgstr "角色"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:39
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:648
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:649
 msgid "Manager"
 msgstr "主管"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:40
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:649
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:650
 msgid "Assistant"
 msgstr "助理"
 
@@ -1056,12 +1075,12 @@ msgid "Categories"
 msgstr "分類"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:44
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:685
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:686
 msgid "Spouse"
 msgstr "配偶"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:45
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:740
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:741
 msgid "Note"
 msgstr "備註"
 
@@ -1213,19 +1232,19 @@ msgstr "清單成員："
 msgid "Department"
 msgstr "部門"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:646
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:647
 msgid "Profession"
 msgstr "職業"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:647
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:648
 msgid "Position"
 msgstr "位置"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:650
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:651
 msgid "Video Chat"
 msgstr "視像交談"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:651
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:652
 #: ../e-util/e-send-options.c:545
 #: ../modules/calendar/e-cal-shell-view-actions.c:215
 #: ../modules/calendar/e-cal-shell-view-actions.c:244
@@ -1234,87 +1253,87 @@ msgstr "視像交談"
 msgid "Calendar"
 msgstr "行事曆"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:652
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:653
 #: ../calendar/gui/dialogs/event-editor.c:115
 #: ../calendar/gui/dialogs/event-editor.c:342
 #: ../plugins/publish-calendar/publish-calendar.ui.h:2
 msgid "Free/Busy"
 msgstr "空閒/忙碌"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:653
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:680
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:654
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:681
 msgid "Phone"
 msgstr "電話"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:654
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:655
 msgid "Fax"
 msgstr "傳真"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:655
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:682
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:708
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:656
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:683
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:709
 msgid "Address"
 msgstr "地址"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:678
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:679
 msgid "Home Page"
 msgstr "首頁"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:679
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:680
 msgid "Web Log"
 msgstr "網誌"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:695
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:696
 msgid "Personal"
 msgstr "個人"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:929
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:930
 msgid "List Members"
 msgstr "清單成員"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:950
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:951
 msgid "Job Title"
 msgstr "職稱"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:991
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:992
 msgid "Home page"
 msgstr "首頁"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:1001
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:1002
 msgid "Blog"
 msgstr "部落格"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:122
+#: ../addressbook/gui/widgets/eab-gui-util.c:121
 msgid ""
 "This address book cannot be opened. This either means this book is not "
 "marked for offline usage or not yet downloaded for offline usage. Please "
 "load the address book once in online mode to download its contents."
 msgstr "我們無法開啟這個目錄服務。這可能表示此目錄服務未標記為離線用途或者尚未下載以供離線使用。請於上線模式再次讀取目錄服務以下載它的內容。"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:141
+#: ../addressbook/gui/widgets/eab-gui-util.c:140
 #, c-format
 msgid ""
 "This address book cannot be opened.  Please check that the path %s exists "
 "and that permissions are set to access it."
 msgstr "我們無法開啟這個目錄服務。請檢查路徑 %s 是否存在而且權限已設定可以存取它。"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:154
+#: ../addressbook/gui/widgets/eab-gui-util.c:153
 msgid ""
 "This version of Evolution does not have LDAP support compiled in to it.  To "
 "use LDAP in Evolution an LDAP-enabled Evolution package must be installed."
 msgstr "此 Evolution 版本未將 LDAP 支援編譯進去。如果你想在 Evolution 使用 LDAP，必須安裝啟用 LDAP 的 Evolution 套件。"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:163
+#: ../addressbook/gui/widgets/eab-gui-util.c:162
 msgid ""
 "This address book cannot be opened.  This either means that an incorrect URI "
 "was entered, or the server is unreachable."
 msgstr "我們無法開啟這個目錄服務。這表示你輸入錯誤的URI，或伺服器無法連線。"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:173
+#: ../addressbook/gui/widgets/eab-gui-util.c:172
 msgid "Detailed error message:"
 msgstr "詳細的錯誤訊息："
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:212
+#: ../addressbook/gui/widgets/eab-gui-util.c:211
 msgid ""
 "More cards matched this query than either the server is \n"
 "configured to return or Evolution is configured to display.\n"
@@ -1326,7 +1345,7 @@ msgstr ""
 "請使用更加明確的查詢或是提高此目錄服務的目錄\n"
 "伺服器偏好設定中的結果限制。"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:219
+#: ../addressbook/gui/widgets/eab-gui-util.c:218
 msgid ""
 "The time to execute this query exceeded the server limit or the limit\n"
 "configured for this address book.  Please make your search\n"
@@ -1339,50 +1358,50 @@ msgstr ""
 "時間上限。"
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
-#: ../addressbook/gui/widgets/eab-gui-util.c:227
+#: ../addressbook/gui/widgets/eab-gui-util.c:226
 #, c-format
 msgid "The backend for this address book was unable to parse this query. %s"
 msgstr "此目錄服務的後端程式無法解析這次的查詢。%s"
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
-#: ../addressbook/gui/widgets/eab-gui-util.c:232
+#: ../addressbook/gui/widgets/eab-gui-util.c:231
 #, c-format
 msgid "The backend for this address book refused to perform this query. %s"
 msgstr "此目錄服務的後端程式拒絕執行這次的查詢。%s"
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
-#: ../addressbook/gui/widgets/eab-gui-util.c:238
-#: ../addressbook/gui/widgets/eab-gui-util.c:244
+#: ../addressbook/gui/widgets/eab-gui-util.c:237
+#: ../addressbook/gui/widgets/eab-gui-util.c:243
 #, c-format
 msgid "This query did not complete successfully. %s"
 msgstr "這次的查詢並未完全成功。%s"
 
 #. This is a filename. Translators take note.
-#: ../addressbook/gui/widgets/eab-gui-util.c:266
+#: ../addressbook/gui/widgets/eab-gui-util.c:265
 msgid "card.vcf"
 msgstr "card.vcf"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:317
+#: ../addressbook/gui/widgets/eab-gui-util.c:316
 msgid "Select Address Book"
 msgstr "選擇通訊錄"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:399
+#: ../addressbook/gui/widgets/eab-gui-util.c:398
 msgid "list"
 msgstr "清單"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:588
+#: ../addressbook/gui/widgets/eab-gui-util.c:587
 msgid "Move contact to"
 msgstr "將聯絡人移到"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:590
+#: ../addressbook/gui/widgets/eab-gui-util.c:589
 msgid "Copy contact to"
 msgstr "複製聯絡人到"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:593
+#: ../addressbook/gui/widgets/eab-gui-util.c:592
 msgid "Move contacts to"
 msgstr "將聯絡人移到"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:595
+#: ../addressbook/gui/widgets/eab-gui-util.c:594
 msgid "Copy contacts to"
 msgstr "複製聯絡人到"
 
@@ -1527,9 +1546,9 @@ msgstr "解除(_D)"
 #: ../calendar/alarm-notify/alarm-notify.ui.h:5
 #: ../calendar/alarm-notify/alarm-queue.c:1835
 #: ../calendar/alarm-notify/alarm-queue.c:1845
-#: ../modules/cal-config-weather/evolution-cal-config-weather.c:240
-#: ../modules/itip-formatter/itip-view.c:1496
-#: ../modules/itip-formatter/itip-view.c:1607
+#: ../modules/cal-config-weather/evolution-cal-config-weather.c:250
+#: ../modules/itip-formatter/itip-view.c:1494
+#: ../modules/itip-formatter/itip-view.c:1605
 msgid "Location:"
 msgstr "位置:"
 
@@ -1853,10 +1872,6 @@ msgid ""
 "loss of these attachments."
 msgstr "這裏有一些需要下載的附件。儲存此工作將會失去這些附件。"
 
-#: ../calendar/calendar.error.xml.h:47 ../composer/e-composer-actions.c:296
-msgid "_Save"
-msgstr "儲存(_S)"
-
 #: ../calendar/calendar.error.xml.h:48
 msgid "Download in progress. Do you want to save the appointment?"
 msgstr "下載尚在進行中。你是否要儲存此約會？"
@@ -2076,12 +2091,12 @@ msgid "Summary"
 msgstr "摘要"
 
 #: ../calendar/gui/caltypes.xml.h:2 ../calendar/gui/memotypes.xml.h:2
-#: ../calendar/gui/tasktypes.xml.h:2 ../mail/em-filter-i18n.h:11
+#: ../calendar/gui/tasktypes.xml.h:2 ../mail/em-filter-i18n.h:55
 msgid "contains"
 msgstr "包含"
 
 #: ../calendar/gui/caltypes.xml.h:3 ../calendar/gui/memotypes.xml.h:3
-#: ../calendar/gui/tasktypes.xml.h:3 ../mail/em-filter-i18n.h:17
+#: ../calendar/gui/tasktypes.xml.h:3 ../mail/em-filter-i18n.h:56
 msgid "does not contain"
 msgstr "不包含"
 
@@ -2102,12 +2117,12 @@ msgid "Classification"
 msgstr "歸類"
 
 #: ../calendar/gui/caltypes.xml.h:7 ../calendar/gui/memotypes.xml.h:8
-#: ../calendar/gui/tasktypes.xml.h:9 ../mail/em-filter-i18n.h:34
+#: ../calendar/gui/tasktypes.xml.h:9 ../mail/em-filter-i18n.h:75
 msgid "is"
 msgstr "是"
 
 #: ../calendar/gui/caltypes.xml.h:8 ../calendar/gui/memotypes.xml.h:9
-#: ../calendar/gui/tasktypes.xml.h:10 ../mail/em-filter-i18n.h:40
+#: ../calendar/gui/tasktypes.xml.h:10 ../mail/em-filter-i18n.h:73
 msgid "is not"
 msgstr "不是"
 
@@ -2166,12 +2181,12 @@ msgid "Attachments"
 msgstr "附件"
 
 #: ../calendar/gui/caltypes.xml.h:17 ../calendar/gui/memotypes.xml.h:15
-#: ../calendar/gui/tasktypes.xml.h:16 ../mail/em-filter-i18n.h:27
+#: ../calendar/gui/tasktypes.xml.h:16 ../mail/em-filter-i18n.h:18
 msgid "Exist"
 msgstr "存在"
 
 #: ../calendar/gui/caltypes.xml.h:18 ../calendar/gui/memotypes.xml.h:16
-#: ../calendar/gui/tasktypes.xml.h:17 ../mail/em-filter-i18n.h:24
+#: ../calendar/gui/tasktypes.xml.h:17 ../mail/em-filter-i18n.h:16
 msgid "Do Not Exist"
 msgstr "不存在"
 
@@ -2819,7 +2834,7 @@ msgid "Event with no end date"
 msgstr "無結束日期的事件"
 
 #: ../calendar/gui/dialogs/event-page.c:1484
-#: ../calendar/gui/dialogs/memo-page.c:727
+#: ../calendar/gui/dialogs/memo-page.c:732
 #: ../calendar/gui/dialogs/task-page.c:1031
 msgid "Start date is wrong"
 msgstr "開始日期錯誤"
@@ -2837,7 +2852,7 @@ msgid "End time is wrong"
 msgstr "結束時間錯誤"
 
 #: ../calendar/gui/dialogs/event-page.c:1691
-#: ../calendar/gui/dialogs/memo-page.c:766
+#: ../calendar/gui/dialogs/memo-page.c:771
 #: ../calendar/gui/dialogs/task-page.c:1085
 msgid "An organizer is required."
 msgstr "需要一個召集人。"
@@ -3032,10 +3047,10 @@ msgstr "不能編輯備忘錄，因為選取的備忘錄清單是唯讀的"
 msgid "Memo cannot be fully edited, because you are not the organizer"
 msgstr "不能完整的編輯備忘錄，因為你不是召集人"
 
-#: ../calendar/gui/dialogs/memo-page.c:1161
+#: ../calendar/gui/dialogs/memo-page.c:1166
 #: ../em-format/e-mail-formatter-utils.c:201
 #: ../em-format/e-mail-formatter-utils.c:218
-#: ../em-format/e-mail-part-headers.c:48 ../mail/em-filter-i18n.h:78
+#: ../em-format/e-mail-part-headers.c:48 ../mail/em-filter-i18n.h:52
 #: ../mail/message-list.etspec.h:9 ../modules/mail/em-mailer-prefs.c:65
 msgid "To"
 msgstr "收件者"
@@ -3717,7 +3732,7 @@ msgstr "用於月的行事曆檢視"
 msgid "calendar view for one or more weeks"
 msgstr "用於一或多週的行事曆檢視"
 
-#: ../calendar/gui/e-cal-component-preview.c:222 ../e-util/e-filter-rule.c:753
+#: ../calendar/gui/e-cal-component-preview.c:222 ../e-util/e-filter-rule.c:756
 #: ../mail/e-mail-config-page.c:125
 msgid "Untitled"
 msgstr "無標題"
@@ -3743,8 +3758,8 @@ msgid "Due Date:"
 msgstr "截止日期："
 
 #: ../calendar/gui/e-cal-component-preview.c:307
-#: ../modules/itip-formatter/itip-view.c:1499
-#: ../modules/itip-formatter/itip-view.c:1616
+#: ../modules/itip-formatter/itip-view.c:1497
+#: ../modules/itip-formatter/itip-view.c:1614
 msgid "Status:"
 msgstr "狀態："
 
@@ -3819,7 +3834,7 @@ msgstr "優先等級"
 #: ../calendar/gui/e-cal-model.c:4011
 #: ../calendar/gui/e-meeting-list-view.c:695
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:9
-#: ../calendar/gui/tasktypes.xml.h:8 ../mail/em-filter-i18n.h:75
+#: ../calendar/gui/tasktypes.xml.h:8 ../mail/em-filter-i18n.h:49
 #: ../mail/message-list.etspec.h:1
 msgid "Status"
 msgstr "狀態"
@@ -3908,8 +3923,8 @@ msgstr "結束日期"
 #: ../calendar/gui/e-meeting-store.c:134 ../calendar/gui/e-meeting-store.c:169
 #: ../calendar/gui/e-meeting-store.c:232 ../calendar/gui/print.c:1250
 #: ../calendar/gui/print.c:1267 ../e-util/e-charset.c:51
-#: ../modules/itip-formatter/itip-view.c:3503
-#: ../modules/itip-formatter/itip-view.c:6090
+#: ../modules/itip-formatter/itip-view.c:3501
+#: ../modules/itip-formatter/itip-view.c:6088
 #: ../modules/plugin-manager/evolution-plugin-manager.c:99
 msgid "Unknown"
 msgstr "不明"
@@ -3938,14 +3953,14 @@ msgstr "否"
 #: ../calendar/gui/e-cal-model.c:3952
 #: ../calendar/gui/e-meeting-list-view.c:220
 #: ../calendar/gui/e-meeting-store.c:196 ../calendar/gui/e-meeting-store.c:219
-#: ../modules/itip-formatter/itip-view.c:6078
+#: ../modules/itip-formatter/itip-view.c:6076
 msgid "Accepted"
 msgstr "接受"
 
 #: ../calendar/gui/e-cal-model.c:3953
 #: ../calendar/gui/e-meeting-list-view.c:221
 #: ../calendar/gui/e-meeting-store.c:198 ../calendar/gui/e-meeting-store.c:221
-#: ../modules/itip-formatter/itip-view.c:6084
+#: ../modules/itip-formatter/itip-view.c:6082
 msgid "Declined"
 msgstr "婉拒"
 
@@ -3959,7 +3974,7 @@ msgstr "暫訂"
 #: ../calendar/gui/e-cal-model.c:3955
 #: ../calendar/gui/e-meeting-list-view.c:223
 #: ../calendar/gui/e-meeting-store.c:202 ../calendar/gui/e-meeting-store.c:225
-#: ../modules/itip-formatter/itip-view.c:6087
+#: ../modules/itip-formatter/itip-view.c:6085
 msgid "Delegated"
 msgstr "已委派"
 
@@ -4013,14 +4028,14 @@ msgstr ""
 "%s"
 
 #. String to use in 12-hour time format for times in the morning.
-#: ../calendar/gui/e-day-view.c:1985 ../calendar/gui/e-week-view.c:1540
+#: ../calendar/gui/e-day-view.c:1985 ../calendar/gui/e-week-view.c:1539
 #: ../calendar/gui/print.c:1073 ../calendar/gui/print.c:1092
 #: ../calendar/gui/print.c:2633 ../calendar/gui/print.c:2653
 msgid "am"
 msgstr "上午"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: ../calendar/gui/e-day-view.c:1988 ../calendar/gui/e-week-view.c:1543
+#: ../calendar/gui/e-day-view.c:1988 ../calendar/gui/e-week-view.c:1542
 #: ../calendar/gui/print.c:1078 ../calendar/gui/print.c:1094
 #: ../calendar/gui/print.c:2638 ../calendar/gui/print.c:2655
 msgid "pm"
@@ -4731,11 +4746,11 @@ msgstr "正在進行"
 msgid "% Completed"
 msgstr "% 已完成"
 
-#: ../calendar/gui/tasktypes.xml.h:26 ../mail/em-filter-i18n.h:38
+#: ../calendar/gui/tasktypes.xml.h:26 ../mail/em-filter-i18n.h:69
 msgid "is greater than"
 msgstr "大於"
 
-#: ../calendar/gui/tasktypes.xml.h:27 ../mail/em-filter-i18n.h:39
+#: ../calendar/gui/tasktypes.xml.h:27 ../mail/em-filter-i18n.h:70
 msgid "is less than"
 msgstr "小於"
 
@@ -9011,7 +9026,7 @@ msgstr "將部分格式化 RFC822 郵件"
 #: ../em-format/e-mail-formatter-print.c:53
 #: ../e-util/gal-view-instance-save-as-dialog.c:94
 #: ../mail/e-mail-label-tree-view.c:98
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:1323
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:1322
 #: ../modules/cal-config-google/e-google-chooser.c:236
 #: ../modules/plugin-manager/evolution-plugin-manager.c:66
 msgid "Name"
@@ -9047,7 +9062,7 @@ msgstr "安全性"
 
 #: ../em-format/e-mail-formatter-quote-headers.c:167
 #: ../em-format/e-mail-part-headers.c:51 ../mail/e-mail-tag-editor.c:276
-#: ../mail/em-filter-i18n.h:77 ../mail/message-list.etspec.h:6
+#: ../mail/em-filter-i18n.h:51 ../mail/message-list.etspec.h:6
 #: ../modules/mail/em-mailer-prefs.c:68
 msgid "Subject"
 msgstr "主旨"
@@ -9350,7 +9365,7 @@ msgstr "天"
 msgid "_When convenient"
 msgstr "當有空時(_W)"
 
-#: ../e-util/e-send-options.ui.h:19 ../e-util/e-filter-rule.c:843
+#: ../e-util/e-send-options.ui.h:19 ../e-util/e-filter-rule.c:846
 msgid "Replies"
 msgstr "回覆"
 
@@ -9526,7 +9541,7 @@ msgstr "選擇範圍(_S) "
 msgid "Timezone drop-down combination box"
 msgstr "時區下拉式組合方塊"
 
-#: ../e-util/filter.ui.h:1 ../e-util/e-filter-rule.c:1242
+#: ../e-util/filter.ui.h:1 ../e-util/e-filter-rule.c:1245
 #: ../mail/em-utils.c:230
 msgid "Incoming"
 msgstr "內送"
@@ -9728,8 +9743,8 @@ msgid_plural "Save Attachments"
 msgstr[0] "儲存附件"
 
 #. Translators: Default attachment filename.
-#: ../e-util/e-attachment-store.c:567 ../e-util/e-attachment.c:2055
-#: ../e-util/e-attachment.c:2718
+#: ../e-util/e-attachment-store.c:567 ../e-util/e-attachment.c:2058
+#: ../e-util/e-attachment.c:2721
 msgid "attachment.dat"
 msgstr "attachment.dat"
 
@@ -9775,48 +9790,48 @@ msgstr "在 %s 中開啟這個附件"
 #. * message when, for example, attaching it to a composer. When the
 #. * message to be attached has also filled Subject, then this text is
 #. * of form "Attached message - Subject", otherwise it's left as is.
-#: ../e-util/e-attachment.c:1105
+#: ../e-util/e-attachment.c:1108
 msgid "Attached message"
 msgstr "附加的郵件"
 
-#: ../e-util/e-attachment.c:2136 ../e-util/e-attachment.c:3024
+#: ../e-util/e-attachment.c:2139 ../e-util/e-attachment.c:3027
 msgid "A load operation is already in progress"
 msgstr "載入操作已在進行中"
 
-#: ../e-util/e-attachment.c:2144 ../e-util/e-attachment.c:3032
+#: ../e-util/e-attachment.c:2147 ../e-util/e-attachment.c:3035
 msgid "A save operation is already in progress"
 msgstr "儲存操作已在進行中"
 
-#: ../e-util/e-attachment.c:2264
+#: ../e-util/e-attachment.c:2267
 #, c-format
 msgid "Could not load '%s'"
 msgstr "無法載入「%s」"
 
-#: ../e-util/e-attachment.c:2267
+#: ../e-util/e-attachment.c:2270
 #, c-format
 msgid "Could not load the attachment"
 msgstr "無法載入附件"
 
-#: ../e-util/e-attachment.c:2571
+#: ../e-util/e-attachment.c:2574
 #, c-format
 msgid "Could not open '%s'"
 msgstr "無法開啟「%s」"
 
-#: ../e-util/e-attachment.c:2574
+#: ../e-util/e-attachment.c:2577
 #, c-format
 msgid "Could not open the attachment"
 msgstr "無法開啟附件"
 
-#: ../e-util/e-attachment.c:3041
+#: ../e-util/e-attachment.c:3044
 msgid "Attachment contents not loaded"
 msgstr "無法載入附件內容"
 
-#: ../e-util/e-attachment.c:3121
+#: ../e-util/e-attachment.c:3124
 #, c-format
 msgid "Could not save '%s'"
 msgstr "無法儲存「%s」"
 
-#: ../e-util/e-attachment.c:3124
+#: ../e-util/e-attachment.c:3127
 #, c-format
 msgid "Could not save the attachment"
 msgstr "無法儲存附件"
@@ -9959,7 +9974,7 @@ msgstr "現在"
 #. strftime format of a weekday and a date.
 #: ../e-util/e-cell-date-edit.c:306 ../e-util/e-datetime-format.c:208
 #: ../modules/calendar/e-cal-shell-view-actions.c:1899
-#: ../modules/itip-formatter/itip-view.c:225
+#: ../modules/itip-formatter/itip-view.c:223
 msgid "Today"
 msgstr "今天"
 
@@ -9995,7 +10010,7 @@ msgstr "字符編碼"
 msgid "Enter the character set to use"
 msgstr "輸入要使用的字符集"
 
-#: ../e-util/e-charset-combo-box.c:341
+#: ../e-util/e-charset-combo-box.c:368
 msgid "Other..."
 msgstr "其它…"
 
@@ -10132,7 +10147,7 @@ msgid "Invalid Time Value"
 msgstr "無效的時刻數值"
 
 #. strftime format of a weekday and a date.
-#: ../e-util/e-datetime-format.c:219 ../modules/itip-formatter/itip-view.c:253
+#: ../e-util/e-datetime-format.c:219 ../modules/itip-formatter/itip-view.c:251
 msgid "Tomorrow"
 msgstr "明天"
 
@@ -10330,23 +10345,23 @@ msgstr "選擇要比對的時間"
 msgid "Choose a File"
 msgstr "選擇檔案"
 
-#: ../e-util/e-filter-rule.c:746
+#: ../e-util/e-filter-rule.c:749
 msgid "R_ule name:"
 msgstr "規則名稱(_U):"
 
-#: ../e-util/e-filter-rule.c:796
+#: ../e-util/e-filter-rule.c:799
 msgid "all the following conditions"
 msgstr "如果全部條件符合"
 
-#: ../e-util/e-filter-rule.c:797
+#: ../e-util/e-filter-rule.c:800
 msgid "any of the following conditions"
 msgstr "如果任何條件符合"
 
-#: ../e-util/e-filter-rule.c:803
+#: ../e-util/e-filter-rule.c:806
 msgid "_Find items which match:"
 msgstr "尋找符合的項目(_F):"
 
-#: ../e-util/e-filter-rule.c:826
+#: ../e-util/e-filter-rule.c:829
 msgid "Find items that meet the following conditions"
 msgstr "尋找符合下列條件的項目"
 
@@ -10354,7 +10369,7 @@ msgstr "尋找符合下列條件的項目"
 #. * part of "Include threads: None"
 #. protocol:
 #. name:
-#: ../e-util/e-filter-rule.c:841 ../e-util/e-mail-identity-combo-box.c:473
+#: ../e-util/e-filter-rule.c:844 ../e-util/e-mail-identity-combo-box.c:473
 #: ../e-util/e-mail-signature-combo-box.c:368 ../e-util/e-proxy-editor.c:549
 #: ../libemail-engine/camel-null-store.c:27
 #: ../mail/e-mail-config-summary-page.c:138
@@ -10362,27 +10377,27 @@ msgstr "尋找符合下列條件的項目"
 msgid "None"
 msgstr "沒有"
 
-#: ../e-util/e-filter-rule.c:842
+#: ../e-util/e-filter-rule.c:845
 msgid "All related"
 msgstr "所有相關的"
 
-#: ../e-util/e-filter-rule.c:844
+#: ../e-util/e-filter-rule.c:847
 msgid "Replies and parents"
 msgstr "回覆和父代"
 
-#: ../e-util/e-filter-rule.c:845
+#: ../e-util/e-filter-rule.c:848
 msgid "No reply or parent"
 msgstr "沒有回復或原始郵件"
 
-#: ../e-util/e-filter-rule.c:848
+#: ../e-util/e-filter-rule.c:851
 msgid "I_nclude threads:"
 msgstr "包括郵件羣組(_N):"
 
-#: ../e-util/e-filter-rule.c:925
+#: ../e-util/e-filter-rule.c:928
 msgid "A_dd Condition"
 msgstr "加入條件(_D)"
 
-#: ../e-util/e-filter-rule.c:1242 ../mail/em-utils.c:231
+#: ../e-util/e-filter-rule.c:1245 ../mail/em-utils.c:231
 msgid "Outgoing"
 msgstr "外寄"
 
@@ -10697,9 +10712,8 @@ msgid "_Method:"
 msgstr "方法(_M):"
 
 #: ../e-util/e-proxy-editor.c:336
-#, fuzzy
 msgid "Defer to Desktop Settings"
-msgstr "- 設定值)"
+msgstr "使用桌面設定值"
 
 #: ../e-util/e-proxy-editor.c:340
 msgid "_Open Desktop Settings"
@@ -11207,19 +11221,19 @@ msgstr "儲存影像到「%s」"
 
 #: ../e-util/e-widget-undo.c:424
 msgid "Undo 'Insert text'"
-msgstr ""
+msgstr "復原「插入文字」"
 
 #: ../e-util/e-widget-undo.c:426
 msgid "Redo 'Insert text'"
-msgstr ""
+msgstr "取消復原「插入文字」"
 
 #: ../e-util/e-widget-undo.c:440
 msgid "Undo 'Delete text'"
-msgstr ""
+msgstr "復原「刪除文字」"
 
 #: ../e-util/e-widget-undo.c:442
 msgid "Redo 'Delete text'"
-msgstr ""
+msgstr "取消復原「刪除文字」"
 
 #: ../e-util/ea-calendar-item.c:314 ../e-util/ea-calendar-item.c:323
 msgid "%d %B %Y"
@@ -11295,6 +11309,24 @@ msgstr "已使用名稱「{0}」。"
 #: ../e-util/filter.error.xml.h:11
 msgid "Please choose another name."
 msgstr "請選擇其他名稱。"
+
+#: ../e-util/filter.error.xml.h:12
+#| msgid "Missing date."
+msgid "Missing condition."
+msgstr "缺少條件。"
+
+#: ../e-util/filter.error.xml.h:13
+msgid "Filter should have at least one condition."
+msgstr "過濾條件至少要有一個條件。"
+
+#: ../e-util/filter.error.xml.h:14
+#| msgid "Missing date."
+msgid "Missing value."
+msgstr "缺少數值。"
+
+#: ../e-util/filter.error.xml.h:15
+msgid "One or more values cannot be empty."
+msgstr "一或多個數值不能為空。"
 
 #. Translators: description of a "popup" action
 #: ../e-util/gal-a11y-e-cell-popup.c:127
@@ -11537,11 +11569,6 @@ msgstr "重新連線到「%s」"
 msgid "Preparing account '%s' for offline"
 msgstr "準備帳號「%s」離線工作"
 
-#: ../libemail-engine/mail-folder-cache.c:1250
-#, c-format
-msgid "Pinging %s"
-msgstr "Pinging %s"
-
 #: ../libemail-engine/mail-ops.c:90
 msgid "Filtering Selected Messages"
 msgstr "過濾選擇的郵件"
@@ -11703,7 +11730,7 @@ msgstr "帳號名稱"
 
 #: ../mail/e-mail-account-tree-view.c:135
 #: ../mail/e-mail-config-security-page.c:334
-#: ../mail/e-mail-config-security-page.c:474 ../mail/e-mail-reader.c:3533
+#: ../mail/e-mail-config-security-page.c:474 ../mail/e-mail-reader.c:3584
 #: ../mail/mail-config.ui.h:59
 msgid "Default"
 msgstr "預設值"
@@ -11716,7 +11743,7 @@ msgstr "沒有提供電子郵件位址"
 msgid "Missing domain in email address"
 msgstr "電子郵件位址缺乏網域"
 
-#: ../mail/e-mail-backend.c:734
+#: ../mail/e-mail-backend.c:751
 msgid "Unknown background operation"
 msgstr "不明的背景操作"
 
@@ -12198,583 +12225,583 @@ msgstr "檔頭"
 msgid "Page %d of %d"
 msgstr "第 %d / %d 頁"
 
-#: ../mail/e-mail-reader.c:343 ../mail/em-filter-i18n.h:12
+#: ../mail/e-mail-reader.c:348 ../mail/em-filter-i18n.h:11
 msgid "Copy to Folder"
 msgstr "複製至資料夾"
 
-#: ../mail/e-mail-reader.c:343 ../mail/em-folder-utils.c:505
+#: ../mail/e-mail-reader.c:348 ../mail/em-folder-utils.c:505
 msgid "C_opy"
 msgstr "複製(_O)"
 
-#: ../mail/e-mail-reader.c:843 ../mail/em-filter-i18n.h:54
+#: ../mail/e-mail-reader.c:848 ../mail/em-filter-i18n.h:33
 msgid "Move to Folder"
 msgstr "移至資料夾"
 
-#: ../mail/e-mail-reader.c:843 ../mail/em-folder-utils.c:505
+#: ../mail/e-mail-reader.c:848 ../mail/em-folder-utils.c:505
 msgid "_Move"
 msgstr "移動(_M)"
 
-#: ../mail/e-mail-reader.c:1169 ../mail/e-mail-reader.c:1381
-#: ../mail/e-mail-reader.c:1421
+#: ../mail/e-mail-reader.c:1174 ../mail/e-mail-reader.c:1386
+#: ../mail/e-mail-reader.c:1426
 msgid "_Do not ask me again."
 msgstr "不要再詢問我(_D)。"
 
-#: ../mail/e-mail-reader.c:1427
+#: ../mail/e-mail-reader.c:1432
 msgid "_Always ignore Reply-To: for mailing lists."
 msgstr "永遠忽略通信論壇的回覆欄位(_A)"
 
-#: ../mail/e-mail-reader.c:1629
+#: ../mail/e-mail-reader.c:1634
 msgid "Failed to retrieve message:"
 msgstr "取回郵件失敗："
 
-#: ../mail/e-mail-reader.c:1669 ../mail/e-mail-reader.c:2775
+#: ../mail/e-mail-reader.c:1674 ../mail/e-mail-reader.c:2826
 #, c-format
 msgid "Retrieving message '%s'"
 msgstr "正在取回郵件「%s」"
 
-#: ../mail/e-mail-reader.c:1857
+#: ../mail/e-mail-reader.c:1862
 msgid "A_dd Sender to Address Book"
 msgstr "加入寄件者到目錄服務(_D)"
 
-#: ../mail/e-mail-reader.c:1859
+#: ../mail/e-mail-reader.c:1864
 msgid "Add sender to address book"
 msgstr "新增寄件者至通訊錄"
 
-#: ../mail/e-mail-reader.c:1864
+#: ../mail/e-mail-reader.c:1869
 msgid "Check for _Junk"
 msgstr "檢查垃圾郵件(_J)"
 
-#: ../mail/e-mail-reader.c:1866
+#: ../mail/e-mail-reader.c:1871
 msgid "Filter the selected messages for junk status"
 msgstr "篩選所選信件的垃圾郵件狀態"
 
-#: ../mail/e-mail-reader.c:1871
+#: ../mail/e-mail-reader.c:1876
 msgid "_Copy to Folder..."
 msgstr "複製至資料夾(_C)…"
 
-#: ../mail/e-mail-reader.c:1873
+#: ../mail/e-mail-reader.c:1878
 msgid "Copy selected messages to another folder"
 msgstr "複製已選定的郵件到另一個資料夾"
 
-#: ../mail/e-mail-reader.c:1878
+#: ../mail/e-mail-reader.c:1883
 msgid "_Delete Message"
 msgstr "刪除郵件(_D)"
 
-#: ../mail/e-mail-reader.c:1880
+#: ../mail/e-mail-reader.c:1885
 msgid "Mark the selected messages for deletion"
 msgstr "將選定的郵件標示成要刪除"
 
-#: ../mail/e-mail-reader.c:1885
+#: ../mail/e-mail-reader.c:1890
 msgid "Create a Filter Rule for Mailing _List..."
 msgstr "從通信論壇建立過濾器規則(_L)…"
 
-#: ../mail/e-mail-reader.c:1887
+#: ../mail/e-mail-reader.c:1892
 msgid "Create a rule to filter messages to this mailing list"
 msgstr "為這個通信論壇建立過濾器規則"
 
-#: ../mail/e-mail-reader.c:1892
+#: ../mail/e-mail-reader.c:1897
 msgid "Create a Filter Rule for _Recipients..."
 msgstr "從收件者建立過濾器規則(_R)…"
 
-#: ../mail/e-mail-reader.c:1894
+#: ../mail/e-mail-reader.c:1899
 msgid "Create a rule to filter messages to these recipients"
 msgstr "為這些收件者建立過濾器規則"
 
-#: ../mail/e-mail-reader.c:1899
+#: ../mail/e-mail-reader.c:1904
 msgid "Create a Filter Rule for Se_nder..."
 msgstr "從寄件者建立過濾器規則(_N)…"
 
-#: ../mail/e-mail-reader.c:1901
+#: ../mail/e-mail-reader.c:1906
 msgid "Create a rule to filter messages from this sender"
 msgstr "為這個寄件者建立過濾器規則"
 
-#: ../mail/e-mail-reader.c:1906
+#: ../mail/e-mail-reader.c:1911
 msgid "Create a Filter Rule for _Subject..."
 msgstr "從主旨建立過濾器規則(_S)…"
 
-#: ../mail/e-mail-reader.c:1908
+#: ../mail/e-mail-reader.c:1913
 msgid "Create a rule to filter messages with this subject"
 msgstr "為這個主旨建立過濾器規則"
 
-#: ../mail/e-mail-reader.c:1913
+#: ../mail/e-mail-reader.c:1918
 msgid "A_pply Filters"
 msgstr "套用過濾器(_P)"
 
-#: ../mail/e-mail-reader.c:1915
+#: ../mail/e-mail-reader.c:1920
 msgid "Apply filter rules to the selected messages"
 msgstr "套用過濾器規則於所選定的郵件"
 
-#: ../mail/e-mail-reader.c:1920
+#: ../mail/e-mail-reader.c:1925
 msgid "_Find in Message..."
 msgstr "在郵件內尋找(_F)…"
 
-#: ../mail/e-mail-reader.c:1922
+#: ../mail/e-mail-reader.c:1927
 msgid "Search for text in the body of the displayed message"
 msgstr "搜尋顯示的郵件本文中的文字"
 
-#: ../mail/e-mail-reader.c:1927
+#: ../mail/e-mail-reader.c:1932
 msgid "_Clear Flag"
 msgstr "清除標幟(_C)"
 
-#: ../mail/e-mail-reader.c:1929
+#: ../mail/e-mail-reader.c:1934
 msgid "Remove the follow-up flag from the selected messages"
 msgstr "移除選取郵件的跟隨旗標"
 
-#: ../mail/e-mail-reader.c:1934
+#: ../mail/e-mail-reader.c:1939
 msgid "_Flag Completed"
 msgstr "標記為已完成(_F)"
 
-#: ../mail/e-mail-reader.c:1936
+#: ../mail/e-mail-reader.c:1941
 msgid "Set the follow-up flag to completed on the selected messages"
 msgstr "將已選取郵件的跟隨旗標設為已完成"
 
-#: ../mail/e-mail-reader.c:1941
+#: ../mail/e-mail-reader.c:1946
 msgid "Follow _Up..."
 msgstr "跟隨(_U)…"
 
-#: ../mail/e-mail-reader.c:1943
+#: ../mail/e-mail-reader.c:1948
 msgid "Flag the selected messages for follow-up"
 msgstr "將選定的郵件加上跟隨旗標"
 
-#: ../mail/e-mail-reader.c:1948
+#: ../mail/e-mail-reader.c:1953
 msgid "_Attached"
 msgstr "附件(_A)"
 
-#: ../mail/e-mail-reader.c:1950 ../mail/e-mail-reader.c:1957
+#: ../mail/e-mail-reader.c:1955 ../mail/e-mail-reader.c:1962
 msgid "Forward the selected message to someone as an attachment"
 msgstr "將選定的郵件以附件形式轉寄給某人"
 
-#: ../mail/e-mail-reader.c:1955
+#: ../mail/e-mail-reader.c:1960
 msgid "Forward As _Attached"
 msgstr "以附件轉寄(_A)"
 
-#: ../mail/e-mail-reader.c:1962
+#: ../mail/e-mail-reader.c:1967
 msgid "_Inline"
 msgstr "行內(_I)"
 
-#: ../mail/e-mail-reader.c:1964 ../mail/e-mail-reader.c:1971
+#: ../mail/e-mail-reader.c:1969 ../mail/e-mail-reader.c:1976
 msgid "Forward the selected message in the body of a new message"
 msgstr "將需要轉寄的郵件夾附於新郵件的內文中"
 
-#: ../mail/e-mail-reader.c:1969
+#: ../mail/e-mail-reader.c:1974
 msgid "Forward As _Inline"
 msgstr "以行內轉寄(_I)"
 
-#: ../mail/e-mail-reader.c:1976
+#: ../mail/e-mail-reader.c:1981
 msgid "_Quoted"
 msgstr "引文(_Q)"
 
-#: ../mail/e-mail-reader.c:1978 ../mail/e-mail-reader.c:1985
+#: ../mail/e-mail-reader.c:1983 ../mail/e-mail-reader.c:1990
 msgid "Forward the selected message quoted like a reply"
 msgstr "將需要轉寄的郵件以回覆郵件方式寄出"
 
-#: ../mail/e-mail-reader.c:1983
+#: ../mail/e-mail-reader.c:1988
 msgid "Forward As _Quoted"
 msgstr "以引文轉寄(_Q)"
 
-#: ../mail/e-mail-reader.c:1990
+#: ../mail/e-mail-reader.c:1995
 msgid "_Load Images"
 msgstr "載入圖片(_L)"
 
-#: ../mail/e-mail-reader.c:1992
+#: ../mail/e-mail-reader.c:1997
 msgid "Force images in HTML mail to be loaded"
 msgstr "閱讀 HTML 格式的郵件時強迫載入圖片"
 
-#: ../mail/e-mail-reader.c:1997
+#: ../mail/e-mail-reader.c:2002
 msgid "_Important"
 msgstr "重要(_I)"
 
-#: ../mail/e-mail-reader.c:1999
+#: ../mail/e-mail-reader.c:2004
 msgid "Mark the selected messages as important"
 msgstr "將選定的郵件標示成重要"
 
-#: ../mail/e-mail-reader.c:2004
+#: ../mail/e-mail-reader.c:2009
 msgid "_Junk"
 msgstr "垃圾郵件(_J)"
 
-#: ../mail/e-mail-reader.c:2006
+#: ../mail/e-mail-reader.c:2011
 msgid "Mark the selected messages as junk"
 msgstr "將選定的郵件標示成垃圾郵件"
 
-#: ../mail/e-mail-reader.c:2011
+#: ../mail/e-mail-reader.c:2016
 msgid "_Not Junk"
 msgstr "不是垃圾郵件(_N)"
 
-#: ../mail/e-mail-reader.c:2013
+#: ../mail/e-mail-reader.c:2018
 msgid "Mark the selected messages as not being junk"
 msgstr "將選取的郵件標示成不是垃圾郵件"
 
-#: ../mail/e-mail-reader.c:2018
+#: ../mail/e-mail-reader.c:2023
 msgid "_Read"
 msgstr "已閱讀(_R)"
 
-#: ../mail/e-mail-reader.c:2020
+#: ../mail/e-mail-reader.c:2025
 msgid "Mark the selected messages as having been read"
 msgstr "將選定的郵件標示成已經閱讀"
 
-#: ../mail/e-mail-reader.c:2025
+#: ../mail/e-mail-reader.c:2030
 msgid "Uni_mportant"
 msgstr "不重要(_M)"
 
-#: ../mail/e-mail-reader.c:2027
+#: ../mail/e-mail-reader.c:2032
 msgid "Mark the selected messages as unimportant"
 msgstr "將選定的郵件標示成不重要"
 
-#: ../mail/e-mail-reader.c:2032
+#: ../mail/e-mail-reader.c:2037
 msgid "_Unread"
 msgstr "未閱讀(_U)"
 
-#: ../mail/e-mail-reader.c:2034
+#: ../mail/e-mail-reader.c:2039
 msgid "Mark the selected messages as not having been read"
 msgstr "將選定的郵件標示成未閱讀"
 
-#: ../mail/e-mail-reader.c:2039
+#: ../mail/e-mail-reader.c:2044
 msgid "_Edit as New Message..."
 msgstr "編輯為新郵件(_E)…"
 
-#: ../mail/e-mail-reader.c:2041
+#: ../mail/e-mail-reader.c:2046
 msgid "Open the selected messages in the composer for editing"
 msgstr "在撰寫視窗開啟選取的郵件以便編輯"
 
-#: ../mail/e-mail-reader.c:2046
+#: ../mail/e-mail-reader.c:2051
 msgid "Compose _New Message"
 msgstr "撰寫新郵件(_N)"
 
-#: ../mail/e-mail-reader.c:2048
+#: ../mail/e-mail-reader.c:2053
 msgid "Open a window for composing a mail message"
 msgstr "開啟視窗以便撰寫郵件"
 
-#: ../mail/e-mail-reader.c:2053
+#: ../mail/e-mail-reader.c:2058
 msgid "_Open in New Window"
 msgstr "在新視窗開啟(_O)"
 
-#: ../mail/e-mail-reader.c:2055
+#: ../mail/e-mail-reader.c:2060
 msgid "Open the selected messages in a new window"
 msgstr "使用新視窗開啟選定的郵件"
 
-#: ../mail/e-mail-reader.c:2060
+#: ../mail/e-mail-reader.c:2065
 msgid "_Move to Folder..."
 msgstr "移至資料夾(_M)…"
 
-#: ../mail/e-mail-reader.c:2062
+#: ../mail/e-mail-reader.c:2067
 msgid "Move selected messages to another folder"
 msgstr "將選定的郵件移至另一個資料夾"
 
-#: ../mail/e-mail-reader.c:2067
+#: ../mail/e-mail-reader.c:2072
 msgid "_Next Message"
 msgstr "下一封郵件(_N)"
 
-#: ../mail/e-mail-reader.c:2069
+#: ../mail/e-mail-reader.c:2074
 msgid "Display the next message"
 msgstr "顯示下一封郵件"
 
-#: ../mail/e-mail-reader.c:2074
+#: ../mail/e-mail-reader.c:2079
 msgid "Next _Important Message"
 msgstr "下一封重要郵件(_I)"
 
-#: ../mail/e-mail-reader.c:2076
+#: ../mail/e-mail-reader.c:2081
 msgid "Display the next important message"
 msgstr "顯示下一封重要的郵件"
 
-#: ../mail/e-mail-reader.c:2081
+#: ../mail/e-mail-reader.c:2086
 msgid "Next _Thread"
 msgstr "下一封相關郵件(_T)"
 
-#: ../mail/e-mail-reader.c:2083
+#: ../mail/e-mail-reader.c:2088
 msgid "Display the next thread"
 msgstr "顯示下一封相關郵件"
 
-#: ../mail/e-mail-reader.c:2088
+#: ../mail/e-mail-reader.c:2093
 msgid "Next _Unread Message"
 msgstr "下一封未閱讀的郵件(_U)"
 
-#: ../mail/e-mail-reader.c:2090
+#: ../mail/e-mail-reader.c:2095
 msgid "Display the next unread message"
 msgstr "顯示下一封未閱讀的郵件"
 
-#: ../mail/e-mail-reader.c:2095
+#: ../mail/e-mail-reader.c:2100
 msgid "_Previous Message"
 msgstr "上一封郵件(_P)"
 
-#: ../mail/e-mail-reader.c:2097
+#: ../mail/e-mail-reader.c:2102
 msgid "Display the previous message"
 msgstr "顯示上一封郵件"
 
-#: ../mail/e-mail-reader.c:2102
+#: ../mail/e-mail-reader.c:2107
 msgid "Pr_evious Important Message"
 msgstr "上一封重要郵件(_E)"
 
-#: ../mail/e-mail-reader.c:2104
+#: ../mail/e-mail-reader.c:2109
 msgid "Display the previous important message"
 msgstr "顯示上一封重要的郵件"
 
-#: ../mail/e-mail-reader.c:2109
+#: ../mail/e-mail-reader.c:2114
 msgid "Previous T_hread"
 msgstr "上一封相關郵件(_H)"
 
-#: ../mail/e-mail-reader.c:2111
+#: ../mail/e-mail-reader.c:2116
 msgid "Display the previous thread"
 msgstr "顯示上一封相關郵件"
 
-#: ../mail/e-mail-reader.c:2116
+#: ../mail/e-mail-reader.c:2121
 msgid "P_revious Unread Message"
 msgstr "上一封未閱讀的郵件(_R)"
 
-#: ../mail/e-mail-reader.c:2118
+#: ../mail/e-mail-reader.c:2123
 msgid "Display the previous unread message"
 msgstr "顯示上一封未閱讀的郵件"
 
-#: ../mail/e-mail-reader.c:2125
+#: ../mail/e-mail-reader.c:2130
 msgid "Print this message"
 msgstr "列印郵件"
 
-#: ../mail/e-mail-reader.c:2132
+#: ../mail/e-mail-reader.c:2137
 msgid "Preview the message to be printed"
 msgstr "預覽需要列印的郵件"
 
-#: ../mail/e-mail-reader.c:2137
+#: ../mail/e-mail-reader.c:2142
 msgid "Re_direct"
 msgstr "重新導向(_D)"
 
-#: ../mail/e-mail-reader.c:2139
+#: ../mail/e-mail-reader.c:2144
 msgid "Redirect (bounce) the selected message to someone"
 msgstr "將選定的郵件重新導向給某人"
 
-#: ../mail/e-mail-reader.c:2144
+#: ../mail/e-mail-reader.c:2149
 msgid "Remo_ve Attachments"
 msgstr "移除附件(_V)"
 
-#: ../mail/e-mail-reader.c:2146
+#: ../mail/e-mail-reader.c:2151
 msgid "Remove attachments"
 msgstr "移除附件"
 
-#: ../mail/e-mail-reader.c:2151
+#: ../mail/e-mail-reader.c:2156
 msgid "Remove Du_plicate Messages"
 msgstr "移除重複的郵件(_P)"
 
-#: ../mail/e-mail-reader.c:2153
+#: ../mail/e-mail-reader.c:2158
 msgid "Checks selected messages for duplicates"
 msgstr "檢查選取的郵件是否有重複"
 
-#: ../mail/e-mail-reader.c:2158 ../mail/mail.error.xml.h:27
+#: ../mail/e-mail-reader.c:2163 ../mail/mail.error.xml.h:27
 #: ../modules/calendar/e-cal-shell-view-actions.c:1546
 #: ../modules/mail/e-mail-attachment-handler.c:213
 msgid "Reply to _All"
 msgstr "回覆所有人(_A)"
 
-#: ../mail/e-mail-reader.c:2160
+#: ../mail/e-mail-reader.c:2165
 msgid "Compose a reply to all the recipients of the selected message"
 msgstr "撰寫回郵給已選取郵件的全部收件者"
 
-#: ../mail/e-mail-reader.c:2165 ../mail/mail.error.xml.h:25
+#: ../mail/e-mail-reader.c:2170 ../mail/mail.error.xml.h:25
 msgid "Reply to _List"
 msgstr "回覆至清單(_L)"
 
-#: ../mail/e-mail-reader.c:2167
+#: ../mail/e-mail-reader.c:2172
 msgid "Compose a reply to the mailing list of the selected message"
 msgstr "撰寫回郵給所選定郵件的通信論壇"
 
-#: ../mail/e-mail-reader.c:2172
+#: ../mail/e-mail-reader.c:2177
 #: ../modules/mail/e-mail-attachment-handler.c:220
 msgid "_Reply to Sender"
 msgstr "回覆寄件者(_R)"
 
-#: ../mail/e-mail-reader.c:2174
+#: ../mail/e-mail-reader.c:2179
 msgid "Compose a reply to the sender of the selected message"
 msgstr "撰寫回郵給所選定的郵件的寄件者"
 
-#: ../mail/e-mail-reader.c:2179
+#: ../mail/e-mail-reader.c:2184
 msgid "_Save as mbox..."
 msgstr "儲存成 mbox(_S)…"
 
-#: ../mail/e-mail-reader.c:2181
+#: ../mail/e-mail-reader.c:2186
 msgid "Save selected messages as an mbox file"
 msgstr "將選定的郵件另存成 mbox 檔案"
 
-#: ../mail/e-mail-reader.c:2186
+#: ../mail/e-mail-reader.c:2191
 msgid "_Message Source"
 msgstr "郵件來源(_M)"
 
-#: ../mail/e-mail-reader.c:2188
+#: ../mail/e-mail-reader.c:2193
 msgid "Show the raw email source of the message"
 msgstr "顯示郵件原始檔"
 
-#: ../mail/e-mail-reader.c:2200
+#: ../mail/e-mail-reader.c:2205
 msgid "_Undelete Message"
 msgstr "復原刪除郵件(_U)"
 
-#: ../mail/e-mail-reader.c:2202
+#: ../mail/e-mail-reader.c:2207
 msgid "Undelete the selected messages"
 msgstr "取消刪除選定的郵件"
 
-#: ../mail/e-mail-reader.c:2207
+#: ../mail/e-mail-reader.c:2212
 msgid "_Normal Size"
 msgstr "正常大小(_N)"
 
-#: ../mail/e-mail-reader.c:2209
+#: ../mail/e-mail-reader.c:2214
 msgid "Reset the text to its original size"
 msgstr "重設文字為原始大小"
 
-#: ../mail/e-mail-reader.c:2214
+#: ../mail/e-mail-reader.c:2219
 msgid "_Zoom In"
 msgstr "拉近(_Z)"
 
-#: ../mail/e-mail-reader.c:2216
+#: ../mail/e-mail-reader.c:2221
 msgid "Increase the text size"
 msgstr "將文字放大"
 
-#: ../mail/e-mail-reader.c:2221
+#: ../mail/e-mail-reader.c:2226
 msgid "Zoom _Out"
 msgstr "拉遠(_O)"
 
-#: ../mail/e-mail-reader.c:2223
+#: ../mail/e-mail-reader.c:2228
 msgid "Decrease the text size"
 msgstr "將文字縮小"
 
-#: ../mail/e-mail-reader.c:2230
+#: ../mail/e-mail-reader.c:2235
 msgid "Cre_ate"
 msgstr "建立(_A)"
 
-#: ../mail/e-mail-reader.c:2237
+#: ../mail/e-mail-reader.c:2242
 msgid "Ch_aracter Encoding"
 msgstr "字符編碼(_A)"
 
-#: ../mail/e-mail-reader.c:2244
+#: ../mail/e-mail-reader.c:2249
 msgid "F_orward As"
 msgstr "轉寄為(_O)"
 
-#: ../mail/e-mail-reader.c:2251
+#: ../mail/e-mail-reader.c:2256
 msgid "_Group Reply"
 msgstr "羣組回覆(_G)"
 
-#: ../mail/e-mail-reader.c:2258
+#: ../mail/e-mail-reader.c:2263
 msgid "_Go To"
 msgstr "移至(_G)"
 
-#: ../mail/e-mail-reader.c:2265
+#: ../mail/e-mail-reader.c:2270
 msgid "Mar_k As"
 msgstr "標示成(_K)"
 
-#: ../mail/e-mail-reader.c:2272
+#: ../mail/e-mail-reader.c:2277
 msgid "_Message"
 msgstr "郵件(_M)"
 
-#: ../mail/e-mail-reader.c:2279
+#: ../mail/e-mail-reader.c:2284
 msgid "_Zoom"
 msgstr "縮放(_Z)"
 
-#: ../mail/e-mail-reader.c:2289
+#: ../mail/e-mail-reader.c:2294
 msgid "Create a Search Folder from Mailing _List..."
 msgstr "從通信論壇建立搜尋資料夾(_L)…"
 
-#: ../mail/e-mail-reader.c:2291
+#: ../mail/e-mail-reader.c:2296
 msgid "Create a search folder for this mailing list"
 msgstr "為這個通信論壇建立一個搜尋資料夾"
 
-#: ../mail/e-mail-reader.c:2296
+#: ../mail/e-mail-reader.c:2301
 msgid "Create a Search Folder from Recipien_ts..."
 msgstr "從收件者建立搜尋資料夾(_T)…"
 
-#: ../mail/e-mail-reader.c:2298
+#: ../mail/e-mail-reader.c:2303
 msgid "Create a search folder for these recipients"
 msgstr "為這些收件者建立一個搜尋資料夾"
 
-#: ../mail/e-mail-reader.c:2303
+#: ../mail/e-mail-reader.c:2308
 msgid "Create a Search Folder from Sen_der..."
 msgstr "從寄件者建立搜尋資料夾(_D)…"
 
-#: ../mail/e-mail-reader.c:2305
+#: ../mail/e-mail-reader.c:2310
 msgid "Create a search folder for this sender"
 msgstr "為這個寄件者建立一個搜尋資料夾"
 
-#: ../mail/e-mail-reader.c:2310
+#: ../mail/e-mail-reader.c:2315
 msgid "Create a Search Folder from S_ubject..."
 msgstr "從主旨建立搜尋資料夾(_U)…"
 
-#: ../mail/e-mail-reader.c:2312
+#: ../mail/e-mail-reader.c:2317
 msgid "Create a search folder for this subject"
 msgstr "為這個主旨建立一個搜尋資料夾"
 
-#: ../mail/e-mail-reader.c:2335
+#: ../mail/e-mail-reader.c:2340
 msgid "Mark for Follo_w Up..."
 msgstr "標示為跟隨(_W)…"
 
-#: ../mail/e-mail-reader.c:2343
+#: ../mail/e-mail-reader.c:2348
 msgid "Mark as _Important"
 msgstr "標示成重要(_I)"
 
-#: ../mail/e-mail-reader.c:2347
+#: ../mail/e-mail-reader.c:2352
 msgid "Mark as _Junk"
 msgstr "標示成垃圾郵件(_J)"
 
-#: ../mail/e-mail-reader.c:2351
+#: ../mail/e-mail-reader.c:2356
 msgid "Mark as _Not Junk"
 msgstr "標示成非垃圾郵件(_N)"
 
-#: ../mail/e-mail-reader.c:2355
+#: ../mail/e-mail-reader.c:2360
 msgid "Mar_k as Read"
 msgstr "標示成已閱讀(_K)"
 
-#: ../mail/e-mail-reader.c:2359
+#: ../mail/e-mail-reader.c:2364
 msgid "Mark as Uni_mportant"
 msgstr "標示成不重要(_M)"
 
-#: ../mail/e-mail-reader.c:2363
+#: ../mail/e-mail-reader.c:2368
 msgid "Mark as _Unread"
 msgstr "標示成未閱讀(_U)"
 
-#: ../mail/e-mail-reader.c:2407
+#: ../mail/e-mail-reader.c:2412
 msgid "_Caret Mode"
 msgstr "漏字模式(_C)"
 
-#: ../mail/e-mail-reader.c:2409
+#: ../mail/e-mail-reader.c:2414
 msgid "Show a blinking cursor in the body of displayed messages"
 msgstr "在顯示的郵件內文中顯示閃爍游標"
 
-#: ../mail/e-mail-reader.c:2415
+#: ../mail/e-mail-reader.c:2420
 msgid "All Message _Headers"
 msgstr "所有郵件檔頭(_H)"
 
-#: ../mail/e-mail-reader.c:2417
+#: ../mail/e-mail-reader.c:2422
 msgid "Show messages with all email headers"
 msgstr "顯示郵件及詳細檔頭"
 
-#: ../mail/e-mail-reader.c:2781
+#: ../mail/e-mail-reader.c:2832
 msgid "Retrieving message"
 msgstr "取回郵件"
 
-#: ../mail/e-mail-reader.c:3703
+#: ../mail/e-mail-reader.c:3754
 #: ../modules/mail/e-mail-attachment-handler.c:206
 msgid "_Forward"
 msgstr "轉寄(_F)"
 
-#: ../mail/e-mail-reader.c:3704
+#: ../mail/e-mail-reader.c:3755
 msgid "Forward the selected message to someone"
 msgstr "將選定的郵件轉寄給某人"
 
-#: ../mail/e-mail-reader.c:3723
+#: ../mail/e-mail-reader.c:3774
 msgid "Group Reply"
 msgstr "羣組回覆"
 
-#: ../mail/e-mail-reader.c:3724
+#: ../mail/e-mail-reader.c:3775
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "回覆給通信論壇，或是給所有的收件者"
 
-#: ../mail/e-mail-reader.c:3790 ../mail/em-filter-i18n.h:15
+#: ../mail/e-mail-reader.c:3841 ../mail/em-filter-i18n.h:14
 msgid "Delete"
 msgstr "刪除"
 
-#: ../mail/e-mail-reader.c:3802
+#: ../mail/e-mail-reader.c:3853
 #: ../modules/calendar/e-cal-shell-view-actions.c:1371
 msgid "Next"
 msgstr "下一個"
 
-#: ../mail/e-mail-reader.c:3806
+#: ../mail/e-mail-reader.c:3857
 #: ../modules/calendar/e-cal-shell-view-actions.c:1364
 msgid "Previous"
 msgstr "上一個"
 
-#: ../mail/e-mail-reader.c:3815 ../mail/mail-dialogs.ui.h:15
+#: ../mail/e-mail-reader.c:3866 ../mail/mail-dialogs.ui.h:15
 msgid "Reply"
 msgstr "回覆"
 
@@ -12897,230 +12924,230 @@ msgstr "副本(CC)"
 msgid "Completed On"
 msgstr "已完成於"
 
-#: ../mail/em-filter-i18n.h:13
+#: ../mail/em-filter-i18n.h:12
 msgid "Date received"
 msgstr "收件日期"
 
-#: ../mail/em-filter-i18n.h:14
+#: ../mail/em-filter-i18n.h:13
 msgid "Date sent"
 msgstr "送件日期"
 
-#: ../mail/em-filter-i18n.h:16
+#: ../mail/em-filter-i18n.h:15
 msgid "Deleted"
 msgstr "已刪除"
 
-#: ../mail/em-filter-i18n.h:18
-msgid "does not end with"
-msgstr "不是以此結束"
-
-#: ../mail/em-filter-i18n.h:19
-msgid "does not exist"
-msgstr "不存在"
-
-#: ../mail/em-filter-i18n.h:20
-msgid "does not have words"
-msgstr "不包含文字"
-
-#: ../mail/em-filter-i18n.h:21
-msgid "does not return"
-msgstr "沒有傳回"
-
-#: ../mail/em-filter-i18n.h:22
-msgid "does not sound like"
-msgstr "不類似"
-
-#: ../mail/em-filter-i18n.h:23
-msgid "does not start with"
-msgstr "不是以此開始"
-
-#: ../mail/em-filter-i18n.h:25
+#: ../mail/em-filter-i18n.h:17
 msgid "Draft"
 msgstr "草稿"
 
-#: ../mail/em-filter-i18n.h:26
-msgid "ends with"
-msgstr "以此終結"
-
-#: ../mail/em-filter-i18n.h:28
-msgid "exists"
-msgstr "存在"
-
-#: ../mail/em-filter-i18n.h:29
+#: ../mail/em-filter-i18n.h:19
 msgid "Expression"
 msgstr "詞句"
 
-#: ../mail/em-filter-i18n.h:30
+#: ../mail/em-filter-i18n.h:20
 msgid "Follow Up"
 msgstr "跟隨"
 
-#: ../mail/em-filter-i18n.h:31
+#: ../mail/em-filter-i18n.h:21
 msgid "Forward to"
 msgstr "轉寄至"
 
-#: ../mail/em-filter-i18n.h:32
-msgid "has words"
-msgstr "包含文字"
-
-#: ../mail/em-filter-i18n.h:33
+#: ../mail/em-filter-i18n.h:22
 msgid "Important"
 msgstr "重要"
 
-#: ../mail/em-filter-i18n.h:35
-msgid "is after"
-msgstr "是之後的"
-
-#: ../mail/em-filter-i18n.h:36
-msgid "is before"
-msgstr "是之前的"
-
-#: ../mail/em-filter-i18n.h:37
-msgid "is Flagged"
-msgstr "有標幟"
-
-#: ../mail/em-filter-i18n.h:41
-msgid "is not Flagged"
-msgstr "沒有標幟"
-
-#: ../mail/em-filter-i18n.h:42
-msgid "is not set"
-msgstr "未設定"
-
-#: ../mail/em-filter-i18n.h:43
-msgid "is set"
-msgstr "設定"
-
-#: ../mail/em-filter-i18n.h:44 ../mail/mail-config.ui.h:106
-msgid "Junk"
-msgstr "垃圾郵件"
-
-#: ../mail/em-filter-i18n.h:45
+#: ../mail/em-filter-i18n.h:23
 msgid "Junk Test"
 msgstr "垃圾郵件測試"
 
-#: ../mail/em-filter-i18n.h:46
+#: ../mail/em-filter-i18n.h:24 ../mail/mail-config.ui.h:106
+msgid "Junk"
+msgstr "垃圾郵件"
+
+#: ../mail/em-filter-i18n.h:25
 msgid "Label"
 msgstr "標籤"
 
-#: ../mail/em-filter-i18n.h:47
+#: ../mail/em-filter-i18n.h:26
 msgid "Mailing list"
 msgstr "郵件列表"
 
-#: ../mail/em-filter-i18n.h:48
+#: ../mail/em-filter-i18n.h:27
 msgid "Match All"
 msgstr "符合全部"
 
-#: ../mail/em-filter-i18n.h:49
+#: ../mail/em-filter-i18n.h:28
 msgid "Message Body"
 msgstr "郵件內容"
 
-#: ../mail/em-filter-i18n.h:50
+#: ../mail/em-filter-i18n.h:29
 msgid "Message Header"
 msgstr "郵件檔頭"
 
-#: ../mail/em-filter-i18n.h:51
-msgid "Message is Junk"
-msgstr "垃圾郵件"
-
-#: ../mail/em-filter-i18n.h:52
-msgid "Message is not Junk"
-msgstr "非垃圾郵件"
-
-#: ../mail/em-filter-i18n.h:53
+#: ../mail/em-filter-i18n.h:30
 msgid "Message Location"
 msgstr "郵件位置"
 
-#: ../mail/em-filter-i18n.h:55
+#: ../mail/em-filter-i18n.h:31
+msgid "Message is Junk"
+msgstr "垃圾郵件"
+
+#: ../mail/em-filter-i18n.h:32
+msgid "Message is not Junk"
+msgstr "非垃圾郵件"
+
+#: ../mail/em-filter-i18n.h:34
 msgid "Pipe to Program"
 msgstr "建立程式管道"
 
-#: ../mail/em-filter-i18n.h:56
+#: ../mail/em-filter-i18n.h:35
 msgid "Play Sound"
 msgstr "播放音效"
 
 #. Past tense, as in "has been read".
-#: ../mail/em-filter-i18n.h:57 ../mail/mail-dialogs.ui.h:14
+#: ../mail/em-filter-i18n.h:36 ../mail/mail-dialogs.ui.h:14
 msgid "Read"
 msgstr "已讀"
 
-#: ../mail/em-filter-i18n.h:58 ../mail/message-list.etspec.h:16
+#: ../mail/em-filter-i18n.h:37 ../mail/message-list.etspec.h:16
 msgid "Recipients"
 msgstr "收件者"
 
-#: ../mail/em-filter-i18n.h:59
+#: ../mail/em-filter-i18n.h:38
 msgid "Regex Match"
 msgstr "正規表示式相配"
 
-#: ../mail/em-filter-i18n.h:60
+#: ../mail/em-filter-i18n.h:39
 msgid "Replied to"
 msgstr "回覆"
 
-#: ../mail/em-filter-i18n.h:61
-msgid "returns"
-msgstr "傳回"
-
-#: ../mail/em-filter-i18n.h:62
-msgid "returns greater than"
-msgstr "傳回大於"
-
-#: ../mail/em-filter-i18n.h:63
-msgid "returns less than"
-msgstr "傳回小於"
-
-#: ../mail/em-filter-i18n.h:64
+#: ../mail/em-filter-i18n.h:40
 msgid "Run Program"
 msgstr "執行程式"
 
-#: ../mail/em-filter-i18n.h:65 ../mail/message-list.etspec.h:3
+#: ../mail/em-filter-i18n.h:41 ../mail/message-list.etspec.h:3
 msgid "Score"
 msgstr "分數"
 
-#: ../mail/em-filter-i18n.h:66 ../mail/message-list.etspec.h:15
-msgid "Sender"
-msgstr "寄件者"
-
-#: ../mail/em-filter-i18n.h:67
+#: ../mail/em-filter-i18n.h:42
 msgid "Sender or Recipients"
 msgstr "寄件者或收件者"
 
-#: ../mail/em-filter-i18n.h:68
+#: ../mail/em-filter-i18n.h:43 ../mail/message-list.etspec.h:15
+msgid "Sender"
+msgstr "寄件者"
+
+#: ../mail/em-filter-i18n.h:44
 msgid "Set Label"
 msgstr "設定標籤"
 
-#: ../mail/em-filter-i18n.h:69
+#: ../mail/em-filter-i18n.h:45
 msgid "Set Status"
 msgstr "設定狀態"
 
-#: ../mail/em-filter-i18n.h:70
+#: ../mail/em-filter-i18n.h:46
 msgid "Size (kB)"
 msgstr "大小 (kB)"
 
-#: ../mail/em-filter-i18n.h:71
-msgid "sounds like"
-msgstr "類似"
-
-#: ../mail/em-filter-i18n.h:72
+#: ../mail/em-filter-i18n.h:47
 msgid "Source Account"
 msgstr "來源帳號"
 
-#: ../mail/em-filter-i18n.h:73
+#: ../mail/em-filter-i18n.h:48
 msgid "Specific header"
 msgstr "指定檔頭"
 
-#: ../mail/em-filter-i18n.h:74
-msgid "starts with"
-msgstr "以此開始"
-
-#: ../mail/em-filter-i18n.h:76
+#: ../mail/em-filter-i18n.h:50
 msgid "Stop Processing"
 msgstr "停止處理"
 
-#: ../mail/em-filter-i18n.h:79
+#: ../mail/em-filter-i18n.h:53
 msgid "Unset Color"
 msgstr "取消設定顏色"
 
-#: ../mail/em-filter-i18n.h:80
+#: ../mail/em-filter-i18n.h:54
 msgid "Unset Status"
 msgstr "取消設定狀態"
+
+#: ../mail/em-filter-i18n.h:57
+msgid "does not end with"
+msgstr "不是以此結束"
+
+#: ../mail/em-filter-i18n.h:58
+msgid "does not exist"
+msgstr "不存在"
+
+#: ../mail/em-filter-i18n.h:59
+msgid "does not have words"
+msgstr "不包含文字"
+
+#: ../mail/em-filter-i18n.h:60
+msgid "does not return"
+msgstr "沒有傳回"
+
+#: ../mail/em-filter-i18n.h:61
+msgid "does not sound like"
+msgstr "不類似"
+
+#: ../mail/em-filter-i18n.h:62
+msgid "does not start with"
+msgstr "不是以此開始"
+
+#: ../mail/em-filter-i18n.h:63
+msgid "ends with"
+msgstr "以此終結"
+
+#: ../mail/em-filter-i18n.h:64
+msgid "exists"
+msgstr "存在"
+
+#: ../mail/em-filter-i18n.h:65
+msgid "has words"
+msgstr "包含文字"
+
+#: ../mail/em-filter-i18n.h:66
+msgid "is Flagged"
+msgstr "有標幟"
+
+#: ../mail/em-filter-i18n.h:67
+msgid "is after"
+msgstr "是之後的"
+
+#: ../mail/em-filter-i18n.h:68
+msgid "is before"
+msgstr "是之前的"
+
+#: ../mail/em-filter-i18n.h:71
+msgid "is not Flagged"
+msgstr "沒有標幟"
+
+#: ../mail/em-filter-i18n.h:72
+msgid "is not set"
+msgstr "未設定"
+
+#: ../mail/em-filter-i18n.h:74
+msgid "is set"
+msgstr "設定"
+
+#: ../mail/em-filter-i18n.h:76
+msgid "returns greater than"
+msgstr "傳回大於"
+
+#: ../mail/em-filter-i18n.h:77
+msgid "returns less than"
+msgstr "傳回小於"
+
+#: ../mail/em-filter-i18n.h:78
+msgid "returns"
+msgstr "傳回"
+
+#: ../mail/em-filter-i18n.h:79
+msgid "sounds like"
+msgstr "類似"
+
+#: ../mail/em-filter-i18n.h:80
+msgid "starts with"
+msgstr "以此開始"
 
 #. and now for the action area
 #: ../mail/em-filter-rule.c:585
@@ -13152,9 +13179,8 @@ msgid "Quota usage"
 msgstr "限制用量"
 
 #: ../mail/em-folder-properties.c:284
-#, fuzzy
 msgid "_Send Account Override:"
-msgstr "請啟用該帳號或使用其他帳號傳送。"
+msgstr "傳送帳號覆蓋(_S):"
 
 #: ../mail/em-folder-properties.c:413
 msgid "Folder Properties"
@@ -13182,31 +13208,31 @@ msgctxt "folder-display"
 msgid "%s (%u%s)"
 msgstr "%s (%u%s)"
 
-#: ../mail/em-folder-tree.c:1587
+#: ../mail/em-folder-tree.c:1599
 msgid "Mail Folder Tree"
 msgstr "郵件資料夾樹"
 
-#: ../mail/em-folder-tree.c:2135 ../mail/em-folder-utils.c:100
+#: ../mail/em-folder-tree.c:2147 ../mail/em-folder-utils.c:100
 #, c-format
 msgid "Moving folder %s"
 msgstr "正在移動資料夾 %s"
 
-#: ../mail/em-folder-tree.c:2138 ../mail/em-folder-utils.c:102
+#: ../mail/em-folder-tree.c:2150 ../mail/em-folder-utils.c:102
 #, c-format
 msgid "Copying folder %s"
 msgstr "正在複製資料夾 %s"
 
-#: ../mail/em-folder-tree.c:2145 ../mail/message-list.c:2268
+#: ../mail/em-folder-tree.c:2157 ../mail/message-list.c:2268
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "正在將郵件移至資料夾 %s"
 
-#: ../mail/em-folder-tree.c:2149 ../mail/message-list.c:2270
+#: ../mail/em-folder-tree.c:2161 ../mail/message-list.c:2270
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "正在複製郵件至資料夾 %s"
 
-#: ../mail/em-folder-tree.c:2168
+#: ../mail/em-folder-tree.c:2180
 #, c-format
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "無法將郵件拖放到最上層的儲存區"
@@ -13422,19 +13448,19 @@ msgstr "Berkeley 郵件信箱 (mbox)"
 msgid "Importer Berkeley Mailbox format folders"
 msgstr "匯入 Berkeley 郵件信箱格式資料夾"
 
-#: ../mail/importers/mail-importer.c:55
+#: ../mail/importers/mail-importer.c:54
 msgid "Importing mailbox"
 msgstr "正在匯入信箱"
 
 #. Destination folder, was set in our widget
-#: ../mail/importers/mail-importer.c:145
+#: ../mail/importers/mail-importer.c:144
 #: ../plugins/dbx-import/dbx-importer.c:609
 #: ../plugins/pst-import/pst-importer.c:760
 #, c-format
 msgid "Importing '%s'"
 msgstr "正在匯入「%s」"
 
-#: ../mail/importers/mail-importer.c:310
+#: ../mail/importers/mail-importer.c:309
 #, c-format
 msgid "Scanning %s"
 msgstr "掃描 %s"
@@ -13696,29 +13722,25 @@ msgid " Account "
 msgstr "帳號"
 
 #: ../mail/mail-config.ui.h:55
-#, fuzzy
 msgid "Send account overrides"
-msgstr "請啟用該帳號或使用其他帳號傳送。"
+msgstr "傳送帳號覆蓋"
 
 #: ../mail/mail-config.ui.h:56
-#, fuzzy
 msgid ""
 "Assign which account should be used as a send account for respective folders "
 "or recipients, an override for usual send account detection. List of "
 "recipients can contain partial addresses or names. The name and the address "
 "parts are compared separately."
-msgstr "重新整理這個帳號的資料夾清單"
+msgstr "指派哪個帳號要用來做個別資料夾或收件者的傳送帳號，會覆蓋通常傳送帳號的偵測。收件者清單可以包含部分的位址或名稱。名稱與位址的部分會分別比對。"
 
 #: ../mail/mail-config.ui.h:57
-#, fuzzy
 msgid "Folder override has precedence over Recipient override"
-msgstr "視窗覆寫重新導向"
+msgstr "資料夾覆蓋先於收件者覆蓋"
 
 #: ../mail/mail-config.ui.h:58
-#, fuzzy
 #| msgid "Source Account"
 msgid "Send Account"
-msgstr "請啟用該帳號或使用其他帳號傳送。"
+msgstr "傳送帳號"
 
 #: ../mail/mail-config.ui.h:64 ../smime/gui/smime-ui.ui.h:1
 msgid "a"
@@ -14754,13 +14776,13 @@ msgstr "高"
 msgid "Highest"
 msgstr "最高"
 
-#: ../mail/message-list.c:455 ../mail/message-list.c:5705
+#: ../mail/message-list.c:455 ../mail/message-list.c:5716
 msgid "Generating message list"
 msgstr "產生郵件清單"
 
 #. strftime format of a time,
 #. * in 12-hour format, without seconds.
-#: ../mail/message-list.c:1846 ../modules/itip-formatter/itip-view.c:239
+#: ../mail/message-list.c:1846 ../modules/itip-formatter/itip-view.c:237
 msgid "Today %l:%M %p"
 msgstr "今天 %p %l:%M"
 
@@ -14789,11 +14811,11 @@ msgid "Messages"
 msgstr "郵件"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../mail/message-list.c:4749
+#: ../mail/message-list.c:4759
 msgid "Follow-up"
 msgstr "跟隨"
 
-#: ../mail/message-list.c:5643
+#: ../mail/message-list.c:5654
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -14801,7 +14823,7 @@ msgid ""
 "by changing the query above."
 msgstr "沒有郵件滿足你的搜尋條件。請從上列下拉式選單選擇顯示郵件過濾器或執行新的搜尋，可從 搜尋->清除 選單項目清除它或改變上面的查詢。"
 
-#: ../mail/message-list.c:5651
+#: ../mail/message-list.c:5662
 msgid "There are no messages in this folder."
 msgstr "這個資料夾中沒有郵件。"
 
@@ -15582,28 +15604,28 @@ msgstr "網址:"
 msgid "Avoid IfMatch (needed on Apache < 2.2.8)"
 msgstr "避免 IfMatch (需使用 Apache < 2.2.8)"
 
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:442
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:441
 #, c-format
 msgid "HTTP Error: %s"
 msgstr "HTTP 錯誤： %s"
 
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:470
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:469
 msgid "Could not parse response"
 msgstr "無法解析回應"
 
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:479
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:478
 msgid "Empty response"
 msgstr "空白的回應"
 
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:487
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:486
 msgid "Unexpected reply from server"
 msgstr "來自伺服器未預期的回應"
 
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:1119
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:1118
 msgid "Could not locate user's calendars"
 msgstr "無法定位使用者行事曆"
 
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:1343
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:1342
 msgid "Path"
 msgstr "路徑"
 
@@ -15681,24 +15703,37 @@ msgstr "檔案："
 msgid "Allow Evolution to update the file"
 msgstr "允許 Evolution 更新檔案"
 
+#. Translators: Translate to the default units to use for presenting
+#. * temperature units to the user. The value can be only "default:inch"
+#. * or "default:mm", any other value is treated as "default:mm" (quotes
+#. * for clarity only). Note the value is used only if the system this
+#. * is running on doesn't provide other ways for figuring out temperature
+#. * units for the current locale.
+#.
+#: ../modules/cal-config-weather/evolution-cal-config-weather.c:188
+#| msgid "Default"
+msgctxt "locale-metric"
+msgid "default:mm"
+msgstr "預設值：mm"
+
 #. Translators: This is the temperature in degrees
 #. * Fahrenheit. (\302\260 is U+00B0 DEGREE SIGN)
-#: ../modules/cal-config-weather/evolution-cal-config-weather.c:250
+#: ../modules/cal-config-weather/evolution-cal-config-weather.c:260
 msgid "Fahrenheit (°F)"
 msgstr "華氏 (°F)"
 
 #. Translators: This is the temperature in degrees
 #. * Celsius. (\302\260 is U+00B0 DEGREE SIGN)
-#: ../modules/cal-config-weather/evolution-cal-config-weather.c:255
+#: ../modules/cal-config-weather/evolution-cal-config-weather.c:265
 msgid "Centigrade (°C)"
 msgstr "攝氏 (°C)"
 
 #. Translators: This is the temperature in kelvin.
-#: ../modules/cal-config-weather/evolution-cal-config-weather.c:259
+#: ../modules/cal-config-weather/evolution-cal-config-weather.c:269
 msgid "Kelvin (K)"
 msgstr "絕對溫度 (K)"
 
-#: ../modules/cal-config-weather/evolution-cal-config-weather.c:261
+#: ../modules/cal-config-weather/evolution-cal-config-weather.c:271
 msgid "Units:"
 msgstr "單位："
 
@@ -16739,662 +16774,662 @@ msgstr "將部分顯示為邀請"
 
 #. strftime format of a time,
 #. * in 24-hour format, without seconds.
-#: ../modules/itip-formatter/itip-view.c:230
+#: ../modules/itip-formatter/itip-view.c:228
 msgid "Today %H:%M"
 msgstr "今天 %H:%M"
 
 #. strftime format of a time,
 #. * in 24-hour format.
-#: ../modules/itip-formatter/itip-view.c:234
+#: ../modules/itip-formatter/itip-view.c:232
 msgid "Today %H:%M:%S"
 msgstr "今天 %H:%M:%S"
 
 #. strftime format of a time,
 #. * in 12-hour format.
-#: ../modules/itip-formatter/itip-view.c:243
+#: ../modules/itip-formatter/itip-view.c:241
 msgid "Today %l:%M:%S %p"
 msgstr "今天 %p %l:%M:%S"
 
 #. strftime format of a time,
 #. * in 24-hour format, without seconds.
-#: ../modules/itip-formatter/itip-view.c:258
+#: ../modules/itip-formatter/itip-view.c:256
 msgid "Tomorrow %H:%M"
 msgstr "明天 %H:%M"
 
 #. strftime format of a time,
 #. * in 24-hour format.
-#: ../modules/itip-formatter/itip-view.c:262
+#: ../modules/itip-formatter/itip-view.c:260
 msgid "Tomorrow %H:%M:%S"
 msgstr "明天 %H:%M:%S"
 
 #. strftime format of a time,
 #. * in 12-hour format, without seconds.
-#: ../modules/itip-formatter/itip-view.c:267
+#: ../modules/itip-formatter/itip-view.c:265
 msgid "Tomorrow %l:%M %p"
 msgstr "明天 %p %l:%M"
 
 #. strftime format of a time,
 #. * in 12-hour format.
-#: ../modules/itip-formatter/itip-view.c:271
+#: ../modules/itip-formatter/itip-view.c:269
 msgid "Tomorrow %l:%M:%S %p"
 msgstr "明天 %p %l:%M:%S"
 
 #. strftime format of a weekday.
-#: ../modules/itip-formatter/itip-view.c:290
+#: ../modules/itip-formatter/itip-view.c:288
 #, c-format
 msgid "%A"
 msgstr "%A"
 
 #. strftime format of a weekday and a
 #. * time, in 24-hour format, without seconds.
-#: ../modules/itip-formatter/itip-view.c:295
+#: ../modules/itip-formatter/itip-view.c:293
 msgid "%A %H:%M"
 msgstr "%A %H:%M"
 
 #. strftime format of a weekday and a
 #. * time, in 24-hour format.
-#: ../modules/itip-formatter/itip-view.c:299
+#: ../modules/itip-formatter/itip-view.c:297
 msgid "%A %H:%M:%S"
 msgstr "%A %H:%M:%S"
 
 #. strftime format of a weekday and a
 #. * time, in 12-hour format, without seconds.
-#: ../modules/itip-formatter/itip-view.c:304
+#: ../modules/itip-formatter/itip-view.c:302
 msgid "%A %l:%M %p"
 msgstr "%A %p %l:%M"
 
 #. strftime format of a weekday and a
 #. * time, in 12-hour format.
-#: ../modules/itip-formatter/itip-view.c:308
+#: ../modules/itip-formatter/itip-view.c:306
 msgid "%A %l:%M:%S %p"
 msgstr "%A %p %l:%M:%S"
 
 #. strftime format of a weekday and a date
 #. * without a year.
-#: ../modules/itip-formatter/itip-view.c:317
+#: ../modules/itip-formatter/itip-view.c:315
 msgid "%A, %B %e"
 msgstr "%b%e日%A"
 
 #. strftime format of a weekday, a date
 #. * without a year and a time,
 #. * in 24-hour format, without seconds.
-#: ../modules/itip-formatter/itip-view.c:323
+#: ../modules/itip-formatter/itip-view.c:321
 msgid "%A, %B %e %H:%M"
 msgstr "%b%e日%A %H:%M"
 
 #. strftime format of a weekday, a date without a year
 #. * and a time, in 24-hour format.
-#: ../modules/itip-formatter/itip-view.c:327
+#: ../modules/itip-formatter/itip-view.c:325
 msgid "%A, %B %e %H:%M:%S"
 msgstr "%b%e日%A %H:%M:%S"
 
 #. strftime format of a weekday, a date without a year
 #. * and a time, in 12-hour format, without seconds.
-#: ../modules/itip-formatter/itip-view.c:332
+#: ../modules/itip-formatter/itip-view.c:330
 msgid "%A, %B %e %l:%M %p"
 msgstr "%b%e日%A %p %l:%M"
 
 #. strftime format of a weekday, a date without a year
 #. * and a time, in 12-hour format.
-#: ../modules/itip-formatter/itip-view.c:336
+#: ../modules/itip-formatter/itip-view.c:334
 msgid "%A, %B %e %l:%M:%S %p"
 msgstr "%b%e日%A %p %l:%M:%S"
 
 #. strftime format of a weekday and a date.
-#: ../modules/itip-formatter/itip-view.c:342
+#: ../modules/itip-formatter/itip-view.c:340
 msgid "%A, %B %e, %Y"
 msgstr "%Y年%b%e日%A"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 24-hour format, without seconds.
-#: ../modules/itip-formatter/itip-view.c:347
+#: ../modules/itip-formatter/itip-view.c:345
 msgid "%A, %B %e, %Y %H:%M"
 msgstr "%Y年%b%e日%A %H:%M"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 24-hour format.
-#: ../modules/itip-formatter/itip-view.c:351
+#: ../modules/itip-formatter/itip-view.c:349
 msgid "%A, %B %e, %Y %H:%M:%S"
 msgstr "%Y年%b%e日%A %H:%M:%S"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 12-hour format, without seconds.
-#: ../modules/itip-formatter/itip-view.c:356
+#: ../modules/itip-formatter/itip-view.c:354
 msgid "%A, %B %e, %Y %l:%M %p"
 msgstr "%Y年%b%e日%A %p %l:%M"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 12-hour format.
-#: ../modules/itip-formatter/itip-view.c:360
+#: ../modules/itip-formatter/itip-view.c:358
 msgid "%A, %B %e, %Y %l:%M:%S %p"
 msgstr "%Y年%b%e日%A %p %l:%M:%S"
 
-#: ../modules/itip-formatter/itip-view.c:398
-#: ../modules/itip-formatter/itip-view.c:399
-#: ../modules/itip-formatter/itip-view.c:488
-#: ../modules/itip-formatter/itip-view.c:489
-#: ../modules/itip-formatter/itip-view.c:578
+#: ../modules/itip-formatter/itip-view.c:396
+#: ../modules/itip-formatter/itip-view.c:397
+#: ../modules/itip-formatter/itip-view.c:486
+#: ../modules/itip-formatter/itip-view.c:487
+#: ../modules/itip-formatter/itip-view.c:576
 msgid "An unknown person"
 msgstr "不明人士"
+
+#: ../modules/itip-formatter/itip-view.c:401
+#: ../modules/itip-formatter/itip-view.c:491
+#: ../modules/itip-formatter/itip-view.c:580
+#, c-format
+msgid "Please respond on behalf of %s"
+msgstr "請代表 %s 回覆"
 
 #: ../modules/itip-formatter/itip-view.c:403
 #: ../modules/itip-formatter/itip-view.c:493
 #: ../modules/itip-formatter/itip-view.c:582
 #, c-format
-msgid "Please respond on behalf of %s"
-msgstr "請代表 %s 回覆"
-
-#: ../modules/itip-formatter/itip-view.c:405
-#: ../modules/itip-formatter/itip-view.c:495
-#: ../modules/itip-formatter/itip-view.c:584
-#, c-format
 msgid "Received on behalf of %s"
 msgstr "代表 %s 接收"
 
-#: ../modules/itip-formatter/itip-view.c:410
+#: ../modules/itip-formatter/itip-view.c:408
 #, c-format
 msgid "%s through %s has published the following meeting information:"
 msgstr "%s 透過 %s 已經發布下列會議資訊："
 
-#: ../modules/itip-formatter/itip-view.c:412
+#: ../modules/itip-formatter/itip-view.c:410
 #, c-format
 msgid "%s has published the following meeting information:"
 msgstr "%s 已經發布下列會議資訊："
 
-#: ../modules/itip-formatter/itip-view.c:417
+#: ../modules/itip-formatter/itip-view.c:415
 #, c-format
 msgid "%s has delegated the following meeting to you:"
 msgstr "%s 已經委派下列會議給你："
 
-#: ../modules/itip-formatter/itip-view.c:420
+#: ../modules/itip-formatter/itip-view.c:418
 #, c-format
 msgid "%s through %s requests your presence at the following meeting:"
 msgstr "%s 透過 %s 邀請你出席下列會議："
 
-#: ../modules/itip-formatter/itip-view.c:422
+#: ../modules/itip-formatter/itip-view.c:420
 #, c-format
 msgid "%s requests your presence at the following meeting:"
 msgstr "%s 邀請你出席下列會議："
 
-#: ../modules/itip-formatter/itip-view.c:428
+#: ../modules/itip-formatter/itip-view.c:426
 #, c-format
 msgid "%s through %s wishes to add to an existing meeting:"
 msgstr "%s 透過 %s 希望加入一個既存的會議："
 
-#: ../modules/itip-formatter/itip-view.c:430
+#: ../modules/itip-formatter/itip-view.c:428
 #, c-format
 msgid "%s wishes to add to an existing meeting:"
 msgstr "%s 希望加入一個既存的會議："
 
-#: ../modules/itip-formatter/itip-view.c:434
+#: ../modules/itip-formatter/itip-view.c:432
 #, c-format
 msgid ""
 "%s through %s wishes to receive the latest information for the following "
 "meeting:"
 msgstr "%s 透過 %s 希望收到下列會議的最新資訊："
 
-#: ../modules/itip-formatter/itip-view.c:436
+#: ../modules/itip-formatter/itip-view.c:434
 #, c-format
 msgid "%s wishes to receive the latest information for the following meeting:"
 msgstr "%s 希望收到下列會議的最新資訊："
 
-#: ../modules/itip-formatter/itip-view.c:440
+#: ../modules/itip-formatter/itip-view.c:438
 #, c-format
 msgid "%s through %s has sent back the following meeting response:"
 msgstr "%s 透過 %s 傳送了下列會議的回覆："
 
-#: ../modules/itip-formatter/itip-view.c:442
+#: ../modules/itip-formatter/itip-view.c:440
 #, c-format
 msgid "%s has sent back the following meeting response:"
 msgstr "%s 傳送了下列會議的回覆："
 
-#: ../modules/itip-formatter/itip-view.c:446
+#: ../modules/itip-formatter/itip-view.c:444
 #, c-format
 msgid "%s through %s has canceled the following meeting:"
 msgstr "%s 透過 %s 已經消取下列會議："
 
-#: ../modules/itip-formatter/itip-view.c:448
+#: ../modules/itip-formatter/itip-view.c:446
 #, c-format
 msgid "%s has canceled the following meeting:"
 msgstr "%s 已經消取下列會議："
 
-#: ../modules/itip-formatter/itip-view.c:452
+#: ../modules/itip-formatter/itip-view.c:450
 #, c-format
 msgid "%s through %s has proposed the following meeting changes."
 msgstr "%s 透過 %s 已經答覆了下列會議更改。"
 
-#: ../modules/itip-formatter/itip-view.c:454
+#: ../modules/itip-formatter/itip-view.c:452
 #, c-format
 msgid "%s has proposed the following meeting changes:"
 msgstr "%s 已經答覆了下列會議更改："
 
-#: ../modules/itip-formatter/itip-view.c:458
+#: ../modules/itip-formatter/itip-view.c:456
 #, c-format
 msgid "%s through %s has declined the following meeting changes:"
 msgstr "%s 透過 %s 已經婉拒了下列會議更改："
 
-#: ../modules/itip-formatter/itip-view.c:460
+#: ../modules/itip-formatter/itip-view.c:458
 #, c-format
 msgid "%s has declined the following meeting changes:"
 msgstr "%s 已經婉拒了下列會議更改："
 
-#: ../modules/itip-formatter/itip-view.c:500
+#: ../modules/itip-formatter/itip-view.c:498
 #, c-format
 msgid "%s through %s has published the following task:"
 msgstr "%s 透過 %s 已經發布了下列工作資訊："
 
-#: ../modules/itip-formatter/itip-view.c:502
+#: ../modules/itip-formatter/itip-view.c:500
 #, c-format
 msgid "%s has published the following task:"
 msgstr "%s 已經發布了下列工作："
 
-#: ../modules/itip-formatter/itip-view.c:507
+#: ../modules/itip-formatter/itip-view.c:505
 #, c-format
 msgid "%s requests the assignment of %s to the following task:"
 msgstr "%s 指派 %s 加入下列工作："
 
-#: ../modules/itip-formatter/itip-view.c:510
+#: ../modules/itip-formatter/itip-view.c:508
 #, c-format
 msgid "%s through %s has assigned you a task:"
 msgstr "%s 透過 %s 已經指派你一項工作："
 
-#: ../modules/itip-formatter/itip-view.c:512
+#: ../modules/itip-formatter/itip-view.c:510
 #, c-format
 msgid "%s has assigned you a task:"
 msgstr "%s 已經指派你一項工作："
 
-#: ../modules/itip-formatter/itip-view.c:518
+#: ../modules/itip-formatter/itip-view.c:516
 #, c-format
 msgid "%s through %s wishes to add to an existing task:"
 msgstr "%s 透過 %s 希望加入一項既存的工作："
 
-#: ../modules/itip-formatter/itip-view.c:520
+#: ../modules/itip-formatter/itip-view.c:518
 #, c-format
 msgid "%s wishes to add to an existing task:"
 msgstr "%s 希望加入一項既存的工作："
 
-#: ../modules/itip-formatter/itip-view.c:524
+#: ../modules/itip-formatter/itip-view.c:522
 #, c-format
 msgid ""
 "%s through %s wishes to receive the latest information for the following "
 "assigned task:"
 msgstr "%s 透過 %s 希望收到下列指派工作的最新資訊："
 
-#: ../modules/itip-formatter/itip-view.c:526
+#: ../modules/itip-formatter/itip-view.c:524
 #, c-format
 msgid ""
 "%s wishes to receive the latest information for the following assigned task:"
 msgstr "%s 希望收到下列指派工作的最新資訊："
 
-#: ../modules/itip-formatter/itip-view.c:530
+#: ../modules/itip-formatter/itip-view.c:528
 #, c-format
 msgid "%s through %s has sent back the following assigned task response:"
 msgstr "%s 透過 %s 傳送了下列指派工作的回覆："
 
-#: ../modules/itip-formatter/itip-view.c:532
+#: ../modules/itip-formatter/itip-view.c:530
 #, c-format
 msgid "%s has sent back the following assigned task response:"
 msgstr "%s 傳送了下列指派工作的回覆："
 
-#: ../modules/itip-formatter/itip-view.c:536
+#: ../modules/itip-formatter/itip-view.c:534
 #, c-format
 msgid "%s through %s has canceled the following assigned task:"
 msgstr "%s 透過 %s 已經取消下列指派的工作："
 
-#: ../modules/itip-formatter/itip-view.c:538
+#: ../modules/itip-formatter/itip-view.c:536
 #, c-format
 msgid "%s has canceled the following assigned task:"
 msgstr "%s 已經取消下列指派的工作："
 
-#: ../modules/itip-formatter/itip-view.c:542
+#: ../modules/itip-formatter/itip-view.c:540
 #, c-format
 msgid "%s through %s has proposed the following task assignment changes:"
 msgstr "%s 透過 %s 已經回覆下列指派工作的更改："
 
-#: ../modules/itip-formatter/itip-view.c:544
+#: ../modules/itip-formatter/itip-view.c:542
 #, c-format
 msgid "%s has proposed the following task assignment changes:"
 msgstr "%s 已經回覆下列指派工作的更改："
 
-#: ../modules/itip-formatter/itip-view.c:548
+#: ../modules/itip-formatter/itip-view.c:546
 #, c-format
 msgid "%s through %s has declined the following assigned task:"
 msgstr "%s 透過 %s 已婉拒了下列指派的工作："
 
-#: ../modules/itip-formatter/itip-view.c:550
+#: ../modules/itip-formatter/itip-view.c:548
 #, c-format
 msgid "%s has declined the following assigned task:"
 msgstr "%s 已經婉拒下列指派的工作："
 
-#: ../modules/itip-formatter/itip-view.c:589
+#: ../modules/itip-formatter/itip-view.c:587
 #, c-format
 msgid "%s through %s has published the following memo:"
 msgstr "%s 透過 %s 已經發布了下列備忘錄："
 
-#: ../modules/itip-formatter/itip-view.c:591
+#: ../modules/itip-formatter/itip-view.c:589
 #, c-format
 msgid "%s has published the following memo:"
 msgstr "%s 已經發布了備忘錄："
 
-#: ../modules/itip-formatter/itip-view.c:596
+#: ../modules/itip-formatter/itip-view.c:594
 #, c-format
 msgid "%s through %s wishes to add to an existing memo:"
 msgstr "%s 透過 %s 希望加入一個既存的備忘錄："
 
-#: ../modules/itip-formatter/itip-view.c:598
+#: ../modules/itip-formatter/itip-view.c:596
 #, c-format
 msgid "%s wishes to add to an existing memo:"
 msgstr "%s 希望加入一個既存的備忘錄："
 
-#: ../modules/itip-formatter/itip-view.c:602
+#: ../modules/itip-formatter/itip-view.c:600
 #, c-format
 msgid "%s through %s has canceled the following shared memo:"
 msgstr "%s 透過 %s 已經消取下列共用備忘錄："
 
-#: ../modules/itip-formatter/itip-view.c:604
+#: ../modules/itip-formatter/itip-view.c:602
 #, c-format
 msgid "%s has canceled the following shared memo:"
 msgstr "%s 已經取消下列共用備忘錄："
 
-#: ../modules/itip-formatter/itip-view.c:677
+#: ../modules/itip-formatter/itip-view.c:675
 msgid "All day:"
 msgstr "整天："
 
-#: ../modules/itip-formatter/itip-view.c:683
+#: ../modules/itip-formatter/itip-view.c:681
 msgid "Start day:"
 msgstr "開始日："
 
-#: ../modules/itip-formatter/itip-view.c:683
-#: ../modules/itip-formatter/itip-view.c:1497
+#: ../modules/itip-formatter/itip-view.c:681
+#: ../modules/itip-formatter/itip-view.c:1495
 msgid "Start time:"
 msgstr "開始時間:"
 
-#: ../modules/itip-formatter/itip-view.c:692
+#: ../modules/itip-formatter/itip-view.c:690
 msgid "End day:"
 msgstr "結束日："
 
-#: ../modules/itip-formatter/itip-view.c:692
-#: ../modules/itip-formatter/itip-view.c:1498
+#: ../modules/itip-formatter/itip-view.c:690
+#: ../modules/itip-formatter/itip-view.c:1496
 msgid "End time:"
 msgstr "結束時間:"
 
-#: ../modules/itip-formatter/itip-view.c:1023
+#: ../modules/itip-formatter/itip-view.c:1021
 msgid "Ope_n Calendar"
 msgstr "開啟行事曆(_N)"
 
-#: ../modules/itip-formatter/itip-view.c:1026
+#: ../modules/itip-formatter/itip-view.c:1024
 msgid "_Decline all"
 msgstr "全部拒絕(_D)"
 
-#: ../modules/itip-formatter/itip-view.c:1029
+#: ../modules/itip-formatter/itip-view.c:1027
 msgid "_Decline"
 msgstr "拒絕(_D)"
 
-#: ../modules/itip-formatter/itip-view.c:1032
+#: ../modules/itip-formatter/itip-view.c:1030
 msgid "_Tentative all"
 msgstr "全部暫訂(_T)"
 
-#: ../modules/itip-formatter/itip-view.c:1035
+#: ../modules/itip-formatter/itip-view.c:1033
 msgid "_Tentative"
 msgstr "暫訂(_T)"
 
-#: ../modules/itip-formatter/itip-view.c:1038
+#: ../modules/itip-formatter/itip-view.c:1036
 msgid "Acce_pt all"
 msgstr "全部接受(_P)"
 
-#: ../modules/itip-formatter/itip-view.c:1041
+#: ../modules/itip-formatter/itip-view.c:1039
 msgid "Acce_pt"
 msgstr "接受(_P)"
 
-#: ../modules/itip-formatter/itip-view.c:1044
+#: ../modules/itip-formatter/itip-view.c:1042
 msgid "Send _Information"
 msgstr "傳送資訊(_I)"
 
-#: ../modules/itip-formatter/itip-view.c:1047
+#: ../modules/itip-formatter/itip-view.c:1045
 msgid "_Update Attendee Status"
 msgstr "更新出席狀態(_U)"
 
-#: ../modules/itip-formatter/itip-view.c:1050
+#: ../modules/itip-formatter/itip-view.c:1048
 msgid "_Update"
 msgstr "更新(_U)"
 
-#: ../modules/itip-formatter/itip-view.c:1500
-#: ../modules/itip-formatter/itip-view.c:1548
-#: ../modules/itip-formatter/itip-view.c:1619
+#: ../modules/itip-formatter/itip-view.c:1498
+#: ../modules/itip-formatter/itip-view.c:1546
+#: ../modules/itip-formatter/itip-view.c:1617
 msgid "Comment:"
 msgstr "註解:"
 
 #. RSVP area
-#: ../modules/itip-formatter/itip-view.c:1536
+#: ../modules/itip-formatter/itip-view.c:1534
 msgid "Send reply to sender"
 msgstr "回覆寄件者"
 
 #. Updates
-#: ../modules/itip-formatter/itip-view.c:1551
+#: ../modules/itip-formatter/itip-view.c:1549
 msgid "Send _updates to attendees"
 msgstr "傳送更新給到會者(_U)"
 
 #. The recurrence check button
-#: ../modules/itip-formatter/itip-view.c:1554
+#: ../modules/itip-formatter/itip-view.c:1552
 msgid "_Apply to all instances"
 msgstr "套用至所有實體(_A)"
 
-#: ../modules/itip-formatter/itip-view.c:1555
+#: ../modules/itip-formatter/itip-view.c:1553
 msgid "Show time as _free"
 msgstr "顯示時間為空閒(_F)"
 
-#: ../modules/itip-formatter/itip-view.c:1556
+#: ../modules/itip-formatter/itip-view.c:1554
 msgid "_Preserve my reminder"
 msgstr "保留我的提醒(_P)"
 
-#: ../modules/itip-formatter/itip-view.c:1557
+#: ../modules/itip-formatter/itip-view.c:1555
 msgid "_Inherit reminder"
 msgstr "繼承提醒(_I)"
 
-#: ../modules/itip-formatter/itip-view.c:1887
+#: ../modules/itip-formatter/itip-view.c:1885
 msgid "_Tasks:"
 msgstr "工作(_T):"
 
-#: ../modules/itip-formatter/itip-view.c:1890
+#: ../modules/itip-formatter/itip-view.c:1888
 msgid "_Memos:"
 msgstr "備忘錄(_M):"
 
-#: ../modules/itip-formatter/itip-view.c:3118
+#: ../modules/itip-formatter/itip-view.c:3116
 msgid "Sa_ve"
 msgstr "儲存(_V)"
 
-#: ../modules/itip-formatter/itip-view.c:3578
-#: ../modules/itip-formatter/itip-view.c:5025
+#: ../modules/itip-formatter/itip-view.c:3576
+#: ../modules/itip-formatter/itip-view.c:5023
 msgid "Attendee status updated"
 msgstr "到會者狀態已更新"
 
-#: ../modules/itip-formatter/itip-view.c:3757
+#: ../modules/itip-formatter/itip-view.c:3755
 #, c-format
 msgid "An appointment in the calendar '%s' conflicts with this meeting"
 msgstr "行事曆 '%s' 中的約會和這個會議相衝突"
 
-#: ../modules/itip-formatter/itip-view.c:3786
+#: ../modules/itip-formatter/itip-view.c:3784
 #, c-format
 msgid "Found the appointment in the calendar '%s'"
 msgstr "尋找在行事曆「%s」中的約會"
 
-#: ../modules/itip-formatter/itip-view.c:3899
+#: ../modules/itip-formatter/itip-view.c:3897
 msgid "Unable to find any calendars"
 msgstr "找不到任何行事曆"
 
-#: ../modules/itip-formatter/itip-view.c:3907
+#: ../modules/itip-formatter/itip-view.c:3905
 msgid "Unable to find this meeting in any calendar"
 msgstr "無法在任何行事曆中找到這個約會"
 
-#: ../modules/itip-formatter/itip-view.c:3912
+#: ../modules/itip-formatter/itip-view.c:3910
 msgid "Unable to find this task in any task list"
 msgstr "無法在任何工作清單中找到這項工作"
 
-#: ../modules/itip-formatter/itip-view.c:3917
+#: ../modules/itip-formatter/itip-view.c:3915
 msgid "Unable to find this memo in any memo list"
 msgstr "無法在任何備忘錄清單中找到這項備忘錄"
 
-#: ../modules/itip-formatter/itip-view.c:4261
+#: ../modules/itip-formatter/itip-view.c:4259
 msgid "Opening the calendar. Please wait..."
 msgstr "正在開啟行事曆。請稍候…"
 
-#: ../modules/itip-formatter/itip-view.c:4266
+#: ../modules/itip-formatter/itip-view.c:4264
 msgid "Searching for an existing version of this appointment"
 msgstr "尋找這個約會既存的版本"
 
-#: ../modules/itip-formatter/itip-view.c:4661
+#: ../modules/itip-formatter/itip-view.c:4659
 #, c-format
 msgid "Unable to send item to calendar '%s'.  %s"
 msgstr "無法傳送項目至行事曆「%s」。%s"
 
-#: ../modules/itip-formatter/itip-view.c:4676
+#: ../modules/itip-formatter/itip-view.c:4674
 #, c-format
 msgid "Sent to calendar '%s' as accepted"
 msgstr "傳送至行事曆 '%s' 並設為已接受"
 
-#: ../modules/itip-formatter/itip-view.c:4681
+#: ../modules/itip-formatter/itip-view.c:4679
 #, c-format
 msgid "Sent to calendar '%s' as tentative"
 msgstr "傳送至行事曆 '%s' 並設為不確定的"
 
-#: ../modules/itip-formatter/itip-view.c:4687
+#: ../modules/itip-formatter/itip-view.c:4685
 #, c-format
 msgid "Sent to calendar '%s' as declined"
 msgstr "傳送至行事曆 '%s' 並設為已婉拒"
 
-#: ../modules/itip-formatter/itip-view.c:4693
+#: ../modules/itip-formatter/itip-view.c:4691
 #, c-format
 msgid "Sent to calendar '%s' as canceled"
 msgstr "傳送至行事曆「%s」並設為已取消"
 
-#: ../modules/itip-formatter/itip-view.c:4714
-#: ../modules/itip-formatter/itip-view.c:5171
-#: ../modules/itip-formatter/itip-view.c:5277
+#: ../modules/itip-formatter/itip-view.c:4712
+#: ../modules/itip-formatter/itip-view.c:5169
+#: ../modules/itip-formatter/itip-view.c:5275
 msgid "Saving changes to the calendar. Please wait..."
 msgstr "正在將更改儲存到行事曆。請稍候…"
 
-#: ../modules/itip-formatter/itip-view.c:4755
+#: ../modules/itip-formatter/itip-view.c:4753
 msgid "Unable to parse item"
 msgstr "無法分析項目"
 
-#: ../modules/itip-formatter/itip-view.c:4948
+#: ../modules/itip-formatter/itip-view.c:4946
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "會議召集人已移除代理人 %s"
 
-#: ../modules/itip-formatter/itip-view.c:4965
+#: ../modules/itip-formatter/itip-view.c:4963
 msgid "Sent a cancelation notice to the delegate"
 msgstr "傳送取消通知給代理人"
 
-#: ../modules/itip-formatter/itip-view.c:4969
+#: ../modules/itip-formatter/itip-view.c:4967
 msgid "Could not send the cancelation notice to the delegate"
 msgstr "無法傳送取消通知給代理人"
 
-#: ../modules/itip-formatter/itip-view.c:5017
+#: ../modules/itip-formatter/itip-view.c:5015
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "無法更新到會者。%s"
 
-#: ../modules/itip-formatter/itip-view.c:5060
+#: ../modules/itip-formatter/itip-view.c:5058
 msgid "The meeting is invalid and cannot be updated"
 msgstr "這個會議無效並且不能更新"
 
-#: ../modules/itip-formatter/itip-view.c:5136
+#: ../modules/itip-formatter/itip-view.c:5134
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr "由於不合法的狀態使得到會者狀態無法更新！"
 
-#: ../modules/itip-formatter/itip-view.c:5208
-#: ../modules/itip-formatter/itip-view.c:5247
+#: ../modules/itip-formatter/itip-view.c:5206
+#: ../modules/itip-formatter/itip-view.c:5245
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr "到會者狀態不能更新，因為項目已經不存在"
 
-#: ../modules/itip-formatter/itip-view.c:5310
+#: ../modules/itip-formatter/itip-view.c:5308
 msgid "Meeting information sent"
 msgstr "會議資訊寄出"
 
-#: ../modules/itip-formatter/itip-view.c:5315
+#: ../modules/itip-formatter/itip-view.c:5313
 msgid "Task information sent"
 msgstr "工作資訊寄出"
 
-#: ../modules/itip-formatter/itip-view.c:5320
+#: ../modules/itip-formatter/itip-view.c:5318
 msgid "Memo information sent"
 msgstr "備忘錄資訊寄出"
 
-#: ../modules/itip-formatter/itip-view.c:5331
+#: ../modules/itip-formatter/itip-view.c:5329
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr "無法寄出會議資訊，該會議並不存在"
 
-#: ../modules/itip-formatter/itip-view.c:5336
+#: ../modules/itip-formatter/itip-view.c:5334
 msgid "Unable to send task information, the task does not exist"
 msgstr "無法寄出工作資訊，該項工作不存在"
 
-#: ../modules/itip-formatter/itip-view.c:5341
+#: ../modules/itip-formatter/itip-view.c:5339
 msgid "Unable to send memo information, the memo does not exist"
 msgstr "無法寄出備忘錄資訊，該備忘錄並不存在"
 
 #. Translators: This is a default filename for a calendar.
-#: ../modules/itip-formatter/itip-view.c:5406
+#: ../modules/itip-formatter/itip-view.c:5404
 msgid "calendar.ics"
 msgstr "calendar.ics"
 
-#: ../modules/itip-formatter/itip-view.c:5411
+#: ../modules/itip-formatter/itip-view.c:5409
 msgid "Save Calendar"
 msgstr "儲存行事曆"
 
-#: ../modules/itip-formatter/itip-view.c:5460
-#: ../modules/itip-formatter/itip-view.c:5473
+#: ../modules/itip-formatter/itip-view.c:5458
+#: ../modules/itip-formatter/itip-view.c:5471
 msgid "The calendar attached is not valid"
 msgstr "附帶的行事曆是無效的"
 
-#: ../modules/itip-formatter/itip-view.c:5461
-#: ../modules/itip-formatter/itip-view.c:5474
+#: ../modules/itip-formatter/itip-view.c:5459
+#: ../modules/itip-formatter/itip-view.c:5472
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
 msgstr "此郵件宣告其含有行事曆內容，但其行事曆並非有效的 iCalendar。"
 
-#: ../modules/itip-formatter/itip-view.c:5516
-#: ../modules/itip-formatter/itip-view.c:5546
-#: ../modules/itip-formatter/itip-view.c:5647
+#: ../modules/itip-formatter/itip-view.c:5514
+#: ../modules/itip-formatter/itip-view.c:5544
+#: ../modules/itip-formatter/itip-view.c:5645
 msgid "The item in the calendar is not valid"
 msgstr "行事曆中的項目是無效的"
 
-#: ../modules/itip-formatter/itip-view.c:5517
-#: ../modules/itip-formatter/itip-view.c:5547
-#: ../modules/itip-formatter/itip-view.c:5648
+#: ../modules/itip-formatter/itip-view.c:5515
+#: ../modules/itip-formatter/itip-view.c:5545
+#: ../modules/itip-formatter/itip-view.c:5646
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
 msgstr "此郵件確實含有行事曆內容，但該內容並未包含任何事件、工作或空閒/忙碌資訊"
 
-#: ../modules/itip-formatter/itip-view.c:5562
+#: ../modules/itip-formatter/itip-view.c:5560
 msgid "The calendar attached contains multiple items"
 msgstr "附加的行事曆內容含有多個項目"
 
-#: ../modules/itip-formatter/itip-view.c:5563
+#: ../modules/itip-formatter/itip-view.c:5561
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
 msgstr "要處理這些全部的項目，應該將此檔案儲存後匯入其中的行事曆"
 
-#: ../modules/itip-formatter/itip-view.c:6065
+#: ../modules/itip-formatter/itip-view.c:6063
 msgctxt "cal-itip"
 msgid "None"
 msgstr "沒有"
 
-#: ../modules/itip-formatter/itip-view.c:6081
+#: ../modules/itip-formatter/itip-view.c:6079
 msgid "Tentatively Accepted"
 msgstr "暫時接受"
 
-#: ../modules/itip-formatter/itip-view.c:6241
+#: ../modules/itip-formatter/itip-view.c:6239
 msgid "This meeting recurs"
 msgstr "這個會議的週期規則為"
 
-#: ../modules/itip-formatter/itip-view.c:6244
+#: ../modules/itip-formatter/itip-view.c:6242
 msgid "This task recurs"
 msgstr "這項工作的週期規則為"
 
-#: ../modules/itip-formatter/itip-view.c:6247
+#: ../modules/itip-formatter/itip-view.c:6245
 msgid "This memo recurs"
 msgstr "這個備忘錄的週期規則為"
 
@@ -20357,3 +20392,9 @@ msgstr "到期日(_D):"
 #: ../views/tasks/galview.xml.h:3
 msgid "With _Status"
 msgstr "設定狀態(_S)"
+
+#~ msgid "Original Contact:"
+#~ msgstr "原本的連絡人:"
+
+#~ msgid "Pinging %s"
+#~ msgstr "Pinging %s"
