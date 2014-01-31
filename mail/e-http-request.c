@@ -264,7 +264,7 @@ handle_http_request (GSimpleAsyncResult *res,
 			g_free (path);
 
 			/* Set result and quit the thread */
-			g_simple_async_result_set_op_res_gpointer (res, stream, NULL);
+			g_simple_async_result_set_op_res_gpointer (res, stream, g_object_unref);
 
 			goto cleanup;
 		} else {
@@ -428,7 +428,7 @@ handle_http_request (GSimpleAsyncResult *res,
 			uri, request->priv->content_type,
 			request->priv->content_length, uri_md5));
 
-		g_simple_async_result_set_op_res_gpointer (res, stream, NULL);
+		g_simple_async_result_set_op_res_gpointer (res, stream, g_object_unref);
 		goto cleanup;
 	}
 
@@ -539,6 +539,8 @@ http_request_send_finish (SoupRequest *request,
 
 	if (!stream) /* We must always return something */
 		stream = g_memory_input_stream_new ();
+	else
+		g_object_ref (stream);
 
 	return stream;
 }
