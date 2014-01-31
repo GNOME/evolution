@@ -12,6 +12,8 @@
   <download-page rdf:resource="http://download.gnome.org/sources/evolution" />
   <bug-database rdf:resource="http://bugzilla.gnome.org/browse.cgi?product=evolution" />
   <category rdf:resource="http://api.gnome.org/doap-extensions#desktop" />
+  <programming-language>C</programming-language>
+  <programming-language>XML</programming-language>
 
   <!-- Project Leads -->
 
