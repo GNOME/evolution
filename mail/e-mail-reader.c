@@ -2521,6 +2521,14 @@ mail_reader_key_press_event_cb (EMailReader *reader,
 			action_name = "mail-toggle-important";
 			break;
 
+		case GDK_KEY_ZoomIn:
+			action_name = "mail-zoom-in";
+			break;
+
+		case GDK_KEY_ZoomOut:
+			action_name = "mail-zoom-out";
+			break;
+
 		default:
 			return FALSE;
 	}
@@ -2537,6 +2545,15 @@ ctrl:
 
 		case GDK_KEY_comma:
 			action_name = "mail-previous-unread";
+			break;
+
+		case GDK_KEY_equal:
+		case GDK_KEY_KP_Add:
+			action_name = "mail-zoom-in";
+			break;
+
+		case GDK_KEY_KP_Subtract:
+			action_name = "mail-zoom-out";
 			break;
 
 		default:
