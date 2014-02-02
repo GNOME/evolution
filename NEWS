@@ -1,3 +1,59 @@
+Evolution 3.11.5 2014-02-03
+---------------------------
+
+Bugs Fixed:
+	Bug 583773 - Does not always mark mails as read automatically
+	             (Milan Crha)
+	Bug 645476 - Avoid scroll to cursor on folder change in message list
+	             (Milan Crha)
+	Bug 702709 - Do not forget to set CamelSession offline (Milan Crha)
+	Bug 702958 - Crash on attachment add or remove (Milan Crha)
+	Bug 707121 - Merge contacts dialogs indefinitely expands by itself
+	             (Milan Crha)
+	Bug 707518 - Deleting a local address book triggers error "Unable to
+	             open address book" (Milan Crha)
+	Bug 721213 - Character encoding combo opened empty (Milan Crha)
+	Bug 721427 - Alert about missing condition in a filter rule editor
+	             (Milan Crha)
+	Bug 721577 - Contact editor - rearrange "Office" field (Chris)
+	Bug 721577 - Show Office field in Contact's preview (Chris)
+	Bug 722346 - _NL_MEASUREMENT_MEASUREMENT is not portable (Milan Crha)
+	Bug 722352 - libresolv does not exist on FreeBSD (Matthew Barnes)
+	Bug 722415 - Memo does not support Start Date property
+	             (Fabiano Fidêncio)
+	Bug 722698 - Crash creating a new folder (Fabiano Fidêncio)
+	Bug 722951 - Check for empty rule values (Milan Crha)
+	Bug 723377 - Add alternate zoom shortcuts (Matthew Barnes)
+
+Other Changes:
+	* Drop KRB5 dependency (Milan Crha)
+	* Drop libsoup-gnome dependency (Fabiano Fidêncio)
+	* User documentation improvements. (Andre Klapper)
+	* EDateEdit: Force 24 hour format for locales without am/pm
+	  equivalents (Milan Crha)
+	* Prevent GSettings from freaking out over a missing junk filter.
+	  (Matthew Barnes)
+	* MailFolderCache: Remove 'ping' operation. (Matthew Barnes)
+	* ESourceSelector: Fix a memory leak on a mouse button press event
+	  (Milan Crha)
+	* Forward/Reply styles in Preferences opened empty (Milan Crha)
+	* Avoid multiple save of folder changes on application quit (Milan Crha)
+	* Memory leaks of GSettings objects (Milan Crha)
+	* Add <programming-language> entry to DOAP file (Andre Klapper)
+	* EHttpRequest: Avoid possible data stream memory leak (Milan Crha)
+
+Translations:
+	Nilamdyuti Goswami (as)
+	Marek Černocký (cs)
+	Dimitris Spingos (el)
+	Daniel Mustieles (es)
+	Aurimas Černius (lt)
+	Kjartan Maraas (nb)
+	Enrico Nicoletto (pt_BR)
+	Tong Hui (zh_CN)
+	Chao-Hsiung Liao (zh_HK)
+
+
 Evolution 3.11.4 2014-01-13
 ---------------------------
 
