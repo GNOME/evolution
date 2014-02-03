@@ -1142,43 +1142,6 @@ e_mail_folder_remove_sync (CamelFolder *folder,
 	full_name = camel_folder_get_full_name (folder);
 	parent_store = camel_folder_get_parent_store (folder);
 
-	folder_info = camel_store_get_folder_info_sync (
-		parent_store, full_name,
-		CAMEL_STORE_FOLDER_INFO_FAST |
-		CAMEL_STORE_FOLDER_INFO_RECURSIVE |
-		CAMEL_STORE_FOLDER_INFO_SUBSCRIBED,
-		cancellable, error);
-
-	if (folder_info == NULL)
-		return FALSE;
-
-	to_remove = folder_info;
-
-	/* For cases when the top-level folder_info contains siblings,
-	 * such as when full_name contains a wildcard letter, compare
-	 * the folder name against folder_info->full_name to avoid
-	 * removing more folders than requested. */
-	if (folder_info->next != NULL) {
-		while (to_remove != NULL) {
-			if (g_strcmp0 (to_remove->full_name, full_name) == 0)
-				break;
-			to_remove = to_remove->next;
-		}
-
-		/* XXX Should we set a GError and return FALSE here? */
-		if (to_remove == NULL) {
-			g_warning (
-				"%s: Failed to find folder '%s'",
-				G_STRFUNC, full_name);
-			camel_folder_info_free (folder_info);
-			return TRUE;
-		}
-
-		/* Prevent iterating over siblings. */
-		next = to_remove->next;
-		to_remove->next = NULL;
-	}
-
 	message = _("Removing folder '%s'");
 	display_name = camel_folder_get_display_name (folder);
 	camel_operation_push_message (cancellable, message, display_name);
@@ -1190,21 +1153,64 @@ e_mail_folder_remove_sync (CamelFolder *folder,
 			transparent_cancellable, NULL);
 	}
 
-	success = mail_folder_remove_recursive (
-		parent_store, to_remove, transparent_cancellable, error);
+	if ((parent_store->flags & CAMEL_STORE_CAN_DELETE_FOLDERS_AT_ONCE) != 0) {
+		success = camel_store_delete_folder_sync (
+			parent_store, full_name, transparent_cancellable, error);
+	} else {
+		folder_info = camel_store_get_folder_info_sync (
+			parent_store, full_name,
+			CAMEL_STORE_FOLDER_INFO_RECURSIVE |
+			CAMEL_STORE_FOLDER_INFO_SUBSCRIBED,
+			cancellable, error);
 
+		if (folder_info == NULL) {
+			success = FALSE;
+			goto exit;
+		}
+
+		to_remove = folder_info;
+
+		/* For cases when the top-level folder_info contains siblings,
+		 * such as when full_name contains a wildcard letter, compare
+		 * the folder name against folder_info->full_name to avoid
+		 * removing more folders than requested. */
+		if (folder_info->next != NULL) {
+			while (to_remove != NULL) {
+				if (g_strcmp0 (to_remove->full_name, full_name) == 0)
+					break;
+				to_remove = to_remove->next;
+			}
+
+			/* XXX Should we set a GError and return FALSE here? */
+			if (to_remove == NULL) {
+				g_warning ("%s: Failed to find folder '%s'", G_STRFUNC, full_name);
+				camel_folder_info_free (folder_info);
+				success = TRUE;
+				goto exit;
+			}
+
+			/* Prevent iterating over siblings. */
+			next = to_remove->next;
+			to_remove->next = NULL;
+		}
+
+		success = mail_folder_remove_recursive (
+				parent_store, to_remove, transparent_cancellable, error);
+
+		/* Restore the folder_info tree to its original
+		 * state so we don't leak folder_info nodes. */
+		to_remove->next = next;
+
+		camel_folder_info_free (folder_info);
+	}
+
+exit:
 	if (transparent_cancellable) {
 		g_cancellable_disconnect (cancellable, cbid);
 		g_object_unref (transparent_cancellable);
 	}
 
 	camel_operation_pop_message (cancellable);
-
-	/* Restore the folder_info tree to its original
-	 * state so we don't leak folder_info nodes. */
-	to_remove->next = next;
-
-	camel_folder_info_free (folder_info);
 
 	return success;
 }
