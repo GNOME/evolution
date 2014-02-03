@@ -550,24 +550,6 @@ mail_folder_cache_ref_store_info (MailFolderCache *cache,
 	return store_info;
 }
 
-static GList *
-mail_folder_cache_list_stores (MailFolderCache *cache)
-{
-	GHashTable *store_info_ht;
-	GList *list;
-
-	g_mutex_lock (&cache->priv->store_info_ht_lock);
-
-	store_info_ht = cache->priv->store_info_ht;
-
-	list = g_hash_table_get_keys (store_info_ht);
-	g_list_foreach (list, (GFunc) g_object_ref, NULL);
-
-	g_mutex_unlock (&cache->priv->store_info_ht_lock);
-
-	return list;
-}
-
 static StoreInfo *
 mail_folder_cache_steal_store_info (MailFolderCache *cache,
                                     CamelStore *store)
