@@ -295,7 +295,7 @@ endif
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)
 
-BUILT_SOURCES = $(ENUM_GENERATED) $(error_DATA)
+BUILT_SOURCES = $(ENUM_GENERATED) $(error_DATA) em-filter-i18n.h
 
 CLEANFILES = $(BUILT_SOURCES)
 
