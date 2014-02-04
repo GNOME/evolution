@@ -98,6 +98,9 @@ gal_view_etable_save (GalView *view,
 		e_table_state_save_to_file (state, filename);
 		g_object_unref (state);
 	}
+
+	/* Remember the filename, it may eventually change */
+	gal_view_etable_load (view, filename);
 }
 
 static GalView *
@@ -110,6 +113,13 @@ gal_view_etable_clone (GalView *view)
 	clone = GAL_VIEW_CLASS (gal_view_etable_parent_class)->clone (view);
 
 	gve = GAL_VIEW_ETABLE (view);
+
+	/* do this before setting state_filename, to not overwrite current
+	   state changes in the 'attach' function */
+	if (gve->priv->table)
+		gal_view_etable_attach_table (GAL_VIEW_ETABLE (clone), gve->priv->table);
+	else if (gve->priv->tree)
+		gal_view_etable_attach_tree (GAL_VIEW_ETABLE (clone), gve->priv->tree);
 
 	GAL_VIEW_ETABLE (clone)->priv->state_filename =
 		g_strdup (gve->priv->state_filename);
