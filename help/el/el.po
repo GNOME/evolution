@@ -5,16 +5,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: el\n"
-"POT-Creation-Date: 2014-01-10 16:59+0000\n"
-"PO-Revision-Date: 2014-01-11 17:40+0300\n"
+"POT-Creation-Date: 2014-02-04 05:44+0000\n"
+"PO-Revision-Date: 2014-02-04 10:27+0300\n"
 "Last-Translator: Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>\n"
-"Language-Team: www.gnome.gr\n"
+"Language-Team: team@lists.gnome.gr\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Virtaal 0.7.1\n"
+"X-Generator: Virtaal 0.7.0\n"
 
 # #-#-#-#-#  gnome-power-manager.HEAD.el.po (el)  #-#-#-#-#
 # #-#-#-#-#  nautilus.HEAD.el.po (el)  #-#-#-#-#
@@ -42,119 +42,6 @@ msgstr ""
 "Δημήτρης Σπίγγος <dmtrs32@gmail.com>, 2012, 2013, 2014\n"
 "Φώτης Τσάμης <ftsamis@gmail.com>\n"
 "Μάριος Ζηντίλης <m.zindilis@dmajor.org>"
-
-#. (itstool) path: info/desc
-#: C/index.page:5
-msgid "Evolution"
-msgstr "Evolution"
-
-#. (itstool) path: info/title
-#: C/index.page:7
-msgctxt "text"
-msgid "Evolution Mail and Calendar"
-msgstr "Αλληλογραφία και ημερολόγιο του evolution"
-
-#. (itstool) path: media/span
-#: C/index.page:25
-msgid "Evolution logo"
-msgstr "Λογότυπος Evolution"
-
-#. (itstool) path: page/title
-#: C/index.page:23
-msgid "<_:media-1/> Evolution Mail and Calendar"
-msgstr "<_:media-1/> Αλληλογραφία και ημερολόγιο του evolution"
-
-#. (itstool) path: section/title
-#. (itstool) path: page/title
-#: C/index.page:31 C/intro-application.page:24
-msgid "Getting Started"
-msgstr "Ξεκινώντας"
-
-#. (itstool) path: section/title
-#: C/index.page:35
-msgid "Mail Management"
-msgstr "Διαχείριση αλληλογραφίας"
-
-#. (itstool) path: section/title
-#: C/index.page:37
-msgid "Advanced Mail Management"
-msgstr "Προχωρημένη διαχείριση αλληλογραφίας"
-
-#. (itstool) path: info/title
-#: C/index.page:40
-msgctxt "link"
-msgid "Advanced Mail Management (IMAP+ accounts)"
-msgstr "Προχωρημένη διαχείριση αλληλογραφίας (λογαριασμοί IMAP+)"
-
-#. (itstool) path: section/title
-#: C/index.page:42 C/intro-first-run.page:54
-msgid "IMAP+"
-msgstr "IMAP+"
-
-#. (itstool) path: section/title
-#: C/index.page:48
-msgid "Mail Composing"
-msgstr "Σύνταξη μηνύματος"
-
-#. (itstool) path: section/title
-#: C/index.page:50
-msgid "Advanced Mail Composing"
-msgstr "Προχωρημένη σύνταξη μηνύματος"
-
-#. (itstool) path: section/title
-#: C/index.page:55
-msgid "Calendar Management"
-msgstr "Διαχείριση ημερολογίου"
-
-#. (itstool) path: section/title
-#: C/index.page:57
-msgid "Advanced Calendar Management"
-msgstr "Προχωρημένη διαχείριση ημερολογίου"
-
-#. (itstool) path: section/title
-#: C/index.page:62
-msgid "Contacts Management"
-msgstr "Διαχείριση επαφών"
-
-#. (itstool) path: section/title
-#: C/index.page:66
-msgid "Memos and Tasks Management"
-msgstr "Διαχείριση υπενθυμίσεων και εργασιών"
-
-#. (itstool) path: section/title
-#: C/index.page:70
-msgid "Data Migration and Synchronization"
-msgstr "Δεδομένα μεταφοράς και συγχρονισμού"
-
-#. (itstool) path: section/title
-#: C/index.page:74
-msgid "Corporate Environments"
-msgstr "Εταιρικά περιβάλλοντα"
-
-#. (itstool) path: section/title
-#: C/index.page:76
-msgid "Microsoft Exchange"
-msgstr "Microsoft Exchange"
-
-#. (itstool) path: section/title
-#: C/index.page:81
-msgid "Tracking down Problems"
-msgstr "Εντοπισμός προβλημάτων"
-
-#. (itstool) path: section/title
-#: C/index.page:85
-msgid "Common Mail Questions and Problems"
-msgstr "Κοινές ερωτήσεις και προβλήματα αλληλογραφίας"
-
-#. (itstool) path: section/title
-#: C/index.page:89
-msgid "Common Other Questions and Problems"
-msgstr "Άλλες κοινές ερωτήσεις και προβλήματα"
-
-#. (itstool) path: section/title
-#: C/index.page:93
-msgid "Further reading"
-msgstr "Περαιτέρω ανάγνωση"
 
 #. (itstool) path: info/desc
 #: C/backup-restore.page:5
@@ -288,11 +175,13 @@ msgstr ""
 #. (itstool) path: when/p
 #: C/calendar-alarms-and-reminders.page:33
 msgid ""
-"For general information on displaying reminders, please see <link href="
-"\"help:gnome-help/shell-notifications\">the GNOME Desktop Help</link>."
+"For general information on displaying reminders, please see <link xref="
+"\"help:gnome-help/shell-notifications\" href=\"https://help.gnome.org/users/"
+"gnome-help/stable/shell-notifications\">the GNOME Desktop Help</link>."
 msgstr ""
 "Για γενικές πληροφορίες στην εμφάνιση υπενθυμίσεων, παρακαλούμε δείτε <link "
-"href=\"help:gnome-help/shell-notifications\">βοήθεια επιφάνειας εργασίας "
+"xref=\"help:gnome-help/shell-notifications\" href=\"https://help.gnome.org/"
+"users/gnome-help/stable/shell-notifications\">Βοήθεια επιφάνειας εργασίας "
 "GNOME</link>."
 
 #. (itstool) path: section/title
@@ -421,7 +310,7 @@ msgstr "Εισάγετε το όνομα χρήστη και την διεύθυ
 
 #. (itstool) path: item/p
 #: C/calendar-caldav.page:35 C/calendar-google.page:35
-#: C/calendar-local.page:28 C/calendar-weather.page:34
+#: C/calendar-local.page:29 C/calendar-weather.page:34
 #: C/calendar-webdav.page:34 C/contacts-google.page:31 C/contacts-ldap.page:36
 #: C/contacts-local.page:27 C/tasks-caldav.page:32 C/tasks-local.page:28
 #: C/tasks-webdav.page:34
@@ -430,7 +319,7 @@ msgstr "Κλικ στο <gui style=\"button\">εφαρμογή</gui>."
 
 #. (itstool) path: page/p
 #: C/calendar-caldav.page:38 C/calendar-google.page:38
-#: C/calendar-local.page:31 C/calendar-weather.page:37
+#: C/calendar-local.page:32 C/calendar-weather.page:37
 #: C/calendar-webdav.page:37
 msgid "The calendar will be added to the list of calendars in Evolution."
 msgstr "Το ημερολόγιο θα προστεθεί στη λίστα ημερολογίων στο Evolution."
@@ -1047,6 +936,19 @@ msgstr ""
 #: C/calendar-local.page:25 C/contacts-local.page:25 C/tasks-local.page:25
 msgid "Select the type <gui>On This Computer</gui>."
 msgstr "Επιλέξτε τον τύπο <gui>σε αυτόν τον υπολογιστή</gui>."
+
+#. (itstool) path: item/p
+#: C/calendar-local.page:28
+msgid ""
+"If you choose to use an existing calendar file which is already located on "
+"your computer, you need to provide its location and whether Evolution should "
+"only read from the file or if Evolution can also add and alter items in that "
+"file."
+msgstr ""
+"Αν διαλέξετε να χρησιμοποιήσετε ένα υπάρχον αρχείο ημερολογίου που βρίσκεται "
+"ήδη στον υπολογιστή σας, πρέπει να δώσετε τη θέση του και αν το Evolution "
+"πρέπει να διαβάζει μόνο από το αρχείο ή αν το Evolution μπορεί επίσης να "
+"προσθέτει και να αλλάζει στοιχεία σε ένα τέτοιο αρχείο."
 
 #. (itstool) path: info/desc
 #: C/calendar-marcus-bains-line.page:5
@@ -3069,11 +2971,13 @@ msgstr ""
 #. (itstool) path: choose/p
 #: C/default-browser.page:64
 msgid ""
-"Please see <link href=\"help:gnome-help/net-default-browser\">the GNOME "
+"Please see <link xref=\"help:gnome-help/net-default-browser\" href=\"https://"
+"help.gnome.org/users/gnome-help/stable/net-default-browser\">the GNOME "
 "Desktop Help</link>."
 msgstr ""
-"Παρακαλώ δείτε <link href=\"help:gnome-help/net-default-browser\">βοήθεια "
-"επιφάνειας εργασίας GNOME</link>."
+"Παρακαλώ δείτε <link xref=\"help:gnome-help/net-default-browser\" href="
+"\"https://help.gnome.org/users/gnome-help/stable/net-default-browser"
+"\">Βοήθεια επιφάνειας εργασίας GNOME</link>."
 
 #. (itstool) path: choose/p
 #: C/default-browser.page:66
@@ -3114,10 +3018,12 @@ msgstr ""
 #. (itstool) path: section/p
 #: C/default-browser.page:83
 msgid ""
-"Please see <link href=\"help:gnome-help/net-default-email\">the GNOME "
-"Desktop Help</link>."
+"Please see <link xref=\"help:gnome-help/net-default-email\" href=\"https://"
+"help.gnome.org/users/gnome-help/stable/net-default-email\">the GNOME Desktop "
+"Help</link>."
 msgstr ""
-"Παρακαλώ δείτε <link href=\"help:gnome-help/net-default-email\">βοήθεια "
+"Παρακαλούμε δείτε <link xref=\"help:gnome-help/net-default-email\" href="
+"\"https://help.gnome.org/users/gnome-help/stable/net-default-email\">Βοήθεια "
 "επιφάνειας εργασίας GNOME</link>."
 
 #. (itstool) path: section/title
@@ -3496,15 +3402,17 @@ msgid ""
 "Thunderbird's files are located in the hidden folder <file>$HOME/."
 "thunderbird/12345678</file>. <file>12345678</file> will be a random string. "
 "If you cannot see the <file>.thunderbird</file> folder, make sure to <link "
-"href=\"help:gnome-help/files-hidden#show-hidden\">show hidden files</link> "
-"in the file selector dialog."
+"xref=\"help:gnome-help/files-hidden#show-hidden\" href=\"https://help.gnome."
+"org/users/gnome-help/stable/files-hidden#show-hidden\">show hidden files</"
+"link> in the file selector dialog."
 msgstr ""
 "Πηγαίνετε στον φάκελο στον οποίο το Thunderbird αποθηκεύει τα δεδομένα του. "
 "Σε ένα σύστημα Λίνουξ, τα αρχεία του Thunderbird βρίσκονται σε έναν κρυφό "
 "φάκελο <file>$HOME/.thunderbird/12345678</file>. Το <file>12345678</file> θα "
 "είναι μια τυχαία συμβολοσειρά. Αν δεν μπορείτε να δείτε τον φάκελο <file>."
-"thunderbird</file>, βεβαιωθείτε για την <link href=\"help:gnome-help/files-"
-"hidden#show-hidden\">εμφάνιση των κρυφών αρχείων</link> στον διάλογο "
+"thunderbird</file>, βεβαιωθείτε για την <link xref=\"help:gnome-help/files-"
+"hidden#show-hidden\" href=\"https://help.gnome.org/users/gnome-help/stable/"
+"files-hidden#show-hidden\">εμφάνιση των κρυφών αρχείων</link> στον διάλογο "
 "επιλογέα αρχείων."
 
 #. (itstool) path: item/p
@@ -3982,6 +3890,122 @@ msgstr ""
 "της Microsoft, όπως το Microsoft Exchange Client, το Windows Messaging και "
 "το Microsoft Outlook. Λέγεται επίσης \"προσωπικός πίνακας αποθήκευσης\"."
 
+#
+#. (itstool) path: info/desc
+#: C/index.page:5
+msgid "Manage your email, contacts and schedule"
+msgstr ""
+"Διαχείριση της ηλεκτρονικής αλληλογραφίας σας, των επαφών και του "
+"προγραμματισμού σας"
+
+#. (itstool) path: info/title
+#: C/index.page:7
+msgctxt "text"
+msgid "Evolution Mail and Calendar"
+msgstr "Αλληλογραφία και ημερολόγιο του evolution"
+
+#. (itstool) path: media/span
+#: C/index.page:25
+msgid "Evolution logo"
+msgstr "Λογότυπος Evolution"
+
+#. (itstool) path: page/title
+#: C/index.page:23
+msgid "<_:media-1/> Evolution Mail and Calendar"
+msgstr "<_:media-1/> Αλληλογραφία και ημερολόγιο του evolution"
+
+#. (itstool) path: section/title
+#. (itstool) path: page/title
+#: C/index.page:31 C/intro-application.page:24
+msgid "Getting Started"
+msgstr "Ξεκινώντας"
+
+#. (itstool) path: section/title
+#: C/index.page:35
+msgid "Mail Management"
+msgstr "Διαχείριση αλληλογραφίας"
+
+#. (itstool) path: section/title
+#: C/index.page:37
+msgid "Advanced Mail Management"
+msgstr "Προχωρημένη διαχείριση αλληλογραφίας"
+
+#. (itstool) path: info/title
+#: C/index.page:40
+msgctxt "link"
+msgid "Advanced Mail Management (IMAP+ accounts)"
+msgstr "Προχωρημένη διαχείριση αλληλογραφίας (λογαριασμοί IMAP+)"
+
+#. (itstool) path: section/title
+#: C/index.page:42 C/intro-first-run.page:54
+msgid "IMAP+"
+msgstr "IMAP+"
+
+#. (itstool) path: section/title
+#: C/index.page:48
+msgid "Mail Composing"
+msgstr "Σύνταξη μηνύματος"
+
+#. (itstool) path: section/title
+#: C/index.page:50
+msgid "Advanced Mail Composing"
+msgstr "Προχωρημένη σύνταξη μηνύματος"
+
+#. (itstool) path: section/title
+#: C/index.page:55
+msgid "Calendar Management"
+msgstr "Διαχείριση ημερολογίου"
+
+#. (itstool) path: section/title
+#: C/index.page:57
+msgid "Advanced Calendar Management"
+msgstr "Προχωρημένη διαχείριση ημερολογίου"
+
+#. (itstool) path: section/title
+#: C/index.page:62
+msgid "Contacts Management"
+msgstr "Διαχείριση επαφών"
+
+#. (itstool) path: section/title
+#: C/index.page:66
+msgid "Memos and Tasks Management"
+msgstr "Διαχείριση υπενθυμίσεων και εργασιών"
+
+#. (itstool) path: section/title
+#: C/index.page:70
+msgid "Data Migration and Synchronization"
+msgstr "Δεδομένα μεταφοράς και συγχρονισμού"
+
+#. (itstool) path: section/title
+#: C/index.page:74
+msgid "Corporate Environments"
+msgstr "Εταιρικά περιβάλλοντα"
+
+#. (itstool) path: section/title
+#: C/index.page:76
+msgid "Microsoft Exchange"
+msgstr "Microsoft Exchange"
+
+#. (itstool) path: section/title
+#: C/index.page:81
+msgid "Tracking down Problems"
+msgstr "Εντοπισμός προβλημάτων"
+
+#. (itstool) path: section/title
+#: C/index.page:85
+msgid "Common Mail Questions and Problems"
+msgstr "Κοινές ερωτήσεις και προβλήματα αλληλογραφίας"
+
+#. (itstool) path: section/title
+#: C/index.page:89
+msgid "Common Other Questions and Problems"
+msgstr "Άλλες κοινές ερωτήσεις και προβλήματα"
+
+#. (itstool) path: section/title
+#: C/index.page:93
+msgid "Further reading"
+msgstr "Περαιτέρω ανάγνωση"
+
 #. (itstool) path: info/desc
 #: C/intro-application.page:5
 msgid "An introduction to Evolution."
@@ -3990,13 +4014,12 @@ msgstr "Μια εισαγωγή στο Evolution."
 #. (itstool) path: page/p
 #: C/intro-application.page:25
 msgid ""
-"Evolution is a stable and versatile personal information manager for the "
-"GNOME project. Evolution allows you to keep your calendars, mail, address "
-"books and tasks in one place."
+"Evolution allows you to access your personal information like your "
+"calendars, mail, address books and tasks in one place."
 msgstr ""
-"Το Evolution είναι ένας σταθερός και πολύπλευρος διαχειριστής προσωπικών "
-"πληροφοριών για το έργο GNOME. Το Evolution επιτρέπει τη διατήρηση των "
-"ημερολογίων σας, αλληλογραφίας, βιβλίου διευθύνσεων και εργασιών σε μια θέση."
+"Το Evolution σας επιτρέπει να προσπελάσετε τις προσωπικές σας πληροφορίες "
+"όπως τα ημερολόγια σας, την αλληλογραφία, τα βιβλία διευθύνσεων και εργασιών "
+"σε μια θέση."
 
 #. (itstool) path: page/p
 #: C/intro-application.page:27
@@ -4891,7 +4914,7 @@ msgstr "Επεξεργαστής λογαριασμού"
 #. (itstool) path: section/p
 #: C/mail-account-manage-imap-plus.page:24
 #: C/mail-account-manage-local-delivery.page:24
-#: C/mail-account-manage-maildir-format-directories.page:24
+#: C/mail-account-manage-maildir-format-directories.page:25
 #: C/mail-account-manage-mh-format-directories.page:24
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:24
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:24
@@ -4936,7 +4959,7 @@ msgstr ""
 #. (itstool) path: section/p
 #: C/mail-account-manage-imap-plus.page:26
 #: C/mail-account-manage-local-delivery.page:26
-#: C/mail-account-manage-maildir-format-directories.page:26
+#: C/mail-account-manage-maildir-format-directories.page:27
 #: C/mail-account-manage-mh-format-directories.page:26
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:26
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:26
@@ -4958,7 +4981,7 @@ msgstr "Λήψη αλληλογραφίας και επιλογές λήψης (
 #. (itstool) path: section/title
 #: C/mail-account-manage-imap-plus.page:38
 #: C/mail-account-manage-local-delivery.page:38
-#: C/mail-account-manage-maildir-format-directories.page:38
+#: C/mail-account-manage-maildir-format-directories.page:39
 #: C/mail-account-manage-mh-format-directories.page:38
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:38
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:38
@@ -4978,7 +5001,7 @@ msgstr "Αποστολή αλληλογραφίας (λογαριασμοί IMAP
 #. (itstool) path: section/title
 #: C/mail-account-manage-imap-plus.page:45
 #: C/mail-account-manage-local-delivery.page:45
-#: C/mail-account-manage-maildir-format-directories.page:45
+#: C/mail-account-manage-maildir-format-directories.page:46
 #: C/mail-account-manage-mh-format-directories.page:45
 #: C/mail-account-manage-pop.page:45
 #: C/mail-account-manage-unix-mbox-spool-directory.page:45
@@ -4996,7 +5019,7 @@ msgstr "Προεπιλογές (λογαριασμοί IMAP+)"
 #. (itstool) path: section/title
 #: C/mail-account-manage-imap-plus.page:52
 #: C/mail-account-manage-local-delivery.page:52
-#: C/mail-account-manage-maildir-format-directories.page:52
+#: C/mail-account-manage-maildir-format-directories.page:53
 #: C/mail-account-manage-mh-format-directories.page:52
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:45
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:45
@@ -5016,7 +5039,7 @@ msgstr "Ασφάλεια (λογαριασμοί IMAP+)"
 #. (itstool) path: section/title
 #: C/mail-account-manage-imap-plus.page:59
 #: C/mail-account-manage-local-delivery.page:59
-#: C/mail-account-manage-maildir-format-directories.page:59
+#: C/mail-account-manage-maildir-format-directories.page:60
 #: C/mail-account-manage-mh-format-directories.page:59
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:52
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:57
@@ -5061,7 +5084,7 @@ msgstr "Τοπικές ρυθμίσεις λογαριασμού διανομή�
 
 #. (itstool) path: section/p
 #: C/mail-account-manage-local-delivery.page:25
-#: C/mail-account-manage-maildir-format-directories.page:25
+#: C/mail-account-manage-maildir-format-directories.page:26
 #: C/mail-account-manage-mh-format-directories.page:25
 #: C/mail-account-manage-pop.page:25
 #: C/mail-account-manage-unix-mbox-spool-directory.page:25
@@ -5110,8 +5133,13 @@ msgstr ""
 msgid "Maildir Format Mail Directories account settings"
 msgstr "Ρυθμίσεις λογαριασμού καταλόγων αλληλογραφίας μορφής Maildir"
 
+#. (itstool) path: section/p
+#: C/mail-account-manage-maildir-format-directories.page:24
+msgid "Evolution supports the Maildir++ specification."
+msgstr "Το Evolution υποστηρίζει την προδιαγραφή Maildir++."
+
 #. (itstool) path: info/title
-#: C/mail-account-manage-maildir-format-directories.page:36
+#: C/mail-account-manage-maildir-format-directories.page:37
 msgctxt "link"
 msgid ""
 "Receiving Email and Receiving options (Maildir Format Mail Directories "
@@ -5121,20 +5149,20 @@ msgstr ""
 "μορφής Maildir)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-maildir-format-directories.page:43
+#: C/mail-account-manage-maildir-format-directories.page:44
 msgctxt "link"
 msgid "Sending Email (Maildir Format Mail Directories accounts)"
 msgstr ""
 "Αποστολή αλληλογραφίας (λογαριασμοί καταλόγων αλληλογραφίας μορφής Maildir)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-maildir-format-directories.page:50
+#: C/mail-account-manage-maildir-format-directories.page:51
 msgctxt "link"
 msgid "Defaults (Maildir Format Mail Directories accounts)"
 msgstr "Προεπιλογές (λογαριασμοί καταλόγων αλληλογραφίας μορφής Maildir)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-maildir-format-directories.page:57
+#: C/mail-account-manage-maildir-format-directories.page:58
 msgctxt "link"
 msgid "Security (Maildir Format Mail Directories accounts)"
 msgstr "Ασφάλεια (λογαριασμοί καταλόγων αλληλογραφίας μορφής Maildir)"
@@ -8218,12 +8246,14 @@ msgstr "Δημιουργία κλειδιού GPG"
 #: C/mail-encryption-gpg-create-key.page:25
 msgid ""
 "These steps are very technical. For average users we recommend using the "
-"<link href=\"help:seahorse/index\"><app>Seahorse</app> application</link> "
-"for managing GPG/OpenPGP keys."
+"<link xref=\"help:seahorse/index\" href=\"https://help.gnome.org/users/"
+"seahorse/stable/index\"><app>Seahorse</app> application</link> for managing "
+"GPG/OpenPGP keys."
 msgstr ""
 "Αυτά τα βήματα είναι πολύ τεχνικά. Για τον μέσο χρήστη συνιστούμε τη χρήση "
-"της εφαρμογής <link href=\"help:seahorse/index\"><app>Seahorse</app></link> "
-"για διαχείριση κλειδιών GPG/OpenPGP."
+"της εφαρμογής <link xref=\"help:seahorse/index\" href=\"https://help.gnome."
+"org/users/seahorse/stable/index\"><app>Seahorse</app></link> για διαχείριση "
+"κλειδιών GPG/OpenPGP."
 
 #. (itstool) path: page/p
 #: C/mail-encryption-gpg-create-key.page:28
@@ -10187,10 +10217,10 @@ msgstr ""
 msgctxt "_"
 msgid ""
 "external ref='./figures/new-mail-notification.png' "
-"md5='25a4373da392793406910cd883f0c21c'"
+"md5='979052fce0d164644cdeda1c20c06e28'"
 msgstr ""
 "external ref='./figures/new-mail-notification.png' "
-"md5='25a4373da392793406910cd883f0c21c'"
+"md5='979052fce0d164644cdeda1c20c06e28'"
 
 #. (itstool) path: info/desc
 #: C/mail-received-notification.page:5
@@ -10757,13 +10787,15 @@ msgstr "Αποθήκευση μηνυμάτων ως PDF"
 msgid ""
 "In order to save emails in the PDF file format, select <guiseq><gui>File</"
 "gui><gui>Print</gui></guiseq> and then choose <gui>Print to File</gui>. See "
-"<link href=\"help:gnome-help/printing\">the desktop help</link> for general "
-"information on printing."
+"<link xref=\"help:gnome-help/printing\" href=\"https://help.gnome.org/users/"
+"gnome-help/stable/printing\">the desktop help</link> for general information "
+"on printing."
 msgstr ""
 "Για να αποθηκεύσετε μηνύματα σε μορφή αρχείου PDF, επιλέξτε "
 "<guiseq><gui>Αρχείο</gui><gui>Εκτύπωση</gui></guiseq> και έπειτα επιλέξτε "
-"<gui>Εκτύπωση σε αρχείο</gui>. Δείτε <link href=\"help:gnome-help/printing"
-"\">βοήθεια επιφάνειας εργασίας</link> για γενικές πληροφορίες στην εκτύπωση."
+"<gui>Εκτύπωση σε αρχείο</gui>. Δείτε <link xref=\"help:gnome-help/printing\" "
+"href=\"https://help.gnome.org/users/gnome-help/stable/printing\">Βοήθεια "
+"επιφάνειας εργασίας</link> για γενικές πληροφορίες στην εκτύπωση."
 
 #. (itstool) path: note/p
 #: C/mail-save-as-pdf.page:25
@@ -11203,6 +11235,19 @@ msgstr ""
 "μέσα από <guiseq><gui>επεξεργασία</gui><gui>προτιμήσεις</"
 "gui><gui>λογαριασμοί αλληλογραφίας</gui><gui style=\"button\">επεξεργασία</"
 "gui><gui>λήψη επιλογών</gui></guiseq>) και επιλέξτε τη συχνότητα σε λεπτά."
+
+#. (itstool) path: note/p
+#: C/mail-send-and-receive-automatically.page:23
+msgid ""
+"Evolution supports <link href=\"https://en.wikipedia.org/wiki/IMAP_IDLE"
+"\">IMAP IDLE</link> on the currently selected folder and partially supports "
+"the <link href=\"http://tools.ietf.org/search/rfc5465\">IMAP NOTIFY</link> "
+"extension."
+msgstr ""
+"Το Evolution υποστηρίζει <link href=\"https://en.wikipedia.org/wiki/IMAP_IDLE"
+"\">IMAP IDLE</link> στον τρέχοντα επιλεγμένο φάκελο και υποστηρίζει μερικώς "
+"την επέκταση <link href=\"http://tools.ietf.org/search/rfc5465\">IMAP "
+"NOTIFY</link>."
 
 #. (itstool) path: info/desc
 #: C/mail-send-and-receive-manual.page:5
@@ -12629,15 +12674,17 @@ msgid ""
 "If the problem persists and you are sure you have not clicked the icon, but "
 "you can still reach the network from other apps on your system (browsers, "
 "FTP, SSH, ping etc.) it may be that your network connection is not properly "
-"configured. For more information please take a look at the <link href=\"help:"
-"gnome-help/net-problem\">Desktop help</link> or seek help from your "
-"distribution support forums, mailing lists etc."
+"configured. For more information please take a look at the <link xref=\"help:"
+"gnome-help/net-problem\" href=\"https://help.gnome.org/users/gnome-help/"
+"stable/net-problem\">Desktop help</link> or seek help from your distribution "
+"support forums, mailing lists etc."
 msgstr ""
 "Εάν το πρόβλημα επιμένει και είστε σίγουροι ότι δεν πατήσατε το εικονίδιο, "
 "αλλά μπορείτε ακόμα να επικοινωνήσετε με το δίκτυο από άλλες εφαρμογές στο "
 "σύστημά σας (περιηγητές, FTP, SSH, αποστολή κλπ.) μπορεί η σύνδεση του "
 "δικτύου να μην είναι ρυθμισμένη κατάλληλα. Για περισσότερες πληροφορίες "
-"ρίξτε μια ματιά στην <link href=\"help:gnome-help/net-problem\">Βοήθεια "
+"ρίξτε μια ματιά στην <link xref=\"help:gnome-help/net-problem\" href="
+"\"https://help.gnome.org/users/gnome-help/stable/net-problem\">Βοήθεια "
 "επιφάνειας εργασίας</link> ή αναζητήστε βοήθεια από τις ομάδες υποστήριξης "
 "διανομής, λίστες αλληλογραφίας κλπ."
 
@@ -12674,12 +12721,12 @@ msgstr ""
 #: C/problems-debug-how-to.page:25
 msgid ""
 "To further track down a problem, some debug options are listed on the <link "
-"href=\"http://projects.gnome.org/evolution/bugs.shtml\">Evolution project "
+"href=\"https://wiki.gnome.org/Apps/Evolution/Debugging\">Evolution project "
 "website</link>."
 msgstr ""
 "Για παραπέρα εντοπισμό προβλήματος, μερικές επιλογές αποσφαλμάτωσης "
-"καταχωρίζονται στην <link href=\"http://projects.gnome.org/evolution/bugs."
-"shtml\">ιστοσελίδα του έργου Evolution</link>."
+"καταχωρίζονται στην <link href=\"https://wiki.gnome.org/Apps/Evolution/"
+"Debugging\">ιστοσελίδα του έργου Evolution</link>."
 
 #. (itstool) path: page/p
 #: C/problems-debug-how-to.page:27
@@ -12707,16 +12754,18 @@ msgid ""
 "mail.gnome.org/mailman/listinfo/evolution-list\">Evolution mailing list</"
 "link> or talk to developers and other users in the IRC chat channel "
 "#evolution on the server irc.gimp.net. To connect to an IRC server you can "
-"for example <link href=\"help:empathy/irc-manage\">use the internet "
-"messenger application <app>Empathy</app></link>."
+"for example <link xref=\"help:empathy/irc-manage\" href=\"https://help.gnome."
+"org/users/empathy/stable/irc-manage\">use the internet messenger application "
+"<app>Empathy</app></link>."
 msgstr ""
 "Για να δεχτείτε βοήθεια σε προβλήματα μπορείτε να στείλετε ένα μήνυμα στη "
 "<link href=\"http://mail.gnome.org/mailman/listinfo/evolution-list\">Λίστα "
 "αλληλογραφίας του Evolution</link> ή να μιλήσετε με τους προγραμματιστές και "
 "άλλους χρήστες στο κανάλι συνομιλιών IRC του #evolution στον εξυπηρετητή irc."
-"gimp.net. Για σύνδεση με έναν εξυπηρετητή IRC μπορείτε για παράδειγμα <link "
-"href=\"help:empathy/irc-manage\"> να χρησιμοποιήσετε την εφαρμογή "
-"αγγελιοφόρου διαδικτύου του <app>Empathy</app></link>."
+"gimp.net. Για σύνδεση με έναν εξυπηρετητή IRC μπορείτε για παράδειγμα να "
+"<link xref=\"help:empathy/irc-manage\" href=\"https://help.gnome.org/users/"
+"empathy/stable/irc-manage\">χρησιμοποιήσετε την εφαρμογή αγγελιοφόρου "
+"διαδικτύου του <app>Empathy</app></link>."
 
 #. (itstool) path: info/desc
 #: C/problems-reporting-bugs.page:5
@@ -14068,6 +14117,9 @@ msgstr ""
 #: C/xinclude-searching.xml:30
 msgid "Click <_:gui-1/>."
 msgstr "Πατήστε στο <_:gui-1/>."
+
+#~ msgid "Evolution"
+#~ msgstr "Evolution"
 
 #~ msgctxt "_"
 #~ msgid ""
@@ -23101,10 +23153,6 @@ msgstr "Πατήστε στο <_:gui-1/>."
 
 #~ msgid "Click the Identity tab."
 #~ msgstr "Επιλέξτε την καρτέλα Ταυτότητα."
-
-#
-#~ msgid "Change your email address as needed."
-#~ msgstr "Αλλάξτε τη διεύθυνση αλληλογραφίας σας όπως χρειάζεται."
 
 #~ msgid ""
 #~ "Click the Receiving Mail tab, then select Microsoft Exchange as your "
