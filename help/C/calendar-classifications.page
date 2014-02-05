@@ -1,29 +1,41 @@
-<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+<page xmlns="http://projectmallard.org/1.0/"
+      xmlns:its="http://www.w3.org/2005/11/its"
       type="guide" id="calendar-classifications">
 
   <info>
-    <desc>Classifying appointments and tasks on groupware servers.</desc>
-    
     <link type="guide" xref="index#calendar-advanced" />
 
     <revision pkgversion="3.0.2" version="0.1" date="2011-07-31" status="final"/>
+
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
     </credit>
     <credit type="author">
-      <name its:translate="no">Novell, Inc</name> <!-- Content partially from http://library.gnome.org/users/evolution/2.32/usage-calendar-apts.html.en#bxmtbjb -->
+      <name its:translate="no">Novell, Inc</name>
+      <!-- Content partially from
+      http://library.gnome.org/users/evolution/2.32/usage-calendar-apts.html.en#bxmtbjb
+      -->
     </credit>
-    
-    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
-        
 
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+
+    <desc>Classifying appointments and tasks on groupware servers.</desc>
   </info>
 
-<title>Using Classifications</title>
+  <title>Using Classifications</title>
 
-<p>If you are using a calendar on a Novell GroupWise or Microsoft Exchange server, you can select a classification to determine who can view it.</p>
-<p>To set a classification for an appointment or a task, click <guiseq><gui>Options</gui><gui>Classifications</gui></guiseq> and select a classification in the editor. <gui>Public</gui> is the default category, and a public appointment can be viewed by anyone on the calendar-sharing network. <gui>Private</gui> denotes one level of security, and <gui>Confidential</gui> an even higher level.</p>
-<p>The different levels vary depending on your server settings; check with your system administrator or adjust your delegation settings.</p>
+  <p>If you are using a calendar on a Novell GroupWise or Microsoft Exchange
+  server, you can select a classification to determine who can view it.</p>
+
+  <p>To set a classification for an appointment or a task, click
+  <guiseq><gui>Options</gui><gui>Classifications</gui></guiseq> and select a
+  classification in the editor. <gui>Public</gui> is the default category, and
+  a public appointment can be viewed by anyone on the calendar-sharing network.
+  <gui>Private</gui> denotes one level of security, and <gui>Confidential</gui>
+  an even higher level.</p>
+
+  <p>The different levels vary depending on your server settings; check with
+  your system administrator or adjust your delegation settings.</p>
 
 </page>

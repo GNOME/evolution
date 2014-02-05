@@ -1,36 +1,74 @@
-<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+<page xmlns="http://projectmallard.org/1.0/"
+      xmlns:its="http://www.w3.org/2005/11/its"
       type="topic" id="calendar-usage-add-appointment">
 
   <info>
-    <desc>Adding an appointment.</desc>
-    
     <link type="guide" xref="calendar-usage" />
 
     <revision pkgversion="3.0.2" version="0.2" date="2011-08-01" status="final"/>
+
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
     </credit>
-    
-    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
-        
 
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+
+    <desc>Adding an appointment.</desc>
   </info>
 
-<title>Adding an Appointment</title>
+  <title>Adding an Appointment</title>
 
-<steps>
-<item><p>Click <guiseq><gui>File</gui><gui>New</gui><gui>Appointment</gui></guiseq>, or double-click in a blank space in the calendar to open the Appointment dialog. The particular time on the calendar view against which you have double clicked on will be suggested for the new appointment. You can also directly write in the calendar and then adjust the duration by dragging it with the mouse.</p></item>
-<item><p>If you use the Appointment dialog:</p></item>
-<item><p>Select a calendar in the <gui>Calendar</gui> drop-down list.</p></item>
-<item><p>Enter a brief summary in the <gui>Summary</gui> field.</p></item>
-<item><p>(Optional) Type a location in the <gui>Location</gui> field.</p></item>
-<item><p>To select this event as an all day event, click <guiseq><gui>Options</gui><gui>All Day Event</gui></guiseq>, or click the <gui>All Day Event</gui> button on the toolbar.</p></item>
-<item><p>Select the date and time.</p></item>
-<item><p>If the event is not an all day event, select either <gui>For</gui> to specify the duration, or select <gui>Until</gui> to specify the ending time of the event.</p></item>
-<item><p>(Optional) Enter a description in the <gui>Description</gui> field.</p></item>
-<item><p>To show the time as <link xref="calendar-free-busy">busy</link> to others, click <guiseq><gui>Options</gui><gui>Show Time as Busy</gui></guiseq>.</p></item>
-</steps>
-<p>You can also define a <link xref="calendar-timezones">time zone</link>, a <link xref="using-categories">category</link>, a <link xref="calendar-alarms-and-reminders">reminder</link>, a <link xref="calendar-recurrence">recurrence</link>, or a <link xref="calendar-classifications">classification</link> for the event, or add an attachment.</p>
+  <steps>
+    <item>
+      <p>Click
+      <guiseq><gui>File</gui><gui>New</gui><gui>Appointment</gui></guiseq>, or
+      double-click in a blank space in the calendar to open the Appointment
+      dialog. The particular time on the calendar view against which you have
+      double clicked on will be suggested for the new appointment. You can also
+      directly write in the calendar and then adjust the duration by dragging
+      it with the mouse.</p>
+    </item>
+    <item>
+      <p>If you use the Appointment dialog:</p>
+    </item>
+    <item>
+      <p>Select a calendar in the <gui>Calendar</gui> drop-down list.</p>
+    </item>
+    <item>
+      <p>Enter a brief summary in the <gui>Summary</gui> field.</p>
+    </item>
+    <item>
+      <p>(Optional) Type a location in the <gui>Location</gui> field.</p>
+    </item>
+    <item>
+      <p>To select this event as an all day event, click
+      <guiseq><gui>Options</gui><gui>All Day Event</gui></guiseq>, or click the
+      <gui>All Day Event</gui> button on the toolbar.</p>
+    </item>
+    <item>
+      <p>Select the date and time.</p>
+    </item>
+    <item>
+      <p>If the event is not an all day event, select either <gui>For</gui> to
+      specify the duration, or select <gui>Until</gui> to specify the ending
+      time of the event.</p>
+    </item>
+    <item>
+      <p>(Optional) Enter a description in the <gui>Description</gui> field.</p>
+    </item>
+    <item>
+      <p>To show the time as <link xref="calendar-free-busy">busy</link> to
+      others, click <guiseq><gui>Options</gui>
+      <gui>Show Time as Busy</gui></guiseq>.</p>
+    </item>
+  </steps>
+
+  <p>You can also define a <link xref="calendar-timezones">time zone</link>, a
+  <link xref="using-categories">category</link>, a
+  <link xref="calendar-alarms-and-reminders">reminder</link>, a
+  <link xref="calendar-recurrence">recurrence</link>, or a
+  <link xref="calendar-classifications">classification</link> for the event, or
+  add an attachment.</p>
 
 </page>

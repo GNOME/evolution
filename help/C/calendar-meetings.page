@@ -1,22 +1,22 @@
-<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+<page xmlns="http://projectmallard.org/1.0/"
+      xmlns:its="http://www.w3.org/2005/11/its"
       type="guide" id="calendar-meetings">
 
   <info>
-    <desc>Using meetings in the calendar.</desc>
-
     <link type="guide" xref="index#calendar-advanced" />
 
     <revision pkgversion="2.32.2" version="0.1" date="2011-07-21" status="draft"/>
+
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
     </credit>
-    
-    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
-        
 
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+
+    <desc>Using meetings in the calendar.</desc>
   </info>
 
-<title>Meetings</title>
+  <title>Meetings</title>
 
 </page>

@@ -1,40 +1,47 @@
-<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+<page xmlns="http://projectmallard.org/1.0/"
+      xmlns:its="http://www.w3.org/2005/11/its"
       type="topic" id="calendar-meetings-delegating">
 
   <info>
-    <desc>Ask somebody else to run the meeting.</desc>
-    
     <link type="guide" xref="calendar-meetings" />
 
     <revision pkgversion="3.5.91" version="0.3" date="2012-09-14" status="stub"/>
+
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
     </credit>
     <credit type="author">
- <name its:translate="no">Novell, Inc</name> <!-- Content partially from http://library.gnome.org/users/evolution/2.32/bxqatxt.html -->
+      <name its:translate="no">Novell, Inc</name>
+      <!-- Content partially from
+	   http://library.gnome.org/users/evolution/2.32/bxqatxt.html -->
     </credit>
-    
-    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
-      
 
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+
+    <desc>Ask somebody else to run the meeting.</desc>
   </info>
 
-<title>Delegating Meetings</title>
-<p>Only attendees of a meeting can delegate a meeting, but not the organizer of a meeting.</p>
-<steps>
- <item>
-  <p>Right-click on the meeting that you want to delegate.</p>
- </item>
- <item>
-  <p>Click <gui>Delegate Meeting</gui>.</p>
- </item>
- <item>
-  <p>Select the contacts you want to delegate the meeting to.</p>
- </item>
- <item>
-  <p>Click <gui style="button">OK</gui>.</p>
- </item>
-</steps>
- <p>Each contact receives a copy of the meeting invitation.</p>
+  <title>Delegating Meetings</title>
+
+  <p>Only attendees of a meeting can delegate a meeting, but not the organizer
+  of a meeting.</p>
+
+  <steps>
+    <item>
+      <p>Right-click on the meeting that you want to delegate.</p>
+    </item>
+    <item>
+      <p>Click <gui>Delegate Meeting</gui>.</p>
+    </item>
+    <item>
+      <p>Select the contacts you want to delegate the meeting to.</p>
+    </item>
+    <item>
+      <p>Click <gui style="button">OK</gui>.</p>
+    </item>
+  </steps>
+
+  <p>Each contact receives a copy of the meeting invitation.</p>
+
 </page>

@@ -1,50 +1,73 @@
-<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+<page xmlns="http://projectmallard.org/1.0/"
+      xmlns:its="http://www.w3.org/2005/11/its"
       xmlns:e="http://projectmallard.org/experimental/"
       xmlns:if="http://projectmallard.org/experimental/if/"
       type="topic" id="calendar-alarms-and-reminders">
 
   <info>
-    <desc>Setting up reminder notifications for appointments.</desc>
-    
     <link type="guide" xref="index#calendar" />
 
     <revision pkgversion="3.1.5" version="0.4" date="2011-08-02" status="draft"/>
+
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
     </credit>
- <credit type="author">
-   <name its:translate="no">Novell, Inc</name> <!-- Content partially from http://library.gnome.org/users/evolution/2.32/config-prefs-cal.html.en#CACHCGCI -->
- </credit>
-    
-    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
-      
+    <credit type="author">
+     <name its:translate="no">Novell, Inc</name>
+     <!-- Content partially from http://library.gnome.org/users/evolution/2.32/config-prefs-cal.html.en#CACHCGCI -->
+    </credit>
 
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+
+    <desc>Setting up reminder notifications for appointments.</desc>
   </info>
 
-<title>Reminders for appointments</title>
+  <title>Reminders for appointments</title>
 
 <section id="general-settings">
-<title>General Settings</title>
+  <title>General Settings</title>
 
-<p>Under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Calendar and Tasks</gui><gui>Reminders</gui></guiseq> you can select those calendars for which you want to receive reminder notifications. If you do not select a calendar, you will not receive reminders for any events in this calendar. You can also define whether to show a reminder for every appointment and for every birthday and anniversary.</p>
-<if:choose>
-  <if:when test="platform:gnome-shell">
-    <p>For general information on displaying reminders, please see <link xref="help:gnome-help/shell-notifications" href="https://help.gnome.org/users/gnome-help/stable/shell-notifications">the GNOME Desktop Help</link>.</p>
-  </if:when>
-</if:choose>
+  <p>Under <guiseq><gui>Edit</gui><gui>Preferences</gui>
+  <gui>Calendar and Tasks</gui><gui>Reminders</gui></guiseq> you can select
+  those calendars for which you want to receive reminder notifications. If you
+  do not select a calendar, you will not receive reminders for any events in
+  this calendar. You can also define whether to show a reminder for every
+  appointment and for every birthday and anniversary.</p>
+
+  <if:choose>
+    <if:when test="platform:gnome-shell">
+      <p>For general information on displaying reminders, please see
+      <link xref="help:gnome-help/shell-notifications"
+      href="https://help.gnome.org/users/gnome-help/stable/shell-notifications">
+      the GNOME Desktop Help</link>.</p>
+    </if:when>
+  </if:choose>
 
 </section>
 
 <section id="manual-reminders">
-<title>Manual Reminders</title>
+  <title>Manual Reminders</title>
 
-<p>Apart from the general settings you can also set up reminders in the appointment editor for certain appointments only:</p>
-<steps>
-<item><p>Click <guiseq><gui>Options</gui><gui>Reminders</gui></guiseq> or press the Reminder button in the toolbar.</p></item>
-<item><p>From the dropdown menu, choose either one of the available default options when to show a notification reminder, or choose <gui>Customize</gui>.</p></item>
-<item><p>In case of <gui>Customize</gui>, the reminder can be a popup, a sound played, or a program ran. You can also define whether the reminder should be repeated.</p></item>
-</steps>
+  <p>Apart from the general settings you can also set up reminders in the
+  appointment editor for certain appointments only:</p>
+
+  <steps>
+    <item>
+      <p>Click <guiseq><gui>Options</gui><gui>Reminders</gui></guiseq> or press
+      the Reminder button in the toolbar.</p>
+    </item>
+    <item>
+      <p>From the dropdown menu, choose either one of the available default
+      options when to show a notification reminder, or choose
+      <gui>Customize</gui>.</p>
+    </item>
+    <item>
+      <p>In case of <gui>Customize</gui>, the reminder can be a popup, a sound
+      played, or a program ran. You can also define whether the reminder should
+      be repeated.</p>
+    </item>
+  </steps>
 
 </section>
 

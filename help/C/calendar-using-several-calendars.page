@@ -1,33 +1,48 @@
-<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+<page xmlns="http://projectmallard.org/1.0/"
+      xmlns:its="http://www.w3.org/2005/11/its"
       type="guide" id="calendar-using-several-calendars">
 
   <info>
-    <desc>Adding and using more than one calendar and different types.</desc>
-
     <link type="guide" xref="calendar-organizing" />
 
     <revision pkgversion="3.1.5" version="0.2" date="2011-07-28" status="final"/>
+
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
     </credit>
- <credit type="author">
-   <name its:translate="no">Novell, Inc</name> <!-- Content partially from http://library.gnome.org/users/evolution/2.32/usage-calendar-multiple.html.en and http://library.gnome.org/users/evolution/2.32/usage-calendar-view.html.en -->
- </credit>
-    
-    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
-        
+    <credit type="author">
+      <name its:translate="no">Novell, Inc</name>
+      <!-- Content partially from
+	   http://library.gnome.org/users/evolution/2.32/usage-calendar-multiple.html.en
+	   and
+	   http://library.gnome.org/users/evolution/2.32/usage-calendar-view.html.en
+	   -->
+    </credit>
 
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+
+    <desc>Adding and using more than one calendar and different types.</desc>
   </info>
 
-<title>Using several calendars</title>
+  <title>Using several calendars</title>
 
-<p>You can have multiple calendars and overlay them one over the other. For example, you might have a schedule of events for work, one for home, and one for your favorite sports team. The side bar lists those calendars, and you can select or deselect the boxes next to them to show and hide the appointments in your calendar view. By hiding and showing different sets of appointments, you can be sure to avoid conflicts, while keeping a minimum of clutter in your view.</p>
+  <p>You can have multiple calendars and overlay them one over the other. For
+  example, you might have a schedule of events for work, one for home, and one
+  for your favorite sports team. The side bar lists those calendars, and you
+  can select or deselect the boxes next to them to show and hide the
+  appointments in your calendar view. By hiding and showing different sets of
+  appointments, you can be sure to avoid conflicts, while keeping a minimum of
+  clutter in your view.</p>
 
-<p>Appointments for each calendar appear in different color.</p>
+  <p>Appointments for each calendar appear in different color.</p>
 
-<p>You can also use calendars that are not on your computer, such as on the internet or in a local network.</p>
+  <p>You can also use calendars that are not on your computer, such as on the
+  internet or in a local network.</p>
 
-<p>For example, the <link href="http://icalshare.com">icalshare.com website</link> has an extensive list of shared online calendars, including national and religious holidays, phases of the moon, sports, and local and regional events.</p>
+  <p>For example, the
+  <link href="http://icalshare.com">icalshare.com website</link> has an
+  extensive list of shared online calendars, including national and religious
+  holidays, phases of the moon, sports, and local and regional events.</p>
 
 </page>

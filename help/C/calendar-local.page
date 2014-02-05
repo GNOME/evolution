@@ -1,34 +1,53 @@
-<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+<page xmlns="http://projectmallard.org/1.0/"
+      xmlns:its="http://www.w3.org/2005/11/its"
       type="topic" id="calendar-local">
 
   <info>
-    <desc>Adding another local calendar.</desc>
-    
     <link type="guide" xref="calendar-using-several-calendars"/>
 
     <revision pkgversion="3.10.3" version="0.4" date="2014-01-27" status="final"/>
+
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
     </credit>
-    
-    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
-    
 
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+
+    <desc>Adding another local calendar.</desc>
   </info>
 
-<title>Adding another local calendar</title>
+  <title>Adding another local calendar</title>
 
-<p>To add another local calendar to Evolution, perform the following steps:</p>
-<steps>
-<item><p>Click <guiseq><gui>File</gui><gui>New</gui><gui>Calendar</gui></guiseq>.</p></item>
-<item><p>Select the type <gui>On This Computer</gui>.</p></item>
-<item><p>Enter a name that you prefer.</p></item>
-<item><p>Optionally choose a color that you prefer.</p></item>
-<item><p>If you choose to use an existing calendar file which is already located on your computer, you need to provide its location and whether Evolution should only read from the file or if Evolution can also add and alter items in that file.</p></item>
-<item><p>Click <gui style="button">Apply</gui>.</p></item>
-</steps>
+  <p>To add another local calendar to <app>Evolution</app>, perform the
+  following steps:</p>
 
-<p>The calendar will be added to the list of calendars in Evolution.</p>
+  <steps>
+    <item>
+      <p>Click
+      <guiseq><gui>File</gui><gui>New</gui><gui>Calendar</gui></guiseq>.</p>
+    </item>
+    <item>
+      <p>Select the type <gui>On This Computer</gui>.</p>
+    </item>
+    <item>
+      <p>Enter a name that you prefer.</p>
+    </item>
+    <item>
+      <p>Optionally choose a color that you prefer.</p>
+    </item>
+    <item>
+      <p>If you choose to use an existing calendar file which is already
+      located on your computer, you need to provide its location and whether
+      <app>Evolution</app> should only read from the file or if
+      <app>Evolution</app> can also add and alter items in that file.</p>
+    </item>
+    <item>
+      <p>Click <gui style="button">Apply</gui>.</p>
+    </item>
+  </steps>
+
+  <p>The calendar will be added to the list of calendars in
+  <app>Evolution</app>.</p>
 
 </page>

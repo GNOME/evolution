@@ -1,24 +1,29 @@
-<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+<page xmlns="http://projectmallard.org/1.0/"
+      xmlns:its="http://www.w3.org/2005/11/its"
       type="topic" id="calendar-usage-delete-appointment">
 
   <info>
-    <desc>Deleting an appointment in your calendar.</desc>
-    
     <link type="guide" xref="calendar-usage" />
 
     <revision pkgversion="3.3.91" version="0.3" date="2012-02-19" status="final"/>
+
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
     </credit>
-    
-    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
-        
 
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+
+    <desc>Deleting an appointment in your calendar.</desc>
   </info>
 
-<title>Deleting an Appointment</title>
+  <title>Deleting an Appointment</title>
 
-<p>If you want to delete an appointment in your calendars, right-click on the appointment in the calendar and select <gui>Delete Appointment</gui>, or click on the appointment and click <gui>Delete</gui> in the tool bar or press <keyseq><key>Ctrl</key><key>D</key></keyseq>. If you are in the <link xref="calendar-layout-views">list view</link> you can also use <guiseq><gui>Edit</gui><gui>Delete Appointment</gui></guiseq>.</p>
+  <p>If you want to delete an appointment in your calendars, right-click on the
+  appointment in the calendar and select <gui>Delete Appointment</gui>, or
+  click on the appointment and click <gui>Delete</gui> in the tool bar or press
+  <keyseq><key>Ctrl</key><key>D</key></keyseq>. If you are in the
+  <link xref="calendar-layout-views">list view</link> you can also use
+  <guiseq><gui>Edit</gui><gui>Delete Appointment</gui></guiseq>.</p>
 
 </page>

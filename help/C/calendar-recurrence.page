@@ -1,27 +1,38 @@
-<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+<page xmlns="http://projectmallard.org/1.0/"
+      xmlns:its="http://www.w3.org/2005/11/its"
       type="guide" id="calendar-recurrence">
 
   <info>
-    <desc>Repeating appointments.</desc>
-    
     <link type="guide" xref="index#calendar-advanced" />
 
     <revision pkgversion="3.0.2" version="0.1" date="2011-08-01" status="final"/>
+
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
     </credit>
     <credit type="author">
-      <name its:translate="no">Novell, Inc</name> <!-- Content partially from http://library.gnome.org/users/evolution/2.32/usage-calendar-apts.html.en#bxmtcp3 -->
+      <name its:translate="no">Novell, Inc</name>
+      <!-- Content partially from
+      http://library.gnome.org/users/evolution/2.32/usage-calendar-apts.html.en#bxmtcp3
+      -->
     </credit>
-    
-    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
-        
 
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+
+    <desc>Repeating appointments.</desc>
   </info>
 
-<title>Using Recurrence</title>
+  <title>Using Recurrence</title>
 
-<p>If you have an appointment that takes place regularly, you can define its recurrence by clicking the <gui>Recurrence</gui> button in the <gui>Appointment Editor</gui> or by clicking <guiseq><gui>Options</gui><gui>Recurrence</gui></guiseq>. You can then choose a time and date when the appointment stops recurring, and, under <gui>Exceptions</gui>, pick individual days when the appointment does not recur. Make your selections from left to right, and you form a sentence: "Every two weeks on Monday and Friday until January 3, 2015" or "Every month on the first Friday for 12 occurrences."</p>
+  <p>If you have an appointment that takes place regularly, you can define its
+  recurrence by clicking the <gui>Recurrence</gui> button in the
+  <gui>Appointment Editor</gui> or by clicking
+  <guiseq><gui>Options</gui><gui>Recurrence</gui></guiseq>. You can then choose
+  a time and date when the appointment stops recurring, and, under
+  <gui>Exceptions</gui>, pick individual days when the appointment does not
+  recur. Make your selections from left to right, and you form a sentence:
+  "Every two weeks on Monday and Friday until January 3, 2015" or "Every month
+  on the first Friday for 12 occurrences."</p>
 
 </page>

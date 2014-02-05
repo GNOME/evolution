@@ -1,32 +1,51 @@
-<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+<page xmlns="http://projectmallard.org/1.0/"
+      xmlns:its="http://www.w3.org/2005/11/its"
       type="topic" id="calendar-publishing">
 
   <info>
-    <desc>Post your calendar content in public.</desc>
-
     <link type="guide" xref="calendar-sharing-information" />
 
     <revision pkgversion="3.1.5" version="0.4" date="2011-08-24" status="final"/>
+
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
     </credit>
- <credit type="author">
-   <name its:translate="no">Novell, Inc</name> <!-- Content partially from Reuse http://library.gnome.org/users/evolution/2.32/config-prefs-cal.html.en#bxjng8p and http://library.gnome.org/users/evolution/2.32/usage-calendar-apts.html.en#publishing-freebusy -->
- </credit>
-    
-    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
-        
+    <credit type="author">
+      <name its:translate="no">Novell, Inc</name>
+      <!-- Content partially from Reuse
+	   http://library.gnome.org/users/evolution/2.32/config-prefs-cal.html.en#bxjng8p
+	   and
+	   http://library.gnome.org/users/evolution/2.32/usage-calendar-apts.html.en#publishing-freebusy
+	   -->
+    </credit>
 
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+
+    <desc>Post your calendar content in public.</desc>
   </info>
 
-<title>Calendar Publishing</title>
-<p>In order to make one of your calendars available to the public, you can define calendars to be uploaded to a web server under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Calendar and Tasks</gui><gui>Publishing Information</gui><gui>Locations</gui><gui style="button">Add</gui></guiseq>.</p>
-<!-- This is the location since 3.1.5, see bug https://bugzilla.gnome.org/show_bug.cgi?id=655666 -->
+  <title>Calendar Publishing</title>
 
-<p>You can specify the online location, the frequency of publishing, which calendar(s) to publish, and authentication information for uploading.</p>
+  <p>In order to make one of your calendars available to the public, you can
+  define calendars to be uploaded to a web server under
+  <guiseq><gui>Edit</gui><gui>Preferences</gui>
+  <gui>Calendar and Tasks</gui>
+  <gui>Publishing Information</gui>
+  <gui>Locations</gui><gui style="button">Add</gui></guiseq>.</p>
 
-<p>You can publish Calendar and Free/Busy information to a WebDAV server, FTP server, a remote machine through SSH or to any other web server with HTTP PUT support.</p>
+  <!-- This is the location since 3.1.5, see bug
+     https://bugzilla.gnome.org/show_bug.cgi?id=655666 -->
 
-<p>To immediately publish calendar information, click <guiseq><gui>Actions</gui><gui>Publish Calendar Information</gui></guiseq> in the calendar.</p>
+  <p>You can specify the online location, the frequency of publishing, which
+  calendar(s) to publish, and authentication information for uploading.</p>
+
+  <p>You can publish Calendar and Free/Busy information to a WebDAV server, FTP
+  server, a remote machine through SSH or to any other web server with HTTP PUT
+  support.</p>
+
+  <p>To immediately publish calendar information, click
+  <guiseq><gui>Actions</gui><gui>Publish Calendar Information</gui></guiseq> in
+  the calendar.</p>
+
 </page>
