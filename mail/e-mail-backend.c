@@ -161,8 +161,10 @@ mail_backend_prepare_for_offline_cb (EShell *shell,
 			synchronize = em_utils_prompt_user (
 				window, NULL, "mail:ask-quick-offline", NULL);
 
-		if (synchronize)
+		if (!synchronize) {
 			e_shell_backend_cancel_all (shell_backend);
+			camel_session_set_online (CAMEL_SESSION (session), FALSE);
+		}
 
 		if (!e_activity_get_cancellable (activity)) {
 			GCancellable *cancellable;
