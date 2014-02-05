@@ -108,6 +108,30 @@ mail_backend_uri_to_evname (const gchar *uri,
 	return filename;
 }
 
+static gboolean
+mail_backend_any_store_requires_downsync (EMailAccountStore *account_store)
+{
+	GQueue queue = G_QUEUE_INIT;
+	gboolean any_requires_downsync = FALSE;
+
+	g_return_val_if_fail (E_IS_MAIL_ACCOUNT_STORE (account_store), FALSE);
+
+	e_mail_account_store_queue_enabled_services (account_store, &queue);
+	while (!g_queue_is_empty (&queue)) {
+		CamelService *service;
+
+		service = g_queue_pop_head (&queue);
+		if (service == NULL)
+			continue;
+
+		if (CAMEL_IS_OFFLINE_STORE (service))
+			any_requires_downsync = any_requires_downsync ||
+				camel_offline_store_requires_downsync (CAMEL_OFFLINE_STORE (service));
+	}
+
+	return any_requires_downsync;
+}
+
 /* Callback for various asynchronous CamelStore operations where
  * the EActivity's reference count is used as a counting semaphore. */
 static void
@@ -157,7 +181,8 @@ mail_backend_prepare_for_offline_cb (EShell *shell,
 	if (e_shell_backend_is_started (shell_backend)) {
 		gboolean synchronize = FALSE;
 
-		if (e_shell_get_network_available (shell))
+		if (e_shell_get_network_available (shell) &&
+		    mail_backend_any_store_requires_downsync (account_store))
 			synchronize = em_utils_prompt_user (
 				window, NULL, "mail:ask-quick-offline", NULL);
 
