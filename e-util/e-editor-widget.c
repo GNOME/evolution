@@ -341,6 +341,37 @@ body_input_event_cb (WebKitDOMElement *element,
 }
 
 static void
+change_images_http_src_to_evo_http (EEditorWidget *widget,
+                                    gboolean to_evo_http)
+{
+	WebKitDOMDocument *document;
+	WebKitDOMNodeList *list;
+	gint length, ii;
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
+	list = webkit_dom_document_query_selector_all (
+		document, to_evo_http ? "img[src^=http]" : "img[src^=evo-http]", NULL);
+	length = webkit_dom_node_list_get_length (list);
+
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMHTMLImageElement *img;
+		gchar *src;
+
+		img = WEBKIT_DOM_HTML_IMAGE_ELEMENT (webkit_dom_node_list_item (list, ii));
+		src = webkit_dom_html_image_element_get_src (img);
+
+		if (to_evo_http) {
+			gchar *new_src = g_strconcat ("evo-http", src + 4, NULL);
+			webkit_dom_html_image_element_set_src (img, new_src);
+			g_free (new_src);
+		} else
+			webkit_dom_html_image_element_set_src (img, src + 4);
+
+		g_free (src);
+	}
+}
+
+static void
 change_cid_images_src_to_base64 (EEditorWidget *widget)
 {
 	gint ii, length;
@@ -404,6 +435,7 @@ editor_widget_load_status_changed (EEditorWidget *widget)
 		widget);
 
 	if (widget->priv->html_mode) {
+		change_images_http_src_to_evo_http (widget, TRUE);
 		change_cid_images_src_to_base64 (widget);
 	}
 
