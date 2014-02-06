@@ -792,22 +792,18 @@ insert_paragraph_with_input (WebKitDOMElement *paragraph,
 static void
 composer_move_caret (EMsgComposer *composer)
 {
-	GSettings *settings;
-	gboolean start_bottom;
-	gboolean top_signature;
-	gboolean has_paragraphs_in_body = TRUE;
 	EEditor *editor;
 	EEditorWidget *editor_widget;
 	EEditorSelection *editor_selection;
+	GSettings *settings;
+	gboolean start_bottom, html_mode, top_signature;
+	gboolean has_paragraphs_in_body = TRUE;
 	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *window;
 	WebKitDOMDOMSelection *dom_selection;
-	WebKitDOMElement *input_start;
-	WebKitDOMElement *element;
-	WebKitDOMElement *signature;
+	WebKitDOMElement *input_start, *element, *signature;
 	WebKitDOMHTMLElement *body;
-	WebKitDOMNodeList *list;
-	WebKitDOMNodeList *blockquotes;
+	WebKitDOMNodeList *list, *blockquotes;
 	WebKitDOMRange *new_range;
 
 	/* When there is an option composer-reply-start-bottom set we have
@@ -824,6 +820,7 @@ composer_move_caret (EMsgComposer *composer)
 	editor = e_msg_composer_get_editor (composer);
 	editor_widget = e_editor_get_editor_widget (editor);
 	editor_selection = e_editor_widget_get_selection (editor_widget);
+	html_mode = e_editor_widget_get_html_mode (editor_widget);
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (editor_widget));
 	window = webkit_dom_document_get_default_view (document);
@@ -839,7 +836,7 @@ composer_move_caret (EMsgComposer *composer)
 		/* We want to force spellcheck just in case that we switched to plain
 		 * text mode (when switching to html mode, the underlined words are
 		 * preserved */
-		if (!e_editor_widget_get_html_mode (editor_widget))
+		if (!html_mode)
 			e_editor_widget_force_spellcheck (editor_widget);
 		return;
 	}
@@ -847,7 +844,8 @@ composer_move_caret (EMsgComposer *composer)
 	/* If editing message as new don't handle with caret */
 	if (composer->priv->is_from_message) {
 		e_editor_selection_restore_caret_position (editor_selection);
-		e_editor_widget_quote_plain_text (editor_widget);
+		if (!html_mode)
+			e_editor_widget_quote_plain_text (editor_widget);
 		e_editor_widget_force_spellcheck (editor_widget);
 
 		return;
@@ -897,7 +895,8 @@ composer_move_caret (EMsgComposer *composer)
 			}
 
 			e_editor_selection_restore_caret_position (editor_selection);
-			e_editor_widget_quote_plain_text (editor_widget);
+			if (!html_mode)
+				e_editor_widget_quote_plain_text (editor_widget);
 			e_editor_widget_force_spellcheck (editor_widget);
 
 			input_start = webkit_dom_document_get_element_by_id (document, "-x-evo-input-start");
@@ -927,7 +926,7 @@ composer_move_caret (EMsgComposer *composer)
 				element, WEBKIT_DOM_ELEMENT (body));
 
 			if (webkit_dom_node_list_get_length (blockquotes) != 0) {
-				if (!e_editor_widget_get_html_mode (editor_widget)) {
+				if (!html_mode) {
 					WebKitDOMNode *blockquote;
 
 					blockquote = webkit_dom_node_list_item (blockquotes, 0);
@@ -939,9 +938,9 @@ composer_move_caret (EMsgComposer *composer)
 
 					e_editor_selection_restore_caret_position (editor_selection);
 					e_editor_widget_quote_plain_text (editor_widget);
-					e_editor_widget_force_spellcheck (editor_widget);
 					body = webkit_dom_document_get_body (document);
 				}
+				e_editor_widget_force_spellcheck (editor_widget);
 			}
 		}
 
