@@ -2654,8 +2654,6 @@ process_elements (WebKitDOMNode *node,
 	gulong ii, length;
 	gchar *content;
 
-	g_warning ("%d%d%d", to_plain_text, to_html, changing_mode);
-
 	if (to_plain_text && !buffer)
 		return;
 
