@@ -27,6 +27,8 @@
 
 #include <webkit/webkit.h>
 
+#include <camel/camel.h>
+
 #include <e-util/e-editor-selection.h>
 #include <e-util/e-emoticon.h>
 #include <e-util/e-spell-checker.h>
@@ -124,6 +126,11 @@ void		e_editor_widget_quote_plain_text
 void		e_editor_widget_dequote_plain_text
 						(EEditorWidget *widget);
 void		e_editor_widget_force_spellcheck
+						(EEditorWidget *widget);
+void		e_editor_widget_add_inline_image_from_mime_part
+						(EEditorWidget *widget,
+                                                 CamelMimePart *part);
+GList *		e_editor_widget_get_parts_for_inline_images
 						(EEditorWidget *widget);
 G_END_DECLS
 

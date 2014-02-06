@@ -1339,11 +1339,12 @@ composer_build_message (EMsgComposer *composer,
 		gboolean pre_encode;
 		EEditor *editor;
 		EEditorWidget *editor_widget;
-
-		clear_current_images (composer);
+		GList *inline_images;
 
 		editor = e_msg_composer_get_editor (composer);
 		editor_widget = e_editor_get_editor_widget (editor);
+		inline_images = e_editor_widget_get_parts_for_inline_images (editor_widget);
+
 		data = g_byte_array_new ();
 		text = e_editor_widget_get_text_html (editor_widget);
 		length = strlen (text);
@@ -2347,39 +2348,6 @@ msg_composer_command_after (EMsgComposer *composer,
 
 	gtkhtml_editor_run_command (editor, "text-default-color");
 	gtkhtml_editor_run_command (editor, "italic-off");
-}
-
-static gchar *
-msg_composer_image_uri (EMsgComposer *composer,
-                        const gchar *uri)
-{
-	GHashTable *hash_table;
-	CamelMimePart *part;
-	const gchar *cid;
-
-	hash_table = composer->priv->inline_images_by_url;
-	part = g_hash_table_lookup (hash_table, uri);
-
-	if (part == NULL && g_str_has_prefix (uri, "file:"))
-		part = e_msg_composer_add_inline_image_from_file (
-			composer, uri + 5);
-
-	if (part == NULL && g_str_has_prefix (uri, "cid:")) {
-		hash_table = composer->priv->inline_images;
-		part = g_hash_table_lookup (hash_table, uri);
-	}
-
-	if (part == NULL)
-		return NULL;
-
-	composer->priv->current_images =
-		g_list_prepend (composer->priv->current_images, part);
-
-	cid = camel_mime_part_get_content_id (part);
-	if (cid == NULL)
-		return NULL;
-
-	return g_strconcat ("cid:", cid, NULL);
 }
 #endif /* WEBKIT-COMPOSER */
 
@@ -4512,105 +4480,6 @@ e_msg_composer_attach (EMsgComposer *composer,
 		attachment, (GAsyncReadyCallback)
 		e_attachment_load_handle_error, composer);
 	g_object_unref (attachment);
-}
-
-/**
- * e_msg_composer_add_inline_image_from_file:
- * @composer: a composer object
- * @filename: the name of the file containing the image
- *
- * This reads in the image in @filename and adds it to @composer
- * as an inline image, to be wrapped in a multipart/related.
- *
- * Returns: the newly-created CamelMimePart (which must be reffed
- * if the caller wants to keep its own reference), or %NULL on error.
- **/
-CamelMimePart *
-e_msg_composer_add_inline_image_from_file (EMsgComposer *composer,
-                                           const gchar *filename)
-{
-	gchar *mime_type, *cid, *url, *name, *dec_file_name;
-	CamelStream *stream;
-	CamelDataWrapper *wrapper;
-	CamelMimePart *part;
-	EMsgComposerPrivate *p = composer->priv;
-
-	dec_file_name = g_strdup (filename);
-	camel_url_decode (dec_file_name);
-
-	if (!g_file_test (dec_file_name, G_FILE_TEST_IS_REGULAR))
-		return NULL;
-
-	stream = camel_stream_fs_new_with_name (
-		dec_file_name, O_RDONLY, 0, NULL);
-	if (!stream)
-		return NULL;
-
-	wrapper = camel_data_wrapper_new ();
-	camel_data_wrapper_construct_from_stream_sync (
-		wrapper, stream, NULL, NULL);
-	g_object_unref (CAMEL_OBJECT (stream));
-
-	mime_type = e_util_guess_mime_type (dec_file_name, TRUE);
-	if (mime_type == NULL)
-		mime_type = g_strdup ("application/octet-stream");
-	camel_data_wrapper_set_mime_type (wrapper, mime_type);
-	g_free (mime_type);
-
-	part = camel_mime_part_new ();
-	camel_medium_set_content (CAMEL_MEDIUM (part), wrapper);
-	g_object_unref (wrapper);
-
-	cid = camel_header_msgid_generate ();
-	camel_mime_part_set_content_id (part, cid);
-	name = g_path_get_basename (dec_file_name);
-	camel_mime_part_set_filename (part, name);
-	g_free (name);
-	camel_mime_part_set_encoding (part, CAMEL_TRANSFER_ENCODING_BASE64);
-
-	url = g_strdup_printf ("file:%s", dec_file_name);
-	g_hash_table_insert (p->inline_images_by_url, url, part);
-
-	url = g_strdup_printf ("cid:%s", cid);
-	g_hash_table_insert (p->inline_images, url, part);
-	g_free (cid);
-
-	g_free (dec_file_name);
-
-	return part;
-}
-
-/**
- * e_msg_composer_add_inline_image_from_mime_part:
- * @composer: a composer object
- * @part: a CamelMimePart containing image data
- *
- * This adds the mime part @part to @composer as an inline image, to
- * be wrapped in a multipart/related.
- **/
-void
-e_msg_composer_add_inline_image_from_mime_part (EMsgComposer *composer,
-                                                CamelMimePart *part)
-{
-	gchar *url;
-	const gchar *location, *cid;
-	EMsgComposerPrivate *p = composer->priv;
-
-	cid = camel_mime_part_get_content_id (part);
-	if (!cid) {
-		camel_mime_part_set_content_id (part, NULL);
-		cid = camel_mime_part_get_content_id (part);
-	}
-
-	url = g_strdup_printf ("cid:%s", cid);
-	g_hash_table_insert (p->inline_images, url, part);
-	g_object_ref (part);
-
-	location = camel_mime_part_get_content_location (part);
-	if (location != NULL)
-		g_hash_table_insert (
-			p->inline_images_by_url,
-			g_strdup (location), part);
 }
 
 static void

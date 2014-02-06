@@ -71,6 +71,8 @@ struct _EEditorWidgetPrivate {
 
 	WebKitDOMElement *element_under_mouse;
 
+	GHashTable *inline_images;
+
 	GSettings *font_settings;
 	GSettings *aliasing_settings;
 
@@ -338,6 +340,47 @@ body_input_event_cb (WebKitDOMElement *element,
 	}
 }
 
+static void
+change_cid_images_src_to_base64 (EEditorWidget *widget)
+{
+	gint ii, length;
+	WebKitDOMDocument *document;
+	WebKitDOMNodeList *list;
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
+
+	list = webkit_dom_document_query_selector_all (document, "img[src^=\"cid:\"]", NULL);
+	length = webkit_dom_node_list_get_length (list);
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
+		gchar *cid_src;
+		const gchar *base64_src;
+
+		cid_src = webkit_dom_html_image_element_get_src (
+			WEBKIT_DOM_HTML_IMAGE_ELEMENT (node));
+
+		if ((base64_src = g_hash_table_lookup (widget->priv->inline_images, cid_src)) != NULL) {
+			const gchar *base64_data = strstr (base64_src, ";") + 1;
+			gchar *name;
+			glong name_length;
+
+			name_length =
+				g_utf8_strlen (base64_src, -1) -
+				g_utf8_strlen (base64_data, -1) - 1;
+			name = g_strndup (base64_src, name_length);
+
+			webkit_dom_element_set_attribute (
+				WEBKIT_DOM_ELEMENT (node), "data-inline", "", NULL);
+			webkit_dom_element_set_attribute (
+				WEBKIT_DOM_ELEMENT (node), "data-name", name, NULL);
+			webkit_dom_html_image_element_set_src (
+				WEBKIT_DOM_HTML_IMAGE_ELEMENT (node),
+				base64_data);
+			g_free (name);
+		}
+	}
+	g_hash_table_remove_all (widget->priv->inline_images);
+}
 
 static void
 editor_widget_load_status_changed (EEditorWidget *widget)
@@ -359,6 +402,10 @@ editor_widget_load_status_changed (EEditorWidget *widget)
 		G_CALLBACK (body_input_event_cb),
 		FALSE,
 		widget);
+
+	if (widget->priv->html_mode) {
+		change_cid_images_src_to_base64 (widget);
+	}
 
 	/* Dispatch queued operations */
 	while (widget->priv->postreload_operations &&
@@ -671,59 +718,171 @@ editor_widget_check_magic_links (EEditorWidget *widget,
 	g_free (node_text);
 }
 
-void
-e_editor_widget_insert_smiley (EEditorWidget *widget,
-                               EEmoticon *emoticon)
+typedef struct _LoadContext LoadContext;
+
+struct _LoadContext {
+	EEditorWidget *widget;
+	gchar *content_type;
+	gchar *name;
+	EEmoticon *emoticon;
+};
+
+static LoadContext *
+emoticon_load_context_new (EEditorWidget *widget,
+                           EEmoticon *emoticon)
 {
-	gchar *filename_uri, *html, *node_text;
+	LoadContext *load_context;
+
+	load_context = g_slice_new0 (LoadContext);
+	load_context->widget = widget;
+	load_context->emoticon = emoticon;
+
+	return load_context;
+}
+
+static void
+emoticon_load_context_free (LoadContext *load_context)
+{
+	g_free (load_context->content_type);
+	g_free (load_context->name);
+	g_slice_free (LoadContext, load_context);
+}
+
+static void
+emoticon_read_async_cb (GFile *file,
+                        GAsyncResult *result,
+                        LoadContext *load_context)
+{
+	EEditorWidget *widget = load_context->widget;
+	EEmoticon *emoticon = load_context->emoticon;
+	GError *error = NULL;
+	gchar *html, *node_text, *mime_type;
+	gchar *base64_encoded, *output, *data;
+	const gchar *emoticon_start;
+	GFileInputStream *input_stream;
+	GOutputStream *output_stream;
+	gssize size;
 	WebKitDOMDocument *document;
-	WebKitDOMElement *span;
+	WebKitDOMElement *span, *caret_position;
 	WebKitDOMNode *node;
 	WebKitDOMNode *parent;
 	WebKitDOMRange *range;
 
+	input_stream = g_file_read_finish (file, result, &error);
+	g_return_if_fail (!error && input_stream);
+
+	output_stream = g_memory_output_stream_new (NULL, 0, g_realloc, g_free);
+
+	size = g_output_stream_splice (
+		output_stream, G_INPUT_STREAM (input_stream),
+		G_OUTPUT_STREAM_SPLICE_NONE, NULL, &error);
+
+	if (error || (size == -1))
+		goto out;
+
+	e_editor_selection_save_caret_position (
+		e_editor_widget_get_selection (widget));
+
+	mime_type = g_content_type_get_mime_type (load_context->content_type);
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
 	range = editor_widget_get_dom_range (widget);
 	node = webkit_dom_range_get_end_container (range, NULL);
 	node_text = webkit_dom_text_get_whole_text (WEBKIT_DOM_TEXT (node));
-
-	filename_uri = e_emoticon_get_uri (emoticon);
 	parent = webkit_dom_node_get_parent_node (node);
 	span = webkit_dom_document_create_element (document, "SPAN", NULL);
+
+	data = g_memory_output_stream_get_data (G_MEMORY_OUTPUT_STREAM (output_stream));
+
+	base64_encoded = g_base64_encode ((const guchar *) data, size);
+	output = g_strconcat ("data:", mime_type, ";base64,", base64_encoded, NULL);
+
 	/* Insert span with image representation and another one with text
 	 * represetation and hide/show them dependant on active composer mode */
 	/* &#8203 == UNICODE_ZERO_WIDTH_SPACE */
 	html = g_strdup_printf (
-		"<span class\"-x-evo-smiley-wrapper\"><img src=\"%s\" alt=\"%s\" "
-		"x-evo-smiley=\"%s\" class=\"-x-evo-smiley-img\"/><span "
-		"class=\"-x-evo-smiley-text\" style=\"display: none;\">%s</span>"
-		"</span>&#8203;",
-		filename_uri, emoticon ? emoticon->text_face : "",
-		emoticon->icon_name, emoticon ? emoticon->text_face : "");
+		"<span class=\"-x-evo-smiley-wrapper\"><img src=\"%s\" alt=\"%s\" "
+		"x-evo-smiley=\"%s\" class=\"-x-evo-smiley-img\" data-inline "
+		"data-name=\"%s\"/><span class=\"-x-evo-smiley-text\" "
+		"style=\"display: none;\">%s</span></span>&#8203;",
+		output, emoticon ? emoticon->text_face : "", emoticon->icon_name,
+		load_context->name, emoticon ? emoticon->text_face : "");
 
-	span = WEBKIT_DOM_ELEMENT (webkit_dom_node_append_child (
-		parent, WEBKIT_DOM_NODE (span), NULL));
+	caret_position = webkit_dom_document_get_element_by_id (
+		document, "-x-evo-caret-position");
+	span = WEBKIT_DOM_ELEMENT (webkit_dom_node_insert_before (
+		parent,
+		WEBKIT_DOM_NODE (span),
+		WEBKIT_DOM_NODE (caret_position),
+		NULL));
 
 	webkit_dom_html_element_set_outer_html (
 		WEBKIT_DOM_HTML_ELEMENT (span), html, NULL);
 
-	webkit_dom_node_append_child (
-		parent,
-		e_editor_selection_get_caret_position_node (document),
-		NULL);
-
-	webkit_dom_character_data_delete_data (
-		WEBKIT_DOM_CHARACTER_DATA (node),
-		g_utf8_strlen (node_text, -1) - strlen (emoticon->text_face),
-		strlen (emoticon->text_face),
-		NULL);
+	emoticon_start = g_utf8_strrchr (
+		node_text, -1, g_utf8_get_char (emoticon->text_face));
+	if (emoticon_start) {
+		webkit_dom_character_data_delete_data (
+			WEBKIT_DOM_CHARACTER_DATA (node),
+			g_utf8_strlen (node_text, -1) - strlen (emoticon_start),
+			strlen (emoticon->text_face),
+			NULL);
+	}
 
 	e_editor_selection_restore_caret_position (
 		e_editor_widget_get_selection (widget));
 
 	g_free (html);
-	g_free (filename_uri);
 	g_free (node_text);
+	g_free (base64_encoded);
+	g_free (output);
+	g_free (mime_type);
+	g_object_unref (output_stream);
+ out:
+	emoticon_load_context_free (load_context);
+}
+
+static void
+emoticon_query_info_async_cb (GFile *file,
+                              GAsyncResult *result,
+                              LoadContext *load_context)
+{
+	GError *error = NULL;
+	GFileInfo *info;
+
+	info = g_file_query_info_finish (file, result, &error);
+	g_return_if_fail (!error && info);
+
+	load_context->content_type = g_strdup (g_file_info_get_content_type (info));
+	load_context->name = g_strdup (g_file_info_get_name (info));
+
+	g_file_read_async (
+		file, G_PRIORITY_DEFAULT, NULL,
+		(GAsyncReadyCallback) emoticon_read_async_cb, load_context);
+
+	g_object_unref (info);
+}
+
+void
+e_editor_widget_insert_smiley (EEditorWidget *widget,
+                               EEmoticon *emoticon)
+{
+	GFile *file;
+	gchar *filename_uri;
+	LoadContext *load_context;
+
+	filename_uri = e_emoticon_get_uri (emoticon);
+	g_return_if_fail (filename_uri != NULL);
+
+	load_context = emoticon_load_context_new (widget, emoticon);
+
+	file = g_file_new_for_uri (filename_uri);
+	g_file_query_info_async (
+		file,  "standard::*", G_FILE_QUERY_INFO_NONE,
+		G_PRIORITY_DEFAULT, NULL,
+		(GAsyncReadyCallback) emoticon_query_info_async_cb, load_context);
+
+	g_free (filename_uri);
+	g_object_unref (file);
 }
 
 static void
@@ -999,8 +1158,23 @@ editor_widget_dispose (GObject *object)
 		priv->font_settings = NULL;
 	}
 
+	g_hash_table_remove_all (priv->inline_images);
+
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_editor_widget_parent_class)->dispose (object);
+}
+
+static void
+editor_widget_finalize (GObject *object)
+{
+	EEditorWidgetPrivate *priv;
+
+	priv = E_EDITOR_WIDGET_GET_PRIVATE (object);
+
+	g_hash_table_destroy (priv->inline_images);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (e_editor_widget_parent_class)->finalize (object);
 }
 
 static void
@@ -1320,6 +1494,7 @@ e_editor_widget_class_init (EEditorWidgetClass *class)
 	object_class->get_property = editor_widget_get_property;
 	object_class->set_property = editor_widget_set_property;
 	object_class->dispose = editor_widget_dispose;
+	object_class->finalize = editor_widget_finalize;
 	object_class->constructed = editor_widget_constructed;
 
 	widget_class = GTK_WIDGET_CLASS (class);
@@ -1555,6 +1730,7 @@ e_editor_widget_init (EEditorWidget *editor)
 		"enable-plugins", FALSE,
 		"enable-scripts", FALSE,
 		"enable-spell-checking", TRUE,
+		"respect-image-orientation", TRUE,
 		NULL);
 
 	webkit_web_view_set_settings (WEBKIT_WEB_VIEW (editor), settings);
@@ -1607,6 +1783,11 @@ e_editor_widget_init (EEditorWidget *editor)
 			G_CALLBACK (e_editor_widget_update_fonts), editor);
 		editor->priv->aliasing_settings = g_settings;
 	}
+
+	editor->priv->inline_images = g_hash_table_new_full (
+		g_str_hash, g_str_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) g_free);
 
 	e_editor_widget_update_fonts (editor);
 
@@ -2242,7 +2423,7 @@ e_editor_widget_dequote_plain_text (EEditorWidget *widget)
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
 
 	list = webkit_dom_document_query_selector_all (
-			document, "blockquote.-x-evo-plaintext-quoted", NULL);
+		document, "blockquote.-x-evo-plaintext-quoted", NULL);
 	length = webkit_dom_node_list_get_length (list);
 	for (ii = 0; ii < length; ii++) {
 		WebKitDOMNodeList *gt_list;
@@ -3421,3 +3602,175 @@ e_editor_widget_check_magic_links (EEditorWidget *widget,
 	editor_widget_check_magic_links (widget, range, include_space, NULL);
 }
 
+static CamelMimePart *
+e_editor_widget_add_inline_image_from_element (EEditorWidget *widget,
+                                               WebKitDOMElement *element)
+{
+	CamelStream *stream;
+	CamelDataWrapper *wrapper;
+	CamelMimePart *part = NULL;
+	gsize decoded_size;
+	gssize size;
+	gchar *mime_type = NULL;
+	gchar *element_src, *cid, *name;
+	const gchar *base64_encoded_data;
+	guchar *base64_decoded_data;
+
+	if (!WEBKIT_DOM_IS_HTML_IMAGE_ELEMENT (element))
+		return NULL;
+
+	element_src = webkit_dom_html_image_element_get_src (
+		WEBKIT_DOM_HTML_IMAGE_ELEMENT (element));
+
+	base64_encoded_data = strstr (element_src, ";base64,");
+	if (!base64_encoded_data)
+		goto out;
+
+	mime_type = g_strndup (
+		element_src + 5,
+		base64_encoded_data - (strstr (element_src, "data:") + 5));
+
+	/* Move to actual data */
+	base64_encoded_data += 8;
+
+	base64_decoded_data = g_base64_decode (base64_encoded_data, &decoded_size);
+
+	stream = camel_stream_mem_new ();
+	size = camel_stream_write (
+		stream, (gchar *) base64_decoded_data, decoded_size, NULL, NULL);
+
+	if (size == -1)
+		goto out;
+
+	wrapper = camel_data_wrapper_new ();
+	camel_data_wrapper_construct_from_stream_sync (
+		wrapper, stream, NULL, NULL);
+	g_object_unref (CAMEL_OBJECT (stream));
+
+	camel_data_wrapper_set_mime_type (wrapper, mime_type);
+
+	part = camel_mime_part_new ();
+	camel_medium_set_content (CAMEL_MEDIUM (part), wrapper);
+	g_object_unref (wrapper);
+
+	cid = camel_header_msgid_generate ();
+	camel_mime_part_set_content_id (part, cid);
+	name = webkit_dom_element_get_attribute (element, "data-name");
+	camel_mime_part_set_filename (part, name);
+	g_free (name);
+	camel_mime_part_set_encoding (part, CAMEL_TRANSFER_ENCODING_BASE64);
+out:
+	g_free (mime_type);
+	g_free (element_src);
+	g_free (base64_decoded_data);
+
+	return part;
+}
+
+GList *
+e_editor_widget_get_parts_for_inline_images (EEditorWidget *widget)
+{
+	GHashTable *added;
+	GList *parts = NULL;
+	gint length, ii;
+	WebKitDOMDocument *document;
+	WebKitDOMNodeList *list;
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW  (widget));
+	list = webkit_dom_document_query_selector_all (document, "img[data-inline]", NULL);
+
+	length = webkit_dom_node_list_get_length (list);
+	if (length == 0)
+		return parts;
+
+	added = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, NULL);
+	for (ii = 0; ii < length; ii++) {
+		CamelMimePart *part;
+		WebKitDOMNode *node;
+		gchar *src;
+
+		node = webkit_dom_node_list_item (list, ii);
+		src = webkit_dom_html_image_element_get_src (
+			WEBKIT_DOM_HTML_IMAGE_ELEMENT (node));
+
+		if (!g_hash_table_lookup (added, src)) {
+			part = e_editor_widget_add_inline_image_from_element (
+				widget, WEBKIT_DOM_ELEMENT (node));
+			parts = g_list_append (parts, part);
+			g_hash_table_insert (
+				added, src, (gpointer) camel_mime_part_get_content_id (part));
+		}
+		g_free (src);
+	}
+
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMNode *node;
+		gchar *src;
+		const gchar *id;
+
+		node = webkit_dom_node_list_item (list, ii);
+		src = webkit_dom_html_image_element_get_src (
+			WEBKIT_DOM_HTML_IMAGE_ELEMENT (node));
+
+		if ((id = g_hash_table_lookup (added, src)) != NULL) {
+			gchar *cid = g_strdup_printf ("cid:%s", id);
+			webkit_dom_html_image_element_set_src (
+				WEBKIT_DOM_HTML_IMAGE_ELEMENT (node), cid);
+			g_free (cid);
+		}
+		g_free (src);
+	}
+	g_hash_table_destroy (added);
+
+	return parts;
+}
+
+/**
+ * e_editor_widget_add_inline_image_from_mime_part:
+ * @composer: a composer object
+ * @part: a CamelMimePart containing image data
+ *
+ * This adds the mime part @part to @composer as an inline image.
+ **/
+void
+e_editor_widget_add_inline_image_from_mime_part (EEditorWidget *widget,
+                                                 CamelMimePart *part)
+{
+	CamelDataWrapper *dw;
+	CamelStream *stream;
+	GByteArray *byte_array;
+	gchar *src, *base64_encoded, *mime_type, *cid_src;
+	const gchar *cid, *name;
+
+	stream = camel_stream_mem_new ();
+	dw = camel_medium_get_content (CAMEL_MEDIUM (part));
+	g_return_if_fail (dw);
+
+	mime_type = camel_data_wrapper_get_mime_type (dw);
+	camel_data_wrapper_decode_to_stream_sync (dw, stream, NULL, NULL);
+	camel_stream_close (stream, NULL, NULL);
+
+	byte_array = camel_stream_mem_get_byte_array (CAMEL_STREAM_MEM (stream));
+
+	if (!byte_array->data)
+		return;
+
+	base64_encoded = g_base64_encode ((const guchar *) byte_array->data, byte_array->len);
+
+	name = camel_mime_part_get_filename (part);
+	/* Insert file name before new src */
+	src = g_strconcat (name, ";data:", mime_type, ";base64,", base64_encoded, NULL);
+
+	cid = camel_mime_part_get_content_id (part);
+	if (!cid) {
+		camel_mime_part_set_content_id (part, NULL);
+		cid = camel_mime_part_get_content_id (part);
+	}
+	cid_src = g_strdup_printf ("cid:%s", cid);
+
+	g_hash_table_insert (widget->priv->inline_images, cid_src, src);
+
+	g_free (base64_encoded);
+	g_free (mime_type);
+	g_object_unref (stream);
+}

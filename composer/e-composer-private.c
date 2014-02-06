@@ -381,8 +381,10 @@ e_composer_private_dispose (EMsgComposer *composer)
 		composer->priv->composer_actions = NULL;
 	}
 
-	g_clear_object (&composer->priv->gallery_icon_view);
-	g_clear_object (&composer->priv->gallery_scrolled_window);
+	if (composer->priv->gallery_scrolled_window != NULL) {
+		g_object_unref (composer->priv->gallery_scrolled_window);
+		composer->priv->gallery_scrolled_window = NULL;
+	}
 
 	if (composer->priv->redirect != NULL) {
 		g_object_unref (composer->priv->redirect);
@@ -406,9 +408,6 @@ e_composer_private_finalize (EMsgComposer *composer)
 	g_free (composer->priv->charset);
 	g_free (composer->priv->mime_type);
 	g_free (composer->priv->mime_body);
-
-	g_hash_table_destroy (composer->priv->inline_images);
-	g_hash_table_destroy (composer->priv->inline_images_by_url);
 }
 
 gchar *

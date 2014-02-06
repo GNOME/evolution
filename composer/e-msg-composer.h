@@ -192,8 +192,6 @@ void		e_save_spell_languages		(const GList *spell_languages);
 void		e_msg_composer_is_from_new_message
 						(EMsgComposer *composer,
 						 gboolean is_from_new_message);
-
-
 G_END_DECLS
 
 #endif /* E_MSG_COMPOSER_H */
