@@ -2115,9 +2115,7 @@ quote_node (WebKitDOMDocument *document,
 
 		/* Do temporary wrapper */
 		wrapper = webkit_dom_document_create_element (document, "SPAN", NULL);
-		webkit_dom_element_set_class_name (
-			wrapper,
-			"-x-evo-temp-text-wrapper");
+		webkit_dom_element_set_class_name (wrapper, "-x-evo-temp-text-wrapper");
 
 		node_clone = webkit_dom_node_clone_node (node, TRUE);
 
@@ -2324,9 +2322,23 @@ quote_plain_text_recursive (WebKitDOMDocument *document,
 							skip_node = TRUE;
 							goto next_node;
 						}
+
 						if (is_citation_node (prev_sibling)) {
 							insert_quote_symbols_before_node (
 								document, node, quote_level, FALSE);
+						}
+
+						if (WEBKIT_DOM_IS_ELEMENT (prev_sibling) &&
+						    element_has_class (WEBKIT_DOM_ELEMENT (prev_sibling), "-x-evo-temp-text-wrapper")) {
+							gchar *text_content;
+
+							text_content = webkit_dom_node_get_text_content (prev_sibling);
+							if (g_strcmp0 (text_content, "") == 0)
+								insert_quote_symbols_before_node (
+									document, node, quote_level, FALSE);
+
+							g_free (text_content);
+
 						}
 					}
 					quote_node (document, node, quote_level);
