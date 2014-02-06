@@ -129,12 +129,6 @@ void		e_msg_composer_set_source_headers
 						 CamelMessageFlags flags);
 void		e_msg_composer_attach		(EMsgComposer *composer,
 						 CamelMimePart *mime_part);
-CamelMimePart *	e_msg_composer_add_inline_image_from_file
-						(EMsgComposer *composer,
-						 const gchar *filename);
-void		e_msg_composer_add_inline_image_from_mime_part
-						(EMsgComposer *composer,
-						 CamelMimePart *part);
 void		e_msg_composer_get_message	(EMsgComposer *composer,
 						 gint io_priority,
 						 GCancellable *cancellable,
@@ -173,8 +167,6 @@ CamelInternetAddress *
 CamelInternetAddress *
 		e_msg_composer_get_reply_to	(EMsgComposer *composer);
 
-void		e_msg_composer_clear_inlined_table
-						(EMsgComposer *composer);
 void		e_msg_composer_add_message_attachments
 						(EMsgComposer *composer,
 						 CamelMimeMessage *message,
@@ -200,8 +192,6 @@ void		e_save_spell_languages		(const GList *spell_languages);
 void		e_msg_composer_is_from_new_message
 						(EMsgComposer *composer,
 						 gboolean is_from_new_message);
-
-
 G_END_DECLS
 
 #endif /* E_MSG_COMPOSER_H */

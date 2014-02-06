@@ -81,10 +81,6 @@ struct _EMsgComposerPrivate {
 
 	GtkWidget *address_dialog;
 
-	GHashTable *inline_images;
-	GHashTable *inline_images_by_url;
-	GList *current_images;
-
 	gchar *mime_type;
 	gchar *mime_body;
 	gchar *charset;

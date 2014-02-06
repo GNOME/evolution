@@ -129,16 +129,6 @@ e_composer_private_constructed (EMsgComposer *composer)
 	priv->extra_hdr_names = g_ptr_array_new ();
 	priv->extra_hdr_values = g_ptr_array_new ();
 
-	priv->inline_images = g_hash_table_new_full (
-		g_str_hash, g_str_equal,
-		(GDestroyNotify) g_free,
-		(GDestroyNotify) NULL);
-
-	priv->inline_images_by_url = g_hash_table_new_full (
-		g_str_hash, g_str_equal,
-		(GDestroyNotify) g_free,
-		(GDestroyNotify) g_object_unref);
-
 	priv->charset = e_composer_get_default_charset ();
 
 	priv->is_from_message = FALSE;
@@ -394,9 +384,6 @@ e_composer_private_dispose (EMsgComposer *composer)
 	g_clear_object (&composer->priv->gallery_icon_view);
 	g_clear_object (&composer->priv->gallery_scrolled_window);
 
-	g_hash_table_remove_all (composer->priv->inline_images);
-	g_hash_table_remove_all (composer->priv->inline_images_by_url);
-
 	if (composer->priv->redirect != NULL) {
 		g_object_unref (composer->priv->redirect);
 		composer->priv->redirect = NULL;
@@ -419,9 +406,6 @@ e_composer_private_finalize (EMsgComposer *composer)
 	g_free (composer->priv->charset);
 	g_free (composer->priv->mime_type);
 	g_free (composer->priv->mime_body);
-
-	g_hash_table_destroy (composer->priv->inline_images);
-	g_hash_table_destroy (composer->priv->inline_images_by_url);
 }
 
 gchar *

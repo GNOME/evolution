@@ -3024,6 +3024,7 @@ struct _LoadContext {
 	goffset total_num_bytes;
 	gssize bytes_read;
 	const gchar *content_type;
+	const gchar *filename;
 	gchar buffer[4096];
 };
 
@@ -3063,44 +3064,32 @@ image_load_context_free (LoadContext *load_context)
 }
 
 static void
-image_load_finish (LoadContext *load_context)
+insert_base64_image (EEditorSelection *selection,
+                     const gchar *base64_content,
+		     const gchar *filename)
 {
-	EEditorSelection *selection;
 	EEditorWidget *editor_widget;
 	WebKitDOMDocument *document;
-	WebKitDOMElement *element;
-	WebKitDOMElement *caret_position;
-	GMemoryOutputStream *output_stream;
-	gchar *base64_encoded;
-	gchar *mime_type;
-	gchar *output;
-	gsize size;
-	gpointer data;
+	WebKitDOMElement *element, *caret_position;
 
-	output_stream = G_MEMORY_OUTPUT_STREAM (load_context->output_stream);
-
-	selection = load_context->selection;
+	e_editor_selection_save_caret_position (selection);
 
 	editor_widget = e_editor_selection_ref_editor_widget (selection);
 	g_return_if_fail (editor_widget != NULL);
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (editor_widget));
+
 	g_object_unref (editor_widget);
-
-	mime_type = g_content_type_get_mime_type (load_context->content_type);
-
-	data = g_memory_output_stream_get_data (output_stream);
-	size = g_memory_output_stream_get_data_size (output_stream);
-
-	base64_encoded = g_base64_encode ((const guchar *) data, size);
-	output = g_strconcat ("data:", mime_type, ";base64,", base64_encoded, NULL);
-
-	e_editor_selection_save_caret_position (selection);
 
 	element = webkit_dom_document_create_element (document, "img", NULL);
 	webkit_dom_html_image_element_set_src (
 		WEBKIT_DOM_HTML_IMAGE_ELEMENT (element),
-		output);
+		base64_content);
+	webkit_dom_element_set_attribute (
+		WEBKIT_DOM_ELEMENT (element), "data-inline", "", NULL);
+	webkit_dom_element_set_attribute (
+		WEBKIT_DOM_ELEMENT (element), "data-name",
+		filename ? filename : "", NULL);
 
 	caret_position = webkit_dom_document_get_element_by_id (
 		document, "-x-evo-caret-position");
@@ -3113,6 +3102,30 @@ image_load_finish (LoadContext *load_context)
 
 	e_editor_selection_restore_caret_position (selection);
 
+}
+
+static void
+image_load_finish (LoadContext *load_context)
+{
+	EEditorSelection *selection;
+	GMemoryOutputStream *output_stream;
+	gchar *base64_encoded, *mime_type, *output;
+	gsize size;
+	gpointer data;
+
+	output_stream = G_MEMORY_OUTPUT_STREAM (load_context->output_stream);
+
+	selection = load_context->selection;
+
+	mime_type = g_content_type_get_mime_type (load_context->content_type);
+
+	data = g_memory_output_stream_get_data (output_stream);
+	size = g_memory_output_stream_get_data_size (output_stream);
+
+	base64_encoded = g_base64_encode ((const guchar *) data, size);
+	output = g_strconcat ("data:", mime_type, ";base64,", base64_encoded, NULL);
+	insert_base64_image (selection, output, load_context->filename);
+
 	g_free (base64_encoded);
 	g_free (output);
 	g_free (mime_type);
@@ -3123,7 +3136,7 @@ image_load_finish (LoadContext *load_context)
 static void
 image_load_write_cb (GOutputStream *output_stream,
                      GAsyncResult *result,
-                          LoadContext *load_context)
+                     LoadContext *load_context)
 {
 	GInputStream *input_stream;
 	gssize bytes_written;
@@ -3246,6 +3259,7 @@ image_load_query_info_cb (GFile *file,
 
 	load_context->content_type = g_file_info_get_content_type (file_info);
 	load_context->total_num_bytes = g_file_info_get_size (file_info);
+	load_context->filename = g_file_info_get_name (file_info);
 
 	g_file_read_async (
 		file, G_PRIORITY_DEFAULT,
@@ -3305,8 +3319,26 @@ e_editor_selection_insert_image (EEditorSelection *selection,
 	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
 	g_return_if_fail (image_uri != NULL);
 
-	if (is_in_html_mode (selection))
-		image_load_and_insert_async (selection, image_uri);
+	if (is_in_html_mode (selection)) {
+		if (strstr (image_uri, ";base64,")) {
+			if (g_str_has_prefix (image_uri, "data:"))
+				insert_base64_image (selection, image_uri, "");
+			if (strstr (image_uri, ";data")) {
+				const gchar *base64_data = strstr (image_uri, ";") + 1;
+				gchar *filename;
+				glong filename_length;
+
+				filename_length =
+					g_utf8_strlen (image_uri, -1) -
+					g_utf8_strlen (base64_data, -1) - 1;
+				filename = g_strndup (image_uri, filename_length);
+
+				insert_base64_image (selection, base64_data, filename);
+				g_free (filename);
+			}
+		} else
+			image_load_and_insert_async (selection, image_uri);
+	}
 }
 
 /**
