@@ -1223,7 +1223,7 @@ composer_build_message (EMsgComposer *composer,
 		e_editor_widget_embed_styles (editor_widget);
 		e_editor_selection_save_caret_position (selection);
 
-		text = e_editor_widget_get_text_html (editor_widget);
+		text = e_editor_widget_get_text_html_for_drafts (editor_widget);
 
 		e_editor_widget_remove_embed_styles (editor_widget);
 		e_editor_selection_restore_caret_position (selection);

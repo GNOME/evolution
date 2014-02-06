@@ -104,6 +104,8 @@ void		e_editor_widget_set_magic_smileys
 ESpellChecker *	e_editor_widget_get_spell_checker
 						(EEditorWidget *widget);
 gchar *		e_editor_widget_get_text_html	(EEditorWidget *widget);
+gchar *		e_editor_widget_get_text_html_for_drafts
+						(EEditorWidget *widget);
 gchar *		e_editor_widget_get_text_plain	(EEditorWidget *widget);
 void		e_editor_widget_set_text_html	(EEditorWidget *widget,
 						 const gchar *text);
