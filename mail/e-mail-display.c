@@ -1334,39 +1334,46 @@ chainup:
 		redirect_uri (web_view, uri);
 }
 
+static CamelMimePart *
+camel_mime_part_from_cid (EMailDisplay *display,
+                          const gchar *uri)
+{
+	EMailPartList *part_list;
+	CamelMimeMessage *message;
+	CamelMimePart *mime_part;
+
+	if (!g_str_has_prefix (uri, "cid:"))
+		return NULL;
+
+	part_list = e_mail_display_get_part_list (display);
+	if (!part_list)
+		return NULL;
+
+	message = e_mail_part_list_get_message (part_list);
+	if (!message)
+		return NULL;
+
+	mime_part = camel_mime_message_get_part_by_content_id (
+		message, uri + 4);
+
+	return mime_part;
+}
+
 static gchar *
 mail_display_suggest_filename (EWebView *web_view,
                                const gchar *uri)
 {
-	if (g_str_has_prefix (uri, "cid:")) {
-		EMailDisplay *display;
-		EMailPartList *part_list;
-		CamelMimeMessage *message;
-		CamelMimePart *mime_part;
-		const gchar *filename;
+	EMailDisplay *display;
+	CamelMimePart *mime_part;
 
-		/* Note, this assumes the URI comes
-		 * from the currently loaded message. */
+	/* Note, this assumes the URI comes
+	 * from the currently loaded message. */
+	display = E_MAIL_DISPLAY (web_view);
 
-		display = E_MAIL_DISPLAY (web_view);
+	mime_part = camel_mime_part_from_cid (display, uri);
 
-		part_list = e_mail_display_get_part_list (display);
-		if (part_list == NULL)
-			return NULL;
-
-		message = e_mail_part_list_get_message (part_list);
-		if (message == NULL)
-			return NULL;
-
-		mime_part = camel_mime_message_get_part_by_content_id (
-			message, uri + 4);
-		if (mime_part == NULL)
-			return NULL;
-
-		filename = camel_mime_part_get_filename (mime_part);
-
-		return g_strdup (filename);
-	}
+	if (mime_part)
+		return g_strdup (camel_mime_part_get_filename (mime_part));
 
 	/* Chain up to parent's suggest_filename() method. */
 	return E_WEB_VIEW_CLASS (e_mail_display_parent_class)->
@@ -1403,6 +1410,68 @@ mail_display_set_fonts (EWebView *web_view,
 
 	g_free (monospace_font);
 	g_free (variable_font);
+}
+
+static void
+mail_display_drag_data_get (GtkWidget *widget,
+                            GdkDragContext *context,
+                            GtkSelectionData *data,
+                            guint info,
+                            guint time,
+                            EMailDisplay *display)
+{
+	CamelDataWrapper *dw;
+	CamelMimePart *mime_part;
+	CamelStream *stream;
+	gchar *src, *base64_encoded, *mime_type, *uri;
+	const gchar *filename;
+	const guchar *data_from_webkit;
+	gint length;
+	GByteArray *byte_array;
+
+	data_from_webkit = gtk_selection_data_get_data (data);
+	length = gtk_selection_data_get_length (data);
+
+	uri = g_strndup ((const gchar *) data_from_webkit, length);
+
+	mime_part = camel_mime_part_from_cid (display, uri);
+
+	if (!mime_part)
+		goto out;
+
+	stream = camel_stream_mem_new ();
+	dw = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
+	g_return_if_fail (dw);
+
+	mime_type = camel_data_wrapper_get_mime_type (dw);
+	camel_data_wrapper_decode_to_stream_sync (dw, stream, NULL, NULL);
+	camel_stream_close (stream, NULL, NULL);
+
+	byte_array = camel_stream_mem_get_byte_array (CAMEL_STREAM_MEM (stream));
+
+	if (!byte_array->data) {
+		g_object_unref (stream);
+		goto out;
+	}
+
+	base64_encoded = g_base64_encode ((const guchar *) byte_array->data, byte_array->len);
+
+	filename = camel_mime_part_get_filename (mime_part);
+	/* Insert filename before base64 data */
+	src = g_strconcat (filename, ";data:", mime_type, ";base64,", base64_encoded, NULL);
+
+	gtk_selection_data_set (
+		data,
+		gtk_selection_data_get_data_type (data),
+		gtk_selection_data_get_format (data),
+		(const guchar *) src, strlen (src));
+
+	g_free (src);
+	g_free (base64_encoded);
+	g_free (mime_type);
+	g_object_unref (stream);
+ out:
+	g_free (uri);
 }
 
 static void
@@ -1532,6 +1601,9 @@ e_mail_display_init (EMailDisplay *display)
 	g_signal_connect (
 		display, "document-load-finished",
 		G_CALLBACK (initialize_web_view_colors), NULL);
+	g_signal_connect_after (
+		display, "drag-data-get",
+		G_CALLBACK (mail_display_drag_data_get), display);
 
 	display->priv->settings = g_settings_new ("org.gnome.evolution.mail");
 	g_signal_connect_swapped (
