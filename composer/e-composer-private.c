@@ -631,6 +631,35 @@ e_composer_paste_uris (EMsgComposer *composer,
 }
 
 gboolean
+e_composer_selection_is_base64_uris (EMsgComposer *composer,
+                                     GtkSelectionData *selection)
+{
+	gboolean all_base64_uris = TRUE;
+	gchar **uris;
+	guint ii;
+
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
+	g_return_val_if_fail (selection != NULL, FALSE);
+
+	uris = gtk_selection_data_get_uris (selection);
+
+	if (!uris)
+		return FALSE;
+
+	for (ii = 0; uris[ii] != NULL; ii++) {
+		if (!((g_str_has_prefix (uris[ii], "data:") || strstr (uris[ii], ";data:"))
+		    && strstr (uris[ii], ";base64,"))) {
+			all_base64_uris = FALSE;
+			break;
+		}
+	}
+
+	g_strfreev (uris);
+
+	return all_base64_uris;
+}
+
+gboolean
 e_composer_selection_is_image_uris (EMsgComposer *composer,
                                     GtkSelectionData *selection)
 {
@@ -643,7 +672,7 @@ e_composer_selection_is_image_uris (EMsgComposer *composer,
 
 	uris = gtk_selection_data_get_uris (selection);
 
-	if (uris == NULL)
+	if (!uris)
 		return FALSE;
 
 	for (ii = 0; uris[ii] != NULL; ii++) {

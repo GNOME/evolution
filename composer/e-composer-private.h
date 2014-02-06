@@ -116,6 +116,9 @@ gboolean	e_composer_paste_text		(EMsgComposer *composer,
 						 GtkClipboard *clipboard);
 gboolean	e_composer_paste_uris		(EMsgComposer *composer,
 						 GtkClipboard *clipboard);
+gboolean	e_composer_selection_is_base64_uris
+						(EMsgComposer *composer,
+						 GtkSelectionData *selection);
 gboolean	e_composer_selection_is_image_uris
 						(EMsgComposer *composer,
 						 GtkSelectionData *selection);
