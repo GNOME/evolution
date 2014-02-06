@@ -353,8 +353,6 @@ static void
 web_view_init_web_settings (WebKitWebView *web_view)
 {
 	WebKitWebSettings *web_settings;
-	GObjectClass *class;
-	GParamSpec *pspec;
 
 	web_settings = webkit_web_settings_new ();
 
@@ -367,18 +365,8 @@ web_view_init_web_settings (WebKitWebView *web_view)
 		"enable-offline-web-application-cache", FALSE,
 		"enable-site-specific-quirks", TRUE,
 		"enable-scripts", FALSE,
+		"respect-image-orientation", TRUE,
 		NULL);
-
-	/* This property was introduced in WebKitGTK 2.0,
-	 * so check for it and enable it if it's present. */
-	class = G_OBJECT_GET_CLASS (web_settings);
-	pspec = g_object_class_find_property (
-		class, "respect-image-orientation");
-	if (pspec != NULL) {
-		g_object_set (
-			G_OBJECT (web_settings),
-			pspec->name, TRUE, NULL);
-	}
 
 	g_object_bind_property (
 		web_settings, "enable-caret-browsing",
