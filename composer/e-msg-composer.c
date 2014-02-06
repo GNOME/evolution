@@ -1838,7 +1838,25 @@ msg_composer_drag_data_received_cb (GtkWidget *widget,
 			} while (list_len);
 		}
 
-		/* FIXME CID images */
+		if (e_composer_selection_is_base64_uris (composer, selection)) {
+			const guchar *data;
+			gint length;
+			gint list_len, len;
+			gchar *uri;
+
+			data = gtk_selection_data_get_data (selection);
+			length = gtk_selection_data_get_length (selection);
+
+			if (!data || length < 0)
+				return;
+
+			list_len = length;
+			do {
+				uri = next_uri ((guchar **) &data, &len, &list_len);
+
+				e_editor_selection_insert_image (editor_selection, uri);
+			} while (list_len);
+		}
 	} else {
 		view = e_msg_composer_get_attachment_view (composer);
 

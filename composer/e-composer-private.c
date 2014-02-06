@@ -674,7 +674,7 @@ e_composer_selection_is_image_uris (EMsgComposer *composer,
 
 	uris = gtk_selection_data_get_uris (selection);
 
-	if (uris == NULL)
+	if (!uris)
 		return FALSE;
 
 	for (ii = 0; uris[ii] != NULL; ii++) {
