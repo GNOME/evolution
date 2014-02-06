@@ -525,6 +525,16 @@ e_composer_actions_init (EMsgComposer *composer)
 		e_editor_get_action (editor, "insert-menu"), "sensitive",
 		G_BINDING_SYNC_CREATE);
 
+	g_object_bind_property (
+		editor_widget, "editable",
+		e_editor_get_action (editor, "options-menu"), "sensitive",
+		G_BINDING_SYNC_CREATE);
+
+	g_object_bind_property (
+		editor_widget, "editable",
+		e_editor_get_action (editor, "picture-gallery"), "sensitive",
+		G_BINDING_SYNC_CREATE);
+
 #if defined (HAVE_NSS)
 	visible = TRUE;
 #else
