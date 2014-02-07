@@ -2946,6 +2946,7 @@ e_week_view_free_events (EWeekView *week_view)
 	EWeekViewEventSpan *span;
 	gint event_num, span_num, num_days, day;
 	gboolean did_editing = week_view->editing_event_num != -1;
+	guint timeout;
 
 	/* Reset all our indices. */
 	week_view->pressed_event_num = -1;
@@ -2992,6 +2993,12 @@ e_week_view_free_events (EWeekView *week_view)
 
 	if (did_editing)
 		g_object_notify (G_OBJECT (week_view), "is-editing");
+
+	timeout = GPOINTER_TO_UINT (g_object_get_data (G_OBJECT (week_view), "tooltip-timeout"));
+	if (timeout) {
+		g_source_remove (timeout);
+		g_object_set_data (G_OBJECT (week_view), "tooltip-timeout", NULL);
+	}
 }
 
 /* This adds one event to the view, adding it to the appropriate array. */

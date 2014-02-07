@@ -2946,6 +2946,11 @@ e_day_view_remove_event_cb (EDayView *day_view,
 		day_view->popup_event_day = -1;
 	}
 
+	if (event->timeout > 0) {
+		g_source_remove (event->timeout);
+		event->timeout = -1;
+	}
+
 	if (event->canvas_item)
 		g_object_run_dispose (G_OBJECT (event->canvas_item));
 
@@ -5348,6 +5353,11 @@ e_day_view_free_event_array (EDayView *day_view,
 
 		if (is_comp_data_valid (event))
 			g_object_unref (event->comp_data);
+
+		if (event->timeout > 0) {
+			g_source_remove (event->timeout);
+			event->timeout = -1;
+		}
 	}
 
 	g_array_set_size (array, 0);
