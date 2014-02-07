@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-27 20:22+0000\n"
-"PO-Revision-Date: 2014-01-28 11:34+0100\n"
+"POT-Creation-Date: 2014-02-07 05:44+0000\n"
+"PO-Revision-Date: 2014-02-07 12:14+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -28,119 +28,6 @@ msgstr ""
 "Daniel Mustieles <daniel.mustieles@gmail.com>, 2012, 2014\n"
 "Jorge González <jorgegonz@svn.gnome.org>, 2007-2011\n"
 "Francisco Javier F. Serrador <serrador@openshine.com>, 2005, 2006"
-
-#. (itstool) path: info/desc
-#: C/index.page:5
-msgid "Manage your email, contacts and schedule"
-msgstr "Gestionar su correo-e, sus contactos y sus tareas"
-
-#. (itstool) path: info/title
-#: C/index.page:7
-msgctxt "text"
-msgid "Evolution Mail and Calendar"
-msgstr "Correo y calendario de Evolution"
-
-#. (itstool) path: media/span
-#: C/index.page:25
-msgid "Evolution logo"
-msgstr "Logo de Evolution"
-
-#. (itstool) path: page/title
-#: C/index.page:23
-msgid "<_:media-1/> Evolution Mail and Calendar"
-msgstr "<_:media-1/> Correo y calendario de Evolution"
-
-#. (itstool) path: section/title
-#. (itstool) path: page/title
-#: C/index.page:31 C/intro-application.page:24
-msgid "Getting Started"
-msgstr "Inicio"
-
-#. (itstool) path: section/title
-#: C/index.page:35
-msgid "Mail Management"
-msgstr "Gestión del correo"
-
-#. (itstool) path: section/title
-#: C/index.page:37
-msgid "Advanced Mail Management"
-msgstr "Gestión avanzada del correo"
-
-#. (itstool) path: info/title
-#: C/index.page:40
-msgctxt "link"
-msgid "Advanced Mail Management (IMAP+ accounts)"
-msgstr "Gestión avanzada del correo(cuentas IMAP+)"
-
-#. (itstool) path: section/title
-#: C/index.page:42 C/intro-first-run.page:54
-msgid "IMAP+"
-msgstr "IMAP+"
-
-#. (itstool) path: section/title
-#: C/index.page:48
-msgid "Mail Composing"
-msgstr "Edición de correo"
-
-#. (itstool) path: section/title
-#: C/index.page:50
-msgid "Advanced Mail Composing"
-msgstr "Edición avanzada de correos"
-
-#. (itstool) path: section/title
-#: C/index.page:55
-msgid "Calendar Management"
-msgstr "Gestión del calendario"
-
-#. (itstool) path: section/title
-#: C/index.page:57
-msgid "Advanced Calendar Management"
-msgstr "Gestión avanzada de calendarios"
-
-#. (itstool) path: section/title
-#: C/index.page:62
-msgid "Contacts Management"
-msgstr "Gestión de contactos"
-
-#. (itstool) path: section/title
-#: C/index.page:66
-msgid "Memos and Tasks Management"
-msgstr "Gestión de notas y tareas"
-
-#. (itstool) path: section/title
-#: C/index.page:70
-msgid "Data Migration and Synchronization"
-msgstr "Migración de datos y sincronización"
-
-#. (itstool) path: section/title
-#: C/index.page:74
-msgid "Corporate Environments"
-msgstr "Entornos corporativos"
-
-#. (itstool) path: section/title
-#: C/index.page:76
-msgid "Microsoft Exchange"
-msgstr "Microsoft Exchange"
-
-#. (itstool) path: section/title
-#: C/index.page:81
-msgid "Tracking down Problems"
-msgstr "Localizar problemas"
-
-#. (itstool) path: section/title
-#: C/index.page:85
-msgid "Common Mail Questions and Problems"
-msgstr "Preguntas y problemas comunes"
-
-#. (itstool) path: section/title
-#: C/index.page:89
-msgid "Common Other Questions and Problems"
-msgstr "Otras preguntas y problemas comunes"
-
-#. (itstool) path: section/title
-#: C/index.page:93
-msgid "Further reading"
-msgstr "Lecturas recomendadas"
 
 #. (itstool) path: info/desc
 #: C/backup-restore.page:5
@@ -238,25 +125,32 @@ msgstr ""
 "puede restaurar Evolution desde un archivo de respaldo."
 
 #. (itstool) path: info/desc
-#: C/calendar-alarms-and-reminders.page:7
+#: C/calendar-alarms-and-reminders.page:23
 msgid "Setting up reminder notifications for appointments."
 msgstr "Establecer notificaciones de recordatorios para citas."
 
 #. (itstool) path: page/title
-#: C/calendar-alarms-and-reminders.page:25
+#: C/calendar-alarms-and-reminders.page:26
 msgid "Reminders for appointments"
 msgstr "Recordatorios para citas"
 
 # index.docbook:29, index.docbook:30
 #. (itstool) path: section/title
-#: C/calendar-alarms-and-reminders.page:28
+#: C/calendar-alarms-and-reminders.page:29
 msgid "General Settings"
 msgstr "Configuración general"
 
 #. (itstool) path: section/p
-#: C/calendar-alarms-and-reminders.page:30
+#: C/calendar-alarms-and-reminders.page:31
+#| msgid ""
+#| "Under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Calendar and "
+#| "Tasks</gui><gui>Reminders</gui></guiseq> you can select those calendars "
+#| "for which you want to receive reminder notifications. If you do not "
+#| "select a calendar, you will not receive reminders for any events in this "
+#| "calendar. You can also define whether to show a reminder for every "
+#| "appointment and for every birthday and anniversary."
 msgid ""
-"Under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Calendar and Tasks</"
+"Under <guiseq><gui>Edit</gui><gui>Preferences</gui> <gui>Calendar and Tasks</"
 "gui><gui>Reminders</gui></guiseq> you can select those calendars for which "
 "you want to receive reminder notifications. If you do not select a calendar, "
 "you will not receive reminders for any events in this calendar. You can also "
@@ -271,11 +165,16 @@ msgstr ""
 "cada cita  para cada cumpleaños y aniversario."
 
 #. (itstool) path: when/p
-#: C/calendar-alarms-and-reminders.page:33
+#: C/calendar-alarms-and-reminders.page:40
+#| msgid ""
+#| "For general information on displaying reminders, please see <link xref="
+#| "\"help:gnome-help/shell-notifications\" href=\"https://help.gnome.org/"
+#| "users/gnome-help/stable/shell-notifications\">the GNOME Desktop Help</"
+#| "link>."
 msgid ""
 "For general information on displaying reminders, please see <link xref="
 "\"help:gnome-help/shell-notifications\" href=\"https://help.gnome.org/users/"
-"gnome-help/stable/shell-notifications\">the GNOME Desktop Help</link>."
+"gnome-help/stable/shell-notifications\"> the GNOME Desktop Help</link>."
 msgstr ""
 "Consulte <link xref=\"help:gnome-help/shell-notifications\" href=\"https://"
 "help.gnome.org/users/gnome-help/stable/shell-notifications\">la ayuda del "
@@ -283,12 +182,12 @@ msgstr ""
 "recordatorios."
 
 #. (itstool) path: section/title
-#: C/calendar-alarms-and-reminders.page:40
+#: C/calendar-alarms-and-reminders.page:50
 msgid "Manual Reminders"
 msgstr "Recordatorios manuales"
 
 #. (itstool) path: section/p
-#: C/calendar-alarms-and-reminders.page:42
+#: C/calendar-alarms-and-reminders.page:52
 msgid ""
 "Apart from the general settings you can also set up reminders in the "
 "appointment editor for certain appointments only:"
@@ -297,7 +196,7 @@ msgstr ""
 "manuales en el editor de citas, solo para cierto tipo de citas:"
 
 #. (itstool) path: item/p
-#: C/calendar-alarms-and-reminders.page:44
+#: C/calendar-alarms-and-reminders.page:57
 msgid ""
 "Click <guiseq><gui>Options</gui><gui>Reminders</gui></guiseq> or press the "
 "Reminder button in the toolbar."
@@ -306,7 +205,7 @@ msgstr ""
 "el botón Recordatorio en la barra de herramientas."
 
 #. (itstool) path: item/p
-#: C/calendar-alarms-and-reminders.page:45
+#: C/calendar-alarms-and-reminders.page:61
 msgid ""
 "From the dropdown menu, choose either one of the available default options "
 "when to show a notification reminder, or choose <gui>Customize</gui>."
@@ -316,7 +215,7 @@ msgstr ""
 "gui>."
 
 #. (itstool) path: item/p
-#: C/calendar-alarms-and-reminders.page:46
+#: C/calendar-alarms-and-reminders.page:66
 msgid ""
 "In case of <gui>Customize</gui>, the reminder can be a popup, a sound "
 "played, or a program ran. You can also define whether the reminder should be "
@@ -327,25 +226,29 @@ msgstr ""
 "También puede definir si se debe repetir el recordatorio."
 
 #. (itstool) path: info/desc
-#: C/calendar-caldav.page:5
+#: C/calendar-caldav.page:23
 msgid "Using an online CalDAV calendar."
 msgstr "Usar un calendario en línea CalDAV."
 
 #. (itstool) path: page/title
-#: C/calendar-caldav.page:23
+#: C/calendar-caldav.page:26
 msgid "Using a CalDAV calendar"
 msgstr "Usar un calendario CalDAV"
 
 #. (itstool) path: page/p
-#: C/calendar-caldav.page:25 C/calendar-google.page:26
-#: C/calendar-weather.page:24 C/calendar-webdav.page:24
-msgid "To add such a calendar to Evolution, perform the following steps:"
-msgstr "Para añadir tal calendario a Evolution, realice los siguientes pasos:"
+#: C/calendar-caldav.page:28 C/calendar-google.page:29
+#: C/calendar-weather.page:24 C/calendar-webdav.page:23
+#| msgid "To add such a calendar to Evolution, perform the following steps:"
+msgid ""
+"To add such a calendar to <app>Evolution</app>, perform the following steps:"
+msgstr ""
+"Para añadir tal calendario a <app>Evolution</app>, realice los siguientes "
+"pasos:"
 
 #. (itstool) path: item/p
-#: C/calendar-caldav.page:27 C/calendar-google.page:28
-#: C/calendar-local.page:24 C/calendar-weather.page:26
-#: C/calendar-webdav.page:26
+#: C/calendar-caldav.page:32 C/calendar-google.page:34
+#: C/calendar-local.page:27 C/calendar-weather.page:29
+#: C/calendar-webdav.page:28
 msgid ""
 "Click <guiseq><gui>File</gui><gui>New</gui><gui>Calendar</gui></guiseq>."
 msgstr ""
@@ -353,30 +256,30 @@ msgstr ""
 "guiseq>."
 
 #. (itstool) path: item/p
-#: C/calendar-caldav.page:28
+#: C/calendar-caldav.page:36
 msgid "Select the type <gui>CalDAV</gui>."
 msgstr "Seleccione el tipo <gui>CalDAV</gui>."
 
 #. (itstool) path: item/p
-#: C/calendar-caldav.page:29 C/calendar-google.page:30
-#: C/calendar-local.page:26 C/calendar-weather.page:28
-#: C/calendar-webdav.page:28 C/contacts-google.page:27 C/contacts-ldap.page:33
+#: C/calendar-caldav.page:39 C/calendar-google.page:40
+#: C/calendar-local.page:34 C/calendar-weather.page:36
+#: C/calendar-webdav.page:35 C/contacts-google.page:27 C/contacts-ldap.page:33
 #: C/contacts-local.page:26 C/contacts-using-contact-lists.page:33
 #: C/tasks-caldav.page:26 C/tasks-local.page:26 C/tasks-webdav.page:28
 msgid "Enter a name that you prefer."
 msgstr "Introduzca el nombre que quiera."
 
 #. (itstool) path: item/p
-#: C/calendar-caldav.page:30 C/calendar-google.page:31
-#: C/calendar-local.page:27 C/calendar-weather.page:29
-#: C/calendar-webdav.page:29 C/tasks-caldav.page:27 C/tasks-local.page:27
+#: C/calendar-caldav.page:42 C/calendar-google.page:43
+#: C/calendar-local.page:37 C/calendar-weather.page:39
+#: C/calendar-webdav.page:38 C/tasks-caldav.page:27 C/tasks-local.page:27
 #: C/tasks-webdav.page:29
 msgid "Optionally choose a color that you prefer."
 msgstr "Opcionalmente, elija un color."
 
 #. (itstool) path: item/p
-#: C/calendar-caldav.page:31 C/calendar-google.page:32
-#: C/calendar-weather.page:30 C/calendar-webdav.page:30
+#: C/calendar-caldav.page:45 C/calendar-google.page:46
+#: C/calendar-weather.page:42 C/calendar-webdav.page:41
 #: C/contacts-google.page:28
 msgid ""
 "Choose if you want to be able to view the content also when being offline."
@@ -384,13 +287,13 @@ msgstr ""
 "Elija si quiere poder ver el contenido incluso cuando está desconectado."
 
 #. (itstool) path: item/p
-#: C/calendar-caldav.page:32 C/calendar-webdav.page:31
+#: C/calendar-caldav.page:49 C/calendar-webdav.page:45
 msgid "Enter the address of the calendar in the <gui>URL</gui> field."
 msgstr "Introduzca la dirección del calendario en el campo <gui>URL</gui>."
 
 #. (itstool) path: item/p
-#: C/calendar-caldav.page:33 C/calendar-weather.page:32
-#: C/calendar-webdav.page:32 C/contacts-google.page:30
+#: C/calendar-caldav.page:52 C/calendar-weather.page:49
+#: C/calendar-webdav.page:48 C/contacts-google.page:30
 #: C/mail-sending-options-smtp.page:38 C/tasks-caldav.page:30
 #: C/tasks-webdav.page:32
 msgid ""
@@ -399,38 +302,41 @@ msgstr ""
 "Elija <gui>Usar conexión segura</gui> si quiere conectar de forma segura."
 
 #. (itstool) path: item/p
-#: C/calendar-caldav.page:34 C/tasks-caldav.page:31
+#: C/calendar-caldav.page:56 C/tasks-caldav.page:31
 msgid "Enter your username and your email address."
 msgstr "Introduzca su nombre de usuario y su dirección de correo-e."
 
 #. (itstool) path: item/p
-#: C/calendar-caldav.page:35 C/calendar-google.page:35
-#: C/calendar-local.page:29 C/calendar-weather.page:34
-#: C/calendar-webdav.page:34 C/contacts-google.page:31 C/contacts-ldap.page:36
+#: C/calendar-caldav.page:59 C/calendar-google.page:55
+#: C/calendar-local.page:46 C/calendar-weather.page:56
+#: C/calendar-webdav.page:55 C/contacts-google.page:31 C/contacts-ldap.page:36
 #: C/contacts-local.page:27 C/tasks-caldav.page:32 C/tasks-local.page:28
 #: C/tasks-webdav.page:34
 msgid "Click <gui style=\"button\">Apply</gui>."
 msgstr "Pulse <gui style=\"button\">Aplicar</gui>."
 
 #. (itstool) path: page/p
-#: C/calendar-caldav.page:38 C/calendar-google.page:38
-#: C/calendar-local.page:32 C/calendar-weather.page:37
-#: C/calendar-webdav.page:37
-msgid "The calendar will be added to the list of calendars in Evolution."
-msgstr "Se añadirá el calendario a la lista de calendarios de Evolution."
+#: C/calendar-caldav.page:63 C/calendar-google.page:59
+#: C/calendar-local.page:50 C/calendar-weather.page:60
+#: C/calendar-webdav.page:59
+#| msgid "The calendar will be added to the list of calendars in Evolution."
+msgid ""
+"The calendar will be added to the list of calendars in <app>Evolution</app>."
+msgstr ""
+"Se añadirá el calendario a la lista de calendarios de <app>Evolution</app>."
 
 #. (itstool) path: info/desc
-#: C/calendar-classifications.page:5
+#: C/calendar-classifications.page:23
 msgid "Classifying appointments and tasks on groupware servers."
 msgstr "Clasificar citas y tareas en servidores de grupos."
 
 #. (itstool) path: page/title
-#: C/calendar-classifications.page:23
+#: C/calendar-classifications.page:26
 msgid "Using Classifications"
 msgstr "Usar clasificaciones"
 
 #. (itstool) path: page/p
-#: C/calendar-classifications.page:25
+#: C/calendar-classifications.page:28
 msgid ""
 "If you are using a calendar on a Novell GroupWise or Microsoft Exchange "
 "server, you can select a classification to determine who can view it."
@@ -439,7 +345,7 @@ msgstr ""
 "puede seleccionar una clasificación para determinar quién puede verlo."
 
 #. (itstool) path: page/p
-#: C/calendar-classifications.page:26
+#: C/calendar-classifications.page:31
 msgid ""
 "To set a classification for an appointment or a task, click "
 "<guiseq><gui>Options</gui><gui>Classifications</gui></guiseq> and select a "
@@ -456,7 +362,7 @@ msgstr ""
 "<gui>Confidencial</gui> un nivel incluso superior."
 
 #. (itstool) path: page/p
-#: C/calendar-classifications.page:27
+#: C/calendar-classifications.page:38
 msgid ""
 "The different levels vary depending on your server settings; check with your "
 "system administrator or adjust your delegation settings."
@@ -466,19 +372,19 @@ msgstr ""
 "configuración de delegación."
 
 #. (itstool) path: info/desc
-#: C/calendar-free-busy.page:5
+#: C/calendar-free-busy.page:24
 msgid "Using the Free/Busy view on a groupware server to set up meetings."
 msgstr ""
 "Usar la vista de disponibilidad en un servidor «groupware» para concertar "
 "reuniones."
 
 #. (itstool) path: page/title
-#: C/calendar-free-busy.page:23
+#: C/calendar-free-busy.page:29
 msgid "Free/Busy information"
 msgstr "Información de disponibilidad"
 
 #. (itstool) path: page/p
-#: C/calendar-free-busy.page:25
+#: C/calendar-free-busy.page:31
 msgid ""
 "You can use the Free/Busy search for meetings to determine the availability "
 "of invitees."
@@ -487,7 +393,7 @@ msgstr ""
 "disponibilidad de los invitados."
 
 #. (itstool) path: page/p
-#: C/calendar-free-busy.page:27
+#: C/calendar-free-busy.page:34
 msgid ""
 "In addition to the standard meeting scheduling tools, you can use the Free/"
 "Busy view to check whether people are available in advance. The Free/Busy "
@@ -510,18 +416,18 @@ msgstr ""
 "las agendas con otras personas."
 
 #. (itstool) path: page/p
-#: C/calendar-free-busy.page:29
+#: C/calendar-free-busy.page:44
 msgid "To access the free/busy view:"
 msgstr "Para acceder a la vista de disponibilidad:"
 
 #. (itstool) path: item/p
-#: C/calendar-free-busy.page:31 C/calendar-meetings-sending-invitation.page:31
+#: C/calendar-free-busy.page:48 C/calendar-meetings-sending-invitation.page:44
 msgid "Click <guiseq><gui>File</gui><gui>New</gui><gui>Meeting</gui></guiseq>."
 msgstr ""
 "Pulse <guiseq><gui>Archivo</gui><gui>Nuevo</gui><gui>Reunión</gui></guiseq>."
 
 #. (itstool) path: item/p
-#: C/calendar-free-busy.page:32 C/calendar-meetings-sending-invitation.page:34
+#: C/calendar-free-busy.page:52 C/calendar-meetings-sending-invitation.page:55
 msgid ""
 "Click <gui style=\"button\">Add</gui> to add the email addresses of people "
 "you want to invite."
@@ -530,7 +436,7 @@ msgstr ""
 "correo-e de las personas a las que quiere invitar."
 
 #. (itstool) path: item/p
-#: C/calendar-free-busy.page:33
+#: C/calendar-free-busy.page:56
 msgid ""
 "Click the <gui>Free/Busy</gui> button on the toolbar, or click "
 "<guiseq><gui>Options</gui><gui>Free/Busy</gui></guiseq>."
@@ -539,7 +445,7 @@ msgstr ""
 "<guiseq><gui>Opciones</gui><gui>Disponibilidad</gui></guiseq>."
 
 #. (itstool) path: item/p
-#: C/calendar-free-busy.page:34
+#: C/calendar-free-busy.page:60
 msgid ""
 "Adjust the meeting time, either by dragging the meeting borders or by using "
 "the <gui>Autopick</gui> buttons to choose a time automatically, then click "
@@ -554,12 +460,12 @@ msgstr ""
 "una notificación por correo electrónico de cualquier cambio en los planes."
 
 #. (itstool) path: item/p
-#: C/calendar-free-busy.page:38
+#: C/calendar-free-busy.page:70
 msgid "Attendee List:"
 msgstr "Lista de asistentes:"
 
 #. (itstool) path: item/p
-#: C/calendar-free-busy.page:38
+#: C/calendar-free-busy.page:71
 msgid ""
 "The Attendee List shows the people who have been invited to the appointment."
 msgstr ""
@@ -567,12 +473,23 @@ msgstr ""
 "reunión."
 
 #. (itstool) path: item/p
-#: C/calendar-free-busy.page:39
+#: C/calendar-free-busy.page:75
 msgid "Schedule Grid:"
 msgstr "Cuadrícula de planificación:"
 
 #. (itstool) path: item/p
-#: C/calendar-free-busy.page:39
+#: C/calendar-free-busy.page:76
+#| msgid ""
+#| "The Schedule Grid shows the published Free/Busy information for the "
+#| "people you have invited. This is where you compare schedules to find free "
+#| "time to schedule the appointment. Individuals have visible scheduling "
+#| "information only if they use the same Novell GroupWise or Microsoft "
+#| "Exchange server you do (that is, if they are in the same organization as "
+#| "you), or if they publish free/busy information at a web address (URL) "
+#| "that you can reach and you have entered that web address for the specific "
+#| "contact in the <link xref=\"contacts-usage-edit-contact\">Contact Editor</"
+#| "link> under <guiseq><gui>Personal information</gui><gui>Web Addresses</"
+#| "gui><gui>Free/Busy</gui></guiseq>."
 msgid ""
 "The Schedule Grid shows the published Free/Busy information for the people "
 "you have invited. This is where you compare schedules to find free time to "
@@ -582,7 +499,7 @@ msgid ""
 "publish free/busy information at a web address (URL) that you can reach and "
 "you have entered that web address for the specific contact in the <link xref="
 "\"contacts-usage-edit-contact\">Contact Editor</link> under "
-"<guiseq><gui>Personal information</gui><gui>Web Addresses</gui><gui>Free/"
+"<guiseq><gui>Personal information</gui> <gui>Web Addresses</gui><gui>Free/"
 "Busy</gui></guiseq>."
 msgstr ""
 "La rejilla del horario muestra la información de Disponibilidad publicada "
@@ -597,7 +514,7 @@ msgstr ""
 "gui><gui>Páginas web</gui><gui>Disponibilidad</gui></guiseq>."
 
 #. (itstool) path: page/p
-#: C/calendar-free-busy.page:42 C/calendar-publishing.page:29
+#: C/calendar-free-busy.page:90 C/calendar-publishing.page:43
 msgid ""
 "You can publish Calendar and Free/Busy information to a WebDAV server, FTP "
 "server, a remote machine through SSH or to any other web server with HTTP "
@@ -608,7 +525,7 @@ msgstr ""
 "soporte HTTP PUT."
 
 #. (itstool) path: page/p
-#: C/calendar-free-busy.page:43
+#: C/calendar-free-busy.page:94
 msgid ""
 "In corporate environments you can publish Calendar and Free/Busy information "
 "to an Exchange or Groupwise server. Note that you must use the top-level "
@@ -621,11 +538,15 @@ msgstr ""
 "acceder a su información de disponibilidad cuando le inviten a una reunión."
 
 #. (itstool) path: page/p
-#: C/calendar-free-busy.page:44
+#: C/calendar-free-busy.page:97
+#| msgid ""
+#| "The default server can be defined under <guiseq><gui>Edit</"
+#| "gui><gui>Preferences</gui><gui>Calendar and Tasks</gui><gui>Publishing "
+#| "Information</gui><gui>Default Free/Busy Server</gui></guiseq>."
 msgid ""
 "The default server can be defined under <guiseq><gui>Edit</"
-"gui><gui>Preferences</gui><gui>Calendar and Tasks</gui><gui>Publishing "
-"Information</gui><gui>Default Free/Busy Server</gui></guiseq>."
+"gui><gui>Preferences</gui> <gui>Calendar and Tasks</gui> <gui>Publishing "
+"Information</gui> <gui>Default Free/Busy Server</gui></guiseq>."
 msgstr ""
 "El servidor predeterminado se puede definir en <guiseq><gui>Editar</"
 "gui><gui>Preferencias</gui><gui>Calendario y tareas</gui><gui>Información de "
@@ -633,66 +554,78 @@ msgstr ""
 "guiseq>."
 
 #. (itstool) path: section/title
-#: C/calendar-free-busy.page:48
+#: C/calendar-free-busy.page:108
 msgid "Accessing Free/Busy Data Without a Groupware Server"
 msgstr "Acceder a datos de Disponibilidad sin un servidor Groupware"
 
 #. (itstool) path: section/p
-#: C/calendar-free-busy.page:50
+#: C/calendar-free-busy.page:110
+#| msgid ""
+#| "If individuals give you a URL for Free/Busy data or for their web "
+#| "calendar, you can add the URL under <guiseq><gui>Personal Information</"
+#| "gui><gui>Web Addresses</gui></guiseq> in the <link xref=\"contacts-usage-"
+#| "edit-contact\">Contact Editor</link>. Then, when you schedule a meeting "
+#| "with them, Evolution looks up the schedule and displays it in the Free/"
+#| "Busy data."
 msgid ""
 "If individuals give you a URL for Free/Busy data or for their web calendar, "
 "you can add the URL under <guiseq><gui>Personal Information</gui><gui>Web "
 "Addresses</gui></guiseq> in the <link xref=\"contacts-usage-edit-contact"
-"\">Contact Editor</link>. Then, when you schedule a meeting with them, "
-"Evolution looks up the schedule and displays it in the Free/Busy data."
+"\">Contact Editor</link>. Then, when you schedule a meeting with them,"
+"<app>Evolution</app> looks up the schedule and displays it in the Free/Busy "
+"data."
 msgstr ""
 "Si personas individuales de proporcionan sus datos de Disponibilidad en un "
 "URL o sus calendarios Web, puede añadir el URL bajo <guiseq><gui>Información "
 "personal</gui><gui>Dirección web</gui></guiseq> en el <link xref=\"contacts-"
 "usage-edit-contact\">Editor de contactos</link>. Después, cuando planifique "
-"una reunión con ellos, Evolution comprueba los horarios y los muestra en los "
-"datos de Disponibilidad."
+"una reunión con ellos, <app>Evolution</app> comprueba los horarios y los "
+"muestra en los datos de Disponibilidad."
 
 #. (itstool) path: info/desc
-#: C/calendar-google.page:5
+#: C/calendar-google.page:24
 msgid "Using the online calendar of your Google account."
 msgstr "Usar el calendario en línea de su cuenta de Google."
 
 #. (itstool) path: page/title
-#: C/calendar-google.page:24
+#: C/calendar-google.page:27
 msgid "Using a Google calendar"
 msgstr "Usar un calendario de Google"
 
 #. (itstool) path: item/p
-#: C/calendar-google.page:29 C/contacts-google.page:26
+#: C/calendar-google.page:37 C/contacts-google.page:26
 msgid "Select the type <gui>Google</gui>."
 msgstr "Seleccione el tipo <gui>Google</gui>."
 
 #. (itstool) path: item/p
-#: C/calendar-google.page:33 C/contacts-google.page:29
+#: C/calendar-google.page:49 C/contacts-google.page:29
 msgid "Enter your Google username."
 msgstr "Introduzca su nombre de usuario de Google."
 
 #. (itstool) path: item/p
-#: C/calendar-google.page:34
+#: C/calendar-google.page:52
 msgid "If you have more than one Google calendar, define which of them to use."
 msgstr "Si tiene maś de un calendario de Google, defina cuál quiere usar."
 
 #. (itstool) path: info/desc
-#: C/calendar-layout-appointment-display.page:5
+#: C/calendar-layout-appointment-display.page:23
 msgid "Define the displaying of appointments in the calendar."
 msgstr "Definir el mostrado de citas en el calendario."
 
 #. (itstool) path: page/title
-#: C/calendar-layout-appointment-display.page:23
+#: C/calendar-layout-appointment-display.page:26
 msgid "Appearance of Appointments"
 msgstr "Apariencia de las citas"
 
 #. (itstool) path: page/p
-#: C/calendar-layout-appointment-display.page:29
+#: C/calendar-layout-appointment-display.page:36
+#| msgid ""
+#| "The following calendar-related options are available under "
+#| "<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Calendar and Tasks</"
+#| "gui><gui>Display</gui></guiseq>."
 msgid ""
 "The following calendar-related options are available under "
-"<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Calendar and Tasks</"
+"<guiseq><gui>Edit</gui><gui>Preferences</gui> <gui>Calendar and Tasks</"
 "gui><gui>Display</gui></guiseq>."
 msgstr ""
 "Las siguientes opciones relacionadas con el calendario están disponibles "
@@ -700,17 +633,17 @@ msgstr ""
 "tareas</gui><gui>Mostrar</gui></guiseq>."
 
 #. (itstool) path: section/title
-#: C/calendar-layout-appointment-display.page:32
+#: C/calendar-layout-appointment-display.page:41
 msgid "General"
 msgstr "General"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-appointment-display.page:34
+#: C/calendar-layout-appointment-display.page:45
 msgid "Time Divisions:"
 msgstr "Divisiones de horas:"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-appointment-display.page:35
+#: C/calendar-layout-appointment-display.page:46
 msgid ""
 "Sets the time increments shown as fine lines on the daily view in the "
 "calendar."
@@ -719,27 +652,30 @@ msgstr ""
 "diaria del calendario."
 
 #. (itstool) path: item/p
-#: C/calendar-layout-appointment-display.page:36
+#: C/calendar-layout-appointment-display.page:50
 msgid "Show appointment end times in week and month views:"
 msgstr ""
 "Mostrar la hora del final de las citas en las vistas semanales y mensuales:"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-appointment-display.page:37
+#: C/calendar-layout-appointment-display.page:51
+#| msgid ""
+#| "If there is space, Evolution shows the end times in the week and month "
+#| "views for each appointment."
 msgid ""
-"If there is space, Evolution shows the end times in the week and month views "
-"for each appointment."
+"If there is space, <app>Evolution</app> shows the end times in the week and "
+"month views for each appointment."
 msgstr ""
-"Si hay espacio suficiente, el cliente Evolution mostrará las horas finales "
+"Si hay espacio suficiente, <app>Evolution</app> mostrará las horas finales "
 "en las vistas semanales y mensajes para cada cita."
 
 #. (itstool) path: item/p
-#: C/calendar-layout-appointment-display.page:38
+#: C/calendar-layout-appointment-display.page:55
 msgid "Compress weekends in month view:"
 msgstr "Comprimir fines de semana en la vista mensual:"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-appointment-display.page:39
+#: C/calendar-layout-appointment-display.page:56
 msgid ""
 "Select this option to display weekends in one box instead of two in the "
 "month view."
@@ -748,36 +684,37 @@ msgstr ""
 "de dos en la vista mensual."
 
 #. (itstool) path: item/p
-#: C/calendar-layout-appointment-display.page:40
+#: C/calendar-layout-appointment-display.page:60
 msgid "Show week numbers:"
 msgstr "Muestra los números de las semanas:"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-appointment-display.page:41
+#: C/calendar-layout-appointment-display.page:61
 msgid "Shows the week numbers next to the respective weeks in the calendar."
 msgstr ""
 "Muestra los números de la semana junto a las respectivas semanas en el "
 "calendario."
 
 #. (itstool) path: item/p
-#: C/calendar-layout-appointment-display.page:42
-msgid "Show recurring events in italic in bottom left calendar"
+#: C/calendar-layout-appointment-display.page:65
+#| msgid "Show recurring events in italic in bottom left calendar"
+msgid "Show recurring events in italic in bottom left calendar."
 msgstr ""
 "Mostrar acontecimientos recurrentes en cursiva en el calendario inferior "
-"izquierdo"
+"izquierdo."
 
 #. (itstool) path: item/p
-#: C/calendar-layout-appointment-display.page:43
+#: C/calendar-layout-appointment-display.page:68
 msgid "Scroll Month View by a week"
 msgstr "Desplazar la vista mensual una semana"
 
 #. (itstool) path: section/title
-#: C/calendar-layout-appointment-display.page:48
+#: C/calendar-layout-appointment-display.page:75
 msgid "Date/Time Format"
 msgstr "Formato de la fecha y hora"
 
 #. (itstool) path: section/p
-#: C/calendar-layout-appointment-display.page:49
+#: C/calendar-layout-appointment-display.page:77
 msgid ""
 "You can change the format of the <gui>Date</gui> column by setting your "
 "preferred format."
@@ -787,7 +724,7 @@ msgstr ""
 
 #. (itstool) path: section/p
 #. (itstool) path: page/p
-#: C/calendar-layout-appointment-display.page:50
+#: C/calendar-layout-appointment-display.page:80
 #: C/mail-change-time-format.page:21
 msgid ""
 "The placeholders in the format expression are strftime formats. For a "
@@ -799,20 +736,24 @@ msgstr ""
 "<cmd>date --help</cmd> en una ventana de la <app>Terminal</app>."
 
 #. (itstool) path: info/desc
-#: C/calendar-layout-general-formatting.page:5
+#: C/calendar-layout-general-formatting.page:27
 msgid "General formatting options for the calendar."
 msgstr "Opciones generales de formato para el calendario."
 
 #. (itstool) path: page/title
-#: C/calendar-layout-general-formatting.page:25
+#: C/calendar-layout-general-formatting.page:30
 msgid "General formatting options"
 msgstr "Opciones de formateo general"
 
 #. (itstool) path: page/p
-#: C/calendar-layout-general-formatting.page:27
+#: C/calendar-layout-general-formatting.page:32
+#| msgid ""
+#| "The following options are available under <guiseq><gui>Edit</"
+#| "gui><gui>Preferences</gui><gui>Calendar and Tasks</gui><gui>General</"
+#| "gui></guiseq>."
 msgid ""
 "The following options are available under <guiseq><gui>Edit</"
-"gui><gui>Preferences</gui><gui>Calendar and Tasks</gui><gui>General</gui></"
+"gui><gui>Preferences</gui> <gui>Calendar and Tasks</gui><gui>General</gui></"
 "guiseq>."
 msgstr ""
 "Las siguientes opciones están disponibles bajo <guiseq><gui>Editar</"
@@ -820,83 +761,83 @@ msgstr ""
 "guiseq>."
 
 #. (itstool) path: section/title
-#: C/calendar-layout-general-formatting.page:29
+#: C/calendar-layout-general-formatting.page:37
 msgid "Time"
 msgstr "Hora"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-general-formatting.page:31
+#: C/calendar-layout-general-formatting.page:41
 msgid "Time format:"
 msgstr "Formato de la hora:"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-general-formatting.page:32
+#: C/calendar-layout-general-formatting.page:42
 msgid "Choose between twelve-hour (AM/PM) and twenty-four-hour time formats."
 msgstr "Elija entre el formato de doce horas (AM/PM) o de veinticuatro horas."
 
 #. (itstool) path: item/p
-#: C/calendar-layout-general-formatting.page:33
+#: C/calendar-layout-general-formatting.page:46
 msgid "<link xref=\"calendar-timezones\">Time zone</link> and Second zone:"
 msgstr ""
 "<link xref=\"calendar-timezones\">Zona horaria</link> y una segunda zona:"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-general-formatting.page:34
+#: C/calendar-layout-general-formatting.page:47
 msgid "The city you are located in, and optionally a second city."
 msgstr "La ciudad en la que se encuentra, y opcionalmente una segunda ciudad."
 
 #. (itstool) path: section/title
-#: C/calendar-layout-general-formatting.page:39
+#: C/calendar-layout-general-formatting.page:53
 msgid "Work Week"
 msgstr "Semana laboral"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-general-formatting.page:41
+#: C/calendar-layout-general-formatting.page:57
 msgid "Week starts on:"
 msgstr "La semana empieza en:"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-general-formatting.page:42
+#: C/calendar-layout-general-formatting.page:58
 msgid "Select the day to display as the first in each week."
 msgstr "Seleccione el día a mostrar como el primer día de cada semana."
 
 #. (itstool) path: item/p
-#: C/calendar-layout-general-formatting.page:43
+#: C/calendar-layout-general-formatting.page:61
 msgid "Work days:"
 msgstr "Días laborables:"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-general-formatting.page:44
+#: C/calendar-layout-general-formatting.page:62
 msgid "Define which week days are work days."
 msgstr "Definir qué días de la semana son laborables."
 
 #. (itstool) path: item/p
-#: C/calendar-layout-general-formatting.page:45
+#: C/calendar-layout-general-formatting.page:65
 msgid "Day begins:"
 msgstr "El día comienza:"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-general-formatting.page:46
+#: C/calendar-layout-general-formatting.page:66
 msgid "Define at which time your work day begins."
 msgstr "Definir a qué hora comienza su día laboral."
 
 #. (itstool) path: item/p
-#: C/calendar-layout-general-formatting.page:47
+#: C/calendar-layout-general-formatting.page:69
 msgid "Day ends:"
 msgstr "El día finaliza:"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-general-formatting.page:48
+#: C/calendar-layout-general-formatting.page:70
 msgid "Define at which time your work day ends."
 msgstr "Defina a qué hora finaliza su horario de trabajo."
 
 #. (itstool) path: section/title
-#: C/calendar-layout-general-formatting.page:53
+#: C/calendar-layout-general-formatting.page:77
 msgid "Alerts"
 msgstr "Alertas"
 
 #. (itstool) path: section/p
-#: C/calendar-layout-general-formatting.page:54
+#: C/calendar-layout-general-formatting.page:79
 msgid ""
 "If you want to be warned before you delete any appointment, select this "
 "option."
@@ -905,7 +846,7 @@ msgstr ""
 "cita."
 
 #. (itstool) path: info/desc
-#: C/calendar-layout.page:5
+#: C/calendar-layout.page:17
 msgid "Adjusting the display and views of the calendar."
 msgstr "Ajustar el mostrado y vistas del calendario."
 
@@ -915,48 +856,50 @@ msgid "Changing the calendar layout"
 msgstr "Cambiar la distribución del calendario"
 
 #. (itstool) path: info/desc
-#: C/calendar-layout-views.page:5
+#: C/calendar-layout-views.page:23
 msgid "Using date ranges (day, week, month) to look at the calendar."
 msgstr "Usar rangos de datos (día, semana, mes) para ver el calendario."
 
 #. (itstool) path: page/title
-#: C/calendar-layout-views.page:23
+#: C/calendar-layout-views.page:26
 msgid "Available views"
 msgstr "Vistas disponibles"
 
 #. (itstool) path: page/p
-#: C/calendar-layout-views.page:25
-msgid "Evolution offers five different views of your calendar data:"
+#: C/calendar-layout-views.page:28
+#| msgid "Evolution offers five different views of your calendar data:"
+msgid "<app>Evolution</app> offers five different views of your calendar data:"
 msgstr ""
-"Evolution ofrece cinco vistas diferentes de los datos de su calendario:"
+"<app>Evolution</app> ofrece cinco vistas diferentes de los datos de su "
+"calendario:"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-views.page:27
+#: C/calendar-layout-views.page:33
 msgid "Day (<keyseq><key>Ctrl</key><key>Y</key></keyseq>)"
 msgstr "Día (<keyseq><key>Ctrl</key><key>Y</key></keyseq>)"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-views.page:28
+#: C/calendar-layout-views.page:36
 msgid "Work Week (<keyseq><key>Ctrl</key><key>J</key></keyseq>)"
 msgstr "Semana laboral (<keyseq><key>Ctrl</key><key>J</key></keyseq>)"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-views.page:29
+#: C/calendar-layout-views.page:39
 msgid "Week (<keyseq><key>Ctrl</key><key>K</key></keyseq>)"
 msgstr "Semana (<keyseq><key>Ctrl</key><key>K</key></keyseq>)"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-views.page:30
+#: C/calendar-layout-views.page:42
 msgid "Month (<keyseq><key>Ctrl</key><key>M</key></keyseq>)"
 msgstr "Mes (<keyseq><key>Ctrl</key><key>M</key></keyseq>)"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-views.page:31
+#: C/calendar-layout-views.page:45
 msgid "List (<keyseq><key>Ctrl</key><key>L</key></keyseq>)"
 msgstr "Lista (<keyseq><key>Ctrl</key><key>L</key></keyseq>)"
 
 #. (itstool) path: page/p
-#: C/calendar-layout-views.page:34
+#: C/calendar-layout-views.page:49
 msgid ""
 "You can switch the view by either using the buttons in the toolbar, or by "
 "clicking <guiseq><gui>View</gui><gui>Current View</gui></guiseq>."
@@ -965,7 +908,7 @@ msgstr ""
 "pulsando <guiseq><gui>Ver</gui><gui>Vista actual</gui></guiseq>."
 
 #. (itstool) path: page/p
-#: C/calendar-layout-views.page:36
+#: C/calendar-layout-views.page:52
 msgid ""
 "You can also select an arbitrary range of days in the small calendar in the "
 "side bar. To do this, select the days that you want to view in your calendar."
@@ -974,7 +917,7 @@ msgstr ""
 "lateral. Para ello seleccione los días que quiere ver en el calendario."
 
 #. (itstool) path: page/p
-#: C/calendar-layout-views.page:38
+#: C/calendar-layout-views.page:56
 msgid ""
 "The Previous and Next buttons move you forward and back in your calendar "
 "pages. If you are using a week or month view, you can move by week or month. "
@@ -987,7 +930,7 @@ msgstr ""
 "botón <gui>Seleccionar hoy</gui> en la barra de tareas."
 
 #. (itstool) path: page/p
-#: C/calendar-layout-views.page:40
+#: C/calendar-layout-views.page:61
 msgid ""
 "To visit calendar entries for a specific date, click the <gui>Select a "
 "specific date</gui> button in the toolbar."
@@ -997,7 +940,7 @@ msgstr ""
 "herramientas."
 
 #. (itstool) path: info/desc
-#: C/calendar-local.page:5
+#: C/calendar-local.page:17
 msgid "Adding another local calendar."
 msgstr "Añadir otro calendario local."
 
@@ -1008,40 +951,50 @@ msgstr "Añadir otro calendario local"
 
 #. (itstool) path: page/p
 #: C/calendar-local.page:22
+#| msgid ""
+#| "To add another local calendar to Evolution, perform the following steps:"
 msgid ""
-"To add another local calendar to Evolution, perform the following steps:"
+"To add another local calendar to <app>Evolution</app>, perform the following "
+"steps:"
 msgstr ""
-"Para añadir otro calendario local a Evolition, realice los siguientes pasos:"
+"Para añadir otro calendario local a <app>Evolution</app>, realice los "
+"siguientes pasos:"
 
 #. (itstool) path: item/p
-#: C/calendar-local.page:25 C/contacts-local.page:25 C/tasks-local.page:25
+#: C/calendar-local.page:31 C/contacts-local.page:25 C/tasks-local.page:25
 msgid "Select the type <gui>On This Computer</gui>."
 msgstr "Seleccione el tipo <gui>En este equipo</gui>."
 
 #. (itstool) path: item/p
-#: C/calendar-local.page:28
+#: C/calendar-local.page:40
+#| msgid ""
+#| "If you choose to use an existing calendar file which is already located "
+#| "on your computer, you need to provide its location and whether Evolution "
+#| "should only read from the file or if Evolution can also add and alter "
+#| "items in that file."
 msgid ""
 "If you choose to use an existing calendar file which is already located on "
-"your computer, you need to provide its location and whether Evolution should "
-"only read from the file or if Evolution can also add and alter items in that "
-"file."
+"your computer, you need to provide its location and whether <app>Evolution</"
+"app> should only read from the file or if <app>Evolution</app> can also add "
+"and alter items in that file."
 msgstr ""
 "Si elige usar un archivo de calendario existente que ya está en su equipo, "
-"necesitará proporcionar su ubicación y si Evolution debe solamente leer del "
-"archivo o si también puede añadir y modificar elementos en este archivo."
+"necesitará proporcionar su ubicación y si <app>Evolution</app> debe "
+"solamente leer del archivo o si <app>Evolution</app> también puede añadir y "
+"modificar elementos en este archivo."
 
 #. (itstool) path: info/desc
-#: C/calendar-marcus-bains-line.page:5
+#: C/calendar-marcus-bains-line.page:17
 msgid "The red \"Marcus Bains\" line displays the current time."
 msgstr "La línea roja «Marcus Bains» muestra el elemento actual."
 
 #. (itstool) path: page/title
-#: C/calendar-marcus-bains-line.page:19
+#: C/calendar-marcus-bains-line.page:20
 msgid "Time display in the Day view"
 msgstr "Mostrado de la hora en la vista de Día"
 
 #. (itstool) path: page/p
-#: C/calendar-marcus-bains-line.page:21
+#: C/calendar-marcus-bains-line.page:22
 msgid ""
 "The red Marcus Bains Line in the Day view of the calendar is a marker to "
 "show the current date and time."
@@ -1050,17 +1003,17 @@ msgstr ""
 "fecha y hora actuales."
 
 #. (itstool) path: info/desc
-#: C/calendar-meetings-delegating.page:5
+#: C/calendar-meetings-delegating.page:22
 msgid "Ask somebody else to run the meeting."
 msgstr "Pregunte a alquien para que lleve la reunión."
 
 #. (itstool) path: page/title
-#: C/calendar-meetings-delegating.page:23
+#: C/calendar-meetings-delegating.page:25
 msgid "Delegating Meetings"
 msgstr "Eliminar reuniones"
 
 #. (itstool) path: page/p
-#: C/calendar-meetings-delegating.page:24
+#: C/calendar-meetings-delegating.page:27
 msgid ""
 "Only attendees of a meeting can delegate a meeting, but not the organizer of "
 "a meeting."
@@ -1069,22 +1022,22 @@ msgstr ""
 "organizador de la misma."
 
 #. (itstool) path: item/p
-#: C/calendar-meetings-delegating.page:27
+#: C/calendar-meetings-delegating.page:32
 msgid "Right-click on the meeting that you want to delegate."
 msgstr "Pulse con el botón derecho en la reunión que quiere delegar."
 
 #. (itstool) path: item/p
-#: C/calendar-meetings-delegating.page:30
+#: C/calendar-meetings-delegating.page:35
 msgid "Click <gui>Delegate Meeting</gui>."
 msgstr "Pulse<gui>Delegar reunión</gui>."
 
 #. (itstool) path: item/p
-#: C/calendar-meetings-delegating.page:33
+#: C/calendar-meetings-delegating.page:38
 msgid "Select the contacts you want to delegate the meeting to."
 msgstr "Seleccione los contactos a los que quiere delegar la reunión."
 
 #. (itstool) path: item/p
-#: C/calendar-meetings-delegating.page:36 C/contacts-usage-add-contact.page:27
+#: C/calendar-meetings-delegating.page:41 C/contacts-usage-add-contact.page:27
 #: C/contacts-usage-edit-contact.page:27
 #: C/contacts-using-contact-lists.page:37 C/mail-attachments-sending.page:32
 #: C/mail-composer-custom-header-lines.page:45
@@ -1097,12 +1050,12 @@ msgid "Click <gui style=\"button\">OK</gui>."
 msgstr "Pulse <gui style=\"button\">Aceptar</gui>."
 
 #. (itstool) path: page/p
-#: C/calendar-meetings-delegating.page:39
+#: C/calendar-meetings-delegating.page:45
 msgid "Each contact receives a copy of the meeting invitation."
 msgstr "Cada contacto recibe una copia de la invitación a la reunión."
 
 #. (itstool) path: info/desc
-#: C/calendar-meetings.page:5
+#: C/calendar-meetings.page:17
 msgid "Using meetings in the calendar."
 msgstr "Usar reuniones en el calendario."
 
@@ -1190,17 +1143,17 @@ msgstr ""
 "conflictos en reuniones."
 
 #. (itstool) path: info/desc
-#: C/calendar-meetings-sending-invitation.page:5
+#: C/calendar-meetings-sending-invitation.page:23
 msgid "Sending a Meeting Invitation."
 msgstr "Enviar una invitación para reunión."
 
 #. (itstool) path: page/title
-#: C/calendar-meetings-sending-invitation.page:23
+#: C/calendar-meetings-sending-invitation.page:26
 msgid "Sending a Meeting Invitation"
 msgstr "Enviar una invitación para reunión"
 
 #. (itstool) path: page/p
-#: C/calendar-meetings-sending-invitation.page:25
+#: C/calendar-meetings-sending-invitation.page:28
 msgid ""
 "When you create a meeting (group appointment), you can specify the attendees "
 "in several categories, such as \"chair\" or \"required\". When you save the "
@@ -1213,7 +1166,7 @@ msgstr ""
 "y tendrán la opción de responder."
 
 #. (itstool) path: page/p
-#: C/calendar-meetings-sending-invitation.page:26
+#: C/calendar-meetings-sending-invitation.page:33
 msgid ""
 "If you do not need to collect attendance information when you're scheduling "
 "an event, and would rather just announce the event, right-click the meeting "
@@ -1231,12 +1184,12 @@ msgstr ""
 "asistirán o no."
 
 #. (itstool) path: page/p
-#: C/calendar-meetings-sending-invitation.page:28
+#: C/calendar-meetings-sending-invitation.page:40
 msgid "To schedule a meeting:"
 msgstr "Para planificar una reunión:"
 
 #. (itstool) path: item/p
-#: C/calendar-meetings-sending-invitation.page:32
+#: C/calendar-meetings-sending-invitation.page:48
 msgid ""
 "If you have multiple email accounts, select the one to use by selecting an "
 "item in the <gui>Organizer</gui> field."
@@ -1245,14 +1198,14 @@ msgstr ""
 "seleccionando un elemento en el campo <gui>Organizador</gui>."
 
 #. (itstool) path: item/p
-#: C/calendar-meetings-sending-invitation.page:33
-#: C/calendar-usage-add-appointment.page:25
+#: C/calendar-meetings-sending-invitation.page:52
+#: C/calendar-usage-add-appointment.page:36
 msgid "Select a calendar in the <gui>Calendar</gui> drop-down list."
 msgstr ""
 "Seleccione un calendario en la lista desplegable <gui>Calendario</gui>."
 
 #. (itstool) path: item/p
-#: C/calendar-meetings-sending-invitation.page:35
+#: C/calendar-meetings-sending-invitation.page:59
 msgid ""
 "Click <gui>View</gui> in the menu bar to show or hide the <gui>Type</gui>, "
 "<gui>Role</gui>, <gui>Status</gui>, and <gui>RSVP</gui> fields."
@@ -1261,20 +1214,20 @@ msgstr ""
 "<gui>Tipo</gui>, <gui>Rol</gui>, <gui>Estado</gui> y <gui>RSVP</gui>."
 
 #. (itstool) path: item/p
-#: C/calendar-meetings-sending-invitation.page:36
-#: C/calendar-usage-add-appointment.page:26
+#: C/calendar-meetings-sending-invitation.page:64
+#: C/calendar-usage-add-appointment.page:39
 msgid "Enter a brief summary in the <gui>Summary</gui> field."
 msgstr "Escriba un breve resumen en el campo <gui>Resumen</gui>."
 
 #. (itstool) path: item/p
-#: C/calendar-meetings-sending-invitation.page:37
-#: C/calendar-usage-add-appointment.page:27
+#: C/calendar-meetings-sending-invitation.page:67
+#: C/calendar-usage-add-appointment.page:42
 msgid "(Optional) Type a location in the <gui>Location</gui> field."
 msgstr "(Opcional) Escriba una ubicación en el campo <gui>Lugar</gui>."
 
 #. (itstool) path: item/p
-#: C/calendar-meetings-sending-invitation.page:38
-#: C/calendar-usage-add-appointment.page:28
+#: C/calendar-meetings-sending-invitation.page:70
+#: C/calendar-usage-add-appointment.page:45
 msgid ""
 "To select this event as an all day event, click <guiseq><gui>Options</"
 "gui><gui>All Day Event</gui></guiseq>, or click the <gui>All Day Event</gui> "
@@ -1286,14 +1239,14 @@ msgstr ""
 "barra de herramientas."
 
 #. (itstool) path: item/p
-#: C/calendar-meetings-sending-invitation.page:39
-#: C/calendar-usage-add-appointment.page:29
+#: C/calendar-meetings-sending-invitation.page:75
+#: C/calendar-usage-add-appointment.page:50
 msgid "Select the date and time."
 msgstr "Seleccione la fecha y la hora."
 
 #. (itstool) path: item/p
-#: C/calendar-meetings-sending-invitation.page:40
-#: C/calendar-usage-add-appointment.page:30
+#: C/calendar-meetings-sending-invitation.page:78
+#: C/calendar-usage-add-appointment.page:53
 msgid ""
 "If the event is not an all day event, select either <gui>For</gui> to "
 "specify the duration, or select <gui>Until</gui> to specify the ending time "
@@ -1304,13 +1257,13 @@ msgstr ""
 "del evento."
 
 #. (itstool) path: item/p
-#: C/calendar-meetings-sending-invitation.page:41
-#: C/calendar-usage-add-appointment.page:31
+#: C/calendar-meetings-sending-invitation.page:83
+#: C/calendar-usage-add-appointment.page:58
 msgid "(Optional) Enter a description in the <gui>Description</gui> field."
 msgstr "(Opcional) Escriba una descripción en el campo <gui>Descripción</gui>."
 
 #. (itstool) path: item/p
-#: C/calendar-meetings-sending-invitation.page:42
+#: C/calendar-meetings-sending-invitation.page:87
 msgid ""
 "To query <link xref=\"calendar-free-busy\">free/busy</link> information for "
 "the attendees, click the <gui>Free/Busy</gui> button on the toolbar, or "
@@ -1322,12 +1275,12 @@ msgstr ""
 "<guiseq><gui>Opciones</gui><gui>Disponibilidad</gui></guiseq>."
 
 #. (itstool) path: item/p
-#: C/calendar-meetings-sending-invitation.page:43
+#: C/calendar-meetings-sending-invitation.page:92
 msgid "Click <gui>Save</gui> to save the meeting."
 msgstr "Pulse <gui>Guardar</gui> para guardar la reunión."
 
 #. (itstool) path: page/p
-#: C/calendar-meetings-sending-invitation.page:46
+#: C/calendar-meetings-sending-invitation.page:96
 msgid ""
 "An email is sent out to all the recipients, inviting them to your event."
 msgstr ""
@@ -1335,8 +1288,8 @@ msgstr ""
 "acontecimiento."
 
 #. (itstool) path: page/p
-#: C/calendar-meetings-sending-invitation.page:48
-#: C/calendar-usage-add-appointment.page:34
+#: C/calendar-meetings-sending-invitation.page:99
+#: C/calendar-usage-add-appointment.page:67
 msgid ""
 "You can also define a <link xref=\"calendar-timezones\">time zone</link>, a "
 "<link xref=\"using-categories\">category</link>, a <link xref=\"calendar-"
@@ -1352,25 +1305,34 @@ msgstr ""
 "adjunto."
 
 #. (itstool) path: note/p
-#: C/calendar-meetings-sending-invitation.page:50
+#: C/calendar-meetings-sending-invitation.page:107
+#| msgid ""
+#| "In Evolution, a meeting can have only one organizer, and only the "
+#| "organizer can add participants to that meeting. Though it is possible to "
+#| "change the organizer of a meeting, this is not recommended as a means to "
+#| "invite additional participants to meetings. If you want to invite "
+#| "additional people to a meeting and are not that meeting's organizer, it "
+#| "is recommended that you forward the invitation message you received from "
+#| "the original meeting organiser to additional participants."
 msgid ""
-"In Evolution, a meeting can have only one organizer, and only the organizer "
-"can add participants to that meeting. Though it is possible to change the "
-"organizer of a meeting, this is not recommended as a means to invite "
-"additional participants to meetings. If you want to invite additional people "
-"to a meeting and are not that meeting's organizer, it is recommended that "
-"you forward the invitation message you received from the original meeting "
-"organiser to additional participants."
+"In <app>Evolution</app>, a meeting can have only one organizer, and only the "
+"organizer can add participants to that meeting. Though it is possible to "
+"change the organizer of a meeting, this is not recommended as a means to "
+"invite additional participants to meetings. If you want to invite additional "
+"people to a meeting and are not that meeting's organizer, it is recommended "
+"that you forward the invitation message you received from the original "
+"meeting organiser to additional participants."
 msgstr ""
-"Una reunión sólo puede tener un organizador, y sólo el organizador puede "
-"añadir participantes a esa reunión. Aunque se puede cambiar el organizador "
-"de una reunión, no se recomienda porque puede provocar confusión en el "
-"proceso de planificación. Si desea invitar a personas adicionales y no son "
-"los que ha invitado el organizador, es recomendable que reenvíe el mensaje "
-"de invitación que recibió del organizador original a los asistentes."
+"En <app>Evolution</app>, una reunión sólo puede tener un organizador, y sólo "
+"el organizador puede añadir participantes a esa reunión. Aunque se puede "
+"cambiar el organizador de una reunión, no se recomienda porque puede "
+"provocar confusión en el proceso de planificación. Si desea invitar a "
+"personas adicionales y no son los que ha invitado el organizador, es "
+"recomendable que reenvíe el mensaje de invitación que recibió del "
+"organizador original a los asistentes."
 
 #. (itstool) path: info/desc
-#: C/calendar-organizing.page:5
+#: C/calendar-organizing.page:18
 msgid "On using several calendars, searching, and categories."
 msgstr "Sobre usar varios calendarios, búsquedas y categorías."
 
@@ -1380,22 +1342,28 @@ msgid "Sorting and organizing calendars"
 msgstr "Ordenar y orgranizar calendarios"
 
 #. (itstool) path: info/desc
-#: C/calendar-publishing.page:5
+#: C/calendar-publishing.page:25
 msgid "Post your calendar content in public."
 msgstr "Publicar el contenido de sus calendarios en línea."
 
 #. (itstool) path: page/title
-#: C/calendar-publishing.page:23
+#: C/calendar-publishing.page:28
 msgid "Calendar Publishing"
 msgstr "Publicar el calendario"
 
 #. (itstool) path: page/p
-#: C/calendar-publishing.page:24
+#: C/calendar-publishing.page:30
+#| msgid ""
+#| "In order to make one of your calendars available to the public, you can "
+#| "define calendars to be uploaded to a web server under <guiseq><gui>Edit</"
+#| "gui><gui>Preferences</gui><gui>Calendar and Tasks</gui><gui>Publishing "
+#| "Information</gui><gui>Locations</gui><gui style=\"button\">Add</gui></"
+#| "guiseq>."
 msgid ""
 "In order to make one of your calendars available to the public, you can "
 "define calendars to be uploaded to a web server under <guiseq><gui>Edit</"
-"gui><gui>Preferences</gui><gui>Calendar and Tasks</gui><gui>Publishing "
-"Information</gui><gui>Locations</gui><gui style=\"button\">Add</gui></"
+"gui><gui>Preferences</gui> <gui>Calendar and Tasks</gui> <gui>Publishing "
+"Information</gui> <gui>Locations</gui><gui style=\"button\">Add</gui></"
 "guiseq>."
 msgstr ""
 "Para poder hacer público uno de sus calendarios debe definir qué calendarios "
@@ -1404,7 +1372,7 @@ msgstr ""
 "gui><gui>Lugares</gui><gui style=\"button\">Añadir</gui></guiseq>."
 
 #. (itstool) path: page/p
-#: C/calendar-publishing.page:27
+#: C/calendar-publishing.page:40
 msgid ""
 "You can specify the online location, the frequency of publishing, which "
 "calendar(s) to publish, and authentication information for uploading."
@@ -1414,7 +1382,7 @@ msgstr ""
 "autenticarse."
 
 #. (itstool) path: page/p
-#: C/calendar-publishing.page:31
+#: C/calendar-publishing.page:47
 msgid ""
 "To immediately publish calendar information, click <guiseq><gui>Actions</"
 "gui><gui>Publish Calendar Information</gui></guiseq> in the calendar."
@@ -1424,17 +1392,17 @@ msgstr ""
 "guiseq> en el calendario."
 
 #. (itstool) path: info/desc
-#: C/calendar-recurrence.page:5
+#: C/calendar-recurrence.page:23
 msgid "Repeating appointments."
 msgstr "Citas recurrentes."
 
 #. (itstool) path: page/title
-#: C/calendar-recurrence.page:23
+#: C/calendar-recurrence.page:26
 msgid "Using Recurrence"
 msgstr "Repetición"
 
 #. (itstool) path: page/p
-#: C/calendar-recurrence.page:25
+#: C/calendar-recurrence.page:28
 msgid ""
 "If you have an appointment that takes place regularly, you can define its "
 "recurrence by clicking the <gui>Recurrence</gui> button in the "
@@ -1456,24 +1424,24 @@ msgstr ""
 "de enero de 2015« o «de cada mes el primer viernes en 12 ocasiones»."
 
 #. (itstool) path: info/desc
-#: C/calendar-searching.page:5
+#: C/calendar-searching.page:27
 msgid "Searching appointments and meetings."
 msgstr "Buscar citas y reuniones."
 
 #. (itstool) path: page/title
-#: C/calendar-searching.page:28
+#: C/calendar-searching.page:30
 msgid "Searching for Calendar Items"
 msgstr "Buscar elementos del calendario"
 
 #. (itstool) path: section/title
-#: C/calendar-searching.page:30 C/contacts-searching.page:38
+#: C/calendar-searching.page:33 C/contacts-searching.page:38
 #: C/mail-searching.page:39 C/memos-searching.page:39
 #: C/tasks-searching.page:39
 msgid "Quick Search"
 msgstr "Búsqueda rápida"
 
 #. (itstool) path: section/p
-#: C/calendar-searching.page:31
+#: C/calendar-searching.page:35
 msgid ""
 "In the Calendar view, you can quickly search for appointments and meetings "
 "either by summary or by category."
@@ -1482,61 +1450,58 @@ msgstr ""
 "resumen o categoría."
 
 #. (itstool) path: section/p
-#: C/calendar-searching.page:32 C/memos-searching.page:41
+#: C/calendar-searching.page:38 C/memos-searching.page:41
 #: C/tasks-searching.page:41
 msgid "Searching by summary:"
 msgstr "Buscar por resumen:"
 
 #. (itstool) path: item/p
-#: C/calendar-searching.page:34 C/contacts-searching.page:42
+#: C/calendar-searching.page:42 C/contacts-searching.page:42
 #: C/memos-searching.page:43 C/tasks-searching.page:43
 msgid "Click the search icon <_:media-1/> to expand the drop-down list."
 msgstr ""
 "Pulse el icono de búsqueda <_:media-1/> para expandir la dista desplegable."
 
 #. (itstool) path: item/p
-#: C/calendar-searching.page:35 C/contacts-searching.page:43
+#: C/calendar-searching.page:47 C/contacts-searching.page:43
 #: C/mail-searching.page:43 C/memos-searching.page:44
 #: C/tasks-searching.page:44
 msgid "Select the search condition from the list."
 msgstr "Seleccione el criterio de búsqueda de la lista."
 
 #. (itstool) path: item/p
-#: C/calendar-searching.page:36 C/contacts-searching.page:44
+#: C/calendar-searching.page:50 C/contacts-searching.page:44
 #: C/mail-searching.page:47 C/memos-searching.page:45
 #: C/tasks-searching.page:45
 msgid "Enter the text you want to search for and press <key>Enter</key>."
 msgstr "Escriba el texto que quiere buscar y pulse <key>Intro</key>."
 
 #. (itstool) path: item/p
-#: C/calendar-searching.page:37 C/calendar-searching.page:43
-#: C/contacts-searching.page:45 C/contacts-searching.page:51
-#: C/mail-searching.page:48 C/memos-searching.page:46
-#: C/memos-searching.page:52 C/tasks-searching.page:46
-#: C/tasks-searching.page:52
-msgid "Evolution displays the search results."
-msgstr "Evolution muestra los resultados de la búsqueda."
+#: C/calendar-searching.page:53 C/calendar-searching.page:67
+#| msgid "Evolution displays the search results."
+msgid "<app>Evolution</app> displays the search results."
+msgstr "<app>Evolution</app> muestra los resultados de la búsqueda."
 
 #. (itstool) path: section/p
-#: C/calendar-searching.page:39 C/contacts-searching.page:47
+#: C/calendar-searching.page:57 C/contacts-searching.page:47
 #: C/memos-searching.page:48 C/tasks-searching.page:48
 msgid "Searching by category:"
 msgstr "Buscar por categoría:"
 
 #. (itstool) path: item/p
-#: C/calendar-searching.page:41 C/contacts-searching.page:49
+#: C/calendar-searching.page:61 C/contacts-searching.page:49
 #: C/memos-searching.page:50 C/tasks-searching.page:50
 msgid "Click the <gui>Show</gui> drop-down list."
 msgstr "Pulse la lista desplegable <gui>Mostrar</gui>."
 
 #. (itstool) path: item/p
-#: C/calendar-searching.page:42 C/contacts-searching.page:50
+#: C/calendar-searching.page:64 C/contacts-searching.page:50
 #: C/memos-searching.page:51 C/tasks-searching.page:51
 msgid "Select the category from the list."
 msgstr "Seleccione la categoría de la lista."
 
 #. (itstool) path: section/p
-#: C/calendar-searching.page:46
+#: C/calendar-searching.page:71
 msgid ""
 "To go through the results you can use the two arrow buttons next to the "
 "search field. This searches in currently enabled calendars. It searches from "
@@ -1549,7 +1514,7 @@ msgstr ""
 "predeterminado de 10 años."
 
 #. (itstool) path: section/p
-#: C/calendar-searching.page:48 C/contacts-searching.page:53
+#: C/calendar-searching.page:76 C/contacts-searching.page:53
 #: C/mail-searching.page:52 C/memos-searching.page:54
 #: C/tasks-searching.page:54
 msgid ""
@@ -1560,56 +1525,68 @@ msgstr ""
 "avanzada, descrita debajo."
 
 #. (itstool) path: info/desc
-#: C/calendar-sharing-information.page:5
+#: C/calendar-sharing-information.page:17
 msgid ""
 "Make your information (appointments and free/busy times) available to others."
 msgstr ""
 "Hacer que su información (citas y disponibilidad) esté disponible para otros."
 
 #. (itstool) path: page/title
-#: C/calendar-sharing-information.page:20
+#: C/calendar-sharing-information.page:21
 msgid "Sharing your calendar information"
 msgstr "Compartir la información de su calendario"
 
 #. (itstool) path: info/desc
-#: C/calendar-timezones.page:5
+#: C/calendar-timezones.page:22
 msgid "Using time zones in the calendar."
 msgstr "Usar zonas horarias en el calendario."
 
 #. (itstool) path: page/title
-#: C/calendar-timezones.page:23
+#: C/calendar-timezones.page:25
 msgid "Using time zones"
 msgstr "Usar zonas horarias"
 
 #. (itstool) path: page/p
-#: C/calendar-timezones.page:25
-msgid "Evolution supports using multiple time zones."
-msgstr "Evolution soporta el uso de varias zonas horarias."
+#: C/calendar-timezones.page:27
+#| msgid "Evolution supports using multiple time zones."
+msgid "<app>Evolution</app> supports using multiple time zones."
+msgstr "<app>Evolution</app> soporta el uso de varias zonas horarias."
 
 #. (itstool) path: section/title
-#: C/calendar-timezones.page:28
+#: C/calendar-timezones.page:30
 msgid "Setting your global timezone(s)"
 msgstr "Establecer sus zonas horarias globales"
 
 #. (itstool) path: section/p
-#: C/calendar-timezones.page:30
+#: C/calendar-timezones.page:32
+#| msgid ""
+#| "By default Evolution uses the system-wide time zone. This can be changed "
+#| "under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Calendar and "
+#| "Tasks</gui><gui>General</gui><gui>Time</gui><gui>Time zone</gui></guiseq>."
 msgid ""
-"By default Evolution uses the system-wide time zone. This can be changed "
-"under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Calendar and Tasks</"
-"gui><gui>General</gui><gui>Time</gui><gui>Time zone</gui></guiseq>."
-msgstr ""
-"De forma predeterminada Evolution usa la hora del sistema. Se puede cambiar "
-"bajo <guiseq><gui>Editar</gui><gui>Preferencias</gui><gui>Calendario y "
-"tareas</gui><gui>General</gui><gui>Hora</gui><gui>Zona horaria</gui></"
+"By default <app>Evolution</app> uses the system-wide time zone. This can be "
+"changed under <guiseq><gui>Edit</gui><gui>Preferences</gui> <gui>Calendar "
+"and Tasks</gui><gui>General</gui><gui>Time</gui> <gui>Time zone</gui></"
 "guiseq>."
+msgstr ""
+"De manera predeterminada <app>Evolution</app> usa la hora del sistema. Se "
+"puede cambiar bajo <guiseq><gui>Editar</gui><gui>Preferencias</"
+"gui><gui>Calendario y tareas</gui><gui>General</gui><gui>Hora</gui><gui>Zona "
+"horaria</gui></guiseq>."
 
 #. (itstool) path: section/p
-#: C/calendar-timezones.page:32
+#: C/calendar-timezones.page:37
+#| msgid ""
+#| "If you deal a lot with people in another specific time zone you can "
+#| "display that second time zone in the day view of the calendar. You can "
+#| "set a second time zone under <guiseq><gui>Edit</gui><gui>Preferences</"
+#| "gui><gui>Calendar and Tasks</gui><gui>General</gui><gui>Time</"
+#| "gui><gui>Second zone</gui></guiseq>."
 msgid ""
 "If you deal a lot with people in another specific time zone you can display "
 "that second time zone in the day view of the calendar. You can set a second "
-"time zone under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Calendar "
-"and Tasks</gui><gui>General</gui><gui>Time</gui><gui>Second zone</gui></"
+"time zone under <guiseq><gui>Edit</gui><gui>Preferences</gui> <gui>Calendar "
+"and Tasks</gui><gui>General</gui><gui>Time</gui> <gui>Second zone</gui></"
 "guiseq>."
 msgstr ""
 "Si trata con mucha gente en otro huso horario específico puede mostrar ese "
@@ -1619,12 +1596,12 @@ msgstr ""
 "secundaria</gui></guiseq>."
 
 #. (itstool) path: section/title
-#: C/calendar-timezones.page:36
+#: C/calendar-timezones.page:46
 msgid "Setting a timezone for an appointment"
 msgstr "Configurar una zona horaria para una cita"
 
 #. (itstool) path: section/p
-#: C/calendar-timezones.page:38
+#: C/calendar-timezones.page:48
 msgid ""
 "You can also configure time zone information specific to each appointment. "
 "To do that, <link xref=\"calendar-usage\">add a new or edit an existing "
@@ -1643,7 +1620,7 @@ msgstr ""
 "horarias adecuadas en cada cita ayuda a evitar esa confusión potencial."
 
 #. (itstool) path: info/desc
-#: C/calendar-usage-add-appointment.page:5
+#: C/calendar-usage-add-appointment.page:17
 msgid "Adding an appointment."
 msgstr "Añadir una cita."
 
@@ -1653,7 +1630,7 @@ msgid "Adding an Appointment"
 msgstr "Añadir una cita"
 
 #. (itstool) path: item/p
-#: C/calendar-usage-add-appointment.page:23
+#: C/calendar-usage-add-appointment.page:24
 msgid ""
 "Click <guiseq><gui>File</gui><gui>New</gui><gui>Appointment</gui></guiseq>, "
 "or double-click in a blank space in the calendar to open the Appointment "
@@ -1670,22 +1647,26 @@ msgstr ""
 "el ratón."
 
 #. (itstool) path: item/p
-#: C/calendar-usage-add-appointment.page:24
+#: C/calendar-usage-add-appointment.page:33
 msgid "If you use the Appointment dialog:"
 msgstr "Si usa el diálogo de Cita:"
 
 #. (itstool) path: item/p
-#: C/calendar-usage-add-appointment.page:32
+#: C/calendar-usage-add-appointment.page:61
+#| msgid ""
+#| "To show the time as <link xref=\"calendar-free-busy\">busy</link> to "
+#| "others, click <guiseq><gui>Options</gui><gui>Show Time as Busy</gui></"
+#| "guiseq>."
 msgid ""
 "To show the time as <link xref=\"calendar-free-busy\">busy</link> to others, "
-"click <guiseq><gui>Options</gui><gui>Show Time as Busy</gui></guiseq>."
+"click <guiseq><gui>Options</gui> <gui>Show Time as Busy</gui></guiseq>."
 msgstr ""
 "Para mostrar la hora como <link xref=\"calendar-free-busy\">ocupalda</link> "
-"pulse <guiseq><gui>Opciones</gui><gui>Mostrar hora como ocupada</gui></"
-"guiseq>."
+"a los demás, pulse <guiseq><gui>Opciones</gui><gui>Mostrar hora como "
+"ocupada</gui></guiseq>."
 
 #. (itstool) path: info/desc
-#: C/calendar-usage-delete-appointment.page:5
+#: C/calendar-usage-delete-appointment.page:17
 msgid "Deleting an appointment in your calendar."
 msgstr "Eliminar una cita de su calendario."
 
@@ -1712,7 +1693,7 @@ msgstr ""
 "<guiseq><gui>Editar</gui><gui>Eliminar cita</gui></guiseq>."
 
 #. (itstool) path: info/desc
-#: C/calendar-usage-edit-appointment.page:5
+#: C/calendar-usage-edit-appointment.page:17
 msgid "Editing in appointment in your calendar."
 msgstr "Editar una cita en su calendario."
 
@@ -1723,17 +1704,20 @@ msgstr "Editar una cita"
 
 #. (itstool) path: page/p
 #: C/calendar-usage-edit-appointment.page:22
+#| msgid ""
+#| "If you want to change an appointment that already exists in your "
+#| "calendars,"
 msgid ""
-"If you want to change an appointment that already exists in your calendars,"
-msgstr "Si quiere cambiar una cita que ya existe en sus calendarios,"
+"If you want to change an appointment that already exists in your calendars:"
+msgstr "Si quiere cambiar una cita que ya existe en sus calendarios:"
 
 #. (itstool) path: item/p
-#: C/calendar-usage-edit-appointment.page:25
+#: C/calendar-usage-edit-appointment.page:27
 msgid "Double-click on the appointment that you want to edit in the calendar."
 msgstr "Pulse dos veces en la cita que quiera editar en el calendario."
 
 #. (itstool) path: item/p
-#: C/calendar-usage-edit-appointment.page:26
+#: C/calendar-usage-edit-appointment.page:31
 msgid ""
 "Edit the appointment (see <link xref=\"calendar-usage-add-appointment"
 "\">Adding an Appointment</link> for the list of available options)."
@@ -1742,7 +1726,7 @@ msgstr ""
 "una cita</link> para la lista de opciones disponibles)."
 
 #. (itstool) path: item/p
-#: C/calendar-usage-edit-appointment.page:27 C/memos-usage-add-memo.page:29
+#: C/calendar-usage-edit-appointment.page:36 C/memos-usage-add-memo.page:29
 #: C/memos-usage-add-memo.page:49 C/memos-usage-edit-memo.page:27
 #: C/tasks-usage-add-task.page:29 C/tasks-usage-edit-task.page:27
 msgid ""
@@ -1753,7 +1737,7 @@ msgstr ""
 "gui><gui>Guardar</gui></guiseq>."
 
 #. (itstool) path: info/desc
-#: C/calendar-usage.page:5
+#: C/calendar-usage.page:18
 msgid "On adding, editing, and deleting appointments."
 msgstr "Acerca de añadir, editar y eliminar citas."
 
@@ -1763,17 +1747,17 @@ msgid "Add, Edit, and Delete Appointments"
 msgstr "Añadir, editar y eliminar citas"
 
 #. (itstool) path: info/desc
-#: C/calendar-using-several-calendars.page:5
+#: C/calendar-using-several-calendars.page:25
 msgid "Adding and using more than one calendar and different types."
 msgstr "Añadir y usar más de un calendario y diferentes tipos de calendarios."
 
 #. (itstool) path: page/title
-#: C/calendar-using-several-calendars.page:23
+#: C/calendar-using-several-calendars.page:28
 msgid "Using several calendars"
 msgstr "Usar varios calendarios"
 
 #. (itstool) path: page/p
-#: C/calendar-using-several-calendars.page:25
+#: C/calendar-using-several-calendars.page:30
 msgid ""
 "You can have multiple calendars and overlay them one over the other. For "
 "example, you might have a schedule of events for work, one for home, and one "
@@ -1792,12 +1776,12 @@ msgstr ""
 "reduciendo la carga en la vista."
 
 #. (itstool) path: page/p
-#: C/calendar-using-several-calendars.page:27
+#: C/calendar-using-several-calendars.page:38
 msgid "Appointments for each calendar appear in different color."
 msgstr "Las citas para cada calendario aparecen con un color diferente."
 
 #. (itstool) path: page/p
-#: C/calendar-using-several-calendars.page:29
+#: C/calendar-using-several-calendars.page:40
 msgid ""
 "You can also use calendars that are not on your computer, such as on the "
 "internet or in a local network."
@@ -1806,7 +1790,7 @@ msgstr ""
 "calendarios en Internet o en una red local."
 
 #. (itstool) path: page/p
-#: C/calendar-using-several-calendars.page:31
+#: C/calendar-using-several-calendars.page:43
 msgid ""
 "For example, the <link href=\"http://icalshare.com\">icalshare.com website</"
 "link> has an extensive list of shared online calendars, including national "
@@ -1819,7 +1803,7 @@ msgstr ""
 "acontecimientos locales y regionales."
 
 #. (itstool) path: info/desc
-#: C/calendar-weather.page:5
+#: C/calendar-weather.page:17
 msgid "Display the weather in the calendar."
 msgstr "Mostrar la meteorología en el calendario."
 
@@ -1829,42 +1813,42 @@ msgid "Using a weather calendar"
 msgstr "Usar un calendario meteorológico"
 
 #. (itstool) path: page/p
-#: C/calendar-weather.page:22 C/calendar-webdav.page:22
+#: C/calendar-weather.page:22 C/calendar-webdav.page:21
 msgid "Calendars of this type are read-only."
 msgstr "Calendarios de este tipo son de solo lectura."
 
 #. (itstool) path: item/p
-#: C/calendar-weather.page:27
+#: C/calendar-weather.page:33
 msgid "Select the type <gui>Weather</gui>."
 msgstr "Seleccione el tipo <gui>Meteorología</gui>."
 
 #. (itstool) path: item/p
-#: C/calendar-weather.page:31
+#: C/calendar-weather.page:46
 msgid "Choose a location by selecting continent, country and city."
 msgstr "Elija una ubicación seleccionando por continente, país y ciudad."
 
 #. (itstool) path: item/p
-#: C/calendar-weather.page:33
+#: C/calendar-weather.page:53
 msgid "Choose the temperature unit."
 msgstr "Elija la unidad para la temperatura."
 
 #. (itstool) path: info/desc
-#: C/calendar-webdav.page:5
+#: C/calendar-webdav.page:16
 msgid "Using an online Webcal/WebDAV calendar."
 msgstr "Usar un calendario en línea Webcal-WebDAV."
 
 #. (itstool) path: page/title
-#: C/calendar-webdav.page:20
+#: C/calendar-webdav.page:19
 msgid "Using a WebDAV calendar"
 msgstr "Usar un calendario WebDAV"
 
 #. (itstool) path: item/p
-#: C/calendar-webdav.page:27 C/tasks-caldav.page:25 C/tasks-webdav.page:27
+#: C/calendar-webdav.page:32 C/tasks-caldav.page:25 C/tasks-webdav.page:27
 msgid "Select the type <gui>On the Web</gui>."
 msgstr "Seleccione el tipo <gui>En la red</gui>."
 
 #. (itstool) path: item/p
-#: C/calendar-webdav.page:33 C/mail-sending-options-smtp.page:35
+#: C/calendar-webdav.page:52 C/mail-sending-options-smtp.page:35
 #: C/tasks-webdav.page:33
 msgid "Enter your username."
 msgstr "Introduzca su nombre de usuario."
@@ -2448,6 +2432,14 @@ msgstr ""
 #: C/contacts-searching.page:40
 msgid "Searching by contact's info:"
 msgstr "Buscar por la información del contacto:"
+
+#. (itstool) path: item/p
+#: C/contacts-searching.page:45 C/contacts-searching.page:51
+#: C/mail-searching.page:48 C/memos-searching.page:46
+#: C/memos-searching.page:52 C/tasks-searching.page:46
+#: C/tasks-searching.page:52
+msgid "Evolution displays the search results."
+msgstr "Evolution muestra los resultados de la búsqueda."
 
 #. (itstool) path: info/desc
 #: C/contacts-usage-add-contact.page:5
@@ -3936,6 +3928,119 @@ msgstr ""
 "llama «Tabla de almacenamiento personal»."
 
 #. (itstool) path: info/desc
+#: C/index.page:5
+msgid "Manage your email, contacts and schedule"
+msgstr "Gestionar su correo-e, sus contactos y sus tareas"
+
+#. (itstool) path: info/title
+#: C/index.page:7
+msgctxt "text"
+msgid "Evolution Mail and Calendar"
+msgstr "Correo y calendario de Evolution"
+
+#. (itstool) path: media/span
+#: C/index.page:25
+msgid "Evolution logo"
+msgstr "Logo de Evolution"
+
+#. (itstool) path: page/title
+#: C/index.page:23
+msgid "<_:media-1/> Evolution Mail and Calendar"
+msgstr "<_:media-1/> Correo y calendario de Evolution"
+
+#. (itstool) path: section/title
+#. (itstool) path: page/title
+#: C/index.page:31 C/intro-application.page:24
+msgid "Getting Started"
+msgstr "Inicio"
+
+#. (itstool) path: section/title
+#: C/index.page:35
+msgid "Mail Management"
+msgstr "Gestión del correo"
+
+#. (itstool) path: section/title
+#: C/index.page:37
+msgid "Advanced Mail Management"
+msgstr "Gestión avanzada del correo"
+
+#. (itstool) path: info/title
+#: C/index.page:40
+msgctxt "link"
+msgid "Advanced Mail Management (IMAP+ accounts)"
+msgstr "Gestión avanzada del correo(cuentas IMAP+)"
+
+#. (itstool) path: section/title
+#: C/index.page:42 C/intro-first-run.page:54
+msgid "IMAP+"
+msgstr "IMAP+"
+
+#. (itstool) path: section/title
+#: C/index.page:48
+msgid "Mail Composing"
+msgstr "Edición de correo"
+
+#. (itstool) path: section/title
+#: C/index.page:50
+msgid "Advanced Mail Composing"
+msgstr "Edición avanzada de correos"
+
+#. (itstool) path: section/title
+#: C/index.page:55
+msgid "Calendar Management"
+msgstr "Gestión del calendario"
+
+#. (itstool) path: section/title
+#: C/index.page:57
+msgid "Advanced Calendar Management"
+msgstr "Gestión avanzada de calendarios"
+
+#. (itstool) path: section/title
+#: C/index.page:62
+msgid "Contacts Management"
+msgstr "Gestión de contactos"
+
+#. (itstool) path: section/title
+#: C/index.page:66
+msgid "Memos and Tasks Management"
+msgstr "Gestión de notas y tareas"
+
+#. (itstool) path: section/title
+#: C/index.page:70
+msgid "Data Migration and Synchronization"
+msgstr "Migración de datos y sincronización"
+
+#. (itstool) path: section/title
+#: C/index.page:74
+msgid "Corporate Environments"
+msgstr "Entornos corporativos"
+
+#. (itstool) path: section/title
+#: C/index.page:76
+msgid "Microsoft Exchange"
+msgstr "Microsoft Exchange"
+
+#. (itstool) path: section/title
+#: C/index.page:81
+msgid "Tracking down Problems"
+msgstr "Localizar problemas"
+
+#. (itstool) path: section/title
+#: C/index.page:85
+msgid "Common Mail Questions and Problems"
+msgstr "Preguntas y problemas comunes"
+
+#. (itstool) path: section/title
+#: C/index.page:89
+msgid "Common Other Questions and Problems"
+msgstr "Otras preguntas y problemas comunes"
+
+#. (itstool) path: section/title
+#: C/index.page:93
+msgid "Further reading"
+msgstr "Lecturas recomendadas"
+
+#. (itstool) path: info/desc
 #: C/intro-application.page:5
 msgid "An introduction to Evolution."
 msgstr "Una introducción a Evolution."
@@ -5040,7 +5145,6 @@ msgstr "Configuración de cuenta para directorios de correo en formato Maildir"
 
 #. (itstool) path: section/p
 #: C/mail-account-manage-maildir-format-directories.page:24
-#| msgid "Evolution supports the following headers:"
 msgid "Evolution supports the Maildir++ specification."
 msgstr "Evolution soporta la especificación Maildir++."
 
