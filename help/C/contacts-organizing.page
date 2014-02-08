@@ -1,25 +1,27 @@
-<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+<page xmlns="http://projectmallard.org/1.0/"
+      xmlns:its="http://www.w3.org/2005/11/its"
       type="guide" id="contacts-organizing">
 
   <info>
-    <desc>On address books, searching, contact lists, and categories.</desc>
-
     <link type="guide" xref="index#contacts" />
     <link type="guide" xref="organizing" />
 
     <revision pkgversion="2.32.1" version="0.1" date="2011-01-05" status="stub"/>
+
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
     </credit>
-    
-    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
-        
 
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+
+    <desc>On address books, searching, contact lists, and categories.</desc>
   </info>
 
-<title>Sorting, organizing and grouping contacts</title>
+  <title>Sorting, organizing and grouping contacts</title>
 
-<p>There are several ways how to organize your contacts. You can use several addressbooks and categories, and for conveniently sending messages to a group of people contact lists are available.</p>
+  <p>There are several ways how to organize your contacts. You can use several
+  addressbooks and categories, and for conveniently sending messages to a group
+  of people contact lists are available.</p>
 
 </page>

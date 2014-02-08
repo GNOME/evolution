@@ -1,9 +1,8 @@
-<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+<page xmlns="http://projectmallard.org/1.0/"
+      xmlns:its="http://www.w3.org/2005/11/its"
       type="topic" id="contacts-autocompletion">
 
   <info>
-    <desc>Autocompletion of names and email addresses entered in the mail composer.</desc>
-    
     <link type="guide" xref="index#contacts"/>
     <link type="guide" xref="index#mail-composing"/>
     <link type="seealso" xref="mail-composer-forward"/>
@@ -11,26 +10,41 @@
     <link type="seealso" xref="mail-composer-write-new-message"/>
 
     <revision pkgversion="2.32.1" version="0.1" date="2011-01-05" status="draft"/>
+
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
     </credit>
     <credit type="author">
-      <name its:translate="no">Novell, Inc</name> <!-- Content partially from http://library.gnome.org/users/evolution/2.32/usage-mail-getnsend-send.html.en#usage-mail-getnsend-send-to -->
+      <name its:translate="no">Novell, Inc</name>
+      <!-- Content partially from
+	   http://library.gnome.org/users/evolution/2.32/usage-mail-getnsend-send.html.en#usage-mail-getnsend-send-to
+	   -->
     </credit>
-    
-    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
-    
 
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+
+    <desc>Autocompletion of names and email addresses entered in the mail composer.</desc>
   </info>
 
-<title>Autocompletion of mail recipients</title>
+  <title>Autocompletion of mail recipients</title>
 
-<p>You can enter the first three letters of names and email addresses in the recipients text field and Evolution will present you with a list of matches from your address books.</p>
-<p>To enable autocompletion, go to <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Contacts</gui><gui>Autocompletion</gui></guiseq> and choose the address books from the list that Evolution should look in for matches.</p>
+  <p>You can enter the first three letters of names and email addresses in the
+  recipients text field and <app>Evolution</app> will present you with a list
+  of matches from your address books.</p>
 
-<p>Select <gui>Always show address of the autocompleted contact</gui> to also show the email address along with the name. This can be helpful to distinguish if a contact has several email addresses.</p>
+  <p>To enable autocompletion, go to
+  <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Contacts</gui>
+  <gui>Autocompletion</gui></guiseq> and choose the address books from the list
+  that <app>Evolution</app> should look in for matches.</p>
 
-<p>Alternately, you can click the <gui>To:</gui>, <gui>Cc:</gui>, or <gui>Bcc:</gui> buttons to get a list of the email addresses in your contacts. Select addresses and click the arrow buttons to move them into the appropriate address columns.</p>
+  <p>Select <gui>Always show address of the autocompleted contact</gui> to also
+  show the email address along with the name. This can be helpful to
+  distinguish if a contact has several email addresses.</p>
+
+  <p>Alternately, you can click the <gui>To:</gui>, <gui>Cc:</gui>, or
+  <gui>Bcc:</gui> buttons to get a list of the email addresses in your
+  contacts. Select addresses and click the arrow buttons to move them into the
+  appropriate address columns.</p>
 
 </page>

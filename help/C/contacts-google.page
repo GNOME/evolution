@@ -1,36 +1,56 @@
-<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+<page xmlns="http://projectmallard.org/1.0/"
+      xmlns:its="http://www.w3.org/2005/11/its"
       type="topic" id="contacts-google">
 
   <info>
-    <desc>Use the online address book of your Google account.</desc>
-    
     <link type="guide" xref="contacts-using-several-addressbooks"/>
     <link type="guide" xref="google-services"/>
 
     <revision pkgversion="3.1.5" version="0.3" date="2011-07-28" status="final"/>
+
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
     </credit>
-    
-    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
-    
 
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+
+    <desc>Use the online address book of your Google account.</desc>
   </info>
 
-<title>Using a Google addressbook</title>
+  <title>Using a Google addressbook</title>
 
-<p>To add such an address book to Evolution, perform the following steps:</p>
-<steps>
-<item><p>Click <guiseq><gui>File</gui><gui>New</gui><gui>Address Book</gui></guiseq>.</p></item>
-<item><p>Select the type <gui>Google</gui>.</p></item>
-<item><p>Enter a name that you prefer.</p></item>
-<item><p>Choose if you want to be able to view the content also when being offline.</p></item>
-<item><p>Enter your Google username.</p></item>
-<item><p>Choose <gui>Use secure connection</gui> if you want to connect securely.</p></item>
-<item><p>Click <gui style="button">Apply</gui>.</p></item>
-</steps>
+  <p>To add such an address book to <app>Evolution</app>, perform the following
+  steps:</p>
 
-<p>The address book will be added to the list of address books in Evolution.</p>
+  <steps>
+    <item>
+      <p>Click <guiseq><gui>File</gui><gui>New</gui>
+      <gui>Address Book</gui></guiseq>.</p>
+    </item>
+    <item>
+      <p>Select the type <gui>Google</gui>.</p>
+    </item>
+    <item>
+      <p>Enter a name that you prefer.</p>
+    </item>
+    <item>
+      <p>Choose if you want to be able to view the content also when being
+      offline.</p>
+    </item>
+    <item>
+      <p>Enter your Google username.</p>
+    </item>
+    <item>
+      <p>Choose <gui>Use secure connection</gui> if you want to connect
+      securely.</p>
+    </item>
+    <item>
+      <p>Click <gui style="button">Apply</gui>.</p>
+    </item>
+  </steps>
+
+  <p>The address book will be added to the list of address books in
+  <app>Evolution</app>.</p>
 
 </page>

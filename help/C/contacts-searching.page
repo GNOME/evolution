@@ -1,13 +1,13 @@
-<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+<page xmlns="http://projectmallard.org/1.0/"
+      xmlns:its="http://www.w3.org/2005/11/its"
       type="topic" id="contacts-searching">
 
   <info>
-    <desc>Searching contacts.</desc>
-
     <link type="guide" xref="searching-items" />
     <link type="guide" xref="contacts-organizing" />
 
     <revision pkgversion="3.5.90" version="0.4" date="2012-08-17" status="draft"/>
+
     <credit type="author">
       <name its:translate="no">Max Vorobuov</name>
       <email its:translate="no">vmax0770@gmail.com</email>
@@ -19,45 +19,78 @@
     <credit type="author">
       <name its:translate="no">Novell, Inc</name>
     </credit>
-    
+
     <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
-        
+
+    <desc>Searching contacts.</desc>
   </info>
 
-<title>Searching Contacts</title>
+  <title>Searching Contacts</title>
 
 <section id="search-single">
-<title>Searching in a Single Contact</title>
-<p>To find text in the displayed contact, select <guiseq><gui>Edit</gui><gui>Find in Contact...</gui></guiseq> from the main menu.</p>
+  <title>Searching in a Single Contact</title>
+
+  <p>To find text in the displayed contact, select
+  <guiseq><gui>Edit</gui><gui>Find in Contact…</gui></guiseq> from the main
+  menu.</p>
+
 </section>
 
 <section id="search-many">
-<title>Searching Across Contacts</title>
+  <title>Searching Across Contacts</title>
 
-<section id="quick-search">
-<title>Quick Search</title>
-<p>In the Contacts view, you can quickly search for contacts either by category or by contact's info.</p>
-<p>Searching by contact's info:</p>
-<steps>
-<item><p>Click the search icon <media type="image" mime="image/png" its:translate="no" src="figures/search-icon.png"/> to expand the drop-down list.</p></item>
-<item><p>Select the search condition from the list.</p></item>
-<item><p>Enter the text you want to search for and press <key>Enter</key>.</p></item>
-<item><p>Evolution displays the search results.</p></item>
-</steps>
-<p>Searching by category:</p>
-<steps>
-<item><p>Click the <gui>Show</gui> drop-down list.</p></item>
-<item><p>Select the category from the list.</p></item>
-<item><p>Evolution displays the search results.</p></item>
-</steps>
-<p>If you want to set several search conditions, you should use an Advanced search, which is described below.</p>
+  <section id="quick-search">
+    <title>Quick Search</title>
+      <p>In the Contacts view, you can quickly search for contacts either by
+      category or by contact's info.</p>
+      <p>Searching by contact's info:</p>
+
+      <steps>
+        <item>
+	  <p>Click the search icon
+	  <media type="image" mime="image/png" its:translate="no" src="figures/search-icon.png"/>
+	  to expand the drop-down list.</p>
+        </item>
+        <item>
+	  <p>Select the search condition from the list.</p>
+	</item>
+        <item>
+	  <p>Enter the text you want to search for and press
+	  <key>Enter</key>.</p>
+	</item>
+        <item>
+	  <p><app>Evolution</app> displays the search results.</p>
+	</item>
+      </steps>
+
+      <p>Searching by category:</p>
+
+      <steps>
+        <item>
+	  <p>Click the <gui>Show</gui> drop-down list.</p>
+	</item>
+        <item>
+	  <p>Select the category from the list.</p>
+	</item>
+        <item>
+	  <p><app>Evolution</app> displays the search results.</p>
+	</item>
+      </steps>
+
+      <p>If you want to set several search conditions, you should use an
+      Advanced search, which is described below.</p>
+    </section>
+
+    <!-- As advanced-search, clearing-search, saved-searches,
+	 editing-a-saved-search are totally identical in all *-searching.page
+	 files, this is centrally in one file that's included by XInclude. See
+         http://blogs.gnome.org/shaunm/2011/07/21/understanding-xinclude/ for how it
+         works. -->
+
+    <include href="xinclude-searching.xml"
+             xpointer="xmlns(mal=http://projectmallard.org/1.0/)xpointer(/mal:info/mal:section)"
+             xmlns="http://www.w3.org/2001/XInclude"/>
+
 </section>
 
-<!-- As advanced-search, clearing-search, saved-searches, editing-a-saved-search are totally identical in all *-searching.page files, this is centrally in one file that's included by XInclude. See
-http://blogs.gnome.org/shaunm/2011/07/21/understanding-xinclude/ for how it works. -->
-<include href="xinclude-searching.xml"
-  xpointer="xmlns(mal=http://projectmallard.org/1.0/)xpointer(/mal:info/mal:section)"
-  xmlns="http://www.w3.org/2001/XInclude"/>
-
-</section>
 </page>

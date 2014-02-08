@@ -1,76 +1,156 @@
-<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+<page xmlns="http://projectmallard.org/1.0/"
+      xmlns:its="http://www.w3.org/2005/11/its"
       type="topic" id="contacts-ldap">
 
   <info>
-    <desc>Use shared address books on a local network.</desc>
-    
     <link type="guide" xref="contacts-using-several-addressbooks"/>
 
     <revision pkgversion="3.1.5" version="0.3" date="2011-07-28" status="final"/>
+
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
     </credit>
- <credit type="author">
-   <name its:translate="no">Novell, Inc</name> <!-- Content partially from http://library.gnome.org/users/evolution/2.32/usage-contact-sharing.html.en and http://library.gnome.org/users/evolution/2.32/config-prefs-contact.html.en#bxmw6w5 -->
- </credit>
-    
-    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
-    
+    <credit type="author">
+      <name its:translate="no">Novell, Inc</name>
+      <!-- Content partially from
+	   http://library.gnome.org/users/evolution/2.32/usage-contact-sharing.html.en
+	   and
+	   http://library.gnome.org/users/evolution/2.32/config-prefs-contact.html.en#bxmw6w5
+	   -->
+    </credit>
 
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+
+    <desc>Use shared address books on a local network.</desc>
   </info>
 
-<title>Adding LDAP access</title>
+  <title>Adding LDAP access</title>
 
-<p>The LDAP protocol was created to let users share contact information over a network by sharing access to a central directory. LDAP allows a company to maintain a shared set of contact information. Many companies keep a common LDAP address book for all their employees or for client contacts.</p>
+  <p>The LDAP protocol was created to let users share contact information over
+  a network by sharing access to a central directory. LDAP allows a company to
+  maintain a shared set of contact information. Many companies keep a common
+  LDAP address book for all their employees or for client contacts.</p>
 
 <section id="add-ldap-addressbook">
-<title>Adding an LDAP address book</title>
+  <title>Adding an LDAP address book</title>
 
-<steps>
-<item><p>Click <guiseq><gui>File</gui><gui>New</gui><gui>Address Book</gui></guiseq>.</p></item>
-<item><p>In the <gui>General</gui> tab, select the type <gui>On LDAP Servers</gui>.</p></item>
-<item><p>Enter a name that you prefer.</p></item>
-<item><p>Enter the address of the server, the port number (the default number is 389) and whether you want to connect securely.</p></item>
-<item><p>Define the login method and your user name.</p></item>
-<item><p>Click <gui style="button">Apply</gui>.</p></item>
-<item><p>In the <gui>Details</gui> tab you can define the following settings:</p>
-<list>
- <item><p>Search Base: The search base is the starting point for a directory search. Contact your system administrator for information about the correct settings.</p></item>
- <item><p>Search Scope: The search scope is the breadth of a given search. The following options are available:</p>
-  <list>
-  <item><p>One: Searches the Search Base and one entry below it.</p></item>
-  <item><p>Sub: Searches the Search Base and all entries below it.</p></item>
-  </list>
- </item>
- <item><p>Search Filter: The search filter can be set here for all the LDAP queries. For example:</p>
-  <list>
-  <item><p><code>ObjectClass=*</code>: Lists all the objects from the server.</p></item>
-  <item><p><code>ObjectClass=User</code>: Lists only the users.</p></item>
-  <item><p><code>Filter (|(ObjectClass=User)(ObjectClass=groupOfNames))</code>: Retrieves the User and Contact List objects.</p></item>
-  <item><p><code>(&amp;(mail=*)(ObjectClass=*))</code>: Lists the objects associated with the email addresses.</p></item>
-  </list>
- </item>
- <item><p>Timeout (minutes): The maximum time Evolution attempts to download data from the server before giving up.</p></item>
- <item><p>Download Limit: The maximum number of results for a given search. Most servers refuse to send more than 500 contacts, but you can set the number lower if you want to shorten downloads for very broad searches.</p></item>
-</list>
-</item>
-</steps>
+  <steps>
+    <item>
+      <p>Click <guiseq><gui>File</gui><gui>New</gui>
+      <gui>Address Book</gui></guiseq>.</p>
+    </item>
+    <item>
+      <p>In the <gui>General</gui> tab, select the type
+      <gui>On LDAP Servers</gui>.</p>
+    </item>
+    <item>
+      <p>Enter a name that you prefer.</p>
+    </item>
+    <item>
+      <p>Enter the address of the server, the port number (the default number
+      is 389) and whether you want to connect securely.</p>
+    </item>
+    <item>
+      <p>Define the login method and your user name.</p>
+    </item>
+    <item>
+      <p>Click <gui style="button">Apply</gui>.</p>
+    </item>
+    <item>
+      <p>In the <gui>Details</gui> tab you can define the following
+      settings:</p>
+      <list>
+        <item>
+	  <p>Search Base: The search base is the starting point for a directory
+	  search. Contact your system administrator for information about the
+	  correct settings.</p>
+        </item>
+        <item>
+	  <p>Search Scope: The search scope is the breadth of a given search.
+	  The following options are available:</p>
+          <list>
+            <item>
+	      <p>One: Searches the Search Base and one entry below it.</p>
+	    </item>
+            <item>
+	      <p>Sub: Searches the Search Base and all entries below it.</p>
+            </item>
+          </list>
+        </item>
+        <item>
+	  <p>Search Filter: The search filter can be set here for all the LDAP
+	  queries. For example:</p>
+          <list>
+            <item>
+              <p><code>ObjectClass=*</code>: Lists all the objects from the
+              server.</p>
+	    </item>
+            <item>
+	      <p><code>ObjectClass=User</code>: Lists only the users.</p>
+	    </item>
+            <item>
+	      <p><code>Filter (|(ObjectClass=User)(ObjectClass=groupOfNames))</code>:
+	      Retrieves the User and Contact List objects.</p>
+	    </item>
+            <item>
+	      <p><code>(&amp;(mail=*)(ObjectClass=*))</code>: Lists the objects
+	      associated with the email addresses.</p>
+	    </item>
+          </list>
+        </item>
+        <item>
+	  <p>Timeout (minutes): The maximum time <app>Evolution</app> attempts
+	  to download data from the server before giving up.</p>
+        </item>
+        <item>
+	  <p>Download Limit: The maximum number of results for a given search.
+	  Most servers refuse to send more than 500 contacts, but you can set
+	  the number lower if you want to shorten downloads for very broad
+	  searches.</p>
+        </item>
+      </list>
+    </item>
+  </steps>
 
-<note style="tip"><p>If you are unsure about some settings, ask your system administrator.</p></note>
+  <note style="tip">
+    <p>If you are unsure about some settings, ask your system
+    administrator.</p>
+  </note>
 
 </section>
 
 <section id="ldap-vs-local-addressbooks">
-<title>Differences to local address books</title>
+  <title>Differences to local address books</title>
 
-<p>LDAP address books work like local address books on your computer, with the following exceptions:</p>
-<list>
-<item><p>Network folders are only available when you are connected to the network. If you use a laptop or have a modem connection, you might want to copy or cache some of the network directory. You do this by dragging and dropping your desired contacts into the local address books.</p></item>
-<item><p>You can also mark the network folder for offline usage. To mark the folder, right-click the folder, click Properties and select Copy Folder Content Locally for Offline Operation.</p></item>
-<item><p>To prevent excess network traffic, Evolution does not normally load data from the LDAP server upon opening.</p></item>
-<item><p>Depending on your server settings, you might not be able to edit all the fields in a contact stored on an LDAP server. Some servers prohibit some or all changes, and others use a smaller set of fields than Evolution allows. Check with your system administrator if you need different settings.</p></item>
-</list>
+  <p>LDAP address books work like local address books on your computer, with
+  the following exceptions:</p>
+
+  <list>
+    <item>
+      <p>Network folders are only available when you are connected to the
+      network. If you use a laptop or have a modem connection, you might want
+      to copy or cache some of the network directory. You do this by dragging
+      and dropping your desired contacts into the local address books.</p>
+    </item>
+    <item>
+      <p>You can also mark the network folder for offline usage. To mark the
+      folder, right-click the folder, click Properties and select Copy Folder
+      Content Locally for Offline Operation.</p>
+    </item>
+    <item>
+      <p>To prevent excess network traffic, <app>Evolution</app> does not
+      normally load data from the LDAP server upon opening.</p>
+    </item>
+    <item>
+      <p>Depending on your server settings, you might not be able to edit all
+      the fields in a contact stored on an LDAP server. Some servers prohibit
+      some or all changes, and others use a smaller set of fields than
+      <app>Evolution</app> allows. Check with your system administrator if you
+      need different settings.</p>
+    </item>
+  </list>
+
 </section>
 
 </page>

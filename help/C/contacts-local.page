@@ -1,32 +1,44 @@
-<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+<page xmlns="http://projectmallard.org/1.0/"
+      xmlns:its="http://www.w3.org/2005/11/its"
       type="topic" id="contacts-local">
 
   <info>
-    <desc>Adding another local address book.</desc>
-    
     <link type="guide" xref="contacts-using-several-addressbooks"/>
 
     <revision pkgversion="3.1.5" version="0.3" date="2011-07-28" status="final"/>
+
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
     </credit>
-    
-    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
-    
 
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+
+    <desc>Adding another local address book.</desc>
   </info>
 
-<title>Adding another local address book</title>
+  <title>Adding another local address book</title>
 
-<p>To add another local address book to Evolution, perform the following steps:</p>
-<steps>
-<item><p>Click <guiseq><gui>File</gui><gui>New</gui><gui>Address Book</gui></guiseq>.</p></item>
-<item><p>Select the type <gui>On This Computer</gui>.</p></item>
-<item><p>Enter a name that you prefer.</p></item>
-<item><p>Click <gui style="button">Apply</gui>.</p></item>
-</steps>
+  <p>To add another local address book to <app>Evolution</app>, perform the
+  following steps:</p>
 
-<p>The address book will be added to the list of address books in Evolution.</p>
+  <steps>
+    <item>
+      <p>Click <guiseq><gui>File</gui><gui>New</gui>
+      <gui>Address Book</gui></guiseq>.</p>
+    </item>
+    <item>
+      <p>Select the type <gui>On This Computer</gui>.</p>
+    </item>
+    <item>
+      <p>Enter a name that you prefer.</p>
+    </item>
+    <item>
+      <p>Click <gui style="button">Apply</gui>.</p>
+    </item>
+  </steps>
+
+  <p>The address book will be added to the list of address books in
+  <app>Evolution</app>.</p>
 
 </page>
