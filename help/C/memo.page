@@ -1,5 +1,5 @@
 <page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
-      type="topic" id="memo">
+      type="guide" id="memo">
 
   <info>
     <desc>Add, edit and remove memos.</desc>  
@@ -28,6 +28,10 @@
 
 <title>Memo and Task</title>
 
-
+<links type="topic" style="toronto" groups="
+	add-memos
+  	find-memos
+        organise-memos
+        "/>
 
 </page>
