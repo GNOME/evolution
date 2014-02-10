@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: el\n"
-"POT-Creation-Date: 2014-02-04 05:44+0000\n"
-"PO-Revision-Date: 2014-02-04 10:27+0300\n"
+"POT-Creation-Date: 2014-02-10 05:29+0000\n"
+"PO-Revision-Date: 2014-02-10 10:34+0300\n"
 "Last-Translator: Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>\n"
 "Language-Team: team@lists.gnome.gr\n"
 "Language: el\n"
@@ -44,41 +44,42 @@ msgstr ""
 "Μάριος Ζηντίλης <m.zindilis@dmajor.org>"
 
 #. (itstool) path: info/desc
-#: C/backup-restore.page:5
-msgid "Back up and restore your Evolution data and settings."
-msgstr "Εφεδρεία και ανάκτηση δεδομένων και ρυθμίσεων του Evolution."
+#: C/backup-restore.page:18
+msgid "Back up and restore your <app>Evolution</app> data and settings."
+msgstr ""
+"Εφεδρεία και ανάκτηση δεδομένων και ρυθμίσεων του <app>Evolution</app>."
 
 #. (itstool) path: page/title
-#: C/backup-restore.page:21
+#: C/backup-restore.page:22
 msgid "Back up and restore"
 msgstr "Εφεδρεία και ανάκτηση δεδομένων"
 
 #. (itstool) path: page/p
-#: C/backup-restore.page:23
+#: C/backup-restore.page:24
 msgid ""
-"You can back up your Evolution data. The backup saves your settings, mail, "
-"contacts, tasks, memos and calendars. It will be stored in a gzip-compressed "
-"tar archive file."
+"You can back up your <app>Evolution</app> data. The backup saves your "
+"settings, mail, contacts, tasks, memos and calendars. It will be stored in a "
+"gzip-compressed tar archive file."
 msgstr ""
-"Μπορείτε να αντιγράψετε τα δεδομένα σας του Evolution. Η εφεδρεία αποθηκεύει "
-"τις ρυθμίσεις σας, αλληλογραφία, εργασίες, υπενθυμίσεις και ημερολόγια. Θα "
-"αποθηκευτεί σε ένα gzip συμπιεσμένο αρχείο ιστορικού tar."
+"Μπορείτε να αντιγράψετε τα δεδομένα σας του <app>Evolution</app>. Η εφεδρεία "
+"αποθηκεύει τις ρυθμίσεις σας, αλληλογραφία, εργασίες, υπενθυμίσεις και "
+"ημερολόγια. Θα αποθηκευτεί σε ένα gzip συμπιεσμένο αρχείο ιστορικού tar."
 
 #. (itstool) path: section/title
-#: C/backup-restore.page:26
+#: C/backup-restore.page:29
 msgid "Backing up"
 msgstr "Εφεδρεία"
 
 #. (itstool) path: item/p
-#: C/backup-restore.page:28
+#: C/backup-restore.page:33
 msgid ""
-"Select <guiseq><gui>File</gui><gui>Back up Evolution Data...</gui></guiseq>."
+"Select <guiseq><gui>File</gui> <gui>Back up Evolution Data…</gui></guiseq>."
 msgstr ""
-"Επιλέξτε <guiseq><gui>αρχείο</gui><gui>εφεδρεία δεδομένων Evolution</gui></"
+"Επιλέξτε <guiseq><gui>Aρχείο</gui><gui>εφεδρεία δεδομένων Evolution…</gui></"
 "guiseq>."
 
 #. (itstool) path: item/p
-#: C/backup-restore.page:29
+#: C/backup-restore.page:37
 msgid ""
 "Choose a filename and the folder where you want to save the backup file, and "
 "click <gui style=\"button\">Save</gui>."
@@ -87,97 +88,97 @@ msgstr ""
 "εφεδρικό αρχείο, κλικ <gui style=\"button\">αποθήκευση</gui>."
 
 #. (itstool) path: item/p
-#: C/backup-restore.page:30 C/backup-restore.page:40
+#: C/backup-restore.page:41 C/backup-restore.page:69
 msgid ""
-"You will be asked to close Evolution. Answer with <gui style=\"button\">Yes</"
-"gui>."
+"You will be asked to close <app>Evolution</app>. Answer with <gui style="
+"\"button\">Yes</gui>."
 msgstr ""
-"Θα σας ζητηθεί να κλείσετε το Evolution. Απαντήστε <gui style=\"button"
-"\">ναι</gui>."
+"Θα σας ζητηθεί να κλείσετε το <app>Evolution</app>. Απαντήστε <gui style="
+"\"button\">Nαι</gui>."
 
 #. (itstool) path: note/p
-#: C/backup-restore.page:32
+#: C/backup-restore.page:47
 msgid ""
 "Note that your <link xref=\"mail-spam\">spam filtering</link> settings are "
 "not included in the backup file, as these settings are not controlled by "
-"Evolution and as developers of spam filtering tools might change "
+"<app>Evolution</app> and as developers of spam filtering tools might change "
 "implementation details. If you use Bogofilter you will need to back up "
 "<file>~/.bogofilter/</file>. If you use SpamAssassin you will need to back "
 "up <file>~/.spamassassin/</file>."
 msgstr ""
-"Σημειώστε ότι οι ρυθμίσεις σας <link xref=\"mail-spam\">φιλτραρίσματος "
+"Σημειώστε ότι οι ρυθμίσεις σας <link xref=\"mail-spam\">φιλτράρισμα "
 "ανεπιθύμητων</link> δεν συμπεριλαμβάνονται στο αρχείο εφεδρείας, καθώς αυτές "
-"οι ρυθμίσεις δεν ελέγχονται από το Evolution και οι προγραμματιστές των "
-"εργαλείων φιλτραρίσματος οχλήσεων μπορεί να αλλάξουν τις λεπτομέρειες "
-"εφαρμογής. Εάν χρησιμοποιείτε Bogofilter θα χρειαστείτε εφεδρικό του "
-"<file>~/.bogofilter/</file>. Εάν χρησιμοποιείτε SpamAssassin θα χρειαστείτε "
-"εφεδρικό του <file>~/.spamassassin/</file>."
+"οι ρυθμίσεις δεν ελέγχονται από το <app>Evolution</app> και οι "
+"προγραμματιστές των εργαλείων φιλτραρίσματος οχλήσεων μπορεί να αλλάξουν τις "
+"λεπτομέρειες εφαρμογής. Εάν χρησιμοποιείτε Bogofilter θα χρειαστείτε "
+"εφεδρικό του <file>~/.bogofilter/</file>. Εάν χρησιμοποιείτε SpamAssassin θα "
+"χρειαστείτε εφεδρικό του <file>~/.spamassassin/</file>."
 
 #. (itstool) path: section/title
-#: C/backup-restore.page:36 C/intro-first-run.page:39
+#: C/backup-restore.page:58 C/intro-first-run.page:39
 msgid "Restoring"
 msgstr "Επαναφορά"
 
 #. (itstool) path: item/p
-#: C/backup-restore.page:38
+#: C/backup-restore.page:62
 msgid ""
-"Select <guiseq><gui>File</gui><gui>Restore Evolution Data...</gui></guiseq>."
+"Select <guiseq><gui>File</gui> <gui>Restore Evolution Data…</gui></guiseq>."
 msgstr ""
-"Επιλέξτε <guiseq><gui>αρχείο</gui><gui>επαναφορά δεδομένων Evolution...</"
-"gui></guiseq>."
+"Επιλέξτε <guiseq><gui>Αρχείο</gui><gui>Επαναφορά δεδομένων Evolution…</gui></"
+"guiseq>."
 
 #. (itstool) path: item/p
-#: C/backup-restore.page:39
+#: C/backup-restore.page:66
 msgid "Choose the file, and click <gui style=\"button\">Open</gui>."
 msgstr "Επιλέξτε το αρχείο και κλικ <gui style=\"button\">άνοιγμα</gui>."
 
 #. (itstool) path: note/p
-#: C/backup-restore.page:42
+#: C/backup-restore.page:75
 msgid ""
 "In the <link xref=\"intro-first-run\">first-run assistant</link>, you can "
-"restore Evolution data from a backup file."
+"restore <app>Evolution</app> data from a backup file."
 msgstr ""
 "Στο <link xref=\"intro-first-run\">βοηθός πρώτης εκτέλεσης</link>, μπορείτε "
-"να επαναφέρετε τα δεδομένα του Evolution από εφεδρικό αρχείο."
+"να επαναφέρετε τα δεδομένα του <app>Evolution</app> από εφεδρικό αρχείο."
 
 #. (itstool) path: info/desc
-#: C/calendar-alarms-and-reminders.page:7
+#: C/calendar-alarms-and-reminders.page:23
 msgid "Setting up reminder notifications for appointments."
 msgstr "Ορισμός ειδοποιήσεων υπενθύμισης για ραντεβού."
 
 #. (itstool) path: page/title
-#: C/calendar-alarms-and-reminders.page:25
+#: C/calendar-alarms-and-reminders.page:26
 msgid "Reminders for appointments"
 msgstr "Υπενθυμίσεις συναντήσεων"
 
 #. (itstool) path: section/title
-#: C/calendar-alarms-and-reminders.page:28
+#: C/calendar-alarms-and-reminders.page:29
 msgid "General Settings"
 msgstr "Γενικές ρυθμίσεις"
 
 #. (itstool) path: section/p
-#: C/calendar-alarms-and-reminders.page:30
+#: C/calendar-alarms-and-reminders.page:31
 msgid ""
-"Under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Calendar and Tasks</"
+"Under <guiseq><gui>Edit</gui><gui>Preferences</gui> <gui>Calendar and Tasks</"
 "gui><gui>Reminders</gui></guiseq> you can select those calendars for which "
 "you want to receive reminder notifications. If you do not select a calendar, "
 "you will not receive reminders for any events in this calendar. You can also "
 "define whether to show a reminder for every appointment and for every "
 "birthday and anniversary."
 msgstr ""
-"Στο <guiseq><gui>επεξεργασία</gui><gui>προτιμήσεις</gui><gui>ημερολόγιο και "
-"εργασίες</gui><gui>υπενθυμίσεις</gui></guiseq> μπορείτε να επιλέξετε τα "
-"ημερολόγια για τα οποία θέλετε να δεχθείτε ειδοποιήσεις υπενθύμισης. Εάν δεν "
+"Στο <guiseq><gui>Επεξεργασία</gui><gui>Προτιμήσεις</gui><gui>Ημερολόγιο και "
+"εργασίες</gui><gui>Υπενθυμίσεις</gui></guiseq> μπορείτε να επιλέξετε τα "
+"ημερολόγια για τα οποία θέλετε να δεχθείτε ειδοποιήσεις υπενθύμισης. Αν δεν "
 "επιλέξετε ένα ημερολόγιο, δεν θα δεχθείτε υπενθυμίσεις για κάθε συμβάν σε "
-"αυτό το ημερολόγιο. Μπορείτε επίσης να ορίσετε εάν θα εμφανιστεί μια "
+"αυτό το ημερολόγιο. Μπορείτε επίσης να ορίσετε αν θα εμφανιστεί μια "
 "υπενθύμιση για κάθε συνάντηση και για κάθε γενέθλια και επέτειο."
 
 #. (itstool) path: when/p
-#: C/calendar-alarms-and-reminders.page:33
+#: C/calendar-alarms-and-reminders.page:40
 msgid ""
 "For general information on displaying reminders, please see <link xref="
 "\"help:gnome-help/shell-notifications\" href=\"https://help.gnome.org/users/"
-"gnome-help/stable/shell-notifications\">the GNOME Desktop Help</link>."
+"gnome-help/stable/shell-notifications\"> the GNOME Desktop Help</link>."
 msgstr ""
 "Για γενικές πληροφορίες στην εμφάνιση υπενθυμίσεων, παρακαλούμε δείτε <link "
 "xref=\"help:gnome-help/shell-notifications\" href=\"https://help.gnome.org/"
@@ -185,12 +186,12 @@ msgstr ""
 "GNOME</link>."
 
 #. (itstool) path: section/title
-#: C/calendar-alarms-and-reminders.page:40
+#: C/calendar-alarms-and-reminders.page:50
 msgid "Manual Reminders"
 msgstr "Χειροκίνητες υπενθυμίσεις"
 
 #. (itstool) path: section/p
-#: C/calendar-alarms-and-reminders.page:42
+#: C/calendar-alarms-and-reminders.page:52
 msgid ""
 "Apart from the general settings you can also set up reminders in the "
 "appointment editor for certain appointments only:"
@@ -199,7 +200,7 @@ msgstr ""
 "επεξεργαστή συναντήσεων για συγκεκριμένες συναντήσεις μόνο:"
 
 #. (itstool) path: item/p
-#: C/calendar-alarms-and-reminders.page:44
+#: C/calendar-alarms-and-reminders.page:57
 msgid ""
 "Click <guiseq><gui>Options</gui><gui>Reminders</gui></guiseq> or press the "
 "Reminder button in the toolbar."
@@ -208,7 +209,7 @@ msgstr ""
 "πατήστε το κουμπί υπενθύμισης στην εργαλειοθήκη."
 
 #. (itstool) path: item/p
-#: C/calendar-alarms-and-reminders.page:45
+#: C/calendar-alarms-and-reminders.page:61
 msgid ""
 "From the dropdown menu, choose either one of the available default options "
 "when to show a notification reminder, or choose <gui>Customize</gui>."
@@ -218,7 +219,7 @@ msgstr ""
 "<gui>προσαρμογή</gui>."
 
 #. (itstool) path: item/p
-#: C/calendar-alarms-and-reminders.page:46
+#: C/calendar-alarms-and-reminders.page:66
 msgid ""
 "In case of <gui>Customize</gui>, the reminder can be a popup, a sound "
 "played, or a program ran. You can also define whether the reminder should be "
@@ -229,27 +230,28 @@ msgstr ""
 "υπενθύμιση πρέπει να επαναληφθεί."
 
 #. (itstool) path: info/desc
-#: C/calendar-caldav.page:5
+#: C/calendar-caldav.page:23
 msgid "Using an online CalDAV calendar."
 msgstr "Χρήση δικτυακού ημερολογίου CalDAV."
 
 #. (itstool) path: page/title
-#: C/calendar-caldav.page:23
+#: C/calendar-caldav.page:26
 msgid "Using a CalDAV calendar"
 msgstr "Χρήση ημερολογίου CalDAV"
 
 #. (itstool) path: page/p
-#: C/calendar-caldav.page:25 C/calendar-google.page:26
-#: C/calendar-weather.page:24 C/calendar-webdav.page:24
-msgid "To add such a calendar to Evolution, perform the following steps:"
+#: C/calendar-caldav.page:28 C/calendar-google.page:29
+#: C/calendar-weather.page:24 C/calendar-webdav.page:23
+msgid ""
+"To add such a calendar to <app>Evolution</app>, perform the following steps:"
 msgstr ""
-"Για την προσθήκη ενός τέτοιου ημερολογίου στο Evolution, κάντε τα επόμενα "
-"βήματα:"
+"Για την προσθήκη ενός τέτοιου ημερολογίου στο <app>Evolution</app>, κάντε τα "
+"επόμενα βήματα:"
 
 #. (itstool) path: item/p
-#: C/calendar-caldav.page:27 C/calendar-google.page:28
-#: C/calendar-local.page:24 C/calendar-weather.page:26
-#: C/calendar-webdav.page:26
+#: C/calendar-caldav.page:32 C/calendar-google.page:34
+#: C/calendar-local.page:27 C/calendar-weather.page:29
+#: C/calendar-webdav.page:28
 msgid ""
 "Click <guiseq><gui>File</gui><gui>New</gui><gui>Calendar</gui></guiseq>."
 msgstr ""
@@ -257,44 +259,44 @@ msgstr ""
 "guiseq>."
 
 #. (itstool) path: item/p
-#: C/calendar-caldav.page:28
+#: C/calendar-caldav.page:36
 msgid "Select the type <gui>CalDAV</gui>."
 msgstr "Επιλέξτε τον τύπο <gui>CalDAV</gui>."
 
 #. (itstool) path: item/p
-#: C/calendar-caldav.page:29 C/calendar-google.page:30
-#: C/calendar-local.page:26 C/calendar-weather.page:28
-#: C/calendar-webdav.page:28 C/contacts-google.page:27 C/contacts-ldap.page:33
-#: C/contacts-local.page:26 C/contacts-using-contact-lists.page:33
+#: C/calendar-caldav.page:39 C/calendar-google.page:40
+#: C/calendar-local.page:34 C/calendar-weather.page:36
+#: C/calendar-webdav.page:35 C/contacts-google.page:35 C/contacts-ldap.page:48
+#: C/contacts-local.page:34 C/contacts-using-contact-lists.page:48
 #: C/tasks-caldav.page:26 C/tasks-local.page:26 C/tasks-webdav.page:28
 msgid "Enter a name that you prefer."
 msgstr "Εισάγετε ένα όνομα που προτιμάτε."
 
 #. (itstool) path: item/p
-#: C/calendar-caldav.page:30 C/calendar-google.page:31
-#: C/calendar-local.page:27 C/calendar-weather.page:29
-#: C/calendar-webdav.page:29 C/tasks-caldav.page:27 C/tasks-local.page:27
+#: C/calendar-caldav.page:42 C/calendar-google.page:43
+#: C/calendar-local.page:37 C/calendar-weather.page:39
+#: C/calendar-webdav.page:38 C/tasks-caldav.page:27 C/tasks-local.page:27
 #: C/tasks-webdav.page:29
 msgid "Optionally choose a color that you prefer."
 msgstr "Προαιρετικά επιλέξτε ένα χρώμα που επιθυμείτε."
 
 #. (itstool) path: item/p
-#: C/calendar-caldav.page:31 C/calendar-google.page:32
-#: C/calendar-weather.page:30 C/calendar-webdav.page:30
-#: C/contacts-google.page:28
+#: C/calendar-caldav.page:45 C/calendar-google.page:46
+#: C/calendar-weather.page:42 C/calendar-webdav.page:41
+#: C/contacts-google.page:38
 msgid ""
 "Choose if you want to be able to view the content also when being offline."
 msgstr ""
 "Επιλέξτε εάν θέλετε να μπορείτε να δείτε το περιεχόμενο επίσης χωρίς σύνδεση."
 
 #. (itstool) path: item/p
-#: C/calendar-caldav.page:32 C/calendar-webdav.page:31
+#: C/calendar-caldav.page:49 C/calendar-webdav.page:45
 msgid "Enter the address of the calendar in the <gui>URL</gui> field."
 msgstr "Εισάγετε τη διεύθυνση του ημερολογίου στο πεδίο <gui>URL</gui>."
 
 #. (itstool) path: item/p
-#: C/calendar-caldav.page:33 C/calendar-weather.page:32
-#: C/calendar-webdav.page:32 C/contacts-google.page:30
+#: C/calendar-caldav.page:52 C/calendar-weather.page:49
+#: C/calendar-webdav.page:48 C/contacts-google.page:45
 #: C/mail-sending-options-smtp.page:38 C/tasks-caldav.page:30
 #: C/tasks-webdav.page:32
 msgid ""
@@ -304,38 +306,41 @@ msgstr ""
 "ασφάλεια."
 
 #. (itstool) path: item/p
-#: C/calendar-caldav.page:34 C/tasks-caldav.page:31
+#: C/calendar-caldav.page:56 C/tasks-caldav.page:31
 msgid "Enter your username and your email address."
 msgstr "Εισάγετε το όνομα χρήστη και την διεύθυνση μηνυμάτων σας."
 
 #. (itstool) path: item/p
-#: C/calendar-caldav.page:35 C/calendar-google.page:35
-#: C/calendar-local.page:29 C/calendar-weather.page:34
-#: C/calendar-webdav.page:34 C/contacts-google.page:31 C/contacts-ldap.page:36
-#: C/contacts-local.page:27 C/tasks-caldav.page:32 C/tasks-local.page:28
+#: C/calendar-caldav.page:59 C/calendar-google.page:55
+#: C/calendar-local.page:46 C/calendar-weather.page:56
+#: C/calendar-webdav.page:55 C/contacts-google.page:49 C/contacts-ldap.page:58
+#: C/contacts-local.page:37 C/tasks-caldav.page:32 C/tasks-local.page:28
 #: C/tasks-webdav.page:34
 msgid "Click <gui style=\"button\">Apply</gui>."
 msgstr "Κλικ στο <gui style=\"button\">εφαρμογή</gui>."
 
 #. (itstool) path: page/p
-#: C/calendar-caldav.page:38 C/calendar-google.page:38
-#: C/calendar-local.page:32 C/calendar-weather.page:37
-#: C/calendar-webdav.page:37
-msgid "The calendar will be added to the list of calendars in Evolution."
-msgstr "Το ημερολόγιο θα προστεθεί στη λίστα ημερολογίων στο Evolution."
+#: C/calendar-caldav.page:63 C/calendar-google.page:59
+#: C/calendar-local.page:50 C/calendar-weather.page:60
+#: C/calendar-webdav.page:59
+msgid ""
+"The calendar will be added to the list of calendars in <app>Evolution</app>."
+msgstr ""
+"Το ημερολόγιο θα προστεθεί στον κατάλογο ημερολογίων στο <app>Evolution</"
+"app>."
 
 #. (itstool) path: info/desc
-#: C/calendar-classifications.page:5
+#: C/calendar-classifications.page:23
 msgid "Classifying appointments and tasks on groupware servers."
 msgstr "Ταξινόμηση συναντήσεων και εργασιών σε εξυπηρετητές groupware."
 
 #. (itstool) path: page/title
-#: C/calendar-classifications.page:23
+#: C/calendar-classifications.page:26
 msgid "Using Classifications"
 msgstr "Χρήση ταξινομήσεων"
 
 #. (itstool) path: page/p
-#: C/calendar-classifications.page:25
+#: C/calendar-classifications.page:28
 msgid ""
 "If you are using a calendar on a Novell GroupWise or Microsoft Exchange "
 "server, you can select a classification to determine who can view it."
@@ -345,7 +350,7 @@ msgstr ""
 "μπορεί να το δει."
 
 #. (itstool) path: page/p
-#: C/calendar-classifications.page:26
+#: C/calendar-classifications.page:31
 msgid ""
 "To set a classification for an appointment or a task, click "
 "<guiseq><gui>Options</gui><gui>Classifications</gui></guiseq> and select a "
@@ -362,7 +367,7 @@ msgstr ""
 "ασφάλειας, και <gui>εμπιστευτική</gui> ένα ακόμα υψηλότερο επίπεδο."
 
 #. (itstool) path: page/p
-#: C/calendar-classifications.page:27
+#: C/calendar-classifications.page:38
 msgid ""
 "The different levels vary depending on your server settings; check with your "
 "system administrator or adjust your delegation settings."
@@ -372,19 +377,19 @@ msgstr ""
 "εκπροσώπησης."
 
 #. (itstool) path: info/desc
-#: C/calendar-free-busy.page:5
+#: C/calendar-free-busy.page:24
 msgid "Using the Free/Busy view on a groupware server to set up meetings."
 msgstr ""
 "Χρήση της προβολής διαθεσιμότητας σε εξυπηρετητή groupware για ρύθμιση "
 "συγκεντρώσεων."
 
 #. (itstool) path: page/title
-#: C/calendar-free-busy.page:23
+#: C/calendar-free-busy.page:29
 msgid "Free/Busy information"
 msgstr "Πληροφορία διαθεσιμότητας"
 
 #. (itstool) path: page/p
-#: C/calendar-free-busy.page:25
+#: C/calendar-free-busy.page:31
 msgid ""
 "You can use the Free/Busy search for meetings to determine the availability "
 "of invitees."
@@ -393,7 +398,7 @@ msgstr ""
 "στον προσδιορισμό της διαθεσιμότητας των καλεσμένων."
 
 #. (itstool) path: page/p
-#: C/calendar-free-busy.page:27
+#: C/calendar-free-busy.page:34
 msgid ""
 "In addition to the standard meeting scheduling tools, you can use the Free/"
 "Busy view to check whether people are available in advance. The Free/Busy "
@@ -416,19 +421,19 @@ msgstr ""
 "link> για να συντονίζετε προγράμματα με άλλους ανθρώπους."
 
 #. (itstool) path: page/p
-#: C/calendar-free-busy.page:29
+#: C/calendar-free-busy.page:44
 msgid "To access the free/busy view:"
 msgstr "Για πρόσβαση στην προβολή διαθεσιμότητας:"
 
 #. (itstool) path: item/p
-#: C/calendar-free-busy.page:31 C/calendar-meetings-sending-invitation.page:31
+#: C/calendar-free-busy.page:48 C/calendar-meetings-sending-invitation.page:44
 msgid "Click <guiseq><gui>File</gui><gui>New</gui><gui>Meeting</gui></guiseq>."
 msgstr ""
 "Πατήστε <guiseq><gui>αρχείο</gui><gui>νέο</gui><gui>συγκέντρωση</gui></"
 "guiseq>."
 
 #. (itstool) path: item/p
-#: C/calendar-free-busy.page:32 C/calendar-meetings-sending-invitation.page:34
+#: C/calendar-free-busy.page:52 C/calendar-meetings-sending-invitation.page:55
 msgid ""
 "Click <gui style=\"button\">Add</gui> to add the email addresses of people "
 "you want to invite."
@@ -437,7 +442,7 @@ msgstr ""
 "διευθύνσεις αλληλογραφίας των ατόμων που θέλετε να προσκαλέσετε."
 
 #. (itstool) path: item/p
-#: C/calendar-free-busy.page:33
+#: C/calendar-free-busy.page:56
 msgid ""
 "Click the <gui>Free/Busy</gui> button on the toolbar, or click "
 "<guiseq><gui>Options</gui><gui>Free/Busy</gui></guiseq>."
@@ -446,7 +451,7 @@ msgstr ""
 "<guiseq><gui>επιλογές</gui><gui>διαθεσιμότητα</gui></guiseq>."
 
 #. (itstool) path: item/p
-#: C/calendar-free-busy.page:34
+#: C/calendar-free-busy.page:60
 msgid ""
 "Adjust the meeting time, either by dragging the meeting borders or by using "
 "the <gui>Autopick</gui> buttons to choose a time automatically, then click "
@@ -462,12 +467,12 @@ msgstr ""
 "ειδοποίηση με αλληλογραφία για κάθε αλλαγές στα σχέδια."
 
 #. (itstool) path: item/p
-#: C/calendar-free-busy.page:38
+#: C/calendar-free-busy.page:70
 msgid "Attendee List:"
 msgstr "Λίστα παρευρισκομένων:"
 
 #. (itstool) path: item/p
-#: C/calendar-free-busy.page:38
+#: C/calendar-free-busy.page:71
 msgid ""
 "The Attendee List shows the people who have been invited to the appointment."
 msgstr ""
@@ -475,12 +480,12 @@ msgstr ""
 "συνάντηση."
 
 #. (itstool) path: item/p
-#: C/calendar-free-busy.page:39
+#: C/calendar-free-busy.page:75
 msgid "Schedule Grid:"
 msgstr "Πίνακας προγράμματος:"
 
 #. (itstool) path: item/p
-#: C/calendar-free-busy.page:39
+#: C/calendar-free-busy.page:76
 msgid ""
 "The Schedule Grid shows the published Free/Busy information for the people "
 "you have invited. This is where you compare schedules to find free time to "
@@ -490,23 +495,23 @@ msgid ""
 "publish free/busy information at a web address (URL) that you can reach and "
 "you have entered that web address for the specific contact in the <link xref="
 "\"contacts-usage-edit-contact\">Contact Editor</link> under "
-"<guiseq><gui>Personal information</gui><gui>Web Addresses</gui><gui>Free/"
+"<guiseq><gui>Personal information</gui> <gui>Web Addresses</gui><gui>Free/"
 "Busy</gui></guiseq>."
 msgstr ""
-"Ο πίνακας προγράμματος δείχνει τις δημοσιευμένες πληροφορίες διαθεσιμότητας "
-"για τους ανθρώπους που έχετε καλέσει. Εδώ θα συγκρίνετε τα προγράμματά σας "
-"για να βρείτε ελεύθερο χρόνο να προγραμματίσετε τη συνάντηση. Τα άτομα έχουν "
-"ορατές πληροφορίες προγραμματισμού μόνο αν χρησιμοποιούν τους ίδιους "
-"εξυπηρετητές Novell GroupWise ή Microsoft Exchange όπως κι εσείς (δηλαδή αν "
-"είναι στον ίδιο οργανισμό όπως κι εσείς), ή αν δημοσιεύουν πληροφορίες "
-"διαθεσιμότητας σε ένα URL στο οποίο έχετε πρόσβαση, και το οποίο έχετε "
-"εισάγει στην διεύθυνση ιστού για την συγκεκριμένη επαφή στον <link xref="
-"\"contacts-usage-edit-contact\">Επεξεργαστή επαφής</link> στο "
-"<guiseq><gui>Προσωπικές πληροφορίες</gui><gui>Διευθύνσεις ιστού</"
-"gui><gui>Διαθεσιμότητα</gui></guiseq>."
+"Το πλέγμα προγραμματισμού δείχνει τις δημοσιευμένες πληροφορίες "
+"διαθεσιμότητας για τους ανθρώπους που έχετε καλέσει. Εδώ θα συγκρίνετε τον "
+"προγραμματισμό σας για να βρείτε ελεύθερο χρόνο να προγραμματίσετε τη "
+"συνάντηση. Τα άτομα έχουν ορατές πληροφορίες προγραμματισμού μόνο αν "
+"χρησιμοποιούν τους ίδιους εξυπηρετητές Novell GroupWise ή Microsoft Exchange "
+"όπως κι εσείς (δηλαδή αν είναι στον ίδιο οργανισμό όπως κι εσείς), ή αν "
+"δημοσιεύουν πληροφορίες διαθεσιμότητας σε μια διεύθυνση ιστού (URL) στην "
+"οποία έχετε πρόσβαση και έχετε εισάγει αυτή τη διεύθυνση ιστού για τη "
+"συγκεκριμένη επαφή στον <link xref=\"contacts-usage-edit-contact"
+"\">Επεξεργαστή επαφής</link>, <guiseq><gui>Προσωπικές πληροφορίες</gui>, "
+"<gui>Διευθύνσεις ιστού</gui><gui>Διαθεσιμότητα</gui></guiseq>."
 
 #. (itstool) path: page/p
-#: C/calendar-free-busy.page:42 C/calendar-publishing.page:29
+#: C/calendar-free-busy.page:90 C/calendar-publishing.page:43
 msgid ""
 "You can publish Calendar and Free/Busy information to a WebDAV server, FTP "
 "server, a remote machine through SSH or to any other web server with HTTP "
@@ -517,7 +522,7 @@ msgstr ""
 "εξυπηρετητή ιστού με υποστήριξη HTTP PUT."
 
 #. (itstool) path: page/p
-#: C/calendar-free-busy.page:43
+#: C/calendar-free-busy.page:94
 msgid ""
 "In corporate environments you can publish Calendar and Free/Busy information "
 "to an Exchange or Groupwise server. Note that you must use the top-level "
@@ -531,100 +536,102 @@ msgstr ""
 "όταν σας προσκαλούν σε συγκέντρωση."
 
 #. (itstool) path: page/p
-#: C/calendar-free-busy.page:44
+#: C/calendar-free-busy.page:97
 msgid ""
 "The default server can be defined under <guiseq><gui>Edit</"
-"gui><gui>Preferences</gui><gui>Calendar and Tasks</gui><gui>Publishing "
-"Information</gui><gui>Default Free/Busy Server</gui></guiseq>."
+"gui><gui>Preferences</gui> <gui>Calendar and Tasks</gui> <gui>Publishing "
+"Information</gui> <gui>Default Free/Busy Server</gui></guiseq>."
 msgstr ""
 "Ο προεπιλεγμένος εξυπηρετητής μπορεί να οριστεί στο "
-"<guiseq><gui>επεξεργασία</gui><gui>προτιμήσεις</gui><gui>ημερολόγιο και "
-"εργασίες</gui><gui>δημοσίευση πληροφοριών</gui><gui>προεπιλεγμένος "
+"<guiseq><gui>Επεξεργασία</gui><gui>Προτιμήσεις</gui><gui>Ημερολόγιο και "
+"εργασίες</gui><gui>Δημοσίευση πληροφοριών</gui> <gui>Προεπιλεγμένος "
 "εξυπηρετητής διαθεσιμότητας</gui></guiseq>."
 
 #. (itstool) path: section/title
-#: C/calendar-free-busy.page:48
+#: C/calendar-free-busy.page:108
 msgid "Accessing Free/Busy Data Without a Groupware Server"
 msgstr "Πρόσβαση σε δεδομένα διαθεσιμότητας χωρίς εξυπηρετητή Groupware"
 
 #. (itstool) path: section/p
-#: C/calendar-free-busy.page:50
+#: C/calendar-free-busy.page:110
 msgid ""
 "If individuals give you a URL for Free/Busy data or for their web calendar, "
 "you can add the URL under <guiseq><gui>Personal Information</gui><gui>Web "
 "Addresses</gui></guiseq> in the <link xref=\"contacts-usage-edit-contact"
-"\">Contact Editor</link>. Then, when you schedule a meeting with them, "
-"Evolution looks up the schedule and displays it in the Free/Busy data."
+"\">Contact Editor</link>. Then, when you schedule a meeting with them,"
+"<app>Evolution</app> looks up the schedule and displays it in the Free/Busy "
+"data."
 msgstr ""
 "Αν κάποιοι σας δώσουν ένα URL για πληροφορίες διαθεσιμότητας ή για το "
 "δικτυακό τους ημερολόγιο, μπορείτε να το εισάγετε το URL στο "
-"<guiseq><gui>προσωπικές πληροφορίες</gui><gui>διευθύνσεις ιστού</gui></"
-"guiseq> στον <link xref=\"contacts-usage-edit-contact\">επεξεργαστή επαφής</"
-"link>. Έπειτα, όταν προγραμματίζετε μια συνάντηση με αυτούς, το Evolution "
-"κοιτάει το πρόγραμμά τους και το εμφανίζει τα δεδομένα διαθεσιμότητας."
+"<guiseq><gui>Προσωπικές πληροφορίες</gui><gui>Διευθύνσεις ιστού</gui></"
+"guiseq> στον <link xref=\"contacts-usage-edit-contact\">Επεξεργαστή επαφής</"
+"link>. Έπειτα, όταν προγραμματίζετε μια συνάντηση με αυτούς, το "
+"<app>Evolution</app> κοιτάει το πρόγραμμά τους και το εμφανίζει τα δεδομένα "
+"διαθεσιμότητας."
 
 #. (itstool) path: info/desc
-#: C/calendar-google.page:5
+#: C/calendar-google.page:24
 msgid "Using the online calendar of your Google account."
 msgstr "Χρήση δικτυακού ημερολογίου του λογαριασμού σας Google."
 
 #. (itstool) path: page/title
-#: C/calendar-google.page:24
+#: C/calendar-google.page:27
 msgid "Using a Google calendar"
 msgstr "Χρήση ημερολογίου Google"
 
 #. (itstool) path: item/p
-#: C/calendar-google.page:29 C/contacts-google.page:26
+#: C/calendar-google.page:37 C/contacts-google.page:32
 msgid "Select the type <gui>Google</gui>."
 msgstr "Επιλέξτε τον τύπο <gui>Google</gui>."
 
 #. (itstool) path: item/p
-#: C/calendar-google.page:33 C/contacts-google.page:29
+#: C/calendar-google.page:49 C/contacts-google.page:42
 msgid "Enter your Google username."
 msgstr "Εισάγετε το όνομά σας χρήστη Google."
 
 #. (itstool) path: item/p
-#: C/calendar-google.page:34
+#: C/calendar-google.page:52
 msgid "If you have more than one Google calendar, define which of them to use."
 msgstr ""
 "Εάν έχετε περισσότερα από ένα ημερολόγια Google, ορίστε ποιο θα "
 "χρησιμοποιήσετε."
 
 #. (itstool) path: info/desc
-#: C/calendar-layout-appointment-display.page:5
+#: C/calendar-layout-appointment-display.page:23
 msgid "Define the displaying of appointments in the calendar."
 msgstr "Ορίστε την εμφάνιση των συναντήσεων στο ημερολόγιο."
 
 #. (itstool) path: page/title
-#: C/calendar-layout-appointment-display.page:23
+#: C/calendar-layout-appointment-display.page:26
 msgid "Appearance of Appointments"
 msgstr "Εμφάνιση των συναντήσεων"
 
 #. (itstool) path: page/p
-#: C/calendar-layout-appointment-display.page:29
+#: C/calendar-layout-appointment-display.page:36
 msgid ""
 "The following calendar-related options are available under "
-"<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Calendar and Tasks</"
+"<guiseq><gui>Edit</gui><gui>Preferences</gui> <gui>Calendar and Tasks</"
 "gui><gui>Display</gui></guiseq>."
 msgstr ""
 "Οι επόμενες επιλογές σχετικές με ημερολόγιο είναι διαθέσιμες στο "
-"<guiseq><gui>επεξεργασία</gui><gui>προτιμήσεις</gui><gui>ημερολόγιο και "
-"εργασίες</gui><gui>εμφάνιση</gui></guiseq>."
+"<guiseq><gui>Επεξεργασία</gui><gui>Προτιμήσεις</gui><gui>Ημερολόγιο και "
+"εργασίες</gui><gui>Εμφάνιση</gui></guiseq>."
 
 # #-#-#-#-#  ekiga.gnome-2-14.el.po (el)  #-#-#-#-#
 #
 #. (itstool) path: section/title
-#: C/calendar-layout-appointment-display.page:32
+#: C/calendar-layout-appointment-display.page:41
 msgid "General"
 msgstr "Γενικά"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-appointment-display.page:34
+#: C/calendar-layout-appointment-display.page:45
 msgid "Time Divisions:"
 msgstr "Διαιρέσεις ώρας:"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-appointment-display.page:35
+#: C/calendar-layout-appointment-display.page:46
 msgid ""
 "Sets the time increments shown as fine lines on the daily view in the "
 "calendar."
@@ -633,26 +640,26 @@ msgstr ""
 "ημερολόγιο."
 
 #. (itstool) path: item/p
-#: C/calendar-layout-appointment-display.page:36
+#: C/calendar-layout-appointment-display.page:50
 msgid "Show appointment end times in week and month views:"
 msgstr "Εμφάνιση χρόνων τέλους συνάντησης στις προβολές εβδομάδας και μήνα:"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-appointment-display.page:37
+#: C/calendar-layout-appointment-display.page:51
 msgid ""
-"If there is space, Evolution shows the end times in the week and month views "
-"for each appointment."
+"If there is space, <app>Evolution</app> shows the end times in the week and "
+"month views for each appointment."
 msgstr ""
-"Αν υπάρχει χώρος, το Evolution εμφανίζει τις ώρες τέλους στις προβολές "
-"εβδομάδας και μήνα για κάθε συνάντηση."
+"Αν υπάρχει χώρος, το <app>Evolution</app> εμφανίζει τις ώρες τέλους στις "
+"προβολές εβδομάδας και μήνα για κάθε συνάντηση."
 
 #. (itstool) path: item/p
-#: C/calendar-layout-appointment-display.page:38
+#: C/calendar-layout-appointment-display.page:55
 msgid "Compress weekends in month view:"
 msgstr "Συμπίεση σαββατοκύριακων στη μηνιαία προβολή:"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-appointment-display.page:39
+#: C/calendar-layout-appointment-display.page:56
 msgid ""
 "Select this option to display weekends in one box instead of two in the "
 "month view."
@@ -661,35 +668,35 @@ msgstr ""
 "πλαίσιο αντί για δύο στην προβολή μήνα."
 
 #. (itstool) path: item/p
-#: C/calendar-layout-appointment-display.page:40
+#: C/calendar-layout-appointment-display.page:60
 msgid "Show week numbers:"
 msgstr "Εμφάνιση αριθμών εβδομάδων:"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-appointment-display.page:41
+#: C/calendar-layout-appointment-display.page:61
 msgid "Shows the week numbers next to the respective weeks in the calendar."
 msgstr ""
 "Εμφανίζει τους αριθμούς των εβδομάδων δίπλα στις αντίστοιχες εβδομάδες στο "
 "ημερολόγιο."
 
 #. (itstool) path: item/p
-#: C/calendar-layout-appointment-display.page:42
-msgid "Show recurring events in italic in bottom left calendar"
+#: C/calendar-layout-appointment-display.page:65
+msgid "Show recurring events in italic in bottom left calendar."
 msgstr ""
-"Εμφάνιση επαναλαμβανόμενων γεγονότων με πλάγια στο κάτω αριστερά ημερολόγιο"
+"Εμφάνιση επαναλαμβανόμενων γεγονότων με πλάγια στο κάτω αριστερά ημερολόγιο."
 
 #. (itstool) path: item/p
-#: C/calendar-layout-appointment-display.page:43
+#: C/calendar-layout-appointment-display.page:68
 msgid "Scroll Month View by a week"
 msgstr "Κύλιση της προβολής μήνα κατά μια εβδομάδα"
 
 #. (itstool) path: section/title
-#: C/calendar-layout-appointment-display.page:48
+#: C/calendar-layout-appointment-display.page:75
 msgid "Date/Time Format"
 msgstr "Μορφή ημερομηνίας/χρόνου"
 
 #. (itstool) path: section/p
-#: C/calendar-layout-appointment-display.page:49
+#: C/calendar-layout-appointment-display.page:77
 msgid ""
 "You can change the format of the <gui>Date</gui> column by setting your "
 "preferred format."
@@ -699,7 +706,7 @@ msgstr ""
 
 #. (itstool) path: section/p
 #. (itstool) path: page/p
-#: C/calendar-layout-appointment-display.page:50
+#: C/calendar-layout-appointment-display.page:80
 #: C/mail-change-time-format.page:21
 msgid ""
 "The placeholders in the format expression are strftime formats. For a "
@@ -711,104 +718,104 @@ msgstr ""
 "σε παράθυρο <app>τερματικού</app>."
 
 #. (itstool) path: info/desc
-#: C/calendar-layout-general-formatting.page:5
+#: C/calendar-layout-general-formatting.page:27
 msgid "General formatting options for the calendar."
 msgstr "Γενικές επιλογές μορφοποίησης για το ημερολόγιο."
 
 #. (itstool) path: page/title
-#: C/calendar-layout-general-formatting.page:25
+#: C/calendar-layout-general-formatting.page:30
 msgid "General formatting options"
 msgstr "Γενικές επιλογές μορφοποίησης"
 
 #. (itstool) path: page/p
-#: C/calendar-layout-general-formatting.page:27
+#: C/calendar-layout-general-formatting.page:32
 msgid ""
 "The following options are available under <guiseq><gui>Edit</"
-"gui><gui>Preferences</gui><gui>Calendar and Tasks</gui><gui>General</gui></"
+"gui><gui>Preferences</gui> <gui>Calendar and Tasks</gui><gui>General</gui></"
 "guiseq>."
 msgstr ""
-"Οι επόμενες επιλογές είναι διαθέσιμες στο <guiseq><gui>επεξεργασία</"
-"gui><gui>προτιμήσεις</gui><gui>ημερολόγιο και εργασίες</gui><gui>γενικά</"
+"Οι επόμενες επιλογές είναι διαθέσιμες στο <guiseq><gui>Επεξεργασία</"
+"gui><gui>Προτιμήσεις</gui><gui>Ημερολόγιο και εργασίες</gui><gui>Γενικά</"
 "gui></guiseq>."
 
 #. (itstool) path: section/title
-#: C/calendar-layout-general-formatting.page:29
+#: C/calendar-layout-general-formatting.page:37
 msgid "Time"
 msgstr "Χρόνος"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-general-formatting.page:31
+#: C/calendar-layout-general-formatting.page:41
 msgid "Time format:"
 msgstr "Μορφή χρόνου:"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-general-formatting.page:32
+#: C/calendar-layout-general-formatting.page:42
 msgid "Choose between twelve-hour (AM/PM) and twenty-four-hour time formats."
 msgstr ""
 "Επιλέξτε μεταξύ μορφών χρόνου δώδεκα ωρών (πμ/μμ) και εικοσιτεσσάρων ωρών."
 
 #. (itstool) path: item/p
-#: C/calendar-layout-general-formatting.page:33
+#: C/calendar-layout-general-formatting.page:46
 msgid "<link xref=\"calendar-timezones\">Time zone</link> and Second zone:"
 msgstr "<link xref=\"calendar-timezones\">ζώνη χρόνου</link> και δεύτερη ζώνη:"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-general-formatting.page:34
+#: C/calendar-layout-general-formatting.page:47
 msgid "The city you are located in, and optionally a second city."
 msgstr "Η πόλη στην οποία βρίσκεστε και προαιρετικά μια δεύτερη πόλη."
 
 #. (itstool) path: section/title
-#: C/calendar-layout-general-formatting.page:39
+#: C/calendar-layout-general-formatting.page:53
 msgid "Work Week"
 msgstr "Εργάσιμη εβδομάδα"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-general-formatting.page:41
+#: C/calendar-layout-general-formatting.page:57
 msgid "Week starts on:"
 msgstr "Η βδομάδα ξεκινά την:"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-general-formatting.page:42
+#: C/calendar-layout-general-formatting.page:58
 msgid "Select the day to display as the first in each week."
 msgstr "Επιλέξτε τη μέρα που θα εμφανίζεται ως πρώτη κάθε εβδομάδας."
 
 #. (itstool) path: item/p
-#: C/calendar-layout-general-formatting.page:43
+#: C/calendar-layout-general-formatting.page:61
 msgid "Work days:"
 msgstr "Ημέρες εργασίας:"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-general-formatting.page:44
+#: C/calendar-layout-general-formatting.page:62
 msgid "Define which week days are work days."
 msgstr "Ορίστε ποιες ημέρες της βδομάδας είναι εργάσιμες ημέρες."
 
 #. (itstool) path: item/p
-#: C/calendar-layout-general-formatting.page:45
+#: C/calendar-layout-general-formatting.page:65
 msgid "Day begins:"
 msgstr "Η μέρα αρχίζει στις:"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-general-formatting.page:46
+#: C/calendar-layout-general-formatting.page:66
 msgid "Define at which time your work day begins."
 msgstr "Ορίστε ποια ώρα ξεκινά η εργάσιμη ημέρα."
 
 #. (itstool) path: item/p
-#: C/calendar-layout-general-formatting.page:47
+#: C/calendar-layout-general-formatting.page:69
 msgid "Day ends:"
 msgstr "Η ημέρα τελειώνει:"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-general-formatting.page:48
+#: C/calendar-layout-general-formatting.page:70
 msgid "Define at which time your work day ends."
 msgstr "Ορίστε ποια ώρα τελειώνει η εργάσιμη ημέρα."
 
 #. (itstool) path: section/title
-#: C/calendar-layout-general-formatting.page:53
+#: C/calendar-layout-general-formatting.page:77
 msgid "Alerts"
 msgstr "Ειδοποιήσεις"
 
 #. (itstool) path: section/p
-#: C/calendar-layout-general-formatting.page:54
+#: C/calendar-layout-general-formatting.page:79
 msgid ""
 "If you want to be warned before you delete any appointment, select this "
 "option."
@@ -817,7 +824,7 @@ msgstr ""
 "την επιλογή."
 
 #. (itstool) path: info/desc
-#: C/calendar-layout.page:5
+#: C/calendar-layout.page:17
 msgid "Adjusting the display and views of the calendar."
 msgstr "Ρύθμιση της οθόνης και προβολών του ημερολογίου."
 
@@ -827,51 +834,51 @@ msgid "Changing the calendar layout"
 msgstr "Αλλαγή της διάταξης ημερολογίου"
 
 #. (itstool) path: info/desc
-#: C/calendar-layout-views.page:5
+#: C/calendar-layout-views.page:23
 msgid "Using date ranges (day, week, month) to look at the calendar."
 msgstr ""
 "Χρήση περιοχών ημερομηνίας (ημέρα, βδομάδα, μήνας) για να φαίνονται στο "
 "ημερολόγιο."
 
 #. (itstool) path: page/title
-#: C/calendar-layout-views.page:23
+#: C/calendar-layout-views.page:26
 msgid "Available views"
 msgstr "Διαθέσιμες προβολές"
 
 #. (itstool) path: page/p
-#: C/calendar-layout-views.page:25
-msgid "Evolution offers five different views of your calendar data:"
+#: C/calendar-layout-views.page:28
+msgid "<app>Evolution</app> offers five different views of your calendar data:"
 msgstr ""
-"Το Evolution προσφέρει πέντε διαφορετικές προβολές των δεδομένων του "
-"ημερολογίου σας:"
+"Το <app>Evolution</app> προσφέρει πέντε διαφορετικές προβολές των δεδομένων "
+"του ημερολογίου σας:"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-views.page:27
+#: C/calendar-layout-views.page:33
 msgid "Day (<keyseq><key>Ctrl</key><key>Y</key></keyseq>)"
 msgstr "Ημέρα (<keyseq><key>Ctrl</key><key>Y</key></keyseq>)"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-views.page:28
+#: C/calendar-layout-views.page:36
 msgid "Work Week (<keyseq><key>Ctrl</key><key>J</key></keyseq>)"
 msgstr "Εργάσιμη βδομάδα (<keyseq><key>Ctrl</key><key>J</key></keyseq>)"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-views.page:29
+#: C/calendar-layout-views.page:39
 msgid "Week (<keyseq><key>Ctrl</key><key>K</key></keyseq>)"
 msgstr "Βδομάδα (<keyseq><key>Ctrl</key><key>K</key></keyseq>)"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-views.page:30
+#: C/calendar-layout-views.page:42
 msgid "Month (<keyseq><key>Ctrl</key><key>M</key></keyseq>)"
 msgstr "Μήνας (<keyseq><key>Ctrl</key><key>M</key></keyseq>)"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-views.page:31
+#: C/calendar-layout-views.page:45
 msgid "List (<keyseq><key>Ctrl</key><key>L</key></keyseq>)"
 msgstr "Λίστα (<keyseq><key>Ctrl</key><key>L</key></keyseq>)"
 
 #. (itstool) path: page/p
-#: C/calendar-layout-views.page:34
+#: C/calendar-layout-views.page:49
 msgid ""
 "You can switch the view by either using the buttons in the toolbar, or by "
 "clicking <guiseq><gui>View</gui><gui>Current View</gui></guiseq>."
@@ -881,7 +888,7 @@ msgstr ""
 "gui></guiseq>."
 
 #. (itstool) path: page/p
-#: C/calendar-layout-views.page:36
+#: C/calendar-layout-views.page:52
 msgid ""
 "You can also select an arbitrary range of days in the small calendar in the "
 "side bar. To do this, select the days that you want to view in your calendar."
@@ -891,7 +898,7 @@ msgstr ""
 "δείτε στο ημερολόγιό σας."
 
 #. (itstool) path: page/p
-#: C/calendar-layout-views.page:38
+#: C/calendar-layout-views.page:56
 msgid ""
 "The Previous and Next buttons move you forward and back in your calendar "
 "pages. If you are using a week or month view, you can move by week or month. "
@@ -905,7 +912,7 @@ msgstr ""
 "δύο κουμπιών βέλους στην εργαλειοθήκη."
 
 #. (itstool) path: page/p
-#: C/calendar-layout-views.page:40
+#: C/calendar-layout-views.page:61
 msgid ""
 "To visit calendar entries for a specific date, click the <gui>Select a "
 "specific date</gui> button in the toolbar."
@@ -915,7 +922,7 @@ msgstr ""
 "στην εργαλειοθήκη."
 
 #. (itstool) path: info/desc
-#: C/calendar-local.page:5
+#: C/calendar-local.page:17
 msgid "Adding another local calendar."
 msgstr "Προσθήκη ενός άλλου τοπικού ημερολογίου."
 
@@ -927,41 +934,43 @@ msgstr "Προσθήκη ενός άλλου τοπικού ημερολογίο
 #. (itstool) path: page/p
 #: C/calendar-local.page:22
 msgid ""
-"To add another local calendar to Evolution, perform the following steps:"
+"To add another local calendar to <app>Evolution</app>, perform the following "
+"steps:"
 msgstr ""
-"Για την προσθήκη ενός άλλου τοπικού ημερολογίου στο Evolution, κάντε τα "
-"επόμενα βήματα:"
+"Για την προσθήκη ενός άλλου τοπικού ημερολογίου στο <app>Evolution</app>, "
+"κάντε τα επόμενα βήματα:"
 
 #. (itstool) path: item/p
-#: C/calendar-local.page:25 C/contacts-local.page:25 C/tasks-local.page:25
+#: C/calendar-local.page:31 C/contacts-local.page:31 C/tasks-local.page:25
 msgid "Select the type <gui>On This Computer</gui>."
 msgstr "Επιλέξτε τον τύπο <gui>σε αυτόν τον υπολογιστή</gui>."
 
 #. (itstool) path: item/p
-#: C/calendar-local.page:28
+#: C/calendar-local.page:40
 msgid ""
 "If you choose to use an existing calendar file which is already located on "
-"your computer, you need to provide its location and whether Evolution should "
-"only read from the file or if Evolution can also add and alter items in that "
-"file."
+"your computer, you need to provide its location and whether <app>Evolution</"
+"app> should only read from the file or if <app>Evolution</app> can also add "
+"and alter items in that file."
 msgstr ""
 "Αν διαλέξετε να χρησιμοποιήσετε ένα υπάρχον αρχείο ημερολογίου που βρίσκεται "
-"ήδη στον υπολογιστή σας, πρέπει να δώσετε τη θέση του και αν το Evolution "
-"πρέπει να διαβάζει μόνο από το αρχείο ή αν το Evolution μπορεί επίσης να "
-"προσθέτει και να αλλάζει στοιχεία σε ένα τέτοιο αρχείο."
+"ήδη στον υπολογιστή σας, πρέπει να δώσετε τη θέση του και αν το "
+"<app>Evolution</app> πρέπει να διαβάζει μόνο από το αρχείο ή αν το "
+"<app>Evolution</app> μπορεί επίσης να προσθέτει και να αλλάζει στοιχεία σε "
+"ένα τέτοιο αρχείο."
 
 #. (itstool) path: info/desc
-#: C/calendar-marcus-bains-line.page:5
+#: C/calendar-marcus-bains-line.page:17
 msgid "The red \"Marcus Bains\" line displays the current time."
 msgstr "Η κόκκινη γραμμή \"Marcus Bains\" εμφανίζει την τρέχοντα χρόνο."
 
 #. (itstool) path: page/title
-#: C/calendar-marcus-bains-line.page:19
+#: C/calendar-marcus-bains-line.page:20
 msgid "Time display in the Day view"
 msgstr "Εμφάνιση χρόνου στην προβολή ημέρας"
 
 #. (itstool) path: page/p
-#: C/calendar-marcus-bains-line.page:21
+#: C/calendar-marcus-bains-line.page:22
 msgid ""
 "The red Marcus Bains Line in the Day view of the calendar is a marker to "
 "show the current date and time."
@@ -970,17 +979,17 @@ msgstr ""
 "σημάδι που δείχνει την τρέχουσα ημερομηνία και ώρα."
 
 #. (itstool) path: info/desc
-#: C/calendar-meetings-delegating.page:5
+#: C/calendar-meetings-delegating.page:22
 msgid "Ask somebody else to run the meeting."
 msgstr "Ζητήστε από κάποιον άλλον να διεξάγει τη συγκέντρωση."
 
 #. (itstool) path: page/title
-#: C/calendar-meetings-delegating.page:23
+#: C/calendar-meetings-delegating.page:25
 msgid "Delegating Meetings"
 msgstr "Ανάθεση συναντήσεων"
 
 #. (itstool) path: page/p
-#: C/calendar-meetings-delegating.page:24
+#: C/calendar-meetings-delegating.page:27
 msgid ""
 "Only attendees of a meeting can delegate a meeting, but not the organizer of "
 "a meeting."
@@ -989,24 +998,24 @@ msgstr ""
 "συγκέντρωση, αλλά όχι ο διοργανωτής της συνάντησης."
 
 #. (itstool) path: item/p
-#: C/calendar-meetings-delegating.page:27
+#: C/calendar-meetings-delegating.page:32
 msgid "Right-click on the meeting that you want to delegate."
 msgstr "Δεξί κλικ στη συγκέντρωση την οποία θέλετε να μεταβιβάσετε."
 
 #. (itstool) path: item/p
-#: C/calendar-meetings-delegating.page:30
+#: C/calendar-meetings-delegating.page:35
 msgid "Click <gui>Delegate Meeting</gui>."
 msgstr "Επιλέξτε <gui>μεταβίβαση συγκέντρωσης</gui>."
 
 #. (itstool) path: item/p
-#: C/calendar-meetings-delegating.page:33
+#: C/calendar-meetings-delegating.page:38
 msgid "Select the contacts you want to delegate the meeting to."
 msgstr "Επιλέξτε τις επαφές στις οποίες θέλετε να μεταβιβάσετε τη συγκέντρωση."
 
 #. (itstool) path: item/p
-#: C/calendar-meetings-delegating.page:36 C/contacts-usage-add-contact.page:27
-#: C/contacts-usage-edit-contact.page:27
-#: C/contacts-using-contact-lists.page:37 C/mail-attachments-sending.page:32
+#: C/calendar-meetings-delegating.page:41 C/contacts-usage-add-contact.page:43
+#: C/contacts-usage-edit-contact.page:34
+#: C/contacts-using-contact-lists.page:69 C/mail-attachments-sending.page:32
 #: C/mail-composer-custom-header-lines.page:45
 #: C/mail-encryption-gpg-set-up.page:35
 #: C/mail-encryption-gpg-signing-encrypting.page:40
@@ -1017,12 +1026,12 @@ msgid "Click <gui style=\"button\">OK</gui>."
 msgstr "Κλικ στο <gui style=\"button\">Εντάξει</gui>."
 
 #. (itstool) path: page/p
-#: C/calendar-meetings-delegating.page:39
+#: C/calendar-meetings-delegating.page:45
 msgid "Each contact receives a copy of the meeting invitation."
 msgstr "Κάθε επαφή δέχεται ένα αντίγραφο της πρόσκλησης για τη συγκέντρωση."
 
 #. (itstool) path: info/desc
-#: C/calendar-meetings.page:5
+#: C/calendar-meetings.page:17
 msgid "Using meetings in the calendar."
 msgstr "Χρήση συγκεντρώσεων στο ημερολόγιο."
 
@@ -1110,17 +1119,17 @@ msgstr ""
 "προειδοποίηση διενέξεων συγκεντρώσεων."
 
 #. (itstool) path: info/desc
-#: C/calendar-meetings-sending-invitation.page:5
+#: C/calendar-meetings-sending-invitation.page:23
 msgid "Sending a Meeting Invitation."
 msgstr "Αποστολή πρόσκλησης συγκέντρωσης."
 
 #. (itstool) path: page/title
-#: C/calendar-meetings-sending-invitation.page:23
+#: C/calendar-meetings-sending-invitation.page:26
 msgid "Sending a Meeting Invitation"
 msgstr "Αποστολή πρόσκλησης συγκέντρωσης"
 
 #. (itstool) path: page/p
-#: C/calendar-meetings-sending-invitation.page:25
+#: C/calendar-meetings-sending-invitation.page:28
 msgid ""
 "When you create a meeting (group appointment), you can specify the attendees "
 "in several categories, such as \"chair\" or \"required\". When you save the "
@@ -1134,7 +1143,7 @@ msgstr ""
 "δίνει επίσης την δυνατότητα απάντησης."
 
 #. (itstool) path: page/p
-#: C/calendar-meetings-sending-invitation.page:26
+#: C/calendar-meetings-sending-invitation.page:33
 msgid ""
 "If you do not need to collect attendance information when you're scheduling "
 "an event, and would rather just announce the event, right-click the meeting "
@@ -1152,12 +1161,12 @@ msgstr ""
 "σκοπεύουν να παρευρεθούν."
 
 #. (itstool) path: page/p
-#: C/calendar-meetings-sending-invitation.page:28
+#: C/calendar-meetings-sending-invitation.page:40
 msgid "To schedule a meeting:"
 msgstr "Για σχεδιασμό συγκέντρωσης:"
 
 #. (itstool) path: item/p
-#: C/calendar-meetings-sending-invitation.page:32
+#: C/calendar-meetings-sending-invitation.page:48
 msgid ""
 "If you have multiple email accounts, select the one to use by selecting an "
 "item in the <gui>Organizer</gui> field."
@@ -1166,14 +1175,14 @@ msgstr ""
 "επιλέγοντας ένα στοιχείο στο πεδίο <gui>οργανωτής</gui>."
 
 #. (itstool) path: item/p
-#: C/calendar-meetings-sending-invitation.page:33
-#: C/calendar-usage-add-appointment.page:25
+#: C/calendar-meetings-sending-invitation.page:52
+#: C/calendar-usage-add-appointment.page:36
 msgid "Select a calendar in the <gui>Calendar</gui> drop-down list."
 msgstr ""
 "Επιλέξτε ένα ημερολόγιο από την πτυσσόμενη λίστα <gui>ημερολόγιο</gui>."
 
 #. (itstool) path: item/p
-#: C/calendar-meetings-sending-invitation.page:35
+#: C/calendar-meetings-sending-invitation.page:59
 msgid ""
 "Click <gui>View</gui> in the menu bar to show or hide the <gui>Type</gui>, "
 "<gui>Role</gui>, <gui>Status</gui>, and <gui>RSVP</gui> fields."
@@ -1183,21 +1192,21 @@ msgstr ""
 "και <gui>RSVP</gui>."
 
 #. (itstool) path: item/p
-#: C/calendar-meetings-sending-invitation.page:36
-#: C/calendar-usage-add-appointment.page:26
+#: C/calendar-meetings-sending-invitation.page:64
+#: C/calendar-usage-add-appointment.page:39
 msgid "Enter a brief summary in the <gui>Summary</gui> field."
 msgstr "Εισάγετε μια σύντομη περιγραφή στο πεδίο <gui>περίληψη</gui>."
 
 #. (itstool) path: item/p
-#: C/calendar-meetings-sending-invitation.page:37
-#: C/calendar-usage-add-appointment.page:27
+#: C/calendar-meetings-sending-invitation.page:67
+#: C/calendar-usage-add-appointment.page:42
 msgid "(Optional) Type a location in the <gui>Location</gui> field."
 msgstr ""
 "(Προαιρετικό) Πληκτρολογήστε μια τοποθεσία στο πεδίο <gui>τοποθεσία</gui>."
 
 #. (itstool) path: item/p
-#: C/calendar-meetings-sending-invitation.page:38
-#: C/calendar-usage-add-appointment.page:28
+#: C/calendar-meetings-sending-invitation.page:70
+#: C/calendar-usage-add-appointment.page:45
 msgid ""
 "To select this event as an all day event, click <guiseq><gui>Options</"
 "gui><gui>All Day Event</gui></guiseq>, or click the <gui>All Day Event</gui> "
@@ -1208,14 +1217,14 @@ msgstr ""
 "κουμπί <gui>ολοήμερο συμβάν</gui> στην εργαλειοθήκη."
 
 #. (itstool) path: item/p
-#: C/calendar-meetings-sending-invitation.page:39
-#: C/calendar-usage-add-appointment.page:29
+#: C/calendar-meetings-sending-invitation.page:75
+#: C/calendar-usage-add-appointment.page:50
 msgid "Select the date and time."
 msgstr "Επιλέξτε την ημερομηνία και την ώρα."
 
 #. (itstool) path: item/p
-#: C/calendar-meetings-sending-invitation.page:40
-#: C/calendar-usage-add-appointment.page:30
+#: C/calendar-meetings-sending-invitation.page:78
+#: C/calendar-usage-add-appointment.page:53
 msgid ""
 "If the event is not an all day event, select either <gui>For</gui> to "
 "specify the duration, or select <gui>Until</gui> to specify the ending time "
@@ -1226,13 +1235,13 @@ msgstr ""
 "συμβάντος."
 
 #. (itstool) path: item/p
-#: C/calendar-meetings-sending-invitation.page:41
-#: C/calendar-usage-add-appointment.page:31
+#: C/calendar-meetings-sending-invitation.page:83
+#: C/calendar-usage-add-appointment.page:58
 msgid "(Optional) Enter a description in the <gui>Description</gui> field."
 msgstr "(Προαιρετικό) Εισάγετε μια περιγραφή στο πεδίο <gui>περιγραφή</gui>."
 
 #. (itstool) path: item/p
-#: C/calendar-meetings-sending-invitation.page:42
+#: C/calendar-meetings-sending-invitation.page:87
 msgid ""
 "To query <link xref=\"calendar-free-busy\">free/busy</link> information for "
 "the attendees, click the <gui>Free/Busy</gui> button on the toolbar, or "
@@ -1244,20 +1253,20 @@ msgstr ""
 "guiseq>."
 
 #. (itstool) path: item/p
-#: C/calendar-meetings-sending-invitation.page:43
+#: C/calendar-meetings-sending-invitation.page:92
 msgid "Click <gui>Save</gui> to save the meeting."
 msgstr "Πατήστε <gui>αποθήκευση</gui> για να αποθηκεύσετε τη συγκέντρωση."
 
 #. (itstool) path: page/p
-#: C/calendar-meetings-sending-invitation.page:46
+#: C/calendar-meetings-sending-invitation.page:96
 msgid ""
 "An email is sent out to all the recipients, inviting them to your event."
 msgstr ""
 "Ένα μήνυμα στέλνεται σε όλους τους αποδέκτες, προσκαλώντας τους στο γεγονός."
 
 #. (itstool) path: page/p
-#: C/calendar-meetings-sending-invitation.page:48
-#: C/calendar-usage-add-appointment.page:34
+#: C/calendar-meetings-sending-invitation.page:99
+#: C/calendar-usage-add-appointment.page:67
 msgid ""
 "You can also define a <link xref=\"calendar-timezones\">time zone</link>, a "
 "<link xref=\"using-categories\">category</link>, a <link xref=\"calendar-"
@@ -1273,26 +1282,27 @@ msgstr ""
 "συνημμένο."
 
 #. (itstool) path: note/p
-#: C/calendar-meetings-sending-invitation.page:50
+#: C/calendar-meetings-sending-invitation.page:107
 msgid ""
-"In Evolution, a meeting can have only one organizer, and only the organizer "
-"can add participants to that meeting. Though it is possible to change the "
-"organizer of a meeting, this is not recommended as a means to invite "
-"additional participants to meetings. If you want to invite additional people "
-"to a meeting and are not that meeting's organizer, it is recommended that "
-"you forward the invitation message you received from the original meeting "
-"organiser to additional participants."
+"In <app>Evolution</app>, a meeting can have only one organizer, and only the "
+"organizer can add participants to that meeting. Though it is possible to "
+"change the organizer of a meeting, this is not recommended as a means to "
+"invite additional participants to meetings. If you want to invite additional "
+"people to a meeting and are not that meeting's organizer, it is recommended "
+"that you forward the invitation message you received from the original "
+"meeting organiser to additional participants."
 msgstr ""
-"Στο Evolution, μια συνάντηση μπορεί να έχει μόνο έναν οργανωτή και μόνο ο "
-"οργανωτής μπορεί να προσθέτει παρευρισκόμενους σε αυτή τη συγκέντρωση. "
-"Παρότι είναι δυνατόν να αλλάξετε τον οργανωτή μιας συγκέντρωσης, αυτό δε "
-"συνίσταται ως μέσο πρόσκλησης πρόσθετων παρευρισκόμενων σε συγκεντρώσεις. Αν "
-"θέλετε να προσκαλέσετε περισσότερους ανθρώπους σε μια συνάντηση και δεν "
-"είστε ο οργανωτής, συνίσταται να προωθήσετε το μήνυμα πρόσκλησης που λάβατε "
-"από τον αρχικό οργανωτή στους πρόσθετους παρευρισκόμενους."
+"Στο <app>Evolution</app>, μια συνάντηση μπορεί να έχει μόνο έναν οργανωτή "
+"και μόνο ο οργανωτής μπορεί να προσθέτει παρευρισκόμενους σε αυτή τη "
+"συγκέντρωση. Παρότι είναι δυνατόν να αλλάξετε τον οργανωτή μιας "
+"συγκέντρωσης, αυτό δε συνίσταται ως μέσο πρόσκλησης πρόσθετων "
+"παρευρισκόμενων σε συγκεντρώσεις. Αν θέλετε να προσκαλέσετε περισσότερους "
+"ανθρώπους σε μια συνάντηση και δεν είστε ο οργανωτής, συνίσταται να "
+"προωθήσετε το μήνυμα πρόσκλησης που λάβατε από τον αρχικό οργανωτή στους "
+"πρόσθετους παρευρισκόμενους."
 
 #. (itstool) path: info/desc
-#: C/calendar-organizing.page:5
+#: C/calendar-organizing.page:18
 msgid "On using several calendars, searching, and categories."
 msgstr "Χρήση πολλών ημερολογίων, αναζητήσεων και κατηγοριών."
 
@@ -1302,32 +1312,32 @@ msgid "Sorting and organizing calendars"
 msgstr "Ταξινόμηση και οργάνωση ημερολογίων"
 
 #. (itstool) path: info/desc
-#: C/calendar-publishing.page:5
+#: C/calendar-publishing.page:25
 msgid "Post your calendar content in public."
 msgstr "Δημοσίευση του περιεχομένου ημερολογίου."
 
 #. (itstool) path: page/title
-#: C/calendar-publishing.page:23
+#: C/calendar-publishing.page:28
 msgid "Calendar Publishing"
 msgstr "Δημοσίευση ημερολογίου"
 
 #. (itstool) path: page/p
-#: C/calendar-publishing.page:24
+#: C/calendar-publishing.page:30
 msgid ""
 "In order to make one of your calendars available to the public, you can "
 "define calendars to be uploaded to a web server under <guiseq><gui>Edit</"
-"gui><gui>Preferences</gui><gui>Calendar and Tasks</gui><gui>Publishing "
-"Information</gui><gui>Locations</gui><gui style=\"button\">Add</gui></"
+"gui><gui>Preferences</gui> <gui>Calendar and Tasks</gui> <gui>Publishing "
+"Information</gui> <gui>Locations</gui><gui style=\"button\">Add</gui></"
 "guiseq>."
 msgstr ""
 "Για να δημοσιοποιήσετε ένα από τα διαθέσιμα ημερολόγιά σας, μπορείτε να "
-"ορίσετε ημερολόγια που θα φορτωθούν στον εξυπηρετητή ιστού στο "
-"<guiseq><gui>επεξεργασία</gui><gui>προτιμήσεις</gui><gui>ημερολόγιο και "
-"εργασίες</gui><gui>δημοσίευση πληροφοριών</gui><gui>τοποθεσίες</gui><gui "
-"style=\"button\">προσθήκη</gui></guiseq>."
+"ορίσετε ημερολόγια που θα φορτωθούν σε έναν εξυπηρετητή ιστού στο "
+"<guiseq><gui>Επεξεργασία</gui><gui>Προτιμήσεις</gui><gui>Ημερολόγιο και "
+"εργασίες</gui><gui>Δημοσίευση πληροφοριών</gui><gui>Τοποθεσίες</gui><gui "
+"style=\"button\">Προσθήκη</gui></guiseq>."
 
 #. (itstool) path: page/p
-#: C/calendar-publishing.page:27
+#: C/calendar-publishing.page:40
 msgid ""
 "You can specify the online location, the frequency of publishing, which "
 "calendar(s) to publish, and authentication information for uploading."
@@ -1336,7 +1346,7 @@ msgstr ""
 "δημοσιεύονται τα ημερολόγια και πληροφορίες πιστοποίησης για ανέβασμα."
 
 #. (itstool) path: page/p
-#: C/calendar-publishing.page:31
+#: C/calendar-publishing.page:47
 msgid ""
 "To immediately publish calendar information, click <guiseq><gui>Actions</"
 "gui><gui>Publish Calendar Information</gui></guiseq> in the calendar."
@@ -1346,17 +1356,17 @@ msgstr ""
 "guiseq> στο ημερολόγιο."
 
 #. (itstool) path: info/desc
-#: C/calendar-recurrence.page:5
+#: C/calendar-recurrence.page:23
 msgid "Repeating appointments."
 msgstr "Επανάληψη συναντήσεων."
 
 #. (itstool) path: page/title
-#: C/calendar-recurrence.page:23
+#: C/calendar-recurrence.page:26
 msgid "Using Recurrence"
 msgstr "Χρήση επανάληψης"
 
 #. (itstool) path: page/p
-#: C/calendar-recurrence.page:25
+#: C/calendar-recurrence.page:28
 msgid ""
 "If you have an appointment that takes place regularly, you can define its "
 "recurrence by clicking the <gui>Recurrence</gui> button in the "
@@ -1379,24 +1389,24 @@ msgstr ""
 "Παρασκευή για 12 επανεμφανίσεις.\""
 
 #. (itstool) path: info/desc
-#: C/calendar-searching.page:5
+#: C/calendar-searching.page:27
 msgid "Searching appointments and meetings."
 msgstr "Αναζήτηση συναντήσεων και συγκεντρώσεων."
 
 #. (itstool) path: page/title
-#: C/calendar-searching.page:28
+#: C/calendar-searching.page:30
 msgid "Searching for Calendar Items"
 msgstr "Αναζήτηση για στοιχεία ημερολογίου"
 
 #. (itstool) path: section/title
-#: C/calendar-searching.page:30 C/contacts-searching.page:38
+#: C/calendar-searching.page:33 C/contacts-searching.page:43
 #: C/mail-searching.page:39 C/memos-searching.page:39
 #: C/tasks-searching.page:39
 msgid "Quick Search"
 msgstr "Γρήγορη αναζήτηση"
 
 #. (itstool) path: section/p
-#: C/calendar-searching.page:31
+#: C/calendar-searching.page:35
 msgid ""
 "In the Calendar view, you can quickly search for appointments and meetings "
 "either by summary or by category."
@@ -1405,13 +1415,13 @@ msgstr ""
 "συγκεντρώσεις ανά περίληψη ή κατηγορία."
 
 #. (itstool) path: section/p
-#: C/calendar-searching.page:32 C/memos-searching.page:41
+#: C/calendar-searching.page:38 C/memos-searching.page:41
 #: C/tasks-searching.page:41
 msgid "Searching by summary:"
 msgstr "Αναζήτηση ανά περίληψη:"
 
 #. (itstool) path: item/p
-#: C/calendar-searching.page:34 C/contacts-searching.page:42
+#: C/calendar-searching.page:42 C/contacts-searching.page:50
 #: C/memos-searching.page:43 C/tasks-searching.page:43
 msgid "Click the search icon <_:media-1/> to expand the drop-down list."
 msgstr ""
@@ -1419,48 +1429,45 @@ msgstr ""
 "πτυσσόμενο κατάλογο."
 
 #. (itstool) path: item/p
-#: C/calendar-searching.page:35 C/contacts-searching.page:43
+#: C/calendar-searching.page:47 C/contacts-searching.page:55
 #: C/mail-searching.page:43 C/memos-searching.page:44
 #: C/tasks-searching.page:44
 msgid "Select the search condition from the list."
 msgstr "Επιλέξτε τα κριτήρια αναζήτησης από τη λίστα."
 
 #. (itstool) path: item/p
-#: C/calendar-searching.page:36 C/contacts-searching.page:44
+#: C/calendar-searching.page:50 C/contacts-searching.page:58
 #: C/mail-searching.page:47 C/memos-searching.page:45
 #: C/tasks-searching.page:45
 msgid "Enter the text you want to search for and press <key>Enter</key>."
 msgstr "Εισάγετε το επιθυμητό κείμενο αναζήτησης και πιέστε <key>Enter</key>."
 
 #. (itstool) path: item/p
-#: C/calendar-searching.page:37 C/calendar-searching.page:43
-#: C/contacts-searching.page:45 C/contacts-searching.page:51
-#: C/mail-searching.page:48 C/memos-searching.page:46
-#: C/memos-searching.page:52 C/tasks-searching.page:46
-#: C/tasks-searching.page:52
-msgid "Evolution displays the search results."
-msgstr "Το Evolution εμφανίζει τα αποτελέσματα αναζήτησης."
+#: C/calendar-searching.page:53 C/calendar-searching.page:67
+#: C/contacts-searching.page:62 C/contacts-searching.page:76
+msgid "<app>Evolution</app> displays the search results."
+msgstr "Το <app>Evolution</app> εμφανίζει τα αποτελέσματα αναζήτησης."
 
 #. (itstool) path: section/p
-#: C/calendar-searching.page:39 C/contacts-searching.page:47
+#: C/calendar-searching.page:57 C/contacts-searching.page:66
 #: C/memos-searching.page:48 C/tasks-searching.page:48
 msgid "Searching by category:"
 msgstr "Αναζήτηση ανά κατηγορία:"
 
 #. (itstool) path: item/p
-#: C/calendar-searching.page:41 C/contacts-searching.page:49
+#: C/calendar-searching.page:61 C/contacts-searching.page:70
 #: C/memos-searching.page:50 C/tasks-searching.page:50
 msgid "Click the <gui>Show</gui> drop-down list."
 msgstr "Κλικ στην πτυσσόμενη λίστα <gui>προβολή</gui>."
 
 #. (itstool) path: item/p
-#: C/calendar-searching.page:42 C/contacts-searching.page:50
+#: C/calendar-searching.page:64 C/contacts-searching.page:73
 #: C/memos-searching.page:51 C/tasks-searching.page:51
 msgid "Select the category from the list."
 msgstr "Επιλέξτε την κατηγορία από τη λίστα."
 
 #. (itstool) path: section/p
-#: C/calendar-searching.page:46
+#: C/calendar-searching.page:71
 msgid ""
 "To go through the results you can use the two arrow buttons next to the "
 "search field. This searches in currently enabled calendars. It searches from "
@@ -1473,7 +1480,7 @@ msgstr ""
 "κατεύθυνση, σε ένα εύρος 10 ετών από προεπιλογή."
 
 #. (itstool) path: section/p
-#: C/calendar-searching.page:48 C/contacts-searching.page:53
+#: C/calendar-searching.page:76 C/contacts-searching.page:80
 #: C/mail-searching.page:52 C/memos-searching.page:54
 #: C/tasks-searching.page:54
 msgid ""
@@ -1484,7 +1491,7 @@ msgstr ""
 "χρησιμοποιήσετε μια προχωρημένη αναζήτηση, που περιγράφεται παρακάτω."
 
 #. (itstool) path: info/desc
-#: C/calendar-sharing-information.page:5
+#: C/calendar-sharing-information.page:17
 msgid ""
 "Make your information (appointments and free/busy times) available to others."
 msgstr ""
@@ -1492,64 +1499,65 @@ msgstr ""
 "ελεύθερος/απασχολημένος)."
 
 #. (itstool) path: page/title
-#: C/calendar-sharing-information.page:20
+#: C/calendar-sharing-information.page:21
 msgid "Sharing your calendar information"
 msgstr "Μοίρασμα των πληροφοριών ημερολογίου"
 
 #. (itstool) path: info/desc
-#: C/calendar-timezones.page:5
+#: C/calendar-timezones.page:22
 msgid "Using time zones in the calendar."
 msgstr "Χρήση ζωνών χρόνου στο ημερολόγιο."
 
 #. (itstool) path: page/title
-#: C/calendar-timezones.page:23
+#: C/calendar-timezones.page:25
 msgid "Using time zones"
 msgstr "Χρήση ζώνης χρόνου"
 
 #. (itstool) path: page/p
-#: C/calendar-timezones.page:25
-msgid "Evolution supports using multiple time zones."
-msgstr "Το Evolution υποστηρίζει τη χρήση πολλαπλών ζωνών χρόνου."
+#: C/calendar-timezones.page:27
+msgid "<app>Evolution</app> supports using multiple time zones."
+msgstr "Το <app>Evolution</app> υποστηρίζει τη χρήση πολλαπλών ζωνών χρόνου."
 
 #. (itstool) path: section/title
-#: C/calendar-timezones.page:28
+#: C/calendar-timezones.page:30
 msgid "Setting your global timezone(s)"
 msgstr "Ορισμός γενικών ζωνών χρόνου"
 
 #. (itstool) path: section/p
-#: C/calendar-timezones.page:30
+#: C/calendar-timezones.page:32
 msgid ""
-"By default Evolution uses the system-wide time zone. This can be changed "
-"under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Calendar and Tasks</"
-"gui><gui>General</gui><gui>Time</gui><gui>Time zone</gui></guiseq>."
+"By default <app>Evolution</app> uses the system-wide time zone. This can be "
+"changed under <guiseq><gui>Edit</gui><gui>Preferences</gui> <gui>Calendar "
+"and Tasks</gui><gui>General</gui><gui>Time</gui> <gui>Time zone</gui></"
+"guiseq>."
 msgstr ""
-"Από προεπιλογή το Evolution χρησιμοποιεί την ζώνη χρόνου σε όλο το σύστημα. "
-"Αυτό μπορεί να αλλαχθεί στο <guiseq><gui>επεξεργασία</gui><gui>προτιμήσεις</"
-"gui><gui>ημερολόγιο και εργασίες</gui><gui>γενικά</gui><gui>χρόνος</"
-"gui><gui>ζώνη χρόνου</gui></guiseq>."
+"Από προεπιλογή το <app>Evolution</app> χρησιμοποιεί την ζώνη χρόνου σε όλο "
+"το σύστημα. Αυτό μπορεί να αλλαχθεί στο <guiseq><gui>Επεξεργασία</"
+"gui><gui>Προτιμήσεις</gui><gui>Ημερολόγιο και εργασίες</gui><gui>Γενικά</"
+"gui><gui>Χρόνος</gui><gui>Ζώνη χρόνου</gui></guiseq>."
 
 #. (itstool) path: section/p
-#: C/calendar-timezones.page:32
+#: C/calendar-timezones.page:37
 msgid ""
 "If you deal a lot with people in another specific time zone you can display "
 "that second time zone in the day view of the calendar. You can set a second "
-"time zone under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Calendar "
-"and Tasks</gui><gui>General</gui><gui>Time</gui><gui>Second zone</gui></"
+"time zone under <guiseq><gui>Edit</gui><gui>Preferences</gui> <gui>Calendar "
+"and Tasks</gui><gui>General</gui><gui>Time</gui> <gui>Second zone</gui></"
 "guiseq>."
 msgstr ""
-"Εάν δουλεύετε πολύ με άτομα σε άλλες συγκεκριμένες ζώνες χρόνου μπορείτε να "
+"Αν δουλεύετε πολύ με άτομα σε άλλες συγκεκριμένες ζώνες χρόνου μπορείτε να "
 "εμφανίσετε τη δεύτερη ζώνη χρόνου στην προβολή ημέρας του ημερολογίου. "
-"Μπορείτε να ορίσετε μια δεύτερη ζώνη χρόνου στο <guiseq><gui>επεξεργασία</"
-"gui><gui>προτιμήσεις</gui><gui>ημερολόγιο και εργασίες</gui><gui>γενικά</"
-"gui><gui>χρόνος</gui><gui>δεύτερη ζώνη</gui></guiseq>."
+"Μπορείτε να ορίσετε μια δεύτερη ζώνη χρόνου στο <guiseq><gui>Επεξεργασία</"
+"gui><gui>Προτιμήσεις</gui><gui>Ημερολόγιο και εργασίες</gui><gui>Γενικά</"
+"gui><gui>Χρόνος</gui><gui>Δεύτερη ζώνη</gui></guiseq>."
 
 #. (itstool) path: section/title
-#: C/calendar-timezones.page:36
+#: C/calendar-timezones.page:46
 msgid "Setting a timezone for an appointment"
 msgstr "Ορισμός ζώνης χρόνου για συνάντηση"
 
 #. (itstool) path: section/p
-#: C/calendar-timezones.page:38
+#: C/calendar-timezones.page:48
 msgid ""
 "You can also configure time zone information specific to each appointment. "
 "To do that, <link xref=\"calendar-usage\">add a new or edit an existing "
@@ -1569,7 +1577,7 @@ msgstr ""
 "ζώνης χρόνου με βάση κάθε συνάντηση αποτρέπει πιθανή σύγχυση."
 
 #. (itstool) path: info/desc
-#: C/calendar-usage-add-appointment.page:5
+#: C/calendar-usage-add-appointment.page:17
 msgid "Adding an appointment."
 msgstr "Προσθήκη συνάντησης."
 
@@ -1579,7 +1587,7 @@ msgid "Adding an Appointment"
 msgstr "Προσθήκη συνάντησης"
 
 #. (itstool) path: item/p
-#: C/calendar-usage-add-appointment.page:23
+#: C/calendar-usage-add-appointment.page:24
 msgid ""
 "Click <guiseq><gui>File</gui><gui>New</gui><gui>Appointment</gui></guiseq>, "
 "or double-click in a blank space in the calendar to open the Appointment "
@@ -1596,22 +1604,22 @@ msgstr ""
 "το ποντίκι."
 
 #. (itstool) path: item/p
-#: C/calendar-usage-add-appointment.page:24
+#: C/calendar-usage-add-appointment.page:33
 msgid "If you use the Appointment dialog:"
 msgstr "Εάν βλέπετε τον διάλογο συναντήσεων:"
 
 #. (itstool) path: item/p
-#: C/calendar-usage-add-appointment.page:32
+#: C/calendar-usage-add-appointment.page:61
 msgid ""
 "To show the time as <link xref=\"calendar-free-busy\">busy</link> to others, "
-"click <guiseq><gui>Options</gui><gui>Show Time as Busy</gui></guiseq>."
+"click <guiseq><gui>Options</gui> <gui>Show Time as Busy</gui></guiseq>."
 msgstr ""
 "Για εμφάνιση κατάστασης ως <link xref=\"calendar-free-busy\">απασχολημένος</"
-"link> στους άλλους, κλικ στο <guiseq><gui>επιλογές</gui><gui>εμφάνιση "
+"link> στους άλλους, πατήστε στο <guiseq><gui>Επιλογές</gui><gui>Εμφάνιση "
 "κατάστασης ως απασχολημένος</gui></guiseq>."
 
 #. (itstool) path: info/desc
-#: C/calendar-usage-delete-appointment.page:5
+#: C/calendar-usage-delete-appointment.page:17
 msgid "Deleting an appointment in your calendar."
 msgstr "Διαγραφή συνάντησης στο ημερολόγιό σας."
 
@@ -1639,7 +1647,7 @@ msgstr ""
 "gui></guiseq>."
 
 #. (itstool) path: info/desc
-#: C/calendar-usage-edit-appointment.page:5
+#: C/calendar-usage-edit-appointment.page:17
 msgid "Editing in appointment in your calendar."
 msgstr "Επεξεργασία συνάντησης στο ημερολόγιό σας."
 
@@ -1651,17 +1659,17 @@ msgstr "Επεξεργασία συνάντησης"
 #. (itstool) path: page/p
 #: C/calendar-usage-edit-appointment.page:22
 msgid ""
-"If you want to change an appointment that already exists in your calendars,"
+"If you want to change an appointment that already exists in your calendars:"
 msgstr ""
-"Αν θέλετε να αλλάξετε μια συνάντηση που υπάρχει ήδη στα ημερολόγια σας,"
+"Αν θέλετε να αλλάξετε μια συνάντηση που υπάρχει ήδη στα ημερολόγια σας:"
 
 #. (itstool) path: item/p
-#: C/calendar-usage-edit-appointment.page:25
+#: C/calendar-usage-edit-appointment.page:27
 msgid "Double-click on the appointment that you want to edit in the calendar."
 msgstr "Διπλό κλικ στην συνάντηση που θέλετε να επεξεργαστείτε στο ημερολόγιο."
 
 #. (itstool) path: item/p
-#: C/calendar-usage-edit-appointment.page:26
+#: C/calendar-usage-edit-appointment.page:31
 msgid ""
 "Edit the appointment (see <link xref=\"calendar-usage-add-appointment"
 "\">Adding an Appointment</link> for the list of available options)."
@@ -1670,7 +1678,7 @@ msgstr ""
 "\">προσθήκη συνάντησης</link> για τη λίστα των διαθέσιμων επιλογών)."
 
 #. (itstool) path: item/p
-#: C/calendar-usage-edit-appointment.page:27 C/memos-usage-add-memo.page:29
+#: C/calendar-usage-edit-appointment.page:36 C/memos-usage-add-memo.page:29
 #: C/memos-usage-add-memo.page:49 C/memos-usage-edit-memo.page:27
 #: C/tasks-usage-add-task.page:29 C/tasks-usage-edit-task.page:27
 msgid ""
@@ -1681,7 +1689,7 @@ msgstr ""
 "<guiseq><gui>αρχείο</gui><gui>αποθήκευση</gui></guiseq>."
 
 #. (itstool) path: info/desc
-#: C/calendar-usage.page:5
+#: C/calendar-usage.page:18
 msgid "On adding, editing, and deleting appointments."
 msgstr "Προσθήκη, επεξεργασία και διαγραφή συναντήσεων."
 
@@ -1691,18 +1699,18 @@ msgid "Add, Edit, and Delete Appointments"
 msgstr "Προσθήκη, επεξεργασία και διαγραφή συναντήσεων"
 
 #. (itstool) path: info/desc
-#: C/calendar-using-several-calendars.page:5
+#: C/calendar-using-several-calendars.page:25
 msgid "Adding and using more than one calendar and different types."
 msgstr ""
 "Προσθήκη και χρήση περισσότερων από ένα ημερολογίων και διαφορετικών τύπων."
 
 #. (itstool) path: page/title
-#: C/calendar-using-several-calendars.page:23
+#: C/calendar-using-several-calendars.page:28
 msgid "Using several calendars"
 msgstr "Χρήση πολλών ημερολογίων"
 
 #. (itstool) path: page/p
-#: C/calendar-using-several-calendars.page:25
+#: C/calendar-using-several-calendars.page:30
 msgid ""
 "You can have multiple calendars and overlay them one over the other. For "
 "example, you might have a schedule of events for work, one for home, and one "
@@ -1722,12 +1730,12 @@ msgstr ""
 "αταξία στην προβολή σας."
 
 #. (itstool) path: page/p
-#: C/calendar-using-several-calendars.page:27
+#: C/calendar-using-several-calendars.page:38
 msgid "Appointments for each calendar appear in different color."
 msgstr "Οι συναντήσεις από κάθε ημερολόγιο εμφανίζονται με διαφορετικό χρώμα."
 
 #. (itstool) path: page/p
-#: C/calendar-using-several-calendars.page:29
+#: C/calendar-using-several-calendars.page:40
 msgid ""
 "You can also use calendars that are not on your computer, such as on the "
 "internet or in a local network."
@@ -1736,7 +1744,7 @@ msgstr ""
 "σας, όπως στο διαδίκτυο ή σε τοπικό δίκτυο."
 
 #. (itstool) path: page/p
-#: C/calendar-using-several-calendars.page:31
+#: C/calendar-using-several-calendars.page:43
 msgid ""
 "For example, the <link href=\"http://icalshare.com\">icalshare.com website</"
 "link> has an extensive list of shared online calendars, including national "
@@ -1749,7 +1757,7 @@ msgstr ""
 "αθλητικών, και τοπικών και περιφερειακών γεγονότων."
 
 #. (itstool) path: info/desc
-#: C/calendar-weather.page:5
+#: C/calendar-weather.page:17
 msgid "Display the weather in the calendar."
 msgstr "Εμφάνιση του καιρού στο ημερολόγιο."
 
@@ -1759,58 +1767,58 @@ msgid "Using a weather calendar"
 msgstr "Χρήση ημερολογίου καιρού"
 
 #. (itstool) path: page/p
-#: C/calendar-weather.page:22 C/calendar-webdav.page:22
+#: C/calendar-weather.page:22 C/calendar-webdav.page:21
 msgid "Calendars of this type are read-only."
 msgstr "Ημερολόγια αυτού του τύπου είναι μόνο για ανάγνωση."
 
 #. (itstool) path: item/p
-#: C/calendar-weather.page:27
+#: C/calendar-weather.page:33
 msgid "Select the type <gui>Weather</gui>."
 msgstr "Επιλέξτε τον τύπο <gui>καιρού</gui>."
 
 #. (itstool) path: item/p
-#: C/calendar-weather.page:31
+#: C/calendar-weather.page:46
 msgid "Choose a location by selecting continent, country and city."
 msgstr "Επιλέξτε θέση επιλέγοντας ήπειρο, χώρα και πόλη."
 
 #. (itstool) path: item/p
-#: C/calendar-weather.page:33
+#: C/calendar-weather.page:53
 msgid "Choose the temperature unit."
 msgstr "Επιλέξτε την μονάδα θερμοκρασίας."
 
 #. (itstool) path: info/desc
-#: C/calendar-webdav.page:5
+#: C/calendar-webdav.page:16
 msgid "Using an online Webcal/WebDAV calendar."
 msgstr "Χρήση δικτυακού ημερολογίου Webcal/WebDAV."
 
 #. (itstool) path: page/title
-#: C/calendar-webdav.page:20
+#: C/calendar-webdav.page:19
 msgid "Using a WebDAV calendar"
 msgstr "Χρήση ημερολογίου WebDAV"
 
 #. (itstool) path: item/p
-#: C/calendar-webdav.page:27 C/tasks-caldav.page:25 C/tasks-webdav.page:27
+#: C/calendar-webdav.page:32 C/tasks-caldav.page:25 C/tasks-webdav.page:27
 msgid "Select the type <gui>On the Web</gui>."
 msgstr "Επιλέξτε τον τύπο <gui>στον ιστό</gui>."
 
 #. (itstool) path: item/p
-#: C/calendar-webdav.page:33 C/mail-sending-options-smtp.page:35
+#: C/calendar-webdav.page:52 C/mail-sending-options-smtp.page:35
 #: C/tasks-webdav.page:33
 msgid "Enter your username."
 msgstr "Εισάγετε το όνομα χρήστη."
 
 #. (itstool) path: info/desc
-#: C/change-switcher-appearance.page:5
+#: C/change-switcher-appearance.page:20
 msgid "Changing the display of the window buttons in the lower left corner."
 msgstr "Αλλαγή της προβολής των κουμπιών παραθύρου στην κάτω αριστερή γωνία."
 
 #. (itstool) path: page/title
-#: C/change-switcher-appearance.page:19
+#: C/change-switcher-appearance.page:24
 msgid "Changing the Switcher appearance"
 msgstr "Αλλαγή της εμφάνισης του εναλλάκτη"
 
 #. (itstool) path: page/p
-#: C/change-switcher-appearance.page:21
+#: C/change-switcher-appearance.page:26
 msgid ""
 "The display of the window buttons in the lower left corner (Mail, Contacts, "
 "Calendar, Tasks and Memos) can be changed via <guiseq><gui>View</"
@@ -1824,44 +1832,44 @@ msgstr ""
 "πλήρως."
 
 #. (itstool) path: page/p
-#: C/change-switcher-appearance.page:22
+#: C/change-switcher-appearance.page:31
 msgid "The available options are:"
 msgstr "Οι διαθέσιμες επιλογές είναι:"
 
 #. (itstool) path: item/p
-#: C/change-switcher-appearance.page:24
+#: C/change-switcher-appearance.page:35
 msgid "Icons and Text"
 msgstr "Εικονίδια και κείμενο"
 
 #. (itstool) path: item/p
-#: C/change-switcher-appearance.page:27
+#: C/change-switcher-appearance.page:38
 msgid "Icons Only"
 msgstr "Μόνο εικονίδια"
 
 #. (itstool) path: item/p
-#: C/change-switcher-appearance.page:30
+#: C/change-switcher-appearance.page:41
 msgid "Text Only"
 msgstr "Μόνο κείμενο"
 
 #. (itstool) path: item/p
-#: C/change-switcher-appearance.page:33
+#: C/change-switcher-appearance.page:44
 msgid "Toolbar Style"
 msgstr "Τεχνοτροπία εργαλειοθήκης"
 
 #. (itstool) path: item/p
-#: C/change-switcher-appearance.page:36
+#: C/change-switcher-appearance.page:47
 msgid "Show Buttons"
 msgstr "Εμφάνιση κουμπιών"
 
 #. (itstool) path: info/desc
-#: C/contacts-add-automatically.page:5
+#: C/contacts-add-automatically.page:21
 msgid ""
 "Automatically add senders of mail that you have received to your contacts."
 msgstr ""
 "Αυτόματη προσθήκη αποστολέων αλληλογραφίας που έχετε δεχθεί στις επαφές σας."
 
 #. (itstool) path: page/title
-#: C/contacts-add-automatically.page:24
+#: C/contacts-add-automatically.page:25
 msgid "Adding people automatically to my contacts"
 msgstr "Προσθήκη ατόμου αυτόματα στις επαφές μου"
 
@@ -1872,23 +1880,23 @@ msgid ""
 "email. Enable the plugin <gui>Automatic Contacts</gui> by going to "
 "<guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>; click on <gui>Automatic "
 "Contacts</gui> so that it shows a check mark. Then go to <guiseq><gui>Edit</"
-"gui><gui>Preferences</gui><gui>Contacts</gui><gui>Automatic Contacts</gui></"
+"gui><gui>Preferences</gui><gui>Contacts</gui> <gui>Automatic Contacts</gui></"
 "guiseq> and enable the <gui>Create address book entries when sending emails</"
 "gui> option and select an address book in the drop-down field below that "
 "will receive the new contacts."
 msgstr ""
 "Μπορείτε να προσθέσετε αυτόματα άτομα στις επαφές σας όταν απαντάτε σε "
-"λαμβανόμενη αλληλογραφία. Ενεργοποιήστε το πρόσθετο <gui>αυτόματες επαφές</"
-"gui> πηγαίνοντας στο <guiseq><gui>επεξεργασία</gui><gui>πρόσθετα</gui></"
-"guiseq>· κλικ στο <gui>αυτόματες επαφές</gui> έτσι ώστε να εμφανίσει ένα "
-"σημάδι ελέγχου. Έπειτα μετάβαση σε <guiseq><gui>επεξεργασία</"
-"gui><gui>προτιμήσεις</gui><gui>επαφές</gui><gui>αυτόματες επαφές</gui></"
-"guiseq> και ενεργοποιήστε την επιλογή <gui>δημιουργία καταχωρίσεων βιβλίου "
+"λαμβανόμενη αλληλογραφία. Ενεργοποιήστε το πρόσθετο <gui>Αυτόματες επαφές</"
+"gui> πηγαίνοντας στο <guiseq><gui>Επεξεργασία</gui><gui>Πρόσθετα</gui></"
+"guiseq>· πατήστε στο <gui>Αυτόματες επαφές</gui> έτσι ώστε να εμφανίσει ένα "
+"σημάδι ελέγχου. Έπειτα μεταβείτε στο <guiseq><gui>Επεξεργασία</"
+"gui><gui>Προτιμήσεις</gui><gui>Επαφές</gui><gui>Αυτόματες επαφές</gui></"
+"guiseq> και ενεργοποιήστε την επιλογή <gui>Δημιουργία καταχωρίσεων βιβλίου "
 "διευθύνσεων όταν στέλνονται μηνύματα</gui> και επιλέξτε ένα βιβλίο "
 "διευθύνσεων στο παρακάτω πτυσσόμενο πεδίο που θα δεχθεί τις νέες επαφές."
 
 #. (itstool) path: page/p
-#: C/contacts-add-automatically.page:28
+#: C/contacts-add-automatically.page:37
 msgid ""
 "From now on, contacts will be automatically created for senders of received "
 "mail when you reply to that mail."
@@ -1897,7 +1905,7 @@ msgstr ""
 "λαμβανόμενης αλληλογραφίας όταν απαντάτε σε αυτό το μήνυμα."
 
 #. (itstool) path: info/desc
-#: C/contacts-autocompletion.page:5
+#: C/contacts-autocompletion.page:27
 msgid ""
 "Autocompletion of names and email addresses entered in the mail composer."
 msgstr ""
@@ -1905,35 +1913,37 @@ msgstr ""
 "σύνταξη αλληλογραφίας."
 
 #. (itstool) path: page/title
-#: C/contacts-autocompletion.page:27
+#: C/contacts-autocompletion.page:30
 msgid "Autocompletion of mail recipients"
 msgstr "Αυτόματη συμπλήρωση των αποδεκτών αλληλογραφίας"
 
 #. (itstool) path: page/p
-#: C/contacts-autocompletion.page:29
+#: C/contacts-autocompletion.page:32
 msgid ""
 "You can enter the first three letters of names and email addresses in the "
-"recipients text field and Evolution will present you with a list of matches "
-"from your address books."
+"recipients text field and <app>Evolution</app> will present you with a list "
+"of matches from your address books."
 msgstr ""
 "Μπορείτε να εισάγετε τα πρώτα τρία γράμματα των ονομάτων και διευθύνσεων "
-"αλληλογραφίας στο πεδίο κειμένου αποδεκτών και το Evolution θα παρουσιάσει "
-"μια λίστα συμφωνιών από τα βιβλία διευθύνσεών σας."
+"αλληλογραφίας στο πεδίο κειμένου αποδεκτών και το <app>Evolution</app> θα "
+"παρουσιάσει έναν κατάλογο συμφωνιών από τα βιβλία διευθύνσεών σας."
 
 #. (itstool) path: page/p
-#: C/contacts-autocompletion.page:30
+#: C/contacts-autocompletion.page:36
 msgid ""
 "To enable autocompletion, go to <guiseq><gui>Edit</gui><gui>Preferences</"
-"gui><gui>Contacts</gui><gui>Autocompletion</gui></guiseq> and choose the "
-"address books from the list that Evolution should look in for matches."
+"gui><gui>Contacts</gui> <gui>Autocompletion</gui></guiseq> and choose the "
+"address books from the list that <app>Evolution</app> should look in for "
+"matches."
 msgstr ""
-"Για ενεργοποίηση αυτόματης συμπλήρωσης, μετάβαση σε "
-"<guiseq><gui>επεξεργασία</gui><gui>προτιμήσεις</gui><gui>επαφές</"
-"gui><gui>αυτόματη συμπλήρωση</gui></guiseq> και επιλέξτε τα βιβλία "
-"διευθύνσεων από τη λίστα που θα κοιτάξει το Evolution για συμφωνίες."
+"Για ενεργοποίηση αυτόματης συμπλήρωσης, μεταβείτε στο "
+"<guiseq><gui>Επεξεργασία</gui><gui>Προτιμήσεις</gui><gui>Επαφές</"
+"gui><gui>Αυτόματη συμπλήρωση</gui></guiseq> και επιλέξτε τα βιβλία "
+"διευθύνσεων από τον κατάλογο που θα πρέπει να κοιτάξει το <app>Evolution</"
+"app> για συμφωνίες."
 
 #. (itstool) path: page/p
-#: C/contacts-autocompletion.page:32
+#: C/contacts-autocompletion.page:41
 msgid ""
 "Select <gui>Always show address of the autocompleted contact</gui> to also "
 "show the email address along with the name. This can be helpful to "
@@ -1945,7 +1955,7 @@ msgstr ""
 "αλληλογραφίας."
 
 #. (itstool) path: page/p
-#: C/contacts-autocompletion.page:34
+#: C/contacts-autocompletion.page:45
 msgid ""
 "Alternately, you can click the <gui>To:</gui>, <gui>Cc:</gui>, or <gui>Bcc:</"
 "gui> buttons to get a list of the email addresses in your contacts. Select "
@@ -1959,7 +1969,7 @@ msgstr ""
 "διευθύνσεων."
 
 #. (itstool) path: info/desc
-#: C/contacts-google.page:5
+#: C/contacts-google.page:18
 msgid "Use the online address book of your Google account."
 msgstr "Χρήση δικτυακού βιβλίου διευθύνσεων του λογαριασμού σας Google."
 
@@ -1970,39 +1980,42 @@ msgstr "Χρήση βιβλίου διευθύνσεων Google"
 
 #. (itstool) path: page/p
 #: C/contacts-google.page:23
-msgid "To add such an address book to Evolution, perform the following steps:"
+msgid ""
+"To add such an address book to <app>Evolution</app>, perform the following "
+"steps:"
 msgstr ""
-"Για την προσθήκη ενός τέτοιου βιβλίου διευθύνσεων στο Evolution, κάντε τα "
-"επόμενα βήματα:"
+"Για την προσθήκη ενός τέτοιου βιβλίου διευθύνσεων στο <app>Evolution</app>, "
+"κάντε τα επόμενα βήματα:"
 
 #. (itstool) path: item/p
-#: C/contacts-google.page:25 C/contacts-ldap.page:31 C/contacts-local.page:24
+#: C/contacts-google.page:28 C/contacts-ldap.page:40 C/contacts-local.page:27
 msgid ""
-"Click <guiseq><gui>File</gui><gui>New</gui><gui>Address Book</gui></guiseq>."
+"Click <guiseq><gui>File</gui><gui>New</gui> <gui>Address Book</gui></guiseq>."
 msgstr ""
-"Πατήστε <guiseq><gui>αρχείο</gui><gui>νέο</gui><gui>βιβλίο διευθύνσεων</"
+"Πατήστε <guiseq><gui>Αρχείο</gui><gui>Νέο</gui><gui>Βιβλίο διευθύνσεων</"
 "gui></guiseq>."
 
 #. (itstool) path: page/p
-#: C/contacts-google.page:34 C/contacts-local.page:30
+#: C/contacts-google.page:53 C/contacts-local.page:41
 msgid ""
-"The address book will be added to the list of address books in Evolution."
+"The address book will be added to the list of address books in "
+"<app>Evolution</app>."
 msgstr ""
-"Το βιβλίο διευθύνσεων θα προστεθεί στη λίστα των βιβλίων διευθύνσεων στο "
-"Evolution."
+"Το βιβλίο διευθύνσεων θα προστεθεί στον κατάλογο των βιβλίων διευθύνσεων στο "
+"<app>Evolution</app>."
 
 #. (itstool) path: info/desc
-#: C/contacts-ldap.page:5
+#: C/contacts-ldap.page:25
 msgid "Use shared address books on a local network."
 msgstr "Χρήση κοινόχρηστου βιβλίου διευθύνσεων σε τοπικό δίκτυο."
 
 #. (itstool) path: page/title
-#: C/contacts-ldap.page:23
+#: C/contacts-ldap.page:28
 msgid "Adding LDAP access"
 msgstr "Προσθήκη πρόσβασης LDAP"
 
 #. (itstool) path: page/p
-#: C/contacts-ldap.page:25
+#: C/contacts-ldap.page:30
 msgid ""
 "The LDAP protocol was created to let users share contact information over a "
 "network by sharing access to a central directory. LDAP allows a company to "
@@ -2016,12 +2029,12 @@ msgstr ""
 "διευθύνσεων LDAP για όλους τους υπαλλήλους τους ή για επαφές πελατών."
 
 #. (itstool) path: section/title
-#: C/contacts-ldap.page:28
+#: C/contacts-ldap.page:36
 msgid "Adding an LDAP address book"
 msgstr "Προσθήκη βιβλίου διευθύνσεων LDAP"
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:32
+#: C/contacts-ldap.page:44
 msgid ""
 "In the <gui>General</gui> tab, select the type <gui>On LDAP Servers</gui>."
 msgstr ""
@@ -2029,7 +2042,7 @@ msgstr ""
 "gui>."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:34
+#: C/contacts-ldap.page:51
 msgid ""
 "Enter the address of the server, the port number (the default number is 389) "
 "and whether you want to connect securely."
@@ -2038,19 +2051,19 @@ msgstr ""
 "αριθμός είναι 389) και εάν θέλετε να συνδεθείτε με ασφάλεια."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:35
+#: C/contacts-ldap.page:55
 msgid "Define the login method and your user name."
 msgstr "Ορίστε τη μέθοδο σύνδεσης και το όνομα χρήστη."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:37
+#: C/contacts-ldap.page:61
 msgid "In the <gui>Details</gui> tab you can define the following settings:"
 msgstr ""
 "Στην καρτέλα <gui>λεπτομέρειες</gui> μπορείτε να ορίσετε τις επόμενες "
 "ρυθμίσεις:"
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:39
+#: C/contacts-ldap.page:65
 msgid ""
 "Search Base: The search base is the starting point for a directory search. "
 "Contact your system administrator for information about the correct settings."
@@ -2060,7 +2073,7 @@ msgstr ""
 "πληροφορίες για τις σωστές ρυθμίσεις."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:40
+#: C/contacts-ldap.page:70
 msgid ""
 "Search Scope: The search scope is the breadth of a given search. The "
 "following options are available:"
@@ -2069,18 +2082,18 @@ msgstr ""
 "αναζήτησης. Οι επόμενες επιλογές είναι διαθέσιμες:"
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:42
+#: C/contacts-ldap.page:74
 msgid "One: Searches the Search Base and one entry below it."
 msgstr "Ένα: Αναζητά τη βάση αναζήτησης και μια καταχώριση από κάτω του."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:43
+#: C/contacts-ldap.page:77
 msgid "Sub: Searches the Search Base and all entries below it."
 msgstr ""
 "Υπό: Αναζητά στη Βάση αναζήτησης και σε όλες τις πιο κάτω καταχωρήσεις."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:46
+#: C/contacts-ldap.page:82
 msgid ""
 "Search Filter: The search filter can be set here for all the LDAP queries. "
 "For example:"
@@ -2089,18 +2102,18 @@ msgstr ""
 "αναζητήσεις σε LDAP. Για παράδειγμα:"
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:48
+#: C/contacts-ldap.page:86
 msgid "<code>ObjectClass=*</code>: Lists all the objects from the server."
 msgstr ""
 "<code>ObjectClass=*</code>: εμφανίζει όλα τα αντικείμενα από τον εξυπηρετητή."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:49
+#: C/contacts-ldap.page:90
 msgid "<code>ObjectClass=User</code>: Lists only the users."
 msgstr "<code>ObjectClass=User</code>: εμφανίζει μόνο τους χρήστες."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:50
+#: C/contacts-ldap.page:93
 msgid ""
 "<code>Filter (|(ObjectClass=User)(ObjectClass=groupOfNames))</code>: "
 "Retrieves the User and Contact List objects."
@@ -2109,7 +2122,7 @@ msgstr ""
 "τα αντικείμενα λίστας χρήστη και επαφής."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:51
+#: C/contacts-ldap.page:97
 msgid ""
 "<code>(&amp;(mail=*)(ObjectClass=*))</code>: Lists the objects associated "
 "with the email addresses."
@@ -2118,16 +2131,16 @@ msgstr ""
 "αντικείμενα με τις διευθύνσεις αλληλογραφίας."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:54
+#: C/contacts-ldap.page:103
 msgid ""
-"Timeout (minutes): The maximum time Evolution attempts to download data from "
-"the server before giving up."
+"Timeout (minutes): The maximum time <app>Evolution</app> attempts to "
+"download data from the server before giving up."
 msgstr ""
-"Όριο χρόνου (λεπτά): Ο μέγιστος χρόνος που το Evolution προσπαθεί να "
-"κατεβάσει δεδομένα από το εξυπηρετητή προτού τα παρατήσει."
+"Όριο χρόνου (λεπτά): Ο μέγιστος χρόνος που το <app>Evolution</app> προσπαθεί "
+"να κατεβάσει δεδομένα από τον εξυπηρετητή προτού τα παρατήσει."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:55
+#: C/contacts-ldap.page:107
 msgid ""
 "Download Limit: The maximum number of results for a given search. Most "
 "servers refuse to send more than 500 contacts, but you can set the number "
@@ -2139,19 +2152,19 @@ msgstr ""
 "λήψεις για πολύ πλατιές αναζητήσεις."
 
 #. (itstool) path: note/p
-#: C/contacts-ldap.page:60
+#: C/contacts-ldap.page:117
 msgid "If you are unsure about some settings, ask your system administrator."
 msgstr ""
 "Αν είστε αβέβαιος για κάποιες ρυθμίσεις, επικοινωνήστε με τον διαχειριστή "
 "του συστήματός σας."
 
 #. (itstool) path: section/title
-#: C/contacts-ldap.page:65
+#: C/contacts-ldap.page:124
 msgid "Differences to local address books"
 msgstr "Διαφορές με τοπικά βιβλία διευθύνσεων"
 
 #. (itstool) path: section/p
-#: C/contacts-ldap.page:67
+#: C/contacts-ldap.page:126
 msgid ""
 "LDAP address books work like local address books on your computer, with the "
 "following exceptions:"
@@ -2160,7 +2173,7 @@ msgstr ""
 "υπολογιστή σας, με τις επόμενες εξαιρέσεις:"
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:69
+#: C/contacts-ldap.page:131
 msgid ""
 "Network folders are only available when you are connected to the network. If "
 "you use a laptop or have a modem connection, you might want to copy or cache "
@@ -2174,7 +2187,7 @@ msgstr ""
 "τοπικό βιβλίο διευθύνσεων."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:70
+#: C/contacts-ldap.page:137
 msgid ""
 "You can also mark the network folder for offline usage. To mark the folder, "
 "right-click the folder, click Properties and select Copy Folder Content "
@@ -2185,98 +2198,102 @@ msgstr ""
 "αντιγραφή περιεχομένων φακέλου τοπικά για εργασία χωρίς σύνδεση."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:71
+#: C/contacts-ldap.page:142
 msgid ""
-"To prevent excess network traffic, Evolution does not normally load data "
-"from the LDAP server upon opening."
+"To prevent excess network traffic, <app>Evolution</app> does not normally "
+"load data from the LDAP server upon opening."
 msgstr ""
-"Για να αποτρέψει υπερβολική κίνηση στο δίκτυο, το Evolution δεν φορτώνει "
-"κανονικά, δεδομένα από το διακομιστή LDAP κατά το ξεκίνημα."
+"Για να αποτρέψει υπερβολική κίνηση στο δίκτυο, το <app>Evolution</app> δεν "
+"φορτώνει κανονικά δεδομένα από το διακομιστή LDAP κατά το ξεκίνημα."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:72
+#: C/contacts-ldap.page:146
 msgid ""
 "Depending on your server settings, you might not be able to edit all the "
 "fields in a contact stored on an LDAP server. Some servers prohibit some or "
-"all changes, and others use a smaller set of fields than Evolution allows. "
-"Check with your system administrator if you need different settings."
+"all changes, and others use a smaller set of fields than <app>Evolution</"
+"app> allows. Check with your system administrator if you need different "
+"settings."
 msgstr ""
 "Ανάλογα με τις ρυθμίσεις του διακομιστή σας, ίσως να μη μπορείτε να "
 "επεξεργαστείτε όλα τα πεδία σε μια επαφή αποθηκευμένη σε ένα εξυπηρετητή "
 "LDAP. Μερικοί εξυπηρετητές αποτρέπουν μερικές ή όλες τις αλλαγές, και άλλοι "
 "χρησιμοποιούν ένα μικρότερο σύνολο πεδίων από αυτά που επιτρέπει το "
-"Evolution. Ελέγξτε το με το διαχειριστή του συστήματός σας αν χρειάζεστε "
-"διαφορετικές ρυθμίσεις."
+"<app>Evolution</app>. Ελέγξτε το με το διαχειριστή του συστήματός σας αν "
+"χρειάζεστε διαφορετικές ρυθμίσεις."
 
 #. (itstool) path: info/desc
-#: C/contacts-libreoffice.page:5
-msgid "Using data from Evolution address books in LibreOffice documents."
+#: C/contacts-libreoffice.page:17
+msgid ""
+"Using data from <app>Evolution</app> address books in LibreOffice documents."
 msgstr ""
-"Χρήση δεδομένων από βιβλία διευθύνσεων του Evolution σε έγγραφα LibreOffice."
+"Χρήση δεδομένων από βιβλία διευθύνσεων του <app>Evolution</app> σε έγγραφα "
+"LibreOffice."
 
 #. (itstool) path: page/title
-#: C/contacts-libreoffice.page:20
+#: C/contacts-libreoffice.page:21
 msgid "Contacts in LibreOffice"
 msgstr "Επαφές στο LibreOffice"
 
 #. (itstool) path: page/p
-#: C/contacts-libreoffice.page:22
+#: C/contacts-libreoffice.page:23
 msgid ""
-"You can use your Evolution address books in LibreOffice as a data source. "
-"The following steps refer to LibreOffice version 3.3.3."
+"You can use your <app>Evolution</app> address books in LibreOffice as a data "
+"source. The following steps refer to LibreOffice version 3.3.3."
 msgstr ""
-"Μπορείτε να χρησιμοποιήσετε τα βιβλία διευθύνσεών σας του Evolution στο "
-"LibreOffice ως πηγή δεδομένων. Τα επόμενα βήματα αναφέρονται στην έκδοση του "
-"LibreOffice 3.3.3."
+"Μπορείτε να χρησιμοποιήσετε τα βιβλία διευθύνσεών σας του <app>Evolution</"
+"app> στο LibreOffice ως πηγή δεδομένων. Τα επόμενα βήματα αναφέρονται στην "
+"έκδοση του LibreOffice 3.3.3."
 
 #. (itstool) path: item/p
-#: C/contacts-libreoffice.page:25
+#: C/contacts-libreoffice.page:28
 msgid ""
-"Click <guiseq><gui>Edit</gui><gui>Exchange Database...</gui></guiseq> in the "
+"Click <guiseq><gui>Edit</gui><gui>Exchange Database…</gui></guiseq> in the "
 "menu bar. This will bring up the <gui>Exchange databases</gui> dialog box."
 msgstr ""
-"Κλικ <guiseq><gui>επεξεργασία</gui><gui>ανταλλαγή βάσης δεδομένων...</gui></"
+"Πατήστε <guiseq><gui>Επεξεργασία</gui><gui>Ανταλλαγή βάσης δεδομένων…</gui></"
 "guiseq> στη γραμμή μενού. Αυτό θα εμφανίσει το πλαίσιο διαλόγου "
-"<gui>ανταλλαγή βάσεων δεδομένων</gui>."
+"<gui>Ανταλλαγή βάσεων δεδομένων</gui>."
 
 #. (itstool) path: item/p
-#: C/contacts-libreoffice.page:26
+#: C/contacts-libreoffice.page:33
 msgid ""
 "In the right pane under <gui>Available Databases</gui>, <gui>EvolutionLocal</"
 "gui> is available as a source. Click on the small triangle to get the list "
-"of your Evolution address books."
+"of your <app>Evolution</app> address books."
 msgstr ""
-"Στο δεξί πλαίσιο κάτω από <gui>διαθέσιμες βάσεις δεδομένων</gui>, το "
-"<gui>EvolutionLocal</gui> είναι διαθέσιμο ως πηγή. Κλικ στο μικρό τρίγωνο "
-"για λήψη της λίστας των βιβλίων διευθύνσεων του Evolution."
+"Στο δεξί φάτνωμα κάτω από <gui>Διαθέσιμες βάσεις δεδομένων</gui>, το "
+"<gui>EvolutionLocal</gui> είναι διαθέσιμο ως πηγή. Πατήστε στο μικρό τρίγωνο "
+"για να πάρετε τον κατάλογο των βιβλίων διευθύνσεων του <app>Evolution</app>."
 
 #. (itstool) path: item/p
-#: C/contacts-libreoffice.page:27
+#: C/contacts-libreoffice.page:38
 msgid "Choose an addressbook and click <gui style=\"button\">Define</gui>."
 msgstr ""
 "Επιλέξτε ένα βιβλίο διευθύνσεων και κλικ <gui style=\"button\">ορισμός</gui>."
 
 #. (itstool) path: item/p
-#: C/contacts-libreoffice.page:28
+#: C/contacts-libreoffice.page:41
 msgid ""
-"In case it is not listed already, click <gui style=\"button\">Browse...</"
-"gui>. A file chooser dialog opens."
+"In case it is not listed already, click <gui style=\"button\">Browse…</gui>. "
+"A file chooser dialog opens."
 msgstr ""
-"Σε περίπτωση που δεν είναι καταχωρημένο ήδη, κλικ <gui style=\"button"
-"\">περιήγηση...</gui>. Ένας διάλογος επιλογές αρχείου ανοίγει."
+"Σε περίπτωση που δεν είναι καταχωρημένο ήδη, πατήστε <gui style=\"button"
+"\">Περιήγηση…</gui>. Ένας διάλογος επιλογών αρχείου ανοίγει."
 
 #. (itstool) path: item/p
-#: C/contacts-libreoffice.page:29
+#: C/contacts-libreoffice.page:45
 msgid ""
-"As Evolution stores its data in a hidden directory, press <keyseq><key>Ctrl</"
-"key><key>L</key></keyseq> to get the location bar displayed."
+"As <app>Evolution</app> stores its data in a hidden directory, press "
+"<keyseq><key>Ctrl</key><key>L</key></keyseq> to get the location bar "
+"displayed."
 msgstr ""
-"Καθώς το Evolution αποθηκεύει τα δεδομένα του σε έναν κρυφό κατάλογο, "
-"πατήστε <keyseq><key>Ctrl</key><key>L</key></keyseq> για λήψη της "
-"εμφανιζόμενης γραμμής θέσης."
+"Καθώς το <app>Evolution</app> αποθηκεύει τα δεδομένα του σε έναν κρυφό "
+"κατάλογο, πατήστε <keyseq><key>Ctrl</key><key>L</key></keyseq> για να πάρετε "
+"την εμφανιζόμενη γραμμής θέσης."
 
 #. (itstool) path: item/p
-#: C/contacts-libreoffice.page:30
+#: C/contacts-libreoffice.page:50
 msgid ""
 "Go to <file>/home/username/.local/share/evolution/addressbook/system/"
 "addressbook.db</file> and click <gui style=\"button\">Open</gui>."
@@ -2285,20 +2302,20 @@ msgstr ""
 "addressbook.db</file> και κλικ <gui style=\"button\">άνοιγμα</gui>."
 
 #. (itstool) path: page/p
-#: C/contacts-libreoffice.page:33
+#: C/contacts-libreoffice.page:56
 msgid ""
-"This makes the Evolution address book the default data source for "
-"LibreOffice. You can now select a field to insert into an LibreOffice "
+"This makes the <app>Evolution</app> address book the default data source for "
+"LibreOffice. You can now select a field to insert into a LibreOffice "
 "document via <guiseq><gui>Insert</gui><gui>Fields</gui><gui>Other</gui></"
 "guiseq>."
 msgstr ""
-"Αυτό κάνει το βιβλίο διευθύνσεων του Evolution την προεπιλεγμένη πηγή "
-"δεδομένων για το LibreOffice. Μπορείτε τώρα να επιλέξετε ένα πεδίο εισαγωγής "
-"στο έγγραφο του LibreOffice μέσα από <guiseq><gui>εισαγωγή</gui><gui>πεδία</"
-"gui><gui>άλλο</gui></guiseq>."
+"Αυτό κάνει το βιβλίο διευθύνσεων του <app>Evolution</app> την προεπιλεγμένη "
+"πηγή δεδομένων για το LibreOffice. Μπορείτε τώρα να επιλέξετε ένα πεδίο για "
+"να εισάγετε στο έγγραφο του LibreOffice μέσα από <guiseq><gui>Εισαγωγή</"
+"gui><gui>Πεδία</gui><gui>Άλλο</gui></guiseq>."
 
 #. (itstool) path: info/desc
-#: C/contacts-local.page:5
+#: C/contacts-local.page:17
 msgid "Adding another local address book."
 msgstr "Προσθήκη ενός άλλου τοπικού βιβλίου διευθύνσεων."
 
@@ -2310,15 +2327,16 @@ msgstr "Προσθήκη ενός άλλου τοπικού βιβλίου δι�
 #. (itstool) path: page/p
 #: C/contacts-local.page:22
 msgid ""
-"To add another local address book to Evolution, perform the following steps:"
+"To add another local address book to <app>Evolution</app>, perform the "
+"following steps:"
 msgstr ""
-"Για την προσθήκη ενός άλλου τοπικού βιβλίου διευθύνσεων στο Evolution, κάντε "
-"τα επόμενα βήματα:"
+"Για την προσθήκη ενός άλλου τοπικού βιβλίου διευθύνσεων στο <app>Evolution</"
+"app>, κάντε τα επόμενα βήματα:"
 
 #. (itstool) path: info/desc
-#: C/contacts-organizing.page:5
+#: C/contacts-organizing.page:18
 msgid "On address books, searching, contact lists, and categories."
-msgstr "Σε βιβλία διευθύνσεων, αναζητήσεις, λίστες επαφών και κατηγορίες."
+msgstr "Σε βιβλία διευθύνσεων, αναζητήσεις, καταλόγους επαφών και κατηγορίες."
 
 #. (itstool) path: page/title
 #: C/contacts-organizing.page:21
@@ -2334,40 +2352,40 @@ msgid ""
 msgstr ""
 "Υπάρχουν πολλοί τρόποι οργάνωσης των επαφών σας. Μπορείτε να χρησιμοποιήσετε "
 "πολλά βιβλία διευθύνσεων και κατηγοριών και για άνετη αποστολή μηνυμάτων σε "
-"μια ομάδα ατόμων οι λίστες επαφών είναι διαθέσιμες."
+"μια ομάδα ατόμων οι κατάλογοι επαφών είναι διαθέσιμοι."
 
 #. (itstool) path: info/desc
-#: C/contacts-searching.page:5
+#: C/contacts-searching.page:25
 msgid "Searching contacts."
 msgstr "Αναζήτηση επαφών."
 
 #. (itstool) path: page/title
-#: C/contacts-searching.page:27
+#: C/contacts-searching.page:28
 msgid "Searching Contacts"
 msgstr "Αναζήτηση επαφών"
 
 #. (itstool) path: section/title
-#: C/contacts-searching.page:30
+#: C/contacts-searching.page:31
 msgid "Searching in a Single Contact"
 msgstr "Αναζήτηση σε μια απλή επαφή"
 
 #. (itstool) path: section/p
-#: C/contacts-searching.page:31
+#: C/contacts-searching.page:33
 msgid ""
 "To find text in the displayed contact, select <guiseq><gui>Edit</"
-"gui><gui>Find in Contact...</gui></guiseq> from the main menu."
+"gui><gui>Find in Contact…</gui></guiseq> from the main menu."
 msgstr ""
 "Για την εύρεση κειμένου στην εμφανιζόμενη επαφή, επιλέξτε "
-"<guiseq><gui>επεξεργασία</gui><gui>εύρεση σε επαφή...</gui></guiseq> από το "
+"<guiseq><gui>Επεξεργασία</gui><gui>Εύρεση σε επαφή…</gui></guiseq> από το "
 "κύριο μενού."
 
 #. (itstool) path: section/title
-#: C/contacts-searching.page:35
+#: C/contacts-searching.page:40
 msgid "Searching Across Contacts"
 msgstr "Αναζήτηση στις επαφές"
 
 #. (itstool) path: section/p
-#: C/contacts-searching.page:39
+#: C/contacts-searching.page:44
 msgid ""
 "In the Contacts view, you can quickly search for contacts either by category "
 "or by contact's info."
@@ -2376,12 +2394,12 @@ msgstr ""
 "κατηγορία ή ανά πληροφορίες επαφής."
 
 #. (itstool) path: section/p
-#: C/contacts-searching.page:40
+#: C/contacts-searching.page:46
 msgid "Searching by contact's info:"
 msgstr "Αναζήτηση ανά πληροφορίες επαφής:"
 
 #. (itstool) path: info/desc
-#: C/contacts-usage-add-contact.page:5
+#: C/contacts-usage-add-contact.page:17
 msgid "Adding a contact to your address book."
 msgstr "Προσθήκη επαφής στο βιβλίο διευθύνσεων."
 
@@ -2391,19 +2409,20 @@ msgid "Adding a Contact"
 msgstr "Προσθήκη επαφής"
 
 #. (itstool) path: item/p
-#: C/contacts-usage-add-contact.page:23
+#: C/contacts-usage-add-contact.page:24
 msgid ""
 "Click <guiseq><gui>File</gui><gui>New</gui><gui>Contact</gui></guiseq>, or "
 "right-click in a blank space in the list of contacts and click <gui>New "
-"Contact...</gui>, or press <keyseq><key>Shift</key><key>Ctrl</key><key>C</"
+"Contact…</gui>, or press <keyseq><key>Shift</key><key>Ctrl</key><key>C</"
 "key></keyseq>."
 msgstr ""
-"Κλικ στο <guiseq><gui>αρχείο</gui><gui>νέο</gui><gui>επαφή</gui></guiseq>, ή "
-"δεξί κλικ σε κενό χώρο στη λίστα επαφών και κλικ <gui>νέα επαφή...</gui>, ή "
-"πατήστε <keyseq><key>Shift</key><key>Ctrl</key><key>C</key></keyseq>."
+"Πατήστε στο <guiseq><gui>Αρχείο</gui><gui>Νέο</gui><gui>Επαφή</gui></"
+"guiseq>, ή δεξιοπατήστε σε κενό χώρο στον κατάλογο επαφών και πατήστε "
+"<gui>Νέα επαφή…</gui>, ή πατήστε <keyseq><key>Shift</key><key>Ctrl</"
+"key><key>C</key></keyseq>."
 
 #. (itstool) path: item/p
-#: C/contacts-usage-add-contact.page:24 C/contacts-using-contact-lists.page:34
+#: C/contacts-usage-add-contact.page:31 C/contacts-using-contact-lists.page:51
 msgid ""
 "Select the address book under <gui>Where:</gui> to which it will be added."
 msgstr ""
@@ -2411,13 +2430,13 @@ msgstr ""
 "προστεθεί."
 
 #. (itstool) path: item/p
-#: C/contacts-usage-add-contact.page:25
+#: C/contacts-usage-add-contact.page:35
 msgid "Enter the contact information. Note that there are several tabs."
 msgstr ""
 "Εισάγετε τις πληροφορίες επαφής. Σημειώστε ότι υπάρχουν αρκετές καρτέλες."
 
 #. (itstool) path: item/p
-#: C/contacts-usage-add-contact.page:26
+#: C/contacts-usage-add-contact.page:38
 msgid ""
 "You can add a photograph to the contact by clicking the large field (showing "
 "a stylized person) next to <gui>Full Name</gui> and <gui>Categories</gui>."
@@ -2427,27 +2446,27 @@ msgstr ""
 "<gui>κατηγορίες</gui>."
 
 #. (itstool) path: section/title
-#: C/contacts-usage-add-contact.page:31
+#: C/contacts-usage-add-contact.page:48
 msgid "Contact Quick-Add from the Email Window"
 msgstr "Γρήγορη προσθήκη επαφής από το παράθυρο αλληλογραφίας"
 
 #. (itstool) path: section/p
-#: C/contacts-usage-add-contact.page:33
+#: C/contacts-usage-add-contact.page:50
 msgid "You can also add a contact directly from an email."
 msgstr "Μπορείτε επίσης να προσθέσετε μια επαφή από ένα μήνυμα."
 
 #. (itstool) path: item/p
-#: C/contacts-usage-add-contact.page:35
+#: C/contacts-usage-add-contact.page:54
 msgid "Right-click on the email address in the message header."
 msgstr "Δεξί κλικ στη διεύθυνση αλληλογραφίας στην κεφαλίδα μηνύματος."
 
 #. (itstool) path: item/p
-#: C/contacts-usage-add-contact.page:36
-msgid "Select <gui>Add to Address Book...</gui>."
-msgstr "Επιλέξτε <gui>προσθήκη στο βιβλίο διευθύνσεων...</gui>."
+#: C/contacts-usage-add-contact.page:57
+msgid "Select <gui>Add to Address Book…</gui>."
+msgstr "Επιλέξτε <gui>προσθήκη στο βιβλίο διευθύνσεων…</gui>."
 
 #. (itstool) path: item/p
-#: C/contacts-usage-add-contact.page:37
+#: C/contacts-usage-add-contact.page:60
 msgid ""
 "Either press <gui style=\"button\">Edit Full</gui> to bring up the full "
 "<gui>Contact Editor</gui>, or click <gui style=\"button\">OK</gui> to "
@@ -2459,7 +2478,7 @@ msgstr ""
 "διευθύνσεων."
 
 #. (itstool) path: info/desc
-#: C/contacts-usage-delete-contact.page:5
+#: C/contacts-usage-delete-contact.page:17
 msgid "Deleting a contact from your address book."
 msgstr "Διαγραφή επαφής από το βιβλίο διευθύνσεων."
 
@@ -2484,7 +2503,7 @@ msgstr ""
 "gui><gui>διαγραφή επαφής</gui></guiseq>."
 
 #. (itstool) path: info/desc
-#: C/contacts-usage-edit-contact.page:5
+#: C/contacts-usage-edit-contact.page:17
 msgid "Editing a contact in your address book."
 msgstr "Επεξεργασία επαφής στο βιβλίο διευθύνσεων."
 
@@ -2501,21 +2520,21 @@ msgstr ""
 "Αν θέλετε να αλλάξετε μια επαφή που υπάρχει ήδη στα βιβλία διευθύνσεων,"
 
 #. (itstool) path: item/p
-#: C/contacts-usage-edit-contact.page:25
+#: C/contacts-usage-edit-contact.page:27
 msgid ""
 "Double-click on the contact that you want to edit in the list of contacts, "
 "or select the contact and press <key>Enter</key>."
 msgstr ""
-"Διπλό κλικ στην επιθυμητή επαφή για επεξεργασία στη λίστα των επαφών, ή "
-"επιλέξτε την επαφή και πατήστε <key>εισαγωγή</key>."
+"Διπλό κλικ στην επιθυμητή επαφή για επεξεργασία στον κατάλογο επαφών, ή "
+"επιλέξτε την επαφή και πατήστε <key>Εισαγωγή</key>."
 
 #. (itstool) path: item/p
-#: C/contacts-usage-edit-contact.page:26
+#: C/contacts-usage-edit-contact.page:31
 msgid "Edit the contact information."
 msgstr "Επεξεργασία των πληροφοριών επαφής."
 
 #. (itstool) path: info/desc
-#: C/contacts-usage.page:5
+#: C/contacts-usage.page:17
 msgid "On adding, editing, and deleting contacts in address books."
 msgstr "Προσθήκη, επεξεργασία και διαγραφή επαφών στα βιβλία διευθύνσεων."
 
@@ -2525,17 +2544,17 @@ msgid "Add, Edit, and Delete Contacts"
 msgstr "Προσθήκη, επεξεργασία και διαγραφή επαφών"
 
 #. (itstool) path: info/desc
-#: C/contacts-using-contact-lists.page:5
+#: C/contacts-using-contact-lists.page:23
 msgid "Using contact lists for grouping contacts."
-msgstr "Χρήση λιστών επαφής για ομαδοποίηση επαφών."
+msgstr "Χρήση καταλόγων επαφών για ομαδοποίηση επαφών."
 
 #. (itstool) path: page/title
-#: C/contacts-using-contact-lists.page:23
+#: C/contacts-using-contact-lists.page:26
 msgid "Using Contact Lists"
-msgstr "Χρήση λιστών επαφών"
+msgstr "Χρήση καταλόγων επαφών"
 
 #. (itstool) path: page/p
-#: C/contacts-using-contact-lists.page:25
+#: C/contacts-using-contact-lists.page:28
 msgid ""
 "A contact list is a set of contacts with a single nickname that you create. "
 "When you send mail to this nickname it is actually sent to every member of "
@@ -2543,15 +2562,16 @@ msgid ""
 "on your computer as a convenience to you, rather than as an actual email "
 "address managed by a mailing list application on a server."
 msgstr ""
-"Μια λίστα επαφών είναι μια ομάδα επαφών με ένα μοναδικό ψευδώνυμο που "
+"Ένας κατάλογος επαφών είναι μια ομάδα επαφών με ένα μοναδικό ψευδώνυμο που "
 "δημιουργείτε. Όταν στέλνετε αλληλογραφία σε αυτό το ψευδώνυμο, αυτή "
-"αποστέλνεται σε κάθε μέλος της λίστας. Αυτό διαφέρει από τις \"πραγματικές\" "
-"λίστες ταχυδρομείου στο ότι υπάρχει μόνο στον υπολογιστή σας ως μια "
-"διευκόλυνση για σας, αντί για μια πραγματική διεύθυνση αλληλογραφίας την "
-"οποία διαχειρίζεται μια εφαρμογή λίστας ταχυδρομείου σ' ένα διακομιστή."
+"αποστέλνεται σε κάθε μέλος του καταλόγου. Αυτό διαφέρει από τους "
+"\"πραγματικούς\" καταλόγους ταχυδρομείου στο ότι υπάρχει μόνο στον "
+"υπολογιστή σας ως μια διευκόλυνση για σας, αντί για μια πραγματική διεύθυνση "
+"αλληλογραφίας την οποία διαχειρίζεται μια εφαρμογή καταλόγου ταχυδρομείου σε "
+"έναν διακομιστή."
 
 #. (itstool) path: page/p
-#: C/contacts-using-contact-lists.page:27
+#: C/contacts-using-contact-lists.page:34
 msgid ""
 "For example, you could create one contact for each family member, then add "
 "those contacts to a contact list called \"Family\". Then, instead of "
@@ -2559,85 +2579,88 @@ msgid ""
 "\"Family\" and the messages would go to all of them."
 msgstr ""
 "Για παράδειγμα, θα μπορούσατε να δημιουργήσετε μια επαφή για κάθε μέλος της "
-"οικογένειάς σας, έπειτα να προσθέσετε αυτές τις επαφές σε μια λίστα επαφών "
-"που να ονομάζεται \"οικογένεια\". Μετά, αντί να εισάγετε τη διεύθυνση του "
-"καθενός ξεχωριστά, μπορείτε να στείλετε αλληλογραφία στην \"οικογένεια\" και "
-"τα μηνύματα θα πάνε σε όλους."
+"οικογένειάς σας, έπειτα να προσθέσετε αυτές τις επαφές σε έναν κατάλογο "
+"επαφών που να ονομάζεται \"οικογένεια\". Μετά, αντί να εισάγετε τη διεύθυνση "
+"του καθενός ξεχωριστά, μπορείτε να στείλετε αλληλογραφία στην \"οικογένεια\" "
+"και τα μηνύματα θα πάνε σε όλους."
 
 #. (itstool) path: section/title
-#: C/contacts-using-contact-lists.page:30
+#: C/contacts-using-contact-lists.page:40
 msgid "Creating a contact list"
-msgstr "Δημιουργία λίστας επαφών"
+msgstr "Δημιουργία καταλόγου επαφών"
 
 #. (itstool) path: item/p
-#: C/contacts-using-contact-lists.page:32
+#: C/contacts-using-contact-lists.page:44
 msgid ""
-"Click <guiseq><gui>File</gui><gui>New</gui><gui>Contact List</gui></guiseq>."
+"Click <guiseq><gui>File</gui><gui>New</gui> <gui>Contact List</gui></guiseq>."
 msgstr ""
-"Πατήστε <guiseq><gui>αρχείο</gui><gui>νέο</gui><gui>λίστα επαφών</gui></"
+"Πατήστε <guiseq><gui>Αρχείο</gui><gui>Νέο</gui><gui>Κατάλογος επαφών</gui></"
 "guiseq>."
 
 #. (itstool) path: item/p
-#: C/contacts-using-contact-lists.page:35
+#: C/contacts-using-contact-lists.page:55
 msgid ""
 "Specify the list members by either entering the names or email addresses of "
 "contacts (the text field supports autocompletion), or by dragging contacts "
 "from the Contacts window into the list, or by using the <gui style=\"button"
-"\">Select...</gui> button."
+"\">Select…</gui> button."
 msgstr ""
-"Ορίστε τα μέλη της λίστας είτε εισάγοντας τα ονόματα ή διευθύνσεις "
+"Ορίστε τα μέλη του καταλόγου είτε εισάγοντας τα ονόματα ή διευθύνσεις "
 "αλληλογραφίας των επαφών (το πεδίο κειμένου υποστηρίζει αυτόματη "
-"συμπλήρωση), ή σύροντας επαφές από το παράθυρο επαφών στη λίστα, ή "
-"χρησιμοποιώντας το κουμπί <gui style=\"button\">επιλογή...</gui>."
+"συμπλήρωση), ή σύροντας επαφές από το παράθυρο επαφών στον κατάλογο, ή "
+"χρησιμοποιώντας το πλήκτρο <gui style=\"button\">Επιλογή…</gui>."
 
 #. (itstool) path: item/p
-#: C/contacts-using-contact-lists.page:36
+#: C/contacts-using-contact-lists.page:61
 msgid ""
 "Choose whether you want to hide the email addresses when you send a message "
 "to the list."
 msgstr ""
 "Επιλέξτε αν θέλετε να κρύβετε τις διευθύνσεις αλληλογραφίας όταν στέλνετε "
-"ένα μήνυμα στη λίστα."
+"ένα μήνυμα στον κατάλογο."
 
 #. (itstool) path: item/p
-#: C/contacts-using-contact-lists.page:36
+#: C/contacts-using-contact-lists.page:62
 msgid ""
 "Unless it is a very small list, it is recommended that you leave the "
 "addresses hidden. This is the same thing as using the “Bcc:” feature "
 "discussed in <link xref=\"mail-composer-several-recipients\">Sending a "
 "message to several recipients</link>."
 msgstr ""
-"Εκτός κι αν είναι μια πολύ μικρή λίστα, συνίσταται να αφήνετε τις "
+"Εκτός κι αν είναι ένας πολύ μικρός κατάλογος, συνίσταται να αφήνετε τις "
 "διευθύνσεις κρυφές. Αυτό είναι το ίδιο σαν να χρησιμοποιείτε την “κρυφή "
 "κοινοποίηση:” η οποία περιγράφεται στο <link xref=\"mail-composer-several-"
-"recipients\">αποστολή μηνύματος σε πολλούς αποδέκτες</link>."
+"recipients\">Αποστολή μηνύματος σε πολλούς αποδέκτες</link>."
 
 #. (itstool) path: section/p
-#: C/contacts-using-contact-lists.page:40
-msgid "The contact list will be added to the chosen address book in Evolution."
+#: C/contacts-using-contact-lists.page:73
+msgid ""
+"The contact list will be added to the chosen address book in <app>Evolution</"
+"app>."
 msgstr ""
-"Η λίστα επαφών θα προστεθεί στο επιλεγμένο βιβλίο διευθύνσεων στο Evolution."
+"Ο κατάλογος επαφών θα προστεθεί στο επιλεγμένο βιβλίο διευθύνσεων στο "
+"<app>Evolution</app>."
 
 #. (itstool) path: section/title
-#: C/contacts-using-contact-lists.page:44
+#: C/contacts-using-contact-lists.page:79
 msgid "Sending messages to a contact list"
-msgstr "Αποστολή μηνυμάτων σε μια λίστα επαφών"
+msgstr "Αποστολή μηνυμάτων σε έναν κατάλογο επαφών"
 
 #. (itstool) path: section/p
-#: C/contacts-using-contact-lists.page:45
+#: C/contacts-using-contact-lists.page:81
 msgid ""
 "To send a message to the contact list, enter the name that you chose for the "
 "contact list as the recipient in the mail composer. You can also right-click "
 "the contact list in your address book and select <gui>Send Message to List</"
 "gui>."
 msgstr ""
-"Για να στείλετε ένα μήνυμα στη λίστα επαφών, εισάγετε το όνομα που διαλέξατε "
-"για τη λίστα επαφών ως αποδέκτη στη σύνταξη αλληλογραφίας. Μπορείτε επίσης "
-"με δεξί κλικ στη λίστα επαφών στο βιβλίο διευθύνσεών σας και να επιλέξετε "
-"<gui>αποστολή μηνύματος στη λίστα</gui>."
+"Για να στείλετε ένα μήνυμα στον κατάλογο επαφών, εισάγετε το όνομα που "
+"διαλέξατε για τον κατάλογο επαφών ως αποδέκτη στη σύνταξη αλληλογραφίας. "
+"Μπορείτε επίσης δεξιοπατώντας στον κατάλογο επαφών στο βιβλίο διευθύνσεών "
+"σας και να επιλέξετε <gui>Αποστολή μηνύματος στον κατάλογο</gui>."
 
 #. (itstool) path: info/desc
-#: C/contacts-using-several-addressbooks.page:5
+#: C/contacts-using-several-addressbooks.page:17
 msgid ""
 "Adding different types of address books and using more than one address book."
 msgstr ""
@@ -2645,12 +2668,12 @@ msgstr ""
 "ένα βιβλίων διευθύνσεων."
 
 #. (itstool) path: page/title
-#: C/contacts-using-several-addressbooks.page:20
+#: C/contacts-using-several-addressbooks.page:21
 msgid "Adding and creating address books"
 msgstr "Προσθήκη και δημιουργία βιβλίων διευθύνσεων"
 
 #. (itstool) path: page/p
-#: C/contacts-using-several-addressbooks.page:22
+#: C/contacts-using-several-addressbooks.page:23
 msgid ""
 "You can have multiple address books. For example, you might have one address "
 "book for work related contacts and one for private contacts. The side bar "
@@ -2662,7 +2685,7 @@ msgstr ""
 "επιλέξετε ποιο βιβλίο διευθύνσεων εμφανίζεται."
 
 #. (itstool) path: page/p
-#: C/contacts-using-several-addressbooks.page:24
+#: C/contacts-using-several-addressbooks.page:28
 msgid ""
 "You can also use address books that are not on your computer, such as on the "
 "internet (e.g. Google) or in a local network (e.g. LDAP)."
@@ -3067,7 +3090,7 @@ msgstr ""
 "<guiseq><gui>ενέργειες</gui><gui>εκκαθάριση</gui></guiseq> στην προβολή "
 "ημερολογίου. Θα σας ζητηθεί πόσες ημέρες παλιά πρέπει να είναι τα συμβάντα "
 "για να αφαιρεθούν από το ημερολόγιο. Η ενέργεια θα εφαρμοστεί στο τρέχον "
-"ανοικτό ημερολόγιο (επιλεγμένο στη λίστα των ημερολογίων στα αριστερά)· άλλα "
+"ανοικτό ημερολόγιο (επιλεγμένο στον κατάλογο ημερολογίων στα αριστερά)· άλλα "
 "ημερολόγια παραμένουν αμετάβλητα."
 
 #. (itstool) path: info/desc
@@ -3252,9 +3275,10 @@ msgid ""
 "calendars and click <gui>Save as</gui>. Available formats are iCalendar "
 "format (ICS, recommended), comma separated values (CSV), and RDF format."
 msgstr ""
-"Για εξαγωγή ενός πλήρους ημερολογίου, δεξί κλικ στο ημερολόγιο στη λίστα των "
-"ημερολογίων και κλικ <gui>αποθήκευση ως</gui>. Διαθέσιμες τύποι είναι μορφή "
-"iCalendar (ICS, συνιστώμενη), τιμές χωριζόμενες με κόμμα (CSV) και μορφή RDF."
+"Για εξαγωγή ενός πλήρους ημερολογίου, δεξιοπατήστε στο ημερολόγιο στον "
+"κατάλογο ημερολογίων και πατήστε <gui>Αποθήκευση ως</gui>. Διαθέσιμες τύποι "
+"είναι μορφή iCalendar (ICS, συνιστώμενη), τιμές που χωρίζονται με κόμμα "
+"(CSV) και μορφή RDF."
 
 #. (itstool) path: page/p
 #: C/exporting-data-calendar.page:23
@@ -4115,7 +4139,7 @@ msgstr "Λήψη μηνυμάτων"
 msgid ""
 "First, choose the server type from the <gui>Server Type</gui> drop-down list."
 msgstr ""
-"Πρώτα, επιλέξτε τον τύπο εξυπηρετητή από την πτυσσόμενη λίστα <gui>τύπος "
+"Πρώτα, επιλέξτε τον τύπο εξυπηρετητή από τον πτυσσόμενο κατάλογο <gui>Τύπος "
 "εξυπηρετητή</gui>."
 
 #. (itstool) path: section/p
@@ -4195,7 +4219,7 @@ msgstr "Ειδήσεις USENET"
 msgid ""
 "Connects to a news server and downloads a list of available news digests."
 msgstr ""
-"Συνδέεται σε ένα διακομιστή ειδήσεων και κατεβάζει μια λίστα διαθέσιμων "
+"Συνδέεται σε ένα διακομιστή ειδήσεων και κατεβάζει έναν κατάλογο διαθέσιμων "
 "περιλήψεων ειδήσεων."
 
 #. (itstool) path: section/title
@@ -4556,7 +4580,7 @@ msgstr "Γραμμή κατάστασης <_:media-1/>"
 #. (itstool) path: item/title
 #: C/intro-main-window.page:67
 msgid "Folder list"
-msgstr "Λίστα φακέλων"
+msgstr "Κατάλογος φακέλων"
 
 #. (itstool) path: item/p
 #: C/intro-main-window.page:68
@@ -4565,9 +4589,9 @@ msgid ""
 "To see the contents of a folder, click the folder name and its contents are "
 "displayed in the message list."
 msgstr ""
-"Η λίστα φακέλων σας δίνει μια λίστα με τους διαθέσιμους φακέλους για κάθε "
-"λογαριασμό. Για να δείτε τα περιεχόμενα ενός φακέλου, πατήστε στο όνομα του "
-"φακέλου και τα περιεχόμενά του προβάλλονται στη λίστα μηνυμάτων."
+"Ο κατάλογος φακέλων σας δίνει έναν κατάλογο με τους διαθέσιμους φακέλους για "
+"κάθε λογαριασμό. Για να δείτε τα περιεχόμενα ενός φακέλου, πατήστε στο όνομα "
+"του φακέλου και τα περιεχόμενά του προβάλλονται στον κατάλογο μηνυμάτων."
 
 #. (itstool) path: note/p
 #: C/intro-main-window.page:69
@@ -4580,7 +4604,7 @@ msgstr ""
 #. (itstool) path: item/title
 #: C/intro-main-window.page:72
 msgid "Message List"
-msgstr "Λίστα μηνυμάτων"
+msgstr "Κατάλογος μηνυμάτων"
 
 #. (itstool) path: item/p
 #: C/intro-main-window.page:73
@@ -4589,9 +4613,9 @@ msgid ""
 "the chosen folder. To view an email in the preview pane, click the message "
 "in the message list."
 msgstr ""
-"Η λίστα μηνυμάτων εμφανίζει όλα τα διαβασμένα και αδιάβαστα μηνύματα που "
+"Ο κατάλογος μηνυμάτων εμφανίζει όλα τα διαβασμένα και αδιάβαστα μηνύματα που "
 "έχετε στον επιλεγμένο φάκελο. Για να δείτε ένα μήνυμα στο πλαίσιο "
-"προεπισκόπησης, πατήστε στο μήνυμα στη λίστα μηνυμάτων."
+"προεπισκόπησης, πατήστε στο μήνυμα στον κατάλογο μηνυμάτων."
 
 #. (itstool) path: item/title
 #: C/intro-main-window.page:76
@@ -4640,7 +4664,7 @@ msgid ""
 "message list."
 msgstr ""
 "Το πλαίσιο προεπισκόπησης εμφανίζει το μήνυμα που είναι επιλεγμένο προς το "
-"παρόν στη λίστα μηνυμάτων."
+"παρόν στον κατάλογο μηνυμάτων."
 
 #. (itstool) path: note/p
 #: C/intro-main-window.page:83
@@ -4670,7 +4694,7 @@ msgstr "Κατάλογος συναντήσεων <_:media-1/>"
 #. (itstool) path: td/p
 #: C/intro-main-window.page:104
 msgid "Task list"
-msgstr "Λίστα εργασιών"
+msgstr "Κατάλογος εργασιών"
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:107
@@ -4680,12 +4704,12 @@ msgstr "Πλαίσιο μήνα"
 #. (itstool) path: td/p
 #: C/intro-main-window.page:108
 msgid "Memo list"
-msgstr "Λίστα υπενθυμίσεων"
+msgstr "Κατάλογος υπενθυμίσεων"
 
 #. (itstool) path: item/title
 #: C/intro-main-window.page:119
 msgid "Appointment List"
-msgstr "Λίστα συναντήσεων"
+msgstr "Κατάλογος συναντήσεων"
 
 #. (itstool) path: item/p
 #: C/intro-main-window.page:120
@@ -4693,8 +4717,8 @@ msgid ""
 "The appointment list displays all your scheduled appointments in the time "
 "frame selected."
 msgstr ""
-"Η λίστα συναντήσεων εμφανίζει όλες σας τις προγραμματισμένες συναντήσεις στο "
-"επιλεγμένο πλαίσιο χρόνου."
+"Ο κατάλογος συναντήσεων εμφανίζει όλες σας τις προγραμματισμένες συναντήσεις "
+"στο επιλεγμένο πλαίσιο χρόνου."
 
 #. (itstool) path: item/title
 #: C/intro-main-window.page:123
@@ -4712,12 +4736,12 @@ msgstr ""
 "Το πλαίσιο μήνα είναι μια μικρή προβολή ενός μηνιαίου ημερολογίου. Για να "
 "εμφανίσετε περισσότερους μήνες, σύρετε το περίγραμμα της στήλης προς τα "
 "δεξιά. Μπορείτε επίσης να επιλέξετε μια περιοχή ημερών στο πλαίσιο μήνα για "
-"να εμφανίσετε μια τροποποιημένη περιοχή ημερών στη λίστα συναντήσεων."
+"να εμφανίσετε μια τροποποιημένη περιοχή ημερών στον κατάλογο συναντήσεων."
 
 #. (itstool) path: item/title
 #: C/intro-main-window.page:127
 msgid "Task list and Memo list"
-msgstr "Λίστα εργασιών και λίστα υπενθυμίσεων"
+msgstr "Κατάλογος εργασιών και κατάλογος υπενθυμίσεων"
 
 #. (itstool) path: item/p
 #: C/intro-main-window.page:128
@@ -4951,10 +4975,10 @@ msgid ""
 "choosing <gui>Properties</gui>."
 msgstr ""
 "Λογαριασμοί αλληλογραφίας μπορούν να επεξεργαστούν μέσα από "
-"<guiseq><gui>επεξεργασία</gui><gui>προτιμήσεις</gui><gui>λογαριασμοί "
-"αλληλογραφίας</gui><gui style=\"button\">επεξεργασία</gui></guiseq> ή με "
-"δεξί κλικ στον αντίστοιχο κόμβο κορυφαίου επιπέδου στη λίστα φακέλου και "
-"επιλογή <gui>ιδιότητες</gui>."
+"<guiseq><gui>Επεξεργασία</gui><gui>Προτιμήσεις</gui><gui>Λογαριασμοί "
+"αλληλογραφίας</gui><gui style=\"button\">Επεξεργασία</gui></guiseq> ή με "
+"δεξιοπατώντας στον αντίστοιχο κόμβο κορυφαίου επιπέδου στον κατάλογο φακέλων "
+"και επιλέγοντας <gui>Ιδιότητες</gui>."
 
 #. (itstool) path: section/p
 #: C/mail-account-manage-imap-plus.page:26
@@ -5529,7 +5553,8 @@ msgstr ""
 #. (itstool) path: page/p
 #: C/mail-attachments-received.page:29
 msgid "A list of attachments is also available at the bottom of the email."
-msgstr "Μια λίστα συνημμένων είναι επίσης διαθέσιμη στο τέλος του μηνύματος."
+msgstr ""
+"Ένας κατάλογος συνημμένων είναι επίσης διαθέσιμος στο τέλος του μηνύματος."
 
 #. (itstool) path: page/p
 #: C/mail-attachments-received.page:30
@@ -5694,8 +5719,8 @@ msgid ""
 "invitation card is sent as an attachment in iCal format."
 msgstr ""
 "Αν δημιουργήσετε ένα γεγονός στο ημερολόγιο, μπορείτε τότε να στείλετε "
-"προσκλήσεις στη λίστα παρευρισκομένων μέσα από το εργαλείο αλληλογραφίας του "
-"Evolution. Η κάρτα πρόσκλησης αποστέλλεται ως συνημμένο στη μορφή iCal."
+"προσκλήσεις στον κατάλογο παρευρισκομένων μέσα από το εργαλείο αλληλογραφίας "
+"του Evolution. Η κάρτα πρόσκλησης αποστέλλεται ως συνημμένο στη μορφή iCal."
 
 #. (itstool) path: page/p
 #: C/mail-calendar-sending-invitations.page:25
@@ -5799,10 +5824,11 @@ msgid ""
 "Messages</gui>, or the text input filed contains some value. Click the broom "
 "icon to clear the search field."
 msgstr ""
-"Ελέγξετε την προβολή αναζήτησης στη γραμμή αναζήτησης δεξιά πάνω από τη "
-"λίστα μηνυμάτων. Ίσως η πτυσσόμενη λίστα <gui>προβολή</gui> ορίστηκε σε "
-"φίλτρο όπως <gui>διαβασμένα μηνύματα</gui>, ή η είσοδος κειμένου περιέχει "
-"κάποια τιμή. Κλικ στο εικονίδιο σκούπας για καθαρισμό του πεδίου αναζήτησης."
+"Ελέγξετε την προβολή αναζήτησης στη γραμμή αναζήτησης δεξιά πάνω από τον "
+"κατάλογο μηνυμάτων. Ίσως ο πτυσσόμενος κατάλογος <gui>Προβολή</gui> ορίστηκε "
+"με ένα φίλτρο όπως <gui>Διαβασμένα μηνύματα</gui>, ή η είσοδος κειμένου "
+"περιέχει κάποια τιμή. Πατήστε στο εικονίδιο σκούπας για καθαρισμό του πεδίου "
+"αναζήτησης."
 
 #. (itstool) path: item/p
 #: C/mail-cannot-see.page:30
@@ -5814,8 +5840,8 @@ msgid ""
 msgstr ""
 "Εάν δεν μπορείτε να δείτε κανένα μήνυμα σε έναν φάκελο, ελέγξετε ότι δεν "
 "έχετε μεγιστοποιήσει την προεπισκόπηση μηνύματος (έτσι ώστε το παράθυρο "
-"λίστας μηνύματος να είναι κρυφό). Για να το κάνετε αυτό, κλικ στο "
-"<guiseq><gui>προβολή</gui><gui>προεπισκόπηση</gui><gui>προβολή "
+"καταλόγου μηνύματος να είναι κρυφό). Για να το κάνετε αυτό, πατήστε στο "
+"<guiseq><gui>Προβολή</gui><gui>Προεπισκόπηση</gui><gui>Προβολή "
 "προεπισκόπησης μηνύματος</gui></guiseq>."
 
 #. (itstool) path: item/p
@@ -5852,12 +5878,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-change-columns-in-message-list.page:5
 msgid "Editing the columns displayed in the list of messages."
-msgstr "Επεξεργασία των εμφανιζόμενων στηλών στη λίστα μηνυμάτων."
+msgstr "Επεξεργασία των εμφανιζόμενων στηλών στον κατάλογο μηνυμάτων."
 
 #. (itstool) path: page/title
 #: C/mail-change-columns-in-message-list.page:20
 msgid "Changing the message list columns"
-msgstr "Αλλαγή των στηλών λίστας μηνυμάτων"
+msgstr "Αλλαγή των στηλών καταλόγου μηνυμάτων"
 
 #. (itstool) path: page/p
 #: C/mail-change-columns-in-message-list.page:22
@@ -5866,9 +5892,9 @@ msgid ""
 "the column headers and choose either <gui>Add a Column...</gui> or "
 "<gui>Remove This Column</gui>."
 msgstr ""
-"Εάν θέλετε να αλλάξετε τις στήλες στη λίστα μηνυμάτων αλληλογραφίας, δεξί "
-"κλικ στις κεφαλίδες της στήλης και επιλέξτε είτε <gui>προσθήκη στήλης...</"
-"gui> ή <gui>αφαίρεση αυτής της στήλης</gui>."
+"Εάν θέλετε να αλλάξετε τις στήλες στον κατάλογο μηνυμάτων αλληλογραφίας, "
+"δεξιοπατήστε στις κεφαλίδες της στήλης και επιλέξτε είτε <gui>Προσθήκη "
+"στήλης...</gui> ή <gui>Αφαίρεση αυτής της στήλης</gui>."
 
 #. (itstool) path: note/p
 #: C/mail-change-columns-in-message-list.page:23
@@ -5908,7 +5934,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-change-time-format.page:5
 msgid "Changing the date and time format in the message list."
-msgstr "Αλλαγή της ημερομηνίας και της μορφής χρόνου στη λίστα μηνυμάτων."
+msgstr "Αλλαγή της ημερομηνίας και της μορφής χρόνου στον κατάλογο μηνυμάτων."
 
 #. (itstool) path: page/title
 #: C/mail-change-time-format.page:19
@@ -6068,7 +6094,8 @@ msgstr ""
 #: C/mail-composer-custom-header-lines.page:44
 msgid "Set the values for the header fields by using the dropdown list."
 msgstr ""
-"Ορίστε τις τιμές για τα πεδία κεφαλίδας χρησιμοποιώντας την πτυσσόμενη λίστα."
+"Ορίστε τις τιμές για τα πεδία κεφαλίδας χρησιμοποιώντας τον πτυσσόμενο "
+"κατάλογο."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-enable-html-format.page:5
@@ -6097,8 +6124,8 @@ msgid ""
 "Alternately, you also can change the first dropdown list below the "
 "<gui>Subject</gui> line from <gui>Plain Text</gui> to <gui>HTML</gui>."
 msgstr ""
-"Εναλλακτικά, μπορείτε επίσης να αλλάξετε την πρώτη πτυσσόμενη λίστα κάτω από "
-"τη γραμμή <gui>θέμα</gui> από <gui>απλό κείμενο</gui> σε <gui>HTML</gui>."
+"Εναλλακτικά, μπορείτε επίσης να αλλάξετε τον πρώτο πτυσσόμενο κατάλογο κάτω "
+"από τη γραμμή <gui>Θέμα</gui> από <gui>Απλό κείμενο</gui> σε <gui>HTML</gui>."
 
 #. (itstool) path: page/p
 #: C/mail-composer-enable-html-format.page:25
@@ -6838,7 +6865,7 @@ msgid ""
 "This option lists all the message templates in the <gui>Templates</gui> "
 "folder."
 msgstr ""
-"Αυτή η επιλογή εμφανίζει όλα τα πρότυπα μηνυμάτων στο φάκελο <gui>πρότυπα</"
+"Αυτή η επιλογή εμφανίζει όλα τα πρότυπα μηνυμάτων στο φάκελο <gui>Πρότυπα</"
 "gui>."
 
 #. (itstool) path: item/p
@@ -7128,7 +7155,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/mail-composer-plain-text.page:27
 msgid "Headers and Lists:"
-msgstr "Κεφαλίδες και λίστες:"
+msgstr "Κεφαλίδες και κατάλογοι:"
 
 #. (itstool) path: section/p
 #: C/mail-composer-plain-text.page:28
@@ -7144,8 +7171,8 @@ msgstr ""
 "<gui>κεφαλίδα 1</gui> έως <gui>κεφαλίδα 6</gui> για διάφορα μεγέθη "
 "κεφαλίδας, από τεράστιο (1) ως μικροσκοπικό (6). Άλλες τεχνοτροπίες "
 "περιλαμβάνουν <gui>προμορφοποίηση</gui>, για να χρησιμοποιηθούν οι ετικέτες "
-"της HTML για τα προμορφοποιημένα τμήματα του κειμένου, και τρεις τύπους "
-"τελείων για λίστες."
+"της HTML για τα προμορφοποιημένα τμήματα του κειμένου, και τρεις τύπους από "
+"τελείες για καταλόγους."
 
 #. (itstool) path: section/p
 #: C/mail-composer-plain-text.page:29
@@ -7155,11 +7182,11 @@ msgid ""
 "Evolution uses different bullet styles, and handles word wrap and multiple "
 "levels of indentation."
 msgstr ""
-"Για παράδειγμα, αντί για χρήση αστερίσκων για να σημειώσετε μια λίστα με "
-"τελείες, μπορείτε να χρησιμοποιήσετε την τεχνοτροπία <gui>λίστα με τελείες</"
-"gui> από τη λίστα πτυσσόμενων τεχνοτροπιών. Το Evolution χρησιμοποιεί "
-"διαφορετικές τεχνοτροπίες τελειών και χειρίζεται την αναδίπλωση λέξης και "
-"πολλαπλά επίπεδα εσοχών."
+"Για παράδειγμα, αντί για χρήση αστερίσκων για να σημειώσετε έναν κατάλογο με "
+"τελείες, μπορείτε να χρησιμοποιήσετε την τεχνοτροπία <gui>Κατάλογος με "
+"τελείες</gui> από τον κατάλογο πτυσσόμενων τεχνοτροπιών. Το Evolution "
+"χρησιμοποιεί διαφορετικές τεχνοτροπίες από τελείες και χειρίζεται την "
+"αναδίπλωση λέξεων και πολλαπλά επίπεδα εσοχών."
 
 #. (itstool) path: section/title
 #: C/mail-composer-plain-text.page:33
@@ -7174,7 +7201,7 @@ msgid ""
 "button aligns your text to the left, the center button centers text, and the "
 "right button aligns the text to the right."
 msgstr ""
-"Τοποθετημένα δίπλα στις κεφαλίδες και τις πτυσσόμενες λίστες, τα τρία "
+"Τοποθετημένα δίπλα στις κεφαλίδες και τους πτυσσόμενους καταλόγους, τα τρία "
 "εικονίδια παραγράφου θα πρέπει να είναι οικεία στους χρήστες των "
 "περισσότερων εφαρμογών επεξεργασίας κειμένου. Το αριστερό κουμπί στοιχίζει "
 "το κείμενό σας στα αριστερά, το κεντρικό κουμπί κεντράρει το κείμενο, και το "
@@ -7255,15 +7282,16 @@ msgid ""
 "before each line (in plain text mode), to indicate that it is part of the "
 "previous message."
 msgstr ""
-"Για να απαντήσετε σε ένα μήνυμα, επιλέξτε το μήνυμα για απάντηση στη λίστα "
-"μηνυμάτων και πατήστε το κουμπί <gui>απάντηση</gui> στην εργαλειοθήκη, ή "
-"δεξί κλικ μέσα στο μήνυμα και επιλέξτε <gui>απάντηση στον αποστολέα</gui>. "
-"Αυτό ανοίγει τη σύνταξη μηνυμάτων. Τα πεδία <gui>προς:</gui> και <gui>θέμα:</"
-"gui> είναι ήδη συμπληρωμένα, παρόλο που μπορείτε να τα αλλάξετε αν θέλετε. "
-"Επιπλέον, το πλήρες κείμενο του παλιού μηνύματος εισάγεται στο νέο μήνυμα, "
-"είτε με γκρίζα γράμματα και μια γαλάζια γραμμή στο πλάι (για προβολή HTML) "
-"είτε με το χαρακτήρα &gt; πριν από κάθε γραμμή (για απλή προβολή κειμένου), "
-"δείχνοντας ότι είναι μέρος του προηγούμενου μηνύματος."
+"Για να απαντήσετε σε ένα μήνυμα, επιλέξτε το μήνυμα για απάντηση στον "
+"κατάλογο μηνυμάτων και πατήστε το κουμπί <gui>Απάντηση</gui> στην "
+"εργαλειοθήκη, ή δεξιοπατήστε μέσα στο μήνυμα και επιλέξτε <gui>Απάντηση στον "
+"αποστολέα</gui>. Αυτό ανοίγει τη σύνταξη μηνυμάτων. Τα πεδία <gui>Προς:</"
+"gui> και <gui>Θέμα:</gui> είναι ήδη συμπληρωμένα, παρόλο που μπορείτε να τα "
+"αλλάξετε αν θέλετε. Επιπλέον, το πλήρες κείμενο του παλιού μηνύματος "
+"εισάγεται στο νέο μήνυμα, είτε με γκρίζα γράμματα και μια γαλάζια γραμμή στο "
+"πλάι (για προβολή HTML) είτε με το χαρακτήρα &gt; πριν από κάθε γραμμή (για "
+"απλή προβολή κειμένου), δείχνοντας ότι είναι μέρος του προηγούμενου "
+"μηνύματος."
 
 #. (itstool) path: section/p
 #: C/mail-composer-reply.page:28
@@ -7294,12 +7322,12 @@ msgid ""
 "shared with anyone."
 msgstr ""
 "Η Σουζάνα στέλνει ένα μήνυμα σε έναν πελάτη και στέλνει αντίγραφα στον Τίμο "
-"και σε μια εσωτερική εταιρική λίστα ταχυδρομείου. Αν ο Τίμος θέλει να "
-"σχολιάσει για να το διαβάσουν όλοι, χρησιμοποιεί το <gui>απάντηση σε όλους</"
+"και σε έναν εσωτερικό εταιρικό κατάλογο ταχυδρομείου. Αν ο Τίμος θέλει να "
+"σχολιάσει για να το διαβάσουν όλοι, χρησιμοποιεί το <gui>Απάντηση σε όλους</"
 "gui>, αλλά αν θέλει μόνο να πει στη Σουζάνα ότι συμφωνεί μαζί της, "
-"χρησιμοποιεί το <gui>απάντηση</gui>. Η απάντησή του δε φτάνει σε κανέναν από "
-"όσους η Σουζάνα είχε βάλει στη λίστα κρυφής κοινοποίησης, επειδή η λίστα "
-"αυτή δε μοιράζεται με κανέναν."
+"χρησιμοποιεί το <gui>Απάντηση</gui>. Η απάντησή του δε φτάνει σε κανέναν από "
+"όσους η Σουζάνα είχε βάλει στον κατάλογο κρυφής κοινοποίησης, επειδή ο "
+"κατάλογος αυτός δε μοιράζεται με κανέναν."
 
 #. (itstool) path: section/p
 #: C/mail-composer-reply.page:34
@@ -7308,9 +7336,9 @@ msgid ""
 "list rather than to the sender, select <gui>Reply to List</gui> instead of "
 "<gui>Reply</gui> or <gui>Reply to All</gui>."
 msgstr ""
-"Αν γραφτείτε σε μια λίστα ταχυδρομείου και θέλετε η απάντησή σας να πάει "
-"μόνο στη λίστα αντί στον αποστολέα, επιλέξτε <gui>απάντηση στη λίστα</gui> "
-"αντί για <gui>απάντηση</gui> ή <gui>απάντηση σε όλους</gui>."
+"Αν γραφτείτε σε έναν κατάλογο ταχυδρομείου και θέλετε η απάντησή σας να πάει "
+"μόνο στον κατάλογο αντί στον αποστολέα, επιλέξτε <gui>Απάντηση στον "
+"κατάλογο</gui> αντί για <gui>Απάντηση</gui> ή <gui>Απάντηση σε όλους</gui>."
 
 #. (itstool) path: section/title
 #: C/mail-composer-reply.page:38
@@ -7340,7 +7368,7 @@ msgstr "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 #. (itstool) path: td/p
 #: C/mail-composer-reply.page:45
 msgid "Reply to Mailing List"
-msgstr "Απάντηση στη λίστα αλληλογραφίας"
+msgstr "Απάντηση στον κατάλογο αλληλογραφίας"
 
 #. (itstool) path: td/p
 #: C/mail-composer-reply.page:45
@@ -7471,7 +7499,7 @@ msgid ""
 "them mail as though they have a single address."
 msgstr ""
 "Αν γράφετε συχνά αλληλογραφία στην ίδια ομάδα ανθρώπων, μπορείτε να "
-"δημιουργήσετε <link xref=\"contacts-using-contact-lists\">λίστες επαφών</"
+"δημιουργήσετε <link xref=\"contacts-using-contact-lists\">Καταλόγους επαφών</"
 "link> για αποστολή τους αλληλογραφίας σαν να είχαν μια μοναδική διεύθυνση."
 
 #. (itstool) path: section/title
@@ -7542,8 +7570,8 @@ msgid ""
 msgstr ""
 "Αντί για πληκτρολόγηση των ονομάτων αποδεκτών μπορείτε επίσης να πατήσετε τα "
 "κουμπιά <gui style=\"button\">προς:</gui>, <gui style=\"button\">κοινοποίηση:"
-"</gui> ή <gui style=\"button\">κρυφή κοινοποίηση</gui> για να πάρετε μια "
-"λίστα με διευθύνσεις αλληλογραφίας από τα βιβλία διευθύνσεων. Διαλέξτε "
+"</gui> ή <gui style=\"button\">κρυφή κοινοποίηση</gui> για να πάρετε έναν "
+"κατάλογο με διευθύνσεις αλληλογραφίας από τα βιβλία διευθύνσεων. Διαλέξτε "
 "διευθύνσεις και πατήστε τα πλήκτρα βελών για να τις μετακινήσετε στις "
 "κατάλληλες στήλες διευθύνσεων (προς:, κοινοποίηση:, κρυφή κοινοποίηση:)."
 
@@ -7629,9 +7657,9 @@ msgid ""
 "gui></guiseq>."
 msgstr ""
 "Μπορείτε επίσης να ορίσετε ποιες εγκατεστημένες γλώσσες χρησιμοποιούνται για "
-"ορθογραφικό έλεγχο στη διαθέσιμη λίστα στο <guiseq><gui>επεξεργασία</"
-"gui><gui>προτιμήσεις</gui><gui>προτιμήσεις σύνταξης</gui><gui>ορθογραφικός "
-"έλεγχος</gui><gui>γλώσσες</gui></guiseq>."
+"ορθογραφικό έλεγχο στον διαθέσιμο κατάλογο στο <guiseq><gui>Επεξεργασία</"
+"gui><gui>Προτιμήσεις</gui><gui>Προτιμήσεις σύνταξης</gui><gui>Ορθογραφικός "
+"έλεγχος</gui><gui>Γλώσσες</gui></guiseq>."
 
 #. (itstool) path: section/title
 #: C/mail-composer-spellcheck.page:50
@@ -8342,8 +8370,8 @@ msgid ""
 "gnupg/pubring.gpg</file>. If you want to give other people your key, send "
 "them that file."
 msgstr ""
-"Το GPG δημιουργεί μια λίστα, ή κλειδοθήκη, για τα δημόσια κλειδιά σας και "
-"μια για τα ιδιωτικά κλειδιά σας. Όλα τα δημόσια κλειδιά που ξέρετε "
+"Το GPG δημιουργεί έναν κατάλογο, ή κλειδοθήκη, για τα δημόσια κλειδιά σας "
+"και μια για τα ιδιωτικά κλειδιά σας. Όλα τα δημόσια κλειδιά που ξέρετε "
 "αποθηκεύονται στο αρχείο <file>~/.gnupg/pubring.gpg</file>. Αν θέλετε να "
 "δώσετε σε άλλους ανθρώπους το κλειδί, στείλτε τους αυτό το αρχείο."
 
@@ -8744,10 +8772,10 @@ msgid ""
 "select the file to import, then click <gui style=\"button\">Open</gui> and "
 "enter a password."
 msgstr ""
-"Τα <gui>πιστοποιητικά σας</gui> εμφανίζουν μια λίστα πιστοποιητικών που "
-"κατέχετε. Για να προσθέσετε ένα πιστοποιητικό υπογραφής, κλικ στο <gui style="
-"\"button\">εισαγωγή</gui>, επιλέξτε το αρχείο για εισαγωγή, έπειτα κλικ στο "
-"<gui style=\"button\">άνοιγμα</gui> και εισαγωγή κωδικού."
+"Τα <gui>πιστοποιητικά σας</gui> εμφανίζουν έναν κατάλογο πιστοποιητικών που "
+"κατέχετε. Για να προσθέσετε ένα πιστοποιητικό υπογραφής, πατήστε στο <gui "
+"style=\"button\">Εισαγωγή</gui>, επιλέξτε το αρχείο για εισαγωγή, έπειτα "
+"πατήστε στο <gui style=\"button\">Άνοιγμα</gui> και εισαγωγή κωδικού."
 
 #. (itstool) path: page/p
 #: C/mail-encryption-s-mime-manage.page:31
@@ -8756,9 +8784,9 @@ msgid ""
 "have for contacts. These certificates allow you to decrypt messages as well "
 "verify signed messages."
 msgstr ""
-"Τα <gui>πιστοποιητικά επαφών</gui> εμφανίζουν μια λίστα πιστοποιητικών που "
-"έχετε για επαφές. Αυτά τα πιστοποιητικά επιτρέπουν την αποκρυπτογράφηση "
-"μηνυμάτων καθώς και επιβεβαίωση υπογραμμένων μηνυμάτων."
+"Τα <gui>πιστοποιητικά επαφών</gui> εμφανίζουν έναν κατάλογο πιστοποιητικών "
+"που έχετε για επαφές. Αυτά τα πιστοποιητικά επιτρέπουν την αποκρυπτογράφηση "
+"μηνυμάτων καθώς και επιβεβαίωση υπογεγραμμένων μηνυμάτων."
 
 #. (itstool) path: page/p
 #: C/mail-encryption-s-mime-manage.page:32
@@ -8766,7 +8794,7 @@ msgid ""
 "<gui>Authorities</gui> displays a list of trusted certificate authorities "
 "that verify that your own certificate is valid."
 msgstr ""
-"Οι <gui>εξουσιοδοτήσεις</gui> εμφανίζουν μια λίστα αξιόπιστων "
+"Οι <gui>εξουσιοδοτήσεις</gui> εμφανίζουν έναν κατάλογο αξιόπιστων "
 "εξουσιοδοτήσεων πιστοποιητικού που επιβεβαιώνουν ότι το δικό σας "
 "πιστοποιητικό είναι έγκυρο."
 
@@ -9060,9 +9088,9 @@ msgid ""
 "list."
 msgstr ""
 "Εφαρμόζει μια ενέργεια πάντα σε κάθε μήνυμα, χωρίς παραπέρα συνθήκες. Αυτό "
-"μπορεί να είναι χρήσιμο στο τέλος της λίστας των φίλτρων μηνυμάτων για να "
+"μπορεί να είναι χρήσιμο στο τέλος του καταλόγου των φίλτρων μηνυμάτων για να "
 "καλύψει αυτά τα μηνύματα που δεν ταιριάζουν σε οποιαδήποτε συνθήκη για τα "
-"προηγούμενα φίλτρα στη λίστα."
+"προηγούμενα φίλτρα στον κατάλογο."
 
 #. (itstool) path: info/desc
 #: C/mail-filters-not-working.page:5
@@ -9390,7 +9418,7 @@ msgstr ""
 "Εάν θέλετε να ορίσετε πολλαπλές ενέργειες, κλικ στο <gui style=\"button"
 "\">προσθήκη ενέργειας</gui> και επανάληψη του προηγούμενου βήματος. Για "
 "παράδειγμα, εάν δεν θέλετε κανένα υπάρχον φίλτρο να εφαρμοστεί επιλέξτε "
-"<gui>παύση διεργασίας</gui> ως τη δεύτερη ενέργεια στη λίστα."
+"<gui>παύση διεργασίας</gui> ως τη δεύτερη ενέργεια στον κατάλογο."
 
 #. (itstool) path: section/title
 #: C/mail-filters.page:56
@@ -9466,9 +9494,9 @@ msgid ""
 "click anywhere on the folder list and select the <gui>New Folder</gui> "
 "option."
 msgstr ""
-"Κλικ στον <gui>φάκελο</gui> και επιλέξτε <gui>νέος</gui>. Μπορείτε επίσης με "
-"δεξί κλικ οπουδήποτε στη λίστα φακέλου και διαλέξτε την επιλογή <gui>νέος "
-"φάκελος</gui>."
+"Πατήστε στο <gui>Φάκελος</gui> και επιλέξτε <gui>Νέος</gui>. Μπορείτε επίσης "
+"δεξιοπατώντας οπουδήποτε στον κατάλογο φακέλων και διαλέξτε την επιλογή "
+"<gui>Νέος φάκελος</gui>."
 
 #. (itstool) path: item/p
 #: C/mail-folders.page:37
@@ -9603,8 +9631,8 @@ msgid ""
 "<guiseq><gui>Message</gui><gui>Mark as</gui><gui>Follow Up...</gui></guiseq> "
 "or by pressing <keyseq><key>Shift</key><key>Ctrl</key><key>G</key></keyseq>."
 msgstr ""
-"Μπορείτε επίσης να το κάνετε επιλέγοντας τα μηνύματα και κλικ στο "
-"<guiseq><gui>μήνυμα</gui><gui>σημείωσηως</gui><gui>παρακολούθηση...</gui></"
+"Μπορείτε επίσης να το κάνετε επιλέγοντας τα μηνύματα και πατώντας "
+"<guiseq><gui>Μήνυμα</gui><gui>Σημείωση ως</gui><gui>Παρακολούθηση...</gui></"
 "guiseq> ή πατώντας <keyseq><key>Shift</key><key>Ctrl</key><key>G</key></"
 "keyseq>."
 
@@ -9658,7 +9686,7 @@ msgid ""
 msgstr ""
 "Οι σημαίες μπορούν να σας βοηθήσουν με διάφορους τρόπους. Για παράδειγμα, "
 "μπορείτε <link xref=\"mail-change-columns-in-message-list\">να προσθέσετε "
-"μια στήλη κατάστασης σημαίας</link> στη λίστα μηνυμάτων σας και να "
+"μια στήλη κατάστασης σημαίας</link> στον κατάλογο μηνυμάτων σας και να "
 "ταξινομείτε με αυτόν τον τρόπο. Εναλλακτικά, θα μπορούσατε να δημιουργήσετε "
 "ένα <link xref=\"mail-search-folders\">φάκελο αναζήτησης</link> που να "
 "εμφανίζει όλα τα μηνύματα σας με σημαία, και να καθαρίζεται τις σημαίες όταν "
@@ -9708,9 +9736,9 @@ msgid ""
 "click on the top level node of an email account in the folder list and click "
 "<gui>Manage subscriptions</gui>."
 msgstr ""
-"Επιλέξτε <guiseq><gui>φάκελος</gui><gui>συνδρομές</gui></guiseq>, ή δεξί "
-"κλικ στον κόμβο κορυφαίου επιπέδου ενός λογαριασμού αλληλογραφίας στη λίστα "
-"φακέλων και κλικ στη <gui>διαχείριση συνδρομών</gui>."
+"Επιλέξτε <guiseq><gui>Φάκελος</gui><gui>Συνδρομές</gui></guiseq>, ή "
+"δεξιοπατώντας στον κόμβο κορυφαίου επιπέδου ενός λογαριασμού αλληλογραφίας "
+"στον κατάλογο φακέλων και πατήστε στη <gui>διαχείριση συνδρομών</gui>."
 
 #. (itstool) path: item/p
 #: C/mail-imap-subscriptions.page:30 C/mail-usenet-subscriptions.page:30
@@ -9726,7 +9754,7 @@ msgstr ""
 msgid ""
 "Evolution displays a list of files and folders available on the IMAP server."
 msgstr ""
-"Το Evolution εμφανίζει μια λίστα από διαθέσιμα αρχεία και φακέλους στον "
+"Το Evolution εμφανίζει έναν κατάλογο από διαθέσιμα αρχεία και φακέλους στον "
 "εξυπηρετητή IMAP."
 
 #. (itstool) path: item/p
@@ -9742,9 +9770,9 @@ msgid ""
 "mail folders. If it does, you can ignore them."
 msgstr ""
 "Θα πρέπει να επιλέξετε τουλάχιστον το φάκελο Εισερχόμενα. Ανάλογα με τον "
-"τρόπο με τον οποίο ο διακομιστής IMAP είναι ρυθμισμένος, η λίστα διαθέσιμων "
-"αρχείων μπορεί να περιλαμβάνει και φακέλους χωρίς αλληλογραφία. Αν είναι "
-"έτσι, μπορείτε να τους αγνοήσετε."
+"τρόπο με τον οποίο ο διακομιστής IMAP είναι ρυθμισμένος, ο κατάλογος "
+"διαθέσιμων αρχείων μπορεί να περιλαμβάνει και φακέλους χωρίς αλληλογραφία. "
+"Αν είναι έτσι, μπορείτε να τους αγνοήσετε."
 
 #. (itstool) path: item/p
 #: C/mail-imap-subscriptions.page:34
@@ -9832,8 +9860,8 @@ msgid ""
 "Changing the display of the mail window (message list columns and "
 "widescreen)."
 msgstr ""
-"Αλλαγή της προβολής του παραθύρου αλληλογραφίας (στήλες λίστας μηνυμάτων και "
-"ευρεία οθόνη)."
+"Αλλαγή της προβολής του παραθύρου αλληλογραφίας (στήλες καταλόγων μηνυμάτων "
+"και ευρεία οθόνη)."
 
 #. (itstool) path: page/title
 #: C/mail-layout-changing.page:20
@@ -10016,7 +10044,7 @@ msgid ""
 "it, press <key>Enter</key>, or press <keyseq><key>Ctrl</key><key>O</key></"
 "keyseq>."
 msgstr ""
-"Στο παράθυρο αλληλογραφίας διαβάζετε ένα μήνυμα επιλέγοντας το στη λίστα "
+"Στο παράθυρο αλληλογραφίας διαβάζετε ένα μήνυμα επιλέγοντας το στον κατάλογο "
 "μηνυμάτων. Εάν θέλετε να δείτε το μήνυμα στο δικό του παράθυρο, είτε διπλό "
 "κλικ πάνω του, πατήστε <key>εισαγωγή</key>, ή πατήστε <keyseq><key>Ctrl</"
 "key><key>0</key></keyseq>."
@@ -10036,25 +10064,25 @@ msgstr ""
 "Για να διαβάσετε αλληλογραφία με το πληκτρολόγιο, μπορείτε να πιέσετε το "
 "<key>πλήκτρο διαστήματος</key> για να κατεβείτε μια σελίδα, και το "
 "<key>οπισθοδιαγραφής</key> για να ανεβείτε μια σελίδα ενώ διαβάζετε ένα "
-"μήνυμα. Βεβαιωθείτε ότι χρησιμοποιείτε τα πλήκτρα όταν η λίστα μηνυμάτων "
-"είναι εστιασμένη."
+"μήνυμα. Βεβαιωθείτε ότι χρησιμοποιείτε τα πλήκτρα όταν ο κατάλογος μηνυμάτων "
+"είναι εστιασμένος."
 
 #. (itstool) path: section/title
 #: C/mail-reading-keyboard-shortcuts.page:37
 msgid "Navigating in a folder in the message list"
-msgstr "Περιήγηση σε φάκελο στη λίστα μηνυμάτων"
+msgstr "Περιήγηση σε φάκελο στον κατάλογο μηνυμάτων"
 
 #. (itstool) path: section/p
 #: C/mail-reading-keyboard-shortcuts.page:38
 msgid "Navigate in the message list by using the arrow keys on the keyboard."
 msgstr ""
-"Περιήγηση στη λίστα μηνυμάτων χρησιμοποιώντας τα πλήκτρα βελών στο "
+"Περιήγηση στον κατάλογο μηνυμάτων χρησιμοποιώντας τα πλήκτρα βελών στο "
 "πληκτρολόγιο."
 
 #. (itstool) path: section/title
 #: C/mail-reading-keyboard-shortcuts.page:42
 msgid "Navigating in a folder's unread mail in the message list"
-msgstr "Περιήγηση στα αδιάβαστα μηνύματα φακέλου στη λίστα μηνυμάτων"
+msgstr "Περιήγηση στα αδιάβαστα μηνύματα φακέλου στον κατάλογο μηνυμάτων"
 
 #. (itstool) path: section/p
 #: C/mail-reading-keyboard-shortcuts.page:43
@@ -10071,7 +10099,7 @@ msgstr ""
 "τελείας (<key>.</key>) ή κόμματος (<key>,</key>). Σε μερικά πληκτρολόγια, "
 "αυτά τα πλήκτρα σημειώνονται επίσης με τα σύμβολα <key>&gt;</key> και "
 "<key>&lt;</key>, που είναι ένας βολικός τρόπος να θυμόσαστε ότι "
-"μετακινούνται μπροστά και πίσω στη λίστα μηνυμάτων. Μπορείτε επίσης να "
+"μετακινούνται μπροστά και πίσω στον κατάλογο μηνυμάτων. Μπορείτε επίσης να "
 "χρησιμοποιήσετε τη δεξιά τετράγωνη αγκύλη (<key>]</key>) για το επόμενο "
 "αδιάβαστο μήνυμα και την αριστερή τετράγωνη αγκύλη (<key>[</key>) για το "
 "προηγούμενο αδιάβαστο μήνυμα."
@@ -10327,8 +10355,8 @@ msgid ""
 "authentication mechanisms they support, so clicking this button is not a "
 "guarantee that available mechanisms actually work."
 msgstr ""
-"Επιλέξτε τον τύπο πιστοποίησης στη λίστα πιστοποίησης, ή πατήστε <gui style="
-"\"button\">έλεγχος για υποστηριζόμενους τύπους</gui> για έλεγχο από το "
+"Επιλέξτε τον τύπο πιστοποίησης στον κατάλογο πιστοποίησης, ή πατήστε <gui "
+"style=\"button\">έλεγχος για υποστηριζόμενους τύπους</gui> για έλεγχο από το "
 "Evolution των υποστηριζόμενων μηχανισμών πιστοποίησης. Μερικοί εξυπηρετητές "
 "δεν ανακοινώνουν τους μηχανισμούς πιστοποίησης που υποστηρίζουν, έτσι "
 "πατώντας αυτό το κουμπί δεν είναι εγγύηση ότι οι διαθέσιμοι μηχανισμοί στην "
@@ -10405,11 +10433,11 @@ msgid ""
 "<gui style=\"button\">Fetch list</gui>. Afterwards, select the address book "
 "from the available options."
 msgstr ""
-"Εάν θέλετε να έχετε ένα αντίγραφο του βιβλίου διευθύνσεων στον εξυπηρετητή "
-"για πρόσβαση του εκτός σύνδεσης, ενεργοποίηση του <gui>απόκρυψη βιβλίου "
-"διευθύνσεων εκτός σύνδεσης</gui> και κλικ στο <gui style=\"button\">λίστα "
-"προσκόμισης</gui>. Κατόπιν, επιλογή του βιβλίου διευθύνσεων από τις "
-"διαθέσιμες επιλογές."
+"Αν θέλετε να έχετε ένα αντίγραφο του βιβλίου διευθύνσεων στον εξυπηρετητή "
+"για πρόσβαση του εκτός σύνδεσης, ενεργοποιήστε το <gui>Απόκρυψη βιβλίου "
+"διευθύνσεων εκτός σύνδεσης</gui> και πατήστε στο <gui style=\"button"
+"\">Κατάλογος προσκόμισης</gui>. Κατόπιν, επιλέξτε το βιβλίο διευθύνσεων από "
+"τις διαθέσιμες επιλογές."
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-exchange-ews.page:45
@@ -10572,10 +10600,10 @@ msgid ""
 "the list. If the directory is not among those folders, choose the last "
 "option <gui>Other...</gui>. This will open a directory chooser window."
 msgstr ""
-"Επιλέξτε τον κατάλογο με κλικ στο κουμπί δίπλα στη <gui>διαδρομή</gui> στην "
-"ενότητα <gui>διαμόρφωση</gui>. Μερικοί προεπιλεγμένοι φάκελοι είναι "
-"διαθέσιμοι στη λίστα. Εάν ο κατάλογος δεν είναι μεταξύ αυτών των φακέλων, "
-"επιλέξτε την τελευταία επιλογή <gui>άλλο...</gui>. Αυτό θα ανοίξει ένα "
+"Επιλέξτε τον κατάλογο πατώντας το πλήκτρο δίπλα στη <gui>Διαδρομή</gui> στην "
+"ενότητα <gui>Διαμόρφωση</gui>. Μερικοί προεπιλεγμένοι φάκελοι είναι "
+"διαθέσιμοι στον κατάλογο. Αν ο κατάλογος δεν είναι μεταξύ αυτών των φακέλων, "
+"επιλέξτε την τελευταία επιλογή <gui>Άλλο...</gui>. Αυτό θα ανοίξει ένα "
 "παράθυρο επιλογής καταλόγου."
 
 #. (itstool) path: item/p
@@ -10962,9 +10990,9 @@ msgid ""
 "the list."
 msgstr ""
 "Εφαρμόζει μια ενέργεια πάντα σε κάθε μήνυμα, χωρίς παραπέρα συνθήκες. Αυτό "
-"μπορεί να είναι χρήσιμο στο τέλος της λίστας των φακέλων αναζήτησης για να "
-"καλύψει αυτά τα μηνύματα που δεν ταιριάζουν σε οποιαδήποτε συνθήκη για τους "
-"προηγούμενους φακέλους αναζήτησης στη λίστα."
+"μπορεί να είναι χρήσιμο στο τέλος του καταλόγου των φακέλων αναζήτησης για "
+"να καλύψει αυτά τα μηνύματα που δεν ταιριάζουν σε οποιαδήποτε συνθήκη για "
+"τους προηγούμενους φακέλους αναζήτησης στον κατάλογο."
 
 #. (itstool) path: info/desc
 #: C/mail-search-folders-enable.page:5
@@ -10986,9 +11014,9 @@ msgid ""
 "guiseq>."
 msgstr ""
 "Στην απίθανη περίπτωση που δεν υπάρχει κόμβος κορυφαίου επιπέδου "
-"<gui>φακέλων αναζήτησης</gui> που να εμφανίζεται στο τέλος της <link xref="
-"\"intro-main-window#e-mail\">λίστας φακέλου αλληλογραφίας</link> πρέπει να "
-"ενεργοποιήσετε <guiseq><gui>Επεξεργασία</gui><gui>Προτιμήσεις</"
+"<gui>φακέλων αναζήτησης</gui> που να εμφανίζεται στο τέλος του <link xref="
+"\"intro-main-window#e-mail\">Κατάλογος φακέλου αλληλογραφίας</link> πρέπει "
+"να ενεργοποιήσετε <guiseq><gui>Επεξεργασία</gui><gui>Προτιμήσεις</"
 "gui><gui>Λογαριασμοί αλληλογραφίας</gui><gui>Φάκελοι αναζήτησης</gui></"
 "guiseq>."
 
@@ -11091,8 +11119,8 @@ msgid ""
 msgstr ""
 "Μπορεί να συμβεί ένας από τους φακέλους αναζήτησης σας να μην έχει "
 "ενημερωθεί από τότε που κάποια νέα μηνύματα έφτασαν ή από τότε που ένα "
-"μήνυμα διαγράφηκε, για παράδειγμα. Αυτό σημαίνει ότι η λίστα των μηνυμάτων "
-"στον φάκελο δεν είναι ενημερωμένη."
+"μήνυμα διαγράφηκε, για παράδειγμα. Αυτό σημαίνει ότι ο κατάλογος των "
+"μηνυμάτων στον φάκελο δεν είναι ενημερωμένος."
 
 #. (itstool) path: page/p
 #: C/mail-search-folders-refresh.page:28
@@ -11174,7 +11202,7 @@ msgstr ""
 #: C/mail-searching.page:44
 msgid "Select the scope from the drop-down list right to the text box."
 msgstr ""
-"Επιλέξτε την εμβέλεια από την πτυσσόμενη λίστα δεξιά στο πλαίσιο κειμένου."
+"Επιλέξτε την εμβέλεια από τον πτυσσόμενο κατάλογο δεξιά στο πλαίσιο κειμένου."
 
 #. (itstool) path: note/p
 #: C/mail-searching.page:45
@@ -11184,9 +11212,16 @@ msgid ""
 "list</link>, like \"On this computer\" and remote mail accounts."
 msgstr ""
 "Για την εμβέλεια του <gui>τρέχοντος λογαριασμού</gui>, ο όρος \"λογαριασμός"
-"\" αναφέρεται στους κόμβους κορυφαίου επιπέδου στη <link xref=\"intro-main-"
-"window#e-mail\">λίστα φακέλου αλληλογραφίας</link>, όπως \"σε αυτόν τον "
+"\" αναφέρεται στους κόμβους κορυφαίου επιπέδου στο <link xref=\"intro-main-"
+"window#e-mail\">Κατάλογος φακέλου αλληλογραφίας</link>, όπως \"σε αυτόν τον "
 "υπολογιστή\" και απομακρυσμένοι λογαριασμοί αλληλογραφίας."
+
+#. (itstool) path: item/p
+#: C/mail-searching.page:48 C/memos-searching.page:46
+#: C/memos-searching.page:52 C/tasks-searching.page:46
+#: C/tasks-searching.page:52
+msgid "Evolution displays the search results."
+msgstr "Το Evolution εμφανίζει τα αποτελέσματα αναζήτησης."
 
 #. (itstool) path: note/p
 #: C/mail-searching.page:50
@@ -11348,9 +11383,9 @@ msgid ""
 "do not support this, so clicking this button is not a guarantee that "
 "available mechanisms actually work."
 msgstr ""
-"Επιλέξτε τον τύπο πιστοποίησης στη λίστα πιστοποίησης, ή κλικ στο "
-"<gui>έλεγχος για υποστηριζόμενους τύπους</gui>. Μερικοί εξυπηρετητές δεν το "
-"υποστηρίζουν, οπότε πατώντας αυτό το κουμπί δεν είναι εγγυημένο ότι οι "
+"Επιλέξτε τον τύπο πιστοποίησης στον κατάλογο πιστοποίησης, ή πατήστε στο "
+"<gui>Έλεγχος για υποστηριζόμενους τύπους</gui>. Μερικοί εξυπηρετητές δεν το "
+"υποστηρίζουν, οπότε πατώντας αυτό το πλήκτρο δεν είναι εγγυημένο ότι οι "
 "διαθέσιμοι μηχανισμοί δουλεύουν πραγματικά."
 
 #. (itstool) path: info/desc
@@ -11372,7 +11407,7 @@ msgid ""
 "pane. Evolution only has one unique inbox for incoming email."
 msgstr ""
 "Δεν είναι δυνατό να έχετε ξεχωριστούς λογαριασμούς στους λογαριασμούς και "
-"στο παράθυρο λίστας φακέλων. Το Evolution έχει μόνο ένα μοναδικό "
+"στο παράθυρο καταλόγου φακέλων. Το Evolution έχει μόνο ένα μοναδικό "
 "γραμματοκιβώτιο για εισερχόμενη αλληλογραφία."
 
 #. (itstool) path: page/p
@@ -11403,12 +11438,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-sorting-message-list.page:5
 msgid "Sorting the message list of a mail folder."
-msgstr "Ταξινόμηση της λίστας μηνυμάτων ενός φακέλου αλληλογραφίας."
+msgstr "Ταξινόμηση του καταλόγου μηνυμάτων ενός φακέλου. αλληλογραφίας."
 
 #. (itstool) path: page/title
 #: C/mail-sorting-message-list.page:28
 msgid "Sorting the message list"
-msgstr "Ταξινόμηση της λίστας μηνυμάτων"
+msgstr "Ταξινόμηση του καταλόγου μηνυμάτων"
 
 #. (itstool) path: page/p
 #: C/mail-sorting-message-list.page:30
@@ -11417,7 +11452,7 @@ msgid ""
 "<link xref=\"intro-main-window#e-mail\">message list</link>."
 msgstr ""
 "Το Evolution επιτρέπει την οργάνωση των μηνυμάτων επιτρέποντας την "
-"ταξινόμηση μηνυμάτων στο <link xref=\"intro-main-window#e-mail\">λίστα "
+"ταξινόμηση μηνυμάτων στο <link xref=\"intro-main-window#e-mail\">Κατάλογος "
 "μηνυμάτων</link>."
 
 #. (itstool) path: section/title
@@ -11496,10 +11531,10 @@ msgid ""
 "date, and the subject. To change the columns used in the message list, you "
 "can do one of the following:"
 msgstr ""
-"Η λίστα μηνυμάτων εμφανίζει στήλες που δείχνουν κατά πόσο ένα μήνυμα έχει "
-"αναγνωσθεί, αν έχει συνημμένα, πόσο σημαντικό είναι και τον αποστολέα, την "
-"ημερομηνία και το θέμα. Για αλλαγή των χρησιμοποιούμενων στηλών στη λίστα "
-"μηνυμάτων, μπορείτε να κάνετε ένα από τα παρακάτω:"
+"Ο κατάλογος μηνυμάτων εμφανίζει στήλες που δείχνουν κατά πόσο ένα μήνυμα "
+"έχει αναγνωσθεί, αν έχει συνημμένα, πόσο σημαντικό είναι και τον αποστολέα, "
+"την ημερομηνία και το θέμα. Για αλλαγή των χρησιμοποιούμενων στηλών στον "
+"κατάλογο μηνυμάτων, μπορείτε να κάνετε ένα από τα παρακάτω:"
 
 #. (itstool) path: item/p
 #: C/mail-sorting-message-list.page:49
@@ -11555,14 +11590,14 @@ msgstr "Ταξινόμηση κατά"
 #: C/mail-sorting-message-list.page:62
 msgid "You can also sort email messages using the <gui>Sort By</gui> list."
 msgstr ""
-"Μπορείτε επίσης να ταξινομήσετε τα μηνύματα αλληλογραφίας χρησιμοποιώντας τη "
-"λίστα <gui>ταξινόμηση κατά</gui>."
+"Μπορείτε επίσης να ταξινομήσετε τα μηνύματα αλληλογραφίας χρησιμοποιώντας "
+"τον κατάλογο <gui>Ταξινόμηση κατά</gui>."
 
 #. (itstool) path: item/p
 #: C/mail-sorting-message-list.page:64 C/mail-sorting-message-list.page:94
 #: C/mail-sorting-message-list.page:103 C/mail-sorting-message-list.page:112
 msgid "Right-click on the message list column headers."
-msgstr "Δεξί κλικ στις κεφαλίδες στήλης της λίστας μηνυμάτων."
+msgstr "Δεξιοπατήστε στις κεφαλίδες στήλης του καταλόγου μηνυμάτων."
 
 #. (itstool) path: item/p
 #: C/mail-sorting-message-list.page:65
@@ -11573,7 +11608,7 @@ msgstr "Διαλέξτε την επιλογή <gui>ταξινόμηση κατ�
 #: C/mail-sorting-message-list.page:65
 msgid "This brings up this list of criteria for sorting email messages:"
 msgstr ""
-"Αυτό εμφανίζει αυτή τη λίστα των κριτηρίων για ταξινόμηση μηνυμάτων "
+"Αυτό εμφανίζει αυτόν τον κατάλογο των κριτηρίων για ταξινόμηση μηνυμάτων "
 "αλληλογραφίας:"
 
 #. (itstool) path: item/p
@@ -12153,8 +12188,8 @@ msgid ""
 msgstr ""
 "Το Evolution παρέχει μια κάθετη προβολή εκτός από την κλασσική προβολή. Στην "
 "κάθετη προβολή, το πλαίσιο προεπισκόπησης μηνύματος εμφανίζεται στην δεξιά "
-"πλευρά της λίστας μηνυμάτων, όταν συγκρίνεται με την κλασσική προβολή όπου "
-"το πλαίσιο προεπισκόπησης μηνύματος εμφανίζεται κάτω από την λίστα "
+"πλευρά του καταλόγου μηνυμάτων, όταν συγκρίνεται με την κλασσική προβολή "
+"όπου το πλαίσιο προεπισκόπησης μηνύματος εμφανίζεται κάτω από τον κατάλογο "
 "μηνυμάτων. Η κάθετη προβολή επιτρέπει τη χρήση του πρόσθετου πλάτους των "
 "οθονών ευρείας οθόνης."
 
@@ -12175,11 +12210,11 @@ msgid ""
 "The compressed columns have Sender Name and Email, Attachment Icon, Date and "
 "Subject in the second line."
 msgstr ""
-"Στην κάθετη προβολή, η λίστα μηνυμάτων περιέχει διπλές γραμμές συμπιεσμένων "
-"κεφαλίδων, που σας επιτρέπουν να χρησιμοποιήσετε το επιπλέον πλάτος στην "
-"στήλη προεπισκόπησης. Οι συμπιεσμένες στήλες έχουν το όνομα και τη διεύθυνση "
-"του αποστολέα, το εικονίδιο συνημμένων, την ημερομηνία και το θέμα στη "
-"δεύτερη γραμμή."
+"Στην κάθετη προβολή, ο κατάλογος μηνυμάτων περιέχει διπλές γραμμές "
+"συμπιεσμένων κεφαλίδων, που σας επιτρέπουν να χρησιμοποιήσετε το επιπλέον "
+"πλάτος στην στήλη προεπισκόπησης. Οι συμπιεσμένες στήλες έχουν το όνομα και "
+"τη διεύθυνση του αποστολέα, το εικονίδιο συνημμένων, την ημερομηνία και το "
+"θέμα στη δεύτερη γραμμή."
 
 #. (itstool) path: page/p
 #: C/mail-vertical-view.page:30
@@ -12187,8 +12222,8 @@ msgid ""
 "To switch back to classical view, click <guiseq><gui>View</gui><gui>Preview</"
 "gui><gui>Classical View</gui></guiseq>."
 msgstr ""
-"Για εναλλαγή πίσω στην κλασική προβολή, κλικ στο <guiseq><gui>προβολή</"
-"gui><gui>προεπισκόπηση</gui><gui>κλασική προβολή</gui></guiseq>."
+"Για εναλλαγή πίσω στην κλασική προβολή, πατήστε στο <guiseq><gui>Προβολή</"
+"gui><gui>Προεπισκόπηση</gui><gui>Κλασική προβολή</gui></guiseq>."
 
 #. (itstool) path: info/desc
 #: C/mail-word-wrap.page:5
@@ -12385,7 +12420,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/memos-usage-add-memo.page:5
 msgid "Adding a memo to your memo list."
-msgstr "Προσθήκη υπενθύμισης στην λίστα υπενθυμίσεών σας."
+msgstr "Προσθήκη υπενθύμισης στον κατάλογο υπενθυμίσεών σας."
 
 #. (itstool) path: page/title
 #: C/memos-usage-add-memo.page:23
@@ -12406,7 +12441,7 @@ msgstr ""
 #: C/memos-usage-add-memo.page:27
 msgid "Select a memo list in the <gui>List</gui> dropdown list."
 msgstr ""
-"Επιλέξτε έναν κατάλογο υπενθυμίσεων στον πτυσσόμενο κατάλογο <gui>Λίστα</"
+"Επιλέξτε έναν κατάλογο υπενθυμίσεων στον πτυσσόμενο κατάλογο <gui>Κατάλογος</"
 "gui>."
 
 #. (itstool) path: item/p
@@ -12421,7 +12456,7 @@ msgid ""
 "directly enter it in the list of memos."
 msgstr ""
 "Εάν θέλετε μόνο μια γρήγορη προσθήκη υπενθύμισης εισάγοντας μια περίληψη "
-"μπορείτε άμεσα να την εισάγετε στη λίστα υπενθυμίσεων."
+"μπορείτε άμεσα να την εισάγετε στον κατάλογο υπενθυμίσεων."
 
 #. (itstool) path: page/p
 #: C/memos-usage-add-memo.page:34
@@ -12477,8 +12512,8 @@ msgid ""
 "Select the Organizer's account name from the drop-down list given next to "
 "the Organizer field."
 msgstr ""
-"Επιλέξτε το όνομα λογαριασμού του Διοργανωτή από την αναδιπλούμενη λίστα που "
-"δίνεται δίπλα από το πεδίο Διοργανωτής."
+"Επιλέξτε το όνομα λογαριασμού του Διοργανωτή από τον αναδιπλούμενο κατάλογο "
+"που δίνεται δίπλα από το πεδίο Διοργανωτής."
 
 #. (itstool) path: item/p
 #: C/memos-usage-add-memo.page:45
@@ -12495,8 +12530,8 @@ msgid ""
 "Select the task list (under <gui>List</gui>) in which you would like to "
 "create the entry."
 msgstr ""
-"Επιλέξτε τη λίστα εργασιών (στο <gui>λίστα</gui>) στην οποία θέλετε να "
-"δημιουργήσετε την καταχώριση."
+"Επιλέξτε τον κατάλογο εργασιών (στο <gui>Κατάλογος</gui>) στον οποίο θέλετε "
+"να δημιουργήσετε την καταχώριση."
 
 #. (itstool) path: item/p
 #: C/memos-usage-add-memo.page:47
@@ -12515,7 +12550,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/memos-usage-delete-memo.page:5
 msgid "Deleting a memo from your memo list."
-msgstr "Διαγραφή υπενθύμισης από τη λίστα υπενθυμίσεών σας."
+msgstr "Διαγραφή υπενθύμισης από τον κατάλογο υπενθυμίσεών σας."
 
 #. (itstool) path: page/title
 #: C/memos-usage-delete-memo.page:20
@@ -12530,15 +12565,16 @@ msgid ""
 "in the tool bar, or click <guiseq><gui>Edit</gui><gui>Delete Memo</gui></"
 "guiseq>."
 msgstr ""
-"Εάν θέλετε να διαγράψετε μια υπενθύμιση από τις λίστες υπενθυμίσεων, δεξιό "
-"κλικ στην υπενθύμιση και επιλογή <gui>διαγραφή</gui>, ή κλικ στην υπενθύμιση "
-"και κλικ <gui>διαγραφή</gui> στη γραμμή εργαλείων ή κλικ στο "
-"<guiseq><gui>επεξεργασία</gui><gui>διαγραφή υπενθύμισης</gui></guiseq>."
+"Εάν θέλετε να διαγράψετε μια υπενθύμιση από τους καταλόγους υπενθυμίσεων, "
+"δεξιοπατήστε στην υπενθύμιση και επιλέξτε <gui>Διαγραφή</gui>, ή πατήστε "
+"στην υπενθύμιση και πατήστε <gui>Διαγραφή</gui> στη γραμμή εργαλείων ή "
+"πατήστε στο <guiseq><gui>Επεξεργασία</gui><gui>Διαγραφή υπενθύμισης</gui></"
+"guiseq>."
 
 #. (itstool) path: info/desc
 #: C/memos-usage-edit-memo.page:5
 msgid "Editing a memo in your memo list."
-msgstr "Επεξεργασία μιας υπενθύμισης στην λίστα υπενθυμίσεων σας."
+msgstr "Επεξεργασία μιας υπενθύμισης στον κατάλογο υπενθυμίσεών σας."
 
 #. (itstool) path: page/title
 #: C/memos-usage-edit-memo.page:20
@@ -12549,8 +12585,8 @@ msgstr "Επεξεργασία μιας υπενθύμισης"
 #: C/memos-usage-edit-memo.page:22
 msgid "If you want to change a memo that already exists in your memo lists,"
 msgstr ""
-"Αν θέλετε να αλλάξετε μια υπενθύμιση που ήδη υπάρχει στις λίστες "
-"υπενθυμίσεων σας,"
+"Αν θέλετε να αλλάξετε μια υπενθύμιση που ήδη υπάρχει στους καταλόγους "
+"υπενθυμίσεών σας,"
 
 #. (itstool) path: item/p
 #: C/memos-usage-edit-memo.page:25
@@ -12558,8 +12594,8 @@ msgid ""
 "Double-click on the memo that you want to edit in the list of memos, or "
 "right-click on the memo and click <gui>Open Memo</gui>."
 msgstr ""
-"Διπλό κλικ στην υπενθύμιση που θέλετε να επεξεργαστείτε στη λίστα "
-"υπενθυμίσεων, ή δεξιό κλικ στην υπενθύμιση και κλικ στο <gui>άνοιγμα "
+"Διπλοπατήστε στην υπενθύμιση που θέλετε να επεξεργαστείτε στον κατάλογο "
+"υπενθυμίσεων, ή δεξιοπατήστε στην υπενθύμιση και πατήστε στο <gui>Άνοιγμα "
 "υπενθύμισης</gui>."
 
 #. (itstool) path: item/p
@@ -12679,14 +12715,14 @@ msgid ""
 "stable/net-problem\">Desktop help</link> or seek help from your distribution "
 "support forums, mailing lists etc."
 msgstr ""
-"Εάν το πρόβλημα επιμένει και είστε σίγουροι ότι δεν πατήσατε το εικονίδιο, "
+"Αν το πρόβλημα επιμένει και είστε σίγουροι ότι δεν πατήσατε το εικονίδιο, "
 "αλλά μπορείτε ακόμα να επικοινωνήσετε με το δίκτυο από άλλες εφαρμογές στο "
 "σύστημά σας (περιηγητές, FTP, SSH, αποστολή κλπ.) μπορεί η σύνδεση του "
 "δικτύου να μην είναι ρυθμισμένη κατάλληλα. Για περισσότερες πληροφορίες "
 "ρίξτε μια ματιά στην <link xref=\"help:gnome-help/net-problem\" href="
 "\"https://help.gnome.org/users/gnome-help/stable/net-problem\">Βοήθεια "
 "επιφάνειας εργασίας</link> ή αναζητήστε βοήθεια από τις ομάδες υποστήριξης "
-"διανομής, λίστες αλληλογραφίας κλπ."
+"διανομής, καταλόγους αλληλογραφίας κλπ."
 
 #. (itstool) path: info/desc
 #: C/organizing.page:5
@@ -12758,14 +12794,14 @@ msgid ""
 "org/users/empathy/stable/irc-manage\">use the internet messenger application "
 "<app>Empathy</app></link>."
 msgstr ""
-"Για να δεχτείτε βοήθεια σε προβλήματα μπορείτε να στείλετε ένα μήνυμα στη "
-"<link href=\"http://mail.gnome.org/mailman/listinfo/evolution-list\">Λίστα "
-"αλληλογραφίας του Evolution</link> ή να μιλήσετε με τους προγραμματιστές και "
-"άλλους χρήστες στο κανάλι συνομιλιών IRC του #evolution στον εξυπηρετητή irc."
-"gimp.net. Για σύνδεση με έναν εξυπηρετητή IRC μπορείτε για παράδειγμα να "
-"<link xref=\"help:empathy/irc-manage\" href=\"https://help.gnome.org/users/"
-"empathy/stable/irc-manage\">χρησιμοποιήσετε την εφαρμογή αγγελιοφόρου "
-"διαδικτύου του <app>Empathy</app></link>."
+"Για να δεχτείτε βοήθεια σε προβλήματα μπορείτε να στείλετε ένα μήνυμα στο "
+"<link href=\"http://mail.gnome.org/mailman/listinfo/evolution-list"
+"\">Κατάλογος αλληλογραφίας του Evolution</link> ή να μιλήσετε με τους "
+"προγραμματιστές και άλλους χρήστες στο κανάλι συνομιλιών IRC του #evolution "
+"στον εξυπηρετητή irc.gimp.net. Για σύνδεση με έναν εξυπηρετητή IRC μπορείτε "
+"για παράδειγμα να <link xref=\"help:empathy/irc-manage\" href=\"https://help."
+"gnome.org/users/empathy/stable/irc-manage\">χρησιμοποιήσετε την εφαρμογή "
+"αγγελιοφόρου διαδικτύου του <app>Empathy</app></link>."
 
 #. (itstool) path: info/desc
 #: C/problems-reporting-bugs.page:5
@@ -12882,9 +12918,10 @@ msgid ""
 msgstr ""
 "Γενικά συνιστάται να χρησιμοποιήσετε εφαρμογές και συσκευές που και οι δυο "
 "υποστηρίζουν το <link href=\"https://en.wikipedia.org/wiki/ActiveSync"
-"\">πρωτόκολλο ActiveSync</link> (όπως <app>SyncEvolution</app>). Μια <link "
-"href=\"https://en.wikipedia.org/wiki/List_of_collaborative_software\">λίστα "
-"του συνεργαζόμενου λογισμικού</link> είναι διαθέσιμη στη Wikipedia."
+"\">πρωτόκολλο ActiveSync</link> (όπως <app>SyncEvolution</app>). Ένας <link "
+"href=\"https://en.wikipedia.org/wiki/List_of_collaborative_software"
+"\">Κατάλογος του συνεργαζόμενου λογισμικού</link> είναι διαθέσιμος στη "
+"Wikipedia."
 
 #. (itstool) path: page/p
 #: C/sync-with-other-devices.page:31
@@ -12967,11 +13004,11 @@ msgid ""
 "task list."
 msgstr ""
 "Αφού ο υπολογιστής σας και η συσκευή Palm OS επικοινωνήσουν, επιλέξτε τους "
-"επιθυμητούς αγωγούς μέσα από την ενότητα <gui>πιλότος αγωγών</gui>. Μπορείτε "
+"επιθυμητούς αγωγούς μέσα από την ενότητα <gui>Πιλότος αγωγών</gui>. Μπορείτε "
 "να χρησιμοποιήσετε τους αγωγούς για συγχρονισμό δεδομένων με διάφορες "
 "εφαρμογές· οι αγωγοί του Evolution ονομάζονται <gui>EAddress</gui> για τις "
 "επαφές στο βιβλίο διευθύνσεών σας· <gui>ECalendar</gui>, για το ημερολόγιό "
-"σας και <gui>ETodo</gui> για τη λίστα εργασιών σας."
+"σας και <gui>ETodo</gui> για τον κατάλογο εργασιών σας."
 
 #. (itstool) path: section/p
 #: C/sync-with-other-devices.page:43
@@ -13083,12 +13120,13 @@ msgstr "Τώρα η συσκευή Palm OS θα συγχρονίσει τα δε
 #: C/tasks-caldav.page:5
 msgid "Using an online CalDAV task list or memo list."
 msgstr ""
-"Χρησιμοποιώντας μια δικτυακή λίστα εργασιών CalDAV ή λίστα υπενθυμίσεων."
+"Χρησιμοποιώντας έναν δικτυακό κατάλογο εργασιών CalDAV ή κατάλογο "
+"υπενθυμίσεων."
 
 #. (itstool) path: page/title
 #: C/tasks-caldav.page:20
 msgid "Using a CalDAV task or memo list"
-msgstr "Χρησιμοποιώντας μια εργασία CalDAV ή λίστα υπενθυμίσεων"
+msgstr "Χρησιμοποιώντας μια εργασία CalDAV ή κατάλογο υπενθυμίσεων"
 
 #. (itstool) path: page/p
 #: C/tasks-caldav.page:22 C/tasks-webdav.page:24
@@ -13096,8 +13134,8 @@ msgid ""
 "To add such a task list or memo list to Evolution, perform the following "
 "steps:"
 msgstr ""
-"Για την προσθήκη μιας τέτοιας λίστας εργασιών ή υπενθυμίσεων στο Evolution, "
-"κάντε τα επόμενα βήματα:"
+"Για την προσθήκη ενός τέτοιου καταλόγου εργασιών ή υπενθυμίσεων στο "
+"Evolution, κάντε τα επόμενα βήματα:"
 
 #. (itstool) path: item/p
 #: C/tasks-caldav.page:24 C/tasks-local.page:24 C/tasks-webdav.page:26
@@ -13105,9 +13143,9 @@ msgid ""
 "Click <guiseq><gui>File</gui><gui>New</gui><gui>Task List</gui></guiseq> or "
 "<guiseq><gui>File</gui><gui>New</gui><gui>Memo List</gui></guiseq>."
 msgstr ""
-"Κλικ στο <guiseq><gui>αρχείο</gui><gui>νέο</gui><gui>λίστα εργασιών</gui></"
-"guiseq> ή <guiseq><gui>αρχείο</gui><gui>νέο</gui><gui>λίστα υπενθυμίσεων</"
-"gui></guiseq>."
+"Πατήστε <guiseq><gui>Αρχείο</gui><gui>Νέο</gui><gui>Κατάλογος εργασιών</"
+"gui></guiseq> ή <guiseq><gui>Αρχείο</gui><gui>Νέο</gui><gui>Κατάλογος "
+"υπενθυμίσεων</gui></guiseq>."
 
 #. (itstool) path: item/p
 #: C/tasks-caldav.page:28 C/tasks-webdav.page:30
@@ -13119,12 +13157,14 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/tasks-caldav.page:29 C/tasks-webdav.page:31
 msgid "Enter the address of the list in the <gui>URL</gui> field."
-msgstr "Εισάγετε τη διεύθυνση της λίστας στο πεδίο <gui>URL</gui>."
+msgstr "Εισάγετε τη διεύθυνση του καταλόγου στο πεδίο <gui>URL</gui>."
 
 #. (itstool) path: page/p
 #: C/tasks-caldav.page:35 C/tasks-local.page:31
 msgid "The task list will be added to the list of task lists in Evolution."
-msgstr "Η λίστα εργασιών θα προστεθεί στον κατάλογο των λιστών στο Evolution."
+msgstr ""
+"Ο κατάλογος εργασιών θα προστεθεί στον κατάλογο των καταλόγων εργασιών στο "
+"Evolution."
 
 #. (itstool) path: info/desc
 #: C/tasks-display-settings.page:5
@@ -13182,31 +13222,31 @@ msgid ""
 msgstr ""
 "Διαλέξτε αυτή την επιλογή για να κρύβονται οι ολοκληρωμένες εργασίες μετά "
 "από μια χρονική περίοδο μετρημένη σε μέρες, ώρες και λεπτά. Αν δε διαλέξετε "
-"αυτή την επιλογή, οι ολοκληρωμένες εργασίες παραμένουν στη λίστα εργασιών, "
-"σημειωμένες ως ολοκληρωμένες."
+"αυτή την επιλογή, οι ολοκληρωμένες εργασίες παραμένουν στον κατάλογο "
+"εργασιών, σημειωμένες ως ολοκληρωμένες."
 
 #. (itstool) path: info/desc
 #: C/tasks-local.page:5
 msgid "Adding another local task or memo list."
-msgstr "Προσθήκη άλλης τοπικής λίστας εργασιών ή υπενθυμίσεων."
+msgstr "Προσθήκη άλλου τοπικού καταλόγου εργασιών ή υπενθυμίσεων."
 
 #. (itstool) path: page/title
 #: C/tasks-local.page:20
 msgid "Adding another local task or memo list"
-msgstr "Προσθήκη άλλης τοπικής λίστας εργασιών ή υπενθυμίσεων"
+msgstr "Προσθήκη άλλου τοπικού καταλόγου εργασιών ή υπενθυμίσεων"
 
 #. (itstool) path: page/p
 #: C/tasks-local.page:22
 msgid ""
 "To add another local task list to Evolution, perform the following steps:"
 msgstr ""
-"Για την προσθήκη μιας άλλης τοπικής λίστας εργασιών στο Evolution, κάντε τα "
-"επόμενα βήματα:"
+"Για την προσθήκη ενός άλλου τοπικού καταλόγου εργασιών στο Evolution, κάντε "
+"τα επόμενα βήματα:"
 
 #. (itstool) path: info/desc
 #: C/tasks-organizing.page:5
 msgid "On task and memo lists, searching, and categories."
-msgstr "Στις λίστες εργασιών και υπενθυμίσεων, αναζήτησης και κατηγοριών."
+msgstr "Στους καταλόγους εργασιών και υπενθυμίσεων, αναζήτησης και κατηγοριών."
 
 #. (itstool) path: page/title
 #: C/tasks-organizing.page:21
@@ -13255,7 +13295,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/tasks-usage-add-task.page:5
 msgid "Adding a task to your task list."
-msgstr "Προσθήκη εργασίας στη λίστα εργασιών."
+msgstr "Προσθήκη εργασίας στον κατάλογο εργασιών."
 
 #. (itstool) path: page/title
 #: C/tasks-usage-add-task.page:23
@@ -13275,7 +13315,8 @@ msgstr ""
 #: C/tasks-usage-add-task.page:27
 msgid "Select a task list in the <gui>List</gui> dropdown list."
 msgstr ""
-"Επιλέξτε έναν κατάλογο εργασιών στον πτυσσόμενο κατάλογο <gui>Λίστα</gui>."
+"Επιλέξτε έναν κατάλογο εργασιών στον πτυσσόμενο κατάλογο <gui>Κατάλογος</"
+"gui>."
 
 #. (itstool) path: item/p
 #: C/tasks-usage-add-task.page:28
@@ -13289,7 +13330,7 @@ msgid ""
 "directly enter it in the list of tasks."
 msgstr ""
 "Εάν θέλετε μόνο μια γρήγορη προσθήκη εργασίας εισάγοντας μια περίληψη "
-"μπορείτε άμεσα να την εισάγετε στη λίστα εργασιών."
+"μπορείτε άμεσα να την εισάγετε στον κατάλογο εργασιών."
 
 #. (itstool) path: page/p
 #: C/tasks-usage-add-task.page:34
@@ -13350,7 +13391,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/tasks-usage-delete-task.page:5
 msgid "Deleting a task from your task list."
-msgstr "Διαγραφή εργασίας από τη λίστα εργασιών."
+msgstr "Διαγραφή εργασίας από τον κατάλογο εργασιών."
 
 #. (itstool) path: page/title
 #: C/tasks-usage-delete-task.page:20
@@ -13365,16 +13406,16 @@ msgid ""
 "in the tool bar or press <keyseq><key>Ctrl</key><key>D</key></keyseq>, or "
 "click <guiseq><gui>Edit</gui><gui>Delete Task</gui></guiseq>."
 msgstr ""
-"Εάν θέλετε να διαγράψετε μια εργασία στις λίστες εργασιών, δεξιό κλικ στην "
-"εργασία και επιλογή <gui>διαγραφή</gui>, ή κλικ στην εργασία και κλικ "
-"<gui>διαγραφή</gui> στη γραμμή εργαλείων ή πατήστε <keyseq><key>Ctrl</"
-"key><key>D</key></keyseq>, ή κλικ στο <guiseq><gui>επεξεργασία</"
-"gui><gui>διαγραφή εργασίας</gui></guiseq>."
+"Αν θέλετε να διαγράψετε μια εργασία από τους καταλόγους εργασιών, "
+"δεξιοπατήστε στην εργασία και επιλέξτε <gui>Διαγραφή</gui>, ή πατήστε στην "
+"εργασία και πατήστε <gui>Διαγραφή</gui> στη γραμμή εργαλείων ή πατήστε "
+"<keyseq><key>Ctrl</key><key>D</key></keyseq>, ή πατήστε στο "
+"<guiseq><gui>Επεξεργασία</gui><gui>Διαγραφή εργασίας</gui></guiseq>."
 
 #. (itstool) path: info/desc
 #: C/tasks-usage-edit-task.page:5
 msgid "Editing a task in your task list."
-msgstr "Επεξεργασία μιας εργασίας στην λίστα εργασιών σας."
+msgstr "Επεξεργασία μιας εργασίας στον κατάλογο εργασιών σας."
 
 #. (itstool) path: page/title
 #: C/tasks-usage-edit-task.page:20
@@ -13385,7 +13426,8 @@ msgstr "Επεξεργασία μιας εργασίας"
 #: C/tasks-usage-edit-task.page:22
 msgid "If you want to change a task that already exists in your task lists,"
 msgstr ""
-"Αν θέλετε να αλλάξετε μια εργασία που ήδη υπάρχει στις λίστες εργασιών σας,"
+"Αν θέλετε να αλλάξετε μια εργασία που ήδη υπάρχει στους καταλόγους εργασιών "
+"σας,"
 
 #. (itstool) path: item/p
 #: C/tasks-usage-edit-task.page:25
@@ -13393,8 +13435,9 @@ msgid ""
 "Double-click on the task that you want to edit in the list of tasks, or "
 "right-click on the task and click <key>Open Task</key>."
 msgstr ""
-"Διπλό κλικ στην εργασία που θέλετε να επεξεργαστείτε στη λίστα εργασιών, ή "
-"δεξιό κλικ στην εργασία και κλικ στο <key>άνοιγμα εργασίας</key>."
+"Διπλοπατήστε στην εργασία που θέλετε να επεξεργαστείτε στον κατάλογο "
+"εργασιών, ή δεξιοπατήστε στην εργασία και πατήστε <key>Άνοιγμα εργασίας</"
+"key>."
 
 #. (itstool) path: item/p
 #: C/tasks-usage-edit-task.page:26
@@ -13415,13 +13458,13 @@ msgstr "Προσθήκη, επεξεργασία και διαγραφή εργ�
 #: C/tasks-using-several-tasklists.page:5
 msgid "Adding and using more than one task list or memo list."
 msgstr ""
-"Προσθήκη και χρήση περισσότερων από μιας λίστας εργασιών ή λίστας "
+"Προσθήκη και χρήση περισσότερων από ενός καταλόγου εργασιών ή καταλόγου "
 "υπενθυμίσεων."
 
 #. (itstool) path: page/title
 #: C/tasks-using-several-tasklists.page:20
 msgid "Using several task lists or memo lists"
-msgstr "Χρήση πολλών λιστών εργασιών ή υπενθυμίσεων"
+msgstr "Χρήση πολλών καταλόγων εργασιών ή υπενθυμίσεων"
 
 #. (itstool) path: page/p
 #: C/tasks-using-several-tasklists.page:22
@@ -13432,20 +13475,20 @@ msgid ""
 "these lists, and you can select or deselect any of the boxes next to them to "
 "show and hide the corresponding tasks or memos in your view."
 msgstr ""
-"Μπορείτε να έχετε πολλές εργασίες ή λίστες υπενθυμίσεων και να επιλέξετε "
-"ποια από τις λίστες θα εμφανίζεται. Για παράδειγμα, μπορεί να έχετε εργασίες "
-"για τη δουλειά, το σπίτι για τη λέσχη τραγουδιού στην οποία είστε μέλος. Η "
-"πλευρική γραμμή εμφανίζει αυτές τις λίστες και μπορείτε να επιλέξετε τα "
-"κουτάκια δίπλα τους για να εμφανίζετε ή να αποεπιλέξετε οποιοδήποτε από τα "
-"διπλανά πλαίσια για να προβάλετε και να αποκρύψετε τις αντίστοιχες εργασίες "
-"ή υπενθυμίσεις από την προβολή σας."
+"Μπορείτε να έχετε πολλές εργασίες ή καταλόγους υπενθυμίσεων και να επιλέξετε "
+"ποιος από τους καταλόγους θα εμφανίζεται. Για παράδειγμα, μπορεί να έχετε "
+"εργασίες για τη δουλειά, το σπίτι για τη λέσχη τραγουδιού στην οποία είστε "
+"μέλος. Η πλευρική γραμμή εμφανίζει αυτούς τους καταλόγους και μπορείτε να "
+"επιλέξετε τα κουτάκια δίπλα τους για να εμφανίζετε ή να αποεπιλέξετε "
+"οποιοδήποτε από τα διπλανά πλαίσια για να προβάλετε και να αποκρύψετε τις "
+"αντίστοιχες εργασίες ή υπενθυμίσεις από την προβολή σας."
 
 #. (itstool) path: page/p
 #: C/tasks-using-several-tasklists.page:24
 msgid "Tasks and memos from each task or memo list appear as different colors."
 msgstr ""
-"Εργασίες και υπενθυμίσεις από κάθε εργασία ή λίστα υπενθυμίσεων εμφανίζονται "
-"με διαφορετικό χρώμα."
+"Οι εργασίες και υπενθυμίσεις από κάθε εργασία ή κατάλογο υπενθυμίσεων "
+"εμφανίζονται με διαφορετικό χρώμα."
 
 #. (itstool) path: page/p
 #: C/tasks-using-several-tasklists.page:26
@@ -13453,29 +13496,30 @@ msgid ""
 "You can also use lists that are not on your computer, such as on the "
 "internet."
 msgstr ""
-"Μπορείτε επίσης να χρησιμοποιήσετε λίστες που δεν είναι στον υπολογιστή σας, "
-"όπως στο διαδίκτυο."
+"Μπορείτε επίσης να χρησιμοποιήσετε καταλόγους που δεν είναι στον υπολογιστή "
+"σας, όπως στο διαδίκτυο."
 
 #. (itstool) path: info/desc
 #: C/tasks-webdav.page:5
 msgid "Using an online WebDAV task list or memo list."
 msgstr ""
-"Χρησιμοποιώντας μια δικτυακή λίστα εργασιών WebDAV ή λίστα υπενθυμίσεων."
+"Χρησιμοποιώντας έναν δικτυακό κατάλογο εργασιών WebDAV ή κατάλογο "
+"υπενθυμίσεων."
 
 #. (itstool) path: page/title
 #: C/tasks-webdav.page:20
 msgid "Using a WebDAV task or memo list"
-msgstr "Χρησιμοποιώντας μια εργασία WebDAV ή λίστα υπενθυμίσεων"
+msgstr "Χρησιμοποιώντας μια εργασία WebDAV ή κατάλογο υπενθυμίσεων"
 
 #. (itstool) path: page/p
 #: C/tasks-webdav.page:22
 msgid "Lists of this type are read-only."
-msgstr "Λίστες αυτού του τύπου είναι μόνο για ανάγνωση."
+msgstr "Κατάλογοι αυτού του τύπου είναι μόνο για ανάγνωση."
 
 #. (itstool) path: page/p
 #: C/tasks-webdav.page:37
 msgid "The list will be added in Evolution."
-msgstr "Η λίστα θα προστεθεί στο Evolution."
+msgstr "Ο κατάλογος θα προστεθεί στο Evolution."
 
 #. (itstool) path: info/desc
 #: C/using-categories.page:5
@@ -13551,8 +13595,8 @@ msgid ""
 "Select the category from the list. You can select as many or as few "
 "categories as you like."
 msgstr ""
-"Επιλέξτε την κατηγορία από τη λίστα. Μπορείτε να επιλέξετε όσες κατηγορίες "
-"θέλετε."
+"Επιλέξτε την κατηγορία από τον κατάλογο. Μπορείτε να επιλέξετε όσες "
+"κατηγορίες θέλετε."
 
 #. (itstool) path: section/title
 #: C/using-categories.page:44
@@ -13566,9 +13610,9 @@ msgid ""
 "own categories either directly via <guiseq><gui>Edit</gui><gui>Available "
 "Categories</gui></guiseq>, or indirectly when editing an object:"
 msgstr ""
-"Εάν η προεπιλεγμένη λίστα των κατηγοριών δεν ταιριάζει τις ανάγκες σας, "
+"Εάν ο προεπιλεγμένος κατάλογος των κατηγοριών δεν ταιριάζει τις ανάγκες σας, "
 "μπορείτε να προσθέσετε τις δικές σας κατηγορίες είτε άμεσα μέσα από "
-"<guiseq><gui>επεξεργασία</gui><gui>διαθέσιμες κατηγορίες</gui></guiseq>, ή "
+"<guiseq><gui>Επεξεργασία</gui><gui>Διαθέσιμες κατηγορίες</gui></guiseq>, ή "
 "έμμεσα όταν επεξεργαζόσαστε ένα αντικείμενο:"
 
 #
@@ -13601,11 +13645,11 @@ msgid ""
 "the bottom of the <gui>Categories</gui> window. Press <gui style=\"button"
 "\">Delete</gui> to delete categories from the list."
 msgstr ""
-"Στον <gui>επεξεργαστή κατηγοριών</gui> μπορείτε να επεξεργαστείτε ή να "
-"ορίσετε το χρώμα και το εικονίδιο για κάθε διαθέσιμη κατηγορία με κλικ στο "
-"<gui style=\"button\">επεξεργασία</gui> στο τέλος του παραθύρου "
-"<gui>κατηγορίες</gui>. Πατήστε <gui style=\"button\">διαγραφή</gui> για να "
-"διαγράψετε κατηγορίες από τη λίστα."
+"Στο <gui>Επεξεργαστής κατηγοριών</gui> μπορείτε να επεξεργαστείτε ή να "
+"ορίσετε το χρώμα και το εικονίδιο για κάθε διαθέσιμη κατηγορία πατώντας στο "
+"<gui style=\"button\">Επεξεργασία</gui> στο τέλος του παραθύρου "
+"<gui>Κατηγορίες</gui>. Πατήστε <gui style=\"button\">Διαγραφή</gui> για να "
+"διαγράψετε κατηγορίες από τον κατάλογο."
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:3
@@ -13876,7 +13920,7 @@ msgstr "Ελέγχει εάν υπάρχει συνημμένο στο μήνυ�
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:58
 msgid "Mailing List:"
-msgstr "Λίστα ταχυδρομείου:"
+msgstr "Κατάλογος ταχυδρομείου:"
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:59
@@ -13887,12 +13931,13 @@ msgid ""
 "mail. Mail from list servers that do not set X-BeenThere properly are not be "
 "caught by these filters."
 msgstr ""
-"Φιλτράρει βάσει της λίστας ταχυδρομείου από την οποία έφτασε το μήνυμα. Αυτό "
-"το φίλτρο μπορεί να χάσει μερικά μηνύματα από μερικούς διακομιστές λιστών, "
-"γιατί ελέγχει για την κεφαλίδα X-BeenThere, η οποία χρησιμοποιείται για να "
-"ταυτοποιεί λίστες ταχυδρομείου ή άλλους αναδιανομής αλληλογραφίας. "
-"Αλληλογραφία από διακομιστές λιστών οι οποίοι δεν ορίζουν την κεφαλίδα X-"
-"BeenThere σωστά δε θα φιλτραριστούν από τέτοια φίλτρα."
+"Φιλτράρει με βάση τον κατάλογο ταχυδρομείου από τον οποίο έφτασε το μήνυμα. "
+"Αυτό το φίλτρο μπορεί να χάσει μερικά μηνύματα από μερικούς διακομιστές "
+"καταλόγων, γιατί ελέγχει για την κεφαλίδα X-BeenThere, η οποία "
+"χρησιμοποιείται για να ταυτοποιεί καταλόγους ταχυδρομείου ή άλλους "
+"αναδιανομής αλληλογραφίας. Αλληλογραφία από διακομιστές καταλόγων οι οποίοι "
+"δεν ορίζουν την κεφαλίδα X-BeenThere σωστά δε θα φιλτραριστούν από τέτοια "
+"φίλτρα."
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:61
@@ -13986,7 +14031,7 @@ msgid ""
 "Select the condition from the dropdown list, and then type a search entry in "
 "the field."
 msgstr ""
-"Επιλέξτε το κριτήριο από την πτυσσόμενη λίστα και μετά πληκτρολογήστε μια "
+"Επιλέξτε το κριτήριο από τον πτυσσόμενο κατάλογο και μετά πληκτρολογήστε μια "
 "καταχώριση αναζήτησης στο πεδίο."
 
 #. (itstool) path: p/gui
