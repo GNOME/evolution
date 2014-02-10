@@ -1,0 +1,31 @@
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+      type="guide" id="mail">
+
+  <info>
+    <desc>Add, edit and remove mail accounts.</desc>
+    <link type="guide" xref="index" group="mails"/>
+
+    <revision pkgversion="3.10.2" version="0.4" date="2014-01-29" status="review"/>
+
+    <credit type="author">
+      <name its:translate="no">Julita Inca</name>
+      <email its:translate="no">yrazes@gmail.com</email>
+    </credit>
+
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+        
+
+  </info>
+
+<title>Mail</title>
+
+<links type="topic" style="toronto" groups="
+	adding-account
+  	find-mails
+        signature-mails
+        attachment-problems
+        mail-looks
+        organise-mails
+        mark-read-mail"/>
+
+</page>

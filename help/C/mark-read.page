@@ -1,0 +1,27 @@
+<page xmlns="http://projectmallard.org/1.0/" 
+      xmlns:its="http://www.w3.org/2005/11/its"
+      type="topic" id="mark-read">
+
+  <info>
+    <desc>Turn into unread the mail you have already read to check it later.</desc>
+
+    <link type="guide" xref="mail" group="#mark-read-mail"/>
+
+    <revision pkgversion="3.10.2" version="0.5" date="2014-02-03" status="review"/>      
+    
+    <credit type="author">
+      <name its:translate="no">Julita Inca</name>
+      <email its:translate="no">yrazes@gmail.com</email>
+    </credit>
+
+
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+    
+
+  </info>
+
+<title>Mark read/unread mail</title>
+<p>Turn into unread the mail you already read to check it later.</p>
+
+
+</page>

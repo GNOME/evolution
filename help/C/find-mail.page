@@ -1,0 +1,27 @@
+<page xmlns="http://projectmallard.org/1.0/" 
+      xmlns:its="http://www.w3.org/2005/11/its"
+      type="topic" id="find-mail">
+
+  <info>
+    <desc>Whenever you can not find a mail in the inbox view.</desc>
+
+    <link type="guide" xref="mail" group="#find-mails"/>
+
+    <revision pkgversion="3.10.2" version="0.5" date="2014-02-03" status="review"/>      
+    
+    <credit type="author">
+      <name its:translate="no">Julita Inca</name>
+      <email its:translate="no">yrazes@gmail.com</email>
+    </credit>
+
+
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+    
+
+  </info>
+
+<title>Find old or lost mail</title>
+<p>Whenever you can not find a mail in the inbox view.</p>
+
+
+</page>

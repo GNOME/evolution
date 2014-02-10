@@ -1,0 +1,41 @@
+<page xmlns="http://projectmallard.org/1.0/" 
+      xmlns:its="http://www.w3.org/2005/11/its"
+      type="topic" id="intro">
+
+  <info>
+    <desc>Keep your personal information like your mail and shedule in one place.</desc>
+
+    <link type="guide" xref="index" group="#first"/>
+
+    <revision pkgversion="3.10.3" version="0.4" date="2014-01-25" status="draft"/>
+    <revision pkgversion="3.10.2" version="0.5" date="2014-01-29" status="review"/>      
+    
+    <credit type="author">
+      <name its:translate="no">Brian Grohe</name>
+      <email its:translate="no">grohe43@gmail.com</email>
+    </credit>
+
+    <credit type="author">
+      <name its:translate="no">Andre Klapper</name>
+      <email its:translate="no">ak-47@gmx.net</email>
+    </credit>
+    
+    <credit type="editor">
+      <name its:translate="no">Julita Inca</name>
+      <email its:translate="no">yrazes@gmail.com</email>
+    </credit>
+
+
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+    
+
+  </info>
+
+<title>Introduction to Evolution</title>
+<p>Keep your personal information information like your mail and shedule in one place.</p>
+
+<p>By default Evolution opens the mail view. This is were you can view all your mail. You can change to other views of the application by going to the bottom of the left pane in the window (the so-called "switcher") and selecting the desired view. <link xref="intro-main-window">Learn more about the elements of the main window.</link></p>
+
+<note style="advanced"><p>When Evolution starts, it remembers the last view that you used. However you can also explicitly start Evolution in a specific view. For the calendar view, use the command <cmd>evolution --component=calendar</cmd> in the <app>Terminal</app> application. Other available options are "mail", "contacts", "tasks", and "memos".</p></note>
+
+</page>
