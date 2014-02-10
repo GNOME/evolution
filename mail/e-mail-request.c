@@ -365,9 +365,12 @@ mail_request_send_async (SoupRequest *request,
 			simple, handle_contact_photo_request,
 			G_PRIORITY_DEFAULT, cancellable);
 	} else {
-		g_simple_async_result_run_in_thread (
-			simple, handle_mail_request,
-			G_PRIORITY_DEFAULT, cancellable);
+		/* Process e-mail mail requests in this thread, which should be
+		   the main/UI thread, because any EMailFormatter can create
+		   GtkWidget-s, or manipulate with them, which should be always
+		   done in the main/UI thread. */
+		handle_mail_request (simple, G_OBJECT (request), cancellable);
+		g_simple_async_result_complete_in_idle (simple);
 	}
 
 	g_object_unref (simple);
