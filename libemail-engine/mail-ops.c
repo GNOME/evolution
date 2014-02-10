@@ -682,22 +682,18 @@ mail_send_message (struct _send_queue_msg *m,
 	info = camel_message_info_new (NULL);
 	camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN, ~0);
 
-	for (header = xev; header; header = header->next) {
+	for (header = xev; header && !local_error; header = header->next) {
 		gchar *uri;
 
 		if (strcmp (header->name, "X-Evolution-PostTo") != 0)
 			continue;
 
-		/* TODO: don't lose errors */
-
 		uri = g_strstrip (g_strdup (header->value));
-		/* FIXME Not passing a GCancellable or GError here. */
 		folder = e_mail_session_uri_to_folder_sync (
-			m->session, uri, 0, NULL, NULL);
+			m->session, uri, 0, cancellable, &local_error);
 		if (folder != NULL) {
-			/* FIXME Not passing a GCancellable or GError here. */
 			camel_folder_append_message_sync (
-				folder, message, info, NULL, NULL, NULL);
+				folder, message, info, NULL, cancellable, &local_error);
 			g_object_unref (folder);
 			folder = NULL;
 		}
@@ -707,7 +703,7 @@ mail_send_message (struct _send_queue_msg *m,
 	/* post process */
 	mail_tool_restore_xevolution_headers (message, xev);
 
-	if (driver) {
+	if (local_error == NULL && driver) {
 		camel_filter_driver_filter_message (
 			driver, message, info, NULL, NULL,
 			NULL, "", cancellable, &local_error);
@@ -735,10 +731,9 @@ mail_send_message (struct _send_queue_msg *m,
 		}
 	}
 
-	if (provider == NULL
-	    || !(provider->flags & CAMEL_PROVIDER_DISABLE_SENT_FOLDER)) {
+	if (local_error == NULL && (provider == NULL
+	    || !(provider->flags & CAMEL_PROVIDER_DISABLE_SENT_FOLDER))) {
 		CamelFolder *local_sent_folder;
-		GError *local_error = NULL;
 
 		local_sent_folder = e_mail_session_get_local_folder (
 			m->session, E_MAIL_LOCAL_FOLDER_SENT);
@@ -798,6 +793,7 @@ mail_send_message (struct _send_queue_msg *m,
 					_("Failed to append to "
 					"local 'Sent' folder: %s"),
 					local_error->message);
+				g_clear_error (&local_error);
 			}
 		}
 	}
@@ -836,7 +832,7 @@ mail_send_message (struct _send_queue_msg *m,
 		camel_folder_synchronize_sync (queue, FALSE, NULL, NULL);
 	}
 
-	if (err->len > 0) {
+	if (local_error == NULL && err->len > 0) {
 		/* set the culmulative exception report */
 		g_set_error (
 			&local_error, CAMEL_ERROR,
