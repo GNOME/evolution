@@ -1,0 +1,29 @@
+<page xmlns="http://projectmallard.org/1.0/" 
+      xmlns:its="http://www.w3.org/2005/11/its"
+      type="topic" id="send-invitation">
+
+  <info>
+    <desc>Invite your friends by scheduling the appointments.</desc>
+
+    <link type="guide" xref="calendar" group="#send-invitations"/>
+
+    <revision pkgversion="3.10.2" version="0.5" date="2014-02-03" status="review"/>      
+    
+    <credit type="author">
+      <name its:translate="no">Julita Inca</name>
+      <email its:translate="no">yrazes@gmail.com</email>
+    </credit>
+
+
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+    
+
+  </info>
+
+<title>Send meetings and invitations</title>
+<p>Invite your friends by scheduling the appointments.</p>
+
+
+
+
+</page>
