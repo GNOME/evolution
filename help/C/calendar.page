@@ -1,5 +1,5 @@
 <page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
-      type="topic" id="calendar">
+      type="guide" id="calendar">
 
   <info>
     <desc>Add, edit and remove appointments.</desc>
@@ -19,6 +19,13 @@
   </info>
 
 <title>Calendar</title>
+
+<links type="topic" style="toronto" groups="
+	conf-appointments
+  	organise-calendars
+        calendar-looks
+        share-calendars
+        sent-invitations"/>
 
 
 </page>
