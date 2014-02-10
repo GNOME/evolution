@@ -1,3 +1,48 @@
+Evolution 3.10.4 2014-02-09
+---------------------------
+
+Bug Fixes:
+	Bug 583773 - Does not always mark mails as read automatically
+	             (Milan Crha)
+	Bug 645476 - Avoid scroll to cursor on folder change in message list
+	             (Milan Crha)
+	Bug 677300 - Add 3 px padding above and below the searchbar
+	             (Matthew Barnes)
+	Bug 702709 - Do not forget to set CamelSession offline (Milan Crha)
+	Bug 702958 - Crash on attachment add or remove (Milan Crha)
+	Bug 707121 - Merge contacts dialogs indefinitely expands by itself
+	             (Milan Crha)
+	Bug 707518 - Deleting a local address book triggers error "Unable to
+	             open address book" (Milan Crha)
+	Bug 720542 - Crash on calendar view's tooltip timeout (Milan Crha)
+	Bug 721213 - Character encoding combo opened empty (Milan Crha)
+	Bug 721639 - Cannot overwrite builtin mail view definitions
+	             (Milan Crha)
+	Bug 722352 - libresolv does not exist on FreeBSD (Matthew Barnes)
+	Bug 723377 - Add alternate zoom shortcuts (Matthew Barnes)
+
+Other Changes:
+	* EMFolderTreeModel: Fix subscribing to a folder with children.
+	  (Matthew Barnes)
+	* EDateEdit: Force 24 hour format for locales without am/pm
+	  equivalents (Milan Crha)
+	* Avoid multiple save of folder changes on application quit
+	  (Milan Crha)
+	* EHttpRequest: Avoid possible data stream memory leak (Milan Crha)
+
+Translations:
+	Nilamdyuti Goswami (as)
+	Marek Černocký (cs)
+	Christian Kirbach (de)
+	Dimitris Spingos (el)
+	Shankar Prasad (kn)
+	A S Alam (pa)
+	Stas Solovey (ru)
+	Yuri Myasoedov (ru)
+	Matej Urbančič (sl)
+	Krishnababu Krothapalli (te)
+
+
 Evolution 3.10.3 2013-12-09
 ---------------------------
 
