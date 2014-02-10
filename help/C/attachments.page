@@ -1,11 +1,11 @@
 <page xmlns="http://projectmallard.org/1.0/" 
       xmlns:its="http://www.w3.org/2005/11/its"
-      type="topic" id="add-account">
+      type="topic" id="attachments">
 
   <info>
-    <desc>Add, edit or remove an account.</desc>
+    <desc>You can not see/ download the attachments or you can not attach files in you message.</desc>
 
-    <link type="guide" xref="mail" group="#adding-account"/>
+    <link type="guide" xref="mail" group="#attachments-problems"/>
 
     <revision pkgversion="3.10.2" version="0.5" date="2014-02-03" status="review"/>      
     
@@ -20,7 +20,7 @@
 
   </info>
 
-<title>Add an account</title>
+<title>Problems with attachments</title>
 <p> Add an account.</p>
 
 
