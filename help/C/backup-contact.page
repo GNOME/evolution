@@ -1,0 +1,29 @@
+<page xmlns="http://projectmallard.org/1.0/" 
+      xmlns:its="http://www.w3.org/2005/11/its"
+      type="topic" id="backup-contact">
+
+  <info>
+    <desc>Copy in other places your contaclist.</desc>
+
+    <link type="guide" xref="contact" group="#backup-contacts"/>
+
+    <revision pkgversion="3.10.2" version="0.5" date="2014-02-10" status="review"/>      
+    
+    <credit type="author">
+      <name its:translate="no">Julita Inca</name>
+      <email its:translate="no">yrazes@gmail.com</email>
+    </credit>
+
+
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+    
+
+  </info>
+
+<title>Backup your contacts</title>
+<p>Copy in other places your contaclist.</p>
+
+
+
+
+</page>

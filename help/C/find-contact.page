@@ -1,0 +1,29 @@
+<page xmlns="http://projectmallard.org/1.0/" 
+      xmlns:its="http://www.w3.org/2005/11/its"
+      type="topic" id="find-contact">
+
+  <info>
+    <desc>Search on your contactlist and find your contact.</desc>
+
+    <link type="guide" xref="contact" group="#find-contacts"/>
+
+    <revision pkgversion="3.10.2" version="0.5" date="2014-02-10" status="review"/>      
+    
+    <credit type="author">
+      <name its:translate="no">Julita Inca</name>
+      <email its:translate="no">yrazes@gmail.com</email>
+    </credit>
+
+
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+    
+
+  </info>
+
+<title>Find a contact</title>
+<p>Search on your contactlist and find your contact.</p>
+
+
+
+
+</page>

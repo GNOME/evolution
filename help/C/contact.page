@@ -1,5 +1,5 @@
 <page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
-      type="topic" id="contact">
+      type="guide" id="contact">
 
   <info>
     <desc>Add, edit and remove contacts.</desc>
@@ -20,6 +20,11 @@
 
 <title>Contacts</title>
 
+<links type="topic" style="toronto" groups="
+	add-contacts
+  	find-contacts
+        organise-contacts
+        backup-contacts"/>
 
 
 </page>

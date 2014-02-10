@@ -1,0 +1,29 @@
+<page xmlns="http://projectmallard.org/1.0/" 
+      xmlns:its="http://www.w3.org/2005/11/its"
+      type="topic" id="add-contact">
+
+  <info>
+    <desc>Add, edit or delete a contact.</desc>
+
+    <link type="guide" xref="contact" group="#add-contacts"/>
+
+    <revision pkgversion="3.10.2" version="0.5" date="2014-02-10" status="review"/>      
+    
+    <credit type="author">
+      <name its:translate="no">Julita Inca</name>
+      <email its:translate="no">yrazes@gmail.com</email>
+    </credit>
+
+
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+    
+
+  </info>
+
+<title>Add a contact</title>
+<p>Add, edit or delete a contact.</p>
+
+
+
+
+</page>

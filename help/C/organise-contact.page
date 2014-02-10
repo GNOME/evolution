@@ -1,0 +1,29 @@
+<page xmlns="http://projectmallard.org/1.0/" 
+      xmlns:its="http://www.w3.org/2005/11/its"
+      type="topic" id="organise-contact">
+
+  <info>
+    <desc>Group your contacts to find them easier.</desc>
+
+    <link type="guide" xref="contact" group="#organise-contacts"/>
+
+    <revision pkgversion="3.10.2" version="0.5" date="2014-02-10" status="review"/>      
+    
+    <credit type="author">
+      <name its:translate="no">Julita Inca</name>
+      <email its:translate="no">yrazes@gmail.com</email>
+    </credit>
+
+
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+    
+
+  </info>
+
+<title>Sort and organise your contacts</title>
+<p>Group your contacts to find them easier.</p>
+
+
+
+
+</page>
