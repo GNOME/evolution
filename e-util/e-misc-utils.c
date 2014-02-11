@@ -143,8 +143,10 @@ window_state_event_cb (GtkWindow *window,
 {
 	gboolean window_was_unmaximized;
 
-	if (data->timeout_id > 0)
+	if (data->timeout_id > 0) {
 		g_source_remove (data->timeout_id);
+		data->timeout_id = 0;
+	}
 
 	window_was_unmaximized =
 		((event->changed_mask & GDK_WINDOW_STATE_MAXIMIZED) != 0) &&
@@ -175,8 +177,10 @@ static gboolean
 window_unmap_cb (GtkWindow *window,
                  WindowData *data)
 {
-	if (data->timeout_id > 0)
+	if (data->timeout_id > 0) {
 		g_source_remove (data->timeout_id);
+		data->timeout_id = 0;
+	}
 
 	/* Reset the flags so the window position and size are not
 	 * accidentally reverted to their default value at the next run. */
