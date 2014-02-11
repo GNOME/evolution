@@ -35,6 +35,9 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MAIL_CONFIG_ASSISTANT, EMailConfigAssistantPrivate))
 
+/* GtkAssistant's back button label. */
+#define BACK_BUTTON_LABEL N_("Go _Back")
+
 typedef struct _AutoconfigContext AutoconfigContext;
 
 struct _EMailConfigAssistantPrivate {
@@ -47,7 +50,10 @@ struct _EMailConfigAssistantPrivate {
 	EMailConfigSummaryPage *summary_page;
 	EMailConfigPage *lookup_page;
 	GHashTable *visited_pages;
-	gboolean auto_configure_done;
+	gboolean auto_configured;
+
+	/* GtkAssistant owns this. */
+	GtkButton *back_button;  /* not referenced */
 };
 
 struct _AutoconfigContext {
@@ -273,9 +279,6 @@ mail_config_assistant_autoconfigure_cb (GObject *source_object,
 	context = (AutoconfigContext *) user_data;
 	priv = E_MAIL_CONFIG_ASSISTANT_GET_PRIVATE (context->assistant);
 
-	/* Whether it works or not, we only do this once. */
-	priv->auto_configure_done = TRUE;
-
 	autoconfig = e_mail_autoconfig_finish (result, &error);
 
 	/* We don't really care about errors, we only capture the GError
@@ -291,6 +294,9 @@ mail_config_assistant_autoconfigure_cb (GObject *source_object,
 
 	/* Autoconfiguration worked!  Feed the results to the
 	 * service pages and then skip to the Summary page. */
+
+	/* For the summary page... */
+	priv->auto_configured = TRUE;
 
 	e_mail_config_service_page_auto_configure (
 		priv->receiving_page, autoconfig);
@@ -391,6 +397,40 @@ mail_config_assistant_close_cb (GObject *object,
 
 	} else {
 		gtk_widget_destroy (GTK_WIDGET (assistant));
+	}
+}
+
+static void
+mail_config_assistant_find_back_button_cb (GtkWidget *widget,
+                                           gpointer user_data)
+{
+	EMailConfigAssistant *assistant;
+
+	assistant = E_MAIL_CONFIG_ASSISTANT (user_data);
+
+	if (GTK_IS_BUTTON (widget)) {
+		GtkButton *button;
+		const gchar *gtk_label;
+		const gchar *our_label;
+
+		button = GTK_BUTTON (widget);
+
+		/* XXX The gtkassistant.ui file assigns the back button
+		 *     an ID of "back", but I don't think we have access
+		 *     to it from here.  I guess just compare by label,
+		 *     and hope our translation matches GTK's.  Yuck. */
+
+		gtk_label = gtk_button_get_label (button);
+		our_label = gettext (BACK_BUTTON_LABEL);
+
+		if (g_strcmp0 (gtk_label, our_label) == 0)
+			assistant->priv->back_button = button;
+
+	} else if (GTK_IS_CONTAINER (widget)) {
+		gtk_container_forall (
+			GTK_CONTAINER (widget),
+			mail_config_assistant_find_back_button_cb,
+			assistant);
 	}
 }
 
@@ -564,6 +604,16 @@ mail_config_assistant_constructed (GObject *object)
 
 	session = e_mail_config_assistant_get_session (assistant);
 	registry = e_mail_session_get_registry (session);
+
+	/* XXX Locate the GtkAssistant's internal "Go Back" button so
+	 *     we can temporarily rename it for autoconfigure results.
+	 *     Walking the container like this is an extremely naughty
+	 *     and brittle hack, but GtkAssistant does not provide API
+	 *     to access it directly. */
+	gtk_container_forall (
+		GTK_CONTAINER (assistant),
+		mail_config_assistant_find_back_button_cb,
+		assistant);
 
 	/* Configure a new identity source. */
 
@@ -815,6 +865,25 @@ mail_config_assistant_prepare (GtkAssistant *assistant,
 				E_MAIL_CONFIG_PAGE (page));
 		g_hash_table_add (priv->visited_pages, page);
 		first_visit = TRUE;
+	}
+
+	/* Are we viewing autoconfiguration results?  If so, temporarily
+	 * rename the back button to clarify that account details can be
+	 * revised.  Otherwise reset the button to its original label. */
+	if (priv->back_button != NULL) {
+		gboolean auto_configure_results;
+		const gchar *label;
+
+		auto_configure_results =
+			E_IS_MAIL_CONFIG_SUMMARY_PAGE (page) &&
+			priv->auto_configured && first_visit;
+
+		if (auto_configure_results)
+			label = _("_Revise Details");
+		else
+			label = gettext (BACK_BUTTON_LABEL);
+
+		gtk_button_set_label (priv->back_button, label);
 	}
 
 	if (E_IS_MAIL_CONFIG_LOOKUP_PAGE (page)) {
