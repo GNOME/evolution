@@ -867,6 +867,7 @@ e_table_sort_info_duplicate (ETableSortInfo *sort_info)
 {
 	ETableSpecification *specification;
 	ETableSortInfo *new_info;
+	gint ii;
 
 	g_return_val_if_fail (E_IS_TABLE_SORT_INFO (sort_info), NULL);
 
@@ -883,6 +884,14 @@ e_table_sort_info_duplicate (ETableSortInfo *sort_info)
 		sort_info->priv->groupings->len *
 		g_array_get_element_size (sort_info->priv->groupings));
 
+	for (ii = 0; ii < new_info->priv->groupings->len; ii++) {
+		ColumnData *column_data;
+
+		column_data = &g_array_index (new_info->priv->groupings, ColumnData, ii);
+
+		g_object_ref (column_data->column_spec);
+	}
+
 	g_array_set_size (
 		new_info->priv->sortings,
 		sort_info->priv->sortings->len);
@@ -891,6 +900,14 @@ e_table_sort_info_duplicate (ETableSortInfo *sort_info)
 		sort_info->priv->sortings->data,
 		sort_info->priv->sortings->len *
 		g_array_get_element_size (sort_info->priv->sortings));
+
+	for (ii = 0; ii < new_info->priv->sortings->len; ii++) {
+		ColumnData *column_data;
+
+		column_data = &g_array_index (new_info->priv->sortings, ColumnData, ii);
+
+		g_object_ref (column_data->column_spec);
+	}
 
 	new_info->priv->can_group = sort_info->priv->can_group;
 
