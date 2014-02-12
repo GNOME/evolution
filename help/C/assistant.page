@@ -1,0 +1,33 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      type="topic" style="task"
+      id="assistant">
+  <info>
+    <revision version="1.0" date="2014-02-12" status="review"/>
+    <link type="guide" xref="index#intro"/>
+    <credit type="author copyright">
+      <name>Julita Inca</name>
+      <email>yrazes@gmail.com</email>
+      <years>2011</years>
+    </credit>
+
+
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+
+    <desc>Let you configure the account step by step.</desc>
+  </info>
+
+  <title>Evolution Account Assistant</title>
+
+  <p>You can follow these steps to configure your account:</p>
+  <steps>
+    <item><p>Click <gui>Continue</gui> to pass the welcome message of the assistant.</p></item>
+    <item>
+     <p>Select <gui>Restore from a backup file</gui> if you have a file to do it, and click on <gui>Continue</gui>.</p>
+    </item>
+    <item>
+     <p>Enter your name and email to identify yourself, then click on <gui>Continue</gui>.</p>
+    </item>
+  </steps>
+
+
+</page>
