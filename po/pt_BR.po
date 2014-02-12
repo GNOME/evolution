@@ -20,9 +20,9 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2014-02-06 17:43+0000\n"
-"PO-Revision-Date: 2014-02-06 17:08-0300\n"
-"Last-Translator: Enrico Nicoletto <liverig@gmail.com>\n"
+"POT-Creation-Date: 2014-02-12 05:27+0000\n"
+"PO-Revision-Date: 2014-02-12 10:17-0300\n"
+"Last-Translator: Rafael Ferreira <rafael.f.f1@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -801,7 +801,6 @@ msgid "Duplicate Contact Detected"
 msgstr "Detectado um contato duplicado"
 
 #: ../addressbook/gui/widgets/eab-contact-merging.c:636
-#| msgid "Cancel"
 msgid "_Cancel"
 msgstr "_Cancelar"
 
@@ -811,9 +810,6 @@ msgid "_Save"
 msgstr "_Salvar"
 
 #: ../addressbook/gui/widgets/eab-contact-merging.c:686
-#| msgid ""
-#| "The name or email of this contact already exists in this folder. Would "
-#| "you like to save the changes anyway?"
 msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder. Would you like to save the changes anyway?"
@@ -822,9 +818,6 @@ msgstr ""
 "nesta pasta. Você gostaria de salvar as alterações assim mesmo?"
 
 #: ../addressbook/gui/widgets/eab-contact-merging.c:689
-#| msgid ""
-#| "The name or email address of this contact already exists\n"
-#| "in this folder.  Would you like to add it anyway?"
 msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder. Would you like to add it anyway?"
@@ -845,7 +838,6 @@ msgid "Conflicting Contact:"
 msgstr "Contato conflitante:"
 
 #: ../addressbook/gui/widgets/eab-contact-merging.c:743
-#| msgid "Contact: "
 msgid "Old Contact:"
 msgstr "Contato antigo:"
 
@@ -4203,7 +4195,7 @@ msgid "%A %d %B"
 msgstr "%A %d %B"
 
 #. To Translators: the %d stands for a week number, it's value between 1 and 52/53
-#: ../calendar/gui/e-day-view.c:3437
+#: ../calendar/gui/e-day-view.c:3442
 #, c-format
 msgid "Week %d"
 msgstr "Semana %d"
@@ -11149,11 +11141,11 @@ msgstr ""
 "usuários de teclado devem selecionar o fuso horário usando a caixa "
 "desdobrável de seleção abaixo."
 
-#: ../e-util/e-misc-utils.c:242
+#: ../e-util/e-misc-utils.c:246
 msgid "Could not open the link."
 msgstr "Não foi possível abrir o link."
 
-#: ../e-util/e-misc-utils.c:289
+#: ../e-util/e-misc-utils.c:293
 msgid "Could not display help for Evolution."
 msgstr "Não foi possível exibir a ajuda do Evolution."
 
@@ -11932,7 +11924,6 @@ msgid "Please choose another name."
 msgstr "Por favor, selecione outro nome."
 
 #: ../e-util/filter.error.xml.h:12
-#| msgid "Missing date."
 msgid "Missing condition."
 msgstr "Condição faltando."
 
@@ -11941,7 +11932,6 @@ msgid "Filter should have at least one condition."
 msgstr "O filtro deve possuir ao menos uma condição."
 
 #: ../e-util/filter.error.xml.h:14
-#| msgid "Missing date."
 msgid "Missing value."
 msgstr "Valor faltando."
 
@@ -12057,32 +12047,32 @@ msgstr[1] "Buscando %d mensagens"
 msgid "Scanning messages for duplicates"
 msgstr "Verificar por mensagens duplicadas"
 
-#: ../libemail-engine/e-mail-folder-utils.c:1182
+#: ../libemail-engine/e-mail-folder-utils.c:1145
 #, c-format
 msgid "Removing folder '%s'"
 msgstr "Removendo pasta \"%s\""
 
-#: ../libemail-engine/e-mail-folder-utils.c:1319
+#: ../libemail-engine/e-mail-folder-utils.c:1325
 #, c-format
 msgid "File \"%s\" has been removed."
 msgstr "Arquivo \"%s\" foi removido."
 
-#: ../libemail-engine/e-mail-folder-utils.c:1323
+#: ../libemail-engine/e-mail-folder-utils.c:1329
 msgid "File has been removed."
 msgstr "Arquivo foi removido."
 
-#: ../libemail-engine/e-mail-folder-utils.c:1382
+#: ../libemail-engine/e-mail-folder-utils.c:1388
 msgid "Removing attachments"
 msgstr "Removendo anexos"
 
-#: ../libemail-engine/e-mail-folder-utils.c:1546
+#: ../libemail-engine/e-mail-folder-utils.c:1552
 #, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messages"
 msgstr[0] "Salvando %d mensagem"
 msgstr[1] "Salvando %d mensagens"
 
-#: ../libemail-engine/e-mail-folder-utils.c:1924
+#: ../libemail-engine/e-mail-folder-utils.c:1930
 #, c-format
 msgid "Invalid folder URI '%s'"
 msgstr "URI da pasta inválida \"%s\""
@@ -12092,13 +12082,13 @@ msgid "No mail transport service available"
 msgstr "Nenhum serviço de transporte de correio disponível"
 
 #: ../libemail-engine/e-mail-session-utils.c:639
-#: ../libemail-engine/mail-ops.c:711
+#: ../libemail-engine/mail-ops.c:707
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
 msgstr "Falha ao aplicar filtros de saída: %s"
 
 #: ../libemail-engine/e-mail-session-utils.c:688
-#: ../libemail-engine/mail-ops.c:755
+#: ../libemail-engine/mail-ops.c:750
 #, c-format
 msgid ""
 "Failed to append to %s: %s\n"
@@ -12108,13 +12098,13 @@ msgstr ""
 "Acrescentando à pasta local \"Enviadas\" no lugar."
 
 #: ../libemail-engine/e-mail-session-utils.c:714
-#: ../libemail-engine/mail-ops.c:779
+#: ../libemail-engine/mail-ops.c:774
 #, c-format
 msgid "Failed to append to local 'Sent' folder: %s"
 msgstr "Falha ao acrescentar à pasta local \"Enviadas\": %s"
 
 #: ../libemail-engine/e-mail-session-utils.c:915
-#: ../libemail-engine/mail-ops.c:910 ../libemail-engine/mail-ops.c:1012
+#: ../libemail-engine/mail-ops.c:906 ../libemail-engine/mail-ops.c:1008
 msgid "Sending message"
 msgstr "Enviando mensagem"
 
@@ -12220,7 +12210,7 @@ msgstr ""
 msgid "Fetching mail from '%s'"
 msgstr "Obtendo correio de \"%s\""
 
-#: ../libemail-engine/mail-ops.c:705
+#: ../libemail-engine/mail-ops.c:701
 #, c-format
 msgid ""
 "Failed to apply outgoing filters. One reason can be that folder location set "
@@ -12233,52 +12223,52 @@ msgstr ""
 "filtros em Editar->Filtros de mensagens.\n"
 "O erro original foi: %s"
 
-#: ../libemail-engine/mail-ops.c:921
+#: ../libemail-engine/mail-ops.c:917
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "Enviando mensagem %d de %d"
 
-#: ../libemail-engine/mail-ops.c:973
+#: ../libemail-engine/mail-ops.c:969
 #, c-format
 msgid "Failed to send a message"
 msgid_plural "Failed to send %d of %d messages"
 msgstr[0] "Falha ao enviar uma mensagem"
 msgstr[1] "Falha ao enviar %d de %d mensagens"
 
-#: ../libemail-engine/mail-ops.c:979
+#: ../libemail-engine/mail-ops.c:975
 msgid "Canceled."
 msgstr "Cancelada."
 
-#: ../libemail-engine/mail-ops.c:981
+#: ../libemail-engine/mail-ops.c:977
 msgid "Complete."
 msgstr "Concluída."
 
-#: ../libemail-engine/mail-ops.c:1093
+#: ../libemail-engine/mail-ops.c:1089
 #, c-format
 msgid "Moving messages to '%s'"
 msgstr "Movendo mensagens para \"%s\""
 
-#: ../libemail-engine/mail-ops.c:1094
+#: ../libemail-engine/mail-ops.c:1090
 #, c-format
 msgid "Copying messages to '%s'"
 msgstr "Copiando mensagens para \"%s\""
 
-#: ../libemail-engine/mail-ops.c:1213
+#: ../libemail-engine/mail-ops.c:1209
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "Armazenando pasta \"%s\""
 
-#: ../libemail-engine/mail-ops.c:1341
+#: ../libemail-engine/mail-ops.c:1337
 #, c-format
 msgid "Expunging and storing account '%s'"
 msgstr "Excluindo permanentemente e armazenando conta \"%s\""
 
-#: ../libemail-engine/mail-ops.c:1342
+#: ../libemail-engine/mail-ops.c:1338
 #, c-format
 msgid "Storing account '%s'"
 msgstr "Armazenando a conta \"%s\""
 
-#: ../libemail-engine/mail-ops.c:1417
+#: ../libemail-engine/mail-ops.c:1413
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "Esvaziando a lixeira em \"%s\""
@@ -12395,14 +12385,25 @@ msgstr "Fecha esta janela"
 msgid "(No Subject)"
 msgstr "(Sem assunto)"
 
+#. GtkAssistant's back button label.
+#: ../mail/e-mail-config-assistant.c:39
+#| msgid "Go Back"
+msgid "Go _Back"
+msgstr "_Voltar"
+
 #. GtkAssistant sinks the floating button reference.
-#: ../mail/e-mail-config-assistant.c:101
+#: ../mail/e-mail-config-assistant.c:107
 msgid "_Skip Lookup"
 msgstr "_Ignorar procura"
 
-#: ../mail/e-mail-config-assistant.c:561
+#: ../mail/e-mail-config-assistant.c:601
 msgid "Evolution Account Assistant"
 msgstr "Assistente de contas do Evolution"
+
+#: ../mail/e-mail-config-assistant.c:882
+#| msgid "_Restore Defaults"
+msgid "_Revise Details"
+msgstr "_Revisar detalhes"
 
 #: ../mail/e-mail-config-auth-check.c:350
 msgid "Check for Supported Types"
@@ -16505,7 +16506,6 @@ msgstr "Permitir ao Evolution atualizar o arquivo"
 #. * units for the current locale.
 #.
 #: ../modules/cal-config-weather/evolution-cal-config-weather.c:188
-#| msgid "Default"
 msgctxt "locale-metric"
 msgid "default:mm"
 msgstr "default:mm"
