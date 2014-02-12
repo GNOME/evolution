@@ -33,4 +33,7 @@
 void e_dialog_combo_box_set (GtkWidget *widget, gint value, const gint *value_map);
 gint e_dialog_combo_box_get (GtkWidget *widget, const gint *value_map);
 
+GtkWidget *	e_dialog_button_new_with_icon	(const gchar *icon_name,
+						 const gchar *label);
+
 #endif

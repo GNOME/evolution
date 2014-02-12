@@ -113,7 +113,7 @@ create_schedule_page (CompEditor *editor)
 
 	priv->sched_window = gtk_dialog_new_with_buttons (
 		_("Free/Busy"), GTK_WINDOW (editor), GTK_DIALOG_DESTROY_WITH_PARENT,
-		GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE, NULL);
+		_("_Close"), GTK_RESPONSE_CLOSE, NULL);
 
 	content_area =
 		gtk_dialog_get_content_area (GTK_DIALOG (priv->sched_window));
@@ -210,7 +210,7 @@ static GtkActionEntry editable_entries[] = {
 static GtkToggleActionEntry editable_toggle_entries[] = {
 
 	{ "show-time-busy",
-	  GTK_STOCK_DIALOG_ERROR,
+	  "dialog-error",
 	  N_("Show Time as _Busy"),
 	  NULL,
 	  N_("Toggles whether to show time as busy"),
@@ -307,7 +307,7 @@ event_editor_constructor (GType type,
 
 	priv->recur_window = gtk_dialog_new_with_buttons (
 		_("Recurrence"), GTK_WINDOW (editor), GTK_DIALOG_MODAL,
-		GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE, NULL);
+		_("_Close"), GTK_RESPONSE_CLOSE, NULL);
 	g_signal_connect (
 		priv->recur_window, "response",
 		G_CALLBACK (gtk_widget_hide), NULL);

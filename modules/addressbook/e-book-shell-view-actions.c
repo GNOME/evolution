@@ -874,14 +874,14 @@ action_contact_view_cb (GtkRadioAction *action,
 static GtkActionEntry contact_entries[] = {
 
 	{ "address-book-copy",
-	  GTK_STOCK_COPY,
+	  "edit-copy",
 	  N_("Co_py All Contacts To..."),
 	  NULL,
 	  N_("Copy the contacts of the selected address book to another"),
 	  G_CALLBACK (action_address_book_copy_cb) },
 
 	{ "address-book-delete",
-	  GTK_STOCK_DELETE,
+	  "edit-delete",
 	  N_("D_elete Address Book"),
 	  NULL,
 	  N_("Delete the selected address book"),
@@ -902,14 +902,14 @@ static GtkActionEntry contact_entries[] = {
 	  G_CALLBACK (action_address_book_new_cb) },
 
 	{ "address-book-properties",
-	  GTK_STOCK_PROPERTIES,
+	  "document-properties",
 	  N_("Address _Book Properties"),
 	  NULL,
 	  N_("Show properties of the selected address book"),
 	  G_CALLBACK (action_address_book_properties_cb) },
 
 	{ "address-book-refresh",
-	  GTK_STOCK_REFRESH,
+	  "view-refresh",
 	  N_("Re_fresh"),
 	  NULL,
 	  N_("Refresh the selected address book"),
@@ -930,8 +930,8 @@ static GtkActionEntry contact_entries[] = {
 	  G_CALLBACK (action_address_book_rename_cb) },
 
 	{ "address-book-stop",
-	  GTK_STOCK_STOP,
-	  NULL,
+	  "process-stop",
+	  N_("_Stop"),
 	  NULL,
 	  N_("Stop loading"),
 	  G_CALLBACK (action_address_book_stop_cb) },
@@ -944,14 +944,14 @@ static GtkActionEntry contact_entries[] = {
 	  G_CALLBACK (action_contact_copy_cb) },
 
 	{ "contact-delete",
-	  GTK_STOCK_DELETE,
+	  "edit-delete",
 	  N_("_Delete Contact"),
 	  "<Control>d",
 	  N_("Delete selected contacts"),
 	  G_CALLBACK (action_contact_delete_cb) },
 
 	{ "contact-find",
-	  GTK_STOCK_FIND,
+	  "edit-find",
 	  N_("_Find in Contact..."),
 	  "<Shift><Control>f",
 	  N_("Search for text in the displayed contact"),
@@ -1156,22 +1156,22 @@ static GtkRadioActionEntry contact_search_entries[] = {
 static GtkActionEntry lockdown_printing_entries[] = {
 
 	{ "address-book-print",
-	  GTK_STOCK_PRINT,
-	  NULL,
+	  "document-print",
+	  N_("_Print..."),
 	  "<Control>p",
 	  N_("Print all shown contacts"),
 	  G_CALLBACK (action_address_book_print_cb) },
 
 	{ "address-book-print-preview",
-	  GTK_STOCK_PRINT_PREVIEW,
-	  NULL,
+	  "document-print-preview",
+	  N_("Pre_view..."),
 	  NULL,
 	  N_("Preview the contacts to be printed"),
 	  G_CALLBACK (action_address_book_print_preview_cb) },
 
 	{ "contact-print",
-	  GTK_STOCK_PRINT,
-	  NULL,
+	  "document-print",
+	  N_("_Print..."),
 	  NULL,
 	  N_("Print selected contacts"),
 	  G_CALLBACK (action_contact_print_cb) }
@@ -1187,14 +1187,14 @@ static EPopupActionEntry lockdown_printing_popup_entries[] = {
 static GtkActionEntry lockdown_save_to_disk_entries[] = {
 
 	{ "address-book-save-as",
-	  GTK_STOCK_SAVE_AS,
+	  "document-save-as",
 	  N_("S_ave Address Book as vCard"),
 	  NULL,
 	  N_("Save the contacts of the selected address book as a vCard"),
 	  G_CALLBACK (action_address_book_save_as_cb) },
 
 	{ "contact-save-as",
-	  GTK_STOCK_SAVE_AS,
+	  "document-save-as",
 	  /* Translators: This is an action label */
 	  N_("_Save as vCard..."),
 	  NULL,

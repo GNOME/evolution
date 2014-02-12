@@ -145,7 +145,7 @@ action_contact_send_message_cb (GtkAction *action,
 static GtkActionEntry internal_mailto_entries[] = {
 
 	{ "contact-mailto-copy",
-	  GTK_STOCK_COPY,
+	  "edit-copy",
 	  N_("Copy _Email Address"),
 	  NULL,
 	  N_("Copy the email address to the clipboard"),

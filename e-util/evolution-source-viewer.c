@@ -21,6 +21,8 @@
 
 #include <libedataserver/libedataserver.h>
 
+#include "e-dialog-widgets.h"
+
 /* XXX Even though this is all one file, I'm still being pedantic about data
  *     encapsulation (except for a private struct, even I'm not that anal!).
  *     I expect this program will eventually be too complex for one file
@@ -676,7 +678,7 @@ source_viewer_constructed (GObject *object)
 	renderer = gtk_cell_renderer_pixbuf_new ();
 	g_object_set (
 		renderer,
-		"stock-id", GTK_STOCK_EDIT,
+		"icon-name", "media-record",
 		"stock-size", GTK_ICON_SIZE_MENU,
 		NULL);
 	gtk_tree_view_column_pack_start (column, renderer, FALSE);
@@ -686,7 +688,7 @@ source_viewer_constructed (GObject *object)
 	renderer = gtk_cell_renderer_pixbuf_new ();
 	g_object_set (
 		renderer,
-		"stock-id", GTK_STOCK_DELETE,
+		"icon-name", "list-remove",
 		"stock-size", GTK_ICON_SIZE_MENU,
 		NULL);
 	gtk_tree_view_column_pack_start (column, renderer, FALSE);
@@ -798,7 +800,7 @@ source_viewer_constructed (GObject *object)
 	viewer->viewing_label = widget;  /* do not reference */
 	gtk_widget_show (widget);
 
-	widget = gtk_button_new_from_stock (GTK_STOCK_DELETE);
+	widget = e_dialog_button_new_with_icon ("edit-delete", _("_Delete"));
 	gtk_box_pack_end (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	viewer->delete_button = widget;  /* do not reference */
 	gtk_widget_hide (widget);
@@ -827,7 +829,7 @@ source_viewer_constructed (GObject *object)
 	viewer->deleting_label = widget;  /* do not reference */
 	gtk_widget_show (widget);
 
-	widget = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
+	widget = e_dialog_button_new_with_icon ("process-stop", _("_Cancel"));
 	gtk_box_pack_end (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	viewer->deleting_cancel = widget;  /* do not reference */
 	gtk_widget_show (widget);

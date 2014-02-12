@@ -656,9 +656,9 @@ e_shell_content_run_advanced_search_dialog (EShellContent *shell_content)
 	dialog = gtk_dialog_new_with_buttons (
 		_("Advanced Search"), GTK_WINDOW (shell_window),
 		GTK_DIALOG_DESTROY_WITH_PARENT,
-		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-		GTK_STOCK_SAVE, GTK_RESPONSE_APPLY,
-		GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
+		_("_Cancel"), GTK_RESPONSE_CANCEL,
+		_("_Save"), GTK_RESPONSE_APPLY,
+		_("_OK"), GTK_RESPONSE_OK, NULL);
 
 	gtk_container_set_border_width (GTK_CONTAINER (dialog), 7);
 	gtk_container_set_border_width (GTK_CONTAINER (widget), 3);
@@ -763,8 +763,8 @@ e_shell_content_run_save_search_dialog (EShellContent *shell_content)
 	dialog = gtk_dialog_new_with_buttons (
 		_("Save Search"), GTK_WINDOW (shell_window),
 		GTK_DIALOG_DESTROY_WITH_PARENT,
-		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-		GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
+		_("_Cancel"), GTK_RESPONSE_CANCEL,
+		_("_OK"), GTK_RESPONSE_OK, NULL);
 
 	gtk_container_set_border_width (GTK_CONTAINER (dialog), 7);
 	gtk_container_set_border_width (GTK_CONTAINER (widget), 3);

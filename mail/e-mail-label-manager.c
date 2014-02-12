@@ -25,6 +25,8 @@
 #include "e-mail-label-manager.h"
 
 #include <glib/gi18n.h>
+#include <e-util/e-util.h>
+
 #include "e-mail-label-dialog.h"
 #include "e-mail-label-tree-view.h"
 
@@ -368,7 +370,7 @@ e_mail_label_manager_init (EMailLabelManager *manager)
 
 	container = widget;
 
-	widget = gtk_button_new_from_stock (GTK_STOCK_ADD);
+	widget = e_dialog_button_new_with_icon ("list-add", _("_Add"));
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	manager->priv->add_button = g_object_ref (widget);
 	gtk_widget_show (widget);
@@ -377,7 +379,7 @@ e_mail_label_manager_init (EMailLabelManager *manager)
 		widget, "clicked",
 		G_CALLBACK (e_mail_label_manager_add_label), manager);
 
-	widget = gtk_button_new_from_stock (GTK_STOCK_EDIT);
+	widget = gtk_button_new_with_mnemonic (_("_Edit"));
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	manager->priv->edit_button = g_object_ref (widget);
 	gtk_widget_show (widget);
@@ -386,7 +388,7 @@ e_mail_label_manager_init (EMailLabelManager *manager)
 		widget, "clicked",
 		G_CALLBACK (e_mail_label_manager_edit_label), manager);
 
-	widget = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
+	widget = e_dialog_button_new_with_icon ("list-remove", _("_Remove"));
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	manager->priv->remove_button = g_object_ref (widget);
 	gtk_widget_show (widget);

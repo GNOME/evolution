@@ -582,14 +582,14 @@ action_memo_view_cb (GtkRadioAction *action,
 static GtkActionEntry memo_entries[] = {
 
 	{ "memo-delete",
-	  GTK_STOCK_DELETE,
+	  "edit-delete",
 	  N_("_Delete Memo"),
 	  NULL,
 	  N_("Delete selected memos"),
 	  G_CALLBACK (action_memo_delete_cb) },
 
 	{ "memo-find",
-	  GTK_STOCK_FIND,
+	  "edit-find",
 	  N_("_Find in Memo..."),
 	  "<Shift><Control>f",
 	  N_("Search for text in the displayed memo"),
@@ -603,14 +603,14 @@ static GtkActionEntry memo_entries[] = {
 	  G_CALLBACK (action_memo_forward_cb) },
 
 	{ "memo-list-copy",
-	  GTK_STOCK_COPY,
+	  "edit-copy",
 	  N_("_Copy..."),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_memo_list_copy_cb) },
 
 	{ "memo-list-delete",
-	  GTK_STOCK_DELETE,
+	  "edit-delete",
 	  N_("D_elete Memo List"),
 	  NULL,
 	  N_("Delete the selected memo list"),
@@ -624,14 +624,14 @@ static GtkActionEntry memo_entries[] = {
 	  G_CALLBACK (action_memo_list_new_cb) },
 
 	{ "memo-list-properties",
-	  GTK_STOCK_PROPERTIES,
-	  NULL,
+	  "document-properties",
+	  N_("_Properties"),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_memo_list_properties_cb) },
 
 	{ "memo-list-refresh",
-	  GTK_STOCK_REFRESH,
+	  "view-refresh",
 	  N_("Re_fresh"),
 	  NULL,
 	  N_("Refresh the selected memo list"),
@@ -659,7 +659,7 @@ static GtkActionEntry memo_entries[] = {
 	  G_CALLBACK (action_memo_new_cb) },
 
 	{ "memo-open",
-	  GTK_STOCK_OPEN,
+	  "document-open",
 	  N_("_Open Memo"),
 	  "<Control>o",
 	  N_("View the selected memo"),
@@ -810,22 +810,22 @@ static GtkRadioActionEntry memo_search_entries[] = {
 static GtkActionEntry lockdown_printing_entries[] = {
 
 	{ "memo-list-print",
-	  GTK_STOCK_PRINT,
-	  NULL,
+	  "document-print",
+	  N_("Print..."),
 	  "<Control>p",
 	  N_("Print the list of memos"),
 	  G_CALLBACK (action_memo_list_print_cb) },
 
 	{ "memo-list-print-preview",
-	  GTK_STOCK_PRINT_PREVIEW,
-	  NULL,
+	  "document-print-preview",
+	  N_("Pre_view..."),
 	  NULL,
 	  N_("Preview the list of memos to be printed"),
 	  G_CALLBACK (action_memo_list_print_preview_cb) },
 
 	{ "memo-print",
-	  GTK_STOCK_PRINT,
-	  NULL,
+	  "document-print",
+	  N_("Print..."),
 	  NULL,
 	  N_("Print the selected memo"),
 	  G_CALLBACK (action_memo_print_cb) }
@@ -841,7 +841,7 @@ static EPopupActionEntry lockdown_printing_popup_entries[] = {
 static GtkActionEntry lockdown_save_to_disk_entries[] = {
 
 	{ "memo-save-as",
-	  GTK_STOCK_SAVE_AS,
+	  "document-save-as",
 	  N_("_Save as iCalendar..."),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */

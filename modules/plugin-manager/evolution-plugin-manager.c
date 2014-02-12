@@ -253,7 +253,7 @@ action_plugin_manager_cb (GtkAction *action,
 		_("Plugin Manager"),
 		GTK_WINDOW (extensible),
 		GTK_DIALOG_DESTROY_WITH_PARENT,
-		GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE, NULL);
+		_("_Close"), GTK_RESPONSE_CLOSE, NULL);
 
 	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 

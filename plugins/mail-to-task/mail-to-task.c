@@ -590,9 +590,9 @@ do_ask (const gchar *text,
 	if (is_create_edit_add) {
 		gtk_dialog_add_buttons (
 			GTK_DIALOG (dialog),
-			GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-			GTK_STOCK_EDIT, GTK_RESPONSE_YES,
-			GTK_STOCK_NEW, GTK_RESPONSE_NO,
+			_("_Cancel"), GTK_RESPONSE_CANCEL,
+			_("_Edit"), GTK_RESPONSE_YES,
+			_("_New"), GTK_RESPONSE_NO,
 			NULL);
 	}
 

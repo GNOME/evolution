@@ -29,6 +29,8 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
+#include <e-util/e-util.h>
+
 #include "em-filter-rule.h"
 #include "em-filter-context.h"
 
@@ -435,7 +437,7 @@ attach_rule (GtkWidget *rule,
 		GTK_TABLE (data->parts), rule, 0, 1, row, row + 1,
 		GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
-	remove = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
+	remove = e_dialog_button_new_with_icon ("list-remove", _("_Remove"));
 	g_object_set_data ((GObject *) remove, "rule", rule);
 	/*gtk_button_set_relief(GTK_BUTTON(remove), GTK_RELIEF_NONE);*/
 	g_signal_connect (
@@ -647,10 +649,7 @@ get_widget (EFilterRule *fr,
 	hgrid = GTK_GRID (gtk_grid_new ());
 	gtk_grid_set_column_spacing (hgrid, 3);
 
-	add = gtk_button_new_with_mnemonic (_("Add Ac_tion"));
-	gtk_button_set_image (
-		GTK_BUTTON (add), gtk_image_new_from_stock (
-		GTK_STOCK_ADD, GTK_ICON_SIZE_BUTTON));
+	add = e_dialog_button_new_with_icon ("list-add", _("Add Ac_tion"));
 	g_signal_connect (
 		add, "clicked",
 		G_CALLBACK (more_parts), data);

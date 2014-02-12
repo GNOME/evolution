@@ -2319,8 +2319,8 @@ create_exception_dialog (RecurrencePage *rpage,
 	dialog = gtk_dialog_new_with_buttons (
 		title, GTK_WINDOW (toplevel),
 		GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-		GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
-		GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
+		_("_Cancel"), GTK_RESPONSE_REJECT,
+		_("_OK"), GTK_RESPONSE_ACCEPT,
 		NULL);
 
 	*date_edit = comp_editor_new_date_edit (TRUE, FALSE, TRUE);

@@ -153,7 +153,6 @@ struct _EventPagePrivate {
 	GtkWidget *edit;
 	GtkWidget *invite;
 	GtkWidget *invite_label;
-	GtkWidget *attendees_label;
 
 	/* ListView stuff */
 	EMeetingStore *meeting_store;
@@ -556,7 +555,7 @@ check_starts_in_the_past (EventPage *epage)
 
 	if (comp_editor_test_time_in_the_past (start_tt)) {
 		gchar *tmp = g_strconcat ("<b>", _("Event's start time is in the past"), "</b>", NULL);
-		event_page_set_info_string (epage, GTK_STOCK_DIALOG_WARNING, tmp);
+		event_page_set_info_string (epage, "dialog-warning", tmp);
 		g_free (tmp);
 	} else {
 		event_page_set_info_string (epage, NULL, NULL);
@@ -633,11 +632,11 @@ sensitize_widgets (EventPage *epage)
 
 	if (read_only) {
 		gchar *tmp = g_strconcat ("<b>", _("Event cannot be edited, because the selected calendar is read only"), "</b>", NULL);
-		event_page_set_info_string (epage, GTK_STOCK_DIALOG_INFO, tmp);
+		event_page_set_info_string (epage, "dialog-information", tmp);
 		g_free (tmp);
 	} else if (!sens) {
 		gchar *tmp = g_strconcat ("<b>", _("Event cannot be fully edited, because you are not the organizer"), "</b>", NULL);
-		event_page_set_info_string (epage, GTK_STOCK_DIALOG_INFO, tmp);
+		event_page_set_info_string (epage, "dialog-information", tmp);
 		g_free (tmp);
 	} else if (!check_starts_in_the_past (epage)) {
 		event_page_set_info_string (epage, NULL, NULL);
@@ -1929,9 +1928,9 @@ event_page_set_delegate (EventPage *page,
 	g_return_if_fail (IS_EVENT_PAGE (page));
 
 	if (set)
-		gtk_label_set_text_with_mnemonic ((GtkLabel *) page->priv->attendees_label, _("_Delegatees"));
+		gtk_button_set_label (GTK_BUTTON (page->priv->invite), _("_Delegatees"));
 	else
-		gtk_label_set_text_with_mnemonic ((GtkLabel *) page->priv->attendees_label, _("Atte_ndees"));
+		gtk_button_set_label (GTK_BUTTON (page->priv->invite), _("Atte_ndees"));
 }
 
 static void
@@ -2530,7 +2529,7 @@ event_page_set_info_string (EventPage *epage,
 
 	priv = epage->priv;
 
-	gtk_image_set_from_stock (GTK_IMAGE (priv->info_icon), icon, GTK_ICON_SIZE_BUTTON);
+	gtk_image_set_from_icon_name (GTK_IMAGE (priv->info_icon), icon, GTK_ICON_SIZE_BUTTON);
 	gtk_label_set_markup (GTK_LABEL (priv->info_string), msg);
 
 	if (msg && icon)
@@ -2592,7 +2591,6 @@ get_widgets (EventPage *epage)
 		gtk_widget_show (priv->timezone_label);
 		gtk_widget_show_all (priv->start_timezone);
 	}
-	priv->attendees_label = GW ("attendees-label");
 
 	g_object_ref (priv->main);
 	parent = gtk_widget_get_parent (priv->main);

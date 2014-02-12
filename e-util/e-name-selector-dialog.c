@@ -548,7 +548,7 @@ name_selector_dialog_constructed (GObject *object)
 
 	gtk_dialog_add_buttons (
 		GTK_DIALOG (object),
-		GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
+		_("_Close"), GTK_RESPONSE_CLOSE,
 		NULL);
 
 	/* Try to figure out a sane default size for the dialog. We used to hard
@@ -900,7 +900,7 @@ setup_section_button (ENameSelectorDialog *name_selector_dialog,
 	label = gtk_label_new_with_mnemonic (label_text);
 	gtk_widget_show (label);
 
-	image = gtk_image_new_from_stock (icon_name, GTK_ICON_SIZE_BUTTON);
+	image = gtk_image_new_from_icon_name (icon_name, GTK_ICON_SIZE_BUTTON);
 	gtk_widget_show (image);
 
 	if (icon_before_label) {
@@ -992,11 +992,11 @@ add_section (ENameSelectorDialog *name_selector_dialog,
 
 	/* "Add" button */
 	gtk_container_add (GTK_CONTAINER (vgrid), GTK_WIDGET (section.transfer_button));
-	setup_section_button (name_selector_dialog, section.transfer_button, 0.7, _("_Add"), "gtk-go-forward", FALSE);
+	setup_section_button (name_selector_dialog, section.transfer_button, 0.7, _("_Add"), "go-next", FALSE);
 
 	/* "Remove" button */
 	gtk_container_add (GTK_CONTAINER (vgrid), GTK_WIDGET (section.remove_button));
-	setup_section_button (name_selector_dialog, section.remove_button, 0.5, _("_Remove"), "gtk-go-back", TRUE);
+	setup_section_button (name_selector_dialog, section.remove_button, 0.5, _("_Remove"), "go-previous", TRUE);
 	gtk_widget_set_sensitive (GTK_WIDGET (section.remove_button), FALSE);
 
 	/* hgrid for label and scrolled window. This is a separate hgrid, instead

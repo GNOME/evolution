@@ -112,7 +112,7 @@ e_icon_factory_get_icon (const gchar *icon_name,
 
 		/* Fallback to missing image */
 		pixbuf = gtk_icon_theme_load_icon (
-			icon_theme, GTK_STOCK_MISSING_IMAGE,
+			icon_theme, "image-missing",
 			height, 0, &error);
 
 		if (error != NULL) {

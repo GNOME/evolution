@@ -340,7 +340,7 @@ action_categories_cb (GtkAction *action,
 		_("Categories Editor"),
 		GTK_WINDOW (shell_window),
 		GTK_DIALOG_DESTROY_WITH_PARENT,
-		GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE, NULL);
+		_("_Close"), GTK_RESPONSE_CLOSE, NULL);
 	gtk_container_set_border_width (GTK_CONTAINER (dialog), 12);
 	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 	gtk_box_pack_start (
@@ -846,57 +846,57 @@ action_work_online_cb (GtkAction *action,
 static GtkActionEntry shell_entries[] = {
 
 	{ "about",
-	  GTK_STOCK_ABOUT,
-	  NULL,
+	  "help-about",
+	  N_("_About"),
 	  NULL,
 	  N_("Show information about Evolution"),
 	  G_CALLBACK (action_about_cb) },
 
 	{ "close",
-	  GTK_STOCK_CLOSE,
+	  "window-close",
 	  N_("_Close Window"),
 	  "<Control>w",
 	  N_("Close this window"),
 	  G_CALLBACK (action_close_cb) },
 
 	{ "close-window-menu",
-	  GTK_STOCK_CLOSE,
-	  NULL,
+	  "window-close",
+	  N_("_Close"),
 	  "<Control>w",
 	  N_("Close this window"),
 	  G_CALLBACK (action_close_cb) },
 
 	{ "close-window",
-	  GTK_STOCK_CLOSE,
+	  "window-close",
 	  N_("_Close Window"),
 	  "<Control>w",
 	  N_("Close this window"),
 	  G_CALLBACK (action_close_cb) },
 
 	{ "contents",
-	  GTK_STOCK_HELP,
+	  "help-browser",
 	  N_("_Contents"),
 	  "F1",
 	  N_("Open the Evolution User Guide"),
 	  G_CALLBACK (action_contents_cb) },
 
 	{ "copy-clipboard",
-	  GTK_STOCK_COPY,
-	  NULL,
+	  "edit-copy",
+	  N_("_Copy"),
 	  NULL,
 	  N_("Copy the selection"),
 	  NULL },  /* Handled by EFocusTracker */
 
 	{ "cut-clipboard",
-	  GTK_STOCK_CUT,
-	  NULL,
+	  "edit-cut",
+	  N_("Cu_t"),
 	  NULL,
 	  N_("Cut the selection"),
 	  NULL },  /* Handled by EFocusTracker */
 
 	{ "delete-selection",
-	  GTK_STOCK_DELETE,
-	  NULL,
+	  "edit-delete",
+	  N_("_Delete"),
 	  NULL,
 	  N_("Delete the selection"),
 	  NULL },  /* Handled by EFocusTracker */
@@ -916,8 +916,8 @@ static GtkActionEntry shell_entries[] = {
 	  G_CALLBACK (action_new_window_cb) },
 
 	{ "paste-clipboard",
-	  GTK_STOCK_PASTE,
-	  NULL,
+	  "edit-paste",
+	  N_("_Paste"),
 	  NULL,
 	  N_("Paste the clipboard"),
 	  NULL },  /* Handled by EFocusTracker */
@@ -930,8 +930,8 @@ static GtkActionEntry shell_entries[] = {
 	  G_CALLBACK (action_categories_cb) },
 
 	{ "preferences",
-	  GTK_STOCK_PREFERENCES,
-	  NULL,
+	  "preferences-system",
+	  N_("_Preferences"),
 	  "<Control><Shift>s",
 	  N_("Configure Evolution"),
 	  G_CALLBACK (action_preferences_cb) },
@@ -944,8 +944,8 @@ static GtkActionEntry shell_entries[] = {
 	  G_CALLBACK (action_quick_reference_cb) },
 
 	{ "quit",
-	  GTK_STOCK_QUIT,
-	  NULL,
+	  "application-exit",
+	  N_("_Quit"),
 	  NULL,
 	  N_("Exit the program"),
 	  G_CALLBACK (action_quit_cb) },
@@ -958,8 +958,8 @@ static GtkActionEntry shell_entries[] = {
 	  G_CALLBACK (action_search_advanced_cb) },
 
 	{ "search-clear",
-	  GTK_STOCK_CLEAR,
-	  NULL,
+	  "edit-clear",
+	  N_("_Clear"),
 	  "<Control><Shift>q",
 	  N_("Clear the current search parameters"),
 	  G_CALLBACK (action_search_clear_cb) },
@@ -972,14 +972,14 @@ static GtkActionEntry shell_entries[] = {
 	  G_CALLBACK (action_search_edit_cb) },
 
 	{ "search-options",
-	  GTK_STOCK_FIND,
-	  NULL,
+	  "edit-find",
+	  N_("_Find"),
 	  NULL,
 	  N_("Click here to change the search type"),
 	  G_CALLBACK (action_search_options_cb) },
 
 	{ "search-quick",
-	  GTK_STOCK_FIND,
+	  "edit-find",
 	  N_("_Find Now"),
 	  "",      /* Block the default Ctrl+F. */
 	  N_("Execute the current search parameters"),
@@ -993,8 +993,8 @@ static GtkActionEntry shell_entries[] = {
 	  G_CALLBACK (action_search_save_cb) },
 
 	{ "select-all",
-	  GTK_STOCK_SELECT_ALL,
-	  NULL,
+	  "edit-select-all",
+	  N_("Select _All"),
 	  "<Control>a",
 	  N_("Select all text"),
 	  NULL },  /* Handled by EFocusTracker */
@@ -1051,7 +1051,7 @@ static GtkActionEntry shell_entries[] = {
 	  NULL },
 
 	{ "new-menu",
-	  GTK_STOCK_NEW,
+	  "document-new",
 	  N_("_New"),
 	  "",
 	  NULL,
@@ -1223,8 +1223,8 @@ static GtkRadioActionEntry shell_gal_view_radio_entries[] = {
 static GtkActionEntry shell_lockdown_print_setup_entries[] = {
 
 	{ "page-setup",
-	  GTK_STOCK_PAGE_SETUP,
-	  NULL,
+	  "document-page-setup",
+	  N_("Page Set_up..."),
 	  NULL,
 	  N_("Change the page settings for your current printer"),
 	  G_CALLBACK (action_page_setup_cb) }

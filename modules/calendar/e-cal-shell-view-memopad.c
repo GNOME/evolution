@@ -274,7 +274,7 @@ static GtkActionEntry calendar_memopad_entries[] = {
 	  G_CALLBACK (action_calendar_memopad_new_cb) },
 
 	{ "calendar-memopad-open",
-	  GTK_STOCK_OPEN,
+	  "document-open",
 	  N_("_Open Memo"),
 	  NULL,
 	  N_("View the selected memo"),
@@ -291,8 +291,8 @@ static GtkActionEntry calendar_memopad_entries[] = {
 static GtkActionEntry lockdown_printing_entries[] = {
 
 	{ "calendar-memopad-print",
-	  GTK_STOCK_PRINT,
-	  NULL,
+	  "document-print",
+	  N_("Print..."),
 	  NULL,
 	  N_("Print the selected memo"),
 	  G_CALLBACK (action_calendar_memopad_print_cb) }
@@ -301,7 +301,7 @@ static GtkActionEntry lockdown_printing_entries[] = {
 static GtkActionEntry lockdown_save_to_disk_entries[] = {
 
 	{ "calendar-memopad-save-as",
-	  GTK_STOCK_SAVE_AS,
+	  "document-save-as",
 	  N_("_Save as iCalendar..."),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */

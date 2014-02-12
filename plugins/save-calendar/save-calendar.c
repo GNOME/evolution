@@ -186,8 +186,8 @@ ask_destination_and_save (ESourceSelector *selector,
 		_("Select destination file"),
 		NULL,
 		GTK_FILE_CHOOSER_ACTION_SAVE,
-		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-		GTK_STOCK_SAVE_AS, GTK_RESPONSE_OK,
+		_("_Cancel"), GTK_RESPONSE_CANCEL,
+		_("_Save As"), GTK_RESPONSE_OK,
 		NULL);
 
 	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
@@ -338,15 +338,15 @@ calendar_save_as_init (GtkUIManager *ui_manager,
 	GtkActionGroup *action_group;
 	GtkAction *action;
 	const gchar *tooltip;
-	const gchar *stock_id;
+	const gchar *icon_name;
 	const gchar *name;
 
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	name = "calendar-save-as";
 	tooltip = _("Save the selected calendar to disk");
-	stock_id = GTK_STOCK_SAVE_AS;
-	action = gtk_action_new (name, NULL, tooltip, stock_id);
+	icon_name = "document-save-as";
+	action = gtk_action_new (name, _("Save _As"), tooltip, icon_name);
 
 	name = "lockdown-save-to-disk";
 	action_group = e_shell_window_get_action_group (shell_window, name);
@@ -369,15 +369,15 @@ memo_list_save_as_init (GtkUIManager *ui_manager,
 	GtkActionGroup *action_group;
 	GtkAction *action;
 	const gchar *tooltip;
-	const gchar *stock_id;
+	const gchar *icon_name;
 	const gchar *name;
 
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	name = "memo-list-save-as";
 	tooltip = _("Save the selected memo list to disk");
-	stock_id = GTK_STOCK_SAVE_AS;
-	action = gtk_action_new (name, NULL, tooltip, stock_id);
+	icon_name = "document-save-as";
+	action = gtk_action_new (name, _("Save _As"), tooltip, icon_name);
 
 	name = "lockdown-save-to-disk";
 	action_group = e_shell_window_get_action_group (shell_window, name);
@@ -400,15 +400,15 @@ task_list_save_as_init (GtkUIManager *ui_manager,
 	GtkActionGroup *action_group;
 	GtkAction *action;
 	const gchar *tooltip;
-	const gchar *stock_id;
+	const gchar *icon_name;
 	const gchar *name;
 
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	name = "task-list-save-as";
 	tooltip = _("Save the selected task list to disk");
-	stock_id = GTK_STOCK_SAVE_AS;
-	action = gtk_action_new (name, NULL, tooltip, stock_id);
+	icon_name = "document-save-as";
+	action = gtk_action_new (name, _("Save _As"), tooltip, icon_name);
 
 	name = "lockdown-save-to-disk";
 	action_group = e_shell_window_get_action_group (shell_window, name);

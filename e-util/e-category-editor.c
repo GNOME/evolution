@@ -25,6 +25,7 @@
 #include <libedataserver/libedataserver.h>
 
 #include "e-category-editor.h"
+#include "e-dialog-widgets.h"
 
 #define E_CATEGORY_EDITOR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -134,19 +135,15 @@ e_category_editor_init (ECategoryEditor *editor)
 	chooser_dialog = gtk_file_chooser_dialog_new (
 		_("Category Icon"),
 		NULL, GTK_FILE_CHOOSER_ACTION_OPEN,
-		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, NULL);
+		_("_Cancel"), GTK_RESPONSE_CANCEL, NULL);
 
-	no_image_button = gtk_button_new_with_mnemonic (_("_No Image"));
-	gtk_button_set_image (
-		GTK_BUTTON (no_image_button),
-		gtk_image_new_from_stock (
-		GTK_STOCK_CLOSE, GTK_ICON_SIZE_BUTTON));
+	no_image_button = e_dialog_button_new_with_icon ("window-close", _("_No Image"));
 	gtk_dialog_add_action_widget (
 		GTK_DIALOG (chooser_dialog),
 		no_image_button, GTK_RESPONSE_NO);
 	gtk_dialog_add_button (
 		GTK_DIALOG (chooser_dialog),
-		GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT);
+		_("_Open"), GTK_RESPONSE_ACCEPT);
 	gtk_file_chooser_set_local_only (
 		GTK_FILE_CHOOSER (chooser_dialog), TRUE);
 	gtk_widget_show (no_image_button);
@@ -208,8 +205,8 @@ e_category_editor_init (ECategoryEditor *editor)
 
 	gtk_dialog_add_buttons (
 		GTK_DIALOG (editor),
-		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-		GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
+		_("_Cancel"), GTK_RESPONSE_CANCEL,
+		_("_OK"), GTK_RESPONSE_OK, NULL);
 	gtk_dialog_set_default_response (GTK_DIALOG (editor), GTK_RESPONSE_OK);
 	gtk_window_set_title (GTK_WINDOW (editor), _("Category Properties"));
 	gtk_window_set_type_hint (

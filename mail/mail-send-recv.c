@@ -539,11 +539,7 @@ build_dialog (GtkWindow *parent,
 	container = gtk_dialog_get_content_area (gd);
 	gtk_container_set_border_width (GTK_CONTAINER (container), 0);
 
-	cancel_button = gtk_button_new_with_mnemonic (_("Cancel _All"));
-	gtk_button_set_image (
-		GTK_BUTTON (cancel_button),
-		gtk_image_new_from_stock (
-			GTK_STOCK_CANCEL, GTK_ICON_SIZE_BUTTON));
+	cancel_button = e_dialog_button_new_with_icon ("process-stop", _("Cancel _All"));
 	gtk_widget_show (cancel_button);
 	gtk_dialog_add_action_widget (gd, cancel_button, GTK_RESPONSE_CANCEL);
 
@@ -636,7 +632,7 @@ build_dialog (GtkWindow *parent,
 			_("Updating...") : _("Waiting..."));
 		gtk_widget_set_margin_bottom (progress_bar, 12);
 
-		cancel_button = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
+		cancel_button = e_dialog_button_new_with_icon ("process-stop", _("_Cancel"));
 		gtk_widget_set_valign (cancel_button, GTK_ALIGN_END);
 		gtk_widget_set_margin_bottom (cancel_button, 12);
 
@@ -718,7 +714,7 @@ build_dialog (GtkWindow *parent,
 			GTK_PROGRESS_BAR (progress_bar), _("Waiting..."));
 		gtk_widget_set_margin_bottom (progress_bar, 12);
 
-		cancel_button = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
+		cancel_button = e_dialog_button_new_with_icon ("process-stop", _("_Cancel"));
 		gtk_widget_set_valign (cancel_button, GTK_ALIGN_END);
 
 		gtk_misc_set_alignment (GTK_MISC (label), 0, .5);

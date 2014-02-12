@@ -1963,8 +1963,8 @@ procedure_notification_dialog (const gchar *cmd,
 
 	dialog = gtk_dialog_new_with_buttons (
 		_("Warning"), NULL, 0,
-		GTK_STOCK_NO, GTK_RESPONSE_CANCEL,
-		GTK_STOCK_YES, GTK_RESPONSE_OK,
+		_("_No"), GTK_RESPONSE_CANCEL,
+		_("_Yes"), GTK_RESPONSE_OK,
 		NULL);
 
 	str = g_strdup_printf (

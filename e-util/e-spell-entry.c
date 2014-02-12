@@ -481,7 +481,7 @@ build_spelling_menu (ESpellEntry *entry,
 
 	gtk_image_menu_item_set_image (
 		GTK_IMAGE_MENU_ITEM (mi),
-		gtk_image_new_from_stock (GTK_STOCK_ADD, GTK_ICON_SIZE_MENU));
+		gtk_image_new_from_icon_name ("list-add", GTK_ICON_SIZE_MENU));
 
 	if (entry->priv->checkers->next == NULL) {
 		checker = entry->priv->checkers->data;
@@ -529,7 +529,7 @@ build_spelling_menu (ESpellEntry *entry,
 	mi = gtk_image_menu_item_new_with_label (_("Ignore All"));
 	gtk_image_menu_item_set_image (
 		GTK_IMAGE_MENU_ITEM (mi),
-		gtk_image_new_from_stock (GTK_STOCK_REMOVE, GTK_ICON_SIZE_MENU));
+		gtk_image_new_from_icon_name ("list-remove", GTK_ICON_SIZE_MENU));
 	g_signal_connect (mi, "activate", G_CALLBACK (ignore_all), entry);
 	gtk_widget_show_all (mi);
 	gtk_menu_shell_append (GTK_MENU_SHELL (topmenu), mi);
@@ -553,7 +553,7 @@ spell_entry_add_suggestions_menu (ESpellEntry *entry,
 	gtk_menu_shell_prepend (GTK_MENU_SHELL (menu), mi);
 
 	/* Above the separator, show the suggestions menu */
-	icon = gtk_image_new_from_stock (GTK_STOCK_SPELL_CHECK, GTK_ICON_SIZE_MENU);
+	icon = gtk_image_new_from_icon_name ("tools-check-spelling", GTK_ICON_SIZE_MENU);
 	mi = gtk_image_menu_item_new_with_label (_("Spelling Suggestions"));
 	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (mi), icon);
 

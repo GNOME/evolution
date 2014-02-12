@@ -354,12 +354,13 @@
                         <property name="layout_style">start</property>
                         <child>
                           <object class="GtkButton" id="add-attendee">
-                            <property name="label">gtk-add</property>
+                            <property name="label" translatable="yes">_Add</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="can_default">True</property>
                             <property name="receives_default">False</property>
-                            <property name="use_stock">True</property>
+                            <property name="use_stock">False</property>
+                            <property name="use_underline">True</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -369,12 +370,13 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="remove-attendee">
-                            <property name="label">gtk-remove</property>
+                            <property name="label" translatable="yes">_Remove</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="can_default">True</property>
                             <property name="receives_default">False</property>
-                            <property name="use_stock">True</property>
+                            <property name="use_stock">False</property>
+                            <property name="use_underline">True</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -384,12 +386,13 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="edit-attendee">
-                            <property name="label">gtk-edit</property>
+                            <property name="label" translatable="yes">_Edit</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="can_default">True</property>
                             <property name="receives_default">False</property>
-                            <property name="use_stock">True</property>
+                            <property name="use_stock">False</property>
+                            <property name="use_underline">True</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -425,46 +428,8 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
-                        <child>
-                          <object class="GtkAlignment" id="alignment1">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="xscale">0</property>
-                            <property name="yscale">0</property>
-                            <child>
-                              <object class="GtkHBox" id="hbox14">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="spacing">2</property>
-                                <child>
-                                  <object class="GtkImage" id="image1">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="stock">gtk-jump-to</property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">False</property>
-                                    <property name="position">0</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkLabel" id="attendees-label">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">Atte_ndees...</property>
-                                    <property name="use_underline">True</property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">False</property>
-                                    <property name="position">1</property>
-                                  </packing>
-                                </child>
-                              </object>
-                            </child>
-                          </object>
-                        </child>
+                        <property name="label" translatable="yes">Atte_ndees...</property>
+                        <property name="use_underline">True</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>

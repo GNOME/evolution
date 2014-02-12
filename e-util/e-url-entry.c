@@ -101,8 +101,8 @@ e_url_entry_init (EUrlEntry *url_entry)
 
 	entry = GTK_ENTRY (url_entry);
 
-	gtk_entry_set_icon_from_stock (
-		entry, ICON_POSITION, GTK_STOCK_JUMP_TO);
+	gtk_entry_set_icon_from_icon_name (
+		entry, ICON_POSITION, "go-jump");
 
 	gtk_entry_set_icon_tooltip_text (
 		entry, ICON_POSITION, _("Click here to open the URL"));

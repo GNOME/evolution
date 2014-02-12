@@ -66,7 +66,7 @@ emfe_error_format (EMailFormatterExtension *extension,
 		"<tr valign=\"top\"><td width=50>"
 		"<img src=\"gtk-stock://%s/?size=%d\" /></td>\n"
 		"<td style=\"color: red;\">",
-		GTK_STOCK_DIALOG_ERROR, GTK_ICON_SIZE_DIALOG);
+		"dialog-error", GTK_ICON_SIZE_DIALOG);
 
 	camel_stream_write_string (stream, html, cancellable, NULL);
 	g_free (html);

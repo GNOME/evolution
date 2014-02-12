@@ -278,7 +278,7 @@ action_image_save_cb (GtkAction *action,
 static GtkActionEntry uri_entries[] = {
 
 	{ "uri-copy",
-	  GTK_STOCK_COPY,
+	  "edit-copy",
 	  N_("_Copy Link Location"),
 	  NULL,
 	  N_("Copy the link to the clipboard"),
@@ -298,7 +298,7 @@ static GtkActionEntry http_entries[] = {
 static GtkActionEntry mailto_entries[] = {
 
 	{ "mailto-copy",
-	  GTK_STOCK_COPY,
+	  "edit-copy",
 	  N_("_Copy Email Address"),
 	  NULL,
 	  N_("Copy the email address to the clipboard"),
@@ -315,14 +315,14 @@ static GtkActionEntry mailto_entries[] = {
 static GtkActionEntry image_entries[] = {
 
 	{ "image-copy",
-	  GTK_STOCK_COPY,
+	  "edit-copy",
 	  N_("_Copy Image"),
 	  NULL,
 	  N_("Copy the image to the clipboard"),
 	  G_CALLBACK (action_image_copy_cb) },
 
 	{ "image-save",
-	  GTK_STOCK_SAVE,
+	  "document-save",
 	  N_("Save _Image..."),
 	  NULL,
 	  N_("Save the image to a file"),
@@ -332,7 +332,7 @@ static GtkActionEntry image_entries[] = {
 static GtkActionEntry selection_entries[] = {
 
 	{ "copy-clipboard",
-	  GTK_STOCK_COPY,
+	  "edit-copy",
 	  NULL,
 	  NULL,
 	  N_("Copy the selection"),
@@ -342,8 +342,8 @@ static GtkActionEntry selection_entries[] = {
 static GtkActionEntry standard_entries[] = {
 
 	{ "select-all",
-	  GTK_STOCK_SELECT_ALL,
-	  NULL,
+	  "edit-select-all",
+	  N_("Select _All"),
 	  NULL,
 	  N_("Select all text and images"),
 	  G_CALLBACK (action_select_all_cb) }
@@ -1201,15 +1201,15 @@ web_view_submit_alert (EAlertSink *alert_sink,
 
 	switch (e_alert_get_message_type (alert)) {
 		case GTK_MESSAGE_INFO:
-			icon_name = GTK_STOCK_DIALOG_INFO;
+			icon_name = "dialog-information";
 			break;
 
 		case GTK_MESSAGE_WARNING:
-			icon_name = GTK_STOCK_DIALOG_WARNING;
+			icon_name = "dialog-warning";
 			break;
 
 		case GTK_MESSAGE_ERROR:
-			icon_name = GTK_STOCK_DIALOG_ERROR;
+			icon_name = "dialog-error";
 			break;
 
 		default:
@@ -3078,8 +3078,8 @@ e_web_view_cursor_image_save (EWebView *web_view)
 	dialog = gtk_file_chooser_dialog_new (
 		_("Save Image"), toplevel,
 		GTK_FILE_CHOOSER_ACTION_SAVE,
-		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-		GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT, NULL);
+		_("_Cancel"), GTK_RESPONSE_CANCEL,
+		_("_Save"), GTK_RESPONSE_ACCEPT, NULL);
 
 	gtk_dialog_set_default_response (
 		GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);

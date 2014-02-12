@@ -401,7 +401,7 @@ action_image_copy_cb (GtkAction *action,
 static GtkActionEntry uri_entries[] = {
 
 	{ "uri-copy",
-	  GTK_STOCK_COPY,
+	  "edit-copy",
 	  N_("_Copy Link Location"),
 	  NULL,
 	  N_("Copy the link to the clipboard"),
@@ -421,7 +421,7 @@ static GtkActionEntry http_entries[] = {
 static GtkActionEntry mailto_entries[] = {
 
 	{ "mailto-copy",
-	  GTK_STOCK_COPY,
+	  "edit-copy",
 	  N_("_Copy Email Address"),
 	  NULL,
 	  N_("Copy the email address to the clipboard"),
@@ -438,7 +438,7 @@ static GtkActionEntry mailto_entries[] = {
 static GtkActionEntry image_entries[] = {
 
 	{ "image-copy",
-	  GTK_STOCK_COPY,
+	  "edit-copy",
 	  N_("_Copy Image"),
 	  NULL,
 	  N_("Copy the image to the clipboard"),
@@ -448,7 +448,7 @@ static GtkActionEntry image_entries[] = {
 static GtkActionEntry selection_entries[] = {
 
 	{ "copy-clipboard",
-	  GTK_STOCK_COPY,
+	  "edit-copy",
 	  NULL,
 	  NULL,
 	  N_("Copy the selection"),
@@ -458,8 +458,8 @@ static GtkActionEntry selection_entries[] = {
 static GtkActionEntry standard_entries[] = {
 
 	{ "select-all",
-	  GTK_STOCK_SELECT_ALL,
-	  NULL,
+	  "edit-select-all",
+	  N_("Select _All"),
 	  NULL,
 	  N_("Select all text and images"),
 	  G_CALLBACK (action_select_all_cb) }

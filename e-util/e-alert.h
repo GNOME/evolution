@@ -98,7 +98,7 @@ void		e_alert_set_primary_text	(EAlert *alert,
 const gchar *	e_alert_get_secondary_text	(EAlert *alert);
 void		e_alert_set_secondary_text	(EAlert *alert,
 						 const gchar *secondary_text);
-const gchar *	e_alert_get_stock_id		(EAlert *alert);
+const gchar *	e_alert_get_icon_name		(EAlert *alert);
 void		e_alert_add_action		(EAlert *alert,
 						 GtkAction *action,
 						 gint response_id);

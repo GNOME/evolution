@@ -363,11 +363,11 @@ mail_signature_script_dialog_constructed (GObject *object)
 
 	gtk_dialog_add_button (
 		GTK_DIALOG (dialog),
-		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
+		_("_Cancel"), GTK_RESPONSE_CANCEL);
 
 	gtk_dialog_add_button (
 		GTK_DIALOG (dialog),
-		GTK_STOCK_SAVE, GTK_RESPONSE_OK);
+		_("_Save"), GTK_RESPONSE_OK);
 
 	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
 
@@ -383,8 +383,8 @@ mail_signature_script_dialog_constructed (GObject *object)
 
 	container = widget;
 
-	widget = gtk_image_new_from_stock (
-		GTK_STOCK_DIALOG_INFO, GTK_ICON_SIZE_DIALOG);
+	widget = gtk_image_new_from_icon_name (
+		"dialog-information", GTK_ICON_SIZE_DIALOG);
 	gtk_table_attach (
 		GTK_TABLE (container), widget,
 		0, 1, 0, 1, 0, 0, 0, 0);
@@ -466,8 +466,8 @@ mail_signature_script_dialog_constructed (GObject *object)
 
 	container = widget;
 
-	widget = gtk_image_new_from_stock (
-		GTK_STOCK_DIALOG_WARNING, GTK_ICON_SIZE_MENU);
+	widget = gtk_image_new_from_icon_name (
+		"dialog-warning", GTK_ICON_SIZE_MENU);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 

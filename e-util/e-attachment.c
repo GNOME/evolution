@@ -42,7 +42,7 @@
 #define DEFAULT_ICON_NAME	"mail-attachment"
 
 /* Emblems */
-#define EMBLEM_CANCELLED	"gtk-cancel"
+#define EMBLEM_CANCELLED	"process-stop"
 #define EMBLEM_LOADING		"emblem-downloads"
 #define EMBLEM_SAVING		"document-save"
 #define EMBLEM_ENCRYPT_WEAK	"security-low"

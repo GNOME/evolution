@@ -285,12 +285,12 @@ choose_new_face (void)
 	GtkFileFilter *filter;
 
 	filesel = gtk_file_chooser_dialog_new (
-				_("Select a Face Picture"),
-				NULL,
-				GTK_FILE_CHOOSER_ACTION_OPEN,
-				GTK_STOCK_CANCEL,
-				GTK_RESPONSE_CANCEL,
-				GTK_STOCK_OPEN, GTK_RESPONSE_OK, NULL);
+		_("Select a Face Picture"),
+		NULL,
+		GTK_FILE_CHOOSER_ACTION_OPEN,
+		_("_Cancel"), GTK_RESPONSE_CANCEL,
+		_("_Open"), GTK_RESPONSE_OK,
+		NULL);
 
 	gtk_dialog_set_default_response (GTK_DIALOG (filesel), GTK_RESPONSE_OK);
 

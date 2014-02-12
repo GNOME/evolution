@@ -328,8 +328,8 @@ mail_config_window_constructed (GObject *object)
 
 	gtk_dialog_add_buttons (
 		GTK_DIALOG (window),
-		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-		GTK_STOCK_OK, GTK_RESPONSE_OK,
+		_("_Cancel"), GTK_RESPONSE_CANCEL,
+		_("_OK"), GTK_RESPONSE_OK,
 		NULL);
 
 	container = gtk_dialog_get_content_area (GTK_DIALOG (window));

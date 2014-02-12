@@ -465,8 +465,8 @@ ep_ask_password (EPassMsg *msg)
 
 	widget = gtk_dialog_new_with_buttons (
 		msg->title, msg->parent, 0,
-		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-		GTK_STOCK_OK, GTK_RESPONSE_OK,
+		_("_Cancel"), GTK_RESPONSE_CANCEL,
+		_("_OK"), GTK_RESPONSE_OK,
 		NULL);
 	gtk_dialog_set_default_response (
 		GTK_DIALOG (widget), GTK_RESPONSE_OK);

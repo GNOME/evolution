@@ -25,6 +25,8 @@
 
 #include <libedataserver/libedataserver.h>
 
+#include "e-dialog-widgets.h"
+
 #define E_ACTIVITY_PROXY_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_ACTIVITY_PROXY, EActivityProxyPrivate))
@@ -125,9 +127,9 @@ activity_proxy_update (EActivityProxy *proxy)
 		icon_name = COMPLETED_ICON_NAME;
 
 	if (state == E_ACTIVITY_CANCELLED) {
-		gtk_image_set_from_stock (
+		gtk_image_set_from_icon_name (
 			GTK_IMAGE (proxy->priv->image),
-			GTK_STOCK_CANCEL, GTK_ICON_SIZE_BUTTON);
+			"process-stop", GTK_ICON_SIZE_BUTTON);
 		gtk_widget_show (proxy->priv->image);
 	} else if (icon_name != NULL) {
 		gtk_image_set_from_icon_name (
@@ -300,10 +302,7 @@ e_activity_proxy_init (EActivityProxy *proxy)
 	gtk_widget_show (widget);
 
 	/* This is only shown if the EActivity has a GCancellable. */
-	widget = gtk_button_new ();
-	gtk_button_set_image (
-		GTK_BUTTON (widget), gtk_image_new_from_stock (
-		GTK_STOCK_CANCEL, GTK_ICON_SIZE_MENU));
+	widget = e_dialog_button_new_with_icon ("process-stop", NULL);
 	gtk_button_set_relief (GTK_BUTTON (widget), GTK_RELIEF_NONE);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_set_tooltip_text (widget, _("Cancel"));

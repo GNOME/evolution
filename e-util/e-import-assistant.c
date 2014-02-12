@@ -33,6 +33,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <libebackend/libebackend.h>
 
+#include "e-dialog-widgets.h"
 #include "e-import.h"
 #include "e-util-private.h"
 
@@ -771,11 +772,7 @@ prepare_progress_page (GtkAssistant *assistant,
 	gtk_assistant_commit (assistant);
 
 	/* Install a custom "Cancel Import" button. */
-	cancel_button = gtk_button_new_with_mnemonic (_("_Cancel Import"));
-	gtk_button_set_image (
-		GTK_BUTTON (cancel_button),
-		gtk_image_new_from_stock (
-		GTK_STOCK_CANCEL, GTK_ICON_SIZE_BUTTON));
+	cancel_button = e_dialog_button_new_with_icon ("process-stop", _("_Cancel Import"));
 	g_signal_connect_swapped (
 		cancel_button, "clicked",
 		G_CALLBACK (import_cancelled), assistant);

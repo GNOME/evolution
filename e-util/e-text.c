@@ -2068,7 +2068,9 @@ popup_targets_received (GtkClipboard *clipboard,
 		popup_menu_detach);
 
 	/* cut menu item */
-	menuitem = gtk_image_menu_item_new_from_stock (GTK_STOCK_CUT, NULL);
+	menuitem = gtk_image_menu_item_new_with_mnemonic (_("Cu_t"));
+	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (menuitem),
+		gtk_image_new_from_icon_name ("edit-cut", GTK_ICON_SIZE_MENU));
 	gtk_widget_show (menuitem);
 	gtk_menu_shell_append (GTK_MENU_SHELL (popup_menu), menuitem);
 	g_signal_connect_swapped (
@@ -2079,7 +2081,9 @@ popup_targets_received (GtkClipboard *clipboard,
 		(text->selection_start != text->selection_end));
 
 	/* copy menu item */
-	menuitem = gtk_image_menu_item_new_from_stock (GTK_STOCK_COPY, NULL);
+	menuitem = gtk_image_menu_item_new_with_mnemonic (_("_Copy"));
+	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (menuitem),
+		gtk_image_new_from_icon_name ("edit-copy", GTK_ICON_SIZE_MENU));
 	gtk_widget_show (menuitem);
 	gtk_menu_shell_append (GTK_MENU_SHELL (popup_menu), menuitem);
 	g_signal_connect_swapped (
@@ -2088,7 +2092,9 @@ popup_targets_received (GtkClipboard *clipboard,
 	gtk_widget_set_sensitive (menuitem, text->selection_start != text->selection_end);
 
 	/* paste menu item */
-	menuitem = gtk_image_menu_item_new_from_stock (GTK_STOCK_PASTE, NULL);
+	menuitem = gtk_image_menu_item_new_with_mnemonic (_("_Paste"));
+	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (menuitem),
+		gtk_image_new_from_icon_name ("edit-paste", GTK_ICON_SIZE_MENU));
 	gtk_widget_show (menuitem);
 	gtk_menu_shell_append (GTK_MENU_SHELL (popup_menu), menuitem);
 	g_signal_connect_swapped (

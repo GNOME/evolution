@@ -413,7 +413,7 @@ emfp_dialog_run (AsyncContext *context)
 		_("Folder Properties"),
 		context->parent_window,
 		GTK_DIALOG_DESTROY_WITH_PARENT,
-		GTK_STOCK_CLOSE, GTK_RESPONSE_OK, NULL);
+		_("_Close"), GTK_RESPONSE_OK, NULL);
 	gtk_window_set_default_size ((GtkWindow *) dialog, 192, 160);
 
 	gtk_widget_ensure_style (dialog);

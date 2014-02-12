@@ -315,8 +315,8 @@ eab_select_source (ESourceRegistry *registry,
 	dialog = gtk_dialog_new_with_buttons (
 		_("Select Address Book"), parent,
 		GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-		GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
+		_("_Cancel"), GTK_RESPONSE_CANCEL,
+		_("_OK"), GTK_RESPONSE_ACCEPT,
 		NULL);
 	gtk_window_set_default_size (GTK_WINDOW (dialog), 350, 300);
 

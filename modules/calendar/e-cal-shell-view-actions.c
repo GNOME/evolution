@@ -1346,28 +1346,28 @@ action_event_schedule_appointment_cb (GtkAction *action,
 static GtkActionEntry calendar_entries[] = {
 
 	{ "calendar-copy",
-	  GTK_STOCK_COPY,
+	  "edit-copy",
 	  N_("_Copy..."),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_calendar_copy_cb) },
 
 	{ "calendar-delete",
-	  GTK_STOCK_DELETE,
+	  "edit-delete",
 	  N_("D_elete Calendar"),
 	  NULL,
 	  N_("Delete the selected calendar"),
 	  G_CALLBACK (action_calendar_delete_cb) },
 
 	{ "calendar-go-back",
-	  GTK_STOCK_GO_BACK,
+	  "go-previous",
 	  N_("Previous"),
 	  NULL,
 	  N_("Go Back"),
 	  G_CALLBACK (action_calendar_go_back_cb) },
 
 	{ "calendar-go-forward",
-	  GTK_STOCK_GO_FORWARD,
+	  "go-next",
 	  N_("Next"),
 	  NULL,
 	  N_("Go Forward"),
@@ -1381,7 +1381,7 @@ static GtkActionEntry calendar_entries[] = {
 	  G_CALLBACK (action_calendar_go_today_cb) },
 
 	{ "calendar-jump-to",
-	  GTK_STOCK_JUMP_TO,
+	  "go-jump",
 	  N_("Select _Date"),
 	  "<Control>g",
 	  N_("Select a specific date"),
@@ -1395,8 +1395,8 @@ static GtkActionEntry calendar_entries[] = {
 	  G_CALLBACK (action_calendar_new_cb) },
 
 	{ "calendar-properties",
-	  GTK_STOCK_PROPERTIES,
-	  NULL,
+	  "document-properties",
+	  N_("_Properties"),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_calendar_properties_cb) },
@@ -1409,7 +1409,7 @@ static GtkActionEntry calendar_entries[] = {
 	  G_CALLBACK (action_calendar_purge_cb) },
 
 	{ "calendar-refresh",
-	  GTK_STOCK_REFRESH,
+	  "view-refresh",
 	  N_("Re_fresh"),
 	  NULL,
 	  N_("Refresh the selected calendar"),
@@ -1423,21 +1423,21 @@ static GtkActionEntry calendar_entries[] = {
 	  G_CALLBACK (action_calendar_rename_cb) },
 
 	{ "calendar-search-next",
-	  GTK_STOCK_GO_FORWARD,
+	  "go-next",
 	  N_("Find _Next"),
 	  "<Control><Shift>n",
 	  N_("Find next occurrence of the current search string"),
 	  G_CALLBACK (action_calendar_search_next_cb) },
 
 	{ "calendar-search-prev",
-	  GTK_STOCK_GO_BACK,
+	  "go-previous",
 	  N_("Find _Previous"),
 	  "<Control><Shift>p",
 	  N_("Find previous occurrence of the current search string"),
 	  G_CALLBACK (action_calendar_search_prev_cb) },
 
 	{ "calendar-search-stop",
-	  GTK_STOCK_STOP,
+	  "process-stop",
 	  N_("Stop _Running Search"),
 	  NULL,
 	  N_("Stop currently running search"),
@@ -1465,21 +1465,21 @@ static GtkActionEntry calendar_entries[] = {
 	  G_CALLBACK (action_event_delegate_cb) },
 
 	{ "event-delete",
-	  GTK_STOCK_DELETE,
+	  "edit-delete",
 	  N_("_Delete Appointment"),
 	  "<Control>d",
 	  N_("Delete selected appointments"),
 	  G_CALLBACK (action_event_delete_cb) },
 
 	{ "event-delete-occurrence",
-	  GTK_STOCK_DELETE,
+	  "edit-delete",
 	  N_("Delete This _Occurrence"),
 	  NULL,
 	  N_("Delete this occurrence"),
 	  G_CALLBACK (action_event_delete_occurrence_cb) },
 
 	{ "event-delete-occurrence-all",
-	  GTK_STOCK_DELETE,
+	  "edit-delete",
 	  N_("Delete All Occ_urrences"),
 	  NULL,
 	  N_("Delete all occurrences"),
@@ -1528,7 +1528,7 @@ static GtkActionEntry calendar_entries[] = {
 	  G_CALLBACK (action_event_occurrence_movable_cb) },
 
 	{ "event-open",
-	  GTK_STOCK_OPEN,
+	  "document-open",
 	  N_("_Open Appointment"),
 	  "<Control>o",
 	  N_("View the current appointment"),
@@ -1563,7 +1563,7 @@ static GtkActionEntry calendar_entries[] = {
 	  G_CALLBACK (action_event_schedule_appointment_cb) },
 
 	{ "quit-calendar",
-	  GTK_STOCK_CLOSE,
+	  "window-close",
 	  N_("Quit"),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
@@ -1790,22 +1790,22 @@ static GtkRadioActionEntry calendar_search_entries[] = {
 static GtkActionEntry lockdown_printing_entries[] = {
 
 	{ "calendar-print",
-	  GTK_STOCK_PRINT,
-	  NULL,
+	  "document-print",
+	  N_("Print..."),
 	  "<Control>p",
 	  N_("Print this calendar"),
 	  G_CALLBACK (action_calendar_print_cb) },
 
 	{ "calendar-print-preview",
-	  GTK_STOCK_PRINT_PREVIEW,
-	  NULL,
+	  "document-print-preview",
+	  N_("Pre_view..."),
 	  NULL,
 	  N_("Preview the calendar to be printed"),
 	  G_CALLBACK (action_calendar_print_preview_cb) },
 
 	{ "event-print",
-	  GTK_STOCK_PRINT,
-	  NULL,
+	  "document-print",
+	  N_("Print..."),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_event_print_cb) }
@@ -1821,7 +1821,7 @@ static EPopupActionEntry lockdown_printing_popup_entries[] = {
 static GtkActionEntry lockdown_save_to_disk_entries[] = {
 
 	{ "event-save-as",
-	  GTK_STOCK_SAVE_AS,
+	  "document-save-as",
 	  N_("_Save as iCalendar..."),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */

@@ -706,14 +706,14 @@ static GtkActionEntry task_entries[] = {
 	  G_CALLBACK (action_task_assign_cb) },
 
 	{ "task-delete",
-	  GTK_STOCK_DELETE,
+	  "edit-delete",
 	  N_("_Delete Task"),
 	  NULL,
 	  N_("Delete selected tasks"),
 	  G_CALLBACK (action_task_delete_cb) },
 
 	{ "task-find",
-	  GTK_STOCK_FIND,
+	  "edit-find",
 	  N_("_Find in Task..."),
 	  "<Shift><Control>f",
 	  N_("Search for text in the displayed task"),
@@ -727,14 +727,14 @@ static GtkActionEntry task_entries[] = {
 	  G_CALLBACK (action_task_forward_cb) },
 
 	{ "task-list-copy",
-	  GTK_STOCK_COPY,
+	  "edit-copy",
 	  N_("Copy..."),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_task_list_copy_cb) },
 
 	{ "task-list-delete",
-	  GTK_STOCK_DELETE,
+	  "edit-delete",
 	  N_("D_elete Task List"),
 	  NULL,
 	  N_("Delete the selected task list"),
@@ -748,14 +748,14 @@ static GtkActionEntry task_entries[] = {
 	  G_CALLBACK (action_task_list_new_cb) },
 
 	{ "task-list-properties",
-	  GTK_STOCK_PROPERTIES,
-	  NULL,
+	  "document-properties",
+	  N_("_Properties"),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_task_list_properties_cb) },
 
 	{ "task-list-refresh",
-	  GTK_STOCK_REFRESH,
+	  "view-refresh",
 	  N_("Re_fresh"),
 	  NULL,
 	  N_("Refresh the selected task list"),
@@ -797,7 +797,7 @@ static GtkActionEntry task_entries[] = {
 	  G_CALLBACK (action_task_new_cb) },
 
 	{ "task-open",
-	  GTK_STOCK_OPEN,
+	  "document-open",
 	  N_("_Open Task"),
 	  "<Control>o",
 	  N_("View the selected task"),
@@ -1009,22 +1009,22 @@ static GtkRadioActionEntry task_search_entries[] = {
 static GtkActionEntry lockdown_printing_entries[] = {
 
 	{ "task-list-print",
-	  GTK_STOCK_PRINT,
-	  NULL,
+	  "document-print",
+	  N_("Print..."),
 	  "<Control>p",
 	  N_("Print the list of tasks"),
 	  G_CALLBACK (action_task_list_print_cb) },
 
 	{ "task-list-print-preview",
-	  GTK_STOCK_PRINT_PREVIEW,
-	  NULL,
+	  "document-print-preview",
+	  N_("Pre_view..."),
 	  NULL,
 	  N_("Preview the list of tasks to be printed"),
 	  G_CALLBACK (action_task_list_print_preview_cb) },
 
 	{ "task-print",
-	  GTK_STOCK_PRINT,
-	  NULL,
+	  "document-print",
+	  N_("Print..."),
 	  NULL,
 	  N_("Print the selected task"),
 	  G_CALLBACK (action_task_print_cb) }
@@ -1040,7 +1040,7 @@ static EPopupActionEntry lockdown_printing_popup_entries[] = {
 static GtkActionEntry lockdown_save_to_disk_entries[] = {
 
 	{ "task-save-as",
-	  GTK_STOCK_SAVE_AS,
+	  "document-save-as",
 	  N_("_Save as iCalendar..."),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */

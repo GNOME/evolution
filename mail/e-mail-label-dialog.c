@@ -193,11 +193,11 @@ e_mail_label_dialog_init (EMailLabelDialog *dialog)
 
 	gtk_dialog_add_button (
 		GTK_DIALOG (dialog),
-		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
+		_("_Cancel"), GTK_RESPONSE_CANCEL);
 
 	gtk_dialog_add_button (
 		GTK_DIALOG (dialog),
-		GTK_STOCK_OK, GTK_RESPONSE_OK);
+		_("OK"), GTK_RESPONSE_OK);
 
 	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
 

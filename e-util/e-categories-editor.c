@@ -27,6 +27,7 @@
 #include "e-categories-selector.h"
 #include "e-category-completion.h"
 #include "e-category-editor.h"
+#include "e-dialog-widgets.h"
 
 #define E_CATEGORIES_EDITOR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -270,15 +271,15 @@ e_categories_editor_init (ECategoriesEditor *editor)
 	gtk_grid_attach (grid, hbuttonbox1, 0, 4, 1, 1);
 	gtk_box_set_spacing (GTK_BOX (hbuttonbox1), 6);
 
-	button_new = gtk_button_new_from_stock (GTK_STOCK_NEW);
+	button_new = e_dialog_button_new_with_icon ("document-new", _("_New"));
 	gtk_container_add (GTK_CONTAINER (hbuttonbox1), button_new);
 	gtk_widget_set_can_default (button_new, TRUE);
 
-	button_edit = gtk_button_new_from_stock (GTK_STOCK_EDIT);
+	button_edit = gtk_button_new_with_mnemonic (_("_Edit"));
 	gtk_container_add (GTK_CONTAINER (hbuttonbox1), button_edit);
 	gtk_widget_set_can_default (button_edit, TRUE);
 
-	button_delete = gtk_button_new_from_stock (GTK_STOCK_DELETE);
+	button_delete = e_dialog_button_new_with_icon ("edit-delete", _("_Delete"));
 	gtk_container_add (GTK_CONTAINER (hbuttonbox1), button_delete);
 	gtk_widget_set_can_default (button_delete, TRUE);
 

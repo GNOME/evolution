@@ -461,7 +461,7 @@ e_attachment_store_run_load_dialog (EAttachmentStore *store,
 	dialog = gtk_file_chooser_dialog_new (
 		_("Add Attachment"), parent,
 		GTK_FILE_CHOOSER_ACTION_OPEN,
-		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+		_("_Cancel"), GTK_RESPONSE_CANCEL,
 		_("A_ttach"), GTK_RESPONSE_OK, NULL);
 
 	file_chooser = GTK_FILE_CHOOSER (dialog);
@@ -542,8 +542,8 @@ e_attachment_store_run_save_dialog (EAttachmentStore *store,
 
 	dialog = gtk_file_chooser_dialog_new (
 		title, parent, action,
-		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-		GTK_STOCK_SAVE, GTK_RESPONSE_OK, NULL);
+		_("_Cancel"), GTK_RESPONSE_CANCEL,
+		_("_Save"), GTK_RESPONSE_OK, NULL);
 
 	file_chooser = GTK_FILE_CHOOSER (dialog);
 	gtk_file_chooser_set_local_only (file_chooser, FALSE);

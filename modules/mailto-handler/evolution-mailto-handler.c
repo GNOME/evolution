@@ -111,8 +111,8 @@ mailto_handler_prompt (EMailtoHandler *extension)
 
 	dialog = gtk_dialog_new_with_buttons (
 		"", NULL, 0,
-		GTK_STOCK_NO, GTK_RESPONSE_NO,
-		GTK_STOCK_YES, GTK_RESPONSE_YES,
+		_("_No"), GTK_RESPONSE_NO,
+		_("_Yes"), GTK_RESPONSE_YES,
 		NULL);
 
 	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_YES);
@@ -127,8 +127,7 @@ mailto_handler_prompt (EMailtoHandler *extension)
 
 	container = widget;
 
-	widget = gtk_image_new_from_stock (
-		GTK_STOCK_DIALOG_QUESTION, GTK_ICON_SIZE_DIALOG);
+	widget = gtk_image_new_from_icon_name ("dialog-question", GTK_ICON_SIZE_DIALOG);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 

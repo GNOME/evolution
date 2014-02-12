@@ -20,6 +20,7 @@
 #include <config.h>
 #include <glib/gi18n-lib.h>
 
+#include <e-util/e-util.h>
 #include <libebackend/libebackend.h>
 
 #if defined (HAVE_NSS)
@@ -449,7 +450,7 @@ mail_config_security_page_constructed (GObject *object)
 		G_CALLBACK (mail_config_security_page_select_sign_cert),
 		entry);
 
-	widget = gtk_button_new_from_stock (GTK_STOCK_CLEAR);
+	widget = e_dialog_button_new_with_icon ("edit-clear", _("_Clear"));
 	gtk_grid_attach (GTK_GRID (container), widget, 3, 1, 1, 1);
 	gtk_widget_show (widget);
 
@@ -555,7 +556,7 @@ mail_config_security_page_constructed (GObject *object)
 		G_CALLBACK (mail_config_security_page_select_encrypt_cert),
 		entry);
 
-	widget = gtk_button_new_from_stock (GTK_STOCK_CLEAR);
+	widget = e_dialog_button_new_with_icon ("edit-clear", _("_Clear"));
 	gtk_grid_attach (GTK_GRID (container), widget, 3, 4, 1, 1);
 	gtk_widget_show (widget);
 

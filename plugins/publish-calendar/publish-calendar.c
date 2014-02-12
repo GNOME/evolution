@@ -98,7 +98,7 @@ update_publish_notification (GtkMessageType msg_type,
 	static gboolean can_notify = TRUE;
 	#endif
 	gboolean new_icon = !status_icon;
-	const gchar *stock_name;
+	const gchar *icon_name;
 
 	g_return_if_fail (msg_text != NULL);
 
@@ -114,13 +114,13 @@ update_publish_notification (GtkMessageType msg_type,
 
 	switch (msg_type) {
 	case GTK_MESSAGE_WARNING:
-		stock_name = GTK_STOCK_DIALOG_WARNING;
+		icon_name = "dialog-warning";
 		break;
 	case GTK_MESSAGE_ERROR:
-		stock_name = GTK_STOCK_DIALOG_ERROR;
+		icon_name = "dialog-error";
 		break;
 	default:
-		stock_name = GTK_STOCK_DIALOG_INFO;
+		icon_name = "dialog-information";
 		break;
 	}
 
@@ -131,20 +131,20 @@ update_publish_notification (GtkMessageType msg_type,
 		g_string_append (actual_msg, msg_text);
 	}
 
-	gtk_status_icon_set_from_stock (status_icon, stock_name);
+	gtk_status_icon_set_from_icon_name (status_icon, icon_name);
 	gtk_status_icon_set_tooltip_text (status_icon, actual_msg->str);
 
 #ifdef HAVE_LIBNOTIFY
 	if (can_notify) {
 		if (notify) {
-			notify_notification_update (notify, _("Calendar Publishing"), actual_msg->str, stock_name);
+			notify_notification_update (notify, _("Calendar Publishing"), actual_msg->str, icon_name);
 		} else {
 			if (!notify_init ("evolution-publish-calendar")) {
 				can_notify = FALSE;
 				return;
 			}
 
-			notify  = notify_notification_new (_("Calendar Publishing"), actual_msg->str, stock_name);
+			notify  = notify_notification_new (_("Calendar Publishing"), actual_msg->str, icon_name);
 			notify_notification_set_urgency (notify, NOTIFY_URGENCY_NORMAL);
 			notify_notification_set_timeout (notify, NOTIFY_EXPIRES_DEFAULT);
 			notify_notification_set_hint (
@@ -803,8 +803,8 @@ url_remove_clicked (GtkButton *button,
 		NULL, GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
 		GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
 		_("Are you sure you want to remove this location?"));
-	gtk_dialog_add_button (GTK_DIALOG (confirm), GTK_STOCK_CANCEL, GTK_RESPONSE_NO);
-	gtk_dialog_add_button (GTK_DIALOG (confirm), GTK_STOCK_REMOVE, GTK_RESPONSE_YES);
+	gtk_dialog_add_button (GTK_DIALOG (confirm), _("_Cancel"), GTK_RESPONSE_NO);
+	gtk_dialog_add_button (GTK_DIALOG (confirm), _("_Remove"), GTK_RESPONSE_YES);
 	gtk_dialog_set_default_response (GTK_DIALOG (confirm), GTK_RESPONSE_CANCEL);
 
 	response = gtk_dialog_run (GTK_DIALOG (confirm));
@@ -933,7 +933,7 @@ publish_calendar_locations (EPlugin *epl,
 	gtk_widget_set_sensitive (GTK_WIDGET (ui->url_remove), FALSE);
 	gtk_widget_set_sensitive (GTK_WIDGET (ui->url_enable), FALSE);
 
-	gtk_button_set_image (GTK_BUTTON (ui->url_enable), gtk_image_new_from_stock (GTK_STOCK_APPLY, GTK_ICON_SIZE_BUTTON));
+	gtk_button_set_image (GTK_BUTTON (ui->url_enable), gtk_image_new_from_icon_name ("dialog-apply", GTK_ICON_SIZE_BUTTON));
 	gtk_button_set_use_underline (GTK_BUTTON (ui->url_enable), TRUE);
 
 	l = publish_uris;

@@ -620,8 +620,8 @@ import_cert (GtkWidget *button,
 	filesel = gtk_file_chooser_dialog_new (
 		_("Select a certificate to import..."), NULL,
 		GTK_FILE_CHOOSER_ACTION_OPEN,
-		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-		GTK_STOCK_OPEN, GTK_RESPONSE_OK, NULL);
+		_("_Cancel"), GTK_RESPONSE_CANCEL,
+		_("_Open"), GTK_RESPONSE_OK, NULL);
 	gtk_dialog_set_default_response (GTK_DIALOG (filesel), GTK_RESPONSE_OK);
 
 	filter = gtk_file_filter_new ();
@@ -1179,7 +1179,7 @@ e_cert_manager_new_certificate_viewer (GtkWindow *parent,
 	dialog = gtk_dialog_new_with_buttons (
 		subject_name, parent,
 		GTK_DIALOG_DESTROY_WITH_PARENT,
-		GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
+		_("_Close"), GTK_RESPONSE_CLOSE,
 		NULL);
 
 	gtk_container_set_border_width (GTK_CONTAINER (dialog), 5);

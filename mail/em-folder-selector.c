@@ -266,7 +266,7 @@ folder_selector_construct (EMFolderSelector *emfs,
 	emfs->flags = flags;
 	if (flags & EM_FOLDER_SELECTOR_CAN_CREATE) {
 		gtk_dialog_add_button (
-			GTK_DIALOG (emfs), GTK_STOCK_NEW,
+			GTK_DIALOG (emfs), _("_New"),
 			EM_FOLDER_SELECTOR_RESPONSE_NEW);
 		g_signal_connect (
 			emfs, "response",
@@ -275,8 +275,8 @@ folder_selector_construct (EMFolderSelector *emfs,
 
 	gtk_dialog_add_buttons (
 		GTK_DIALOG (emfs),
-		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-		oklabel ? oklabel : GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
+		_("_Cancel"), GTK_RESPONSE_CANCEL,
+		oklabel ? oklabel : _("_OK"), GTK_RESPONSE_OK, NULL);
 
 	gtk_dialog_set_response_sensitive (
 		GTK_DIALOG (emfs), GTK_RESPONSE_OK, FALSE);

@@ -252,8 +252,7 @@ mail_config_import_progress_page_constructed (GObject *object)
 
 	container = widget;
 
-	widget = gtk_image_new_from_stock (
-		GTK_STOCK_CANCEL, GTK_ICON_SIZE_MENU);
+	widget = gtk_image_new_from_icon_name ("process-stop", GTK_ICON_SIZE_MENU);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 

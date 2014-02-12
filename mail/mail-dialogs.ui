@@ -96,11 +96,12 @@ Please select a follow up action from the "Flag" menu.</property>
         </child>
         <child>
           <object class="GtkButton" id="clear">
-            <property name="label">gtk-clear</property>
+            <property name="label" translatable="yes">_Clear</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">False</property>
-            <property name="use_stock">True</property>
+            <property name="use_stock">False</property>
+            <property name="use-underline">True</property>
           </object>
           <packing>
             <property name="left_attach">2</property>
@@ -271,12 +272,13 @@ Please select a follow up action from the "Flag" menu.</property>
             <property name="layout_style">end</property>
             <child>
               <object class="GtkButton" id="lic_no_button">
-                <property name="label">gtk-no</property>
+                <property name="label" translatable="yes">_No</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
                 <property name="receives_default">False</property>
-                <property name="use_stock">True</property>
+                <property name="use_stock">False</property>
+                <property name="use-underline">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -290,42 +292,8 @@ Please select a follow up action from the "Flag" menu.</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
                 <property name="receives_default">False</property>
-                <child>
-                  <object class="GtkAlignment" id="alignment1">
-                    <property name="visible">True</property>
-                    <property name="xscale">0</property>
-                    <property name="yscale">0</property>
-                    <child>
-                      <object class="GtkHBox" id="hbox3">
-                        <property name="visible">True</property>
-                        <property name="spacing">2</property>
-                        <child>
-                          <object class="GtkImage" id="image1">
-                            <property name="visible">True</property>
-                            <property name="stock">gtk-yes</property>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">False</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkLabel" id="label2">
-                            <property name="visible">True</property>
-                            <property name="label" translatable="yes">_Accept License</property>
-                            <property name="use_underline">True</property>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">False</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                      </object>
-                    </child>
-                  </object>
-                </child>
+                <property name="label" translatable="yes">_Accept License</property>
+                <property name="use_underline">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -441,12 +409,13 @@ Please select a follow up action from the "Flag" menu.</property>
             <property name="layout_style">end</property>
             <child>
               <object class="GtkButton" id="okbutton1">
-                <property name="label">gtk-ok</property>
+                <property name="label" translatable="yes">_OK</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
                 <property name="receives_default">False</property>
-                <property name="use_stock">True</property>
+                <property name="use_stock">False</property>
+                <property name="use-underline">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>

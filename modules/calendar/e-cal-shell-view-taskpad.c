@@ -361,7 +361,7 @@ static GtkActionEntry calendar_taskpad_entries[] = {
 	  G_CALLBACK (action_calendar_taskpad_new_cb) },
 
 	{ "calendar-taskpad-open",
-	  GTK_STOCK_OPEN,
+	  "document-open",
 	  N_("_Open Task"),
 	  NULL,
 	  N_("View the selected task"),
@@ -378,8 +378,8 @@ static GtkActionEntry calendar_taskpad_entries[] = {
 static GtkActionEntry lockdown_printing_entries[] = {
 
 	{ "calendar-taskpad-print",
-	  GTK_STOCK_PRINT,
-	  NULL,
+	  "document-print",
+	  N_("Print..."),
 	  NULL,
 	  N_("Print the selected task"),
 	  G_CALLBACK (action_calendar_taskpad_print_cb) }
@@ -388,7 +388,7 @@ static GtkActionEntry lockdown_printing_entries[] = {
 static GtkActionEntry lockdown_save_to_disk_entries[] = {
 
 	{ "calendar-taskpad-save-as",
-	  GTK_STOCK_SAVE_AS,
+	  "document-save-as",
 	  N_("_Save as iCalendar..."),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */

@@ -619,12 +619,12 @@ get_widget (EFilterRule *fr,
 		NULL);
 	gtk_container_add (GTK_CONTAINER (hgrid), vgrid);
 
-	data->buttons[BUTTON_ADD] = gtk_button_new_from_stock (GTK_STOCK_ADD);
+	data->buttons[BUTTON_ADD] = e_dialog_button_new_with_icon ("list-add", _("_Add"));
 	g_signal_connect (
 		data->buttons[BUTTON_ADD], "clicked",
 		G_CALLBACK (source_add), data);
 
-	data->buttons[BUTTON_REMOVE] = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
+	data->buttons[BUTTON_REMOVE] = e_dialog_button_new_with_icon ("list-remove", _("_Remove"));
 	g_signal_connect (
 		data->buttons[BUTTON_REMOVE], "clicked",
 		G_CALLBACK (source_remove), data);

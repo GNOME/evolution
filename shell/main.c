@@ -164,7 +164,7 @@ show_development_warning (void)
 		GTK_WINDOW (warning_dialog), TRUE);
 	gtk_dialog_add_button (
 		GTK_DIALOG (warning_dialog),
-		GTK_STOCK_OK, GTK_RESPONSE_OK);
+		_("_OK"), GTK_RESPONSE_OK);
 
 	action_area = gtk_dialog_get_action_area (GTK_DIALOG (warning_dialog));
 	content_area = gtk_dialog_get_content_area (GTK_DIALOG (warning_dialog));

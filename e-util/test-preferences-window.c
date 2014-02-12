@@ -59,15 +59,15 @@ add_pages (EPreferencesWindow *preferences_window)
 {
 	e_preferences_window_add_page (
 		preferences_window, "page-0",
-		"gtk-properties", "title 0", NULL,
+		"document-properties", "title 0", NULL,
 		create_page_zero, 0);
 	e_preferences_window_add_page (
 		preferences_window, "page-1",
-		"gtk-properties", "title 1", NULL,
+		"document-properties", "title 1", NULL,
 		create_page_one, 1);
 	e_preferences_window_add_page (
 		preferences_window, "page-2",
-		"gtk-properties", "title 2", NULL,
+		"document-properties", "title 2", NULL,
 		create_page_two, 2);
 }
 

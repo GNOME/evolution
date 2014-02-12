@@ -744,11 +744,7 @@ book_config_ldap_insert_widgets (ESourceConfigBackend *backend,
 	context->search_base_combo = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	widget = gtk_button_new_with_label (
-		_("Find Possible Search Bases"));
-	gtk_button_set_image (
-		GTK_BUTTON (widget), gtk_image_new_from_stock (
-		GTK_STOCK_FIND, GTK_ICON_SIZE_BUTTON));
+	widget = e_dialog_button_new_with_icon ("edit-find", _("Find Possible Search Bases"));
 	book_config_ldap_insert_notebook_widget (
 		container, size_group, NULL, widget);
 	context->search_base_button = g_object_ref (widget);

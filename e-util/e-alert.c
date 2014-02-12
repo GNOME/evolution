@@ -74,7 +74,7 @@ static GHashTable *alert_table;
 /* ********************************************************************** */
 
 static EAlertButton default_ok_button = {
-	NULL, GTK_STOCK_OK, NULL, GTK_RESPONSE_OK
+	NULL, NULL, NULL, GTK_RESPONSE_OK
 };
 
 static struct _e_alert default_alerts[] = {
@@ -870,32 +870,32 @@ e_alert_set_secondary_text (EAlert *alert,
 }
 
 const gchar *
-e_alert_get_stock_id (EAlert *alert)
+e_alert_get_icon_name (EAlert *alert)
 {
-	const gchar *stock_id;
+	const gchar *icon_name;
 
 	g_return_val_if_fail (E_IS_ALERT (alert), NULL);
 
 	switch (e_alert_get_message_type (alert)) {
 		case GTK_MESSAGE_INFO:
-			stock_id = GTK_STOCK_DIALOG_INFO;
+			icon_name = "dialog-information";
 			break;
 		case GTK_MESSAGE_WARNING:
-			stock_id = GTK_STOCK_DIALOG_WARNING;
+			icon_name = "dialog-warning";
 			break;
 		case GTK_MESSAGE_QUESTION:
-			stock_id = GTK_STOCK_DIALOG_QUESTION;
+			icon_name = "dialog-question";
 			break;
 		case GTK_MESSAGE_ERROR:
-			stock_id = GTK_STOCK_DIALOG_ERROR;
+			icon_name = "dialog-error";
 			break;
 		default:
-			stock_id = GTK_STOCK_MISSING_IMAGE;
+			icon_name = "image-missing";
 			g_warn_if_reached ();
 			break;
 	}
 
-	return stock_id;
+	return icon_name;
 }
 
 void
@@ -929,13 +929,13 @@ GtkWidget *
 e_alert_create_image (EAlert *alert,
                       GtkIconSize size)
 {
-	const gchar *stock_id;
+	const gchar *icon_name;
 
 	g_return_val_if_fail (E_IS_ALERT (alert), NULL);
 
-	stock_id = e_alert_get_stock_id (alert);
+	icon_name = e_alert_get_icon_name (alert);
 
-	return gtk_image_new_from_stock (stock_id, size);
+	return gtk_image_new_from_icon_name (icon_name, size);
 }
 
 void

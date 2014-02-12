@@ -915,16 +915,16 @@ append_info_item_row (ItipView *view,
 
 	switch (item->type) {
 		case ITIP_VIEW_INFO_ITEM_TYPE_INFO:
-			icon_name = GTK_STOCK_DIALOG_INFO;
+			icon_name = "dialog-information";
 			break;
 		case ITIP_VIEW_INFO_ITEM_TYPE_WARNING:
-			icon_name = GTK_STOCK_DIALOG_WARNING;
+			icon_name = "dialog-warning";
 			break;
 		case ITIP_VIEW_INFO_ITEM_TYPE_ERROR:
-			icon_name = GTK_STOCK_DIALOG_ERROR;
+			icon_name = "dialog-error";
 			break;
 		case ITIP_VIEW_INFO_ITEM_TYPE_PROGRESS:
-			icon_name = GTK_STOCK_FIND;
+			icon_name = "edit-find";
 			break;
 		case ITIP_VIEW_INFO_ITEM_TYPE_NONE:
 			default:
@@ -1019,34 +1019,34 @@ append_buttons_table (GString *buffer)
         /* Everything gets the open button */
 	buttons_table_write_button (
 		buffer, BUTTON_OPEN_CALENDAR, _("Ope_n Calendar"),
-		GTK_STOCK_JUMP_TO, ITIP_VIEW_RESPONSE_OPEN);
+		"go-jump", ITIP_VIEW_RESPONSE_OPEN);
 	buttons_table_write_button (
 		buffer, BUTTON_DECLINE_ALL, _("_Decline all"),
-		GTK_STOCK_CANCEL, ITIP_VIEW_RESPONSE_DECLINE);
+		"process-stop", ITIP_VIEW_RESPONSE_DECLINE);
 	buttons_table_write_button (
 		buffer, BUTTON_DECLINE, _("_Decline"),
-		GTK_STOCK_CANCEL, ITIP_VIEW_RESPONSE_DECLINE);
+		"process-stop", ITIP_VIEW_RESPONSE_DECLINE);
 	buttons_table_write_button (
 		buffer, BUTTON_TENTATIVE_ALL, _("_Tentative all"),
-		GTK_STOCK_DIALOG_QUESTION, ITIP_VIEW_RESPONSE_TENTATIVE);
+		"dialog-question", ITIP_VIEW_RESPONSE_TENTATIVE);
 	buttons_table_write_button (
 		buffer, BUTTON_TENTATIVE, _("_Tentative"),
-		GTK_STOCK_DIALOG_QUESTION, ITIP_VIEW_RESPONSE_TENTATIVE);
+		"dialog-question", ITIP_VIEW_RESPONSE_TENTATIVE);
 	buttons_table_write_button (
 		buffer, BUTTON_ACCEPT_ALL, _("Acce_pt all"),
-		GTK_STOCK_APPLY, ITIP_VIEW_RESPONSE_ACCEPT);
+		"dialog-apply", ITIP_VIEW_RESPONSE_ACCEPT);
 	buttons_table_write_button (
 		buffer, BUTTON_ACCEPT, _("Acce_pt"),
-		GTK_STOCK_APPLY, ITIP_VIEW_RESPONSE_ACCEPT);
+		"dialog-apply", ITIP_VIEW_RESPONSE_ACCEPT);
 	buttons_table_write_button (
 		buffer, BUTTON_SEND_INFORMATION, _("Send _Information"),
-		GTK_STOCK_REFRESH, ITIP_VIEW_RESPONSE_REFRESH);
+		"view-refresh", ITIP_VIEW_RESPONSE_REFRESH);
 	buttons_table_write_button (
 		buffer, BUTTON_UPDATE_ATTENDEE_STATUS, _("_Update Attendee Status"),
-		GTK_STOCK_REFRESH, ITIP_VIEW_RESPONSE_UPDATE);
+		"view-refresh", ITIP_VIEW_RESPONSE_UPDATE);
 	buttons_table_write_button (
 		buffer, BUTTON_UPDATE,  _("_Update"),
-		GTK_STOCK_REFRESH, ITIP_VIEW_RESPONSE_CANCEL);
+		"view-refresh", ITIP_VIEW_RESPONSE_CANCEL);
 
 	g_string_append (buffer, "</tr></table>");
 }
@@ -3114,7 +3114,7 @@ itip_view_set_error (ItipView *view,
 
 		buttons_table_write_button (
 			str, BUTTON_SAVE, _("Sa_ve"),
-			GTK_STOCK_SAVE, ITIP_VIEW_RESPONSE_SAVE);
+			"document-save", ITIP_VIEW_RESPONSE_SAVE);
 
 		g_string_append (str, "</tr></table>");
 	}

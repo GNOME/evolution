@@ -27,6 +27,7 @@
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
 
+#include "e-dialog-widgets.h"
 #include "e-misc-utils.h"
 
 #define SWITCH_PAGE_INTERVAL 250
@@ -375,7 +376,7 @@ e_preferences_window_init (EPreferencesWindow *window)
 
 	container = widget;
 
-	widget = gtk_button_new_from_stock (GTK_STOCK_HELP);
+	widget = e_dialog_button_new_with_icon ("help-browser", _("_Help"));
 	g_signal_connect_swapped (
 		widget, "clicked",
 		G_CALLBACK (preferences_window_help_clicked_cb), window);
@@ -384,7 +385,7 @@ e_preferences_window_init (EPreferencesWindow *window)
 		GTK_BUTTON_BOX (container), widget, TRUE);
 	gtk_widget_show (widget);
 
-	widget = gtk_button_new_from_stock (GTK_STOCK_CLOSE);
+	widget = e_dialog_button_new_with_icon ("window-close", _("_Close"));
 	g_signal_connect_swapped (
 		widget, "clicked",
 		G_CALLBACK (gtk_widget_hide), window);

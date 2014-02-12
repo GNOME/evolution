@@ -366,8 +366,8 @@ action_show_all_cb (GtkAction *action,
 static GtkActionEntry standard_entries[] = {
 
 	{ "cancel",
-	  GTK_STOCK_CANCEL,
-	  NULL,
+	  "process-stop",
+	  N_("_Cancel"),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_cancel_cb) },
@@ -380,15 +380,15 @@ static GtkActionEntry standard_entries[] = {
 	  G_CALLBACK (action_open_with_cb) },
 
 	{ "save-all",
-	  GTK_STOCK_SAVE_AS,
+	  "document-save-as",
 	  N_("S_ave All"),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_save_all_cb) },
 
 	{ "save-as",
-	  GTK_STOCK_SAVE_AS,
-	  NULL,
+	  "document-save-as",
+	  N_("Sa_ve As"),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_save_as_cb) },
@@ -396,8 +396,8 @@ static GtkActionEntry standard_entries[] = {
 	/* Alternate "save-all" label, for when
 	 * the attachment store has one row. */
 	{ "save-one",
-	  GTK_STOCK_SAVE_AS,
-	  NULL,
+	  "document-save-as",
+	  N_("Save _As"),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_save_all_cb) },
@@ -406,22 +406,22 @@ static GtkActionEntry standard_entries[] = {
 static GtkActionEntry editable_entries[] = {
 
 	{ "add",
-	  GTK_STOCK_ADD,
+	  "list-add",
 	  N_("A_dd Attachment..."),
 	  NULL,
 	  N_("Attach a file"),
 	  G_CALLBACK (action_add_cb) },
 
 	{ "properties",
-	  GTK_STOCK_PROPERTIES,
-	  NULL,
+	  "document-properties",
+	  N_("_Properties"),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_properties_cb) },
 
 	{ "remove",
-	  GTK_STOCK_REMOVE,
-	  NULL,
+	  "list-remove",
+	  N_("_Remove"),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_remove_cb) }
@@ -1559,11 +1559,7 @@ e_attachment_view_drag_begin (EAttachmentView *view,
 	priv->selected = e_attachment_view_get_selected_attachments (view);
 	n_selected = g_list_length (priv->selected);
 
-	if (n_selected > 1)
-		gtk_drag_set_icon_stock (
-			context, GTK_STOCK_DND_MULTIPLE, 0, 0);
-
-	else if (n_selected == 1) {
+	if (n_selected == 1) {
 		EAttachment *attachment;
 		GtkIconTheme *icon_theme;
 		GtkIconInfo *icon_info;

@@ -237,9 +237,10 @@ e_mail_tag_editor_init (EMailTagEditor *editor)
 	gtk_window_set_title (window, _("Flag to Follow Up"));
 	gtk_window_set_icon_name (window, "stock_mail-flag-for-followup");
 
-	gtk_dialog_add_buttons (
-		dialog, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-		GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
+	gtk_dialog_add_buttons (dialog,
+		_("_Cancel"), GTK_RESPONSE_CANCEL,
+		_("_OK"), GTK_RESPONSE_OK,
+		NULL);
 
 	gtk_dialog_set_default_response (dialog, GTK_RESPONSE_OK);
 

@@ -725,27 +725,27 @@ e_focus_tracker_init (EFocusTracker *focus_tracker)
 
 	action = gtk_action_new (
 		"cut-clipboard", NULL,
-		_("Cut the selection"), GTK_STOCK_CUT);
+		_("Cut the selection"), "edit-cut");
 	focus_tracker->priv->cut_clipboard = action;
 
 	action = gtk_action_new (
 		"copy-clipboard", NULL,
-		_("Copy the selection"), GTK_STOCK_COPY);
+		_("Copy the selection"), "edit-copy");
 	focus_tracker->priv->copy_clipboard = action;
 
 	action = gtk_action_new (
 		"paste-clipboard", NULL,
-		_("Paste the clipboard"), GTK_STOCK_PASTE);
+		_("Paste the clipboard"), "edit-paste");
 	focus_tracker->priv->paste_clipboard = action;
 
 	action = gtk_action_new (
 		"delete-selection", NULL,
-		_("Delete the selection"), GTK_STOCK_DELETE);
+		_("Delete the selection"), "edit-delete");
 	focus_tracker->priv->delete_selection = action;
 
 	action = gtk_action_new (
 		"select-all", NULL,
-		_("Select all text"), GTK_STOCK_SELECT_ALL);
+		_("Select all text"), "edit-select-all");
 	focus_tracker->priv->select_all = action;
 }
 

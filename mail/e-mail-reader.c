@@ -1921,7 +1921,7 @@ static GtkActionEntry mail_reader_entries[] = {
 	  G_CALLBACK (action_mail_filters_apply_cb) },
 
 	{ "mail-find",
-	  GTK_STOCK_FIND,
+	  "edit-find",
 	  N_("_Find in Message..."),
 	  "<Shift><Control>f",
 	  N_("Search for text in the body of the displayed message"),
@@ -2068,7 +2068,7 @@ static GtkActionEntry mail_reader_entries[] = {
 	  G_CALLBACK (action_mail_move_cb) },
 
 	{ "mail-next",
-	  GTK_STOCK_GO_FORWARD,
+	  "go-next",
 	  N_("_Next Message"),
 	  "<Control>Page_Down",
 	  N_("Display the next message"),
@@ -2096,7 +2096,7 @@ static GtkActionEntry mail_reader_entries[] = {
 	  G_CALLBACK (action_mail_next_unread_cb) },
 
 	{ "mail-previous",
-	  GTK_STOCK_GO_BACK,
+	  "go-previous",
 	  N_("_Previous Message"),
 	  "<Control>Page_Up",
 	  N_("Display the previous message"),
@@ -2124,15 +2124,15 @@ static GtkActionEntry mail_reader_entries[] = {
 	  G_CALLBACK (action_mail_previous_unread_cb) },
 
 	{ "mail-print",
-	  GTK_STOCK_PRINT,
-	  NULL,
+	  "document-print",
+	  N_("_Print..."),
 	  "<Control>p",
 	  N_("Print this message"),
 	  G_CALLBACK (action_mail_print_cb) },
 
 	{ "mail-print-preview",
-	  GTK_STOCK_PRINT_PREVIEW,
-	  NULL,
+	  "document-print-preview",
+	  N_("Pre_view..."),
 	  NULL,
 	  N_("Preview the message to be printed"),
 	  G_CALLBACK (action_mail_print_preview_cb) },
@@ -2145,7 +2145,7 @@ static GtkActionEntry mail_reader_entries[] = {
 	  G_CALLBACK (action_mail_redirect_cb) },
 
 	{ "mail-remove-attachments",
-	  GTK_STOCK_DELETE,
+	  "edit-delete",
 	  N_("Remo_ve Attachments"),
 	  NULL,
 	  N_("Remove attachments"),
@@ -2180,7 +2180,7 @@ static GtkActionEntry mail_reader_entries[] = {
 	  G_CALLBACK (action_mail_reply_sender_cb) },
 
 	{ "mail-save-as",
-	  GTK_STOCK_SAVE_AS,
+	  "document-save-as",
 	  N_("_Save as mbox..."),
 	  "<Control>s",
 	  N_("Save selected messages as an mbox file"),
@@ -2208,21 +2208,21 @@ static GtkActionEntry mail_reader_entries[] = {
 	  G_CALLBACK (action_mail_undelete_cb) },
 
 	{ "mail-zoom-100",
-	  GTK_STOCK_ZOOM_100,
+	  "zoom-original",
 	  N_("_Normal Size"),
 	  "<Control>0",
 	  N_("Reset the text to its original size"),
 	  G_CALLBACK (action_mail_zoom_100_cb) },
 
 	{ "mail-zoom-in",
-	  GTK_STOCK_ZOOM_IN,
+	  "zoom-in",
 	  N_("_Zoom In"),
 	  "<Control>plus",
 	  N_("Increase the text size"),
 	  G_CALLBACK (action_mail_zoom_in_cb) },
 
 	{ "mail-zoom-out",
-	  GTK_STOCK_ZOOM_OUT,
+	  "zoom-out",
 	  N_("Zoom _Out"),
 	  "<Control>minus",
 	  N_("Decrease the text size"),
@@ -2259,7 +2259,7 @@ static GtkActionEntry mail_reader_entries[] = {
 	  NULL },
 
 	{ "mail-goto-menu",
-	  GTK_STOCK_JUMP_TO,
+	  "go-jump",
 	  N_("_Go To"),
 	  NULL,
 	  NULL,

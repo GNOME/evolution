@@ -21,12 +21,12 @@
             <property name="layout_style">end</property>
             <child>
               <object class="GtkButton" id="junk-header-cancel">
-                <property name="label">gtk-cancel</property>
+                <property name="label" translatable="yes">_Cancel</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
                 <property name="use_underline">True</property>
-                <property name="use_stock">True</property>
+                <property name="use_stock">False</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -36,12 +36,12 @@
             </child>
             <child>
               <object class="GtkButton" id="junk-header-ok">
-                <property name="label">gtk-ok</property>
+                <property name="label" translatable="yes">_OK</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
                 <property name="use_underline">True</property>
-                <property name="use_stock">True</property>
+                <property name="use_stock">False</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -693,7 +693,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="yalign">0</property>
-                        <property name="stock">gtk-dialog-info</property>
+                        <property name="icon-name">dialog-information</property>
                       </object>
                       <packing>
                         <property name="left_attach">0</property>
@@ -2413,12 +2413,13 @@
                         <property name="spacing">6</property>
                         <child>
                           <object class="GtkButton" id="cmdHeadersAdd">
-                            <property name="label">gtk-add</property>
+                            <property name="label" translatable="yes">_Add</property>
                             <property name="visible">True</property>
                             <property name="sensitive">False</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
-                            <property name="use_stock">True</property>
+                            <property name="use_stock">False</property>
+                            <property name="use-underline">True</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -2428,11 +2429,12 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="cmdHeadersRemove">
-                            <property name="label">gtk-remove</property>
+                            <property name="label" translatable="yes">_Remove</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
-                            <property name="use_stock">True</property>
+                            <property name="use_stock">False</property>
+                            <property name="use-underline">True</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -2716,12 +2718,13 @@
                                 <property name="layout_style">start</property>
                                 <child>
                                   <object class="GtkButton" id="junk_header_add">
-                                    <property name="label">gtk-add</property>
+                                    <property name="label" translatable="yes">_Add</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="can_default">True</property>
                                     <property name="receives_default">True</property>
-                                    <property name="use_stock">True</property>
+                                    <property name="use_stock">False</property>
+                                    <property name="use-underline">True</property>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -2731,12 +2734,13 @@
                                 </child>
                                 <child>
                                   <object class="GtkButton" id="junk_header_remove">
-                                    <property name="label">gtk-remove</property>
+                                    <property name="label" translatable="yes">_Remove</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="can_default">True</property>
                                     <property name="receives_default">True</property>
-                                    <property name="use_stock">True</property>
+                                    <property name="use_stock">False</property>
+                                    <property name="use-underline">True</property>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -2803,7 +2807,7 @@
                               <object class="GtkImage" id="image11">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="stock">gtk-info</property>
+                                <property name="icon-name">dialog-information</property>
                               </object>
                               <packing>
                                 <property name="expand">False</property>

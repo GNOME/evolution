@@ -1327,8 +1327,8 @@ addressbook_view_confirm_delete (GtkWindow *parent,
 		GTK_BUTTONS_NONE, "%s", message);
 	gtk_dialog_add_buttons (
 		GTK_DIALOG (dialog),
-		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-		GTK_STOCK_DELETE, GTK_RESPONSE_ACCEPT,
+		_("_Cancel"), GTK_RESPONSE_CANCEL,
+		_("_Delete"), GTK_RESPONSE_ACCEPT,
 		NULL);
 	response = gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);

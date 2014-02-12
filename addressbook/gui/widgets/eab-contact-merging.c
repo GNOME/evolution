@@ -359,7 +359,7 @@ mergeit (EContactMergingLookup *lookup)
 
 	gtk_dialog_add_buttons (
 		GTK_DIALOG (dialog),
-		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+		_("_Cancel"), GTK_RESPONSE_CANCEL,
 		_("_Merge"), GTK_RESPONSE_OK,
 		NULL);
 
@@ -598,22 +598,6 @@ check_if_same (EContact *contact,
 }
 
 static GtkWidget *
-create_iconic_button (const gchar *label,
-		      const gchar *icon_name)
-{
-	GtkWidget *button, *image;
-
-	button = gtk_button_new_with_mnemonic (label);
-
-	if (icon_name) {
-		image = gtk_image_new_from_icon_name (icon_name, GTK_ICON_SIZE_BUTTON);
-		gtk_button_set_image (GTK_BUTTON (button), image);
-	}
-
-	return button;
-}
-
-static GtkWidget *
 create_duplicate_contact_detected_dialog (EContact *old_contact,
 					  EContact *new_contact,
 					  gboolean disable_merge,
@@ -633,13 +617,13 @@ create_duplicate_contact_detected_dialog (EContact *old_contact,
 		"default-height", 400,
 		NULL);
 
-	gtk_dialog_add_action_widget (dialog, create_iconic_button (_("_Cancel"), GTK_STOCK_CANCEL), GTK_RESPONSE_CANCEL);
+	gtk_dialog_add_action_widget (dialog, e_dialog_button_new_with_icon ("process-stop", _("_Cancel")), GTK_RESPONSE_CANCEL);
 
 	if (is_for_commit) {
-		gtk_dialog_add_action_widget (dialog, create_iconic_button (_("_Save"), "document-save"), GTK_RESPONSE_OK);
+		gtk_dialog_add_action_widget (dialog, e_dialog_button_new_with_icon ("document-save", _("_Save")), GTK_RESPONSE_OK);
 	} else {
-		gtk_dialog_add_action_widget (dialog, create_iconic_button (_("_Add"), "list-add"), GTK_RESPONSE_OK);
-		gtk_dialog_add_action_widget (dialog, create_iconic_button (_("_Merge"), NULL), GTK_RESPONSE_APPLY);
+		gtk_dialog_add_action_widget (dialog, e_dialog_button_new_with_icon ("list-add", _("_Add")), GTK_RESPONSE_OK);
+		gtk_dialog_add_action_widget (dialog, e_dialog_button_new_with_icon (NULL, _("_Merge")), GTK_RESPONSE_APPLY);
 	}
 
 	if (disable_merge)

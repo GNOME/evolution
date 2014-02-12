@@ -204,7 +204,7 @@ e_table_field_chooser_dialog_init (ETableFieldChooserDialog *e_table_field_choos
 	e_table_field_chooser_dialog->full_header = NULL;
 	e_table_field_chooser_dialog->header = NULL;
 
-	gtk_dialog_add_button (dialog, GTK_STOCK_CLOSE, GTK_RESPONSE_OK);
+	gtk_dialog_add_button (dialog, _("_Close"), GTK_RESPONSE_OK);
 
 	gtk_window_set_resizable (GTK_WINDOW (dialog), TRUE);
 

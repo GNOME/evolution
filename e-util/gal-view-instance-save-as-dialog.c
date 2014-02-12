@@ -266,8 +266,8 @@ gal_view_instance_save_as_dialog_init (GalViewInstanceSaveAsDialog *dialog)
 
 	gtk_dialog_add_buttons (
 		GTK_DIALOG (dialog),
-		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-		GTK_STOCK_SAVE, GTK_RESPONSE_OK,
+		_("_Cancel"), GTK_RESPONSE_CANCEL,
+		_("_Save"), GTK_RESPONSE_OK,
 		NULL);
 
 	dialog->scrolledwindow = e_builder_get_widget (dialog->builder, "scrolledwindow2");

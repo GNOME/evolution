@@ -67,8 +67,8 @@ e_shell_run_open_dialog (EShell *shell,
 	dialog = gtk_file_chooser_dialog_new (
 		title, parent,
 		GTK_FILE_CHOOSER_ACTION_OPEN,
-		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-		GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT, NULL);
+		_("_Cancel"), GTK_RESPONSE_CANCEL,
+		_("_Open"), GTK_RESPONSE_ACCEPT, NULL);
 
 	file_chooser = GTK_FILE_CHOOSER (dialog);
 
@@ -131,8 +131,8 @@ e_shell_run_save_dialog (EShell *shell,
 	dialog = gtk_file_chooser_dialog_new (
 		title, parent,
 		GTK_FILE_CHOOSER_ACTION_SAVE,
-		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-		GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT, NULL);
+		_("_Cancel"), GTK_RESPONSE_CANCEL,
+		_("_Save"), GTK_RESPONSE_ACCEPT, NULL);
 
 	file_chooser = GTK_FILE_CHOOSER (dialog);
 

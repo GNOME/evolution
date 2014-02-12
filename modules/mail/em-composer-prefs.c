@@ -1198,9 +1198,9 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	selection = gtk_tree_view_get_selection (view);
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_NONE);
 	info_pixmap = e_builder_get_widget (prefs->builder, "pixmapSpellInfo");
-	gtk_image_set_from_stock (
+	gtk_image_set_from_icon_name (
 		GTK_IMAGE (info_pixmap),
-		GTK_STOCK_DIALOG_INFO, GTK_ICON_SIZE_BUTTON);
+		"dialog-information", GTK_ICON_SIZE_BUTTON);
 
 	widget = e_builder_get_widget (prefs->builder, "colorButtonSpellCheckColor");
 	g_settings_bind_with_mapping (

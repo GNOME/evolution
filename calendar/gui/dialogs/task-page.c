@@ -104,7 +104,6 @@ struct _TaskPagePrivate {
 	GtkWidget *remove;
 	GtkWidget *edit;
 	GtkWidget *invite;
-	GtkWidget *attendees_label;
 
 	/* ListView stuff */
 	ECalClient *client;
@@ -330,7 +329,7 @@ check_starts_in_the_past (TaskPage *tpage)
 		gchar *tmp = g_strconcat (
 			"<b>", start_in_past ? _("Task's start date is in the past") : "",
 			start_in_past && due_in_past ? "\n" : "", due_in_past ? _("Task's due date is in the past") : "", "</b>", NULL);
-		task_page_set_info_string (tpage, GTK_STOCK_DIALOG_WARNING, tmp);
+		task_page_set_info_string (tpage, "dialog-warning", tmp);
 		g_free (tmp);
 	} else {
 		task_page_set_info_string (tpage, NULL, NULL);
@@ -363,15 +362,15 @@ sensitize_widgets (TaskPage *tpage)
 
 	if (read_only) {
 		gchar *tmp = g_strconcat ("<b>", _("Task cannot be edited, because the selected task list is read only"), "</b>", NULL);
-		task_page_set_info_string (tpage, GTK_STOCK_DIALOG_INFO, tmp);
+		task_page_set_info_string (tpage, "dialog-information", tmp);
 		g_free (tmp);
 	} else if (!sens) {
 		gchar *tmp = g_strconcat ("<b>", _("Task cannot be fully edited, because you are not the organizer"), "</b>", NULL);
-		task_page_set_info_string (tpage, GTK_STOCK_DIALOG_INFO, tmp);
+		task_page_set_info_string (tpage, "dialog-information", tmp);
 		g_free (tmp);
 	} else if ((flags & COMP_EDITOR_IS_ASSIGNED) != 0 && e_client_check_capability (E_CLIENT (client), CAL_STATIC_CAPABILITY_NO_TASK_ASSIGNMENT)) {
 		gchar *tmp = g_strconcat ("<b>", _("Task cannot be edited, because the selected task list does not support assigned tasks"), "</b>", NULL);
-		task_page_set_info_string (tpage, GTK_STOCK_DIALOG_INFO, tmp);
+		task_page_set_info_string (tpage, "dialog-information", tmp);
 		g_free (tmp);
 		sens = FALSE;
 		read_only = TRUE;
@@ -1695,7 +1694,7 @@ task_page_set_info_string (TaskPage *tpage,
 
 	priv = tpage->priv;
 
-	gtk_image_set_from_stock (GTK_IMAGE (priv->info_icon), icon, GTK_ICON_SIZE_BUTTON);
+	gtk_image_set_from_icon_name (GTK_IMAGE (priv->info_icon), icon, GTK_ICON_SIZE_BUTTON);
 	gtk_label_set_markup (GTK_LABEL (priv->info_string), msg);
 
 	if (msg && icon)
@@ -1763,7 +1762,6 @@ get_widgets (TaskPage *tpage)
 
 	priv->timezone = e_builder_get_widget (priv->builder, "timezone");
 	priv->timezone_label = e_builder_get_widget (priv->builder, "timezone-label");
-	priv->attendees_label = e_builder_get_widget (priv->builder, "attendees-label");
 	priv->description = e_builder_get_widget (priv->builder, "description");
 	priv->categories_btn = e_builder_get_widget (priv->builder, "categories-button");
 	priv->categories = e_builder_get_widget (priv->builder, "categories");

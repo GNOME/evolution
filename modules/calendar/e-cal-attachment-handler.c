@@ -314,7 +314,7 @@ attachment_handler_run_dialog (GtkWindow *parent,
 
 	dialog = gtk_dialog_new_with_buttons (
 		title, parent, GTK_DIALOG_DESTROY_WITH_PARENT,
-		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, NULL);
+		_("_Cancel"), GTK_RESPONSE_CANCEL, NULL);
 
 	widget = gtk_button_new_with_mnemonic (_("I_mport"));
 	gtk_button_set_image (

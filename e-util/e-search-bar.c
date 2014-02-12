@@ -27,6 +27,8 @@
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
 
+#include "e-dialog-widgets.h"
+
 #define E_SEARCH_BAR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_SEARCH_BAR, ESearchBarPrivate))
@@ -558,8 +560,8 @@ e_search_bar_init (ESearchBar *search_bar)
 
 	widget = gtk_button_new ();
 	gtk_button_set_image (
-		GTK_BUTTON (widget), gtk_image_new_from_stock (
-		GTK_STOCK_CLOSE, GTK_ICON_SIZE_MENU));
+		GTK_BUTTON (widget), gtk_image_new_from_icon_name (
+		"window-close", GTK_ICON_SIZE_MENU));
 	gtk_button_set_relief (GTK_BUTTON (widget), GTK_RELIEF_NONE);
 	gtk_widget_set_tooltip_text (widget, _("Close the find bar"));
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
@@ -576,9 +578,9 @@ e_search_bar_init (ESearchBar *search_bar)
 	label = widget;
 
 	widget = gtk_entry_new ();
-	gtk_entry_set_icon_from_stock (
+	gtk_entry_set_icon_from_icon_name (
 		GTK_ENTRY (widget), GTK_ENTRY_ICON_SECONDARY,
-		GTK_STOCK_CLEAR);
+		"edit-clear");
 	gtk_entry_set_icon_tooltip_text (
 		GTK_ENTRY (widget), GTK_ENTRY_ICON_SECONDARY,
 		_("Clear the search"));
@@ -605,10 +607,7 @@ e_search_bar_init (ESearchBar *search_bar)
 		widget, "icon-release",
 		G_CALLBACK (search_bar_icon_release_cb), search_bar);
 
-	widget = gtk_button_new_with_mnemonic (_("_Previous"));
-	gtk_button_set_image (
-		GTK_BUTTON (widget), gtk_image_new_from_stock (
-		GTK_STOCK_GO_BACK, GTK_ICON_SIZE_MENU));
+	widget = e_dialog_button_new_with_icon ("go-previous", _("_Previous"));
 	gtk_button_set_relief (GTK_BUTTON (widget), GTK_RELIEF_NONE);
 	gtk_widget_set_tooltip_text (
 		widget, _("Find the previous occurrence of the phrase"));
@@ -620,10 +619,7 @@ e_search_bar_init (ESearchBar *search_bar)
 		widget, "clicked",
 		G_CALLBACK (search_bar_find_previous_cb), search_bar);
 
-	widget = gtk_button_new_with_mnemonic (_("_Next"));
-	gtk_button_set_image (
-		GTK_BUTTON (widget), gtk_image_new_from_stock (
-		GTK_STOCK_GO_FORWARD, GTK_ICON_SIZE_MENU));
+	widget = e_dialog_button_new_with_icon ("go-next", _("_Next"));
 	gtk_button_set_relief (GTK_BUTTON (widget), GTK_RELIEF_NONE);
 	gtk_widget_set_tooltip_text (
 		widget, _("Find the next occurrence of the phrase"));

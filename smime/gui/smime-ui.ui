@@ -139,13 +139,14 @@
                     </child>
                     <child>
                       <object class="GtkButton" id="your-delete-button">
-                        <property name="label">gtk-delete</property>
+                        <property name="label" translatable="yes">_Delete</property>
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
                         <property name="can_focus">True</property>
                         <property name="can_default">True</property>
                         <property name="receives_default">False</property>
-                        <property name="use_stock">True</property>
+                        <property name="use_stock">False</property>
+                        <property name="use-underline">True</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -244,13 +245,14 @@
                     </child>
                     <child>
                       <object class="GtkButton" id="contact-edit-button">
-                        <property name="label">gtk-edit</property>
+                        <property name="label" translatable="yes">_Edit</property>
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
                         <property name="can_focus">True</property>
                         <property name="can_default">True</property>
                         <property name="receives_default">False</property>
-                        <property name="use_stock">True</property>
+                        <property name="use_stock">False</property>
+                        <property name="use-underline">True</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -275,13 +277,14 @@
                     </child>
                     <child>
                       <object class="GtkButton" id="contact-delete-button">
-                        <property name="label">gtk-delete</property>
+                        <property name="label" translatable="yes">_Delete</property>
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
                         <property name="can_focus">True</property>
                         <property name="can_default">True</property>
                         <property name="receives_default">False</property>
-                        <property name="use_stock">True</property>
+                        <property name="use_stock">False</property>
+                        <property name="use-underline">True</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -379,13 +382,14 @@
                     </child>
                     <child>
                       <object class="GtkButton" id="authority-edit-button">
-                        <property name="label">gtk-edit</property>
+                        <property name="label" translatable="yes">_Edit</property>
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
                         <property name="can_focus">True</property>
                         <property name="can_default">True</property>
                         <property name="receives_default">False</property>
-                        <property name="use_stock">True</property>
+                        <property name="use_stock">False</property>
+                        <property name="use-underline">True</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -410,13 +414,14 @@
                     </child>
                     <child>
                       <object class="GtkButton" id="authority-delete-button">
-                        <property name="label">gtk-delete</property>
+                        <property name="label" translatable="yes">_Delete</property>
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
                         <property name="can_focus">True</property>
                         <property name="can_default">True</property>
                         <property name="receives_default">False</property>
-                        <property name="use_stock">True</property>
+                        <property name="use_stock">False</property>
+                        <property name="use-underline">True</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -562,12 +567,13 @@
             </child>
             <child>
               <object class="GtkButton" id="cancelbutton">
-                <property name="label">gtk-cancel</property>
+                <property name="label" translatable="yes">_Cancel</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
                 <property name="receives_default">False</property>
-                <property name="use_stock">True</property>
+                <property name="use_stock">False</property>
+                <property name="use-underline">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -577,12 +583,13 @@
             </child>
             <child>
               <object class="GtkButton" id="okbutton">
-                <property name="label">gtk-ok</property>
+                <property name="label" translatable="yes">_OK</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
                 <property name="receives_default">False</property>
-                <property name="use_stock">True</property>
+                <property name="use_stock">False</property>
+                <property name="use-underline">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -761,12 +768,13 @@
             </child>
             <child>
               <object class="GtkButton" id="editok">
-                <property name="label">gtk-ok</property>
+                <property name="label" translatable="yes">_OK</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
                 <property name="receives_default">False</property>
-                <property name="use_stock">True</property>
+                <property name="use_stock">False</property>
+                <property name="use-underline">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -790,10 +798,10 @@
   </object>
   <object class="GtkImage" id="backup-image">
     <property name="visible">True</property>
-    <property name="stock">gtk-save</property>
+    <property name="icon-name">document-save</property>
   </object>
   <object class="GtkImage" id="backup-all-image">
     <property name="visible">True</property>
-    <property name="stock">gtk-save</property>
+    <property name="icon-name">document-save</property>
   </object>
 </interface>

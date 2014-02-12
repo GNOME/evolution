@@ -26,6 +26,8 @@
 #include <string.h>
 #include <glib/gi18n.h>
 
+#include <e-util/e-util.h>
+
 #include "mail/em-utils.h"
 #include "mail/em-event.h"
 #include "composer/e-msg-composer.h"
@@ -833,17 +835,17 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	gtk_button_box_set_layout (GTK_BUTTON_BOX (vbuttonbox1), GTK_BUTTONBOX_START);
 	gtk_box_set_spacing (GTK_BOX (vbuttonbox1), 6);
 
-	header_add = gtk_button_new_from_stock ("gtk-add");
+	header_add = e_dialog_button_new_with_icon ("list-add", _("_Add"));
 	gtk_widget_show (header_add);
 	gtk_container_add (GTK_CONTAINER (vbuttonbox1), header_add);
 	gtk_widget_set_can_default (header_add, TRUE);
 
-	header_edit = gtk_button_new_from_stock ("gtk-edit");
+	header_edit = gtk_button_new_with_mnemonic (_("_Edit"));
 	gtk_widget_show (header_edit);
 	gtk_container_add (GTK_CONTAINER (vbuttonbox1), header_edit);
 	gtk_widget_set_can_default (header_edit, TRUE);
 
-	header_remove = gtk_button_new_from_stock ("gtk-remove");
+	header_remove = e_dialog_button_new_with_icon ("list-remove", _("_Remove"));
 	gtk_widget_show (header_remove);
 	gtk_container_add (GTK_CONTAINER (vbuttonbox1), header_remove);
 	gtk_widget_set_can_default (header_remove, TRUE);

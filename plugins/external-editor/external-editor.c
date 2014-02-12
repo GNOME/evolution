@@ -413,7 +413,7 @@ static void launch_editor (GtkAction *action, EMsgComposer *composer)
 
 static GtkActionEntry entries[] = {
 	{ "ExternalEditor",
-	  GTK_STOCK_EDIT,
+	  NULL,
 	  N_("Compose in External Editor"),
 	  "<Shift><Control>e",
 	  N_("Compose in External Editor"),

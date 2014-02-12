@@ -303,14 +303,14 @@ action_save_and_close_cb (GtkAction *action,
 static GtkActionEntry entries[] = {
 
 	{ "close",
-	  GTK_STOCK_CLOSE,
+	  "window-close",
 	  N_("_Close"),
 	  "<Control>w",
 	  N_("Close"),
 	  G_CALLBACK (action_close_cb) },
 
 	{ "save-and-close",
-	  GTK_STOCK_SAVE,
+	  "document-save",
 	  N_("_Save and Close"),
 	  "<Control>Return",
 	  N_("Save and Close"),

@@ -145,8 +145,8 @@ vfolder_edit_rule (EMailSession *session,
 	dialog = gtk_dialog_new_with_buttons (
 		_("Edit Search Folder"), NULL,
 		GTK_DIALOG_DESTROY_WITH_PARENT,
-		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-		GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
+		_("_Cancel"), GTK_RESPONSE_CANCEL,
+		_("_OK"), GTK_RESPONSE_OK, NULL);
 
 	gtk_container_set_border_width (GTK_CONTAINER (dialog), 6);
 	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
@@ -267,8 +267,8 @@ vfolder_gui_add_rule (EMVFolderRule *rule)
 		_("New Search Folder"),
 		NULL,
 		GTK_DIALOG_DESTROY_WITH_PARENT,
-		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-		GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
+		_("_Cancel"), GTK_RESPONSE_CANCEL,
+		_("_OK"), GTK_RESPONSE_OK, NULL);
 
 	gtk_dialog_set_default_response (gd, GTK_RESPONSE_OK);
 	gtk_container_set_border_width (GTK_CONTAINER (gd), 6);

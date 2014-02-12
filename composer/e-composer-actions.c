@@ -201,8 +201,8 @@ action_save_as_cb (GtkAction *action,
 	dialog = gtk_file_chooser_dialog_new (
 		_("Save as..."), GTK_WINDOW (composer),
 		GTK_FILE_CHOOSER_ACTION_SAVE,
-		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-		GTK_STOCK_SAVE, GTK_RESPONSE_OK,
+		_("_Cancel"), GTK_RESPONSE_CANCEL,
+		_("_Save"), GTK_RESPONSE_OK,
 		NULL);
 
 	gtk_dialog_set_default_response (
@@ -271,7 +271,7 @@ static GtkActionEntry entries[] = {
 	  G_CALLBACK (action_attach_cb) },
 
 	{ "close",
-	  GTK_STOCK_CLOSE,
+	  "window-close",
 	  N_("_Close"),
 	  "<Control>w",
 	  N_("Close the current file"),
@@ -285,21 +285,21 @@ static GtkActionEntry entries[] = {
 	  G_CALLBACK (action_new_message_cb) },
 
 	{ "preferences",
-	  GTK_STOCK_PREFERENCES,
-	  NULL,
+	  "preferences-system",
+	  N_("_Preferences"),
 	  NULL,
 	  N_("Configure Evolution"),
 	  G_CALLBACK (action_preferences_cb) },
 
 	{ "save",
-	  GTK_STOCK_SAVE,
+	  "document-save",
 	  N_("_Save"),
 	  "<Shift><Control>s",
 	  N_("Save the current file"),
 	  G_CALLBACK (action_save_cb) },
 
 	{ "save-as",
-	  GTK_STOCK_SAVE_AS,
+	  "document-save-as",
 	  N_("Save _As..."),
 	  NULL,
 	  N_("Save the current file with a different name"),
@@ -325,21 +325,21 @@ static GtkActionEntry entries[] = {
 static GtkActionEntry async_entries[] = {
 
 	{ "print",
-	  GTK_STOCK_PRINT,
+	  "document-print",
 	  N_("_Print..."),
 	  "<Control>p",
 	  NULL,
 	  G_CALLBACK (action_print_cb) },
 
 	{ "print-preview",
-	  GTK_STOCK_PRINT_PREVIEW,
+	  "document-print-preview",
 	  N_("Print Pre_view"),
 	  "<Shift><Control>p",
 	  NULL,
 	  G_CALLBACK (action_print_preview_cb) },
 
 	{ "save-draft",
-	  GTK_STOCK_SAVE,
+	  "document-save",
 	  N_("Save as _Draft"),
 	  "<Control>s",
 	  N_("Save as draft"),

@@ -345,8 +345,8 @@ e_source_selector_dialog_init (ESourceSelectorDialog *dialog)
 
 	gtk_dialog_add_buttons (
 		GTK_DIALOG (dialog),
-		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-		GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
+		_("_Cancel"), GTK_RESPONSE_CANCEL,
+		_("_OK"), GTK_RESPONSE_OK, NULL);
 	gtk_dialog_set_default_response (
 		GTK_DIALOG (dialog), GTK_RESPONSE_OK);
 	gtk_dialog_set_response_sensitive (

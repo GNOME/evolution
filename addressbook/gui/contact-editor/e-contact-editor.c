@@ -265,14 +265,14 @@ static GtkActionEntry undo_entries[] = {
 	  NULL }, /* just a fake undo menu, to get shortcuts working */
 
 	{ "undo",
-	  GTK_STOCK_UNDO,
+	  "edit-undo",
 	  NULL,
 	  "<Control>z",
 	  N_("Undo"),
 	  NULL }, /* Handled by EFocusTracker */
 
 	{ "redo",
-	  GTK_STOCK_REDO,
+	  "edit-redo",
 	  NULL,
 	  "<Control>y",
 	  N_("Redo"),
@@ -3565,17 +3565,16 @@ image_clicked (GtkWidget *button,
                EContactEditor *editor)
 {
 	if (!editor->priv->file_selector) {
-		const gchar *title = _("Please select an image for this contact");
-		const gchar *no_image = _("_No image");
 		GtkImage *preview;
 		GtkFileFilter *filter;
 
 		editor->priv->file_selector = gtk_file_chooser_dialog_new (
-			title, GTK_WINDOW (editor->priv->app),
+			_("Please select an image for this contact"),
+			GTK_WINDOW (editor->priv->app),
 			GTK_FILE_CHOOSER_ACTION_OPEN,
-			GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-			GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
-			no_image, GTK_RESPONSE_NO,
+			_("_Cancel"), GTK_RESPONSE_CANCEL,
+			_("_Open"), GTK_RESPONSE_ACCEPT,
+			_("_No image"), GTK_RESPONSE_NO,
 			NULL);
 
 		filter = gtk_file_filter_new ();

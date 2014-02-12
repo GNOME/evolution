@@ -1218,64 +1218,64 @@ action_view_type_cb (GtkToggleAction *action,
 static GtkActionEntry core_entries[] = {
 
 	{ "close",
-	  GTK_STOCK_CLOSE,
-	  NULL,
+	  "window-close",
+	  N_("_Close"),
 	  NULL,
 	  N_("Close the current window"),
 	  G_CALLBACK (action_close_cb) },
 
 	{ "copy-clipboard",
-	  GTK_STOCK_COPY,
-	  NULL,
+	  "edit-copy",
+	  N_("_Copy"),
 	  NULL,
 	  N_("Copy the selection"),
 	  NULL },  /* Handled by EFocusTracker */
 
 	{ "cut-clipboard",
-	  GTK_STOCK_CUT,
-	  NULL,
+	  "edit-cut",
+	  N_("Cu_t"),
 	  NULL,
 	  N_("Cut the selection"),
 	  NULL },  /* Handled by EFocusTracker */
 
 	{ "delete-selection",
-	  GTK_STOCK_DELETE,
-	  NULL,
+	  "edit-delete",
+	  N_("_Delete"),
 	  NULL,
 	  N_("Delete the selection"),
 	  NULL },  /* Handled by EFocusTracker */
 
 	{ "help",
-	  GTK_STOCK_HELP,
-	  NULL,
+	  "help-browser",
+	  N_("_Help"),
 	  NULL,
 	  N_("View help"),
 	  G_CALLBACK (action_help_cb) },
 
 	{ "paste-clipboard",
-	  GTK_STOCK_PASTE,
-	  NULL,
+	  "edit-paste",
+	  N_("_Paste"),
 	  NULL,
 	  N_("Paste the clipboard"),
 	  NULL },  /* Handled by EFocusTracker */
 
 	{ "print",
-	  GTK_STOCK_PRINT,
-	  NULL,
+	  "document-print",
+	  N_("_Print..."),
 	  "<Control>p",
 	  NULL,
 	  G_CALLBACK (action_print_cb) },
 
 	{ "print-preview",
-	  GTK_STOCK_PRINT_PREVIEW,
-	  NULL,
+	  "document-print-preview",
+	  N_("Pre_view..."),
 	  NULL,
 	  NULL,
 	  G_CALLBACK (action_print_preview_cb) },
 
 	{ "save",
-	  GTK_STOCK_SAVE,
-	  NULL,
+	  "document-save",
+	  N_("_Save"),
 	  NULL,
 	  N_("Save current changes"),
 	  G_CALLBACK (action_save_cb) },
@@ -1288,21 +1288,21 @@ static GtkActionEntry core_entries[] = {
 	  G_CALLBACK (action_save_and_close_cb) },
 
 	{ "select-all",
-	  GTK_STOCK_SELECT_ALL,
-	  NULL,
+	  "edit-select-all",
+	  N_("Select _All"),
 	  "<Control>a",
 	  N_("Select all text"),
 	  NULL },  /* Handled by EFocusTracker */
 
 	{ "undo",
-	  GTK_STOCK_UNDO,
+	  "edit-undo",
 	  NULL,
 	  "<Control>z",
 	  N_("Undo"),
 	  NULL },  /* Handled by EFocusTracker */
 
 	{ "redo",
-	  GTK_STOCK_REDO,
+	  "edit-redo",
 	  NULL,
 	  "<Control>y",
 	  N_("Redo"),
@@ -2149,8 +2149,8 @@ comp_editor_init (CompEditor *editor)
 		GIcon *emblemed_icon;
 		GEmblem *emblem;
 
-		icon = g_themed_icon_new (GTK_STOCK_CLOSE);
-		emblemed_icon = g_themed_icon_new (GTK_STOCK_SAVE);
+		icon = g_themed_icon_new ("window-close");
+		emblemed_icon = g_themed_icon_new ("document-save");
 		emblem = g_emblem_new (emblemed_icon);
 		g_object_unref (emblemed_icon);
 

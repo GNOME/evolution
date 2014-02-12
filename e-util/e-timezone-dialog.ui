@@ -30,8 +30,9 @@
                 <property name="visible">True</property>
                 <property name="can_default">True</property>
                 <property name="can_focus">True</property>
-                <property name="label">gtk-cancel</property>
-                <property name="use_stock">True</property>
+                <property name="label" translatable="yes">_Cancel</property>
+                <property name="use_stock">False</property>
+                <property name="use_underline">True</property>
                 <property name="relief">GTK_RELIEF_NORMAL</property>
                 <property name="focus_on_click">True</property>
               </object>
@@ -42,8 +43,9 @@
                 <property name="can_default">True</property>
                 <property name="has_default">True</property>
                 <property name="can_focus">True</property>
-                <property name="label">gtk-ok</property>
-                <property name="use_stock">True</property>
+                <property name="label" translatable="yes">_OK</property>
+                <property name="use_stock">False</property>
+                <property name="use_underline">True</property>
                 <property name="relief">GTK_RELIEF_NORMAL</property>
                 <property name="focus_on_click">True</property>
               </object>
@@ -72,7 +74,7 @@
                 <child>
                   <object class="GtkImage" id="image1">
                     <property name="visible">True</property>
-                    <property name="stock">gtk-dialog-info</property>
+                    <property name="icon-name">dialog-information</property>
                     <property name="icon_size">6</property>
                     <property name="xalign">0.5</property>
                     <property name="yalign">0.5</property>

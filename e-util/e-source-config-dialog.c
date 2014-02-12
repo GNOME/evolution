@@ -15,6 +15,12 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
+#include <glib/gi18n-lib.h>
+
 #include "e-source-config-dialog.h"
 
 #include "e-alert-bar.h"
@@ -366,8 +372,8 @@ e_source_config_dialog_init (ESourceConfigDialog *dialog)
 
 	gtk_dialog_add_buttons (
 		GTK_DIALOG (dialog),
-		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-		GTK_STOCK_OK, GTK_RESPONSE_OK,
+		_("_Cancel"), GTK_RESPONSE_CANCEL,
+		_("_OK"), GTK_RESPONSE_OK,
 		NULL);
 
 	gtk_dialog_set_default_response (

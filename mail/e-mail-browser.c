@@ -122,36 +122,36 @@ action_close_cb (GtkAction *action,
 static GtkActionEntry mail_browser_entries[] = {
 
 	{ "close",
-	  GTK_STOCK_CLOSE,
-	  NULL,
+	  "window-close",
+	  N_("_Close"),
 	  NULL,
 	  N_("Close this window"),
 	  G_CALLBACK (action_close_cb) },
 
 	{ "copy-clipboard",
-	  GTK_STOCK_COPY,
-	  NULL,
+	  "edit-copy",
+	  N_("_Copy"),
 	  NULL,
 	  N_("Copy the selection"),
 	  NULL },  /* Handled by EFocusTracker */
 
 	{ "cut-clipboard",
-	  GTK_STOCK_CUT,
-	  NULL,
+	  "edit-cut",
+	  N_("Cu_t"),
 	  NULL,
 	  N_("Cut the selection"),
 	  NULL },  /* Handled by EFocusTracker */
 
 	{ "paste-clipboard",
-	  GTK_STOCK_PASTE,
-	  NULL,
+	  "edit-paste",
+	  N_("_Paste"),
 	  NULL,
 	  N_("Paste the clipboard"),
 	  NULL },  /* Handled by EFocusTracker */
 
 	{ "select-all",
-	  GTK_STOCK_SELECT_ALL,
-	  NULL,
+	  "edit-select-all",
+	  N_("Select _All"),
 	  NULL,
 	  N_("Select all text"),
 	  NULL },  /* Handled by EFocusTracker */

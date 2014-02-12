@@ -19,7 +19,10 @@
 
 #include <config.h>
 
+#include <glib/gi18n-lib.h>
 #include <libedataserver/libedataserver.h>
+
+#include "e-dialog-widgets.h"
 
 #define E_ACTIVITY_BAR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -120,9 +123,9 @@ activity_bar_update (EActivityBar *bar)
 		icon_name = COMPLETED_ICON_NAME;
 
 	if (state == E_ACTIVITY_CANCELLED) {
-		gtk_image_set_from_stock (
+		gtk_image_set_from_icon_name (
 			GTK_IMAGE (bar->priv->image),
-			GTK_STOCK_CANCEL, GTK_ICON_SIZE_BUTTON);
+			"process-stop", GTK_ICON_SIZE_BUTTON);
 		gtk_widget_show (bar->priv->image);
 	} else if (icon_name != NULL) {
 		gtk_image_set_from_icon_name (
@@ -293,7 +296,7 @@ e_activity_bar_init (EActivityBar *bar)
 	gtk_widget_show (widget);
 
 	/* This is only shown if the EActivity has a GCancellable. */
-	widget = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
+	widget = e_dialog_button_new_with_icon ("process-stop", _("_Cancel"));
 	gtk_info_bar_add_action_widget (
 		GTK_INFO_BAR (bar), widget, GTK_RESPONSE_CANCEL);
 	bar->priv->cancel = widget;

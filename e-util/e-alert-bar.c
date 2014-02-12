@@ -20,6 +20,8 @@
 #include <config.h>
 #include <glib/gi18n-lib.h>
 
+#include "e-dialog-widgets.h"
+
 #define E_ALERT_BAR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_ALERT_BAR, EAlertBarPrivate))
@@ -65,7 +67,7 @@ alert_bar_show_alert (EAlertBar *alert_bar)
 	GtkMessageType message_type;
 	const gchar *primary_text;
 	const gchar *secondary_text;
-	const gchar *stock_id;
+	const gchar *icon_name;
 	gboolean have_primary_text;
 	gboolean have_secondary_text;
 	gboolean visible;
@@ -108,11 +110,7 @@ alert_bar_show_alert (EAlertBar *alert_bar)
 	}
 
 	/* Add a dismiss button. */
-	widget = gtk_button_new ();
-	gtk_button_set_image (
-		GTK_BUTTON (widget),
-		gtk_image_new_from_stock (
-		GTK_STOCK_CLOSE, GTK_ICON_SIZE_MENU));
+	widget = e_dialog_button_new_with_icon ("window-close", NULL);
 	gtk_button_set_relief (
 		GTK_BUTTON (widget), GTK_RELIEF_NONE);
 	gtk_widget_set_tooltip_text (
@@ -166,9 +164,9 @@ alert_bar_show_alert (EAlertBar *alert_bar)
 	gtk_widget_set_visible (widget, have_secondary_text);
 	g_free (markup);
 
-	stock_id = e_alert_get_stock_id (alert);
+	icon_name = e_alert_get_icon_name (alert);
 	image = GTK_IMAGE (alert_bar->priv->image);
-	gtk_image_set_from_stock (image, stock_id, ICON_SIZE);
+	gtk_image_set_from_icon_name (image, icon_name, ICON_SIZE);
 
 	/* Avoid showing an image for one-line alerts,
 	 * which are usually questions or informational. */

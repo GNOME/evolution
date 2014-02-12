@@ -132,3 +132,38 @@ e_dialog_combo_box_get (GtkWidget *widget,
 
 	return i;
 }
+
+/**
+ * e_dialog_button_new_with_icon:
+ * @icon_name: Icon's name to use; can be %NULL
+ * @label: Button label to set, with mnemonics
+ *
+ * Creates a new #GtkButton with preset @label and image set
+ * to @icon_name.
+ *
+ * Returns: (transfer-full): A new #GtkButton
+ *
+ * Since: 3.12
+ **/
+GtkWidget *
+e_dialog_button_new_with_icon (const gchar *icon_name,
+			       const gchar *label)
+{
+	GtkIconSize icon_size = GTK_ICON_SIZE_BUTTON;
+	GtkWidget *button;
+
+	if (label && *label) {
+		button = gtk_button_new_with_mnemonic (label);
+	} else {
+		button = gtk_button_new ();
+		icon_size = GTK_ICON_SIZE_MENU;
+	}
+
+	if (icon_name)
+		gtk_button_set_image (GTK_BUTTON (button),
+			gtk_image_new_from_icon_name (icon_name, icon_size));
+
+	gtk_widget_show (button);
+
+	return button;
+}

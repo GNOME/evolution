@@ -23,6 +23,7 @@
 
 #include <libedataserver/libedataserver.h>
 
+#include "e-dialog-widgets.h"
 #include "e-mail-signature-preview.h"
 #include "e-mail-signature-tree-view.h"
 #include "e-mail-signature-script-dialog.h"
@@ -323,7 +324,7 @@ mail_signature_manager_constructed (GObject *object)
 
 	container = widget;
 
-	widget = gtk_button_new_from_stock (GTK_STOCK_ADD);
+	widget = e_dialog_button_new_with_icon ("list-add", _("_Add"));
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	manager->priv->add_button = widget;  /* not referenced */
 	gtk_widget_show (widget);
@@ -333,10 +334,7 @@ mail_signature_manager_constructed (GObject *object)
 		G_CALLBACK (e_mail_signature_manager_add_signature),
 		manager);
 
-	widget = gtk_button_new_with_mnemonic (_("Add _Script"));
-	gtk_button_set_image (
-		GTK_BUTTON (widget), gtk_image_new_from_stock (
-		GTK_STOCK_EXECUTE, GTK_ICON_SIZE_BUTTON));
+	widget = e_dialog_button_new_with_icon ("system-run", _("Add _Script"));
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	manager->priv->add_script_button = widget;  /* not referenced */
 	gtk_widget_show (widget);
@@ -356,7 +354,7 @@ mail_signature_manager_constructed (GObject *object)
 		G_CALLBACK (e_mail_signature_manager_add_signature_script),
 		manager);
 
-	widget = gtk_button_new_from_stock (GTK_STOCK_EDIT);
+	widget = gtk_button_new_with_mnemonic (_("_Edit"));
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	manager->priv->edit_button = widget;  /* not referenced */
 	gtk_widget_show (widget);
@@ -366,7 +364,7 @@ mail_signature_manager_constructed (GObject *object)
 		G_CALLBACK (e_mail_signature_manager_edit_signature),
 		manager);
 
-	widget = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
+	widget = e_dialog_button_new_with_icon ("list-remove", _("_Remove"));
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	manager->priv->remove_button = widget;  /* not referenced */
 	gtk_widget_show (widget);

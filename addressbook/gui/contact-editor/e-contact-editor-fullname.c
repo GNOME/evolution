@@ -220,8 +220,8 @@ e_contact_editor_fullname_init (EContactEditorFullname *e_contact_editor_fullnam
 
 	gtk_dialog_add_buttons (
 		dialog,
-		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-		GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
+		_("_Cancel"), GTK_RESPONSE_CANCEL,
+		_("_OK"), GTK_RESPONSE_OK, NULL);
 
 	gtk_window_set_resizable (GTK_WINDOW (dialog), TRUE);
 

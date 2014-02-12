@@ -29,6 +29,8 @@
 #include <glib/gi18n.h>
 #include <string.h>
 
+#include <e-util/e-util.h>
+
 #include <shell/e-shell-view.h>
 
 #include <mail/e-mail-reader.h>
@@ -448,17 +450,17 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	gtk_button_box_set_layout (GTK_BUTTON_BOX (vbuttonbox2), GTK_BUTTONBOX_START);
 	gtk_box_set_spacing (GTK_BOX (vbuttonbox2), 6);
 
-	clue_add = gtk_button_new_from_stock ("gtk-add");
+	clue_add = e_dialog_button_new_with_icon ("list-add", _("_Add"));
 	gtk_widget_show (clue_add);
 	gtk_container_add (GTK_CONTAINER (vbuttonbox2), clue_add);
 	gtk_widget_set_can_default (clue_add, TRUE);
 
-	clue_edit = gtk_button_new_from_stock ("gtk-edit");
+	clue_edit = gtk_button_new_with_mnemonic (_("_Edit"));
 	gtk_widget_show (clue_edit);
 	gtk_container_add (GTK_CONTAINER (vbuttonbox2), clue_edit);
 	gtk_widget_set_can_default (clue_edit, TRUE);
 
-	clue_remove = gtk_button_new_from_stock ("gtk-remove");
+	clue_remove = e_dialog_button_new_with_icon ("list-remove", _("_Remove"));
 	gtk_widget_show (clue_remove);
 	gtk_container_add (GTK_CONTAINER (vbuttonbox2), clue_remove);
 	gtk_widget_set_can_default (clue_remove, TRUE);
@@ -1249,7 +1251,7 @@ action_template_cb (GtkAction *action,
 static GtkActionEntry composer_entries[] = {
 
 	{ "template",
-	  GTK_STOCK_SAVE,
+	  "document-save",
 	  N_("Save as _Template"),
 	  "<Shift><Control>t",
 	  N_("Save as Template"),

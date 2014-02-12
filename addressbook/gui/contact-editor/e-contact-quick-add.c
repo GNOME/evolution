@@ -452,8 +452,8 @@ build_quick_add_dialog (QuickAdd *qa)
 		e_shell_get_active_window (NULL),
 		0,
 		_("_Edit Full"), QUICK_ADD_RESPONSE_EDIT_FULL,
-		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-		GTK_STOCK_OK, GTK_RESPONSE_OK,
+		_("_Cancel"), GTK_RESPONSE_CANCEL,
+		_("_OK"), GTK_RESPONSE_OK,
 		NULL);
 
 	gtk_widget_ensure_style (dialog);

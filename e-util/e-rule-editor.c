@@ -177,8 +177,8 @@ rule_add (GtkWidget *widget,
 	editor->dialog = gtk_dialog_new ();
 	gtk_dialog_add_buttons (
 		GTK_DIALOG (editor->dialog),
-		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-		GTK_STOCK_OK, GTK_RESPONSE_OK,
+		_("_Cancel"), GTK_RESPONSE_CANCEL,
+		_("_OK"), GTK_RESPONSE_OK,
 		NULL);
 
 	gtk_window_set_title ((GtkWindow *) editor->dialog, _("Add Rule"));
@@ -279,8 +279,8 @@ rule_edit (GtkWidget *widget,
 	editor->dialog = gtk_dialog_new ();
 	gtk_dialog_add_buttons (
 		(GtkDialog *) editor->dialog,
-				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				GTK_STOCK_OK, GTK_RESPONSE_OK,
+				_("_Cancel"), GTK_RESPONSE_CANCEL,
+				_("_OK"), GTK_RESPONSE_OK,
 				NULL);
 
 	gtk_window_set_title ((GtkWindow *) editor->dialog, _("Edit Rule"));
@@ -773,7 +773,7 @@ e_rule_editor_construct (ERuleEditor *editor,
 
 	gtk_dialog_add_buttons (
 		GTK_DIALOG (editor),
-		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-		GTK_STOCK_OK, GTK_RESPONSE_OK,
+		_("_Cancel"), GTK_RESPONSE_CANCEL,
+		_("_OK"), GTK_RESPONSE_OK,
 		NULL);
 }

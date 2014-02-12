@@ -21,6 +21,7 @@
 #include <glib/gi18n-lib.h>
 #include <gdk/gdkkeysyms.h>
 
+#include <e-util/e-util.h>
 #include <libemail-engine/libemail-engine.h>
 
 #include <mail/e-mail-account-tree-view.h>
@@ -715,7 +716,7 @@ mail_account_manager_constructed (GObject *object)
 
 	container = widget;
 
-	widget = gtk_button_new_from_stock (GTK_STOCK_ADD);
+	widget = e_dialog_button_new_with_icon ("list-add", _("_Add"));
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	manager->priv->add_button = widget;  /* not referenced */
 	gtk_widget_show (widget);
@@ -724,7 +725,7 @@ mail_account_manager_constructed (GObject *object)
 		widget, "clicked",
 		G_CALLBACK (mail_account_manager_add_cb), manager);
 
-	widget = gtk_button_new_from_stock (GTK_STOCK_EDIT);
+	widget = gtk_button_new_with_mnemonic (_("_Edit"));
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	manager->priv->edit_button = widget;  /* not referenced */
 	gtk_widget_show (widget);
@@ -733,7 +734,7 @@ mail_account_manager_constructed (GObject *object)
 		widget, "clicked",
 		G_CALLBACK (mail_account_manager_edit_cb), manager);
 
-	widget = gtk_button_new_from_stock (GTK_STOCK_DELETE);
+	widget = e_dialog_button_new_with_icon ("edit-delete", _("_Delete"));
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	manager->priv->delete_button = widget;  /* not referenced */
 	gtk_widget_show (widget);
@@ -742,11 +743,7 @@ mail_account_manager_constructed (GObject *object)
 		widget, "clicked",
 		G_CALLBACK (mail_account_manager_remove_cb), manager);
 
-	widget = gtk_button_new_with_mnemonic (_("De_fault"));
-	gtk_button_set_image (
-		GTK_BUTTON (widget),
-		gtk_image_new_from_icon_name (
-		"emblem-default", GTK_ICON_SIZE_BUTTON));
+	widget = e_dialog_button_new_with_icon ("emblem-default", _("De_fault"));
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	manager->priv->default_button = widget;  /* not referenced */
 	gtk_widget_show (widget);

@@ -1711,7 +1711,7 @@ em_subscription_editor_init (EMSubscriptionEditor *editor)
 
 	gtk_dialog_add_button (
 		GTK_DIALOG (editor),
-		GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
+		_("_Close"), GTK_RESPONSE_CLOSE);
 
 	container = gtk_dialog_get_content_area (GTK_DIALOG (editor));
 
@@ -1748,9 +1748,9 @@ em_subscription_editor_init (EMSubscriptionEditor *editor)
 	gtk_widget_show (widget);
 
 	widget = gtk_entry_new ();
-	gtk_entry_set_icon_from_stock (
+	gtk_entry_set_icon_from_icon_name (
 		GTK_ENTRY (widget),
-		GTK_ENTRY_ICON_SECONDARY, GTK_STOCK_CLEAR);
+		GTK_ENTRY_ICON_SECONDARY, "edit-clear");
 	gtk_entry_set_icon_tooltip_text (
 		GTK_ENTRY (widget),
 		GTK_ENTRY_ICON_SECONDARY, _("Clear Search"));
@@ -1926,7 +1926,7 @@ em_subscription_editor_init (EMSubscriptionEditor *editor)
 		G_CALLBACK (subscription_editor_expand_all), editor);
 
 	tooltip = _("Refresh the folder list");
-	widget = gtk_button_new_from_stock (GTK_STOCK_REFRESH);
+	widget = e_dialog_button_new_with_icon ("view-refresh", _("_Refresh"));
 	gtk_widget_set_tooltip_text (widget, tooltip);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_set_sensitive (widget, FALSE);
@@ -1938,7 +1938,7 @@ em_subscription_editor_init (EMSubscriptionEditor *editor)
 		G_CALLBACK (subscription_editor_refresh), editor);
 
 	tooltip = _("Stop the current operation");
-	widget = gtk_button_new_from_stock (GTK_STOCK_STOP);
+	widget = e_dialog_button_new_with_icon ("process-stop", _("_Stop"));
 	gtk_widget_set_tooltip_text (widget, tooltip);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_set_sensitive (widget, FALSE);

@@ -23,7 +23,7 @@
             <child>
               <object class="GtkImage" id="image3">
                 <property name="visible">True</property>
-                <property name="stock">gtk-dialog-info</property>
+                <property name="icon-name">dialog-information</property>
                 <property name="icon_size">5</property>
                 <property name="xalign">0.5</property>
                 <property name="yalign">0.5</property>

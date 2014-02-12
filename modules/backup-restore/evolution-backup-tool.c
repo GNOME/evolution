@@ -946,8 +946,7 @@ main (gint argc,
 		progress_dialog = gtk_dialog_new_with_buttons (
 			title, NULL,
 			GTK_DIALOG_MODAL,
-			GTK_STOCK_CANCEL,
-			GTK_RESPONSE_REJECT,
+			_("_Cancel"), GTK_RESPONSE_REJECT,
 			NULL);
 
 		gtk_container_set_border_width (
@@ -975,8 +974,8 @@ main (gint argc,
 		gtk_box_pack_start (
 			GTK_BOX (content_area), container, FALSE, TRUE, 0);
 
-		widget = gtk_image_new_from_stock (
-			GTK_STOCK_COPY, GTK_ICON_SIZE_DIALOG);
+		widget = gtk_image_new_from_icon_name (
+			"edit-copy", GTK_ICON_SIZE_DIALOG);
 		gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.0);
 		gtk_widget_show (widget);
 

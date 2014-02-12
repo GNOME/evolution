@@ -308,9 +308,9 @@ e_attachment_dialog_init (EAttachmentDialog *dialog)
 	dialog->priv = E_ATTACHMENT_DIALOG_GET_PRIVATE (dialog);
 
 	gtk_dialog_add_button (
-		GTK_DIALOG (dialog), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
+		GTK_DIALOG (dialog), _("_Cancel"), GTK_RESPONSE_CANCEL);
 	gtk_dialog_add_button (
-		GTK_DIALOG (dialog), GTK_STOCK_OK, GTK_RESPONSE_OK);
+		GTK_DIALOG (dialog), _("_OK"), GTK_RESPONSE_OK);
 	gtk_window_set_icon_name (
 		GTK_WINDOW (dialog), "mail-attachment");
 	gtk_window_set_title (

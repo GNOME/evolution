@@ -211,11 +211,14 @@ exit:
 static void
 attachment_button_update_pixbufs (EAttachmentButton *button)
 {
+	GtkIconTheme *icon_theme;
 	GtkCellLayout *cell_layout;
 	GtkCellRenderer *renderer;
 	GdkPixbuf *pixbuf_expander_open;
 	GdkPixbuf *pixbuf_expander_closed;
 	GList *list;
+
+	icon_theme = gtk_icon_theme_get_default ();
 
 	/* Grab the first cell renderer. */
 	cell_layout = GTK_CELL_LAYOUT (button->priv->cell_view);
@@ -223,13 +226,13 @@ attachment_button_update_pixbufs (EAttachmentButton *button)
 	renderer = GTK_CELL_RENDERER (list->data);
 	g_list_free (list);
 
-	pixbuf_expander_open = gtk_widget_render_icon (
-		GTK_WIDGET (button), GTK_STOCK_GO_DOWN,
-		GTK_ICON_SIZE_BUTTON, NULL);
+	pixbuf_expander_open = gtk_icon_theme_load_icon (
+		icon_theme, "go-down",
+		GTK_ICON_SIZE_BUTTON, 0, NULL);
 
-	pixbuf_expander_closed = gtk_widget_render_icon (
-		GTK_WIDGET (button), GTK_STOCK_GO_FORWARD,
-		GTK_ICON_SIZE_BUTTON, NULL);
+	pixbuf_expander_closed = gtk_icon_theme_load_icon (
+		icon_theme, "go-next",
+		GTK_ICON_SIZE_BUTTON, 0, NULL);
 
 	g_object_set (
 		renderer,

@@ -545,10 +545,8 @@ do_fields_config_dialog (ETableConfig *config)
 		_("Show Fields"),
 		GTK_WINDOW (config->dialog_toplevel),
 		0, /* no flags */
-		GTK_STOCK_CANCEL,
-		GTK_RESPONSE_CANCEL,
-		GTK_STOCK_OK,
-		GTK_RESPONSE_OK,
+		_("_Cancel"), GTK_RESPONSE_CANCEL,
+		_("_OK"), GTK_RESPONSE_OK,
 		NULL);
 
 	gtk_container_set_border_width (GTK_CONTAINER (dialog), 5);

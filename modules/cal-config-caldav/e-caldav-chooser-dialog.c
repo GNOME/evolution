@@ -275,11 +275,11 @@ caldav_chooser_dialog_constructed (GObject *object)
 
 	gtk_dialog_add_button (
 		GTK_DIALOG (dialog),
-		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
+		_("_Cancel"), GTK_RESPONSE_CANCEL);
 
 	gtk_dialog_add_button (
 		GTK_DIALOG (dialog),
-		GTK_STOCK_APPLY, GTK_RESPONSE_APPLY);
+		_("_Apply"), GTK_RESPONSE_APPLY);
 
 	gtk_dialog_set_default_response (
 		GTK_DIALOG (dialog), GTK_RESPONSE_APPLY);
@@ -337,8 +337,7 @@ caldav_chooser_dialog_constructed (GObject *object)
 
 	container = widget;
 
-	widget = gtk_image_new_from_stock (
-		GTK_STOCK_DIALOG_WARNING, GTK_ICON_SIZE_MENU);
+	widget = gtk_image_new_from_icon_name ("dialog-warning", GTK_ICON_SIZE_MENU);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 

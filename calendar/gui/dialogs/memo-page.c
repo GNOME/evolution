@@ -422,7 +422,7 @@ check_starts_in_the_past (MemoPage *mpage)
 	if (e_date_edit_get_date (E_DATE_EDIT (priv->start_date), &start_tt.year, &start_tt.month, &start_tt.day) &&
 	    comp_editor_test_time_in_the_past (start_tt)) {
 		gchar *tmp = g_strconcat ("<b>", _("Memo's start date is in the past"), "</b>", NULL);
-		memo_page_set_info_string (mpage, GTK_STOCK_DIALOG_WARNING, tmp);
+		memo_page_set_info_string (mpage, "dialog-warning", tmp);
 		g_free (tmp);
 	} else {
 		memo_page_set_info_string (mpage, NULL, NULL);
@@ -458,11 +458,11 @@ sensitize_widgets (MemoPage *mpage)
 
 	if (read_only) {
 		gchar *tmp = g_strconcat ("<b>", _("Memo cannot be edited, because the selected memo list is read only"), "</b>", NULL);
-		memo_page_set_info_string (mpage, GTK_STOCK_DIALOG_INFO, tmp);
+		memo_page_set_info_string (mpage, "dialog-information", tmp);
 		g_free (tmp);
 	} else if (!sens) {
 		gchar *tmp = g_strconcat ("<b>", _("Memo cannot be fully edited, because you are not the organizer"), "</b>", NULL);
-		memo_page_set_info_string (mpage, GTK_STOCK_DIALOG_INFO, tmp);
+		memo_page_set_info_string (mpage, "dialog-information", tmp);
 		g_free (tmp);
 	} else if (!check_starts_in_the_past (mpage)) {
 		memo_page_set_info_string (mpage, NULL, NULL);
@@ -832,7 +832,7 @@ memo_page_set_info_string (MemoPage *mpage,
 
 	priv = mpage->priv;
 
-	gtk_image_set_from_stock (GTK_IMAGE (priv->info_icon), icon, GTK_ICON_SIZE_BUTTON);
+	gtk_image_set_from_icon_name (GTK_IMAGE (priv->info_icon), icon, GTK_ICON_SIZE_BUTTON);
 	gtk_label_set_markup (GTK_LABEL (priv->info_string), msg);
 
 	if (msg && icon)

@@ -229,8 +229,8 @@ e_cert_selector_init (ECertSelector *ecs)
 {
 	gtk_dialog_add_buttons (
 		GTK_DIALOG (ecs),
-		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-		GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
+		_("_Cancel"), GTK_RESPONSE_CANCEL,
+		_("_OK"), GTK_RESPONSE_OK, NULL);
 
 	ecs->priv = E_CERT_SELECTOR_GET_PRIVATE (ecs);
 }

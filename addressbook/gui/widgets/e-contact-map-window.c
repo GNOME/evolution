@@ -29,6 +29,8 @@
 
 #include <champlain/champlain.h>
 
+#include <e-util/e-util.h>
+
 #include "e-contact-map.h"
 
 #define E_CONTACT_MAP_WINDOW_GET_PRIVATE(obj) \
@@ -405,7 +407,7 @@ e_contact_map_window_init (EContactMapWindow *window)
 	priv->spinner = button;
 
 	/* Zoom-in button */
-	button = gtk_button_new_from_stock (GTK_STOCK_ZOOM_IN);
+	button = e_dialog_button_new_with_icon ("zoom-in", _("Zoom _In"));
 	g_signal_connect (
 		button, "clicked",
 		G_CALLBACK (contact_map_window_zoom_in_cb), window);
@@ -413,7 +415,7 @@ e_contact_map_window_init (EContactMapWindow *window)
 	gtk_container_add (GTK_CONTAINER (hbox), button);
 
 	/* Zoom-out button */
-	button = gtk_button_new_from_stock (GTK_STOCK_ZOOM_OUT);
+	button = e_dialog_button_new_with_icon ("zoom-out", _("Zoom _Out"));
 	g_signal_connect (
 		button, "clicked",
 		G_CALLBACK (contact_map_window_zoom_out_cb), window);
@@ -443,7 +445,7 @@ e_contact_map_window_init (EContactMapWindow *window)
 	gtk_container_add (GTK_CONTAINER (hbox), entry);
 
 	/* Search button */
-	button = gtk_button_new_from_stock (GTK_STOCK_FIND);
+	button = e_dialog_button_new_with_icon ("edit-find", _("_Find"));
 	g_signal_connect (
 		button, "clicked",
 		G_CALLBACK (contact_map_window_find_contact_cb), window);
