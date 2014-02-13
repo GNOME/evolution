@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2014-02-12 05:27+0000\n"
-"PO-Revision-Date: 2014-02-12 15:02+0630\n"
+"POT-Creation-Date: 2014-02-13 05:27+0000\n"
+"PO-Revision-Date: 2014-02-13 22:14+0630\n"
 "Last-Translator: Nilamdyuti Goswami <ngoswami@redhat.com>\n"
 "Language-Team: Assamese <kde-i18n-doc@kde.org>\n"
 "Language: as\n"
@@ -202,9 +202,21 @@ msgstr ""
 "যোগ কৰিব নে?"
 
 #: ../addressbook/addressbook.error.xml.h:33
-#: ../addressbook/gui/widgets/eab-contact-merging.c:641
-#: ../e-util/e-name-selector-dialog.c:995 ../mail/em-vfolder-editor-rule.c:392
+#: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:8
+#: ../addressbook/gui/widgets/eab-contact-merging.c:625
+#: ../calendar/gui/dialogs/alarm-list-dialog.ui.h:4
+#: ../calendar/gui/dialogs/event-page.ui.h:22
+#: ../calendar/gui/dialogs/recurrence-page.ui.h:19
+#: ../calendar/gui/dialogs/task-page.ui.h:30 ../e-util/filter.ui.h:16
+#: ../e-util/e-mail-signature-manager.c:327
+#: ../e-util/e-name-selector-dialog.c:995 ../mail/e-mail-account-manager.c:719
+#: ../mail/e-mail-label-manager.c:373 ../mail/em-vfolder-editor-rule.c:392
+#: ../mail/em-vfolder-editor-rule.c:622 ../mail/mail-config.ui.h:100
 #: ../modules/mail/em-composer-prefs.c:443
+#: ../plugins/attachment-reminder/attachment-reminder.c:557
+#: ../plugins/email-custom-header/email-custom-header.c:838
+#: ../plugins/publish-calendar/publish-calendar.ui.h:32
+#: ../plugins/templates/templates.c:453
 msgid "_Add"
 msgstr "যোগ কৰক (_A)"
 
@@ -343,8 +355,8 @@ msgid "_Home Page:"
 msgstr "ঘৰ পৃষ্ঠা (_H):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:14
-#: ../calendar/gui/dialogs/event-page.c:710
-#: ../calendar/gui/dialogs/event-page.ui.h:22
+#: ../calendar/gui/dialogs/event-page.c:709
+#: ../calendar/gui/dialogs/event-page.ui.h:25
 #: ../modules/itip-formatter/itip-view.c:1882
 msgid "_Calendar:"
 msgstr "কেলেন্ডাৰ (_C):"
@@ -519,6 +531,77 @@ msgstr "চিঠি লিখাৰ ঠিকনা"
 msgid "Notes"
 msgstr "নোট"
 
+#: ../addressbook/gui/contact-editor/contact-editor.ui.h:52
+#: ../calendar/gui/dialogs/comp-editor.c:1250
+#: ../calendar/gui/dialogs/comp-editor.c:1337 ../e-util/e-send-options.ui.h:41
+#: ../e-util/e-preferences-window.c:379
+#: ../plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
+#: ../shell/e-shell-window-actions.c:1041
+msgid "_Help"
+msgstr "সহায়তা (_H)"
+
+#. no flags
+#: ../addressbook/gui/contact-editor/contact-editor.ui.h:53
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3575
+#: ../addressbook/gui/contact-editor/e-contact-editor-fullname.c:223
+#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:455
+#: ../addressbook/gui/contact-editor/fullname.ui.h:14
+#: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:17
+#: ../addressbook/gui/widgets/eab-contact-merging.c:362
+#: ../addressbook/gui/widgets/eab-contact-merging.c:620
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1330
+#: ../addressbook/gui/widgets/eab-gui-util.c:318
+#: ../calendar/gui/dialogs/alarm-dialog.ui.h:8
+#: ../calendar/gui/dialogs/alarm-list-dialog.ui.h:2
+#: ../calendar/gui/dialogs/e-delegate-dialog.ui.h:2
+#: ../calendar/gui/dialogs/goto-dialog.ui.h:15
+#: ../calendar/gui/dialogs/recurrence-page.c:2322
+#: ../composer/e-composer-actions.c:204 ../e-util/e-send-options.ui.h:42
+#: ../e-util/e-table-config.ui.h:1 ../e-util/e-timezone-dialog.ui.h:2
+#: ../e-util/e-attachment-dialog.c:311 ../e-util/e-attachment-store.c:464
+#: ../e-util/e-attachment-store.c:545 ../e-util/e-attachment-view.c:370
+#: ../e-util/e-categories-dialog.c:82 ../e-util/e-category-editor.c:138
+#: ../e-util/e-category-editor.c:208 ../e-util/e-charset-combo-box.c:101
+#: ../e-util/e-filter-datespec.c:291
+#: ../e-util/e-mail-signature-script-dialog.c:366 ../e-util/e-passwords.c:468
+#: ../e-util/e-rule-context.c:815 ../e-util/e-rule-editor.c:180
+#: ../e-util/e-rule-editor.c:282 ../e-util/e-rule-editor.c:776
+#: ../e-util/e-source-selector-dialog.c:348 ../e-util/e-table-config.c:548
+#: ../e-util/e-web-view.c:3081 ../e-util/evolution-source-viewer.c:832
+#: ../e-util/gal-view-instance-save-as-dialog.c:269
+#: ../mail/e-mail-config-window.c:331 ../mail/e-mail-label-dialog.c:196
+#: ../mail/e-mail-tag-editor.c:241 ../mail/em-folder-selector.c:278
+#: ../mail/mail-config.ui.h:2 ../mail/mail-send-recv.c:635
+#: ../mail/mail-send-recv.c:717 ../mail/mail-vfolder-ui.c:148
+#: ../mail/mail-vfolder-ui.c:270
+#: ../modules/backup-restore/evolution-backup-tool.c:949
+#: ../modules/cal-config-caldav/e-caldav-chooser-dialog.c:278
+#: ../modules/cal-config-google/e-google-chooser-dialog.c:188
+#: ../modules/calendar/e-cal-attachment-handler.c:317
+#: ../plugins/email-custom-header/org-gnome-email-custom-header.ui.h:3
+#: ../plugins/face/face.c:291 ../plugins/mail-to-task/mail-to-task.c:593
+#: ../plugins/publish-calendar/publish-calendar.c:806
+#: ../plugins/publish-calendar/url-editor-dialog.c:421
+#: ../plugins/save-calendar/save-calendar.c:189 ../shell/e-shell-content.c:659
+#: ../shell/e-shell-content.c:766 ../shell/e-shell-utils.c:70
+#: ../shell/e-shell-utils.c:134 ../smime/gui/certificate-manager.c:623
+#: ../smime/gui/e-cert-selector.c:232 ../smime/gui/smime-ui.ui.h:23
+msgid "_Cancel"
+msgstr "বাতিল কৰক (_C)"
+
+#: ../addressbook/gui/contact-editor/contact-editor.ui.h:54
+#: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:18
+#: ../addressbook/gui/widgets/eab-contact-merging.c:623
+#: ../calendar/calendar.error.xml.h:47
+#: ../calendar/gui/dialogs/comp-editor.c:1278
+#: ../composer/e-composer-actions.c:205 ../composer/e-composer-actions.c:296
+#: ../e-util/e-attachment-store.c:546
+#: ../e-util/e-mail-signature-script-dialog.c:370 ../e-util/e-web-view.c:3082
+#: ../e-util/gal-view-instance-save-as-dialog.c:270
+#: ../shell/e-shell-content.c:660 ../shell/e-shell-utils.c:135
+msgid "_Save"
+msgstr "সংৰক্ষণ কৰক (_S)"
+
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:171
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:592
 msgid "AIM"
@@ -593,15 +676,22 @@ msgstr "পৰিচয় আঁতৰাওঁতে সমস্যা হৈছ
 msgid "Contact Editor - %s"
 msgstr "পৰিচয় সম্পাদক - %s"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3568
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3572
 msgid "Please select an image for this contact"
 msgstr "অনুগ্ৰহ কৰি এই পৰিচয়ৰ বাবে এখন চিত্ৰ বাছক"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3569
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3576
+#: ../e-util/e-category-editor.c:146 ../plugins/face/face.c:292
+#: ../shell/e-shell-utils.c:71 ../smime/gui/certificate-manager.c:624
+#| msgid "Open"
+msgid "_Open"
+msgstr "খোলক (_O)"
+
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3577
 msgid "_No image"
 msgstr "কোনো ছবি নাই (_N)"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3927
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3926
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -609,30 +699,58 @@ msgstr ""
 "পৰিচয়ৰ তথ্য অবৈধ:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3933
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3932
 #, c-format
 msgid "'%s' has an invalid format"
 msgstr "'%s' ৰ বিন্যাস বৈধ নহয়"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3941
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3940
 #, c-format
 msgid "'%s' cannot be a future date"
 msgstr "'%s' এটা ভৱিষ্যত তাৰিখ হব নোৱাৰে"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3949
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3948
 #, c-format
 msgid "%s'%s' has an invalid format"
 msgstr "%s'%s' ৰ বিন্যাস বৈধ নহয়"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3962
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3976
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3961
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3975
 #, c-format
 msgid "%s'%s' is empty"
 msgstr "%s'%s' ৰিক্ত"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3991
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3990
 msgid "Invalid contact."
 msgstr "অবৈধ পৰিচয়।"
+
+#: ../addressbook/gui/contact-editor/e-contact-editor-fullname.c:224
+#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:456
+#: ../addressbook/gui/contact-editor/fullname.ui.h:13
+#: ../addressbook/gui/widgets/eab-gui-util.c:319
+#: ../calendar/gui/dialogs/alarm-dialog.ui.h:9
+#: ../calendar/gui/dialogs/alarm-list-dialog.ui.h:3
+#: ../calendar/gui/dialogs/e-delegate-dialog.ui.h:3
+#: ../calendar/gui/dialogs/recurrence-page.c:2323
+#: ../e-util/e-send-options.ui.h:43 ../e-util/e-table-config.ui.h:3
+#: ../e-util/e-timezone-dialog.ui.h:3 ../e-util/e-attachment-dialog.c:313
+#: ../e-util/e-categories-dialog.c:83 ../e-util/e-category-editor.c:209
+#: ../e-util/e-charset-combo-box.c:102 ../e-util/e-filter-datespec.c:292
+#: ../e-util/e-passwords.c:469 ../e-util/e-rule-context.c:816
+#: ../e-util/e-rule-editor.c:181 ../e-util/e-rule-editor.c:283
+#: ../e-util/e-rule-editor.c:777 ../e-util/e-source-selector-dialog.c:349
+#: ../e-util/e-table-config.c:549 ../mail/e-mail-config-window.c:332
+#: ../mail/e-mail-tag-editor.c:242 ../mail/em-folder-selector.c:279
+#: ../mail/mail-config.ui.h:3 ../mail/mail-dialogs.ui.h:26
+#: ../mail/mail-vfolder-ui.c:149 ../mail/mail-vfolder-ui.c:271
+#: ../plugins/email-custom-header/org-gnome-email-custom-header.ui.h:4
+#: ../plugins/publish-calendar/url-editor-dialog.c:422
+#: ../shell/e-shell-content.c:661 ../shell/e-shell-content.c:767
+#: ../shell/main.c:167 ../smime/gui/e-cert-selector.c:233
+#: ../smime/gui/smime-ui.ui.h:24
+#| msgid "OK"
+msgid "_OK"
+msgstr "ঠিক আছে (_O)"
 
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:451
 msgid "Contact Quick-Add"
@@ -703,24 +821,24 @@ msgstr "এস্কোয়েৰ."
 msgid "Full Name"
 msgstr "সম্পূৰ্ণ নাম"
 
-#: ../addressbook/gui/contact-editor/fullname.ui.h:13
+#: ../addressbook/gui/contact-editor/fullname.ui.h:15
 msgid "_First:"
 msgstr "প্ৰথম (_F):"
 
-#: ../addressbook/gui/contact-editor/fullname.ui.h:14
+#: ../addressbook/gui/contact-editor/fullname.ui.h:16
 msgctxt "FullName"
 msgid "_Title:"
 msgstr "শীৰ্ষক (_T):"
 
-#: ../addressbook/gui/contact-editor/fullname.ui.h:15
+#: ../addressbook/gui/contact-editor/fullname.ui.h:17
 msgid "_Middle:"
 msgstr "মধ্য (_M):"
 
-#: ../addressbook/gui/contact-editor/fullname.ui.h:16
+#: ../addressbook/gui/contact-editor/fullname.ui.h:18
 msgid "_Last:"
 msgstr "শেষ (_L):"
 
-#: ../addressbook/gui/contact-editor/fullname.ui.h:17
+#: ../addressbook/gui/contact-editor/fullname.ui.h:19
 msgid "_Suffix:"
 msgstr "অনুসৰ্গ (_S):"
 
@@ -749,17 +867,57 @@ msgstr "এই তালিকাত পত্ৰ প্ৰেৰণৰ সম�
 msgid "Add an email to the List"
 msgstr "তালিকালৈ এটা ই-মেইল যোগ কৰক"
 
-#: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:8
+#: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:9
 msgid "Remove an email address from the List"
 msgstr "তালিকাৰ পৰা এটা ই-মেইল ঠিকনা আতৰাওক"
 
-#: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:9
+#: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:10
+#: ../calendar/gui/dialogs/alarm-list-dialog.ui.h:5
+#: ../calendar/gui/dialogs/event-page.ui.h:23
+#: ../calendar/gui/dialogs/recurrence-page.ui.h:21
+#: ../calendar/gui/dialogs/task-page.ui.h:31 ../e-util/filter.ui.h:18
+#: ../e-util/e-attachment-view.c:424 ../e-util/e-filter-rule.c:224
+#: ../e-util/e-mail-signature-manager.c:367
+#: ../e-util/e-name-selector-dialog.c:999 ../mail/e-mail-label-manager.c:391
+#: ../mail/em-filter-rule.c:440 ../mail/em-vfolder-editor-rule.c:627
+#: ../mail/mail-config.ui.h:101
+#: ../plugins/attachment-reminder/attachment-reminder.c:567
+#: ../plugins/email-custom-header/email-custom-header.c:848
+#: ../plugins/publish-calendar/publish-calendar.c:807
+#: ../plugins/publish-calendar/publish-calendar.ui.h:34
+#: ../plugins/templates/templates.c:463
+msgid "_Remove"
+msgstr "মচি পেলাওক (_R)"
+
+#: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:11
 msgid "Insert email addresses from Address Book"
 msgstr "ঠিকনা বহীৰ পৰা ই-মেইল ঠিকনাসমূহ সুমুৱাওক"
 
-#: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:10
+#: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:12
 msgid "_Select..."
 msgstr "বাছক (_e)..."
+
+#: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:13
+#: ../e-util/filter.ui.h:19
+msgid "_Top"
+msgstr "ওপৰ (_T)"
+
+#: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:14
+#: ../e-util/filter.ui.h:20
+#| msgid "_Update"
+msgid "_Up"
+msgstr "ওপৰ (_U)"
+
+#: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:15
+#: ../e-util/filter.ui.h:21
+#| msgid "Move _Down"
+msgid "_Down"
+msgstr "তল (_D)"
+
+#: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:16
+#: ../e-util/filter.ui.h:22
+msgid "_Bottom"
+msgstr "তলত (_B)"
 
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:942
 msgid "Contact List Members"
@@ -791,28 +949,15 @@ msgid "Merge Contact"
 msgstr "পৰিচয় একত্ৰিত কৰক"
 
 #: ../addressbook/gui/widgets/eab-contact-merging.c:363
-#: ../addressbook/gui/widgets/eab-contact-merging.c:642
+#: ../addressbook/gui/widgets/eab-contact-merging.c:626
 msgid "_Merge"
 msgstr "একত্ৰিত কৰক (_M)"
 
-#: ../addressbook/gui/widgets/eab-contact-merging.c:631
+#: ../addressbook/gui/widgets/eab-contact-merging.c:615
 msgid "Duplicate Contact Detected"
 msgstr "প্ৰতিলিপি পৰিচয় চিনাক্ত কৰা গৈছে"
 
-#: ../addressbook/gui/widgets/eab-contact-merging.c:636
-#| msgid "Cancel"
-msgid "_Cancel"
-msgstr "বাতিল কৰক (_C)"
-
-#: ../addressbook/gui/widgets/eab-contact-merging.c:639
-#: ../calendar/calendar.error.xml.h:47 ../composer/e-composer-actions.c:296
-msgid "_Save"
-msgstr "সংৰক্ষণ কৰক (_S)"
-
-#: ../addressbook/gui/widgets/eab-contact-merging.c:686
-#| msgid ""
-#| "The name or email of this contact already exists in this folder. Would "
-#| "you like to save the changes anyway?"
+#: ../addressbook/gui/widgets/eab-contact-merging.c:670
 msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder. Would you like to save the changes anyway?"
@@ -820,10 +965,7 @@ msgstr ""
 "এই পৰিচয়ৰ নাম অথবা ই-মেইল ঠিকনা এই ফোল্ডাৰত ইতিমধ্যে অস্তিত্ববান।\n"
 "আপুনি তথাপিও পৰিবৰ্তনসমূহ সংৰক্ষণ কৰিব বিচাৰে নে?"
 
-#: ../addressbook/gui/widgets/eab-contact-merging.c:689
-#| msgid ""
-#| "The name or email address of this contact already exists\n"
-#| "in this folder.  Would you like to add it anyway?"
+#: ../addressbook/gui/widgets/eab-contact-merging.c:673
 msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder. Would you like to add it anyway?"
@@ -831,20 +973,19 @@ msgstr ""
 "এই পৰিচয়ৰ নাম অথবা ইমেইল ঠিকনা ইতিমধ্যেই এই ফোল্ডাৰত অস্তিত্ববান।\n"
 "আপুনি তথাপিও ইয়াক যোগ কৰিব বিচাৰে নে?"
 
-#: ../addressbook/gui/widgets/eab-contact-merging.c:703
+#: ../addressbook/gui/widgets/eab-contact-merging.c:687
 msgid "Changed Contact:"
 msgstr "পৰিবৰ্তিত পৰিচয়:"
 
-#: ../addressbook/gui/widgets/eab-contact-merging.c:705
+#: ../addressbook/gui/widgets/eab-contact-merging.c:689
 msgid "New Contact:"
 msgstr "নতুন পৰিচয়:"
 
-#: ../addressbook/gui/widgets/eab-contact-merging.c:741
+#: ../addressbook/gui/widgets/eab-contact-merging.c:725
 msgid "Conflicting Contact:"
 msgstr "দ্বন্দযুক্ত পৰিচয়:"
 
-#: ../addressbook/gui/widgets/eab-contact-merging.c:743
-#| msgid "Contact: "
+#: ../addressbook/gui/widgets/eab-contact-merging.c:727
 msgid "Old Contact:"
 msgstr "পুৰনি পৰিচয়:"
 
@@ -937,6 +1078,19 @@ msgstr "আপুনি এই পৰিচয় মচি পেলাবলৈ �
 #, c-format
 msgid "Are you sure you want to delete this contact (%s)?"
 msgstr "আপুনি এই পৰিচয় (%s) মচি পেলাবলৈ নিশ্চিত নে?"
+
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1331
+#: ../calendar/gui/dialogs/comp-editor.c:1243
+#: ../e-util/e-categories-editor.c:282 ../e-util/evolution-source-viewer.c:803
+#: ../mail/e-mail-account-manager.c:737
+#: ../modules/addressbook/e-book-shell-view-actions.c:1022
+#: ../modules/calendar/e-cal-shell-view-actions.c:1593
+#: ../modules/calendar/e-memo-shell-view-actions.c:692
+#: ../modules/calendar/e-task-shell-view-actions.c:844
+#: ../modules/mail/e-mail-shell-view-actions.c:1561
+#: ../shell/e-shell-window-actions.c:899 ../smime/gui/smime-ui.ui.h:10
+msgid "_Delete"
+msgstr "মচি পেলাওক (_D)"
 
 #. Translators: This is shown for > 5 contacts.
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1476
@@ -1130,9 +1284,28 @@ msgstr "স্বামী/স্ত্ৰী"
 msgid "Note"
 msgstr "নোট"
 
-#: ../addressbook/gui/widgets/e-contact-map-window.c:373
+#: ../addressbook/gui/widgets/e-contact-map-window.c:375
 msgid "Contacts Map"
 msgstr "পৰিচয়সমূহৰ মেপ"
+
+#. Zoom-in button
+#: ../addressbook/gui/widgets/e-contact-map-window.c:410
+#| msgid "_Zoom In"
+msgid "Zoom _In"
+msgstr "জুম ইন (_I)"
+
+#. Zoom-out button
+#: ../addressbook/gui/widgets/e-contact-map-window.c:418
+#: ../mail/e-mail-reader.c:2226
+msgid "Zoom _Out"
+msgstr "জুম আউট (_O)"
+
+#. Search button
+#: ../addressbook/gui/widgets/e-contact-map-window.c:448
+#: ../shell/e-shell-window-actions.c:976
+#| msgid "_Find Now"
+msgid "_Find"
+msgstr "সন্ধান কৰক (_F)"
 
 #: ../addressbook/gui/widgets/e-minicard-view.c:190
 msgid ""
@@ -1604,11 +1777,35 @@ msgstr "সকলো বাতিল কৰক (_A)"
 msgid "_Snooze"
 msgstr "স্নুজ (_S)"
 
-#: ../calendar/alarm-notify/alarm-notify.ui.h:4 ../e-util/e-alert-dialog.c:165
+#: ../calendar/alarm-notify/alarm-notify.ui.h:4
+#: ../calendar/gui/dialogs/alarm-list-dialog.ui.h:6
+#: ../calendar/gui/dialogs/comp-editor.c:1323
+#: ../calendar/gui/dialogs/event-page.ui.h:24
+#: ../calendar/gui/dialogs/recurrence-page.ui.h:20
+#: ../calendar/gui/dialogs/task-page.ui.h:32 ../e-util/filter.ui.h:17
+#: ../e-util/e-categories-editor.c:278
+#: ../e-util/e-mail-signature-manager.c:357
+#: ../mail/e-mail-account-manager.c:728 ../mail/e-mail-browser.c:170
+#: ../mail/e-mail-label-manager.c:382
+#: ../plugins/attachment-reminder/attachment-reminder.c:562
+#: ../plugins/email-custom-header/email-custom-header.c:843
+#: ../plugins/mail-to-task/mail-to-task.c:594
+#: ../plugins/publish-calendar/publish-calendar.ui.h:33
+#: ../plugins/templates/templates.c:458 ../shell/e-shell-window-actions.c:1027
+#: ../smime/gui/smime-ui.ui.h:13
+msgid "_Edit"
+msgstr "সম্পাদনা (_E)"
+
+#: ../calendar/alarm-notify/alarm-notify.ui.h:5
+#| msgid "Print"
+msgid "_Print"
+msgstr "প্ৰিন্ট কৰক (_P)"
+
+#: ../calendar/alarm-notify/alarm-notify.ui.h:6 ../e-util/e-alert-dialog.c:165
 msgid "_Dismiss"
 msgstr "বাতিল কৰক (_D)"
 
-#: ../calendar/alarm-notify/alarm-notify.ui.h:5
+#: ../calendar/alarm-notify/alarm-notify.ui.h:7
 #: ../calendar/alarm-notify/alarm-queue.c:1835
 #: ../calendar/alarm-notify/alarm-queue.c:1845
 #: ../modules/cal-config-weather/evolution-cal-config-weather.c:250
@@ -1617,17 +1814,17 @@ msgstr "বাতিল কৰক (_D)"
 msgid "Location:"
 msgstr "অবস্থান:"
 
-#: ../calendar/alarm-notify/alarm-notify.ui.h:6
+#: ../calendar/alarm-notify/alarm-notify.ui.h:8
 msgid "location of appointment"
 msgstr "সাক্ষাৎকাৰৰ স্থান"
 
-#: ../calendar/alarm-notify/alarm-notify.ui.h:7
+#: ../calendar/alarm-notify/alarm-notify.ui.h:9
 msgid "Snooze _time:"
 msgstr "স্নুজৰ সময়কাল (_t):"
 
 #. Translators: This is the last part of the sentence:
 #. * "Purge events older than <<spin-button>> days"
-#: ../calendar/alarm-notify/alarm-notify.ui.h:8
+#: ../calendar/alarm-notify/alarm-notify.ui.h:10
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:6 ../e-util/filter.ui.h:8
 #: ../e-util/e-interval-chooser.c:142
 #: ../modules/calendar/e-cal-shell-view-actions.c:351
@@ -1635,14 +1832,14 @@ msgstr "স্নুজৰ সময়কাল (_t):"
 msgid "days"
 msgstr "দিন"
 
-#: ../calendar/alarm-notify/alarm-notify.ui.h:9
+#: ../calendar/alarm-notify/alarm-notify.ui.h:11
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:5
 #: ../calendar/gui/dialogs/event-page.ui.h:18 ../e-util/filter.ui.h:7
 #: ../e-util/e-interval-chooser.c:140
 msgid "hours"
 msgstr "ঘন্টা"
 
-#: ../calendar/alarm-notify/alarm-notify.ui.h:10
+#: ../calendar/alarm-notify/alarm-notify.ui.h:12
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:4
 #: ../calendar/gui/dialogs/event-page.ui.h:19 ../e-util/filter.ui.h:6
 #: ../e-util/e-interval-chooser.c:138
@@ -1680,6 +1877,17 @@ msgstr[1] "আপোনাৰ %d ৰিমাইন্ডাৰসমূহ আ�
 #: ../calendar/alarm-notify/alarm-queue.c:1965
 msgid "Warning"
 msgstr "সতৰ্কবাণী"
+
+#: ../calendar/alarm-notify/alarm-queue.c:1966 ../mail/mail-dialogs.ui.h:21
+#: ../mail/mail.error.xml.h:139
+#: ../modules/mailto-handler/evolution-mailto-handler.c:114
+msgid "_No"
+msgstr "নহয় (_N)"
+
+#: ../calendar/alarm-notify/alarm-queue.c:1967 ../mail/mail.error.xml.h:138
+#: ../modules/mailto-handler/evolution-mailto-handler.c:115
+msgid "_Yes"
+msgstr "হয় (_Y)"
 
 #: ../calendar/alarm-notify/alarm-queue.c:1971
 #, c-format
@@ -2225,7 +2433,7 @@ msgstr "অন্তৰ্ভুক্ত নকৰে"
 
 #: ../calendar/gui/caltypes.xml.h:4 ../calendar/gui/e-cal-list-view.etspec.h:4
 #: ../calendar/gui/memotypes.xml.h:4 ../calendar/gui/tasktypes.xml.h:4
-#: ../e-util/e-table-config.ui.h:4 ../e-util/e-attachment-tree-view.c:527
+#: ../e-util/e-table-config.ui.h:7 ../e-util/e-attachment-tree-view.c:527
 #: ../modules/plugin-manager/evolution-plugin-manager.c:68
 msgid "Description"
 msgstr "বিবৰণ"
@@ -2402,57 +2610,57 @@ msgstr "দিন"
 msgid "Add Reminder"
 msgstr "ৰিমাইন্ডাৰ যোগ কৰক"
 
-#: ../calendar/gui/dialogs/alarm-dialog.ui.h:8
+#: ../calendar/gui/dialogs/alarm-dialog.ui.h:10
 #: ../calendar/gui/dialogs/event-editor.c:352
 msgid "Reminder"
 msgstr "ৰিমাইন্ডাৰ"
 
-#: ../calendar/gui/dialogs/alarm-dialog.ui.h:9
+#: ../calendar/gui/dialogs/alarm-dialog.ui.h:11
 msgid "Repeat"
 msgstr "পুনৰাবৃত্তি"
 
-#: ../calendar/gui/dialogs/alarm-dialog.ui.h:10
+#: ../calendar/gui/dialogs/alarm-dialog.ui.h:12
 msgid "_Repeat the reminder"
 msgstr "ৰিমাইন্ডাৰৰ পুনৰাবৃত্তি কৰক (_R)"
 
 #. This is part of the sentence: 'Repeat the reminder %d extra times every %d minutes'. Where %d are numbers.
-#: ../calendar/gui/dialogs/alarm-dialog.ui.h:12
+#: ../calendar/gui/dialogs/alarm-dialog.ui.h:14
 msgid "extra times every"
 msgstr "অতিৰিক্ত বাৰ প্ৰতি"
 
-#: ../calendar/gui/dialogs/alarm-dialog.ui.h:13 ../mail/mail-config.ui.h:30
+#: ../calendar/gui/dialogs/alarm-dialog.ui.h:15 ../mail/mail-config.ui.h:32
 msgid "Options"
 msgstr "বিকল্প"
 
-#: ../calendar/gui/dialogs/alarm-dialog.ui.h:14
+#: ../calendar/gui/dialogs/alarm-dialog.ui.h:16
 msgid "Custom _message"
 msgstr "স্বনিৰ্বচিত বাৰ্তা (_m)"
 
-#: ../calendar/gui/dialogs/alarm-dialog.ui.h:15
+#: ../calendar/gui/dialogs/alarm-dialog.ui.h:17
 msgid "Mes_sage:"
 msgstr "বাৰ্তা (_s):"
 
-#: ../calendar/gui/dialogs/alarm-dialog.ui.h:16
+#: ../calendar/gui/dialogs/alarm-dialog.ui.h:18
 msgid "Custom reminder sound"
 msgstr "স্বনিৰ্বাচিত ৰিমাইন্ডাৰ শব্দ"
 
-#: ../calendar/gui/dialogs/alarm-dialog.ui.h:17
+#: ../calendar/gui/dialogs/alarm-dialog.ui.h:19
 msgid "_Sound:"
 msgstr "শব্দ (_S):"
 
-#: ../calendar/gui/dialogs/alarm-dialog.ui.h:18
+#: ../calendar/gui/dialogs/alarm-dialog.ui.h:20
 msgid "Select A File"
 msgstr "এটা ফাইল বাছক"
 
-#: ../calendar/gui/dialogs/alarm-dialog.ui.h:19
+#: ../calendar/gui/dialogs/alarm-dialog.ui.h:21
 msgid "_Program:"
 msgstr "প্ৰগ্ৰাম (_P):"
 
-#: ../calendar/gui/dialogs/alarm-dialog.ui.h:20
+#: ../calendar/gui/dialogs/alarm-dialog.ui.h:22
 msgid "_Arguments:"
 msgstr "তৰ্ক (_A):"
 
-#: ../calendar/gui/dialogs/alarm-dialog.ui.h:21
+#: ../calendar/gui/dialogs/alarm-dialog.ui.h:23
 msgid "Send To:"
 msgstr "প্ৰাপক:"
 
@@ -2461,14 +2669,10 @@ msgid "Action/Trigger"
 msgstr "কাৰ্য্য/ট্ৰিগাৰ"
 
 #: ../calendar/gui/dialogs/alarm-list-dialog.ui.h:1
-#: ../calendar/gui/dialogs/event-page.ui.h:25
+#: ../calendar/gui/dialogs/event-page.ui.h:28
 #: ../modules/calendar/e-calendar-preferences.ui.h:62
 msgid "Reminders"
 msgstr "ৰিমাইন্ডাৰসমূহ"
-
-#: ../calendar/gui/dialogs/alarm-list-dialog.ui.h:2
-msgid "A_dd"
-msgstr "যোগ কৰক (_d)"
 
 #: ../calendar/gui/dialogs/changed-comp.c:59
 msgid "This event has been deleted."
@@ -2569,9 +2773,31 @@ msgstr "মূল বস্তু ৰখা হ'ব নে?"
 msgid "Unable to synchronize with the server"
 msgstr "চাৰ্ভাৰৰ সৈতে সংমিহলি কৰিবলৈ ব্যৰ্থ"
 
+#: ../calendar/gui/dialogs/comp-editor.c:1222
+#: ../calendar/gui/dialogs/event-editor.c:116
+#: ../calendar/gui/dialogs/event-editor.c:310
+#: ../calendar/gui/dialogs/event-page.ui.h:29
+#: ../composer/e-composer-actions.c:275
+#: ../e-util/e-mail-signature-editor.c:307
+#: ../e-util/e-name-selector-dialog.c:551 ../e-util/e-preferences-window.c:388
+#: ../e-util/e-table-field-chooser-dialog.c:207 ../mail/e-mail-browser.c:126
+#: ../mail/em-folder-properties.c:416 ../mail/em-subscription-editor.c:1714
+#: ../modules/plugin-manager/evolution-plugin-manager.c:256
+#: ../shell/e-shell-window-actions.c:343 ../shell/e-shell-window-actions.c:864
+#: ../smime/gui/certificate-manager.c:1182
+msgid "_Close"
+msgstr "বন্ধ কৰক (_C)"
+
 #: ../calendar/gui/dialogs/comp-editor.c:1224
 msgid "Close the current window"
 msgstr "বৰ্তমান উইন্ডো বন্ধ কৰক"
+
+#. copy menu item
+#: ../calendar/gui/dialogs/comp-editor.c:1229 ../e-util/e-text.c:2084
+#: ../mail/e-mail-browser.c:133 ../shell/e-shell-window-actions.c:885
+#| msgid "_Copy..."
+msgid "_Copy"
+msgstr "কপি কৰক (_C)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1231 ../e-util/e-focus-tracker.c:174
 #: ../e-util/e-focus-tracker.c:231 ../e-util/e-focus-tracker.c:733
@@ -2580,6 +2806,12 @@ msgstr "বৰ্তমান উইন্ডো বন্ধ কৰক"
 #: ../mail/e-mail-browser.c:135 ../shell/e-shell-window-actions.c:887
 msgid "Copy the selection"
 msgstr "নিৰ্বাচিত বস্তু কপি কৰক"
+
+#. cut menu item
+#: ../calendar/gui/dialogs/comp-editor.c:1236 ../e-util/e-text.c:2071
+#: ../mail/e-mail-browser.c:140 ../shell/e-shell-window-actions.c:892
+msgid "Cu_t"
+msgstr "কাট কৰক (_t)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1238 ../e-util/e-focus-tracker.c:167
 #: ../e-util/e-focus-tracker.c:224 ../e-util/e-focus-tracker.c:728
@@ -2598,12 +2830,35 @@ msgstr "নিৰ্বাচিত বস্তু মচি পেলাওক
 msgid "View help"
 msgstr "সহায় দৰ্শন কৰক"
 
+#. paste menu item
+#: ../calendar/gui/dialogs/comp-editor.c:1257 ../e-util/e-text.c:2095
+#: ../mail/e-mail-browser.c:147 ../shell/e-shell-window-actions.c:920
+#| msgid "_Pascal"
+msgid "_Paste"
+msgstr "পেইস্ট কৰক (_P)"
+
 #: ../calendar/gui/dialogs/comp-editor.c:1259 ../e-util/e-focus-tracker.c:181
 #: ../e-util/e-focus-tracker.c:238 ../e-util/e-focus-tracker.c:738
 #: ../e-util/e-web-view-gtkhtml.c:1301 ../e-util/e-web-view.c:1308
 #: ../mail/e-mail-browser.c:149 ../shell/e-shell-window-actions.c:922
 msgid "Paste the clipboard"
 msgstr "ক্লিপবোৰ্ডেৰ বস্তু পেইস্ট কৰক"
+
+#: ../calendar/gui/dialogs/comp-editor.c:1264
+#: ../composer/e-composer-actions.c:329 ../mail/e-mail-reader.c:2128
+#: ../modules/addressbook/e-book-shell-view-actions.c:1160
+#: ../modules/addressbook/e-book-shell-view-actions.c:1174
+msgid "_Print..."
+msgstr "প্ৰিন্ট কৰক (_P)..."
+
+#: ../calendar/gui/dialogs/comp-editor.c:1271 ../mail/e-mail-reader.c:2135
+#: ../modules/addressbook/e-book-shell-view-actions.c:1167
+#: ../modules/calendar/e-cal-shell-view-actions.c:1801
+#: ../modules/calendar/e-memo-shell-view-actions.c:821
+#: ../modules/calendar/e-task-shell-view-actions.c:1020
+#| msgid "Preview"
+msgid "Pre_view..."
+msgstr "পূৰ্বদৰ্শন কৰক (_v)..."
 
 #: ../calendar/gui/dialogs/comp-editor.c:1280
 msgid "Save current changes"
@@ -2618,6 +2873,13 @@ msgstr "সংৰক্ষণ কৰি বন্ধ কৰক"
 msgid "Save current changes and close editor"
 msgstr "বৰ্তমান পৰিবৰ্তনসমূহ সংৰক্ষণ কৰি সম্পাদক বন্ধ কৰক"
 
+#: ../calendar/gui/dialogs/comp-editor.c:1292
+#: ../e-util/e-web-view-gtkhtml.c:462 ../e-util/e-web-view.c:346
+#: ../mail/e-mail-browser.c:154 ../shell/e-shell-window-actions.c:997
+#| msgid "Select All"
+msgid "Select _All"
+msgstr "সকলো বাছক (_A)"
+
 #: ../calendar/gui/dialogs/comp-editor.c:1294 ../e-util/e-focus-tracker.c:195
 #: ../e-util/e-focus-tracker.c:252 ../e-util/e-focus-tracker.c:748
 #: ../mail/e-mail-browser.c:156 ../shell/e-shell-window-actions.c:999
@@ -2628,24 +2890,11 @@ msgstr "সকলো টেক্সট বাছক"
 msgid "_Classification"
 msgstr "শ্ৰেণীবিভাগ (_C)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1323
-#: ../calendar/gui/dialogs/recurrence-page.ui.h:19 ../e-util/filter.ui.h:16
-#: ../mail/e-mail-browser.c:170
-#: ../plugins/publish-calendar/publish-calendar.ui.h:32
-#: ../shell/e-shell-window-actions.c:1027
-msgid "_Edit"
-msgstr "সম্পাদনা (_E)"
-
 #: ../calendar/gui/dialogs/comp-editor.c:1330
 #: ../e-util/e-mail-signature-editor.c:321 ../mail/e-mail-browser.c:163
 #: ../shell/e-shell-window-actions.c:1034
 msgid "_File"
 msgstr "ফাইল (_F)"
-
-#: ../calendar/gui/dialogs/comp-editor.c:1337
-#: ../shell/e-shell-window-actions.c:1041
-msgid "_Help"
-msgstr "সহায়তা (_H)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1344
 msgid "_Insert"
@@ -2861,11 +3110,11 @@ msgstr "বস্তুক এটা ত্ৰুটিৰ বাবে মচ�
 msgid "Enter Delegate"
 msgstr "প্ৰতিনিধিৰ নাম লিখক"
 
-#: ../calendar/gui/dialogs/e-delegate-dialog.ui.h:2
+#: ../calendar/gui/dialogs/e-delegate-dialog.ui.h:4
 msgid "Delegate To:"
 msgstr "বন্টন কৰক:"
 
-#: ../calendar/gui/dialogs/e-delegate-dialog.ui.h:3
+#: ../calendar/gui/dialogs/e-delegate-dialog.ui.h:5
 msgid "Contacts..."
 msgstr "পৰিচয়..."
 
@@ -2923,7 +3172,7 @@ msgid "Appointment"
 msgstr "সাক্ষাৎকাৰ"
 
 #: ../calendar/gui/dialogs/event-editor.c:376
-#: ../calendar/gui/dialogs/event-page.ui.h:24
+#: ../calendar/gui/dialogs/event-page.ui.h:27
 #: ../calendar/gui/e-meeting-list-view.c:164
 msgid "Attendees"
 msgstr "অংশগ্ৰহণকাৰীবৃন্দ"
@@ -2932,100 +3181,100 @@ msgstr "অংশগ্ৰহণকাৰীবৃন্দ"
 msgid "Print this event"
 msgstr "এই ঘটনা প্ৰিন্ট কৰক"
 
-#: ../calendar/gui/dialogs/event-page.c:558
+#: ../calendar/gui/dialogs/event-page.c:557
 msgid "Event's start time is in the past"
 msgstr "ঘটনাৰ আৰম্ভ সময় অতিতত আছে"
 
-#: ../calendar/gui/dialogs/event-page.c:635
+#: ../calendar/gui/dialogs/event-page.c:634
 msgid "Event cannot be edited, because the selected calendar is read only"
 msgstr "ঘটনা সম্পাদনা কৰিব নোৱাৰি, কাৰণ নিৰ্বাচিত কেলেন্ডাৰ কেৱল পঢ়িব পৰা"
 
-#: ../calendar/gui/dialogs/event-page.c:639
+#: ../calendar/gui/dialogs/event-page.c:638
 msgid "Event cannot be fully edited, because you are not the organizer"
 msgstr "ঘটনাক সম্পূৰ্ণভাৱে সম্পাদনা কৰিব নোৱাৰি, কাৰণ আপুনি সংঘটক নহয়"
 
-#: ../calendar/gui/dialogs/event-page.c:651
-#: ../calendar/gui/dialogs/event-page.c:3173
+#: ../calendar/gui/dialogs/event-page.c:650
+#: ../calendar/gui/dialogs/event-page.c:3171
 msgid "This event has reminders"
 msgstr "এই ঘটনাৰ ৰিমাইন্ডাৰসমূহ আছে"
 
-#: ../calendar/gui/dialogs/event-page.c:718
+#: ../calendar/gui/dialogs/event-page.c:717
 #: ../calendar/gui/dialogs/event-page.ui.h:13
 msgid "Or_ganizer:"
 msgstr "সংগঠক (_g):"
 
-#: ../calendar/gui/dialogs/event-page.c:1303
+#: ../calendar/gui/dialogs/event-page.c:1302
 msgid "Event with no start date"
 msgstr "আৰম্ভৰ তাৰিখবিহীন ঘটনা"
 
-#: ../calendar/gui/dialogs/event-page.c:1306
+#: ../calendar/gui/dialogs/event-page.c:1305
 msgid "Event with no end date"
 msgstr "সমাপ্তিৰ তাৰিখবিহীন ঘটনা"
 
-#: ../calendar/gui/dialogs/event-page.c:1484
+#: ../calendar/gui/dialogs/event-page.c:1483
 #: ../calendar/gui/dialogs/memo-page.c:732
-#: ../calendar/gui/dialogs/task-page.c:1031
+#: ../calendar/gui/dialogs/task-page.c:1030
 msgid "Start date is wrong"
 msgstr "আৰম্ভৰ তাৰিখটো ভুল"
 
-#: ../calendar/gui/dialogs/event-page.c:1495
+#: ../calendar/gui/dialogs/event-page.c:1494
 msgid "End date is wrong"
 msgstr "সমাপ্তিৰ তাৰিখটো ভুল"
 
-#: ../calendar/gui/dialogs/event-page.c:1519
+#: ../calendar/gui/dialogs/event-page.c:1518
 msgid "Start time is wrong"
 msgstr "আৰম্ভৰ সময়টো ভুল"
 
-#: ../calendar/gui/dialogs/event-page.c:1527
+#: ../calendar/gui/dialogs/event-page.c:1526
 msgid "End time is wrong"
 msgstr "সমাপ্তিৰ সময়টো ভুল"
 
-#: ../calendar/gui/dialogs/event-page.c:1691
+#: ../calendar/gui/dialogs/event-page.c:1690
 #: ../calendar/gui/dialogs/memo-page.c:771
-#: ../calendar/gui/dialogs/task-page.c:1085
+#: ../calendar/gui/dialogs/task-page.c:1084
 msgid "An organizer is required."
 msgstr "এটা সংগঠক আবশ্যক"
 
-#: ../calendar/gui/dialogs/event-page.c:1726
-#: ../calendar/gui/dialogs/task-page.c:1120
+#: ../calendar/gui/dialogs/event-page.c:1725
+#: ../calendar/gui/dialogs/task-page.c:1119
 msgid "At least one attendee is required."
 msgstr "অন্তত এজন অংশগ্ৰহণকাৰী আবশ্যক।"
 
-#: ../calendar/gui/dialogs/event-page.c:1932
+#: ../calendar/gui/dialogs/event-page.c:1931
 msgid "_Delegatees"
 msgstr "প্ৰতিনিধিবৃন্দ (_D)"
 
-#: ../calendar/gui/dialogs/event-page.c:1934
+#: ../calendar/gui/dialogs/event-page.c:1933
 msgid "Atte_ndees"
 msgstr "অংশগ্ৰহণকাৰীবৃন্দ (_n)"
 
-#: ../calendar/gui/dialogs/event-page.c:3453
+#: ../calendar/gui/dialogs/event-page.c:3451
 #, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
 msgstr[0] "সাক্ষাৎকাৰৰ আগত %d দিন"
 msgstr[1] "সাক্ষাৎকাৰৰ আগত %d দিন"
 
-#: ../calendar/gui/dialogs/event-page.c:3459
+#: ../calendar/gui/dialogs/event-page.c:3457
 #, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
 msgstr[0] "সাক্ষাৎকাৰৰ আগত %d ঘন্টা"
 msgstr[1] "সাক্ষাৎকাৰৰ আগত %d ঘন্টা"
 
-#: ../calendar/gui/dialogs/event-page.c:3465
+#: ../calendar/gui/dialogs/event-page.c:3463
 #, c-format
 msgid "%d minute before appointment"
 msgid_plural "%d minutes before appointment"
 msgstr[0] "সাক্ষাৎকাৰৰ আগত %d মিনিট"
 msgstr[1] "সাক্ষাৎকাৰৰ আগত %d মিনিট"
 
-#: ../calendar/gui/dialogs/event-page.c:3486
+#: ../calendar/gui/dialogs/event-page.c:3484
 msgid "Customize"
 msgstr "স্বনিৰ্বাচিত"
 
 #. Translators: "None" for "No reminder set"
-#: ../calendar/gui/dialogs/event-page.c:3493
+#: ../calendar/gui/dialogs/event-page.c:3491
 msgctxt "cal-reminders"
 msgid "None"
 msgstr "কোনো নহয়"
@@ -3088,17 +3337,17 @@ msgstr "সাৰাংশ (_S):"
 msgid "Event Description"
 msgstr "ঘটনাৰ বিবৰণ:"
 
-#: ../calendar/gui/dialogs/event-page.ui.h:23
-#: ../calendar/gui/dialogs/task-page.ui.h:30
-#: ../calendar/gui/e-meeting-time-sel.c:546
+#: ../calendar/gui/dialogs/event-page.ui.h:26
+#: ../calendar/gui/dialogs/task-page.ui.h:33
+#: ../calendar/gui/e-meeting-time-sel.c:547
 msgid "Atte_ndees..."
 msgstr "অংশগ্ৰহণকাৰীবৃন্দ (_n)..."
 
-#: ../calendar/gui/dialogs/event-page.ui.h:26
+#: ../calendar/gui/dialogs/event-page.ui.h:30
 msgid "_Reminder"
 msgstr "ৰিমাইন্ডাৰ (_R)"
 
-#: ../calendar/gui/dialogs/event-page.ui.h:27
+#: ../calendar/gui/dialogs/event-page.ui.h:31
 msgid "Custom Reminder:"
 msgstr "স্বনিৰ্বাচিত ৰিমাইন্ডাৰ:"
 
@@ -3188,13 +3437,13 @@ msgid "To"
 msgstr "প্ৰাপক"
 
 #: ../calendar/gui/dialogs/memo-page.ui.h:3
-#: ../calendar/gui/dialogs/task-page.c:427
-#: ../calendar/gui/dialogs/task-page.ui.h:31
+#: ../calendar/gui/dialogs/task-page.c:426
+#: ../calendar/gui/dialogs/task-page.ui.h:34
 msgid "_List:"
 msgstr "তালিকা (_L):"
 
 #: ../calendar/gui/dialogs/memo-page.ui.h:4
-#: ../calendar/gui/dialogs/task-page.c:435
+#: ../calendar/gui/dialogs/task-page.c:434
 #: ../calendar/gui/dialogs/task-page.ui.h:24
 msgid "Organi_zer:"
 msgstr "সংগঠক (_z):"
@@ -3480,7 +3729,7 @@ msgstr "প্ৰত্যেক"
 msgid "Exceptions"
 msgstr "ব্যতিক্ৰমসমূহ"
 
-#: ../calendar/gui/dialogs/recurrence-page.ui.h:20
+#: ../calendar/gui/dialogs/recurrence-page.ui.h:22
 msgid "Preview"
 msgstr "পূৰ্বদৰ্শন কৰক"
 
@@ -3507,24 +3756,24 @@ msgstr "কাৰ্য্য"
 msgid "Print this task"
 msgstr "এই কাৰ্য্য প্ৰিন্ট কৰক"
 
-#: ../calendar/gui/dialogs/task-page.c:331
+#: ../calendar/gui/dialogs/task-page.c:330
 msgid "Task's start date is in the past"
 msgstr "কাৰ্য্যৰ আৰম্ভণি তাৰিখ অতিতত আছে"
 
-#: ../calendar/gui/dialogs/task-page.c:332
+#: ../calendar/gui/dialogs/task-page.c:331
 msgid "Task's due date is in the past"
 msgstr "কাৰ্য্যৰ শেষৰ তাৰিখ অতিতত আছে"
 
-#: ../calendar/gui/dialogs/task-page.c:365
+#: ../calendar/gui/dialogs/task-page.c:364
 msgid "Task cannot be edited, because the selected task list is read only"
 msgstr ""
 "কাৰ্য্য সম্পাদনা কৰিব নোৱাৰি, কাৰণ নিৰ্বাচিত কাৰ্য্য তালিকা কেৱল পঢ়িব পৰা"
 
-#: ../calendar/gui/dialogs/task-page.c:369
+#: ../calendar/gui/dialogs/task-page.c:368
 msgid "Task cannot be fully edited, because you are not the organizer"
 msgstr "কাৰ্য্য সম্পূৰ্ণভাৱে সম্পাদনা কৰিব নোৱাৰি, কাৰণ আপুনি সংঘটক নহয়"
 
-#: ../calendar/gui/dialogs/task-page.c:373
+#: ../calendar/gui/dialogs/task-page.c:372
 msgid ""
 "Task cannot be edited, because the selected task list does not support "
 "assigned tasks"
@@ -3533,12 +3782,12 @@ msgstr ""
 "কাৰ্য্যসমূহ সমৰ্থন "
 "নকৰে"
 
-#: ../calendar/gui/dialogs/task-page.c:1012
+#: ../calendar/gui/dialogs/task-page.c:1011
 msgid "Due date is wrong"
 msgstr "দেয় তাৰিখ সঠিক নহয়"
 
-#: ../calendar/gui/dialogs/task-page.c:1180
-#: ../calendar/gui/dialogs/task-page.c:1205
+#: ../calendar/gui/dialogs/task-page.c:1179
+#: ../calendar/gui/dialogs/task-page.c:1204
 msgid "Completed date is wrong"
 msgstr "সমাপ্তিৰ তাৰিখ সঠিক নহয়"
 
@@ -3614,7 +3863,7 @@ msgstr "সম্পন্ন"
 #: ../calendar/gui/e-cal-model-tasks.c:316
 #: ../calendar/gui/e-cal-model-tasks.c:558 ../calendar/gui/e-task-table.c:219
 #: ../calendar/gui/e-task-table.c:234 ../calendar/gui/e-task-table.c:658
-#: ../calendar/gui/print.c:3591 ../mail/mail-send-recv.c:859
+#: ../calendar/gui/print.c:3591 ../mail/mail-send-recv.c:855
 msgid "Canceled"
 msgstr "বাতিল কৰা হৈছে"
 
@@ -3626,27 +3875,27 @@ msgstr "দেয় তাৰিখ (_u):"
 msgid "Time zone:"
 msgstr "সময় অঞ্চল:"
 
-#: ../calendar/gui/dialogs/task-page.ui.h:32
+#: ../calendar/gui/dialogs/task-page.ui.h:35
 msgid "_Status:"
 msgstr "অবস্থা (_S):"
 
-#: ../calendar/gui/dialogs/task-page.ui.h:33
+#: ../calendar/gui/dialogs/task-page.ui.h:36
 msgid "Date _completed:"
 msgstr "সমাপ্তিৰ তাৰিখ (_c):"
 
-#: ../calendar/gui/dialogs/task-page.ui.h:34
+#: ../calendar/gui/dialogs/task-page.ui.h:37
 msgid "_Percent complete:"
 msgstr "শতাংশ সম্পন্ন (_P):"
 
-#: ../calendar/gui/dialogs/task-page.ui.h:35
+#: ../calendar/gui/dialogs/task-page.ui.h:38
 msgid "Priorit_y:"
 msgstr "প্ৰাথমিকতা (_y):"
 
-#: ../calendar/gui/dialogs/task-page.ui.h:36
+#: ../calendar/gui/dialogs/task-page.ui.h:39
 msgid "C_lassification:"
 msgstr "শ্ৰেণীবিভাজন (_l):"
 
-#: ../calendar/gui/dialogs/task-page.ui.h:37
+#: ../calendar/gui/dialogs/task-page.ui.h:40
 msgid "_Web Page:"
 msgstr "ৱেব পৃষ্ঠা (_W):"
 
@@ -3885,7 +4134,7 @@ msgstr "মাহ অনুসৰি কেলেন্ডাৰ প্ৰদৰ
 msgid "calendar view for one or more weeks"
 msgstr "একাধিক সপ্তাহ অনুসৰি কেলেন্ডাৰ প্ৰদৰ্শন"
 
-#: ../calendar/gui/e-cal-component-preview.c:222 ../e-util/e-filter-rule.c:756
+#: ../calendar/gui/e-cal-component-preview.c:222 ../e-util/e-filter-rule.c:757
 #: ../mail/e-mail-config-page.c:125
 msgid "Untitled"
 msgstr "শীৰ্ষকহীন"
@@ -3962,7 +4211,7 @@ msgstr "ধৰণ"
 msgid "Completion date"
 msgstr "সমাপ্তিৰ তাৰিখ"
 
-#: ../calendar/gui/e-calendar-table.etspec.h:6 ../mail/mail-send-recv.c:861
+#: ../calendar/gui/e-calendar-table.etspec.h:6 ../mail/mail-send-recv.c:857
 msgid "Complete"
 msgstr "সম্পন্ন"
 
@@ -4051,7 +4300,7 @@ msgstr "সংগঠক: %s"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
 #: ../calendar/gui/e-calendar-view.c:2103
-#: ../calendar/gui/e-meeting-time-sel.c:2667 ../calendar/gui/print.c:3536
+#: ../calendar/gui/e-meeting-time-sel.c:2664 ../calendar/gui/print.c:3536
 #, c-format
 msgid "Location: %s"
 msgstr "অবস্থান: %s"
@@ -4120,7 +4369,7 @@ msgstr "প্ৰত্যাখ্যান কৰক"
 #: ../calendar/gui/e-cal-model.c:3954
 #: ../calendar/gui/e-meeting-list-view.c:222
 #: ../calendar/gui/e-meeting-store.c:200 ../calendar/gui/e-meeting-store.c:223
-#: ../calendar/gui/e-meeting-time-sel.c:525
+#: ../calendar/gui/e-meeting-time-sel.c:527
 msgid "Tentative"
 msgstr "অস্থায়ীৰূপে"
 
@@ -4141,7 +4390,7 @@ msgid "Free"
 msgstr "মুক্ত"
 
 #: ../calendar/gui/e-cal-model-calendar.c:127
-#: ../calendar/gui/e-meeting-time-sel.c:526 ../calendar/gui/e-task-table.c:631
+#: ../calendar/gui/e-meeting-time-sel.c:528 ../calendar/gui/e-task-table.c:631
 msgid "Busy"
 msgstr "ব্যস্ত"
 
@@ -4265,7 +4514,7 @@ msgstr "ব্যক্তিবিশেষ"
 
 #: ../calendar/gui/e-meeting-list-view.c:181
 #: ../calendar/gui/e-meeting-store.c:111 ../calendar/gui/e-meeting-store.c:128
-#: ../calendar/gui/print.c:1247 ../e-util/e-table-config.ui.h:5
+#: ../calendar/gui/print.c:1247 ../e-util/e-table-config.ui.h:8
 msgid "Group"
 msgstr "দল"
 
@@ -4342,67 +4591,67 @@ msgstr "ব্যৰ্থতাৰ কাৰণ: %s"
 msgid "Enter password"
 msgstr "পাছৱাৰ্ড লিখক"
 
-#: ../calendar/gui/e-meeting-time-sel.c:527
+#: ../calendar/gui/e-meeting-time-sel.c:529
 msgid "Out of Office"
 msgstr "অফিচত উপস্থিত নাই"
 
-#: ../calendar/gui/e-meeting-time-sel.c:529
+#: ../calendar/gui/e-meeting-time-sel.c:531
 msgid "No Information"
 msgstr "কোনো তথ্য নাই"
 
-#: ../calendar/gui/e-meeting-time-sel.c:569
+#: ../calendar/gui/e-meeting-time-sel.c:566
 msgid "O_ptions"
 msgstr "বিকল্পসমূহ (_p)"
 
-#: ../calendar/gui/e-meeting-time-sel.c:589
+#: ../calendar/gui/e-meeting-time-sel.c:586
 msgid "Show _only working hours"
 msgstr "কেৱল কামৰ ঘন্টা দেখুৱাওক (_o)"
 
-#: ../calendar/gui/e-meeting-time-sel.c:602
+#: ../calendar/gui/e-meeting-time-sel.c:599
 msgid "Show _zoomed out"
 msgstr "সৰু কৰি দেখুৱাওক(_z)"
 
-#: ../calendar/gui/e-meeting-time-sel.c:620
+#: ../calendar/gui/e-meeting-time-sel.c:617
 msgid "_Update free/busy"
 msgstr "মুক্ত/ ব্যস্ত অবস্থা আপডেইট কৰা হ'ব (_U)"
 
-#: ../calendar/gui/e-meeting-time-sel.c:637
+#: ../calendar/gui/e-meeting-time-sel.c:634
 msgid "_<<"
 msgstr "_<<"
 
-#: ../calendar/gui/e-meeting-time-sel.c:657
+#: ../calendar/gui/e-meeting-time-sel.c:654
 msgid "_Autopick"
 msgstr "অটোপিক (_A)"
 
-#: ../calendar/gui/e-meeting-time-sel.c:674
+#: ../calendar/gui/e-meeting-time-sel.c:671
 msgid ">_>"
 msgstr ">_>"
 
-#: ../calendar/gui/e-meeting-time-sel.c:695
+#: ../calendar/gui/e-meeting-time-sel.c:692
 msgid "_All people and resources"
 msgstr "সকলো ব্যক্তি আৰু সম্পদসমূহ (_A)"
 
-#: ../calendar/gui/e-meeting-time-sel.c:706
+#: ../calendar/gui/e-meeting-time-sel.c:703
 msgid "All _people and one resource"
 msgstr "সকলো ব্যক্তি আৰু এটা সম্পদ (_p)"
 
-#: ../calendar/gui/e-meeting-time-sel.c:717
+#: ../calendar/gui/e-meeting-time-sel.c:714
 msgid "_Required people"
 msgstr "আবশ্যক ব্যক্তি (_R)"
 
-#: ../calendar/gui/e-meeting-time-sel.c:727
+#: ../calendar/gui/e-meeting-time-sel.c:724
 msgid "Required people and _one resource"
 msgstr "আবশ্যক ব্যক্তি আৰু এটা সম্পদ (_o)"
 
-#: ../calendar/gui/e-meeting-time-sel.c:766
+#: ../calendar/gui/e-meeting-time-sel.c:763
 msgid "_Start time:"
 msgstr "আৰম্ভৰ সময় (_S):"
 
-#: ../calendar/gui/e-meeting-time-sel.c:795
+#: ../calendar/gui/e-meeting-time-sel.c:792
 msgid "_End time:"
 msgstr "সমাপ্তিৰ সময় (_E):"
 
-#: ../calendar/gui/e-meeting-time-sel.c:2663
+#: ../calendar/gui/e-meeting-time-sel.c:2660
 #, c-format
 msgid ""
 "Summary: %s\n"
@@ -4411,7 +4660,7 @@ msgstr ""
 "সাৰাংশ: %s\n"
 "অৱস্থান: %s"
 
-#: ../calendar/gui/e-meeting-time-sel.c:2665 ../calendar/gui/print.c:3525
+#: ../calendar/gui/e-meeting-time-sel.c:2662 ../calendar/gui/print.c:3525
 #, c-format
 msgid "Summary: %s"
 msgstr "সাৰাংশ: %s"
@@ -6639,11 +6888,6 @@ msgstr "প্ৰশান্ত মহাসাগৰীয়/ইয়াপ"
 msgid "Save as..."
 msgstr "নতুন নামে সংৰক্ষণ..."
 
-#: ../composer/e-composer-actions.c:275
-#: ../e-util/e-mail-signature-editor.c:307
-msgid "_Close"
-msgstr "বন্ধ কৰক (_C)"
-
 #: ../composer/e-composer-actions.c:277
 msgid "Close the current file"
 msgstr "বৰ্তমান ফাইলটো বন্ধ কৰক"
@@ -6655,6 +6899,11 @@ msgstr "নতুন বাৰ্তা (_M)"
 #: ../composer/e-composer-actions.c:284
 msgid "Open New Message window"
 msgstr "নতুন বাৰ্তাৰ উইন্ডো খোলক"
+
+#: ../composer/e-composer-actions.c:289 ../shell/e-shell-window-actions.c:934
+#| msgid "Mail Preferences"
+msgid "_Preferences"
+msgstr "পছন্দসমূহ (_P)"
 
 #: ../composer/e-composer-actions.c:291 ../shell/e-shell-window-actions.c:936
 msgid "Configure Evolution"
@@ -6675,10 +6924,6 @@ msgstr "বৰ্তমান ফাইলটো এটা পৃথক না�
 #: ../composer/e-composer-actions.c:312
 msgid "Character _Encoding"
 msgstr "আখৰ এনক'ডিং (_E)"
-
-#: ../composer/e-composer-actions.c:329
-msgid "_Print..."
-msgstr "প্ৰিন্ট কৰক (_P)..."
 
 #: ../composer/e-composer-actions.c:336
 msgid "Print Pre_view"
@@ -7066,7 +7311,7 @@ msgstr ""
 "Microsoft Exchange ৰ সৈতে অনুকূলন কৰিব পাৰে।"
 
 #: ../data/evolution.desktop.in.in.h:1 ../mail/e-mail-browser.c:1032
-#: ../modules/mailto-handler/evolution-mailto-handler.c:211
+#: ../modules/mailto-handler/evolution-mailto-handler.c:210
 #: ../shell/e-shell-window-private.c:242
 msgid "Evolution"
 msgstr "Evolution"
@@ -9550,7 +9795,7 @@ msgid "Play the attachment in embedded audio player"
 msgstr "এটাচমেন্টক অন্তৰ্ভুক্ত অডিঅ' প্লেয়াৰত বজাওক"
 
 #: ../em-format/e-mail-formatter-headers.c:102
-#: ../em-format/e-mail-part-headers.c:46 ../mail/e-mail-tag-editor.c:271
+#: ../em-format/e-mail-part-headers.c:46 ../mail/e-mail-tag-editor.c:272
 #: ../mail/message-list.etspec.h:5 ../modules/mail/em-mailer-prefs.c:63
 msgid "From"
 msgstr "প্ৰেৰক"
@@ -9611,14 +9856,14 @@ msgid "S/MIME encrpyted"
 msgstr "S/MIME ইনক্ৰিপ্ট কৰা"
 
 #: ../em-format/e-mail-formatter-print-headers.c:170
-#: ../mail/e-mail-config-security-page.c:644
+#: ../mail/e-mail-config-security-page.c:645
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:194
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:128
 msgid "Security"
 msgstr "সুৰক্ষা"
 
 #: ../em-format/e-mail-formatter-quote-headers.c:167
-#: ../em-format/e-mail-part-headers.c:51 ../mail/e-mail-tag-editor.c:276
+#: ../em-format/e-mail-part-headers.c:51 ../mail/e-mail-tag-editor.c:277
 #: ../mail/em-filter-i18n.h:51 ../mail/message-list.etspec.h:6
 #: ../modules/mail/em-mailer-prefs.c:68
 msgid "Subject"
@@ -9776,7 +10021,7 @@ msgstr ""
 "না।"
 
 #: ../em-format/e-mail-formatter-secure-button.c:186
-#: ../smime/gui/smime-ui.ui.h:20
+#: ../smime/gui/smime-ui.ui.h:22
 msgid "_View Certificate"
 msgstr "প্ৰমাণপত্ৰ দৰ্শন কৰক (_V)"
 
@@ -9944,7 +10189,7 @@ msgstr "দিনবোৰ"
 msgid "_When convenient"
 msgstr "সুবিধাজনক সময় (_W)"
 
-#: ../e-util/e-send-options.ui.h:19 ../e-util/e-filter-rule.c:846
+#: ../e-util/e-send-options.ui.h:19 ../e-util/e-filter-rule.c:847
 msgid "Replies"
 msgstr "প্ৰত্যুত্তৰ"
 
@@ -10035,63 +10280,70 @@ msgstr "ঘুৰোৱাৰ অধিসূচনা"
 msgid "Sta_tus Tracking"
 msgstr "অবস্থাৰ তথ্য নিৰীক্ষণ ব্যৱস্থা(_t)"
 
-#: ../e-util/e-table-config.ui.h:1
+#: ../e-util/e-table-config.ui.h:2
+#: ../modules/cal-config-caldav/e-caldav-chooser-dialog.c:282
+#: ../modules/cal-config-google/e-google-chooser-dialog.c:192
+#| msgid "_Append"
+msgid "_Apply"
+msgstr "প্ৰয়োগ কৰক (_A)"
+
+#: ../e-util/e-table-config.ui.h:4
 msgid "_Sort..."
 msgstr "ক্ৰমানুসাৰে বিন্যাস (_S)..."
 
-#: ../e-util/e-table-config.ui.h:2
+#: ../e-util/e-table-config.ui.h:5
 msgid "_Group By..."
 msgstr "উল্লেখিত বিষয় অনুসৰি দল নিৰ্মাণ (_G)..."
 
-#: ../e-util/e-table-config.ui.h:3
+#: ../e-util/e-table-config.ui.h:6
 msgid "_Fields Shown..."
 msgstr "প্ৰদৰ্শিত ক্ষেত্ৰ (_F)..."
 
-#: ../e-util/e-table-config.ui.h:6
+#: ../e-util/e-table-config.ui.h:9
 msgid "Clear _All"
 msgstr "সকলো পৰিষ্কাৰ কৰক (_A)"
 
-#: ../e-util/e-table-config.ui.h:7
+#: ../e-util/e-table-config.ui.h:10
 msgid "_Show field in View"
 msgstr "দৰ্শনত ফিল্ড দেখুৱাওক (_S)"
 
-#: ../e-util/e-table-config.ui.h:8 ../e-util/e-table-header-item.c:1753
+#: ../e-util/e-table-config.ui.h:11 ../e-util/e-table-header-item.c:1753
 msgid "Ascending"
 msgstr "আৰোহন"
 
-#: ../e-util/e-table-config.ui.h:9 ../e-util/e-table-header-item.c:1753
+#: ../e-util/e-table-config.ui.h:12 ../e-util/e-table-header-item.c:1753
 msgid "Descending"
 msgstr "অৱৰোহন"
 
-#: ../e-util/e-table-config.ui.h:10
+#: ../e-util/e-table-config.ui.h:13
 msgid "Group Items By"
 msgstr "বস্তু উল্লেখিত পৰিমাপ অনুসৰি দলভুক্ত কৰা হ'ব"
 
-#: ../e-util/e-table-config.ui.h:11
+#: ../e-util/e-table-config.ui.h:14
 msgid "Show _field in View"
 msgstr "দৰ্শনত ফিল্ড দেখুৱাওক (_f)"
 
-#: ../e-util/e-table-config.ui.h:12
+#: ../e-util/e-table-config.ui.h:15
 msgid "Then By"
 msgstr "পৰবৰ্তী ক্ৰমিক মান"
 
-#: ../e-util/e-table-config.ui.h:13
+#: ../e-util/e-table-config.ui.h:16
 msgid "Show field i_n View"
 msgstr "দৰ্শনত ফিল্ড দেখুৱাওক (_n)"
 
-#: ../e-util/e-table-config.ui.h:14
+#: ../e-util/e-table-config.ui.h:17
 msgid "Show field in _View"
 msgstr "দৰ্শনত ফিল্ড দেখুৱাওক (_V)"
 
-#: ../e-util/e-table-config.ui.h:15
+#: ../e-util/e-table-config.ui.h:18
 msgid "Sort"
 msgstr "ক্ৰমানুযায়ী বিন্যাস"
 
-#: ../e-util/e-table-config.ui.h:16
+#: ../e-util/e-table-config.ui.h:19
 msgid "Clear All"
 msgstr "সকলো মচি পেলাওক"
 
-#: ../e-util/e-table-config.ui.h:17
+#: ../e-util/e-table-config.ui.h:20
 msgid "Sort Items By"
 msgstr "উল্লেখিত পৰিমাপ অনুসৰি ক্ৰম"
 
@@ -10099,7 +10351,7 @@ msgstr "উল্লেখিত পৰিমাপ অনুসৰি ক্ৰ
 msgid "Select a Time Zone"
 msgstr "এটা সময়অঞ্চল বাছক"
 
-#: ../e-util/e-timezone-dialog.ui.h:2
+#: ../e-util/e-timezone-dialog.ui.h:4
 msgid ""
 "Use the left mouse button to zoom in on an area of the map and select a time "
 "zone.\n"
@@ -10109,19 +10361,19 @@ msgstr ""
 "বাছক।\n"
 "মাউছৰ সোঁফালৰ বুটাম ব্যৱহাৰ কৰি মানচিত্ৰ জুম আউট কৰক।"
 
-#: ../e-util/e-timezone-dialog.ui.h:4
+#: ../e-util/e-timezone-dialog.ui.h:6
 msgid "Time Zones"
 msgstr "সময় অঞ্চলসমূহ"
 
-#: ../e-util/e-timezone-dialog.ui.h:5
+#: ../e-util/e-timezone-dialog.ui.h:7
 msgid "_Selection"
 msgstr "নিৰ্বাচন (_S)"
 
-#: ../e-util/e-timezone-dialog.ui.h:6
+#: ../e-util/e-timezone-dialog.ui.h:8
 msgid "Timezone drop-down combination box"
 msgstr "সময়অঞ্চলৰ ড্ৰপ-ডাউন কমবিনেশন বক্স"
 
-#: ../e-util/filter.ui.h:1 ../e-util/e-filter-rule.c:1245
+#: ../e-util/filter.ui.h:1 ../e-util/e-filter-rule.c:1243
 #: ../mail/em-utils.c:230
 msgid "Incoming"
 msgstr "অন্তৰ্মুখী"
@@ -10138,7 +10390,7 @@ msgstr "আপোনাৰ নিৰ্ধাৰিত সময়"
 msgid "a time relative to the current time"
 msgstr "বৰ্তমান সময়ৰ অপেক্ষাত এটা সময়"
 
-#: ../e-util/filter.ui.h:5 ../mail/mail-config.ui.h:76
+#: ../e-util/filter.ui.h:5 ../mail/mail-config.ui.h:78
 msgid "seconds"
 msgstr "ছেকেণ্ড"
 
@@ -10171,11 +10423,11 @@ msgstr "বাৰ্তাৰ বাবে প্ৰযোজ্য ফিল্
 msgid "_Filter Rules"
 msgstr "ফিল্টাৰৰ নিয়মাবলী (_F)"
 
-#: ../e-util/filter.ui.h:17
+#: ../e-util/filter.ui.h:23
 msgid "Compare against"
 msgstr "সৈতে তুলনা কৰা হ'ব"
 
-#: ../e-util/filter.ui.h:18
+#: ../e-util/filter.ui.h:24
 msgid ""
 "The message's date will be compared against\n"
 "the current time when filtering occurs."
@@ -10183,7 +10435,7 @@ msgstr ""
 "ফিল্টাৰ কৰাৰ সময় বাৰ্তাৰ তাৰিখ বৰ্তমান\n"
 "তাৰিখৰ সৈতে তুলনা কৰা হ'ব।"
 
-#: ../e-util/filter.ui.h:20
+#: ../e-util/filter.ui.h:26
 msgid ""
 "The message's date will be compared against\n"
 "12:00am of the date specified."
@@ -10191,7 +10443,7 @@ msgstr ""
 "নিৰ্দিষ্ট তাৰিখৰ ৰাতি ১২:০০ টাৰ সৈতে বাৰ্তাৰ\n"
 "তাৰিখ তুলনা কৰা হ'ব"
 
-#: ../e-util/filter.ui.h:22
+#: ../e-util/filter.ui.h:28
 msgid ""
 "The message's date will be compared against\n"
 "a time relative to when filtering occurs."
@@ -10214,7 +10466,7 @@ msgstr "নাম (_N):"
 msgid "_Replace existing view"
 msgstr "উপস্থিত প্ৰদৰ্শন ক্ষেত্ৰ পৰিবৰ্তন কৰক (_R)"
 
-#: ../e-util/e-activity-proxy.c:309
+#: ../e-util/e-activity-proxy.c:308
 #: ../modules/mail/e-mail-shell-view-actions.c:1724
 msgid "Cancel"
 msgstr "বাতিল কৰক"
@@ -10255,7 +10507,7 @@ msgid "%s (%d%% complete)"
 msgstr "%s (%d%% সম্পন্ন)"
 
 #. Translators: Escape is a keyboard binding.
-#: ../e-util/e-alert-bar.c:120
+#: ../e-util/e-alert-bar.c:118
 msgid "Close this message (Escape)"
 msgstr "এই বাৰ্তা বন্ধ কৰক (Escape)"
 
@@ -10271,7 +10523,7 @@ msgstr "তালিকা দৰ্শন"
 msgid "Attachment Properties"
 msgstr "সংযুক্ত বস্তুৰ বৈশিষ্ট্য"
 
-#: ../e-util/e-attachment-dialog.c:339 ../e-util/e-import-assistant.c:272
+#: ../e-util/e-attachment-dialog.c:339 ../e-util/e-import-assistant.c:273
 msgid "F_ilename:"
 msgstr "ফাইলৰ নাম(_i):"
 
@@ -10337,9 +10589,32 @@ msgstr "অন্য এপ্লিকেচনৰ সৈতে খোলক...
 msgid "S_ave All"
 msgstr "সকলো সংৰক্ষণ কৰক (_a)"
 
+#: ../e-util/e-attachment-view.c:391
+#| msgid "Sa_ve"
+msgid "Sa_ve As"
+msgstr "এই ধৰণে সংৰক্ষণ কৰক (_v)"
+
+#: ../e-util/e-attachment-view.c:400
+#: ../plugins/save-calendar/save-calendar.c:349
+#: ../plugins/save-calendar/save-calendar.c:380
+#: ../plugins/save-calendar/save-calendar.c:411
+#| msgid "Save _As..."
+msgid "Save _As"
+msgstr "এই ধৰণে সংৰক্ষণ কৰক (_A)"
+
 #: ../e-util/e-attachment-view.c:410
 msgid "A_dd Attachment..."
 msgstr "এটাচমেন্ট যোগ কৰক (_d)..."
+
+#: ../e-util/e-attachment-view.c:417
+#: ../modules/addressbook/e-book-shell-view-actions.c:1026
+#: ../modules/calendar/e-cal-shell-view-actions.c:1399
+#: ../modules/calendar/e-memo-shell-view-actions.c:628
+#: ../modules/calendar/e-task-shell-view-actions.c:752
+#: ../modules/mail/e-mail-shell-view-actions.c:1526
+#: ../modules/mail/e-mail-shell-view-actions.c:1596
+msgid "_Properties"
+msgstr "বৈশিষ্ট্যসমূহ (_P)"
 
 #: ../e-util/e-attachment-view.c:434
 msgid "_Hide"
@@ -10500,13 +10775,19 @@ msgstr "অহা বছৰ"
 msgid "Month Calendar"
 msgstr "মাহ অনুসৰি কেলেন্ডাৰ"
 
-#: ../e-util/e-categories-editor.c:222
+#: ../e-util/e-categories-editor.c:223
 msgid "Currently _used categories:"
 msgstr "বৰ্তমানে ব্যৱহৃত বিভাগসমূহ (_u):"
 
-#: ../e-util/e-categories-editor.c:233
+#: ../e-util/e-categories-editor.c:234
 msgid "_Available Categories:"
 msgstr "উপলব্ধ বিভাগসমূহ (_A):"
+
+#: ../e-util/e-categories-editor.c:274 ../mail/em-folder-selector.c:269
+#: ../plugins/mail-to-task/mail-to-task.c:595
+#: ../shell/e-shell-window-actions.c:1055
+msgid "_New"
+msgstr "নতুন (_N)"
 
 #: ../e-util/e-categories-selector.c:321
 msgid "Icon"
@@ -10517,27 +10798,27 @@ msgstr "আইকন"
 msgid "Create category \"%s\""
 msgstr "বিভাগ \"%s\" সৃষ্টি কৰক"
 
-#: ../e-util/e-category-editor.c:135
+#: ../e-util/e-category-editor.c:136
 msgid "Category Icon"
 msgstr "বিভাগ আইকন"
 
-#: ../e-util/e-category-editor.c:139
+#: ../e-util/e-category-editor.c:140
 msgid "_No Image"
 msgstr "ছবি নাই (_N)"
 
-#: ../e-util/e-category-editor.c:176
+#: ../e-util/e-category-editor.c:173
 msgid "Category _Name"
 msgstr "বিভাগৰ নাম (_N)"
 
-#: ../e-util/e-category-editor.c:188
+#: ../e-util/e-category-editor.c:185
 msgid "Category _Icon"
 msgstr "বিভাগৰ আইকন (_I)"
 
-#: ../e-util/e-category-editor.c:214
+#: ../e-util/e-category-editor.c:211
 msgid "Category Properties"
 msgstr "বিভাগৰ বৈশিষ্ট্যসমূহ"
 
-#: ../e-util/e-category-editor.c:275
+#: ../e-util/e-category-editor.c:272
 #, c-format
 msgid ""
 "There is already a category '%s' in the configuration. Please use another "
@@ -10567,7 +10848,7 @@ msgctxt "table-date"
 msgid "None"
 msgstr "কোনো নহয়"
 
-#: ../e-util/e-cell-date-edit.c:324
+#: ../e-util/e-cell-date-edit.c:324 ../mail/e-mail-label-dialog.c:200
 msgid "OK"
 msgstr "ঠিক আছে"
 
@@ -10941,23 +11222,23 @@ msgstr "তুলনা কৰাৰ বাবে এটা সময় বাছ�
 msgid "Choose a File"
 msgstr "এটা ফাইল বাছক"
 
-#: ../e-util/e-filter-rule.c:749
+#: ../e-util/e-filter-rule.c:750
 msgid "R_ule name:"
 msgstr "নিয়মৰ নাম (_u):"
 
-#: ../e-util/e-filter-rule.c:799
+#: ../e-util/e-filter-rule.c:800
 msgid "all the following conditions"
 msgstr "সকলো নিম্নলিখিত চৰ্তবোৰ"
 
-#: ../e-util/e-filter-rule.c:800
+#: ../e-util/e-filter-rule.c:801
 msgid "any of the following conditions"
 msgstr "নিম্নলিখিত চৰ্তবোৰৰ যিকোনো এটা"
 
-#: ../e-util/e-filter-rule.c:806
+#: ../e-util/e-filter-rule.c:807
 msgid "_Find items which match:"
 msgstr "মিল খোৱা বস্তুবোৰ সন্ধান কৰক (_F):"
 
-#: ../e-util/e-filter-rule.c:829
+#: ../e-util/e-filter-rule.c:830
 msgid "Find items that meet the following conditions"
 msgstr "নিম্নলিখিত মান অনুসৰি বস্তু সন্ধান কৰক"
 
@@ -10965,7 +11246,7 @@ msgstr "নিম্নলিখিত মান অনুসৰি বস্ত
 #. * part of "Include threads: None"
 #. protocol:
 #. name:
-#: ../e-util/e-filter-rule.c:844 ../e-util/e-mail-identity-combo-box.c:473
+#: ../e-util/e-filter-rule.c:845 ../e-util/e-mail-identity-combo-box.c:473
 #: ../e-util/e-mail-signature-combo-box.c:368 ../e-util/e-proxy-editor.c:549
 #: ../libemail-engine/camel-null-store.c:27
 #: ../mail/e-mail-config-summary-page.c:138
@@ -10973,31 +11254,31 @@ msgstr "নিম্নলিখিত মান অনুসৰি বস্ত
 msgid "None"
 msgstr "শূণ্য"
 
-#: ../e-util/e-filter-rule.c:845
+#: ../e-util/e-filter-rule.c:846
 msgid "All related"
 msgstr "সকলো সম্পৰ্কিত"
 
-#: ../e-util/e-filter-rule.c:847
+#: ../e-util/e-filter-rule.c:848
 msgid "Replies and parents"
 msgstr "উত্তৰ আৰু মূল বাৰ্তা"
 
-#: ../e-util/e-filter-rule.c:848
+#: ../e-util/e-filter-rule.c:849
 msgid "No reply or parent"
 msgstr "উত্তৰ অথবা ঊৰ্ধ্বতন অনুপস্থিত"
 
-#: ../e-util/e-filter-rule.c:851
+#: ../e-util/e-filter-rule.c:852
 msgid "I_nclude threads:"
 msgstr "থ্ৰেডসমূহ অন্তৰ্ভুক্ত কৰক (_n):"
 
-#: ../e-util/e-filter-rule.c:928
+#: ../e-util/e-filter-rule.c:929
 msgid "A_dd Condition"
 msgstr "মান নিৰ্ধাৰণ কৰক (_d)"
 
-#: ../e-util/e-filter-rule.c:1245 ../mail/em-utils.c:231
+#: ../e-util/e-filter-rule.c:1243 ../mail/em-utils.c:231
 msgid "Outgoing"
 msgstr "বহীৰ্গমনকাৰী"
 
-#: ../e-util/e-import-assistant.c:255
+#: ../e-util/e-import-assistant.c:256
 msgid ""
 "Choose the file that you want to import into Evolution, and select what type "
 "of file it is from the list."
@@ -11006,36 +11287,36 @@ msgstr ""
 "ধৰণ "
 "নিৰ্বাচন কৰক।"
 
-#: ../e-util/e-import-assistant.c:282
+#: ../e-util/e-import-assistant.c:283
 msgid "Select a file"
 msgstr "এটা ফাইল বাছক"
 
-#: ../e-util/e-import-assistant.c:296 ../e-util/e-import-assistant.c:471
+#: ../e-util/e-import-assistant.c:297 ../e-util/e-import-assistant.c:472
 msgid "File _type:"
 msgstr "ফাইলৰ ধৰণ (_t):"
 
-#: ../e-util/e-import-assistant.c:339 ../e-util/e-import-assistant.c:920
+#: ../e-util/e-import-assistant.c:340 ../e-util/e-import-assistant.c:917
 msgid "Choose the destination for this import"
 msgstr "এই ইমপোৰ্ট কাৰ্য্যৰ বাবে এটা গন্তব্য বাছক"
 
-#: ../e-util/e-import-assistant.c:364
+#: ../e-util/e-import-assistant.c:365
 msgid "Choose the type of importer to run:"
 msgstr "যি ধৰণৰ ইমপোৰ্টাৰ চলোৱা হ'ব তাক বাছক:"
 
-#: ../e-util/e-import-assistant.c:372
+#: ../e-util/e-import-assistant.c:373
 msgid "Import data and settings from _older programs"
 msgstr "পুৰনি প্ৰগ্ৰাম পৰা তথ্য আৰু বৈশিষ্ট্য ইমপোৰ্ট কৰক (_o)"
 
-#: ../e-util/e-import-assistant.c:380
+#: ../e-util/e-import-assistant.c:381
 msgid "Import a _single file"
 msgstr "কেৱল এটা ফাইল ইমপোৰ্ট কৰক (_s)"
 
-#: ../e-util/e-import-assistant.c:402
+#: ../e-util/e-import-assistant.c:403
 #: ../modules/startup-wizard/e-mail-config-import-page.c:201
 msgid "Please select the information that you would like to import:"
 msgstr "আপুনি যি তথ্য ইমপোৰ্ট কৰিবলৈ ইচ্ছুক, অনুগ্ৰহ কৰি তাক বাছক:"
 
-#: ../e-util/e-import-assistant.c:532
+#: ../e-util/e-import-assistant.c:533
 msgid ""
 "Evolution checked for settings to import from the following applications: "
 "Pine, Netscape, Elm, iCalendar. No importable settings found. If you would "
@@ -11046,40 +11327,40 @@ msgstr ""
 "Pine, Netscape, Elm, iCalendar। ইমপোৰ্ট কৰিব পৰা কোনো সংহতি পোৱা নগল। যদি "
 "আপুনি আকৌ চেষ্টা কৰিব বিচাৰে, অনুগ্ৰহ কৰি \"পিছলৈ\" বুটাম টিপক।"
 
-#: ../e-util/e-import-assistant.c:558
+#: ../e-util/e-import-assistant.c:559
 #: ../modules/startup-wizard/e-mail-config-import-page.c:230
 #, c-format
 msgid "From %s:"
 msgstr "%s ৰ পৰা:"
 
 #. Install a custom "Cancel Import" button.
-#: ../e-util/e-import-assistant.c:774
+#: ../e-util/e-import-assistant.c:775
 msgid "_Cancel Import"
 msgstr "ইমপোৰ্ট বাতিল কৰক (_C)"
 
-#: ../e-util/e-import-assistant.c:919
+#: ../e-util/e-import-assistant.c:916
 msgid "Preview data to be imported"
 msgstr "ইমপোৰ্ট কৰিব লগিয়া তথ্য পূৰ্বদৰ্শন কৰক"
 
-#: ../e-util/e-import-assistant.c:925 ../e-util/e-import-assistant.c:938
-#: ../e-util/e-import-assistant.c:1291 ../e-util/e-import-assistant.c:1367
-#: ../e-util/e-import-assistant.c:1376
+#: ../e-util/e-import-assistant.c:922 ../e-util/e-import-assistant.c:935
+#: ../e-util/e-import-assistant.c:1288 ../e-util/e-import-assistant.c:1364
+#: ../e-util/e-import-assistant.c:1373
 msgid "Import Data"
 msgstr "তথ্য ইমপোৰ্ট কৰক"
 
-#: ../e-util/e-import-assistant.c:933
+#: ../e-util/e-import-assistant.c:930
 msgid "Select what type of file you want to import from the list."
 msgstr "তালিকাৰ পৰা কিধৰণৰ ফাইল আপুনি ইমপোৰ্ট কৰিব বিচাৰে বাছক।"
 
-#: ../e-util/e-import-assistant.c:1281 ../e-util/e-import-assistant.c:1316
+#: ../e-util/e-import-assistant.c:1278 ../e-util/e-import-assistant.c:1313
 msgid "Evolution Import Assistant"
 msgstr "Evolution ইমপোৰ্ট সহায়ক"
 
-#: ../e-util/e-import-assistant.c:1298 ../e-util/e-import-assistant.c:1354
+#: ../e-util/e-import-assistant.c:1295 ../e-util/e-import-assistant.c:1351
 msgid "Import Location"
 msgstr "অবস্থান ইমপোৰ্ট কৰক"
 
-#: ../e-util/e-import-assistant.c:1309
+#: ../e-util/e-import-assistant.c:1306
 msgid ""
 "Welcome to the Evolution Import Assistant.\n"
 "With this assistant you will be guided through the process of importing "
@@ -11090,19 +11371,19 @@ msgstr ""
 "সৈতে "
 "সহায় কৰা হব।"
 
-#: ../e-util/e-import-assistant.c:1326
+#: ../e-util/e-import-assistant.c:1323
 msgid "Importer Type"
 msgstr "ইমপোৰ্টাৰৰ ধৰণ"
 
-#: ../e-util/e-import-assistant.c:1336
+#: ../e-util/e-import-assistant.c:1333
 msgid "Select Information to Import"
 msgstr "ইমপোৰ্ট কৰাৰ উদ্দেশ্যে তথ্য নিৰ্বাচন কৰক"
 
-#: ../e-util/e-import-assistant.c:1345
+#: ../e-util/e-import-assistant.c:1342
 msgid "Select a File"
 msgstr "এটা ফাইল বাছক"
 
-#: ../e-util/e-import-assistant.c:1362
+#: ../e-util/e-import-assistant.c:1359
 msgid "Click \"Apply\" to begin importing the file into Evolution."
 msgstr "Evolution লে ফাইলৰ ইমপোৰ্ট আৰম্ভ কৰিবলে \"প্ৰয়োগ কৰক\" ক্লিক কৰক।"
 
@@ -11130,15 +11411,15 @@ msgstr "স্বাক্ষৰৰ নাম (_S):"
 msgid "Unnamed"
 msgstr "নামহীন"
 
-#: ../e-util/e-mail-signature-manager.c:336
+#: ../e-util/e-mail-signature-manager.c:337
 msgid "Add _Script"
 msgstr "স্ক্ৰিপ্ট যোগ কৰা হ'ব (_S)"
 
-#: ../e-util/e-mail-signature-manager.c:421
+#: ../e-util/e-mail-signature-manager.c:419
 msgid "Add Signature Script"
 msgstr "স্বাক্ষৰ স্ক্ৰিপ্ট যোগ কৰক"
 
-#: ../e-util/e-mail-signature-manager.c:491
+#: ../e-util/e-mail-signature-manager.c:489
 msgid "Edit Signature Script"
 msgstr "স্বাক্ষৰ স্ক্ৰিপ্ট সম্পাদন কৰক"
 
@@ -11231,10 +11512,6 @@ msgstr "পৰিচয়সমূহ"
 msgid "Select Contacts from Address Book"
 msgstr "ঠিকনা বহীৰ পৰা পৰিচয়সমূহ বাছক"
 
-#: ../e-util/e-name-selector-dialog.c:999
-msgid "_Remove"
-msgstr "মচি পেলাওক (_R)"
-
 #. To Translators: This would be similiar to "Expand MyList Inline" where MyList is a Contact List
 #: ../e-util/e-name-selector-entry.c:3038
 #, c-format
@@ -11300,7 +11577,7 @@ msgstr "এই পাছৱাৰ্ডটো মনত ৰাখক (_R)"
 msgid "_Remember this password for the remainder of this session"
 msgstr "এই অধিবেশনৰ অৱশিষ্ট সময়ৰ বাবে এই পাছৱাৰ্ডটো মনত ৰাখক (_R)"
 
-#: ../e-util/e-preferences-window.c:317
+#: ../e-util/e-preferences-window.c:318
 msgid "Evolution Preferences"
 msgstr "Evolution পছন্দসমূহ"
 
@@ -11403,48 +11680,48 @@ msgstr "নিয়ম যোগ কৰক"
 msgid "Edit Rule"
 msgstr "নিয়ম সম্পাদন কৰক"
 
-#: ../e-util/e-search-bar.c:80
+#: ../e-util/e-search-bar.c:82
 #, c-format
 msgid "Matches: %u"
 msgstr "মিল: %u"
 
-#: ../e-util/e-search-bar.c:564
+#: ../e-util/e-search-bar.c:566
 msgid "Close the find bar"
 msgstr "সন্ধান বাৰ বন্ধ কৰক"
 
-#: ../e-util/e-search-bar.c:572
+#: ../e-util/e-search-bar.c:574
 msgid "Fin_d:"
 msgstr "সন্ধান কৰক (_n):"
 
-#: ../e-util/e-search-bar.c:584
+#: ../e-util/e-search-bar.c:586
 msgid "Clear the search"
 msgstr "সন্ধান পৰিষ্কাৰ কৰক"
 
-#: ../e-util/e-search-bar.c:608
+#: ../e-util/e-search-bar.c:610
 msgid "_Previous"
 msgstr "পূৰ্ববৰ্তী (_P)"
 
-#: ../e-util/e-search-bar.c:614
+#: ../e-util/e-search-bar.c:613
 msgid "Find the previous occurrence of the phrase"
 msgstr "বাক্যাংশৰ পূৰ্বৱৰ্তী উপস্থিতি সন্ধান কৰক"
 
-#: ../e-util/e-search-bar.c:623
+#: ../e-util/e-search-bar.c:622
 msgid "_Next"
 msgstr "পৰবৰ্তী (_N)"
 
-#: ../e-util/e-search-bar.c:629
+#: ../e-util/e-search-bar.c:625
 msgid "Find the next occurrence of the phrase"
 msgstr "বাক্যাংশৰ পৰৱৰ্তী উপস্থিতি সন্ধান কৰক"
 
-#: ../e-util/e-search-bar.c:638
+#: ../e-util/e-search-bar.c:634
 msgid "Mat_ch case"
 msgstr "ফলা মিল খোৱাওক (_c)"
 
-#: ../e-util/e-search-bar.c:666
+#: ../e-util/e-search-bar.c:662
 msgid "Reached bottom of page, continued from top"
 msgstr "পৃষ্ঠাৰ তল প্ৰাপ্ত হল, ওপৰৰ পৰা অব্যাহত ৰখা হৈছে"
 
-#: ../e-util/e-search-bar.c:688
+#: ../e-util/e-search-bar.c:684
 msgid "Reached top of page, continued from bottom"
 msgstr "পৃষ্ঠাৰ ওপৰ প্ৰাপ্ত হল, তলৰ পৰা অব্যাহত ৰখা হৈছে"
 
@@ -11665,7 +11942,7 @@ msgstr "দল নিৰ্ধাৰিত হোৱা নাই"
 msgid "Show Fields"
 msgstr "ক্ষেত্ৰ দেখুৱাওক"
 
-#: ../e-util/e-table-config.c:561
+#: ../e-util/e-table-config.c:559
 msgid "Choose the order of information to appear in the message list."
 msgstr "বাৰ্তা তালিকা উপস্থিত হব লগিয়া তথ্যৰ ক্ৰম বাছক।"
 
@@ -11752,11 +12029,11 @@ msgstr "ক্ৰমানুযায়ী বিন্যাস"
 msgid "_Custom"
 msgstr "স্বনিৰ্বাচিত"
 
-#: ../e-util/e-text.c:2101
+#: ../e-util/e-text.c:2107
 msgid "Select All"
 msgstr "সকলো বাছক"
 
-#: ../e-util/e-text.c:2114
+#: ../e-util/e-text.c:2120
 msgid "Input Methods"
 msgstr "ইনপুটেৰ পদ্ধতি"
 
@@ -11874,20 +12151,20 @@ msgstr "কেলেন্ডাৰ: %s ৰ পৰা %s লৈ"
 msgid "evolution calendar item"
 msgstr "Evolution কেলেন্ডাৰৰ বস্তু"
 
-#: ../e-util/evolution-source-viewer.c:634
+#: ../e-util/evolution-source-viewer.c:636
 msgid "Evolution Source Viewer"
 msgstr "Evolution উৎস দৰ্শক"
 
 #. Translators: The name that is displayed in the user interface
-#: ../e-util/evolution-source-viewer.c:664
+#: ../e-util/evolution-source-viewer.c:666
 msgid "Display Name"
 msgstr "প্ৰদৰ্শনৰ নাম"
 
-#: ../e-util/evolution-source-viewer.c:673
+#: ../e-util/evolution-source-viewer.c:675
 msgid "Flags"
 msgstr "ফ্ল্যাগসমূহ"
 
-#: ../e-util/evolution-source-viewer.c:725
+#: ../e-util/evolution-source-viewer.c:727
 #: ../mail/e-mail-config-identity-page.c:677
 msgid "Identity"
 msgstr "পৰিচয়"
@@ -11946,7 +12223,6 @@ msgid "Filter should have at least one condition."
 msgstr "ফিল্টাৰৰ অন্তত এটা সৰ্ত্ত থাকিব লাগিব।"
 
 #: ../e-util/filter.error.xml.h:14
-#| msgid "Missing date."
 msgid "Missing value."
 msgstr "অনুপস্থিত মান।"
 
@@ -12151,8 +12427,8 @@ msgstr "প্ৰেৰণ কৰা বস্তু"
 #: ../libemail-engine/e-mail-session.c:124 ../mail/em-folder-tree-model.c:1134
 #: ../modules/mail/e-mail-shell-view-private.c:1063
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:1
-#: ../plugins/templates/templates.c:1078 ../plugins/templates/templates.c:1377
-#: ../plugins/templates/templates.c:1387
+#: ../plugins/templates/templates.c:1080 ../plugins/templates/templates.c:1379
+#: ../plugins/templates/templates.c:1389
 msgid "Templates"
 msgstr "টেমপ্লেট"
 
@@ -12336,23 +12612,23 @@ msgstr[1] ""
 "সন্ধান ফোল্ডাৰসমূহ \"%s\" মচি পেলোৱা ফোল্ডাৰৰ সৈতে খাপ খাবলে সলনি কৰা হৈছে\n"
 "\"%s\"।"
 
-#: ../mail/e-mail-account-manager.c:116 ../mail/e-mail-account-manager.c:203
+#: ../mail/e-mail-account-manager.c:117 ../mail/e-mail-account-manager.c:204
 msgid "Open _Online Accounts"
 msgstr "অনলাইন একাওন্টসমূহ খোলক (_O)"
 
-#: ../mail/e-mail-account-manager.c:142 ../mail/e-mail-account-manager.c:229
+#: ../mail/e-mail-account-manager.c:143 ../mail/e-mail-account-manager.c:230
 msgid "This account was created through the Online Accounts service."
 msgstr "এই একাওন্ট অনলাইন একাওন্টসমূহ সেৱাৰ দ্বাৰা সৃষ্টি কৰা হৈছিল।"
 
-#: ../mail/e-mail-account-manager.c:689
+#: ../mail/e-mail-account-manager.c:690
 msgid "_Reset Order"
 msgstr "ক্ৰম পুনৰ সংহতি কৰক (_R)"
 
-#: ../mail/e-mail-account-manager.c:702
+#: ../mail/e-mail-account-manager.c:703
 msgid "You can drag and drop account names to reorder them."
 msgstr "আপুনি একাওন্ট নামসমূহ পুনৰ ক্ৰমত আনিবলে ড্ৰেগ আৰু ড্ৰপ কৰিব পাৰে।"
 
-#: ../mail/e-mail-account-manager.c:745
+#: ../mail/e-mail-account-manager.c:746
 msgid "De_fault"
 msgstr "অবিকল্পিত (_f)"
 
@@ -12368,9 +12644,9 @@ msgid "Account Name"
 msgstr "একাওন্ট নাম"
 
 #: ../mail/e-mail-account-tree-view.c:135
-#: ../mail/e-mail-config-security-page.c:334
-#: ../mail/e-mail-config-security-page.c:474 ../mail/e-mail-reader.c:3601
-#: ../mail/mail-config.ui.h:59
+#: ../mail/e-mail-config-security-page.c:335
+#: ../mail/e-mail-config-security-page.c:475 ../mail/e-mail-reader.c:3601
+#: ../mail/mail-config.ui.h:61
 msgid "Default"
 msgstr "অবিকল্পিত"
 
@@ -12397,7 +12673,6 @@ msgstr "(কোনো বিষয় নাই)"
 
 #. GtkAssistant's back button label.
 #: ../mail/e-mail-config-assistant.c:39
-#| msgid "Go Back"
 msgid "Go _Back"
 msgstr "পিছলৈ যাওক (_B)"
 
@@ -12411,7 +12686,6 @@ msgid "Evolution Account Assistant"
 msgstr "Evolution একাওন্ট সহায়ক"
 
 #: ../mail/e-mail-config-assistant.c:882
-#| msgid "_Restore Defaults"
 msgid "_Revise Details"
 msgstr "বিৱৰণবোৰ পুনিৰীক্ষণ কৰক (_R)"
 
@@ -12590,8 +12864,8 @@ msgstr "আহৰণেৰ বিকল্প"
 msgid "Receiving Email"
 msgstr "ই-মেইল আহৰণ কৰা হৈছে"
 
-#: ../mail/e-mail-config-security-page.c:259
-#: ../mail/em-folder-properties.c:332 ../mail/mail-config.ui.h:24
+#: ../mail/e-mail-config-security-page.c:260
+#: ../mail/em-folder-properties.c:332 ../mail/mail-config.ui.h:26
 #: ../modules/addressbook/autocompletion-config.c:113
 #: ../modules/calendar/e-calendar-preferences.ui.h:47
 #: ../modules/itip-formatter/plugin/config-ui.c:90
@@ -12599,86 +12873,93 @@ msgstr "ই-মেইল আহৰণ কৰা হৈছে"
 msgid "General"
 msgstr "সাধাৰণ"
 
-#: ../mail/e-mail-config-security-page.c:268
+#: ../mail/e-mail-config-security-page.c:269
 msgid "_Do not sign meeting requests (for Outlook compatibility)"
 msgstr ""
 "সভাৰ অনুৰোধ স্বাক্ষৰ কৰা নহব (Outlook সৈতে সামঞ্জস্য বজায় ৰাখাৰ উদ্দেশ্যে) "
 "(_D)"
 
-#: ../mail/e-mail-config-security-page.c:290
+#: ../mail/e-mail-config-security-page.c:291
 msgid "Pretty Good Privacy (OpenPGP)"
 msgstr "বেছ ভাল গোপনীয়তা (OpenPGP)"
 
-#: ../mail/e-mail-config-security-page.c:299
+#: ../mail/e-mail-config-security-page.c:300
 msgid "OpenPGP _Key ID:"
 msgstr "OpenPGP কি' ID (_K):"
 
-#: ../mail/e-mail-config-security-page.c:321
+#: ../mail/e-mail-config-security-page.c:322
 msgid "Si_gning algorithm:"
 msgstr "স্বাক্ষৰ কৰা এলগৰিথম (_g):"
 
-#: ../mail/e-mail-config-security-page.c:337
-#: ../mail/e-mail-config-security-page.c:477 ../mail/mail-config.ui.h:60
+#: ../mail/e-mail-config-security-page.c:338
+#: ../mail/e-mail-config-security-page.c:478 ../mail/mail-config.ui.h:62
 msgid "SHA1"
 msgstr "SHA1"
 
-#: ../mail/e-mail-config-security-page.c:340
-#: ../mail/e-mail-config-security-page.c:480 ../mail/mail-config.ui.h:61
+#: ../mail/e-mail-config-security-page.c:341
+#: ../mail/e-mail-config-security-page.c:481 ../mail/mail-config.ui.h:63
 msgid "SHA256"
 msgstr "SHA256"
 
-#: ../mail/e-mail-config-security-page.c:343
-#: ../mail/e-mail-config-security-page.c:483 ../mail/mail-config.ui.h:62
+#: ../mail/e-mail-config-security-page.c:344
+#: ../mail/e-mail-config-security-page.c:484 ../mail/mail-config.ui.h:64
 msgid "SHA384"
 msgstr "SHA384"
 
-#: ../mail/e-mail-config-security-page.c:346
-#: ../mail/e-mail-config-security-page.c:486 ../mail/mail-config.ui.h:63
+#: ../mail/e-mail-config-security-page.c:347
+#: ../mail/e-mail-config-security-page.c:487 ../mail/mail-config.ui.h:65
 msgid "SHA512"
 msgstr "SHA512"
 
-#: ../mail/e-mail-config-security-page.c:362
+#: ../mail/e-mail-config-security-page.c:363
 msgid "Al_ways sign outgoing messages when using this account"
 msgstr "চিহ্নিত একাওন্ট ব্যৱহাৰ কৰি প্ৰেৰিত বাৰ্তা সদায় স্বাক্ষৰ কৰা হ'ব (_w)"
 
-#: ../mail/e-mail-config-security-page.c:374
+#: ../mail/e-mail-config-security-page.c:375
 msgid "Always encrypt to _myself when sending encrypted messages"
 msgstr "ইনক্ৰিপ্টেড বাৰ্তাসমূহ পঠাওতে সদায় মোলৈ ইনক্ৰিপ্ট কৰিব (_m)"
 
-#: ../mail/e-mail-config-security-page.c:386
+#: ../mail/e-mail-config-security-page.c:387
 msgid "Always _trust keys in my keyring when encrypting"
 msgstr "এনক্ৰিপ্টিংৰ সময়ত মোৰ কিৰিংৰ কিৰিং সদায় ভৰষা কৰিব (_t)"
 
-#: ../mail/e-mail-config-security-page.c:410
+#: ../mail/e-mail-config-security-page.c:411
 msgid "Secure MIME (S/MIME)"
 msgstr "সুৰক্ষিত MIME (S/MIME)"
 
-#: ../mail/e-mail-config-security-page.c:419
+#: ../mail/e-mail-config-security-page.c:420
 msgid "Sig_ning certificate:"
 msgstr "স্বাক্ষৰকাৰী প্ৰমাণপত্ৰ (_n):"
 
-#: ../mail/e-mail-config-security-page.c:443
-#: ../mail/e-mail-config-security-page.c:549
+#: ../mail/e-mail-config-security-page.c:444
+#: ../mail/e-mail-config-security-page.c:550
 msgid "Select"
 msgstr "বাছক"
 
-#: ../mail/e-mail-config-security-page.c:461
+#: ../mail/e-mail-config-security-page.c:453
+#: ../mail/e-mail-config-security-page.c:559 ../mail/mail-dialogs.ui.h:5
+#: ../shell/e-shell-window-actions.c:962
+#| msgid "_Clear Flag"
+msgid "_Clear"
+msgstr "পৰিষ্কাৰ কৰক (_C)"
+
+#: ../mail/e-mail-config-security-page.c:462
 msgid "Signing _algorithm:"
 msgstr "স্বাক্ষৰ কৰা এলগৰিথম (_a):"
 
-#: ../mail/e-mail-config-security-page.c:502
+#: ../mail/e-mail-config-security-page.c:503
 msgid "Always sign outgoing messages when using this account"
 msgstr "এই একাওন্ট ব্যৱহাৰ কৰোতে সদায় বাহিৰ যোৱা বাৰ্তাসমূহ স্বাক্ষৰ কৰিব"
 
-#: ../mail/e-mail-config-security-page.c:525
+#: ../mail/e-mail-config-security-page.c:526
 msgid "Encryption certificate:"
 msgstr "ইনক্ৰিপষণ প্ৰমাণপত্ৰ:"
 
-#: ../mail/e-mail-config-security-page.c:567
+#: ../mail/e-mail-config-security-page.c:568
 msgid "Always encrypt outgoing messages when using this account"
 msgstr "এই একাওন্ট ব্যৱহাৰ কৰোতে সদায় বাহিৰ যোৱা বাৰ্তাসমূহ ইনক্ৰিপ্ট কৰিব"
 
-#: ../mail/e-mail-config-security-page.c:587
+#: ../mail/e-mail-config-security-page.c:588
 msgid "Always encrypt to myself when sending encrypted messages"
 msgstr "ইনক্ৰিপ্টেড বাৰ্তাসমূহ পঠাওতে সদায় নিজস্বলে ইনক্ৰিপ্ট কৰিব"
 
@@ -12822,16 +13103,16 @@ msgstr "কৰনীয় (_T)"
 msgid "_Later"
 msgstr "পিছত (_L)"
 
-#: ../mail/e-mail-label-manager.c:169
+#: ../mail/e-mail-label-manager.c:171
 #: ../modules/mail/e-mail-shell-view-actions.c:1028
 msgid "Add Label"
 msgstr "লেবেল যোগ কৰক"
 
-#: ../mail/e-mail-label-manager.c:220
+#: ../mail/e-mail-label-manager.c:222
 msgid "Edit Label"
 msgstr "লেবেল সম্পাদন কৰক"
 
-#: ../mail/e-mail-label-manager.c:352
+#: ../mail/e-mail-label-manager.c:354
 msgid ""
 "Note: Underscore in the label name is used\n"
 "as mnemonic identifier in menu."
@@ -12871,7 +13152,7 @@ msgstr "হেডাৰ নাম"
 msgid "Header Value"
 msgstr "হেডাৰ মান"
 
-#: ../mail/e-mail-printer.c:124 ../mail/mail-config.ui.h:99
+#: ../mail/e-mail-printer.c:124 ../mail/mail-config.ui.h:103
 msgid "Headers"
 msgstr "হেডাৰ"
 
@@ -13307,10 +13588,6 @@ msgstr "জুম ইন (_Z)"
 msgid "Increase the text size"
 msgstr "লিখনী আকাৰ বৃদ্ধি কৰক"
 
-#: ../mail/e-mail-reader.c:2226
-msgid "Zoom _Out"
-msgstr "জুম আউট (_O)"
-
 #: ../mail/e-mail-reader.c:2228
 msgid "Decrease the text size"
 msgstr "লিখনী আকাৰ সৰু কৰক"
@@ -13458,7 +13735,7 @@ msgstr "পৰবৰ্তী"
 msgid "Previous"
 msgstr "পূৰ্বাবস্থা"
 
-#: ../mail/e-mail-reader.c:3883 ../mail/mail-dialogs.ui.h:15
+#: ../mail/e-mail-reader.c:3883 ../mail/mail-dialogs.ui.h:16
 msgid "Reply"
 msgstr "প্ৰত্যুত্তৰ"
 
@@ -13628,7 +13905,7 @@ msgstr "গুৰুত্বপূৰ্ণ"
 msgid "Junk Test"
 msgstr "অকাঙ্ক্ষিতৰ বাবে পৰীক্ষা"
 
-#: ../mail/em-filter-i18n.h:24 ../mail/mail-config.ui.h:106
+#: ../mail/em-filter-i18n.h:24 ../mail/mail-config.ui.h:110
 msgid "Junk"
 msgstr "আবৰ্জনা"
 
@@ -13673,7 +13950,7 @@ msgid "Play Sound"
 msgstr "শব্দ বজাওক"
 
 #. Past tense, as in "has been read".
-#: ../mail/em-filter-i18n.h:36 ../mail/mail-dialogs.ui.h:14
+#: ../mail/em-filter-i18n.h:36 ../mail/mail-dialogs.ui.h:15
 msgid "Read"
 msgstr "পঢ়ক"
 
@@ -13818,11 +14095,11 @@ msgid "starts with"
 msgstr "আৰম্ভ হয়"
 
 #. and now for the action area
-#: ../mail/em-filter-rule.c:585
+#: ../mail/em-filter-rule.c:587
 msgid "Then"
 msgstr "তেতিয়া"
 
-#: ../mail/em-filter-rule.c:650
+#: ../mail/em-filter-rule.c:652
 msgid "Add Ac_tion"
 msgstr "কাৰ্য্য যোগ কৰক (_t)"
 
@@ -14006,9 +14283,20 @@ msgstr "সকলো প্ৰসাৰিত কৰক (_x)"
 msgid "Refresh the folder list"
 msgstr "ফোল্ডাৰ তালিকা সতেজ কৰক"
 
+#: ../mail/em-subscription-editor.c:1929
+#: ../modules/mail/e-mail-shell-view-actions.c:1533
+#: ../modules/mail/e-mail-shell-view-actions.c:1603
+msgid "_Refresh"
+msgstr "সতেজ কৰক (_R)"
+
 #: ../mail/em-subscription-editor.c:1940
 msgid "Stop the current operation"
 msgstr "বৰ্তমান কাৰ্য্য বন্ধ কৰক"
+
+#: ../mail/em-subscription-editor.c:1941
+#: ../modules/addressbook/e-book-shell-view-actions.c:934
+msgid "_Stop"
+msgstr "বন্ধ কৰক (_S)"
 
 #. Translators: This message is shown only for ten or more
 #. * messages to be opened.  The %d is replaced with the actual
@@ -14022,7 +14310,7 @@ msgstr[0] "আপুনি %d বাৰ্তাক তৎক্ষনাত খ
 msgstr[1] "আপুনি %d বাৰ্তাসমূহক তৎক্ষনাত খোলিবলে নিশ্চিত নে?"
 
 #: ../mail/em-utils.c:132
-#: ../modules/mailto-handler/evolution-mailto-handler.c:149
+#: ../modules/mailto-handler/evolution-mailto-handler.c:148
 msgid "_Do not show this message again"
 msgstr "এই বাৰ্তা আকৌ নেদেখুৱাব (_D)"
 
@@ -14198,7 +14486,7 @@ msgstr[1] ""
 msgid "Set custom junk header"
 msgstr "স্বনিৰ্বাচিত আবৰ্জনা হেডাৰ সংহতি কৰক"
 
-#: ../mail/mail-config.ui.h:2
+#: ../mail/mail-config.ui.h:4
 msgid ""
 "All new emails with header that matches given content will be automatically "
 "filtered as junk"
@@ -14206,114 +14494,114 @@ msgstr ""
 "সকলো নতুন ই-মেইল যাৰ হেডাৰ প্ৰদান কৰা সমলৰ সৈতে মিল খায় সিহতক স্বচালিতভাৱে "
 "আবৰ্জনা ৰূপত পৰিস্ৰাৱন কৰা হব"
 
-#: ../mail/mail-config.ui.h:3
+#: ../mail/mail-config.ui.h:5
 msgid "Header name"
 msgstr "হেডাৰ নাম"
 
-#: ../mail/mail-config.ui.h:4
+#: ../mail/mail-config.ui.h:6
 msgid "Header content"
 msgstr "হেডাৰ সমল"
 
-#: ../mail/mail-config.ui.h:5
+#: ../mail/mail-config.ui.h:7
 msgid "Default Behavior"
 msgstr "অবিকল্পিত ব্যৱহাৰ"
 
-#: ../mail/mail-config.ui.h:6
+#: ../mail/mail-config.ui.h:8
 msgid "For_mat messages in HTML"
 msgstr "HTML বিন্যাসত বাৰ্তা ফৰম্যাট কৰক (_m)"
 
-#: ../mail/mail-config.ui.h:7
+#: ../mail/mail-config.ui.h:9
 msgid "Automatically insert _emoticon images"
 msgstr "স্বচালিতভাবে স্মাইলি ছবি সন্নিবেশ কৰা হ'ব (_s)"
 
-#: ../mail/mail-config.ui.h:8
+#: ../mail/mail-config.ui.h:10
 msgid "Always request rea_d receipt"
 msgstr "পঢ়া ৰিচিট সদায় অনুৰোধ কৰিব (_d)"
 
-#: ../mail/mail-config.ui.h:9
+#: ../mail/mail-config.ui.h:11
 msgid "Encode filenames in an _Outlook/GMail way"
 msgstr "এটা Outlook/GMail পদ্ধতিত ফাইলনামসমূহ এনক'ড কৰক (_O)"
 
-#: ../mail/mail-config.ui.h:10
+#: ../mail/mail-config.ui.h:12
 msgid "Ch_aracter encoding:"
 msgstr "আখৰ এনক'ডিং (_a):"
 
-#: ../mail/mail-config.ui.h:11
+#: ../mail/mail-config.ui.h:13
 msgid "Replies and Forwards"
 msgstr "উত্তৰসমূহ আৰু আগবঢ়োৱাসমূহ"
 
-#: ../mail/mail-config.ui.h:12
+#: ../mail/mail-config.ui.h:14
 msgid "_Reply style:"
 msgstr "উত্তৰ লিখাৰ ধৰণ (_R):"
 
-#: ../mail/mail-config.ui.h:13
+#: ../mail/mail-config.ui.h:15
 msgid "_Forward style:"
 msgstr "অনুবৰ্তনৰ ধৰণ (_F):"
 
-#: ../mail/mail-config.ui.h:14
+#: ../mail/mail-config.ui.h:16
 msgid "Start _typing at the bottom on replying"
 msgstr "উত্তৰ দিয়োতে তলত টাইপ কৰা আৰম্ভ কৰিব (_t)"
 
-#: ../mail/mail-config.ui.h:15
+#: ../mail/mail-config.ui.h:17
 msgid "_Keep signature above the original message on replying"
 msgstr "উত্তৰ দিয়োতে স্বাক্ষৰক প্ৰকৃত বাৰ্তাৰ ওপৰত ৰাখিব (_K)"
 
-#: ../mail/mail-config.ui.h:16
+#: ../mail/mail-config.ui.h:18
 msgid "Ig_nore Reply-To: for mailing lists"
 msgstr "মেইলিং তালিকাসমূহৰ বাবে উত্তৰ দিয়ক: উপেক্ষা কৰক (_n)"
 
-#: ../mail/mail-config.ui.h:17
+#: ../mail/mail-config.ui.h:19
 msgid "Gro_up Reply goes only to mailing list, if possible"
 msgstr "দল উত্তৰ কেৱল মেইলিং তালিকালে যায়, যদি সম্ভব (_u)"
 
-#: ../mail/mail-config.ui.h:18
+#: ../mail/mail-config.ui.h:20
 msgid "Digitally _sign messages when original message signed (PGP or S/MIME)"
 msgstr ""
 "প্ৰকৃত বাৰ্তা স্বাক্ষৰ হওতে ডিজিটেলি স্বাক্ষৰ কৰা উত্তৰসমূহ (PGP অথবা S/MIME) "
 "(_s)"
 
-#: ../mail/mail-config.ui.h:19
+#: ../mail/mail-config.ui.h:21
 msgctxt "ReplyForward"
 msgid "Attachment"
 msgstr "এটাচমেন্ট"
 
-#: ../mail/mail-config.ui.h:20
+#: ../mail/mail-config.ui.h:22
 msgctxt "ReplyForward"
 msgid "Inline (Outlook style)"
 msgstr "ইনলাইন (Outlook শৈলী)"
 
-#: ../mail/mail-config.ui.h:21
+#: ../mail/mail-config.ui.h:23
 msgctxt "ReplyForward"
 msgid "Quoted"
 msgstr "উদ্ধৃত"
 
-#: ../mail/mail-config.ui.h:22
+#: ../mail/mail-config.ui.h:24
 msgctxt "ReplyForward"
 msgid "Do Not Quote"
 msgstr "উদ্ধৃত নকৰিব"
 
-#: ../mail/mail-config.ui.h:23
+#: ../mail/mail-config.ui.h:25
 msgctxt "ReplyForward"
 msgid "Inline"
 msgstr "ইনলাইন"
 
-#: ../mail/mail-config.ui.h:25
+#: ../mail/mail-config.ui.h:27
 msgid "Sig_natures"
 msgstr "স্বাক্ষৰসমূহ (_n)"
 
-#: ../mail/mail-config.ui.h:26
+#: ../mail/mail-config.ui.h:28
 msgid "Signatures"
 msgstr "স্বাক্ষৰ"
 
-#: ../mail/mail-config.ui.h:27
+#: ../mail/mail-config.ui.h:29
 msgid "_Languages"
 msgstr "ভাষাসমূহ (_L)"
 
-#: ../mail/mail-config.ui.h:28
+#: ../mail/mail-config.ui.h:30
 msgid "Languages Table"
 msgstr "ভাষাৰ টেবিল"
 
-#: ../mail/mail-config.ui.h:29
+#: ../mail/mail-config.ui.h:31
 msgid ""
 "The list of languages here reflects only the languages for which you have a "
 "dictionary installed."
@@ -14321,24 +14609,24 @@ msgstr ""
 "এই স্থানত প্ৰদৰ্শিত ভাষাৰ তালিকায় উপস্থিত ভাষাসমূহৰ বাবে অভিধান ইনস্টল কৰা "
 "হৈছে।"
 
-#: ../mail/mail-config.ui.h:31
+#: ../mail/mail-config.ui.h:33
 msgid "Check spelling while I _type"
 msgstr "টাইপ কৰাৰ সময় বানান পৰীক্ষা কৰিব (_t)"
 
-#: ../mail/mail-config.ui.h:32
+#: ../mail/mail-config.ui.h:34
 msgid "Color for _misspelled words:"
 msgstr "ভূল বানান যি ৰং দি চিহ্নিত কৰা হ'ব (_m):"
 
-#: ../mail/mail-config.ui.h:33
+#: ../mail/mail-config.ui.h:35
 #: ../modules/calendar/e-calendar-preferences.ui.h:58
 msgid "Pick a color"
 msgstr "এটা ৰঙ বাছক"
 
-#: ../mail/mail-config.ui.h:34
+#: ../mail/mail-config.ui.h:36
 msgid "Spell Checking"
 msgstr "বানান পৰীক্ষণ"
 
-#: ../mail/mail-config.ui.h:35
+#: ../mail/mail-config.ui.h:37
 msgid ""
 "To help avoid email accidents and embarrassments, ask for confirmation "
 "before taking the following checkmarked actions:"
@@ -14348,69 +14636,69 @@ msgstr ""
 "নিশ্চিতকৰণৰ বাবে সোধিব:"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../mail/mail-config.ui.h:37
+#: ../mail/mail-config.ui.h:39
 msgid "Sending a message with an _empty subject line"
 msgstr "এটা ৰিক্ত বিষয় শাৰী থকা এটা বাৰ্তা পঠোৱা হৈছে (_e)"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../mail/mail-config.ui.h:39
+#: ../mail/mail-config.ui.h:41
 msgid "Sending a message with only _Bcc recipients defined"
 msgstr "কেৱল Bcc গ্ৰহণকাৰীসমূহৰ বিৱৰণ থকা এটা বাৰ্তা পঠোৱা হৈছে (_B)"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../mail/mail-config.ui.h:41
+#: ../mail/mail-config.ui.h:43
 msgid "Sending a _private reply to a mailing list message"
 msgstr "এটা মেইলিং তালিকা বাৰ্তালে এটা গোপন উত্তৰ পঠোৱা হৈছে (_p)"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../mail/mail-config.ui.h:43
+#: ../mail/mail-config.ui.h:45
 msgid "Sending a reply to a large _number of recipients"
 msgstr "গ্ৰহণকাৰীসমূহৰ এটা ডাঙৰ সংখ্যালে এটা উত্তৰ পঠোৱা হৈছে (_n)"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../mail/mail-config.ui.h:45
+#: ../mail/mail-config.ui.h:47
 msgid "Allowing a _mailing list to redirect a private reply to the list"
 msgstr ""
 "এটা মেইলিং তালিকাক তালিকালে এটা গোপন উত্তৰৰ পুনৰ দিশ দিবলে অনুমতি দিয়া হৈছে"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../mail/mail-config.ui.h:47
+#: ../mail/mail-config.ui.h:49
 msgid "Sending a message with _recipients not entered as mail addresses"
 msgstr "গ্ৰহণকাৰীসমূহক মেইল ঠিকনাত নোসোমোৱাকে এটা বাৰ্তা পঠোৱা হৈছে (_r)"
 
-#: ../mail/mail-config.ui.h:48
+#: ../mail/mail-config.ui.h:50
 msgid "Confirmations"
 msgstr "সুনিশ্চিতকৰণ"
 
-#: ../mail/mail-config.ui.h:49
+#: ../mail/mail-config.ui.h:51
 msgid "Add"
 msgstr "যোগ কৰক"
 
-#: ../mail/mail-config.ui.h:50
+#: ../mail/mail-config.ui.h:52
 msgid "Remove"
 msgstr "আতৰাওক"
 
-#: ../mail/mail-config.ui.h:51
+#: ../mail/mail-config.ui.h:53
 msgid " Use for Folders "
 msgstr " ফোল্ডাৰসমূহৰ বাবে ব্যৱহাৰ কৰক"
 
-#: ../mail/mail-config.ui.h:52
+#: ../mail/mail-config.ui.h:54
 msgid "Edit"
 msgstr "সম্পাদনা"
 
-#: ../mail/mail-config.ui.h:53
+#: ../mail/mail-config.ui.h:55
 msgid " Use for Recipients "
 msgstr " প্ৰাপকসকলৰ বাবে ব্যৱহাৰ কৰক"
 
-#: ../mail/mail-config.ui.h:54
+#: ../mail/mail-config.ui.h:56
 msgid " Account "
 msgstr " একাওন্ট "
 
-#: ../mail/mail-config.ui.h:55
+#: ../mail/mail-config.ui.h:57
 msgid "Send account overrides"
 msgstr "একাওন্ট অভাৰৰাইডসমূহ পঠাওক"
 
-#: ../mail/mail-config.ui.h:56
+#: ../mail/mail-config.ui.h:58
 msgid ""
 "Assign which account should be used as a send account for respective folders "
 "or recipients, an override for usual send account detection. List of "
@@ -14425,190 +14713,190 @@ msgstr ""
 "পৃথকভাৱে "
 "তুলনা কৰা হয়।"
 
-#: ../mail/mail-config.ui.h:57
+#: ../mail/mail-config.ui.h:59
 msgid "Folder override has precedence over Recipient override"
 msgstr "ফোল্ডাৰ অভাৰৰাইড প্ৰাপক অভাৰৰাইডৰ আগত আহে।"
 
-#: ../mail/mail-config.ui.h:58
+#: ../mail/mail-config.ui.h:60
 msgid "Send Account"
 msgstr "একাওন্ট পঠাওক"
 
-#: ../mail/mail-config.ui.h:64 ../smime/gui/smime-ui.ui.h:1
+#: ../mail/mail-config.ui.h:66 ../smime/gui/smime-ui.ui.h:1
 msgid "a"
 msgstr "a"
 
-#: ../mail/mail-config.ui.h:65 ../smime/gui/smime-ui.ui.h:2
+#: ../mail/mail-config.ui.h:67 ../smime/gui/smime-ui.ui.h:2
 msgid "b"
 msgstr "b"
 
-#: ../mail/mail-config.ui.h:66
+#: ../mail/mail-config.ui.h:68
 msgid "Start up"
 msgstr "আৰম্ভণি"
 
-#: ../mail/mail-config.ui.h:67
+#: ../mail/mail-config.ui.h:69
 msgid "Check for new _messages on start"
 msgstr "আৰম্ভণিত নতুন বাৰ্তাসমূহৰ বাবে নিৰীক্ষণ কৰক (_m)"
 
-#: ../mail/mail-config.ui.h:68
+#: ../mail/mail-config.ui.h:70
 msgid "Check for new messa_ges in all active accounts"
 msgstr "সকলো সক্ৰিয় একাওন্টত নতুন বাৰ্তাসমূহৰ বাবে নিৰীক্ষণ কৰক (_g)"
 
-#: ../mail/mail-config.ui.h:69
+#: ../mail/mail-config.ui.h:71
 msgid "Message Display"
 msgstr "বাৰ্তা প্ৰদৰ্শন"
 
-#: ../mail/mail-config.ui.h:70
+#: ../mail/mail-config.ui.h:72
 msgid "_Use the same fonts as other applications"
 msgstr "অন্য এপ্লিকেচনত ব্যৱহৃত ফন্ট ব্যৱহাৰ কৰা হ'ব (_U)"
 
-#: ../mail/mail-config.ui.h:71
+#: ../mail/mail-config.ui.h:73
 msgid "S_tandard Font:"
 msgstr "আদৰ্শ ফন্ট (_t):"
 
-#: ../mail/mail-config.ui.h:72
+#: ../mail/mail-config.ui.h:74
 msgid "Select HTML fixed width font"
 msgstr "HTML আৰু স্থায়ী বিস্তাৰৰ ফন্ট বাছক"
 
-#: ../mail/mail-config.ui.h:73
+#: ../mail/mail-config.ui.h:75
 msgid "Select HTML variable width font"
 msgstr "HTML আৰু পৰিবৰ্তনশীল বিস্তাৰেৰ ফন্ট বাছক"
 
-#: ../mail/mail-config.ui.h:74
+#: ../mail/mail-config.ui.h:76
 msgid "Fix_ed Width Font:"
 msgstr "নিৰ্দিষ্ট প্ৰস্থৰ ফন্ট (_e):"
 
-#: ../mail/mail-config.ui.h:75
+#: ../mail/mail-config.ui.h:77
 msgid "_Mark messages as read after"
 msgstr "কিমান সময়ৰৰ পিছত বাৰ্তাসমূহত পঢ়া-হৈছে চিহ্ন দিয়া হ'ব (_M)"
 
-#: ../mail/mail-config.ui.h:77
+#: ../mail/mail-config.ui.h:79
 msgid "Highlight _quotations with"
 msgstr "এৰ দ্বাৰা উদ্ধৃতি উজ্জ্বলিত কৰা হ'ব (_q)"
 
-#: ../mail/mail-config.ui.h:78
+#: ../mail/mail-config.ui.h:80
 msgid "color"
 msgstr "ৰং"
 
-#: ../mail/mail-config.ui.h:79
+#: ../mail/mail-config.ui.h:81
 msgid "Default character e_ncoding:"
 msgstr "আখৰৰ অবিকল্পিত এনক'ডিং (_n):"
 
-#: ../mail/mail-config.ui.h:80
+#: ../mail/mail-config.ui.h:82
 msgid "Apply the same _view settings to all folders"
 msgstr "সকলো ফোল্ডাৰলে একে দৰ্শন কৰক সংহতিসমূহ প্ৰয়োগ কৰক (_v)"
 
-#: ../mail/mail-config.ui.h:81
+#: ../mail/mail-config.ui.h:83
 msgid "F_all back to threading messages by subject"
 msgstr "বিষয় অনুসৰি বাৰ্তাৰ থ্ৰেড নিৰ্মাণ কৰা হ'ব (_a)"
 
-#: ../mail/mail-config.ui.h:82
+#: ../mail/mail-config.ui.h:84
 msgid "Delete Mail"
 msgstr "মেইল মচি পেলাওক"
 
-#: ../mail/mail-config.ui.h:83
+#: ../mail/mail-config.ui.h:85
 msgid "Empty _trash folders"
 msgstr "আবৰ্জনাৰ ফোল্ডাৰসমূহ খালি কৰক (_t)"
 
-#: ../mail/mail-config.ui.h:84
+#: ../mail/mail-config.ui.h:86
 msgid "Confirm _when expunging a folder"
 msgstr "কোনো ফোল্ডাৰ এক্সপাঞ্জ কৰাৰ আগত সম্মতি লব (_w)"
 
 #. If enabled, show animation; if disabled, only display a static image without any animation
-#: ../mail/mail-config.ui.h:86
+#: ../mail/mail-config.ui.h:88
 msgid "_Show animated images"
 msgstr "জীৱন্ত ছবিসমূহ দেখুৱাওক (_S)"
 
-#: ../mail/mail-config.ui.h:87
+#: ../mail/mail-config.ui.h:89
 msgid "_Prompt on sending HTML mail to contacts that do not want them"
 msgstr ""
 "HTML বাৰ্তা গ্ৰহণ কৰিবলৈ অনিচ্ছুক প্ৰাপকসকলক HTML বাৰ্তা প্ৰেৰণ কৰাৰ আগত "
 "সতৰ্কবাণী "
 "প্ৰদান কৰা হব (_P)"
 
-#: ../mail/mail-config.ui.h:88
+#: ../mail/mail-config.ui.h:90
 msgid "Loading Images"
 msgstr "ছবিসমূহ ল'ড কৰা হৈছে"
 
-#: ../mail/mail-config.ui.h:89
+#: ../mail/mail-config.ui.h:91
 msgid "_Never load images from the Internet"
 msgstr "ইন্টাৰনেট পৰা ছবি কেতিয়াও ল'ড নকৰিব (_N)"
 
-#: ../mail/mail-config.ui.h:90
+#: ../mail/mail-config.ui.h:92
 msgid "_Load images only in messages from contacts"
 msgstr "ছবিসমূহক কেৱল পৰিচয়সমূহৰ বাৰ্তাসমূহৰ পৰা ল'ড কৰিব (_L)"
 
-#: ../mail/mail-config.ui.h:91
+#: ../mail/mail-config.ui.h:93
 msgid "_Always load images from the Internet"
 msgstr "ইন্টাৰনেট পৰা সদায় ছবি ল'ড কৰিব (_A)"
 
-#: ../mail/mail-config.ui.h:92
+#: ../mail/mail-config.ui.h:94
 msgid "HTML Messages"
 msgstr "বাৰ্তা"
 
-#: ../mail/mail-config.ui.h:93 ../mail/message-list.etspec.h:19
+#: ../mail/mail-config.ui.h:95 ../mail/message-list.etspec.h:19
 msgid "Labels"
 msgstr "লেবেল"
 
-#: ../mail/mail-config.ui.h:94
+#: ../mail/mail-config.ui.h:96
 msgid "Sender Photograph"
 msgstr "প্ৰেৰকৰ ছবি"
 
-#: ../mail/mail-config.ui.h:95
+#: ../mail/mail-config.ui.h:97
 msgid "_Show the photograph of sender in the message preview"
 msgstr "বাৰ্তা পূৰ্বদৰ্শনত প্ৰেৰকৰ ছবি দেখুৱাওক (_S)"
 
-#: ../mail/mail-config.ui.h:96
+#: ../mail/mail-config.ui.h:98
 msgid "Displayed Message Headers"
 msgstr "প্ৰদৰ্শিত বাৰ্তা হেডাৰসমূহ"
 
-#: ../mail/mail-config.ui.h:97
+#: ../mail/mail-config.ui.h:99
 msgid "Mail Headers Table"
 msgstr "মেইল হেডাৰৰ টেবিল"
 
-#: ../mail/mail-config.ui.h:98
+#: ../mail/mail-config.ui.h:102
 #: ../modules/addressbook/autocompletion-config.c:116
 #: ../modules/calendar/e-calendar-preferences.ui.h:54
 msgid "Date/Time Format"
 msgstr "তাৰিখ/সময় বিন্যাস"
 
-#: ../mail/mail-config.ui.h:100
+#: ../mail/mail-config.ui.h:104
 msgid "Check incoming _messages for junk"
 msgstr "উল্লেখিত সময় অবধি"
 
-#: ../mail/mail-config.ui.h:101
+#: ../mail/mail-config.ui.h:105
 msgid "_Delete junk messages"
 msgstr "আবৰ্জনা বাৰ্তাসমূহ মচি পেলাওক (_D)"
 
-#: ../mail/mail-config.ui.h:102
+#: ../mail/mail-config.ui.h:106
 msgid "Check cu_stom headers for junk"
 msgstr "অবাঞ্ছিত মেইল যাচাইয়েৰ বাবে স্বনিৰ্বাচিত হেডাৰ পৰীক্ষা কৰা হব (_s)"
 
-#: ../mail/mail-config.ui.h:103
+#: ../mail/mail-config.ui.h:107
 msgid "Do not mar_k messages as junk if sender is in my address book"
 msgstr ""
 "যদি পঠাওতা মোৰ ঠিকনা বহীত আছে তেওৰ বাৰ্তাসমূহক আবৰ্জনা বুলি চিহ্নিত নকৰিব"
 
-#: ../mail/mail-config.ui.h:104
+#: ../mail/mail-config.ui.h:108
 msgid "_Lookup in local address book only"
 msgstr "কেৱল স্থানীয় ঠিকনা বহীৰ মাজত সন্ধান কৰা হব (_L)"
 
-#: ../mail/mail-config.ui.h:105
+#: ../mail/mail-config.ui.h:109
 msgid "Option is ignored if a match for custom junk headers is found."
 msgstr ""
 "বিকল্প উপেক্ষা কৰা হয় যদি স্বনিৰ্বাচিত আবৰ্জনা হেডাৰসমূহৰ বাবে এটা মিল পোৱা "
 "যায়।"
 
-#: ../mail/mail-config.ui.h:107
+#: ../mail/mail-config.ui.h:111
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:224
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:158
 msgid "No encryption"
 msgstr "এনক্ৰিপশনবিহীন"
 
-#: ../mail/mail-config.ui.h:108
+#: ../mail/mail-config.ui.h:112
 msgid "TLS encryption"
 msgstr "TLS এনক্ৰিপশন"
 
-#: ../mail/mail-config.ui.h:109
+#: ../mail/mail-config.ui.h:113
 msgid "SSL encryption"
 msgstr "SSL এনক্ৰিপশন"
 
@@ -14629,63 +14917,63 @@ msgid "_Due By:"
 msgstr "নিৰ্ধাৰিত সময়সীমা (_D):"
 
 #. Translators: Flag Completed
-#: ../mail/mail-dialogs.ui.h:6
+#: ../mail/mail-dialogs.ui.h:7
 msgid "Co_mpleted"
 msgstr "সমাপ্ত (_m)"
 
-#: ../mail/mail-dialogs.ui.h:7
+#: ../mail/mail-dialogs.ui.h:8
 msgid "Call"
 msgstr "ফোন কৰক"
 
-#: ../mail/mail-dialogs.ui.h:8
+#: ../mail/mail-dialogs.ui.h:9
 msgid "Do Not Forward"
 msgstr "ফৰৱাৰ্ড নকৰিব"
 
-#: ../mail/mail-dialogs.ui.h:9
+#: ../mail/mail-dialogs.ui.h:10
 msgid "Follow-Up"
 msgstr "ফলো আপ"
 
-#: ../mail/mail-dialogs.ui.h:10
+#: ../mail/mail-dialogs.ui.h:11
 msgid "For Your Information"
 msgstr "আপোনাৰ তথ্য জ্ঞাপনৰ বাবে"
 
-#: ../mail/mail-dialogs.ui.h:11
+#: ../mail/mail-dialogs.ui.h:12
 msgid "Forward"
 msgstr "ফৰৱাৰ্ড"
 
-#: ../mail/mail-dialogs.ui.h:12
+#: ../mail/mail-dialogs.ui.h:13
 msgid "No Response Necessary"
 msgstr "কোনো প্ৰতিক্ৰিয়াৰ প্ৰয়োজন নাই"
 
-#: ../mail/mail-dialogs.ui.h:16
+#: ../mail/mail-dialogs.ui.h:17
 msgid "Reply to All"
 msgstr "সকলোলৈ উত্তৰ"
 
-#: ../mail/mail-dialogs.ui.h:17
+#: ../mail/mail-dialogs.ui.h:18
 msgid "Review"
 msgstr "পৰ্যালোচনা"
 
-#: ../mail/mail-dialogs.ui.h:18
+#: ../mail/mail-dialogs.ui.h:19
 msgid "License Agreement"
 msgstr "অনুজ্ঞা চুক্তি"
 
-#: ../mail/mail-dialogs.ui.h:19
+#: ../mail/mail-dialogs.ui.h:20
 msgid "_Tick this to accept the license agreement"
 msgstr "অনুজ্ঞা চুক্তি গ্ৰহণ কৰিবলৈ ইয়াক টিক কৰক (_T)"
 
-#: ../mail/mail-dialogs.ui.h:20
+#: ../mail/mail-dialogs.ui.h:22
 msgid "_Accept License"
 msgstr "অনুজ্ঞা গ্ৰহণ কৰক (_A)"
 
-#: ../mail/mail-dialogs.ui.h:21
+#: ../mail/mail-dialogs.ui.h:23
 msgid "Security Information"
 msgstr "সুৰক্ষা তথ্য"
 
-#: ../mail/mail-dialogs.ui.h:22
+#: ../mail/mail-dialogs.ui.h:24
 msgid "Digital Signature"
 msgstr "অঙ্কীয় স্বাক্ষৰ"
 
-#: ../mail/mail-dialogs.ui.h:23
+#: ../mail/mail-dialogs.ui.h:25
 msgid "Encryption"
 msgstr "ইনক্ৰিপষণ"
 
@@ -15334,14 +15622,6 @@ msgstr "ফোল্ডাৰক ফোল্ডাৰ ট্ৰিত কপি
 msgid "Are you sure you want to copy folder '{0}' to folder '{1}'?"
 msgstr "আপুনি ফোল্ডাৰ '{0}' ক ফোল্ডাৰ '{1}' লে কপি কৰিবলে নিশ্চিত নে?"
 
-#: ../mail/mail.error.xml.h:138
-msgid "_Yes"
-msgstr "হয় (_Y)"
-
-#: ../mail/mail.error.xml.h:139
-msgid "_No"
-msgstr "নহয় (_N)"
-
 #: ../mail/mail.error.xml.h:140
 msgid "_Always"
 msgstr "সদায় (_A)"
@@ -15493,15 +15773,15 @@ msgstr "মেইল প্ৰেৰণ আৰু গ্ৰহণ কৰক"
 msgid "Cancel _All"
 msgstr "সকলো বাতিল কৰক (_A)"
 
-#: ../mail/mail-send-recv.c:636 ../mail/mail-send-recv.c:1028
+#: ../mail/mail-send-recv.c:632 ../mail/mail-send-recv.c:1024
 msgid "Updating..."
 msgstr "আপডেইট কৰা হৈছে..."
 
-#: ../mail/mail-send-recv.c:636 ../mail/mail-send-recv.c:718
+#: ../mail/mail-send-recv.c:632 ../mail/mail-send-recv.c:714
 msgid "Waiting..."
 msgstr "অপেক্ষা কৰা হৈছে ..."
 
-#: ../mail/mail-send-recv.c:1001
+#: ../mail/mail-send-recv.c:997
 #, c-format
 msgid "Checking for new mail at '%s'"
 msgstr "'%s' ত নতুন মেইলৰ বাবে নিৰীক্ষণ কৰা হৈছে"
@@ -15907,18 +16187,6 @@ msgstr "কাৰ্য্য (_A)"
 msgid "_Preview"
 msgstr "পূৰ্বদৰ্শন (_P)"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1022
-#: ../modules/calendar/e-cal-shell-view-actions.c:1593
-#: ../modules/calendar/e-memo-shell-view-actions.c:692
-#: ../modules/calendar/e-task-shell-view-actions.c:844
-msgid "_Delete"
-msgstr "মচি পেলাওক (_D)"
-
-#: ../modules/addressbook/e-book-shell-view-actions.c:1026
-#: ../modules/mail/e-mail-shell-view-actions.c:1526
-msgid "_Properties"
-msgstr "বৈশিষ্ট্যসমূহ (_P)"
-
 #: ../modules/addressbook/e-book-shell-view-actions.c:1034
 msgid "Address Book Map"
 msgstr "ঠিকনা বহী মানচিত্ৰ"
@@ -16165,23 +16433,23 @@ msgstr "Evolution পুনৰুদ্ধাৰ"
 msgid "Restoring from the folder %s"
 msgstr "%s ফোল্ডাৰ পৰা পুনৰুদ্ধাৰ কৰা হৈছে"
 
-#: ../modules/backup-restore/evolution-backup-tool.c:992
+#: ../modules/backup-restore/evolution-backup-tool.c:991
 msgid "Backing up Evolution Data"
 msgstr "Evolution ৰ বৰ্তমান তথ্যৰ বেকআপ"
 
-#: ../modules/backup-restore/evolution-backup-tool.c:993
+#: ../modules/backup-restore/evolution-backup-tool.c:992
 msgid "Please wait while Evolution is backing up your data."
 msgstr "Evolution দ্বাৰা তথ্য বেকআপ লোৱা হৈছে। অনুগ্ৰহ কৰি অপেক্ষা কৰক।"
 
-#: ../modules/backup-restore/evolution-backup-tool.c:995
+#: ../modules/backup-restore/evolution-backup-tool.c:994
 msgid "Restoring Evolution Data"
 msgstr "Evolution ৰ তথ্য পুনৰুদ্ধাৰ"
 
-#: ../modules/backup-restore/evolution-backup-tool.c:996
+#: ../modules/backup-restore/evolution-backup-tool.c:995
 msgid "Please wait while Evolution is restoring your data."
 msgstr "Evolution দ্বাৰা তথ্য পুনৰুদ্ধাৰ কৰা হৈছে। অনুগ্ৰহ কৰি অপেক্ষা কৰক।"
 
-#: ../modules/backup-restore/evolution-backup-tool.c:1018
+#: ../modules/backup-restore/evolution-backup-tool.c:1017
 msgid "This may take a while depending on the amount of data in your account."
 msgstr "একাওন্টৰ মাজত উপস্থিত তথ্যৰ পৰিমাণৰ ভিত্তিত এই কামৰ বাবে সময় ব্যয় হব।"
 
@@ -16353,23 +16621,23 @@ msgstr "সন্ধান"
 msgid "Search Base:"
 msgstr "সন্ধান ভিত্তি:"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:748
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:747
 msgid "Find Possible Search Bases"
 msgstr "সম্ভাব্য সন্ধানৰ স্থান বিচাৰক"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:773
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:769
 msgid "One Level"
 msgstr "এটা স্তৰ"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:775
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:771
 msgid "Subtree"
 msgstr "চাবট্ৰি"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:777
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:773
 msgid "Search Scope:"
 msgstr "সন্ধানৰ অৱকাশ:"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:782
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:778
 msgid ""
 "The search scope defines how deep you would like the search to extend down "
 "the directory tree.  A search scope of \"Subtree\" will include all entries "
@@ -16386,23 +16654,23 @@ msgstr ""
 "চলোৱা "
 "হ'ব।"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:791
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:787
 msgid "Search Filter:"
 msgstr "সন্ধানৰ ফিল্টাৰ:"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:803
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:799
 msgid "Downloading"
 msgstr "ডাউনল'ড ব্যৱস্থা"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:824
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:820
 msgid "Limit:"
 msgstr "সীমা:"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:835
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:831
 msgid "contacts"
 msgstr "পৰিচয়সমূহ"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:840
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:836
 msgid "Browse until limit is reached"
 msgstr "সীমা নপোৱা লৈকে ব্ৰাউছ কৰক"
 
@@ -16523,7 +16791,6 @@ msgstr "Evolution ক ফাইল আপডেইট কৰাৰ অনুম�
 #. * units for the current locale.
 #.
 #: ../modules/cal-config-weather/evolution-cal-config-weather.c:188
-#| msgid "Default"
 msgctxt "locale-metric"
 msgid "default:mm"
 msgstr "default:mm"
@@ -17139,6 +17406,18 @@ msgstr "বিবৰণত আছে"
 #: ../modules/calendar/e-task-shell-view-actions.c:1003
 msgid "Summary contains"
 msgstr "সাৰাংশত আছে"
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1794
+#: ../modules/calendar/e-cal-shell-view-actions.c:1808
+#: ../modules/calendar/e-cal-shell-view-memopad.c:295
+#: ../modules/calendar/e-cal-shell-view-taskpad.c:382
+#: ../modules/calendar/e-memo-shell-view-actions.c:814
+#: ../modules/calendar/e-memo-shell-view-actions.c:828
+#: ../modules/calendar/e-task-shell-view-actions.c:1013
+#: ../modules/calendar/e-task-shell-view-actions.c:1027
+#| msgid "_Print..."
+msgid "Print..."
+msgstr "প্ৰিন্ট কৰক..."
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1796
 msgid "Print this calendar"
@@ -18523,10 +18802,6 @@ msgstr "সকলো ফোল্ডাৰৰ পৰা সকলো মচি �
 msgid "Edit properties of this account"
 msgstr "এই একাওন্টৰ বৈশিষ্ট্যসমূহ সম্পাদন কৰক"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1533
-msgid "_Refresh"
-msgstr "সতেজ কৰক (_R)"
-
 #: ../modules/mail/e-mail-shell-view-actions.c:1535
 msgid "Refresh list of folders of this account"
 msgstr "এই একাওন্টৰ ফোল্ডাৰসমূহৰ তালিকা সতেজ কৰক"
@@ -18945,7 +19220,7 @@ msgstr "তাৰিখ হেডাৰ (_D):"
 msgid "Show _original header value"
 msgstr "প্ৰকৃত হেডাৰ মান দেখুৱাওক (_o)"
 
-#: ../modules/mailto-handler/evolution-mailto-handler.c:141
+#: ../modules/mailto-handler/evolution-mailto-handler.c:140
 msgid "Do you want to make Evolution your default email client?"
 msgstr "আপুনি Evolution ক আপোনাৰ অবিকল্পিত ই-মেইল ক্লাএন্ট বনাব বিচাৰে নে?"
 
@@ -19148,15 +19423,15 @@ msgstr "SpamAssassin"
 #. Keep the title identical to EMailConfigImportPage
 #. * so it's only shown once in the assistant sidebar.
 #: ../modules/startup-wizard/e-mail-config-import-page.c:261
-#: ../modules/startup-wizard/e-mail-config-import-progress-page.c:341
+#: ../modules/startup-wizard/e-mail-config-import-progress-page.c:340
 msgid "Importing Files"
 msgstr "ফাইলসমূহ ইমপোৰ্ট কৰা হৈছে"
 
-#: ../modules/startup-wizard/e-mail-config-import-progress-page.c:260
+#: ../modules/startup-wizard/e-mail-config-import-progress-page.c:259
 msgid "Import cancelled."
 msgstr "ইমপোৰ্ট বাতিল কৰা হৈছে।"
 
-#: ../modules/startup-wizard/e-mail-config-import-progress-page.c:277
+#: ../modules/startup-wizard/e-mail-config-import-progress-page.c:276
 msgid "Import complete."
 msgstr "ইমপোৰ্ট সম্পূৰ্ণ।"
 
@@ -19446,12 +19721,12 @@ msgstr "অংশক এটা ঠিকনাবহী পৰিচয় ৰূ�
 msgid "Evolution Web Inspector"
 msgstr "Evolution ৱেব নিৰীক্ষক"
 
-#: ../plugins/attachment-reminder/attachment-reminder.c:120
+#: ../plugins/attachment-reminder/attachment-reminder.c:122
 msgid "_Do not show this message again."
 msgstr "এই বাৰ্তা আকৌ নেদেখুৱাব (_D)।"
 
-#: ../plugins/attachment-reminder/attachment-reminder.c:582
-#: ../plugins/templates/templates.c:476
+#: ../plugins/attachment-reminder/attachment-reminder.c:584
+#: ../plugins/templates/templates.c:478
 msgid "Keywords"
 msgstr "কিৱাৰ্ড"
 
@@ -19552,52 +19827,52 @@ msgstr "Outlook Express 5/6 ব্যক্তিগত ফোল্ডাৰস
 msgid "Import Outlook Express messages from DBX file"
 msgstr "DBX ফাইলৰ পৰা Outlook Express বাৰ্তাসমূহ ইমপোৰ্ট কৰক"
 
-#: ../plugins/email-custom-header/email-custom-header.c:291
+#: ../plugins/email-custom-header/email-custom-header.c:293
 msgctxt "email-custom-header-Security"
 msgid "Security:"
 msgstr "সুৰক্ষা:"
 
-#: ../plugins/email-custom-header/email-custom-header.c:295
+#: ../plugins/email-custom-header/email-custom-header.c:297
 msgctxt "email-custom-header-Security"
 msgid "Personal"
 msgstr "ব্যক্তিগত"
 
-#: ../plugins/email-custom-header/email-custom-header.c:296
+#: ../plugins/email-custom-header/email-custom-header.c:298
 msgctxt "email-custom-header-Security"
 msgid "Unclassified"
 msgstr "শ্ৰেণীবিহীন"
 
-#: ../plugins/email-custom-header/email-custom-header.c:297
+#: ../plugins/email-custom-header/email-custom-header.c:299
 msgctxt "email-custom-header-Security"
 msgid "Protected"
 msgstr "সুৰক্ষিত"
 
-#: ../plugins/email-custom-header/email-custom-header.c:298
+#: ../plugins/email-custom-header/email-custom-header.c:300
 msgctxt "email-custom-header-Security"
 msgid "Confidential"
 msgstr "গোপনীয়"
 
-#: ../plugins/email-custom-header/email-custom-header.c:299
+#: ../plugins/email-custom-header/email-custom-header.c:301
 msgctxt "email-custom-header-Security"
 msgid "Secret"
 msgstr "গোপন"
 
-#: ../plugins/email-custom-header/email-custom-header.c:300
+#: ../plugins/email-custom-header/email-custom-header.c:302
 msgctxt "email-custom-header-Security"
 msgid "Top secret"
 msgstr "অতি গোপন"
 
-#: ../plugins/email-custom-header/email-custom-header.c:360
+#: ../plugins/email-custom-header/email-custom-header.c:362
 msgctxt "email-custom-header"
 msgid "None"
 msgstr "কোনো নহয়"
 
-#: ../plugins/email-custom-header/email-custom-header.c:536
+#: ../plugins/email-custom-header/email-custom-header.c:538
 msgid "_Custom Header"
 msgstr "স্বনিৰ্বাচিত হেডাৰ (_C)"
 
 #. To translators: This string is used while adding a new message header to configuration, to specifying the format of the key values
-#: ../plugins/email-custom-header/email-custom-header.c:806
+#: ../plugins/email-custom-header/email-custom-header.c:808
 msgid ""
 "The format for specifying a Custom Header key value is:\n"
 "Name of the Custom Header key values separated by \";\"."
@@ -19605,12 +19880,12 @@ msgstr ""
 "এটা স্বনিৰ্বাচিত হেডাৰ কি' মান ধাৰ্য্য কৰাৰ বিন্যাস হল:\n"
 "\";\" দ্বাৰা পৃথকিত স্বনিৰ্বাচিত হেডাৰ কি' মানসমূহৰ নাম।"
 
-#: ../plugins/email-custom-header/email-custom-header.c:859
+#: ../plugins/email-custom-header/email-custom-header.c:861
 msgid "Key"
 msgstr "কি'"
 
-#: ../plugins/email-custom-header/email-custom-header.c:876
-#: ../plugins/templates/templates.c:485
+#: ../plugins/email-custom-header/email-custom-header.c:878
+#: ../plugins/templates/templates.c:487
 msgid "Values"
 msgstr "মান"
 
@@ -20211,7 +20486,7 @@ msgid "Mount of %s failed:"
 msgstr "%s ৰ মাউন্ট ব্যৰ্থ হল:"
 
 #: ../plugins/publish-calendar/publish-calendar.c:655
-#: ../plugins/publish-calendar/publish-calendar.ui.h:33
+#: ../plugins/publish-calendar/publish-calendar.ui.h:35
 msgid "E_nable"
 msgstr "সামৰ্থবান কৰক (_n)"
 
@@ -20444,6 +20719,11 @@ msgstr "বিন্যাস (_F):"
 msgid "Select destination file"
 msgstr "গন্তব্য ফাইল বাছক"
 
+#: ../plugins/save-calendar/save-calendar.c:190
+#| msgid "_Save"
+msgid "_Save As"
+msgstr "এই ধৰণে সংৰক্ষণ কৰক (_S)"
+
 #: ../plugins/save-calendar/save-calendar.c:347
 msgid "Save the selected calendar to disk"
 msgstr "নিৰ্বাচিত কেলেন্ডাৰক ডিস্কত সংৰক্ষণ কৰক"
@@ -20467,15 +20747,15 @@ msgstr ""
 "এটা "
 "ইমেইলৰ পৰা মানসমূহৰ সৈতে প্ৰতিস্থাপন কৰা হব।"
 
-#: ../plugins/templates/templates.c:1144
+#: ../plugins/templates/templates.c:1146
 msgid "No Title"
 msgstr "কোনো শীৰ্ষক নাই"
 
-#: ../plugins/templates/templates.c:1253
+#: ../plugins/templates/templates.c:1255
 msgid "Save as _Template"
 msgstr "টেমপ্লেট ৰূপত সংৰক্ষণ কৰক (_T)"
 
-#: ../plugins/templates/templates.c:1255
+#: ../plugins/templates/templates.c:1257
 msgid "Save as Template"
 msgstr "টেমপ্লেট ৰূপত সংৰক্ষণ কৰক"
 
@@ -20561,6 +20841,10 @@ msgstr "বাগ বাডি ইনস্টল্ড নাই।"
 msgid "Bug Buddy could not be run."
 msgstr "বাগ বাডি চলাব নোৱাৰি।"
 
+#: ../shell/e-shell-window-actions.c:850
+msgid "_About"
+msgstr "বিষয়ে (_A)"
+
 #: ../shell/e-shell-window-actions.c:852
 msgid "Show information about Evolution"
 msgstr "Evolution তথ্য প্ৰদৰ্শন কৰক"
@@ -20608,6 +20892,11 @@ msgstr "দ্ৰুত প্ৰসংগ (_Q)"
 #: ../shell/e-shell-window-actions.c:943
 msgid "Show Evolution's shortcut keys"
 msgstr "Evolution ৰ চৰ্টকাট কি'সমূহ দেখুৱাওক"
+
+#: ../shell/e-shell-window-actions.c:948
+#| msgid "Quit"
+msgid "_Quit"
+msgstr "প্ৰস্থান কৰক (_Q)"
 
 #: ../shell/e-shell-window-actions.c:950
 msgid "Exit the program"
@@ -20681,10 +20970,6 @@ msgstr "Evolution ক অনলাইন অৱস্থাত আনক"
 #: ../shell/e-shell-window-actions.c:1048
 msgid "Lay_out"
 msgstr "বিন্যাস (_o)"
-
-#: ../shell/e-shell-window-actions.c:1055
-msgid "_New"
-msgstr "নতুন (_N)"
 
 #: ../shell/e-shell-window-actions.c:1062
 msgid "_Search"
@@ -20785,6 +21070,10 @@ msgstr "স্বনিৰ্বাচিত দৰ্শন"
 #: ../shell/e-shell-window-actions.c:1219
 msgid "Current view is a customized view"
 msgstr "বৰ্তমান প্ৰদৰ্শন স্বনিৰ্বাচিত বিন্যাস ব্যৱহৃত হৈছে"
+
+#: ../shell/e-shell-window-actions.c:1227
+msgid "Page Set_up..."
+msgstr "পৃষ্ঠাৰ সংস্থাপন (_u)..."
 
 #: ../shell/e-shell-window-actions.c:1229
 msgid "Change the page settings for your current printer"
@@ -21171,45 +21460,45 @@ msgstr "বেকআপ (_B)"
 msgid "Backup _All"
 msgstr "সকলো বেকআপ লওক (_A)"
 
-#: ../smime/gui/smime-ui.ui.h:10
+#: ../smime/gui/smime-ui.ui.h:11
 msgid "Your Certificates"
 msgstr "আপোনাৰ প্ৰমাণপত্ৰ"
 
-#: ../smime/gui/smime-ui.ui.h:11
+#: ../smime/gui/smime-ui.ui.h:12
 msgid "You have certificates on file that identify these people:"
 msgstr "এই ব্যক্তিসকলক চিনাক্ত কৰিবলৈ প্ৰমাণপত্ৰসমূহ আপোনাৰ ফাইলত আছে:"
 
-#: ../smime/gui/smime-ui.ui.h:12
+#: ../smime/gui/smime-ui.ui.h:14
 msgid "Contact Certificates"
 msgstr "পৰিচয়ৰ প্ৰমাণপত্ৰ"
 
-#: ../smime/gui/smime-ui.ui.h:13
+#: ../smime/gui/smime-ui.ui.h:15
 msgid ""
 "You have certificates on file that identify these certificate authorities:"
 msgstr ""
 "এই প্ৰমাণপত্ৰ কতৃপক্ষসকলক চিনাক্ত কৰিবলৈ প্ৰমাণপত্ৰসমূহ আপোনাৰ ফাইলত আছে:"
 
-#: ../smime/gui/smime-ui.ui.h:14
+#: ../smime/gui/smime-ui.ui.h:16
 msgid "Authorities"
 msgstr "কতৃপক্ষ"
 
-#: ../smime/gui/smime-ui.ui.h:15
+#: ../smime/gui/smime-ui.ui.h:17
 msgid "Certificate Authority Trust"
 msgstr "প্ৰমাণপত্ৰ কতৃপক্ষ ট্ৰাস্ট"
 
-#: ../smime/gui/smime-ui.ui.h:16
+#: ../smime/gui/smime-ui.ui.h:18
 msgid "Trust this CA to identify _websites."
 msgstr "ৱেবছাইটসমূহ চিনাক্ত কৰিবলে এই CA ক ভৰষা কৰক (_w)।"
 
-#: ../smime/gui/smime-ui.ui.h:17
+#: ../smime/gui/smime-ui.ui.h:19
 msgid "Trust this CA to identify _email users."
 msgstr "ইমেইল ব্যৱহাৰকাৰীসকলক চিনাক্ত কৰিবলে এই CA ক ভৰষা কৰক (_e)।"
 
-#: ../smime/gui/smime-ui.ui.h:18
+#: ../smime/gui/smime-ui.ui.h:20
 msgid "Trust this CA to identify _software developers."
 msgstr "চফ্টৱেৰ উন্নয়নকাৰীসকলক চিনাক্ত কৰিবলে এই CA ক ভৰষা কৰক (_s)।"
 
-#: ../smime/gui/smime-ui.ui.h:19
+#: ../smime/gui/smime-ui.ui.h:21
 msgid ""
 "Before trusting this CA for any purpose, you should examine its certificate "
 "and its policy and procedures (if available)."
@@ -21218,27 +21507,27 @@ msgstr ""
 "প্ৰমাণপত্ৰ আৰু "
 "প্ৰযোজ্য নিয়মনীতি (উপলব্ধ হলে) পৰীক্ষা কৰক।"
 
-#: ../smime/gui/smime-ui.ui.h:21
+#: ../smime/gui/smime-ui.ui.h:25
 msgid "Certificate"
 msgstr "প্ৰমাণপত্ৰ"
 
-#: ../smime/gui/smime-ui.ui.h:22
+#: ../smime/gui/smime-ui.ui.h:26
 msgid "Certificate details"
 msgstr "প্ৰমাণপত্ৰ বিবৰণ"
 
-#: ../smime/gui/smime-ui.ui.h:23
+#: ../smime/gui/smime-ui.ui.h:27
 msgid "Email Certificate Trust Settings"
 msgstr "ই-মেইল প্ৰমাণপত্ৰৰ বিশ্বস্ততা বৈশিষ্ট্য"
 
-#: ../smime/gui/smime-ui.ui.h:24
+#: ../smime/gui/smime-ui.ui.h:28
 msgid "Trust the authenticity of this certificate"
 msgstr "এই প্ৰমাণপত্ৰটোৰ বৈধতা বিশ্বাস কৰা হ'ব"
 
-#: ../smime/gui/smime-ui.ui.h:25
+#: ../smime/gui/smime-ui.ui.h:29
 msgid "Do not trust the authenticity of this certificate"
 msgstr "এই প্ৰমাণপত্ৰৰ বৈধতা বিশ্বাস কৰা নহব"
 
-#: ../smime/gui/smime-ui.ui.h:26
+#: ../smime/gui/smime-ui.ui.h:30
 msgid "_Edit CA Trust"
 msgstr "CA ট্ৰাস্ট সম্পাদন কৰক (_E)"
 
@@ -21342,6 +21631,9 @@ msgstr "দেয় তাৰিখৰ সৈতে (_D)"
 #: ../views/tasks/galview.xml.h:3
 msgid "With _Status"
 msgstr "অবস্থাৰ সৈতে (_S)"
+
+#~ msgid "A_dd"
+#~ msgstr "যোগ কৰক (_d)"
 
 #~ msgid "Original Contact:"
 #~ msgstr "মূল পৰিচয়:"
@@ -21458,9 +21750,6 @@ msgstr "অবস্থাৰ সৈতে (_S)"
 
 #~ msgid "Move _Up"
 #~ msgstr "ওপৰত স্থানান্তৰ কৰক (_U)"
-
-#~ msgid "Move _Down"
-#~ msgstr "তলত স্থানান্তৰ কৰক (_D)"
 
 #~ msgid "Define Views for \"%s\""
 #~ msgstr "\"%s\"ৰ বাবে দৰ্শন নিৰ্ধাৰণ কৰক"
