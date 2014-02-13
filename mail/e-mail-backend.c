@@ -147,6 +147,24 @@ mail_backend_store_operation_done_cb (CamelStore *store,
 }
 
 static void
+mail_backend_local_trash_expunge_done_cb (GObject *source_object,
+					  GAsyncResult *result,
+					  gpointer user_data)
+{
+	CamelFolder *folder = CAMEL_FOLDER (source_object);
+	EActivity *activity = user_data;
+	GError *error = NULL;
+
+	if (!e_mail_folder_expunge_finish (folder, result, &error)) {
+		g_warning ("%s: Failed to expunge local trash: %s", G_STRFUNC, error ? error->message : "Unknown error");
+	}
+
+	g_clear_error (&error);
+
+	g_object_unref (activity);
+}
+
+static void
 mail_backend_set_session_offline_cb (gpointer user_data,
 				     GObject *object)
 {
@@ -374,14 +392,33 @@ mail_backend_prepare_for_quit_cb (EShell *shell,
 		    !mail_backend_service_is_enabled (registry, service))
 			continue;
 
-		/* FIXME Not passing a GCancellable. */
-		/* FIXME This operation should be queued. */
-		camel_store_synchronize (
-			CAMEL_STORE (service),
-			empty_trash, G_PRIORITY_DEFAULT,
-			NULL, (GAsyncReadyCallback)
-			mail_backend_store_operation_done_cb,
-			g_object_ref (activity));
+		if (empty_trash && g_strcmp0 (camel_service_get_uid (service), E_MAIL_SESSION_LOCAL_UID) == 0) {
+			/* local trash requires special handling,
+			   due to POP3's "delete-expunged" option */
+			CamelFolder *local_trash;
+			GCancellable *cancellable = e_activity_get_cancellable (activity);
+
+			/* This should be lightning-fast, it's a local trash folder */
+			local_trash = camel_store_get_trash_folder_sync (CAMEL_STORE (service), cancellable, NULL);
+
+			if (local_trash) {
+				e_mail_folder_expunge (local_trash,
+					G_PRIORITY_DEFAULT, cancellable,
+					mail_backend_local_trash_expunge_done_cb,
+					g_object_ref (activity));
+
+				g_object_unref (local_trash);
+			}
+		} else {
+			/* FIXME Not passing a GCancellable. */
+			/* FIXME This operation should be queued. */
+			camel_store_synchronize (
+				CAMEL_STORE (service),
+				empty_trash, G_PRIORITY_DEFAULT,
+				NULL, (GAsyncReadyCallback)
+				mail_backend_store_operation_done_cb,
+				g_object_ref (activity));
+		}
 	}
 
 	g_list_free_full (list, (GDestroyNotify) g_object_unref);
