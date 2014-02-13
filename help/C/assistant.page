@@ -26,6 +26,9 @@
     </item>
     <item>
      <p>Enter your name and email to identify yourself, then click on <gui>Continue</gui>.</p>
+     <p>Optinally, you can hiddenly copy all the sending mails to another account. You can also register the name of the organization you belong. It will appear the moment somebody import you as his/her contact.</p>    
+    </item>
+    <item>
     </item>
   </steps>
 
