@@ -932,8 +932,6 @@ publish_calendar_locations (EPlugin *epl,
 	gtk_widget_set_sensitive (GTK_WIDGET (ui->url_edit), FALSE);
 	gtk_widget_set_sensitive (GTK_WIDGET (ui->url_remove), FALSE);
 	gtk_widget_set_sensitive (GTK_WIDGET (ui->url_enable), FALSE);
-
-	gtk_button_set_image (GTK_BUTTON (ui->url_enable), gtk_image_new_from_icon_name ("dialog-apply", GTK_ICON_SIZE_BUTTON));
 	gtk_button_set_use_underline (GTK_BUTTON (ui->url_enable), TRUE);
 
 	l = publish_uris;

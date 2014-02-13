@@ -992,13 +992,22 @@ buttons_table_write_button (GString *buffer,
 
 	html_label = e_mail_formatter_parse_html_mnemonics (label, &access_key);
 
-	g_string_append_printf (
-		buffer,
-		"<td><button type=\"button\" name=\"%s\" value=\"%d\" id=\"%s\" accesskey=\"%s\" hidden disabled>"
-		"<div><img src=\"gtk-stock://%s?size=%d\"> <span>%s</span></div>"
-		"</button></td>\n",
-		name, response, name, access_key ? access_key : "" , icon,
-		GTK_ICON_SIZE_BUTTON, html_label);
+	if (icon) {
+		g_string_append_printf (
+			buffer,
+			"<td><button type=\"button\" name=\"%s\" value=\"%d\" id=\"%s\" accesskey=\"%s\" hidden disabled>"
+			"<div><img src=\"gtk-stock://%s?size=%d\"> <span>%s</span></div>"
+			"</button></td>\n",
+			name, response, name, access_key ? access_key : "" , icon,
+			GTK_ICON_SIZE_BUTTON, html_label);
+	} else {
+		g_string_append_printf (
+			buffer,
+			"<td><button type=\"button\" name=\"%s\" value=\"%d\" id=\"%s\" accesskey=\"%s\" hidden disabled>"
+			"<div><span>%s</span></div>"
+			"</button></td>\n",
+			name, response, name, access_key ? access_key : "" , html_label);
+	}
 
 	g_free (html_label);
 
@@ -1022,31 +1031,31 @@ append_buttons_table (GString *buffer)
 		"go-jump", ITIP_VIEW_RESPONSE_OPEN);
 	buttons_table_write_button (
 		buffer, BUTTON_DECLINE_ALL, _("_Decline all"),
-		"process-stop", ITIP_VIEW_RESPONSE_DECLINE);
+		NULL, ITIP_VIEW_RESPONSE_DECLINE);
 	buttons_table_write_button (
 		buffer, BUTTON_DECLINE, _("_Decline"),
-		"process-stop", ITIP_VIEW_RESPONSE_DECLINE);
+		NULL, ITIP_VIEW_RESPONSE_DECLINE);
 	buttons_table_write_button (
 		buffer, BUTTON_TENTATIVE_ALL, _("_Tentative all"),
-		"dialog-question", ITIP_VIEW_RESPONSE_TENTATIVE);
+		NULL, ITIP_VIEW_RESPONSE_TENTATIVE);
 	buttons_table_write_button (
 		buffer, BUTTON_TENTATIVE, _("_Tentative"),
-		"dialog-question", ITIP_VIEW_RESPONSE_TENTATIVE);
+		NULL, ITIP_VIEW_RESPONSE_TENTATIVE);
 	buttons_table_write_button (
 		buffer, BUTTON_ACCEPT_ALL, _("Acce_pt all"),
-		"dialog-apply", ITIP_VIEW_RESPONSE_ACCEPT);
+		NULL, ITIP_VIEW_RESPONSE_ACCEPT);
 	buttons_table_write_button (
 		buffer, BUTTON_ACCEPT, _("Acce_pt"),
-		"dialog-apply", ITIP_VIEW_RESPONSE_ACCEPT);
+		NULL, ITIP_VIEW_RESPONSE_ACCEPT);
 	buttons_table_write_button (
 		buffer, BUTTON_SEND_INFORMATION, _("Send _Information"),
-		"view-refresh", ITIP_VIEW_RESPONSE_REFRESH);
+		NULL, ITIP_VIEW_RESPONSE_REFRESH);
 	buttons_table_write_button (
 		buffer, BUTTON_UPDATE_ATTENDEE_STATUS, _("_Update Attendee Status"),
-		"view-refresh", ITIP_VIEW_RESPONSE_UPDATE);
+		NULL, ITIP_VIEW_RESPONSE_UPDATE);
 	buttons_table_write_button (
 		buffer, BUTTON_UPDATE,  _("_Update"),
-		"view-refresh", ITIP_VIEW_RESPONSE_CANCEL);
+		NULL, ITIP_VIEW_RESPONSE_CANCEL);
 
 	g_string_append (buffer, "</tr></table>");
 }

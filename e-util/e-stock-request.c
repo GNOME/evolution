@@ -104,35 +104,38 @@ handle_stock_request_idle_cb (gpointer user_data)
 			icon_theme, uri->host, size,
 			GTK_ICON_LOOKUP_USE_BUILTIN);
 
-		filename = gtk_icon_info_get_filename (icon_info);
-		if (filename != NULL) {
-			if (!g_file_get_contents (
-				filename, &buffer, &buff_len, &local_error)) {
-				buffer = NULL;
-				buff_len = 0;
-			}
-			priv->content_type =
-				g_content_type_guess (filename, NULL, 0, NULL);
+		/* Some icons can be missing in the theme */
+		if (icon_info) {
+			filename = gtk_icon_info_get_filename (icon_info);
+			if (filename != NULL) {
+				if (!g_file_get_contents (
+					filename, &buffer, &buff_len, &local_error)) {
+					buffer = NULL;
+					buff_len = 0;
+				}
+				priv->content_type =
+					g_content_type_guess (filename, NULL, 0, NULL);
 
-		} else {
-			GdkPixbuf *pixbuf;
+			} else {
+				GdkPixbuf *pixbuf;
 
-			pixbuf = gtk_icon_info_get_builtin_pixbuf (icon_info);
-			if (pixbuf != NULL) {
-				gdk_pixbuf_save_to_buffer (
-					pixbuf, &buffer, &buff_len,
-					"png", &local_error, NULL);
-				g_object_unref (pixbuf);
+				pixbuf = gtk_icon_info_get_builtin_pixbuf (icon_info);
+				if (pixbuf != NULL) {
+					gdk_pixbuf_save_to_buffer (
+						pixbuf, &buffer, &buff_len,
+						"png", &local_error, NULL);
+					g_object_unref (pixbuf);
+				}
 			}
+
+			gtk_icon_info_free (icon_info);
 		}
-
-		gtk_icon_info_free (icon_info);
 	}
 
 	/* Sanity check */
-	g_return_val_if_fail (
+	g_warn_if_fail (
 		((buffer != NULL) && (local_error == NULL)) ||
-		((buffer == NULL) && (local_error != NULL)), FALSE);
+		((buffer == NULL) && (local_error != NULL)));
 
 	if (priv->content_type == NULL)
 		priv->content_type = g_strdup ("image/png");
