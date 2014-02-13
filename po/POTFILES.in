@@ -176,6 +176,7 @@ em-format/e-mail-part-utils.c
 [type: gettext/glade]e-util/filter.ui
 [type: gettext/glade]e-util/gal-view-instance-save-as-dialog.ui
 e-util/e-action-combo-box.c
+e-util/e-activity-bar.c
 e-util/e-activity-proxy.c
 e-util/e-activity.c
 e-util/e-alert-bar.c
@@ -251,6 +252,7 @@ e-util/e-search-bar.c
 e-util/e-selection-model-array.c
 e-util/e-selection-model.c
 e-util/e-send-options.c
+e-util/e-source-config-dialog.c
 e-util/e-source-config.c
 e-util/e-source-selector-dialog.c
 e-util/e-spell-entry.c
