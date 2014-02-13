@@ -729,8 +729,8 @@ shell_searchbar_constructed (GObject *object)
 		widget, "secondary-icon-sensitive",
 		G_BINDING_SYNC_CREATE);
 	g_object_bind_property (
-		action, "stock-id",
-		widget, "secondary-icon-stock",
+		action, "icon-name",
+		widget, "secondary-icon-name",
 		G_BINDING_SYNC_CREATE);
 	g_object_bind_property (
 		action, "tooltip",
@@ -744,8 +744,8 @@ shell_searchbar_constructed (GObject *object)
 		widget, "primary-icon-sensitive",
 		G_BINDING_SYNC_CREATE);
 	g_object_bind_property (
-		action, "stock-id",
-		widget, "primary-icon-stock",
+		action, "icon-name",
+		widget, "primary-icon-name",
 		G_BINDING_SYNC_CREATE);
 	g_object_bind_property (
 		action, "tooltip",
