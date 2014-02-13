@@ -3769,7 +3769,7 @@ e_mail_reader_init (EMailReader *reader,
 
 	menu_tool_action = e_menu_tool_action_new (
 		"mail-forward", _("_Forward"),
-		_("Forward the selected message to someone"), NULL);
+		_("Forward the selected message to someone"));
 
 	gtk_action_set_icon_name (
 		GTK_ACTION (menu_tool_action), "mail-forward");
@@ -3789,7 +3789,7 @@ e_mail_reader_init (EMailReader *reader,
 	 * either of those, without too strongly implying one or the other. */
 	menu_tool_action = e_menu_tool_action_new (
 		"mail-reply-group", _("Group Reply"),
-		_("Reply to the mailing list, or to all recipients"), NULL);
+		_("Reply to the mailing list, or to all recipients"));
 
 	gtk_action_set_icon_name (
 		GTK_ACTION (menu_tool_action), "mail-reply-all");

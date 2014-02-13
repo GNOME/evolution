@@ -66,8 +66,7 @@ GType		e_menu_tool_action_get_type	(void) G_GNUC_CONST;
 EMenuToolAction *
 		e_menu_tool_action_new		(const gchar *name,
 						 const gchar *label,
-						 const gchar *tooltip,
-						 const gchar *stock_id);
+						 const gchar *tooltip);
 
 G_END_DECLS
 

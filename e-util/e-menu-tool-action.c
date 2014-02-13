@@ -46,13 +46,12 @@ e_menu_tool_action_init (EMenuToolAction *action)
 EMenuToolAction *
 e_menu_tool_action_new (const gchar *name,
                         const gchar *label,
-                        const gchar *tooltip,
-                        const gchar *stock_id)
+                        const gchar *tooltip)
 {
 	g_return_val_if_fail (name != NULL, NULL);
 
 	return g_object_new (
 		E_TYPE_MENU_TOOL_ACTION,
 		"name", name, "label", label, "tooltip",
-		tooltip, "stock-id", stock_id, NULL);
+		tooltip, NULL);
 }
