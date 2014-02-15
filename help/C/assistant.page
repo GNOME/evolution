@@ -18,19 +18,41 @@
 
   <title>Evolution Account Assistant</title>
 
-  <p>You can follow these steps to configure your account:</p>
-  <steps>
-    <item><p>Click <gui>Continue</gui> to pass the welcome message of the assistant.</p></item>
-    <item>
-     <p>Select <gui>Restore from a backup file</gui> if you have a file to do it, and click on <gui>Continue</gui>.</p>
-    </item>
-    <item>
-     <p>Enter your name and email to identify yourself, then click on <gui>Continue</gui>.</p>
+  <p>The assistant helps you configure your account. You need to add the following settings.</p>
+
+  <section id="welcome">
+  <title>Welcome</title>
+	<p>Click <gui>Continue</gui> to pass the welcome message of the assistant.</p>
+  </section>
+
+  <section id="restore-backup">
+  <title>Restore from a backup file</title>
+	<p>Select your <gui>backup</gui>, if you have a file to do it; then click on <gui>Continue</gui>.</p>
+  </section>
+
+<section id="identity">
+  <title>Identity</title>
+	<p>Enter your name and email to identify yourself, then click on <gui>Continue</gui>.</p>
      <p>Optinally, you can hiddenly copy all the sending mails to another account. You can also register the name of the organization you belong. It will appear the moment somebody import you as his/her contact.</p>    
-    </item>
-    <item>
-    </item>
-  </steps>
+  </section>
+    
 
-
+<section id="receive-mail">
+  <title>Receiving Email</title> 
+   <list>
+    <title>Server Type</title>
+    <p>The most commonly used options are:</p>
+    <item><p>Exchange Web Services</p>
+	<p>It is used for companies. If your company allows you to use it, you may also sync your calendar, contacts and notes.</p>
+    </item>
+    <item><p>IMAP+</p>
+	<p>If you use Gmail, Hotmail or Yahoo, this is your option. </p>
+        <p>Keep the same structure as the source by making an offline copy in your device.</p>
+    </item>
+    <item><p>POP</p>
+	<p>You can download all your mails from the source, if your server gives you a small inbox space.</p>  
+        <p> By using POP, all your mails will be deleted from the source server, make sure you have a backup of all your mails.</p>
+    </item>
+   </list>  
+</section>
 </page>
